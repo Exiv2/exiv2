@@ -37,6 +37,7 @@
 // + standard includes
 #include <string>
 #include <vector>
+#include <set>
 #include <iostream>
 
 // *****************************************************************************
@@ -72,7 +73,7 @@ struct CmdIdAndString {
   @brief Implements the command line handling for the program.
 
   Derives from Util::Getopt to use the command line argument parsing
-  functionalty provided there. This class is implemented as a Singleton,
+  functionality provided there. This class is implemented as a singleton,
   i.e., there is only one global instance of it, which can be accessed
   from everywhere.
 
@@ -113,6 +114,8 @@ public:
     typedef std::vector<std::string> CmdLines;
     //! Container to store filenames.
     typedef std::vector<std::string> Files;
+    //! Container for preview image numbers
+    typedef std::set<int> PreviewNumbers;
 
     /*!
       @brief Controls all access to the global Params instance.
@@ -123,7 +126,7 @@ public:
     void cleanup();
 
     //! Enumerates print modes
-    enum PrintMode { pmSummary, pmList, pmIptc, pmXmp, pmComment };
+    enum PrintMode { pmSummary, pmList, pmIptc, pmXmp, pmComment, pmPreview };
 
     //! Individual items to print
     enum PrintItem {
@@ -147,7 +150,8 @@ public:
         ctComment    =  4,
         ctThumb      =  8,
         ctXmp        = 16,
-        ctXmpSidecar = 32
+        ctXmpSidecar = 32,
+        ctPreview    = 64
     };
 
     //! Enumerates the policies to handle existing files in rename action
@@ -191,6 +195,7 @@ public:
     std::string directory_;             //!< Location for files to extract/insert
     std::string suffix_;                //!< File extension of the file to insert
     Files files_;                       //!< List of non-option arguments.
+    PreviewNumbers previewNumbers_;     //!< List of preview numbers
 
 private:
     //! Pointer to the global Params object.

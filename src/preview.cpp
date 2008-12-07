@@ -695,6 +695,16 @@ namespace Exiv2 {
         return DataBuf(pData_, size_);
     }
 
+    const byte* PreviewImage::pData() const
+    {
+        return pData_;
+    }
+
+    uint32_t PreviewImage::size() const
+    {
+        return size_;
+    }
+
     std::string PreviewImage::mimeType() const
     {
         return properties_.mimeType_;
@@ -705,9 +715,19 @@ namespace Exiv2 {
         return properties_.extension_;
     }
 
-    uint32_t PreviewImage::size() const
+    uint32_t PreviewImage::width() const
     {
-        return size_;
+        return properties_.width_;
+    }
+
+    uint32_t PreviewImage::height() const
+    {
+        return properties_.height_;
+    }
+
+    PreviewId PreviewImage::id() const
+    {
+        return properties_.id_;
     }
 
     PreviewManager::PreviewManager(const Image& image)

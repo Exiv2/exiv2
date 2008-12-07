@@ -51,6 +51,7 @@ EXIV2_RCSID("@(#) $Id$")
 #include "canonmn.hpp"
 #include "iptc.hpp"
 #include "xmp.hpp"
+#include "preview.hpp"
 #include "futils.hpp"
 #include "i18n.h"                // NLS support.
 
@@ -228,6 +229,7 @@ namespace Action {
         case Params::pmIptc:        rc = printIptc(); break;
         case Params::pmXmp:         rc = printXmp(); break;
         case Params::pmComment:     rc = printComment(); break;
+        case Params::pmPreview:     rc = printPreviewList(); break;
         }
         return rc;
     }
@@ -770,7 +772,7 @@ namespace Action {
         }
         Exiv2::IptcData::const_iterator end = iptcData.end();
         Exiv2::IptcData::const_iterator md;
-        bool manyFiles = Params::instance().files_.size() > 1;
+        bool const manyFiles = Params::instance().files_.size() > 1;
         for (md = iptcData.begin(); md != end; ++md) {
             std::cout << std::setfill(' ') << std::left;
             if (manyFiles) {
@@ -808,7 +810,7 @@ namespace Action {
         }
         Exiv2::XmpData::const_iterator end = xmpData.end();
         Exiv2::XmpData::const_iterator md;
-        bool manyFiles = Params::instance().files_.size() > 1;
+        bool const manyFiles = Params::instance().files_.size() > 1;
         for (md = xmpData.begin(); md != end; ++md) {
             std::cout << std::setfill(' ') << std::left;
             if (manyFiles) {
@@ -844,6 +846,36 @@ namespace Action {
         std::cout << image->comment() << std::endl;
         return 0;
     } // Print::printComment
+
+    int Print::printPreviewList()
+    {
+        if (!Exiv2::fileExists(path_, true)) {
+            std::cerr << path_
+                      << ": " << _("Failed to open the file\n");
+            return -1;
+        }
+        Exiv2::Image::AutoPtr image = Exiv2::ImageFactory::open(path_);
+        assert(image.get() != 0);
+        image->readMetadata();
+        bool const manyFiles = Params::instance().files_.size() > 1;
+        int cnt = 0;
+        Exiv2::PreviewManager pm(*image);
+        Exiv2::PreviewPropertiesList list = pm.getPreviewProperties();
+        for (Exiv2::PreviewPropertiesList::const_iterator pos = list.begin(); pos != list.end(); ++pos) {
+            if (manyFiles) {
+                std::cout << std::setfill(' ') << std::left << std::setw(20)
+                          << path_ << "  ";
+            }
+            std::cout << _("Preview") << " " << ++cnt << ": "
+                      << pos->mimeType_ << ", ";
+            if (pos->width_ != 0 && pos->height_ != 0) {
+                std::cout << pos->width_ << "x" << pos->height_ << " "
+                          << _("pixels") << ", ";
+            }
+            std::cout << pos->size_ << " " << _("bytes") << "\n";
+        }
+        return 0;
+    } // Print::printPreviewList
 
     Print::AutoPtr Print::clone() const
     {
@@ -1061,8 +1093,12 @@ namespace Action {
             if (dontOverwrite(xmpPath)) return 0;
             rc = metacopy(path_, xmpPath, Exiv2::ImageType::xmp, false);
         }
+        if (Params::instance().target_ & Params::ctPreview) {
+            rc = writePreviews();
+        }
         if (   !(Params::instance().target_ & Params::ctXmpSidecar)
-            && !(Params::instance().target_ & Params::ctThumb)) {
+            && !(Params::instance().target_ & Params::ctThumb)
+            && !(Params::instance().target_ & Params::ctPreview)) {
             std::string exvPath = newFilePath(path_, ".exv");
             if (dontOverwrite(exvPath)) return 0;
             rc = metacopy(path_, exvPath, Exiv2::ImageType::exv, false);
@@ -1117,6 +1153,61 @@ namespace Action {
         }
         return rc;
     } // Extract::writeThumbnail
+
+    int Extract::writePreviews() const
+    {
+        if (!Exiv2::fileExists(path_, true)) {
+            std::cerr << path_
+                      << ": " << _("Failed to open the file\n");
+            return -1;
+        }
+        Exiv2::Image::AutoPtr image = Exiv2::ImageFactory::open(path_);
+        assert(image.get() != 0);
+        image->readMetadata();
+
+        Exiv2::PreviewManager pvMgr(*image);
+        Exiv2::PreviewPropertiesList pvList = pvMgr.getPreviewProperties();
+
+        const Params::PreviewNumbers& numbers = Params::instance().previewNumbers_;
+        for (Params::PreviewNumbers::const_iterator n = numbers.begin(); n != numbers.end(); ++n) {
+            if (*n == 0) {
+                // Write all previews
+                for (int num = 0; num < static_cast<int>(pvList.size()); ++num) {
+                    writePreviewFile(pvMgr.getPreviewImage(pvList[num]), num + 1);
+                }
+                break;
+            }
+            if (*n > static_cast<int>(pvList.size())) {
+                std::cerr << path_ << ": " << _("Image does not have preview")
+                          << " " << *n << "\n";
+                continue;
+            }
+            writePreviewFile(pvMgr.getPreviewImage(pvList[*n - 1]), *n);
+        }
+        return 0;
+    } // Extract::writePreviews
+
+    void Extract::writePreviewFile(const Exiv2::PreviewImage& pvImg, int num) const
+    {
+        std::string pvFile = newFilePath(path_, "-preview") + Exiv2::toString(num);
+        std::string pvPath = pvFile + pvImg.extension();
+        if (dontOverwrite(pvPath)) return;
+        if (Params::instance().verbose_) {
+            std::cout << _("Writing preview") << " " << num << " ("
+                      << pvImg.mimeType() << ", ";
+            if (pvImg.width() != 0 && pvImg.height() != 0) {
+                std::cout << pvImg.width() << "x" << pvImg.height() << " "
+                          << _("pixels") << ", ";
+            }
+            std::cout << pvImg.size() << " " << _("bytes") << ") "
+                      << _("to file") << " " << pvPath << std::endl;
+        }
+        long rc = pvImg.writeFile(pvFile);
+        if (rc == 0) {
+            std::cerr << path_ << ": " << _("Image does not have preview")
+                      << " " << num << "\n";
+        }
+    } // Extract::writePreviewFile
 
     Extract::AutoPtr Extract::clone() const
     {

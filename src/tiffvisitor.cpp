@@ -477,7 +477,7 @@ namespace Exiv2 {
             exifData_.erase(pos);
         }
         std::string xmpPacket;
-        if (XmpParser::encode(xmpPacket, xmpData_)) {
+        if (XmpParser::encode(xmpPacket, xmpData_) > 1) {
 #ifndef SUPPRESS_WARNINGS
             std::cerr << "Error: Failed to encode XMP metadata.\n";
 #endif

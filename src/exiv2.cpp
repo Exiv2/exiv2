@@ -19,7 +19,7 @@
  * Foundation, Inc., 51 Franklin Street, 5th Floor, Boston, MA 02110-1301 USA.
  */
 /*
-  Abstract:  Command line program to display and manipulate image %Exif data
+  Abstract:  Command line program to display and manipulate image metadata.
 
   File:      exiv2.cpp
   Version:   $Rev$
@@ -50,6 +50,7 @@ EXIV2_RCSID("@(#) $Id$")
 #include <iomanip>
 #include <cstring>
 #include <cassert>
+#include <cctype>
 
 // *****************************************************************************
 // local declarations
@@ -79,6 +80,17 @@ namespace {
      */
     int parseCommonTargets(const std::string& optarg,
                            const std::string& action);
+
+    /*! 
+      @brief Parse numbers separated by commas into container
+      @param previewNumbers Container for the numbers
+      @param optarg Option arguments
+      @param j Starting index into optarg
+      @return Number of characters processed
+     */
+    int parsePreviewNumbers(Params::PreviewNumbers& previewNumbers,
+                            const std::string& optarg,
+                            int j);
 
     /*!
       @brief Parse metadata modification commands from multiple files
@@ -257,6 +269,7 @@ void Params::help(std::ostream& os) const
        << _("             i : IPTC data values\n")
        << _("             x : XMP properties\n")
        << _("             c : JPEG comment\n")
+       << _("             p : list available previews\n")
        << _("   -P cols Print columns for the Exif taglist ('print' action). Valid are:\n")
        << _("             x : print a column with the tag value\n")
        << _("             g : group name\n")
@@ -282,7 +295,9 @@ void Params::help(std::ostream& os) const
             "           Only JPEG thumbnails can be inserted, they need to be named\n"
             "           <file>-thumb.jpg\n")
        << _("   -e tgt  Extract target(s) for the 'extract' action. Possible targets\n"
-            "           are the same as those for the -d option, plus a modifier:\n"
+            "           are the same as those for the -d option, plus a target to extract\n"
+            "           preview images and a modifier to generate an XMP sidecar file:\n"
+            "             p[<n>[,<m> ...]] : Extract preview images.\n"
             "             X : Extract metadata to an XMP sidecar file <file>.xmp\n")
        << _("   -r fmt  Filename format for the 'rename' action. The format string\n"
             "           follows strftime(3). The following keywords are supported:\n")
@@ -457,6 +472,7 @@ int Params::evalPrint(const std::string& optarg)
         case 'i': printMode_ = pmIptc; break;
         case 'x': printMode_ = pmXmp; break;
         case 'c': printMode_ = pmComment; break;
+        case 'p': printMode_ = pmPreview; break;
         default:
             std::cerr << progname() << ": " << _("Unrecognized print mode") << " `"
                       << optarg << "'\n";
@@ -850,6 +866,15 @@ namespace {
                 target |= Params::ctXmpSidecar;
                 if (optarg == "X") target |= Params::ctExif | Params::ctIptc | Params::ctXmp;
                 break;
+            case 'p':
+            {
+                if (strcmp(action.c_str(), "extract") == 0) {
+                    i += parsePreviewNumbers(Params::instance().previewNumbers_, optarg, i + 1);
+                    target |= Params::ctPreview;
+                    break;
+                }
+                // fallthrough
+            }
             default:
                 std::cerr << Params::instance().progname() << ": " << _("Unrecognized ")
                           << action << " " << _("target") << " `"  << optarg[i] << "'\n";
@@ -859,6 +884,46 @@ namespace {
         }
         return rc ? rc : target;
     } // parseCommonTargets
+
+    int parsePreviewNumbers(Params::PreviewNumbers& previewNumbers,
+                            const std::string& optarg,
+                            int j)
+    {
+        size_t k = j;
+        for (size_t i = j; i < optarg.size(); ++i) {
+            std::ostringstream os;
+            for (k = i; k < optarg.size() && isdigit(optarg[k]); ++k) {
+                os << optarg[k];
+            }
+            if (k > i) {
+                bool ok = false;
+                int num = Exiv2::stringTo<int>(os.str(), ok);
+                if (ok && num >= 0) {
+                    previewNumbers.insert(num);
+                }
+                else {
+                    std::cerr << Params::instance().progname() << ": "
+                              << _("Invalid preview number") << ": " << num << "\n";
+                }
+                i = k;
+            }
+            if (!(k < optarg.size() && optarg[i] == ',')) break;
+        }
+        int ret = static_cast<int>(k - j);
+        if (ret == 0) {
+            previewNumbers.insert(0);
+        }
+#ifdef DEBUG
+        std::cout << "\nThe set now contains: ";
+        for (Params::PreviewNumbers::const_iterator i = previewNumbers.begin();
+             i != previewNumbers.end();
+             ++i) {
+            std::cout << *i << ", ";
+        }
+        std::cout << std::endl;
+#endif
+        return k - j;
+    } // parsePreviewNumbers
 
     bool parseCmdFiles(ModifyCmds& modifyCmds,
                        const Params::CmdFiles& cmdFiles)

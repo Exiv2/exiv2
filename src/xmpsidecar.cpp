@@ -119,7 +119,7 @@ namespace Exiv2 {
             copyExifToXmp(exifData_, xmpData_);
             copyIptcToXmp(iptcData_, xmpData_);
             if (XmpParser::encode(xmpPacket_, xmpData_,
-                                  XmpParser::omitPacketWrapper|XmpParser::useCompactFormat)) {
+                                  XmpParser::omitPacketWrapper|XmpParser::useCompactFormat) > 1) {
 #ifndef SUPPRESS_WARNINGS
                 std::cerr << "Error: Failed to encode XMP metadata.\n";
 #endif

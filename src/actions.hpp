@@ -48,6 +48,7 @@
 namespace Exiv2 {
     class ExifData;
     class Image;
+    class PreviewImage;
 }
 
 // *****************************************************************************
@@ -162,6 +163,8 @@ namespace Action {
 
         //! Print the Jpeg comment
         int printComment();
+        //! Print list of available preview images
+        int printPreviewList();
         //! Print uninterpreted Iptc information
         int printIptc();
         //! print uninterpreted XMP information
@@ -278,6 +281,17 @@ namespace Action {
                  on the format of the Exif thumbnail image.
          */
         int writeThumbnail() const;
+        /*!
+          @brief Write preview images to files.
+         */
+        int writePreviews() const;
+        /*!
+          @brief Write one preview image to a file. The filename is composed by
+                 removing the suffix from the image filename and appending
+                 "-preview<num>" and the appropriate suffix (".jpg" or ".tif"),
+                 depending on the format of the Exif thumbnail image.
+         */
+        void writePreviewFile(const Exiv2::PreviewImage& pvImg, int num) const;
 
     private:
         virtual Extract* clone_() const;

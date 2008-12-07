@@ -101,6 +101,10 @@ namespace Exiv2 {
          */
         const byte* pData() const;
         /*!
+          @brief Return the size of the preview image in bytes.
+         */
+        uint32_t size() const;
+        /*!
           @brief Write the thumbnail image to a file.
 
           A filename extension is appended to \em path according to the image
@@ -122,9 +126,17 @@ namespace Exiv2 {
          */
         std::string extension() const;
         /*!
-          @brief Return the size of the preview image in bytes.
-         */
-        uint32_t size() const;
+          @brief Return the width of the preview image in pixels.
+        */
+        uint32_t width() const;
+        /*!
+          @brief Return the height of the preview image in pixels.
+        */
+        uint32_t height() const;
+        /*!
+          @brief Return the preview image type identifier.
+        */
+        PreviewId id() const;
         //@}
 
     private:
