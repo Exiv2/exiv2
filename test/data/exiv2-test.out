@@ -68,6 +68,7 @@ Options:
              i : IPTC data values
              x : XMP properties
              c : JPEG comment
+             p : list available previews
    -P cols Print columns for the Exif taglist ('print' action). Valid are:
              x : print a column with the tag value
              g : group name
@@ -93,7 +94,9 @@ Options:
            Only JPEG thumbnails can be inserted, they need to be named
            <file>-thumb.jpg
    -e tgt  Extract target(s) for the 'extract' action. Possible targets
-           are the same as those for the -d option, plus a modifier:
+           are the same as those for the -d option, plus a target to extract
+           preview images and a modifier to generate an XMP sidecar file:
+             p[<n>[,<m> ...]] : Extract preview images.
              X : Extract metadata to an XMP sidecar file <file>.xmp
    -r fmt  Filename format for the 'rename' action. The format string
            follows strftime(3). The following keywords are supported:
