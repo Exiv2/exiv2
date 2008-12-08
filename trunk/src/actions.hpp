@@ -48,6 +48,7 @@
 namespace Exiv2 {
     class ExifData;
     class Image;
+    class Metadatum;
     class PreviewImage;
 }
 
@@ -165,14 +166,14 @@ namespace Action {
         int printComment();
         //! Print list of available preview images
         int printPreviewList();
-        //! Print uninterpreted Iptc information
-        int printIptc();
-        //! print uninterpreted XMP information
-        int printXmp();
         //! Print Exif summary information
         int printSummary();
-        //! Print the list of Exif data in user defined format
+        //! Print Exif, IPTC and XMP metadata in user defined format
         int printList();
+        //! Print a metadatum in a user defined format
+        void printMetadatum(const Exiv2::Metadatum& md,
+                            const Exiv2::Image* pImage,
+                            bool const manyFiles);
         //! Print the label for a summary line
         void printLabel(const std::string& label) const;
         /*!

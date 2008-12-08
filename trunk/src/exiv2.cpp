@@ -263,14 +263,18 @@ void Params::help(std::ostream& os) const
        << _("   -D day  Day adjustment with the 'adjust' action.\n")
        << _("   -p mode Print mode for the 'print' action. Possible modes are:\n")
        << _("             s : print a summary of the Exif metadata (the default)\n")
-       << _("             t : interpreted (translated) Exif data (shortcut for -Pkyct)\n")
-       << _("             v : plain Exif data values (shortcut for -Pxgnycv)\n")
-       << _("             h : hexdump of the Exif data (shortcut for -Pxgnycsh)\n")
-       << _("             i : IPTC data values\n")
-       << _("             x : XMP properties\n")
+       << _("             a : print Exif, IPTC and XMP metadata (shortcut for -Pkyct)\n")
+       << _("             t : interpreted (translated) Exif data (-PEkyct)\n")
+       << _("             v : plain Exif data values (-PExgnycv)\n")
+       << _("             h : hexdump of the Exif data (-PExgnycsh)\n")
+       << _("             i : IPTC data values (-PIkyct)\n")
+       << _("             x : XMP properties (-PXkyct)\n")
        << _("             c : JPEG comment\n")
        << _("             p : list available previews\n")
-       << _("   -P cols Print columns for the Exif taglist ('print' action). Valid are:\n")
+       << _("   -P flgs Print flags for fine control of tag lists ('print' action):\n")
+       << _("             E : include Exif tags in the list\n")
+       << _("             I : IPTC datasets\n")
+       << _("             X : XMP properties\n")
        << _("             x : print a column with the tag value\n")
        << _("             g : group name\n")
        << _("             k : key\n")
@@ -335,7 +339,7 @@ int Params::option(int opt, const std::string& optarg, int optopt)
     case 'O': rc = evalYodAdjust(yodMonth, optarg); break;
     case 'D': rc = evalYodAdjust(yodDay, optarg); break;
     case 'p': rc = evalPrint(optarg); break;
-    case 'P': rc = evalPrintCols(optarg); break;
+    case 'P': rc = evalPrintFlags(optarg); break;
     case 'd': rc = evalDelete(optarg); break;
     case 'e': rc = evalExtract(optarg); break;
     case 'i': rc = evalInsert(optarg); break;
@@ -466,11 +470,12 @@ int Params::evalPrint(const std::string& optarg)
     case Action::none:
         switch (optarg[0]) {
         case 's': printMode_ = pmSummary; break;
-        case 't': rc = evalPrintCols("kyct"); break;
-        case 'v': rc = evalPrintCols("xgnycv"); break;
-        case 'h': rc = evalPrintCols("xgnycsh"); break;
-        case 'i': printMode_ = pmIptc; break;
-        case 'x': printMode_ = pmXmp; break;
+        case 'a': rc = evalPrintFlags("kyct"); break;
+        case 't': rc = evalPrintFlags("Ekyct"); break;
+        case 'v': rc = evalPrintFlags("Exgnycv"); break;
+        case 'h': rc = evalPrintFlags("Exgnycsh"); break;
+        case 'i': rc = evalPrintFlags("Ikyct"); break;
+        case 'x': rc = evalPrintFlags("Xkyct"); break;
         case 'c': printMode_ = pmComment; break;
         case 'p': printMode_ = pmPreview; break;
         default:
@@ -493,15 +498,18 @@ int Params::evalPrint(const std::string& optarg)
     return rc;
 } // Params::evalPrint
 
-int Params::evalPrintCols(const std::string& optarg)
+int Params::evalPrintFlags(const std::string& optarg)
 {
     int rc = 0;
+    printMode_ = pmList;
     switch (action_) {
     case Action::none:
         action_ = Action::print;
-        printMode_ = pmList;
         for (std::size_t i = 0; i < optarg.length(); ++i) {
             switch (optarg[i]) {
+            case 'E': printTags_  |= Exiv2::mdExif; break;
+            case 'I': printTags_  |= Exiv2::mdIptc; break;
+            case 'X': printTags_  |= Exiv2::mdXmp;  break;
             case 'x': printItems_ |= prTag;   break;
             case 'g': printItems_ |= prGroup; break;
             case 'k': printItems_ |= prKey;   break;
@@ -532,7 +540,7 @@ int Params::evalPrintCols(const std::string& optarg)
         break;
     }
     return rc;
-} // Params::evalPrintCols
+} // Params::evalPrintFlags
 
 int Params::evalDelete(const std::string& optarg)
 {

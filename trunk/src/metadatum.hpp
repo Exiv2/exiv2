@@ -203,11 +203,15 @@ namespace Exiv2 {
         ) const =0;
         /*!
           @brief Return the key of the metadatum. The key is of the form
-                 'familyName.ifdItem.tagName'. Note however that the key
-                 is not necessarily unique, i.e., an ExifData object may
+                 'familyName.groupName.tagName'. Note however that the key
+                 is not necessarily unique, e.g., an ExifData object may
                  contain multiple metadata with the same key.
          */
         virtual std::string key() const =0;
+        //! Return the name of the metadata family (which is also the first part of the key)
+        virtual const char* familyName() const =0;
+        //! Return the name of the metadata group (which is also the second part of the key)
+        virtual std::string groupName() const =0;
         //! Return the name of the tag (which is also the third part of the key)
         virtual std::string tagName() const =0;
         //! Return a label for the tag 	

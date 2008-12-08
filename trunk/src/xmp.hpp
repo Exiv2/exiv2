@@ -132,6 +132,7 @@ namespace Exiv2 {
                  contain multiple metadata with the same key.
          */
         std::string key() const;
+        const char* familyName() const;
         //! Return the (preferred) schema namespace prefix.
         std::string groupName() const;
         //! Return the property name.

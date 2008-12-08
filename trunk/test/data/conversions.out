@@ -21,7 +21,9 @@ Testcase 4
 Warning: Failed to convert Xmp.dc.description to Iptc.Application2.Caption
 Warning: Failed to convert Xmp.dc.description to Exif.Image.ImageDescription
 Xmp.dc.description                           LangAlt     2  lang="de-DE" The Exif image description, lang="it-IT" Ciao bella
+File 1/1: k.jpg
 k.jpg: No Exif data found in the file
+File 1/1: k.jpg
 k.jpg: No IPTC data found in the file
 
 Testcase 5
@@ -39,6 +41,7 @@ Exif.Image.ExifTag                           Long        1  26
 Exif.Photo.UserComment                       Undefined  59  charset="Jis" This is a JIS encoded Exif user comment. Or was it?
 Xmp.exif.UserComment                         LangAlt     1  lang="x-default" This is a JIS encoded Exif user comment. Or was it?
 Exif.Photo.UserComment                       Undefined  59  charset="Unicode" This is a JIS encoded Exif user comment. Or was it?
+File 1/1: m.xmp
 m.xmp: No IPTC data found in the file
 
 Testcase 7
@@ -46,6 +49,7 @@ Testcase 7
 Xmp.exif.UserComment                         LangAlt     1  lang="x-default" This is a JIS encoded Exif user comment. Or was it?
 Exif.Image.ExifTag                           Long        1  26
 Exif.Photo.UserComment                       Undefined  59  charset="Unicode" This is a JIS encoded Exif user comment. Or was it?
+File 1/1: n.jpg
 n.jpg: No IPTC data found in the file
 
 Testcase 8
@@ -54,6 +58,7 @@ Iptc.Application2.Keywords                   String      3  Sex
 Iptc.Application2.Keywords                   String      5  Drugs
 Iptc.Application2.Keywords                   String     11  Rock'n'roll
 Xmp.dc.subject                               XmpBag      3  Sex, Drugs, Rock'n'roll
+File 1/1: o.xmp
 o.xmp: No Exif data found in the file
 Iptc.Application2.Keywords                   String      3  Sex
 Iptc.Application2.Keywords                   String      5  Drugs
@@ -62,6 +67,7 @@ Iptc.Application2.Keywords                   String     11  Rock'n'roll
 Testcase 9
 ==========
 Xmp.dc.subject                               XmpBag      3  Sex, Drugs, Rock'n'roll
+File 1/1: p.jpg
 p.jpg: No Exif data found in the file
 Iptc.Application2.Keywords                   String      3  Sex
 Iptc.Application2.Keywords                   String      5  Drugs
@@ -72,24 +78,28 @@ Testcase 10
 Exif.Image.Software                          Ascii       6  Exiv2
 Xmp.tiff.Software                            XmpText     5  Exiv2
 Exif.Image.Software                          Ascii       6  Exiv2
+File 1/1: q.xmp
 q.xmp: No IPTC data found in the file
 
 Testcase 11
 ===========
 Xmp.tiff.Software                            XmpText     5  Exiv2
 Exif.Image.Software                          Ascii       6  Exiv2
+File 1/1: r.jpg
 r.jpg: No IPTC data found in the file
 
 Testcase 12
 ===========
 Iptc.Application2.LocationName               String     12  Kuala Lumpur
 Xmp.iptc.Location                            XmpText    12  Kuala Lumpur
+File 1/1: s.xmp
 s.xmp: No Exif data found in the file
 Iptc.Application2.LocationName               String     12  Kuala Lumpur
 
 Testcase 13
 ===========
 Xmp.iptc.Location                            XmpText    12  Kuala Lumpur
+File 1/1: t.jpg
 t.jpg: No Exif data found in the file
 Iptc.Application2.LocationName               String     12  Kuala Lumpur
 

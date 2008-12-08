@@ -124,7 +124,7 @@ namespace Exiv2 {
          */
         std::string key() const { return key_.get() == 0 ? "" : key_->key(); }
         /*!
-           @brief Return the name of the record
+           @brief Return the name of the record (deprecated)
            @return record name
          */
         std::string recordName() const
@@ -135,6 +135,10 @@ namespace Exiv2 {
          */
         uint16_t record() const
             { return key_.get() == 0 ? 0 : key_->record(); }
+        const char* familyName() const
+            { return key_.get() == 0 ? "" : key_->familyName(); }
+        std::string groupName() const
+            { return key_.get() == 0 ? "" : key_->groupName(); }
         /*!
            @brief Return the name of the tag (aka dataset)
            @return tag name

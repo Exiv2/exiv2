@@ -168,6 +168,11 @@ namespace Exiv2 {
         return p_->key_.get() == 0 ? "" : p_->key_->key();
     }
 
+    const char* Xmpdatum::familyName() const
+    {
+        return p_->key_.get() == 0 ? "" : p_->key_->familyName();
+    }
+
     std::string Xmpdatum::groupName() const
     {
         return p_->key_.get() == 0 ? "" : p_->key_->groupName();

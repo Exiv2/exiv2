@@ -158,6 +158,8 @@ namespace Exiv2 {
         //! Return the key of the %Exifdatum.
         std::string key() const
             { return key_.get() == 0 ? "" : key_->key(); }
+        const char* familyName() const
+            { return key_.get() == 0 ? "" : key_->familyName(); }
         std::string groupName() const
             { return key_.get() == 0 ? "" : key_->groupName(); }
         std::string tagName() const

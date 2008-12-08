@@ -224,12 +224,10 @@ namespace Action {
         path_ = path;
         int rc = 0;
         switch (Params::instance().printMode_) {
-        case Params::pmSummary:     rc = printSummary(); break;
-        case Params::pmList:        rc = printList(); break;
-        case Params::pmIptc:        rc = printIptc(); break;
-        case Params::pmXmp:         rc = printXmp(); break;
-        case Params::pmComment:     rc = printComment(); break;
-        case Params::pmPreview:     rc = printPreviewList(); break;
+        case Params::pmSummary: rc = printSummary();     break;
+        case Params::pmList:    rc = printList();        break;
+        case Params::pmComment: rc = printComment();     break;
+        case Params::pmPreview: rc = printPreviewList(); break;
         }
         return rc;
     }
@@ -628,207 +626,174 @@ namespace Action {
 
     int Print::printList()
     {
+        int rc = 0;
         if (!Exiv2::fileExists(path_, true)) {
             std::cerr << path_
                       << ": " << _("Failed to open the file\n");
-            return -1;
+            rc = -1;
         }
         Exiv2::Image::AutoPtr image = Exiv2::ImageFactory::open(path_);
         assert(image.get() != 0);
         image->readMetadata();
-        Exiv2::ExifData& exifData = image->exifData();
-        if (exifData.empty()) {
-            std::cerr << path_
-                      << ": " << _("No Exif data found in the file\n");
-            return -3;
-        }
-        Exiv2::ExifData::const_iterator md;
         bool const manyFiles = Params::instance().files_.size() > 1;
-        for (md = exifData.begin(); md != exifData.end(); ++md) {
-            if (   Params::instance().unknown_
-                && md->tagName().substr(0, 2) == "0x") {
-                continue;
-            }
-            if (manyFiles) {
-                std::cout << std::setfill(' ') << std::left << std::setw(20)
-                          << path_ << "  ";
-            }
-            bool first = true;
-            if (Params::instance().printItems_ & Params::prTag) {
-                if (!first) std::cout << " ";
-                first = false;
-                std::cout << "0x" << std::setw(4) << std::setfill('0')
-                          << std::right << std::hex
-                          << md->tag();
-            }
-            if (Params::instance().printItems_ & Params::prGroup) {
-                if (!first) std::cout << " ";
-                first = false;
-                std::cout << std::setw(12) << std::setfill(' ') << std::left
-                          << md->groupName();
-            }
-            if (Params::instance().printItems_ & Params::prKey) {
-                if (!first) std::cout << " ";
-                first = false;
-                std::cout << std::setfill(' ') << std::left << std::setw(44)
-                          << md->key();
-            }
-            if (Params::instance().printItems_ & Params::prName) {
-                if (!first) std::cout << " ";
-                first = false;
-                std::cout << std::setw(27) << std::setfill(' ') << std::left
-                          << md->tagName();
-            }
-            if (Params::instance().printItems_ & Params::prLabel) {
-                if (!first) std::cout << " ";
-                first = false;
-                std::cout << std::setw(30) << std::setfill(' ') << std::left
-                          << md->tagLabel();
-            }
-            if (Params::instance().printItems_ & Params::prType) {
-                if (!first) std::cout << " ";
-                first = false;
-                std::cout << std::setw(9) << std::setfill(' ') << std::left;
-                const char* tn = md->typeName();
-                if (tn) {
-                    std::cout << tn;
-                }
-                else {
-                    std::ostringstream os;
-                    os << "0x" << std::setw(4) << std::setfill('0') << std::hex << md->typeId();
-                    std::cout << os.str();
-                }
-            }
-            if (Params::instance().printItems_ & Params::prCount) {
-                if (!first) std::cout << " ";
-                first = false;
-                std::cout << std::dec << std::setw(3)
-                          << std::setfill(' ') << std::right
-                          << md->count();
-            }
-            if (Params::instance().printItems_ & Params::prSize) {
-                if (!first) std::cout << " ";
-                first = false;
-                std::cout << std::dec << std::setw(3)
-                          << std::setfill(' ') << std::right
-                          << md->size();
-            }
-            if (Params::instance().printItems_ & Params::prValue) {
-                if (!first) std::cout << "  ";
-                first = false;
-                if (   Params::instance().binary_
-                    && md->typeId() == Exiv2::undefined
-                    && md->size() > 100) {
-                    std::cout << _("(Binary value suppressed)") << std::endl;
-                    continue;
-                }
-                std::cout << std::dec << md->value();
-            }
-            if (Params::instance().printItems_ & Params::prTrans) {
-                if (!first) std::cout << "  ";
-                first = false;
-                if (   Params::instance().binary_
-                    && md->typeId() == Exiv2::undefined
-                    && md->size() > 100) {
-                    std::cout << _("(Binary value suppressed)") << std::endl;
-                    continue;
-                }
-                std::cout << std::dec << md->print(&exifData);
-            }
-            if (Params::instance().printItems_ & Params::prHex) {
-                if (!first) std::cout << std::endl;
-                first = false;
-                if (   Params::instance().binary_
-                    && md->typeId() == Exiv2::undefined
-                    && md->size() > 100) {
-                    std::cout << _("(Binary value suppressed)") << std::endl;
-                    continue;
-                }
-                Exiv2::DataBuf buf(md->size());
-                md->copy(buf.pData_, image->byteOrder());
-                Exiv2::hexdump(std::cout, buf.pData_, buf.size_);
-            }
-            std::cout << std::endl;
+        // Set defaults for metadata types and data columns
+        if (Params::instance().printTags_ == Exiv2::mdNone) {
+            Params::instance().printTags_ = Exiv2::mdExif | Exiv2::mdIptc | Exiv2::mdXmp;
         }
-
-        return 0;
+        if (Params::instance().printItems_ == 0) {
+            Params::instance().printItems_ = Params::prKey | Params::prType | Params::prCount | Params::prTrans;
+        }
+        if (Params::instance().printTags_ & Exiv2::mdExif) {
+            Exiv2::ExifData& exifData = image->exifData();
+            for (Exiv2::ExifData::const_iterator md = exifData.begin();
+                 md != exifData.end(); ++md) {
+                printMetadatum(*md, image.get(), manyFiles);
+            }
+            if (exifData.empty()) {
+                if (Params::instance().verbose_) {
+                    std::cerr << path_ << ": " << _("No Exif data found in the file\n");
+                }
+                rc = -3;
+            }
+        }
+        if (Params::instance().printTags_ & Exiv2::mdIptc) {
+            Exiv2::IptcData& iptcData = image->iptcData();
+            for (Exiv2::IptcData::const_iterator md = iptcData.begin();
+                 md != iptcData.end(); ++md) {
+                printMetadatum(*md, image.get(), manyFiles);
+            }
+            if (iptcData.empty()) {
+                if (Params::instance().verbose_) {
+                    std::cerr << path_ << ": " << _("No IPTC data found in the file\n");
+                }
+                rc = -3;
+            }
+        }
+        if (Params::instance().printTags_ & Exiv2::mdXmp) {
+            Exiv2::XmpData& xmpData = image->xmpData();
+            for (Exiv2::XmpData::const_iterator md = xmpData.begin();
+                 md != xmpData.end(); ++md) {
+                printMetadatum(*md, image.get(), manyFiles);
+            }
+            if (xmpData.empty()) {
+                if (Params::instance().verbose_) {
+                    std::cerr << path_ << ": " << _("No XMP data found in the file\n");
+                }
+                rc = -3;
+            }
+        }
+        return rc;
     } // Print::printList
 
-    int Print::printIptc()
+    void Print::printMetadatum(const Exiv2::Metadatum& md,
+                               const Exiv2::Image* pImage,
+                               bool const manyFiles)
     {
-        if (!Exiv2::fileExists(path_, true)) {
-            std::cerr << path_
-                      << ": " << _("Failed to open the file\n");
-            return -1;
+        if (   Params::instance().unknown_
+            && md.tagName().substr(0, 2) == "0x") {
+            return;
         }
-        Exiv2::Image::AutoPtr image = Exiv2::ImageFactory::open(path_);
-        assert(image.get() != 0);
-        image->readMetadata();
-        Exiv2::IptcData& iptcData = image->iptcData();
-        if (iptcData.empty()) {
-            std::cerr << path_
-                      << ": " << _("No IPTC data found in the file\n");
-            return -3;
+        if (manyFiles) {
+            std::cout << std::setfill(' ') << std::left << std::setw(20)
+                      << path_ << "  ";
         }
-        Exiv2::IptcData::const_iterator end = iptcData.end();
-        Exiv2::IptcData::const_iterator md;
-        bool const manyFiles = Params::instance().files_.size() > 1;
-        for (md = iptcData.begin(); md != end; ++md) {
-            std::cout << std::setfill(' ') << std::left;
-            if (manyFiles) {
-                std::cout << std::setw(20) << path_ << " ";
+        bool first = true;
+        if (Params::instance().printItems_ & Params::prTag) {
+            if (!first) std::cout << " ";
+            first = false;
+            std::cout << "0x" << std::setw(4) << std::setfill('0')
+                      << std::right << std::hex
+                      << md.tag();
+        }
+        if (Params::instance().printItems_ & Params::prGroup) {
+            if (!first) std::cout << " ";
+            first = false;
+            std::cout << std::setw(12) << std::setfill(' ') << std::left
+                      << md.groupName();
+        }
+        if (Params::instance().printItems_ & Params::prKey) {
+            if (!first) std::cout << " ";
+            first = false;
+            std::cout << std::setfill(' ') << std::left << std::setw(44)
+                      << md.key();
+        }
+        if (Params::instance().printItems_ & Params::prName) {
+            if (!first) std::cout << " ";
+            first = false;
+            std::cout << std::setw(27) << std::setfill(' ') << std::left
+                      << md.tagName();
+        }
+        if (Params::instance().printItems_ & Params::prLabel) {
+            if (!first) std::cout << " ";
+            first = false;
+            std::cout << std::setw(30) << std::setfill(' ') << std::left
+                      << md.tagLabel();
+        }
+        if (Params::instance().printItems_ & Params::prType) {
+            if (!first) std::cout << " ";
+            first = false;
+            std::cout << std::setw(9) << std::setfill(' ') << std::left;
+            const char* tn = md.typeName();
+            if (tn) {
+                std::cout << tn;
             }
-            std::cout << std::setw(44)
-                      << md->key() << " "
-                      << std::setw(9) << std::setfill(' ') << std::left
-                      << md->typeName() << " "
-                      << std::dec << std::setw(3)
-                      << std::setfill(' ') << std::right
-                      << md->count() << "  "
-                      << std::dec << md->value()
-                      << std::endl;
-        }
-
-        return 0;
-    } // Print::printIptc
-
-    int Print::printXmp()
-    {
-        if (!Exiv2::fileExists(path_, true)) {
-            std::cerr << path_
-                      << ": " << _("Failed to open the file\n");
-            return -1;
-        }
-        Exiv2::Image::AutoPtr image = Exiv2::ImageFactory::open(path_);
-        assert(image.get() != 0);
-        image->readMetadata();
-        Exiv2::XmpData& xmpData = image->xmpData();
-        if (xmpData.empty()) {
-            std::cerr << path_
-                      << ": " << _("No XMP data found in the file\n");
-            return -3;
-        }
-        Exiv2::XmpData::const_iterator end = xmpData.end();
-        Exiv2::XmpData::const_iterator md;
-        bool const manyFiles = Params::instance().files_.size() > 1;
-        for (md = xmpData.begin(); md != end; ++md) {
-            std::cout << std::setfill(' ') << std::left;
-            if (manyFiles) {
-                std::cout << std::setw(20) << path_ << " ";
+            else {
+                std::ostringstream os;
+                os << "0x" << std::setw(4) << std::setfill('0') << std::hex << md.typeId();
+                std::cout << os.str();
             }
-            std::cout << std::setw(44)
-                      << md->key() << " "
-                      << std::setw(9) << std::setfill(' ') << std::left
-                      << md->typeName() << " "
-                      << std::dec << std::setw(3)
-                      << std::setfill(' ') << std::right
-                      << md->count() << "  "
-                      << std::dec << *md
-                      << std::endl;
         }
-
-        return 0;
-    } // Print::printXmp
+        if (Params::instance().printItems_ & Params::prCount) {
+            if (!first) std::cout << " ";
+            first = false;
+            std::cout << std::dec << std::setw(3)
+                      << std::setfill(' ') << std::right
+                      << md.count();
+        }
+        if (Params::instance().printItems_ & Params::prSize) {
+            if (!first) std::cout << " ";
+            first = false;
+            std::cout << std::dec << std::setw(3)
+                      << std::setfill(' ') << std::right
+                      << md.size();
+        }
+        if (Params::instance().printItems_ & Params::prValue) {
+            if (!first) std::cout << "  ";
+            first = false;
+            if (   Params::instance().binary_
+                && md.typeId() == Exiv2::undefined
+                && md.size() > 100) {
+                std::cout << _("(Binary value suppressed)") << std::endl;
+                return;
+            }
+            std::cout << std::dec << md.value();
+        }
+        if (Params::instance().printItems_ & Params::prTrans) {
+            if (!first) std::cout << "  ";
+            first = false;
+            if (   Params::instance().binary_
+                && md.typeId() == Exiv2::undefined
+                && md.size() > 100) {
+                std::cout << _("(Binary value suppressed)") << std::endl;
+                return;
+            }
+            std::cout << std::dec << md.print(&pImage->exifData());
+        }
+        if (Params::instance().printItems_ & Params::prHex) {
+            if (!first) std::cout << std::endl;
+            first = false;
+            if (   Params::instance().binary_
+                && md.typeId() == Exiv2::undefined
+                && md.size() > 100) {
+                std::cout << _("(Binary value suppressed)") << std::endl;
+                return;
+            }
+            Exiv2::DataBuf buf(md.size());
+            md.copy(buf.pData_, pImage->byteOrder());
+            Exiv2::hexdump(std::cout, buf.pData_, buf.size_);
+        }
+        std::cout << std::endl;
+    } // Print::printMetadatum
 
     int Print::printComment()
     {
