@@ -501,10 +501,10 @@ int Params::evalPrint(const std::string& optarg)
 int Params::evalPrintFlags(const std::string& optarg)
 {
     int rc = 0;
-    printMode_ = pmList;
     switch (action_) {
     case Action::none:
         action_ = Action::print;
+        printMode_ = pmList;
         for (std::size_t i = 0; i < optarg.length(); ++i) {
             switch (optarg[i]) {
             case 'E': printTags_  |= Exiv2::mdExif; break;
