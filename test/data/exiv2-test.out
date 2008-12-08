@@ -62,14 +62,18 @@ Options:
    -D day  Day adjustment with the 'adjust' action.
    -p mode Print mode for the 'print' action. Possible modes are:
              s : print a summary of the Exif metadata (the default)
-             t : interpreted (translated) Exif data (shortcut for -Pkyct)
-             v : plain Exif data values (shortcut for -Pxgnycv)
-             h : hexdump of the Exif data (shortcut for -Pxgnycsh)
-             i : IPTC data values
-             x : XMP properties
+             a : print Exif, IPTC and XMP metadata (shortcut for -Pkyct)
+             t : interpreted (translated) Exif data (-PEkyct)
+             v : plain Exif data values (-PExgnycv)
+             h : hexdump of the Exif data (-PExgnycsh)
+             i : IPTC data values (-PIkyct)
+             x : XMP properties (-PXkyct)
              c : JPEG comment
              p : list available previews
-   -P cols Print columns for the Exif taglist ('print' action). Valid are:
+   -P flgs Print flags for fine control of tag lists ('print' action):
+             E : include Exif tags in the list
+             I : IPTC datasets
+             X : XMP properties
              x : print a column with the tag value
              g : group name
              k : key

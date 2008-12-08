@@ -3,7 +3,7 @@
 .\" First parameter, NAME, should be all caps
 .\" Second parameter, SECTION, should be 1-8, maybe w/ subsection
 .\" other parameters are allowed: see man(7), man(1)
-.TH EXIV2 1 "Dec 7th, 2008"
+.TH EXIV2 1 "Dec 8th, 2008"
 .\" Please adjust this date whenever revising the manpage.
 .\"
 .\" Some roff macros, for reference:
@@ -141,23 +141,32 @@ Print mode for the 'print' action. Possible modes are:
 .br
 s : print a summary of the Exif metadata (the default)
 .br
-t : interpreted (translated) Exif data (shortcut for -Pkyct) 
+a : print Exif, IPTC and XMP metadata (shortcut for -Pkyct)
 .br
-v : plain Exif data values (shortcut for -Pxgnycv)
+t : interpreted (translated) Exif tags (-PEkyct) 
 .br
-h : hexdump of the Exif data (shortcut for -Pxgnycsh)
+v : plain Exif tag values (-PExgnycv)
 .br
-i : IPTC data values
+h : hexdump of the Exif data (-PExgnycsh)
 .br
-x : XMP properties
+i : IPTC datasets (-PIkyct)
+.br
+x : XMP properties (-PXkyct)
 .br
 c : JPEG comment
 .br
 p : list available image previews, sorted by preview image size in pixels
 .TP
-.B \-P \fIcols\fP
-Print columns for the Exif taglist ('print' action), allows detailed
-control of the print output. Valid are:
+.B \-P \fIflgs\fP
+Print flags for fine control of the tag list ('print' action). Allows
+control of the type of metadata as well as data columns included in
+the print output.  Valid flags are:
+.br
+E : include Exif tags in the list
+.br
+I : IPTC datasets
+.br
+X : XMP properties
 .br
 x : print a column with the tag value
 .br

@@ -126,9 +126,14 @@ public:
     void cleanup();
 
     //! Enumerates print modes
-    enum PrintMode { pmSummary, pmList, pmIptc, pmXmp, pmComment, pmPreview };
+    enum PrintMode {
+        pmSummary,
+        pmList,
+        pmComment,
+        pmPreview
+    };
 
-    //! Individual items to print
+    //! Individual items to print, bitmap
     enum PrintItem {
         prTag   =    1,
         prGroup =    2,
@@ -180,6 +185,7 @@ public:
     bool adjust_;                       //!< Adjustment flag.
     PrintMode printMode_;               //!< Print mode.
     unsigned long printItems_;          //!< Print items.
+    unsigned long printTags_;           //!< Print tags (bitmap of MetadataId flags).
     //! %Action (integer rather than TaskType to avoid dependency).
     int  action_;
     int  target_;                       //!< What common target to process.
@@ -224,6 +230,7 @@ private:
                adjust_(false),
                printMode_(pmSummary),
                printItems_(0),
+               printTags_(Exiv2::mdNone),
                action_(0),
                target_(ctExif|ctIptc|ctComment|ctXmp),
                adjustment_(0),
@@ -245,7 +252,7 @@ private:
     int evalAdjust(const std::string& optarg);
     int evalYodAdjust(const Yod& yod, const std::string& optarg);
     int evalPrint(const std::string& optarg);
-    int evalPrintCols(const std::string& optarg);
+    int evalPrintFlags(const std::string& optarg);
     int evalDelete(const std::string& optarg);
     int evalExtract(const std::string& optarg);
     int evalInsert(const std::string& optarg);

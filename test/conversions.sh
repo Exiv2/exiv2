@@ -30,7 +30,7 @@ $exiv2 -M'set Exif.Image.ImageDescription The Exif image description' h.jpg
 rm -f h.xmp
 $exiv2 -eX h.jpg
 $exiv2 -px h.xmp
-$exiv2 -Pkycv h.xmp
+$exiv2 -PEkycv h.xmp
 $exiv2 -pi h.xmp
 
 # 2) Convert XMP x-default langAlt value back to Exif ImageDescription
@@ -41,7 +41,7 @@ echo ==========
 \cp h.xmp i.xmp
 $exiv2 -iX i.jpg
 $exiv2 -px i.jpg
-$exiv2 -Pkycv i.jpg
+$exiv2 -PEkycv i.jpg
 $exiv2 -pi i.jpg
 
 # 3) Convert XMP single non-x-default langAlt value to Exif ImageDescription
@@ -52,7 +52,7 @@ sed s/x-default/de-DE/ i.xmp > j.xmp
 \cp $IMG j.jpg
 $exiv2 -iX j.jpg
 $exiv2 -px j.jpg
-$exiv2 -Pkycv j.jpg
+$exiv2 -PEkycv j.jpg
 $exiv2 -pi j.jpg
 
 # 4) This shouldn't work: No x-default, more than one language
@@ -63,8 +63,8 @@ sed 's,<rdf:li xml:lang="de-DE">The Exif image description</rdf:li>,<rdf:li xml:
 \cp $IMG k.jpg
 $exiv2 -iX k.jpg
 $exiv2 -px k.jpg
-$exiv2 -Pkycv k.jpg
-$exiv2 -pi k.jpg
+$exiv2 -v -PEkycv k.jpg
+$exiv2 -v -pi k.jpg
 
 # 5) Add a default language to the XMP file and convert to Exif and IPTC
 echo
@@ -76,7 +76,7 @@ grep x-default l.xmp
 \cp $IMG l.jpg
 $exiv2 -iX l.jpg
 $exiv2 -px l.jpg
-$exiv2 -Pkycv l.jpg
+$exiv2 -PEkycv l.jpg
 $exiv2 -pi l.jpg
 
 # 6) Convert an Exif user comment to XMP
@@ -85,12 +85,12 @@ echo Testcase 6
 echo ==========
 \cp $IMG m.jpg
 $exiv2 -M'set Exif.Photo.UserComment charset=Jis This is a JIS encoded Exif user comment. Or was it?' m.jpg
-$exiv2 -Pkycv m.jpg
+$exiv2 -PEkycv m.jpg
 rm -f m.xmp
 $exiv2 -eX m.jpg
 $exiv2 -px m.xmp
-$exiv2 -Pkycv m.xmp
-$exiv2 -pi m.xmp
+$exiv2 -PEkycv m.xmp
+$exiv2 -v -pi m.xmp
 
 # 7) And back to Exif
 echo
@@ -100,8 +100,8 @@ echo ==========
 \cp m.xmp n.xmp
 $exiv2 -iX n.jpg
 $exiv2 -px n.jpg
-$exiv2 -Pkycv n.jpg
-$exiv2 -pi n.jpg
+$exiv2 -PEkycv n.jpg
+$exiv2 -v -pi n.jpg
 
 # 8) Convert IPTC keywords to XMP
 echo
@@ -115,7 +115,7 @@ $exiv2 -pi o.jpg
 rm -f o.xmp
 $exiv2 -eX o.jpg
 $exiv2 -px o.xmp
-$exiv2 -Pkycv o.xmp
+$exiv2 -v -PEkycv o.xmp
 $exiv2 -pi o.xmp
 
 # 9) And back to IPTC
@@ -126,7 +126,7 @@ echo ==========
 \cp o.xmp p.xmp
 $exiv2 -iX p.jpg
 $exiv2 -px p.jpg
-$exiv2 -Pkycv p.jpg
+$exiv2 -v -PEkycv p.jpg
 $exiv2 -pi p.jpg
 
 # 10) Convert an Exif tag to an XMP text value
@@ -135,12 +135,12 @@ echo Testcase 10
 echo ===========
 \cp $IMG q.jpg
 $exiv2 -M'set Exif.Image.Software Exiv2' q.jpg
-$exiv2 -Pkycv q.jpg
+$exiv2 -PEkycv q.jpg
 rm -f q.xmp
 $exiv2 -eX q.jpg
 $exiv2 -px q.xmp
-$exiv2 -Pkycv q.xmp
-$exiv2 -pi q.xmp
+$exiv2 -PEkycv q.xmp
+$exiv2 -v -pi q.xmp
 
 # 11) And back to Exif
 echo
@@ -150,8 +150,8 @@ echo ===========
 \cp q.xmp r.xmp
 $exiv2 -iX r.jpg
 $exiv2 -px r.jpg
-$exiv2 -Pkycv r.jpg
-$exiv2 -pi r.jpg
+$exiv2 -PEkycv r.jpg
+$exiv2 -v -pi r.jpg
 
 # 12) Convert an IPTC dataset to an XMP text value
 echo
@@ -163,7 +163,7 @@ $exiv2 -pi s.jpg
 rm -f s.xmp
 $exiv2 -eX s.jpg
 $exiv2 -px s.xmp
-$exiv2 -Pkycv s.xmp
+$exiv2 -v -PEkycv s.xmp
 $exiv2 -pi s.xmp
 
 # 13) And back to IPTC
@@ -174,7 +174,7 @@ echo ===========
 \cp s.xmp t.xmp
 $exiv2 -iX t.jpg
 $exiv2 -px t.jpg
-$exiv2 -Pkycv t.jpg
+$exiv2 -v -PEkycv t.jpg
 $exiv2 -pi t.jpg
 
 # 10) Convert a few other tags of interest from Exif/Iptc to XMP
@@ -193,12 +193,12 @@ $exiv2 -M'set Exif.GPSInfo.GPSVersionID 2 2 0 1' u.jpg
 $exiv2 -M'set Exif.GPSInfo.GPSTimeStamp 1/1 2/1 999999999/1000000000' u.jpg
 $exiv2 -M'set Iptc.Application2.DateCreated 2007-05-09' u.jpg
 
-$exiv2 -Pkycv u.jpg
+$exiv2 -PEkycv u.jpg
 $exiv2 -pi u.jpg
 rm -f u.xmp
 $exiv2 -eX u.jpg
 $exiv2 -px u.xmp
-$exiv2 -Pkycv u.xmp
+$exiv2 -PEkycv u.xmp
 $exiv2 -pi u.xmp
 
 # 15) And back to Exif/IPTC
@@ -210,7 +210,7 @@ echo ===========
 $exiv2 -M'set Xmp.tiff.DateTime 2003-12-14T12:01:44Z' v.xmp
 $exiv2 -iX v.jpg
 $exiv2 -px v.jpg
-$exiv2 -Pkycv v.jpg
+$exiv2 -PEkycv v.jpg
 $exiv2 -pi v.jpg
 
 ) > $results 2>&1
