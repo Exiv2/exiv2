@@ -1432,12 +1432,10 @@ namespace Exiv2 {
     }
 
     template<typename T>
-    ValueType<T>::ValueType(const T& val, ByteOrder byteOrder)
+    ValueType<T>::ValueType(const T& val, ByteOrder /*byteOrder*/)
         : Value(getType<T>()), pDataArea_(0), sizeDataArea_(0)
     {
-        read(reinterpret_cast<const byte*>(&val),
-             TypeInfo::typeSize(typeId()),
-             byteOrder);
+        value_.push_back(val);
     }
 
     template<typename T>
