@@ -283,6 +283,7 @@ namespace Exiv2 {
         DataBuf buf(bufMinSize);
         Blob iptcBlob;
         bool foundPsData = false;
+        bool foundExifData = false;
 
         // Read section marker
         int marker = advanceToMarker();
@@ -305,7 +306,8 @@ namespace Exiv2 {
                 if (--search == 0) break;
             }
 
-            if (marker == app1_ && memcmp(buf.pData_ + 2, exifId_, 6) == 0) {
+            if (   !foundExifData
+                && marker == app1_ && memcmp(buf.pData_ + 2, exifId_, 6) == 0) {
                 if (size < 8) {
                     rc = 1;
                     break;
@@ -324,6 +326,7 @@ namespace Exiv2 {
                     exifData_.clear();
                 }
                 --search;
+                foundExifData = true;
             }
             else if (marker == app1_ && memcmp(buf.pData_ + 2, xmpId_, 29) == 0) {
                 if (size < 31) {
@@ -511,7 +514,8 @@ namespace Exiv2 {
                 insertPos = count + 1;
                 if (io_->seek(size-bufRead, BasicIo::cur)) throw Error(22);
             }
-            else if (marker == app1_ && memcmp(buf.pData_ + 2, exifId_, 6) == 0) {
+            else if (   skipApp1Exif == -1
+                     && marker == app1_ && memcmp(buf.pData_ + 2, exifId_, 6) == 0) {
                 if (size < 8) throw Error(22);
                 skipApp1Exif = count;
                 ++search;
