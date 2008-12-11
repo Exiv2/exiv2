@@ -469,15 +469,15 @@ int Params::evalPrint(const std::string& optarg)
     switch (action_) {
     case Action::none:
         switch (optarg[0]) {
-        case 's': printMode_ = pmSummary; break;
+        case 's': action_ = Action::print; printMode_ = pmSummary; break;
         case 'a': rc = evalPrintFlags("kyct"); break;
         case 't': rc = evalPrintFlags("Ekyct"); break;
         case 'v': rc = evalPrintFlags("Exgnycv"); break;
         case 'h': rc = evalPrintFlags("Exgnycsh"); break;
         case 'i': rc = evalPrintFlags("Ikyct"); break;
         case 'x': rc = evalPrintFlags("Xkyct"); break;
-        case 'c': printMode_ = pmComment; break;
-        case 'p': printMode_ = pmPreview; break;
+        case 'c': action_ = Action::print; printMode_ = pmComment; break;
+        case 'p': action_ = Action::print; printMode_ = pmPreview; break;
         default:
             std::cerr << progname() << ": " << _("Unrecognized print mode") << " `"
                       << optarg << "'\n";
