@@ -7,14 +7,13 @@ Building Exiv2 with XMP support requires the Expat XML parser library
 (http://expat.sourceforge.net/). The --with-expat configure option
 can be used if it is installed in a non-standard directory.
 The MSVC project files for Windows are setup to always build Exiv2
-with XMP support. Before compiling, copy the Expat libexpat.lib file
-to the directory msvc/lib in the Exiv2 source tree.
+with XMP support.
 
 See the main README file for general build information.
 
 For API documentation of XMP classes and samples, consult the online
-documentation at http://www.exiv2.org/doc or download or build the
-documentation and go to doc/html/getting-started.html
+documentation at http://www.exiv2.org/doc or build the documentation
+and go to doc/html/getting-started.html
 
 For details on the XMP support of the exiv2 command line tool, see
 the exiv2(1) manual page and the sample command file doc/cmdxmp.txt
