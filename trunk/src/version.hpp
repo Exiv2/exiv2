@@ -39,11 +39,11 @@
 /*!
   @brief %Exiv2 MINOR version number of the library used at compile-time.
  */
-#define EXIV2_MINOR_VERSION (17)
+#define EXIV2_MINOR_VERSION (18)
 /*!
   @brief %Exiv2 PATCH version number of the library used at compile-time.
  */
-#define EXIV2_PATCH_VERSION  (92)
+#define EXIV2_PATCH_VERSION  (0)
 /*!
   @brief Make an integer version number for comparison from a major, minor and
          a patch version number.
