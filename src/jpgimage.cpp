@@ -616,8 +616,9 @@ namespace Exiv2 {
                     const byte* pExifData = rawExif.pData_;
                     uint32_t exifSize = rawExif.size_;
                     if (wm == wmIntrusive) {
-                        pExifData = &blob[0];
                         exifSize = static_cast<uint32_t>(blob.size());
+                        // Extra check to prevent MSVC debug assertion
+                        if (exifSize > 0) pExifData = &blob[0];
                     }
                     if (exifSize > 0) {
                         // Write APP1 marker, size of APP1 field, Exif id and Exif data
