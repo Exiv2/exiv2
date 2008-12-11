@@ -1,3 +1,51 @@
+Changes from version 0.18-pre2 to 0.18
+--------------------------------------
+
+* MSVC related
+	         - [build environment] More fixes for the MSVC build environment.
+	           (Robin Mills)
+
+* Exiv2 utility
+	- 0000580: [tools] -M option fails and reports success.
+	           (Reported by Daniel Blueman)
+	         - [tools] Added options -pp and -ep to list and extract preview
+	           images.
+	         - [tools] Added option -pa to print all metadata, added control
+	           for the type of metadata in option -P.
+
+* Exiv2 library
+	- 0000586: [metadata] ValueType<T> constructor makes assumptions of the
+	           endianness of the machine. (Reported by Dimitri)
+	- 0000584: [build environment] Linking fails for PreviewImage::pData().
+	           (Reported by Joakim Rosqvist)
+	- 0000583: [build environment] Linking fails when compiling.
+	           (Reported by Joakim Rosqvist)
+	- 0000542: [exif] Exiv2 doesn't find exif data in attached file.
+	           (Reported by Paolo Benvenuto)
+	         - [exif] Updated Nikon lens info to v3.25 of Robert Rottmerhusen's
+	           lens database.
+	         - [exif] Catch unknown makernotes before reading the IFD.
+	           (digiKam bug 174620)
+	         - [build environment] Added missing #includes for g++ 4.4.
+	           (Debian bug 505023, patch from Martin Michlmayr)
+	         - [exif] Introduced logic to fit Exif data in a 64kB block when
+	           writing to JPEG images.
+	         - [exif] Various TIFF parser improvements.
+	         - [exif] Added support for Olympus FE and Raw Info subdirs and
+	           tags.
+	         - [design] class PreviewImage: Added members to access all preview
+	           properties.
+	         - [design] class Metadatum and derived classes: Added familyName()
+	           and groupName().
+	         - [design] class ExifData: Added erase(beg, end).
+	         - [translation] Updated Polish translations.
+	           (Piotr Eljasiak)
+	         - [translation] Updated German translation.
+	           (Oliver DÃ¶rr)
+	         - [translation] Updated Slovak translations.
+	           (Ivan Masár)
+
+
 Changes from version 0.18-pre1 to 0.18-pre2
 -------------------------------------------
 
