@@ -1211,7 +1211,7 @@ namespace Exiv2 {
         ValueType() : Value(getType<T>()), pDataArea_(0), sizeDataArea_(0) {}
         //! Constructor
         ValueType(const byte* buf, long len, ByteOrder byteOrder);
-        //! Constructor
+        //! Constructor (Note: Argument \em byteOrder is ignored and deprecated)
         explicit ValueType(const T& val, ByteOrder byteOrder =littleEndian);
         //! Copy constructor
         ValueType(const ValueType<T>& rhs);
