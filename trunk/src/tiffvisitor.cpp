@@ -1423,7 +1423,7 @@ namespace Exiv2 {
                           << static_cast<uint32_t>(pData + size - pLast_)
                           << " Bytes; adjusting the size\n";
 #endif
-                size = static_cast<uint32_t>(pLast_ - pData + 1);
+                size = static_cast<uint32_t>(pLast_ - pData);
                 // Todo: adjust count, make size a multiple of typeSize
             }
         }
