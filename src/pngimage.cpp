@@ -20,14 +20,14 @@
  */
 /*
   File:    pngimage.cpp
-  Version: $Rev: 823 $
+  Version: $Rev$
   Author(s): Gilles Caulier (cgilles) <caulier dot gilles at gmail dot com>
   History: 12-Jun-06, gc: submitted
   Credits: See header file
  */
 // *****************************************************************************
 #include "rcsid.hpp"
-EXIV2_RCSID("@(#) $Id: pngimage.cpp 823 2006-06-12 07:35:00Z cgilles $")
+EXIV2_RCSID("@(#) $Id$")
 
 // *****************************************************************************
 
