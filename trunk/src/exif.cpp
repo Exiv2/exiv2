@@ -679,7 +679,7 @@ namespace {
         const Exiv2::IptcData emptyIptc;
         const Exiv2::XmpData  emptyXmp;
         Exiv2::TiffParser::encode(blob, 0, 0, Exiv2::littleEndian, thumb, emptyIptc, emptyXmp);
-        return Exiv2::DataBuf(&blob[0], static_cast<long>(blob.size()));
+        return Exiv2::DataBuf((blob.size() > 0 ? &blob[0] : 0), static_cast<long>(blob.size()));
     }
 
     const char* JpegThumbnail::mimeType() const
