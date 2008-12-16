@@ -177,7 +177,7 @@ namespace Exiv2 {
         }
         else {
             // Size of the buffer changed, write from blob
-            tempIo->write(&blob[0], static_cast<long>(blob.size()));
+            tempIo->write((blob.size() > 0 ? &blob[0] : 0), static_cast<long>(blob.size()));
         }
         io_->close();
         io_->transfer(*tempIo); // may throw

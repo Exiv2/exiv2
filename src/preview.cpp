@@ -639,7 +639,7 @@ namespace {
         const IptcData emptyIptc;
         const XmpData  emptyXmp;
         TiffParser::encode(blob, 0, 0, Exiv2::littleEndian, preview, emptyIptc, emptyXmp);
-        return DataBuf(&blob[0], static_cast<long>(blob.size()));
+        return DataBuf((blob.size() > 0 ? &blob[0] : 0), static_cast<long>(blob.size()));
     }
 
 }                                       // namespace
