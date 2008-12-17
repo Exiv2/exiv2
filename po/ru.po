@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ru\n"
 "Report-Msgid-Bugs-To: ahuggel@gmx.net\n"
-"POT-Creation-Date: 2008-11-26 09:46+0800\n"
+"POT-Creation-Date: 2008-12-17 20:15+0800\n"
 "PO-Revision-Date: 2008-05-26 04:03+0300\n"
 "Last-Translator: Alexandre Prokoudine <alexandre.prokoudine@gmail.com>\n"
 "Language-Team: Russian <ru@li.org>\n"
@@ -18,12 +18,12 @@ msgstr ""
 "Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%"
 "10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);\n"
 
-#: src/actions.cpp:244 src/actions.cpp:631 src/actions.cpp:759
-#: src/actions.cpp:797 src/actions.cpp:835 src/actions.cpp:863
-#: src/actions.cpp:949 src/actions.cpp:1083 src/actions.cpp:1135
-#: src/actions.cpp:1177 src/actions.cpp:1182 src/actions.cpp:1202
-#: src/actions.cpp:1207 src/actions.cpp:1235 src/actions.cpp:1458
-#: src/actions.cpp:1590 src/actions.cpp:1764
+#: src/actions.cpp:244 src/actions.cpp:632 src/actions.cpp:802
+#: src/actions.cpp:819 src/actions.cpp:860 src/actions.cpp:946
+#: src/actions.cpp:1084 src/actions.cpp:1126 src/actions.cpp:1191
+#: src/actions.cpp:1233 src/actions.cpp:1238 src/actions.cpp:1258
+#: src/actions.cpp:1263 src/actions.cpp:1291 src/actions.cpp:1530
+#: src/actions.cpp:1662 src/actions.cpp:1836
 msgid "Failed to open the file\n"
 msgstr "Не удалось открыть файл\n"
 
@@ -35,7 +35,7 @@ msgstr "Имя файла"
 msgid "File size"
 msgstr "Размер файла"
 
-#: src/actions.cpp:261 src/actions.cpp:584 src/actions.cpp:1109
+#: src/actions.cpp:261 src/actions.cpp:584 src/actions.cpp:1110
 msgid "Bytes"
 msgstr "Байт"
 
@@ -48,8 +48,8 @@ msgstr "Тип MIME"
 msgid "Image size"
 msgstr "Размер изображения"
 
-#: src/actions.cpp:274 src/actions.cpp:640 src/actions.cpp:876
-#: src/actions.cpp:1092 src/actions.cpp:1471 src/actions.cpp:1603
+#: src/actions.cpp:274 src/actions.cpp:654 src/actions.cpp:873
+#: src/actions.cpp:1093 src/actions.cpp:1543 src/actions.cpp:1675
 msgid "No Exif data found in the file\n"
 msgstr "В этом файле не найдено данных Exif\n"
 
@@ -75,7 +75,7 @@ msgstr "Номер снимка"
 msgid "Exposure time"
 msgstr "Время экспозиции"
 
-#: src/actions.cpp:306 src/canonmn.cpp:774 src/tags.cpp:1139
+#: src/actions.cpp:306 src/canonmn.cpp:774 src/tags.cpp:1149
 msgid "Aperture"
 msgstr "Диафрагма"
 
@@ -86,8 +86,8 @@ msgstr "Смещение экспозиции"
 #: src/actions.cpp:319 src/canonmn.cpp:710 src/minoltamn.cpp:664
 #: src/minoltamn.cpp:903 src/minoltamn.cpp:904 src/minoltamn.cpp:1012
 #: src/minoltamn.cpp:1141 src/minoltamn.cpp:1142 src/panasonicmn.cpp:66
-#: src/pentaxmn.cpp:265 src/properties.cpp:526 src/tags.cpp:946
-#: src/tags.cpp:1164
+#: src/pentaxmn.cpp:265 src/properties.cpp:526 src/tags.cpp:956
+#: src/tags.cpp:1174
 msgid "Flash"
 msgstr "Вспышка"
 
@@ -149,12 +149,12 @@ msgstr "Эскиз"
 #: src/actions.cpp:575 src/actions.cpp:580 src/canonmn.cpp:288
 #: src/minoltamn.cpp:425 src/minoltamn.cpp:519 src/nikonmn.cpp:155
 #: src/olympusmn.cpp:90 src/olympusmn.cpp:661 src/olympusmn.cpp:668
-#: src/olympusmn.cpp:1024 src/tags.cpp:1055
+#: src/olympusmn.cpp:1097 src/tags.cpp:1065
 msgid "None"
 msgstr "Ничего"
 
 #: src/actions.cpp:590 src/datasets.cpp:376 src/properties.cpp:320
-#: src/properties.cpp:486 src/tags.cpp:503
+#: src/properties.cpp:486 src/tags.cpp:513
 msgid "Copyright"
 msgstr "Авторские права"
 
@@ -162,231 +162,253 @@ msgstr "Авторские права"
 msgid "Exif comment"
 msgstr "Комментарий Exif"
 
-#: src/actions.cpp:720 src/actions.cpp:731 src/actions.cpp:742
-msgid "(Binary value suppressed)"
-msgstr ""
-
-#: src/actions.cpp:768
+#: src/actions.cpp:667
 msgid "No IPTC data found in the file\n"
 msgstr "В файле не найдено данных IPTC\n"
 
-#: src/actions.cpp:806
+#: src/actions.cpp:680
 msgid "No XMP data found in the file\n"
 msgstr "В этом файле не найдено данных XMP\n"
 
-#: src/actions.cpp:842
+#: src/actions.cpp:766 src/actions.cpp:777 src/actions.cpp:788
+msgid "(Binary value suppressed)"
+msgstr ""
+
+#: src/actions.cpp:809
 msgid "JPEG comment"
 msgstr "Комментарий JPEG"
 
-#: src/actions.cpp:886
+#: src/actions.cpp:834
+#, fuzzy
+msgid "Preview"
+msgstr "Данные эскиза"
+
+#: src/actions.cpp:838 src/actions.cpp:1165 src/properties.cpp:389
+msgid "pixels"
+msgstr ""
+
+#: src/actions.cpp:840 src/actions.cpp:1167 src/tiffvisitor.cpp:1013
+msgid "bytes"
+msgstr "байт"
+
+#: src/actions.cpp:883
 msgid "Neither tag"
 msgstr "Ни поле"
 
-#: src/actions.cpp:887
+#: src/actions.cpp:884
 msgid "nor"
 msgstr "ни"
 
-#: src/actions.cpp:888
+#: src/actions.cpp:885
 msgid "found in the file"
 msgstr "найдены в этом файле"
 
-#: src/actions.cpp:893
+#: src/actions.cpp:890
 msgid "Image file creation timestamp not set in the file"
 msgstr "Отметка времени создания снимка в файле отсутствует"
 
-#: src/actions.cpp:899 src/actions.cpp:1560
+#: src/actions.cpp:896 src/actions.cpp:1632
 msgid "Failed to parse timestamp"
 msgstr "Не удалось произвести синтаксический разбор отметки времени"
 
-#: src/actions.cpp:900
+#: src/actions.cpp:897
 msgid "in the file"
 msgstr "в файле"
 
-#: src/actions.cpp:911
+#: src/actions.cpp:908
 msgid "Updating timestamp to"
 msgstr "Отметка времени обновляется до"
 
-#: src/actions.cpp:1001
+#: src/actions.cpp:998
 #, fuzzy
 msgid "Erasing thumbnail data"
 msgstr "Байт данных эскиза"
 
-#: src/actions.cpp:1009
+#: src/actions.cpp:1006
 msgid "Erasing Exif data from the file"
 msgstr "Данные Exif удаляются из файла"
 
-#: src/actions.cpp:1018
+#: src/actions.cpp:1015
 msgid "Erasing IPTC data from the file"
 msgstr "Данные IPTC удаляются из файла"
 
-#: src/actions.cpp:1027
+#: src/actions.cpp:1024
 msgid "Erasing JPEG comment from the file"
 msgstr "Комментарий JPEG удаляется из файла"
 
-#: src/actions.cpp:1036
+#: src/actions.cpp:1033
 msgid "Erasing XMP data from the file"
 msgstr "Данные XMP удаляются из файла"
 
-#: src/actions.cpp:1099
+#: src/actions.cpp:1100
 msgid "Image does not contain an Exif thumbnail\n"
 msgstr "В снимке нет Exif-эскиза\n"
 
-#: src/actions.cpp:1108
+#: src/actions.cpp:1109
 #, fuzzy
 msgid "Writing thumbnail"
 msgstr "эскиз"
 
-#: src/actions.cpp:1109
+#: src/actions.cpp:1110 src/actions.cpp:1168
 msgid "to file"
 msgstr "в файл"
 
-#: src/actions.cpp:1115
+#: src/actions.cpp:1116
 msgid "Exif data doesn't contain a thumbnail\n"
 msgstr "В данных Exif нет эскиза\n"
 
-#: src/actions.cpp:1268
+#: src/actions.cpp:1146 src/actions.cpp:1172
+msgid "Image does not have preview"
+msgstr ""
+
+#: src/actions.cpp:1161
+#, fuzzy
+msgid "Writing preview"
+msgstr "Выполняется запись"
+
+#: src/actions.cpp:1324
 msgid "Setting JPEG comment"
 msgstr "Вставляется комментарий JPEG"
 
-#: src/actions.cpp:1304
+#: src/actions.cpp:1365
 msgid "Add"
 msgstr "Добавить"
 
-#: src/actions.cpp:1331
-msgid "Set"
-msgstr "Установить"
-
-#: src/actions.cpp:1390
+#: src/actions.cpp:1387 src/actions.cpp:1461
 msgid "Warning"
 msgstr "Предупреждение"
 
-#: src/actions.cpp:1391
+#: src/actions.cpp:1388 src/actions.cpp:1462
 msgid "Failed to read"
 msgstr "Не удалось прочитать"
 
-#: src/actions.cpp:1393
+#: src/actions.cpp:1390 src/actions.cpp:1464
 msgid "value"
 msgstr "значение"
 
 #: src/actions.cpp:1401
+msgid "Set"
+msgstr "Установить"
+
+#: src/actions.cpp:1473
 msgid "Del"
 msgstr "Удалить"
 
-#: src/actions.cpp:1433
+#: src/actions.cpp:1505
 msgid "Reg "
 msgstr ""
 
-#: src/actions.cpp:1513
+#: src/actions.cpp:1585
 msgid "Timestamp of metadatum with key"
 msgstr ""
 
-#: src/actions.cpp:1514
+#: src/actions.cpp:1586
 msgid "not set\n"
 msgstr "не установлено\n"
 
-#: src/actions.cpp:1519
+#: src/actions.cpp:1591
 msgid "Adjusting"
 msgstr "Коррекция"
 
-#: src/actions.cpp:1519
+#: src/actions.cpp:1591
 msgid "by"
 msgstr ""
 
-#: src/actions.cpp:1523 src/actions.cpp:1572
+#: src/actions.cpp:1595 src/actions.cpp:1644
 msgid "years"
 msgstr "лет"
 
-#: src/actions.cpp:1526
+#: src/actions.cpp:1598
 msgid "year"
 msgstr ""
 
-#: src/actions.cpp:1534
+#: src/actions.cpp:1606
 msgid "months"
 msgstr "месяцев"
 
-#: src/actions.cpp:1537
+#: src/actions.cpp:1609
 msgid "month"
 msgstr "месяц"
 
-#: src/actions.cpp:1545
+#: src/actions.cpp:1617
 msgid "days"
 msgstr ""
 
-#: src/actions.cpp:1548
+#: src/actions.cpp:1620
 msgid "day"
 msgstr ""
 
-#: src/actions.cpp:1554
+#: src/actions.cpp:1626
 msgid "s"
 msgstr "с"
 
-#: src/actions.cpp:1570
+#: src/actions.cpp:1642
 #, fuzzy
 msgid "Can't adjust timestamp by"
 msgstr "Не удалось произвести синтаксический разбор отметки времени"
 
-#: src/actions.cpp:1579 src/actions.cpp:1788 src/actions.cpp:1796
-#: src/actions.cpp:1804 src/actions.cpp:1813 src/actions.cpp:1914
+#: src/actions.cpp:1651 src/actions.cpp:1860 src/actions.cpp:1868
+#: src/actions.cpp:1876 src/actions.cpp:1885 src/actions.cpp:1986
 msgid "to"
 msgstr "в"
 
-#: src/actions.cpp:1611
+#: src/actions.cpp:1683
 msgid "Standard Exif ISO tag exists; not modified\n"
 msgstr ""
 
-#: src/actions.cpp:1640
+#: src/actions.cpp:1712
 msgid "Setting Exif ISO value to"
 msgstr ""
 
-#: src/actions.cpp:1787
+#: src/actions.cpp:1859
 msgid "Writing Exif data from"
 msgstr "Запись данных Exif из"
 
-#: src/actions.cpp:1795
+#: src/actions.cpp:1867
 msgid "Writing IPTC data from"
 msgstr "Запись данных IPTC из"
 
-#: src/actions.cpp:1803
+#: src/actions.cpp:1875
 msgid "Writing XMP data from"
 msgstr "Запись данных XMP из"
 
-#: src/actions.cpp:1812
+#: src/actions.cpp:1884
 msgid "Writing JPEG comment from"
 msgstr "Запись комментария JPEG из"
 
-#: src/actions.cpp:1822
+#: src/actions.cpp:1894
 msgid "Could not write metadata to file"
 msgstr "Не удалось записать метаданные в файл"
 
-#: src/actions.cpp:1840
+#: src/actions.cpp:1912
 msgid "Filename format yields empty filename for the file"
 msgstr ""
 
-#: src/actions.cpp:1849
+#: src/actions.cpp:1921
 msgid "This file already has the correct name"
 msgstr "У этого файла уже правильное имя"
 
-#: src/actions.cpp:1873 src/exiv2.cpp:150
+#: src/actions.cpp:1945 src/exiv2.cpp:162
 msgid "File"
 msgstr "Файл"
 
-#: src/actions.cpp:1874
+#: src/actions.cpp:1946
 msgid "exists. [O]verwrite, [r]ename or [s]kip?"
 msgstr "существует. Перезаписать [O], переименовать [r] или пропустить [s]?"
 
-#: src/actions.cpp:1902
+#: src/actions.cpp:1974
 msgid "Renaming file to"
 msgstr "Файл переименовывается в"
 
-#: src/actions.cpp:1904
+#: src/actions.cpp:1976
 msgid "updating timestamp"
 msgstr "обновляется отметка времени"
 
-#: src/actions.cpp:1913
+#: src/actions.cpp:1985
 msgid "Failed to rename"
 msgstr "Не удалось переименовать"
 
-#: src/actions.cpp:1935
+#: src/actions.cpp:2007
 msgid "Overwrite"
 msgstr "Перезаписать"
 
@@ -818,13 +840,14 @@ msgstr "EOS Digital Rebel XTi / 400D / Kiss Digital X"
 #: src/olympusmn.cpp:299 src/olympusmn.cpp:302 src/olympusmn.cpp:305
 #: src/olympusmn.cpp:308 src/olympusmn.cpp:314 src/olympusmn.cpp:317
 #: src/olympusmn.cpp:350 src/olympusmn.cpp:353 src/olympusmn.cpp:356
-#: src/olympusmn.cpp:359 src/panasonicmn.cpp:183 src/panasonicmn.cpp:206
-#: src/panasonicmn.cpp:219 src/panasonicmn.cpp:222 src/panasonicmn.cpp:228
-#: src/panasonicmn.cpp:246 src/panasonicmn.cpp:252 src/panasonicmn.cpp:264
-#: src/pentaxmn.cpp:267 src/sonymn.cpp:52 src/sonymn.cpp:55 src/sonymn.cpp:58
-#: src/sonymn.cpp:61 src/sonymn.cpp:64 src/sonymn.cpp:67 src/sonymn.cpp:70
-#: src/sonymn.cpp:73 src/sonymn.cpp:76 src/tags.cpp:930 src/tags.cpp:942
-#: src/tags.cpp:1078 src/tags.cpp:2342 src/tags.cpp:2458
+#: src/olympusmn.cpp:359 src/olympusmn.cpp:955 src/panasonicmn.cpp:183
+#: src/panasonicmn.cpp:206 src/panasonicmn.cpp:219 src/panasonicmn.cpp:222
+#: src/panasonicmn.cpp:228 src/panasonicmn.cpp:246 src/panasonicmn.cpp:252
+#: src/panasonicmn.cpp:264 src/pentaxmn.cpp:267 src/sonymn.cpp:52
+#: src/sonymn.cpp:55 src/sonymn.cpp:58 src/sonymn.cpp:61 src/sonymn.cpp:64
+#: src/sonymn.cpp:67 src/sonymn.cpp:70 src/sonymn.cpp:73 src/sonymn.cpp:76
+#: src/tags.cpp:940 src/tags.cpp:952 src/tags.cpp:1088 src/tags.cpp:2352
+#: src/tags.cpp:2468
 msgid "Unknown"
 msgstr "Неизвестно"
 
@@ -845,7 +868,7 @@ msgstr "О снимке"
 msgid "Shot information"
 msgstr "Способ фокусировки"
 
-#: src/canonmn.cpp:171 src/olympusmn.cpp:523 src/olympusmn.cpp:995
+#: src/canonmn.cpp:171 src/olympusmn.cpp:523 src/olympusmn.cpp:1068
 msgid "Panorama"
 msgstr "Панорама"
 
@@ -937,7 +960,7 @@ msgstr "Вкл"
 #: src/minoltamn.cpp:879 src/minoltamn.cpp:1052 src/minoltamn.cpp:1058
 #: src/nikonmn.cpp:162 src/olympusmn.cpp:56 src/olympusmn.cpp:76
 #: src/olympusmn.cpp:83 src/olympusmn.cpp:439 src/olympusmn.cpp:467
-#: src/olympusmn.cpp:499 src/olympusmn.cpp:976 src/panasonicmn.cpp:81
+#: src/olympusmn.cpp:499 src/olympusmn.cpp:1049 src/panasonicmn.cpp:81
 #: src/panasonicmn.cpp:88 src/panasonicmn.cpp:120 src/panasonicmn.cpp:129
 #: src/panasonicmn.cpp:153 src/panasonicmn.cpp:286 src/pentaxmn.cpp:165
 #: src/pentaxmn.cpp:237 src/pentaxmn.cpp:631 src/pentaxmn.cpp:637
@@ -952,11 +975,11 @@ msgstr "Экономичный"
 #: src/canonmn.cpp:203 src/canonmn.cpp:297 src/fujimn.cpp:62 src/fujimn.cpp:81
 #: src/fujimn.cpp:89 src/minoltamn.cpp:419 src/minoltamn.cpp:796
 #: src/minoltamn.cpp:999 src/nikonmn.cpp:165 src/nikonmn.cpp:386
-#: src/olympusmn.cpp:104 src/olympusmn.cpp:112 src/olympusmn.cpp:951
-#: src/olympusmn.cpp:993 src/panasonicmn.cpp:54 src/panasonicmn.cpp:94
+#: src/olympusmn.cpp:104 src/olympusmn.cpp:112 src/olympusmn.cpp:1024
+#: src/olympusmn.cpp:1066 src/panasonicmn.cpp:54 src/panasonicmn.cpp:94
 #: src/panasonicmn.cpp:136 src/panasonicmn.cpp:167 src/pentaxmn.cpp:180
 #: src/pentaxmn.cpp:287 src/pentaxmn.cpp:298 src/pentaxmn.cpp:309
-#: src/tags.cpp:1064 src/tags.cpp:1071
+#: src/tags.cpp:1074 src/tags.cpp:1081
 msgid "Normal"
 msgstr ""
 
@@ -981,10 +1004,10 @@ msgstr "SXGA Fine"
 #: src/minoltamn.cpp:780 src/minoltamn.cpp:803 src/minoltamn.cpp:842
 #: src/minoltamn.cpp:984 src/minoltamn.cpp:1006 src/minoltamn.cpp:1032
 #: src/nikonmn.cpp:403 src/olympusmn.cpp:98 src/olympusmn.cpp:478
-#: src/olympusmn.cpp:516 src/olympusmn.cpp:1039 src/olympusmn.cpp:1045
-#: src/olympusmn.cpp:1046 src/panasonicmn.cpp:61 src/panasonicmn.cpp:72
+#: src/olympusmn.cpp:516 src/olympusmn.cpp:1112 src/olympusmn.cpp:1118
+#: src/olympusmn.cpp:1119 src/panasonicmn.cpp:61 src/panasonicmn.cpp:72
 #: src/pentaxmn.cpp:55 src/pentaxmn.cpp:191 src/pentaxmn.cpp:256
-#: src/tags.cpp:919 src/tags.cpp:1034 src/tags.cpp:1041
+#: src/tags.cpp:929 src/tags.cpp:1044 src/tags.cpp:1051
 msgid "Auto"
 msgstr "Авто"
 
@@ -1105,13 +1128,13 @@ msgstr ""
 #: src/olympusmn.cpp:420 src/panasonicmn.cpp:65 src/panasonicmn.cpp:73
 #: src/panasonicmn.cpp:103 src/pentaxmn.cpp:57 src/pentaxmn.cpp:183
 #: src/pentaxmn.cpp:261 src/pentaxmn.cpp:438 src/pentaxmn.cpp:450
-#: src/sigmamn.cpp:154 src/tags.cpp:918 src/tags.cpp:1035 src/tags.cpp:1042
+#: src/sigmamn.cpp:154 src/tags.cpp:928 src/tags.cpp:1045 src/tags.cpp:1052
 msgid "Manual"
 msgstr "Ручная"
 
 #: src/canonmn.cpp:257 src/fujimn.cpp:112 src/minoltamn.cpp:66
 #: src/olympusmn.cpp:520 src/pentaxmn.cpp:413 src/pentaxmn.cpp:624
-#: src/tags.cpp:1048
+#: src/tags.cpp:1058
 msgid "Landscape"
 msgstr "Альбом"
 
@@ -1142,7 +1165,7 @@ msgstr "Сепия"
 #: src/canonmn.cpp:263 src/fujimn.cpp:111 src/minoltamn.cpp:63
 #: src/minoltamn.cpp:426 src/olympusmn.cpp:518 src/olympusmn.cpp:574
 #: src/panasonicmn.cpp:95 src/pentaxmn.cpp:412 src/pentaxmn.cpp:623
-#: src/tags.cpp:1049
+#: src/tags.cpp:1059
 msgid "Portrait"
 msgstr "Портрет"
 
@@ -1231,21 +1254,21 @@ msgstr "Цвет"
 msgid "Still image"
 msgstr ""
 
-#: src/canonmn.cpp:291 src/tags.cpp:937
+#: src/canonmn.cpp:291 src/tags.cpp:947
 msgid "Other"
 msgstr ""
 
 #: src/canonmn.cpp:296 src/fujimn.cpp:83 src/fujimn.cpp:91
-#: src/olympusmn.cpp:113 src/olympusmn.cpp:977 src/panasonicmn.cpp:137
+#: src/olympusmn.cpp:113 src/olympusmn.cpp:1050 src/panasonicmn.cpp:137
 #: src/panasonicmn.cpp:139 src/panasonicmn.cpp:147 src/pentaxmn.cpp:286
-#: src/pentaxmn.cpp:297 src/tags.cpp:1072
+#: src/pentaxmn.cpp:297 src/tags.cpp:1082
 msgid "Low"
 msgstr "Низкий"
 
 #: src/canonmn.cpp:298 src/fujimn.cpp:82 src/fujimn.cpp:90
-#: src/olympusmn.cpp:111 src/olympusmn.cpp:979 src/panasonicmn.cpp:53
+#: src/olympusmn.cpp:111 src/olympusmn.cpp:1052 src/panasonicmn.cpp:53
 #: src/panasonicmn.cpp:138 src/panasonicmn.cpp:141 src/panasonicmn.cpp:148
-#: src/pentaxmn.cpp:288 src/pentaxmn.cpp:299 src/tags.cpp:1073
+#: src/pentaxmn.cpp:288 src/pentaxmn.cpp:299 src/tags.cpp:1083
 msgid "High"
 msgstr "Высокий"
 
@@ -1265,11 +1288,11 @@ msgstr "По умолчанию"
 
 #: src/canonmn.cpp:323 src/minoltamn.cpp:368 src/minoltamn.cpp:1027
 #: src/minoltamn.cpp:1080 src/olympusmn.cpp:430 src/pentaxmn.cpp:251
-#: src/tags.cpp:933
+#: src/tags.cpp:943
 msgid "Spot"
 msgstr ""
 
-#: src/canonmn.cpp:324 src/sigmamn.cpp:165 src/tags.cpp:931
+#: src/canonmn.cpp:324 src/sigmamn.cpp:165 src/tags.cpp:941
 msgid "Average"
 msgstr "Средний"
 
@@ -1277,7 +1300,7 @@ msgstr "Средний"
 msgid "Evaluative"
 msgstr ""
 
-#: src/canonmn.cpp:326 src/tags.cpp:936
+#: src/canonmn.cpp:326 src/tags.cpp:946
 msgid "Partial"
 msgstr ""
 
@@ -1294,7 +1317,7 @@ msgstr "Неизвестно"
 #: src/canonmn.cpp:335 src/canonmn.cpp:652 src/fujimn.cpp:202
 #: src/olympusmn.cpp:137 src/olympusmn.cpp:531 src/panasonicmn.cpp:102
 #: src/panasonicmn.cpp:193 src/pentaxmn.cpp:181 src/pentaxmn.cpp:414
-#: src/tags.cpp:1079
+#: src/tags.cpp:1089
 msgid "Macro"
 msgstr "Макро"
 
@@ -1316,7 +1339,7 @@ msgstr ""
 msgid "Far range"
 msgstr "Динамический диапазон"
 
-#: src/canonmn.cpp:342 src/pentaxmn.cpp:182 src/tags.cpp:2345
+#: src/canonmn.cpp:342 src/pentaxmn.cpp:182 src/tags.cpp:2355
 #, fuzzy
 msgid "Infinity"
 msgstr "Бесконечный"
@@ -1390,7 +1413,7 @@ msgid "Did not fire"
 msgstr "Вспышка не сработала"
 
 #: src/canonmn.cpp:600 src/minoltamn.cpp:407 src/minoltamn.cpp:479
-#: src/minoltamn.cpp:837 src/minoltamn.cpp:1020 src/tags.cpp:968
+#: src/minoltamn.cpp:837 src/minoltamn.cpp:1020 src/tags.cpp:978
 msgid "Fired"
 msgstr "Сработала"
 
@@ -1549,12 +1572,12 @@ msgstr "Цифровой трансфокатор"
 #: src/olympusmn.cpp:739 src/panasonicmn.cpp:236 src/pentaxmn.cpp:767
 #: src/pentaxmn.cpp:857 src/pentaxmn.cpp:858 src/properties.cpp:406
 #: src/properties.cpp:552 src/sigmamn.cpp:86 src/sigmamn.cpp:87
-#: src/tags.cpp:1319
+#: src/tags.cpp:1329
 msgid "Contrast"
 msgstr "Контраст"
 
 #: src/canonmn.cpp:664 src/fujimn.cpp:194 src/olympusmn.cpp:329
-#: src/olympusmn.cpp:627 src/panasonicmn.cpp:237
+#: src/olympusmn.cpp:627 src/olympusmn.cpp:996 src/panasonicmn.cpp:237
 #, fuzzy
 msgid "Contrast setting"
 msgstr "Настройка контраста"
@@ -1566,11 +1589,11 @@ msgstr "Настройка контраста"
 #: src/olympusmn.cpp:738 src/olympusmn.cpp:837 src/pentaxmn.cpp:761
 #: src/pentaxmn.cpp:854 src/pentaxmn.cpp:855 src/properties.cpp:424
 #: src/properties.cpp:553 src/sigmamn.cpp:95 src/sigmamn.cpp:96
-#: src/tags.cpp:1323
+#: src/tags.cpp:1333
 msgid "Saturation"
 msgstr "Насыщенность"
 
-#: src/canonmn.cpp:665
+#: src/canonmn.cpp:665 src/olympusmn.cpp:994
 #, fuzzy
 msgid "Saturation setting"
 msgstr "Настройка контраста"
@@ -1580,11 +1603,12 @@ msgstr "Настройка контраста"
 #: src/minoltamn.cpp:1150 src/minoltamn.cpp:1151 src/olympusmn.cpp:740
 #: src/pentaxmn.cpp:764 src/pentaxmn.cpp:860 src/pentaxmn.cpp:861
 #: src/properties.cpp:427 src/properties.cpp:554 src/sigmamn.cpp:98
-#: src/sigmamn.cpp:99 src/tags.cpp:1327
+#: src/sigmamn.cpp:99 src/tags.cpp:1337
 msgid "Sharpness"
 msgstr "Резкость"
 
 #: src/canonmn.cpp:666 src/fujimn.cpp:185 src/olympusmn.cpp:628
+#: src/olympusmn.cpp:997
 #, fuzzy
 msgid "Sharpness setting"
 msgstr "Настройка резкости"
@@ -1603,7 +1627,7 @@ msgstr ""
 
 #: src/canonmn.cpp:668 src/minoltamn.cpp:628 src/minoltamn.cpp:1144
 #: src/olympusmn.cpp:614 src/properties.cpp:524 src/sigmamn.cpp:74
-#: src/tags.cpp:1158
+#: src/tags.cpp:1168
 msgid "Metering Mode"
 msgstr "Режим замера"
 
@@ -1632,7 +1656,7 @@ msgstr "Использованная точка AF"
 msgid "AF point selected"
 msgstr "Использованная точка AF"
 
-#: src/canonmn.cpp:671 src/properties.cpp:513 src/tags.cpp:1092
+#: src/canonmn.cpp:671 src/properties.cpp:513 src/tags.cpp:1102
 msgid "Exposure Program"
 msgstr "Программа экспозиции"
 
@@ -1790,7 +1814,7 @@ msgstr "Солнечно"
 
 #: src/canonmn.cpp:707 src/fujimn.cpp:71 src/minoltamn.cpp:323
 #: src/minoltamn.cpp:806 src/minoltamn.cpp:1008 src/nikonmn.cpp:408
-#: src/panasonicmn.cpp:63 src/pentaxmn.cpp:266
+#: src/olympusmn.cpp:957 src/panasonicmn.cpp:63 src/pentaxmn.cpp:266
 msgid "Cloudy"
 msgstr "Облачно"
 
@@ -1801,7 +1825,7 @@ msgstr "Лампа накаливания"
 
 #: src/canonmn.cpp:709 src/minoltamn.cpp:326 src/minoltamn.cpp:808
 #: src/minoltamn.cpp:1011 src/nikonmn.cpp:407 src/pentaxmn.cpp:259
-#: src/tags.cpp:944
+#: src/tags.cpp:954
 msgid "Fluorescent"
 msgstr "Флуоресцентная лампа"
 
@@ -1810,7 +1834,7 @@ msgid "Black & White"
 msgstr "Чёрно-белый"
 
 #: src/canonmn.cpp:713 src/minoltamn.cpp:805 src/minoltamn.cpp:1009
-#: src/pentaxmn.cpp:258 src/tags.cpp:949
+#: src/olympusmn.cpp:956 src/pentaxmn.cpp:258 src/tags.cpp:959
 msgid "Shade"
 msgstr "Тень"
 
@@ -1887,7 +1911,7 @@ msgstr "Скорость срабатывания затвора"
 #: src/minoltamn.cpp:894 src/minoltamn.cpp:1132 src/nikonmn.cpp:183
 #: src/nikonmn.cpp:429 src/nikonmn.cpp:494 src/olympusmn.cpp:268
 #: src/olympusmn.cpp:819 src/panasonicmn.cpp:179 src/properties.cpp:436
-#: src/properties.cpp:545 src/sigmamn.cpp:68 src/tags.cpp:1297
+#: src/properties.cpp:545 src/sigmamn.cpp:68 src/tags.cpp:1307
 msgid "White Balance"
 msgstr "Баланс белого"
 
@@ -1920,7 +1944,7 @@ msgstr "Использованная точка AF"
 msgid "Flash Bias"
 msgstr "Вспышка сработала"
 
-#: src/canonmn.cpp:772 src/properties.cpp:523 src/tags.cpp:1155
+#: src/canonmn.cpp:772 src/properties.cpp:523 src/tags.cpp:1165
 msgid "Subject Distance"
 msgstr "Расстояние до объекта"
 
@@ -1938,7 +1962,7 @@ msgstr "Диафрагма"
 msgid "Shutter Speed Value"
 msgstr "Скорость срабатывания затвора"
 
-#: src/canonmn.cpp:775 src/tags.cpp:1135
+#: src/canonmn.cpp:775 src/tags.cpp:1145
 msgid "Shutter speed"
 msgstr "Скорость срабатывания затвора"
 
@@ -1947,22 +1971,22 @@ msgstr "Скорость срабатывания затвора"
 msgid "Unknown Canon Camera Settings 2 tag"
 msgstr "Настройка контраста"
 
-#: src/canonmn.cpp:791 src/olympusmn.cpp:1007
+#: src/canonmn.cpp:791 src/olympusmn.cpp:1080
 #, fuzzy
 msgid "Left to right"
 msgstr "слева направо"
 
-#: src/canonmn.cpp:792 src/olympusmn.cpp:1008
+#: src/canonmn.cpp:792 src/olympusmn.cpp:1081
 #, fuzzy
 msgid "Right to left"
 msgstr "справа налево"
 
-#: src/canonmn.cpp:793 src/olympusmn.cpp:1009
+#: src/canonmn.cpp:793 src/olympusmn.cpp:1082
 #, fuzzy
 msgid "Bottom to top"
 msgstr "снизу вверх"
 
-#: src/canonmn.cpp:794 src/olympusmn.cpp:1010
+#: src/canonmn.cpp:794 src/olympusmn.cpp:1083
 #, fuzzy
 msgid "Top to bottom"
 msgstr "сверху вниз"
@@ -2164,11 +2188,11 @@ msgid "lower-right"
 msgstr "Правая"
 
 #: src/canonmn.cpp:863 src/olympusmn.cpp:343 src/properties.cpp:443
-#: src/tags.cpp:273
+#: src/tags.cpp:283
 msgid "Image Width"
 msgstr "Ширина изображения"
 
-#: src/canonmn.cpp:863 src/olympusmn.cpp:344 src/tags.cpp:1589
+#: src/canonmn.cpp:863 src/olympusmn.cpp:344 src/tags.cpp:1599
 msgid "Image width"
 msgstr "Ширина изображения"
 
@@ -2177,7 +2201,7 @@ msgstr "Ширина изображения"
 msgid "Image Height"
 msgstr "Длина изображения"
 
-#: src/canonmn.cpp:864 src/olympusmn.cpp:347 src/tags.cpp:1592
+#: src/canonmn.cpp:864 src/olympusmn.cpp:347 src/tags.cpp:1602
 msgid "Image height"
 msgstr "Высота изображения"
 
@@ -2230,7 +2254,7 @@ msgstr "Неизвестный тэг"
 msgid "Header, offset"
 msgstr ""
 
-#: src/crwimage.cpp:671 src/tiffvisitor.cpp:996 src/tiffvisitor.cpp:1014
+#: src/crwimage.cpp:671 src/tiffvisitor.cpp:1008 src/tiffvisitor.cpp:1026
 msgid "tag"
 msgstr "поле"
 
@@ -2238,7 +2262,7 @@ msgstr "поле"
 msgid "dir"
 msgstr "каталог"
 
-#: src/crwimage.cpp:675 src/tiffvisitor.cpp:998
+#: src/crwimage.cpp:675 src/tiffvisitor.cpp:1010
 msgid "type"
 msgstr "тип"
 
@@ -2246,7 +2270,7 @@ msgstr "тип"
 msgid "size"
 msgstr "размер"
 
-#: src/crwimage.cpp:677 src/tiffvisitor.cpp:1002
+#: src/crwimage.cpp:677 src/tiffvisitor.cpp:1014
 msgid "offset"
 msgstr "быстрый"
 
@@ -3240,11 +3264,11 @@ msgstr ""
 msgid "(Unknown Error)"
 msgstr "(Неизвестная ошибка)"
 
-#: src/exiv2.cpp:191
+#: src/exiv2.cpp:203
 msgid "Copyright (C) 2004-2008 Andreas Huggel.\n"
 msgstr "Авторские права (C) 2004-2008 Andreas Huggel.\n"
 
-#: src/exiv2.cpp:193
+#: src/exiv2.cpp:205
 msgid ""
 "This program is free software; you can redistribute it and/or\n"
 "modify it under the terms of the GNU General Public License\n"
@@ -3252,7 +3276,7 @@ msgid ""
 "of the License, or (at your option) any later version.\n"
 msgstr ""
 
-#: src/exiv2.cpp:198
+#: src/exiv2.cpp:210
 msgid ""
 "This program is distributed in the hope that it will be useful,\n"
 "but WITHOUT ANY WARRANTY; without even the implied warranty of\n"
@@ -3260,7 +3284,7 @@ msgid ""
 "GNU General Public License for more details.\n"
 msgstr ""
 
-#: src/exiv2.cpp:203
+#: src/exiv2.cpp:215
 msgid ""
 "You should have received a copy of the GNU General Public\n"
 "License along with this program; if not, write to the Free\n"
@@ -3268,11 +3292,11 @@ msgid ""
 "Boston, MA 02110-1301 USA\n"
 msgstr ""
 
-#: src/exiv2.cpp:211
+#: src/exiv2.cpp:223
 msgid "Usage:"
 msgstr "Использование:"
 
-#: src/exiv2.cpp:212
+#: src/exiv2.cpp:224
 msgid ""
 "[ options ] [ action ] file ...\n"
 "\n"
@@ -3280,11 +3304,11 @@ msgstr ""
 "[ ключи ] [ действие ] файл ...\n"
 "\n"
 
-#: src/exiv2.cpp:213
+#: src/exiv2.cpp:225
 msgid "Manipulate the Exif metadata of images.\n"
 msgstr "Работа с метаданными изображений.\n"
 
-#: src/exiv2.cpp:219
+#: src/exiv2.cpp:231
 msgid ""
 "\n"
 "Actions:\n"
@@ -3292,7 +3316,7 @@ msgstr ""
 "\n"
 "Действия:\n"
 
-#: src/exiv2.cpp:220
+#: src/exiv2.cpp:232
 msgid ""
 "  ad | adjust   Adjust Exif timestamps by the given time. This action\n"
 "                requires at least one of the -a, -Y, -O or -D options.\n"
@@ -3300,15 +3324,15 @@ msgstr ""
 "  ad | adjust   Заменить отметки времени Exif на заданное время.\n"
 "  Этому действию нужен ключ -a time.\n"
 
-#: src/exiv2.cpp:222
+#: src/exiv2.cpp:234
 msgid "  pr | print    Print image metadata.\n"
 msgstr "  pr | print    Вывести на экран метаданные изображения.\n"
 
-#: src/exiv2.cpp:223
+#: src/exiv2.cpp:235
 msgid "  rm | delete   Delete image metadata from the files.\n"
 msgstr "  rm | delete   Удалить метаданные изображений из их файлов.\n"
 
-#: src/exiv2.cpp:224
+#: src/exiv2.cpp:236
 msgid ""
 "  in | insert   Insert metadata from corresponding *.exv files.\n"
 "                Use option -S to change the suffix of the input files.\n"
@@ -3316,13 +3340,13 @@ msgstr ""
 "  in | insert   Вставить метаданные из соответствующих файлов *.exv.\n"
 "                Используйте ключ -S для смены суффикса входящих файлов.\n"
 
-#: src/exiv2.cpp:226
+#: src/exiv2.cpp:238
 msgid ""
 "  ex | extract  Extract metadata to *.exv, *.xmp and thumbnail image files.\n"
 msgstr ""
 "  ex | extract  Извлечь метаданные в файлы *.exv, *.xmp и файлы эскизов.\n"
 
-#: src/exiv2.cpp:227
+#: src/exiv2.cpp:239
 msgid ""
 "  mv | rename   Rename files and/or set file timestamps according to the\n"
 "                Exif create timestamp. The filename format can be set with\n"
@@ -3334,7 +3358,7 @@ msgstr ""
 "                Формат файла можно установить ключом -r, параметры отметки\n"
 "                времени контролируются ключами -t и -T.\n"
 
-#: src/exiv2.cpp:230
+#: src/exiv2.cpp:242
 msgid ""
 "  mo | modify   Apply commands to modify (add, set, delete) the Exif and\n"
 "                IPTC metadata of image files or set the JPEG comment.\n"
@@ -3345,7 +3369,7 @@ msgstr ""
 "комментарий JPEG.\n"
 "                Необходимо использовать в паре с ключом -c, -m или -M.\n"
 
-#: src/exiv2.cpp:233
+#: src/exiv2.cpp:245
 msgid ""
 "  fi | fixiso   Copy ISO setting from the Nikon Makernote to the regular\n"
 "                Exif tag.\n"
@@ -3353,7 +3377,7 @@ msgstr ""
 "  fi | fixiso   Скопировать значение ISO из Nikon Makernote \n"
 "                в обычное поле Exif.\n"
 
-#: src/exiv2.cpp:235
+#: src/exiv2.cpp:247
 msgid ""
 "\n"
 "Options:\n"
@@ -3361,52 +3385,52 @@ msgstr ""
 "\n"
 "Параметры:\n"
 
-#: src/exiv2.cpp:236
+#: src/exiv2.cpp:248
 msgid "   -h      Display this help and exit.\n"
 msgstr "   -h      Показать эту справку и выйти.\n"
 
-#: src/exiv2.cpp:237
+#: src/exiv2.cpp:249
 msgid "   -V      Show the program version and exit.\n"
 msgstr "   -V      Показать версию программы и выйти.\n"
 
-#: src/exiv2.cpp:238
+#: src/exiv2.cpp:250
 msgid "   -v      Be verbose during the program run.\n"
 msgstr "   -v      Выводить подробную информацию при выполнении действий.\n"
 
-#: src/exiv2.cpp:239
+#: src/exiv2.cpp:251
 msgid "   -b      Show large binary values.\n"
 msgstr "   -b      Показать большие двоичные значения.\n"
 
-#: src/exiv2.cpp:240
+#: src/exiv2.cpp:252
 msgid "   -u      Don't show unknown tags.\n"
 msgstr "   -u      Не показывать неизвестные тэги.\n"
 
-#: src/exiv2.cpp:241
+#: src/exiv2.cpp:253
 msgid "   -k      Preserve file timestamps (keep).\n"
 msgstr "   -k      Сохранять временные отметки файлов (keep).\n"
 
-#: src/exiv2.cpp:242
+#: src/exiv2.cpp:254
 msgid ""
 "   -t      Also set the file timestamp in 'rename' action (overrides -k).\n"
 msgstr ""
 
-#: src/exiv2.cpp:243
+#: src/exiv2.cpp:255
 msgid ""
 "   -T      Only set the file timestamp in 'rename' action, do not rename\n"
 "           the file (overrides -k).\n"
 msgstr ""
 
-#: src/exiv2.cpp:245
+#: src/exiv2.cpp:257
 msgid "   -f      Do not prompt before overwriting existing files (force).\n"
 msgstr ""
 "   -F      Не запрашивать подтверждение на перезапись файлов (force).\n"
 
-#: src/exiv2.cpp:246
+#: src/exiv2.cpp:258
 msgid "   -F      Do not prompt before renaming files (Force).\n"
 msgstr ""
 "   -F      Не запрашивать подтверждение на переименование файлов (Force).\n"
 
-#: src/exiv2.cpp:247
+#: src/exiv2.cpp:259
 msgid ""
 "   -a time Time adjustment in the format [-]HH[:MM[:SS]]. This option\n"
 "           is only used with the 'adjust' action.\n"
@@ -3414,135 +3438,168 @@ msgstr ""
 "   -a время Новое значение времени в формате [-]ЧЧ[:ММ[:СС]]. Этот ключ\n"
 "           используется только с действием 'adjust'.\n"
 
-#: src/exiv2.cpp:249
+#: src/exiv2.cpp:261
 msgid "   -Y yrs  Year adjustment with the 'adjust' action.\n"
 msgstr "   -Y год  Новое значение года для действия 'adjust'.\n"
 
-#: src/exiv2.cpp:250
+#: src/exiv2.cpp:262
 msgid "   -O mon  Month adjustment with the 'adjust' action.\n"
 msgstr "   -O месяц  Новое значение месяца для действия 'adjust'.\n"
 
-#: src/exiv2.cpp:251
+#: src/exiv2.cpp:263
 msgid "   -D day  Day adjustment with the 'adjust' action.\n"
 msgstr "   -D день  Новое значение дня для действия 'adjust'.\n"
 
-#: src/exiv2.cpp:252
+#: src/exiv2.cpp:264
 msgid "   -p mode Print mode for the 'print' action. Possible modes are:\n"
 msgstr ""
 "   -p режим Print -- режим для действия 'вывод' (print). Возможные режимы:\n"
 
-#: src/exiv2.cpp:253
+#: src/exiv2.cpp:265
 msgid "             s : print a summary of the Exif metadata (the default)\n"
 msgstr "             s : вывести сводку метаданных Exif (по умолчанию)\n"
 
-#: src/exiv2.cpp:254
+#: src/exiv2.cpp:266
+#, fuzzy
 msgid ""
-"             t : interpreted (translated) Exif data (shortcut for -Pkyct)\n"
-msgstr ""
-"             t : интерпретированные данные Exif (короткий вариант комбинации "
-"-Pkyct)\n"
-
-#: src/exiv2.cpp:255
-msgid "             v : plain Exif data values (shortcut for -Pxgnycv)\n"
+"             a : print Exif, IPTC and XMP metadata (shortcut for -Pkyct)\n"
 msgstr ""
 "             v : обычные значения данных Exif (короткий вариант комбинации -"
 "Pxgnycv)\n"
 
-#: src/exiv2.cpp:256
-msgid "             h : hexdump of the Exif data (shortcut for -Pxgnycsh)\n"
+#: src/exiv2.cpp:267
+#, fuzzy
+msgid "             t : interpreted (translated) Exif data (-PEkyct)\n"
+msgstr ""
+"             t : интерпретированные данные Exif (короткий вариант комбинации "
+"-Pkyct)\n"
+
+#: src/exiv2.cpp:268
+#, fuzzy
+msgid "             v : plain Exif data values (-PExgnycv)\n"
+msgstr ""
+"             v : обычные значения данных Exif (короткий вариант комбинации -"
+"Pxgnycv)\n"
+
+#: src/exiv2.cpp:269
+#, fuzzy
+msgid "             h : hexdump of the Exif data (-PExgnycsh)\n"
 msgstr ""
 "             h : шестнадцатеричный дамп данных Exif (краткий вариант для -"
 "Pxgnycsh)\n"
 
-#: src/exiv2.cpp:257
-msgid "             i : IPTC data values\n"
+#: src/exiv2.cpp:270
+#, fuzzy
+msgid "             i : IPTC data values (-PIkyct)\n"
 msgstr "             i : значения данных IPTC\n"
 
-#: src/exiv2.cpp:258
-msgid "             x : XMP properties\n"
+#: src/exiv2.cpp:271
+#, fuzzy
+msgid "             x : XMP properties (-PXkyct)\n"
 msgstr "             x : свойства XMP\n"
 
-#: src/exiv2.cpp:259 src/exiv2.cpp:278
+#: src/exiv2.cpp:272 src/exiv2.cpp:295
 msgid "             c : JPEG comment\n"
 msgstr "             c : комментарий JPEG\n"
 
-#: src/exiv2.cpp:260
+#: src/exiv2.cpp:273
+#, fuzzy
+msgid "             p : list available previews\n"
+msgstr "             l : метка тэга\n"
+
+#: src/exiv2.cpp:274
+#, fuzzy
 msgid ""
-"   -P cols Print columns for the Exif taglist ('print' action). Valid are:\n"
+"   -P flgs Print flags for fine control of tag lists ('print' action):\n"
 msgstr ""
 "   -P столбцы Вывести на экран список тегов Exif в виде таблицы (действие "
 "'print'). Допустимы столбцы:\n"
 
-#: src/exiv2.cpp:261
+#: src/exiv2.cpp:275
+#, fuzzy
+msgid "             E : include Exif tags in the list\n"
+msgstr "             s : размер в байтах\n"
+
+#: src/exiv2.cpp:276
+#, fuzzy
+msgid "             I : IPTC datasets\n"
+msgstr "             i : данные IPTC\n"
+
+#: src/exiv2.cpp:277
+#, fuzzy
+msgid "             X : XMP properties\n"
+msgstr "             x : свойства XMP\n"
+
+#: src/exiv2.cpp:278
 msgid "             x : print a column with the tag value\n"
 msgstr "             x : вывести столбец со значениями тэгов\n"
 
-#: src/exiv2.cpp:262
+#: src/exiv2.cpp:279
 msgid "             g : group name\n"
 msgstr "             g : имя группы\n"
 
-#: src/exiv2.cpp:263
+#: src/exiv2.cpp:280
 msgid "             k : key\n"
 msgstr "             k : ключ\n"
 
-#: src/exiv2.cpp:264
+#: src/exiv2.cpp:281
 msgid "             l : tag label\n"
 msgstr "             l : метка тэга\n"
 
-#: src/exiv2.cpp:265
+#: src/exiv2.cpp:282
 msgid "             n : tag name\n"
 msgstr "             n : имя тэга\n"
 
-#: src/exiv2.cpp:266
+#: src/exiv2.cpp:283
 msgid "             y : type\n"
 msgstr "             y : тип\n"
 
-#: src/exiv2.cpp:267
+#: src/exiv2.cpp:284
 msgid "             c : number of components (count)\n"
 msgstr "             c : количество компонентов (count)\n"
 
-#: src/exiv2.cpp:268
+#: src/exiv2.cpp:285
 msgid "             s : size in bytes\n"
 msgstr "             s : размер в байтах\n"
 
-#: src/exiv2.cpp:269
+#: src/exiv2.cpp:286
 msgid "             v : plain data value\n"
 msgstr "             v : обычное значение данных\n"
 
-#: src/exiv2.cpp:270
+#: src/exiv2.cpp:287
 msgid "             t : interpreted (translated) data\n"
 msgstr "             t : интерпретированные (переведенные) данные\n"
 
-#: src/exiv2.cpp:271
+#: src/exiv2.cpp:288
 msgid "             h : hexdump of the data\n"
 msgstr "             h : шестнадцатеричный дамп данных\n"
 
-#: src/exiv2.cpp:272
+#: src/exiv2.cpp:289
 msgid ""
 "   -d tgt  Delete target(s) for the 'delete' action. Possible targets are:\n"
 msgstr "   -d tgt  Удаляемые цели для действия 'delete'. Возможные цели:\n"
 
-#: src/exiv2.cpp:273
+#: src/exiv2.cpp:290
 msgid "             a : all supported metadata (the default)\n"
 msgstr "             a : все поддерживаемые метаданные (по умолчанию)\n"
 
-#: src/exiv2.cpp:274
+#: src/exiv2.cpp:291
 msgid "             e : Exif section\n"
 msgstr "             e : раздел Exif\n"
 
-#: src/exiv2.cpp:275
+#: src/exiv2.cpp:292
 msgid "             t : Exif thumbnail only\n"
 msgstr "             t : только Exif-эскиз\n"
 
-#: src/exiv2.cpp:276
+#: src/exiv2.cpp:293
 msgid "             i : IPTC data\n"
 msgstr "             i : данные IPTC\n"
 
-#: src/exiv2.cpp:277
+#: src/exiv2.cpp:294
 msgid "             x : XMP packet\n"
 msgstr "             x : пакет XMP\n"
 
-#: src/exiv2.cpp:279
+#: src/exiv2.cpp:296
 msgid ""
 "   -i tgt  Insert target(s) for the 'insert' action. Possible targets are\n"
 "           the same as those for the -d option, plus a modifier:\n"
@@ -3557,17 +3614,21 @@ msgstr ""
 "иметь вид\n"
 "           <file>-thumb.jpg\n"
 
-#: src/exiv2.cpp:284
+#: src/exiv2.cpp:301
+#, fuzzy
 msgid ""
 "   -e tgt  Extract target(s) for the 'extract' action. Possible targets\n"
-"           are the same as those for the -d option, plus a modifier:\n"
+"           are the same as those for the -d option, plus a target to "
+"extract\n"
+"           preview images and a modifier to generate an XMP sidecar file:\n"
+"             p[<n>[,<m> ...]] : Extract preview images.\n"
 "             X : Extract metadata to an XMP sidecar file <file>.xmp\n"
 msgstr ""
 "   -e tgt  Извлекаемые цели для действия 'extract'. Возможные цели\n"
 "           те же, что и для ключа  -d плюс модификатор:\n"
 "             X : Извлечь метаданные из сопутствующего файла XMP <файл>.xmp\n"
 
-#: src/exiv2.cpp:287
+#: src/exiv2.cpp:306
 msgid ""
 "   -r fmt  Filename format for the 'rename' action. The format string\n"
 "           follows strftime(3). The following keywords are supported:\n"
@@ -3576,48 +3637,48 @@ msgstr ""
 "           следует правилам из strftime(3). Поддерживаются следующие "
 "ключевые слова:\n"
 
-#: src/exiv2.cpp:289
+#: src/exiv2.cpp:308
 msgid "             :basename:   - original filename without extension\n"
 msgstr "             :basename:   - оригинальное имя файла без расширения\n"
 
-#: src/exiv2.cpp:290
+#: src/exiv2.cpp:309
 msgid ""
 "             :dirname:    - name of the directory holding the original file\n"
 msgstr ""
 "             :dirname:    - имя каталога, содержащего оригинальный файл\n"
 
-#: src/exiv2.cpp:291
+#: src/exiv2.cpp:310
 msgid "             :parentname: - name of parent directory\n"
 msgstr "             :parentname: - имя родительского каталога\n"
 
-#: src/exiv2.cpp:292
+#: src/exiv2.cpp:311
 msgid "           Default filename format is "
 msgstr "           Форматом файлов по умолчанию является "
 
-#: src/exiv2.cpp:294
+#: src/exiv2.cpp:313
 msgid "   -c txt  JPEG comment string to set in the image.\n"
 msgstr ""
 
-#: src/exiv2.cpp:295
+#: src/exiv2.cpp:314
 msgid ""
 "   -m file Command file for the modify action. The format for commands is\n"
 "           set|add|del <key> [[<type>] <value>].\n"
 msgstr ""
 
-#: src/exiv2.cpp:297
+#: src/exiv2.cpp:316
 msgid ""
 "   -M cmd  Command line for the modify action. The format for the\n"
 "           commands is the same as that of the lines of a command file.\n"
 msgstr ""
 
-#: src/exiv2.cpp:299
+#: src/exiv2.cpp:318
 msgid ""
 "   -l dir  Location (directory) for files to be inserted from or extracted "
 "to.\n"
 msgstr ""
 "   -l каталог  Расположение (каталог) вставляемых или извлекаемых файлов.\n"
 
-#: src/exiv2.cpp:300
+#: src/exiv2.cpp:319
 msgid ""
 "   -S .suf Use suffix .suf for source files for insert command.\n"
 "\n"
@@ -3626,188 +3687,193 @@ msgstr ""
 "insert.\n"
 "\n"
 
-#: src/exiv2.cpp:333 src/exiv2.cpp:379 src/exiv2.cpp:438 src/exiv2.cpp:620
+#: src/exiv2.cpp:352 src/exiv2.cpp:398 src/exiv2.cpp:457 src/exiv2.cpp:644
 msgid "Option"
 msgstr "Параметр"
 
-#: src/exiv2.cpp:334
+#: src/exiv2.cpp:353
 msgid "requires an argument\n"
 msgstr "требует аргумент\n"
 
-#: src/exiv2.cpp:338
+#: src/exiv2.cpp:357
 msgid "Unrecognized option"
 msgstr "Неизвестный ключ"
 
-#: src/exiv2.cpp:344
+#: src/exiv2.cpp:363
 msgid "getopt returned unexpected character code"
 msgstr ""
 
-#: src/exiv2.cpp:370 src/exiv2.cpp:423
+#: src/exiv2.cpp:389 src/exiv2.cpp:442
 msgid "Ignoring surplus option"
 msgstr ""
 
-#: src/exiv2.cpp:380 src/exiv2.cpp:440 src/exiv2.cpp:621
+#: src/exiv2.cpp:399 src/exiv2.cpp:459 src/exiv2.cpp:645
 msgid "is not compatible with a previous option\n"
 msgstr ""
 
-#: src/exiv2.cpp:395
+#: src/exiv2.cpp:414
 msgid "Ignoring surplus option -a"
 msgstr ""
 
-#: src/exiv2.cpp:401
+#: src/exiv2.cpp:420
 msgid "Error parsing -a option argument"
 msgstr ""
 
-#: src/exiv2.cpp:408
+#: src/exiv2.cpp:427
 msgid "Option -a is not compatible with a previous option\n"
 msgstr ""
 
-#: src/exiv2.cpp:430
+#: src/exiv2.cpp:449
 msgid "Error parsing"
 msgstr "Ошибка при синтаксическом разборе"
 
-#: src/exiv2.cpp:432
+#: src/exiv2.cpp:451
 #, fuzzy
 msgid "option argument"
 msgstr "Имя местоположения"
 
-#: src/exiv2.cpp:461
+#: src/exiv2.cpp:482
 msgid "Unrecognized print mode"
 msgstr ""
 
-#: src/exiv2.cpp:469
+#: src/exiv2.cpp:490
 msgid "Ignoring surplus option -p"
 msgstr ""
 
-#: src/exiv2.cpp:473
+#: src/exiv2.cpp:494
 msgid "Option -p is not compatible with a previous option\n"
 msgstr ""
 
-#: src/exiv2.cpp:501
+#: src/exiv2.cpp:525
 msgid "Unrecognized print item"
 msgstr ""
 
-#: src/exiv2.cpp:510
+#: src/exiv2.cpp:534
 msgid "Ignoring surplus option -P"
 msgstr ""
 
-#: src/exiv2.cpp:514
+#: src/exiv2.cpp:538
 msgid "Option -P is not compatible with a previous option\n"
 msgstr ""
 
-#: src/exiv2.cpp:541
+#: src/exiv2.cpp:565
 msgid "Option -d is not compatible with a previous option\n"
 msgstr ""
 
-#: src/exiv2.cpp:569
+#: src/exiv2.cpp:593
 msgid "Option -e is not compatible with a previous option\n"
 msgstr ""
 
-#: src/exiv2.cpp:597
+#: src/exiv2.cpp:621
 msgid "Option -i is not compatible with a previous option\n"
 msgstr ""
 
-#: src/exiv2.cpp:638
+#: src/exiv2.cpp:662
 msgid "Action adjust is not compatible with the given options\n"
 msgstr ""
 
-#: src/exiv2.cpp:647
+#: src/exiv2.cpp:671
 msgid "Action print is not compatible with the given options\n"
 msgstr ""
 
-#: src/exiv2.cpp:656
+#: src/exiv2.cpp:680
 msgid "Action delete is not compatible with the given options\n"
 msgstr ""
 
-#: src/exiv2.cpp:667
+#: src/exiv2.cpp:691
 msgid "Action extract is not compatible with the given options\n"
 msgstr ""
 
-#: src/exiv2.cpp:678
+#: src/exiv2.cpp:702
 msgid "Action insert is not compatible with the given options\n"
 msgstr ""
 
-#: src/exiv2.cpp:687
+#: src/exiv2.cpp:711
 msgid "Action rename is not compatible with the given options\n"
 msgstr ""
 
-#: src/exiv2.cpp:696
+#: src/exiv2.cpp:720
 msgid "Action modify is not compatible with the given options\n"
 msgstr ""
 
-#: src/exiv2.cpp:705
+#: src/exiv2.cpp:729
 msgid "Action fixiso is not compatible with the given options\n"
 msgstr ""
 
-#: src/exiv2.cpp:729
+#: src/exiv2.cpp:753
 msgid "An action must be specified\n"
 msgstr "должно быть указано действие\n"
 
-#: src/exiv2.cpp:738
+#: src/exiv2.cpp:762
 msgid "Adjust action requires at least one -a, -Y, -O or -D option\n"
 msgstr ""
 
-#: src/exiv2.cpp:744
+#: src/exiv2.cpp:768
 msgid "Modify action requires at least one -c, -m or -M option\n"
 msgstr ""
 
-#: src/exiv2.cpp:748
+#: src/exiv2.cpp:772
 msgid "At least one file is required\n"
 msgstr "нужно указать хотя бы один файл\n"
 
-#: src/exiv2.cpp:754
+#: src/exiv2.cpp:778
 msgid "Error parsing -m option arguments\n"
 msgstr ""
 
-#: src/exiv2.cpp:761
+#: src/exiv2.cpp:785
 msgid "Error parsing -M option arguments\n"
 msgstr ""
 
-#: src/exiv2.cpp:768
+#: src/exiv2.cpp:792
 msgid "-l option can only be used with extract or insert actions\n"
 msgstr ""
 
-#: src/exiv2.cpp:773
+#: src/exiv2.cpp:797
 msgid "-S option can only be used with insert action\n"
 msgstr ""
 
-#: src/exiv2.cpp:778
+#: src/exiv2.cpp:802
 msgid "-t option can only be used with rename action\n"
 msgstr ""
 
-#: src/exiv2.cpp:783
+#: src/exiv2.cpp:807
 msgid "-T option can only be used with rename action\n"
 msgstr ""
 
-#: src/exiv2.cpp:854
+#: src/exiv2.cpp:887
 msgid "Unrecognized "
 msgstr ""
 
-#: src/exiv2.cpp:855
+#: src/exiv2.cpp:888
 msgid "target"
 msgstr ""
 
-#: src/exiv2.cpp:873
+#: src/exiv2.cpp:914
+#, fuzzy
+msgid "Invalid preview number"
+msgstr "Серийный номер"
+
+#: src/exiv2.cpp:946
 msgid "Failed to open command file for reading\n"
 msgstr ""
 
-#: src/exiv2.cpp:886
+#: src/exiv2.cpp:959
 msgid "line"
 msgstr "строка"
 
-#: src/exiv2.cpp:909
+#: src/exiv2.cpp:982
 msgid "-M option"
 msgstr ""
 
-#: src/exiv2.cpp:930 src/exiv2.cpp:989 src/exiv2.cpp:999
+#: src/exiv2.cpp:1003 src/exiv2.cpp:1062 src/exiv2.cpp:1072
 msgid "Invalid command line"
 msgstr ""
 
-#: src/exiv2.cpp:937
+#: src/exiv2.cpp:1010
 msgid "Invalid command"
 msgstr ""
 
-#: src/exiv2.cpp:970
+#: src/exiv2.cpp:1043
 msgid "Invalid key"
 msgstr ""
 
@@ -3831,7 +3897,7 @@ msgstr "Режим макросъёмки"
 
 #: src/fujimn.cpp:70 src/minoltamn.cpp:322 src/minoltamn.cpp:804
 #: src/minoltamn.cpp:1007 src/nikonmn.cpp:405 src/panasonicmn.cpp:62
-#: src/pentaxmn.cpp:257 src/tags.cpp:943
+#: src/pentaxmn.cpp:257 src/tags.cpp:953
 msgid "Daylight"
 msgstr "Дневной свет"
 
@@ -3860,7 +3926,7 @@ msgstr "Чёрно-белый"
 msgid "Red-eye reduction"
 msgstr "Подавление эффекта красных глаз"
 
-#: src/fujimn.cpp:114 src/tags.cpp:1050
+#: src/fujimn.cpp:114 src/tags.cpp:1060
 msgid "Night scene"
 msgstr "Ночная съёмка"
 
@@ -3916,9 +3982,9 @@ msgid "No flash & flash"
 msgstr ""
 
 #: src/fujimn.cpp:142 src/fujimn.cpp:149 src/minoltamn.cpp:77
-#: src/minoltamn.cpp:348 src/olympusmn.cpp:515 src/olympusmn.cpp:978
+#: src/minoltamn.cpp:348 src/olympusmn.cpp:515 src/olympusmn.cpp:1051
 #: src/panasonicmn.cpp:140 src/panasonicmn.cpp:146 src/pentaxmn.cpp:411
-#: src/tags.cpp:1047
+#: src/tags.cpp:1057
 msgid "Standard"
 msgstr ""
 
@@ -4063,7 +4129,7 @@ msgstr ""
 msgid "Sequence Number"
 msgstr "Номер последовательности"
 
-#: src/fujimn.cpp:224 src/olympusmn.cpp:1001 src/panasonicmn.cpp:234
+#: src/fujimn.cpp:224 src/olympusmn.cpp:1074 src/panasonicmn.cpp:234
 msgid "Sequence number"
 msgstr "Номер последовательности"
 
@@ -4172,7 +4238,7 @@ msgstr ""
 msgid "Maximum aperture at maxinimum focal"
 msgstr ""
 
-#: src/fujimn.cpp:265 src/properties.cpp:540 src/tags.cpp:1271
+#: src/fujimn.cpp:265 src/properties.cpp:540 src/tags.cpp:1281
 msgid "File Source"
 msgstr "Источник файла"
 
@@ -4256,11 +4322,11 @@ msgstr ""
 msgid "ISO Setting Used"
 msgstr ""
 
-#: src/minoltamn.cpp:85 src/olympusmn.cpp:548 src/olympusmn.cpp:952
+#: src/minoltamn.cpp:85 src/olympusmn.cpp:548 src/olympusmn.cpp:1025
 msgid "High Key"
 msgstr "Высокий ключ"
 
-#: src/minoltamn.cpp:86 src/olympusmn.cpp:554 src/olympusmn.cpp:950
+#: src/minoltamn.cpp:86 src/olympusmn.cpp:554 src/olympusmn.cpp:1023
 msgid "Low Key"
 msgstr "Низкий ключ"
 
@@ -4416,12 +4482,12 @@ msgid "Unknown Minolta MakerNote tag"
 msgstr ""
 
 #: src/minoltamn.cpp:306 src/minoltamn.cpp:777 src/minoltamn.cpp:981
-#: src/panasonicmn.cpp:100 src/sigmamn.cpp:152 src/tags.cpp:920
+#: src/panasonicmn.cpp:100 src/sigmamn.cpp:152 src/tags.cpp:930
 msgid "Aperture priority"
 msgstr "Приоритет диафрагмы"
 
 #: src/minoltamn.cpp:307 src/minoltamn.cpp:778 src/minoltamn.cpp:982
-#: src/sigmamn.cpp:153 src/tags.cpp:921
+#: src/sigmamn.cpp:153 src/tags.cpp:931
 msgid "Shutter priority"
 msgstr "Приоритет выдержки"
 
@@ -4482,7 +4548,7 @@ msgstr "Продолжительный ведущий режим"
 msgid "HS continuous"
 msgstr "Продолжительный ведущий режим"
 
-#: src/minoltamn.cpp:366 src/minoltamn.cpp:1025 src/tags.cpp:935
+#: src/minoltamn.cpp:366 src/minoltamn.cpp:1025 src/tags.cpp:945
 msgid "Multi-segment"
 msgstr ""
 
@@ -4520,12 +4586,12 @@ msgid "Top-left"
 msgstr ""
 
 #: src/minoltamn.cpp:418 src/olympusmn.cpp:105 src/pentaxmn.cpp:310
-#: src/tags.cpp:1066
+#: src/tags.cpp:1076
 msgid "Hard"
 msgstr ""
 
 #: src/minoltamn.cpp:420 src/olympusmn.cpp:106 src/pentaxmn.cpp:308
-#: src/tags.cpp:1065
+#: src/tags.cpp:1075
 msgid "Soft"
 msgstr ""
 
@@ -4567,7 +4633,7 @@ msgstr ""
 
 #: src/minoltamn.cpp:473 src/minoltamn.cpp:855 src/nikonmn.cpp:130
 #: src/olympusmn.cpp:509 src/olympusmn.cpp:714 src/olympusmn.cpp:779
-#: src/pentaxmn.cpp:483 src/tags.cpp:999
+#: src/pentaxmn.cpp:483 src/tags.cpp:1009
 msgid "Adobe RGB"
 msgstr "Adobe RGB"
 
@@ -4646,7 +4712,7 @@ msgstr ""
 
 #: src/minoltamn.cpp:610 src/minoltamn.cpp:885 src/minoltamn.cpp:1123
 #: src/olympusmn.cpp:612 src/properties.cpp:544 src/sigmamn.cpp:71
-#: src/tags.cpp:1292
+#: src/tags.cpp:1302
 msgid "Exposure Mode"
 msgstr "Режим экспозиции"
 
@@ -4672,12 +4738,12 @@ msgid "Exposure speed"
 msgstr "Режим экспозиции"
 
 #: src/minoltamn.cpp:634 src/minoltamn.cpp:941 src/minoltamn.cpp:1159
-#: src/properties.cpp:511 src/tags.cpp:1086
+#: src/properties.cpp:511 src/tags.cpp:1096
 msgid "Exposure Time"
 msgstr "Время экспозиции"
 
 #: src/minoltamn.cpp:637 src/minoltamn.cpp:938 src/minoltamn.cpp:1162
-#: src/tags.cpp:1089
+#: src/tags.cpp:1099
 msgid "FNumber"
 msgstr "Число F"
 
@@ -4726,7 +4792,7 @@ msgstr "Серийный номер"
 msgid "Interval number"
 msgstr "Серийный номер"
 
-#: src/minoltamn.cpp:658 src/properties.cpp:527 src/tags.cpp:1167
+#: src/minoltamn.cpp:658 src/properties.cpp:527 src/tags.cpp:1177
 msgid "Focal Length"
 msgstr "Фокусное расстояние"
 
@@ -4875,7 +4941,7 @@ msgid "Internal Flash"
 msgstr "Встроенная вспышка"
 
 #: src/minoltamn.cpp:730 src/minoltamn.cpp:731 src/olympusmn.cpp:214
-#: src/properties.cpp:401 src/tags.cpp:1142
+#: src/properties.cpp:401 src/tags.cpp:1152
 msgid "Brightness"
 msgstr "Яркость"
 
@@ -5016,7 +5082,7 @@ msgstr "Использованная точка AF"
 
 #: src/minoltamn.cpp:915 src/nikonmn.cpp:560 src/olympusmn.cpp:629
 #: src/olympusmn.cpp:741 src/olympusmn.cpp:756 src/olympusmn.cpp:827
-#: src/properties.cpp:495 src/sigmamn.cpp:80 src/tags.cpp:1196
+#: src/properties.cpp:495 src/sigmamn.cpp:80 src/tags.cpp:1206
 msgid "Color Space"
 msgstr "Цветовое пространство"
 
@@ -5216,7 +5282,7 @@ msgid "Right-most"
 msgstr "Ночной портрет"
 
 #: src/nikonmn.cpp:129 src/olympusmn.cpp:508 src/olympusmn.cpp:713
-#: src/olympusmn.cpp:778 src/pentaxmn.cpp:482 src/tags.cpp:998
+#: src/olympusmn.cpp:778 src/pentaxmn.cpp:482 src/tags.cpp:1008
 msgid "sRGB"
 msgstr "sRGB"
 
@@ -5630,11 +5696,12 @@ msgstr "Тип сцены"
 msgid "Scene mode"
 msgstr "Тип сцены"
 
-#: src/nikonmn.cpp:608 src/properties.cpp:525 src/tags.cpp:1161
+#: src/nikonmn.cpp:608 src/olympusmn.cpp:992 src/properties.cpp:525
+#: src/tags.cpp:1171
 msgid "Light Source"
 msgstr "Источник света"
 
-#: src/nikonmn.cpp:609
+#: src/nikonmn.cpp:609 src/olympusmn.cpp:992
 msgid "Light source"
 msgstr "Источник света"
 
@@ -5813,7 +5880,7 @@ msgstr ""
 msgid "Dynamic area (wide)"
 msgstr ""
 
-#: src/nikonmn.cpp:899 src/tags.cpp:180
+#: src/nikonmn.cpp:899 src/tags.cpp:190
 msgid "none"
 msgstr "ничего"
 
@@ -6164,7 +6231,7 @@ msgstr ""
 msgid "CoringFilter"
 msgstr ""
 
-#: src/olympusmn.cpp:341 src/olympusmn.cpp:884
+#: src/olympusmn.cpp:341 src/olympusmn.cpp:884 src/olympusmn.cpp:983
 msgid "Coring filter"
 msgstr ""
 
@@ -6763,12 +6830,12 @@ msgstr "Насыщенность"
 msgid "Modified saturation"
 msgstr "Насыщенность"
 
-#: src/olympusmn.cpp:627
+#: src/olympusmn.cpp:627 src/olympusmn.cpp:996
 #, fuzzy
 msgid "Contrast Setting"
 msgstr "Настройка контраста"
 
-#: src/olympusmn.cpp:628
+#: src/olympusmn.cpp:628 src/olympusmn.cpp:997
 #, fuzzy
 msgid "Sharpness Setting"
 msgstr "Настройка резкости"
@@ -6967,12 +7034,12 @@ msgstr "Серийный номер камеры"
 msgid "Internal serial number"
 msgstr "Серийный номер камеры"
 
-#: src/olympusmn.cpp:684
+#: src/olympusmn.cpp:684 src/olympusmn.cpp:943
 #, fuzzy
 msgid "Body Firmware Version"
 msgstr "Версия прошивки"
 
-#: src/olympusmn.cpp:684
+#: src/olympusmn.cpp:684 src/olympusmn.cpp:943
 #, fuzzy
 msgid "Body firmware version"
 msgstr "Версия прошивки"
@@ -7620,22 +7687,22 @@ msgstr ""
 msgid "Enhancer values"
 msgstr ""
 
-#: src/olympusmn.cpp:884
+#: src/olympusmn.cpp:884 src/olympusmn.cpp:983
 #, fuzzy
 msgid "Coring Filter"
 msgstr "Цветовое пространство"
 
-#: src/olympusmn.cpp:885
+#: src/olympusmn.cpp:885 src/olympusmn.cpp:984
 #, fuzzy
 msgid "Coring Values"
 msgstr "Яркость"
 
-#: src/olympusmn.cpp:885
+#: src/olympusmn.cpp:885 src/olympusmn.cpp:984
 #, fuzzy
 msgid "Coring values"
 msgstr "Яркость"
 
-#: src/olympusmn.cpp:886 src/tags.cpp:607
+#: src/olympusmn.cpp:886 src/tags.cpp:617
 #, fuzzy
 msgid "Black Level"
 msgstr "Заряд батареи"
@@ -7652,41 +7719,41 @@ msgstr ""
 msgid "Valid Bits"
 msgstr ""
 
-#: src/olympusmn.cpp:889 src/properties.cpp:408
+#: src/olympusmn.cpp:889 src/olympusmn.cpp:988 src/properties.cpp:408
 #, fuzzy
 msgid "Crop Left"
 msgstr "справа налево"
 
-#: src/olympusmn.cpp:889
+#: src/olympusmn.cpp:889 src/olympusmn.cpp:988
 #, fuzzy
 msgid "Crop left"
 msgstr "справа налево"
 
-#: src/olympusmn.cpp:890 src/properties.cpp:407
+#: src/olympusmn.cpp:890 src/olympusmn.cpp:989 src/properties.cpp:407
 #, fuzzy
 msgid "Crop Top"
 msgstr "Монохромный"
 
-#: src/olympusmn.cpp:890
+#: src/olympusmn.cpp:890 src/olympusmn.cpp:989
 #, fuzzy
 msgid "Crop top"
 msgstr "Монохромный"
 
-#: src/olympusmn.cpp:891 src/properties.cpp:412
+#: src/olympusmn.cpp:891 src/olympusmn.cpp:990 src/properties.cpp:412
 msgid "Crop Width"
 msgstr ""
 
-#: src/olympusmn.cpp:891
+#: src/olympusmn.cpp:891 src/olympusmn.cpp:990
 #, fuzzy
 msgid "Crop width"
 msgstr "Авторские права"
 
-#: src/olympusmn.cpp:892 src/properties.cpp:413
+#: src/olympusmn.cpp:892 src/olympusmn.cpp:991 src/properties.cpp:413
 #, fuzzy
 msgid "Crop Height"
 msgstr "Авторские права"
 
-#: src/olympusmn.cpp:892
+#: src/olympusmn.cpp:892 src/olympusmn.cpp:991
 #, fuzzy
 msgid "Crop height"
 msgstr "Авторские права"
@@ -7835,50 +7902,358 @@ msgstr "Ручная экспозиция"
 msgid "Unknown OlympusFi tag"
 msgstr "Неизвестное поле IFD"
 
-#: src/olympusmn.cpp:957 src/pentaxmn.cpp:280
+#: src/olympusmn.cpp:945
+#, fuzzy
+msgid "Unknown OlympusFe tag"
+msgstr "Неизвестное поле IFD"
+
+#: src/olympusmn.cpp:958
+#, fuzzy
+msgid "Fine Weather"
+msgstr "Ясная погода"
+
+#: src/olympusmn.cpp:959
+#, fuzzy
+msgid "Tungsten (incandescent)"
+msgstr "Яркая лампа накаливания"
+
+#: src/olympusmn.cpp:960
+#, fuzzy
+msgid "Evening Sunlight"
+msgstr "Вечер"
+
+#: src/olympusmn.cpp:961
+#, fuzzy
+msgid "Daylight Fluorescent (D 5700 - 7100K)"
+msgstr "Флуоресцентная лампа дневного света (D 5700 - 7100K)"
+
+#: src/olympusmn.cpp:962
+#, fuzzy
+msgid "Day White Fluorescent (N 4600 - 5400K)"
+msgstr "Флуоресцентная лампа дневного света (D 5700 - 7100K)"
+
+#: src/olympusmn.cpp:963
+#, fuzzy
+msgid "Cool White Fluorescent (W 3900 - 4500K)"
+msgstr "Флуоресцентная лампа дневного света (D 5700 - 7100K)"
+
+#: src/olympusmn.cpp:964
+#, fuzzy
+msgid "White Fluorescent (WW 3200 - 3700K)"
+msgstr "Флуоресцентная лампа дневного света (D 5700 - 7100K)"
+
+#: src/olympusmn.cpp:965
+#, fuzzy
+msgid "One Touch White Balance"
+msgstr "Автомат. баланс белого"
+
+#: src/olympusmn.cpp:966
+#, fuzzy
+msgid "Custom 1-4"
+msgstr "Свой 1"
+
+#: src/olympusmn.cpp:970
+#, fuzzy
+msgid "Raw Info Version"
+msgstr "Способ фокусировки"
+
+#: src/olympusmn.cpp:970
+#, fuzzy
+msgid "Raw info version"
+msgstr "Способ фокусировки"
+
+#: src/olympusmn.cpp:971
+#, fuzzy
+msgid "WB_RB Levels Used"
+msgstr "Заряд батареи"
+
+#: src/olympusmn.cpp:971
+#, fuzzy
+msgid "WB_RB levels used"
+msgstr "Заряд батареи"
+
+#: src/olympusmn.cpp:972
+#, fuzzy
+msgid "WB_RB Levels Auto"
+msgstr "Заряд батареи"
+
+#: src/olympusmn.cpp:972
+#, fuzzy
+msgid "WB_RB levels auto"
+msgstr "Заряд батареи"
+
+#: src/olympusmn.cpp:973
+#, fuzzy
+msgid "WB_RB Levels Shade"
+msgstr "Заряд батареи"
+
+#: src/olympusmn.cpp:973
+#, fuzzy
+msgid "WB_RB levels shade"
+msgstr "Заряд батареи"
+
+#: src/olympusmn.cpp:974
+#, fuzzy
+msgid "WB_RB Levels Cloudy"
+msgstr "Заряд батареи"
+
+#: src/olympusmn.cpp:974
+#, fuzzy
+msgid "WB_RB levels cloudy"
+msgstr "Заряд батареи"
+
+#: src/olympusmn.cpp:975
+#, fuzzy
+msgid "WB_RB Levels Fine Weather"
+msgstr "Флуоресцентная лампа"
+
+#: src/olympusmn.cpp:975
+msgid "WB_RB levels fine weather"
+msgstr ""
+
+#: src/olympusmn.cpp:976
+#, fuzzy
+msgid "WB_RB Levels Tungsten"
+msgstr "Заряд батареи"
+
+#: src/olympusmn.cpp:976
+#, fuzzy
+msgid "WB_RB levels tungsten"
+msgstr "Флуоресцентная лампа"
+
+#: src/olympusmn.cpp:977
+msgid "WB_RB Levels Evening Sunlight"
+msgstr ""
+
+#: src/olympusmn.cpp:977
+msgid "WB_RB levels evening sunlight"
+msgstr ""
+
+#: src/olympusmn.cpp:978
+#, fuzzy
+msgid "WB_RB Levels Daylight Fluor"
+msgstr "Флуоресцентная лампа"
+
+#: src/olympusmn.cpp:978
+msgid "WB_RB levels daylight fluor"
+msgstr ""
+
+#: src/olympusmn.cpp:979
+#, fuzzy
+msgid "WB_RB Levels Day White Fluor"
+msgstr "Флуоресцентная лампа"
+
+#: src/olympusmn.cpp:979
+msgid "WB_RB levels day white fluor"
+msgstr ""
+
+#: src/olympusmn.cpp:980
+msgid "WB_RB Levels Cool White Fluor"
+msgstr ""
+
+#: src/olympusmn.cpp:980
+msgid "WB_RB levels cool white fluor"
+msgstr ""
+
+#: src/olympusmn.cpp:981
+#, fuzzy
+msgid "WB_RB Levels White Fluorescent"
+msgstr "Флуоресцентная лампа"
+
+#: src/olympusmn.cpp:981
+#, fuzzy
+msgid "WB_RB levels white fluorescent"
+msgstr "Флуоресцентная лампа"
+
+#: src/olympusmn.cpp:982
+#, fuzzy
+msgid "Color Matrix2"
+msgstr "Цветовое пространство"
+
+#: src/olympusmn.cpp:982
+#, fuzzy
+msgid "Color matrix 2"
+msgstr "Цветовое пространство"
+
+#: src/olympusmn.cpp:985
+#, fuzzy
+msgid "Black Level 2"
+msgstr "Заряд батареи"
+
+#: src/olympusmn.cpp:985
+#, fuzzy
+msgid "Black level 2"
+msgstr "Заряд батареи"
+
+#: src/olympusmn.cpp:986 src/properties.cpp:471 src/tags.cpp:452
+msgid "YCbCr Coefficients"
+msgstr "Коэффициенты YCbCr"
+
+#: src/olympusmn.cpp:986
+#, fuzzy
+msgid "YCbCr coefficients"
+msgstr "Коэффициенты YCbCr"
+
+#: src/olympusmn.cpp:987
+msgid "Valid Pixel Depth"
+msgstr ""
+
+#: src/olympusmn.cpp:987
+msgid "Valid pixel depth"
+msgstr ""
+
+#: src/olympusmn.cpp:993
+#, fuzzy
+msgid "White Balance Comp"
+msgstr "Баланс белого"
+
+#: src/olympusmn.cpp:993
+#, fuzzy
+msgid "White balance comp"
+msgstr "Баланс белого"
+
+#: src/olympusmn.cpp:994
+#, fuzzy
+msgid "Saturation Setting"
+msgstr "Настройка контраста"
+
+#: src/olympusmn.cpp:995
+#, fuzzy
+msgid "Hue Setting"
+msgstr "Настройка резкости"
+
+#: src/olympusmn.cpp:995
+#, fuzzy
+msgid "Hue setting"
+msgstr "Способ фокусировки"
+
+#: src/olympusmn.cpp:998
+#, fuzzy
+msgid "CM Exposure Compensation"
+msgstr "Тонкомпенсация"
+
+#: src/olympusmn.cpp:998
+#, fuzzy
+msgid "CM exposure compensation"
+msgstr "Компенсация экспозиции"
+
+#: src/olympusmn.cpp:999
+#, fuzzy
+msgid "CM White Balance"
+msgstr "Баланс белого"
+
+#: src/olympusmn.cpp:999
+#, fuzzy
+msgid "CM white balance"
+msgstr "Автомат. баланс белого"
+
+#: src/olympusmn.cpp:1000
+#, fuzzy
+msgid "CM White Balance Comp"
+msgstr "Баланс белого"
+
+#: src/olympusmn.cpp:1000
+#, fuzzy
+msgid "CM white balance comp"
+msgstr "Автомат. баланс белого"
+
+#: src/olympusmn.cpp:1001
+#, fuzzy
+msgid "CM White Balance Gray Point"
+msgstr "Настройка баланса белого"
+
+#: src/olympusmn.cpp:1001
+#, fuzzy
+msgid "CM white balance gray point"
+msgstr "Настройка баланса белого"
+
+#: src/olympusmn.cpp:1002
+#, fuzzy
+msgid "CM Saturation"
+msgstr "Насыщенность"
+
+#: src/olympusmn.cpp:1002
+#, fuzzy
+msgid "CM saturation"
+msgstr "Насыщенность"
+
+#: src/olympusmn.cpp:1003
+msgid "CM Hue"
+msgstr ""
+
+#: src/olympusmn.cpp:1003
+msgid "CM hue"
+msgstr ""
+
+#: src/olympusmn.cpp:1004
+#, fuzzy
+msgid "CM Contrast"
+msgstr "Контраст"
+
+#: src/olympusmn.cpp:1004
+#, fuzzy
+msgid "CM contrast"
+msgstr "Контраст"
+
+#: src/olympusmn.cpp:1005
+#, fuzzy
+msgid "CM Sharpness"
+msgstr "Резкость"
+
+#: src/olympusmn.cpp:1005
+#, fuzzy
+msgid "CM sharpness"
+msgstr "Резкость"
+
+#: src/olympusmn.cpp:1007
+#, fuzzy
+msgid "Unknown OlympusRi tag"
+msgstr "Неизвестное поле"
+
+#: src/olympusmn.cpp:1030 src/pentaxmn.cpp:280
 #, fuzzy
 msgid "User-Selected"
 msgstr "Автобрекетирование"
 
-#: src/olympusmn.cpp:958
+#: src/olympusmn.cpp:1031
 #, fuzzy
 msgid "Auto-Override"
 msgstr "Перезаписать"
 
-#: src/olympusmn.cpp:994
+#: src/olympusmn.cpp:1067
 #, fuzzy
 msgid "Fast"
 msgstr "быстрый"
 
-#: src/olympusmn.cpp:1051
+#: src/olympusmn.cpp:1124
 msgid "3000 Kelvin"
 msgstr "3000 K"
 
-#: src/olympusmn.cpp:1052
+#: src/olympusmn.cpp:1125
 msgid "3700 Kelvin"
 msgstr "3700 K"
 
-#: src/olympusmn.cpp:1053
+#: src/olympusmn.cpp:1126
 msgid "4000 Kelvin"
 msgstr "4000 K"
 
-#: src/olympusmn.cpp:1054
+#: src/olympusmn.cpp:1127
 msgid "4500 Kelvin"
 msgstr "4500 K"
 
-#: src/olympusmn.cpp:1055
+#: src/olympusmn.cpp:1128
 msgid "5500 Kelvin"
 msgstr "5500 K"
 
-#: src/olympusmn.cpp:1056
+#: src/olympusmn.cpp:1129
 msgid "6500 Kelvin"
 msgstr "6500 K"
 
-#: src/olympusmn.cpp:1057
+#: src/olympusmn.cpp:1130
 msgid "7500 Kelvin"
 msgstr "7500 K"
 
-#: src/olympusmn.cpp:1063
+#: src/olympusmn.cpp:1136
 msgid "One-touch"
 msgstr "One-touch"
 
@@ -10447,7 +10822,7 @@ msgstr ""
 msgid "The date and time when the metadata was last modified."
 msgstr "Дата и время сохранения изображения в цифровом виде"
 
-#: src/properties.cpp:316 src/properties.cpp:484 src/tags.cpp:387
+#: src/properties.cpp:316 src/properties.cpp:484 src/tags.cpp:397
 msgid "Artist"
 msgstr "Исполнитель"
 
@@ -10634,7 +11009,7 @@ msgid ""
 "drums."
 msgstr ""
 
-#: src/properties.cpp:344 src/tags.cpp:770
+#: src/properties.cpp:344 src/tags.cpp:780
 #, fuzzy
 msgid "Camera Serial Number"
 msgstr "Серийный номер камеры"
@@ -10813,15 +11188,11 @@ msgstr ""
 msgid "Urgency. Valid range is 1-8."
 msgstr ""
 
-#: src/properties.cpp:389
-msgid "pixels"
-msgstr ""
-
 #: src/properties.cpp:390
 msgid "inches"
 msgstr "дюймов"
 
-#: src/properties.cpp:391 src/tags.cpp:182
+#: src/properties.cpp:391 src/tags.cpp:192
 msgid "cm"
 msgstr "cm"
 
@@ -11133,7 +11504,7 @@ msgstr ""
 msgid "TIFF tag 256, 0x100. Image width in pixels."
 msgstr ""
 
-#: src/properties.cpp:444 src/tags.cpp:278
+#: src/properties.cpp:444 src/tags.cpp:288
 msgid "Image Length"
 msgstr "Длина изображения"
 
@@ -11150,7 +11521,7 @@ msgstr "Битов на сэмпл"
 msgid "TIFF tag 258, 0x102. Number of bits per component in each channel."
 msgstr ""
 
-#: src/properties.cpp:446 src/tags.cpp:288
+#: src/properties.cpp:446 src/tags.cpp:298
 msgid "Compression"
 msgstr "Сжатие"
 
@@ -11158,7 +11529,7 @@ msgstr "Сжатие"
 msgid "TIFF tag 259, 0x103. Compression scheme: 1 = uncompressed; 6 = JPEG."
 msgstr ""
 
-#: src/properties.cpp:447 src/tags.cpp:294
+#: src/properties.cpp:447 src/tags.cpp:304
 msgid "Photometric Interpretation"
 msgstr "Фотометрическая интерпретация"
 
@@ -11166,7 +11537,7 @@ msgstr "Фотометрическая интерпретация"
 msgid "TIFF tag 262, 0x106. Pixel Composition: 2 = RGB; 6 = YCbCr."
 msgstr ""
 
-#: src/properties.cpp:448 src/tags.cpp:330
+#: src/properties.cpp:448 src/tags.cpp:340
 msgid "Orientation"
 msgstr "Ориентация"
 
@@ -11188,7 +11559,7 @@ msgstr "Сэмплов на пиксел"
 msgid "TIFF tag 277, 0x115. Number of components per pixel."
 msgstr ""
 
-#: src/properties.cpp:458 src/tags.cpp:356
+#: src/properties.cpp:458 src/tags.cpp:366
 msgid "Planar Configuration"
 msgstr "Планарная конфигурация"
 
@@ -11207,7 +11578,7 @@ msgid ""
 "YCbCr4:2:2; [2, 2] = YCbCr4:2:0"
 msgstr ""
 
-#: src/properties.cpp:461 src/tags.cpp:456
+#: src/properties.cpp:461 src/tags.cpp:466
 msgid "YCbCr Positioning"
 msgstr "Позиционирование YCbCr"
 
@@ -11235,7 +11606,7 @@ msgstr "Разрешение по Y"
 msgid "TIFF tag 283, 0x11B. Vertical resolution in pixels per unit."
 msgstr ""
 
-#: src/properties.cpp:465 src/tags.cpp:362
+#: src/properties.cpp:465 src/tags.cpp:372
 msgid "Resolution Unit"
 msgstr "Единица разрешения"
 
@@ -11245,7 +11616,7 @@ msgid ""
 "of: 2 = inches; 3 = centimeters."
 msgstr ""
 
-#: src/properties.cpp:467 src/tags.cpp:367
+#: src/properties.cpp:467 src/tags.cpp:377
 msgid "Transfer Function"
 msgstr "Функция передачи"
 
@@ -11255,7 +11626,7 @@ msgid ""
 "with 3 * 256 entries."
 msgstr ""
 
-#: src/properties.cpp:469 src/tags.cpp:395
+#: src/properties.cpp:469 src/tags.cpp:405
 msgid "White Point"
 msgstr "Белая точка"
 
@@ -11263,17 +11634,13 @@ msgstr "Белая точка"
 msgid "TIFF tag 318, 0x13E. Chromaticity of white point."
 msgstr ""
 
-#: src/properties.cpp:470 src/tags.cpp:400
+#: src/properties.cpp:470 src/tags.cpp:410
 msgid "Primary Chromaticities"
 msgstr ""
 
 #: src/properties.cpp:470
 msgid "TIFF tag 319, 0x13F. Chromaticity of the three primary colors."
 msgstr ""
-
-#: src/properties.cpp:471 src/tags.cpp:442
-msgid "YCbCr Coefficients"
-msgstr "Коэффициенты YCbCr"
 
 #: src/properties.cpp:471
 msgid ""
@@ -11289,7 +11656,7 @@ msgstr "Эталонный Чёрный/Белый"
 msgid "TIFF tag 532, 0x214. Reference black and white point values."
 msgstr ""
 
-#: src/properties.cpp:473 src/tags.cpp:379
+#: src/properties.cpp:473 src/tags.cpp:389
 msgid "Date and Time"
 msgstr "Дата и время"
 
@@ -11302,7 +11669,7 @@ msgid ""
 "ModifyDate."
 msgstr ""
 
-#: src/properties.cpp:479 src/tags.cpp:304
+#: src/properties.cpp:479 src/tags.cpp:314
 msgid "Image Description"
 msgstr "Описание снимка"
 
@@ -11321,7 +11688,7 @@ msgstr "Ручная"
 msgid "TIFF tag 271, 0x10F. Manufacturer of recording equipment."
 msgstr ""
 
-#: src/properties.cpp:481 src/tags.cpp:317
+#: src/properties.cpp:481 src/tags.cpp:327
 msgid "Model"
 msgstr "Модель"
 
@@ -11330,7 +11697,7 @@ msgid "TIFF tag 272, 0x110. Model name or number of equipment."
 msgstr ""
 
 #: src/properties.cpp:482 src/sigmamn.cpp:116 src/sigmamn.cpp:117
-#: src/tags.cpp:372
+#: src/tags.cpp:382
 msgid "Software"
 msgstr "Программное обеспечение"
 
@@ -11352,7 +11719,7 @@ msgid ""
 "in XMP as dc:rights."
 msgstr ""
 
-#: src/properties.cpp:493 src/tags.cpp:1110
+#: src/properties.cpp:493 src/tags.cpp:1120
 msgid "Exif Version"
 msgstr "Версия Exif"
 
@@ -11373,7 +11740,7 @@ msgstr ""
 msgid "EXIF tag 40961, 0xA001. Color space information"
 msgstr ""
 
-#: src/properties.cpp:496 src/tags.cpp:1121
+#: src/properties.cpp:496 src/tags.cpp:1131
 #, fuzzy
 msgid "Components Configuration"
 msgstr "Планарная конфигурация"
@@ -11398,7 +11765,7 @@ msgstr ""
 "Специфичная для сжатых данных информация. Использованный режим сжатия для "
 "сжатого изображения показывается в единице измерения \"битов на пиксел\""
 
-#: src/properties.cpp:500 src/tags.cpp:1205
+#: src/properties.cpp:500 src/tags.cpp:1215
 msgid "Pixel X Dimension"
 msgstr ""
 
@@ -11406,7 +11773,7 @@ msgstr ""
 msgid "EXIF tag 40962, 0xA002. Valid image width, in pixels."
 msgstr ""
 
-#: src/properties.cpp:501 src/tags.cpp:1212
+#: src/properties.cpp:501 src/tags.cpp:1222
 msgid "Pixel Y Dimension"
 msgstr ""
 
@@ -11414,7 +11781,7 @@ msgstr ""
 msgid "EXIF tag 40963, 0xA003. Valid image height, in pixels."
 msgstr ""
 
-#: src/properties.cpp:502 src/tags.cpp:1179
+#: src/properties.cpp:502 src/tags.cpp:1189
 msgid "User Comment"
 msgstr "Пользовательский комментарий"
 
@@ -11422,7 +11789,7 @@ msgstr "Пользовательский комментарий"
 msgid "EXIF tag 37510, 0x9286. Comments from user."
 msgstr ""
 
-#: src/properties.cpp:503 src/tags.cpp:1221
+#: src/properties.cpp:503 src/tags.cpp:1231
 msgid "Related Sound File"
 msgstr "Связанный звуковой файл"
 
@@ -11473,7 +11840,7 @@ msgstr ""
 msgid "EXIF tag 34850, 0x8822. Class of program used for exposure."
 msgstr ""
 
-#: src/properties.cpp:514 src/tags.cpp:1096
+#: src/properties.cpp:514 src/tags.cpp:1106
 msgid "Spectral Sensitivity"
 msgstr "Спектральная чувствительность"
 
@@ -11555,7 +11922,7 @@ msgstr ""
 msgid "EXIF tag 37386, 0x920A. Focal length of the lens, in millimeters."
 msgstr ""
 
-#: src/properties.cpp:528 src/tags.cpp:1171
+#: src/properties.cpp:528 src/tags.cpp:1181
 msgid "Subject Area"
 msgstr "Область объекта съёмки"
 
@@ -11568,7 +11935,7 @@ msgstr ""
 "Это поле хранит информацию о местоположении и области объекта съёмки во всей "
 "сцене."
 
-#: src/properties.cpp:529 src/tags.cpp:1236
+#: src/properties.cpp:529 src/tags.cpp:1246
 msgid "Flash Energy"
 msgstr ""
 
@@ -11576,7 +11943,7 @@ msgstr ""
 msgid "EXIF tag 41483, 0xA20B. Strobe energy during image capture."
 msgstr ""
 
-#: src/properties.cpp:530 src/tags.cpp:1240
+#: src/properties.cpp:530 src/tags.cpp:1250
 msgid "Spatial Frequency Response"
 msgstr ""
 
@@ -11608,7 +11975,7 @@ msgid ""
 "unit."
 msgstr ""
 
-#: src/properties.cpp:534 src/tags.cpp:1253
+#: src/properties.cpp:534 src/tags.cpp:1263
 msgid "Focal Plane Resolution Unit"
 msgstr ""
 
@@ -11618,7 +11985,7 @@ msgid ""
 "FocalPlaneYResolution."
 msgstr ""
 
-#: src/properties.cpp:535 src/tags.cpp:1257
+#: src/properties.cpp:535 src/tags.cpp:1267
 msgid "Subject Location"
 msgstr "Местоположение объекта съёмки"
 
@@ -11638,7 +12005,7 @@ msgstr "Режим экспозиции"
 msgid "EXIF tag 41493, 0xA215. Exposure index of input device."
 msgstr ""
 
-#: src/properties.cpp:539 src/tags.cpp:1268
+#: src/properties.cpp:539 src/tags.cpp:1278
 msgid "Sensing Method"
 msgstr ""
 
@@ -11650,7 +12017,7 @@ msgstr ""
 msgid "EXIF tag 41728, 0xA300. Indicates image source."
 msgstr ""
 
-#: src/properties.cpp:541 src/tags.cpp:1276
+#: src/properties.cpp:541 src/tags.cpp:1286
 msgid "Scene Type"
 msgstr "Тип сцены"
 
@@ -11658,7 +12025,7 @@ msgstr "Тип сцены"
 msgid "EXIF tag 41729, 0xA301. Indicates the type of scene."
 msgstr ""
 
-#: src/properties.cpp:542 src/tags.cpp:492
+#: src/properties.cpp:542 src/tags.cpp:502
 msgid "CFA Pattern"
 msgstr "Паттерн CFA"
 
@@ -11668,7 +12035,7 @@ msgid ""
 "sense."
 msgstr ""
 
-#: src/properties.cpp:543 src/tags.cpp:1286
+#: src/properties.cpp:543 src/tags.cpp:1296
 msgid "Custom Rendered"
 msgstr ""
 
@@ -11692,7 +12059,7 @@ msgid ""
 "was shot."
 msgstr "Этот тэг отображает режим баланса белого при съёмке изображения."
 
-#: src/properties.cpp:546 src/tags.cpp:1300
+#: src/properties.cpp:546 src/tags.cpp:1310
 msgid "Digital Zoom Ratio"
 msgstr "Коэффициент цифрового трансфокатора"
 
@@ -11703,7 +12070,7 @@ msgid ""
 "shot."
 msgstr "Этот тэг отображает режим баланса белого при съёмке изображения."
 
-#: src/properties.cpp:547 src/tags.cpp:1305
+#: src/properties.cpp:547 src/tags.cpp:1315
 msgid "Focal Length In 35mm Film"
 msgstr "Фокусное расстояние в 35мм аналоге"
 
@@ -11718,7 +12085,7 @@ msgstr ""
 "измеряемом миллиметрами. Если значение равно 0, то фокусное расстояние "
 "неизвестно. Обратите внимание на то, что этот тэг отличется от <FocalLength>."
 
-#: src/properties.cpp:550 src/tags.cpp:1311
+#: src/properties.cpp:550 src/tags.cpp:1321
 msgid "Scene Capture Type"
 msgstr ""
 
@@ -11726,7 +12093,7 @@ msgstr ""
 msgid "EXIF tag 41990, 0xA406. Indicates the type of scene that was shot."
 msgstr ""
 
-#: src/properties.cpp:551 src/tags.cpp:1316
+#: src/properties.cpp:551 src/tags.cpp:1326
 msgid "Gain Control"
 msgstr ""
 
@@ -11760,7 +12127,7 @@ msgid ""
 msgstr ""
 "Этот тэг отображает направление обработки резкости при съёмке изображения"
 
-#: src/properties.cpp:555 src/tags.cpp:1331
+#: src/properties.cpp:555 src/tags.cpp:1341
 msgid "Device Setting Description"
 msgstr ""
 
@@ -11770,7 +12137,7 @@ msgid ""
 "conditions of a particular camera model."
 msgstr ""
 
-#: src/properties.cpp:556 src/tags.cpp:1336
+#: src/properties.cpp:556 src/tags.cpp:1346
 msgid "Subject Distance Range"
 msgstr ""
 
@@ -11779,7 +12146,7 @@ msgstr ""
 msgid "EXIF tag 41996, 0xA40C. Indicates the distance to the subject."
 msgstr "Расстояние до объекта в метрах"
 
-#: src/properties.cpp:557 src/tags.cpp:1339
+#: src/properties.cpp:557 src/tags.cpp:1349
 msgid "Image Unique ID"
 msgstr "Уникальный ID изображения"
 
@@ -11790,7 +12157,7 @@ msgid ""
 "and 128-bit fixed length."
 msgstr ""
 
-#: src/properties.cpp:559 src/tags.cpp:1413
+#: src/properties.cpp:559 src/tags.cpp:1423
 msgid "GPS Version ID"
 msgstr "ID версии GPS"
 
@@ -11800,7 +12167,7 @@ msgid ""
 "period separators. The current value is \"2.0.0.0\"."
 msgstr ""
 
-#: src/properties.cpp:561 src/tags.cpp:1424
+#: src/properties.cpp:561 src/tags.cpp:1434
 msgid "GPS Latitude"
 msgstr "Широта по GPS"
 
@@ -11809,7 +12176,7 @@ msgid ""
 "GPS tag 2, 0x02 (position) and 1, 0x01 (North/South). Indicates latitude."
 msgstr ""
 
-#: src/properties.cpp:562 src/tags.cpp:1436
+#: src/properties.cpp:562 src/tags.cpp:1446
 msgid "GPS Longitude"
 msgstr "Долгота по GPS"
 
@@ -11818,7 +12185,7 @@ msgid ""
 "GPS tag 4, 0x04 (position) and 3, 0x03 (East/West). Indicates longitude."
 msgstr ""
 
-#: src/properties.cpp:563 src/tags.cpp:1444
+#: src/properties.cpp:563 src/tags.cpp:1454
 msgid "GPS Altitude Reference"
 msgstr ""
 
@@ -11827,7 +12194,7 @@ msgid ""
 "GPS tag 5, 0x5. Indicates whether the altitude is above or below sea level."
 msgstr ""
 
-#: src/properties.cpp:564 src/tags.cpp:1452
+#: src/properties.cpp:564 src/tags.cpp:1462
 msgid "GPS Altitude"
 msgstr "Высота по GPS"
 
@@ -11836,7 +12203,7 @@ msgstr "Высота по GPS"
 msgid "GPS tag 6, 0x06. Indicates altitude in meters."
 msgstr "Расстояние до объекта в метрах"
 
-#: src/properties.cpp:565 src/tags.cpp:1456
+#: src/properties.cpp:565 src/tags.cpp:1466
 msgid "GPS Time Stamp"
 msgstr "Отметка времени по GPS"
 
@@ -11850,7 +12217,7 @@ msgid ""
 "no date is available, do not write exif:GPSTimeStamp to XMP."
 msgstr ""
 
-#: src/properties.cpp:571 src/tags.cpp:1461
+#: src/properties.cpp:571 src/tags.cpp:1471
 msgid "GPS Satellites"
 msgstr ""
 
@@ -11858,7 +12225,7 @@ msgstr ""
 msgid "GPS tag 8, 0x08. Satellite information, format is unspecified."
 msgstr ""
 
-#: src/properties.cpp:572 src/tags.cpp:1468
+#: src/properties.cpp:572 src/tags.cpp:1478
 msgid "GPS Status"
 msgstr "Статус приёмника GPS"
 
@@ -11866,7 +12233,7 @@ msgstr "Статус приёмника GPS"
 msgid "GPS tag 9, 0x09. Status of GPS receiver at image creation time."
 msgstr ""
 
-#: src/properties.cpp:573 src/tags.cpp:1473
+#: src/properties.cpp:573 src/tags.cpp:1483
 msgid "GPS Measure Mode"
 msgstr "Режим захвата данных GPS"
 
@@ -11883,7 +12250,7 @@ msgstr ""
 msgid "GPS tag 11, 0x0B. Degree of precision for GPS data."
 msgstr "Версия тэга GPS"
 
-#: src/properties.cpp:575 src/tags.cpp:1481
+#: src/properties.cpp:575 src/tags.cpp:1491
 msgid "GPS Speed Reference"
 msgstr ""
 
@@ -11891,7 +12258,7 @@ msgstr ""
 msgid "GPS tag 12, 0x0C. Units used to speed measurement."
 msgstr ""
 
-#: src/properties.cpp:576 src/tags.cpp:1485
+#: src/properties.cpp:576 src/tags.cpp:1495
 msgid "GPS Speed"
 msgstr "Скорость по GPS"
 
@@ -11909,7 +12276,7 @@ msgstr "Эталонный Чёрный/Белый"
 msgid "GPS tag 14, 0x0E. Reference for movement direction."
 msgstr ""
 
-#: src/properties.cpp:578 src/tags.cpp:1492
+#: src/properties.cpp:578 src/tags.cpp:1502
 msgid "GPS Track"
 msgstr ""
 
@@ -11918,7 +12285,7 @@ msgid ""
 "GPS tag 15, 0x0F. Direction of GPS movement, values range from 0 to 359.99."
 msgstr ""
 
-#: src/properties.cpp:579 src/tags.cpp:1496
+#: src/properties.cpp:579 src/tags.cpp:1506
 msgid "GPS Image Direction Reference"
 msgstr ""
 
@@ -11926,7 +12293,7 @@ msgstr ""
 msgid "GPS tag 16, 0x10. Reference for movement direction."
 msgstr ""
 
-#: src/properties.cpp:580 src/tags.cpp:1500
+#: src/properties.cpp:580 src/tags.cpp:1510
 msgid "GPS Image Direction"
 msgstr "Направление снимка GPS"
 
@@ -11936,7 +12303,7 @@ msgid ""
 "359.99."
 msgstr ""
 
-#: src/properties.cpp:581 src/tags.cpp:1504
+#: src/properties.cpp:581 src/tags.cpp:1514
 msgid "GPS Map Datum"
 msgstr ""
 
@@ -11944,7 +12311,7 @@ msgstr ""
 msgid "GPS tag 18, 0x12. Geodetic survey data."
 msgstr ""
 
-#: src/properties.cpp:582 src/tags.cpp:1512
+#: src/properties.cpp:582 src/tags.cpp:1522
 msgid "GPS Destination Latitude"
 msgstr ""
 
@@ -11954,7 +12321,7 @@ msgid ""
 "destination latitude."
 msgstr ""
 
-#: src/properties.cpp:583 src/tags.cpp:1524
+#: src/properties.cpp:583 src/tags.cpp:1534
 msgid "GPS Destination Longitude"
 msgstr ""
 
@@ -11964,7 +12331,7 @@ msgid ""
 "longitude."
 msgstr ""
 
-#: src/properties.cpp:584 src/tags.cpp:1531
+#: src/properties.cpp:584 src/tags.cpp:1541
 msgid "GPS Destination Bearing Reference"
 msgstr ""
 
@@ -11972,7 +12339,7 @@ msgstr ""
 msgid "GPS tag 23, 0x17. Reference for movement direction."
 msgstr ""
 
-#: src/properties.cpp:585 src/tags.cpp:1535
+#: src/properties.cpp:585 src/tags.cpp:1545
 msgid "GPS Destination Bearing"
 msgstr ""
 
@@ -11989,7 +12356,7 @@ msgstr "Расстояние до объекта"
 msgid "GPS tag 25, 0x19. Units used for speed measurement."
 msgstr ""
 
-#: src/properties.cpp:587 src/tags.cpp:1543
+#: src/properties.cpp:587 src/tags.cpp:1553
 #, fuzzy
 msgid "GPS Destination Distance"
 msgstr "Расстояние до объекта"
@@ -11999,7 +12366,7 @@ msgstr "Расстояние до объекта"
 msgid "GPS tag 26, 0x1A. Distance to destination."
 msgstr "Расстояние до объекта в метрах"
 
-#: src/properties.cpp:588 src/tags.cpp:1546
+#: src/properties.cpp:588 src/tags.cpp:1556
 msgid "GPS Processing Method"
 msgstr ""
 
@@ -12009,7 +12376,7 @@ msgid ""
 "for location finding."
 msgstr ""
 
-#: src/properties.cpp:589 src/tags.cpp:1551
+#: src/properties.cpp:589 src/tags.cpp:1561
 msgid "GPS Area Information"
 msgstr ""
 
@@ -12018,7 +12385,7 @@ msgid ""
 "GPS tag 28, 0x1C. A character string recording the name of the GPS area."
 msgstr ""
 
-#: src/properties.cpp:590 src/tags.cpp:1559
+#: src/properties.cpp:590 src/tags.cpp:1569
 msgid "GPS Differential"
 msgstr ""
 
@@ -12260,7 +12627,7 @@ msgstr "Версия прошивки"
 msgid "Auto Bracket"
 msgstr "Автобрекетирование"
 
-#: src/sigmamn.cpp:120 src/tags.cpp:1036
+#: src/sigmamn.cpp:120 src/tags.cpp:1046
 msgid "Auto bracket"
 msgstr "Автобрекетирование"
 
@@ -12276,382 +12643,382 @@ msgstr ""
 msgid "Unknown SonyMakerNote tag"
 msgstr ""
 
-#: src/tags.cpp:132
+#: src/tags.cpp:142
 msgid "Unknown section"
 msgstr "Неизвестный раздел"
 
-#: src/tags.cpp:133
+#: src/tags.cpp:143
 #, fuzzy
 msgid "Image data structure"
 msgstr "Размер изображения"
 
-#: src/tags.cpp:134
+#: src/tags.cpp:144
 msgid "Recording offset"
 msgstr ""
 
-#: src/tags.cpp:135
+#: src/tags.cpp:145
 #, fuzzy
 msgid "Image data characteristics"
 msgstr "Размер изображения"
 
-#: src/tags.cpp:136
+#: src/tags.cpp:146
 msgid "Other data"
 msgstr "Прочие данные"
 
-#: src/tags.cpp:137
+#: src/tags.cpp:147
 msgid "Exif data structure"
 msgstr "Структура данных Exif"
 
-#: src/tags.cpp:138
+#: src/tags.cpp:148
 msgid "Exif version"
 msgstr "Версия Exif"
 
-#: src/tags.cpp:139
+#: src/tags.cpp:149
 #, fuzzy
 msgid "Image configuration"
 msgstr "Планарная конфигурация"
 
-#: src/tags.cpp:140
+#: src/tags.cpp:150
 msgid "User information"
 msgstr "О пользователе"
 
-#: src/tags.cpp:141
+#: src/tags.cpp:151
 msgid "Related file"
 msgstr "Связанный файл"
 
-#: src/tags.cpp:142
+#: src/tags.cpp:152
 msgid "Date and time"
 msgstr "Дата и время"
 
-#: src/tags.cpp:143
+#: src/tags.cpp:153
 msgid "Picture taking conditions"
 msgstr "Условия съёмки кадра"
 
-#: src/tags.cpp:144
+#: src/tags.cpp:154
 msgid "GPS information"
 msgstr "Информация GPS"
 
-#: src/tags.cpp:145
+#: src/tags.cpp:155
 msgid "Interoperability information"
 msgstr "О совместимости"
 
-#: src/tags.cpp:146
+#: src/tags.cpp:156
 msgid "Vendor specific information"
 msgstr "Специфичная для производителя информация"
 
-#: src/tags.cpp:147
+#: src/tags.cpp:157
 #, fuzzy
 msgid "Adobe DNG tags"
 msgstr "Adobe RGB"
 
-#: src/tags.cpp:148
+#: src/tags.cpp:158
 msgid "Last section"
 msgstr "Последний раздел"
 
-#: src/tags.cpp:168
+#: src/tags.cpp:178
 msgid "Primary image"
 msgstr ""
 
-#: src/tags.cpp:169
+#: src/tags.cpp:179
 msgid "Thumbnail/Preview image"
 msgstr ""
 
-#: src/tags.cpp:170
+#: src/tags.cpp:180
 msgid "Primary image, Multi page file"
 msgstr ""
 
-#: src/tags.cpp:171
+#: src/tags.cpp:181
 msgid "Thumbnail/Preview image, Multi page file"
 msgstr ""
 
-#: src/tags.cpp:172
+#: src/tags.cpp:182
 msgid "Primary image, Transparency mask"
 msgstr ""
 
-#: src/tags.cpp:173
+#: src/tags.cpp:183
 msgid "Thumbnail/Preview image, Transparency mask"
 msgstr ""
 
-#: src/tags.cpp:174
+#: src/tags.cpp:184
 msgid "Primary image, Multi page file, Transparency mask"
 msgstr ""
 
-#: src/tags.cpp:175
+#: src/tags.cpp:185
 msgid "Thumbnail/Preview image, Multi page file, Transparency mask"
 msgstr ""
 
-#: src/tags.cpp:181
+#: src/tags.cpp:191
 msgid "inch"
 msgstr "дюйм"
 
-#: src/tags.cpp:187
+#: src/tags.cpp:197
 msgid "Uncompressed"
 msgstr "Несжатый"
 
-#: src/tags.cpp:188
+#: src/tags.cpp:198
 msgid "CCITT RLE"
 msgstr "CCITT RLE"
 
-#: src/tags.cpp:189
+#: src/tags.cpp:199
 msgid "T4/Group 3 Fax"
 msgstr "T4/Group 3 Fax"
 
-#: src/tags.cpp:190
+#: src/tags.cpp:200
 msgid "T6/Group 4 Fax"
 msgstr "T6/Group 4 Fax"
 
-#: src/tags.cpp:191
+#: src/tags.cpp:201
 msgid "LZW"
 msgstr "LZW"
 
-#: src/tags.cpp:192
+#: src/tags.cpp:202
 msgid "JPEG (old-style)"
 msgstr ""
 
-#: src/tags.cpp:193
+#: src/tags.cpp:203
 msgid "JPEG"
 msgstr "JPEG"
 
-#: src/tags.cpp:194
+#: src/tags.cpp:204
 msgid "Adobe Deflate"
 msgstr ""
 
-#: src/tags.cpp:195
+#: src/tags.cpp:205
 msgid "JBIG B&W"
 msgstr "JBIG Ч/Б"
 
-#: src/tags.cpp:196
+#: src/tags.cpp:206
 #, fuzzy
 msgid "JBIG Color"
 msgstr "Цвет"
 
-#: src/tags.cpp:197
+#: src/tags.cpp:207
 msgid "Next 2-bits RLE"
 msgstr ""
 
-#: src/tags.cpp:198
+#: src/tags.cpp:208
 #, fuzzy
 msgid "Epson ERF Compressed"
 msgstr "Cжатый Nikon NEF"
 
-#: src/tags.cpp:199
+#: src/tags.cpp:209
 msgid "CCITT RLE 1-word"
 msgstr ""
 
-#: src/tags.cpp:200
+#: src/tags.cpp:210
 msgid "PackBits (Macintosh RLE)"
 msgstr "PackBits (Macintosh RLE)"
 
-#: src/tags.cpp:201
+#: src/tags.cpp:211
 msgid "Thunderscan RLE"
 msgstr "Thunderscan RLE"
 
-#: src/tags.cpp:202
+#: src/tags.cpp:212
 msgid "IT8 CT Padding"
 msgstr "IT8 CT Padding"
 
-#: src/tags.cpp:203
+#: src/tags.cpp:213
 msgid "IT8 Linework RLE"
 msgstr "IT8 Linework RLE"
 
-#: src/tags.cpp:204
+#: src/tags.cpp:214
 msgid "IT8 Monochrome Picture"
 msgstr "Монохромное изображение IT8"
 
-#: src/tags.cpp:205
+#: src/tags.cpp:215
 msgid "IT8 Binary Lineart"
 msgstr "IT8 Binary Lineart"
 
-#: src/tags.cpp:206
+#: src/tags.cpp:216
 msgid "Pixar Film (10-bits LZW)"
 msgstr "Pixar Film (10-разрядный LZW)"
 
-#: src/tags.cpp:207
+#: src/tags.cpp:217
 msgid "Pixar Log (11-bits ZIP)"
 msgstr "Pixar Log (11-разрядный ZIP)"
 
-#: src/tags.cpp:208
+#: src/tags.cpp:218
 msgid "Pixar Deflate"
 msgstr "Pixar Deflate"
 
-#: src/tags.cpp:209
+#: src/tags.cpp:219
 msgid "Kodak DCS Encoding"
 msgstr "Kodak DCS Encoding"
 
-#: src/tags.cpp:210
+#: src/tags.cpp:220
 msgid "ISO JBIG"
 msgstr "ISO JBIG"
 
-#: src/tags.cpp:211
+#: src/tags.cpp:221
 msgid "SGI Log Luminance RLE"
 msgstr "SGI Log Luminance RLE"
 
-#: src/tags.cpp:212
+#: src/tags.cpp:222
 msgid "SGI Log 24-bits packed"
 msgstr "SGI Log 24-bits packed"
 
-#: src/tags.cpp:213
+#: src/tags.cpp:223
 msgid "Leadtools JPEG 2000"
 msgstr "Leadtools JPEG 2000"
 
-#: src/tags.cpp:214
+#: src/tags.cpp:224
 msgid "Nikon NEF Compressed"
 msgstr "Cжатый Nikon NEF"
 
-#: src/tags.cpp:215
+#: src/tags.cpp:225
 #, fuzzy
 msgid "Kodak DCR Compressed"
 msgstr "Cжатый Nikon NEF"
 
-#: src/tags.cpp:216
+#: src/tags.cpp:226
 #, fuzzy
 msgid "Pentax PEF Compressed"
 msgstr "Cжатый Nikon NEF"
 
-#: src/tags.cpp:221
+#: src/tags.cpp:231
 msgid "White Is Zero"
 msgstr ""
 
-#: src/tags.cpp:222
+#: src/tags.cpp:232
 #, fuzzy
 msgid "Black Is Zero"
 msgstr "Чёрно-белый"
 
-#: src/tags.cpp:223
+#: src/tags.cpp:233
 msgid "RGB"
 msgstr "RGB"
 
-#: src/tags.cpp:224
+#: src/tags.cpp:234
 msgid "RGB Palette"
 msgstr "Палитра RGB"
 
-#: src/tags.cpp:225
+#: src/tags.cpp:235
 msgid "Transparency Mask"
 msgstr "Прозрачная маска"
 
-#: src/tags.cpp:226
+#: src/tags.cpp:236
 msgid "CMYK"
 msgstr "CMYK"
 
-#: src/tags.cpp:227
+#: src/tags.cpp:237
 msgid "YCbCr"
 msgstr "YCbCr"
 
-#: src/tags.cpp:228
+#: src/tags.cpp:238
 msgid "CIELab"
 msgstr "CIELab"
 
-#: src/tags.cpp:229
+#: src/tags.cpp:239
 msgid "ICCLab"
 msgstr "ICCLab"
 
-#: src/tags.cpp:230
+#: src/tags.cpp:240
 msgid "ITULab"
 msgstr "ITULab"
 
-#: src/tags.cpp:231
+#: src/tags.cpp:241
 msgid "Color Filter Array"
 msgstr ""
 
-#: src/tags.cpp:232
+#: src/tags.cpp:242
 msgid "Pixar LogL"
 msgstr "Pixar LogL"
 
-#: src/tags.cpp:233
+#: src/tags.cpp:243
 msgid "Pixar LogLuv"
 msgstr "Pixar LogLuv"
 
-#: src/tags.cpp:234
+#: src/tags.cpp:244
 msgid "Linear Raw"
 msgstr "Линейный Raw"
 
-#: src/tags.cpp:239
+#: src/tags.cpp:249
 #, fuzzy
 msgid "top, left"
 msgstr "справа налево"
 
-#: src/tags.cpp:240
+#: src/tags.cpp:250
 #, fuzzy
 msgid "top, right"
 msgstr "Авторские и смежные права"
 
-#: src/tags.cpp:241
+#: src/tags.cpp:251
 #, fuzzy
 msgid "bottom, right"
 msgstr "слева направо"
 
-#: src/tags.cpp:242
+#: src/tags.cpp:252
 #, fuzzy
 msgid "bottom, left"
 msgstr "справа налево"
 
-#: src/tags.cpp:243
+#: src/tags.cpp:253
 #, fuzzy
 msgid "left, top"
 msgstr "слева направо"
 
-#: src/tags.cpp:244
+#: src/tags.cpp:254
 #, fuzzy
 msgid "right, top"
 msgstr "справа налево"
 
-#: src/tags.cpp:245
+#: src/tags.cpp:255
 #, fuzzy
 msgid "right, bottom"
 msgstr "сверху вниз"
 
-#: src/tags.cpp:246
+#: src/tags.cpp:256
 #, fuzzy
 msgid "left, bottom"
 msgstr "сверху вниз"
 
-#: src/tags.cpp:251
+#: src/tags.cpp:261
 #, fuzzy
 msgid "Centered"
 msgstr "Центральная"
 
-#: src/tags.cpp:252
+#: src/tags.cpp:262
 #, fuzzy
 msgid "Co-sited"
 msgstr "Крупный план"
 
-#: src/tags.cpp:257
+#: src/tags.cpp:267
 msgid "Rectangular (or square) layout"
 msgstr ""
 
-#: src/tags.cpp:258
+#: src/tags.cpp:268
 msgid "Staggered layout A: even columns are offset down by 1/2 row"
 msgstr ""
 
-#: src/tags.cpp:259
+#: src/tags.cpp:269
 msgid "Staggered layout B: even columns are offset up by 1/2 row"
 msgstr ""
 
-#: src/tags.cpp:260
+#: src/tags.cpp:270
 msgid "Staggered layout C: even rows are offset right by 1/2 column"
 msgstr ""
 
-#: src/tags.cpp:261
+#: src/tags.cpp:271
 msgid "Staggered layout D: even rows are offset left by 1/2 column"
 msgstr ""
 
-#: src/tags.cpp:266
+#: src/tags.cpp:276
 msgid "Processing Software"
 msgstr "По обработки"
 
-#: src/tags.cpp:267
+#: src/tags.cpp:277
 msgid "The name and version of the software used to post-process the picture."
 msgstr ""
 
-#: src/tags.cpp:270
+#: src/tags.cpp:280
 msgid "New Subfile Type"
 msgstr ""
 
-#: src/tags.cpp:271
+#: src/tags.cpp:281
 msgid "A general indication of the kind of data contained in this subfile."
 msgstr ""
 
-#: src/tags.cpp:274
+#: src/tags.cpp:284
 msgid ""
 "The number of columns of image data, equal to the number of pixels per row. "
 "In JPEG compressed data a JPEG marker is used instead of this tag."
@@ -12659,7 +13026,7 @@ msgstr ""
 "Количество столбцов данных изображения, равное количеству пикселов на ряд. В "
 "данных, сжатых по алгоритму JPEG, вместо этого тэга используется маркер."
 
-#: src/tags.cpp:279
+#: src/tags.cpp:289
 msgid ""
 "The number of rows of image data. In JPEG compressed data a JPEG marker is "
 "used instead of this tag."
@@ -12667,11 +13034,11 @@ msgstr ""
 "Количество рядов данных изображения. В данных, сжатых по алгоритму JPEG, "
 "вместо этого тэга используется маркер."
 
-#: src/tags.cpp:282
+#: src/tags.cpp:292
 msgid "Bits per Sample"
 msgstr "Битов на сэмпл"
 
-#: src/tags.cpp:283
+#: src/tags.cpp:293
 #, fuzzy
 msgid ""
 "The number of bits per image component. In this standard each component of "
@@ -12684,7 +13051,7 @@ msgstr ""
 "также <SamplesPerPixel>. В данных, сжатых по алгоритму JPEG, вместо этого "
 "тэга используется маркер."
 
-#: src/tags.cpp:289
+#: src/tags.cpp:299
 msgid ""
 "The compression scheme used for the image data. When a primary image is JPEG "
 "compressed, this designation is not necessary and is omitted. When "
@@ -12695,7 +13062,7 @@ msgstr ""
 "обязательным и опускается. Когда миниатюры используют JPEG-сжатие, значение "
 "этого тэга равно 6."
 
-#: src/tags.cpp:295
+#: src/tags.cpp:305
 msgid ""
 "The pixel composition. In JPEG compressed data a JPEG marker is used instead "
 "of this tag."
@@ -12703,23 +13070,23 @@ msgstr ""
 "Компоновка пикселов. Если данные сжаты по алгоритму JPEG, вместо этого тэга "
 "используется JPEG-маркер."
 
-#: src/tags.cpp:298
+#: src/tags.cpp:308
 msgid "Fill Order"
 msgstr "Порядок заполнения"
 
-#: src/tags.cpp:299
+#: src/tags.cpp:309
 msgid "The logical order of bits within a byte"
 msgstr ""
 
-#: src/tags.cpp:301
+#: src/tags.cpp:311
 msgid "Document Name"
 msgstr "Имя документа"
 
-#: src/tags.cpp:302
+#: src/tags.cpp:312
 msgid "The name of the document from which this image was scanned"
 msgstr "Название отсканированного документа"
 
-#: src/tags.cpp:305
+#: src/tags.cpp:315
 msgid ""
 "A character string giving the title of the image. It may be a comment such "
 "as \"1988 company picnic\" or the like. Two-bytes character codes cannot be "
@@ -12731,11 +13098,11 @@ msgstr ""
 "Двухбайтовая кодировка символов не может быть использована. Если она всё же "
 "необходима, должен быть использован частный тег Exif <UserComment>."
 
-#: src/tags.cpp:311
+#: src/tags.cpp:321
 msgid "Manufacturer"
 msgstr "Производитель"
 
-#: src/tags.cpp:312
+#: src/tags.cpp:322
 msgid ""
 "The manufacturer of the recording equipment. This is the manufacturer of the "
 "DSC, scanner, video digitizer or other equipment that generated the image. "
@@ -12746,7 +13113,7 @@ msgstr ""
 "которое использовалось для получения этого изображения. Если поле не "
 "заполнено, производитель считается неизвестным."
 
-#: src/tags.cpp:318
+#: src/tags.cpp:328
 msgid ""
 "The model name or model number of the equipment. This is the model name or "
 "number of the DSC, scanner, video digitizer or other equipment that "
@@ -12757,11 +13124,11 @@ msgstr ""
 "оборудования, которое использовалось для получения этого изображения. Если "
 "поле не заполнено, оборудование считается неизвестным."
 
-#: src/tags.cpp:323
+#: src/tags.cpp:333
 msgid "Strip Offsets"
 msgstr ""
 
-#: src/tags.cpp:324
+#: src/tags.cpp:334
 msgid ""
 "For each strip, the byte offset of that strip. It is recommended that this "
 "be selected so the number of strip bytes does not exceed 64 Kbytes. With "
@@ -12769,15 +13136,15 @@ msgid ""
 "<RowsPerStrip> and <StripByteCounts>."
 msgstr ""
 
-#: src/tags.cpp:331
+#: src/tags.cpp:341
 msgid "The image orientation viewed in terms of rows and columns."
 msgstr "Ориентация изображения, рассматриваемая в терминах строк и столбцов."
 
-#: src/tags.cpp:333
+#: src/tags.cpp:343
 msgid "Samples per Pixel"
 msgstr "Сэмплов на пиксел"
 
-#: src/tags.cpp:334
+#: src/tags.cpp:344
 msgid ""
 "The number of components per pixel. Since this standard applies to RGB and "
 "YCbCr images, the value set for this tag is 3. In JPEG compressed data a "
@@ -12788,11 +13155,11 @@ msgstr ""
 "3. Если данные сжаты по алгоритму JPEG, вместо этого тэга используется JPEG-"
 "маркер."
 
-#: src/tags.cpp:338
+#: src/tags.cpp:348
 msgid "Rows per Strip"
 msgstr ""
 
-#: src/tags.cpp:339
+#: src/tags.cpp:349
 msgid ""
 "The number of rows per strip. This is the number of rows in the image of one "
 "strip when an image is divided into strips. With JPEG compressed data this "
@@ -12800,21 +13167,21 @@ msgid ""
 "<StripByteCounts>."
 msgstr ""
 
-#: src/tags.cpp:344
+#: src/tags.cpp:354
 msgid "Strip Byte Count"
 msgstr ""
 
-#: src/tags.cpp:345
+#: src/tags.cpp:355
 msgid ""
 "The total number of bytes in each strip. With JPEG compressed data this "
 "designation is not needed and is omitted."
 msgstr ""
 
-#: src/tags.cpp:348
+#: src/tags.cpp:358
 msgid "X-Resolution"
 msgstr "Разрешение по X"
 
-#: src/tags.cpp:349
+#: src/tags.cpp:359
 msgid ""
 "The number of pixels per <ResolutionUnit> in the <ImageWidth> direction. "
 "When the image resolution is unknown, 72 [dpi] is designated."
@@ -12822,11 +13189,11 @@ msgstr ""
 "Количество пикселов на <ResolutionUnit> в направлении <ImageWidth>. Если "
 "разрешение не указано, оно принимается за 72 точки на дюйм."
 
-#: src/tags.cpp:352
+#: src/tags.cpp:362
 msgid "Y-Resolution"
 msgstr "Разрешение по Y"
 
-#: src/tags.cpp:353
+#: src/tags.cpp:363
 msgid ""
 "The number of pixels per <ResolutionUnit> in the <ImageLength> direction. "
 "The same value as <XResolution> is designated."
@@ -12834,14 +13201,14 @@ msgstr ""
 "Количество пикселов на <ResolutionUnit> в направлении <ImageLength>. "
 "Остальное аналогично <XResolution>."
 
-#: src/tags.cpp:357
+#: src/tags.cpp:367
 msgid ""
 "Indicates whether pixel components are recorded in a chunky or planar "
 "format. In JPEG compressed files a JPEG marker is used instead of this tag. "
 "If this field does not exist, the TIFF default of 1 (chunky) is assumed."
 msgstr ""
 
-#: src/tags.cpp:363
+#: src/tags.cpp:373
 msgid ""
 "The unit for measuring <XResolution> and <YResolution>. The same unit is "
 "used for both <XResolution> and <YResolution>. If the image resolution is "
@@ -12851,7 +13218,7 @@ msgstr ""
 "используется как для <XResolution>, так и для <YResolution>. Если разрешение "
 "изображения неизвестно, оно принимается за 2 (дюйма)."
 
-#: src/tags.cpp:368
+#: src/tags.cpp:378
 msgid ""
 "A transfer function for the image, described in tabular style. Normally this "
 "tag is not necessary, since color space is specified in the color space "
@@ -12861,7 +13228,7 @@ msgstr ""
 "не является необходимым, поскольку цветовое пространство уже указано в тэге "
 "<ColorSpace>."
 
-#: src/tags.cpp:373
+#: src/tags.cpp:383
 msgid ""
 "This tag records the name and version of the software or firmware of the "
 "camera or image input device used to generate the image. The detailed format "
@@ -12874,7 +13241,7 @@ msgstr ""
 "рекомендуется следовать приведённому ниже примеру. Когда поле оставлено "
 "пустым, значение принимается за неизвестное."
 
-#: src/tags.cpp:380
+#: src/tags.cpp:390
 msgid ""
 "The date and time of image creation. In Exif standard, it is the date and "
 "time the file was changed."
@@ -12882,17 +13249,17 @@ msgstr ""
 "Дата и время создания изображения. В текущей версии стандарта Exif это дата "
 "и время изменения файла."
 
-#: src/tags.cpp:383
+#: src/tags.cpp:393
 msgid "Host computer"
 msgstr ""
 
-#: src/tags.cpp:384
+#: src/tags.cpp:394
 msgid ""
 "This tag records information about the host computer used to generate the "
 "image."
 msgstr ""
 
-#: src/tags.cpp:388
+#: src/tags.cpp:398
 msgid ""
 "This tag records the name of the camera owner, photographer or image "
 "creator. The detailed format is not specified, but it is recommended that "
@@ -12906,7 +13273,7 @@ msgstr ""
 "следовать приведённому ниже примеру. Когда поле оставлено пустым, значение "
 "принимается за неизвестное."
 
-#: src/tags.cpp:396
+#: src/tags.cpp:406
 msgid ""
 "The chromaticity of the white point of the image. Normally this tag is not "
 "necessary, since color space is specified in the colorspace information tag "
@@ -12915,38 +13282,38 @@ msgstr ""
 "Хроматичность белой точки изображения. Обычно этот тег не является "
 "необходимым, поскольку цветовое пространство уже указано в теге <ColorSpace>."
 
-#: src/tags.cpp:401
+#: src/tags.cpp:411
 msgid ""
 "The chromaticity of the three primary colors of the image. Normally this tag "
 "is not necessary, since colorspace is specified in the colorspace "
 "information tag (<ColorSpace>)."
 msgstr ""
 
-#: src/tags.cpp:405
+#: src/tags.cpp:415
 #, fuzzy
 msgid "Tile Width"
 msgstr "Ширина изображения"
 
-#: src/tags.cpp:406
+#: src/tags.cpp:416
 msgid "The tile width in pixels. This is the number of columns in each tile."
 msgstr ""
 
-#: src/tags.cpp:408
+#: src/tags.cpp:418
 #, fuzzy
 msgid "Tile Length"
 msgstr "Длина изображения"
 
-#: src/tags.cpp:409
+#: src/tags.cpp:419
 msgid ""
 "The tile length (height) in pixels. This is the number of rows in each tile."
 msgstr ""
 
-#: src/tags.cpp:411
+#: src/tags.cpp:421
 #, fuzzy
 msgid "Tile Offsets"
 msgstr "Режим захвата"
 
-#: src/tags.cpp:412
+#: src/tags.cpp:422
 msgid ""
 "For each tile, the byte offset of that tile, as compressed and stored on "
 "disk. The offset is specified with respect to the beginning of the TIFF "
@@ -12954,56 +13321,56 @@ msgid ""
 "the locations of other tiles."
 msgstr ""
 
-#: src/tags.cpp:417
+#: src/tags.cpp:427
 msgid "Tile Byte Counts"
 msgstr ""
 
-#: src/tags.cpp:418
+#: src/tags.cpp:428
 msgid ""
 "For each tile, the number of (compressed) bytes in that tile. See "
 "TileOffsets for a description of how the byte counts are ordered."
 msgstr ""
 
-#: src/tags.cpp:421
+#: src/tags.cpp:431
 msgid "SubIFD Offsets"
 msgstr ""
 
-#: src/tags.cpp:422
+#: src/tags.cpp:432
 msgid "Defined by Adobe Corporation to enable TIFF Trees within a TIFF file."
 msgstr "Определено Adobe Corporation для включения TIFF Trees в файлах TIFF."
 
-#: src/tags.cpp:424
+#: src/tags.cpp:434
 msgid "Transfer Range"
 msgstr "Область передачи"
 
-#: src/tags.cpp:425
+#: src/tags.cpp:435
 msgid "Expands the range of the TransferFunction"
 msgstr ""
 
-#: src/tags.cpp:427
+#: src/tags.cpp:437
 #, fuzzy
 msgid "JPEG Process"
 msgstr "Сжатие JPEG"
 
-#: src/tags.cpp:428
+#: src/tags.cpp:438
 msgid "This field indicates the process used to produce the compressed data"
 msgstr ""
 
-#: src/tags.cpp:430
+#: src/tags.cpp:440
 msgid "JPEG Interchange Format"
 msgstr "Формат обмена данными JPEG"
 
-#: src/tags.cpp:431
+#: src/tags.cpp:441
 msgid ""
 "The offset to the start byte (SOI) of JPEG compressed thumbnail data. This "
 "is not used for primary image JPEG data."
 msgstr ""
 
-#: src/tags.cpp:434
+#: src/tags.cpp:444
 msgid "JPEG Interchange Format Length"
 msgstr ""
 
-#: src/tags.cpp:435
+#: src/tags.cpp:445
 msgid ""
 "The number of bytes of JPEG compressed thumbnail data. This is not used for "
 "primary image JPEG data. JPEG thumbnails are not divided but are recorded as "
@@ -13012,7 +13379,7 @@ msgid ""
 "Kbytes, including all other data to be recorded in APP1."
 msgstr ""
 
-#: src/tags.cpp:443
+#: src/tags.cpp:453
 msgid ""
 "The matrix coefficients for transformation from RGB to YCbCr image data. No "
 "default is given in TIFF; but here the value given in Appendix E, \"Color "
@@ -13027,17 +13394,17 @@ msgstr ""
 "используется значение, которое обеспечивает оптимальные характеристики "
 "совместимости."
 
-#: src/tags.cpp:451
+#: src/tags.cpp:461
 msgid "YCbCr Sub-Sampling"
 msgstr "Субсэмплинг YCbCr"
 
-#: src/tags.cpp:452
+#: src/tags.cpp:462
 msgid ""
 "The sampling ratio of chrominance components in relation to the luminance "
 "component. In JPEG compressed data a JPEG marker is used instead of this tag."
 msgstr ""
 
-#: src/tags.cpp:457
+#: src/tags.cpp:467
 msgid ""
 "The position of chrominance components in relation to the luminance "
 "component. This field is designated only for JPEG compressed data or "
@@ -13064,11 +13431,11 @@ msgstr ""
 "Предпочтительнее, когда считывающая программа поддерживает оба типа "
 "позиционирования."
 
-#: src/tags.cpp:471
+#: src/tags.cpp:481
 msgid "Reference Black/White"
 msgstr "Эталонный Чёрный/Белый"
 
-#: src/tags.cpp:472
+#: src/tags.cpp:482
 msgid ""
 "The reference black point value and reference white point value. No defaults "
 "are given in TIFF, but the values below are given as defaults here. The "
@@ -13082,60 +13449,60 @@ msgstr ""
 "используется значение, которое обеспечивает оптимальные характеристики "
 "совместимости."
 
-#: src/tags.cpp:479
+#: src/tags.cpp:489
 msgid "XML Packet"
 msgstr "XML-пакет"
 
-#: src/tags.cpp:480
+#: src/tags.cpp:490
 msgid "XMP Metadata (Adobe technote 9-14-02)"
 msgstr "Метаданные XMP (Adobe technote 9-14-02)"
 
-#: src/tags.cpp:482
+#: src/tags.cpp:492
 msgid "Windows Rating"
 msgstr "Оценка в Windows"
 
-#: src/tags.cpp:483
+#: src/tags.cpp:493
 msgid "Rating tag used by Windows"
 msgstr "Поле оценки, используемое Windows"
 
-#: src/tags.cpp:485
+#: src/tags.cpp:495
 msgid "Windows Rating Percent"
 msgstr "Процентная оценка в Windows"
 
-#: src/tags.cpp:486
+#: src/tags.cpp:496
 msgid "Rating tag used by Windows, value in percent"
 msgstr "Поле оценки, используемое Windows, процентное значение"
 
-#: src/tags.cpp:488
+#: src/tags.cpp:498
 msgid "CFA Repeat Pattern Dimension"
 msgstr ""
 
-#: src/tags.cpp:489
+#: src/tags.cpp:499
 msgid ""
 "Contains two values representing the minimum rows and columns to define the "
 "repeating patterns of the color filter array"
 msgstr ""
 
-#: src/tags.cpp:493
+#: src/tags.cpp:503
 msgid ""
 "Indicates the color filter array (CFA) geometric pattern of the image sensor "
 "when a one-chip color area sensor is used. It does not apply to all sensing "
 "methods"
 msgstr ""
 
-#: src/tags.cpp:497
+#: src/tags.cpp:507
 msgid "Battery Level"
 msgstr "Заряд батареи"
 
-#: src/tags.cpp:500
+#: src/tags.cpp:510
 msgid "IPTC/NAA"
 msgstr "IPTC/NAA"
 
-#: src/tags.cpp:501
+#: src/tags.cpp:511
 msgid "Contains an IPTC/NAA record"
 msgstr "Содержит запись IPTC/NAA"
 
-#: src/tags.cpp:504
+#: src/tags.cpp:514
 msgid ""
 "Copyright information. In this standard the tag is used to indicate both the "
 "photographer and editor copyrights. It is the copyright notice of the person "
@@ -13154,122 +13521,122 @@ msgid ""
 "it is treated as unknown."
 msgstr ""
 
-#: src/tags.cpp:523
+#: src/tags.cpp:533
 msgid "Image Resources Block"
 msgstr ""
 
-#: src/tags.cpp:524
+#: src/tags.cpp:534
 msgid "Contains information embedded by the Adobe Photoshop application"
 msgstr ""
 
-#: src/tags.cpp:526
+#: src/tags.cpp:536
 msgid "Exif IFD Pointer"
 msgstr "Указатель Exif IFD"
 
-#: src/tags.cpp:527
+#: src/tags.cpp:537
 msgid ""
 "A pointer to the Exif IFD. Interoperability, Exif IFD has the same structure "
 "as that of the IFD specified in TIFF. ordinarily, however, it does not "
 "contain image data as in the case of TIFF."
 msgstr ""
 
-#: src/tags.cpp:532
+#: src/tags.cpp:542
 msgid "Inter Color Profile"
 msgstr ""
 
-#: src/tags.cpp:533
+#: src/tags.cpp:543
 msgid ""
 "Contains an InterColor Consortium (ICC) format color space characterization/"
 "profile"
 msgstr ""
 
-#: src/tags.cpp:535
+#: src/tags.cpp:545
 msgid "GPS Info IFD Pointer"
 msgstr "Указатель GPS Info IFD"
 
-#: src/tags.cpp:536
+#: src/tags.cpp:546
 msgid ""
 "A pointer to the GPS Info IFD. The Interoperability structure of the GPS "
 "Info IFD, like that of Exif IFD, has no image data."
 msgstr ""
 
-#: src/tags.cpp:540
+#: src/tags.cpp:550
 msgid "TIFF/EP Standard ID"
 msgstr "ID стандарта TIFF/EP"
 
-#: src/tags.cpp:541
+#: src/tags.cpp:551
 msgid ""
 "Contains four ASCII characters representing the TIFF/EP standard version of "
 "a TIFF/EP file, eg '1', '0', '0', '0'"
 msgstr ""
 
-#: src/tags.cpp:544
+#: src/tags.cpp:554
 msgid "Windows Title"
 msgstr "Название (Windows)"
 
-#: src/tags.cpp:545
+#: src/tags.cpp:555
 msgid "Title tag used by Windows, encoded in UCS2"
 msgstr "Поле названия, используемое в Windows, кодированное в UCS2"
 
-#: src/tags.cpp:547
+#: src/tags.cpp:557
 msgid "Windows Comment"
 msgstr "Комментарий (Windows)"
 
-#: src/tags.cpp:548
+#: src/tags.cpp:558
 msgid "Comment tag used by Windows, encoded in UCS2"
 msgstr "Поле комментария, используемое в Windows, кодированное в UCS2"
 
-#: src/tags.cpp:550
+#: src/tags.cpp:560
 msgid "Windows Author"
 msgstr "Автор (Windows)"
 
-#: src/tags.cpp:551
+#: src/tags.cpp:561
 msgid "Author tag used by Windows, encoded in UCS2"
 msgstr "Поле автора, используемое в Windows, кодированное в UCS2"
 
-#: src/tags.cpp:553
+#: src/tags.cpp:563
 msgid "Windows Keywords"
 msgstr "Ключевые слова (Windows)"
 
-#: src/tags.cpp:554
+#: src/tags.cpp:564
 msgid "Keywords tag used by Windows, encoded in UCS2"
 msgstr "Поле ключевых слов, используемое в Windows, кодированное в UCS2"
 
-#: src/tags.cpp:556
+#: src/tags.cpp:566
 #, fuzzy
 msgid "Windows Subject"
 msgstr "Пользовательский комментарий"
 
-#: src/tags.cpp:557
+#: src/tags.cpp:567
 msgid "Subject tag used by Windows, encoded in UCS2"
 msgstr ""
 
-#: src/tags.cpp:559
+#: src/tags.cpp:569
 msgid "Print Image Matching"
 msgstr ""
 
-#: src/tags.cpp:560
+#: src/tags.cpp:570
 msgid "Print Image Matching, descriptiont needed."
 msgstr ""
 
-#: src/tags.cpp:562
+#: src/tags.cpp:572
 #, fuzzy
 msgid "DNG version"
 msgstr "Версия PDF"
 
-#: src/tags.cpp:563
+#: src/tags.cpp:573
 msgid ""
 "This tag encodes the DNG four-tier version number. For files compliant with "
 "version 1.1.0.0 of the DNG specification, this tag should contain the bytes: "
 "1, 1, 0, 0."
 msgstr ""
 
-#: src/tags.cpp:567
+#: src/tags.cpp:577
 #, fuzzy
 msgid "DNG backward version"
 msgstr "Версия прошивки"
 
-#: src/tags.cpp:568
+#: src/tags.cpp:578
 msgid ""
 "This tag specifies the oldest version of the Digital Negative specification "
 "for which a file is compatible. Readers shouldnot attempt to read a file if "
@@ -13279,12 +13646,12 @@ msgid ""
 "values, to verify it is able to correctly read the file."
 msgstr ""
 
-#: src/tags.cpp:576
+#: src/tags.cpp:586
 #, fuzzy
 msgid "Unique Camera Model"
 msgstr "Модель камеры"
 
-#: src/tags.cpp:577
+#: src/tags.cpp:587
 msgid ""
 "Defines a unique, non-localized name for the camera model that created the "
 "image in the raw file. This name should include the manufacturer's name to "
@@ -13294,42 +13661,42 @@ msgid ""
 "replacement profiles."
 msgstr ""
 
-#: src/tags.cpp:584
+#: src/tags.cpp:594
 #, fuzzy
 msgid "Localized Camera Model"
 msgstr "Модель камеры"
 
-#: src/tags.cpp:585
+#: src/tags.cpp:595
 msgid ""
 "Similar to the UniqueCameraModel field, except the name can be localized for "
 "different markets to match the localization of the camera name."
 msgstr ""
 
-#: src/tags.cpp:589
+#: src/tags.cpp:599
 #, fuzzy
 msgid "CFA Plane Color"
 msgstr "Паттерн CFA"
 
-#: src/tags.cpp:590
+#: src/tags.cpp:600
 msgid ""
 "Provides a mapping between the values in the CFAPattern tag and the plane "
 "numbers in LinearRaw space. This is a required tag for non-RGB CFA images."
 msgstr ""
 
-#: src/tags.cpp:594
+#: src/tags.cpp:604
 msgid "CFA Layout"
 msgstr ""
 
-#: src/tags.cpp:595
+#: src/tags.cpp:605
 msgid "Describes the spatial layout of the CFA."
 msgstr ""
 
-#: src/tags.cpp:597
+#: src/tags.cpp:607
 #, fuzzy
 msgid "Linearization Table"
 msgstr "Дата оцифровки"
 
-#: src/tags.cpp:598
+#: src/tags.cpp:608
 msgid ""
 "Describes a lookup table that maps stored values into linear values. This "
 "tag is typically used to increase compression ratios by storing the raw data "
@@ -13338,16 +13705,16 @@ msgid ""
 "all the samples for each pixel."
 msgstr ""
 
-#: src/tags.cpp:604
+#: src/tags.cpp:614
 #, fuzzy
 msgid "Black Level Repeat Dim"
 msgstr "Заряд батареи"
 
-#: src/tags.cpp:605
+#: src/tags.cpp:615
 msgid "Specifies repeat pattern size for the BlackLevel tag."
 msgstr ""
 
-#: src/tags.cpp:608
+#: src/tags.cpp:618
 msgid ""
 "Specifies the zero light (a.k.a. thermal black or black current) encoding "
 "level, as a repeating pattern. The origin of this pattern is the top-left "
@@ -13355,12 +13722,12 @@ msgid ""
 "sample scan order."
 msgstr ""
 
-#: src/tags.cpp:613
+#: src/tags.cpp:623
 #, fuzzy
 msgid "Black Level Delta H"
 msgstr "Заряд батареи"
 
-#: src/tags.cpp:614
+#: src/tags.cpp:624
 msgid ""
 "If the zero light encoding level is a function of the image column, "
 "BlackLevelDeltaH specifies the difference between the zero light encoding "
@@ -13369,12 +13736,12 @@ msgid ""
 "samples for each pixel."
 msgstr ""
 
-#: src/tags.cpp:620
+#: src/tags.cpp:630
 #, fuzzy
 msgid "Black Level Delta V"
 msgstr "Заряд батареи"
 
-#: src/tags.cpp:621
+#: src/tags.cpp:631
 msgid ""
 "If the zero light encoding level is a function of the image row, this tag "
 "specifies the difference between the zero light encoding level for each row "
@@ -13382,24 +13749,24 @@ msgid ""
 "to one, this single table applies to all the samples for each pixel."
 msgstr ""
 
-#: src/tags.cpp:627
+#: src/tags.cpp:637
 #, fuzzy
 msgid "White Level"
 msgstr "Заряд батареи"
 
-#: src/tags.cpp:628
+#: src/tags.cpp:638
 msgid ""
 "This tag specifies the fully saturated encoding level for the raw sample "
 "values. Saturation is caused either by the sensor itself becoming highly non-"
 "linear in response, or by the camera's analog to digital converter clipping."
 msgstr ""
 
-#: src/tags.cpp:633
+#: src/tags.cpp:643
 #, fuzzy
 msgid "Default Scale"
 msgstr "По умолчанию"
 
-#: src/tags.cpp:634
+#: src/tags.cpp:644
 msgid ""
 "DefaultScale is required for cameras with non-square pixels. It specifies "
 "the default scale factors for each direction to convert the image to square "
@@ -13409,11 +13776,11 @@ msgid ""
 "of 2.0."
 msgstr ""
 
-#: src/tags.cpp:641
+#: src/tags.cpp:651
 msgid "Default Crop Origin"
 msgstr ""
 
-#: src/tags.cpp:642
+#: src/tags.cpp:652
 msgid ""
 "Raw images often store extra pixels around the edges of the final image. "
 "These extra pixels help prevent interpolation artifacts near the edges of "
@@ -13422,11 +13789,11 @@ msgid ""
 "applied), relative to the top-left corner of the ActiveArea rectangle."
 msgstr ""
 
-#: src/tags.cpp:649
+#: src/tags.cpp:659
 msgid "Default Crop Size"
 msgstr ""
 
-#: src/tags.cpp:650
+#: src/tags.cpp:660
 msgid ""
 "Raw images often store extra pixels around the edges of the final image. "
 "These extra pixels help prevent interpolation artifacts near the edges of "
@@ -13434,12 +13801,12 @@ msgid ""
 "in raw image coordinates (i.e., before the DefaultScale has been applied)."
 msgstr ""
 
-#: src/tags.cpp:656
+#: src/tags.cpp:666
 #, fuzzy
 msgid "Color Matrix 1"
 msgstr "Цветовое пространство"
 
-#: src/tags.cpp:657
+#: src/tags.cpp:667
 msgid ""
 "ColorMatrix1 defines a transformation matrix that converts XYZ values to "
 "reference camera native color space values, under the first calibration "
@@ -13447,24 +13814,24 @@ msgid ""
 "tag is required for all non-monochrome DNG files."
 msgstr ""
 
-#: src/tags.cpp:663
+#: src/tags.cpp:673
 #, fuzzy
 msgid "Color Matrix 2"
 msgstr "Цветовое пространство"
 
-#: src/tags.cpp:664
+#: src/tags.cpp:674
 msgid ""
 "ColorMatrix2 defines a transformation matrix that converts XYZ values to "
 "reference camera native color space values, under the second calibration "
 "illuminant. The matrix values are stored in row scan order."
 msgstr ""
 
-#: src/tags.cpp:669
+#: src/tags.cpp:679
 #, fuzzy
 msgid "Camera Calibration 1"
 msgstr "Настройка контраста"
 
-#: src/tags.cpp:670
+#: src/tags.cpp:680
 msgid ""
 "CameraClalibration1 defines a calibration matrix that transforms reference "
 "camera native space values to individual camera native space values under "
@@ -13475,11 +13842,11 @@ msgid ""
 "per-individual camera calibration performed by the camera manufacturer."
 msgstr ""
 
-#: src/tags.cpp:679
+#: src/tags.cpp:689
 msgid "Camera Calibration 2"
 msgstr ""
 
-#: src/tags.cpp:680
+#: src/tags.cpp:690
 msgid ""
 "CameraCalibration2 defines a calibration matrix that transforms reference "
 "camera native space values to individual camera native space values under "
@@ -13490,11 +13857,11 @@ msgid ""
 "per-individual camera calibration performed by the camera manufacturer."
 msgstr ""
 
-#: src/tags.cpp:689
+#: src/tags.cpp:699
 msgid "Reduction Matrix 1"
 msgstr ""
 
-#: src/tags.cpp:690
+#: src/tags.cpp:700
 msgid ""
 "ReductionMatrix1 defines a dimensionality reduction matrix for use as the "
 "first stage in converting color camera native space values to XYZ values, "
@@ -13502,11 +13869,11 @@ msgid ""
 "ColorPlanes is greater than 3. The matrix is stored in row scan order."
 msgstr ""
 
-#: src/tags.cpp:696
+#: src/tags.cpp:706
 msgid "Reduction Matrix 2"
 msgstr ""
 
-#: src/tags.cpp:697
+#: src/tags.cpp:707
 msgid ""
 "ReductionMatrix2 defines a dimensionality reduction matrix for use as the "
 "first stage in converting color camera native space values to XYZ values, "
@@ -13514,12 +13881,12 @@ msgid ""
 "ColorPlanes is greater than 3. The matrix is stored in row scan order."
 msgstr ""
 
-#: src/tags.cpp:703
+#: src/tags.cpp:713
 #, fuzzy
 msgid "Analog Balance"
 msgstr "Баланс белого"
 
-#: src/tags.cpp:704
+#: src/tags.cpp:714
 msgid ""
 "Normally the stored raw values are not white balanced, since any digital "
 "white balancing will reduce the dynamic range of the final image if the user "
@@ -13530,35 +13897,35 @@ msgid ""
 "recommended) that has been applied the stored raw values."
 msgstr ""
 
-#: src/tags.cpp:713
+#: src/tags.cpp:723
 #, fuzzy
 msgid "As Shot Neutral"
 msgstr "внешняя"
 
-#: src/tags.cpp:714
+#: src/tags.cpp:724
 msgid ""
 "Specifies the selected white balance at time of capture, encoded as the "
 "coordinates of a perfectly neutral color in linear reference space values. "
 "The inclusion of this tag precludes the inclusion of the AsShotWhiteXY tag."
 msgstr ""
 
-#: src/tags.cpp:719
+#: src/tags.cpp:729
 msgid "As Shot White XY"
 msgstr ""
 
-#: src/tags.cpp:720
+#: src/tags.cpp:730
 msgid ""
 "Specifies the selected white balance at time of capture, encoded as x-y "
 "chromaticity coordinates. The inclusion of this tag precludes the inclusion "
 "of the AsShotNeutral tag."
 msgstr ""
 
-#: src/tags.cpp:724
+#: src/tags.cpp:734
 #, fuzzy
 msgid "Baseline Exposure"
 msgstr "Режим экспозиции"
 
-#: src/tags.cpp:725
+#: src/tags.cpp:735
 msgid ""
 "Camera models vary in the trade-off they make between highlight headroom and "
 "shadow noise. Some leave a significant amount of highlight headroom during a "
@@ -13573,11 +13940,11 @@ msgid ""
 "results, while negative values result in darker default results."
 msgstr ""
 
-#: src/tags.cpp:739
+#: src/tags.cpp:749
 msgid "Baseline Noise"
 msgstr ""
 
-#: src/tags.cpp:740
+#: src/tags.cpp:750
 msgid ""
 "Specifies the relative noise level of the camera model at a baseline ISO "
 "value of 100, compared to a reference camera model. Since noise levels tend "
@@ -13586,12 +13953,12 @@ msgid ""
 "noise level of the current image."
 msgstr ""
 
-#: src/tags.cpp:746
+#: src/tags.cpp:756
 #, fuzzy
 msgid "Baseline Sharpness"
 msgstr "Резкость"
 
-#: src/tags.cpp:747
+#: src/tags.cpp:757
 msgid ""
 "Specifies the relative amount of sharpening required for this camera model, "
 "compared to a reference camera model. Camera models vary in the strengths of "
@@ -13599,11 +13966,11 @@ msgid ""
 "sharpening than cameras with strong anti-aliasing filters."
 msgstr ""
 
-#: src/tags.cpp:753
+#: src/tags.cpp:763
 msgid "Bayer Green Split"
 msgstr ""
 
-#: src/tags.cpp:754
+#: src/tags.cpp:764
 msgid ""
 "Only applies to CFA images using a Bayer pattern filter array. This tag "
 "specifies, in arbitrary units, how closely the values of the green pixels in "
@@ -13613,11 +13980,11 @@ msgid ""
 "this tag is from 0 (no divergence) to about 5000 (quite large divergence)."
 msgstr ""
 
-#: src/tags.cpp:762
+#: src/tags.cpp:772
 msgid "Linear Response Limit"
 msgstr ""
 
-#: src/tags.cpp:763
+#: src/tags.cpp:773
 msgid ""
 "Some sensors have an unpredictable non-linearity in their response as they "
 "near the upper limit of their encoding range. This non-linearity results in "
@@ -13627,7 +13994,7 @@ msgid ""
 "significantly non-linear."
 msgstr ""
 
-#: src/tags.cpp:771
+#: src/tags.cpp:781
 #, fuzzy
 msgid ""
 "CameraSerialNumber contains the serial number of the camera or camera body "
@@ -13635,22 +14002,22 @@ msgid ""
 msgstr ""
 "Серийный номер камеры или задника камеры, использовавшегося для съемки."
 
-#: src/tags.cpp:774
+#: src/tags.cpp:784
 #, fuzzy
 msgid "Lens Info"
 msgstr "Объектив"
 
-#: src/tags.cpp:775
+#: src/tags.cpp:785
 msgid ""
 "Contains information about the lens that captured the image. If the minimum "
 "f-stops are unknown, they should be encoded as 0/0."
 msgstr ""
 
-#: src/tags.cpp:778
+#: src/tags.cpp:788
 msgid "Chroma Blur Radius"
 msgstr ""
 
-#: src/tags.cpp:779
+#: src/tags.cpp:789
 msgid ""
 "ChromaBlurRadius provides a hint to the DNG reader about how much chroma "
 "blur should be applied to the image. If this tag is omitted, the reader will "
@@ -13661,12 +14028,12 @@ msgid ""
 "mosaic algorithm."
 msgstr ""
 
-#: src/tags.cpp:787
+#: src/tags.cpp:797
 #, fuzzy
 msgid "Anti Alias Strength"
 msgstr "Фокусное расстояние"
 
-#: src/tags.cpp:788
+#: src/tags.cpp:798
 msgid ""
 "Provides a hint to the DNG reader about how strong the camera's anti-alias "
 "filter is. A value of 0.0 means no anti-alias filter (i.e., the camera is "
@@ -13675,35 +14042,35 @@ msgid ""
 "artifacts)."
 msgstr ""
 
-#: src/tags.cpp:794
+#: src/tags.cpp:804
 #, fuzzy
 msgid "Shadow Scale"
 msgstr "Тень"
 
-#: src/tags.cpp:795
+#: src/tags.cpp:805
 msgid ""
 "This tag is used by Adobe Camera Raw to control the sensitivity of its "
 "'Shadows' slider."
 msgstr ""
 
-#: src/tags.cpp:798
+#: src/tags.cpp:808
 #, fuzzy
 msgid "DNG Private Data"
 msgstr "Данные эскиза"
 
-#: src/tags.cpp:799
+#: src/tags.cpp:809
 msgid ""
 "Provides a way for camera manufacturers to store private data in the DNG "
 "file for use by their own raw converters, and to have that data preserved by "
 "programs that edit DNG files."
 msgstr ""
 
-#: src/tags.cpp:803
+#: src/tags.cpp:813
 #, fuzzy
 msgid "MakerNote Safety"
 msgstr "Данные производителя"
 
-#: src/tags.cpp:804
+#: src/tags.cpp:814
 msgid ""
 "MakerNoteSafety lets the DNG reader know whether the EXIF MakerNote tag is "
 "safe to preserve along with the rest of the EXIF data. File browsers and "
@@ -13712,22 +14079,22 @@ msgid ""
 "may be stale, and may not reflect the current state of the full size image."
 msgstr ""
 
-#: src/tags.cpp:811
+#: src/tags.cpp:821
 msgid "Calibration Illuminant 1"
 msgstr ""
 
-#: src/tags.cpp:812
+#: src/tags.cpp:822
 msgid ""
 "The illuminant used for the first set of color calibration tags "
 "(ColorMatrix1, CameraCalibration1, ReductionMatrix1). The legal values for "
 "this tag are the same as the legal values for the LightSource EXIF tag."
 msgstr ""
 
-#: src/tags.cpp:817
+#: src/tags.cpp:827
 msgid "Calibration Illuminant 2"
 msgstr ""
 
-#: src/tags.cpp:818
+#: src/tags.cpp:828
 msgid ""
 "The illuminant used for an optional second set of color calibration tags "
 "(ColorMatrix2, CameraCalibration2, ReductionMatrix2). The legal values for "
@@ -13736,11 +14103,11 @@ msgid ""
 "(unknown)."
 msgstr ""
 
-#: src/tags.cpp:824
+#: src/tags.cpp:834
 msgid "Best Quality Scale"
 msgstr ""
 
-#: src/tags.cpp:825
+#: src/tags.cpp:835
 msgid ""
 "For some cameras, the best possible image quality is not achieved by "
 "preserving the total pixel count during conversion. For example, Fujifilm "
@@ -13749,12 +14116,12 @@ msgid ""
 "need to be multiplied to achieve the best quality image size."
 msgstr ""
 
-#: src/tags.cpp:832
+#: src/tags.cpp:842
 #, fuzzy
 msgid "Raw Data Unique ID"
 msgstr "Уникальный ID изображения"
 
-#: src/tags.cpp:833
+#: src/tags.cpp:843
 msgid ""
 "This tag contains a 16-byte unique identifier for the raw image data in the "
 "DNG file. DNG readers can use this tag to recognize a particular raw image, "
@@ -13764,22 +14131,22 @@ msgid ""
 "will end up having the same identifier."
 msgstr ""
 
-#: src/tags.cpp:841
+#: src/tags.cpp:851
 #, fuzzy
 msgid "Original Raw File Name"
 msgstr "Имя файла"
 
-#: src/tags.cpp:842
+#: src/tags.cpp:852
 msgid ""
 "If the DNG file was converted from a non-DNG raw file, then this tag "
 "contains the file name of that original raw file."
 msgstr ""
 
-#: src/tags.cpp:845
+#: src/tags.cpp:855
 msgid "Original Raw File Data"
 msgstr ""
 
-#: src/tags.cpp:846
+#: src/tags.cpp:856
 msgid ""
 "If the DNG file was converted from a non-DNG raw file, then this tag "
 "contains the compressed contents of that original raw file. The contents of "
@@ -13792,23 +14159,23 @@ msgid ""
 "data blocks."
 msgstr ""
 
-#: src/tags.cpp:856
+#: src/tags.cpp:866
 #, fuzzy
 msgid "Active Area"
 msgstr "Область объекта съёмки"
 
-#: src/tags.cpp:857
+#: src/tags.cpp:867
 msgid ""
 "This rectangle defines the active (non-masked) pixels of the sensor. The "
 "order of the rectangle coordinates is: top, left, bottom, right."
 msgstr ""
 
-#: src/tags.cpp:860
+#: src/tags.cpp:870
 #, fuzzy
 msgid "Masked Areas"
 msgstr "Ручная"
 
-#: src/tags.cpp:861
+#: src/tags.cpp:871
 msgid ""
 "This tag contains a list of non-overlapping rectangle coordinates of fully "
 "masked pixels, which can be optionally used by DNG readers to measure the "
@@ -13818,11 +14185,11 @@ msgid ""
 "masked pixels are no longer useful."
 msgstr ""
 
-#: src/tags.cpp:868
+#: src/tags.cpp:878
 msgid "As-Shot ICC Profile"
 msgstr ""
 
-#: src/tags.cpp:869
+#: src/tags.cpp:879
 msgid ""
 "This tag contains an ICC profile that, in conjunction with the "
 "AsShotPreProfileMatrix tag, provides the camera manufacturer with a way to "
@@ -13835,11 +14202,11 @@ msgid ""
 "scene referred values and output referred values."
 msgstr ""
 
-#: src/tags.cpp:880
+#: src/tags.cpp:890
 msgid "As-Shot Pre-Profile Matrix"
 msgstr ""
 
-#: src/tags.cpp:881
+#: src/tags.cpp:891
 msgid ""
 "This tag is used in conjunction with the AsShotICCProfile tag. It specifies "
 "a matrix that should be applied to the camera color space coordinates before "
@@ -13851,12 +14218,12 @@ msgid ""
 "input components."
 msgstr ""
 
-#: src/tags.cpp:890
+#: src/tags.cpp:900
 #, fuzzy
 msgid "Current ICC Profile"
 msgstr "Профиль камеры"
 
-#: src/tags.cpp:891
+#: src/tags.cpp:901
 msgid ""
 "This tag is used in conjunction with the CurrentPreProfileMatrix tag. The "
 "CurrentICCProfile and CurrentPreProfileMatrix tags have the same purpose and "
@@ -13864,11 +14231,11 @@ msgid ""
 "they are for use by raw file editors rather than camera manufacturers."
 msgstr ""
 
-#: src/tags.cpp:897
+#: src/tags.cpp:907
 msgid "Current Pre-Profile Matrix"
 msgstr ""
 
-#: src/tags.cpp:898
+#: src/tags.cpp:908
 msgid ""
 "This tag is used in conjunction with the CurrentICCProfile tag. The "
 "CurrentICCProfile and CurrentPreProfileMatrix tags have the same purpose and "
@@ -13876,348 +14243,348 @@ msgid ""
 "they are for use by raw file editors rather than camera manufacturers."
 msgstr ""
 
-#: src/tags.cpp:905 src/tags.cpp:906
+#: src/tags.cpp:915 src/tags.cpp:916
 msgid "Unknown IFD tag"
 msgstr "Неизвестное поле IFD"
 
-#: src/tags.cpp:917 src/tags.cpp:1005
+#: src/tags.cpp:927 src/tags.cpp:1015
 msgid "Not defined"
 msgstr "Не определено"
 
-#: src/tags.cpp:922
+#: src/tags.cpp:932
 msgid "Creative program"
 msgstr "Творческая программа"
 
-#: src/tags.cpp:923
+#: src/tags.cpp:933
 #, fuzzy
 msgid "Action program"
 msgstr "Нормальная программа"
 
-#: src/tags.cpp:924
+#: src/tags.cpp:934
 msgid "Portrait mode"
 msgstr "Портретный режим"
 
-#: src/tags.cpp:925
+#: src/tags.cpp:935
 msgid "Landscape mode"
 msgstr "Альбомный режим"
 
-#: src/tags.cpp:932
+#: src/tags.cpp:942
 #, fuzzy
 msgid "Center weighted average"
 msgstr "Центрально-взвешенный средний"
 
-#: src/tags.cpp:934
+#: src/tags.cpp:944
 msgid "Multi-spot"
 msgstr ""
 
-#: src/tags.cpp:945
+#: src/tags.cpp:955
 #, fuzzy
 msgid "Tungsten (incandescent light)"
 msgstr "Яркая лампа накаливания"
 
-#: src/tags.cpp:947
+#: src/tags.cpp:957
 msgid "Fine weather"
 msgstr "Ясная погода"
 
-#: src/tags.cpp:948
+#: src/tags.cpp:958
 msgid "Cloudy weather"
 msgstr "Облачность"
 
-#: src/tags.cpp:950
+#: src/tags.cpp:960
 msgid "Daylight fluorescent (D 5700 - 7100K)"
 msgstr "Флуоресцентная лампа дневного света (D 5700 - 7100K)"
 
-#: src/tags.cpp:951
+#: src/tags.cpp:961
 msgid "Day white fluorescent (N 4600 - 5400K)"
 msgstr ""
 
-#: src/tags.cpp:952
+#: src/tags.cpp:962
 msgid "Cool white fluorescent (W 3900 - 4500K)"
 msgstr ""
 
-#: src/tags.cpp:953
+#: src/tags.cpp:963
 msgid "White fluorescent (WW 3200 - 3700K)"
 msgstr ""
 
-#: src/tags.cpp:954
+#: src/tags.cpp:964
 msgid "Standard light A"
 msgstr "Стандартный свет A"
 
-#: src/tags.cpp:955
+#: src/tags.cpp:965
 msgid "Standard light B"
 msgstr "Стандартный свет B"
 
-#: src/tags.cpp:956
+#: src/tags.cpp:966
 msgid "Standard light C"
 msgstr "Стандартный свет C"
 
-#: src/tags.cpp:957
+#: src/tags.cpp:967
 msgid "D55"
 msgstr "D55"
 
-#: src/tags.cpp:958
+#: src/tags.cpp:968
 msgid "D65"
 msgstr "D65"
 
-#: src/tags.cpp:959
+#: src/tags.cpp:969
 msgid "D75"
 msgstr "D75"
 
-#: src/tags.cpp:960
+#: src/tags.cpp:970
 msgid "D50"
 msgstr "D50"
 
-#: src/tags.cpp:961
+#: src/tags.cpp:971
 msgid "ISO studio tungsten"
 msgstr ""
 
-#: src/tags.cpp:962
+#: src/tags.cpp:972
 msgid "Other light source"
 msgstr "Другой источник света"
 
-#: src/tags.cpp:967
+#: src/tags.cpp:977
 msgid "No flash"
 msgstr "Без вспышки"
 
-#: src/tags.cpp:969
+#: src/tags.cpp:979
 #, fuzzy
 msgid "Fired, strobe return light not detected"
 msgstr "Вспышка сработала, автоматический режим, возвратный свет не найден"
 
-#: src/tags.cpp:970
+#: src/tags.cpp:980
 #, fuzzy
 msgid "Fired, strobe return light detected"
 msgstr "Вспышка сработала, автоматический режим, возвратный свет найден"
 
-#: src/tags.cpp:971
+#: src/tags.cpp:981
 #, fuzzy
 msgid "Yes, did not fire"
 msgstr "Вспышка не сработала"
 
-#: src/tags.cpp:972
+#: src/tags.cpp:982
 msgid "Yes, compulsory"
 msgstr ""
 
-#: src/tags.cpp:973
+#: src/tags.cpp:983
 #, fuzzy
 msgid "Yes, compulsory, return light not detected"
 msgstr "Вспышка сработала, автоматический режим, возвратный свет не найден"
 
-#: src/tags.cpp:974
+#: src/tags.cpp:984
 #, fuzzy
 msgid "Yes, compulsory, return light detected"
 msgstr "Вспышка сработала, автоматический режим, возвратный свет найден"
 
-#: src/tags.cpp:975
+#: src/tags.cpp:985
 msgid "No, compulsory"
 msgstr ""
 
-#: src/tags.cpp:976
+#: src/tags.cpp:986
 #, fuzzy
 msgid "No, did not fire, return not detected"
 msgstr "Вспышка сработала, автоматический режим, возвратный свет не найден"
 
-#: src/tags.cpp:977
+#: src/tags.cpp:987
 msgid "No, auto"
 msgstr "Нет, авто"
 
-#: src/tags.cpp:978
+#: src/tags.cpp:988
 msgid "Yes, auto"
 msgstr "Да, авто"
 
-#: src/tags.cpp:979
+#: src/tags.cpp:989
 #, fuzzy
 msgid "Yes, auto, return light not detected"
 msgstr "Вспышка сработала, автоматический режим, возвратный свет не найден"
 
-#: src/tags.cpp:980
+#: src/tags.cpp:990
 #, fuzzy
 msgid "Yes, auto, return light detected"
 msgstr "Вспышка сработала, автоматический режим, возвратный свет найден"
 
-#: src/tags.cpp:981
+#: src/tags.cpp:991
 msgid "No flash function"
 msgstr "Нет функции вспышки"
 
-#: src/tags.cpp:982
+#: src/tags.cpp:992
 #, fuzzy
 msgid "No, no flash function"
 msgstr "Нет функции вспышки"
 
-#: src/tags.cpp:983
+#: src/tags.cpp:993
 msgid "Yes, red-eye reduction"
 msgstr "Да, с подавлением эффекта красных глаз"
 
-#: src/tags.cpp:984
+#: src/tags.cpp:994
 #, fuzzy
 msgid "Yes, red-eye reduction, return light not detected"
 msgstr "Вспышка сработала, автоматический режим, возвратный свет не найден"
 
-#: src/tags.cpp:985
+#: src/tags.cpp:995
 #, fuzzy
 msgid "Yes, red-eye reduction, return light detected"
 msgstr "Вспышка сработала, автоматический режим, возвратный свет найден"
 
-#: src/tags.cpp:986
+#: src/tags.cpp:996
 #, fuzzy
 msgid "Yes, compulsory, red-eye reduction"
 msgstr "авто + подавление эффекта красных глаз"
 
-#: src/tags.cpp:987
+#: src/tags.cpp:997
 #, fuzzy
 msgid "Yes, compulsory, red-eye reduction, return light not detected"
 msgstr "Вспышка сработала, автоматический режим, возвратный свет не найден"
 
-#: src/tags.cpp:988
+#: src/tags.cpp:998
 #, fuzzy
 msgid "Yes, compulsory, red-eye reduction, return light detected"
 msgstr "Вспышка сработала, автоматический режим, возвратный свет найден"
 
-#: src/tags.cpp:989
+#: src/tags.cpp:999
 #, fuzzy
 msgid "No, red-eye reduction"
 msgstr "Да, с подавлением эффекта красных глаз"
 
-#: src/tags.cpp:990
+#: src/tags.cpp:1000
 #, fuzzy
 msgid "No, auto, red-eye reduction"
 msgstr "авто + подавление эффекта красных глаз"
 
-#: src/tags.cpp:991
+#: src/tags.cpp:1001
 #, fuzzy
 msgid "Yes, auto, red-eye reduction"
 msgstr "авто + подавление эффекта красных глаз"
 
-#: src/tags.cpp:992
+#: src/tags.cpp:1002
 #, fuzzy
 msgid "Yes, auto, red-eye reduction, return light not detected"
 msgstr "Вспышка сработала, автоматический режим, возвратный свет не найден"
 
-#: src/tags.cpp:993
+#: src/tags.cpp:1003
 #, fuzzy
 msgid "Yes, auto, red-eye reduction, return light detected"
 msgstr "Вспышка сработала, автоматический режим, возвратный свет найден"
 
-#: src/tags.cpp:1000
+#: src/tags.cpp:1010
 msgid "Uncalibrated"
 msgstr "Не откалибровано"
 
-#: src/tags.cpp:1006
+#: src/tags.cpp:1016
 msgid "One-chip color area"
 msgstr ""
 
-#: src/tags.cpp:1007
+#: src/tags.cpp:1017
 msgid "Two-chip color area"
 msgstr ""
 
-#: src/tags.cpp:1008
+#: src/tags.cpp:1018
 msgid "Three-chip color area"
 msgstr ""
 
-#: src/tags.cpp:1009
+#: src/tags.cpp:1019
 msgid "Color sequential area"
 msgstr ""
 
-#: src/tags.cpp:1010
+#: src/tags.cpp:1020
 msgid "Trilinear sensor"
 msgstr ""
 
-#: src/tags.cpp:1011
+#: src/tags.cpp:1021
 msgid "Color sequential linear"
 msgstr ""
 
-#: src/tags.cpp:1016
+#: src/tags.cpp:1026
 msgid "Film scanner"
 msgstr "Сканер фотопленки"
 
-#: src/tags.cpp:1017
+#: src/tags.cpp:1027
 msgid "Reflexion print scanner"
 msgstr ""
 
-#: src/tags.cpp:1018
+#: src/tags.cpp:1028
 msgid "Digital still camera"
 msgstr "Цифровая фотокамера"
 
-#: src/tags.cpp:1023
+#: src/tags.cpp:1033
 msgid "Directly photographed"
 msgstr ""
 
-#: src/tags.cpp:1028
+#: src/tags.cpp:1038
 msgid "Normal process"
 msgstr "Обычный процесс проявки"
 
-#: src/tags.cpp:1029
+#: src/tags.cpp:1039
 msgid "Custom process"
 msgstr "Другой процесс проявки"
 
-#: src/tags.cpp:1056
+#: src/tags.cpp:1066
 msgid "Low gain up"
 msgstr ""
 
-#: src/tags.cpp:1057
+#: src/tags.cpp:1067
 msgid "High gain up"
 msgstr ""
 
-#: src/tags.cpp:1058
+#: src/tags.cpp:1068
 msgid "Low gain down"
 msgstr ""
 
-#: src/tags.cpp:1059
+#: src/tags.cpp:1069
 msgid "High gain down"
 msgstr ""
 
-#: src/tags.cpp:1080
+#: src/tags.cpp:1090
 msgid "Close view"
 msgstr "Крупный план"
 
-#: src/tags.cpp:1081
+#: src/tags.cpp:1091
 msgid "Distant view"
 msgstr ""
 
-#: src/tags.cpp:1087
+#: src/tags.cpp:1097
 msgid "Exposure time, given in seconds (sec)."
 msgstr "Время экспозиции в секундах"
 
-#: src/tags.cpp:1090
+#: src/tags.cpp:1100
 msgid "The F number."
 msgstr "Число F"
 
-#: src/tags.cpp:1093
+#: src/tags.cpp:1103
 msgid ""
 "The class of the program used by the camera to set exposure when the picture "
 "is taken."
 msgstr ""
 "Класс программы, использованной камерой для установки экспозиции при съёмке."
 
-#: src/tags.cpp:1097
+#: src/tags.cpp:1107
 msgid ""
 "Indicates the spectral sensitivity of each channel of the camera used. The "
 "tag value is an ASCII string compatible with the standard developed by the "
 "ASTM Technical Committee."
 msgstr ""
 
-#: src/tags.cpp:1101
+#: src/tags.cpp:1111
 msgid "ISO Speed Ratings"
 msgstr ""
 
-#: src/tags.cpp:1102
+#: src/tags.cpp:1112
 msgid ""
 "Indicates the ISO Speed and ISO Latitude of the camera or input device as "
 "specified in ISO 12232."
 msgstr ""
 
-#: src/tags.cpp:1105
+#: src/tags.cpp:1115
 msgid "Opto-Electoric Conversion Function"
 msgstr ""
 
-#: src/tags.cpp:1106
+#: src/tags.cpp:1116
 msgid ""
 "Indicates the Opto-Electoric Conversion Function (OECF) specified in ISO "
 "14524. <OECF> is the relationship between the camera optical input and the "
 "image values."
 msgstr ""
 
-#: src/tags.cpp:1111
+#: src/tags.cpp:1121
 msgid ""
 "The version of this standard supported. Nonexistence of this field is taken "
 "to mean nonconformance to the standard."
@@ -14225,11 +14592,11 @@ msgstr ""
 "Поддерживаемая версия стандарта Exif. Отсутствие этого поля принимается за "
 "свидетельство несоответствия стандарту."
 
-#: src/tags.cpp:1114
+#: src/tags.cpp:1124
 msgid "Date and Time (original)"
 msgstr "Исходная дата и время"
 
-#: src/tags.cpp:1115
+#: src/tags.cpp:1125
 msgid ""
 "The date and time when the original image data was generated. For a digital "
 "still camera the date and time the picture was taken are recorded."
@@ -14237,15 +14604,15 @@ msgstr ""
 "Дата и время создания исходного изображения. Для цифровой фотокамеры это "
 "дата и время съёмки."
 
-#: src/tags.cpp:1118
+#: src/tags.cpp:1128
 msgid "Date and Time (digitized)"
 msgstr "Дата и время оцифровки"
 
-#: src/tags.cpp:1119
+#: src/tags.cpp:1129
 msgid "The date and time when the image was stored as digital data."
 msgstr "Дата и время сохранения изображения в цифровом виде"
 
-#: src/tags.cpp:1122
+#: src/tags.cpp:1132
 msgid ""
 "Information specific to compressed data. The channels of each component are "
 "arranged in order from the 1st component to the 4th. For uncompressed data "
@@ -14262,11 +14629,11 @@ msgstr ""
 "используются компоненты, отличные от Y, Cb и Cr, а также для обеспечения "
 "поддержки обеих последовательностей."
 
-#: src/tags.cpp:1131
+#: src/tags.cpp:1141
 msgid "Compressed Bits per Pixel"
 msgstr "Сжатых битов на пиксел"
 
-#: src/tags.cpp:1132
+#: src/tags.cpp:1142
 msgid ""
 "Information specific to compressed data. The compression mode used for a "
 "compressed image is indicated in unit bits per pixel."
@@ -14274,7 +14641,7 @@ msgstr ""
 "Специфичная для сжатых данных информация. Использованный режим сжатия для "
 "сжатого изображения показывается в единице измерения \"битов на пиксел\""
 
-#: src/tags.cpp:1136
+#: src/tags.cpp:1146
 #, fuzzy
 msgid ""
 "Shutter speed. The unit is the APEX (Additive System of Photographic "
@@ -14283,11 +14650,11 @@ msgstr ""
 "Скорость срабатывания затвора. Эта единица измерения является APEX(Additive "
 "System of Photographic Exposure)-настройкой (см. Приложение С)"
 
-#: src/tags.cpp:1140
+#: src/tags.cpp:1150
 msgid "The lens aperture. The unit is the APEX value."
 msgstr "Диафрагма объектива. Эта единица измерения является APEX-значением"
 
-#: src/tags.cpp:1143
+#: src/tags.cpp:1153
 msgid ""
 "The value of brightness. The unit is the APEX value. Ordinarily it is given "
 "in the range of -99.99 to 99.99."
@@ -14295,11 +14662,11 @@ msgstr ""
 "Значение яркости. Эта единица измерения является APEX-значением. Обычно оно "
 "находится в пределах от -99.99 до 99.99"
 
-#: src/tags.cpp:1146
+#: src/tags.cpp:1156
 msgid "Exposure Bias"
 msgstr "Смещение экспозиции"
 
-#: src/tags.cpp:1147
+#: src/tags.cpp:1157
 msgid ""
 "The exposure bias. The units is the APEX value. Ordinarily it is given in "
 "the range of -99.99 to 99.99."
@@ -14307,12 +14674,12 @@ msgstr ""
 "Смещение экспозиции. Измеряется APEX-единицами. Обычно значение лежит в "
 "диапазоне между -99.99 и 99.99."
 
-#: src/tags.cpp:1150
+#: src/tags.cpp:1160
 #, fuzzy
 msgid "Max Aperture Value"
 msgstr "Максимально открытая диафрагма"
 
-#: src/tags.cpp:1151
+#: src/tags.cpp:1161
 msgid ""
 "The smallest F number of the lens. The unit is the APEX value. Ordinarily it "
 "is given in the range of 00.00 to 99.99, but it is not limited to this range."
@@ -14321,24 +14688,24 @@ msgstr ""
 "значение лежит в диапазоне между 00.00 и 99.99, но оно не ограничено этим "
 "диапазоном."
 
-#: src/tags.cpp:1156
+#: src/tags.cpp:1166
 msgid "The distance to the subject, given in meters."
 msgstr "Расстояние до объекта в метрах"
 
-#: src/tags.cpp:1159
+#: src/tags.cpp:1169
 msgid "The metering mode."
 msgstr "Режим замера"
 
-#: src/tags.cpp:1162
+#: src/tags.cpp:1172
 msgid "The kind of light source."
 msgstr "Вид источника света"
 
-#: src/tags.cpp:1165
+#: src/tags.cpp:1175
 msgid ""
 "This tag is recorded when an image is taken using a strobe light (flash)."
 msgstr "Это поле записывается при использовании эффекта стробоскопа во вспышке"
 
-#: src/tags.cpp:1168
+#: src/tags.cpp:1178
 msgid ""
 "The actual focal length of the lens, in mm. Conversion is not made to the "
 "focal length of a 35 mm film camera."
@@ -14346,7 +14713,7 @@ msgstr ""
 "Реальное фокусное расстояние объектива. Преобразование в 35мм плёночный "
 "аналог не производится."
 
-#: src/tags.cpp:1172
+#: src/tags.cpp:1182
 msgid ""
 "This tag indicates the location and area of the main subject in the overall "
 "scene."
@@ -14354,11 +14721,11 @@ msgstr ""
 "Это поле хранит информацию о местоположении и области объекта съёмки во всей "
 "сцене."
 
-#: src/tags.cpp:1175
+#: src/tags.cpp:1185
 msgid "Maker Note"
 msgstr "Данные производителя"
 
-#: src/tags.cpp:1176
+#: src/tags.cpp:1186
 msgid ""
 "A tag for manufacturers of Exif writers to record any desired information. "
 "The contents are up to the manufacturer."
@@ -14366,52 +14733,52 @@ msgstr ""
 "Поле для разработчиков средства записи тегов Exif, в который можно "
 "записывать всё, что им хочется. Содержимое зависит от разработчиков."
 
-#: src/tags.cpp:1180
+#: src/tags.cpp:1190
 msgid ""
 "A tag for Exif users to write keywords or comments on the image besides "
 "those in <ImageDescription>, and without the character code limitations of "
 "the <ImageDescription> tag."
 msgstr ""
 
-#: src/tags.cpp:1184
+#: src/tags.cpp:1194
 msgid "Sub-seconds Time"
 msgstr ""
 
-#: src/tags.cpp:1185
+#: src/tags.cpp:1195
 msgid "A tag used to record fractions of seconds for the <DateTime> tag."
 msgstr "Поле, используемое для записи долей секунды из тега <DateTime>."
 
-#: src/tags.cpp:1187
+#: src/tags.cpp:1197
 #, fuzzy
 msgid "Sub-seconds Time Original"
 msgstr "Исходная дата и время"
 
-#: src/tags.cpp:1188
+#: src/tags.cpp:1198
 msgid ""
 "A tag used to record fractions of seconds for the <DateTimeOriginal> tag."
 msgstr ""
 "Поле, используемое для записи долей секунды из тега <DateTimeOriginal>."
 
-#: src/tags.cpp:1190
+#: src/tags.cpp:1200
 #, fuzzy
 msgid "Sub-seconds Time Digitized"
 msgstr "Дата и время оцифровки"
 
-#: src/tags.cpp:1191
+#: src/tags.cpp:1201
 msgid ""
 "A tag used to record fractions of seconds for the <DateTimeDigitized> tag."
 msgstr ""
 "Поле, используемое для записи долей секунды из тега <DateTimeDigitized>."
 
-#: src/tags.cpp:1193
+#: src/tags.cpp:1203
 msgid "FlashPix Version"
 msgstr "Версия FlashPix"
 
-#: src/tags.cpp:1194
+#: src/tags.cpp:1204
 msgid "The FlashPix format version supported by a FPXR file."
 msgstr "Версия формата FlashPix, поддерживаемого в формате файлов FPXR"
 
-#: src/tags.cpp:1197
+#: src/tags.cpp:1207
 #, fuzzy
 msgid ""
 "The color space information tag is always recorded as the color space "
@@ -14427,7 +14794,7 @@ msgstr ""
 "могут быть восприняты как sRGB при преобразовании во FlashPix. Подробнее "
 "sRGB рассматривается в приложении E."
 
-#: src/tags.cpp:1206
+#: src/tags.cpp:1216
 msgid ""
 "Information specific to compressed data. When a compressed file is recorded, "
 "the valid width of the meaningful image must be recorded in this tag, "
@@ -14435,7 +14802,7 @@ msgid ""
 "not exist in an uncompressed file."
 msgstr ""
 
-#: src/tags.cpp:1213
+#: src/tags.cpp:1223
 msgid ""
 "Information specific to compressed data. When a compressed file is recorded, "
 "the valid height of the meaningful image must be recorded in this tag, "
@@ -14445,7 +14812,7 @@ msgid ""
 "tag will in fact be the same as that recorded in the SOF."
 msgstr ""
 
-#: src/tags.cpp:1222
+#: src/tags.cpp:1232
 msgid ""
 "This tag is used to record the name of an audio file related to the image "
 "data. The only relational information recorded here is the Exif audio file "
@@ -14453,11 +14820,11 @@ msgid ""
 "characters). The path is not recorded."
 msgstr ""
 
-#: src/tags.cpp:1228
+#: src/tags.cpp:1238
 msgid "Interoperability IFD Pointer"
 msgstr ""
 
-#: src/tags.cpp:1229
+#: src/tags.cpp:1239
 msgid ""
 "Interoperability IFD is composed of tags which stores the information to "
 "ensure the Interoperability and pointed by the following tag located in Exif "
@@ -14466,48 +14833,48 @@ msgid ""
 "characteristically compared with normal TIFF IFD."
 msgstr ""
 
-#: src/tags.cpp:1237
+#: src/tags.cpp:1247
 msgid ""
 "Indicates the strobe energy at the time the image is captured, as measured "
 "in Beam Candle Power Seconds (BCPS)."
 msgstr ""
 
-#: src/tags.cpp:1241
+#: src/tags.cpp:1251
 msgid ""
 "This tag records the camera or input device spatial frequency table and SFR "
 "values in the direction of image width, image height, and diagonal "
 "direction, as specified in ISO 12233."
 msgstr ""
 
-#: src/tags.cpp:1245
+#: src/tags.cpp:1255
 #, fuzzy
 msgid "Focal Plane X-Resolution"
 msgstr "Разрешение по X"
 
-#: src/tags.cpp:1246
+#: src/tags.cpp:1256
 msgid ""
 "Indicates the number of pixels in the image width (X) direction per "
 "<FocalPlaneResolutionUnit> on the camera focal plane."
 msgstr ""
 
-#: src/tags.cpp:1249
+#: src/tags.cpp:1259
 #, fuzzy
 msgid "Focal Plane Y-Resolution"
 msgstr "Разрешение по X"
 
-#: src/tags.cpp:1250
+#: src/tags.cpp:1260
 msgid ""
 "Indicates the number of pixels in the image height (V) direction per "
 "<FocalPlaneResolutionUnit> on the camera focal plane."
 msgstr ""
 
-#: src/tags.cpp:1254
+#: src/tags.cpp:1264
 msgid ""
 "Indicates the unit for measuring <FocalPlaneXResolution> and "
 "<FocalPlaneYResolution>. This value is the same as the <ResolutionUnit>."
 msgstr ""
 
-#: src/tags.cpp:1258
+#: src/tags.cpp:1268
 #, fuzzy
 msgid ""
 "Indicates the location of the main subject in the scene. The value of this "
@@ -14520,21 +14887,21 @@ msgstr ""
 "края, до обработки поворота согласно тэгу <Rotation>. Первое значение "
 "отображает номер столбца по X, а второй - номер строки по Y."
 
-#: src/tags.cpp:1264
+#: src/tags.cpp:1274
 msgid "Exposure index"
 msgstr ""
 
-#: src/tags.cpp:1265
+#: src/tags.cpp:1275
 msgid ""
 "Indicates the exposure index selected on the camera or input device at the "
 "time the image is captured."
 msgstr ""
 
-#: src/tags.cpp:1269
+#: src/tags.cpp:1279
 msgid "Indicates the image sensor type on the camera or input device."
 msgstr ""
 
-#: src/tags.cpp:1272
+#: src/tags.cpp:1282
 #, fuzzy
 msgid ""
 "Indicates the image source. If a DSC recorded the image, this tag value of "
@@ -14544,7 +14911,7 @@ msgstr ""
 "значение тэга всегда должно быть равно 1, что означает непосредственную "
 "съёмку."
 
-#: src/tags.cpp:1277
+#: src/tags.cpp:1287
 msgid ""
 "Indicates the type of scene. If a DSC recorded the image, this tag value "
 "must always be set to 1, indicating that the image was directly photographed."
@@ -14553,25 +14920,25 @@ msgstr ""
 "значение тэга всегда должно быть равно 1, что означает непосредственную "
 "съёмку."
 
-#: src/tags.cpp:1281
+#: src/tags.cpp:1291
 msgid "Color Filter Array Pattern"
 msgstr ""
 
-#: src/tags.cpp:1282
+#: src/tags.cpp:1292
 msgid ""
 "Indicates the color filter array (CFA) geometric pattern of the image sensor "
 "when a one-chip color area sensor is used. It does not apply to all sensing "
 "methods."
 msgstr ""
 
-#: src/tags.cpp:1287
+#: src/tags.cpp:1297
 msgid ""
 "This tag indicates the use of special processing on image data, such as "
 "rendering geared to output. When special processing is performed, the reader "
 "is expected to disable or minimize any further processing."
 msgstr ""
 
-#: src/tags.cpp:1293
+#: src/tags.cpp:1303
 msgid ""
 "This tag indicates the exposure mode set when the image was shot. In auto-"
 "bracketing mode, the camera shoots a series of frames of the same scene at "
@@ -14581,11 +14948,11 @@ msgstr ""
 "автоматического брекетинга камера делает серию кадров одной и той же сцены с "
 "разными настройками экспозиции."
 
-#: src/tags.cpp:1298
+#: src/tags.cpp:1308
 msgid "This tag indicates the white balance mode set when the image was shot."
 msgstr "Этот тэг отображает режим баланса белого при съёмке изображения."
 
-#: src/tags.cpp:1301
+#: src/tags.cpp:1311
 msgid ""
 "This tag indicates the digital zoom ratio when the image was shot. If the "
 "numerator of the recorded value is 0, this indicates that digital zoom was "
@@ -14595,7 +14962,7 @@ msgstr ""
 "изображения. Если значение равно 0, то цифровой трансфокатор не был "
 "использован."
 
-#: src/tags.cpp:1306
+#: src/tags.cpp:1316
 #, fuzzy
 msgid ""
 "This tag indicates the equivalent focal length assuming a 35mm film camera, "
@@ -14606,7 +14973,7 @@ msgstr ""
 "измеряемом миллиметрами. Если значение равно 0, то фокусное расстояние "
 "неизвестно. Обратите внимание на то, что этот тэг отличется от <FocalLength>."
 
-#: src/tags.cpp:1312
+#: src/tags.cpp:1322
 #, fuzzy
 msgid ""
 "This tag indicates the type of scene that was shot. It can also be used to "
@@ -14617,140 +14984,140 @@ msgstr ""
 "измеряемом миллиметрами. Если значение равно 0, то фокусное расстояние "
 "неизвестно. Обратите внимание на то, что этот тэг отличется от <FocalLength>."
 
-#: src/tags.cpp:1317
+#: src/tags.cpp:1327
 msgid "This tag indicates the degree of overall image gain adjustment."
 msgstr ""
 
-#: src/tags.cpp:1320
+#: src/tags.cpp:1330
 msgid ""
 "This tag indicates the direction of contrast processing applied by the "
 "camera when the image was shot."
 msgstr ""
 "Этот тэг отображает направление обработки контраста при съёмке изображения"
 
-#: src/tags.cpp:1324
+#: src/tags.cpp:1334
 msgid ""
 "This tag indicates the direction of saturation processing applied by the "
 "camera when the image was shot."
 msgstr ""
 "Этот тэг отображает направление обработки насыщенности при съёмке изображения"
 
-#: src/tags.cpp:1328
+#: src/tags.cpp:1338
 msgid ""
 "This tag indicates the direction of sharpness processing applied by the "
 "camera when the image was shot."
 msgstr ""
 "Этот тэг отображает направление обработки резкости при съёмке изображения"
 
-#: src/tags.cpp:1332
+#: src/tags.cpp:1342
 msgid ""
 "This tag indicates information on the picture-taking conditions of a "
 "particular camera model. The tag is used only to indicate the picture-taking "
 "conditions in the reader."
 msgstr ""
 
-#: src/tags.cpp:1337
+#: src/tags.cpp:1347
 msgid "This tag indicates the distance to the subject."
 msgstr ""
 
-#: src/tags.cpp:1340
+#: src/tags.cpp:1350
 msgid ""
 "This tag indicates an identifier assigned uniquely to each image. It is "
 "recorded as an ASCII string equivalent to hexadecimal notation and 128-bit "
 "fixed length."
 msgstr ""
 
-#: src/tags.cpp:1345 src/tags.cpp:1346
+#: src/tags.cpp:1355 src/tags.cpp:1356
 msgid "Unknown Exif tag"
 msgstr "Неизвестный тег Exif"
 
-#: src/tags.cpp:1357
+#: src/tags.cpp:1367
 msgid "North"
 msgstr "Север"
 
-#: src/tags.cpp:1358
+#: src/tags.cpp:1368
 msgid "South"
 msgstr "Юг"
 
-#: src/tags.cpp:1363
+#: src/tags.cpp:1373
 msgid "East"
 msgstr "Восток"
 
-#: src/tags.cpp:1364
+#: src/tags.cpp:1374
 msgid "West"
 msgstr "Запад"
 
-#: src/tags.cpp:1369
+#: src/tags.cpp:1379
 msgid "Above sea level"
 msgstr "Над уровнем моря"
 
-#: src/tags.cpp:1370
+#: src/tags.cpp:1380
 msgid "Below sea level"
 msgstr "Под уровнем моря"
 
-#: src/tags.cpp:1375
+#: src/tags.cpp:1385
 msgid "Measurement in progress"
 msgstr "Выполняется измерение"
 
-#: src/tags.cpp:1376
+#: src/tags.cpp:1386
 msgid "Measurement Interoperability"
 msgstr ""
 
-#: src/tags.cpp:1381
+#: src/tags.cpp:1391
 msgid "Two-dimensional measurement"
 msgstr ""
 
-#: src/tags.cpp:1382
+#: src/tags.cpp:1392
 msgid "Three-dimensional measurement"
 msgstr ""
 
-#: src/tags.cpp:1387
+#: src/tags.cpp:1397
 msgid "km/h"
 msgstr "км/ч"
 
-#: src/tags.cpp:1388
+#: src/tags.cpp:1398
 msgid "mph"
 msgstr "миль/ч"
 
-#: src/tags.cpp:1389
+#: src/tags.cpp:1399
 msgid "knots"
 msgstr "узлов"
 
-#: src/tags.cpp:1394
+#: src/tags.cpp:1404
 #, fuzzy
 msgid "True direction"
 msgstr "Направление съёмки панорамы"
 
-#: src/tags.cpp:1395
+#: src/tags.cpp:1405
 #, fuzzy
 msgid "Magnetic direction"
 msgstr "Направление снимка GPS"
 
-#: src/tags.cpp:1400
+#: src/tags.cpp:1410
 #, fuzzy
 msgid "Kilometers"
 msgstr "Порядок заполнения"
 
-#: src/tags.cpp:1401
+#: src/tags.cpp:1411
 #, fuzzy
 msgid "Miles"
 msgstr "Файл"
 
-#: src/tags.cpp:1402
+#: src/tags.cpp:1412
 #, fuzzy
 msgid "Knots"
 msgstr "узлов"
 
-#: src/tags.cpp:1407
+#: src/tags.cpp:1417
 msgid "Without correction"
 msgstr "Без коррекции"
 
-#: src/tags.cpp:1408
+#: src/tags.cpp:1418
 #, fuzzy
 msgid "Correction applied"
 msgstr "Тонкомпенсация"
 
-#: src/tags.cpp:1414
+#: src/tags.cpp:1424
 msgid ""
 "Indicates the version of <GPSInfoIFD>. The version is given as 2.0.0.0. This "
 "tag is mandatory when <GPSInfo> tag is present. (Note: The <GPSVersionID> "
@@ -14762,11 +15129,11 @@ msgstr ""
 "<ExifVersion> тег <GPSVersionID> задаётся в байтах. Когда версия равна "
 "2.0.0.0, значение тега равно 02000000.H)."
 
-#: src/tags.cpp:1420
+#: src/tags.cpp:1430
 msgid "GPS Latitude Reference"
 msgstr ""
 
-#: src/tags.cpp:1421
+#: src/tags.cpp:1431
 msgid ""
 "Indicates whether the latitude is north or south latitude. The ASCII value "
 "'N' indicates north latitude, and 'S' is south latitude."
@@ -14774,7 +15141,7 @@ msgstr ""
 "Показывает, северная широта или же южная. ASCII-значение 'N' обозначает "
 "северную широту, а 'S' - южную."
 
-#: src/tags.cpp:1425
+#: src/tags.cpp:1435
 msgid ""
 "Indicates the latitude. The latitude is expressed as three RATIONAL values "
 "giving the degrees, minutes, and seconds, respectively. When degrees, "
@@ -14786,11 +15153,11 @@ msgstr ""
 "минутами (mm) и секундами (ss). При это формат таков: dd/1,mm/1,ss/1. Когда "
 "используются только градусы и минуты, формат таков: dd/1,mmmm/100,0/1."
 
-#: src/tags.cpp:1432
+#: src/tags.cpp:1442
 msgid "GPS Longitude Reference"
 msgstr ""
 
-#: src/tags.cpp:1433
+#: src/tags.cpp:1443
 msgid ""
 "Indicates whether the longitude is east or west longitude. ASCII 'E' "
 "indicates east longitude, and 'W' is west longitude."
@@ -14798,7 +15165,7 @@ msgstr ""
 "Показывает, восточная долгота или же западная. ASCII-значение 'E' обозначает "
 "восточную долготу, а 'W' - западную."
 
-#: src/tags.cpp:1437
+#: src/tags.cpp:1447
 msgid ""
 "Indicates the longitude. The longitude is expressed as three RATIONAL values "
 "giving the degrees, minutes, and seconds, respectively. When degrees, "
@@ -14810,7 +15177,7 @@ msgstr ""
 "минутами (mm) и секундами (ss). При это формат таков: ddd/1,mm/1,ss/1. Когда "
 "используются только градусы и минуты, формат таков: ddd/1,mmmm/100,0/1."
 
-#: src/tags.cpp:1445
+#: src/tags.cpp:1455
 msgid ""
 "Indicates the altitude used as the reference altitude. If the reference is "
 "sea level and the altitude is above sea level, 0 is given. If the altitude "
@@ -14824,7 +15191,7 @@ msgstr ""
 "<GSPAltitude>. Эталонной единицей измерения является метр. Помните, что этот "
 "тэг в отличие от других \"эталонных\" тэгов имеет тип BYTE."
 
-#: src/tags.cpp:1453
+#: src/tags.cpp:1463
 msgid ""
 "Indicates the altitude based on the reference in GPSAltitudeRef. Altitude is "
 "expressed as one RATIONAL value. The reference unit is meters."
@@ -14832,14 +15199,14 @@ msgstr ""
 "Отображает высоту, основываясь на эталоне из тэга <GPSAltitudeRef>. Высота "
 "выражается RATIONAL значением. Эталонной единицей измерения является метр."
 
-#: src/tags.cpp:1457
+#: src/tags.cpp:1467
 msgid ""
 "Indicates the time as UTC (Coordinated Universal Time). <TimeStamp> is "
 "expressed as three RATIONAL values giving the hour, minute, and second "
 "(atomic clock)."
 msgstr ""
 
-#: src/tags.cpp:1462
+#: src/tags.cpp:1472
 msgid ""
 "Indicates the GPS satellites used for measurements. This tag can be used to "
 "describe the number of satellites, their ID number, angle of elevation, "
@@ -14848,81 +15215,81 @@ msgid ""
 "the tag is set to NULL."
 msgstr ""
 
-#: src/tags.cpp:1469
+#: src/tags.cpp:1479
 msgid ""
 "Indicates the status of the GPS receiver when the image is recorded. \"A\" "
 "means measurement is in progress, and \"V\" means the measurement is "
 "Interoperability."
 msgstr ""
 
-#: src/tags.cpp:1474
+#: src/tags.cpp:1484
 msgid ""
 "Indicates the GPS measurement mode. \"2\" means two-dimensional measurement "
 "and \"3\" means three-dimensional measurement is in progress."
 msgstr ""
 
-#: src/tags.cpp:1477
+#: src/tags.cpp:1487
 #, fuzzy
 msgid "GPS Data Degree of Precision"
 msgstr "Версия тэга GPS"
 
-#: src/tags.cpp:1478
+#: src/tags.cpp:1488
 msgid ""
 "Indicates the GPS DOP (data degree of precision). An HDOP value is written "
 "during two-dimensional measurement, and PDOP during three-dimensional "
 "measurement."
 msgstr ""
 
-#: src/tags.cpp:1482
+#: src/tags.cpp:1492
 msgid ""
 "Indicates the unit used to express the GPS receiver speed of movement. \"K\" "
 "\"M\" and \"N\" represents kilometers per hour, miles per hour, and knots."
 msgstr ""
 
-#: src/tags.cpp:1486
+#: src/tags.cpp:1496
 msgid "Indicates the speed of GPS receiver movement."
 msgstr "Скорость перемещения приёмника GPS"
 
-#: src/tags.cpp:1488
+#: src/tags.cpp:1498
 msgid "GPS Track Ref"
 msgstr ""
 
-#: src/tags.cpp:1489
+#: src/tags.cpp:1499
 msgid ""
 "Indicates the reference for giving the direction of GPS receiver movement. "
 "\"T\" denotes true direction and \"M\" is magnetic direction."
 msgstr ""
 
-#: src/tags.cpp:1493
+#: src/tags.cpp:1503
 msgid ""
 "Indicates the direction of GPS receiver movement. The range of values is "
 "from 0.00 to 359.99."
 msgstr ""
 
-#: src/tags.cpp:1497
+#: src/tags.cpp:1507
 msgid ""
 "Indicates the reference for giving the direction of the image when it is "
 "captured. \"T\" denotes true direction and \"M\" is magnetic direction."
 msgstr ""
 
-#: src/tags.cpp:1501
+#: src/tags.cpp:1511
 msgid ""
 "Indicates the direction of the image when it was captured. The range of "
 "values is from 0.00 to 359.99."
 msgstr ""
 
-#: src/tags.cpp:1505
+#: src/tags.cpp:1515
 msgid ""
 "Indicates the geodetic survey data used by the GPS receiver. If the survey "
 "data is restricted to Japan, the value of this tag is \"TOKYO\" or \"WGS-84"
 "\"."
 msgstr ""
 
-#: src/tags.cpp:1508
+#: src/tags.cpp:1518
 msgid "GPS Destination Latitude Refeference"
 msgstr ""
 
-#: src/tags.cpp:1509
+#: src/tags.cpp:1519
 #, fuzzy
 msgid ""
 "Indicates whether the latitude of the destination point is north or south "
@@ -14932,7 +15299,7 @@ msgstr ""
 "Показывает, северная широта или же южная. ASCII-значение 'N' обозначает "
 "северную широту, а 'S' - южную."
 
-#: src/tags.cpp:1513
+#: src/tags.cpp:1523
 #, fuzzy
 msgid ""
 "Indicates the latitude of the destination point. The latitude is expressed "
@@ -14946,11 +15313,11 @@ msgstr ""
 "минутами (mm) и секундами (ss). При это формат таков: dd/1,mm/1,ss/1. Когда "
 "используются только градусы и минуты, формат таков: dd/1,mmmm/100,0/1."
 
-#: src/tags.cpp:1520
+#: src/tags.cpp:1530
 msgid "GPS Destination Longitude Reference"
 msgstr ""
 
-#: src/tags.cpp:1521
+#: src/tags.cpp:1531
 #, fuzzy
 msgid ""
 "Indicates whether the longitude of the destination point is east or west "
@@ -14959,7 +15326,7 @@ msgstr ""
 "Показывает, восточная долгота или же западная. ASCII-значение 'E' обозначает "
 "восточную долготу, а 'W' - западную."
 
-#: src/tags.cpp:1525
+#: src/tags.cpp:1535
 #, fuzzy
 msgid ""
 "Indicates the longitude of the destination point. The longitude is expressed "
@@ -14973,72 +15340,72 @@ msgstr ""
 "минутами (mm) и секундами (ss). При это формат таков: ddd/1,mm/1,ss/1. Когда "
 "используются только градусы и минуты, формат таков: ddd/1,mmmm/100,0/1."
 
-#: src/tags.cpp:1532
+#: src/tags.cpp:1542
 msgid ""
 "Indicates the reference used for giving the bearing to the destination "
 "point. \"T\" denotes true direction and \"M\" is magnetic direction."
 msgstr ""
 
-#: src/tags.cpp:1536
+#: src/tags.cpp:1546
 msgid ""
 "Indicates the bearing to the destination point. The range of values is from "
 "0.00 to 359.99."
 msgstr ""
 
-#: src/tags.cpp:1539
+#: src/tags.cpp:1549
 msgid "GPS Destination Distance Reference"
 msgstr ""
 
-#: src/tags.cpp:1540
+#: src/tags.cpp:1550
 msgid ""
 "Indicates the unit used to express the distance to the destination point. \"K"
 "\", \"M\" and \"N\" represent kilometers, miles and knots."
 msgstr ""
 
-#: src/tags.cpp:1544
+#: src/tags.cpp:1554
 #, fuzzy
 msgid "Indicates the distance to the destination point."
 msgstr "Расстояние до объекта в метрах"
 
-#: src/tags.cpp:1547
+#: src/tags.cpp:1557
 msgid ""
 "A character string recording the name of the method used for location "
 "finding. The first byte indicates the character code used, and this is "
 "followed by the name of the method."
 msgstr ""
 
-#: src/tags.cpp:1552
+#: src/tags.cpp:1562
 msgid ""
 "A character string recording the name of the GPS area. The first byte "
 "indicates the character code used, and this is followed by the name of the "
 "GPS area."
 msgstr ""
 
-#: src/tags.cpp:1555
+#: src/tags.cpp:1565
 msgid "GPS Date Stamp"
 msgstr ""
 
-#: src/tags.cpp:1556
+#: src/tags.cpp:1566
 msgid ""
 "A character string recording date and time information relative to UTC "
 "(Coordinated Universal Time). The format is \"YYYY:MM:DD.\"."
 msgstr ""
 
-#: src/tags.cpp:1560
+#: src/tags.cpp:1570
 msgid ""
 "Indicates whether differential correction is applied to the GPS receiver."
 msgstr ""
 
-#: src/tags.cpp:1563 src/tags.cpp:1564
+#: src/tags.cpp:1573 src/tags.cpp:1574
 #, fuzzy
 msgid "Unknown GPSInfo tag"
 msgstr "Неизвестный тэг"
 
-#: src/tags.cpp:1575
+#: src/tags.cpp:1585
 msgid "Interoperability Index"
 msgstr ""
 
-#: src/tags.cpp:1576
+#: src/tags.cpp:1586
 msgid ""
 "Indicates the identification of the Interoperability rule. Use \"R98\" for "
 "stating ExifR98 Rules. Four bytes used including the termination code "
@@ -15046,146 +15413,139 @@ msgid ""
 "(ExifR98) for other tags used for ExifR98."
 msgstr ""
 
-#: src/tags.cpp:1582
+#: src/tags.cpp:1592
 msgid "Interoperability Version"
 msgstr "Версия совместимости"
 
-#: src/tags.cpp:1583
+#: src/tags.cpp:1593
 msgid "Interoperability version"
 msgstr "Версия совместимости"
 
-#: src/tags.cpp:1585
+#: src/tags.cpp:1595
 msgid "Related Image File Format"
 msgstr ""
 
-#: src/tags.cpp:1586
+#: src/tags.cpp:1596
 msgid "File format of image file"
 msgstr ""
 
-#: src/tags.cpp:1588
+#: src/tags.cpp:1598
 #, fuzzy
 msgid "Related Image Width"
 msgstr "Ширина изображения"
 
-#: src/tags.cpp:1591
+#: src/tags.cpp:1601
 #, fuzzy
 msgid "Related Image Length"
 msgstr "Длина изображения"
 
-#: src/tags.cpp:1595 src/tags.cpp:1596
+#: src/tags.cpp:1605 src/tags.cpp:1606
 msgid "Unknown Exif Interoperability tag"
 msgstr "Неизвестный тег совместимости с Exif"
 
-#: src/tags.cpp:1607
+#: src/tags.cpp:1617
 #, fuzzy
 msgid "Offset"
 msgstr "быстрый"
 
-#: src/tags.cpp:1608
+#: src/tags.cpp:1618
 msgid "Offset of the makernote from the start of the TIFF header."
 msgstr ""
 
-#: src/tags.cpp:1610
+#: src/tags.cpp:1620
 #, fuzzy
 msgid "Byte Order"
 msgstr "Порядок заполнения"
 
-#: src/tags.cpp:1611
+#: src/tags.cpp:1621
 msgid ""
 "Byte order used to encode MakerNote tags, 'MM' (big-endian) or 'II' (little-"
 "endian)."
 msgstr ""
 
-#: src/tags.cpp:1614 src/tags.cpp:1615
+#: src/tags.cpp:1624 src/tags.cpp:1625
 #, fuzzy
 msgid "Unknown Exiv2 Makernote info tag"
 msgstr "Неизвестный тег PentaxMakerNote"
 
-#: src/tags.cpp:1625 src/tags.cpp:1626
+#: src/tags.cpp:1635 src/tags.cpp:1636
 msgid "Unknown tag"
 msgstr "Неизвестное поле"
 
-#: src/tags.cpp:2442
+#: src/tags.cpp:2452
 msgid "Digital zoom not used"
 msgstr "Цифровой трансфокатор не использовался"
 
-#: src/tiffimage.cpp:736
+#: src/tiffimage.cpp:776
 msgid "TIFF header, offset"
 msgstr ""
 
-#: src/tiffimage.cpp:741
+#: src/tiffimage.cpp:781
 msgid "little endian encoded"
 msgstr ""
 
-#: src/tiffimage.cpp:742
+#: src/tiffimage.cpp:782
 msgid "big endian encoded"
 msgstr ""
 
-#: src/tiffvisitor.cpp:930
+#: src/tiffvisitor.cpp:942
 msgid "Data area"
 msgstr ""
 
-#: src/tiffvisitor.cpp:932
+#: src/tiffvisitor.cpp:944
 msgid "bytes.\n"
 msgstr "байт.\n"
 
-#: src/tiffvisitor.cpp:950
+#: src/tiffvisitor.cpp:962
 msgid "directory with"
 msgstr ""
 
-#: src/tiffvisitor.cpp:953
+#: src/tiffvisitor.cpp:965
 msgid "entry:\n"
 msgstr "запись:\n"
 
-#: src/tiffvisitor.cpp:954
+#: src/tiffvisitor.cpp:966
 msgid "entries:\n"
 msgstr "записей:\n"
 
-#: src/tiffvisitor.cpp:963
+#: src/tiffvisitor.cpp:975
 msgid "Next directory:\n"
 msgstr "Следующий каталог:\n"
 
-#: src/tiffvisitor.cpp:964
+#: src/tiffvisitor.cpp:976
 msgid "No next directory\n"
 msgstr "Нет следующего каталога\n"
 
-#: src/tiffvisitor.cpp:975
+#: src/tiffvisitor.cpp:987
 msgid "Sub-IFD"
 msgstr "Sub-IFD"
 
-#: src/tiffvisitor.cpp:982
+#: src/tiffvisitor.cpp:994
 msgid "Makernote"
 msgstr "Данные производителя"
 
-#: src/tiffvisitor.cpp:999
+#: src/tiffvisitor.cpp:1011
 msgid "component"
 msgstr "компонент"
 
-#: src/tiffvisitor.cpp:1001
-msgid "bytes"
-msgstr "байт"
-
-#: src/tiffvisitor.cpp:1013
+#: src/tiffvisitor.cpp:1025
 msgid "Array Entry"
 msgstr ""
 
-#: src/tiffvisitor.cpp:1015
+#: src/tiffvisitor.cpp:1027
 msgid "with"
 msgstr ""
 
-#: src/tiffvisitor.cpp:1017
+#: src/tiffvisitor.cpp:1029
 msgid "elements"
 msgstr ""
 
-#: src/tiffvisitor.cpp:1018
+#: src/tiffvisitor.cpp:1030
 msgid "element"
 msgstr ""
 
 #~ msgid "Erasing"
 #~ msgstr "Удаление"
-
-#~ msgid "Writing"
-#~ msgstr "Выполняется запись"
 
 #, fuzzy
 #~ msgid "Writing XMP packet from"
@@ -15225,10 +15585,6 @@ msgstr ""
 
 #, fuzzy
 #~ msgid "Auto white balance"
-#~ msgstr "Автомат. баланс белого"
-
-#, fuzzy
-#~ msgid "Manual white balance"
 #~ msgstr "Автомат. баланс белого"
 
 #, fuzzy
