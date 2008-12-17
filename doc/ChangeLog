@@ -1,10 +1,6 @@
 Changes from version 0.18-pre2 to 0.18
 --------------------------------------
 
-* MSVC related
-	         - [build environment] More fixes for the MSVC build environment.
-	           (Robin Mills)
-
 * Exiv2 utility
 	- 0000580: [tools] -M option fails and reports success.
 	           (Reported by Daniel Blueman)
@@ -45,7 +41,11 @@ Changes from version 0.18-pre2 to 0.18
 	         - [translation] Updated German translation.
 	           (Oliver DÃ¶rr)
 	         - [translation] Updated Slovak translations.
-	           (Ivan Masár)
+	           (Ivan Masar)
+
+* MSVC related
+	- 0000578: [build environment] More fixes for the MSVC build environment.
+	           (Robin Mills)
 
 
 Changes from version 0.18-pre1 to 0.18-pre2
