@@ -14,6 +14,8 @@ Changes from version 0.18-pre2 to 0.18
 	           for the type of metadata in option -P.
 
 * Exiv2 library
+	- 0000591: [build environment] Added missing #includes for g++ 4.4.
+	           (Debian bug 505023, patch from Martin Michlmayr)
 	- 0000586: [metadata] ValueType<T> constructor makes assumptions of the
 	           endianness of the machine. (Reported by Dimitri)
 	- 0000584: [build environment] Linking fails for PreviewImage::pData().
@@ -24,10 +26,10 @@ Changes from version 0.18-pre2 to 0.18
 	           (Reported by Paolo Benvenuto)
 	         - [exif] Updated Nikon lens info to v3.25 of Robert Rottmerhusen's
 	           lens database.
+	         - [exif] Fixed adjustment of invalid tag data.
+	           (digiKam bug 177457)
 	         - [exif] Catch unknown makernotes before reading the IFD.
 	           (digiKam bug 174620)
-	         - [build environment] Added missing #includes for g++ 4.4.
-	           (Debian bug 505023, patch from Martin Michlmayr)
 	         - [exif] Introduced logic to fit Exif data in a 64kB block when
 	           writing to JPEG images.
 	         - [exif] Various TIFF parser improvements.
