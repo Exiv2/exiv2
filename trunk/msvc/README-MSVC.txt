@@ -30,7 +30,7 @@ How to build and test
        Say "Yes" to everything.
 
     b) Build/Batch Build/Select
-       { debug | release } { expat | expat-static } (4 targets)
+       { expat | expat-static } { debug | release } (4 targets)
        / Build
 
     Rattle roll.... less than a minute ...... rattle grrrrrrrr rump.
@@ -43,7 +43,7 @@ How to build and test
        Say "Yes" to everything.
 
     b) Build/Batch Build/Select
-       {DLL Debug | DLL Release | LIB Debug | LIB Release } (4 targets)
+       { zlib } {DLL Debug | DLL Release | LIB Debug | LIB Release } (4 targets)
        Build
       
     Rattle roll.... less than a minute ...... snap, crackle, pop (lots of warnings)
