@@ -20,7 +20,7 @@ Changes from version 0.18-pre2 to 0.18
 	           (Reported by Joakim Rosqvist)
 	- 0000542: [exif] Exiv2 doesn't find exif data in attached file.
 	           (Reported by Paolo Benvenuto)
-	         - [exif] Updated Nikon lens info to v3.25 of Robert Rottmerhusen's
+	         - [exif] Updated Nikon lens info to v3.82 of Robert Rottmerhusen's
 	           lens database.
 	         - [exif] Fixed adjustment of invalid tag data.
 	           (digiKam bug 177457)
