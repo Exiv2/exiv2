@@ -44,6 +44,7 @@ EXIV2_RCSID("@(#) $Id$")
 // + standard includes
 #include <string>
 #include <memory>
+#include <iostream>
 #include <cstring>
 #include <cassert>
 #include <cstdio>                       // for remove, rename
@@ -230,9 +231,13 @@ namespace Exiv2 {
                 throw Error(10, path_, "w+b", strError());
             }
             close();
-            struct stat buf;
-            if (::stat(path_.c_str(), &buf) == -1) {
-                throw Error(2, path_, strError(), "stat");
+            bool statOk = true;
+            struct stat buf1;
+            if (::stat(path_.c_str(), &buf1) == -1) {
+                statOk = false;
+#ifndef SUPPRESS_WARNINGS
+                std::cerr << "Warning: " << Error(2, path_, strError(), "stat") << "\n";
+#endif
             }
             // MSVCRT rename that does not overwrite existing files
             if (fileExists(path_) && std::remove(path_.c_str()) != 0) {
@@ -242,9 +247,21 @@ namespace Exiv2 {
                 throw Error(17, fileIo->path_, path_, strError());
             }
             std::remove(fileIo->path_.c_str());
-            // Set original file permissions
-            if (::chmod(path_.c_str(), buf.st_mode) == -1) {
-                throw Error(2, fileIo->path_, strError(), "chmod");
+            // Check permissions of new file
+            struct stat buf2;
+            if (statOk && ::stat(path_.c_str(), &buf2) == -1) {
+                statOk = false;
+#ifndef SUPPRESS_WARNINGS
+                std::cerr << "Warning: " << Error(2, path_, strError(), "stat") << "\n";
+#endif
+            }
+            if (statOk && buf1.st_mode != buf2.st_mode) {
+                // Set original file permissions
+                if (::chmod(path_.c_str(), buf1.st_mode) == -1) {
+#ifndef SUPPRESS_WARNINGS
+                    std::cerr << "Warning: " << Error(2, path_, strError(), "chmod") << "\n";
+#endif
+                }
             }
         }
         else {

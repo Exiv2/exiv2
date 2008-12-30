@@ -49,7 +49,7 @@ namespace {
         { -1, N_("Error %0: arg1=%1, arg2=%2, arg3=%3.") },
         {  0, N_("Success") },
         {  1, "%1" }, // %1=error message
-        {  2, "%1: %2 (%3)" }, // %1=path, %2=strerror, %3=function that failed
+        {  2, "%1: Call to `%3' failed: %2" }, // %1=path, %2=strerror, %3=function that failed
         {  3, N_("This does not look like a %1 image") }, // %1=Image type
         {  4, N_("Invalid dataset name `%1'") }, // %1=dataset name
         {  5, N_("Invalid record name `%1'") }, // %1=record name
