@@ -228,7 +228,7 @@ File  2/15: 20031214_000043.jpg
 20031214_000043.jpg  Image number    : 117-1771
 20031214_000043.jpg  Exposure time   : 1/500 s
 20031214_000043.jpg  Aperture        : F4.9
-20031214_000043.jpg  Exposure bias   : 0
+20031214_000043.jpg  Exposure bias   : 0 EV
 20031214_000043.jpg  Flash           : No, auto
 20031214_000043.jpg  Flash bias      : 0 EV
 20031214_000043.jpg  Focal length    : 21.3 mm
@@ -255,7 +255,7 @@ File  3/15: 20000506_020544.jpg
 20000506_020544.jpg  Image number    : 
 20000506_020544.jpg  Exposure time   : 1/89 s
 20000506_020544.jpg  Aperture        : F7
-20000506_020544.jpg  Exposure bias   : 0
+20000506_020544.jpg  Exposure bias   : 0 EV
 20000506_020544.jpg  Flash           : No flash
 20000506_020544.jpg  Flash bias      : 
 20000506_020544.jpg  Focal length    : 8.2 mm
@@ -282,7 +282,7 @@ File  4/15: 20040329_224245.jpg
 20040329_224245.jpg  Image number    : 
 20040329_224245.jpg  Exposure time   : 1/250 s
 20040329_224245.jpg  Aperture        : F9
-20040329_224245.jpg  Exposure bias   : 0
+20040329_224245.jpg  Exposure bias   : 0 EV
 20040329_224245.jpg  Flash           : No flash
 20040329_224245.jpg  Flash bias      : 
 20040329_224245.jpg  Focal length    : 50.0 mm (35 mm equivalent: 75.0 mm)
@@ -309,7 +309,7 @@ File  5/15: 20010405_235039.jpg
 20010405_235039.jpg  Image number    : 
 20010405_235039.jpg  Exposure time   : 1/77 s
 20010405_235039.jpg  Aperture        : F5.5
-20010405_235039.jpg  Exposure bias   : 0
+20010405_235039.jpg  Exposure bias   : 0 EV
 20010405_235039.jpg  Flash           : No flash
 20010405_235039.jpg  Flash bias      : 
 20010405_235039.jpg  Focal length    : 12.8 mm
@@ -336,7 +336,7 @@ File  6/15: 20030925_201850.jpg
 20030925_201850.jpg  Image number    : 103-0390
 20030925_201850.jpg  Exposure time   : 1/80 s
 20030925_201850.jpg  Aperture        : F5.6
-20030925_201850.jpg  Exposure bias   : 0
+20030925_201850.jpg  Exposure bias   : 0 EV
 20030925_201850.jpg  Flash           : No flash
 20030925_201850.jpg  Flash bias      : 0 EV
 20030925_201850.jpg  Focal length    : 18.0 mm
@@ -363,7 +363,7 @@ File  7/15: 20001026_044550.jpg
 20001026_044550.jpg  Image number    : 
 20001026_044550.jpg  Exposure time   : 1/30 s
 20001026_044550.jpg  Aperture        : F4
-20001026_044550.jpg  Exposure bias   : 0
+20001026_044550.jpg  Exposure bias   : 0 EV
 20001026_044550.jpg  Flash           : Fired
 20001026_044550.jpg  Flash bias      : 
 20001026_044550.jpg  Focal length    : 4.4 mm
@@ -390,7 +390,7 @@ File  8/15: 20030926_111535.jpg
 20030926_111535.jpg  Image number    : 
 20030926_111535.jpg  Exposure time   : 1/60 s
 20030926_111535.jpg  Aperture        : F4
-20030926_111535.jpg  Exposure bias   : +1/2
+20030926_111535.jpg  Exposure bias   : +1/2 EV
 20030926_111535.jpg  Flash           : Yes, compulsory
 20030926_111535.jpg  Flash bias      : 
 20030926_111535.jpg  Focal length    : 28.0 mm (35 mm equivalent: 42.0 mm)
@@ -417,7 +417,7 @@ File  9/15: 20040316_075137.jpg
 20040316_075137.jpg  Image number    : 
 20040316_075137.jpg  Exposure time   : 8 s
 20040316_075137.jpg  Aperture        : F5.6
-20040316_075137.jpg  Exposure bias   : +1
+20040316_075137.jpg  Exposure bias   : +1 EV
 20040316_075137.jpg  Flash           : No flash
 20040316_075137.jpg  Flash bias      : 
 20040316_075137.jpg  Focal length    : 14.0 mm (35 mm equivalent: 24.0 mm)
@@ -444,7 +444,7 @@ File 10/15: 20040208_093744.jpg
 20040208_093744.jpg  Image number    : 
 20040208_093744.jpg  Exposure time   : 1/160 s
 20040208_093744.jpg  Aperture        : F4.5
-20040208_093744.jpg  Exposure bias   : +7/10
+20040208_093744.jpg  Exposure bias   : +7/10 EV
 20040208_093744.jpg  Flash           : No, compulsory
 20040208_093744.jpg  Flash bias      : 
 20040208_093744.jpg  Focal length    : 23.4 mm
@@ -471,7 +471,7 @@ File 11/15: 20050218_212016.jpg
 20050218_212016.jpg  Image number    : 
 20050218_212016.jpg  Exposure time   : 1/400 s
 20050218_212016.jpg  Aperture        : F4.5
-20050218_212016.jpg  Exposure bias   : 0
+20050218_212016.jpg  Exposure bias   : 0 EV
 20050218_212016.jpg  Flash           : No, compulsory
 20050218_212016.jpg  Flash bias      : 0
 20050218_212016.jpg  Focal length    : 6.0 mm (35 mm equivalent: 36.0 mm)
@@ -498,7 +498,7 @@ File 12/15: 20050527_051833.jpg
 20050527_051833.jpg  Image number    : 
 20050527_051833.jpg  Exposure time   : 1/40 s
 20050527_051833.jpg  Aperture        : F2.8
-20050527_051833.jpg  Exposure bias   : 0
+20050527_051833.jpg  Exposure bias   : 0 EV
 20050527_051833.jpg  Flash           : Yes, auto, return light detected
 20050527_051833.jpg  Flash bias      : 
 20050527_051833.jpg  Focal length    : 7.9 mm
@@ -526,7 +526,7 @@ Error: Directory Canon: Next pointer is out of bounds; ignored.
 20060802_095200.jpg  Image number    : 
 20060802_095200.jpg  Exposure time   : 1/60 s
 20060802_095200.jpg  Aperture        : F5.6
-20060802_095200.jpg  Exposure bias   : 0
+20060802_095200.jpg  Exposure bias   : 0 EV
 20060802_095200.jpg  Flash           : Yes, compulsory, red-eye reduction
 20060802_095200.jpg  Flash bias      : 0 EV
 20060802_095200.jpg  Focal length    : 95.0 mm
@@ -553,7 +553,7 @@ File 14/15: 20001004_015404.jpg
 20001004_015404.jpg  Image number    : 889-8982
 20001004_015404.jpg  Exposure time   : 1/350 s
 20001004_015404.jpg  Aperture        : F4
-20001004_015404.jpg  Exposure bias   : 0
+20001004_015404.jpg  Exposure bias   : 0 EV
 20001004_015404.jpg  Flash           : No flash
 20001004_015404.jpg  Flash bias      : 0 EV
 20001004_015404.jpg  Focal length    : 70.0 mm
@@ -580,7 +580,7 @@ File 15/15: 20060127_225027.jpg
 20060127_225027.jpg  Image number    : 114-1468
 20060127_225027.jpg  Exposure time   : 1/1000 s
 20060127_225027.jpg  Aperture        : F4
-20060127_225027.jpg  Exposure bias   : 0
+20060127_225027.jpg  Exposure bias   : 0 EV
 20060127_225027.jpg  Flash           : No, compulsory
 20060127_225027.jpg  Flash bias      : 0 EV
 20060127_225027.jpg  Focal length    : 5.8 mm
@@ -617,7 +617,7 @@ File  2/15: 20031214_000043.jpg
 20031214_000043.jpg   Exif.Photo.CompressedBitsPerPixel            Rational    1  5
 20031214_000043.jpg   Exif.Photo.ShutterSpeedValue                 SRational   1  1/501 s
 20031214_000043.jpg   Exif.Photo.ApertureValue                     Rational    1  F5
-20031214_000043.jpg   Exif.Photo.ExposureBiasValue                 SRational   1  0
+20031214_000043.jpg   Exif.Photo.ExposureBiasValue                 SRational   1  0 EV
 20031214_000043.jpg   Exif.Photo.MaxApertureValue                  Rational    1  F2.8
 20031214_000043.jpg   Exif.Photo.MeteringMode                      Short       1  Center weighted average
 20031214_000043.jpg   Exif.Photo.Flash                             Short       1  No, auto
@@ -747,7 +747,7 @@ File  3/15: 20000506_020544.jpg
 20000506_020544.jpg   Exif.Photo.DateTimeDigitized                 Ascii      20  2000:05:06 02:05:44
 20000506_020544.jpg   Exif.Photo.ComponentsConfiguration           Undefined   4  YCbCr
 20000506_020544.jpg   Exif.Photo.CompressedBitsPerPixel            Rational    1  3
-20000506_020544.jpg   Exif.Photo.ExposureBiasValue                 SRational   1  0
+20000506_020544.jpg   Exif.Photo.ExposureBiasValue                 SRational   1  0 EV
 20000506_020544.jpg   Exif.Photo.MaxApertureValue                  Rational    1  F3.4
 20000506_020544.jpg   Exif.Photo.MeteringMode                      Short       1  Center weighted average
 20000506_020544.jpg   Exif.Photo.LightSource                       Short       1  Unknown
@@ -810,7 +810,7 @@ File  4/15: 20040329_224245.jpg
 20040329_224245.jpg   Exif.Photo.DateTimeDigitized                 Ascii      20  2004:03:29 22:42:45
 20040329_224245.jpg   Exif.Photo.ComponentsConfiguration           Undefined   4  YCbCr
 20040329_224245.jpg   Exif.Photo.CompressedBitsPerPixel            Rational    1  4
-20040329_224245.jpg   Exif.Photo.ExposureBiasValue                 SRational   1  0
+20040329_224245.jpg   Exif.Photo.ExposureBiasValue                 SRational   1  0 EV
 20040329_224245.jpg   Exif.Photo.MaxApertureValue                  Rational    1  F4.4
 20040329_224245.jpg   Exif.Photo.MeteringMode                      Short       1  Multi-segment
 20040329_224245.jpg   Exif.Photo.LightSource                       Short       1  Unknown
@@ -923,7 +923,7 @@ File  5/15: 20010405_235039.jpg
 20010405_235039.jpg   Exif.Photo.DateTimeDigitized                 Ascii      20  2001:04:05 23:50:39
 20010405_235039.jpg   Exif.Photo.ComponentsConfiguration           Undefined   4  YCbCr
 20010405_235039.jpg   Exif.Photo.CompressedBitsPerPixel            Rational    1  4
-20010405_235039.jpg   Exif.Photo.ExposureBiasValue                 SRational   1  0
+20010405_235039.jpg   Exif.Photo.ExposureBiasValue                 SRational   1  0 EV
 20010405_235039.jpg   Exif.Photo.MaxApertureValue                  Rational    1  F2.5
 20010405_235039.jpg   Exif.Photo.MeteringMode                      Short       1  Multi-segment
 20010405_235039.jpg   Exif.Photo.LightSource                       Short       1  Unknown
@@ -979,7 +979,7 @@ File  6/15: 20030925_201850.jpg
 20030925_201850.jpg   Exif.Photo.CompressedBitsPerPixel            Rational    1  3
 20030925_201850.jpg   Exif.Photo.ShutterSpeedValue                 SRational   1  1/80 s
 20030925_201850.jpg   Exif.Photo.ApertureValue                     Rational    1  F5.6
-20030925_201850.jpg   Exif.Photo.ExposureBiasValue                 SRational   1  0
+20030925_201850.jpg   Exif.Photo.ExposureBiasValue                 SRational   1  0 EV
 20030925_201850.jpg   Exif.Photo.MaxApertureValue                  Rational    1  F3.5
 20030925_201850.jpg   Exif.Photo.MeteringMode                      Short       1  Multi-segment
 20030925_201850.jpg   Exif.Photo.Flash                             Short       1  No flash
@@ -1156,7 +1156,7 @@ File  7/15: 20001026_044550.jpg
 20001026_044550.jpg   Exif.Photo.ShutterSpeedValue                 SRational   1  1/32 s
 20001026_044550.jpg   Exif.Photo.ApertureValue                     Rational    1  F4
 20001026_044550.jpg   Exif.Photo.BrightnessValue                   SRational   1  1.5
-20001026_044550.jpg   Exif.Photo.ExposureBiasValue                 SRational   1  0
+20001026_044550.jpg   Exif.Photo.ExposureBiasValue                 SRational   1  0 EV
 20001026_044550.jpg   Exif.Photo.MaxApertureValue                  Rational    1  F4
 20001026_044550.jpg   Exif.Photo.SubjectDistance                   Rational    1  Unknown
 20001026_044550.jpg   Exif.Photo.MeteringMode                      Short       1  Center weighted average
@@ -1200,7 +1200,7 @@ File  8/15: 20030926_111535.jpg
 20030926_111535.jpg   Exif.Photo.ShutterSpeedValue                 SRational   1  1/64 s
 20030926_111535.jpg   Exif.Photo.ApertureValue                     Rational    1  F4
 20030926_111535.jpg   Exif.Photo.BrightnessValue                   SRational   1  -1.83
-20030926_111535.jpg   Exif.Photo.ExposureBiasValue                 SRational   1  +1/2
+20030926_111535.jpg   Exif.Photo.ExposureBiasValue                 SRational   1  +1/2 EV
 20030926_111535.jpg   Exif.Photo.MeteringMode                      Short       1  Center weighted average
 20030926_111535.jpg   Exif.Photo.LightSource                       Short       1  Unknown
 20030926_111535.jpg   Exif.Photo.Flash                             Short       1  Yes, compulsory
@@ -1273,7 +1273,7 @@ File  9/15: 20040316_075137.jpg
 20040316_075137.jpg   Exif.Photo.DateTimeOriginal                  Ascii      20  2004:03:16 07:51:37
 20040316_075137.jpg   Exif.Photo.DateTimeDigitized                 Ascii      20  2004:03:18 11:39:25
 20040316_075137.jpg   Exif.Photo.ComponentsConfiguration           Undefined   4  YCbCr
-20040316_075137.jpg   Exif.Photo.ExposureBiasValue                 SRational   1  +1
+20040316_075137.jpg   Exif.Photo.ExposureBiasValue                 SRational   1  +1 EV
 20040316_075137.jpg   Exif.Photo.MaxApertureValue                  Rational    1  F2.5
 20040316_075137.jpg   Exif.Photo.MeteringMode                      Short       1  Multi-segment
 20040316_075137.jpg   Exif.Photo.Flash                             Short       1  No flash
@@ -1344,7 +1344,7 @@ File 10/15: 20040208_093744.jpg
 20040208_093744.jpg   Exif.Photo.DateTimeDigitized                 Ascii      20  2004:02:08 09:37:44
 20040208_093744.jpg   Exif.Photo.ComponentsConfiguration           Undefined   4  YCbCr
 20040208_093744.jpg   Exif.Photo.CompressedBitsPerPixel            Rational    1  4
-20040208_093744.jpg   Exif.Photo.ExposureBiasValue                 SRational   1  +7/10
+20040208_093744.jpg   Exif.Photo.ExposureBiasValue                 SRational   1  +7/10 EV
 20040208_093744.jpg   Exif.Photo.MaxApertureValue                  Rational    1  F3
 20040208_093744.jpg   Exif.Photo.MeteringMode                      Short       1  Multi-segment
 20040208_093744.jpg   Exif.Photo.LightSource                       Short       1  Unknown
@@ -1415,7 +1415,7 @@ File 11/15: 20050218_212016.jpg
 20050218_212016.jpg   Exif.Photo.DateTimeDigitized                 Ascii      20  2005:02:18 21:20:16
 20050218_212016.jpg   Exif.Photo.ComponentsConfiguration           Undefined   4  YCbCr
 20050218_212016.jpg   Exif.Photo.CompressedBitsPerPixel            Rational    1  4
-20050218_212016.jpg   Exif.Photo.ExposureBiasValue                 SRational   1  0
+20050218_212016.jpg   Exif.Photo.ExposureBiasValue                 SRational   1  0 EV
 20050218_212016.jpg   Exif.Photo.MaxApertureValue                  Rational    1  F2.8
 20050218_212016.jpg   Exif.Photo.MeteringMode                      Short       1  Multi-segment
 20050218_212016.jpg   Exif.Photo.LightSource                       Short       1  Unknown
@@ -1428,8 +1428,8 @@ File 11/15: 20050218_212016.jpg
 20050218_212016.jpg   Exif.Panasonic.FirmwareVersion               Undefined   4  0 1 0 2 
 20050218_212016.jpg   Exif.Panasonic.WhiteBalance                  Short       1  Auto
 20050218_212016.jpg   Exif.Panasonic.FocusMode                     Short       1  Auto
-20050218_212016.jpg   Exif.Panasonic.SpotMode                      Byte        2  Off
-20050218_212016.jpg   Exif.Panasonic.ImageStabilizer               Short       1  On, Mode 1
+20050218_212016.jpg   Exif.Panasonic.AFMode                        Byte        2  1-area
+20050218_212016.jpg   Exif.Panasonic.ImageStabilization            Short       1  On, Mode 1
 20050218_212016.jpg   Exif.Panasonic.Macro                         Short       1  Off
 20050218_212016.jpg   Exif.Panasonic.ShootingMode                  Short       1  Program
 20050218_212016.jpg   Exif.Panasonic.Audio                         Short       1  No
@@ -1437,11 +1437,11 @@ File 11/15: 20050218_212016.jpg
 20050218_212016.jpg   Exif.Panasonic.0x0022                        Short       1  0
 20050218_212016.jpg   Exif.Panasonic.WhiteBalanceBias              Short       1  0 EV
 20050218_212016.jpg   Exif.Panasonic.FlashBias                     Short       1  0
-20050218_212016.jpg   Exif.Panasonic.SerialNumber                  Undefined  16  83 48 48 48 53 48 49 49 49 48 50 50 51 0 0 0 
-20050218_212016.jpg   Exif.Panasonic.0x0026                        Undefined   4  48 49 48 48 
+20050218_212016.jpg   Exif.Panasonic.InternalSerialNumber          Undefined  16  83 48 48 48 53 48 49 49 49 48 50 50 51 0 0 0 
+20050218_212016.jpg   Exif.Panasonic.ExifVersion                   Undefined   4  1.00
 20050218_212016.jpg   Exif.Panasonic.0x0027                        Short       1  0
 20050218_212016.jpg   Exif.Panasonic.ColorEffect                   Short       1  Off
-20050218_212016.jpg   Exif.Panasonic.0x0029                        Long        1  1450
+20050218_212016.jpg   Exif.Panasonic.TimeSincePowerOn              Long        1  1450
 20050218_212016.jpg   Exif.Panasonic.BurstMode                     Short       1  Off
 20050218_212016.jpg   Exif.Panasonic.SequenceNumber                Long        1  0
 20050218_212016.jpg   Exif.Panasonic.Contrast                      Short       1  Normal
@@ -1500,7 +1500,7 @@ File 12/15: 20050527_051833.jpg
 20050527_051833.jpg   Exif.Photo.DateTimeDigitized                 Ascii      20  2005:05:27 05:18:33
 20050527_051833.jpg   Exif.Photo.ComponentsConfiguration           Undefined   4  YCbCr
 20050527_051833.jpg   Exif.Photo.CompressedBitsPerPixel            Rational    1  8
-20050527_051833.jpg   Exif.Photo.ExposureBiasValue                 SRational   1  0
+20050527_051833.jpg   Exif.Photo.ExposureBiasValue                 SRational   1  0 EV
 20050527_051833.jpg   Exif.Photo.MaxApertureValue                  Rational    1  F2.8
 20050527_051833.jpg   Exif.Photo.MeteringMode                      Short       1  Multi-segment
 20050527_051833.jpg   Exif.Photo.LightSource                       Short       1  Unknown
@@ -1566,7 +1566,7 @@ Error: Directory Canon: Next pointer is out of bounds; ignored.
 20060802_095200.jpg   Exif.Photo.ComponentsConfiguration           Undefined   4  YCbCr
 20060802_095200.jpg   Exif.Photo.ShutterSpeedValue                 SRational   1  1/60 s
 20060802_095200.jpg   Exif.Photo.ApertureValue                     Rational    1  F5.6
-20060802_095200.jpg   Exif.Photo.ExposureBiasValue                 SRational   1  0
+20060802_095200.jpg   Exif.Photo.ExposureBiasValue                 SRational   1  0 EV
 20060802_095200.jpg   Exif.Photo.MeteringMode                      Short       1  Partial
 20060802_095200.jpg   Exif.Photo.Flash                             Short       1  Yes, compulsory, red-eye reduction
 20060802_095200.jpg   Exif.Photo.FocalLength                       Rational    1  95.0 mm
@@ -1759,7 +1759,7 @@ File 14/15: 20001004_015404.jpg
 20001004_015404.jpg   Exif.Photo.CompressedBitsPerPixel            Rational    1  3
 20001004_015404.jpg   Exif.Photo.ShutterSpeedValue                 SRational   1  1/350 s
 20001004_015404.jpg   Exif.Photo.ApertureValue                     Rational    1  F4
-20001004_015404.jpg   Exif.Photo.ExposureBiasValue                 SRational   1  0
+20001004_015404.jpg   Exif.Photo.ExposureBiasValue                 SRational   1  0 EV
 20001004_015404.jpg   Exif.Photo.MaxApertureValue                  Rational    1  F2.8
 20001004_015404.jpg   Exif.Photo.SubjectDistance                   Rational    1  Unknown
 20001004_015404.jpg   Exif.Photo.MeteringMode                      Short       1  Multi-segment
@@ -1889,7 +1889,7 @@ File 15/15: 20060127_225027.jpg
 20060127_225027.jpg   Exif.Photo.CompressedBitsPerPixel            Rational    1  3
 20060127_225027.jpg   Exif.Photo.ShutterSpeedValue                 SRational   1  1/1002 s
 20060127_225027.jpg   Exif.Photo.ApertureValue                     Rational    1  F4
-20060127_225027.jpg   Exif.Photo.ExposureBiasValue                 SRational   1  0
+20060127_225027.jpg   Exif.Photo.ExposureBiasValue                 SRational   1  0 EV
 20060127_225027.jpg   Exif.Photo.MaxApertureValue                  Rational    1  F2.6
 20060127_225027.jpg   Exif.Photo.MeteringMode                      Short       1  Multi-segment
 20060127_225027.jpg   Exif.Photo.Flash                             Short       1  No, compulsory
@@ -2140,7 +2140,7 @@ Compare image data and extracted data ------------------------------------
 < 20031214_000043.jpg   Exif.Photo.CompressedBitsPerPixel            Rational    1  5
 < 20031214_000043.jpg   Exif.Photo.ShutterSpeedValue                 SRational   1  1/501 s
 < 20031214_000043.jpg   Exif.Photo.ApertureValue                     Rational    1  F5
-< 20031214_000043.jpg   Exif.Photo.ExposureBiasValue                 SRational   1  0
+< 20031214_000043.jpg   Exif.Photo.ExposureBiasValue                 SRational   1  0 EV
 < 20031214_000043.jpg   Exif.Photo.MaxApertureValue                  Rational    1  F2.8
 < 20031214_000043.jpg   Exif.Photo.MeteringMode                      Short       1  Center weighted average
 < 20031214_000043.jpg   Exif.Photo.Flash                             Short       1  No, auto
@@ -2270,7 +2270,7 @@ Compare image data and extracted data ------------------------------------
 < 20000506_020544.jpg   Exif.Photo.DateTimeDigitized                 Ascii      20  2000:05:06 02:05:44
 < 20000506_020544.jpg   Exif.Photo.ComponentsConfiguration           Undefined   4  YCbCr
 < 20000506_020544.jpg   Exif.Photo.CompressedBitsPerPixel            Rational    1  3
-< 20000506_020544.jpg   Exif.Photo.ExposureBiasValue                 SRational   1  0
+< 20000506_020544.jpg   Exif.Photo.ExposureBiasValue                 SRational   1  0 EV
 < 20000506_020544.jpg   Exif.Photo.MaxApertureValue                  Rational    1  F3.4
 < 20000506_020544.jpg   Exif.Photo.MeteringMode                      Short       1  Center weighted average
 < 20000506_020544.jpg   Exif.Photo.LightSource                       Short       1  Unknown
@@ -2333,7 +2333,7 @@ Compare image data and extracted data ------------------------------------
 < 20040329_224245.jpg   Exif.Photo.DateTimeDigitized                 Ascii      20  2004:03:29 22:42:45
 < 20040329_224245.jpg   Exif.Photo.ComponentsConfiguration           Undefined   4  YCbCr
 < 20040329_224245.jpg   Exif.Photo.CompressedBitsPerPixel            Rational    1  4
-< 20040329_224245.jpg   Exif.Photo.ExposureBiasValue                 SRational   1  0
+< 20040329_224245.jpg   Exif.Photo.ExposureBiasValue                 SRational   1  0 EV
 < 20040329_224245.jpg   Exif.Photo.MaxApertureValue                  Rational    1  F4.4
 < 20040329_224245.jpg   Exif.Photo.MeteringMode                      Short       1  Multi-segment
 < 20040329_224245.jpg   Exif.Photo.LightSource                       Short       1  Unknown
@@ -2446,7 +2446,7 @@ Compare image data and extracted data ------------------------------------
 < 20010405_235039.jpg   Exif.Photo.DateTimeDigitized                 Ascii      20  2001:04:05 23:50:39
 < 20010405_235039.jpg   Exif.Photo.ComponentsConfiguration           Undefined   4  YCbCr
 < 20010405_235039.jpg   Exif.Photo.CompressedBitsPerPixel            Rational    1  4
-< 20010405_235039.jpg   Exif.Photo.ExposureBiasValue                 SRational   1  0
+< 20010405_235039.jpg   Exif.Photo.ExposureBiasValue                 SRational   1  0 EV
 < 20010405_235039.jpg   Exif.Photo.MaxApertureValue                  Rational    1  F2.5
 < 20010405_235039.jpg   Exif.Photo.MeteringMode                      Short       1  Multi-segment
 < 20010405_235039.jpg   Exif.Photo.LightSource                       Short       1  Unknown
@@ -2502,7 +2502,7 @@ Compare image data and extracted data ------------------------------------
 < 20030925_201850.jpg   Exif.Photo.CompressedBitsPerPixel            Rational    1  3
 < 20030925_201850.jpg   Exif.Photo.ShutterSpeedValue                 SRational   1  1/80 s
 < 20030925_201850.jpg   Exif.Photo.ApertureValue                     Rational    1  F5.6
-< 20030925_201850.jpg   Exif.Photo.ExposureBiasValue                 SRational   1  0
+< 20030925_201850.jpg   Exif.Photo.ExposureBiasValue                 SRational   1  0 EV
 < 20030925_201850.jpg   Exif.Photo.MaxApertureValue                  Rational    1  F3.5
 < 20030925_201850.jpg   Exif.Photo.MeteringMode                      Short       1  Multi-segment
 < 20030925_201850.jpg   Exif.Photo.Flash                             Short       1  No flash
@@ -2679,7 +2679,7 @@ Compare image data and extracted data ------------------------------------
 < 20001026_044550.jpg   Exif.Photo.ShutterSpeedValue                 SRational   1  1/32 s
 < 20001026_044550.jpg   Exif.Photo.ApertureValue                     Rational    1  F4
 < 20001026_044550.jpg   Exif.Photo.BrightnessValue                   SRational   1  1.5
-< 20001026_044550.jpg   Exif.Photo.ExposureBiasValue                 SRational   1  0
+< 20001026_044550.jpg   Exif.Photo.ExposureBiasValue                 SRational   1  0 EV
 < 20001026_044550.jpg   Exif.Photo.MaxApertureValue                  Rational    1  F4
 < 20001026_044550.jpg   Exif.Photo.SubjectDistance                   Rational    1  Unknown
 < 20001026_044550.jpg   Exif.Photo.MeteringMode                      Short       1  Center weighted average
@@ -2723,7 +2723,7 @@ Compare image data and extracted data ------------------------------------
 < 20030926_111535.jpg   Exif.Photo.ShutterSpeedValue                 SRational   1  1/64 s
 < 20030926_111535.jpg   Exif.Photo.ApertureValue                     Rational    1  F4
 < 20030926_111535.jpg   Exif.Photo.BrightnessValue                   SRational   1  -1.83
-< 20030926_111535.jpg   Exif.Photo.ExposureBiasValue                 SRational   1  +1/2
+< 20030926_111535.jpg   Exif.Photo.ExposureBiasValue                 SRational   1  +1/2 EV
 < 20030926_111535.jpg   Exif.Photo.MeteringMode                      Short       1  Center weighted average
 < 20030926_111535.jpg   Exif.Photo.LightSource                       Short       1  Unknown
 < 20030926_111535.jpg   Exif.Photo.Flash                             Short       1  Yes, compulsory
@@ -2796,7 +2796,7 @@ Compare image data and extracted data ------------------------------------
 < 20040316_075137.jpg   Exif.Photo.DateTimeOriginal                  Ascii      20  2004:03:16 07:51:37
 < 20040316_075137.jpg   Exif.Photo.DateTimeDigitized                 Ascii      20  2004:03:18 11:39:25
 < 20040316_075137.jpg   Exif.Photo.ComponentsConfiguration           Undefined   4  YCbCr
-< 20040316_075137.jpg   Exif.Photo.ExposureBiasValue                 SRational   1  +1
+< 20040316_075137.jpg   Exif.Photo.ExposureBiasValue                 SRational   1  +1 EV
 < 20040316_075137.jpg   Exif.Photo.MaxApertureValue                  Rational    1  F2.5
 < 20040316_075137.jpg   Exif.Photo.MeteringMode                      Short       1  Multi-segment
 < 20040316_075137.jpg   Exif.Photo.Flash                             Short       1  No flash
@@ -2867,7 +2867,7 @@ Compare image data and extracted data ------------------------------------
 < 20040208_093744.jpg   Exif.Photo.DateTimeDigitized                 Ascii      20  2004:02:08 09:37:44
 < 20040208_093744.jpg   Exif.Photo.ComponentsConfiguration           Undefined   4  YCbCr
 < 20040208_093744.jpg   Exif.Photo.CompressedBitsPerPixel            Rational    1  4
-< 20040208_093744.jpg   Exif.Photo.ExposureBiasValue                 SRational   1  +7/10
+< 20040208_093744.jpg   Exif.Photo.ExposureBiasValue                 SRational   1  +7/10 EV
 < 20040208_093744.jpg   Exif.Photo.MaxApertureValue                  Rational    1  F3
 < 20040208_093744.jpg   Exif.Photo.MeteringMode                      Short       1  Multi-segment
 < 20040208_093744.jpg   Exif.Photo.LightSource                       Short       1  Unknown
@@ -2938,7 +2938,7 @@ Compare image data and extracted data ------------------------------------
 < 20050218_212016.jpg   Exif.Photo.DateTimeDigitized                 Ascii      20  2005:02:18 21:20:16
 < 20050218_212016.jpg   Exif.Photo.ComponentsConfiguration           Undefined   4  YCbCr
 < 20050218_212016.jpg   Exif.Photo.CompressedBitsPerPixel            Rational    1  4
-< 20050218_212016.jpg   Exif.Photo.ExposureBiasValue                 SRational   1  0
+< 20050218_212016.jpg   Exif.Photo.ExposureBiasValue                 SRational   1  0 EV
 < 20050218_212016.jpg   Exif.Photo.MaxApertureValue                  Rational    1  F2.8
 < 20050218_212016.jpg   Exif.Photo.MeteringMode                      Short       1  Multi-segment
 < 20050218_212016.jpg   Exif.Photo.LightSource                       Short       1  Unknown
@@ -2951,8 +2951,8 @@ Compare image data and extracted data ------------------------------------
 < 20050218_212016.jpg   Exif.Panasonic.FirmwareVersion               Undefined   4  0 1 0 2 
 < 20050218_212016.jpg   Exif.Panasonic.WhiteBalance                  Short       1  Auto
 < 20050218_212016.jpg   Exif.Panasonic.FocusMode                     Short       1  Auto
-< 20050218_212016.jpg   Exif.Panasonic.SpotMode                      Byte        2  Off
-< 20050218_212016.jpg   Exif.Panasonic.ImageStabilizer               Short       1  On, Mode 1
+< 20050218_212016.jpg   Exif.Panasonic.AFMode                        Byte        2  1-area
+< 20050218_212016.jpg   Exif.Panasonic.ImageStabilization            Short       1  On, Mode 1
 < 20050218_212016.jpg   Exif.Panasonic.Macro                         Short       1  Off
 < 20050218_212016.jpg   Exif.Panasonic.ShootingMode                  Short       1  Program
 < 20050218_212016.jpg   Exif.Panasonic.Audio                         Short       1  No
@@ -2960,11 +2960,11 @@ Compare image data and extracted data ------------------------------------
 < 20050218_212016.jpg   Exif.Panasonic.0x0022                        Short       1  0
 < 20050218_212016.jpg   Exif.Panasonic.WhiteBalanceBias              Short       1  0 EV
 < 20050218_212016.jpg   Exif.Panasonic.FlashBias                     Short       1  0
-< 20050218_212016.jpg   Exif.Panasonic.SerialNumber                  Undefined  16  83 48 48 48 53 48 49 49 49 48 50 50 51 0 0 0 
-< 20050218_212016.jpg   Exif.Panasonic.0x0026                        Undefined   4  48 49 48 48 
+< 20050218_212016.jpg   Exif.Panasonic.InternalSerialNumber          Undefined  16  83 48 48 48 53 48 49 49 49 48 50 50 51 0 0 0 
+< 20050218_212016.jpg   Exif.Panasonic.ExifVersion                   Undefined   4  1.00
 < 20050218_212016.jpg   Exif.Panasonic.0x0027                        Short       1  0
 < 20050218_212016.jpg   Exif.Panasonic.ColorEffect                   Short       1  Off
-< 20050218_212016.jpg   Exif.Panasonic.0x0029                        Long        1  1450
+< 20050218_212016.jpg   Exif.Panasonic.TimeSincePowerOn              Long        1  1450
 < 20050218_212016.jpg   Exif.Panasonic.BurstMode                     Short       1  Off
 < 20050218_212016.jpg   Exif.Panasonic.SequenceNumber                Long        1  0
 < 20050218_212016.jpg   Exif.Panasonic.Contrast                      Short       1  Normal
@@ -3023,7 +3023,7 @@ Compare image data and extracted data ------------------------------------
 < 20050527_051833.jpg   Exif.Photo.DateTimeDigitized                 Ascii      20  2005:05:27 05:18:33
 < 20050527_051833.jpg   Exif.Photo.ComponentsConfiguration           Undefined   4  YCbCr
 < 20050527_051833.jpg   Exif.Photo.CompressedBitsPerPixel            Rational    1  8
-< 20050527_051833.jpg   Exif.Photo.ExposureBiasValue                 SRational   1  0
+< 20050527_051833.jpg   Exif.Photo.ExposureBiasValue                 SRational   1  0 EV
 < 20050527_051833.jpg   Exif.Photo.MaxApertureValue                  Rational    1  F2.8
 < 20050527_051833.jpg   Exif.Photo.MeteringMode                      Short       1  Multi-segment
 < 20050527_051833.jpg   Exif.Photo.LightSource                       Short       1  Unknown
@@ -3088,7 +3088,7 @@ Compare image data and extracted data ------------------------------------
 < 20060802_095200.jpg   Exif.Photo.ComponentsConfiguration           Undefined   4  YCbCr
 < 20060802_095200.jpg   Exif.Photo.ShutterSpeedValue                 SRational   1  1/60 s
 < 20060802_095200.jpg   Exif.Photo.ApertureValue                     Rational    1  F5.6
-< 20060802_095200.jpg   Exif.Photo.ExposureBiasValue                 SRational   1  0
+< 20060802_095200.jpg   Exif.Photo.ExposureBiasValue                 SRational   1  0 EV
 < 20060802_095200.jpg   Exif.Photo.MeteringMode                      Short       1  Partial
 < 20060802_095200.jpg   Exif.Photo.Flash                             Short       1  Yes, compulsory, red-eye reduction
 < 20060802_095200.jpg   Exif.Photo.FocalLength                       Rational    1  95.0 mm
@@ -3281,7 +3281,7 @@ Compare image data and extracted data ------------------------------------
 < 20001004_015404.jpg   Exif.Photo.CompressedBitsPerPixel            Rational    1  3
 < 20001004_015404.jpg   Exif.Photo.ShutterSpeedValue                 SRational   1  1/350 s
 < 20001004_015404.jpg   Exif.Photo.ApertureValue                     Rational    1  F4
-< 20001004_015404.jpg   Exif.Photo.ExposureBiasValue                 SRational   1  0
+< 20001004_015404.jpg   Exif.Photo.ExposureBiasValue                 SRational   1  0 EV
 < 20001004_015404.jpg   Exif.Photo.MaxApertureValue                  Rational    1  F2.8
 < 20001004_015404.jpg   Exif.Photo.SubjectDistance                   Rational    1  Unknown
 < 20001004_015404.jpg   Exif.Photo.MeteringMode                      Short       1  Multi-segment
@@ -3411,7 +3411,7 @@ Compare image data and extracted data ------------------------------------
 < 20060127_225027.jpg   Exif.Photo.CompressedBitsPerPixel            Rational    1  3
 < 20060127_225027.jpg   Exif.Photo.ShutterSpeedValue                 SRational   1  1/1002 s
 < 20060127_225027.jpg   Exif.Photo.ApertureValue                     Rational    1  F4
-< 20060127_225027.jpg   Exif.Photo.ExposureBiasValue                 SRational   1  0
+< 20060127_225027.jpg   Exif.Photo.ExposureBiasValue                 SRational   1  0 EV
 < 20060127_225027.jpg   Exif.Photo.MaxApertureValue                  Rational    1  F2.6
 < 20060127_225027.jpg   Exif.Photo.MeteringMode                      Short       1  Multi-segment
 < 20060127_225027.jpg   Exif.Photo.Flash                             Short       1  No, compulsory
@@ -3591,7 +3591,7 @@ Compare image data and extracted data ------------------------------------
 > 20031214_000043.exv   Exif.Photo.CompressedBitsPerPixel            Rational    1  5
 > 20031214_000043.exv   Exif.Photo.ShutterSpeedValue                 SRational   1  1/501 s
 > 20031214_000043.exv   Exif.Photo.ApertureValue                     Rational    1  F5
-> 20031214_000043.exv   Exif.Photo.ExposureBiasValue                 SRational   1  0
+> 20031214_000043.exv   Exif.Photo.ExposureBiasValue                 SRational   1  0 EV
 > 20031214_000043.exv   Exif.Photo.MaxApertureValue                  Rational    1  F2.8
 > 20031214_000043.exv   Exif.Photo.MeteringMode                      Short       1  Center weighted average
 > 20031214_000043.exv   Exif.Photo.Flash                             Short       1  No, auto
@@ -3721,7 +3721,7 @@ Compare image data and extracted data ------------------------------------
 > 20000506_020544.exv   Exif.Photo.DateTimeDigitized                 Ascii      20  2000:05:06 02:05:44
 > 20000506_020544.exv   Exif.Photo.ComponentsConfiguration           Undefined   4  YCbCr
 > 20000506_020544.exv   Exif.Photo.CompressedBitsPerPixel            Rational    1  3
-> 20000506_020544.exv   Exif.Photo.ExposureBiasValue                 SRational   1  0
+> 20000506_020544.exv   Exif.Photo.ExposureBiasValue                 SRational   1  0 EV
 > 20000506_020544.exv   Exif.Photo.MaxApertureValue                  Rational    1  F3.4
 > 20000506_020544.exv   Exif.Photo.MeteringMode                      Short       1  Center weighted average
 > 20000506_020544.exv   Exif.Photo.LightSource                       Short       1  Unknown
@@ -3784,7 +3784,7 @@ Compare image data and extracted data ------------------------------------
 > 20040329_224245.exv   Exif.Photo.DateTimeDigitized                 Ascii      20  2004:03:29 22:42:45
 > 20040329_224245.exv   Exif.Photo.ComponentsConfiguration           Undefined   4  YCbCr
 > 20040329_224245.exv   Exif.Photo.CompressedBitsPerPixel            Rational    1  4
-> 20040329_224245.exv   Exif.Photo.ExposureBiasValue                 SRational   1  0
+> 20040329_224245.exv   Exif.Photo.ExposureBiasValue                 SRational   1  0 EV
 > 20040329_224245.exv   Exif.Photo.MaxApertureValue                  Rational    1  F4.4
 > 20040329_224245.exv   Exif.Photo.MeteringMode                      Short       1  Multi-segment
 > 20040329_224245.exv   Exif.Photo.LightSource                       Short       1  Unknown
@@ -3897,7 +3897,7 @@ Compare image data and extracted data ------------------------------------
 > 20010405_235039.exv   Exif.Photo.DateTimeDigitized                 Ascii      20  2001:04:05 23:50:39
 > 20010405_235039.exv   Exif.Photo.ComponentsConfiguration           Undefined   4  YCbCr
 > 20010405_235039.exv   Exif.Photo.CompressedBitsPerPixel            Rational    1  4
-> 20010405_235039.exv   Exif.Photo.ExposureBiasValue                 SRational   1  0
+> 20010405_235039.exv   Exif.Photo.ExposureBiasValue                 SRational   1  0 EV
 > 20010405_235039.exv   Exif.Photo.MaxApertureValue                  Rational    1  F2.5
 > 20010405_235039.exv   Exif.Photo.MeteringMode                      Short       1  Multi-segment
 > 20010405_235039.exv   Exif.Photo.LightSource                       Short       1  Unknown
@@ -3953,7 +3953,7 @@ Compare image data and extracted data ------------------------------------
 > 20030925_201850.exv   Exif.Photo.CompressedBitsPerPixel            Rational    1  3
 > 20030925_201850.exv   Exif.Photo.ShutterSpeedValue                 SRational   1  1/80 s
 > 20030925_201850.exv   Exif.Photo.ApertureValue                     Rational    1  F5.6
-> 20030925_201850.exv   Exif.Photo.ExposureBiasValue                 SRational   1  0
+> 20030925_201850.exv   Exif.Photo.ExposureBiasValue                 SRational   1  0 EV
 > 20030925_201850.exv   Exif.Photo.MaxApertureValue                  Rational    1  F3.5
 > 20030925_201850.exv   Exif.Photo.MeteringMode                      Short       1  Multi-segment
 > 20030925_201850.exv   Exif.Photo.Flash                             Short       1  No flash
@@ -4130,7 +4130,7 @@ Compare image data and extracted data ------------------------------------
 > 20001026_044550.exv   Exif.Photo.ShutterSpeedValue                 SRational   1  1/32 s
 > 20001026_044550.exv   Exif.Photo.ApertureValue                     Rational    1  F4
 > 20001026_044550.exv   Exif.Photo.BrightnessValue                   SRational   1  1.5
-> 20001026_044550.exv   Exif.Photo.ExposureBiasValue                 SRational   1  0
+> 20001026_044550.exv   Exif.Photo.ExposureBiasValue                 SRational   1  0 EV
 > 20001026_044550.exv   Exif.Photo.MaxApertureValue                  Rational    1  F4
 > 20001026_044550.exv   Exif.Photo.SubjectDistance                   Rational    1  Unknown
 > 20001026_044550.exv   Exif.Photo.MeteringMode                      Short       1  Center weighted average
@@ -4174,7 +4174,7 @@ Compare image data and extracted data ------------------------------------
 > 20030926_111535.exv   Exif.Photo.ShutterSpeedValue                 SRational   1  1/64 s
 > 20030926_111535.exv   Exif.Photo.ApertureValue                     Rational    1  F4
 > 20030926_111535.exv   Exif.Photo.BrightnessValue                   SRational   1  -1.83
-> 20030926_111535.exv   Exif.Photo.ExposureBiasValue                 SRational   1  +1/2
+> 20030926_111535.exv   Exif.Photo.ExposureBiasValue                 SRational   1  +1/2 EV
 > 20030926_111535.exv   Exif.Photo.MeteringMode                      Short       1  Center weighted average
 > 20030926_111535.exv   Exif.Photo.LightSource                       Short       1  Unknown
 > 20030926_111535.exv   Exif.Photo.Flash                             Short       1  Yes, compulsory
@@ -4247,7 +4247,7 @@ Compare image data and extracted data ------------------------------------
 > 20040316_075137.exv   Exif.Photo.DateTimeOriginal                  Ascii      20  2004:03:16 07:51:37
 > 20040316_075137.exv   Exif.Photo.DateTimeDigitized                 Ascii      20  2004:03:18 11:39:25
 > 20040316_075137.exv   Exif.Photo.ComponentsConfiguration           Undefined   4  YCbCr
-> 20040316_075137.exv   Exif.Photo.ExposureBiasValue                 SRational   1  +1
+> 20040316_075137.exv   Exif.Photo.ExposureBiasValue                 SRational   1  +1 EV
 > 20040316_075137.exv   Exif.Photo.MaxApertureValue                  Rational    1  F2.5
 > 20040316_075137.exv   Exif.Photo.MeteringMode                      Short       1  Multi-segment
 > 20040316_075137.exv   Exif.Photo.Flash                             Short       1  No flash
@@ -4318,7 +4318,7 @@ Compare image data and extracted data ------------------------------------
 > 20040208_093744.exv   Exif.Photo.DateTimeDigitized                 Ascii      20  2004:02:08 09:37:44
 > 20040208_093744.exv   Exif.Photo.ComponentsConfiguration           Undefined   4  YCbCr
 > 20040208_093744.exv   Exif.Photo.CompressedBitsPerPixel            Rational    1  4
-> 20040208_093744.exv   Exif.Photo.ExposureBiasValue                 SRational   1  +7/10
+> 20040208_093744.exv   Exif.Photo.ExposureBiasValue                 SRational   1  +7/10 EV
 > 20040208_093744.exv   Exif.Photo.MaxApertureValue                  Rational    1  F3
 > 20040208_093744.exv   Exif.Photo.MeteringMode                      Short       1  Multi-segment
 > 20040208_093744.exv   Exif.Photo.LightSource                       Short       1  Unknown
@@ -4389,7 +4389,7 @@ Compare image data and extracted data ------------------------------------
 > 20050218_212016.exv   Exif.Photo.DateTimeDigitized                 Ascii      20  2005:02:18 21:20:16
 > 20050218_212016.exv   Exif.Photo.ComponentsConfiguration           Undefined   4  YCbCr
 > 20050218_212016.exv   Exif.Photo.CompressedBitsPerPixel            Rational    1  4
-> 20050218_212016.exv   Exif.Photo.ExposureBiasValue                 SRational   1  0
+> 20050218_212016.exv   Exif.Photo.ExposureBiasValue                 SRational   1  0 EV
 > 20050218_212016.exv   Exif.Photo.MaxApertureValue                  Rational    1  F2.8
 > 20050218_212016.exv   Exif.Photo.MeteringMode                      Short       1  Multi-segment
 > 20050218_212016.exv   Exif.Photo.LightSource                       Short       1  Unknown
@@ -4402,8 +4402,8 @@ Compare image data and extracted data ------------------------------------
 > 20050218_212016.exv   Exif.Panasonic.FirmwareVersion               Undefined   4  0 1 0 2 
 > 20050218_212016.exv   Exif.Panasonic.WhiteBalance                  Short       1  Auto
 > 20050218_212016.exv   Exif.Panasonic.FocusMode                     Short       1  Auto
-> 20050218_212016.exv   Exif.Panasonic.SpotMode                      Byte        2  Off
-> 20050218_212016.exv   Exif.Panasonic.ImageStabilizer               Short       1  On, Mode 1
+> 20050218_212016.exv   Exif.Panasonic.AFMode                        Byte        2  1-area
+> 20050218_212016.exv   Exif.Panasonic.ImageStabilization            Short       1  On, Mode 1
 > 20050218_212016.exv   Exif.Panasonic.Macro                         Short       1  Off
 > 20050218_212016.exv   Exif.Panasonic.ShootingMode                  Short       1  Program
 > 20050218_212016.exv   Exif.Panasonic.Audio                         Short       1  No
@@ -4411,11 +4411,11 @@ Compare image data and extracted data ------------------------------------
 > 20050218_212016.exv   Exif.Panasonic.0x0022                        Short       1  0
 > 20050218_212016.exv   Exif.Panasonic.WhiteBalanceBias              Short       1  0 EV
 > 20050218_212016.exv   Exif.Panasonic.FlashBias                     Short       1  0
-> 20050218_212016.exv   Exif.Panasonic.SerialNumber                  Undefined  16  83 48 48 48 53 48 49 49 49 48 50 50 51 0 0 0 
-> 20050218_212016.exv   Exif.Panasonic.0x0026                        Undefined   4  48 49 48 48 
+> 20050218_212016.exv   Exif.Panasonic.InternalSerialNumber          Undefined  16  83 48 48 48 53 48 49 49 49 48 50 50 51 0 0 0 
+> 20050218_212016.exv   Exif.Panasonic.ExifVersion                   Undefined   4  1.00
 > 20050218_212016.exv   Exif.Panasonic.0x0027                        Short       1  0
 > 20050218_212016.exv   Exif.Panasonic.ColorEffect                   Short       1  Off
-> 20050218_212016.exv   Exif.Panasonic.0x0029                        Long        1  1450
+> 20050218_212016.exv   Exif.Panasonic.TimeSincePowerOn              Long        1  1450
 > 20050218_212016.exv   Exif.Panasonic.BurstMode                     Short       1  Off
 > 20050218_212016.exv   Exif.Panasonic.SequenceNumber                Long        1  0
 > 20050218_212016.exv   Exif.Panasonic.Contrast                      Short       1  Normal
@@ -4474,7 +4474,7 @@ Compare image data and extracted data ------------------------------------
 > 20050527_051833.exv   Exif.Photo.DateTimeDigitized                 Ascii      20  2005:05:27 05:18:33
 > 20050527_051833.exv   Exif.Photo.ComponentsConfiguration           Undefined   4  YCbCr
 > 20050527_051833.exv   Exif.Photo.CompressedBitsPerPixel            Rational    1  8
-> 20050527_051833.exv   Exif.Photo.ExposureBiasValue                 SRational   1  0
+> 20050527_051833.exv   Exif.Photo.ExposureBiasValue                 SRational   1  0 EV
 > 20050527_051833.exv   Exif.Photo.MaxApertureValue                  Rational    1  F2.8
 > 20050527_051833.exv   Exif.Photo.MeteringMode                      Short       1  Multi-segment
 > 20050527_051833.exv   Exif.Photo.LightSource                       Short       1  Unknown
@@ -4539,7 +4539,7 @@ Compare image data and extracted data ------------------------------------
 > 20060802_095200.exv   Exif.Photo.ComponentsConfiguration           Undefined   4  YCbCr
 > 20060802_095200.exv   Exif.Photo.ShutterSpeedValue                 SRational   1  1/60 s
 > 20060802_095200.exv   Exif.Photo.ApertureValue                     Rational    1  F5.6
-> 20060802_095200.exv   Exif.Photo.ExposureBiasValue                 SRational   1  0
+> 20060802_095200.exv   Exif.Photo.ExposureBiasValue                 SRational   1  0 EV
 > 20060802_095200.exv   Exif.Photo.MeteringMode                      Short       1  Partial
 > 20060802_095200.exv   Exif.Photo.Flash                             Short       1  Yes, compulsory, red-eye reduction
 > 20060802_095200.exv   Exif.Photo.FocalLength                       Rational    1  95.0 mm
@@ -4732,7 +4732,7 @@ Compare image data and extracted data ------------------------------------
 > 20001004_015404.exv   Exif.Photo.CompressedBitsPerPixel            Rational    1  3
 > 20001004_015404.exv   Exif.Photo.ShutterSpeedValue                 SRational   1  1/350 s
 > 20001004_015404.exv   Exif.Photo.ApertureValue                     Rational    1  F4
-> 20001004_015404.exv   Exif.Photo.ExposureBiasValue                 SRational   1  0
+> 20001004_015404.exv   Exif.Photo.ExposureBiasValue                 SRational   1  0 EV
 > 20001004_015404.exv   Exif.Photo.MaxApertureValue                  Rational    1  F2.8
 > 20001004_015404.exv   Exif.Photo.SubjectDistance                   Rational    1  Unknown
 > 20001004_015404.exv   Exif.Photo.MeteringMode                      Short       1  Multi-segment
@@ -4862,7 +4862,7 @@ Compare image data and extracted data ------------------------------------
 > 20060127_225027.exv   Exif.Photo.CompressedBitsPerPixel            Rational    1  3
 > 20060127_225027.exv   Exif.Photo.ShutterSpeedValue                 SRational   1  1/1002 s
 > 20060127_225027.exv   Exif.Photo.ApertureValue                     Rational    1  F4
-> 20060127_225027.exv   Exif.Photo.ExposureBiasValue                 SRational   1  0
+> 20060127_225027.exv   Exif.Photo.ExposureBiasValue                 SRational   1  0 EV
 > 20060127_225027.exv   Exif.Photo.MaxApertureValue                  Rational    1  F2.6
 > 20060127_225027.exv   Exif.Photo.MeteringMode                      Short       1  Multi-segment
 > 20060127_225027.exv   Exif.Photo.Flash                             Short       1  No, compulsory
@@ -5262,7 +5262,7 @@ Compare original and inserted image data ---------------------------------
 < 20031214_000043.jpg   Exif.Photo.CompressedBitsPerPixel            Rational    1  5
 < 20031214_000043.jpg   Exif.Photo.ShutterSpeedValue                 SRational   1  1/501 s
 < 20031214_000043.jpg   Exif.Photo.ApertureValue                     Rational    1  F5
-< 20031214_000043.jpg   Exif.Photo.ExposureBiasValue                 SRational   1  0
+< 20031214_000043.jpg   Exif.Photo.ExposureBiasValue                 SRational   1  0 EV
 < 20031214_000043.jpg   Exif.Photo.MaxApertureValue                  Rational    1  F2.8
 < 20031214_000043.jpg   Exif.Photo.MeteringMode                      Short       1  Center weighted average
 < 20031214_000043.jpg   Exif.Photo.Flash                             Short       1  No, auto
@@ -5392,7 +5392,7 @@ Compare original and inserted image data ---------------------------------
 < 20000506_020544.jpg   Exif.Photo.DateTimeDigitized                 Ascii      20  2000:05:06 02:05:44
 < 20000506_020544.jpg   Exif.Photo.ComponentsConfiguration           Undefined   4  YCbCr
 < 20000506_020544.jpg   Exif.Photo.CompressedBitsPerPixel            Rational    1  3
-< 20000506_020544.jpg   Exif.Photo.ExposureBiasValue                 SRational   1  0
+< 20000506_020544.jpg   Exif.Photo.ExposureBiasValue                 SRational   1  0 EV
 < 20000506_020544.jpg   Exif.Photo.MaxApertureValue                  Rational    1  F3.4
 < 20000506_020544.jpg   Exif.Photo.MeteringMode                      Short       1  Center weighted average
 < 20000506_020544.jpg   Exif.Photo.LightSource                       Short       1  Unknown
@@ -5455,7 +5455,7 @@ Compare original and inserted image data ---------------------------------
 < 20040329_224245.jpg   Exif.Photo.DateTimeDigitized                 Ascii      20  2004:03:29 22:42:45
 < 20040329_224245.jpg   Exif.Photo.ComponentsConfiguration           Undefined   4  YCbCr
 < 20040329_224245.jpg   Exif.Photo.CompressedBitsPerPixel            Rational    1  4
-< 20040329_224245.jpg   Exif.Photo.ExposureBiasValue                 SRational   1  0
+< 20040329_224245.jpg   Exif.Photo.ExposureBiasValue                 SRational   1  0 EV
 < 20040329_224245.jpg   Exif.Photo.MaxApertureValue                  Rational    1  F4.4
 < 20040329_224245.jpg   Exif.Photo.MeteringMode                      Short       1  Multi-segment
 < 20040329_224245.jpg   Exif.Photo.LightSource                       Short       1  Unknown
@@ -5568,7 +5568,7 @@ Compare original and inserted image data ---------------------------------
 < 20010405_235039.jpg   Exif.Photo.DateTimeDigitized                 Ascii      20  2001:04:05 23:50:39
 < 20010405_235039.jpg   Exif.Photo.ComponentsConfiguration           Undefined   4  YCbCr
 < 20010405_235039.jpg   Exif.Photo.CompressedBitsPerPixel            Rational    1  4
-< 20010405_235039.jpg   Exif.Photo.ExposureBiasValue                 SRational   1  0
+< 20010405_235039.jpg   Exif.Photo.ExposureBiasValue                 SRational   1  0 EV
 < 20010405_235039.jpg   Exif.Photo.MaxApertureValue                  Rational    1  F2.5
 < 20010405_235039.jpg   Exif.Photo.MeteringMode                      Short       1  Multi-segment
 < 20010405_235039.jpg   Exif.Photo.LightSource                       Short       1  Unknown
@@ -5624,7 +5624,7 @@ Compare original and inserted image data ---------------------------------
 < 20030925_201850.jpg   Exif.Photo.CompressedBitsPerPixel            Rational    1  3
 < 20030925_201850.jpg   Exif.Photo.ShutterSpeedValue                 SRational   1  1/80 s
 < 20030925_201850.jpg   Exif.Photo.ApertureValue                     Rational    1  F5.6
-< 20030925_201850.jpg   Exif.Photo.ExposureBiasValue                 SRational   1  0
+< 20030925_201850.jpg   Exif.Photo.ExposureBiasValue                 SRational   1  0 EV
 < 20030925_201850.jpg   Exif.Photo.MaxApertureValue                  Rational    1  F3.5
 < 20030925_201850.jpg   Exif.Photo.MeteringMode                      Short       1  Multi-segment
 < 20030925_201850.jpg   Exif.Photo.Flash                             Short       1  No flash
@@ -5801,7 +5801,7 @@ Compare original and inserted image data ---------------------------------
 < 20001026_044550.jpg   Exif.Photo.ShutterSpeedValue                 SRational   1  1/32 s
 < 20001026_044550.jpg   Exif.Photo.ApertureValue                     Rational    1  F4
 < 20001026_044550.jpg   Exif.Photo.BrightnessValue                   SRational   1  1.5
-< 20001026_044550.jpg   Exif.Photo.ExposureBiasValue                 SRational   1  0
+< 20001026_044550.jpg   Exif.Photo.ExposureBiasValue                 SRational   1  0 EV
 < 20001026_044550.jpg   Exif.Photo.MaxApertureValue                  Rational    1  F4
 < 20001026_044550.jpg   Exif.Photo.SubjectDistance                   Rational    1  Unknown
 < 20001026_044550.jpg   Exif.Photo.MeteringMode                      Short       1  Center weighted average
@@ -5845,7 +5845,7 @@ Compare original and inserted image data ---------------------------------
 < 20030926_111535.jpg   Exif.Photo.ShutterSpeedValue                 SRational   1  1/64 s
 < 20030926_111535.jpg   Exif.Photo.ApertureValue                     Rational    1  F4
 < 20030926_111535.jpg   Exif.Photo.BrightnessValue                   SRational   1  -1.83
-< 20030926_111535.jpg   Exif.Photo.ExposureBiasValue                 SRational   1  +1/2
+< 20030926_111535.jpg   Exif.Photo.ExposureBiasValue                 SRational   1  +1/2 EV
 < 20030926_111535.jpg   Exif.Photo.MeteringMode                      Short       1  Center weighted average
 < 20030926_111535.jpg   Exif.Photo.LightSource                       Short       1  Unknown
 < 20030926_111535.jpg   Exif.Photo.Flash                             Short       1  Yes, compulsory
@@ -5918,7 +5918,7 @@ Compare original and inserted image data ---------------------------------
 < 20040316_075137.jpg   Exif.Photo.DateTimeOriginal                  Ascii      20  2004:03:16 07:51:37
 < 20040316_075137.jpg   Exif.Photo.DateTimeDigitized                 Ascii      20  2004:03:18 11:39:25
 < 20040316_075137.jpg   Exif.Photo.ComponentsConfiguration           Undefined   4  YCbCr
-< 20040316_075137.jpg   Exif.Photo.ExposureBiasValue                 SRational   1  +1
+< 20040316_075137.jpg   Exif.Photo.ExposureBiasValue                 SRational   1  +1 EV
 < 20040316_075137.jpg   Exif.Photo.MaxApertureValue                  Rational    1  F2.5
 < 20040316_075137.jpg   Exif.Photo.MeteringMode                      Short       1  Multi-segment
 < 20040316_075137.jpg   Exif.Photo.Flash                             Short       1  No flash
@@ -5989,7 +5989,7 @@ Compare original and inserted image data ---------------------------------
 < 20040208_093744.jpg   Exif.Photo.DateTimeDigitized                 Ascii      20  2004:02:08 09:37:44
 < 20040208_093744.jpg   Exif.Photo.ComponentsConfiguration           Undefined   4  YCbCr
 < 20040208_093744.jpg   Exif.Photo.CompressedBitsPerPixel            Rational    1  4
-< 20040208_093744.jpg   Exif.Photo.ExposureBiasValue                 SRational   1  +7/10
+< 20040208_093744.jpg   Exif.Photo.ExposureBiasValue                 SRational   1  +7/10 EV
 < 20040208_093744.jpg   Exif.Photo.MaxApertureValue                  Rational    1  F3
 < 20040208_093744.jpg   Exif.Photo.MeteringMode                      Short       1  Multi-segment
 < 20040208_093744.jpg   Exif.Photo.LightSource                       Short       1  Unknown
@@ -6060,7 +6060,7 @@ Compare original and inserted image data ---------------------------------
 < 20050218_212016.jpg   Exif.Photo.DateTimeDigitized                 Ascii      20  2005:02:18 21:20:16
 < 20050218_212016.jpg   Exif.Photo.ComponentsConfiguration           Undefined   4  YCbCr
 < 20050218_212016.jpg   Exif.Photo.CompressedBitsPerPixel            Rational    1  4
-< 20050218_212016.jpg   Exif.Photo.ExposureBiasValue                 SRational   1  0
+< 20050218_212016.jpg   Exif.Photo.ExposureBiasValue                 SRational   1  0 EV
 < 20050218_212016.jpg   Exif.Photo.MaxApertureValue                  Rational    1  F2.8
 < 20050218_212016.jpg   Exif.Photo.MeteringMode                      Short       1  Multi-segment
 < 20050218_212016.jpg   Exif.Photo.LightSource                       Short       1  Unknown
@@ -6073,8 +6073,8 @@ Compare original and inserted image data ---------------------------------
 < 20050218_212016.jpg   Exif.Panasonic.FirmwareVersion               Undefined   4  0 1 0 2 
 < 20050218_212016.jpg   Exif.Panasonic.WhiteBalance                  Short       1  Auto
 < 20050218_212016.jpg   Exif.Panasonic.FocusMode                     Short       1  Auto
-< 20050218_212016.jpg   Exif.Panasonic.SpotMode                      Byte        2  Off
-< 20050218_212016.jpg   Exif.Panasonic.ImageStabilizer               Short       1  On, Mode 1
+< 20050218_212016.jpg   Exif.Panasonic.AFMode                        Byte        2  1-area
+< 20050218_212016.jpg   Exif.Panasonic.ImageStabilization            Short       1  On, Mode 1
 < 20050218_212016.jpg   Exif.Panasonic.Macro                         Short       1  Off
 < 20050218_212016.jpg   Exif.Panasonic.ShootingMode                  Short       1  Program
 < 20050218_212016.jpg   Exif.Panasonic.Audio                         Short       1  No
@@ -6082,11 +6082,11 @@ Compare original and inserted image data ---------------------------------
 < 20050218_212016.jpg   Exif.Panasonic.0x0022                        Short       1  0
 < 20050218_212016.jpg   Exif.Panasonic.WhiteBalanceBias              Short       1  0 EV
 < 20050218_212016.jpg   Exif.Panasonic.FlashBias                     Short       1  0
-< 20050218_212016.jpg   Exif.Panasonic.SerialNumber                  Undefined  16  83 48 48 48 53 48 49 49 49 48 50 50 51 0 0 0 
-< 20050218_212016.jpg   Exif.Panasonic.0x0026                        Undefined   4  48 49 48 48 
+< 20050218_212016.jpg   Exif.Panasonic.InternalSerialNumber          Undefined  16  83 48 48 48 53 48 49 49 49 48 50 50 51 0 0 0 
+< 20050218_212016.jpg   Exif.Panasonic.ExifVersion                   Undefined   4  1.00
 < 20050218_212016.jpg   Exif.Panasonic.0x0027                        Short       1  0
 < 20050218_212016.jpg   Exif.Panasonic.ColorEffect                   Short       1  Off
-< 20050218_212016.jpg   Exif.Panasonic.0x0029                        Long        1  1450
+< 20050218_212016.jpg   Exif.Panasonic.TimeSincePowerOn              Long        1  1450
 < 20050218_212016.jpg   Exif.Panasonic.BurstMode                     Short       1  Off
 < 20050218_212016.jpg   Exif.Panasonic.SequenceNumber                Long        1  0
 < 20050218_212016.jpg   Exif.Panasonic.Contrast                      Short       1  Normal
@@ -6145,7 +6145,7 @@ Compare original and inserted image data ---------------------------------
 < 20050527_051833.jpg   Exif.Photo.DateTimeDigitized                 Ascii      20  2005:05:27 05:18:33
 < 20050527_051833.jpg   Exif.Photo.ComponentsConfiguration           Undefined   4  YCbCr
 < 20050527_051833.jpg   Exif.Photo.CompressedBitsPerPixel            Rational    1  8
-< 20050527_051833.jpg   Exif.Photo.ExposureBiasValue                 SRational   1  0
+< 20050527_051833.jpg   Exif.Photo.ExposureBiasValue                 SRational   1  0 EV
 < 20050527_051833.jpg   Exif.Photo.MaxApertureValue                  Rational    1  F2.8
 < 20050527_051833.jpg   Exif.Photo.MeteringMode                      Short       1  Multi-segment
 < 20050527_051833.jpg   Exif.Photo.LightSource                       Short       1  Unknown
@@ -6210,7 +6210,7 @@ Compare original and inserted image data ---------------------------------
 < 20060802_095200.jpg   Exif.Photo.ComponentsConfiguration           Undefined   4  YCbCr
 < 20060802_095200.jpg   Exif.Photo.ShutterSpeedValue                 SRational   1  1/60 s
 < 20060802_095200.jpg   Exif.Photo.ApertureValue                     Rational    1  F5.6
-< 20060802_095200.jpg   Exif.Photo.ExposureBiasValue                 SRational   1  0
+< 20060802_095200.jpg   Exif.Photo.ExposureBiasValue                 SRational   1  0 EV
 < 20060802_095200.jpg   Exif.Photo.MeteringMode                      Short       1  Partial
 < 20060802_095200.jpg   Exif.Photo.Flash                             Short       1  Yes, compulsory, red-eye reduction
 < 20060802_095200.jpg   Exif.Photo.FocalLength                       Rational    1  95.0 mm
@@ -6403,7 +6403,7 @@ Compare original and inserted image data ---------------------------------
 < 20001004_015404.jpg   Exif.Photo.CompressedBitsPerPixel            Rational    1  3
 < 20001004_015404.jpg   Exif.Photo.ShutterSpeedValue                 SRational   1  1/350 s
 < 20001004_015404.jpg   Exif.Photo.ApertureValue                     Rational    1  F4
-< 20001004_015404.jpg   Exif.Photo.ExposureBiasValue                 SRational   1  0
+< 20001004_015404.jpg   Exif.Photo.ExposureBiasValue                 SRational   1  0 EV
 < 20001004_015404.jpg   Exif.Photo.MaxApertureValue                  Rational    1  F2.8
 < 20001004_015404.jpg   Exif.Photo.SubjectDistance                   Rational    1  Unknown
 < 20001004_015404.jpg   Exif.Photo.MeteringMode                      Short       1  Multi-segment
@@ -6533,7 +6533,7 @@ Compare original and inserted image data ---------------------------------
 < 20060127_225027.jpg   Exif.Photo.CompressedBitsPerPixel            Rational    1  3
 < 20060127_225027.jpg   Exif.Photo.ShutterSpeedValue                 SRational   1  1/1002 s
 < 20060127_225027.jpg   Exif.Photo.ApertureValue                     Rational    1  F4
-< 20060127_225027.jpg   Exif.Photo.ExposureBiasValue                 SRational   1  0
+< 20060127_225027.jpg   Exif.Photo.ExposureBiasValue                 SRational   1  0 EV
 < 20060127_225027.jpg   Exif.Photo.MaxApertureValue                  Rational    1  F2.6
 < 20060127_225027.jpg   Exif.Photo.MeteringMode                      Short       1  Multi-segment
 < 20060127_225027.jpg   Exif.Photo.Flash                             Short       1  No, compulsory
@@ -6713,7 +6713,7 @@ Compare original and inserted image data ---------------------------------
 > 20031214_000043.exv   Exif.Photo.CompressedBitsPerPixel            Rational    1  5
 > 20031214_000043.exv   Exif.Photo.ShutterSpeedValue                 SRational   1  1/501 s
 > 20031214_000043.exv   Exif.Photo.ApertureValue                     Rational    1  F5
-> 20031214_000043.exv   Exif.Photo.ExposureBiasValue                 SRational   1  0
+> 20031214_000043.exv   Exif.Photo.ExposureBiasValue                 SRational   1  0 EV
 > 20031214_000043.exv   Exif.Photo.MaxApertureValue                  Rational    1  F2.8
 > 20031214_000043.exv   Exif.Photo.MeteringMode                      Short       1  Center weighted average
 > 20031214_000043.exv   Exif.Photo.Flash                             Short       1  No, auto
@@ -6843,7 +6843,7 @@ Compare original and inserted image data ---------------------------------
 > 20000506_020544.exv   Exif.Photo.DateTimeDigitized                 Ascii      20  2000:05:06 02:05:44
 > 20000506_020544.exv   Exif.Photo.ComponentsConfiguration           Undefined   4  YCbCr
 > 20000506_020544.exv   Exif.Photo.CompressedBitsPerPixel            Rational    1  3
-> 20000506_020544.exv   Exif.Photo.ExposureBiasValue                 SRational   1  0
+> 20000506_020544.exv   Exif.Photo.ExposureBiasValue                 SRational   1  0 EV
 > 20000506_020544.exv   Exif.Photo.MaxApertureValue                  Rational    1  F3.4
 > 20000506_020544.exv   Exif.Photo.MeteringMode                      Short       1  Center weighted average
 > 20000506_020544.exv   Exif.Photo.LightSource                       Short       1  Unknown
@@ -6906,7 +6906,7 @@ Compare original and inserted image data ---------------------------------
 > 20040329_224245.exv   Exif.Photo.DateTimeDigitized                 Ascii      20  2004:03:29 22:42:45
 > 20040329_224245.exv   Exif.Photo.ComponentsConfiguration           Undefined   4  YCbCr
 > 20040329_224245.exv   Exif.Photo.CompressedBitsPerPixel            Rational    1  4
-> 20040329_224245.exv   Exif.Photo.ExposureBiasValue                 SRational   1  0
+> 20040329_224245.exv   Exif.Photo.ExposureBiasValue                 SRational   1  0 EV
 > 20040329_224245.exv   Exif.Photo.MaxApertureValue                  Rational    1  F4.4
 > 20040329_224245.exv   Exif.Photo.MeteringMode                      Short       1  Multi-segment
 > 20040329_224245.exv   Exif.Photo.LightSource                       Short       1  Unknown
@@ -7019,7 +7019,7 @@ Compare original and inserted image data ---------------------------------
 > 20010405_235039.exv   Exif.Photo.DateTimeDigitized                 Ascii      20  2001:04:05 23:50:39
 > 20010405_235039.exv   Exif.Photo.ComponentsConfiguration           Undefined   4  YCbCr
 > 20010405_235039.exv   Exif.Photo.CompressedBitsPerPixel            Rational    1  4
-> 20010405_235039.exv   Exif.Photo.ExposureBiasValue                 SRational   1  0
+> 20010405_235039.exv   Exif.Photo.ExposureBiasValue                 SRational   1  0 EV
 > 20010405_235039.exv   Exif.Photo.MaxApertureValue                  Rational    1  F2.5
 > 20010405_235039.exv   Exif.Photo.MeteringMode                      Short       1  Multi-segment
 > 20010405_235039.exv   Exif.Photo.LightSource                       Short       1  Unknown
@@ -7075,7 +7075,7 @@ Compare original and inserted image data ---------------------------------
 > 20030925_201850.exv   Exif.Photo.CompressedBitsPerPixel            Rational    1  3
 > 20030925_201850.exv   Exif.Photo.ShutterSpeedValue                 SRational   1  1/80 s
 > 20030925_201850.exv   Exif.Photo.ApertureValue                     Rational    1  F5.6
-> 20030925_201850.exv   Exif.Photo.ExposureBiasValue                 SRational   1  0
+> 20030925_201850.exv   Exif.Photo.ExposureBiasValue                 SRational   1  0 EV
 > 20030925_201850.exv   Exif.Photo.MaxApertureValue                  Rational    1  F3.5
 > 20030925_201850.exv   Exif.Photo.MeteringMode                      Short       1  Multi-segment
 > 20030925_201850.exv   Exif.Photo.Flash                             Short       1  No flash
@@ -7252,7 +7252,7 @@ Compare original and inserted image data ---------------------------------
 > 20001026_044550.exv   Exif.Photo.ShutterSpeedValue                 SRational   1  1/32 s
 > 20001026_044550.exv   Exif.Photo.ApertureValue                     Rational    1  F4
 > 20001026_044550.exv   Exif.Photo.BrightnessValue                   SRational   1  1.5
-> 20001026_044550.exv   Exif.Photo.ExposureBiasValue                 SRational   1  0
+> 20001026_044550.exv   Exif.Photo.ExposureBiasValue                 SRational   1  0 EV
 > 20001026_044550.exv   Exif.Photo.MaxApertureValue                  Rational    1  F4
 > 20001026_044550.exv   Exif.Photo.SubjectDistance                   Rational    1  Unknown
 > 20001026_044550.exv   Exif.Photo.MeteringMode                      Short       1  Center weighted average
@@ -7296,7 +7296,7 @@ Compare original and inserted image data ---------------------------------
 > 20030926_111535.exv   Exif.Photo.ShutterSpeedValue                 SRational   1  1/64 s
 > 20030926_111535.exv   Exif.Photo.ApertureValue                     Rational    1  F4
 > 20030926_111535.exv   Exif.Photo.BrightnessValue                   SRational   1  -1.83
-> 20030926_111535.exv   Exif.Photo.ExposureBiasValue                 SRational   1  +1/2
+> 20030926_111535.exv   Exif.Photo.ExposureBiasValue                 SRational   1  +1/2 EV
 > 20030926_111535.exv   Exif.Photo.MeteringMode                      Short       1  Center weighted average
 > 20030926_111535.exv   Exif.Photo.LightSource                       Short       1  Unknown
 > 20030926_111535.exv   Exif.Photo.Flash                             Short       1  Yes, compulsory
@@ -7369,7 +7369,7 @@ Compare original and inserted image data ---------------------------------
 > 20040316_075137.exv   Exif.Photo.DateTimeOriginal                  Ascii      20  2004:03:16 07:51:37
 > 20040316_075137.exv   Exif.Photo.DateTimeDigitized                 Ascii      20  2004:03:18 11:39:25
 > 20040316_075137.exv   Exif.Photo.ComponentsConfiguration           Undefined   4  YCbCr
-> 20040316_075137.exv   Exif.Photo.ExposureBiasValue                 SRational   1  +1
+> 20040316_075137.exv   Exif.Photo.ExposureBiasValue                 SRational   1  +1 EV
 > 20040316_075137.exv   Exif.Photo.MaxApertureValue                  Rational    1  F2.5
 > 20040316_075137.exv   Exif.Photo.MeteringMode                      Short       1  Multi-segment
 > 20040316_075137.exv   Exif.Photo.Flash                             Short       1  No flash
@@ -7440,7 +7440,7 @@ Compare original and inserted image data ---------------------------------
 > 20040208_093744.exv   Exif.Photo.DateTimeDigitized                 Ascii      20  2004:02:08 09:37:44
 > 20040208_093744.exv   Exif.Photo.ComponentsConfiguration           Undefined   4  YCbCr
 > 20040208_093744.exv   Exif.Photo.CompressedBitsPerPixel            Rational    1  4
-> 20040208_093744.exv   Exif.Photo.ExposureBiasValue                 SRational   1  +7/10
+> 20040208_093744.exv   Exif.Photo.ExposureBiasValue                 SRational   1  +7/10 EV
 > 20040208_093744.exv   Exif.Photo.MaxApertureValue                  Rational    1  F3
 > 20040208_093744.exv   Exif.Photo.MeteringMode                      Short       1  Multi-segment
 > 20040208_093744.exv   Exif.Photo.LightSource                       Short       1  Unknown
@@ -7511,7 +7511,7 @@ Compare original and inserted image data ---------------------------------
 > 20050218_212016.exv   Exif.Photo.DateTimeDigitized                 Ascii      20  2005:02:18 21:20:16
 > 20050218_212016.exv   Exif.Photo.ComponentsConfiguration           Undefined   4  YCbCr
 > 20050218_212016.exv   Exif.Photo.CompressedBitsPerPixel            Rational    1  4
-> 20050218_212016.exv   Exif.Photo.ExposureBiasValue                 SRational   1  0
+> 20050218_212016.exv   Exif.Photo.ExposureBiasValue                 SRational   1  0 EV
 > 20050218_212016.exv   Exif.Photo.MaxApertureValue                  Rational    1  F2.8
 > 20050218_212016.exv   Exif.Photo.MeteringMode                      Short       1  Multi-segment
 > 20050218_212016.exv   Exif.Photo.LightSource                       Short       1  Unknown
@@ -7524,8 +7524,8 @@ Compare original and inserted image data ---------------------------------
 > 20050218_212016.exv   Exif.Panasonic.FirmwareVersion               Undefined   4  0 1 0 2 
 > 20050218_212016.exv   Exif.Panasonic.WhiteBalance                  Short       1  Auto
 > 20050218_212016.exv   Exif.Panasonic.FocusMode                     Short       1  Auto
-> 20050218_212016.exv   Exif.Panasonic.SpotMode                      Byte        2  Off
-> 20050218_212016.exv   Exif.Panasonic.ImageStabilizer               Short       1  On, Mode 1
+> 20050218_212016.exv   Exif.Panasonic.AFMode                        Byte        2  1-area
+> 20050218_212016.exv   Exif.Panasonic.ImageStabilization            Short       1  On, Mode 1
 > 20050218_212016.exv   Exif.Panasonic.Macro                         Short       1  Off
 > 20050218_212016.exv   Exif.Panasonic.ShootingMode                  Short       1  Program
 > 20050218_212016.exv   Exif.Panasonic.Audio                         Short       1  No
@@ -7533,11 +7533,11 @@ Compare original and inserted image data ---------------------------------
 > 20050218_212016.exv   Exif.Panasonic.0x0022                        Short       1  0
 > 20050218_212016.exv   Exif.Panasonic.WhiteBalanceBias              Short       1  0 EV
 > 20050218_212016.exv   Exif.Panasonic.FlashBias                     Short       1  0
-> 20050218_212016.exv   Exif.Panasonic.SerialNumber                  Undefined  16  83 48 48 48 53 48 49 49 49 48 50 50 51 0 0 0 
-> 20050218_212016.exv   Exif.Panasonic.0x0026                        Undefined   4  48 49 48 48 
+> 20050218_212016.exv   Exif.Panasonic.InternalSerialNumber          Undefined  16  83 48 48 48 53 48 49 49 49 48 50 50 51 0 0 0 
+> 20050218_212016.exv   Exif.Panasonic.ExifVersion                   Undefined   4  1.00
 > 20050218_212016.exv   Exif.Panasonic.0x0027                        Short       1  0
 > 20050218_212016.exv   Exif.Panasonic.ColorEffect                   Short       1  Off
-> 20050218_212016.exv   Exif.Panasonic.0x0029                        Long        1  1450
+> 20050218_212016.exv   Exif.Panasonic.TimeSincePowerOn              Long        1  1450
 > 20050218_212016.exv   Exif.Panasonic.BurstMode                     Short       1  Off
 > 20050218_212016.exv   Exif.Panasonic.SequenceNumber                Long        1  0
 > 20050218_212016.exv   Exif.Panasonic.Contrast                      Short       1  Normal
@@ -7596,7 +7596,7 @@ Compare original and inserted image data ---------------------------------
 > 20050527_051833.exv   Exif.Photo.DateTimeDigitized                 Ascii      20  2005:05:27 05:18:33
 > 20050527_051833.exv   Exif.Photo.ComponentsConfiguration           Undefined   4  YCbCr
 > 20050527_051833.exv   Exif.Photo.CompressedBitsPerPixel            Rational    1  8
-> 20050527_051833.exv   Exif.Photo.ExposureBiasValue                 SRational   1  0
+> 20050527_051833.exv   Exif.Photo.ExposureBiasValue                 SRational   1  0 EV
 > 20050527_051833.exv   Exif.Photo.MaxApertureValue                  Rational    1  F2.8
 > 20050527_051833.exv   Exif.Photo.MeteringMode                      Short       1  Multi-segment
 > 20050527_051833.exv   Exif.Photo.LightSource                       Short       1  Unknown
@@ -7661,7 +7661,7 @@ Compare original and inserted image data ---------------------------------
 > 20060802_095200.exv   Exif.Photo.ComponentsConfiguration           Undefined   4  YCbCr
 > 20060802_095200.exv   Exif.Photo.ShutterSpeedValue                 SRational   1  1/60 s
 > 20060802_095200.exv   Exif.Photo.ApertureValue                     Rational    1  F5.6
-> 20060802_095200.exv   Exif.Photo.ExposureBiasValue                 SRational   1  0
+> 20060802_095200.exv   Exif.Photo.ExposureBiasValue                 SRational   1  0 EV
 > 20060802_095200.exv   Exif.Photo.MeteringMode                      Short       1  Partial
 > 20060802_095200.exv   Exif.Photo.Flash                             Short       1  Yes, compulsory, red-eye reduction
 > 20060802_095200.exv   Exif.Photo.FocalLength                       Rational    1  95.0 mm
@@ -7854,7 +7854,7 @@ Compare original and inserted image data ---------------------------------
 > 20001004_015404.exv   Exif.Photo.CompressedBitsPerPixel            Rational    1  3
 > 20001004_015404.exv   Exif.Photo.ShutterSpeedValue                 SRational   1  1/350 s
 > 20001004_015404.exv   Exif.Photo.ApertureValue                     Rational    1  F4
-> 20001004_015404.exv   Exif.Photo.ExposureBiasValue                 SRational   1  0
+> 20001004_015404.exv   Exif.Photo.ExposureBiasValue                 SRational   1  0 EV
 > 20001004_015404.exv   Exif.Photo.MaxApertureValue                  Rational    1  F2.8
 > 20001004_015404.exv   Exif.Photo.SubjectDistance                   Rational    1  Unknown
 > 20001004_015404.exv   Exif.Photo.MeteringMode                      Short       1  Multi-segment
@@ -7984,7 +7984,7 @@ Compare original and inserted image data ---------------------------------
 > 20060127_225027.exv   Exif.Photo.CompressedBitsPerPixel            Rational    1  3
 > 20060127_225027.exv   Exif.Photo.ShutterSpeedValue                 SRational   1  1/1002 s
 > 20060127_225027.exv   Exif.Photo.ApertureValue                     Rational    1  F4
-> 20060127_225027.exv   Exif.Photo.ExposureBiasValue                 SRational   1  0
+> 20060127_225027.exv   Exif.Photo.ExposureBiasValue                 SRational   1  0 EV
 > 20060127_225027.exv   Exif.Photo.MaxApertureValue                  Rational    1  F2.6
 > 20060127_225027.exv   Exif.Photo.MeteringMode                      Short       1  Multi-segment
 > 20060127_225027.exv   Exif.Photo.Flash                             Short       1  No, compulsory

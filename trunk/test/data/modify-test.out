@@ -41,7 +41,7 @@ exiv2-gc.jpg          Exif.Photo.DateTimeDigitized                 Ascii      20
 exiv2-gc.jpg          Exif.Photo.ComponentsConfiguration           Undefined   4  YCbCr
 exiv2-gc.jpg          Exif.Photo.ShutterSpeedValue                 SRational   1  1/97 s
 exiv2-gc.jpg          Exif.Photo.ApertureValue                     Rational    1  F9.2
-exiv2-gc.jpg          Exif.Photo.ExposureBiasValue                 SRational   1  0
+exiv2-gc.jpg          Exif.Photo.ExposureBiasValue                 SRational   1  0 EV
 exiv2-gc.jpg          Exif.Photo.MaxApertureValue                  Rational    1  F2.9
 exiv2-gc.jpg          Exif.Photo.MeteringMode                      Short       1  Multi-segment
 exiv2-gc.jpg          Exif.Photo.LightSource                       Short       1  Unknown

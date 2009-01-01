@@ -44,7 +44,7 @@ Exif.Photo.DateTimeDigitized                 Ascii      20  2003:07:27 16:22:28
 Exif.Photo.ComponentsConfiguration           Undefined   4  YCbCr
 Exif.Photo.ShutterSpeedValue                 SRational   1  1/512 s
 Exif.Photo.ApertureValue                     Rational    1  F3.4
-Exif.Photo.ExposureBiasValue                 SRational   1  0
+Exif.Photo.ExposureBiasValue                 SRational   1  0 EV
 Exif.Photo.MaxApertureValue                  Rational    1  F3.2
 Exif.Photo.SubjectDistance                   Rational    1  1.10 m
 Exif.Photo.MeteringMode                      Short       1  Average
@@ -97,7 +97,7 @@ Exif.Photo.ComponentsConfiguration           Undefined   4  YCbCr
 Exif.Photo.CompressedBitsPerPixel            Rational    1  5
 Exif.Photo.ShutterSpeedValue                 SRational   1  1/501 s
 Exif.Photo.ApertureValue                     Rational    1  F5
-Exif.Photo.ExposureBiasValue                 SRational   1  0
+Exif.Photo.ExposureBiasValue                 SRational   1  0 EV
 Exif.Photo.MaxApertureValue                  Rational    1  F2.8
 Exif.Photo.MeteringMode                      Short       1  Center weighted average
 Exif.Photo.Flash                             Short       1  No, auto
@@ -637,7 +637,7 @@ Exif.Photo.DateTimeDigitized                 Ascii      20  2008:04:01 13:40:03
 Exif.Photo.ComponentsConfiguration           Undefined   4  YCbCr
 Exif.Photo.ShutterSpeedValue                 SRational   1  1/256 s
 Exif.Photo.ApertureValue                     Rational    1  F11
-Exif.Photo.ExposureBiasValue                 SRational   1  +1/3
+Exif.Photo.ExposureBiasValue                 SRational   1  +1/3 EV
 Exif.Photo.MeteringMode                      Short       1  Multi-segment
 Exif.Photo.Flash                             Short       1  No, compulsory
 Exif.Photo.FocalLength                       Rational    1  10.0 mm
@@ -690,7 +690,7 @@ Xmp.exif.BrightnessValue                     XmpText     8  0.260156
 Xmp.exif.ColorSpace                          XmpText     1  sRGB
 Xmp.exif.DateTimeOriginal                    XmpText    20  2002:07:13 15:58:28
 Xmp.exif.ExifVersion                         XmpText     4  2.00
-Xmp.exif.ExposureBiasValue                   XmpText     6  -13/20
+Xmp.exif.ExposureBiasValue                   XmpText     6  -13/20 EV
 Xmp.exif.ExposureProgram                     XmpText     1  Shutter priority
 Xmp.exif.FNumber                             XmpText     3  F0.6
 Xmp.exif.FileSource                          XmpText     1  (0)

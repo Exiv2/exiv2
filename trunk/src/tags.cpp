@@ -2331,7 +2331,7 @@ namespace Exiv2 {
             os << "(" << bias.first << "/" << bias.second << ")";
         }
         else if (bias.first == 0) {
-            os << "0";
+            os << "0 EV";
         }
         else {
             int32_t d = gcd(bias.first, bias.second);
@@ -2341,6 +2341,7 @@ namespace Exiv2 {
             if (den != 1) {
                 os << "/" << den;
             }
+            os << " EV";
         }
         return os;
     }
