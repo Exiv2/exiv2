@@ -247,6 +247,7 @@ namespace {
         { 0,                   createLoaderExifDataJpeg, 4 },
         { 0,                   createLoaderExifDataJpeg, 5 },
         { 0,                   createLoaderExifDataJpeg, 6 },
+        { "image/x-raw",       createLoaderExifDataJpeg, 7 },
         { 0,                   createLoaderTiff,         0 },
         { 0,                   createLoaderTiff,         1 },
         { 0,                   createLoaderTiff,         2 },
@@ -281,7 +282,8 @@ namespace {
         { "Exif.Minolta.ThumbnailOffset",            "Exif.Minolta.ThumbnailLength"                  }, // 3
         { "Exif.Olympus.ThumbnailImage",             0                                               }, // 4
         { "Exif.Olympus2.ThumbnailImage",            0                                               }, // 5
-        { "Exif.Minolta.Thumbnail",                  0                                               }  // 6
+        { "Exif.Minolta.Thumbnail",                  0                                               }, // 6
+        { "Exif.Image.0x002e",                       0                                               }  // 7
     };
 
     const LoaderTiff::Param LoaderTiff::param_[] = {
