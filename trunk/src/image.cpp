@@ -59,6 +59,7 @@ EXIV2_RCSID("@(#) $Id$")
 #include "tgaimage.hpp"
 #include "bmpimage.hpp"
 #include "jp2image.hpp"
+#include "rw2image.hpp"
 #include "xmpsidecar.hpp"
 
 // + standard includes
@@ -115,6 +116,7 @@ namespace {
         { ImageType::tga,  newTgaInstance,  isTgaType,  amNone,      amNone,      amNone,      amNone      },
         { ImageType::bmp,  newBmpInstance,  isBmpType,  amNone,      amNone,      amNone,      amNone      },
         { ImageType::jp2,  newJp2Instance,  isJp2Type,  amReadWrite, amReadWrite, amReadWrite, amNone      },
+        { ImageType::rw2,  newRw2Instance,  isRw2Type,  amRead,      amRead,      amRead,      amNone      },
         // End of list marker
         { ImageType::none, 0,               0,          amNone,      amNone,      amNone,      amNone      }
     };

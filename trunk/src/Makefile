@@ -98,6 +98,7 @@ CCSRC += preview.cpp          \
 	 properties.cpp       \
 	 psdimage.cpp         \
 	 rafimage.cpp         \
+	 rw2image.cpp         \
 	 sigmamn.cpp          \
 	 pentaxmn.cpp         \
 	 sonymn.cpp           \
