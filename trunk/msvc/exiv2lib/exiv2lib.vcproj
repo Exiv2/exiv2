@@ -476,6 +476,10 @@
 				>
 			</File>
 			<File
+				RelativePath="..\..\src\rw2image.cpp"
+				>
+			</File>
+			<File
 				RelativePath="..\..\src\sigmamn.cpp"
 				>
 			</File>
@@ -659,6 +663,10 @@
 			</File>
 			<File
 				RelativePath="..\..\src\rcsid.hpp"
+				>
+			</File>
+			<File
+				RelativePath="..\..\src\rw2image.hpp"
 				>
 			</File>
 			<File
