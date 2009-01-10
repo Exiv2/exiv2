@@ -71,6 +71,11 @@ expat        http://expat.sourceforge.net/
 *) Some systems have gettext and iconv in libc. The configure script 
 should detect this.
 
+On Linux, it is usually best to install the dependencies through the
+package management system of the distribution together with the
+corresponding development packages (for the header files and static
+libraries).
+
 To build the sample programs in the samples/ directory ('make samples'),
 you also need to have the pkg-config program.
 
