@@ -1248,6 +1248,7 @@ fmountlens[] = {
 {0x00,0x54,0x2B,0x50,0x24,0x24,0x00,0x06, "Tamron", "SP AF 17-50mm F/2.8 XR Di II LD Aspherical [IF] (A16NII)"},
 {0x00,0x3F,0x2D,0x80,0x2B,0x40,0x00,0x06, "Tamron", "AF 18-200mm F/3.5-6.3 XR Di II LD Aspherical (IF)"},
 {0x00,0x3F,0x2D,0x80,0x2C,0x40,0x00,0x06, "Tamron", "AF 18-200mm F/3.5-6.3 XR Di II LD Aspherical (IF) Macro"},
+{0x00,0x40,0x2D,0x80,0x2C,0x40,0x00,0x06, "Tamron", "AF 18-200mm F/3.5-6.3 XR Di-II LD Aspherical (IF) Macro"},
 {0x00,0x40,0x2D,0x88,0x2C,0x40,0x62,0x06, "Tamron", "AF 18-250mm F/3.5-6.3 Di II LD Aspherical (IF) Macro"},
 {0x00,0x40,0x2D,0x88,0x2C,0x40,0x00,0x06, "Tamron", "AF 18-250mm F/3.5-6.3 Di II LD Aspherical (IF) Macro (A18NII)"},
 {0xF5,0x40,0x2C,0x8A,0x2C,0x40,0x40,0x0E, "Tamron", "AF 18-270mm F/3.5-6.3 Di II VC LD Aspherical [IF] Macro"},
@@ -1334,7 +1335,8 @@ fmountlens[] = {
             idx = 11;
         }
         else if (   0 == memcmp(lens.pData_, "0201", 4)
-                 || 0 == memcmp(lens.pData_, "0202", 4)) {
+                 || 0 == memcmp(lens.pData_, "0202", 4)
+                 || 0 == memcmp(lens.pData_, "0203", 4)) {
             if (metadata) {
                 // The decrypt algorithm requires access to serial number
                 // and shutter count tags
