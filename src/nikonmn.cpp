@@ -1341,8 +1341,16 @@ fmountlens[] = {
                 // The decrypt algorithm requires access to serial number
                 // and shutter count tags
                 decryptNikonData(lens.pData_ + 4, lens.size_ - 4, *metadata);
+                idx = 11;
             }
-            idx = 11;
+        }
+        else if (0 == memcmp(lens.pData_, "0204", 4)) {
+            if (metadata) {
+                // The decrypt algorithm requires access to serial number
+                // and shutter count tags
+                decryptNikonData(lens.pData_ + 4, lens.size_ - 4, *metadata);
+                idx = 12;
+            }
         }
         if (idx == 0 || lens.size_ < idx + 7) {
             // Unknown version or not enough data
