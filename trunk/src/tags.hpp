@@ -173,7 +173,7 @@ namespace Exiv2 {
             if (td->mask_ == 0) return os << exvGettext(td->label_);
         }
         bool sep = false;
-        for (int i = 0; i < N; i++) {
+        for (int i = 0; i < N; ++i) {
             // *& acrobatics is a workaround for a MSVC 7.1 bug
             const TagDetailsBitmask* td = *(&array) + i;
 

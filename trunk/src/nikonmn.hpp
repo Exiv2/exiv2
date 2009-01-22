@@ -127,10 +127,16 @@ namespace Exiv2 {
         static std::ostream& print0x0086(std::ostream& os, const Value& value, const ExifData*);
         //! Print AF point
         static std::ostream& print0x0088(std::ostream& os, const Value& value, const ExifData*);
+        //! Print shooting mode
+        static std::ostream& print0x0089(std::ostream& os, const Value& value, const ExifData* metadata);
         //! Print number of lens stops
         static std::ostream& print0x008b(std::ostream& os, const Value& value, const ExifData*);
         //! Print number of lens data
         static std::ostream& print0x0098(std::ostream& os, const Value& value, const ExifData*);
+        //! Print sensor pixel size
+        static std::ostream& print0x009a(std::ostream& os, const Value& value, const ExifData*);
+        //! Print retouch history
+        static std::ostream& print0x009e(std::ostream& os, const Value& value, const ExifData*);
         //@}
 
     private:
