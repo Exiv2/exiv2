@@ -25,6 +25,8 @@
   @version $Rev$
   @author  Marco Piovanelli, Ovolab (marco)
            <a href="mailto:marco.piovanelli@pobox.com">marco.piovanelli@pobox.com</a>
+           Michael Ulbrich
+           <a href="mailto:mul@rentapacs.de">mul@rentapacs.de</a>
   @date    05-Mar-2007, marco: created
  */
 #ifndef PSDIMAGE_HPP_
