@@ -127,6 +127,14 @@ namespace Exiv2 {
         //! @name Manipulators
         //@{
         EXV_DLLLOCAL void processResourceBlock(uint16_t resourceId, uint32_t resourceSize);
+        /*!
+          @brief Provides the main implementation of writeMetadata() by
+                writing all buffered metadata to the provided BasicIo.
+          @param oIo BasicIo instance to write to (a temporary location).
+
+          @return 4 if opening or writing to the associated BasicIo fails
+         */
+        EXV_DLLLOCAL void doWriteMetadata(BasicIo& oIo);
         //@}
 
     }; // class PsdImage
