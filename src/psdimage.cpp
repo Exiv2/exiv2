@@ -202,7 +202,7 @@ namespace Exiv2 {
         }
 
         // skip it
-        uint32_t colorDataLength = getLong(buf, bigEndian);
+        uint32_t colorDataLength = getULong(buf, bigEndian);
         if (io_->seek(colorDataLength, BasicIo::cur))
         {
             throw Error(3, "Photoshop");
@@ -213,7 +213,7 @@ namespace Exiv2 {
         {
             throw Error(3, "Photoshop");
         }
-        uint32_t resourcesLength = getLong(buf, bigEndian);
+        uint32_t resourcesLength = getULong(buf, bigEndian);
         while (resourcesLength > 0)
         {
             if (io_->read(buf, 8) != 8)
@@ -222,8 +222,8 @@ namespace Exiv2 {
             }
 
             // read resource type and ID
-            uint32_t resourceType = getLong(buf, bigEndian);
-            uint16_t resourceId = getShort(buf + 4, bigEndian);
+            uint32_t resourceType = getULong(buf, bigEndian);
+            uint16_t resourceId = getUShort(buf + 4, bigEndian);
 
             if (resourceType != kPhotoshopResourceType)
             {
@@ -239,7 +239,7 @@ namespace Exiv2 {
             {
                 throw Error(3, "Photoshop");
             }
-            uint32_t resourceSize = getLong(buf, bigEndian);
+            uint32_t resourceSize = getULong(buf, bigEndian);
             uint32_t curOffset = io_->tell();
 
             processResourceBlock(resourceId, resourceSize);
@@ -359,8 +359,8 @@ namespace Exiv2 {
             throw Error(3, "Photoshop");
         }
 
-        uint32_t colorDataLength = getLong(buf, bigEndian);
-        
+        uint32_t colorDataLength = getULong(buf, bigEndian);
+
         // Write colorDataLength
         ul2Data(buf, colorDataLength, bigEndian);
         if (outIo.write(buf, 4) != 4) throw Error(21);
@@ -368,10 +368,11 @@ namespace Exiv2 {
         std::cerr << std::dec << "colorDataLength: " << colorDataLength << "\n";
 #endif
         // Copy colorData
-        long readTotal = 0;
+        uint32_t readTotal = 0;
         long toRead = 0;
         while (readTotal < colorDataLength) {
-            toRead = colorDataLength - readTotal < lbuf.size_ ? colorDataLength - readTotal : lbuf.size_;
+            toRead =   static_cast<long>(colorDataLength - readTotal) < lbuf.size_
+                     ? colorDataLength - readTotal : lbuf.size_;
             if (io_->read(lbuf.pData_, toRead) != toRead)
             {
                 throw Error(3, "Photoshop");
@@ -389,7 +390,7 @@ namespace Exiv2 {
             throw Error(3, "Photoshop");
         }
 
-        uint32_t oldResLength = getLong(buf, bigEndian);
+        uint32_t oldResLength = getULong(buf, bigEndian);
         uint32_t newResLength = 0;
 
         // Write oldResLength (will be updated later)
@@ -434,8 +435,8 @@ namespace Exiv2 {
             }
 
             // read resource type and ID
-            uint32_t resourceType = getLong(buf, bigEndian);
-            uint16_t resourceId = getShort(buf + 4, bigEndian);
+            uint32_t resourceType = getULong(buf, bigEndian);
+            uint16_t resourceId = getUShort(buf + 4, bigEndian);
 #ifdef DEBUG
             std::cerr << std::hex << "resourceId: " << resourceId << "\n";
             std::cerr << std::dec;
@@ -460,7 +461,7 @@ namespace Exiv2 {
             {
                 throw Error(3, "Photoshop"); 
             }
-            uint32_t resourceSize = getLong(buf, bigEndian);
+            uint32_t resourceSize = getULong(buf, bigEndian);
             uint32_t curOffset = io_->tell();
 
             switch(resourceId)
@@ -503,7 +504,8 @@ namespace Exiv2 {
                     toRead = 0;
                     resourceSize = (resourceSize + 1) & ~1;        // pad to even
                     while (readTotal < resourceSize) {
-                        toRead = resourceSize - readTotal < lbuf.size_ ? resourceSize - readTotal : lbuf.size_;
+                        toRead =   static_cast<long>(resourceSize - readTotal) < lbuf.size_
+                                 ? resourceSize - readTotal : lbuf.size_;
                         if (io_->read(lbuf.pData_, toRead) != toRead)
                         {
                             throw Error(3, "Photoshop");
