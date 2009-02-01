@@ -2,6 +2,10 @@ rmdir/s/q .\addmoddel\Debug
 rmdir/s/q .\addmoddel\DebugDLL
 rmdir/s/q .\addmoddel\Release
 rmdir/s/q .\addmoddel\ReleaseDLL
+rmdir/s/q .\organize\Debug
+rmdir/s/q .\organize\DebugDLL
+rmdir/s/q .\organize\Release
+rmdir/s/q .\organize\ReleaseDLL
 rmdir/s/q .\exifcomment\Debug
 rmdir/s/q .\exifdata-test\Debug
 rmdir/s/q .\exifprint\Debug
