@@ -196,7 +196,7 @@ void usage_full(const po::options_description &options, const char* exname)
     usage_header(exname);
     std::cout << "\n  Creates groups of files in new directories defined by a metadata 'pattern'.\n" <<
         "  Files are copied, moved, or linked from 'source-dir' to 'dest-dir'.\n" <<
-        "  Destination directory should not be within source directory.\n\n";
+        "  The destination directory should not be within the source directory.\n\n";
     std::cout << options;
 
     std::cout << "\nPattern values:\n";
@@ -331,7 +331,7 @@ int main(int argc, char* argv[])
         ("ignore-dups", "ignore duplicate files instead of using special directory")
         ("verify", "verify copied or moved files and exit if incorrect")
         ("exclude,x", po::value< std::vector<std::string> >(), 
-            "exclude directories and files that contain arg (case sensitive\non all platforms)")
+            "exclude directories and files that contain arg (case sensitive on all platforms)")
         ("limit-depth,l", po::value<long>(), 
             "limit recursion to specified depth (0 disables recursion)")
         ("verbose,v", "prints operations as they happen")
@@ -538,7 +538,7 @@ int main(int argc, char* argv[])
         if(params.dir_err_count)
             std::cout << params.dir_err_count << " directory errors\n";
         if(params.file_err_count)
-            std::cout << params.file_err_count << " files errors\n";
+            std::cout << params.file_err_count << " file errors\n";
     
         return 0;
     }
