@@ -80,6 +80,7 @@ namespace Exiv2 {
         {  1, N_("On")  }
     };
 
+    //! Off, Low, Normal, High, multiple tags
     extern const TagDetails nikonOlnh[] = {
         {  0, N_("Off")    },
         {  1, N_("Low")    },
