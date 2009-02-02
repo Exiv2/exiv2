@@ -52,7 +52,7 @@ TABLES = Exif \
          Nikon1 Nikon2 Nikon3 \
          Olympus OlympusCs OlympusEq OlympusRd OlympusRd2 \
          OlympusIp OlympusFi OlympusFe1 OlympusRi \
-	 Panasonic \
+	 Panasonic PanasonicRaw \
          Pentax \
          Sigma \
          Sony

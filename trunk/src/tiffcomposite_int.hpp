@@ -77,6 +77,9 @@ namespace Exiv2 {
       Todo: what exactly are these and where should they go?
       Are they going to be mapped to the second part of an Exif key or are they
       the second part of the key?
+
+      @note Groups with ids > mn are Makernote groups and get treated slightly
+            differently.
     */
     namespace Group {
         const uint16_t none    =   0; //!< Dummy group
@@ -90,6 +93,7 @@ namespace Exiv2 {
         const uint16_t subimg2 =   8; //!< 2nd TIFF SubIFD in IFD0
         const uint16_t subimg3 =   9; //!< 3rd TIFF SubIFD in IFD0
         const uint16_t subimg4 =  10; //!< 4th TIFF SubIFD in IFD0
+        const uint16_t panaraw =  64; //!< IFD0 of Panasonic RAW images 
         const uint16_t mn      = 256; //!< Makernote
         const uint16_t ignr    = 511; //!< Read but do not decode
     }
@@ -104,6 +108,7 @@ namespace Exiv2 {
         const uint32_t root = 0x20000; //!< Special tag: root IFD
         const uint32_t next = 0x30000; //!< Special tag: next IFD
         const uint32_t all  = 0x40000; //!< Special tag: all tags in a group
+        const uint32_t pana = 0x80000; //!< Special tag: root IFD of Panasonic RAW images
     }
         
     /*!

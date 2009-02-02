@@ -42,6 +42,7 @@ EXIV2_RCSID("@(#) $Id$")
 #include "tiffcomposite_int.hpp"
 #include "tiffimage_int.hpp"
 #include "image.hpp"
+#include "preview.hpp"
 #include "error.hpp"
 #include "futils.hpp"
 
@@ -63,7 +64,8 @@ namespace Exiv2 {
 
     int Rw2Image::pixelWidth() const
     {
-        ExifData::const_iterator imageWidth = exifData_.findKey(Exiv2::ExifKey("Exif.Image.0x0007"));
+        ExifData::const_iterator imageWidth =
+            exifData_.findKey(Exiv2::ExifKey("Exif.PanasonicRaw.SensorWidth"));
         if (imageWidth != exifData_.end() && imageWidth->count() > 0) {
             return imageWidth->toLong();
         }
@@ -72,7 +74,8 @@ namespace Exiv2 {
 
     int Rw2Image::pixelHeight() const
     {
-        ExifData::const_iterator imageHeight = exifData_.findKey(Exiv2::ExifKey("Exif.Image.0x0006"));
+        ExifData::const_iterator imageHeight =
+            exifData_.findKey(Exiv2::ExifKey("Exif.PanasonicRaw.SensorHeight"));
         if (imageHeight != exifData_.end() && imageHeight->count() > 0) {
             return imageHeight->toLong();
         }
@@ -118,6 +121,33 @@ namespace Exiv2 {
                                          io_->mmap(),
                                          io_->size());
         setByteOrder(bo);
+
+        // A lot more metadata is hidden in the embedded preview image
+        // Todo: This should go into the Rw2Parser, but for that it needs the Image
+        PreviewManager loader(*this);
+        PreviewPropertiesList list = loader.getPreviewProperties();
+        // Todo: What if there are more preview images?
+        if (list.size() > 1) {
+#ifndef SUPPRESS_WARNINGS
+            std::cerr << "Warning: RW2 image contains more than one preview. None used.\n";
+#endif
+        }
+        if (list.size() != 1) return;
+        ExifData exifData;
+        PreviewImage preview = loader.getPreviewImage(*list.begin());
+        Image::AutoPtr image = ImageFactory::open(preview.pData(), preview.size());
+        if (image.get() == 0) {
+#ifndef SUPPRESS_WARNINGS
+            std::cerr << "Warning: Failed to open RW2 preview image.\n";
+#endif
+            return;
+        }
+        image->readMetadata();
+        for (ExifData::const_iterator pos = image->exifData().begin();
+             pos != image->exifData().end(); ++pos) {
+            exifData_.add(*pos);
+        }
+
     } // Rw2Image::readMetadata
 
     void Rw2Image::writeMetadata()
@@ -140,7 +170,7 @@ namespace Exiv2 {
                                         xmpData,
                                         pData,
                                         size,
-                                        Tag::root,
+                                        Tag::pana,
                                         TiffMapping::findDecoder,
                                         &rw2Header);
     }

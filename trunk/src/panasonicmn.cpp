@@ -324,4 +324,38 @@ namespace Exiv2 {
 
     } // PanasonicMakerNote::print0x0023
 
+    // Panasonic MakerNote Tag Info
+    const TagInfo PanasonicMakerNote::tagInfoRaw_[] = {
+        TagInfo(0x0001, "Version", N_("Version"), N_("Panasonic raw version"), panaRawIfdId, panaRaw, undefined, printExifVersion),
+        TagInfo(0x0002, "SensorWidth", N_("Sensor Width"), N_("Sensor width"), panaRawIfdId, panaRaw, unsignedShort, printValue),
+        TagInfo(0x0003, "SensorHeight", N_("Sensor Height"), N_("Sensor height"), panaRawIfdId, panaRaw, unsignedShort, printValue),
+        TagInfo(0x0004, "SensorTopBorder", N_("Sensor Top Border"), N_("Sensor top border"), panaRawIfdId, panaRaw, unsignedShort, printValue),
+        TagInfo(0x0005, "SensorLeftBorder", N_("Sensor Left Border"), N_("Sensor left border"), panaRawIfdId, panaRaw, unsignedShort, printValue),
+        TagInfo(0x0006, "ImageHeight", N_("Image Height"), N_("Image height"), panaRawIfdId, panaRaw, unsignedShort, printValue),
+        TagInfo(0x0007, "ImageWidth", N_("Image Width"), N_("Image width"), panaRawIfdId, panaRaw, unsignedShort, printValue),
+        TagInfo(0x0011, "RedBalance", N_("Red Balance"), N_("Red balance (found in Digilux 2 RAW images)"), panaRawIfdId, panaRaw, unsignedShort, printValue),
+        TagInfo(0x0012, "BlueBalance", N_("Blue Balance"), N_("Blue balance"), panaRawIfdId, panaRaw, unsignedShort, printValue),
+        TagInfo(0x0017, "ISOSpeed", N_("ISO Speed"), N_("ISO speed setting"), panaRawIfdId, panaRaw, unsignedShort, printValue),
+        TagInfo(0x0024, "WBRedLevel", N_("WB Red Level"), N_("WB red level"), panaRawIfdId, panaRaw, unsignedShort, printValue),
+        TagInfo(0x0025, "WBGreenLevel", N_("WB Green Level"), N_("WB green level"), panaRawIfdId, panaRaw, unsignedShort, printValue),
+        TagInfo(0x0026, "WBBlueLevel", N_("WB Blue Level"), N_("WB blue level"), panaRawIfdId, panaRaw, unsignedShort, printValue),
+        TagInfo(0x002e, "PreviewImage", N_("Preview Image"), N_("Preview image"), panaRawIfdId, panaRaw, undefined, printValue),
+        TagInfo(0x010f, "Make", N_("Manufacturer"), N_("The manufacturer of the recording equipment"), panaRawIfdId, panaRaw, asciiString, printValue),
+        TagInfo(0x0110, "Model", N_("Model"), N_("The model name or model number of the equipment"), panaRawIfdId, panaRaw, asciiString, printValue),
+        TagInfo(0x0111, "StripOffsets", N_("Strip Offsets"), N_("Strip offsets"), panaRawIfdId, panaRaw, unsignedLong, printValue),
+        TagInfo(0x0112, "Orientation", N_("Orientation"), N_("Orientation"), panaRawIfdId, panaRaw, unsignedShort, print0x0112),
+        TagInfo(0x0116, "RowsPerStrip", N_("Rows Per Strip"), N_("The number of rows per strip"), panaRawIfdId, panaRaw, unsignedShort, printValue),
+        TagInfo(0x0117, "StripByteCounts", N_("Strip Byte Counts"), N_("Strip byte counts"), panaRawIfdId, panaRaw, unsignedLong, printValue),
+        TagInfo(0x0118, "RawDataOffset", N_("Raw Data Offset"), N_("Raw data offset"), panaRawIfdId, panaRaw, unsignedLong, printValue),
+        TagInfo(0x8769, "ExifTag", N_("Exif IFD Pointer"), N_("A pointer to the Exif IFD"), panaRawIfdId, panaRaw, unsignedLong, printValue),
+        TagInfo(0x8825, "GPSTag", N_("GPS Info IFD Pointer"), N_("A pointer to the GPS Info IFD"), panaRawIfdId, panaRaw, unsignedLong, printValue),
+        // End of list marker
+        TagInfo(0xffff, "(UnknownPanasonicRawTag)", "(UnknownPanasonicRawTag)", N_("Unknown PanasonicRaw tag"), panaRawIfdId, panaRaw, invalidTypeId, printValue)
+    };
+
+    const TagInfo* PanasonicMakerNote::tagListRaw()
+    {
+        return tagInfoRaw_;
+    }
+
 }                                       // namespace Exiv2
