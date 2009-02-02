@@ -313,7 +313,13 @@ namespace Exiv2 {
         { Tag::root, Group::minocso,   Group::minoltamn, 0x0001    },
         { Tag::root, Group::minocsn,   Group::minoltamn, 0x0003    },
         { Tag::root, Group::minocs7,   Group::minoltamn, 0x0004    },
-        { Tag::root, Group::minocs5,   Group::minoltamn, 0x0114    }
+        { Tag::root, Group::minocs5,   Group::minoltamn, 0x0114    },
+        // ---------------------------------------------------------
+        // Panasonic RW2 raw images
+        { Tag::pana, Group::none,      Group::none,      Tag::pana },
+        { Tag::pana, Group::panaraw,   Group::none,      Tag::pana },
+        { Tag::pana, Group::exif,      Group::panaraw,   0x8769    },
+        { Tag::pana, Group::gps,       Group::panaraw,   0x8825    }
     };
 
     /*
@@ -572,6 +578,19 @@ namespace Exiv2 {
         {  Tag::all, Group::minocs7,   newTiffArrayElement<ttUnsignedShort, bigEndian>  },
         {  Tag::all, Group::minocs5,   newTiffArrayElement<ttUnsignedShort, bigEndian>  },
 
+        // -----------------------------------------------------------------------
+        // Root directory of Panasonic RAW images
+        { Tag::pana, Group::none,      newTiffDirectory<Group::panaraw>          },
+
+        // IFD0 of Panasonic RAW images 
+        {    0x8769, Group::panaraw,   newTiffSubIfd<Group::exif>                },
+        {    0x8825, Group::panaraw,   newTiffSubIfd<Group::gps>                 },
+//        {    0x0111, Group::panaraw,   newTiffImageData<0x0117, Group::panaraw>  },
+//        {    0x0117, Group::panaraw,   newTiffImageSize<0x0111, Group::panaraw>  },
+        { Tag::next, Group::panaraw,   newTiffDirectory<Group::ignr>             },
+        {  Tag::all, Group::panaraw,   newTiffEntry                              },
+
+        // -----------------------------------------------------------------------
         // Tags which are not de/encoded
         { Tag::next, Group::ignr,      newTiffDirectory<Group::ignr>             },
         {  Tag::all, Group::ignr,      newTiffEntry                              }

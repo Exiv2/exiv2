@@ -132,6 +132,7 @@ namespace Exiv2 {
         { olympusFe9IfdId,   "Makernote", "OlympusFe9",   OlympusMakerNote::tagListFe    },
         { olympusRiIfdId,    "Makernote", "OlympusRi",    OlympusMakerNote::tagListRi    },
         { panasonicIfdId,    "Makernote", "Panasonic",    PanasonicMakerNote::tagList    },
+        { panaRawIfdId,      "PanaRaw",   "PanasonicRaw", PanasonicMakerNote::tagListRaw },
         { pentaxIfdId,       "Makernote", "Pentax",       PentaxMakerNote::tagList       },
         { sigmaIfdId,        "Makernote", "Sigma",        SigmaMakerNote::tagList        },
         { sonyIfdId,         "Makernote", "Sony",         SonyMakerNote::tagList         },
@@ -155,6 +156,7 @@ namespace Exiv2 {
         { iopTags,         "Interoperability",     N_("Interoperability information") },
         { makerTags,       "Makernote",            N_("Vendor specific information")  },
         { dngTags,         "DngTags",              N_("Adobe DNG tags")               },
+        { panaRaw,         "PanasonicRaw",         N_("Panasonic RAW tags")           },
         { lastSectionId,   "(LastSection)",        N_("Last section")                 }
     };
 
@@ -1690,8 +1692,9 @@ namespace Exiv2 {
         case subImage1Id:
         case subImage2Id:
         case subImage3Id:
-        case subImage4Id: rc = true; break;
-        default:          rc = false; break;
+        case subImage4Id:
+        case panaRawIfdId: rc = true; break;
+        default:           rc = false; break;
         }
         return rc;
     } // ExifTags::isExifIfd

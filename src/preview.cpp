@@ -283,7 +283,7 @@ namespace {
         { "Exif.Olympus.ThumbnailImage",             0                                               }, // 4
         { "Exif.Olympus2.ThumbnailImage",            0                                               }, // 5
         { "Exif.Minolta.Thumbnail",                  0                                               }, // 6
-        { "Exif.Image.0x002e",                       0                                               }  // 7
+        { "Exif.PanasonicRaw.PreviewImage",          0                                               }  // 7
     };
 
     const LoaderTiff::Param LoaderTiff::param_[] = {
