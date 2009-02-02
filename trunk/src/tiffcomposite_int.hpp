@@ -105,6 +105,27 @@ namespace Exiv2 {
         const uint32_t next = 0x30000; //!< Special tag: next IFD
         const uint32_t all  = 0x40000; //!< Special tag: all tags in a group
     }
+        
+    /*!
+      @brief A tupel consisting of extended Tag and group used as an item in
+             TIFF paths.
+    */
+    class TiffPathItem {
+    public:
+        //! Constructor
+        TiffPathItem(uint32_t extendedTag, uint16_t group)
+            : extendedTag_(extendedTag), group_(group) {}
+        //! Return the tag corresponding to the extended tag
+        uint16_t tag()         const { return static_cast<uint16_t>(extendedTag_ & 0xffff); }
+        //! Return the extended tag (32 bit so that it can contain special tags)
+        uint32_t extendedTag() const { return extendedTag_; }
+        //! Return the group
+        uint16_t group()       const { return group_; }
+
+    private:
+        uint32_t extendedTag_;
+        uint16_t group_;
+    }; // class TiffPathItem
 
     /*!
       @brief Interface class for components of a TIFF directory hierarchy
@@ -310,36 +331,6 @@ namespace Exiv2 {
         byte*    pStart_;
 
     }; // class TiffComponent
-
-    /*!
-      @brief Data structure used as a row (element) of a table (array)
-             describing the TIFF structure of an image format for reading and
-             writing.  Different tables can be used to support different TIFF
-             based image formats.
-     */
-    struct TiffStructure {
-        struct Key;
-        //! Comparison operator to compare a TiffStructure with a TiffStructure::Key
-        bool operator==(const Key& key) const;
-        //! Return the tag corresponding to the extended tag
-        uint16_t tag() const { return static_cast<uint16_t>(extendedTag_ & 0xffff); }
-
-        // DATA
-        uint32_t       extendedTag_;    //!< Tag (32 bit so that it can contain special tags)
-        uint16_t       group_;          //!< Group that contains the tag
-        uint16_t       newGroup_;       //!< Group of the newly created component
-        uint32_t       parentExtTag_;   //!< Parent tag (32 bit so that it can contain special tags)
-        uint16_t       parentGroup_;    //!< Parent group
-        NewTiffCompFct newTiffCompFct_; //!< Function to create the correct TIFF component
-    };
-
-    //! Search key for TIFF structure.
-    struct TiffStructure::Key {
-        //! Constructor
-        Key(uint32_t e, uint16_t g) : e_(e), g_(g) {}
-        uint32_t e_;                    //!< Extended tag
-        uint16_t g_;                    //!< %Group
-    };
 
     //! TIFF mapping table for functions to decode special cases
     struct TiffMappingInfo {
@@ -1219,88 +1210,79 @@ namespace Exiv2 {
     //! Return the TIFF group id for a group name
     uint16_t tiffGroupId(const std::string& groupName);
 
-    //! Function to create and initialize a new TIFF directory
-    TiffComponent::AutoPtr newTiffDirectory(uint16_t tag,
-                                            const TiffStructure* ts);
-
     //! Function to create and initialize a new TIFF entry
-    TiffComponent::AutoPtr newTiffEntry(uint16_t tag,
-                                        const TiffStructure* ts);
-
-    //! Function to create and initialize a new TIFF sub-directory
-    TiffComponent::AutoPtr newTiffSubIfd(uint16_t tag,
-                                         const TiffStructure* ts);
+    TiffComponent::AutoPtr newTiffEntry(uint16_t tag, uint16_t group);
 
     //! Function to create and initialize a new TIFF makernote entry
-    TiffComponent::AutoPtr newTiffMnEntry(uint16_t tag,
-                                          const TiffStructure* ts);
+    TiffComponent::AutoPtr newTiffMnEntry(uint16_t tag, uint16_t group);
+
+    //! Function to create and initialize a new TIFF directory
+    template<uint16_t newGroup>
+    TiffComponent::AutoPtr newTiffDirectory(uint16_t tag, uint16_t /*group*/)
+    {
+        return TiffComponent::AutoPtr(new TiffDirectory(tag, newGroup));
+    }
+
+    //! Function to create and initialize a new TIFF sub-directory
+    template<uint16_t newGroup>
+    TiffComponent::AutoPtr newTiffSubIfd(uint16_t tag, uint16_t group)
+    {
+        return TiffComponent::AutoPtr(new TiffSubIfd(tag, group, newGroup));
+    }
 
     //! Function to create and initialize a new array entry
-    template<TiffType tiffType, bool addSizeElement>
-    TiffComponent::AutoPtr newTiffArrayEntry(uint16_t tag,
-                                             const TiffStructure* ts)
+    template<uint16_t newGroup, TiffType tiffType, bool addSizeElement>
+    TiffComponent::AutoPtr newTiffArrayEntry(uint16_t tag, uint16_t group)
     {
-        assert(ts);
         return TiffComponent::AutoPtr(
-            new TiffArrayEntry(tag, ts->group_, ts->newGroup_, tiffType, addSizeElement));
+            new TiffArrayEntry(tag, group, newGroup, tiffType, addSizeElement));
     }
 
     //! Function to create and initialize a new array element
     template<TiffType tiffType, ByteOrder byteOrder>
-    TiffComponent::AutoPtr newTiffArrayElement(uint16_t tag,
-                                               const TiffStructure* ts)
+    TiffComponent::AutoPtr newTiffArrayElement(uint16_t tag, uint16_t group)
     {
-        assert(ts);
         return TiffComponent::AutoPtr(
-            new TiffArrayElement(tag, ts->group_, tiffType, byteOrder));
+            new TiffArrayElement(tag, group, tiffType, byteOrder));
     }
 
     template<TiffType tiffType>
-    TiffComponent::AutoPtr newTiffArrayElement(uint16_t tag,
-                                               const TiffStructure* ts)
+    TiffComponent::AutoPtr newTiffArrayElement(uint16_t tag, uint16_t group)
     {
-        return newTiffArrayElement<tiffType, invalidByteOrder>(tag, ts);
+        return newTiffArrayElement<tiffType, invalidByteOrder>(tag, group);
     }
 
     //! Function to create and initialize a new TIFF entry for a thumbnail (data)
     template<uint16_t szTag, uint16_t szGroup>
-    TiffComponent::AutoPtr newTiffThumbData(uint16_t tag,
-                                            const TiffStructure* ts)
+    TiffComponent::AutoPtr newTiffThumbData(uint16_t tag, uint16_t group)
     {
-        assert(ts);
         return TiffComponent::AutoPtr(
-            new TiffDataEntry(tag, ts->group_, szTag, szGroup));
+            new TiffDataEntry(tag, group, szTag, szGroup));
     }
 
     //! Function to create and initialize a new TIFF entry for a thumbnail (size)
     template<uint16_t dtTag, uint16_t dtGroup>
-    TiffComponent::AutoPtr newTiffThumbSize(uint16_t tag,
-                                            const TiffStructure* ts)
+    TiffComponent::AutoPtr newTiffThumbSize(uint16_t tag, uint16_t group)
     {
-        assert(ts);
         return TiffComponent::AutoPtr(
-            new TiffSizeEntry(tag, ts->group_, dtTag, dtGroup));
+            new TiffSizeEntry(tag, group, dtTag, dtGroup));
     }
 
     //! Function to create and initialize a new TIFF entry for image data
     template<uint16_t szTag, uint16_t szGroup>
-    TiffComponent::AutoPtr newTiffImageData(uint16_t tag,
-                                            const TiffStructure* ts)
+    TiffComponent::AutoPtr newTiffImageData(uint16_t tag, uint16_t group)
     {
-        assert(ts);
         return TiffComponent::AutoPtr(
-            new TiffImageEntry(tag, ts->group_, szTag, szGroup));
+            new TiffImageEntry(tag, group, szTag, szGroup));
     }
 
     //! Function to create and initialize a new TIFF entry for image data (size)
     template<uint16_t dtTag, uint16_t dtGroup>
-    TiffComponent::AutoPtr newTiffImageSize(uint16_t tag,
-                                            const TiffStructure* ts)
+    TiffComponent::AutoPtr newTiffImageSize(uint16_t tag, uint16_t group)
     {
         // Todo: Same as newTiffThumbSize - consolidate (rename)?
-        assert(ts);
         return TiffComponent::AutoPtr(
-            new TiffSizeEntry(tag, ts->group_, dtTag, dtGroup));
+            new TiffSizeEntry(tag, group, dtTag, dtGroup));
     }
 
 }}                                      // namespace Internal, Exiv2

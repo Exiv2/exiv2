@@ -36,6 +36,7 @@ EXIV2_RCSID("@(#) $Id$")
 # include "exv_conf.h"
 #endif
 
+#include "tiffimage_int.hpp"
 #include "tiffcomposite_int.hpp"
 #include "tiffvisitor_int.hpp"
 #include "makernote_int.hpp"
@@ -146,12 +147,6 @@ namespace Exiv2 {
         const TiffGroupInfo* gi = find(tiffGroupInfo, groupName);
         if (!gi) return 0;
         return gi->group_;
-    }
-
-    bool TiffStructure::operator==(const TiffStructure::Key& key) const
-    {
-        return    (Tag::all == extendedTag_ || key.e_ == extendedTag_)
-               && key.g_ == group_;
     }
 
     bool TiffMappingInfo::operator==(const TiffMappingInfo::Key& key) const
@@ -385,25 +380,23 @@ namespace Exiv2 {
 
     TiffComponent* TiffDirectory::doAddPath(uint16_t tag, TiffPath& tiffPath)
     {
+        assert(tiffPath.size() > 1);
         tiffPath.pop();
-        assert(!tiffPath.empty());
-        const TiffStructure* ts = tiffPath.top();
-        assert(ts != 0);
-        // Prevent dangling subIFD tags: Do not add a subIFD tag if it has no child
-        if (tiffPath.size() == 1 && ts->newTiffCompFct_ == newTiffSubIfd) return 0;
+        const TiffPathItem tpi = tiffPath.top();
+
         TiffComponent* tc = 0;
-        // Allow duplicate entries but not for subIFDs and the MakerNote tag. So we
-        // only check if the new component already exists if there is still at least
-        // one composite tag on the stack, or it is a subIFD or the MakerNote tag.
+        // Try to use an existing component if there is still at least one
+        // composite tag on the stack or the tag to add is the MakerNote tag.
+        // This is used to prevent duplicate entries. SubIFDs also, but the > 1
+        // condition takes care of them, see below.
         if (   tiffPath.size() > 1
-            || ts->newTiffCompFct_ == newTiffSubIfd
-            || (ts->extendedTag_ == 0x927c && ts->group_ == Group::exif)) {
-            if (ts->extendedTag_ == Tag::next) {
+            || (tpi.extendedTag() == 0x927c && tpi.group() == Group::exif)) {
+            if (tpi.extendedTag() == Tag::next) {
                 tc = pNext_;
             }
             else {
                 for (Components::iterator i = components_.begin(); i != components_.end(); ++i) {
-                    if ((*i)->tag() == ts->tag() && (*i)->group() == ts->group_) {
+                    if ((*i)->tag() == tpi.tag() && (*i)->group() == tpi.group()) {
                         tc = *i;
                         break;
                     }
@@ -411,10 +404,14 @@ namespace Exiv2 {
             }
         }
         if (tc == 0) {
-            assert(ts->newTiffCompFct_ != 0);
-            uint16_t tg = tiffPath.size() == 1 ? tag : ts->tag();
-            TiffComponent::AutoPtr atc(ts->newTiffCompFct_(tg, ts));
-            if (ts->extendedTag_ == Tag::next) {
+            TiffComponent::AutoPtr atc = TiffCreator::create(tpi.extendedTag(), tpi.group());
+            assert(atc.get() != 0);
+
+            // Prevent dangling subIFD tags: Do not add a subIFD component without children.
+            // Todo: How to check before creating the component?
+            if (tiffPath.size() == 1 && dynamic_cast<TiffSubIfd*>(atc.get()) != 0) return 0;
+
+            if (tpi.extendedTag() == Tag::next) {
                 tc = this->addNext(atc);
             }
             else {
@@ -426,26 +423,25 @@ namespace Exiv2 {
 
     TiffComponent* TiffSubIfd::doAddPath(uint16_t tag, TiffPath& tiffPath)
     {
-        const TiffStructure* ts1 = tiffPath.top();
-        assert(ts1 != 0);
+        assert(!tiffPath.empty());
+        const TiffPathItem tpi1 = tiffPath.top();
         tiffPath.pop();
         if (tiffPath.empty()) {
-            // If the last element in the path is the sub-IFD tag itself we're done
+            // If the last element in the path is the sub-IFD tag itself we're done.
+            // But that shouldn't happen - see TiffDirectory::doAddPath
             return this;
         }
-        const TiffStructure* ts2 = tiffPath.top();
-        assert(ts2 != 0);
-        tiffPath.push(ts1);
-        uint16_t dt = ts1->tag();
+        const TiffPathItem tpi2 = tiffPath.top();
+        tiffPath.push(tpi1);
         TiffComponent* tc = 0;
         for (Ifds::iterator i = ifds_.begin(); i != ifds_.end(); ++i) {
-            if ((*i)->group() == ts2->group_) {
+            if ((*i)->group() == tpi2.group()) {
                 tc = *i;
                 break;
             }
         }
         if (tc == 0) {
-            TiffComponent::AutoPtr atc(new TiffDirectory(dt, ts2->group_));
+            TiffComponent::AutoPtr atc(new TiffDirectory(tpi1.tag(), tpi2.group()));
             tc = addChild(atc);
             setCount(static_cast<uint32_t>(ifds_.size()));
         }
@@ -454,19 +450,18 @@ namespace Exiv2 {
 
     TiffComponent* TiffMnEntry::doAddPath(uint16_t tag, TiffPath& tiffPath)
     {
-        const TiffStructure* ts1 = tiffPath.top();
-        assert(ts1 != 0);
+        assert(!tiffPath.empty());
+        const TiffPathItem tpi1 = tiffPath.top();
         tiffPath.pop();
         if (tiffPath.empty()) {
             // If the last element in the path is the makernote tag itself we're done
             return this;
         }
-        const TiffStructure* ts2 = tiffPath.top();
-        assert(ts2 != 0);
-        tiffPath.push(ts1);
+        const TiffPathItem tpi2 = tiffPath.top();
+        tiffPath.push(tpi1);
         if (mn_ == 0) {
-            mnGroup_ = ts2->group_;
-            mn_ = TiffMnCreator::create(ts1->tag(), ts1->group_, mnGroup_);
+            mnGroup_ = tpi2.group();
+            mn_ = TiffMnCreator::create(tpi1.tag(), tpi1.group(), mnGroup_);
             assert(mn_);
         }
         return mn_->addPath(tag, tiffPath);
@@ -474,26 +469,25 @@ namespace Exiv2 {
 
     TiffComponent* TiffArrayEntry::doAddPath(uint16_t tag, TiffPath& tiffPath)
     {
+        assert(tiffPath.size() > 1);
         tiffPath.pop();
-        assert(!tiffPath.empty());
-        const TiffStructure* ts = tiffPath.top();
-        assert(ts != 0);
+        const TiffPathItem tpi = tiffPath.top();
         TiffComponent* tc = 0;
         // To allow duplicate entries, we only check if the new component already
         // exists if there is still at least one composite tag on the stack
         if (tiffPath.size() > 1) {
             for (Components::iterator i = elements_.begin(); i != elements_.end(); ++i) {
-                if ((*i)->tag() == ts->tag() && (*i)->group() == ts->group_) {
+                if ((*i)->tag() == tpi.tag() && (*i)->group() == tpi.group()) {
                     tc = *i;
                     break;
                 }
             }
         }
         if (tc == 0) {
-            assert(ts->newTiffCompFct_ != 0);
-            uint16_t tg = tiffPath.size() == 1 ? tag : ts->tag();
-            TiffComponent::AutoPtr atc(ts->newTiffCompFct_(tg, ts));
-            assert(ts->extendedTag_ != Tag::next);
+            TiffComponent::AutoPtr atc = TiffCreator::create(tpi.extendedTag(), tpi.group());
+            assert(atc.get() != 0);
+
+            assert(tpi.extendedTag() != Tag::next);
             tc = addChild(atc);
             setCount(static_cast<uint32_t>(elements_.size()));
         }
@@ -1419,36 +1413,14 @@ namespace Exiv2 {
         return lhs->idx() < rhs->idx();
     }
 
-    TiffComponent::AutoPtr newTiffDirectory(uint16_t tag,
-                                            const TiffStructure* ts)
+    TiffComponent::AutoPtr newTiffEntry(uint16_t tag, uint16_t group)
     {
-        assert(ts);
-        return TiffComponent::AutoPtr(new TiffDirectory(tag, ts->newGroup_));
+        return TiffComponent::AutoPtr(new TiffEntry(tag, group));
     }
 
-    TiffComponent::AutoPtr newTiffEntry(uint16_t tag,
-                                        const TiffStructure* ts)
+    TiffComponent::AutoPtr newTiffMnEntry(uint16_t tag, uint16_t group)
     {
-        assert(ts);
-        return TiffComponent::AutoPtr(new TiffEntry(tag, ts->newGroup_));
-    }
-
-    TiffComponent::AutoPtr newTiffSubIfd(uint16_t tag,
-                                         const TiffStructure* ts)
-    {
-        assert(ts);
-        return TiffComponent::AutoPtr(new TiffSubIfd(tag,
-                                                     ts->group_,
-                                                     ts->newGroup_));
-    }
-
-    TiffComponent::AutoPtr newTiffMnEntry(uint16_t tag,
-                                          const TiffStructure* ts)
-    {
-        assert(ts);
-        return TiffComponent::AutoPtr(new TiffMnEntry(tag,
-                                                      ts->group_,
-                                                      ts->newGroup_));
+        return TiffComponent::AutoPtr(new TiffMnEntry(tag, group, Group::mn));
     }
 
 }}                                      // namespace Internal, Exiv2

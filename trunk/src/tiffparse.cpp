@@ -41,16 +41,13 @@ try {
     TiffHeader tiffHeader;
     if (!tiffHeader.read(buf.pData_, buf.size_)) throw Error(3, "TIFF");
 
-    TiffCompFactoryFct createFct = TiffCreator::create;
-
-    TiffComponent::AutoPtr rootDir = createFct(Tag::root, Group::none);
+    TiffComponent::AutoPtr rootDir = TiffCreator::create(Tag::root, Group::none);
     if (0 == rootDir.get()) {
         throw Error(1, "No root element defined in TIFF structure");
     }
     rootDir->setStart(buf.pData_ + tiffHeader.offset());
 
-    TiffRwState::AutoPtr state(
-        new TiffRwState(tiffHeader.byteOrder(), 0, createFct));
+    TiffRwState::AutoPtr state(new TiffRwState(tiffHeader.byteOrder(), 0));
 
     TiffReader reader(buf.pData_,
                       buf.size_,
