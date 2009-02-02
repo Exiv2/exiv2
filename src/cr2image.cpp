@@ -41,7 +41,6 @@ EXIV2_RCSID("@(#) $Id$")
 #include "cr2image_int.hpp"
 #include "tiffcomposite_int.hpp"
 #include "tiffimage_int.hpp"
-#include "tiffvisitor_int.hpp"
 #include "image.hpp"
 #include "error.hpp"
 #include "futils.hpp"
@@ -143,7 +142,7 @@ namespace Exiv2 {
                                         xmpData,
                                         pData,
                                         size,
-                                        TiffCreator::create,
+                                        Tag::root,
                                         TiffMapping::findDecoder,
                                         &cr2Header);
     }

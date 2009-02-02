@@ -137,28 +137,82 @@ namespace Exiv2 {
     }; // class TiffHeader
 
     /*!
-      @brief TIFF component factory for standard TIFF components.
+      @brief Data structure used as a row (element) of a table (array)
+             defining the TIFF component used for each tag in a group.
+     */
+    struct TiffGroupStruct {
+        struct Key;
+        //! Comparison operator to compare a TiffGroupStruct with a TiffGroupStruct::Key
+        bool operator==(const Key& key) const;
+        //! Return the tag corresponding to the extended tag
+        uint16_t tag() const { return static_cast<uint16_t>(extendedTag_ & 0xffff); }
+
+        // DATA
+        uint32_t       extendedTag_;    //!< Tag (32 bit so that it can contain special tags)
+        uint16_t       group_;          //!< Group that contains the tag
+        NewTiffCompFct newTiffCompFct_; //!< Function to create the correct TIFF component
+    };
+
+    //! Search key for TIFF group structure.
+    struct TiffGroupStruct::Key {
+        //! Constructor
+        Key(uint32_t e, uint16_t g) : e_(e), g_(g) {}
+        uint32_t e_;                    //!< Extended tag
+        uint16_t g_;                    //!< %Group
+    };
+
+    /*!
+      @brief Data structure used as a row of the table which describes TIFF trees.
+             Multiple trees are needed as TIFF-based RAW image formats do not always
+             use standard TIFF layout.
+    */
+    struct TiffTreeStruct {
+        struct Key;
+        //! Comparison operator to compare a TiffTreeStruct with a TiffTreeStruct::Key
+        bool operator==(const Key& key) const;
+
+        // DATA
+        uint32_t       root_;           //!< Tree root element, identifies a tree
+        uint16_t       group_;          //!< Each group is a node in the tree
+        uint16_t       parentGroup_;    //!< Parent group
+        uint32_t       parentExtTag_;   //!< Parent tag (32 bit so that it can contain special tags)
+    };
+
+    //! Search key for TIFF tree structure.
+    struct TiffTreeStruct::Key {
+        //! Constructor
+        Key(uint32_t r, uint16_t g) : r_(r), g_(g) {}
+        uint32_t r_;                    //!< Root
+        uint16_t g_;                    //!< %Group
+    };
+
+    /*!
+      @brief TIFF component factory.
      */
     class TiffCreator {
     public:
         /*!
           @brief Create the TiffComponent for TIFF entry \em extendedTag and
-                 \em group based on the embedded lookup table. If the pointer
-                 that is returned is 0, then the TIFF entry should be ignored.
+                 \em group. The embedded lookup table is used to find the correct
+                 component creation function. If the pointer that is returned
+                 is 0, then the TIFF entry should be ignored.
         */
         static std::auto_ptr<TiffComponent> create(uint32_t extendedTag,
                                                    uint16_t group);
         /*!
-          @brief Get the path, i.e., a list of TiffStructure pointers, from
-                 the root TIFF element to the TIFF entry \em extendedTag and
+          @brief Get the path, i.e., a list of extended tag and group pairs, from
+                 the \em root TIFF element to the TIFF entry \em extendedTag and
                  \em group.
         */
         static void getPath(TiffPath& tiffPath,
                             uint32_t  extendedTag,
-                            uint16_t  group);
+                            uint16_t  group,
+                            uint32_t  root);
 
     private:
-        static const TiffStructure tiffStructure_[]; //<! TIFF structure
+        static const TiffTreeStruct  tiffTreeStruct_[];  //<! TIFF tree structure
+        static const TiffGroupStruct tiffGroupStruct_[]; //<! TIFF group structure
+
     }; // class TiffCreator
 
     /*!
@@ -181,7 +235,7 @@ namespace Exiv2 {
           @param pData     Pointer to the data buffer. Must point to data
                            in TIFF format; no checks are performed.
           @param size      Length of the data buffer.
-          @param createFct Factory function to create new TIFF components.
+          @param root      Root tag of the TIFF tree for new TIFF components.
           @param findDecoderFct Function to access special decoding info.
           @param pHeader   Optional pointer to a TIFF header. If not provided,
                            a standard TIFF header is used.
@@ -195,7 +249,7 @@ namespace Exiv2 {
                   XmpData&           xmpData,
             const byte*              pData,
                   uint32_t           size,
-                  TiffCompFactoryFct createFct,
+                  uint32_t           root,
                   FindDecoderFct     findDecoderFct,
                   TiffHeaderBase*    pHeader =0);
         /*!
@@ -209,7 +263,7 @@ namespace Exiv2 {
             const ExifData&          exifData,
             const IptcData&          iptcData,
             const XmpData&           xmpData,
-                  TiffCompFactoryFct createFct,
+                  uint32_t           root,
                   FindEncoderFct     findEncoderFct,
                   TiffHeaderBase*    pHeader
         );
@@ -222,6 +276,8 @@ namespace Exiv2 {
           @param pData     Pointer to the data buffer. Must point to data
                            in TIFF format; no checks are performed.
           @param size      Length of the data buffer.
+          @param root      Root tag of the TIFF tree.
+          @param pHeader   Pointer to a TIFF header.
           @return          An auto pointer with the root element of the TIFF
                            composite structure. If \em pData is 0 or \em size
                            is 0, the return value is a 0 pointer.
@@ -229,7 +285,7 @@ namespace Exiv2 {
         static std::auto_ptr<TiffComponent>
         parse(const byte*              pData,
                     uint32_t           size,
-                    TiffCompFactoryFct createFct,
+                    uint32_t           root,
                     TiffHeaderBase*    pHeader);
 
     }; // class TiffParserWorker

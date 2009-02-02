@@ -47,7 +47,6 @@ namespace Exiv2 {
 
     class TiffHeaderBase;
     class TiffComponent;
-    struct TiffStructure;
     class TiffEntryBase;
     class TiffEntry;
     class TiffDataEntry;
@@ -68,6 +67,7 @@ namespace Exiv2 {
     class TiffPrinter;
 
     class TiffRwState;
+    class TiffPathItem;
     struct TiffMappingInfo;
 
 // *****************************************************************************
@@ -102,18 +102,10 @@ namespace Exiv2 {
              Use TiffComponent::AutoPtr, it is not used in this declaration only
              to reduce dependencies.
      */
-    typedef std::auto_ptr<TiffComponent> (*NewTiffCompFct)(      uint16_t       tag,
-                                                           const TiffStructure* ts);
-    //! Stack to hold a path from the TIFF root element to a TIFF entry
-    typedef std::stack<const TiffStructure*> TiffPath;
+    typedef std::auto_ptr<TiffComponent> (*NewTiffCompFct)(uint16_t tag, uint16_t group);
 
-    /*!
-      @brief Type for a factory function to create new TIFF components.
-             Use TiffComponent::AutoPtr, it is not used in this declaration only
-             to reduce dependencies.
-     */
-    typedef std::auto_ptr<Internal::TiffComponent> (*TiffCompFactoryFct)(uint32_t extendedTag,
-                                                                         uint16_t group);
+    //! Stack to hold a path from the TIFF root element to a TIFF entry
+    typedef std::stack<TiffPathItem> TiffPath;
 
 }}                                      // namespace Internal, Exiv2
 
