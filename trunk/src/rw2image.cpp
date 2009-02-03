@@ -143,8 +143,23 @@ namespace Exiv2 {
             return;
         }
         image->readMetadata();
-        for (ExifData::const_iterator pos = image->exifData().begin();
-             pos != image->exifData().end(); ++pos) {
+        ExifData& prevData = image->exifData();
+        if (!prevData.empty()) {
+            // Filter duplicate tags
+            for (ExifData::const_iterator pos = exifData_.begin(); pos != exifData_.end(); ++pos) {
+                if (pos->ifdId() == panaRawIfdId) continue;
+                ExifData::iterator dup = prevData.findKey(ExifKey(pos->key()));
+                if (dup != prevData.end()) {
+#ifdef DEBUG
+                    std::cerr << "Filtering duplicate tag " << pos->key()
+                              << " (values '" << pos->value()
+                              << "' and '" << dup->value() << "')\n";
+#endif              
+                    prevData.erase(dup);
+                }
+            }
+        }
+        for (ExifData::const_iterator pos = prevData.begin(); pos != prevData.end(); ++pos) {
             exifData_.add(*pos);
         }
 
