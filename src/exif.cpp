@@ -497,6 +497,7 @@ namespace Exiv2 {
             subImage2Id,
             subImage3Id,
             subImage4Id,
+            panaRawIfdId,
             ifd2Id
         };
         for (unsigned int i = 0; i < EXV_COUNTOF(filteredIfds); ++i) {
@@ -510,7 +511,7 @@ namespace Exiv2 {
         const IptcData iptcData;
         const XmpData  xmpData;
 
-        // Encode and check if the results fits into a JPEG Exif APP1 segment
+        // Encode and check if the result fits into a JPEG Exif APP1 segment
         WriteMethod wm = TiffParser::encode(blob,
                                             pData,
                                             size,
