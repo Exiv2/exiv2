@@ -6,6 +6,7 @@
 	ProjectGUID="{831EF580-92C8-4CA8-B0CE-3D906280A54D}"
 	RootNamespace="exiv2lib"
 	Keyword="Win32Proj"
+	TargetFrameworkVersion="131072"
 	>
 	<Platforms>
 		<Platform
@@ -214,6 +215,8 @@
 				AdditionalDependencies="..\xmpsdk\DebugDLL\xmpsdk.lib ..\..\..\expat-2.0.1\win32\bin\debug\libexpat.lib ..\..\..\zlib-1.2.3\projects\visualc6\Win32_DLL_Debug\zlib1d.lib"
 				OutputFile="$(OutDir)\exiv2.dll"
 				GenerateDebugInformation="true"
+				RandomizedBaseAddress="1"
+				DataExecutionPrevention="0"
 				ImportLibrary="$(TargetDir)\exiv2.lib"
 				TargetMachine="1"
 			/>
@@ -234,9 +237,6 @@
 			/>
 			<Tool
 				Name="VCAppVerifierTool"
-			/>
-			<Tool
-				Name="VCWebDeploymentTool"
 			/>
 			<Tool
 				Name="VCPostBuildEventTool"
@@ -300,6 +300,8 @@
 				AdditionalDependencies="..\xmpsdk\ReleaseDLL\xmpsdk.lib ..\..\..\expat-2.0.1\win32\bin\release\libexpat.lib ..\..\..\zlib-1.2.3\projects\visualc6\Win32_DLL_Release\zlib1.lib"
 				OutputFile="$(OutDir)\exiv2.dll"
 				GenerateDebugInformation="false"
+				RandomizedBaseAddress="1"
+				DataExecutionPrevention="0"
 				ImportLibrary="$(TargetDir)\exiv2.lib"
 				TargetMachine="1"
 			/>
@@ -320,9 +322,6 @@
 			/>
 			<Tool
 				Name="VCAppVerifierTool"
-			/>
-			<Tool
-				Name="VCWebDeploymentTool"
 			/>
 			<Tool
 				Name="VCPostBuildEventTool"
