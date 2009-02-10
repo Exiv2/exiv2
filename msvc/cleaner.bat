@@ -94,11 +94,6 @@ rmdir/s/q .\prevtest\Release
 rmdir/s/q .\prevtest\ReleaseDLL
 rmdir/s/q .\prevtest\Debug
 rmdir/s/q .\prevtest\DebugDLL
-rmdir/s/q .\zlib4exiv2\Release
-rmdir/s/q .\zlib4exiv2\ReleaseDLL
-rmdir/s/q .\zlib4exiv2\Debug
-rmdir/s/q .\zlib4exiv2\DebugDLL
-rmdir/s/q .\zlib4exiv2\DebugDLL
 rmdir/s/q ..\..\expat-2.0.1\win32\bin\DebugDLL
 rmdir/s/q ..\..\expat-2.0.1\win32\bin\ReleaseDLL
 

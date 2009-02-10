@@ -67,8 +67,8 @@
 			<Tool
 				Name="VCLinkerTool"
 				LinkLibraryDependencies="true"
-				AdditionalDependencies="..\exiv2lib\$(ConfigurationName)\exiv2.lib ..\..\..\expat-2.0.1\win32\bin\debug\libexpatMT.lib ..\xmpsdk\$(ConfigurationName)\xmpsdk.lib"
 				AdditionalOptions="/NODEFAULTLIB:MSVCRTD"
+				AdditionalDependencies="..\exiv2lib\$(ConfigurationName)\exiv2.lib ..\..\..\expat-2.0.1\win32\bin\debug\libexpatMT.lib ..\xmpsdk\$(ConfigurationName)\xmpsdk.lib"
 				OutputFile="$(OutDir)/exifprint.exe"
 				LinkIncremental="1"
 				GenerateDebugInformation="true"
@@ -149,8 +149,8 @@
 			<Tool
 				Name="VCLinkerTool"
 				LinkLibraryDependencies="true"
-				AdditionalDependencies="..\exiv2lib\$(ConfigurationName)\exiv2.lib ..\..\..\expat-2.0.1\win32\bin\release\libexpatMT.lib ..\xmpsdk\$(ConfigurationName)\xmpsdk.lib"
 				AdditionalOptions="/NODEFAULTLIB:MSVCRT"
+				AdditionalDependencies="..\exiv2lib\$(ConfigurationName)\exiv2.lib ..\..\..\expat-2.0.1\win32\bin\release\libexpatMT.lib ..\xmpsdk\$(ConfigurationName)\xmpsdk.lib"
 				OutputFile="$(OutDir)/exifprint.exe"
 				LinkIncremental="1"
 				GenerateDebugInformation="false"
@@ -239,8 +239,8 @@
 			<Tool
 				Name="VCLinkerTool"
 				LinkLibraryDependencies="true"
-				AdditionalDependencies="..\exiv2lib\$(ConfigurationName)\exiv2.lib ..\..\..\expat-2.0.1\win32\bin\debug\libexpat.lib ..\xmpsdk\$(ConfigurationName)\xmpsdk.lib"
 				AdditionalOptions="/NODEFAULTLIB:LIBCMTD"
+				AdditionalDependencies="..\exiv2lib\$(ConfigurationName)\exiv2.lib ..\..\..\expat-2.0.1\win32\bin\debug\libexpat.lib ..\xmpsdk\$(ConfigurationName)\xmpsdk.lib"
 				OutputFile="$(OutDir)/exifprint.exe"
 				LinkIncremental="1"
 				GenerateDebugInformation="true"
@@ -328,8 +328,8 @@
 			<Tool
 				Name="VCLinkerTool"
 				LinkLibraryDependencies="true"
-				AdditionalDependencies="..\exiv2lib\$(ConfigurationName)\exiv2.lib ..\..\..\expat-2.0.1\win32\bin\release\libexpat.lib ..\xmpsdk\$(ConfigurationName)\xmpsdk.lib"
 				AdditionalOptions="/NODEFAULTLIB:LIBCMT"
+				AdditionalDependencies="..\exiv2lib\$(ConfigurationName)\exiv2.lib ..\..\..\expat-2.0.1\win32\bin\release\libexpat.lib ..\xmpsdk\$(ConfigurationName)\xmpsdk.lib"
 				OutputFile="$(OutDir)/exifprint.exe"
 				LinkIncremental="1"
 				DelayLoadDLLs=""

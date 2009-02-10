@@ -1,20 +1,33 @@
 Notes about msvc build of exiv2
 -------------------------------
 
-Andreas:
-I've put status notes at the bottom which you'll probably want to delete when you commit this file.
-
 Tools
 -----
 
 Created With:   VC9    (VS/2008 Std)
-Tested  With:   VC7.1, VC8 Pro +SP1, VC9 Std and VC9Express
+Tested  With:   VC7.1, VC8 Pro +SP1, VC9Std and VC9Express
                (VC7.1 = VS/2003 .Net; VC8 = VS/2005; VC9 = VS/2008)
 
-How to build and test
----------------------
+1)  Build environments (solution files)
+    exiv2.sln           - this builds the exiv2 libraries   (static and dynamic)
+                          and the utility and test programs (exiv2.exe, exifprint.exe)
+                          
+                          DEPENDS on zlib and expat-2.0.1
+                          Builds with VC9,VC8 and VC7.1
+            
+    exiv2+organize.sln  - builds the same targets as exiv2
+                          PLUS the organize.exe command-line program
+                          
+                          DEPENDS on zlib and expat-2.0.1 and boost_1_37_0
+                          Builds with VC9 and VC8
+                          DOES NOT BUILT WITH VC7.1
+                          
+                          set Environment string BOOST_ROOT=c:\boost_1_37_0
 
-1)  Dependancies
+How to build and test exiv2 (with/without organize.exe)
+-------------------------------------------------------
+
+1)  Dependancies for exiv2
     You need expat-2.0.1 AND zlib-1.2.3 which you can download from
     http://expat.sourceforge.net/ and http://zlib.net/, respectively.
     expat-2.0.1, zlib and exiv2 should be in the same directory
@@ -58,8 +71,8 @@ How to build and test
 
 5)  Build/Batch Build/Select All/Build
 
-	This will build all the necessary libraries and all the test programs.
-	At the end of building, you should see the beautiful output:
+    This will build all the necessary libraries and all the test programs.
+    At the end of building, you should see the beautiful output:
 
     ========== Build: 92 succeeded, 0 failed, 0 up-to-date, 0 skipped ==========
     
@@ -71,14 +84,14 @@ How to build and test
 
     Both machines are running XP/Pro SP3.
 
-	+--------------------------------------------+
-	|         DISK SPACE WARNING                 |
-	+--------------------------------------------+
+    +--------------------------------------------+
+    |         DISK SPACE WARNING                 |
+    +--------------------------------------------+
 
     The total build consumes 1.0GBytes of disk space.
     There are 100 targets (4 expats, 4 zlibs and 92 exiv2 targets)
     The pdb (debugging) files consume 300MB.
-    The debug exiv2 library alone (exiv2.lib) is 35MB
+    The debug exiv2 static library alone (exiv2.lib) is 35MB
 
     A more modest build is to build exiv2
     { Debug | Release | DebugDLL | ReleaseDLL }
@@ -87,7 +100,7 @@ How to build and test
     A minimum build is to build exiv2/Release
     This consumes: 100MB
 
-5)  Test from the Command Line (cmd.exe):
+6)  Test from the Command Line (cmd.exe):
     
     cd exiv2\msvc
     C:\gnu\exiv2\msvc>runner.bat > new.txt
@@ -101,6 +114,131 @@ How to build and test
     
     The test takes less than 1 minute and runs 200 different test programs.
     
+How to build exiv2+organize
+---------------------------
+
+1)  boost
+
+    organize has been built with boost_1_37_0
+    It may build successfully with other versions
+    Please send an email to record your experience to help other succeed (or avoid frustration)
+
+    +---------------------------------------------------------------------------+
+    | MSVC 7.1 Users:  You can't build organize with VC7.1 and BOOST 1_37_0     |
+    | You'll get the following compiler error:                                  |
+    | c:\boost_1_37_0\boost\format\feed_args.hpp(203) :                         |
+    |             fatal error C1001: INTERNAL COMPILER ERROR                    |
+    | (compiler file 'msc1.cpp', line 2701)                                     |
+    | Please choose the Technical Support command on the Visual C++             |
+    | Help menu, or open the Technical Support help file for more information   |
+    |                                                                           |
+    | If anyone is able to successfully build with VC7.1 + service pack + boost |
+    | please share your successful experience with us - email address below     |
+    | and let me know the version of BOOST and the Service Pack Level of VC7.1  |
+    | I am using:                                                               |
+    | Microsoft (R) 32-bit C/C++ Standard Compiler Version 13.00.9466 for 80x86 |
+    | DevStudio Version 7.1.3088 (Service pack level unknown)                   |
+    |                                                                           |
+    | VisualC++ 2008 Express Edition (VC9) is a free download from Microsoft    |
+    | and can successfully build exiv2+organize.sln                             |
+    +---------------------------------------------------------------------------+
+
+2)  Download or build boost
+EITHER (recommended)
+    download and install boost_1_37_0 using the BoostPro Computing Wizard
+    http://www.boostpro.com/products/free
+
+    You'll need:
+    boost headers
+    regex
+    system
+    filesystem
+    program options
+    
+    +-------------------------------------------------------+
+    | DISK SPACE WARNING                                    |
+    | A full installation of all boost for vc7.1, vc8 & vc9 |
+    | occupies an amazing 4.5GBytes                         |
+    | boost offers 3 compilers (vc7.1, 8 and 9)             |
+    | 8 flavors {MTdll, MT, MTs, STs} x {Debug|Release}     |
+    | 22 libraries (regex, filesystem etc)                  |
+    +-------------------------------------------------------+
+    
+    And here are the libraries which are linked with the different versions (for vc9 = VS/2008)
+    Configuration: ReleaseDLL Win32
+    libboost_regex-vc90-mt-1_37.lib
+    libboost_filesystem-vc90-mt-1_37.lib
+    libboost_system-vc90-mt-1_37.lib
+    libboost_program_options-vc90-mt-1_37.lib
+
+    Configuration: DebugDLL Win32
+    libboost_regex-vc90-mt-gd-1_37.lib
+    libboost_filesystem-vc90-mt-gd-1_37.lib
+    libboost_system-vc90-mt-gd-1_37.lib
+    libboost_program_options-vc90-mt-gd-1_37.lib
+
+    Configuration: Release Win32
+    libboost_regex-vc90-mt-s-1_37.lib
+    libboost_filesystem-vc90-mt-s-1_37.lib
+    libboost_system-vc90-mt-s-1_37.lib
+    libboost_program_options-vc90-mt-s-1_37.lib
+
+    Configuration: Debug Win32
+    libboost_regex-vc90-mt-sgd-1_37.lib    
+    libboost_filesystem-vc90-mt-sgd-1_37.lib
+    libboost_system-vc90-mt-sgd-1_37.lib
+    libboost_program_options-vc90-mt-sgd-1_37.lib
+    
+    I've added an appendix to explain the boost library name conventions.
+
+OR (if you prefer to build from source)
+    build boost_1_37_0 from source
+    http://www.boost.org/
+    unzip into c:\boost_1_37_0
+    c:\boost_1_37_0\>bjam release
+    
+    I believe you can build everything with the command:
+    bjam --build-type=complete release && bjam --build-type=complete debug
+    
+    You can download bjam from here:
+    http://sourceforge.net/project/showfiles.php?group_id=7586&package_id=72941
+    
+    +------------------------------------------------------+
+    | I used the wonderful BoostPro Computing Wizard to    |
+    | install prebuilt libraries - so I didn't build from  |
+    | source.  If you'd like to share your know-how about  |
+    | this, please email me and I will updated these notes |
+    | and of course acknowledge your contribution          |
+    +------------------------------------------------------+
+    
+    The default source build does not build all the necessary targets.
+    The build machinery for boost is documented here:
+    http://www.boost.org/doc/libs/1_37_0/more/getting_started/windows.html
+    
+    I've added an appendix to explain the boost library name conventions.
+
+3)  build dependances expat-2.0.1 and zlib-1.2.3 (see above)
+
+
+4)  Open exiv2+organize.sln in DevStudio
+
+    +--------------------------------------------------------+
+    | Set the environment string BOOST_ROOT=c:\boost_1_37_0  |
+    | (or where you put boost)                               |
+    +--------------------------------------------------------+
+    
+    You'll have to set the environment string BEFORE you start DevStudio.
+    Environment strings are set in the process when it is started.
+    Or you could update the DevStudio search paths in Tools/Options.
+
+5)  Batch Build/Batch Build... Select all/Build
+
+    This time when you should see:
+    
+    ========== Build: 96 succeeded, 0 failed, 0 up-to-date, 0 skipped ==========
+
+    Congratulations.
+
 Where are the libraries and executables?
 ----------------------------------------
 
@@ -118,7 +256,6 @@ The objects are built to use the Static C runtime Libraries.
 DLL targets link dynamically
 - exiv2.exe requires libexpat.dll, exiv2.dll and zlib1.dll (zlib1d.dll for debug)
 - the objects use the dynamic c runtime dlls (MSVCR70.dll and friends)
-
 
 Linking Applications with the exiv2 libraries
 ---------------------------------------------
@@ -160,7 +297,7 @@ Support and Questions
 ---------------------
 
 Information/Documentation  : http://www.exiv2.org/index.html
-Discussion Forum           : http://uk.groups.yahoo.com/group/exiv2/
+Discussion Forum           : http://dev.exiv2.org/wiki/exiv2
 The MSVC build environment : Please contact me directly by email.
 
 Robin Mills
@@ -174,6 +311,7 @@ The following topics are documented for additional information about the status 
 A) Build warning messages
 B) Partial Build errors
 C) Debugging exiv2 library code
+D) Boost library name conventions
 
 A) Build warning messages
 -------------------------
@@ -187,7 +325,6 @@ The following warning and message are part of the build:
    I believe this is coming from zlib which uses the local (MD) c-runtime library.
    It's harmess (although frightening)
    
-   
 B) Partial Build errors
 -----------------------
 
@@ -196,7 +333,7 @@ Andreas assures me that if you cannot build some targets, eg exifprint/ReleaseDL
 C) Debugging exiv2 library code
 -------------------------------
 
-You may wish to debug the exiv2 library code using one of the test utilities.  Examples: exiv2.exe and exifprint.exe.  You'll find this a little frustrating because the exiv2.sln file contains all the test programs.  When you change the library code, DevStudio will relink all 20 test programs.  To avoid this frustruation, unload the project files which you are no using.  For example, if you are debugging exiv2.exe, you only require the following projects to be loaded:
+You may wish to debug the exiv2 library code using one of the test utilities.  Examples: exiv2.exe and exifprint.exe.  You'll find this a little frustrating because the exiv2.sln file contains all the test programs.  When you change the library code, DevStudio will relink all 20 test programs.  To avoid this frustration, unload the project files which you are no using.  For example, if you are debugging exiv2.exe, you only require the following projects to be loaded:
 
 xmpsdk
 exiv2lib
@@ -204,100 +341,34 @@ exiv2
 
 (when exiting DevStudio, say "No" when it asks you if you wish to save changes to exiv2.sln)
 
+D) Boost library name conventions
 
-------------------------------------------------------
---- STATUS INFORMATION for ANDREAS -------------------
-------------------------------------------------------
+    The library naming convention is:    
+    lib
+    Prefix: only ordinary static libraries use the lib prefix; import libraries and DLLs do not.
 
-Code base: trunk/1657 
-Sunday 20081109 22:30PST
+    boost_regex
+    Library name: all boost library filenames begin with boost_.
+    -vc71
+    Toolset tag: identifies the toolset and version used to build the binary.
+    -mt
+    Threading tag: indicates that the library was built with multithreading support enabled.
+    Libraries built without multithreading support can be identified by the absence of -mt.
+    -d
+    ABI tag: encodes details that affect the library's interoperability with other compiled code. For each such feature, a single letter is added to the tag:
 
-Changes since 10081101 22:30PST
+    Key Use this library when:
+    s   linking statically to the C++ standard library and compiler runtime support libraries.
+    g   using debug versions of the standard and runtime support libraries.
+    y   using a special debug build of Python.
+    d   building a debug version of your code.
+    p   using the STLPort standard library rather than the default one supplied with your compiler.
+    n   using STLPort's deprecated ìnative iostreamsî feature.8
+    For example, if you build a debug version of your code for use with debug versions of the static runtime library and the STLPort standard library in ìnative iostreamsî mode, the tag would be: -sgdpn. If none of the above apply, the ABI tag is ommitted. 
 
- 1 Removed zlib4exiv2 project
- 2 Fixed the crashing DLL builds
- 3 Documented all build warnings and messages
- 4 Added notes to the Appendix.
- 6 replaced test.png with file with exif data
- 7 runner.bat is much longer
- 8 replaced depends1.exe with depends2.exe
-   The new version never reports anything to do with MSVC*.dll
-   This was done to avoid having different versions of runner.txt for each version of VS.
- 9 Build is using less disk space (down from 1.2G to 1.0G)
-10 Fixer linking errors during Debug|Release link of exiv2lib with VC7.1
+    -1_34
+    Version tag: the full Boost release number, with periods replaced by underscores. For example, version 1.31.1 would be tagged as "-1_31_1".
+    .lib
+    Extension: determined according to the operating system's usual convention. On most unix-style platforms the extensions are .a and .so for static libraries (archives) and shared libraries, respectively. On Windows, .dll indicates a shared library and (except for static libraries built by the gcc toolset, whose names always end in .a) .lib indicates a static or import library. Where supported by toolsets on unix variants, a full version extension is added (e.g. ".so.1.34") and a symbolic link to the library file, named without the trailing version number, will also be created.
 
-Priorities for 0.18final
-------------------------
-
-1 More testing of partial builds
-2 Make the test program longer and deeper
-3 Build and test pyexiv2 and exiv2net
-- We're not going to distribute pyexiv2 or exiv2net
-- I'd like to test that those work correctly with our builds
-
-Changes since 20081101 17.00PST
--------------------------------
-
-1 Don't copy src\*_int.hpp to msvc/include/exiv2 directory
-
-2 Test Builds            2008 2005 2003
-  Batch Build All        Y    Y    Y
-
-3 Partial builds: select target/config + build (clean build)
-  exifprint Debug        Y    Y    Y+W
-            DebugDLL     Y    Y    Y
-            Release      Y    Y    Y+W
-            ReleaseDLL   Y    Y    Y
-            
-  exiv2     Debug        Y    Y    Y+W
-            DebugDLL     Y    Y
-            Release      Y    Y    Y+W
-            ReleaseDLL   Y    Y    Y
-
-  W = Warnings about multiple-defined externals
-      MSVC is linking expat twice.
-
-Changes since 20081030
-----------------------
-
-1) zlib directory
-   zlib now lives in c:\gnu\zlib-1.2.3
-   
-2) Removed unnecessary copying of exv_msvc.h to msvc/include directory
-  
-3) Investigated linker /EDITANDCONTINUE warning
-   For example:  exiv2.lib(xmlparse.obj) : warning LNK4075: ignoring '/EDITANDCONTINUE' due to '/INCREMENTAL:NO' specification
-   Cannot fix.  It's coming from expat/expat-static Debug builds
-   Fix is to modify expat/expat-static.vcproj Compiler/Generaral/Debug Information ZI (not Zi)
-
-4) Investigated what happens when expat isn't built!
-   - documented below.
-
-5) Tested more 'partial' target builds
-   Tested:
-   { exiv2   |exiv2print  }
-   { Debug   | Release    | DebugDLL | ReleaseDLL } Manual build (F7)
-   { Debug   | Release    | DebugDLL | ReleaseDLL } using Batch/Build
-   { VS 2003 | 2005       | 2008 }
-   
-   2*3*8 = 48 partial builds
-   (and of course 3 full builds)
-   
-   VC71 (VS 2003) in not good at dependancies.  On a 'clean' directory:
-   If I select exifprint+Debug Build (or Release or DebugDLL or ReleaseDLL) it builds successfully
-   If I use Batch Build/ and select exifprint { Debug etc } all 4 targets fail to build!
-   VC71 is not attempting to build the dependant sub projects.
-   
-   VC8 and VC9 (VS 2005 and 2008) are working fine.  Both report
-   ========== Build: 14 succeeded, 0 failed, 0 up-to-date, 0 skipped ==========   
-   
-   I think the Batch/Build feature in VC71 simply builds (It omits dependancy analysis).
-   I don't intend to do any more work on this on VC71.
-                             
-6) I did some debugging
-   exiv2.exe and exifprint.exe (Debug/DebugDLL on VS/2005)
-   
-   I was surprised when all .exe's relinked when I changed library code (not only the target .exe)
-   I'll have to investigate this.  I'll fix this when I investigate the crashing DLLs
-  
 -- end --
