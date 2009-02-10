@@ -159,6 +159,48 @@ namespace Exiv2 {
                 }
             }
         }
+        // Remove tags not applicable for raw images
+        static const char* filteredTags[] = {
+            "Exif.Photo.ComponentsConfiguration",
+            "Exif.Photo.CompressedBitsPerPixel",
+            "Exif.Panasonic.ColorEffect",
+            "Exif.Panasonic.Contrast",
+            "Exif.Panasonic.NoiseReduction",
+            "Exif.Panasonic.ColorMode",
+            "Exif.Panasonic.OpticalZoomMode",
+            "Exif.Panasonic.Contrast",
+            "Exif.Panasonic.Saturation",
+            "Exif.Panasonic.Sharpness",
+            "Exif.Panasonic.FilmMode",
+            "Exif.Panasonic.SceneMode",
+            "Exif.Panasonic.WBRedLevel",
+            "Exif.Panasonic.WBGreenLevel",
+            "Exif.Panasonic.WBBlueLevel",
+            "Exif.Photo.ColorSpace",
+            "Exif.Photo.PixelXDimension",
+            "Exif.Photo.PixelYDimension",
+            "Exif.Photo.SceneType",
+            "Exif.Photo.CustomRendered",
+            "Exif.Photo.DigitalZoomRatio",
+            "Exif.Photo.SceneCaptureType",
+            "Exif.Photo.GainControl",
+            "Exif.Photo.Contrast",
+            "Exif.Photo.Saturation",
+            "Exif.Photo.Sharpness",
+            "Exif.Image.PrintImageMatching",
+            "Exif.Image.YCbCrPositioning"
+        };
+        for (unsigned int i = 0; i < EXV_COUNTOF(filteredTags); ++i) {
+            ExifData::iterator pos = prevData.findKey(ExifKey(filteredTags[i]));
+            if (pos != prevData.end()) {
+#ifdef DEBUG
+                std::cerr << "Exif tag " << pos->key() << " removed\n";
+#endif
+                prevData.erase(pos);
+            }
+        }
+
+        // Add the remaining tags
         for (ExifData::const_iterator pos = prevData.begin(); pos != prevData.end(); ++pos) {
             exifData_.add(*pos);
         }
