@@ -348,6 +348,9 @@ namespace Action {
                           << md->print(&exifData) << ")";
             }
         }
+        else {
+            printTag(exifData, "Exif.Canon.FocalLength");
+        }
         std::cout << std::endl;
 
         // Subject distance
