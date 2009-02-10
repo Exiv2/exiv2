@@ -165,7 +165,7 @@ namespace Exiv2 {
     const TagInfo CanonMakerNote::tagInfo_[] = {
         TagInfo(0x0000, "0x0000", "0x0000", N_("Unknown"), canonIfdId, makerTags, unsignedShort, printValue),
         TagInfo(0x0001, "CameraSettings", N_("Camera Settings"), N_("Various camera settings"), canonIfdId, makerTags, unsignedShort, printValue),
-        TagInfo(0x0002, "0x0002", "0x0002", N_("Unknown"), canonIfdId, makerTags, unsignedShort, printValue),
+        TagInfo(0x0002, "FocalLength", N_("Focal Length"), N_("Focal length"), canonIfdId, makerTags, unsignedShort, printFocalLength),
         TagInfo(0x0003, "0x0003", "0x0003", N_("Unknown"), canonIfdId, makerTags, unsignedShort, printValue),
         TagInfo(0x0004, "ShotInfo", N_("Shot Info"), N_("Shot information"), canonIfdId, makerTags, unsignedShort, printValue),
         TagInfo(0x0005, "Panorama", N_("Panorama"), N_("Panorama"), canonIfdId, makerTags, unsignedShort, printValue),
@@ -873,6 +873,36 @@ namespace Exiv2 {
     const TagInfo* CanonMakerNote::tagListPi()
     {
         return tagInfoPi_;
+    }
+
+    std::ostream& CanonMakerNote::printFocalLength(std::ostream& os,
+                                                   const Value& value,
+                                                   const ExifData* metadata)
+    {
+        if (   !metadata
+            || value.count() < 4
+            || value.typeId() != unsignedShort) {
+            return os << value;
+        }
+
+        ExifKey key("Exif.CanonCs.Lens");
+        ExifData::const_iterator pos = metadata->findKey(key);
+        if (   pos != metadata->end()
+            && pos->value().count() >= 3
+            && pos->value().typeId() == unsignedShort) {
+            float fu = pos->value().toFloat(2);
+            if (fu != 0.0) {
+                float fl = value.toFloat(1) / fu;
+                std::ostringstream oss;
+                oss.copyfmt(os);
+                os << std::fixed << std::setprecision(1);
+                os << fl << " mm";
+                os.copyfmt(oss);
+                return os;
+            }
+        }
+
+        return os << value;
     }
 
     std::ostream& CanonMakerNote::print0x0008(std::ostream& os,

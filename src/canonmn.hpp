@@ -72,6 +72,8 @@ namespace Exiv2 {
 
         //! @name Print functions for Canon %MakerNote tags
         //@{
+        //! Print the focal length
+        static std::ostream& printFocalLength(std::ostream& os, const Value& value, const ExifData*);
         //! Print the image number
         static std::ostream& print0x0008(std::ostream& os, const Value& value, const ExifData*);
         //! Print the serial number of the camera

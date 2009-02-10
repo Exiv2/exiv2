@@ -663,7 +663,7 @@ File  2/15: 20031214_000043.jpg
 20031214_000043.jpg   Exif.CanonCs.ZoomTargetWidth                 Short       1  2272
 20031214_000043.jpg   Exif.CanonCs.0x0026                          Short       1  0
 20031214_000043.jpg   Exif.CanonCs.0x0027                          Short       1  1
-20031214_000043.jpg   Exif.Canon.0x0002                            Short       4  2 682 286 215
+20031214_000043.jpg   Exif.Canon.FocalLength                       Short       4  21.3 mm
 20031214_000043.jpg   Exif.Canon.0x0003                            Short       4  0 0 0 0
 20031214_000043.jpg   Exif.CanonSi.0x0000                          Short       1  54
 20031214_000043.jpg   Exif.CanonSi.0x0001                          Short       1  0
@@ -1031,7 +1031,7 @@ File  6/15: 20030925_201850.jpg
 20030925_201850.jpg   Exif.CanonCs.0x002b                          Short       1  32767
 20030925_201850.jpg   Exif.CanonCs.0x002c                          Short       1  65535
 20030925_201850.jpg   Exif.CanonCs.0x002d                          Short       1  65535
-20030925_201850.jpg   Exif.Canon.0x0002                            Short       4  0 18 914 610
+20030925_201850.jpg   Exif.Canon.FocalLength                       Short       4  18.0 mm
 20030925_201850.jpg   Exif.Canon.0x0003                            Short       4  100 0 0 0
 20030925_201850.jpg   Exif.CanonSi.0x0000                          Short       1  66
 20030925_201850.jpg   Exif.CanonSi.0x0001                          Short       1  0
@@ -1617,7 +1617,7 @@ Error: Directory Canon: Next pointer is out of bounds; ignored.
 20060802_095200.jpg   Exif.CanonCs.0x002b                          Short       1  32767
 20060802_095200.jpg   Exif.CanonCs.0x002c                          Short       1  65535
 20060802_095200.jpg   Exif.CanonCs.0x002d                          Short       1  65535
-20060802_095200.jpg   Exif.Canon.0x0002                            Short       4  2 95 907 605
+20060802_095200.jpg   Exif.Canon.FocalLength                       Short       4  95.0 mm
 20060802_095200.jpg   Exif.Canon.0x0003                            Short       4  0 100 0 0
 20060802_095200.jpg   Exif.CanonSi.0x0000                          Short       1  68
 20060802_095200.jpg   Exif.CanonSi.0x0001                          Short       1  0
@@ -1798,7 +1798,7 @@ File 14/15: 20001004_015404.jpg
 20001004_015404.jpg   Exif.CanonCs.FlashDetails                    Short       1  
 20001004_015404.jpg   Exif.CanonCs.0x001e                          Short       1  0
 20001004_015404.jpg   Exif.CanonCs.0x001f                          Short       1  0
-20001004_015404.jpg   Exif.Canon.0x0002                            Short       4  0 70 914 610
+20001004_015404.jpg   Exif.Canon.FocalLength                       Short       4  70.0 mm
 20001004_015404.jpg   Exif.Canon.0x0003                            Short       4  100 0 0 0
 20001004_015404.jpg   Exif.CanonSi.0x0000                          Short       1  50
 20001004_015404.jpg   Exif.CanonSi.0x0001                          Short       1  0
@@ -1941,7 +1941,7 @@ File 15/15: 20060127_225027.jpg
 20060127_225027.jpg   Exif.CanonCs.0x002b                          Short       1  32767
 20060127_225027.jpg   Exif.CanonCs.0x002c                          Short       1  0
 20060127_225027.jpg   Exif.CanonCs.0x002d                          Short       1  0
-20060127_225027.jpg   Exif.Canon.0x0002                            Short       4  2 186 229 172
+20060127_225027.jpg   Exif.Canon.FocalLength                       Short       4  5.8 mm
 20060127_225027.jpg   Exif.Canon.0x0003                            Short       4  0 0 0 0
 20060127_225027.jpg   Exif.CanonSi.0x0000                          Short       1  68
 20060127_225027.jpg   Exif.CanonSi.0x0001                          Short       1  0
@@ -2186,7 +2186,7 @@ Compare image data and extracted data ------------------------------------
 < 20031214_000043.jpg   Exif.CanonCs.ZoomTargetWidth                 Short       1  2272
 < 20031214_000043.jpg   Exif.CanonCs.0x0026                          Short       1  0
 < 20031214_000043.jpg   Exif.CanonCs.0x0027                          Short       1  1
-< 20031214_000043.jpg   Exif.Canon.0x0002                            Short       4  2 682 286 215
+< 20031214_000043.jpg   Exif.Canon.FocalLength                       Short       4  21.3 mm
 < 20031214_000043.jpg   Exif.Canon.0x0003                            Short       4  0 0 0 0
 < 20031214_000043.jpg   Exif.CanonSi.0x0000                          Short       1  54
 < 20031214_000043.jpg   Exif.CanonSi.0x0001                          Short       1  0
@@ -2554,7 +2554,7 @@ Compare image data and extracted data ------------------------------------
 < 20030925_201850.jpg   Exif.CanonCs.0x002b                          Short       1  32767
 < 20030925_201850.jpg   Exif.CanonCs.0x002c                          Short       1  65535
 < 20030925_201850.jpg   Exif.CanonCs.0x002d                          Short       1  65535
-< 20030925_201850.jpg   Exif.Canon.0x0002                            Short       4  0 18 914 610
+< 20030925_201850.jpg   Exif.Canon.FocalLength                       Short       4  18.0 mm
 < 20030925_201850.jpg   Exif.Canon.0x0003                            Short       4  100 0 0 0
 < 20030925_201850.jpg   Exif.CanonSi.0x0000                          Short       1  66
 < 20030925_201850.jpg   Exif.CanonSi.0x0001                          Short       1  0
@@ -3139,7 +3139,7 @@ Compare image data and extracted data ------------------------------------
 < 20060802_095200.jpg   Exif.CanonCs.0x002b                          Short       1  32767
 < 20060802_095200.jpg   Exif.CanonCs.0x002c                          Short       1  65535
 < 20060802_095200.jpg   Exif.CanonCs.0x002d                          Short       1  65535
-< 20060802_095200.jpg   Exif.Canon.0x0002                            Short       4  2 95 907 605
+< 20060802_095200.jpg   Exif.Canon.FocalLength                       Short       4  95.0 mm
 < 20060802_095200.jpg   Exif.Canon.0x0003                            Short       4  0 100 0 0
 < 20060802_095200.jpg   Exif.CanonSi.0x0000                          Short       1  68
 < 20060802_095200.jpg   Exif.CanonSi.0x0001                          Short       1  0
@@ -3320,7 +3320,7 @@ Compare image data and extracted data ------------------------------------
 < 20001004_015404.jpg   Exif.CanonCs.FlashDetails                    Short       1  
 < 20001004_015404.jpg   Exif.CanonCs.0x001e                          Short       1  0
 < 20001004_015404.jpg   Exif.CanonCs.0x001f                          Short       1  0
-< 20001004_015404.jpg   Exif.Canon.0x0002                            Short       4  0 70 914 610
+< 20001004_015404.jpg   Exif.Canon.FocalLength                       Short       4  70.0 mm
 < 20001004_015404.jpg   Exif.Canon.0x0003                            Short       4  100 0 0 0
 < 20001004_015404.jpg   Exif.CanonSi.0x0000                          Short       1  50
 < 20001004_015404.jpg   Exif.CanonSi.0x0001                          Short       1  0
@@ -3463,7 +3463,7 @@ Compare image data and extracted data ------------------------------------
 < 20060127_225027.jpg   Exif.CanonCs.0x002b                          Short       1  32767
 < 20060127_225027.jpg   Exif.CanonCs.0x002c                          Short       1  0
 < 20060127_225027.jpg   Exif.CanonCs.0x002d                          Short       1  0
-< 20060127_225027.jpg   Exif.Canon.0x0002                            Short       4  2 186 229 172
+< 20060127_225027.jpg   Exif.Canon.FocalLength                       Short       4  5.8 mm
 < 20060127_225027.jpg   Exif.Canon.0x0003                            Short       4  0 0 0 0
 < 20060127_225027.jpg   Exif.CanonSi.0x0000                          Short       1  68
 < 20060127_225027.jpg   Exif.CanonSi.0x0001                          Short       1  0
@@ -3637,7 +3637,7 @@ Compare image data and extracted data ------------------------------------
 > 20031214_000043.exv   Exif.CanonCs.ZoomTargetWidth                 Short       1  2272
 > 20031214_000043.exv   Exif.CanonCs.0x0026                          Short       1  0
 > 20031214_000043.exv   Exif.CanonCs.0x0027                          Short       1  1
-> 20031214_000043.exv   Exif.Canon.0x0002                            Short       4  2 682 286 215
+> 20031214_000043.exv   Exif.Canon.FocalLength                       Short       4  21.3 mm
 > 20031214_000043.exv   Exif.Canon.0x0003                            Short       4  0 0 0 0
 > 20031214_000043.exv   Exif.CanonSi.0x0000                          Short       1  54
 > 20031214_000043.exv   Exif.CanonSi.0x0001                          Short       1  0
@@ -4005,7 +4005,7 @@ Compare image data and extracted data ------------------------------------
 > 20030925_201850.exv   Exif.CanonCs.0x002b                          Short       1  32767
 > 20030925_201850.exv   Exif.CanonCs.0x002c                          Short       1  65535
 > 20030925_201850.exv   Exif.CanonCs.0x002d                          Short       1  65535
-> 20030925_201850.exv   Exif.Canon.0x0002                            Short       4  0 18 914 610
+> 20030925_201850.exv   Exif.Canon.FocalLength                       Short       4  18.0 mm
 > 20030925_201850.exv   Exif.Canon.0x0003                            Short       4  100 0 0 0
 > 20030925_201850.exv   Exif.CanonSi.0x0000                          Short       1  66
 > 20030925_201850.exv   Exif.CanonSi.0x0001                          Short       1  0
@@ -4590,7 +4590,7 @@ Compare image data and extracted data ------------------------------------
 > 20060802_095200.exv   Exif.CanonCs.0x002b                          Short       1  32767
 > 20060802_095200.exv   Exif.CanonCs.0x002c                          Short       1  65535
 > 20060802_095200.exv   Exif.CanonCs.0x002d                          Short       1  65535
-> 20060802_095200.exv   Exif.Canon.0x0002                            Short       4  2 95 907 605
+> 20060802_095200.exv   Exif.Canon.FocalLength                       Short       4  95.0 mm
 > 20060802_095200.exv   Exif.Canon.0x0003                            Short       4  0 100 0 0
 > 20060802_095200.exv   Exif.CanonSi.0x0000                          Short       1  68
 > 20060802_095200.exv   Exif.CanonSi.0x0001                          Short       1  0
@@ -4771,7 +4771,7 @@ Compare image data and extracted data ------------------------------------
 > 20001004_015404.exv   Exif.CanonCs.FlashDetails                    Short       1  
 > 20001004_015404.exv   Exif.CanonCs.0x001e                          Short       1  0
 > 20001004_015404.exv   Exif.CanonCs.0x001f                          Short       1  0
-> 20001004_015404.exv   Exif.Canon.0x0002                            Short       4  0 70 914 610
+> 20001004_015404.exv   Exif.Canon.FocalLength                       Short       4  70.0 mm
 > 20001004_015404.exv   Exif.Canon.0x0003                            Short       4  100 0 0 0
 > 20001004_015404.exv   Exif.CanonSi.0x0000                          Short       1  50
 > 20001004_015404.exv   Exif.CanonSi.0x0001                          Short       1  0
@@ -4914,7 +4914,7 @@ Compare image data and extracted data ------------------------------------
 > 20060127_225027.exv   Exif.CanonCs.0x002b                          Short       1  32767
 > 20060127_225027.exv   Exif.CanonCs.0x002c                          Short       1  0
 > 20060127_225027.exv   Exif.CanonCs.0x002d                          Short       1  0
-> 20060127_225027.exv   Exif.Canon.0x0002                            Short       4  2 186 229 172
+> 20060127_225027.exv   Exif.Canon.FocalLength                       Short       4  5.8 mm
 > 20060127_225027.exv   Exif.Canon.0x0003                            Short       4  0 0 0 0
 > 20060127_225027.exv   Exif.CanonSi.0x0000                          Short       1  68
 > 20060127_225027.exv   Exif.CanonSi.0x0001                          Short       1  0
@@ -5308,7 +5308,7 @@ Compare original and inserted image data ---------------------------------
 < 20031214_000043.jpg   Exif.CanonCs.ZoomTargetWidth                 Short       1  2272
 < 20031214_000043.jpg   Exif.CanonCs.0x0026                          Short       1  0
 < 20031214_000043.jpg   Exif.CanonCs.0x0027                          Short       1  1
-< 20031214_000043.jpg   Exif.Canon.0x0002                            Short       4  2 682 286 215
+< 20031214_000043.jpg   Exif.Canon.FocalLength                       Short       4  21.3 mm
 < 20031214_000043.jpg   Exif.Canon.0x0003                            Short       4  0 0 0 0
 < 20031214_000043.jpg   Exif.CanonSi.0x0000                          Short       1  54
 < 20031214_000043.jpg   Exif.CanonSi.0x0001                          Short       1  0
@@ -5676,7 +5676,7 @@ Compare original and inserted image data ---------------------------------
 < 20030925_201850.jpg   Exif.CanonCs.0x002b                          Short       1  32767
 < 20030925_201850.jpg   Exif.CanonCs.0x002c                          Short       1  65535
 < 20030925_201850.jpg   Exif.CanonCs.0x002d                          Short       1  65535
-< 20030925_201850.jpg   Exif.Canon.0x0002                            Short       4  0 18 914 610
+< 20030925_201850.jpg   Exif.Canon.FocalLength                       Short       4  18.0 mm
 < 20030925_201850.jpg   Exif.Canon.0x0003                            Short       4  100 0 0 0
 < 20030925_201850.jpg   Exif.CanonSi.0x0000                          Short       1  66
 < 20030925_201850.jpg   Exif.CanonSi.0x0001                          Short       1  0
@@ -6261,7 +6261,7 @@ Compare original and inserted image data ---------------------------------
 < 20060802_095200.jpg   Exif.CanonCs.0x002b                          Short       1  32767
 < 20060802_095200.jpg   Exif.CanonCs.0x002c                          Short       1  65535
 < 20060802_095200.jpg   Exif.CanonCs.0x002d                          Short       1  65535
-< 20060802_095200.jpg   Exif.Canon.0x0002                            Short       4  2 95 907 605
+< 20060802_095200.jpg   Exif.Canon.FocalLength                       Short       4  95.0 mm
 < 20060802_095200.jpg   Exif.Canon.0x0003                            Short       4  0 100 0 0
 < 20060802_095200.jpg   Exif.CanonSi.0x0000                          Short       1  68
 < 20060802_095200.jpg   Exif.CanonSi.0x0001                          Short       1  0
@@ -6442,7 +6442,7 @@ Compare original and inserted image data ---------------------------------
 < 20001004_015404.jpg   Exif.CanonCs.FlashDetails                    Short       1  
 < 20001004_015404.jpg   Exif.CanonCs.0x001e                          Short       1  0
 < 20001004_015404.jpg   Exif.CanonCs.0x001f                          Short       1  0
-< 20001004_015404.jpg   Exif.Canon.0x0002                            Short       4  0 70 914 610
+< 20001004_015404.jpg   Exif.Canon.FocalLength                       Short       4  70.0 mm
 < 20001004_015404.jpg   Exif.Canon.0x0003                            Short       4  100 0 0 0
 < 20001004_015404.jpg   Exif.CanonSi.0x0000                          Short       1  50
 < 20001004_015404.jpg   Exif.CanonSi.0x0001                          Short       1  0
@@ -6585,7 +6585,7 @@ Compare original and inserted image data ---------------------------------
 < 20060127_225027.jpg   Exif.CanonCs.0x002b                          Short       1  32767
 < 20060127_225027.jpg   Exif.CanonCs.0x002c                          Short       1  0
 < 20060127_225027.jpg   Exif.CanonCs.0x002d                          Short       1  0
-< 20060127_225027.jpg   Exif.Canon.0x0002                            Short       4  2 186 229 172
+< 20060127_225027.jpg   Exif.Canon.FocalLength                       Short       4  5.8 mm
 < 20060127_225027.jpg   Exif.Canon.0x0003                            Short       4  0 0 0 0
 < 20060127_225027.jpg   Exif.CanonSi.0x0000                          Short       1  68
 < 20060127_225027.jpg   Exif.CanonSi.0x0001                          Short       1  0
@@ -6759,7 +6759,7 @@ Compare original and inserted image data ---------------------------------
 > 20031214_000043.exv   Exif.CanonCs.ZoomTargetWidth                 Short       1  2272
 > 20031214_000043.exv   Exif.CanonCs.0x0026                          Short       1  0
 > 20031214_000043.exv   Exif.CanonCs.0x0027                          Short       1  1
-> 20031214_000043.exv   Exif.Canon.0x0002                            Short       4  2 682 286 215
+> 20031214_000043.exv   Exif.Canon.FocalLength                       Short       4  21.3 mm
 > 20031214_000043.exv   Exif.Canon.0x0003                            Short       4  0 0 0 0
 > 20031214_000043.exv   Exif.CanonSi.0x0000                          Short       1  54
 > 20031214_000043.exv   Exif.CanonSi.0x0001                          Short       1  0
@@ -7127,7 +7127,7 @@ Compare original and inserted image data ---------------------------------
 > 20030925_201850.exv   Exif.CanonCs.0x002b                          Short       1  32767
 > 20030925_201850.exv   Exif.CanonCs.0x002c                          Short       1  65535
 > 20030925_201850.exv   Exif.CanonCs.0x002d                          Short       1  65535
-> 20030925_201850.exv   Exif.Canon.0x0002                            Short       4  0 18 914 610
+> 20030925_201850.exv   Exif.Canon.FocalLength                       Short       4  18.0 mm
 > 20030925_201850.exv   Exif.Canon.0x0003                            Short       4  100 0 0 0
 > 20030925_201850.exv   Exif.CanonSi.0x0000                          Short       1  66
 > 20030925_201850.exv   Exif.CanonSi.0x0001                          Short       1  0
@@ -7712,7 +7712,7 @@ Compare original and inserted image data ---------------------------------
 > 20060802_095200.exv   Exif.CanonCs.0x002b                          Short       1  32767
 > 20060802_095200.exv   Exif.CanonCs.0x002c                          Short       1  65535
 > 20060802_095200.exv   Exif.CanonCs.0x002d                          Short       1  65535
-> 20060802_095200.exv   Exif.Canon.0x0002                            Short       4  2 95 907 605
+> 20060802_095200.exv   Exif.Canon.FocalLength                       Short       4  95.0 mm
 > 20060802_095200.exv   Exif.Canon.0x0003                            Short       4  0 100 0 0
 > 20060802_095200.exv   Exif.CanonSi.0x0000                          Short       1  68
 > 20060802_095200.exv   Exif.CanonSi.0x0001                          Short       1  0
@@ -7893,7 +7893,7 @@ Compare original and inserted image data ---------------------------------
 > 20001004_015404.exv   Exif.CanonCs.FlashDetails                    Short       1  
 > 20001004_015404.exv   Exif.CanonCs.0x001e                          Short       1  0
 > 20001004_015404.exv   Exif.CanonCs.0x001f                          Short       1  0
-> 20001004_015404.exv   Exif.Canon.0x0002                            Short       4  0 70 914 610
+> 20001004_015404.exv   Exif.Canon.FocalLength                       Short       4  70.0 mm
 > 20001004_015404.exv   Exif.Canon.0x0003                            Short       4  100 0 0 0
 > 20001004_015404.exv   Exif.CanonSi.0x0000                          Short       1  50
 > 20001004_015404.exv   Exif.CanonSi.0x0001                          Short       1  0
@@ -8036,7 +8036,7 @@ Compare original and inserted image data ---------------------------------
 > 20060127_225027.exv   Exif.CanonCs.0x002b                          Short       1  32767
 > 20060127_225027.exv   Exif.CanonCs.0x002c                          Short       1  0
 > 20060127_225027.exv   Exif.CanonCs.0x002d                          Short       1  0
-> 20060127_225027.exv   Exif.Canon.0x0002                            Short       4  2 186 229 172
+> 20060127_225027.exv   Exif.Canon.FocalLength                       Short       4  5.8 mm
 > 20060127_225027.exv   Exif.Canon.0x0003                            Short       4  0 0 0 0
 > 20060127_225027.exv   Exif.CanonSi.0x0000                          Short       1  68
 > 20060127_225027.exv   Exif.CanonSi.0x0001                          Short       1  0

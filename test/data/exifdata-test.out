@@ -230,7 +230,7 @@ Exif.CanonCs.ZoomSourceWidth                  0x0024 Makernote    Short       1 
 Exif.CanonCs.ZoomTargetWidth                  0x0025 Makernote    Short       1 2272
 Exif.CanonCs.0x0026                           0x0026 Makernote    Short       1 0
 Exif.CanonCs.0x0027                           0x0027 Makernote    Short       1 1
-Exif.Canon.0x0002                             0x0002 Makernote    Short       4 2 682 286 215
+Exif.Canon.FocalLength                        0x0002 Makernote    Short       4 2 682 286 215
 Exif.Canon.0x0003                             0x0003 Makernote    Short       4 0 0 0 0
 Exif.CanonSi.0x0000                           0x0000 Makernote    Short       1 54
 Exif.CanonSi.0x0001                           0x0001 Makernote    Short       1 0
@@ -359,7 +359,7 @@ Exif.CanonCs.ZoomSourceWidth                  0x0024 Makernote    Short       1 
 Exif.CanonCs.ZoomTargetWidth                  0x0025 Makernote    Short       1 2272
 Exif.CanonCs.0x0026                           0x0026 Makernote    Short       1 0
 Exif.CanonCs.0x0027                           0x0027 Makernote    Short       1 1
-Exif.Canon.0x0002                             0x0002 Makernote    Short       4 2 682 286 215
+Exif.Canon.FocalLength                        0x0002 Makernote    Short       4 2 682 286 215
 Exif.Canon.0x0003                             0x0003 Makernote    Short       4 0 0 0 0
 Exif.CanonSi.0x0000                           0x0000 Makernote    Short       1 54
 Exif.CanonSi.0x0001                           0x0001 Makernote    Short       1 0
@@ -489,7 +489,7 @@ Exif.CanonCs.ZoomSourceWidth                  0x0024 Makernote    Short       1 
 Exif.CanonCs.ZoomTargetWidth                  0x0025 Makernote    Short       1 2272
 Exif.CanonCs.0x0026                           0x0026 Makernote    Short       1 0
 Exif.CanonCs.0x0027                           0x0027 Makernote    Short       1 1
-Exif.Canon.0x0002                             0x0002 Makernote    Short       4 2 682 286 215
+Exif.Canon.FocalLength                        0x0002 Makernote    Short       4 2 682 286 215
 Exif.Canon.0x0003                             0x0003 Makernote    Short       4 0 0 0 0
 Exif.CanonSi.0x0000                           0x0000 Makernote    Short       1 54
 Exif.CanonSi.0x0001                           0x0001 Makernote    Short       1 0
@@ -619,7 +619,7 @@ Exif.CanonCs.ZoomSourceWidth                  0x0024 Makernote    Short       1 
 Exif.CanonCs.ZoomTargetWidth                  0x0025 Makernote    Short       1 2272
 Exif.CanonCs.0x0026                           0x0026 Makernote    Short       1 0
 Exif.CanonCs.0x0027                           0x0027 Makernote    Short       1 1
-Exif.Canon.0x0002                             0x0002 Makernote    Short       4 2 682 286 215
+Exif.Canon.FocalLength                        0x0002 Makernote    Short       4 2 682 286 215
 Exif.Canon.0x0003                             0x0003 Makernote    Short       4 0 0 0 0
 Exif.CanonSi.0x0000                           0x0000 Makernote    Short       1 54
 Exif.CanonSi.0x0001                           0x0001 Makernote    Short       1 0
