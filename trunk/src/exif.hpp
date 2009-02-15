@@ -518,15 +518,24 @@ namespace Exiv2 {
 
     /*!
       @brief Stateless parser class for Exif data. Images use this class to
-             decode and encode binary Exif data. See class TiffParser for details.
+             decode and encode binary Exif data.
+
+      @note  Encode is lossy and is not the inverse of decode.
      */
     class EXIV2API ExifParser {
     public:
         /*!
           @brief Decode metadata from a buffer \em pData of length \em size
                  with binary Exif data to the provided metadata container.
-                 Return byte order in which the data is encoded.
-                 See TiffParser::decode().
+
+                 The buffer must start with a TIFF header. Return byte order
+                 in which the data is encoded.
+
+          @param exifData Exif metadata container.
+          @param pData 	  Pointer to the data buffer. Must point to data in
+                          binary Exif format; no checks are performed.
+          @param size 	  Length of the data buffer
+          @return Byte order in which the data is encoded.
         */
         static ByteOrder decode(
                   ExifData& exifData,
@@ -534,8 +543,42 @@ namespace Exiv2 {
                   uint32_t  size
         );
         /*!
-          @brief Encode metadata from the provided metadata to Exif format.
-                 See TiffParser::encode().
+          @brief Encode Exif metadata from the provided metadata to binary Exif
+                 format.
+
+          The original binary Exif data in the memory block \em pData, \em size
+          is parsed and updated in-place if possible ("non-intrusive"
+          writing). If that is not possible (e.g., if new tags were added), the
+          entire Exif structure is re-written to the \em blob ("intrusive"
+          writing). The return value indicates which write method was used. If
+          it is \c wmNonIntrusive, the original memory \em pData, \em size
+          contains the result and \em blob is empty. If the return value is
+          \c wmIntrusive, a new Exif structure was created and returned in
+          \em blob. The memory block \em pData, \em size may be partly updated in
+          this case and should not be used anymore.
+
+          Encode is a lossy operation. It attempts to fit the Exif data into a
+          binary block suitable as the payload of a JPEG APP1 Exif segment,
+          which can be at most 65527 bytes large. Encode omits IFD0 tags that
+          are "not recorded" in compressed images according to the Exif 2.2
+          specification. It also doesn't write tags in groups which do not occur
+          in JPEG images. If the resulting binary block is larger than allowed,
+          it further deletes specific large preview tags and unknown tags. The
+          operation succeeds even if the end result is still larger than the
+          allowed size. Application should therefore always check the size of
+          the \em blob.
+
+          @param blob      Container for the binary Exif data if "intrusive"
+                           writing is necessary. Empty otherwise.
+          @param pData     Pointer to the binary Exif data buffer. Must
+                           point to data in Exif format; no checks are
+                           performed. Will be modified if "non-intrusive"
+                           writing is possible.
+          @param size      Length of the data buffer.
+          @param byteOrder Byte order to use.
+          @param exifData  Exif metadata container.
+
+          @return Write method used.
         */
         static WriteMethod encode(
                   Blob&     blob,
@@ -546,10 +589,9 @@ namespace Exiv2 {
         );
         /*!
           @brief Encode metadata from the provided metadata to Exif format.
-                 See TiffParser::encode().
 
-          Encode Exif metadata from the \em ExifData container to binary format
-          in the \em blob encoded in \em byteOrder.
+          Encode Exif metadata from the \em ExifData container to binary Exif
+          format in the \em blob, encoded in \em byteOrder.
 
           This simpler encode method uses "intrusive" writing, i.e., it builds
           the binary representation of the metadata from scratch. It does not
@@ -560,6 +602,11 @@ namespace Exiv2 {
 
           This is just an inline wrapper for
           ExifParser::encode(blob, 0, 0, byteOrder, exifData).
+
+          @param blob      Container for the binary Exif data if "intrusive"
+                           writing is necessary. Empty otherwise.
+          @param byteOrder Byte order to use.
+          @param exifData  Exif metadata container.
         */
         static void encode(
                   Blob&     blob,

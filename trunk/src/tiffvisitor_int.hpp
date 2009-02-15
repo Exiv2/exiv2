@@ -481,8 +481,8 @@ namespace Exiv2 {
     private:
         // DATA
         ExifData exifData_;          //!< Copy of the Exif data to encode
-        IptcData iptcData_;          //!< Copy of the IPTC data to encode
-        XmpData  xmpData_;           //!< Copy of the XMP data to encode
+        const IptcData& iptcData_;   //!< IPTC data to encode, just a reference
+        const XmpData&  xmpData_;    //!< XMP data to encode, just a reference
         bool del_;                   //!< Indicates if Exif data entries should be deleted after encoding
         TiffComponent* pRoot_;       //!< Root element of the composite
         TiffComponent* pSourceTree_; //!< Parsed source tree for reference
