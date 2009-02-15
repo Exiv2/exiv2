@@ -56,10 +56,10 @@ EXIV2_RCSID("@(#) $Id$")
 // *****************************************************************************
 namespace {
     //! Unary predicate that matches an Exifdatum with a given group and index.
-    class FindExifdatum {
+    class FindExifdatum2 {
     public:
         //! Constructor, initializes the object with the group and index to look for.
-        FindExifdatum(uint16_t group, int idx)
+        FindExifdatum2(uint16_t group, int idx)
             : groupName_(Exiv2::Internal::tiffGroupName(group)), idx_(idx) {}
         //! Returns true if group and index match.
         bool operator()(const Exiv2::Exifdatum& md) const
@@ -71,7 +71,7 @@ namespace {
         const char* groupName_;
         int idx_;
 
-    }; // class FindExifdatum
+    }; // class FindExifdatum2
 }
 
 // *****************************************************************************
@@ -640,7 +640,7 @@ namespace Exiv2 {
                     // Try to find exact match (in case of duplicate tags)
                     ExifData::iterator pos2 =
                         std::find_if(exifData_.begin(), exifData_.end(),
-                                     FindExifdatum(object->group(), object->idx()));
+                                     FindExifdatum2(object->group(), object->idx()));
                     if (pos2 != exifData_.end() && pos2->key() == key.key()) {
                         ed = &(*pos2);
                         pos = pos2; // make sure we delete the correct tag below

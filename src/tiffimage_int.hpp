@@ -338,6 +338,19 @@ namespace Exiv2 {
 
     }; // class TiffMapping
 
+    //! Unary predicate that matches an Exifdatum with a given IfdId.
+    class FindExifdatum {
+    public:
+        //! Constructor, initializes the object with the IfdId to look for.
+        FindExifdatum(Exiv2::IfdId ifdId) : ifdId_(ifdId) {}
+        //! Returns true if IFD id matches.
+        bool operator()(const Exiv2::Exifdatum& md) const { return ifdId_ == md.ifdId(); }
+
+    private:
+        Exiv2::IfdId ifdId_;
+
+    }; // class FindExifdatum
+
 }}                                      // namespace Internal, Exiv2
 
 #endif                                  // #ifndef TIFFIMAGE_INT_HPP_

@@ -45,6 +45,8 @@ EXIV2_RCSID("@(#) $Id$")
 #include "error.hpp"
 #include "basicio.hpp"
 #include "tiffimage.hpp"
+#include "tiffimage_int.hpp"
+#include "tiffcomposite_int.hpp" // for Tag::root
 
 // + standard includes
 #include <iostream>
@@ -57,18 +59,6 @@ EXIV2_RCSID("@(#) $Id$")
 
 // *****************************************************************************
 namespace {
-    //! Unary predicate that matches an Exifdatum with a given IfdId.
-    class FindExifdatum {
-    public:
-        //! Constructor, initializes the object with the IfdId to look for.
-        FindExifdatum(Exiv2::IfdId ifdId) : ifdId_(ifdId) {}
-        //! Returns true if IFD id matches.
-        bool operator()(const Exiv2::Exifdatum& md) const { return ifdId_ == md.ifdId(); }
-
-    private:
-        Exiv2::IfdId ifdId_;
-
-    }; // class FindExifdatum
 
     /*!
       @brief Exif %Thumbnail image. This abstract base class provides the
@@ -165,6 +155,8 @@ namespace {
 // *****************************************************************************
 // class member definitions
 namespace Exiv2 {
+
+    using namespace Internal;
 
     /*!
       @brief Set the value of \em exifDatum to \em value. If the object already
@@ -508,17 +500,20 @@ namespace Exiv2 {
         }
 
         // IPTC and XMP are stored elsewhere, not in the Exif APP1 segment.
-        const IptcData iptcData;
-        const XmpData  xmpData;
+        const IptcData emptyIptc;
+        const XmpData  emptyXmp;
 
         // Encode and check if the result fits into a JPEG Exif APP1 segment
-        WriteMethod wm = TiffParser::encode(blob,
-                                            pData,
-                                            size,
-                                            byteOrder,
-                                            ed,
-                                            iptcData,
-                                            xmpData);
+        std::auto_ptr<TiffHeaderBase> header(new TiffHeader(byteOrder));
+        WriteMethod wm = TiffParserWorker::encode(blob,
+                                                  pData,
+                                                  size,
+                                                  ed,
+                                                  emptyIptc,
+                                                  emptyXmp,
+                                                  Tag::root,
+                                                  TiffMapping::findEncoder,
+                                                  header.get());
         if (blob.size() <= 65527) return wm;
 
         // If it doesn't fit, remove additional tags
@@ -604,13 +599,16 @@ namespace Exiv2 {
         }
 
         // Encode the remaining Exif tags again, don't care if it fits this time
-        wm = TiffParser::encode(blob,
-                                pData,
-                                size,
-                                byteOrder,
-                                ed,
-                                iptcData,
-                                xmpData);
+        wm = TiffParserWorker::encode(blob,
+                                      pData,
+                                      size,
+                                      ed,
+                                      emptyIptc,
+                                      emptyXmp,
+                                      Tag::root,
+                                      TiffMapping::findEncoder,
+                                      header.get());
+
 #ifdef DEBUG
         if (wm == wmIntrusive) {
             std::cerr << "SIZE OF EXIF DATA IS " << std::dec << blob.size() << " BYTES\n";
@@ -712,7 +710,10 @@ namespace {
 
     void eraseIfd(Exiv2::ExifData& ed, Exiv2::IfdId ifdId)
     {
-        ed.erase(std::remove_if(ed.begin(), ed.end(), FindExifdatum(ifdId)), ed.end());
+        ed.erase(std::remove_if(ed.begin(),
+                                ed.end(),
+                                Exiv2::Internal::FindExifdatum(ifdId)),
+                 ed.end());
     }
     //! @endcond
 }
