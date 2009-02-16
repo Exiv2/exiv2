@@ -1,5 +1,5 @@
 # translation of exiv2 to Slovak
-# Copyright (C) 2008 Andreas Huggel
+# Copyright (C) 2008-2009 Andreas Huggel
 # This file is distributed under the same license as the exiv2 package.
 # Ivan Masár <helix84@centrum.sk>, 2008.
 #
@@ -3202,7 +3202,7 @@ msgid "(Unknown Error)"
 msgstr "(Neznáma chyba)"
 
 #: src/exiv2.cpp:203
-msgid "Copyright (C) 2004-2008 Andreas Huggel.\n"
+msgid "Copyright (C) 2004-2009 Andreas Huggel.\n"
 msgstr "Autorské práva (C) 2004-2008 Andreas Huggel.\n"
 
 #: src/exiv2.cpp:205

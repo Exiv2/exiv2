@@ -1,6 +1,6 @@
 // ***************************************************************** -*- C++ -*-
 /*
- * Copyright (C) 2004-2008 Andreas Huggel <ahuggel@gmx.net>
+ * Copyright (C) 2004-2009 Andreas Huggel <ahuggel@gmx.net>
  *
  * Lens database to decode Exif.Nikon3.LensData
  * Copyright (C) 2005-2008 Robert Rottmerhusen <lens_id@rottmerhusen.com>

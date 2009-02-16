@@ -1,6 +1,6 @@
 // ***************************************************************** -*- C++ -*-
 /*
- * Copyright (C) 2004-2008 Andreas Huggel <ahuggel@gmx.net>
+ * Copyright (C) 2004-2009 Andreas Huggel <ahuggel@gmx.net>
  *
  * This program is part of the Exiv2 distribution.
  *
@@ -200,7 +200,7 @@ void Params::cleanup()
 void Params::version(std::ostream& os) const
 {
     os << EXV_PACKAGE_STRING << "\n"
-       << _("Copyright (C) 2004-2008 Andreas Huggel.\n")
+       << _("Copyright (C) 2004-2009 Andreas Huggel.\n")
        << "\n"
        << _("This program is free software; you can redistribute it and/or\n"
             "modify it under the terms of the GNU General Public License\n"
