@@ -272,9 +272,16 @@ namespace Exiv2 {
                                   uint32_t     sizeData,
                                   uint32_t     baseOffset)
     {
-        assert(pSize);
-        assert(pValue());
-
+        if (!pValue() || !pSize) {
+#ifndef SUPPRESS_WARNINGS
+            std::cerr << "Warning: "
+                      << "Directory " << tiffGroupName(group())
+                      << ", entry 0x" << std::setw(4)
+                      << std::setfill('0') << std::hex << tag()
+                      << ": Size or data offset value not set, ignoring them.\n";
+#endif
+            return;
+        }
         if (pValue()->count() == 0) {
 #ifndef SUPPRESS_WARNINGS
             std::cerr << "Warning: "
@@ -337,9 +344,16 @@ namespace Exiv2 {
                                    uint32_t     sizeData,
                                    uint32_t     baseOffset)
     {
-        assert(pSize);
-        assert(pValue());
-
+        if (!pValue() || !pSize) {
+#ifndef SUPPRESS_WARNINGS
+            std::cerr << "Warning: "
+                      << "Directory " << tiffGroupName(group())
+                      << ", entry 0x" << std::setw(4)
+                      << std::setfill('0') << std::hex << tag()
+                      << ": Size or data offset value not set, ignoring them.\n";
+#endif
+            return;
+        }
         if (pValue()->count() != pSize->count()) {
 #ifndef SUPPRESS_WARNINGS
             std::cerr << "Warning: "
@@ -1375,6 +1389,7 @@ namespace Exiv2 {
 
     uint32_t TiffImageEntry::doSizeImage() const
     {
+        if (!pValue()) return 0;
         uint32_t len = pValue()->sizeDataArea();
         if (len == 0) {
             for (Strips::const_iterator i = strips_.begin(); i != strips_.end(); ++i) {
