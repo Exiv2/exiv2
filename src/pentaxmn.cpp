@@ -740,7 +740,7 @@ namespace Exiv2 {
                << " EV";
         }
 
-        if (value.size() == 2) {
+        if (value.count() == 2) {
             long l1 = value.toLong(1);
             long type;
             long range;
