@@ -169,7 +169,7 @@ namespace Exiv2 {
         TypeInfo& operator=(const TypeInfo& rhs);
 
     public:
-        //! Return the name of the type
+        //! Return the name of the type, 0 if unknown.
         static const char* typeName(TypeId typeId);
         //! Return the type id for a type name
         static TypeId typeId(const std::string& typeName);
