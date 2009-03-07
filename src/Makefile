@@ -73,6 +73,7 @@ CCSRC =  basicio.cpp          \
 	 cr2image.cpp         \
 	 crwimage.cpp         \
 	 datasets.cpp         \
+	 easyaccess.cpp       \
 	 error.cpp            \
 	 exif.cpp             \
 	 futils.cpp           \
