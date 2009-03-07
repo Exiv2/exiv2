@@ -1673,7 +1673,7 @@ namespace Exiv2 {
     {
         bool rc = false;
         const IfdInfo* ii = find(ifdInfo_, ifdId);
-        if (ii != 0 && std::string(ii->name_) == "Makernote") {
+        if (ii != 0 && 0 == strcmp(ii->name_, "Makernote")) {
             rc = true;
         }
         return rc;
