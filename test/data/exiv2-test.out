@@ -74,7 +74,7 @@ Options:
              E : include Exif tags in the list
              I : IPTC datasets
              X : XMP properties
-             x : print a column with the tag value
+             x : print a column with the tag number
              g : group name
              k : key
              l : tag label

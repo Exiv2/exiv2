@@ -275,7 +275,7 @@ void Params::help(std::ostream& os) const
        << _("             E : include Exif tags in the list\n")
        << _("             I : IPTC datasets\n")
        << _("             X : XMP properties\n")
-       << _("             x : print a column with the tag value\n")
+       << _("             x : print a column with the tag number\n")
        << _("             g : group name\n")
        << _("             k : key\n")
        << _("             l : tag label\n")
