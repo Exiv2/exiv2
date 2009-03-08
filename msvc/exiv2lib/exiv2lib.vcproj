@@ -367,6 +367,10 @@
 				>
 			</File>
 			<File
+				RelativePath="..\..\src\easyaccess.cpp"
+				>
+			</File>
+			<File
 				RelativePath="..\..\src\error.cpp"
 				>
 			</File>
@@ -558,6 +562,10 @@
 			</File>
 			<File
 				RelativePath="..\..\src\datasets.hpp"
+				>
+			</File>
+			<File
+				RelativePath="..\..\src\easyaccess.hpp"
 				>
 			</File>
 			<File
