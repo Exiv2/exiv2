@@ -31,6 +31,7 @@
 #include <boost/format.hpp>
 #include <boost/lexical_cast.hpp>
 #include <exiv2/image.hpp>
+#include <exiv2/easyaccess.hpp>
 #include <exiv2/exif.hpp>
 #include <exiv2/iptc.hpp>
 #include <exiv2/tags.hpp>
@@ -43,13 +44,20 @@
 #define BOOST_FILESYSTEM_NO_DEPRECATED
 
 namespace fs = boost::filesystem;
+typedef Exiv2::ExifData::const_iterator (*EasyAccessFct)(const Exiv2::ExifData& ed);
 
-std::string scrub(const std::string &dirty)
+
+std::string scrub(const std::string &dirty, bool strip_space = false)
 {
     std::string scrub = boost::trim_copy(dirty);
+    if(strip_space) {
+        boost::regex space("\\s");
+        scrub = boost::regex_replace(scrub, space, "");
+    }
     boost::regex dash("[:/\\\\|<>]");
     boost::regex under("[\"'\\[\\]\\{\\}#=%\\$\\?,\\+\\*]");
     scrub = boost::regex_replace(scrub, dash, "-");
+
     return boost::regex_replace(scrub, under, "_");
 }
 
@@ -68,6 +76,22 @@ bool exif_data(const Exiv2::Image *image, const char *key, Exiv2::ExifData::cons
     }
     return ok;
 }
+
+bool exif_data_easy(const Exiv2::Image *image, EasyAccessFct easy, Exiv2::ExifData::const_iterator &md) 
+{
+    assert(image && easy);
+    bool ok = false;
+    try {
+        const Exiv2::ExifData &exifData = image->exifData();
+        md = easy(exifData);
+        if(md != exifData.end() && md->typeId() != Exiv2::undefined)
+            ok = true;
+    } 
+    catch(const Exiv2::AnyError&) {
+    }
+    return ok;
+}
+
 
 bool iptc_data(const Exiv2::Image *image, const char *key, Exiv2::IptcData::const_iterator &md) 
 {
@@ -550,26 +574,38 @@ std::string exif_meter(const Exiv2::Image *image, const fs::path &)
     return scrub(md->print());
 }
 
+std::string exif_macro(const Exiv2::Image *image, const fs::path &) 
+{
+    Exiv2::ExifData::const_iterator md;
+    bool done = exif_data_easy(image, Exiv2::macroMode, md);
+    if(!done)
+        return "";
+    return scrub(md->print());
+}
+
+std::string exif_orientation(const Exiv2::Image *image, const fs::path &)
+{
+    Exiv2::ExifData::const_iterator md;
+    bool done = exif_data_easy(image, Exiv2::orientation, md);
+    if(!done)
+        return "";
+    return scrub(md->print(), true);
+}
+
+std::string exif_lens(const Exiv2::Image *image, const fs::path &) 
+{
+    Exiv2::ExifData::const_iterator md;
+    bool done = exif_data_easy(image, Exiv2::lensName, md);
+    if(!done)
+        return "";
+    return scrub(md->print());
+}
+
+
 std::string exif_iso(const Exiv2::Image *image, const fs::path &)
 {
     Exiv2::ExifData::const_iterator md;
-    bool done = exif_data(image, "Exif.Photo.ISOSpeedRatings", md);
-    if(!done)
-        done = exif_data(image, "Exif.CanonSi.ISOSpeed", md); 
-    if(!done)
-        done = exif_data(image, "Exif.Nikon1.ISOSpeed", md);
-    if(!done)
-        done = exif_data(image, "Exif.Nikon2.ISOSpeed", md);
-    if(!done)
-        done = exif_data(image, "Exif.Nikon3.ISOSpeed", md);
-    if(!done)
-        done = exif_data(image, "Exif.MinoltaCsNew.ISOSpeed", md);
-    if(!done)
-        done = exif_data(image, "Exif.MinoltaCsOld.ISOSpeed", md);
-    if(!done)
-        done = exif_data(image, "Exif.MinoltaCs5D.ISOSpeed", md);
-    if(!done)
-        done = exif_data(image, "Exif.MinoltaCs7D.ISOSpeed", md);
+    bool done = exif_data_easy(image, Exiv2::isoSpeed, md);
     if(!done)
         return "";
     return scrub(md->print());

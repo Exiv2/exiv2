@@ -141,6 +141,12 @@ const Pattern g_patterns[] = {
         {exif_distance, NULL, NULL, NULL} },
     {"@meter", "meter mode (multi-segment)",
         {exif_meter, NULL, NULL, NULL} },
+    {"@macro", "macro mode (Off)",
+        {exif_macro, NULL, NULL, NULL} },
+    {"@orient", "orientation (top_left)",
+        {exif_orientation, NULL, NULL, NULL} },
+    {"@lens", "lens name (Tamron 90mm f-2.8)",
+        {exif_lens, NULL, NULL, NULL} },
     {"@key", "first keyword (Family)",
         {exif_keyword, iptc_keyword, NULL, NULL} },
 
