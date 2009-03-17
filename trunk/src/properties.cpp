@@ -349,7 +349,7 @@ namespace Exiv2 {
         { "LastKeywordXMP",     N_("Last Keyword XMP"),     "bag Text", xmpBag,  xmpExternal, N_("Last Keyword XMP.")     },
         { "LensManufacturer",   N_("Lens Manufacturer"),    "Text",     xmpText, xmpExternal, N_("Lens Manufacturer.")    },
         { "LensModel",          N_("Lens Model"),           "Text",     xmpText, xmpExternal, N_("Lens Model.")           },
-        { "RatingPercent",      N_("Rating Percent"),       "Text",     xmpText, xmpExternal, N_("Rating Percent.")       },
+        { "Rating",             N_("Rating Percent"),       "Text",     xmpText, xmpExternal, N_("Rating Percent.")       },
         // End of list marker
         { 0, 0, 0, invalidTypeId, xmpInternal, 0 }
     };
