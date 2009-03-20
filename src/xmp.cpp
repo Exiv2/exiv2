@@ -377,7 +377,7 @@ namespace Exiv2 {
 #ifdef EXV_HAVE_XMP_TOOLKIT
             initialized_ = SXMPMeta::Initialize();
             SXMPMeta::RegisterNamespace("http://www.digikam.org/ns/1.0/", "digiKam", 0);
-            SXMPMeta::RegisterNamespace("http://ns.microsoft.com/Photo/1.0/", "MicrosoftPhoto", 0);
+            SXMPMeta::RegisterNamespace("http://ns.microsoft.com/photo/1.0/", "MicrosoftPhoto", 0);
 #else
             initialized_ = true;
 #endif
