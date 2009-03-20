@@ -212,7 +212,7 @@
 			<Tool
 				Name="VCLinkerTool"
 				AdditionalOptions="/NODEFAULTLIB:LIBMTD"
-				AdditionalDependencies="..\xmpsdk\DebugDLL\xmpsdk.lib ..\..\..\expat-2.0.1\win32\bin\debug\libexpat.lib"
+				AdditionalDependencies="..\xmpsdk\DebugDLL\xmpsdk.lib ..\..\..\expat-2.0.1\win32\bin\debug\libexpat.lib ..\..\..\zlib-1.2.3\projects\visualc6\Win32_DLL_Debug\zlib1d.lib"
 				OutputFile="$(OutDir)\exiv2.dll"
 				GenerateDebugInformation="true"
 				RandomizedBaseAddress="1"
@@ -297,7 +297,7 @@
 			<Tool
 				Name="VCLinkerTool"
 				AdditionalOptions="/NODEFAULTLIB:LIBCMT"
-				AdditionalDependencies="..\xmpsdk\ReleaseDLL\xmpsdk.lib ..\..\..\expat-2.0.1\win32\bin\release\libexpat.lib"
+				AdditionalDependencies="..\xmpsdk\ReleaseDLL\xmpsdk.lib ..\..\..\expat-2.0.1\win32\bin\release\libexpat.lib ..\..\..\zlib-1.2.3\projects\visualc6\Win32_DLL_Release\zlib1.lib"
 				OutputFile="$(OutDir)\exiv2.dll"
 				GenerateDebugInformation="false"
 				RandomizedBaseAddress="1"
