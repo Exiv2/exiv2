@@ -11,7 +11,7 @@ __index2__
 <p>This schema specifies XMP properties used by Microsoft.
  <ul>
   <li>Exiv2 keys are <b><code>Xmp.MicrosoftPhoto.&lt;Property&gt;</code></b>
-  <li>The schema namespace URI is <b><code>http://ns.microsoft.com/Photo/1.0/</code></b></li>
+  <li>The schema namespace URI is <b><code>http://ns.microsoft.com/photo/1.0/</code></b></li>
   <li>The preferred schema namespace prefix is <b><code>MicrosoftPhoto</code></b></li>
  </ul>
 </p>
