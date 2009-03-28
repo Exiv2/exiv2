@@ -3,7 +3,7 @@
 .\" First parameter, NAME, should be all caps
 .\" Second parameter, SECTION, should be 1-8, maybe w/ subsection
 .\" other parameters are allowed: see man(7), man(1)
-.TH EXIV2 1 "Dec 8th, 2008"
+.TH EXIV2 1 "Mar 28th, 2009"
 .\" Please adjust this date whenever revising the manpage.
 .\"
 .\" Some roff macros, for reference:
@@ -29,11 +29,41 @@ exiv2 \- Image metadata manipulation tool
 .\" respectively.
 .B exiv2
 is a program to read and write Exif, IPTC and XMP image metadata and
-image comments. Supported formats are JPEG, TIFF, PNG, JP2, Adobe DNG,
-Canon CRW, Canon THM, Nikon NEF, Pentax PEF and XMP sidecar files.
-Read-only support is currently available for PSD and several TIFF-based
-RAW formats: Canon CR2, Fujifilm RAF, Minolta MRW, Olympus ORF, Sony 
-ARW and Sony SR2.
+image comments. The following image formats are supported:
+.TS
+lB l l l l
+_____
+l l l l l.
+Type  Exif       IPTC       XMP        Image comments
+JPEG  ReadWrite  ReadWrite  ReadWrite  ReadWrite
+EXV   ReadWrite  ReadWrite  ReadWrite  ReadWrite
+CR2   Read       Read       Read       -
+CRW   ReadWrite  -          -          ReadWrite
+MRW   Read       Read       Read       -
+TIFF  ReadWrite  ReadWrite  ReadWrite  -
+DNG   ReadWrite  ReadWrite  ReadWrite  -
+NEF   ReadWrite  ReadWrite  ReadWrite  -
+PEF   ReadWrite  ReadWrite  ReadWrite  -
+ARW   Read       Read       Read       -
+RW2   Read       Read       Read       -
+SR2   Read       Read       Read       -
+ORF   Read       Read       Read       -
+PNG   ReadWrite  ReadWrite  ReadWrite  ReadWrite
+RAF   Read       Read       Read       -
+XMP   -          -          ReadWrite  -
+GIF   -          -          -          -
+PSD   ReadWrite  ReadWrite  ReadWrite  -
+TGA   -          -          -          -
+BMP   -          -          -          -
+JP2   ReadWrite  ReadWrite  ReadWrite  -
+.TE
+.IP * 2
+Support for GIF, TGA and BMP images is minimal: the image format is
+recognized, a MIME type assigned to it and the height and width of the
+image are determined.
+.IP *
+Reading other TIFF-like RAW image formats, which are not listed in the
+table, may also work.
 .SH ACTIONS
 The \fIaction\fP argument is only required if it is not clear from the
 \fIoptions\fP which action is implied.
@@ -168,7 +198,7 @@ I : IPTC datasets
 .br
 X : XMP properties
 .br
-x : print a column with the tag value
+x : print a column with the tag number
 .br
 g : group name
 .br
