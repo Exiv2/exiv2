@@ -87,24 +87,9 @@ namespace Exiv2 {
         //! @name Manipulators
         //@{
         void readMetadata();
-        /*!
-          @brief Todo: Write metadata back to the image. This method is not
-              yet implemented. Calling it will throw an Error(31).
-         */
         void writeMetadata();
         /*!
-          @brief Todo: Not supported yet. Calling this function will throw
-              an instance of Error(32).
-         */
-        void setExifData(const ExifData& exifData);
-        /*!
-          @brief Todo: Not supported yet. Calling this function will throw
-              an instance of Error(32).
-         */
-        void setIptcData(const IptcData& iptcData);
-        /*!
-          @brief Todo: Not supported yet. Calling this function will throw
-              an instance of Error(32).
+          @brief Not supported. Calling this function will throw an Error(32).
          */
         void setComment(const std::string& comment);
         //@}
@@ -128,7 +113,7 @@ namespace Exiv2 {
     private:
         //! @name Manipulators
         //@{
-        EXV_DLLLOCAL void processResourceBlock(uint16_t resourceId, uint32_t resourceSize);
+        EXV_DLLLOCAL void readResourceBlock(uint16_t resourceId, uint32_t resourceSize);
         /*!
           @brief Provides the main implementation of writeMetadata() by
                 writing all buffered metadata to the provided BasicIo.
@@ -137,6 +122,13 @@ namespace Exiv2 {
           @return 4 if opening or writing to the associated BasicIo fails
          */
         EXV_DLLLOCAL void doWriteMetadata(BasicIo& oIo);
+        EXV_DLLLOCAL uint32_t writeExifData(const ExifData& exifData, BasicIo& out);
+        //@}
+
+        //! @name Accessors
+        //@{
+        EXV_DLLLOCAL uint32_t writeIptcData(const IptcData& iptcData, BasicIo& out) const;
+        EXV_DLLLOCAL uint32_t writeXmpData(const XmpData& xmpData, BasicIo& out) const;
         //@}
 
     }; // class PsdImage
