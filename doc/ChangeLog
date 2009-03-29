@@ -1,3 +1,52 @@
+Changes from version 0.18 to 0.18.1
+-----------------------------------
+
+* Utilities
+	- 0000612: Failed to delete XMP data from NEF (or any other TIFF-based)
+	           images. (Reported by Martin Eriksson)
+	- 0000602: Exiv2 generated TIFF incompatible with libtiff.
+	           (Reported by Udi Fuchs)
+	         - Added new "organize" tool (Brad Schick).
+
+
+* Exiv2 library
+	- 0000623: Remove TiffPrinter visitor.
+	- 0000622: Exiv2 doesn't parse MicrosoftPhoto schema prefix correctly.
+	           (Reported by Gilles Caulier / Sylvain Crouzillat)
+	- 0000619: Segfault when opening PNG image.
+	           (Reported with patch by Lukasz Krzyzak)
+	- 0000618: Easy access to information which may be in different Exif tags.
+	           (Based on a patch from Carsten Pfeiffer)
+	- 0000615: Setting the Exif makernote tag aborts if type is not 
+	           "undefined". (digiKam bug 182738)
+	- 0000606: Add write support for Photoshop PSD image format.
+	           (Patch from Michael Ulbrich)
+	- 0000604: Nikkor lens on Nikon D90 not recognized.
+	           (Reported by Niels Kristian Bech Jensen)
+	- 0000603: Exiv2 does not read lens maker.
+	           (Reported by Niels Kristian Bech Jensen)
+	- 0000594: Modifying images on an NTFS file system fails.
+	           (digiKam bug 178103)
+	- 0000494: Patch for displaying focal length (Exif.Canon.FocalLength).
+                   (Patch from Artis Rozentals)
+	         - Updated Panasonic makernote.
+	         - Added read-support for Panasonic RW2 raw images.
+	           (With valuable input from Matthias Welwarsky)
+	         - Some Nikon makernote updates.
+	         - Updated Nikon Lens lookup table to v3.98 of Robert Rottmerhusen's
+	           lens database.
+	         - Fixed crash in Pentax makernote pretty-printing code.
+	           (Reported by Marijn Kampf)
+	         - Refactored TiffCreator: simplified, fixed several todo's, added
+	           support for multiple TIFF tree structures.
+
+
+* MSVC related
+	- 0000621: windows librarys are forcing a link to
+	           ..\..\..\zlib-1.2.3\projects\visual6\blah\blah.
+                   (Reported by Peter J. Ersts, fix by Robin Mills)
+
+
 Changes from version 0.18-pre2 to 0.18
 --------------------------------------
 
