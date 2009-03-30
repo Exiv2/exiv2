@@ -33,8 +33,8 @@ Changes from version 0.18 to 0.18.1
 	         - Added read-support for Panasonic RW2 raw images.
 	           (With valuable input from Matthias Welwarsky)
 	         - Some Nikon makernote updates.
-	         - Updated Nikon Lens lookup table to v3.98 of Robert Rottmerhusen's
-	           lens database.
+	         - Updated Nikon Lens lookup table to v4.0.347.00 of
+	           Robert Rottmerhusen's lens database.
 	         - Fixed crash in Pentax makernote pretty-printing code.
 	           (Reported by Marijn Kampf)
 	         - Refactored TiffCreator: simplified, fixed several todo's, added
