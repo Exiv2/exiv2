@@ -8,7 +8,6 @@ Changes from version 0.18 to 0.18.1
 	           (Reported by Udi Fuchs)
 	         - Added new "organize" tool (Brad Schick).
 
-
 * Exiv2 library
 	- 0000623: Remove TiffPrinter visitor.
 	- 0000622: Exiv2 doesn't parse MicrosoftPhoto schema prefix correctly.
@@ -39,7 +38,6 @@ Changes from version 0.18 to 0.18.1
 	           (Reported by Marijn Kampf)
 	         - Refactored TiffCreator: simplified, fixed several todo's, added
 	           support for multiple TIFF tree structures.
-
 
 * MSVC related
 	- 0000621: windows librarys are forcing a link to
