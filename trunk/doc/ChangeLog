@@ -18,6 +18,8 @@ Changes from version 0.18 to 0.18.1
 	           (Based on a patch from Carsten Pfeiffer)
 	- 0000615: Setting the Exif makernote tag aborts if type is not 
 	           "undefined". (digiKam bug 182738)
+	- 0000609: Building a DLL of Exiv2 0.18 in MinGW requires -no-undefined
+	           linker flag. (Reported with solution by Giuseppe Rota)
 	- 0000606: Add write support for Photoshop PSD image format.
 	           (Patch from Michael Ulbrich)
 	- 0000604: Nikkor lens on Nikon D90 not recognized.
