@@ -31,37 +31,37 @@ exiv2 \- Image metadata manipulation tool
 is a program to read and write Exif, IPTC and XMP image metadata and
 image comments. The following image formats are supported:
 .TS
-lB l l l l
-_____
+lB lB lB lB lB
+_	_	_	_	_
 l l l l l.
-Type  Exif       IPTC       XMP        Image comments
-JPEG  ReadWrite  ReadWrite  ReadWrite  ReadWrite
-EXV   ReadWrite  ReadWrite  ReadWrite  ReadWrite
-CR2   Read       Read       Read       -
-CRW   ReadWrite  -          -          ReadWrite
-MRW   Read       Read       Read       -
-TIFF  ReadWrite  ReadWrite  ReadWrite  -
-DNG   ReadWrite  ReadWrite  ReadWrite  -
-NEF   ReadWrite  ReadWrite  ReadWrite  -
-PEF   ReadWrite  ReadWrite  ReadWrite  -
-ARW   Read       Read       Read       -
-RW2   Read       Read       Read       -
-SR2   Read       Read       Read       -
-ORF   Read       Read       Read       -
-PNG   ReadWrite  ReadWrite  ReadWrite  ReadWrite
-RAF   Read       Read       Read       -
-XMP   -          -          ReadWrite  -
-GIF   -          -          -          -
-PSD   ReadWrite  ReadWrite  ReadWrite  -
-TGA   -          -          -          -
-BMP   -          -          -          -
-JP2   ReadWrite  ReadWrite  ReadWrite  -
+Type	Exif	IPTC	XMP	Image comments
+JPEG	ReadWrite	ReadWrite	ReadWrite	ReadWrite
+EXV	ReadWrite	ReadWrite	ReadWrite	ReadWrite
+CR2	Read	Read	Read	-
+CRW	ReadWrite	-	-	ReadWrite
+MRW	Read	Read	Read	-
+TIFF	ReadWrite	ReadWrite	ReadWrite	-
+DNG	ReadWrite	ReadWrite	ReadWrite	-
+NEF	ReadWrite	ReadWrite	ReadWrite	-
+PEF	ReadWrite	ReadWrite	ReadWrite	-
+ARW	Read	Read	Read	-
+RW2	Read	Read	Read	-
+SR2	Read	Read	Read	-
+ORF	Read	Read	Read	-
+PNG	ReadWrite	ReadWrite	ReadWrite	ReadWrite
+RAF	Read	Read	Read	-
+XMP	-	-	ReadWrite	-
+GIF	-	-	-	-
+PSD	ReadWrite	ReadWrite	ReadWrite	-
+TGA	-	-	-	-
+BMP	-	-	-	-
+JP2	ReadWrite	ReadWrite	ReadWrite	-
 .TE
-.IP * 2
+.IP \(bu 2
 Support for GIF, TGA and BMP images is minimal: the image format is
 recognized, a MIME type assigned to it and the height and width of the
 image are determined.
-.IP *
+.IP \(bu 2
 Reading other TIFF-like RAW image formats, which are not listed in the
 table, may also work.
 .SH ACTIONS
