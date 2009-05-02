@@ -586,21 +586,8 @@ namespace Exiv2 {
 
             if (insertPos == count) {
                 byte tmpBuf[64];
-                if (!comment_.empty()) {
-                    // Write COM marker, size of comment, and string
-                    tmpBuf[0] = 0xff;
-                    tmpBuf[1] = com_;
-
-                    if (comment_.length() + 3 > 0xffff) throw Error(37, "JPEG comment");
-                    us2Data(tmpBuf + 2, static_cast<uint16_t>(comment_.length() + 3), bigEndian);
-
-                    if (outIo.write(tmpBuf, 4) != 4) throw Error(21);
-                    if (outIo.write((byte*)comment_.data(), (long)comment_.length())
-                        != (long)comment_.length()) throw Error(21);
-                    if (outIo.putb(0)==EOF) throw Error(21);
-                    if (outIo.error()) throw Error(21);
-                    --search;
-                }
+                // Write Exif data first so that - if there is no app0 - we
+                // create "Exif images" according to the Exif standard.
                 if (exifData_.count() > 0) {
                     Blob blob;
                     ByteOrder bo = byteOrder();
@@ -684,6 +671,21 @@ namespace Exiv2 {
                     if (iptcData_.count() > 0) {
                         --search;
                     }
+                }
+                if (!comment_.empty()) {
+                    // Write COM marker, size of comment, and string
+                    tmpBuf[0] = 0xff;
+                    tmpBuf[1] = com_;
+
+                    if (comment_.length() + 3 > 0xffff) throw Error(37, "JPEG comment");
+                    us2Data(tmpBuf + 2, static_cast<uint16_t>(comment_.length() + 3), bigEndian);
+
+                    if (outIo.write(tmpBuf, 4) != 4) throw Error(21);
+                    if (outIo.write((byte*)comment_.data(), (long)comment_.length())
+                        != (long)comment_.length()) throw Error(21);
+                    if (outIo.putb(0)==EOF) throw Error(21);
+                    if (outIo.error()) throw Error(21);
+                    --search;
                 }
             }
             if (marker == eoi_) {
