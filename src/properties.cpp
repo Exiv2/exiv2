@@ -560,7 +560,7 @@ namespace Exiv2 {
                                                                                                                                           "The current value is \"2.0.0.0\".") },
         { "GPSLatitude",              N_("GPS Latitude"),                        "GPSCoordinate",                xmpText, xmpInternal, N_("GPS tag 2, 0x02 (position) and 1, 0x01 (North/South). Indicates latitude.") },
         { "GPSLongitude",             N_("GPS Longitude"),                       "GPSCoordinate",                xmpText, xmpInternal, N_("GPS tag 4, 0x04 (position) and 3, 0x03 (East/West). Indicates longitude.") },
-        { "GPSAltitudeRef",           N_("GPS Altitude Reference"),              "Closed Choice of Integer",     xmpText, xmpInternal, N_("GPS tag 5, 0x5. Indicates whether the altitude is above or below sea level.") },
+        { "GPSAltitudeRef",           N_("GPS Altitude Reference"),              "Closed Choice of Integer",     xmpText, xmpInternal, N_("GPS tag 5, 0x05. Indicates whether the altitude is above or below sea level.") },
         { "GPSAltitude",              N_("GPS Altitude"),                        "Rational",                     xmpText, xmpInternal, N_("GPS tag 6, 0x06. Indicates altitude in meters.") },
         { "GPSTimeStamp",             N_("GPS Time Stamp"),                      "Date",                         xmpText, xmpInternal, N_("GPS tag 29 (date), 0x1D, and, and GPS tag 7 (time), 0x07. Time stamp of GPS data, "
                                                                                                                                           "in Coordinated Universal Time. Note: The GPSDateStamp tag is new in EXIF 2.2. "
@@ -576,7 +576,7 @@ namespace Exiv2 {
         { "GPSSpeed",                 N_("GPS Speed"),                           "Rational",                     xmpText, xmpInternal, N_("GPS tag 13, 0x0D. Speed of GPS receiver movement.") },
         { "GPSTrackRef",              N_("GPS Track Reference"),                 "Closed Choice of Text",        xmpText, xmpInternal, N_("GPS tag 14, 0x0E. Reference for movement direction.") },
         { "GPSTrack",                 N_("GPS Track"),                           "Rational",                     xmpText, xmpInternal, N_("GPS tag 15, 0x0F. Direction of GPS movement, values range from 0 to 359.99.") },
-        { "GPSImgDirectionRef",       N_("GPS Image Direction Reference"),       "Closed Choice of Text",        xmpText, xmpInternal, N_("GPS tag 16, 0x10. Reference for movement direction.") },
+        { "GPSImgDirectionRef",       N_("GPS Image Direction Reference"),       "Closed Choice of Text",        xmpText, xmpInternal, N_("GPS tag 16, 0x10. Reference for image direction.") },
         { "GPSImgDirection",          N_("GPS Image Direction"),                 "Rational",                     xmpText, xmpInternal, N_("GPS tag 17, 0x11. Direction of image when captured, values range from 0 to 359.99.") },
         { "GPSMapDatum",              N_("GPS Map Datum"),                       "Text",                         xmpText, xmpInternal, N_("GPS tag 18, 0x12. Geodetic survey data.") },
         { "GPSDestLatitude",          N_("GPS Destination Latitude"),            "GPSCoordinate",                xmpText, xmpInternal, N_("GPS tag 20, 0x14 (position) and 19, 0x13 (North/South). Indicates destination latitude.") },

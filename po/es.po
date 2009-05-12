@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Exiv2\n"
 "Report-Msgid-Bugs-To: ahuggel@gmx.net\n"
-"POT-Creation-Date: 2009-03-30 21:09+0800\n"
+"POT-Creation-Date: 2009-05-13 00:43+0800\n"
 "PO-Revision-Date: 2005-03-12 05:43+0100\n"
 "Last-Translator: Fabian Mandelbaum <fabman@mandrakesoft.com>\n"
 "Language-Team: Spanish <es@li.org>\n"
@@ -874,7 +874,7 @@ msgstr ""
 #: src/nikonmn.cpp:245 src/nikonmn.cpp:310 src/nikonmn.cpp:464
 #: src/nikonmn.cpp:485 src/nikonmn.cpp:494 src/nikonmn.cpp:540
 #: src/nikonmn.cpp:551 src/nikonmn.cpp:591 src/nikonmn.cpp:594
-#: src/nikonmn.cpp:597 src/nikonmn.cpp:726 src/nikonmn.cpp:1369
+#: src/nikonmn.cpp:597 src/nikonmn.cpp:726 src/nikonmn.cpp:1472
 #: src/olympusmn.cpp:182 src/olympusmn.cpp:188 src/olympusmn.cpp:191
 #: src/olympusmn.cpp:233 src/olympusmn.cpp:236 src/olympusmn.cpp:263
 #: src/olympusmn.cpp:266 src/olympusmn.cpp:272 src/olympusmn.cpp:281
@@ -13153,9 +13153,10 @@ msgid "GPS Altitude Reference"
 msgstr ""
 
 #: src/properties.cpp:563
+#, fuzzy
 msgid ""
-"GPS tag 5, 0x5. Indicates whether the altitude is above or below sea level."
-msgstr ""
+"GPS tag 5, 0x05. Indicates whether the altitude is above or below sea level."
+msgstr "La distancia al sujeto, dada en metros."
 
 #: src/properties.cpp:564 src/tags.cpp:1464
 msgid "GPS Altitude"
@@ -13253,8 +13254,9 @@ msgid "GPS Image Direction Reference"
 msgstr ""
 
 #: src/properties.cpp:579
-msgid "GPS tag 16, 0x10. Reference for movement direction."
-msgstr ""
+#, fuzzy
+msgid "GPS tag 16, 0x10. Reference for image direction."
+msgstr "La distancia al sujeto, dada en metros."
 
 #: src/properties.cpp:580 src/tags.cpp:1512
 #, fuzzy
