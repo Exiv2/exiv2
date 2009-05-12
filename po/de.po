@@ -12,7 +12,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: de\n"
 "Report-Msgid-Bugs-To: ahuggel@gmx.net\n"
-"POT-Creation-Date: 2009-05-13 00:43+0800\n"
+"POT-Creation-Date: 2009-05-13 00:50+0800\n"
 "PO-Revision-Date: 2008-11-16 21:57+0100\n"
 "Last-Translator: Oliver Dörr <kde@doerr-privat.de>\n"
 "Language-Team: german <kde-i18n-de@kde.org>\n"
@@ -5260,8 +5260,8 @@ msgstr "Gruppendynamisch"
 msgid "Single area (wide)"
 msgstr "Einzelbereich (Weit)"
 
-#: src/nikonmn.cpp:98
-msgid "Dynamic area (wide"
+#: src/nikonmn.cpp:98 src/nikonmn.cpp:796
+msgid "Dynamic area (wide)"
 msgstr "Dynamischer Bereich (Weit)"
 
 #: src/nikonmn.cpp:111 src/pentaxmn.cpp:193
@@ -6025,10 +6025,6 @@ msgstr "Nächstes Motiv"
 #: src/nikonmn.cpp:794
 msgid "Group dynamic-AF"
 msgstr "Gruppen dynamischer Autofokus"
-
-#: src/nikonmn.cpp:796
-msgid "Dynamic area (wide)"
-msgstr "Dynamischer Bereich (Weit)"
 
 #: src/nikonmn.cpp:817 src/tags.cpp:192
 msgid "none"
@@ -15862,6 +15858,9 @@ msgstr "\"Little-Endian\" kodiert"
 #: src/tiffimage.cpp:894
 msgid "big endian encoded"
 msgstr "\"Big Endian\" kodiert"
+
+#~ msgid "Dynamic area (wide"
+#~ msgstr "Dynamischer Bereich (Weit)"
 
 #~ msgid "On for ISO 1600/3200"
 #~ msgstr "An für ISO 1600/3200"

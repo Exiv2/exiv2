@@ -14,7 +14,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: fr\n"
 "Report-Msgid-Bugs-To: ahuggel@gmx.net\n"
-"POT-Creation-Date: 2009-05-13 00:43+0800\n"
+"POT-Creation-Date: 2009-05-13 00:50+0800\n"
 "PO-Revision-Date: 2008-05-28 15:49+0200\n"
 "Last-Translator: Fabien <fabien.ubuntu@gmail.com>\n"
 "Language-Team: français <kde-francophone@kde.org>\n"
@@ -5070,8 +5070,8 @@ msgstr ""
 msgid "Single area (wide)"
 msgstr "Zone unique (large)"
 
-#: src/nikonmn.cpp:98
-msgid "Dynamic area (wide"
+#: src/nikonmn.cpp:98 src/nikonmn.cpp:796
+msgid "Dynamic area (wide)"
 msgstr "Zone dynamique (large)"
 
 #: src/nikonmn.cpp:111 src/pentaxmn.cpp:193
@@ -5838,10 +5838,6 @@ msgstr "Sujet proche"
 #: src/nikonmn.cpp:794
 msgid "Group dynamic-AF"
 msgstr ""
-
-#: src/nikonmn.cpp:796
-msgid "Dynamic area (wide)"
-msgstr "Zone dynamique (large)"
 
 #: src/nikonmn.cpp:817 src/tags.cpp:192
 msgid "none"
@@ -15753,6 +15749,9 @@ msgstr "encodage petit-boutiste"
 #: src/tiffimage.cpp:894
 msgid "big endian encoded"
 msgstr "encodage gros-boutiste"
+
+#~ msgid "Dynamic area (wide"
+#~ msgstr "Zone dynamique (large)"
 
 #~ msgid "On for ISO 1600/3200"
 #~ msgstr "Activé pour ISO 1600/3200"

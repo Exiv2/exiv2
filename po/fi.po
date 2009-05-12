@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Exiv2\n"
 "Report-Msgid-Bugs-To: ahuggel@gmx.net\n"
-"POT-Creation-Date: 2009-05-13 00:43+0800\n"
+"POT-Creation-Date: 2009-05-13 00:50+0800\n"
 "PO-Revision-Date: 2006-12-18 16:08+0200\n"
 "Last-Translator: Mikael Lammentausta\n"
 "Language-Team:  <fi@li.org>\n"
@@ -4949,8 +4949,8 @@ msgstr ""
 msgid "Single area (wide)"
 msgstr ""
 
-#: src/nikonmn.cpp:98
-msgid "Dynamic area (wide"
+#: src/nikonmn.cpp:98 src/nikonmn.cpp:796
+msgid "Dynamic area (wide)"
 msgstr ""
 
 #: src/nikonmn.cpp:111 src/pentaxmn.cpp:193
@@ -5687,10 +5687,6 @@ msgstr ""
 
 #: src/nikonmn.cpp:794
 msgid "Group dynamic-AF"
-msgstr ""
-
-#: src/nikonmn.cpp:796
-msgid "Dynamic area (wide)"
 msgstr ""
 
 #: src/nikonmn.cpp:817 src/tags.cpp:192
