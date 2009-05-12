@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: exiv2\n"
 "Report-Msgid-Bugs-To: ahuggel@gmx.net\n"
-"POT-Creation-Date: 2009-05-13 00:43+0800\n"
+"POT-Creation-Date: 2009-05-13 00:50+0800\n"
 "PO-Revision-Date: 2008-11-18 14:54+0100\n"
 "Last-Translator: Ivan Masár <helix84@centrum.sk>\n"
 "Language-Team: Slovak <sk-i18n@lists.linux.sk>\n"
@@ -5086,8 +5086,8 @@ msgstr ""
 msgid "Single area (wide)"
 msgstr ""
 
-#: src/nikonmn.cpp:98
-msgid "Dynamic area (wide"
+#: src/nikonmn.cpp:98 src/nikonmn.cpp:796
+msgid "Dynamic area (wide)"
 msgstr "Dynamická oblasť (široká)"
 
 #: src/nikonmn.cpp:111 src/pentaxmn.cpp:193
@@ -5862,10 +5862,6 @@ msgstr "Najbližší subjekt"
 #: src/nikonmn.cpp:794
 msgid "Group dynamic-AF"
 msgstr "Skupinové dynamické AZ"
-
-#: src/nikonmn.cpp:796
-msgid "Dynamic area (wide)"
-msgstr "Dynamická oblasť (široká)"
 
 #: src/nikonmn.cpp:817 src/tags.cpp:192
 msgid "none"
@@ -15801,6 +15797,9 @@ msgstr ""
 #: src/tiffimage.cpp:894
 msgid "big endian encoded"
 msgstr ""
+
+#~ msgid "Dynamic area (wide"
+#~ msgstr "Dynamická oblasť (široká)"
 
 #~ msgid "On for ISO 1600/3200"
 #~ msgstr "Zapnuté pre ISO 1600/3200"

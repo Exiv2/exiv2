@@ -95,7 +95,7 @@ namespace Exiv2 {
         N_("Dynamic area, closest subject"),
         N_("Group dynamic"),
         N_("Single area (wide)"),
-        N_("Dynamic area (wide")
+        N_("Dynamic area (wide)")
     };
 
     // Roger Larsson: My guess is that focuspoints will follow autofocus sensor

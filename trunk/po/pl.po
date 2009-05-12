@@ -11,7 +11,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: pl\n"
 "Report-Msgid-Bugs-To: ahuggel@gmx.net\n"
-"POT-Creation-Date: 2009-05-13 00:43+0800\n"
+"POT-Creation-Date: 2009-05-13 00:50+0800\n"
 "PO-Revision-Date: 2009-05-12 11:06+0200\n"
 "Last-Translator: Michał Smoczyk <msmoczyk@wp.pl>\n"
 "Language-Team: Polish <pl@li.org>\n"
@@ -5085,9 +5085,9 @@ msgstr "Dynamiczna siatka"
 msgid "Single area (wide)"
 msgstr "Pojedynczy obszar (szeroki)"
 
-#: src/nikonmn.cpp:98
-msgid "Dynamic area (wide"
-msgstr ""
+#: src/nikonmn.cpp:98 src/nikonmn.cpp:796
+msgid "Dynamic area (wide)"
+msgstr "Dynamiczny obszar (szeroki)"
 
 #: src/nikonmn.cpp:111 src/pentaxmn.cpp:193
 msgid "Upper-left"
@@ -5832,10 +5832,6 @@ msgstr "Najbliższy obiekt"
 #, fuzzy
 msgid "Group dynamic-AF"
 msgstr "Dynamiczna zmiana rozmiaru siatki"
-
-#: src/nikonmn.cpp:796
-msgid "Dynamic area (wide)"
-msgstr "Dynamiczny obszar (szeroki)"
 
 #: src/nikonmn.cpp:817 src/tags.cpp:192
 msgid "none"

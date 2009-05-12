@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Exiv2\n"
 "Report-Msgid-Bugs-To: ahuggel@gmx.net\n"
-"POT-Creation-Date: 2009-05-13 00:43+0800\n"
+"POT-Creation-Date: 2009-05-13 00:50+0800\n"
 "PO-Revision-Date: 2005-03-12 05:43+0100\n"
 "Last-Translator: Fabian Mandelbaum <fabman@mandrakesoft.com>\n"
 "Language-Team: Spanish <es@li.org>\n"
@@ -5359,9 +5359,9 @@ msgstr ""
 msgid "Single area (wide)"
 msgstr ""
 
-#: src/nikonmn.cpp:98
+#: src/nikonmn.cpp:98 src/nikonmn.cpp:796
 #, fuzzy
-msgid "Dynamic area (wide"
+msgid "Dynamic area (wide)"
 msgstr "Balance de blanco"
 
 #: src/nikonmn.cpp:111 src/pentaxmn.cpp:193
@@ -6231,11 +6231,6 @@ msgstr ""
 #: src/nikonmn.cpp:794
 msgid "Group dynamic-AF"
 msgstr ""
-
-#: src/nikonmn.cpp:796
-#, fuzzy
-msgid "Dynamic area (wide)"
-msgstr "Balance de blanco"
 
 #: src/nikonmn.cpp:817 src/tags.cpp:192
 msgid "none"
@@ -16631,6 +16626,10 @@ msgstr ""
 #: src/tiffimage.cpp:894
 msgid "big endian encoded"
 msgstr ""
+
+#, fuzzy
+#~ msgid "Dynamic area (wide"
+#~ msgstr "Balance de blanco"
 
 #, fuzzy
 #~ msgid "Spot Mode"
