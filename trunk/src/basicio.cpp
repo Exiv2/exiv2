@@ -233,33 +233,51 @@ namespace Exiv2 {
             close();
             bool statOk = true;
             struct stat buf1;
-            if (::stat(path_.c_str(), &buf1) == -1) {
+            if (::lstat(path_.c_str(), &buf1) == -1) {
                 statOk = false;
 #ifndef SUPPRESS_WARNINGS
-                std::cerr << "Warning: " << Error(2, path_, strError(), "stat") << "\n";
+                std::cerr << "Warning: " << Error(2, path_, strError(), "lstat") << "\n";
 #endif
             }
-            // MSVCRT rename that does not overwrite existing files
-            if (fileExists(path_) && std::remove(path_.c_str()) != 0) {
-                throw Error(2, path_, strError(), "std::remove");
+            // In case path_ is a symlink, get the path of the linked-to file
+            char* pf = const_cast<char*>(path_.c_str());
+            DataBuf lbuf;
+            if (statOk && S_ISLNK(buf1.st_mode)) {
+                lbuf.alloc(buf1.st_size + 1);
+                memset(lbuf.pData_, 0x0, lbuf.size_);
+                pf = reinterpret_cast<char*>(lbuf.pData_);
+                if (readlink(path_.c_str(), pf, lbuf.size_ - 1) == -1) {
+                    throw Error(2, path_, strError(), "readlink");
+                }
+                // We need the permissions of the file, not the symlink
+                if (::stat(pf, &buf1) == -1) {
+                    statOk = false;
+#ifndef SUPPRESS_WARNINGS
+                    std::cerr << "Warning: " << Error(2, pf, strError(), "stat") << "\n";
+#endif
+                }
             }
-            if (std::rename(fileIo->path_.c_str(), path_.c_str()) == -1) {
-                throw Error(17, fileIo->path_, path_, strError());
+            // MSVCRT rename that does not overwrite existing files
+            if (fileExists(pf) && std::remove(pf) != 0) {
+                throw Error(2, pf, strError(), "std::remove");
+            }
+            if (std::rename(fileIo->path_.c_str(), pf) == -1) {
+                throw Error(17, fileIo->path_, pf, strError());
             }
             std::remove(fileIo->path_.c_str());
             // Check permissions of new file
             struct stat buf2;
-            if (statOk && ::stat(path_.c_str(), &buf2) == -1) {
+            if (statOk && ::stat(pf, &buf2) == -1) {
                 statOk = false;
 #ifndef SUPPRESS_WARNINGS
-                std::cerr << "Warning: " << Error(2, path_, strError(), "stat") << "\n";
+                std::cerr << "Warning: " << Error(2, pf, strError(), "stat") << "\n";
 #endif
             }
             if (statOk && buf1.st_mode != buf2.st_mode) {
                 // Set original file permissions
-                if (::chmod(path_.c_str(), buf1.st_mode) == -1) {
+                if (::chmod(pf, buf1.st_mode) == -1) {
 #ifndef SUPPRESS_WARNINGS
-                    std::cerr << "Warning: " << Error(2, path_, strError(), "chmod") << "\n";
+                    std::cerr << "Warning: " << Error(2, pf, strError(), "chmod") << "\n";
 #endif
                 }
             }
