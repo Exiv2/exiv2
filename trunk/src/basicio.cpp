@@ -233,15 +233,16 @@ namespace Exiv2 {
             close();
             bool statOk = true;
             struct stat buf1;
-            if (::lstat(path_.c_str(), &buf1) == -1) {
+            char* pf = const_cast<char*>(path_.c_str());
+#ifdef EXV_HAVE_LSTAT
+            if (::lstat(pf, &buf1) == -1) {
                 statOk = false;
 #ifndef SUPPRESS_WARNINGS
-                std::cerr << "Warning: " << Error(2, path_, strError(), "lstat") << "\n";
+                std::cerr << "Warning: " << Error(2, pf, strError(), "lstat") << "\n";
 #endif
             }
+            DataBuf lbuf; // So that the allocated memory is freed. Must have same scope as pf
             // In case path_ is a symlink, get the path of the linked-to file
-            char* pf = const_cast<char*>(path_.c_str());
-            DataBuf lbuf;
             if (statOk && S_ISLNK(buf1.st_mode)) {
                 lbuf.alloc(buf1.st_size + 1);
                 memset(lbuf.pData_, 0x0, lbuf.size_);
@@ -257,6 +258,14 @@ namespace Exiv2 {
 #endif
                 }
             }
+#else
+            if (::stat(pf, &buf1) == -1) {
+                statOk = false;
+#ifndef SUPPRESS_WARNINGS
+                std::cerr << "Warning: " << Error(2, pf, strError(), "stat") << "\n";
+#endif
+            }
+#endif // !EXV_HAVE_LSTAT
             // MSVCRT rename that does not overwrite existing files
             if (fileExists(pf) && std::remove(pf) != 0) {
                 throw Error(2, pf, strError(), "std::remove");
