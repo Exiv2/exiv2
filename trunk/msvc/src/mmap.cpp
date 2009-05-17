@@ -174,9 +174,9 @@ int munmap(void *start, size_t length)
         return -1;
     }
 
-    UnmapViewOfFile( g_mmapInfos[g_curMMapInfos].start );
-    CloseHandle( g_mmapInfos[g_curMMapInfos].hMap );
-    CloseHandle( g_mmapInfos[g_curMMapInfos].hFile );
+    UnmapViewOfFile( g_mmapInfos[i].start );
+    CloseHandle( g_mmapInfos[i].hMap );
+    CloseHandle( g_mmapInfos[i].hFile );
 
     EnterCriticalSection( &cs );
     for( j = i + 1; j < g_curMMapInfos; j++ ) {
