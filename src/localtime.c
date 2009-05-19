@@ -1412,6 +1412,9 @@ const long		offset;
 
 /* ahu: deleted definition of timelocal */
 
+/* rmills - timegm is replaced with _mkgmtime on VC 2005 and up */
+/*        - see timegm.h                                        */
+#if !defined(_MSC_VER) || (_MSC_VER < 1400)
 time_t
 timegm(tmp)
 struct tm * const	tmp;
@@ -1419,6 +1422,11 @@ struct tm * const	tmp;
 	tmp->tm_isdst = 0;
 	return time1(tmp, gmtsub, 0L);
 }
+#endif
+
+
+
+
 
 /* ahu: deleted definition of timeoff */
 

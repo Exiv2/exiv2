@@ -383,7 +383,7 @@ namespace Exiv2 {
 
     int FileIo::close()
     {
-		munmap();
+        munmap();
         if (fp_ != 0) {
             std::fclose(fp_);
             fp_= 0;
