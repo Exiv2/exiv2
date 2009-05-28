@@ -130,7 +130,8 @@ namespace Exiv2 {
         //! @name Creators
         //@{
         //! Default constructor
-        TiffHeader(ByteOrder byteOrder =littleEndian);
+        TiffHeader(ByteOrder byteOrder =littleEndian,
+                   uint32_t  offset    =0x00000008);
         //! Destructor
         ~TiffHeader();
         //@}

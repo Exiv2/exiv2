@@ -72,6 +72,15 @@ namespace {
         int idx_;
 
     }; // class FindExifdatum2
+
+    Exiv2::ByteOrder stringToByteOrder(const std::string& val)
+    {
+        Exiv2::ByteOrder bo = Exiv2::invalidByteOrder;
+        if (0 == strcmp("II", val.c_str())) bo = Exiv2::littleEndian;
+        else if (0 == strcmp("MM", val.c_str())) bo = Exiv2::bigEndian;
+
+        return bo;
+    }
 }
 
 // *****************************************************************************
@@ -446,7 +455,17 @@ namespace Exiv2 {
         }
         if (rawIptc.size_ != 0 && (del || pos == exifData_.end())) {
             Value::AutoPtr value = Value::create(unsignedLong);
-            value->read(rawIptc.pData_, rawIptc.size_, byteOrder_);
+            DataBuf buf;
+            if (rawIptc.size_ % 4 != 0) {
+                // Pad the last unsignedLong value with 0s
+                buf.alloc((rawIptc.size_ / 4) * 4 + 4);
+                memset(buf.pData_, 0x0, buf.size_);
+                memcpy(buf.pData_, rawIptc.pData_, rawIptc.size_);
+            }
+            else {
+                buf = rawIptc; // Note: This resets rawIptc
+            }
+            value->read(buf.pData_, buf.size_, byteOrder_);
             Exifdatum iptcDatum(iptcNaaKey, value.get());
             exifData_.add(iptcDatum);
             pos = exifData_.findKey(irbKey); // needed after add()
@@ -587,11 +606,21 @@ namespace Exiv2 {
     void TiffEncoder::visitIfdMakernote(TiffIfdMakernote* object)
     {
         assert(object != 0);
+
+        ExifData::iterator pos = exifData_.findKey(ExifKey("Exif.MakerNote.ByteOrder"));
+        if (pos != exifData_.end()) {
+            // Set Makernote byte order
+            ByteOrder bo = stringToByteOrder(pos->toString());
+            if (bo != invalidByteOrder && bo != object->byteOrder()) {
+                object->setByteOrder(bo);
+                setDirty();
+            }
+            if (del_) exifData_.erase(pos);
+        }
         if (del_) {
-            // Remove synthesized tags
+            // Remove remaining synthesized tags
             static const char* synthesizedTags[] = {
                 "Exif.MakerNote.Offset",
-                "Exif.MakerNote.ByteOrder",
             };
             for (unsigned int i = 0; i < EXV_COUNTOF(synthesizedTags); ++i) {
                 ExifData::iterator pos = exifData_.findKey(ExifKey(synthesizedTags[i]));
@@ -599,9 +628,8 @@ namespace Exiv2 {
             }
         }
         // Modify encoder for Makernote peculiarities, byte order
-        if (object->byteOrder() != invalidByteOrder) {
-            byteOrder_ = object->byteOrder();
-        }
+        byteOrder_ = object->byteOrder();
+
     } // TiffEncoder::visitIfdMakernote
 
     void TiffEncoder::visitIfdMakernoteEnd(TiffIfdMakernote* /*object*/)
@@ -886,12 +914,18 @@ namespace Exiv2 {
         // iterate over all remaining entries.
         del_ = false;
 
+        ExifData::const_iterator posBo = exifData_.end();
         for (ExifData::const_iterator i = exifData_.begin();
              i != exifData_.end(); ++i) {
 
             uint16_t group = tiffGroupId(i->groupName());
             // Skip synthesized info tags
-            if (group == Group::mn) continue;
+            if (group == Group::mn) {
+                if (i->tag() == 0x0002) {
+                    posBo = i;
+                }
+                continue;
+            }
 
             // Assumption is that the corresponding TIFF entry doesn't exist
             TiffPath tiffPath;
@@ -910,6 +944,28 @@ namespace Exiv2 {
                 encodeTiffComponent(object, &(*i));
             }
         }
+
+        /*
+          What follows is a hack. I can't think of a better way to set
+          the makernote byte order (and other properties maybe) in the 
+          makernote header during intrusive writing. The thing is that
+          visit/encodeIfdMakernote is not called in this case and there
+          can't be an Exif tag which corresponds to this component.
+         */
+        if (posBo == exifData_.end()) return;
+
+        TiffFinder finder(0x927c, Group::exif);
+        pRootDir->accept(finder);
+        TiffMnEntry* te = dynamic_cast<TiffMnEntry*>(finder.result());
+        if (te) {
+            TiffIfdMakernote* tim = dynamic_cast<TiffIfdMakernote*>(te->mn_);
+            if (tim) {
+                // Set Makernote byte order
+                ByteOrder bo = stringToByteOrder(posBo->toString());
+                if (bo != invalidByteOrder) tim->setByteOrder(bo);
+            }
+        }
+
     } // TiffEncoder::add
 
     TiffReader::TiffReader(const byte*    pData,
@@ -1176,6 +1232,8 @@ namespace Exiv2 {
     {
         assert(object != 0);
 
+        object->setImageByteOrder(byteOrder()); // set the byte order for the image
+
         if (!object->readHeader(object->start(),
                                 static_cast<uint32_t>(pLast_ - object->start()),
                                 byteOrder())) {
@@ -1201,8 +1259,6 @@ namespace Exiv2 {
             new TiffRwState(object->byteOrder(), object->baseOffset())
         );
         changeState(state);
-
-        object->byteOrder_ = byteOrder(); // set the actual byte order of the makernote
 
     } // TiffReader::visitIfdMakernote
 

@@ -97,9 +97,9 @@ Exif.Nikon2.0xffff                            0xffff Makernote    Ascii      22 
 Exif.Image.Make                               0x010f IFD0         Ascii      18 NIKON CORPORATION
 Exif.Image.Model                              0x0110 IFD0         Ascii      10 NIKON D70
 Exif.Image.ExifTag                            0x8769 IFD0         Long        1 78
-Exif.Photo.MakerNote                          0x927c Exif         Undefined  64 78 105 107 111 110 0 2 16 0 0 77 77 0 42 0 0 0 8 0 1 0 4 0 2 0 0 0 28 0 0 0 26 0 0 0 0 65 32 98 111 114 105 110 103 32 78 105 107 111 110 51 32 81 117 97 108 105 116 121 32 116 97 103 0 
+Exif.Photo.MakerNote                          0x927c Exif         Undefined  64 78 105 107 111 110 0 2 16 0 0 73 73 42 0 8 0 0 0 1 0 4 0 2 0 28 0 0 0 26 0 0 0 0 0 0 0 65 32 98 111 114 105 110 103 32 78 105 107 111 110 51 32 81 117 97 108 105 116 121 32 116 97 103 0 
 Exif.MakerNote.Offset                         0x0001 Makernote    Long        1 96
-Exif.MakerNote.ByteOrder                      0x0002 Makernote    Ascii       3 MM
+Exif.MakerNote.ByteOrder                      0x0002 Makernote    Ascii       3 II
 Exif.Nikon3.Quality                           0x0004 Makernote    Ascii      28 A boring Nikon3 Quality tag
 
 ----- One Olympus MakerNote tag

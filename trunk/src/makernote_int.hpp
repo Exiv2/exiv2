@@ -177,6 +177,10 @@ namespace Exiv2 {
         virtual bool read(const byte* pData,
                           uint32_t    size,
                           ByteOrder   byteOrder) =0;
+        /*!
+          @brief Set the byte order for the makernote.
+         */
+        virtual void setByteOrder(ByteOrder byteOrder);
         //@}
         //! @name Accessors
         //@{
@@ -225,12 +229,7 @@ namespace Exiv2 {
                          uint16_t  group,
                          uint16_t  mnGroup,
                          MnHeader* pHeader,
-                         bool      hasNext =true)
-            : TiffComponent(tag, group),
-              pHeader_(pHeader),
-              ifd_(tag, mnGroup, hasNext),
-              mnOffset_(0),
-              byteOrder_(invalidByteOrder) {}
+                         bool      hasNext =true);
         //! Virtual destructor
         virtual ~TiffIfdMakernote();
         //@}
@@ -243,6 +242,14 @@ namespace Exiv2 {
           The default implementation simply returns true.
          */
         bool readHeader(const byte* pData, uint32_t size, ByteOrder byteOrder);
+        /*!
+          @brief Set the byte order for the makernote.
+         */
+        void setByteOrder(ByteOrder byteOrder);
+        /*!
+          @brief Set the byte order used for the image.
+         */
+        void setImageByteOrder(ByteOrder byteOrder) { imageByteOrder_ = byteOrder; }
         //@}
 
         //! @name Accessors
@@ -263,16 +270,16 @@ namespace Exiv2 {
          */
         uint32_t ifdOffset() const;
         /*!
-          @brief Return the byte order for the makernote.
-
-          After the makernote has been read, this returns the actual byte order
-          of the makernote, either \c bigEndian or \c littleEndian.  Before
-          that, it returns the byte order set in the header
-          (\c invalidByteOrder if there is no header). In this case, the return
-          value \c invalidByteOrder means that the byte order of the the image
-          should be used for the makernote.
+          @brief Return the byte order for the makernote. Requires the image
+                 byte order to be set (setImageByteOrder()).  Returns the byte
+                 order for the image if there is no header or the byte order for
+                 the header is \c invalidByteOrder.
          */
         ByteOrder byteOrder() const;
+        /*!
+          @brief Return the byte order used for the image.
+         */
+        ByteOrder imageByteOrder() const { return imageByteOrder_; }
         /*!
           @brief Return the base offset for use with the makernote IFD entries
                  relative to the start of the TIFF header.
@@ -349,7 +356,7 @@ namespace Exiv2 {
         MnHeader*     pHeader_;                 //!< Makernote header
         TiffDirectory ifd_;                     //!< Makernote IFD
         uint32_t      mnOffset_;                //!< Makernote offset
-        ByteOrder     byteOrder_;               //!< Byte order of the makernote
+        ByteOrder     imageByteOrder_;          //!< Byte order for the image
 
     }; // class TiffIfdMakernote
 
@@ -429,6 +436,7 @@ namespace Exiv2 {
         virtual bool read(const byte* pData,
                           uint32_t    size,
                           ByteOrder   byteOrder);
+        // setByteOrder not implemented
         //@}
         //! @name Accessors
         //@{
@@ -443,7 +451,7 @@ namespace Exiv2 {
         DataBuf header_;                //!< Data buffer for the makernote header
         static const byte signature_[]; //!< Fujifilm makernote header signature
         static const uint32_t size_;    //!< Size of the signature
-        static const ByteOrder byteOrder_; //!< Byteorder for makernote (II)
+        static const ByteOrder byteOrder_; //!< Byteorder for makernote (always II)
         uint32_t start_;                //!< Start of the mn IFD rel. to mn start
 
     }; // class FujiMnHeader
@@ -494,6 +502,7 @@ namespace Exiv2 {
         virtual bool read(const byte* pData,
                           uint32_t    size,
                           ByteOrder   byteOrder);
+        virtual void setByteOrder(ByteOrder byteOrder);
         //@}
         //! @name Accessors
         //@{

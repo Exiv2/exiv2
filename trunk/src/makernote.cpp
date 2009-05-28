@@ -118,6 +118,23 @@ namespace Exiv2 {
         return tc;
     } // TiffMnCreator::create
 
+    void MnHeader::setByteOrder(ByteOrder /*byteOrder*/)
+    {
+    }
+
+    TiffIfdMakernote::TiffIfdMakernote(uint16_t  tag,
+                                       uint16_t  group,
+                                       uint16_t  mnGroup,
+                                       MnHeader* pHeader,
+                                       bool      hasNext)
+        : TiffComponent(tag, group),
+          pHeader_(pHeader),
+          ifd_(tag, mnGroup, hasNext),
+          mnOffset_(0),
+          imageByteOrder_(invalidByteOrder)
+    {
+    }
+
     TiffIfdMakernote::~TiffIfdMakernote()
     {
         delete pHeader_;
@@ -131,8 +148,10 @@ namespace Exiv2 {
 
     ByteOrder TiffIfdMakernote::byteOrder() const
     {
-        if (byteOrder_ != invalidByteOrder) return byteOrder_;
-        if (!pHeader_) return invalidByteOrder;
+        assert(imageByteOrder_ != invalidByteOrder);
+        if (!pHeader_ || pHeader_->byteOrder() == invalidByteOrder) {
+            return imageByteOrder_;
+        }
         return pHeader_->byteOrder();
     }
 
@@ -153,6 +172,11 @@ namespace Exiv2 {
     {
         if (!pHeader_) return true;
         return pHeader_->read(pData, size, byteOrder);
+    }
+
+    void TiffIfdMakernote::setByteOrder(ByteOrder byteOrder)
+    {
+        if (pHeader_) pHeader_->setByteOrder(byteOrder);
     }
 
     uint32_t TiffIfdMakernote::sizeHeader() const
@@ -198,11 +222,9 @@ namespace Exiv2 {
                                        uint32_t& imageIdx)
     {
         mnOffset_ = offset;
-        if (this->byteOrder() != invalidByteOrder) {
-            byteOrder = this->byteOrder();
-        }
-        uint32_t len = writeHeader(blob, byteOrder);
-        len += ifd_.write(blob, byteOrder,
+        setImageByteOrder(byteOrder);
+        uint32_t len = writeHeader(blob, this->byteOrder());
+        len += ifd_.write(blob, this->byteOrder(),
                           offset - baseOffset() + len,
                           uint32_t(-1), uint32_t(-1),
                           imageIdx);
@@ -391,14 +413,17 @@ namespace Exiv2 {
     } // Nikon2MnHeader::write
 
     const byte Nikon3MnHeader::signature_[] = {
-        'N', 'i', 'k', 'o', 'n', '\0',
-        0x02, 0x10, 0x00, 0x00, 0x4d, 0x4d, 0x00, 0x2a, 0x00, 0x00, 0x00, 0x08
+        'N', 'i', 'k', 'o', 'n', '\0', 0x02, 0x10, 0x00, 0x00,
+        0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00
     };
     const uint32_t Nikon3MnHeader::size_ = 18;
 
     Nikon3MnHeader::Nikon3MnHeader()
     {
-        read(signature_, size_, invalidByteOrder);
+        buf_.alloc(size_);
+        std::memcpy(buf_.pData_, signature_, buf_.size_);
+        byteOrder_ = invalidByteOrder;
+        start_ = size_;
     }
 
     bool Nikon3MnHeader::read(const byte* pData,
@@ -420,11 +445,21 @@ namespace Exiv2 {
     } // Nikon3MnHeader::read
 
     uint32_t Nikon3MnHeader::write(Blob&     blob,
-                                   ByteOrder /*byteOrder*/) const
+                                   ByteOrder byteOrder) const
     {
-        append(blob, signature_, size_);
-        return size_;
+        assert(buf_.size_ >= 10);
+
+        append(blob, buf_.pData_, 10);
+        // Todo: This removes any gap between the header and
+        // makernote IFD. The gap should be copied too.
+        TiffHeader th(byteOrder);
+        return 10 + th.write(blob);
     } // Nikon3MnHeader::write
+
+    void Nikon3MnHeader::setByteOrder(ByteOrder byteOrder)
+    {
+        byteOrder_ = byteOrder;
+    }
 
     const byte PanasonicMnHeader::signature_[] = {
         'P', 'a', 'n', 'a', 's', 'o', 'n', 'i', 'c', 0x00, 0x00, 0x00
