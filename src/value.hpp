@@ -1478,7 +1478,9 @@ namespace Exiv2 {
     int ValueType<T>::read(const byte* buf, long len, ByteOrder byteOrder)
     {
         value_.clear();
-        for (long i = 0; i < len; i += TypeInfo::typeSize(typeId())) {
+        long ts = TypeInfo::typeSize(typeId());
+        if (len % ts != 0) len = (len / ts) * ts;
+        for (long i = 0; i < len; i += ts) {
             value_.push_back(getValue<T>(buf + i, byteOrder));
         }
         return 0;
