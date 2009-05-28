@@ -927,8 +927,8 @@ namespace Exiv2 {
         return tag_;
     }
 
-    TiffHeader::TiffHeader(ByteOrder byteOrder)
-        : TiffHeaderBase(42, 8, byteOrder, 0x00000008)
+    TiffHeader::TiffHeader(ByteOrder byteOrder, uint32_t offset)
+        : TiffHeaderBase(42, 8, byteOrder, offset)
     {
     }
 
