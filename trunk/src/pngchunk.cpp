@@ -460,6 +460,7 @@ namespace Exiv2 {
             {
                 // then it is all OK
                 arr.alloc(compressedLen);
+                arr.size_ = compressedLen;
             }
             else if (zlibResult == Z_BUF_ERROR)
             {
@@ -510,16 +511,17 @@ namespace Exiv2 {
             memcpy(data4crc.pData_ + key.size_,     "\0\0",                 2);
             memcpy(data4crc.pData_ + key.size_ + 2, compressedData.pData_, compressedData.size_);
 
-            uLong crc = crc32(0L, Z_NULL, 0);
-            crc       = crc32(crc, data4crc.pData_, data4crc.size_);
-
-            ul2Data(chunkCRC, crc, Exiv2::bigEndian);
-            ul2Data(chunkDataSize, data4crc.size_, Exiv2::bigEndian);
+            ul2Data(chunkDataSize, data4crc.size_, bigEndian);
 
             chunkData.alloc(4 + type.size_ + data4crc.size_ + 4);
+            memset(chunkData.pData_,0,chunkData.size_);
             memcpy(chunkData.pData_,                                   chunkDataSize,   4);
             memcpy(chunkData.pData_ + 4,                               type.pData_,     type.size_);
             memcpy(chunkData.pData_ + 4 + type.size_,                  data4crc.pData_, data4crc.size_);
+
+            uLong crc = crc32(0L, Z_NULL, 0);
+            crc       = crc32(crc, chunkData.pData_+4, type.size_ + data4crc.size_);
+            ul2Data(chunkCRC, crc, bigEndian);
             memcpy(chunkData.pData_ + 4 + type.size_ + data4crc.size_, chunkCRC,        4);
         }
         else
@@ -538,8 +540,8 @@ namespace Exiv2 {
             uLong crc = crc32(0L, Z_NULL, 0);
             crc       = crc32(crc, data4crc.pData_, data4crc.size_);
 
-            ul2Data(chunkCRC, crc, Exiv2::bigEndian);
-            ul2Data(chunkDataSize, data4crc.size_, Exiv2::bigEndian);
+            ul2Data(chunkCRC, crc, bigEndian);
+            ul2Data(chunkDataSize, data4crc.size_, bigEndian);
 
             chunkData.alloc(4 + type.size_ + data4crc.size_ + 4);
             memcpy(chunkData.pData_,                                   chunkDataSize,   4);
@@ -592,8 +594,8 @@ namespace Exiv2 {
         uLong crc = crc32(0L, Z_NULL, 0);
         crc       = crc32(crc, data4crc.pData_, data4crc.size_);
 
-        ul2Data(chunkCRC, crc, Exiv2::bigEndian);
-        ul2Data(chunkDataSize, data4crc.size_, Exiv2::bigEndian);
+        ul2Data(chunkCRC, crc, bigEndian);
+        ul2Data(chunkDataSize, data4crc.size_, bigEndian);
 
         chunkData.alloc(4 + type.size_ + data4crc.size_ + 4);
         memcpy(chunkData.pData_,                                   chunkDataSize,   4);
