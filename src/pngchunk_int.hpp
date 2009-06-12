@@ -154,7 +154,7 @@ namespace Exiv2 {
           @param data        PNG Chunk raw data.
           @param compress    Compress or not PNG Chunk data.
         */
-        static DataBuf makeAsciiTxtChunk(const DataBuf& key, const DataBuf& data, bool compress);
+        static DataBuf makeAsciiTxtChunk(const char* key, const DataBuf& data, bool compress);
 
         /*!
           @brief Return a compressed or uncompressed (iTXt) PNG UTF8 text chunk
@@ -164,7 +164,7 @@ namespace Exiv2 {
           @param data        PNG Chunk raw data.
           @param compress    Compress or not PNG Chunk data.
         */
-        static DataBuf makeUtf8TxtChunk(const DataBuf& key, const DataBuf& data, bool compress);
+        static DataBuf makeUtf8TxtChunk(const char* key, const DataBuf& data, bool compress);
 
         /*!
           @brief Wrapper around zlib to uncompress a PNG chunk content.
@@ -188,11 +188,7 @@ namespace Exiv2 {
         /*!
           @brief Encode to ImageMagick raw text profile which host encoded Exif/Iptc/Xmp metadata byte array.
          */
-        static DataBuf writeRawProfile(const DataBuf& profile_data, const DataBuf& profile_type);
-
-        static size_t copyString(char* destination,
-                                 const char* source,
-                                 const size_t length);
+        static DataBuf writeRawProfile(const DataBuf& profileData, const char* profileType);
 
         static long formatString(char*        string,
                                  const size_t length,
