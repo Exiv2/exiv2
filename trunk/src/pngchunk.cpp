@@ -359,45 +359,27 @@ namespace Exiv2 {
 
     DataBuf PngChunk::makeMetadataChunk(const DataBuf& metadata, MetadataType type, bool compress)
     {
-        if (type == comment_Data)
-        {
-            DataBuf key(11);
-            memcpy(key.pData_, "Description", 11);
-            DataBuf rawData = makeUtf8TxtChunk(key, metadata, compress);
-            return rawData;
-        }
-        else if (type == exif_Data)
-        {
-            DataBuf tmp(4);
-            memcpy(tmp.pData_, "exif", 4);
-            DataBuf rawProfile = writeRawProfile(metadata, tmp);
-            DataBuf key(17 + tmp.size_);
-            memcpy(key.pData_,      "Raw profile type ", 17);
-            memcpy(key.pData_ + 17, tmp.pData_, tmp.size_);
-            DataBuf rawData = makeAsciiTxtChunk(key, rawProfile, compress);
-            return rawData;
-        }
-        else if (type == iptc_Data)
-        {
-            DataBuf tmp(4);
-            memcpy(tmp.pData_, "iptc", 4);
-            DataBuf rawProfile = writeRawProfile(metadata, tmp);
-            DataBuf key(17 + tmp.size_);
-            memcpy(key.pData_,      "Raw profile type ", 17);
-            memcpy(key.pData_ + 17, tmp.pData_, tmp.size_);
-            DataBuf rawData = makeAsciiTxtChunk(key, rawProfile, compress);
-            return rawData;
-        }
-        else if (type == xmp_Data)
-        {
-            DataBuf key(17);
-            memcpy(key.pData_, "XML:com.adobe.xmp", 17);
-            DataBuf rawData = makeUtf8TxtChunk(key, metadata, compress);
-            return rawData;
+        DataBuf buf;
+        DataBuf rawProfile;
+
+        switch (type) {
+        case comment_Data:
+            buf = makeUtf8TxtChunk("Description", metadata, compress);
+            break;
+        case exif_Data:
+            rawProfile = writeRawProfile(metadata, "exif");
+            buf = makeAsciiTxtChunk("Raw profile type exif", rawProfile, compress);
+            break;
+        case iptc_Data:
+            rawProfile = writeRawProfile(metadata, "iptc");
+            buf = makeAsciiTxtChunk("Raw profile type iptc", rawProfile, compress);
+            break;
+        case xmp_Data:
+            buf = makeUtf8TxtChunk("XML:com.adobe.xmp", metadata, compress);
+            break;
         }
 
-        return DataBuf();
-
+        return buf;
     } // PngChunk::makeMetadataChunk
 
     void PngChunk::zlibUncompress(const byte*  compressedText,
@@ -487,37 +469,38 @@ namespace Exiv2 {
 
     } // PngChunk::zlibCompress
 
-    DataBuf PngChunk::makeAsciiTxtChunk(const DataBuf& key, const DataBuf& data, bool compress)
+    DataBuf PngChunk::makeAsciiTxtChunk(const char* key, const DataBuf& data, bool compress)
     {
         DataBuf type(4);
         DataBuf data4crc;
         DataBuf chunkData;
         byte    chunkDataSize[4];
         byte    chunkCRC[4];
+        long    keylen = strlen(key);
 
         if (compress)
         {
             // Compressed text chunk using ZLib.
             // Data format    : key ("zTXt") + 0x00 + compression type (0x00) + compressed data
-            // Chunk structure: data lenght (4 bytes) + chunk type (4 bytes) + compressed data + CRC (4 bytes)
+            // Chunk structure: data length (4 bytes) + chunk type (4 bytes) + compressed data + CRC (4 bytes)
 
             memcpy(type.pData_, "zTXt", 4);
 
             DataBuf compressedData;
             zlibCompress(data.pData_, data.size_, compressedData);
 
-            data4crc.alloc(key.size_ + 1 + 1 + compressedData.size_);
-            memcpy(data4crc.pData_,                 key.pData_,            key.size_);
-            memcpy(data4crc.pData_ + key.size_,     "\0\0",                 2);
-            memcpy(data4crc.pData_ + key.size_ + 2, compressedData.pData_, compressedData.size_);
+            data4crc.alloc(keylen + 1 + 1 + compressedData.size_);
+            memcpy(data4crc.pData_, key, keylen);
+            memcpy(data4crc.pData_ + keylen, "\0\0", 2);
+            memcpy(data4crc.pData_ + keylen + 2, compressedData.pData_, compressedData.size_);
 
             ul2Data(chunkDataSize, data4crc.size_, bigEndian);
 
             chunkData.alloc(4 + type.size_ + data4crc.size_ + 4);
-            memset(chunkData.pData_,0,chunkData.size_);
-            memcpy(chunkData.pData_,                                   chunkDataSize,   4);
-            memcpy(chunkData.pData_ + 4,                               type.pData_,     type.size_);
-            memcpy(chunkData.pData_ + 4 + type.size_,                  data4crc.pData_, data4crc.size_);
+            memset(chunkData.pData_, 0, chunkData.size_);
+            memcpy(chunkData.pData_, chunkDataSize, 4);
+            memcpy(chunkData.pData_ + 4, type.pData_, type.size_);
+            memcpy(chunkData.pData_ + 4 + type.size_, data4crc.pData_, data4crc.size_);
 
             uLong crc = crc32(0L, Z_NULL, 0);
             crc       = crc32(crc, chunkData.pData_+4, type.size_ + data4crc.size_);
@@ -532,10 +515,10 @@ namespace Exiv2 {
 
             memcpy(type.pData_, "tEXt", 4);
 
-            data4crc.alloc(key.size_ + 1 + data.size_);
-            memcpy(data4crc.pData_,                 key.pData_,  key.size_);
-            memcpy(data4crc.pData_ + key.size_,     "\0",        1);
-            memcpy(data4crc.pData_ + key.size_ + 1, data.pData_, data.size_);
+            data4crc.alloc(keylen + 1 + data.size_);
+            memcpy(data4crc.pData_, key, keylen);
+            memcpy(data4crc.pData_ + keylen, "\0", 1);
+            memcpy(data4crc.pData_ + keylen + 1, data.pData_, data.size_);
 
             uLong crc = crc32(0L, Z_NULL, 0);
             crc       = crc32(crc, data4crc.pData_, data4crc.size_);
@@ -554,7 +537,7 @@ namespace Exiv2 {
 
     } // PngChunk::makeAsciiTxtChunk
 
-    DataBuf PngChunk::makeUtf8TxtChunk(const DataBuf& key, const DataBuf& data, bool compress)
+    DataBuf PngChunk::makeUtf8TxtChunk(const char* key, const DataBuf& data, bool compress)
     {
         DataBuf type(4);
         DataBuf textData;        // text compressed or not.
@@ -562,6 +545,7 @@ namespace Exiv2 {
         DataBuf chunkData;
         byte    chunkDataSize[4];
         byte    chunkCRC[4];
+        long    keylen = strlen(key);
 
         // Compressed text chunk using ZLib.
         // Data format    : key ("iTXt") + 0x00 + compression flag (0x00: uncompressed - 0x01: compressed) +
@@ -576,20 +560,20 @@ namespace Exiv2 {
             const unsigned char flags[] = {0x00, 0x01, 0x00, 0x00, 0x00};
 
             zlibCompress(data.pData_, data.size_, textData);
-            data4crc.alloc(key.size_ + 5 + textData.size_);
-            memcpy(data4crc.pData_, key.pData_, key.size_);
-            memcpy(data4crc.pData_ + key.size_, flags, 5);
+            data4crc.alloc(keylen + 5 + textData.size_);
+            memcpy(data4crc.pData_, key, keylen);
+            memcpy(data4crc.pData_ + keylen, flags, 5);
         }
         else
         {
             const unsigned char flags[] = {0x00, 0x00, 0x00, 0x00, 0x00};
 
             textData = DataBuf(data.pData_, data.size_);
-            data4crc.alloc(key.size_ + 5 + textData.size_);
-            memcpy(data4crc.pData_, key.pData_, key.size_);
-            memcpy(data4crc.pData_ + key.size_, flags, 5);
+            data4crc.alloc(keylen + 5 + textData.size_);
+            memcpy(data4crc.pData_, key, keylen);
+            memcpy(data4crc.pData_ + keylen, flags, 5);
         }
-        memcpy(data4crc.pData_ + key.size_ + 5, textData.pData_, textData.size_);
+        memcpy(data4crc.pData_ + keylen + 5, textData.pData_, textData.size_);
 
         uLong crc = crc32(0L, Z_NULL, 0);
         crc       = crc32(crc, data4crc.pData_, data4crc.size_);
@@ -692,104 +676,38 @@ namespace Exiv2 {
 
     } // PngChunk::readRawProfile
 
-    DataBuf PngChunk::writeRawProfile(const DataBuf& profile_data, const DataBuf& profile_type)
+    DataBuf PngChunk::writeRawProfile(const DataBuf& profileData, const char* profileType)
     {
-        register long  i;
+        static byte hex[16] = {'0','1','2','3','4','5','6','7','8','9','a','b','c','d','e','f'};
 
-        char          *sp=0;
-        char          *dp=0;
-        char          *text=0;
+        DataBuf text(profileData.size_ * 2 + (profileData.size_ >> 5) + 20 + strlen(profileType));
+        memset(text.pData_, 0x0, text.size_);
 
-        unsigned int   allocated_length, description_length, text_length;
-
-        unsigned char  hex[16] = {'0','1','2','3','4','5','6','7','8','9','a','b','c','d','e','f'};
-
-        DataBuf        formatedData;
-
-        description_length = profile_type.size_;
-        allocated_length   = profile_data.size_*2 + (profile_data.size_ >> 5) + 20 + description_length;
-
-        text = new char[allocated_length];
-
-        sp = (char*)profile_data.pData_;
-        dp = text;
+        text.pData_[0] = '\n';
+        strcpy((char*)(text.pData_ + 1), profileType);
+        char* dp = (char*)text.pData_ + 1 + strlen(profileType);
         *dp++='\n';
-
-        copyString(dp, (const char *)profile_type.pData_, allocated_length);
-
-        dp += description_length;
-        *dp++='\n';
-
-        formatString(dp, allocated_length - strlen(text), "%8lu ", profile_data.size_);
-
+        formatString(dp, text.size_ - strlen((const char*)text.pData_), "%8lu ", profileData.size_);
         dp += 8;
 
-        for (i=0; i < (long)profile_data.size_; i++)
-        {
-            if (i%36 == 0)
-                *dp++='\n';
+        byte* sp = profileData.pData_;
+        for (long i = 0; i < profileData.size_; i++) {
+            if (i % 36 == 0) *dp++='\n';
 
-            *(dp++)=(char) hex[((*sp >> 4) & 0x0f)];
-            *(dp++)=(char) hex[((*sp++)    & 0x0f)];
+            *(dp++) = hex[((*sp >> 4) & 0x0f)];
+            *(dp++) = hex[((*sp++)    & 0x0f)];
         }
 
         *dp++='\n';
         *dp='\0';
 
-        text_length = (unsigned int)(dp-text);
+        // Todo: check along the way, as dp is incremented
+        assert((byte*)dp < text.pData_ + text.size_);
 
-        if (text_length <= allocated_length)
-        {
-            formatedData.alloc(text_length);
-            memcpy(formatedData.pData_, text, text_length);
-        }
-
-        delete [] text;
-        return formatedData;
+        text.size_ = strlen((char*)text.pData_);
+        return text;
 
     } // PngChunk::writeRawProfile
-
-    size_t PngChunk::copyString(char* destination,
-                                const char* source,
-                                const size_t length)
-    {
-        register char       *q;
-
-        register const char *p;
-
-        register size_t      i;
-
-        if ( !destination || !source || length == 0 )
-            return 0;
-
-        p = source;
-        q = destination;
-        i = length;
-
-        if ((i != 0) && (--i != 0))
-        {
-            do
-            {
-                if ((*q++=(*p++)) == '\0')
-                    break;
-            }
-            while (--i != 0);
-        }
-
-        if (i == 0)
-        {
-            if (length != 0)
-                *q='\0';
-
-            do
-            {
-            }
-            while (*p++ != '\0');
-        }
-
-        return((size_t) (p-source-1));
-
-    } // PngChunk::copyString
 
     long PngChunk::formatString(char*        string,
                                 const size_t length,
