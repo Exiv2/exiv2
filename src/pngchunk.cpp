@@ -46,6 +46,7 @@ extern "C" {
 
 #include "pngchunk_int.hpp"
 #include "tiffimage.hpp"
+#include "jpgimage.hpp"
 #include "exif.hpp"
 #include "iptc.hpp"
 #include "image.hpp"
@@ -281,14 +282,52 @@ namespace Exiv2 {
 
         // We look if an ImageMagick IPTC raw profile exist.
 
-        if ( memcmp("Raw profile type iptc", key, 21) == 0 &&
-             pImage->iptcData().empty())
-        {
-            DataBuf iptcData = readRawProfile(arr);
-            long length      = iptcData.size_;
+        if (   memcmp("Raw profile type iptc", key, 21) == 0
+            && pImage->iptcData().empty()) {
+            DataBuf psData = readRawProfile(arr);
+            if (psData.size_ > 0) {
+                Blob iptcBlob;
+                const byte *record = 0;
+                uint32_t sizeIptc = 0;
+                uint32_t sizeHdr = 0;
 
-            if (length > 0)
-                IptcParser::decode(pImage->iptcData(), iptcData.pData_, length);
+                const byte* pEnd = psData.pData_ + psData.size_;
+                const byte* pCur = psData.pData_;
+                while (   pCur < pEnd
+                       && 0 == Photoshop::locateIptcIrb(pCur,
+                                                        static_cast<long>(pEnd - pCur),
+                                                        &record,
+                                                        &sizeHdr,
+                                                        &sizeIptc)) {
+                    if (sizeIptc) {
+#ifdef DEBUG
+                        std::cerr << "Found IPTC IRB, size = " << sizeIptc << "\n";
+#endif
+                        append(iptcBlob, record + sizeHdr, sizeIptc);
+                    }
+                    pCur = record + sizeHdr + sizeIptc;
+                    pCur += (sizeIptc & 1);
+                }
+                if (   iptcBlob.size() > 0
+                    && IptcParser::decode(pImage->iptcData(),
+                                          &iptcBlob[0],
+                                          static_cast<uint32_t>(iptcBlob.size()))) {
+#ifndef SUPPRESS_WARNINGS
+                    std::cerr << "Warning: Failed to decode IPTC metadata.\n";
+#endif
+                    pImage->clearIptcData();
+                }
+                // If there is no IRB, try to decode the complete chunk data
+                if (   iptcBlob.empty()
+                    && IptcParser::decode(pImage->iptcData(),
+                                          psData.pData_,
+                                          psData.size_)) {
+#ifndef SUPPRESS_WARNINGS
+                    std::cerr << "Warning: Failed to decode IPTC metadata.\n";
+#endif
+                    pImage->clearIptcData();
+                }
+            } // if (psData.size_ > 0)
         }
 
         // We look if an ImageMagick XMP raw profile exist.
