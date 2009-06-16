@@ -71,15 +71,6 @@ namespace Exiv2 {
             zTXt_Chunk = 1,
             iTXt_Chunk = 2
         };
-        /*!
-          @brief Metadata Chunk types.
-        */
-        enum MetadataType {
-            exif_Data    = 0,
-            iptc_Data    = 1,
-            xmp_Data     = 2,
-            comment_Data = 3
-        };
 
     public:
         /*!
@@ -115,14 +106,15 @@ namespace Exiv2 {
         static DataBuf keyTXTChunk(const DataBuf& data, bool stripHeader=false);
 
         /*!
-          @brief Return a complete PNG chunk data compressed or not as buffer. Data returned is formated
-                 accordingly with metadata \em type to host passed by \em metadata.
+          @brief Return a complete PNG chunk data compressed or not as buffer.
+                 Data returned is formated accordingly with metadata \em type
+                 to host passed by \em metadata.
 
           @param metadata    metadata buffer.
           @param type        metadata type.
-          @param compress    compress or not metadata.
         */
-        static DataBuf makeMetadataChunk(const DataBuf& metadata, MetadataType type, bool compress);
+        static std::string makeMetadataChunk(const std::string& metadata,
+                                                   MetadataId   type);
 
     private:
         /*!
@@ -182,7 +174,7 @@ namespace Exiv2 {
         /*!
           @brief Wrapper around zlib to compress a PNG chunk content.
          */
-        static std::string zlibCompress(const std::string&  text);
+        static std::string zlibCompress(const std::string& text);
 
         /*!
           @brief Decode from ImageMagick raw text profile which host encoded Exif/Iptc/Xmp metadata byte array.
@@ -190,9 +182,11 @@ namespace Exiv2 {
         static DataBuf readRawProfile(const DataBuf& text);
 
         /*!
-          @brief Encode to ImageMagick raw text profile which host encoded Exif/Iptc/Xmp metadata byte array.
+          @brief Encode to ImageMagick raw text profile, which host encoded
+                 Exif/IPTC/XMP metadata byte arrays.
          */
-        static std::string writeRawProfile(const DataBuf& profileData, const char* profileType);
+        static std::string writeRawProfile(const std::string& profileData,
+                                           const char*        profileType);
 
     }; // class PngChunk
 
