@@ -359,40 +359,32 @@ namespace Exiv2 {
 
     } // PngChunk::parseChunkContent
 
-    DataBuf PngChunk::makeMetadataChunk(const DataBuf& metadata, MetadataType type, bool compress)
+    std::string PngChunk::makeMetadataChunk(const std::string& metadata,
+                                                  MetadataId   type)
     {
-        // Todo: Return std::string instead of DataBuf, take metadata also as a std::string
-
         std::string chunk;
+        std::string rawProfile;
 
         switch (type) {
-        case comment_Data:
-        {
-            std::string text((const char*)metadata.pData_, metadata.size_);
-            chunk = makeUtf8TxtChunk("Description", text, compress);
+        case mdComment:
+            chunk = makeUtf8TxtChunk("Description", metadata, true);
             break;
-        }
-        case exif_Data:
-        {
-            std::string rawProfile = writeRawProfile(metadata, "exif");
-            chunk = makeAsciiTxtChunk("Raw profile type exif", rawProfile, compress);
+        case mdExif:
+            rawProfile = writeRawProfile(metadata, "exif");
+            chunk = makeAsciiTxtChunk("Raw profile type exif", rawProfile, true);
             break;
-        }
-        case iptc_Data:
-        {
-            std::string rawProfile = writeRawProfile(metadata, "iptc");
-            chunk = makeAsciiTxtChunk("Raw profile type iptc", rawProfile, compress);
+        case mdIptc:
+            rawProfile = writeRawProfile(metadata, "iptc");
+            chunk = makeAsciiTxtChunk("Raw profile type iptc", rawProfile, true);
             break;
-        }
-        case xmp_Data:
-            std::string text((const char*)metadata.pData_, metadata.size_);
-            chunk = makeUtf8TxtChunk("XML:com.adobe.xmp", text, compress);
+        case mdXmp:
+            chunk = makeUtf8TxtChunk("XML:com.adobe.xmp", metadata, false);
             break;
-        }
+        case mdNone:
+            assert(false);
+	}
 
-        DataBuf buf(chunk.size());
-        chunk.copy((char*)buf.pData_, buf.size_);
-        return buf;
+        return chunk;
 
     } // PngChunk::makeMetadataChunk
 
@@ -636,14 +628,15 @@ namespace Exiv2 {
 
     } // PngChunk::readRawProfile
 
-    std::string PngChunk::writeRawProfile(const DataBuf& profileData, const char* profileType)
+    std::string PngChunk::writeRawProfile(const std::string& profileData,
+                                          const char*        profileType)
     {
         static byte hex[16] = {'0','1','2','3','4','5','6','7','8','9','a','b','c','d','e','f'};
 
         std::ostringstream oss;
-        oss << '\n' << profileType << '\n' << std::setw(8) << profileData.size_;
-        const byte* sp = profileData.pData_;
-        for (long i = 0; i < profileData.size_; i++) {
+        oss << '\n' << profileType << '\n' << std::setw(8) << profileData.size();
+        const char* sp = profileData.data();
+        for (std::string::size_type i = 0; i < profileData.size(); ++i) {
             if (i % 36 == 0) oss << '\n';
             oss << hex[((*sp >> 4) & 0x0f)];
             oss << hex[((*sp++) & 0x0f)];

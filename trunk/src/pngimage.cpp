@@ -44,6 +44,7 @@ EXIV2_RCSID("@(#) $Id$")
 #ifdef EXV_HAVE_LIBZ
 #include "pngchunk_int.hpp"
 #include "pngimage.hpp"
+#include "jpgimage.hpp"
 #include "image.hpp"
 #include "basicio.hpp"
 #include "error.hpp"
@@ -252,83 +253,54 @@ namespace Exiv2 {
                 if (outIo.write(chunkBuf.pData_, chunkBuf.size_) != chunkBuf.size_) throw Error(21);
 
                 // Write all updated metadata here, just after IHDR.
-
-                if (!comment_.empty())
-                {
-                    // Update Comment data to a new compressed iTXt PNG chunk
-
-                    DataBuf com(reinterpret_cast<const byte*>(comment_.data()), static_cast<long>(comment_.size()));
-                    DataBuf chunkData = PngChunk::makeMetadataChunk(com, PngChunk::comment_Data, true);
-
-#ifdef DEBUG
-                    std::cout << "Exiv2::PngImage::doWriteMetadata: Write chunk with Comment metadata (lenght: "
-                              << chunkData.size_ << ")\n";
-#endif
-                    if (outIo.write(chunkData.pData_, chunkData.size_) != chunkData.size_) throw Error(21);
+                if (!comment_.empty()) {
+                    // Update Comment data to a new PNG chunk
+                    std::string chunk = PngChunk::makeMetadataChunk(comment_, mdComment);
+                    if (outIo.write((const byte*)chunk.data(), chunk.size()) != (long)chunk.size()) {
+                        throw Error(21);
+                    }
                 }
 
-                if (exifData_.count() > 0)
-                {
-                    // Update Exif data to a new zTXt PNG chunk
-
+                if (exifData_.count() > 0) {
+                    // Update Exif data to a new PNG chunk
                     Blob blob;
                     ExifParser::encode(blob, littleEndian, exifData_);
-                    if (blob.size())
-                    {
-                        const unsigned char ExifHeader[] = {0x45, 0x78, 0x69, 0x66, 0x00, 0x00};
-
-                        DataBuf rawExif(sizeof(ExifHeader) + blob.size());
-                        memcpy(rawExif.pData_, ExifHeader, sizeof(ExifHeader));
-                        memcpy(rawExif.pData_ + sizeof(ExifHeader), &blob[0], blob.size());
-                        DataBuf chunkData = PngChunk::makeMetadataChunk(rawExif, PngChunk::exif_Data, true);
-
-#ifdef DEBUG
-                        std::cout << "Exiv2::PngImage::doWriteMetadata: Write chunk with Exif metadata (lenght: "
-                                  << chunkData.size_ << ")\n";
-#endif
-                        if (outIo.write(chunkData.pData_, chunkData.size_) != chunkData.size_) throw Error(21);
+                    if (blob.size() > 0) {
+                        static const char exifHeader[] = { 0x45, 0x78, 0x69, 0x66, 0x00, 0x00 };
+                        std::string rawExif =   std::string(exifHeader, 6)
+                                              + std::string((const char*)&blob[0], blob.size());
+                        std::string chunk = PngChunk::makeMetadataChunk(rawExif, mdExif);
+                        if (outIo.write((const byte*)chunk.data(), chunk.size()) != (long)chunk.size()) {
+                            throw Error(21);
+                        }
                     }
                 }
 
-                if (iptcData_.count() > 0)
-                {
-                    // Update Iptc data to a new zTXt PNG chunk
-
-                    DataBuf rawIptc = IptcParser::encode(iptcData_);
-                    if (rawIptc.size_ > 0)
-                    {
-                        DataBuf chunkData = PngChunk::makeMetadataChunk(rawIptc, PngChunk::iptc_Data, true);
-
-#ifdef DEBUG
-                        std::cout << "Exiv2::PngImage::doWriteMetadata: Write chunk with Iptc metadata (lenght: "
-                                  << chunkData.size_ << ")\n";
-#endif
-                        if (outIo.write(chunkData.pData_, chunkData.size_) != chunkData.size_) throw Error(21);
+                if (iptcData_.count() > 0) {
+                    // Update IPTC data to a new PNG chunk
+                    DataBuf newPsData = Photoshop::setIptcIrb(0, 0, iptcData_);
+                    if (newPsData.size_ > 0) {
+                        std::string rawIptc((const char*)newPsData.pData_, newPsData.size_);
+                        std::string chunk = PngChunk::makeMetadataChunk(rawIptc, mdIptc);
+                        if (outIo.write((const byte*)chunk.data(), chunk.size()) != (long)chunk.size()) {
+                            throw Error(21);
+                        }
                     }
                 }
 
-                if (writeXmpFromPacket() == false)
-                {
-                    if (XmpParser::encode(xmpPacket_, xmpData_) > 1)
-                    {
+                if (writeXmpFromPacket() == false) {
+                    if (XmpParser::encode(xmpPacket_, xmpData_) > 1) {
 #ifndef SUPPRESS_WARNINGS
                         std::cerr << "Error: Failed to encode XMP metadata.\n";
 #endif
                     }
                 }
-                if (xmpPacket_.size() > 0)
-                {
-                    // Update Xmp data to a new uncompressed iTXt PNG chunk
-                    // Note than XMP spec. Ver September 2005, page 97 require an uncompressed chunk to host XMP data
-
-                    DataBuf xmp(reinterpret_cast<const byte*>(xmpPacket_.data()), static_cast<long>(xmpPacket_.size()));
-                    DataBuf chunkData = PngChunk::makeMetadataChunk(xmp, PngChunk::xmp_Data, false);
-
-#ifdef DEBUG
-                    std::cout << "Exiv2::PngImage::doWriteMetadata: Write chunk with XMP metadata (lenght: "
-                              << chunkData.size_ << ")\n";
-#endif
-                    if (outIo.write(chunkData.pData_, chunkData.size_) != chunkData.size_) throw Error(21);
+                if (xmpPacket_.size() > 0) {
+                    // Update XMP data to a new PNG chunk
+                    std::string chunk = PngChunk::makeMetadataChunk(xmpPacket_, mdXmp);
+                    if (outIo.write((const byte*)chunk.data(), chunk.size()) != (long)chunk.size()) {
+                        throw Error(21);
+                    }
                 }
             }
             else if (!memcmp(cheaderBuf.pData_ + 4, "tEXt", 4) ||
