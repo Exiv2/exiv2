@@ -90,7 +90,8 @@ CCSRC =  basicio.cpp          \
 	 nikonmn.cpp          \
 	 olympusmn.cpp        \
 	 orfimage.cpp         \
-	 panasonicmn.cpp
+	 panasonicmn.cpp      \
+	 pgfimage.cpp
 ifdef HAVE_LIBZ
 CCSRC += pngimage.cpp         \
 	 pngchunk.cpp
