@@ -125,13 +125,13 @@ namespace Exiv2
             if (io_->open() == 0)
             {
 #ifdef DEBUG
-                std::cerr << "Exiv2::Jp2Image:: Creating PNG image to memory\n";
+                std::cerr << "Exiv2::Jp2Image:: Creating JPEG2000 image to memory\n";
 #endif
                 IoCloser closer(*io_);
                 if (io_->write(Jp2Blank, sizeof(Jp2Blank)) != sizeof(Jp2Blank))
                 {
 #ifdef DEBUG
-                    std::cerr << "Exiv2::Jp2Image:: Failed to create PNG image on memory\n";
+                    std::cerr << "Exiv2::Jp2Image:: Failed to create JPEG2000 image on memory\n";
 #endif
                 }
             }
