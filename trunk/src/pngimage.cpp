@@ -75,7 +75,7 @@ namespace Exiv2 {
     using namespace Internal;
 
     PngImage::PngImage(BasicIo::AutoPtr io, bool create)
-            : Image(ImageType::png, mdExif | mdIptc | mdComment, io)
+            : Image(ImageType::png, mdExif | mdIptc | mdXmp | mdComment, io)
     {
         if (create)
         {
