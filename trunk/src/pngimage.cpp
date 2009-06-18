@@ -31,7 +31,7 @@ EXIV2_RCSID("@(#) $Id$")
 
 // *****************************************************************************
 
-#define DEBUG 1
+//#define DEBUG 1
 
 // *****************************************************************************
 // included header files
@@ -59,13 +59,14 @@ EXIV2_RCSID("@(#) $Id$")
 // Signature from front of PNG file
 const unsigned char pngSignature[8] = { 0x89, 0x50, 0x4E, 0x47, 0x0D, 0x0A, 0x1A, 0x0A };
 
-const unsigned char pngBlank[] = { 0x50,0x89,0x47,0x4e,0x0a,0x0d,0x0a,0x1a,0x00,0x00,0x0d,0x00,0x48,0x49,0x52,0x44,
-                                   0x00,0x00,0x01,0x00,0x00,0x00,0x01,0x00,0x02,0x08,0x00,0x00,0x90,0x00,0x53,0x77,
-                                   0x00,0xde,0x00,0x00,0x73,0x01,0x47,0x52,0x00,0x42,0xce,0xae,0xe9,0x1c,0x00,0x00,
-                                   0x09,0x00,0x48,0x70,0x73,0x59,0x00,0x00,0x13,0x0b,0x00,0x00,0x13,0x0b,0x00,0x01,
-                                   0x9c,0x9a,0x00,0x18,0x00,0x00,0x49,0x0c,0x41,0x44,0x08,0x54,0x63,0xd7,0xff,0xf8,
-                                   0x3f,0xff,0x05,0x00,0x02,0xfe,0xdc,0xfe,0x59,0xcc,0x00,0xe7,0x00,0x00,0x49,0x00,
-                                   0x4e,0x45,0xae,0x44,0x60,0x42,0x00,0x82 };
+const unsigned char pngBlank[] = { 0x89,0x50,0x4e,0x47,0x0d,0x0a,0x1a,0x0a,0x00,0x00,0x00,0x0d,0x49,0x48,0x44,0x52,
+                                   0x00,0x00,0x00,0x01,0x00,0x00,0x00,0x01,0x08,0x02,0x00,0x00,0x00,0x90,0x77,0x53,
+                                   0xde,0x00,0x00,0x00,0x01,0x73,0x52,0x47,0x42,0x00,0xae,0xce,0x1c,0xe9,0x00,0x00,
+                                   0x00,0x09,0x70,0x48,0x59,0x73,0x00,0x00,0x0b,0x13,0x00,0x00,0x0b,0x13,0x01,0x00,
+                                   0x9a,0x9c,0x18,0x00,0x00,0x00,0x0c,0x49,0x44,0x41,0x54,0x08,0xd7,0x63,0xf8,0xff,
+                                   0xff,0x3f,0x00,0x05,0xfe,0x02,0xfe,0xdc,0xcc,0x59,0xe7,0x00,0x00,0x00,0x00,0x49,
+                                   0x45,0x4e,0x44,0xae,0x42,0x60,0x82
+                                 };
 
 // *****************************************************************************
 // class member definitions
@@ -277,36 +278,44 @@ namespace Exiv2 {
                 if (outIo.write(chunkBuf.pData_, chunkBuf.size_) != chunkBuf.size_) throw Error(21);
 
                 // Write all updated metadata here, just after IHDR.
-                if (!comment_.empty()) {
+                if (!comment_.empty())
+                {
                     // Update Comment data to a new PNG chunk
                     std::string chunk = PngChunk::makeMetadataChunk(comment_, mdComment);
-                    if (outIo.write((const byte*)chunk.data(), chunk.size()) != (long)chunk.size()) {
+                    if (outIo.write((const byte*)chunk.data(), chunk.size()) != (long)chunk.size())
+                    {
                         throw Error(21);
                     }
                 }
 
-                if (exifData_.count() > 0) {
+                if (exifData_.count() > 0)
+                {
                     // Update Exif data to a new PNG chunk
                     Blob blob;
                     ExifParser::encode(blob, littleEndian, exifData_);
-                    if (blob.size() > 0) {
+                    if (blob.size() > 0)
+                    {
                         static const char exifHeader[] = { 0x45, 0x78, 0x69, 0x66, 0x00, 0x00 };
                         std::string rawExif =   std::string(exifHeader, 6)
                                               + std::string((const char*)&blob[0], blob.size());
                         std::string chunk = PngChunk::makeMetadataChunk(rawExif, mdExif);
-                        if (outIo.write((const byte*)chunk.data(), chunk.size()) != (long)chunk.size()) {
+                        if (outIo.write((const byte*)chunk.data(), chunk.size()) != (long)chunk.size())
+                        {
                             throw Error(21);
                         }
                     }
                 }
 
-                if (iptcData_.count() > 0) {
+                if (iptcData_.count() > 0)
+                {
                     // Update IPTC data to a new PNG chunk
                     DataBuf newPsData = Photoshop::setIptcIrb(0, 0, iptcData_);
-                    if (newPsData.size_ > 0) {
+                    if (newPsData.size_ > 0)
+                    {
                         std::string rawIptc((const char*)newPsData.pData_, newPsData.size_);
                         std::string chunk = PngChunk::makeMetadataChunk(rawIptc, mdIptc);
-                        if (outIo.write((const byte*)chunk.data(), chunk.size()) != (long)chunk.size()) {
+                        if (outIo.write((const byte*)chunk.data(), chunk.size()) != (long)chunk.size())
+                        {
                             throw Error(21);
                         }
                     }
