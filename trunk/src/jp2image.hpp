@@ -76,7 +76,6 @@ namespace Exiv2
               method to get a temporary reference.
           @param create Specifies if an existing image should be read (false)
               or if a new file should be created (true).
-              This option is not yet implemented.
          */
         Jp2Image(BasicIo::AutoPtr io, bool create);
         //@}
