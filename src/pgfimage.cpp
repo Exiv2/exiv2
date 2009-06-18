@@ -62,7 +62,7 @@ const unsigned char pgfSignature[3] = { 0x50, 0x47, 0x46 };
 namespace Exiv2 {
 
     PgfImage::PgfImage(BasicIo::AutoPtr io, bool /*create*/)
-            : Image(ImageType::pgf, mdExif | mdIptc, io)
+            : Image(ImageType::pgf, mdExif | mdIptc | mdComment, io)
     {
     } // PgfImage::PgfImage
 
