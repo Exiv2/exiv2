@@ -69,16 +69,6 @@ typedef int pid_t;
 #define EXV_SEPERATOR_STR "\\"
 #define EXV_SEPERATOR_CHR '\\'
 
-/* Define to 1 if you have the "sys/mman.h header file (and supporting code of course) */
-/* At this time (between 0.18.1 and 0.19) this is used by TIFF files to avoid reading  */
-/* the total file into memory returning in a 6x improvement in exiv2 on 2mb tiff files */
-#define EXV_HAVE_SYS_MMAN_H 1
-#ifdef  EXV_HAVE_SYS_MMAN_H
-#if     EXV_HAVE_SYS_MMAN_H
-#define EXV_HAVE_MMAP       1
-#define EXV_HAVE_MUNMAP	    1
-#endif
-#endif
 
 /* Shared library support */
 #ifdef  EXV_HAVE_DLL
