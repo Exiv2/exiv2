@@ -1,3 +1,34 @@
+Changes from version 0.18.1 to 0.18.2
+-------------------------------------
+
+* Exiv2 library
+	- 0000638: Valgrind reports errors when writing to PNG image.
+	- 0000636: Exiv2 corrupts certain NEF images when writing to them.
+	           (digiKam bug 193228)
+	- 0000633: Editing via symlink does not work as expected.
+	           (Reported by Vladimir Nadvornik. Also reported as
+	           Debian bugs 466944 and 511273)
+	- 0000632: [translation] a few more small bugs.
+	           (Reported by Michal Smoczyk)
+	- 0000631: [translation] a few bugs.
+	           (Reported by Michal Smoczyk)
+	- 0000630: PNG images: CRC error in chunk zTXt.
+	           (Reported by gegio 0, patch by Jochen Schug)
+	- 0000628: JPG images: Exiv2 puts comments directly after SOI.
+	           (Reported by Johannes Hofmann)
+	- 0000626: PNG images: Setting IPTC preview corrupts PNG image.
+	           (Reported by Gilles Caulier)
+	- 0000556: timegm() function should work with Windows 64bit time_t.
+	           (Robin Mills)
+	         - PNG images: Embed IPTC data in a Photoshop IRB.
+	         - PNG images: Support creation of an image. (Gilles Caulier)
+	         - JP2 images: Support creation of an image. (Gilles Caulier)
+	         - Added a new Sigma lens to Minolta makernote. (Gilles Caulier)
+	         - Updated Nikon Lens lookup table to v4.0.352.00 of
+	           Robert Rottmerhusen's lens database.
+	         - Fixed illegal read in ValueType<T>::read().
+
+
 Changes from version 0.18 to 0.18.1
 -----------------------------------
 
