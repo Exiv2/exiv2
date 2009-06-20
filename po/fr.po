@@ -14,7 +14,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: fr\n"
 "Report-Msgid-Bugs-To: ahuggel@gmx.net\n"
-"POT-Creation-Date: 2009-05-13 00:50+0800\n"
+"POT-Creation-Date: 2009-06-20 18:56+0800\n"
 "PO-Revision-Date: 2008-05-28 15:49+0200\n"
 "Last-Translator: Fabien <fabien.ubuntu@gmail.com>\n"
 "Language-Team: français <kde-francophone@kde.org>\n"
@@ -835,7 +835,7 @@ msgstr ""
 #: src/nikonmn.cpp:245 src/nikonmn.cpp:310 src/nikonmn.cpp:464
 #: src/nikonmn.cpp:485 src/nikonmn.cpp:494 src/nikonmn.cpp:540
 #: src/nikonmn.cpp:551 src/nikonmn.cpp:591 src/nikonmn.cpp:594
-#: src/nikonmn.cpp:597 src/nikonmn.cpp:726 src/nikonmn.cpp:1472
+#: src/nikonmn.cpp:597 src/nikonmn.cpp:726 src/nikonmn.cpp:1478
 #: src/olympusmn.cpp:182 src/olympusmn.cpp:188 src/olympusmn.cpp:191
 #: src/olympusmn.cpp:233 src/olympusmn.cpp:236 src/olympusmn.cpp:263
 #: src/olympusmn.cpp:266 src/olympusmn.cpp:272 src/olympusmn.cpp:281
