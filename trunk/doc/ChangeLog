@@ -27,6 +27,8 @@ Changes from version 0.18.1 to 0.18.2
 	         - Updated Nikon Lens lookup table to v4.0.352.00 of
 	           Robert Rottmerhusen's lens database.
 	         - Fixed illegal read in ValueType<T>::read().
+	         - [translation] Updated Polish translations.
+	           (Michal Smoczyk)
 
 
 Changes from version 0.18 to 0.18.1
