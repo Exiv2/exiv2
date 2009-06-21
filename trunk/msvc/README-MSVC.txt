@@ -291,7 +291,7 @@ Bugs
 ----
 
 Please consult the issue database:
-http://dev.robotbattle.com/bugs/my_view_page.php
+http://dev.exiv2.org/projects/exiv2/issues
 
 Support and Questions
 ---------------------

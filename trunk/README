@@ -100,13 +100,12 @@ need to modify any Makefile directly, in particular not src/Makefile!
 Support
 =======
 
-Please send feedback or queries by email to the Exiv2 mailing list via
+All project resources are accessible from the project website at
 
-    http://www.exiv2.org/support.html
+    http://dev.exiv2.org/wiki/exiv2
 
-Bug reports can be submitted directly to the bug tracking system at
-
-    http://dev.robotbattle.com/bugs/main_page.php
+Please send feedback or queries to the Exiv2 forum. For new bug reports
+and feature requests, please open an issue.
 
 
 Hacking
