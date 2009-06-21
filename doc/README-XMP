@@ -58,7 +58,7 @@ The MD5 functions included with XMP SDK were replaced with an
 equivalent implementation which is in the public domain. For other
 changes applied to the original XMP SDK, refer to SVN for details:
 
-    http://dev.robotbattle.com/cgi-bin/viewvc.cgi/exiv2/trunk/xmpsdk/
+    http://dev.exiv2.org/repositories/browse/exiv2/trunk/xmpsdk
 
 
 License

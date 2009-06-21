@@ -75,45 +75,16 @@
 
   @section formats File Formats
 
-  - JPEG
-  - <A HREF="crw-mapping.html">Canon CRW</A>
-  - TIFF and related RAW formats (Adobe DNG, Canon CR2, Fujifilm RAF, Minolta MRW, Nikon NEF, Olympus ORF, Pentax PEF, Sony ARW and Sony SR2), read-only
-  - JP2, PNG, PSD, read-only
-  - XMP sidecar files
+  <P>See the <A HREF="http://dev.exiv2.org/wiki/exiv2/Supported_image_formats">list of supported image formats</A>
+  in the Wiki and the <A HREF="crw-mapping.html">Canon CRW mapping</A>.</P>
 
   @section supp Support
 
-  <p>Please write to the
-  <a title="Exiv2 forum" href="http://uk.groups.yahoo.com/group/exiv2">Yahoo! group for Exiv2 help and discussions</a>.</p>
-  <p><a title="Join the Exiv2 forum" href="http://uk.groups.yahoo.com/group/exiv2/join">Join the group</a> to post and receive messages or use <em><a title="Post to the Exiv2 forum" href="http://uk.groups.yahoo.com/group/exiv2/post">exiv2post/2post2exiv2</a></em> to post anonymously. Bug reports can be submitted directly to the
-<a title="Issue tracker" href="http://dev.robotbattle.com/bugs/main_page.php"
-  onclick="document.images['tracker'].src='http://www.whatcounter.com/dlcount.php?id=ahu&amp;url='+this.href">
-bug tracking system</a>.</p>
+  <p>All project resources are accessible from the
+  <A HREF="http://dev.exiv2.org/wiki/exiv2">project website</A>.</p>
 
-  @section devel Development
-
-  <p>%Exiv2 is maintained in a publicly available subversion repository.
-  There is a <a title="Last 50 commits" href="http://dev.robotbattle.com/cmtinfo_svn.php?r=10">
-  live list with the latest commits</a> to the repository, and you can
-  <a title="Online source code repository" href="http://dev.robotbattle.com/~cvsuser/cgi-bin/ns_viewcvs.cgi/exiv2/trunk/">
-  browse the source code</a> online.
-  </p>
-  <p>To check-out the current source code from the repository, you need a
-  <a title="Get Subversion!"
-  href="http://subversion.tigris.org/project_packages.html">subversion client</a>.
-  If you use a command line client, change to the directory where you want to keep
-  the source code and type:</p>
-
-  @verbatim $ svn checkout svn://dev.robotbattle.com/exiv2/trunk . @endverbatim
-
-  <p>To download the test data and test drivers for version @PACKAGE_VERSION@ from
-  the repository, change to your local exiv2-@PACKAGE_VERSION@ directory and use the
-  following command:
-  </p>
-
-  @verbatim $ svn export svn://dev.robotbattle.com/exiv2/tags/@PACKAGE_VERSION@/test @endverbatim
-
-  <P>If you'd like to contribute code, please <A HREF="mailto:ahuggel@gmx.net">contact me</A>.
+  <p>Please send feedback or queries to the %Exiv2 forum. For new bug reports
+  and feature requests, please open an issue.</p>
 
   @section license License
 
