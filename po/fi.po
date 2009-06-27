@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Exiv2\n"
 "Report-Msgid-Bugs-To: ahuggel@gmx.net\n"
-"POT-Creation-Date: 2009-03-30 21:09+0800\n"
+"POT-Creation-Date: 2009-06-20 18:56+0800\n"
 "PO-Revision-Date: 2009-04-12 16:06+0000\n"
 "Last-Translator: Mikael Lammentausta\n"
 "Language-Team:  <fi@li.org>\n"
@@ -825,7 +825,7 @@ msgstr "EOS Digital Rebel XTi / 400D / Kiss Digital X"
 #: src/nikonmn.cpp:245 src/nikonmn.cpp:310 src/nikonmn.cpp:464
 #: src/nikonmn.cpp:485 src/nikonmn.cpp:494 src/nikonmn.cpp:540
 #: src/nikonmn.cpp:551 src/nikonmn.cpp:591 src/nikonmn.cpp:594
-#: src/nikonmn.cpp:597 src/nikonmn.cpp:726 src/nikonmn.cpp:1369
+#: src/nikonmn.cpp:597 src/nikonmn.cpp:726 src/nikonmn.cpp:1478
 #: src/olympusmn.cpp:182 src/olympusmn.cpp:188 src/olympusmn.cpp:191
 #: src/olympusmn.cpp:233 src/olympusmn.cpp:236 src/olympusmn.cpp:263
 #: src/olympusmn.cpp:266 src/olympusmn.cpp:272 src/olympusmn.cpp:281
@@ -4928,8 +4928,8 @@ msgstr ""
 msgid "Single area (wide)"
 msgstr ""
 
-#: src/nikonmn.cpp:98
-msgid "Dynamic area (wide"
+#: src/nikonmn.cpp:98 src/nikonmn.cpp:796
+msgid "Dynamic area (wide)"
 msgstr ""
 
 #: src/nikonmn.cpp:111 src/pentaxmn.cpp:193
@@ -5653,10 +5653,6 @@ msgstr ""
 
 #: src/nikonmn.cpp:794
 msgid "Group dynamic-AF"
-msgstr ""
-
-#: src/nikonmn.cpp:796
-msgid "Dynamic area (wide)"
 msgstr ""
 
 #: src/nikonmn.cpp:817 src/tags.cpp:192
@@ -11750,7 +11746,7 @@ msgstr ""
 
 #: src/properties.cpp:563
 msgid ""
-"GPS tag 5, 0x5. Indicates whether the altitude is above or below sea level."
+"GPS tag 5, 0x05. Indicates whether the altitude is above or below sea level."
 msgstr ""
 
 #: src/properties.cpp:564 src/tags.cpp:1464
@@ -11845,7 +11841,7 @@ msgid "GPS Image Direction Reference"
 msgstr ""
 
 #: src/properties.cpp:579
-msgid "GPS tag 16, 0x10. Reference for movement direction."
+msgid "GPS tag 16, 0x10. Reference for image direction."
 msgstr ""
 
 #: src/properties.cpp:580 src/tags.cpp:1512
