@@ -106,7 +106,7 @@ namespace Exiv2 {
         std::cerr << "Photoshop::locateIrb: ";
 #endif
         // Data should follow Photoshop format, if not exit
-        while (   position <= sizePsData - 14
+        while (   position <= sizePsData - 12
                && memcmp(pPsData + position, Photoshop::bimId_, 4) == 0) {
             const byte *hrd = pPsData + position;
             position += 4;
@@ -373,10 +373,10 @@ namespace Exiv2 {
                                                         &record,
                                                         &sizeHdr,
                                                         &sizeIptc)) {
-                    if (sizeIptc) {
 #ifdef DEBUG
-                        std::cerr << "Found IPTC IRB, size = " << sizeIptc << "\n";
+                    std::cerr << "Found IPTC IRB, size = " << sizeIptc << "\n";
 #endif
+                    if (sizeIptc) {
                         append(iptcBlob, record + sizeHdr, sizeIptc);
                     }
                     pCur = record + sizeHdr + sizeIptc;
