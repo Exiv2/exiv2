@@ -284,6 +284,7 @@ namespace Exiv2 {
         Blob iptcBlob;
         bool foundPsData = false;
         bool foundExifData = false;
+        bool foundXmpData = false;
 
         // Read section marker
         int marker = advanceToMarker();
@@ -328,7 +329,8 @@ namespace Exiv2 {
                 --search;
                 foundExifData = true;
             }
-            else if (marker == app1_ && memcmp(buf.pData_ + 2, xmpId_, 29) == 0) {
+            else if (   !foundXmpData
+                     && marker == app1_ && memcmp(buf.pData_ + 2, xmpId_, 29) == 0) {
                 if (size < 31) {
                     rc = 6;
                     break;
@@ -345,6 +347,7 @@ namespace Exiv2 {
 #endif
                 }
                 --search;
+                foundXmpData = true;
             }
             else if (   marker == app13_
                      && memcmp(buf.pData_ + 2, Photoshop::ps3Id_, 14) == 0) {
@@ -526,7 +529,8 @@ namespace Exiv2 {
                 io_->read(rawExif.pData_, rawExif.size_);
                 if (io_->error() || io_->eof()) throw Error(22);
             }
-            else if (marker == app1_ && memcmp(buf.pData_ + 2, xmpId_, 29) == 0) {
+            else if (   skipApp1Xmp == -1
+                     && marker == app1_ && memcmp(buf.pData_ + 2, xmpId_, 29) == 0) {
                 if (size < 31) throw Error(22);
                 skipApp1Xmp = count;
                 ++search;
