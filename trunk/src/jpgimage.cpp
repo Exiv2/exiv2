@@ -210,15 +210,23 @@ namespace Exiv2 {
             // Data is padded to be even (but not included in size)
             if (rawIptc.size_ & 1) psBlob.push_back(0x00);
         }
-        // Write existing stuff after record, data is rounded to be even.
-        const uint32_t sizeOldData = sizeHdr + sizeIptc + (sizeIptc & 1);
-        // Note: Because of the rounding, sizeFront + sizeOldData can be
-        // _greater_ than sizePsData by 1 (not just equal), if the original
-        // data was not padded.
-        if (static_cast<uint32_t>(sizePsData) > sizeFront + sizeOldData) {
-            append(psBlob, record + sizeOldData,
-                   sizePsData - sizeFront - sizeOldData);
+        // Write existing stuff after record,
+        // skip the current and all remaining IPTC blocks
+        long pos = sizeFront;
+        while (0 == Photoshop::locateIptcIrb(pPsData + pos, sizePsData - pos,
+                                             &record, &sizeHdr, &sizeIptc)) {
+            const long newPos = static_cast<long>(record - pPsData);
+            // Copy data up to the IPTC IRB
+            if (newPos > pos) {
+                append(psBlob, pPsData + pos, newPos - pos);
+            }
+            // Skip the IPTC IRB
+            pos = newPos + sizeHdr + sizeIptc + (sizeIptc & 1);
         }
+        if (pos < sizePsData) {
+            append(psBlob, pPsData + pos, sizePsData - pos);
+        }
+        // Data is rounded to be even
         if (psBlob.size() > 0) rc = DataBuf(&psBlob[0], static_cast<long>(psBlob.size()));
 #ifdef DEBUG
         std::cerr << "IRB block at the end of Photoshop::setIptcIrb\n";
