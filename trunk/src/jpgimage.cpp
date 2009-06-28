@@ -87,6 +87,23 @@ namespace Exiv2 {
     const char     Photoshop::bimId_[] = "8BIM";
     const uint16_t Photoshop::iptc_    = 0x0404;
 
+    bool Photoshop::valid(const byte* pPsData,
+                          long        sizePsData)
+    {
+        const byte *record = 0;
+        uint32_t sizeIptc = 0;
+        uint32_t sizeHdr = 0;
+        const byte* pCur = pPsData;
+        const byte* pEnd = pPsData + sizePsData;
+        int ret = 0;
+        while (pCur < pEnd
+               && 0 == (ret = Photoshop::locateIptcIrb(pCur, static_cast<long>(pEnd - pCur),
+                                                       &record, &sizeHdr, &sizeIptc))) {
+            pCur = record + sizeHdr + sizeIptc + (sizeIptc & 1);
+        }
+        return ret >= 0;
+    }
+
     // Todo: Generalised from JpegBase::locateIptcData without really understanding
     //       the format (in particular the header). So it remains to be confirmed
     //       if this also makes sense for psTag != Photoshop::iptc
@@ -121,8 +138,8 @@ namespace Exiv2 {
             position += psSize;
             if (position + 4 > sizePsData) {
 #ifndef SUPPRESS_WARNINGS
-                std::cerr << "Error: "
-                          << "Invalid Photoshop IRB\n";
+                std::cerr << "Warning: "
+                          << "Invalid or extended Photoshop IRB\n";
 #endif
                 return -2;
             }
@@ -130,9 +147,9 @@ namespace Exiv2 {
             position += 4;
             if (dataSize > static_cast<uint32_t>(sizePsData - position)) {
 #ifndef SUPPRESS_WARNINGS
-                std::cerr << "Error: "
+                std::cerr << "Warning: "
                           << "Invalid Photoshop IRB data size "
-                          << dataSize << "\n";
+                          << dataSize << " or extended Photoshop IRB\n";
 #endif
                 return -2;
             }
