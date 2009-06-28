@@ -313,8 +313,8 @@ namespace Exiv2 {
         const long bufMinSize = 36;
         long bufRead = 0;
         DataBuf buf(bufMinSize);
-        Blob iptcBlob;
-        bool foundPsData = false;
+        Blob psBlob;
+        bool foundCompletePsData = false;
         bool foundExifData = false;
         bool foundXmpData = false;
 
@@ -329,15 +329,6 @@ namespace Exiv2 {
             if (io_->error()) throw Error(14);
             if (bufRead < 2) throw Error(15);
             uint16_t size = getUShort(buf.pData_, bigEndian);
-
-            if (foundPsData && marker != app13_) {
-                // For IPTC, decrement search only after all app13 segments are
-                // loaded, assuming they all appear in sequence. But decode IPTC
-                // data after the loop, in case an app13 is the last segment
-                // before sos or eoi.
-                foundPsData = false;
-                if (--search == 0) break;
-            }
 
             if (   !foundExifData
                 && marker == app1_ && memcmp(buf.pData_ + 2, exifId_, 6) == 0) {
@@ -381,8 +372,8 @@ namespace Exiv2 {
                 --search;
                 foundXmpData = true;
             }
-            else if (   marker == app13_
-                     && memcmp(buf.pData_ + 2, Photoshop::ps3Id_, 14) == 0) {
+            else if (   !foundCompletePsData
+                     && marker == app13_ && memcmp(buf.pData_ + 2, Photoshop::ps3Id_, 14) == 0) {
                 if (size < 16) {
                     rc = 2;
                     break;
@@ -392,32 +383,17 @@ namespace Exiv2 {
                 DataBuf psData(size - 16);
                 io_->read(psData.pData_, psData.size_);
                 if (io_->error() || io_->eof()) throw Error(14);
-                const byte *record = 0;
-                uint32_t sizeIptc = 0;
-                uint32_t sizeHdr = 0;
 #ifdef DEBUG
                 std::cerr << "Found app13 segment, size = " << size << "\n";
                 //hexdump(std::cerr, psData.pData_, psData.size_);
 #endif
-                // Find actual IPTC data within the APP13 segment
-                const byte* pEnd = psData.pData_ + psData.size_;
-                const byte* pCur = psData.pData_;
-                while (   pCur < pEnd
-                       && 0 == Photoshop::locateIptcIrb(pCur,
-                                                        static_cast<long>(pEnd - pCur),
-                                                        &record,
-                                                        &sizeHdr,
-                                                        &sizeIptc)) {
-#ifdef DEBUG
-                    std::cerr << "Found IPTC IRB, size = " << sizeIptc << "\n";
-#endif
-                    if (sizeIptc) {
-                        append(iptcBlob, record + sizeHdr, sizeIptc);
-                    }
-                    pCur = record + sizeHdr + sizeIptc;
-                    pCur += (sizeIptc & 1);
+                // Append to psBlob
+                append(psBlob, psData.pData_, psData.size_);
+                // Check whether psBlob is complete
+                if (Photoshop::valid(&psBlob[0], psBlob.size())) {
+                    --search;
+                    foundCompletePsData = true;
                 }
-                foundPsData = true;
             }
             else if (marker == com_ && comment_.empty())
             {
@@ -472,6 +448,24 @@ namespace Exiv2 {
             }
         } // while there are segments to process
 
+        // Find actual IPTC data within the psBlob
+        Blob iptcBlob;
+        const byte *record = 0;
+        uint32_t sizeIptc = 0;
+        uint32_t sizeHdr = 0;
+        const byte* pCur = &psBlob[0];
+        const byte* pEnd = pCur + psBlob.size();
+        while (   pCur < pEnd
+               && 0 == Photoshop::locateIptcIrb(pCur, static_cast<long>(pEnd - pCur),
+                                                &record, &sizeHdr, &sizeIptc)) {
+#ifdef DEBUG
+            std::cerr << "Found IPTC IRB, size = " << sizeIptc << "\n";
+#endif
+            if (sizeIptc) {
+                append(iptcBlob, record + sizeHdr, sizeIptc);
+            }
+            pCur = record + sizeHdr + sizeIptc + (sizeIptc & 1);
+        }
         if (   iptcBlob.size() > 0
             && IptcParser::decode(iptcData_,
                                   &iptcBlob[0],
@@ -524,9 +518,10 @@ namespace Exiv2 {
         int comPos = 0;
         int skipApp1Exif = -1;
         int skipApp1Xmp = -1;
-        int skipApp13Ps3 = -1;
+        bool foundCompletePsData = false;
+        std::vector<int> skipApp13Ps3;
         int skipCom = -1;
-        DataBuf psData;
+        Blob psBlob;
         DataBuf rawExif;
 
         // Write image header
@@ -568,18 +563,24 @@ namespace Exiv2 {
                 ++search;
                 if (io_->seek(size-bufRead, BasicIo::cur)) throw Error(22);
             }
-            else if (marker == app13_ && memcmp(buf.pData_ + 2, Photoshop::ps3Id_, 14) == 0) {
+            else if (   !foundCompletePsData
+                     && marker == app13_ && memcmp(buf.pData_ + 2, Photoshop::ps3Id_, 14) == 0) {
 #ifdef DEBUG
                 std::cerr << "Found APP13 Photoshop PS3 segment\n";
 #endif
                 if (size < 16) throw Error(22);
-                skipApp13Ps3 = count;
-                ++search;
+                skipApp13Ps3.push_back(count);
                 io_->seek(16 - bufRead, BasicIo::cur);
-                psData.alloc(size - 16);
                 // Load PS data now to allow reinsertion at any point
+                DataBuf psData(size - 16);
                 io_->read(psData.pData_, size - 16);
                 if (io_->error() || io_->eof()) throw Error(20);
+                // Append to psBlob
+                append(psBlob, psData.pData_, psData.size_);
+                // Check whether psBlob is complete
+                if (Photoshop::valid(&psBlob[0], psBlob.size())) {
+                    foundCompletePsData = true;
+                }
             }
             else if (marker == com_ && skipCom == -1) {
                 if (size < 2) throw Error(22);
@@ -619,6 +620,10 @@ namespace Exiv2 {
             if (marker < 0) throw Error(22);
             ++count;
         }
+
+        if (!foundCompletePsData && skipApp13Ps3.size() > 0) throw Error(22);
+        search += skipApp13Ps3.size();
+
         if (comPos == 0) {
             if (marker == eoi_) comPos = count;
             else comPos = insertPos;
@@ -627,7 +632,7 @@ namespace Exiv2 {
         if (exifData_.count() > 0) ++search;
         if (writeXmpFromPacket() == false && xmpData_.count() > 0) ++search;
         if (writeXmpFromPacket() == true && xmpPacket_.size() > 0) ++search;
-        if (iptcData_.count() > 0) ++search;
+        if (foundCompletePsData || iptcData_.count() > 0) ++search;
         if (!comment_.empty()) ++search;
 
         io_->seek(seek, BasicIo::beg);
@@ -709,31 +714,44 @@ namespace Exiv2 {
                     if (outIo.error()) throw Error(21);
                     --search;
                 }
-                if (psData.size_ > 0 || iptcData_.count() > 0) {
+                if (foundCompletePsData || iptcData_.count() > 0) {
                     // Set the new IPTC IRB, keeps existing IRBs but removes the
                     // IPTC block if there is no new IPTC data to write
-                    DataBuf newPsData = Photoshop::setIptcIrb(psData.pData_,
-                                                              psData.size_,
+                    DataBuf newPsData = Photoshop::setIptcIrb(&psBlob[0],
+                                                              psBlob.size(),
                                                               iptcData_);
-                    if (newPsData.size_ > 0) {
-                        // Write APP13 marker, new size, and ps3Id
+                    const long maxChunkSize = 0xffff - 16;
+                    const byte* chunkStart = newPsData.pData_;
+                    const byte* chunkEnd = chunkStart + newPsData.size_;
+                    while (chunkStart < chunkEnd) {
+                        // Determine size of next chunk
+                        long chunkSize = static_cast<long>(chunkEnd - chunkStart);
+                        if (chunkSize > maxChunkSize) {
+                            chunkSize = maxChunkSize;
+                            // Don't break at a valid IRB boundary
+                            const long writtenSize = static_cast<long>(chunkStart - newPsData.pData_);
+                            if (Photoshop::valid(newPsData.pData_, writtenSize + chunkSize)) {
+                                // Since an IRB has minimum size 12,
+                                // (chunkSize - 8) can't be also a IRB boundary
+                                chunkSize -= 8;
+                            }
+                        }
+
+                        // Write APP13 marker, chunk size, and ps3Id
                         tmpBuf[0] = 0xff;
                         tmpBuf[1] = app13_;
-
-                        if (newPsData.size_ + 16 > 0xffff) throw Error(37, "IPTC");
-                        us2Data(tmpBuf + 2, static_cast<uint16_t>(newPsData.size_ + 16), bigEndian);
+                        us2Data(tmpBuf + 2, static_cast<uint16_t>(chunkSize + 16), bigEndian);
                         std::memcpy(tmpBuf + 4, Photoshop::ps3Id_, 14);
                         if (outIo.write(tmpBuf, 18) != 18) throw Error(21);
                         if (outIo.error()) throw Error(21);
 
-                        // Write new Photoshop IRB data buffer
-                        if (   outIo.write(newPsData.pData_, newPsData.size_)
-                            != newPsData.size_) throw Error(21);
+                        // Write next chunk of the Photoshop IRB data buffer
+                        if (outIo.write(chunkStart, chunkSize) != chunkSize) throw Error(21);
                         if (outIo.error()) throw Error(21);
+
+                        chunkStart += chunkSize;
                     }
-                    if (iptcData_.count() > 0) {
-                        --search;
-                    }
+                    --search;
                 }
             }
             if (comPos == count) {
@@ -760,7 +778,7 @@ namespace Exiv2 {
             }
             else if (   skipApp1Exif == count
                      || skipApp1Xmp  == count
-                     || skipApp13Ps3 == count
+                     || find(skipApp13Ps3.begin(), skipApp13Ps3.end(), count) != skipApp13Ps3.end()
                      || skipCom      == count) {
                 --search;
                 io_->seek(size-bufRead, BasicIo::cur);

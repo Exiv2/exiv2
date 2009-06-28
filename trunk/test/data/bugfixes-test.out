@@ -262,7 +262,6 @@ IPTC fields: 144775
 IRB buffer : 144788
 Comparing IPTC and IRB size... ok
 Comparing IPTC and IRB data... ok
-Caught Exiv2 exception 'Size of IPTC JPEG segment is larger than 65535 bytes'
 ------> Bug 495 <-------
 Error: Directory Iop with 768 entries considered invalid; not read.
 Error: Directory Thumbnail: Next pointer is out of bounds; ignored.
