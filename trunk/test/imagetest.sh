@@ -82,13 +82,28 @@ datapath="../data"
 
 test_files="table.jpg smiley1.jpg smiley2.jpg"
 
+erase_test_files="glider.exv \
+                  iptc-noAPP13.jpg \
+                  iptc-psAPP13-noIPTC.jpg \
+                  iptc-psAPP13-noIPTC-psAPP13-wIPTC.jpg \
+                  iptc-psAPP13s-noIPTC-psAPP13s-wIPTC.jpg \
+                  iptc-psAPP13s-wIPTC-psAPP13s-noIPTC.jpg \
+                  iptc-psAPP13s-wIPTCs-psAPP13s-wIPTCs.jpg \
+                  iptc-psAPP13-wIPTC1-psAPP13-wIPTC2.jpg \
+                  iptc-psAPP13-wIPTCbeg.jpg \
+                  iptc-psAPP13-wIPTCempty.jpg \
+                  iptc-psAPP13-wIPTCempty-psAPP13-wIPTC.jpg \
+                  iptc-psAPP13-wIPTCend.jpg \
+                  iptc-psAPP13-wIPTCmid1-wIPTCempty-wIPTCmid2.jpg \
+                  iptc-psAPP13-wIPTCmid.jpg \
+                  iptc-psAPP13-wIPTC-psAPP13-noIPTC.jpg"
+
 errors=0
 cd ./tmp
 echo
 
 echo -n "Erase all tests"
-for i in $test_files; do eraseTest $i; done
-eraseTest "glider.exv" #extra test
+for i in $test_files $erase_test_files; do eraseTest $i; done
 
 echo
 echo -n "Copy all tests"
