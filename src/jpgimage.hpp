@@ -64,6 +64,16 @@ namespace Exiv2 {
         static const uint16_t iptc_;    //!< %Photoshop IPTC marker
 
         /*!
+          @brief Validates all IRBs
+
+          @param pPsData        Existing IRB buffer
+          @param sizePsData     Size of the IRB buffer, may be 0
+          @return true  if all IRBs are valid;<BR>
+                  false otherwise
+        */
+        static bool valid(const byte* pPsData,
+                          long        sizePsData);
+        /*!
           @brief Locates the data for a %Photoshop tag in a %Photoshop formated memory
               buffer. Operates on raw data to simplify reuse.
           @param pPsData Pointer to buffer containing entire payload of
