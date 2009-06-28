@@ -175,6 +175,13 @@ namespace Exiv2 {
 #ifdef DEBUG
         std::cerr << "pPsData doesn't start with '8BIM'\n";
 #endif
+        if (position < sizePsData) {
+#ifndef SUPPRESS_WARNINGS
+            std::cerr << "Warning: "
+                      << "Invalid or extended Photoshop IRB\n";
+#endif
+            return -2;
+        }
         return 3;
     } // Photoshop::locateIrb
 
