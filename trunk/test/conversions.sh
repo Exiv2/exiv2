@@ -177,7 +177,7 @@ $exiv2 -px t.jpg
 $exiv2 -v -PEkycv t.jpg
 $exiv2 -pi t.jpg
 
-# 10) Convert a few other tags of interest from Exif/Iptc to XMP
+# 10) Convert a few other tags of interest from Exif/IPTC to XMP
 echo
 echo Testcase 14
 echo ===========
@@ -208,7 +208,7 @@ echo ===========
 \cp $IMG v.jpg
 \cp u.xmp v.xmp
 $exiv2 -M'set Xmp.tiff.DateTime 2003-12-14T12:01:44Z' v.xmp
-$exiv2 -iX v.jpg
+TZ=GMT-8 $exiv2 -iX v.jpg
 $exiv2 -px v.jpg
 $exiv2 -PEkycv v.jpg
 $exiv2 -pi v.jpg
