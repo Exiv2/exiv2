@@ -141,6 +141,24 @@ namespace Exiv2 {
     }; // struct TagDetailsBitmask
 
     /*!
+      @brief Helper structure for lookup tables for translations of controlled
+             vocabulary strings to their descriptions.
+     */
+    struct EXIV2API TagVocabulary {
+        const char* voc_;                       //!< Vocabulary string
+        const char* label_;                     //!< Description of the vocabulary string
+
+        /*!
+          @brief Comparison operator for use with the find template
+
+          Compare vocabulary strings like "PR-NON" with keys like
+          "http://ns.useplus.org/ldf/vocab/PR-NON" and return true if the vocabulary
+          string matches the end of the key.
+         */
+        bool operator==(const std::string& key) const;
+    }; // struct TagDetails
+
+    /*!
       @brief Generic pretty-print function to translate a long value to a description
              by looking up a reference table.
      */
@@ -192,6 +210,26 @@ namespace Exiv2 {
 
 //! Shortcut for the printTagBitmask template which requires typing the array name only once.
 #define EXV_PRINT_TAG_BITMASK(array) printTagBitmask<EXV_COUNTOF(array), array>
+
+    /*!
+      @brief Generic pretty-print function to translate a controlled vocabulary value (string)
+             to a description by looking up a reference table.
+     */
+    template <int N, const TagVocabulary (&array)[N]>
+    std::ostream& printTagVocabulary(std::ostream& os, const Value& value, const ExifData*)
+    {
+        const TagVocabulary* td = find(array, value.toString());
+        if (td) {
+            os << exvGettext(td->label_);
+        }
+        else {
+            os << "(" << value << ")";
+        }
+        return os;
+    }
+
+//! Shortcut for the printTagVocabulary template which requires typing the array name only once.
+#define EXV_PRINT_VOCABULARY(array) printTagVocabulary<EXV_COUNTOF(array), array>
 
     //! Exif tag reference, implemented as a static class.
     class EXIV2API ExifTags {

@@ -72,7 +72,9 @@ SCHEMA = xmp_dc \
          xmp_aux \
          xmp_iptc \
          xmp_MicrosoftPhoto \
-         xmp_digiKam
+         xmp_digiKam \
+         xmp_iptcExt \
+         xmp_plus
 
 TAGLIST = ../../src/taglist
 

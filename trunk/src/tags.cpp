@@ -64,6 +64,12 @@ namespace {
 // class member definitions
 namespace Exiv2 {
 
+    bool TagVocabulary::operator==(const std::string& key) const
+    {
+        if (strlen(voc_) > key.size()) return false;
+        return 0 == strcmp(voc_, key.c_str() + key.size() - strlen(voc_));
+    }
+
     //! @cond IGNORE
     IfdInfo::Item::Item(const std::string& item)
     {

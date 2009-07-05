@@ -378,6 +378,8 @@ namespace Exiv2 {
             initialized_ = SXMPMeta::Initialize();
             SXMPMeta::RegisterNamespace("http://www.digikam.org/ns/1.0/", "digiKam", 0);
             SXMPMeta::RegisterNamespace("http://ns.microsoft.com/photo/1.0/", "MicrosoftPhoto", 0);
+            SXMPMeta::RegisterNamespace("http://iptc.org/std/Iptc4xmpExt/2008-02-29/", "iptcExt", 0);
+            SXMPMeta::RegisterNamespace("http://ns.useplus.org/ldf/xmp/1.0/", "plus", 0);
 #else
             initialized_ = true;
 #endif

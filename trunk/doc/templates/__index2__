@@ -35,6 +35,8 @@
     <li><a href="tags-xmp-exif.html"><span>exif</span></a></li>
     <li><a href="tags-xmp-aux.html"><span>aux</span></a></li>
     <li><a href="tags-xmp-iptc.html"><span>Iptc4xmpCore</span></a></li>
+    <li><a href="tags-xmp-iptcExt.html"><span>Iptc4xmpExt</span></a></li>
+    <li><a href="tags-xmp-plus.html"><span>plus</span></a></li>
     <li><a href="tags-xmp-digiKam.html"><span>digiKam</span></a></li>
     <li><a href="tags-xmp-MicrosoftPhoto.html"><span>MicrosoftPhoto</span></a></li>
   </ul>
