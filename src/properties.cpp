@@ -84,9 +84,11 @@ namespace Exiv2 {
     extern const XmpPropertyInfo xmpExifInfo[];
     extern const XmpPropertyInfo xmpAuxInfo[];
     extern const XmpPropertyInfo xmpIptcInfo[];
+    extern const XmpPropertyInfo xmpIptcExtInfo[];
+    extern const XmpPropertyInfo xmpPlusInfo[];
 
     extern const XmpNsInfo xmpNsInfo[] = {
-        // Schemas
+        // Schemas   -   NOTE: Schemas which the XMP-SDK doesn't know must be registered in XmpParser::initialize - Todo: Automate this
         { "http://purl.org/dc/elements/1.1/",             "dc",             xmpDcInfo,        N_("Dublin Core schema")                        },
         { "http://www.digikam.org/ns/1.0/",               "digiKam",        xmpDigikamInfo,   N_("digiKam Photo Management schema")           },
         { "http://ns.adobe.com/xap/1.0/",                 "xmp",            xmpXmpInfo,       N_("XMP Basic schema")                          },
@@ -104,6 +106,9 @@ namespace Exiv2 {
         { "http://ns.adobe.com/exif/1.0/aux/",            "aux",            xmpAuxInfo,       N_("Exif schema for Additional Exif Properties")},
         { "http://iptc.org/std/Iptc4xmpCore/1.0/xmlns/",  "iptc",           xmpIptcInfo,      N_("IPTC Core schema")                          },
                                                                                              // NOTE: 'Iptc4xmpCore' is just too long
+        { "http://iptc.org/std/Iptc4xmpExt/2008-02-29/",  "iptcExt",        xmpIptcExtInfo,   N_("IPTC Extension schema")                     },
+                                                                                             // NOTE: It really should be 'Iptc4xmpExt' but following example above
+        { "http://ns.useplus.org/ldf/xmp/1.0/",           "plus",           xmpPlusInfo,      N_("PLUS License Data Format schema")           },
 
         // Structures
         { "http://ns.adobe.com/xap/1.0/g/",                   "xapG",    0, N_("Colorant structure")           },
@@ -384,8 +389,8 @@ namespace Exiv2 {
         { 0, 0, 0, invalidTypeId, xmpInternal, 0 }
     };
 
-    //! crs:CropUnits
-    extern const TagDetails xmpCrsCropUnits[] = {
+    //! XMP crs:CropUnits
+    extern const TagDetails crsCropUnits[] = {
         { 0, N_("pixels") },
         { 1, N_("inches") },
         { 2, N_("cm")     }
@@ -501,10 +506,10 @@ namespace Exiv2 {
         { "PixelYDimension",          N_("Pixel Y Dimension"),                   "Integer",                      xmpText, xmpInternal, N_("EXIF tag 40963, 0xA003. Valid image height, in pixels.") },
         { "UserComment",              N_("User Comment"),                        "Lang Alt",                     langAlt, xmpExternal, N_("EXIF tag 37510, 0x9286. Comments from user.") },
         { "RelatedSoundFile",         N_("Related Sound File"),                  "Text",                         xmpText, xmpInternal, N_("EXIF tag 40964, 0xA004. An \"8.3\" file name for the related sound file.") },
-        { "DateTimeOriginal",         N_("Date and Time Original"),                  "Date",                         xmpText, xmpInternal, N_("EXIF tags 36867, 0x9003 (primary) and 37521, 0x9291 (subseconds). "
+        { "DateTimeOriginal",         N_("Date and Time Original"),              "Date",                         xmpText, xmpInternal, N_("EXIF tags 36867, 0x9003 (primary) and 37521, 0x9291 (subseconds). "
                                                                                                                                           "Date and time when original image was generated, in ISO 8601 format. "
                                                                                                                                           "Includes the EXIF SubSecTimeOriginal data.") },
-        { "DateTimeDigitized",        N_("Date and Time Digitized"),                 "Date",                         xmpText, xmpInternal, N_("EXIF tag 36868, 0x9004 (primary) and 37522, 0x9292 (subseconds). Date and time when "
+        { "DateTimeDigitized",        N_("Date and Time Digitized"),             "Date",                         xmpText, xmpInternal, N_("EXIF tag 36868, 0x9004 (primary) and 37522, 0x9292 (subseconds). Date and time when "
                                                                                                                                           "image was stored as digital data, can be the same as DateTimeOriginal if originally "
                                                                                                                                           "stored in digital form. Stored in ISO 8601 format. Includes the EXIF "
                                                                                                                                           "SubSecTimeDigitized data.") },
@@ -630,8 +635,92 @@ namespace Exiv2 {
         { 0, 0, 0, invalidTypeId, xmpInternal, 0 }
     };
 
+    extern const XmpPropertyInfo xmpIptcExtInfo[] = {
+        { "AddlModelInfo",           N_("Additional model info"),           "Text",                       xmpText, xmpExternal, N_("Information about the ethnicity and other facts of the model(s) in a model-released image.") },
+        { "OrganisationInImageCode", N_("Code of featured Organisation"),   "bag Text",                   xmpBag,  xmpExternal, N_("Code from controlled vocabulary for identyfing the organisation or company which is featured in the image.") },
+        { "CVterm",                  N_("Controlled Vocabulary Term"),      "bag URI",                    xmpBag,  xmpExternal, N_("A term to describe the content of the image by a value from a Controlled Vocabulary.") },
+        { "ModelAge",                N_("Model age"),                       "bag Integer",                xmpBag,  xmpExternal, N_("Age of the human model(s) at the time this image was taken in a model released image.") },
+        { "OrganisationInImageName", N_("Name of featured Organisation"),   "bag Text",                   xmpBag,  xmpExternal, N_("Name of the organisation or company which is featured in the image.") },
+        { "PersonInImage",           N_("Person shown"),                    "bag Text",                   xmpBag,  xmpExternal, N_("Name of a person shown in the image.") },
+        { "DigImageGUID",            N_("Digital Image Identifier"),        "Text",                       xmpText, xmpExternal, N_("Globally unique identifier for this digital image. It is created and applied by the creator of the digital image at the time of its creation. this value shall not be changed after that time.") },
+        { "DigitalSourcefileType",   N_("Physical type of original photo"), "URI",                        xmpText, xmpExternal, N_("The type of the source digital file.") },
+        { "Event",                   N_("Event"),                           "Lang Alt",                   langAlt, xmpExternal, N_("Names or describes the specific event at which the photo was taken.") },
+        { "MaxAvailHeight",          N_("Maximum available height"),        "Integer",                    xmpText, xmpExternal, N_("The maximum available height in pixels of the original photo from which this photo has been derived by downsizing.") },
+        { "MaxAvailWidth",           N_("Maximum available width"),         "Integer",                    xmpText, xmpExternal, N_("The maximum available width in pixels of the original photo from which this photo has been derived by downsizing.") },
+        { "RegistryId",              N_("Registry Entry"),                  "bag RegistryEntryDetails",   xmpBag,  xmpExternal, N_("Both a Registry Item Id and a Registry Organisation Id to record any registration of this digital image with a registry.") },
+        { "RegItemId",               N_("Registry Entry-Item Identifier"),  "Text",                       xmpText, xmpExternal, N_("A unique identifier created by a registry and applied by the creator of the digital image. This value shall not be changed after being applied. This identifier is linked to a corresponding Registry Organisation Identifier.") },
+        { "RegOrgId",                N_("Registry Entry-Organisation Identifier"), "Text",                xmpText, xmpExternal, N_("An identifier for the registry which issued the corresponding Registry Image Id.") },
+        { "IptcLastEdited",          N_("IPTC Fields Last Edited"),         "Date",                       xmpText, xmpExternal, N_("The date and optionally time when any of the IPTC photo metadata fields has been last edited.") },
+        { "LocationShown",           N_("Location shown"),                  "bag LocationDetails",        xmpBag,  xmpExternal, N_("A location shown in the image.") },
+        { "LocationCreated",         N_("Location Created"),                "bag LocationDetails",        xmpBag,  xmpExternal, N_("The location the photo was taken.") },
+        { "City",                    N_("Location-City"),                   "Text",                       xmpText, xmpExternal, N_("Name of the city of a location.") },
+        { "CountryCode",             N_("Location-Country ISO-Code"),       "Text",                       xmpText, xmpExternal, N_("The ISO code of a country of a location.") },
+        { "CountryName",             N_("Location-Country Name"),           "Text",                       xmpText, xmpExternal, N_("The name of a country of a location.") },
+        { "ProvinceState",           N_("Location-Province/State"),         "Text",                       xmpText, xmpExternal, N_("The name of a subregion of a country - a province or state - of a location.") },
+        { "Sublocation",             N_("Location-Sublocation"),            "Text",                       xmpText, xmpExternal, N_("Name of a sublocation. This sublocation name could either be the name of a sublocation to a city or the name of a well known location or (natural) monument outside a city.") },
+        { "WorldRegion",             N_("Location-World Region"),           "Text",                       xmpText, xmpExternal, N_("The name of a world region of a location.") },
+        { "ArtworkOrObject",         N_("Artwork or object in the image"),  "bag ArtworkOrObjectDetails", xmpBag,  xmpExternal, N_("A set of metadata about artwork or an object in the image.") },
+        { "AOCopyrightNotice",       N_("Artwork or object-Copyright notice"), "Text",                    xmpText, xmpExternal, N_("Contains any necessary copyright notice for claiming the intellectual property for artwork or an object in the image and should identify the current owner of the copyright of this work with associated intellectual property rights.") },
+        { "AOCreator",               N_("Artwork or object-Creator"),       "seq ProperName",             xmpSeq,  xmpExternal, N_("Contains the name of the artist who has created artwork or an object in the image. In cases where the artist could or should not be identified the name of a company or organisation may be appropriate.") },
+        { "AODateCreated",           N_("Artwork or object-Date Created"),  "Date",                       xmpText, xmpExternal, N_("Designates the date and optionally the time the artwork or object in the image was created. This relates to artwork or objects with associated intellectual property rights.") },
+        { "AOSource",                N_("Artwork or object-Source"),        "Text",                       xmpText, xmpExternal, N_("The organisation or body holding and registering the artwork or object in the image for inventory purposes.") },
+        { "AOSourceInvNo",           N_("Artwork or object-Source inventory number"), "Text",             xmpText, xmpExternal, N_("The inventory number issued by the organisation or body holding and registering the artwork or object in the image.") },
+        { "AOTitle",                 N_("Artwork or object-Title"),         "Lang Alt",                   langAlt, xmpExternal, N_("A reference for the artwork or object in the image.") },
+        // End of list marker
+        { 0, 0, 0, invalidTypeId, xmpInternal, 0 }
+    };
+
+    extern const XmpPropertyInfo xmpPlusInfo[] = {
+        // Part of PLUS Version 1.2.0
+        { "ImageSupplier",           N_("Image Supplier"),              "seq ImageSupplierDetail",   xmpSeq,  xmpExternal, N_("Identifies the most recent supplier of the image, who is not necessarily its owner or creator.") },
+        { "Version",                 N_("PLUS version"),                "Text",                      xmpText, xmpExternal, N_("The version number of the PLUS standards in place at the time of the transaction.") },
+        { "CopyrightOwner",          N_("Copyright owner"),             "seq CopyrightOwnerDetail",  xmpSeq,  xmpExternal, N_("Owner or owners of the copyright in the licensed image.") },
+        { "ImageCreator",            N_("Image Creator"),               "seq ImageCreatorDetail",    xmpSeq,  xmpExternal, N_("Creator or creators of the image.") },
+        { "Licensor",                N_("Licensor"),                    "seq LicensorDetail",        xmpSeq,  xmpExternal, N_("A person or company that should be contacted to obtain a license for using the item or who has licensed the item.") },
+        { "MinorModelAgeDisclosure", N_("Minor Model Age Disclosure"),  "URL",                       xmpText, xmpExternal, N_("Age of the youngest model pictured in the image, at the time that the image was made.") },
+        { "ModelReleaseID",          N_("Model Release ID"),            "bag Text",                  xmpBag,  xmpExternal, N_("A PLUS-ID identifying each Model Release.") },
+        { "ModelReleaseStatus",      N_("Model Release Status"),        "URL",                       xmpText, xmpExternal, N_("Summarizes the availability and scope of model releases authorizing usage of the likenesses of persons appearing in the photograph.") },
+        { "PropertyReleaseID",       N_("Property Release ID"),         "bag Text",                  xmpBag,  xmpExternal, N_("A PLUS-ID identifying each Property Release.") },
+        { "PropertyReleaseStatus",   N_("Property Release Status"),     "URL",                       xmpText, xmpExternal, N_("Summarizes the availability and scope of property releases authorizing usage of the properties appearing in the photograph.") },
+        // End of list marker
+        { 0, 0, 0, invalidTypeId, xmpInternal, 0 }
+    };
+
+    //! XMP plus:MinorModelAgeDisclosure
+    extern const TagVocabulary plusMinorModelAgeDisclosure[] = {
+        { "AG-UNK", N_("Age Unknown")     },
+        { "AG-A25", N_("Age 25 or Over")  },
+        { "AG-A24", N_("Age 24")          },
+        { "AG-A23", N_("Age 23")          },
+        { "AG-A22", N_("Age 22")          },
+        { "AG-A21", N_("Age 21")          },
+        { "AG-A20", N_("Age 20")          },
+        { "AG-A19", N_("Age 19")          },
+        { "AG-A18", N_("Age 18")          },
+        { "AG-A17", N_("Age 17")          },
+        { "AG-A16", N_("Age 16")          },
+        { "AG-A15", N_("Age 15")          },
+        { "AG-U14", N_("Age 14 or Under") }
+    };
+
+    //! XMP plus:ModelReleaseStatus
+    extern const TagVocabulary plusModelReleaseStatus[] = {
+        { "MR-NON", N_("None")                                 },
+        { "MR-NAP", N_("Not Applicable")                       },
+        { "MR-UMR", N_("Unlimited Model Releases")             },
+        { "MR-LMR", N_("Limited or Incomplete Model Releases") }
+    };
+
+    //! XMP plus:PropertyReleaseStatus
+    extern const TagVocabulary plusPropertyReleaseStatus[] = {
+        { "PR-NON", N_("None")                                    },
+        { "PR-NAP", N_("Not Applicable")                          },
+        { "PR-UPR", N_("Unlimited Property Releases")             },
+        { "PR-LPR", N_("Limited or Incomplete Property Releases") }
+    };
+
     extern const XmpPrintInfo xmpPrintInfo[] = {
-        {"Xmp.crs.CropUnits",                 EXV_PRINT_TAG(xmpCrsCropUnits)},
+        {"Xmp.crs.CropUnits",                 EXV_PRINT_TAG(crsCropUnits)   },
         {"Xmp.exif.ApertureValue",            print0x9202                   },
         {"Xmp.exif.BrightnessValue",          printFloat                    },
         {"Xmp.exif.ColorSpace",               print0xa001                   },
@@ -677,7 +766,10 @@ namespace Exiv2 {
         {"Xmp.tiff.ResolutionUnit",           printExifUnit                 },
         {"Xmp.tiff.XResolution",              printLong                     },
         {"Xmp.tiff.YCbCrPositioning",         print0x0213                   },
-        {"Xmp.tiff.YResolution",              printLong                     }
+        {"Xmp.tiff.YResolution",              printLong                     },
+        {"Xmp.plus.MinorModelAgeDisclosure",  EXV_PRINT_VOCABULARY(plusMinorModelAgeDisclosure) },
+        {"Xmp.plus.ModelReleaseStatus",       EXV_PRINT_VOCABULARY(plusModelReleaseStatus)      },
+        {"Xmp.plus.PropertyReleaseStatus",    EXV_PRINT_VOCABULARY(plusPropertyReleaseStatus)   }
     };
 
     XmpNsInfo::Ns::Ns(const std::string& ns)
