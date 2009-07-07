@@ -20,7 +20,7 @@
 ///
 /// \c TXMPMeta is the template class providing the core services of the XMP Toolkit. It must be
 /// instantiated with a string class such as \c std::string. Read the Toolkit Overview for
-/// information about the overall architecture of the XMP API, and the documentation for \c XMP.hpp
+/// information about the overall architecture of the XMP API, and the documentation for \c XMPSDK.hpp
 /// for specific instantiation instructions.
 ///
 /// Access these functions through the concrete class, \c SXMPMeta.
@@ -32,7 +32,7 @@
 ///
 /// \c TXMPMeta is the template class providing the core services of the XMP Toolkit. It should be
 /// instantiated with a string class such as \c std::string. Read the Toolkit Overview for
-/// information about the overall architecture of the XMP API, and the documentation for \c XMP.hpp
+/// information about the overall architecture of the XMP API, and the documentation for \c XMPSDK.hpp
 /// for specific instantiation instructions.
 ///
 /// Access these functions through the concrete class, \c SXMPMeta.

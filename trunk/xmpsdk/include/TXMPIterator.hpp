@@ -19,7 +19,7 @@
 /// \brief API for access to the XMP Toolkit iteration services.
 ///
 /// \c TXMPIterator is the template class providing iteration services for the XMP Toolkit. It must
-/// be instantiated with a string class such as \c std::string. See the instructions in XMP.hpp, and
+/// be instantiated with a string class such as \c std::string. See the instructions in XMPSDK.hpp, and
 /// the Overview for a discussion of the overall architecture of the XMP API.
 // =================================================================================================
 
@@ -29,7 +29,7 @@
 ///
 /// \c TXMPIterator provides a uniform means to iterate over the schema and properties within an XMP
 /// object. \c TXMPIterator is a template class which must be instantiated with a string class such
-/// as \c std::string. See the instructions in XMP.hpp, and the Overview for a discussion of the
+/// as \c std::string. See the instructions in XMPSDK.hpp, and the Overview for a discussion of the
 /// overall architecture of the XMP API. Access these functions through the concrete class,
 /// \c SXMPIterator.
 ///

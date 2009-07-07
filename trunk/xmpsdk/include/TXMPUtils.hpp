@@ -19,7 +19,7 @@
 /// \brief API for access to the XMP Toolkit utility services.
 ///
 /// \c TXMPUtils is the template class providing utility services for the XMP Toolkit. It must be
-/// instantiated with a string class such as \c std::string. See the instructions in XMP.hpp, and
+/// instantiated with a string class such as \c std::string. See the instructions in XMPSDK.hpp, and
 /// the Overview for a discussion of the overall architecture of the XMP API.
 // =================================================================================================
 
@@ -28,7 +28,7 @@
 /// @brief API for access to the XMP Toolkit utility services.
 ///
 /// \c TXMPUtils is a template class which must be instantiated with a string class such as
-/// \c std::string. See the instructions in XMP.hpp, and the Overview for a discussion of the overall
+/// \c std::string. See the instructions in XMPSDK.hpp, and the Overview for a discussion of the overall
 /// architecture of the XMP API.
 ///
 /// This class defines helper functions that support the basic metadata manipulation provided by
@@ -320,7 +320,7 @@ public:
 	///
 	///	Strings can be specified as null-terminated UTF-8 (\c #XMP_StringPtr), or as string
 	///	objects (\c tStringObj) of the type declared when instantiating the XMP classes; see
-	///	\c XMP.hpp. Alternate forms of each conversion function allow either type of string.
+	///	\c XMPSDK.hpp. Alternate forms of each conversion function allow either type of string.
 
     // ---------------------------------------------------------------------------------------------
     /// @brief \c ConvertFromBool() converts a Boolean value to a string.
