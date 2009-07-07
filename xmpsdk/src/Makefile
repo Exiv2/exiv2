@@ -55,7 +55,8 @@ include $(top_srcdir)/config/config.mk
 # Source files
 
 # Add library C++ source files to this list
-CCSRC = XMPMeta.cpp            \
+CCSRC = XML_Node.cpp           \
+        XMPMeta.cpp            \
         XMPMeta-GetSet.cpp     \
         XMPMeta-Parse.cpp      \
         XMPMeta-Serialize.cpp  \
