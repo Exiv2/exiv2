@@ -26,6 +26,23 @@
 // requires these to be defined without values, they are only used here to define XMP-specific
 // macros with 0 or 1 values.
 
+/* 20-Oct-07, ahu: Determine the platform, set the above defines accordingly.                     */
+#define _FILE_OFFSET_BITS 64
+#if defined __CYGWIN32__ && !defined __CYGWIN__
+   /* For backwards compatibility with Cygwin b19 and
+      earlier, we define __CYGWIN__ here, so that
+      we can rely on checking just for that macro. */
+# define __CYGWIN__  __CYGWIN32__
+#endif
+#if defined WIN32 && !defined __CYGWIN__
+# define WIN_ENV 1
+/* Todo: How to correctly recognize a Mac platform? */
+#elif defined macintosh || defined MACOS_CLASSIC || defined MACOS_X_UNIX || defined MACOS_X || defined MACOS
+# define MAC_ENV 1
+#else 
+# define UNIX_ENV 1
+#endif
+
 // ! Tempting though it might be to have a standard macro for big or little endian, there seems to
 // ! be no decent way to do that on our own in UNIX. Forcing it on the client isn't acceptable.
 

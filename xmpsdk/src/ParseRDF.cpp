@@ -318,21 +318,6 @@ IsCoreSyntaxTerm ( RDFTermKind term )
 
 }	// IsCoreSyntaxTerm
 
-// -------------------------------------------------------------------------------------------------
-// IsSyntaxTerm
-// ------------
-//
-// 7.2.3 syntaxTerms
-//		coreSyntaxTerms | rdf:Description | rdf:li
-
-static bool
-IsSyntaxTerm ( RDFTermKind term )
-{
-
-	if 	( (kRDFTerm_FirstSyntax <= term) && (term <= kRDFTerm_LastSyntax) ) return true;
-	return false;
-
-}	// IsSyntaxTerm
 
 // -------------------------------------------------------------------------------------------------
 // IsOldTerm
@@ -351,22 +336,6 @@ IsOldTerm ( RDFTermKind term )
 }	// IsOldTerm
 
 // -------------------------------------------------------------------------------------------------
-// IsNodeElementName
-// -----------------
-//
-// 7.2.5 nodeElementURIs
-//		anyURI - ( coreSyntaxTerms | rdf:li | oldTerms )
-
-static bool
-IsNodeElementName ( RDFTermKind term )
-{
-
-	if 	( (term == kRDFTerm_li) || IsOldTerm ( term ) ) return false;
-	return (! IsCoreSyntaxTerm ( term ));
-
-}	// IsNodeElementName
-
-// -------------------------------------------------------------------------------------------------
 // IsPropertyElementName
 // ---------------------
 //
@@ -381,23 +350,6 @@ IsPropertyElementName ( RDFTermKind term )
 	return (! IsCoreSyntaxTerm ( term ));
 
 }	// IsPropertyElementName
-
-// -------------------------------------------------------------------------------------------------
-// IsPropertyAttributeName
-// -----------------------
-//
-// 7.2.7 propertyAttributeURIs
-//		anyURI - ( coreSyntaxTerms | rdf:Description | rdf:li | oldTerms )
-
-static bool
-IsPropertyAttributeName ( RDFTermKind term )
-{
-
-	if 	( (term == kRDFTerm_Description) || (term == kRDFTerm_li) || IsOldTerm ( term ) ) return false;
-	return (! IsCoreSyntaxTerm ( term ));
-
-}	// IsPropertyAttributeName
-
 
 // =================================================================================================
 // AddChildNode

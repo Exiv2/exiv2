@@ -2,7 +2,7 @@
 #define __TXMPMeta_hpp__    1
 
 #if ( ! __XMP_hpp__ )
-    #error "Do not directly include, use XMP.hpp"
+    #error "Do not directly include, use XMPSDK.hpp"
 #endif
 
 // =================================================================================================
