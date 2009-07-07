@@ -1,5 +1,5 @@
 // =================================================================================================
-// Copyright 2002-2007 Adobe Systems Incorporated
+// Copyright 2002-2008 Adobe Systems Incorporated
 // All Rights Reserved.
 //
 // NOTICE:  Adobe permits you to use, modify, and distribute this file in accordance with the terms
@@ -43,6 +43,8 @@ using namespace std;
 static const char * kPacketHeader  = "<?xpacket begin=\"\xEF\xBB\xBF\" id=\"W5M0MpCehiHzreSzNTczkc9d\"?>";
 static const char * kPacketTrailer = "<?xpacket end=\"w\"?>";	// ! The w/r is at [size-4].
 
+static const char * kPXMP_SchemaGroup = "XMP_SchemaGroup";
+
 static const char * kRDF_XMPMetaStart = "<x:xmpmeta xmlns:x=\"adobe:ns:meta/\" x:xmptk=\"";
 static const char * kRDF_XMPMetaEnd   = "</x:xmpmeta>";
 
@@ -56,10 +58,19 @@ static const char * kRDF_StructStart  = "<rdf:Description>";
 static const char * kRDF_StructEnd    = "</rdf:Description>";
 
 static const char * kRDF_BagStart     = "<rdf:Bag>";
+static const char * kRDF_BagEnd       = "</rdf:Bag>";
+
+static const char * kRDF_SeqStart     = "<rdf:Seq>";
+static const char * kRDF_SeqEnd       = "</rdf:Seq>";
+
+static const char * kRDF_AltStart     = "<rdf:Alt>";
+static const char * kRDF_AltEnd       = "</rdf:Alt>";
 
 static const char * kRDF_ItemStart    = "<rdf:li>";
+static const char * kRDF_ItemEnd      = "</rdf:li>";
 
 static const char * kRDF_ValueStart   = "<rdf:value>";
+static const char * kRDF_ValueEnd     = "</rdf:value>";
 
 
 // =================================================================================================
@@ -1092,10 +1103,12 @@ SerializeAsRDF ( const XMPMeta & xmpObj,
 	}
 
 	// Write the xmpmeta element's start tag.
-	for ( level = baseIndent; level > 0; --level ) headStr += indentStr;
-	headStr += kRDF_XMPMetaStart;
-	headStr += kXMPCore_VersionMessage "\">";
-	headStr += newline;
+	if ( ! (options & kXMP_OmitXMPMetaElement) ) {
+		for ( level = baseIndent; level > 0; --level ) headStr += indentStr;
+		headStr += kRDF_XMPMetaStart;
+		headStr += kXMPCore_VersionMessage "\">";
+		headStr += newline;
+	}
 
 	// Write the rdf:RDF start tag.
 	for ( level = baseIndent+1; level > 0; --level ) headStr += indentStr;
@@ -1127,9 +1140,11 @@ SerializeAsRDF ( const XMPMeta & xmpObj,
 	headStr += newline;
 
 	// Write the xmpmeta end tag.
-	for ( level = baseIndent; level > 0; --level ) headStr += indentStr;
-	headStr += kRDF_XMPMetaEnd;
-	headStr += newline;
+	if ( ! (options & kXMP_OmitXMPMetaElement) ) {
+		for ( level = baseIndent; level > 0; --level ) headStr += indentStr;
+		headStr += kRDF_XMPMetaEnd;
+		headStr += newline;
+	}
 	
 	// Write the packet trailer PI into the tail string as UTF-8.
 	tailStr.erase();

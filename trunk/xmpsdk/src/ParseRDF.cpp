@@ -1,5 +1,5 @@
 // =================================================================================================
-// Copyright 2002-2007 Adobe Systems Incorporated
+// Copyright 2002-2008 Adobe Systems Incorporated
 // All Rights Reserved.
 //
 // NOTICE:  Adobe permits you to use, modify, and distribute this file in accordance with the terms
@@ -8,6 +8,7 @@
 
 #include "XMP_Environment.h"	// ! This must be the first include!
 #include "XMPCore_Impl.hpp"
+#include "ExpatAdapter.hpp"
 
 #include <cstring>
 
@@ -317,6 +318,21 @@ IsCoreSyntaxTerm ( RDFTermKind term )
 
 }	// IsCoreSyntaxTerm
 
+// -------------------------------------------------------------------------------------------------
+// IsSyntaxTerm
+// ------------
+//
+// 7.2.3 syntaxTerms
+//		coreSyntaxTerms | rdf:Description | rdf:li
+
+static bool
+IsSyntaxTerm ( RDFTermKind term )
+{
+
+	if 	( (kRDFTerm_FirstSyntax <= term) && (term <= kRDFTerm_LastSyntax) ) return true;
+	return false;
+
+}	// IsSyntaxTerm
 
 // -------------------------------------------------------------------------------------------------
 // IsOldTerm
@@ -335,6 +351,22 @@ IsOldTerm ( RDFTermKind term )
 }	// IsOldTerm
 
 // -------------------------------------------------------------------------------------------------
+// IsNodeElementName
+// -----------------
+//
+// 7.2.5 nodeElementURIs
+//		anyURI - ( coreSyntaxTerms | rdf:li | oldTerms )
+
+static bool
+IsNodeElementName ( RDFTermKind term )
+{
+
+	if 	( (term == kRDFTerm_li) || IsOldTerm ( term ) ) return false;
+	return (! IsCoreSyntaxTerm ( term ));
+
+}	// IsNodeElementName
+
+// -------------------------------------------------------------------------------------------------
 // IsPropertyElementName
 // ---------------------
 //
@@ -349,6 +381,23 @@ IsPropertyElementName ( RDFTermKind term )
 	return (! IsCoreSyntaxTerm ( term ));
 
 }	// IsPropertyElementName
+
+// -------------------------------------------------------------------------------------------------
+// IsPropertyAttributeName
+// -----------------------
+//
+// 7.2.7 propertyAttributeURIs
+//		anyURI - ( coreSyntaxTerms | rdf:Description | rdf:li | oldTerms )
+
+static bool
+IsPropertyAttributeName ( RDFTermKind term )
+{
+
+	if 	( (term == kRDFTerm_Description) || (term == kRDFTerm_li) || IsOldTerm ( term ) ) return false;
+	return (! IsCoreSyntaxTerm ( term ));
+
+}	// IsPropertyAttributeName
+
 
 // =================================================================================================
 // AddChildNode
@@ -463,8 +512,8 @@ AddQualifierNode ( XMP_Node * xmpParent, const XMP_VarString & name, const XMP_V
 			}
 			xmpParent->options |= kXMP_PropHasType;
 		}
-		
-		xmpParent->options |= kXMP_PropHasQualifiers;	// ! Don't set for the pxmp:compact.
+
+		xmpParent->options |= kXMP_PropHasQualifiers;
 
 	return newQual;
 
@@ -664,7 +713,7 @@ RDF_NodeElementList ( XMP_Node * xmpParent, const XML_Node & xmlParent, bool isT
 	XML_cNodePos endChild  = xmlParent.content.end();
 
 	for ( ; currChild != endChild; ++currChild ) {
-		if ( IsWhitespaceNode ( **currChild ) ) continue;
+		if ( (*currChild)->IsWhitespaceNode() ) continue;
 		RDF_NodeElement ( xmpParent, **currChild, isTopLevel );
 	}
 
@@ -748,13 +797,10 @@ RDF_NodeElementAttrs ( XMP_Node * xmpParent, const XML_Node & xmlNode, bool isTo
 					// This is the rdf:about attribute on a top level node. Set the XMP tree name if
 					// it doesn't have a name yet. Make sure this name matches the XMP tree name.
 					XMP_Assert ( xmpParent->parent == 0 );	// Must be the tree root node.
-					if ( ! xmpParent->name.empty() ) {
-						if ( xmpParent->name != (*currAttr)->value ) XMP_Throw ( "Mismatched top level rdf:about values", kXMPErr_BadXMP );
-					} else {
+					if ( xmpParent->name.empty() ) {
 						xmpParent->name = (*currAttr)->value;
-						#if 0	// *** XMP_DebugBuild
-							xmpParent->_namePtr = xmpParent->name.c_str();
-						#endif
+					} else if ( ! (*currAttr)->value.empty() ) {
+						if ( xmpParent->name != (*currAttr)->value ) XMP_Throw ( "Mismatched top level rdf:about values", kXMPErr_BadXMP );
 					}
 				}
 
@@ -788,7 +834,7 @@ RDF_PropertyElementList ( XMP_Node * xmpParent, const XML_Node & xmlParent, bool
 	XML_cNodePos endChild  = xmlParent.content.end();
 
 	for ( ; currChild != endChild; ++currChild ) {
-		if ( IsWhitespaceNode ( **currChild ) ) continue;
+		if ( (*currChild)->IsWhitespaceNode() ) continue;
 		if ( (*currChild)->kind != kElemNode ) {
 			XMP_Throw ( "Expected property element node not found", kXMPErr_BadRDF );
 		}
@@ -962,7 +1008,7 @@ RDF_ResourcePropertyElement ( XMP_Node * xmpParent, const XML_Node & xmlNode, bo
 	XML_cNodePos endChild  = xmlNode.content.end();
 
 	for ( ; currChild != endChild; ++currChild ) {
-		if ( ! IsWhitespaceNode ( **currChild ) ) break;
+		if ( ! (*currChild)->IsWhitespaceNode() ) break;
 	}
 	if ( currChild == endChild ) XMP_Throw ( "Missing child of resource property element", kXMPErr_BadRDF );
 	if ( (*currChild)->kind != kElemNode ) XMP_Throw ( "Children of resource property element must be XML elements", kXMPErr_BadRDF );
@@ -992,7 +1038,7 @@ RDF_ResourcePropertyElement ( XMP_Node * xmpParent, const XML_Node & xmlNode, bo
 	}
 
 	for ( ++currChild; currChild != endChild; ++currChild ) {
-		if ( ! IsWhitespaceNode ( **currChild ) ) XMP_Throw ( "Invalid child of resource property element", kXMPErr_BadRDF );
+		if ( ! (*currChild)->IsWhitespaceNode() ) XMP_Throw ( "Invalid child of resource property element", kXMPErr_BadRDF );
 	}
 
 }	// RDF_ResourcePropertyElement

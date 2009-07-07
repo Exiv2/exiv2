@@ -389,21 +389,21 @@ static void FormatFullDateTime ( XMP_DateTime & tempDate, char * buffer, size_t 
 
 		// Output YYYY-MM-DDThh:mmTZD.
 		snprintf ( buffer, bufferLen, "%.4d-%02d-%02dT%02d:%02d",	// AUDIT: Callers pass sizeof(buffer).
-                           static_cast<int>(tempDate.year), static_cast<int>(tempDate.month), static_cast<int>(tempDate.day), static_cast<int>(tempDate.hour), static_cast<int>(tempDate.minute) );
+				   tempDate.year, tempDate.month, tempDate.day, tempDate.hour, tempDate.minute );
 
 	} else if ( tempDate.nanoSecond == 0  ) {
 
 		// Output YYYY-MM-DDThh:mm:ssTZD.
 		snprintf ( buffer, bufferLen, "%.4d-%02d-%02dT%02d:%02d:%02d",	// AUDIT: Callers pass sizeof(buffer).
-                           static_cast<int>(tempDate.year), static_cast<int>(tempDate.month), static_cast<int>(tempDate.day),
-                           static_cast<int>(tempDate.hour), static_cast<int>(tempDate.minute), static_cast<int>(tempDate.second) );
+				   tempDate.year, tempDate.month, tempDate.day,
+				   tempDate.hour, tempDate.minute, tempDate.second );
 
 	} else {
 
 		// Output YYYY-MM-DDThh:mm:ss.sTZD.
 		snprintf ( buffer, bufferLen, "%.4d-%02d-%02dT%02d:%02d:%02d.%09d", // AUDIT: Callers pass sizeof(buffer).
-                           static_cast<int>(tempDate.year), static_cast<int>(tempDate.month), static_cast<int>(tempDate.day),
-                           static_cast<int>(tempDate.hour), static_cast<int>(tempDate.minute), static_cast<int>(tempDate.second), static_cast<int>(tempDate.nanoSecond) );
+				   tempDate.year, tempDate.month, tempDate.day,
+				   tempDate.hour, tempDate.minute, tempDate.second, tempDate.nanoSecond );
 		for ( size_t i = strlen(buffer)-1; buffer[i] == '0'; --i ) buffer[i] = 0;	// Trim excess digits.
 
 	}
@@ -600,7 +600,7 @@ static size_t MoveLargestProperty ( XMPMeta & stdXMP, XMPMeta * extXMP, PropSize
 		printf ( "  Move %s, %d bytes\n", propName, propSize );
 	#endif
 
-	bool moved = MoveOneProperty ( stdXMP, extXMP, schemaURI, propName );
+	bool moved = MoveOneProperty ( stdXMP, extXMP, schemaURI, propName ); 
 	XMP_Assert ( moved );
 
 	propSizes.erase ( lastPos );
@@ -702,8 +702,8 @@ XMPUtils::ComposeArrayItemPath ( XMP_StringPtr	 schemaNS,
 	sComposedPath->append ( reserveLen, ' ' );
 	
 	if ( itemIndex != kXMP_ArrayLastItem ) {
-		// AUDIT: Using string->capacity() for the snprintf length is safe.
-            snprintf ( const_cast<char*>(sComposedPath->c_str()), sComposedPath->capacity(), "%s[%d]", arrayName, static_cast<int>(itemIndex) );
+		// AUDIT: Using string->size() for the snprintf length is safe.
+		snprintf ( const_cast<char*>(sComposedPath->c_str()), sComposedPath->size(), "%s[%d]", arrayName, itemIndex );
 	} else {
 		*sComposedPath = arrayName;
 		*sComposedPath += "[last()] ";
@@ -921,8 +921,8 @@ XMPUtils::ConvertFromInt ( XMP_Int32	   binValue,
 	sConvertedValue->reserve ( 100 );		// More than enough for any reasonable format and value.
 	sConvertedValue->append ( 100, ' ' );
 	
-	// AUDIT: Using string->capacity() for the snprintf length is safe.
-	snprintf ( const_cast<char*>(sConvertedValue->c_str()), sConvertedValue->capacity(), format, binValue );
+	// AUDIT: Using string->size() for the snprintf length is safe.
+	snprintf ( const_cast<char*>(sConvertedValue->c_str()), sConvertedValue->size(), format, binValue );
 	
 	*strValue = sConvertedValue->c_str();
 	*strSize  = strlen ( *strValue );	// ! Don't use sConvertedValue->size()!
@@ -944,14 +944,14 @@ XMPUtils::ConvertFromInt64 ( XMP_Int64	     binValue,
 {
 	XMP_Assert ( (format != 0) && (strValue != 0) && (strSize != 0) );	// Enforced by wrapper.
 
-	if ( *format == 0 ) format = "%d";
+	if ( *format == 0 ) format = "%lld";
 	
 	sConvertedValue->erase();
 	sConvertedValue->reserve ( 100 );		// More than enough for any reasonable format and value.
 	sConvertedValue->append ( 100, ' ' );
 	
-	// AUDIT: Using string->capacity() for the snprintf length is safe.
-	snprintf ( const_cast<char*>(sConvertedValue->c_str()), sConvertedValue->capacity(), format, binValue );
+	// AUDIT: Using string->size() for the snprintf length is safe.
+	snprintf ( const_cast<char*>(sConvertedValue->c_str()), sConvertedValue->size(), format, binValue );
 	
 	*strValue = sConvertedValue->c_str();
 	*strSize  = strlen ( *strValue );	// ! Don't use sConvertedValue->size()!
@@ -979,8 +979,8 @@ XMPUtils::ConvertFromFloat ( double			 binValue,
 	sConvertedValue->reserve ( 1000 );		// More than enough for any reasonable format and value.
 	sConvertedValue->append ( 1000, ' ' );
 	
-	// AUDIT: Using string->capacity() for the snprintf length is safe.
-	snprintf ( const_cast<char*>(sConvertedValue->c_str()), sConvertedValue->capacity(), format, binValue );
+	// AUDIT: Using string->size() for the snprintf length is safe.
+	snprintf ( const_cast<char*>(sConvertedValue->c_str()), sConvertedValue->size(), format, binValue );
 	
 	*strValue = sConvertedValue->c_str();
 	*strSize  = strlen ( *strValue );	// ! Don't use sConvertedValue->size()!
@@ -1063,7 +1063,7 @@ XMPUtils::ConvertFromDate ( const XMP_DateTime & binValue,
 		if ( (tempDate.day == 0) && (tempDate.hour == 0) && (tempDate.minute == 0) &&
 			 (tempDate.second == 0) && (tempDate.nanoSecond == 0) &&
 			 (tempDate.tzSign == 0) && (tempDate.tzHour == 0) && (tempDate.tzMinute == 0) ) {
-                    snprintf ( buffer, sizeof(buffer), "%.4d", static_cast<int>(tempDate.year) ); // AUDIT: Using sizeof for snprintf length is safe.
+			snprintf ( buffer, sizeof(buffer), "%.4d", tempDate.year ); // AUDIT: Using sizeof for snprintf length is safe.
 		} else if ( (tempDate.year == 0) && (tempDate.day == 0) ) {
 			FormatFullDateTime ( tempDate, buffer, sizeof(buffer) );
 			addTimeZone = true;
@@ -1080,7 +1080,7 @@ XMPUtils::ConvertFromDate ( const XMP_DateTime & binValue,
 			 (tempDate.tzSign != 0) || (tempDate.tzHour != 0) || (tempDate.tzMinute != 0) ) {
 			XMP_Throw ( "Invalid partial date, non-zeros after zero month and day", kXMPErr_BadParam);
 		}
-		snprintf ( buffer, sizeof(buffer), "%.4d-%02d", static_cast<int>(tempDate.year), static_cast<int>(tempDate.month) );	// AUDIT: Using sizeof for snprintf length is safe.
+		snprintf ( buffer, sizeof(buffer), "%.4d-%02d", tempDate.year, tempDate.month );	// AUDIT: Using sizeof for snprintf length is safe.
 		
 	} else if ( (tempDate.hour == 0) && (tempDate.minute == 0) &&
 				(tempDate.second == 0) && (tempDate.nanoSecond == 0) &&
@@ -1089,7 +1089,7 @@ XMPUtils::ConvertFromDate ( const XMP_DateTime & binValue,
 		// Output YYYY-MM-DD.
 		if ( (tempDate.month < 1) || (tempDate.month > 12) ) XMP_Throw ( "Month is out of range", kXMPErr_BadParam);
 		if ( (tempDate.day < 1) || (tempDate.day > 31) ) XMP_Throw ( "Day is out of range", kXMPErr_BadParam);
-		snprintf ( buffer, sizeof(buffer), "%.4d-%02d-%02d", static_cast<int>(tempDate.year), static_cast<int>(tempDate.month), static_cast<int>(tempDate.day) ); // AUDIT: Using sizeof for snprintf length is safe.
+		snprintf ( buffer, sizeof(buffer), "%.4d-%02d-%02d", tempDate.year, tempDate.month, tempDate.day ); // AUDIT: Using sizeof for snprintf length is safe.
 
 	} else {
 	
@@ -1113,7 +1113,7 @@ XMPUtils::ConvertFromDate ( const XMP_DateTime & binValue,
 		if ( tempDate.tzSign == 0 ) {
 			*sConvertedValue += 'Z';
 		} else {
-                    snprintf ( buffer, sizeof(buffer), "+%02d:%02d", static_cast<int>(tempDate.tzHour), static_cast<int>(tempDate.tzMinute) );	// AUDIT: Using sizeof for snprintf length is safe.
+			snprintf ( buffer, sizeof(buffer), "+%02d:%02d", tempDate.tzHour, tempDate.tzMinute );	// AUDIT: Using sizeof for snprintf length is safe.
 			if ( tempDate.tzSign < 0 ) buffer[0] = '-';
 			*sConvertedValue += buffer;
 		}
@@ -1167,17 +1167,17 @@ XMPUtils::ConvertToInt ( XMP_StringPtr strValue )
 {
 	if ( (strValue == 0) || (*strValue == 0) ) XMP_Throw ( "Empty convert-from string", kXMPErr_BadValue );
 	
-	errno = 0;
-	char * numEnd;
+	int count;
+	char nextCh;
 	XMP_Int32 result;
 	
-	if ( strncmp ( strValue, "0x", 2 ) != 0 ) {
-		result = strtol ( strValue, &numEnd, 0 );
+	if ( ! XMP_LitNMatch ( strValue, "0x", 2 ) ) {
+		count = sscanf ( strValue, "%d%c", &result, &nextCh );
 	} else {
-		result = (XMP_Int32) strtoul ( strValue, &numEnd, 0 );	// Treat hex form as raw bits.
+		count = sscanf ( strValue, "%x%c", &result, &nextCh );
 	}
 
-	if ( (errno != 0) || (*numEnd != 0) ) XMP_Throw ( "Invalid integer string", kXMPErr_BadParam );
+	if ( count != 1 ) XMP_Throw ( "Invalid integer string", kXMPErr_BadParam );
 
 	return result;
 	
@@ -1193,17 +1193,17 @@ XMPUtils::ConvertToInt64 ( XMP_StringPtr strValue )
 {
 	if ( (strValue == 0) || (*strValue == 0) ) XMP_Throw ( "Empty convert-from string", kXMPErr_BadValue );
 	
-	errno = 0;
-	char * numEnd;
+	int count;
+	char nextCh;
 	XMP_Int64 result;
 	
-	if ( strncmp ( strValue, "0x", 2 ) != 0 ) {
-		result = strtol ( strValue, &numEnd, 0 );
+	if ( ! XMP_LitNMatch ( strValue, "0x", 2 ) ) {
+		count = sscanf ( strValue, "%lld%c", &result, &nextCh );
 	} else {
-		result = (XMP_Int64) strtoul ( strValue, &numEnd, 0 );	// Treat hex form as raw bits.
+		count = sscanf ( strValue, "%llx%c", &result, &nextCh );
 	}
 
-	if ( (errno != 0) || (*numEnd != 0) ) XMP_Throw ( "Invalid integer string", kXMPErr_BadParam );
+	if ( count != 1 ) XMP_Throw ( "Invalid integer string", kXMPErr_BadParam );
 
 	return result;
 	
@@ -1262,7 +1262,7 @@ XMPUtils::ConvertToFloat ( XMP_StringPtr strValue )
 // Note that ISO 8601 does not seem to allow years less than 1000 or greater than 9999. We allow
 // any year, even negative ones. The year is formatted as "%.4d".
 
-// ! Tolerate missing TZD, assume the time is in local time
+// ! Tolerate missing TZD, assume is UTC. Photoshop 8 writes dates like this for exif:GPSTimeStamp.
 // ! Tolerate missing date portion, in case someone foolishly writes a time-only value that way.
 
 // *** Put the ISO format comments in the header documentation.
@@ -1276,7 +1276,8 @@ XMPUtils::ConvertToDate ( XMP_StringPtr	 strValue,
 	size_t	 pos = 0;
 	XMP_Int32 temp;
 	
-	(void) memset ( binValue, 0, sizeof ( XMP_DateTime ) );
+	XMP_Assert ( sizeof(*binValue) == sizeof(XMP_DateTime) );
+	(void) memset ( binValue, 0, sizeof(*binValue) );	// AUDIT: Safe, using sizeof destination.
 	
 	bool timeOnly = ( (strValue[0] == 'T') ||
 					  ((strlen(strValue) >= 2) && (strValue[1] == ':')) ||
@@ -1395,10 +1396,6 @@ XMPUtils::ConvertToDate ( XMP_StringPtr	 strValue,
 		temp = GatherInt ( strValue, &pos, "Invalid time zone minute in date string" ); // Extract the time zone minute.
 		if ( temp > 59 ) XMP_Throw ( "Time zone minute is out of range", kXMPErr_BadParam );
 		binValue->tzMinute = temp;
-
-	} else {
-
-		XMPUtils::SetTimeZone( binValue );
 
 	}
 

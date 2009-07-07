@@ -2,7 +2,7 @@
 #define __XMPMeta_hpp__
 
 // =================================================================================================
-// Copyright 2002-2007 Adobe Systems Incorporated
+// Copyright 2002-2008 Adobe Systems Incorporated
 // All Rights Reserved.
 //
 // NOTICE:	Adobe permits you to use, modify, and distribute this file in accordance with the terms
@@ -335,8 +335,14 @@ public:
 	void
 	SetObjectOptions ( XMP_OptionBits options );
 
-	XMPMeta *
-	Clone ( XMP_OptionBits options ) const;
+	void
+	Sort();
+
+	void
+	Erase();
+
+	void
+	Clone ( XMPMeta * clone, XMP_OptionBits options ) const;
 	
 	XMP_Index
 	CountArrayItems ( XMP_StringPtr schemaNS,
@@ -401,7 +407,7 @@ public:
 private:
   
 	// ! These are hidden on purpose:
-	XMPMeta ( const XMPMeta & /* original */ ) : clientRefs(0), prevTkVer(0), tree(XMP_Node(0,"",0)), xmlParser(0)
+	XMPMeta ( const XMPMeta & /* original */ ) : tree(XMP_Node(0,"",0)), clientRefs(0), prevTkVer(0), xmlParser(0)
 		{ XMP_Throw ( "Call to hidden constructor", kXMPErr_InternalFailure ); };
 	void operator= ( const XMPMeta & /* rhs */ )  
 		{ XMP_Throw ( "Call to hidden operator=", kXMPErr_InternalFailure ); };

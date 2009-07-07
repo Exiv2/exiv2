@@ -1,5 +1,5 @@
 // =================================================================================================
-// Copyright 2002-2007 Adobe Systems Incorporated
+// Copyright 2002-2008 Adobe Systems Incorporated
 // All Rights Reserved.
 //
 // NOTICE:  Adobe permits you to use, modify, and distribute this file in accordance with the terms
@@ -12,15 +12,17 @@
 #include "XMP_Environment.h"	// ! This must be the first include!
 #include "XMPCore_Impl.hpp"
 
+#include <stdio.h>
+
 #include "XMPMeta.hpp"
 #include "XMPIterator.hpp"
 #include "XMPUtils.hpp"
-
 #include "XMP_Version.h"
 #include "UnicodeInlines.incl_cpp"
 #include "UnicodeConversions.hpp"
 
-#include <cstdio>
+#include <algorithm>	// For sort and stable_sort.
+#include <stdio.h>		// For snprintf.
 
 #if XMP_DebugBuild
 	#include <iostream>
@@ -78,14 +80,69 @@ static const char * kTenSpaces = "          ";
 
 #define OutProcString(str)	{ status = (*outProc) ( refCon, (str).c_str(), (str).size() );  if ( status != 0 ) goto EXIT; }
 
-#define OutProcULong(num)	{ snprintf ( buffer, sizeof(buffer), "%lu", (num) ); /* AUDIT: Using sizeof for snprintf length is safe */ \
+#define OutProcDecInt(num)	{ snprintf ( buffer, sizeof(buffer), "%d", (num) ); /* AUDIT: Using sizeof for snprintf length is safe */	\
 							  status = (*outProc) ( refCon, buffer, strlen(buffer) );  if ( status != 0 ) goto EXIT; }
 
-#define OutProcHexInt(num)	{ snprintf ( buffer, sizeof(buffer), "%lX", (num) ); /* AUDIT: Using sizeof for snprintf length is safe */	\
+#define OutProcHexInt(num)	{ snprintf ( buffer, sizeof(buffer), "%X", (num) ); /* AUDIT: Using sizeof for snprintf length is safe */	\
+							  status = (*outProc) ( refCon, buffer, strlen(buffer) );  if ( status != 0 ) goto EXIT; }
+
+#define OutProcHexByte(num)	{ snprintf ( buffer, sizeof(buffer), "%.2X", (num) ); /* AUDIT: Using sizeof for snprintf length is safe */	\
 							  status = (*outProc) ( refCon, buffer, strlen(buffer) );  if ( status != 0 ) goto EXIT; }
 
 static const char * kIndent = "   ";
 #define OutProcIndent(lev)	{ for ( size_t i = 0; i < (lev); ++i ) OutProcNChars ( kIndent, 3 ); }
+
+
+// -------------------------------------------------------------------------------------------------
+// DumpClearString
+// ---------------
+
+static XMP_Status
+DumpClearString ( const XMP_VarString & value, XMP_TextOutputProc outProc, void * refCon )
+{
+
+	char buffer [20];
+	bool prevNormal;
+	XMP_Status status = 0;
+	
+	XMP_StringPtr spanStart, spanEnd;
+	XMP_StringPtr valueEnd = &value[0] + value.size();
+	
+	spanStart = &value[0];
+	while ( spanStart < valueEnd ) {
+	
+		// Output the next span of regular characters.
+		for ( spanEnd = spanStart; spanEnd < valueEnd; ++spanEnd ) {
+			if ( *spanEnd > 0x7F ) break;
+			if ( (*spanEnd < 0x20) && (*spanEnd != kTab) && (*spanEnd != kLF) ) break;
+		}
+		if ( spanStart != spanEnd ) status = (*outProc) ( refCon,  spanStart, (spanEnd-spanStart) );
+		if ( status != 0 ) break;
+		spanStart = spanEnd;
+		
+		// Output the next span of irregular characters.
+		prevNormal = true;
+		for ( spanEnd = spanStart; spanEnd < valueEnd; ++spanEnd ) {
+			if ( ((0x20 <= *spanEnd) && (*spanEnd <= 0x7F)) || (*spanEnd == kTab) || (*spanEnd == kLF) ) break;
+			char space = ' ';
+			if ( prevNormal ) space = '<';
+			status = (*outProc) ( refCon, &space, 1 );
+			if ( status != 0 ) break;
+			OutProcHexByte ( *spanEnd );
+			prevNormal = false;
+		}
+		if ( ! prevNormal ) {
+			status = (*outProc) ( refCon, ">", 1 );
+			if ( status != 0 ) return status;
+		}
+		spanStart = spanEnd;
+
+	}
+
+EXIT:	
+	return status;
+	
+}	// DumpClearString
 
 
 // -------------------------------------------------------------------------------------------------
@@ -111,10 +168,10 @@ DumpStringMap ( const XMP_StringMap & map, XMP_StringPtr label, XMP_TextOutputPr
 	
 	for ( currPos = map.begin(); currPos != endPos; ++currPos ) {
 		OutProcNChars ( "  ", 2 );
-		OutProcString ( currPos->first );
+		DumpClearString ( currPos->first, outProc, refCon );
 		OutProcPadding ( maxLen - currPos->first.size() );
 		OutProcNChars ( " => ", 4 );
-		OutProcString ( currPos->second );
+		DumpClearString ( currPos->second, outProc, refCon );
 		OutProcNewline();
 	}
 	
@@ -213,16 +270,16 @@ DumpPropertyTree ( const XMP_Node *	  currNode,
 	OutProcIndent ( (size_t)indent );
 	if ( itemIndex == 0 ) {
 		if ( currNode->options & kXMP_PropIsQualifier ) OutProcNChars ( "? ", 2 );
-		OutProcString ( currNode->name );
+		DumpClearString ( currNode->name, outProc, refCon );
 	} else {
 		OutProcNChars ( "[", 1 );
-		OutProcULong ( static_cast<unsigned long>(itemIndex) );
+		OutProcDecInt ( itemIndex );
 		OutProcNChars ( "]", 1 );
 	}
 
 	if ( ! (currNode->options & kXMP_PropCompositeMask) ) {
 		OutProcNChars ( " = \"", 4 );
-		OutProcString ( currNode->value );
+		DumpClearString ( currNode->value, outProc, refCon );
 		OutProcNChars ( "\"", 1 );
 	}
 
@@ -410,12 +467,120 @@ static void DumpXMLTree ( FILE * log, const XML_Node & node, int indent )
 #endif	// DumpXMLParseTree
 
 
+// -------------------------------------------------------------------------------------------------
+// CompareNodeNames
+// ----------------
+//
+// Comparison routine for sorting XMP nodes by name. The name "xml:lang" is less than anything else,
+// and "rdf:type" is less than anything except "xml:lang". This preserves special rules for qualifiers.
+
+static bool
+CompareNodeNames ( XMP_Node * left, XMP_Node * right )
+{
+
+	if ( left->name  == "xml:lang" ) return true;
+	if ( right->name == "xml:lang" ) return false;
+	
+	if ( left->name  == "rdf:type" ) return true;
+	if ( right->name == "rdf:type" ) return false;
+	
+	return ( left->name < right->name );
+	
+}	// CompareNodeNames
+
+
+// -------------------------------------------------------------------------------------------------
+// CompareNodeValues
+// -----------------
+//
+// Comparison routine for sorting XMP nodes by value.
+
+static bool
+CompareNodeValues ( XMP_Node * left, XMP_Node * right )
+{
+
+	if ( XMP_PropIsSimple ( left->options ) && XMP_PropIsSimple ( right->options ) ) {
+		return ( left->value < right->value );
+	}
+
+	XMP_OptionBits leftForm  = left->options & kXMP_PropCompositeMask;
+	XMP_OptionBits rightForm = right->options & kXMP_PropCompositeMask;
+	
+	return ( leftForm < rightForm );
+	
+}	// CompareNodeValues
+
+
+// -------------------------------------------------------------------------------------------------
+// CompareNodeLangs
+// ----------------
+//
+// Comparison routine for sorting XMP nodes by xml:lang qualifier. An "x-default" value is less than
+// any other language.
+
+static bool
+CompareNodeLangs ( XMP_Node * left, XMP_Node * right )
+{
+
+	if ( left->qualifiers.empty()  || (left->qualifiers[0]->name  != "xml:lang") ) return false;
+	if ( right->qualifiers.empty() || (right->qualifiers[0]->name != "xml:lang") ) return false;
+	
+	if ( left->qualifiers[0]->value  == "x-default" ) return true;
+	if ( right->qualifiers[0]->value == "x-default" ) return false;
+	
+	return ( left->qualifiers[0]->value < right->qualifiers[0]->value );
+	
+}	// CompareNodeLangs
+
+
+// -------------------------------------------------------------------------------------------------
+// SortWithinOffspring
+// -------------------
+//
+// Sort one level down, within the elements of a node vector. This sorts the qualifiers of each
+// node. If the node is a struct it sorts the fields by names. If the node is an unordered array it
+// sorts the elements by value. If the node is an AltText array it sorts the elements by language.
+
+static void
+SortWithinOffspring ( XMP_NodeOffspring & nodeVec )
+{
+
+	for ( size_t i = 0, limit = nodeVec.size(); i < limit; ++i ) {
+	
+		XMP_Node * currPos = nodeVec[i];
+	
+		if ( ! currPos->qualifiers.empty() ) {
+			sort ( currPos->qualifiers.begin(), currPos->qualifiers.end(), CompareNodeNames );
+			SortWithinOffspring ( currPos->qualifiers );
+		}
+		
+		if ( ! currPos->children.empty() ) {
+
+			if ( XMP_PropIsStruct ( currPos->options ) || XMP_NodeIsSchema ( currPos->options ) ) {
+				sort ( currPos->children.begin(), currPos->children.end(), CompareNodeNames );
+			} else if ( XMP_PropIsArray ( currPos->options ) ) {
+				if ( XMP_ArrayIsUnordered ( currPos->options ) ) {
+					stable_sort ( currPos->children.begin(), currPos->children.end(), CompareNodeValues );
+				} else if ( XMP_ArrayIsAltText ( currPos->options ) ) {
+					sort ( currPos->children.begin(), currPos->children.end(), CompareNodeLangs );
+				}
+			}
+
+			SortWithinOffspring ( currPos->children );
+			
+		}
+
+	}
+	
+}	// SortWithinOffspring
+
+
 // =================================================================================================
 // Constructors
 // ============
 
 
-XMPMeta::XMPMeta() : clientRefs(0), prevTkVer(0), tree(XMP_Node(0,"",0)), xmlParser(0)
+XMPMeta::XMPMeta() : tree(XMP_Node(0,"",0)), clientRefs(0), prevTkVer(0), xmlParser(0)
 {
 	// Nothing more to do, clientRefs is incremented in wrapper.
 	#if XMP_TraceCTorDTor
@@ -453,7 +618,8 @@ XMPMeta::~XMPMeta() RELEASE_NO_THROW
 XMPMeta::GetVersionInfo ( XMP_VersionInfo * info )
 {
 
-	memset ( info, 0, sizeof(XMP_VersionInfo) );
+	memset ( info, 0, sizeof(*info) );	// AUDIT: Safe, using sizeof the destination.
+	XMP_Assert ( sizeof(*info) == sizeof(XMP_VersionInfo) );
 	
 	info->major   = XMP_API_VERSION_MAJOR;
 	info->minor   = XMP_API_VERSION_MINOR;
@@ -503,7 +669,7 @@ XMPMeta::Initialize()
 	(void) RegisterNamespace ( kXMP_NS_RDF, "rdf", &voidPtr, &voidLen );
 	(void) RegisterNamespace ( kXMP_NS_DC, "dc", &voidPtr, &voidLen );
 
-	(void) RegisterNamespace ( kXMP_NS_XMP, "xap", &voidPtr, &voidLen );
+	(void) RegisterNamespace ( kXMP_NS_XMP, "xmp", &voidPtr, &voidLen );
 	(void) RegisterNamespace ( kXMP_NS_PDF, "pdf", &voidPtr, &voidLen );
 	(void) RegisterNamespace ( kXMP_NS_Photoshop, "photoshop", &voidPtr, &voidLen );
 	(void) RegisterNamespace ( kXMP_NS_PSAlbum, "album", &voidPtr, &voidLen );
@@ -518,17 +684,18 @@ XMPMeta::Initialize()
 	(void) RegisterNamespace ( kXMP_NS_WAV, "wav", &voidPtr, &voidLen );
 
 	(void) RegisterNamespace ( kXMP_NS_AdobeStockPhoto, "bmsp", &voidPtr, &voidLen );
+	(void) RegisterNamespace ( kXMP_NS_CreatorAtom, "creatorAtom", &voidPtr, &voidLen );
 
-	(void) RegisterNamespace ( kXMP_NS_XMP_Rights, "xapRights", &voidPtr, &voidLen );
-	(void) RegisterNamespace ( kXMP_NS_XMP_MM, "xapMM", &voidPtr, &voidLen );
-	(void) RegisterNamespace ( kXMP_NS_XMP_BJ, "xapBJ", &voidPtr, &voidLen );
+	(void) RegisterNamespace ( kXMP_NS_XMP_Rights, "xmpRights", &voidPtr, &voidLen );
+	(void) RegisterNamespace ( kXMP_NS_XMP_MM, "xmpMM", &voidPtr, &voidLen );
+	(void) RegisterNamespace ( kXMP_NS_XMP_BJ, "xmpBJ", &voidPtr, &voidLen );
 	(void) RegisterNamespace ( kXMP_NS_XMP_Note, "xmpNote", &voidPtr, &voidLen );
 
 	(void) RegisterNamespace ( kXMP_NS_DM, "xmpDM", &voidPtr, &voidLen );
-	(void) RegisterNamespace ( kXMP_NS_XMP_Text, "xapT", &voidPtr, &voidLen );
-	(void) RegisterNamespace ( kXMP_NS_XMP_PagedFile, "xapTPg", &voidPtr, &voidLen );
-	(void) RegisterNamespace ( kXMP_NS_XMP_Graphics, "xapG", &voidPtr, &voidLen );
-	(void) RegisterNamespace ( kXMP_NS_XMP_Image, "xapGImg", &voidPtr, &voidLen );
+	(void) RegisterNamespace ( kXMP_NS_XMP_Text, "xmpT", &voidPtr, &voidLen );
+	(void) RegisterNamespace ( kXMP_NS_XMP_PagedFile, "xmpTPg", &voidPtr, &voidLen );
+	(void) RegisterNamespace ( kXMP_NS_XMP_Graphics, "xmpG", &voidPtr, &voidLen );
+	(void) RegisterNamespace ( kXMP_NS_XMP_Image, "xmpGImg", &voidPtr, &voidLen );
 
 	(void) RegisterNamespace ( kXMP_NS_XMP_Font, "stFnt", &voidPtr, &voidLen );
 	(void) RegisterNamespace ( kXMP_NS_XMP_Dimensions, "stDim", &voidPtr, &voidLen );
@@ -541,6 +708,7 @@ XMPMeta::Initialize()
 	(void) RegisterNamespace ( kXMP_NS_XMP_IdentifierQual, "xmpidq", &voidPtr, &voidLen );
 
 	(void) RegisterNamespace ( kXMP_NS_IPTCCore, "Iptc4xmpCore", &voidPtr, &voidLen );
+	(void) RegisterNamespace ( kXMP_NS_DICOM, "DICOM", &voidPtr, &voidLen );
 
 	(void) RegisterNamespace ( kXMP_NS_PDFA_Schema, "pdfaSchema", &voidPtr, &voidLen );
 	(void) RegisterNamespace ( kXMP_NS_PDFA_Property, "pdfaProperty", &voidPtr, &voidLen );
@@ -554,15 +722,13 @@ XMPMeta::Initialize()
 	
 	(void) RegisterNamespace ( "adobe:ns:meta/", "x", &voidPtr, &voidLen );
 	(void) RegisterNamespace ( "http://ns.adobe.com/iX/1.0/", "iX", &voidPtr, &voidLen );
-
-// 06-Oct-07, ahu: Do not use aliases. They result in unexpected behaviour.
-//	XMPMeta::RegisterStandardAliases ( "" );
+	
+	XMPMeta::RegisterStandardAliases ( "" );
 	
 	// Initialize the other core classes.
 	
 	if ( ! XMPIterator::Initialize() ) XMP_Throw ( "Failure from XMPIterator::Initialize", kXMPErr_InternalFailure );
 	if ( ! XMPUtils::Initialize() ) XMP_Throw ( "Failure from XMPUtils::Initialize", kXMPErr_InternalFailure );
-
 	// Do miscelaneous semantic checks of types and arithmetic.
 
 	XMP_Assert ( sizeof(XMP_Int8) == 1 );
@@ -652,7 +818,6 @@ XMPMeta::Terminate() RELEASE_NO_THROW
 	
 	XMPIterator::Terminate();
 	XMPUtils::Terminate();
-
 	EliminateGlobal ( sNamespaceURIToPrefixMap );
 	EliminateGlobal ( sNamespacePrefixToURIMap );
 	EliminateGlobal ( sRegisteredAliasMap );
@@ -663,7 +828,7 @@ XMPMeta::Terminate() RELEASE_NO_THROW
 	EliminateGlobal ( sExceptionMessage );
 
 	XMP_TermMutex ( sXMPCoreLock );
-
+	
 }	// Terminate
 
 
@@ -713,7 +878,7 @@ XMPMeta::DumpNamespaces ( XMP_TextOutputProc outProc,
                           void *             refCon )
 {
 	XMP_Assert ( outProc != 0 );	// ! Enforced by wrapper.
-	XMP_Status status;
+	XMP_Status status = 0;
 	
 	XMP_StringMapPos p2uEnd = sNamespacePrefixToURIMap->end();	// ! Move up to avoid gcc complaints.
 	XMP_StringMapPos u2pEnd = sNamespaceURIToPrefixMap->end();
@@ -731,7 +896,7 @@ XMPMeta::DumpNamespaces ( XMP_TextOutputProc outProc,
 		XMP_StringMapPos nsOther = sNamespaceURIToPrefixMap->find ( nsLeft->second );
 		if ( (nsOther == u2pEnd) || (nsLeft != sNamespacePrefixToURIMap->find ( nsOther->second )) ) {
 			OutProcLiteral ( "  ** bad namespace URI **  " );
-			OutProcString ( nsLeft->second );
+			DumpClearString ( nsLeft->second, outProc, refCon );
 			goto FAILURE;
 		}
 		
@@ -739,7 +904,7 @@ XMPMeta::DumpNamespaces ( XMP_TextOutputProc outProc,
 			if ( nsRight == nsLeft ) continue;	// ! Can't start at nsLeft+1, no operator+!
 			if ( nsLeft->second == nsRight->second ) {
 				OutProcLiteral ( "  ** duplicate namespace URI **  " );
-				OutProcString ( nsLeft->second );
+				DumpClearString ( nsLeft->second, outProc, refCon );
 				goto FAILURE;
 			}
 		}
@@ -751,7 +916,7 @@ XMPMeta::DumpNamespaces ( XMP_TextOutputProc outProc,
 		XMP_StringMapPos nsOther = sNamespacePrefixToURIMap->find ( nsLeft->second );
 		if ( (nsOther == p2uEnd) || (nsLeft != sNamespaceURIToPrefixMap->find ( nsOther->second )) ) {
 			OutProcLiteral ( "  ** bad namespace prefix **  " );
-			OutProcString ( nsLeft->second );
+			DumpClearString ( nsLeft->second, outProc, refCon );
 			goto FAILURE;
 		}
 
@@ -759,7 +924,7 @@ XMPMeta::DumpNamespaces ( XMP_TextOutputProc outProc,
 			if ( nsRight == nsLeft ) continue;	// ! Can't start at nsLeft+1, no operator+!
 			if ( nsLeft->second == nsRight->second ) {
 				OutProcLiteral ( "  ** duplicate namespace prefix **  " );
-				OutProcString ( nsLeft->second );
+				DumpClearString ( nsLeft->second, outProc, refCon );
 				goto FAILURE;
 			}
 		}
@@ -787,7 +952,7 @@ XMPMeta::DumpAliases ( XMP_TextOutputProc outProc,
                        void *             refCon )
 {
 	XMP_Assert ( outProc != 0 );	// ! Enforced by wrapper.
-	XMP_Status status;
+	XMP_Status status = 0;
 
 	XMP_Assert ( sRegisteredAliasMap != 0 );
 
@@ -806,7 +971,7 @@ XMPMeta::DumpAliases ( XMP_TextOutputProc outProc,
 	for ( aliasPos = sRegisteredAliasMap->begin(); aliasPos != aliasEnd; ++aliasPos ) {
 
 		OutProcNChars ( "   ", 3 );
-		OutProcString ( aliasPos->first );
+		DumpClearString ( aliasPos->first, outProc, refCon );
 		OutProcPadding ( maxLen - aliasPos->first.size() );
 		OutProcNChars ( " => ", 4 );
 
@@ -989,13 +1154,21 @@ XMPMeta::GetNamespaceURI ( XMP_StringPtr   namespacePrefix,
 // ---------------
 
 // *** Don't allow standard namespaces to be deleted.
+// *** We would be better off not having this. Instead, have local namespaces from parsing be
+// *** restricted to the object that introduced them.
 
 /* class-static */ void
 XMPMeta::DeleteNamespace ( XMP_StringPtr namespaceURI )
 {
-	namespaceURI = namespaceURI;	// Avoid unused parameter warning.
-	XMP_Assert ( *namespaceURI != 0 ); 	// ! Enforced by wrapper.
-	XMP_Throw ( "Unimplemented method XMPMeta::DeleteNamespace", kXMPErr_Unimplemented );   // *** #error "write me"
+
+	XMP_StringMapPos uriPos = sNamespaceURIToPrefixMap->find ( namespaceURI );
+	if ( uriPos == sNamespaceURIToPrefixMap->end() ) return;
+
+	XMP_StringMapPos prefixPos = sNamespacePrefixToURIMap->find ( uriPos->second );
+	XMP_Assert ( prefixPos != sNamespacePrefixToURIMap->end() );
+	
+	sNamespaceURIToPrefixMap->erase ( uriPos );
+	sNamespacePrefixToURIMap->erase ( prefixPos );
 
 }	// DeleteNamespace
 
@@ -1290,10 +1463,10 @@ XMPMeta::DumpObject ( XMP_TextOutputProc outProc,
                       void *             refCon ) const
 {
 	XMP_Assert ( outProc != 0 );	// ! Enforced by wrapper.
-	XMP_Status status;
+	XMP_Status status = 0;
 	
 	OutProcLiteral ( "Dumping XMPMeta object \"" );
-	OutProcString ( tree.name );
+	DumpClearString ( tree.name, outProc, refCon );
 	OutProcNChars ( "\"  ", 3 );
 	status = DumpNodeOptions ( tree.options, outProc, refCon );
 	if ( status != 0 ) goto EXIT;
@@ -1305,7 +1478,7 @@ XMPMeta::DumpObject ( XMP_TextOutputProc outProc,
 	
 	if ( ! tree.value.empty() ) {
 		OutProcLiteral ( "** bad root value **  \"" );
-		OutProcString ( tree.value );
+		DumpClearString ( tree.value, outProc, refCon );
 		OutProcNChars ( "\"", 1 );
 		OutProcNewline();
 	}
@@ -1326,9 +1499,9 @@ XMPMeta::DumpObject ( XMP_TextOutputProc outProc,
 
 			OutProcNewline();
 			OutProcIndent ( 1 );
-			OutProcString ( currSchema->name );
+			DumpClearString ( currSchema->value, outProc, refCon );
 			OutProcNChars ( "  ", 2 );
-			OutProcString ( currSchema->value );
+			DumpClearString ( currSchema->name, outProc, refCon );
 			OutProcNChars ( "  ", 2 );
 			status = DumpNodeOptions ( currSchema->options, outProc, refCon );
 			if ( status != 0 ) goto EXIT;
@@ -1444,20 +1617,68 @@ XMPMeta::SetObjectOptions ( XMP_OptionBits options )
 
 
 // -------------------------------------------------------------------------------------------------
+// Sort
+// ----
+//
+// At the top level the namespaces are sorted by their prefixes. Within a namespace, the top level
+// properties are sorted by name. Within a struct, the fields are sorted by their qualified name,
+// i.e. their XML prefix:local form. Unordered arrays of simple items are sorted by value. Language
+// Alternative arrays are sorted by the xml:lang qualifiers, with the "x-default" item placed first.
+
+void
+XMPMeta::Sort()
+{
+
+	if ( ! this->tree.qualifiers.empty() ) {
+		sort ( this->tree.qualifiers.begin(), this->tree.qualifiers.end(), CompareNodeNames );
+		SortWithinOffspring ( this->tree.qualifiers );
+	}
+
+	if ( ! this->tree.children.empty() ) {
+		// The schema prefixes are the node's value, the name is the URI, so we sort schemas by value.
+		sort ( this->tree.children.begin(), this->tree.children.end(), CompareNodeValues );
+		SortWithinOffspring ( this->tree.children );
+	}
+
+}	// Sort
+
+
+// -------------------------------------------------------------------------------------------------
+// Erase
+// -----
+//
+// Clear everything except for clientRefs.
+
+void
+XMPMeta::Erase()
+{
+
+	this->prevTkVer = 0;
+	if ( this->xmlParser != 0 ) {
+		delete ( this->xmlParser );
+		this->xmlParser = 0;
+	}
+	this->tree.ClearNode();
+
+}	// Erase
+
+
+// -------------------------------------------------------------------------------------------------
 // Clone
 // -----
 
-XMPMeta *
-XMPMeta::Clone ( XMP_OptionBits options ) const
+void
+XMPMeta::Clone ( XMPMeta * clone, XMP_OptionBits options ) const
 {
+	if ( clone == 0 ) XMP_Throw ( "Null clone pointer", kXMPErr_BadParam );
 	if ( options != 0 ) XMP_Throw ( "No options are defined yet", kXMPErr_BadOptions );
-	
-	XMPMeta * clone = new XMPMeta;
+	XMP_Assert ( this->tree.parent == 0 );
+
+	clone->tree.ClearNode();
 	
 	clone->tree.options = this->tree.options;
 	clone->tree.name    = this->tree.name;
 	clone->tree.value   = this->tree.value;
-	XMP_Assert ( this->tree.parent == 0 );
 
 	#if 0	// *** XMP_DebugBuild
 		clone->tree._namePtr = clone->tree.name.c_str();
@@ -1465,9 +1686,6 @@ XMPMeta::Clone ( XMP_OptionBits options ) const
 	#endif
 	
 	CloneOffspring ( &this->tree, &clone->tree );
-	
-	XMP_Assert ( clone->clientRefs == 0 );	// Gets incremneted later.
-	return clone;
 	
 }	// Clone
 

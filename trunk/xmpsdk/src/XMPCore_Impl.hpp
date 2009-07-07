@@ -2,7 +2,7 @@
 #define __XMPCore_Impl_hpp__
 
 // =================================================================================================
-// Copyright 2002-2007 Adobe Systems Incorporated
+// Copyright 2002-2008 Adobe Systems Incorporated
 // All Rights Reserved.
 //
 // NOTICE:  Adobe permits you to use, modify, and distribute this file in accordance with the terms
@@ -13,10 +13,6 @@
 #include "XMP_Const.h"
 #include "XMP_BuildInfo.h"
 
-#ifndef UsePublicExpat
-	#define UsePublicExpat 1
-#endif
-
 #include "client-glue/WXMPMeta.hpp"
 
 #include <vector>
@@ -24,14 +20,17 @@
 #include <map>
 
 #include <cassert>
-#include <cstring>
 
-#if XMP_MacBuild
-	#include <Multiprocessing.h>
-#elif XMP_WinBuild
-	#include <windows.h>
-#elif XMP_UNIXBuild
+#if XMP_WinBuild
+	#include <Windows.h>
+#else
+	// Use pthread for both Mac and generic UNIX.
 	#include <pthread.h>
+#endif
+
+#if XMP_WinBuild
+	#pragma warning ( disable : 4244 )	// possible loss of data (temporary for 64 bit builds)
+	#pragma warning ( disable : 4267 )	// possible loss of data (temporary for 64 bit builds)
 #endif
 
 // =================================================================================================
@@ -40,6 +39,8 @@
 class XMP_Node;
 class XML_Node;
 class XPathStepInfo;
+
+typedef XMP_Node *	XMP_NodePtr;
 
 typedef std::vector<XMP_Node*>		XMP_NodeOffspring;
 typedef XMP_NodeOffspring::iterator	XMP_NodePtrPos;
@@ -106,6 +107,9 @@ extern WXMP_Result		void_wResult;
 
 #define WtoXMPIterator_Ref(iterRef)	*((const XMPIterator *)(iterRef))
 #define WtoXMPIterator_Ptr(iterRef)	(((iterRef) == 0) ? 0 : (XMPIterator *)(iterRef))
+
+#define WtoXMPDocOps_Ref(docRef)	*((const XMPDocOps *)(docRef))
+#define WtoXMPDocOps_Ptr(docRef)	(((docRef) == 0) ? 0 : (XMPDocOps *)(docRef))
 
 #define IgnoreParam(p)	voidVoidPtr = (void*)&p
 
@@ -193,11 +197,10 @@ extern WXMP_Result		void_wResult;
 
 // -------------------------------------------------------------------------------------------------
 
-#if XMP_MacBuild
-	typedef MPCriticalRegionID XMP_Mutex;
-#elif XMP_WinBuild
+#if XMP_WinBuild
 	typedef CRITICAL_SECTION XMP_Mutex;
-#elif XMP_UNIXBuild
+#else
+	// Use pthread for both Mac and generic UNIX.
 	typedef pthread_mutex_t XMP_Mutex;
 #endif
 
@@ -357,11 +360,6 @@ NormalizeLangArray ( XMP_Node * array );
 
 extern void
 DetectAltText ( XMP_Node * xmpParent );
-
-#define IsWhitespaceChar(ch)	( ((ch) == ' ') || ((ch) == 0x09) || ((ch) == 0x0A) || ((ch) == 0x0D) )
-
-extern bool
-IsWhitespaceNode ( const XML_Node & xmlNode );
 
 extern void
 SortNamedNodes ( XMP_NodeOffspring & nodeVector );
@@ -524,105 +522,6 @@ public:
 		: nodePtr ( new XMP_Node ( _parent, _name, _value, _options ) ) {};
 	XMP_AutoNode ( XMP_Node * _parent, const XMP_VarString & _name, const XMP_VarString & _value, XMP_OptionBits _options )
 		: nodePtr ( new XMP_Node ( _parent, _name, _value, _options ) ) {};
-};
-
-// =================================================================================================
-// XML_Node details
-
-// The XML_Nodes are used only during the XML/RDF parsing process. This presently uses an XML parser
-// to create an XML tree, then a recursive descent RDF recognizer to build the corresponding XMP.
-// This makes it easier to swap XML parsers and provides a clean separation of XML and RDF issues.
-// The overall parsing would be faster and use less memory if the RDF recognition were done on the
-// fly using a state machine. But it was much easier to write the recursive descent version. The
-// current implementation is pretty fast in absolute terms, so being faster might not be crucial.
-
-// Like the XMP tree, the XML tree contains vectors of pointers for down links, and offspring have
-// a pointer to their parent. Unlike the XMP tree, this is an exact XML document tree. There are no
-// introduced top level namespace nodes or rearrangement of the nodes..
-
-// The exact state of namespaces can vary during the XML parsing, depending on the parser in use.
-// By the time the RDF recognition is done though, the namespaces must be normalized. All of the
-// used namespaces must be registered, this is done automatically if necessary. All of the "live"
-// namespace prefixes will be unique. The ns field of an XML_Node is the namespace URI, the name
-// field contains a qualified name (prefix:local). This includes default namespace mapping, the
-// URI and prefix will be missing only for elements and attributes in no namespace.
-
-class XML_Node;
-enum { kRootNode = 0, kElemNode = 1, kAttrNode = 2, kCDataNode = 3, kPINode = 4 };
-
-typedef std::vector<XML_Node*>			XML_NodeVector;
-typedef XML_NodeVector::iterator		XML_NodePos;
-typedef XML_NodeVector::const_iterator	XML_cNodePos;
-
-#if 0	// Pattern for iterating over the children or attributes:
-	for ( size_t xxNum = 0, xxLim = _node_->_offspring_.size(); xxNum < xxLim; ++xxNum ) {
-		const XML_Node * _curr_ = _node_->_offspring_[xxNum];
-	}
-#endif
-
-class XML_Node {
-public:
-
-	XMP_Uns8		kind;
-	XMP_VarString	ns, name, value;
-	XML_Node *		parent;
-	XML_NodeVector	attrs;
-	XML_NodeVector	content;
-	#if 0	// *** XMP_DebugBuild
-		XMP_StringPtr	_namePtr, _valuePtr;	// *** Not working, need operator=?
-	#endif
-
-	XML_Node ( XML_Node * _parent, XMP_StringPtr _name, XMP_Uns8 _kind )
-		: kind(_kind), name(_name), parent(_parent)
-	{
-		#if 0	// *** XMP_DebugBuild
-			_namePtr = name.c_str();
-			_valuePtr = value.c_str();
-		#endif
-	};
-
-	XML_Node ( XML_Node * _parent, const XMP_VarString & _name, XMP_Uns8 _kind )
-		: kind(_kind), name(_name), parent(_parent)
-	{
-		#if 0	// *** XMP_DebugBuild
-			_namePtr = name.c_str();
-			_valuePtr = value.c_str();
-		#endif
-	};
-	
-	void RemoveAttrs()
-	{
-		for ( size_t i = 0, vLim = attrs.size(); i < vLim; ++i ) delete attrs[i];
-		attrs.clear();
-	}
-	
-	void RemoveContent()
-	{
-		for ( size_t i = 0, vLim = content.size(); i < vLim; ++i ) delete content[i];
-		content.clear();
-	}
-	
-	void ClearNode()
-	{
-		kind = 0;
-		ns.erase();
-		name.erase();
-		value.erase();
-		this->RemoveAttrs();
-		this->RemoveContent();
-	}
-
-	virtual ~XML_Node() { RemoveAttrs(); RemoveContent(); }
-
-private:
-	XML_Node() : kind(0), parent(0)	// ! Make sure parent pointer is always set.
-	{
-		#if 0	// *** XMP_DebugBuild
-			_namePtr = name.c_str();
-			_valuePtr = value.c_str();
-		#endif
-	};
-
 };
 
 extern void ProcessRDF ( XMP_Node * xmpTree, const XML_Node & xmlTree, XMP_OptionBits options );

@@ -28,7 +28,7 @@
 /// \endcode
 
 
-#include "XMPSDK.hpp" // ! This must be the first include!
+#include "XMP.hpp" // ! This must be the first include!
 
 #define XMP_ClientBuild 1
 
@@ -50,10 +50,13 @@
     #include "client-glue/TXMPMeta.incl_cpp"
     #include "client-glue/TXMPIterator.incl_cpp"
     #include "client-glue/TXMPUtils.incl_cpp"
-
     template class TXMPMeta <TXMP_STRING_TYPE>;
     template class TXMPIterator <TXMP_STRING_TYPE>;
     template class TXMPUtils <TXMP_STRING_TYPE>;
+	#if XMP_INCLUDE_XMPFILES
+	    #include "client-glue/TXMPFiles.incl_cpp"
+	    template class TXMPFiles <TXMP_STRING_TYPE>;
+   #endif
 
 #endif
 

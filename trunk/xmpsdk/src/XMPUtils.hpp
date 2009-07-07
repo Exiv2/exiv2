@@ -14,6 +14,7 @@
 
 #include "XMPMeta.hpp"
 #include "XMPCore_Impl.hpp"
+#include "client-glue/WXMPUtils.hpp"
 
 // -------------------------------------------------------------------------------------------------
 

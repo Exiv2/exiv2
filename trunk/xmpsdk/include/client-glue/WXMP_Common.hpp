@@ -33,12 +33,13 @@ struct WXMP_Result {
 extern "C" {
 #endif
 
+#define PropagateException(res)	\
+	if ( res.errMessage != 0 ) throw XMP_Error ( res.int32Result, res.errMessage );
+
 #ifndef TraceXMPCalls
 	#define TraceXMPCalls	0
 #endif
 
-    #define PropagateException(res)	\
-        if ( res.errMessage != 0 ) throw XMP_Error ( res.int32Result, res.errMessage );
 #if ! TraceXMPCalls
 	#define InvokeCheck(WCallProto) \
     	WXMP_Result wResult;        \
@@ -73,9 +74,17 @@ extern "C" {
     InvokeCheck(WCallProto);                \
     XMPIteratorRef result = XMPIteratorRef(wResult.ptrResult)
 
+#define WrapCheckDocOpsRef(result,WCallProto) \
+    InvokeCheck(WCallProto);                  \
+    XMPDocOpsRef result = XMPDocOpsRef(wResult.ptrResult)
+
 #define WrapCheckBool(result,WCallProto) \
     InvokeCheck(WCallProto);             \
     bool result = bool(wResult.int32Result)
+
+#define WrapCheckTriState(result,WCallProto) \
+    InvokeCheck(WCallProto);                 \
+    XMP_TriState result = XMP_TriState(wResult.int32Result)
 
 #define WrapCheckOptions(result,WCallProto) \
     InvokeCheck(WCallProto);                \
@@ -100,6 +109,10 @@ extern "C" {
 #define WrapCheckFloat(result,WCallProto) \
     InvokeCheck(WCallProto);              \
     double result = wResult.floatResult
+
+#define WrapCheckFormat(result,WCallProto) \
+    InvokeCheck(WCallProto);               \
+    XMP_FileFormat result = wResult.int32Result
 
 // =================================================================================================
 

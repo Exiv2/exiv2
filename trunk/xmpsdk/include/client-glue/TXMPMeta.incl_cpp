@@ -1,6 +1,6 @@
 // =================================================================================================
 // ADOBE SYSTEMS INCORPORATED
-// Copyright 2002-2007 Adobe Systems Incorporated
+// Copyright 2002-2008 Adobe Systems Incorporated
 // All Rights Reserved
 //
 // NOTICE:	Adobe permits you to use, modify, and distribute this file in accordance with the terms
@@ -11,7 +11,7 @@
 /// \file TXMPMeta.incl_cpp
 /// \brief The implementation of the TXMPMeta template class.
 
-#include "XMPSDK.hpp"
+#include "XMP.hpp"
 #include "client-glue/WXMP_Common.hpp"
 #include "client-glue/WXMPMeta.hpp"
 
@@ -35,8 +35,6 @@
 		XMP_Int32 clientRefs;
 	};
 #endif
-
-// =================================================================================================
 
 // =================================================================================================
 // Local utilities
@@ -853,6 +851,22 @@ XMP_MethodIntro(TXMPMeta,void)::
 SetObjectOptions ( XMP_OptionBits options )
 {
 	WrapCheckVoid ( zXMPMeta_SetObjectOptions_1 ( options ) );
+}
+
+// -------------------------------------------------------------------------------------------------
+
+XMP_MethodIntro(TXMPMeta,void)::
+Sort()
+{
+	WrapCheckVoid ( zXMPMeta_Sort_1() );
+}
+
+// -------------------------------------------------------------------------------------------------
+
+XMP_MethodIntro(TXMPMeta,void)::
+Erase()
+{
+	WrapCheckVoid ( zXMPMeta_Erase_1() );
 }
 
 // -------------------------------------------------------------------------------------------------

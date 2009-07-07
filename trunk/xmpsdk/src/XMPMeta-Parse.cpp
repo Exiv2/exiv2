@@ -1,5 +1,5 @@
 // =================================================================================================
-// Copyright 2002-2007 Adobe Systems Incorporated
+// Copyright 2002-2008 Adobe Systems Incorporated
 // All Rights Reserved.
 //
 // NOTICE:  Adobe permits you to use, modify, and distribute this file in accordance with the terms
@@ -105,23 +105,16 @@ static const char * kReplaceLatin1[128] =
 // -------------------------------------------------------------------------------------------------
 // PickBestRoot
 // ------------
-//
-// Pick the first pxmp:XMP_Packet or x:xmpmeta among multiple root candidates. If there aren't any,
-// pick the first bare rdf:RDF if that is allowed. The returned root is the rdf:RDF child if an
-// x:xmpmeta element was chosen.  The search is breadth first, so a higher level candiate is chosen
-// over a lower level one that was textually earlier in the serialized XML.
-
 static const XML_Node * PickBestRoot ( const XML_Node & xmlParent, XMP_OptionBits options )
 {
-	// Look among this parent's content for pxmp:XMP_Packet or x:xmpmeta. The recursion for
-	// x:xmpmeta is broader than the strictly defined choice, but gives us smaller code.
+
+	// Look among this parent's content for x:xmpmeta. The recursion for x:xmpmeta is broader than
+	// the strictly defined choice, but gives us smaller code.
 	for ( size_t childNum = 0, childLim = xmlParent.content.size(); childNum < childLim; ++childNum ) {
 		const XML_Node * childNode = xmlParent.content[childNum];
 		if ( childNode->kind != kElemNode ) continue;
-		if ( childNode->name == "pxmp:XMP_Packet" ) return childNode;
 		if ( (childNode->name == "x:xmpmeta") || (childNode->name == "x:xapmeta") ) return PickBestRoot ( *childNode, 0 );
 	}
-	
 	// Look among this parent's content for a bare rdf:RDF if that is allowed.
 	if ( ! (options & kXMP_RequireXMPMeta) ) {
 		for ( size_t childNum = 0, childLim = xmlParent.content.size(); childNum < childLim; ++childNum ) {
@@ -147,8 +140,8 @@ static const XML_Node * PickBestRoot ( const XML_Node & xmlParent, XMP_OptionBit
 //
 // Find the XML node that is the root of the XMP data tree. Generally this will be an outer node,
 // but it could be anywhere if a general XML document is parsed (e.g. SVG). The XML parser counted
-// all rdf:RDF and pxmp:XMP_Packet nodes, and kept a pointer to the last one. If there is more than
-// one possible root use PickBestRoot to choose among them.
+// all possible root nodes, and kept a pointer to the last one. If there is more than one possible
+// root use PickBestRoot to choose among them.
 //
 // If there is a root node, try to extract the version of the previous XMP toolkit.
 
@@ -162,18 +155,6 @@ static const XML_Node * FindRootNode ( XMPMeta * thiz, const XMLParserAdapter & 
 	// We have a root node. Try to extract previous toolkit version number.
 	
 	XMP_StringPtr verStr = "";
-	
-	if ( rootNode->name == "pxmp:XMP_Packet" ) {
-
-		for ( size_t attrNum = 0, attrLim = rootNode->attrs.size(); attrNum < attrLim; ++attrNum ) {
-			const XML_Node * currAttr =rootNode->attrs[attrNum];
-			if ( currAttr->name == "pxmp:xmptk" ) {
-				verStr = currAttr->value.c_str();
-				break;
-			}
-		}
-
-	} else {
 	
 		XMP_Assert ( rootNode->name == "rdf:RDF" );
 	
@@ -189,8 +170,6 @@ static const XML_Node * FindRootNode ( XMPMeta * thiz, const XMLParserAdapter & 
 			}
 		}
 		
-	}
-	
 	// Decode the version number into MMmmuubbb digits. If any part is too big, peg it at 99 or 999.
 	
 	unsigned long part;
@@ -633,6 +612,7 @@ RepairAltText ( XMP_Node & tree, XMP_StringPtr schemaNS, XMP_StringPtr arrayName
 	if ( (arrayNode == 0) || XMP_ArrayIsAltText ( arrayNode->options ) ) return;	// Already OK.
 	
 	if ( ! XMP_PropIsArray ( arrayNode->options ) ) return;	// ! Not even an array, leave it alone.
+	// *** Should probably change simple values to LangAlt with 'x-default' item.
 	
 	arrayNode->options |= (kXMP_PropArrayIsOrdered | kXMP_PropArrayIsAlternate | kXMP_PropArrayIsAltText);
 	
@@ -689,9 +669,28 @@ TouchUpDataModel ( XMPMeta * xmp )
 
 	currSchema = FindSchemaNode ( &tree, kXMP_NS_EXIF, kXMP_ExistingOnly );
 	if ( currSchema != 0 ) {
+
 		// Do a special case fix for exif:GPSTimeStamp.
 		XMP_Node * gpsDateTime = FindChildNode ( currSchema, "exif:GPSTimeStamp", kXMP_ExistingOnly );
 		if ( gpsDateTime != 0 ) FixGPSTimeStamp ( currSchema, gpsDateTime );
+	
+		// *** Should probably have RepairAltText change simple values to LangAlt with 'x-default' item.
+		// *** For now just do this for exif:UserComment, the one case we know about, late in cycle fix.
+		XMP_Node * userComment = FindChildNode ( currSchema, "exif:UserComment", kXMP_ExistingOnly );
+		if ( (userComment != 0) && XMP_PropIsSimple ( userComment->options ) ) {
+			XMP_Node * newChild = new XMP_Node ( userComment, kXMP_ArrayItemName,
+												 userComment->value.c_str(), userComment->options );
+			newChild->qualifiers.swap ( userComment->qualifiers );
+			if ( ! XMP_PropHasLang ( newChild->options ) ) {
+				XMP_Node * langQual = new XMP_Node ( newChild, "xml:lang", "x-default", kXMP_PropIsQualifier );
+				newChild->qualifiers.insert ( newChild->qualifiers.begin(), langQual );
+				newChild->options |= (kXMP_PropHasQualifiers | kXMP_PropHasLang);
+			}
+			userComment->value.erase();
+			userComment->options = kXMP_PropArrayFormMask;	// ! Happens to have all the right bits.
+			userComment->children.push_back ( newChild );
+		}
+
 	}
 
 	currSchema = FindSchemaNode ( &tree, kXMP_NS_DM, kXMP_ExistingOnly );
@@ -707,7 +706,7 @@ TouchUpDataModel ( XMPMeta * xmp )
 		// Do a special case fix for dc:subject, make sure it is an unordered array.
 		XMP_Node * dcSubject = FindChildNode ( currSchema, "dc:subject", kXMP_ExistingOnly );
 		if ( dcSubject != 0 ) {
-                        XMP_OptionBits keepMask = static_cast<XMP_OptionBits>(~(kXMP_PropArrayIsOrdered | kXMP_PropArrayIsAlternate | kXMP_PropArrayIsAltText));
+			XMP_OptionBits keepMask = ~(kXMP_PropArrayIsOrdered | kXMP_PropArrayIsAlternate | kXMP_PropArrayIsAltText);
 			dcSubject->options &= keepMask;	// Make sure any ordered array bits are clear.
 		}
 	}
@@ -717,7 +716,7 @@ TouchUpDataModel ( XMPMeta * xmp )
 	RepairAltText ( tree, kXMP_NS_DC, "dc:description" );	// ! Note inclusion of prefixes for direct node lookup!
 	RepairAltText ( tree, kXMP_NS_DC, "dc:rights" );
 	RepairAltText ( tree, kXMP_NS_DC, "dc:title" );
-	RepairAltText ( tree, kXMP_NS_XMP_Rights, "xapRights:UsageTerms" );
+	RepairAltText ( tree, kXMP_NS_XMP_Rights, "xmpRights:UsageTerms" );
 	RepairAltText ( tree, kXMP_NS_EXIF, "exif:UserComment" );
 	
 	// Tweak old XMP: Move an instance ID from rdf:about to the xmpMM:InstanceID property. An old
@@ -1087,7 +1086,7 @@ XMPMeta::ParseFromBuffer ( XMP_StringPtr  buffer,
 
 	if ( this->xmlParser == 0 ) {
 		if ( (xmpSize == 0) && lastClientCall ) return;	// Tolerate empty parse. Expat complains if there are no XML elements.
-		this->xmlParser = new ExpatAdapter;
+		this->xmlParser = XMP_NewExpatAdapter();
 	}
 	
 	XMLParserAdapter& parser = *this->xmlParser;

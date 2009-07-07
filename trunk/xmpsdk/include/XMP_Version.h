@@ -7,7 +7,7 @@
 
 /*
 // =================================================================================================
-// Copyright 2002-2007 Adobe Systems Incorporated
+// Copyright 2002-2008 Adobe Systems Incorporated
 // All Rights Reserved.
 //
 // NOTICE:  Adobe permits you to use, modify, and distribute this file in accordance with the terms
@@ -34,11 +34,11 @@ versions.
 /* ============================================================================================= */
 
 #define XMP_API_VERSION_MAJOR  4
-#define XMP_API_VERSION_MINOR  1
-#define XMP_API_VERSION_MICRO  1
+#define XMP_API_VERSION_MINOR  4
+#define XMP_API_VERSION_MICRO  0
 
-#define XMP_API_VERSION 4.1
-#define XMP_API_VERSION_STRING "4.1.1-Exiv2"
+#define XMP_API_VERSION 4.4
+#define XMP_API_VERSION_STRING "4.4.0"
 
 /* ============================================================================================= */
 

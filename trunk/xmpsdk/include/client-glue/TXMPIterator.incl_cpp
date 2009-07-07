@@ -11,7 +11,7 @@
 /// \file TXMPIterator.incl_cpp
 /// \brief The implementation of the TXMPIterator template class.
 
-#include "XMPSDK.hpp"
+#include "XMP.hpp"
 #include "client-glue/WXMP_Common.hpp"
 #include "client-glue/WXMPIterator.hpp"
 
