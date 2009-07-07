@@ -36,14 +36,14 @@ xmpsdk/src/. This library is only used to link the Exiv2 library with;
 it is not installed.
 
 If you experience problems building this library, please email to the
-Exiv2 support forum for help, see http://www.exiv2.org/support.html
+Exiv2 forum for help, http://dev.exiv2.org/projects/exiv2/boards
 and not to Adobe directly.
 
 
 Source
 ======
 
-XMP Toolkit 4.1.1 (xmp_v411_sdk.zip) from
+XMP-Toolkit-SDK-4.4.2.zip obtained via
 http://www.adobe.com/devnet/xmp/sdk/eula.html
 
 The following files were copied from the original XMP SDK
@@ -55,15 +55,16 @@ source/XMPCore/*        -> xmpsdk/src
 build/XMP_BuildInfo.h   -> xmpsdk/src
 
 The MD5 functions included with XMP SDK were replaced with an
-equivalent implementation which is in the public domain. For other
-changes applied to the original XMP SDK, refer to SVN for details:
+equivalent implementation which is in the public domain. For more
+details refer to Exiv2 issue #600 and the SVN repository:
 
+    http://dev.exiv2.org/issues/show/600
     http://dev.exiv2.org/repositories/browse/exiv2/trunk/xmpsdk
 
 
 License
 =======
 
-Copyright (c) 1999 - 2007, Adobe Systems Incorporated
+Copyright (c) 1999 - 2008, Adobe Systems Incorporated
 
 See the file doc/COPYING-XMPSDK for the XMP Toolkit license agreement.
