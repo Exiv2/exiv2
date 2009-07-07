@@ -20,9 +20,10 @@
 #include <map>
 
 #include <cassert>
+#include <cstring>
 
 #if XMP_WinBuild
-	#include <Windows.h>
+	#include <windows.h>
 #else
 	// Use pthread for both Mac and generic UNIX.
 	#include <pthread.h>
