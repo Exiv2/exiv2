@@ -2,7 +2,7 @@
 #define __WXMPMeta_hpp__ 1
 
 // =================================================================================================
-// Copyright 2002-2007 Adobe Systems Incorporated
+// Copyright 2002-2008 Adobe Systems Incorporated
 // All Rights Reserved.
 //
 // NOTICE:  Adobe permits you to use, modify, and distribute this file in accordance with the terms
@@ -161,6 +161,12 @@ extern "C" {
 
 #define zXMPMeta_SetObjectOptions_1(options) \
     WXMPMeta_SetObjectOptions_1 ( this->xmpRef, options, &wResult )
+
+#define zXMPMeta_Sort_1() \
+    WXMPMeta_Sort_1 ( this->xmpRef, &wResult )
+
+#define zXMPMeta_Erase_1() \
+    WXMPMeta_Erase_1 ( this->xmpRef, &wResult )
 
 #define zXMPMeta_Clone_1(options) \
     WXMPMeta_Clone_1 ( this->xmpRef, options, &wResult )
@@ -563,6 +569,14 @@ extern void
 WXMPMeta_SetObjectOptions_1 ( XMPMetaRef     xmpRef,
                               XMP_OptionBits options,
                               WXMP_Result *  wResult );
+
+extern void
+WXMPMeta_Sort_1 ( XMPMetaRef    xmpRef,
+                  WXMP_Result * wResult );
+
+extern void
+WXMPMeta_Erase_1 ( XMPMetaRef    xmpRef,
+                   WXMP_Result * wResult );
 
 extern void
 WXMPMeta_Clone_1 ( XMPMetaRef     xmpRef,

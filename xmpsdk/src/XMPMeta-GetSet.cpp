@@ -1,5 +1,5 @@
 // =================================================================================================
-// Copyright 2002-2007 Adobe Systems Incorporated
+// Copyright 2002-2008 Adobe Systems Incorporated
 // All Rights Reserved.
 //
 // NOTICE:  Adobe permits you to use, modify, and distribute this file in accordance with the terms
@@ -74,8 +74,8 @@ SetNodeValue ( XMP_Node * node, XMP_StringPtr value )
 {
 
 	#if XMP_DebugBuild	// ! Hack to force an assert.
-		if ( (node->name == "xap:TestAssertNotify") && XMP_LitMatch ( value, "DoIt!" ) ) {
-			XMP_Assert ( node->name != "xap:TestAssertNotify" );
+		if ( (node->name == "xmp:TestAssertNotify") && XMP_LitMatch ( value, "DoIt!" ) ) {
+			XMP_Assert ( node->name != "xmp:TestAssertNotify" );
 		}
 	#endif
 	
@@ -1207,3 +1207,4 @@ XMPMeta::SetProperty_Date ( XMP_StringPtr		   schemaNS,
 }	// SetProperty_Date
 
 // =================================================================================================
+

@@ -52,6 +52,12 @@ extern "C" {
 #define zXMPFiles_GetFormatInfo_1(format,flags) \
 	WXMPFiles_GetFormatInfo_1 ( format, flags, &wResult )
 
+#define zXMPFiles_CheckFileFormat_1(filePath) \
+	WXMPFiles_CheckFileFormat_1 ( filePath, &wResult )
+
+#define zXMPFiles_CheckPackageFormat_1(folderPath) \
+	WXMPFiles_CheckPackageFormat_1 ( folderPath, &wResult )
+
 #define zXMPFiles_OpenFile_1(filePath,format,openFlags) \
 	WXMPFiles_OpenFile_1 ( this->xmpFilesRef, filePath, format, openFlags, &wResult )
     
@@ -99,6 +105,12 @@ extern void WXMPFiles_DecrementRefCount_1 ( XMPFilesRef xmpFilesRef );
 extern void WXMPFiles_GetFormatInfo_1 ( XMP_FileFormat   format,
                                         XMP_OptionBits * flags,	// ! Can be null.
                                         WXMP_Result *    result );
+
+extern void WXMPFiles_CheckFileFormat_1 ( XMP_StringPtr filePath,
+                               			  WXMP_Result * result );
+
+extern void WXMPFiles_CheckPackageFormat_1 ( XMP_StringPtr folderPath,
+                      						 WXMP_Result * result );
 
 extern void WXMPFiles_OpenFile_1 ( XMPFilesRef    xmpFilesRef,
                                    XMP_StringPtr  filePath,

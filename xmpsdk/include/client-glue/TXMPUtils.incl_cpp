@@ -1,6 +1,6 @@
 // =================================================================================================
 // ADOBE SYSTEMS INCORPORATED
-// Copyright 2002-2007 Adobe Systems Incorporated
+// Copyright 2002-2008 Adobe Systems Incorporated
 // All Rights Reserved
 //
 // NOTICE:	Adobe permits you to use, modify, and distribute this file in accordance with the terms
@@ -11,7 +11,7 @@
 /// \file TXMPUtils.incl_cpp
 /// \brief The implementation of the TXMPUtils template class.
 
-#include "XMPSDK.hpp"
+#include "XMP.hpp"
 #include "client-glue/WXMP_Common.hpp"
 #include "client-glue/WXMPUtils.hpp"
 
@@ -487,5 +487,7 @@ DuplicateSubtree ( const TXMPMeta<tStringObj> & source,
 	WrapCheckVoid ( zXMPUtils_DuplicateSubtree_1 ( source.GetInternalRef(), dest->GetInternalRef(),
 												   sourceNS, sourceRoot, destNS, destRoot, options ) );
 }
+
+// =================================================================================================
 
 // =================================================================================================

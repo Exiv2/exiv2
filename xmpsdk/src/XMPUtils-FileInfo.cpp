@@ -1,5 +1,5 @@
 // =================================================================================================
-// Copyright 2002-2007 Adobe Systems Incorporated
+// Copyright 2002-2008 Adobe Systems Incorporated
 // All Rights Reserved.
 //
 // NOTICE:	Adobe permits you to use, modify, and distribute this file in accordance with the terms
@@ -22,7 +22,6 @@
 #if XMP_WinBuild
 	#pragma warning ( disable : 4800 )	// forcing value to bool 'true' or 'false' (performance warning)
 #endif
-
 
 // =================================================================================================
 // Local Types and Constants
@@ -51,7 +50,6 @@ typedef enum UniCharKind	UniCharKind;
 // =================================================================================================
 // Static Variables
 // ================
-
 
 // =================================================================================================
 // Local Utilities
@@ -327,6 +325,7 @@ CodePointToUTF8 ( UniCodePoint uniChar, XMP_VarString & utf8Str )
 			cpTemp = cpTemp >> 6;
 		}
 		byteCount = 8 - i;	// The total number of bytes needed.
+		XMP_Assert ( (2 <= byteCount) && (byteCount <= 6) );
 
 		// -------------------------------------------------------------------------------------
 		// Make sure the high order byte can hold the byte count mask, compute and set the mask.
@@ -336,7 +335,8 @@ CodePointToUTF8 ( UniCodePoint uniChar, XMP_VarString & utf8Str )
 		if ( bitCount > (8 - (byteCount + 1)) ) byteCount += 1;
 		
 		i = 8 - byteCount;	// First byte index and mask shift count.
-		buffer[i] |= (UnsByte(0xFF) << i) & UnsByte(0xFF);
+		XMP_Assert ( (0 <= i) && (i <= 6) );
+		buffer[i] |= (UnsByte(0xFF) << i) & UnsByte(0xFF);	// AUDIT: Safe, i is between 0 and 6.
 	
 	}
 	
@@ -447,12 +447,12 @@ IsInternalProperty ( const XMP_VarString & schema, const XMP_VarString & prop )
 	
 	} else if ( schema == kXMP_NS_XMP ) {
 	
-		if ( (prop == "xap:BaseURL")		||
-			 (prop == "xap:CreatorTool")	||
-			 (prop == "xap:Format")			||
-			 (prop == "xap:Locale")			||
-			 (prop == "xap:MetadataDate")	||
-			 (prop == "xap:ModifyDate") ) {
+		if ( (prop == "xmp:BaseURL")		||
+			 (prop == "xmp:CreatorTool")	||
+			 (prop == "xmp:Format")			||
+			 (prop == "xmp:Locale")			||
+			 (prop == "xmp:MetadataDate")	||
+			 (prop == "xmp:ModifyDate") ) {
 			isInternal = true;
 		}
 	
@@ -1202,6 +1202,14 @@ XMPUtils::DuplicateSubtree ( const XMPMeta & source,
 {
 	options = options;	// Avoid unused parameter warning.
 	
+	bool fullSourceTree = false;
+	bool fullDestTree   = false;
+	
+	XMP_ExpandedXPath sourcePath, destPath; 
+
+	const XMP_Node * sourceNode = 0;
+	XMP_Node * destNode = 0;
+	
 	XMP_Assert ( (sourceNS != 0) && (*sourceNS != 0) );
 	XMP_Assert ( (sourceRoot != 0) && (*sourceRoot != 0) );
 	XMP_Assert ( (dest != 0) && (destNS != 0) && (destRoot != 0) );
@@ -1209,47 +1217,126 @@ XMPUtils::DuplicateSubtree ( const XMPMeta & source,
 	if ( *destNS == 0 )	  destNS   = sourceNS;
 	if ( *destRoot == 0 ) destRoot = sourceRoot;
 	
-	if ( (&source == dest) &&
-		 XMP_LitMatch ( sourceNS, destNS ) &&
-		 XMP_LitMatch ( sourceRoot, destRoot ) ) XMP_Throw ( "Can't duplicate subtree onto itself", kXMPErr_BadParam );
-
-	// Find the root nodes for the source and destination subtrees.
+	if ( XMP_LitMatch ( sourceNS, "*" ) ) fullSourceTree = true;
+	if ( XMP_LitMatch ( destNS, "*" ) )   fullDestTree   = true;
 	
-	XMP_ExpandedXPath sourcePath, destPath; 
-	ExpandXPath ( sourceNS, sourceRoot, &sourcePath );
-	ExpandXPath ( destNS, destRoot, &destPath );
-	
-	XMP_Node * sourceNode = FindConstNode ( &source.tree, sourcePath );
-	if ( sourceNode == 0 ) XMP_Throw ( "Can't find source subtree", kXMPErr_BadXPath );
-	
-	XMP_Node * destNode = FindNode ( &dest->tree, destPath, kXMP_ExistingOnly );	// Dest must not yet exist.
-	if ( destNode != 0 ) XMP_Throw ( "Destination subtree must not exist", kXMPErr_BadXPath );
-	
-	destNode = FindNode ( &dest->tree, destPath, kXMP_CreateNodes );	// Now create the dest.
-	if ( destNode == 0 ) XMP_Throw ( "Can't create destination root node", kXMPErr_BadXPath );
-	
-	// Make sure the destination is not within the source! The source can't be inside the destination
-	// because the source already existed and the destination was just created.
-	
-	if ( &source == dest ) {
-		for ( XMP_Node * testNode = destNode; testNode != 0; testNode = testNode->parent ) {
-			if ( testNode == sourceNode ) {
-				// *** delete the just-created dest root node
-				XMP_Throw ( "Destination subtree is within the source subtree", kXMPErr_BadXPath );
-			}
-		}
+	if ( (&source == dest) && (fullSourceTree | fullDestTree) ) {
+		XMP_Throw ( "Can't duplicate tree onto itself", kXMPErr_BadParam );
 	}
 	
-	// All OK, copy the subtree.
-	// *** Could use a CloneTree util here and maybe elsewhere.
-	
-	destNode->value	  = sourceNode->value;	// *** Should use SetNode.
-	destNode->options = sourceNode->options;
-	CloneOffspring ( sourceNode, destNode );
+	if ( fullSourceTree & fullDestTree ) XMP_Throw ( "Use Clone for full tree to full tree", kXMPErr_BadParam );
 
-	#if 0	// *** XMP_DebugBuild
-		destNode->_valuePtr = destNode->value.c_str();
-	#endif
+	if ( fullSourceTree ) {
+	
+		// The destination must be an existing empty struct, copy all of the source top level as fields.
+
+		ExpandXPath ( destNS, destRoot, &destPath );
+		destNode = FindNode ( &dest->tree, destPath, kXMP_ExistingOnly );
+
+		if ( (destNode == 0) || (! XMP_PropIsStruct ( destNode->options )) ) {
+			XMP_Throw ( "Destination must be an existing struct", kXMPErr_BadXPath );
+		}
+		
+		if ( ! destNode->children.empty() ) {
+			if ( options & kXMP_DeleteExisting ) {
+				destNode->RemoveChildren();
+			} else {
+				XMP_Throw ( "Destination must be an empty struct", kXMPErr_BadXPath );
+			}
+		}
+		
+		for ( size_t schemaNum = 0, schemaLim = source.tree.children.size(); schemaNum < schemaLim; ++schemaNum ) {
+
+			const XMP_Node * currSchema = source.tree.children[schemaNum];
+
+			for ( size_t propNum = 0, propLim = currSchema->children.size(); propNum < propLim; ++propNum ) {
+				sourceNode = currSchema->children[propNum];
+				XMP_Node * copyNode = new XMP_Node ( destNode, sourceNode->name, sourceNode->value, sourceNode->options );
+				destNode->children.push_back ( copyNode );
+				CloneOffspring ( sourceNode, copyNode );
+			}
+
+		}
+	
+	} else if ( fullDestTree ) {
+
+		// The source node must be an existing struct, copy all of the fields to the dest top level.
+
+		XMP_ExpandedXPath sourcePath; 
+		ExpandXPath ( sourceNS, sourceRoot, &sourcePath );
+		sourceNode = FindConstNode ( &source.tree, sourcePath );
+
+		if ( (sourceNode == 0) || (! XMP_PropIsStruct ( sourceNode->options )) ) {
+			XMP_Throw ( "Source must be an existing struct", kXMPErr_BadXPath );
+		}
+		
+		destNode = &dest->tree;
+		
+		if ( ! destNode->children.empty() ) {
+			if ( options & kXMP_DeleteExisting ) {
+				destNode->RemoveChildren();
+			} else {
+				XMP_Throw ( "Destination tree must be empty", kXMPErr_BadXPath );
+			}
+		}
+		
+		std::string   nsPrefix;
+		XMP_StringPtr nsURI;
+		XMP_StringLen nsLen;
+		
+		for ( size_t fieldNum = 0, fieldLim = sourceNode->children.size(); fieldNum < fieldLim; ++fieldNum ) {
+
+			const XMP_Node * currField = sourceNode->children[fieldNum];
+
+			size_t colonPos = currField->name.find ( ':' );
+			nsPrefix.assign ( currField->name.c_str(), colonPos );
+			bool nsOK = XMPMeta::GetNamespaceURI ( nsPrefix.c_str(), &nsURI, &nsLen );
+			if ( ! nsOK ) XMP_Throw ( "Source field namespace is not global", kXMPErr_BadSchema );
+			
+			XMP_Node * destSchema = FindSchemaNode ( &dest->tree, nsURI, kXMP_CreateNodes );
+			if ( destSchema == 0 ) XMP_Throw ( "Failed to find destination schema", kXMPErr_BadSchema );
+
+			XMP_Node * copyNode = new XMP_Node ( destSchema, currField->name, currField->value, currField->options );
+			destSchema->children.push_back ( copyNode );
+			CloneOffspring ( currField, copyNode );
+
+		}
+		
+	} else {
+
+		// Find the root nodes for the source and destination subtrees.
+		
+		ExpandXPath ( sourceNS, sourceRoot, &sourcePath );
+		ExpandXPath ( destNS, destRoot, &destPath );
+	
+		sourceNode = FindConstNode ( &source.tree, sourcePath );
+		if ( sourceNode == 0 ) XMP_Throw ( "Can't find source subtree", kXMPErr_BadXPath );
+		
+		destNode = FindNode ( &dest->tree, destPath, kXMP_ExistingOnly );	// Dest must not yet exist.
+		if ( destNode != 0 ) XMP_Throw ( "Destination subtree must not exist", kXMPErr_BadXPath );
+		
+		destNode = FindNode ( &dest->tree, destPath, kXMP_CreateNodes );	// Now create the dest.
+		if ( destNode == 0 ) XMP_Throw ( "Can't create destination root node", kXMPErr_BadXPath );
+		
+		// Make sure the destination is not within the source! The source can't be inside the destination
+		// because the source already existed and the destination was just created.
+		
+		if ( &source == dest ) {
+			for ( XMP_Node * testNode = destNode; testNode != 0; testNode = testNode->parent ) {
+				if ( testNode == sourceNode ) {
+					// *** delete the just-created dest root node
+					XMP_Throw ( "Destination subtree is within the source subtree", kXMPErr_BadXPath );
+				}
+			}
+		}
+	
+		// *** Could use a CloneTree util here and maybe elsewhere.
+		
+		destNode->value	  = sourceNode->value;	// *** Should use SetNode.
+		destNode->options = sourceNode->options;
+		CloneOffspring ( sourceNode, destNode );
+
+	}
 
 }	// DuplicateSubtree
 

@@ -2,73 +2,51 @@
 #define __TXMPMeta_hpp__    1
 
 #if ( ! __XMP_hpp__ )
-    #error "Do not directly include, use XMPSDK.hpp"
+    #error "Do not directly include, use XMP.hpp"
 #endif
 
 // =================================================================================================
 // ADOBE SYSTEMS INCORPORATED
-// Copyright 2002-2007 Adobe Systems Incorporated
+// Copyright 2002-2008 Adobe Systems Incorporated
 // All Rights Reserved
 //
 // NOTICE:  Adobe permits you to use, modify, and distribute this file in accordance with the terms
 // of the Adobe license agreement accompanying it.
 // =================================================================================================
 
-//  ================================================================================================
+// =================================================================================================
 /// \file TXMPMeta.hpp
-/// \brief Template class for the XMP Toolkit core services.
+/// \brief API for access to the XMP Toolkit core services.
 ///
-/// TXMPMeta is the template class providing the core services of the XMP Toolkit. It should be
-/// instantiated with a string class such as <tt>std::string</tt>. Please read the general toolkit
-/// usage notes for information about the overall architecture of the XMP API.
-//  ================================================================================================
+/// \c TXMPMeta is the template class providing the core services of the XMP Toolkit. It must be
+/// instantiated with a string class such as \c std::string. Read the Toolkit Overview for
+/// information about the overall architecture of the XMP API, and the documentation for \c XMP.hpp
+/// for specific instantiation instructions.
+///
+/// Access these functions through the concrete class, \c SXMPMeta.
+// =================================================================================================
 
-//  ================================================================================================
+// =================================================================================================
 /// \class TXMPMeta TXMPMeta.hpp
-/// \brief Template class for the XMP Toolkit core services.
+/// \brief API for access to the XMP Toolkit core services.
 ///
 /// \c TXMPMeta is the template class providing the core services of the XMP Toolkit. It should be
-/// instantiated with a string class such as std::string. Please read the general toolkit usage notes
-/// for information about the overall architecture of the XMP API.
+/// instantiated with a string class such as \c std::string. Read the Toolkit Overview for
+/// information about the overall architecture of the XMP API, and the documentation for \c XMP.hpp
+/// for specific instantiation instructions.
 ///
-/// This template wraps a string object class around the raw XMP API. This provides two significant
-/// benefits, output strings are automatically copied and access is fully thread safe. The
-/// umbrella header, \c XMPSDK.hpp, provides an \c SXMPMeta typedef for the instantiated template. String
-/// objects are only necessary for output strings. Input string are literals and passed as typical
-/// C <tt>const char *</tt>.
+/// Access these functions through the concrete class, \c SXMPMeta.
 ///
-/// The template parameter, class \c TtStringObj, is described in the XMPSDK.hpp umbrella header.
-///
-/// <b>Be aware that the \c TXMPMeta class is a normal C++ template, it is instantiated and local to
-/// each client executable. As are the other TXMP* classes. Different clients might not even use the
-/// same string type to instantiate \c TXMPMeta.</b>
-///
-/// Because of this you should not pass \c SXMPMeta objects, or pointers to \c SXMPMeta objects,
-/// across DLL boundaries. There is a safe internal reference that you can pass, then construct a
-/// local object on the callee side. This construction does not create a cloned XMP tree, it is the
-/// same underlying XMP object safely wrapped in each client's \c SXMPMeta object.
-///
-/// Use GetInternalRef and the associated constructor like this:
-/// \code
-///  --- The callee's header contains:
-///  CalleeMethod ( XMPMetaRef xmpRef );
-///
-///  --- The caller's code contains:
-///  SXMPMeta callerXMP;
-///  CalleeMethod ( callerXMP.GetInternalRef() );
-///
-///  --- The callee's code contains:
-///  SXMPMeta calleeXMP ( xmpRef );
-/// \endcode
-//  ================================================================================================
+/// You can create \c TXMPMeta objects (also called XMP objects) from metadata that you construct,
+/// or that you obtain from files using the XMP Toolkit's XMPFiles component; see \c TXMPFiles.hpp.
+// =================================================================================================
 
 template <class tStringObj> class TXMPIterator;
 template <class tStringObj> class TXMPUtils;
 
 // -------------------------------------------------------------------------------------------------
 
-template <class tStringObj>
-class TXMPMeta {
+template <class tStringObj> class TXMPMeta {
 
 public:
 
@@ -76,29 +54,46 @@ public:
     // Initialization and termination
     // ==============================
 
-    //  --------------------------------------------------------------------------------------------
+    // ---------------------------------------------------------------------------------------------
     /// \name Initialization and termination
+    ///
     /// @{
 
-    //  --------------------------------------------------------------------------------------------
-    /// \brief Obtain version information.
-
-    static void
-    GetVersionInfo ( XMP_VersionInfo * info );
-
-    //  --------------------------------------------------------------------------------------------
-    /// \brief Initialize the XMP Toolkit.
+    // ---------------------------------------------------------------------------------------------
+    /// @brief \c GetVersionInfo() retrieves runtime version information.
     ///
-    /// The XMP Toolkit may be explicitly initialized before use. The allocate/delete parameters must
-    /// be either both null (0), or both non-null.
+    /// The header \c XMPVersion.hpp defines a static version number for the XMP Toolkit, which
+    /// describes the version of the API used at client compile time. It is not necessarily the same
+    /// as the runtime version. Do not base runtime decisions on the static version alone; you can,
+    /// however, compare the runtime and static versions.
+    ///
+    /// This function is static; make the call directly from the concrete class (\c SXMPMeta). The
+    /// function can be called before calling \c TXMPMeta::Initialize().
+    ///
+    /// @param info [out] A buffer in which to return the version information.
 
-    static bool
-    Initialize();
-    //  --------------------------------------------------------------------------------------------
-    /// \brief Terminate the XMP Toolkit.
+    static void GetVersionInfo ( XMP_VersionInfo * info );
 
-    static void
-    Terminate();
+    // ---------------------------------------------------------------------------------------------
+    /// @brief \c Initialize() explicitly initializes the XMP Toolkit before use. */
+
+    /// Initializes the XMP Toolkit.
+    ///
+    /// Call this function before making any other calls to the \c TXMPMeta functions, except
+    /// \c TXMPMeta::GetVersionInfo().
+    ///
+    /// This function is static; make the call directly from the concrete class (\c SXMPMeta).
+    ///
+    /// @return True on success. */
+    static bool Initialize();
+    // ---------------------------------------------------------------------------------------------
+    /// @brief \c Terminate() explicitly terminates usage of the XMP Toolkit.
+    ///
+    /// Frees structures created on initialization.
+    ///
+    /// This function is static; make the call directly from the concrete class (\c SXMPMeta).
+
+    static void Terminate();
 
     /// @}
 
@@ -106,61 +101,74 @@ public:
     // Constuctors and destructor
     // =========================
 
-    //  --------------------------------------------------------------------------------------------
+    // ---------------------------------------------------------------------------------------------
     /// \name Constructors and destructor
     /// @{
 
-    //  --------------------------------------------------------------------------------------------
-    /// \brief Default constructor, creates an empty object.
+    // ---------------------------------------------------------------------------------------------
+    /// @brief Default constructor, creates an empty object.
     ///
     /// The default constructor creates a new empty \c TXMPMeta object.
-
+    ///
+    /// @return The new object. */
     TXMPMeta();
 
-    //  --------------------------------------------------------------------------------------------
-    /// \brief Copy constructor, creates a client object refering to the same internal object.
+    // ---------------------------------------------------------------------------------------------
+    /// @brief Copy constructor, creates a client object refering to the same internal object.
     ///
-    /// The copy constructor creates a new \c TXMPMeta object that refers to the same internal XMP object.
+    /// The copy constructor creates a new \c TXMPMeta object that refers to the same internal XMP
+    /// object. as an existing \c TXMPMeta object.
+    ///
+    /// @param original The object to copy.
+    ///
+    /// @return The new object. */
 
     TXMPMeta ( const TXMPMeta<tStringObj> & original );
 
-    //  --------------------------------------------------------------------------------------------
-    /// \brief Assignment operator, assigns the internal ref and increments the ref count.
+    // ---------------------------------------------------------------------------------------------
+    /// @brief Assignment operator, assigns the internal reference and increments the reference count.
     ///
     /// The assignment operator assigns the internal ref from the rhs object and increments the
     /// reference count on the underlying internal XMP object.
 
     void operator= ( const TXMPMeta<tStringObj> & rhs );
 
-    //  --------------------------------------------------------------------------------------------
-    /// \brief Reconstruct an XMP object from an internal ref.
+    // ---------------------------------------------------------------------------------------------
+    /// @brief Reconstructs an XMP object from an internal reference.
     ///
-    /// This constructor creates a new \c TXMPMeta object that refers to the underlying \c xmpRef,
-    /// which was obtained from some other XMP object by the \c GetInternalRef method. This is used
-    /// to safely pass XMP objects across DLL boundaries.
+    /// This constructor creates a new \c TXMPMeta object that refers to the underlying reference object
+    /// of an existing \c TXMPMeta object. Use to safely pass XMP objects across DLL boundaries.
+    ///
+    /// @param xmpRef The underlying reference object, obtained from some other XMP object with
+    /// \c TXMPMeta::GetInternalRef().
+    ///
+    /// @return The new object.
 
     TXMPMeta ( XMPMetaRef xmpRef );
 
-    //  --------------------------------------------------------------------------------------------
-    /// \brief Construct an object and parse one buffer of RDF into it.
+    // ---------------------------------------------------------------------------------------------
+    /// @brief Constructs an object and parse one buffer of RDF into it.
     ///
     /// This constructor creates a new \c TXMPMeta object and populates it with metadata from a
-    /// buffer containing serialized RDF. This buffer must be a complete RDF parse stream. Pass
-    /// (0,0) to construct an empty \c TXMPMeta object. The result of an actual parse is identical
-    /// to creating an empty object then calling <tt>TXMPMeta::ParseFromBuffer</tt>. The RDF must be
-    /// complete. If you need to parse with multiple buffers, create an empty object and use
-    /// \c TXMPMeta::ParseFromBuffer.
+    /// buffer containing serialized RDF. This buffer must be a complete RDF parse stream.
     ///
-    /// \param buffer   A pointer to the buffer of RDF to be parsed. May be null if the length is 0.
+    /// The result of passing serialized data to this function is identical to creating an empty
+    /// object then calling \c TXMPMeta::ParseFromBuffer(). To use the constructor, however, the RDF
+    /// must be complete. If you need to parse data from multiple buffers, create an empty object
+    /// and use  \c TXMPMeta::ParseFromBuffer().
     ///
-    /// \param xmpSize  The length in bytes of the buffer.
+    /// @param buffer  A pointer to the buffer of RDF to be parsed. Can be null if the length is 0;
+    /// in this case, the function creates an empty object.
+    ///
+    /// @param xmpSize  The length in bytes of the buffer.
+    ///
+    /// @return The new object.
 
     TXMPMeta ( XMP_StringPtr buffer,
                XMP_StringLen xmpSize );
 
-    //  --------------------------------------------------------------------------------------------
-    /// \brief Destructor, typical virtual destructor.
-
+    // ---------------------------------------------------------------------------------------------
+    /// @brief Destructor, typical virtual destructor. */
     virtual ~TXMPMeta() throw();
 
     /// @}
@@ -169,51 +177,87 @@ public:
     // Global state functions
     // ======================
 
-    //  --------------------------------------------------------------------------------------------
+    // ---------------------------------------------------------------------------------------------
     /// \name Global option flags
     /// @{
-    /// The global option flags affect the overall behavior of the XMP Toolkit. The available options
-    /// are declared in <tt>XMP_Const.h</tt>. <b>(There are none at present.)</b>
+    /// Global option flags affect the overall behavior of the XMP Toolkit. The available options
+    /// will be declared in \c XMP_Const.h. There are none in this version of the Toolkit.
 
-    /// \brief GetGlobalOptions returns the set of global option flags.
-
-    static XMP_OptionBits
-    GetGlobalOptions();
-
-    /// \brief \c SetGlobalOptions updates the set of global option flags. The entire set is
-    /// replaced with the new values. If only one flag is to be modified, use \c GetGlobalOptions
-    /// to obtain the current set, modify the desired flag, then use \c SetGlobalOptions.
+    // ---------------------------------------------------------------------------------------------
+    /// @brief \c GetGlobalOptions() retrieves the set of global option flags. There are none in
+    /// this version of the Toolkit.
     ///
-    /// \note There are no options to set yet.
+    /// This function is static; you can make the call from the class without instantiating it.
+    ///
+    /// @return A logical OR of global option bit-flag constants.
 
-    static void
-    SetGlobalOptions ( XMP_OptionBits options );
+     static XMP_OptionBits GetGlobalOptions();
+
+    // ---------------------------------------------------------------------------------------------
+    /// @brief \c SetGlobalOptions() updates the set of global option flags. There are none in this
+    /// version of the Toolkit.
+    ///
+    /// The entire set is replaced with the new values. If only one flag is to be modified, use
+    /// \c TXMPMeta::GetGlobalOptions() to obtain the current set, modify the desired flag, then use
+    /// this function to reset the value.
+    ///
+    /// This function is static; you can make the call from the class without instantiating it.
+    ///
+    /// @param options A logical OR of global option bit-flag constants.
+
+    static void SetGlobalOptions ( XMP_OptionBits options );
 
     /// @}
 
-    //  --------------------------------------------------------------------------------------------
+    // ---------------------------------------------------------------------------------------------
     /// \name Internal data structure dump utilities
     /// @{
-    /// These are debugging utilities that dump internal data structures. The output callback is
-    /// described in <tt>XMP_Const.h</tt>.
+    ///
+    /// These are debugging utilities that dump internal data structures, to be handled by
+    /// client-defined callback described in \c XMP_Const.h.
+	///
+	/// @see Member function \c TXMPMeta::DumpObject()
 
-    /// \brief \c DumpNamespaces dumps the list of registered namespace URIs and prefixes.
+    // ---------------------------------------------------------------------------------------------
+    /// @brief \c DumpNamespaces() sends the list of registered namespace URIs and prefixes to a handler.
+    ///
+    /// For debugging. Invokes a client-defined callback for each line of output.
+    ///
+    /// This function is static; make the call directly from the concrete class (\c SXMPMeta).
+    ///
+    /// @param outProc The client-defined procedure to handle each line of output.
+    ///
+    /// @param clientData A pointer to client-defined data to pass to the handler.
+    ///
+    /// @return	A success-fail status value, returned from the handler. Zero is success, failure
+    /// values are client-defined.
 
-    static XMP_Status
-    DumpNamespaces ( XMP_TextOutputProc outProc,
-                     void *             refCon );
+    static XMP_Status DumpNamespaces ( XMP_TextOutputProc outProc,
+                     				   void *             clientData );
 
-    /// \brief \c DumpAliases dumps the list of registered aliases and corresponding actuals.
+    // ---------------------------------------------------------------------------------------------
+    /// @brief \c DumpAliases() sends the list of registered aliases and corresponding actuals to a handler.
+    ///
+    /// For debugging. Invokes a client-defined callback for each line of output.
+    ///
+    /// This function is static; make the call directly from the concrete class (\c SXMPMeta).
+    ///
+    /// @param outProc The client-defined procedure to handle each line of output.
+    ///
+    /// @param clientData A pointer to client-defined data to pass to the handler.
+    ///
+    /// @return	A success-fail status value, returned from the handler. Zero is success, failure
+    /// values are client-defined.
 
-    static XMP_Status
-    DumpAliases ( XMP_TextOutputProc outProc,
-                  void *             refCon );
+    static XMP_Status DumpAliases ( XMP_TextOutputProc outProc,
+                  					void *             clientData );
 
     /// @}
 
-    //  --------------------------------------------------------------------------------------------
+    // ---------------------------------------------------------------------------------------------
     /// \name Namespace Functions
     /// @{
+    ///
     /// Namespaces must be registered before use in namespace URI parameters or path expressions.
     /// Within the XMP Toolkit the registered namespace URIs and prefixes must be unique. Additional
     /// namespaces encountered when parsing RDF are automatically registered.
@@ -222,197 +266,204 @@ public:
     /// because some forms of RDF shorthand catenate a namespace URI with an element name to form a
     /// new URI.
 
-    //  --------------------------------------------------------------------------------------------
-    /// \brief Register a namespace URI with a suggested prefix.
+    // ---------------------------------------------------------------------------------------------
+    /// @brief \c RegisterNamespace() registers a namespace URI with a suggested prefix.
     ///
-    /// It is not an error if the URI is already registered, no matter what the prefix is. If the
-    /// URI is not registered but the suggested prefix is in use, a unique prefix is created from
-    /// the suggested one. The actual registeed prefix is always returned. The function result
-    /// tells if the registered prefix is the suggested one.
+    /// If the URI is not registered but the suggested prefix is in use, a unique prefix is created
+    /// from the suggested one. The actual registered prefix is returned. The function result tells
+    /// if the registered prefix is the suggested one. It is not an error if the URI is already
+    /// registered, regardless of the prefix.
     ///
-    /// \param namespaceURI The URI for the namespace. Must be a valid XML URI.
+    /// This function is static; make the call directly from the concrete class (\c SXMPMeta).
     ///
-    /// \param suggestedPrefix The suggested prefix to be used if the URI is not yet registered.
+    /// @param namespaceURI The URI for the namespace. Must be a valid XML URI.
+    ///
+    /// @param suggestedPrefix The suggested prefix to be used if the URI is not yet registered.
     /// Must be a valid XML name.
     ///
-    /// \param registeredPrefix Returns the prefix actually registered for this URI.
+    /// @param registeredPrefix [out] A string object in which to return the prefix actually
+    /// registered for this URI.
     ///
-    /// \result Returns true if the registered prefix matches the suggested prefix.
+    /// @return True if the registered prefix matches the suggested prefix.
     ///
-    /// \note No checking is presently done on either the URI or the prefix.
+    /// @note No checking is done on either the URI or the prefix.  */
 
-    static bool
-    RegisterNamespace ( XMP_StringPtr namespaceURI,
-                        XMP_StringPtr suggestedPrefix,
-                        tStringObj *  registeredPrefix );
+    static bool RegisterNamespace ( XMP_StringPtr namespaceURI,
+                        			XMP_StringPtr suggestedPrefix,
+                       				tStringObj *  registeredPrefix );
 
-    //  --------------------------------------------------------------------------------------------
-    /// \brief Obtain the prefix for a registered namespace URI.
+    // ---------------------------------------------------------------------------------------------
+    /// @brief \c GetNamespacePrefix() obtains the prefix for a registered namespace URI, and
+    /// reports whether the URI is registered.
     ///
-    /// It is not an error if the namespace URI is not registered. The output \c namespacePrefix
-    /// string is not modified if the namespace URI is not registered.
+    /// This function is static; make the call directly from the concrete class (\c SXMPMeta).
     ///
-    /// \param namespaceURI The URI for the namespace. Must not be null or the empty string.
+    /// @param namespaceURI The URI for the namespace. Must not be null or the empty string. It is
+    /// not an error if the namespace URI is not registered.
     ///
-    /// \param namespacePrefix Returns the prefix registered for this URI, with a terminating ':'.
+    /// @param namespacePrefix [out] A string object in which to return the prefix registered for
+    /// this URI, with a terminating colon character, ':'. If the namespace is not registered, this
+    /// string is not modified.
     ///
-    /// \result Returns true if the namespace URI is registered.
+    /// @return True if the namespace URI is registered.
 
-    static bool
-    GetNamespacePrefix ( XMP_StringPtr namespaceURI,
-                         tStringObj *  namespacePrefix );
+    static bool GetNamespacePrefix ( XMP_StringPtr namespaceURI,
+                         			 tStringObj *  namespacePrefix );
 
-    //  --------------------------------------------------------------------------------------------
-    /// \brief Obtain the URI for a registered namespace prefix.
+    // ---------------------------------------------------------------------------------------------
+    /// @brief \c GetNamespaceURI() obtains the URI for a registered namespace prefix, and reports
+    /// whether the prefix is registered.
     ///
-    /// It is not an error if the namespace prefix is not registered. The output \c namespaceURI
-    /// string is not modified if the namespace prefix is not registered.
+    /// This function is static; make the call directly from the concrete class (\c SXMPMeta).
     ///
-    /// \param namespacePrefix The prefix for the namespace. Must not be null or the empty string.
+    /// @param namespacePrefix The prefix for the namespace. Must not be null or the empty string.
+    /// It is not an error if the namespace prefix is not registered.
     ///
-    /// \param namespaceURI Returns the URI registered for this prefix.
+    /// @param namespaceURI [out] A string object in which to return the URI registered for this
+    /// prefix. If the prefix is not registered, this string is not modified.
     ///
-    /// \result Returns true if the namespace prefix is registered.
+    /// @return True if the namespace prefix is registered.
 
-    static bool
-    GetNamespaceURI ( XMP_StringPtr namespacePrefix,
-                      tStringObj *  namespaceURI );
+    static bool GetNamespaceURI ( XMP_StringPtr namespacePrefix,
+                      			  tStringObj *  namespaceURI );
 
-    //  --------------------------------------------------------------------------------------------
-    /// \brief Delete a namespace from the registry.
+    // ---------------------------------------------------------------------------------------------
+    /// @brief Not implemented.
     ///
-    /// Does nothing if the URI is not registered, or if the \c namespaceURI parameter is null or the
-    /// empty string.
+    /// Deletes a namespace from the registry. Does nothing if the URI is not registered, or if the
+    /// parameter is null or the empty string.
     ///
-    /// \param namespaceURI The URI for the namespace.
+    /// This function is static; make the call directly from the concrete class (\c SXMPMeta).
     ///
-    /// \note <b>Not yet implemented.</b>
+    /// @param namespaceURI The URI for the namespace.
 
-    static void
-    DeleteNamespace ( XMP_StringPtr namespaceURI );
+    static void DeleteNamespace ( XMP_StringPtr namespaceURI );
 
     /// @}
 
-    //  --------------------------------------------------------------------------------------------
-    /// \name Alias Functions
+    // ---------------------------------------------------------------------------------------------
+    /// \name Alias functions
     /// @{
-    /// Aliases in XMP serve the same purpose as Windows file shortcuts, Macintosh file aliases, or
-    /// UNIX file symbolic links. The aliases are simply multiple names for the same property. One
-    /// distinction of XMP aliases is that they are ordered, there is an alias name pointing to an
-    /// actual name. The primary significance of the actual name is that it is the preferred name
-    /// for output, generally the most widely recognized name.
     ///
-    /// The names that can be aliased in XMP are restricted. The alias must be a top level property
-    /// name, not a field within a structure or an element within an array. The actual may be a top
-    /// level property name, the first element within a top level array, or the default element in
-    /// an alt-text array. This does not mean the alias can only be a simple property. It is OK to
-    /// alias a top level structure or array to an identical top level structure or array, or to the
-    /// first item of an array of structures.
+    /// Aliases in XMP serve the same purpose as Windows file shortcuts, Mac OS file aliases, or
+    /// UNIX file symbolic links. The aliases are multiple names for the same property. One
+    /// distinction of XMP aliases is that they are ordered. An alias name points to an actual name;
+    /// the primary significance of the actual name is that it is the preferred name for output,
+    /// generally the most widely recognized name.
+    ///
+    /// XMP restricts the names that can be aliased. The alias must be a top-level property name,
+    /// not a field within a structure or an element within an array. The actual can be a top-level
+    /// property name, the first element within a top-level array, or the default element in an
+    /// alt-text array. This does not mean the alias can only be a simple property; you can alias a
+    /// top-level structure or array to an identical top-level structure or array, or to the first
+    /// item of an array of structures.
 
-    //  --------------------------------------------------------------------------------------------
-    /// \brief Associates an alias name with an actual name.
+    // ---------------------------------------------------------------------------------------------
+    /// @brief \c RegisterAlias() associates an alias name with an actual name.
     ///
-    /// Define a alias mapping from one namespace/property to another. Both property names must be
+    /// Defines an alias mapping from one namespace/property to another. Both property names must be
     /// simple names. An alias can be a direct mapping, where the alias and actual have the same
     /// data type. It is also possible to map a simple alias to an item in an array. This can either
     /// be to the first item in the array, or to the 'x-default' item in an alt-text array. Multiple
-    /// alias names may map to the same actual, as long as the forms match. It is a no-op to
+    /// alias names can map to the same actual, as long as the forms match. It is a no-op to
     /// reregister an alias in an identical fashion.
     ///
-    /// \param aliasNS The namespace URI for the alias. Must not be null or the empty string.
+    /// This function is static; make the call directly from the concrete class (\c SXMPMeta).
     ///
-    /// \param aliasProp The name of the alias. Must be a simple name, not null or the empty string
+    /// @param aliasNS The namespace URI for the alias. Must not be null or the empty string.
+    ///
+    /// @param aliasProp The name of the alias. Must be a simple name, not null or the empty string
     /// and not a general path expression.
     ///
-    /// \param actualNS The namespace URI for the actual. Must not be null or the empty string.
+    /// @param actualNS The namespace URI for the actual. Must not be null or the empty string.
     ///
-    /// \param actualProp The name of the actual. Must be a simple name, not null or the empty string
+    /// @param actualProp The name of the actual. Must be a simple name, not null or the empty string
     /// and not a general path expression.
     ///
-    /// \param arrayForm Provides the array form for simple aliases to an array item. This is needed
+    /// @param arrayForm Provides the array form for simple aliases to an array item. This is needed
     /// to know what kind of array to create if set for the first time via the simple alias. Pass
-    /// \c kXMP_NoOptions, the default value, for all direct aliases regardless of whether the actual
-    /// data type is an array or not.
+    /// \c #kXMP_NoOptions, the default value, for all direct aliases regardless of whether the actual
+    /// data type is an array or not. One of these constants:
     ///
-    /// Constants for the arrayForm parameter:
-    ///
-    /// \li \c kXMP_NoOptions - This is a direct mapping. The actual data type does not matter.
-    /// \li \c kXMP_PropValueIsArray - The actual is an unordered array, the alias is to the first
-    /// element of the array.
-    /// \li \c kXMP_PropArrayIsOrdered - The actual is an ordered array, the alias is to the first
-    /// element of the array.
-    /// \li \c kXMP_PropArrayIsAlternate - The actual is an alternate array, the alias is to the first
-    /// element of the array.
-    /// \li \c kXMP_PropArrayIsAltText - The actual is an alternate text array, the alias is to the
-    /// 'x-default' element of the array.
+    ///   \li \c #kXMP_NoOptions - This is a direct mapping. The actual data type does not matter.
+    ///   \li \c #kXMP_PropValueIsArray - The actual is an unordered array, the alias is to the
+    ///   first element of the array.
+    ///   \li \c #kXMP_PropArrayIsOrdered - The actual is an ordered array, the alias is to the
+    ///   first element of the array.
+    ///   \li \c #kXMP_PropArrayIsAlternate - The actual is an alternate array, the alias is to the
+    ///   first element of the array.
+    ///   \li \c #kXMP_PropArrayIsAltText - The actual is an alternate text array, the alias is to
+    ///   the 'x-default' element of the array.  */
 
-    static void
-    RegisterAlias ( XMP_StringPtr  aliasNS,
-                    XMP_StringPtr  aliasProp,
-                    XMP_StringPtr  actualNS,
-                    XMP_StringPtr  actualProp,
-                    XMP_OptionBits arrayForm = kXMP_NoOptions );
+    static void RegisterAlias ( XMP_StringPtr  aliasNS,
+                    			XMP_StringPtr  aliasProp,
+                    			XMP_StringPtr  actualNS,
+                    			XMP_StringPtr  actualProp,
+                    			XMP_OptionBits arrayForm = kXMP_NoOptions );
 
-    //  --------------------------------------------------------------------------------------------
-    /// \brief Determines if a name is an alias, and what it is aliased to.
+    // ---------------------------------------------------------------------------------------------
+    /// @brief \c ResolveAlias() reports whether a name is an alias, and what it is aliased to.
     ///
-    /// \param aliasNS The namespace URI for the alias. Must not be null or the empty string.
+    /// Output strings are not written until return, so you can use this to
+    /// "reduce" a path to the base form as follows:
+    /// <pre>
+    ///   isAlias = SXMPMeta::ResolveAlias ( ns.c_str(), path.c_str(), &ns, &path, 0 );
+    /// </pre>
+    /// This function is static; make the call directly from the concrete class (\c SXMPMeta).
     ///
-    /// \param aliasProp The name of the alias. May be an arbitrary path expression path, must not
+    /// @param aliasNS The namespace URI for the alias. Must not be null or the empty string.
+    ///
+    /// @param aliasProp The name of the alias. Can be an arbitrary path expression path, must not
     /// null or the empty string.
     ///
-    /// \param actualNS Untouched if <tt>aliasNS:aliasProp</tt> is not an alias. Otherwise returns
-    /// the namespace URI for the actual. May be null if the namespace URI is not wanted.
+    /// @param actualNS  [out] A string object in which to return the namespace URI for the actual.
+    /// Not modified if the given name is not an alias. Can be null if the namespace URI is not wanted.
     ///
-    /// \param actualProp Untouched if <tt>aliasNS:aliasProp</tt> is not an alias. Otherwise
-    /// returns the path of the actual. May be null if the actual's path is not wanted.
+    /// @param actualProp  [out] A string object in which to return the path of the actual.
+    /// Not modified if the given name is not an alias. Can be null if the actual's path is not wanted.
     ///
-    /// \param arrayForm Untouched if <tt>aliasNS:aliasProp</tt> is not an alias. Otherwise returns
-    /// the form of the actual. This is 0 (\c kXMP_NoOptions) if the alias and actual forms match,
-    /// otherwise it is the options passed to <tt>TXMPMeta::RegisterAlias</tt>. May be null if the
-    /// actual's form is not wanted.
+    /// @param arrayForm [out] A string object in which to return the array form of the actual. This
+    /// is 0 (\c #kXMP_NoOptions) if the alias and actual forms match, otherwise it is the options
+    /// passed to \c TXMPMeta::RegisterAlias(). Not modified if the given name is not an alias. Can
+    /// be null if the actual's array form is not wanted.
     ///
-    /// \result Returns true if the input is an alias.
-    ///
-    /// \note The client output strings are not written until return, so a call like the following
-    /// may be used to "reduce" a path to the base form:
-    /// \code
-    ///  isAlias = SXMPMeta::ResolveAlias ( ns.c_str(), path.c_str(), &ns, &path, 0 );
-    /// \endcode
+    /// @return True if the provided name is an alias.
 
-    static bool
-    ResolveAlias ( XMP_StringPtr    aliasNS,
-                   XMP_StringPtr    aliasProp,
-                   tStringObj *     actualNS,
-                   tStringObj *     actualProp,
-                   XMP_OptionBits * arrayForm );
+    static bool ResolveAlias ( XMP_StringPtr    aliasNS,
+                   			   XMP_StringPtr    aliasProp,
+                  			   tStringObj *     actualNS,
+                 			   tStringObj *     actualProp,
+                 			   XMP_OptionBits * arrayForm );
 
-    //  --------------------------------------------------------------------------------------------
-    /// \brief Delete an alias.
+    // ---------------------------------------------------------------------------------------------
+    /// @brief \c DeleteAlias() deletes an alias.
     ///
-    /// This only deletes the registration of the alias, it does not delete the actual property. It
-    /// does delete any view of the property through the alias name. It is OK to attempt to delete
-    /// an alias that does not exist, that is if the alias name is not registered as an alias.
+    /// This deletes only the registration of the alias, it does not delete the actual property.
+    /// It deletes any view of the property through the alias name.
     ///
-    /// \param aliasNS The namespace URI for the alias. Must not be null or the empty string.
+    /// This function is static; make the call directly from the concrete class (\c SXMPMeta).
     ///
-    /// \param aliasProp The name of the alias. Must be a simple name, not null or the empty string
-    /// and not a general path expression.
+    /// @param aliasNS The namespace URI for the alias. Must not be null or the empty string.
+    ///
+    /// @param aliasProp The name of the alias. Must be a simple name, not null or the empty string
+    /// and not a general path expression. It is not an error to provide
+    /// a name that has not been registered as an alias.
 
-    static void
-    DeleteAlias ( XMP_StringPtr aliasNS,
-                  XMP_StringPtr aliasProp );
+    static void DeleteAlias ( XMP_StringPtr aliasNS,
+                  			  XMP_StringPtr aliasProp );
 
-    //  --------------------------------------------------------------------------------------------
-    /// \brief Registers all of the built-in aliases for a standard namespace.
+    // ---------------------------------------------------------------------------------------------
+    /// @brief \c RegisterStandardAliases() registers all of the built-in aliases for a standard namespace.
     ///
-    /// The built-in aliases are documented in the XMP Specification. This registers the aliases in
-    /// the given namespace, that is the aliases from this namespace to actuals in other namespaces.
+    /// The built-in aliases are documented in the XMP Specification. This function registers the
+    /// aliases in the given namespace; that is, it creates the aliases from this namespace to
+    /// actuals in other namespaces.
     ///
-    /// \param schemaNS The namespace URI for the aliases. Must not be null or the empty string.
+    /// This function is static; make the call directly from the concrete class (\c SXMPMeta).
+    ///
+    /// @param schemaNS The namespace URI for the aliases. Must not be null or the empty string.
 
-    static void
-    RegisterStandardAliases ( XMP_StringPtr schemaNS );
+    static void RegisterStandardAliases ( XMP_StringPtr schemaNS );
 
     /// @}
 
@@ -422,1164 +473,1327 @@ public:
 
     // *** Should add discussion of schemaNS and propName prefix usage.
 
-    //  --------------------------------------------------------------------------------------------
-    /// \name Functions for getting property values
+    // ---------------------------------------------------------------------------------------------
+    /// \name Accessing property values
     /// @{
-    /// The property value "getters" all take a property specification, The first two parameters
-    /// are always the top level namespace URI (the "schema" namespace) and the basic name of the
-    /// property being referenced. See the introductory discussion of path expression usage for
-    /// more information.
     ///
-    /// All of the functions return a Boolean result telling if the property exists, and if it does
-    /// they also return option flags describing the property. If the property exists and has a
-    /// value, the string value is also returned. The string is Unicode in UTF-8 encoding. Arrays
-    /// and the non-leaf levels of structs do not have values. The possible option flags that
-    /// describe properties are:
-    ///
-    /// \li \c kXMP_PropValueIsURI - The property value is a URI. It is serialized to RDF using the
-    /// <tt>rdf:resource</tt> attribute. Not mandatory for URIs, but considered RDF-savvy.
-    ///
-    /// \li \c kXMP_PropHasQualifiers - The property has qualifiers. These could be an
-    /// <tt>xml:lang</tt> attribute, an <tt>rdf:type</tt> property, or a general qualifier. See the
-    /// introductory discussion of qualified properties for more information.
-    ///
-    /// \li \c kXMP_PropIsQualifier - This property is a qualifier for some other property. Note
-    /// that if the qualifier itself has a structured value, this flag is only set for the top node
-    /// of the qualifier's subtree. Qualifiers may have arbitrary structure, and may even have
-    /// qualifiers.
-    ///
-    /// \li \c kXMP_PropHasLang - This property has an <tt>xml:lang</tt> qualifier.
-    ///
-    /// \li \c kXMP_PropHasType - This property has an <tt>rdf:type</tt> qualifier.
-    ///
-    /// \li \c kXMP_PropValueIsStruct - This property contains nested fields (models a C struct).
-    ///
-    /// \li \c kXMP_PropValueIsArray - This property is an array. By itself (no ...ArrayIs... flags),
-    /// this indicates a general unordered array. It is serialized using an <tt>rdf:Bag</tt> container.
-    ///
-    /// \li \c kXMP_PropArrayIsOrdered - This property is an ordered array. Appears in conjunction
-    /// with \c kXMP_PropValueIsArray. It is serialized using an <tt>rdf:Seq</tt> container.
-    ///
-    /// \li \c kXMP_PropArrayIsAlternate - This property is an alternative array. Appears in
-    /// conjunction with \c kXMP_PropValueIsArray. It is serialized using an <tt>rdf:Alt</tt> container.
-    ///
-    /// \li \c kXMP_PropArrayIsAltText - This property is an alt-text array. Appears in conjunction
-    /// with \c kXMP_PropArrayIsAlternate. It is serialized using an <tt>rdf:Alt</tt> container. Each
-    /// array element is a simple property with an <tt>xml:lang</tt> attribute.
-    ///
-    /// \li \c kXMP_PropIsAlias - The given property name is an alias. This is only returned by
-    /// \c GetProperty and then only if the property name is simple, not an path expression.
-    ///
-    /// \li \c kXMP_PropHasAliases - The given property name has aliases. This is only returned by
-    /// \c GetProperty and then only if the property name is simple, not an path expression.
-    ///
-    /// \li \c kXMP_PropIsStable - The value of this property is not related to the document
-    /// content.
-    ///
-    /// \li \c kXMP_PropIsDerived -  The value of this property is derived from the document
-    /// content.
-    ///
-    /// \li \c kXMP_PropIsInternal - The value of this property is "owned" by the application, it
-    /// should not generally be editable in a UI.
+    /// The property value accessors all take a property specification; the top level namespace URI
+    ///	(the "schema" namespace) and the basic name of the property being referenced. See the
+    ///	introductory discussion of path expression usage for more information.
+	///
+    /// The accessor functions return true if the specified property exists. If it does, output
+    /// parameters return the value (if any) and option flags describing the property. The option
+    /// bit-flag constants that describe properties are \c kXMP_PropXx and
+	/// \c kXMP_ArrayIsXx. See \c #kXMP_PropValueIsURI and following, and macros \c #XMP_PropIsSimple
+	/// and following in \c XMP_Const.h. If the property exists and has a value, it is returned as a
+	/// Unicode string in UTF-8 encoding. Arrays and the non-leaf levels of structs do not have
+	/// values.
 
-    //  --------------------------------------------------------------------------------------------
-    /// \brief \c GetProperty is the simplest property getter, mainly for top level simple
-    /// properties or after using the path composition functions in \c TXMPUtils.
+    // ---------------------------------------------------------------------------------------------
+    /// @brief \c GetProperty() reports whether a property exists, and retrieves its value.
     ///
-    /// \result Returns true if the property exists.
+    /// This is the simplest property accessor. Use this to retrieve the values of top-level simple
+    /// properties, or after using the path composition functions in \c TXMPUtils.
     ///
-    /// \param schemaNS The namespace URI for the property. May be null or the empty string if the
-    /// first component of the propName path contains a namespace prefix. The URI must be for a
-    /// registered namespace.
+    /// When specifying a namespace and path (in this and all other accessors):
+    ///   \li If a namespace URI is specified, it must be for a registered namespace.
+    ///   \li If the namespace is specified only by a prefix in the property name path,
+    /// it must be a registered prefix.
+    ///   \li If both a URI and path prefix are present, they must be corresponding
+    /// parts of a registered namespace.
     ///
-    /// \param propName The name of the property. May be a general path expression, must not be
-    /// null or the empty string. Using a namespace prefix on the first component is optional. If
-    /// present without a \c schemaNS value then the prefix specifies the namespace. The prefix
-    /// must be for a registered namespace. If both a \c schemaNS URI and \c propName prefix are
-    /// present, they must be corresponding parts of a registered namespace.
+    /// @param schemaNS The namespace URI for the property. The URI must be for a registered
+    /// namespace. Can be null or the empty string if the first component of the \c propName path
+    /// contains a namespace prefix.
     ///
-    /// \param propValue A pointer to the string that is assigned the value of the property, if
-    /// the property has a value. Arrays and non-leaf levels of structs do not have values. May be
-    /// null if the value is not wanted.
+    /// @param propName The name of the property. Can be a general path expression, must not be null
+    /// or the empty string. The first component can be a namespace prefix; if present without a
+    /// \c schemaNS value, the prefix specifies the namespace. The prefix must be for a registered
+    /// namespace, and if a namespace URI is specified, must match the registered prefix for that
+    /// namespace.
     ///
-    /// \param options A pointer to the \c XMP_OptionBits variable that is assigned option flags
-    /// describing the property. May be null if the flags are not wanted.
+    /// @param propValue [out] A string object in which to return the value of the property, if the
+    /// property exists and has a value. Arrays and non-leaf levels of structs do not have values.
+    /// Can be null if the value is not wanted.
+    ///
+    /// @param options A buffer in which to return option flags describing the property. Can be null
+    /// if the flags are not wanted.
+    ///
+    /// @return True if the property exists.
 
-    bool
-    GetProperty ( XMP_StringPtr    schemaNS,
-                  XMP_StringPtr    propName,
-                  tStringObj *     propValue,
-                  XMP_OptionBits * options ) const;
+    bool GetProperty ( XMP_StringPtr    schemaNS,
+                 	   XMP_StringPtr    propName,
+                       tStringObj *     propValue,
+                  	   XMP_OptionBits * options ) const;
 
-    //  --------------------------------------------------------------------------------------------
-    /// \brief \c GetArrayItem provides access to items within an array. The index is passed as an
-    /// integer, you need not worry about the path string syntax for array items, convert a loop
-    /// index to a string, etc.
+    // ---------------------------------------------------------------------------------------------
+    /// @brief \c GetArrayItem() provides access to items within an array.
     ///
-    /// \result Returns true if the array item exists.
+    /// Reports whether the item exists; if it does, and if it has a value, the function retrieves
+    /// the value. Items are accessed by an integer index, where the first item has index 1.
     ///
-    /// \param schemaNS The namespace URI for the array. Has the same usage as in \c GetProperty.
+    /// @param schemaNS The namespace URI for the array; see \c GetProperty().
     ///
-    /// \param arrayName The name of the array. May be a general path expression, must not be null
-    /// or the empty string. Has the same namespace prefix usage as \c propName in \c GeProperty.
+    /// @param arrayName The name of the array. Can be a general path expression, must not be null
+    /// or the empty string; see \c GetProperty() for namespace prefix usage.
     ///
-    /// \param itemIndex The index of the desired item. Arrays in XMP are indexed from 1. The constant
-    /// \c kXMP_ArrayLastItem always refers to the last existing array item.
+    /// @param itemIndex The 1-based index of the desired item. Use the macro \c #kXMP_ArrayLastItem
+    /// to specify the last existing array item.
     ///
-    /// \param itemValue A pointer to the string that is assigned the value of the array item, if
-    /// the array item has a value. Arrays and non-leaf levels of structs do not have values. May be
-    /// null if the value is not wanted.
+    /// @param itemValue [out] A string object in which to return the value of the array item, if it
+    /// has a value. Arrays and non-leaf levels of structs do not have values. Can be null if the
+    /// value is not wanted.
     ///
-    /// \param options A pointer to the \c XMP_OptionBits variable that is assigned option flags
-    /// describing the array item. May be null if the flags are not wanted.
+    /// @param options [out] A buffer in which to return the option flags describing the array item.
+    /// Can be null if the flags are not wanted.
+    ///
+    /// @return True if the array item exists.
 
-    bool
-    GetArrayItem ( XMP_StringPtr    schemaNS,
-                   XMP_StringPtr    arrayName,
-                   XMP_Index        itemIndex,
-                   tStringObj *     itemValue,
-                   XMP_OptionBits * options ) const;
+    bool GetArrayItem ( XMP_StringPtr    schemaNS,
+                   		XMP_StringPtr    arrayName,
+                   		XMP_Index        itemIndex,
+                   		tStringObj *     itemValue,
+                   		XMP_OptionBits * options ) const;
 
-    //  --------------------------------------------------------------------------------------------
-    /// \brief \c GetStructField provides access to fields within a nested structure. The namespace
-    /// for the field is passed as a URI, you need not worry about the path string syntax.
+    // ---------------------------------------------------------------------------------------------
+    /// @brief \c GetStructField() provides access to fields within a nested structure.
     ///
-    /// The names of fields should be XML qualified names, that is within an XML namespace. The path
-    /// syntax for a qualified name uses the namespace prefix. This is unreliable since the prefix
-    /// is never guaranteed. The URI is the formal name, the prefix is just a local shorthand in a
-    /// given sequence of XML text.
+    /// Reports whether the field exists; if it does, and if it has a value, the function retrieves
+    /// the value.
     ///
-    /// \result Returns true if the field exists.
+    /// @param schemaNS The namespace URI for the struct; see \c GetProperty().
     ///
-    /// \param schemaNS The namespace URI for the struct. Has the same usage as in \c GetProperty.
+    /// @param structName The name of the struct. Can be a general path expression, must not be null
+    /// or the empty string; see \c GetProperty() for namespace prefix usage.
     ///
-    /// \param structName The name of the struct. May be a general path expression, must not be null
-    /// or the empty string. Has the same namespace prefix usage as \c propName in \c GetProperty.
+    /// @param fieldNS The namespace URI for the field. Same URI and prefix usage as the \c schemaNS
+    /// and \c structName parameters.
     ///
-    /// \param fieldNS The namespace URI for the field. Has the same URI and prefix usage as the
-    /// \c schemaNS parameter.
+    /// @param fieldName The name of the field. Must be a single XML name, must not be null or the
+    /// empty string. Same URI and prefix usage as the \c schemaNS and \c structName parameters.
     ///
-    /// \param fieldName The name of the field. Must be a single XML name, must not be null or the
-    /// empty string. Has the same namespace prefix usage as the \c structName parameter.
+    /// @param fieldValue [out] A string object in which to return the value of the field, if the
+    /// field has a value. Arrays and non-leaf levels of structs do not have values. Can be null if
+    /// the value is not wanted.
     ///
-    /// \param fieldValue A pointer to the string that is assigned the value of the field, if
-    /// the field has a value. Arrays and non-leaf levels of structs do not have values. May be
-    /// null if the value is not wanted.
+    /// @param options [out] A buffer in which to return the option flags describing the field. Can
+    /// be null if the flags are not wanted.
     ///
-    /// \param options A pointer to the \c XMP_OptionBits variable that is assigned option flags
-    /// describing the field. May be null if the flags are not wanted.
+    /// @return True if the field exists.
 
-    bool
-    GetStructField ( XMP_StringPtr    schemaNS,
-                     XMP_StringPtr    structName,
-                     XMP_StringPtr    fieldNS,
-                     XMP_StringPtr    fieldName,
-                     tStringObj *     fieldValue,
-                     XMP_OptionBits * options ) const;
+    bool GetStructField ( XMP_StringPtr    schemaNS,
+                     	  XMP_StringPtr    structName,
+                     	  XMP_StringPtr    fieldNS,
+                     	  XMP_StringPtr    fieldName,
+                     	  tStringObj *     fieldValue,
+                     	  XMP_OptionBits * options ) const;
 
-    //  --------------------------------------------------------------------------------------------
-    /// \brief \c GetQualifier provides access to a qualifier attached to a property. The namespace
-    /// for the qualifier is passed as a URI, you need not worry about the path string syntax. In
-    /// many regards qualifiers are like struct fields. See the introductory discussion of
-    /// qualified properties for more information.
+    // ---------------------------------------------------------------------------------------------
+    /// @brief \c GetQualifier() provides access to a qualifier attached to a property.
     ///
-    /// The names of qualifiers should be XML qualified names, that is within an XML namespace. The
-    /// path syntax for a qualified name uses the namespace prefix. This is unreliable since the
-    /// prefix is never guaranteed. The URI is the formal name, the prefix is just a local shorthand
-    /// in a given sequence of XML text.
+    /// @note In this version of the Toolkit, qualifiers are supported only for simple leaf properties.
     ///
-    /// \note Qualifiers are only supported for simple leaf properties at this time.
+    /// @param schemaNS The namespace URI; see \c GetProperty().
     ///
-    /// \result Returns true if the qualifier exists.
+    /// @param propName The name of the property to which the qualifier is attached. Can be a
+    /// general path expression, must not be null or the empty string; see \c GetProperty() for
+    /// namespace prefix usage.
     ///
-    /// \param schemaNS The namespace URI for the struct. Has the same usage as in \c GetProperty.
+    /// @param qualNS The namespace URI for the qualifier. Same URI and prefix usage as the
+    /// \c schemaNS and \c propName parameters.
     ///
-    /// \param propName The name of the property to which the qualifier is attached. May be a general
-    /// path expression, must not be null or the empty string. Has the same namespace prefix usage
-    /// as in \c GetProperty.
+    /// @param qualName The name of the qualifier. Must be a single XML name, must not be null or
+    /// the empty string. Same URI and prefix usage as the \c schemaNS and \c propName parameters.
     ///
-    /// \param qualNS The namespace URI for the qualifier. Has the same URI and prefix usage as the
-    /// \c schemaNS parameter.
+    /// @param qualValue [out] A string object in which to return the value of the qualifier, if the
+    /// qualifier has a value. Arrays and non-leaf levels of structs do not have values. Can be null
+    /// if the value is not wanted.
     ///
-    /// \param qualName The name of the qualifier. Must be a single XML name, must not be null or the
-    /// empty string. Has the same namespace prefix usage as the \c propName parameter.
+    /// @param options [out] A buffer in which to return the option flags describing the qualifier.
+    /// Can be null if the flags are not wanted.
     ///
-    /// \param qualValue A pointer to the string that is assigned the value of the qualifier, if
-    /// the qualifier has a value. Arrays and non-leaf levels of structs do not have values. May be
-    /// null if the value is not wanted.
-    ///
-    /// \param options A pointer to the \c XMP_OptionBits variable that is assigned option flags
-    /// describing the qualifier. May be null if the flags are not wanted.
+    /// @return True if the qualifier exists.
 
-    bool
-    GetQualifier ( XMP_StringPtr    schemaNS,
-                   XMP_StringPtr    propName,
-                   XMP_StringPtr    qualNS,
-                   XMP_StringPtr    qualName,
-                   tStringObj *     qualValue,
-                   XMP_OptionBits * options ) const;
+    bool GetQualifier ( XMP_StringPtr    schemaNS,
+                   		XMP_StringPtr    propName,
+                  		XMP_StringPtr    qualNS,
+                  		XMP_StringPtr    qualName,
+                   		tStringObj *     qualValue,
+                   		XMP_OptionBits * options ) const;
 
     /// @}
 
     // =============================================================================================
 
-    //  --------------------------------------------------------------------------------------------
-    /// \name Functions for setting property values
+    // ---------------------------------------------------------------------------------------------
+    /// \name Creating properties and setting their values
  	/// @{
-    /// The property value "setters" all take a property specification, their differences are in
-    /// the form of this. The first two parameters are always the top level namespace URI (the
-    /// "schema" namespace) and the basic name of the property being referenced. See the
-    /// introductory discussion of path expression usage for more information.
-    ///
-    /// All of the functions take a string value for the property and option flags describing the
-    /// property. The value must be Unicode in UTF-8 encoding. Arrays and non-leaf levels of
-    /// structs do not have values. Empty arrays and structs may be created using appropriate
-    /// option flags. All levels of structs that is assigned implicitly are created if necessary.
-    /// \c AppendArayItem implicitly creates the named array if necessary.
-    ///
-    /// The canonical form of these functions take the value as an \c XMP_StringPtr, a pointer to a
-    /// null terminated string. (\c XMP_StringPtr is a typedef for <tt>const char *</tt>.) They
-    /// also have overloaded forms that take a string object. These are implemented in the template
-    /// instantiation as a call to the canonical form, using <tt>value.c_str()</tt> to obtain the
-    /// \c XMP_StringPtr.
-    ///
-    /// The possible option flags are:
-    ///
-    /// \li \c kXMP_PropValueIsURI - The property value is a URI. It is serialized to RDF using the
-    /// <tt>rdf:resource</tt> attribute. Not mandatory for URIs, but considered RDF-savvy.
-    ///
-    /// \li \c kXMP_PropValueIsStruct - This property contains nested fields (models a C struct).
-    /// Not necessary, may be used to create an empty struct. A struct is implicitly created when
-    /// first field is set.
-    ///
-    /// \li \c kXMP_PropValueIsArray - This property is an array. By itself (no ...ArrayIs...
-    /// flags), this indicates a general unordered array. It is serialized using an
-    /// <tt>rdf:Bag</tt> container.
-    ///
-    /// \li \c kXMP_PropArrayIsOrdered - This property is an ordered array. Implies \c
-    /// kXMP_PropValueIsArray, may be used together. It is serialized using an <tt>rdf:Seq</tt>
-    /// container.
-    ///
-    /// \li \c kXMP_PropArrayIsAlternate - This property is an alternative array. Implies \c
-    /// kXMP_PropArrayIsOrdered, may be used together. It is serialized using an <tt>rdf:Alt</tt>
-    /// container.
-    ///
-    /// \li \c kXMP_PropArrayIsAltText - This property is an alt-text array. Implies \c
-    /// kXMP_PropArrayIsAlternate, may be used together. It is serialized using an <tt>rdf:Alt</tt>
-    /// container. Each array element must be a simple property with an <tt>xml:lang</tt> attribute.
+ 	///
+    /// These functions all take a property specification; the top level namespace URI (the "schema"
+    /// namespace) and the basic name of the property being referenced. See the introductory
+    /// discussion of path expression usage for more information.
+	///
+    /// All of the functions take a UTF-8 encoded Unicode string for the property value. Arrays and
+    /// non-leaf levels of structs do not have values. The value can be passed as an
+    /// \c #XMP_StringPtr (a pointer to a null-terminated string), or as a string object
+    /// (\c tStringObj).
 
-    //  --------------------------------------------------------------------------------------------
-    /// \brief \c SetProperty is the simplest property setter, mainly for top level simple
-    /// properties or after using the path composition functions in \c TXMPUtils.
+    /// Each function takes an options flag that describes the property. You can use these functions
+    /// to create empty arrays and structs by setting appropriate option flags. When you assign a
+    /// value, all levels of a struct that are implicit in the assignment are created if necessary.
+    /// \c TXMPMeta::AppendArrayItem() implicitly creates the named array if necessary.
     ///
-    /// \param schemaNS The namespace URI for the property. Has the same usage as in \c GetProperty.
-    ///
-    /// \param propName The name of the property. Has the same usage as in \c GetProperty.
-    ///
-    /// \param propValue A pointer to the null terminated UTF-8 string that is the value of the
-    /// property, if the property has a value. Arrays and non-leaf levels of structs do not have
-    /// values. Must be null if the value is not relevant.
-    ///
-    /// \param options Option flags describing the property. See the earlier description.
+    /// The allowed option bit-flags include:
+    ///   \li \c #kXMP_PropValueIsStruct - Can be used to create an empty struct.
+    ///		A struct is implicitly created when the first field is set.
+    ///   \li \c #kXMP_PropValueIsArray - By default, a general unordered array (bag).
+    ///   \li \c #kXMP_PropArrayIsOrdered - An ordered array.
+   	///   \li \c #kXMP_PropArrayIsAlternate - An alternative array.
+   	///   \li \c #kXMP_PropArrayIsAltText - An alt-text array. Each array element must
+    /// 	be a simple property with an \c xml:lang attribute.
 
-    void
-    SetProperty ( XMP_StringPtr  schemaNS,
-                  XMP_StringPtr  propName,
-                  XMP_StringPtr  propValue,
-                  XMP_OptionBits options = 0 );
+    // ---------------------------------------------------------------------------------------------
+    /// @brief \c SetProperty() creates or sets a property value.
+    ///
+    /// This is the simplest property setter. Use it for top-level simple properties, or after using
+    /// the path composition functions in \c TXMPUtils.
+    ///
+    /// @param schemaNS The namespace URI; see \c GetProperty().
+    ///
+    /// @param propName The name of the property. Can be a general path expression, must not be null
+    /// or the empty string; see \c GetProperty() for namespace prefix usage.
+    ///
+    /// @param propValue The new value, a pointer to a null terminated UTF-8 string. Must be null
+    /// for arrays and non-leaf levels of structs that do not have values.
+    ///
+    /// @param options Option flags describing the property; a logical OR of allowed bit-flag
+    /// constants; see \c #kXMP_PropValueIsStruct and following. Must match the type of a property
+    /// that already exists.
 
-    //  --------------------------------------------------------------------------------------------
-    /// \brief This form of \c SetProperty is a simple overload in the template that calls the above
-    /// form passing <tt>propValue.c_str()</tt>.
+    void SetProperty ( XMP_StringPtr  schemaNS,
+					   XMP_StringPtr  propName,
+					   XMP_StringPtr  propValue,
+					   XMP_OptionBits options = 0 );
 
-    void
-    SetProperty ( XMP_StringPtr      schemaNS,
-                  XMP_StringPtr      propName,
-                  const tStringObj & propValue,
-                  XMP_OptionBits     options = 0 );
+    // ---------------------------------------------------------------------------------------------
+    /// @brief \c SetProperty() creates or sets a property value using a string object.
+	///
+    /// Overloads the basic form of the function, allowing you to pass a string object
+	/// for the item value. It is otherwise identical; see details in the canonical form.
 
-    //  --------------------------------------------------------------------------------------------
-    /// \brief \c SetArrayItem provides access to items within an array. The index is passed as an
-    /// integer, you need not worry about the path string syntax for array items, convert a loop
-    /// index to a string, etc. The array passed to \c SetArrayItem must already exist. See also
-    /// \c AppendArrayItem.
-    ///
-    /// In normal usage the selected array item is modified. A new item is automatically
-    /// appended if the index is the array size plus 1. A new item may be inserted before or after
-    /// any item by using one of the following option flags:
-    ///
-    /// \li \c kXMP_InsertBeforeItem - Insert a new array item before the selected one.
-    /// \li \c kXMP_InsertAfterItem -  Insert a new array item after the selected one.
-    ///
-    /// \param schemaNS The namespace URI for the array. Has the same usage as in \c GetProperty.
-    ///
-    /// \param arrayName The name of the array. May be a general path expression, must not be null
-    /// or the empty string. Has the same namespace prefix usage as \c propName in \c GetProperty.
-    ///
-    /// \param itemIndex The index of the desired item. Arrays in XMP are indexed from 1. The
-    /// constant \c kXMP_ArrayLastItem always refers to the last existing array item.
-    ///
-    /// \param itemValue A pointer to the null terminated UTF-8 string that is the value of the array
-    /// item, if the array item has a value. Has the same usage as \c propValue in \c GetProperty.
-    ///
-    /// \param options Option flags describing the item. See the earlier description.
+    void SetProperty ( XMP_StringPtr      schemaNS,
+					   XMP_StringPtr      propName,
+					   const tStringObj & propValue,
+					   XMP_OptionBits     options = 0 );
 
-    void
-    SetArrayItem ( XMP_StringPtr  schemaNS,
-                   XMP_StringPtr  arrayName,
-                   XMP_Index      itemIndex,
-                   XMP_StringPtr  itemValue,
-                   XMP_OptionBits options = 0 );
+    // ---------------------------------------------------------------------------------------------
+    /// @brief \c SetArrayItem() creates or sets the value of an item within an array.
+    ///
+    /// Items are accessed by an integer index, where the first item has index 1. This function
+    /// creates the item if necessary, but the array itself must already exist Use
+    /// \c AppendArrayItem() to create arrays. A new item is automatically appended if the index is the
+    /// array size plus 1. To insert a new item before or after an existing item, use option flags.
+    ///
+    /// Use \c TXMPUtils::ComposeArrayItemPath() to create a complex path.
+    ///
+    /// @param schemaNS The namespace URI; see \c GetProperty().
+    ///
+    /// @param arrayName The name of the array. Can be a general path expression, must not be null
+    /// or the empty string; see \c GetProperty() for namespace prefix usage.
+    ///
+    /// @param itemIndex The 1-based index of the desired item. Use the macro \c #kXMP_ArrayLastItem
+    /// to specify the last existing array item.
+    ///
+    /// @param itemValue The new item value, a null-terminated UTF-8 string, if the array item has a
+    /// value.
+    ///
+    /// @param options Option flags describing the array type and insertion location for a new item;
+    /// a logical OR of allowed bit-flag constants. The type, if specified, must match the existing
+    /// array type, \c #kXMP_PropArrayIsOrdered, \c #kXMP_PropArrayIsAlternate, or
+    /// \c #kXMP_PropArrayIsAltText. Default (0 or \c #kXMP_NoOptions) matches the  existing array type.
+    ///
+    /// To insert a new item before or after the specified index, set flag \c #kXMP_InsertBeforeItem
+    /// or \c #kXMP_InsertAfterItem.
 
-    //  --------------------------------------------------------------------------------------------
-    /// \brief This form of \c SetArrayItem is a simple overload in the template that calls the above
-    /// form passing <tt>itemValue.c_str()</tt>.
+    void SetArrayItem ( XMP_StringPtr  schemaNS,
+					    XMP_StringPtr  arrayName,
+					    XMP_Index      itemIndex,
+					    XMP_StringPtr  itemValue,
+					    XMP_OptionBits options = 0 );
 
-    void
-    SetArrayItem ( XMP_StringPtr      schemaNS,
-                   XMP_StringPtr      arrayName,
-                   XMP_Index          itemIndex,
-                   const tStringObj & itemValue,
-                   XMP_OptionBits     options = 0 );
+    // ---------------------------------------------------------------------------------------------
+    /// @brief \c SetArrayItem() creates or sets the value of an item within an array using a string object.
+    ///
+    /// Overloads the basic form of the function, allowing you to pass a string object in which to
+	/// return the item value. It is otherwise identical; see details in the canonical form.
 
-    //  --------------------------------------------------------------------------------------------
-    /// \brief \c AppendArrayItem simplifies construction of an array by not requiring that you
-    /// pre-create an empty array. The array that is assigned is created automatically if it does
-    /// not yet exist. Each call to \c AppendArrayItem appends an item to the array. The
-    /// corresponding parameters have the same use as \c SetArrayItem. The \c arrayOptions
-    /// parameter is used to specify what kind of array. If the array exists, it must have the
-    /// specified form.
-    ///
-    /// \param schemaNS The namespace URI for the array. Has the same usage as in \c GetProperty.
-    ///
-    /// \param arrayName The name of the array. May be a general path expression, must not be null
-    /// or the empty string. Has the same namespace prefix usage as \c propPath in \c GetProperty.
-    ///
-    /// \param arrayOptions Option flags describing the array form. The only valid bits are those
-    /// that are part of \c kXMP_PropArrayFormMask: \c kXMP_PropValueIsArray, \c
-    /// kXMP_PropArrayIsOrdered, \c kXMP_PropArrayIsAlternate, or \c kXMP_PropArrayIsAltText.
-    ///
-    /// \param itemValue A pointer to the null terminated UTF-8 string that is the value of the
-    /// array item, if the array item has a value. Has the same usage as \c propValue in \c
-    /// GetProperty.
-    ///
-    /// \param itemOptions Option flags describing the item. See the earlier description.
+    void SetArrayItem ( XMP_StringPtr      schemaNS,
+					    XMP_StringPtr      arrayName,
+					    XMP_Index          itemIndex,
+					    const tStringObj & itemValue,
+					    XMP_OptionBits     options = 0 );
 
-    void
-    AppendArrayItem ( XMP_StringPtr  schemaNS,
-                      XMP_StringPtr  arrayName,
-                      XMP_OptionBits arrayOptions,
-                      XMP_StringPtr  itemValue,
-                      XMP_OptionBits itemOptions = 0 );
+    // ---------------------------------------------------------------------------------------------
+    /// @brief \c AppendArrayItem() adds an item to an array, creating the array if necessary.
+    ///
+    /// This function simplifies construction of an array by not requiring that you pre-create an
+    /// empty array. The array that is assigned is created automatically if it does not yet exist.
+    /// If the array exists, it must have the form specified by the options. Each call appends a new
+    /// item to the array.
+    ///
+    /// Use \c TXMPUtils::ComposeArrayItemPath() to create a complex path.
+    ///
+    /// @param schemaNS The namespace URI; see \c GetProperty().
+    ///
+    /// @param arrayName The name of the array. Can be a general path expression, must not be null
+    /// or the empty string; see \c GetProperty() for namespace prefix usage.
+    ///
+    /// @param arrayOptions Option flags describing the array type to create; a logical OR of
+    /// allowed bit-flag constants, \c #kXMP_PropArrayIsOrdered, \c #kXMP_PropArrayIsAlternate, or
+    /// \c #kXMP_PropArrayIsAltText. If the array exists, must match the existing array type or be
+    /// null (0 or \c #kXMP_NoOptions).
+    ///
+    /// @param itemValue The new item value, a null-terminated UTF-8 string, if the array item has a
+    /// value.
+    ///
+    /// @param itemOptions Option flags describing the item type to create; one of the bit-flag
+    /// constants \c #kXMP_PropValueIsArray or \c #kXMP_PropValueIsStruct to create a complex array
+    /// item.
 
-    //  --------------------------------------------------------------------------------------------
-    /// \brief This form of \c AppendArrayItem is a simple overload in the template that calls the
-    /// above form passing <tt>itemValue.c_str()</tt>.
+    void AppendArrayItem ( XMP_StringPtr  schemaNS,
+						   XMP_StringPtr  arrayName,
+						   XMP_OptionBits arrayOptions,
+						   XMP_StringPtr  itemValue,
+						   XMP_OptionBits itemOptions = 0 );
 
-    void
-    AppendArrayItem ( XMP_StringPtr      schemaNS,
-                      XMP_StringPtr      arrayName,
-                      XMP_OptionBits     arrayOptions,
-                      const tStringObj & itemValue,
-                      XMP_OptionBits     itemOptions = 0 );
+    // ---------------------------------------------------------------------------------------------
+    /// @brief \c AppendArrayItem() adds an item to an array using a string object value, creating
+    /// the array if necessary.
+    ///
+    /// Overloads the basic form of the function, allowing you to pass a string object in which to
+	/// return the item value. It is otherwise identical; see details in the canonical form.
 
-    //  --------------------------------------------------------------------------------------------
-    /// \brief \c SetStructField provides access to fields within a nested structure. The namespace
-    /// for the field is passed as a URI, you need not worry about the path string syntax.
-    ///
-    /// The names of fields should be XML qualified names, that is within an XML namespace. The
-    /// path syntax for a qualified name uses the namespace prefix, which is unreliable because
-    /// the prefix is never guaranteed. The URI is the formal name, the prefix is just a local
-    /// shorthand in a given sequence of XML text.
-    ///
-    /// \param schemaNS The namespace URI for the struct. Has the same usage as in \c GetProperty.
-    ///
-    /// \param structName The name of the struct. May be a general path expression, must not be
-    /// null or the empty string. Has the same namespace prefix usage as \c propName in \c
-    /// GetProperty.
-    ///
-    /// \param fieldNS The namespace URI for the field. Has the same URI and prefix usage as the \c
-    /// schemaNS parameter.
-    ///
-    /// \param fieldName The name of the field. Must be a single XML name, must not be null or the
-    /// empty string. Has the same namespace prefix usage as the \c structName parameter.
-    ///
-    /// \param fieldValue A pointer to the null terminated UTF-8 string that is the value of the
-    /// field, if the field has a value. Has the same usage as \c propValue in \c GetProperty.
-    ///
-    /// \param options Option flags describing the field. See the earlier description.
+    void AppendArrayItem ( XMP_StringPtr      schemaNS,
+						   XMP_StringPtr      arrayName,
+						   XMP_OptionBits     arrayOptions,
+						   const tStringObj & itemValue,
+						   XMP_OptionBits     itemOptions = 0 );
 
-    void
-    SetStructField ( XMP_StringPtr   schemaNS,
-                     XMP_StringPtr   structName,
-                     XMP_StringPtr   fieldNS,
-                     XMP_StringPtr   fieldName,
-                     XMP_StringPtr   fieldValue,
-                     XMP_OptionBits  options = 0 );
+    // ---------------------------------------------------------------------------------------------
+    /// @brief \c SetStructField() creates or sets the value of a field within a nested structure.
+    ///
+    /// Use this to  set a value within an existing structure, create a new field within an existing
+    /// structure, or create an empty structure of any depth. If you set a field in a structure that
+    /// does not exist, the structure is automatically created.
+    ///
+    /// Use \c TXMPUtils::ComposeStructFieldPath() to create a complex path.
+    ///
+    /// @param schemaNS The namespace URI; see \c GetProperty().
+    ///
+    /// @param structName The name of the struct. Can be a general path expression, must not be null
+    /// or the empty string; see \c GetProperty() for namespace prefix usage.
+    ///
+    /// @param fieldNS The namespace URI for the field. Same namespace and prefix usage as
+    /// \c GetProperty().
+    ///
+    /// @param fieldName The name of the field. Must be a single XML name, must not be null or the
+    /// empty string. Same namespace and prefix usage as \c GetProperty().
+    ///
+    /// @param fieldValue The new value, a null-terminated UTF-8 string, if the field has a value.
+    /// Null to create a new, empty struct or empty field in an existing struct.
+    ///
+    /// @param options Option flags describing the property, in which the bit-flag
+    /// \c #kXMP_PropValueIsStruct must be set to create a struct.
 
-    //  --------------------------------------------------------------------------------------------
-    /// \brief This form of \c SetStructField is a simple overload in the template that calls the
-    /// above form passing <tt>fieldValue.c_str()</tt>.
+    void SetStructField ( XMP_StringPtr   schemaNS,
+						  XMP_StringPtr   structName,
+						  XMP_StringPtr   fieldNS,
+						  XMP_StringPtr   fieldName,
+						  XMP_StringPtr   fieldValue,
+						  XMP_OptionBits  options = 0 );
 
-    void
-    SetStructField ( XMP_StringPtr      schemaNS,
-                     XMP_StringPtr      structName,
-                     XMP_StringPtr      fieldNS,
-                     XMP_StringPtr      fieldName,
-                     const tStringObj & fieldValue,
-                     XMP_OptionBits     options = 0 );
+    // ---------------------------------------------------------------------------------------------
+    /// @brief \c SetStructField() creates or sets the value of a field within a nested structure,
+    /// using a string object.
+    ///
+    /// Overloads the basic form of the function, allowing you to pass a string object in which to
+	/// return the field value. It is otherwise identical; see details in the canonical form.
 
-    //  --------------------------------------------------------------------------------------------
-    /// \brief \c SetQualifier provides access to a qualifier attached to a property. The namespace
-    /// for the qualifier is passed as a URI, you need not worry about the path string syntax. In
-    /// many regards qualifiers are like struct fields. See the introductory discussion of
-    /// qualified properties for more information.
-    ///
-    /// The names of qualifiers should be XML qualified names, that is within an XML namespace. The
-    /// path syntax for a qualified name uses the namespace prefix, which is unreliable because
-    /// the prefix is never guaranteed. The URI is the formal name, the prefix is just a local
-    /// shorthand in a given sequence of XML text.
-    ///
-    /// \param schemaNS The namespace URI for the struct. Has the same usage as in \c GetProperty.
-    ///
-    /// \param propName The name of the property to which the qualifier is attached. Has the same
-    /// usage as in \c GetProperty.
-    ///
-    /// \param qualNS The namespace URI for the qualifier. Has the same URI and prefix usage as the
-    /// \c schemaNS parameter.
-    ///
-    /// \param qualName The name of the qualifier. Must be a single XML name, must not be null or
-    /// the empty string. Has the same namespace prefix usage as the \c propName parameter.
-    ///
-    /// \param qualValue A pointer to the null terminated UTF-8 string that is the value of the
-    /// qualifier, if the qualifier has a value. Has the same usage as \c propValue in \c
-    /// GetProperty.
-    ///
-    /// \param options Option flags describing the qualifier. See the earlier description.
+    void SetStructField ( XMP_StringPtr      schemaNS,
+						  XMP_StringPtr      structName,
+						  XMP_StringPtr      fieldNS,
+						  XMP_StringPtr      fieldName,
+						  const tStringObj & fieldValue,
+						  XMP_OptionBits     options = 0 );
 
-    void
-    SetQualifier ( XMP_StringPtr  schemaNS,
-                   XMP_StringPtr  propName,
-                   XMP_StringPtr  qualNS,
-                   XMP_StringPtr  qualName,
-                   XMP_StringPtr  qualValue,
-                   XMP_OptionBits options = 0 );
+    // ---------------------------------------------------------------------------------------------
+    /// @brief \c SetQualifier() creates or sets a qualifier attached to a property.
+    ///
+    /// Use this to  set a value for an existing qualifier, or create a new qualifier. <<how do
+    /// options work? macro vs bit-flag? interaction w/XMP_PropHasQualifier?>> Use
+    /// \c TXMPUtils::ComposeQualifierPath() to create a complex path.
+    ///
+    /// @param schemaNS The namespace URI; see \c GetProperty().
+    ///
+    /// @param propName The name of the property to which the qualifier is attached. Can be a
+    /// general path expression, must not be null or the empty string; see \c GetProperty() for
+    /// namespace prefix usage.
+    ///
+    /// @param qualNS The namespace URI for the qualifier. Same namespace and prefix usage as
+    /// \c GetProperty().
+    ///
+    /// @param qualName The name of the qualifier. Must be a single XML name, must not be null or
+    /// the empty string. Same namespace and prefix usage as \c GetProperty().
+    ///
+    /// @param qualValue The new value, a null-terminated UTF-8 string, if the qualifier has a
+    /// value. Null to create a new, empty qualifier.
+    ///
+    /// @param options Option flags describing the <<qualified property? qualifier?>>, a logical OR
+    /// of property-type bit-flag constants. Use the macro \c #XMP_PropIsQualifier to create a
+    /// qualifier.	 <<??>>
 
-    //  --------------------------------------------------------------------------------------------
-    /// \brief This form of \c SetQualifier is a simple overload in the template that calls the above
-    /// form passing <tt>qualValue.c_str()</tt>.
+    void SetQualifier ( XMP_StringPtr  schemaNS,
+					    XMP_StringPtr  propName,
+					    XMP_StringPtr  qualNS,
+					    XMP_StringPtr  qualName,
+					    XMP_StringPtr  qualValue,
+					    XMP_OptionBits options = 0 );
 
-    void
-    SetQualifier ( XMP_StringPtr      schemaNS,
-                   XMP_StringPtr      propName,
-                   XMP_StringPtr      qualNS,
-                   XMP_StringPtr      qualName,
-                   const tStringObj & qualValue,
-                   XMP_OptionBits     options = 0 );
+    // ---------------------------------------------------------------------------------------------
+    /// @brief \c SetQualifier() creates or sets a qualifier attached to a property using a string object.
+    ///
+    /// Overloads the basic form of the function, allowing you to pass a string object
+	/// for the qualifier value. It is otherwise identical; see details in the canonical form.
+
+    void SetQualifier ( XMP_StringPtr      schemaNS,
+					    XMP_StringPtr      propName,
+					    XMP_StringPtr      qualNS,
+					    XMP_StringPtr      qualName,
+					    const tStringObj & qualValue,
+					    XMP_OptionBits     options = 0 );
 
     /// @}
 
     // =============================================================================================
 
-    //  --------------------------------------------------------------------------------------------
-    /// \name Functions for deleting and detecting properties.
+    // ---------------------------------------------------------------------------------------------
+    /// \name Detecting and deleting properties.
     /// @{
-    /// These should be obvious from the descriptions of the getters and setters.
-
-    //  --------------------------------------------------------------------------------------------
-    /// \brief \c DeleteProperty deletes the given XMP subtree rooted at the given property. It is
-    /// not an error if the property does not exist.
     ///
-    /// \param schemaNS The namespace URI for the property. Has the same usage as in \c GetProperty.
-    ///
-    /// \param propName The name of the property. Has the same usage as in \c GetProperty.
+    /// The namespace URI and prefix usage for property specifiers in these functions is the same as
+    /// for \c TXMPMeta::GetProperty().
 
-    void
-    DeleteProperty ( XMP_StringPtr schemaNS,
-                     XMP_StringPtr propName );
-
-    //  --------------------------------------------------------------------------------------------
-    /// \brief \c DeleteArrayItem deletes the given XMP subtree rooted at the given array item. It
-    /// is not an error if the array item does not exist.
+    // ---------------------------------------------------------------------------------------------
+    /// @brief \c DeleteProperty() deletes an XMP subtree rooted at a given property.
     ///
-    /// \param schemaNS The namespace URI for the array. Has the same usage as in \c GetProperty.
+    /// It is not an error if the property does not exist.
     ///
-    /// \param arrayName The name of the array. May be a general path expression, must not be null
-    /// or the empty string. Has the same namespace prefix usage as \c propName in \c GetProperty.
+    /// @param schemaNS The namespace URI for the property; see \c GetProperty().
     ///
-    /// \param itemIndex The index of the desired item. Arrays in XMP are indexed from 1. The
-    /// constant \c kXMP_ArrayLastItem always refers to the last existing array item.
+    /// @param propName The name of the property; see \c GetProperty().
 
-    void
-    DeleteArrayItem ( XMP_StringPtr schemaNS,
-                      XMP_StringPtr arrayName,
-                      XMP_Index     itemIndex );
+    void DeleteProperty ( XMP_StringPtr schemaNS,
+                     	  XMP_StringPtr propName );
 
-    //  --------------------------------------------------------------------------------------------
-    /// \brief \c DeleteStructField deletes the given XMP subtree rooted at the given struct field.
+    // ---------------------------------------------------------------------------------------------
+    /// @brief \c DeleteArrayItem() deletes an XMP subtree rooted at a given array item.
+    ///
+    /// It is not an error if the array item does not exist. Use
+    /// \c TXMPUtils::ComposeArrayItemPath() to create a complex path.
+    ///
+    /// @param schemaNS The namespace URI for the array; see \c GetProperty().
+    ///
+    /// @param arrayName The name of the array. Can be a general path expression, must not be null
+    /// or the empty string; see \c GetProperty() for namespace prefix usage.
+    ///
+    /// @param itemIndex The 1-based index of the desired item. Use the macro \c #kXMP_ArrayLastItem
+    /// to specify the last existing array item.
+
+    void DeleteArrayItem ( XMP_StringPtr schemaNS,
+						   XMP_StringPtr arrayName,
+						   XMP_Index     itemIndex );
+
+    // ---------------------------------------------------------------------------------------------
+    /// @brief \c DeleteStructField() deletes an XMP subtree rooted at a given struct field.
+    ///
     /// It is not an error if the field does not exist.
     ///
-    /// \param schemaNS The namespace URI for the struct. Has the same usage as in \c GetProperty.
+    /// @param schemaNS The namespace URI for the struct; see \c GetProperty().
     ///
-    /// \param structName The name of the struct. May be a general path expression, must not be null
-    /// or the empty string. Has the same namespace prefix usage as \c propName in \c GetProperty.
+    /// @param structName The name of the struct. Can be a general path expression, must not be null
+    /// or the empty string; see \c GetProperty() for namespace prefix usage.
     ///
-    /// \param fieldNS The namespace URI for the field. Has the same URI and prefix usage as the
-    /// \c schemaNS parameter.
+    /// @param fieldNS The namespace URI for the field. Same namespace and prefix usage as
+    /// \c GetProperty().
     ///
-    /// \param fieldName The name of the field. Must be a single XML name, must not be null or the
-    /// empty string. Has the same namespace prefix usage as the \c structName parameter.
+    /// @param fieldName The name of the field. Must be a single XML name, must not be null or the
+    /// empty string. Same namespace and prefix usage as \c GetProperty().
 
-    void
-    DeleteStructField ( XMP_StringPtr schemaNS,
-                        XMP_StringPtr structName,
-                        XMP_StringPtr fieldNS,
-                        XMP_StringPtr fieldName );
+    void DeleteStructField ( XMP_StringPtr schemaNS,
+							 XMP_StringPtr structName,
+							 XMP_StringPtr fieldNS,
+							 XMP_StringPtr fieldName );
 
-    //  --------------------------------------------------------------------------------------------
-    /// \brief \c DeleteQualifier deletes the given XMP subtree rooted at the given qualifier. It
-    /// is not an error if the qualifier does not exist.
+    // ---------------------------------------------------------------------------------------------
+    /// @brief \c DeleteQualifier() deletes an XMP subtree rooted at a given qualifier.
     ///
-    /// \param schemaNS The namespace URI for the struct. Has the same usage as in \c GetProperty.
+    /// It is not an error if the qualifier does not exist.
     ///
-    /// \param propName The name of the property to which the qualifier is attached. Has the same
-    /// usage as in \c GetProperty.
+    /// @param schemaNS The namespace URI; see \c GetProperty().
     ///
-    /// \param qualNS The namespace URI for the qualifier. Has the same URI and prefix usage as the
-    /// \c schemaNS parameter.
+    /// @param propName The name of the property to which the qualifier is attached. Can be a
+    /// general path expression, must not be null or the empty string; see \c GetProperty() for
+    /// namespace prefix usage.
     ///
-    /// \param qualName The name of the qualifier. Must be a single XML name, must not be null or the
-    /// empty string. Has the same namespace prefix usage as the \c propName parameter.
+    /// @param qualNS The namespace URI for the qualifier. Same namespace and prefix usage as
+    /// \c GetProperty().
+    ///
+    /// @param qualName The name of the qualifier. Must be a single XML name, must not be null or
+    /// the empty string. Same namespace and prefix usage as \c GetProperty().
 
-    void
-    DeleteQualifier ( XMP_StringPtr schemaNS,
-                      XMP_StringPtr propName,
-                      XMP_StringPtr qualNS,
-                      XMP_StringPtr qualName );
+    void DeleteQualifier ( XMP_StringPtr schemaNS,
+						   XMP_StringPtr propName,
+						   XMP_StringPtr qualNS,
+						   XMP_StringPtr qualName );
 
-    //  --------------------------------------------------------------------------------------------
-    /// \brief \c DoesPropertyExist tells if the property exists.
+    // ---------------------------------------------------------------------------------------------
+    /// @brief \c DoesPropertyExist() reports whether a property currently exists.
     ///
-    /// \result Returns true if the property exists.
+    /// @param schemaNS The namespace URI for the property; see \c GetProperty().
     ///
-    /// \param schemaNS The namespace URI for the property. Has the same usage as in \c GetProperty.
+    /// @param propName The name of the property; see \c GetProperty().
     ///
-    /// \param propName The name of the property. Has the same usage as in \c GetProperty.
+    /// @return True if the property exists.
 
-    bool
-    DoesPropertyExist ( XMP_StringPtr schemaNS,
-                        XMP_StringPtr propName ) const;
+    bool DoesPropertyExist ( XMP_StringPtr schemaNS,
+                        	 XMP_StringPtr propName ) const;
 
-    //  --------------------------------------------------------------------------------------------
-    /// \brief \c DoesArrayItemExist tells if the array item exists.
+    // ---------------------------------------------------------------------------------------------
+    /// @brief \c DoesArrayItemExist() reports whether an array item currently exists.
     ///
-    /// \result Returns true if the array item exists.
+    /// Use \c TXMPUtils::ComposeArrayItemPath() to create a complex path.
     ///
-    /// \param schemaNS The namespace URI for the array. Has the same usage as in \c GetProperty.
+    /// @param schemaNS The namespace URI; see \c GetProperty().
     ///
-    /// \param arrayName The name of the array. May be a general path expression, must not be null
-    /// or the empty string. Has the same namespace prefix usage as \c propName in \c GetProperty.
+    /// @param arrayName The name of the array. Can be a general path expression, must not be null
+    /// or the empty string; see \c GetProperty() for namespace prefix usage.
     ///
-    /// \param itemIndex The index of the desired item. Arrays in XMP are indexed from 1. The
-    /// constant \c kXMP_ArrayLastItem always refers to the last existing array item.
+    /// @param itemIndex The 1-based index of the desired item. Use the macro \c #kXMP_ArrayLastItem
+    /// to specify the last existing array item.
+    ///
+    /// @return True if the array item exists.
 
-    bool
-    DoesArrayItemExist ( XMP_StringPtr schemaNS,
-                         XMP_StringPtr arrayName,
-                         XMP_Index     itemIndex ) const;
+    bool DoesArrayItemExist ( XMP_StringPtr schemaNS,
+							  XMP_StringPtr arrayName,
+							  XMP_Index     itemIndex ) const;
 
-    //  --------------------------------------------------------------------------------------------
-    /// \brief \c DoesStructFieldExist tells if the struct field exists.
+    // ---------------------------------------------------------------------------------------------
+    /// @brief \c DoesStructFieldExist() reports whether a struct field currently exists.
     ///
-    /// \result Returns true if the field exists.
+    /// Use \c TXMPUtils::ComposeStructFieldPath() to create a complex path.
     ///
-    /// \param schemaNS The namespace URI for the struct. Has the same usage as in \c GetProperty.
+    /// @param schemaNS The namespace URI; see \c GetProperty().
     ///
-    /// \param structName The name of the struct. May be a general path expression, must not be null
-    /// or the empty string. Has the same namespace prefix usage as \c propName in \c GetProperty.
+    /// @param structName The name of the struct. Can be a general path expression, must not be null
+    /// or the empty string; see \c GetProperty() for namespace prefix usage.
     ///
-    /// \param fieldNS The namespace URI for the field. Has the same URI and prefix usage as the
-    /// \c schemaNS parameter.
+    /// @param fieldNS The namespace URI for the field. Same namespace and prefix usage as
+    /// \c GetProperty().
     ///
-    /// \param fieldName The name of the field. Must be a single XML name, must not be null or the
-    /// empty string. Has the same namespace prefix usage as the \c structName parameter.
+    /// @param fieldName The name of the field. Must be a single XML name, must not be null or the
+    /// empty string. Same namespace and prefix usage as \c GetProperty().
+    ///
+    /// @return True if the field exists.
 
-    bool
-    DoesStructFieldExist ( XMP_StringPtr schemaNS,
-                           XMP_StringPtr structName,
-                           XMP_StringPtr fieldNS,
-                           XMP_StringPtr fieldName ) const;
+    bool DoesStructFieldExist ( XMP_StringPtr schemaNS,
+							    XMP_StringPtr structName,
+							    XMP_StringPtr fieldNS,
+							    XMP_StringPtr fieldName ) const;
 
-    //  --------------------------------------------------------------------------------------------
-    /// \brief  \c DoesQualifierExist tells if the qualifier exists.
+    // ---------------------------------------------------------------------------------------------
+    /// @brief \c DoesQualifierExist() reports whether a qualifier currently exists.
     ///
-    /// \result Returns true if the qualifier exists.
+    /// @param schemaNS The namespace URI; see \c GetProperty().
     ///
-    /// \param schemaNS The namespace URI for the struct. Has the same usage as in \c GetProperty.
+    /// @param propName The name of the property to which the qualifier is attached. Can be a
+    /// general path expression, must not be null or the empty string; see \c GetProperty() for
+    /// namespace prefix usage.
     ///
-    /// \param propName The name of the property to which the qualifier is attached. Has the same
-    /// usage as in \c GetProperty.
+    /// @param qualNS The namespace URI for the qualifier. Same namespace and prefix usage as
+    /// \c GetProperty().
     ///
-    /// \param qualNS The namespace URI for the qualifier. Has the same URI and prefix usage as the
-    /// \c schemaNS parameter.
+    /// @param qualName The name of the qualifier. Must be a single XML name, must not be null or
+    /// the empty string. Same namespace and prefix usage as \c GetProperty().
     ///
-    /// \param qualName The name of the qualifier. Must be a single XML name, must not be null or the
-    /// empty string. Has the same namespace prefix usage as the \c propName parameter.
+    /// @return True if the qualifier exists.
 
-    bool
-    DoesQualifierExist ( XMP_StringPtr schemaNS,
-                         XMP_StringPtr propName,
-                         XMP_StringPtr qualNS,
-                         XMP_StringPtr qualName ) const;
+    bool DoesQualifierExist ( XMP_StringPtr schemaNS,
+							  XMP_StringPtr propName,
+							  XMP_StringPtr qualNS,
+							  XMP_StringPtr qualName ) const;
 
     /// @}
 
     // =============================================================================================
     // Specialized Get and Set functions
-    // =================================
+    // =============================================================================================
 
-    //  --------------------------------------------------------------------------------------------
-    /// \name Functions for accessing localized text (alt-text) properties.
+    // ---------------------------------------------------------------------------------------------
+    /// \name Accessing properties as binary values.
     /// @{
-    /// These functions provide convenient support for localized text properties, including a number
-    /// of special and obscure aspects. Localized text properties are stored in alt-text arrays.
-    /// They allow multiple concurrent localizations of a property value, for example a document
-    /// title or copyright in several languages.
     ///
-    /// The most important aspect of these functions is that they select an appropriate array item
-    /// based on one or two RFC 3066 language tags. One of these languages, the "specific" language,
-    /// is preferred and selected if there is an exact match. For many languages it is also possible
-    /// to define a "generic" language that may be used if there is no specific language match. The
-    /// generic language must be a valid RFC 3066 primary subtag, or the empty string.
+	/// These are very similar to \c TXMPMeta::GetProperty() and \c TXMPMeta::SetProperty(), except
+	/// that the value is returned or provided in binary form instead of as a UTF-8 string.
+	/// \c TXMPUtils provides functions for converting between binary and string values.
+    /// Use the path composition functions in  \c TXMPUtils	to compose complex path expressions
+    /// for fields or items in nested structures or arrays, or for qualifiers.
+
+    // ---------------------------------------------------------------------------------------------
+    /// @brief \c GetProperty_Bool() retrieves the value of a Boolean property as a C++ bool.
     ///
-    /// For example, a specific language of "en-US" should be used in the US, and a specific language
-    /// of "en-UK" should be used in England. It is also appropriate to use "en" as the generic
-    /// language in each case. If a US document goes to England, the "en-US" title is selected
-    /// by using the "en" generic language and the "en-UK" specific language.
+    /// Reports whether a property exists, and retrieves its binary value and property type information.
     ///
-    ///	It is considered poor practice, but allowed, to pass a specific language that is just an
+    /// @param schemaNS The namespace URI; see \c GetProperty().
+    ///
+    /// @param propName The name of the property. Can be a general path expression, must not be null
+    /// or the empty string; see \c GetProperty() for namespace prefix usage.
+    ///
+    /// @param propValue [out] A buffer in which to return the binary value. Can be null if the
+    /// value is not wanted. Must be null for arrays and non-leaf levels of structs that do not have
+    /// values.
+    ///
+    /// @param options [out] A buffer in which to return the option flags describing the property, a
+    /// logical OR of allowed bit-flag constants; see \c #kXMP_PropValueIsStruct and following. Can
+    /// be null if flags are not wanted.
+    ///
+    /// @return True if the property exists.
+
+    bool GetProperty_Bool ( XMP_StringPtr    schemaNS,
+						    XMP_StringPtr    propName,
+						    bool *           propValue,
+						    XMP_OptionBits * options ) const;
+
+    // ---------------------------------------------------------------------------------------------
+    /// @brief \c GetProperty_Int() retrieves the value of an integer property as a C long integer.
+    ///
+    /// Reports whether a property exists, and retrieves its binary value and property type information.
+    ///
+    /// @param schemaNS The namespace URI; see \c GetProperty().
+    ///
+    /// @param propName The name of the property. Can be a general path expression, must not be null
+    /// or the empty string; see \c GetProperty() for namespace prefix usage.
+    ///
+    /// @param propValue [out] A buffer in which to return the binary value. Can be null if the
+    /// value is not wanted. Must be null for arrays and non-leaf levels of structs that do not have
+    /// values.
+    ///
+    /// @param options [out] A buffer in which to return the option flags describing the property, a
+    /// logical OR of allowed bit-flag constants; see \c #kXMP_PropValueIsStruct and following. Can
+    /// be null if flags are not wanted.
+    ///
+    /// @return True if the property exists.
+
+    bool GetProperty_Int ( XMP_StringPtr    schemaNS,
+						   XMP_StringPtr    propName,
+						   long *           propValue,
+						   XMP_OptionBits * options ) const;
+
+    // ---------------------------------------------------------------------------------------------
+    /// @brief \c GetProperty_Int64() retrieves the value of an integer property as a C long long integer.
+    ///
+    /// Reports whether a property exists, and retrieves its binary value and property type information.
+    ///
+    /// @param schemaNS The namespace URI; see \c GetProperty().
+    ///
+    /// @param propName The name of the property. Can be a general path expression, must not be null
+    /// or the empty string; see \c GetProperty() for namespace prefix usage.
+    ///
+    /// @param propValue [out] A buffer in which to return the binary value. Can be null if the
+    /// value is not wanted. Must be null for arrays and non-leaf levels of structs that do not have
+    /// values.
+    ///
+    /// @param options [out] A buffer in which to return the option flags describing the property, a
+    /// logical OR of allowed bit-flag constants; see \c #kXMP_PropValueIsStruct and following. Can
+    /// be null if flags are not wanted.
+    ///
+    /// @return True if the property exists.
+
+    bool GetProperty_Int64 ( XMP_StringPtr    schemaNS,
+							 XMP_StringPtr    propName,
+							 long long *      propValue,
+							 XMP_OptionBits * options ) const;
+
+    // ---------------------------------------------------------------------------------------------
+    /// @brief \c GetProperty_Float() retrieves the value of a floating-point property as a C double float.
+    ///
+    /// Reports whether a property exists, and retrieves its binary value and property type information.
+    ///
+    /// @param schemaNS The namespace URI; see \c GetProperty().
+    ///
+    /// @param propName The name of the property. Can be a general path expression, must not be null
+    /// or the empty string; see \c GetProperty() for namespace prefix usage.
+    ///
+    /// @param propValue [out] A buffer in which to return the binary value. Can be null if the
+    /// value is not wanted. Must be null for arrays and non-leaf levels of structs that do not have
+    /// values.
+    ///
+    /// @param options [out] A buffer in which to return the option flags describing the property, a
+    /// logical OR of allowed bit-flag constants; see \c #kXMP_PropValueIsStruct and following. Can
+    /// be null if flags are not wanted.
+    ///
+    /// @return True if the property exists.
+
+    bool GetProperty_Float ( XMP_StringPtr    schemaNS,
+							 XMP_StringPtr    propName,
+							 double *         propValue,
+							 XMP_OptionBits * options ) const;
+
+    // ---------------------------------------------------------------------------------------------
+    /// @brief \c GetProperty_Date() retrieves the value of a date-time property as an \c #XMP_DateTime structure.
+    ///
+    /// Reports whether a property exists, and retrieves its binary value and property type information.
+    ///
+    /// @param schemaNS The namespace URI; see \c GetProperty().
+    ///
+    /// @param propName The name of the property. Can be a general path expression, must not be null
+    /// or the empty string; see \c GetProperty() for namespace prefix usage.
+    ///
+    /// @param propValue [out] A buffer in which to return the binary value. Can be null if the
+    /// value is not wanted. Must be null for arrays and non-leaf levels of structs that do not have
+    /// values.
+    ///
+    /// @param options [out] A buffer in which to return the option flags describing the property, a
+    /// logical OR of allowed bit-flag constants; see \c #kXMP_PropValueIsStruct and following. Can
+    /// be null if flags are not wanted.
+    ///
+    /// @return True if the property exists.
+
+    bool GetProperty_Date ( XMP_StringPtr    schemaNS,
+						    XMP_StringPtr    propName,
+						    XMP_DateTime *   propValue,
+						    XMP_OptionBits * options ) const;
+
+    // ---------------------------------------------------------------------------------------------
+    /// @brief \c SetProperty_Bool() sets the value of a Boolean property using a C++ bool.
+    ///
+    /// Sets a property with a binary value, creating it if necessary.
+    ///
+    /// @param schemaNS The namespace URI; see \c GetProperty().
+    ///
+    /// @param propName The name of the property. Can be a general path expression, must not be null
+    /// or the empty string; see \c GetProperty() for namespace prefix usage.
+    ///
+    /// @param propValue The new binary value. Can be null if creating the property. Must be null
+    /// for arrays and non-leaf levels of structs that do not have values.
+    ///
+    /// @param options Option flags describing the property; a logical OR of allowed bit-flag
+    /// constants; see \c #kXMP_PropValueIsStruct and following. Must match the type of a property
+    /// that already exists.
+
+    void SetProperty_Bool ( XMP_StringPtr  schemaNS,
+						    XMP_StringPtr  propName,
+						    bool           propValue,
+						    XMP_OptionBits options = 0 );
+
+    // ---------------------------------------------------------------------------------------------
+    /// @brief \c SetProperty_Int() sets the value of an integer property using a C long integer.
+    ///
+    /// Sets a property with a binary value, creating it if necessary.
+    ///
+    /// @param schemaNS The namespace URI; see \c GetProperty().
+    ///
+    /// @param propName The name of the property. Can be a general path expression, must not be null
+    /// or the empty string; see \c GetProperty() for namespace prefix usage.
+    ///
+    /// @param propValue The new binary value. Can be null if creating the property. Must be null
+    /// for arrays and non-leaf levels of structs that do not have values.
+    ///
+    /// @param options Option flags describing the property; a logical OR of allowed bit-flag
+    /// constants; see \c #kXMP_PropValueIsStruct and following. Must match the type of a property
+    /// that already exists.
+
+    void SetProperty_Int ( XMP_StringPtr  schemaNS,
+						   XMP_StringPtr  propName,
+						   long           propValue,
+						   XMP_OptionBits options = 0 );
+
+    // ---------------------------------------------------------------------------------------------
+    /// @brief \c SetProperty_Int64() sets the value of an integer property using a C long long integer.
+    ///
+    /// Sets a property with a binary value, creating it if necessary.
+    ///
+    /// @param schemaNS The namespace URI; see \c GetProperty().
+    ///
+    /// @param propName The name of the property. Can be a general path expression, must not be null
+    /// or the empty string; see \c GetProperty() for namespace prefix usage.
+    ///
+    /// @param propValue The new binary value. Can be null if creating the property. Must be null
+    /// for arrays and non-leaf levels of structs that do not have values.
+    ///
+    /// @param options Option flags describing the property; a logical OR of allowed bit-flag
+    /// constants; see \c #kXMP_PropValueIsStruct and following. Must match the type of a property
+    /// that already exists.
+
+    void SetProperty_Int64 ( XMP_StringPtr  schemaNS,
+							 XMP_StringPtr  propName,
+							 long long      propValue,
+							 XMP_OptionBits options = 0 );
+
+    // ---------------------------------------------------------------------------------------------
+    /// @brief \c SetProperty_Float() sets the value of a floating-point property using a C double float.
+    ///
+    /// Sets a property with a binary value, creating it if necessary.
+    ///
+    /// @param schemaNS The namespace URI; see \c GetProperty().
+    ///
+    /// @param propName The name of the property. Can be a general path expression, must not be null
+    /// or the empty string; see \c GetProperty() for namespace prefix usage.
+    ///
+    /// @param propValue The new binary value. Can be null if creating the property. Must be null
+    /// for arrays and non-leaf levels of structs that do not have values.
+    ///
+    /// @param options Option flags describing the property; a logical OR of allowed bit-flag
+    /// constants; see \c #kXMP_PropValueIsStruct and following. Must match the type of a property
+    /// that already exists.
+
+    void SetProperty_Float ( XMP_StringPtr  schemaNS,
+							 XMP_StringPtr  propName,
+							 double         propValue,
+							 XMP_OptionBits options = 0 );
+
+    // ---------------------------------------------------------------------------------------------
+    /// @brief \c SetProperty_Date() sets the value of a date/time property using an \c #XMP_DateTime structure.
+    ///
+    /// Sets a property with a binary value, creating it if necessary.
+    ///
+    /// @param schemaNS The namespace URI; see \c GetProperty().
+    ///
+    /// @param propName The name of the property. Can be a general path expression, must not be null
+    /// or the empty string; see \c GetProperty() for namespace prefix usage.
+    ///
+    /// @param propValue The new binary value. Can be null if creating the property. Must be null
+    /// for arrays and non-leaf levels of structs that do not have values.
+    ///
+    /// @param options Option flags describing the property; a logical OR of allowed bit-flag
+    /// constants; see \c #kXMP_PropValueIsStruct and following. Must match the type of a property
+    /// that already exists.
+
+    void SetProperty_Date ( XMP_StringPtr         schemaNS,
+						    XMP_StringPtr         propName,
+						    const XMP_DateTime &  propValue,
+						    XMP_OptionBits        options = 0 );
+
+    /// @}
+    // =============================================================================================
+    /// \name Accessing localized text (alt-text) properties.
+    /// @{
+    ///
+	/// Localized text properties are stored in alt-text arrays. They allow multiple concurrent
+	/// localizations of a property value, for example a document title or copyright in several
+	/// languages.
+    ///
+    /// These functions provide convenient support for localized text properties, including a
+    /// number of special and obscure aspects. The most important aspect of these functions is that
+    /// they select an appropriate array item based on one or two RFC 3066 language tags. One of
+    /// these languages, the "specific" language, is preferred and selected if there is an exact
+    /// match. For many languages it is also possible to define a "generic" language that can be
+    /// used if there is no specific language match. The generic language must be a valid RFC 3066
+    /// primary subtag, or the empty string.
+    ///
+    /// For example, a specific language of "en-US" should be used in the US, and a specific
+    /// language of "en-UK" should be used in England. It is also appropriate to use "en" as the
+    /// generic language in each case. If a US document goes to England, the "en-US" title is
+    /// selected by using the "en" generic language and the "en-UK" specific language.
+    ///
+    /// It is considered poor practice, but allowed, to pass a specific language that is just an
     /// RFC 3066 primary tag. For example "en" is not a good specific language, it should only be
     /// used as a generic language. Passing "i" or "x" as the generic language is also considered
     /// poor practice but allowed.
     ///
     /// Advice from the W3C about the use of RFC 3066 language tags can be found at:
-    /// \li http://www.w3.org/International/articles/language-tags/
+    ///     \li http://www.w3.org/International/articles/language-tags/
     ///
     /// \note RFC 3066 language tags must be treated in a case insensitive manner. The XMP toolkit
     /// does this by normalizing their capitalization:
-    ///
-	/// \li The primary subtag is lower case, the suggested practice of ISO 639.
-	/// \li All 2 letter secondary subtags are upper case, the suggested practice of ISO 3166.
-	/// \li All other subtags are lower case.
+ 	/// 	\li The primary subtag is lower case, the suggested practice of ISO 639.
+	/// 	\li All 2 letter secondary subtags are upper case, the suggested practice of ISO 3166.
+	/// 	\li All other subtags are lower case.
     ///
     /// The XMP specification defines an artificial language, "x-default", that is used to
     /// explicitly denote a default item in an alt-text array. The XMP toolkit normalizes alt-text
-    /// arrays such that the x-default item is the first item. The \c SetLocalizedText function has
-    /// several special features related to the x-default item, see its description for details.
+    /// arrays such that the x-default item is the first item. The \c SetLocalizedText() function
+    /// has several special features related to the x-default item, see its description for details.
+
+    // ---------------------------------------------------------------------------------------------
+    /// @brief \c GetLocalizedText() retrieves information about a selected item in an alt-text array.
     ///
-    /// The selection of the array item is the same for \c GetLocalizedText and \c SetLocalizedText:
-    ///
-    /// \li Look for an exact match with the specific language.
-    /// \li If a generic language is given, look for a partial match.
-    /// \li Look for an x-default item.
-    /// \li Choose the first item.
+    /// The array item is selected according to these rules:
+    ///   \li Look for an exact match with the specific language.
+    ///   \li If a generic language is given, look for a partial match.
+    ///   \li Look for an x-default item.
+    ///   \li Choose the first item.
     ///
     /// A partial match with the generic language is where the start of the item's language matches
     /// the generic string and the next character is '-'. An exact match is also recognized as a
     /// degenerate case.
     ///
-    /// It is fine to pass x-default as the specific language. In this case, selection of an x-default
-    /// item is an exact match by the first rule, not a selection by the 3rd rule. The last 2 rules
-    /// are fallbacks used when the specific and generic languages fail to produce a match.
-
-    //  --------------------------------------------------------------------------------------------
-    /// \brief \c GetLocalizedText returns information about a selected item in an alt-text array.
-    /// The array item is selected according to the rules given above.
+    /// You can pass "x-default" as the specific language. In this case, selection of an
+    /// \c x-default item is an exact match by the first rule, not a selection by the 3rd rule. The
+    /// last 2 rules are fallbacks used when the specific and generic languages fail to produce a
+    /// match.
     ///
-    /// \result Returns true if an appropriate array item exists.
+    /// The return value reports whether a match was successfully made.
     ///
-    /// \param schemaNS The namespace URI for the alt-text array. Has the same usage as in \c
-    /// GetProperty.
+    /// @param schemaNS The namespace URI for the alt-text array; see \c GetProperty().
     ///
-    /// \param altTextName The name of the alt-text array. May be a general path expression, must
-    /// not be null or the empty string. Has the same namespace prefix usage as \c propName in \c
-    /// GetProperty.
+    /// @param altTextName The name of the alt-text array. Can be a general path expression, must
+    /// not be null or the empty string; see \c GetProperty() for namespace prefix usage.
     ///
-    /// \param genericLang The name of the generic language as an RFC 3066 primary subtag. May be
+    /// @param genericLang The name of the generic language as an RFC 3066 primary subtag. Can be
     /// null or the empty string if no generic language is wanted.
     ///
-    /// \param specificLang The name of the specific language as an RFC 3066 tag. Must not be null
-    /// or the empty string.
+    /// @param specificLang The name of the specific language as an RFC 3066 tag, or "x-default".
+    /// Must not be null or the empty string.
     ///
-    /// \param actualLang A pointer to the string that is assigned the language of the selected
-    /// array item, if an appropriate array item is found. May be null if the language is not
-    /// wanted.
+    /// @param actualLang [out] A string object in which to return the language of the selected
+    /// array item, if an appropriate array item is found. Can be null if the language is not wanted.
     ///
-    /// \param itemValue A pointer to the string that is assigned the value of the array item, if
-    /// an appropriate array item is found. May be null if the value is not wanted.
+    /// @param itemValue [out] A string object in which to return the value of the array item, if an
+    /// appropriate array item is found. Can be null if the value is not wanted.
     ///
-    /// \param options A pointer to the \c XMP_OptionBits variable that is assigned option flags
-    /// describing the array item. May be null if the flags are not wanted.
+    /// @param options A buffer in which to return the option flags that describe the array item, if
+    /// an appropriate array item is found. Can be null if the flags are not wanted.
+    ///
+    /// @return True if an appropriate array item exists.
 
-    bool
-    GetLocalizedText ( XMP_StringPtr    schemaNS,
-                       XMP_StringPtr    altTextName,
-                       XMP_StringPtr    genericLang,
-                       XMP_StringPtr    specificLang,
-                       tStringObj *     actualLang,
-                       tStringObj *     itemValue,
-                       XMP_OptionBits * options ) const;
+    bool GetLocalizedText ( XMP_StringPtr    schemaNS,
+						    XMP_StringPtr    altTextName,
+						    XMP_StringPtr    genericLang,
+						    XMP_StringPtr    specificLang,
+						    tStringObj *     actualLang,
+						    tStringObj *     itemValue,
+						    XMP_OptionBits * options ) const;
 
-    //  --------------------------------------------------------------------------------------------
-    /// \brief \c SetLocalizedText modifies the value of a selected item in an alt-text array.
+    // ---------------------------------------------------------------------------------------------
+    /// @brief \c SetLocalizedText() modifies the value of a selected item in an alt-text array.
+    ///
     /// Creates an appropriate array item if necessary, and handles special cases for the x-default
     /// item.
     ///
-    /// If the selected item is from a match with the specific language, the value of that item is
-    /// modified. If the existing value of that item matches the existing value of the x-default
-    /// item, the x-default item is also modified. If the array only has 1 existing item (which is
-    /// not x-default), an x-default item is added with the given value.
+    /// The array item is selected according to these rules:
+    ///   \li Look for an exact match with the specific language.
+    ///   \li If a generic language is given, look for a partial match.
+    ///   \li Look for an x-default item.
+    ///   \li Choose the first item.
     ///
-    /// If the selected item is from a match with the generic language and there are no other
-    /// generic matches, the value of that item is modified. If the existing value of that item
-    /// matches the existing value of the x-default item, the x-default item is also modified. If
-    /// the array only has 1 existing item (which is not x-default), an x-default item is added
-    /// with the given value.
+    /// A partial match with the generic language is where the start of the item's language matches
+    /// the generic string and the next character is '-'. An exact match is also recognized as a
+    /// degenerate case.
     ///
-    /// If the selected item is from a partial match with the generic language and there are other
-    /// partial matches, a new item is created for the specific language. The x-default item is not
-    /// modified.
+    /// You can pass "x-default" as the specific language. In this case, selection of an
+    /// \c x-default item is an exact match by the first rule, not a selection by the 3rd rule. The
+    /// last 2 rules are fallbacks used when the specific and generic languages fail to produce a
+    /// match.
     ///
-    /// If the selected item is from the last 2 rules then a new item is created for the specific
-    /// language. If the array only had an x-default item, the x-default item is also modified. If
-    /// the array was empty, items are created for the specific language and x-default.
+    /// Item values are modified according to these rules:
     ///
-    /// \param schemaNS The namespace URI for the alt-text array. Has the same usage as in \c
-    /// GetProperty.
+    ///   \li If the selected item is from a match with the specific language, the value of that
+    ///   item is modified. If the existing value of that item matches the existing value of the
+    ///   x-default item, the x-default item is also modified. If the array only has 1 existing item
+    ///   (which is not x-default), an x-default item is added with the given value.
     ///
-    /// \param altTextName The name of the alt-text array. May be a general path expression, must
-    /// not be null or the empty string. Has the same namespace prefix usage as \c propName in \c
-    /// GetProperty.
+    ///   \li If the selected item is from a match with the generic language and there are no other
+    ///   generic matches, the value of that item is modified. If the existing value of that item
+    ///   matches the existing value of the x-default item, the x-default item is also modified. If
+    ///   the array only has 1 existing item (which is not x-default), an x-default item is added
+    ///   with the given value.
     ///
-    /// \param genericLang The name of the generic language as an RFC 3066 primary subtag. May be
+    ///   \li If the selected item is from a partial match with the generic language and there are
+    ///   other partial matches, a new item is created for the specific language. The x-default item
+    ///   is not modified.
+    ///
+    ///   \li If the selected item is from the last 2 rules then a new item is created for the
+    ///   specific language. If the array only had an x-default item, the x-default item is also
+    ///   modified. If the array was empty, items are created for the specific language and
+    ///   x-default.
+    ///
+    /// @param schemaNS The namespace URI for the alt-text array; see \c GetProperty().
+    ///
+    /// @param altTextName The name of the alt-text array. Can be a general path expression, must
+    /// not be null or the empty string; see \c GetProperty() for namespace prefix usage.
+    ///
+    /// @param genericLang The name of the generic language as an RFC 3066 primary subtag. Can be
     /// null or the empty string if no generic language is wanted.
     ///
-    /// \param specificLang The name of the specific language as an RFC 3066 tag. Must not be null
-    /// or the empty string.
+    /// @param specificLang The name of the specific language as an RFC 3066 tag, or "x-default".
+    /// Must not be null or the empty string.
     ///
-    /// \param itemValue A pointer to the null terminated UTF-8 string that is the new value for
-    /// the appropriate array item.
+    /// @param itemValue The new value for the matching array item, specified as a null-terminated
+    /// UTF-8 string.
     ///
-    /// \param options Option flags, none are defined at present.
+    /// @param options Option flags, none currently defined.
 
-    void
-    SetLocalizedText ( XMP_StringPtr  schemaNS,
-                       XMP_StringPtr  altTextName,
-                       XMP_StringPtr  genericLang,
-                       XMP_StringPtr  specificLang,
-                       XMP_StringPtr  itemValue,
-                       XMP_OptionBits options = 0 );
+    void SetLocalizedText ( XMP_StringPtr  schemaNS,
+						    XMP_StringPtr  altTextName,
+						    XMP_StringPtr  genericLang,
+						    XMP_StringPtr  specificLang,
+						    XMP_StringPtr  itemValue,
+						    XMP_OptionBits options = 0 );
 
-    //  --------------------------------------------------------------------------------------------
-    /// \brief This form of \c SetLocalizedText is a simple overload in the template that calls the
-    /// above form passing <tt>itemValue.c_str()</tt>.
+    // ---------------------------------------------------------------------------------------------
+    /// @brief \c SetLocalizedText() modifies the value of a selected item in an alt-text array using
+    /// a string object.
+    ///
+    /// Creates an appropriate array item if necessary, and handles special cases for the x-default
+    /// item.
+    ///
+    /// The array item is selected according to these rules:
+    ///   \li Look for an exact match with the specific language.
+    ///   \li If a generic language is given, look for a partial match.
+    ///   \li Look for an x-default item.
+    ///   \li Choose the first item.
+    ///
+    /// A partial match with the generic language is where the start of the item's language matches
+    /// the generic string and the next character is '-'. An exact match is also recognized as a
+    /// degenerate case.
+    ///
+    /// You can pass "x-default" as the specific language. In this case, selection of an \c x-default
+    /// item is an exact match by the first rule, not a selection by the 3rd rule. The last 2 rules
+    /// are fallbacks used when the specific and generic languages fail to produce a match.
+    ///
+    /// Item values are modified according to these rules:
+    ///
+    ///   \li If the selected item is from a match with the specific language, the value of that
+    ///   item is modified. If the existing value of that item matches the existing value of the
+    ///   x-default item, the x-default item is also modified. If the array only has 1 existing item
+    ///   (which is not x-default), an x-default item is added with the given value.
+    ///
+    ///   \li If the selected item is from a match with the generic language and there are no other
+    ///   generic matches, the value of that item is modified. If the existing value of that item
+    ///   matches the existing value of the x-default item, the x-default item is also modified. If
+    ///   the array only has 1 existing item (which is not x-default), an x-default item is added
+    ///   with the given value.
+    ///
+    ///   \li If the selected item is from a partial match with the generic language and there are
+    ///   other partial matches, a new item is created for the specific language. The x-default item
+    ///   is not modified.
+    ///
+    ///   \li If the selected item is from the last 2 rules then a new item is created for the
+    ///   specific language. If the array only had an x-default item, the x-default item is also
+    ///   modified. If the array was empty, items are created for the specific language and
+    ///   x-default.
+    ///
+    /// @param schemaNS The namespace URI for the alt-text array; see \c GetProperty().
+    ///
+    /// @param altTextName The name of the alt-text array. Can be a general path expression, must
+    /// not be null or the empty string; see \c GetProperty() for namespace prefix usage.
+    ///
+    /// @param genericLang The name of the generic language as an RFC 3066 primary subtag. Can be
+    /// null or the empty string if no generic language is wanted.
+    ///
+    /// @param specificLang The name of the specific language as an RFC 3066 tag, or "x-default".
+    /// Must not be null or the empty string.
+    ///
+    /// @param itemValue The new value for the matching array item, specified as a string object.
+    ///
+    /// @param options Option flags, none currently defined.
 
-    void
-    SetLocalizedText ( XMP_StringPtr      schemaNS,
-                       XMP_StringPtr      altTextName,
-                       XMP_StringPtr      genericLang,
-                       XMP_StringPtr      specificLang,
-                       const tStringObj & itemValue,
-                       XMP_OptionBits     options = 0 );
+    void SetLocalizedText ( XMP_StringPtr      schemaNS,
+						    XMP_StringPtr      altTextName,
+						    XMP_StringPtr      genericLang,
+						    XMP_StringPtr      specificLang,
+						    const tStringObj & itemValue,
+						    XMP_OptionBits     options = 0 );
 
     /// @}
 
-    // =============================================================================================
-
-    //  --------------------------------------------------------------------------------------------
-    /// \name Functions accessing properties as binary values.
+   	// =============================================================================================
+    /// \name Creating and reading serialized RDF.
     /// @{
-	/// These are very similar to \c GetProperty and \c SetProperty above, but the value is
-	/// returned or
-    /// provided in binary form instead of as a UTF-8 string. The path composition functions in
-    /// \c TXMPUtils may be used to compose an path expression for fields in nested structures, items
-    /// in arrays, or qualifiers.
+    ///
+	/// The metadata contained in an XMP object must be serialized as RDF for storage in an XMP
+	/// packet and output to a file. Similarly, metadata in the form of serialized RDF (such as
+	/// metadata read from a file using \c TXMPFiles) must be parsed into an XMP object for
+	/// manipulation with the XMP Toolkit.
+	///
+	/// These functions support parsing serialized RDF into an XMP object, and serializing an XMP
+    /// object into RDF. The input for parsing can be any valid Unicode encoding. ISO Latin-1 is
+    /// also recognized, but its use is strongly discouraged. Serialization is always as UTF-8.
 
-    //  --------------------------------------------------------------------------------------------
-    /// \brief \c GetProperty_Bool returns the value of a Boolean property as a C++ bool.
+    // ---------------------------------------------------------------------------------------------
+    /// @brief \c ParseFromBuffer() parses RDF from a series of input buffers into this XMP object.
     ///
-    /// \result Returns true if the property exists.
+    /// Use this to convert metadata from serialized RDF form (as, for example, read from an XMP
+    /// packet embedded in a file) into an XMP object that you can manipulate with the XMP Toolkit.
+    /// If this XMP object is empty and the input buffer contains a complete XMP packet, this is the
+    /// same as creating a new XMP object from that buffer with the constructor.
     ///
-    /// \param schemaNS The namespace URI for the property. Has the same usage as in \c GetProperty.
+    /// You can use this function to combine multiple buffers into a single metadata tree. To
+    /// terminate an input loop conveniently, pass  the option \c #kXMP_ParseMoreBuffers for all
+    /// real input, then make a final call with a zero length and \c #kXMP_NoOptions. The buffers
+    /// can be any length. The buffer boundaries need not respect XML tokens or even Unicode
+    /// characters.
     ///
-    /// \param propName The name of the property. Has the same usage as in \c GetProperty.
+    /// @param buffer A pointer to a buffer of input. Can be null if \c bufferSize is 0.
     ///
-    /// \param propValue A pointer to the bool variable that is assigned the value of the property.
-    /// May be null if the value is not wanted.
+    /// @param bufferSize The length of the input buffer in bytes. Zero is a valid value.
     ///
-    /// \param options A pointer to the \c XMP_OptionBits variable that is assigned option flags
-    /// describing the property. May be null if the flags are not wanted.
+    /// @param options An options flag that controls how the parse operation is performed. A logical
+    /// OR of these bit-flag constants:
+    ///   \li \c #kXMP_ParseMoreBuffers - This is not the last buffer of input, more calls follow.
+    ///   \li \c #kXMP_RequireXMPMeta - The \c x:xmpmeta XML element is required around \c rdf:RDF.
+    ///
+    /// @see \c TXMPFiles::GetXMP()
 
-    bool
-    GetProperty_Bool ( XMP_StringPtr    schemaNS,
-                       XMP_StringPtr    propName,
-                       bool *           propValue,
-                       XMP_OptionBits * options ) const;
+    void ParseFromBuffer ( XMP_StringPtr  buffer,
+						   XMP_StringLen  bufferSize,
+						   XMP_OptionBits options = 0 );
 
-    //  --------------------------------------------------------------------------------------------
-    /// \brief \c GetProperty_Int returns the value of an integer property as a C long integer.
+    // ---------------------------------------------------------------------------------------------
+    /// @brief \c SerializeToBuffer() serializes metadata in this XMP object into a string as RDF.
     ///
-    /// \result Returns true if the property exists.
+    /// Use this to prepare metadata for storage as an XMP packet embedded in a file. See \c TXMPFiles::PutXMP().
     ///
-    /// \param schemaNS The namespace URI for the property. Has the same usage as in \c GetProperty.
+    /// @param rdfString [out] A string object in which to return the serialized RDF. Must not be null.
     ///
-    /// \param propName The name of the property. Has the same usage as in \c GetProperty.
+    /// @param options An options flag that controls how the serialization operation is performed.
+    /// The specified options must be logically consistent; an exception is thrown if they are not.
+    /// A logical OR of these bit-flag constants:
+    ///   \li \c kXMP_OmitPacketWrapper - Do not include an XML packet wrapper. This cannot be
+    ///   specified together with \c #kXMP_ReadOnlyPacket, \c #kXMP_IncludeThumbnailPad, or
+    ///   \c #kXMP_ExactPacketLength.
+    ///   \li \c kXMP_ReadOnlyPacket - Create a read-only XML packet wapper. Cannot be specified
+    ///   together with \c kXMP_OmitPacketWrapper.
+    ///   \li \c kXMP_UseCompactFormat - Use a highly compact RDF syntax and layout.
+    ///   \li \c kXMP_WriteAliasComments - Include XML comments for aliases.
+    ///   \li \c kXMP_IncludeThumbnailPad - Include typical space for a JPEG thumbnail in the
+    ///   padding if no \c xmp:Thumbnails property is present. Cannot be specified together with
+    ///   \c kXMP_OmitPacketWrapper.
+    ///   \li \c kXMP_ExactPacketLength - The padding parameter provides the overall packet length.
+    ///   The actual amount of padding is computed. An exception is thrown if the packet exceeds
+    ///   this length with no padding.	Cannot be specified together with
+    ///   \c kXMP_OmitPacketWrapper.
     ///
-    /// \param propValue A pointer to the long integer variable that is assigned the value of
-    /// the property. May be null if the value is not wanted.
+    /// In addition to the above options, you can include one of the following encoding options:
+    ///   \li \c #kXMP_EncodeUTF8 - Encode as UTF-8, the default.
+    ///   \li \c #kXMP_EncodeUTF16Big - Encode as big-endian UTF-16.
+    ///   \li \c #kXMP_EncodeUTF16Little - Encode as little-endian UTF-16.
+    ///   \li \c #kXMP_EncodeUTF32Big - Encode as big-endian UTF-32.
+    ///   \li \c #kXMP_EncodeUTF32Little - Encode as little-endian UTF-32.
     ///
-    /// \param options A pointer to the \c XMP_OptionBits variable that is assigned option flags
-    /// describing the property. May be null if the flags are not wanted.
+    /// @param padding The amount of padding to be added if a writeable XML packet is created. If
+    /// zero (the default) an appropriate amount of padding is computed.
+    ///
+    /// @param newline The string to be used as a line terminator. If empty, defaults to linefeed,
+    /// U+000A, the standard XML newline.
+    ///
+    /// @param indent The string to be used for each level of indentation in the serialized RDF. If
+    /// empty, defaults to two ASCII spaces, U+0020.
+    ///
+    /// @param baseIndent The number of levels of indentation to be used for the outermost XML
+    /// element in the serialized RDF. This is convenient when embedding the RDF in other text.
 
-    bool
-    GetProperty_Int ( XMP_StringPtr    schemaNS,
-                      XMP_StringPtr    propName,
-                      long *           propValue,
-                      XMP_OptionBits * options ) const;
+    void SerializeToBuffer ( tStringObj *   rdfString,
+							 XMP_OptionBits options,
+							 XMP_StringLen  padding,
+							 XMP_StringPtr  newline,
+							 XMP_StringPtr  indent = "",
+							 XMP_Index      baseIndent = 0 ) const;
 
-    //  --------------------------------------------------------------------------------------------
-    /// \brief \c GetProperty_Int64 returns the value of an integer property as a C long long integer.
+    // ---------------------------------------------------------------------------------------------
+    /// @brief \c SerializeToBuffer() serializes metadata in this XMP object into a string as RDF.
     ///
-    /// \result Returns true if the property exists.
+    /// This simpler form of the function uses default values for the \c newline, \c indent, and
+    /// \c baseIndent parameters.
     ///
-    /// \param schemaNS The namespace URI for the property. Has the same usage as in \c GetProperty.
+    /// @param rdfString [out] A string object in which to return the serialized RDF. Must not be null.
     ///
-    /// \param propName The name of the property. Has the same usage as in \c GetProperty.
+    /// @param options An options flag that controls how the serialization operation is performed.
+    /// The specified options must be logically consistent; an exception is thrown if they are not.
+    /// A logical OR of these bit-flag constants:
+    ///   \li \c kXMP_OmitPacketWrapper - Do not include an XML packet wrapper. This cannot be
+    ///   specified together with \c #kXMP_ReadOnlyPacket, \c #kXMP_IncludeThumbnailPad, or
+    ///   \c #kXMP_ExactPacketLength.
+    ///   \li \c kXMP_ReadOnlyPacket - Create a read-only XML packet wapper. Cannot be specified
+    ///   together with \c kXMP_OmitPacketWrapper.
+    ///   \li \c kXMP_UseCompactFormat - Use a highly compact RDF syntax and layout.
+    ///   \li \c kXMP_WriteAliasComments - Include XML comments for aliases.
+    ///   \li \c kXMP_IncludeThumbnailPad - Include typical space for a JPEG thumbnail in the
+    ///   padding if no \c xmp:Thumbnails property is present. Cannot be specified together with
+    ///   \c kXMP_OmitPacketWrapper.
+    ///   \li \c kXMP_ExactPacketLength - The padding parameter provides the overall packet length.
+    ///   The actual amount of padding is computed. An exception is thrown if the packet exceeds
+    ///   this length with no padding.	Cannot be specified together with
+    ///   \c kXMP_OmitPacketWrapper.
     ///
-    /// \param propValue A pointer to the long long integer variable that is assigned the value of
-    /// the property. May be null if the value is not wanted.
+    /// In addition to the above options, you can include one of the following encoding options:
+    ///   \li \c #kXMP_EncodeUTF8 - Encode as UTF-8, the default.
+    ///   \li \c #kXMP_EncodeUTF16Big - Encode as big-endian UTF-16.
+    ///   \li \c #kXMP_EncodeUTF16Little - Encode as little-endian UTF-16.
+    ///   \li \c #kXMP_EncodeUTF32Big - Encode as big-endian UTF-32.
+    ///   \li \c #kXMP_EncodeUTF32Little - Encode as little-endian UTF-32.
     ///
-    /// \param options A pointer to the \c XMP_OptionBits variable that is assigned option flags
-    /// describing the property. May be null if the flags are not wanted.
+    /// @param padding The amount of padding to be added if a writeable XML packet is created.
+    /// If zero (the default) an appropriate amount of padding is computed.
 
-    bool
-    GetProperty_Int64 ( XMP_StringPtr    schemaNS,
-                        XMP_StringPtr    propName,
-                        long long *      propValue,
-                        XMP_OptionBits * options ) const;
-
-    //  --------------------------------------------------------------------------------------------
-    /// \brief \c GetProperty_Float returns the value of a flaoting point property as a C double float.
-    ///
-    /// \result Returns true if the property exists.
-    ///
-    /// \param schemaNS The namespace URI for the property. Has the same usage as in \c GetProperty.
-    ///
-    /// \param propName The name of the property. Has the same usage as in \c GetProperty.
-    ///
-    /// \param propValue A pointer to the double float variable that is assigned the value of
-    /// the property. May be null if the value is not wanted.
-    ///
-    /// \param options A pointer to the \c XMP_OptionBits variable that is assigned option flags
-    /// describing the property. May be null if the flags are not wanted.
-
-    bool
-    GetProperty_Float ( XMP_StringPtr    schemaNS,
-                        XMP_StringPtr    propName,
-                        double *         propValue,
-                        XMP_OptionBits * options ) const;
-
-    //  --------------------------------------------------------------------------------------------
-    /// \brief \c GetProperty_Date returns the value of a date/time property as an \c XMP_DateTime struct.
-    ///
-    /// \result Returns true if the property exists.
-    ///
-    /// \param schemaNS The namespace URI for the property. Has the same usage as in \c GetProperty.
-    ///
-    /// \param propName The name of the property. Has the same usage as in \c GetProperty.
-    ///
-    /// \param propValue A pointer to the \c XMP_DateTime variable that is assigned the value of
-    /// the property. May be null if the value is not wanted.
-    ///
-    /// \param options A pointer to the \c XMP_OptionBits variable that is assigned option flags
-    /// describing the property. May be null if the flags are not wanted.
-
-    bool
-    GetProperty_Date ( XMP_StringPtr    schemaNS,
-                       XMP_StringPtr    propName,
-                       XMP_DateTime *   propValue,
-                       XMP_OptionBits * options ) const;
-
-    //  --------------------------------------------------------------------------------------------
-    /// \brief \c SetProperty_Bool sets the value of a Boolean property from a C++ bool.
-    ///
-    /// \param schemaNS The namespace URI for the property. Has the same usage as in \c GetProperty.
-    ///
-    /// \param propName The name of the property. Has the same usage as in \c GetProperty.
-    ///
-    /// \param propValue The bool value to be assigned to the property.
-    ///
-    /// \param options A pointer to the \c XMP_OptionBits variable that is assigned option flags
-    /// describing the property. May be null if the flags are not wanted.
-
-    void
-    SetProperty_Bool ( XMP_StringPtr  schemaNS,
-                       XMP_StringPtr  propName,
-                       bool           propValue,
-                       XMP_OptionBits options = 0 );
-
-    //  --------------------------------------------------------------------------------------------
-    /// \brief \c SetProperty_Int sets the value of an integer property from a C long integer.
-    ///
-    /// \param schemaNS The namespace URI for the property. Has the same usage as in \c GetProperty.
-    ///
-    /// \param propName The name of the property. Has the same usage as in \c GetProperty.
-    ///
-    /// \param propValue The long integer value to be assigned to the property.
-    ///
-    /// \param options Option flags describing the property.
-
-    void
-    SetProperty_Int ( XMP_StringPtr  schemaNS,
-                      XMP_StringPtr  propName,
-                      long           propValue,
-                      XMP_OptionBits options = 0 );
-
-    //  --------------------------------------------------------------------------------------------
-    /// \brief \c SetProperty_Int64 sets the value of an integer property from a C long long integer.
-    ///
-    /// \param schemaNS The namespace URI for the property. Has the same usage as in \c GetProperty.
-    ///
-    /// \param propName The name of the property. Has the same usage as in \c GetProperty.
-    ///
-    /// \param propValue The long long integer value to be assigned to the property.
-    ///
-    /// \param options Option flags describing the property.
-
-    void
-    SetProperty_Int64 ( XMP_StringPtr  schemaNS,
-                        XMP_StringPtr  propName,
-                        long long      propValue,
-                        XMP_OptionBits options = 0 );
-
-    //  --------------------------------------------------------------------------------------------
-    /// \brief \c SetProperty_Float sets the value of a floating point property from a C double float.
-    ///
-    /// \param schemaNS The namespace URI for the property. Has the same usage as in \c GetProperty.
-    ///
-    /// \param propName The name of the property. Has the same usage as in \c GetProperty.
-    ///
-    /// \param propValue The double float value to be assigned to the property.
-    ///
-    /// \param options Option flags describing the property.
-
-    void
-    SetProperty_Float ( XMP_StringPtr  schemaNS,
-                        XMP_StringPtr  propName,
-                        double         propValue,
-                        XMP_OptionBits options = 0 );
-
-    //  --------------------------------------------------------------------------------------------
-    /// \brief \c SetProperty_Date sets the value of a date/time property from an \c XMP_DateTime struct.
-    ///
-    /// \param schemaNS The namespace URI for the property. Has the same usage as in \c GetProperty.
-    ///
-    /// \param propName The name of the property. Has the same usage as in \c GetProperty.
-    ///
-    /// \param propValue The \c XMP_DateTime value to be assigned to the property.
-    ///
-    /// \param options Option flags describing the property.
-
-    void
-    SetProperty_Date ( XMP_StringPtr         schemaNS,
-                       XMP_StringPtr         propName,
-                       const XMP_DateTime &  propValue,
-                       XMP_OptionBits        options = 0 );
+    void SerializeToBuffer ( tStringObj *   rdfString,
+							 XMP_OptionBits options = 0,
+							 XMP_StringLen  padding = 0 ) const;
 
     /// @}
-
     // =============================================================================================
     // Miscellaneous Member Functions
     // ==============================
 
-    //  --------------------------------------------------------------------------------------------
-    /// \name Misceallaneous functions.
+    // ---------------------------------------------------------------------------------------------
+    /// \name Helper functions.
     /// @{
 
-    //  --------------------------------------------------------------------------------------------
-    /// \brief GetInternalRef Returns an internal reference that may be safely passed across DLL
-    /// boundaries and reconstructed.
-
-    XMPMetaRef
-    GetInternalRef() const;
-
-    //  --------------------------------------------------------------------------------------------
-    /// \brief GetObjectName --TBD--
-
-    void
-    GetObjectName ( tStringObj * name ) const;
-
-    //  --------------------------------------------------------------------------------------------
-    /// \brief SetObjectName --TBD--
-
-    void
-    SetObjectName ( XMP_StringPtr name );
-
-    //  --------------------------------------------------------------------------------------------
-    /// \brief SetObjectName --TBD--
-
-    void
-    SetObjectName ( tStringObj name );
-
-    //  --------------------------------------------------------------------------------------------
-    /// \brief GetObjectOptions --TBD--
-
-    XMP_OptionBits
-    GetObjectOptions() const;
-
-    //  --------------------------------------------------------------------------------------------
-    /// \brief SetObjectOptions --TBD--
+    // ---------------------------------------------------------------------------------------------
+    /// @brief Retrieves an internal reference that can be safely passed across DLL boundaries and
+    /// reconstructed.
     ///
-    /// \note <b>Not yet implemented.</b> File a bug if you need this.
+    /// The \c TXMPMeta class is a normal C++ template, it is instantiated and local to each client
+    /// executable, as are the other \c TXMP* classes. Different clients might not use the same
+    /// string type to instantiate \c TXMPMeta.
+    ///
+    /// Because of this you should not pass \c SXMPMeta objects, or pointers to \c SXMPMeta objects,
+    /// across DLL boundaries. Use this function to obtain a safe internal reference that you can
+    /// pass, then construct a local object on the callee side. This construction does not create a
+    /// cloned XMP tree, it is the same underlying XMP object safely wrapped in each client's
+    /// \c SXMPMeta object.
+    ///
+    /// Use this function and the associated constructor like this:
+    ///   \li The callee's header contains:
+    /// <pre>
+    /// CalleeMethod ( XMPMetaRef xmpRef );
+    /// </pre>
+    ///
+    ///   \li The caller's code contains:
+    /// <pre>
+    /// SXMPMeta callerXMP;
+    /// CalleeMethod ( callerXMP.GetInternalRef() );
+    /// </pre>
+    ///
+    ///   \li The callee's code contains:
+    /// <pre>
+    /// SXMPMeta calleeXMP ( xmpRef );
+    /// </pre>
+    ///
+    /// @return The reference object.
 
-    void
-    SetObjectOptions ( XMP_OptionBits options );
+    XMPMetaRef GetInternalRef() const;
 
-    //  --------------------------------------------------------------------------------------------
-    /// \brief \c Clone creates a deep clone of the XMP object.
+    // ---------------------------------------------------------------------------------------------
+    /// @brief \c GetObjectName() retrieves the client-assigned name of this XMP object.
     ///
-    /// This function creates a deep clone of the XMP object. Assignment and copy constructors do
-    /// not, they just increment a reference count. Note that \c Clone returns an object, not a
-    /// pointer. This is easy to misuse:
+    /// Assign this name with \c SetObjectName().
     ///
-    /// \code
-    ///		SXMPMeta * clone1 = &sourceXMP.Clone();                  // ! This does not work!
-    ///		SXMPMeta * clone2 = new SXMPMeta ( sourceXMP.Clone() );  // This works.
-    ///		SXMPMeta   clone3 ( sourceXMP.Clone );  // This works also. (Not a pointer.)
-    /// \endcode
-    ///
-    /// In the code above, the assignment to \c clone1 creates a temporary object, initializes it
-    /// with the clone, assigns the address of the temporary to \c clone1, then deletes the
-    /// temporary. The \c clone3 example also works, you do not have to use an explicit pointer.
-    /// This is good for local usage, you don't have to worry about memory leaks.
-    ///
-    /// \param options Option flags, not are defined at present.
-    ///
-    /// \result An XMP object cloned from the original.
+    /// @param name [out] A string object in which to return the name.
 
-    TXMPMeta
-    Clone ( XMP_OptionBits options = 0 ) const;
+    void GetObjectName ( tStringObj * name ) const;
 
-    //  --------------------------------------------------------------------------------------------
-    /// \brief CountArrayItems --TBD--
+    // ---------------------------------------------------------------------------------------------
+    /// @brief \c SetObjectName() assigns a name to this XMP object.
+    ///
+    /// Retrieve this client-assigned name with \c GetObjectName().
+    ///
+    /// @param name The name as a null-terminated UTF-8 string.
 
-    XMP_Index
-    CountArrayItems ( XMP_StringPtr schemaNS,
-                      XMP_StringPtr arrayName ) const;
+    void SetObjectName ( XMP_StringPtr name );
 
-    //  --------------------------------------------------------------------------------------------
-    /// \brief \c DumpObject dumps the content of an XMP object.
+    // ---------------------------------------------------------------------------------------------
+    /// @brief \c SetObjectName() assigns a name to this XMP object.
+    ///
+    /// Retrieve this client-assigned name with \c GetObjectName().
+    ///
+    /// @param name The name as a string object.
 
-    XMP_Status
-    DumpObject ( XMP_TextOutputProc outProc,
-                 void *             refCon ) const;
+    void SetObjectName ( tStringObj name );
 
-    /// @}
+    // ---------------------------------------------------------------------------------------------
+    /// @brief \c Sort() sorts the data model tree of an XMP object.
+    ///
+    /// Use this function to sort the data model of an XMP object into a canonical order. This can
+    /// be convenient when comparing data models, (e.g. by text comparison of DumpObject output).
+    ///
+    /// At the top level the namespaces are sorted by their prefixes. Within a namespace, the top
+    /// level properties are sorted by name. Within a struct, the fields are sorted by their
+    /// qualified name, i.e. their XML prefix:local form. Unordered arrays of simple items are
+    /// sorted by value. Language Alternative arrays are sorted by the xml:lang qualifiers, with
+    /// the "x-default" item placed first.
+    
+    void Sort();
 
-    // =============================================================================================
+    // ---------------------------------------------------------------------------------------------
+    /// @brief \c Erase() restores the object to a "just constructed" state.
+    
+    void Erase();
+    
+    // ---------------------------------------------------------------------------------------------
+    /// @brief \c Clone() creates a deep copy of an XMP object.
+    ///
+    /// Use this function to copy an entire XMP metadata tree. Assignment and copy constructors only
+    /// increment a reference count, they do not do a deep copy. This function returns an object,
+    /// not a pointer. The following shows correct usage:
+    ///
+    /// <pre>
+    /// SXMPMeta * clone1 = new SXMPMeta ( sourceXMP.Clone() );  // This works.
+    /// SXMPMeta   clone2 ( sourceXMP.Clone );  	// This works also. (Not a pointer.)
+    /// </pre>
+    /// The \c clone2 example does not use an explicit pointer.
+    /// This is good for local usage, protecting against memory leaks.
+    ///
+    /// This is an example of incorrect usage:
+    /// <pre>
+    /// SXMPMeta * clone3 = &sourceXMP.Clone();		// ! This does not work!
+    /// </pre>
+    /// The assignment to \c clone3 creates a temporary object, initializes it with the clone,
+    /// assigns the address of the temporary to \c clone3, then deletes the temporary.
+    ///
+    /// @param options Option flags, not currently defined..
+    ///
+    /// @return An XMP object cloned from the original.
 
-    //  --------------------------------------------------------------------------------------------
-    /// \name Functions for parsing and serializing.
-    /// @{
-	/// These functions support parsing serialized RDF into an XMP object, and serailizing an XMP
-    /// object into RDF. The input for parsing may be any valid Unicode encoding. ISO Latin-1 is
-    /// also recognized, but its use is strongly discouraged. Serialization is always as UTF-8.
+    TXMPMeta Clone ( XMP_OptionBits options = 0 ) const;
 
-    //  --------------------------------------------------------------------------------------------
-    /// \brief \c ParseFromBuffer parses RDF from a series of input buffers. The buffers may be any
-    /// length. The buffer boundaries need not respect XML tokens or even Unicode characters.
+    // ---------------------------------------------------------------------------------------------
+    /// @brief \c CountArrayItems() reports the number of items currently defined in an array.
     ///
-    /// \param buffer A pointer to a buffer of input. May be null if \c bufferSize is 0.
+    /// @param schemaNS The namespace URI; see \c GetProperty().
     ///
-    /// \param bufferSize The length of this buffer in bytes. Zero is a valid value. Termination of
-    /// an input loop is convenient by passing \c kXMP_ParseMoreBuffers for all real input, then
-    /// having a final call with a zero length and \c kXMP_NoOptions.
+    /// @param arrayName The name of the array. Can be a general path expression, must not be null
+    /// or the empty string; see \c GetProperty() for namespace prefix usage.
     ///
-    /// \param options Options controlling the parsing.
-    ///
-    /// The available options are:
-    ///
-    /// \li \c kXMP_ParseMoreBuffers - This is not the last buffer of input, more calls follow.
-    /// \li \c kXMP_RequireXMPMeta - The x:xmpmeta XML element is required around <tt>rdf:RDF</tt>.
-    /// \li \c kXMP_StrictAliasing - Do not reconcile alias differences, throw an exception.
-    ///
-    /// \note The \c kXMP_StrictAliasing option is not yet implemented.
+    /// @return The number of items.
 
-    void
-    ParseFromBuffer ( XMP_StringPtr  buffer,
-                      XMP_StringLen  bufferSize,
-                      XMP_OptionBits options = 0 );
+    XMP_Index CountArrayItems ( XMP_StringPtr schemaNS,
+                      			XMP_StringPtr arrayName ) const;
 
-    //  --------------------------------------------------------------------------------------------
-    /// \brief \c SerializeToBuffer serializes an XMP object into a string as RDF.
+    // ---------------------------------------------------------------------------------------------
+    /// @brief \c DumpObject() outputs the content of an XMP object to a callback handler for debugging.
     ///
-    /// \param rdfString A pointer to the string to receive the serialized RDF. Must not be null.
+    /// Invokes a client-defined callback for each line of output.
     ///
-    /// \param options Option flags to control the serialization.
+    /// @param outProc The client-defined procedure to handle each line of output.
     ///
-    /// \param padding The amount of padding to be added if a writeable XML packet is created. If
-    /// zero is passed (the default) an appropriate amount of padding is computed.
+    /// @param clientData A pointer to client-defined data to pass to the handler.
     ///
-    /// \param newline The string to be used as a line terminator. If empty it defaults to
-    /// linefeed, U+000A, the standard XML newline.
+    /// @return	A success-fail status value, returned from the handler. Zero is success, failure
+    /// values are client-defined.
     ///
-    /// \param indent The string to be used for each level of indentation in the serialized RDF. If
-    /// empty it defaults to two ASCII spaces, U+0020.
-    ///
-    /// \param baseIndent The number of levels of indentation to be used for the outermost XML
-    /// element in the serialized RDF. This is convenient when embedding the RDF in other text.
-    ///
-    /// The available option flags are:
-    ///
-    /// \li \c kXMP_OmitPacketWrapper - Do not include an XML packet wrapper.
-    /// \li \c kXMP_ReadOnlyPacket - Create a read-only XML packet wapper.
-    /// \li \c kXMP_UseCompactFormat - Use a highly compact RDF syntax and layout.
-    /// \li \c kXMP_WriteAliasComments - Include XML comments for aliases.
-    /// \li \c kXMP_IncludeThumbnailPad - Include typical space for a JPEG thumbnail in the padding
-    /// if no <tt>xmp:Thumbnails</tt> property is present.
-    /// \li \c kXMP_ExactPacketLength - The padding parameter provides the overall packet length.
-    /// The actual amount of padding is computed. An exception is thrown if the packet exceeds this
-    /// length with no padding.
-    ///
-    /// The specified options must be logically consistent, an exception is thrown if not. You
-    /// cannot specify both \c kXMP_OmitPacketWrapper along with \c kXMP_ReadOnlyPacket, \c
-    /// kXMP_IncludeThumbnailPad, or \c kXMP_ExactPacketLength.
-    ///
-    /// In addition, one of the following encoding options may be included:
-    ///
-    /// \li \c kXMP_EncodeUTF8 - Encode as UTF-8, the default.
-    /// \li \c kXMP_EncodeUTF16Big - Encode as big-endian UTF-16.
-    /// \li \c kXMP_EncodeUTF16Little - Encode as little-endian UTF-16.
-    /// \li \c kXMP_EncodeUTF32Big - Encode as big-endian UTF-32.
-    /// \li \c kXMP_EncodeUTF32Little - Encode as little-endian UTF-32.
+    /// @see Static functions \c DumpNamespaces() and \c DumpAliases()
 
-    void
-    SerializeToBuffer ( tStringObj *   rdfString,
-                        XMP_OptionBits options,
-                        XMP_StringLen  padding,
-                        XMP_StringPtr  newline,
-                        XMP_StringPtr  indent = "",
-                        XMP_Index      baseIndent = 0 ) const;
+    XMP_Status DumpObject ( XMP_TextOutputProc outProc,
+                 			void *	           clientData ) const;
 
-    //  --------------------------------------------------------------------------------------------
-    /// \brief This form of \c SerializeToBuffer is a simple overload in the template that calls the
-    /// above form passing default values for the \c newline, \c indent, and \c baseIndent
-    /// parameters.
+    // ---------------------------------------------------------------------------------------------
+    /// @brief Not implemented
+    XMP_OptionBits GetObjectOptions() const;
 
-    void
-    SerializeToBuffer ( tStringObj *   rdfString,
-                        XMP_OptionBits options = 0,
-                        XMP_StringLen  padding = 0 ) const;
+    // ---------------------------------------------------------------------------------------------
+    /// \brief Not implemented
+    void SetObjectOptions ( XMP_OptionBits options );
 
     /// @}
 

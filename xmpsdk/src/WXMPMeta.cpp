@@ -1,5 +1,5 @@
 // =================================================================================================
-// Copyright 2002-2007 Adobe Systems Incorporated
+// Copyright 2002-2008 Adobe Systems Incorporated
 // All Rights Reserved.
 //
 // NOTICE:	Adobe permits you to use, modify, and distribute this file in accordance with the terms
@@ -127,7 +127,7 @@ WXMPMeta_DecrementRefCount_1 ( XMPMetaRef xmpRef )
 //			validate parameters
 //			call through to the implementation
 //			retain toolbox lock if necessary
-//		catch anything and return an appropriate BIBError object
+//		catch anything and return an appropriate XMP_Error object
 //		return null (no error if we get to here)
 //
 // The toolbox lock is acquired through a local wrapper object that automatically unlocks when the
@@ -385,7 +385,7 @@ WXMPMeta_RegisterStandardAliases_1 ( XMP_StringPtr schemaNS,
 //			acquire object lock
 //			call through to the implementation
 //			retain object lock if necessary
-//		catch anything and return an appropriate BIBError object
+//		catch anything and return an appropriate XMP_Error object
 //		return null (no error if we get to here)
 //
 // The object lock is acquired through a local wrapper object that automatically unlocks when the
@@ -1119,6 +1119,34 @@ WXMPMeta_DumpObject_1 ( XMPMetaRef		   xmpRef,
 // -------------------------------------------------------------------------------------------------
 
 void
+WXMPMeta_Sort_1 ( XMPMetaRef	xmpRef,
+				  WXMP_Result * wResult )
+{
+	XMP_ENTER_WRAPPER ( "WXMPMeta_Sort_1" )
+
+		XMPMeta * meta = WtoXMPMeta_Ptr ( xmpRef );
+		meta->Sort();
+		
+	XMP_EXIT_WRAPPER
+}
+
+// -------------------------------------------------------------------------------------------------
+
+void
+WXMPMeta_Erase_1 ( XMPMetaRef	xmpRef,
+				   WXMP_Result * wResult )
+{
+	XMP_ENTER_WRAPPER ( "WXMPMeta_Erase_1" )
+
+		XMPMeta * meta = WtoXMPMeta_Ptr ( xmpRef );
+		meta->Erase();
+		
+	XMP_EXIT_WRAPPER
+}
+
+// -------------------------------------------------------------------------------------------------
+
+void
 WXMPMeta_Clone_1 ( XMPMetaRef	  xmpRef,
 				   XMP_OptionBits options,
 				   WXMP_Result *  wResult ) /* const */
@@ -1126,7 +1154,8 @@ WXMPMeta_Clone_1 ( XMPMetaRef	  xmpRef,
 	XMP_ENTER_WRAPPER ( "WXMPMeta_Clone_1" )
 
 		const XMPMeta & xOriginal = WtoXMPMeta_Ref ( xmpRef );
-		XMPMeta * xClone = xOriginal.Clone ( options );
+		XMPMeta * xClone = new XMPMeta;
+		xOriginal.Clone ( xClone, options );
 		XMP_Assert ( xClone->clientRefs == 0 );	// ! Gets incremented in TXMPMeta::Clone.
 		wResult->ptrResult = xClone;
 		
