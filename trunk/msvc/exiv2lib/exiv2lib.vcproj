@@ -241,7 +241,7 @@
 			<Tool
 				Name="VCPostBuildEventTool"
 				Description="create the bin (delivery) directorie"
-				CommandLine="mkdir &quot;$(SolutionDir)\bin\DebugDLL\&quot;&#x0D;&#x0A;copy/y ..\..\..\expat-2.0.1\win32\bin\Debug\libexpat.dll &quot;$(SolutionDir)\bin\$(ConfigurationName)\&quot;&#x0D;&#x0A;copy/y &quot;$(TargetPath)&quot; &quot;$(SolutionDir)\bin\$(ConfigurationName)\$(TargetFileName)&quot;&#x0D;&#x0A;copy/y &quot;$(TargetDir)\*.dll&quot; &quot;$(SolutionDir)\bin\$(ConfigurationName)\&quot;&#x0D;&#x0A;copy/y &quot;$(TargetDir)\*.lib&quot; &quot;$(SolutionDir)\bin\$(ConfigurationName)\&quot;&#x0D;&#x0A;&#x0D;&#x0A;"
+				CommandLine="mkdir &quot;$(SolutionDir)\bin\DebugDLL\&quot;&#x0D;&#x0A;copy/y ..\..\..\expat-2.0.1\win32\bin\Debug\libexpat.dll &quot;$(SolutionDir)bin\$(ConfigurationName)&quot;&#x0D;&#x0A;copy/y &quot;$(TargetPath)&quot; &quot;$(SolutionDir)\bin\$(ConfigurationName)\$(TargetFileName)&quot;&#x0D;&#x0A;copy/y &quot;$(TargetDir)\*.dll&quot; &quot;$(SolutionDir)\bin\$(ConfigurationName)\&quot;&#x0D;&#x0A;copy/y &quot;$(TargetDir)\*.lib&quot; &quot;$(SolutionDir)\bin\$(ConfigurationName)\&quot;&#x0D;&#x0A;&#x0D;&#x0A;"
 			/>
 		</Configuration>
 		<Configuration
@@ -326,7 +326,7 @@
 			<Tool
 				Name="VCPostBuildEventTool"
 				Description="create the bin (delivery) directory"
-				CommandLine="mkdir &quot;$(SolutionDir)\bin\$(ConfigurationName)\&quot;&#x0D;&#x0A;copy/y ..\..\..\expat-2.0.1\win32\bin\Release\libexpat.dll &quot;$(SolutionDir)\bin\$(ConfigurationName)\&quot;&#x0D;&#x0A;copy/y &quot;$(TargetPath)&quot; &quot;$(SolutionDir)\bin\$(ConfigurationName)\$(TargetFileName)&quot;&#x0D;&#x0A;copy/y &quot;$(TargetDir)\*.dll&quot; &quot;$(SolutionDir)\bin\$(ConfigurationName)\&quot;&#x0D;&#x0A;copy/y &quot;$(TargetDir)\*.lib&quot; &quot;$(SolutionDir)\bin\$(ConfigurationName)\&quot;&#x0D;&#x0A;"
+				CommandLine="mkdir &quot;$(SolutionDir)\bin\$(ConfigurationName)\&quot;&#x0D;&#x0A;copy/y ..\..\..\expat-2.0.1\win32\bin\Release\libexpat.dll &quot;$(SolutionDir)bin\$(ConfigurationName)&quot;&#x0D;&#x0A;copy/y &quot;$(TargetPath)&quot; &quot;$(SolutionDir)\bin\$(ConfigurationName)\$(TargetFileName)&quot;&#x0D;&#x0A;copy/y &quot;$(TargetDir)\*.dll&quot; &quot;$(SolutionDir)\bin\$(ConfigurationName)\&quot;&#x0D;&#x0A;copy/y &quot;$(TargetDir)\*.lib&quot; &quot;$(SolutionDir)\bin\$(ConfigurationName)\&quot;&#x0D;&#x0A;"
 			/>
 		</Configuration>
 	</Configurations>
