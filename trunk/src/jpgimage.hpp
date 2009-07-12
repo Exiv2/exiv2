@@ -26,6 +26,10 @@
            <a href="mailto:ahuggel@gmx.net">ahuggel@gmx.net</a>
   @author  Brad Schick (brad)
            <a href="mailto:brad@robotbattle.com">brad@robotbattle.com</a>
+  @author  Volker Grabsch (vog)
+           <a href="mailto:vog@notjusthosting.com">vog@notjusthosting.com</a>
+  @author  Michael Ulbrich (mul)
+           <a href="mailto:mul@rentapacs.de">mul@rentapacs.de</a>
   @date    15-Jan-05, brad: split out from image.cpp
  */
 #ifndef JPGIMAGE_HPP_

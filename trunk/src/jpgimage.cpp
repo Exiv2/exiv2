@@ -23,8 +23,9 @@
   Version:   $Rev$
   Author(s): Andreas Huggel (ahu) <ahuggel@gmx.net>
              Brad Schick (brad) <brad@robotbattle.com>
+             Volker Grabsch (vog) <vog@notjusthosting.com>
+             Michael Ulbrich (mul) <mul@rentapacs.de>
   History:   15-Jan-05, brad: split out from image.cpp
-
  */
 // *****************************************************************************
 #include "rcsid.hpp"
