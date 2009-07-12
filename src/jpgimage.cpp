@@ -147,7 +147,7 @@ namespace Exiv2 {
             uint32_t dataSize = getULong(pPsData + position, bigEndian);
             position += 4;
             if (dataSize > static_cast<uint32_t>(sizePsData - position)) {
-#ifndef SUPPRESS_WARNINGS
+#ifdef DEBUG
                 std::cerr << "Warning: "
                           << "Invalid Photoshop IRB data size "
                           << dataSize << " or extended Photoshop IRB\n";
