@@ -295,6 +295,10 @@
 				>
 			</File>
 			<File
+				RelativePath="..\..\xmpsdk\src\XML_Node.cpp"
+				>
+			</File>
+			<File
 				RelativePath="..\..\xmpsdk\src\MD5.cpp"
 				>
 			</File>
