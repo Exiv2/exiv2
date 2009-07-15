@@ -156,7 +156,9 @@ namespace Exiv2 {
     };
 
     extern const XmpPropertyInfo xmpDigikamInfo[] = {
-        { "TagsList", N_("Tags List"), "seq Text", xmpSeq, xmpExternal, N_("The list of complete tags path as string. The path hierarchy is separated by '/' character (ex.: \"City/Paris/Monument/Eiffel Tower\".") },
+        { "TagsList",               N_("Tags List"),                 "seq Text", xmpSeq,  xmpExternal, N_("The list of complete tags path as string. The path hierarchy is separated by '/' character (ex.: \"City/Paris/Monument/Eiffel Tower\".") },
+        { "CaptionsAuthorNames",    N_("Captions Author Names"),     "Lang Alt", langAlt, xmpExternal, N_("The list of all captions author names for each language alternative captions set in standard XMP tags.") },
+        { "CaptionsDateTimeStamps", N_("Captions Date Time Stamps"), "Lang Alt", langAlt, xmpExternal, N_("The list of all captions date time stamps for each language alternative captions set in standard XMP tags.") },
 
         // End of list marker
         { 0, 0, 0, invalidTypeId, xmpInternal, 0 }
