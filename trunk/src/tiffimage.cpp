@@ -84,9 +84,32 @@ namespace Exiv2 {
     {
     } // TiffImage::TiffImage
 
+    std::string TiffImage::primaryGroup() const
+    {
+        static const char* keys[] = {
+            "Exif.Image.NewSubfileType",
+            "Exif.SubImage1.NewSubfileType",
+            "Exif.SubImage2.NewSubfileType",
+            "Exif.SubImage3.NewSubfileType",
+            "Exif.SubImage4.NewSubfileType"
+        };
+        // Find the group of the primary image, default to "Image"
+        std::string groupName = "Image";
+        for (unsigned int i = 0; i < EXV_COUNTOF(keys); ++i) {
+            ExifData::const_iterator md = exifData_.findKey(ExifKey(keys[i]));
+            // Is it the primary image?
+            if (md != exifData_.end() && md->count() > 0 && md->toLong() == 0) {
+                groupName = md->groupName();
+                break;
+            }
+        }
+        return groupName;
+    }
+
     int TiffImage::pixelWidth() const
     {
-        ExifData::const_iterator imageWidth = exifData_.findKey(Exiv2::ExifKey("Exif.Image.ImageWidth"));
+        ExifKey key(std::string("Exif.") + primaryGroup() + std::string(".ImageWidth"));
+        ExifData::const_iterator imageWidth = exifData_.findKey(key);
         if (imageWidth != exifData_.end() && imageWidth->count() > 0) {
             return imageWidth->toLong();
         }
@@ -95,7 +118,8 @@ namespace Exiv2 {
 
     int TiffImage::pixelHeight() const
     {
-        ExifData::const_iterator imageHeight = exifData_.findKey(Exiv2::ExifKey("Exif.Image.ImageLength"));
+        ExifKey key(std::string("Exif.") + primaryGroup() + std::string(".ImageLength"));
+        ExifData::const_iterator imageHeight = exifData_.findKey(key);
         if (imageHeight != exifData_.end() && imageHeight->count() > 0) {
             return imageHeight->toLong();
         }
