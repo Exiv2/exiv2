@@ -375,19 +375,25 @@ namespace Action {
         printLabel(_("Exif Resolution"));
         long xdim = 0;
         long ydim = 0;
-        md = exifData.findKey(Exiv2::ExifKey("Exif.Image.ImageWidth"));
-        if (md == exifData.end()) {
-            md = exifData.findKey(Exiv2::ExifKey("Exif.Photo.PixelXDimension"));
+        if (image->mimeType() == "image/tiff") {
+            xdim = image->pixelWidth();
+            ydim = image->pixelHeight();
         }
-        if (md != exifData.end() && md->count() > 0) {
-            xdim = md->toLong();
-        }
-        md = exifData.findKey(Exiv2::ExifKey("Exif.Image.ImageLength"));
-        if (md == exifData.end()) {
-            md = exifData.findKey(Exiv2::ExifKey("Exif.Photo.PixelYDimension"));
-        }
-        if (md != exifData.end() && md->count() > 0) {
-            ydim = md->toLong();
+        else {
+            md = exifData.findKey(Exiv2::ExifKey("Exif.Image.ImageWidth"));
+            if (md == exifData.end()) {
+                md = exifData.findKey(Exiv2::ExifKey("Exif.Photo.PixelXDimension"));
+            }
+            if (md != exifData.end() && md->count() > 0) {
+                xdim = md->toLong();
+            }
+            md = exifData.findKey(Exiv2::ExifKey("Exif.Image.ImageLength"));
+            if (md == exifData.end()) {
+                md = exifData.findKey(Exiv2::ExifKey("Exif.Photo.PixelYDimension"));
+            }
+            if (md != exifData.end() && md->count() > 0) {
+                ydim = md->toLong();
+            }
         }
         if (xdim != 0 && ydim != 0) {
             std::cout << xdim << " x " << ydim;
