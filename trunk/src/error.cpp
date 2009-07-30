@@ -78,7 +78,7 @@ namespace {
         { 28, N_("Invalid charset: `%1'") }, // %1=charset name
         { 29, N_("Unsupported date format") },
         { 30, N_("Unsupported time format") },
-        { 31, N_("Writing to %2 images is not supported") }, // %2=image format
+        { 31, N_("Writing to %1 images is not supported") }, // %1=image format
         { 32, N_("Setting %1 in %2 images is not supported") }, // %1=metadata type, %2=image format
         { 33, N_("This does not look like a CRW image") },
         { 34, N_("%1: Not supported") }, // %1=function
