@@ -1313,7 +1313,7 @@ namespace Exiv2 {
         }
         p += 4;
         uint32_t size = typeSize * count;
-        uint32_t offset = getLong(p, byteOrder());
+        int32_t offset = getLong(p, byteOrder());
         byte* pData = p;
         if (size > 4 && baseOffset() + offset >= size_) {
 #ifndef SUPPRESS_WARNINGS
