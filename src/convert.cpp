@@ -1006,6 +1006,12 @@ namespace Exiv2 {
 #endif
             return;
         }
+        if (value.empty()) {
+#ifndef SUPPRESS_WARNINGS
+            std::cerr << "Warning: " << from << " is empty\n";
+#endif
+            return;
+        }
 
         double deg, min, sec;
         char ref, sep1, sep2;
