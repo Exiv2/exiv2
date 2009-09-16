@@ -809,7 +809,15 @@ namespace Exiv2 {
             return;
         }
         XMP_DateTime datetime;
-        SXMPUtils::ConvertToDate(value, &datetime);
+        try {
+            SXMPUtils::ConvertToDate(value, &datetime);
+        }
+        catch (const XMP_Error& e) {
+#ifndef SUPPRESS_WARNINGS
+            std::cerr << "Warning: Failed to convert " << from << " to " << to << " (" << e.GetErrMsg() << ")\n";
+#endif
+            return;
+        }
         char buf[30];
         if (std::string(to) != "Exif.GPSInfo.GPSTimeStamp") {
 
