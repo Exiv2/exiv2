@@ -1013,8 +1013,12 @@ namespace Exiv2 {
             return;
         }
 
-        double deg, min, sec;
-        char ref, sep1, sep2;
+        double deg = 0.0;
+        double min = 0.0;
+        double sec = 0.0;
+        char ref  = '\0';
+        char sep1 = '\0';
+        char sep2 = '\0';
 
         ref = value[value.length() - 1];
         value.erase(value.length() - 1);
