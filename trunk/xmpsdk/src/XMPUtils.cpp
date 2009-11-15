@@ -1172,9 +1172,9 @@ XMPUtils::ConvertToInt ( XMP_StringPtr strValue )
 	XMP_Int32 result;
 	
 	if ( ! XMP_LitNMatch ( strValue, "0x", 2 ) ) {
-		count = sscanf ( strValue, "%d%c", &result, &nextCh );
+            count = sscanf ( strValue, "%d%c", (int*)&result, &nextCh );
 	} else {
-		count = sscanf ( strValue, "%x%c", &result, &nextCh );
+            count = sscanf ( strValue, "%x%c", (unsigned int*)&result, &nextCh );
 	}
 
 	if ( count != 1 ) XMP_Throw ( "Invalid integer string", kXMPErr_BadParam );

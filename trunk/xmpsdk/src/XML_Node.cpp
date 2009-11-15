@@ -11,6 +11,7 @@
 
 #include <map>
 #include <cstring>
+#include <cstdio>
 
 // ! Can't include XMP..._Impl.hpp - used by both Core and Files.
 #define XMP_LitNMatch(s,l,n)	(std::strncmp((s),(l),(n)) == 0)
