@@ -575,7 +575,7 @@ namespace Exiv2 {
         TagInfo(0x008a, "AutoBracketRelease", N_("Auto Bracket Release"), N_("Auto bracket release"), nikon3IfdId, makerTags, unsignedShort, EXV_PRINT_TAG(nikonAutoBracketRelease)),
         TagInfo(0x008b, "LensFStops", N_("Lens FStops"), N_("Lens FStops"), nikon3IfdId, makerTags, undefined, print0x008b),
         TagInfo(0x008c, "ToneCurve", N_("Tone Curve"), N_("Tone curve"), nikon3IfdId, makerTags, undefined, printValue),
-        TagInfo(0x008d, "ColorMode", N_("Color Mode"), N_("Color mode"), nikon3IfdId, makerTags, asciiString, printValue),
+        TagInfo(0x008d, "ColorHue", N_("Color Hue"), N_("Color hue"), nikon3IfdId, makerTags, asciiString, printValue),
         TagInfo(0x008f, "SceneMode", N_("Scene Mode"), N_("Scene mode"), nikon3IfdId, makerTags, asciiString, printValue),
         TagInfo(0x0090, "LightSource", N_("Light Source"), N_("Light source"), nikon3IfdId, makerTags, asciiString, printValue),
         TagInfo(0x0091, "ShotInfo", "Shot Info", N_("Shot info"), nikon3IfdId, makerTags, undefined, printValue),
