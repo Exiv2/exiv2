@@ -97,7 +97,7 @@ namespace Exiv2 {
 
         //! @name Accessors
         //@{
-        std::string mimeType() const { return "image/x-canon-crw"; }
+        std::string mimeType() const;
         int pixelWidth() const;
         int pixelHeight() const;
         //@}

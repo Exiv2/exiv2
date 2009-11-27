@@ -47,6 +47,12 @@ EXIV2_RCSID("@(#) $Id$")
 #include <cstring>
 
 // *****************************************************************************
+namespace {
+    //! Nikon en/decryption function
+    void ncrypt(Exiv2::byte* pData, uint32_t size, uint32_t count, uint32_t serial);
+}
+
+// *****************************************************************************
 // class member definitions
 namespace Exiv2 {
     namespace Internal {
@@ -118,159 +124,28 @@ namespace Exiv2 {
         return tc;
     } // TiffMnCreator::create
 
+    MnHeader::~MnHeader()
+    {
+    }
+
     void MnHeader::setByteOrder(ByteOrder /*byteOrder*/)
     {
     }
 
-    TiffIfdMakernote::TiffIfdMakernote(uint16_t  tag,
-                                       uint16_t  group,
-                                       uint16_t  mnGroup,
-                                       MnHeader* pHeader,
-                                       bool      hasNext)
-        : TiffComponent(tag, group),
-          pHeader_(pHeader),
-          ifd_(tag, mnGroup, hasNext),
-          mnOffset_(0),
-          imageByteOrder_(invalidByteOrder)
+    uint32_t MnHeader::ifdOffset() const
     {
-    }
-
-    TiffIfdMakernote::~TiffIfdMakernote()
-    {
-        delete pHeader_;
-    }
-
-    uint32_t TiffIfdMakernote::ifdOffset() const
-    {
-        if (!pHeader_) return 0;
-        return pHeader_->ifdOffset();
-    }
-
-    ByteOrder TiffIfdMakernote::byteOrder() const
-    {
-        assert(imageByteOrder_ != invalidByteOrder);
-        if (!pHeader_ || pHeader_->byteOrder() == invalidByteOrder) {
-            return imageByteOrder_;
-        }
-        return pHeader_->byteOrder();
-    }
-
-    uint32_t TiffIfdMakernote::mnOffset() const
-    {
-        return mnOffset_;
-    }
-
-    uint32_t TiffIfdMakernote::baseOffset() const
-    {
-        if (!pHeader_) return 0;
-        return pHeader_->baseOffset(mnOffset_);
-    }
-
-    bool TiffIfdMakernote::readHeader(const byte* pData,
-                                      uint32_t    size,
-                                      ByteOrder   byteOrder)
-    {
-        if (!pHeader_) return true;
-        return pHeader_->read(pData, size, byteOrder);
-    }
-
-    void TiffIfdMakernote::setByteOrder(ByteOrder byteOrder)
-    {
-        if (pHeader_) pHeader_->setByteOrder(byteOrder);
-    }
-
-    uint32_t TiffIfdMakernote::sizeHeader() const
-    {
-        if (!pHeader_) return 0;
-        return pHeader_->size();
-    }
-
-    uint32_t TiffIfdMakernote::writeHeader(Blob& blob, ByteOrder byteOrder) const
-    {
-        if (!pHeader_) return 0;
-        return pHeader_->write(blob, byteOrder);
-    }
-
-    TiffComponent* TiffIfdMakernote::doAddPath(uint16_t tag, TiffPath& tiffPath)
-    {
-        return ifd_.addPath(tag, tiffPath);
-    }
-
-    TiffComponent* TiffIfdMakernote::doAddChild(TiffComponent::AutoPtr tiffComponent)
-    {
-        return ifd_.addChild(tiffComponent);
-    }
-
-    TiffComponent* TiffIfdMakernote::doAddNext(TiffComponent::AutoPtr tiffComponent)
-    {
-        return ifd_.addNext(tiffComponent);
-    }
-
-    void TiffIfdMakernote::doAccept(TiffVisitor& visitor)
-    {
-        if (visitor.go(TiffVisitor::geTraverse)) visitor.visitIfdMakernote(this);
-        if (visitor.go(TiffVisitor::geKnownMakernote)) ifd_.accept(visitor);
-        if (   visitor.go(TiffVisitor::geKnownMakernote)
-            && visitor.go(TiffVisitor::geTraverse)) visitor.visitIfdMakernoteEnd(this);
-    }
-
-    uint32_t TiffIfdMakernote::doWrite(Blob&     blob,
-                                       ByteOrder byteOrder,
-                                       int32_t   offset,
-                                       uint32_t  /*valueIdx*/,
-                                       uint32_t  /*dataIdx*/,
-                                       uint32_t& imageIdx)
-    {
-        mnOffset_ = offset;
-        setImageByteOrder(byteOrder);
-        uint32_t len = writeHeader(blob, this->byteOrder());
-        len += ifd_.write(blob, this->byteOrder(),
-                          offset - baseOffset() + len,
-                          uint32_t(-1), uint32_t(-1),
-                          imageIdx);
-        return len;
-    } // TiffIfdMakernote::doWrite
-
-    uint32_t TiffIfdMakernote::doWriteData(Blob&     /*blob*/,
-                                           ByteOrder /*byteOrder*/,
-                                           int32_t   /*offset*/,
-                                           uint32_t  /*dataIdx*/,
-                                           uint32_t& /*imageIdx*/) const
-    {
-        assert(false);
         return 0;
-    } // TiffIfdMakernote::doWriteData
+    }
 
-    uint32_t TiffIfdMakernote::doWriteImage(Blob&     blob,
-                                            ByteOrder byteOrder) const
+    ByteOrder MnHeader::byteOrder() const
     {
-        if (this->byteOrder() != invalidByteOrder) {
-            byteOrder = this->byteOrder();
-        }
-        uint32_t len = ifd_.writeImage(blob, byteOrder);
-        return len;
-    } // TiffIfdMakernote::doWriteImage
+        return invalidByteOrder;
+    }
 
-    uint32_t TiffIfdMakernote::doSize() const
+    uint32_t MnHeader::baseOffset(uint32_t /*mnOffset*/) const
     {
-        return sizeHeader() + ifd_.size();
-    } // TiffIfdMakernote::doSize
-
-    uint32_t TiffIfdMakernote::doCount() const
-    {
-        return ifd_.count();
-    } // TiffIfdMakernote::doCount
-
-    uint32_t TiffIfdMakernote::doSizeData() const
-    {
-        assert(false);
         return 0;
-    } // TiffIfdMakernote::doSizeData
-
-    uint32_t TiffIfdMakernote::doSizeImage() const
-    {
-        return ifd_.sizeImage();
-    } // TiffIfdMakernote::doSizeImage
+    }
 
     const byte OlympusMnHeader::signature_[] = {
         'O', 'L', 'Y', 'M', 'P', 0x00, 0x01, 0x00
@@ -280,6 +155,20 @@ namespace Exiv2 {
     OlympusMnHeader::OlympusMnHeader()
     {
         read(signature_, size_, invalidByteOrder);
+    }
+
+    OlympusMnHeader::~OlympusMnHeader()
+    {
+    }
+
+    uint32_t OlympusMnHeader::size() const
+    {
+        return header_.size_;
+    }
+
+    uint32_t OlympusMnHeader::ifdOffset() const
+    {
+        return size_;
     }
 
     bool OlympusMnHeader::read(const byte* pData,
@@ -296,10 +185,10 @@ namespace Exiv2 {
         return true;
     } // OlympusMnHeader::read
 
-    uint32_t OlympusMnHeader::write(Blob&     blob,
+    uint32_t OlympusMnHeader::write(IoWrapper& ioWrapper,
                                     ByteOrder /*byteOrder*/) const
     {
-        append(blob, signature_, size_);
+        ioWrapper.write(signature_, size_);
         return size_;
     } // OlympusMnHeader::write
 
@@ -311,6 +200,25 @@ namespace Exiv2 {
     Olympus2MnHeader::Olympus2MnHeader()
     {
         read(signature_, size_, invalidByteOrder);
+    }
+
+    Olympus2MnHeader::~Olympus2MnHeader()
+    {
+    }
+    
+    uint32_t Olympus2MnHeader::size() const
+    {
+        return header_.size_;
+    }
+
+    uint32_t Olympus2MnHeader::ifdOffset() const
+    {
+        return size_;
+    }
+
+    uint32_t Olympus2MnHeader::baseOffset(uint32_t mnOffset) const
+    {
+        return mnOffset;
     }
 
     bool Olympus2MnHeader::read(const byte* pData,
@@ -327,10 +235,10 @@ namespace Exiv2 {
         return true;
     } // Olympus2MnHeader::read
 
-    uint32_t Olympus2MnHeader::write(Blob&     blob,
+    uint32_t Olympus2MnHeader::write(IoWrapper& ioWrapper,
                                     ByteOrder /*byteOrder*/) const
     {
-        append(blob, signature_, size_);
+        ioWrapper.write(signature_, size_);
         return size_;
     } // Olympus2MnHeader::write
 
@@ -343,6 +251,30 @@ namespace Exiv2 {
     FujiMnHeader::FujiMnHeader()
     {
         read(signature_, size_, byteOrder_);
+    }
+
+    FujiMnHeader::~FujiMnHeader()
+    {
+    }
+
+    uint32_t FujiMnHeader::size() const
+    {
+        return header_.size_;
+    }
+
+    uint32_t FujiMnHeader::ifdOffset() const
+    {
+        return start_;
+    }
+
+    ByteOrder FujiMnHeader::byteOrder() const
+    {
+        return byteOrder_;
+    }
+
+    uint32_t FujiMnHeader::baseOffset(uint32_t mnOffset) const
+    {
+        return mnOffset;
     }
 
     bool FujiMnHeader::read(const byte* pData,
@@ -362,10 +294,10 @@ namespace Exiv2 {
         return true;
     } // FujiMnHeader::read
 
-    uint32_t FujiMnHeader::write(Blob&     blob,
+    uint32_t FujiMnHeader::write(IoWrapper& ioWrapper,
                                  ByteOrder /*byteOrder*/) const
     {
-        append(blob, signature_, size_);
+        ioWrapper.write(signature_, size_);
         return size_;
     } // FujiMnHeader::write
 
@@ -377,6 +309,20 @@ namespace Exiv2 {
     Nikon2MnHeader::Nikon2MnHeader()
     {
         read(signature_, size_, invalidByteOrder);
+    }
+
+    Nikon2MnHeader::~Nikon2MnHeader()
+    {
+    }
+
+    uint32_t Nikon2MnHeader::size() const
+    {
+        return size_;
+    }
+
+    uint32_t Nikon2MnHeader::ifdOffset() const
+    {
+        return start_;
     }
 
     bool Nikon2MnHeader::read(const byte* pData,
@@ -391,10 +337,10 @@ namespace Exiv2 {
         return true;
     } // Nikon2MnHeader::read
 
-    uint32_t Nikon2MnHeader::write(Blob&     blob,
+    uint32_t Nikon2MnHeader::write(IoWrapper& ioWrapper,
                                    ByteOrder /*byteOrder*/) const
     {
-        append(blob, signature_, size_);
+        ioWrapper.write(signature_, size_);
         return size_;
     } // Nikon2MnHeader::write
 
@@ -412,6 +358,30 @@ namespace Exiv2 {
         start_ = size_;
     }
 
+    Nikon3MnHeader::~Nikon3MnHeader()
+    {
+    }
+
+    uint32_t Nikon3MnHeader::size() const
+    {
+        return size_;
+    }
+
+    uint32_t Nikon3MnHeader::ifdOffset() const
+    {
+        return start_;
+    }
+
+    ByteOrder Nikon3MnHeader::byteOrder() const
+    {
+        return byteOrder_;
+    }
+
+    uint32_t Nikon3MnHeader::baseOffset(uint32_t mnOffset) const
+    {
+        return mnOffset + 10;
+    }
+
     bool Nikon3MnHeader::read(const byte* pData,
                               uint32_t    size,
                               ByteOrder   /*byteOrder*/)
@@ -427,16 +397,18 @@ namespace Exiv2 {
         return true;
     } // Nikon3MnHeader::read
 
-    uint32_t Nikon3MnHeader::write(Blob&     blob,
+    uint32_t Nikon3MnHeader::write(IoWrapper& ioWrapper,
                                    ByteOrder byteOrder) const
     {
         assert(buf_.size_ >= 10);
 
-        append(blob, buf_.pData_, 10);
+        ioWrapper.write(buf_.pData_, 10);
         // Todo: This removes any gap between the header and
         // makernote IFD. The gap should be copied too.
         TiffHeader th(byteOrder);
-        return 10 + th.write(blob);
+        DataBuf buf = th.write();
+        ioWrapper.write(buf.pData_, buf.size_);
+        return 10 + buf.size_;
     } // Nikon3MnHeader::write
 
     void Nikon3MnHeader::setByteOrder(ByteOrder byteOrder)
@@ -454,6 +426,20 @@ namespace Exiv2 {
         read(signature_, size_, invalidByteOrder);
     }
 
+    PanasonicMnHeader::~PanasonicMnHeader()
+    {
+    }
+
+    uint32_t PanasonicMnHeader::size() const
+    {
+        return size_;
+    }
+
+    uint32_t PanasonicMnHeader::ifdOffset() const
+    {
+        return start_;
+    }
+
     bool PanasonicMnHeader::read(const byte* pData,
                                  uint32_t    size,
                                  ByteOrder   /*byteOrder*/)
@@ -466,10 +452,10 @@ namespace Exiv2 {
         return true;
     } // PanasonicMnHeader::read
 
-    uint32_t PanasonicMnHeader::write(Blob&     blob,
+    uint32_t PanasonicMnHeader::write(IoWrapper& ioWrapper,
                                       ByteOrder /*byteOrder*/) const
     {
-        append(blob, signature_, size_);
+        ioWrapper.write(signature_, size_);
         return size_;
     } // PanasonicMnHeader::write
 
@@ -481,6 +467,20 @@ namespace Exiv2 {
     PentaxMnHeader::PentaxMnHeader()
     {
         read(signature_, size_, invalidByteOrder);
+    }
+
+    PentaxMnHeader::~PentaxMnHeader()
+    {
+    }
+
+    uint32_t PentaxMnHeader::size() const
+    {
+        return header_.size_;
+    }
+
+    uint32_t PentaxMnHeader::ifdOffset() const
+    {
+        return size_;
     }
 
     bool PentaxMnHeader::read(const byte* pData,
@@ -497,10 +497,10 @@ namespace Exiv2 {
         return true;
     } // PentaxMnHeader::read
 
-    uint32_t PentaxMnHeader::write(Blob&     blob,
+    uint32_t PentaxMnHeader::write(IoWrapper& ioWrapper,
                                    ByteOrder /*byteOrder*/) const
     {
-        append(blob, signature_, size_);
+        ioWrapper.write(signature_, size_);
         return size_;
     } // PentaxMnHeader::write
 
@@ -517,6 +517,20 @@ namespace Exiv2 {
         read(signature1_, size_, invalidByteOrder);
     }
 
+    SigmaMnHeader::~SigmaMnHeader()
+    {
+    }
+
+    uint32_t SigmaMnHeader::size() const
+    {
+        return size_;
+    }
+
+    uint32_t SigmaMnHeader::ifdOffset() const
+    {
+        return start_;
+    }
+
     bool SigmaMnHeader::read(const byte* pData,
                              uint32_t    size,
                              ByteOrder   /*byteOrder*/)
@@ -530,10 +544,10 @@ namespace Exiv2 {
         return true;
     } // SigmaMnHeader::read
 
-    uint32_t SigmaMnHeader::write(Blob&     blob,
+    uint32_t SigmaMnHeader::write(IoWrapper& ioWrapper,
                                   ByteOrder /*byteOrder*/) const
     {
-        append(blob, signature1_, size_);
+        ioWrapper.write(signature1_, size_);
         return size_;
     } // SigmaMnHeader::write
 
@@ -545,6 +559,20 @@ namespace Exiv2 {
     SonyMnHeader::SonyMnHeader()
     {
         read(signature_, size_, invalidByteOrder);
+    }
+
+    SonyMnHeader::~SonyMnHeader()
+    {
+    }
+
+    uint32_t SonyMnHeader::size() const
+    {
+        return size_;
+    }
+
+    uint32_t SonyMnHeader::ifdOffset() const
+    {
+        return start_;
     }
 
     bool SonyMnHeader::read(const byte* pData,
@@ -559,10 +587,10 @@ namespace Exiv2 {
         return true;
     } // SonyMnHeader::read
 
-    uint32_t SonyMnHeader::write(Blob&     blob,
+    uint32_t SonyMnHeader::write(IoWrapper& ioWrapper,
                                  ByteOrder /*byteOrder*/) const
     {
-        append(blob, signature_, size_);
+        ioWrapper.write(signature_, size_);
         return size_;
     } // SonyMnHeader::write
 
@@ -749,4 +777,180 @@ namespace Exiv2 {
         return new TiffIfdMakernote(tag, group, mnGroup, 0, true);
     }
 
+    //! Structure for an index into the array set of complex binary arrays.
+    struct NikonArrayIdx {
+        //! Key for comparisons
+        struct Key {
+            //! Constructor
+            Key(uint16_t tag, const char* ver) : tag_(tag), ver_(ver) {}
+            uint16_t    tag_; //!< Tag number
+            const char* ver_; //!< Version string
+        };
+        //! Comparison operator for a key
+        bool operator==(const Key& key) const
+            { return key.tag_ == tag_ && 0 == strncmp(key.ver_, ver_, 4); }
+
+        uint16_t    tag_;   //!< Tag number of the binary array
+        const char* ver_;   //!< Version string
+        int         idx_;   //!< Index into the array set
+    };
+
+    //! Nikon binary array version lookup table
+    extern const NikonArrayIdx nikonArrayIdx[] = {
+        // NikonCb
+        { 0x0097, "0100", 0 },
+        { 0x0097, "0102", 1 },
+        { 0x0097, "0103", 4 },
+        { 0x0097, "0204", 3 },
+        { 0x0097, "0205", 2 },
+        { 0x0097, "0206", 3 },
+        { 0x0097, "0207", 3 },
+        { 0x0097, "0208", 3 },
+        { 0x0097, "0209", 5 },
+        // NikonLd
+        { 0x0098, "0100", 0 },
+        { 0x0098, "0101", 1 },
+        { 0x0098, "0201", 1 },
+        { 0x0098, "0202", 1 },
+        { 0x0098, "0203", 1 },
+        { 0x0098, "0204", 2 }
+    };
+
+    int nikonSelector(uint16_t tag, const byte* pData, uint32_t size, TiffComponent* const /*pRoot*/)
+    {
+        if (size < 4) return -1;
+        const NikonArrayIdx* aix = find(nikonArrayIdx, NikonArrayIdx::Key(tag, reinterpret_cast<const char*>(pData)));
+        return aix == 0 ? -1 : aix->idx_;
+    }
+
+    /*!
+      @brief Structure for info about an encrypted complex binary array.
+     */
+    struct NikonCryptInfo {
+        //! Key for comparisons
+        struct Key {
+            //! Constructor
+            Key(uint16_t tag, const char* ver) : tag_(tag), ver_(ver) {}
+            uint16_t    tag_; //!< Tag number
+            const char* ver_; //!< Version string
+        };
+        //! Comparison operator for a key
+        bool operator==(const Key& key) const
+            { return key.tag_ == tag_ && 0 == strncmp(key.ver_, ver_, 4); }
+        uint16_t    tag_;   //!< Tag number of the binary array
+        const char* ver_;   //!< Version string
+        uint32_t    start_; //!< Start of the encrypted data
+    };
+
+    //! Info about encrypted complex arrays. Non-encrypted arrays are not listed here.
+    extern const NikonCryptInfo nikonCryptInfo[] = {
+        // NikonCb
+        { 0x0097, "0204", 284 },
+        { 0x0097, "0205",   4 },
+        { 0x0097, "0206", 284 },
+        { 0x0097, "0207", 284 },
+        { 0x0097, "0208", 284 },
+        { 0x0097, "0209", 284 },
+        // NikonLd
+        { 0x0098, "0201",   4 },
+        { 0x0098, "0202",   4 },
+        { 0x0098, "0203",   4 },
+        { 0x0098, "0204",   4 }
+    };
+
+    DataBuf nikonCrypt(uint16_t tag, const byte* pData, uint32_t size, TiffComponent* const pRoot)
+    {
+        DataBuf buf;
+
+        if (size < 4) return buf;
+        const NikonCryptInfo* nci = find(nikonCryptInfo, NikonCryptInfo::Key(tag, reinterpret_cast<const char*>(pData)));
+        if (nci == 0 || size <= nci->start_) return buf;
+
+        // Find Exif.Nikon3.ShutterCount
+        TiffFinder finder(0x00a7, Group::nikon3mn);
+        pRoot->accept(finder);
+        TiffEntryBase* te = dynamic_cast<TiffEntryBase*>(finder.result());
+        if (!te || !te->pValue() || te->pValue()->count() == 0) return buf;
+        uint32_t count = static_cast<uint32_t>(te->pValue()->toLong());
+
+        // Find Exif.Nikon3.SerialNumber
+        finder.init(0x001d, Group::nikon3mn);
+        pRoot->accept(finder);
+        te = dynamic_cast<TiffEntryBase*>(finder.result());
+        if (!te || !te->pValue() || te->pValue()->count() == 0) return buf;
+        bool ok(false);
+        uint32_t serial = stringTo<uint32_t>(te->pValue()->toString(), ok);
+        if (!ok) {
+            // Find Exif.Image.Model
+            finder.init(0x0110, Group::ifd0);
+            pRoot->accept(finder);
+            te = dynamic_cast<TiffEntryBase*>(finder.result());
+            if (!te || !te->pValue() || te->pValue()->count() == 0) return buf;
+            std::string model = te->pValue()->toString();
+            if (model.find("D50") != std::string::npos) {
+                serial = 0x22;
+            }
+            else {
+                serial = 0x60;
+            }
+        }
+        buf.alloc(size);
+        memcpy(buf.pData_, pData, buf.size_);
+        ncrypt(buf.pData_ + nci->start_, buf.size_ - nci->start_, count, serial);
+        return buf;
+    }
+
 }}                                      // namespace Internal, Exiv2
+
+// *****************************************************************************
+// local definitions
+namespace {
+    void ncrypt(Exiv2::byte* pData, uint32_t size, uint32_t count, uint32_t serial)
+    {
+        static const Exiv2::byte xlat[2][256] = {
+            { 0xc1,0xbf,0x6d,0x0d,0x59,0xc5,0x13,0x9d,0x83,0x61,0x6b,0x4f,0xc7,0x7f,0x3d,0x3d,
+              0x53,0x59,0xe3,0xc7,0xe9,0x2f,0x95,0xa7,0x95,0x1f,0xdf,0x7f,0x2b,0x29,0xc7,0x0d,
+              0xdf,0x07,0xef,0x71,0x89,0x3d,0x13,0x3d,0x3b,0x13,0xfb,0x0d,0x89,0xc1,0x65,0x1f,
+              0xb3,0x0d,0x6b,0x29,0xe3,0xfb,0xef,0xa3,0x6b,0x47,0x7f,0x95,0x35,0xa7,0x47,0x4f,
+              0xc7,0xf1,0x59,0x95,0x35,0x11,0x29,0x61,0xf1,0x3d,0xb3,0x2b,0x0d,0x43,0x89,0xc1,
+              0x9d,0x9d,0x89,0x65,0xf1,0xe9,0xdf,0xbf,0x3d,0x7f,0x53,0x97,0xe5,0xe9,0x95,0x17,
+              0x1d,0x3d,0x8b,0xfb,0xc7,0xe3,0x67,0xa7,0x07,0xf1,0x71,0xa7,0x53,0xb5,0x29,0x89,
+              0xe5,0x2b,0xa7,0x17,0x29,0xe9,0x4f,0xc5,0x65,0x6d,0x6b,0xef,0x0d,0x89,0x49,0x2f,
+              0xb3,0x43,0x53,0x65,0x1d,0x49,0xa3,0x13,0x89,0x59,0xef,0x6b,0xef,0x65,0x1d,0x0b,
+              0x59,0x13,0xe3,0x4f,0x9d,0xb3,0x29,0x43,0x2b,0x07,0x1d,0x95,0x59,0x59,0x47,0xfb,
+              0xe5,0xe9,0x61,0x47,0x2f,0x35,0x7f,0x17,0x7f,0xef,0x7f,0x95,0x95,0x71,0xd3,0xa3,
+              0x0b,0x71,0xa3,0xad,0x0b,0x3b,0xb5,0xfb,0xa3,0xbf,0x4f,0x83,0x1d,0xad,0xe9,0x2f,
+              0x71,0x65,0xa3,0xe5,0x07,0x35,0x3d,0x0d,0xb5,0xe9,0xe5,0x47,0x3b,0x9d,0xef,0x35,
+              0xa3,0xbf,0xb3,0xdf,0x53,0xd3,0x97,0x53,0x49,0x71,0x07,0x35,0x61,0x71,0x2f,0x43,
+              0x2f,0x11,0xdf,0x17,0x97,0xfb,0x95,0x3b,0x7f,0x6b,0xd3,0x25,0xbf,0xad,0xc7,0xc5,
+              0xc5,0xb5,0x8b,0xef,0x2f,0xd3,0x07,0x6b,0x25,0x49,0x95,0x25,0x49,0x6d,0x71,0xc7 },
+            { 0xa7,0xbc,0xc9,0xad,0x91,0xdf,0x85,0xe5,0xd4,0x78,0xd5,0x17,0x46,0x7c,0x29,0x4c,
+              0x4d,0x03,0xe9,0x25,0x68,0x11,0x86,0xb3,0xbd,0xf7,0x6f,0x61,0x22,0xa2,0x26,0x34,
+              0x2a,0xbe,0x1e,0x46,0x14,0x68,0x9d,0x44,0x18,0xc2,0x40,0xf4,0x7e,0x5f,0x1b,0xad,
+              0x0b,0x94,0xb6,0x67,0xb4,0x0b,0xe1,0xea,0x95,0x9c,0x66,0xdc,0xe7,0x5d,0x6c,0x05,
+              0xda,0xd5,0xdf,0x7a,0xef,0xf6,0xdb,0x1f,0x82,0x4c,0xc0,0x68,0x47,0xa1,0xbd,0xee,
+              0x39,0x50,0x56,0x4a,0xdd,0xdf,0xa5,0xf8,0xc6,0xda,0xca,0x90,0xca,0x01,0x42,0x9d,
+              0x8b,0x0c,0x73,0x43,0x75,0x05,0x94,0xde,0x24,0xb3,0x80,0x34,0xe5,0x2c,0xdc,0x9b,
+              0x3f,0xca,0x33,0x45,0xd0,0xdb,0x5f,0xf5,0x52,0xc3,0x21,0xda,0xe2,0x22,0x72,0x6b,
+              0x3e,0xd0,0x5b,0xa8,0x87,0x8c,0x06,0x5d,0x0f,0xdd,0x09,0x19,0x93,0xd0,0xb9,0xfc,
+              0x8b,0x0f,0x84,0x60,0x33,0x1c,0x9b,0x45,0xf1,0xf0,0xa3,0x94,0x3a,0x12,0x77,0x33,
+              0x4d,0x44,0x78,0x28,0x3c,0x9e,0xfd,0x65,0x57,0x16,0x94,0x6b,0xfb,0x59,0xd0,0xc8,
+              0x22,0x36,0xdb,0xd2,0x63,0x98,0x43,0xa1,0x04,0x87,0x86,0xf7,0xa6,0x26,0xbb,0xd6,
+              0x59,0x4d,0xbf,0x6a,0x2e,0xaa,0x2b,0xef,0xe6,0x78,0xb6,0x4e,0xe0,0x2f,0xdc,0x7c,
+              0xbe,0x57,0x19,0x32,0x7e,0x2a,0xd0,0xb8,0xba,0x29,0x00,0x3c,0x52,0x7d,0xa8,0x49,
+              0x3b,0x2d,0xeb,0x25,0x49,0xfa,0xa3,0xaa,0x39,0xa7,0xc5,0xa7,0x50,0x11,0x36,0xfb,
+              0xc6,0x67,0x4a,0xf5,0xa5,0x12,0x65,0x7e,0xb0,0xdf,0xaf,0x4e,0xb3,0x61,0x7f,0x2f }
+        };
+        Exiv2::byte key = 0;
+        for (int i = 0; i < 4; ++i) {
+            key ^= (count >> (i*8)) & 0xff;
+        }
+        Exiv2::byte ci = xlat[0][serial & 0xff];
+        Exiv2::byte cj = xlat[1][key];
+        Exiv2::byte ck = 0x60;
+        for (uint32_t i = 0; i < size; ++i) {
+            cj += ci * ck++;
+            pData[i] ^= cj;
+        }
+    }
+}

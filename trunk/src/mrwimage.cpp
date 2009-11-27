@@ -59,6 +59,11 @@ namespace Exiv2 {
     {
     } // MrwImage::MrwImage
 
+    std::string MrwImage::mimeType() const
+    {
+        return "image/x-minolta-mrw";
+    }
+
     int MrwImage::pixelWidth() const
     {
         ExifData::const_iterator imageWidth = exifData_.findKey(Exiv2::ExifKey("Exif.Image.ImageWidth"));

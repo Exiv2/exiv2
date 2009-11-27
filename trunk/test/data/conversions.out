@@ -106,13 +106,13 @@ Iptc.Application2.LocationName               String     12  Kuala Lumpur
 Testcase 14
 ===========
 Exif.Image.ExifTag                           Long        1  38
-Exif.Photo.ExifVersion                       Undefined   4  48 50 50 49 
+Exif.Photo.ExifVersion                       Undefined   4  48 50 50 49
 Exif.Photo.DateTimeOriginal                  Ascii      20  2003:12:14 12:01:44
-Exif.Photo.ComponentsConfiguration           Undefined   4  1 2 3 0 
+Exif.Photo.ComponentsConfiguration           Undefined   4  1 2 3 0
 Exif.Photo.Flash                             Short       1  73
 Exif.Photo.SubSecTimeOriginal                Ascii      10  999999999
 Exif.Image.GPSTag                            Long        1  134
-Exif.GPSInfo.GPSVersionID                    Byte        4  2 2 0 1 
+Exif.GPSInfo.GPSVersionID                    Byte        4  2 2 0 1
 Exif.GPSInfo.GPSLatitudeRef                  Ascii       2  N
 Exif.GPSInfo.GPSLatitude                     Rational    3  3/1 8/1 29734512/1000000
 Exif.GPSInfo.GPSTimeStamp                    Rational    3  1/1 2/1 999999999/1000000000
@@ -130,12 +130,12 @@ Xmp.exif.Flash/exif:Mode                     XmpText     1  1
 Xmp.exif.Flash/exif:Function                 XmpText     5  False
 Xmp.exif.Flash/exif:RedEyeMode               XmpText     4  True
 Xmp.photoshop.DateCreated                    XmpText    10  2007-05-09
-Exif.Photo.ExifVersion                       Undefined   4  48 50 50 49 
-Exif.Photo.ComponentsConfiguration           Undefined   4  1 2 3 0 
+Exif.Photo.ExifVersion                       Undefined   4  48 50 50 49
+Exif.Photo.ComponentsConfiguration           Undefined   4  1 2 3 0
 Exif.Photo.DateTimeOriginal                  Ascii      20  2003:12:14 12:01:44
 Exif.Photo.SubSecTimeOriginal                Ascii      10  999999999
 Exif.Photo.Flash                             Short       1  73
-Exif.GPSInfo.GPSVersionID                    Byte        4  2 2 0 1 
+Exif.GPSInfo.GPSVersionID                    Byte        4  2 2 0 1
 Exif.GPSInfo.GPSLatitude                     Rational    3  3/1 8/1 1858407/62500
 Exif.GPSInfo.GPSLatitudeRef                  Ascii       2  N
 Exif.GPSInfo.GPSTimeStamp                    Rational    3  1/1 2/1 999999999/1000000000
@@ -160,13 +160,13 @@ Xmp.tiff.DateTime                            XmpText    20  2003-12-14T12:01:44Z
 Xmp.photoshop.DateCreated                    XmpText    10  2007-05-09
 Exif.Image.DateTime                          Ascii      20  2003:12:14 20:01:44
 Exif.Image.ExifTag                           Long        1  70
-Exif.Photo.ExifVersion                       Undefined   4  48 50 50 49 
+Exif.Photo.ExifVersion                       Undefined   4  48 50 50 49
 Exif.Photo.DateTimeOriginal                  Ascii      20  2003:12:14 12:01:44
-Exif.Photo.ComponentsConfiguration           Undefined   4  1 2 3 0 
+Exif.Photo.ComponentsConfiguration           Undefined   4  1 2 3 0
 Exif.Photo.Flash                             Short       1  73
 Exif.Photo.SubSecTimeOriginal                Ascii      10  999999999
 Exif.Image.GPSTag                            Long        1  166
-Exif.GPSInfo.GPSVersionID                    Byte        4  2 2 0 1 
+Exif.GPSInfo.GPSVersionID                    Byte        4  2 2 0 1
 Exif.GPSInfo.GPSLatitudeRef                  Ascii       2  N
 Exif.GPSInfo.GPSLatitude                     Rational    3  3/1 8/1 1858407/62500
 Exif.GPSInfo.GPSTimeStamp                    Rational    3  1/1 2/1 999999999/1000000000

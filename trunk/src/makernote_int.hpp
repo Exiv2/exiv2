@@ -20,8 +20,10 @@
  */
 /*!
   @file    makernote_int.hpp
-  @brief   Internal Makernote TIFF composite class TiffIfdMakernote and classes
-           for various makernote headers.
+  @brief   Makernote factory and registry, IFD makernote header, and camera
+           vendor specific makernote implementations.<BR>References:<BR>
+  [1] <a href="http://www.sno.phy.queensu.ca/~phil/exiftool/">ExifTool</a> by Phil Harvey<BR>
+  [2] <a href="http://www.cybercom.net/~dcoffin/dcraw/">Decoding raw digital photos in Linux</a> by Dave Coffin
   @version $Rev$
   @author  Andreas Huggel (ahu)
            <a href="mailto:ahuggel@gmx.net">ahuggel@gmx.net</a>
@@ -32,7 +34,7 @@
 
 // *****************************************************************************
 // included header files
-#include "tiffcomposite_int.hpp"
+#include "tifffwd_int.hpp"
 #include "types.hpp"
 
 // + standard includes
@@ -86,6 +88,18 @@ namespace Exiv2 {
         const uint16_t olympfe8  = 296; //!< Olympus FE 8 tags
         const uint16_t olympfe9  = 297; //!< Olympus FE 9 tags
         const uint16_t olympri   = 298; //!< Olympus raw info tags
+        const uint16_t nikonwt   = 299; //!< Nikon World Time tags
+        const uint16_t nikonii   = 300; //!< Nikon ISO Info tags
+        const uint16_t nikonld1  = 301; //!< Nikon Lens Data 1 tags
+        const uint16_t nikonld2  = 302; //!< Nikon Lens Data 2 tags
+        const uint16_t nikonld3  = 303; //!< Nikon Lens Data 3 tags
+        const uint16_t nikoncb1  = 304; //!< Nikon Color Balance 1 Tags
+        const uint16_t nikoncb2  = 305; //!< Nikon Color Balance 2 Tags
+        const uint16_t nikoncb2a = 306; //!< Nikon Color Balance 2 Tags
+        const uint16_t nikoncb2b = 307; //!< Nikon Color Balance 2 Tags
+        const uint16_t nikoncb3  = 308; //!< Nikon Color Balance 3 Tags
+        const uint16_t nikoncb4  = 309; //!< Nikon Color Balance 4 Tags
+        const uint16_t canonfi   = 310; //!< Canon File Info
     }
 
 // *****************************************************************************
@@ -169,7 +183,7 @@ namespace Exiv2 {
         //! @name Creators
         //@{
         //! Virtual destructor.
-        virtual ~MnHeader() {}
+        virtual ~MnHeader();
         //@}
         //! @name Manipulators
         //@{
@@ -187,178 +201,28 @@ namespace Exiv2 {
         //! Return the size of the header (in bytes).
         virtual uint32_t size() const =0;
         //! Write the header to a data buffer, return the number of bytes written.
-        virtual uint32_t write(Blob&     blob,
-                               ByteOrder byteOrder) const =0;
+        virtual uint32_t write(IoWrapper& ioWrapper,
+                               ByteOrder  byteOrder) const =0;
         /*!
           @brief Return the offset to the start of the Makernote IFD from
                  the start of the Makernote (= the start of the header).
          */
-        virtual uint32_t ifdOffset() const { return 0; }
+        virtual uint32_t ifdOffset() const;
         /*!
           @brief Return the byte order for the makernote. If the return value is
                  invalidByteOrder, this means that the byte order of the the
                  image should be used for the makernote.
          */
-        virtual ByteOrder byteOrder() const { return invalidByteOrder; }
+        virtual ByteOrder byteOrder() const;
         /*!
           @brief Return the base offset for the makernote IFD entries relative
                  to the start of the TIFF header. \em mnOffset is the offset
                  to the makernote from the start of the TIFF header.
          */
-        virtual uint32_t baseOffset(uint32_t /*mnOffset*/) const { return 0; }
+        virtual uint32_t baseOffset(uint32_t /*mnOffset*/) const;
         //@}
 
     }; // class MnHeader
-
-    /*!
-      @brief Tiff IFD Makernote. This is a concrete class suitable for all
-             IFD makernotes.
-
-             Contains a makernote header (which can be 0) and an IFD and
-             implements child mgmt functions to deal with the IFD entries. The
-             various makernote weirdnesses are taken care of in the makernote
-             header (and possibly in special purpose IFD entries).
-     */
-    class TiffIfdMakernote : public TiffComponent {
-        friend class TiffReader;
-    public:
-        //! @name Creators
-        //@{
-        //! Default constructor
-        TiffIfdMakernote(uint16_t  tag,
-                         uint16_t  group,
-                         uint16_t  mnGroup,
-                         MnHeader* pHeader,
-                         bool      hasNext =true);
-        //! Virtual destructor
-        virtual ~TiffIfdMakernote();
-        //@}
-
-        //! @name Manipulators
-        //@{
-        /*!
-          @brief Read the header from a data buffer, return true if successful.
-
-          The default implementation simply returns true.
-         */
-        bool readHeader(const byte* pData, uint32_t size, ByteOrder byteOrder);
-        /*!
-          @brief Set the byte order for the makernote.
-         */
-        void setByteOrder(ByteOrder byteOrder);
-        /*!
-          @brief Set the byte order used for the image.
-         */
-        void setImageByteOrder(ByteOrder byteOrder) { imageByteOrder_ = byteOrder; }
-        //@}
-
-        //! @name Accessors
-        //@{
-        //! Return the size of the header in bytes.
-        uint32_t sizeHeader() const;
-        //! Write the header to a data buffer, return the number of bytes written.
-        uint32_t writeHeader(Blob& blob, ByteOrder byteOrder) const;
-        /*!
-          @brief Return the offset to the makernote from the start of the
-                 TIFF header.
-        */
-        uint32_t mnOffset() const;
-        /*!
-          @brief Return the offset to the start of the Makernote IFD from
-                 the start of the Makernote.
-                 Returns 0 if there is no header.
-         */
-        uint32_t ifdOffset() const;
-        /*!
-          @brief Return the byte order for the makernote. Requires the image
-                 byte order to be set (setImageByteOrder()).  Returns the byte
-                 order for the image if there is no header or the byte order for
-                 the header is \c invalidByteOrder.
-         */
-        ByteOrder byteOrder() const;
-        /*!
-          @brief Return the byte order used for the image.
-         */
-        ByteOrder imageByteOrder() const { return imageByteOrder_; }
-        /*!
-          @brief Return the base offset for use with the makernote IFD entries
-                 relative to the start of the TIFF header.
-                 Returns 0 if there is no header.
-         */
-        uint32_t baseOffset() const;
-        //@}
-
-    protected:
-        //! @name Manipulators
-        //@{
-        virtual TiffComponent* doAddPath(uint16_t tag, TiffPath& tiffPath);
-        virtual TiffComponent* doAddChild(TiffComponent::AutoPtr tiffComponent);
-        virtual TiffComponent* doAddNext(TiffComponent::AutoPtr tiffComponent);
-        virtual void doAccept(TiffVisitor& visitor);
-        //@}
-
-        //! @name Write support (Manipulators)
-        //@{
-        /*!
-          @brief Implements write(). Write the Makernote header, TIFF directory,
-                 values and additional data to the blob, return the number of
-                 bytes written.
-         */
-        virtual uint32_t doWrite(Blob&     blob,
-                                 ByteOrder byteOrder,
-                                 int32_t   offset,
-                                 uint32_t  valueIdx,
-                                 uint32_t  dataIdx,
-                                 uint32_t& imageIdx);
-        //@}
-        //! @name Write support (Accessors)
-        //@{
-        /*!
-          @brief This class does not really implement writeData(), it only has
-                 write(). This method must not be called; it commits suicide.
-         */
-        virtual uint32_t doWriteData(Blob&     blob,
-                                     ByteOrder byteOrder,
-                                     int32_t   offset,
-                                     uint32_t  dataIdx,
-                                     uint32_t& imageIdx) const;
-        /*!
-          @brief Implements writeImage(). Write the image data of the IFD of
-                 the Makernote. Return the number of bytes written.
-         */
-        virtual uint32_t doWriteImage(Blob&     blob,
-                                      ByteOrder byteOrder) const;
-        /*!
-          @brief Implements size(). Return the size of the Makernote header,
-                 TIFF directory, values and additional data.
-         */
-        virtual uint32_t doSize() const;
-        /*!
-          @brief Implements count(). Return the number of entries in the IFD
-                 of the Makernote. Does not count entries which are marked as
-                 deleted.
-         */
-        virtual uint32_t doCount() const;
-        /*!
-          @brief This class does not really implement sizeData(), it only has
-                 size(). This method must not be called; it commits suicide.
-         */
-        virtual uint32_t doSizeData() const;
-        /*!
-          @brief Implements sizeImage(). Return the total image data size of the
-                 makernote IFD.
-         */
-        virtual uint32_t doSizeImage() const;
-        //@}
-
-    private:
-        // DATA
-        MnHeader*     pHeader_;                 //!< Makernote header
-        TiffDirectory ifd_;                     //!< Makernote IFD
-        uint32_t      mnOffset_;                //!< Makernote offset
-        ByteOrder     imageByteOrder_;          //!< Byte order for the image
-
-    }; // class TiffIfdMakernote
 
     //! Header of an Olympus Makernote
     class OlympusMnHeader : public MnHeader {
@@ -368,7 +232,7 @@ namespace Exiv2 {
         //! Default constructor
         OlympusMnHeader();
         //! Virtual destructor.
-        virtual ~OlympusMnHeader() {}
+        virtual ~OlympusMnHeader();
         //@}
         //! @name Manipulators
         //@{
@@ -378,9 +242,9 @@ namespace Exiv2 {
         //@}
         //! @name Accessors
         //@{
-        virtual uint32_t size()      const { return header_.size_; }
-        virtual uint32_t write(Blob& blob, ByteOrder byteOrder) const;
-        virtual uint32_t ifdOffset() const { return size_; }
+        virtual uint32_t size() const;
+        virtual uint32_t write(IoWrapper& ioWrapper, ByteOrder byteOrder) const;
+        virtual uint32_t ifdOffset() const;
         //@}
 
     private:
@@ -398,7 +262,7 @@ namespace Exiv2 {
         //! Default constructor
         Olympus2MnHeader();
         //! Virtual destructor.
-        virtual ~Olympus2MnHeader() {}
+        virtual ~Olympus2MnHeader();
         //@}
         //! @name Manipulators
         //@{
@@ -408,10 +272,10 @@ namespace Exiv2 {
         //@}
         //! @name Accessors
         //@{
-        virtual uint32_t size()      const { return header_.size_; }
-        virtual uint32_t write(Blob& blob, ByteOrder byteOrder) const;
-        virtual uint32_t ifdOffset() const { return size_; }
-        virtual uint32_t baseOffset(uint32_t mnOffset) const { return mnOffset; }
+        virtual uint32_t size() const;
+        virtual uint32_t write(IoWrapper& ioWrapper, ByteOrder byteOrder) const;
+        virtual uint32_t ifdOffset() const;
+        virtual uint32_t baseOffset(uint32_t mnOffset) const;
         //@}
 
     private:
@@ -429,7 +293,7 @@ namespace Exiv2 {
         //! Default constructor
         FujiMnHeader();
         //! Virtual destructor.
-        virtual ~FujiMnHeader() {}
+        virtual ~FujiMnHeader();
         //@}
         //! @name Manipulators
         //@{
@@ -440,11 +304,11 @@ namespace Exiv2 {
         //@}
         //! @name Accessors
         //@{
-        virtual uint32_t  size()      const { return header_.size_; }
-        virtual uint32_t  write(Blob& blob, ByteOrder byteOrder) const;
-        virtual uint32_t  ifdOffset() const { return start_; }
-        virtual ByteOrder byteOrder() const { return byteOrder_; }
-        virtual uint32_t  baseOffset(uint32_t mnOffset) const { return mnOffset; }
+        virtual uint32_t  size() const;
+        virtual uint32_t  write(IoWrapper& ioWrapper, ByteOrder byteOrder) const;
+        virtual uint32_t  ifdOffset() const;
+        virtual ByteOrder byteOrder() const;
+        virtual uint32_t  baseOffset(uint32_t mnOffset) const;
         //@}
 
     private:
@@ -464,7 +328,7 @@ namespace Exiv2 {
         //! Default constructor
         Nikon2MnHeader();
         //! Virtual destructor.
-        virtual ~Nikon2MnHeader() {}
+        virtual ~Nikon2MnHeader();
         //@}
         //! @name Manipulators
         //@{
@@ -474,9 +338,9 @@ namespace Exiv2 {
         //@}
         //! @name Accessors
         //@{
-        virtual uint32_t size()      const { return size_; }
-        virtual uint32_t write(Blob& blob, ByteOrder byteOrder) const;
-        virtual uint32_t ifdOffset() const { return start_; }
+        virtual uint32_t size() const;
+        virtual uint32_t write(IoWrapper& ioWrapper, ByteOrder byteOrder) const;
+        virtual uint32_t ifdOffset() const;
         //@}
 
     private:
@@ -495,7 +359,7 @@ namespace Exiv2 {
         //! Default constructor
         Nikon3MnHeader();
         //! Virtual destructor.
-        virtual ~Nikon3MnHeader() {}
+        virtual ~Nikon3MnHeader();
         //@}
         //! @name Manipulators
         //@{
@@ -506,11 +370,11 @@ namespace Exiv2 {
         //@}
         //! @name Accessors
         //@{
-        virtual uint32_t  size()      const { return size_; }
-        virtual uint32_t  write(Blob& blob, ByteOrder byteOrder) const;
-        virtual uint32_t  ifdOffset() const { return start_; }
-        virtual ByteOrder byteOrder() const { return byteOrder_; }
-        virtual uint32_t  baseOffset(uint32_t mnOffset) const { return mnOffset + 10; }
+        virtual uint32_t  size()      const;
+        virtual uint32_t  write(IoWrapper& ioWrapper, ByteOrder byteOrder) const;
+        virtual uint32_t  ifdOffset() const;
+        virtual ByteOrder byteOrder() const;
+        virtual uint32_t  baseOffset(uint32_t mnOffset) const;
         //@}
 
     private:
@@ -530,7 +394,7 @@ namespace Exiv2 {
         //! Default constructor
         PanasonicMnHeader();
         //! Virtual destructor.
-        virtual ~PanasonicMnHeader() {}
+        virtual ~PanasonicMnHeader();
         //@}
         //! @name Manipulators
         //@{
@@ -540,9 +404,9 @@ namespace Exiv2 {
         //@}
         //! @name Accessors
         //@{
-        virtual uint32_t size()      const { return size_; }
-        virtual uint32_t write(Blob& blob, ByteOrder byteOrder) const;
-        virtual uint32_t ifdOffset() const { return start_; }
+        virtual uint32_t size() const;
+        virtual uint32_t write(IoWrapper& ioWrapper, ByteOrder byteOrder) const;
+        virtual uint32_t ifdOffset() const;
         //@}
 
     private:
@@ -561,7 +425,7 @@ namespace Exiv2 {
         //! Default constructor
         PentaxMnHeader();
         //! Virtual destructor.
-        virtual ~PentaxMnHeader() {}
+        virtual ~PentaxMnHeader();
         //@}
         //! @name Manipulators
         //@{
@@ -571,9 +435,9 @@ namespace Exiv2 {
         //@}
         //! @name Accessors
         //@{
-        virtual uint32_t size()      const { return header_.size_; }
-        virtual uint32_t write(Blob& blob, ByteOrder byteOrder) const;
-        virtual uint32_t ifdOffset() const { return size_; }
+        virtual uint32_t size() const;
+        virtual uint32_t write(IoWrapper& ioWrapper, ByteOrder byteOrder) const;
+        virtual uint32_t ifdOffset() const;
         //@}
 
     private:
@@ -591,7 +455,7 @@ namespace Exiv2 {
         //! Default constructor
         SigmaMnHeader();
         //! Virtual destructor.
-        virtual ~SigmaMnHeader() {}
+        virtual ~SigmaMnHeader();
         //@}
         //! @name Manipulators
         //@{
@@ -601,9 +465,9 @@ namespace Exiv2 {
         //@}
         //! @name Accessors
         //@{
-        virtual uint32_t size()      const { return size_; }
-        virtual uint32_t write(Blob& blob, ByteOrder byteOrder) const;
-        virtual uint32_t ifdOffset() const { return start_; }
+        virtual uint32_t size() const;
+        virtual uint32_t write(IoWrapper& ioWrapper, ByteOrder byteOrder) const;
+        virtual uint32_t ifdOffset() const;
         //@}
 
     private:
@@ -623,7 +487,7 @@ namespace Exiv2 {
         //! Default constructor
         SonyMnHeader();
         //! Virtual destructor.
-        virtual ~SonyMnHeader() {}
+        virtual ~SonyMnHeader();
         //@}
         //! @name Manipulators
         //@{
@@ -633,9 +497,9 @@ namespace Exiv2 {
         //@}
         //! @name Accessors
         //@{
-        virtual uint32_t size()      const { return size_; }
-        virtual uint32_t write(Blob& blob, ByteOrder byteOrder) const;
-        virtual uint32_t ifdOffset() const { return start_; }
+        virtual uint32_t size() const;
+        virtual uint32_t write(IoWrapper& ioWrapper, ByteOrder byteOrder) const;
+        virtual uint32_t ifdOffset() const;
         //@}
 
     private:
@@ -770,6 +634,35 @@ namespace Exiv2 {
     TiffComponent* newSony2Mn2(uint16_t tag,
                                uint16_t group,
                                uint16_t mnGroup);
+
+    /*!
+      @brief Function to select cfg + def of a Nikon complex binary array.
+
+      @param tag Tag number of the binary array
+      @param pData Pointer to the raw array data.
+      @param size Size of the array data.
+      @param pRoot Pointer to the root component of the TIFF tree.
+      @return An index into the array set, -1 if no match was found.
+     */
+    int nikonSelector(uint16_t tag, const byte* pData, uint32_t size, TiffComponent* const pRoot);
+
+    /*!
+      @brief Encrypt and decrypt Nikon data.
+
+      Checks the version of the Nikon data array and en/decrypts (portions of) it as
+      needed. (The Nikon encryption algorithm is symmetric.)
+
+      @note This function requires access to other components of the composite, it
+            should only be called after all other components are read.
+
+      @param tag Tag number of the binary array
+      @param pData Pointer to the start of the data to en/decrypt.
+      @param size Size of the data buffer.
+      @param pRoot Pointer to the root element of the composite.
+      @return En/decrypted data. Ownership of the memory is passed to the caller.
+              The buffer may be empty in case no decryption was needed.
+     */
+    DataBuf nikonCrypt(uint16_t tag, const byte* pData, uint32_t size, TiffComponent* const pRoot);
 
 }}                                      // namespace Internal, Exiv2
 

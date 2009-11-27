@@ -202,6 +202,11 @@
 #define SEPERATOR_CHR '/'
 #endif
 
+/* Windows unicode path support */
+#if defined WIN32 && !defined __CYGWIN__
+# define EXV_UNICODE_PATH
+#endif
+
 /* Shared library support, see http://gcc.gnu.org/wiki/Visibility */
 #ifdef WIN32
 # define EXV_IMPORT __declspec(dllimport)

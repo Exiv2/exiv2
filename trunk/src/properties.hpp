@@ -270,7 +270,7 @@ namespace Exiv2 {
         virtual std::string tagName() const;
         virtual std::string tagLabel() const;
         //! Properties don't have a tag number. Return 0.
-        virtual uint16_t tag() const { return 0; }
+        virtual uint16_t tag() const;
 
         AutoPtr clone() const;
 

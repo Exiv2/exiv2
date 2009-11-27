@@ -89,13 +89,12 @@ namespace Exiv2 {
         //! @name Accessors
         //@{
         /*!
-          @brief Write the image header to the binary image \em blob.
-                 This method appends to the blob.
+          @brief Return the image header in binary format.
+                 The caller owns this data and %DataBuf ensures that it will be deleted.
 
-          @param blob Binary image to add to.
-          @return Number of bytes written.
+          @return Binary header data.
          */
-        virtual uint32_t write(Blob& blob) const;
+        virtual DataBuf write() const;
         /*!
           @brief Print debug info for the image header to \em os.
 
@@ -256,9 +255,15 @@ namespace Exiv2 {
         /*!
           @brief Encode TIFF metadata from the metadata containers into a
                  memory block \em blob.
-        */
+
+          1) Parse the binary image, if one is provided, and
+          2) attempt updating the parsed tree in-place ("non-intrusive writing")
+          3) else, create a new tree and write a new TIFF structure ("intrusive
+             writing"). If there is a parsed tree, it is only used to access the
+             image data in this case.
+         */
         static WriteMethod encode(
-                  Blob&              blob,
+                  BasicIo&           io,
             const byte*              pData,
                   uint32_t           size,
             const ExifData&          exifData,

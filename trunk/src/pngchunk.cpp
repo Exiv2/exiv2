@@ -175,10 +175,10 @@ namespace Exiv2 {
             const byte* compressionMethod = data.pData_ + keysize + 2;
             // language description string after the compression technique spec
             std::string languageText((const char*)(data.pData_ + keysize + 3));
-            unsigned int languageTextSize = languageText.size();
+            unsigned int languageTextSize = static_cast<unsigned int>(languageText.size());
             // translated keyword string after the language description
             std::string translatedKeyText((const char*)(data.pData_ + keysize + 3 + languageTextSize +1));
-            unsigned int translatedKeyTextSize = translatedKeyText.size();
+            unsigned int translatedKeyTextSize = static_cast<unsigned int>(translatedKeyText.size());
 
             if ( compressionFlag[0] == 0x00 )
             {
@@ -472,14 +472,14 @@ namespace Exiv2 {
 
     std::string PngChunk::zlibCompress(const std::string& text)
     {
-        uLongf compressedLen = text.size() * 2; // just a starting point
+        uLongf compressedLen = static_cast<uLongf>(text.size() * 2); // just a starting point
         int zlibResult;
 
         DataBuf arr;
         do {
             arr.alloc(compressedLen);
             zlibResult = compress2((Bytef*)arr.pData_, &compressedLen,
-                                   (const Bytef*)text.data(), text.size(),
+                                   (const Bytef*)text.data(), static_cast<uLong>(text.size()),
                                    Z_BEST_COMPRESSION);
 
             switch (zlibResult) {
@@ -533,11 +533,11 @@ namespace Exiv2 {
         }
         // Determine length of the chunk data
         byte length[4];
-        ul2Data(length, chunkData.size(), bigEndian);
+        ul2Data(length, static_cast<uint32_t>(chunkData.size()), bigEndian);
         // Calculate CRC on chunk type and chunk data
         std::string crcData = chunkType + chunkData;
         uLong tmp = crc32(0L, Z_NULL, 0);
-        tmp       = crc32(tmp, (const Bytef*)crcData.data(), crcData.size());
+        tmp       = crc32(tmp, (const Bytef*)crcData.data(), static_cast<uInt>(crcData.size()));
         byte crc[4];
         ul2Data(crc, tmp, bigEndian);
         // Assemble the chunk
@@ -569,12 +569,12 @@ namespace Exiv2 {
         }
         // Determine length of the chunk data
         byte length[4];
-        ul2Data(length, chunkData.size(), bigEndian);
+        ul2Data(length, static_cast<uint32_t>(chunkData.size()), bigEndian);
         // Calculate CRC on chunk type and chunk data
         std::string chunkType = "iTXt";
         std::string crcData = chunkType + chunkData;
         uLong tmp = crc32(0L, Z_NULL, 0);
-        tmp       = crc32(tmp, (const Bytef*)crcData.data(), crcData.size());
+        tmp       = crc32(tmp, (const Bytef*)crcData.data(), static_cast<uInt>(crcData.size()));
         byte crc[4];
         ul2Data(crc, tmp, bigEndian);
         // Assemble the chunk

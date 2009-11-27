@@ -111,7 +111,7 @@ namespace Exiv2 {
 
         //! @name Accessors
         //@{
-        std::string mimeType() const { return "image/targa"; }
+        std::string mimeType() const;
         //@}
 
     }; // class TgaImage

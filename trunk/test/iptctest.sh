@@ -12,7 +12,7 @@ printTest()
 
     #check results
     diffCheck $test $good
-    echo -n "."
+    printf "."
 }
 
 removeTest()
@@ -38,7 +38,7 @@ eoc
 
     #check results
     diffCheck $test $good
-    echo -n "."
+    printf "."
     rm $tmp
 }
 
@@ -67,7 +67,7 @@ eoc
 
     #check results
     diffCheck $test $good
-    echo -n "."
+    printf "."
     rm $tmp
 }
 
@@ -87,7 +87,7 @@ extendedTest()
 
     #check results
     diffCheck $test $good
-    echo -n "."
+    printf "."
     rm $tmp
 }
 
@@ -143,22 +143,22 @@ errors=0
 cd ./tmp
 echo
 
-echo -n "Read tests"
+printf "Read tests"
 for i in $test_files; do printTest $i; done
 
 echo
-echo -n "Remove tests"
+printf "Remove tests"
 for i in $test_files; do removeTest $i; done
 
 echo
-echo -n "Add/Mod tests"
+printf "Add/Mod tests"
 for i in $test_files; do addModTest $i; done
 
 echo
-echo -n "Extended tests"
+printf "Extended tests"
 for i in $test_files; do extendedTest $i; done
 
-echo -e "\n---------------------------------------------------------"
+printf "\n---------------------------------------------------------\n"
 if [ $errors -eq 0 ]; then
    echo 'All test cases passed'
 else

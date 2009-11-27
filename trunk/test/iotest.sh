@@ -17,7 +17,7 @@ ioTest()
     #check results
     diffCheck $out1 $src 
     diffCheck $out2 $src 
-    echo -n "."
+    printf "."
 }
 
 # Make sure to pass the test file first and the known good file second
@@ -47,10 +47,10 @@ errors=0
 cd ./tmp
 echo
 
-echo -n "Io tests"
+printf "Io tests"
 for i in $test_files; do ioTest $i; done
 
-echo -e "\n---------------------------------------------------------"
+printf "\n---------------------------------------------------------\n"
 if [ $errors -eq 0 ]; then
    echo 'All test cases passed'
 else

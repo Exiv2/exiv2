@@ -32,7 +32,7 @@
 
 #define XMP_ClientBuild 1
 
-#if XMP_WinBuild
+#ifdef _MSC_VER
     #if XMP_DebugBuild
         #pragma warning ( push, 4 )
     #else
@@ -56,7 +56,7 @@
 
 #endif
 
-#if XMP_WinBuild
+#ifdef _MSC_VER
     #pragma warning ( pop )
 #endif
 

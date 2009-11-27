@@ -107,7 +107,7 @@ namespace Exiv2 {
               but Apple, as of Tiger (10.4.8), maps this official MIME type to a
               dynamic UTI, rather than "com.adobe.photoshop-image" as it should.
          */
-        std::string mimeType() const { return "image/x-photoshop"; }
+        std::string mimeType() const;
         //@}
 
     private:

@@ -264,6 +264,8 @@ case "$USE_PRINTUCS2" in
 yes) echo "-- Conversion of Windows XP tags.. YES" ;;
 *)   echo "-- Conversion of Windows XP tags.. NO"
      echo ""
+     echo "On Windows, NO here means that the Windows system function is used"
+     echo "to convert some UCS-2 encoded Windows XP tags. On other platforms,"
      echo "libiconv is required for the conversion of Windows XP tags."
      echo "Make sure that the libiconv header files are installed and use"
      echo "--with-libiconv-prefix=DIR if it is in a non-standard location."

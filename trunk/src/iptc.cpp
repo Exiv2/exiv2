@@ -60,6 +60,28 @@ namespace {
         const Exiv2::byte*     data,
               uint32_t         sizeData
     );
+
+    //! Unary predicate that matches an Iptcdatum with given record and dataset
+    class FindIptcdatum {
+    public:
+        //! Constructor, initializes the object with the record and dataset id
+        FindIptcdatum(uint16_t dataset, uint16_t record)
+            : dataset_(dataset), record_(record) {}
+        /*!
+          @brief Returns true if the record and dataset id of the argument
+                Iptcdatum is equal to that of the object.
+        */
+        bool operator()(const Exiv2::Iptcdatum& iptcdatum) const
+        {
+            return dataset_ == iptcdatum.tag() && record_ == iptcdatum.record();
+        }
+
+    private:
+        // DATA
+        uint16_t dataset_;
+        uint16_t record_;
+
+    }; // class FindIptcdatum
 }
 
 // *****************************************************************************
@@ -84,9 +106,109 @@ namespace Exiv2 {
     {
     }
 
+    long Iptcdatum::copy(byte* buf, ByteOrder byteOrder) const
+    {
+        return value_.get() == 0 ? 0 : value_->copy(buf, byteOrder);
+    }
+
     std::ostream& Iptcdatum::write(std::ostream& os, const ExifData*) const
     {
         return os << value();
+    }
+
+    std::string Iptcdatum::key() const
+    {
+        return key_.get() == 0 ? "" : key_->key();
+    }
+
+    std::string Iptcdatum::recordName() const
+    {
+        return key_.get() == 0 ? "" : key_->recordName();
+    }
+
+    uint16_t Iptcdatum::record() const
+    {
+        return key_.get() == 0 ? 0 : key_->record();
+    }
+    
+    const char* Iptcdatum::familyName() const
+    {
+        return key_.get() == 0 ? "" : key_->familyName();
+    }
+
+    std::string Iptcdatum::groupName() const
+    {
+        return key_.get() == 0 ? "" : key_->groupName();
+    }
+
+    std::string Iptcdatum::tagName() const
+    {
+        return key_.get() == 0 ? "" : key_->tagName();
+    }
+
+    std::string Iptcdatum::tagLabel() const
+    {
+        return key_.get() == 0 ? "" : key_->tagLabel();
+    }
+
+    uint16_t Iptcdatum::tag() const
+    {
+        return key_.get() == 0 ? 0 : key_->tag();
+    }
+
+    TypeId Iptcdatum::typeId() const
+    {
+        return value_.get() == 0 ? invalidTypeId : value_->typeId();
+    }
+
+    const char* Iptcdatum::typeName() const
+    {
+        return TypeInfo::typeName(typeId());
+    }
+
+    long Iptcdatum::typeSize() const
+    {
+        return TypeInfo::typeSize(typeId());
+    }
+
+    long Iptcdatum::count() const
+    {
+        return value_.get() == 0 ? 0 : value_->count();
+    }
+
+    long Iptcdatum::size() const
+    {
+        return value_.get() == 0 ? 0 : value_->size();
+    }
+
+    std::string Iptcdatum::toString() const
+    {
+        return value_.get() == 0 ? "" : value_->toString();
+    }
+
+    std::string Iptcdatum::toString(long n) const
+    {
+        return value_.get() == 0 ? "" : value_->toString(n);
+    }
+
+    long Iptcdatum::toLong(long n) const
+    {
+        return value_.get() == 0 ? -1 : value_->toLong(n);
+    }
+
+    float Iptcdatum::toFloat(long n) const
+    {
+        return value_.get() == 0 ? -1 : value_->toFloat(n);
+    }
+
+    Rational Iptcdatum::toRational(long n) const
+    {
+        return value_.get() == 0 ? Rational(-1, 1) : value_->toRational(n);
+    }
+
+    Value::AutoPtr Iptcdatum::getValue() const
+    {
+        return value_.get() == 0 ? Value::AutoPtr(0) : value_->clone();
     }
 
     const Value& Iptcdatum::value() const
@@ -193,25 +315,25 @@ namespace Exiv2 {
     IptcData::const_iterator IptcData::findKey(const IptcKey& key) const
     {
         return std::find_if(iptcMetadata_.begin(), iptcMetadata_.end(),
-                            FindMetadatumById(key.tag(), key.record()));
+                            FindIptcdatum(key.tag(), key.record()));
     }
 
     IptcData::iterator IptcData::findKey(const IptcKey& key)
     {
         return std::find_if(iptcMetadata_.begin(), iptcMetadata_.end(),
-                            FindMetadatumById(key.tag(), key.record()));
+                            FindIptcdatum(key.tag(), key.record()));
     }
 
     IptcData::const_iterator IptcData::findId(uint16_t dataset, uint16_t record) const
     {
         return std::find_if(iptcMetadata_.begin(), iptcMetadata_.end(),
-                            FindMetadatumById(dataset, record));
+                            FindIptcdatum(dataset, record));
     }
 
     IptcData::iterator IptcData::findId(uint16_t dataset, uint16_t record)
     {
         return std::find_if(iptcMetadata_.begin(), iptcMetadata_.end(),
-                            FindMetadatumById(dataset, record));
+                            FindIptcdatum(dataset, record));
     }
 
     void IptcData::sortByKey()
@@ -229,6 +351,59 @@ namespace Exiv2 {
         return iptcMetadata_.erase(pos);
     }
 
+    const char *IptcData::detectCharset() const
+    {
+        const_iterator pos = findKey(IptcKey("Iptc.Envelope.CharacterSet"));
+        if (pos != end()) {
+            const std::string value = pos->toString();
+            if (pos->value().ok()) {
+                if (value == "\033%G") return "UTF-8";
+                // other values are probably not practically relevant
+            }
+        }
+
+        bool ascii = true;
+        bool utf8 = true;
+
+        for (pos = begin(); pos != end(); ++pos) {
+            std::string value = pos->toString();
+            if (pos->value().ok()) {
+                int seqCount = 0;
+                std::string::iterator i;
+                for (i = value.begin(); i != value.end(); ++i) {
+                    char c = *i;
+                    if (seqCount) {
+                        if ((c & 0xc0) != 0x80) {
+                            utf8 = false;
+                            break;
+                        }
+                        --seqCount;
+                    }
+                    else {
+                        if (c & 0x80) ascii = false;
+                        else continue; // ascii character
+
+                        if      ((c & 0xe0) == 0xc0) seqCount = 1;
+                        else if ((c & 0xf0) == 0xe0) seqCount = 2;
+                        else if ((c & 0xf8) == 0xf0) seqCount = 3;
+                        else if ((c & 0xfc) == 0xf8) seqCount = 4;
+                        else if ((c & 0xfe) == 0xfc) seqCount = 5;
+                        else {
+                            utf8 = false;
+                            break;
+                        }
+                    }
+                }
+                if (seqCount) utf8 = false; // unterminated seq
+                if (!utf8) break;
+            }
+        }
+
+        if (ascii) return "ASCII";
+        if (utf8) return "UTF-8";
+        return NULL;
+    }
+    
     const byte IptcParser::marker_ = 0x1C;          // Dataset marker
 
     int IptcParser::decode(

@@ -109,6 +109,24 @@ namespace {
 // class member definitions
 namespace Exiv2 {
 
+    AnyError::~AnyError() throw()
+    {
+    }
+
+    Error::~Error() throw()
+    {
+    }
+
+    int Error::code() const throw()
+    {
+        return code_;
+    }
+
+    const char* Error::what() const throw()
+    {
+        return msg_.c_str();
+    }
+
     int Error::errorIdx(int code)
     {
         int idx;

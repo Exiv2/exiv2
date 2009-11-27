@@ -312,25 +312,21 @@ namespace Exiv2 {
 
         //! @name Accessors
         //@{
-        virtual std::string key() const { return key_; }
-        virtual const char* familyName() const { return familyName_; }
+        virtual std::string key() const;
+        virtual const char* familyName() const;
         /*!
           @brief Return the name of the group (the second part of the key).
                  For IPTC keys, the group name is the record name.
         */
-        virtual std::string groupName() const { return recordName(); }
-        virtual std::string tagName() const
-            { return IptcDataSets::dataSetName(tag_, record_); }
-        virtual std::string tagLabel() const
-            { return IptcDataSets::dataSetTitle(tag_, record_); }
-        virtual uint16_t tag() const { return tag_; }
-
+        virtual std::string groupName() const;
+        virtual std::string tagName() const;
+        virtual std::string tagLabel() const;
+        virtual uint16_t tag() const;
         AutoPtr clone() const;
         //! Return the name of the record
-        std::string recordName() const
-            { return IptcDataSets::recordName(record_); }
+        std::string recordName() const;
         //! Return the record id
-        uint16_t record() const { return record_; }
+        uint16_t record() const;
         //@}
 
     protected:

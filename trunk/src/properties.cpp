@@ -1246,6 +1246,11 @@ namespace Exiv2 {
         return pt;
     }
 
+    uint16_t XmpKey::tag() const
+    {
+        return 0;
+    }
+
     std::string XmpKey::ns() const
     {
         return XmpProperties::ns(p_->prefix_);

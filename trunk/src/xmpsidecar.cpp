@@ -68,6 +68,11 @@ namespace Exiv2 {
         }
     } // XmpSidecar::XmpSidecar
 
+    std::string XmpSidecar::mimeType() const
+    {
+        return "application/rdf+xml";
+    }
+
     void XmpSidecar::setComment(const std::string& /*comment*/)
     {
         // not supported

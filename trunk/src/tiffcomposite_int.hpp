@@ -31,7 +31,7 @@
 
 // *****************************************************************************
 // included header files
-#include "image.hpp"                            // for Blob
+#include "value.hpp"
 #include "tifffwd_int.hpp"
 #include "types.hpp"
 
@@ -44,6 +44,9 @@
 // *****************************************************************************
 // namespace extensions
 namespace Exiv2 {
+
+    class BasicIo;
+
     namespace Internal {
 
 // *****************************************************************************
@@ -133,6 +136,45 @@ namespace Exiv2 {
     }; // class TiffPathItem
 
     /*!
+      @brief Simple IO wrapper to ensure that the header is only written if there is
+             any other data at all.
+
+      The wrapper is initialized with an IO reference and a pointer to a TIFF header.
+      Subsequently the wrapper is used by all TIFF write methods. It takes care that
+      the TIFF header is written to the IO first before any other output and only if
+      there is any other data.
+     */
+    class IoWrapper {
+    public:
+        /*!
+          brief Constructor.
+
+          The IO wrapper owns neither of the objects passed in so the caller is
+          responsible to keep them alive.
+         */
+        IoWrapper(BasicIo& io, const byte* pHeader, long size);
+        /*!
+          @brief Wraps the corresponding BasicIo::write() method.
+
+          Writes the TIFF header to the IO, if it hasn't been written yet, followed
+          by the data passed in the arguments.
+         */
+        long write(const byte* pData, long wcount);
+        /*!
+          @brief Wraps the corresponding BasicIo::putb() method.
+
+          Writes the TIFF header to the IO, if it hasn't been written yet, followed
+          by the data passed in the argument.
+         */
+        int putb(byte data);
+    private:
+        BasicIo& io_;              //! Reference for the IO instance.
+        const byte* pHeader_;      //! Pointer to the header data.
+        long size_;                //! Size of the header data.
+        bool wroteHeader_;         //! Indicates if the header has been written.
+    }; // class IoWrapper
+
+    /*!
       @brief Interface class for components of a TIFF directory hierarchy
              (Composite pattern).  Both TIFF directories as well as entries
              implement this interface.  A component can be uniquely identified
@@ -152,7 +194,7 @@ namespace Exiv2 {
         //! Constructor
         TiffComponent(uint16_t tag, uint16_t group);
         //! Virtual destructor.
-        virtual ~TiffComponent() {}
+        virtual ~TiffComponent();
         //@}
 
         //! @name Manipulators
@@ -163,10 +205,11 @@ namespace Exiv2 {
 
           @param tag      The tag of the new entry
           @param tiffPath A path from the TIFF root element to a TIFF entry.
+          @param pRoot    Pointer to the root component of the TIFF composite.
 
           @return A pointer to the newly added TIFF entry.
          */
-        TiffComponent* addPath(uint16_t tag, TiffPath& tiffPath);
+        TiffComponent* addPath(uint16_t tag, TiffPath& tiffPath, TiffComponent* const pRoot);
         /*!
           @brief Add a child to the component. Default is to do nothing.
           @param tiffComponent Auto pointer to the component to add.
@@ -210,18 +253,18 @@ namespace Exiv2 {
         /*!
           @brief Write a TiffComponent to a binary image.
 
-          @param blob       Binary image to append the TiffComponent to.
+          @param ioWrapper  IO wrapper to which the TiffComponent is written.
           @param byteOrder  Applicable byte order (little or big endian).
           @param offset     Offset from the start of the image (TIFF header) to
                             the component.
           @param valueIdx   Index of the component to be written relative to offset.
           @param dataIdx    Index of the data area of the component relative to offset.
           @param imageIdx   Index of the image data area relative to offset.
-          @return           Number of bytes written to the blob including all
+          @return           Number of bytes written to the IO wrapper including all
                             nested components.
           @throw            Error If the component cannot be written.
          */
-        uint32_t write(Blob&     blob,
+        uint32_t write(IoWrapper& ioWrapper,
                        ByteOrder byteOrder,
                        int32_t   offset,
                        uint32_t  valueIdx,
@@ -236,7 +279,7 @@ namespace Exiv2 {
                  Return the number of bytes written. Components derived from
                  TiffEntryBase implement this method if needed.
          */
-        uint32_t writeData(Blob&     blob,
+        uint32_t writeData(IoWrapper& ioWrapper,
                            ByteOrder byteOrder,
                            int32_t   offset,
                            uint32_t  dataIdx,
@@ -246,7 +289,7 @@ namespace Exiv2 {
                  Return the number of bytes written. TIFF components implement
                  this method if needed.
          */
-        uint32_t writeImage(Blob&     blob,
+        uint32_t writeImage(IoWrapper& ioWrapper,
                             ByteOrder byteOrder) const;
         /*!
           @brief Return the size in bytes of the IFD value of this component
@@ -276,19 +319,18 @@ namespace Exiv2 {
          */
         // Todo: This is only implemented in TiffEntryBase. It is needed here so that
         //       we can sort components by tag and idx. Something is not quite right.
-        virtual int idx()        const { return 0; }
+        virtual int idx() const;
         //@}
 
     protected:
         //! @name Manipulators
         //@{
         //! Implements addPath(). The default implementation does nothing.
-        virtual TiffComponent* doAddPath(uint16_t  /*tag*/,
-                                         TiffPath& /*tiffPath*/) { return this; }
+        virtual TiffComponent* doAddPath(uint16_t  tag, TiffPath& tiffPath, TiffComponent* const pRoot);
         //! Implements addChild(). The default implementation does nothing.
-        virtual TiffComponent* doAddChild(AutoPtr /*tiffComponent*/) { return 0; }
+        virtual TiffComponent* doAddChild(AutoPtr tiffComponent);
         //! Implements addNext(). The default implementation does nothing.
-        virtual TiffComponent* doAddNext(AutoPtr /*tiffComponent*/) { return 0; }
+        virtual TiffComponent* doAddNext(AutoPtr tiffComponent);
         //! Implements accept().
         virtual void doAccept(TiffVisitor& visitor) =0;
         //@}
@@ -296,7 +338,7 @@ namespace Exiv2 {
         //! @name Write support (Manipulators)
         //@{
         //! Implements write().
-        virtual uint32_t doWrite(Blob&     blob,
+        virtual uint32_t doWrite(IoWrapper& ioWrapper,
                                  ByteOrder byteOrder,
                                  int32_t   offset,
                                  uint32_t  valueIdx,
@@ -307,13 +349,13 @@ namespace Exiv2 {
         //! @name Write support (Accessors)
         //@{
         //! Implements writeData().
-        virtual uint32_t doWriteData(Blob&     blob,
+        virtual uint32_t doWriteData(IoWrapper& ioWrapper,
                                      ByteOrder byteOrder,
                                      int32_t   offset,
                                      uint32_t  dataIdx,
                                      uint32_t& imageIdx) const =0;
         //! Implements writeImage().
-        virtual uint32_t doWriteImage(Blob&     blob,
+        virtual uint32_t doWriteImage(IoWrapper& ioWrapper,
                                       ByteOrder byteOrder) const =0;
         //! Implements size().
         virtual uint32_t doSize() const =0;
@@ -379,6 +421,7 @@ namespace Exiv2 {
     class TiffEntryBase : public TiffComponent {
         friend class TiffReader;
         friend class TiffEncoder;
+        friend int selectNikonLd(TiffBinaryArray* const, TiffComponent* const);
     public:
         //! @name Creators
         //@{
@@ -400,9 +443,11 @@ namespace Exiv2 {
         void encode(TiffEncoder& encoder, const Exifdatum* datum);
         //! Set the offset
         void setOffset(int32_t offset) { offset_ = offset; }
-        //! Set pointer and size of the entry's data.
+        //! Set pointer and size of the entry's data (not taking ownership of the data).
         void setData(byte* pData, int32_t size);
-        /*!
+        //! Set the entry's data buffer, taking ownership of the data buffer passed in.
+        void setData(DataBuf buf);
+         /*!
           @brief Update the value. Takes ownership of the pointer passed in.
 
           Update binary value data and call setValue().
@@ -428,7 +473,7 @@ namespace Exiv2 {
         /*!
           @brief Return the unique id of the entry in the image
          */
-        virtual int idx()        const { return idx_; }
+        virtual int idx()        const;
         /*!
           @brief Return a pointer to the binary representation of the
                  value of this component.
@@ -458,10 +503,10 @@ namespace Exiv2 {
         //@{
         /*!
           @brief Implements write(). Write the value of a standard TIFF entry to
-                 the \em blob, return the number of bytes written. Only the \em
-                 blob and \em byteOrder arguments are used.
+                 the \em ioWrapper, return the number of bytes written. Only the
+                 \em ioWrapper and \em byteOrder arguments are used.
          */
-        virtual uint32_t doWrite(Blob&     blob,
+        virtual uint32_t doWrite(IoWrapper& ioWrapper,
                                  ByteOrder byteOrder,
                                  int32_t   offset,
                                  uint32_t  valueIdx,
@@ -474,7 +519,7 @@ namespace Exiv2 {
           @brief Implements writeData(). Standard TIFF entries have no data:
                  write nothing and return 0.
          */
-        virtual uint32_t doWriteData(Blob&     blob,
+        virtual uint32_t doWriteData(IoWrapper& ioWrapper,
                                      ByteOrder byteOrder,
                                      int32_t   offset,
                                      uint32_t  dataIdx,
@@ -483,7 +528,7 @@ namespace Exiv2 {
           @brief Implements writeImage(). Standard TIFF entries have no image data:
                  write nothing and return 0.
          */
-        virtual uint32_t doWriteImage(Blob&     blob,
+        virtual uint32_t doWriteImage(IoWrapper& ioWrapper,
                                       ByteOrder byteOrder) const;
         //! Implements size(). Return the size of a standard TIFF entry
         virtual uint32_t doSize() const;
@@ -500,12 +545,6 @@ namespace Exiv2 {
                                     ByteOrder byteOrder);
 
     private:
-        //! @name Manipulators
-        //@{
-        //! Allocate \em len bytes for the binary representation of the value.
-        void allocData(uint32_t len);
-        //@}
-
         // DATA
         TiffType tiffType_;   //!< Field TIFF type
         uint32_t count_;      //!< The number of values of the indicated type
@@ -532,7 +571,7 @@ namespace Exiv2 {
         //! Constructor
         TiffEntry(uint16_t tag, uint16_t group) : TiffEntryBase(tag, group) {}
         //! Virtual destructor.
-        virtual ~TiffEntry() {}
+        virtual ~TiffEntry();
         //@}
 
     protected:
@@ -561,7 +600,7 @@ namespace Exiv2 {
             : TiffEntryBase(tag, group),
               szTag_(szTag), szGroup_(szGroup) {}
         //! Virtual destructor.
-        virtual ~TiffDataEntryBase() {}
+        virtual ~TiffDataEntryBase();
         //@}
 
         //! @name Manipulators
@@ -617,7 +656,7 @@ namespace Exiv2 {
             : TiffDataEntryBase(tag, group, szTag, szGroup),
               pDataArea_(0), sizeDataArea_(0) {}
         //! Virtual destructor.
-        virtual ~TiffDataEntry() {}
+        virtual ~TiffDataEntry();
         //@}
 
         //! @name Manipulators
@@ -639,7 +678,7 @@ namespace Exiv2 {
         //@{
         /*!
           @brief Implements write(). Write pointers into the data area to the
-                 \em blob, relative to the offsets in the value. Return the
+                 \em ioWrapper, relative to the offsets in the value. Return the
                  number of bytes written. The \em valueIdx argument is not used.
 
           The number of components in the value determines how many offsets are
@@ -648,7 +687,7 @@ namespace Exiv2 {
           on write. The type of the value can only be signed or unsigned short or
           long.
          */
-        virtual uint32_t doWrite(Blob&     blob,
+        virtual uint32_t doWrite(IoWrapper& ioWrapper,
                                  ByteOrder byteOrder,
                                  int32_t   offset,
                                  uint32_t  valueIdx,
@@ -658,10 +697,10 @@ namespace Exiv2 {
         //! @name Write support (Accessors)
         //@{
         /*!
-          @brief Implements writeData(). Write the data area to the blob. Return
-                 the number of bytes written.
+          @brief Implements writeData(). Write the data area to the \em ioWrapper.
+                 Return the number of bytes written.
          */
-        virtual uint32_t doWriteData(Blob&     blob,
+        virtual uint32_t doWriteData(IoWrapper& ioWrapper,
                                      ByteOrder byteOrder,
                                      int32_t   offset,
                                      uint32_t  dataIdx,
@@ -701,7 +740,7 @@ namespace Exiv2 {
         TiffImageEntry(uint16_t tag, uint16_t group, uint16_t szTag, uint16_t szGroup)
             : TiffDataEntryBase(tag, group, szTag, szGroup) {}
         //! Virtual destructor.
-        virtual ~TiffImageEntry() {}
+        virtual ~TiffImageEntry();
         //@}
 
         //! @name Manipulators
@@ -723,10 +762,10 @@ namespace Exiv2 {
         //@{
         /*!
           @brief Implements write(). Write pointers into the image data area to the
-                 \em blob. Return the number of bytes written. The \em valueIdx
+                 \em ioWrapper. Return the number of bytes written. The \em valueIdx
                  and \em dataIdx  arguments are not used.
          */
-        virtual uint32_t doWrite(Blob&     blob,
+        virtual uint32_t doWrite(IoWrapper& ioWrapper,
                                  ByteOrder byteOrder,
                                  int32_t   offset,
                                  uint32_t  valueIdx,
@@ -736,23 +775,23 @@ namespace Exiv2 {
         //! @name Write support (Accessors)
         //@{
         /*!
-          @brief Implements writeData(). Write the image data area to the blob.
+          @brief Implements writeData(). Write the image data area to the \em ioWrapper.
                  Return the number of bytes written.
 
           This function writes the image data to the data area of the current
           directory. It is used for TIFF image entries in the makernote (large 
           preview images) so that the image data remains in the makernote IFD.
          */
-        virtual uint32_t doWriteData(Blob&     blob,
+        virtual uint32_t doWriteData(IoWrapper& ioWrapper,
                                      ByteOrder byteOrder,
                                      int32_t   offset,
                                      uint32_t  dataIdx,
                                      uint32_t& imageIdx) const;
         /*!
-          @brief Implements writeImage(). Write the image data area to the blob.
+          @brief Implements writeImage(). Write the image data area to the \em ioWrapper.
                  Return the number of bytes written.
          */
-        virtual uint32_t doWriteImage(Blob&     blob,
+        virtual uint32_t doWriteImage(IoWrapper& ioWrapper,
                                       ByteOrder byteOrder) const;
         //! Implements size(). Return the size of the strip pointers.
         virtual uint32_t doSize() const;
@@ -785,7 +824,7 @@ namespace Exiv2 {
         TiffSizeEntry(uint16_t tag, uint16_t group, uint16_t dtTag, uint16_t dtGroup)
             : TiffEntryBase(tag, group), dtTag_(dtTag), dtGroup_(dtGroup) {}
         //! Virtual destructor.
-        virtual ~TiffSizeEntry() {}
+        virtual ~TiffSizeEntry();
         //@}
 
         //! @name Accessors
@@ -816,7 +855,6 @@ namespace Exiv2 {
      */
     class TiffDirectory : public TiffComponent {
         friend class TiffEncoder;
-        friend class TiffPrinter;
     public:
         //! @name Creators
         //@{
@@ -836,7 +874,7 @@ namespace Exiv2 {
     protected:
         //! @name Manipulators
         //@{
-        virtual TiffComponent* doAddPath(uint16_t tag, TiffPath& tiffPath);
+        virtual TiffComponent* doAddPath(uint16_t tag, TiffPath& tiffPath, TiffComponent* const pRoot);
         virtual TiffComponent* doAddChild(TiffComponent::AutoPtr tiffComponent);
         virtual TiffComponent* doAddNext(TiffComponent::AutoPtr tiffComponent);
         virtual void doAccept(TiffVisitor& visitor);
@@ -846,10 +884,10 @@ namespace Exiv2 {
         //@{
         /*!
           @brief Implements write(). Write the TIFF directory, values and
-                 additional data, including the next-IFD, if any, to the blob,
-                 return the number of bytes written.
+                 additional data, including the next-IFD, if any, to the
+                 \em ioWrapper, return the number of bytes written.
          */
-        virtual uint32_t doWrite(Blob&     blob,
+        virtual uint32_t doWrite(IoWrapper& ioWrapper,
                                  ByteOrder byteOrder,
                                  int32_t   offset,
                                  uint32_t  valueIdx,
@@ -862,18 +900,18 @@ namespace Exiv2 {
           @brief This class does not really implement writeData(), it only has
                  write(). This method must not be called; it commits suicide.
          */
-        virtual uint32_t doWriteData(Blob&     blob,
+        virtual uint32_t doWriteData(IoWrapper& ioWrapper,
                                      ByteOrder byteOrder,
                                      int32_t   offset,
                                      uint32_t  dataIdx,
                                      uint32_t& imageIdx) const;
         /*!
           @brief Implements writeImage(). Write the image data of the TIFF
-                 directory to the blob by forwarding the call to each component
-                 as well as the next-IFD, if there is any. Return the number of
-                 bytes written.
+                 directory to the \em ioWrapper by forwarding the call to each
+                 component as well as the next-IFD, if there is any. Return the
+                 number of bytes written.
          */
-        virtual uint32_t doWriteImage(Blob&     blob,
+        virtual uint32_t doWriteImage(IoWrapper& ioWrapper,
                                       ByteOrder byteOrder) const;
         /*!
           @brief Implements size(). Return the size of the TIFF directory,
@@ -901,7 +939,7 @@ namespace Exiv2 {
         //! @name Accessors
         //@{
         //! Write a binary directory entry for a TIFF component.
-        uint32_t writeDirEntry(Blob&          blob,
+        uint32_t writeDirEntry(IoWrapper&     ioWrapper,
                                ByteOrder      byteOrder,
                                int32_t        offset,
                                TiffComponent* pTiffComponent,
@@ -939,7 +977,7 @@ namespace Exiv2 {
     protected:
         //! @name Manipulators
         //@{
-        virtual TiffComponent* doAddPath(uint16_t tag, TiffPath& tiffPath);
+        virtual TiffComponent* doAddPath(uint16_t tag, TiffPath& tiffPath, TiffComponent* const pRoot);
         virtual TiffComponent* doAddChild(TiffComponent::AutoPtr tiffComponent);
         virtual void doAccept(TiffVisitor& visitor);
         virtual void doEncode(TiffEncoder& encoder, const Exifdatum* datum);
@@ -948,11 +986,11 @@ namespace Exiv2 {
         //! @name Write support (Manipulators)
         //@{
         /*!
-          @brief Implements write(). Write the sub-IFD pointers to the \em blob,
+          @brief Implements write(). Write the sub-IFD pointers to the \em ioWrapper,
                  return the number of bytes written. The \em valueIdx and
                  \em imageIdx arguments are not used.
          */
-        virtual uint32_t doWrite(Blob&     blob,
+        virtual uint32_t doWrite(IoWrapper& ioWrapper,
                                  ByteOrder byteOrder,
                                  int32_t   offset,
                                  uint32_t  valueIdx,
@@ -962,19 +1000,19 @@ namespace Exiv2 {
         //! @name Write support (Accessors)
         //@{
         /*!
-          @brief Implements writeData(). Write the sub-IFDs to the blob. Return
-                 the number of bytes written.
+          @brief Implements writeData(). Write the sub-IFDs to the \em ioWrapper.
+                 Return the number of bytes written.
          */
-        virtual uint32_t doWriteData(Blob&     blob,
+        virtual uint32_t doWriteData(IoWrapper& ioWrapper,
                                      ByteOrder byteOrder,
                                      int32_t   offset,
                                      uint32_t  dataIdx,
                                      uint32_t& imageIdx) const;
         /*!
           @brief Implements writeImage(). Write the image data of each sub-IFD to
-                 the blob. Return the number of bytes written.
+                 the \em ioWrapper. Return the number of bytes written.
          */
-        virtual uint32_t doWriteImage(Blob&     blob,
+        virtual uint32_t doWriteImage(IoWrapper& ioWrapper,
                                       ByteOrder byteOrder) const;
         //! Implements size(). Return the size of the sub-Ifd pointers.
         uint32_t doSize() const;
@@ -1005,7 +1043,6 @@ namespace Exiv2 {
         friend class TiffReader;
         friend class TiffDecoder;
         friend class TiffEncoder;
-        friend class TiffPrinter;
     public:
         //! @name Creators
         //@{
@@ -1018,7 +1055,7 @@ namespace Exiv2 {
     protected:
         //! @name Manipulators
         //@{
-        virtual TiffComponent* doAddPath(uint16_t tag, TiffPath& tiffPath);
+        virtual TiffComponent* doAddPath(uint16_t tag, TiffPath& tiffPath, TiffComponent* const pRoot);
         virtual TiffComponent* doAddChild(TiffComponent::AutoPtr tiffComponent);
         virtual TiffComponent* doAddNext(TiffComponent::AutoPtr tiffComponent);
         virtual void doAccept(TiffVisitor& visitor);
@@ -1037,7 +1074,7 @@ namespace Exiv2 {
           @brief Implements write() by forwarding the call to the actual
                  concrete Makernote, if there is one.
          */
-        virtual uint32_t doWrite(Blob&     blob,
+        virtual uint32_t doWrite(IoWrapper& ioWrapper,
                                  ByteOrder byteOrder,
                                  int32_t   offset,
                                  uint32_t  valueIdx,
@@ -1065,55 +1102,100 @@ namespace Exiv2 {
     }; // class TiffMnEntry
 
     /*!
-      @brief Composite to model an array of tags, each consisting of values
-             of a given type. Canon and Minolta makernotes use such tags. The
-             elements of this component are of type TiffArrayElement.
+      @brief Tiff IFD Makernote. This is a concrete class suitable for all
+             IFD makernotes.
+
+             Contains a makernote header (which can be 0) and an IFD and
+             implements child mgmt functions to deal with the IFD entries. The
+             various makernote weirdnesses are taken care of in the makernote
+             header (and possibly in special purpose IFD entries).
      */
-    class TiffArrayEntry : public TiffEntryBase {
+    class TiffIfdMakernote : public TiffComponent {
+        friend class TiffReader;
     public:
         //! @name Creators
         //@{
-        //! Constructor
-        TiffArrayEntry(uint16_t tag,
-                       uint16_t group,
-                       uint16_t elGroup,
-                       TiffType elTiffType,
-                       bool     addSizeElement);
+        //! Default constructor
+        TiffIfdMakernote(uint16_t  tag,
+                         uint16_t  group,
+                         uint16_t  mnGroup,
+                         MnHeader* pHeader,
+                         bool      hasNext =true);
         //! Virtual destructor
-        virtual ~TiffArrayEntry();
+        virtual ~TiffIfdMakernote();
+        //@}
+
+        //! @name Manipulators
+        //@{
+        /*!
+          @brief Read the header from a data buffer, return true if successful.
+
+          The default implementation simply returns true.
+         */
+        bool readHeader(const byte* pData, uint32_t size, ByteOrder byteOrder);
+        /*!
+          @brief Set the byte order for the makernote.
+         */
+        void setByteOrder(ByteOrder byteOrder);
+        /*!
+          @brief Set the byte order used for the image.
+         */
+        void setImageByteOrder(ByteOrder byteOrder) { imageByteOrder_ = byteOrder; }
         //@}
 
         //! @name Accessors
         //@{
-        //! Return the size of the array elements
-        uint16_t  elSize()  const { return elSize_; }
-        //! Return the group for the array elements
-        uint16_t  elGroup() const { return elGroup_; }
+        //! Return the size of the header in bytes.
+        uint32_t sizeHeader() const;
+        //! Write the header to a data buffer, return the number of bytes written.
+        uint32_t writeHeader(IoWrapper& ioWrapper, ByteOrder byteOrder) const;
+        /*!
+          @brief Return the offset to the makernote from the start of the
+                 TIFF header.
+        */
+        uint32_t mnOffset() const;
+        /*!
+          @brief Return the offset to the start of the Makernote IFD from
+                 the start of the Makernote.
+                 Returns 0 if there is no header.
+         */
+        uint32_t ifdOffset() const;
+        /*!
+          @brief Return the byte order for the makernote. Requires the image
+                 byte order to be set (setImageByteOrder()).  Returns the byte
+                 order for the image if there is no header or the byte order for
+                 the header is \c invalidByteOrder.
+         */
+        ByteOrder byteOrder() const;
+        /*!
+          @brief Return the byte order used for the image.
+         */
+        ByteOrder imageByteOrder() const { return imageByteOrder_; }
+        /*!
+          @brief Return the base offset for use with the makernote IFD entries
+                 relative to the start of the TIFF header.
+                 Returns 0 if there is no header.
+         */
+        uint32_t baseOffset() const;
         //@}
 
     protected:
         //! @name Manipulators
         //@{
-        virtual TiffComponent* doAddPath(uint16_t tag, TiffPath& tiffPath);
+        virtual TiffComponent* doAddPath(uint16_t tag, TiffPath& tiffPath, TiffComponent* const pRoot);
         virtual TiffComponent* doAddChild(TiffComponent::AutoPtr tiffComponent);
+        virtual TiffComponent* doAddNext(TiffComponent::AutoPtr tiffComponent);
         virtual void doAccept(TiffVisitor& visitor);
-        virtual void doEncode(TiffEncoder& encoder, const Exifdatum* datum);
-        //@}
-
-        //! @name Accessors
-        //@{
-        //! Implements count(). Return number of components in the entry.
-        virtual uint32_t doCount() const;
         //@}
 
         //! @name Write support (Manipulators)
         //@{
         /*!
-          @brief Implements write(). Write each component, fill gaps with 0s.
-                 Check for duplicate tags and throw Error(50) if any are
-                 detected.
+          @brief Implements write(). Write the Makernote header, TIFF directory,
+                 values and additional data to the \em ioWrapper, return the
+                 number of bytes written.
          */
-        virtual uint32_t doWrite(Blob&     blob,
+        virtual uint32_t doWrite(IoWrapper& ioWrapper,
                                  ByteOrder byteOrder,
                                  int32_t   offset,
                                  uint32_t  valueIdx,
@@ -1122,10 +1204,202 @@ namespace Exiv2 {
         //@}
         //! @name Write support (Accessors)
         //@{
+        /*!
+          @brief This class does not really implement writeData(), it only has
+                 write(). This method must not be called; it commits suicide.
+         */
+        virtual uint32_t doWriteData(IoWrapper& ioWrapper,
+                                     ByteOrder byteOrder,
+                                     int32_t   offset,
+                                     uint32_t  dataIdx,
+                                     uint32_t& imageIdx) const;
+        /*!
+          @brief Implements writeImage(). Write the image data of the IFD of
+                 the Makernote. Return the number of bytes written.
+         */
+        virtual uint32_t doWriteImage(IoWrapper& ioWrapper,
+                                      ByteOrder byteOrder) const;
+        /*!
+          @brief Implements size(). Return the size of the Makernote header,
+                 TIFF directory, values and additional data.
+         */
+        virtual uint32_t doSize() const;
+        /*!
+          @brief Implements count(). Return the number of entries in the IFD
+                 of the Makernote. Does not count entries which are marked as
+                 deleted.
+         */
+        virtual uint32_t doCount() const;
+        /*!
+          @brief This class does not really implement sizeData(), it only has
+                 size(). This method must not be called; it commits suicide.
+         */
+        virtual uint32_t doSizeData() const;
+        /*!
+          @brief Implements sizeImage(). Return the total image data size of the
+                 makernote IFD.
+         */
+        virtual uint32_t doSizeImage() const;
+        //@}
+
+    private:
+        // DATA
+        MnHeader*     pHeader_;                 //!< Makernote header
+        TiffDirectory ifd_;                     //!< Makernote IFD
+        uint32_t      mnOffset_;                //!< Makernote offset
+        ByteOrder     imageByteOrder_;          //!< Byte order for the image
+
+    }; // class TiffIfdMakernote
+
+    /*!
+      @brief Function pointer type for a function to determine which cfg + def
+             of a corresponding array set to use.
+     */
+    typedef int (*CfgSelFct)(uint16_t, const byte*, uint32_t, TiffComponent* const);
+
+    //! Function pointer type for a crypt function used for binary arrays.
+    typedef DataBuf (*CryptFct)(uint16_t, const byte*, uint32_t, TiffComponent* const);
+
+    //! Defines one tag in a binary array
+    // Todo: multiple tags in one byte - mask
+    // Todo: There cannot be any gaps in the definition! see addElement() CHECK: IS THAT STILL TRUE???
+    struct ArrayDef {
+        //! Comparison with idx
+        bool operator==(uint32_t idx) const { return idx_ == idx; }
+        //! Get the size in bytes of a tag.
+        uint32_t size(uint16_t tag, uint16_t group) const;
+        // DATA
+        uint32_t idx_;             //!< Index in bytes from the start
+        TiffType tiffType_;        //!< TIFF type of the element
+        uint32_t count_;           //!< Number of components
+    };
+
+    //! Additional configuration for a binary array.
+    struct ArrayCfg {
+        /*!
+          @brief Return the size of the default tag, which is used
+                 to calculate tag numbers as idx/tagStep
+         */
+        uint32_t tagStep() const { return elDefaultDef_.size(0, group_); }
+        //DATA
+        uint16_t    group_;        //!< Group for the elements
+        ByteOrder   byteOrder_;    //!< Byte order, invalidByteOrder to inherit
+        TiffType    elTiffType_;   //!< Type for the array entry and the size element, if any
+        CryptFct    cryptFct_;     //!< Crypt function, 0 if not used
+        bool        hasSize_;      //!< If true, first tag is the size element
+        bool        hasFillers_;   //!< If true, write all defined tags
+        ArrayDef    elDefaultDef_; //!< Default element
+    };
+
+    //! Combination of array configuration and definition for arrays
+    struct ArraySet {
+        const ArrayCfg  cfg_;      //!< Binary array configuration
+        const ArrayDef* def_;      //!< Binary array definition array
+        const int       defSize_;  //!< Size of the array definition array
+    };
+
+    /*!
+      @brief Composite to model an array of different tags. The tag types as well
+             as other aspects of the array are configurable. The elements of this
+             component are of type TiffBinaryElement.
+     */
+    class TiffBinaryArray : public TiffEntryBase {
+    public:
+        //! @name Creators
+        //@{
+        //! Constructor
+        TiffBinaryArray(uint16_t tag,
+                        uint16_t group,
+                        const ArrayCfg* arrayCfg,
+                        const ArrayDef* arrayDef,
+                        int defSize);
+        //! Constructor for a complex binary array
+        TiffBinaryArray(uint16_t tag,
+                        uint16_t group,
+                        const ArraySet* arraySet,
+                        int setSize,
+                        CfgSelFct cfgSelFct);
+        //! Virtual destructor
+        virtual ~TiffBinaryArray();
+        //@}
+
+        //! @name Manipulators
+        //@{
+        //! Add an element to the binary array, return the size of the element
+        uint32_t addElement(uint32_t idx, const ArrayDef* def);
+        /*!
+          @brief Setup cfg and def for the component, in case of a complex binary array.
+                 Else do nothing. Return true if the initialization succeeded, else false.
+
+          This version of initialize() is used during intrusive writing. It determines the
+          correct settings based on the \em group passed in (which is the group of the first
+          tag that is added to the array). It doesn't require cfgSelFct_.
+
+          @param group Group to setup the binary array for.
+          @return true if the initialization succeeded, else false.
+         */
+        bool initialize(uint16_t group);
+        /*!
+          @brief Setup cfg and def for the component, in case of a complex binary array.
+                 Else do nothing. Return true if the initialization succeeded, else false.
+
+          This version of initialize() is used for reading and non-intrusive writing. It
+          calls cfgSelFct_ to determine the correct settings.
+
+          @param pRoot Pointer to the root component of the TIFF tree.
+          @return true if the initialization succeeded, else false.
+         */
+        bool initialize(TiffComponent* const pRoot);
+        //! Initialize the original data buffer and its size from the base entry.
+        void iniOrigDataBuf();
+        //! Update the original data buffer and its size, return true if successful.
+        bool updOrigDataBuf(const byte* pData, uint32_t size);
+        //@}
+
+        //! @name Accessors
+        //@{
+        //! Return a pointer to the configuration
+        const ArrayCfg* cfg() const { return arrayCfg_; }
+        //! Return a pointer to the definition
+        const ArrayDef* def() const { return arrayDef_; }
+        //! Return the number of elements in the definition
+        int defSize() const { return defSize_; }
+        //@}
+
+    protected:
+        //! @name Manipulators
+        //@{
+        virtual TiffComponent* doAddPath(uint16_t tag, TiffPath& tiffPath, TiffComponent* const pRoot);
+        virtual TiffComponent* doAddChild(TiffComponent::AutoPtr tiffComponent);
+        virtual void doAccept(TiffVisitor& visitor);
+        virtual void doEncode(TiffEncoder& encoder, const Exifdatum* datum);
+        //@}
+
+        //! @name Accessors
+        //@{
+        //! Implements count(). Todo: Document it!
+        virtual uint32_t doCount() const;
+        //@}
+
+        //! @name Write support (Manipulators)
+        //@{
+        /*!
+          @brief Implements write(). Todo: Document it!
+         */
+        virtual uint32_t doWrite(IoWrapper& ioWrapper,
+                                 ByteOrder byteOrder,
+                                 int32_t   offset,
+                                 uint32_t  valueIdx,
+                                 uint32_t  dataIdx,
+                                 uint32_t& imageIdx);
+        //@}
+
+        //! @name Write support (Accessors)
+        //@{
         // Using doWriteData from base class
         // Using doWriteImage from base class
         /*!
-          @brief Implements size().
+          @brief Implements size(). Todo: Document it!
          */
         virtual uint32_t doSize() const;
         // Using doSizeData from base class
@@ -1134,36 +1408,42 @@ namespace Exiv2 {
 
     private:
         // DATA
-        uint16_t   elSize_;         //!< Size of the array elements (in bytes)
-        uint16_t   elGroup_;        //!< Group for the elements
-        bool       addSizeElement_; //!< Indicates size needs to be provided in the first element
+        const CfgSelFct cfgSelFct_; //!< Pointer to a function to determine which cfg to use (may be 0)
+        const ArraySet* arraySet_;  //!< Pointer to the array set, if any (may be 0)
+        const ArrayCfg* arrayCfg_;  //!< Pointer to the array configuration (must not be 0)
+        const ArrayDef* arrayDef_;  //!< Pointer to the array definition (may be 0)
+        int defSize_;               //!< Size of the array definition array (may be 0)
+        int setSize_;               //!< Size of the array set (may be 0)
         Components elements_;       //!< List of elements in this composite
-    }; // class TiffArrayEntry
+        byte* origData_;            //!< Pointer to the original data buffer (unencrypted)
+        uint32_t origSize_;         //!< Size of the original data buffer
+        TiffComponent* pRoot_;      //!< Pointer to the root component of the TIFF tree. (Only used for intrusive writing.)
+    }; // class TiffBinaryArray
 
     /*!
-      @brief Element of a TiffArrayEntry. The value of all elements of a TiffArrayEntry
-             must be of the same type. Canon and Minolta makernotes use such arrays.
+      @brief Element of a TiffBinaryArray.
      */
-    class TiffArrayElement : public TiffEntryBase {
+    class TiffBinaryElement : public TiffEntryBase {
     public:
         //! @name Creators
         //@{
         //! Constructor
-        TiffArrayElement(uint16_t  tag,
-                         uint16_t  group,
-                         TiffType  elTiffType,
-                         ByteOrder elByteOrder)
-            : TiffEntryBase(tag, group),
-              elTiffType_(elTiffType),
-              elByteOrder_(elByteOrder) {}
+        TiffBinaryElement(uint16_t tag,
+                          uint16_t group);
         //! Virtual destructor.
-        virtual ~TiffArrayElement() {}
+        virtual ~TiffBinaryElement();
         //@}
 
         //! @name Accessors
         //@{
-        TiffType  elTiffType()  const { return elTiffType_; }
-        ByteOrder elByteOrder() const { return elByteOrder_; }
+        void setElDef(const ArrayDef* def) { elDef_ = def; }
+        void setElByteOrder(ByteOrder byteOrder) { elByteOrder_ = byteOrder; }
+        //@}
+
+        //! @name Accessors
+        //@{
+        const ArrayDef* elDef()       const { return elDef_; }
+        ByteOrder       elByteOrder() const { return elByteOrder_; }
         //@}
 
     protected:
@@ -1173,32 +1453,46 @@ namespace Exiv2 {
         virtual void doEncode(TiffEncoder& encoder, const Exifdatum* datum);
         //@}
 
+        //! @name Accessors
+        //@{
+        /*!
+          @brief Implements count(). Returns the count from the element definition.
+         */
+        virtual uint32_t doCount() const;
+        //@}
+
         //! @name Write support (Manipulators)
         //@{
         /*!
-          @brief Implements write(). Write the value using the element specific
-                 byte order, if any. Make sure the value is of the correct type,
-                 else throw Error(51).
+          @brief Implements write(). Todo: Document it!
          */
-        virtual uint32_t doWrite(Blob&     blob,
+        virtual uint32_t doWrite(IoWrapper& ioWrapper,
                                  ByteOrder byteOrder,
                                  int32_t   offset,
                                  uint32_t  valueIdx,
                                  uint32_t  dataIdx,
                                  uint32_t& imageIdx);
         //@}
+
+        //! @name Write support (Accessors)
+        //@{
         // Using doWriteData from base class
         // Using doWriteImage from base class
-        // Using doSize from base class
+        /*!
+          @brief Implements size(). Returns count * type-size, both taken from
+                 the element definition.
+         */
+        virtual uint32_t doSize() const;
         // Using doSizeData from base class
         // Using doSizeImage from base class
+        //@}
 
     private:
         // DATA
-        TiffType  elTiffType_;    //!< TIFF type of the element
-        ByteOrder elByteOrder_;   //!< Byte order to read/write the element
+        const ArrayDef* elDef_;  //!< Pointer to the array element definition
+        ByteOrder elByteOrder_;  //!< Byte order to read/write the element
 
-    }; // class TiffArrayElement
+    }; // class TiffBinaryElement
 
 // *****************************************************************************
 // template, inline and free functions
@@ -1221,6 +1515,9 @@ namespace Exiv2 {
     //! Function to create and initialize a new TIFF makernote entry
     TiffComponent::AutoPtr newTiffMnEntry(uint16_t tag, uint16_t group);
 
+    //! Function to create and initialize a new binary array element
+    TiffComponent::AutoPtr newTiffBinaryElement(uint16_t tag, uint16_t group);
+
     //! Function to create and initialize a new TIFF directory
     template<uint16_t newGroup>
     TiffComponent::AutoPtr newTiffDirectory(uint16_t tag, uint16_t /*group*/)
@@ -1235,26 +1532,28 @@ namespace Exiv2 {
         return TiffComponent::AutoPtr(new TiffSubIfd(tag, group, newGroup));
     }
 
-    //! Function to create and initialize a new array entry
-    template<uint16_t newGroup, TiffType tiffType, bool addSizeElement>
-    TiffComponent::AutoPtr newTiffArrayEntry(uint16_t tag, uint16_t group)
+    //! Function to create and initialize a new binary array entry
+    template<const ArrayCfg* arrayCfg, int N, const ArrayDef (&arrayDef)[N]>
+    TiffComponent::AutoPtr newTiffBinaryArray(uint16_t tag, uint16_t group)
     {
         return TiffComponent::AutoPtr(
-            new TiffArrayEntry(tag, group, newGroup, tiffType, addSizeElement));
+            new TiffBinaryArray(tag, group, arrayCfg, arrayDef, N));
     }
 
-    //! Function to create and initialize a new array element
-    template<TiffType tiffType, ByteOrder byteOrder>
-    TiffComponent::AutoPtr newTiffArrayElement(uint16_t tag, uint16_t group)
+    //! Function to create and initialize a new simple binary array entry
+    template<const ArrayCfg* arrayCfg>
+    TiffComponent::AutoPtr newTiffBinaryArray(uint16_t tag, uint16_t group)
     {
         return TiffComponent::AutoPtr(
-            new TiffArrayElement(tag, group, tiffType, byteOrder));
+            new TiffBinaryArray(tag, group, arrayCfg, 0, 0));
     }
 
-    template<TiffType tiffType>
-    TiffComponent::AutoPtr newTiffArrayElement(uint16_t tag, uint16_t group)
+    //! Function to create and initialize a new complex binary array entry
+    template<const ArraySet* arraySet, int N, CfgSelFct cfgSelFct>
+    TiffComponent::AutoPtr newTiffBinaryArray2(uint16_t tag, uint16_t group)
     {
-        return newTiffArrayElement<tiffType, invalidByteOrder>(tag, group);
+        return TiffComponent::AutoPtr(
+            new TiffBinaryArray(tag, group, arraySet, N, cfgSelFct));
     }
 
     //! Function to create and initialize a new TIFF entry for a thumbnail (data)

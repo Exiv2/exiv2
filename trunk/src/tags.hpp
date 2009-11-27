@@ -406,16 +406,16 @@ namespace Exiv2 {
 
         //! @name Accessors
         //@{
-        virtual std::string key() const { return key_; }
-        virtual const char* familyName() const { return familyName_; }
+        virtual std::string key() const;
+        virtual const char* familyName() const;
         /*!
           @brief Return the name of the group (the second part of the key).
                  For Exif keys, the group name is the IFD item.
         */
-        virtual std::string groupName() const { return ifdItem(); }
+        virtual std::string groupName() const;
         virtual std::string tagName() const;
         virtual std::string tagLabel() const;
-        virtual uint16_t tag() const { return tag_; }
+        virtual uint16_t tag() const;
 
         AutoPtr clone() const;
         //! Return the IFD id

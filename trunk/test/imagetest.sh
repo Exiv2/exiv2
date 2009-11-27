@@ -15,7 +15,7 @@ eraseTest()
 
     #check results
     diffCheck $test $good
-    echo -n "."
+    printf "."
 }
 
 copyTest()
@@ -34,7 +34,7 @@ copyTest()
 
     #check results
     diffCheck $test $good
-    echo -n "."
+    printf "."
 }
 
 iptcTest()
@@ -53,7 +53,7 @@ iptcTest()
 
     #check results
     diffCheck $test $good
-    echo -n "."
+    printf "."
 }
 
 
@@ -102,11 +102,11 @@ errors=0
 cd ./tmp
 echo
 
-echo -n "Erase all tests"
+printf "Erase all tests"
 for i in $test_files $erase_test_files; do eraseTest $i; done
 
 echo
-echo -n "Copy all tests"
+printf "Copy all tests"
 c=0
 for src in $test_files; do
     c=`expr $c + 1`
@@ -114,14 +114,14 @@ for src in $test_files; do
 done
 
 echo
-echo -n "Copy iptc tests"
+printf "Copy iptc tests"
 c=0
 for src in $test_files; do
     c=`expr $c + 1`
     for dst in $test_files; do iptcTest $c $src $dst; done
 done
 
-echo -e "\n---------------------------------------------------------"
+printf "\n---------------------------------------------------------\n"
 if [ $errors -eq 0 ]; then
    echo 'All test cases passed'
 else

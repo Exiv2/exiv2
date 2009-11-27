@@ -294,7 +294,7 @@ namespace Exiv2 {
         //@}
         //! @name Accessors
         //@{
-        std::string mimeType() const { return "image/jpeg"; }
+        std::string mimeType() const;
         //@}
 
     protected:
@@ -355,7 +355,7 @@ namespace Exiv2 {
         //@}
         //! @name Accessors
         //@{
-        std::string mimeType() const { return "image/x-exv"; }
+        std::string mimeType() const;
         //@}
 
     protected:

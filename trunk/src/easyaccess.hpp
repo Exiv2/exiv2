@@ -56,6 +56,14 @@ namespace Exiv2 {
     EXIV2API ExifData::const_iterator whiteBalance(const ExifData& ed);
     //! Return the name of the lens used
     EXIV2API ExifData::const_iterator lensName(const ExifData& ed);
+    //! Return the saturation level
+    EXIV2API ExifData::const_iterator saturation(const ExifData& ed);
+    //! Return the sharpness level
+    EXIV2API ExifData::const_iterator sharpness(const ExifData& ed);
+    //! Return the contrast level
+    EXIV2API ExifData::const_iterator contrast(const ExifData& ed);
+    //! Return the scene capture type
+    EXIV2API ExifData::const_iterator sceneCaptureType(const ExifData& ed);
 
 } // namespace Exiv2
 

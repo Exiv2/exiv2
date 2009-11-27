@@ -110,6 +110,28 @@ namespace Exiv2 {
     public:
         //! Return read-only list of built-in Nikon3 tags
         static const TagInfo* tagList();
+        //! Return read-only list of built-in World time tags
+        static const TagInfo* tagListWt();
+        //! Return read-only list of built-in ISO info tags
+        static const TagInfo* tagListIi();
+        //! Return read-only list of built-in Color Balance 1 tags
+        static const TagInfo* tagListCb1();
+        //! Return read-only list of built-in Color Balance 2 tags
+        static const TagInfo* tagListCb2();
+        //! Return read-only list of built-in Color Balance 2a tags
+        static const TagInfo* tagListCb2a();
+        //! Return read-only list of built-in Color Balance 2b tags
+        static const TagInfo* tagListCb2b();
+        //! Return read-only list of built-in Color Balance 3 tags
+        static const TagInfo* tagListCb3();
+        //! Return read-only list of built-in Color Balance 4 tags
+        static const TagInfo* tagListCb4();
+        //! Return read-only list of built-in Lens Data 1 tags
+        static const TagInfo* tagListLd1();
+        //! Return read-only list of built-in Lens Data 2 tags
+        static const TagInfo* tagListLd2();
+        //! Return read-only list of built-in Lens Data 3 tags
+        static const TagInfo* tagListLd3();
 
         //! @name Print functions for Nikon3 %MakerNote tags
         //@{
@@ -131,17 +153,46 @@ namespace Exiv2 {
         static std::ostream& print0x0089(std::ostream& os, const Value& value, const ExifData* metadata);
         //! Print number of lens stops
         static std::ostream& print0x008b(std::ostream& os, const Value& value, const ExifData*);
-        //! Print number of lens data
-        static std::ostream& print0x0098(std::ostream& os, const Value& value, const ExifData*);
+
+        //! Print lens name
+        static std::ostream& printLensId(std::ostream& os, const Value& value, const ExifData* metadata, const std::string& group);
+        static std::ostream& printLensId1(std::ostream& os, const Value& value, const ExifData* metadata);
+        static std::ostream& printLensId2(std::ostream& os, const Value& value, const ExifData* metadata);
+        static std::ostream& printLensId3(std::ostream& os, const Value& value, const ExifData* metadata);
+
         //! Print sensor pixel size
         static std::ostream& print0x009a(std::ostream& os, const Value& value, const ExifData*);
         //! Print retouch history
         static std::ostream& print0x009e(std::ostream& os, const Value& value, const ExifData*);
+        //! Print Exif.NikonIi.ISO(2)
+        static std::ostream& printIiIso(std::ostream& os, const Value& value, const ExifData*);
         //@}
 
     private:
         //! Tag information
         static const TagInfo tagInfo_[];
+        //! World Time tag information
+        static const TagInfo tagInfoWt_[];
+        //! ISO info tag information
+        static const TagInfo tagInfoIi_[];
+        //! Color Balance 1 tag information
+        static const TagInfo tagInfoCb1_[];
+        //! Color Balance 2 tag information
+        static const TagInfo tagInfoCb2_[];
+        //! Color Balance 2a tag information
+        static const TagInfo tagInfoCb2a_[];
+        //! Color Balance 2b tag information
+        static const TagInfo tagInfoCb2b_[];
+        //! Color Balance 3 tag information
+        static const TagInfo tagInfoCb3_[];
+        //! Color Balance 4 tag information
+        static const TagInfo tagInfoCb4_[];
+        //! Lens Data 1 tag information
+        static const TagInfo tagInfoLd1_[];
+        //! Lens Data 2 tag information
+        static const TagInfo tagInfoLd2_[];
+        //! Lens Data 3 tag information
+        static const TagInfo tagInfoLd3_[];
 
     }; // class Nikon3MakerNote
 

@@ -274,15 +274,9 @@ namespace Exiv2 {
           This method is provided mostly for convenient and versatile output of
           the value which can (to some extent) be formatted through standard
           stream manipulators.  Do not attempt to write to the value through
-          this reference.
-
-          <b>Example:</b> <br>
-          @code
-          ExifData::const_iterator i = exifData.findKey(key);
-          if (i != exifData.end()) {
-              std::cout << i->key() << " " << std::hex << i->value() << "\n";
-          }
-          @endcode
+          this reference. An Error is thrown if the value is not set; as an
+          alternative to catching it, one can use count() to check if there
+          is any data before calling this method.
 
           @return A constant reference to the value.
           @throw Error if the value is not set.
@@ -301,23 +295,6 @@ namespace Exiv2 {
         //@}
 
     }; // class Metadatum
-
-    //! Unary predicate that matches a Exifdatum with a given key
-    class EXIV2API FindMetadatumByKey {
-    public:
-        //! Constructor, initializes the object with the key to look for
-        FindMetadatumByKey(const std::string& key) : key_(key) {}
-        /*!
-          @brief Returns true if the key of the argument metadatum is equal
-          to that of the object.
-        */
-        bool operator()(const Metadatum& metadatum) const
-            { return key_ == metadatum.key(); }
-
-    private:
-        std::string key_;
-
-    }; // class FindMetadatumByKey
 
     /*!
       @brief Output operator for Metadatum types, writing the interpreted

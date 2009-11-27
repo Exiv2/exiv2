@@ -60,6 +60,7 @@ EXIV2_RCSID("@(#) $Id$")
 #include "bmpimage.hpp"
 #include "jp2image.hpp"
 #include "rw2image.hpp"
+#include "pgfimage.hpp"
 #include "xmpsidecar.hpp"
 
 // + standard includes
@@ -117,6 +118,7 @@ namespace {
         { ImageType::bmp,  newBmpInstance,  isBmpType,  amNone,      amNone,      amNone,      amNone      },
         { ImageType::jp2,  newJp2Instance,  isJp2Type,  amReadWrite, amReadWrite, amReadWrite, amNone      },
         { ImageType::rw2,  newRw2Instance,  isRw2Type,  amRead,      amRead,      amRead,      amNone      },
+        { ImageType::pgf,  newPgfInstance,  isPgfType,  amReadWrite, amReadWrite, amReadWrite, amReadWrite },
         // End of list marker
         { ImageType::none, 0,               0,          amNone,      amNone,      amNone,      amNone      }
     };
@@ -144,6 +146,10 @@ namespace Exiv2 {
     {
     }
 
+    Image::~Image()
+    {
+    }
+
     void Image::clearMetadata()
     {
         clearExifData();
@@ -151,6 +157,26 @@ namespace Exiv2 {
         clearXmpPacket();
         clearXmpData();
         clearComment();
+    }
+
+    ExifData& Image::exifData()
+    {
+        return exifData_;
+    }
+
+    IptcData& Image::iptcData()
+    {
+        return iptcData_;
+    }
+
+    XmpData& Image::xmpData()
+    {
+        return xmpData_;
+    }
+
+    std::string& Image::xmpPacket()
+    {
+        return xmpPacket_;
     }
 
     void Image::setMetadata(const Image& image)
@@ -228,6 +254,56 @@ namespace Exiv2 {
         byteOrder_ = byteOrder;
     }
 
+    ByteOrder Image::byteOrder() const
+    {
+        return byteOrder_;
+    }
+
+    int Image::pixelWidth() const
+    {
+        return pixelWidth_;
+    }
+
+    int Image::pixelHeight() const
+    {
+        return pixelHeight_;
+    }
+
+    const ExifData& Image::exifData() const
+    {
+        return exifData_;
+    }
+
+    const IptcData& Image::iptcData() const
+    {
+        return iptcData_;
+    }
+
+    const XmpData& Image::xmpData() const
+    {
+        return xmpData_;
+    }
+
+    std::string Image::comment() const
+    {
+        return comment_;
+    }
+
+    const std::string& Image::xmpPacket() const
+    {
+        return xmpPacket_;
+    }
+
+    BasicIo& Image::io() const
+    {
+        return *io_;
+    }
+
+    bool Image::writeXmpFromPacket() const
+    {
+        return writeXmpFromPacket_;
+    }
+
     bool Image::good() const
     {
         if (io_->open() != 0) return false;
@@ -285,6 +361,14 @@ namespace Exiv2 {
         return getType(fileIo);
     }
 
+#ifdef EXV_UNICODE_PATH
+    int ImageFactory::getType(const std::wstring& wpath)
+    {
+        FileIo fileIo(wpath);
+        return getType(fileIo);
+    }
+
+#endif
     int ImageFactory::getType(const byte* data, long size)
     {
         MemIo memIo(data, size);
@@ -311,6 +395,16 @@ namespace Exiv2 {
         return image;
     }
 
+#ifdef EXV_UNICODE_PATH
+    Image::AutoPtr ImageFactory::open(const std::wstring& wpath)
+    {
+        BasicIo::AutoPtr io(new FileIo(wpath));
+        Image::AutoPtr image = open(io); // may throw
+        if (image.get() == 0) throw Error(11, ws2s(wpath));
+        return image;
+    }
+
+#endif
     Image::AutoPtr ImageFactory::open(const byte* data, long size)
     {
         BasicIo::AutoPtr io(new MemIo(data, size));
@@ -347,6 +441,23 @@ namespace Exiv2 {
         return image;
     }
 
+#ifdef EXV_UNICODE_PATH
+    Image::AutoPtr ImageFactory::create(int type,
+                                        const std::wstring& wpath)
+    {
+        std::auto_ptr<FileIo> fileIo(new FileIo(wpath));
+        // Create or overwrite the file, then close it
+        if (fileIo->open("w+b") != 0) {
+            throw Error(10, ws2s(wpath), "w+b", strError());
+        }
+        fileIo->close();
+        BasicIo::AutoPtr io(fileIo);
+        Image::AutoPtr image = create(type, io);
+        if (image.get() == 0) throw Error(13, type);
+        return image;
+    }
+
+#endif
     Image::AutoPtr ImageFactory::create(int type)
     {
         BasicIo::AutoPtr io(new MemIo);

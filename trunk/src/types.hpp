@@ -52,6 +52,11 @@
 # include <stdint.h>
 #endif
 
+// MSVC macro to convert a string to a wide string
+#ifdef EXV_UNICODE_PATH
+# define EXV_WIDEN(t) L ## t
+#endif
+
 // MSVC doesn't provide C99 types, but it has MS specific variants
 #ifdef _MSC_VER
 typedef unsigned __int8  uint8_t;
@@ -139,11 +144,14 @@ namespace Exiv2 {
                  subImage1Id, subImage2Id, subImage3Id, subImage4Id,
                  mnIfdId,
                  canonIfdId, canonCsIfdId, canonSiIfdId, canonCfIfdId,
-                 canonPiIfdId, canonPaIfdId,
+                 canonPiIfdId, canonPaIfdId, canonFiIfdId,
                  fujiIfdId,
                  minoltaIfdId, minoltaCs5DIfdId, minoltaCs7DIfdId,
                  minoltaCsOldIfdId, minoltaCsNewIfdId,
-                 nikon1IfdId, nikon2IfdId, nikon3IfdId, nikonPvIfdId,
+                 nikon1IfdId, nikon2IfdId, nikon3IfdId, nikonPvIfdId, nikonWtIfdId,
+                 nikonIiIfdId, nikonLd1IfdId, nikonLd2IfdId, nikonLd3IfdId,
+                 nikonCb1IfdId, nikonCb2IfdId, nikonCb2aIfdId, nikonCb2bIfdId,
+                 nikonCb3IfdId, nikonCb4IfdId,
                  olympusIfdId, olympus2IfdId, olympusCsIfdId, olympusEqIfdId,
                  olympusRdIfdId, olympusRd2IfdId, olympusIpIfdId, olympusFiIfdId,
                  olympusFe1IfdId, olympusFe2IfdId, olympusFe3IfdId, olympusFe4IfdId,
@@ -346,6 +354,13 @@ namespace Exiv2 {
      */
     EXIV2API const char* exvGettext(const char* str);
 
+#ifdef EXV_UNICODE_PATH
+    //! Convert an std::string s to a unicode string returned as a std::wstring.
+    EXIV2API std::wstring s2ws(const std::string& s);
+    //! Convert a unicode std::wstring s to an std::string.
+    EXIV2API std::string ws2s(const std::wstring& s);
+
+#endif
     /*!
       @brief Return a \em long set to the value represented by \em s.
 

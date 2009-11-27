@@ -77,7 +77,7 @@ namespace Action {
         //! Shortcut for an auto pointer.
         typedef std::auto_ptr<Task> AutoPtr;
         //! Virtual destructor.
-        virtual ~Task() {}
+        virtual ~Task();
         //! Virtual copy construction.
         AutoPtr clone() const;
         /*!
@@ -157,7 +157,7 @@ namespace Action {
     //! %Print the Exif (or other metadata) of a file to stdout
     class Print : public Task {
     public:
-        virtual ~Print() {}
+        virtual ~Print();
         virtual int run(const std::string& path);
         typedef std::auto_ptr<Print> AutoPtr;
         AutoPtr clone() const;
@@ -208,7 +208,7 @@ namespace Action {
      */
     class Rename : public Task {
     public:
-        virtual ~Rename() {}
+        virtual ~Rename();
         virtual int run(const std::string& path);
         typedef std::auto_ptr<Rename> AutoPtr;
         AutoPtr clone() const;
@@ -220,7 +220,7 @@ namespace Action {
     //! %Adjust the Exif (or other metadata) timestamps
     class Adjust : public Task {
     public:
-        virtual ~Adjust() {}
+        virtual ~Adjust();
         virtual int run(const std::string& path);
         typedef std::auto_ptr<Adjust> AutoPtr;
         AutoPtr clone() const;
@@ -243,7 +243,7 @@ namespace Action {
      */
     class Erase : public Task {
     public:
-        virtual ~Erase() {}
+        virtual ~Erase();
         virtual int run(const std::string& path);
         typedef std::auto_ptr<Erase> AutoPtr;
         AutoPtr clone() const;
@@ -280,7 +280,7 @@ namespace Action {
      */
     class Extract : public Task {
     public:
-        virtual ~Extract() {}
+        virtual ~Extract();
         virtual int run(const std::string& path);
         typedef std::auto_ptr<Extract> AutoPtr;
         AutoPtr clone() const;
@@ -315,7 +315,7 @@ namespace Action {
      */
     class Insert : public Task {
     public:
-        virtual ~Insert() {}
+        virtual ~Insert();
         virtual int run(const std::string& path);
         typedef std::auto_ptr<Insert> AutoPtr;
         AutoPtr clone() const;
@@ -344,7 +344,7 @@ namespace Action {
      */
     class Modify : public Task {
     public:
-        virtual ~Modify() {}
+        virtual ~Modify();
         virtual int run(const std::string& path);
         typedef std::auto_ptr<Modify> AutoPtr;
         AutoPtr clone() const;
@@ -377,7 +377,7 @@ namespace Action {
      */
     class FixIso : public Task {
     public:
-        virtual ~FixIso() {}
+        virtual ~FixIso();
         virtual int run(const std::string& path);
         typedef std::auto_ptr<FixIso> AutoPtr;
         AutoPtr clone() const;

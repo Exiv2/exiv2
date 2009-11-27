@@ -101,7 +101,8 @@ $exiv2 -pt $filename
 
 # ----------------------------------------------------------------------
 # Evaluate results
-cat $results | tr -d '\r' > $results-stripped
+#cat $results | tr -d '\r' > $results-stripped
+cp $results $results-stripped
 diff -q $results-stripped $good
 rc=$?
 if [ $rc -eq 0 ] ; then

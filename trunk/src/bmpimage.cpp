@@ -57,6 +57,11 @@ namespace Exiv2 {
     {
     } // BmpImage::BmpImage
 
+    std::string BmpImage::mimeType() const
+    {
+        return "image/x-ms-bmp";
+    }
+
     void BmpImage::setExifData(const ExifData& /*exifData*/)
     {
         // Todo: implement me!

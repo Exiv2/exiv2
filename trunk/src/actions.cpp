@@ -167,6 +167,10 @@ namespace {
 // class member definitions
 namespace Action {
 
+    Task::~Task()
+    {
+    }
+
     Task::AutoPtr Task::clone() const
     {
         return AutoPtr(clone_());
@@ -225,6 +229,10 @@ namespace Action {
         }
         return Task::AutoPtr(0);
     } // TaskFactory::create
+
+    Print::~Print()
+    {
+    }
 
     int Print::run(const std::string& path)
     try {
@@ -293,7 +301,7 @@ namespace Action {
 
         // Image number
         // Todo: Image number for cameras other than Canon
-        printTag(exifData, "Exif.Canon.ImageNumber", _("Image number"));
+        printTag(exifData, "Exif.Canon.FileNumber", _("Image number"));
 
         // Exposure time
         // From ExposureTime, failing that, try ShutterSpeedValue
@@ -705,6 +713,10 @@ namespace Action {
         return new Print(*this);
     }
 
+    Rename::~Rename()
+    {
+    }
+
     int Rename::run(const std::string& path)
     {
     try {
@@ -788,6 +800,10 @@ namespace Action {
     Rename* Rename::clone_() const
     {
         return new Rename(*this);
+    }
+
+    Erase::~Erase()
+    {
     }
 
     int Erase::run(const std::string& path)
@@ -904,6 +920,10 @@ namespace Action {
     Erase* Erase::clone_() const
     {
         return new Erase(*this);
+    }
+
+    Extract::~Extract()
+    {
     }
 
     int Extract::run(const std::string& path)
@@ -1044,6 +1064,10 @@ namespace Action {
         return new Extract(*this);
     }
 
+    Insert::~Insert()
+    {
+    }
+
     int Insert::run(const std::string& path)
     try {
         if (!Exiv2::fileExists(path, true)) {
@@ -1141,6 +1165,10 @@ namespace Action {
     Insert* Insert::clone_() const
     {
         return new Insert(*this);
+    }
+
+    Modify::~Modify()
+    {
     }
 
     int Modify::run(const std::string& path)
@@ -1378,6 +1406,10 @@ namespace Action {
         return new Modify(*this);
     }
 
+    Adjust::~Adjust()
+    {
+    }
+
     int Adjust::run(const std::string& path)
     try {
         adjustment_      = Params::instance().adjustment_;
@@ -1514,6 +1546,10 @@ namespace Action {
         return 0;
     } // Adjust::adjustDateTime
 
+    FixIso::~FixIso()
+    {
+    }
+
     int FixIso::run(const std::string& path)
     {
     try {
@@ -1535,37 +1571,15 @@ namespace Action {
                       << ": " << _("No Exif data found in the file\n");
             return -3;
         }
-        // Check if the standard tag exists
-        Exiv2::ExifKey key("Exif.Photo.ISOSpeedRatings");
-        Exiv2::ExifData::iterator md = exifData.findKey(key);
+        Exiv2::ExifData::const_iterator md = Exiv2::isoSpeed(exifData);
         if (md != exifData.end()) {
-            if (Params::instance().verbose_) {
-                std::cout << _("Standard Exif ISO tag exists; not modified\n");
+            if (strcmp(md->key().c_str(), "Exif.Photo.ISOSpeedRatings") == 0) {
+                if (Params::instance().verbose_) {
+                    std::cout << _("Standard Exif ISO tag exists; not modified\n");
+                }
+                return 0;
             }
-            return 0;
-        }
-        // Fix Nikon ISO setting
-        key = Exiv2::ExifKey("Exif.Nikon3.ISOSpeed");
-        md = exifData.findKey(key);
-        if (md == exifData.end()) {
-            key = Exiv2::ExifKey("Exif.Nikon2.ISOSpeed");
-            md = exifData.findKey(key);
-        }
-        if (md == exifData.end()) {
-            key = Exiv2::ExifKey("Exif.Nikon1.ISOSpeed");
-            md = exifData.findKey(key);
-        }
-        // Canon has a similar bad habit, fix that too
-        if (md == exifData.end()) {
-            key = Exiv2::ExifKey("Exif.CanonSi.ISOSpeed");
-            md = exifData.findKey(key);
-        }
-        if (md == exifData.end()) {
-            key = Exiv2::ExifKey("Exif.CanonCs.ISOSpeed");
-            md = exifData.findKey(key);
-        }
-        // Copy the proprietary tag to the standard place
-        if (md != exifData.end()) {
+            // Copy the proprietary tag to the standard place
             std::ostringstream os;
             md->write(os, &exifData);
             if (Params::instance().verbose_) {

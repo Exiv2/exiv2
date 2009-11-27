@@ -54,21 +54,23 @@ namespace Exiv2 {
     class TiffDirectory;
     class TiffSubIfd;
     class TiffMnEntry;
-    class TiffArrayEntry;
-    class TiffArrayElement;
+    class TiffBinaryArray;
+    class TiffBinaryElement;
 
     class TiffIfdMakernote;
+    class MnHeader;
 
     class TiffVisitor;
     class TiffFinder;
     class TiffDecoder;
     class TiffEncoder;
     class TiffReader;
-    class TiffPrinter;
 
     class TiffRwState;
     class TiffPathItem;
     struct TiffMappingInfo;
+
+    class IoWrapper;
 
 // *****************************************************************************
 // type definitions

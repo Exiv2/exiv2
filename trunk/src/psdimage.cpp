@@ -137,6 +137,11 @@ namespace Exiv2 {
     {
     } // PsdImage::PsdImage
 
+    std::string PsdImage::mimeType() const
+    {
+        return "image/x-photoshop";
+    }
+
     void PsdImage::setComment(const std::string& /*comment*/)
     {
         // not supported
@@ -574,11 +579,11 @@ namespace Exiv2 {
                 if (out.write(buf, 2) != 2) throw Error(21);
                 us2Data(buf, 0, bigEndian);                      // NULL resource name
                 if (out.write(buf, 2) != 2) throw Error(21);
-                ul2Data(buf, blob.size(), bigEndian);
+                ul2Data(buf, static_cast<uint32_t>(blob.size()), bigEndian);
                 if (out.write(buf, 4) != 4) throw Error(21);
                 // Write encoded Exif data
-                if (out.write(&blob[0], blob.size()) != static_cast<long>(blob.size())) throw Error(21);
-                resLength += blob.size() + 12;
+                if (out.write(&blob[0], static_cast<long>(blob.size())) != static_cast<long>(blob.size())) throw Error(21);
+                resLength += static_cast<long>(blob.size()) + 12;
                 if (blob.size() & 1)    // even padding
                 {
                     buf[0] = 0;
@@ -619,13 +624,13 @@ namespace Exiv2 {
             if (out.write(buf, 2) != 2) throw Error(21);
             us2Data(buf, 0, bigEndian);                      // NULL resource name
             if (out.write(buf, 2) != 2) throw Error(21);
-            ul2Data(buf, xmpPacket.size(), bigEndian);
+            ul2Data(buf, static_cast<uint32_t>(xmpPacket.size()), bigEndian);
             if (out.write(buf, 4) != 4) throw Error(21);
             // Write XMPPacket
             if (out.write(reinterpret_cast<const byte*>(xmpPacket.data()), static_cast<long>(xmpPacket.size()))
                 != static_cast<long>(xmpPacket.size())) throw Error(21);
             if (out.error()) throw Error(21);
-            resLength += xmpPacket.size() + 12;
+            resLength += static_cast<uint32_t>(xmpPacket.size()) + 12;
             if (xmpPacket.size() & 1)    // even padding
             {
                 buf[0] = 0;

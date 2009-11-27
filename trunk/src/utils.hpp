@@ -58,10 +58,10 @@ namespace Util {
 class Getopt {
 public:
     //! Default constructor.
-    Getopt() : errcnt_(0) {}
+    Getopt();
 
     //! Destructor.
-    virtual ~Getopt() {}
+    virtual ~Getopt();
 
     /*!
       @brief Parse command line arguments.

@@ -109,7 +109,7 @@ namespace Exiv2 {
 
         //! @name Accessors
         //@{
-        std::string mimeType() const { return "image/x-ms-bmp"; }
+        std::string mimeType() const;
         //@}
 
     }; // class BmpImage

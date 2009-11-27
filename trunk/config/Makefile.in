@@ -94,6 +94,7 @@ distclean: clean
 # This removes almost everything, including the configure script!
 maintainer-clean: distclean
 	rm -f configure
+	-cd test && $(MAKE) $(MAKECMDGOALS)
 
 config/config.mk: 
 	$(error File config/config.mk does not exist. Did you run ./configure?)

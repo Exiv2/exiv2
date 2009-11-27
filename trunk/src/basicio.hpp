@@ -37,6 +37,13 @@
 #include <string>
 #include <memory>
 #include <cstdio>
+#include <sys/types.h>
+#include <sys/stat.h>
+
+// MSVC doesn't provide mode_t
+#ifdef _MSC_VER
+typedef unsigned short mode_t;
+#endif
 
 // *****************************************************************************
 // namespace extensions
@@ -63,7 +70,7 @@ namespace Exiv2 {
         //! @name Creators
         //@{
         //! Destructor
-        virtual ~BasicIo() {}
+        virtual ~BasicIo();
         //@}
 
         //! @name Manipulators
@@ -173,17 +180,21 @@ namespace Exiv2 {
         virtual int seek(long offset, Position pos) = 0;
         /*!
           @brief Direct access to the IO data. For files, this is done by
-                 mapping the file into the process's address space; for
-                 memory blocks, this allows direct access to the memory
-                 block.
-
-          Todo: This is currently only for read access.
+                 mapping the file into the process's address space; for memory
+                 blocks, this allows direct access to the memory block.
+          @param isWriteable Set to true if the mapped area should be writeable
+                 (default is false).
+          @return A pointer to the mapped area.
+          @throw Error In case of failure.
          */
-        virtual const byte* mmap() =0;
+        virtual byte* mmap(bool isWriteable =false) =0;
         /*!
-          @brief Remove a mapping established with mmap().
+          @brief Remove a mapping established with mmap(). If the mapped area
+                 is writeable, this ensures that changes are written back.
+          @return 0 if successful;<BR>
+                  Nonzero if failure;
          */
-        virtual void  munmap() =0;
+        virtual int munmap() =0;
         //@}
 
         //! @name Accessors
@@ -212,6 +223,13 @@ namespace Exiv2 {
               available.
          */
         virtual std::string path() const =0;
+#ifdef EXV_UNICODE_PATH
+        /*!
+          @brief Like path() but returns a unicode path in an std::wstring.
+          @note This function is only available on Windows.
+         */
+        virtual std::wstring wpath() const =0;
+#endif
         /*!
           @brief Returns a temporary data storage location. This is often
               needed to rewrite an IO source.
@@ -286,6 +304,14 @@ namespace Exiv2 {
           @param path The full path of a file
          */
         FileIo(const std::string& path);
+#ifdef EXV_UNICODE_PATH
+        /*!
+          @brief Like FileIo(const std::string& path) but accepts a
+              unicode path in an std::wstring.
+          @note This constructor is only available on Windows.
+         */
+        FileIo(const std::wstring& wpath);
+#endif
         //! Destructor. Flushes and closes an open file.
         virtual ~FileIo();
         //@}
@@ -409,13 +435,25 @@ namespace Exiv2 {
          */
         virtual int seek(long offset, Position pos);
         /*!
-          @brief Map the file into the process's address space. The file must
-                 be open before mmap() is called.
-          @note  The returned pointer is valid only as long as the MemIo object
-                 is in scope.
+          @brief Map the file into the process's address space. The file must be
+                 open before mmap() is called. If the mapped area is writeable,
+                 changes may not be written back to the underlying file until
+                 munmap() is called. The pointer is valid only as long as the
+                 FileIo object exists.
+          @param isWriteable Set to true if the mapped area should be writeable
+                 (default is false).
+          @return A pointer to the mapped area.
+          @throw Error In case of failure.
          */
-        virtual const byte* mmap();
-        virtual void  munmap();
+        virtual byte* mmap(bool isWriteable =false);
+        /*!
+          @brief Remove a mapping established with mmap(). If the mapped area is
+                 writeable, this ensures that changes are written back to the
+                 underlying file.
+          @return 0 if successful;<BR>
+                  Nonzero if failure;
+         */
+        virtual int munmap();
         //@}
 
         //! @name Accessors
@@ -441,6 +479,13 @@ namespace Exiv2 {
         virtual bool eof() const;
         //! Returns the path of the file
         virtual std::string path() const;
+#ifdef EXV_UNICODE_PATH
+        /*
+          @brief Like path() but returns the unicode path of the file in an std::wstring.
+          @note This function is only available on Windows.
+         */
+        virtual std::wstring wpath() const;
+#endif
         /*!
           @brief Returns a temporary data storage location. The actual type
               returned depends upon the size of the file represented a FileIo
@@ -462,9 +507,15 @@ namespace Exiv2 {
 
         // Enumeration
         enum OpMode { opRead, opWrite, opSeek };
-
+#ifdef EXV_UNICODE_PATH
+        enum WpMode { wpStandard, wpUnicode };
+#endif
         // DATA
         std::string path_;
+#ifdef EXV_UNICODE_PATH
+        std::wstring wpath_;
+        WpMode wpMode_;
+#endif
         std::string openMode_;
         FILE *fp_;
         OpMode opMode_;
@@ -472,6 +523,15 @@ namespace Exiv2 {
         byte* pMappedArea_;
         size_t mappedLength_;
         bool isMalloced_;               //!< Is the mapped area allocated?
+        bool isWriteable_;              //!< Can the mapped area be written to?
+
+        // TYPES
+        //! Simple struct stat wrapper for internal use
+        struct StructStat {
+            StructStat() : st_mode(0), st_size(0) {}
+            mode_t st_mode; //!< Permissions
+            off_t  st_size; //!< Size
+        };
 
         // METHODS
         /*!
@@ -481,6 +541,8 @@ namespace Exiv2 {
           @return 0 if successful
          */
         EXV_DLLLOCAL int switchMode(OpMode opMode);
+        //! stat wrapper for internal use
+        EXV_DLLLOCAL int stat(StructStat& buf) const;
 
     }; // class FileIo
 
@@ -617,14 +679,14 @@ namespace Exiv2 {
         virtual int seek(long offset, Position pos);
         /*!
           @brief Allow direct access to the underlying data buffer. The buffer
-                 is not protected against write access except for the const
-                 specifier.
+                 is not protected against write access in any way, the argument
+                 is ignored.
           @note  The application must ensure that the memory pointed to by the
                  returned pointer remains valid and allocated as long as the
-                 MemIo object is in scope.
+                 MemIo object exists.
          */
-        virtual const byte* mmap() { return data_; }
-        virtual void  munmap() {}
+        virtual byte* mmap(bool /*isWriteable*/ =false);
+        virtual int munmap();
         //@}
 
         //! @name Accessors
@@ -648,6 +710,13 @@ namespace Exiv2 {
         virtual bool eof() const;
         //! Returns a dummy path, indicating that memory access is used
         virtual std::string path() const;
+#ifdef EXV_UNICODE_PATH
+        /*
+          @brief Like path() but returns a unicode dummy path in an std::wstring.
+          @note This function is only available on Windows.
+         */
+        virtual std::wstring wpath() const;
+#endif
         /*!
           @brief Returns a temporary data storage location. Currently returns
               an empty MemIo object, but callers should not rely on this
@@ -679,11 +748,33 @@ namespace Exiv2 {
 // *****************************************************************************
 // template, inline and free functions
 
-    //! Read file \em path into a DataBuf, which is returned.
+    /*!
+      @brief Read file \em path into a DataBuf, which is returned.
+      @return Buffer containing the file.
+      @throw Error In case of failure.
+     */
     EXIV2API DataBuf readFile(const std::string& path);
-
-    //! Write DataBuf \em buf to file \em path. Return the number of bytes written.
+#ifdef EXV_UNICODE_PATH
+    /*!
+      @brief Like readFile() but accepts a unicode path in an std::wstring.
+      @note This function is only available on Windows.
+     */
+    EXIV2API DataBuf readFile(const std::wstring& wpath);
+#endif
+    /*!
+      @brief Write DataBuf \em buf to file \em path.
+      @return Return the number of bytes written.
+      @throw Error In case of failure.
+     */
     EXIV2API long writeFile(const DataBuf& buf, const std::string& path);
+#ifdef EXV_UNICODE_PATH
+    /*!
+      @brief Like writeFile() but accepts a unicode path in an std::wstring.
+      @note This function is only available on Windows.
+     */
+    EXIV2API long writeFile(const DataBuf& buf, const std::wstring& wpath);
+
+#endif
 
 }                                       // namespace Exiv2
 

@@ -148,6 +148,20 @@ try {
     write(file, edMn9);
     print(file);
 
+    std::cout <<"\n----- Minolta MakerNote tags\n";
+    Exiv2::ExifData edMn10;
+    edMn10["Exif.Image.Make"]   = "Minolta";
+    edMn10["Exif.Image.Model"]  = "A fancy Minolta camera";
+    edMn10["Exif.Minolta.ColorMode"] = uint32_t(1);
+    edMn10["Exif.MinoltaCsNew.WhiteBalance"] = uint32_t(2);
+    edMn10["Exif.MinoltaCs5D.WhiteBalance"] = uint16_t(3);
+    edMn10["Exif.MinoltaCs5D.ColorTemperature"] = int16_t(-1);
+    edMn10["Exif.MinoltaCs7D.WhiteBalance"] = uint16_t(4);
+    edMn10["Exif.MinoltaCs7D.ExposureCompensation"] = int16_t(-2);
+    edMn10["Exif.MinoltaCs7D.ColorTemperature"] = int16_t(-3);
+    write(file, edMn10);
+    print(file);
+
     std::cout <<"\n----- One IOP tag\n";
     Exiv2::ExifData ed3;
     ed3["Exif.Iop.InteroperabilityIndex"] = "Test 3";

@@ -74,7 +74,7 @@ How to build and test exiv2 (with/without organize.exe)
     This will build all the necessary libraries and all the test programs.
     At the end of building, you should see the beautiful output:
 
-    ========== Build: 92 succeeded, 0 failed, 0 up-to-date, 0 skipped ==========
+    ========== Build: 104 succeeded, 0 failed, 0 up-to-date, 0 skipped ==========
     
     The build takes 6 minutes on my iMac with a 2.8GHz Duo Core Intel Processor
     and 4GBytes of Ram. (VS 2005 and VS 2008)
@@ -89,7 +89,7 @@ How to build and test exiv2 (with/without organize.exe)
     +--------------------------------------------+
 
     The total build consumes 1.0GBytes of disk space.
-    There are 100 targets (4 expats, 4 zlibs and 92 exiv2 targets)
+    There are 112 targets (4 expats, 4 zlibs and 108 exiv2 targets)
     The pdb (debugging) files consume 300MB.
     The debug exiv2 static library alone (exiv2.lib) is 35MB
 
@@ -112,7 +112,7 @@ How to build and test exiv2 (with/without organize.exe)
     C:\gnu\exiv2\msvc>diff.exe   runner.txt new.txt
     --- no differences should be reported --
     
-    The test takes less than 1 minute and runs 200 different test programs.
+    The test takes less than 1 minute and runs 200+ different test programs.
     
 How to build exiv2+organize
 ---------------------------
@@ -235,7 +235,7 @@ OR (if you prefer to build from source)
 
     This time when you should see:
     
-    ========== Build: 96 succeeded, 0 failed, 0 up-to-date, 0 skipped ==========
+    ========== Build: 108 succeeded, 0 failed, 0 up-to-date, 0 skipped ==========
 
     Congratulations.
 
