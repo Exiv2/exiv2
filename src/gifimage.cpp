@@ -57,6 +57,11 @@ namespace Exiv2 {
     {
     } // GifImage::GifImage
 
+    std::string GifImage::mimeType() const
+    {
+        return "image/gif";
+    }
+
     void GifImage::setExifData(const ExifData& /*exifData*/)
     {
         // Todo: implement me!

@@ -95,6 +95,10 @@ namespace Exiv2 {
         }
     }
 
+    TiffVisitor::~TiffVisitor()
+    {
+    }
+
     void TiffVisitor::setGo(GoEvent event, bool go)
     {
         assert(event >= 0 && event < events_);
@@ -107,11 +111,32 @@ namespace Exiv2 {
         return go_[event];
     }
 
+    void TiffVisitor::visitDirectoryNext(TiffDirectory* /*object*/)
+    {
+    }
+
+    void TiffVisitor::visitDirectoryEnd(TiffDirectory* /*object*/)
+    {
+    }
+
+    void TiffVisitor::visitIfdMakernoteEnd(TiffIfdMakernote* /*object*/)
+    {
+    }
+
+    void TiffVisitor::visitBinaryArrayEnd(TiffBinaryArray* /*object*/)
+    {
+    }
+
     void TiffFinder::init(uint16_t tag, uint16_t group)
     {
         tag_ = tag;
         group_ = group;
         tiffComponent_ = 0;
+        setGo(geTraverse, true);
+    }
+
+    TiffFinder::~TiffFinder()
+    {
     }
 
     void TiffFinder::findObject(TiffComponent* object)
@@ -162,12 +187,12 @@ namespace Exiv2 {
         findObject(object);
     }
 
-    void TiffFinder::visitArrayEntry(TiffArrayEntry* object)
+    void TiffFinder::visitBinaryArray(TiffBinaryArray* object)
     {
         findObject(object);
     }
 
-    void TiffFinder::visitArrayElement(TiffArrayElement* object)
+    void TiffFinder::visitBinaryElement(TiffBinaryElement* object)
     {
         findObject(object);
     }
@@ -199,6 +224,10 @@ namespace Exiv2 {
         if (te && te->pValue()) {
             make_ = te->pValue()->toString();
         }
+    }
+
+    TiffDecoder::~TiffDecoder()
+    {
     }
 
     void TiffDecoder::visitEntry(TiffEntry* object)
@@ -373,7 +402,7 @@ namespace Exiv2 {
 
     void TiffDecoder::decodeStdTiffEntry(const TiffEntryBase* object)
     {
-        assert(object !=0);
+        assert(object != 0);
         // Todo: ExifKey should have an appropriate c'tor, it should not be
         //       necessary to use groupName here
         ExifKey key(object->tag(), tiffGroupName(object->group()));
@@ -382,12 +411,14 @@ namespace Exiv2 {
 
     } // TiffDecoder::decodeTiffEntry
 
-    void TiffDecoder::visitArrayEntry(TiffArrayEntry* /*object*/)
+    void TiffDecoder::visitBinaryArray(TiffBinaryArray* object)
     {
-        // Nothing to do
+        if (object->cfg() == 0) {
+            decodeTiffEntry(object);
+        }
     }
 
-    void TiffDecoder::visitArrayElement(TiffArrayElement* object)
+    void TiffDecoder::visitBinaryElement(TiffBinaryElement* object)
     {
         decodeTiffEntry(object);
     }
@@ -431,6 +462,10 @@ namespace Exiv2 {
                 make_ = te->pValue()->toString();
             }
         }
+    }
+
+    TiffEncoder::~TiffEncoder()
+    {
     }
 
     void TiffEncoder::encodeIptc()
@@ -639,14 +674,41 @@ namespace Exiv2 {
 
     } // TiffEncoder::visitIfdMakernoteEnd
 
-    void TiffEncoder::visitArrayEntry(TiffArrayEntry* /*object*/)
+    void TiffEncoder::visitBinaryArray(TiffBinaryArray* /*object*/)
     {
         // Nothing to do
     }
 
-    void TiffEncoder::visitArrayElement(TiffArrayElement* object)
+    void TiffEncoder::visitBinaryArrayEnd(TiffBinaryArray* object)
     {
+        assert(object != 0);
+
+        int32_t size = object->TiffEntryBase::doSize();
+        if (size == 0) return;
+        if (!object->initialize(pRoot_)) return;
+
+        // Re-encrypt buffer if necessary
+        const CryptFct cryptFct = object->cfg()->cryptFct_;
+        if (cryptFct != 0) {
+            const byte* pData = object->pData();
+            DataBuf buf = cryptFct(object->tag(), pData, size, pRoot_);
+            if (buf.size_ > 0) {
+                pData = buf.pData_;
+                size = buf.size_;
+            }
+            if (!object->updOrigDataBuf(pData, size)) {
+                setDirty();
+            }
+        }
+    }
+
+    void TiffEncoder::visitBinaryElement(TiffBinaryElement* object)
+    {
+        // Temporarily overwrite byteorder according to that of the binary element
+        ByteOrder boOrig = byteOrder_;
+        if (object->elByteOrder() != invalidByteOrder) byteOrder_ = object->elByteOrder();
         encodeTiffComponent(object);
+        byteOrder_ = boOrig;
     }
 
     void TiffEncoder::encodeTiffComponent(
@@ -707,15 +769,15 @@ namespace Exiv2 {
 #endif
     } // TiffEncoder::encodeTiffComponent
 
-    void TiffEncoder::encodeArrayElement(TiffArrayElement* object, const Exifdatum* datum)
+    void TiffEncoder::encodeBinaryArray(TiffBinaryArray* object, const Exifdatum* datum)
+    {
+        encodeOffsetEntry(object, datum);
+    } // TiffEncoder::encodeBinaryArray
+
+    void TiffEncoder::encodeBinaryElement(TiffBinaryElement* object, const Exifdatum* datum)
     {
         encodeTiffEntryBase(object, datum);
     } // TiffEncoder::encodeArrayElement
-
-    void TiffEncoder::encodeArrayEntry(TiffArrayEntry* object, const Exifdatum* datum)
-    {
-        encodeOffsetEntry(object, datum);
-    } // TiffEncoder::encodeArrayEntry
 
     void TiffEncoder::encodeDataEntry(TiffDataEntry* object, const Exifdatum* datum)
     {
@@ -893,13 +955,6 @@ namespace Exiv2 {
 
     } // TiffEncoder::encodeOffsetEntry
 
-    void TiffEncoder::encodeBigEndianEntry(TiffEntryBase* object, const Exifdatum* datum)
-    {
-        byteOrder_ = bigEndian;
-        encodeTiffEntryBase(object, datum);
-        byteOrder_ = origByteOrder_;
-    }
-
     void TiffEncoder::add(
         TiffComponent* pRootDir,
         TiffComponent* pSourceDir,
@@ -930,7 +985,7 @@ namespace Exiv2 {
             // Assumption is that the corresponding TIFF entry doesn't exist
             TiffPath tiffPath;
             TiffCreator::getPath(tiffPath, i->tag(), group, root);
-            TiffComponent* tc = pRootDir->addPath(i->tag(), tiffPath);
+            TiffComponent* tc = pRootDir->addPath(i->tag(), tiffPath, pRootDir);
             TiffEntryBase* object = dynamic_cast<TiffEntryBase*>(tc);
 #ifdef DEBUG
             if (object == 0) {
@@ -977,7 +1032,8 @@ namespace Exiv2 {
           pLast_(pData + size),
           pRoot_(pRoot),
           pState_(state.release()),
-          pOrigState_(pState_)
+          pOrigState_(pState_),
+          postProc_(false)
     {
         assert(pData_);
         assert(size_ > 0);
@@ -1076,6 +1132,15 @@ namespace Exiv2 {
     int TiffReader::nextIdx(uint16_t group)
     {
         return ++idxSeq_[group];
+    }
+
+    void TiffReader::postProcess()
+    {
+        postProc_ = true;
+        for (PostList::const_iterator pos = postList_.begin(); pos != postList_.end(); ++pos) {
+            (*pos)->accept(*this);
+        }
+        postProc_ = false;
     }
 
     void TiffReader::visitDirectory(TiffDirectory* object)
@@ -1362,62 +1427,58 @@ namespace Exiv2 {
 
     } // TiffReader::readTiffEntry
 
-    void TiffReader::visitArrayEntry(TiffArrayEntry* object)
+    void TiffReader::visitBinaryArray(TiffBinaryArray* object)
     {
         assert(object != 0);
 
-        readTiffEntry(object);
-        // Todo: size here is that of the data area
-        const uint16_t sz = static_cast<uint16_t>(object->size_ / object->elSize());
-        for (uint16_t i = 0; i < sz; ++i) {
-            uint16_t tag = i;
-            TiffComponent::AutoPtr tc = TiffCreator::create(tag, object->elGroup());
-            assert(tc.get());
-            tc->setStart(object->pData() + i * object->elSize());
-            object->addChild(tc);
-            // Hack: Exif.CanonCs.Lens has 3 components
-            if (object->elGroup() == Group::canoncs && tag == 0x0017) {
-                i += 2;
-            }
-        }
-
-    } // TiffReader::visitArrayEntry
-
-    void TiffReader::visitArrayElement(TiffArrayElement* object)
-    {
-        assert(object != 0);
-
-        TypeId typeId = toTypeId(object->elTiffType(), object->tag(), object->group());
-        uint32_t size = TypeInfo::typeSize(typeId);
-        // Hack: Exif.CanonCs.Lens has 3 components
-        if (object->group() == Group::canoncs && object->tag() == 0x0017) {
-            size *= 3;
-        }
-        byte* pData   = object->start();
-        assert(pData >= pData_);
-
-        if (pData + size > pLast_) {
-#ifndef SUPPRESS_WARNINGS
-            std::cerr << "Error: Array element in group "
-                      << tiffGroupName(object->group())
-                      << "requests access to memory beyond the data buffer. "
-                      << "Skipping element.\n";
-#endif
+        if (!postProc_) {
+            // Defer reading children until after all other components are read, but
+            // since state (offset) is not set during post-processing, read entry here
+            readTiffEntry(object);
+            object->iniOrigDataBuf();
+            postList_.push_back(object);
             return;
         }
 
+        if (object->TiffEntryBase::doSize() == 0) return;
+        if (!object->initialize(pRoot_)) return;
+        const ArrayDef* defs = object->def();
+        const ArrayDef* def = &object->cfg()->elDefaultDef_;
+
+        const CryptFct cryptFct = object->cfg()->cryptFct_;
+        if (cryptFct != 0) {
+            const byte* pData = object->pData();
+            int32_t size = object->TiffEntryBase::doSize();
+            DataBuf buf = cryptFct(object->tag(), pData, size, pRoot_);
+            if (buf.size_ > 0) object->setData(buf);
+        }
+
+        for (uint32_t idx = 0; idx < object->TiffEntryBase::doSize(); ) {
+            if (defs) {
+                def = std::find(defs, defs + object->defSize(), idx);
+                if (def == defs + object->defSize()) def = &object->cfg()->elDefaultDef_;
+            }
+            idx += object->addElement(idx, def); // idx may be different from def->idx_
+        }
+
+    } // TiffReader::visitBinaryArray
+
+    void TiffReader::visitBinaryElement(TiffBinaryElement* object)
+    {
+        byte* pData   = object->start();
+        uint32_t size = object->TiffEntryBase::doSize();
+        assert(pData >= pData_);
         ByteOrder bo = object->elByteOrder();
         if (bo == invalidByteOrder) bo = byteOrder();
+        TypeId typeId = toTypeId(object->elDef()->tiffType_, object->tag(), object->group());
         Value::AutoPtr v = Value::create(typeId);
         assert(v.get());
         v->read(pData, size, bo);
 
         object->setValue(v);
-        object->setData(pData, size);
         object->setOffset(0);
         object->setIdx(nextIdx(object->group()));
-        object->setCount(1);
 
-    } // TiffReader::visitArrayElement
+    } // TiffReader::visitBinaryElement
 
 }}                                      // namespace Internal, Exiv2

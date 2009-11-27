@@ -56,6 +56,10 @@ namespace Exiv2 {
         std::string mimeType_;
         //! Preview image extension.
         std::string extension_;
+#ifdef EXV_UNICODE_PATH
+        //! Unicode preview image extension in an std::wstring
+        std::wstring wextension_;
+#endif
         //! Preview image size in bytes.
         uint32_t size_;
         //! Preview image width in pixels or 0 for unknown width.
@@ -115,6 +119,13 @@ namespace Exiv2 {
           @return The number of bytes written.
         */
         long writeFile(const std::string& path) const;
+#ifdef EXV_UNICODE_PATH
+        /*!
+          @brief Like writeFile() but accepts a unicode path in an std::wstring.
+          @note This function is only available on Windows.
+         */
+        long writeFile(const std::wstring& wpath) const;
+#endif
         /*!
           @brief Return the MIME type of the preview image, usually either
                  \c "image/tiff" or \c "image/jpeg".
@@ -125,6 +136,14 @@ namespace Exiv2 {
                  (".tif" or ".jpg").
          */
         std::string extension() const;
+#ifdef EXV_UNICODE_PATH
+        /*!
+          @brief Like extension() but returns the unicode encoded extension in
+                 an std::wstring.
+          @note This function is only available on Windows.
+         */
+        std::wstring wextension() const;
+#endif
         /*!
           @brief Return the width of the preview image in pixels.
         */

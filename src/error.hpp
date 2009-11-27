@@ -64,9 +64,7 @@ namespace Exiv2 {
         //! @name Creators
         //@{
         //! Virtual destructor.
-        virtual ~AnyError() throw()
-        {
-        }
+        virtual ~AnyError() throw();
         //@}
 
         //! @name Accessors
@@ -120,19 +118,17 @@ namespace Exiv2 {
             setMsg();
         }
         //! Virtual destructor. (Needed because of throw())
-        virtual ~Error() throw()
-        {
-        }
+        virtual ~Error() throw();
         //@}
 
         //! @name Accessors
         //@{
-        virtual int code() const throw() { return code_; }
+        virtual int code() const throw();
         /*!
           @brief Return the error message. The pointer returned by what()
                  is valid only as long as the Error object exists.
          */
-        virtual const char* what() const throw() { return msg_.c_str(); }
+        virtual const char* what() const throw();
         //@}
 
     private:

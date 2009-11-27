@@ -63,7 +63,7 @@ namespace Exiv2 {
 
         //! @name Accessors
         //@{
-        uint32_t write(Blob& blob) const;
+        DataBuf write() const;
         //@}
     }; // class OrfHeader
 

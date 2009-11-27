@@ -19,7 +19,7 @@
  * Foundation, Inc., 51 Franklin Street, 5th Floor, Boston, MA 02110-1301 USA.
  */
 /*
-  File:      utils.cpp
+  File:      futils.cpp
   Version:   $Rev$
   Author(s): Andreas Huggel (ahu) <ahuggel@gmx.net>
   History:   08-Dec-03, ahu: created
@@ -69,12 +69,23 @@ namespace Exiv2 {
     bool fileExists(const std::string& path, bool ct)
     {
         struct stat buf;
-        int ret = stat(path.c_str(), &buf);
+		int ret = ::stat(path.c_str(), &buf);
         if (0 != ret)                    return false;
         if (ct && !S_ISREG(buf.st_mode)) return false;
         return true;
     } // fileExists
 
+#ifdef EXV_UNICODE_PATH
+    bool fileExists(const std::wstring& wpath, bool ct)
+    {
+        struct _stat buf;
+        int ret = _wstat(wpath.c_str(), &buf);
+        if (0 != ret)                    return false;
+        if (ct && !S_ISREG(buf.st_mode)) return false;
+        return true;
+    } // fileExists
+
+#endif
     std::string strError()
     {
         int error = errno;

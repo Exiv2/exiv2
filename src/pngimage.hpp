@@ -90,7 +90,7 @@ namespace Exiv2
 
         //! @name Accessors
         //@{
-        std::string mimeType() const { return "image/png"; }
+        std::string mimeType() const;
         //@}
 
     private:

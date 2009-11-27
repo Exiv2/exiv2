@@ -63,6 +63,11 @@ namespace Exiv2 {
     {
     } // Cr2Image::Cr2Image
 
+    std::string Cr2Image::mimeType() const
+    {
+        return "image/x-canon-cr2";
+    }
+
     int Cr2Image::pixelWidth() const
     {
         ExifData::const_iterator imageWidth = exifData_.findKey(Exiv2::ExifKey("Exif.Photo.PixelXDimension"));
@@ -236,10 +241,10 @@ namespace Exiv2 {
         return true;
     } // Cr2Header::read
 
-    uint32_t Cr2Header::write(Blob& blob) const
+    DataBuf Cr2Header::write() const
     {
         // Todo: Implement me!
-        return 0;
+        return DataBuf();
     }
 
 }}                                      // namespace Internal, Exiv2

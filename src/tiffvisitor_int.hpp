@@ -43,10 +43,15 @@
 #include <cassert>
 #include <map>
 #include <set>
+#include <vector>
 
 // *****************************************************************************
 // namespace extensions
 namespace Exiv2 {
+
+    class IptcData;
+    class XmpData;
+
     namespace Internal {
 
 // *****************************************************************************
@@ -88,7 +93,7 @@ namespace Exiv2 {
         //! Default constructor. Initialises all stop/go flags to true.
         TiffVisitor();
         //! Virtual destructor
-        virtual ~TiffVisitor() {}
+        virtual ~TiffVisitor();
         //@}
 
         //! @name Manipulators
@@ -119,12 +124,12 @@ namespace Exiv2 {
           @brief Operation to perform for a TIFF directory, after all components
                  and before the next entry is processed.
          */
-        virtual void visitDirectoryNext(TiffDirectory* /*object*/) {}
+        virtual void visitDirectoryNext(TiffDirectory* object);
         /*!
           @brief Operation to perform for a TIFF directory, at the end of the
                  processing.
          */
-        virtual void visitDirectoryEnd(TiffDirectory* /*object*/) {}
+        virtual void visitDirectoryEnd(TiffDirectory* object);
         //! Operation to perform for a TIFF sub-IFD
         virtual void visitSubIfd(TiffSubIfd* object) =0;
         //! Operation to perform for the makernote component
@@ -132,11 +137,16 @@ namespace Exiv2 {
         //! Operation to perform for an IFD makernote
         virtual void visitIfdMakernote(TiffIfdMakernote* object) =0;
         //! Operation to perform after processing an IFD makernote
-        virtual void visitIfdMakernoteEnd(TiffIfdMakernote* /*object*/) {}
-        //! Operation to perform for an array entry (as found in Canon makernotes)
-        virtual void visitArrayEntry(TiffArrayEntry* object) =0;
-        //! Operation to perform for an array element
-        virtual void visitArrayElement(TiffArrayElement* object) =0;
+        virtual void visitIfdMakernoteEnd(TiffIfdMakernote* object);
+        //! Operation to perform for a binary array
+        virtual void visitBinaryArray(TiffBinaryArray* object) =0;
+        /*!
+          @brief Operation to perform for a TIFF binary array, at the end
+                 of the processing.
+         */
+        virtual void visitBinaryArrayEnd(TiffBinaryArray* object);
+        //! Operation to perform for an element of a binary array
+        virtual void visitBinaryElement(TiffBinaryElement* object) =0;
         //@}
 
         //! @name Accessors
@@ -161,7 +171,7 @@ namespace Exiv2 {
         TiffFinder(uint16_t tag, uint16_t group)
             : tag_(tag), group_(group), tiffComponent_(0) {}
         //! Virtual destructor
-        virtual ~TiffFinder() {}
+        virtual ~TiffFinder();
         //@}
 
         //! @name Manipulators
@@ -182,10 +192,10 @@ namespace Exiv2 {
         virtual void visitMnEntry(TiffMnEntry* object);
         //! Find tag and group in an IFD makernote
         virtual void visitIfdMakernote(TiffIfdMakernote* object);
-        //! Find tag and group in an array entry component
-        virtual void visitArrayEntry(TiffArrayEntry* object);
-        //! Find tag and group in an array element
-        virtual void visitArrayElement(TiffArrayElement* object);
+        //! Find tag and group in a binary array
+        virtual void visitBinaryArray(TiffBinaryArray* object);
+        //! Find tag and group in an element of a binary array
+        virtual void visitBinaryElement(TiffBinaryElement* object);
 
         //! Check if \em object matches \em tag and \em group
         void findObject(TiffComponent* object);
@@ -231,7 +241,7 @@ namespace Exiv2 {
             FindDecoderFct       findDecoderFct
         );
         //! Virtual destructor
-        virtual ~TiffDecoder() {}
+        virtual ~TiffDecoder();
         //@}
 
         //! @name Manipulators
@@ -252,10 +262,10 @@ namespace Exiv2 {
         virtual void visitMnEntry(TiffMnEntry* object);
         //! Decode an IFD makernote
         virtual void visitIfdMakernote(TiffIfdMakernote* object);
-        //! Decode an array entry component
-        virtual void visitArrayEntry(TiffArrayEntry* object);
-        //! Decode an array element
-        virtual void visitArrayElement(TiffArrayElement* object);
+        //! Decode a binary array
+        virtual void visitBinaryArray(TiffBinaryArray* object);
+        //! Decode an element of a binary array
+        virtual void visitBinaryElement(TiffBinaryElement* object);
 
         //! Entry function, determines how to decode each tag
         void decodeTiffEntry(const TiffEntryBase* object);
@@ -330,7 +340,7 @@ namespace Exiv2 {
                   FindEncoderFct findEncoderFct
         );
         //! Virtual destructor
-        virtual ~TiffEncoder() {}
+        virtual ~TiffEncoder();
         //@}
 
         //! @name Manipulators
@@ -355,10 +365,12 @@ namespace Exiv2 {
         virtual void visitIfdMakernote(TiffIfdMakernote* object);
         //! Reset encoder to its original state, undo makernote specific settings
         virtual void visitIfdMakernoteEnd(TiffIfdMakernote* object);
-        //! Encode an array entry component
-        virtual void visitArrayEntry(TiffArrayEntry* object);
-        //! Encode an array element
-        virtual void visitArrayElement(TiffArrayElement* object);
+        //! Encode a binary array
+        virtual void visitBinaryArray(TiffBinaryArray* object);
+        //! Re-encrypt binary array if necessary 
+        virtual void visitBinaryArrayEnd(TiffBinaryArray* object);
+        //! Encode an element of a binary array
+        virtual void visitBinaryElement(TiffBinaryElement* object);
 
         /*!
           @brief Top level encoder function. Determines how to encode each TIFF
@@ -384,10 +396,10 @@ namespace Exiv2 {
             const Exifdatum*     datum =0
         );
 
-        //! Callback encoder function for an array element.
-        void encodeArrayElement(TiffArrayElement* object, const Exifdatum* datum);
-        //! Callback encoder function for an array entry.
-        void encodeArrayEntry(TiffArrayEntry* object, const Exifdatum* datum);
+        //! Callback encoder function for an element of a binary array.
+        void encodeBinaryElement(TiffBinaryElement* object, const Exifdatum* datum);
+        //! Callback encoder function for a binary array.
+        void encodeBinaryArray(TiffBinaryArray* object, const Exifdatum* datum);
         //! Callback encoder function for a data entry.
         void encodeDataEntry(TiffDataEntry* object, const Exifdatum* datum);
         //! Callback encoder function for a standard TIFF entry
@@ -411,8 +423,6 @@ namespace Exiv2 {
 
         //! Special encoder function to encode IPTC data to an IPTCNAA or Photoshop ImageResources tag.
         void encodeIptc(TiffEntryBase* object, const Exifdatum* datum);
-        //! Special encoder function for a standard TIFF entry using big endian byte order.
-        void encodeBigEndianEntry(TiffEntryBase* object, const Exifdatum* datum);
         /*!
           @brief Add metadata from image to the TIFF composite.
 
@@ -588,10 +598,10 @@ namespace Exiv2 {
         virtual void visitIfdMakernote(TiffIfdMakernote* object);
         //! Reset reader to its original state, undo makernote specific settings
         virtual void visitIfdMakernoteEnd(TiffIfdMakernote* object);
-        //! Read an array entry component from the data buffer
-        virtual void visitArrayEntry(TiffArrayEntry* object);
-        //! Read an array element from the data buffer
-        virtual void visitArrayElement(TiffArrayElement* object);
+        //! Read a binary array from the data buffer
+        virtual void visitBinaryArray(TiffBinaryArray* object);
+        //! Read an element of a binary array from the data buffer
+        virtual void visitBinaryElement(TiffBinaryElement* object);
 
         //! Read a standard TIFF entry from the data buffer
         void readTiffEntry(TiffEntryBase* object);
@@ -605,8 +615,19 @@ namespace Exiv2 {
         bool circularReference(const byte* start, uint16_t group);
         //! Return the next idx sequence number for \em group
         int nextIdx(uint16_t group);
-        //@}
 
+        /*!
+          @brief Read deferred components.
+
+          This function is called after the TIFF composite is read by passing a
+          TiffReader to the accept() function of the root component. It reads
+          all components for which reading was deferred during that pass.  This
+          is usually done to make sure that all other components are accessible
+          at the time the deferred components are processed.
+         */
+        void postProcess();
+        //@}
+ 
         //! @name Accessors
         //@{
         //! Return the byte order.
@@ -618,6 +639,7 @@ namespace Exiv2 {
     private:
         typedef std::map<const byte*, uint16_t> DirList;
         typedef std::map<uint16_t, int> IdxSeq;
+        typedef std::vector<TiffComponent*> PostList;
 
         // DATA
         const byte*          pData_;      //!< Pointer to the memory buffer
@@ -628,6 +650,8 @@ namespace Exiv2 {
         TiffRwState*         pOrigState_; //!< State class as set in the c'tor
         DirList              dirList_;    //!< List of IFD pointers and their groups
         IdxSeq               idxSeq_;     //!< Sequences for group, used for the entry's idx
+        PostList             postList_;   //!< List of components with deferred reading
+        bool                 postProc_;   //!< True in postProcessList()
 
     }; // class TiffReader
 

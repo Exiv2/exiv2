@@ -86,7 +86,7 @@ namespace Exiv2 {
 
         //! @name Accessors
         //@{
-        std::string mimeType() const { return "application/rdf+xml"; }
+        std::string mimeType() const;
         //@}
 
     private:

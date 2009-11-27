@@ -203,6 +203,11 @@ namespace Exiv2 {
         return TypeInfo::typeName(typeId());
     }
 
+    long Xmpdatum::typeSize() const
+    {
+        return 0;
+    }
+
     long Xmpdatum::count() const
     {
         return p_->value_.get() == 0 ? 0 : p_->value_->count();

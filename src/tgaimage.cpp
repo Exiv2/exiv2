@@ -57,6 +57,11 @@ namespace Exiv2 {
     {
     } // TgaImage::TgaImage
 
+    std::string TgaImage::mimeType() const
+    {
+        return "image/targa";
+    }
+
     void TgaImage::setExifData(const ExifData& /*exifData*/)
     {
         // Todo: implement me!
@@ -144,12 +149,19 @@ namespace Exiv2 {
     bool isTgaType(BasicIo& iIo, bool /*advance*/)
     {
         // not all TARGA files have a signature string, so first just try to match the file name extension
-        std::string path = iIo.path();
-        if(path.rfind(".tga") != std::string::npos || path.rfind(".TGA") != std::string::npos)
-        {
+#ifdef EXV_UNICODE_PATH
+        std::wstring wpath = iIo.wpath();
+        if(   wpath.rfind(EXV_WIDEN(".tga")) != std::wstring::npos
+           || wpath.rfind(EXV_WIDEN(".TGA")) != std::wstring::npos) {
             return true;
         }
-
+#else
+        std::string path = iIo.path();
+        if(   path.rfind(".tga") != std::string::npos
+           || path.rfind(".TGA") != std::string::npos) {
+            return true;
+        }
+#endif
         byte buf[26];
         long curPos = iIo.tell();
         iIo.seek(-26, BasicIo::end);

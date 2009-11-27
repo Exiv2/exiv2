@@ -53,6 +53,10 @@ EXIV2_RCSID("@(#) $Id$")
 # include <iconv.h>
 #endif
 
+#if defined WIN32 && !defined __CYGWIN__
+# include <windows.h>
+#endif
+
 // *****************************************************************************
 // local declarations
 namespace {
@@ -108,6 +112,7 @@ namespace Exiv2 {
         { canonSiIfdId,      "Makernote", "CanonSi",      CanonMakerNote::tagListSi      },
         { canonCfIfdId,      "Makernote", "CanonCf",      CanonMakerNote::tagListCf      },
         { canonPiIfdId,      "Makernote", "CanonPi",      CanonMakerNote::tagListPi      },
+        { canonFiIfdId,      "Makernote", "CanonFi",      CanonMakerNote::tagListFi      },
         { canonPaIfdId,      "Makernote", "CanonPa",      CanonMakerNote::tagListPa      },
         { fujiIfdId,         "Makernote", "Fujifilm",     FujiMakerNote::tagList         },
         { minoltaIfdId,      "Makernote", "Minolta",      MinoltaMakerNote::tagList      },
@@ -119,6 +124,17 @@ namespace Exiv2 {
         { nikon2IfdId,       "Makernote", "Nikon2",       Nikon2MakerNote::tagList       },
         { nikon3IfdId,       "Makernote", "Nikon3",       Nikon3MakerNote::tagList       },
         { nikonPvIfdId,      "Makernote", "NikonPreview", ExifTags::ifdTagList           },
+        { nikonWtIfdId,      "Makernote", "NikonWt",      Nikon3MakerNote::tagListWt     },
+        { nikonIiIfdId,      "Makernote", "NikonIi",      Nikon3MakerNote::tagListIi     },
+        { nikonCb1IfdId,     "Makernote", "NikonCb1",     Nikon3MakerNote::tagListCb1    },
+        { nikonCb2IfdId,     "Makernote", "NikonCb2",     Nikon3MakerNote::tagListCb2    },
+        { nikonCb2aIfdId,    "Makernote", "NikonCb2a",    Nikon3MakerNote::tagListCb2a   },
+        { nikonCb2bIfdId,    "Makernote", "NikonCb2b",    Nikon3MakerNote::tagListCb2b   },
+        { nikonCb3IfdId,     "Makernote", "NikonCb3",     Nikon3MakerNote::tagListCb3    },
+        { nikonCb4IfdId,     "Makernote", "NikonCb4",     Nikon3MakerNote::tagListCb4    },
+        { nikonLd1IfdId,     "Makernote", "NikonLd1",     Nikon3MakerNote::tagListLd1    },
+        { nikonLd2IfdId,     "Makernote", "NikonLd2",     Nikon3MakerNote::tagListLd2    },
+        { nikonLd3IfdId,     "Makernote", "NikonLd3",     Nikon3MakerNote::tagListLd3    },
         { olympusIfdId,      "Makernote", "Olympus",      OlympusMakerNote::tagList      },
         { olympus2IfdId,     "Makernote", "Olympus2",     OlympusMakerNote::tagList      },
         { olympusCsIfdId,    "Makernote", "OlympusCs",    OlympusMakerNote::tagListCs    },
@@ -1234,7 +1250,7 @@ namespace Exiv2 {
                 "data or a restart marker. This tag should not exist in an "
                 "uncompressed file. Since data padding is unnecessary in the vertical "
                 "direction, the number of lines recorded in this valid image height tag "
-	        "will in fact be the same as that recorded in the SOF."),
+                "will in fact be the same as that recorded in the SOF."),
                 exifIfdId, imgConfig, unsignedLong, printValue),
         TagInfo(0xa004, "RelatedSoundFile", N_("Related Sound File"),
                 N_("This tag is used to record the name of an audio file related "
@@ -1891,14 +1907,34 @@ namespace Exiv2 {
         idx_ = idx;
     }
 
+    std::string ExifKey::key() const
+    {
+        return key_;
+    }
+
+    const char* ExifKey::familyName() const
+    {
+        return familyName_;
+    }
+
+    std::string ExifKey::groupName() const
+    {
+        return ifdItem();
+    }
+
     std::string ExifKey::tagName() const
     {
         return ExifTags::tagName(tag_, ifdId_);
     }
 
-    std::string ExifKey::tagLabel() const 	
-    {
+    std::string ExifKey::tagLabel() const
+            {
         return ExifTags::tagLabel(tag_, ifdId_);
+    }
+
+    uint16_t ExifKey::tag() const
+    {
+        return tag_;
     }
 
     ExifKey::AutoPtr ExifKey::clone() const
@@ -2097,7 +2133,7 @@ namespace Exiv2 {
                 go = false;
             }
             if (go) {
-                // Todo: What if outbytesleft == 0
+                if (outptr > outbuf && *(outptr-1) == '\0') outptr--;
                 os << std::string(outbuf, outptr-outbuf);
             }
         }
@@ -2107,11 +2143,30 @@ namespace Exiv2 {
         if (!go) {
             os << value;
         }
-#else // !(EXV_HAVE_ICONV && EXV_HAVE_PRINTUCS2)
-        os << value;
-#endif // EXV_HAVE_ICONV && EXV_HAVE_PRINTUCS2
         return os;
-
+#elif defined WIN32 && !defined __CYGWIN__ // !(EXV_HAVE_ICONV && EXV_HAVE_PRINTUCS2)
+        // in Windows the WideCharToMultiByte function can be used
+        if (value.typeId() == unsignedByte) {
+            DataBuf ib(value.size());
+            value.copy(ib.pData_, invalidByteOrder);
+            int out_size = WideCharToMultiByte(CP_UTF8, 0, reinterpret_cast<LPWSTR>(ib.pData_),
+                                               ib.size_ / sizeof(WCHAR), NULL, 0, NULL, NULL);
+            if (out_size >= 0) {
+                DataBuf ob(out_size + 1);
+                WideCharToMultiByte(CP_UTF8, 0, reinterpret_cast<LPWSTR>(ib.pData_),
+                                    ib.size_ / sizeof(WCHAR), reinterpret_cast<char*>(ob.pData_),
+                                    ob.size_, NULL, NULL);
+                os << std::string(reinterpret_cast<char*>(ob.pData_));
+            }
+            else {
+                os << value;
+            }
+        }
+        return os;
+#else
+        os << value;
+        return os;
+#endif // EXV_HAVE_ICONV && EXV_HAVE_PRINTUCS2
     } // printUcs2
 
     std::ostream& printExifUnit(std::ostream& os, const Value& value, const ExifData* metadata)
@@ -2543,7 +2598,7 @@ namespace Exiv2 {
             return os << value;
         }
 
-	std::string stringValue = value.toString();
+        std::string stringValue = value.toString();
         if (stringValue[19] == 'Z') {
             stringValue = stringValue.substr(0, 19);
         }

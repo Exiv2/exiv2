@@ -26,6 +26,7 @@
   @version $Rev$
   @author  <a href="mailto:ahuggel@gmx.net">Andreas Huggel (ahu)</a><br>
            <a href="mailto:david@edeca.net">David Cannings (dc)</a>
+           <a href="mailto:andi.clemens@gmx.net">Andi Clemens (ac)</a>
   @date    18-Feb-04, ahu: created<BR>
            07-Mar-04, ahu: isolated as a separate component<BR>
            12-Aug-06,  dc: started updating all tags
@@ -69,9 +70,13 @@ namespace Exiv2 {
         static const TagInfo* tagListCf();
         //! Return read-only list of built-in Canon Picture Info tags
         static const TagInfo* tagListPi();
+        //! Return read-only list of built-in Canon File Info tags
+        static const TagInfo* tagListFi();
 
         //! @name Print functions for Canon %MakerNote tags
         //@{
+        //! Print the FileInfo FileNumber
+        static std::ostream& printFiFileNumber(std::ostream& os, const Value& value, const ExifData* metadata);
         //! Print the focal length
         static std::ostream& printFocalLength(std::ostream& os, const Value& value, const ExifData*);
         //! Print the image number
@@ -107,6 +112,7 @@ namespace Exiv2 {
         static const TagInfo tagInfoSi_[];
         static const TagInfo tagInfoCf_[];
         static const TagInfo tagInfoPi_[];
+        static const TagInfo tagInfoFi_[];
         static const TagInfo tagInfoPa_[];
 
     }; // class CanonMakerNote

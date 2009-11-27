@@ -66,6 +66,7 @@ BINSRC = addmoddel.cpp        \
          iptctest.cpp         \
          key-test.cpp         \
          largeiptc-test.cpp   \
+         mmap-test.cpp        \
          prevtest.cpp         \
          stringto-test.cpp    \
          tiff-test.cpp        \

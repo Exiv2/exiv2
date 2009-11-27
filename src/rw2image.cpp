@@ -62,6 +62,11 @@ namespace Exiv2 {
     {
     } // Rw2Image::Rw2Image
 
+    std::string Rw2Image::mimeType() const
+    {
+        return "image/x-raw";
+    }
+
     int Rw2Image::pixelWidth() const
     {
         ExifData::const_iterator imageWidth =
@@ -273,10 +278,10 @@ namespace Exiv2 {
     {
     }
 
-    uint32_t Rw2Header::write(Blob& blob) const
+    DataBuf Rw2Header::write() const
     {
         // Todo: Implement me!
-        return 0;
+        return DataBuf();
     }
 
 }}                                      // namespace Internal, Exiv2

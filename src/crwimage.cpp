@@ -95,6 +95,11 @@ namespace Exiv2 {
     {
     } // CrwImage::CrwImage
 
+    std::string CrwImage::mimeType() const
+    {
+        return "image/x-canon-crw";
+    }
+
     int CrwImage::pixelWidth() const
     {
         Exiv2::ExifData::const_iterator widthIter = exifData_.findKey(Exiv2::ExifKey("Exif.Photo.PixelXDimension"));
@@ -336,6 +341,10 @@ namespace Exiv2 {
     CiffComponent::~CiffComponent()
     {
         if (isAllocated_) delete[] pData_;
+    }
+
+    CiffEntry::~CiffEntry()
+    {
     }
 
     CiffDirectory::~CiffDirectory()

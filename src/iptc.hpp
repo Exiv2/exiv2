@@ -113,8 +113,7 @@ namespace Exiv2 {
 
         //! @name Accessors
         //@{
-        long copy(byte* buf, ByteOrder byteOrder) const
-            { return value_.get() == 0 ? 0 : value_->copy(buf, byteOrder); }
+        long copy(byte* buf, ByteOrder byteOrder) const;
         std::ostream& write(std::ostream& os, const ExifData* pMetadata =0) const;
         /*!
           @brief Return the key of the Iptcdatum. The key is of the form
@@ -122,52 +121,38 @@ namespace Exiv2 {
                  is not necessarily unique, i.e., an IptcData object may contain
                  multiple metadata with the same key.
          */
-        std::string key() const { return key_.get() == 0 ? "" : key_->key(); }
+        std::string key() const;
         /*!
            @brief Return the name of the record (deprecated)
            @return record name
          */
-        std::string recordName() const
-            { return key_.get() == 0 ? "" : key_->recordName(); }
+        std::string recordName() const;
         /*!
            @brief Return the record id
            @return record id
          */
-        uint16_t record() const
-            { return key_.get() == 0 ? 0 : key_->record(); }
-        const char* familyName() const
-            { return key_.get() == 0 ? "" : key_->familyName(); }
-        std::string groupName() const
-            { return key_.get() == 0 ? "" : key_->groupName(); }
+        uint16_t record() const;
+        const char* familyName() const;
+        std::string groupName() const;
         /*!
            @brief Return the name of the tag (aka dataset)
            @return tag name
          */
-        std::string tagName() const
-            { return key_.get() == 0 ? "" : key_->tagName(); }
-        std::string tagLabel() const
-            { return key_.get() == 0 ? "" : key_->tagLabel(); }
+        std::string tagName() const;
+        std::string tagLabel() const;
         //! Return the tag (aka dataset) number
-        uint16_t tag() const
-            { return key_.get() == 0 ? 0 : key_->tag(); }
-        TypeId typeId() const
-            { return value_.get() == 0 ? invalidTypeId : value_->typeId(); }
-        const char* typeName() const { return TypeInfo::typeName(typeId()); }
-        long typeSize() const { return TypeInfo::typeSize(typeId()); }
-        long count() const { return value_.get() == 0 ? 0 : value_->count(); }
-        long size() const { return value_.get() == 0 ? 0 : value_->size(); }
-        std::string toString() const
-            { return value_.get() == 0 ? "" : value_->toString(); }
-        std::string toString(long n) const
-            { return value_.get() == 0 ? "" : value_->toString(n); }
-        long toLong(long n =0) const
-            { return value_.get() == 0 ? -1 : value_->toLong(n); }
-        float toFloat(long n =0) const
-            { return value_.get() == 0 ? -1 : value_->toFloat(n); }
-        Rational toRational(long n =0) const
-            { return value_.get() == 0 ? Rational(-1, 1) : value_->toRational(n); }
-        Value::AutoPtr getValue() const
-            { return value_.get() == 0 ? Value::AutoPtr(0) : value_->clone(); }
+        uint16_t tag() const;
+        TypeId typeId() const;
+        const char* typeName() const;
+        long typeSize() const;
+        long count() const;
+        long size() const;
+        std::string toString() const;
+        std::string toString(long n) const;
+        long toLong(long n =0) const;
+        float toFloat(long n =0) const;
+        Rational toRational(long n =0) const;
+        Value::AutoPtr getValue() const;
         const Value& value() const;
         //@}
 
@@ -180,26 +165,6 @@ namespace Exiv2 {
 
     //! Container type to hold all metadata
     typedef std::vector<Iptcdatum> IptcMetadata;
-
-    //! Unary predicate that matches an Iptcdatum with given record and dataset
-    class EXIV2API FindMetadatumById {
-    public:
-        //! Constructor, initializes the object with the record and dataset id
-        FindMetadatumById(uint16_t dataset, uint16_t record)
-            : dataset_(dataset), record_(record) {}
-        /*!
-          @brief Returns true if the record and dataset id of the argument
-                Iptcdatum is equal to that of the object.
-        */
-        bool operator()(const Iptcdatum& iptcdatum) const
-            { return dataset_ == iptcdatum.tag() && record_ == iptcdatum.record(); }
-
-    private:
-        // DATA
-        uint16_t dataset_;
-        uint16_t record_;
-
-    }; // class FindMetadatumById
 
     /*!
       @brief A container for IPTC data. This is a top-level class of
@@ -304,6 +269,10 @@ namespace Exiv2 {
           @brief Return the exact size of all contained IPTC metadata
          */
         long size() const;
+        /*!
+          @brief Return the metadata charset name or 0
+         */
+        const char *detectCharset() const;
         //@}
 
     private:

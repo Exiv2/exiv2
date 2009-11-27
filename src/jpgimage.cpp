@@ -391,7 +391,7 @@ namespace Exiv2 {
                 // Append to psBlob
                 append(psBlob, psData.pData_, psData.size_);
                 // Check whether psBlob is complete
-                if (Photoshop::valid(&psBlob[0], psBlob.size())) {
+                if (psBlob.size() > 0 && Photoshop::valid(&psBlob[0], psBlob.size())) {
                     --search;
                     foundCompletePsData = true;
                 }
@@ -449,33 +449,35 @@ namespace Exiv2 {
             }
         } // while there are segments to process
 
-        // Find actual IPTC data within the psBlob
-        Blob iptcBlob;
-        const byte *record = 0;
-        uint32_t sizeIptc = 0;
-        uint32_t sizeHdr = 0;
-        const byte* pCur = &psBlob[0];
-        const byte* pEnd = pCur + psBlob.size();
-        while (   pCur < pEnd
-               && 0 == Photoshop::locateIptcIrb(pCur, static_cast<long>(pEnd - pCur),
-                                                &record, &sizeHdr, &sizeIptc)) {
+        if (psBlob.size() > 0) {
+            // Find actual IPTC data within the psBlob
+            Blob iptcBlob;
+            const byte *record = 0;
+            uint32_t sizeIptc = 0;
+            uint32_t sizeHdr = 0;
+            const byte* pCur = &psBlob[0];
+            const byte* pEnd = pCur + psBlob.size();
+            while (   pCur < pEnd
+                   && 0 == Photoshop::locateIptcIrb(pCur, static_cast<long>(pEnd - pCur),
+                                                    &record, &sizeHdr, &sizeIptc)) {
 #ifdef DEBUG
-            std::cerr << "Found IPTC IRB, size = " << sizeIptc << "\n";
+                std::cerr << "Found IPTC IRB, size = " << sizeIptc << "\n";
 #endif
-            if (sizeIptc) {
-                append(iptcBlob, record + sizeHdr, sizeIptc);
+                if (sizeIptc) {
+                    append(iptcBlob, record + sizeHdr, sizeIptc);
+                }
+                pCur = record + sizeHdr + sizeIptc + (sizeIptc & 1);
             }
-            pCur = record + sizeHdr + sizeIptc + (sizeIptc & 1);
-        }
-        if (   iptcBlob.size() > 0
-            && IptcParser::decode(iptcData_,
-                                  &iptcBlob[0],
-                                  static_cast<uint32_t>(iptcBlob.size()))) {
+            if (   iptcBlob.size() > 0
+                && IptcParser::decode(iptcData_,
+                                      &iptcBlob[0],
+                                      static_cast<uint32_t>(iptcBlob.size()))) {
 #ifndef SUPPRESS_WARNINGS
-            std::cerr << "Warning: Failed to decode IPTC metadata.\n";
+                std::cerr << "Warning: Failed to decode IPTC metadata.\n";
 #endif
-            iptcData_.clear();
-        }
+                iptcData_.clear();
+            }
+        } // psBlob.size() > 0
 
         if (rc != 0) {
 #ifndef SUPPRESS_WARNINGS
@@ -579,7 +581,7 @@ namespace Exiv2 {
                 // Append to psBlob
                 append(psBlob, psData.pData_, psData.size_);
                 // Check whether psBlob is complete
-                if (Photoshop::valid(&psBlob[0], psBlob.size())) {
+                if (psBlob.size() > 0 && Photoshop::valid(&psBlob[0], psBlob.size())) {
                     foundCompletePsData = true;
                 }
             }
@@ -718,7 +720,7 @@ namespace Exiv2 {
                 if (foundCompletePsData || iptcData_.count() > 0) {
                     // Set the new IPTC IRB, keeps existing IRBs but removes the
                     // IPTC block if there is no new IPTC data to write
-                    DataBuf newPsData = Photoshop::setIptcIrb(&psBlob[0],
+                    DataBuf newPsData = Photoshop::setIptcIrb(psBlob.size() > 0 ? &psBlob[0] : 0,
                                                               psBlob.size(),
                                                               iptcData_);
                     const long maxChunkSize = 0xffff - 16;
@@ -835,6 +837,11 @@ namespace Exiv2 {
     {
     }
 
+    std::string JpegImage::mimeType() const
+    {
+        return "image/jpeg";
+    }
+
     int JpegImage::writeHeader(BasicIo& outIo) const
     {
         // Jpeg header
@@ -880,6 +887,11 @@ namespace Exiv2 {
     ExvImage::ExvImage(BasicIo::AutoPtr io, bool create)
         : JpegBase(ImageType::exv, io, create, blank_, sizeof(blank_))
     {
+    }
+
+    std::string ExvImage::mimeType() const
+    {
+        return "image/x-exv";
     }
 
     int ExvImage::writeHeader(BasicIo& outIo) const

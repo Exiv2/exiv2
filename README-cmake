@@ -1,0 +1,80 @@
+Exiv2 uses cmake, a cross-platform build system, to control the
+compilation process using simple platform and compiler independent
+configuration files.
+
+The old make and MSVC build files are currently still around but are
+considered deprecated in the unstable branch. They will disappear once
+the cmake build process is feature-complete, stable and documented. Or
+maybe earlier to force me to get there.
+
+
+Cmake resources
+===============
+
+Home: http://www.cmake.org/
+Help: http://www.cmake.org/cmake/help/help.html
+Doc:  http://www.cmake.org/cmake/help/documentation.html
+Wiki: http://www.cmake.org/Wiki/CMake
+FAQ:  http://www.cmake.org/Wiki/CMake_FAQ
+
+
+Building and Installing
+=======================
+
+a) From the command line 
+
+Run the following commands from the top directory (containing this
+file) to configure, build and install the library and utility:
+
+    $ mkdir build
+    $ cd build
+    $ cmake ..
+    $ make
+    $ make install
+
+To modify the configuration
+
+    $ ccmake ..
+
+
+Default install locations
+...
+
+To uninstall Exiv2, run:
+
+    $ make uninstall     >>>>>   TODO
+
+    in the meantime, on UNIX-like systems, use
+
+    $ xargs rm < install_manifest.txt
+
+
+b) Using the cmake GUI
+
+   ccmake
+
+
+
+
+
+Dependencies
+============
+
+cmake itself
+
+migrate the rest here from README, test one by one
+
+
+
+
+-----
+
+Further TODOs:
+
+  * Rename configuration settings to EXIV2_*, e.g., EXIV2_ENABLE_SHARED
+  * Two cmake projects: 1) exiv2 2) samples, common config in config/
+  * Is it possible to not have CMakeLists.txt file in the top dir?
+  * --disable-visibility
+  * cross-compilation
+  * Release build and packaging scripts
+  * emacs M-c command to (re-)compile

@@ -59,6 +59,11 @@ namespace Exiv2 {
     {
     } // RafImage::RafImage
 
+    std::string RafImage::mimeType() const
+    {
+        return "image/x-fuji-raf";
+    }
+
     int RafImage::pixelWidth() const
     {
         Exiv2::ExifData::const_iterator widthIter = exifData_.findKey(Exiv2::ExifKey("Exif.Photo.PixelXDimension"));

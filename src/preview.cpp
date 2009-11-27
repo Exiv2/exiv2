@@ -372,6 +372,9 @@ namespace {
         PreviewProperties prop = Loader::getProperties();
         prop.mimeType_ = "image/jpeg";
         prop.extension_ = ".jpg";
+#ifdef EXV_UNICODE_PATH
+        prop.wextension_ = EXV_WIDEN(".jpg");
+#endif
         return prop;
     }
 
@@ -385,7 +388,7 @@ namespace {
         }
         IoCloser closer(io);
 
-        const byte *base = io.mmap();
+        const Exiv2::byte* base = io.mmap();
 
         return DataBuf(base + offset_, size_);
     }
@@ -401,7 +404,7 @@ namespace {
             throw Error(9, io.path(), strError());
         }
         IoCloser closer(io);
-        const byte *base = io.mmap();
+        const Exiv2::byte* base = io.mmap();
 
         try {
             Image::AutoPtr image = ImageFactory::open(base + offset_, size_);
@@ -447,6 +450,9 @@ namespace {
         PreviewProperties prop = Loader::getProperties();
         prop.mimeType_ = "image/jpeg";
         prop.extension_ = ".jpg";
+#ifdef EXV_UNICODE_PATH
+        prop.wextension_ = EXV_WIDEN(".jpg");
+#endif
         return prop;
     }
 
@@ -556,6 +562,9 @@ namespace {
         PreviewProperties prop = Loader::getProperties();
         prop.mimeType_ = "image/tiff";
         prop.extension_ = ".tif";
+#ifdef EXV_UNICODE_PATH
+        prop.wextension_ = EXV_WIDEN(".tif");
+#endif
         return prop;
     }
 
@@ -610,7 +619,7 @@ namespace {
             }
             IoCloser closer(io);
 
-            const byte *base = io.mmap();
+            const Exiv2::byte* base = io.mmap();
 
             const Value &sizes = preview["Exif.Image." + sizeTag_].value();
 
@@ -624,7 +633,7 @@ namespace {
             else {
                 // FIXME: the buffer is probably copied twice, it should be optimized
                 DataBuf buf(size_);
-                byte *pos = buf.pData_;
+                Exiv2::byte* pos = buf.pData_;
                 for (int i = 0; i < sizes.count(); i++) {
                     uint32_t offset = dataValue.toLong(i);
                     uint32_t size = sizes.toLong(i);
@@ -637,11 +646,11 @@ namespace {
         }
 
         // write new image
-        Blob blob;
+        MemIo mio;
         const IptcData emptyIptc;
         const XmpData  emptyXmp;
-        TiffParser::encode(blob, 0, 0, Exiv2::littleEndian, preview, emptyIptc, emptyXmp);
-        return DataBuf((blob.size() > 0 ? &blob[0] : 0), static_cast<long>(blob.size()));
+        TiffParser::encode(mio, 0, 0, Exiv2::littleEndian, preview, emptyIptc, emptyXmp);
+        return DataBuf(mio.mmap(), mio.size());
     }
 
 }                                       // namespace
@@ -692,6 +701,16 @@ namespace Exiv2 {
         return Exiv2::writeFile(buf, name);
     }
 
+#ifdef EXV_UNICODE_PATH
+    long PreviewImage::writeFile(const std::wstring& wpath) const
+    {
+        std::wstring name = wpath + wextension();
+        // Todo: Creating a DataBuf here unnecessarily copies the memory
+        DataBuf buf(pData_, size_);
+        return Exiv2::writeFile(buf, name);
+    }
+
+#endif
     DataBuf PreviewImage::copy() const
     {
         return DataBuf(pData_, size_);
@@ -717,6 +736,13 @@ namespace Exiv2 {
         return properties_.extension_;
     }
 
+#ifdef EXV_UNICODE_PATH
+    std::wstring PreviewImage::wextension() const
+    {
+        return properties_.wextension_;
+    }
+
+#endif
     uint32_t PreviewImage::width() const
     {
         return properties_.width_;

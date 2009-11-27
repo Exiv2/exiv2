@@ -61,6 +61,15 @@ namespace Util {
 
 // *****************************************************************************
 // class Getopt
+    Getopt::Getopt()
+        : errcnt_(0)
+    {
+    }
+
+    Getopt::~Getopt()
+    {
+    }
+
     int Getopt::getopt(int argc, char* const argv[], const std::string& optstring)
     {
         progname_ = Util::basename(argv[0]);

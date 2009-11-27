@@ -53,7 +53,7 @@
 #include "XMP_Version.h"
 #include "XMP_Const.h"
 
-#if XMP_WinBuild
+#ifdef _MSC_VER
     #if XMP_DebugBuild
         #pragma warning ( push, 4 )
     #else
@@ -80,7 +80,7 @@
 
 #endif  // TXMP_STRING_TYPE
 
-#if XMP_WinBuild
+#ifdef _MSC_VER
     #pragma warning ( pop )
 #endif
 

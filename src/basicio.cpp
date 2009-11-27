@@ -69,43 +69,77 @@ EXIV2_RCSID("@(#) $Id$")
 // class member definitions
 namespace Exiv2 {
 
-    FileIo::FileIo(const std::string& path)
-        : path_(path), fp_(0), opMode_(opSeek),
-          pMappedArea_(0), mappedLength_(0), isMalloced_(false)
+    BasicIo::~BasicIo()
     {
     }
 
+    FileIo::FileIo(const std::string& path)
+        : path_(path),
+#ifdef EXV_UNICODE_PATH
+          wpMode_(wpStandard),
+#endif
+          fp_(0), opMode_(opSeek),
+          pMappedArea_(0), mappedLength_(0), isMalloced_(false), isWriteable_(false)
+    {
+    }
+
+#ifdef EXV_UNICODE_PATH
+    FileIo::FileIo(const std::wstring& wpath)
+        : wpath_(wpath),
+          wpMode_(wpUnicode),
+          fp_(0), opMode_(opSeek),
+          pMappedArea_(0), mappedLength_(0), isMalloced_(false), isWriteable_(false)
+    {
+    }
+
+#endif
     FileIo::~FileIo()
     {
-        munmap();
         close();
     }
 
-    void FileIo::munmap()
+    int FileIo::munmap()
     {
+        int rc = 0;
         if (pMappedArea_ != 0) {
 #if defined EXV_HAVE_MMAP && defined EXV_HAVE_MUNMAP
             if (::munmap(pMappedArea_, mappedLength_) != 0) {
-                throw Error(2, path_, strError(), "munmap");
+                rc = 1;
             }
 #else
+            if (isWriteable_) {
+                write(pMappedArea_, mappedLength_);
+            }
             if (isMalloced_) {
                 delete[] pMappedArea_;
                 isMalloced_ = false;
             }
 #endif
         }
+        if (isWriteable_) {
+            if (fp_ != 0) switchMode(opRead);
+            isWriteable_ = false;
+        }
         pMappedArea_ = 0;
         mappedLength_ = 0;
+        return rc;
     }
 
-    const byte* FileIo::mmap()
+    byte* FileIo::mmap(bool isWriteable)
     {
         assert(fp_ != 0);
-        munmap();
+        if (munmap() != 0) {
+            throw Error(2, path_, strError(), "munmap");
+        }
         mappedLength_ = size();
+        isWriteable_ = isWriteable;
 #if defined EXV_HAVE_MMAP && defined EXV_HAVE_MUNMAP
-        void* rc = ::mmap(0, mappedLength_, PROT_READ, MAP_SHARED, fileno(fp_), 0);
+        int prot = PROT_READ;
+        if (isWriteable_) {
+            prot |= PROT_WRITE;
+            if (switchMode(opWrite) != 0) return 0;
+        }
+        void* rc = ::mmap(0, mappedLength_, prot, MAP_SHARED, fileno(fp_), 0);
         if (MAP_FAILED == rc) {
             throw Error(2, path_, strError(), "mmap");
         }
@@ -121,18 +155,53 @@ namespace Exiv2 {
         return pMappedArea_;
     }
 
+    int FileIo::stat(StructStat& buf) const
+    {
+        int ret = 0;
+#ifdef EXV_UNICODE_PATH
+        if (wpMode_ == wpUnicode) {
+            struct _stat st;
+            ret = ::_wstat(wpath_.c_str(), &st);
+            if (0 == ret) {
+                buf.st_size = st.st_size;
+                buf.st_mode = st.st_mode;
+            }
+        }
+        else
+#endif
+        {
+            struct stat st;
+            ret = ::stat(path_.c_str(), &st);
+            if (0 == ret) {
+                buf.st_size = st.st_size;
+                buf.st_mode = st.st_mode;
+            }
+        }
+        return ret;
+    }
+
     BasicIo::AutoPtr FileIo::temporary() const
     {
         BasicIo::AutoPtr basicIo;
 
-        struct stat buf;
-        int ret = stat(path_.c_str(), &buf);
+        StructStat buf;
+        int ret = stat(buf);
 
         // If file is > 1MB then use a file, otherwise use memory buffer
         if (ret != 0 || buf.st_size > 1048576) {
             pid_t pid = ::getpid();
-            std::string tmpname = path_ + toString(pid);
-            std::auto_ptr<FileIo> fileIo(new FileIo(tmpname));
+            std::auto_ptr<FileIo> fileIo;
+#ifdef EXV_UNICODE_PATH
+            if (wpMode_ == wpUnicode) {
+                std::wstring tmpname = wpath_ + s2ws(toString(pid));
+                fileIo = std::auto_ptr<FileIo>(new FileIo(tmpname));
+            }
+            else
+#endif
+            {
+                std::string tmpname = path_ + toString(pid);
+                fileIo = std::auto_ptr<FileIo>(new FileIo(tmpname));
+            }
             if (fileIo->open("w+b") != 0) {
                 throw Error(10, path_, "w+b", strError());
             }
@@ -181,7 +250,15 @@ namespace Exiv2 {
         // Reopen the file
         long offset = std::ftell(fp_);
         if (offset == -1) return -1;
-        if (open("r+b") != 0) return 1;
+        // 'Manual' open("r+b") to avoid munmap()
+        if (fp_ != 0) {
+            std::fclose(fp_);
+            fp_= 0;
+        }
+        openMode_ = "r+b";
+        opMode_ = opSeek;
+        fp_ = std::fopen(path_.c_str(), openMode_.c_str());
+        if (!fp_) return 1;
         return std::fseek(fp_, offset, SEEK_SET);
     }
 
@@ -227,70 +304,128 @@ namespace Exiv2 {
             // Check if the file can be written to, if it already exists
             if (open("w+b") != 0) {
                 // Remove the (temporary) file
-                std::remove(fileIo->path_.c_str());
+#ifdef EXV_UNICODE_PATH
+                if (fileIo->wpMode_ == wpUnicode) {
+                    ::_wremove(fileIo->wpath_.c_str());
+                }
+                else
+#endif
+                {
+                    ::remove(fileIo->path_.c_str());
+                }
                 throw Error(10, path_, "w+b", strError());
             }
             close();
+
             bool statOk = true;
-            struct stat buf1;
-            char* pf = const_cast<char*>(path_.c_str());
+            mode_t origStMode = 0;
+            char* pf = 0;
+#ifdef EXV_UNICODE_PATH
+            wchar_t* wpf = 0;
+            if (wpMode_ == wpUnicode) {
+                wpf = const_cast<wchar_t*>(wpath_.c_str());
+            }
+            else
+#endif
+            {
+                pf = const_cast<char*>(path_.c_str());
+            }
+
+            // Get the permissions of the file, or linked-to file, on platforms which have lstat
 #ifdef EXV_HAVE_LSTAT
+
+# ifdef EXV_UNICODE_PATH
+#  error EXV_UNICODE_PATH and EXV_HAVE_LSTAT are not compatible. Stop.
+# endif
+            struct stat buf1;
             if (::lstat(pf, &buf1) == -1) {
                 statOk = false;
 #ifndef SUPPRESS_WARNINGS
-                std::cerr << "Warning: " << Error(2, pf, strError(), "lstat") << "\n";
+                std::cerr << "Warning: " << Error(2, pf, strError(), "::lstat") << "\n";
 #endif
             }
+            origStMode = buf1.st_mode;
             DataBuf lbuf; // So that the allocated memory is freed. Must have same scope as pf
             // In case path_ is a symlink, get the path of the linked-to file
             if (statOk && S_ISLNK(buf1.st_mode)) {
                 lbuf.alloc(buf1.st_size + 1);
                 memset(lbuf.pData_, 0x0, lbuf.size_);
                 pf = reinterpret_cast<char*>(lbuf.pData_);
-                if (readlink(path_.c_str(), pf, lbuf.size_ - 1) == -1) {
+                if (::readlink(path_.c_str(), pf, lbuf.size_ - 1) == -1) {
                     throw Error(2, path_, strError(), "readlink");
                 }
                 // We need the permissions of the file, not the symlink
                 if (::stat(pf, &buf1) == -1) {
                     statOk = false;
 #ifndef SUPPRESS_WARNINGS
-                    std::cerr << "Warning: " << Error(2, pf, strError(), "stat") << "\n";
+                    std::cerr << "Warning: " << Error(2, pf, strError(), "::stat") << "\n";
 #endif
                 }
+                origStMode = buf1.st_mode;
             }
-#else
-            if (::stat(pf, &buf1) == -1) {
+#else // EXV_HAVE_LSTAT
+            StructStat buf1;
+            if (stat(buf1) == -1) {
                 statOk = false;
-#ifndef SUPPRESS_WARNINGS
-                std::cerr << "Warning: " << Error(2, pf, strError(), "stat") << "\n";
-#endif
             }
+            origStMode = buf1.st_mode;
 #endif // !EXV_HAVE_LSTAT
+
             // MSVCRT rename that does not overwrite existing files
-            if (fileExists(pf) && std::remove(pf) != 0) {
-                throw Error(2, pf, strError(), "std::remove");
-            }
-            if (std::rename(fileIo->path_.c_str(), pf) == -1) {
-                throw Error(17, fileIo->path_, pf, strError());
-            }
-            std::remove(fileIo->path_.c_str());
-            // Check permissions of new file
-            struct stat buf2;
-            if (statOk && ::stat(pf, &buf2) == -1) {
-                statOk = false;
+#ifdef EXV_UNICODE_PATH
+            if (wpMode_ == wpUnicode) {
+                if (fileExists(wpf) && ::_wremove(wpf) != 0) {
+                    throw Error(2, wpf, strError(), "::_wremove");
+                }
+                if (::_wrename(fileIo->wpath_.c_str(), wpf) == -1) {
+                    throw Error(17, ws2s(fileIo->wpath_), wpf, strError());
+                }
+                ::_wremove(fileIo->wpath_.c_str());
+                // Check permissions of new file
+                struct _stat buf2;
+                if (statOk && ::_wstat(wpf, &buf2) == -1) {
+                    statOk = false;
 #ifndef SUPPRESS_WARNINGS
-                std::cerr << "Warning: " << Error(2, pf, strError(), "stat") << "\n";
-#endif
-            }
-            if (statOk && buf1.st_mode != buf2.st_mode) {
-                // Set original file permissions
-                if (::chmod(pf, buf1.st_mode) == -1) {
-#ifndef SUPPRESS_WARNINGS
-                    std::cerr << "Warning: " << Error(2, pf, strError(), "chmod") << "\n";
+                    std::cerr << "Warning: " << Error(2, wpf, strError(), "::_wstat") << "\n";
 #endif
                 }
+                if (statOk && origStMode != buf2.st_mode) {
+                    // Set original file permissions
+                    if (::_wchmod(wpf, origStMode) == -1) {
+#ifndef SUPPRESS_WARNINGS
+                        std::cerr << "Warning: " << Error(2, wpf, strError(), "::_wchmod") << "\n";
+#endif
+                    }
+                }
+            } // if (wpMode_ == wpUnicode)
+            else
+#endif // EXV_UNICODE_PATH
+            {
+                if (fileExists(pf) && ::remove(pf) != 0) {
+                    throw Error(2, pf, strError(), "::remove");
+                }
+                if (::rename(fileIo->path_.c_str(), pf) == -1) {
+                    throw Error(17, fileIo->path_, pf, strError());
+                }
+                ::remove(fileIo->path_.c_str());
+                // Check permissions of new file
+                struct stat buf2;
+                if (statOk && ::stat(pf, &buf2) == -1) {
+                    statOk = false;
+#ifndef SUPPRESS_WARNINGS
+                    std::cerr << "Warning: " << Error(2, pf, strError(), "::stat") << "\n";
+#endif
+                }
+                if (statOk && origStMode != buf2.st_mode) {
+                    // Set original file permissions
+                    if (::chmod(pf, origStMode) == -1) {
+#ifndef SUPPRESS_WARNINGS
+                        std::cerr << "Warning: " << Error(2, pf, strError(), "::chmod") << "\n";
+#endif
+                    }
+                }
             }
-        }
+        } // if (fileIo)
         else {
             // Generic handling, reopen both to reset to start
             if (open("w+b") != 0) {
@@ -353,8 +488,8 @@ namespace Exiv2 {
 #endif
         }
 
-        struct stat buf;
-        int ret = ::stat(path_.c_str(), &buf);
+        StructStat buf;
+        int ret = stat(buf);
 
         if (ret != 0) return -1;
         return buf.st_size;
@@ -368,13 +503,18 @@ namespace Exiv2 {
 
     int FileIo::open(const std::string& mode)
     {
-        if (fp_ != 0) {
-            std::fclose(fp_);
-        }
-
+        close();
         openMode_ = mode;
         opMode_ = opSeek;
-        fp_ = std::fopen(path_.c_str(), mode.c_str());
+#ifdef EXV_UNICODE_PATH
+        if (wpMode_ == wpUnicode) {
+            fp_ = ::_wfopen(wpath_.c_str(), s2ws(mode).c_str());
+        }
+        else
+#endif
+        {
+            fp_ = ::fopen(path_.c_str(), mode.c_str());
+        }
         if (!fp_) return 1;
         return 0;
     }
@@ -386,11 +526,13 @@ namespace Exiv2 {
 
     int FileIo::close()
     {
+        int rc = 0;
+        if (munmap() != 0) rc = 2;
         if (fp_ != 0) {
-            std::fclose(fp_);
+            if (std::fclose(fp_) != 0) rc |= 1;
             fp_= 0;
         }
-        return 0;
+        return rc;
     }
 
     DataBuf FileIo::read(long rcount)
@@ -429,9 +571,24 @@ namespace Exiv2 {
 
     std::string FileIo::path() const
     {
+#ifdef EXV_UNICODE_PATH
+        if (wpMode_ == wpUnicode) {
+            return ws2s(wpath_);
+        }
+#endif
         return path_;
     }
 
+#ifdef EXV_UNICODE_PATH
+    std::wstring FileIo::wpath() const
+    {
+        if (wpMode_ == wpStandard) {
+            return s2ws(path_);
+        }
+        return wpath_;
+    }
+
+#endif
     MemIo::MemIo()
         : data_(0),
           idx_(0),
@@ -568,6 +725,16 @@ namespace Exiv2 {
         return 0;
     }
 
+    byte* MemIo::mmap(bool /*isWriteable*/)
+    {
+        return data_;
+    }
+
+    int MemIo::munmap()
+    {
+        return 0;
+    }
+
     long MemIo::tell() const
     {
         return idx_;
@@ -637,6 +804,13 @@ namespace Exiv2 {
         return "MemIo";
     }
 
+#ifdef EXV_UNICODE_PATH
+    std::wstring MemIo::wpath() const
+    {
+        return EXV_WIDEN("MemIo");
+    }
+
+#endif
     // *************************************************************************
     // free functions
 
@@ -648,7 +822,7 @@ namespace Exiv2 {
         }
         struct stat st;
         if (0 != ::stat(path.c_str(), &st)) {
-            throw Error(2, path, strError(), "stat");
+            throw Error(2, path, strError(), "::stat");
         }
         DataBuf buf(st.st_size);
         long len = file.read(buf.pData_, buf.size_);
@@ -658,6 +832,26 @@ namespace Exiv2 {
         return buf;
     }
 
+#ifdef EXV_UNICODE_PATH
+    DataBuf readFile(const std::wstring& wpath)
+    {
+        FileIo file(wpath);
+        if (file.open("rb") != 0) {
+            throw Error(10, ws2s(wpath), "rb", strError());
+        }
+        struct _stat st;
+        if (0 != ::_wstat(wpath.c_str(), &st)) {
+            throw Error(2, ws2s(wpath), strError(), "::_wstat");
+        }
+        DataBuf buf(st.st_size);
+        long len = file.read(buf.pData_, buf.size_);
+        if (len != buf.size_) {
+            throw Error(2, ws2s(wpath), strError(), "FileIo::read");
+        }
+        return buf;
+    }
+
+#endif
     long writeFile(const DataBuf& buf, const std::string& path)
     {
         FileIo file(path);
@@ -667,4 +861,15 @@ namespace Exiv2 {
         return file.write(buf.pData_, buf.size_);
     }
 
+#ifdef EXV_UNICODE_PATH
+    long writeFile(const DataBuf& buf, const std::wstring& wpath)
+    {
+        FileIo file(wpath);
+        if (file.open("wb") != 0) {
+            throw Error(10, ws2s(wpath), "wb", strError());
+        }
+        return file.write(buf.pData_, buf.size_);
+    }
+
+#endif
 }                                       // namespace Exiv2

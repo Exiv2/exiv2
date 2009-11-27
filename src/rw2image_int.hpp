@@ -60,8 +60,8 @@ namespace Exiv2 {
 
         //! @name Accessors
         //@{
-        //! Not yet implemented. Does nothing and returns 0.
-        uint32_t write(Blob& blob) const;
+        //! Not yet implemented. Does nothing and returns an empty buffer.
+        DataBuf write() const;
         //@}
 
     }; // class Rw2Header

@@ -61,6 +61,13 @@ namespace Exiv2 {
       in case of an error.
      */
     EXIV2API bool fileExists(const std::string& path, bool ct =false);
+#ifdef EXV_UNICODE_PATH
+    /*!
+      @brief Like fileExists() but accepts a unicode path in an std::wstring.
+      @note This function is only available on Windows.
+     */
+    EXIV2API bool fileExists(const std::wstring& wpath, bool ct =false);
+#endif
     /*!
       @brief Return a system error message and the error code (errno).
              See %strerror(3).

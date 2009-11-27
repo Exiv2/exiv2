@@ -178,7 +178,7 @@ namespace Exiv2 {
          */
         virtual Rational toRational(long n =0) const =0;
         //! Return the size of the data area, 0 if there is none.
-        virtual long sizeDataArea() const { return 0; }
+        virtual long sizeDataArea() const;
         /*!
           @brief Return a copy of the data area if the value has one. The
                  caller owns this copy and DataBuf ensures that it will be
@@ -191,7 +191,7 @@ namespace Exiv2 {
           @return A DataBuf containing a copy of the data area or an empty
                   DataBuf if the value does not have a data area assigned.
          */
-        virtual DataBuf dataArea() const { return DataBuf(0, 0); };
+        virtual DataBuf dataArea() const;
         /*!
           @brief Check the \em ok status indicator. After a to<Type> conversion,
                  this indicator shows whether the conversion was successful.
@@ -316,7 +316,7 @@ namespace Exiv2 {
           @return Number of characters written.
         */
         virtual long copy(byte* buf, ByteOrder byteOrder =invalidByteOrder) const;
-        virtual long count() const { return size(); }
+        virtual long count() const;
         virtual long size() const;
         virtual std::ostream& write(std::ostream& os) const;
         /*!
@@ -356,17 +356,13 @@ namespace Exiv2 {
         //! @name Creators
         //@{
         //! Constructor for subclasses
-        explicit StringValueBase(TypeId typeId)
-            : Value(typeId) {}
+        explicit StringValueBase(TypeId typeId);
         //! Constructor for subclasses
-        StringValueBase(TypeId typeId, const std::string& buf)
-            : Value(typeId) { read(buf); }
+        StringValueBase(TypeId typeId, const std::string& buf);
         //! Copy constructor
-        StringValueBase(const StringValueBase& rhs)
-            : Value(rhs), value_(rhs.value_) {}
-
+        StringValueBase(const StringValueBase& rhs);
         //! Virtual destructor.
-        virtual ~StringValueBase() {}
+        virtual ~StringValueBase();
         //@}
 
         //! @name Manipulators
@@ -407,7 +403,7 @@ namespace Exiv2 {
           @return Number of characters written.
         */
         virtual long copy(byte* buf, ByteOrder byteOrder =invalidByteOrder) const;
-        virtual long count() const { return size(); }
+        virtual long count() const;
         virtual long size() const;
         virtual long toLong(long n =0) const;
         virtual float toFloat(long n =0) const;
@@ -442,13 +438,11 @@ namespace Exiv2 {
         //! @name Creators
         //@{
         //! Default constructor.
-        StringValue()
-            : StringValueBase(string) {}
+        StringValue();
         //! Constructor
-        explicit StringValue(const std::string& buf)
-            : StringValueBase(string, buf) {}
+        explicit StringValue(const std::string& buf);
         //! Virtual destructor.
-        virtual ~StringValue() {}
+        virtual ~StringValue();
         //@}
 
         //! @name Accessors
@@ -476,13 +470,11 @@ namespace Exiv2 {
         //! @name Creators
         //@{
         //! Default constructor.
-        AsciiValue()
-            : StringValueBase(asciiString) {}
+        AsciiValue();
         //! Constructor
-        explicit AsciiValue(const std::string& buf)
-            : StringValueBase(asciiString, buf) {}
+        explicit AsciiValue(const std::string& buf);
         //! Virtual destructor.
-        virtual ~AsciiValue() {}
+        virtual ~AsciiValue();
         //@}
 
         //! @name Manipulators
@@ -565,12 +557,11 @@ namespace Exiv2 {
         //! @name Creators
         //@{
         //! Default constructor.
-        CommentValue()
-            : StringValueBase(Exiv2::undefined) {}
+        CommentValue();
         //! Constructor, uses read(const std::string& comment)
         explicit CommentValue(const std::string& comment);
         //! Virtual destructor.
-        virtual ~CommentValue() {}
+        virtual ~CommentValue();
         //@}
 
         //! @name Manipulators
@@ -954,7 +945,7 @@ namespace Exiv2 {
         //! Constructor
         DateValue(int year, int month, int day);
         //! Virtual destructor.
-        virtual ~DateValue() {}
+        virtual ~DateValue();
         //@}
 
         //! Simple Date helper structure
@@ -1015,18 +1006,16 @@ namespace Exiv2 {
         */
         virtual long copy(byte* buf, ByteOrder byteOrder =invalidByteOrder) const;
         //! Return date struct containing date information
-        virtual const Date& getDate() const { return date_; }
-        virtual long count() const { return size(); }
+        virtual const Date& getDate() const;
+        virtual long count() const;
         virtual long size() const;
         virtual std::ostream& write(std::ostream& os) const;
         //! Return the value as a UNIX calender time converted to long.
         virtual long toLong(long n =0) const;
         //! Return the value as a UNIX calender time converted to float.
-        virtual float toFloat(long n =0) const
-            { return static_cast<float>(toLong(n)); }
+        virtual float toFloat(long n =0) const;
         //! Return the value as a UNIX calender time  converted to Rational.
-        virtual Rational toRational(long n =0) const
-            { return Rational(toLong(n), 1); }
+        virtual Rational toRational(long n =0) const;
         //@}
 
     private:
@@ -1060,7 +1049,7 @@ namespace Exiv2 {
                   int tzHour =0, int tzMinute =0);
 
         //! Virtual destructor.
-        virtual ~TimeValue() {}
+        virtual ~TimeValue();
         //@}
 
         //! Simple Time helper structure
@@ -1124,18 +1113,16 @@ namespace Exiv2 {
         */
         virtual long copy(byte* buf, ByteOrder byteOrder =invalidByteOrder) const;
         //! Return time struct containing time information
-        virtual const Time& getTime() const { return time_; }
-        virtual long count() const { return size(); }
+        virtual const Time& getTime() const;
+        virtual long count() const;
         virtual long size() const;
         virtual std::ostream& write(std::ostream& os) const;
         //! Returns number of seconds in the day in UTC.
         virtual long toLong(long n =0) const;
         //! Returns number of seconds in the day in UTC converted to float.
-        virtual float toFloat(long n =0) const
-            { return static_cast<float>(toLong(n)); }
+        virtual float toFloat(long n =0) const;
         //! Returns number of seconds in the day in UTC converted to Rational.
-        virtual Rational toRational(long n =0) const
-            { return Rational(toLong(n), 1); }
+        virtual Rational toRational(long n =0) const;
         //@}
 
     private:
@@ -1208,7 +1195,7 @@ namespace Exiv2 {
         //! @name Creators
         //@{
         //! Default constructor.
-        ValueType() : Value(getType<T>()), pDataArea_(0), sizeDataArea_(0) {}
+        ValueType();
         //! Constructor
         ValueType(const byte* buf, long len, ByteOrder byteOrder);
         //! Constructor (Note: Argument \em byteOrder is ignored and deprecated)
@@ -1242,7 +1229,7 @@ namespace Exiv2 {
         //@{
         AutoPtr clone() const { return AutoPtr(clone_()); }
         virtual long copy(byte* buf, ByteOrder byteOrder) const;
-        virtual long count() const { return static_cast<long>(value_.size()); }
+        virtual long count() const;
         virtual long size() const;
         virtual std::ostream& write(std::ostream& os) const;
         /*!
@@ -1256,7 +1243,7 @@ namespace Exiv2 {
         virtual float toFloat(long n =0) const;
         virtual Rational toRational(long n =0) const;
         //! Return the size of the data area.
-        virtual long sizeDataArea() const { return sizeDataArea_; }
+        virtual long sizeDataArea() const;
         /*!
           @brief Return a copy of the data area in a DataBuf. The caller owns
                  this copy and DataBuf ensures that it will be deleted.
@@ -1425,6 +1412,12 @@ namespace Exiv2 {
     }
 
     template<typename T>
+    ValueType<T>::ValueType()
+        : Value(getType<T>()), pDataArea_(0), sizeDataArea_(0)
+    {
+    }
+
+    template<typename T>
     ValueType<T>::ValueType(const byte* buf, long len, ByteOrder byteOrder)
         : Value(getType<T>()), pDataArea_(0), sizeDataArea_(0)
     {
@@ -1512,6 +1505,12 @@ namespace Exiv2 {
     }
 
     template<typename T>
+    long ValueType<T>::count() const
+    {
+        return static_cast<long>(value_.size());
+    }
+
+    template<typename T>
     long ValueType<T>::size() const
     {
         return static_cast<long>(TypeInfo::typeSize(typeId()) * value_.size());
@@ -1536,15 +1535,15 @@ namespace Exiv2 {
     }
 
     template<typename T>
-    inline std::string ValueType<T>::toString(long n) const
+    std::string ValueType<T>::toString(long n) const
     {
         ok_ = true;
-        return Exiv2::toString(value_[n]);
+        return Exiv2::toString<T>(value_[n]);
     }
 
     // Default implementation
     template<typename T>
-    inline long ValueType<T>::toLong(long n) const
+    long ValueType<T>::toLong(long n) const
     {
         ok_ = true;
         return value_[n];
@@ -1567,7 +1566,7 @@ namespace Exiv2 {
     }
     // Default implementation
     template<typename T>
-    inline float ValueType<T>::toFloat(long n) const
+    float ValueType<T>::toFloat(long n) const
     {
         ok_ = true;
         return static_cast<float>(value_[n]);
@@ -1590,7 +1589,7 @@ namespace Exiv2 {
     }
     // Default implementation
     template<typename T>
-    inline Rational ValueType<T>::toRational(long n) const
+    Rational ValueType<T>::toRational(long n) const
     {
         ok_ = true;
         return Rational(value_[n], 1);
@@ -1611,13 +1610,19 @@ namespace Exiv2 {
     }
 
     template<typename T>
-    inline DataBuf ValueType<T>::dataArea() const
+    long ValueType<T>::sizeDataArea() const
+    {
+        return sizeDataArea_;
+    }
+
+    template<typename T>
+    DataBuf ValueType<T>::dataArea() const
     {
         return DataBuf(pDataArea_, sizeDataArea_);
     }
 
     template<typename T>
-    inline int ValueType<T>::setDataArea(const byte* buf, long len)
+    int ValueType<T>::setDataArea(const byte* buf, long len)
     {
         byte* tmp = 0;
         if (len > 0) {

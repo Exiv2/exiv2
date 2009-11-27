@@ -84,6 +84,11 @@ namespace Exiv2 {
     {
     } // TiffImage::TiffImage
 
+    std::string TiffImage::mimeType() const
+    {
+        return "image/tiff";
+    }
+
     std::string TiffImage::primaryGroup() const
     {
         static const char* keys[] = {
@@ -158,21 +163,17 @@ namespace Exiv2 {
 #ifdef DEBUG
         std::cerr << "Writing TIFF file " << io_->path() << "\n";
 #endif
-        // Read existing image
         ByteOrder bo = byteOrder();
-        DataBuf buf;
+        byte* pData = 0;
+        long size = 0;
+        IoCloser closer(*io_);
         if (io_->open() == 0) {
-            IoCloser closer(*io_);
             // Ensure that this is the correct image type
             if (isTiffType(*io_, false)) {
-                // Read the image into a memory buffer
-                buf.alloc(io_->size());
-                io_->read(buf.pData_, buf.size_);
-                if (io_->error() || io_->eof()) {
-                    buf.reset();
-                }
+                pData = io_->mmap(true);
+                size = io_->size();
                 TiffHeader tiffHeader;
-                if (0 == tiffHeader.read(buf.pData_, 8)) {
+                if (0 == tiffHeader.read(pData, 8)) {
                     bo = tiffHeader.byteOrder();
                 }
             }
@@ -181,28 +182,7 @@ namespace Exiv2 {
             bo = littleEndian;
         }
         setByteOrder(bo);
-        Blob blob;
-        WriteMethod wm = TiffParser::encode(blob,
-                                            buf.pData_,
-                                            buf.size_,
-                                            bo,
-                                            exifData_,
-                                            iptcData_,
-                                            xmpData_);
-        // Write updated or new buffer to file
-        BasicIo::AutoPtr tempIo(io_->temporary()); // may throw
-        assert(tempIo.get() != 0);
-        if (wm == wmNonIntrusive) {
-            // Buffer may be modified but size is unchanged, write buffer back
-            tempIo->write(buf.pData_, buf.size_);
-        }
-        else {
-            // Size of the buffer changed, write from blob
-            tempIo->write((blob.size() > 0 ? &blob[0] : 0), static_cast<long>(blob.size()));
-        }
-        io_->close();
-        io_->transfer(*tempIo); // may throw
-
+        TiffParser::encode(*io_, pData, size, bo, exifData_, iptcData_, xmpData_); // may throw
     } // TiffImage::writeMetadata
 
     ByteOrder TiffParser::decode(
@@ -223,7 +203,7 @@ namespace Exiv2 {
     } // TiffParser::decode
 
     WriteMethod TiffParser::encode(
-              Blob&     blob,
+              BasicIo&  io,
         const byte*     pData,
               uint32_t  size,
               ByteOrder byteOrder,
@@ -250,7 +230,7 @@ namespace Exiv2 {
         }
 
         std::auto_ptr<TiffHeaderBase> header(new TiffHeader(byteOrder));
-        return TiffParserWorker::encode(blob,
+        return TiffParserWorker::encode(io,
                                         pData,
                                         size,
                                         ed,
@@ -290,10 +270,334 @@ namespace Exiv2 {
 
 }                                       // namespace Exiv2
 
+// Shortcuts for the newTiffBinaryArray templates.
+#define EXV_BINARY_ARRAY(arrayCfg, arrayDef) (newTiffBinaryArray<&arrayCfg, EXV_COUNTOF(arrayDef), arrayDef>)
+#define EXV_SIMPLE_BINARY_ARRAY(arrayCfg) (newTiffBinaryArray<&arrayCfg>)
+#define EXV_COMPLEX_BINARY_ARRAY(arraySet, cfgSelFct) (newTiffBinaryArray2<arraySet, EXV_COUNTOF(arraySet), cfgSelFct>)
+
 namespace Exiv2 {
     namespace Internal {
 
-    /* 
+    //! Constant for non-encrypted binary arrays
+    const CryptFct notEncrypted = 0;
+
+    //! Canon Camera Settings binary array - configuration
+    extern const ArrayCfg canonCsCfg = {
+        Group::canoncs,   // Group for the elements
+        invalidByteOrder, // Use byte order from parent
+        ttUnsignedShort,  // Type for array entry and size element
+        notEncrypted,     // Not encrypted
+        true,             // With size element
+        false,            // No fillers
+        { 0, ttUnsignedShort, 1 }
+    };
+    //! Canon Camera Settings binary array - definition
+    extern const ArrayDef canonCsDef[] = {
+        { 46, ttUnsignedShort, 3 } // Exif.CanonCs.Lens
+    };
+
+    //! Canon Shot Info binary array - configuration
+    extern const ArrayCfg canonSiCfg = {
+        Group::canonsi,   // Group for the elements
+        invalidByteOrder, // Use byte order from parent
+        ttUnsignedShort,  // Type for array entry and size element
+        notEncrypted,     // Not encrypted
+        true,             // With size element
+        false,            // No fillers
+        { 0, ttUnsignedShort, 1 }
+    };
+
+    //! Canon Panorama binary array - configuration
+    extern const ArrayCfg canonPaCfg = {
+        Group::canonpa,   // Group for the elements
+        invalidByteOrder, // Use byte order from parent
+        ttUnsignedShort,  // Type for array entry and size element
+        notEncrypted,     // Not encrypted
+        false,            // No size element
+        false,            // No fillers
+        { 0, ttUnsignedShort, 1 }
+    };
+
+    //! Canon Custom Function binary array - configuration
+    extern const ArrayCfg canonCfCfg = {
+        Group::canoncf,   // Group for the elements
+        invalidByteOrder, // Use byte order from parent
+        ttUnsignedShort,  // Type for array entry and size element
+        notEncrypted,     // Not encrypted
+        true,             // With size element
+        false,            // No fillers
+        { 0, ttUnsignedShort, 1 }
+    };
+
+    //! Canon Picture Info binary array - configuration
+    extern const ArrayCfg canonPiCfg = {
+        Group::canonpi,   // Group for the elements
+        invalidByteOrder, // Use byte order from parent
+        ttUnsignedShort,  // Type for array entry and size element
+        notEncrypted,     // Not encrypted
+        false,            // No size element
+        false,            // No fillers
+        { 0, ttUnsignedShort, 1 }
+    };
+
+    //! Canon File Info binary array - configuration
+    extern const ArrayCfg canonFiCfg = {
+        Group::canonfi,   // Group for the elements
+        invalidByteOrder, // Use byte order from parent
+        ttUnsignedShort,  // Type for array entry and size element
+        notEncrypted,     // Not encrypted
+        true,             // Has a size element
+        false,            // No fillers
+        { 0, ttSignedShort, 1 }
+    };
+    //! Canon File Info binary array - definition
+    extern const ArrayDef canonFiDef[] = {
+        { 2, ttUnsignedLong, 1 }
+    };
+
+    //! Nikon World Time binary array - configuration
+    extern const ArrayCfg nikonWtCfg = {
+        Group::nikonwt,   // Group for the elements
+        invalidByteOrder, // Use byte order from parent
+        ttUndefined,      // Type for array entry
+        notEncrypted,     // Not encrypted
+        false,            // No size element
+        true,             // Write all tags
+        { 0, ttUnsignedByte,  1 }
+    };
+    //! Nikon World Time binary array - definition
+    extern const ArrayDef nikonWtDef[] = {
+        { 0, ttSignedShort,   1 },
+        { 2, ttUnsignedByte,  1 },
+        { 3, ttUnsignedByte,  1 }
+    };
+
+    //! Nikon ISO info binary array - configuration
+    extern const ArrayCfg nikonIiCfg = {
+        Group::nikonii,   // Group for the elements
+        bigEndian,        // Byte order
+        ttUndefined,      // Type for array entry
+        notEncrypted,     // Not encrypted
+        false,            // No size element
+        true,             // Write all tags
+        { 0, ttUnsignedByte,  1 }
+    };
+    //! Nikon ISO info binary array - definition
+    extern const ArrayDef nikonIiDef[] = {
+        {  4, ttUnsignedShort, 1 },
+        { 10, ttUnsignedShort, 1 },
+        { 13, ttUnsignedByte,  1 }  // The array contains 14 bytes
+    };
+
+    //! Nikon Lens Data binary array - configuration 1
+    extern const ArrayCfg nikonLd1Cfg = {
+        Group::nikonld1,  // Group for the elements
+        invalidByteOrder, // Use byte order from parent
+        ttUndefined,      // Type for array entry
+        notEncrypted,     // Encryption function
+        false,            // No size element
+        true,             // Write all tags
+        { 0, ttUnsignedByte,  1 }
+    };
+    //! Nikon Lens Data binary array - configuration 2
+    extern const ArrayCfg nikonLd2Cfg = {
+        Group::nikonld2,  // Group for the elements
+        invalidByteOrder, // Use byte order from parent
+        ttUndefined,      // Type for array entry
+        nikonCrypt,       // Encryption function
+        false,            // No size element
+        true,             // Write all tags
+        { 0, ttUnsignedByte,  1 }
+    };
+    //! Nikon Lens Data binary array - configuration 3
+    extern const ArrayCfg nikonLd3Cfg = {
+        Group::nikonld3,  // Group for the elements
+        invalidByteOrder, // Use byte order from parent
+        ttUndefined,      // Type for array entry
+        nikonCrypt,       // Encryption function
+        false,            // No size element
+        true,             // Write all tags
+        { 0, ttUnsignedByte,  1 }
+    };
+    //! Nikon Lens Data binary array - definition
+    extern const ArrayDef nikonLdDef[] = {
+        { 0, ttUndefined, 4 } // LensDataVersion
+    };
+    //! Nikon Lens Data configurations and definitions
+    extern const ArraySet nikonLdSet[] = {
+        { nikonLd1Cfg, nikonLdDef, EXV_COUNTOF(nikonLdDef) },
+        { nikonLd2Cfg, nikonLdDef, EXV_COUNTOF(nikonLdDef) },
+        { nikonLd3Cfg, nikonLdDef, EXV_COUNTOF(nikonLdDef) }
+    };
+
+    //! Nikon Color Balance binary array - configuration 1
+    extern const ArrayCfg nikonCb1Cfg = {
+        Group::nikoncb1,  // Group for the elements
+        invalidByteOrder, // Use byte order from parent
+        ttUndefined,      // Type for array entry
+        notEncrypted,     // Encryption function
+        false,            // No size element
+        false,            // Write all tags
+        { 0, ttUnsignedShort, 1 }
+    };
+    //! Nikon Color Balance binary array - configuration 2
+    extern const ArrayCfg nikonCb2Cfg = {
+        Group::nikoncb2,  // Group for the elements
+        invalidByteOrder, // Use byte order from parent
+        ttUndefined,      // Type for array entry
+        nikonCrypt,       // Encryption function
+        false,            // No size element
+        false,            // Write all tags
+        { 0, ttUnsignedShort, 1 }
+    };
+    //! Nikon Color Balance binary array - configuration 2a
+    extern const ArrayCfg nikonCb2aCfg = {
+        Group::nikoncb2a, // Group for the elements
+        invalidByteOrder, // Use byte order from parent
+        ttUndefined,      // Type for array entry
+        nikonCrypt,       // Encryption function
+        false,            // No size element
+        false,            // Write all tags
+        { 0, ttUnsignedShort, 1 }
+    };
+    //! Nikon Color Balance binary array - configuration 2b
+    extern const ArrayCfg nikonCb2bCfg = {
+        Group::nikoncb2b, // Group for the elements
+        invalidByteOrder, // Use byte order from parent
+        ttUndefined,      // Type for array entry
+        nikonCrypt,       // Encryption function
+        false,            // No size element
+        false,            // Write all tags
+        { 0, ttUnsignedShort, 1 }
+    };
+    //! Nikon Color Balance binary array - configuration 3
+    extern const ArrayCfg nikonCb3Cfg = {
+        Group::nikoncb3,  // Group for the elements
+        invalidByteOrder, // Use byte order from parent
+        ttUndefined,      // Type for array entry
+        notEncrypted,     // Encryption function
+        false,            // No size element
+        false,            // Write all tags
+        { 0, ttUnsignedShort, 1 }
+    };
+    //! Nikon Color Balance binary array - configuration 4
+    extern const ArrayCfg nikonCb4Cfg = {
+        Group::nikoncb4,  // Group for the elements
+        invalidByteOrder, // Use byte order from parent
+        ttUndefined,      // Type for array entry
+        nikonCrypt,       // Encryption function
+        false,            // No size element
+        false,            // Write all tags
+        { 0, ttUnsignedShort, 1 }
+    };
+    //! Nikon Color Balance binary array - definition 1 (D100)
+    extern const ArrayDef nikonCb1Def[] = {
+        {  0, ttUndefined,        4 }, // Version
+        {  4, ttUnsignedShort,   34 }, // Unknown
+        { 72, ttUnsignedShort,    4 }, // Color balance levels
+        { 80, ttUnsignedShort, 9999 }  // Unknown
+    };
+    //! Nikon Color Balance binary array - definition 2 (D2H)
+    extern const ArrayDef nikonCb2Def[] = {
+        {  0, ttUndefined,        4 }, // Version
+        {  4, ttUnsignedShort,    3 }, // Unknown
+        { 10, ttUnsignedShort,    4 }, // Color balance levels
+        { 18, ttUnsignedShort, 9999 }  // Unknown
+    };
+    //! Nikon Color Balance binary array - definition 2a (D50)
+    extern const ArrayDef nikonCb2aDef[] = {
+        {  0, ttUndefined,        4 }, // Version
+        {  4, ttUnsignedShort,    7 }, // Unknown
+        { 18, ttUnsignedShort,    4 }, // Color balance levels
+        { 26, ttUnsignedShort, 9999 }  // Unknown
+    };
+    //! Nikon Color Balance binary array - definition 2b (D2X=0204,D2Hs=0206,D200=0207,D40=0208)
+    extern const ArrayDef nikonCb2bDef[] = {
+        {  0, ttUndefined,        4 }, // Version
+        {  4, ttUnsignedShort,  140 }, // Unknown
+        {284, ttUnsignedShort,    3 }, // Unknown (encrypted)
+        {290, ttUnsignedShort,    4 }, // Color balance levels
+        {298, ttUnsignedShort, 9999 }  // Unknown (encrypted)
+    };
+    //! Nikon Color Balance binary array - definition 3 (D70)
+    extern const ArrayDef nikonCb3Def[] = {
+        {  0, ttUndefined,        4 }, // Version
+        {  4, ttUnsignedShort,    8 }, // Unknown
+        { 20, ttUnsignedShort,    4 }, // Color balance levels
+        { 28, ttUnsignedShort, 9999 }  // Unknown
+    };
+    //! Nikon Color Balance binary array - definition 4 (D3)
+    extern const ArrayDef nikonCb4Def[] = {
+        {  0, ttUndefined,        4 }, // Version
+        {  4, ttUnsignedShort,  140 }, // Unknown
+        {284, ttUnsignedShort,    5 }, // Unknown (encrypted)
+        {294, ttUnsignedShort,    4 }, // Color balance levels
+        {302, ttUnsignedShort, 9999 }  // Unknown (encrypted)
+    };
+    //! Nikon Color Balance configurations and definitions
+    extern const ArraySet nikonCbSet[] = {
+        { nikonCb1Cfg,  nikonCb1Def,  EXV_COUNTOF(nikonCb1Def)  },
+        { nikonCb2Cfg,  nikonCb2Def,  EXV_COUNTOF(nikonCb2Def)  },
+        { nikonCb2aCfg, nikonCb2aDef, EXV_COUNTOF(nikonCb2aDef) },
+        { nikonCb2bCfg, nikonCb2bDef, EXV_COUNTOF(nikonCb2bDef) },
+        { nikonCb3Cfg,  nikonCb3Def,  EXV_COUNTOF(nikonCb3Def)  },
+        { nikonCb4Cfg,  nikonCb4Def,  EXV_COUNTOF(nikonCb4Def)  }
+    };
+
+    //! Minolta Camera Settings (old) binary array - configuration
+    extern const ArrayCfg minoCsoCfg = {
+        Group::minocso,   // Group for the elements
+        bigEndian,        // Big endian
+        ttUndefined,      // Type for array entry and size element
+        notEncrypted,     // Not encrypted
+        false,            // No size element
+        false,            // No fillers
+        { 0, ttUnsignedLong, 1 }
+    };
+
+    //! Minolta Camera Settings (new) binary array - configuration
+    extern const ArrayCfg minoCsnCfg = {
+        Group::minocsn,   // Group for the elements
+        bigEndian,        // Big endian
+        ttUndefined,      // Type for array entry and size element
+        notEncrypted,     // Not encrypted
+        false,            // No size element
+        false,            // No fillers
+        { 0, ttUnsignedLong, 1 }
+    };
+
+    //! Minolta 7D Camera Settings binary array - configuration
+    extern const ArrayCfg minoCs7Cfg = {
+        Group::minocs7,   // Group for the elements
+        bigEndian,        // Big endian
+        ttUndefined,      // Type for array entry and size element
+        notEncrypted,     // Not encrypted
+        false,            // No size element
+        false,            // No fillers
+        { 0, ttUnsignedShort, 1 }
+    };
+    //! Minolta 7D Camera Settings binary array - definition
+    extern const ArrayDef minoCs7Def[] = {
+        {  60, ttSignedShort, 1 }, // Exif.MinoltaCs7D.ExposureCompensation
+        { 126, ttSignedShort, 1 }  // Exif.MinoltaCs7D.ColorTemperature
+    };
+
+    //! Minolta 5D Camera Settings binary array - configuration
+    extern const ArrayCfg minoCs5Cfg = {
+        Group::minocs5,   // Group for the elements
+        bigEndian,        // Big endian
+        ttUndefined,      // Type for array entry and size element
+        notEncrypted,     // Not encrypted
+        false,            // No size element
+        false,            // No fillers
+        { 0, ttUnsignedShort, 1 }
+    };
+    //! Minolta 5D Camera Settings binary array - definition
+    extern const ArrayDef minoCs5Def[] = {
+        { 146, ttSignedShort, 1 } // Exif.MinoltaCs5D.ColorTemperature
+    };
+
+    /*
       This table lists for each group in a tree, its parent group and tag.
       Root identifies the root of a TIFF tree, as there is a need for multiple
       trees. Groups are the nodes of a TIFF tree. A group is an IFD or any
@@ -303,8 +607,8 @@ namespace Exiv2 {
       path, i.e., a list of groups and tags, from the root to that group (tag).
     */
     const TiffTreeStruct TiffCreator::tiffTreeStruct_[] = {
-        // root      group             parent group      parent tag 
-        //---------  ----------------- ----------------- ---------- 
+        // root      group             parent group      parent tag
+        //---------  ----------------- ----------------- ----------
         { Tag::root, Group::none,      Group::none,      Tag::root },
         { Tag::root, Group::ifd0,      Group::none,      Tag::root },
         { Tag::root, Group::subimg1,   Group::ifd0,      0x014a    },
@@ -341,10 +645,22 @@ namespace Exiv2 {
         { Tag::root, Group::canonpa,   Group::canonmn,   0x0005    },
         { Tag::root, Group::canoncf,   Group::canonmn,   0x000f    },
         { Tag::root, Group::canonpi,   Group::canonmn,   0x0012    },
+        { Tag::root, Group::canonfi,   Group::canonmn,   0x0093    },
         { Tag::root, Group::nikon1mn,  Group::exif,      0x927c    },
         { Tag::root, Group::nikon2mn,  Group::exif,      0x927c    },
         { Tag::root, Group::nikon3mn,  Group::exif,      0x927c    },
         { Tag::root, Group::nikonpv,   Group::nikon3mn,  0x0011    },
+        { Tag::root, Group::nikonwt,   Group::nikon3mn,  0x0024    },
+        { Tag::root, Group::nikonii,   Group::nikon3mn,  0x0025    },
+        { Tag::root, Group::nikoncb1,  Group::nikon3mn,  0x0097    },
+        { Tag::root, Group::nikoncb2,  Group::nikon3mn,  0x0097    },
+        { Tag::root, Group::nikoncb2a, Group::nikon3mn,  0x0097    },
+        { Tag::root, Group::nikoncb2b, Group::nikon3mn,  0x0097    },
+        { Tag::root, Group::nikoncb3,  Group::nikon3mn,  0x0097    },
+        { Tag::root, Group::nikoncb4,  Group::nikon3mn,  0x0097    },
+        { Tag::root, Group::nikonld1,  Group::nikon3mn,  0x0098    },
+        { Tag::root, Group::nikonld2,  Group::nikon3mn,  0x0098    },
+        { Tag::root, Group::nikonld3,  Group::nikon3mn,  0x0098    },
         { Tag::root, Group::panamn,    Group::exif,      0x927c    },
         { Tag::root, Group::pentaxmn,  Group::exif,      0x927c    },
         { Tag::root, Group::sigmamn,   Group::exif,      0x927c    },
@@ -465,14 +781,14 @@ namespace Exiv2 {
 
         // Olympus makernote - some Olympus cameras use Minolta structures
         // Todo: Adding such tags will not work (maybe result in a Minolta makernote), need separate groups
-        {    0x0001, Group::olymp1mn,  newTiffArrayEntry<Group::minocso, ttUnsignedLong, false>  },
-        {    0x0003, Group::olymp1mn,  newTiffArrayEntry<Group::minocsn, ttUnsignedLong, false>  },
+        {    0x0001, Group::olymp1mn,  EXV_SIMPLE_BINARY_ARRAY(minoCsoCfg)       },
+        {    0x0003, Group::olymp1mn,  EXV_SIMPLE_BINARY_ARRAY(minoCsnCfg)       },
         { Tag::next, Group::olymp1mn,  newTiffDirectory<Group::ignr>             },
         {  Tag::all, Group::olymp1mn,  newTiffEntry                              },
 
         // Olympus2 makernote
-        {    0x0001, Group::olymp2mn,  newTiffArrayEntry<Group::minocso, ttUnsignedLong, false>  },
-        {    0x0003, Group::olymp2mn,  newTiffArrayEntry<Group::minocsn, ttUnsignedLong, false>  },
+        {    0x0001, Group::olymp2mn,  EXV_SIMPLE_BINARY_ARRAY(minoCsoCfg)       },
+        {    0x0003, Group::olymp2mn,  EXV_SIMPLE_BINARY_ARRAY(minoCsnCfg)       },
         {    0x2010, Group::olymp2mn,  newTiffSubIfd<Group::olympeq>             },
         {    0x2020, Group::olymp2mn,  newTiffSubIfd<Group::olympcs>             },
         {    0x2030, Group::olymp2mn,  newTiffSubIfd<Group::olymprd>             },
@@ -547,20 +863,22 @@ namespace Exiv2 {
         {  Tag::all, Group::fujimn,    newTiffEntry                              },
 
         // Canon makernote
-        {    0x0001, Group::canonmn,   newTiffArrayEntry<Group::canoncs, ttUnsignedShort, true>  },
-        {    0x0004, Group::canonmn,   newTiffArrayEntry<Group::canonsi, ttUnsignedShort, true>  },
-        {    0x0005, Group::canonmn,   newTiffArrayEntry<Group::canonpa, ttUnsignedShort, false>  },
-        {    0x000f, Group::canonmn,   newTiffArrayEntry<Group::canoncf, ttUnsignedShort, true>  },
-        {    0x0012, Group::canonmn,   newTiffArrayEntry<Group::canonpi, ttUnsignedShort, false>  },
+        {    0x0001, Group::canonmn,   EXV_BINARY_ARRAY(canonCsCfg, canonCsDef)  },
+        {    0x0004, Group::canonmn,   EXV_SIMPLE_BINARY_ARRAY(canonSiCfg)       },
+        {    0x0005, Group::canonmn,   EXV_SIMPLE_BINARY_ARRAY(canonPaCfg)       },
+        {    0x000f, Group::canonmn,   EXV_SIMPLE_BINARY_ARRAY(canonCfCfg)       },
+        {    0x0012, Group::canonmn,   EXV_SIMPLE_BINARY_ARRAY(canonPiCfg)       },
+        {    0x0093, Group::canonmn,   EXV_BINARY_ARRAY(canonFiCfg, canonFiDef)  },
         { Tag::next, Group::canonmn,   newTiffDirectory<Group::ignr>             },
-        {  Tag::all, Group::canonmn,   newTiffEntry  },
+        {  Tag::all, Group::canonmn,   newTiffEntry                              },
 
         // Canon makernote composite tags
-        {  Tag::all, Group::canoncs,   newTiffArrayElement<ttUnsignedShort>      },
-        {  Tag::all, Group::canonsi,   newTiffArrayElement<ttUnsignedShort>      },
-        {  Tag::all, Group::canonpa,   newTiffArrayElement<ttUnsignedShort>      },
-        {  Tag::all, Group::canoncf,   newTiffArrayElement<ttUnsignedShort>      },
-        {  Tag::all, Group::canonpi,   newTiffArrayElement<ttUnsignedShort>      },
+        {  Tag::all, Group::canoncs,   newTiffBinaryElement                      },
+        {  Tag::all, Group::canonsi,   newTiffBinaryElement                      },
+        {  Tag::all, Group::canonpa,   newTiffBinaryElement                      },
+        {  Tag::all, Group::canoncf,   newTiffBinaryElement                      },
+        {  Tag::all, Group::canonpi,   newTiffBinaryElement                      },
+        {  Tag::all, Group::canonfi,   newTiffBinaryElement                      },
 
         // Nikon1 makernote
         { Tag::next, Group::nikon1mn,  newTiffDirectory<Group::ignr>             },
@@ -573,13 +891,36 @@ namespace Exiv2 {
         // Nikon3 makernote
         { Tag::next, Group::nikon3mn,  newTiffDirectory<Group::ignr>             },
         {    0x0011, Group::nikon3mn,  newTiffSubIfd<Group::nikonpv>             },
-        {  Tag::all, Group::nikon3mn,  newTiffEntry  },
+        {    0x0024, Group::nikon3mn,  EXV_BINARY_ARRAY(nikonWtCfg, nikonWtDef)  },
+        {    0x0025, Group::nikon3mn,  EXV_BINARY_ARRAY(nikonIiCfg, nikonIiDef)  },
+        {    0x0097, Group::nikon3mn,  EXV_COMPLEX_BINARY_ARRAY(nikonCbSet, nikonSelector) },
+        {    0x0098, Group::nikon3mn,  EXV_COMPLEX_BINARY_ARRAY(nikonLdSet, nikonSelector) },
+        {  Tag::all, Group::nikon3mn,  newTiffEntry                              },
 
         // Nikon3 makernote preview subdir
         {    0x0201, Group::nikonpv,   newTiffThumbData<0x0202, Group::nikonpv>  },
         {    0x0202, Group::nikonpv,   newTiffThumbSize<0x0201, Group::nikonpv>  },
         { Tag::next, Group::nikonpv,   newTiffDirectory<Group::ignr>             },
         {  Tag::all, Group::nikonpv,   newTiffEntry                              },
+
+        // Nikon3 world time
+        {  Tag::all, Group::nikonwt,   newTiffBinaryElement                      },
+
+        // Nikon3 ISO info
+        {  Tag::all, Group::nikonii,   newTiffBinaryElement                      },
+
+        // Nikon3 color balance
+        {  Tag::all, Group::nikoncb1,  newTiffBinaryElement                      },
+        {  Tag::all, Group::nikoncb2,  newTiffBinaryElement                      },
+        {  Tag::all, Group::nikoncb2a, newTiffBinaryElement                      },
+        {  Tag::all, Group::nikoncb2b, newTiffBinaryElement                      },
+        {  Tag::all, Group::nikoncb3,  newTiffBinaryElement                      },
+        {  Tag::all, Group::nikoncb4,  newTiffBinaryElement                      },
+
+        // Nikon3 lens data
+        {  Tag::all, Group::nikonld1,  newTiffBinaryElement                      },
+        {  Tag::all, Group::nikonld2,  newTiffBinaryElement                      },
+        {  Tag::all, Group::nikonld3,  newTiffBinaryElement                      },
 
         // Panasonic makernote
         { Tag::next, Group::panamn,    newTiffDirectory<Group::ignr>             },
@@ -604,26 +945,26 @@ namespace Exiv2 {
         {  Tag::all, Group::sony2mn,   newTiffEntry                              },
 
         // Minolta makernote
-        {    0x0001, Group::minoltamn, newTiffArrayEntry<Group::minocso, ttUnsignedLong, false>   },
-        {    0x0003, Group::minoltamn, newTiffArrayEntry<Group::minocsn, ttUnsignedLong, false>   },
-        {    0x0004, Group::minoltamn, newTiffArrayEntry<Group::minocs7, ttUnsignedShort, false>  },
+        {    0x0001, Group::minoltamn, EXV_SIMPLE_BINARY_ARRAY(minoCsoCfg)       },
+        {    0x0003, Group::minoltamn, EXV_SIMPLE_BINARY_ARRAY(minoCsnCfg)       },
+        {    0x0004, Group::minoltamn, EXV_BINARY_ARRAY(minoCs7Cfg, minoCs7Def)  },
         {    0x0088, Group::minoltamn, newTiffThumbData<0x0089, Group::minoltamn>},
         {    0x0089, Group::minoltamn, newTiffThumbSize<0x0088, Group::minoltamn>},
-        {    0x0114, Group::minoltamn, newTiffArrayEntry<Group::minocs5, ttUnsignedShort, false>  },
+        {    0x0114, Group::minoltamn, EXV_BINARY_ARRAY(minoCs5Cfg, minoCs5Def)  },
         { Tag::next, Group::minoltamn, newTiffDirectory<Group::ignr>             },
         {  Tag::all, Group::minoltamn, newTiffEntry                              },
 
         // Minolta makernote composite tags
-        {  Tag::all, Group::minocso,   newTiffArrayElement<ttUnsignedLong,  bigEndian>  },
-        {  Tag::all, Group::minocsn,   newTiffArrayElement<ttUnsignedLong,  bigEndian>  },
-        {  Tag::all, Group::minocs7,   newTiffArrayElement<ttUnsignedShort, bigEndian>  },
-        {  Tag::all, Group::minocs5,   newTiffArrayElement<ttUnsignedShort, bigEndian>  },
+        {  Tag::all, Group::minocso,   newTiffBinaryElement                      },
+        {  Tag::all, Group::minocsn,   newTiffBinaryElement                      },
+        {  Tag::all, Group::minocs7,   newTiffBinaryElement                      },
+        {  Tag::all, Group::minocs5,   newTiffBinaryElement                      },
 
         // -----------------------------------------------------------------------
         // Root directory of Panasonic RAW images
         { Tag::pana, Group::none,      newTiffDirectory<Group::panaraw>          },
 
-        // IFD0 of Panasonic RAW images 
+        // IFD0 of Panasonic RAW images
         {    0x8769, Group::panaraw,   newTiffSubIfd<Group::exif>                },
         {    0x8825, Group::panaraw,   newTiffSubIfd<Group::gps>                 },
 //        {    0x0111, Group::panaraw,   newTiffImageData<0x0117, Group::panaraw>  },
@@ -642,12 +983,7 @@ namespace Exiv2 {
         { "*",       Tag::all, Group::ignr,    0, 0 }, // Do not decode tags with group == Group::ignr
         { "*",         0x02bc, Group::ifd0,    &TiffDecoder::decodeXmp,          0 /*done before the tree is traversed*/ },
         { "*",         0x83bb, Group::ifd0,    &TiffDecoder::decodeIptc,         0 /*done before the tree is traversed*/ },
-        { "*",         0x8649, Group::ifd0,    &TiffDecoder::decodeIptc,         0 /*done before the tree is traversed*/ },
-        // Minolta makernote entries which need to be encoded in big endian byte order
-        { "*",       Tag::all, Group::minocso, &TiffDecoder::decodeStdTiffEntry, &TiffEncoder::encodeBigEndianEntry },
-        { "*",       Tag::all, Group::minocsn, &TiffDecoder::decodeStdTiffEntry, &TiffEncoder::encodeBigEndianEntry },
-        { "*",       Tag::all, Group::minocs7, &TiffDecoder::decodeStdTiffEntry, &TiffEncoder::encodeBigEndianEntry },
-        { "*",       Tag::all, Group::minocs5, &TiffDecoder::decodeStdTiffEntry, &TiffEncoder::encodeBigEndianEntry }
+        { "*",         0x8649, Group::ifd0,    &TiffDecoder::decodeIptc,         0 /*done before the tree is traversed*/ }
     };
 
     DecoderFct TiffMapping::findDecoder(const std::string& make,
@@ -764,7 +1100,7 @@ namespace Exiv2 {
     } // TiffParserWorker::decode
 
     WriteMethod TiffParserWorker::encode(
-              Blob&              blob,
+              BasicIo&           io,
         const byte*              pData,
               uint32_t           size,
         const ExifData&          exifData,
@@ -784,7 +1120,6 @@ namespace Exiv2 {
          */
         assert(pHeader);
         assert(pHeader->byteOrder() != invalidByteOrder);
-        blob.clear();
         WriteMethod writeMethod = wmIntrusive;
         TiffComponent::AutoPtr createdTree;
         TiffComponent::AutoPtr parsedTree = parse(pData, size, root, pHeader);
@@ -810,11 +1145,18 @@ namespace Exiv2 {
             // Add entries from metadata to composite
             encoder.add(createdTree.get(), parsedTree.get(), root);
             // Write binary representation from the composite tree
-            uint32_t offset = pHeader->write(blob);
+            DataBuf header = pHeader->write();
+            BasicIo::AutoPtr tempIo(io.temporary()); // may throw
+            assert(tempIo.get() != 0);
+            IoWrapper ioWrapper(*tempIo, header.pData_, header.size_);
             uint32_t imageIdx(uint32_t(-1));
-            uint32_t len = createdTree->write(blob, pHeader->byteOrder(), offset, uint32_t(-1), uint32_t(-1), imageIdx);
-            // Avoid writing just the header if there is no IFD data
-            if (len == 0) blob.clear();
+            createdTree->write(ioWrapper,
+                               pHeader->byteOrder(),
+                               header.size_,
+                               uint32_t(-1),
+                               uint32_t(-1),
+                               imageIdx);
+            io.transfer(*tempIo); // may throw
 #ifdef DEBUG
             std::cerr << "Intrusive writing\n";
 #endif
@@ -845,6 +1187,7 @@ namespace Exiv2 {
                 new TiffRwState(pHeader->byteOrder(), 0));
             TiffReader reader(pData, size, rootDir.get(), state);
             rootDir->accept(reader);
+            reader.postProcess();
         }
         return rootDir;
 
@@ -884,26 +1227,25 @@ namespace Exiv2 {
         return true;
     } // TiffHeaderBase::read
 
-    uint32_t TiffHeaderBase::write(Blob& blob) const
+    DataBuf TiffHeaderBase::write() const
     {
-        byte buf[8];
+        DataBuf buf(8);
         switch (byteOrder_) {
         case littleEndian:
-            buf[0] = 0x49;
-            buf[1] = 0x49;
+            buf.pData_[0] = 0x49;
+            buf.pData_[1] = 0x49;
             break;
         case bigEndian:
-            buf[0] = 0x4d;
-            buf[1] = 0x4d;
+            buf.pData_[0] = 0x4d;
+            buf.pData_[1] = 0x4d;
             break;
         case invalidByteOrder:
             assert(false);
             break;
         }
-        us2Data(buf + 2, tag_, byteOrder_);
-        ul2Data(buf + 4, 0x00000008, byteOrder_);
-        append(blob, buf, 8);
-        return 8;
+        us2Data(buf.pData_ + 2, tag_, byteOrder_);
+        ul2Data(buf.pData_ + 4, 0x00000008, byteOrder_);
+        return buf;
     }
 
     void TiffHeaderBase::print(std::ostream& os, const std::string& prefix) const

@@ -95,6 +95,11 @@ namespace Exiv2 {
         }
     } // PngImage::PngImage
 
+    std::string PngImage::mimeType() const
+    {
+        return "image/png";
+    }
+
     void PngImage::readMetadata()
     {
 #ifdef DEBUG
@@ -282,7 +287,7 @@ namespace Exiv2 {
                 {
                     // Update Comment data to a new PNG chunk
                     std::string chunk = PngChunk::makeMetadataChunk(comment_, mdComment);
-                    if (outIo.write((const byte*)chunk.data(), chunk.size()) != (long)chunk.size())
+                    if (outIo.write((const byte*)chunk.data(), static_cast<long>(chunk.size())) != (long)chunk.size())
                     {
                         throw Error(21);
                     }
@@ -299,7 +304,7 @@ namespace Exiv2 {
                         std::string rawExif =   std::string(exifHeader, 6)
                                               + std::string((const char*)&blob[0], blob.size());
                         std::string chunk = PngChunk::makeMetadataChunk(rawExif, mdExif);
-                        if (outIo.write((const byte*)chunk.data(), chunk.size()) != (long)chunk.size())
+                        if (outIo.write((const byte*)chunk.data(), static_cast<long>(chunk.size())) != (long)chunk.size())
                         {
                             throw Error(21);
                         }
@@ -314,7 +319,7 @@ namespace Exiv2 {
                     {
                         std::string rawIptc((const char*)newPsData.pData_, newPsData.size_);
                         std::string chunk = PngChunk::makeMetadataChunk(rawIptc, mdIptc);
-                        if (outIo.write((const byte*)chunk.data(), chunk.size()) != (long)chunk.size())
+                        if (outIo.write((const byte*)chunk.data(), static_cast<long>(chunk.size())) != (long)chunk.size())
                         {
                             throw Error(21);
                         }
@@ -331,7 +336,7 @@ namespace Exiv2 {
                 if (xmpPacket_.size() > 0) {
                     // Update XMP data to a new PNG chunk
                     std::string chunk = PngChunk::makeMetadataChunk(xmpPacket_, mdXmp);
-                    if (outIo.write((const byte*)chunk.data(), chunk.size()) != (long)chunk.size()) {
+                    if (outIo.write((const byte*)chunk.data(), static_cast<long>(chunk.size())) != (long)chunk.size()) {
                         throw Error(21);
                     }
                 }

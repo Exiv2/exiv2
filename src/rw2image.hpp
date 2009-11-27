@@ -101,7 +101,7 @@ namespace Exiv2 {
 
         //! @name Accessors
         //@{
-        std::string mimeType() const { return "image/x-raw"; }
+        std::string mimeType() const;
         int pixelWidth() const;
         int pixelHeight() const;
         //@}

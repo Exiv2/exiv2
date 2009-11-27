@@ -89,7 +89,7 @@ namespace Exiv2 {
 
         //! @name Accessors
         //@{
-        std::string mimeType() const { return "image/tiff"; }
+        std::string mimeType() const;
         int pixelWidth() const;
         int pixelHeight() const;
         //@}
@@ -144,20 +144,21 @@ namespace Exiv2 {
           The original binary image in the memory block \em pData, \em size is
           parsed and updated in-place if possible ("non-intrusive" writing).
           If that is not possible (e.g., if new tags were added), the entire
-          TIFF structure is re-written to the \em blob ("intrusive" writing).<br>
+          TIFF structure is re-written to the \em io instance ("intrusive" writing).<br>
           The return value indicates which write method was used. If it is
           \c wmNonIntrusive, the original memory \em pData, \em size contains
-          the result and \em blob is empty. If the return value is
-          \c wmIntrusive, a new TIFF structure was created and returned in
-          \em blob. The memory block \em pData, \em size may be partly updated
+          the result and nothing is written to \em io. If the return value is
+          \c wmIntrusive, a new TIFF structure was created and written to
+          \em io. The memory block \em pData, \em size may be partly updated
           in this case and should not be used anymore.
 
           @note If there is no metadata to encode, i.e., all metadata
                 containers are empty, then the return value is \c wmIntrusive
-                and the \em blob is empty, i.e., no TIFF header is written.
+                and nothing is written to \em io, i.e., no TIFF header is written.
 
-          @param blob      Container for the binary image if "intrusive"
-                           writing is necessary. Empty otherwise.
+          @param io        IO instance to write the binary image to in case of
+                           "intrusive" writing. Nothing is written to \em io in
+                           the case of "non-intrusive" writing.
           @param pData     Pointer to the binary image data buffer. Must
                            point to data in TIFF format; no checks are
                            performed. Will be modified if "non-intrusive"
@@ -171,7 +172,7 @@ namespace Exiv2 {
           @return Write method used.
         */
         static WriteMethod encode(
-                  Blob&     blob,
+                  BasicIo&  io,
             const byte*     pData,
                   uint32_t  size,
                   ByteOrder byteOrder,

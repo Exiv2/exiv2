@@ -84,6 +84,8 @@ namespace Exiv2 {
             "Exif.Nikon1.ISOSpeed",
             "Exif.Nikon2.ISOSpeed",
             "Exif.Nikon3.ISOSpeed",
+            "Exif.NikonIi.ISO",
+            "Exif.NikonIi.ISO2",
             "Exif.MinoltaCsNew.ISOSpeed",
             "Exif.MinoltaCsOld.ISOSpeed",
             "Exif.MinoltaCs5D.ISOSpeed",
@@ -91,7 +93,23 @@ namespace Exiv2 {
             "Exif.Pentax.ISO",
             "Exif.Olympus.ISOSpeed"
         };
-        return findMetadatum(ed, keys, EXV_COUNTOF(keys));
+
+        // Find the first ISO value which is not "0"
+        const int cnt = EXV_COUNTOF(keys);
+        ExifData::const_iterator md = ed.end();
+        for (int idx = 0; idx < cnt; ) {
+            md = findMetadatum(ed, keys + idx, cnt - idx);
+            if (md == ed.end()) break;
+            std::ostringstream os;
+            md->write(os, &ed);
+            bool ok = false;
+            long v = parseLong(os.str(), ok);
+            if (ok && v != 0) break;
+            while (strcmp(keys[idx++], md->key().c_str()) != 0 && idx < cnt) {}
+            md = ed.end();
+        }
+
+        return md;
     }
 
     ExifData::const_iterator flashBias(const ExifData& ed)
@@ -200,4 +218,66 @@ namespace Exiv2 {
         return findMetadatum(ed, keys, EXV_COUNTOF(keys));
     }
 
+    ExifData::const_iterator saturation(const ExifData& ed)
+    {
+        static const char* keys[] = {
+            "Exif.Photo.Saturation",
+            "Exif.CanonCs.Saturation",
+            "Exif.MinoltaCsNew.Saturation",
+            "Exif.MinoltaCsOld.Saturation",
+            "Exif.MinoltaCs7D.Saturation",
+            "Exif.MinoltaCs5D.Saturation",
+            "Exif.Fujifilm.Color",
+            "Exif.Nikon3.Saturation",
+            "Exif.Panasonic.Saturation",
+            "Exif.Pentax.Saturation",
+            "Exif.Sigma.Saturation"
+        };
+        return findMetadatum(ed, keys, EXV_COUNTOF(keys));
+    }
+
+    ExifData::const_iterator sharpness(const ExifData& ed)
+    {
+        static const char* keys[] = {
+            "Exif.Photo.Sharpness",
+            "Exif.CanonCs.Sharpness",
+            "Exif.Fujifilm.Sharpness",
+            "Exif.MinoltaCsNew.Sharpness",
+            "Exif.MinoltaCsOld.Sharpness",
+            "Exif.MinoltaCs7D.Sharpness",
+            "Exif.MinoltaCs5D.Sharpness",
+            "Exif.Olympus.SharpnessFactor",
+            "Exif.Panasonic.Sharpness",
+            "Exif.Pentax.Sharpness",
+            "Exif.Sigma.Sharpness"
+        };
+        return findMetadatum(ed, keys, EXV_COUNTOF(keys));
+    }
+
+    ExifData::const_iterator contrast(const ExifData& ed)
+    {
+        static const char* keys[] = {
+            "Exif.Photo.Contrast",
+            "Exif.CanonCs.Contrast",
+            "Exif.Fujifilm.Tone",
+            "Exif.MinoltaCsNew.Contrast",
+            "Exif.MinoltaCsOld.Contrast",
+            "Exif.MinoltaCs7D.Contrast",
+            "Exif.MinoltaCs5D.Contrast",
+            "Exif.Olympus.Contrast",
+            "Exif.Panasonic.Contrast",
+            "Exif.Pentax.Contrast",
+            "Exif.Sigma.Contrast"
+        };
+        return findMetadatum(ed, keys, EXV_COUNTOF(keys));
+    }
+
+    ExifData::const_iterator sceneCaptureType(const ExifData& ed)
+    {
+        static const char* keys[] = {
+            "Exif.Photo.SceneCaptureType",
+            "Exif.Olympus.SpecialMode"
+        };
+        return findMetadatum(ed, keys, EXV_COUNTOF(keys));
+    }
 }                                       // namespace Exiv2

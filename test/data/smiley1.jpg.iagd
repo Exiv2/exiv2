@@ -17,4 +17,4 @@ Iptc.Application2.Urgency                    0x000a String      1  3
 Iptc.Application2.SuppCategory               0x0014 String     10  bla bla ba
 Iptc.Envelope.ModelVersion                   0x0000 Short       1  2
 Iptc.Envelope.TimeSent                       0x0050 Time       11  14:41:00-05:00
-Iptc.Application2.RasterizedCaption          0x007d Undefined   8  230 42 34 2 90 84 23 146 
+Iptc.Application2.RasterizedCaption          0x007d Undefined   8  230 42 34 2 90 84 23 146

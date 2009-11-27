@@ -110,7 +110,7 @@ namespace Exiv2 {
 
         //! @name Accessors
         //@{
-        std::string mimeType() const { return "image/gif"; }
+        std::string mimeType() const;
         //@}
 
     }; // class GifImage
