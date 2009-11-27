@@ -48,7 +48,7 @@ COMMERCIAL_VERSION = @COMMERCIAL_VERSION@
 # **********************************************************************
 # Libtool
 LIBTOOL = $(top_srcdir)/libtool
-LIBTOOL_DEPS = @LIBTOOL_DEPS@
+LIBTOOL_DEPS = $(top_srcdir)/@LIBTOOL_DEPS@
 
 # **********************************************************************
 # C++ Compiler and precompiler

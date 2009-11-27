@@ -30,7 +30,6 @@ AC_PROG_CPP
 AC_PROG_INSTALL
 AC_PROG_LN_S
 AC_PROG_MAKE_SET
-AC_PROG_RANLIB
 AC_CANONICAL_HOST
 # Add flag for DLL on Windows
 case "$host_os" in
@@ -47,7 +46,8 @@ AM_GNU_GETTEXT([external])
 # ---------------------------------------------------------------------------
 # Libtool support
 # ---------------------------------------------------------------------------
-AC_PROG_LIBTOOL
+LT_INIT
+AC_SUBST([LIBTOOL_DEPS])
 
 # ---------------------------------------------------------------------------
 # Checks for libraries.
