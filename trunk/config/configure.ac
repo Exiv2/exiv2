@@ -2,7 +2,7 @@
 # Process this file with autoconf to produce a configure script.
 
 AC_PREREQ(2.61)
-AC_INIT(exiv2, 0.18.2, ahuggel@gmx.net)
+AC_INIT(exiv2, 0.18.99, ahuggel@gmx.net)
 # See http://www.gnu.org/software/libtool/manual/html_node/Updating-version-info.html
 EXIV2_LTVERSION=8:1:3
 PACKAGE=$PACKAGE_NAME
