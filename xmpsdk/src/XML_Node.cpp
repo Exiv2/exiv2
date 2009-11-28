@@ -214,7 +214,7 @@ static void DumpNodeList ( std::string * buffer, const XML_NodeVector & list, in
 		if ( node->nsPrefixLen != 0 ) {
 			*buffer += ", prefixLen=";
 			char numBuf [20];
-			snprintf ( numBuf, sizeof(numBuf), "%d", node->nsPrefixLen );
+			snprintf ( numBuf, sizeof(numBuf), "%lu", (unsigned long)node->nsPrefixLen );
 			*buffer += numBuf;
 		}
 		*buffer += "\n";
