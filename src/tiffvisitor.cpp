@@ -1467,7 +1467,6 @@ namespace Exiv2 {
     {
         byte* pData   = object->start();
         uint32_t size = object->TiffEntryBase::doSize();
-        assert(pData >= pData_);
         ByteOrder bo = object->elByteOrder();
         if (bo == invalidByteOrder) bo = byteOrder();
         TypeId typeId = toTypeId(object->elDef()->tiffType_, object->tag(), object->group());
