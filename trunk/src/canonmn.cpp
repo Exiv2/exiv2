@@ -1058,12 +1058,13 @@ namespace Exiv2 {
         return os;
     }
 
+    //! Helper structure
     struct LensTypeAndFocalLength {
-        long        lensType_;
-        std::string focalLength_;
-
+        long        lensType_;                  //!< Lens type
+        std::string focalLength_;               //!< Focal length
     };
 
+    //! Compare tag details with a lens entry
     bool operator==(const TagDetails& td, const LensTypeAndFocalLength& ltfl) {
         return (   td.val_ == ltfl.lensType_
                 && std::string(td.label_).find(ltfl.focalLength_) != std::string::npos);
