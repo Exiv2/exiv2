@@ -355,6 +355,40 @@ namespace Exiv2 {
         { 2, ttUnsignedLong, 1 }
     };
 
+    //! Nikon Vibration Reduction binary array - configuration
+    extern const ArrayCfg nikonVrCfg = {
+        Group::nikonvr,   // Group for the elements
+        invalidByteOrder, // Use byte order from parent
+        ttUndefined,      // Type for array entry
+        notEncrypted,     // Not encrypted
+        false,            // No size element
+        true,             // Write all tags
+        { 0, ttUnsignedByte,  1 }
+    };
+    //! Nikon Vibration Reduction binary array - definition
+    extern const ArrayDef nikonVrDef[] = {
+        { 0, ttUndefined,     4 }, // Version
+        { 7, ttUnsignedByte,  1 }  // The array contains 8 bytes
+    };
+
+    //! Nikon Picture Control binary array - configuration
+    extern const ArrayCfg nikonPcCfg = {
+        Group::nikonpc,   // Group for the elements
+        invalidByteOrder, // Use byte order from parent
+        ttUndefined,      // Type for array entry
+        notEncrypted,     // Not encrypted
+        false,            // No size element
+        true,             // Write all tags
+        { 0, ttUnsignedByte,  1 }
+    };
+    //! Nikon Picture Control binary array - definition
+    extern const ArrayDef nikonPcDef[] = {
+        {  0, ttUndefined,     4 }, // Version
+        {  4, ttAsciiString,  20 },
+        { 24, ttAsciiString,  20 },
+        { 57, ttUnsignedByte,  1 }  // The array contains 58 bytes
+    };
+
     //! Nikon World Time binary array - configuration
     extern const ArrayCfg nikonWtCfg = {
         Group::nikonwt,   // Group for the elements
@@ -368,7 +402,6 @@ namespace Exiv2 {
     //! Nikon World Time binary array - definition
     extern const ArrayDef nikonWtDef[] = {
         { 0, ttSignedShort,   1 },
-        { 2, ttUnsignedByte,  1 },
         { 3, ttUnsignedByte,  1 }
     };
 
@@ -650,6 +683,8 @@ namespace Exiv2 {
         { Tag::root, Group::nikon2mn,  Group::exif,      0x927c    },
         { Tag::root, Group::nikon3mn,  Group::exif,      0x927c    },
         { Tag::root, Group::nikonpv,   Group::nikon3mn,  0x0011    },
+        { Tag::root, Group::nikonvr,   Group::nikon3mn,  0x001f    },
+        { Tag::root, Group::nikonpc,   Group::nikon3mn,  0x0023    },
         { Tag::root, Group::nikonwt,   Group::nikon3mn,  0x0024    },
         { Tag::root, Group::nikonii,   Group::nikon3mn,  0x0025    },
         { Tag::root, Group::nikoncb1,  Group::nikon3mn,  0x0097    },
@@ -891,6 +926,8 @@ namespace Exiv2 {
         // Nikon3 makernote
         { Tag::next, Group::nikon3mn,  newTiffDirectory<Group::ignr>             },
         {    0x0011, Group::nikon3mn,  newTiffSubIfd<Group::nikonpv>             },
+        {    0x001f, Group::nikon3mn,  EXV_BINARY_ARRAY(nikonVrCfg, nikonVrDef)  },
+        {    0x0023, Group::nikon3mn,  EXV_BINARY_ARRAY(nikonPcCfg, nikonPcDef)  },
         {    0x0024, Group::nikon3mn,  EXV_BINARY_ARRAY(nikonWtCfg, nikonWtDef)  },
         {    0x0025, Group::nikon3mn,  EXV_BINARY_ARRAY(nikonIiCfg, nikonIiDef)  },
         {    0x0097, Group::nikon3mn,  EXV_COMPLEX_BINARY_ARRAY(nikonCbSet, nikonSelector) },
@@ -902,6 +939,12 @@ namespace Exiv2 {
         {    0x0202, Group::nikonpv,   newTiffThumbSize<0x0201, Group::nikonpv>  },
         { Tag::next, Group::nikonpv,   newTiffDirectory<Group::ignr>             },
         {  Tag::all, Group::nikonpv,   newTiffEntry                              },
+
+        // Nikon3 vibration reduction
+        {  Tag::all, Group::nikonvr,   newTiffBinaryElement                      },
+
+        // Nikon3 picture control
+        {  Tag::all, Group::nikonpc,   newTiffBinaryElement                      },
 
         // Nikon3 world time
         {  Tag::all, Group::nikonwt,   newTiffBinaryElement                      },
