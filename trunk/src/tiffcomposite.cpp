@@ -142,6 +142,7 @@ namespace Exiv2 {
         { 309, "NikonCb4"     },
         { 310, "NikonVr"      },
         { 311, "NikonPc"      },
+        { 312, "NikonAf"      },
         { 320, "CanonFi"      }
     };
 

@@ -422,6 +422,21 @@ namespace Exiv2 {
         { 13, ttUnsignedByte,  1 }  // The array contains 14 bytes
     };
 
+    //! Nikon Auto Focus binary array - configuration
+    extern const ArrayCfg nikonAfCfg = {
+        Group::nikonaf,   // Group for the elements
+        littleEndian,     // Byte order
+        ttUndefined,      // Type for array entry
+        notEncrypted,     // Not encrypted
+        false,            // No size element
+        true,             // Write all tags
+        { 0, ttUnsignedByte,  1 }
+    };
+    //! Nikon Auto Focus binary array - definition
+    extern const ArrayDef nikonAfDef[] = {
+        { 2, ttUnsignedShort, 1 } // The array contains 4 bytes
+    };
+
     //! Nikon Lens Data binary array - configuration 1
     extern const ArrayCfg nikonLd1Cfg = {
         Group::nikonld1,  // Group for the elements
@@ -687,6 +702,7 @@ namespace Exiv2 {
         { Tag::root, Group::nikonpc,   Group::nikon3mn,  0x0023    },
         { Tag::root, Group::nikonwt,   Group::nikon3mn,  0x0024    },
         { Tag::root, Group::nikonii,   Group::nikon3mn,  0x0025    },
+        { Tag::root, Group::nikonaf,   Group::nikon3mn,  0x0088    },
         { Tag::root, Group::nikoncb1,  Group::nikon3mn,  0x0097    },
         { Tag::root, Group::nikoncb2,  Group::nikon3mn,  0x0097    },
         { Tag::root, Group::nikoncb2a, Group::nikon3mn,  0x0097    },
@@ -930,6 +946,7 @@ namespace Exiv2 {
         {    0x0023, Group::nikon3mn,  EXV_BINARY_ARRAY(nikonPcCfg, nikonPcDef)  },
         {    0x0024, Group::nikon3mn,  EXV_BINARY_ARRAY(nikonWtCfg, nikonWtDef)  },
         {    0x0025, Group::nikon3mn,  EXV_BINARY_ARRAY(nikonIiCfg, nikonIiDef)  },
+        {    0x0088, Group::nikon3mn,  EXV_BINARY_ARRAY(nikonAfCfg, nikonAfDef)  },
         {    0x0097, Group::nikon3mn,  EXV_COMPLEX_BINARY_ARRAY(nikonCbSet, nikonSelector) },
         {    0x0098, Group::nikon3mn,  EXV_COMPLEX_BINARY_ARRAY(nikonLdSet, nikonSelector) },
         {  Tag::all, Group::nikon3mn,  newTiffEntry                              },
@@ -951,6 +968,9 @@ namespace Exiv2 {
 
         // Nikon3 ISO info
         {  Tag::all, Group::nikonii,   newTiffBinaryElement                      },
+
+        // Nikon3 auto focus
+        {  Tag::all, Group::nikonaf,   newTiffBinaryElement                      },
 
         // Nikon3 color balance
         {  Tag::all, Group::nikoncb1,  newTiffBinaryElement                      },

@@ -118,6 +118,8 @@ namespace Exiv2 {
         static const TagInfo* tagListWt();
         //! Return read-only list of built-in ISO info tags
         static const TagInfo* tagListIi();
+        //! Return read-only list of built-in Auto Focus tags
+        static const TagInfo* tagListAf();
         //! Return read-only list of built-in Color Balance 1 tags
         static const TagInfo* tagListCb1();
         //! Return read-only list of built-in Color Balance 2 tags
@@ -157,6 +159,8 @@ namespace Exiv2 {
         static std::ostream& print0x0089(std::ostream& os, const Value& value, const ExifData* metadata);
         //! Print number of lens stops
         static std::ostream& print0x008b(std::ostream& os, const Value& value, const ExifData*);
+        //! Print AF Points In Focus
+        static std::ostream& printAfPointsInFocus(std::ostream& os, const Value& value, const ExifData* metadata);
 
         //! Print lens name
         static std::ostream& printLensId(std::ostream& os, const Value& value, const ExifData* metadata, const std::string& group);
@@ -183,6 +187,8 @@ namespace Exiv2 {
         static const TagInfo tagInfoWt_[];
         //! ISO info tag information
         static const TagInfo tagInfoIi_[];
+        //! Auto Focus tag information
+        static const TagInfo tagInfoAf_[];
         //! Color Balance 1 tag information
         static const TagInfo tagInfoCb1_[];
         //! Color Balance 2 tag information
