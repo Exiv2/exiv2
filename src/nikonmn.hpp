@@ -110,6 +110,10 @@ namespace Exiv2 {
     public:
         //! Return read-only list of built-in Nikon3 tags
         static const TagInfo* tagList();
+        //! Return read-only list of built-in Vibration Reduction tags
+        static const TagInfo* tagListVr();
+        //! Return read-only list of built-in Picture Control tags
+        static const TagInfo* tagListPc();
         //! Return read-only list of built-in World time tags
         static const TagInfo* tagListWt();
         //! Return read-only list of built-in ISO info tags
@@ -171,6 +175,10 @@ namespace Exiv2 {
     private:
         //! Tag information
         static const TagInfo tagInfo_[];
+        //! Vibration Reduction tag information
+        static const TagInfo tagInfoVr_[];
+        //! Picture Control tag information
+        static const TagInfo tagInfoPc_[];
         //! World Time tag information
         static const TagInfo tagInfoWt_[];
         //! ISO info tag information

@@ -621,6 +621,81 @@ namespace Exiv2 {
         { 2, N_("D/M/Y") }
     };
 
+    //! OnOff
+    extern const TagDetails nikonOnOff[] = {
+        {  1, N_("On")  },
+        {  2, N_("Off") }
+    };
+
+    // Nikon3 Vibration Reduction Tag Info
+    const TagInfo Nikon3MakerNote::tagInfoVr_[] = {
+        TagInfo(0, "Version", N_("Version"), N_("Version"), nikonVrIfdId, makerTags, undefined, printExifVersion),
+        TagInfo(4, "VibrationReduction", N_("Vibration Reduction"), N_("Vibration reduction"), nikonVrIfdId, makerTags, unsignedByte, EXV_PRINT_TAG(nikonOnOff)),
+        // End of list marker
+        TagInfo(0xffff, "(UnknownNikonVrTag)", "(UnknownNikonVrTag)", N_("Unknown Nikon Vibration Reduction Tag"), nikonVrIfdId, makerTags, invalidTypeId, printValue)
+    };
+
+    const TagInfo* Nikon3MakerNote::tagListVr()
+    {
+        return tagInfoVr_;
+    }
+
+    //! Adjust
+    extern const TagDetails nikonAdjust[] = {
+        {  0, N_("Default Settings") },
+        {  1, N_("Quick Adjust")     },
+        {  2, N_("Full Control")     }
+    };
+
+    //! FilterEffect
+    extern const TagDetails nikonFilterEffect[] = {
+        { 0x80, N_("Off")    },
+        { 0x81, N_("Yellow") },
+        { 0x82, N_("Orange") },
+        { 0x83, N_("Red")    },
+        { 0x84, N_("Green")  },
+        { 0xff, N_("n/a")    }
+    };
+
+    //! ToningEffect
+    extern const TagDetails nikonToningEffect[] = {
+        { 0x80, N_("B&W")         },
+        { 0x81, N_("Sepia")       },
+        { 0x82, N_("Cyanotype")   },
+        { 0x83, N_("Red")         },
+        { 0x84, N_("Yellow")      },
+        { 0x85, N_("Green")       },
+        { 0x86, N_("Blue-green")  },
+        { 0x87, N_("Blue")        },
+        { 0x88, N_("Purple-blue") },
+        { 0x89, N_("Red-purple")  },
+        { 0xff, N_("n/a")         }
+    };
+
+    // Nikon3 Picture Control Tag Info
+    const TagInfo Nikon3MakerNote::tagInfoPc_[] = {
+        TagInfo( 0, "Version", N_("Version"), N_("Version"), nikonPcIfdId, makerTags, undefined, printExifVersion),
+        TagInfo( 4, "Name", N_("Name"), N_("Name"), nikonPcIfdId, makerTags, asciiString, printValue),
+        TagInfo(24, "Base", N_("Base"), N_("Base"), nikonPcIfdId, makerTags, asciiString, printValue),
+        TagInfo(48, "Adjust", N_("Adjust"), N_("Adjust"), nikonPcIfdId, makerTags, unsignedByte, EXV_PRINT_TAG(nikonAdjust)),
+        TagInfo(49, "QuickAdjust", N_("Quick Adjust"), N_("Quick adjust"), nikonPcIfdId, makerTags, unsignedByte, printValue),
+        TagInfo(50, "Sharpness", N_("Sharpness"), N_("Sharpness"), nikonPcIfdId, makerTags, unsignedByte, printValue),
+        TagInfo(51, "Contrast", N_("Contrast"), N_("Contrast"), nikonPcIfdId, makerTags, unsignedByte, printValue),
+        TagInfo(52, "Brightness", N_("Brightness"), N_("Brightness"), nikonPcIfdId, makerTags, unsignedByte, printValue),
+        TagInfo(53, "Saturation", N_("Saturation"), N_("Saturation"), nikonPcIfdId, makerTags, unsignedByte, printValue),
+        TagInfo(54, "HueAdjustment", N_("Hue Adjustment"), N_("Hue adjustment"), nikonPcIfdId, makerTags, unsignedByte, printValue),
+        TagInfo(55, "FilterEffect", N_("Filter Effect"), N_("Filter effect"), nikonPcIfdId, makerTags, unsignedByte, EXV_PRINT_TAG(nikonFilterEffect)),
+        TagInfo(56, "ToningEffect", N_("Toning Effect"), N_("Toning effect"), nikonPcIfdId, makerTags, unsignedByte, EXV_PRINT_TAG(nikonToningEffect)),
+        TagInfo(57, "ToningSaturation", N_("Toning Saturation"), N_("Toning saturation"), nikonPcIfdId, makerTags, unsignedByte, printValue),
+        // End of list marker
+        TagInfo(0xffff, "(UnknownNikonPcTag)", "(UnknownNikonPcTag)", N_("Unknown Nikon Picture Control Tag"), nikonPcIfdId, makerTags, invalidTypeId, printValue)
+    };
+
+    const TagInfo* Nikon3MakerNote::tagListPc()
+    {
+        return tagInfoPc_;
+    }
+
     // Nikon3 World Time Tag Info
     const TagInfo Nikon3MakerNote::tagInfoWt_[] = {
         TagInfo(0, "Timezone", N_("Timezone"), N_("Timezone"), nikonWtIfdId, makerTags, signedShort, printValue),
