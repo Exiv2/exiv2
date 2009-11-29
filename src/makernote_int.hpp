@@ -101,6 +101,7 @@ namespace Exiv2 {
         const uint16_t nikoncb4  = 309; //!< Nikon Color Balance 4 Tags
         const uint16_t nikonvr   = 310; //!< Nikon Vibration Reduction Tags
         const uint16_t nikonpc   = 311; //!< Nikon Picture Control Tags
+        const uint16_t nikonaf   = 312; //!< Nikon Auto Focus Tags
 
         const uint16_t canonfi   = 320; //!< Canon File Info
     }

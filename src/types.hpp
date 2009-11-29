@@ -173,6 +173,7 @@ namespace Exiv2 {
         nikonPcIfdId,
         nikonWtIfdId,
         nikonIiIfdId,
+        nikonAfIfdId,
         nikonLd1IfdId,
         nikonLd2IfdId,
         nikonLd3IfdId,

@@ -742,6 +742,60 @@ namespace Exiv2 {
         return tagInfoIi_;
     }
 
+    //! AfAreaMode
+    extern const TagDetails nikonAfAreaMode[] = {
+        { 0, N_("Single Area")                   },
+        { 1, N_("Dynamic Area")                  },
+        { 2, N_("Dynamic Area, Closest Subject") },
+        { 3, N_("Group Dynamic")                 },
+        { 4, N_("Single Area (wide)")            },
+        { 5, N_("Dynamic Area (wide)")           }
+    };
+
+    //! AfPoint
+    extern const TagDetails nikonAfPoint[] = {
+        { 0, N_("Center")      },
+        { 1, N_("Top")         },
+        { 2, N_("Bottom")      },
+        { 3, N_("Mid-left")    },
+        { 4, N_("Mid-right")   },
+        { 5, N_("Upper-left")  },
+        { 6, N_("Upper-right") },
+        { 7, N_("Lower-left")  },
+        { 8, N_("Lower-right") },
+        { 9, N_("Far Left")    },
+        { 10, N_("Far Right")  }
+    };
+
+    //! AfPointsInFocus
+    extern const TagDetailsBitmask nikonAfPointsInFocus[] = {
+        { 0x0001, N_("Center")        },
+        { 0x0002, N_("Top")           },
+        { 0x0004, N_("Bottom")        },
+        { 0x0008, N_("Mid-left")      },
+        { 0x0010, N_("Mid-right")     },
+        { 0x0020, N_("Upper-left")    },
+        { 0x0040, N_("Upper-right")   },
+        { 0x0080, N_("Lower-left")    },
+        { 0x0100, N_("Lower-right")   },
+        { 0x0200, N_("Far Left")      },
+        { 0x0400, N_("Far Right")     }
+    };
+
+    // Nikon3 Auto Focus Tag Info
+    const TagInfo Nikon3MakerNote::tagInfoAf_[] = {
+        TagInfo( 0, "AFAreaMode", N_("AF Area Mode"), N_("AF area mode"), nikonAfIfdId, makerTags, unsignedByte, EXV_PRINT_TAG(nikonAfAreaMode)),
+        TagInfo( 1, "AFPoint", N_("AF Point"), N_("AF point"), nikonAfIfdId, makerTags, unsignedByte, EXV_PRINT_TAG(nikonAfPoint)),
+        TagInfo( 2, "AFPointsInFocus", N_("AF Points In Focus"), N_("AF points in focus"), nikonAfIfdId, makerTags, unsignedShort, printAfPointsInFocus),
+        // End of list marker
+        TagInfo(0xffff, "(UnknownNikonAfTag)", "(UnknownNikonAfTag)", N_("Unknown Nikon Auto Focus Tag"), nikonAfIfdId, makerTags, invalidTypeId, printValue)
+    };
+
+    const TagInfo* Nikon3MakerNote::tagListAf()
+    {
+        return tagInfoAf_;
+    }
+
     // Nikon3 Color Balance 1 Tag Info
     const TagInfo Nikon3MakerNote::tagInfoCb1_[] = {
         TagInfo( 0, "Version", N_("Version"), N_("Version"), nikonCb1IfdId, makerTags, undefined, printExifVersion),
@@ -1098,6 +1152,33 @@ namespace Exiv2 {
         }
 
         return os;
+    }
+
+    std::ostream& Nikon3MakerNote::printAfPointsInFocus(std::ostream& os,
+                                                        const Value& value,
+                                                        const ExifData* metadata)
+    {
+        if (value.typeId() != unsignedShort) return os << "(" << value << ")";
+
+        bool dModel = false;
+        if (metadata) {
+            ExifData::const_iterator pos = metadata->findKey(ExifKey("Exif.Image.Model"));
+            if (pos != metadata->end() && pos->count() != 0) {
+                std::string model = pos->toString();
+                if (model.find("NIKON D") != std::string::npos) {
+                    dModel = true;
+                }
+            }
+        }
+
+        uint16_t val = value.toLong();
+        if (dModel) val = (val >> 8) | ((val & 0x00ff) << 8);
+
+        if (val == 0x07ff) return os << _("All 11 Points");
+
+        UShortValue v;
+        v.value_.push_back(val);
+        return EXV_PRINT_TAG_BITMASK(nikonAfPointsInFocus)(os, v, 0);
     }
 
     std::ostream& Nikon3MakerNote::print0x0089(std::ostream& os,

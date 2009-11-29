@@ -848,7 +848,9 @@ File  4/15: 20040329_224245.jpg
 20040329_224245.jpg   Exif.Nikon3.LensType                         Byte        1  D G 
 20040329_224245.jpg   Exif.Nikon3.Lens                             Rational    4  18-70mm F3.5-4.5
 20040329_224245.jpg   Exif.Nikon3.FlashMode                        Byte        1  Did not fire
-20040329_224245.jpg   Exif.Nikon3.AFInfo                           Undefined   4  0 0 0 1
+20040329_224245.jpg   Exif.NikonAf.AFAreaMode                      Byte        1  Single Area
+20040329_224245.jpg   Exif.NikonAf.AFPoint                         Byte        1  Center
+20040329_224245.jpg   Exif.NikonAf.AFPointsInFocus                 Short       1  Center
 20040329_224245.jpg   Exif.Nikon3.ShootingMode                     Short       1  Single-frame
 20040329_224245.jpg   Exif.Nikon3.AutoBracketRelease               Short       1  None
 20040329_224245.jpg   Exif.Nikon3.LensFStops                       Undefined   4  5.33333
@@ -2170,7 +2172,7 @@ Writing thumbnail (image/jpeg, 6137 Bytes) to file ./20060127_225027-thumb.jpg
 exiv2-empty.exv: No Exif data found in the file
 
 Compare image data and extracted data ------------------------------------
-1,1501c1,1501
+1,1503c1,1503
 < File  1/15: exiv2-empty.jpg
 < File  2/15: 20031214_000043.jpg
 < 20031214_000043.jpg   Exif.Image.Make                              Ascii       6  Canon
@@ -2422,7 +2424,9 @@ Compare image data and extracted data ------------------------------------
 < 20040329_224245.jpg   Exif.Nikon3.LensType                         Byte        1  D G 
 < 20040329_224245.jpg   Exif.Nikon3.Lens                             Rational    4  18-70mm F3.5-4.5
 < 20040329_224245.jpg   Exif.Nikon3.FlashMode                        Byte        1  Did not fire
-< 20040329_224245.jpg   Exif.Nikon3.AFInfo                           Undefined   4  0 0 0 1
+< 20040329_224245.jpg   Exif.NikonAf.AFAreaMode                      Byte        1  Single Area
+< 20040329_224245.jpg   Exif.NikonAf.AFPoint                         Byte        1  Center
+< 20040329_224245.jpg   Exif.NikonAf.AFPointsInFocus                 Short       1  Center
 < 20040329_224245.jpg   Exif.Nikon3.ShootingMode                     Short       1  Single-frame
 < 20040329_224245.jpg   Exif.Nikon3.AutoBracketRelease               Short       1  None
 < 20040329_224245.jpg   Exif.Nikon3.LensFStops                       Undefined   4  5.33333
@@ -3924,7 +3928,9 @@ Compare image data and extracted data ------------------------------------
 > 20040329_224245.exv   Exif.Nikon3.LensType                         Byte        1  D G 
 > 20040329_224245.exv   Exif.Nikon3.Lens                             Rational    4  18-70mm F3.5-4.5
 > 20040329_224245.exv   Exif.Nikon3.FlashMode                        Byte        1  Did not fire
-> 20040329_224245.exv   Exif.Nikon3.AFInfo                           Undefined   4  0 0 0 1
+> 20040329_224245.exv   Exif.NikonAf.AFAreaMode                      Byte        1  Single Area
+> 20040329_224245.exv   Exif.NikonAf.AFPoint                         Byte        1  Center
+> 20040329_224245.exv   Exif.NikonAf.AFPointsInFocus                 Short       1  Center
 > 20040329_224245.exv   Exif.Nikon3.ShootingMode                     Short       1  Single-frame
 > 20040329_224245.exv   Exif.Nikon3.AutoBracketRelease               Short       1  None
 > 20040329_224245.exv   Exif.Nikon3.LensFStops                       Undefined   4  5.33333
@@ -5394,7 +5400,7 @@ Writing Exif data from ./20060127_225027.exv to 20060127_225027.jpg
 exiv2-empty.exv: No Exif data found in the file
 
 Compare original and inserted image data ---------------------------------
-1,1501c1,1501
+1,1503c1,1503
 < File  1/15: exiv2-empty.jpg
 < File  2/15: 20031214_000043.jpg
 < 20031214_000043.jpg   Exif.Image.Make                              Ascii       6  Canon
@@ -5646,7 +5652,9 @@ Compare original and inserted image data ---------------------------------
 < 20040329_224245.jpg   Exif.Nikon3.LensType                         Byte        1  D G 
 < 20040329_224245.jpg   Exif.Nikon3.Lens                             Rational    4  18-70mm F3.5-4.5
 < 20040329_224245.jpg   Exif.Nikon3.FlashMode                        Byte        1  Did not fire
-< 20040329_224245.jpg   Exif.Nikon3.AFInfo                           Undefined   4  0 0 0 1
+< 20040329_224245.jpg   Exif.NikonAf.AFAreaMode                      Byte        1  Single Area
+< 20040329_224245.jpg   Exif.NikonAf.AFPoint                         Byte        1  Center
+< 20040329_224245.jpg   Exif.NikonAf.AFPointsInFocus                 Short       1  Center
 < 20040329_224245.jpg   Exif.Nikon3.ShootingMode                     Short       1  Single-frame
 < 20040329_224245.jpg   Exif.Nikon3.AutoBracketRelease               Short       1  None
 < 20040329_224245.jpg   Exif.Nikon3.LensFStops                       Undefined   4  5.33333
@@ -7148,7 +7156,9 @@ Compare original and inserted image data ---------------------------------
 > 20040329_224245.exv   Exif.Nikon3.LensType                         Byte        1  D G 
 > 20040329_224245.exv   Exif.Nikon3.Lens                             Rational    4  18-70mm F3.5-4.5
 > 20040329_224245.exv   Exif.Nikon3.FlashMode                        Byte        1  Did not fire
-> 20040329_224245.exv   Exif.Nikon3.AFInfo                           Undefined   4  0 0 0 1
+> 20040329_224245.exv   Exif.NikonAf.AFAreaMode                      Byte        1  Single Area
+> 20040329_224245.exv   Exif.NikonAf.AFPoint                         Byte        1  Center
+> 20040329_224245.exv   Exif.NikonAf.AFPointsInFocus                 Short       1  Center
 > 20040329_224245.exv   Exif.Nikon3.ShootingMode                     Short       1  Single-frame
 > 20040329_224245.exv   Exif.Nikon3.AutoBracketRelease               Short       1  None
 > 20040329_224245.exv   Exif.Nikon3.LensFStops                       Undefined   4  5.33333
