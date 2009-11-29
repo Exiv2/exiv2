@@ -120,17 +120,25 @@ namespace Exiv2 {
     */
     class TiffPathItem {
     public:
+        //! @name Creators
+        //@{
         //! Constructor
         TiffPathItem(uint32_t extendedTag, uint16_t group)
             : extendedTag_(extendedTag), group_(group) {}
+        //@}
+
+        //! @name Accessors
+        //@{
         //! Return the tag corresponding to the extended tag
         uint16_t tag()         const { return static_cast<uint16_t>(extendedTag_ & 0xffff); }
         //! Return the extended tag (32 bit so that it can contain special tags)
         uint32_t extendedTag() const { return extendedTag_; }
         //! Return the group
         uint16_t group()       const { return group_; }
+        //@}
 
     private:
+        // DATA
         uint32_t extendedTag_;
         uint16_t group_;
     }; // class TiffPathItem
@@ -146,6 +154,8 @@ namespace Exiv2 {
      */
     class IoWrapper {
     public:
+        //! @name Creators
+        //@{
         /*!
           brief Constructor.
 
@@ -153,6 +163,10 @@ namespace Exiv2 {
           responsible to keep them alive.
          */
         IoWrapper(BasicIo& io, const byte* pHeader, long size);
+        //@}
+
+        //! @name Manipulators
+        //@{
         /*!
           @brief Wraps the corresponding BasicIo::write() method.
 
@@ -167,7 +181,10 @@ namespace Exiv2 {
           by the data passed in the argument.
          */
         int putb(byte data);
+        //@}
+
     private:
+        // DATA
         BasicIo& io_;              //! Reference for the IO instance.
         const byte* pHeader_;      //! Pointer to the header data.
         long size_;                //! Size of the header data.
@@ -236,20 +253,6 @@ namespace Exiv2 {
                  freed outside of this class.
          */
         void setStart(const byte* pStart) { pStart_ = const_cast<byte*>(pStart); }
-        //@}
-
-        //! @name Accessors
-        //@{
-        //! Return the tag of this entry.
-        uint16_t tag()                        const { return tag_; }
-        //! Return the group id of this component
-        uint16_t group()                      const { return group_; }
-        //! Return a pointer to the start of the binary representation of the component
-        byte* start()                         const { return pStart_; }
-        //@}
-
-        //! @name Write support (Manipulators)
-        //@{
         /*!
           @brief Write a TiffComponent to a binary image.
 
@@ -272,8 +275,14 @@ namespace Exiv2 {
                        uint32_t& imageIdx);
         //@}
 
-        //! @name Write support (Accessors)
+        //! @name Accessors
         //@{
+        //! Return the tag of this entry.
+        uint16_t tag()                        const { return tag_; }
+        //! Return the group id of this component
+        uint16_t group()                      const { return group_; }
+        //! Return a pointer to the start of the binary representation of the component
+        byte* start()                         const { return pStart_; }
         /*!
           @brief Write the IFD data of this component to a binary image.
                  Return the number of bytes written. Components derived from
@@ -323,7 +332,7 @@ namespace Exiv2 {
         //@}
 
     protected:
-        //! @name Manipulators
+        //! @name Protected Manipulators
         //@{
         //! Implements addPath(). The default implementation does nothing.
         virtual TiffComponent* doAddPath(uint16_t  tag, TiffPath& tiffPath, TiffComponent* const pRoot);
@@ -333,10 +342,6 @@ namespace Exiv2 {
         virtual TiffComponent* doAddNext(AutoPtr tiffComponent);
         //! Implements accept().
         virtual void doAccept(TiffVisitor& visitor) =0;
-        //@}
-
-        //! @name Write support (Manipulators)
-        //@{
         //! Implements write().
         virtual uint32_t doWrite(IoWrapper& ioWrapper,
                                  ByteOrder byteOrder,
@@ -346,7 +351,7 @@ namespace Exiv2 {
                                  uint32_t& imageIdx) =0;
         //@}
 
-        //! @name Write support (Accessors)
+        //! @name Protected Accessors
         //@{
         //! Implements writeData().
         virtual uint32_t doWriteData(IoWrapper& ioWrapper,
@@ -484,7 +489,7 @@ namespace Exiv2 {
         //@}
 
     protected:
-        //! @name Manipulators
+        //! @name Protected Manipulators
         //@{
         //! Implements encode().
         virtual void doEncode(TiffEncoder& encoder, const Exifdatum* datum) =0;
@@ -492,15 +497,6 @@ namespace Exiv2 {
         void setCount(uint32_t count) { count_ = count; }
         //! Set the unique id of the entry in the image
         void setIdx(int idx) { idx_ = idx; }
-        //@}
-
-        //! @name Accessors
-        //@{
-        //! Implements count().
-        virtual uint32_t doCount() const;
-        //@}
-        //! @name Write support (Manipulators)
-        //@{
         /*!
           @brief Implements write(). Write the value of a standard TIFF entry to
                  the \em ioWrapper, return the number of bytes written. Only the
@@ -513,8 +509,11 @@ namespace Exiv2 {
                                  uint32_t  dataIdx,
                                  uint32_t& imageIdx);
         //@}
-        //! @name Write support (Accessors)
+
+        //! @name Protected Accessors
         //@{
+        //! Implements count().
+        virtual uint32_t doCount() const;
         /*!
           @brief Implements writeData(). Standard TIFF entries have no data:
                  write nothing and return 0.
@@ -668,14 +667,10 @@ namespace Exiv2 {
         //@}
 
     protected:
-        //! @name Manipulators
+        //! @name Protected Manipulators
         //@{
         virtual void doAccept(TiffVisitor& visitor);
         virtual void doEncode(TiffEncoder& encoder, const Exifdatum* datum);
-        //@}
-
-        //! @name Write support (Manipulators)
-        //@{
         /*!
           @brief Implements write(). Write pointers into the data area to the
                  \em ioWrapper, relative to the offsets in the value. Return the
@@ -694,7 +689,8 @@ namespace Exiv2 {
                                  uint32_t  dataIdx,
                                  uint32_t& imageIdx);
         //@}
-        //! @name Write support (Accessors)
+
+        //! @name Protected Accessors
         //@{
         /*!
           @brief Implements writeData(). Write the data area to the \em ioWrapper.
@@ -752,14 +748,10 @@ namespace Exiv2 {
         //@}
 
     protected:
-        //! @name Manipulators
+        //! @name Protected Manipulators
         //@{
         virtual void doAccept(TiffVisitor& visitor);
         virtual void doEncode(TiffEncoder& encoder, const Exifdatum* datum);
-        //@}
-
-        //! @name Write support (Manipulators)
-        //@{
         /*!
           @brief Implements write(). Write pointers into the image data area to the
                  \em ioWrapper. Return the number of bytes written. The \em valueIdx
@@ -772,7 +764,8 @@ namespace Exiv2 {
                                  uint32_t  dataIdx,
                                  uint32_t& imageIdx);
         //@}
-        //! @name Write support (Accessors)
+
+        //! @name Protected Accessors
         //@{
         /*!
           @brief Implements writeData(). Write the image data area to the \em ioWrapper.
@@ -836,7 +829,7 @@ namespace Exiv2 {
         //@}
 
     protected:
-        //! @name Manipulators
+        //! @name Protected Manipulators
         //@{
         virtual void doAccept(TiffVisitor& visitor);
         virtual void doEncode(TiffEncoder& encoder, const Exifdatum* datum);
@@ -872,16 +865,12 @@ namespace Exiv2 {
         //@}
 
     protected:
-        //! @name Manipulators
+        //! @name Protected Manipulators
         //@{
         virtual TiffComponent* doAddPath(uint16_t tag, TiffPath& tiffPath, TiffComponent* const pRoot);
         virtual TiffComponent* doAddChild(TiffComponent::AutoPtr tiffComponent);
         virtual TiffComponent* doAddNext(TiffComponent::AutoPtr tiffComponent);
         virtual void doAccept(TiffVisitor& visitor);
-        //@}
-
-        //! @name Write support (Manipulators)
-        //@{
         /*!
           @brief Implements write(). Write the TIFF directory, values and
                  additional data, including the next-IFD, if any, to the
@@ -894,7 +883,8 @@ namespace Exiv2 {
                                  uint32_t  dataIdx,
                                  uint32_t& imageIdx);
         //@}
-        //! @name Write support (Accessors)
+
+        //! @name Protected Accessors
         //@{
         /*!
           @brief This class does not really implement writeData(), it only has
@@ -936,7 +926,7 @@ namespace Exiv2 {
         //@}
 
     private:
-        //! @name Accessors
+        //! @name Private Accessors
         //@{
         //! Write a binary directory entry for a TIFF component.
         uint32_t writeDirEntry(IoWrapper&     ioWrapper,
@@ -975,16 +965,12 @@ namespace Exiv2 {
         //@}
 
     protected:
-        //! @name Manipulators
+        //! @name Protected Manipulators
         //@{
         virtual TiffComponent* doAddPath(uint16_t tag, TiffPath& tiffPath, TiffComponent* const pRoot);
         virtual TiffComponent* doAddChild(TiffComponent::AutoPtr tiffComponent);
         virtual void doAccept(TiffVisitor& visitor);
         virtual void doEncode(TiffEncoder& encoder, const Exifdatum* datum);
-        //@}
-
-        //! @name Write support (Manipulators)
-        //@{
         /*!
           @brief Implements write(). Write the sub-IFD pointers to the \em ioWrapper,
                  return the number of bytes written. The \em valueIdx and
@@ -997,7 +983,8 @@ namespace Exiv2 {
                                  uint32_t  dataIdx,
                                  uint32_t& imageIdx);
         //@}
-        //! @name Write support (Accessors)
+
+        //! @name Protected Accessors
         //@{
         /*!
           @brief Implements writeData(). Write the sub-IFDs to the \em ioWrapper.
@@ -1053,23 +1040,13 @@ namespace Exiv2 {
         //@}
 
     protected:
-        //! @name Manipulators
+        //! @name Protected Manipulators
         //@{
         virtual TiffComponent* doAddPath(uint16_t tag, TiffPath& tiffPath, TiffComponent* const pRoot);
         virtual TiffComponent* doAddChild(TiffComponent::AutoPtr tiffComponent);
         virtual TiffComponent* doAddNext(TiffComponent::AutoPtr tiffComponent);
         virtual void doAccept(TiffVisitor& visitor);
         virtual void doEncode(TiffEncoder& encoder, const Exifdatum* datum);
-        //@}
-
-        //! @name Accessors
-        //@{
-        //! Implements count(). Return number of components in the entry.
-        virtual uint32_t doCount() const;
-        //@}
-
-        //! @name Write support (Manipulators)
-        //@{
         /*!
           @brief Implements write() by forwarding the call to the actual
                  concrete Makernote, if there is one.
@@ -1081,8 +1058,11 @@ namespace Exiv2 {
                                  uint32_t  dataIdx,
                                  uint32_t& imageIdx);
         //@}
-        //! @name Write support (Accessors)
+
+        //! @name Protected Accessors
         //@{
+        //! Implements count(). Return number of components in the entry.
+        virtual uint32_t doCount() const;
         // Using doWriteData from base class
         // Using doWriteImage from base class
         /*!
@@ -1180,16 +1160,12 @@ namespace Exiv2 {
         //@}
 
     protected:
-        //! @name Manipulators
+        //! @name Protected Manipulators
         //@{
         virtual TiffComponent* doAddPath(uint16_t tag, TiffPath& tiffPath, TiffComponent* const pRoot);
         virtual TiffComponent* doAddChild(TiffComponent::AutoPtr tiffComponent);
         virtual TiffComponent* doAddNext(TiffComponent::AutoPtr tiffComponent);
         virtual void doAccept(TiffVisitor& visitor);
-        //@}
-
-        //! @name Write support (Manipulators)
-        //@{
         /*!
           @brief Implements write(). Write the Makernote header, TIFF directory,
                  values and additional data to the \em ioWrapper, return the
@@ -1202,7 +1178,8 @@ namespace Exiv2 {
                                  uint32_t  dataIdx,
                                  uint32_t& imageIdx);
         //@}
-        //! @name Write support (Accessors)
+
+        //! @name Protected Accessors
         //@{
         /*!
           @brief This class does not really implement writeData(), it only has
@@ -1261,8 +1238,6 @@ namespace Exiv2 {
     typedef DataBuf (*CryptFct)(uint16_t, const byte*, uint32_t, TiffComponent* const);
 
     //! Defines one tag in a binary array
-    // Todo: multiple tags in one byte - mask
-    // Todo: There cannot be any gaps in the definition! see addElement() CHECK: IS THAT STILL TRUE???
     struct ArrayDef {
         //! Comparison with idx
         bool operator==(uint32_t idx) const { return idx_ == idx; }
@@ -1367,22 +1342,18 @@ namespace Exiv2 {
         //@}
 
     protected:
-        //! @name Manipulators
+        //! @name Protected Manipulators
         //@{
+        /*!
+          @brief Implements addPath(). Todo: Document it!
+         */
         virtual TiffComponent* doAddPath(uint16_t tag, TiffPath& tiffPath, TiffComponent* const pRoot);
+        /*!
+          @brief Implements addChild(). Todo: Document it!
+         */
         virtual TiffComponent* doAddChild(TiffComponent::AutoPtr tiffComponent);
         virtual void doAccept(TiffVisitor& visitor);
         virtual void doEncode(TiffEncoder& encoder, const Exifdatum* datum);
-        //@}
-
-        //! @name Accessors
-        //@{
-        //! Implements count(). Todo: Document it!
-        virtual uint32_t doCount() const;
-        //@}
-
-        //! @name Write support (Manipulators)
-        //@{
         /*!
           @brief Implements write(). Todo: Document it!
          */
@@ -1394,8 +1365,10 @@ namespace Exiv2 {
                                  uint32_t& imageIdx);
         //@}
 
-        //! @name Write support (Accessors)
+        //! @name Protected Accessors
         //@{
+        //! Implements count(). Todo: Document it!
+        virtual uint32_t doCount() const;
         // Using doWriteData from base class
         // Using doWriteImage from base class
         /*!
@@ -1434,35 +1407,35 @@ namespace Exiv2 {
         virtual ~TiffBinaryElement();
         //@}
 
-        //! @name Accessors
+        //! @name Manipulators
         //@{
+        /*!
+          @brief Set the array definition for this element.
+         */
         void setElDef(const ArrayDef* def) { elDef_ = def; }
+        /*!
+          @brief Set the byte order of this element.
+         */
         void setElByteOrder(ByteOrder byteOrder) { elByteOrder_ = byteOrder; }
         //@}
 
         //! @name Accessors
         //@{
+        /*!
+          @brief Return the array definition of this element.
+         */
         const ArrayDef* elDef()       const { return elDef_; }
+        /*!
+          @brief Return the byte order of this element.
+         */
         ByteOrder       elByteOrder() const { return elByteOrder_; }
         //@}
 
     protected:
-        //! @name Manipulators
+        //! @name Protected Manipulators
         //@{
         virtual void doAccept(TiffVisitor& visitor);
         virtual void doEncode(TiffEncoder& encoder, const Exifdatum* datum);
-        //@}
-
-        //! @name Accessors
-        //@{
-        /*!
-          @brief Implements count(). Returns the count from the element definition.
-         */
-        virtual uint32_t doCount() const;
-        //@}
-
-        //! @name Write support (Manipulators)
-        //@{
         /*!
           @brief Implements write(). Todo: Document it!
          */
@@ -1474,8 +1447,12 @@ namespace Exiv2 {
                                  uint32_t& imageIdx);
         //@}
 
-        //! @name Write support (Accessors)
+        //! @name Protected Accessors
         //@{
+        /*!
+          @brief Implements count(). Returns the count from the element definition.
+         */
+        virtual uint32_t doCount() const;
         // Using doWriteData from base class
         // Using doWriteImage from base class
         /*!
