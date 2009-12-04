@@ -1,6 +1,6 @@
 #! /bin/sh
 # Test driver for exiv2 utility tests
-exiv2="$VALGRIND exiv2"
+exiv2="$VALGRIND exiv2 -u"
 results="./tmp/exiv2-test.out"
 good="./data/exiv2-test.out"
 tmpfile=tmp/ttt

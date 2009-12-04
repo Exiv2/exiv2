@@ -245,11 +245,11 @@ Case 11: Intrusive change to the Nikon3 makernote metadata
 < Exif.NikonPreview.JPEGInterchangeFormat      0x0201 Long        1  1538
 ---
 > Exif.NikonPreview.JPEGInterchangeFormat      0x0201 Long        1  1536
-120c120
+574c574
 < Exif.Photo.InteroperabilityTag               0xa005 Long        1  30306
 ---
 > Exif.Photo.InteroperabilityTag               0xa005 Long        1  30294
-143c143
+597c597
 < Exif.Thumbnail.JPEGInterchangeFormat         0x0201 Long        1  30444
 ---
 > Exif.Thumbnail.JPEGInterchangeFormat         0x0201 Long        1  30430

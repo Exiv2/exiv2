@@ -120,6 +120,16 @@ namespace Exiv2 {
         static const TagInfo* tagListIi();
         //! Return read-only list of built-in Auto Focus tags
         static const TagInfo* tagListAf();
+        //! Return read-only list of built-in Shot Info D80 tags
+        static const TagInfo* tagListSi1();
+        //! Return read-only list of built-in Shot Info D40 tags
+        static const TagInfo* tagListSi2();
+        //! Return read-only list of built-in Shot Info D300 (a) tags
+        static const TagInfo* tagListSi3();
+        //! Return read-only list of built-in Shot Info D300 (b) tags
+        static const TagInfo* tagListSi4();
+        //! Return read-only list of built-in Shot Info tags
+        static const TagInfo* tagListSi5();
         //! Return read-only list of built-in Color Balance 1 tags
         static const TagInfo* tagListCb1();
         //! Return read-only list of built-in Color Balance 2 tags
@@ -189,6 +199,16 @@ namespace Exiv2 {
         static const TagInfo tagInfoIi_[];
         //! Auto Focus tag information
         static const TagInfo tagInfoAf_[];
+        //! Shot Info D80 tag information
+        static const TagInfo tagInfoSi1_[];
+        //! Shot Info D40 tag information
+        static const TagInfo tagInfoSi2_[];
+        //! Shot Info D300 (a) tag information
+        static const TagInfo tagInfoSi3_[];
+        //! Shot Info D300 (b) tag information
+        static const TagInfo tagInfoSi4_[];
+        //! Shot Info tag information
+        static const TagInfo tagInfoSi5_[];
         //! Color Balance 1 tag information
         static const TagInfo tagInfoCb1_[];
         //! Color Balance 2 tag information
