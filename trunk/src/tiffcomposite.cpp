@@ -143,6 +143,12 @@ namespace Exiv2 {
         { 310, "NikonVr"      },
         { 311, "NikonPc"      },
         { 312, "NikonAf"      },
+        { 313, "NikonSiD80"   },
+        { 314, "NikonSiD40"   },
+        { 315, "NikonSiD300a" },
+        { 316, "NikonSiD300b" },
+        { 317, "NikonSi02xx"  },
+        { 318, "NikonSi01xx"  },
         { 320, "CanonFi"      }
     };
 

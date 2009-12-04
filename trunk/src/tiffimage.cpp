@@ -437,6 +437,110 @@ namespace Exiv2 {
         { 2, ttUnsignedShort, 1 } // The array contains 4 bytes
     };
 
+    //! Nikon Shot Info binary array - configuration 1 (D80)
+    extern const ArrayCfg nikonSi1Cfg = {
+        Group::nikonsi1,  // Group for the elements
+        bigEndian,        // Use byte order from parent
+        ttUndefined,      // Type for array entry
+        nikonCrypt,       // Encryption function
+        false,            // No size element
+        true,             // Write all tags
+        { 0, ttUnsignedByte,  1 }
+    };
+    //! Nikon Shot Info binary array - definition 1 (D80)
+    extern const ArrayDef nikonSi1Def[] = {
+        {    0, ttUndefined,    4 }, // Version
+        {  586, ttUnsignedLong, 1 }, // ShutterCount
+        { 1155, ttUnsignedByte, 1 }  // The array contains 1156 bytes
+    };
+    //! Nikon Shot Info binary array - configuration 2 (D40)
+    extern const ArrayCfg nikonSi2Cfg = {
+        Group::nikonsi2,  // Group for the elements
+        bigEndian,        // Use byte order from parent
+        ttUndefined,      // Type for array entry
+        nikonCrypt,       // Encryption function
+        false,            // No size element
+        true,             // Write all tags
+        { 0, ttUnsignedByte,  1 }
+    };
+    //! Nikon Shot Info binary array - definition 2 (D40)
+    extern const ArrayDef nikonSi2Def[] = {
+        {    0, ttUndefined,    4 }, // Version
+        {  582, ttUnsignedLong, 1 }, // ShutterCount
+        { 1112, ttUnsignedByte, 1 }  // The array contains 1113 bytes
+    };
+    //! Nikon Shot Info binary array - configuration 3 (D300a)
+    extern const ArrayCfg nikonSi3Cfg = {
+        Group::nikonsi3,  // Group for the elements
+        bigEndian,        // Use byte order from parent
+        ttUndefined,      // Type for array entry
+        nikonCrypt,       // Encryption function
+        false,            // No size element
+        true,             // Write all tags
+        { 0, ttUnsignedByte,  1 }
+    };
+    //! Nikon Shot Info binary array - definition 3 (D300a)
+    extern const ArrayDef nikonSi3Def[] = {
+        {    0, ttUndefined,     4 }, // Version
+        {  633, ttUnsignedLong,  1 }, // ShutterCount
+        {  721, ttUnsignedShort, 1 }, // AFFineTuneAdj
+        {  814, ttUndefined,  4478 }  // The array contains 5291 bytes
+    };
+    //! Nikon Shot Info binary array - configuration 4 (D300b)
+    extern const ArrayCfg nikonSi4Cfg = {
+        Group::nikonsi4,  // Group for the elements
+        bigEndian,        // Use byte order from parent
+        ttUndefined,      // Type for array entry
+        nikonCrypt,       // Encryption function
+        false,            // No size element
+        true,             // Write all tags
+        { 0, ttUnsignedByte,  1 }
+    };
+    //! Nikon Shot Info binary array - definition 4 (D300b)
+    extern const ArrayDef nikonSi4Def[] = {
+        {    0, ttUndefined,     4 }, // Version
+        {  644, ttUnsignedLong,  1 }, // ShutterCount
+        {  732, ttUnsignedShort, 1 }, // AFFineTuneAdj
+        {  826, ttUndefined,  4478 }  // The array contains 5303 bytes
+    };
+    //! Nikon Shot Info binary array - configuration 5 (ver 02.xx)
+    extern const ArrayCfg nikonSi5Cfg = {
+        Group::nikonsi5,  // Group for the elements
+        bigEndian,        // Use byte order from parent
+        ttUndefined,      // Type for array entry
+        nikonCrypt,       // Encryption function
+        false,            // No size element
+        false,            // Write all tags (don't know how many)
+        { 0, ttUnsignedByte,  1 }
+    };
+    //! Nikon Shot Info binary array - definition 5 (ver 01.xx and ver 02.xx)
+    extern const ArrayDef nikonSi5Def[] = {
+        {    0, ttUndefined,     4 }, // Version
+        {  106, ttUnsignedLong,  1 }, // ShutterCount
+        {  110, ttUnsignedLong,  1 }, // DeletedImageCount
+        {  343, ttUndefined,     2 }, // ShutterCount
+        {  630, ttUnsignedLong,  1 }  // ShutterCount
+    };
+    //! Nikon Shot Info binary array - configuration 6 (ver 01.xx)
+    extern const ArrayCfg nikonSi6Cfg = {
+        Group::nikonsi6,  // Group for the elements
+        bigEndian,        // Use byte order from parent
+        ttUndefined,      // Type for array entry
+        notEncrypted,     // Encryption function
+        false,            // No size element
+        false,            // Write all tags (don't know how many)
+        { 0, ttUnsignedByte,  1 }
+    };
+    //! Nikon Lens Data configurations and definitions
+    extern const ArraySet nikonSiSet[] = {
+        { nikonSi1Cfg, nikonSi1Def, EXV_COUNTOF(nikonSi1Def) },
+        { nikonSi2Cfg, nikonSi2Def, EXV_COUNTOF(nikonSi2Def) },
+        { nikonSi3Cfg, nikonSi3Def, EXV_COUNTOF(nikonSi3Def) },
+        { nikonSi4Cfg, nikonSi4Def, EXV_COUNTOF(nikonSi4Def) },
+        { nikonSi5Cfg, nikonSi5Def, EXV_COUNTOF(nikonSi5Def) },
+        { nikonSi6Cfg, nikonSi5Def, EXV_COUNTOF(nikonSi5Def) }  // uses nikonSi5Def
+    };
+
     //! Nikon Lens Data binary array - configuration 1
     extern const ArrayCfg nikonLd1Cfg = {
         Group::nikonld1,  // Group for the elements
@@ -469,7 +573,7 @@ namespace Exiv2 {
     };
     //! Nikon Lens Data binary array - definition
     extern const ArrayDef nikonLdDef[] = {
-        { 0, ttUndefined, 4 } // LensDataVersion
+        { 0, ttUndefined, 4 } // Version
     };
     //! Nikon Lens Data configurations and definitions
     extern const ArraySet nikonLdSet[] = {
@@ -703,6 +807,12 @@ namespace Exiv2 {
         { Tag::root, Group::nikonwt,   Group::nikon3mn,  0x0024    },
         { Tag::root, Group::nikonii,   Group::nikon3mn,  0x0025    },
         { Tag::root, Group::nikonaf,   Group::nikon3mn,  0x0088    },
+        { Tag::root, Group::nikonsi1,  Group::nikon3mn,  0x0091    },
+        { Tag::root, Group::nikonsi2,  Group::nikon3mn,  0x0091    },
+        { Tag::root, Group::nikonsi3,  Group::nikon3mn,  0x0091    },
+        { Tag::root, Group::nikonsi4,  Group::nikon3mn,  0x0091    },
+        { Tag::root, Group::nikonsi5,  Group::nikon3mn,  0x0091    },
+        { Tag::root, Group::nikonsi6,  Group::nikon3mn,  0x0091    },
         { Tag::root, Group::nikoncb1,  Group::nikon3mn,  0x0097    },
         { Tag::root, Group::nikoncb2,  Group::nikon3mn,  0x0097    },
         { Tag::root, Group::nikoncb2a, Group::nikon3mn,  0x0097    },
@@ -947,6 +1057,7 @@ namespace Exiv2 {
         {    0x0024, Group::nikon3mn,  EXV_BINARY_ARRAY(nikonWtCfg, nikonWtDef)  },
         {    0x0025, Group::nikon3mn,  EXV_BINARY_ARRAY(nikonIiCfg, nikonIiDef)  },
         {    0x0088, Group::nikon3mn,  EXV_BINARY_ARRAY(nikonAfCfg, nikonAfDef)  },
+        {    0x0091, Group::nikon3mn,  EXV_COMPLEX_BINARY_ARRAY(nikonSiSet, nikonSelector) },
         {    0x0097, Group::nikon3mn,  EXV_COMPLEX_BINARY_ARRAY(nikonCbSet, nikonSelector) },
         {    0x0098, Group::nikon3mn,  EXV_COMPLEX_BINARY_ARRAY(nikonLdSet, nikonSelector) },
         {  Tag::all, Group::nikon3mn,  newTiffEntry                              },
@@ -971,6 +1082,14 @@ namespace Exiv2 {
 
         // Nikon3 auto focus
         {  Tag::all, Group::nikonaf,   newTiffBinaryElement                      },
+
+        // Nikon3 shot info
+        {  Tag::all, Group::nikonsi1,  newTiffBinaryElement                      },
+        {  Tag::all, Group::nikonsi2,  newTiffBinaryElement                      },
+        {  Tag::all, Group::nikonsi3,  newTiffBinaryElement                      },
+        {  Tag::all, Group::nikonsi4,  newTiffBinaryElement                      },
+        {  Tag::all, Group::nikonsi5,  newTiffBinaryElement                      },
+        {  Tag::all, Group::nikonsi6,  newTiffBinaryElement                      },
 
         // Nikon3 color balance
         {  Tag::all, Group::nikoncb1,  newTiffBinaryElement                      },

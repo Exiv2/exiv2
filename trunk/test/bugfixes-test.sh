@@ -14,7 +14,7 @@ prep_file()
 
 (
 binpath="$VALGRIND ../../samples"
-exiv2="$VALGRIND exiv2"
+exiv2="$VALGRIND exiv2 -u"
 cd ./tmp
 
 num=426

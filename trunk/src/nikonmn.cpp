@@ -796,6 +796,188 @@ namespace Exiv2 {
         return tagInfoAf_;
     }
 
+    // Nikon3 Shot Info D80 Tag Info
+    const TagInfo Nikon3MakerNote::tagInfoSi1_[] = {
+        TagInfo(   0, "Version", N_("Version"), N_("Version"), nikonSi1IfdId, makerTags, unsignedByte, printExifVersion),
+        TagInfo( 586, "ShutterCount", N_("Shutter Count"), N_("Shutter count"), nikonSi1IfdId, makerTags, unsignedLong, printValue),
+        // End of list marker
+        TagInfo(0xffff, "(UnknownNikonSi1Tag)", "(UnknownNikonSi1Tag)", N_("Unknown Nikon Shot Info D80 Tag"), nikonSi1IfdId, makerTags, invalidTypeId, printValue)
+    };
+
+    const TagInfo* Nikon3MakerNote::tagListSi1()
+    {
+        return tagInfoSi1_;
+    }
+
+    // Nikon3 Shot Info D40 Tag Info
+    const TagInfo Nikon3MakerNote::tagInfoSi2_[] = {
+        TagInfo(   0, "Version", N_("Version"), N_("Version"), nikonSi2IfdId, makerTags, unsignedByte, printExifVersion),
+        TagInfo( 582, "ShutterCount", N_("Shutter Count"), N_("Shutter count"), nikonSi2IfdId, makerTags, unsignedLong, printValue),
+        TagInfo( 738, "FlashLevel", N_("Flash Level"), N_("Flash level"), nikonSi2IfdId, makerTags, unsignedByte, printValue),
+        // End of list marker
+        TagInfo(0xffff, "(UnknownNikonSi2Tag)", "(UnknownNikonSi2Tag)", N_("Unknown Nikon Shot Info D40 Tag"), nikonSi2IfdId, makerTags, invalidTypeId, printValue)
+    };
+
+    const TagInfo* Nikon3MakerNote::tagListSi2()
+    {
+        return tagInfoSi2_;
+    }
+
+    //! AfFineTuneAdj D300 (a)
+    extern const TagDetails nikonAfFineTuneAdj1[] = {
+        { 0x0000, N_("0")   },
+        { 0x003a, N_("+1")  },
+        { 0x003b, N_("+2")  },
+        { 0x003c, N_("+4")  },
+        { 0x003d, N_("+8")  },
+        { 0x003e, N_("+16") },
+        { 0x00c2, N_("-16") },
+        { 0x00c3, N_("-8")  },
+        { 0x00c4, N_("-4")  },
+        { 0x00c5, N_("-2")  },
+        { 0x00c6, N_("-1")  },
+        { 0x103e, N_("+17") },
+        { 0x10c2, N_("-17") },
+        { 0x203d, N_("+9")  },
+        { 0x203e, N_("+18") },
+        { 0x20c2, N_("-18") },
+        { 0x20c3, N_("-9")  },
+        { 0x303e, N_("+19") },
+        { 0x30c2, N_("-19") },
+        { 0x403c, N_("+5")  },
+        { 0x403d, N_("+10") },
+        { 0x403e, N_("+20") },
+        { 0x40c2, N_("-20") },
+        { 0x40c3, N_("-10") },
+        { 0x40c4, N_("-5")  },
+        { 0x603d, N_("+11") },
+        { 0x60c3, N_("-11") },
+        { 0x803b, N_("+3")  },
+        { 0x803c, N_("+6")  },
+        { 0x803d, N_("+12") },
+        { 0x80c3, N_("-12") },
+        { 0x80c4, N_("-6")  },
+        { 0x80c5, N_("-3")  },
+        { 0xa03d, N_("+13") },
+        { 0xa0c3, N_("-13") },
+        { 0xc03c, N_("+7")  },
+        { 0xc03d, N_("+14") },
+        { 0xc0c3, N_("-14") },
+        { 0xc0c4, N_("-7")  },
+        { 0xe03d, N_("+15") },
+        { 0xe0c3, N_("-15") }
+    };
+
+    // Nikon3 Shot Info D300 (a) Tag Info
+    const TagInfo Nikon3MakerNote::tagInfoSi3_[] = {
+        TagInfo(   0, "Version", N_("Version"), N_("Version"), nikonSi3IfdId, makerTags, unsignedByte, printExifVersion),
+        TagInfo( 604, "ISO", N_("ISO"), N_("ISO"), nikonSi3IfdId, makerTags, unsignedByte, printIiIso),
+        TagInfo( 633, "ShutterCount", N_("Shutter Count"), N_("Shutter count"), nikonSi3IfdId, makerTags, unsignedLong, printValue),
+        TagInfo( 721, "AFFineTuneAdj", N_("AF Fine Tune Adj"), N_("AF fine tune adj"), nikonSi3IfdId, makerTags, unsignedShort, EXV_PRINT_TAG(nikonAfFineTuneAdj1)),
+        // End of list marker
+        TagInfo(0xffff, "(UnknownNikonSi3Tag)", "(UnknownNikonSi3Tag)", N_("Unknown Nikon Shot Info D300 (a) Tag"), nikonSi3IfdId, makerTags, invalidTypeId, printValue)
+    };
+
+    const TagInfo* Nikon3MakerNote::tagListSi3()
+    {
+        return tagInfoSi3_;
+    }
+
+    //! AfFineTuneAdj D300 (b)
+    extern const TagDetails nikonAfFineTuneAdj2[] = {
+        { 0x0000, N_("0")   },
+        { 0x043e, N_("+13") },
+        { 0x04c2, N_("-13") },
+        { 0x183d, N_("+7")  },
+        { 0x183e, N_("+14") },
+        { 0x18c2, N_("-14") },
+        { 0x18c3, N_("-7")  },
+        { 0x2c3e, N_("+15") },
+        { 0x2cc2, N_("-15") },
+        { 0x403a, N_("+1")  },
+        { 0x403b, N_("+2")  },
+        { 0x403c, N_("+4")  },
+        { 0x403d, N_("+8")  },
+        { 0x403e, N_("+16") },
+        { 0x40c2, N_("-16") },
+        { 0x40c3, N_("-8")  },
+        { 0x40c4, N_("-4")  },
+        { 0x40c5, N_("-2")  },
+        { 0x40c6, N_("-1")  },
+        { 0x543e, N_("+17") },
+        { 0x54c2, N_("-17") },
+        { 0x683d, N_("+9")  },
+        { 0x683e, N_("+18") },
+        { 0x68c2, N_("-18") },
+        { 0x68c3, N_("-9")  },
+        { 0x7c3e, N_("+19") },
+        { 0x7cc2, N_("-19") },
+        { 0x903c, N_("+5")  },
+        { 0x903d, N_("+10") },
+        { 0x903e, N_("+20") },
+        { 0x90c2, N_("-20") },
+        { 0x90c3, N_("-10") },
+        { 0x90c4, N_("-5")  },
+        { 0xb83d, N_("+11") },
+        { 0xb8c3, N_("-11") },
+        { 0xe03b, N_("+3")  },
+        { 0xe03c, N_("+6")  },
+        { 0xe03d, N_("+12") },
+        { 0xe0c3, N_("-12") },
+        { 0xe0c4, N_("-6")  },
+        { 0xe0c5, N_("-3")  }
+    };
+
+    // Nikon3 Shot Info D300 (b) Tag Info
+    const TagInfo Nikon3MakerNote::tagInfoSi4_[] = {
+        TagInfo(   0, "Version", N_("Version"), N_("Version"), nikonSi4IfdId, makerTags, unsignedByte, printExifVersion),
+        TagInfo( 613, "ISO", N_("ISO"), N_("ISO"), nikonSi4IfdId, makerTags, unsignedByte, printIiIso),
+        TagInfo( 644, "ShutterCount", N_("Shutter Count"), N_("Shutter count"), nikonSi4IfdId, makerTags, unsignedLong, printValue),
+        TagInfo( 732, "AFFineTuneAdj", N_("AF Fine Tune Adj"), N_("AF fine tune adj"), nikonSi4IfdId, makerTags, unsignedShort, EXV_PRINT_TAG(nikonAfFineTuneAdj2)),
+        // End of list marker
+        TagInfo(0xffff, "(UnknownNikonSi4Tag)", "(UnknownNikonSi4Tag)", N_("Unknown Nikon Shot Info D300 (b) Tag"), nikonSi4IfdId, makerTags, invalidTypeId, printValue)
+    };
+
+    const TagInfo* Nikon3MakerNote::tagListSi4()
+    {
+        return tagInfoSi4_;
+    }
+
+    //! VibrationReduction
+    extern const TagDetails nikonOffOn2[] = {
+        { 0, N_("Off")    },
+        { 1, N_("On (1)") },
+        { 2, N_("On (2)") },
+        { 3, N_("On (3)") }
+    };
+
+    //! VibrationReduction2
+    extern const TagDetails nikonOffOn3[] = {
+        { 0x0, N_("n/a") },
+        { 0xc, N_("Off") },
+        { 0xf, N_("On")  }
+    };
+
+    // Nikon3 Shot Info Tag Info
+    const TagInfo Nikon3MakerNote::tagInfoSi5_[] = {
+        TagInfo(   0, "Version", N_("Version"), N_("Version"), nikonSi5IfdId, makerTags, unsignedByte, printExifVersion),
+        TagInfo( 106, "ShutterCount1", N_("Shutter Count 1"), N_("Shutter count 1"), nikonSi5IfdId, makerTags, unsignedLong, printValue),
+        TagInfo( 110, "DeletedImageCount", N_("Deleted Image Count"), N_("Deleted image count"), nikonSi5IfdId, makerTags, unsignedLong, printValue),
+        TagInfo( 117, "VibrationReduction", N_("Vibration Reduction"), N_("Vibration reduction"), nikonSi5IfdId, makerTags, unsignedByte, EXV_PRINT_TAG(nikonOffOn2)),
+        TagInfo( 130, "VibrationReduction1", N_(""), N_(""), nikonSi5IfdId, makerTags, unsignedByte, EXV_PRINT_TAG(nikonOffOn)),
+        TagInfo( 343, "ShutterCount2", N_("Shutter Count 2"), N_("Shutter count 2"), nikonSi5IfdId, makerTags, undefined, printValue),
+        TagInfo( 430, "VibrationReduction2", N_("Vibration Reduction 2"), N_("Vibration reduction 2"), nikonSi5IfdId, makerTags, unsignedByte, EXV_PRINT_TAG(nikonOffOn3)),
+        TagInfo( 598, "ISO", N_("ISO"), N_("ISO"), nikonSi5IfdId, makerTags, unsignedByte, printIiIso),
+        TagInfo( 630, "ShutterCount", N_("Shutter Count"), N_("Shutter count"), nikonSi5IfdId, makerTags, unsignedLong, printValue),
+        // End of list marker
+        TagInfo(0xffff, "(UnknownNikonSi5Tag)", "(UnknownNikonSi5Tag)", N_("Unknown Nikon Shot Info Tag"), nikonSi5IfdId, makerTags, invalidTypeId, printValue)
+    };
+
+    const TagInfo* Nikon3MakerNote::tagListSi5()
+    {
+        return tagInfoSi5_;
+    }
+
     // Nikon3 Color Balance 1 Tag Info
     const TagInfo Nikon3MakerNote::tagInfoCb1_[] = {
         TagInfo( 0, "Version", N_("Version"), N_("Version"), nikonCb1IfdId, makerTags, undefined, printExifVersion),

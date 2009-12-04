@@ -102,7 +102,12 @@ namespace Exiv2 {
         const uint16_t nikonvr   = 310; //!< Nikon Vibration Reduction Tags
         const uint16_t nikonpc   = 311; //!< Nikon Picture Control Tags
         const uint16_t nikonaf   = 312; //!< Nikon Auto Focus Tags
-
+        const uint16_t nikonsi1  = 313; //!< Nikon Shot Info D80 Tags
+        const uint16_t nikonsi2  = 314; //!< Nikon Shot Info D40 Tags
+        const uint16_t nikonsi3  = 315; //!< Nikon Shot Info D300 Tags (a)
+        const uint16_t nikonsi4  = 316; //!< Nikon Shot Info D300 Tags (b)
+        const uint16_t nikonsi5  = 317; //!< Nikon Shot Info v2.* Tags
+        const uint16_t nikonsi6  = 318; //!< Nikon Shot Info v1.* Tags
         const uint16_t canonfi   = 320; //!< Canon File Info
     }
 

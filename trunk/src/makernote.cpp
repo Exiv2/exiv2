@@ -782,89 +782,70 @@ namespace Exiv2 {
         //! Key for comparisons
         struct Key {
             //! Constructor
-            Key(uint16_t tag, const char* ver) : tag_(tag), ver_(ver) {}
-            uint16_t    tag_; //!< Tag number
-            const char* ver_; //!< Version string
+            Key(uint16_t tag, const char* ver, uint32_t size) : tag_(tag), ver_(ver), size_(size) {}
+            uint16_t    tag_;  //!< Tag number
+            const char* ver_;  //!< Version string
+            uint32_t    size_; //!< Size of the data (not the version string)
         };
         //! Comparison operator for a key
         bool operator==(const Key& key) const
-            { return key.tag_ == tag_ && 0 == strncmp(key.ver_, ver_, 4); }
+        {
+            return    key.tag_ == tag_
+                   && 0 == strncmp(key.ver_, ver_, strlen(ver_))
+                   && (size_ == 0 || key.size_ == size_);
+        }
 
         uint16_t    tag_;   //!< Tag number of the binary array
         const char* ver_;   //!< Version string
+        uint32_t    size_;  //!< Size of the data
         int         idx_;   //!< Index into the array set
+        uint32_t    start_; //!< Start of the encrypted data
     };
+
+#define NA ((uint32_t)-1)
 
     //! Nikon binary array version lookup table
     extern const NikonArrayIdx nikonArrayIdx[] = {
+        // NikonSi
+        { 0x0091, "0208",    0, 0,   4 }, // D80
+        { 0x0091, "0209",    0, 1,   4 }, // D40
+        { 0x0091, "0210", 5291, 2,   4 }, // D300
+        { 0x0091, "0210", 5303, 3,   4 }, // D300, firmware version 1.10
+        { 0x0091, "02",      0, 4,   4 }, // Other v2.* (encrypted)
+        { 0x0091, "01",      0, 5,  NA }, // Other v1.* (not encrypted)
         // NikonCb
-        { 0x0097, "0100", 0 },
-        { 0x0097, "0102", 1 },
-        { 0x0097, "0103", 4 },
-        { 0x0097, "0204", 3 },
-        { 0x0097, "0205", 2 },
-        { 0x0097, "0206", 3 },
-        { 0x0097, "0207", 3 },
-        { 0x0097, "0208", 3 },
-        { 0x0097, "0209", 5 },
+        { 0x0097, "0100",    0, 0,  NA },
+        { 0x0097, "0102",    0, 1,  NA },
+        { 0x0097, "0103",    0, 4,  NA },
+        { 0x0097, "0204",    0, 3, 284 },
+        { 0x0097, "0205",    0, 2,   4 },
+        { 0x0097, "0206",    0, 3, 284 },
+        { 0x0097, "0207",    0, 3, 284 },
+        { 0x0097, "0208",    0, 3, 284 },
+        { 0x0097, "0209",    0, 5, 284 },
         // NikonLd
-        { 0x0098, "0100", 0 },
-        { 0x0098, "0101", 1 },
-        { 0x0098, "0201", 1 },
-        { 0x0098, "0202", 1 },
-        { 0x0098, "0203", 1 },
-        { 0x0098, "0204", 2 }
+        { 0x0098, "0100",    0, 0,  NA },
+        { 0x0098, "0101",    0, 1,  NA },
+        { 0x0098, "0201",    0, 1,   4 },
+        { 0x0098, "0202",    0, 1,   4 },
+        { 0x0098, "0203",    0, 1,   4 },
+        { 0x0098, "0204",    0, 2,   4 }
     };
 
     int nikonSelector(uint16_t tag, const byte* pData, uint32_t size, TiffComponent* const /*pRoot*/)
     {
         if (size < 4) return -1;
-        const NikonArrayIdx* aix = find(nikonArrayIdx, NikonArrayIdx::Key(tag, reinterpret_cast<const char*>(pData)));
+        const NikonArrayIdx* aix = find(nikonArrayIdx, NikonArrayIdx::Key(tag, reinterpret_cast<const char*>(pData), size));
         return aix == 0 ? -1 : aix->idx_;
     }
-
-    /*!
-      @brief Structure for info about an encrypted complex binary array.
-     */
-    struct NikonCryptInfo {
-        //! Key for comparisons
-        struct Key {
-            //! Constructor
-            Key(uint16_t tag, const char* ver) : tag_(tag), ver_(ver) {}
-            uint16_t    tag_; //!< Tag number
-            const char* ver_; //!< Version string
-        };
-        //! Comparison operator for a key
-        bool operator==(const Key& key) const
-            { return key.tag_ == tag_ && 0 == strncmp(key.ver_, ver_, 4); }
-        uint16_t    tag_;   //!< Tag number of the binary array
-        const char* ver_;   //!< Version string
-        uint32_t    start_; //!< Start of the encrypted data
-    };
-
-    //! Info about encrypted complex arrays. Non-encrypted arrays are not listed here.
-    extern const NikonCryptInfo nikonCryptInfo[] = {
-        // NikonCb
-        { 0x0097, "0204", 284 },
-        { 0x0097, "0205",   4 },
-        { 0x0097, "0206", 284 },
-        { 0x0097, "0207", 284 },
-        { 0x0097, "0208", 284 },
-        { 0x0097, "0209", 284 },
-        // NikonLd
-        { 0x0098, "0201",   4 },
-        { 0x0098, "0202",   4 },
-        { 0x0098, "0203",   4 },
-        { 0x0098, "0204",   4 }
-    };
 
     DataBuf nikonCrypt(uint16_t tag, const byte* pData, uint32_t size, TiffComponent* const pRoot)
     {
         DataBuf buf;
 
         if (size < 4) return buf;
-        const NikonCryptInfo* nci = find(nikonCryptInfo, NikonCryptInfo::Key(tag, reinterpret_cast<const char*>(pData)));
-        if (nci == 0 || size <= nci->start_) return buf;
+        const NikonArrayIdx* nci = find(nikonArrayIdx, NikonArrayIdx::Key(tag, reinterpret_cast<const char*>(pData), size));
+        if (nci == 0 || nci->start_ == NA || size <= nci->start_) return buf;
 
         // Find Exif.Nikon3.ShutterCount
         TiffFinder finder(0x00a7, Group::nikon3mn);
