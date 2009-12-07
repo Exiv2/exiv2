@@ -689,7 +689,8 @@ namespace Exiv2 {
             subImage3Id,
             subImage4Id,
             panaRawIfdId,
-            ifd2Id
+            ifd2Id,
+            ifd3Id
         };
         for (unsigned int i = 0; i < EXV_COUNTOF(filteredIfds); ++i) {
 #ifdef DEBUG

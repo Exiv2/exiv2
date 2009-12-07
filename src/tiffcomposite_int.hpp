@@ -89,13 +89,14 @@ namespace Exiv2 {
         const uint16_t ifd0    =   1; //!< Exif IFD0
         const uint16_t ifd1    =   2; //!< Thumbnail IFD
         const uint16_t ifd2    =   3; //!< IFD2
-        const uint16_t exif    =   4; //!< Exif IFD
-        const uint16_t gps     =   5; //!< GPS IFD
-        const uint16_t iop     =   6; //!< Interoperability IFD
-        const uint16_t subimg1 =   7; //!< 1st TIFF SubIFD in IFD0
-        const uint16_t subimg2 =   8; //!< 2nd TIFF SubIFD in IFD0
-        const uint16_t subimg3 =   9; //!< 3rd TIFF SubIFD in IFD0
-        const uint16_t subimg4 =  10; //!< 4th TIFF SubIFD in IFD0
+        const uint16_t ifd3    =   4; //!< IFD3
+        const uint16_t exif    =   5; //!< Exif IFD
+        const uint16_t gps     =   6; //!< GPS IFD
+        const uint16_t iop     =   7; //!< Interoperability IFD
+        const uint16_t subimg1 =   8; //!< 1st TIFF SubIFD in IFD0
+        const uint16_t subimg2 =   9; //!< 2nd TIFF SubIFD in IFD0
+        const uint16_t subimg3 =  10; //!< 3rd TIFF SubIFD in IFD0
+        const uint16_t subimg4 =  11; //!< 4th TIFF SubIFD in IFD0
         const uint16_t panaraw =  64; //!< IFD0 of Panasonic RAW images 
         const uint16_t mn      = 256; //!< Makernote
         const uint16_t ignr    = 511; //!< Read but do not decode
@@ -1383,7 +1384,7 @@ namespace Exiv2 {
         // DATA
         const CfgSelFct cfgSelFct_; //!< Pointer to a function to determine which cfg to use (may be 0)
         const ArraySet* arraySet_;  //!< Pointer to the array set, if any (may be 0)
-        const ArrayCfg* arrayCfg_;  //!< Pointer to the array configuration (must not be 0)
+        const ArrayCfg* arrayCfg_;  //!< Pointer to the array configuration (must not be 0, except for unrecognized complex binary arrays)
         const ArrayDef* arrayDef_;  //!< Pointer to the array definition (may be 0)
         int defSize_;               //!< Size of the array definition array (may be 0)
         int setSize_;               //!< Size of the array set (may be 0)
