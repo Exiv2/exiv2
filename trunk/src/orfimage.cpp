@@ -209,7 +209,7 @@ namespace Exiv2 {
     namespace Internal {
 
     OrfHeader::OrfHeader()
-        : TiffHeaderBase('O'<< 8 | 'R', 8, littleEndian, 0x00000008)
+        : TiffHeaderBase(0x4f52, 8, littleEndian, 0x00000008)
     {
     }
 
@@ -230,7 +230,8 @@ namespace Exiv2 {
         else {
             return false;
         }
-        if (tag() != getUShort(pData + 2, byteOrder())) return false;
+        uint16_t sig = getUShort(pData + 2, byteOrder());
+        if (tag() != sig && 0x5352 != sig) return false; // #658: Added 0x5352 for SP-560UZ
         setOffset(getULong(pData + 4, byteOrder()));
         if (offset() != 0x00000008) return false;
 
