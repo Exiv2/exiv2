@@ -772,6 +772,7 @@ namespace Exiv2 {
         { Tag::root, Group::iop,       Group::exif,      0xa005    },
         { Tag::root, Group::ifd1,      Group::ifd0,      Tag::next },
         { Tag::root, Group::ifd2,      Group::ifd1,      Tag::next },
+        { Tag::root, Group::ifd3,      Group::ifd2,      Tag::next },
         { Tag::root, Group::olymp1mn,  Group::exif,      0x927c    },
         { Tag::root, Group::olymp2mn,  Group::exif,      0x927c    },
         { Tag::root, Group::olympeq,   Group::olymp2mn,  0x2010    },
@@ -932,13 +933,21 @@ namespace Exiv2 {
         { Tag::next, Group::ifd1,      newTiffDirectory<Group::ifd2>             },
         {  Tag::all, Group::ifd1,      newTiffEntry                              },
 
-        // IFD2 (eg, in Pentax PEF files)
+        // IFD2 (eg, in Pentax PEF and Canon CR2 files)
         {    0x0111, Group::ifd2,      newTiffImageData<0x0117, Group::ifd2>     },
         {    0x0117, Group::ifd2,      newTiffImageSize<0x0111, Group::ifd2>     },
         {    0x0201, Group::ifd2,      newTiffImageData<0x0202, Group::ifd2>     },
         {    0x0202, Group::ifd2,      newTiffImageSize<0x0201, Group::ifd2>     },
-        { Tag::next, Group::ifd2,      newTiffDirectory<Group::ignr>             },
+        { Tag::next, Group::ifd2,      newTiffDirectory<Group::ifd3>             },
         {  Tag::all, Group::ifd2,      newTiffEntry                              },
+
+        // IFD3 (eg, in Canon CR2 files)
+        {    0x0111, Group::ifd3,      newTiffImageData<0x0117, Group::ifd3>     },
+        {    0x0117, Group::ifd3,      newTiffImageSize<0x0111, Group::ifd3>     },
+        {    0x0201, Group::ifd3,      newTiffImageData<0x0202, Group::ifd3>     },
+        {    0x0202, Group::ifd3,      newTiffImageSize<0x0201, Group::ifd3>     },
+        { Tag::next, Group::ifd3,      newTiffDirectory<Group::ignr>             },
+        {  Tag::all, Group::ifd3,      newTiffEntry                              },
 
         // Olympus makernote - some Olympus cameras use Minolta structures
         // Todo: Adding such tags will not work (maybe result in a Minolta makernote), need separate groups

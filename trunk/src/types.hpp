@@ -147,6 +147,7 @@ namespace Exiv2 {
         iopIfdId,
         ifd1Id,
         ifd2Id,
+        ifd3Id,
         subImage1Id,
         subImage2Id,
         subImage3Id,
