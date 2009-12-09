@@ -121,9 +121,9 @@ if test "$GXX_VISIBILITY" = "yes"; then
     fi
 fi
 
-AC_MSG_CHECKING([whether to use the lens database for Exif.Nikon3.LensData])
+AC_MSG_CHECKING([whether to use the lens database for Nikon lens names])
 AC_ARG_ENABLE(lensdata,
-    [  --disable-lensdata      do not use the lens database for Exif.Nikon3.LensData ],
+    [  --disable-lensdata      do not use the lens database for Nikon lens names ],
     USE_LENSDATA=$enableval, USE_LENSDATA=yes)
 AC_MSG_RESULT($USE_LENSDATA)
 if test "$USE_LENSDATA" = "yes"; then

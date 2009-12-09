@@ -19,7 +19,7 @@
 
 #ifndef EXV_COMMERCIAL_VERSION
 
-/* Define to 1 to enable translation of Exif.Nikon3.LensData. */
+/* Define to 1 to enable translation of Nikon lens names. */
 #cmakedefine EXV_HAVE_LENSDATA 1
 
 /* Define to 1 if translation of program messages to the user's

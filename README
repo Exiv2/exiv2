@@ -162,7 +162,7 @@ Commercial version
 
 If you have a commercial license, you must disable NLS support, 
 conversion of UCS2 characters in XP tags and the conversion of
-Exif.Nikon3.LensData values to lens names to build a commercial 
+Nikon lens data to readable lens names to build a commercial 
 version of the Exiv2 library.
 
 To do this on Windows, compile the library with the preprocessor
