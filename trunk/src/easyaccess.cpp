@@ -211,7 +211,9 @@ namespace Exiv2 {
     {
         static const char* keys[] = {
             "Exif.CanonCs.LensType",
-            "Exif.Nikon3.LensData",
+            "Exif.NikonLd1.LensIDNumber",
+            "Exif.NikonLd2.LensIDNumber",
+            "Exif.NikonLd3.LensIDNumber",
             "Exif.Minolta.LensID",
             "Exif.Pentax.LensType"
         };

@@ -2,7 +2,7 @@
 /*
  * Copyright (C) 2004-2009 Andreas Huggel <ahuggel@gmx.net>
  *
- * Lens database to decode Exif.Nikon3.LensData
+ * Lens database for the conversion of Nikon lens data to readable lens names 
  * Copyright (C) 2005-2008 Robert Rottmerhusen <lens_id@rottmerhusen.com>
  *
  * This program is part of the Exiv2 distribution.
