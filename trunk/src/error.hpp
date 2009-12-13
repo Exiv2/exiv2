@@ -89,34 +89,16 @@ namespace Exiv2 {
         //! @name Creators
         //@{
         //! Constructor taking only an error code
-        explicit Error(int code)
-            : code_(code), count_(0)
-        {
-            setMsg();
-        }
+        explicit Error(int code);
         //! Constructor taking an error code and one argument
         template<typename A>
-        Error(int code, const A& arg1)
-            : code_(code), count_(1), arg1_(toString(arg1))
-        {
-            setMsg();
-        }
+        EXV_DLLLOCAL Error(int code, const A& arg1);
         //! Constructor taking an error code and two arguments
         template<typename A, typename B>
-        Error(int code, const A& arg1, const B& arg2)
-            : code_(code), count_(2),
-              arg1_(toString(arg1)), arg2_(toString(arg2))
-        {
-            setMsg();
-        }
+        EXV_DLLLOCAL Error(int code, const A& arg1, const B& arg2);
         //! Constructor taking an error code and three arguments
         template<typename A, typename B, typename C>
-        Error(int code, const A& arg1, const B& arg2, const C& arg3)
-            : code_(code), count_(3),
-              arg1_(toString(arg1)), arg2_(toString(arg2)), arg3_(toString(arg3))
-        {
-            setMsg();
-        }
+        EXV_DLLLOCAL Error(int code, const A& arg1, const B& arg2, const C& arg3);
         //! Virtual destructor. (Needed because of throw())
         virtual ~Error() throw();
         //@}
@@ -148,6 +130,32 @@ namespace Exiv2 {
         std::string msg_;                       //!< Complete error message
 
     }; // class Error
+
+// *****************************************************************************
+// template and inline definitions
+
+    template<typename A>
+    Error::Error(int code, const A& arg1)
+        : code_(code), count_(1), arg1_(toString(arg1))
+    {
+        setMsg();
+    }
+
+    template<typename A, typename B>
+    Error::Error(int code, const A& arg1, const B& arg2)
+        : code_(code), count_(2),
+          arg1_(toString(arg1)), arg2_(toString(arg2))
+    {
+        setMsg();
+    }
+
+    template<typename A, typename B, typename C>
+    Error::Error(int code, const A& arg1, const B& arg2, const C& arg3)
+        : code_(code), count_(3),
+          arg1_(toString(arg1)), arg2_(toString(arg2)), arg3_(toString(arg3))
+    {
+        setMsg();
+    }
 
 #ifdef _MSC_VER
 # pragma warning( default : 4275 )

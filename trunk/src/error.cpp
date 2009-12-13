@@ -113,6 +113,12 @@ namespace Exiv2 {
     {
     }
 
+    Error::Error(int code)
+        : code_(code), count_(0)
+    {
+        setMsg();
+    }
+
     Error::~Error() throw()
     {
     }
