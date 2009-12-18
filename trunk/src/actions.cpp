@@ -622,7 +622,9 @@ namespace Action {
             if (!first) std::cout << "  ";
             first = false;
             if (   Params::instance().binary_
-                && md.typeId() == Exiv2::undefined
+                && (   md.typeId() == Exiv2::undefined
+                    || md.typeId() == Exiv2::unsignedByte
+                    || md.typeId() == Exiv2::signedByte)   
                 && md.size() > 100) {
                 std::cout << _("(Binary value suppressed)") << std::endl;
                 return;
@@ -633,7 +635,9 @@ namespace Action {
             if (!first) std::cout << "  ";
             first = false;
             if (   Params::instance().binary_
-                && md.typeId() == Exiv2::undefined
+                && (   md.typeId() == Exiv2::undefined
+                    || md.typeId() == Exiv2::unsignedByte
+                    || md.typeId() == Exiv2::signedByte)   
                 && md.size() > 100) {
                 std::cout << _("(Binary value suppressed)") << std::endl;
                 return;
@@ -644,7 +648,9 @@ namespace Action {
             if (!first) std::cout << std::endl;
             first = false;
             if (   Params::instance().binary_
-                && md.typeId() == Exiv2::undefined
+                && (   md.typeId() == Exiv2::undefined
+                    || md.typeId() == Exiv2::unsignedByte
+                    || md.typeId() == Exiv2::signedByte)   
                 && md.size() > 100) {
                 std::cout << _("(Binary value suppressed)") << std::endl;
                 return;
