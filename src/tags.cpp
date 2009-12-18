@@ -566,7 +566,7 @@ namespace Exiv2 {
                 ifd0Id, otherTags, asciiString, print0x8298),
         TagInfo(0x8649, "ImageResources", N_("Image Resources Block"),
                 N_("Contains information embedded by the Adobe Photoshop application"),
-                ifd0Id, otherTags, undefined, printValue),
+                ifd0Id, otherTags, unsignedByte, printValue),
         TagInfo(0x8769, "ExifTag", N_("Exif IFD Pointer"),
                 N_("A pointer to the Exif IFD. Interoperability, Exif IFD has the "
                 "same structure as that of the IFD specified in TIFF. "
