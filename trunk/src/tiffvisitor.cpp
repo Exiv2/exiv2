@@ -513,7 +513,7 @@ namespace Exiv2 {
             irbBuf = Photoshop::setIptcIrb(irbBuf.pData_, irbBuf.size_, iptcData_);
             exifData_.erase(pos);
             if (irbBuf.size_ != 0) {
-                Value::AutoPtr value = Value::create(undefined);
+                Value::AutoPtr value = Value::create(unsignedByte);
                 value->read(irbBuf.pData_, irbBuf.size_, invalidByteOrder);
                 Exifdatum iptcDatum(irbKey, value.get());
                 exifData_.add(iptcDatum);
