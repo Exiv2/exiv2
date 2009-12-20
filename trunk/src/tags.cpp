@@ -189,6 +189,7 @@ namespace Exiv2 {
         { makerTags,       "Makernote",            N_("Vendor specific information")  },
         { dngTags,         "DngTags",              N_("Adobe DNG tags")               },
         { panaRaw,         "PanasonicRaw",         N_("Panasonic RAW tags")           },
+        { tiffEp,          "TIFF/EP",              N_("TIFF/EP tags")                 },
         { lastSectionId,   "(LastSection)",        N_("Last section")                 }
     };
 
@@ -294,6 +295,37 @@ namespace Exiv2 {
     extern const TagDetails exifYCbCrPositioning[] = {
         { 1, N_("Centered") },
         { 2, N_("Co-sited") }
+    };
+
+    //! Flash, Exif tag 0x9209
+    extern const TagDetails exifFlash[] = {
+        { 0x00, N_("No flash")                                                      },
+        { 0x01, N_("Fired")                                                         },
+        { 0x05, N_("Fired, strobe return light not detected")                       },
+        { 0x07, N_("Fired, strobe return light detected")                           },
+        { 0x08, N_("Yes, did not fire")                                             },
+        { 0x09, N_("Yes, compulsory")                                               },
+        { 0x0d, N_("Yes, compulsory, return light not detected")                    },
+        { 0x0f, N_("Yes, compulsory, return light detected")                        },
+        { 0x10, N_("No, compulsory")                                                },
+        { 0x14, N_("No, did not fire, return not detected")                         },
+        { 0x18, N_("No, auto")                                                      },
+        { 0x19, N_("Yes, auto")                                                     },
+        { 0x1d, N_("Yes, auto, return light not detected")                          },
+        { 0x1f, N_("Yes, auto, return light detected")                              },
+        { 0x20, N_("No flash function")                                             },
+        { 0x20, N_("No, no flash function")                                         },
+        { 0x41, N_("Yes, red-eye reduction")                                        },
+        { 0x45, N_("Yes, red-eye reduction, return light not detected")             },
+        { 0x47, N_("Yes, red-eye reduction, return light detected")                 },
+        { 0x49, N_("Yes, compulsory, red-eye reduction")                            },
+        { 0x4d, N_("Yes, compulsory, red-eye reduction, return light not detected") },
+        { 0x4f, N_("Yes, compulsory, red-eye reduction, return light detected")     },
+        { 0x50, N_("No, red-eye reduction")                                         },
+        { 0x58, N_("No, auto, red-eye reduction")                                   },
+        { 0x59, N_("Yes, auto, red-eye reduction")                                  },
+        { 0x5d, N_("Yes, auto, red-eye reduction, return light not detected")       },
+        { 0x5f, N_("Yes, auto, red-eye reduction, return light detected")           }
     };
 
     //! CFALayout, tag 0xc617
@@ -424,10 +456,6 @@ namespace Exiv2 {
                 N_("The date and time of image creation. In Exif standard, "
                 "it is the date and time the file was changed."),
                 ifd0Id, otherTags, asciiString, printValue),
-        TagInfo(0x013c, "HostComputer", N_("Host computer"),
-                N_("This tag records information about the host computer used "
-                "to generate the image."),
-                ifd0Id, otherTags, asciiString, printValue),
         TagInfo(0x013b, "Artist", N_("Artist"),
                 N_("This tag records the name of the camera owner, photographer or "
                 "image creator. The detailed format is not specified, but it is "
@@ -435,6 +463,10 @@ namespace Exiv2 {
                 "below for ease of Interoperability. When the field is "
                 "left blank, it is treated as unknown. Ex.) \"Camera owner, John "
                 "Smith; Photographer, Michael Brown; Image creator, Ken James\""),
+                ifd0Id, otherTags, asciiString, printValue),
+        TagInfo(0x013c, "HostComputer", N_("Host computer"),
+                N_("This tag records information about the host computer used "
+                "to generate the image."),
                 ifd0Id, otherTags, asciiString, printValue),
         TagInfo(0x013e, "WhitePoint", N_("White Point"),
                 N_("The chromaticity of the white point of the image. Normally "
@@ -464,10 +496,14 @@ namespace Exiv2 {
                 ifd0Id, recOffset, unsignedShort, printValue), // TIFF tag
         TagInfo(0x014a, "SubIFDs", N_("SubIFD Offsets"),
                 N_("Defined by Adobe Corporation to enable TIFF Trees within a TIFF file."),
-                ifd0Id, otherTags, unsignedLong, printValue),
+                ifd0Id, tiffEp, unsignedLong, printValue),
         TagInfo(0x0156, "TransferRange", N_("Transfer Range"),
                 N_("Expands the range of the TransferFunction"),
                 ifd0Id, imgCharacter, unsignedShort, printValue), // TIFF tag
+        TagInfo(0x015b, "JPEGTables", N_("JPEG tables"),
+                N_("This optional tag may be used to encode the JPEG quantization and"
+                   "Huffman tables for subsequent use by the JPEG decompression process."),
+                ifd0Id, imgStruct, undefined, printValue), // TIFF/EP tag
         TagInfo(0x0200, "JPEGProc", N_("JPEG Process"),
                 N_("This field indicates the process used to produce the compressed data"),
                 ifd0Id, recOffset, unsignedLong, printValue), // TIFF tag
@@ -532,18 +568,15 @@ namespace Exiv2 {
         TagInfo(0x828d, "CFARepeatPatternDim", N_("CFA Repeat Pattern Dimension"),
                 N_("Contains two values representing the minimum rows and columns "
                 "to define the repeating patterns of the color filter array"),
-                ifd0Id, otherTags, unsignedShort, printValue), // TIFF/EP Tag
+                ifd0Id, tiffEp, unsignedShort, printValue), // TIFF/EP Tag
         TagInfo(0x828e, "CFAPattern", N_("CFA Pattern"),
                 N_("Indicates the color filter array (CFA) geometric pattern of the image "
                 "sensor when a one-chip color area sensor is used. It does not apply to "
                 "all sensing methods"),
-                ifd0Id, otherTags, unsignedByte, printValue), // TIFF/EP Tag
+                ifd0Id, tiffEp, unsignedByte, printValue), // TIFF/EP Tag
         TagInfo(0x828f, "BatteryLevel", N_("Battery Level"),
                 "Contains a value of the battery level as a fraction or string",
-                ifd0Id, otherTags, unsignedRational, printValue), // TIFF/EP Tag
-        TagInfo(0x83bb, "IPTCNAA", N_("IPTC/NAA"),
-                N_("Contains an IPTC/NAA record"),
-                ifd0Id, otherTags, unsignedLong, printValue), // TIFF/EP Tag
+                ifd0Id, tiffEp, unsignedRational, printValue), // TIFF/EP Tag
         TagInfo(0x8298, "Copyright", N_("Copyright"),
                 N_("Copyright information. In this standard the tag is used to "
                 "indicate both the photographer and editor copyrights. It is "
@@ -564,6 +597,11 @@ namespace Exiv2 {
                 "the editor copyright is given. When the field is left blank, it is "
                 "treated as unknown."),
                 ifd0Id, otherTags, asciiString, print0x8298),
+        TagInfo(0x829a, "ExposureTime", N_("Exposure Time"), N_("Exposure time, given in seconds."), ifd0Id, tiffEp, unsignedRational, print0x829a), // TIFF/EP tag
+        TagInfo(0x829d, "FNumber", N_("FNumber"), N_("The F number."), ifd0Id, tiffEp, unsignedRational, print0x829d), // TIFF/EP tag
+        TagInfo(0x83bb, "IPTCNAA", N_("IPTC/NAA"),
+                N_("Contains an IPTC/NAA record"),
+                ifd0Id, tiffEp, unsignedLong, printValue), // TIFF/EP Tag
         TagInfo(0x8649, "ImageResources", N_("Image Resources Block"),
                 N_("Contains information embedded by the Adobe Photoshop application"),
                 ifd0Id, otherTags, unsignedByte, printValue),
@@ -575,16 +613,53 @@ namespace Exiv2 {
                 ifd0Id, exifFormat, unsignedLong, printValue),
         TagInfo(0x8773, "InterColorProfile", N_("Inter Color Profile"),
                 N_("Contains an InterColor Consortium (ICC) format color space characterization/profile"),
-                ifd0Id, otherTags, undefined, printValue),
+                ifd0Id, tiffEp, undefined, printValue),
+        TagInfo(0x8822, "ExposureProgram", N_("Exposure Program"), N_("The class of the program used by the camera to set exposure when the picture is taken."), ifd0Id, tiffEp, unsignedShort, print0x8822), // TIFF/EP tag
+        TagInfo(0x8824, "SpectralSensitivity", N_("Spectral Sensitivity"), N_("Indicates the spectral sensitivity of each channel of the camera used."), ifd0Id, tiffEp, asciiString, printValue), // TIFF/EP tag
         TagInfo(0x8825, "GPSTag", N_("GPS Info IFD Pointer"),
                 N_("A pointer to the GPS Info IFD. The "
                 "Interoperability structure of the GPS Info IFD, like that of "
                 "Exif IFD, has no image data."),
                 ifd0Id, exifFormat, unsignedLong, printValue),
+        TagInfo(0x8827, "ISOSpeedRatings", N_("ISO Speed Ratings"), N_("Indicates the ISO Speed and ISO Latitude of the camera or input device as specified in ISO 12232."), ifd0Id, tiffEp, unsignedShort, print0x8827), // TIFF/EP tag
+        TagInfo(0x8828, "OECF", N_("OECF"), N_("Indicates the Opto-Electric Conversion Function (OECF) specified in ISO 14524."), ifd0Id, tiffEp, undefined, printValue), // TIFF/EP tag
+        TagInfo(0x8829, "Interlace", N_("Interlace"), N_("Indicates the field number of multifield images."), ifd0Id, tiffEp, unsignedShort, printValue), // TIFF/EP tag
+        TagInfo(0x882a, "TimeZoneOffset", N_("Time Zone Offset"),
+                N_("This optional tag encodes the time zone of the camera clock (relative"
+                   "to Greenwich Mean Time) used to create the DataTimeOriginal tag-value"
+                   "when the picture was taken. It may also contain the time zone offset"
+                   "of the clock used to create the DateTime tag-value when the image was"
+                   "modified."),
+                ifd0Id, tiffEp, signedShort, printValue),
+        TagInfo(0x882b, "SelfTimerMode", N_("Self Timer Mode"), N_("Number of seconds image capture was delayed from button press."), ifd0Id, tiffEp, unsignedShort, printValue), // TIFF/EP tag
+        TagInfo(0x9003, "DateTimeOriginal", N_("Date Time Original"), N_("The date and time when the original image data was generated."), ifd0Id, tiffEp, asciiString, printValue), // TIFF/EP tag
+        TagInfo(0x9102, "CompressedBitsPerPixel", N_("Compressed Bits Per Pixel"), N_("Specific to compressed data; states the compressed bits per pixel."), ifd0Id, tiffEp, unsignedRational, printFloat), // TIFF/EP tag
+        TagInfo(0x9201, "ShutterSpeedValue", N_("Shutter Speed Value"), N_("Shutter speed."), ifd0Id, tiffEp, unsignedRational, print0x9201), // TIFF/EP tag
+        TagInfo(0x9202, "ApertureValue", N_("Aperture Value"), N_("The lens aperture."), ifd0Id, tiffEp, unsignedRational, print0x9202), // TIFF/EP tag
+        TagInfo(0x9203, "BrightnessValue", N_("Brightness Value"), N_("The value of brightness."), ifd0Id, tiffEp, signedRational, printFloat), // TIFF/EP tag
+        TagInfo(0x9204, "ExposureBiasValue", N_("Exposure Bias Value"), N_("The exposure bias."), ifd0Id, tiffEp, signedRational, print0x9204), // TIFF/EP tag
+        TagInfo(0x9205, "MaxApertureValue", N_("Max Aperture Value"), N_("The smallest F number of the lens."), ifd0Id, tiffEp, unsignedRational, print0x9202), // TIFF/EP tag
+        TagInfo(0x9206, "SubjectDistance", N_("Subject Distance"), N_("The distance to the subject, given in meters."), ifd0Id, tiffEp, signedRational, print0x9206), // TIFF/EP tag
+        TagInfo(0x9207, "MeteringMode", N_("Metering Mode"), N_("The metering mode."), ifd0Id, tiffEp, unsignedShort, print0x9207), // TIFF/EP tag
+        TagInfo(0x9208, "LightSource", N_("Light Source"), N_("The kind of light source."), ifd0Id, tiffEp, unsignedShort, print0x9208), // TIFF/EP tag
+        TagInfo(0x9209, "Flash", N_("Flash"), N_("Indicates the status of flash when the image was shot."), ifd0Id, tiffEp, unsignedShort, EXV_PRINT_TAG(exifFlash)), // TIFF/EP tag
+        TagInfo(0x920a, "FocalLength", N_("Focal Length"), N_("The actual focal length of the lens, in mm."), ifd0Id, tiffEp, unsignedRational, print0x920a), // TIFF/EP tag
+        TagInfo(0x920b, "FlashEnergy", N_("Flash Energy"), N_("Amount of flash energy (BCPS)."), ifd0Id, tiffEp, unsignedRational, printValue), // TIFF/EP tag
+        TagInfo(0x920c, "SpatialFrequencyResponse", N_("Spatial Frequency Response"), N_("SFR of the camera."), ifd0Id, tiffEp, undefined, printValue), // TIFF/EP tag
+        TagInfo(0x920d, "Noise", N_("Noise"), N_("Noise measurement values."), ifd0Id, tiffEp, undefined, printValue), // TIFF/EP tag
+        TagInfo(0x920e, "FocalPlaneXResolution", N_("Focal Plane X Resolution"), N_("Number of pixels per FocalPlaneResolutionUnit (37392) in ImageWidth direction for main image."), ifd0Id, tiffEp, unsignedRational, printValue), // TIFF/EP tag
+        TagInfo(0x920f, "FocalPlaneYResolution", N_("Focal Plane Y Resolution"), N_("Number of pixels per FocalPlaneResolutionUnit (37392) in ImageLength direction for main image."), ifd0Id, tiffEp, unsignedRational, printValue), // TIFF/EP tag
+        TagInfo(0x9210, "FocalPlaneResolutionUnit", N_("Focal Plane Resolution Unit"), N_("Unit of measurement for FocalPlaneXResolution(37390) and FocalPlaneYResolution(37391)."), ifd0Id, tiffEp, unsignedShort, printValue), // TIFF/EP tag
+        TagInfo(0x9211, "ImageNumber", N_("Image Number"), N_("Number assigned to an image, e.g., in a chained image burst."), ifd0Id, tiffEp, unsignedLong, printValue), // TIFF/EP tag
+        TagInfo(0x9212, "SecurityClassification", N_("Security Classification"), N_("Security classification assigned to the image."), ifd0Id, tiffEp, asciiString, printValue), // TIFF/EP tag
+        TagInfo(0x9213, "ImageHistory", N_("Image History"), N_("Record of what has been done to the image."), ifd0Id, tiffEp, asciiString, printValue), // TIFF/EP tag
+        TagInfo(0x9214, "SubjectLocation", N_("Subject Location"), N_("Indicates the location and area of the main subject in the overall scene."), ifd0Id, tiffEp, unsignedShort, printValue), // TIFF/EP tag
+        TagInfo(0x9215, "ExposureIndex", N_("Exposure Index"), N_("Encodes the camera exposure index setting when image was captured."), ifd0Id, tiffEp, unsignedRational, printValue), // TIFF/EP tag
         TagInfo(0x9216, "TIFFEPStandardID", N_("TIFF/EP Standard ID"),
                 N_("Contains four ASCII characters representing the TIFF/EP standard "
                 "version of a TIFF/EP file, eg '1', '0', '0', '0'"),
-                ifd0Id, otherTags, unsignedByte, printValue), // TIFF/EP Tag
+                ifd0Id, tiffEp, unsignedByte, printValue), // TIFF/EP Tag
+        TagInfo(0x9217, "SensingMethod", N_("Sensing Method"), N_("Type of image sensor."), ifd0Id, tiffEp, unsignedShort, printValue), // TIFF/EP tag
         TagInfo(0x9c9b, "XPTitle", N_("Windows Title"),
                 N_("Title tag used by Windows, encoded in UCS2"),
                 ifd0Id, otherTags, unsignedByte, printUcs2), // Windows Tag
@@ -1004,37 +1079,6 @@ namespace Exiv2 {
         {  23, N_("D50")                                     },
         {  24, N_("ISO studio tungsten")                     },
         { 255, N_("Other light source")                      }
-    };
-
-    //! Flash, tag 0x9209
-    extern const TagDetails exifFlash[] = {
-        { 0x00, N_("No flash")                                                      },
-        { 0x01, N_("Fired")                                                         },
-        { 0x05, N_("Fired, strobe return light not detected")                       },
-        { 0x07, N_("Fired, strobe return light detected")                           },
-        { 0x08, N_("Yes, did not fire")                                             },
-        { 0x09, N_("Yes, compulsory")                                               },
-        { 0x0d, N_("Yes, compulsory, return light not detected")                    },
-        { 0x0f, N_("Yes, compulsory, return light detected")                        },
-        { 0x10, N_("No, compulsory")                                                },
-        { 0x14, N_("No, did not fire, return not detected")                         },
-        { 0x18, N_("No, auto")                                                      },
-        { 0x19, N_("Yes, auto")                                                     },
-        { 0x1d, N_("Yes, auto, return light not detected")                          },
-        { 0x1f, N_("Yes, auto, return light detected")                              },
-        { 0x20, N_("No flash function")                                             },
-        { 0x20, N_("No, no flash function")                                         },
-        { 0x41, N_("Yes, red-eye reduction")                                        },
-        { 0x45, N_("Yes, red-eye reduction, return light not detected")             },
-        { 0x47, N_("Yes, red-eye reduction, return light detected")                 },
-        { 0x49, N_("Yes, compulsory, red-eye reduction")                            },
-        { 0x4d, N_("Yes, compulsory, red-eye reduction, return light not detected") },
-        { 0x4f, N_("Yes, compulsory, red-eye reduction, return light detected")     },
-        { 0x50, N_("No, red-eye reduction")                                         },
-        { 0x58, N_("No, auto, red-eye reduction")                                   },
-        { 0x59, N_("Yes, auto, red-eye reduction")                                  },
-        { 0x5d, N_("Yes, auto, red-eye reduction, return light not detected")       },
-        { 0x5f, N_("Yes, auto, red-eye reduction, return light detected")           }
     };
 
     //! ColorSpace, tag 0xa001
