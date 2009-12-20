@@ -79,6 +79,7 @@ namespace Exiv2 {
     {
         static const char* keys[] = {
             "Exif.Photo.ISOSpeedRatings",
+            "Exif.Image.ISOSpeedRatings",
             "Exif.CanonSi.ISOSpeed",
             "Exif.CanonCs.ISOSpeed",
             "Exif.Nikon1.ISOSpeed",
@@ -127,6 +128,7 @@ namespace Exiv2 {
     {
         static const char* keys[] = {
             "Exif.Photo.ExposureProgram",
+            "Exif.Image.ExposureProgram",
             "Exif.CanonCs.ExposureProgram",
             "Exif.MinoltaCs7D.ExposureMode",
             "Exif.MinoltaCs5D.ExposureMode",

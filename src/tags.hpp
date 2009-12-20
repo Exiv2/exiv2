@@ -67,6 +67,7 @@ namespace Exiv2 {
                      imgStruct, recOffset, imgCharacter, otherTags, exifFormat,
                      exifVersion, imgConfig, userInfo, relatedFile, dateTime,
                      captureCond, gpsTags, iopTags, makerTags, dngTags, panaRaw,
+                     tiffEp,
                      lastSectionId };
 
 // *****************************************************************************
