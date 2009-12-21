@@ -624,7 +624,6 @@ namespace Exiv2 {
             ++count;
         }
 
-        if (!foundCompletePsData && skipApp13Ps3.size() > 0) throw Error(22);
         search += skipApp13Ps3.size();
 
         if (comPos == 0) {
