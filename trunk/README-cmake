@@ -1,3 +1,7 @@
+-------------------------------------------------------------------------------
+CMake scripts are experimental. Use them only if you're prepared to fix them.
+-------------------------------------------------------------------------------
+
 Exiv2 uses cmake, a cross-platform build system, to control the
 compilation process using simple platform and compiler independent
 configuration files.
