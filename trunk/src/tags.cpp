@@ -2149,7 +2149,26 @@ namespace Exiv2 {
 
     std::ostream& printUcs2(std::ostream& os, const Value& value, const ExifData*)
     {
-#if defined EXV_HAVE_ICONV && defined EXV_HAVE_PRINTUCS2
+#if defined WIN32 && !defined __CYGWIN__
+        // in Windows the WideCharToMultiByte function can be used
+        if (value.typeId() == unsignedByte) {
+            DataBuf ib(value.size());
+            value.copy(ib.pData_, invalidByteOrder);
+            int out_size = WideCharToMultiByte(CP_UTF8, 0, reinterpret_cast<LPWSTR>(ib.pData_),
+                                               ib.size_ / sizeof(WCHAR), NULL, 0, NULL, NULL);
+            if (out_size >= 0) {
+                DataBuf ob(out_size + 1);
+                WideCharToMultiByte(CP_UTF8, 0, reinterpret_cast<LPWSTR>(ib.pData_),
+                                    ib.size_ / sizeof(WCHAR), reinterpret_cast<char*>(ob.pData_),
+                                    ob.size_, NULL, NULL);
+                os << std::string(reinterpret_cast<char*>(ob.pData_));
+            }
+            else {
+                os << value;
+            }
+        }
+        return os;
+#elif defined EXV_HAVE_ICONV // !(defined WIN32 && !defined __CYGWIN__)
         bool go = true;
         iconv_t cd = (iconv_t)(-1);
         if (value.typeId() != unsignedByte) {
@@ -2199,29 +2218,10 @@ namespace Exiv2 {
             os << value;
         }
         return os;
-#elif defined WIN32 && !defined __CYGWIN__ // !(EXV_HAVE_ICONV && EXV_HAVE_PRINTUCS2)
-        // in Windows the WideCharToMultiByte function can be used
-        if (value.typeId() == unsignedByte) {
-            DataBuf ib(value.size());
-            value.copy(ib.pData_, invalidByteOrder);
-            int out_size = WideCharToMultiByte(CP_UTF8, 0, reinterpret_cast<LPWSTR>(ib.pData_),
-                                               ib.size_ / sizeof(WCHAR), NULL, 0, NULL, NULL);
-            if (out_size >= 0) {
-                DataBuf ob(out_size + 1);
-                WideCharToMultiByte(CP_UTF8, 0, reinterpret_cast<LPWSTR>(ib.pData_),
-                                    ib.size_ / sizeof(WCHAR), reinterpret_cast<char*>(ob.pData_),
-                                    ob.size_, NULL, NULL);
-                os << std::string(reinterpret_cast<char*>(ob.pData_));
-            }
-            else {
-                os << value;
-            }
-        }
-        return os;
 #else
         os << value;
         return os;
-#endif // EXV_HAVE_ICONV && EXV_HAVE_PRINTUCS2
+#endif // EXV_HAVE_ICONV
     } // printUcs2
 
     std::ostream& printExifUnit(std::ostream& os, const Value& value, const ExifData* metadata)

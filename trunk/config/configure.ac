@@ -130,22 +130,6 @@ if test "$USE_LENSDATA" = "yes"; then
     AC_DEFINE(HAVE_LENSDATA,1)
 fi
 
-AC_MSG_CHECKING([whether to convert UCS2 encoded Windows tags with iconv ])
-AC_ARG_ENABLE(printucs2,
-    [  --disable-printucs2     do not convert UCS2 encoded Windows tag to UTF-8 ],
-    USE_PRINTUCS2=$enableval, USE_PRINTUCS2=yes)
-AC_MSG_RESULT($USE_PRINTUCS2)
-if test "$USE_PRINTUCS2" = "yes"; then
-    AC_DEFINE(HAVE_PRINTUCS2,1)
-else
-# if NLS is also disabled, don't link with iconv
-# (since in some cases, AM_GNU_GETTEXT and/or AM_ICONV configure for this anyway)
-    if test "$USE_NLS" = "no"; then
-        unset LIBICONV
-        unset LTLIBICONV
-    fi
-fi
-
 AC_MSG_CHECKING([whether to compile a commercial version of the Exiv2 library])
 AC_ARG_ENABLE(commercial,
     [  --enable-commercial     compile with the EXV_COMMERCIAL_VERSION symbol set ],
@@ -257,19 +241,6 @@ yes) echo "-- Native language support........ YES" ;;
      echo "gettext is required for native language support. Make sure the"
      echo "gettext header files are installed. You can get gettext from"
      echo "http://www.gnu.org/software/gettext/"
-     echo "" ;;
-esac
-
-case "$USE_PRINTUCS2" in
-yes) echo "-- Conversion of Windows XP tags.. YES" ;;
-*)   echo "-- Conversion of Windows XP tags.. NO"
-     echo ""
-     echo "On Windows, NO here means that the Windows system function is used"
-     echo "to convert some UCS-2 encoded Windows XP tags. On other platforms,"
-     echo "libiconv is required for the conversion of Windows XP tags."
-     echo "Make sure that the libiconv header files are installed and use"
-     echo "--with-libiconv-prefix=DIR if it is in a non-standard location."
-     echo "You can get libiconv from http://www.gnu.org/software/libiconv/"
      echo "" ;;
 esac
 
