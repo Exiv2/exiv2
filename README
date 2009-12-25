@@ -58,7 +58,7 @@ Feature                     Package   Configure options
 PNG image support           zlib      --without-zlib
                                       --with-zlib=DIR
 Native language support     gettext   --disable-nls
-Converting Windows XP tags  libiconv  --disable-printucs2
+Converting Windows XP tags  libiconv  --without-libiconv-prefix
                                       --with-libiconv-prefix[=DIR]
 XMP support                 expat     --disable-xmp
                                       --with-expat=DIR
@@ -168,4 +168,4 @@ version of the Exiv2 library.
 To do this on Windows, compile the library with the preprocessor
 symbol EXV_COMMERCIAL_VERSION defined in the file src\exv_msvc.h.
 On UNIX-like systems, run the configure script with the options
---enable-commercial --disable-nls --disable-printucs2 --disable-lensdata
+--enable-commercial --disable-nls --disable-lensdata
