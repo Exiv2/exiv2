@@ -1362,7 +1362,7 @@ namespace {
             return false;
         }
         std::string outstr;
-        char *inptr = const_cast<char *>(str.c_str());
+        EXV_ICONV_CONST char *inptr = const_cast<char *>(str.c_str());
         size_t inbytesleft = str.length();
         
         while (inbytesleft) {
