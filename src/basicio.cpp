@@ -82,9 +82,11 @@ namespace Exiv2 {
     //! Internal Pimpl structure of class FileIo.
     class FileIo::Impl {
     public:
-        Impl(const std::string& path);                 //!< Constructor
+        //! Constructor
+        Impl(const std::string& path);
 #ifdef EXV_UNICODE_PATH
-        Impl(const std::wstring& wpath);               //!< Constructor
+        //! Constructor accepting a unicode path in an std::wstring
+        Impl(const std::wstring& wpath);
 #endif
         // Enumeration
         enum OpMode { opRead, opWrite, opSeek };
@@ -289,7 +291,7 @@ namespace Exiv2 {
     {
         assert(p_->fp_ != 0);
         if (munmap() != 0) {
-            throw Error(2, p_->path_, strError(), "munmap");
+            throw Error(2, path(), strError(), "munmap");
         }
         p_->mappedLength_ = size();
         p_->isWriteable_ = isWriteable;
@@ -301,7 +303,7 @@ namespace Exiv2 {
         }
         void* rc = ::mmap(0, p_->mappedLength_, prot, MAP_SHARED, fileno(p_->fp_), 0);
         if (MAP_FAILED == rc) {
-            throw Error(2, p_->path_, strError(), "mmap");
+            throw Error(2, path(), strError(), "mmap");
         }
         p_->pMappedArea_ = static_cast<byte*>(rc);
 
@@ -322,25 +324,25 @@ namespace Exiv2 {
         HANDLE hPh = GetCurrentProcess();
         HANDLE hFd = (HANDLE)_get_osfhandle(fileno(p_->fp_));
         if (hFd == INVALID_HANDLE_VALUE) {
-            throw Error(2, p_->path_, "MSG1", "_get_osfhandle");
+            throw Error(2, path(), "MSG1", "_get_osfhandle");
         }
         if (!DuplicateHandle(hPh, hFd, hPh, &p_->hFile_, 0, false, DUPLICATE_SAME_ACCESS)) {
-            throw Error(2, p_->path_, "MSG2", "DuplicateHandle");
+            throw Error(2, path(), "MSG2", "DuplicateHandle");
         }
         p_->hMap_ = CreateFileMapping(p_->hFile_, 0, flProtect, 0, p_->mappedLength_, 0);
         if (p_->hMap_ == 0 ) {
-            throw Error(2, p_->path_, "MSG3", "CreateFileMapping");
+            throw Error(2, path(), "MSG3", "CreateFileMapping");
         }
         void* rc = MapViewOfFile(p_->hMap_, dwAccess, 0, 0, 0);
         if (rc == 0) {
-            throw Error(2, p_->path_, "MSG4", "CreateFileMapping");
+            throw Error(2, path(), "MSG4", "CreateFileMapping");
         }
         p_->pMappedArea_ = static_cast<byte*>(rc);
 #else
         // Workaround for platforms without mmap: Read the file into memory
         DataBuf buf(static_cast<long>(p_->mappedLength_));
         read(buf.pData_, buf.size_);
-        if (error() || eof()) throw Error(2, p_->path_, strError(), "FileIo::mmap");
+        if (error() || eof()) throw Error(2, path(), strError(), "FileIo::mmap");
         p_->pMappedArea_ = buf.release().first;
         p_->isMalloced_ = true;
 #endif
@@ -360,17 +362,17 @@ namespace Exiv2 {
             std::auto_ptr<FileIo> fileIo;
 #ifdef EXV_UNICODE_PATH
             if (p_->wpMode_ == Impl::wpUnicode) {
-                std::wstring tmpname = p_->wpath_ + s2ws(toString(pid));
+                std::wstring tmpname = wpath() + s2ws(toString(pid));
                 fileIo = std::auto_ptr<FileIo>(new FileIo(tmpname));
             }
             else
 #endif
             {
-                std::string tmpname = p_->path_ + toString(pid);
+                std::string tmpname = path() + toString(pid);
                 fileIo = std::auto_ptr<FileIo>(new FileIo(tmpname));
             }
             if (fileIo->open("w+b") != 0) {
-                throw Error(10, p_->path_, "w+b", strError());
+                throw Error(10, path(), "w+b", strError());
             }
             basicIo = fileIo;
         }
@@ -425,14 +427,14 @@ namespace Exiv2 {
                 // Remove the (temporary) file
 #ifdef EXV_UNICODE_PATH
                 if (fileIo->p_->wpMode_ == Impl::wpUnicode) {
-                    ::_wremove(fileIo->p_->wpath_.c_str());
+                    ::_wremove(fileIo->wpath().c_str());
                 }
                 else
 #endif
                 {
-                    ::remove(fileIo->p_->path_.c_str());
+                    ::remove(fileIo->path().c_str());
                 }
-                throw Error(10, p_->path_, "w+b", strError());
+                throw Error(10, path(), "w+b", strError());
             }
             close();
 
@@ -442,12 +444,12 @@ namespace Exiv2 {
 #ifdef EXV_UNICODE_PATH
             wchar_t* wpf = 0;
             if (p_->wpMode_ == Impl::wpUnicode) {
-                wpf = const_cast<wchar_t*>(p_->wpath_.c_str());
+                wpf = const_cast<wchar_t*>(wpath().c_str());
             }
             else
 #endif
             {
-                pf = const_cast<char*>(p_->path_.c_str());
+                pf = const_cast<char*>(path().c_str());
             }
 
             // Get the permissions of the file, or linked-to file, on platforms which have lstat
@@ -465,13 +467,13 @@ namespace Exiv2 {
             }
             origStMode = buf1.st_mode;
             DataBuf lbuf; // So that the allocated memory is freed. Must have same scope as pf
-            // In case p_->path_ is a symlink, get the path of the linked-to file
+            // In case path() is a symlink, get the path of the linked-to file
             if (statOk && S_ISLNK(buf1.st_mode)) {
                 lbuf.alloc(buf1.st_size + 1);
                 memset(lbuf.pData_, 0x0, lbuf.size_);
                 pf = reinterpret_cast<char*>(lbuf.pData_);
-                if (::readlink(p_->path_.c_str(), pf, lbuf.size_ - 1) == -1) {
-                    throw Error(2, p_->path_, strError(), "readlink");
+                if (::readlink(path().c_str(), pf, lbuf.size_ - 1) == -1) {
+                    throw Error(2, path(), strError(), "readlink");
                 }
                 // We need the permissions of the file, not the symlink
                 if (::stat(pf, &buf1) == -1) {
@@ -496,10 +498,10 @@ namespace Exiv2 {
                 if (fileExists(wpf) && ::_wremove(wpf) != 0) {
                     throw Error(2, wpf, strError(), "::_wremove");
                 }
-                if (::_wrename(fileIo->p_->wpath_.c_str(), wpf) == -1) {
-                    throw Error(17, ws2s(fileIo->p_->wpath_), wpf, strError());
+                if (::_wrename(fileIo->wpath().c_str(), wpf) == -1) {
+                    throw Error(17, ws2s(fileIo->wpath()), wpf, strError());
                 }
-                ::_wremove(fileIo->p_->wpath_.c_str());
+                ::_wremove(fileIo->wpath().c_str());
                 // Check permissions of new file
                 struct _stat buf2;
                 if (statOk && ::_wstat(wpf, &buf2) == -1) {
@@ -523,10 +525,10 @@ namespace Exiv2 {
                 if (fileExists(pf) && ::remove(pf) != 0) {
                     throw Error(2, pf, strError(), "::remove");
                 }
-                if (::rename(fileIo->p_->path_.c_str(), pf) == -1) {
-                    throw Error(17, fileIo->p_->path_, pf, strError());
+                if (::rename(fileIo->path().c_str(), pf) == -1) {
+                    throw Error(17, fileIo->path(), pf, strError());
                 }
-                ::remove(fileIo->p_->path_.c_str());
+                ::remove(fileIo->path().c_str());
                 // Check permissions of new file
                 struct stat buf2;
                 if (statOk && ::stat(pf, &buf2) == -1) {
@@ -548,7 +550,7 @@ namespace Exiv2 {
         else {
             // Generic handling, reopen both to reset to start
             if (open("w+b") != 0) {
-                throw Error(10, p_->path_, "w+b", strError());
+                throw Error(10, path(), "w+b", strError());
             }
             if (src.open() != 0) {
                 throw Error(9, src.path(), strError());
@@ -559,12 +561,12 @@ namespace Exiv2 {
 
         if (wasOpen) {
             if (open(lastMode) != 0) {
-                throw Error(10, p_->path_, lastMode, strError());
+                throw Error(10, path(), lastMode, strError());
             }
         }
         else close();
 
-        if (error() || src.error()) throw Error(18, p_->path_, strError());
+        if (error() || src.error()) throw Error(18, path(), strError());
     }
 
     int FileIo::putb(byte data)
@@ -626,12 +628,12 @@ namespace Exiv2 {
         p_->opMode_ = Impl::opSeek;
 #ifdef EXV_UNICODE_PATH
         if (p_->wpMode_ == Impl::wpUnicode) {
-            p_->fp_ = ::_wfopen(p_->wpath_.c_str(), s2ws(mode).c_str());
+            p_->fp_ = ::_wfopen(wpath().c_str(), s2ws(mode).c_str());
         }
         else
 #endif
         {
-            p_->fp_ = ::fopen(p_->path_.c_str(), mode.c_str());
+            p_->fp_ = ::fopen(path().c_str(), mode.c_str());
         }
         if (!p_->fp_) return 1;
         return 0;
