@@ -25,7 +25,7 @@ try {
         throw Error(10, path, "rb", strError());
     }
     // Map it to memory
-    const byte* pData = file.mmap();
+    const Exiv2::byte* pData = file.mmap();
     long size = file.size();
     DataBuf buf(size);
     // Read from the memory mapped region

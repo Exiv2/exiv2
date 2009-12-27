@@ -35,15 +35,6 @@
 
 // + standard includes
 #include <string>
-#include <memory>
-#include <cstdio>
-#include <sys/types.h>
-#include <sys/stat.h>
-
-// MSVC doesn't provide mode_t
-#ifdef _MSC_VER
-typedef unsigned short mode_t;
-#endif
 
 // *****************************************************************************
 // namespace extensions
@@ -505,44 +496,9 @@ namespace Exiv2 {
         //! Assignment operator
         FileIo& operator=(const FileIo& rhs);
 
-        // Enumeration
-        enum OpMode { opRead, opWrite, opSeek };
-#ifdef EXV_UNICODE_PATH
-        enum WpMode { wpStandard, wpUnicode };
-#endif
-        // DATA
-        std::string path_;
-#ifdef EXV_UNICODE_PATH
-        std::wstring wpath_;
-        WpMode wpMode_;
-#endif
-        std::string openMode_;
-        FILE *fp_;
-        OpMode opMode_;
-
-        byte* pMappedArea_;
-        size_t mappedLength_;
-        bool isMalloced_;               //!< Is the mapped area allocated?
-        bool isWriteable_;              //!< Can the mapped area be written to?
-
-        // TYPES
-        //! Simple struct stat wrapper for internal use
-        struct StructStat {
-            StructStat() : st_mode(0), st_size(0) {}
-            mode_t st_mode; //!< Permissions
-            off_t  st_size; //!< Size
-        };
-
-        // METHODS
-        /*!
-          @brief Switch to a new access mode, reopening the file if needed.
-              Optimized to only reopen the file when it is really necessary.
-          @param opMode The mode to switch to.
-          @return 0 if successful
-         */
-        EXV_DLLLOCAL int switchMode(OpMode opMode);
-        //! stat wrapper for internal use
-        EXV_DLLLOCAL int stat(StructStat& buf) const;
+        // Pimpl idiom
+        class Impl;
+        Impl* p_;
 
     }; // class FileIo
 
