@@ -73,6 +73,10 @@ typedef __int32          int32_t;
  */
 #define EXV_CALL_MEMBER_FN(object,ptrToMember)  ((object).*(ptrToMember))
 
+// Simple min and max macros
+#define EXV_MIN(a,b) ((a) < (b) ? (a) : (b))
+#define EXV_MAX(a,b) ((a) > (b) ? (a) : (b))
+
 // *****************************************************************************
 // forward declarations
 struct tm;

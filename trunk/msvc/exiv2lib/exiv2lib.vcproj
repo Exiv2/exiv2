@@ -573,21 +573,6 @@ copy/y ..\..\..\zlib-1.2.3\projects\visualc6\Win32_DLL_Release\zlib1.dll $(OutDi
 			<File
 				RelativePath="..\include\exv_msvc.h">
 			</File>
-			<File
-				RelativePath="..\src\mmap.cpp">
-			</File>
-			<File
-				RelativePath="..\include\sys\mman.h">
-			</File>
-			<File
-				RelativePath="..\include\sys\socket.h">
-			</File>
-			<File
-				RelativePath="..\include\sys\types.h">
-			</File>
-			<File
-				RelativePath="..\include\winposix_export.h">
-			</File>
 		</Filter>
 	</Files>
 	<Globals>

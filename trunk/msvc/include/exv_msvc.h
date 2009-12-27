@@ -43,13 +43,10 @@ typedef int pid_t;
    native language is requested. */
 # undef EXV_ENABLE_NLS
 
+#endif /* !EXV_COMMERCIAL_VERSION */
+
 /* Define to 1 if you have the `iconv' function. */
 # undef EXV_HAVE_ICONV
-
-/* Define to 1 to enable conversion of UCS2 encoded Windows tags to UTF-8. */
-# undef EXV_HAVE_PRINTUCS2
-
-#endif /* !EXV_COMMERCIAL_VERSION */
 
 /* Define as 1 if you have the `zlib' library. (0 to omit zlib) [png support] */
 #define HAVE_LIBZ 1
@@ -72,16 +69,11 @@ typedef int pid_t;
 /* Windows unicode path support */
 #define EXV_UNICODE_PATH
 
-/* Define to 1 if you have the "sys/mman.h header file (and supporting code of course) */
-/* At this time (between 0.18.1 and 0.19) this is used by TIFF files to avoid reading  */
-/* the total file into memory returning in a 6x improvement in exiv2 on 2mb tiff files */
-#define EXV_HAVE_SYS_MMAN_H 1
-#ifdef  EXV_HAVE_SYS_MMAN_H
-#if     EXV_HAVE_SYS_MMAN_H
-#define EXV_HAVE_MMAP       1
-#define EXV_HAVE_MUNMAP	    1
-#endif
-#endif
+/* Define to 1 if you have the `mmap' function. */
+/* #undef EXV_HAVE_MMAP */
+
+/* Define to 1 if you have the `munmap' function. */
+/* #undef EXV_HAVE_MUNMAP */
 
 /* Shared library support */
 #ifdef  EXV_HAVE_DLL

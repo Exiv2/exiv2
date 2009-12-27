@@ -635,7 +635,7 @@ namespace Exiv2 {
         assert(def != 0);
 
         uint16_t tag = static_cast<uint16_t>(idx / cfg()->tagStep());
-        int32_t sz = std::min(def->size(tag, cfg()->group_), TiffEntryBase::doSize() - idx);
+        int32_t sz = EXV_MIN(def->size(tag, cfg()->group_), TiffEntryBase::doSize() - idx);
         TiffComponent::AutoPtr tc = TiffCreator::create(tag, cfg()->group_);
         TiffBinaryElement* tp = dynamic_cast<TiffBinaryElement*>(tc.get());
         // The assertion typically fails if a component is not configured in
@@ -1674,13 +1674,13 @@ namespace Exiv2 {
 
         uint32_t idx = 0;
         for (Components::const_iterator i = elements_.begin(); i != elements_.end(); ++i) {
-            idx = std::max(idx, (*i)->tag() * cfg()->tagStep());
+            idx = EXV_MAX(idx, (*i)->tag() * cfg()->tagStep());
             idx += (*i)->size();
         }
         if (cfg()->hasFillers_ && def()) {
             const ArrayDef* lastDef = def() + defSize() - 1;
             uint16_t lastTag = static_cast<uint16_t>(lastDef->idx_ / cfg()->tagStep());
-            idx = std::max(idx, lastDef->idx_ + lastDef->size(lastTag, cfg()->group_));
+            idx = EXV_MAX(idx, lastDef->idx_ + lastDef->size(lastTag, cfg()->group_));
         }
         return idx;
 

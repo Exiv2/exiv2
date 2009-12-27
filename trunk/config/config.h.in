@@ -25,10 +25,10 @@
    native language is requested. */
 #undef ENABLE_NLS
 
+#endif /* !EXV_COMMERCIAL_VERSION */
+
 /* Define to 1 if you have the `iconv' function. */
 #undef HAVE_ICONV
-
-#endif /* !EXV_COMMERCIAL_VERSION */
 
 /* Define to `const' or to empty, depending on the second argument of `iconv'. */
 #undef ICONV_CONST
