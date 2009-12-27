@@ -709,7 +709,31 @@ namespace Exiv2 {
     }
 
 #endif
-    MemIo::MemIo()
+    //! Internal Pimpl structure of class MemIo.
+    class MemIo::Impl {
+    public:
+        Impl();                            //<! Default constructor
+        Impl(const byte* data, long size); //<! Constructor 2
+
+        // DATA
+        byte* data_;
+        long idx_;
+        long size_;
+        long sizeAlloced_;                 //!< Size of the allocated buffer
+        bool isMalloced_;                  //!< Was the buffer allocated?
+        bool eof_;
+
+        // METHODS
+        void reserve(long wcount);
+
+    private:
+        // NOT IMPLEMENTED
+        Impl(const Impl& rhs);                         //!< Copy constructor
+        Impl& operator=(const Impl& rhs);              //!< Assignment
+
+    }; // class MemIo::Impl
+
+    MemIo::Impl::Impl()
         : data_(0),
           idx_(0),
           size_(0),
@@ -719,7 +743,7 @@ namespace Exiv2 {
     {
     }
 
-    MemIo::MemIo(const byte* data, long size)
+    MemIo::Impl::Impl(const byte* data, long size)
         : data_(const_cast<byte*>(data)),
           idx_(0),
           size_(size),
@@ -729,19 +753,7 @@ namespace Exiv2 {
     {
     }
 
-    MemIo::~MemIo()
-    {
-        if (isMalloced_) {
-            std::free(data_);
-        }
-    }
-
-    BasicIo::AutoPtr MemIo::temporary() const
-    {
-        return BasicIo::AutoPtr(new MemIo);
-    }
-
-    void MemIo::reserve(long wcount)
+    void MemIo::Impl::reserve(long wcount)
     {
         long need = wcount + idx_;
 
@@ -767,12 +779,35 @@ namespace Exiv2 {
         }
     }
 
+    MemIo::MemIo()
+        : p_(new Impl())
+    {
+    }
+
+    MemIo::MemIo(const byte* data, long size)
+        : p_(new Impl(data, size))
+    {
+    }
+
+    MemIo::~MemIo()
+    {
+        if (p_->isMalloced_) {
+            std::free(p_->data_);
+        }
+        delete p_;
+    }
+
+    BasicIo::AutoPtr MemIo::temporary() const
+    {
+        return BasicIo::AutoPtr(new MemIo);
+    }
+
     long MemIo::write(const byte* data, long wcount)
     {
-        reserve(wcount);
-        assert(isMalloced_);
-        std::memcpy(&data_[idx_], data, wcount);
-        idx_ += wcount;
+        p_->reserve(wcount);
+        assert(p_->isMalloced_);
+        std::memcpy(&p_->data_[p_->idx_], data, wcount);
+        p_->idx_ += wcount;
         return wcount;
     }
 
@@ -781,24 +816,24 @@ namespace Exiv2 {
         MemIo *memIo = dynamic_cast<MemIo*>(&src);
         if (memIo) {
             // Optimization if src is another instance of MemIo
-            if (true == isMalloced_) {
-                std::free(data_);
+            if (true == p_->isMalloced_) {
+                std::free(p_->data_);
             }
-            idx_ = 0;
-            data_ = memIo->data_;
-            size_ = memIo->size_;
-            isMalloced_ = memIo->isMalloced_;
-            memIo->idx_ = 0;
-            memIo->data_ = 0;
-            memIo->size_ = 0;
-            memIo->isMalloced_ = false;
+            p_->idx_ = 0;
+            p_->data_ = memIo->p_->data_;
+            p_->size_ = memIo->p_->size_;
+            p_->isMalloced_ = memIo->p_->isMalloced_;
+            memIo->p_->idx_ = 0;
+            memIo->p_->data_ = 0;
+            memIo->p_->size_ = 0;
+            memIo->p_->isMalloced_ = false;
         }
         else {
             // Generic reopen to reset position to start
             if (src.open() != 0) {
                 throw Error(9, src.path(), strError());
             }
-            idx_ = 0;
+            p_->idx_ = 0;
             write(src);
             src.close();
         }
@@ -823,9 +858,9 @@ namespace Exiv2 {
 
     int MemIo::putb(byte data)
     {
-        reserve(1);
-        assert(isMalloced_);
-        data_[idx_++] = data;
+        p_->reserve(1);
+        assert(p_->isMalloced_);
+        p_->data_[p_->idx_++] = data;
         return data;
     }
 
@@ -834,20 +869,20 @@ namespace Exiv2 {
         long newIdx = 0;
 
         switch (pos) {
-        case BasicIo::cur: newIdx = idx_ + offset; break;
+        case BasicIo::cur: newIdx = p_->idx_ + offset; break;
         case BasicIo::beg: newIdx = offset; break;
-        case BasicIo::end: newIdx = size_ + offset; break;
+        case BasicIo::end: newIdx = p_->size_ + offset; break;
         }
 
-        if (newIdx < 0 || newIdx > size_) return 1;
-        idx_ = newIdx;
-        eof_ = false;
+        if (newIdx < 0 || newIdx > p_->size_) return 1;
+        p_->idx_ = newIdx;
+        p_->eof_ = false;
         return 0;
     }
 
     byte* MemIo::mmap(bool /*isWriteable*/)
     {
-        return data_;
+        return p_->data_;
     }
 
     int MemIo::munmap()
@@ -857,18 +892,18 @@ namespace Exiv2 {
 
     long MemIo::tell() const
     {
-        return idx_;
+        return p_->idx_;
     }
 
     long MemIo::size() const
     {
-        return size_;
+        return p_->size_;
     }
 
     int MemIo::open()
     {
-        idx_ = 0;
-        eof_ = false;
+        p_->idx_ = 0;
+        p_->eof_ = false;
         return 0;
     }
 
@@ -892,21 +927,21 @@ namespace Exiv2 {
 
     long MemIo::read(byte* buf, long rcount)
     {
-        long avail = size_ - idx_;
+        long avail = p_->size_ - p_->idx_;
         long allow = EXV_MIN(rcount, avail);
-        std::memcpy(buf, &data_[idx_], allow);
-        idx_ += allow;
-        if (rcount > avail) eof_ = true;
+        std::memcpy(buf, &p_->data_[p_->idx_], allow);
+        p_->idx_ += allow;
+        if (rcount > avail) p_->eof_ = true;
         return allow;
     }
 
     int MemIo::getb()
     {
-        if (idx_ == size_) {
-            eof_ = true;
+        if (p_->idx_ == p_->size_) {
+            p_->eof_ = true;
             return EOF;
         }
-        return data_[idx_++];
+        return p_->data_[p_->idx_++];
     }
 
     int MemIo::error() const
@@ -916,7 +951,7 @@ namespace Exiv2 {
 
     bool MemIo::eof() const
     {
-        return eof_;
+        return p_->eof_;
     }
 
     std::string MemIo::path() const

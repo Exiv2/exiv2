@@ -256,7 +256,7 @@ namespace Exiv2 {
         //! @name Creators
         //@{
         //! Constructor, takes a BasicIo reference
-        IoCloser(BasicIo &bio) : bio_(bio) {}
+        IoCloser(BasicIo& bio) : bio_(bio) {}
         //! Destructor, closes the BasicIo reference
         ~IoCloser() { close(); }
         //@}
@@ -278,7 +278,6 @@ namespace Exiv2 {
         //! Assignment operator
         IoCloser& operator=(const IoCloser&);
     }; // class IoCloser
-
 
     /*!
       @brief Provides binary file IO by implementing the BasicIo
@@ -689,16 +688,10 @@ namespace Exiv2 {
         //! Assignment operator
         MemIo& operator=(const MemIo& rhs);
 
-        // DATA
-        byte* data_;
-        long idx_;
-        long size_;
-        long sizeAlloced_;              //!< Size of the allocated buffer
-        bool isMalloced_;               //!< Was the buffer allocated?
-        bool eof_;
+        // Pimpl idiom
+        class Impl;
+        Impl* p_;
 
-        // METHODS
-        EXV_DLLLOCAL void reserve(long wcount);
     }; // class MemIo
 
 // *****************************************************************************
