@@ -24,7 +24,7 @@
 #include <algorithm>	// For sort and stable_sort.
 #include <stdio.h>		// For snprintf.
 
-#include <cstdio>
+#include <stdio.h>
 
 #if XMP_DebugBuild
 	#include <iostream>
