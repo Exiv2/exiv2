@@ -1353,7 +1353,7 @@ namespace Exiv2 {
             }
         }
 
-        uint16_t val = value.toLong();
+        uint16_t val = static_cast<uint16_t>(value.toLong());
         if (dModel) val = (val >> 8) | ((val & 0x00ff) << 8);
 
         if (val == 0x07ff) return os << _("All 11 Points");
