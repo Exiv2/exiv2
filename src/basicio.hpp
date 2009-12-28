@@ -35,6 +35,7 @@
 
 // + standard includes
 #include <string>
+#include <memory>                               // for std::auto_ptr
 
 // *****************************************************************************
 // namespace extensions
