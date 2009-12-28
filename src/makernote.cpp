@@ -205,7 +205,7 @@ namespace Exiv2 {
     Olympus2MnHeader::~Olympus2MnHeader()
     {
     }
-    
+
     uint32_t Olympus2MnHeader::size() const
     {
         return header_.size_;

@@ -316,7 +316,7 @@ namespace Exiv2 {
     {
         return key_.get() == 0 ? "" : key_->key();
     }
-    
+
     const char* Exifdatum::familyName() const
     {
         return key_.get() == 0 ? "" : key_->familyName();

@@ -962,7 +962,7 @@ namespace Exiv2 {
         {"Xmp.plus.LicensorTelephoneType1",      EXV_PRINT_VOCABULARY(plusLicensorTelephoneType)      },
         {"Xmp.plus.LicensorTelephoneType2",      EXV_PRINT_VOCABULARY(plusLicensorTelephoneType)      },
         {"Xmp.plus.MinorModelAgeDisclosure",     EXV_PRINT_VOCABULARY(plusMinorModelAgeDisclosure)    },
-        {"Xmp.plus.ModelReleaseStatus",          EXV_PRINT_VOCABULARY(plusModelReleaseStatus)         }, 
+        {"Xmp.plus.ModelReleaseStatus",          EXV_PRINT_VOCABULARY(plusModelReleaseStatus)         },
         {"Xmp.plus.PropertyReleaseStatus",       EXV_PRINT_VOCABULARY(plusPropertyReleaseStatus)      },
         {"Xmp.plus.Reuse",                       EXV_PRINT_VOCABULARY(plusReuse)                      }
     };

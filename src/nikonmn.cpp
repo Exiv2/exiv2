@@ -2,7 +2,7 @@
 /*
  * Copyright (C) 2004-2009 Andreas Huggel <ahuggel@gmx.net>
  *
- * Lens database for the conversion of Nikon lens data to readable lens names 
+ * Lens database for the conversion of Nikon lens data to readable lens names
  * Copyright (C) 2005-2008 Robert Rottmerhusen <lens_id@rottmerhusen.com>
  *
  * This program is part of the Exiv2 distribution.
@@ -593,7 +593,7 @@ namespace Exiv2 {
         TagInfo(0x0e00, "PrintIM", N_("Print IM"), N_("PrintIM information"), nikon3IfdId, makerTags, undefined, printValue),
         // TODO: Add Capture Data decoding implementation.
         TagInfo(0x0e01, "CaptureData", N_("Capture Data"), N_("Capture data"), nikon3IfdId, makerTags, undefined, printValue),
-        TagInfo(0x0e09, "CaptureVersion", N_("Capture Version"), N_("Capture version"), nikon3IfdId, makerTags, asciiString, printValue), 
+        TagInfo(0x0e09, "CaptureVersion", N_("Capture Version"), N_("Capture version"), nikon3IfdId, makerTags, asciiString, printValue),
         // TODO: Add Capture Offsets decoding implementation.
         TagInfo(0x0e0e, "CaptureOffsets", N_("Capture Offsets"), N_("Capture offsets"), nikon3IfdId, makerTags, undefined, printValue),
         TagInfo(0x0e10, "ScanIFD", "Scan IFD", N_("Scan IFD"), nikon3IfdId, makerTags, undefined, printValue),
@@ -1629,12 +1629,12 @@ fmountlens[] = {
 {0x80,0x48,0x1A,0x1A,0x24,0x24,0x85,0x06,0x00,0x00, "Nikon", "JAA629DA", "AF DX Fisheye-Nikkor 10.5mm f/2.8G ED"},
 {0x81,0x54,0x80,0x80,0x18,0x18,0x86,0x0E,0x03,0x00, "Nikon", "JAA336DA", "AF-S VR Nikkor 200mm f/2G IF-ED"},
 {0x82,0x48,0x8E,0x8E,0x24,0x24,0x87,0x0E,0x03,0x00, "Nikon", "JAA337DA", "AF-S VR Nikkor 300mm f/2.8G IF-ED"},
-//83                
-//84                
-//85                 
+//83
+//84
+//85
 //86
 //87
-//88                
+//88
 {0x89,0x3C,0x53,0x80,0x30,0x3C,0x8B,0x06,0x00,0x00, "Nikon", "JAA793DA", "AF-S DX Zoom-Nikkor 55-200mm f/4-5.6G ED"},
 {0x8A,0x54,0x6A,0x6A,0x24,0x24,0x8C,0x0E,0x03,0x00, "Nikon", "JAA630DA", "AF-S VR Micro-Nikkor 105mm f/2.8G IF-ED"},
 {0x8B,0x40,0x2D,0x80,0x2C,0x3C,0x8D,0x0E,0x00,0x00, "Nikon", "JAA794DA", "AF-S DX VR Zoom-Nikkor 18-200mm f/3.5-5.6G IF-ED"},
@@ -1881,7 +1881,7 @@ fmountlens[] = {
 {0x7A,0x3C,0x1F,0x37,0x30,0x30,0x7E,0x06,0x00,0x03, "Tokina", "T4122423", "AT-X 124 AF PRO DX II (AF 12-24mm f/4)"},
 {0x00,0x48,0x29,0x50,0x24,0x24,0x00,0x06,0x00,0x03, "Tokina", "", "AT-X 165 PRO DX (AF 16-50mm f/2.8)"},
 {0x00,0x40,0x2A,0x72,0x2C,0x3C,0x00,0x06,0x00,0x03, "Tokina", "", "AT-X 16.5-135 DX (AF 16.5-135mm F3.5-5.6)"},
-//                                     "Tokina" ""          "AF 193 (AF 19-35mm f/3.5-4.5)"; 
+//                                     "Tokina" ""          "AF 193 (AF 19-35mm f/3.5-4.5)";
 {0x2F,0x48,0x30,0x44,0x24,0x24,0x29,0x02,0x00,0x03, "Tokina", "", "AT-X 235 AF PRO (AF 20-35mm f/2.8)"},
 //                                     "Tokina" ""          "AF 235 (AF 20-35mm f/3.5-4.5)";
 {0x2F,0x40,0x30,0x44,0x2C,0x34,0x29,0x02,0x00,0x03, "Tokina", "", "AF 235 II (AF 20-35mm f/3.5-4.5)"},
@@ -1918,10 +1918,10 @@ fmountlens[] = {
 {0x06,0x3F,0x68,0x68,0x2C,0x2C,0x06,0x00,0x00,0x04, "Cosina", "", "AF 100mm F3.5 Macro"},
 {0x07,0x36,0x3D,0x5F,0x2C,0x3C,0x03,0x00,0x00,0x04, "Cosina", "", "AF Zoom 28-80mm F3.5-5.6 MC Macro"},
 {0x07,0x46,0x3D,0x6A,0x25,0x2F,0x03,0x00,0x00,0x04, "Cosina", "", "AF Zoom 28-105mm F2.8-3.8 MC"},
-//                                     "Cosina" "" "AF Zoom 28-210mm F3.5-5.6"; 
+//                                     "Cosina" "" "AF Zoom 28-210mm F3.5-5.6";
 //                                     "Cosina" "" "AF Zoom 28-210mm F4.2-6.5 Aspherical IF";
-//                                     "Cosina" "" "AF Zoom 28-300mm F4.0-6.3"; 
-//                                     "Cosina" "" "AF Zoom 70-210mm F2.8-4.0"; 
+//                                     "Cosina" "" "AF Zoom 28-300mm F4.0-6.3";
+//                                     "Cosina" "" "AF Zoom 70-210mm F2.8-4.0";
 {0x12,0x36,0x5C,0x81,0x35,0x3D,0x09,0x00,0x00,0x04, "Cosina", "", "AF Zoom 70-210mm F4.5-5.6 MC Macro"},
 {0x12,0x39,0x5C,0x8E,0x34,0x3D,0x08,0x02,0x00,0x04, "Cosina", "", "AF Zoom 70-300mm F4.5-5.6 MC Macro"},
 {0x12,0x3B,0x68,0x8D,0x3D,0x43,0x09,0x02,0x00,0x04, "Cosina", "", "AF Zoom 100-300mm F5.6-6.7 MC Macro"},

@@ -367,7 +367,7 @@ namespace Exiv2 {
         virtual void visitIfdMakernoteEnd(TiffIfdMakernote* object);
         //! Encode a binary array
         virtual void visitBinaryArray(TiffBinaryArray* object);
-        //! Re-encrypt binary array if necessary 
+        //! Re-encrypt binary array if necessary
         virtual void visitBinaryArrayEnd(TiffBinaryArray* object);
         //! Encode an element of a binary array
         virtual void visitBinaryElement(TiffBinaryElement* object);
@@ -627,7 +627,7 @@ namespace Exiv2 {
          */
         void postProcess();
         //@}
- 
+
         //! @name Accessors
         //@{
         //! Return the byte order.
