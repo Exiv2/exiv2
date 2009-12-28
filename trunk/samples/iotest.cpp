@@ -33,6 +33,7 @@
 #include <exiv2/error.hpp>
 #include <exiv2/futils.hpp>
 #include <exiv2/basicio.hpp>
+#include <cstdio>                               // for EOF
 #include <cstring>
 #include <iostream>
 
