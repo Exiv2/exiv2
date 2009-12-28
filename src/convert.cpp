@@ -1119,13 +1119,14 @@ namespace Exiv2 {
 #endif
                 return;
             }
-            // Todo: Escape non-ASCII characters in XMP text values
             (*iptcData_)[to] = value;
+            (*iptcData_)["Iptc.Envelope.CharacterSet"] = "\033%G"; // indicate UTF-8 encoding
             if (erase_) xmpData_->erase(pos);
             return;
         }
 
         int count = pos->count();
+        bool added = false;
         for (int i = 0; i < count; ++i) {
             std::string value = pos->toString(i);
             if (!pos->value().ok()) {
@@ -1134,12 +1135,13 @@ namespace Exiv2 {
 #endif
                 continue;
             }
-            // Todo: Escape non-ASCII characters in XMP text values
             IptcKey key(to);
             Iptcdatum id(key);
             id.setValue(value);
             iptcData_->add(id);
+            added = true;
         }
+        if (added) (*iptcData_)["Iptc.Envelope.CharacterSet"] = "\033%G"; // indicate UTF-8 encoding
         if (erase_) xmpData_->erase(pos);
     }
 
@@ -1304,7 +1306,6 @@ namespace Exiv2 {
     {
         Converter converter(iptcData, const_cast<XmpData&>(xmpData));
         converter.cnvFromXmp();
-        iptcData["Iptc.Envelope.CharacterSet"] = "\033%G"; // indicate UTF-8 encoding
     }
 
     void moveXmpToIptc(XmpData& xmpData, IptcData& iptcData)
@@ -1312,7 +1313,6 @@ namespace Exiv2 {
         Converter converter(iptcData, const_cast<XmpData&>(xmpData));
         converter.setErase();
         converter.cnvFromXmp();
-        iptcData["Iptc.Envelope.CharacterSet"] = "\033%G"; // indicate UTF-8 encoding
     }
 
 }                                       // namespace Exiv2

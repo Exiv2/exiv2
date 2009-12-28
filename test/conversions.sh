@@ -158,7 +158,7 @@ echo
 echo Testcase 12
 echo ===========
 \cp $IMG s.jpg
-$exiv2 -M'set Iptc.Application2.LocationName Kuala Lumpur' s.jpg
+$exiv2 -M'set Iptc.Application2.SubLocation Kuala Lumpur' s.jpg
 $exiv2 -pi s.jpg
 rm -f s.xmp
 $exiv2 -eX s.jpg
@@ -217,7 +217,7 @@ $exiv2 -pi v.jpg
 
 # ----------------------------------------------------------------------
 # Evaluate results
-cat $results | tr -d '\r' > $results-stripped
+cat $results | sed 's/\x0d$//' > $results-stripped
 diff -q $results-stripped $good
 rc=$?
 if [ $rc -eq 0 ] ; then
