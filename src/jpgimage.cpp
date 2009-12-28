@@ -44,6 +44,7 @@ EXIV2_RCSID("@(#) $Id$")
 #include "futils.hpp"
 
 // + standard includes
+#include <cstdio>                               // for EOF
 #include <cstring>
 #include <cassert>
 
