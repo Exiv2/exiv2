@@ -130,7 +130,7 @@ namespace Exiv2 {
     {
         return key_.get() == 0 ? 0 : key_->record();
     }
-    
+
     const char* Iptcdatum::familyName() const
     {
         return key_.get() == 0 ? "" : key_->familyName();
@@ -403,7 +403,7 @@ namespace Exiv2 {
         if (utf8) return "UTF-8";
         return NULL;
     }
-    
+
     const byte IptcParser::marker_ = 0x1C;          // Dataset marker
 
     int IptcParser::decode(

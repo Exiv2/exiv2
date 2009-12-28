@@ -97,7 +97,7 @@ namespace Exiv2 {
         const uint16_t subimg2 =   9; //!< 2nd TIFF SubIFD in IFD0
         const uint16_t subimg3 =  10; //!< 3rd TIFF SubIFD in IFD0
         const uint16_t subimg4 =  11; //!< 4th TIFF SubIFD in IFD0
-        const uint16_t panaraw =  64; //!< IFD0 of Panasonic RAW images 
+        const uint16_t panaraw =  64; //!< IFD0 of Panasonic RAW images
         const uint16_t mn      = 256; //!< Makernote
         const uint16_t ignr    = 511; //!< Read but do not decode
     }
@@ -114,7 +114,7 @@ namespace Exiv2 {
         const uint32_t all  = 0x40000; //!< Special tag: all tags in a group
         const uint32_t pana = 0x80000; //!< Special tag: root IFD of Panasonic RAW images
     }
-        
+
     /*!
       @brief A tupel consisting of extended Tag and group used as an item in
              TIFF paths.
@@ -773,7 +773,7 @@ namespace Exiv2 {
                  Return the number of bytes written.
 
           This function writes the image data to the data area of the current
-          directory. It is used for TIFF image entries in the makernote (large 
+          directory. It is used for TIFF image entries in the makernote (large
           preview images) so that the image data remains in the makernote IFD.
          */
         virtual uint32_t doWriteData(IoWrapper& ioWrapper,

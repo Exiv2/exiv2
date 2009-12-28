@@ -1364,7 +1364,7 @@ namespace {
         std::string outstr;
         EXV_ICONV_CONST char *inptr = const_cast<char *>(str.c_str());
         size_t inbytesleft = str.length();
-        
+
         while (inbytesleft) {
             char outbuf[100];
             char *outptr = outbuf;
@@ -1389,7 +1389,7 @@ namespace {
         if (cd != (iconv_t)(-1)) {
             iconv_close(cd);
         }
-        
+
         if (ret) str = outstr;
         return ret;
 #else // !EXV_HAVE_ICONV

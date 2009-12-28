@@ -1002,7 +1002,7 @@ namespace Exiv2 {
 
         /*
           What follows is a hack. I can't think of a better way to set
-          the makernote byte order (and other properties maybe) in the 
+          the makernote byte order (and other properties maybe) in the
           makernote header during intrusive writing. The thing is that
           visit/encodeIfdMakernote is not called in this case and there
           can't be an Exif tag which corresponds to this component.

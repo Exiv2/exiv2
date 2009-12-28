@@ -347,7 +347,7 @@ namespace Exiv2 {
         // Write Photoshop header data out to new PSD file
         if (outIo.write(psd_head, 26) != 26) throw Error(21);
 
-        // Read colorDataLength from original PSD 
+        // Read colorDataLength from original PSD
         if (io_->read(buf, 4) != 4) throw Error(3, "Photoshop");
 
         uint32_t colorDataLength = getULong(buf, bigEndian);
@@ -413,7 +413,7 @@ namespace Exiv2 {
                 != static_cast<long>(adjResourceNameLen)) throw Error(3, "Photoshop");
 
             // read resource size (actual length w/o padding!)
-            if (io_->read(buf, 4) != 4) throw Error(3, "Photoshop"); 
+            if (io_->read(buf, 4) != 4) throw Error(3, "Photoshop");
 
             uint32_t resourceSize = getULong(buf, bigEndian);
             uint32_t curOffset = io_->tell();

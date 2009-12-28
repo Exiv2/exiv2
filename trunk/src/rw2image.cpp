@@ -159,7 +159,7 @@ namespace Exiv2 {
                     std::cerr << "Filtering duplicate tag " << pos->key()
                               << " (values '" << pos->value()
                               << "' and '" << dup->value() << "')\n";
-#endif              
+#endif
                     prevData.erase(dup);
                 }
             }

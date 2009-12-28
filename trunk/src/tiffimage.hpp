@@ -105,7 +105,7 @@ namespace Exiv2 {
 
         //! @name Accessors
         //@{
-        //! Return the group name of the group with the primary image. 
+        //! Return the group name of the group with the primary image.
         std::string primaryGroup() const;
         //@}
 

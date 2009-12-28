@@ -81,7 +81,7 @@ namespace {
     int parseCommonTargets(const std::string& optarg,
                            const std::string& action);
 
-    /*! 
+    /*!
       @brief Parse numbers separated by commas into container
       @param previewNumbers Container for the numbers
       @param optarg Option arguments
