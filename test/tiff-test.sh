@@ -2,6 +2,13 @@
 # TIFF parser test driver
 
 # ----------------------------------------------------------------------
+# Check if xmpparser-test exists
+if [ `which exifprobe`x = x ] ; then
+    echo "tiff-test.sh: exifprobe not found. Skipping TIFF tests."
+    exit 0
+fi
+
+# ----------------------------------------------------------------------
 # Setup
 results="./tmp/tiff-test.out"
 good="./data/tiff-test.out"
@@ -25,7 +32,7 @@ exifprobe $testfile
 
 # ----------------------------------------------------------------------
 # Evaluate results
-cat $results | tr -d '\r' > $results-stripped
+cat $results | sed 's/\x0d$//' > $results-stripped
 diff -q $results-stripped $good
 rc=$?
 if [ $rc -eq 0 ] ; then

@@ -58,7 +58,7 @@ $exiv2 -v -px exiv2-empty.jpg
 
 # ----------------------------------------------------------------------
 # Evaluate results
-cat $results | tr -d '\r' > $results-stripped
+cat $results | sed 's/\x0d$//' > $results-stripped
 diff -q $results-stripped $good
 rc=$?
 if [ $rc -eq 0 ] ; then
