@@ -103,7 +103,7 @@ namespace Exiv2 {
         std::cout << "Exiv2::PngChunk::decodeTXTChunk: TXT chunk data: "
                   << std::string((const char*)arr.pData_, 32) << "\n";
 #endif
-        parseChunkContent(pImage, key.pData_, arr);
+        parseChunkContent(pImage, key.pData_, key.size_, arr);
 
     } // PngChunk::decodeTXTChunk
 
@@ -111,7 +111,7 @@ namespace Exiv2 {
     {
         // From a tEXt, zTXt, or iTXt chunk,
         // we get the key, it's a null terminated string at the chunk start
-
+        if (data.size_ <= (stripHeader ? 8 : 0)) throw Error(14);
         const byte *key = data.pData_ + (stripHeader ? 8 : 0);
 
         // Find null string at end of key.
@@ -162,7 +162,6 @@ namespace Exiv2 {
             const byte* text = data.pData_ + keysize + 1;
             long textsize    = data.size_  - keysize - 1;
 
-            arr.alloc(textsize);
             arr = DataBuf(text, textsize);
         }
         else if(type == iTXt_Chunk)
@@ -228,13 +227,17 @@ namespace Exiv2 {
 
     } // PngChunk::parsePngChunk
 
-    void PngChunk::parseChunkContent(Image* pImage, const byte *key, const DataBuf arr)
+    void PngChunk::parseChunkContent(      Image*  pImage,
+                                     const byte*   key,
+                                           long    keySize,
+                                     const DataBuf arr)
     {
         // We look if an ImageMagick EXIF raw profile exist.
 
-        if ( (memcmp("Raw profile type exif", key, 21) == 0 ||
-              memcmp("Raw profile type APP1", key, 21) == 0) &&
-             pImage->exifData().empty())
+        if (   keySize >= 21 
+            && (   memcmp("Raw profile type exif", key, 21) == 0
+                || memcmp("Raw profile type APP1", key, 21) == 0)
+            && pImage->exifData().empty())
         {
             DataBuf exifData = readRawProfile(arr);
             long length      = exifData.size_;
@@ -282,7 +285,8 @@ namespace Exiv2 {
 
         // We look if an ImageMagick IPTC raw profile exist.
 
-        if (   memcmp("Raw profile type iptc", key, 21) == 0
+        if (   keySize >= 21
+            && memcmp("Raw profile type iptc", key, 21) == 0
             && pImage->iptcData().empty()) {
             DataBuf psData = readRawProfile(arr);
             if (psData.size_ > 0) {
@@ -332,8 +336,9 @@ namespace Exiv2 {
 
         // We look if an ImageMagick XMP raw profile exist.
 
-        if ( memcmp("Raw profile type xmp", key, 20) == 0 &&
-             pImage->xmpData().empty())
+        if (   keySize >= 20
+            && memcmp("Raw profile type xmp", key, 20) == 0
+            && pImage->xmpData().empty()) 
         {
             DataBuf xmpBuf = readRawProfile(arr);
             long length    = xmpBuf.size_;
@@ -362,8 +367,9 @@ namespace Exiv2 {
 
         // We look if an Adobe XMP string exist.
 
-        if ( memcmp("XML:com.adobe.xmp", key, 17) == 0 &&
-             pImage->xmpData().empty())
+        if (   keySize >= 17
+            && memcmp("XML:com.adobe.xmp", key, 17) == 0
+            && pImage->xmpData().empty())
         {
             if (arr.size_ > 0)
             {
@@ -390,8 +396,9 @@ namespace Exiv2 {
         // We look if a comments string exist. Note than we use only 'Description' keyword which
         // is dedicaced to store long comments. 'Comment' keyword is ignored.
 
-        if ( memcmp("Description", key, 11) == 0 &&
-             pImage->comment().empty())
+        if (   keySize >= 11
+            && memcmp("Description", key, 11) == 0
+            && pImage->comment().empty())
         {
             pImage->comment().assign(reinterpret_cast<char*>(arr.pData_), arr.size_);
         }
