@@ -46,13 +46,51 @@
 #
 
 TABLES = Exif \
-         Canon CanonCs CanonSi CanonCf CanonPi CanonPa \
+         Canon \
+         CanonCs \
+         CanonSi \
+         CanonCf \
+         CanonPi \
+         CanonFi \
+         CanonPa \
          Fujifilm \
-         Minolta MinoltaCsNew MinoltaCs5D MinoltaCs7D \
-         Nikon1 Nikon2 Nikon3 \
-         Olympus OlympusCs OlympusEq OlympusRd OlympusRd2 \
-         OlympusIp OlympusFi OlympusFe1 OlympusRi \
-	 Panasonic PanasonicRaw \
+         Minolta \
+         MinoltaCsNew \
+         MinoltaCs5D \
+         MinoltaCs7D \
+         Nikon1 \
+         Nikon2 \
+         Nikon3 \
+         NikonVr \
+         NikonPc \
+         NikonWt \
+         NikonIi \
+         NikonAf \
+         NikonSiD80 \
+         NikonSiD40 \
+         NikonSiD300a \
+         NikonSiD300b \
+         NikonSi01xx \
+         NikonCb1 \
+         NikonCb2 \
+         NikonCb2a \
+         NikonCb2b \
+         NikonCb3 \
+         NikonCb4 \
+         NikonLd1 \
+         NikonLd2 \
+         NikonLd3 \
+         Olympus \
+         OlympusCs \
+         OlympusEq \
+         OlympusRd \
+         OlympusRd2 \
+         OlympusIp \
+         OlympusFi \
+         OlympusFe1 \
+         OlympusRi \
+	 Panasonic \
+         PanasonicRaw \
          Pentax \
          Sigma \
          Sony

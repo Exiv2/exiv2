@@ -88,35 +88,37 @@ namespace Exiv2 {
         //! Constructor accepting a unicode path in an std::wstring
         Impl(const std::wstring& wpath);
 #endif
-        // Enumeration
+        // Enumerations
+        //! Mode of operation
         enum OpMode { opRead, opWrite, opSeek };
 #ifdef EXV_UNICODE_PATH
+        //! Used to indicate if the path is stored as a standard or unicode string
         enum WpMode { wpStandard, wpUnicode };
 #endif
         // DATA
-        std::string path_;
+        std::string path_;              //!< (Standard) path
 #ifdef EXV_UNICODE_PATH
-        std::wstring wpath_;
-        WpMode wpMode_;
+        std::wstring wpath_;            //!< Unicode path 
+        WpMode wpMode_;                 //!< Indicates which path is in use
 #endif
-        std::string openMode_;
-        FILE *fp_;
-        OpMode opMode_;
+        std::string openMode_;          //!< File open mode
+        FILE *fp_;                      //!< File stream pointer
+        OpMode opMode_;                 //!< File open mode
 
 #if defined WIN32 && !defined __CYGWIN__
-        HANDLE hFile_;                  // Duplicated fd
-        HANDLE hMap_;                   // Handle from CreateFileMapping
+        HANDLE hFile_;                  //!< Duplicated fd
+        HANDLE hMap_;                   //!< Handle from CreateFileMapping
 #endif
-        byte* pMappedArea_;
-        size_t mappedLength_;
+        byte* pMappedArea_;             //!< Pointer to the memory-mapped area 
+        size_t mappedLength_;           //!< Size of the memory-mapped area
         bool isMalloced_;               //!< Is the mapped area allocated?
         bool isWriteable_;              //!< Can the mapped area be written to?
         // TYPES
         //! Simple struct stat wrapper for internal use
         struct StructStat {
             StructStat() : st_mode(0), st_size(0) {}
-            mode_t st_mode; //!< Permissions
-            off_t  st_size; //!< Size
+            mode_t st_mode;             //!< Permissions
+            off_t  st_size;             //!< Size
         };
 
         // METHODS
@@ -712,24 +714,24 @@ namespace Exiv2 {
     //! Internal Pimpl structure of class MemIo.
     class MemIo::Impl {
     public:
-        Impl();                            //<! Default constructor
-        Impl(const byte* data, long size); //<! Constructor 2
+        Impl();                            //!< Default constructor
+        Impl(const byte* data, long size); //!< Constructor 2
 
         // DATA
-        byte* data_;
-        long idx_;
-        long size_;
+        byte* data_;                       //!< Pointer to the start of the memory area
+        long idx_;                         //!< Index into the memory area
+        long size_;                        //!< Size of the memory area
         long sizeAlloced_;                 //!< Size of the allocated buffer
         bool isMalloced_;                  //!< Was the buffer allocated?
-        bool eof_;
+        bool eof_;                         //!< EOF indicator
 
         // METHODS
-        void reserve(long wcount);
+        void reserve(long wcount);         //!< Reserve memory
 
     private:
         // NOT IMPLEMENTED
-        Impl(const Impl& rhs);                         //!< Copy constructor
-        Impl& operator=(const Impl& rhs);              //!< Assignment
+        Impl(const Impl& rhs);             //!< Copy constructor
+        Impl& operator=(const Impl& rhs);  //!< Assignment
 
     }; // class MemIo::Impl
 
