@@ -1,3 +1,83 @@
+Changes from version 0.18.2 to 0.19
+-----------------------------------
+
+* Exiv2 utility
+	         - Inverted the meaning of -u to deal with large numbers of
+	           unknown Nikon Makernote tags.
+	         - -b option now also suppresses Byte and SByte values.
+
+* Exiv2 library
+	- 0000664: Crash when reading PNG image.
+	           (Reported by Marcel Wiesweg. digiKam bug 220322)
+	- 0000661: Tag Exif.Image.ImageResources (0x8649 in IFD0) should have
+	           type BYTE (1).
+	- 0000658: Exception to print raw from Olympus SP-560UZ.
+	           (Reported by Francisco Javier Félix Belmonte)
+	- 0000657: Nef Metadata edit with Digikam make impossible to open it with
+	           captureNX or ViewNX.
+	           (Reported by Nicolas Boulesteix)
+	- 0000656: Broken image causes exiv2 to abort.
+	           (Reported by Nathaniel W. Turner. digiKam bug 214913)
+	- 0000653: SVN 1912 fails to build.
+	           (Reported by mike m)
+	- 0000652: Problems converting SubSec tags to XMP.
+	- 0000651: Exif tag: TimeZoneOffset (0x882a) and other TIFF/EP tags missing.
+	           (Reported by Gary Cohen)
+	- 0000649: Converter fixes.
+	           (Patches by Vladimir Nadvornik)
+	- 0000647: Seg fault with Olympus E-P1 orf.
+	           (Reported by Udi Fuchs)
+	- 0000646: Additional lens data.
+	           (Reported by mike m)
+	- 0000645: Conversion from XMP sidecar leaks XMP-SDK exception.
+	           (digiKam bug 204042, patches by Vladimir Nadvornik)
+	- 0000642: string formatting of error #31.
+	           (Patch by Matthias Barkhoff)
+	- 0000641: exiv2 "Image size" output broken for Nikon D700 NEF files.
+	           (Reported by Martin Paris)
+	- 0000634: Locking error on windows when updating a TIFF file with
+	           MemoryMapping enabled.
+	           (Reported and fixed by Robin Mills)
+	- 0000629: Virtual functions should not be inlined.
+	- 0000627: typeId methods not available, -fvisibility-inlines-hidden
+	           (Reported by Rex Dieter)
+	- 0000620: Update Nikon makernotes.
+	- 0000617: Optimize TIFF writing.
+	- 0000600: Upgrade XMP Toolkit to version 4.4.2.
+	- 0000581: Remove FindMetadatum* from API.
+	- 0000579: Implement memory mapping for Windows platforms.
+	           (Based on an implementation by Robin Mills)
+	- 0000571: Need to convert character set when writing XMP sidecar.
+	           (Reported by Franz Buchinger, patch by Vladimir Nadvornik)
+	- 0000533: Support multiple APP13 Photoshop 3.0 segments in a JPEG.
+	           (Designed and implemented by Michael Ulbrich and Volker Grabsch)
+	         - Changed FileIo and MemIo classes to use a Pimpl structure.
+	         - Removed --disable-printucs2 configure option.
+	         - Updated config files
+	         - Added support for Canon FileInfo tags (Andi Clemens).
+	         - Updated Nikon Lens lookup table to v4.1.361.01 of
+	           Robert Rottmerhusen's fmountlens list.
+	         - Added Sigma 28-80mm f/3.5-5.6 lens.
+	           (Jo Hanika)
+	         - Added support for Unicode paths on Windows (experimental)
+	           (Based on work by Jonathan Potter, GP Software)
+	         - Added easy-access functions saturation, sharpness, contrast and
+	           sceneCaptureType.
+	           (Jonathan Potter, GP Software)
+	         - Fixed compilation warnings/error under MSVC when building for x64.
+	           (Jonathan Potter, GP Software)
+	         - On Windows, use Windows function for conversion of UCS-2 strings.
+	           (Jonathan Potter, GP Software)
+	         - Support for PGF files added.
+	           (Gilles Caulier)
+	         - Updated digiKam XMP properties.
+	           (Gilles Caulier)
+	         - Added iptc4xmpExt and plus XMP schemas.
+	           (Based on a patch from Mikolaj Machowski).
+	         - [translation] Updated Finnish translations.
+	           (Mikael Lammentausta)
+
+
 Changes from version 0.18.1 to 0.18.2
 -------------------------------------
 
