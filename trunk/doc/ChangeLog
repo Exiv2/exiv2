@@ -12,7 +12,7 @@ Changes from version 0.18.2 to 0.19
 	- 0000661: Tag Exif.Image.ImageResources (0x8649 in IFD0) should have
 	           type BYTE (1).
 	- 0000658: Exception to print raw from Olympus SP-560UZ.
-	           (Reported by Francisco Javier Félix Belmonte)
+	           (Reported by Francisco Javier Felix Belmonte)
 	- 0000657: Nef Metadata edit with Digikam make impossible to open it with
 	           captureNX or ViewNX.
 	           (Reported by Nicolas Boulesteix)
