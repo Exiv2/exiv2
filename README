@@ -58,7 +58,7 @@ Feature                     Package   Configure options
 PNG image support           zlib      --without-zlib
                                       --with-zlib=DIR
 Native language support     gettext   --disable-nls
-Converting Windows XP tags  libiconv  --without-libiconv-prefix
+Characterset conversions    libiconv  --without-libiconv-prefix
                                       --with-libiconv-prefix[=DIR]
 XMP support                 expat     --disable-xmp
                                       --with-expat=DIR
@@ -160,10 +160,9 @@ MA 02110-1301 USA.
 Commercial version
 ==================
 
-If you have a commercial license, you must disable NLS support, 
-conversion of UCS2 characters in XP tags and the conversion of
-Nikon lens data to readable lens names to build a commercial 
-version of the Exiv2 library.
+If you have a commercial license, you must disable NLS support and
+the conversion of Nikon lens data to readable lens names to build a
+commercial version of the Exiv2 library.
 
 To do this on Windows, compile the library with the preprocessor
 symbol EXV_COMMERCIAL_VERSION defined in the file src\exv_msvc.h.
