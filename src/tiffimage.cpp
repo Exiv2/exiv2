@@ -271,8 +271,8 @@ namespace Exiv2 {
 }                                       // namespace Exiv2
 
 // Shortcuts for the newTiffBinaryArray templates.
-#define EXV_BINARY_ARRAY(arrayCfg, arrayDef) (newTiffBinaryArray<&arrayCfg, EXV_COUNTOF(arrayDef), arrayDef>)
-#define EXV_SIMPLE_BINARY_ARRAY(arrayCfg) (newTiffBinaryArray<&arrayCfg>)
+#define EXV_BINARY_ARRAY(arrayCfg, arrayDef) (newTiffBinaryArray0<&arrayCfg, EXV_COUNTOF(arrayDef), arrayDef>)
+#define EXV_SIMPLE_BINARY_ARRAY(arrayCfg) (newTiffBinaryArray1<&arrayCfg>)
 #define EXV_COMPLEX_BINARY_ARRAY(arraySet, cfgSelFct) (newTiffBinaryArray2<arraySet, EXV_COUNTOF(arraySet), cfgSelFct>)
 
 namespace Exiv2 {

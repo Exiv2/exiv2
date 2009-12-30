@@ -1512,15 +1512,16 @@ namespace Exiv2 {
 
     //! Function to create and initialize a new binary array entry
     template<const ArrayCfg* arrayCfg, int N, const ArrayDef (&arrayDef)[N]>
-    TiffComponent::AutoPtr newTiffBinaryArray(uint16_t tag, uint16_t group)
+    TiffComponent::AutoPtr newTiffBinaryArray0(uint16_t tag, uint16_t group)
     {
+        // *& acrobatics is a workaround for a MSVC 7.1 bug
         return TiffComponent::AutoPtr(
-            new TiffBinaryArray(tag, group, arrayCfg, arrayDef, N));
+            new TiffBinaryArray(tag, group, arrayCfg, *(&arrayDef), N));
     }
 
     //! Function to create and initialize a new simple binary array entry
     template<const ArrayCfg* arrayCfg>
-    TiffComponent::AutoPtr newTiffBinaryArray(uint16_t tag, uint16_t group)
+    TiffComponent::AutoPtr newTiffBinaryArray1(uint16_t tag, uint16_t group)
     {
         return TiffComponent::AutoPtr(
             new TiffBinaryArray(tag, group, arrayCfg, 0, 0));
