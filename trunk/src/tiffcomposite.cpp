@@ -45,6 +45,7 @@ EXIV2_RCSID("@(#) $Id$")
 
 // + standard includes
 #include <string>
+#include <cstring>
 #include <iostream>
 #include <iomanip>
 #include <algorithm>
@@ -180,8 +181,8 @@ namespace Exiv2 {
 
     bool TiffMappingInfo::operator==(const TiffMappingInfo::Key& key) const
     {
-        std::string make(make_);
-        return    ("*" == make || make == key.m_.substr(0, make.length()))
+        return    (   0 == strcmp("*", make_)
+                   || 0 == strncmp(make_, key.m_.c_str(), strlen(make_)))
                && (Tag::all == extendedTag_ || key.e_ == extendedTag_)
                && key.g_ == group_;
     }
