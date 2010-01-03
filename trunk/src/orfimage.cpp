@@ -86,18 +86,6 @@ namespace Exiv2 {
         return 0;
     }
 
-    void OrfImage::setExifData(const ExifData& /*exifData*/)
-    {
-        // Todo: implement me!
-        throw(Error(32, "Exif metadata", "ORF"));
-    }
-
-    void OrfImage::setIptcData(const IptcData& /*iptcData*/)
-    {
-        // Todo: implement me!
-        throw(Error(32, "IPTC metadata", "ORF"));
-    }
-
     void OrfImage::setComment(const std::string& /*comment*/)
     {
         // not supported
@@ -129,8 +117,29 @@ namespace Exiv2 {
 
     void OrfImage::writeMetadata()
     {
-        // Todo: implement me!
-        throw(Error(31, "ORF"));
+#ifdef DEBUG
+        std::cerr << "Writing ORF file " << io_->path() << "\n";
+#endif
+        ByteOrder bo = byteOrder();
+        byte* pData = 0;
+        long size = 0;
+        IoCloser closer(*io_);
+        if (io_->open() == 0) {
+            // Ensure that this is the correct image type
+            if (isOrfType(*io_, false)) {
+                pData = io_->mmap(true);
+                size = io_->size();
+                OrfHeader orfHeader;
+                if (0 == orfHeader.read(pData, 8)) {
+                    bo = orfHeader.byteOrder();
+                }
+            }
+        }
+        if (bo == invalidByteOrder) {
+            bo = littleEndian;
+        }
+        setByteOrder(bo);
+        OrfParser::encode(*io_, pData, size, bo, exifData_, iptcData_, xmpData_); // may throw
     } // OrfImage::writeMetadata
 
     ByteOrder OrfParser::decode(
@@ -153,27 +162,42 @@ namespace Exiv2 {
     }
 
     WriteMethod OrfParser::encode(
-              Blob&     blob,
+              BasicIo&  io,
         const byte*     pData,
               uint32_t  size,
+              ByteOrder byteOrder,
         const ExifData& exifData,
         const IptcData& iptcData,
         const XmpData&  xmpData
     )
     {
-        /* Todo: Implement me!
+        // Copy to be able to modify the Exif data
+        ExifData ed = exifData;
 
-        return TiffParserWorker::encode(blob,
-                                 pData,
-                                 size,
-                                 exifData,
-                                 iptcData,
-                                 xmpData,
-                                 TiffCreator::create,
-                                 TiffMapping::findEncoder);
-        */
-        blob.clear();
-        return wmIntrusive;
+        // Delete IFDs which do not occur in TIFF images
+        static const IfdId filteredIfds[] = {
+            panaRawIfdId
+        };
+        for (unsigned int i = 0; i < EXV_COUNTOF(filteredIfds); ++i) {
+#ifdef DEBUG
+            std::cerr << "Warning: Exif IFD " << filteredIfds[i] << " not encoded\n";
+#endif
+            ed.erase(std::remove_if(ed.begin(),
+                                    ed.end(),
+                                    FindExifdatum(filteredIfds[i])),
+                     ed.end());
+        }
+
+        std::auto_ptr<TiffHeaderBase> header(new OrfHeader(byteOrder));
+        return TiffParserWorker::encode(io,
+                                        pData,
+                                        size,
+                                        ed,
+                                        iptcData,
+                                        xmpData,
+                                        Tag::root,
+                                        TiffMapping::findEncoder,
+                                        header.get());
     }
 
     // *************************************************************************
@@ -208,8 +232,9 @@ namespace Exiv2 {
 namespace Exiv2 {
     namespace Internal {
 
-    OrfHeader::OrfHeader()
-        : TiffHeaderBase(0x4f52, 8, littleEndian, 0x00000008)
+    OrfHeader::OrfHeader(ByteOrder byteOrder)
+        : TiffHeaderBase(0x4f52, 8, byteOrder, 0x00000008),
+          sig_(0x4f52)
     {
     }
 
@@ -232,6 +257,7 @@ namespace Exiv2 {
         }
         uint16_t sig = getUShort(pData + 2, byteOrder());
         if (tag() != sig && 0x5352 != sig) return false; // #658: Added 0x5352 for SP-560UZ
+        sig_ = sig;
         setOffset(getULong(pData + 4, byteOrder()));
         if (offset() != 0x00000008) return false;
 
@@ -240,8 +266,23 @@ namespace Exiv2 {
 
     DataBuf OrfHeader::write() const
     {
-        // Todo: Implement me!
-        return DataBuf();
+        DataBuf buf(8);
+        switch (byteOrder()) {
+        case littleEndian:
+            buf.pData_[0] = 0x49;
+            buf.pData_[1] = 0x49;
+            break;
+        case bigEndian:
+            buf.pData_[0] = 0x4d;
+            buf.pData_[1] = 0x4d;
+            break;
+        case invalidByteOrder:
+            assert(false);
+            break;
+        }
+        us2Data(buf.pData_ + 2, sig_, byteOrder());
+        ul2Data(buf.pData_ + 4, 0x00000008, byteOrder());
+        return buf;
     }
 
 }}                                      // namespace Internal, Exiv2

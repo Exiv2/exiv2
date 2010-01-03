@@ -51,7 +51,7 @@ namespace Exiv2 {
         //! @name Creators
         //@{
         //! Default constructor
-        OrfHeader();
+        OrfHeader(ByteOrder byteOrder =littleEndian);
         //! Destructor.
         ~OrfHeader();
         //@}
@@ -65,6 +65,9 @@ namespace Exiv2 {
         //@{
         DataBuf write() const;
         //@}
+    private:
+        // DATA
+        uint16_t sig_;       //<! The actual magic number
     }; // class OrfHeader
 
 }}                                      // namespace Internal, Exiv2
