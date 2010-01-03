@@ -79,21 +79,7 @@ namespace Exiv2 {
         //! @name Manipulators
         //@{
         void readMetadata();
-        /*!
-          @brief Todo: Write metadata back to the image. This method is not
-              yet implemented. Calling it will throw an Error(31).
-         */
         void writeMetadata();
-        /*!
-          @brief Todo: Not supported yet, requires writeMetadata(). Calling
-              this function will throw an Error(32).
-         */
-        void setExifData(const ExifData& exifData);
-        /*!
-          @brief Todo: Not supported yet, requires writeMetadata(). Calling
-              this function will throw an Error(32).
-         */
-        void setIptcData(const IptcData& iptcData);
         /*!
           @brief Not supported. ORF format does not contain a comment.
               Calling this function will throw an Error(32).
@@ -143,14 +129,14 @@ namespace Exiv2 {
                  See TiffParser::encode().
         */
         static WriteMethod encode(
-                  Blob&     blob,
+                  BasicIo&  io,
             const byte*     pData,
                   uint32_t  size,
+                  ByteOrder byteOrder,
             const ExifData& exifData,
             const IptcData& iptcData,
             const XmpData&  xmpData
         );
-
     }; // class OrfParser
 
 // *****************************************************************************

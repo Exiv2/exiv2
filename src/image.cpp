@@ -106,7 +106,7 @@ namespace {
         { ImageType::crw,  newCrwInstance,  isCrwType,  amReadWrite, amNone,      amNone,      amReadWrite },
         { ImageType::mrw,  newMrwInstance,  isMrwType,  amRead,      amRead,      amRead,      amNone      },
         { ImageType::tiff, newTiffInstance, isTiffType, amReadWrite, amReadWrite, amReadWrite, amNone      },
-        { ImageType::orf,  newOrfInstance,  isOrfType,  amRead,      amRead,      amRead,      amNone      },
+        { ImageType::orf,  newOrfInstance,  isOrfType,  amReadWrite, amReadWrite, amReadWrite, amNone      },
 #ifdef EXV_HAVE_LIBZ
         { ImageType::png,  newPngInstance,  isPngType,  amReadWrite, amReadWrite, amReadWrite, amReadWrite },
 #endif // EXV_HAVE_LIBZ
