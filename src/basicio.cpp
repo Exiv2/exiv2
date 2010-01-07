@@ -443,19 +443,19 @@ namespace Exiv2 {
             bool statOk = true;
             mode_t origStMode = 0;
             std::string spf;
-            const char* pf = 0;
+            char* pf = 0;
 #ifdef EXV_UNICODE_PATH
             std::wstring wspf;
-            const wchar_t* wpf = 0;
+            wchar_t* wpf = 0;
             if (p_->wpMode_ == Impl::wpUnicode) {
                 wspf = wpath();
-                wpf = wspf.c_str();
+                wpf = const_cast<wchar_t*>(wspf.c_str());
             }
             else
 #endif
             {
                 spf = path();
-                pf = spf.c_str();
+                pf = const_cast<char*>(spf.c_str());
             }
 
             // Get the permissions of the file, or linked-to file, on platforms which have lstat
