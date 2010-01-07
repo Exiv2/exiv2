@@ -41,6 +41,7 @@
 #endif
 
 // + standard includes
+#include <string>
 
 // *****************************************************************************
 // namespace extensions
@@ -77,6 +78,9 @@ namespace Exiv2 {
     EXIV2API void copyXmpToIptc(const XmpData& xmpData, IptcData& iptcData);
     //! Convert (move) XMP properties to IPTC tags, remove converted XMP properties.
     EXIV2API void moveXmpToIptc(XmpData& xmpData, IptcData& iptcData);
+
+    //! Convert string charset with iconv.
+    EXIV2API bool convertStringCharset(std::string& str, const char* from, const char* to);
 
 }                                       // namespace Exiv2
 
