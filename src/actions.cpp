@@ -880,7 +880,9 @@ namespace Action {
         if (Params::instance().verbose_ && image->exifData().count() > 0) {
             std::cout << _("Erasing Exif data from the file") << std::endl;
         }
-        if (0 == strcmp(image->mimeType().c_str(), "image/tiff")) {
+        // Todo: ORF files are crippled after this. Find out exactly which tags are required
+        if (   0 == strcmp(image->mimeType().c_str(), "image/tiff")
+            || 0 == strcmp(image->mimeType().c_str(), "image/x-olympus-orf")) {
             Exiv2::ExifData& ed = image->exifData();
             ed.erase(std::remove_if(ed.begin(), ed.end(), isExifTag), ed.end());
         }
@@ -1739,7 +1741,8 @@ namespace {
                 std::cout << _("Writing Exif data from") << " " << source
                           << " " << _("to") << " " << target << std::endl;
             }
-            if (0 == strcmp(targetImage->mimeType().c_str(), "image/tiff")) {
+            if (   0 == strcmp(targetImage->mimeType().c_str(), "image/tiff")
+                || 0 == strcmp(targetImage->mimeType().c_str(), "image/x-olympus-orf")) {
                 Exiv2::ExifData& ted = targetImage->exifData();
                 if (!preserve) {
                     targetImage->readMetadata();
