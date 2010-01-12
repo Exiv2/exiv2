@@ -467,6 +467,7 @@ namespace Exiv2 {
             if (name[name.length()-1] == '"') name = name.substr(0, name.length()-1);
             charsetId_ = CharsetInfo::charsetIdByName(name);
             if (charsetId_ == invalidCharsetId) {
+                charsetId_ = undefined;
 #ifndef SUPPRESS_WARNINGS
                 std::cerr << "Warning: " << Error(28, name) << "\n";
 #endif
@@ -476,44 +477,44 @@ namespace Exiv2 {
             if (pos != std::string::npos) c = comment.substr(pos+1);
         }
         value_ = c;
-        
         return 0;
     }
-    
+
     int CommentValue::read(const byte* buf, long len, ByteOrder byteOrder)
     {
-        if (buf) {
-            std::string rawValue = std::string(reinterpret_cast<const char*>(buf), len);
-            if (rawValue.length() < 8) {
-                return 0;
+        if (!buf || len == 0) {
+            return 0;
+        }
+        std::string rawValue(reinterpret_cast<const char*>(buf), len);
+        if (rawValue.length() < 8) {
+            return 0;
+        }
+        charsetId_ = CharsetInfo::charsetIdByCode(rawValue.substr(0, 8));
+        value_ = rawValue.substr(8);
+        switch (charsetId_) {
+        case unicode:
+            if (byteOrder == littleEndian) {
+                Exiv2::convertStringCharset(value_, "UCS-2LE", "UTF-8");
             }
-            charsetId_ = CharsetInfo::charsetIdByCode(rawValue.substr(0, 8));
-            value_ = std::string(rawValue.substr(8));
-            switch (charsetId_) {
-                case unicode:
-                if (byteOrder == littleEndian) {
-                    Exiv2::convertStringCharset(value_, "UCS-2LE", "UTF-8");
-                } else {
-                    Exiv2::convertStringCharset(value_, "UCS-2BE", "UTF-8");
-                }
-                break;
-                
-                case ascii:
-                break;
-                
-                case jis:
-                // The Exif 2.2 specification mentions JIS X 208-1990 as the
-                // encoding for "jis". The problem is that JIS X 208-1990 isn't
-                // a character encoding - that is, it doesn't specify how to
-                // encode a character set into bytes. Candidates (iconv names) are: 
-                // EUC-JP, SHIFT_JIS, CP932, ISO-2022-JP, ISO-2022-JP-2 and ISO-2022-JP-1. 
-                // Pending a definitive resolution to this, we'll just leave any JIS 
-                // comment as we found it.
-                break;
-                
-                default:
-                break;
+            else {
+                Exiv2::convertStringCharset(value_, "UCS-2BE", "UTF-8");
             }
+            break;
+        case ascii:
+        case undefined:
+        case jis:
+            // JIS: The Exif 2.2 specification mentions JIS X 208-1990 as the
+            // encoding for "jis". The problem is that JIS X 208-1990 isn't
+            // a character encoding - that is, it doesn't specify how to
+            // encode a character set into bytes. Candidates (iconv names) are: 
+            // EUC-JP, SHIFT_JIS, CP932, ISO-2022-JP, ISO-2022-JP-2 and ISO-2022-JP-1. 
+            // Pending a definitive resolution to this, we'll just leave any JIS 
+            // comment as we found it.
+            break;
+        case invalidCharsetId:
+        case lastCharsetId:
+            charsetId_ = undefined;
+            break;
         }
         return 0;
     }
@@ -523,48 +524,49 @@ namespace Exiv2 {
         if (charsetId_ != undefined) {
             os << "charset=\"" << CharsetInfo::name(charsetId_) << "\" ";
         }
-        return os << comment();
+        return os << value_;
     }
-    
+
     long CommentValue::copy(byte* buf, ByteOrder byteOrder) const
     {
-        std::string encoded = encode (byteOrder);
-        memcpy(buf, encoded.c_str(), encoded.length());
+        std::string encoded = encode(byteOrder);
+        memcpy(buf, encoded.data(), encoded.length());
         return encoded.length();
     }
-    
+
     long CommentValue::count() const
     {
-        return encode(littleEndian).length();
+        return size();
     }
-    
+
     long CommentValue::size() const 
     {
         return encode(littleEndian).length();
     }
-    
+
     std::string CommentValue::encode(ByteOrder byteOrder) const
     {
-        std::string result = "";
-        result.append (std::string(CharsetInfo::code(charsetId()), 8));				
-        switch (charsetId()) {
-            case unicode: {
-                std::string copyOfComment = std::string(comment());
-                if (byteOrder == littleEndian) {
-                    Exiv2::convertStringCharset(copyOfComment, "UTF-8", "UCS-2LE");
-                } else {
-                    Exiv2::convertStringCharset(copyOfComment, "UTF-8", "UCS-2BE");
-                }
-                
-                result.append (copyOfComment);
-                return result;
+        std::string result(CharsetInfo::code(charsetId_), 8);
+        switch (charsetId_) {
+        case unicode: {
+            std::string copyOfComment = value_;
+            if (byteOrder == littleEndian) {
+                Exiv2::convertStringCharset(copyOfComment, "UTF-8", "UCS-2LE");
             }
-            
-            default:
-                result.append (comment());
-                return result;
+            else {
+                Exiv2::convertStringCharset(copyOfComment, "UTF-8", "UCS-2BE");
+            }
+            result.append(copyOfComment);
+            break;
         }
-        
+        case ascii:
+        case jis:
+        case undefined:
+        case invalidCharsetId:
+        case lastCharsetId:
+            result.append(value_);
+            break;
+        }
         return result;
     }
 

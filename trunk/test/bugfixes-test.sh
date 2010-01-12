@@ -12,6 +12,18 @@ prep_file()
     echo $gf_filename
 }
 
+# Function takes two parameters
+#
+# 1. A exiv2 comment spec
+# 2. The expected exiv2 hex dump of the UserComment value
+#
+writeComment()
+{
+    cp -f ../data/exiv2-empty.jpg $filename
+    $exiv2 -M"set Exif.Photo.UserComment $1" $filename
+    $exiv2 -PEnh $filename
+}
+
 (
 binpath="$VALGRIND ../../samples"
 exiv2="$VALGRIND exiv2 -u"
@@ -94,8 +106,39 @@ $exiv2 -px $filename
 num=554
 filename=exiv2-bug$num.jpg
 cp -f ../data/exiv2-empty.jpg $filename
+echo '------>' Bug $num '<-------' >&2
 $exiv2 -v -M"set Exif.Image.DateTime Date 2007-05-27" $filename
 $exiv2 -pt $filename
+
+num=662
+filename=exiv2-bug$num.jpg
+cp -f ../data/exiv2-empty.jpg $filename
+echo '------>' Bug $num '<-------' >&2
+
+$exiv2 -M"set Exif.Photo.UserComment charset=Ascii An ascii comment" $filename
+$exiv2 -PEnh $filename
+
+$exiv2 -M"set Exif.Photo.UserComment charset=Ascii A\\nnewline" $filename
+$exiv2 -PEnh $filename
+
+$exiv2 -M"set Exif.Photo.UserComment charset=Unicode A Unicode comment" $filename
+$exiv2 -PEnh $filename
+
+$exiv2 -M"set Exif.Photo.UserComment charset=Unicode \\u01c4" $filename
+$exiv2 -PEnh $filename
+
+$exiv2 -M"set Exif.Photo.UserComment charset=Unicode A\\u01c4C" $filename
+$exiv2 -PEnh $filename
+
+$exiv2 -M"set Exif.Photo.UserComment charset=Unicode With\\nNewline" $filename
+$exiv2 -PEnh $filename
+
+$exiv2 -M"set Exif.Photo.UserComment charset=Unicode With\\tTab" $filename
+$exiv2 -PEnh $filename
+
+# Test invalid escape sequences
+$exiv2 -M"set Exif.Photo.UserComment charset=Unicode \\ugggg" $filename
+$exiv2 -PEnh $filename
 
 ) > $results 2>&1
 
