@@ -12,18 +12,6 @@ prep_file()
     echo $gf_filename
 }
 
-# Function takes two parameters
-#
-# 1. A exiv2 comment spec
-# 2. The expected exiv2 hex dump of the UserComment value
-#
-writeComment()
-{
-    cp -f ../data/exiv2-empty.jpg $filename
-    $exiv2 -M"set Exif.Photo.UserComment $1" $filename
-    $exiv2 -PEnh $filename
-}
-
 (
 binpath="$VALGRIND ../../samples"
 exiv2="$VALGRIND exiv2 -u"
