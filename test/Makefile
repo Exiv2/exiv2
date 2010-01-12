@@ -61,6 +61,7 @@ TESTS = addmoddel.sh      \
         bugfixes-test.sh  \
         exifdata-test.sh  \
         exiv2-test.sh     \
+        exifcomment-encoding-test.sh \
         imagetest.sh      \
         iotest.sh         \
         iptctest.sh       \

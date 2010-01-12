@@ -41,6 +41,7 @@ EXIV2_RCSID("@(#) $Id$")
 #include "exiv2.hpp"
 #include "actions.hpp"
 #include "utils.hpp"
+#include "convert.hpp"
 #include "i18n.h"      // NLS support.
 #include "xmp.hpp"
 
@@ -117,7 +118,12 @@ namespace {
      */
     bool parseLine(ModifyCmd& modifyCmd,
                    const std::string& line, int num);
-
+    
+    /*!
+      @brief Parses a string containing backslash-escapes
+      @param input Input string, assumed to be UTF-8
+     */
+    std::string parseEscapes(const std::string& input);
 }
 
 // *****************************************************************************
@@ -1076,7 +1082,7 @@ namespace {
                 }
             }
 
-            value = line.substr(valStart, valEnd+1-valStart);
+            value = parseEscapes(line.substr(valStart, valEnd+1-valStart));
             std::string::size_type last = value.length()-1;
             if (   (value[0] == '"' && value[last] == '"')
                 || (value[0] == '\'' && value[last] == '\'')) {
@@ -1108,4 +1114,83 @@ namespace {
         return cmdIdAndString[i].cmdId_;
     }
 
+    std::string parseEscapes(const std::string& input) 
+    {
+        std::string result = "";
+        for (unsigned int i = 0; i < input.length(); ++i) {
+            char ch = input[i];
+            if (ch == '\\') {
+                int escapeStart = i;
+                if (input.length() - 1 > i) {
+                    ++i;
+                    ch = input[i];
+                    switch (ch) {
+                        // Escaping of backslash
+                        case '\\':
+                        result.push_back('\\');
+                        break;
+                        
+                        // Escaping of newline
+                        case 'n':
+                        result.push_back('\n');
+                        break;
+                        
+                        // Escaping of tab
+                        case 't':
+                        result.push_back('\t');
+                        break;
+                        
+                        // Escaping of unicode
+                        case 'u':
+                        if (input.length() - 4 > i) {
+                            int acc = 0;
+                            for (int j = 0; j < 4; ++j) {
+                                ++i;
+                                acc <<= 4;
+                                if (input[i] >= '0' && input[i] <= '9') {
+                                    acc |= input[i] - '0';
+                                } else if (input[i] >= 'a' && input[i] <= 'f') {
+                                    acc |= input[i] - 'a' + 10;
+                                } else if (input[i] >= 'A' && input[i] <= 'F') {
+                                    acc |= input[i] - 'A' + 10;
+                                } else {
+                                    acc = -1;
+                                    break;
+                                }
+                            }
+                            if (acc == -1) {
+                                result.push_back('\\');
+                                i = escapeStart;
+                                break;
+                            }
+                            
+                            std::string ucs2toUtf8 = "";
+                            ucs2toUtf8.push_back((char) ((acc & 0xff00) >> 8));
+                            ucs2toUtf8.push_back((char) (acc & 0x00ff));
+                            
+                            if (Exiv2::convertStringCharset (ucs2toUtf8, "UCS-2BE", "UTF-8")) {
+                                result.append (ucs2toUtf8);
+                            }
+                        } else {
+                            result.push_back('\\');
+                            result.push_back(ch);
+                        }
+                        break;
+                        
+                        default:
+                        result.push_back('\\');
+                        result.push_back(ch);
+                    }
+                } else {
+                    result.push_back(ch);
+                }
+            } else {
+                result.push_back(ch);
+            }
+        }
+        
+        return result;
+    }
+    
 }
+        
