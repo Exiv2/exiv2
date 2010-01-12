@@ -581,6 +581,11 @@ namespace Exiv2 {
         */
         int read(const std::string& comment);
         //@}
+        
+        /*!
+          @brief Read the value from a byte buffer
+         */
+        int read(const byte* buf, long len, ByteOrder /*byteOrder*/);
 
         //! @name Accessors
         //@{
@@ -590,6 +595,11 @@ namespace Exiv2 {
           read(const std::string& comment).
          */
         std::ostream& write(std::ostream& os) const;
+        
+        long copy(byte* buf, ByteOrder byteOrder) const;
+        long count() const;
+        long size() const;
+        
         //! Return the comment (without a charset="..." prefix)
         std::string comment() const;
         //! Return the charset id of the comment
@@ -597,6 +607,12 @@ namespace Exiv2 {
         //@}
 
     private:
+        //! The character set of the comment string
+        CharsetId charsetId_;
+        
+        //! Encodes this value as an EXIF-comment
+        std::string encode(ByteOrder byteOrder) const;
+        
         //! Internal virtual copy constructor.
         EXV_DLLLOCAL virtual CommentValue* clone_() const;
 

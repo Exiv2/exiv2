@@ -34,6 +34,7 @@ EXIV2_RCSID("@(#) $Id$")
 // included header files
 #include "value.hpp"
 #include "types.hpp"
+#include "convert.hpp"
 #include "error.hpp"
 
 // + standard includes
@@ -457,15 +458,15 @@ namespace Exiv2 {
     int CommentValue::read(const std::string& comment)
     {
         std::string c = comment;
-        CharsetId charsetId = undefined;
+        charsetId_ = undefined;
         if (comment.length() > 8 && comment.substr(0, 8) == "charset=") {
             std::string::size_type pos = comment.find_first_of(' ');
             std::string name = comment.substr(8, pos-8);
             // Strip quotes (so you can also specify the charset without quotes)
             if (name[0] == '"') name = name.substr(1);
             if (name[name.length()-1] == '"') name = name.substr(0, name.length()-1);
-            charsetId = CharsetInfo::charsetIdByName(name);
-            if (charsetId == invalidCharsetId) {
+            charsetId_ = CharsetInfo::charsetIdByName(name);
+            if (charsetId_ == invalidCharsetId) {
 #ifndef SUPPRESS_WARNINGS
                 std::cerr << "Warning: " << Error(28, name) << "\n";
 #endif
@@ -474,33 +475,107 @@ namespace Exiv2 {
             c.clear();
             if (pos != std::string::npos) c = comment.substr(pos+1);
         }
-        const std::string code(CharsetInfo::code(charsetId), 8);
-        return StringValueBase::read(code + c);
+        value_ = c;
+        
+        return 0;
+    }
+    
+    int CommentValue::read(const byte* buf, long len, ByteOrder byteOrder)
+    {
+        if (buf) {
+            std::string rawValue = std::string(reinterpret_cast<const char*>(buf), len);
+            if (rawValue.length() < 8) {
+                return 0;
+            }
+            charsetId_ = CharsetInfo::charsetIdByCode(rawValue.substr(0, 8));
+            value_ = std::string(rawValue.substr(8));
+            switch (charsetId_) {
+                case unicode:
+                if (byteOrder == littleEndian) {
+                    Exiv2::convertStringCharset(value_, "UCS-2LE", "UTF-8");
+                } else {
+                    Exiv2::convertStringCharset(value_, "UCS-2BE", "UTF-8");
+                }
+                break;
+                
+                case ascii:
+                break;
+                
+                case jis:
+                // The Exif 2.2 specification mentions JIS X 208-1990 as the
+                // encoding for "jis". The problem is that JIS X 208-1990 isn't
+                // a character encoding - that is, it doesn't specify how to
+                // encode a character set into bytes. Candidates (iconv names) are: 
+                // EUC-JP, SHIFT_JIS, CP932, ISO-2022-JP, ISO-2022-JP-2 and ISO-2022-JP-1. 
+                // Pending a definitive resolution to this, we'll just leave any JIS 
+                // comment as we found it.
+                break;
+                
+                default:
+                break;
+            }
+        }
+        return 0;
     }
 
     std::ostream& CommentValue::write(std::ostream& os) const
     {
-        CharsetId charsetId = this->charsetId();
-        if (charsetId != undefined) {
-            os << "charset=\"" << CharsetInfo::name(charsetId) << "\" ";
+        if (charsetId_ != undefined) {
+            os << "charset=\"" << CharsetInfo::name(charsetId_) << "\" ";
         }
         return os << comment();
+    }
+    
+    long CommentValue::copy(byte* buf, ByteOrder byteOrder) const
+    {
+        std::string encoded = encode (byteOrder);
+        memcpy(buf, encoded.c_str(), encoded.length());
+        return encoded.length();
+    }
+    
+    long CommentValue::count() const
+    {
+        return encode(littleEndian).length();
+    }
+    
+    long CommentValue::size() const 
+    {
+        return encode(littleEndian).length();
+    }
+    
+    std::string CommentValue::encode(ByteOrder byteOrder) const
+    {
+        std::string result = "";
+        result.append (std::string(CharsetInfo::code(charsetId()), 8));				
+        switch (charsetId()) {
+            case unicode: {
+                std::string copyOfComment = std::string(comment());
+                if (byteOrder == littleEndian) {
+                    Exiv2::convertStringCharset(copyOfComment, "UTF-8", "UCS-2LE");
+                } else {
+                    Exiv2::convertStringCharset(copyOfComment, "UTF-8", "UCS-2BE");
+                }
+                
+                result.append (copyOfComment);
+                return result;
+            }
+            
+            default:
+                result.append (comment());
+                return result;
+        }
+        
+        return result;
     }
 
     std::string CommentValue::comment() const
     {
-        if (value_.length() >= 8) return value_.substr(8);
-        return "";
+        return value_;
     }
 
     CommentValue::CharsetId CommentValue::charsetId() const
     {
-        CharsetId charsetId = undefined;
-        if (value_.length() >= 8) {
-            const std::string code = value_.substr(0, 8);
-            charsetId = CharsetInfo::charsetIdByCode(code);
-        }
-        return charsetId;
+        return charsetId_;
     }
 
     CommentValue* CommentValue::clone_() const
