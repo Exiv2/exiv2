@@ -508,10 +508,12 @@ namespace Exiv2 {
     /*!
       @brief %Value for an Exif comment.
 
-      This can be a plain Ascii string or a multipe byte encoded string. The
-      comment is expected to be encoded in the character set indicated (default
-      undefined), but this is not checked. It is left to caller to decode and
-      encode the string to and from readable text if that is required.
+      The Exif specification provides several charset specifiers to indicate
+      the encoding of the comment string. If charset is \c Unicode, the input
+      is expected to be UTF-8 encoded and the comment is converted to UCS-2
+      when it is serialized. For all other charset specifiers, the comment is
+      taken as is and not converted, i.e., the caller must provide it correctly
+      encoded.
     */
     class EXIV2API CommentValue : public StringValueBase {
     public:
@@ -566,26 +568,26 @@ namespace Exiv2 {
 
         //! @name Manipulators
         //@{
-        using StringValueBase::read;
         /*!
-          @brief Read the value from a comment
+          @brief Read the comment value.
 
           The format of \em comment is:
           <BR>
           <CODE>[charset=["]Ascii|Jis|Unicode|Undefined["] ]comment</CODE>
           <BR>
-          The default charset is Undefined.
+          The default charset is \c Undefined. In case of \c Unicode,
+          \em comment is expected to be UTF-8 encoded and it will be
+          serialized as UCS-2.
 
           @return 0 if successful<BR>
-                  1 if an invalid character set is encountered
+                  1 if an invalid charset is encountered
         */
         int read(const std::string& comment);
-        //@}
-        
         /*!
-          @brief Read the value from a byte buffer
+          @brief Read the comment from a byte buffer.
          */
-        int read(const byte* buf, long len, ByteOrder /*byteOrder*/);
+        int read(const byte* buf, long len, ByteOrder byteOrder);
+        //@}
 
         //! @name Accessors
         //@{
@@ -595,11 +597,9 @@ namespace Exiv2 {
           read(const std::string& comment).
          */
         std::ostream& write(std::ostream& os) const;
-        
         long copy(byte* buf, ByteOrder byteOrder) const;
         long count() const;
         long size() const;
-        
         //! Return the comment (without a charset="..." prefix)
         std::string comment() const;
         //! Return the charset id of the comment
@@ -607,14 +607,14 @@ namespace Exiv2 {
         //@}
 
     private:
-        //! The character set of the comment string
-        CharsetId charsetId_;
-        
         //! Encodes this value as an EXIF-comment
-        std::string encode(ByteOrder byteOrder) const;
-        
+        EXV_DLLLOCAL std::string encode(ByteOrder byteOrder) const;
         //! Internal virtual copy constructor.
         EXV_DLLLOCAL virtual CommentValue* clone_() const;
+
+    public:
+        // DATA
+        CharsetId charsetId_;             //!< The charset of the comment string
 
     }; // class CommentValue
 
