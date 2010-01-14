@@ -641,7 +641,7 @@ int Params::evalModify(int opt, const std::string& optarg)
     case Action::modify:
     case Action::extract:
     case Action::insert:
-        if (opt == 'c') jpegComment_ = optarg;
+        if (opt == 'c') jpegComment_ = parseEscapes(optarg);
         if (opt == 'm') cmdFiles_.push_back(optarg);  // parse the files later
         if (opt == 'M') cmdLines_.push_back(optarg);  // parse the commands later
         break;
