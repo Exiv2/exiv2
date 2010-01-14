@@ -1131,23 +1131,19 @@ namespace {
             ++i;
             ch = input[i];
             switch (ch) {
-            // Escaping of backslash
-            case '\\':
+            case '\\':                          // Escaping of backslash
                 result.push_back('\\');
                 break;
-
-            // Escaping of newline
-            case 'n':
+            case 'r':                           // Escaping of carriage return
+                result.push_back('\r');
+                break;
+            case 'n':                           // Escaping of newline
                 result.push_back('\n');
                 break;
-
-            // Escaping of tab
-            case 't':
+            case 't':                           // Escaping of tab
                 result.push_back('\t');
                 break;
-                    
-            // Escaping of unicode
-            case 'u':
+            case 'u':                           // Escaping of unicode
                 if (input.length() - 4 > i) {
                     int acc = 0;
                     for (int j = 0; j < 4; ++j) {
@@ -1186,7 +1182,6 @@ namespace {
                     result.push_back(ch);
                 }
                 break;
-
             default:
                 result.push_back('\\');
                 result.push_back(ch);

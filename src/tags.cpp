@@ -2515,17 +2515,14 @@ namespace Exiv2 {
         return os;
     }
 
-    // Todo: Implement this properly
     std::ostream& print0x9286(std::ostream& os, const Value& value, const ExifData*)
     {
-        if (value.size() > 8) {
-            DataBuf buf(value.size());
-            value.copy(buf.pData_, bigEndian);
-            // Hack: Skip the leading 8-Byte character code, truncate
-            // trailing '\0's and let the stream take care of the remainder
-            std::string userComment(reinterpret_cast<char*>(buf.pData_) + 8, buf.size_ - 8);
-            std::string::size_type pos = userComment.find_last_not_of('\0');
-            os << userComment.substr(0, pos + 1);
+        const CommentValue* pcv = dynamic_cast<const CommentValue*>(&value);
+        if (pcv) {
+            os << pcv->value_;
+        }
+        else {
+            os << value;
         }
         return os;
     }
