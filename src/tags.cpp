@@ -2519,7 +2519,7 @@ namespace Exiv2 {
     {
         const CommentValue* pcv = dynamic_cast<const CommentValue*>(&value);
         if (pcv) {
-            os << pcv->value_;
+            os << pcv->comment();
         }
         else {
             os << value;
