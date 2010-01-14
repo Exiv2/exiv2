@@ -3,21 +3,21 @@ Testcase 1
 Xmp.dc.description                           LangAlt     1  lang="x-default" The Exif image description
 Exif.Image.ImageDescription                  Ascii      27  The Exif image description
 Iptc.Application2.Caption                    String     26  The Exif image description
-Iptc.Envelope.CharacterSet                   String      3  %G
+Iptc.Envelope.CharacterSet                   String      3  $%G
 
 Testcase 2
 ==========
 Xmp.dc.description                           LangAlt     1  lang="x-default" The Exif image description
 Exif.Image.ImageDescription                  Ascii      27  The Exif image description
 Iptc.Application2.Caption                    String     26  The Exif image description
-Iptc.Envelope.CharacterSet                   String      3  %G
+Iptc.Envelope.CharacterSet                   String      3  $%G
 
 Testcase 3
 ==========
 Xmp.dc.description                           LangAlt     1  lang="de-DE" The Exif image description
 Exif.Image.ImageDescription                  Ascii      27  The Exif image description
 Iptc.Application2.Caption                    String     26  The Exif image description
-Iptc.Envelope.CharacterSet                   String      3  %G
+Iptc.Envelope.CharacterSet                   String      3  $%G
 
 Testcase 4
 ==========
@@ -37,14 +37,14 @@ Warning: Failed to convert Xmp.dc.description to Exif.Image.ImageDescription
 Xmp.dc.description                           LangAlt     3  lang="x-default" How to fix this mess, lang="de-DE" The Exif image description, lang="it-IT" Ciao bella
 Exif.Image.ImageDescription                  Ascii      21  How to fix this mess
 Iptc.Application2.Caption                    String     20  How to fix this mess
-Iptc.Envelope.CharacterSet                   String      3  %G
+Iptc.Envelope.CharacterSet                   String      3  $%G
 
 Testcase 6
 ==========
 Exif.Image.ExifTag                           Long        1  26
 Exif.Photo.UserComment                       Undefined  59  charset="Jis" This is a JIS encoded Exif user comment. Or was it?
 Xmp.exif.UserComment                         LangAlt     1  lang="x-default" This is a JIS encoded Exif user comment. Or was it?
-Exif.Photo.UserComment                       Undefined  59  charset="Unicode" This is a JIS encoded Exif user comment. Or was it?
+Exif.Photo.UserComment                       Undefined 110  charset="Unicode" This is a JIS encoded Exif user comment. Or was it?
 File 1/1: m.xmp
 m.xmp: No IPTC data found in the file
 
@@ -52,7 +52,7 @@ Testcase 7
 ==========
 Xmp.exif.UserComment                         LangAlt     1  lang="x-default" This is a JIS encoded Exif user comment. Or was it?
 Exif.Image.ExifTag                           Long        1  26
-Exif.Photo.UserComment                       Undefined  59  charset="Unicode" This is a JIS encoded Exif user comment. Or was it?
+Exif.Photo.UserComment                       Undefined 110  charset="Unicode" This is a JIS encoded Exif user comment. Or was it?
 File 1/1: n.jpg
 n.jpg: No IPTC data found in the file
 
@@ -67,7 +67,7 @@ o.xmp: No Exif data found in the file
 Iptc.Application2.Keywords                   String      3  Sex
 Iptc.Application2.Keywords                   String      5  Drugs
 Iptc.Application2.Keywords                   String     11  Rock'n'roll
-Iptc.Envelope.CharacterSet                   String      3  %G
+Iptc.Envelope.CharacterSet                   String      3  $%G
 
 Testcase 9
 ==========
@@ -77,7 +77,7 @@ p.jpg: No Exif data found in the file
 Iptc.Application2.Keywords                   String      3  Sex
 Iptc.Application2.Keywords                   String      5  Drugs
 Iptc.Application2.Keywords                   String     11  Rock'n'roll
-Iptc.Envelope.CharacterSet                   String      3  %G
+Iptc.Envelope.CharacterSet                   String      3  $%G
 
 Testcase 10
 ===========
@@ -101,7 +101,7 @@ Xmp.iptc.Location                            XmpText    12  Kuala Lumpur
 File 1/1: s.xmp
 s.xmp: No Exif data found in the file
 Iptc.Application2.SubLocation                String     12  Kuala Lumpur
-Iptc.Envelope.CharacterSet                   String      3  %G
+Iptc.Envelope.CharacterSet                   String      3  $%G
 
 Testcase 13
 ===========
@@ -109,7 +109,7 @@ Xmp.iptc.Location                            XmpText    12  Kuala Lumpur
 File 1/1: t.jpg
 t.jpg: No Exif data found in the file
 Iptc.Application2.SubLocation                String     12  Kuala Lumpur
-Iptc.Envelope.CharacterSet                   String      3  %G
+Iptc.Envelope.CharacterSet                   String      3  $%G
 
 Testcase 14
 ===========
@@ -149,7 +149,7 @@ Exif.GPSInfo.GPSLatitudeRef                  Ascii       2  N
 Exif.GPSInfo.GPSTimeStamp                    Rational    3  1/1 2/1 999999999/1000000000
 Exif.GPSInfo.GPSDateStamp                    Ascii      11  2003:12:14
 Iptc.Application2.DateCreated                Date        8  2007-05-09
-Iptc.Envelope.CharacterSet                   String      3  %G
+Iptc.Envelope.CharacterSet                   String      3  $%G
 
 Testcase 15
 ===========
@@ -181,4 +181,4 @@ Exif.GPSInfo.GPSLatitude                     Rational    3  3/1 8/1 1858407/6250
 Exif.GPSInfo.GPSTimeStamp                    Rational    3  1/1 2/1 999999999/1000000000
 Exif.GPSInfo.GPSDateStamp                    Ascii      11  2003:12:14
 Iptc.Application2.DateCreated                Date        8  2007-05-09
-Iptc.Envelope.CharacterSet                   String      3  %G
+Iptc.Envelope.CharacterSet                   String      3  $%G

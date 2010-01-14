@@ -217,7 +217,7 @@ $exiv2 -pi v.jpg
 
 # ----------------------------------------------------------------------
 # Evaluate results
-cat $results | sed 's/\x0d$//' > $results-stripped
+cat $results | sed 's/\x0d$//' | tr '\033' '$' > $results-stripped
 diff -q $results-stripped $good
 rc=$?
 if [ $rc -eq 0 ] ; then

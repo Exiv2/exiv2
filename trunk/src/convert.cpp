@@ -1325,7 +1325,6 @@ namespace Exiv2 {
         std::string outstr;
         EXV_ICONV_CONST char *inptr = const_cast<char *>(str.c_str());
         size_t inbytesleft = str.length();
-        int outbytesProduced = 0;
         while (inbytesleft) {
             char outbuf[100];
             char *outptr = outbuf;
@@ -1335,7 +1334,7 @@ namespace Exiv2 {
                               &inbytesleft,
                               &outptr,
                               &outbytesleft);
-            outbytesProduced += sizeof(outbuf) - 1 - outbytesleft;
+            int outbytesProduced = sizeof(outbuf) - 1 - outbytesleft;
             if (rc == size_t(-1) && errno != E2BIG) {
 #ifndef SUPPRESS_WARNINGS
                 std::cerr << "Warning: iconv: "
