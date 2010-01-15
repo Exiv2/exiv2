@@ -594,9 +594,29 @@ namespace Exiv2 {
           read(const std::string& comment).
          */
         std::ostream& write(std::ostream& os) const;
-        //! Return the comment (without a charset="..." prefix)
-        std::string comment() const;
-        //! Return the charset id of the comment
+        /*!
+          @brief Return the comment (without a charset="..." prefix)
+
+          The comment is decoded to UTF-8. For Exif UNICODE comments, the
+          function makes an attempt to correctly determine the character
+          encoding of the value. Alternatively, the optional \em encoding
+          parameter can be used to specify it.
+
+          @param encoding Optional argument to specify the character encoding
+              that the comment is encoded in, as an iconv(3) name. Only used
+              for Exif UNICODE comments.
+
+          @return A string containing the comment converted to UTF-8.
+         */
+        std::string comment(const char* encoding =0) const;
+        /*!
+          @brief Determine the character encoding that was used to encode the
+              comment value as an iconv(3) name.
+
+          Todo: Implement rules
+         */
+        const char* detectCharset() const;
+        //! Return the Exif charset id of the comment
         CharsetId charsetId() const;
         //@}
 

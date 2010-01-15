@@ -498,14 +498,14 @@ namespace Exiv2 {
         std::string c = value_;
         if (charsetId() == unicode) {
             c = value_.substr(8);
-            std::string::size_type l = c.size();
+            std::string::size_type sz = c.size();
             if (byteOrder_ == littleEndian && byteOrder == bigEndian) {
                 convertStringCharset(c, "UCS-2LE", "UCS-2BE");
-                assert(c.size() == l);
+                assert(c.size() == sz);
             }
             else if (byteOrder_ == bigEndian && byteOrder == littleEndian) {
                 convertStringCharset(c, "UCS-2BE", "UCS-2LE");
-                assert(c.size() == l);
+                assert(c.size() == sz);
             }
             c = value_.substr(0, 8) + c;
         }
@@ -523,19 +523,16 @@ namespace Exiv2 {
         return os << comment();
     }
 
-    std::string CommentValue::comment() const
+    std::string CommentValue::comment(const char* encoding) const
     {
+        std::string c;
         if (value_.length() < 8) {
-            return value_;                      // Todo: return "" ?
+            return c;
         }
-        std::string c = value_.substr(8);
+        c = value_.substr(8);
         if (charsetId() == unicode) {
-            if (byteOrder_ == littleEndian) {
-                convertStringCharset(c, "UCS-2LE", "UTF-8");
-            }
-            else {
-                convertStringCharset(c, "UCS-2BE", "UTF-8");
-            }
+            const char* from = encoding == 0 ? detectCharset() : encoding;
+            convertStringCharset(c, from, "UTF-8");
         }
         return c;
     }
@@ -548,6 +545,13 @@ namespace Exiv2 {
             charsetId = CharsetInfo::charsetIdByCode(code);
         }
         return charsetId;
+    }
+
+    const char* CommentValue::detectCharset() const
+    {
+        // Todo: Add logic to guess if the comment is encoded in UTF-8
+
+        return byteOrder_ == littleEndian ? "UCS-2LE" : "UCS-2BE";
     }
 
     CommentValue* CommentValue::clone_() const
