@@ -400,7 +400,7 @@ namespace Exiv2 {
     {
         BasicIo::AutoPtr io(new FileIo(wpath));
         Image::AutoPtr image = open(io); // may throw
-        if (image.get() == 0) throw Error(11, ws2s(wpath));
+        if (image.get() == 0) throw WError(11, wpath);
         return image;
     }
 
@@ -448,7 +448,7 @@ namespace Exiv2 {
         std::auto_ptr<FileIo> fileIo(new FileIo(wpath));
         // Create or overwrite the file, then close it
         if (fileIo->open("w+b") != 0) {
-            throw Error(10, ws2s(wpath), "w+b", strError());
+            throw WError(10, wpath, "w+b", strError());
         }
         fileIo->close();
         BasicIo::AutoPtr io(fileIo);

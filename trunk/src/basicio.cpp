@@ -502,10 +502,10 @@ namespace Exiv2 {
 #ifdef EXV_UNICODE_PATH
             if (p_->wpMode_ == Impl::wpUnicode) {
                 if (fileExists(wpf) && ::_wremove(wpf) != 0) {
-                    throw Error(2, wpf, strError(), "::_wremove");
+                    throw WError(2, wpf, strError(), "::_wremove");
                 }
                 if (::_wrename(fileIo->wpath().c_str(), wpf) == -1) {
-                    throw Error(17, ws2s(fileIo->wpath()), wpf, strError());
+                    throw WError(17, fileIo->wpath(), wpf, strError());
                 }
                 ::_wremove(fileIo->wpath().c_str());
                 // Check permissions of new file
@@ -513,14 +513,14 @@ namespace Exiv2 {
                 if (statOk && ::_wstat(wpf, &buf2) == -1) {
                     statOk = false;
 #ifndef SUPPRESS_WARNINGS
-                    std::cerr << "Warning: " << Error(2, wpf, strError(), "::_wstat") << "\n";
+                    std::cerr << "Warning: " << WError(2, wpf, strError(), "::_wstat") << "\n";
 #endif
                 }
                 if (statOk && origStMode != buf2.st_mode) {
                     // Set original file permissions
                     if (::_wchmod(wpf, origStMode) == -1) {
 #ifndef SUPPRESS_WARNINGS
-                        std::cerr << "Warning: " << Error(2, wpf, strError(), "::_wchmod") << "\n";
+                        std::cerr << "Warning: " << WError(2, wpf, strError(), "::_wchmod") << "\n";
 #endif
                     }
                 }
@@ -998,16 +998,16 @@ namespace Exiv2 {
     {
         FileIo file(wpath);
         if (file.open("rb") != 0) {
-            throw Error(10, ws2s(wpath), "rb", strError());
+            throw WError(10, wpath, "rb", strError());
         }
         struct _stat st;
         if (0 != ::_wstat(wpath.c_str(), &st)) {
-            throw Error(2, ws2s(wpath), strError(), "::_wstat");
+            throw WError(2, wpath, strError(), "::_wstat");
         }
         DataBuf buf(st.st_size);
         long len = file.read(buf.pData_, buf.size_);
         if (len != buf.size_) {
-            throw Error(2, ws2s(wpath), strError(), "FileIo::read");
+            throw WError(2, wpath, strError(), "FileIo::read");
         }
         return buf;
     }
@@ -1027,7 +1027,7 @@ namespace Exiv2 {
     {
         FileIo file(wpath);
         if (file.open("wb") != 0) {
-            throw Error(10, ws2s(wpath), "wb", strError());
+            throw WError(10, wpath, "wb", strError());
         }
         return file.write(buf.pData_, buf.size_);
     }
