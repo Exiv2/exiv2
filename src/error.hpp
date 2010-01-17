@@ -52,6 +52,15 @@ namespace Exiv2 {
 # pragma warning( disable : 4275 )
 #endif
 
+    //! Generalised toString function
+    template<typename charT, typename T>
+    std::basic_string<charT> toBasicString(const T& arg)
+    {
+        std::basic_ostringstream<charT> os;
+        os << arg;
+        return os.str();
+    }
+
     /*!
       @brief Error class interface. Allows the definition and use of a hierarchy
              of error classes which can all be handled in one catch block.
@@ -74,7 +83,7 @@ namespace Exiv2 {
         //@}
     }; // AnyError
 
-    //! %AnyBase output operator
+    //! %AnyError output operator
     inline std::ostream& operator<<(std::ostream& os, const AnyError& error)
     {
         return os << error.what();
@@ -84,33 +93,39 @@ namespace Exiv2 {
       @brief Simple error class used for exceptions. An output operator is
              provided to print errors to a stream.
      */
-    class EXIV2API Error : public AnyError {
+    template<typename charT>
+    class EXIV2API BasicError : public AnyError {
     public:
         //! @name Creators
         //@{
         //! Constructor taking only an error code
-        explicit Error(int code);
+        explicit BasicError(int code);
         //! Constructor taking an error code and one argument
         template<typename A>
-        EXV_DLLLOCAL Error(int code, const A& arg1);
+        EXV_DLLLOCAL BasicError(int code, const A& arg1);
         //! Constructor taking an error code and two arguments
         template<typename A, typename B>
-        EXV_DLLLOCAL Error(int code, const A& arg1, const B& arg2);
+        EXV_DLLLOCAL BasicError(int code, const A& arg1, const B& arg2);
         //! Constructor taking an error code and three arguments
         template<typename A, typename B, typename C>
-        EXV_DLLLOCAL Error(int code, const A& arg1, const B& arg2, const C& arg3);
+        EXV_DLLLOCAL BasicError(int code, const A& arg1, const B& arg2, const C& arg3);
         //! Virtual destructor. (Needed because of throw())
-        virtual ~Error() throw();
+        virtual ~BasicError() throw();
         //@}
 
         //! @name Accessors
         //@{
         virtual int code() const throw();
         /*!
-          @brief Return the error message. The pointer returned by what()
-                 is valid only as long as the Error object exists.
+          @brief Return the error message as a C-string. The pointer returned by what()
+                 is valid only as long as the BasicError object exists.
          */
         virtual const char* what() const throw();
+        /*!
+          @brief Return the error message as a wchar_t-string. The pointer returned by
+                 wwhat() is valid only as long as the BasicError object exists.
+         */
+        virtual const wchar_t* wwhat() const throw();
         //@}
 
     private:
@@ -119,42 +134,104 @@ namespace Exiv2 {
         void setMsg();
         //@}
 
-        static int errorIdx(int code);
-
         // DATA
         int code_;                              //!< Error code
         int count_;                             //!< Number of arguments
-        std::string arg1_;                      //!< First argument
-        std::string arg2_;                      //!< Second argument
-        std::string arg3_;                      //!< Third argument
-        std::string msg_;                       //!< Complete error message
+        std::basic_string<charT> arg1_;         //!< First argument
+        std::basic_string<charT> arg2_;         //!< Second argument
+        std::basic_string<charT> arg3_;         //!< Third argument
+        std::basic_string<charT> msg_;          //!< Complete error message
 
-    }; // class Error
+    }; // class BasicError
+
+    typedef BasicError<char> Error;
+    typedef BasicError<wchar_t> WError;
 
 // *****************************************************************************
-// template and inline definitions
+// free functions, template and inline definitions
 
-    template<typename A>
-    Error::Error(int code, const A& arg1)
-        : code_(code), count_(1), arg1_(toString(arg1))
+    //! Return the error message for the error with code \em code.
+    EXIV2API const char* errMsg(int code);
+
+    template<typename charT>
+    BasicError<charT>::BasicError(int code)
+        : code_(code), count_(0)
     {
         setMsg();
     }
 
-    template<typename A, typename B>
-    Error::Error(int code, const A& arg1, const B& arg2)
+    template<typename charT>
+    BasicError<charT>::~BasicError() throw()
+    {
+    }
+
+    template<typename charT>
+    int BasicError<charT>::code() const throw()
+    {
+        return code_;
+    }
+
+    template<typename charT> template<typename A>
+    BasicError<charT>::BasicError(int code, const A& arg1)
+        : code_(code), count_(1), arg1_(toBasicString<charT>(arg1))
+    {
+        setMsg();
+    }
+
+    template<typename charT> template<typename A, typename B>
+    BasicError<charT>::BasicError(int code, const A& arg1, const B& arg2)
         : code_(code), count_(2),
-          arg1_(toString(arg1)), arg2_(toString(arg2))
+          arg1_(toBasicString<charT>(arg1)),
+          arg2_(toBasicString<charT>(arg2))
     {
         setMsg();
     }
 
-    template<typename A, typename B, typename C>
-    Error::Error(int code, const A& arg1, const B& arg2, const C& arg3)
+    template<typename charT> template<typename A, typename B, typename C>
+    BasicError<charT>::BasicError(int code, const A& arg1, const B& arg2, const C& arg3)
         : code_(code), count_(3),
-          arg1_(toString(arg1)), arg2_(toString(arg2)), arg3_(toString(arg3))
+          arg1_(toBasicString<charT>(arg1)),
+          arg2_(toBasicString<charT>(arg2)),
+          arg3_(toBasicString<charT>(arg3))
     {
         setMsg();
+    }
+
+    template<typename charT>
+    void BasicError<charT>::setMsg()
+    {
+        std::string s(exvGettext(errMsg(code_)));
+        msg_.assign(s.begin(), s.end());
+        std::string ph("%0");
+        std::basic_string<charT> tph(ph.begin(), ph.end());
+        size_t pos = msg_.find(tph);
+        if (pos != std::basic_string<charT>::npos) {
+            msg_.replace(pos, 2, toBasicString<charT>(code_));
+        }
+        if (count_ > 0) {
+            ph = "%1";
+            tph.assign(ph.begin(), ph.end());
+            pos = msg_.find(tph);
+            if (pos != std::basic_string<charT>::npos) {
+                msg_.replace(pos, 2, arg1_);
+            }
+        }
+        if (count_ > 1) {
+            ph = "%2";
+            tph.assign(ph.begin(), ph.end());
+            pos = msg_.find(tph);
+            if (pos != std::basic_string<charT>::npos) {
+                msg_.replace(pos, 2, arg2_);
+            }
+        }
+        if (count_ > 2) {
+            ph = "%3";
+            tph.assign(ph.begin(), ph.end());
+            pos = msg_.find(tph);
+            if (pos != std::basic_string<charT>::npos) {
+                msg_.replace(pos, 2, arg3_);
+            }
+        }
     }
 
 #ifdef _MSC_VER

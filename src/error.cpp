@@ -41,12 +41,16 @@ namespace {
 
     //! Helper structure defining an error message.
     struct ErrMsg {
+        //! Comparison operator
+        bool operator==(int code) const { return code_ == code; }
+
         int code_;                              //!< Error code
         const char* message_;                   //!< Error message
     };
 
-    const ErrMsg errMsg[] = {
-        { -1, N_("Error %0: arg1=%1, arg2=%2, arg3=%3.") },
+    //! Complete list of Exiv2 exception error messages
+    const ErrMsg errList[] = {
+        { -1, N_("Error %0: arg2=%2, arg3=%3, arg1=%1.") },
         {  0, N_("Success") },
         {  1, "%1" }, // %1=error message
         {  2, "%1: Call to `%3' failed: %2" }, // %1=path, %2=strerror, %3=function that failed
@@ -98,9 +102,7 @@ namespace {
         { 48, N_("Invalid XmpText type `%1'") }, // %1=type
         { 49, N_("TIFF directory %1 has too many entries") }, // %1=TIFF directory name
         { 50, N_("Multiple TIFF array element tags %1 in one directory") }, // %1=tag number
-        { 51, N_("TIFF array element tag %1 has wrong type") }, // %1=tag number
-        // Last error message (message is not used)
-        { -2, N_("(Unknown Error)") }
+        { 51, N_("TIFF array element tag %1 has wrong type") } // %1=tag number
     };
 
 }
@@ -113,62 +115,40 @@ namespace Exiv2 {
     {
     }
 
-    Error::Error(int code)
-        : code_(code), count_(0)
-    {
-        setMsg();
-    }
-
-    Error::~Error() throw()
-    {
-    }
-
-    int Error::code() const throw()
-    {
-        return code_;
-    }
-
-    const char* Error::what() const throw()
+    //! Specialization for Error
+    template<>
+    const char* BasicError<char>::what() const throw()
     {
         return msg_.c_str();
     }
 
-    int Error::errorIdx(int code)
+    //! Specialization for WError
+    template<>
+    const char* BasicError<wchar_t>::what() const throw()
     {
-        int idx;
-        for (idx = 0; errMsg[idx].code_ != code; ++idx) {
-            if (errMsg[idx].code_ == -2) return 0;
-        }
-        return idx;
+        // Todo: Return something more useful
+        return 0;
     }
 
-    void Error::setMsg()
+    //! Specialization for Error
+    template<>
+    const wchar_t* BasicError<char>::wwhat() const throw()
     {
-        int idx = errorIdx(code_);
-        msg_ = std::string(_(errMsg[idx].message_));
-        std::string::size_type pos;
-        pos = msg_.find("%0");
-        if (pos != std::string::npos) {
-            msg_.replace(pos, 2, toString(code_));
-        }
-        if (count_ > 0) {
-            pos = msg_.find("%1");
-            if (pos != std::string::npos) {
-                msg_.replace(pos, 2, arg1_);
-            }
-        }
-        if (count_ > 1) {
-            pos = msg_.find("%2");
-            if (pos != std::string::npos) {
-                msg_.replace(pos, 2, arg2_);
-            }
-        }
-        if (count_ > 2) {
-            pos = msg_.find("%3");
-            if (pos != std::string::npos) {
-                msg_.replace(pos, 2, arg3_);
-            }
-        }
+        // Todo: Return something more useful
+        return 0;
+    }
+
+    //! Specialization for Error
+    template<>
+    const wchar_t* BasicError<wchar_t>::wwhat() const throw()
+    {
+        return msg_.c_str();
+    }
+
+    const char* errMsg(int code)
+    {
+        const ErrMsg* em = find(errList, code);
+        return em ? em->message_ : "";
     }
 
 }                                       // namespace Exiv2
