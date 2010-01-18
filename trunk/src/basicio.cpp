@@ -513,14 +513,14 @@ namespace Exiv2 {
                 if (statOk && ::_wstat(wpf, &buf2) == -1) {
                     statOk = false;
 #ifndef SUPPRESS_WARNINGS
-                    std::cerr << "Warning: " << WError(2, wpf, strError(), "::_wstat") << "\n";
+                    std::cerr << "Warning: " << Error(2, wpf, strError(), "::_wstat") << "\n";
 #endif
                 }
                 if (statOk && origStMode != buf2.st_mode) {
                     // Set original file permissions
                     if (::_wchmod(wpf, origStMode) == -1) {
 #ifndef SUPPRESS_WARNINGS
-                        std::cerr << "Warning: " << WError(2, wpf, strError(), "::_wchmod") << "\n";
+                        std::cerr << "Warning: " << Error(2, wpf, strError(), "::_wchmod") << "\n";
 #endif
                     }
                 }
