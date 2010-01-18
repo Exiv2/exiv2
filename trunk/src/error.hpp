@@ -94,7 +94,7 @@ namespace Exiv2 {
              provided to print errors to a stream.
      */
     template<typename charT>
-    class EXIV2API BasicError : public AnyError {
+    class BasicError : public AnyError {
     public:
         //! @name Creators
         //@{
@@ -102,13 +102,13 @@ namespace Exiv2 {
         explicit BasicError(int code);
         //! Constructor taking an error code and one argument
         template<typename A>
-        EXV_DLLLOCAL BasicError(int code, const A& arg1);
+        BasicError(int code, const A& arg1);
         //! Constructor taking an error code and two arguments
         template<typename A, typename B>
-        EXV_DLLLOCAL BasicError(int code, const A& arg1, const B& arg2);
+        BasicError(int code, const A& arg1, const B& arg2);
         //! Constructor taking an error code and three arguments
         template<typename A, typename B, typename C>
-        EXV_DLLLOCAL BasicError(int code, const A& arg1, const B& arg2, const C& arg3);
+        BasicError(int code, const A& arg1, const B& arg2, const C& arg3);
         //! Virtual destructor. (Needed because of throw())
         virtual ~BasicError() throw();
         //@}
@@ -120,12 +120,12 @@ namespace Exiv2 {
           @brief Return the error message as a C-string. The pointer returned by what()
                  is valid only as long as the BasicError object exists.
          */
-        virtual const char* what() const throw();
+        EXIV2API virtual const char* what() const throw();
         /*!
           @brief Return the error message as a wchar_t-string. The pointer returned by
                  wwhat() is valid only as long as the BasicError object exists.
          */
-        virtual const wchar_t* wwhat() const throw();
+        EXIV2API virtual const wchar_t* wwhat() const throw();
         //@}
 
     private:

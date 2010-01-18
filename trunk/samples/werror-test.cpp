@@ -18,7 +18,9 @@ int main()
         throw Exiv2::WError(-1, L"WARG1", L"WARG2", L"WARG3");
     }
     catch (const Exiv2::WError& e) {
-        std::wcout << "Caught WError '" << e.wwhat() << "'\n";
+        std::wstring wmsg = e.wwhat();
+        std::string msg(wmsg.begin(), wmsg.end());
+        std::cout << "Caught WError '" << msg << "'\n";
     }
 
     return 0;
