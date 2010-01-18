@@ -448,7 +448,7 @@ namespace Exiv2 {
         std::auto_ptr<FileIo> fileIo(new FileIo(wpath));
         // Create or overwrite the file, then close it
         if (fileIo->open("w+b") != 0) {
-            throw WError(10, wpath, "w+b", strError());
+            throw WError(10, wpath, "w+b", strError().c_str());
         }
         fileIo->close();
         BasicIo::AutoPtr io(fileIo);

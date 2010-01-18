@@ -502,10 +502,10 @@ namespace Exiv2 {
 #ifdef EXV_UNICODE_PATH
             if (p_->wpMode_ == Impl::wpUnicode) {
                 if (fileExists(wpf) && ::_wremove(wpf) != 0) {
-                    throw WError(2, wpf, strError(), "::_wremove");
+                    throw WError(2, wpf, strError().c_str(), "::_wremove");
                 }
                 if (::_wrename(fileIo->wpath().c_str(), wpf) == -1) {
-                    throw WError(17, fileIo->wpath(), wpf, strError());
+                    throw WError(17, fileIo->wpath(), wpf, strError().c_str());
                 }
                 ::_wremove(fileIo->wpath().c_str());
                 // Check permissions of new file
@@ -998,16 +998,16 @@ namespace Exiv2 {
     {
         FileIo file(wpath);
         if (file.open("rb") != 0) {
-            throw WError(10, wpath, "rb", strError());
+            throw WError(10, wpath, "rb", strError().c_str());
         }
         struct _stat st;
         if (0 != ::_wstat(wpath.c_str(), &st)) {
-            throw WError(2, wpath, strError(), "::_wstat");
+            throw WError(2, wpath, strError().c_str(), "::_wstat");
         }
         DataBuf buf(st.st_size);
         long len = file.read(buf.pData_, buf.size_);
         if (len != buf.size_) {
-            throw WError(2, wpath, strError(), "FileIo::read");
+            throw WError(2, wpath, strError().c_str(), "FileIo::read");
         }
         return buf;
     }
@@ -1027,7 +1027,7 @@ namespace Exiv2 {
     {
         FileIo file(wpath);
         if (file.open("wb") != 0) {
-            throw WError(10, wpath, "wb", strError());
+            throw WError(10, wpath, "wb", strError().c_str());
         }
         return file.write(buf.pData_, buf.size_);
     }
