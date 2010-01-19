@@ -476,12 +476,8 @@ namespace Exiv2 {
             if (pos != std::string::npos) c = comment.substr(pos+1);
         }
         if (charsetId == unicode) {
-            if (byteOrder_ == littleEndian) {
-                convertStringCharset(c, "UTF-8", "UCS-2LE");
-            }
-            else {
-                convertStringCharset(c, "UTF-8", "UCS-2BE");
-            }
+            const char* to = byteOrder_ == littleEndian ? "UCS-2LE" : "UCS-2BE";
+            convertStringCharset(c, "UTF-8", to);
         }
         const std::string code(CharsetInfo::code(charsetId), 8);
         return StringValueBase::read(code + c);
