@@ -527,7 +527,7 @@ namespace Exiv2 {
         }
         c = value_.substr(8);
         if (charsetId() == unicode) {
-            const char* from = encoding == 0 ? detectCharset() : encoding;
+            const char* from = encoding == 0 ? detectCharset(c) : encoding;
             convertStringCharset(c, from, "UTF-8");
         }
         return c;
@@ -543,8 +543,22 @@ namespace Exiv2 {
         return charsetId;
     }
 
-    const char* CommentValue::detectCharset() const
+    const char* CommentValue::detectCharset(std::string& c) const
     {
+        // Interpret a BOM if there is one
+        if (0 == strncmp(c.data(), "\xef\xbb\xbf", 3)) {
+            c = c.substr(3);
+            return "UTF-8";
+        }
+        if (0 == strncmp(c.data(), "\xff\xfe", 2)) {
+            c = c.substr(2);
+            return "UCS-2LE";
+        }
+        if (0 == strncmp(c.data(), "\xfe\xff", 2)) {
+            c = c.substr(2);
+            return "UCS-2BE";
+        }
+
         // Todo: Add logic to guess if the comment is encoded in UTF-8
 
         return byteOrder_ == littleEndian ? "UCS-2LE" : "UCS-2BE";

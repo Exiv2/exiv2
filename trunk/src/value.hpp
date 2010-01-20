@@ -611,11 +611,14 @@ namespace Exiv2 {
         std::string comment(const char* encoding =0) const;
         /*!
           @brief Determine the character encoding that was used to encode the
-              comment value as an iconv(3) name.
+              UNICODE comment value as an iconv(3) name.
 
-          Todo: Implement rules
+          If the comment \em c starts with a BOM, the BOM is interpreted and
+          removed from the string.
+
+          Todo: Implement rules to guess if the comment is UTF-8 encoded.
          */
-        const char* detectCharset() const;
+        const char* detectCharset(std::string& c) const;
         //! Return the Exif charset id of the comment
         CharsetId charsetId() const;
         //@}
