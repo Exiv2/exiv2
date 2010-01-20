@@ -634,7 +634,7 @@ namespace Exiv2 {
         TagInfo(0x882b, "SelfTimerMode", N_("Self Timer Mode"), N_("Number of seconds image capture was delayed from button press."), ifd0Id, tiffEp, unsignedShort, printValue), // TIFF/EP tag
         TagInfo(0x9003, "DateTimeOriginal", N_("Date Time Original"), N_("The date and time when the original image data was generated."), ifd0Id, tiffEp, asciiString, printValue), // TIFF/EP tag
         TagInfo(0x9102, "CompressedBitsPerPixel", N_("Compressed Bits Per Pixel"), N_("Specific to compressed data; states the compressed bits per pixel."), ifd0Id, tiffEp, unsignedRational, printFloat), // TIFF/EP tag
-        TagInfo(0x9201, "ShutterSpeedValue", N_("Shutter Speed Value"), N_("Shutter speed."), ifd0Id, tiffEp, unsignedRational, print0x9201), // TIFF/EP tag
+        TagInfo(0x9201, "ShutterSpeedValue", N_("Shutter Speed Value"), N_("Shutter speed."), ifd0Id, tiffEp, signedRational, print0x9201), // TIFF/EP tag
         TagInfo(0x9202, "ApertureValue", N_("Aperture Value"), N_("The lens aperture."), ifd0Id, tiffEp, unsignedRational, print0x9202), // TIFF/EP tag
         TagInfo(0x9203, "BrightnessValue", N_("Brightness Value"), N_("The value of brightness."), ifd0Id, tiffEp, signedRational, printFloat), // TIFF/EP tag
         TagInfo(0x9204, "ExposureBiasValue", N_("Exposure Bias Value"), N_("The exposure bias."), ifd0Id, tiffEp, signedRational, print0x9204), // TIFF/EP tag
