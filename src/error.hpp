@@ -94,28 +94,28 @@ namespace Exiv2 {
              provided to print errors to a stream.
      */
     template<typename charT>
-    class BasicError : public AnyError {
+    class EXV_DLLPUBLIC BasicError : public AnyError {
     public:
         //! @name Creators
         //@{
         //! Constructor taking only an error code
-        explicit BasicError(int code);
+        EXV_DLLLOCAL explicit BasicError(int code);
         //! Constructor taking an error code and one argument
         template<typename A>
-        BasicError(int code, const A& arg1);
+        EXV_DLLLOCAL BasicError(int code, const A& arg1);
         //! Constructor taking an error code and two arguments
         template<typename A, typename B>
-        BasicError(int code, const A& arg1, const B& arg2);
+        EXV_DLLLOCAL BasicError(int code, const A& arg1, const B& arg2);
         //! Constructor taking an error code and three arguments
         template<typename A, typename B, typename C>
-        BasicError(int code, const A& arg1, const B& arg2, const C& arg3);
+        EXV_DLLLOCAL BasicError(int code, const A& arg1, const B& arg2, const C& arg3);
         //! Virtual destructor. (Needed because of throw())
-        virtual ~BasicError() throw();
+        EXV_DLLLOCAL virtual ~BasicError() throw();
         //@}
 
         //! @name Accessors
         //@{
-        virtual int code() const throw();
+        EXV_DLLLOCAL virtual int code() const throw();
         /*!
           @brief Return the error message as a C-string. The pointer returned by what()
                  is valid only as long as the BasicError object exists.
@@ -131,7 +131,7 @@ namespace Exiv2 {
     private:
         //! @name Manipulators
         //@{
-        void setMsg();
+        EXV_DLLLOCAL void setMsg();
         //@}
 
         // DATA
