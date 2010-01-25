@@ -120,18 +120,18 @@ namespace Exiv2 {
           @brief Return the error message as a C-string. The pointer returned by what()
                  is valid only as long as the BasicError object exists.
          */
-        EXIV2API virtual const char* what() const throw();
+        EXV_DLLLOCAL virtual const char* what() const throw();
         /*!
           @brief Return the error message as a wchar_t-string. The pointer returned by
                  wwhat() is valid only as long as the BasicError object exists.
          */
-        EXIV2API virtual const wchar_t* wwhat() const throw();
+        EXV_DLLLOCAL virtual const wchar_t* wwhat() const throw();
         //@}
 
     private:
         //! @name Manipulators
         //@{
-        EXV_DLLLOCAL void setMsg();
+        EXIV2API void setMsg();
         //@}
 
         // DATA
@@ -140,7 +140,8 @@ namespace Exiv2 {
         std::basic_string<charT> arg1_;         //!< First argument
         std::basic_string<charT> arg2_;         //!< Second argument
         std::basic_string<charT> arg3_;         //!< Third argument
-        std::basic_string<charT> msg_;          //!< Complete error message
+        std::string              msg_;          //!< Complete error message
+	std::wstring             wmsg_;         //!< Complete error message as a wide string
 
     }; // class BasicError
 
@@ -158,17 +159,6 @@ namespace Exiv2 {
         : code_(code), count_(0)
     {
         setMsg();
-    }
-
-    template<typename charT>
-    BasicError<charT>::~BasicError() throw()
-    {
-    }
-
-    template<typename charT>
-    int BasicError<charT>::code() const throw()
-    {
-        return code_;
     }
 
     template<typename charT> template<typename A>
@@ -198,40 +188,26 @@ namespace Exiv2 {
     }
 
     template<typename charT>
-    void BasicError<charT>::setMsg()
+    BasicError<charT>::~BasicError() throw()
     {
-        std::string s(exvGettext(errMsg(code_)));
-        msg_.assign(s.begin(), s.end());
-        std::string ph("%0");
-        std::basic_string<charT> tph(ph.begin(), ph.end());
-        size_t pos = msg_.find(tph);
-        if (pos != std::basic_string<charT>::npos) {
-            msg_.replace(pos, 2, toBasicString<charT>(code_));
-        }
-        if (count_ > 0) {
-            ph = "%1";
-            tph.assign(ph.begin(), ph.end());
-            pos = msg_.find(tph);
-            if (pos != std::basic_string<charT>::npos) {
-                msg_.replace(pos, 2, arg1_);
-            }
-        }
-        if (count_ > 1) {
-            ph = "%2";
-            tph.assign(ph.begin(), ph.end());
-            pos = msg_.find(tph);
-            if (pos != std::basic_string<charT>::npos) {
-                msg_.replace(pos, 2, arg2_);
-            }
-        }
-        if (count_ > 2) {
-            ph = "%3";
-            tph.assign(ph.begin(), ph.end());
-            pos = msg_.find(tph);
-            if (pos != std::basic_string<charT>::npos) {
-                msg_.replace(pos, 2, arg3_);
-            }
-        }
+    }
+
+    template<typename charT>
+    int BasicError<charT>::code() const throw()
+    {
+        return code_;
+    }
+
+    template<typename charT>
+    const char* BasicError<charT>::what() const throw()
+    {
+        return msg_.c_str();
+    }
+
+    template<typename charT>
+    const wchar_t* BasicError<charT>::wwhat() const throw()
+    {
+        return wmsg_.c_str();
     }
 
 #ifdef _MSC_VER
