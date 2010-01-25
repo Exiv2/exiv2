@@ -14,6 +14,7 @@ int main()
         std::cout << "Caught Error '" << e.what() << "'\n";
     }
 
+#ifdef EXV_UNICODE_PATH
     try {
         throw Exiv2::WError(-1, L"WARG1", L"WARG2", L"WARG3");
     }
@@ -22,6 +23,7 @@ int main()
         std::string msg(wmsg.begin(), wmsg.end());
         std::cout << "Caught WError '" << msg << "'\n";
     }
+#endif
 
     return 0;
 }
