@@ -115,34 +115,69 @@ namespace Exiv2 {
     {
     }
 
-    //! Specialization for Error
     template<>
-    const char* BasicError<char>::what() const throw()
+    void BasicError<char>::setMsg()
     {
-        return msg_.c_str();
+        std::string msg = _(errMsg(code_));
+        std::string::size_type pos;
+        pos = msg.find("%0");
+        if (pos != std::string::npos) {
+            msg.replace(pos, 2, toString(code_));
+        }
+        if (count_ > 0) {
+            pos = msg.find("%1");
+            if (pos != std::string::npos) {
+                msg.replace(pos, 2, arg1_);
+            }
+        }
+        if (count_ > 1) {
+            pos = msg.find("%2");
+            if (pos != std::string::npos) {
+                msg.replace(pos, 2, arg2_);
+            }
+        }
+        if (count_ > 2) {
+            pos = msg.find("%3");
+            if (pos != std::string::npos) {
+                msg.replace(pos, 2, arg3_);
+            }
+        }
+        msg_ = msg;
+#ifdef EXV_UNICODE_PATH
+        wmsg_ = s2ws(msg);
+#endif
     }
 
-    //! Specialization for WError
     template<>
-    const char* BasicError<wchar_t>::what() const throw()
+    void BasicError<wchar_t>::setMsg()
     {
-        // Todo: Return something more useful
-        return 0;
-    }
-
-    //! Specialization for Error
-    template<>
-    const wchar_t* BasicError<char>::wwhat() const throw()
-    {
-        // Todo: Return something more useful
-        return 0;
-    }
-
-    //! Specialization for Error
-    template<>
-    const wchar_t* BasicError<wchar_t>::wwhat() const throw()
-    {
-        return msg_.c_str();
+        std::string s = _(errMsg(code_));
+        std::wstring wmsg(s.begin(), s.end());
+        std::wstring::size_type pos;
+        pos = wmsg.find(L"%0");
+        if (pos != std::wstring::npos) {
+            wmsg.replace(pos, 2, toBasicString<wchar_t>(code_));
+        }
+        if (count_ > 0) {
+            pos = wmsg.find(L"%1");
+            if (pos != std::wstring::npos) {
+                wmsg.replace(pos, 2, arg1_);
+            }
+        }
+        if (count_ > 1) {
+            pos = wmsg.find(L"%2");
+            if (pos != std::wstring::npos) {
+                wmsg.replace(pos, 2, arg2_);
+            }
+        }
+        if (count_ > 2) {
+            pos = wmsg.find(L"%3");
+            if (pos != std::wstring::npos) {
+                wmsg.replace(pos, 2, arg3_);
+            }
+        }
+        wmsg_ = wmsg;
+//        msg_ = ws2s(wmsg);
     }
 
     const char* errMsg(int code)
