@@ -148,6 +148,7 @@ namespace Exiv2 {
 #endif
     }
 
+#ifdef EXV_UNICODE_PATH
     template<>
     void BasicError<wchar_t>::setMsg()
     {
@@ -177,8 +178,9 @@ namespace Exiv2 {
             }
         }
         wmsg_ = wmsg;
-//        msg_ = ws2s(wmsg);
+        msg_ = ws2s(wmsg);
     }
+#endif
 
     const char* errMsg(int code)
     {
