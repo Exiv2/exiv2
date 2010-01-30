@@ -601,12 +601,12 @@ namespace Exiv2 {
 
     void ExifData::sortByKey()
     {
-        std::sort(exifMetadata_.begin(), exifMetadata_.end(), cmpMetadataByKey);
+        exifMetadata_.sort(cmpMetadataByKey);
     }
 
     void ExifData::sortByTag()
     {
-        std::sort(exifMetadata_.begin(), exifMetadata_.end(), cmpMetadataByTag);
+        exifMetadata_.sort(cmpMetadataByTag);
     }
 
     ExifData::iterator ExifData::erase(ExifData::iterator beg, ExifData::iterator end)

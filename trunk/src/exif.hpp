@@ -38,7 +38,7 @@
 
 // + standard includes
 #include <string>
-#include <vector>
+#include <list>
 #include <memory>
 
 // *****************************************************************************
@@ -423,7 +423,7 @@ namespace Exiv2 {
     }; // class ExifThumb
 
     //! Container type to hold all metadata
-    typedef std::vector<Exifdatum> ExifMetadata;
+    typedef std::list<Exifdatum> ExifMetadata;
 
     /*!
       @brief A container for Exif data.  This is a top-level class of the %Exiv2
