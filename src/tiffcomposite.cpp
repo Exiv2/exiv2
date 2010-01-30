@@ -161,8 +161,7 @@ namespace Exiv2 {
 
     bool TiffGroupInfo::operator==(const std::string& groupName) const
     {
-        std::string name(name_);
-        return name == groupName;
+        return 0 == strcmp(name_, groupName.c_str());
     }
 
     const char* tiffGroupName(uint16_t group)
