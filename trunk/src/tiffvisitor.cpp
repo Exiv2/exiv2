@@ -434,7 +434,7 @@ namespace Exiv2 {
         : exifData_(exifData),
           iptcData_(iptcData),
           xmpData_(xmpData),
-          del_(true),
+          count_(0),
           pRoot_(pRoot),
           pSourceTree_(0),
           byteOrder_(byteOrder),
@@ -555,7 +555,8 @@ namespace Exiv2 {
 
     bool TiffEncoder::dirty() const
     {
-        if (dirty_ || exifData_.count() > 0) return true;
+        assert(!(count_ > exifData_.count()));
+        if (dirty_ || count_ != exifData_.count()) return true;
         return false;
     }
 
@@ -630,7 +631,7 @@ namespace Exiv2 {
         if (!object->mn_) {
             encodeTiffComponent(object);
         }
-        else if (del_) {
+        else {
             // The makernote is made up of decoded tags, delete binary tag
             ExifKey key(object->tag(), tiffGroupName(object->group()));
             ExifData::iterator pos = exifData_.findKey(key);
@@ -642,7 +643,7 @@ namespace Exiv2 {
     {
         assert(object != 0);
 
-        ExifData::iterator pos = exifData_.findKey(ExifKey("Exif.MakerNote.ByteOrder"));
+        ExifData::const_iterator pos = exifData_.findKey(ExifKey("Exif.MakerNote.ByteOrder"));
         if (pos != exifData_.end()) {
             // Set Makernote byte order
             ByteOrder bo = stringToByteOrder(pos->toString());
@@ -650,17 +651,15 @@ namespace Exiv2 {
                 object->setByteOrder(bo);
                 setDirty();
             }
-            if (del_) exifData_.erase(pos);
+            ++count_;
         }
-        if (del_) {
-            // Remove remaining synthesized tags
-            static const char* synthesizedTags[] = {
-                "Exif.MakerNote.Offset",
-            };
-            for (unsigned int i = 0; i < EXV_COUNTOF(synthesizedTags); ++i) {
-                ExifData::iterator pos = exifData_.findKey(ExifKey(synthesizedTags[i]));
-                if (pos != exifData_.end()) exifData_.erase(pos);
-            }
+        // Count remaining synthesized tags
+        static const char* synthesizedTags[] = {
+            "Exif.MakerNote.Offset",
+        };
+        for (unsigned int i = 0; i < EXV_COUNTOF(synthesizedTags); ++i) {
+            ExifData::iterator pos = exifData_.findKey(ExifKey(synthesizedTags[i]));
+            if (pos != exifData_.end()) ++count_;
         }
         // Modify encoder for Makernote peculiarities, byte order
         byteOrder_ = object->byteOrder();
@@ -718,7 +717,7 @@ namespace Exiv2 {
     {
         assert(object != 0);
 
-        ExifData::iterator pos = exifData_.end();
+        ExifData::const_iterator pos = exifData_.end();
         const Exifdatum* ed = datum;
         if (ed == 0) {
             // Non-intrusive writing: find matching tag
@@ -761,9 +760,7 @@ namespace Exiv2 {
                 object->encode(*this, ed);
             }
         }
-        if (del_ && pos != exifData_.end()) {
-            exifData_.erase(pos);
-        }
+        if (pos != exifData_.end()) ++count_;
 #ifdef DEBUG
         std::cerr << "\n";
 #endif
@@ -964,10 +961,6 @@ namespace Exiv2 {
         assert(pRootDir != 0);
         writeMethod_ = wmIntrusive;
         pSourceTree_ = pSourceDir;
-
-        // Ensure that the exifData_ entries are not deleted, to be able to
-        // iterate over all remaining entries.
-        del_ = false;
 
         ExifData::const_iterator posBo = exifData_.end();
         for (ExifData::const_iterator i = exifData_.begin();
