@@ -75,7 +75,7 @@ namespace {
         }
 
     private:
-        std::string key_;
+        const std::string& key_;
 
     }; // class FindExifdatumByKey
 

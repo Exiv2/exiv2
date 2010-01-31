@@ -32,6 +32,7 @@
 // *****************************************************************************
 // included header files
 #include "tifffwd_int.hpp"
+#include "tiffcomposite_int.hpp"
 #include "image.hpp"
 #include "types.hpp"
 
@@ -141,9 +142,20 @@ namespace Exiv2 {
              defining the TIFF component used for each tag in a group.
      */
     struct TiffGroupStruct {
-        struct Key;
+        //! Search key for TIFF group structure.
+        struct Key {
+            //! Constructor
+            Key(uint32_t e, uint16_t g) : e_(e), g_(g) {}
+            uint32_t e_;                    //!< Extended tag
+            uint16_t g_;                    //!< %Group
+        };
+
         //! Comparison operator to compare a TiffGroupStruct with a TiffGroupStruct::Key
-        bool operator==(const Key& key) const;
+        bool operator==(const Key& key) const
+        {
+            return    (Tag::all == extendedTag_ || key.e_ == extendedTag_)
+                   && key.g_ == group_;
+        }
         //! Return the tag corresponding to the extended tag
         uint16_t tag() const { return static_cast<uint16_t>(extendedTag_ & 0xffff); }
 
@@ -151,14 +163,6 @@ namespace Exiv2 {
         uint32_t       extendedTag_;    //!< Tag (32 bit so that it can contain special tags)
         uint16_t       group_;          //!< Group that contains the tag
         NewTiffCompFct newTiffCompFct_; //!< Function to create the correct TIFF component
-    };
-
-    //! Search key for TIFF group structure.
-    struct TiffGroupStruct::Key {
-        //! Constructor
-        Key(uint32_t e, uint16_t g) : e_(e), g_(g) {}
-        uint32_t e_;                    //!< Extended tag
-        uint16_t g_;                    //!< %Group
     };
 
     /*!

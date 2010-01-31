@@ -1207,12 +1207,6 @@ namespace Exiv2 {
         return encoderFct;
     }
 
-    bool TiffGroupStruct::operator==(const TiffGroupStruct::Key& key) const
-    {
-        return    (Tag::all == extendedTag_ || key.e_ == extendedTag_)
-               && key.g_ == group_;
-    }
-
     bool TiffTreeStruct::operator==(const TiffTreeStruct::Key& key) const
     {
         return key.r_ == root_ && key.g_ == group_;

@@ -88,9 +88,7 @@ namespace Exiv2 {
 
     bool IfdInfo::operator==(const Item& item) const
     {
-        const char* i = item.i_.c_str();
-        if (i == 0) return false;
-        return 0 == strcmp(i, item_);
+        return 0 == strcmp(item.i_.c_str(), item_);
     }
 
     // Important: IFD item must be unique!

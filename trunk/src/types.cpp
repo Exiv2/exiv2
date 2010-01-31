@@ -59,9 +59,15 @@ namespace {
         const char* name_;                      //!< Name of the type
         long size_;                             //!< Bytes per data entry
         //! Comparison operator for \em typeId
-        bool operator==(Exiv2::TypeId typeId) const;
+        bool operator==(Exiv2::TypeId typeId) const
+        {
+            return typeId_ == typeId;
+        }
         //! Comparison operator for \em name
-        bool operator==(const std::string& name) const;
+        bool operator==(const std::string& name) const
+        {
+            return 0 == strcmp(name_, name.c_str());
+        }
     }; // struct TypeInfoTable
 
     //! Lookup list with information of Exiv2 types
@@ -91,16 +97,6 @@ namespace {
         { Exiv2::xmpSeq,           "XmpSeq",      1 },
         { Exiv2::langAlt,          "LangAlt",     1 }
     };
-
-    bool TypeInfoTable::operator==(Exiv2::TypeId typeId) const
-    {
-        return typeId_ == typeId;
-    }
-
-    bool TypeInfoTable::operator==(const std::string& name) const
-    {
-        return std::string(name_) == name;
-    }
 
 }
 
