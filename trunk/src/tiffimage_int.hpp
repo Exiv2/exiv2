@@ -153,8 +153,8 @@ namespace Exiv2 {
         //! Comparison operator to compare a TiffGroupStruct with a TiffGroupStruct::Key
         bool operator==(const Key& key) const
         {
-            return    (Tag::all == extendedTag_ || key.e_ == extendedTag_)
-                   && key.g_ == group_;
+            return    key.g_ == group_
+                   && (Tag::all == extendedTag_ || key.e_ == extendedTag_);
         }
         //! Return the tag corresponding to the extended tag
         uint16_t tag() const { return static_cast<uint16_t>(extendedTag_ & 0xffff); }
