@@ -1442,10 +1442,10 @@ namespace Exiv2 {
 
         if (object->TiffEntryBase::doSize() == 0) return;
         if (!object->initialize(pRoot_)) return;
-        const ArrayDef* defs = object->def();
-        const ArrayDef* def = &object->cfg()->elDefaultDef_;
 
-        const CryptFct cryptFct = object->cfg()->cryptFct_;
+        const ArrayCfg* cfg = object->cfg();
+
+        const CryptFct cryptFct = cfg->cryptFct_;
         if (cryptFct != 0) {
             const byte* pData = object->pData();
             int32_t size = object->TiffEntryBase::doSize();
@@ -1453,12 +1453,41 @@ namespace Exiv2 {
             if (buf.size_ > 0) object->setData(buf);
         }
 
+        const ArrayDef* defs = object->def();
+        const ArrayDef* defsEnd = defs + object->defSize();
+        const ArrayDef* def = &cfg->elDefaultDef_;
+        ArrayDef gap = *def;
+
         for (uint32_t idx = 0; idx < object->TiffEntryBase::doSize(); ) {
             if (defs) {
-                def = std::find(defs, defs + object->defSize(), idx);
-                if (def == defs + object->defSize()) def = &object->cfg()->elDefaultDef_;
+                def = std::find(defs, defsEnd, idx);
+                if (def == defsEnd) {
+                    if (cfg->concat_) {
+                        // Determine gap-size
+                        const ArrayDef* xdef = defs;
+                        for (; xdef != defsEnd && xdef->idx_ <= idx; ++xdef) {}
+                        uint32_t gapSize = 0;
+                        if (xdef != defsEnd && xdef->idx_ > idx) {
+                            gapSize = xdef->idx_ - idx;
+                        }
+                        else {
+                            gapSize = object->TiffEntryBase::doSize() - idx;
+                        }
+                        gap.idx_ = idx;
+                        gap.tiffType_ = cfg->elDefaultDef_.tiffType_;
+                        gap.count_ = gapSize / cfg->tagStep();
+                        if (gap.count_ * cfg->tagStep() != gapSize) {
+                            gap.tiffType_ = ttUndefined;
+                            gap.count_ = gapSize;
+                        }
+                        def = &gap;
+                    }
+                    else {
+                        def = &cfg->elDefaultDef_;
+                    }
+                }
             }
-            idx += object->addElement(idx, def); // idx may be different from def->idx_
+            idx += object->addElement(idx, *def); // idx may be different from def->idx_
         }
 
     } // TiffReader::visitBinaryArray

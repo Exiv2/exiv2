@@ -630,12 +630,10 @@ namespace Exiv2 {
         return true;
     }
 
-    uint32_t TiffBinaryArray::addElement(uint32_t idx, const ArrayDef* def)
+    uint32_t TiffBinaryArray::addElement(uint32_t idx, const ArrayDef& def)
     {
-        assert(def != 0);
-
         uint16_t tag = static_cast<uint16_t>(idx / cfg()->tagStep());
-        int32_t sz = EXV_MIN(def->size(tag, cfg()->group_), TiffEntryBase::doSize() - idx);
+        int32_t sz = EXV_MIN(def.size(tag, cfg()->group_), TiffEntryBase::doSize() - idx);
         TiffComponent::AutoPtr tc = TiffCreator::create(tag, cfg()->group_);
         TiffBinaryElement* tp = dynamic_cast<TiffBinaryElement*>(tc.get());
         // The assertion typically fails if a component is not configured in
@@ -1037,7 +1035,7 @@ namespace Exiv2 {
 
     uint32_t TiffBinaryElement::doCount() const
     {
-        return elDef_->count_;
+        return elDef_.count_;
     }
 
     uint32_t TiffComponent::write(IoWrapper& ioWrapper,

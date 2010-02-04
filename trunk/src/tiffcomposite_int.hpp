@@ -1264,6 +1264,7 @@ namespace Exiv2 {
         CryptFct    cryptFct_;     //!< Crypt function, 0 if not used
         bool        hasSize_;      //!< If true, first tag is the size element
         bool        hasFillers_;   //!< If true, write all defined tags
+        bool        concat_;       //!< If true, concatenate gaps between defined tags to single tags
         ArrayDef    elDefaultDef_; //!< Default element
     };
 
@@ -1302,7 +1303,7 @@ namespace Exiv2 {
         //! @name Manipulators
         //@{
         //! Add an element to the binary array, return the size of the element
-        uint32_t addElement(uint32_t idx, const ArrayDef* def);
+        uint32_t addElement(uint32_t idx, const ArrayDef& def);
         /*!
           @brief Setup cfg and def for the component, in case of a complex binary array.
                  Else do nothing. Return true if the initialization succeeded, else false.
@@ -1413,7 +1414,7 @@ namespace Exiv2 {
         /*!
           @brief Set the array definition for this element.
          */
-        void setElDef(const ArrayDef* def) { elDef_ = def; }
+        void setElDef(const ArrayDef& def) { elDef_ = def; }
         /*!
           @brief Set the byte order of this element.
          */
@@ -1425,7 +1426,7 @@ namespace Exiv2 {
         /*!
           @brief Return the array definition of this element.
          */
-        const ArrayDef* elDef()       const { return elDef_; }
+        const ArrayDef* elDef()       const { return &elDef_; }
         /*!
           @brief Return the byte order of this element.
          */
@@ -1467,7 +1468,7 @@ namespace Exiv2 {
 
     private:
         // DATA
-        const ArrayDef* elDef_;  //!< Pointer to the array element definition
+        ArrayDef  elDef_;        //!< The array element definition
         ByteOrder elByteOrder_;  //!< Byte order to read/write the element
 
     }; // class TiffBinaryElement
