@@ -289,6 +289,7 @@ namespace Exiv2 {
         notEncrypted,     // Not encrypted
         true,             // With size element
         false,            // No fillers
+        false,            // Don't concatenate gaps
         { 0, ttUnsignedShort, 1 }
     };
     //! Canon Camera Settings binary array - definition
@@ -304,6 +305,7 @@ namespace Exiv2 {
         notEncrypted,     // Not encrypted
         true,             // With size element
         false,            // No fillers
+        false,            // Don't concatenate gaps
         { 0, ttUnsignedShort, 1 }
     };
 
@@ -315,6 +317,7 @@ namespace Exiv2 {
         notEncrypted,     // Not encrypted
         false,            // No size element
         false,            // No fillers
+        false,            // Don't concatenate gaps
         { 0, ttUnsignedShort, 1 }
     };
 
@@ -326,6 +329,7 @@ namespace Exiv2 {
         notEncrypted,     // Not encrypted
         true,             // With size element
         false,            // No fillers
+        false,            // Don't concatenate gaps
         { 0, ttUnsignedShort, 1 }
     };
 
@@ -337,6 +341,7 @@ namespace Exiv2 {
         notEncrypted,     // Not encrypted
         false,            // No size element
         false,            // No fillers
+        false,            // Don't concatenate gaps
         { 0, ttUnsignedShort, 1 }
     };
 
@@ -348,6 +353,7 @@ namespace Exiv2 {
         notEncrypted,     // Not encrypted
         true,             // Has a size element
         false,            // No fillers
+        false,            // Don't concatenate gaps
         { 0, ttSignedShort, 1 }
     };
     //! Canon File Info binary array - definition
@@ -363,6 +369,7 @@ namespace Exiv2 {
         notEncrypted,     // Not encrypted
         false,            // No size element
         true,             // Write all tags
+        true,             // Concatenate gaps
         { 0, ttUnsignedByte,  1 }
     };
     //! Nikon Vibration Reduction binary array - definition
@@ -379,6 +386,7 @@ namespace Exiv2 {
         notEncrypted,     // Not encrypted
         false,            // No size element
         true,             // Write all tags
+        true,             // Concatenate gaps
         { 0, ttUnsignedByte,  1 }
     };
     //! Nikon Picture Control binary array - definition
@@ -386,6 +394,15 @@ namespace Exiv2 {
         {  0, ttUndefined,     4 }, // Version
         {  4, ttAsciiString,  20 },
         { 24, ttAsciiString,  20 },
+        { 48, ttUnsignedByte,  1 },
+        { 49, ttUnsignedByte,  1 },
+        { 50, ttUnsignedByte,  1 },
+        { 51, ttUnsignedByte,  1 },
+        { 52, ttUnsignedByte,  1 },
+        { 53, ttUnsignedByte,  1 },
+        { 54, ttUnsignedByte,  1 },
+        { 55, ttUnsignedByte,  1 },
+        { 56, ttUnsignedByte,  1 },
         { 57, ttUnsignedByte,  1 }  // The array contains 58 bytes
     };
 
@@ -397,11 +414,13 @@ namespace Exiv2 {
         notEncrypted,     // Not encrypted
         false,            // No size element
         true,             // Write all tags
+        true,             // Concatenate gaps
         { 0, ttUnsignedByte,  1 }
     };
     //! Nikon World Time binary array - definition
     extern const ArrayDef nikonWtDef[] = {
         { 0, ttSignedShort,   1 },
+        { 2, ttUnsignedByte,  1 },
         { 3, ttUnsignedByte,  1 }
     };
 
@@ -413,11 +432,14 @@ namespace Exiv2 {
         notEncrypted,     // Not encrypted
         false,            // No size element
         true,             // Write all tags
+        true,             // Concatenate gaps
         { 0, ttUnsignedByte,  1 }
     };
     //! Nikon ISO info binary array - definition
     extern const ArrayDef nikonIiDef[] = {
+        {  0, ttUnsignedByte,  1 },
         {  4, ttUnsignedShort, 1 },
+        {  6, ttUnsignedByte,  1 },
         { 10, ttUnsignedShort, 1 },
         { 13, ttUnsignedByte,  1 }  // The array contains 14 bytes
     };
@@ -430,10 +452,13 @@ namespace Exiv2 {
         notEncrypted,     // Not encrypted
         false,            // No size element
         true,             // Write all tags
+        true,             // Concatenate gaps
         { 0, ttUnsignedByte,  1 }
     };
     //! Nikon Auto Focus binary array - definition
     extern const ArrayDef nikonAfDef[] = {
+        { 0, ttUnsignedByte,  1 },
+        { 1, ttUnsignedByte,  1 },
         { 2, ttUnsignedShort, 1 } // The array contains 4 bytes
     };
 
@@ -445,6 +470,7 @@ namespace Exiv2 {
         nikonCrypt,       // Encryption function
         false,            // No size element
         true,             // Write all tags
+        true,             // Concatenate gaps
         { 0, ttUnsignedByte,  1 }
     };
     //! Nikon Shot Info binary array - definition 1 (D80)
@@ -461,12 +487,14 @@ namespace Exiv2 {
         nikonCrypt,       // Encryption function
         false,            // No size element
         true,             // Write all tags
+        true,             // Concatenate gaps
         { 0, ttUnsignedByte,  1 }
     };
     //! Nikon Shot Info binary array - definition 2 (D40)
     extern const ArrayDef nikonSi2Def[] = {
         {    0, ttUndefined,    4 }, // Version
         {  582, ttUnsignedLong, 1 }, // ShutterCount
+        {  738, ttUnsignedByte, 1 },
         { 1112, ttUnsignedByte, 1 }  // The array contains 1113 bytes
     };
     //! Nikon Shot Info binary array - configuration 3 (D300a)
@@ -477,11 +505,13 @@ namespace Exiv2 {
         nikonCrypt,       // Encryption function
         false,            // No size element
         true,             // Write all tags
+        true,             // Concatenate gaps
         { 0, ttUnsignedByte,  1 }
     };
     //! Nikon Shot Info binary array - definition 3 (D300a)
     extern const ArrayDef nikonSi3Def[] = {
         {    0, ttUndefined,     4 }, // Version
+        {  604, ttUnsignedByte,  1 }, // ISO
         {  633, ttUnsignedLong,  1 }, // ShutterCount
         {  721, ttUnsignedShort, 1 }, // AFFineTuneAdj
         {  814, ttUndefined,  4478 }  // The array contains 5291 bytes
@@ -494,6 +524,7 @@ namespace Exiv2 {
         nikonCrypt,       // Encryption function
         false,            // No size element
         true,             // Write all tags
+        true,             // Concatenate gaps
         { 0, ttUnsignedByte,  1 }
     };
     //! Nikon Shot Info binary array - definition 4 (D300b)
@@ -511,6 +542,7 @@ namespace Exiv2 {
         nikonCrypt,       // Encryption function
         false,            // No size element
         false,            // Write all tags (don't know how many)
+        true,             // Concatenate gaps
         { 0, ttUnsignedByte,  1 }
     };
     //! Nikon Shot Info binary array - definition 5 (ver 01.xx and ver 02.xx)
@@ -518,7 +550,11 @@ namespace Exiv2 {
         {    0, ttUndefined,     4 }, // Version
         {  106, ttUnsignedLong,  1 }, // ShutterCount
         {  110, ttUnsignedLong,  1 }, // DeletedImageCount
+        {  117, ttUnsignedByte,  1 }, // VibrationReduction
+        {  130, ttUnsignedByte,  1 }, // VibrationReduction1
         {  343, ttUndefined,     2 }, // ShutterCount
+        {  430, ttUnsignedByte,  1 }, // VibrationReduction2
+        {  598, ttUnsignedByte,  1 }, // ISO
         {  630, ttUnsignedLong,  1 }  // ShutterCount
     };
     //! Nikon Shot Info binary array - configuration 6 (ver 01.xx)
@@ -529,6 +565,7 @@ namespace Exiv2 {
         notEncrypted,     // Encryption function
         false,            // No size element
         false,            // Write all tags (don't know how many)
+        true,             // Concatenate gaps
         { 0, ttUnsignedByte,  1 }
     };
     //! Nikon Lens Data configurations and definitions
@@ -549,6 +586,7 @@ namespace Exiv2 {
         notEncrypted,     // Encryption function
         false,            // No size element
         true,             // Write all tags
+        true,             // Concatenate gaps
         { 0, ttUnsignedByte,  1 }
     };
     //! Nikon Lens Data binary array - configuration 2
@@ -559,6 +597,7 @@ namespace Exiv2 {
         nikonCrypt,       // Encryption function
         false,            // No size element
         true,             // Write all tags
+        true,             // Concatenate gaps
         { 0, ttUnsignedByte,  1 }
     };
     //! Nikon Lens Data binary array - configuration 3
@@ -569,6 +608,7 @@ namespace Exiv2 {
         nikonCrypt,       // Encryption function
         false,            // No size element
         true,             // Write all tags
+        false,            // Don't concatenate gaps
         { 0, ttUnsignedByte,  1 }
     };
     //! Nikon Lens Data binary array - definition
@@ -590,6 +630,7 @@ namespace Exiv2 {
         notEncrypted,     // Encryption function
         false,            // No size element
         false,            // Write all tags
+        true,             // Concatenate gaps
         { 0, ttUnsignedShort, 1 }
     };
     //! Nikon Color Balance binary array - configuration 2
@@ -600,6 +641,7 @@ namespace Exiv2 {
         nikonCrypt,       // Encryption function
         false,            // No size element
         false,            // Write all tags
+        true,             // Concatenate gaps
         { 0, ttUnsignedShort, 1 }
     };
     //! Nikon Color Balance binary array - configuration 2a
@@ -610,6 +652,7 @@ namespace Exiv2 {
         nikonCrypt,       // Encryption function
         false,            // No size element
         false,            // Write all tags
+        true,             // Concatenate gaps
         { 0, ttUnsignedShort, 1 }
     };
     //! Nikon Color Balance binary array - configuration 2b
@@ -620,6 +663,7 @@ namespace Exiv2 {
         nikonCrypt,       // Encryption function
         false,            // No size element
         false,            // Write all tags
+        true,             // Concatenate gaps
         { 0, ttUnsignedShort, 1 }
     };
     //! Nikon Color Balance binary array - configuration 3
@@ -630,6 +674,7 @@ namespace Exiv2 {
         notEncrypted,     // Encryption function
         false,            // No size element
         false,            // Write all tags
+        true,             // Concatenate gaps
         { 0, ttUnsignedShort, 1 }
     };
     //! Nikon Color Balance binary array - configuration 4
@@ -640,51 +685,42 @@ namespace Exiv2 {
         nikonCrypt,       // Encryption function
         false,            // No size element
         false,            // Write all tags
+        true,             // Concatenate gaps
         { 0, ttUnsignedShort, 1 }
     };
     //! Nikon Color Balance binary array - definition 1 (D100)
     extern const ArrayDef nikonCb1Def[] = {
         {  0, ttUndefined,        4 }, // Version
-        {  4, ttUnsignedShort,   34 }, // Unknown
-        { 72, ttUnsignedShort,    4 }, // Color balance levels
-        { 80, ttUnsignedShort, 9999 }  // Unknown
+        { 72, ttUnsignedShort,    4 }  // Color balance levels
     };
     //! Nikon Color Balance binary array - definition 2 (D2H)
     extern const ArrayDef nikonCb2Def[] = {
         {  0, ttUndefined,        4 }, // Version
-        {  4, ttUnsignedShort,    3 }, // Unknown
-        { 10, ttUnsignedShort,    4 }, // Color balance levels
-        { 18, ttUnsignedShort, 9999 }  // Unknown
+        { 10, ttUnsignedShort,    4 }  // Color balance levels
     };
     //! Nikon Color Balance binary array - definition 2a (D50)
     extern const ArrayDef nikonCb2aDef[] = {
         {  0, ttUndefined,        4 }, // Version
-        {  4, ttUnsignedShort,    7 }, // Unknown
-        { 18, ttUnsignedShort,    4 }, // Color balance levels
-        { 26, ttUnsignedShort, 9999 }  // Unknown
+        { 18, ttUnsignedShort,    4 }  // Color balance levels
     };
     //! Nikon Color Balance binary array - definition 2b (D2X=0204,D2Hs=0206,D200=0207,D40=0208)
     extern const ArrayDef nikonCb2bDef[] = {
         {  0, ttUndefined,        4 }, // Version
         {  4, ttUnsignedShort,  140 }, // Unknown
         {284, ttUnsignedShort,    3 }, // Unknown (encrypted)
-        {290, ttUnsignedShort,    4 }, // Color balance levels
-        {298, ttUnsignedShort, 9999 }  // Unknown (encrypted)
+        {290, ttUnsignedShort,    4 }  // Color balance levels
     };
     //! Nikon Color Balance binary array - definition 3 (D70)
     extern const ArrayDef nikonCb3Def[] = {
         {  0, ttUndefined,        4 }, // Version
-        {  4, ttUnsignedShort,    8 }, // Unknown
-        { 20, ttUnsignedShort,    4 }, // Color balance levels
-        { 28, ttUnsignedShort, 9999 }  // Unknown
+        { 20, ttUnsignedShort,    4 }  // Color balance levels
     };
     //! Nikon Color Balance binary array - definition 4 (D3)
     extern const ArrayDef nikonCb4Def[] = {
         {  0, ttUndefined,        4 }, // Version
         {  4, ttUnsignedShort,  140 }, // Unknown
         {284, ttUnsignedShort,    5 }, // Unknown (encrypted)
-        {294, ttUnsignedShort,    4 }, // Color balance levels
-        {302, ttUnsignedShort, 9999 }  // Unknown (encrypted)
+        {294, ttUnsignedShort,    4 }  // Color balance levels
     };
     //! Nikon Color Balance configurations and definitions
     extern const ArraySet nikonCbSet[] = {
@@ -704,6 +740,7 @@ namespace Exiv2 {
         notEncrypted,     // Not encrypted
         false,            // No size element
         false,            // No fillers
+        false,            // Don't concatenate gaps
         { 0, ttUnsignedLong, 1 }
     };
 
@@ -715,6 +752,7 @@ namespace Exiv2 {
         notEncrypted,     // Not encrypted
         false,            // No size element
         false,            // No fillers
+        false,            // Don't concatenate gaps
         { 0, ttUnsignedLong, 1 }
     };
 
@@ -726,6 +764,7 @@ namespace Exiv2 {
         notEncrypted,     // Not encrypted
         false,            // No size element
         false,            // No fillers
+        false,            // Don't concatenate gaps
         { 0, ttUnsignedShort, 1 }
     };
     //! Minolta 7D Camera Settings binary array - definition
@@ -742,6 +781,7 @@ namespace Exiv2 {
         notEncrypted,     // Not encrypted
         false,            // No size element
         false,            // No fillers
+        false,            // Don't concatenate gaps
         { 0, ttUnsignedShort, 1 }
     };
     //! Minolta 5D Camera Settings binary array - definition
