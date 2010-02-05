@@ -548,7 +548,7 @@ namespace Exiv2 {
     //! Nikon Shot Info binary array - definition 5 (ver 01.xx and ver 02.xx)
     extern const ArrayDef nikonSi5Def[] = {
         {    0, ttUndefined,     4 }, // Version
-        {  106, ttUnsignedLong,  1 }, // ShutterCount
+        {  106, ttUnsignedLong,  1 }, // ShutterCount1
         {  110, ttUnsignedLong,  1 }, // DeletedImageCount
         {  117, ttUnsignedByte,  1 }, // VibrationReduction
         {  130, ttUnsignedByte,  1 }, // VibrationReduction1
@@ -586,7 +586,7 @@ namespace Exiv2 {
         notEncrypted,     // Encryption function
         false,            // No size element
         true,             // Write all tags
-        true,             // Concatenate gaps
+        false,            // Concatenate gaps
         { 0, ttUnsignedByte,  1 }
     };
     //! Nikon Lens Data binary array - configuration 2
@@ -597,7 +597,7 @@ namespace Exiv2 {
         nikonCrypt,       // Encryption function
         false,            // No size element
         true,             // Write all tags
-        true,             // Concatenate gaps
+        false,            // Concatenate gaps
         { 0, ttUnsignedByte,  1 }
     };
     //! Nikon Lens Data binary array - configuration 3
