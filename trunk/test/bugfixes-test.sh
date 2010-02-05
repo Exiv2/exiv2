@@ -128,6 +128,20 @@ $exiv2 -PEnh $filename
 $exiv2 -M"set Exif.Photo.UserComment charset=Unicode \\ugggg" $filename
 $exiv2 -PEnh $filename
 
+num=666
+filename=exiv2-bug$num.jpg
+cp -f ../data/exiv2-empty.jpg $filename
+echo '------>' Bug $num '<-------' >&2
+
+$exiv2 -v -M'set Exif.Image.Make NIKON' \
+          -M'set Exif.Image.Model D90' \
+          -M'set Exif.Nikon3.ShutterCount 100' \
+          -M'set Exif.Nikon3.SerialNumber 123' \
+          -M'set Exif.NikonSi02xx.Version 48 50 51 52' \
+          -M'set Exif.NikonSi02xx.ShutterCount 100' $filename
+
+$exiv2 -pa -u -b $filename
+
 ) > $results 2>&1
 
 # ----------------------------------------------------------------------
