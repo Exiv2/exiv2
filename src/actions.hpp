@@ -61,7 +61,7 @@ namespace Action {
 
     //! Enumerates all tasks
     enum TaskType { none, adjust, print, rename, erase, extract, insert,
-                    modify, fixiso };
+                    modify, fixiso, fixcom };
 
 // *****************************************************************************
 // class definitions
@@ -170,10 +170,12 @@ namespace Action {
         int printSummary();
         //! Print Exif, IPTC and XMP metadata in user defined format
         int printList();
+        //! Print info for an individual tag specified by its key in a user defined format
+        int grepTag(const std::string& key, const Exiv2::Image* image);
+        //! Print all metadata in a user defined format
+        int printMetadata(const Exiv2::Image* image);
         //! Print a metadatum in a user defined format
-        void printMetadatum(const Exiv2::Metadatum& md,
-                            const Exiv2::Image* pImage,
-                            bool const manyFiles);
+        void printMetadatum(const Exiv2::Metadatum& md, const Exiv2::Image* image);
         //! Print the label for a summary line
         void printLabel(const std::string& label) const;
         /*!

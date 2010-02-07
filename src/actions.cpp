@@ -496,7 +496,6 @@ namespace Action {
         Exiv2::Image::AutoPtr image = Exiv2::ImageFactory::open(path_);
         assert(image.get() != 0);
         image->readMetadata();
-        bool const manyFiles = Params::instance().files_.size() > 1;
         // Set defaults for metadata types and data columns
         if (Params::instance().printTags_ == Exiv2::mdNone) {
             Params::instance().printTags_ = Exiv2::mdExif | Exiv2::mdIptc | Exiv2::mdXmp;
@@ -504,11 +503,79 @@ namespace Action {
         if (Params::instance().printItems_ == 0) {
             Params::instance().printItems_ = Params::prKey | Params::prType | Params::prCount | Params::prTrans;
         }
+        if (!Params::instance().keys_.empty()) {
+            for (Params::Keys::const_iterator key = Params::instance().keys_.begin();
+                 key != Params::instance().keys_.end(); ++key) {
+                rc |= grepTag(*key, image.get());
+            }
+        }
+        else {
+            rc = printMetadata(image.get());
+        }
+        return rc;
+    } // Print::printList
+
+    int Print::grepTag(const std::string& key, const Exiv2::Image* image)
+    {
+        int rc = 0;
+        if (key.empty()) return rc;
+        switch (key[0]) {
+        case 'E':
+            if (Params::instance().printTags_ & Exiv2::mdExif) {
+                Exiv2::ExifKey ek(key);
+                const Exiv2::ExifData& exifData = image->exifData();
+                Exiv2::ExifData::const_iterator md = exifData.findKey(ek);
+                if (md != exifData.end()) printMetadatum(*md, image);
+                if (exifData.empty()) {
+                    if (Params::instance().verbose_) {
+                        std::cerr << path_ << ": " << _("No Exif data found in the file\n");
+                    }
+                    rc = -3;
+                }
+            }
+            break;
+        case 'I':
+            if (Params::instance().printTags_ & Exiv2::mdIptc) {
+                Exiv2::IptcKey ik(key);
+                const Exiv2::IptcData& iptcData = image->iptcData();
+                Exiv2::IptcData::const_iterator md = iptcData.findKey(ik);
+                if (md != iptcData.end()) printMetadatum(*md, image);
+                if (iptcData.empty()) {
+                    if (Params::instance().verbose_) {
+                        std::cerr << path_ << ": " << _("No IPTC data found in the file\n");
+                    }
+                    rc = -3;
+                }
+            }
+            break;
+        case 'X':
+            if (Params::instance().printTags_ & Exiv2::mdXmp) {
+                Exiv2::XmpKey xk(key);
+                const Exiv2::XmpData& xmpData = image->xmpData();
+                Exiv2::XmpData::const_iterator md = xmpData.findKey(xk);
+                if (md != xmpData.end()) printMetadatum(*md, image);
+                if (xmpData.empty()) {
+                    if (Params::instance().verbose_) {
+                        std::cerr << path_ << ": " << _("No XMP data found in the file\n");
+                    }
+                    rc = -3;
+                }
+            }
+            break;
+        default:
+            throw Exiv2::Error(1, std::string(_("Invalid key")) + " `" + key + "'");
+        }
+        return rc;
+    } // Print::grepTag
+
+    int Print::printMetadata(const Exiv2::Image* image)
+    {
+        int rc = 0;
         if (Params::instance().printTags_ & Exiv2::mdExif) {
-            Exiv2::ExifData& exifData = image->exifData();
+            const Exiv2::ExifData& exifData = image->exifData();
             for (Exiv2::ExifData::const_iterator md = exifData.begin();
                  md != exifData.end(); ++md) {
-                printMetadatum(*md, image.get(), manyFiles);
+                printMetadatum(*md, image);
             }
             if (exifData.empty()) {
                 if (Params::instance().verbose_) {
@@ -518,10 +585,10 @@ namespace Action {
             }
         }
         if (Params::instance().printTags_ & Exiv2::mdIptc) {
-            Exiv2::IptcData& iptcData = image->iptcData();
+            const Exiv2::IptcData& iptcData = image->iptcData();
             for (Exiv2::IptcData::const_iterator md = iptcData.begin();
                  md != iptcData.end(); ++md) {
-                printMetadatum(*md, image.get(), manyFiles);
+                printMetadatum(*md, image);
             }
             if (iptcData.empty()) {
                 if (Params::instance().verbose_) {
@@ -531,10 +598,10 @@ namespace Action {
             }
         }
         if (Params::instance().printTags_ & Exiv2::mdXmp) {
-            Exiv2::XmpData& xmpData = image->xmpData();
+            const Exiv2::XmpData& xmpData = image->xmpData();
             for (Exiv2::XmpData::const_iterator md = xmpData.begin();
                  md != xmpData.end(); ++md) {
-                printMetadatum(*md, image.get(), manyFiles);
+                printMetadatum(*md, image);
             }
             if (xmpData.empty()) {
                 if (Params::instance().verbose_) {
@@ -544,16 +611,15 @@ namespace Action {
             }
         }
         return rc;
-    } // Print::printList
+    } // Print::printMetadata
 
-    void Print::printMetadatum(const Exiv2::Metadatum& md,
-                               const Exiv2::Image* pImage,
-                               bool const manyFiles)
+    void Print::printMetadatum(const Exiv2::Metadatum& md, const Exiv2::Image* pImage)
     {
         if (   Params::instance().unknown_
             && md.tagName().substr(0, 2) == "0x") {
             return;
         }
+        bool const manyFiles = Params::instance().files_.size() > 1;
         if (manyFiles) {
             std::cout << std::setfill(' ') << std::left << std::setw(20)
                       << path_ << "  ";

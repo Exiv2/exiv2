@@ -250,12 +250,16 @@ void Params::help(std::ostream& os) const
             "                Requires option -c, -m or -M.\n")
        << _("  fi | fixiso   Copy ISO setting from the Nikon Makernote to the regular\n"
             "                Exif tag.\n")
+       << _("  fc | fixcom   Convert the UNICODE Exif user comment to UCS-2. Its current\n"
+            "                character encoding can be specified with the -n option.\n")
        << _("\nOptions:\n")
        << _("   -h      Display this help and exit.\n")
        << _("   -V      Show the program version and exit.\n")
        << _("   -v      Be verbose during the program run.\n")
        << _("   -b      Show large binary values.\n")
        << _("   -u      Show unknown tags.\n")
+       << _("   -g key  Only output info for this key (grep).\n")
+       << _("   -n enc  Charset to use to decode UNICODE Exif user comments.\n")
        << _("   -k      Preserve file timestamps (keep).\n")
        << _("   -t      Also set the file timestamp in 'rename' action (overrides -k).\n")
        << _("   -T      Only set the file timestamp in 'rename' action, do not rename\n"
@@ -337,6 +341,8 @@ int Params::option(int opt, const std::string& optarg, int optopt)
     case 'u': unknown_ = false; break;
     case 'f': force_ = true; fileExistsPolicy_ = overwritePolicy; break;
     case 'F': force_ = true; fileExistsPolicy_ = renamePolicy; break;
+    case 'g': keys_.push_back(optarg); printMode_ = pmList; break;
+    case 'n': charset_ = optarg; break;
     case 'r': rc = evalRename(opt, optarg); break;
     case 't': rc = evalRename(opt, optarg); break;
     case 'T': rc = evalRename(opt, optarg); break;
@@ -737,6 +743,15 @@ int Params::nonoption(const std::string& argv)
             }
             action = true;
             action_ = Action::fixiso;
+        }
+        if (argv == "fc" || argv == "fixcom") {
+            if (action_ != Action::none && action_ != Action::fixcom) {
+                std::cerr << progname() << ": "
+                          << _("Action fixcom is not compatible with the given options\n");
+                rc = 1;
+            }
+            action = true;
+            action_ = Action::fixcom;
         }
         if (action_ == Action::none) {
             // if everything else fails, assume print as the default action
