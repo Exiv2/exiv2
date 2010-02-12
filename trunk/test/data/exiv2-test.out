@@ -42,6 +42,8 @@ Actions:
                 Requires option -c, -m or -M.
   fi | fixiso   Copy ISO setting from the Nikon Makernote to the regular
                 Exif tag.
+  fc | fixcom   Convert the UNICODE Exif user comment to UCS-2. Its current
+                character encoding can be specified with the -n option.
 
 Options:
    -h      Display this help and exit.
@@ -49,6 +51,8 @@ Options:
    -v      Be verbose during the program run.
    -b      Show large binary values.
    -u      Show unknown tags.
+   -g key  Only output info for this key (grep).
+   -n enc  Charset to use to decode UNICODE Exif user comments.
    -k      Preserve file timestamps (keep).
    -t      Also set the file timestamp in 'rename' action (overrides -k).
    -T      Only set the file timestamp in 'rename' action, do not rename

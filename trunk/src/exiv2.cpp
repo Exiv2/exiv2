@@ -744,7 +744,7 @@ int Params::nonoption(const std::string& argv)
             action = true;
             action_ = Action::fixiso;
         }
-        if (argv == "fc" || argv == "fixcom") {
+        if (argv == "fc" || argv == "fixcom" || argv == "fixcomment") {
             if (action_ != Action::none && action_ != Action::fixcom) {
                 std::cerr << progname() << ": "
                           << _("Action fixcom is not compatible with the given options\n");

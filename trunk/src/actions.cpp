@@ -218,6 +218,7 @@ namespace Action {
         registerTask(insert,  Task::AutoPtr(new Insert));
         registerTask(modify,  Task::AutoPtr(new Modify));
         registerTask(fixiso,  Task::AutoPtr(new FixIso));
+        registerTask(fixcom,  Task::AutoPtr(new FixCom));
     } // TaskFactory c'tor
 
     Task::AutoPtr TaskFactory::create(TaskType type)
@@ -695,7 +696,19 @@ namespace Action {
                 std::cout << _("(Binary value suppressed)") << std::endl;
                 return;
             }
-            std::cout << std::dec << md.value();
+            bool done = false;
+            if (0 == strcmp(md.key().c_str(), "Exif.Photo.UserComment")) {
+                const Exiv2::CommentValue* pcv = dynamic_cast<const Exiv2::CommentValue*>(&md.value());
+                if (pcv) {
+                    Exiv2::CommentValue::CharsetId csId = pcv->charsetId();
+                    if (csId != Exiv2::CommentValue::undefined) {
+                        std::cout << "charset=\"" << Exiv2::CommentValue::CharsetInfo::name(csId) << "\" ";
+                    }
+                    std::cout << pcv->comment(Params::instance().charset_.c_str());
+                    done = true;
+                }
+            }
+            if (!done) std::cout << std::dec << md.value();
         }
         if (Params::instance().printItems_ & Params::prTrans) {
             if (!first) std::cout << "  ";
@@ -708,7 +721,15 @@ namespace Action {
                 std::cout << _("(Binary value suppressed)") << std::endl;
                 return;
             }
-            std::cout << std::dec << md.print(&pImage->exifData());
+            bool done = false;
+            if (0 == strcmp(md.key().c_str(), "Exif.Photo.UserComment")) {
+                const Exiv2::CommentValue* pcv = dynamic_cast<const Exiv2::CommentValue*>(&md.value());
+                if (pcv) {
+                    std::cout << pcv->comment(Params::instance().charset_.c_str());
+                    done = true;
+                }
+            }
+            if (!done) std::cout << std::dec << md.print(&pImage->exifData());
         }
         if (Params::instance().printItems_ & Params::prHex) {
             if (!first) std::cout << std::endl;
@@ -1683,6 +1704,84 @@ namespace Action {
     FixIso* FixIso::clone_() const
     {
         return new FixIso(*this);
+    }
+
+    FixCom::~FixCom()
+    {
+    }
+
+    int FixCom::run(const std::string& path)
+    {
+    try {
+        if (!Exiv2::fileExists(path, true)) {
+            std::cerr << path
+                      << ": " <<_("Failed to open the file\n");
+            return -1;
+        }
+        Timestamp ts;
+        if (Params::instance().preserve_) {
+            ts.read(path);
+        }
+        Exiv2::Image::AutoPtr image = Exiv2::ImageFactory::open(path);
+        assert(image.get() != 0);
+        image->readMetadata();
+        Exiv2::ExifData& exifData = image->exifData();
+        if (exifData.empty()) {
+            std::cerr << path
+                      << ": " << _("No Exif data found in the file\n");
+            return -3;
+        }
+        Exiv2::ExifData::iterator pos = exifData.findKey(Exiv2::ExifKey("Exif.Photo.UserComment"));
+        if (pos == exifData.end()) {
+            if (Params::instance().verbose_) {
+                std::cout << _("No Exif user comment found") << "\n";
+            }
+            return 0;
+        }
+        Exiv2::Value::AutoPtr v = pos->getValue();
+        const Exiv2::CommentValue* pcv = dynamic_cast<const Exiv2::CommentValue*>(v.get());
+        if (!pcv) {
+            if (Params::instance().verbose_) {
+                std::cout << _("Found Exif user comment with unexpected value type") << "\n";
+            }
+            return 0;
+        }
+        Exiv2::CommentValue::CharsetId csId = pcv->charsetId();
+        if (csId != Exiv2::CommentValue::unicode) {
+            if (Params::instance().verbose_) {
+                std::cout << _("No Exif UNICODE user comment found") << "\n";
+            }
+            return 0;
+        }
+        std::string comment = pcv->comment(Params::instance().charset_.c_str());
+        if (Params::instance().verbose_) {
+            std::cout << _("Setting Exif UNICODE user comment to") << " \"" << comment << "\"\n";
+        }
+        comment = std::string("charset=\"") + Exiv2::CommentValue::CharsetInfo::name(csId) + "\" " + comment;
+        // Remove BOM and convert value from source charset to UCS-2, but keep byte order
+        pos->setValue(comment);
+        image->writeMetadata();
+        if (Params::instance().preserve_) {
+            ts.touch(path);
+        }
+        return 0;
+    }
+    catch(const Exiv2::AnyError& e)
+    {
+        std::cerr << "Exiv2 exception in fixcom action for file " << path
+                  << ":\n" << e << "\n";
+        return 1;
+    }
+    } // FixCom::run
+
+    FixCom::AutoPtr FixCom::clone() const
+    {
+        return AutoPtr(clone_());
+    }
+
+    FixCom* FixCom::clone_() const
+    {
+        return new FixCom(*this);
     }
 
 }                                       // namespace Action
