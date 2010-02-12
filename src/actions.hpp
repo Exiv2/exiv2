@@ -390,6 +390,24 @@ namespace Action {
 
     }; // class FixIso
 
+    /*!
+      @brief Fix the character encoding of Exif UNICODE user comments.
+             Decodes the comment using the auto-detected or specified
+             character encoding and writes it back in UCS-2.
+     */
+    class FixCom : public Task {
+    public:
+        virtual ~FixCom();
+        virtual int run(const std::string& path);
+        typedef std::auto_ptr<FixCom> AutoPtr;
+        AutoPtr clone() const;
+
+    private:
+        virtual FixCom* clone_() const;
+        std::string path_;
+
+    }; // class FixCom
+
 }                                       // namespace Action
 
 #endif                                  // #ifndef ACTIONS_HPP_
