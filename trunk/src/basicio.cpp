@@ -297,7 +297,9 @@ namespace Exiv2 {
         }
         p_->mappedLength_ = size();
         p_->isWriteable_ = isWriteable;
-        if (p_->isWriteable_ && p_->switchMode(Impl::opWrite) != 0) return 0;
+        if (p_->isWriteable_ && p_->switchMode(Impl::opWrite) != 0) {
+            throw Error(16, path(), strError());
+        }
 #if defined EXV_HAVE_MMAP && defined EXV_HAVE_MUNMAP
         int prot = PROT_READ;
         if (p_->isWriteable_) {
@@ -343,7 +345,9 @@ namespace Exiv2 {
 #else
         // Workaround for platforms without mmap: Read the file into memory
         DataBuf buf(static_cast<long>(p_->mappedLength_));
-        read(buf.pData_, buf.size_);
+        if (read(buf.pData_, buf.size_) != buf.size_) {
+            throw Error(2, path(), strError(), "FileIo::read");
+        }
         if (error() || eof()) throw Error(2, path(), strError(), "FileIo::mmap");
         p_->pMappedArea_ = buf.release().first;
         p_->isMalloced_ = true;
