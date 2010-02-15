@@ -67,7 +67,7 @@ namespace {
         { 13, N_("Image type %1 is not supported") }, // %1=image type
         { 14, N_("Failed to read image data") },
         { 15, N_("This does not look like a JPEG image") },
-//      { 16, N_("") }, -- currently not used
+        { 16, N_("%1: Failed to map file for reading and writing: %2") }, // %1=path, %2=strerror
         { 17, N_("%1: Failed to rename file to %2: %3") }, // %1=old path, %2=new path, %3=strerror
         { 18, N_("%1: Transfer failed: %2") }, // %1=path, %2=strerror
         { 19, N_("Memory transfer failed: %1") }, // %1=strerror
