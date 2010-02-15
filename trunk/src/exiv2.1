@@ -3,7 +3,7 @@
 .\" First parameter, NAME, should be all caps
 .\" Second parameter, SECTION, should be 1-8, maybe w/ subsection
 .\" other parameters are allowed: see man(7), man(1)
-.TH EXIV2 1 "Dec 29th, 2009"
+.TH EXIV2 1 "Feb 14, 2010"
 .\" Please adjust this date whenever revising the manpage.
 .\"
 .\" Some roff macros, for reference:
@@ -47,7 +47,7 @@ PEF	ReadWrite	ReadWrite	ReadWrite	-
 ARW	Read	Read	Read	-
 RW2	Read	Read	Read	-
 SR2	Read	Read	Read	-
-ORF	Read	Read	Read	-
+ORF	ReadWrite	ReadWrite	ReadWrite	-
 PNG	ReadWrite	ReadWrite	ReadWrite	ReadWrite
 PGF	ReadWrite	ReadWrite	ReadWrite	ReadWrite
 RAF	Read	Read	Read	-
@@ -110,6 +110,12 @@ Copy the ISO setting from one of the proprietary Nikon or Canon
 makernote ISO tags to the regular Exif ISO tag,
 Exif.Photo.ISOSpeedRatings. Does not overwrite an existing standard
 Exif ISO tag.
+.TP
+.B fc | fixcom
+Fix the character encoding of Exif Unicode user comments.  Decodes the
+comment using the auto-detected or specified character encoding and
+writes it back in UCS-2. Use option \fB\-n\fP to specify the current
+encoding of the comment if necessary.
 .SH OPTIONS
 .TP
 .B \-h
@@ -126,6 +132,14 @@ Show large binary values (default is to suppress them).
 .TP
 .B \-u
 Show unknown tags (default is to suppress tags which don't have a name).
+.TP
+.B \-g \fIkey\fP
+Only output info for this Exiv2 key (grep). Multiple \fB\-n\fP options
+can be used to grep info for several keys.
+.TP
+.B \-n \fIenc\fP
+Charset to use to decode Exif Unicode user comments. \fIenc\fP is
+a name understood by \fBiconv_open\fP(3), e.g., 'UTF-8'.
 .TP
 .B \-k
 Preserve file timestamps when updating files (keep). Can be used with
@@ -339,7 +353,7 @@ prevents you from adding duplicate Exif tags).
 Delete all occurrences of a tag (requires only a \fIkey\fP).
 .TP
 .I key
-Exiv2 Exif or IPTC key.
+Exiv2 Exif, IPTC or XMP key.
 .TP
 .I type
 .B Byte | Ascii | Short | Long | Rational | Undefined | SShort | SLong | SRational | Comment
