@@ -142,6 +142,12 @@ $exiv2 -v -M'set Exif.Image.Make NIKON' \
 
 $exiv2 -pa -u -b $filename
 
+num=683
+filename=exiv2-bug$num.jpg
+cp -f ../data/exiv2-nikon-d70.jpg $filename
+echo '------>' Bug $num '<-------' >&2
+$exiv2 -v -f -r %Y-%m-%d-%a-%j $filename
+
 ) > $results 2>&1
 
 # ----------------------------------------------------------------------

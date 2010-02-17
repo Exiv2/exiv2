@@ -1848,6 +1848,10 @@ namespace {
         if (!Util::strtol(timeStr.substr(17,2).c_str(), tmp)) return 10;
         tm->tm_sec = tmp;
 
+        // Conversions to set remaining fields of the tm structure
+        time_t time = timegm(tm);
+        if (time == (time_t)-1 || gmtime_r(&time, tm) == 0) return 11;
+
         return 0;
     } // str2Tm
 
