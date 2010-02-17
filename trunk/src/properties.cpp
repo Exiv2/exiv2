@@ -57,7 +57,7 @@ namespace {
             return 0 == strcmp(key_, key.c_str());
         }
 
-        const char* key_;               //!< XMP key
+        const char* key_;                      //!< XMP key
         Exiv2::PrintFct printFct_;             //!< Print function
     };
 
@@ -87,6 +87,8 @@ namespace Exiv2 {
     extern const XmpPropertyInfo xmpIptcInfo[];
     extern const XmpPropertyInfo xmpIptcExtInfo[];
     extern const XmpPropertyInfo xmpPlusInfo[];
+    extern const XmpPropertyInfo xmpMediaProInfo[];
+    extern const XmpPropertyInfo xmpExpressionMediaInfo[];
 
     extern const XmpNsInfo xmpNsInfo[] = {
         // Schemas   -   NOTE: Schemas which the XMP-SDK doesn't know must be registered in XmpParser::initialize - Todo: Automate this
@@ -111,6 +113,8 @@ namespace Exiv2 {
         { "http://iptc.org/std/Iptc4xmpExt/2008-02-29/",  "iptcExt",        xmpIptcExtInfo,   N_("IPTC Extension schema")                     },
                                                                                              // NOTE: It really should be 'Iptc4xmpExt' but following example above
         { "http://ns.useplus.org/ldf/xmp/1.0/",           "plus",           xmpPlusInfo,      N_("PLUS License Data Format schema")           },
+        { "http://ns.iview-multimedia.com/mediapro/1.0/", "mediapro",       xmpMediaProInfo,  N_("iView Media Pro schema")                    },
+        { "http://ns.microsoft.com/expressionmedia/1.0/", "expressionmedia",xmpExpressionMediaInfo, N_("Expression Media schema")             },
 
         // Structures
         { "http://ns.adobe.com/xap/1.0/g/",                   "xapG",    0, N_("Colorant structure")           },
@@ -129,7 +133,7 @@ namespace Exiv2 {
     extern const XmpPropertyInfo xmpDcInfo[] = {
         { "contributor",      N_("Contributor"),      "bag ProperName",  xmpBag,       xmpExternal, N_("Contributors to the resource (other than the authors).")                               },
         { "coverage",         N_("Coverage"),         "Text",            xmpText,      xmpExternal, N_("The spatial or temporal topic of the resource, the spatial applicability of the "
-                                                                                                   "resource, or the jurisdiction under which the resource is relevant.")                      },
+                                                                                                       "resource, or the jurisdiction under which the resource is relevant.")                      },
         { "creator",          N_("Creator"),          "seq ProperName",  xmpSeq,       xmpExternal, N_("The authors of the resource (listed in order of precedence, if significant).")         },
         { "date",             N_("Date"),             "seq Date",        xmpSeq,       xmpExternal, N_("Date(s) that something interesting happened to the resource.")                         },
         { "description",      N_("Description"),      "Lang Alt",        langAlt,      xmpExternal, N_("A textual description of the content of the resource. Multiple values may be "
@@ -137,16 +141,16 @@ namespace Exiv2 {
         { "format",           N_("Format"),           "MIMEType",        xmpText,      xmpInternal, N_("The file format used when saving the resource. Tools and applications should set "
                                                                                                        "this property to the save format of the data. It may include appropriate qualifiers.") },
         { "identifier",       N_("Identifier"),       "Text",            xmpText,      xmpExternal, N_("Unique identifier of the resource. Recommended best practice is to identify the "
-                                                                                                   "resource by means of a string conforming to a formal identification system.")              },
+                                                                                                       "resource by means of a string conforming to a formal identification system.")              },
         { "language",         N_("Language"),         "bag Locale",      xmpBag,       xmpInternal, N_("An unordered array specifying the languages used in the resource.")                    },
         { "publisher",        N_("Publisher"),        "bag ProperName",  xmpBag,       xmpExternal, N_("An entity responsible for making the resource available. Examples of a Publisher "
-                                                                                                   "include a person, an organization, or a service. Typically, the name of a Publisher "
-                                                       "should be used to indicate the entity.")                                               },
+                                                                                                       "include a person, an organization, or a service. Typically, the name of a Publisher "
+                                                                                                       "should be used to indicate the entity.")                                               },
         { "relation",         N_("Relation"),         "bag Text",        xmpBag,       xmpInternal, N_("Relationships to other documents. Recommended best practice is to identify the "
-                                                                                                   "related resource by means of a string conforming to a formal identification system.")      },
+                                                                                                       "related resource by means of a string conforming to a formal identification system.")      },
         { "rights",           N_("Rights"),           "Lang Alt",        langAlt,      xmpExternal, N_("Informal rights statement, selected by language. Typically, rights information "
-                                                                                                   "includes a statement about various property rights associated with the resource, "
-                                                       "including intellectual property rights.")                                              },
+                                                                                                       "includes a statement about various property rights associated with the resource, "
+                                                                                                       "including intellectual property rights.")                                              },
         { "source",           N_("Source"),           "Text",            xmpText,      xmpExternal, N_("Unique identifier of the work from which this resource was derived.")                  },
         { "subject",          N_("Subject"),          "bag Text",        xmpBag,       xmpExternal, N_("An unordered array of descriptive phrases or keywords that specify the topic of the "
                                                                                                        "content of the resource.")                                                             },
@@ -161,7 +165,6 @@ namespace Exiv2 {
         { "TagsList",               N_("Tags List"),                 "seq Text", xmpSeq,  xmpExternal, N_("The list of complete tags path as string. The path hierarchy is separated by '/' character (ex.: \"City/Paris/Monument/Eiffel Tower\".") },
         { "CaptionsAuthorNames",    N_("Captions Author Names"),     "Lang Alt", langAlt, xmpExternal, N_("The list of all captions author names for each language alternative captions set in standard XMP tags.") },
         { "CaptionsDateTimeStamps", N_("Captions Date Time Stamps"), "Lang Alt", langAlt, xmpExternal, N_("The list of all captions date time stamps for each language alternative captions set in standard XMP tags.") },
-
         // End of list marker
         { 0, 0, 0, invalidTypeId, xmpInternal, 0 }
     };
@@ -169,7 +172,6 @@ namespace Exiv2 {
     extern const XmpPropertyInfo xmpKipiInfo[] = {
         { "EnfuseInputFiles",       N_("Enfuse Input Files"),        "Text",     xmpText, xmpExternal, N_("The list of files processed with Enfuse program through ExpoBlending tool.") },
         { "EnfuseSettings",         N_("Enfuse Settings"),           "Text",     xmpText, xmpExternal, N_("The list of Enfuse settings used to blend image stack with ExpoBlending tool.") },
-
         // End of list marker
         { 0, 0, 0, invalidTypeId, xmpInternal, 0 }
     };
@@ -909,6 +911,24 @@ namespace Exiv2 {
     extern const TagVocabulary plusReuse[] = {
         { "RE-NAP", N_("Not Applicable") },
         { "RE-REU", N_("Repeat Use")     }
+    };
+
+    extern const XmpPropertyInfo xmpMediaProInfo[] = {
+        { "Event",       N_("Event"),       "Text",     xmpText, xmpExternal, N_("Fixture Identification")                          },
+        { "Status",      N_("Status"),      "Text",     xmpText, xmpExternal, N_("A notation making the image unique")              },
+        { "People",      N_("People"),      "bag Text", xmpBag,  xmpExternal, N_("Contact")                                         },
+        { "CatalogSets", N_("CatalogSets"), "bag Text", xmpBag,  xmpExternal, N_("Descriptive markers of catalog items by content") },
+        // End of list marker
+        { 0, 0, 0, invalidTypeId, xmpInternal, 0 }
+    };
+
+    extern const XmpPropertyInfo xmpExpressionMediaInfo[] = {
+        { "Event",       N_("Event"),       "Text",     xmpText, xmpExternal, N_("Fixture Identification")                          },
+        { "Status",      N_("Status"),      "Text",     xmpText, xmpExternal, N_("A notation making the image unique")              },
+        { "People",      N_("People"),      "bag Text", xmpBag,  xmpExternal, N_("Contact")                                         },
+        { "CatalogSets", N_("CatalogSets"), "bag Text", xmpBag,  xmpExternal, N_("Descriptive markers of catalog items by content") },
+        // End of list marker
+        { 0, 0, 0, invalidTypeId, xmpInternal, 0 }
     };
 
     extern const XmpPrintInfo xmpPrintInfo[] = {
