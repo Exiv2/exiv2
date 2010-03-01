@@ -1850,8 +1850,11 @@ namespace {
 
         // Conversions to set remaining fields of the tm structure
         time_t time = timegm(tm);
+#ifdef EXV_HAVE_GMTIME_R
         if (time == (time_t)-1 || gmtime_r(&time, tm) == 0) return 11;
-
+#else
+        if (time == (time_t)-1 || std::gmtime(&time)  == 0) return 11;
+#endif
         return 0;
     } // str2Tm
 

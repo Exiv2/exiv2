@@ -539,7 +539,7 @@ namespace Exiv2 {
 
         public:
             //! Return the name for a charset id
-            static const char* name(CharsetId charsetId);
+            EXV_DLLLOCAL static const char* name(CharsetId charsetId);
             //! Return the code for a charset id
             static const char* code(CharsetId charsetId);
             //! Return the charset id for a name
