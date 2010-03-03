@@ -529,7 +529,7 @@ namespace Exiv2 {
             const char* code_;                      //!< Code of the charset
         }; // struct CharsetTable
         //! Charset information lookup functions. Implemented as a static class.
-        class CharsetInfo {
+        class EXIV2API CharsetInfo {
             //! Prevent construction: not implemented.
             CharsetInfo() {}
             //! Prevent copy-construction: not implemented.
@@ -539,7 +539,7 @@ namespace Exiv2 {
 
         public:
             //! Return the name for a charset id
-            EXV_DLLLOCAL static const char* name(CharsetId charsetId);
+            static const char* name(CharsetId charsetId);
             //! Return the code for a charset id
             static const char* code(CharsetId charsetId);
             //! Return the charset id for a name
