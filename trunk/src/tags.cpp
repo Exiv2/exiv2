@@ -105,6 +105,11 @@ namespace Exiv2 {
         { subImage2Id,       "SubImage2", "SubImage2",    ExifTags::ifdTagList           },
         { subImage3Id,       "SubImage3", "SubImage3",    ExifTags::ifdTagList           },
         { subImage4Id,       "SubImage4", "SubImage4",    ExifTags::ifdTagList           },
+        { subImage5Id,       "SubImage5", "SubImage5",    ExifTags::ifdTagList           },
+        { subImage6Id,       "SubImage6", "SubImage6",    ExifTags::ifdTagList           },
+        { subImage7Id,       "SubImage7", "SubImage7",    ExifTags::ifdTagList           },
+        { subImage8Id,       "SubImage8", "SubImage8",    ExifTags::ifdTagList           },
+        { subImage9Id,       "SubImage9", "SubImage9",    ExifTags::ifdTagList           },
         { mnIfdId,           "Makernote", "MakerNote",    ExifTags::mnTagList            },
         { canonIfdId,        "Makernote", "Canon",        CanonMakerNote::tagList        },
         { canonCsIfdId,      "Makernote", "CanonCs",      CanonMakerNote::tagListCs      },
@@ -1768,6 +1773,11 @@ namespace Exiv2 {
         case subImage2Id:
         case subImage3Id:
         case subImage4Id:
+        case subImage5Id:
+        case subImage6Id:
+        case subImage7Id:
+        case subImage8Id:
+        case subImage9Id:
         case panaRawIfdId: rc = true; break;
         default:           rc = false; break;
         }

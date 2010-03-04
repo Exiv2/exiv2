@@ -87,6 +87,11 @@ namespace Exiv2 {
         {   9, "SubImage2"    },
         {  10, "SubImage3"    },
         {  11, "SubImage4"    },
+        {  12, "SubImage5"    },
+        {  13, "SubImage6"    },
+        {  14, "SubImage7"    },
+        {  15, "SubImage8"    },
+        {  16, "SubImage9"    },
         {  64, "PanasonicRaw" },
         { 256, "MakerNote"    },
         // 257 not needed (olympmn)
