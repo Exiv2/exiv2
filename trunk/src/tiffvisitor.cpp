@@ -1250,6 +1250,17 @@ namespace Exiv2 {
 #endif
                     return;
                 }
+                // Todo: Don't use a hardcoded constant here
+                if (i == 4) {
+#ifndef SUPPRESS_WARNINGS
+                    std::cerr << "Warning: "
+                              << "Directory " << tiffGroupName(object->group())
+                              << ", entry 0x" << std::setw(4)
+                              << std::setfill('0') << std::hex << object->tag()
+                              << ": Skipping sub-IFDs beyond the first four.\n";
+#endif
+                    break;
+                }
                 // If there are multiple dirs, group is incremented for each
                 TiffComponent::AutoPtr td(new TiffDirectory(object->tag(),
                                                             object->newGroup_ + i));
