@@ -97,6 +97,12 @@ namespace Exiv2 {
         const uint16_t subimg2 =   9; //!< 2nd TIFF SubIFD in IFD0
         const uint16_t subimg3 =  10; //!< 3rd TIFF SubIFD in IFD0
         const uint16_t subimg4 =  11; //!< 4th TIFF SubIFD in IFD0
+        const uint16_t subimg5 =  12; //!< 5th TIFF SubIFD in IFD0
+        const uint16_t subimg6 =  13; //!< 6th TIFF SubIFD in IFD0
+        const uint16_t subimg7 =  14; //!< 7th TIFF SubIFD in IFD0
+        const uint16_t subimg8 =  15; //!< 8th TIFF SubIFD in IFD0
+        const uint16_t subimg9 =  16; //!< 9th TIFF SubIFD in IFD0
+        const uint16_t subimgX =  17; //!< End of SubIFD list marker, not a valid group
         const uint16_t panaraw =  64; //!< IFD0 of Panasonic RAW images
         const uint16_t mn      = 256; //!< Makernote
         const uint16_t ignr    = 511; //!< Read but do not decode

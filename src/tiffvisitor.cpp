@@ -1250,14 +1250,13 @@ namespace Exiv2 {
 #endif
                     return;
                 }
-                // Todo: Don't use a hardcoded constant here
-                if (i == 4) {
+                if (object->newGroup_ + i == Group::subimgX) {
 #ifndef SUPPRESS_WARNINGS
                     std::cerr << "Warning: "
                               << "Directory " << tiffGroupName(object->group())
                               << ", entry 0x" << std::setw(4)
                               << std::setfill('0') << std::hex << object->tag()
-                              << ": Skipping sub-IFDs beyond the first four.\n";
+                              << ": Skipping sub-IFDs beyond the first " << i << ".\n";
 #endif
                     break;
                 }

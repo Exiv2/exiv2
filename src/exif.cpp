@@ -688,6 +688,11 @@ namespace Exiv2 {
             subImage2Id,
             subImage3Id,
             subImage4Id,
+            subImage5Id,
+            subImage6Id,
+            subImage7Id,
+            subImage8Id,
+            subImage9Id,
             panaRawIfdId,
             ifd2Id,
             ifd3Id
