@@ -36,6 +36,7 @@
 // + standard includes
 #include <memory>
 #include <stack>
+#include <vector>
 
 // *****************************************************************************
 // Exiv2 namespace extensions
@@ -108,6 +109,9 @@ namespace Exiv2 {
 
     //! Stack to hold a path from the TIFF root element to a TIFF entry
     typedef std::stack<TiffPathItem> TiffPath;
+
+    //! Type for a list of primary image groups
+    typedef std::vector<uint16_t> PrimaryGroups;
 
 }}                                      // namespace Internal, Exiv2
 

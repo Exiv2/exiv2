@@ -467,7 +467,7 @@ namespace Exiv2 {
                 "left blank, it is treated as unknown. Ex.) \"Camera owner, John "
                 "Smith; Photographer, Michael Brown; Image creator, Ken James\""),
                 ifd0Id, otherTags, asciiString, printValue),
-        TagInfo(0x013c, "HostComputer", N_("Host computer"),
+        TagInfo(0x013c, "HostComputer", N_("Host Computer"),
                 N_("This tag records information about the host computer used "
                 "to generate the image."),
                 ifd0Id, otherTags, asciiString, printValue),
@@ -481,6 +481,12 @@ namespace Exiv2 {
                 "Normally this tag is not necessary, since colorspace is "
                 "specified in the colorspace information tag (<ColorSpace>)."),
                 ifd0Id, imgCharacter, unsignedRational, printValue),
+        TagInfo(0x0140, "ColorMap", N_("Color Map"),
+                N_("A color map for palette color images. This field defines "
+                   "a Red-Green-Blue color map (often called a lookup table) "
+                   "for palette-color images. In a palette-color image, a "
+                   "pixel value is used to index into an RGB lookup table."),
+                ifd0Id, imgCharacter, unsignedShort, printValue),
         TagInfo(0x0142, "TileWidth", N_("Tile Width"),
                 N_("The tile width in pixels. This is the number of columns in each tile."),
                 ifd0Id, recOffset, unsignedShort, printValue), // TIFF tag

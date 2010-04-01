@@ -2,7 +2,7 @@
 # TIFF parser test driver
 
 # ----------------------------------------------------------------------
-# Check if xmpparser-test exists
+# Check if the exifprobe tool is available
 if [ `which exifprobe`x = x ] ; then
     echo "tiff-test.sh: exifprobe not found. Skipping TIFF tests."
     exit 0

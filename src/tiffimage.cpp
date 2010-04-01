@@ -1406,28 +1406,38 @@ namespace Exiv2 {
         assert(pHeader);
         assert(pHeader->byteOrder() != invalidByteOrder);
         WriteMethod writeMethod = wmIntrusive;
-        TiffComponent::AutoPtr createdTree;
         TiffComponent::AutoPtr parsedTree = parse(pData, size, root, pHeader);
+        PrimaryGroups primaryGroups;
+        findPrimaryGroups(primaryGroups, parsedTree.get());
         if (0 != parsedTree.get()) {
             // Attempt to update existing TIFF components based on metadata entries
             TiffEncoder encoder(exifData,
                                 iptcData,
                                 xmpData,
                                 parsedTree.get(),
-                                pHeader->byteOrder(),
+                                false,
+                                &primaryGroups,
+                                pHeader,
                                 findEncoderFct);
             parsedTree->accept(encoder);
             if (!encoder.dirty()) writeMethod = wmNonIntrusive;
         }
         if (writeMethod == wmIntrusive) {
-            createdTree = TiffCreator::create(root, Group::none);
+            TiffComponent::AutoPtr createdTree = TiffCreator::create(root, Group::none);
+            if (0 != parsedTree.get()) {
+                // Copy image tags from the original image to the composite
+                TiffCopier copier(createdTree.get(), root, pHeader, &primaryGroups);
+                parsedTree->accept(copier);
+            }
+            // Add entries from metadata to composite
             TiffEncoder encoder(exifData,
                                 iptcData,
                                 xmpData,
                                 createdTree.get(),
-                                pHeader->byteOrder(),
+                                parsedTree.get() == 0,
+                                &primaryGroups,
+                                pHeader,
                                 findEncoderFct);
-            // Add entries from metadata to composite
             encoder.add(createdTree.get(), parsedTree.get(), root);
             // Write binary representation from the composite tree
             DataBuf header = pHeader->write();
@@ -1477,6 +1487,41 @@ namespace Exiv2 {
         return rootDir;
 
     } // TiffParserWorker::parse
+
+    void TiffParserWorker::findPrimaryGroups(PrimaryGroups& primaryGroups,
+                                             TiffComponent* pSourceDir)
+    {
+        if (0 == pSourceDir) return;
+
+        const uint16_t imageGroups[] = {
+            Group::ifd0,
+            Group::ifd1,
+            Group::ifd2,
+            Group::ifd3,
+            Group::subimg1,
+            Group::subimg2,
+            Group::subimg3,
+            Group::subimg4,
+            Group::subimg5,
+            Group::subimg6,
+            Group::subimg7,
+            Group::subimg8,
+            Group::subimg9
+        };
+
+        for (unsigned int i = 0; i < EXV_COUNTOF(imageGroups); ++i) {
+            TiffFinder finder(0x00fe, imageGroups[i]);
+            pSourceDir->accept(finder);
+            TiffEntryBase* te = dynamic_cast<TiffEntryBase*>(finder.result());
+            if (   te
+                && te->pValue()->typeId() == unsignedLong
+                && te->pValue()->count() == 1
+                && (te->pValue()->toLong() & 1) == 0) {
+                primaryGroups.push_back(te->group());
+            }
+        }
+
+    } // TiffParserWorker::findPrimaryGroups
 
     TiffHeaderBase::TiffHeaderBase(uint16_t  tag,
                                    uint32_t  size,
@@ -1578,13 +1623,86 @@ namespace Exiv2 {
         return tag_;
     }
 
-    TiffHeader::TiffHeader(ByteOrder byteOrder, uint32_t offset)
-        : TiffHeaderBase(42, 8, byteOrder, offset)
+    bool TiffHeaderBase::isImageTag(uint16_t /*tag*/,
+                                    uint16_t /*group*/,
+                                    const PrimaryGroups* /*primaryGroups*/) const
+    {
+        return false;
+    }
+
+    TiffHeader::TiffHeader(ByteOrder byteOrder, uint32_t offset, bool hasImageTags)
+        : TiffHeaderBase(42, 8, byteOrder, offset),
+          hasImageTags_(hasImageTags)
     {
     }
 
     TiffHeader::~TiffHeader()
     {
+    }
+
+    //! List of TIFF image tags
+    extern const TiffImgTagStruct tiffImageTags[] = {
+        { 0x0100, Group::ifd0 }, // Exif.Image.ImageWidth
+        { 0x0101, Group::ifd0 }, // Exif.Image.ImageLength
+        { 0x0102, Group::ifd0 }, // Exif.Image.BitsPerSample
+        { 0x0103, Group::ifd0 }, // Exif.Image.Compression
+        { 0x0106, Group::ifd0 }, // Exif.Image.PhotometricInterpretation
+        { 0x0111, Group::ifd0 }, // Exif.Image.StripOffsets
+        { 0x0115, Group::ifd0 }, // Exif.Image.SamplesPerPixel
+        { 0x0116, Group::ifd0 }, // Exif.Image.RowsPerStrip 
+        { 0x0117, Group::ifd0 }, // Exif.Image.StripByteCounts
+        { 0x011a, Group::ifd0 }, // Exif.Image.XResolution
+        { 0x011b, Group::ifd0 }, // Exif.Image.YResolution
+        { 0x0128, Group::ifd0 }, // Exif.Image.ResolutionUnit
+        { 0x0140, Group::ifd0 }  // Exif.Image.ColorMap
+    };
+
+    bool TiffHeader::isImageTag(      uint16_t       tag,
+                                      uint16_t       group,
+                                const PrimaryGroups* pPrimaryGroups) const
+    {
+        if (!hasImageTags_) {
+#ifdef DEBUG
+            std::cerr << "No image tags in this image\n";
+#endif
+            return false;
+        }
+#ifdef DEBUG
+        ExifKey key(tag, tiffGroupName(group));
+#endif
+        // If there are primary groups and none matches group, we're done
+        if (   pPrimaryGroups != 0
+            && !pPrimaryGroups->empty()
+            && std::find(pPrimaryGroups->begin(), pPrimaryGroups->end(), group)
+               == pPrimaryGroups->end()) {
+#ifdef DEBUG
+            std::cerr << "Not an image tag: " << key << " (1)\n";
+#endif
+            return false;
+        }
+        // All tags of marked primary groups other than IFD0 are considered
+        // image tags. That should take care of NEFs until we know better.
+        if (   pPrimaryGroups != 0
+            && !pPrimaryGroups->empty()
+            && group != Group::ifd0) {
+#ifdef DEBUG
+            ExifKey key(tag, tiffGroupName(group));
+            std::cerr << "Image tag: " << key << " (2)\n";
+#endif
+            return true;
+        }
+        // If tag, group is one of the image tags listed above -> bingo!
+        if (find(tiffImageTags, TiffImgTagStruct::Key(tag, group))) {
+#ifdef DEBUG
+            ExifKey key(tag, tiffGroupName(group));
+            std::cerr << "Image tag: " << key << " (3)\n";
+#endif
+            return true;
+        }
+#ifdef DEBUG
+        std::cerr << "Not an image tag: " << key << " (4)\n";
+#endif
+        return false;
     }
 
 }}                                       // namespace Internal, Exiv2

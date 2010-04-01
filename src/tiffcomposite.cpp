@@ -307,14 +307,14 @@ namespace Exiv2 {
             delete *i;
         }
         delete pNext_;
-    } // TiffDirectory::~TiffDirectory
+    }
 
     TiffSubIfd::~TiffSubIfd()
     {
         for (Ifds::iterator i = ifds_.begin(); i != ifds_.end(); ++i) {
             delete *i;
         }
-    } // TiffSubIfd::~TiffSubIfd
+    }
 
     TiffEntryBase::~TiffEntryBase()
     {
@@ -322,7 +322,7 @@ namespace Exiv2 {
             delete[] pData_;
         }
         delete pValue_;
-    } // TiffEntryBase::~TiffEntryBase
+    }
 
     TiffEntry::~TiffEntry()
     {
@@ -347,7 +347,7 @@ namespace Exiv2 {
     TiffMnEntry::~TiffMnEntry()
     {
         delete mn_;
-    } // TiffMnEntry::~TiffMnEntry
+    }
 
     TiffIfdMakernote::~TiffIfdMakernote()
     {
@@ -359,10 +359,111 @@ namespace Exiv2 {
         for (Components::iterator i = elements_.begin(); i != elements_.end(); ++i) {
             delete *i;
         }
-    } // TiffBinaryArray::~TiffBinaryArray
+    }
 
     TiffBinaryElement::~TiffBinaryElement()
     {
+    }
+
+    TiffEntryBase::TiffEntryBase(const TiffEntryBase& rhs)
+        : TiffComponent(rhs),
+          tiffType_(rhs.tiffType_),
+          count_(rhs.count_),
+          offset_(rhs.offset_),
+          size_(rhs.size_),
+          pData_(rhs.pData_),
+          isMalloced_(rhs.isMalloced_),
+          idx_(rhs.idx_),
+          pValue_(rhs.pValue_ ? rhs.pValue_->clone().release() : 0)
+    {
+        if (rhs.isMalloced_) {
+            pData_ = new byte[rhs.size_];
+            memcpy(pData_, rhs.pData_, rhs.size_);
+        }
+    }
+
+    TiffDirectory::TiffDirectory(const TiffDirectory& rhs)
+        : TiffComponent(rhs),
+          hasNext_(rhs.hasNext_),
+          pNext_(0)
+    {
+    }
+
+    TiffSubIfd::TiffSubIfd(const TiffSubIfd& rhs)
+        : TiffEntryBase(rhs),
+          newGroup_(rhs.newGroup_)
+    {
+    }
+
+    TiffBinaryArray::TiffBinaryArray(const TiffBinaryArray& rhs)
+        : TiffEntryBase(rhs),
+          cfgSelFct_(rhs.cfgSelFct_),
+          arraySet_(rhs.arraySet_),
+          arrayCfg_(rhs.arrayCfg_),
+          arrayDef_(rhs.arrayDef_),
+          defSize_(rhs.defSize_),
+          setSize_(rhs.setSize_),
+          origData_(rhs.origData_),
+          origSize_(rhs.origSize_),
+          pRoot_(rhs.pRoot_)
+    {
+    }
+
+    TiffComponent::AutoPtr TiffComponent::clone() const
+    {
+        return AutoPtr(doClone());
+    }
+
+    TiffEntry* TiffEntry::doClone() const
+    {
+        return new TiffEntry(*this);
+    }
+
+    TiffDataEntry* TiffDataEntry::doClone() const
+    {
+        return new TiffDataEntry(*this);
+    }
+
+    TiffImageEntry* TiffImageEntry::doClone() const
+    {
+        return new TiffImageEntry(*this);
+    }
+
+    TiffSizeEntry* TiffSizeEntry::doClone() const
+    {
+        return new TiffSizeEntry(*this);
+    }
+
+    TiffDirectory* TiffDirectory::doClone() const
+    {
+        return new TiffDirectory(*this);
+    }
+
+    TiffSubIfd* TiffSubIfd::doClone() const
+    {
+        return new TiffSubIfd(*this);
+    }
+
+    TiffMnEntry* TiffMnEntry::doClone() const
+    {
+        assert(false); // Not implemented
+        return 0;
+    }
+
+    TiffIfdMakernote* TiffIfdMakernote::doClone() const
+    {
+        assert(false); // Not implemented
+        return 0;
+    }
+
+    TiffBinaryArray* TiffBinaryArray::doClone() const
+    {
+        return new TiffBinaryArray(*this);
+    }
+
+    TiffBinaryElement* TiffBinaryElement::doClone() const
+    {
+        return new TiffBinaryElement(*this);
     }
 
     int TiffComponent::idx() const
@@ -652,17 +753,26 @@ namespace Exiv2 {
         return sz;
     } // TiffBinaryArray::addElement
 
-    TiffComponent* TiffComponent::addPath(uint16_t tag, TiffPath& tiffPath, TiffComponent* const pRoot)
+    TiffComponent* TiffComponent::addPath(uint16_t tag,
+                                          TiffPath& tiffPath,
+                                          TiffComponent* const pRoot,
+                                          TiffComponent::AutoPtr object)
     {
-        return doAddPath(tag, tiffPath, pRoot);
+        return doAddPath(tag, tiffPath, pRoot, object);
     } // TiffComponent::addPath
 
-    TiffComponent* TiffComponent::doAddPath(uint16_t  /*tag*/, TiffPath& /*tiffPath*/, TiffComponent* const /*pRoot*/)
+    TiffComponent* TiffComponent::doAddPath(uint16_t  /*tag*/,
+                                            TiffPath& /*tiffPath*/,
+                                            TiffComponent* const /*pRoot*/,
+                                            TiffComponent::AutoPtr /*object*/)
     {
         return this;
     } // TiffComponent::doAddPath
 
-    TiffComponent* TiffDirectory::doAddPath(uint16_t tag, TiffPath& tiffPath, TiffComponent* const pRoot)
+    TiffComponent* TiffDirectory::doAddPath(uint16_t tag,
+                                            TiffPath& tiffPath,
+                                            TiffComponent* const pRoot,
+                                            TiffComponent::AutoPtr object)
     {
         assert(tiffPath.size() > 1);
         tiffPath.pop();
@@ -688,7 +798,13 @@ namespace Exiv2 {
             }
         }
         if (tc == 0) {
-            TiffComponent::AutoPtr atc = TiffCreator::create(tpi.extendedTag(), tpi.group());
+            TiffComponent::AutoPtr atc;
+            if (object.get() != 0) {
+                atc = object;
+            }
+            else {
+                atc = TiffCreator::create(tpi.extendedTag(), tpi.group());
+            }
             assert(atc.get() != 0);
 
             // Prevent dangling sub-IFD tags: Do not add a sub-IFD component without children.
@@ -702,10 +818,13 @@ namespace Exiv2 {
                 tc = this->addChild(atc);
             }
         }
-        return tc->addPath(tag, tiffPath, pRoot);
+        return tc->addPath(tag, tiffPath, pRoot, object);
     } // TiffDirectory::doAddPath
 
-    TiffComponent* TiffSubIfd::doAddPath(uint16_t tag, TiffPath& tiffPath, TiffComponent* const pRoot)
+    TiffComponent* TiffSubIfd::doAddPath(uint16_t tag,
+                                         TiffPath& tiffPath,
+                                         TiffComponent* const pRoot,
+                                         TiffComponent::AutoPtr object)
     {
         assert(!tiffPath.empty());
         const TiffPathItem tpi1 = tiffPath.top();
@@ -725,14 +844,22 @@ namespace Exiv2 {
             }
         }
         if (tc == 0) {
-            TiffComponent::AutoPtr atc(new TiffDirectory(tpi1.tag(), tpi2.group()));
-            tc = addChild(atc);
+            if (object.get() != 0) {
+                tc = addChild(object);
+            }
+            else {
+                TiffComponent::AutoPtr atc(new TiffDirectory(tpi1.tag(), tpi2.group()));
+                tc = addChild(atc);
+            }
             setCount(static_cast<uint32_t>(ifds_.size()));
         }
-        return tc->addPath(tag, tiffPath, pRoot);
+        return tc->addPath(tag, tiffPath, pRoot, object);
     } // TiffSubIfd::doAddPath
 
-    TiffComponent* TiffMnEntry::doAddPath(uint16_t tag, TiffPath& tiffPath, TiffComponent* const pRoot)
+    TiffComponent* TiffMnEntry::doAddPath(uint16_t tag,
+                                          TiffPath& tiffPath,
+                                          TiffComponent* const pRoot,
+                                          TiffComponent::AutoPtr object)
     {
         assert(!tiffPath.empty());
         const TiffPathItem tpi1 = tiffPath.top();
@@ -748,15 +875,21 @@ namespace Exiv2 {
             mn_ = TiffMnCreator::create(tpi1.tag(), tpi1.group(), mnGroup_);
             assert(mn_);
         }
-        return mn_->addPath(tag, tiffPath, pRoot);
+        return mn_->addPath(tag, tiffPath, pRoot, object);
     } // TiffMnEntry::doAddPath
 
-    TiffComponent* TiffIfdMakernote::doAddPath(uint16_t tag, TiffPath& tiffPath, TiffComponent* const pRoot)
+    TiffComponent* TiffIfdMakernote::doAddPath(uint16_t tag,
+                                               TiffPath& tiffPath,
+                                               TiffComponent* const pRoot,
+                                               TiffComponent::AutoPtr object)
     {
-        return ifd_.addPath(tag, tiffPath, pRoot);
+        return ifd_.addPath(tag, tiffPath, pRoot, object);
     }
 
-    TiffComponent* TiffBinaryArray::doAddPath(uint16_t tag, TiffPath& tiffPath, TiffComponent* const pRoot)
+    TiffComponent* TiffBinaryArray::doAddPath(uint16_t tag,
+                                              TiffPath& tiffPath,
+                                              TiffComponent* const pRoot,
+                                              TiffComponent::AutoPtr object)
     {
         pRoot_ = pRoot;
         if (tiffPath.size() == 1) {
@@ -780,14 +913,19 @@ namespace Exiv2 {
             }
         }
         if (tc == 0) {
-            TiffComponent::AutoPtr atc = TiffCreator::create(tpi.extendedTag(), tpi.group());
+            TiffComponent::AutoPtr atc;
+            if (object.get() != 0) {
+                atc = object;
+            }
+            else {
+                atc = TiffCreator::create(tpi.extendedTag(), tpi.group());
+            }
             assert(atc.get() != 0);
-
             assert(tpi.extendedTag() != Tag::next);
             tc = addChild(atc);
             setCount(static_cast<uint32_t>(elements_.size()));
         }
-        return tc->addPath(tag, tiffPath, pRoot);
+        return tc->addPath(tag, tiffPath, pRoot, object);
     } // TiffBinaryArray::doAddPath
 
     TiffComponent* TiffComponent::addChild(TiffComponent::AutoPtr tiffComponent)

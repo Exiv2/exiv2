@@ -197,6 +197,91 @@ namespace Exiv2 {
         findObject(object);
     }
 
+    TiffCopier::TiffCopier(      TiffComponent*  pRoot,
+                                 uint32_t        root,
+                           const TiffHeaderBase* pHeader,
+                           const PrimaryGroups*  pPrimaryGroups)
+        : pRoot_(pRoot),
+          root_(root),
+          pHeader_(pHeader),
+          pPrimaryGroups_(pPrimaryGroups)
+    {
+        assert(pRoot_ != 0);
+        assert(pHeader_ != 0);
+        assert(pPrimaryGroups_ != 0);
+    }
+
+    TiffCopier::~TiffCopier()
+    {
+    }
+
+    void TiffCopier::copyObject(TiffComponent* object)
+    {
+        assert(object != 0);
+
+        if (pHeader_->isImageTag(object->tag(), object->group(), pPrimaryGroups_)) {
+            TiffComponent::AutoPtr clone = object->clone();
+            // Assumption is that the corresponding TIFF entry doesn't exist
+            TiffPath tiffPath;
+            TiffCreator::getPath(tiffPath, object->tag(), object->group(), root_);
+            pRoot_->addPath(object->tag(), tiffPath, pRoot_, clone);
+#ifdef DEBUG
+            ExifKey key(object->tag(), tiffGroupName(object->group()));
+            std::cerr << "Copied " << key << "\n";
+#endif
+        }
+    }
+
+    void TiffCopier::visitEntry(TiffEntry* object)
+    {
+        copyObject(object);
+    }
+
+    void TiffCopier::visitDataEntry(TiffDataEntry* object)
+    {
+        copyObject(object);
+    }
+
+    void TiffCopier::visitImageEntry(TiffImageEntry* object)
+    {
+        copyObject(object);
+    }
+
+    void TiffCopier::visitSizeEntry(TiffSizeEntry* object)
+    {
+        copyObject(object);
+    }
+
+    void TiffCopier::visitDirectory(TiffDirectory* object)
+    {
+        copyObject(object);
+    }
+
+    void TiffCopier::visitSubIfd(TiffSubIfd* object)
+    {
+        copyObject(object);
+    }
+
+    void TiffCopier::visitMnEntry(TiffMnEntry* object)
+    {
+        copyObject(object);
+    }
+
+    void TiffCopier::visitIfdMakernote(TiffIfdMakernote* object)
+    {
+        copyObject(object);
+    }
+
+    void TiffCopier::visitBinaryArray(TiffBinaryArray* object)
+    {
+        copyObject(object);
+    }
+
+    void TiffCopier::visitBinaryElement(TiffBinaryElement* object)
+    {
+        copyObject(object);
+    }
+
     TiffDecoder::TiffDecoder(
         ExifData&            exifData,
         IptcData&            iptcData,
@@ -428,22 +513,30 @@ namespace Exiv2 {
             const IptcData&      iptcData,
             const XmpData&       xmpData,
                   TiffComponent* pRoot,
-                  ByteOrder      byteOrder,
+            const bool           isNewImage,
+            const PrimaryGroups* pPrimaryGroups,
+            const TiffHeaderBase* pHeader,
                   FindEncoderFct findEncoderFct
     )
         : exifData_(exifData),
           iptcData_(iptcData),
           xmpData_(xmpData),
           del_(true),
+          pHeader_(pHeader),
           pRoot_(pRoot),
-          pSourceTree_(0),
-          byteOrder_(byteOrder),
-          origByteOrder_(byteOrder),
+          isNewImage_(isNewImage),
+          pPrimaryGroups_(pPrimaryGroups),
+          pSourceTree_(0),          
           findEncoderFct_(findEncoderFct),
           dirty_(false),
           writeMethod_(wmNonIntrusive)
     {
         assert(pRoot != 0);
+        assert(pPrimaryGroups != 0);
+        assert(pHeader != 0);
+
+        byteOrder_ = pHeader->byteOrder();
+        origByteOrder_ = byteOrder_;
 
         encodeIptc();
         encodeXmp();
@@ -711,12 +804,24 @@ namespace Exiv2 {
         byteOrder_ = boOrig;
     }
 
+    bool TiffEncoder::isImageTag(uint16_t tag, uint16_t group) const
+    {
+        if (!isNewImage_ && pHeader_->isImageTag(tag, group, pPrimaryGroups_)) {
+            return true;
+        }
+        return false;
+    }
+
     void TiffEncoder::encodeTiffComponent(
               TiffEntryBase* object,
         const Exifdatum*     datum
     )
     {
         assert(object != 0);
+
+        // Skip image tags of existing TIFF image - they were copied earlier -
+        // but add and encode image tags of new images (creation)
+        if (isImageTag(object->tag(), object->group())) return;
 
         ExifData::iterator pos = exifData_.end();
         const Exifdatum* ed = datum;
@@ -962,6 +1067,7 @@ namespace Exiv2 {
     )
     {
         assert(pRootDir != 0);
+
         writeMethod_ = wmIntrusive;
         pSourceTree_ = pSourceDir;
 
@@ -981,6 +1087,10 @@ namespace Exiv2 {
                 }
                 continue;
             }
+
+            // Skip image tags of existing TIFF image - they were copied earlier -
+            // but add and encode image tags of new images (creation)
+            if (isImageTag(i->tag(), group)) continue;
 
             // Assumption is that the corresponding TIFF entry doesn't exist
             TiffPath tiffPath;

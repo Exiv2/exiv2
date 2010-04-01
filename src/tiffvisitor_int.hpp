@@ -219,6 +219,65 @@ namespace Exiv2 {
     }; // class TiffFinder
 
     /*!
+      @brief Copy all image tags from the source tree (the tree that is traversed) to a 
+             target tree, which is empty except for the root element provided in the
+             constructor.
+    */
+    class TiffCopier : public TiffVisitor {
+    public:
+        //! @name Creators
+        //@{
+        /*!
+          @brief Constructor
+
+          @param pRoot Pointer to the root element of the (empty) target tree.
+          @param root 
+          @param pHeader Pointer to the TIFF header of the source image.
+          @param pPrimaryGroups Pointer to the list of primary groups.
+         */
+        TiffCopier(      TiffComponent*  pRoot,
+                         uint32_t        root,
+                   const TiffHeaderBase* pHeader,
+                   const PrimaryGroups*  pPrimaryGroups);
+        //! Virtual destructor
+        virtual ~TiffCopier();
+        //@}
+
+        //! @name Manipulators
+        //@{
+        //! Copy a TIFF entry if it is an image tag
+        virtual void visitEntry(TiffEntry* object);
+        //! Copy a TIFF data entry if it is an image tag
+        virtual void visitDataEntry(TiffDataEntry* object);
+        //! Copy a TIFF image entry if it is an image tag
+        virtual void visitImageEntry(TiffImageEntry* object);
+        //! Copy a TIFF size entry if it is an image tag
+        virtual void visitSizeEntry(TiffSizeEntry* object);
+        //! Copy a TIFF directory if it is an image tag
+        virtual void visitDirectory(TiffDirectory* object);
+        //! Copy a TIFF sub-IFD if it is an image tag
+        virtual void visitSubIfd(TiffSubIfd* object);
+        //! Copy a TIFF makernote if it is an image tag
+        virtual void visitMnEntry(TiffMnEntry* object);
+        //! Copy an IFD makernote if it is an image tag
+        virtual void visitIfdMakernote(TiffIfdMakernote* object);
+        //! Copy a binary array if it is an image tag
+        virtual void visitBinaryArray(TiffBinaryArray* object);
+        //! Copy an element of a binary array if it is an image tag
+        virtual void visitBinaryElement(TiffBinaryElement* object);
+
+        //! Check if \em object is an image tag and if so, copy it to the target tree.
+        void copyObject(TiffComponent* object);
+        //@}
+
+    private:
+              TiffComponent*  pRoot_;
+              uint32_t        root_;
+        const TiffHeaderBase* pHeader_;
+        const PrimaryGroups*  pPrimaryGroups_;
+    }; // class TiffCopier
+
+    /*!
       @brief TIFF composite visitor to decode metadata from the TIFF tree and
              add it to an Image, which is supplied in the constructor (Visitor
              pattern). Used by TiffParser to decode the metadata from a
@@ -336,7 +395,9 @@ namespace Exiv2 {
             const IptcData&      iptcData,
             const XmpData&       xmpData,
                   TiffComponent* pRoot,
-                  ByteOrder      byteOrder,
+            const bool           isNewImage,
+            const PrimaryGroups* pPrimaryGroups,
+            const TiffHeaderBase* pHeader,
                   FindEncoderFct findEncoderFct
         );
         //! Virtual destructor
@@ -482,10 +543,20 @@ namespace Exiv2 {
           @brief Update a directory entry. This is called after all directory
                  entries are encoded. It takes care of type and count changes
                  and size shrinkage for non-intrusive writing.
-        */
+         */
         uint32_t updateDirEntry(byte* buf,
                                 ByteOrder byteOrder,
                                 TiffComponent* pTiffComponent) const;
+        /*!
+          @brief Check if the tag is an image tag of an existing image. Such 
+                 tags are copied from the original image and can't be modifed.
+
+                 The condition is true if there is an existing image (as
+                 opposed to a newly created TIFF image) and \em tag, \em group
+                 is considered an image tag of this image - whether or not
+                 it's actually present in the existing image doesn't matter.
+         */
+        bool isImageTag(uint16_t tag, uint16_t group) const;
         //@}
 
     private:
@@ -494,7 +565,10 @@ namespace Exiv2 {
         const IptcData& iptcData_;   //!< IPTC data to encode, just a reference
         const XmpData&  xmpData_;    //!< XMP data to encode, just a reference
         bool del_;                   //!< Indicates if Exif data entries should be deleted after encoding
+        const TiffHeaderBase* pHeader_; //!< TIFF image header
         TiffComponent* pRoot_;       //!< Root element of the composite
+        const bool isNewImage_;      //!< True if the TIFF image is created from scratch
+        const PrimaryGroups* pPrimaryGroups_; //!< List of primary image groups
         TiffComponent* pSourceTree_; //!< Parsed source tree for reference
         ByteOrder byteOrder_;        //!< Byteorder for encoding
         ByteOrder origByteOrder_;    //!< Byteorder as set in the c'tor
@@ -502,6 +576,7 @@ namespace Exiv2 {
         std::string make_;           //!< Camera make, determined from the tags to encode
         bool dirty_;                 //!< Signals if any tag is deleted or allocated
         WriteMethod writeMethod_;    //!< Write method used.
+
     }; // class TiffEncoder
 
     /*!
@@ -652,7 +727,6 @@ namespace Exiv2 {
         IdxSeq               idxSeq_;     //!< Sequences for group, used for the entry's idx
         PostList             postList_;   //!< List of components with deferred reading
         bool                 postProc_;   //!< True in postProcessList()
-
     }; // class TiffReader
 
 }}                                      // namespace Internal, Exiv2
