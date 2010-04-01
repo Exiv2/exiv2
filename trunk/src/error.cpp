@@ -115,6 +115,7 @@ namespace Exiv2 {
     {
     }
 
+    //! @cond IGNORE
     template<>
     void BasicError<char>::setMsg()
     {
@@ -147,6 +148,7 @@ namespace Exiv2 {
         wmsg_ = s2ws(msg);
 #endif
     }
+    //! @endcond
 
 #ifdef EXV_UNICODE_PATH
     template<>

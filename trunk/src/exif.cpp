@@ -710,7 +710,7 @@ namespace Exiv2 {
 
         // Encode and check if the result fits into a JPEG Exif APP1 segment
         MemIo mio1;
-        std::auto_ptr<TiffHeaderBase> header(new TiffHeader(byteOrder));
+        std::auto_ptr<TiffHeaderBase> header(new TiffHeader(byteOrder, 0x00000008, false));
         WriteMethod wm = TiffParserWorker::encode(mio1,
                                                   pData,
                                                   size,

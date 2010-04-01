@@ -133,6 +133,7 @@ namespace Exiv2 {
     private:
         //! @name Manipulators
         //@{
+        //! Assemble the error message from the arguments
         EXIV2API void setMsg();
         //@}
 

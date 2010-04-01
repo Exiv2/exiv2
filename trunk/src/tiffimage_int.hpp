@@ -109,8 +109,25 @@ namespace Exiv2 {
         virtual uint32_t offset() const;
         //! Return the size (in bytes) of the image header.
         virtual uint32_t size() const;
-        //! Return the tag value (magic number) which identifies the buffer as TIFF data
+        //! Return the tag value (magic number) which identifies the buffer as TIFF data.
         virtual uint16_t tag() const;
+        /*!
+          @brief Return \c true if the %Exif \em tag from \em group is an image tag.
+
+          Certain tags of TIFF and TIFF-like images are required to correctly
+          display the primary image. These image tags contain image data rather
+          than metadata.
+
+          @param tag Tag number.
+          @param group Group identifier.
+          @param pPrimaryGroups Pointer to a list of TIFF groups that contain
+                 primary images, empty if none are marked.
+
+          @return The default implementation returns \c false.
+         */
+        virtual bool isImageTag(      uint16_t       tag,
+                                      uint16_t       group,
+                                const PrimaryGroups* pPrimaryGroups) const;
         //@}
 
     private:
@@ -130,12 +147,46 @@ namespace Exiv2 {
         //! @name Creators
         //@{
         //! Default constructor
-        TiffHeader(ByteOrder byteOrder =littleEndian,
-                   uint32_t  offset    =0x00000008);
+        TiffHeader(ByteOrder byteOrder    =littleEndian,
+                   uint32_t  offset       =0x00000008,
+                   bool      hasImageTags =true);
         //! Destructor
         ~TiffHeader();
         //@}
+        //@{
+        //! @name Accessors
+        bool isImageTag(      uint16_t      tag,
+                              uint16_t      group,
+                        const PrimaryGroups* pPrimaryGroups) const;
+        //@}
+
+    private:
+        // DATA
+        bool           hasImageTags_;   //!< Indicates if image tags are supported
     }; // class TiffHeader
+
+    /*!
+      @brief Data structure used to list image tags for TIFF and TIFF-like images.
+     */
+    struct TiffImgTagStruct {
+        //! Search key for TIFF image tag structure.
+        struct Key {
+            //! Constructor
+            Key(uint16_t t, uint16_t g) : t_(t), g_(g) {}
+            uint16_t t_;                    //!< %Tag
+            uint16_t g_;                    //!< %Group
+        };
+
+        //! Comparison operator to compare a TiffImgTagStruct with a TiffImgTagStruct::Key
+        bool operator==(const Key& key) const
+        {
+            return key.g_ == group_ && key.t_ == tag_;
+        }
+
+        // DATA
+        uint16_t       tag_;            //!< Image tag
+        uint16_t       group_;          //!< Group that contains the image tag
+    }; // struct TiffImgTagStruct
 
     /*!
       @brief Data structure used as a row (element) of a table (array)
@@ -255,7 +306,8 @@ namespace Exiv2 {
                   uint32_t           size,
                   uint32_t           root,
                   FindDecoderFct     findDecoderFct,
-                  TiffHeaderBase*    pHeader =0);
+                  TiffHeaderBase*    pHeader =0
+        );
         /*!
           @brief Encode TIFF metadata from the metadata containers into a
                  memory block \em blob.
@@ -292,11 +344,23 @@ namespace Exiv2 {
                            composite structure. If \em pData is 0 or \em size
                            is 0, the return value is a 0 pointer.
          */
-        static std::auto_ptr<TiffComponent>
-        parse(const byte*              pData,
-                    uint32_t           size,
-                    uint32_t           root,
-                    TiffHeaderBase*    pHeader);
+        static std::auto_ptr<TiffComponent> parse(
+            const byte*              pData,
+                  uint32_t           size,
+                  uint32_t           root,
+                  TiffHeaderBase*    pHeader
+        );
+        /*!
+          @brief Find primary groups in the source tree provided and populate
+                 the list of primary groups.
+
+          @param primaryGroups List of primary groups which is populated
+          @param pSourceDir Pointer to the source composite tree to search (may be 0)
+         */
+        static void findPrimaryGroups(
+            PrimaryGroups& primaryGroups,
+            TiffComponent* pSourceDir
+        );
 
     }; // class TiffParserWorker
 
