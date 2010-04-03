@@ -98,7 +98,7 @@ namespace Exiv2 {
         // DATA
         std::string path_;              //!< (Standard) path
 #ifdef EXV_UNICODE_PATH
-        std::wstring wpath_;            //!< Unicode path 
+        std::wstring wpath_;            //!< Unicode path
         WpMode wpMode_;                 //!< Indicates which path is in use
 #endif
         std::string openMode_;          //!< File open mode
@@ -109,7 +109,7 @@ namespace Exiv2 {
         HANDLE hFile_;                  //!< Duplicated fd
         HANDLE hMap_;                   //!< Handle from CreateFileMapping
 #endif
-        byte* pMappedArea_;             //!< Pointer to the memory-mapped area 
+        byte* pMappedArea_;             //!< Pointer to the memory-mapped area
         size_t mappedLength_;           //!< Size of the memory-mapped area
         bool isMalloced_;               //!< Is the mapped area allocated?
         bool isWriteable_;              //!< Can the mapped area be written to?
@@ -208,7 +208,15 @@ namespace Exiv2 {
         }
         openMode_ = "r+b";
         opMode_ = opSeek;
-        fp_ = std::fopen(path_.c_str(), openMode_.c_str());
+#ifdef EXV_UNICODE_PATH
+        if (wpMode_ == wpUnicode) {
+            fp_ = ::_wfopen(wpath_.c_str(), s2ws(openMode_).c_str());
+        }
+        else
+#endif
+        {
+            fp_ = std::fopen(path_.c_str(), openMode_.c_str());
+        }
         if (!fp_) return 1;
         return std::fseek(fp_, offset, SEEK_SET);
     } // FileIo::Impl::switchMode
@@ -293,12 +301,28 @@ namespace Exiv2 {
     {
         assert(p_->fp_ != 0);
         if (munmap() != 0) {
-            throw Error(2, path(), strError(), "munmap");
+#ifdef EXV_UNICODE_PATH
+            if (p_->wpMode_ == Impl::wpUnicode) {
+                throw WError(2, wpath(), strError().c_str(), "munmap");
+            }
+            else
+#endif
+            {
+                throw Error(2, path(), strError(), "munmap");
+            }
         }
         p_->mappedLength_ = size();
         p_->isWriteable_ = isWriteable;
         if (p_->isWriteable_ && p_->switchMode(Impl::opWrite) != 0) {
-            throw Error(16, path(), strError());
+#ifdef EXV_UNICODE_PATH
+            if (p_->wpMode_ == Impl::wpUnicode) {
+                throw WError(16, wpath(), strError().c_str());
+            }
+            else
+#endif
+            {
+                throw Error(16, path(), strError());
+            }
         }
 #if defined EXV_HAVE_MMAP && defined EXV_HAVE_MUNMAP
         int prot = PROT_READ;
@@ -307,7 +331,15 @@ namespace Exiv2 {
         }
         void* rc = ::mmap(0, p_->mappedLength_, prot, MAP_SHARED, fileno(p_->fp_), 0);
         if (MAP_FAILED == rc) {
-            throw Error(2, path(), strError(), "mmap");
+#ifdef EXV_UNICODE_PATH
+            if (p_->wpMode_ == Impl::wpUnicode) {
+                throw WError(2, wpath(), strError().c_str(), "mmap");
+            }
+            else
+#endif
+            {
+                throw Error(2, path(), strError(), "mmap");
+            }
         }
         p_->pMappedArea_ = static_cast<byte*>(rc);
 
@@ -328,27 +360,77 @@ namespace Exiv2 {
         HANDLE hPh = GetCurrentProcess();
         HANDLE hFd = (HANDLE)_get_osfhandle(fileno(p_->fp_));
         if (hFd == INVALID_HANDLE_VALUE) {
-            throw Error(2, path(), "MSG1", "_get_osfhandle");
+#ifdef EXV_UNICODE_PATH
+            if (p_->wpMode_ == Impl::wpUnicode) {
+                throw WError(2, wpath(), "MSG1", "_get_osfhandle");
+            }
+            else
+#endif
+            {
+                throw Error(2, path(), "MSG1", "_get_osfhandle");
+            }
         }
         if (!DuplicateHandle(hPh, hFd, hPh, &p_->hFile_, 0, false, DUPLICATE_SAME_ACCESS)) {
-            throw Error(2, path(), "MSG2", "DuplicateHandle");
+#ifdef EXV_UNICODE_PATH
+            if (p_->wpMode_ == Impl::wpUnicode) {
+                throw WError(2, wpath(), "MSG2", "DuplicateHandle");
+            }
+            else
+#endif
+            {
+                throw Error(2, path(), "MSG2", "DuplicateHandle");
+            }
         }
         p_->hMap_ = CreateFileMapping(p_->hFile_, 0, flProtect, 0, p_->mappedLength_, 0);
         if (p_->hMap_ == 0 ) {
-            throw Error(2, path(), "MSG3", "CreateFileMapping");
+#ifdef EXV_UNICODE_PATH
+            if (p_->wpMode_ == Impl::wpUnicode) {
+                throw WError(2, wpath(), "MSG3", "CreateFileMapping");
+            }
+            else
+#endif
+            {
+                throw Error(2, path(), "MSG3", "CreateFileMapping");
+            }
         }
         void* rc = MapViewOfFile(p_->hMap_, dwAccess, 0, 0, 0);
         if (rc == 0) {
-            throw Error(2, path(), "MSG4", "CreateFileMapping");
+#ifdef EXV_UNICODE_PATH
+            if (p_->wpMode_ == Impl::wpUnicode) {
+                throw WError(2, wpath(), "MSG4", "CreateFileMapping");
+            }
+            else
+#endif
+            {
+                throw Error(2, path(), "MSG4", "CreateFileMapping");
+            }
         }
         p_->pMappedArea_ = static_cast<byte*>(rc);
 #else
         // Workaround for platforms without mmap: Read the file into memory
         DataBuf buf(static_cast<long>(p_->mappedLength_));
         if (read(buf.pData_, buf.size_) != buf.size_) {
-            throw Error(2, path(), strError(), "FileIo::read");
+#ifdef EXV_UNICODE_PATH
+            if (p_->wpMode_ == Impl::wpUnicode) {
+                throw WError(2, wpath(), strError().c_str(), "FileIo::read");
+            }
+            else
+#endif
+            {
+                throw Error(2, path(), strError(), "FileIo::read");
+            }
         }
-        if (error() || eof()) throw Error(2, path(), strError(), "FileIo::mmap");
+        if (error() || eof()) {
+#ifdef EXV_UNICODE_PATH
+            if (p_->wpMode_ == Impl::wpUnicode) {
+                throw WError(2, wpath(), strError().c_str(), "FileIo::mmap");
+            }
+            else
+#endif
+            {
+                throw Error(2, path(), strError(), "FileIo::mmap");
+            }
+        }
         p_->pMappedArea_ = buf.release().first;
         p_->isMalloced_ = true;
 #endif
@@ -378,7 +460,15 @@ namespace Exiv2 {
                 fileIo = std::auto_ptr<FileIo>(new FileIo(tmpname));
             }
             if (fileIo->open("w+b") != 0) {
-                throw Error(10, path(), "w+b", strError());
+#ifdef EXV_UNICODE_PATH
+                if (p_->wpMode_ == Impl::wpUnicode) {
+                    throw WError(10, wpath(), "w+b", strError().c_str());
+                }
+                else
+#endif
+                {
+                    throw Error(10, path(), "w+b", strError());
+                }
             }
             basicIo = fileIo;
         }
@@ -440,7 +530,15 @@ namespace Exiv2 {
                 {
                     ::remove(fileIo->path().c_str());
                 }
-                throw Error(10, path(), "w+b", strError());
+#ifdef EXV_UNICODE_PATH
+                if (p_->wpMode_ == Impl::wpUnicode) {
+                    throw WError(10, wpath(), "w+b", strError().c_str());
+                }
+                else
+#endif
+                {
+                    throw Error(10, path(), "w+b", strError());
+                }
             }
             close();
 
@@ -560,10 +658,26 @@ namespace Exiv2 {
         else {
             // Generic handling, reopen both to reset to start
             if (open("w+b") != 0) {
-                throw Error(10, path(), "w+b", strError());
+#ifdef EXV_UNICODE_PATH
+                if (p_->wpMode_ == Impl::wpUnicode) {
+                    throw WError(10, wpath(), "w+b", strError().c_str());
+                }
+                else
+#endif
+                {
+                    throw Error(10, path(), "w+b", strError());
+                }
             }
             if (src.open() != 0) {
-                throw Error(9, src.path(), strError());
+#ifdef EXV_UNICODE_PATH
+                if (p_->wpMode_ == Impl::wpUnicode) {
+                    throw WError(9, src.wpath(), strError().c_str());
+                }
+                else
+#endif
+                {
+                    throw Error(9, src.path(), strError());
+                }
             }
             write(src);
             src.close();
@@ -571,13 +685,31 @@ namespace Exiv2 {
 
         if (wasOpen) {
             if (open(lastMode) != 0) {
-                throw Error(10, path(), lastMode, strError());
+#ifdef EXV_UNICODE_PATH
+                if (p_->wpMode_ == Impl::wpUnicode) {
+                    throw WError(10, wpath(), lastMode.c_str(), strError().c_str());
+                }
+                else
+#endif
+                {
+                    throw Error(10, path(), lastMode, strError());
+                }
             }
         }
         else close();
 
-        if (error() || src.error()) throw Error(18, path(), strError());
-    }
+        if (error() || src.error()) {
+#ifdef EXV_UNICODE_PATH
+            if (p_->wpMode_ == Impl::wpUnicode) {
+                throw WError(18, wpath(), strError().c_str());
+            }
+            else
+#endif
+            {
+                throw Error(18, path(), strError());
+            }
+        }
+    } // FileIo::transfer
 
     int FileIo::putb(byte data)
     {
