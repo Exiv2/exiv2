@@ -35,7 +35,7 @@
 #endif /* !EXV_COMMERCIAL_VERSION */
 
 /* Define to `const' or to empty, depending on the second argument of `iconv'. */
-#define EXV_ICONV_CONST
+#cmakedefine EXV_ICONV_CONST const
 
 /* Define to 1 if you have the <libintl.h> header file. */
 #cmakedefine EXV_HAVE_LIBINTL_H 1
