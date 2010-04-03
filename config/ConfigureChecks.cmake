@@ -144,12 +144,10 @@ return 0;
 endif( HAVE_SYS_TIME_H )
 
 # strerror_r returns char*
-check_c_source_compiles( "#include <string.h>
-int main() {
-char * c;
-c = strerror_r(0,c,0);
-return 0;
-}" STRERROR_R_CHAR_P )
+check_cxx_source_compiles( "
+#include <cstring>
+int dfunc() { char cb[12]; return *(strerror_r(1, cb, sizeof(cb))) == '\0'; }
+" STRERROR_R_CHAR_P )
 
 #function is declared with the above
 if( STRERROR_R_CHAR_P )
