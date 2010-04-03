@@ -566,13 +566,19 @@ namespace Exiv2 {
 
         return 0;
     }
-    catch (const XMP_Error& e) {
 #ifndef SUPPRESS_WARNINGS
+    catch (const XMP_Error& e) {
         std::cerr << Error(40, e.GetID(), e.GetErrMsg()) << "\n";
-#endif
         xmpData.clear();
         return 3;
-    }} // XmpParser::decode
+    }
+#else
+    catch (const XMP_Error&) {
+        xmpData.clear();
+        return 3;
+    }
+#endif // SUPPRESS_WARNINGS
+    } // XmpParser::decode
 #else
     int XmpParser::decode(      XmpData&     xmpData,
                           const std::string& xmpPacket)
@@ -681,12 +687,17 @@ namespace Exiv2 {
 
         return 0;
     }
-    catch (const XMP_Error& e) {
 #ifndef SUPPRESS_WARNINGS
+    catch (const XMP_Error& e) {
         std::cerr << Error(40, e.GetID(), e.GetErrMsg()) << "\n";
-#endif
         return 3;
-    }} // XmpParser::decode
+    }
+#else
+    catch (const XMP_Error& e) {
+        return 3;
+    }
+#endif // SUPPRESS_WARNINGS
+    } // XmpParser::decode
 #else
     int XmpParser::encode(      std::string& /*xmpPacket*/,
                           const XmpData&     xmpData,
