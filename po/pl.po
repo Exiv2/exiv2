@@ -3350,7 +3350,7 @@ msgstr "(Nieznany błąd)"
 
 #: src/exiv2.cpp:203
 msgid "Copyright (C) 2004-2009 Andreas Huggel.\n"
-msgstr "Copyright © 2004-2009 Andreas Huggel.\n"
+msgstr "Copyright (C) 2004-2009 Andreas Huggel.\n"
 
 #: src/exiv2.cpp:205
 msgid ""
