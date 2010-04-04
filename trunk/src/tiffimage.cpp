@@ -1640,27 +1640,73 @@ namespace Exiv2 {
     {
     }
 
-    //! List of TIFF image tags
-    extern const TiffImgTagStruct tiffImageTags[] = {
-        { 0x0100, Group::ifd0 }, // Exif.Image.ImageWidth
-        { 0x0101, Group::ifd0 }, // Exif.Image.ImageLength
-        { 0x0102, Group::ifd0 }, // Exif.Image.BitsPerSample
-        { 0x0103, Group::ifd0 }, // Exif.Image.Compression
-        { 0x0106, Group::ifd0 }, // Exif.Image.PhotometricInterpretation
-        { 0x0111, Group::ifd0 }, // Exif.Image.StripOffsets
-        { 0x0115, Group::ifd0 }, // Exif.Image.SamplesPerPixel
-        { 0x0116, Group::ifd0 }, // Exif.Image.RowsPerStrip 
-        { 0x0117, Group::ifd0 }, // Exif.Image.StripByteCounts
-        { 0x011a, Group::ifd0 }, // Exif.Image.XResolution
-        { 0x011b, Group::ifd0 }, // Exif.Image.YResolution
-        { 0x0128, Group::ifd0 }, // Exif.Image.ResolutionUnit
-        { 0x0140, Group::ifd0 }  // Exif.Image.ColorMap
-    };
-
     bool TiffHeader::isImageTag(      uint16_t       tag,
                                       uint16_t       group,
                                 const PrimaryGroups* pPrimaryGroups) const
     {
+        //! List of TIFF image tags
+        static const TiffImgTagStruct tiffImageTags[] = {
+            { 0x00fe, Group::ifd0 }, // Exif.Image.NewSubfileType
+            { 0x00ff, Group::ifd0 }, // Exif.Image.SubfileType -
+            { 0x0100, Group::ifd0 }, // Exif.Image.ImageWidth
+            { 0x0101, Group::ifd0 }, // Exif.Image.ImageLength
+            { 0x0102, Group::ifd0 }, // Exif.Image.BitsPerSample
+            { 0x0103, Group::ifd0 }, // Exif.Image.Compression
+            { 0x0106, Group::ifd0 }, // Exif.Image.PhotometricInterpretation
+            { 0x010a, Group::ifd0 }, // Exif.Image.FillOrder
+            { 0x0111, Group::ifd0 }, // Exif.Image.StripOffsets
+            { 0x0115, Group::ifd0 }, // Exif.Image.SamplesPerPixel
+            { 0x0116, Group::ifd0 }, // Exif.Image.RowsPerStrip 
+            { 0x0117, Group::ifd0 }, // Exif.Image.StripByteCounts
+            { 0x011a, Group::ifd0 }, // Exif.Image.XResolution
+            { 0x011b, Group::ifd0 }, // Exif.Image.YResolution
+            { 0x011c, Group::ifd0 }, // Exif.Image.PlanarConfiguration
+            { 0x0122, Group::ifd0 }, // Exif.Image.GrayResponseUnit -
+            { 0x0123, Group::ifd0 }, // Exif.Image.GrayResponseCurve -
+            { 0x0124, Group::ifd0 }, // Exif.Image.T4Options -
+            { 0x0125, Group::ifd0 }, // Exif.Image.T6Options -
+            { 0x0128, Group::ifd0 }, // Exif.Image.ResolutionUnit
+            { 0x012d, Group::ifd0 }, // Exif.Image.TransferFunction
+            { 0x013d, Group::ifd0 }, // Exif.Image.Predictor -
+            { 0x013e, Group::ifd0 }, // Exif.Image.WhitePoint
+            { 0x013f, Group::ifd0 }, // Exif.Image.PrimaryChromaticities
+            { 0x0140, Group::ifd0 }, // Exif.Image.ColorMap
+            { 0x0141, Group::ifd0 }, // Exif.Image.HalftoneHints -
+            { 0x0142, Group::ifd0 }, // Exif.Image.TileWidth
+            { 0x0143, Group::ifd0 }, // Exif.Image.TileLength
+            { 0x0144, Group::ifd0 }, // Exif.Image.TileOffsets
+            { 0x0145, Group::ifd0 }, // Exif.Image.TileByteCounts
+            { 0x014c, Group::ifd0 }, // Exif.Image.InkSet -
+            { 0x014d, Group::ifd0 }, // Exif.Image.InkNames -
+            { 0x014e, Group::ifd0 }, // Exif.Image.NumberOfInks -
+            { 0x0150, Group::ifd0 }, // Exif.Image.DotRange -
+            { 0x0151, Group::ifd0 }, // Exif.Image.TargetPrinter -
+            { 0x0152, Group::ifd0 }, // Exif.Image.ExtraSamples -
+            { 0x0153, Group::ifd0 }, // Exif.Image.SampleFormat -
+            { 0x0154, Group::ifd0 }, // Exif.Image.SMinSampleValue -
+            { 0x0155, Group::ifd0 }, // Exif.Image.SMaxSampleValue -
+            { 0x0156, Group::ifd0 }, // Exif.Image.TransferRange
+            { 0x0200, Group::ifd0 }, // Exif.Image.JPEGProc
+            { 0x0201, Group::ifd0 }, // Exif.Image.JPEGInterchangeFormat
+            { 0x0202, Group::ifd0 }, // Exif.Image.JPEGInterchangeFormatLength
+            { 0x0203, Group::ifd0 }, // Exif.Image.JPEGRestartInterval -
+            { 0x0205, Group::ifd0 }, // Exif.Image.JPEGLosslessPredictors -
+            { 0x0206, Group::ifd0 }, // Exif.Image.JPEGPointTransforms -
+            { 0x0207, Group::ifd0 }, // Exif.Image.JPEGQTables -
+            { 0x0208, Group::ifd0 }, // Exif.Image.JPEGDCTables -
+            { 0x0209, Group::ifd0 }, // Exif.Image.JPEGACTables -
+            { 0x0211, Group::ifd0 }, // Exif.Image.YCbCrCoefficients
+            { 0x0212, Group::ifd0 }, // Exif.Image.YCbCSubSampling
+            { 0x0213, Group::ifd0 }, // Exif.Image.YCbCrPositioning
+            { 0x0214, Group::ifd0 }, // Exif.Image.ReferenceBlackWhite
+
+/* other unknown TIFF tags (not image tags)
+            107, Thresholding -
+            108, CellWidth -
+            109, CellLength -
+ */
+        };
+
         if (!hasImageTags_) {
 #ifdef DEBUG
             std::cerr << "No image tags in this image\n";
