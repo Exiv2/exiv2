@@ -647,8 +647,8 @@ namespace {
 
         // write new image
         MemIo mio;
-        const IptcData emptyIptc;
-        const XmpData  emptyXmp;
+        IptcData emptyIptc;
+        XmpData  emptyXmp;
         TiffParser::encode(mio, 0, 0, Exiv2::littleEndian, preview, emptyIptc, emptyXmp);
         return DataBuf(mio.mmap(), mio.size());
     }
