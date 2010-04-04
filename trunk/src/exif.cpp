@@ -705,8 +705,8 @@ namespace Exiv2 {
         }
 
         // IPTC and XMP are stored elsewhere, not in the Exif APP1 segment.
-        const IptcData emptyIptc;
-        const XmpData  emptyXmp;
+        IptcData emptyIptc;
+        XmpData  emptyXmp;
 
         // Encode and check if the result fits into a JPEG Exif APP1 segment
         MemIo mio1;
@@ -891,8 +891,8 @@ namespace {
         }
 
         Exiv2::MemIo io;
-        const Exiv2::IptcData emptyIptc;
-        const Exiv2::XmpData  emptyXmp;
+        Exiv2::IptcData emptyIptc;
+        Exiv2::XmpData  emptyXmp;
         Exiv2::TiffParser::encode(io, 0, 0, Exiv2::littleEndian, thumb, emptyIptc, emptyXmp);
         return io.read(io.size());
     }
