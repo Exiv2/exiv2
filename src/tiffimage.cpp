@@ -1647,7 +1647,7 @@ namespace Exiv2 {
         //! List of TIFF image tags
         static const TiffImgTagStruct tiffImageTags[] = {
             { 0x00fe, Group::ifd0 }, // Exif.Image.NewSubfileType
-            { 0x00ff, Group::ifd0 }, // Exif.Image.SubfileType -
+            { 0x00ff, Group::ifd0 }, // Exif.Image.SubfileType
             { 0x0100, Group::ifd0 }, // Exif.Image.ImageWidth
             { 0x0101, Group::ifd0 }, // Exif.Image.ImageLength
             { 0x0102, Group::ifd0 }, // Exif.Image.BitsPerSample
@@ -1661,17 +1661,17 @@ namespace Exiv2 {
             { 0x011a, Group::ifd0 }, // Exif.Image.XResolution
             { 0x011b, Group::ifd0 }, // Exif.Image.YResolution
             { 0x011c, Group::ifd0 }, // Exif.Image.PlanarConfiguration
-            { 0x0122, Group::ifd0 }, // Exif.Image.GrayResponseUnit -
-            { 0x0123, Group::ifd0 }, // Exif.Image.GrayResponseCurve -
-            { 0x0124, Group::ifd0 }, // Exif.Image.T4Options -
-            { 0x0125, Group::ifd0 }, // Exif.Image.T6Options -
+            { 0x0122, Group::ifd0 }, // Exif.Image.GrayResponseUnit
+            { 0x0123, Group::ifd0 }, // Exif.Image.GrayResponseCurve
+            { 0x0124, Group::ifd0 }, // Exif.Image.T4Options
+            { 0x0125, Group::ifd0 }, // Exif.Image.T6Options
             { 0x0128, Group::ifd0 }, // Exif.Image.ResolutionUnit
             { 0x012d, Group::ifd0 }, // Exif.Image.TransferFunction
-            { 0x013d, Group::ifd0 }, // Exif.Image.Predictor -
+            { 0x013d, Group::ifd0 }, // Exif.Image.Predictor
             { 0x013e, Group::ifd0 }, // Exif.Image.WhitePoint
             { 0x013f, Group::ifd0 }, // Exif.Image.PrimaryChromaticities
             { 0x0140, Group::ifd0 }, // Exif.Image.ColorMap
-            { 0x0141, Group::ifd0 }, // Exif.Image.HalftoneHints -
+            { 0x0141, Group::ifd0 }, // Exif.Image.HalftoneHints
             { 0x0142, Group::ifd0 }, // Exif.Image.TileWidth
             { 0x0143, Group::ifd0 }, // Exif.Image.TileLength
             { 0x0144, Group::ifd0 }, // Exif.Image.TileOffsets
