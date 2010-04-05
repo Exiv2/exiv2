@@ -223,6 +223,13 @@ namespace Exiv2 {
         {  7, N_("Thumbnail/Preview image, Multi page file, Transparency mask") }
     };
 
+    //! SubfileType, TIFF tag 0x00ff
+    extern const TagDetails exifSubfileType[] = {
+        {  1, N_("Full-resolution image data")                                  },
+        {  2, N_("Reduced-resolution image data")                               },
+        {  3, N_("A single page of a multi-page image")                         }
+    };
+
     //! Units for measuring X and Y resolution, tags 0x0128, 0xa210
     extern const TagDetails exifUnit[] = {
         { 1, N_("none") },
@@ -294,6 +301,12 @@ namespace Exiv2 {
         { 8, N_("left, bottom")  }
     };
 
+    //! Predictor, tag 0x013d
+    extern const TagDetails exifPredictor[] = {
+        { 1, N_("No prediction scheme used") },
+        { 2, N_("Horizontal differencing")   }
+    };
+
     //! YCbCrPositioning, tag 0x0213
     extern const TagDetails exifYCbCrPositioning[] = {
         { 1, N_("Centered") },
@@ -349,6 +362,10 @@ namespace Exiv2 {
         TagInfo(0x00fe, "NewSubfileType", N_("New Subfile Type"),
                 N_("A general indication of the kind of data contained in this subfile."),
                 ifd0Id, imgStruct, unsignedLong, EXV_PRINT_TAG(exifNewSubfileType)), // TIFF tag
+        TagInfo(0x00ff, "SubfileType", N_("Subfile Type"),
+                N_("A general indication of the kind of data contained in this subfile. "
+                   "This field is deprecated. The NewSubfileType field should be used instead."),
+                ifd0Id, imgStruct, unsignedShort, EXV_PRINT_TAG(exifSubfileType)), // TIFF tag
         TagInfo(0x0100, "ImageWidth", N_("Image Width"),
                 N_("The number of columns of image data, equal to the number of "
                 "pixels per row. In JPEG compressed data a JPEG marker is "
@@ -438,6 +455,18 @@ namespace Exiv2 {
                 "is used instead of this tag. If this field does not exist, "
                 "the TIFF default of 1 (chunky) is assumed."),
                 ifd0Id, imgStruct, unsignedShort, printValue),
+        TagInfo(0x0122, "GrayResponseUnit", N_("Gray Response Unit"),
+                N_("The precision of the information contained in the GrayResponseCurve."),
+                ifd0Id, imgStruct, unsignedShort, printValue), // TIFF tag
+        TagInfo(0x0123, "GrayResponseCurve", N_("Gray Response Curve"),
+                N_("For grayscale data, the optical density of each possible pixel value."),
+                ifd0Id, imgStruct, unsignedShort, printValue), // TIFF tag
+        TagInfo(0x0124, "T4Options", N_("T4 Options"),
+                N_("T.4-encoding options."),
+                ifd0Id, imgStruct, unsignedLong, printValue), // TIFF tag
+        TagInfo(0x0125, "T6Options", N_("T6 Options"),
+                N_("T.6-encoding options."),
+                ifd0Id, imgStruct, unsignedLong, printValue), // TIFF tag
         TagInfo(0x0128, "ResolutionUnit", N_("Resolution Unit"),
                 N_("The unit for measuring <XResolution> and <YResolution>. The same "
                 "unit is used for both <XResolution> and <YResolution>. If "
@@ -471,6 +500,10 @@ namespace Exiv2 {
                 N_("This tag records information about the host computer used "
                 "to generate the image."),
                 ifd0Id, otherTags, asciiString, printValue),
+        TagInfo(0x013d, "Predictor", N_("Predictor"),
+                N_("A predictor is a mathematical operator that is applied to "
+                   "the image data before an encoding scheme is applied."),
+                ifd0Id, imgStruct, unsignedShort, EXV_PRINT_TAG(exifPredictor)), // TIFF tag
         TagInfo(0x013e, "WhitePoint", N_("White Point"),
                 N_("The chromaticity of the white point of the image. Normally "
                 "this tag is not necessary, since color space is specified "
@@ -487,6 +520,11 @@ namespace Exiv2 {
                    "for palette-color images. In a palette-color image, a "
                    "pixel value is used to index into an RGB lookup table."),
                 ifd0Id, imgCharacter, unsignedShort, printValue),
+        TagInfo(0x0141, "HalftoneHints", N_("Halftone Hints"),
+                N_("The purpose of the HalftoneHints field is to convey to the "
+                   "halftone function the range of gray levels within a "
+                   "colorimetrically-specified image that should retain tonal detail."),
+                ifd0Id, imgStruct, unsignedShort, printValue), // TIFF tag
         TagInfo(0x0142, "TileWidth", N_("Tile Width"),
                 N_("The tile width in pixels. This is the number of columns in each tile."),
                 ifd0Id, recOffset, unsignedShort, printValue), // TIFF tag
