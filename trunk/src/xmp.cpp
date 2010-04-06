@@ -693,7 +693,7 @@ namespace Exiv2 {
         return 3;
     }
 #else
-    catch (const XMP_Error& e) {
+    catch (const XMP_Error&) {
         return 3;
     }
 #endif // SUPPRESS_WARNINGS
