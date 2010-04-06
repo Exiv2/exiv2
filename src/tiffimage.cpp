@@ -96,11 +96,11 @@ namespace Exiv2 {
             "Exif.SubImage1.NewSubfileType",
             "Exif.SubImage2.NewSubfileType",
             "Exif.SubImage3.NewSubfileType",
-            "Exif.SubImage4.NewSubfileType"
-            "Exif.SubImage5.NewSubfileType"
-            "Exif.SubImage6.NewSubfileType"
-            "Exif.SubImage7.NewSubfileType"
-            "Exif.SubImage8.NewSubfileType"
+            "Exif.SubImage4.NewSubfileType",
+            "Exif.SubImage5.NewSubfileType",
+            "Exif.SubImage6.NewSubfileType",
+            "Exif.SubImage7.NewSubfileType",
+            "Exif.SubImage8.NewSubfileType",
             "Exif.SubImage9.NewSubfileType"
         };
         // Find the group of the primary image, default to "Image"
