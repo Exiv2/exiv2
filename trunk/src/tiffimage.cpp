@@ -1028,6 +1028,8 @@ namespace Exiv2 {
         // IFD1
         {    0x0111, Group::ifd1,      newTiffThumbData<0x0117, Group::ifd1>     },
         {    0x0117, Group::ifd1,      newTiffThumbSize<0x0111, Group::ifd1>     },
+        {    0x0144, Group::ifd1,      newTiffImageData<0x0145, Group::ifd1>     },
+        {    0x0145, Group::ifd1,      newTiffImageSize<0x0144, Group::ifd1>     },
         {    0x0201, Group::ifd1,      newTiffThumbData<0x0202, Group::ifd1>     },
         {    0x0202, Group::ifd1,      newTiffThumbSize<0x0201, Group::ifd1>     },
         { Tag::next, Group::ifd1,      newTiffDirectory<Group::ifd2>             },
@@ -1036,6 +1038,8 @@ namespace Exiv2 {
         // IFD2 (eg, in Pentax PEF and Canon CR2 files)
         {    0x0111, Group::ifd2,      newTiffImageData<0x0117, Group::ifd2>     },
         {    0x0117, Group::ifd2,      newTiffImageSize<0x0111, Group::ifd2>     },
+        {    0x0144, Group::ifd1,      newTiffImageData<0x0145, Group::ifd2>     },
+        {    0x0145, Group::ifd1,      newTiffImageSize<0x0144, Group::ifd2>     },
         {    0x0201, Group::ifd2,      newTiffImageData<0x0202, Group::ifd2>     },
         {    0x0202, Group::ifd2,      newTiffImageSize<0x0201, Group::ifd2>     },
         { Tag::next, Group::ifd2,      newTiffDirectory<Group::ifd3>             },
@@ -1044,6 +1048,8 @@ namespace Exiv2 {
         // IFD3 (eg, in Canon CR2 files)
         {    0x0111, Group::ifd3,      newTiffImageData<0x0117, Group::ifd3>     },
         {    0x0117, Group::ifd3,      newTiffImageSize<0x0111, Group::ifd3>     },
+        {    0x0144, Group::ifd1,      newTiffImageData<0x0145, Group::ifd3>     },
+        {    0x0145, Group::ifd1,      newTiffImageSize<0x0144, Group::ifd3>     },
         {    0x0201, Group::ifd3,      newTiffImageData<0x0202, Group::ifd3>     },
         {    0x0202, Group::ifd3,      newTiffImageSize<0x0201, Group::ifd3>     },
         { Tag::next, Group::ifd3,      newTiffDirectory<Group::ignr>             },
@@ -1676,35 +1682,29 @@ namespace Exiv2 {
             { 0x0143, Group::ifd0 }, // Exif.Image.TileLength
             { 0x0144, Group::ifd0 }, // Exif.Image.TileOffsets
             { 0x0145, Group::ifd0 }, // Exif.Image.TileByteCounts
-            { 0x014c, Group::ifd0 }, // Exif.Image.InkSet -
-            { 0x014d, Group::ifd0 }, // Exif.Image.InkNames -
-            { 0x014e, Group::ifd0 }, // Exif.Image.NumberOfInks -
-            { 0x0150, Group::ifd0 }, // Exif.Image.DotRange -
-            { 0x0151, Group::ifd0 }, // Exif.Image.TargetPrinter -
-            { 0x0152, Group::ifd0 }, // Exif.Image.ExtraSamples -
-            { 0x0153, Group::ifd0 }, // Exif.Image.SampleFormat -
-            { 0x0154, Group::ifd0 }, // Exif.Image.SMinSampleValue -
-            { 0x0155, Group::ifd0 }, // Exif.Image.SMaxSampleValue -
+            { 0x014c, Group::ifd0 }, // Exif.Image.InkSet
+            { 0x014d, Group::ifd0 }, // Exif.Image.InkNames
+            { 0x014e, Group::ifd0 }, // Exif.Image.NumberOfInks
+            { 0x0150, Group::ifd0 }, // Exif.Image.DotRange
+            { 0x0151, Group::ifd0 }, // Exif.Image.TargetPrinter
+            { 0x0152, Group::ifd0 }, // Exif.Image.ExtraSamples
+            { 0x0153, Group::ifd0 }, // Exif.Image.SampleFormat
+            { 0x0154, Group::ifd0 }, // Exif.Image.SMinSampleValue
+            { 0x0155, Group::ifd0 }, // Exif.Image.SMaxSampleValue
             { 0x0156, Group::ifd0 }, // Exif.Image.TransferRange
             { 0x0200, Group::ifd0 }, // Exif.Image.JPEGProc
             { 0x0201, Group::ifd0 }, // Exif.Image.JPEGInterchangeFormat
             { 0x0202, Group::ifd0 }, // Exif.Image.JPEGInterchangeFormatLength
-            { 0x0203, Group::ifd0 }, // Exif.Image.JPEGRestartInterval -
-            { 0x0205, Group::ifd0 }, // Exif.Image.JPEGLosslessPredictors -
-            { 0x0206, Group::ifd0 }, // Exif.Image.JPEGPointTransforms -
-            { 0x0207, Group::ifd0 }, // Exif.Image.JPEGQTables -
-            { 0x0208, Group::ifd0 }, // Exif.Image.JPEGDCTables -
-            { 0x0209, Group::ifd0 }, // Exif.Image.JPEGACTables -
+            { 0x0203, Group::ifd0 }, // Exif.Image.JPEGRestartInterval
+            { 0x0205, Group::ifd0 }, // Exif.Image.JPEGLosslessPredictors
+            { 0x0206, Group::ifd0 }, // Exif.Image.JPEGPointTransforms
+            { 0x0207, Group::ifd0 }, // Exif.Image.JPEGQTables
+            { 0x0208, Group::ifd0 }, // Exif.Image.JPEGDCTables
+            { 0x0209, Group::ifd0 }, // Exif.Image.JPEGACTables
             { 0x0211, Group::ifd0 }, // Exif.Image.YCbCrCoefficients
             { 0x0212, Group::ifd0 }, // Exif.Image.YCbCSubSampling
             { 0x0213, Group::ifd0 }, // Exif.Image.YCbCrPositioning
             { 0x0214, Group::ifd0 }, // Exif.Image.ReferenceBlackWhite
-
-/* other unknown TIFF tags (not image tags)
-            107, Thresholding -
-            108, CellWidth -
-            109, CellLength -
- */
         };
 
         if (!hasImageTags_) {

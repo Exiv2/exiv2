@@ -289,6 +289,13 @@ namespace Exiv2 {
         { 34892, N_("Linear Raw")         }
     };
 
+    //! Threshholding, tag 0x0107
+    extern const TagDetails exifThreshholding[] = {
+        { 1, N_("No dithering or halftoning")           },
+        { 2, N_("Ordered dither or halftone technique") },
+        { 3, N_("Randomized process")                   }
+    };
+
     //! Orientation, tag 0x0112
     extern const TagDetails exifOrientation[] = {
         { 1, N_("top, left")     },
@@ -305,6 +312,31 @@ namespace Exiv2 {
     extern const TagDetails exifPredictor[] = {
         { 1, N_("No prediction scheme used") },
         { 2, N_("Horizontal differencing")   }
+    };
+
+    //! InkSet, tag 0x014c
+    extern const TagDetails exifInkSet[] = {
+        { 1, N_("CMYK")     },
+        { 2, N_("not CMYK") }
+    };
+
+    //! SampleFormat, tag 0x0153
+    extern const TagDetails exifSampleFormat[] = {
+        { 1, N_("Unsigned integer data")                },
+        { 2, N_("Two's complement signed integer data") },
+        { 3, N_("IEEE floating point data")             },
+        { 4, N_("Undefined data format")                }
+    };
+
+    //! exifJpegLosslessPredictor
+    extern const TagDetails exifJpegLosslessPredictor[] = {
+        { 1, N_("A")           },
+        { 2, N_("B")           },
+        { 3, N_("C")           },
+        { 4, N_("A+B-C")       },
+        { 5, N_("A+((B-C)/2)") },
+        { 6, N_("B+((A-C)/2)") },
+        { 7, N_("(A+B)/2")     }
     };
 
     //! YCbCrPositioning, tag 0x0213
@@ -391,6 +423,18 @@ namespace Exiv2 {
                 N_("The pixel composition. In JPEG compressed data a JPEG "
                 "marker is used instead of this tag."),
                 ifd0Id, imgStruct, unsignedShort, EXV_PRINT_TAG(exifPhotometricInterpretation)),
+        TagInfo(0x0107, "Threshholding", N_("Threshholding"),
+                N_("For black and white TIFF files that represent shades of gray, "
+                   "the technique used to convert from gray to black and white pixels."),
+                ifd0Id, imgStruct, unsignedShort, EXV_PRINT_TAG(exifThreshholding)), // TIFF tag
+        TagInfo(0x0108, "CellWidth", N_("Cell Width"),
+                N_("The width of the dithering or halftoning matrix used to create a "
+                   "dithered or halftoned bilevel file."),
+                ifd0Id, imgStruct, unsignedShort, printValue), // TIFF tag
+        TagInfo(0x0109, "CellLength", N_("Cell Length"),
+                N_("The length of the dithering or halftoning matrix used to create a "
+                   "dithered or halftoned bilevel file."),
+                ifd0Id, imgStruct, unsignedShort, printValue), // TIFF tag
         TagInfo(0x010a, "FillOrder", N_("Fill Order"),
                 N_("The logical order of bits within a byte"),
                 ifd0Id, imgStruct, unsignedShort, printValue), // TIFF tag
@@ -544,6 +588,34 @@ namespace Exiv2 {
         TagInfo(0x014a, "SubIFDs", N_("SubIFD Offsets"),
                 N_("Defined by Adobe Corporation to enable TIFF Trees within a TIFF file."),
                 ifd0Id, tiffEp, unsignedLong, printValue),
+        TagInfo(0x014c, "InkSet", N_("Ink Set"),
+                N_("The set of inks used in a separated (PhotometricInterpretation=5) image."),
+                ifd0Id, imgStruct, unsignedShort, EXV_PRINT_TAG(exifInkSet)), // TIFF tag
+        TagInfo(0x014d, "InkNames", N_("Ink Names"),
+                N_("The name of each ink used in a separated (PhotometricInterpretation=5) image."),
+                ifd0Id, imgStruct, asciiString, printValue), // TIFF tag
+        TagInfo(0x014e, "NumberOfInks", N_("Number Of Inks"),
+                N_("The number of inks. Usually equal to SamplesPerPixel, unless there are extra samples."),
+                ifd0Id, imgStruct, unsignedShort, printValue), // TIFF tag
+        TagInfo(0x0150, "DotRange", N_("Dot Range"),
+                N_("The component values that correspond to a 0% dot and 100% dot."),
+                ifd0Id, imgStruct, unsignedByte, printValue), // TIFF tag
+        TagInfo(0x0151, "TargetPrinter", N_("Target Printer"),
+                N_("A description of the printing environment for which this separation is intended."),
+                ifd0Id, imgStruct, asciiString, printValue), // TIFF tag
+        TagInfo(0x0152, "ExtraSamples", N_("Extra Samples"),
+                N_("Specifies that each pixel has m extra components whose interpretation "
+                   "is defined by one of the values listed below."),
+                ifd0Id, imgStruct, unsignedShort, printValue), // TIFF tag
+        TagInfo(0x0153, "SampleFormat", N_("Sample Format"),
+                N_("This field specifies how to interpret each data sample in a pixel."),
+                ifd0Id, imgStruct, unsignedShort, EXV_PRINT_TAG(exifSampleFormat)), // TIFF tag
+        TagInfo(0x0154, "SMinSampleValue", N_("SMin Sample Value"),
+                N_("This field specifies the minimum sample value."),
+                ifd0Id, imgStruct, unsignedShort, printValue), // TIFF tag
+        TagInfo(0x0155, "SMaxSampleValue", N_("SMax Sample Value"),
+                N_("This field specifies the maximum sample value."),
+                ifd0Id, imgStruct, unsignedShort, printValue), // TIFF tag
         TagInfo(0x0156, "TransferRange", N_("Transfer Range"),
                 N_("Expands the range of the TransferFunction"),
                 ifd0Id, imgCharacter, unsignedShort, printValue), // TIFF tag
@@ -566,6 +638,29 @@ namespace Exiv2 {
                 "not be recorded. Compressed thumbnails must be recorded in no "
                 "more than 64 Kbytes, including all other data to be recorded in APP1."),
                 ifd0Id, recOffset, unsignedLong, printValue),
+        TagInfo(0x0203, "JPEGRestartInterval", N_("JPEG Restart Interval"),
+                N_("This Field indicates the length of the restart interval used "
+                   "in the compressed image data."),
+                ifd0Id, imgStruct, unsignedShort, printValue), // TIFF tag
+        TagInfo(0x0205, "JPEGLosslessPredictors", N_("JPEG Lossless Predictors"),
+                N_("This Field points to a list of lossless predictor-selection "
+                   "values, one per component."),
+                ifd0Id, imgStruct, unsignedShort, EXV_PRINT_TAG(exifJpegLosslessPredictor)), // TIFF tag
+        TagInfo(0x0206, "JPEGPointTransforms", N_("JPEG Point Transforms"),
+                N_("This Field points to a list of point transform values, one per component."),
+                ifd0Id, imgStruct, unsignedShort, printValue), // TIFF tag
+        TagInfo(0x0207, "JPEGQTables", N_("JPEG Q-Tables"),
+                N_("This Field points to a list of offsets to the quantization tables, "
+                   "one per component."),
+                ifd0Id, imgStruct, unsignedLong, printValue), // TIFF tag
+        TagInfo(0x0208, "JPEGDCTables", N_("JPEG DC-Tables"),
+                N_("This Field points to a list of offsets to the DC Huffman tables or "
+                   "the lossless Huffman tables, one per component."),
+                ifd0Id, imgStruct, unsignedLong, printValue), // TIFF tag
+        TagInfo(0x0209, "JPEGACTables", N_("JPEG AC-Tables"),
+                N_("This Field points to a list of offsets to the Huffman AC tables, "
+                   "one per component."),
+                ifd0Id, imgStruct, unsignedLong, printValue), // TIFF tag
         TagInfo(0x0211, "YCbCrCoefficients", N_("YCbCr Coefficients"),
                 N_("The matrix coefficients for transformation from RGB to YCbCr "
                 "image data. No default is given in TIFF; but here the "
