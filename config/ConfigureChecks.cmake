@@ -1,5 +1,6 @@
 # CMake build system for exiv2 library and executables
 # Copyright 2008 by Patrick Spendrin <ps_ml@gmx.de>
+# Copyright 2010 by Gilles Caulier <caulier dot gilles at gmail dot com>
 #
 # Redistribution and use in source and binary forms, with or without
 # modification, are permitted provided that the following conditions
@@ -86,8 +87,9 @@ if( ICONV_TEST )
     set( HAVE_ICONV 1 )
     message ( "================> ICONV_LIBRARIES : " ${ICONV_LIBRARIES} )
 endif( ICONV_TEST )
+
 if( ICONV_ACCEPTS_CONST_INPUT )
-    set( ICONV_CONST "const" )
+    message ( "ICONV_ACCEPTS_CONST_INPUT : yes" )
 endif( ICONV_ACCEPTS_CONST_INPUT )
 
 # checking for Header files
@@ -205,7 +207,6 @@ HAVE_VPRINTF
 HAVE_WCHAR_H
 HAVE_XMP_TOOLKIT
 HAVE__BOOL
-ICONV_CONST
 PACKAGE
 PACKAGE_BUGREPORT
 PACKAGE_NAME
@@ -216,6 +217,8 @@ PACKAGE_VERSION
 
 foreach( entry ${EXV_SYMBOLS} )
     set( EXV_${entry} ${${entry}} )
+# NOTE: to hack...
+#    message( EXV_${entry} " : " ${${entry}} )
 endforeach( entry ${EXV_SYMBOLS} )
 
 configure_file( config/config.h.cmake ${CMAKE_BINARY_DIR}/exv_conf.h )
