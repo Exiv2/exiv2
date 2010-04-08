@@ -1692,6 +1692,11 @@ namespace Exiv2 {
             { 0x0154, Group::ifd0 }, // Exif.Image.SMinSampleValue
             { 0x0155, Group::ifd0 }, // Exif.Image.SMaxSampleValue
             { 0x0156, Group::ifd0 }, // Exif.Image.TransferRange
+            { 0x0157, Group::ifd0 }, // Exif.Image.ClipPath
+            { 0x0158, Group::ifd0 }, // Exif.Image.XClipPathUnits
+            { 0x0159, Group::ifd0 }, // Exif.Image.YClipPathUnits
+            { 0x015a, Group::ifd0 }, // Exif.Image.Indexed
+            { 0x015b, Group::ifd0 }, // Exif.Image.JPEGTables
             { 0x0200, Group::ifd0 }, // Exif.Image.JPEGProc
             { 0x0201, Group::ifd0 }, // Exif.Image.JPEGInterchangeFormat
             { 0x0202, Group::ifd0 }, // Exif.Image.JPEGInterchangeFormatLength
@@ -1702,9 +1707,16 @@ namespace Exiv2 {
             { 0x0208, Group::ifd0 }, // Exif.Image.JPEGDCTables
             { 0x0209, Group::ifd0 }, // Exif.Image.JPEGACTables
             { 0x0211, Group::ifd0 }, // Exif.Image.YCbCrCoefficients
-            { 0x0212, Group::ifd0 }, // Exif.Image.YCbCSubSampling
+            { 0x0212, Group::ifd0 }, // Exif.Image.YCbCrSubSampling
             { 0x0213, Group::ifd0 }, // Exif.Image.YCbCrPositioning
             { 0x0214, Group::ifd0 }, // Exif.Image.ReferenceBlackWhite
+            { 0x828d, Group::ifd0 }, // Exif.Image.CFARepeatPatternDim
+            { 0x828e, Group::ifd0 }, // Exif.Image.CFAPattern
+            { 0x8773, Group::ifd0 }, // Exif.Image.InterColorProfile
+            { 0x8824, Group::ifd0 }, // Exif.Image.SpectralSensitivity
+            { 0x8828, Group::ifd0 }, // Exif.Image.OECF
+            { 0x9102, Group::ifd0 }, // Exif.Image.CompressedBitsPerPixel
+            { 0x9217, Group::ifd0 }, // Exif.Image.SensingMethod
         };
 
         if (!hasImageTags_) {
