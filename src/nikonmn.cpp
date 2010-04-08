@@ -1081,7 +1081,7 @@ namespace Exiv2 {
         TagInfo( 4, "ExitPupilPosition", N_("Exit Pupil Position"), N_("Exit pupil position"), nikonLd2IfdId, makerTags, unsignedByte, printValue),
         TagInfo( 5, "AFAperture", N_("AF Aperture"), N_("AF aperture"), nikonLd2IfdId, makerTags, unsignedByte, printValue),
         TagInfo( 8, "FocusPosition", N_("Focus Position"), N_("Focus position"), nikonLd2IfdId, makerTags, unsignedByte, printValue),
-        TagInfo( 9, "FocusDistance", N_("Focus Distance"), N_("Focus distance"), nikonLd2IfdId, makerTags, unsignedByte, printValue),
+        TagInfo( 9, "FocusDistance", N_("Focus Distance"), N_("Focus distance"), nikonLd2IfdId, makerTags, unsignedByte, printFocusDistance),
         TagInfo(10, "FocalLength", N_("Focal Length"), N_("Focal length"), nikonLd2IfdId, makerTags, unsignedByte, printValue),
         TagInfo(11, "LensIDNumber", N_("Lens ID Number"), N_("Lens ID number"), nikonLd2IfdId, makerTags, unsignedByte, printLensId2),
         TagInfo(12, "LensFStops", N_("Lens F-Stops"), N_("Lens F-stops"), nikonLd2IfdId, makerTags, unsignedByte, printValue),
@@ -1106,7 +1106,7 @@ namespace Exiv2 {
         TagInfo( 4, "ExitPupilPosition", N_("Exit Pupil Position"), N_("Exit pupil position"), nikonLd3IfdId, makerTags, unsignedByte, printValue),
         TagInfo( 5, "AFAperture", N_("AF Aperture"), N_("AF aperture"), nikonLd3IfdId, makerTags, unsignedByte, printValue),
         TagInfo( 8, "FocusPosition", N_("Focus Position"), N_("Focus position"), nikonLd3IfdId, makerTags, unsignedByte, printValue),
-        TagInfo(10, "FocusDistance", N_("Focus Distance"), N_("Focus distance"), nikonLd3IfdId, makerTags, unsignedByte, printValue),
+        TagInfo(10, "FocusDistance", N_("Focus Distance"), N_("Focus distance"), nikonLd3IfdId, makerTags, unsignedByte, printFocusDistance),
         TagInfo(11, "FocalLength", N_("Focal Length"), N_("Focal length"), nikonLd3IfdId, makerTags, unsignedByte, printValue),
         TagInfo(12, "LensIDNumber", N_("Lens ID Number"), N_("Lens ID number"), nikonLd3IfdId, makerTags, unsignedByte, printLensId3),
         TagInfo(13, "LensFStops", N_("Lens F-Stops"), N_("Lens F-stops"), nikonLd3IfdId, makerTags, unsignedByte, printValue),
@@ -2060,6 +2060,21 @@ fmountlens[] = {
 #else
         return os << value;
 #endif // EXV_HAVE_LENSDATA
+    }
+
+    std::ostream& Nikon3MakerNote::printFocusDistance(std::ostream& os, 
+                                                      const Value& value, 
+                                                      const ExifData*)
+    {
+        if (value.count() != 1 || value.typeId() != unsignedByte) {
+            return os << "(" << value << ")";
+        }
+        double dist = 0.01 * pow(10.0, value.toLong()/40.0);
+        std::ostringstream oss;
+        oss.copyfmt(os);
+        os << std::fixed << std::setprecision(2) << dist << " m";
+        os.copyfmt(oss);
+        return os;
     }
 
     std::ostream& Nikon3MakerNote::print0x009a(std::ostream& os,

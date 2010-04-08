@@ -171,13 +171,13 @@ namespace Exiv2 {
         static std::ostream& print0x008b(std::ostream& os, const Value& value, const ExifData*);
         //! Print AF Points In Focus
         static std::ostream& printAfPointsInFocus(std::ostream& os, const Value& value, const ExifData* metadata);
-
         //! Print lens name
         static std::ostream& printLensId(std::ostream& os, const Value& value, const ExifData* metadata, const std::string& group);
         static std::ostream& printLensId1(std::ostream& os, const Value& value, const ExifData* metadata);
         static std::ostream& printLensId2(std::ostream& os, const Value& value, const ExifData* metadata);
         static std::ostream& printLensId3(std::ostream& os, const Value& value, const ExifData* metadata);
-
+        //! Print focus distance
+        static std::ostream& printFocusDistance(std::ostream& os, const Value& value, const ExifData*);
         //! Print sensor pixel size
         static std::ostream& print0x009a(std::ostream& os, const Value& value, const ExifData*);
         //! Print retouch history
