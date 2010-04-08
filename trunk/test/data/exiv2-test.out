@@ -885,7 +885,7 @@ File  4/15: 20040329_224245.jpg
 20040329_224245.jpg   Exif.NikonLd2.0x0006                         Byte        1  7
 20040329_224245.jpg   Exif.NikonLd2.0x0007                         Byte        1  0
 20040329_224245.jpg   Exif.NikonLd2.FocusPosition                  Byte        1  161
-20040329_224245.jpg   Exif.NikonLd2.FocusDistance                  Byte        1  109
+20040329_224245.jpg   Exif.NikonLd2.FocusDistance                  Byte        1  5.31 m
 20040329_224245.jpg   Exif.NikonLd2.FocalLength                    Byte        1  80
 20040329_224245.jpg   Exif.NikonLd2.LensIDNumber                   Byte        1  Nikon AF-S DX Zoom-Nikkor 18-70mm f/3.5-4.5G IF-ED
 20040329_224245.jpg   Exif.NikonLd2.LensFStops                     Byte        1  64
@@ -2473,7 +2473,7 @@ Compare image data and extracted data ------------------------------------
 < 20040329_224245.jpg   Exif.NikonLd2.0x0006                         Byte        1  7
 < 20040329_224245.jpg   Exif.NikonLd2.0x0007                         Byte        1  0
 < 20040329_224245.jpg   Exif.NikonLd2.FocusPosition                  Byte        1  161
-< 20040329_224245.jpg   Exif.NikonLd2.FocusDistance                  Byte        1  109
+< 20040329_224245.jpg   Exif.NikonLd2.FocusDistance                  Byte        1  5.31 m
 < 20040329_224245.jpg   Exif.NikonLd2.FocalLength                    Byte        1  80
 < 20040329_224245.jpg   Exif.NikonLd2.LensIDNumber                   Byte        1  Nikon AF-S DX Zoom-Nikkor 18-70mm f/3.5-4.5G IF-ED
 < 20040329_224245.jpg   Exif.NikonLd2.LensFStops                     Byte        1  64
@@ -3989,7 +3989,7 @@ Compare image data and extracted data ------------------------------------
 > 20040329_224245.exv   Exif.NikonLd2.0x0006                         Byte        1  7
 > 20040329_224245.exv   Exif.NikonLd2.0x0007                         Byte        1  0
 > 20040329_224245.exv   Exif.NikonLd2.FocusPosition                  Byte        1  161
-> 20040329_224245.exv   Exif.NikonLd2.FocusDistance                  Byte        1  109
+> 20040329_224245.exv   Exif.NikonLd2.FocusDistance                  Byte        1  5.31 m
 > 20040329_224245.exv   Exif.NikonLd2.FocalLength                    Byte        1  80
 > 20040329_224245.exv   Exif.NikonLd2.LensIDNumber                   Byte        1  Nikon AF-S DX Zoom-Nikkor 18-70mm f/3.5-4.5G IF-ED
 > 20040329_224245.exv   Exif.NikonLd2.LensFStops                     Byte        1  64
@@ -5725,7 +5725,7 @@ Compare original and inserted image data ---------------------------------
 < 20040329_224245.jpg   Exif.NikonLd2.0x0006                         Byte        1  7
 < 20040329_224245.jpg   Exif.NikonLd2.0x0007                         Byte        1  0
 < 20040329_224245.jpg   Exif.NikonLd2.FocusPosition                  Byte        1  161
-< 20040329_224245.jpg   Exif.NikonLd2.FocusDistance                  Byte        1  109
+< 20040329_224245.jpg   Exif.NikonLd2.FocusDistance                  Byte        1  5.31 m
 < 20040329_224245.jpg   Exif.NikonLd2.FocalLength                    Byte        1  80
 < 20040329_224245.jpg   Exif.NikonLd2.LensIDNumber                   Byte        1  Nikon AF-S DX Zoom-Nikkor 18-70mm f/3.5-4.5G IF-ED
 < 20040329_224245.jpg   Exif.NikonLd2.LensFStops                     Byte        1  64
@@ -7241,7 +7241,7 @@ Compare original and inserted image data ---------------------------------
 > 20040329_224245.exv   Exif.NikonLd2.0x0006                         Byte        1  7
 > 20040329_224245.exv   Exif.NikonLd2.0x0007                         Byte        1  0
 > 20040329_224245.exv   Exif.NikonLd2.FocusPosition                  Byte        1  161
-> 20040329_224245.exv   Exif.NikonLd2.FocusDistance                  Byte        1  109
+> 20040329_224245.exv   Exif.NikonLd2.FocusDistance                  Byte        1  5.31 m
 > 20040329_224245.exv   Exif.NikonLd2.FocalLength                    Byte        1  80
 > 20040329_224245.exv   Exif.NikonLd2.LensIDNumber                   Byte        1  Nikon AF-S DX Zoom-Nikkor 18-70mm f/3.5-4.5G IF-ED
 > 20040329_224245.exv   Exif.NikonLd2.LensFStops                     Byte        1  64
