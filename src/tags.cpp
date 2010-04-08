@@ -193,6 +193,8 @@ namespace Exiv2 {
         { dngTags,         "DngTags",              N_("Adobe DNG tags")               },
         { panaRaw,         "PanasonicRaw",         N_("Panasonic RAW tags")           },
         { tiffEp,          "TIFF/EP",              N_("TIFF/EP tags")                 },
+        { tiffPm6,         "TIFF&PM6",             N_("TIFF PageMaker 6.0 tags")      },
+        { adobeOpi,        "AdobeOPI",             N_("Adobe OPI tags")               },
         { lastSectionId,   "(LastSection)",        N_("Last section")                 }
     };
 
@@ -328,7 +330,13 @@ namespace Exiv2 {
         { 4, N_("Undefined data format")                }
     };
 
-    //! exifJpegLosslessPredictor
+    //! Indexed, tag 0x015a
+    extern const TagDetails exifIndexed[] = {
+        { 0, N_("Not indexed") },
+        { 1, N_("Indexed")     }
+    };
+
+    //! exifJpegLosslessPredictor, tag 0x0205
     extern const TagDetails exifJpegLosslessPredictor[] = {
         { 1, N_("A")           },
         { 2, N_("B")           },
@@ -619,10 +627,31 @@ namespace Exiv2 {
         TagInfo(0x0156, "TransferRange", N_("Transfer Range"),
                 N_("Expands the range of the TransferFunction"),
                 ifd0Id, imgCharacter, unsignedShort, printValue), // TIFF tag
+        TagInfo(0x0157, "ClipPath", N_("Clip Path"),
+                N_("A TIFF ClipPath is intended to mirror the essentials of PostScript's "
+                   "path creation functionality."),
+                ifd0Id, tiffPm6, unsignedByte, printValue), // TIFF&PM6 tag
+        TagInfo(0x0158, "XClipPathUnits", N_("X Clip Path Units"),
+                N_("The number of units that span the width of the image, in terms of "
+                   "integer ClipPath coordinates."),
+                ifd0Id, tiffPm6, signedShort, printValue), // TIFF&PM6 tag
+        TagInfo(0x0159, "YClipPathUnits", N_("Y Clip Path Units"),
+                N_("The number of units that span the height of the image, in terms of "
+                   "integer ClipPath coordinates."),
+                ifd0Id, tiffPm6, signedShort, printValue), // TIFF&PM6 tag
+        TagInfo(0x015a, "Indexed", N_("Indexed"),
+                N_("Indexed images are images where the 'pixels' do not represent color "
+                   "values, but rather an index (usually 8-bit) into a separate color "
+                   "table, the ColorMap."),
+                ifd0Id, tiffPm6, unsignedShort, EXV_PRINT_TAG(exifIndexed)), // TIFF&PM6 tag
         TagInfo(0x015b, "JPEGTables", N_("JPEG tables"),
                 N_("This optional tag may be used to encode the JPEG quantization and"
                    "Huffman tables for subsequent use by the JPEG decompression process."),
                 ifd0Id, imgStruct, undefined, printValue), // TIFF/EP tag
+        TagInfo(0x015F, "OPIProxy", N_("OPI Proxy"),
+                N_("OPIProxy gives information concerning whether this image is a "
+                   "low-resolution proxy of a high-resolution image (Adobe OPI)."),
+                ifd0Id, adobeOpi, unsignedShort, printValue), // Adobe OPI tag
         TagInfo(0x0200, "JPEGProc", N_("JPEG Process"),
                 N_("This field indicates the process used to produce the compressed data"),
                 ifd0Id, recOffset, unsignedLong, printValue), // TIFF tag
@@ -707,6 +736,11 @@ namespace Exiv2 {
         TagInfo(0x4749, "RatingPercent", N_("Windows Rating Percent"),
                 N_("Rating tag used by Windows, value in percent"),
                 ifd0Id, otherTags, unsignedShort, printValue), // Windows Tag
+        TagInfo(0x800d, "ImageID", N_("Image ID"),
+                N_("ImageID is the full pathname of the original, high-resolution image, "
+                   "or any other identifying string that uniquely identifies the original "
+                   "image (Adobe OPI)."),
+                ifd0Id, adobeOpi, asciiString, printValue), // Adobe OPI tag
         TagInfo(0x828d, "CFARepeatPatternDim", N_("CFA Repeat Pattern Dimension"),
                 N_("Contains two values representing the minimum rows and columns "
                 "to define the repeating patterns of the color filter array"),
