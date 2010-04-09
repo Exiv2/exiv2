@@ -145,16 +145,29 @@ return 0;
 }" TM_IN_SYS_TIME )
 endif( HAVE_SYS_TIME_H )
 
+#####################################################################################
 # strerror_r returns char*
-check_cxx_source_compiles( "
-#include <cstring>
-int dfunc() { char cb[12]; return *(strerror_r(1, cb, sizeof(cb))) == '\0'; }
-" STRERROR_R_CHAR_P )
+
+# NOTE : reverting commit #2041, which break compilation under linux and windows
+
+check_c_source_compiles( "#include <string.h>
+int main() {
+char * c;
+c = strerror_r(0,c,0);
+return 0;
+}" STRERROR_R_CHAR_P )
+
+# check_cxx_source_compiles( "
+# #include <cstring>
+# int dfunc() { char cb[12]; return *(strerror_r(1, cb, sizeof(cb))) == '\0'; }
+# " STRERROR_R_CHAR_P )
 
 #function is declared with the above
 if( STRERROR_R_CHAR_P )
     set( HAVE_DECL_STRERROR_R 1 )
 endif( STRERROR_R_CHAR_P )
+
+#####################################################################################
 
 # time.h and sys/time.h can be included in the same file
 check_c_source_compiles( "#include <time.h>
