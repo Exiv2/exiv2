@@ -46,12 +46,11 @@ option( EXIV2_ENABLE_SHARED       "Build exiv2 as a shared library (dll)"       
 option( EXIV2_ENABLE_XMP          "Build with XMP metadata support"                       ON )
 option( EXIV2_ENABLE_LIBXMP       "Build a static convenience Library for XMP"            OFF )
 option( EXIV2_ENABLE_PNG          "Build with png support (requires libz)"                ON )
-option( EXIV2_ENABLE_NLS          "Build native language support (requires gettext)"      OFF )
+option( EXIV2_ENABLE_NLS          "Build native language support (requires gettext)"      ON )
 option( EXIV2_ENABLE_PRINTUCS2    "Build with Printucs2"                                  ON )
 option( EXIV2_ENABLE_LENSDATA     "include lens data"                                     ON )
 option( EXIV2_ENABLE_COMMERCIAL   "compile with the EXV_COMMERCIAL_VERSION symbol set"    OFF )
-
-option( BUILD_samples       "Build the unit tests"                                  OFF )
+option( BUILD_samples             "Build the unit tests"                                  OFF )
 
 if( MINGW OR UNIX )
         add_definitions( -Wall -Wcast-align -Wpointer-arith -Wformat-security -Wmissing-format-attribute -Woverloaded-virtual -W )
