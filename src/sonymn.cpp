@@ -83,6 +83,12 @@ namespace Exiv2 {
         { 0x70,  N_("Custom")                         }
     };
 
+    //! Lookup table to translate Sony Auto HDR values to readable labels
+    extern const TagDetails sonyAutoHDR[] = {
+        { 0x00000, N_("Off") },
+        { 0x10001, N_("On")  }
+    };
+
     // Sony MakerNote Tag Info
     const TagInfo SonyMakerNote::tagInfo_[] = {
 
@@ -107,10 +113,46 @@ namespace Exiv2 {
         TagInfo(0x0116, "0x0116", "0x0116",
                 N_("Unknown"),
                 sonyIfdId, makerTags, undefined, printValue),
-
+        TagInfo(0x0e00, "PrintIM", N_("Print IM"),
+                N_("PrintIM information"),
+                sonyIfdId, makerTags, undefined, printValue),
         TagInfo(0x2000, "0x2000", "0x2000",
                 N_("Unknown"),
                 sonyIfdId, makerTags, undefined, printValue),
+        TagInfo(0x2001, "PreviewImage", N_("Preview Image"),
+                N_("Preview Image"),
+                sonyIfdId, makerTags, undefined, printValue),
+        TagInfo(0x2002, "0x2002", "0x2002",
+                N_("Unknown"),
+                sonyIfdId, makerTags, unsignedLong, printValue),
+        TagInfo(0x2003, "0x2003", "0x2003",
+                N_("Unknown"),
+                sonyIfdId, makerTags, asciiString, printValue),
+        TagInfo(0x2004, "0x2004", "0x2004",
+                N_("Unknown"),
+                sonyIfdId, makerTags, signedLong, printValue),
+        TagInfo(0x2005, "0x2005", "0x2005",
+                N_("Unknown"),
+                sonyIfdId, makerTags, signedLong, printValue),
+        TagInfo(0x2006, "0x2006", "0x2006",
+                N_("Unknown"),
+                sonyIfdId, makerTags, signedLong, printValue),
+        TagInfo(0x2007, "0x2007", "0x2007",
+                N_("Unknown"),
+                sonyIfdId, makerTags, signedLong, printValue),
+        TagInfo(0x2008, "0x2008", "0x2008",
+                N_("Unknown"),
+                sonyIfdId, makerTags, signedLong, printValue),
+        TagInfo(0x2009, "0x2009", "0x2009",
+                N_("Unknown"),
+                sonyIfdId, makerTags, unsignedShort, printValue),
+        TagInfo(0x200A, "AutoHDR", N_("Auto HDR"),
+                N_("Auto High Definition Range"),
+                sonyIfdId, makerTags, unsignedLong, EXV_PRINT_TAG(sonyAutoHDR)),
+        TagInfo(0x3000, "ShotInfo", N_("Shot Info"),
+                N_("Shot Information"),
+                sonyIfdId, makerTags, undefined, printValue),
+
         TagInfo(0x9001, "0x9001", "0x9001",
                 N_("Unknown"),
                 sonyIfdId, makerTags, undefined, printValue),
