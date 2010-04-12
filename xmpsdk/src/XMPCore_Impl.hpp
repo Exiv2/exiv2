@@ -30,8 +30,10 @@
 #endif
 
 #if XMP_WinBuild
-	#pragma warning ( disable : 4244 )	// possible loss of data (temporary for 64 bit builds)
-	#pragma warning ( disable : 4267 )	// possible loss of data (temporary for 64 bit builds)
+#   ifdef _MSV_VER
+        #pragma warning ( disable : 4244 )	// possible loss of data (temporary for 64 bit builds)
+        #pragma warning ( disable : 4267 )	// possible loss of data (temporary for 64 bit builds)
+#   endif
 #endif
 
 // =================================================================================================

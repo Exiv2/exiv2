@@ -19,8 +19,10 @@
 using namespace std;
 
 #if XMP_WinBuild
-	#pragma warning ( disable : 4189 )	// local variable is initialized but not referenced
-	#pragma warning ( disable : 4505 )	// unreferenced local function has been removed
+#   ifdef _MSV_VER
+        #pragma warning ( disable : 4189 )	// local variable is initialized but not referenced
+        #pragma warning ( disable : 4505 )	// unreferenced local function has been removed
+#   endif
 #endif
 
 // =================================================================================================
