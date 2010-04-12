@@ -898,7 +898,7 @@ struct state * const	sp;
 static void
 localsub(timep, offset, tmp)
 const time_t * const	timep;
-//const long		offset;
+const long		offset;
 struct tm * const	tmp;
 {
 	register struct state *		sp;
