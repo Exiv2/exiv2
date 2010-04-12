@@ -20,10 +20,15 @@
  */
 /*!
   @file    sonymn.hpp
-  @brief   Basic Sony MakerNote implementation
+  @brief   Sony MakerNote implemented using the following references:<br>
+           <a href="http://www.sno.phy.queensu.ca/~phil/exiftool/TagNames/Sony.html">Sony Makernote list</a> by Phil Harvey<br>
+Email communication with <a href="mailto:caulier dot gilles at gmail dot com">caulier dot gilles at gmail dot com</a><br>
+
   @version $Rev$
   @author  Andreas Huggel (ahu)
            <a href="mailto:ahuggel@gmx.net">ahuggel@gmx.net</a>
+             @author  Gilles Caulier (cgilles)
+           <a href="mailto:caulier dot gilles at gmail dot com">caulier dot gilles at gmail dot com</a>
   @date    18-Apr-05, ahu: created
  */
 #ifndef SONYMN_HPP_
@@ -56,7 +61,6 @@ namespace Exiv2 {
         static const TagInfo tagInfo_[];
 
     }; // class SonyMakerNote
-
 }                                       // namespace Exiv2
 
 #endif                                  // #ifndef SONYMN_HPP_

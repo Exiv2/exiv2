@@ -46,8 +46,43 @@ EXIV2_RCSID("@(#) $Id$")
 // class member definitions
 namespace Exiv2 {
 
+    // -- Standard Sony Makernotes tags ---------------------------------------------------------------
+
+    //! Lookup table to translate Sony image quality values to readable labels
+    extern const TagDetails sonyImageQuality[] = {
+        { 0, N_("Raw")                   },
+        { 1, N_("Super Fine")            },
+        { 2, N_("Fine")                  },
+        { 3, N_("Standard")              },
+        { 4, N_("Economy")               },
+        { 5, N_("Extra Fine")            },
+        { 6, N_("Raw + JPEG")            },
+        { 7, N_("Compressed Raw")        },
+        { 8, N_("Compressed Raw + JPEG") }
+    };
+
+    //! Lookup table to translate Sony teleconverter model values to readable labels
+    extern const TagDetails sonyTeleconverterModel[] = {
+        { 0x00, N_("None")                     },
+        { 0x48, N_("Minolta AF 2x APO (D)")    },
+        { 0x50, N_("Minolta AF 2x APO II")     },
+        { 0x88, N_("Minolta AF 1.4x APO (D) ") },
+        { 0x90, N_("Minolta AF 1.4x APO II")   }
+    };
+
     // Sony MakerNote Tag Info
     const TagInfo SonyMakerNote::tagInfo_[] = {
+
+        TagInfo(0x0102, "Quality", N_("Image Quality"),
+                N_("Image quality"),
+                sonyIfdId, makerTags, unsignedLong, EXV_PRINT_TAG(sonyImageQuality)),
+        TagInfo(0x0104, "FlashExposureComp", N_("Flash Exposure Compensation"),
+                N_("Flash exposure compensation in EV"),
+                sonyIfdId, makerTags, signedRational, printValue),
+        TagInfo(0x0105, "Teleconverter", N_("Teleconverter Model"),
+                N_("Teleconverter Model"),
+                sonyIfdId, makerTags, unsignedLong, EXV_PRINT_TAG(sonyTeleconverterModel)),
+
         TagInfo(0x2000, "0x2000", "0x2000",
                 N_("Unknown"),
                 sonyIfdId, makerTags, undefined, printValue),
