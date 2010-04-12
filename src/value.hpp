@@ -1515,12 +1515,13 @@ namespace Exiv2 {
     {
         std::istringstream is(buf);
         T tmp;
-        value_.clear();
+        ValueList val;
         while (!(is.eof())) {
             is >> tmp;
             if (is.fail()) return 1;
-            value_.push_back(tmp);
+            val.push_back(tmp);
         }
+        value_.swap(val);
         return 0;
     }
 
