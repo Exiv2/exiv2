@@ -1,5 +1,6 @@
 # CMake build system for exiv2 library and executables
 # Copyright 2008 by Patrick Spendrin <ps_ml@gmx.de>
+# Copyright 2010 by Gilles Caulier <caulier dot gilles at gmail dot com>
 #
 # Redistribution and use in source and binary forms, with or without
 # modification, are permitted provided that the following conditions
