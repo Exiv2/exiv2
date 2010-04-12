@@ -35,6 +35,7 @@ include( CheckIncludeFile )
 include( CheckFunctionExists )
 include( CheckSymbolExists )
 include( CheckCSourceCompiles )
+include( CheckCXXSourceCompiles )
 
 set( STDC_HEADERS ON )
 set( HAVE_DECL_STRERROR_R 0 )
