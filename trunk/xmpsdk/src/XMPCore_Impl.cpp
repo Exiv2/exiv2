@@ -845,7 +845,8 @@ FindSchemaNode	( XMP_Node *		xmpTree,
 		schemaNode = new XMP_Node ( xmpTree, nsURI, (kXMP_SchemaNode | kXMP_NewImplicitNode) );
 		XMP_StringPtr prefixPtr;
 		XMP_StringLen prefixLen;
-		bool found = XMPMeta::GetNamespacePrefix ( nsURI, &prefixPtr, &prefixLen );	// *** Use map directly?
+        bool found = false;
+        found = XMPMeta::GetNamespacePrefix ( nsURI, &prefixPtr, &prefixLen );	// *** Use map directly?
 		XMP_Assert ( found );
 
 		schemaNode->value.assign ( prefixPtr, prefixLen );
