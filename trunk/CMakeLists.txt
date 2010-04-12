@@ -53,7 +53,7 @@ option( EXIV2_ENABLE_COMMERCIAL   "compile with the EXV_COMMERCIAL_VERSION symbo
 option( BUILD_samples             "Build the unit tests"                                  OFF )
 
 if( MINGW OR UNIX )
-        add_definitions( -Wall -Wcast-align -Wpointer-arith -Wformat-security -Wmissing-format-attribute -Woverloaded-virtual -W )
+    add_definitions( -Wall -Wcast-align -Wpointer-arith -Wformat-security -Wmissing-format-attribute -Woverloaded-virtual -W )
 endif( MINGW OR UNIX )
 
 if( EXIV2_ENABLE_XMP )
