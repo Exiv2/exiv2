@@ -70,6 +70,19 @@ namespace Exiv2 {
         { 0x90, N_("Minolta AF 1.4x APO II")   }
     };
 
+    //! Lookup table to translate Sony Std camera settings white balance values to readable labels
+    extern const TagDetails sonyWhiteBalanceStd[] = {
+        { 0x00,  N_("Auto")                           },
+        { 0x01,  N_("Color Temperature/Color Filter") },
+        { 0x10,  N_("Daylight")                       },
+        { 0x20,  N_("Cloudy")                         },
+        { 0x30,  N_("Shade")                          },
+        { 0x40,  N_("Tungsten")                       },
+        { 0x50,  N_("Flash")                          },
+        { 0x60,  N_("Fluorescent")                    },
+        { 0x70,  N_("Custom")                         }
+    };
+
     // Sony MakerNote Tag Info
     const TagInfo SonyMakerNote::tagInfo_[] = {
 
@@ -82,6 +95,18 @@ namespace Exiv2 {
         TagInfo(0x0105, "Teleconverter", N_("Teleconverter Model"),
                 N_("Teleconverter Model"),
                 sonyIfdId, makerTags, unsignedLong, EXV_PRINT_TAG(sonyTeleconverterModel)),
+        TagInfo(0x0112, "WhiteBalanceFineTune", N_("White Balance Fine Tune"),
+                N_("White Balance Fine Tune Value"),
+                sonyIfdId, makerTags, unsignedLong, printValue),
+        TagInfo(0x0114, "CameraSettings", N_("Camera Settings"),
+                N_("Camera Settings"),
+                sonyIfdId, makerTags, undefined, printValue),
+        TagInfo(0x0115, "WhiteBalance", N_("White Balance"),
+                N_("White balance"),
+                sonyIfdId, makerTags, unsignedLong, EXV_PRINT_TAG(sonyWhiteBalanceStd)),
+        TagInfo(0x0116, "0x0116", "0x0116",
+                N_("Unknown"),
+                sonyIfdId, makerTags, undefined, printValue),
 
         TagInfo(0x2000, "0x2000", "0x2000",
                 N_("Unknown"),
