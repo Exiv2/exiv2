@@ -154,11 +154,11 @@ namespace Exiv2 {
 
     WriteMethod Cr2Parser::encode(
               Blob&     blob,
-        const byte*     pData,
-              uint32_t  size,
-        const ExifData& exifData,
-        const IptcData& iptcData,
-        const XmpData&  xmpData
+        const byte*     /*pData*/,
+              uint32_t  /*size*/,
+        const ExifData& /*exifData*/,
+        const IptcData& /*iptcData*/,
+        const XmpData&  /*xmpData*/
     )
     {
         /* Todo: Implement me!
