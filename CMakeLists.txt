@@ -65,7 +65,6 @@ if( BUILD_samples )
     EXIV2_ENABLE_TESTING()
 endif( BUILD_samples )
 
-
 include( config/ConfigureChecks.cmake )
 
 set( INSTALL_TARGET_STANDARD_ARGS RUNTIME DESTINATION bin LIBRARY DESTINATION lib ARCHIVE DESTINATION lib )
