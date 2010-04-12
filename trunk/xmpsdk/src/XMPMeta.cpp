@@ -30,10 +30,12 @@
 using namespace std;
 
 #if XMP_WinBuild
+#ifdef _MSV_VER
 	#pragma warning ( disable : 4533 )	// initialization of '...' is skipped by 'goto ...'
 	#pragma warning ( disable : 4702 )	// unreachable code
 	#pragma warning ( disable : 4800 )	// forcing value to bool 'true' or 'false' (performance warning)
 	#pragma warning ( disable : 4996 )	// '...' was declared deprecated
+#endif
 #endif
 
 

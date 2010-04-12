@@ -19,7 +19,9 @@
 using namespace std;
 
 #if XMP_WinBuild
-	#pragma warning ( disable : 4996 )	// '...' was declared deprecated
+#   ifdef _MSV_VER
+        #pragma warning ( disable : 4996 )	// '...' was declared deprecated
+#   endif
 #endif
 
 // *** Set memory handlers.
