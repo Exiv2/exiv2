@@ -17,7 +17,7 @@
 #define XMP_LitNMatch(s,l,n)	(std::strncmp((s),(l),(n)) == 0)
 
 #if XMP_WinBuild
-#ifdef _MSV_VER
+#ifdef _MSC_VER
 	#define snprintf _snprintf
 	#pragma warning ( disable : 4996 )	// snprintf is safe
 #endif
