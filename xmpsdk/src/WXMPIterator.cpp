@@ -13,7 +13,7 @@
 #include "client-glue/WXMPIterator.hpp"
 
 #if XMP_WinBuild
-#   ifdef _MSV_VER
+#   ifdef _MSC_VER
         #pragma warning ( disable : 4101 ) // unreferenced local variable
         #pragma warning ( disable : 4189 ) // local variable is initialized but not referenced
         #pragma warning ( disable : 4800 ) // forcing value to bool 'true' or 'false' (performance warning)

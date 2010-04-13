@@ -20,7 +20,7 @@
 #include <stdio.h>	// For snprintf.
 
 #if XMP_WinBuild
-#ifdef _MSV_VER
+#ifdef _MSC_VER
 	#pragma warning ( disable : 4800 )	// forcing value to bool 'true' or 'false' (performance warning)
 #endif
 #endif

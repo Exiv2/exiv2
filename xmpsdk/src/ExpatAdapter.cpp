@@ -19,7 +19,7 @@
 using namespace std;
 
 #if XMP_WinBuild
-#   ifdef _MSV_VER
+#   ifdef _MSC_VER
         #pragma warning ( disable : 4996 )	// '...' was declared deprecated
 #   endif
 #endif

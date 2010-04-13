@@ -18,7 +18,7 @@
 using namespace std;
 
 #if XMP_WinBuild
-    #ifdef _MSV_VER
+    #ifdef _MSC_VER
         #pragma warning ( disable : 4290 )	// C++ exception specification ignored except ... not __declspec(nothrow)
         #pragma warning ( disable : 4800 )	// forcing value to bool 'true' or 'false' (performance warning)
     #endif
