@@ -194,12 +194,13 @@ namespace Exiv2 {
     {
         std::istringstream is(buf);
         int tmp;
-        value_.clear();
+        ValueType val;
         while (!(is.eof())) {
             is >> tmp;
             if (is.fail()) return 1;
-            value_.push_back(static_cast<byte>(tmp));
+            val.push_back(static_cast<byte>(tmp));
         }
+        value_.swap(val);
         return 0;
     }
 

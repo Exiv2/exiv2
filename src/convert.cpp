@@ -803,7 +803,8 @@ namespace Exiv2 {
 #endif
                 return;
             }
-            array << value << " ";
+            array << value;
+            if (i != pos->count() - 1) array << " ";
         }
         (*exifData_)[to] = array.str();
         if (erase_) xmpData_->erase(pos);
