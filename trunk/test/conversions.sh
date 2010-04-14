@@ -177,7 +177,7 @@ $exiv2 -px t.jpg
 $exiv2 -v -PEkycv t.jpg
 $exiv2 -pi t.jpg
 
-# 10) Convert a few other tags of interest from Exif/IPTC to XMP
+# 14) Convert a few other tags of interest from Exif/IPTC to XMP
 echo
 echo Testcase 14
 echo ===========
