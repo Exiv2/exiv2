@@ -56,6 +56,11 @@ namespace Exiv2 {
         //! Return read-only list of built-in Sony tags
         static const TagInfo* tagList();
 
+        //! @name Print functions for Sony %MakerNote tags
+        //@{
+        //! Print Sony Model
+        static std::ostream& print0xb000(std::ostream& os, const Value& value, const ExifData*);
+
     private:
         //! Tag information
         static const TagInfo tagInfo_[];

@@ -212,13 +212,13 @@ namespace Exiv2 {
         TagInfo(0x3000, "ShotInfo", N_("Shot Info"),
                 N_("Shot Information"),
                 sonyIfdId, makerTags, undefined, printValue),
-
-        // TODO more tags here
-
-        TagInfo(0xb001, "SonyModelID", "Sony Model ID",
+        TagInfo(0xb000, "FileFormat", N_("File Format"),
+                N_("File Format"),
+                sonyIfdId, makerTags, unsignedByte, print0xb000),
+        TagInfo(0xb001, "SonyModelID", N_("Sony Model ID"),
                 N_("Sony Model ID"),
                 sonyIfdId, makerTags, unsignedShort, EXV_PRINT_TAG(sonyModelId)),
-        TagInfo(0xb020, "ColorReproduction", "Color Reproduction",
+        TagInfo(0xb020, "ColorReproduction", N_("Color Reproduction"),
                 N_("Color Reproduction"),
                 sonyIfdId, makerTags, asciiString, printValue),
         TagInfo(0xb021, "ColorTemperature", N_("Color Temperature"),
@@ -282,4 +282,17 @@ namespace Exiv2 {
         return tagInfo_;
     }
 
+    std::ostream& SonyMakerNote::print0xb000(std::ostream& os,
+                                             const Value& value,
+                                             const ExifData*)
+    {
+        std::string model = value.toString();
+        if      (model == "0002") os << "JPEG";
+        else if (model == "1000") os << "SR2";
+        else if (model == "2000") os << "ARW 1.0";
+        else if (model == "3000") os << "ARW 2.0";
+        else if (model == "3100") os << "ARW 2.1";
+        else                      os << "(" << value << ")";
+        return os;
+    }
 }                                       // namespace Exiv2
