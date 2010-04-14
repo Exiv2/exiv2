@@ -67,7 +67,7 @@ namespace Exiv2 {
         { 0x00, N_("None")                     },
         { 0x48, N_("Minolta AF 2x APO (D)")    },
         { 0x50, N_("Minolta AF 2x APO II")     },
-        { 0x88, N_("Minolta AF 1.4x APO (D) ") },
+        { 0x88, N_("Minolta AF 1.4x APO (D)")  },
         { 0x90, N_("Minolta AF 1.4x APO II")   }
     };
 
