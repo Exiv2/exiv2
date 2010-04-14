@@ -10,6 +10,7 @@ src/error.cpp
 src/exiv2.cpp
 src/fujimn.cpp
 src/minoltamn.cpp
+src/minoltasonyvalues.hpp
 src/nikonmn.cpp
 src/olympusmn.cpp
 src/panasonicmn.cpp
