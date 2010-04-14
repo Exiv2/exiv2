@@ -363,7 +363,7 @@ namespace Exiv2 {
         long toRead = 0;
         while (readTotal < colorDataLength) {
             toRead =   static_cast<long>(colorDataLength - readTotal) < lbuf.size_
-                     ? colorDataLength - readTotal : lbuf.size_;
+                     ? static_cast<long>(colorDataLength - readTotal) : lbuf.size_;
             if (io_->read(lbuf.pData_, toRead) != toRead) throw Error(3, "Photoshop");
             readTotal += toRead;
             if (outIo.write(lbuf.pData_, toRead) != toRead) throw Error(21);
@@ -470,7 +470,7 @@ namespace Exiv2 {
                 resourceSize = (resourceSize + 1) & ~1;        // pad to even
                 while (readTotal < resourceSize) {
                     toRead =   static_cast<long>(resourceSize - readTotal) < lbuf.size_
-                             ? resourceSize - readTotal : lbuf.size_;
+                             ? static_cast<long>(resourceSize - readTotal) : lbuf.size_;
                     if (io_->read(lbuf.pData_, toRead) != toRead) {
                         throw Error(3, "Photoshop");
                     }
