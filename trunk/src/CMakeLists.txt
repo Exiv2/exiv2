@@ -31,6 +31,7 @@
 set( LIBEXIV2_PRIVATE_HDR   cr2image_int.hpp
                             crwimage_int.hpp
                             makernote_int.hpp
+                            minoltasonyvalues.hpp
                             orfimage_int.hpp
                             pngchunk_int.hpp
                             rw2image_int.hpp
