@@ -59,60 +59,61 @@ include $(top_srcdir)/config/config.mk
 # Source files
 
 # Add standalone C++ header files to this list
-CCHDR =  exv_conf.h           \
-         exv_msvc.h           \
-         mn.hpp               \
-         rcsid.hpp            \
+CCHDR =  exv_conf.h            \
+         exv_msvc.h            \
+         mn.hpp                \
+         rcsid.hpp             \
          version.hpp
 
 # Add library C++ source files to this list
-CCSRC =  basicio.cpp          \
-	 bmpimage.cpp         \
-	 canonmn.cpp          \
-	 convert.cpp          \
-	 cr2image.cpp         \
-	 crwimage.cpp         \
-	 datasets.cpp         \
-	 easyaccess.cpp       \
-	 error.cpp            \
-	 exif.cpp             \
-	 futils.cpp           \
-	 fujimn.cpp           \
-	 gifimage.cpp         \
-	 image.cpp            \
-	 iptc.cpp             \
-	 jp2image.cpp         \
-	 jpgimage.cpp         \
-	 makernote.cpp        \
-	 metadatum.cpp        \
-	 minoltamn.cpp        \
-	 mrwimage.cpp         \
-	 nikonmn.cpp          \
-	 olympusmn.cpp        \
-	 orfimage.cpp         \
-	 panasonicmn.cpp      \
+CCSRC =  basicio.cpp           \
+	 bmpimage.cpp          \
+	 canonmn.cpp           \
+	 convert.cpp           \
+	 cr2image.cpp          \
+	 crwimage.cpp          \
+	 datasets.cpp          \
+	 easyaccess.cpp        \
+	 error.cpp             \
+	 exif.cpp              \
+	 futils.cpp            \
+	 fujimn.cpp            \
+	 gifimage.cpp          \
+	 image.cpp             \
+	 iptc.cpp              \
+	 jp2image.cpp          \
+	 jpgimage.cpp          \
+	 makernote.cpp         \
+	 metadatum.cpp         \
+	 minoltamn.cpp         \
+	 minoltasonyvalues.cpp \
+	 mrwimage.cpp          \
+	 nikonmn.cpp           \
+	 olympusmn.cpp         \
+	 orfimage.cpp          \
+	 panasonicmn.cpp       \
 	 pgfimage.cpp
 ifdef HAVE_LIBZ
-CCSRC += pngimage.cpp         \
+CCSRC += pngimage.cpp          \
 	 pngchunk.cpp
 endif
-CCSRC += preview.cpp          \
-	 properties.cpp       \
-	 psdimage.cpp         \
-	 rafimage.cpp         \
-	 rw2image.cpp         \
-	 sigmamn.cpp          \
-	 pentaxmn.cpp         \
-	 sonymn.cpp           \
-	 tags.cpp             \
-	 tgaimage.cpp         \
-	 tiffcomposite.cpp    \
-	 tiffimage.cpp        \
-	 tiffvisitor.cpp      \
-	 types.cpp            \
-	 value.cpp            \
-	 version.cpp          \
-	 xmp.cpp              \
+CCSRC += preview.cpp           \
+	 properties.cpp        \
+	 psdimage.cpp          \
+	 rafimage.cpp          \
+	 rw2image.cpp          \
+	 sigmamn.cpp           \
+	 pentaxmn.cpp          \
+	 sonymn.cpp            \
+	 tags.cpp              \
+	 tgaimage.cpp          \
+	 tiffcomposite.cpp     \
+	 tiffimage.cpp         \
+	 tiffvisitor.cpp       \
+	 types.cpp             \
+	 value.cpp             \
+	 version.cpp           \
+	 xmp.cpp               \
 	 xmpsidecar.cpp
 
 # Add library C source files to this list
