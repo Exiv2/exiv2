@@ -104,7 +104,8 @@ namespace Exiv2 {
         { 265, "DSLR-A230" },
         { 269, "DSLR-A850" },
         { 273, "DSLR-A550" },
-        { 274, "DSLR-A500" }
+        { 274, "DSLR-A500" },
+        { 275, "DSLR-A450" }
     };
 
     //! Lookup table to translate Sony scene mode values to readable labels
