@@ -90,6 +90,65 @@ namespace Exiv2 {
         { 0x10001, N_("On")  }
     };
 
+    //! Lookup table to translate Sony model ID values to readable labels
+    extern const TagDetails sonyModelId[] = {
+        { 2,   "DSC-R1"    },
+        { 256, "DSLR-A100" },
+        { 257, "DSLR-A900" },
+        { 258, "DSLR-A700" },
+        { 259, "DSLR-A200" },
+        { 260, "DSLR-A350" },
+        { 261, "DSLR-A300" },
+        { 263, "DSLR-A380" },
+        { 264, "DSLR-A330" },
+        { 265, "DSLR-A230" },
+        { 269, "DSLR-A850" },
+        { 273, "DSLR-A550" },
+        { 274, "DSLR-A500" }
+    };
+
+    //! Lookup table to translate Sony scene mode values to readable labels
+    extern const TagDetails sonySceneMode[] = {
+        { 0,  N_("Standard")            },
+        { 1,  N_("Portrait")            },
+        { 2,  N_("Text")                },
+        { 3,  N_("Night Scene")         },
+        { 4,  N_("Sunset")              },
+        { 5,  N_("Sports")              },
+        { 6,  N_("Landscape")           },
+        { 7,  N_("Night Portrait")      },
+        { 8,  N_("Macro")               },
+        { 9,  N_("Super Macro")         },
+        { 16, N_("Auto")                },
+        { 17, N_("Night View/Portrait") }
+    };
+
+    //! Lookup table to translate Sony zone matching values
+    extern const TagDetails sonyZoneMatching[] = {
+        { 0, N_("ISO Setting Used") },
+        { 1, N_("High Key") },
+        { 2, N_("Low Key")  }
+    };
+
+    //! Lookup table to translate Sony dynamic range optimizer values
+    extern const TagDetails sonyDynamicRangeOptimizer[] = {
+        { 0,  N_("Off")           },
+        { 1,  N_("Standard ")     },
+        { 2,  N_("Advanced Auto") },
+        { 3,  N_("Auto")          },
+        { 8,  N_("Advanced Lv1")  },
+        { 9,  N_("Advanced Lv2")  },
+        { 10, N_("Advanced Lv3")  },
+        { 11, N_("Advanced Lv4")  },
+        { 12, N_("Advanced Lv5")  }
+    };
+
+    //! Lookup table to translate Sony image stabilization values
+    extern const TagDetails sonyImageStabilization[] = {
+        { 0, N_("Off") },
+        { 1, N_("On")  }
+    };
+
     // Sony MakerNote Tag Info
     const TagInfo SonyMakerNote::tagInfo_[] = {
 
@@ -156,6 +215,30 @@ namespace Exiv2 {
 
         // TODO more tags here
 
+        TagInfo(0xb001, "SonyModelID", "Sony Model ID",
+                N_("Sony Model ID"),
+                sonyIfdId, makerTags, unsignedShort, EXV_PRINT_TAG(sonyModelId)),
+        TagInfo(0xb020, "ColorReproduction", "Color Reproduction",
+                N_("Color Reproduction"),
+                sonyIfdId, makerTags, asciiString, printValue),
+        TagInfo(0xb021, "ColorTemperature", N_("Color Temperature"),
+                N_("Color Temperature"),
+                sonyIfdId, makerTags, unsignedLong, printValue),
+        TagInfo(0xb022, "ColorCompensationFilter", N_("Color Compensation Filter"),
+                N_("Color Compensation Filter: negative is green, positive is magenta"),
+                sonyIfdId, makerTags, unsignedLong, printValue),
+        TagInfo(0xb023, "SceneMode", N_("Scene Mode"),
+                N_("Scene Mode"),
+                sonyIfdId, makerTags, unsignedLong, EXV_PRINT_TAG(sonySceneMode)),
+        TagInfo(0xb024, "ZoneMatching", N_("Zone Matching"),
+                N_("Zone Matching"),
+                sonyIfdId, makerTags, unsignedLong, EXV_PRINT_TAG(sonyZoneMatching)),
+        TagInfo(0xb025, "DynamicRangeOptimizer", N_("Dynamic Range Optimizer"),
+                N_("Dynamic Range Optimizer"),
+                sonyIfdId, makerTags, unsignedLong, EXV_PRINT_TAG(sonyDynamicRangeOptimizer)),
+        TagInfo(0xb026, "ImageStabilization", N_("Image Stabilization"),
+                N_("Image stabilization"),
+                sonyIfdId, makerTags, unsignedLong, EXV_PRINT_TAG(sonyImageStabilization)),
         TagInfo(0xb027, "LensID", N_("Lens ID"),
                 N_("Lens identifier"),
                 sonyIfdId, makerTags, unsignedLong, printMinoltaSonyLensID),
