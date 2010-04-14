@@ -245,8 +245,59 @@ namespace Exiv2 {
                 sonyIfdId, makerTags, unsignedLong, printMinoltaSonyLensID),
 
         // --------------------------------------------------------------------------------
+        // TODO
 
-        // TODO more tags here
+        TagInfo(0xb028, "MinoltaMakerNote", N_("Minolta MakerNote"),
+                N_("Minolta MakerNote"),
+                sonyIfdId, makerTags, undefined, printValue),
+
+        TagInfo(0xb029, "ColorMode", N_("Color Mode"),
+                N_("Color Mode"),
+                sonyIfdId, makerTags, unsignedLong, printValue),
+
+        TagInfo(0xb02b, "FullImageSize", N_("Full Image Size"),
+                N_("Full Image Size"),
+                sonyIfdId, makerTags, unsignedLong, printValue),
+
+        TagInfo(0xb02c, "PreviewImageSize", N_("Preview Image Size"),
+                N_("Preview Image Size"),
+                sonyIfdId, makerTags, unsignedLong, printValue),
+
+        TagInfo(0xb040, "Macro", N_("Macro"),
+                N_("Macro"),
+                sonyIfdId, makerTags, unsignedShort, printValue),
+
+        TagInfo(0xb041, "ExposureMode", N_("Exposure Mode"),
+                N_("Exposure Mode"),
+                sonyIfdId, makerTags, unsignedShort, printValue),
+
+        TagInfo(0xb047, "Quality", N_("Quality"),
+                N_("Quality"),
+                sonyIfdId, makerTags, unsignedShort, printValue),
+
+        TagInfo(0xb04b, "AntiBlur", N_("Anti-Blur"),
+                N_("Anti-Blur"),
+                sonyIfdId, makerTags, unsignedShort, printValue),
+
+        TagInfo(0xb04e, "LongExposureNoiseReduction", N_("Long Exposure Noise Reduction"),
+                N_("Long Exposure Noise Reduction"),
+                sonyIfdId, makerTags, unsignedShort, printValue),
+
+        TagInfo(0xb04f, "DynamicRangeOptimizer", N_("Dynamic Range Optimizer"),
+                N_("Dynamic Range Optimizer"),
+                sonyIfdId, makerTags, unsignedShort, printValue),
+
+        TagInfo(0xb052, "IntelligentAuto", N_("Intelligent Auto"),
+                N_("Intelligent Auto"),
+                sonyIfdId, makerTags, unsignedShort, printValue),
+
+        TagInfo(0xb054, "WhiteBalance", N_("White Balance"),
+                N_("White Balance"),
+                sonyIfdId, makerTags, unsignedShort, printValue),
+
+        // --------------------------------------------------------------------------------
+
+        // Old sony tags
 
         TagInfo(0x9001, "0x9001", "0x9001",
                 N_("Unknown"),
