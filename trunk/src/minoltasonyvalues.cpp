@@ -289,7 +289,35 @@ namespace Exiv2 {
         { 26211, "Minolta AF 100-300mm F4.5-5.6 xi" },
         { 26240, "Minolta AF 35-80mm F4-5.6 Power" },
         { 26241, "Minolta AF 35-80mm F4-5.6 Power Zoom" },
-        { 45741, "Minolta AF200mm F2.8G x2 | Tokina 300mm F2.8 x2" }
+        { 26281, "Minolta AF 80-200mm F2.8 G" },
+        { 26291, "Minolta AF 85mm F1.4 New" },
+        { 26311, "Minolta/Sony AF 100-300mm F4.5-5.6 APO" },
+        { 26321, "Minolta AF 24-50mm F4 New" },
+        { 26381, "Minolta AF 50mm F2.8 Macro New" },
+        { 26391, "Minolta AF 100mm F2.8 Macro" },
+        { 26411, "Minolta/Sony AF 20mm F2.8 New" },
+        { 26421, "Minolta AF 24mm F2.8 New" },
+        { 26441, "Minolta AF 100-400mm F4.5-6.7 APO" },
+        { 26621, "Minolta AF 50mm F1.4 New" },
+        { 26671, "Minolta AF 35mm F2 New" },
+        { 26681, "Minolta AF 28mm F2 New" },
+        { 26721, "Minolta AF 24-105mm F3.5-4.5 (D)" },
+        { 45671, "Tokina 70-210mm F4-5.6" },
+        { 45741, "Minolta AF200mm F2.8G x2 | "
+                 "Tokina 300mm F2.8 x2 | "
+                 "Tokina RF 500mm F8.0 x2 | "
+                 "Tamron SP AF 90mm F2.5"},
+        { 45751, "1.4x Teleconverter " },
+        { 45851, "Tamron SP AF 300mm F2.8 LD IF" },
+        { 65535, "T-Mount | "
+                 "Arax MC 35mm F2.8 Tilt+Shift | "
+                 "Arax MC 80mm F2.8 Tilt+Shift | "
+                 "Zenitar MF 16mm F2.8 Fisheye M42 | "
+                 "Samyang 500mm Mirror F8.0 | "
+                 "Pentacon Auto 135mm F2.8 | "
+                 "Pentacon Auto 29mm F2.8 | "
+                 "Helios 44-2 58mm F2.0 | "
+                 "No Lens" }
     };
 
     std::ostream& printMinoltaSonyLensID(std::ostream& os, const Value& value, const ExifData* metadata)
