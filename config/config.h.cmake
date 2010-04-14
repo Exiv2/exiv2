@@ -37,7 +37,7 @@
 /* Define to `const' or to empty, depending on the second argument of `iconv'. */
 #cmakedefine ICONV_ACCEPTS_CONST_INPUT 1
 #if defined ICONV_ACCEPTS_CONST_INPUT
-#define EXV_ICONV_CONST "const"
+#define EXV_ICONV_CONST const
 #else
 #define EXV_ICONV_CONST
 #endif
