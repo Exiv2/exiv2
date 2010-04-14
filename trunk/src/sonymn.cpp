@@ -286,13 +286,20 @@ namespace Exiv2 {
                                              const Value& value,
                                              const ExifData*)
     {
-        std::string model = value.toString();
-        if      (model == "0002") os << "JPEG";
-        else if (model == "1000") os << "SR2";
-        else if (model == "2000") os << "ARW 1.0";
-        else if (model == "3000") os << "ARW 2.0";
-        else if (model == "3100") os << "ARW 2.1";
-        else                      os << "(" << value << ")";
+        if (value.count() != 4)
+        {
+            os << "(" << value << ")";
+        }
+        else
+        {
+            std::string val = value.toString(0) + value.toString(1) + value.toString(2) + value.toString(3);
+            if      (val == "0002") os << "JPEG";
+            else if (val == "1000") os << "SR2";
+            else if (val == "2000") os << "ARW 1.0";
+            else if (val == "3000") os << "ARW 2.0";
+            else if (val == "3100") os << "ARW 2.1";
+            else                    os << "(" << value << ")";
+        }
         return os;
     }
 }                                       // namespace Exiv2
