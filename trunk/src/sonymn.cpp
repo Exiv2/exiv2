@@ -31,6 +31,7 @@ EXIV2_RCSID("@(#) $Id$")
 // *****************************************************************************
 // included header files
 #include "types.hpp"
+#include "minoltasonyvalues.hpp"
 #include "sonymn.hpp"
 #include "value.hpp"
 #include "i18n.h"                // NLS support.
@@ -152,6 +153,16 @@ namespace Exiv2 {
         TagInfo(0x3000, "ShotInfo", N_("Shot Info"),
                 N_("Shot Information"),
                 sonyIfdId, makerTags, undefined, printValue),
+
+        // TODO more tags here
+
+        TagInfo(0xb027, "LensID", N_("Lens ID"),
+                N_("Lens identifier"),
+                sonyIfdId, makerTags, unsignedLong, EXV_PRINT_TAG(minoltaSonyLensID)),
+
+        // --------------------------------------------------------------------------------
+
+        // TODO more tags here
 
         TagInfo(0x9001, "0x9001", "0x9001",
                 N_("Unknown"),
