@@ -133,88 +133,163 @@ namespace Exiv2 {
         { 56,    "Sony AF DT 55-200mm F4-5.6 SAM" },
         { 57,    "Sony AF DT 50mm F1.8 SAM" },
         { 58,    "Sony AF DT 30mm F2.8 SAM Macro" },
-        { 128,   "Sigma 70-200mm F2.8 APO EX DG MACRO | TAMRON 18-200, 28-300 | 80-300mm F3.5-6.3"      },
-        { 193,   "AF 1.4x APO II"                                                                       },
-        { 25500, "AF50mm F1.7"                                                                          },
-        { 25501, "AF50mm F1.7"                                                                          },
-        { 25510, "AF35-70mm F1.4"                                                                       },
-        { 25511, "AF35-70mm F4"                                                                         },
-        { 25520, "AF28-85mm F3.5-4.5"                                                                   },
-        { 25521, "TOKINA 19-35mm F3.5-4.5 | TOKINA 28-70mm F2.8 AT-X"                                   },
-        { 25530, "AF28-135mm F4-4.5"                                                                    },
-        { 25531, "AF28-135mm F4-4.5"                                                                    },
-        { 25540, "AF35-105mm F3.5-4.5"                                                                  },
-        { 25541, "AF35-105mm F3.5-4.5"                                                                  },
-        { 25550, "AF70-210mm F4"                                                                        },
-        { 25551, "AF70-210mm F4 Macro | Sigma 70-210mm F4-5.6 APO"                                      },
-        { 25560, "AF135mm F2.8"                                                                         },
-        { 25561, "AF135mm F2.8"                                                                         },
-        { 25570, "AF28mm F2.8"                                                                          },
-        { 25571, "AF28mm F2.8"                                                                          },
-        { 25580, "AF24-50mm F4"                                                                         },
-        { 25581, "AF24-50mm F4"                                                                         },
-        { 25600, "AF100-200mm F4.5"                                                                     },
-        { 25601, "AF100-200mm F4.5"                                                                     },
-        { 25610, "AF75-300mm F4.5-5.6"                                                                  },
-        { 25611, "Sigma 70-300mm F4-5.6 | Sigma 300mm F4 APO Macro"                                     },
-        { 25620, "AF50mm F1.4"                                                                          },
-        { 25621, "AF50mm F1.4 NEW"                                                                      },
-        { 25630, "AF300mm F2.8G APO"                                                                    },
-        { 25631, "AF300mm F2.8G"                                                                        },
-        { 25640, "AF50mm F2.8 Macro"                                                                    },
-        { 25641, "AF50mm F2.8 Macro"                                                                    },
-        { 25650, "AF600mm F4 APO"                                                                       },
-        { 25660, "AF24mm F2.8"                                                                          },
-        { 25661, "AF24mm F2.8 | Sigma 17-35mm F2.8-4.0 EX-D"                                            },
-        { 25720, "AF500mm F8 Reflex"                                                                    },
-        { 25721, "AF500mm F8 Reflex"                                                                    },
-        { 25780, "AF16mm F2.8 Fisheye"                                                                  },
-        { 25781, "AF16mm F2.8 Fisheye | Sigma 8mm F4 Fisheye"                                           },
-        { 25790, "AF20mm F2.8"                                                                          },
-        { 25791, "AF20mm F2.8"                                                                          },
-        { 25810, "AF100mm F2.8 Macro"                                                                   },
-        { 25811, "AF100mm F2.8 Macro(D) | TAMRON 90mm F2.8 Macro | Sigma 180mm F5.6 Macro"              },
-        { 25850, "AF35-105mm F3.5-4.5"                                                                  },
-        { 25858, "TAMRON 24-135mm F3.5-5.6"                                                             },
-        { 25880, "AF70-210mm F3.5-4.5"                                                                  },
-        { 25890, "AF80-200mm F2.8 APO"                                                                  },
-        { 25891, "TOKINA 80-200mm F2.8"                                                                 },
-        { 25910, "AF35mm F1.4G"                                                                         },
-        { 25911, "AF35mm F1.4G"                                                                         },
-        { 25920, "AF85mm F1.4G"                                                                         },
-        { 25921, "AF85mm F1.4G(D)"                                                                      },
-        { 25930, "AF200mm F2.8 APO"                                                                     },
-        { 25931, "AF200mm F2.8G"                                                                        },
-        { 25940, "AF 3X-1X F1.7-2.8 Macro"                                                              },
-        { 25960, "AF28mm F2"                                                                            },
-        { 25961, "AF28mm F2"                                                                            },
-        { 25970, "AF35mm F2"                                                                            },
-        { 25971, "AF35mm F2"                                                                            },
-        { 25980, "AF100mm F2"                                                                           },
-        { 25981, "AF100mm F2"                                                                           },
-        { 26040, "AF80-200mm F4.5-5.6"                                                                  },
-        { 26050, "AF35-80mm F4-5.6"                                                                     },
-        { 26060, "AF100-300mm F4.5-5.6"                                                                 },
-        { 26061, "AF100-300mm F4.5-5.6(D) | Sigma 105mm F2.8 Macro EX-DG"                               },
-        { 26070, "AF35-80mm F4-5.6"                                                                     },
-        { 26071, "AF35-80mm F4-5.6"                                                                     },
-        { 26080, "AF300mm F2.8G APO High Speed"                                                         },
-        { 26081, "AF300mm F2.8G"                                                                        },
-        { 26090, "AF600mm F4G APO High Speed"                                                           },
-        { 26120, "AF200mm F2.8G APO High Speed"                                                         },
-        { 26121, "AF200mm F2.8G(D)"                                                                     },
-        { 26130, "AF50mm F1.7"                                                                          },
-        { 26131, "AF50mm F1.7"                                                                          },
-        { 26150, "AF28-105mm F3.5-4.5 Xi"                                                               },
-        { 26151, "AF28-105mm F3.5-4.5 Xi"                                                               },
-        { 26160, "AF35-200mm F4.5-5.6 Xi"                                                               },
-        { 26161, "AF35-200mm F4.5-5.6 Xi"                                                               },
-        { 26180, "AF28-80mm F4-5.6 Xi"                                                                  },
-        { 26190, "AF80-200mm F4.5-5.6 Xi"                                                               },
-        { 26210, "AF100-300mm F4.5-5.6 Xi"                                                              },
-        { 26240, "AF35-80mm F4-5.6 Power"                                                               },
-        { 26241, "AF35-80mm F4-5.6"                                                                     },
-        { 45741, "AF200mm F2.8G x2 | TOKINA 300mm F2.8 x2"                                              }
+        { 128,   "Sigma 70-200mm F2.8 APO EX DG MACRO | "
+                 "Tamron 18-200mm F3.5-6.3 | "
+                 "Tamron 28-300mm F3.5-6.3 | "
+                 "Tamron 80-300mm F3.5-6.3 | "
+                 "Tamron AF 28-200mm F3.8-5.6 XR Di Aspherical [IF] MACRO | "
+                 "Tamron SP AF 17-35mm F2.8-4 Di LD Aspherical IF | "
+                 "Sigma AF 50-150mm F2.8 EX DC APO HSM II | "
+                 "Sigma 10-20mm F3.5 EX DC HSM | "
+                 "Sigma 70-200mm F2.8 II EX DG APO MACRO HSM" },
+        { 129,   "Tamron 200-400mm F5.6 LD | "
+                 "Tamron 70-300mm F4-5.6 LD" },
+        { 131,   "Tamron 20-40mm F2.7-3.5 SP Aspherical IF" },
+        { 135,   "Vivitar 28-210mm F3.5-5.6" },
+        { 136,   "Tokina EMZ M100 AF 100mm F3.5" },
+        { 137,   "Cosina 70-210mm F2.8-4 AF" },
+        { 138,   "Soligor 19-35mm F3.5-4.5" },
+        { 142,   "Voigtlander 70-300mm F4.5-5.6" },
+        { 146,   "Voigtlander Macro APO-Lanthar 125mm F2.5 SL" },
+        { 193,   "Minolta AF 1.4x APO II" },
+        { 255,   "Tamron SP AF 17-50mm F2.8 XR Di II LD Aspherical | "
+                 "Tamron AF 18-250mm F3.5-6.3 XR Di II LD | "
+                 "Tamron AF 55-200mm F4-5.6 Di II | "
+                 "Tamron AF 70-300mm F4-5.6 Di LD MACRO 1:2 | "
+                 "Tamron SP AF 200-500mm F5.0-6.3 Di LD IF | "
+                 "Tamron SP AF 10-24mm F3.5-4.5 Di II LD Aspherical IF | "
+                 "Tamron SP AF 70-200mm F2.8 Di LD IF Macro | "
+                 "Tamron SP AF 28-75mm F2.8 XR Di LD Aspherical IF" },
+        { 25500, "Minolta AF 50mm F1.7" },
+        { 25501, "Minolta AF 50mm F1.7" },
+        { 25510, "Minolta AF 35-70mm F1.4" },
+        { 25511, "Minolta AF 35-70mm F4 | "
+                 "Sigma UC AF 28-70mm F3.5-4.5 | "
+                 "Sigma AF 28-70mm F2.8 | "
+                 "Sigma M-AF 70-200mm F2.8 EX Aspherical | "
+                 "Quantaray M-AF 35-80mm F4-5.6 " },
+        { 25520, "Minolta AF 28-85mm F3.5-4.5" },
+        { 25521, "Minolta AF 28-85mm F3.5-4.5 | "
+                 "Tokina 19-35mm F3.5-4.5 | "
+                 "Tokina 28-70mm F2.8 AT-X | "
+                 "Tokina 80-400mm F4.5-5.6 AT-X AF II 840 | "
+                 "Tokina AF PRO 28-80mm F2.8 AT-X 280 | "
+                 "Tokina AT-X PRO II AF 28-70mm F2.6-2.8 270 | "
+                 "Tamron AF 19-35mm F3.5-4.5 | "
+                 "Angenieux AF 28-70mm F2.6" },
+        { 25530, "Minolta AF 28-135mm F4-4.5" },
+        { 25531, "Minolta AF 28-135mm F4-4.5 | "
+                 "Sigma ZOOM-alpha 35-135mm F3.5-4.5 | "
+                 "Sigma 28-105mm F2.8-4 Aspherical" },
+        { 25540, "Minolta AF 35-105mm F3.5-4.5" },
+        { 25541, "Minolta AF 35-105mm F3.5-4.5" },
+        { 25550, "Minolta AF 70-210mm F4" },
+        { 25551, "Minolta AF 70-210mm F4 Macro | "
+                 "Sigma 70-210mm F4-5.6 APO | "
+                 "Sigma M-AF 70-200mm F2.8 EX APO | "
+                 "Sigma 75-200mm F2.8-3.5" },
+        { 25560, "Minolta AF 135mm F2.8" },
+        { 25561, "Minolta AF 135mm F2.8" },
+        { 25570, "Minolta AF 28mm F2.8" },
+        { 25571, "Minolta/Sony AF 28mm F2.8" },
+        { 25580, "Minolta AF 24-50mm F4" },
+        { 25581, "Minolta AF 24-50mm F4" },
+        { 25600, "Minolta AF 100-200mm F4.5" },
+        { 25601, "Minolta AF 100-200mm F4.5" },
+        { 25610, "Minolta AF 75-300mm F4.5-5.6" },
+        { 25611, "Minolta AF 75-300mm F4.5-5.6 | "
+                 "Sigma 70-300mm F4-5.6 DL Macro | "
+                 "Sigma 300mm F4 APO Macro | "
+                 "Sigma AF 500mm F4.5 APO | "
+                 "Sigma AF 170-500mm F5-6.3 APO Aspherical | "
+                 "Tokina AT-X AF 300mm F4 | "
+                 "Tokina AT-X AF 400mm F5.6 SD | "
+                 "Tokina AF 730 II 75-300mm F4.5-5.6" },
+        { 25620, "Minolta AF 50mm F1.4" },
+        { 25621, "Minolta AF 50mm F1.4 [New]" },
+        { 25630, "Minolta AF 300mm F2.8G APO" },
+        { 25631, "Minolta AF 300mm F2.8 APO | "
+                 "Sigma AF 50-500mm F4-6.3 EX DG APO | "
+                 "Sigma AF 170-500mm F5-6.3 APO Aspherical | "
+                 "Sigma AF 500mm F4.5 EX DG APO | "
+                 "Sigma 400mm F5.6 APO" },
+        { 25640, "Minolta AF 50mm F2.8 Macro" },
+        { 25641, "Minolta AF 50mm F2.8 Macro | "
+                 "Sigma 50mm F2.8 EX Macro" },
+        { 25650, "Minolta AF 600mm F4 APO" },
+        { 25651, "Minolta AF 600mm F4 APO" },
+        { 25660, "Minolta AF 24mm F2.8" },
+        { 25661, "Minolta AF 24mm F2.8 | "
+                 "Sigma 17-35mm F2.8-4.0 EX-D" },
+        { 25720, "Minolta AF 500mm F8 Reflex" },
+        { 25721, "Minolta/Sony AF 500mm F8 Reflex" },
+        { 25780, "Minolta/Sony AF 16mm F2.8 Fisheye" },
+        { 25781, "Minolta/Sony AF 16mm F2.8 Fisheye | "
+                 "Sigma 8mm F4 EX [DG] Fisheye | "
+                 "Sigma 14mm F3.5 | "
+                 "Sigma 15mm F2.8 Fisheye" },
+        { 25790, "Minolta AF 20mm F2.8" },
+        { 25791, "Minolta/Sony AF 20mm F2.8" },
+        { 25810, "Minolta AF 100mm F2.8 Macro" },
+        { 25811, "Minolta AF 100mm F2.8 Macro [New] | "
+                 "Sigma AF 90mm F2.8 Macro | "
+                 "Sigma AF 105mm F2.8 EX [DG] Macro | "
+                 "Sigma 180mm F5.6 Macro | "
+                 "Tamron 90mm F2.8 Macro" },
+        { 25850, "Minolta AF 35-105mm F3.5-4.5" },
+        { 25851, "Beroflex 35-135mm F3.5-4.5" },
+        { 25858, "Minolta AF 35-105mm F3.5-4.5 New | "
+                 "Tamron 24-135mm F3.5-5.6" },
+        { 25880, "Minolta AF 70-210mm F3.5-4.5" },
+        { 25881, "Minolta AF 70-210mm F3.5-4.5" },
+        { 25890, "Minolta AF 80-200mm F2.8 APO" },
+        { 25891, "Minolta AF 80-200mm F2.8 APO | "
+                 "Tokina 80-200mm F2.8" },
+        { 25910, "Minolta AF 35mm F1.4G" },
+        { 25911, "Minolta AF 35mm F1.4" },
+        { 25920, "Minolta AF 85mm F1.4G" },
+        { 25921, "Minolta AF 85mm F1.4G(D)" },
+        { 25930, "Minolta AF 200mm F2.8 APO" },
+        { 25931, "Minolta AF 200mm F2.8 G APO" },
+        { 25940, "Minolta AF 3X-1X F1.7-2.8 Macro" },
+        { 25941, "Minolta AF 3x-1x F1.7-2.8 Macro" },
+        { 25960, "Minolta AF 28mm F2" },
+        { 25961, "Minolta AF 28mm F2" },
+        { 25970, "Minolta AF 35mm F2" },
+        { 25971, "Minolta AF 35mm F2 [New]" },
+        { 25980, "Minolta AF 100mm F2" },
+        { 25981, "Minolta AF 100mm F2" },
+        { 26040, "Minolta AF 80-200mm F4.5-5.6" },
+        { 26041, "Minolta AF 80-200mm F4.5-5.6" },
+        { 26050, "Minolta AF 35-80mm F4-5.6" },
+        { 26051, "Minolta AF 35-80mm F4-5.6" },
+        { 26060, "Minolta AF 100-300mm F4.5-5.6" },
+        { 26061, "Minolta AF 100-300mm F4.5-5.6(D) | "
+                 "Sigma 105mm F2.8 Macro EX-DG" },
+        { 26070, "Minolta AF 35-80mm F4-5.6" },
+        { 26071, "Minolta AF 35-80mm F4-5.6" },
+        { 26080, "Minolta AF 300mm F2.8G APO High Speed" },
+        { 26081, "Minolta AF 300mm F2.8G" },
+        { 26090, "Minolta AF 600mm F4G APO High Speed" },
+        { 26091, "Minolta AF 600mm F4 HS-APO G" },
+        { 26120, "Minolta AF 200mm F2.8G APO High Speed" },
+        { 26121, "Minolta AF 200mm F2.8G(D)" },
+        { 26130, "Minolta AF 50mm F1.7" },
+        { 26131, "Minolta AF 50mm F1.7 New" },
+        { 26150, "Minolta AF 28-105mm F3.5-4.5 Xi" },
+        { 26151, "Minolta AF 28-105mm F3.5-4.5 xi" },
+        { 26160, "Minolta AF 35-200mm F4.5-5.6 Xi" },
+        { 26161, "Minolta AF 35-200mm F4.5-5.6 Xi" },
+        { 26180, "Minolta AF 28-80mm F4-5.6 Xi" },
+        { 26181, "Minolta AF 28-80mm F4-5.6 xi" },
+        { 26190, "Minolta AF 80-200mm F4.5-5.6 Xi" },
+        { 26191, "Minolta AF 80-200mm F4.5-5.6 Xi" },
+        { 26201, "Minolta AF 28-70mm F2.8 G" },
+        { 26210, "Minolta AF 100-300mm F4.5-5.6 Xi" },
+        { 26211, "Minolta AF 100-300mm F4.5-5.6 xi" },
+        { 26240, "Minolta AF 35-80mm F4-5.6 Power" },
+        { 26241, "Minolta AF 35-80mm F4-5.6 Power Zoom" },
+        { 45741, "Minolta AF200mm F2.8G x2 | Tokina 300mm F2.8 x2" }
     };
 
     std::ostream& printMinoltaSonyLensID(std::ostream& os, const Value& value, const ExifData* metadata)
