@@ -158,7 +158,7 @@ namespace Exiv2 {
 
         TagInfo(0xb027, "LensID", N_("Lens ID"),
                 N_("Lens identifier"),
-                sonyIfdId, makerTags, unsignedLong, EXV_PRINT_TAG(minoltaSonyLensID)),
+                sonyIfdId, makerTags, unsignedLong, printMinoltaSonyLensID),
 
         // --------------------------------------------------------------------------------
 

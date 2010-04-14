@@ -140,7 +140,7 @@ namespace Exiv2 {
                 minoltaIfdId, makerTags, unsignedLong, printValue),
         TagInfo(0x010c, "LensID", N_("Lens ID"),
                 N_("Lens identifier"),
-                minoltaIfdId, makerTags, unsignedLong, EXV_PRINT_TAG(minoltaSonyLensID)),
+                minoltaIfdId, makerTags, unsignedLong, printMinoltaSonyLensID),
         TagInfo(0x0114, "CameraSettings5D", N_("Camera Settings (5D)"),
                 N_("Camera Settings (for Dynax 5D model)"),
                 minoltaIfdId, makerTags, undefined, printValue),

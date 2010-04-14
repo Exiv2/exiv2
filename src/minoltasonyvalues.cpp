@@ -46,7 +46,7 @@ EXIV2_RCSID("@(#) $Id$")
 // member definitions
 namespace Exiv2 {
 
-    //! Lookup table to translate Minolta/Sony Lens id values to readable labels
+        //! Lookup table to translate Minolta/Sony Lens id values to readable labels
     /* NOTE:
        - duplicate tags value are:
        0/25520, 4/25920, 13/25610, 19/25910, 22/26050/26070,
@@ -54,7 +54,7 @@ namespace Exiv2 {
        25720/25721, 25790/25791, 25960/25961, 25980/25981, 26150/26151
        - No need to i18n these string.
     */
-    extern TagDetails minoltaSonyLensID[] = {
+    extern TagDetails const minoltaSonyLensID[] = {
         { 0,     "AF28-85mm F3.5-4.5"                                                                   },
         { 1,     "AF80-200mm F2.8G"                                                                     },
         { 2,     "AF28-70mm F2.8G"                                                                      },
@@ -180,5 +180,12 @@ namespace Exiv2 {
         { 26241, "AF35-80mm F4-5.6"                                                                     },
         { 45741, "AF200mm F2.8G x2 | TOKINA 300mm F2.8 x2"                                              }
     };
+
+    std::ostream& printMinoltaSonyLensID(std::ostream& os, const Value& value, const ExifData* metadata)
+    {
+        return EXV_PRINT_TAG(minoltaSonyLensID)(os, value, metadata);
+    }
+
+    // TODO: Added shared methods here.
 
 }                                       // namespace Exiv2

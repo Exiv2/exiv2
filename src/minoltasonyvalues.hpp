@@ -40,6 +40,9 @@
 // namespace extensions
 namespace Exiv2 {
 
+    //! PrintMinolta/Sony Lens id values to readable labels
+    EXIV2API std::ostream& printMinoltaSonyLensID(std::ostream& os, const Value& value, const ExifData*);
+
     // TODO: Added shared methods here.
 
 }                                       // namespace Exiv2
