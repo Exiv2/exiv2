@@ -40,6 +40,7 @@ public:
     bool iptc_;                    //!< Iptc option flag.
     bool exif_;                    //!< Exif option flag.
     bool comment_;                 //!< JPEG comment option flag.
+    bool xmp_;                     //!< XMP option flag.
     bool preserve_;                //!< Preserve existing metadata option flag.
     std::string read_;             //!< Source file
     std::string write_;            //!< Destination file
@@ -54,6 +55,7 @@ public:
                iptc_(false),
                exif_(false),
                comment_(false),
+               xmp_(false),
                preserve_(false)
         {}
 

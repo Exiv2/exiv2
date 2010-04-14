@@ -74,6 +74,9 @@ try {
     if (params.comment_) {
         writeImg->setComment(readImg->comment());
     }
+    if (params.xmp_) {
+        writeImg->setXmpData(readImg->xmpData());
+    }
 
     try {
         writeImg->writeMetadata();
@@ -100,11 +103,13 @@ int Params::option(int opt, const std::string& /*optarg*/, int optopt)
     case 'i': iptc_ = true; break;
     case 'e': exif_ = true; break;
     case 'c': comment_ = true; break;
+    case 'x': xmp_ = true; break;
     case 'p': preserve_ = true; break;
     case 'a':
         iptc_ =true;
         exif_ =true;
         comment_ =true;
+        xmp_ =true;
         break;
     case ':':
         std::cerr << progname() << ": Option -" << static_cast<char>(optopt)
@@ -152,7 +157,7 @@ int Params::getopt(int argc, char* const argv[])
             std::cerr << progname() << ": Write file must be specified\n";
             rc = 1;
         }
-        if (preserve_ && iptc_ && exif_ && comment_ ) {
+        if (preserve_ && iptc_ && exif_ && comment_ && xmp_ ) {
             std::cerr << progname() << ": Option -p has no effect when all metadata types are specified.\n";
             rc = 1;
         }
@@ -175,6 +180,7 @@ void Params::help(std::ostream& os) const
        << "   -i      Read Iptc data from readfile and write to writefile.\n"
        << "   -e      Read Exif data from readfile and write to writefile.\n"
        << "   -c      Read Jpeg comment from readfile and write to writefile.\n"
+       << "   -x      Read XMP data from readfile and write to writefile.\n"
        << "   -a      Read all metadata from readfile and write to writefile.\n"
        << "   -p      Preserve existing metadata in writefile if not replaced.\n"
        << "   -h      Display this help and exit.\n\n";
