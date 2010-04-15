@@ -359,7 +359,7 @@ namespace Exiv2 {
         { 1, N_("On")  }
     };
 
-    std::ostream& printMinoltaSonyBoolFunction(std::ostream& os, const Value& value, const ExifData* metadata)
+    std::ostream& printMinoltaSonyBoolValue(std::ostream& os, const Value& value, const ExifData* metadata)
     {
         return EXV_PRINT_TAG(minoltaSonyBoolFunction)(os, value, metadata);
     }

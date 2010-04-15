@@ -58,8 +58,10 @@ namespace Exiv2 {
 
         //! @name Print functions for Sony %MakerNote tags
         //@{
-        //! Print Sony Model
-        static std::ostream& print0xb000(std::ostream& os, const Value& value, const ExifData*);
+        //! Print Sony Camera Model
+        static std::ostream& print0xb000(std::ostream&, const Value&, const ExifData*);
+        //! Print Full and Preview Image size
+        static std::ostream& printImageSize(std::ostream&, const Value&, const ExifData*);
 
     private:
         //! Tag information

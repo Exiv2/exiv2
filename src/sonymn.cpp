@@ -233,7 +233,7 @@ namespace Exiv2 {
                 sonyIfdId, makerTags, unsignedLong, EXV_PRINT_TAG(sonyDynamicRangeOptimizer)),
         TagInfo(0xb026, "ImageStabilization", N_("Image Stabilization"),
                 N_("Image stabilization"),
-                sonyIfdId, makerTags, unsignedLong, printMinoltaSonyBoolFunction),
+                sonyIfdId, makerTags, unsignedLong, printMinoltaSonyBoolValue),
         TagInfo(0xb027, "LensID", N_("Lens ID"),
                 N_("Lens identifier"),
                 sonyIfdId, makerTags, unsignedLong, printMinoltaSonyLensID),
@@ -245,21 +245,19 @@ namespace Exiv2 {
 
         TagInfo(0xb029, "ColorMode", N_("Color Mode"),
                 N_("Color Mode"),
-                sonyIfdId, makerTags, unsignedLong, printMinoltaSonyBoolFunction),
+                sonyIfdId, makerTags, unsignedLong, printMinoltaSonyBoolValue),
 
-        // TODO
         TagInfo(0xb02b, "FullImageSize", N_("Full Image Size"),
                 N_("Full Image Size"),
-                sonyIfdId, makerTags, unsignedLong, printValue),
+                sonyIfdId, makerTags, unsignedLong, printImageSize),
 
-        // TODO
         TagInfo(0xb02c, "PreviewImageSize", N_("Preview Image Size"),
                 N_("Preview Image Size"),
-                sonyIfdId, makerTags, unsignedLong, printValue),
+                sonyIfdId, makerTags, unsignedLong, printImageSize),
 
         TagInfo(0xb040, "Macro", N_("Macro"),
                 N_("Macro"),
-                sonyIfdId, makerTags, unsignedShort, printMinoltaSonyBoolFunction),
+                sonyIfdId, makerTags, unsignedShort, printMinoltaSonyBoolValue),
 
         // TODO
         TagInfo(0xb041, "ExposureMode", N_("Exposure Mode"),
@@ -278,7 +276,7 @@ namespace Exiv2 {
 
         TagInfo(0xb04e, "LongExposureNoiseReduction", N_("Long Exposure Noise Reduction"),
                 N_("Long Exposure Noise Reduction"),
-                sonyIfdId, makerTags, unsignedShort, printMinoltaSonyBoolFunction),
+                sonyIfdId, makerTags, unsignedShort, printMinoltaSonyBoolValue),
 
         // TODO
         TagInfo(0xb04f, "DynamicRangeOptimizer", N_("Dynamic Range Optimizer"),
@@ -334,9 +332,7 @@ namespace Exiv2 {
         return tagInfo_;
     }
 
-    std::ostream& SonyMakerNote::print0xb000(std::ostream& os,
-                                             const Value& value,
-                                             const ExifData*)
+    std::ostream& SonyMakerNote::print0xb000(std::ostream& os, const Value& value, const ExifData*)
     {
         if (value.count() != 4)
         {
@@ -354,4 +350,15 @@ namespace Exiv2 {
         }
         return os;
     }
+
+    std::ostream& SonyMakerNote::printImageSize(std::ostream& os, const Value& value, const ExifData*)
+    {
+        if (value.count() == 2)
+            os << value.toString(0) << " x " << value.toString(1);
+        else
+            os << "(" << value << ")";
+
+        return os;
+    }
+
 }                                       // namespace Exiv2
