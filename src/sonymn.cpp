@@ -171,6 +171,12 @@ namespace Exiv2 {
         { 38, N_("Backlight Correction HDR") }
     };
 
+    //! Lookup table to translate Sony Quality values to readable labels
+    extern const TagDetails sonyQuality[] = {
+        { 0, N_("Normal") },
+        { 1, N_("Fine")   }
+    };
+
     // Sony MakerNote Tag Info
     const TagInfo SonyMakerNote::tagInfo_[] = {
 
@@ -285,11 +291,9 @@ namespace Exiv2 {
         TagInfo(0xb041, "ExposureMode", N_("Exposure Mode"),
                 N_("Exposure Mode"),
                 sonyIfdId, makerTags, unsignedShort, EXV_PRINT_TAG(sonyExposureMode)),
-
-        // TODO
         TagInfo(0xb047, "Quality", N_("Quality"),
                 N_("Quality"),
-                sonyIfdId, makerTags, unsignedShort, printValue),
+                sonyIfdId, makerTags, unsignedShort, EXV_PRINT_TAG(sonyQuality)),
 
         // TODO
         TagInfo(0xb04b, "AntiBlur", N_("Anti-Blur"),
