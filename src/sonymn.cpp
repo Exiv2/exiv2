@@ -276,10 +276,9 @@ namespace Exiv2 {
                 N_("Anti-Blur"),
                 sonyIfdId, makerTags, unsignedShort, printValue),
 
-        // TODO
         TagInfo(0xb04e, "LongExposureNoiseReduction", N_("Long Exposure Noise Reduction"),
                 N_("Long Exposure Noise Reduction"),
-                sonyIfdId, makerTags, unsignedShort, printValue),
+                sonyIfdId, makerTags, unsignedShort, printMinoltaSonyBoolFunction),
 
         // TODO
         TagInfo(0xb04f, "DynamicRangeOptimizer", N_("Dynamic Range Optimizer"),
