@@ -235,12 +235,6 @@ namespace Exiv2 {
         { 2, N_("Spot")            }
     };
 
-    //! Lookup table to translate Minolta Std camera settings macro mode values to readable labels
-    extern const TagDetails minoltaMacroModeStd[] = {
-        { 0, N_("Off") },
-        { 1, N_("On")  }
-    };
-
     //! Lookup table to translate Minolta Std camera settings digital zoom values to readable labels
     extern const TagDetails minoltaDigitalZoomStd[] = {
         { 0, N_("Off")                      },
@@ -506,7 +500,7 @@ namespace Exiv2 {
                 minoltaCsNewIfdId, makerTags, unsignedLong, printMinoltaFNumberStd),
         TagInfo(0x000B, "MacroMode", N_("Macro Mode"),
                 N_("Macro mode"),
-                minoltaCsNewIfdId, makerTags, unsignedLong, EXV_PRINT_TAG(minoltaMacroModeStd)),
+                minoltaCsNewIfdId, makerTags, unsignedLong, printMinoltaSonyMacroMode),
         TagInfo(0x000C, "DigitalZoom", N_("Digital Zoom"),
                 N_("Digital zoom"),
                 minoltaCsNewIfdId, makerTags, unsignedLong, EXV_PRINT_TAG(minoltaDigitalZoomStd)),
