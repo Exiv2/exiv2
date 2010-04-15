@@ -351,4 +351,16 @@ namespace Exiv2 {
         return EXV_PRINT_TAG(minoltaSonyColorMode)(os, value, metadata);
     }
 
+    // ----------------------------------------------------------------------------------------------------
+
+    //! Lookup table to translate Minolta/Sony macro mode values to readable labels
+    extern const TagDetails minoltaSonyMacroMode[] = {
+        { 0, N_("Off") },
+        { 1, N_("On")  }
+    };
+
+    std::ostream& printMinoltaSonyMacroMode(std::ostream& os, const Value& value, const ExifData* metadata)
+    {
+        return EXV_PRINT_TAG(minoltaSonyMacroMode)(os, value, metadata);
+    }
 }                                       // namespace Exiv2
