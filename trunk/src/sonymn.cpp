@@ -144,6 +144,33 @@ namespace Exiv2 {
         { 12, N_("Advanced Lv5")  }
     };
 
+    //! Lookup table to translate Sony exposure mode values to readable labels
+    extern const TagDetails sonyExposureMode[] = {
+        { 0,  N_("Auto")                     },
+        { 1,  N_("Portrait")                 },
+        { 2,  N_("Beach")                    },
+        { 4,  N_("Snow")                     },
+        { 5,  N_("Landscape ")               },
+        { 6,  N_("Program")                  },
+        { 7,  N_("Aperture priority")        },
+        { 8,  N_("Shutter priority")         },
+        { 9,  N_("Night Scene / Twilight")   },
+        { 10, N_("Hi-Speed Shutter")         },
+        { 11, N_("Twilight Portrait")        },
+        { 12, N_("Soft Snap")                },
+        { 13, N_("Fireworks")                },
+        { 15, N_("Manual")                   },
+        { 18, N_("High Sensitivity")         },
+        { 20, N_("Advanced Sports Shooting") },
+        { 29, N_("Underwater")               },
+        { 33, N_("Gourmet")                  },
+        { 34, N_("Panorama")                 },
+        { 35, N_("Handheld Twilight")        },
+        { 36, N_("Anti Motion Blur")         },
+        { 37, N_("Pet")                      },
+        { 38, N_("Backlight Correction HDR") }
+    };
+
     // Sony MakerNote Tag Info
     const TagInfo SonyMakerNote::tagInfo_[] = {
 
@@ -246,23 +273,18 @@ namespace Exiv2 {
         TagInfo(0xb029, "ColorMode", N_("Color Mode"),
                 N_("Color Mode"),
                 sonyIfdId, makerTags, unsignedLong, printMinoltaSonyBoolValue),
-
         TagInfo(0xb02b, "FullImageSize", N_("Full Image Size"),
                 N_("Full Image Size"),
                 sonyIfdId, makerTags, unsignedLong, printImageSize),
-
         TagInfo(0xb02c, "PreviewImageSize", N_("Preview Image Size"),
                 N_("Preview Image Size"),
                 sonyIfdId, makerTags, unsignedLong, printImageSize),
-
         TagInfo(0xb040, "Macro", N_("Macro"),
                 N_("Macro"),
                 sonyIfdId, makerTags, unsignedShort, printMinoltaSonyBoolValue),
-
-        // TODO
         TagInfo(0xb041, "ExposureMode", N_("Exposure Mode"),
                 N_("Exposure Mode"),
-                sonyIfdId, makerTags, unsignedShort, printValue),
+                sonyIfdId, makerTags, unsignedShort, EXV_PRINT_TAG(sonyExposureMode)),
 
         // TODO
         TagInfo(0xb047, "Quality", N_("Quality"),
