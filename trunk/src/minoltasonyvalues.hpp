@@ -41,7 +41,10 @@
 namespace Exiv2 {
 
     //! PrintMinolta/Sony Lens id values to readable labels
-    EXIV2API std::ostream& printMinoltaSonyLensID(std::ostream& os, const Value& value, const ExifData*);
+    EXIV2API std::ostream& printMinoltaSonyLensID(std::ostream&, const Value&, const ExifData*);
+
+    //! PrintMinolta/Sony Color Mode values to readable labels
+    EXIV2API std::ostream& printMinoltaSonyColorMode(std::ostream&, const Value&, const ExifData*);
 
     // TODO: Added shared methods here.
 

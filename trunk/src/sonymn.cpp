@@ -253,7 +253,7 @@ namespace Exiv2 {
 
         TagInfo(0xb029, "ColorMode", N_("Color Mode"),
                 N_("Color Mode"),
-                sonyIfdId, makerTags, unsignedLong, printValue),
+                sonyIfdId, makerTags, unsignedLong, printMinoltaSonyColorMode),
 
         TagInfo(0xb02b, "FullImageSize", N_("Full Image Size"),
                 N_("Full Image Size"),
