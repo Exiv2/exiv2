@@ -187,16 +187,24 @@ namespace Exiv2 {
 
     //! Lookup table to translate Sony dynamic range optimizer values to readable labels
     extern const TagDetails print0xb04f[] = {
-        { 0, N_("Off") },
+        { 0, N_("Off")      },
         { 1, N_("Standard") },
-        { 2, N_("Plus")  }
+        { 2, N_("Plus")     }
     };
 
     //! Lookup table to translate Sony Intelligent Auto values to readable labels
     extern const TagDetails sonyIntelligentAuto[] = {
-        { 0, N_("Off") },
-        { 1, N_("On") },
-        { 2, N_("Advanced")  }
+        { 0, N_("Off")      },
+        { 1, N_("On")       },
+        { 2, N_("Advanced") }
+    };
+
+    //! Lookup table to translate Sony WB values to readable labels
+    extern const TagDetails sonyWhiteBalance[] = {
+        { 0,  N_("Auto")          },
+        { 4,  N_("Manual")        },
+        { 5,  N_("Daylight")      },
+        { 14, N_("Incandescent")  }
     };
 
     // Sony MakerNote Tag Info
@@ -328,11 +336,9 @@ namespace Exiv2 {
         TagInfo(0xb052, "IntelligentAuto", N_("Intelligent Auto"),
                 N_("Intelligent Auto"),
                 sonyIfdId, makerTags, unsignedShort, EXV_PRINT_TAG(sonyIntelligentAuto)),
-
-        // TODO
         TagInfo(0xb054, "WhiteBalance", N_("White Balance"),
                 N_("White Balance"),
-                sonyIfdId, makerTags, unsignedShort, printValue),
+                sonyIfdId, makerTags, unsignedShort, EXV_PRINT_TAG(sonyWhiteBalance)),
 
         // --------------------------------------------------------------------------------
 
