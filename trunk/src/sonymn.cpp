@@ -340,34 +340,6 @@ namespace Exiv2 {
                 N_("White Balance"),
                 sonyIfdId, makerTags, unsignedShort, EXV_PRINT_TAG(sonyWhiteBalance)),
 
-        // --------------------------------------------------------------------------------
-
-        // Old sony tags
-
-        TagInfo(0x9001, "0x9001", "0x9001",
-                N_("Unknown"),
-                sonyIfdId, makerTags, undefined, printValue),
-        TagInfo(0x9002, "0x9002", "0x9002",
-                N_("Unknown"),
-                sonyIfdId, makerTags, undefined, printValue),
-        TagInfo(0x9003, "0x9003", "0x9003",
-                N_("Unknown"),
-                sonyIfdId, makerTags, undefined, printValue),
-        TagInfo(0x9004, "0x9004", "0x9004",
-                N_("Unknown"),
-                sonyIfdId, makerTags, undefined, printValue),
-        TagInfo(0x9005, "0x9005", "0x9005",
-                N_("Unknown"),
-                sonyIfdId, makerTags, undefined, printValue),
-        TagInfo(0x9006, "0x9006", "0x9006",
-                N_("Unknown"),
-                sonyIfdId, makerTags, undefined, printValue),
-        TagInfo(0x9007, "0x9007", "0x9007",
-                N_("Unknown"),
-                sonyIfdId, makerTags, undefined, printValue),
-        TagInfo(0x9008, "0x9008", "0x9008",
-                N_("Unknown"),
-                sonyIfdId, makerTags, undefined, printValue),
         // End of list marker
         TagInfo(0xffff, "(UnknownSonyMakerNoteTag)", "(UnknownSonyMakerNoteTag)",
                 N_("Unknown SonyMakerNote tag"),
