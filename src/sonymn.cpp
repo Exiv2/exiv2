@@ -132,7 +132,7 @@ namespace Exiv2 {
     };
 
     //! Lookup table to translate Sony dynamic range optimizer values to readable labels
-    extern const TagDetails sonyDynamicRangeOptimizer[] = {
+    extern const TagDetails print0xb025[] = {
         { 0,  N_("Off")           },
         { 1,  N_("Standard ")     },
         { 2,  N_("Advanced Auto") },
@@ -183,6 +183,13 @@ namespace Exiv2 {
         { 1,     N_("On (Continuous)") },
         { 2,     N_("On (Shooting)")   },
         { 65535, N_("Not Applicable")  }
+    };
+
+    //! Lookup table to translate Sony dynamic range optimizer values to readable labels
+    extern const TagDetails print0xb04f[] = {
+        { 0, N_("Off") },
+        { 1, N_("Standard") },
+        { 2, N_("Plus")  }
     };
 
     // Sony MakerNote Tag Info
@@ -271,7 +278,7 @@ namespace Exiv2 {
                 sonyIfdId, makerTags, unsignedLong, EXV_PRINT_TAG(sonyZoneMatching)),
         TagInfo(0xb025, "DynamicRangeOptimizer", N_("Dynamic Range Optimizer"),
                 N_("Dynamic Range Optimizer"),
-                sonyIfdId, makerTags, unsignedLong, EXV_PRINT_TAG(sonyDynamicRangeOptimizer)),
+                sonyIfdId, makerTags, unsignedLong, EXV_PRINT_TAG(print0xb025)),
         TagInfo(0xb026, "ImageStabilization", N_("Image Stabilization"),
                 N_("Image stabilization"),
                 sonyIfdId, makerTags, unsignedLong, printMinoltaSonyBoolValue),
@@ -308,11 +315,9 @@ namespace Exiv2 {
         TagInfo(0xb04e, "LongExposureNoiseReduction", N_("Long Exposure Noise Reduction"),
                 N_("Long Exposure Noise Reduction"),
                 sonyIfdId, makerTags, unsignedShort, printMinoltaSonyBoolValue),
-
-        // TODO
         TagInfo(0xb04f, "DynamicRangeOptimizer", N_("Dynamic Range Optimizer"),
                 N_("Dynamic Range Optimizer"),
-                sonyIfdId, makerTags, unsignedShort, printValue),
+                sonyIfdId, makerTags, unsignedShort, EXV_PRINT_TAG(print0xb04f)),
 
         // TODO
         TagInfo(0xb052, "IntelligentAuto", N_("Intelligent Auto"),
