@@ -325,6 +325,30 @@ namespace Exiv2 {
         return EXV_PRINT_TAG(minoltaSonyLensID)(os, value, metadata);
     }
 
-    // TODO: Added shared methods here.
+    // ----------------------------------------------------------------------------------------------------
+
+    //! Lookup table to translate Minolta A100 and all other Sony Alpha camera color mode values to readable labels
+    extern const TagDetails minoltaSonyColorMode[] = {
+        { 0,   N_("Standard")            },
+        { 1,   N_("Vivid Color")         },
+        { 2,   N_("Portrait")            },
+        { 3,   N_("Landscape")           },
+        { 4,   N_("Sunset")              },
+        { 5,   N_("Night View/Portrait") },
+        { 6,   N_("Black & White")       },
+        { 7,   N_("AdobeRGB")            },
+        { 12,  N_("Neutral")             },
+        { 100, N_("Neutral")             },
+        { 101, N_("Clear")               },
+        { 102, N_("Deep")                },
+        { 103, N_("Light")               },
+        { 104, N_("Night View")          },
+        { 105, N_("Autumn Leaves")       }
+    };
+
+    std::ostream& printMinoltaSonyColorMode(std::ostream& os, const Value& value, const ExifData* metadata)
+    {
+        return EXV_PRINT_TAG(minoltaSonyColorMode)(os, value, metadata);
+    }
 
 }                                       // namespace Exiv2

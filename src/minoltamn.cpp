@@ -120,9 +120,12 @@ namespace Exiv2 {
         TagInfo(0x0089, "ThumbnailLength", N_("Thumbnail Length"),
                 N_("Size of the thumbnail"),
                 minoltaIfdId, makerTags, unsignedLong, printValue),
+
+        // TODO: for A100, use Sony table from minoltasonyvallue.cpp::printMinoltaSonyColorMode().
         TagInfo(0x0101, "ColorMode", N_("Color Mode"),
                 N_("Color mode"),
                 minoltaIfdId, makerTags, unsignedLong, EXV_PRINT_TAG(minoltaColorMode)),
+
         TagInfo(0x0102, "Quality", N_("Image Quality"),
                 N_("Image quality"),
                 minoltaIfdId, makerTags, unsignedLong, EXV_PRINT_TAG(minoltaImageQuality)),
