@@ -135,6 +135,9 @@ namespace Exiv2 {
         TagInfo(0x0107, "ImageStabilization", N_("Image Stabilization"),
                 N_("Image stabilization"),
                 minoltaIfdId, makerTags, unsignedLong, EXV_PRINT_TAG(minoltaImageStabilization)),
+        TagInfo(0x0109, "RawAndJpgRecording", N_("RAW+JPG Recording"),
+                N_("RAW and JPG files recording"),
+                minoltaIfdId, makerTags, unsignedLong, printMinoltaSonyBoolFunction),
         TagInfo(0x010a, "ZoneMatching", N_("Zone Matching"),
                 N_("Zone matching"),
                 minoltaIfdId, makerTags, unsignedLong, EXV_PRINT_TAG(minoltaZoneMatching)),
@@ -144,6 +147,9 @@ namespace Exiv2 {
         TagInfo(0x010c, "LensID", N_("Lens ID"),
                 N_("Lens identifier"),
                 minoltaIfdId, makerTags, unsignedLong, printMinoltaSonyLensID),
+        TagInfo(0x0113, "ImageStabilization", N_("Image Stabilization"),
+                N_("Image Stabilization"),
+                minoltaIfdId, makerTags, unsignedLong, printMinoltaSonyBoolFunction),
         TagInfo(0x0114, "CameraSettings5D", N_("Camera Settings (5D)"),
                 N_("Camera Settings (for Dynax 5D model)"),
                 minoltaIfdId, makerTags, undefined, printValue),
@@ -266,12 +272,6 @@ namespace Exiv2 {
     extern const TagDetails minoltaFlashStd[] = {
         { 0, N_("Did not fire") },
         { 1, N_("Fired")        }
-    };
-
-    //! Lookup table to translate Minolta Std camera settings file number memory values to readable labels
-    extern const TagDetails minoltaFileNumberMemoryStd[] = {
-        { 0, N_("Off") },
-        { 1, N_("On")  }
     };
 
     //! Lookup table to translate Minolta Std camera settings sharpness values to readable labels
@@ -500,7 +500,7 @@ namespace Exiv2 {
                 minoltaCsNewIfdId, makerTags, unsignedLong, printMinoltaFNumberStd),
         TagInfo(0x000B, "MacroMode", N_("Macro Mode"),
                 N_("Macro mode"),
-                minoltaCsNewIfdId, makerTags, unsignedLong, printMinoltaSonyMacroMode),
+                minoltaCsNewIfdId, makerTags, unsignedLong, printMinoltaSonyBoolFunction),
         TagInfo(0x000C, "DigitalZoom", N_("Digital Zoom"),
                 N_("Digital zoom"),
                 minoltaCsNewIfdId, makerTags, unsignedLong, EXV_PRINT_TAG(minoltaDigitalZoomStd)),
@@ -536,7 +536,7 @@ namespace Exiv2 {
                 minoltaCsNewIfdId, makerTags, unsignedLong, printValue),
         TagInfo(0x001A, "FileNumberMemory", N_("File Number Memory"),
                 N_("File number memory"),
-                minoltaCsNewIfdId, makerTags, unsignedLong, EXV_PRINT_TAG(minoltaFileNumberMemoryStd)),
+                minoltaCsNewIfdId, makerTags, unsignedLong, printMinoltaSonyBoolFunction),
         TagInfo(0x001B, "ImageNumber", N_("Image Number"),
                 N_("Image number"),
                 minoltaCsNewIfdId, makerTags, unsignedLong, printValue),
@@ -723,24 +723,6 @@ namespace Exiv2 {
         { 82, N_("Rotate 270 CW")       }
     };
 
-    //! Lookup table to translate Minolta Dynax 7D camera settings noise reduction values to readable labels
-    extern const TagDetails minoltaNoiseReduction7D[] = {
-        { 0, N_("Off") },
-        { 1, N_("On")  }
-    };
-
-    //! Lookup table to translate Minolta Dynax 7D camera settings image stabilization values to readable labels
-    extern const TagDetails minoltaImageStabilization7D[] = {
-        { 0, N_("Off") },
-        { 1, N_("On")  }
-    };
-
-    //! Lookup table to translate Minolta Dynax 7D camera settings zone matching on values to readable labels
-    extern const TagDetails minoltaZoneMatchingOn7D[] = {
-        { 0, N_("Off") },
-        { 1, N_("On")  }
-    };
-
     // Minolta Dynax 7D Camera Settings Tag Info
     const TagInfo MinoltaMakerNote::tagInfoCs7D_[] = {
         TagInfo(0x0000, "ExposureMode", N_("Exposure Mode"),
@@ -811,17 +793,17 @@ namespace Exiv2 {
                 minoltaCs7DIfdId, makerTags, unsignedShort, printValue),
         TagInfo(0x0060, "NoiseReduction", N_("Noise Reduction"),
                 N_("Noise reduction"),
-                minoltaCs7DIfdId, makerTags, unsignedShort, EXV_PRINT_TAG(minoltaNoiseReduction7D)),
+                minoltaCs7DIfdId, makerTags, unsignedShort, printMinoltaSonyBoolFunction),
         // 0x0062 is a dupplicate than 0x005E.
         TagInfo(0x0062, "ImageNumber", N_("Image Number"),
                 N_("Image number"),
                 minoltaCs7DIfdId, makerTags, unsignedShort, printValue),
         TagInfo(0x0071, "ImageStabilization", N_("Image Stabilization"),
                 N_("Image stabilization"),
-                minoltaCs7DIfdId, makerTags, unsignedShort, EXV_PRINT_TAG(minoltaImageStabilization7D)),
+                minoltaCs7DIfdId, makerTags, unsignedShort, printMinoltaSonyBoolFunction),
         TagInfo(0x0075, "ZoneMatchingOn", N_("Zone Matching On"),
                 N_("Zone matching on"),
-                minoltaCs7DIfdId, makerTags, unsignedShort, EXV_PRINT_TAG(minoltaZoneMatchingOn7D)),
+                minoltaCs7DIfdId, makerTags, unsignedShort, printMinoltaSonyBoolFunction),
 
         // End of list marker
         TagInfo(0xffff, "(UnknownMinoltaCs7DTag)", "(UnknownMinoltaCs7DTag)",
@@ -906,18 +888,6 @@ namespace Exiv2 {
         { 72, N_("Horizontal (normal)") },
         { 76, N_("Rotate 90 CW")        },
         { 82, N_("Rotate 270 CW")       }
-    };
-
-    //! Lookup table to translate Minolta Dynax 5D camera settings noise reduction values to readable labels
-    extern const TagDetails minoltaNoiseReduction5D[] = {
-        { 0, N_("Off") },
-        { 1, N_("On")  }
-    };
-
-    //! Lookup table to translate Minolta Dynax 5D camera settings image stabilization values to readable labels
-    extern const TagDetails minoltaImageStabilization5D[] = {
-        { 0, N_("Off") },
-        { 1, N_("On")  }
     };
 
     //! Lookup table to translate Minolta Dynax 5D camera settings focus position values to readable labels
@@ -1055,10 +1025,10 @@ namespace Exiv2 {
                 minoltaCs5DIfdId, makerTags, unsignedShort, printValue),
         TagInfo(0x00B0, "NoiseReduction", N_("Noise Reduction"),
                 N_("Noise reduction"),
-                minoltaCs5DIfdId, makerTags, unsignedShort, EXV_PRINT_TAG(minoltaNoiseReduction5D)),
+                minoltaCs5DIfdId, makerTags, unsignedShort, printMinoltaSonyBoolFunction),
         TagInfo(0x00BD, "ImageStabilization", N_("Image Stabilization"),
                 N_("Image stabilization"),
-                minoltaCs5DIfdId, makerTags, unsignedShort, EXV_PRINT_TAG(minoltaImageStabilization5D)),
+                minoltaCs5DIfdId, makerTags, unsignedShort, printMinoltaSonyBoolFunction),
 
         // From Xavier Raynaud: some notes on missing tags.
         // 0x0051 seems to be identical to FNumber (0x0036). An approx. relation between Tag value
@@ -1078,5 +1048,5 @@ namespace Exiv2 {
     }
 
     // TODO : Add camera settings tags info "New2"...
-
+    // TODO : Add camera settings tags info "A100"...
 }                                       // namespace Exiv2

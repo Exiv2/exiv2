@@ -144,12 +144,6 @@ namespace Exiv2 {
         { 12, N_("Advanced Lv5")  }
     };
 
-    //! Lookup table to translate Sony image stabilization values
-    extern const TagDetails sonyImageStabilization[] = {
-        { 0, N_("Off") },
-        { 1, N_("On")  }
-    };
-
     // Sony MakerNote Tag Info
     const TagInfo SonyMakerNote::tagInfo_[] = {
 
@@ -239,7 +233,7 @@ namespace Exiv2 {
                 sonyIfdId, makerTags, unsignedLong, EXV_PRINT_TAG(sonyDynamicRangeOptimizer)),
         TagInfo(0xb026, "ImageStabilization", N_("Image Stabilization"),
                 N_("Image stabilization"),
-                sonyIfdId, makerTags, unsignedLong, EXV_PRINT_TAG(sonyImageStabilization)),
+                sonyIfdId, makerTags, unsignedLong, printMinoltaSonyBoolFunction),
         TagInfo(0xb027, "LensID", N_("Lens ID"),
                 N_("Lens identifier"),
                 sonyIfdId, makerTags, unsignedLong, printMinoltaSonyLensID),
@@ -251,7 +245,7 @@ namespace Exiv2 {
 
         TagInfo(0xb029, "ColorMode", N_("Color Mode"),
                 N_("Color Mode"),
-                sonyIfdId, makerTags, unsignedLong, printMinoltaSonyColorMode),
+                sonyIfdId, makerTags, unsignedLong, printMinoltaSonyBoolFunction),
 
         // TODO
         TagInfo(0xb02b, "FullImageSize", N_("Full Image Size"),
@@ -265,7 +259,7 @@ namespace Exiv2 {
 
         TagInfo(0xb040, "Macro", N_("Macro"),
                 N_("Macro"),
-                sonyIfdId, makerTags, unsignedShort, printMinoltaSonyMacroMode),
+                sonyIfdId, makerTags, unsignedShort, printMinoltaSonyBoolFunction),
 
         // TODO
         TagInfo(0xb041, "ExposureMode", N_("Exposure Mode"),
