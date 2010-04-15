@@ -124,14 +124,14 @@ namespace Exiv2 {
         { 17, N_("Night View/Portrait") }
     };
 
-    //! Lookup table to translate Sony zone matching values
+    //! Lookup table to translate Sony zone matching values to readable labels
     extern const TagDetails sonyZoneMatching[] = {
         { 0, N_("ISO Setting Used") },
         { 1, N_("High Key") },
         { 2, N_("Low Key")  }
     };
 
-    //! Lookup table to translate Sony dynamic range optimizer values
+    //! Lookup table to translate Sony dynamic range optimizer values to readable labels
     extern const TagDetails sonyDynamicRangeOptimizer[] = {
         { 0,  N_("Off")           },
         { 1,  N_("Standard ")     },
@@ -175,6 +175,14 @@ namespace Exiv2 {
     extern const TagDetails sonyQuality[] = {
         { 0, N_("Normal") },
         { 1, N_("Fine")   }
+    };
+
+    //! Lookup table to translate Sony anti-blur values to readable labels
+    extern const TagDetails sonyAntiBlur[] = {
+        { 0,     N_("Off")             },
+        { 1,     N_("On (Continuous)") },
+        { 2,     N_("On (Shooting)")   },
+        { 65535, N_("Not Applicable")  }
     };
 
     // Sony MakerNote Tag Info
@@ -294,12 +302,9 @@ namespace Exiv2 {
         TagInfo(0xb047, "Quality", N_("Quality"),
                 N_("Quality"),
                 sonyIfdId, makerTags, unsignedShort, EXV_PRINT_TAG(sonyQuality)),
-
-        // TODO
         TagInfo(0xb04b, "AntiBlur", N_("Anti-Blur"),
                 N_("Anti-Blur"),
-                sonyIfdId, makerTags, unsignedShort, printValue),
-
+                sonyIfdId, makerTags, unsignedShort, EXV_PRINT_TAG(sonyAntiBlur)),
         TagInfo(0xb04e, "LongExposureNoiseReduction", N_("Long Exposure Noise Reduction"),
                 N_("Long Exposure Noise Reduction"),
                 sonyIfdId, makerTags, unsignedShort, printMinoltaSonyBoolValue),
