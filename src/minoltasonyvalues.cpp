@@ -353,14 +353,14 @@ namespace Exiv2 {
 
     // ----------------------------------------------------------------------------------------------------
 
-    //! Lookup table to translate Minolta/Sony macro mode values to readable labels
-    extern const TagDetails minoltaSonyMacroMode[] = {
+    //! Lookup table to translate Minolta/Sony bool function values to readable labels
+    extern const TagDetails minoltaSonyBoolFunction[] = {
         { 0, N_("Off") },
         { 1, N_("On")  }
     };
 
-    std::ostream& printMinoltaSonyMacroMode(std::ostream& os, const Value& value, const ExifData* metadata)
+    std::ostream& printMinoltaSonyBoolFunction(std::ostream& os, const Value& value, const ExifData* metadata)
     {
-        return EXV_PRINT_TAG(minoltaSonyMacroMode)(os, value, metadata);
+        return EXV_PRINT_TAG(minoltaSonyBoolFunction)(os, value, metadata);
     }
 }                                       // namespace Exiv2
