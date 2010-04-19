@@ -24,7 +24,7 @@
   Author(s): Michal Cihar <michal@cihar.com>
   Based on fujimn.cpp by:
              Andreas Huggel (ahu) <ahuggel@gmx.net>
-             Gilles Caulier (gc) <caulier.gilles@kdemail.net>
+             Gilles Caulier (gc) <caulier dot gilles at gmail dot com>
   History:   27-Sep-07 created
   Credits:   See header file.
  */
