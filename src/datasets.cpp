@@ -22,7 +22,7 @@
   File:      datasets.cpp
   Version:   $Rev$
   Author(s): Brad Schick (brad) <brad@robotbattle.com>
-             Gilles Caulier (gc) <caulier.gilles@kdemail.net>
+             Gilles Caulier (gc) <caulier dot gilles at gmail dot com>
   History:   24-Jul-04, brad: created
  */
 // *****************************************************************************

@@ -22,7 +22,7 @@
   File:      fujimn.cpp
   Version:   $Rev$
   Author(s): Andreas Huggel (ahu) <ahuggel@gmx.net>
-             Gilles Caulier (gc) <caulier.gilles@kdemail.net>
+             Gilles Caulier (gc) <caulier dot gilles at gmail dot com>
   History:   18-Feb-04, ahu: created
              07-Mar-04, ahu: isolated as a separate component
   Credits:   See header file.
