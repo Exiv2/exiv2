@@ -30,12 +30,14 @@
 #
 # ConfigureChecks for exiv2
 
-set( CMAKE_MODULE_PATH ${CMAKE_SOURCE_DIR}/config )
+set( CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} ${CMAKE_CURRENT_SOURCE_DIR}/config )
 include( CheckIncludeFile )
 include( CheckFunctionExists )
 include( CheckSymbolExists )
 include( CheckCSourceCompiles )
 include( CheckCXXSourceCompiles )
+
+include( FindIconv )
 
 set( STDC_HEADERS ON )
 set( HAVE_DECL_STRERROR_R 0 )
@@ -43,7 +45,7 @@ set( HAVE_DECL_STRERROR_R 0 )
 set( HAVE_PRINTUCS2 ${EXIV2_ENABLE_PRINTUCS2} )
 set( HAVE_LENSDATA ${EXIV2_ENABLE_LENSDATA} )
 
-include_directories( ${CMAKE_INCLUDE_PATH} ${CMAKE_BINARY_DIR} ${CMAKE_SOURCE_DIR}/xmpsdk/include )
+include_directories( ${CMAKE_INCLUDE_PATH} ${CMAKE_CURRENT_BINARY_DIR} ${CMAKE_CURRENT_SOURCE_DIR}/xmpsdk/include )
 link_directories( ${CMAKE_LIBRARY_PATH} )
 set( CMAKE_REQUIRED_INCLUDES ${CMAKE_INCLUDE_PATH} )
 
@@ -84,10 +86,11 @@ if( EXIV2_ENABLE_COMMERCIAL )
 endif( EXIV2_ENABLE_COMMERCIAL )
 
 find_package(Iconv)
-if( ICONV_TEST )
+if( ICONV_FOUND )
     set( HAVE_ICONV 1 )
+    include_directories(${ICONV_INCLUDE_DIR})
     message ( "================> ICONV_LIBRARIES : " ${ICONV_LIBRARIES} )
-endif( ICONV_TEST )
+endif( ICONV_FOUND )
 
 if( ICONV_ACCEPTS_CONST_INPUT )
     message ( "ICONV_ACCEPTS_CONST_INPUT : yes" )
@@ -236,14 +239,14 @@ foreach( entry ${EXV_SYMBOLS} )
 #    message( EXV_${entry} " : " ${${entry}} )
 endforeach( entry ${EXV_SYMBOLS} )
 
-configure_file( config/config.h.cmake ${CMAKE_BINARY_DIR}/exv_conf.h )
-configure_file( config/exv_msvc.h.cmake ${CMAKE_BINARY_DIR}/exv_msvc.h COPYONLY )
-install( FILES ${CMAKE_BINARY_DIR}/exv_conf.h DESTINATION include/exiv2 )
-install( FILES ${CMAKE_BINARY_DIR}/exv_msvc.h DESTINATION include/exiv2 )
+configure_file( config/config.h.cmake ${CMAKE_CURRENT_BINARY_DIR}/exv_conf.h )
+configure_file( config/exv_msvc.h.cmake ${CMAKE_CURRENT_BINARY_DIR}/exv_msvc.h COPYONLY )
+install( FILES ${CMAKE_CURRENT_BINARY_DIR}/exv_conf.h DESTINATION include/exiv2 )
+install( FILES ${CMAKE_CURRENT_BINARY_DIR}/exv_msvc.h DESTINATION include/exiv2 )
 
 if( NOT MSVC )
-    configure_file( config/exiv2.pc.cmake ${CMAKE_BINARY_DIR}/exiv2.pc )
-    install( FILES ${CMAKE_BINARY_DIR}/exiv2.pc DESTINATION lib/pkgconfig )
+    configure_file( config/exiv2.pc.cmake ${CMAKE_CURRENT_BINARY_DIR}/exiv2.pc )
+    install( FILES ${CMAKE_CURRENT_BINARY_DIR}/exiv2.pc DESTINATION lib/pkgconfig )
 endif( NOT MSVC )
 
 # ******************************************************************************
