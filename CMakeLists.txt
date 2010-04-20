@@ -29,49 +29,49 @@
 # IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #
 
-project( exiv2 )
+PROJECT( exiv2 )
 
-cmake_minimum_required( VERSION 2.6 )
+CMAKE_MINIMUM_REQUIRED( VERSION 2.6 )
 
-set( PACKAGE_BUGREPORT      "ahuggel@gmx.net" )
-set( PACKAGE                "exiv2" )
-set( PACKAGE_NAME           "exiv2" )
-set( PACKAGE_STRING         "exiv2 0.19.1" )
-set( PACKAGE_TARNAME        "exiv2" )
-set( PACKAGE_VERSION        "0.19.1" )
-set( GENERIC_LIB_VERSION    "6.0.0" )
-set( GENERIC_LIB_SOVERSION  "6" )
+SET( PACKAGE_BUGREPORT      "ahuggel@gmx.net" )
+SET( PACKAGE                "exiv2" )
+SET( PACKAGE_NAME           "exiv2" )
+SET( PACKAGE_STRING         "exiv2 0.19.1" )
+SET( PACKAGE_TARNAME        "exiv2" )
+SET( PACKAGE_VERSION        "0.19.1" )
+SET( GENERIC_LIB_VERSION    "6.0.0" )
+SET( GENERIC_LIB_SOVERSION  "6" )
 
 # options and there default values
-option( EXIV2_ENABLE_SHARED       "Build exiv2 as a shared library (dll)"                 ON )
-option( EXIV2_ENABLE_XMP          "Build with XMP metadata support"                       ON )
-option( EXIV2_ENABLE_LIBXMP       "Build a static convenience Library for XMP"            OFF )
-option( EXIV2_ENABLE_PNG          "Build with png support (requires libz)"                ON )
-option( EXIV2_ENABLE_NLS          "Build native language support (requires gettext)"      ON )
-option( EXIV2_ENABLE_PRINTUCS2    "Build with Printucs2"                                  ON )
-option( EXIV2_ENABLE_LENSDATA     "include lens data"                                     ON )
-option( EXIV2_ENABLE_COMMERCIAL   "compile with the EXV_COMMERCIAL_VERSION symbol set"    OFF )
-option( BUILD_samples             "Build the unit tests"                                  OFF )
+OPTION( EXIV2_ENABLE_SHARED       "Build exiv2 as a shared library (dll)"                 ON  )
+OPTION( EXIV2_ENABLE_XMP          "Build with XMP metadata support"                       ON  )
+OPTION( EXIV2_ENABLE_LIBXMP       "Build a static convenience Library for XMP"            OFF )
+OPTION( EXIV2_ENABLE_PNG          "Build with png support (requires libz)"                ON  )
+OPTION( EXIV2_ENABLE_NLS          "Build native language support (requires gettext)"      ON  )
+OPTION( EXIV2_ENABLE_PRINTUCS2    "Build with Printucs2"                                  ON  )
+OPTION( EXIV2_ENABLE_LENSDATA     "include lens data"                                     ON  )
+OPTION( EXIV2_ENABLE_COMMERCIAL   "compile with the EXV_COMMERCIAL_VERSION symbol set"    OFF )
+OPTION( BUILD_samples             "Build the unit tests"                                  OFF )
 
-if( MINGW OR UNIX )
-        add_definitions( -Wall -Wcast-align -Wpointer-arith -Wformat-security -Wmissing-format-attribute -Woverloaded-virtual -W )
-endif( MINGW OR UNIX )
+IF( MINGW OR UNIX )
+    ADD_DEFINITIONS( -Wall -Wcast-align -Wpointer-arith -Wformat-security -Wmissing-format-attribute -Woverloaded-virtual -W)
+ENDIF( MINGW OR UNIX )
 
-if( EXIV2_ENABLE_XMP )
-    set( HAVE_XMP_TOOLKIT ON )
-    set( XMPLIB "do" )
-endif( EXIV2_ENABLE_XMP )
+IF( EXIV2_ENABLE_XMP )
+    SET( HAVE_XMP_TOOLKIT ON )
+    SET( XMPLIB "do" )
+ENDIF( EXIV2_ENABLE_XMP )
 
-if( BUILD_samples )
+IF( BUILD_samples )
     EXIV2_ENABLE_TESTING()
-endif( BUILD_samples )
+ENDIF( BUILD_samples )
 
-include( config/ConfigureChecks.cmake )
+INCLUDE( config/ConfigureChecks.cmake )
 
-set( INSTALL_TARGET_STANDARD_ARGS RUNTIME DESTINATION bin LIBRARY DESTINATION lib ARCHIVE DESTINATION lib )
+SET( INSTALL_TARGET_STANDARD_ARGS RUNTIME DESTINATION bin LIBRARY DESTINATION lib ARCHIVE DESTINATION lib )
 
 # add sources from XMPSDK directory - this needs to be done here
-set( XMPSRC ${CMAKE_CURRENT_SOURCE_DIR}/xmpsdk/src/ExpatAdapter.cpp
+SET( XMPSRC ${CMAKE_CURRENT_SOURCE_DIR}/xmpsdk/src/ExpatAdapter.cpp
             ${CMAKE_CURRENT_SOURCE_DIR}/xmpsdk/src/MD5.cpp
             ${CMAKE_CURRENT_SOURCE_DIR}/xmpsdk/src/ParseRDF.cpp
             ${CMAKE_CURRENT_SOURCE_DIR}/xmpsdk/src/UnicodeConversions.cpp
@@ -86,20 +86,21 @@ set( XMPSRC ${CMAKE_CURRENT_SOURCE_DIR}/xmpsdk/src/ExpatAdapter.cpp
             ${CMAKE_CURRENT_SOURCE_DIR}/xmpsdk/src/XMPMeta-Serialize.cpp
             ${CMAKE_CURRENT_SOURCE_DIR}/xmpsdk/src/XMPMeta.cpp
             ${CMAKE_CURRENT_SOURCE_DIR}/xmpsdk/src/XMPUtils-FileInfo.cpp
-            ${CMAKE_CURRENT_SOURCE_DIR}/xmpsdk/src/XMPUtils.cpp )
+            ${CMAKE_CURRENT_SOURCE_DIR}/xmpsdk/src/XMPUtils.cpp
+   )
 
 # the following lines need to be added to circumvent the error in xmpsdk\src\MD5.h
-if( ${EXV_HAVE_STDINT_H} )
-    add_definitions( -DEXV_HAVE_STDINT_H )
-endif( ${EXV_HAVE_STDINT_H} )
+IF( ${EXV_HAVE_STDINT_H} )
+    ADD_DEFINITIONS( -DEXV_HAVE_STDINT_H )
+ENDIF( ${EXV_HAVE_STDINT_H} )
 
-add_subdirectory( xmpsdk )
-add_subdirectory( src )
+ADD_SUBDIRECTORY( xmpsdk )
+ADD_SUBDIRECTORY( src )
 
-if( BUILD_samples )
-    add_subdirectory( samples )
-endif( BUILD_samples )
+IF( BUILD_samples )
+    ADD_SUBDIRECTORY( samples )
+ENDIF( BUILD_samples )
 
-if( EXIV2_ENABLE_XMP )
-    add_dependencies(exiv2 xmp)
-endif( EXIV2_ENABLE_XMP )
+IF( EXIV2_ENABLE_XMP )
+    ADD_DEPENDENCIES(exiv2 xmp)
+ENDIF( EXIV2_ENABLE_XMP )
