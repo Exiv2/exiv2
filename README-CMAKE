@@ -43,21 +43,41 @@ To modify the configuration
 
     $ ccmake ..
 
+Usual CMake options :
+
+-DCMAKE_INSTALL_PREFIX : decide where the program will be install on your computer.
+-DCMAKE_BUILD_TYPE     : decide which type of build you want. You can chose between:
+                         "debugfull".     : for hacking. Include all debug information.
+                         "debug".
+                         "profile".
+                         "relwithdebinfo" : default. use gcc -O2 -g options.
+                         "release"        : generate stripped and optimized bin files. For packaging.
+
+Specific Exiv2 options :
+
+-DEXIV2_ENABLE_SHARED       : Build exiv2 as a shared library (dll).
+-DEXIV2_ENABLE_XMP          : Build with XMP metadata support.
+-DEXIV2_ENABLE_LIBXMP       : Build a static convenience Library for XMP.
+-DEXIV2_ENABLE_PNG          : Build with png support (requires libz).
+-DEXIV2_ENABLE_NLS          : Build native language support (requires gettext).
+-DEXIV2_ENABLE_PRINTUCS2    : Build with Printucs2.
+-DEXIV2_ENABLE_LENSDATA     : Build including lens data.
+-DEXIV2_ENABLE_COMMERCIAL   : Build with the EXV_COMMERCIAL_VERSION symbol set.
+-EXIV2_ENABLE_BUILD_SAMPLES : Build the unit tests.
 
 Default install locations
-...
+
+Use -DCMAKE_INSTALL_PREFIX like this :
+
+"cmake . -DCMAKE_INSTALL_PREFIX=/usr"  is equivalent to "./configure --prefix=/usr" with automake/configure.
 
 To uninstall Exiv2, run:
 
     $ make uninstall
 
-    NOTE: on UNIX-like systems, you can use "$ xargs rm < install_manifest.txt"
-
-
 b) Using the cmake GUI
 
    ccmake
-
 
 Dependencies
 ============

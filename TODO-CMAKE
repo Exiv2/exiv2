@@ -8,7 +8,6 @@
  (some applications and my own release-build process need this) to the README.CMAKE
 
 * Manage i18n extraction to generate .po files. (See http://www.cmake.org/pipermail/cmake/2009-July/031003.html)
-  check option ENABLE_NLS that doesn't work correctly here.
 
 * Rename configuration settings to EXIV2_*, e.g., EXIV2_ENABLE_SHARED
 
@@ -75,12 +74,13 @@ DONE * Manage eviv2.lsm file with CMake, like it's do with kdegraphics/libs .lsm
 DONE * added cmake target to uninstall Exiv2, based on KDE4 cmake script.
 
 DONE * The following options of the configure script should be supported
-   --disable-shared     DONE - ENABLE_SHARED_EXIV2
-   --disable-xmp        DONE - ENABLE_XMP
-   --without-zlib       DONE - ENABLE_PNG
-   --enable-commercial  DONE - ENABLE_COMMERCIAL
-   --disable-lensdata   DONE - ENABLE_LENSDATA
-   --disable-printucs2  DONE - ENABLE_PRINTUCS2
+   --disable-shared     => -ENABLE_SHARED_EXIV2
+   --disable-xmp        => -ENABLE_XMP
+   --without-zlib       => -ENABLE_PNG
+   --enable-commercial  => -ENABLE_COMMERCIAL
+   --disable-lensdata   => -ENABLE_LENSDATA
+   --disable-printucs2  => -ENABLE_PRINTUCS2
+   --enable-nls         => -ENABLE_NLS
 
 INFO * check How does cmake handle RPATH? (I'll read up on this).
 
