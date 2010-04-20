@@ -11,7 +11,6 @@
 
 * Rename configuration settings to EXIV2_*, e.g., EXIV2_ENABLE_SHARED
 
-* Two cmake projects: 1) exiv2 2) samples, common config in config/
 
 * emacs M-c command to (re-)compile
 
@@ -45,7 +44,7 @@ DONE * Add further messages to display option settings.
    -- XMP metadata support........... YES
    ------------------------------------------------------------------
 
-DONE * add possibility to build xmp as a convenience library.
+DONE * Add possibility to build xmp as a convenience library.
 
 DONE * Compilation fails if Expat (possibly also other dependencies?) is in a non-standard place.
 
@@ -71,7 +70,7 @@ DONE * Manage eviv2.pc file with CMake, like it's do with kdegraphics/libs .pc f
 
 DONE * Manage eviv2.lsm file with CMake, like it's do with kdegraphics/libs .lsm file.
 
-DONE * added cmake target to uninstall Exiv2, based on KDE4 cmake script.
+DONE * Added cmake target to uninstall Exiv2, based on KDE4 cmake script.
 
 DONE * The following options of the configure script should be supported
    --disable-shared     => -ENABLE_SHARED_EXIV2
@@ -82,5 +81,9 @@ DONE * The following options of the configure script should be supported
    --disable-printucs2  => -ENABLE_PRINTUCS2
    --enable-nls         => -ENABLE_NLS
 
-INFO * check How does cmake handle RPATH? (I'll read up on this).
+DONE * Cmake project: in root folder, common config in config sub-dir.
+
+DONE * Manage samples sub-dir with CMake.
+
+INFO * Check How does cmake handle RPATH? (I'll read up on this).
 

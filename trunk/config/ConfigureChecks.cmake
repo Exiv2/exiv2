@@ -269,4 +269,5 @@ OptionOutput( "Native language support:         " EXIV2_ENABLE_NLS              
 OptionOutput( "Conversion of Windows XP tags:   " EXIV2_ENABLE_PRINTUCS2          )
 OptionOutput( "Nikon lens database:             " EXIV2_ENABLE_LENSDATA           )
 OptionOutput( "Commercial build:                " EXIV2_ENABLE_COMMERCIAL         )
+OptionOutput( "Build the unit tests             " EXIV2_ENABLE_BUILD_SAMPLES      )
 MESSAGE( STATUS "-------------------------------------------------------------"   )
