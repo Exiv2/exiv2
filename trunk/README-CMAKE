@@ -1,5 +1,6 @@
 -------------------------------------------------------------------------------
-CMake scripts are experimental. Use them only if you're prepared to fix them.
+NOTE: CMake scripts still under developpement. Use them only if you're prepared 
+to fix them. Look TODO-CMAKE.txt for pending task. Thanks for your help.
 -------------------------------------------------------------------------------
 
 Exiv2 uses cmake, a cross-platform build system, to control the
@@ -58,27 +59,9 @@ b) Using the cmake GUI
    ccmake
 
 
-
-
-
 Dependencies
 ============
 
 cmake itself
 
 migrate the rest here from README, test one by one
-
-
-
-
------
-
-Further TODOs:
-
-  * Rename configuration settings to EXIV2_*, e.g., EXIV2_ENABLE_SHARED
-  * Two cmake projects: 1) exiv2 2) samples, common config in config/
-  * Is it possible to not have CMakeLists.txt file in the top dir?
-  * --disable-visibility
-  * cross-compilation
-  * Release build and packaging scripts
-  * emacs M-c command to (re-)compile
