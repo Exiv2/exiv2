@@ -794,6 +794,23 @@ namespace Exiv2 {
         { 146, ttSignedShort, 1 } // Exif.MinoltaCs5D.ColorTemperature
     };
 
+    //! Sony Camera Settings binary array - configuration
+    extern const ArrayCfg sonyCsCfg = {
+        Group::sonycs,    // Group for the elements
+        bigEndian,        // Big endian
+        ttUndefined,      // Type for array entry and size element
+        notEncrypted,     // Not encrypted
+        false,            // No size element
+        false,            // No fillers
+        false,            // Don't concatenate gaps
+        { 0, ttUnsignedShort, 1 }
+    };
+    //! Sony Camera Settings binary array - definition
+    extern const ArrayDef sonyCsDef[] = {
+        {   6, ttUnsignedShort, 1 }, // Exif.SonyCs.DriveMode
+        {  10, ttSignedShort,   1 }  // Exif.SonyCs.WhiteBalanceFineTune
+    };
+
     /*
       This table lists for each group in a tree, its parent group and tag.
       Root identifies the root of a TIFF tree, as there is a need for multiple
@@ -877,6 +894,8 @@ namespace Exiv2 {
         { Tag::root, Group::pentaxmn,  Group::exif,      0x927c    },
         { Tag::root, Group::sigmamn,   Group::exif,      0x927c    },
         { Tag::root, Group::sony1mn,   Group::exif,      0x927c    },
+        { Tag::root, Group::sonycs,    Group::sony1mn,   0x0114    },
+        { Tag::root, Group::sonymltmn, Group::sony1mn,   0xb028    },
         { Tag::root, Group::sony2mn,   Group::exif,      0x927c    },
         { Tag::root, Group::minoltamn, Group::exif,      0x927c    },
         { Tag::root, Group::minocso,   Group::minoltamn, 0x0001    },
@@ -1235,11 +1254,20 @@ namespace Exiv2 {
 
         // Sony1 makernote
         { Tag::next, Group::sony1mn,   newTiffDirectory<Group::ignr>             },
+        {    0x0114, Group::sony1mn,   EXV_BINARY_ARRAY(sonyCsCfg, sonyCsDef)    },
+        {    0xb028, Group::sony1mn,   newTiffSubIfd<Group::sonymltmn>           },
         {  Tag::all, Group::sony1mn,   newTiffEntry                              },
+
+        // Sony1 camera settings
+        {  Tag::all, Group::sonycs,    newTiffBinaryElement                      },
 
         // Sony2 makernote
         { Tag::next, Group::sony2mn,   newTiffDirectory<Group::ignr>             },
         {  Tag::all, Group::sony2mn,   newTiffEntry                              },
+
+        // Sony Minolta makernote
+        { Tag::next, Group::sonymltmn, newTiffDirectory<Group::ignr>             },
+        {  Tag::all, Group::sonymltmn, newTiffEntry                              },
 
         // Minolta makernote
         {    0x0001, Group::minoltamn, EXV_SIMPLE_BINARY_ARRAY(minoCsoCfg)       },
@@ -1662,7 +1690,7 @@ namespace Exiv2 {
             { 0x010a, Group::ifd0 }, // Exif.Image.FillOrder
             { 0x0111, Group::ifd0 }, // Exif.Image.StripOffsets
             { 0x0115, Group::ifd0 }, // Exif.Image.SamplesPerPixel
-            { 0x0116, Group::ifd0 }, // Exif.Image.RowsPerStrip 
+            { 0x0116, Group::ifd0 }, // Exif.Image.RowsPerStrip
             { 0x0117, Group::ifd0 }, // Exif.Image.StripByteCounts
             { 0x011a, Group::ifd0 }, // Exif.Image.XResolution
             { 0x011b, Group::ifd0 }, // Exif.Image.YResolution
