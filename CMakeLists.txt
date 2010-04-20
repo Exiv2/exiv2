@@ -54,7 +54,14 @@ OPTION( EXIV2_ENABLE_COMMERCIAL   "compile with the EXV_COMMERCIAL_VERSION symbo
 OPTION( BUILD_samples             "Build the unit tests"                                  OFF )
 
 IF( MINGW OR UNIX )
-    ADD_DEFINITIONS( -Wall -Wcast-align -Wpointer-arith -Wformat-security -Wmissing-format-attribute -Woverloaded-virtual -W)
+    ADD_DEFINITIONS(-Wall
+                    -Wcast-align
+                    -Wpointer-arith
+                    -Wformat-security
+                    -Wmissing-format-attribute
+                    -Woverloaded-virtual
+                    -W
+                   )
 ENDIF( MINGW OR UNIX )
 
 IF( EXIV2_ENABLE_XMP )
@@ -68,7 +75,11 @@ ENDIF( BUILD_samples )
 
 INCLUDE( config/ConfigureChecks.cmake )
 
-SET( INSTALL_TARGET_STANDARD_ARGS RUNTIME DESTINATION bin LIBRARY DESTINATION lib ARCHIVE DESTINATION lib )
+SET( INSTALL_TARGET_STANDARD_ARGS RUNTIME
+     DESTINATION bin
+     LIBRARY DESTINATION lib
+     ARCHIVE DESTINATION lib
+   )
 
 # add sources from XMPSDK directory - this needs to be done here
 SET( XMPSRC ${CMAKE_CURRENT_SOURCE_DIR}/xmpsdk/src/ExpatAdapter.cpp
