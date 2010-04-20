@@ -1,5 +1,6 @@
 # CMake build system for exiv2 library and executables
 # Copyright 2008 by Patrick Spendrin <ps_ml@gmx.de>
+# Copyright 2010 by Gilles Caulier <caulier dot gilles at gmail dot com>
 #
 # Redistribution and use in source and binary forms, with or without
 # modification, are permitted provided that the following conditions
@@ -28,25 +29,26 @@
 # IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 
-set( SAMPLES    addmoddel.cpp
-                exifcomment.cpp
-                exifdata-test.cpp
-                exifprint.cpp
-                iotest.cpp
-                iptceasy.cpp
-                iptcprint.cpp
-                iptctest.cpp
-                key-test.cpp
-                largeiptc-test.cpp
-                write-test.cpp
-                write2-test.cpp
-                xmpparse.cpp
-                xmpparser-test.cpp
-                xmpsample.cpp )
+SET( SAMPLES addmoddel.cpp
+             exifcomment.cpp
+             exifdata-test.cpp
+             exifprint.cpp
+             iotest.cpp
+             iptceasy.cpp
+             iptcprint.cpp
+             iptctest.cpp
+             key-test.cpp
+             largeiptc-test.cpp
+             write-test.cpp
+             write2-test.cpp
+             xmpparse.cpp
+             xmpparser-test.cpp
+             xmpsample.cpp
+   )
 
-foreach(entry ${SAMPLES})
-STRING( REPLACE ".cpp" "" target ${entry})
-add_executable( ${target} ${target}.cpp )
-add_test( ${target}_test ${target} )
-target_link_libraries(${target} exiv2 )
-endforeach(entry ${SAMPLES})
+FOREACH(entry ${SAMPLES})
+    STRING( REPLACE ".cpp" "" target ${entry})
+    ADD_EXECUTABLE( ${target} ${target}.cpp )
+    ADD_TEST( ${target}_test ${target} )
+    TARGET_LINK_LIBRARIES( ${target} exiv2 )
+ENDFOREACH(entry ${SAMPLES})
