@@ -46,13 +46,14 @@ SET( GENERIC_LIB_SOVERSION  "6" )
 # options and there default values
 OPTION( EXIV2_ENABLE_SHARED        "Build exiv2 as a shared library (dll)"                 ON  )
 OPTION( EXIV2_ENABLE_XMP           "Build with XMP metadata support"                       ON  )
-OPTION( EXIV2_ENABLE_LIBXMP        "Build a static convenience Library for XMP"            OFF )
+OPTION( EXIV2_EXIV2_ENABLE_LIBXMP  "Build a static convenience Library for XMP"            OFF )
 OPTION( EXIV2_ENABLE_PNG           "Build with png support (requires libz)"                ON  )
 OPTION( EXIV2_ENABLE_NLS           "Build native language support (requires gettext)"      ON  )
 OPTION( EXIV2_ENABLE_PRINTUCS2     "Build with Printucs2"                                  ON  )
 OPTION( EXIV2_ENABLE_LENSDATA      "Build including lens data"                             ON  )
 OPTION( EXIV2_ENABLE_COMMERCIAL    "Build with the EXV_COMMERCIAL_VERSION symbol set"      OFF )
 OPTION( EXIV2_ENABLE_BUILD_SAMPLES "Build the unit tests"                                  OFF )
+OPTION( EXIV2_ENABLE_PO_RULES      "Includes rules to build i18n files"                    OFF )
 
 IF( MINGW OR UNIX )
     ADD_DEFINITIONS(-Wall
@@ -104,6 +105,10 @@ ENDIF( ${EXV_HAVE_STDINT_H} )
 
 ADD_SUBDIRECTORY( xmpsdk )
 ADD_SUBDIRECTORY( src )
+
+IF( EXIV2_ENABLE_PO_RULES )
+    ADD_SUBDIRECTORY( po )
+ENDIF( EXIV2_ENABLE_PO_RULES )
 
 IF( EXIV2_ENABLE_BUILD_SAMPLES )
     ADD_SUBDIRECTORY( samples )
