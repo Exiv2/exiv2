@@ -96,6 +96,12 @@ IF( ICONV_ACCEPTS_CONST_INPUT )
     MESSAGE ( "ICONV_ACCEPTS_CONST_INPUT : yes" )
 ENDIF( ICONV_ACCEPTS_CONST_INPUT )
 
+FIND_PACKAGE(MSGFMT)
+IF(MSGFMT_FOUND)
+    MESSAGE(STATUS "Program msgfmt found (${MSGFMT_EXECUTABLE})")
+    SET( EXIV2_BUILD_PO 1 )
+ENDIF(MSGFMT_FOUND)
+
 # checking for Header files
 check_include_file( "inttypes.h" have_inttypes_h )
 check_include_file( "libintl.h" HAVE_LIBINTL_H )
@@ -270,5 +276,5 @@ OptionOutput( "Conversion of Windows XP tags:     " EXIV2_ENABLE_PRINTUCS2      
 OptionOutput( "Nikon lens database:               " EXIV2_ENABLE_LENSDATA           )
 OptionOutput( "Commercial build:                  " EXIV2_ENABLE_COMMERCIAL         )
 OptionOutput( "Build the unit tests               " EXIV2_ENABLE_BUILD_SAMPLES      )
-OptionOutput( "Includes rules to build i18n files " EXIV2_ENABLE_PO_RULES           )
+OptionOutput( "Includes rules to build i18n files " EXIV2_BUILD_PO                  )
 MESSAGE( STATUS "-----------------------------------------------------------------" )
