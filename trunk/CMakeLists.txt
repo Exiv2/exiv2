@@ -39,6 +39,7 @@ SET( PACKAGE_NAME           "exiv2" )
 SET( PACKAGE_STRING         "exiv2 0.19.1" )
 SET( PACKAGE_TARNAME        "exiv2" )
 SET( PACKAGE_VERSION        "0.19.1" )
+SET( PACKAGE_URL            "http://www.exiv2.org" )
 SET( GENERIC_LIB_VERSION    "6.0.0" )
 SET( GENERIC_LIB_SOVERSION  "6" )
 
