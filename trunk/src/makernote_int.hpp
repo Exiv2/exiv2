@@ -109,6 +109,8 @@ namespace Exiv2 {
         const uint16_t nikonsi5  = 317; //!< Nikon Shot Info v2.* Tags
         const uint16_t nikonsi6  = 318; //!< Nikon Shot Info v1.* Tags
         const uint16_t canonfi   = 320; //!< Canon File Info
+        const uint16_t sonymltmn = 330; //!< Sony Minolta Makernotes
+        const uint16_t sonycs    = 331; //!< Sony Camera Settings
     }
 
 // *****************************************************************************

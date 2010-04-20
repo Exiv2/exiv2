@@ -171,6 +171,8 @@ namespace Exiv2 {
         { pentaxIfdId,       "Makernote", "Pentax",       PentaxMakerNote::tagList       },
         { sigmaIfdId,        "Makernote", "Sigma",        SigmaMakerNote::tagList        },
         { sonyIfdId,         "Makernote", "Sony",         SonyMakerNote::tagList         },
+        { sonyMltIfdId,      "Makernote", "SonyMinolta",  MinoltaMakerNote::tagList      },
+        { sonyCsIfdId,       "Makernote", "SonyCs",       SonyMakerNote::tagListCs       },
         { lastIfdId,         "(Last IFD info)", "(Last IFD item)", 0 }
     };
 

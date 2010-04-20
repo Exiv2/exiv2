@@ -207,6 +207,35 @@ namespace Exiv2 {
         { 14, N_("Incandescent")  }
     };
 
+    std::ostream& SonyMakerNote::print0xb000(std::ostream& os, const Value& value, const ExifData*)
+    {
+        if (value.count() != 4)
+        {
+            os << "(" << value << ")";
+        }
+        else
+        {
+            std::string val = value.toString(0) + value.toString(1) + value.toString(2) + value.toString(3);
+            if      (val == "0002") os << "JPEG";
+            else if (val == "1000") os << "SR2";
+            else if (val == "2000") os << "ARW 1.0";
+            else if (val == "3000") os << "ARW 2.0";
+            else if (val == "3100") os << "ARW 2.1";
+            else                    os << "(" << value << ")";
+        }
+        return os;
+    }
+
+    std::ostream& SonyMakerNote::printImageSize(std::ostream& os, const Value& value, const ExifData*)
+    {
+        if (value.count() == 2)
+            os << value.toString(0) << " x " << value.toString(1);
+        else
+            os << "(" << value << ")";
+
+        return os;
+    }
+
     // Sony MakerNote Tag Info
     const TagInfo SonyMakerNote::tagInfo_[] = {
 
@@ -351,33 +380,24 @@ namespace Exiv2 {
         return tagInfo_;
     }
 
-    std::ostream& SonyMakerNote::print0xb000(std::ostream& os, const Value& value, const ExifData*)
-    {
-        if (value.count() != 4)
-        {
-            os << "(" << value << ")";
-        }
-        else
-        {
-            std::string val = value.toString(0) + value.toString(1) + value.toString(2) + value.toString(3);
-            if      (val == "0002") os << "JPEG";
-            else if (val == "1000") os << "SR2";
-            else if (val == "2000") os << "ARW 1.0";
-            else if (val == "3000") os << "ARW 2.0";
-            else if (val == "3100") os << "ARW 2.1";
-            else                    os << "(" << value << ")";
-        }
-        return os;
-    }
+    // -- Sony camera settings ---------------------------------------------------------------
 
-    std::ostream& SonyMakerNote::printImageSize(std::ostream& os, const Value& value, const ExifData*)
-    {
-        if (value.count() == 2)
-            os << value.toString(0) << " x " << value.toString(1);
-        else
-            os << "(" << value << ")";
+    // Sony Camera Settings Tag Info
+    const TagInfo SonyMakerNote::tagInfoCs_[] = {
 
-        return os;
+        TagInfo(0x0016, "ISOSetting", N_("ISO Setting"),
+                N_("ISO Setting"),
+                sonyCsIfdId, makerTags, unsignedShort, printValue),
+
+        // End of list marker
+        TagInfo(0xffff, "(UnknownSonyCsTag)", "(UnknownSonyCsTag)",
+                N_("Unknown Sony Camera Settings tag"),
+                sonyCsIfdId, makerTags, invalidTypeId, printValue)
+    };
+
+    const TagInfo* SonyMakerNote::tagListCs()
+    {
+        return tagInfoCs_;
     }
 
 }                                       // namespace Exiv2

@@ -224,6 +224,8 @@ namespace Exiv2 {
         pentaxIfdId,
         sigmaIfdId,
         sonyIfdId,
+        sonyMltIfdId,
+        sonyCsIfdId,
         lastIfdId
     };
 

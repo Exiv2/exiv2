@@ -55,6 +55,8 @@ namespace Exiv2 {
     public:
         //! Return read-only list of built-in Sony tags
         static const TagInfo* tagList();
+        //! Return read-only list of built-in Sony Standard Camera Settings tags
+        static const TagInfo* tagListCs();
 
         //! @name Print functions for Sony %MakerNote tags
         //@{
@@ -66,6 +68,7 @@ namespace Exiv2 {
     private:
         //! Tag information
         static const TagInfo tagInfo_[];
+        static const TagInfo tagInfoCs_[];
 
     }; // class SonyMakerNote
 }                                       // namespace Exiv2

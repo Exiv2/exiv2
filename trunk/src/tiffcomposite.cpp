@@ -156,7 +156,9 @@ namespace Exiv2 {
         { 316, "NikonSiD300b" },
         { 317, "NikonSi02xx"  },
         { 318, "NikonSi01xx"  },
-        { 320, "CanonFi"      }
+        { 320, "CanonFi"      },
+        { 330, "SonyMinolta"  },
+        { 331, "SonyCs"       }
     };
 
     bool TiffGroupInfo::operator==(const uint16_t& group) const
