@@ -238,6 +238,9 @@ CONFIGURE_FILE( config/exv_msvc.h.cmake ${CMAKE_CURRENT_BINARY_DIR}/exv_msvc.h C
 INSTALL( FILES ${CMAKE_CURRENT_BINARY_DIR}/exv_conf.h DESTINATION include/exiv2 )
 INSTALL( FILES ${CMAKE_CURRENT_BINARY_DIR}/exv_msvc.h DESTINATION include/exiv2 )
 
+CONFIGURE_FILE(config/exiv2_cmake_uninstall.cmake.in ${CMAKE_BINARY_DIR}/cmake_uninstall.cmake COPYONLY)
+ADD_CUSTOM_TARGET(uninstall "${CMAKE_COMMAND}" -P "${CMAKE_BINARY_DIR}/cmake_uninstall.cmake")
+
 IF( NOT MSVC )
     CONFIGURE_FILE( config/exiv2.pc.cmake ${CMAKE_CURRENT_BINARY_DIR}/exiv2.pc )
     INSTALL( FILES ${CMAKE_CURRENT_BINARY_DIR}/exiv2.pc DESTINATION lib/pkgconfig )
