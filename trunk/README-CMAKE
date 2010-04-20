@@ -1,17 +1,19 @@
 -------------------------------------------------------------------------------
-NOTE: CMake scripts still under developpement. Use them only if you're prepared 
+NOTE: 
+
+* CMake scripts still under developpement. Use them only if you're prepared 
 to fix them. Look TODO-CMAKE.txt for pending task. Thanks for your help.
+
+* The old make and MSVC build files are currently still around but will be 
+considered deprecated for 0.20.0 release. They will disappear once
+the cmake build process is feature-complete, stable and documented. Or
+maybe earlier to force me to get there.
+
 -------------------------------------------------------------------------------
 
 Exiv2 uses cmake, a cross-platform build system, to control the
 compilation process using simple platform and compiler independent
 configuration files.
-
-The old make and MSVC build files are currently still around but are
-considered deprecated in the unstable branch. They will disappear once
-the cmake build process is feature-complete, stable and documented. Or
-maybe earlier to force me to get there.
-
 
 Cmake resources
 ===============
@@ -47,11 +49,9 @@ Default install locations
 
 To uninstall Exiv2, run:
 
-    $ make uninstall     >>>>>   TODO
+    $ make uninstall
 
-    in the meantime, on UNIX-like systems, use
-
-    $ xargs rm < install_manifest.txt
+    NOTE: on UNIX-like systems, you can use "$ xargs rm < install_manifest.txt"
 
 
 b) Using the cmake GUI
@@ -63,5 +63,3 @@ Dependencies
 ============
 
 cmake itself
-
-migrate the rest here from README, test one by one

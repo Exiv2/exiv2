@@ -26,14 +26,14 @@
 
 * emacs M-c command to (re-)compile
 
-* Manage eviv2.pc file with CMake, like it's do with kdegraphics/libs .pc file. Look there for details:
-  http://lxr.kde.org/source/KDE/kdegraphics/libs/libkexiv2/CMakeLists.txt#59
-  http://lxr.kde.org/source/KDE/kdegraphics/libs/libkexiv2/libkexiv2.pc.cmake
+* added cmake target to uninstall Exiv2. On UNIX-like systems, use "$ xargs rm < install_manifest.txt"
+
+* migrate the whole README-CMAKE to README.
 
 -------------------------------------------------------------------------------------
 
 DONE * Is it possible to not have CMakeLists.txt file in the top dir?
-  => No. I Never see this in whole KDE project.
+   => No. I Never see this in whole KDE project.
 
 DONE * Need soname versioning for shared library.
 
@@ -76,6 +76,10 @@ DONE * Is the pkgconfig file not installed in MinGW? - it is now.
 DONE * Added targets to build/install man page.
 
 DONE * Need g++ specific : compiler options (warnings) and settings (visibility).
+
+DONE * Manage eviv2.pc file with CMake, like it's do with kdegraphics/libs .pc file. Look there for details:
+   http://lxr.kde.org/source/KDE/kdegraphics/libs/libkexiv2/CMakeLists.txt#59
+   http://lxr.kde.org/source/KDE/kdegraphics/libs/libkexiv2/libkexiv2.pc.cmake
 
 INFO * check How does cmake handle RPATH? (I'll read up on this).
 
