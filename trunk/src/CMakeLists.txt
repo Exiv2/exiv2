@@ -207,32 +207,32 @@ IF( ICONV_TEST )
     TARGET_LINK_LIBRARIES( exiv2 ${ICONV_LIBRARIES} )
 ENDIF( ICONV_TEST )
 
-INSTALL_TARGET_STANDARD_ARGS( TARGETS exiv2 ${INSTALL_TARGET_STANDARD_ARGS} )
+INSTALL( TARGETS exiv2 ${INSTALL_TARGET_STANDARD_ARGS} )
 
 # ******************************************************************************
 # Binary
 ADD_EXECUTABLE( exiv2bin ${EXIV2_SRC} )
 SET_TARGET_PROPERTIES( exiv2bin PROPERTIES OUTPUT_NAME exiv2 )
 TARGET_LINK_LIBRARIES( exiv2bin exiv2 )
-INSTALL_TARGET_STANDARD_ARGS( TARGETS exiv2bin ${INSTALL_TARGET_STANDARD_ARGS} )
+INSTALL( TARGETS exiv2bin ${INSTALL_TARGET_STANDARD_ARGS} )
 
 # ******************************************************************************
 # Binary
 ADD_EXECUTABLE( metacopy ${MC_SRC} )
 TARGET_LINK_LIBRARIES( metacopy exiv2 )
-INSTALL_TARGET_STANDARD_ARGS( TARGETS metacopy ${INSTALL_TARGET_STANDARD_ARGS} )
+INSTALL( TARGETS metacopy ${INSTALL_TARGET_STANDARD_ARGS} )
 
 
 # ******************************************************************************
 # Binary
 ADD_EXECUTABLE( taglist ${TAGLIST_SRC} )
 TARGET_LINK_LIBRARIES( taglist exiv2 )
-INSTALL_TARGET_STANDARD_ARGS( TARGETS taglist ${INSTALL_TARGET_STANDARD_ARGS} )
+INSTALL( TARGETS taglist ${INSTALL_TARGET_STANDARD_ARGS} )
 
 # ******************************************************************************
 # Headers
-INSTALL_TARGET_STANDARD_ARGS( FILES ${LIBEXIV2_HDR} DESTINATION include/exiv2 )
+INSTALL( FILES ${LIBEXIV2_HDR} DESTINATION include/exiv2 )
 
 # ******************************************************************************
 # Man page
-INSTALL_TARGET_STANDARD_ARGS( FILES exiv2.1 DESTINATION man/man1 )
+INSTALL( FILES exiv2.1 DESTINATION man/man1 )
