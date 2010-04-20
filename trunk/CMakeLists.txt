@@ -44,15 +44,15 @@ SET( GENERIC_LIB_VERSION    "6.0.0" )
 SET( GENERIC_LIB_SOVERSION  "6" )
 
 # options and there default values
-OPTION( EXIV2_ENABLE_SHARED       "Build exiv2 as a shared library (dll)"                 ON  )
-OPTION( EXIV2_ENABLE_XMP          "Build with XMP metadata support"                       ON  )
-OPTION( EXIV2_ENABLE_LIBXMP       "Build a static convenience Library for XMP"            OFF )
-OPTION( EXIV2_ENABLE_PNG          "Build with png support (requires libz)"                ON  )
-OPTION( EXIV2_ENABLE_NLS          "Build native language support (requires gettext)"      ON  )
-OPTION( EXIV2_ENABLE_PRINTUCS2    "Build with Printucs2"                                  ON  )
-OPTION( EXIV2_ENABLE_LENSDATA     "include lens data"                                     ON  )
-OPTION( EXIV2_ENABLE_COMMERCIAL   "compile with the EXV_COMMERCIAL_VERSION symbol set"    OFF )
-OPTION( BUILD_samples             "Build the unit tests"                                  OFF )
+OPTION( EXIV2_ENABLE_SHARED        "Build exiv2 as a shared library (dll)"                 ON  )
+OPTION( EXIV2_ENABLE_XMP           "Build with XMP metadata support"                       ON  )
+OPTION( EXIV2_ENABLE_LIBXMP        "Build a static convenience Library for XMP"            OFF )
+OPTION( EXIV2_ENABLE_PNG           "Build with png support (requires libz)"                ON  )
+OPTION( EXIV2_ENABLE_NLS           "Build native language support (requires gettext)"      ON  )
+OPTION( EXIV2_ENABLE_PRINTUCS2     "Build with Printucs2"                                  ON  )
+OPTION( EXIV2_ENABLE_LENSDATA      "Build including lens data"                             ON  )
+OPTION( EXIV2_ENABLE_COMMERCIAL    "Build with the EXV_COMMERCIAL_VERSION symbol set"      OFF )
+OPTION( EXIV2_ENABLE_BUILD_SAMPLES "Build the unit tests"                                  OFF )
 
 IF( MINGW OR UNIX )
     ADD_DEFINITIONS(-Wall
@@ -70,9 +70,9 @@ IF( EXIV2_ENABLE_XMP )
     SET( XMPLIB "do" )
 ENDIF( EXIV2_ENABLE_XMP )
 
-IF( BUILD_samples )
+IF( EXIV2_ENABLE_BUILD_SAMPLES )
     EXIV2_ENABLE_TESTING()
-ENDIF( BUILD_samples )
+ENDIF( EXIV2_ENABLE_BUILD_SAMPLES )
 
 INCLUDE( config/ConfigureChecks.cmake )
 
@@ -109,9 +109,9 @@ ENDIF( ${EXV_HAVE_STDINT_H} )
 ADD_SUBDIRECTORY( xmpsdk )
 ADD_SUBDIRECTORY( src )
 
-IF( BUILD_samples )
+IF( EXIV2_ENABLE_BUILD_SAMPLES )
     ADD_SUBDIRECTORY( samples )
-ENDIF( BUILD_samples )
+ENDIF( EXIV2_ENABLE_BUILD_SAMPLES )
 
 IF( EXIV2_ENABLE_XMP )
     ADD_DEPENDENCIES(exiv2 xmp)
