@@ -18,7 +18,7 @@
 
 * Can the logic needed to build the doc be re-written using cmake?
 
-* Manage i18n extraction to generate .po files. (See how KDE project manage it with script ?)
+* Manage i18n extraction to generate .po files. (See http://www.cmake.org/pipermail/cmake/2009-July/031003.html)
 
 * Rename configuration settings to EXIV2_*, e.g., EXIV2_ENABLE_SHARED
 
