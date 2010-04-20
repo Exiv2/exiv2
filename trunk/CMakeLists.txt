@@ -54,7 +54,7 @@ option( EXIV2_ENABLE_COMMERCIAL   "compile with the EXV_COMMERCIAL_VERSION symbo
 option( BUILD_samples             "Build the unit tests"                                  OFF )
 
 if( MINGW OR UNIX )
-    add_definitions( -Wall -Wcast-align -Wpointer-arith -Wformat-security -Wmissing-format-attribute -Woverloaded-virtual -W )
+        add_definitions( -Wall -Wcast-align -Wpointer-arith -Wformat-security -Wmissing-format-attribute -Woverloaded-virtual -W )
 endif( MINGW OR UNIX )
 
 if( EXIV2_ENABLE_XMP )
@@ -71,22 +71,22 @@ include( config/ConfigureChecks.cmake )
 set( INSTALL_TARGET_STANDARD_ARGS RUNTIME DESTINATION bin LIBRARY DESTINATION lib ARCHIVE DESTINATION lib )
 
 # add sources from XMPSDK directory - this needs to be done here
-set( XMPSRC ${CMAKE_SOURCE_DIR}/xmpsdk/src/ExpatAdapter.cpp
-            ${CMAKE_SOURCE_DIR}/xmpsdk/src/MD5.cpp
-            ${CMAKE_SOURCE_DIR}/xmpsdk/src/ParseRDF.cpp
-            ${CMAKE_SOURCE_DIR}/xmpsdk/src/UnicodeConversions.cpp
-            ${CMAKE_SOURCE_DIR}/xmpsdk/src/WXMPIterator.cpp
-            ${CMAKE_SOURCE_DIR}/xmpsdk/src/WXMPMeta.cpp
-            ${CMAKE_SOURCE_DIR}/xmpsdk/src/WXMPUtils.cpp
-            ${CMAKE_SOURCE_DIR}/xmpsdk/src/XML_Node.cpp
-            ${CMAKE_SOURCE_DIR}/xmpsdk/src/XMPCore_Impl.cpp
-            ${CMAKE_SOURCE_DIR}/xmpsdk/src/XMPIterator.cpp
-            ${CMAKE_SOURCE_DIR}/xmpsdk/src/XMPMeta-GetSet.cpp
-            ${CMAKE_SOURCE_DIR}/xmpsdk/src/XMPMeta-Parse.cpp
-            ${CMAKE_SOURCE_DIR}/xmpsdk/src/XMPMeta-Serialize.cpp
-            ${CMAKE_SOURCE_DIR}/xmpsdk/src/XMPMeta.cpp
-            ${CMAKE_SOURCE_DIR}/xmpsdk/src/XMPUtils-FileInfo.cpp
-            ${CMAKE_SOURCE_DIR}/xmpsdk/src/XMPUtils.cpp )
+set( XMPSRC ${CMAKE_CURRENT_SOURCE_DIR}/xmpsdk/src/ExpatAdapter.cpp
+            ${CMAKE_CURRENT_SOURCE_DIR}/xmpsdk/src/MD5.cpp
+            ${CMAKE_CURRENT_SOURCE_DIR}/xmpsdk/src/ParseRDF.cpp
+            ${CMAKE_CURRENT_SOURCE_DIR}/xmpsdk/src/UnicodeConversions.cpp
+            ${CMAKE_CURRENT_SOURCE_DIR}/xmpsdk/src/WXMPIterator.cpp
+            ${CMAKE_CURRENT_SOURCE_DIR}/xmpsdk/src/WXMPMeta.cpp
+            ${CMAKE_CURRENT_SOURCE_DIR}/xmpsdk/src/WXMPUtils.cpp
+            ${CMAKE_CURRENT_SOURCE_DIR}/xmpsdk/src/XML_Node.cpp
+            ${CMAKE_CURRENT_SOURCE_DIR}/xmpsdk/src/XMPCore_Impl.cpp
+            ${CMAKE_CURRENT_SOURCE_DIR}/xmpsdk/src/XMPIterator.cpp
+            ${CMAKE_CURRENT_SOURCE_DIR}/xmpsdk/src/XMPMeta-GetSet.cpp
+            ${CMAKE_CURRENT_SOURCE_DIR}/xmpsdk/src/XMPMeta-Parse.cpp
+            ${CMAKE_CURRENT_SOURCE_DIR}/xmpsdk/src/XMPMeta-Serialize.cpp
+            ${CMAKE_CURRENT_SOURCE_DIR}/xmpsdk/src/XMPMeta.cpp
+            ${CMAKE_CURRENT_SOURCE_DIR}/xmpsdk/src/XMPUtils-FileInfo.cpp
+            ${CMAKE_CURRENT_SOURCE_DIR}/xmpsdk/src/XMPUtils.cpp )
 
 # the following lines need to be added to circumvent the error in xmpsdk\src\MD5.h
 if( ${EXV_HAVE_STDINT_H} )
@@ -99,3 +99,7 @@ add_subdirectory( src )
 if( BUILD_samples )
     add_subdirectory( samples )
 endif( BUILD_samples )
+
+if( EXIV2_ENABLE_XMP )
+    add_dependencies(exiv2 xmp)
+endif( EXIV2_ENABLE_XMP )
