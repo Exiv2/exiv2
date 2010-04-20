@@ -75,9 +75,9 @@ DONE * Added targets to build/install man page.
 
 DONE * Need g++ specific : compiler options (warnings) and settings (visibility).
 
-DONE * Manage eviv2.pc file with CMake, like it's do with kdegraphics/libs .pc file. Look there for details:
-   http://lxr.kde.org/source/KDE/kdegraphics/libs/libkexiv2/CMakeLists.txt#59
-   http://lxr.kde.org/source/KDE/kdegraphics/libs/libkexiv2/libkexiv2.pc.cmake
+DONE * Manage eviv2.pc file with CMake, like it's do with kdegraphics/libs .pc file.
+
+DONE * Manage eviv2.lsm file with CMake, like it's do with kdegraphics/libs .lsm file.
 
 DONE * added cmake target to uninstall Exiv2, based on KDE4 cmake script.
 
