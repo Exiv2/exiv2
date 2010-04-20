@@ -1,20 +1,15 @@
-* enable build types in cmake. In case required, add support for it
-
 * Added cmake target to build/install doc.
 
 * Added Cmake target to release build and packaging.
 
-* add support for cross-compiling : add information on how to cross-compile on Linux for Windows (MinGW)
+* Added support for cross-compiling : add information on how to cross-compile on Linux for Windows (MinGW)
  (some applications and my own release-build process need this) to the README.CMAKE
 
 * Manage i18n extraction to generate .po files. (See http://www.cmake.org/pipermail/cmake/2009-July/031003.html)
 
-* Rename configuration settings to EXIV2_*, e.g., EXIV2_ENABLE_SHARED
+* Emacs M-c command to (re-)compile.
 
-
-* emacs M-c command to (re-)compile
-
-* migrate the whole README-CMAKE to README.
+* Migrate the whole README-CMAKE to README.
 
 -------------------------------------------------------------------------------------
 
@@ -84,6 +79,8 @@ DONE * The following options of the configure script should be supported
 DONE * Cmake project: in root folder, common config in config sub-dir.
 
 DONE * Manage samples sub-dir with CMake.
+
+DONE * Rename configuration settings to EXIV2_*, e.g., EXIV2_ENABLE_SHARED.
 
 INFO * Check How does cmake handle RPATH? (I'll read up on this).
 
