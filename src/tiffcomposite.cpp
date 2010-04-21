@@ -73,7 +73,8 @@ namespace Exiv2 {
     };
 
     // Todo: This mapping table probably belongs somewhere else - move it
-    // Note: Names must be unique!
+    // Note: Names must be unique and match those in the third column of
+    //       ExifTags::ifdInfo_[] (tags.cpp)!
     //! List of groups and their names.
     extern const TiffGroupInfo tiffGroupInfo[] = {
         {   1, "Image"        },
@@ -107,8 +108,8 @@ namespace Exiv2 {
         { 267, "Panasonic"    },
         { 268, "Sigma"        },
         // 269 not needed (sonymn)
-        { 270, "Sony"         },
-        { 271, "Sony"         }, // Todo: Need second Sony group!
+        { 270, "Sony1"        },
+        { 271, "Sony2"        },
         { 272, "Minolta"      },
         { 273, "MinoltaCsOld" },
         { 274, "MinoltaCsNew" },
@@ -158,7 +159,13 @@ namespace Exiv2 {
         { 318, "NikonSi01xx"  },
         { 320, "CanonFi"      },
         { 330, "SonyMinolta"  },
-        { 331, "SonyCs"       }
+        { 331, "Sony1Cs"      },
+        { 332, "Sony2Cs"      },
+        { 333, "Sony1MltCsOld"},
+        { 334, "Sony1MltCsNew"},
+        { 335, "Sony1MltCs5D" },
+        { 336, "Sony1MltCs7D" },
+        { 337, "Sony1Cs2"     }
     };
 
     bool TiffGroupInfo::operator==(const uint16_t& group) const
