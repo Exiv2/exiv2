@@ -73,7 +73,7 @@ ENDIF( EXIV2_ENABLE_SHARED )
 
 IF( EXIV2_ENABLE_NLS )
     IF( NOT LOCALEDIR )
-        SET( LOCALEDIR "\"${CMAKE_INSTALL_PREFIX}/share/locale\"" )
+        SET( LOCALEDIR "${CMAKE_INSTALL_PREFIX}/share/locale" )
         IF( WIN32 )
             STRING( REPLACE "/" "\\\\" LOCALEDIR ${LOCALEDIR} )
         ENDIF( WIN32 )
