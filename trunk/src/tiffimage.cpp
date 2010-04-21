@@ -1263,6 +1263,8 @@ namespace Exiv2 {
 
         // Sony2 makernote
         { Tag::next, Group::sony2mn,   newTiffDirectory<Group::ignr>             },
+        {    0x0114, Group::sony2mn,   EXV_BINARY_ARRAY(sonyCsCfg, sonyCsDef)    },
+        {    0xb028, Group::sony2mn,   newTiffSubIfd<Group::sonymltmn>           },
         {  Tag::all, Group::sony2mn,   newTiffEntry                              },
 
         // Sony Minolta makernote
