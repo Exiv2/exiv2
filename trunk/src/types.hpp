@@ -223,10 +223,16 @@ namespace Exiv2 {
         panaRawIfdId,
         pentaxIfdId,
         sigmaIfdId,
-        sonyIfdId,
+        sony1IfdId,
+        sony2IfdId,
         sonyMltIfdId,
-        sonyCsIfdId,
-        sonyCs2IfdId,
+        sony1CsIfdId,
+        sony1Cs2IfdId,
+        sony2CsIfdId,
+        sony1MltCs5DIfdId,
+        sony1MltCs7DIfdId,
+        sony1MltCsOldIfdId,
+        sony1MltCsNewIfdId,
         lastIfdId
     };
 

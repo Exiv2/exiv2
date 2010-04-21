@@ -110,8 +110,13 @@ namespace Exiv2 {
         const uint16_t nikonsi6  = 318; //!< Nikon Shot Info v1.* Tags
         const uint16_t canonfi   = 320; //!< Canon File Info
         const uint16_t sonymltmn = 330; //!< Sony Minolta Makernotes
-        const uint16_t sonycs    = 331; //!< Sony Camera Settings
-        const uint16_t sonycs2   = 332; //!< Sony Camera Settings Version 2
+        const uint16_t sony1cs   = 331; //!< Sony Camera Settings (in Sony1 makernote)
+        const uint16_t sony2cs   = 332; //!< Sony Camera Settings (in Sony2 makernote)
+        const uint16_t sony1mcso = 333; //!< Minolta (old) Camera Settings (in Sony1 makernote)
+        const uint16_t sony1mcsn = 334; //!< Minolta (new) Camera Settings (in Sony1 makernote)
+        const uint16_t sony1mcs5 = 335; //!< Minolta D5 Camera Settings (in Sony1 makernote)
+        const uint16_t sony1mcs7 = 336; //!< Minolta D7 Camera Settings (in Sony1 makernote)
+        const uint16_t sony1cs2  = 337; //!< Sony Camera Settings 2 (in Sony1 makernote)
     }
 
 // *****************************************************************************

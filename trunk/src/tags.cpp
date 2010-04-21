@@ -170,10 +170,16 @@ namespace Exiv2 {
         { panaRawIfdId,      "PanaRaw",   "PanasonicRaw", PanasonicMakerNote::tagListRaw },
         { pentaxIfdId,       "Makernote", "Pentax",       PentaxMakerNote::tagList       },
         { sigmaIfdId,        "Makernote", "Sigma",        SigmaMakerNote::tagList        },
-        { sonyIfdId,         "Makernote", "Sony",         SonyMakerNote::tagList         },
+        { sony1IfdId,        "Makernote", "Sony1",        SonyMakerNote::tagList         },
+        { sony2IfdId,        "Makernote", "Sony2",        SonyMakerNote::tagList         },
         { sonyMltIfdId,      "Makernote", "SonyMinolta",  MinoltaMakerNote::tagList      },
-        { sonyCsIfdId,       "Makernote", "SonyCs",       SonyMakerNote::tagListCs       },
-        { sonyCs2IfdId,      "Makernote", "SonyCs2",      SonyMakerNote::tagListCs2      },
+        { sony1CsIfdId,      "Makernote", "Sony1Cs",      SonyMakerNote::tagListCs       },
+        { sony1Cs2IfdId,     "Makernote", "Sony1Cs2",     SonyMakerNote::tagListCs2      },
+        { sony1MltCs5DIfdId, "Makernote", "Sony1MltCs5D", MinoltaMakerNote::tagListCs5D  },
+        { sony1MltCs7DIfdId, "Makernote", "Sony1MltCs7D", MinoltaMakerNote::tagListCs7D  },
+        { sony1MltCsOldIfdId,"Makernote", "Sony1MltCsOld",MinoltaMakerNote::tagListCsStd },
+        { sony1MltCsNewIfdId,"Makernote", "Sony1MltCsNew",MinoltaMakerNote::tagListCsStd },
+        { sony2CsIfdId,      "Makernote", "Sony2Cs",      SonyMakerNote::tagListCs       },
         { lastIfdId,         "(Last IFD info)", "(Last IFD item)", 0 }
     };
 

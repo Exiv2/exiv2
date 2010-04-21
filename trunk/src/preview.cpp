@@ -218,7 +218,7 @@ namespace {
         //! Tag that contains image data. Possible values are "StripOffsets" or "TileOffsets"
         std::string offsetTag_;
 
-        //! Tag that contains data sizes. Possible values are "StripByteCountss" or "TileByteCounts"
+        //! Tag that contains data sizes. Possible values are "StripByteCounts" or "TileByteCounts"
         std::string sizeTag_;
 
         //! Structure that lists preview groups
@@ -247,7 +247,8 @@ namespace {
         { 0,                   createLoaderExifDataJpeg, 4 },
         { 0,                   createLoaderExifDataJpeg, 5 },
         { 0,                   createLoaderExifDataJpeg, 6 },
-        { "image/x-raw",       createLoaderExifDataJpeg, 7 },
+        { 0,                   createLoaderExifDataJpeg, 7 },
+        { "image/x-raw",       createLoaderExifDataJpeg, 8 },
         { 0,                   createLoaderTiff,         0 },
         { 0,                   createLoaderTiff,         1 },
         { 0,                   createLoaderTiff,         2 },
@@ -272,7 +273,7 @@ namespace {
         { "Exif.SubImage4.JPEGInterchangeFormat", "Exif.SubImage4.JPEGInterchangeFormatLength", 0 }, // 4
         { "Exif.Image2.JPEGInterchangeFormat",    "Exif.Image2.JPEGInterchangeFormatLength",    0 }, // 5
         { "Exif.Image.StripOffsets",              "Exif.Image.StripByteCounts",                 0 }, // 6
-        { "Exif.OlympusCs.PreviewImageStart",     "Exif.OlympusCs.PreviewImageLength",            "Exif.MakerNote.Offset"}  // 7
+        { "Exif.OlympusCs.PreviewImageStart",     "Exif.OlympusCs.PreviewImageLength",          "Exif.MakerNote.Offset"}  // 7
     };
 
     const LoaderExifDataJpeg::Param LoaderExifDataJpeg::param_[] = {
@@ -280,10 +281,11 @@ namespace {
         { "Exif.NikonPreview.JPEGInterchangeFormat", "Exif.NikonPreview.JPEGInterchangeFormatLength" }, // 1
         { "Exif.Pentax.PreviewOffset",               "Exif.Pentax.PreviewLength"                     }, // 2
         { "Exif.Minolta.ThumbnailOffset",            "Exif.Minolta.ThumbnailLength"                  }, // 3
-        { "Exif.Olympus.ThumbnailImage",             0                                               }, // 4
-        { "Exif.Olympus2.ThumbnailImage",            0                                               }, // 5
-        { "Exif.Minolta.Thumbnail",                  0                                               }, // 6
-        { "Exif.PanasonicRaw.PreviewImage",          0                                               }  // 7
+        { "Exif.SonyMinolta.ThumbnailOffset",        "Exif.SonyMinolta.ThumbnailLength"              }, // 4
+        { "Exif.Olympus.ThumbnailImage",             0                                               }, // 5
+        { "Exif.Olympus2.ThumbnailImage",            0                                               }, // 6
+        { "Exif.Minolta.Thumbnail",                  0                                               }, // 7
+        { "Exif.PanasonicRaw.PreviewImage",          0                                               }  // 8
     };
 
     const LoaderTiff::Param LoaderTiff::param_[] = {
@@ -766,8 +768,8 @@ namespace Exiv2 {
     PreviewPropertiesList PreviewManager::getPreviewProperties() const
     {
         PreviewPropertiesList list;
-        // go through the loader table and store all successfuly created loaders in the list
-        for (PreviewId id = 0; id < Loader::getNumLoaders(); id++) {
+        // go through the loader table and store all successfully created loaders in the list
+        for (PreviewId id = 0; id < Loader::getNumLoaders(); ++id) {
             Loader::AutoPtr loader = Loader::create(id, image_);
             if (loader.get() && loader->readDimensions()) {
                 list.push_back(loader->getProperties());
