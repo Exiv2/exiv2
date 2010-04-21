@@ -5,9 +5,6 @@
 * Added support for cross-compiling : add information on how to cross-compile on Linux for Windows (MinGW)
  (some applications and my own release-build process need this) to the README.CMAKE
 
-* Manage i18n extraction to generate .po files. (See http://www.cmake.org/pipermail/cmake/2009-July/031003.html)
-  Port extract-messages.sh to CMake
-
 * Emacs M-c command to (re-)compile.
 
 * Migrate the whole README-CMAKE to README.
@@ -82,6 +79,9 @@ DONE * Cmake project: in root folder, common config in config sub-dir.
 DONE * Manage samples sub-dir with CMake.
 
 DONE * Rename configuration settings to EXIV2_*, e.g., EXIV2_ENABLE_SHARED.
+
+DONE * Manage i18n extraction to generate .po files. (See http://www.cmake.org/pipermail/cmake/2009-July/031003.html)
+   Port extract-messages.sh to CMake
 
 INFO * Check How does cmake handle RPATH? (I'll read up on this).
 
