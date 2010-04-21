@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: exiv2 0.19.1\n"
 "Report-Msgid-Bugs-To: ahuggel@gmx.net\n"
-"POT-Creation-Date: 2010-04-21 14:19+0200\n"
+"POT-Creation-Date: 2010-04-21 15:40+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -569,7 +569,7 @@ msgstr ""
 msgid "Del"
 msgstr ""
 
-#: src/tags.cpp:2752
+#: src/tags.cpp:2752 src/tags.cpp:2753
 msgid "Digital zoom not used"
 msgstr ""
 
@@ -766,7 +766,7 @@ msgstr ""
 msgid "Image timestamp"
 msgstr ""
 
-#: src/tags.cpp:2658
+#: src/tags.cpp:2658 src/tags.cpp:2659
 msgid "Infinity"
 msgstr ""
 
@@ -1004,7 +1004,7 @@ msgstr ""
 msgid "Subject distance"
 msgstr ""
 
-#: src/tiffimage.cpp:1618
+#: src/tiffimage.cpp:1618 src/tiffimage.cpp:1639
 msgid "TIFF header, offset"
 msgstr ""
 
@@ -1041,7 +1041,7 @@ msgid "Top to bottom"
 msgstr ""
 
 #: src/nikonmn.cpp:291 src/nikonmn.cpp:1232 src/nikonmn.cpp:2111
-#: src/tags.cpp:2655 src/tags.cpp:2768
+#: src/tags.cpp:2655 src/tags.cpp:2768 src/tags.cpp:2656 src/tags.cpp:2769
 msgid "Unknown"
 msgstr ""
 
@@ -1131,7 +1131,7 @@ msgid ""
 "\n"
 msgstr ""
 
-#: src/tiffimage.cpp:1624
+#: src/tiffimage.cpp:1624 src/tiffimage.cpp:1645
 msgid "big endian encoded"
 msgstr ""
 
@@ -1183,7 +1183,7 @@ msgstr ""
 msgid "line"
 msgstr ""
 
-#: src/tiffimage.cpp:1623
+#: src/tiffimage.cpp:1623 src/tiffimage.cpp:1644
 msgid "little endian encoded"
 msgstr ""
 
