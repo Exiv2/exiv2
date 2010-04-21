@@ -33,6 +33,7 @@ PROJECT( exiv2 )
 
 CMAKE_MINIMUM_REQUIRED( VERSION 2.6 )
 
+SET( PACKAGE_COPYRIGHT      "Andreas Huggel" )
 SET( PACKAGE_BUGREPORT      "ahuggel@gmx.net" )
 SET( PACKAGE                "exiv2" )
 SET( PACKAGE_NAME           "exiv2" )

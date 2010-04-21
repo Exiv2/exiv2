@@ -32,4 +32,55 @@
 # automatically include all po files in the directory
 FILE(GLOB PO_FILES *.po)
 
-ADD_TRANSLATIONS(exiv2 ${PO_FILES})
+ADD_CUSTOM_TARGET( pot-update
+                   COMMAND xgettext -d ${PACKAGE_NAME}
+                                    -s
+                                    -D ${CMAKE_CURRENT_SOURCE_DIR}/..
+                                    -o ${PACKAGE_NAME}.pot
+                                    -p ${CMAKE_CURRENT_SOURCE_DIR}/
+                                    --from-code=UTF-8 
+                                    --files-from=POTFILES.in
+                                    -j
+                                    --keyword=_
+                                    --package-name=${PACKAGE_NAME}
+                                    --package-version=${PACKAGE_VERSION}
+                                    --copyright-holder=${PACKAGE_COPYRIGHT}
+                                    --msgid-bugs-address=${PACKAGE_BUGREPORT}
+                 )
+
+# .mo files creation and .po files update
+
+FOREACH (PO_CURRENT ${PO_FILES})
+    GET_FILENAME_COMPONENT(langue
+                           ${PO_CURRENT}
+                           NAME_WE
+                          )
+
+    SET(MO_FILE ${langue}.mo)
+    ADD_CUSTOM_COMMAND(TARGET update_pot
+                       POST_BUILD
+                       COMMAND msgmerge --update ./${PO_CURRENT} ./${PACKAGE_NAME}.pot
+                       DEPENDS ${PO_CURRENT} ${pot_file}
+    )
+
+#     MESSAGE ("DEPENDANCE : ${PO_CURRENT}")
+#     MESSAGE ("DEPENDANCE : ${PACKAGE_NAME}.POT")
+#     MESSAGE ("DEPENDANCE : ${LANGUE}")
+#     MESSAGE ("DEPENDANCE : ${MO_FILE}")
+#     MESSAGE ("DEPENDANCE : ${PO_FILES}")
+
+    ADD_CUSTOM_COMMAND(
+        OUTPUT ${MO_FILE}
+        COMMAND msgfmt -c ${CMAKE_CURRENT_SOURCE_DIR}/${PO_CURRENT} -o ${CMAKE_CURRENT_SOURCE_DIR}/${langue}.mo
+    )
+
+    INSTALL(FILES ${langue}.gmo
+            DESTINATION ${LOCALEDIR}/po/locale/${langue}/LC_MESSAGES
+            RENAME ${langue}.mo
+           )
+
+    SET( POS_CURRENT ${POS_CURRENT} ${PO_CURRENT})
+ENDFOREACH (PO_CURRENT)
+
+# MESSAGE ("dependance : ${POS_CURRENT}")
+ADD_CUSTOM_TARGET(build_mo ALL DEPENDS ${POS_CURRENT})
