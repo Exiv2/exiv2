@@ -387,8 +387,8 @@ namespace Exiv2 {
 
         // NOTE: A700 only
         TagInfo(0x0004, "DriveMode", N_("Drive Mode"),
-          N_("Drive Mode"),
-          sonyCsIfdId, makerTags, unsignedShort, printValue),
+                N_("Drive Mode"),
+                sonyCsIfdId, makerTags, unsignedShort, printValue),
 
         // NOTE: A700 only
         TagInfo(0x0006, "WhiteBalanceFineTune", N_("White Balance Fine Tune"),
@@ -516,4 +516,79 @@ namespace Exiv2 {
         return tagInfoCs_;
     }
 
+    // -- Sony camera settings ---------------------------------------------------------------
+
+    // Sony Camera Settings Tag Version 2 Info
+    // NOTE: all are for A330, A380 Sony model
+
+    const TagInfo SonyMakerNote::tagInfoCs2_[] = {
+
+        TagInfo(0x0016, "FocusMode", N_("Focus Mode"),
+                N_("Focus Mode"),
+                sonyCs2IfdId, makerTags, unsignedShort, printValue),
+
+        TagInfo(0x0017, "AFAreaMode", N_("AF Area Mode"),
+                N_("AF Area Mode"),
+                sonyCs2IfdId, makerTags, unsignedShort, printValue),
+
+        TagInfo(0x0018, "LocalAFAreaPoint", N_("Local AF Area Point"),
+                N_("Local AF Area Point"),
+                sonyCs2IfdId, makerTags, unsignedShort, printValue),
+
+        TagInfo(0x0019, "MeteringMode", N_("Metering Mode"),
+                N_("Metering Mode"),
+                sonyCs2IfdId, makerTags, unsignedShort, printValue),
+
+        TagInfo(0x0020, "ISOSetting", N_("ISO Setting"),
+                N_("ISO Setting"),
+                sonyCs2IfdId, makerTags, unsignedShort, printValue),
+
+        TagInfo(0x0022, "DynamicRangeOptimizerMode", N_("Dynamic Range Optimizer Mode"),
+                N_("Dynamic Range Optimizer Mode"),
+                sonyCs2IfdId, makerTags, unsignedShort, printValue),
+
+        TagInfo(0x0023, "DynamicRangeOptimizerLevel", N_("Dynamic Range Optimizer Level"),
+                N_("Dynamic Range Optimizer Level"),
+                sonyCs2IfdId, makerTags, unsignedShort, printValue),
+
+        TagInfo(0x0024, "CreativeStyle", N_("Creative Style"),
+                N_("Creative Style"),
+                sonyCs2IfdId, makerTags, unsignedShort, printValue),
+
+        TagInfo(0x0025, "Sharpness", N_("Sharpness"),
+                N_("Sharpness"),
+                sonyCs2IfdId, makerTags, unsignedShort, printValue),
+        TagInfo(0x0026, "Contrast", N_("Contrast"),
+                N_("Contrast"),
+                sonyCs2IfdId, makerTags, unsignedShort, printValue),
+        TagInfo(0x0027, "Saturation", N_("Saturation"),
+                N_("Saturation"),
+                sonyCs2IfdId, makerTags, unsignedShort, printValue),
+
+        TagInfo(0x0035, "FlashMode", N_("FlashMode"),
+                N_("FlashMode"),
+                sonyCs2IfdId, makerTags, unsignedShort, printValue),
+
+        TagInfo(0x0060, "ExposureProgram", N_("Exposure Program"),
+                N_("Exposure Program"),
+                sonyCs2IfdId, makerTags, unsignedShort, printValue),
+
+        TagInfo(0x0063, "Rotation", N_("Rotation"),
+                N_("Rotation"),
+                sonyCs2IfdId, makerTags, unsignedShort, printValue),
+
+        TagInfo(0x0084, "SonyImageSize", N_("Sony Image Size"),
+                N_("Sony Image Size"),
+                sonyCs2IfdId, makerTags, unsignedShort, printValue),
+
+        // End of list marker
+        TagInfo(0xffff, "(UnknownSonyCsTag)", "(UnknownSonyCsTag)",
+                N_("Unknown Sony Camera Settings tag"),
+                sonyCs2IfdId, makerTags, invalidTypeId, printValue)
+    };
+
+    const TagInfo* SonyMakerNote::tagListCs2()
+    {
+        return tagInfoCs2_;
+    }
 }                                       // namespace Exiv2

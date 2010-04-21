@@ -811,6 +811,23 @@ namespace Exiv2 {
         {  10, ttSignedShort,   1 }  // Exif.SonyCs.WhiteBalanceFineTune
     };
 
+    //! Sony Camera Settings binary array - configuration
+    extern const ArrayCfg sonyCs2Cfg = {
+        Group::sonycs2,    // Group for the elements
+        bigEndian,         // Big endian
+        ttUndefined,       // Type for array entry and size element
+        notEncrypted,      // Not encrypted
+        false,             // No size element
+        false,             // No fillers
+        false,             // Don't concatenate gaps
+        { 0, ttUnsignedShort, 1 }
+    };
+    //! Sony Camera Settings binary array - definition
+    extern const ArrayDef sonyCs2Def[] = {
+        {   6, ttUnsignedShort, 1 }, // Exif.SonyCs2.DriveMode
+        {  10, ttSignedShort,   1 }  // Exif.SonyCs2.WhiteBalanceFineTune
+    };
+
     /*
       This table lists for each group in a tree, its parent group and tag.
       Root identifies the root of a TIFF tree, as there is a need for multiple
@@ -1255,6 +1272,7 @@ namespace Exiv2 {
         // Sony1 makernote
         { Tag::next, Group::sony1mn,   newTiffDirectory<Group::ignr>             },
         {    0x0114, Group::sony1mn,   EXV_BINARY_ARRAY(sonyCsCfg, sonyCsDef)    },
+        {    0x0114, Group::sony1mn,   EXV_BINARY_ARRAY(sonyCs2Cfg, sonyCs2Def)  },
         {    0xb028, Group::sony1mn,   newTiffSubIfd<Group::sonymltmn>           },
         {  Tag::all, Group::sony1mn,   newTiffEntry                              },
 
@@ -1264,6 +1282,7 @@ namespace Exiv2 {
         // Sony2 makernote
         { Tag::next, Group::sony2mn,   newTiffDirectory<Group::ignr>             },
         {    0x0114, Group::sony2mn,   EXV_BINARY_ARRAY(sonyCsCfg, sonyCsDef)    },
+        {    0x0114, Group::sony2mn,   EXV_BINARY_ARRAY(sonyCs2Cfg, sonyCs2Def)  },
         {    0xb028, Group::sony2mn,   newTiffSubIfd<Group::sonymltmn>           },
         {  Tag::all, Group::sony2mn,   newTiffEntry                              },
 
