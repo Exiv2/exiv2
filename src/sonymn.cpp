@@ -329,12 +329,9 @@ namespace Exiv2 {
         TagInfo(0xb027, "LensID", N_("Lens ID"),
                 N_("Lens identifier"),
                 sonyIfdId, makerTags, unsignedLong, printMinoltaSonyLensID),
-
-        // TODO
         TagInfo(0xb028, "MinoltaMakerNote", N_("Minolta MakerNote"),
                 N_("Minolta MakerNote"),
                 sonyIfdId, makerTags, undefined, printValue),
-
         TagInfo(0xb029, "ColorMode", N_("Color Mode"),
                 N_("Color Mode"),
                 sonyIfdId, makerTags, unsignedLong, printMinoltaSonyBoolValue),
