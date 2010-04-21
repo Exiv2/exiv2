@@ -7,6 +7,8 @@
 
 * Emacs M-c command to (re-)compile.
 
+* Add tests to check availability of msgmerge, xgettext, msgfmt programs.
+
 * Migrate the whole README-CMAKE to README.
 
 -------------------------------------------------------------------------------------
