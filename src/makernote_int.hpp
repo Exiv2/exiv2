@@ -111,6 +111,7 @@ namespace Exiv2 {
         const uint16_t canonfi   = 320; //!< Canon File Info
         const uint16_t sonymltmn = 330; //!< Sony Minolta Makernotes
         const uint16_t sonycs    = 331; //!< Sony Camera Settings
+        const uint16_t sonycs2   = 332; //!< Sony Camera Settings Version 2
     }
 
 // *****************************************************************************
