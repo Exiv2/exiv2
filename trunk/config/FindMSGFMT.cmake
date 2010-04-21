@@ -42,8 +42,9 @@ MACRO(ADD_TRANSLATIONS _baseName)
         ADD_CUSTOM_COMMAND(OUTPUT ${_out}
                            COMMAND ${MSGFMT_EXECUTABLE} -o ${_out} ${_in}
                            DEPENDS ${_in})
+        SET(_dest "${LOCALEDIR}/${_file_we}/LC_MESSAGES/")
         INSTALL(FILES ${_out}
-                DESTINATION ${LOCALEDIR}/${_file_we}/LC_MESSAGES/
+                DESTINATION dest
                 RENAME ${_baseName}.mo)
         SET(_outputs ${_outputs} ${_out})
     ENDFOREACH(_file)
