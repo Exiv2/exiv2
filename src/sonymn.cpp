@@ -380,10 +380,129 @@ namespace Exiv2 {
     // -- Sony camera settings ---------------------------------------------------------------
 
     // Sony Camera Settings Tag Info
+    // NOTE: all are for A200, A230, A300, A350, A700, A850 and A900 Sony model excepted
+    // some entries which are only relevant with A700.
+
     const TagInfo SonyMakerNote::tagInfoCs_[] = {
 
-        TagInfo(0x0016, "ISOSetting", N_("ISO Setting"),
+        // NOTE: A700 only
+        TagInfo(0x0004, "DriveMode", N_("Drive Mode"),
+          N_("Drive Mode"),
+          sonyCsIfdId, makerTags, unsignedShort, printValue),
+
+        // NOTE: A700 only
+        TagInfo(0x0006, "WhiteBalanceFineTune", N_("White Balance Fine Tune"),
+                N_("White Balance Fine Tune"),
+                sonyCsIfdId, makerTags, unsignedShort, printValue),
+
+        TagInfo(0x0016, "FocusMode", N_("Focus Mode"),
+                N_("Focus Mode"),
+                sonyCsIfdId, makerTags, unsignedShort, printValue),
+
+        TagInfo(0x0017, "AFAreaMode", N_("AF Area Mode"),
+                N_("AF Area Mode"),
+                sonyCsIfdId, makerTags, unsignedShort, printValue),
+
+        TagInfo(0x0018, "LocalAFAreaPoint", N_("Local AF Area Point"),
+                N_("Local AF Area Point"),
+                sonyCsIfdId, makerTags, unsignedShort, printValue),
+
+        TagInfo(0x0021, "MeteringMode", N_("Metering Mode"),
+                N_("Metering Mode"),
+                sonyCsIfdId, makerTags, unsignedShort, printValue),
+
+        TagInfo(0x0022, "ISOSetting", N_("ISO Setting"),
                 N_("ISO Setting"),
+                sonyCsIfdId, makerTags, unsignedShort, printValue),
+
+        TagInfo(0x0024, "DynamicRangeOptimizerMode", N_("Dynamic Range Optimizer Mode"),
+                N_("Dynamic Range Optimizer Mode"),
+                sonyCsIfdId, makerTags, unsignedShort, printValue),
+
+        TagInfo(0x0025, "DynamicRangeOptimizerLevel", N_("Dynamic Range Optimizer Level"),
+                N_("Dynamic Range Optimizer Level"),
+                sonyCsIfdId, makerTags, unsignedShort, printValue),
+
+        TagInfo(0x0026, "CreativeStyle", N_("Creative Style"),
+                N_("Creative Style"),
+                sonyCsIfdId, makerTags, unsignedShort, printValue),
+
+        TagInfo(0x0028, "Sharpness", N_("Sharpness"),
+                N_("Sharpness"),
+                sonyCsIfdId, makerTags, unsignedShort, printValue),
+        TagInfo(0x0029, "Contrast", N_("Contrast"),
+                N_("Contrast"),
+                sonyCsIfdId, makerTags, unsignedShort, printValue),
+        TagInfo(0x0030, "Saturation", N_("Saturation"),
+                N_("Saturation"),
+                sonyCsIfdId, makerTags, unsignedShort, printValue),
+        TagInfo(0x0031, "ZoneMatchingValue", N_("Zone Matching Value"),
+                N_("Zone Matching Value"),
+                sonyCsIfdId, makerTags, unsignedShort, printValue),
+        TagInfo(0x0034, "Brightness", N_("Brightness"),
+                N_("Brightness"),
+                sonyCsIfdId, makerTags, unsignedShort, printValue),
+
+        TagInfo(0x0035, "FlashMode", N_("FlashMode"),
+                N_("FlashMode"),
+                sonyCsIfdId, makerTags, unsignedShort, printValue),
+
+        // NOTE: A700 only
+        TagInfo(0x0040, "PrioritySetupShutterRelease", N_("Priority Setup Shutter Release"),
+                N_("Priority Setup Shutter Release"),
+                sonyCsIfdId, makerTags, unsignedShort, printValue),
+
+        // NOTE: A700 only
+        TagInfo(0x0041, "AFIlluminator", N_("AF Illuminator"),
+                N_("AF Illuminator"),
+                sonyCsIfdId, makerTags, unsignedShort, printValue),
+
+        // NOTE: A700 only
+        TagInfo(0x0042, "AFWithShutter", N_("AF With Shutter"),
+                N_("AF With Shutter"),
+                sonyCsIfdId, makerTags, unsignedShort, printValue),
+
+        // NOTE: A700 only
+        TagInfo(0x0043, "LongExposureNoiseReduction", N_("Long Exposure Noise Reduction"),
+                N_("Long Exposure Noise Reduction"),
+                sonyCsIfdId, makerTags, unsignedShort, printValue),
+
+        // NOTE: A700 only
+        TagInfo(0x0044, "HighISONoiseReduction", N_("High ISO NoiseReduction"),
+                N_("High ISO NoiseReduction"),
+                sonyCsIfdId, makerTags, unsignedShort, printValue),
+
+        // NOTE: A700 only
+        TagInfo(0x0045, "ImageStyle", N_("Image Style"),
+                N_("Image Style"),
+                sonyCsIfdId, makerTags, unsignedShort, printValue),
+
+        TagInfo(0x0060, "ExposureProgram", N_("Exposure Program"),
+                N_("Exposure Program"),
+                sonyCsIfdId, makerTags, unsignedShort, printValue),
+
+        TagInfo(0x0061, "ImageStabilization", N_("Image Stabilization"),
+                N_("Image Stabilization"),
+                sonyCsIfdId, makerTags, unsignedShort, printValue),
+
+        TagInfo(0x0063, "Rotation", N_("Rotation"),
+                N_("Rotation"),
+                sonyCsIfdId, makerTags, unsignedShort, printValue),
+
+        TagInfo(0x0084, "SonyImageSize", N_("Sony Image Size"),
+                N_("Sony Image Size"),
+                sonyCsIfdId, makerTags, unsignedShort, printValue),
+
+        TagInfo(0x0085, "AspectRatio", N_("Aspect Ratio"),
+                N_("Aspect Ratio"),
+                sonyCsIfdId, makerTags, unsignedShort, printValue),
+
+        TagInfo(0x0086, "Quality", N_("Quality"),
+                N_("Quality"),
+                sonyCsIfdId, makerTags, unsignedShort, printValue),
+
+        TagInfo(0x0088, "ExposureLevelIncrements", N_("Exposure Level Increments"),
+                N_("Exposure Level Increments"),
                 sonyCsIfdId, makerTags, unsignedShort, printValue),
 
         // End of list marker
