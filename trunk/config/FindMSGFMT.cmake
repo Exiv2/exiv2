@@ -59,7 +59,7 @@ MACRO(UPDATE_TRANSLATIONS _baseName)
         SET(_out  "${CMAKE_CURRENT_SOURCE_DIR}/${_file_we}.po")
         SET(_ref "${CMAKE_CURRENT_SOURCE_DIR}/${_baseName}.pot")
         ADD_CUSTOM_COMMAND(OUTPUT ${_out}
-                           COMMAND ${MSGMERGE_EXECUTABLE} -o ${_out} ${_ref}
+                           COMMAND ${MSGMERGE_EXECUTABLE} ${_out} ${_ref}
                            DEPENDS ${_ref})
         SET(_outputs ${_outputs} ${_out})
     ENDFOREACH(_file)
@@ -73,14 +73,15 @@ MACRO(ADD_TRANSLATIONS _baseName)
         GET_FILENAME_COMPONENT(_file_we ${_file} NAME_WE)
         SET(_out "${CMAKE_CURRENT_BINARY_DIR}/${_file_we}.gmo")
         SET(_in  "${CMAKE_CURRENT_SOURCE_DIR}/${_file_we}.po")
-        ADD_CUSTOM_COMMAND(OUTPUT ${_out}
-                           COMMAND ${MSGFMT_EXECUTABLE} --verbose ${_out} ${_in}
-                           DEPENDS ${_in})
+        ADD_CUSTOM_COMMAND(
+            OUTPUT ${_out}
+            COMMAND ${MSGFMT_EXECUTABLE} -o ${_out} ${_in}
+            DEPENDS ${_in} )
         INSTALL(FILES ${_out}
-                DESTINATION ${LOCALEDIR}/${_file_we}/LC_MESSAGES/
-                RENAME ${_baseName}.mo)
+            DESTINATION ${LOCALEDIR}/${_file_we}/LC_MESSAGES/
+            RENAME ${_baseName}.mo )
         SET(_outputs ${_outputs} ${_out})
     ENDFOREACH(_file)
-    SET(MSGFMT_TARGET add_translations_${_baseName})
+    SET(MSGFMT_TARGET translations${_baseName})
     ADD_CUSTOM_TARGET(${MSGFMT_TARGET} ALL DEPENDS ${_outputs})
 ENDMACRO(ADD_TRANSLATIONS)
