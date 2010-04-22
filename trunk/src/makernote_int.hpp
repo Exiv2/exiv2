@@ -111,12 +111,13 @@ namespace Exiv2 {
         const uint16_t canonfi   = 320; //!< Canon File Info
         const uint16_t sonymltmn = 330; //!< Sony Minolta Makernotes
         const uint16_t sony1cs   = 331; //!< Sony Camera Settings (in Sony1 makernote)
-        const uint16_t sony2cs   = 332; //!< Sony Camera Settings (in Sony2 makernote)
+        const uint16_t sony1cs2  = 332; //!< Sony Camera Settings 2 (in Sony1 makernote)
         const uint16_t sony1mcso = 333; //!< Minolta (old) Camera Settings (in Sony1 makernote)
         const uint16_t sony1mcsn = 334; //!< Minolta (new) Camera Settings (in Sony1 makernote)
         const uint16_t sony1mcs5 = 335; //!< Minolta D5 Camera Settings (in Sony1 makernote)
         const uint16_t sony1mcs7 = 336; //!< Minolta D7 Camera Settings (in Sony1 makernote)
-        const uint16_t sony1cs2  = 337; //!< Sony Camera Settings 2 (in Sony1 makernote)
+        const uint16_t sony2cs   = 337; //!< Sony Camera Settings (in Sony2 makernote)
+        const uint16_t sony2cs2  = 338; //!< Sony Camera Settings 2 (in Sony2 makernote)
     }
 
 // *****************************************************************************
@@ -651,6 +652,17 @@ namespace Exiv2 {
     TiffComponent* newSony2Mn2(uint16_t tag,
                                uint16_t group,
                                uint16_t mnGroup);
+
+    /*!
+      @brief Function to select cfg + def of the Sony Camera Settings complex binary array.
+
+      @param tag Tag number of the binary array
+      @param pData Pointer to the raw array data.
+      @param size Size of the array data.
+      @param pRoot Pointer to the root component of the TIFF tree.
+      @return An index into the array set, -1 if no match was found.
+     */
+    int sonyCsSelector(uint16_t tag, const byte* pData, uint32_t size, TiffComponent* const pRoot);
 
     /*!
       @brief Function to select cfg + def of a Nikon complex binary array.

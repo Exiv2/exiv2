@@ -794,6 +794,11 @@ namespace Exiv2 {
         { 146, ttSignedShort, 1 } // Exif.MinoltaCs5D.ColorTemperature
     };
 
+    // Todo: Performance of the handling of Sony Camera Settings can be
+    //       improved by defining all known array elements in the definitions
+    //       sonyCsDef and sonyCs2Def below and enabling the 'concatenate gaps'
+    //       setting in all four configurations.
+
     //! Sony1 Camera Settings binary array - configuration
     extern const ArrayCfg sony1CsCfg = {
         Group::sony1cs,   // Group for the elements
@@ -804,6 +809,21 @@ namespace Exiv2 {
         false,            // No fillers
         false,            // Don't concatenate gaps
         { 0, ttUnsignedShort, 1 }
+    };
+    //! Sony1 Camera Settings 2 binary array - configuration
+    extern const ArrayCfg sony1Cs2Cfg = {
+        Group::sony1cs2,  // Group for the elements
+        bigEndian,        // Big endian
+        ttUndefined,      // Type for array entry and size element
+        notEncrypted,     // Not encrypted
+        false,            // No size element
+        false,            // No fillers
+        false,            // Don't concatenate gaps
+        { 0, ttUnsignedShort, 1 }
+    };
+    //! Sony[12] Camera Settings binary array - definition
+    extern const ArrayDef sonyCsDef[] = {
+        {  12, ttSignedShort,   1 }  // Exif.Sony[12]Cs.WhiteBalanceFineTune
     };
     //! Sony2 Camera Settings binary array - configuration
     extern const ArrayCfg sony2CsCfg = {
@@ -816,27 +836,30 @@ namespace Exiv2 {
         false,            // Don't concatenate gaps
         { 0, ttUnsignedShort, 1 }
     };
-    //! Sony Camera Settings binary array - definition
-    extern const ArrayDef sonyCsDef[] = {
-        {   6, ttUnsignedShort, 1 }, // Exif.Sony1Cs.DriveMode
-        {  10, ttSignedShort,   1 }  // Exif.Sony1Cs.WhiteBalanceFineTune
-    };
-
-    //! Sony1 Camera Settings 2 binary array - configuration
-    extern const ArrayCfg sony1Cs2Cfg = {
-        Group::sony1cs2,   // Group for the elements
-        bigEndian,         // Big endian
-        ttUndefined,       // Type for array entry and size element
-        notEncrypted,      // Not encrypted
-        false,             // No size element
-        false,             // No fillers
-        false,             // Don't concatenate gaps
+    //! Sony2 Camera Settings 2 binary array - configuration
+    extern const ArrayCfg sony2Cs2Cfg = {
+        Group::sony2cs2,  // Group for the elements
+        bigEndian,        // Big endian
+        ttUndefined,      // Type for array entry and size element
+        notEncrypted,     // Not encrypted
+        false,            // No size element
+        false,            // No fillers
+        false,            // Don't concatenate gaps
         { 0, ttUnsignedShort, 1 }
     };
-    //! Sony Camera Settings 2 binary array - definition
+    //! Sony[12] Camera Settings 2 binary array - definition
     extern const ArrayDef sonyCs2Def[] = {
-        {   6, ttUnsignedShort, 1 }, // Exif.Sony1Cs2.DriveMode
-        {  10, ttSignedShort,   1 }  // Exif.Sony1Cs2.WhiteBalanceFineTune
+        {  44, ttUnsignedShort, 1 } // Exif.Sony[12]Cs2.FocusMode
+    };
+    //! Sony1 Camera Settings configurations and definitions
+    extern const ArraySet sony1CsSet[] = {
+        { sony1CsCfg,  sonyCsDef,  EXV_COUNTOF(sonyCsDef)  },
+        { sony1Cs2Cfg, sonyCs2Def, EXV_COUNTOF(sonyCs2Def) }
+    };
+    //! Sony2 Camera Settings configurations and definitions
+    extern const ArraySet sony2CsSet[] = {
+        { sony2CsCfg,  sonyCsDef,  EXV_COUNTOF(sonyCsDef)  },
+        { sony2Cs2Cfg, sonyCs2Def, EXV_COUNTOF(sonyCs2Def) }
     };
 
     //! Sony Minolta Camera Settings (old) binary array - configuration
@@ -979,6 +1002,7 @@ namespace Exiv2 {
         { Tag::root, Group::sony1mcs5, Group::sonymltmn, 0x0114    },
         { Tag::root, Group::sony2mn,   Group::exif,      0x927c    },
         { Tag::root, Group::sony2cs,   Group::sony2mn,   0x0114    },
+        { Tag::root, Group::sony2cs2,  Group::sony2mn,   0x0114    },
         { Tag::root, Group::minoltamn, Group::exif,      0x927c    },
         { Tag::root, Group::minocso,   Group::minoltamn, 0x0001    },
         { Tag::root, Group::minocsn,   Group::minoltamn, 0x0003    },
@@ -1335,7 +1359,7 @@ namespace Exiv2 {
         {  Tag::all, Group::sigmamn,   newTiffEntry                              },
 
         // Sony1 makernote
-        {    0x0114, Group::sony1mn,   EXV_BINARY_ARRAY(sony1CsCfg, sonyCsDef)   },
+        {    0x0114, Group::sony1mn,   EXV_COMPLEX_BINARY_ARRAY(sony1CsSet, sonyCsSelector) },
         {    0xb028, Group::sony1mn,   newTiffSubIfd<Group::sonymltmn>           },
         { Tag::next, Group::sony1mn,   newTiffDirectory<Group::ignr>             },
         {  Tag::all, Group::sony1mn,   newTiffEntry                              },
@@ -1345,12 +1369,13 @@ namespace Exiv2 {
         {  Tag::all, Group::sony1cs2,  newTiffBinaryElement                      },
 
         // Sony2 makernote
-        {    0x0114, Group::sony2mn,   EXV_BINARY_ARRAY(sony2CsCfg, sonyCsDef)   },
+        {    0x0114, Group::sony1mn,   EXV_COMPLEX_BINARY_ARRAY(sony2CsSet, sonyCsSelector) },
         { Tag::next, Group::sony2mn,   newTiffDirectory<Group::ignr>             },
         {  Tag::all, Group::sony2mn,   newTiffEntry                              },
 
         // Sony2 camera settings
         {  Tag::all, Group::sony2cs,   newTiffBinaryElement                      },
+        {  Tag::all, Group::sony2cs2,  newTiffBinaryElement                      },
 
         // Sony1 Minolta makernote
         {    0x0001, Group::sonymltmn, EXV_SIMPLE_BINARY_ARRAY(sony1MCsoCfg)     },
