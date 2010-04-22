@@ -54,7 +54,7 @@ OPTION( EXIV2_ENABLE_PRINTUCS2     "Build with Printucs2"                       
 OPTION( EXIV2_ENABLE_LENSDATA      "Build including lens data"                             ON  )
 OPTION( EXIV2_ENABLE_COMMERCIAL    "Build with the EXV_COMMERCIAL_VERSION symbol set"      OFF )
 OPTION( EXIV2_ENABLE_BUILD_SAMPLES "Build the unit tests"                                  OFF )
-OPTION( EXIV2_ENABLE_PO_RULES      "Includes rules to build i18n files"                    ON )
+OPTION( EXIV2_ENABLE_BUILD_PO      "Build translations files"                              ON )
 
 IF( MINGW OR UNIX )
     ADD_DEFINITIONS(-Wall
