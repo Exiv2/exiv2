@@ -412,6 +412,33 @@ namespace Exiv2 {
         { 4, N_("Spot")            }
     };
 
+    //! Lookup table to translate Sony camera settings dynamic range optimizer mode values to readable labels
+    extern const TagDetails sonyDynamicRangeOptimizerMode[] = {
+        { 0,    N_("Off")            },
+        { 1,    N_("Standard")       },
+        { 2,    N_("Advanced Auto")  },
+        { 3,    N_("Advanced Level") },
+        { 4097, N_("Auto")           }
+    };
+
+    //! Lookup table to translate Sony camera settings creative style values to readable labels
+    extern const TagDetails sonyCreativeStyle[] = {
+        { 1,    N_("Standard")             },
+        { 2,    N_("Vivid")                },
+        { 3,    N_("Portrait")             },
+        { 4,    N_("Landscape ")           },
+        { 5,    N_("Sunset ")              },
+        { 6,    N_("Night View/Portrait ") },
+        { 8,    N_("Black & White")        },
+        { 9,    N_("Adobe RGB ")           },
+        { 11,   N_("Neutral ")             },
+        { 12,   N_("Clear ")               },
+        { 13,   N_("Deep ")                },
+        { 14,   N_("Light ")               },
+        { 15,   N_("Autumn ")              },
+        { 16,   N_("Sepia")                }
+    };
+
     // Sony Camera Settings Tag Info
     // NOTE: all are for A200, A230, A300, A350, A700, A850 and A900 Sony model excepted
     // some entries which are only relevant with A700.
@@ -437,23 +464,18 @@ namespace Exiv2 {
         TagInfo(0x0021, "MeteringMode", N_("Metering Mode"),
                 N_("Metering Mode"),
                 sony1CsIfdId, makerTags, unsignedShort, EXV_PRINT_TAG(sonyMeteringMode)),
-
         TagInfo(0x0022, "ISOSetting", N_("ISO Setting"),
                 N_("ISO Setting"),
                 sony1CsIfdId, makerTags, unsignedShort, printValue),
-
         TagInfo(0x0024, "DynamicRangeOptimizerMode", N_("Dynamic Range Optimizer Mode"),
                 N_("Dynamic Range Optimizer Mode"),
-                sony1CsIfdId, makerTags, unsignedShort, printValue),
-
+                sony1CsIfdId, makerTags, unsignedShort, EXV_PRINT_TAG(sonyDynamicRangeOptimizerMode)),
         TagInfo(0x0025, "DynamicRangeOptimizerLevel", N_("Dynamic Range Optimizer Level"),
                 N_("Dynamic Range Optimizer Level"),
                 sony1CsIfdId, makerTags, unsignedShort, printValue),
-
         TagInfo(0x0026, "CreativeStyle", N_("Creative Style"),
                 N_("Creative Style"),
-                sony1CsIfdId, makerTags, unsignedShort, printValue),
-
+                sony1CsIfdId, makerTags, unsignedShort, EXV_PRINT_TAG(sonyCreativeStyle)),
         TagInfo(0x0028, "Sharpness", N_("Sharpness"),
                 N_("Sharpness"),
                 sony1CsIfdId, makerTags, unsignedShort, printValue),
@@ -562,23 +584,18 @@ namespace Exiv2 {
         TagInfo(0x0019, "MeteringMode", N_("Metering Mode"),
                 N_("Metering Mode"),
                 sony1Cs2IfdId, makerTags, unsignedShort, EXV_PRINT_TAG(sonyMeteringMode)),
-
         TagInfo(0x0020, "ISOSetting", N_("ISO Setting"),
                 N_("ISO Setting"),
                 sony1Cs2IfdId, makerTags, unsignedShort, printValue),
-
         TagInfo(0x0022, "DynamicRangeOptimizerMode", N_("Dynamic Range Optimizer Mode"),
                 N_("Dynamic Range Optimizer Mode"),
-                sony1Cs2IfdId, makerTags, unsignedShort, printValue),
-
+                sony1Cs2IfdId, makerTags, unsignedShort, EXV_PRINT_TAG(sonyDynamicRangeOptimizerMode)),
         TagInfo(0x0023, "DynamicRangeOptimizerLevel", N_("Dynamic Range Optimizer Level"),
                 N_("Dynamic Range Optimizer Level"),
                 sony1Cs2IfdId, makerTags, unsignedShort, printValue),
-
         TagInfo(0x0024, "CreativeStyle", N_("Creative Style"),
                 N_("Creative Style"),
-                sony1Cs2IfdId, makerTags, unsignedShort, printValue),
-
+                sony1Cs2IfdId, makerTags, unsignedShort, EXV_PRINT_TAG(sonyCreativeStyle)),
         TagInfo(0x0025, "Sharpness", N_("Sharpness"),
                 N_("Sharpness"),
                 sony1Cs2IfdId, makerTags, unsignedShort, printValue),
