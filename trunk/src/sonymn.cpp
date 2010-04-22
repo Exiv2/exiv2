@@ -446,9 +446,15 @@ namespace Exiv2 {
     };
 
     //! Lookup table to translate Sony camera settings priority setup shutter release values to readable labels
-    extern const TagDetails prioritySetupShutterRelease[] = {
+    extern const TagDetails sonyPrioritySetupShutterRelease[] = {
         { 0, N_("AF") },
         { 1, N_("Release") },
+    };
+
+    //! Lookup table to translate Minolta/Sony bool function values to readable labels
+    extern const TagDetails sonyAFIlluminator[] = {
+        { 0, N_("Auto") },
+        { 1, N_("Off")  }
     };
 
     // Sony Camera Settings Tag Info
@@ -509,12 +515,11 @@ namespace Exiv2 {
         // NOTE: A700 only
         TagInfo(0x0040, "PrioritySetupShutterRelease", N_("Priority Setup Shutter Release"),
                 N_("Priority Setup Shutter Release"),
-                sony1CsIfdId, makerTags, unsignedShort, EXV_PRINT_TAG(prioritySetupShutterRelease)),
-
+                sony1CsIfdId, makerTags, unsignedShort, EXV_PRINT_TAG(sonyPrioritySetupShutterRelease)),
         // NOTE: A700 only
         TagInfo(0x0041, "AFIlluminator", N_("AF Illuminator"),
                 N_("AF Illuminator"),
-                sony1CsIfdId, makerTags, unsignedShort, printValue),
+                sony1CsIfdId, makerTags, unsignedShort, EXV_PRINT_TAG(sonyAFIlluminator)),
 
         // NOTE: A700 only
         TagInfo(0x0042, "AFWithShutter", N_("AF With Shutter"),
