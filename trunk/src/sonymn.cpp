@@ -378,6 +378,18 @@ namespace Exiv2 {
 
     // -- Sony camera settings ---------------------------------------------------------------
 
+    //! Lookup table to translate Sony camera settings drive mode values to readable labels
+    extern const TagDetails sonyDriveModeStd[] = {
+        { 1, N_("Single Frame")                      },
+        { 2, N_("Continuous High")                   },
+        { 4, N_("Self-timer 10 sec")                 },
+        { 5, N_("Self-timer 2 sec")                  },
+        { 7, N_("Continuous Bracketing")             },
+        { 12, N_("Continuous Low")                   },
+        { 18, N_("White Balance Bracketing Low")     },
+        { 19, N_("D-Range Optimizer Bracketing Low") }
+    };
+
     //! Lookup table to translate Sony camera settings rotation values to readable labels
     extern const TagDetails sonyRotation[] = {
         { 0, N_("Horizontal (normal)") },
@@ -400,7 +412,7 @@ namespace Exiv2 {
         // NOTE: A700 only
         TagInfo(0x0004, "DriveMode", N_("Drive Mode"),
                 N_("Drive Mode"),
-                sony1CsIfdId, makerTags, unsignedShort, printValue),
+                sony1CsIfdId, makerTags, unsignedShort, EXV_PRINT_TAG(sonyDriveModeStd)),
         // NOTE: A700 only
         TagInfo(0x0006, "WhiteBalanceFineTune", N_("White Balance Fine Tune"),
                 N_("White Balance Fine Tune"),
