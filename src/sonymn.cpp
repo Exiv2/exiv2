@@ -506,7 +506,7 @@ namespace Exiv2 {
     };
 
     //! Lookup table to translate Sony camera settings quality values to readable labels
-    extern const TagDetails sonyQuality[] = {
+    extern const TagDetails sonyQualityCS[] = {
         { 0,   N_("RAW ")       },
         { 2,   N_("CRAW ")      },
         { 16,  N_("Extra Fine") },
@@ -618,7 +618,7 @@ namespace Exiv2 {
                 sony1CsIfdId, makerTags, unsignedShort, EXV_PRINT_TAG(sonyAspectRatio)),
         TagInfo(0x0086, "Quality", N_("Quality"),
                 N_("Quality"),
-                sony1CsIfdId, makerTags, unsignedShort, EXV_PRINT_TAG(printValue)),
+                sony1CsIfdId, makerTags, unsignedShort, EXV_PRINT_TAG(sonyQualityCS)),
         TagInfo(0x0088, "ExposureLevelIncrements", N_("Exposure Level Increments"),
                 N_("Exposure Level Increments"),
                 sony1CsIfdId, makerTags, unsignedShort, EXV_PRINT_TAG(sonyExposureLevelIncrements)),
