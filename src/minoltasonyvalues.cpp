@@ -363,4 +363,19 @@ namespace Exiv2 {
     {
         return EXV_PRINT_TAG(minoltaSonyBoolFunction)(os, value, metadata);
     }
+
+    // ----------------------------------------------------------------------------------------------------
+
+    //! Lookup table to translate Sony camera settings focus mode values to readable labels
+    extern const TagDetails minoltaSonyAFAreaMode[] = {
+        { 0, N_("Wide")  },
+        { 1, N_("Local") },
+        { 2, N_("Spot")  }
+    };
+
+    std::ostream& printMinoltaSonyAFAreaMode(std::ostream& os, const Value& value, const ExifData* metadata)
+    {
+        return EXV_PRINT_TAG(minoltaSonyAFAreaMode)(os, value, metadata);
+    }
+
 }                                       // namespace Exiv2

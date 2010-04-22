@@ -385,7 +385,7 @@ namespace Exiv2 {
         { 2, N_("Rotate 270 CW")       }
     };
 
-    //! Lookup table to translate Minolta Dynax 5D camera settings focus mode values to readable labels
+    //! Lookup table to translate Sony camera settings focus mode values to readable labels
     extern const TagDetails sonyFocusMode[] = {
         { 0, N_("Manual") },
         { 1, "AF-S"       },
@@ -412,7 +412,7 @@ namespace Exiv2 {
 
         TagInfo(0x0017, "AFAreaMode", N_("AF Area Mode"),
                 N_("AF Area Mode"),
-                sony1CsIfdId, makerTags, unsignedShort, printValue),
+                sony1CsIfdId, makerTags, unsignedShort, printMinoltaSonyAFAreaMode),
 
         TagInfo(0x0018, "LocalAFAreaPoint", N_("Local AF Area Point"),
                 N_("Local AF Area Point"),
@@ -540,7 +540,7 @@ namespace Exiv2 {
 
         TagInfo(0x0017, "AFAreaMode", N_("AF Area Mode"),
                 N_("AF Area Mode"),
-                sony1Cs2IfdId, makerTags, unsignedShort, printValue),
+                sony1Cs2IfdId, makerTags, unsignedShort, printMinoltaSonyAFAreaMode),
 
         TagInfo(0x0018, "LocalAFAreaPoint", N_("Local AF Area Point"),
                 N_("Local AF Area Point"),
