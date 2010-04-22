@@ -385,6 +385,14 @@ namespace Exiv2 {
         { 2, N_("Rotate 270 CW")       }
     };
 
+    //! Lookup table to translate Minolta Dynax 5D camera settings focus mode values to readable labels
+    extern const TagDetails sonyFocusMode[] = {
+        { 0, N_("Manual") },
+        { 1, "AF-S"       },
+        { 2, "AF-C"       },
+        { 3, "AF-A"       }
+    };
+
     // Sony Camera Settings Tag Info
     // NOTE: all are for A200, A230, A300, A350, A700, A850 and A900 Sony model excepted
     // some entries which are only relevant with A700.
@@ -400,7 +408,7 @@ namespace Exiv2 {
 
         TagInfo(0x0016, "FocusMode", N_("Focus Mode"),
                 N_("Focus Mode"),
-                sony1CsIfdId, makerTags, unsignedShort, printValue),
+                sony1CsIfdId, makerTags, unsignedShort, EXV_PRINT_TAG(sonyFocusMode)),
 
         TagInfo(0x0017, "AFAreaMode", N_("AF Area Mode"),
                 N_("AF Area Mode"),
@@ -528,7 +536,7 @@ namespace Exiv2 {
 
         TagInfo(0x0016, "FocusMode", N_("Focus Mode"),
                 N_("Focus Mode"),
-                sony1Cs2IfdId, makerTags, unsignedShort, printValue),
+                sony1Cs2IfdId, makerTags, unsignedShort, EXV_PRINT_TAG(sonyFocusMode)),
 
         TagInfo(0x0017, "AFAreaMode", N_("AF Area Mode"),
                 N_("AF Area Mode"),
