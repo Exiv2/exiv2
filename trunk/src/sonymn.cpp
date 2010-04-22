@@ -416,7 +416,7 @@ namespace Exiv2 {
 
         TagInfo(0x0018, "LocalAFAreaPoint", N_("Local AF Area Point"),
                 N_("Local AF Area Point"),
-                sony1CsIfdId, makerTags, unsignedShort, printValue),
+                sony1CsIfdId, makerTags, unsignedShort, printMinoltaSonyLocalAFAreaPoint),
 
         TagInfo(0x0021, "MeteringMode", N_("Metering Mode"),
                 N_("Metering Mode"),
@@ -544,7 +544,7 @@ namespace Exiv2 {
 
         TagInfo(0x0018, "LocalAFAreaPoint", N_("Local AF Area Point"),
                 N_("Local AF Area Point"),
-                sony1Cs2IfdId, makerTags, unsignedShort, printValue),
+                sony1Cs2IfdId, makerTags, unsignedShort, printMinoltaSonyLocalAFAreaPoint),
 
         TagInfo(0x0019, "MeteringMode", N_("Metering Mode"),
                 N_("Metering Mode"),

@@ -52,6 +52,9 @@ namespace Exiv2 {
     //! Print Minolta/Sony AF Area Mode values to readable labels.
     EXIV2API std::ostream& printMinoltaSonyAFAreaMode(std::ostream&, const Value&, const ExifData*);
 
+    //! Print Minolta/Sony Local AF Area Point values to readable labels.
+    EXIV2API std::ostream& printMinoltaSonyLocalAFAreaPoint(std::ostream&, const Value&, const ExifData*);
+
     // TODO: Added shared methods here.
 
 }                                       // namespace Exiv2
