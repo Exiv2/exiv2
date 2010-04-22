@@ -439,6 +439,12 @@ namespace Exiv2 {
         { 16,   N_("Sepia")                }
     };
 
+    //! Lookup table to translate Sony camera settings flash mode values to readable labels
+    extern const TagDetails sonyFlashMode[] = {
+        { 0, N_("ADI") },
+        { 1, N_("TTL") },
+    };
+
     // Sony Camera Settings Tag Info
     // NOTE: all are for A200, A230, A300, A350, A700, A850 and A900 Sony model excepted
     // some entries which are only relevant with A700.
@@ -491,10 +497,9 @@ namespace Exiv2 {
         TagInfo(0x0034, "Brightness", N_("Brightness"),
                 N_("Brightness"),
                 sony1CsIfdId, makerTags, unsignedShort, printValue),
-
         TagInfo(0x0035, "FlashMode", N_("FlashMode"),
                 N_("FlashMode"),
-                sony1CsIfdId, makerTags, unsignedShort, printValue),
+                sony1CsIfdId, makerTags, unsignedShort, EXV_PRINT_TAG(sonyFlashMode)),
 
         // NOTE: A700 only
         TagInfo(0x0040, "PrioritySetupShutterRelease", N_("Priority Setup Shutter Release"),
@@ -605,10 +610,9 @@ namespace Exiv2 {
         TagInfo(0x0027, "Saturation", N_("Saturation"),
                 N_("Saturation"),
                 sony1Cs2IfdId, makerTags, unsignedShort, printValue),
-
         TagInfo(0x0035, "FlashMode", N_("FlashMode"),
                 N_("FlashMode"),
-                sony1Cs2IfdId, makerTags, unsignedShort, printValue),
+                sony1Cs2IfdId, makerTags, unsignedShort, EXV_PRINT_TAG(sonyFlashMode)),
 
         TagInfo(0x0060, "ExposureProgram", N_("Exposure Program"),
                 N_("Exposure Program"),
