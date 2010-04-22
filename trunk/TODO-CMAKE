@@ -7,8 +7,6 @@
 
 * Emacs M-c command to (re-)compile.
 
-* Add tests to check availability of msgmerge, xgettext, msgfmt programs.
-
 * Migrate the whole README-CMAKE to README.
 
 -------------------------------------------------------------------------------------
@@ -84,6 +82,8 @@ DONE * Rename configuration settings to EXIV2_*, e.g., EXIV2_ENABLE_SHARED.
 
 DONE * Manage i18n extraction to generate .po files. (See http://www.cmake.org/pipermail/cmake/2009-July/031003.html)
    Port extract-messages.sh to CMake
+
+DONE * Add tests to check availability of msgmerge, xgettext, msgfmt programs.
 
 INFO * Check How does cmake handle RPATH? (I'll read up on this).
 
