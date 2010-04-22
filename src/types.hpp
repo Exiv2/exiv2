@@ -234,6 +234,7 @@ namespace Exiv2 {
         sony1MltCs7DIfdId,
         sony1MltCsOldIfdId,
         sony1MltCsNewIfdId,
+        sony1MltCsA100IfdId,
         lastIfdId
     };
 

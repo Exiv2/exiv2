@@ -1384,6 +1384,7 @@ namespace Exiv2 {
         {    0x0088, Group::sonymltmn, newTiffThumbData<0x0089, Group::sonymltmn>},
         {    0x0089, Group::sonymltmn, newTiffThumbSize<0x0088, Group::sonymltmn>},
         {    0x0114, Group::sonymltmn, EXV_BINARY_ARRAY(sony1MCs5Cfg, minoCs5Def)}, // minoCs5Def [sic]
+//        {    0x0114, Group::sonymltmn, EXV_BINARY_ARRAY(sony1MCs5Cfg, minoCs5Def)}, // A100 CS
         { Tag::next, Group::sonymltmn, newTiffDirectory<Group::ignr>             },
         {  Tag::all, Group::sonymltmn, newTiffEntry                              },
 
