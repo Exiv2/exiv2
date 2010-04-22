@@ -505,6 +505,23 @@ namespace Exiv2 {
         { 2, "16:9"  }
     };
 
+    //! Lookup table to translate Sony camera settings quality values to readable labels
+    extern const TagDetails sonyQuality[] = {
+        { 0,   N_("RAW ")       },
+        { 2,   N_("CRAW ")      },
+        { 16,  N_("Extra Fine") },
+        { 32,  N_("Fine")       },
+        { 34,  N_("RAW+JPEG")   },
+        { 35,  N_("CRAW+JPEG")  },
+        { 48,  N_("Standard")   }
+    };
+
+    //! Lookup table to translate Sony exposure level increments values to readable labels
+    extern const TagDetails sonyExposureLevelIncrements[] = {
+        { 33, "1/3 EV" },
+        { 50, "1/2 EV" }
+    };
+
     // Sony Camera Settings Tag Info
     // NOTE: all are for A200, A230, A300, A350, A700, A850 and A900 Sony model excepted
     // some entries which are only relevant with A700.
@@ -599,15 +616,12 @@ namespace Exiv2 {
         TagInfo(0x0085, "AspectRatio", N_("Aspect Ratio"),
                 N_("Aspect Ratio"),
                 sony1CsIfdId, makerTags, unsignedShort, EXV_PRINT_TAG(sonyAspectRatio)),
-
         TagInfo(0x0086, "Quality", N_("Quality"),
                 N_("Quality"),
-                sony1CsIfdId, makerTags, unsignedShort, printValue),
-
+                sony1CsIfdId, makerTags, unsignedShort, EXV_PRINT_TAG(printValue)),
         TagInfo(0x0088, "ExposureLevelIncrements", N_("Exposure Level Increments"),
                 N_("Exposure Level Increments"),
-                sony1CsIfdId, makerTags, unsignedShort, printValue),
-
+                sony1CsIfdId, makerTags, unsignedShort, EXV_PRINT_TAG(sonyExposureLevelIncrements)),
         // End of list marker
         TagInfo(0xffff, "(UnknownSony1CsTag)", "(UnknownSony1CsTag)",
                 N_("Unknown Sony1 Camera Settings tag"),
