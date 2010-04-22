@@ -48,6 +48,9 @@ EXIV2_RCSID("@(#) $Id$")
 
 // *****************************************************************************
 namespace {
+    // Todo: Can be generalized further - get any tag as a string/long/...
+    //! Get the model name from tag Exif.Image.Model
+    std::string getExifModel(Exiv2::Internal::TiffComponent* const pRoot);
     //! Nikon en/decryption function
     void ncrypt(Exiv2::byte* pData, uint32_t size, uint32_t count, uint32_t serial);
 }
@@ -862,12 +865,8 @@ namespace Exiv2 {
         bool ok(false);
         uint32_t serial = stringTo<uint32_t>(te->pValue()->toString(), ok);
         if (!ok) {
-            // Find Exif.Image.Model
-            finder.init(0x0110, Group::ifd0);
-            pRoot->accept(finder);
-            te = dynamic_cast<TiffEntryBase*>(finder.result());
-            if (!te || !te->pValue() || te->pValue()->count() == 0) return buf;
-            std::string model = te->pValue()->toString();
+            std::string model = getExifModel(pRoot);
+            if (model.empty()) return buf;
             if (model.find("D50") != std::string::npos) {
                 serial = 0x22;
             }
@@ -881,11 +880,31 @@ namespace Exiv2 {
         return buf;
     }
 
+    int sonyCsSelector(uint16_t /*tag*/, const byte* /*pData*/, uint32_t /*size*/, TiffComponent* const pRoot)
+    {
+        std::string model = getExifModel(pRoot);
+        if (model.empty()) return -1;
+        int idx = 0;
+        if (   model.find("DSLR-A330") != std::string::npos
+            || model.find("DSLR-A380") != std::string::npos) {
+            idx = 1;
+        }
+        return idx;
+    }
 }}                                      // namespace Internal, Exiv2
 
 // *****************************************************************************
 // local definitions
 namespace {
+    std::string getExifModel(Exiv2::Internal::TiffComponent* const pRoot)
+    {
+        Exiv2::Internal::TiffFinder finder(0x0110, Exiv2::Internal::Group::ifd0); // Exif.Image.Model
+        pRoot->accept(finder);
+        Exiv2::Internal::TiffEntryBase* te = dynamic_cast<Exiv2::Internal::TiffEntryBase*>(finder.result());
+        if (!te || !te->pValue() || te->pValue()->count() == 0) return std::string();
+        return te->pValue()->toString();
+    }
+
     void ncrypt(Exiv2::byte* pData, uint32_t size, uint32_t count, uint32_t serial)
     {
         static const Exiv2::byte xlat[2][256] = {
