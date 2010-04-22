@@ -405,9 +405,17 @@ namespace Exiv2 {
         { 3, "AF-A"       }
     };
 
+    //! Lookup table to translate Sony camera settings metering mode values to readable labels
+    extern const TagDetails sonyMeteringMode[] = {
+        { 1, N_("Multi-segment")   },
+        { 2, N_("Center weighted") },
+        { 4, N_("Spot")            }
+    };
+
     // Sony Camera Settings Tag Info
     // NOTE: all are for A200, A230, A300, A350, A700, A850 and A900 Sony model excepted
     // some entries which are only relevant with A700.
+
     const TagInfo SonyMakerNote::tagInfoCs_[] = {
         // NOTE: A700 only
         TagInfo(0x0004, "DriveMode", N_("Drive Mode"),
@@ -417,22 +425,18 @@ namespace Exiv2 {
         TagInfo(0x0006, "WhiteBalanceFineTune", N_("White Balance Fine Tune"),
                 N_("White Balance Fine Tune"),
                 sony1CsIfdId, makerTags, unsignedShort, printValue),
-
         TagInfo(0x0016, "FocusMode", N_("Focus Mode"),
                 N_("Focus Mode"),
                 sony1CsIfdId, makerTags, unsignedShort, EXV_PRINT_TAG(sonyFocusMode)),
-
         TagInfo(0x0017, "AFAreaMode", N_("AF Area Mode"),
                 N_("AF Area Mode"),
                 sony1CsIfdId, makerTags, unsignedShort, printMinoltaSonyAFAreaMode),
-
         TagInfo(0x0018, "LocalAFAreaPoint", N_("Local AF Area Point"),
                 N_("Local AF Area Point"),
                 sony1CsIfdId, makerTags, unsignedShort, printMinoltaSonyLocalAFAreaPoint),
-
         TagInfo(0x0021, "MeteringMode", N_("Metering Mode"),
                 N_("Metering Mode"),
-                sony1CsIfdId, makerTags, unsignedShort, printValue),
+                sony1CsIfdId, makerTags, unsignedShort, EXV_PRINT_TAG(sonyMeteringMode)),
 
         TagInfo(0x0022, "ISOSetting", N_("ISO Setting"),
                 N_("ISO Setting"),
@@ -549,18 +553,15 @@ namespace Exiv2 {
         TagInfo(0x0016, "FocusMode", N_("Focus Mode"),
                 N_("Focus Mode"),
                 sony1Cs2IfdId, makerTags, unsignedShort, EXV_PRINT_TAG(sonyFocusMode)),
-
         TagInfo(0x0017, "AFAreaMode", N_("AF Area Mode"),
                 N_("AF Area Mode"),
                 sony1Cs2IfdId, makerTags, unsignedShort, printMinoltaSonyAFAreaMode),
-
         TagInfo(0x0018, "LocalAFAreaPoint", N_("Local AF Area Point"),
                 N_("Local AF Area Point"),
                 sony1Cs2IfdId, makerTags, unsignedShort, printMinoltaSonyLocalAFAreaPoint),
-
         TagInfo(0x0019, "MeteringMode", N_("Metering Mode"),
                 N_("Metering Mode"),
-                sony1Cs2IfdId, makerTags, unsignedShort, printValue),
+                sony1Cs2IfdId, makerTags, unsignedShort, EXV_PRINT_TAG(sonyMeteringMode)),
 
         TagInfo(0x0020, "ISOSetting", N_("ISO Setting"),
                 N_("ISO Setting"),
