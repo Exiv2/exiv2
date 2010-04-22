@@ -62,6 +62,8 @@ namespace Exiv2 {
         static const TagInfo* tagListCs7D();
         //! Return read-only list of built-in Minolta 5D Camera Settings tags
         static const TagInfo* tagListCs5D();
+        //! Return read-only list of built-in Sony A100 Camera Settings tags
+        static const TagInfo* tagListCsA100();
 
         //! @name Print functions for Minolta %MakerNote tags
         //@{
@@ -95,6 +97,7 @@ namespace Exiv2 {
     private:
         //! Tag information
         static const TagInfo tagInfo_[];
+        static const TagInfo tagInfoCsA100_[];
         static const TagInfo tagInfoCs5D_[];
         static const TagInfo tagInfoCs7D_[];
         static const TagInfo tagInfoCsStd_[];

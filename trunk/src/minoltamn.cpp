@@ -820,12 +820,19 @@ namespace Exiv2 {
 
     //! Lookup table to translate Minolta Dynax 5D camera settings exposure mode values to readable labels
     extern const TagDetails minoltaExposureMode5D[] = {
-        { 0,    N_("Program")           },
-        { 1,    N_("Aperture priority") },
-        { 2,    N_("Shutter priority")  },
-        { 3,    N_("Manual")            },
-        { 4,    N_("Auto")              },
-        { 4131, N_("Connected copying") }
+        { 0,      N_("Program")             },
+        { 1,      N_("Aperture priority")   },
+        { 2,      N_("Shutter priority")    },
+        { 3,      N_("Manual")              },
+        { 4,      N_("Auto")                },
+        { 5,      N_("Program Shift A")     },
+        { 6,      N_("Program Shift S")     },
+        { 0x1013, N_("Portrait")            },
+        { 0x1023, N_("Sports")              },
+        { 0x1033, N_("Sunset")              },
+        { 0x1043, N_("Night View/Portrait") },
+        { 0x1053, N_("Landscape")           },
+        { 0x1083, N_("Macro")               }
     };
 
     //! Lookup table to translate Minolta Dynax 5D camera settings image size values to readable labels
@@ -1047,6 +1054,102 @@ namespace Exiv2 {
         return tagInfoCs5D_;
     }
 
+    // -- Sony A100 camera settings ---------------------------------------------------------------
+
+
+    // Sony A100 Camera Settings Tag Info
+    const TagInfo MinoltaMakerNote::tagInfoCsA100_[] = {
+        TagInfo(0x0000, "ExposureMode", N_("Exposure Mode"),
+                N_("Exposure mode"),
+                sony1MltCsA100IfdId, makerTags, unsignedShort, EXV_PRINT_TAG(minoltaExposureMode5D)),
+        TagInfo(0x0001, "ExposureCompensationSetting", N_("Exposure Compensation Setting"),
+                N_("Exposure compensation setting"),
+                sony1MltCsA100IfdId, makerTags, unsignedShort, printValue),
+        TagInfo(0x0005, "HighSpeedSync", N_("High Speed Sync"),
+                N_("High speed sync"),
+                sony1MltCsA100IfdId, makerTags, unsignedShort, printMinoltaSonyBoolValue),
+/*        TagInfo(0x000E, "WhiteBalance", N_("White Balance"),
+                N_("White balance"),
+                sony1MltCsA100IfdId, makerTags, unsignedShort, EXV_PRINT_TAG(minoltaWhiteBalance5D)),
+        TagInfo(0x001a, "FocusPosition", N_("Focus Position"),
+                N_("Focus position"),
+                sony1MltCsA100IfdId, makerTags, unsignedShort, EXV_PRINT_TAG(minoltaFocusPosition5D)),
+        TagInfo(0x001b, "FocusArea", N_("Focus Area"),
+                N_("Focus area"),
+                sony1MltCsA100IfdId, makerTags, unsignedShort, EXV_PRINT_TAG(minoltaFocusArea5D)),
+        TagInfo(0x001F, "Flash", N_("Flash"),
+                N_("Flash"),
+                sony1MltCsA100IfdId, makerTags, unsignedShort, EXV_PRINT_TAG(minoltaFlash5D)),
+        TagInfo(0x0025, "MeteringMode", N_("Metering Mode"),
+                N_("Metering mode"),
+                sony1MltCsA100IfdId, makerTags, unsignedShort, EXV_PRINT_TAG(minoltaMeteringMode5D)),
+        TagInfo(0x0026, "ISOSpeed", N_("ISO Speed Mode"),
+                N_("ISO speed setting"),
+                sony1MltCsA100IfdId, makerTags, unsignedShort, EXV_PRINT_TAG(minoltaISOSetting5D)),
+        TagInfo(0x0030, "Sharpness", N_("Sharpness"),
+                N_("Sharpness"),
+                sony1MltCsA100IfdId, makerTags, unsignedShort, printValue),
+        TagInfo(0x0031, "Contrast", N_("Contrast"),
+                N_("Contrast"),
+                sony1MltCsA100IfdId, makerTags, unsignedShort, printValue),
+        TagInfo(0x0032, "Saturation", N_("Saturation"),
+                N_("Saturation"),
+                sony1MltCsA100IfdId, makerTags, unsignedShort, printValue),
+        TagInfo(0x0035, "ExposureTime", N_("Exposure Time"),
+                N_("Exposure time"),
+                sony1MltCsA100IfdId, makerTags, unsignedShort, printValue),
+        TagInfo(0x0036, "FNumber", N_("FNumber"),
+                N_("The F-Number"),
+                sony1MltCsA100IfdId, makerTags, unsignedShort, printValue),
+        TagInfo(0x0037, "FreeMemoryCardImages", N_("Free Memory Card Images"),
+                N_("Free memory card images"),
+                sony1MltCsA100IfdId, makerTags, unsignedShort, printValue),
+        TagInfo(0x0038, "ExposureRevision", N_("Exposure Revision"),
+                N_("Exposure revision"),
+                sony1MltCsA100IfdId, makerTags, unsignedShort, printValue),
+        TagInfo(0x0048, "FocusMode", N_("Focus Mode"),
+                N_("Focus mode"),
+                sony1MltCsA100IfdId, makerTags, unsignedShort, EXV_PRINT_TAG(minoltaFocusMode5D)),
+        TagInfo(0x0049, "ColorTemperature", N_("Color Temperature"),
+                N_("Color temperature"),
+                sony1MltCsA100IfdId, makerTags, signedShort, printValue),
+        TagInfo(0x0050, "Rotation", N_("Rotation"),
+                N_("Rotation"),
+                sony1MltCsA100IfdId, makerTags, unsignedShort, EXV_PRINT_TAG(minoltaRotation5D)),
+        TagInfo(0x0053, "ExposureCompensation", N_("Exposure Compensation"),
+                N_("Exposure compensation"),
+                sony1MltCsA100IfdId, makerTags, unsignedShort, printMinoltaExposureCompensation5D),
+        TagInfo(0x0054, "FreeMemoryCardImages", N_("Free Memory Card Images"),
+                N_("Free memory card images"),
+                sony1MltCsA100IfdId, makerTags, unsignedShort, printValue),
+        TagInfo(0x0091, "ExposureManualBias", N_("Exposure Manual Bias"),
+                N_("Exposure manual bias"),
+                sony1MltCsA100IfdId, makerTags, unsignedShort, printMinoltaExposureManualBias5D),
+        TagInfo(0x009e, "AFMode", N_("AF Mode"),
+                N_("AF mode"),
+                sony1MltCsA100IfdId, makerTags, unsignedShort, EXV_PRINT_TAG(minoltaAFMode5D)),
+        TagInfo(0x00AE, "ImageNumber", N_("Image Number"),
+                N_("Image number"),
+                sony1MltCsA100IfdId, makerTags, unsignedShort, printValue),
+        TagInfo(0x00B0, "NoiseReduction", N_("Noise Reduction"),
+                N_("Noise reduction"),
+                sony1MltCsA100IfdId, makerTags, unsignedShort, printMinoltaSonyBoolValue),
+        TagInfo(0x00BD, "ImageStabilization", N_("Image Stabilization"),
+                N_("Image stabilization"),
+                sony1MltCsA100IfdId, makerTags, unsignedShort, printMinoltaSonyBoolValue),
+*/
+
+        // End of list marker
+        TagInfo(0xffff, "(UnknownSonyCsA100Tag)", "(UnknownSonyCsA100Tag)",
+                N_("Unknown Sony Camera Settings A100 tag"),
+                sony1MltCsA100IfdId, makerTags, invalidTypeId, printValue)
+    };
+
+    const TagInfo* MinoltaMakerNote::tagListCsA100()
+    {
+        return tagInfoCsA100_;
+    }
+
     // TODO : Add camera settings tags info "New2"...
-    // TODO : Add camera settings tags info "A100"...
+
 }                                       // namespace Exiv2
