@@ -1369,7 +1369,7 @@ namespace Exiv2 {
         {  Tag::all, Group::sony1cs2,  newTiffBinaryElement                      },
 
         // Sony2 makernote
-        {    0x0114, Group::sony1mn,   EXV_COMPLEX_BINARY_ARRAY(sony2CsSet, sonyCsSelector) },
+        {    0x0114, Group::sony2mn,   EXV_COMPLEX_BINARY_ARRAY(sony2CsSet, sonyCsSelector) },
         { Tag::next, Group::sony2mn,   newTiffDirectory<Group::ignr>             },
         {  Tag::all, Group::sony2mn,   newTiffEntry                              },
 
