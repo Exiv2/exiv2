@@ -499,6 +499,12 @@ namespace Exiv2 {
         { 3, N_("Small")  }
     };
 
+    //! Lookup table to translate Sony aspect ratio values to readable labels
+    extern const TagDetails sonyAspectRatio[] = {
+        { 1, "3:2"   },
+        { 2, "16:9"  }
+    };
+
     // Sony Camera Settings Tag Info
     // NOTE: all are for A200, A230, A300, A350, A700, A850 and A900 Sony model excepted
     // some entries which are only relevant with A700.
@@ -590,10 +596,9 @@ namespace Exiv2 {
         TagInfo(0x0084, "SonyImageSize", N_("Sony Image Size"),
                 N_("Sony Image Size"),
                 sony1CsIfdId, makerTags, unsignedShort, EXV_PRINT_TAG(sonyImageSize)),
-
         TagInfo(0x0085, "AspectRatio", N_("Aspect Ratio"),
                 N_("Aspect Ratio"),
-                sony1CsIfdId, makerTags, unsignedShort, printValue),
+                sony1CsIfdId, makerTags, unsignedShort, EXV_PRINT_TAG(sonyAspectRatio)),
 
         TagInfo(0x0086, "Quality", N_("Quality"),
                 N_("Quality"),
@@ -663,11 +668,9 @@ namespace Exiv2 {
         TagInfo(0x0063, "Rotation", N_("Rotation"),
                 N_("Rotation"),
                 sony1Cs2IfdId, makerTags, unsignedShort, EXV_PRINT_TAG(sonyRotation)),
-
         TagInfo(0x0084, "SonyImageSize", N_("Sony Image Size"),
                 N_("Sony Image Size"),
-                sony1Cs2IfdId, makerTags, unsignedShort, printValue),
-
+                sony1Cs2IfdId, makerTags, unsignedShort, EXV_PRINT_TAG(sonyImageSize)),
         // End of list marker
         TagInfo(0xffff, "(UnknownSony1Cs2Tag)", "(UnknownSony1Cs2Tag)",
                 N_("Unknown Sony1 Camera Settings 2 tag"),
