@@ -120,14 +120,14 @@ Exif.MakerNote.Offset                         0x0001 Makernote    Long        1 
 Exif.MakerNote.ByteOrder                      0x0002 Makernote    Ascii       3 II
 Exif.Panasonic.Quality                        0x0001 Makernote    Short       1 1
 
------ One Sony MakerNote tag
+----- One Sony1 MakerNote tag
 Exif.Image.Make                               0x010f IFD0         Ascii       5 SONY
 Exif.Image.Model                              0x0110 IFD0         Ascii       7 DSC-W7
 Exif.Image.ExifTag                            0x8769 IFD0         Long        1 64
 Exif.Photo.MakerNote                          0x927c Exif         Undefined  32 83 79 78 89 32 68 83 67 32 0 0 0 1 0 0 32 7 0 6 0 0 0 108 0 0 0 0 1 2 3 4 5
 Exif.MakerNote.Offset                         0x0001 Makernote    Long        1 82
 Exif.MakerNote.ByteOrder                      0x0002 Makernote    Ascii       3 II
-Exif.Sony.0x2000                              0x2000 Makernote    Undefined   6 0 1 2 3 4 5
+Exif.Sony1.0x2000                             0x2000 Makernote    Undefined   6 0 1 2 3 4 5
 
 ----- Minolta MakerNote tags
 Exif.Image.Make                               0x010f IFD0         Ascii       8 Minolta
