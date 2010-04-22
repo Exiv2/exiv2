@@ -445,6 +445,12 @@ namespace Exiv2 {
         { 1, N_("TTL") },
     };
 
+    //! Lookup table to translate Sony camera settings priority setup shutter release values to readable labels
+    extern const TagDetails prioritySetupShutterRelease[] = {
+        { 0, N_("AF") },
+        { 1, N_("Release") },
+    };
+
     // Sony Camera Settings Tag Info
     // NOTE: all are for A200, A230, A300, A350, A700, A850 and A900 Sony model excepted
     // some entries which are only relevant with A700.
@@ -500,11 +506,10 @@ namespace Exiv2 {
         TagInfo(0x0035, "FlashMode", N_("FlashMode"),
                 N_("FlashMode"),
                 sony1CsIfdId, makerTags, unsignedShort, EXV_PRINT_TAG(sonyFlashMode)),
-
         // NOTE: A700 only
         TagInfo(0x0040, "PrioritySetupShutterRelease", N_("Priority Setup Shutter Release"),
                 N_("Priority Setup Shutter Release"),
-                sony1CsIfdId, makerTags, unsignedShort, printValue),
+                sony1CsIfdId, makerTags, unsignedShort, EXV_PRINT_TAG(prioritySetupShutterRelease)),
 
         // NOTE: A700 only
         TagInfo(0x0041, "AFIlluminator", N_("AF Illuminator"),
