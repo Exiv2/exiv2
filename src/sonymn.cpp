@@ -378,6 +378,13 @@ namespace Exiv2 {
 
     // -- Sony camera settings ---------------------------------------------------------------
 
+    //! Lookup table to translate Sony camera settings rotation values to readable labels
+    extern const TagDetails sonyRotation[] = {
+        { 0, N_("Horizontal (normal)") },
+        { 1, N_("Rotate 90 CW")        },
+        { 2, N_("Rotate 270 CW")       }
+    };
+
     // Sony Camera Settings Tag Info
     // NOTE: all are for A200, A230, A300, A350, A700, A850 and A900 Sony model excepted
     // some entries which are only relevant with A700.
@@ -483,7 +490,7 @@ namespace Exiv2 {
 
         TagInfo(0x0063, "Rotation", N_("Rotation"),
                 N_("Rotation"),
-                sony1CsIfdId, makerTags, unsignedShort, printValue),
+                sony1CsIfdId, makerTags, unsignedShort, EXV_PRINT_TAG(sonyRotation)),
 
         TagInfo(0x0084, "SonyImageSize", N_("Sony Image Size"),
                 N_("Sony Image Size"),
@@ -571,7 +578,7 @@ namespace Exiv2 {
 
         TagInfo(0x0063, "Rotation", N_("Rotation"),
                 N_("Rotation"),
-                sony1Cs2IfdId, makerTags, unsignedShort, printValue),
+                sony1Cs2IfdId, makerTags, unsignedShort, EXV_PRINT_TAG(sonyRotation)),
 
         TagInfo(0x0084, "SonyImageSize", N_("Sony Image Size"),
                 N_("Sony Image Size"),
