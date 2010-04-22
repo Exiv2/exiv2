@@ -451,9 +451,15 @@ namespace Exiv2 {
         { 1, N_("Release") },
     };
 
-    //! Lookup table to translate Minolta/Sony bool function values to readable labels
+    //! Lookup table to translate Sony AF illuminator values to readable labels
     extern const TagDetails sonyAFIlluminator[] = {
         { 0, N_("Auto") },
+        { 1, N_("Off")  }
+    };
+
+    //! Lookup table to translate Sony AF with shutter values to readable labels
+    extern const TagDetails sonyAFWithShutter[] = {
+        { 0, N_("On") },
         { 1, N_("Off")  }
     };
 
@@ -520,11 +526,10 @@ namespace Exiv2 {
         TagInfo(0x0041, "AFIlluminator", N_("AF Illuminator"),
                 N_("AF Illuminator"),
                 sony1CsIfdId, makerTags, unsignedShort, EXV_PRINT_TAG(sonyAFIlluminator)),
-
         // NOTE: A700 only
         TagInfo(0x0042, "AFWithShutter", N_("AF With Shutter"),
                 N_("AF With Shutter"),
-                sony1CsIfdId, makerTags, unsignedShort, printValue),
+                sony1CsIfdId, makerTags, unsignedShort, EXV_PRINT_TAG(sonyAFWithShutter)),
 
         // NOTE: A700 only
         TagInfo(0x0043, "LongExposureNoiseReduction", N_("Long Exposure Noise Reduction"),
