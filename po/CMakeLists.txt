@@ -32,6 +32,7 @@
 # automatically include all po files in the directory
 FILE(GLOB PO_FILES *.po)
 
+UPDATE_TRANSLATIONS(exiv2 ${PO_FILES})
 ADD_TRANSLATIONS(exiv2 ${PO_FILES})
 
 ADD_CUSTOM_TARGET( pot-update
