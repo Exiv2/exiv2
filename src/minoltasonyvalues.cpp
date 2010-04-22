@@ -378,4 +378,26 @@ namespace Exiv2 {
         return EXV_PRINT_TAG(minoltaSonyAFAreaMode)(os, value, metadata);
     }
 
+    // ----------------------------------------------------------------------------------------------------
+
+    //! Lookup table to translate Sony camera settings Local AF Area Point values to readable labels
+    extern const TagDetails minoltaSonyLocalAFAreaPoint[] = {
+        { 1,  N_("Center")       },
+        { 2,  N_("Top")          },
+        { 3,  N_("Top-Right")    },
+        { 4,  N_("Right")        },
+        { 5,  N_("Bottom-Right") },
+        { 6,  N_("Bottom")       },
+        { 7,  N_("Bottom-Left")  },
+        { 8,  N_("Left")         },
+        { 9,  N_("Top-Left")     },
+        { 10, N_("Far-Right")    },
+        { 11, N_("Far-Left")     }
+    };
+
+    std::ostream& printMinoltaSonyLocalAFAreaPoint(std::ostream& os, const Value& value, const ExifData* metadata)
+    {
+        return EXV_PRINT_TAG(minoltaSonyLocalAFAreaPoint)(os, value, metadata);
+    }
+
 }                                       // namespace Exiv2
