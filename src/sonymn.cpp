@@ -423,20 +423,20 @@ namespace Exiv2 {
 
     //! Lookup table to translate Sony camera settings creative style values to readable labels
     extern const TagDetails sonyCreativeStyle[] = {
-        { 1,    N_("Standard")             },
-        { 2,    N_("Vivid")                },
-        { 3,    N_("Portrait")             },
-        { 4,    N_("Landscape ")           },
-        { 5,    N_("Sunset ")              },
-        { 6,    N_("Night View/Portrait ") },
-        { 8,    N_("Black & White")        },
-        { 9,    N_("Adobe RGB ")           },
-        { 11,   N_("Neutral ")             },
-        { 12,   N_("Clear ")               },
-        { 13,   N_("Deep ")                },
-        { 14,   N_("Light ")               },
-        { 15,   N_("Autumn ")              },
-        { 16,   N_("Sepia")                }
+        { 1,    N_("Standard")            },
+        { 2,    N_("Vivid")               },
+        { 3,    N_("Portrait")            },
+        { 4,    N_("Landscape")           },
+        { 5,    N_("Sunset")              },
+        { 6,    N_("Night View/Portrait") },
+        { 8,    N_("Black & White")       },
+        { 9,    N_("Adobe RGB")           },
+        { 11,   N_("Neutral")             },
+        { 12,   N_("Clear")               },
+        { 13,   N_("Deep")                },
+        { 14,   N_("Light")               },
+        { 15,   N_("Autumn")              },
+        { 16,   N_("Sepia")               }
     };
 
     //! Lookup table to translate Sony camera settings flash mode values to readable labels
@@ -461,6 +461,42 @@ namespace Exiv2 {
     extern const TagDetails sonyAFWithShutter[] = {
         { 0, N_("On") },
         { 1, N_("Off")  }
+    };
+
+    //! Lookup table to translate Sony camera settings image style values to readable labels
+    extern const TagDetails sonyImageStyle[] = {
+        { 1,    N_("Standard")      },
+        { 2,    N_("Vivid")         },
+        { 9,    N_("Adobe RGB")     },
+        { 11,   N_("Neutral")       },
+        { 129,  N_("StyleBox1")     },
+        { 130,  N_("StyleBox1")     },
+        { 131,  N_("StyleBox1")     }
+    };
+
+    //! Lookup table to translate Sony camera settings exposure program values to readable labels
+    extern const TagDetails sonyExposureProgram[] = {
+        { 0,    N_("Auto")                      },
+        { 1,    N_("Manual")                    },
+        { 2,    N_("Program AE")                },
+        { 3,    N_("Aperture-priority AE")      },
+        { 4,    N_("Shutter speed priority AE") },
+        { 8,    N_("Program Shift A")           },
+        { 9,    N_("Program Shift S")           },
+        { 16,    N_("Portrait")                  },
+        { 17,   N_("Sports")                    },
+        { 18,   N_("Sunset")                    },
+        { 19,   N_("Night Portrait")            },
+        { 20,   N_("Landscape")                 },
+        { 21,   N_("Macro")                     },
+        { 35,   N_("Auto No Flash")             }
+    };
+
+    //! Lookup table to translate Sony camera settings image size values to readable labels
+    extern const TagDetails sonyImageSize[] = {
+        { 1, N_("Large ") },
+        { 2, N_("Medium") },
+        { 3, N_("Small")  }
     };
 
     // Sony Camera Settings Tag Info
@@ -530,37 +566,30 @@ namespace Exiv2 {
         TagInfo(0x0042, "AFWithShutter", N_("AF With Shutter"),
                 N_("AF With Shutter"),
                 sony1CsIfdId, makerTags, unsignedShort, EXV_PRINT_TAG(sonyAFWithShutter)),
-
         // NOTE: A700 only
         TagInfo(0x0043, "LongExposureNoiseReduction", N_("Long Exposure Noise Reduction"),
                 N_("Long Exposure Noise Reduction"),
-                sony1CsIfdId, makerTags, unsignedShort, printValue),
-
+                sony1CsIfdId, makerTags, unsignedShort, printMinoltaSonyBoolValue),
         // NOTE: A700 only
         TagInfo(0x0044, "HighISONoiseReduction", N_("High ISO NoiseReduction"),
                 N_("High ISO NoiseReduction"),
                 sony1CsIfdId, makerTags, unsignedShort, printValue),
-
         // NOTE: A700 only
         TagInfo(0x0045, "ImageStyle", N_("Image Style"),
                 N_("Image Style"),
-                sony1CsIfdId, makerTags, unsignedShort, printValue),
-
+                sony1CsIfdId, makerTags, unsignedShort, EXV_PRINT_TAG(sonyImageStyle)),
         TagInfo(0x0060, "ExposureProgram", N_("Exposure Program"),
                 N_("Exposure Program"),
-                sony1CsIfdId, makerTags, unsignedShort, printValue),
-
+                sony1CsIfdId, makerTags, unsignedShort, EXV_PRINT_TAG(sonyExposureProgram)),
         TagInfo(0x0061, "ImageStabilization", N_("Image Stabilization"),
                 N_("Image Stabilization"),
-                sony1CsIfdId, makerTags, unsignedShort, printValue),
-
+                sony1CsIfdId, makerTags, unsignedShort, printMinoltaSonyBoolValue),
         TagInfo(0x0063, "Rotation", N_("Rotation"),
                 N_("Rotation"),
                 sony1CsIfdId, makerTags, unsignedShort, EXV_PRINT_TAG(sonyRotation)),
-
         TagInfo(0x0084, "SonyImageSize", N_("Sony Image Size"),
                 N_("Sony Image Size"),
-                sony1CsIfdId, makerTags, unsignedShort, printValue),
+                sony1CsIfdId, makerTags, unsignedShort, EXV_PRINT_TAG(sonyImageSize)),
 
         TagInfo(0x0085, "AspectRatio", N_("Aspect Ratio"),
                 N_("Aspect Ratio"),
@@ -628,11 +657,9 @@ namespace Exiv2 {
         TagInfo(0x0035, "FlashMode", N_("FlashMode"),
                 N_("FlashMode"),
                 sony1Cs2IfdId, makerTags, unsignedShort, EXV_PRINT_TAG(sonyFlashMode)),
-
         TagInfo(0x0060, "ExposureProgram", N_("Exposure Program"),
                 N_("Exposure Program"),
-                sony1Cs2IfdId, makerTags, unsignedShort, printValue),
-
+                sony1Cs2IfdId, makerTags, unsignedShort, EXV_PRINT_TAG(sonyExposureProgram)),
         TagInfo(0x0063, "Rotation", N_("Rotation"),
                 N_("Rotation"),
                 sony1Cs2IfdId, makerTags, unsignedShort, EXV_PRINT_TAG(sonyRotation)),
