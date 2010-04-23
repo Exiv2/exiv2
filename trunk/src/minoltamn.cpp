@@ -1056,6 +1056,28 @@ namespace Exiv2 {
 
     // -- Sony A100 camera settings ---------------------------------------------------------------
 
+    //! Lookup table to translate Sony A100 camera settings drive mode 2 values to readable labels
+    extern const TagDetails sonyDriveMode2A100[] = {
+        { 0,    N_("Self-timer 10 sec")             },
+        { 1,    N_("Continuous")                    },
+        { 4,    N_("Self-timer 2 sec")              },
+        { 5,    N_("Single Frame")                  },
+        { 8,    N_("White Balance Bracketing Low")  },
+        { 9,    N_("White Balance Bracketing High") },
+        { 770,  N_("Single-frame Bracketing Low")   },
+        { 771,  N_("Continous Bracketing Low")      },
+        { 1794, N_("Single-frame Bracketing High")  },
+        { 1795, N_("Continous Bracketing High")     }
+    };
+
+    //! Lookup table to translate Sony A100 camera settings focus mode values to readable labels
+    extern const TagDetails sonyFocusModeA100[] = {
+        { 0, "AF-S"   },
+        { 1, "AF-C"   },
+        { 4, "AF-A"   },
+        { 5, "Manual" },
+        { 6, "DMF"    }
+    };
 
     // Sony A100 Camera Settings Tag Info
     const TagInfo MinoltaMakerNote::tagInfoCsA100_[] = {
@@ -1068,27 +1090,29 @@ namespace Exiv2 {
         TagInfo(0x0005, "HighSpeedSync", N_("High Speed Sync"),
                 N_("High speed sync"),
                 sony1MltCsA100IfdId, makerTags, unsignedShort, printMinoltaSonyBoolValue),
-/*        TagInfo(0x000E, "WhiteBalance", N_("White Balance"),
-                N_("White balance"),
-                sony1MltCsA100IfdId, makerTags, unsignedShort, EXV_PRINT_TAG(minoltaWhiteBalance5D)),
-        TagInfo(0x001a, "FocusPosition", N_("Focus Position"),
-                N_("Focus position"),
-                sony1MltCsA100IfdId, makerTags, unsignedShort, EXV_PRINT_TAG(minoltaFocusPosition5D)),
-        TagInfo(0x001b, "FocusArea", N_("Focus Area"),
-                N_("Focus area"),
-                sony1MltCsA100IfdId, makerTags, unsignedShort, EXV_PRINT_TAG(minoltaFocusArea5D)),
-        TagInfo(0x001F, "Flash", N_("Flash"),
-                N_("Flash"),
-                sony1MltCsA100IfdId, makerTags, unsignedShort, EXV_PRINT_TAG(minoltaFlash5D)),
-        TagInfo(0x0025, "MeteringMode", N_("Metering Mode"),
-                N_("Metering mode"),
-                sony1MltCsA100IfdId, makerTags, unsignedShort, EXV_PRINT_TAG(minoltaMeteringMode5D)),
-        TagInfo(0x0026, "ISOSpeed", N_("ISO Speed Mode"),
-                N_("ISO speed setting"),
-                sony1MltCsA100IfdId, makerTags, unsignedShort, EXV_PRINT_TAG(minoltaISOSetting5D)),
-        TagInfo(0x0030, "Sharpness", N_("Sharpness"),
-                N_("Sharpness"),
+        TagInfo(0x0006, "ManualExposureTime", N_("Manual Exposure Time"),
+                N_("Manual exposure time"),
                 sony1MltCsA100IfdId, makerTags, unsignedShort, printValue),
+        TagInfo(0x0007, "ManualFNumber", N_("Manual FNumber"),
+                N_("Manual FNumber"),
+                sony1MltCsA100IfdId, makerTags, unsignedShort, printValue),
+        TagInfo(0x0008, "ExposureTime", N_("Exposure Time"),
+                N_("Exposure time"),
+                sony1MltCsA100IfdId, makerTags, unsignedShort, printValue),
+        TagInfo(0x0009, "FNumber", N_("FNumber"),
+                N_("FNumber"),
+                sony1MltCsA100IfdId, makerTags, unsignedShort, printValue),
+        TagInfo(0x000A, "DriveMode2", N_("Drive Mode 2"),
+                N_("Drive mode 2"),
+                sony1MltCsA100IfdId, makerTags, unsignedShort, EXV_PRINT_TAG(sonyDriveMode2A100)),
+        TagInfo(0x000B, "WhiteBalance", N_("White Balance"),
+                N_("White balance"),
+                minoltaCs5DIfdId, makerTags, unsignedShort, EXV_PRINT_TAG(minoltaWhiteBalance5D)),
+        TagInfo(0x000C, "FocusMode", N_("Focus Mode"),
+                N_("Focus mode"),
+                sony1MltCsA100IfdId, makerTags, unsignedShort, EXV_PRINT_TAG(sonyFocusModeA100)),
+
+/*
         TagInfo(0x0031, "Contrast", N_("Contrast"),
                 N_("Contrast"),
                 sony1MltCsA100IfdId, makerTags, unsignedShort, printValue),
