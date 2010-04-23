@@ -400,4 +400,19 @@ namespace Exiv2 {
         return EXV_PRINT_TAG(minoltaSonyLocalAFAreaPoint)(os, value, metadata);
     }
 
+    // ----------------------------------------------------------------------------------------------------
+
+    //! Lookup table to translate Sony camera settings dynamic range optimizer mode values to readable labels
+    extern const TagDetails minoltaSonyDynamicRangeOptimizerMode[] = {
+        { 0,    N_("Off")            },
+        { 1,    N_("Standard")       },
+        { 2,    N_("Advanced Auto")  },
+        { 3,    N_("Advanced Level") },
+        { 4097, N_("Auto")           }
+    };
+
+    std::ostream& printMinoltaSonyDynamicRangeOptimizerMode(std::ostream& os, const Value& value, const ExifData* metadata)
+    {
+        return EXV_PRINT_TAG(minoltaSonyDynamicRangeOptimizerMode)(os, value, metadata);
+    }
 }                                       // namespace Exiv2
