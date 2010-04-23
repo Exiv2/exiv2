@@ -898,9 +898,9 @@ namespace Exiv2 {
         { 0, ttUnsignedShort, 1 }
     };
 
-    //! Sony Minolta 5D Camera Settings binary array - configuration
-    extern const ArrayCfg sony1MCs5Cfg = {
-        Group::sony1mcs5, // Group for the elements
+    //! Sony Minolta A100 Camera Settings binary array - configuration
+    extern const ArrayCfg sony1MCsA100Cfg = {
+        Group::sony1mcsa100, // Group for the elements
         bigEndian,        // Big endian
         ttUndefined,      // Type for array entry and size element
         notEncrypted,     // Not encrypted
@@ -908,6 +908,12 @@ namespace Exiv2 {
         false,            // No fillers
         false,            // Don't concatenate gaps
         { 0, ttUnsignedShort, 1 }
+    };
+    //! Sony Minolta A100 Camera Settings binary array - definition
+    extern const ArrayDef sony1MCsA100Def[] = {
+        { 112, ttSignedShort, 1 }, // Exif.Sony1MltCsA100.WhiteBalanceFineTune
+        { 116, ttSignedShort, 1 }, // Exif.Sony1MltCsA100.ColorCompensationFilter
+        { 190, ttSignedShort, 1 }  // Exif.Sony1MltCsA100.ColorCompensationFilter2
     };
 
     /*
@@ -999,7 +1005,7 @@ namespace Exiv2 {
         { Tag::root, Group::sony1mcso, Group::sonymltmn, 0x0001    },
         { Tag::root, Group::sony1mcsn, Group::sonymltmn, 0x0003    },
         { Tag::root, Group::sony1mcs7, Group::sonymltmn, 0x0004    },
-        { Tag::root, Group::sony1mcs5, Group::sonymltmn, 0x0114    },
+        { Tag::root, Group::sony1mcsa100, Group::sonymltmn, 0x0114 },
         { Tag::root, Group::sony2mn,   Group::exif,      0x927c    },
         { Tag::root, Group::sony2cs,   Group::sony2mn,   0x0114    },
         { Tag::root, Group::sony2cs2,  Group::sony2mn,   0x0114    },
@@ -1383,8 +1389,7 @@ namespace Exiv2 {
         {    0x0004, Group::sonymltmn, EXV_BINARY_ARRAY(sony1MCs7Cfg, minoCs7Def)}, // minoCs7Def [sic]
         {    0x0088, Group::sonymltmn, newTiffThumbData<0x0089, Group::sonymltmn>},
         {    0x0089, Group::sonymltmn, newTiffThumbSize<0x0088, Group::sonymltmn>},
-        {    0x0114, Group::sonymltmn, EXV_BINARY_ARRAY(sony1MCs5Cfg, minoCs5Def)}, // minoCs5Def [sic]
-//        {    0x0114, Group::sonymltmn, EXV_BINARY_ARRAY(sony1MCs5Cfg, minoCs5Def)}, // A100 CS
+        {    0x0114, Group::sonymltmn, EXV_BINARY_ARRAY(sony1MCsA100Cfg, sony1MCsA100Def)},
         { Tag::next, Group::sonymltmn, newTiffDirectory<Group::ignr>             },
         {  Tag::all, Group::sonymltmn, newTiffEntry                              },
 
@@ -1392,7 +1397,7 @@ namespace Exiv2 {
         {  Tag::all, Group::sony1mcso, newTiffBinaryElement                      },
         {  Tag::all, Group::sony1mcsn, newTiffBinaryElement                      },
         {  Tag::all, Group::sony1mcs7, newTiffBinaryElement                      },
-        {  Tag::all, Group::sony1mcs5, newTiffBinaryElement                      },
+        {  Tag::all, Group::sony1mcsa100,newTiffBinaryElement                    },
 
         // Minolta makernote
         {    0x0001, Group::minoltamn, EXV_SIMPLE_BINARY_ARRAY(minoCsoCfg)       },

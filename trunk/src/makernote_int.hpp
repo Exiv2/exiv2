@@ -114,7 +114,7 @@ namespace Exiv2 {
         const uint16_t sony1cs2  = 332; //!< Sony Camera Settings 2 (in Sony1 makernote)
         const uint16_t sony1mcso = 333; //!< Minolta (old) Camera Settings (in Sony1 makernote)
         const uint16_t sony1mcsn = 334; //!< Minolta (new) Camera Settings (in Sony1 makernote)
-        const uint16_t sony1mcs5 = 335; //!< Minolta D5 Camera Settings (in Sony1 makernote)
+        const uint16_t sony1mcsa100=335;//!< Sony A100 Camera Settings (in Sony1 makernote)
         const uint16_t sony1mcs7 = 336; //!< Minolta D7 Camera Settings (in Sony1 makernote)
         const uint16_t sony2cs   = 337; //!< Sony Camera Settings (in Sony2 makernote)
         const uint16_t sony2cs2  = 338; //!< Sony Camera Settings 2 (in Sony2 makernote)
