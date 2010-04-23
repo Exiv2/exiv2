@@ -407,18 +407,9 @@ namespace Exiv2 {
 
     //! Lookup table to translate Sony camera settings metering mode values to readable labels
     extern const TagDetails sonyMeteringMode[] = {
-        { 1, N_("Multi-segment")   },
-        { 2, N_("Center weighted") },
-        { 4, N_("Spot")            }
-    };
-
-    //! Lookup table to translate Sony camera settings dynamic range optimizer mode values to readable labels
-    extern const TagDetails sonyDynamicRangeOptimizerMode[] = {
-        { 0,    N_("Off")            },
-        { 1,    N_("Standard")       },
-        { 2,    N_("Advanced Auto")  },
-        { 3,    N_("Advanced Level") },
-        { 4097, N_("Auto")           }
+        { 1, N_("Multi-segment")           },
+        { 2, N_("Center weighted average") },
+        { 4, N_("Spot")                    }
     };
 
     //! Lookup table to translate Sony camera settings creative style values to readable labels
@@ -552,7 +543,7 @@ namespace Exiv2 {
                 sony1CsIfdId, makerTags, unsignedShort, printValue),
         TagInfo(0x0024, "DynamicRangeOptimizerMode", N_("Dynamic Range Optimizer Mode"),
                 N_("Dynamic Range Optimizer Mode"),
-                sony1CsIfdId, makerTags, unsignedShort, EXV_PRINT_TAG(sonyDynamicRangeOptimizerMode)),
+                sony1CsIfdId, makerTags, unsignedShort, printMinoltaSonyDynamicRangeOptimizerMode),
         TagInfo(0x0025, "DynamicRangeOptimizerLevel", N_("Dynamic Range Optimizer Level"),
                 N_("Dynamic Range Optimizer Level"),
                 sony1CsIfdId, makerTags, unsignedShort, printValue),
@@ -657,7 +648,7 @@ namespace Exiv2 {
                 sony1Cs2IfdId, makerTags, unsignedShort, printValue),
         TagInfo(0x0022, "DynamicRangeOptimizerMode", N_("Dynamic Range Optimizer Mode"),
                 N_("Dynamic Range Optimizer Mode"),
-                sony1Cs2IfdId, makerTags, unsignedShort, EXV_PRINT_TAG(sonyDynamicRangeOptimizerMode)),
+                sony1Cs2IfdId, makerTags, unsignedShort, printMinoltaSonyDynamicRangeOptimizerMode),
         TagInfo(0x0023, "DynamicRangeOptimizerLevel", N_("Dynamic Range Optimizer Level"),
                 N_("Dynamic Range Optimizer Level"),
                 sony1Cs2IfdId, makerTags, unsignedShort, printValue),

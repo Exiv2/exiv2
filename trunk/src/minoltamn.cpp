@@ -181,7 +181,7 @@ namespace Exiv2 {
         { 3, N_("Manual")            }
     };
 
-    //! Lookup table to translate Minolta Std camera settings exposure mode values to readable labels
+    //! Lookup table to translate Minolta Std camera settings flash mode values to readable labels
     extern const TagDetails minoltaFlashModeStd[] = {
         { 0, N_("Fill flash")        },
         { 1, N_("Red-eye reduction") },
@@ -1079,6 +1079,21 @@ namespace Exiv2 {
         { 6, "DMF"    }
     };
 
+    //! Lookup table to translate Sony A100 camera settings flash mode values to readable labels
+    extern const TagDetails sonyFlashModeA100[] = {
+        { 0, N_("Auto") },
+        { 2, N_("Rear flash sync")   },
+        { 3, N_("Wireless")          },
+        { 4, N_("Fill flash")        },
+    };
+
+    //! Lookup table to translate Sony A100 camera settings metering mode values to readable labels
+    extern const TagDetails sonyMeteringModeA100[] = {
+        { 0, N_("Multi-segment")           },
+        { 1, N_("Center weighted average") },
+        { 2, N_("Spot")                    }
+    };
+
     // Sony A100 Camera Settings Tag Info
     const TagInfo MinoltaMakerNote::tagInfoCsA100_[] = {
         TagInfo(0x0000, "ExposureMode", N_("Exposure Mode"),
@@ -1107,10 +1122,31 @@ namespace Exiv2 {
                 sony1MltCsA100IfdId, makerTags, unsignedShort, EXV_PRINT_TAG(sonyDriveMode2A100)),
         TagInfo(0x000B, "WhiteBalance", N_("White Balance"),
                 N_("White balance"),
-                minoltaCs5DIfdId, makerTags, unsignedShort, EXV_PRINT_TAG(minoltaWhiteBalance5D)),
+                sony1MltCsA100IfdId, makerTags, unsignedShort, EXV_PRINT_TAG(minoltaWhiteBalance5D)),
         TagInfo(0x000C, "FocusMode", N_("Focus Mode"),
                 N_("Focus mode"),
                 sony1MltCsA100IfdId, makerTags, unsignedShort, EXV_PRINT_TAG(sonyFocusModeA100)),
+        TagInfo(0x000D, "LocalAFAreaPoint", N_("Local AF Area Point"),
+                N_("Local AF Area Point"),
+                sony1MltCsA100IfdId, makerTags, unsignedShort, printMinoltaSonyLocalAFAreaPoint),
+        TagInfo(0x000E, "AFAreaMode", N_("AF Area Mode"),
+                N_("AF Area Mode"),
+                sony1MltCsA100IfdId, makerTags, unsignedShort, printMinoltaSonyAFAreaMode),
+        TagInfo(0x000F, "FlashMode", N_("FlashMode"),
+                N_("FlashMode"),
+                sony1MltCsA100IfdId, makerTags, unsignedShort, EXV_PRINT_TAG(sonyFlashModeA100)),
+        TagInfo(0x0010, "FlashExposureCompSetting", N_("Flash Exposure Comp Setting"),
+                N_("Flash exposure compensation setting"),
+                sony1MltCsA100IfdId, makerTags, unsignedShort, printValue),
+        TagInfo(0x0012, "MeteringMode", N_("Metering Mode"),
+                N_("Metering mode"),
+                sony1MltCsA100IfdId, makerTags, unsignedShort, EXV_PRINT_TAG(sonyMeteringModeA100)),
+        TagInfo(0x0013, "ISOSetting", N_("ISO Setting"),
+                N_("ISO setting"),
+                sony1MltCsA100IfdId, makerTags, unsignedShort, printValue),
+        TagInfo(0x0015, "DynamicRangeOptimizerMode", N_("Dynamic Range Optimizer Mode"),
+                N_("Dynamic range optimizer mode"),
+                sony1MltCsA100IfdId, makerTags, unsignedShort, printMinoltaSonyDynamicRangeOptimizerMode),
 
 /*
         TagInfo(0x0031, "Contrast", N_("Contrast"),
