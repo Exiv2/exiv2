@@ -225,7 +225,7 @@ namespace Exiv2 {
 
     //! Lookup table to translate Minolta Std camera settings drive mode values to readable labels
     extern const TagDetails minoltaDriveModeStd[] = {
-        { 0, N_("Single")         },
+        { 0, N_("Single Frame")   },
         { 1, N_("Continuous")     },
         { 2, N_("Self-timer")     },
         { 4, N_("Bracketing")     },
@@ -1100,6 +1100,40 @@ namespace Exiv2 {
         { 5, N_("Adobe RGB") }
     };
 
+    //! Lookup table to translate Sony A100 camera settings drive mode values to readable labels
+    extern const TagDetails sonyDriveModeA100[] = {
+        { 0, N_("Single Frame")             },
+        { 1, N_("Continuous")               },
+        { 2, N_("Self-timer")               },
+        { 3, N_("Continuous Bracketing")    },
+        { 4, N_("Single-Frame Bracketing")  },
+        { 5, N_("White Balance Bracketing") }
+    };
+
+    //! Lookup table to translate Sony A100 camera settings self timer time values to readable labels
+    extern const TagDetails sonySelfTimerTimeA100[] = {
+        { 0, "10s" },
+        { 4, "2s"  }
+    };
+
+    //! Lookup table to translate Sony A100 camera settings continuous bracketing values to readable labels
+    extern const TagDetails sonyContinuousBracketingA100[] = {
+        { 0x303, N_("Low")  },
+        { 0x703, N_("High") }
+    };
+
+    //! Lookup table to translate Sony A100 camera settings single frame bracketing values to readable labels
+    extern const TagDetails sonySingleFrameBracketingA100[] = {
+        { 0x302, N_("Low")  },
+        { 0x702, N_("High") }
+    };
+
+    //! Lookup table to translate Sony A100 camera settings white balance bracketing values to readable labels
+    extern const TagDetails sonyWhiteBalanceBracketingA100[] = {
+        { 0x8, N_("Low")  },
+        { 0x9, N_("High") }
+    };
+
     // Sony A100 Camera Settings Tag Info
     const TagInfo MinoltaMakerNote::tagInfoCsA100_[] = {
         TagInfo(0x0000, "ExposureMode", N_("Exposure Mode"),
@@ -1155,10 +1189,10 @@ namespace Exiv2 {
                 sony1MltCsA100IfdId, makerTags, unsignedShort, printMinoltaSonyDynamicRangeOptimizerMode),
         TagInfo(0x0016, "ColorMode", N_("Color Mode"),
                 N_("Color mode"),
-                sony1MltCsA100IfdId, makerTags, unsignedLong, printMinoltaSonyColorMode),
+                sony1MltCsA100IfdId, makerTags, unsignedShort, printMinoltaSonyColorMode),
         TagInfo(0x0017, "ColorSpace", N_("Color Space"),
                 N_("Color space"),
-                sony1MltCsA100IfdId, makerTags, unsignedLong, EXV_PRINT_TAG(sonyColorSpaceA100)),
+                sony1MltCsA100IfdId, makerTags, unsignedShort, EXV_PRINT_TAG(sonyColorSpaceA100)),
         TagInfo(0x0018, "Sharpness", N_("Sharpness"),
                 N_("Sharpness"),
                 sony1CsIfdId, makerTags, unsignedShort, printValue),
@@ -1170,10 +1204,25 @@ namespace Exiv2 {
                 sony1MltCsA100IfdId, makerTags, unsignedShort, printValue),
         TagInfo(0x001C, "FlashMetering", N_("Flash Metering"),
                 N_("Flash metering"),
-                sony1MltCsA100IfdId, makerTags, unsignedLong, EXV_PRINT_TAG(minoltaFlashMeteringStd)),
+                sony1MltCsA100IfdId, makerTags, unsignedShort, EXV_PRINT_TAG(minoltaFlashMeteringStd)),
         TagInfo(0x001D, "PrioritySetupShutterRelease", N_("Priority Setup Shutter Release"),
                 N_("Priority Setup Shutter Release"),
                 sony1MltCsA100IfdId, makerTags, unsignedShort, printMinoltaSonyPrioritySetupShutterRelease),
+        TagInfo(0x001E, "DriveMode", N_("Drive Mode"),
+                N_("Drive mode"),
+                sony1MltCsA100IfdId, makerTags, unsignedShort, EXV_PRINT_TAG(sonyDriveModeA100)),
+        TagInfo(0x001F, "SelfTimerTime", N_("Self Timer Time"),
+                N_("Self timer time"),
+                sony1MltCsA100IfdId, makerTags, unsignedShort, EXV_PRINT_TAG(sonySelfTimerTimeA100)),
+        TagInfo(0x0020, "ContinuousBracketing", N_("Continuous Bracketing"),
+                N_("Continuous bracketing"),
+                sony1MltCsA100IfdId, makerTags, unsignedShort, EXV_PRINT_TAG(sonyContinuousBracketingA100)),
+        TagInfo(0x0021, "SingleFrameBracketing", N_("Single Frame Bracketing"),
+                N_("Single frame bracketing"),
+                sony1MltCsA100IfdId, makerTags, unsignedShort, EXV_PRINT_TAG(sonySingleFrameBracketingA100)),
+        TagInfo(0x0022, "WhiteBalanceBracketing", N_("White Balance Bracketing"),
+                N_("White balance bracketing"),
+                sony1MltCsA100IfdId, makerTags, unsignedShort, EXV_PRINT_TAG(sonyWhiteBalanceBracketingA100)),
 
 /*
         TagInfo(0x0035, "ExposureTime", N_("Exposure Time"),
