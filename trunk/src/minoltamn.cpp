@@ -1134,6 +1134,45 @@ namespace Exiv2 {
         { 0x9, N_("High") }
     };
 
+    //! Lookup table to translate Sony A100 camera settings white balance setting values to readable labels
+    extern const TagDetails sonyWhiteBalanceSettingA100[] = {
+        { 0x0000, N_("Auto")                           },
+        { 0x0001, N_("Preset")                         },
+        { 0x0002, N_("Custom")                         },
+        { 0x0003, N_("Color Temperature/Color Filter") },
+        { 0x8001, N_("Preset")                         },
+        { 0x8002, N_("Custom")                         },
+        { 0x8003, N_("Color Temperature/Color Filter") }
+    };
+
+    //! Lookup table to translate Sony A100 camera settings preset white balance values to readable labels
+    extern const TagDetails sonyPresetWhiteBalanceA100[] = {
+        { 1, N_("Daylight")    },
+        { 2, N_("Cloudy")      },
+        { 3, N_("Shade")       },
+        { 4, N_("Tungsten")    },
+        { 5, N_("Fluorescent") },
+        { 6, N_("Flash")       }
+    };
+
+    //! Lookup table to translate Sony A100 camera settings color temperature setting values to readable labels
+    extern const TagDetails sonyColorTemperatureSettingA100[] = {
+        { 0, N_("Temperature")  },
+        { 2, N_("Color Filter") }
+    };
+
+    //! Lookup table to translate Sony A100 camera settings custom WB setting values to readable labels
+    extern const TagDetails sonyCustomWBSettingA100[] = {
+        { 0, N_("Setup")  },
+        { 2, N_("Recall") }
+    };
+
+    //! Lookup table to translate Sony A100 camera settings custom WB error values to readable labels
+    extern const TagDetails sonyCustomWBErrorA100[] = {
+        { 0, N_("Ok")    },
+        { 2, N_("Error") }
+    };
+
     // Sony A100 Camera Settings Tag Info
     const TagInfo MinoltaMakerNote::tagInfoCsA100_[] = {
         TagInfo(0x0000, "ExposureMode", N_("Exposure Mode"),
@@ -1223,26 +1262,47 @@ namespace Exiv2 {
         TagInfo(0x0022, "WhiteBalanceBracketing", N_("White Balance Bracketing"),
                 N_("White balance bracketing"),
                 sony1MltCsA100IfdId, makerTags, unsignedShort, EXV_PRINT_TAG(sonyWhiteBalanceBracketingA100)),
-
-/*
-        TagInfo(0x0035, "ExposureTime", N_("Exposure Time"),
-                N_("Exposure time"),
-                sony1MltCsA100IfdId, makerTags, unsignedShort, printValue),
-        TagInfo(0x0036, "FNumber", N_("FNumber"),
-                N_("The F-Number"),
-                sony1MltCsA100IfdId, makerTags, unsignedShort, printValue),
-        TagInfo(0x0037, "FreeMemoryCardImages", N_("Free Memory Card Images"),
+        TagInfo(0x0023, "WhiteBalanceSetting", N_("White Balance Setting"),
+                N_("White balance setting"),
+                sony1MltCsA100IfdId, makerTags, unsignedShort, EXV_PRINT_TAG(sonyWhiteBalanceSettingA100)),
+        TagInfo(0x0024, "PresetWhiteBalance", N_("Preset White Balance"),
+                N_("Preset white balance"),
+                sony1MltCsA100IfdId, makerTags, unsignedShort, EXV_PRINT_TAG(sonyPresetWhiteBalanceA100)),
+        TagInfo(0x0025, "ColorTemperatureSetting", N_("Color Temperature Setting"),
+                N_("Color temperature setting"),
+                sony1MltCsA100IfdId, makerTags, unsignedShort, EXV_PRINT_TAG(sonyColorTemperatureSettingA100)),
+        TagInfo(0x0026, "CustomWBSetting", N_("Custom WB Setting"),
+                N_("Custom WB setting"),
+                sony1MltCsA100IfdId, makerTags, unsignedShort, EXV_PRINT_TAG(sonyCustomWBSettingA100)),
+        TagInfo(0x0027, "DynamicRangeOptimizerMode", N_("Dynamic Range Optimizer Mode"),
+                N_("Dynamic Range Optimizer Mode"),
+                sony1MltCsA100IfdId, makerTags, unsignedShort, printMinoltaSonyDynamicRangeOptimizerMode),
+        TagInfo(0x0032, "FreeMemoryCardImages", N_("Free Memory Card Images"),
                 N_("Free memory card images"),
                 sony1MltCsA100IfdId, makerTags, unsignedShort, printValue),
-        TagInfo(0x0038, "ExposureRevision", N_("Exposure Revision"),
-                N_("Exposure revision"),
+        TagInfo(0x0034, "CustomWBRedLevel", N_("Custom WB Red Level"),
+                N_("Custom WB red level"),
                 sony1MltCsA100IfdId, makerTags, unsignedShort, printValue),
-        TagInfo(0x0048, "FocusMode", N_("Focus Mode"),
-                N_("Focus mode"),
-                sony1MltCsA100IfdId, makerTags, unsignedShort, EXV_PRINT_TAG(minoltaFocusMode5D)),
-        TagInfo(0x0049, "ColorTemperature", N_("Color Temperature"),
-                N_("Color temperature"),
+        TagInfo(0x0035, "CustomWBGreenLevel", N_("Custom WB Green Level"),
+                N_("Custom WB green level"),
+                sony1MltCsA100IfdId, makerTags, unsignedShort, printValue),
+        TagInfo(0x0036, "CustomWBBlueLevel", N_("Custom WB Blue Level"),
+                N_("CustomWB blue level"),
+                sony1MltCsA100IfdId, makerTags, unsignedShort, printValue),
+        TagInfo(0x0037, "CustomWBError", N_("Custom WB Error"),
+                N_("Custom WB Error"),
+                sony1MltCsA100IfdId, makerTags, unsignedShort, EXV_PRINT_TAG(sonyCustomWBErrorA100)),
+        TagInfo(0x0038, "WhiteBalanceFineTune", N_("White Balance Fine Tune"),
+                N_("White balance fine tune"),
                 sony1MltCsA100IfdId, makerTags, signedShort, printValue),
+        TagInfo(0x0039, "ColorTemperature", N_("Color Temperature"),
+                N_("Color temperature"),
+                sony1MltCsA100IfdId, makerTags, unsignedShort, printValue),
+        TagInfo(0x0040, "ColorCompensationFilter", N_("Color Compensation Filter"),
+                N_("Color compensation filter"),
+                sony1MltCsA100IfdId, makerTags, signedShort, printValue),
+
+/*
         TagInfo(0x0050, "Rotation", N_("Rotation"),
                 N_("Rotation"),
                 sony1MltCsA100IfdId, makerTags, unsignedShort, EXV_PRINT_TAG(minoltaRotation5D)),
