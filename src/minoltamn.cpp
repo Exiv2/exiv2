@@ -1094,6 +1094,12 @@ namespace Exiv2 {
         { 2, N_("Spot")                    }
     };
 
+    //! Lookup table to translate Sony A100 camera settings color space values to readable labels
+    extern const TagDetails sonyColorSpaceA100[] = {
+        { 0, N_("sRGB")      },
+        { 5, N_("Adobe RGB") }
+    };
+
     // Sony A100 Camera Settings Tag Info
     const TagInfo MinoltaMakerNote::tagInfoCsA100_[] = {
         TagInfo(0x0000, "ExposureMode", N_("Exposure Mode"),
@@ -1147,14 +1153,29 @@ namespace Exiv2 {
         TagInfo(0x0015, "DynamicRangeOptimizerMode", N_("Dynamic Range Optimizer Mode"),
                 N_("Dynamic range optimizer mode"),
                 sony1MltCsA100IfdId, makerTags, unsignedShort, printMinoltaSonyDynamicRangeOptimizerMode),
-
-/*
-        TagInfo(0x0031, "Contrast", N_("Contrast"),
+        TagInfo(0x0016, "ColorMode", N_("Color Mode"),
+                N_("Color mode"),
+                sony1MltCsA100IfdId, makerTags, unsignedLong, printMinoltaSonyColorMode),
+        TagInfo(0x0017, "ColorSpace", N_("Color Space"),
+                N_("Color space"),
+                sony1MltCsA100IfdId, makerTags, unsignedLong, EXV_PRINT_TAG(sonyColorSpaceA100)),
+        TagInfo(0x0018, "Sharpness", N_("Sharpness"),
+                N_("Sharpness"),
+                sony1CsIfdId, makerTags, unsignedShort, printValue),
+        TagInfo(0x0019, "Contrast", N_("Contrast"),
                 N_("Contrast"),
                 sony1MltCsA100IfdId, makerTags, unsignedShort, printValue),
-        TagInfo(0x0032, "Saturation", N_("Saturation"),
+        TagInfo(0x001A, "Saturation", N_("Saturation"),
                 N_("Saturation"),
                 sony1MltCsA100IfdId, makerTags, unsignedShort, printValue),
+        TagInfo(0x001C, "FlashMetering", N_("Flash Metering"),
+                N_("Flash metering"),
+                sony1MltCsA100IfdId, makerTags, unsignedLong, EXV_PRINT_TAG(minoltaFlashMeteringStd)),
+        TagInfo(0x001D, "PrioritySetupShutterRelease", N_("Priority Setup Shutter Release"),
+                N_("Priority Setup Shutter Release"),
+                sony1MltCsA100IfdId, makerTags, unsignedShort, printMinoltaSonyPrioritySetupShutterRelease),
+
+/*
         TagInfo(0x0035, "ExposureTime", N_("Exposure Time"),
                 N_("Exposure time"),
                 sony1MltCsA100IfdId, makerTags, unsignedShort, printValue),

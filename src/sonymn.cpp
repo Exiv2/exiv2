@@ -333,7 +333,7 @@ namespace Exiv2 {
                 sony1IfdId, makerTags, undefined, printValue),
         TagInfo(0xb029, "ColorMode", N_("Color Mode"),
                 N_("Color Mode"),
-                sony1IfdId, makerTags, unsignedLong, printMinoltaSonyBoolValue),
+                sony1IfdId, makerTags, unsignedLong, printMinoltaSonyColorMode),
         TagInfo(0xb02b, "FullImageSize", N_("Full Image Size"),
                 N_("Full Image Size"),
                 sony1IfdId, makerTags, unsignedLong, printImageSize),
@@ -434,12 +434,6 @@ namespace Exiv2 {
     extern const TagDetails sonyFlashMode[] = {
         { 0, N_("ADI") },
         { 1, N_("TTL") },
-    };
-
-    //! Lookup table to translate Sony camera settings priority setup shutter release values to readable labels
-    extern const TagDetails sonyPrioritySetupShutterRelease[] = {
-        { 0, N_("AF") },
-        { 1, N_("Release") },
     };
 
     //! Lookup table to translate Sony AF illuminator values to readable labels
@@ -571,7 +565,7 @@ namespace Exiv2 {
         // NOTE: A700 only
         TagInfo(0x0040, "PrioritySetupShutterRelease", N_("Priority Setup Shutter Release"),
                 N_("Priority Setup Shutter Release"),
-                sony1CsIfdId, makerTags, unsignedShort, EXV_PRINT_TAG(sonyPrioritySetupShutterRelease)),
+                sony1CsIfdId, makerTags, unsignedShort, printMinoltaSonyPrioritySetupShutterRelease),
         // NOTE: A700 only
         TagInfo(0x0041, "AFIlluminator", N_("AF Illuminator"),
                 N_("AF Illuminator"),

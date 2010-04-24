@@ -415,4 +415,17 @@ namespace Exiv2 {
     {
         return EXV_PRINT_TAG(minoltaSonyDynamicRangeOptimizerMode)(os, value, metadata);
     }
+
+    // ----------------------------------------------------------------------------------------------------
+
+    //! Lookup table to translate Sony camera settings priority setup shutter release values to readable labels
+    extern const TagDetails minoltaSonyPrioritySetupShutterRelease[] = {
+        { 0, N_("AF") },
+        { 1, N_("Release") },
+    };
+
+    std::ostream& printMinoltaSonyPrioritySetupShutterRelease(std::ostream& os, const Value& value, const ExifData* metadata)
+    {
+        return EXV_PRINT_TAG(minoltaSonyPrioritySetupShutterRelease)(os, value, metadata);
+    }
 }                                       // namespace Exiv2
