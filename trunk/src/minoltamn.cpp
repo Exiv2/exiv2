@@ -1394,9 +1394,6 @@ namespace Exiv2 {
                 sony1MltCsA100IfdId, makerTags, unsignedShort, printMinoltaSonyBoolInverseValue),
 
 /*
-        TagInfo(0x0050, "Rotation", N_("Rotation"),
-                N_("Rotation"),
-                sony1MltCsA100IfdId, makerTags, unsignedShort, EXV_PRINT_TAG(minoltaRotation5D)),
         TagInfo(0x0053, "ExposureCompensation", N_("Exposure Compensation"),
                 N_("Exposure compensation"),
                 sony1MltCsA100IfdId, makerTags, unsignedShort, printMinoltaExposureCompensation5D),
@@ -1412,10 +1409,22 @@ namespace Exiv2 {
         TagInfo(0x00AE, "ImageNumber", N_("Image Number"),
                 N_("Image number"),
                 sony1MltCsA100IfdId, makerTags, unsignedShort, printValue),
-        TagInfo(0x00BD, "ImageStabilization", N_("Image Stabilization"),
+*/
+
+        TagInfo(0x0057, "ImageStabilization", N_("Image Stabilization"),
                 N_("Image stabilization"),
                 sony1MltCsA100IfdId, makerTags, unsignedShort, printMinoltaSonyBoolValue),
-*/
+
+        TagInfo(0x005A, "Rotation", N_("Rotation"),
+                N_("Rotation"),
+                sony1MltCsA100IfdId, makerTags, unsignedShort, printMinoltaSonyRotation),
+
+        TagInfo(0x005E, "ColorTemperature", N_("Color Temperature"),
+                N_("Color temperature"),
+                sony1MltCsA100IfdId, makerTags, unsignedLong, printValue),
+        TagInfo(0x005F, "ColorCompensationFilter", N_("Color Compensation Filter"),
+                N_("Color compensation filter: negative is green, positive is magenta"),
+                sony1MltCsA100IfdId, makerTags, unsignedLong, printValue),
 
         // End of list marker
         TagInfo(0xffff, "(UnknownSonyCsA100Tag)", "(UnknownSonyCsA100Tag)",

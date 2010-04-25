@@ -459,4 +459,18 @@ namespace Exiv2 {
     {
         return EXV_PRINT_TAG(minoltaSonyQualityCS)(os, value, metadata);
     }
+
+    // ----------------------------------------------------------------------------------------------------
+
+    //! Lookup table to translate Sony camera settings rotation values to readable labels
+    extern const TagDetails minoltaSonyRotation[] = {
+        { 0, N_("Horizontal (normal)") },
+        { 1, N_("Rotate 90 CW")        },
+        { 2, N_("Rotate 270 CW")       }
+    };
+
+    std::ostream& printMinoltaSonyRotation(std::ostream& os, const Value& value, const ExifData* metadata)
+    {
+        return EXV_PRINT_TAG(minoltaSonyRotation)(os, value, metadata);
+    }
 }                                       // namespace Exiv2
