@@ -479,7 +479,7 @@ namespace Exiv2 {
 
     //! Lookup table to translate Sony camera settings image size values to readable labels
     extern const TagDetails sonyImageSize[] = {
-        { 1, N_("Large ") },
+        { 1, N_("Large")  },
         { 2, N_("Medium") },
         { 3, N_("Small")  }
     };
@@ -488,17 +488,6 @@ namespace Exiv2 {
     extern const TagDetails sonyAspectRatio[] = {
         { 1, "3:2"   },
         { 2, "16:9"  }
-    };
-
-    //! Lookup table to translate Sony camera settings quality values to readable labels
-    extern const TagDetails sonyQualityCS[] = {
-        { 0,   N_("RAW ")       },
-        { 2,   N_("CRAW ")      },
-        { 16,  N_("Extra Fine") },
-        { 32,  N_("Fine")       },
-        { 34,  N_("RAW+JPEG")   },
-        { 35,  N_("CRAW+JPEG")  },
-        { 48,  N_("Standard")   }
     };
 
     //! Lookup table to translate Sony exposure level increments values to readable labels
@@ -603,7 +592,7 @@ namespace Exiv2 {
                 sony1CsIfdId, makerTags, unsignedShort, EXV_PRINT_TAG(sonyAspectRatio)),
         TagInfo(0x0086, "Quality", N_("Quality"),
                 N_("Quality"),
-                sony1CsIfdId, makerTags, unsignedShort, EXV_PRINT_TAG(sonyQualityCS)),
+                sony1CsIfdId, makerTags, unsignedShort, printMinoltaSonyQualityCS),
         TagInfo(0x0088, "ExposureLevelIncrements", N_("Exposure Level Increments"),
                 N_("Exposure Level Increments"),
                 sony1CsIfdId, makerTags, unsignedShort, EXV_PRINT_TAG(sonyExposureLevelIncrements)),

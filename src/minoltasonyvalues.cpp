@@ -428,4 +428,22 @@ namespace Exiv2 {
     {
         return EXV_PRINT_TAG(minoltaSonyPrioritySetupShutterRelease)(os, value, metadata);
     }
+
+    // ----------------------------------------------------------------------------------------------------
+
+    //! Lookup table to translate Sony camera settings quality values to readable labels
+    extern const TagDetails minoltaSonyQualityCS[] = {
+        { 0,   N_("RAW ")       },
+        { 2,   N_("CRAW ")      },
+        { 16,  N_("Extra Fine") },
+        { 32,  N_("Fine")       },
+        { 34,  N_("RAW+JPEG")   },
+        { 35,  N_("CRAW+JPEG")  },
+        { 48,  N_("Standard")   }
+    };
+
+    std::ostream& printMinoltaSonyQualityCS(std::ostream& os, const Value& value, const ExifData* metadata)
+    {
+        return EXV_PRINT_TAG(minoltaSonyQualityCS)(os, value, metadata);
+    }
 }                                       // namespace Exiv2

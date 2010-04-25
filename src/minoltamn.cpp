@@ -1173,6 +1173,20 @@ namespace Exiv2 {
         { 2, N_("Error") }
     };
 
+    //! Lookup table to translate Sony A100 camera settings image size values to readable labels
+    extern const TagDetails sonyImageSizeA100[] = {
+        { 0, N_("Standard") },
+        { 1, N_("Medium")   },
+        { 2, N_("Small")    }
+    };
+
+    //! Lookup table to translate Sony A100 camera settings instant playback setup values to readable labels
+    extern const TagDetails sonyInstantPlaybackSetupA100[] = {
+        { 0, N_("Image and Information") },
+        { 1, N_("Image Only")            },
+        { 3, N_("Image and Histogram")   }
+    };
+
     // Sony A100 Camera Settings Tag Info
     const TagInfo MinoltaMakerNote::tagInfoCsA100_[] = {
         TagInfo(0x0000, "ExposureMode", N_("Exposure Mode"),
@@ -1301,6 +1315,27 @@ namespace Exiv2 {
         TagInfo(0x0040, "ColorCompensationFilter", N_("Color Compensation Filter"),
                 N_("Color compensation filter"),
                 sony1MltCsA100IfdId, makerTags, signedShort, printValue),
+        TagInfo(0x0041, "SonyImageSize", N_("Sony Image Size"),
+                N_("Sony Image Size"),
+                sony1MltCsA100IfdId, makerTags, unsignedShort, EXV_PRINT_TAG(sonyImageSizeA100)),
+        TagInfo(0x0042, "Quality", N_("Quality"),
+                N_("Quality"),
+                sony1MltCsA100IfdId, makerTags, unsignedShort, printMinoltaSonyQualityCS),
+        TagInfo(0x0043, "InstantPlaybackTime", N_("Instant Playback Time"),
+                N_("Instant playback time"),
+                sony1MltCsA100IfdId, makerTags, unsignedShort, printValue),
+        TagInfo(0x0044, "InstantPlaybackSetup", N_("Instant Playback Setup"),
+                N_("Instant playback setup"),
+                sony1MltCsA100IfdId, makerTags, unsignedShort, EXV_PRINT_TAG(sonyInstantPlaybackSetupA100)),
+        TagInfo(0x0045, "NoiseReduction", N_("Noise Reduction"),
+                N_("Noise reduction"),
+                sony1MltCsA100IfdId, makerTags, unsignedShort, printMinoltaSonyBoolValue),
+        TagInfo(0x0046, "EyeStartAF", N_("Eye Start AF"),
+                N_("Eye start AF"),
+                sony1MltCsA100IfdId, makerTags, unsignedShort, printMinoltaSonyBoolValue),
+        TagInfo(0x0047, "RedEyeReduction", N_("Red Eye Reduction"),
+                N_("Red eye reduction"),
+                sony1MltCsA100IfdId, makerTags, unsignedShort, printMinoltaSonyBoolValue),
 
 /*
         TagInfo(0x0050, "Rotation", N_("Rotation"),
@@ -1321,9 +1356,6 @@ namespace Exiv2 {
         TagInfo(0x00AE, "ImageNumber", N_("Image Number"),
                 N_("Image number"),
                 sony1MltCsA100IfdId, makerTags, unsignedShort, printValue),
-        TagInfo(0x00B0, "NoiseReduction", N_("Noise Reduction"),
-                N_("Noise reduction"),
-                sony1MltCsA100IfdId, makerTags, unsignedShort, printMinoltaSonyBoolValue),
         TagInfo(0x00BD, "ImageStabilization", N_("Image Stabilization"),
                 N_("Image stabilization"),
                 sony1MltCsA100IfdId, makerTags, unsignedShort, printMinoltaSonyBoolValue),
