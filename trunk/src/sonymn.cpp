@@ -442,12 +442,6 @@ namespace Exiv2 {
         { 1, N_("Off")  }
     };
 
-    //! Lookup table to translate Sony AF with shutter values to readable labels
-    extern const TagDetails sonyAFWithShutter[] = {
-        { 0, N_("On") },
-        { 1, N_("Off")  }
-    };
-
     //! Lookup table to translate Sony camera settings image style values to readable labels
     extern const TagDetails sonyImageStyle[] = {
         { 1,    N_("Standard")      },
@@ -562,7 +556,7 @@ namespace Exiv2 {
         // NOTE: A700 only
         TagInfo(0x0042, "AFWithShutter", N_("AF With Shutter"),
                 N_("AF With Shutter"),
-                sony1CsIfdId, makerTags, unsignedShort, EXV_PRINT_TAG(sonyAFWithShutter)),
+                sony1CsIfdId, makerTags, unsignedShort, printMinoltaSonyBoolInverseValue),
         // NOTE: A700 only
         TagInfo(0x0043, "LongExposureNoiseReduction", N_("Long Exposure Noise Reduction"),
                 N_("Long Exposure Noise Reduction"),

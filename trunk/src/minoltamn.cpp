@@ -1187,6 +1187,38 @@ namespace Exiv2 {
         { 3, N_("Image and Histogram")   }
     };
 
+    //! Lookup table to translate Sony A100 camera settings auto bracket order values to readable labels
+    extern const TagDetails sonyAutoBracketOrderA100[] = {
+        { 0, "0-+" },
+        { 1, "-0+" }
+    };
+
+    //! Lookup table to translate Sony A100 camera settings focus hold button values to readable labels
+    extern const TagDetails sonyFocusHoldButtonA100[] = {
+        { 0, N_("Focus Hold")  },
+        { 1, N_("DOF Preview") }
+    };
+
+    //! Lookup table to translate Sony A100 camera settings AEL button values to readable labels
+    extern const TagDetails sonyAELButtonA100[] = {
+        { 0, N_("Hold")        },
+        { 1, N_("Toggle")      },
+        { 2, N_("Spot Hold")   },
+        { 3, N_("Spot Toggle") }
+    };
+
+    //! Lookup table to translate Sony A100 camera settings control dial set values to readable labels
+    extern const TagDetails sonyControlDialSetA100[] = {
+        { 0, N_("Shutter Speed") },
+        { 1, N_("Aperture")      }
+    };
+
+    //! Lookup table to translate Sony A100 camera settings exposure compensation mode values to readable labels
+    extern const TagDetails sonyExposureCompensationModeA100[] = {
+        { 0, N_("Ambient and Flash") },
+        { 1, N_("Ambient Only")      }
+    };
+
     // Sony A100 Camera Settings Tag Info
     const TagInfo MinoltaMakerNote::tagInfoCsA100_[] = {
         TagInfo(0x0000, "ExposureMode", N_("Exposure Mode"),
@@ -1332,10 +1364,34 @@ namespace Exiv2 {
                 sony1MltCsA100IfdId, makerTags, unsignedShort, printMinoltaSonyBoolValue),
         TagInfo(0x0046, "EyeStartAF", N_("Eye Start AF"),
                 N_("Eye start AF"),
-                sony1MltCsA100IfdId, makerTags, unsignedShort, printMinoltaSonyBoolValue),
+                sony1MltCsA100IfdId, makerTags, unsignedShort, printMinoltaSonyBoolInverseValue),
         TagInfo(0x0047, "RedEyeReduction", N_("Red Eye Reduction"),
                 N_("Red eye reduction"),
                 sony1MltCsA100IfdId, makerTags, unsignedShort, printMinoltaSonyBoolValue),
+        TagInfo(0x0048, "AutoBracketOrder", N_("Auto Bracket Order"),
+                N_("Auto bracket order"),
+                sony1MltCsA100IfdId, makerTags, unsignedShort, EXV_PRINT_TAG(sonyAutoBracketOrderA100)),
+        TagInfo(0x0049, "FocusHoldButton", N_("Focus Hold Button"),
+                N_("Focus hold button"),
+                sony1MltCsA100IfdId, makerTags, unsignedShort, EXV_PRINT_TAG(sonyFocusHoldButtonA100)),
+        TagInfo(0x004A, "AELButton", N_("AEL Button"),
+                N_("AEL button"),
+                sony1MltCsA100IfdId, makerTags, unsignedShort, EXV_PRINT_TAG(sonyAELButtonA100)),
+        TagInfo(0x004B, "ControlDialSet", N_("Control Dial Set"),
+                N_("Control dial set"),
+                sony1MltCsA100IfdId, makerTags, unsignedShort, EXV_PRINT_TAG(sonyControlDialSetA100)),
+        TagInfo(0x004C, "ExposureCompensationMode", N_("Exposure Compensation Mode"),
+                N_("Exposure compensation mode"),
+                sony1MltCsA100IfdId, makerTags, unsignedShort, EXV_PRINT_TAG(sonyExposureCompensationModeA100)),
+        TagInfo(0x004D, "AFAssist", N_("AF Assist"),
+                N_("AF assist"),
+                sony1MltCsA100IfdId, makerTags, unsignedShort, printMinoltaSonyBoolInverseValue),
+        TagInfo(0x004E, "CardShutterLock", N_("Card Shutter Lock"),
+                N_("Card shutter lock"),
+                sony1MltCsA100IfdId, makerTags, unsignedShort, printMinoltaSonyBoolInverseValue),
+        TagInfo(0x004F, "LensShutterLock", N_("Lens Shutter Lock"),
+                N_("Lens shutter lock"),
+                sony1MltCsA100IfdId, makerTags, unsignedShort, printMinoltaSonyBoolInverseValue),
 
 /*
         TagInfo(0x0050, "Rotation", N_("Rotation"),

@@ -366,6 +366,19 @@ namespace Exiv2 {
 
     // ----------------------------------------------------------------------------------------------------
 
+    //! Lookup table to translate Minolta/Sony bool inverse function values to readable labels
+    extern const TagDetails minoltaSonyBoolInverseFunction[] = {
+        { 0, N_("On") },
+        { 1, N_("Off")  }
+    };
+
+    std::ostream& printMinoltaSonyBoolInverseValue(std::ostream& os, const Value& value, const ExifData* metadata)
+    {
+        return EXV_PRINT_TAG(minoltaSonyBoolInverseFunction)(os, value, metadata);
+    }
+
+    // ----------------------------------------------------------------------------------------------------
+
     //! Lookup table to translate Sony camera settings focus mode values to readable labels
     extern const TagDetails minoltaSonyAFAreaMode[] = {
         { 0, N_("Wide")  },

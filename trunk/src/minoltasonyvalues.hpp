@@ -49,6 +49,9 @@ namespace Exiv2 {
     //! Print Minolta/Sony bool function values to readable labels.
     EXIV2API std::ostream& printMinoltaSonyBoolValue(std::ostream&, const Value&, const ExifData*);
 
+    //! Print Minolta/Sony bool inverse function values to readable labels.
+    EXIV2API std::ostream& printMinoltaSonyBoolInverseValue(std::ostream&, const Value&, const ExifData*);
+
     //! Print Minolta/Sony AF Area Mode values to readable labels.
     EXIV2API std::ostream& printMinoltaSonyAFAreaMode(std::ostream&, const Value&, const ExifData*);
 
