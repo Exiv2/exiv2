@@ -1283,6 +1283,27 @@ namespace Exiv2 {
         { 254, N_("Over Scale")      }
     };
 
+    //! Lookup table to translate Sony A100 camera settings focus mode switch values to readable labels
+    extern const TagDetails sonyFocusModeSwitchA100[] = {
+        { 0, N_("AM") },
+        { 1, N_("MF")  }
+    };
+
+    //! Lookup table to translate Sony A100 camera settings flash type switch values to readable labels
+    extern const TagDetails sonyFlashTypeA100[] = {
+        { 0, N_("Off") },
+        { 1, N_("Built-in") },
+        { 2, N_("External")  }
+    };
+
+    //! Lookup table to translate Sony A100 camera settings battery level switch values to readable labels
+    extern const TagDetails sonyBatteryLevelA100[] = {
+        { 3, N_("Very Low")                   },
+        { 4, N_("Low")                        },
+        { 5, N_("Half Full")                  },
+        { 6, N_("Sufficient Power Remaining") }
+    };
+
     // Sony A100 Camera Settings Tag Info
     const TagInfo MinoltaMakerNote::tagInfoCsA100_[] = {
         TagInfo(0x0000, "ExposureMode", N_("Exposure Mode"),
@@ -1495,17 +1516,27 @@ namespace Exiv2 {
         TagInfo(0x0057, "ImageStabilization", N_("Image Stabilization"),
                 N_("Image stabilization"),
                 sony1MltCsA100IfdId, makerTags, unsignedShort, printMinoltaSonyBoolValue),
-
+        TagInfo(0x0058, "FocusModeSwitch", N_("Focus Mode Switch"),
+                N_("Focus mode switch"),
+                sony1MltCsA100IfdId, makerTags, unsignedShort, EXV_PRINT_TAG(sonyFocusModeSwitchA100)),
+        TagInfo(0x0059, "FlashType", N_("Flash Type"),
+                N_("Flash type"),
+                sony1MltCsA100IfdId, makerTags, unsignedShort, EXV_PRINT_TAG(sonyFlashTypeA100)),
         TagInfo(0x005A, "Rotation", N_("Rotation"),
                 N_("Rotation"),
                 sony1MltCsA100IfdId, makerTags, unsignedShort, printMinoltaSonyRotation),
-
+        TagInfo(0x004B, "AELock", N_("AE Lock"),
+                N_("AE lock"),
+                sony1MltCsA100IfdId, makerTags, unsignedShort, printMinoltaSonyBoolValue),
         TagInfo(0x005E, "ColorTemperature", N_("Color Temperature"),
                 N_("Color temperature"),
                 sony1MltCsA100IfdId, makerTags, unsignedLong, printValue),
         TagInfo(0x005F, "ColorCompensationFilter", N_("Color Compensation Filter"),
                 N_("Color compensation filter: negative is green, positive is magenta"),
                 sony1MltCsA100IfdId, makerTags, unsignedLong, printValue),
+        TagInfo(0x0060, "BatteryLevel", N_("Battery Level"),
+                N_("Battery level"),
+                sony1MltCsA100IfdId, makerTags, unsignedShort, EXV_PRINT_TAG(sonyBatteryLevelA100)),
 
         // End of list marker
         TagInfo(0xffff, "(UnknownSonyCsA100Tag)", "(UnknownSonyCsA100Tag)",
