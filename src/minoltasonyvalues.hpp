@@ -67,6 +67,9 @@ namespace Exiv2 {
     //! Print Minolta/Sony Quality values to readable labels.
     EXIV2API std::ostream& printMinoltaSonyQualityCS(std::ostream&, const Value&, const ExifData*);
 
+    //! Print Minolta/Sony Rotation values to readable labels.
+    EXIV2API std::ostream& printMinoltaSonyRotation(std::ostream&, const Value&, const ExifData*);
+
     // TODO: Added shared methods here.
 
 }                                       // namespace Exiv2

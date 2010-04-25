@@ -390,13 +390,6 @@ namespace Exiv2 {
         { 19, N_("D-Range Optimizer Bracketing Low") }
     };
 
-    //! Lookup table to translate Sony camera settings rotation values to readable labels
-    extern const TagDetails sonyRotation[] = {
-        { 0, N_("Horizontal (normal)") },
-        { 1, N_("Rotate 90 CW")        },
-        { 2, N_("Rotate 270 CW")       }
-    };
-
     //! Lookup table to translate Sony camera settings focus mode values to readable labels
     extern const TagDetails sonyFocusMode[] = {
         { 0, N_("Manual") },
@@ -577,7 +570,7 @@ namespace Exiv2 {
                 sony1CsIfdId, makerTags, unsignedShort, printMinoltaSonyBoolValue),
         TagInfo(0x0063, "Rotation", N_("Rotation"),
                 N_("Rotation"),
-                sony1CsIfdId, makerTags, unsignedShort, EXV_PRINT_TAG(sonyRotation)),
+                sony1CsIfdId, makerTags, unsignedShort, printMinoltaSonyRotation),
         TagInfo(0x0084, "SonyImageSize", N_("Sony Image Size"),
                 N_("Sony Image Size"),
                 sony1CsIfdId, makerTags, unsignedShort, EXV_PRINT_TAG(sonyImageSize)),
@@ -649,7 +642,7 @@ namespace Exiv2 {
                 sony1Cs2IfdId, makerTags, unsignedShort, EXV_PRINT_TAG(sonyExposureProgram)),
         TagInfo(0x0063, "Rotation", N_("Rotation"),
                 N_("Rotation"),
-                sony1Cs2IfdId, makerTags, unsignedShort, EXV_PRINT_TAG(sonyRotation)),
+                sony1Cs2IfdId, makerTags, unsignedShort, printMinoltaSonyRotation),
         TagInfo(0x0084, "SonyImageSize", N_("Sony Image Size"),
                 N_("Sony Image Size"),
                 sony1Cs2IfdId, makerTags, unsignedShort, EXV_PRINT_TAG(sonyImageSize)),
