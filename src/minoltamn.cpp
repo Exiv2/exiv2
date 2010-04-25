@@ -1187,6 +1187,12 @@ namespace Exiv2 {
         { 3, N_("Image and Histogram")   }
     };
 
+    //! Lookup table to translate Sony A100 camera settings flash default setup values to readable labels
+    extern const TagDetails sonyFlashDefaultA100[] = {
+        { 0, N_("Auto") },
+        { 1, N_("Fill Flash")   }
+    };
+
     //! Lookup table to translate Sony A100 camera settings auto bracket order values to readable labels
     extern const TagDetails sonyAutoBracketOrderA100[] = {
         { 0, "0-+" },
@@ -1217,6 +1223,64 @@ namespace Exiv2 {
     extern const TagDetails sonyExposureCompensationModeA100[] = {
         { 0, N_("Ambient and Flash") },
         { 1, N_("Ambient Only")      }
+    };
+
+    //! Lookup table to translate Sony A100 camera settings sony AF area illumination values to readable labels
+    extern const TagDetails sonyAFAreaIlluminationA100[] = {
+        { 0, N_("0.3 seconds") },
+        { 1, N_("0.6 seconds") },
+        { 2, N_("Off")         }
+    };
+
+    //! Lookup table to translate Sony A100 camera settings monitor display off values to readable labels
+    extern const TagDetails sonyMonitorDisplayOffA100[] = {
+        { 0, N_("Automatic") },
+        { 1, N_("Manual")    }
+    };
+
+    //! Lookup table to translate Sony A100 camera settings record display values to readable labels
+    extern const TagDetails sonyRecordDisplayA100[] = {
+        { 0, N_("Auto-rotate") },
+        { 1, N_("Horizontal")  }
+    };
+
+    //! Lookup table to translate Sony A100 camera settings play display values to readable labels
+    extern const TagDetails sonyPlayDisplayA100[] = {
+        { 0, N_("Auto-rotate") },
+        { 1, N_("Manual Rotate")  }
+    };
+
+    //! Lookup table to translate Sony A100 camera settings metering off scale indicator values to readable labels
+    extern const TagDetails sonyMeteringOffScaleIndicatorA100[] = {
+        { 0,   N_("Within Range")     },
+        { 1,   N_("Under/Over Range") },
+        { 255, N_("Out of Range")     }
+    };
+
+    //! Lookup table to translate Sony A100 camera settings exposure indicator values to readable labels
+    extern const TagDetails sonyExposureIndicatorA100[] = {
+        { 0,   N_("Not Indicated")   },
+        { 1,   N_("Under Scale")     },
+        { 119, N_("Bottom of Scale") },
+        { 120, "-2.0"                },
+        { 121, "-1.7"                },
+        { 122, "-1.5"                },
+        { 123, "-1.3"                },
+        { 124, "-1.0"                },
+        { 125, "-0.7"                },
+        { 126, "-0.5"                },
+        { 127, "-0.3"                },
+        { 128, "-0.0"                },
+        { 129, "+0.3"                },
+        { 130, "+0.5"                },
+        { 131, "+0.7"                },
+        { 132, "+1.0"                },
+        { 133, "+1.3"                },
+        { 134, "+1.5"                },
+        { 135, "+1.7"                },
+        { 136, "+2.0"                },
+        { 253, N_("Top of Scale")    },
+        { 254, N_("Over Scale")      }
     };
 
     // Sony A100 Camera Settings Tag Info
@@ -1344,73 +1408,90 @@ namespace Exiv2 {
         TagInfo(0x0039, "ColorTemperature", N_("Color Temperature"),
                 N_("Color temperature"),
                 sony1MltCsA100IfdId, makerTags, unsignedShort, printValue),
-        TagInfo(0x0040, "ColorCompensationFilter", N_("Color Compensation Filter"),
+        TagInfo(0x003A, "ColorCompensationFilter", N_("Color Compensation Filter"),
                 N_("Color compensation filter"),
                 sony1MltCsA100IfdId, makerTags, signedShort, printValue),
-        TagInfo(0x0041, "SonyImageSize", N_("Sony Image Size"),
+        TagInfo(0x003B, "SonyImageSize", N_("Sony Image Size"),
                 N_("Sony Image Size"),
                 sony1MltCsA100IfdId, makerTags, unsignedShort, EXV_PRINT_TAG(sonyImageSizeA100)),
-        TagInfo(0x0042, "Quality", N_("Quality"),
+        TagInfo(0x003C, "Quality", N_("Quality"),
                 N_("Quality"),
                 sony1MltCsA100IfdId, makerTags, unsignedShort, printMinoltaSonyQualityCS),
-        TagInfo(0x0043, "InstantPlaybackTime", N_("Instant Playback Time"),
+        TagInfo(0x003D, "InstantPlaybackTime", N_("Instant Playback Time"),
                 N_("Instant playback time"),
                 sony1MltCsA100IfdId, makerTags, unsignedShort, printValue),
-        TagInfo(0x0044, "InstantPlaybackSetup", N_("Instant Playback Setup"),
+        TagInfo(0x003E, "InstantPlaybackSetup", N_("Instant Playback Setup"),
                 N_("Instant playback setup"),
                 sony1MltCsA100IfdId, makerTags, unsignedShort, EXV_PRINT_TAG(sonyInstantPlaybackSetupA100)),
-        TagInfo(0x0045, "NoiseReduction", N_("Noise Reduction"),
+        TagInfo(0x003F, "NoiseReduction", N_("Noise Reduction"),
                 N_("Noise reduction"),
                 sony1MltCsA100IfdId, makerTags, unsignedShort, printMinoltaSonyBoolValue),
-        TagInfo(0x0046, "EyeStartAF", N_("Eye Start AF"),
+        TagInfo(0x0040, "EyeStartAF", N_("Eye Start AF"),
                 N_("Eye start AF"),
                 sony1MltCsA100IfdId, makerTags, unsignedShort, printMinoltaSonyBoolInverseValue),
-        TagInfo(0x0047, "RedEyeReduction", N_("Red Eye Reduction"),
+        TagInfo(0x0041, "RedEyeReduction", N_("Red Eye Reduction"),
                 N_("Red eye reduction"),
                 sony1MltCsA100IfdId, makerTags, unsignedShort, printMinoltaSonyBoolValue),
-        TagInfo(0x0048, "AutoBracketOrder", N_("Auto Bracket Order"),
+        TagInfo(0x0042, "FlashDefault", N_("Flash Default"),
+                N_("Flash default"),
+                sony1MltCsA100IfdId, makerTags, unsignedShort, EXV_PRINT_TAG(sonyFlashDefaultA100)),
+        TagInfo(0x0043, "AutoBracketOrder", N_("Auto Bracket Order"),
                 N_("Auto bracket order"),
                 sony1MltCsA100IfdId, makerTags, unsignedShort, EXV_PRINT_TAG(sonyAutoBracketOrderA100)),
-        TagInfo(0x0049, "FocusHoldButton", N_("Focus Hold Button"),
+        TagInfo(0x0044, "FocusHoldButton", N_("Focus Hold Button"),
                 N_("Focus hold button"),
                 sony1MltCsA100IfdId, makerTags, unsignedShort, EXV_PRINT_TAG(sonyFocusHoldButtonA100)),
-        TagInfo(0x004A, "AELButton", N_("AEL Button"),
+        TagInfo(0x0045, "AELButton", N_("AEL Button"),
                 N_("AEL button"),
                 sony1MltCsA100IfdId, makerTags, unsignedShort, EXV_PRINT_TAG(sonyAELButtonA100)),
-        TagInfo(0x004B, "ControlDialSet", N_("Control Dial Set"),
+        TagInfo(0x0046, "ControlDialSet", N_("Control Dial Set"),
                 N_("Control dial set"),
                 sony1MltCsA100IfdId, makerTags, unsignedShort, EXV_PRINT_TAG(sonyControlDialSetA100)),
-        TagInfo(0x004C, "ExposureCompensationMode", N_("Exposure Compensation Mode"),
+        TagInfo(0x0047, "ExposureCompensationMode", N_("Exposure Compensation Mode"),
                 N_("Exposure compensation mode"),
                 sony1MltCsA100IfdId, makerTags, unsignedShort, EXV_PRINT_TAG(sonyExposureCompensationModeA100)),
-        TagInfo(0x004D, "AFAssist", N_("AF Assist"),
+        TagInfo(0x0048, "AFAssist", N_("AF Assist"),
                 N_("AF assist"),
                 sony1MltCsA100IfdId, makerTags, unsignedShort, printMinoltaSonyBoolInverseValue),
-        TagInfo(0x004E, "CardShutterLock", N_("Card Shutter Lock"),
+        TagInfo(0x0049, "CardShutterLock", N_("Card Shutter Lock"),
                 N_("Card shutter lock"),
                 sony1MltCsA100IfdId, makerTags, unsignedShort, printMinoltaSonyBoolInverseValue),
-        TagInfo(0x004F, "LensShutterLock", N_("Lens Shutter Lock"),
+        TagInfo(0x004A, "LensShutterLock", N_("Lens Shutter Lock"),
                 N_("Lens shutter lock"),
                 sony1MltCsA100IfdId, makerTags, unsignedShort, printMinoltaSonyBoolInverseValue),
-
-/*
-        TagInfo(0x0053, "ExposureCompensation", N_("Exposure Compensation"),
-                N_("Exposure compensation"),
-                sony1MltCsA100IfdId, makerTags, unsignedShort, printMinoltaExposureCompensation5D),
-        TagInfo(0x0054, "FreeMemoryCardImages", N_("Free Memory Card Images"),
-                N_("Free memory card images"),
-                sony1MltCsA100IfdId, makerTags, unsignedShort, printValue),
-        TagInfo(0x0091, "ExposureManualBias", N_("Exposure Manual Bias"),
-                N_("Exposure manual bias"),
-                sony1MltCsA100IfdId, makerTags, unsignedShort, printMinoltaExposureManualBias5D),
-        TagInfo(0x009e, "AFMode", N_("AF Mode"),
-                N_("AF mode"),
-                sony1MltCsA100IfdId, makerTags, unsignedShort, EXV_PRINT_TAG(minoltaAFMode5D)),
-        TagInfo(0x00AE, "ImageNumber", N_("Image Number"),
-                N_("Image number"),
-                sony1MltCsA100IfdId, makerTags, unsignedShort, printValue),
-*/
-
+        TagInfo(0x004B, "AFAreaIllumination", N_("AF Area Illumination"),
+                N_("AF area illumination"),
+                sony1MltCsA100IfdId, makerTags, unsignedShort, EXV_PRINT_TAG(sonyAFAreaIlluminationA100)),
+        TagInfo(0x004C, "MonitorDisplayOff", N_("Monitor Display Off"),
+                N_("Monitor display off"),
+                sony1MltCsA100IfdId, makerTags, unsignedShort, EXV_PRINT_TAG(sonyMonitorDisplayOffA100)),
+        TagInfo(0x004D, "RecordDisplay", N_("Record Display"),
+                N_("Record display"),
+                sony1MltCsA100IfdId, makerTags, unsignedShort, EXV_PRINT_TAG(sonyRecordDisplayA100)),
+        TagInfo(0x004E, "PlayDisplay", N_("Play Display"),
+                N_("Play display"),
+                sony1MltCsA100IfdId, makerTags, unsignedShort, EXV_PRINT_TAG(sonyPlayDisplayA100)),
+        TagInfo(0x0050, "ExposureIndicator", N_("Exposure Indicator"),
+                N_("Exposure indicator"),
+                sony1MltCsA100IfdId, makerTags, unsignedShort, EXV_PRINT_TAG(sonyExposureIndicatorA100)),
+        TagInfo(0x0051, "AELExposureIndicator", N_("AEL Exposure Indicator"),
+                N_("AEL exposure indicator (also indicates exposure for next shot when bracketing)"),
+                sony1MltCsA100IfdId, makerTags, unsignedShort, EXV_PRINT_TAG(sonyExposureIndicatorA100)),
+        TagInfo(0x0052, "ExposureBracketingIndicatorLast", N_("Exposure Bracketing Indicator Last"),
+                N_("Exposure bracketing indicator last (indicator for last shot when bracketing)"),
+                sony1MltCsA100IfdId, makerTags, unsignedShort, EXV_PRINT_TAG(sonyExposureIndicatorA100)),
+        TagInfo(0x0053, "MeteringOffScaleIndicator", N_("Metering Off Scale Indicator"),
+                N_("Metering off scale indicator (two flashing triangles when under or over metering scale)"),
+                sony1MltCsA100IfdId, makerTags, unsignedShort, EXV_PRINT_TAG(sonyMeteringOffScaleIndicatorA100)),
+        TagInfo(0x0054, "FlashExposureIndicator", N_("Flash Exposure Indicator"),
+                N_("Flash exposure indicator"),
+                sony1MltCsA100IfdId, makerTags, unsignedShort, EXV_PRINT_TAG(sonyExposureIndicatorA100)),
+        TagInfo(0x0055, "FlashExposureIndicatorNext", N_("Flash Exposure Indicator Next"),
+                N_("Flash exposure indicator next (indicator for next shot when bracketing)"),
+                sony1MltCsA100IfdId, makerTags, unsignedShort, EXV_PRINT_TAG(sonyExposureIndicatorA100)),
+        TagInfo(0x0056, "FlashExposureIndicatorLast", N_("Flash Exposure Indicator Last"),
+                N_("Flash exposure indicator last (indicator for last shot when bracketing)"),
+                sony1MltCsA100IfdId, makerTags, unsignedShort, EXV_PRINT_TAG(sonyExposureIndicatorA100)),
         TagInfo(0x0057, "ImageStabilization", N_("Image Stabilization"),
                 N_("Image stabilization"),
                 sony1MltCsA100IfdId, makerTags, unsignedShort, printMinoltaSonyBoolValue),
