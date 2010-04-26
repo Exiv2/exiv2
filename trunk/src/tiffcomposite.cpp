@@ -742,6 +742,7 @@ namespace Exiv2 {
         assert(pData != 0);
 
         if (origSize_ != size) return false;
+        if (origData_ == pData) return true;
         memcpy(origData_, pData, origSize_);
         return true;
     }
@@ -809,7 +810,7 @@ namespace Exiv2 {
         }
         if (tc == 0) {
             TiffComponent::AutoPtr atc;
-            if (object.get() != 0) {
+            if (tiffPath.size() == 1 && object.get() != 0) {
                 atc = object;
             }
             else {
@@ -854,7 +855,7 @@ namespace Exiv2 {
             }
         }
         if (tc == 0) {
-            if (object.get() != 0) {
+            if (tiffPath.size() == 2 && object.get() != 0) {
                 tc = addChild(object);
             }
             else {
@@ -924,7 +925,7 @@ namespace Exiv2 {
         }
         if (tc == 0) {
             TiffComponent::AutoPtr atc;
-            if (object.get() != 0) {
+            if (tiffPath.size() == 1 && object.get() != 0) {
                 atc = object;
             }
             else {
