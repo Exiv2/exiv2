@@ -135,6 +135,12 @@ namespace Exiv2 {
 
         // TODO: Tag 0x0103 : quality or image size (see ExifTool doc).
 
+        TagInfo(0x0104, "FlashExposureComp", N_("Flash Exposure Compensation"),
+                N_("Flash exposure compensation in EV"),
+                minoltaIfdId, makerTags, signedRational, printValue),
+        TagInfo(0x0105, "Teleconverter", N_("Teleconverter Model"),
+                N_("Teleconverter Model"),
+                sony1IfdId, makerTags, unsignedLong, printMinoltaSonyTeleconverterModel),
         TagInfo(0x0107, "ImageStabilization", N_("Image Stabilization"),
                 N_("Image stabilization"),
                 minoltaIfdId, makerTags, unsignedLong, EXV_PRINT_TAG(minoltaImageStabilization)),

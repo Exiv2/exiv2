@@ -499,7 +499,7 @@ namespace Exiv2 {
 
     // ----------------------------------------------------------------------------------------------------
 
-    //! Lookup table to translate Sony image quality values to readable labels
+    //! Lookup table to translate Sony/Minolta image quality values to readable labels
     extern const TagDetails minoltaSonyImageQuality[] = {
         { 0, N_("Raw")                   },
         { 1, N_("Super Fine")            },
@@ -515,5 +515,21 @@ namespace Exiv2 {
     std::ostream& printMinoltaSonyImageQuality(std::ostream& os, const Value& value, const ExifData* metadata)
     {
         return EXV_PRINT_TAG(minoltaSonyImageQuality)(os, value, metadata);
+    }
+
+    // ----------------------------------------------------------------------------------------------------
+
+    //! Lookup table to translate Sony/Minolta teleconverter model values to readable labels
+    extern const TagDetails minoltaSonyTeleconverterModel[] = {
+        { 0x00, N_("None")                     },
+        { 0x48, N_("Minolta AF 2x APO (D)")    },
+        { 0x50, N_("Minolta AF 2x APO II")     },
+        { 0x88, N_("Minolta AF 1.4x APO (D)")  },
+        { 0x90, N_("Minolta AF 1.4x APO II")   }
+    };
+
+    std::ostream& printMinoltaSonyTeleconverterModel(std::ostream& os, const Value& value, const ExifData* metadata)
+    {
+        return EXV_PRINT_TAG(minoltaSonyTeleconverterModel)(os, value, metadata);
     }
 }                                       // namespace Exiv2

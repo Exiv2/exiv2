@@ -49,15 +49,6 @@ namespace Exiv2 {
 
     // -- Standard Sony Makernotes tags ---------------------------------------------------------------
 
-    //! Lookup table to translate Sony teleconverter model values to readable labels
-    extern const TagDetails sonyTeleconverterModel[] = {
-        { 0x00, N_("None")                     },
-        { 0x48, N_("Minolta AF 2x APO (D)")    },
-        { 0x50, N_("Minolta AF 2x APO II")     },
-        { 0x88, N_("Minolta AF 1.4x APO (D)")  },
-        { 0x90, N_("Minolta AF 1.4x APO II")   }
-    };
-
     //! Lookup table to translate Sony Std camera settings white balance values to readable labels
     extern const TagDetails sonyWhiteBalanceStd[] = {
         { 0x00,  N_("Auto")                           },
@@ -217,7 +208,7 @@ namespace Exiv2 {
                 sony1IfdId, makerTags, signedRational, printValue),
         TagInfo(0x0105, "Teleconverter", N_("Teleconverter Model"),
                 N_("Teleconverter Model"),
-                sony1IfdId, makerTags, unsignedLong, EXV_PRINT_TAG(sonyTeleconverterModel)),
+                sony1IfdId, makerTags, unsignedLong, printMinoltaSonyTeleconverterModel),
         TagInfo(0x0112, "WhiteBalanceFineTune", N_("White Balance Fine Tune"),
                 N_("White Balance Fine Tune Value"),
                 sony1IfdId, makerTags, unsignedLong, printValue),

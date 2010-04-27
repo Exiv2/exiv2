@@ -76,6 +76,9 @@ namespace Exiv2 {
     //! Print Minolta/Sony Image Quality values to readable labels.
     std::ostream& printMinoltaSonyImageQuality(std::ostream&, const Value&, const ExifData*);
 
+    //! Print Minolta/Sony Teleconverter Model values to readable labels.
+    std::ostream& printMinoltaSonyTeleconverterModel(std::ostream&, const Value&, const ExifData*);
+
     // TODO: Added shared methods here.
 
 }                                       // namespace Exiv2
