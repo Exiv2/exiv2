@@ -286,8 +286,8 @@ namespace Exiv2 {
         { 8, N_("Top-left")     }
     };
 
-    //! Lookup table to translate Minolta Std camera settings white balance values to readable labels
-    extern const TagDetails minoltaFlashStd[] = {
+    //! Lookup table to translate Minolta Std camera settings flash fired values to readable labels
+    extern const TagDetails minoltaFlashFired[] = {
         { 0, N_("Did not fire") },
         { 1, N_("Fired")        }
     };
@@ -350,12 +350,6 @@ namespace Exiv2 {
         { 2, N_("Vivid color")     },
         { 3, N_("Solarization")    },
         { 4, N_("Adobe RGB")       }
-    };
-
-    //! Lookup table to translate Minolta Std camera settings internal flash values to readable labels
-    extern const TagDetails minoltaInternalFlashStd[] = {
-        { 0, N_("Did not fire") },
-        { 1, N_("Fired")        }
     };
 
     //! Lookup table to translate Minolta Std camera settings wide focus zone values to readable labels
@@ -542,7 +536,7 @@ namespace Exiv2 {
                 minoltaCsNewIfdId, makerTags, unsignedLong, printValue),
         TagInfo(0x0014, "FlashFired", N_("Flash Fired"),
                 N_("Flash fired"),
-                minoltaCsNewIfdId, makerTags, unsignedLong, EXV_PRINT_TAG(minoltaFlashStd)),
+                minoltaCsNewIfdId, makerTags, unsignedLong, EXV_PRINT_TAG(minoltaFlashFired)),
         TagInfo(0x0015, "MinoltaDate", N_("Minolta Date"),
                 N_("Minolta date"),
                 minoltaCsNewIfdId, makerTags, unsignedLong, printMinoltaDateStd),
@@ -603,9 +597,9 @@ namespace Exiv2 {
         TagInfo(0x002A, "BWFilter", N_("Black and White Filter"),
                 N_("Black and white filter"),
                 minoltaCsNewIfdId, makerTags, unsignedLong, printValue),
-        TagInfo(0x002B, "InternalFlash", N_("Internal Flash"),
-                N_("Internal flash"),
-                minoltaCsNewIfdId, makerTags, unsignedLong, EXV_PRINT_TAG(minoltaInternalFlashStd)),
+        TagInfo(0x002B, "Internal Flash", N_("Internal Flash"),
+                N_("Internal Flash"),
+                minoltaCsNewIfdId, makerTags, unsignedLong, EXV_PRINT_TAG(minoltaFlashFired)),
         TagInfo(0x002C, "Brightness", N_("Brightness"),
                 N_("Brightness"),
                 minoltaCsNewIfdId, makerTags, unsignedLong, printMinoltaBrightnessStd),
@@ -710,12 +704,6 @@ namespace Exiv2 {
         { 256, N_("Top-left")     }
     };
 
-    //! Lookup table to translate Minolta Dynax 7D camera settings white balance values to readable labels
-    extern const TagDetails minoltaFlash7D[] = {
-        { 0, N_("Did not fire") },
-        { 1, N_("Fired")        }
-    };
-
     //! Lookup table to translate Minolta Dynax 7D camera settings ISO settings values to readable labels
     extern const TagDetails minoltaISOSetting7D[] = {
         { 0, N_("Auto") },
@@ -761,9 +749,9 @@ namespace Exiv2 {
         TagInfo(0x0010, "AFPoints", N_("AF Points"),
                 N_("AF points"),
                 minoltaCs7DIfdId, makerTags, unsignedShort, EXV_PRINT_TAG(minoltaAFPoints7D)),
-        TagInfo(0x0015, "Flash", N_("Flash"),
-                N_("Flash"),
-                minoltaCs7DIfdId, makerTags, unsignedShort, EXV_PRINT_TAG(minoltaFlash7D)),
+        TagInfo(0x0015, "FlashFired", N_("Flash Fired"),
+                N_("Flash fired"),
+                minoltaCs7DIfdId, makerTags, unsignedLong, EXV_PRINT_TAG(minoltaFlashFired)),
         TagInfo(0x0016, "FlashMode", N_("Flash Mode"),
                 N_("Flash mode"),
                 minoltaCs7DIfdId, makerTags, unsignedShort, printValue),
@@ -882,12 +870,6 @@ namespace Exiv2 {
         { 512, N_("Manual")      }
     };
 
-    //! Lookup table to translate Minolta Dynax 5D camera settings flash labels
-    extern const TagDetails minoltaFlash5D[] = {
-        { 0, N_("Did not fire") },
-        { 1, N_("Fired")        }
-    };
-
     //! Lookup table to translate Minolta Dynax 5D camera settings metering mode values to readable labels
     extern const TagDetails minoltaMeteringMode5D[] = {
         { 0, N_("Multi-segment")   },
@@ -994,9 +976,9 @@ namespace Exiv2 {
         TagInfo(0x001b, "FocusArea", N_("Focus Area"),
                 N_("Focus area"),
                 minoltaCs5DIfdId, makerTags, unsignedShort, EXV_PRINT_TAG(minoltaFocusArea5D)),
-        TagInfo(0x001F, "Flash", N_("Flash"),
-                N_("Flash"),
-                minoltaCs5DIfdId, makerTags, unsignedShort, EXV_PRINT_TAG(minoltaFlash5D)),
+        TagInfo(0x001F, "FlashFired", N_("Flash Fired"),
+                N_("Flash fired"),
+                minoltaCs5DIfdId, makerTags, unsignedShort, EXV_PRINT_TAG(minoltaFlashFired)),
         TagInfo(0x0025, "MeteringMode", N_("Metering Mode"),
                 N_("Metering mode"),
                 minoltaCs5DIfdId, makerTags, unsignedShort, EXV_PRINT_TAG(minoltaMeteringMode5D)),
