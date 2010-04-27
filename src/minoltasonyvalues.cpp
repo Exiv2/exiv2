@@ -492,9 +492,28 @@ namespace Exiv2 {
         { 17, N_("Night View/Portrait") }
     };
 
-
     std::ostream& printMinoltaSonySceneMode(std::ostream& os, const Value& value, const ExifData* metadata)
     {
         return EXV_PRINT_TAG(minoltaSonySceneMode)(os, value, metadata);
+    }
+
+    // ----------------------------------------------------------------------------------------------------
+
+    //! Lookup table to translate Sony image quality values to readable labels
+    extern const TagDetails minoltaSonyImageQuality[] = {
+        { 0, N_("Raw")                   },
+        { 1, N_("Super Fine")            },
+        { 2, N_("Fine")                  },
+        { 3, N_("Standard")              },
+        { 4, N_("Economy")               },
+        { 5, N_("Extra Fine")            },
+        { 6, N_("Raw + JPEG")            },
+        { 7, N_("Compressed Raw")        },
+        { 8, N_("Compressed Raw + JPEG") }
+    };
+
+    std::ostream& printMinoltaSonyImageQuality(std::ostream& os, const Value& value, const ExifData* metadata)
+    {
+        return EXV_PRINT_TAG(minoltaSonyImageQuality)(os, value, metadata);
     }
 }                                       // namespace Exiv2
