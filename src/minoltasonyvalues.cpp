@@ -532,4 +532,24 @@ namespace Exiv2 {
     {
         return EXV_PRINT_TAG(minoltaSonyTeleconverterModel)(os, value, metadata);
     }
+
+    // ----------------------------------------------------------------------------------------------------
+
+    //! Lookup table to translate Sony/Minolta Std camera settings white balance values to readable labels
+    extern const TagDetails minoltaSonyWhiteBalanceStd[] = {
+        { 0x00,  N_("Auto")                           },
+        { 0x01,  N_("Color Temperature/Color Filter") },
+        { 0x10,  N_("Daylight")                       },
+        { 0x20,  N_("Cloudy")                         },
+        { 0x30,  N_("Shade")                          },
+        { 0x40,  N_("Tungsten")                       },
+        { 0x50,  N_("Flash")                          },
+        { 0x60,  N_("Fluorescent")                    },
+        { 0x70,  N_("Custom")                         }
+    };
+
+    std::ostream& printMinoltaSonyWhiteBalanceStd(std::ostream& os, const Value& value, const ExifData* metadata)
+    {
+        return EXV_PRINT_TAG(minoltaSonyWhiteBalanceStd)(os, value, metadata);
+    }
 }                                       // namespace Exiv2
