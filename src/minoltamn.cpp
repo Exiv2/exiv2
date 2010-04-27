@@ -120,6 +120,9 @@ namespace Exiv2 {
         TagInfo(0x0089, "ThumbnailLength", N_("Thumbnail Length"),
                 N_("Size of the thumbnail"),
                 minoltaIfdId, makerTags, unsignedLong, printValue),
+        TagInfo(0x0100, "SceneMode", N_("Scene Mode"),
+                N_("Scene Mode"),
+                minoltaIfdId, makerTags, unsignedLong, printMinoltaSonySceneMode),
 
         // TODO: for A100, use Sony table from minoltasonyvallue.cpp::printMinoltaSonyColorMode().
         TagInfo(0x0101, "ColorMode", N_("Color Mode"),

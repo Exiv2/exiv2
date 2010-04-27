@@ -108,22 +108,6 @@ namespace Exiv2 {
         { 275, "DSLR-A450" }
     };
 
-    //! Lookup table to translate Sony scene mode values to readable labels
-    extern const TagDetails sonySceneMode[] = {
-        { 0,  N_("Standard")            },
-        { 1,  N_("Portrait")            },
-        { 2,  N_("Text")                },
-        { 3,  N_("Night Scene")         },
-        { 4,  N_("Sunset")              },
-        { 5,  N_("Sports")              },
-        { 6,  N_("Landscape")           },
-        { 7,  N_("Night Portrait")      },
-        { 8,  N_("Macro")               },
-        { 9,  N_("Super Macro")         },
-        { 16, N_("Auto")                },
-        { 17, N_("Night View/Portrait") }
-    };
-
     //! Lookup table to translate Sony zone matching values to readable labels
     extern const TagDetails sonyZoneMatching[] = {
         { 0, N_("ISO Setting Used") },
@@ -315,7 +299,7 @@ namespace Exiv2 {
                 sony1IfdId, makerTags, unsignedLong, printValue),
         TagInfo(0xb023, "SceneMode", N_("Scene Mode"),
                 N_("Scene Mode"),
-                sony1IfdId, makerTags, unsignedLong, EXV_PRINT_TAG(sonySceneMode)),
+                sony1IfdId, makerTags, unsignedLong, printMinoltaSonySceneMode),
         TagInfo(0xb024, "ZoneMatching", N_("Zone Matching"),
                 N_("Zone Matching"),
                 sony1IfdId, makerTags, unsignedLong, EXV_PRINT_TAG(sonyZoneMatching)),

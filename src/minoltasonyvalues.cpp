@@ -473,4 +473,28 @@ namespace Exiv2 {
     {
         return EXV_PRINT_TAG(minoltaSonyRotation)(os, value, metadata);
     }
+
+    // ----------------------------------------------------------------------------------------------------
+
+    //! Lookup table to translate Minolta/Sony scene mode values to readable labels
+    extern const TagDetails minoltaSonySceneMode[] = {
+        { 0,  N_("Standard")            },
+        { 1,  N_("Portrait")            },
+        { 2,  N_("Text")                },
+        { 3,  N_("Night Scene")         },
+        { 4,  N_("Sunset")              },
+        { 5,  N_("Sports")              },
+        { 6,  N_("Landscape")           },
+        { 7,  N_("Night Portrait")      },
+        { 8,  N_("Macro")               },
+        { 9,  N_("Super Macro")         },
+        { 16, N_("Auto")                },
+        { 17, N_("Night View/Portrait") }
+    };
+
+
+    std::ostream& printMinoltaSonySceneMode(std::ostream& os, const Value& value, const ExifData* metadata)
+    {
+        return EXV_PRINT_TAG(minoltaSonySceneMode)(os, value, metadata);
+    }
 }                                       // namespace Exiv2
