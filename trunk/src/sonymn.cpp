@@ -49,19 +49,6 @@ namespace Exiv2 {
 
     // -- Standard Sony Makernotes tags ---------------------------------------------------------------
 
-    //! Lookup table to translate Sony Std camera settings white balance values to readable labels
-    extern const TagDetails sonyWhiteBalanceStd[] = {
-        { 0x00,  N_("Auto")                           },
-        { 0x01,  N_("Color Temperature/Color Filter") },
-        { 0x10,  N_("Daylight")                       },
-        { 0x20,  N_("Cloudy")                         },
-        { 0x30,  N_("Shade")                          },
-        { 0x40,  N_("Tungsten")                       },
-        { 0x50,  N_("Flash")                          },
-        { 0x60,  N_("Fluorescent")                    },
-        { 0x70,  N_("Custom")                         }
-    };
-
     //! Lookup table to translate Sony Auto HDR values to readable labels
     extern const TagDetails sonyAutoHDR[] = {
         { 0x00000, N_("Off") },
@@ -217,7 +204,7 @@ namespace Exiv2 {
                 sony1IfdId, makerTags, undefined, printValue),
         TagInfo(0x0115, "WhiteBalance", N_("White Balance"),
                 N_("White balance"),
-                sony1IfdId, makerTags, unsignedLong, EXV_PRINT_TAG(sonyWhiteBalanceStd)),
+                sony1IfdId, makerTags, unsignedLong, printMinoltaSonyWhiteBalanceStd),
         TagInfo(0x0116, "0x0116", "0x0116",
                 N_("Unknown"),
                 sony1IfdId, makerTags, undefined, printValue),

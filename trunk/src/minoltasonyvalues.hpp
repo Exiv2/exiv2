@@ -74,10 +74,13 @@ namespace Exiv2 {
     EXIV2API std::ostream& printMinoltaSonySceneMode(std::ostream&, const Value&, const ExifData*);
 
     //! Print Minolta/Sony Image Quality values to readable labels.
-    std::ostream& printMinoltaSonyImageQuality(std::ostream&, const Value&, const ExifData*);
+    EXIV2API std::ostream& printMinoltaSonyImageQuality(std::ostream&, const Value&, const ExifData*);
 
     //! Print Minolta/Sony Teleconverter Model values to readable labels.
-    std::ostream& printMinoltaSonyTeleconverterModel(std::ostream&, const Value&, const ExifData*);
+    EXIV2API std::ostream& printMinoltaSonyTeleconverterModel(std::ostream&, const Value&, const ExifData*);
+
+    //! Print Minolta/Sony White Balance Std values to readable labels.
+    EXIV2API std::ostream& printMinoltaSonyWhiteBalanceStd(std::ostream&, const Value&, const ExifData*);
 
     // TODO: Added shared methods here.
 
