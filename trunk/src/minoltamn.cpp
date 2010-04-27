@@ -131,7 +131,7 @@ namespace Exiv2 {
 
         TagInfo(0x0102, "Quality", N_("Image Quality"),
                 N_("Image quality"),
-                minoltaIfdId, makerTags, unsignedLong, EXV_PRINT_TAG(minoltaImageQuality)),
+                minoltaIfdId, makerTags, unsignedLong, printMinoltaSonyImageQuality),
 
         // TODO: Tag 0x0103 : quality or image size (see ExifTool doc).
 

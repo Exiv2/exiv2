@@ -73,6 +73,9 @@ namespace Exiv2 {
     //! Print Minolta/Sony Scene Mode values to readable labels.
     EXIV2API std::ostream& printMinoltaSonySceneMode(std::ostream&, const Value&, const ExifData*);
 
+    //! Print Minolta/Sony Image Quality values to readable labels.
+    std::ostream& printMinoltaSonyImageQuality(std::ostream&, const Value&, const ExifData*);
+
     // TODO: Added shared methods here.
 
 }                                       // namespace Exiv2

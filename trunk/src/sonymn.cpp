@@ -49,19 +49,6 @@ namespace Exiv2 {
 
     // -- Standard Sony Makernotes tags ---------------------------------------------------------------
 
-    //! Lookup table to translate Sony image quality values to readable labels
-    extern const TagDetails sonyImageQuality[] = {
-        { 0, N_("Raw")                   },
-        { 1, N_("Super Fine")            },
-        { 2, N_("Fine")                  },
-        { 3, N_("Standard")              },
-        { 4, N_("Economy")               },
-        { 5, N_("Extra Fine")            },
-        { 6, N_("Raw + JPEG")            },
-        { 7, N_("Compressed Raw")        },
-        { 8, N_("Compressed Raw + JPEG") }
-    };
-
     //! Lookup table to translate Sony teleconverter model values to readable labels
     extern const TagDetails sonyTeleconverterModel[] = {
         { 0x00, N_("None")                     },
@@ -224,7 +211,7 @@ namespace Exiv2 {
     const TagInfo SonyMakerNote::tagInfo_[] = {
         TagInfo(0x0102, "Quality", N_("Image Quality"),
                 N_("Image quality"),
-                sony1IfdId, makerTags, unsignedLong, EXV_PRINT_TAG(sonyImageQuality)),
+                sony1IfdId, makerTags, unsignedLong, printMinoltaSonyImageQuality),
         TagInfo(0x0104, "FlashExposureComp", N_("Flash Exposure Compensation"),
                 N_("Flash exposure compensation in EV"),
                 sony1IfdId, makerTags, signedRational, printValue),
