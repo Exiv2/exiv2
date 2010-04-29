@@ -156,6 +156,41 @@ namespace Exiv2 {
         { 14, N_("Incandescent")  }
     };
 
+    //! Lookup table to translate Sony AF mode values to readable labels
+    extern const TagDetails sonyAFMode[] = {
+        { 1,     N_("Multi AF")         },
+        { 2,     N_("Center AF")        },
+        { 3,     N_("Spot AF")          },
+        { 4,     N_("Flexible Spot AF") },
+        { 6,     N_("Touch AF")         },
+        { 14,    N_("Manual Focus")     },
+        { 15,    N_("Face Detected")    },
+        { 65535, N_("n/a")              }
+    };
+
+    //! Lookup table to translate Sony AF illuminator values to readable labels
+    extern const TagDetails sonyAFIlluminator[] = {
+        { 0, N_("Off") },
+        { 1, N_("On")  },
+        { 2, N_("n/a") }
+    };
+
+    //! Lookup table to translate Sony flash level values to readable labels
+    extern const TagDetails sonyFlashLevel[] = {
+        { -32768, N_("Off")    },
+        { -1,     N_("n/a")    },
+        { 0,      N_("Normal") },
+        { 32767,  N_("High")   }
+    };
+    //! Lookup table to translate Sony release mode values to readable labels
+    extern const TagDetails sonyReleaseMode[] = {
+        { 0,     N_("Normal")                    },
+        { 2,     N_("Burst")                     },
+        { 5,     N_("Exposure Bracketing ")      },
+        { 6,     N_("White Balance Bracketing ") },
+        { 65537, N_("n/a")                       }
+    };
+
     std::ostream& SonyMakerNote::print0xb000(std::ostream& os, const Value& value, const ExifData*)
     {
         if (value.count() != 4)
@@ -210,6 +245,18 @@ namespace Exiv2 {
                 sony1IfdId, makerTags, undefined, printValue),
         TagInfo(0x0e00, "PrintIM", N_("Print IM"),
                 N_("PrintIM information"),
+                sony1IfdId, makerTags, undefined, printValue),
+        TagInfo(0x1000, "MultiBurstMode", N_("Multi Burst Mode"),
+                N_("Multi Burst Mode"),
+                sony1IfdId, makerTags, undefined, printMinoltaSonyBoolValue),
+        TagInfo(0x1001, "MultiBurstImageWidth", N_("Multi Burst Image Width"),
+                N_("Multi Burst Image Width"),
+                sony1IfdId, makerTags, unsignedShort, printValue),
+        TagInfo(0x1002, "MultiBurstImageHeight", N_("Multi Burst Image Height"),
+                N_("Multi Burst Image Height"),
+                sony1IfdId, makerTags, unsignedShort, printValue),
+        TagInfo(0x1003, "Panorama", N_("Panorama"),
+                N_("Panorama"),
                 sony1IfdId, makerTags, undefined, printValue),
         TagInfo(0x2000, "0x2000", "0x2000",
                 N_("Unknown"),
@@ -295,9 +342,21 @@ namespace Exiv2 {
         TagInfo(0xb041, "ExposureMode", N_("Exposure Mode"),
                 N_("Exposure Mode"),
                 sony1IfdId, makerTags, unsignedShort, EXV_PRINT_TAG(sonyExposureMode)),
+        TagInfo(0xb043, "AFMode", N_("AF Mode"),
+                N_("AF Mode"),
+                sony1IfdId, makerTags, unsignedShort, EXV_PRINT_TAG(sonyAFMode)),
+        TagInfo(0xb044, "AFIlluminator", N_("AF Illuminator"),
+                N_("AF Illuminator"),
+                sony1IfdId, makerTags, unsignedShort, EXV_PRINT_TAG(sonyAFIlluminator)),
         TagInfo(0xb047, "Quality", N_("Quality"),
                 N_("Quality"),
                 sony1IfdId, makerTags, unsignedShort, EXV_PRINT_TAG(sonyQuality)),
+        TagInfo(0xb048, "FlashLevel", N_("Flash Level"),
+                N_("Flash Level"),
+                sony1IfdId, makerTags, signedShort, EXV_PRINT_TAG(sonyFlashLevel)),
+        TagInfo(0xb049, "ReleaseMode", N_("Release Mode"),
+                N_("Release Mode"),
+                sony1IfdId, makerTags, unsignedShort, EXV_PRINT_TAG(sonyReleaseMode)),
         TagInfo(0xb04b, "AntiBlur", N_("Anti-Blur"),
                 N_("Anti-Blur"),
                 sony1IfdId, makerTags, unsignedShort, EXV_PRINT_TAG(sonyAntiBlur)),
@@ -379,7 +438,7 @@ namespace Exiv2 {
     };
 
     //! Lookup table to translate Sony AF illuminator values to readable labels
-    extern const TagDetails sonyAFIlluminator[] = {
+    extern const TagDetails sonyAFIlluminatorCS[] = {
         { 0, N_("Auto") },
         { 1, N_("Off")  }
     };
@@ -494,7 +553,7 @@ namespace Exiv2 {
         // NOTE: A700 only
         TagInfo(0x0041, "AFIlluminator", N_("AF Illuminator"),
                 N_("AF Illuminator"),
-                sony1CsIfdId, makerTags, unsignedShort, EXV_PRINT_TAG(sonyAFIlluminator)),
+                sony1CsIfdId, makerTags, unsignedShort, EXV_PRINT_TAG(sonyAFIlluminatorCS)),
         // NOTE: A700 only
         TagInfo(0x0042, "AFWithShutter", N_("AF With Shutter"),
                 N_("AF With Shutter"),
