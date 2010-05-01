@@ -941,6 +941,7 @@ namespace Exiv2 {
         { Tag::root, Group::subimg9,   Group::ifd0,      0x014a    },
         { Tag::root, Group::exif,      Group::ifd0,      0x8769    },
         { Tag::root, Group::gps,       Group::ifd0,      0x8825    },
+        { Tag::root, Group::sonysr2,   Group::ifd0,      0xc634    },
         { Tag::root, Group::iop,       Group::exif,      0xa005    },
         { Tag::root, Group::ifd1,      Group::ifd0,      Tag::next },
         { Tag::root, Group::ifd2,      Group::ifd1,      Tag::next },
@@ -1049,6 +1050,7 @@ namespace Exiv2 {
         {    0x0201, Group::ifd0,      newTiffImageData<0x0202, Group::ifd0>     },
         {    0x0202, Group::ifd0,      newTiffImageSize<0x0201, Group::ifd0>     },
         {    0x014a, Group::ifd0,      newTiffSubIfd<Group::subimg1>             },
+        {    0xc634, Group::ifd0,      newTiffSubIfd<Group::sonysr2>             }, // Todo: Should be a new TIFF component
         { Tag::next, Group::ifd0,      newTiffDirectory<Group::ifd1>             },
         {  Tag::all, Group::ifd0,      newTiffEntry                              },
 
@@ -1363,6 +1365,10 @@ namespace Exiv2 {
         // Sigma/Foveon makernote
         { Tag::next, Group::sigmamn,   newTiffDirectory<Group::ignr>             },
         {  Tag::all, Group::sigmamn,   newTiffEntry                              },
+
+        // Sony SR2 Private tags
+        { Tag::next, Group::sonysr2,   newTiffDirectory<Group::ignr>             },
+        {  Tag::all, Group::sonysr2,   newTiffEntry                              },
 
         // Sony1 makernote
         {    0x0114, Group::sony1mn,   EXV_COMPLEX_BINARY_ARRAY(sony1CsSet, sonyCsSelector) },

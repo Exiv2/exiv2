@@ -664,4 +664,34 @@ namespace Exiv2 {
     {
         return tagInfoCs2_;
     }
+
+    const TagInfo SonyMakerNote::tagInfoSr2_[] = {
+        TagInfo(0x7200, "SR2SubIFDOffset", N_("SR2 Sub-IFD Offset"),
+                N_("SR2 sub-IFD offset"),
+                sonySr2IfdId, makerTags, unsignedShort, printValue),
+        TagInfo(0x7201, "SR2SubIFDLength", N_("SR2 Sub-IFD Length"),
+                N_("SR2 sub-IFD length"),
+                sonySr2IfdId, makerTags, unsignedShort, printValue),
+        TagInfo(0x7221, "SR2SubIFDKey", N_("SR2 Sub-IFD Key"),
+                N_("SR2 sub-IFD key"),
+                sonySr2IfdId, makerTags, unsignedShort, printValue),
+        TagInfo(0x7240, "IDC_IFD", N_("IDC IFD"),
+                N_("IDC IFD"),
+                sonySr2IfdId, makerTags, unsignedShort, printValue),
+        TagInfo(0x7241, "IDC2_IFD", N_("IDC2 IFD"),
+                N_("IDC2 IFD"),
+                sonySr2IfdId, makerTags, unsignedShort, printValue),
+        TagInfo(0x7250, "MRWInfo", N_("MRW Info"),
+                N_("MRW info"),
+                sonySr2IfdId, makerTags, unsignedShort, printValue),
+        // End of list marker
+        TagInfo(0xffff, "(UnknownSonySr2Tag)", "(UnknownSonySr2Tag)",
+                N_("Unknown Sony SR2 Private tag"),
+                sonySr2IfdId, makerTags, invalidTypeId, printValue)
+    };
+
+    const TagInfo* SonyMakerNote::tagListSr2()
+    {
+        return tagInfoSr2_;
+    }
 }                                       // namespace Exiv2

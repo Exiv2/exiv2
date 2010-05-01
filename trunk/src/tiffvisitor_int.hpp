@@ -665,6 +665,8 @@ namespace Exiv2 {
         virtual void visitSizeEntry(TiffSizeEntry* object);
         //! Read a TIFF directory from the data buffer
         virtual void visitDirectory(TiffDirectory* object);
+        //! Additional read operations for a TIFF directory after the directory is read
+        virtual void visitDirectoryEnd(TiffDirectory* object);
         //! Read a TIFF sub-IFD from the data buffer
         virtual void visitSubIfd(TiffSubIfd* object);
         //! Read a TIFF makernote entry from the data buffer

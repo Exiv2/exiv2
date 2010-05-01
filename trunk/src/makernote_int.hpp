@@ -118,6 +118,7 @@ namespace Exiv2 {
         const uint16_t sony1mcs7 = 336; //!< Minolta D7 Camera Settings (in Sony1 makernote)
         const uint16_t sony2cs   = 337; //!< Sony Camera Settings (in Sony2 makernote)
         const uint16_t sony2cs2  = 338; //!< Sony Camera Settings 2 (in Sony2 makernote)
+        const uint16_t sonysr2   = 339; //!< Sony SR2 private tags (in a sub-IFD of Exif.Image.DNGPrivateData)
     }
 
 // *****************************************************************************
@@ -663,6 +664,17 @@ namespace Exiv2 {
       @return An index into the array set, -1 if no match was found.
      */
     int sonyCsSelector(uint16_t tag, const byte* pData, uint32_t size, TiffComponent* const pRoot);
+
+    /*!
+      @brief Decrypt Sony data.
+
+      @param pData Pointer to the start of the data to decrypt.
+      @param size Size of the data buffer.
+      @param pRoot Pointer to the root element of the composite.
+      @return Decrypted data. Ownership of the memory is passed to the caller.
+              The buffer may be empty in case no decryption key was found.
+     */
+    DataBuf sonyDecrypt(const byte* pData, uint32_t size, TiffComponent* const pRoot, ByteOrder byteOrder);
 
     /*!
       @brief Function to select cfg + def of a Nikon complex binary array.

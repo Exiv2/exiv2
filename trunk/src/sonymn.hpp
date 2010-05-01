@@ -59,6 +59,8 @@ namespace Exiv2 {
         static const TagInfo* tagListCs();
         //! Return read-only list of built-in Sony Standard Camera Settings version 2 tags
         static const TagInfo* tagListCs2();
+        //! Return read-only list of built-in Sony SR2 private tags (found in a sub-IFD of Exif.Image.DNGPrivateData)
+        static const TagInfo* tagListSr2();
 
         //! @name Print functions for Sony %MakerNote tags
         //@{
@@ -72,6 +74,7 @@ namespace Exiv2 {
         static const TagInfo tagInfo_[];
         static const TagInfo tagInfoCs_[];
         static const TagInfo tagInfoCs2_[];
+        static const TagInfo tagInfoSr2_[];
 
     }; // class SonyMakerNote
 }                                       // namespace Exiv2

@@ -894,7 +894,6 @@ namespace Exiv2 {
              component of the TIFF tree.
      */
     class TiffDirectory : public TiffComponent {
-        friend class TiffEncoder;
     public:
         //! @name Creators
         //@{
@@ -905,10 +904,22 @@ namespace Exiv2 {
         virtual ~TiffDirectory();
         //@}
 
+        //! @name Manipulators
+        //@{
+        //! Begin of the components
+        Components::iterator begin() { return components_.begin(); }
+        //! End of the components
+        Components::iterator end() { return components_.end(); }
+        //@}
+
         //! @name Accessors
         //@{
         //! Return true if the directory has a next pointer
         bool hasNext() const { return hasNext_; }
+        //! Begin of the components
+        Components::const_iterator begin() const { return components_.begin(); }
+        //! End of the components
+        Components::const_iterator end() const { return components_.end(); }
         //@}
 
     protected:
