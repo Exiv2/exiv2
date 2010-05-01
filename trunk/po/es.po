@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Exiv2\n"
 "Report-Msgid-Bugs-To: ahuggel@gmx.net\n"
-"POT-Creation-Date: 2010-04-20 16:52+0200\n"
+"POT-Creation-Date: 2010-04-23 08:17+0200\n"
 "PO-Revision-Date: 2005-03-12 05:43+0100\n"
 "Last-Translator: Fabian Mandelbaum <fabman@mandrakesoft.com>\n"
 "Language-Team: Spanish <es@li.org>\n"
@@ -16,45 +16,521 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 
-#: src/actions.cpp:254 src/actions.cpp:488 src/actions.cpp:750
-#: src/actions.cpp:767 src/actions.cpp:812 src/actions.cpp:902
-#: src/actions.cpp:1045 src/actions.cpp:1087 src/actions.cpp:1156
-#: src/actions.cpp:1198 src/actions.cpp:1203 src/actions.cpp:1223
-#: src/actions.cpp:1228 src/actions.cpp:1260 src/actions.cpp:1503
-#: src/actions.cpp:1639 src/actions.cpp:1704 src/actions.cpp:1876
-msgid "Failed to open the file\n"
+#: src/exiv2.cpp:237
+msgid ""
+"\n"
+"Actions:\n"
 msgstr ""
 
-#: src/actions.cpp:264
-#, fuzzy
-msgid "File name"
-msgstr "Nombre del documento"
+#: src/exiv2.cpp:255
+msgid ""
+"\n"
+"Options:\n"
+msgstr ""
 
-#: src/actions.cpp:270
+#: src/exiv2.cpp:318
+msgid "             :basename:   - original filename without extension\n"
+msgstr ""
+
+#: src/exiv2.cpp:319
+msgid ""
+"             :dirname:    - name of the directory holding the original file\n"
+msgstr ""
+
+#: src/exiv2.cpp:320
+msgid "             :parentname: - name of parent directory\n"
+msgstr ""
+
+#: src/exiv2.cpp:285
+msgid "             E : include Exif tags in the list\n"
+msgstr ""
+
+#: src/exiv2.cpp:286
+msgid "             I : IPTC datasets\n"
+msgstr ""
+
+#: src/exiv2.cpp:287
+msgid "             X : XMP properties\n"
+msgstr ""
+
+#: src/exiv2.cpp:300
+msgid "             a : all supported metadata (the default)\n"
+msgstr ""
+
+#: src/exiv2.cpp:276
+msgid ""
+"             a : print Exif, IPTC and XMP metadata (shortcut for -Pkyct)\n"
+msgstr ""
+
+#: src/exiv2.cpp:282 src/exiv2.cpp:305
+msgid "             c : JPEG comment\n"
+msgstr ""
+
+#: src/exiv2.cpp:294
+msgid "             c : number of components (count)\n"
+msgstr ""
+
+#: src/exiv2.cpp:301
+msgid "             e : Exif section\n"
+msgstr ""
+
+#: src/exiv2.cpp:289
+msgid "             g : group name\n"
+msgstr ""
+
+#: src/exiv2.cpp:279
+msgid "             h : hexdump of the Exif data (-PExgnycsh)\n"
+msgstr ""
+
+#: src/exiv2.cpp:298
+msgid "             h : hexdump of the data\n"
+msgstr ""
+
+#: src/exiv2.cpp:303
+msgid "             i : IPTC data\n"
+msgstr ""
+
+#: src/exiv2.cpp:280
+msgid "             i : IPTC data values (-PIkyct)\n"
+msgstr ""
+
+#: src/exiv2.cpp:290
+msgid "             k : key\n"
+msgstr ""
+
+#: src/exiv2.cpp:291
+msgid "             l : tag label\n"
+msgstr ""
+
+#: src/exiv2.cpp:292
+msgid "             n : tag name\n"
+msgstr ""
+
+#: src/exiv2.cpp:283
+msgid "             p : list available previews\n"
+msgstr ""
+
+#: src/exiv2.cpp:275
+msgid "             s : print a summary of the Exif metadata (the default)\n"
+msgstr ""
+
+#: src/exiv2.cpp:295
+msgid "             s : size in bytes\n"
+msgstr ""
+
+#: src/exiv2.cpp:302
+msgid "             t : Exif thumbnail only\n"
+msgstr ""
+
+#: src/exiv2.cpp:277
+msgid "             t : interpreted (translated) Exif data (-PEkyct)\n"
+msgstr ""
+
+#: src/exiv2.cpp:297
+msgid "             t : interpreted (translated) data\n"
+msgstr ""
+
+#: src/exiv2.cpp:278
+msgid "             v : plain Exif data values (-PExgnycv)\n"
+msgstr ""
+
+#: src/exiv2.cpp:296
+msgid "             v : plain data value\n"
+msgstr ""
+
+#: src/exiv2.cpp:304
+msgid "             x : XMP packet\n"
+msgstr ""
+
+#: src/exiv2.cpp:281
+msgid "             x : XMP properties (-PXkyct)\n"
+msgstr ""
+
+#: src/exiv2.cpp:288
+msgid "             x : print a column with the tag number\n"
+msgstr ""
+
+#: src/exiv2.cpp:293
+msgid "             y : type\n"
+msgstr ""
+
+#: src/exiv2.cpp:321
+msgid "           Default filename format is "
+msgstr ""
+
+#: src/exiv2.cpp:273
+msgid "   -D day  Day adjustment with the 'adjust' action.\n"
+msgstr ""
+
+#: src/exiv2.cpp:268
+msgid "   -F      Do not prompt before renaming files (Force).\n"
+msgstr ""
+
+#: src/exiv2.cpp:326
+msgid ""
+"   -M cmd  Command line for the modify action. The format for the\n"
+"           commands is the same as that of the lines of a command file.\n"
+msgstr ""
+
+#: src/exiv2.cpp:272
+msgid "   -O mon  Month adjustment with the 'adjust' action.\n"
+msgstr ""
+
+#: src/exiv2.cpp:284
+msgid ""
+"   -P flgs Print flags for fine control of tag lists ('print' action):\n"
+msgstr ""
+
+#: src/exiv2.cpp:329
+msgid ""
+"   -S .suf Use suffix .suf for source files for insert command.\n"
+"\n"
+msgstr ""
+
+#: src/exiv2.cpp:265
+msgid ""
+"   -T      Only set the file timestamp in 'rename' action, do not rename\n"
+"           the file (overrides -k).\n"
+msgstr ""
+
+#: src/exiv2.cpp:257
+msgid "   -V      Show the program version and exit.\n"
+msgstr ""
+
+#: src/exiv2.cpp:271
+msgid "   -Y yrs  Year adjustment with the 'adjust' action.\n"
+msgstr ""
+
+#: src/exiv2.cpp:269
+msgid ""
+"   -a time Time adjustment in the format [-]HH[:MM[:SS]]. This option\n"
+"           is only used with the 'adjust' action.\n"
+msgstr ""
+
+#: src/exiv2.cpp:259
+msgid "   -b      Show large binary values.\n"
+msgstr ""
+
+#: src/exiv2.cpp:323
+msgid "   -c txt  JPEG comment string to set in the image.\n"
+msgstr ""
+
+#: src/exiv2.cpp:299
+msgid ""
+"   -d tgt  Delete target(s) for the 'delete' action. Possible targets are:\n"
+msgstr ""
+
+#: src/exiv2.cpp:311
+msgid ""
+"   -e tgt  Extract target(s) for the 'extract' action. Possible targets\n"
+"           are the same as those for the -d option, plus a target to "
+"extract\n"
+"           preview images and a modifier to generate an XMP sidecar file:\n"
+"             p[<n>[,<m> ...]] : Extract preview images.\n"
+"             X : Extract metadata to an XMP sidecar file <file>.xmp\n"
+msgstr ""
+
+#: src/exiv2.cpp:267
+msgid "   -f      Do not prompt before overwriting existing files (force).\n"
+msgstr ""
+
+#: src/exiv2.cpp:261
+msgid "   -g key  Only output info for this key (grep).\n"
+msgstr ""
+
+#: src/exiv2.cpp:256
+msgid "   -h      Display this help and exit.\n"
+msgstr ""
+
+#: src/exiv2.cpp:306
+msgid ""
+"   -i tgt  Insert target(s) for the 'insert' action. Possible targets are\n"
+"           the same as those for the -d option, plus a modifier:\n"
+"             X : Insert metadata from an XMP sidecar file <file>.xmp\n"
+"           Only JPEG thumbnails can be inserted, they need to be named\n"
+"           <file>-thumb.jpg\n"
+msgstr ""
+
+#: src/exiv2.cpp:263
+msgid "   -k      Preserve file timestamps (keep).\n"
+msgstr ""
+
+#: src/exiv2.cpp:328
+msgid ""
+"   -l dir  Location (directory) for files to be inserted from or extracted "
+"to.\n"
+msgstr ""
+
+#: src/exiv2.cpp:324
+msgid ""
+"   -m file Command file for the modify action. The format for commands is\n"
+"           set|add|del <key> [[<type>] <value>].\n"
+msgstr ""
+
+#: src/exiv2.cpp:262
+msgid "   -n enc  Charset to use to decode UNICODE Exif user comments.\n"
+msgstr ""
+
+#: src/exiv2.cpp:274
+msgid "   -p mode Print mode for the 'print' action. Possible modes are:\n"
+msgstr ""
+
+#: src/exiv2.cpp:316
+msgid ""
+"   -r fmt  Filename format for the 'rename' action. The format string\n"
+"           follows strftime(3). The following keywords are supported:\n"
+msgstr ""
+
+#: src/exiv2.cpp:264
+msgid ""
+"   -t      Also set the file timestamp in 'rename' action (overrides -k).\n"
+msgstr ""
+
+#: src/exiv2.cpp:260
+msgid "   -u      Show unknown tags.\n"
+msgstr ""
+
+#: src/exiv2.cpp:258
+msgid "   -v      Be verbose during the program run.\n"
+msgstr ""
+
+#: src/exiv2.cpp:238
+msgid ""
+"  ad | adjust   Adjust Exif timestamps by the given time. This action\n"
+"                requires at least one of the -a, -Y, -O or -D options.\n"
+msgstr ""
+
+#: src/exiv2.cpp:244
+msgid ""
+"  ex | extract  Extract metadata to *.exv, *.xmp and thumbnail image files.\n"
+msgstr ""
+
+#: src/exiv2.cpp:253
+msgid ""
+"  fc | fixcom   Convert the UNICODE Exif user comment to UCS-2. Its current\n"
+"                character encoding can be specified with the -n option.\n"
+msgstr ""
+
+#: src/exiv2.cpp:251
+msgid ""
+"  fi | fixiso   Copy ISO setting from the Nikon Makernote to the regular\n"
+"                Exif tag.\n"
+msgstr ""
+
+#: src/exiv2.cpp:242
+msgid ""
+"  in | insert   Insert metadata from corresponding *.exv files.\n"
+"                Use option -S to change the suffix of the input files.\n"
+msgstr ""
+
+#: src/exiv2.cpp:248
+msgid ""
+"  mo | modify   Apply commands to modify (add, set, delete) the Exif and\n"
+"                IPTC metadata of image files or set the JPEG comment.\n"
+"                Requires option -c, -m or -M.\n"
+msgstr ""
+
+#: src/exiv2.cpp:245
+msgid ""
+"  mv | rename   Rename files and/or set file timestamps according to the\n"
+"                Exif create timestamp. The filename format can be set with\n"
+"                -r format, timestamp options are controlled with -t and -T.\n"
+msgstr ""
+
+#: src/exiv2.cpp:240
+msgid "  pr | print    Print image metadata.\n"
+msgstr ""
+
+#: src/exiv2.cpp:241
+msgid "  rm | delete   Delete image metadata from the files.\n"
+msgstr ""
+
+#: src/panasonicmn.cpp:320
+msgid " EV"
+msgstr ""
+
+#: src/actions.cpp:690 src/actions.cpp:715 src/actions.cpp:736
+msgid "(Binary value suppressed)"
+msgstr ""
+
+#: src/exiv2.cpp:1003
 #, fuzzy
-msgid "File size"
-msgstr "Fuente de archivo"
+msgid "-M option"
+msgstr "acción"
+
+#: src/exiv2.cpp:818
+msgid "-S option can only be used with insert action\n"
+msgstr ""
+
+#: src/exiv2.cpp:828
+msgid "-T option can only be used with rename action\n"
+msgstr ""
+
+#: src/exiv2.cpp:813
+msgid "-l option can only be used with extract or insert actions\n"
+msgstr ""
+
+#: src/exiv2.cpp:823
+msgid "-t option can only be used with rename action\n"
+msgstr ""
+
+#: src/panasonicmn.cpp:303
+msgid "1-area"
+msgstr ""
+
+#: src/panasonicmn.cpp:304
+msgid "1-area (high speed)"
+msgstr ""
+
+#: src/panasonicmn.cpp:305
+msgid "3-area (auto)"
+msgstr ""
+
+#: src/panasonicmn.cpp:307
+msgid "3-area (center)"
+msgstr ""
+
+#: src/panasonicmn.cpp:306
+msgid "3-area (left)"
+msgstr ""
+
+#: src/panasonicmn.cpp:308
+msgid "3-area (right)"
+msgstr ""
+
+#: src/olympusmn.cpp:1124
+msgid "3000 Kelvin"
+msgstr ""
+
+#: src/actions.cpp:342
+#, fuzzy
+msgid "35 mm equivalent"
+msgstr " (equivalente 35: %d mm)"
+
+#: src/olympusmn.cpp:1125
+msgid "3700 Kelvin"
+msgstr ""
+
+#: src/olympusmn.cpp:1126
+msgid "4000 Kelvin"
+msgstr ""
+
+#: src/olympusmn.cpp:1127
+msgid "4500 Kelvin"
+msgstr ""
+
+#: src/panasonicmn.cpp:302
+msgid "5-area"
+msgstr ""
+
+#: src/olympusmn.cpp:1128
+msgid "5500 Kelvin"
+msgstr ""
+
+#: src/olympusmn.cpp:1129
+msgid "6500 Kelvin"
+msgstr ""
+
+#: src/olympusmn.cpp:1130
+msgid "7500 Kelvin"
+msgstr ""
+
+#: src/sigmamn.cpp:167
+#, fuzzy
+msgid "8-Segment"
+msgstr "multi-lugar"
+
+#: src/exiv2.cpp:674
+msgid "Action adjust is not compatible with the given options\n"
+msgstr ""
+
+#: src/exiv2.cpp:692
+msgid "Action delete is not compatible with the given options\n"
+msgstr ""
+
+#: src/exiv2.cpp:703
+msgid "Action extract is not compatible with the given options\n"
+msgstr ""
+
+#: src/exiv2.cpp:750
+msgid "Action fixcom is not compatible with the given options\n"
+msgstr ""
+
+#: src/exiv2.cpp:741
+msgid "Action fixiso is not compatible with the given options\n"
+msgstr ""
+
+#: src/exiv2.cpp:714
+msgid "Action insert is not compatible with the given options\n"
+msgstr ""
+
+#: src/exiv2.cpp:732
+msgid "Action modify is not compatible with the given options\n"
+msgstr ""
+
+#: src/exiv2.cpp:683
+msgid "Action print is not compatible with the given options\n"
+msgstr ""
+
+#: src/exiv2.cpp:723
+msgid "Action rename is not compatible with the given options\n"
+msgstr ""
+
+#: src/actions.cpp:1334
+msgid "Add"
+msgstr ""
+
+#: src/exiv2.cpp:783
+msgid "Adjust action requires at least one -a, -Y, -O or -D option\n"
+msgstr ""
+
+#: src/actions.cpp:1564
+msgid "Adjusting"
+msgstr ""
+
+#: src/nikonmn.cpp:1359
+#, fuzzy
+msgid "All 11 Points"
+msgstr "Punto blanco"
+
+#: src/exiv2.cpp:774
+msgid "An action must be specified\n"
+msgstr ""
+
+#: src/actions.cpp:316
+msgid "Aperture"
+msgstr "Apertura"
+
+#: src/sigmamn.cpp:152
+msgid "Aperture priority"
+msgstr "Prioridad de apertura"
+
+#: src/exiv2.cpp:793
+msgid "At least one file is required\n"
+msgstr ""
+
+#: src/olympusmn.cpp:1112 src/olympusmn.cpp:1118 src/olympusmn.cpp:1119
+#, fuzzy
+msgid "Auto"
+msgstr "acción"
+
+#: src/olympusmn.cpp:1031
+msgid "Auto-Override"
+msgstr ""
+
+#: src/sigmamn.cpp:165
+msgid "Average"
+msgstr "Promedio"
+
+#: src/olympusmn.cpp:1082
+#, fuzzy
+msgid "Bottom to top"
+msgstr "abajo - izquierda"
 
 #: src/actions.cpp:271 src/actions.cpp:423 src/actions.cpp:1071
 #, fuzzy
 msgid "Bytes"
 msgstr "Centímetro"
-
-#: src/actions.cpp:275
-#, fuzzy
-msgid "MIME type"
-msgstr "Ancho de la imagen"
-
-#: src/actions.cpp:279
-#, fuzzy
-msgid "Image size"
-msgstr "Ancho de la imagen"
-
-#: src/actions.cpp:284 src/actions.cpp:526 src/actions.cpp:577
-#: src/actions.cpp:825 src/actions.cpp:1054 src/actions.cpp:1516
-#: src/actions.cpp:1652 src/actions.cpp:1717
-msgid "No Exif data found in the file\n"
-msgstr ""
 
 #: src/actions.cpp:289
 #, fuzzy
@@ -66,178 +542,57 @@ msgstr "Contraste"
 msgid "Camera model"
 msgstr "Retrato"
 
-#: src/actions.cpp:295
-#, fuzzy
-msgid "Image timestamp"
-msgstr "Ancho de la imagen"
-
-#: src/actions.cpp:299
-#, fuzzy
-msgid "Image number"
-msgstr "ID único de imagen"
-
-#: src/actions.cpp:304
-#, fuzzy
-msgid "Exposure time"
-msgstr "Tiempo de exposición"
-
-#: src/actions.cpp:316
-msgid "Aperture"
-msgstr "Apertura"
-
-#: src/actions.cpp:326
-#, fuzzy
-msgid "Exposure bias"
-msgstr "Ajuste de exposición"
-
-#: src/actions.cpp:329
-msgid "Flash"
-msgstr "Flash"
-
-#: src/actions.cpp:332
-#, fuzzy
-msgid "Flash bias"
-msgstr "El flash disparó."
-
-#: src/actions.cpp:337
-#, fuzzy
-msgid "Focal length"
-msgstr "Distancia focal"
-
-#: src/actions.cpp:342
-#, fuzzy
-msgid "35 mm equivalent"
-msgstr " (equivalente 35: %d mm)"
-
-#: src/actions.cpp:352
-#, fuzzy
-msgid "Subject distance"
-msgstr "Distancia del sujeto"
-
-#: src/actions.cpp:363
-#, fuzzy
-msgid "ISO speed"
-msgstr "Velocidad ISO"
-
-#: src/actions.cpp:366
-#, fuzzy
-msgid "Exposure mode"
-msgstr "Modo de exposición"
-
-#: src/actions.cpp:369
-#, fuzzy
-msgid "Metering mode"
-msgstr "Modo de métrica"
-
-#: src/actions.cpp:372
-#, fuzzy
-msgid "Macro mode"
-msgstr "Macro"
-
-#: src/actions.cpp:375
-#, fuzzy
-msgid "Image quality"
-msgstr "Ancho de la imagen"
-
-#: src/actions.cpp:378
-#, fuzzy
-msgid "Exif Resolution"
-msgstr "Resolución Y"
-
-#: src/actions.cpp:407
-#, fuzzy
-msgid "White balance"
-msgstr "Balance de blanco"
-
-#: src/actions.cpp:410
-msgid "Thumbnail"
+#: src/actions.cpp:1615
+msgid "Can't adjust timestamp by"
 msgstr ""
 
-#: src/actions.cpp:414 src/actions.cpp:419 src/olympusmn.cpp:1097
-msgid "None"
+#: src/sigmamn.cpp:166
+#, fuzzy
+msgid "Center"
+msgstr "Centímetro"
+
+#: src/nikonmn.cpp:1299
+msgid "Closest subject"
 msgstr ""
+
+#: src/nikonmn.cpp:279 src/nikonmn.cpp:1154
+msgid "Continuous autofocus"
+msgstr ""
+
+#: src/pentaxmn.cpp:770
+msgid "Contrast"
+msgstr "Contraste"
 
 #: src/actions.cpp:429
 msgid "Copyright"
 msgstr "Copyright"
 
-#: src/actions.cpp:432
-msgid "Exif comment"
+#: src/exiv2.cpp:209
+msgid "Copyright (C) 2004-2010 Andreas Huggel.\n"
 msgstr ""
 
-#: src/actions.cpp:540 src/actions.cpp:590
-#, fuzzy
-msgid "No IPTC data found in the file\n"
-msgstr "El flash no disparó."
-
-#: src/actions.cpp:554 src/actions.cpp:603
-#, fuzzy
-msgid "No XMP data found in the file\n"
-msgstr "El flash no disparó."
-
-#: src/actions.cpp:561 src/exiv2.cpp:1064
-msgid "Invalid key"
+#: src/actions.cpp:1934
+msgid "Could not write metadata to file"
 msgstr ""
 
-#: src/actions.cpp:690 src/actions.cpp:715 src/actions.cpp:736
-msgid "(Binary value suppressed)"
+#: src/actions.cpp:1442
+msgid "Del"
 msgstr ""
 
-#: src/actions.cpp:757
+#: src/tags.cpp:2752 src/tags.cpp:2753 src/tags.cpp:2761
 #, fuzzy
-msgid "JPEG comment"
-msgstr "Comentario del usuario"
+msgid "Digital zoom not used"
+msgstr "Relación de zoom digital"
 
-#: src/actions.cpp:782
+#: src/nikonmn.cpp:1298
 #, fuzzy
-msgid "Preview"
-msgstr "Versión Exif"
+msgid "Dynamic area"
+msgstr "formato planar"
 
-#: src/actions.cpp:786 src/actions.cpp:1126
-msgid "pixels"
-msgstr ""
-
-#: src/actions.cpp:788 src/actions.cpp:1128
+#: src/nikonmn.cpp:1302
 #, fuzzy
-msgid "bytes"
-msgstr "Centímetro"
-
-#: src/actions.cpp:835
-#, fuzzy
-msgid "Neither tag"
-msgstr "Otro"
-
-#: src/actions.cpp:836
-#, fuzzy
-msgid "nor"
-msgstr "normal"
-
-#: src/actions.cpp:837
-#, fuzzy
-msgid "found in the file"
-msgstr "El flash no disparó."
-
-#: src/actions.cpp:842
-msgid "Image file creation timestamp not set in the file"
-msgstr ""
-
-#: src/actions.cpp:848 src/actions.cpp:1605
-msgid "Failed to parse timestamp"
-msgstr ""
-
-#: src/actions.cpp:849
-#, fuzzy
-msgid "in the file"
-msgstr "El flash no disparó."
-
-#: src/actions.cpp:860
-msgid "Updating timestamp to"
-msgstr ""
-
-#: src/actions.cpp:954
-#, fuzzy
-msgid "Erasing thumbnail data"
-msgstr "Desplazamiento de tira"
+msgid "Dynamic area (wide)"
+msgstr "Balance de blanco"
 
 #: src/actions.cpp:962
 msgid "Erasing Exif data from the file"
@@ -255,602 +610,314 @@ msgstr ""
 msgid "Erasing XMP data from the file"
 msgstr ""
 
-#: src/actions.cpp:1061
-msgid "Image does not contain an Exif thumbnail\n"
-msgstr ""
-
-#: src/actions.cpp:1070
+#: src/actions.cpp:954
 #, fuzzy
-msgid "Writing thumbnail"
+msgid "Erasing thumbnail data"
 msgstr "Desplazamiento de tira"
 
-#: src/actions.cpp:1071 src/actions.cpp:1129
+#: src/exiv2.cpp:461
 #, fuzzy
-msgid "to file"
-msgstr "Espacio de color"
+msgid "Error parsing"
+msgstr "Índice de exposición"
+
+#: src/exiv2.cpp:806
+msgid "Error parsing -M option arguments\n"
+msgstr ""
+
+#: src/exiv2.cpp:432
+msgid "Error parsing -a option argument"
+msgstr ""
+
+#: src/exiv2.cpp:799
+msgid "Error parsing -m option arguments\n"
+msgstr ""
+
+#: src/actions.cpp:378
+#, fuzzy
+msgid "Exif Resolution"
+msgstr "Resolución Y"
+
+#: src/actions.cpp:432
+msgid "Exif comment"
+msgstr ""
 
 #: src/actions.cpp:1077
 msgid "Exif data doesn't contain a thumbnail\n"
 msgstr ""
 
-#: src/actions.cpp:1107 src/actions.cpp:1133
-msgid "Image does not have preview"
-msgstr ""
-
-#: src/actions.cpp:1122
-msgid "Writing preview"
-msgstr ""
-
-#: src/actions.cpp:1293
+#: src/actions.cpp:326
 #, fuzzy
-msgid "Setting JPEG comment"
-msgstr "Comentario del usuario"
+msgid "Exposure bias"
+msgstr "Ajuste de exposición"
 
-#: src/actions.cpp:1334
-msgid "Add"
+#: src/actions.cpp:366
+#, fuzzy
+msgid "Exposure mode"
+msgstr "Modo de exposición"
+
+#: src/actions.cpp:304
+#, fuzzy
+msgid "Exposure time"
+msgstr "Tiempo de exposición"
+
+#: src/exiv2.cpp:967
+msgid "Failed to open command file for reading\n"
 msgstr ""
 
-#: src/actions.cpp:1356 src/actions.cpp:1430
-#, fuzzy
-msgid "Warning"
-msgstr "Nitidez"
+#: src/actions.cpp:254 src/actions.cpp:488 src/actions.cpp:750
+#: src/actions.cpp:767 src/actions.cpp:812 src/actions.cpp:902
+#: src/actions.cpp:1045 src/actions.cpp:1087 src/actions.cpp:1156
+#: src/actions.cpp:1198 src/actions.cpp:1203 src/actions.cpp:1223
+#: src/actions.cpp:1228 src/actions.cpp:1260 src/actions.cpp:1503
+#: src/actions.cpp:1639 src/actions.cpp:1704 src/actions.cpp:1876
+msgid "Failed to open the file\n"
+msgstr ""
+
+#: src/actions.cpp:848 src/actions.cpp:1605
+msgid "Failed to parse timestamp"
+msgstr ""
 
 #: src/actions.cpp:1357 src/actions.cpp:1431
 #, fuzzy
 msgid "Failed to read"
 msgstr "Fuente de archivo"
 
-#: src/actions.cpp:1359 src/actions.cpp:1433
+#: src/actions.cpp:2033
+msgid "Failed to rename"
+msgstr ""
+
+#: src/olympusmn.cpp:1067
 #, fuzzy
-msgid "value"
-msgstr "creativo"
-
-#: src/actions.cpp:1370
-#, fuzzy
-msgid "Set"
-msgstr "Área del sujeto"
-
-#: src/actions.cpp:1442
-msgid "Del"
-msgstr ""
-
-#: src/actions.cpp:1474
-msgid "Reg "
-msgstr ""
-
-#: src/actions.cpp:1558
-msgid "Timestamp of metadatum with key"
-msgstr ""
-
-#: src/actions.cpp:1559
-msgid "not set\n"
-msgstr ""
-
-#: src/actions.cpp:1564
-msgid "Adjusting"
-msgstr ""
-
-#: src/actions.cpp:1564
-msgid "by"
-msgstr ""
-
-#: src/actions.cpp:1568 src/actions.cpp:1617
-#, fuzzy
-msgid "years"
-msgstr "Centímetro"
-
-#: src/actions.cpp:1571
-msgid "year"
-msgstr ""
-
-#: src/actions.cpp:1579
-#, fuzzy
-msgid "months"
-msgstr "Punto blanco"
-
-#: src/actions.cpp:1582
-#, fuzzy
-msgid "month"
-msgstr "Lugar"
-
-#: src/actions.cpp:1590
-msgid "days"
-msgstr ""
-
-#: src/actions.cpp:1593
-msgid "day"
-msgstr ""
-
-#: src/actions.cpp:1599
-msgid "s"
-msgstr ""
-
-#: src/actions.cpp:1615
-msgid "Can't adjust timestamp by"
-msgstr ""
-
-#: src/actions.cpp:1624 src/actions.cpp:1900 src/actions.cpp:1908
-#: src/actions.cpp:1916 src/actions.cpp:1925 src/actions.cpp:2034
-#, fuzzy
-msgid "to"
-msgstr "acción"
-
-#: src/actions.cpp:1659
-msgid "Standard Exif ISO tag exists; not modified\n"
-msgstr ""
-
-#: src/actions.cpp:1667
-msgid "Setting Exif ISO value to"
-msgstr ""
-
-#: src/actions.cpp:1723
-msgid "No Exif user comment found"
-msgstr ""
-
-#: src/actions.cpp:1731
-msgid "Found Exif user comment with unexpected value type"
-msgstr ""
-
-#: src/actions.cpp:1738
-msgid "No Exif UNICODE user comment found"
-msgstr ""
-
-#: src/actions.cpp:1744
-#, fuzzy
-msgid "Setting Exif UNICODE user comment to"
-msgstr "Comentario del usuario"
-
-#: src/actions.cpp:1899
-msgid "Writing Exif data from"
-msgstr ""
-
-#: src/actions.cpp:1907
-msgid "Writing IPTC data from"
-msgstr ""
-
-#: src/actions.cpp:1915
-msgid "Writing XMP data from"
-msgstr ""
-
-#: src/actions.cpp:1924
-msgid "Writing JPEG comment from"
-msgstr ""
-
-#: src/actions.cpp:1934
-msgid "Could not write metadata to file"
-msgstr ""
-
-#: src/actions.cpp:1960
-msgid "Filename format yields empty filename for the file"
-msgstr ""
-
-#: src/actions.cpp:1969
-msgid "This file already has the correct name"
-msgstr ""
+msgid "Fast"
+msgstr "Flash"
 
 #: src/actions.cpp:1993 src/exiv2.cpp:168
 #, fuzzy
 msgid "File"
 msgstr "Orden de llenado"
 
-#: src/actions.cpp:1994
-msgid "exists. [O]verwrite, [r]ename or [s]kip?"
-msgstr ""
-
-#: src/actions.cpp:2022
+#: src/actions.cpp:264
 #, fuzzy
-msgid "Renaming file to"
-msgstr "Método de sensado"
+msgid "File name"
+msgstr "Nombre del documento"
 
-#: src/actions.cpp:2024
-msgid "updating timestamp"
+#: src/actions.cpp:270
+#, fuzzy
+msgid "File size"
+msgstr "Fuente de archivo"
+
+#: src/actions.cpp:1960
+msgid "Filename format yields empty filename for the file"
 msgstr ""
 
-#: src/actions.cpp:2033
-msgid "Failed to rename"
+#: src/actions.cpp:329
+msgid "Flash"
+msgstr "Flash"
+
+#: src/actions.cpp:332
+#, fuzzy
+msgid "Flash bias"
+msgstr "El flash disparó."
+
+#: src/actions.cpp:337
+#, fuzzy
+msgid "Focal length"
+msgstr "Distancia focal"
+
+#: src/actions.cpp:1731
+msgid "Found Exif user comment with unexpected value type"
 msgstr ""
 
-#: src/actions.cpp:2055
-msgid "Overwrite"
+#: src/nikonmn.cpp:1300
+msgid "Group dynamic-AF"
 msgstr ""
 
 #: src/crwimage.cpp:663
 msgid "Header, offset"
 msgstr ""
 
-#: src/crwimage.cpp:680
+#: src/olympusmn.cpp:1052
 #, fuzzy
-msgid "tag"
-msgstr "promedio"
+msgid "High"
+msgstr "Luz de día"
 
-#: src/crwimage.cpp:682
-msgid "dir"
-msgstr ""
-
-#: src/crwimage.cpp:684
+#: src/olympusmn.cpp:1025
 #, fuzzy
-msgid "type"
-msgstr "Escena nocturna"
+msgid "High Key"
+msgstr "Luz de día"
 
-#: src/crwimage.cpp:685
+#: src/actions.cpp:363
 #, fuzzy
-msgid "size"
-msgstr "Fuente de archivo"
+msgid "ISO speed"
+msgstr "Velocidad ISO"
 
-#: src/crwimage.cpp:686
+#: src/exiv2.cpp:401 src/exiv2.cpp:454
+msgid "Ignoring surplus option"
+msgstr ""
+
+#: src/exiv2.cpp:546
+msgid "Ignoring surplus option -P"
+msgstr ""
+
+#: src/exiv2.cpp:426
+msgid "Ignoring surplus option -a"
+msgstr ""
+
+#: src/exiv2.cpp:502
+msgid "Ignoring surplus option -p"
+msgstr ""
+
+#: src/actions.cpp:1061
+msgid "Image does not contain an Exif thumbnail\n"
+msgstr ""
+
+#: src/actions.cpp:1107 src/actions.cpp:1133
+msgid "Image does not have preview"
+msgstr ""
+
+#: src/actions.cpp:842
+msgid "Image file creation timestamp not set in the file"
+msgstr ""
+
+#: src/actions.cpp:299
 #, fuzzy
-msgid "offset"
-msgstr "Suave"
+msgid "Image number"
+msgstr "ID único de imagen"
 
-#: src/exiv2.cpp:209
-msgid "Copyright (C) 2004-2010 Andreas Huggel.\n"
+#: src/actions.cpp:375
+#, fuzzy
+msgid "Image quality"
+msgstr "Ancho de la imagen"
+
+#: src/actions.cpp:279
+#, fuzzy
+msgid "Image size"
+msgstr "Ancho de la imagen"
+
+#: src/actions.cpp:295
+#, fuzzy
+msgid "Image timestamp"
+msgstr "Ancho de la imagen"
+
+#: src/tags.cpp:2658 src/tags.cpp:2659 src/tags.cpp:2667
+msgid "Infinity"
 msgstr ""
 
-#: src/exiv2.cpp:211
-msgid ""
-"This program is free software; you can redistribute it and/or\n"
-"modify it under the terms of the GNU General Public License\n"
-"as published by the Free Software Foundation; either version 2\n"
-"of the License, or (at your option) any later version.\n"
+#: src/exiv2.cpp:1031
+msgid "Invalid command"
 msgstr ""
 
-#: src/exiv2.cpp:216
-msgid ""
-"This program is distributed in the hope that it will be useful,\n"
-"but WITHOUT ANY WARRANTY; without even the implied warranty of\n"
-"MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the\n"
-"GNU General Public License for more details.\n"
+#: src/exiv2.cpp:1024 src/exiv2.cpp:1083 src/exiv2.cpp:1093
+msgid "Invalid command line"
 msgstr ""
 
-#: src/exiv2.cpp:221
-msgid ""
-"You should have received a copy of the GNU General Public\n"
-"License along with this program; if not, write to the Free\n"
-"Software Foundation, Inc., 51 Franklin Street, Fifth Floor,\n"
-"Boston, MA 02110-1301 USA\n"
+#: src/actions.cpp:561 src/exiv2.cpp:1064
+msgid "Invalid key"
 msgstr ""
 
-#: src/exiv2.cpp:229
-msgid "Usage:"
+#: src/exiv2.cpp:935
+#, fuzzy
+msgid "Invalid preview number"
+msgstr "El número F."
+
+#: src/actions.cpp:757
+#, fuzzy
+msgid "JPEG comment"
+msgstr "Comentario del usuario"
+
+#: src/olympusmn.cpp:1080
+#, fuzzy
+msgid "Left to right"
+msgstr "abajo - derecha"
+
+#: src/olympusmn.cpp:1050
+msgid "Low"
 msgstr ""
 
-#: src/exiv2.cpp:230
-msgid ""
-"[ options ] [ action ] file ...\n"
-"\n"
+#: src/olympusmn.cpp:1023
+msgid "Low Key"
 msgstr ""
+
+#: src/actions.cpp:275
+#, fuzzy
+msgid "MIME type"
+msgstr "Ancho de la imagen"
+
+#: src/actions.cpp:372
+#, fuzzy
+msgid "Macro mode"
+msgstr "Macro"
 
 #: src/exiv2.cpp:231
 msgid "Manipulate the Exif metadata of images.\n"
 msgstr ""
 
-#: src/exiv2.cpp:237
-msgid ""
-"\n"
-"Actions:\n"
-msgstr ""
-
-#: src/exiv2.cpp:238
-msgid ""
-"  ad | adjust   Adjust Exif timestamps by the given time. This action\n"
-"                requires at least one of the -a, -Y, -O or -D options.\n"
-msgstr ""
-
-#: src/exiv2.cpp:240
-msgid "  pr | print    Print image metadata.\n"
-msgstr ""
-
-#: src/exiv2.cpp:241
-msgid "  rm | delete   Delete image metadata from the files.\n"
-msgstr ""
-
-#: src/exiv2.cpp:242
-msgid ""
-"  in | insert   Insert metadata from corresponding *.exv files.\n"
-"                Use option -S to change the suffix of the input files.\n"
-msgstr ""
-
-#: src/exiv2.cpp:244
-msgid ""
-"  ex | extract  Extract metadata to *.exv, *.xmp and thumbnail image files.\n"
-msgstr ""
-
-#: src/exiv2.cpp:245
-msgid ""
-"  mv | rename   Rename files and/or set file timestamps according to the\n"
-"                Exif create timestamp. The filename format can be set with\n"
-"                -r format, timestamp options are controlled with -t and -T.\n"
-msgstr ""
-
-#: src/exiv2.cpp:248
-msgid ""
-"  mo | modify   Apply commands to modify (add, set, delete) the Exif and\n"
-"                IPTC metadata of image files or set the JPEG comment.\n"
-"                Requires option -c, -m or -M.\n"
-msgstr ""
-
-#: src/exiv2.cpp:251
-msgid ""
-"  fi | fixiso   Copy ISO setting from the Nikon Makernote to the regular\n"
-"                Exif tag.\n"
-msgstr ""
-
-#: src/exiv2.cpp:253
-msgid ""
-"  fc | fixcom   Convert the UNICODE Exif user comment to UCS-2. Its current\n"
-"                character encoding can be specified with the -n option.\n"
-msgstr ""
-
-#: src/exiv2.cpp:255
-msgid ""
-"\n"
-"Options:\n"
-msgstr ""
-
-#: src/exiv2.cpp:256
-msgid "   -h      Display this help and exit.\n"
-msgstr ""
-
-#: src/exiv2.cpp:257
-msgid "   -V      Show the program version and exit.\n"
-msgstr ""
-
-#: src/exiv2.cpp:258
-msgid "   -v      Be verbose during the program run.\n"
-msgstr ""
-
-#: src/exiv2.cpp:259
-msgid "   -b      Show large binary values.\n"
-msgstr ""
-
-#: src/exiv2.cpp:260
-msgid "   -u      Show unknown tags.\n"
-msgstr ""
-
-#: src/exiv2.cpp:261
-msgid "   -g key  Only output info for this key (grep).\n"
-msgstr ""
-
-#: src/exiv2.cpp:262
-msgid "   -n enc  Charset to use to decode UNICODE Exif user comments.\n"
-msgstr ""
-
-#: src/exiv2.cpp:263
-msgid "   -k      Preserve file timestamps (keep).\n"
-msgstr ""
-
-#: src/exiv2.cpp:264
-msgid ""
-"   -t      Also set the file timestamp in 'rename' action (overrides -k).\n"
-msgstr ""
-
-#: src/exiv2.cpp:265
-msgid ""
-"   -T      Only set the file timestamp in 'rename' action, do not rename\n"
-"           the file (overrides -k).\n"
-msgstr ""
-
-#: src/exiv2.cpp:267
-msgid "   -f      Do not prompt before overwriting existing files (force).\n"
-msgstr ""
-
-#: src/exiv2.cpp:268
-msgid "   -F      Do not prompt before renaming files (Force).\n"
-msgstr ""
-
-#: src/exiv2.cpp:269
-msgid ""
-"   -a time Time adjustment in the format [-]HH[:MM[:SS]]. This option\n"
-"           is only used with the 'adjust' action.\n"
-msgstr ""
-
-#: src/exiv2.cpp:271
-msgid "   -Y yrs  Year adjustment with the 'adjust' action.\n"
-msgstr ""
-
-#: src/exiv2.cpp:272
-msgid "   -O mon  Month adjustment with the 'adjust' action.\n"
-msgstr ""
-
-#: src/exiv2.cpp:273
-msgid "   -D day  Day adjustment with the 'adjust' action.\n"
-msgstr ""
-
-#: src/exiv2.cpp:274
-msgid "   -p mode Print mode for the 'print' action. Possible modes are:\n"
-msgstr ""
-
-#: src/exiv2.cpp:275
-msgid "             s : print a summary of the Exif metadata (the default)\n"
-msgstr ""
-
-#: src/exiv2.cpp:276
-msgid ""
-"             a : print Exif, IPTC and XMP metadata (shortcut for -Pkyct)\n"
-msgstr ""
+#: src/sigmamn.cpp:154
+msgid "Manual"
+msgstr "Manual"
 
-#: src/exiv2.cpp:277
-msgid "             t : interpreted (translated) Exif data (-PEkyct)\n"
-msgstr ""
-
-#: src/exiv2.cpp:278
-msgid "             v : plain Exif data values (-PExgnycv)\n"
-msgstr ""
-
-#: src/exiv2.cpp:279
-msgid "             h : hexdump of the Exif data (-PExgnycsh)\n"
-msgstr ""
-
-#: src/exiv2.cpp:280
-msgid "             i : IPTC data values (-PIkyct)\n"
-msgstr ""
-
-#: src/exiv2.cpp:281
-msgid "             x : XMP properties (-PXkyct)\n"
-msgstr ""
-
-#: src/exiv2.cpp:282 src/exiv2.cpp:305
-msgid "             c : JPEG comment\n"
-msgstr ""
-
-#: src/exiv2.cpp:283
-msgid "             p : list available previews\n"
-msgstr ""
-
-#: src/exiv2.cpp:284
-msgid ""
-"   -P flgs Print flags for fine control of tag lists ('print' action):\n"
-msgstr ""
-
-#: src/exiv2.cpp:285
-msgid "             E : include Exif tags in the list\n"
-msgstr ""
-
-#: src/exiv2.cpp:286
-msgid "             I : IPTC datasets\n"
-msgstr ""
-
-#: src/exiv2.cpp:287
-msgid "             X : XMP properties\n"
-msgstr ""
-
-#: src/exiv2.cpp:288
-msgid "             x : print a column with the tag number\n"
-msgstr ""
-
-#: src/exiv2.cpp:289
-msgid "             g : group name\n"
-msgstr ""
-
-#: src/exiv2.cpp:290
-msgid "             k : key\n"
-msgstr ""
-
-#: src/exiv2.cpp:291
-msgid "             l : tag label\n"
-msgstr ""
+#: src/actions.cpp:369
+#, fuzzy
+msgid "Metering mode"
+msgstr "Modo de métrica"
 
-#: src/exiv2.cpp:292
-msgid "             n : tag name\n"
+#: src/exiv2.cpp:789
+msgid "Modify action requires at least one -c, -m or -M option\n"
 msgstr ""
 
-#: src/exiv2.cpp:293
-msgid "             y : type\n"
-msgstr ""
-
-#: src/exiv2.cpp:294
-msgid "             c : number of components (count)\n"
-msgstr ""
-
-#: src/exiv2.cpp:295
-msgid "             s : size in bytes\n"
-msgstr ""
-
-#: src/exiv2.cpp:296
-msgid "             v : plain data value\n"
-msgstr ""
-
-#: src/exiv2.cpp:297
-msgid "             t : interpreted (translated) data\n"
-msgstr ""
-
-#: src/exiv2.cpp:298
-msgid "             h : hexdump of the data\n"
-msgstr ""
-
-#: src/exiv2.cpp:299
-msgid ""
-"   -d tgt  Delete target(s) for the 'delete' action. Possible targets are:\n"
-msgstr ""
-
-#: src/exiv2.cpp:300
-msgid "             a : all supported metadata (the default)\n"
-msgstr ""
+#: src/actions.cpp:835
+#, fuzzy
+msgid "Neither tag"
+msgstr "Otro"
 
-#: src/exiv2.cpp:301
-msgid "             e : Exif section\n"
+#: src/actions.cpp:1738
+msgid "No Exif UNICODE user comment found"
 msgstr ""
 
-#: src/exiv2.cpp:302
-msgid "             t : Exif thumbnail only\n"
+#: src/actions.cpp:284 src/actions.cpp:526 src/actions.cpp:577
+#: src/actions.cpp:825 src/actions.cpp:1054 src/actions.cpp:1516
+#: src/actions.cpp:1652 src/actions.cpp:1717
+msgid "No Exif data found in the file\n"
 msgstr ""
 
-#: src/exiv2.cpp:303
-msgid "             i : IPTC data\n"
+#: src/actions.cpp:1723
+msgid "No Exif user comment found"
 msgstr ""
 
-#: src/exiv2.cpp:304
-msgid "             x : XMP packet\n"
-msgstr ""
-
-#: src/exiv2.cpp:306
-msgid ""
-"   -i tgt  Insert target(s) for the 'insert' action. Possible targets are\n"
-"           the same as those for the -d option, plus a modifier:\n"
-"             X : Insert metadata from an XMP sidecar file <file>.xmp\n"
-"           Only JPEG thumbnails can be inserted, they need to be named\n"
-"           <file>-thumb.jpg\n"
-msgstr ""
-
-#: src/exiv2.cpp:311
-msgid ""
-"   -e tgt  Extract target(s) for the 'extract' action. Possible targets\n"
-"           are the same as those for the -d option, plus a target to "
-"extract\n"
-"           preview images and a modifier to generate an XMP sidecar file:\n"
-"             p[<n>[,<m> ...]] : Extract preview images.\n"
-"             X : Extract metadata to an XMP sidecar file <file>.xmp\n"
-msgstr ""
-
-#: src/exiv2.cpp:316
-msgid ""
-"   -r fmt  Filename format for the 'rename' action. The format string\n"
-"           follows strftime(3). The following keywords are supported:\n"
-msgstr ""
+#: src/actions.cpp:540 src/actions.cpp:590
+#, fuzzy
+msgid "No IPTC data found in the file\n"
+msgstr "El flash no disparó."
 
-#: src/exiv2.cpp:318
-msgid "             :basename:   - original filename without extension\n"
-msgstr ""
-
-#: src/exiv2.cpp:319
-msgid ""
-"             :dirname:    - name of the directory holding the original file\n"
-msgstr ""
-
-#: src/exiv2.cpp:320
-msgid "             :parentname: - name of parent directory\n"
-msgstr ""
+#: src/actions.cpp:554 src/actions.cpp:603
+#, fuzzy
+msgid "No XMP data found in the file\n"
+msgstr "El flash no disparó."
 
-#: src/exiv2.cpp:321
-msgid "           Default filename format is "
-msgstr ""
+#: src/pentaxmn.cpp:752
+#, fuzzy
+msgid "No extended bracketing"
+msgstr "Balance de blanco"
 
-#: src/exiv2.cpp:323
-msgid "   -c txt  JPEG comment string to set in the image.\n"
+#: src/actions.cpp:414 src/actions.cpp:419 src/olympusmn.cpp:1097
+msgid "None"
 msgstr ""
 
-#: src/exiv2.cpp:324
-msgid ""
-"   -m file Command file for the modify action. The format for commands is\n"
-"           set|add|del <key> [[<type>] <value>].\n"
-msgstr ""
+#: src/olympusmn.cpp:1024 src/olympusmn.cpp:1066
+msgid "Normal"
+msgstr "Normal"
 
-#: src/exiv2.cpp:326
-msgid ""
-"   -M cmd  Command line for the modify action. The format for the\n"
-"           commands is the same as that of the lines of a command file.\n"
-msgstr ""
+#: src/nikonmn.cpp:313 src/nikonmn.cpp:494 src/nikonmn.cpp:1254
+#, fuzzy
+msgid "Not used"
+msgstr "No definido"
 
-#: src/exiv2.cpp:328
-msgid ""
-"   -l dir  Location (directory) for files to be inserted from or extracted "
-"to.\n"
+#: src/olympusmn.cpp:1049
+msgid "Off"
 msgstr ""
 
-#: src/exiv2.cpp:329
-msgid ""
-"   -S .suf Use suffix .suf for source files for insert command.\n"
-"\n"
+#: src/olympusmn.cpp:1136
+msgid "One-touch"
 msgstr ""
 
 #: src/exiv2.cpp:364 src/exiv2.cpp:410 src/exiv2.cpp:469 src/exiv2.cpp:656
@@ -858,70 +925,12 @@ msgstr ""
 msgid "Option"
 msgstr "acción"
 
-#: src/exiv2.cpp:365
-msgid "requires an argument\n"
-msgstr ""
-
-#: src/exiv2.cpp:369
-msgid "Unrecognized option"
-msgstr ""
-
-#: src/exiv2.cpp:375
-msgid "getopt returned unexpected character code"
-msgstr ""
-
-#: src/exiv2.cpp:401 src/exiv2.cpp:454
-msgid "Ignoring surplus option"
-msgstr ""
-
-#: src/exiv2.cpp:411 src/exiv2.cpp:471 src/exiv2.cpp:657
-msgid "is not compatible with a previous option\n"
-msgstr ""
-
-#: src/exiv2.cpp:426
-msgid "Ignoring surplus option -a"
-msgstr ""
-
-#: src/exiv2.cpp:432
-msgid "Error parsing -a option argument"
+#: src/exiv2.cpp:550
+msgid "Option -P is not compatible with a previous option\n"
 msgstr ""
 
 #: src/exiv2.cpp:439
 msgid "Option -a is not compatible with a previous option\n"
-msgstr ""
-
-#: src/exiv2.cpp:461
-#, fuzzy
-msgid "Error parsing"
-msgstr "Índice de exposición"
-
-#: src/exiv2.cpp:463
-#, fuzzy
-msgid "option argument"
-msgstr "Nombre del documento"
-
-#: src/exiv2.cpp:494
-msgid "Unrecognized print mode"
-msgstr ""
-
-#: src/exiv2.cpp:502
-msgid "Ignoring surplus option -p"
-msgstr ""
-
-#: src/exiv2.cpp:506
-msgid "Option -p is not compatible with a previous option\n"
-msgstr ""
-
-#: src/exiv2.cpp:537
-msgid "Unrecognized print item"
-msgstr ""
-
-#: src/exiv2.cpp:546
-msgid "Ignoring surplus option -P"
-msgstr ""
-
-#: src/exiv2.cpp:550
-msgid "Option -P is not compatible with a previous option\n"
 msgstr ""
 
 #: src/exiv2.cpp:577
@@ -936,120 +945,86 @@ msgstr ""
 msgid "Option -i is not compatible with a previous option\n"
 msgstr ""
 
-#: src/exiv2.cpp:674
-msgid "Action adjust is not compatible with the given options\n"
+#: src/exiv2.cpp:506
+msgid "Option -p is not compatible with a previous option\n"
 msgstr ""
 
-#: src/exiv2.cpp:683
-msgid "Action print is not compatible with the given options\n"
+#: src/actions.cpp:2055
+msgid "Overwrite"
 msgstr ""
 
-#: src/exiv2.cpp:692
-msgid "Action delete is not compatible with the given options\n"
-msgstr ""
-
-#: src/exiv2.cpp:703
-msgid "Action extract is not compatible with the given options\n"
-msgstr ""
-
-#: src/exiv2.cpp:714
-msgid "Action insert is not compatible with the given options\n"
-msgstr ""
-
-#: src/exiv2.cpp:723
-msgid "Action rename is not compatible with the given options\n"
-msgstr ""
-
-#: src/exiv2.cpp:732
-msgid "Action modify is not compatible with the given options\n"
-msgstr ""
-
-#: src/exiv2.cpp:741
-msgid "Action fixiso is not compatible with the given options\n"
-msgstr ""
-
-#: src/exiv2.cpp:750
-msgid "Action fixcom is not compatible with the given options\n"
-msgstr ""
-
-#: src/exiv2.cpp:774
-msgid "An action must be specified\n"
-msgstr ""
-
-#: src/exiv2.cpp:783
-msgid "Adjust action requires at least one -a, -Y, -O or -D option\n"
-msgstr ""
-
-#: src/exiv2.cpp:789
-msgid "Modify action requires at least one -c, -m or -M option\n"
-msgstr ""
-
-#: src/exiv2.cpp:793
-msgid "At least one file is required\n"
-msgstr ""
-
-#: src/exiv2.cpp:799
-msgid "Error parsing -m option arguments\n"
-msgstr ""
-
-#: src/exiv2.cpp:806
-msgid "Error parsing -M option arguments\n"
-msgstr ""
-
-#: src/exiv2.cpp:813
-msgid "-l option can only be used with extract or insert actions\n"
-msgstr ""
-
-#: src/exiv2.cpp:818
-msgid "-S option can only be used with insert action\n"
-msgstr ""
-
-#: src/exiv2.cpp:823
-msgid "-t option can only be used with rename action\n"
-msgstr ""
-
-#: src/exiv2.cpp:828
-msgid "-T option can only be used with rename action\n"
-msgstr ""
-
-#: src/exiv2.cpp:908
-msgid "Unrecognized "
-msgstr ""
-
-#: src/exiv2.cpp:909
+#: src/olympusmn.cpp:1068
 #, fuzzy
-msgid "target"
-msgstr "promedio"
+msgid "Panorama"
+msgstr "normal"
 
-#: src/exiv2.cpp:935
+#: src/actions.cpp:782
 #, fuzzy
-msgid "Invalid preview number"
+msgid "Preview"
+msgstr "Versión Exif"
+
+#: src/sigmamn.cpp:151
+#, fuzzy
+msgid "Program"
+msgstr "Modo de exposición"
+
+#: src/actions.cpp:1474
+msgid "Reg "
+msgstr ""
+
+#: src/actions.cpp:2022
+#, fuzzy
+msgid "Renaming file to"
+msgstr "Método de sensado"
+
+#: src/olympusmn.cpp:1081
+#, fuzzy
+msgid "Right to left"
+msgstr "derecha - arriba"
+
+#: src/pentaxmn.cpp:764
+msgid "Saturation"
+msgstr "Saturación"
+
+#: src/olympusmn.cpp:1074
+#, fuzzy
+msgid "Sequence number"
 msgstr "El número F."
 
-#: src/exiv2.cpp:967
-msgid "Failed to open command file for reading\n"
-msgstr ""
-
-#: src/exiv2.cpp:980
+#: src/actions.cpp:1370
 #, fuzzy
-msgid "line"
-msgstr "pulg"
+msgid "Set"
+msgstr "Área del sujeto"
 
-#: src/exiv2.cpp:1003
+#: src/actions.cpp:1667
+msgid "Setting Exif ISO value to"
+msgstr ""
+
+#: src/actions.cpp:1744
 #, fuzzy
-msgid "-M option"
-msgstr "acción"
+msgid "Setting Exif UNICODE user comment to"
+msgstr "Comentario del usuario"
 
-#: src/exiv2.cpp:1024 src/exiv2.cpp:1083 src/exiv2.cpp:1093
-msgid "Invalid command line"
-msgstr ""
+#: src/actions.cpp:1293
+#, fuzzy
+msgid "Setting JPEG comment"
+msgstr "Comentario del usuario"
 
-#: src/exiv2.cpp:1031
-msgid "Invalid command"
-msgstr ""
+#: src/pentaxmn.cpp:767
+msgid "Sharpness"
+msgstr "Nitidez"
 
-#: src/nikonmn.cpp:279 src/nikonmn.cpp:1154
-msgid "Continuous autofocus"
+#: src/sigmamn.cpp:153
+msgid "Shutter priority"
+msgstr "Prioridad del obturador"
+
+#: src/nikonmn.cpp:1297
+#, fuzzy
+msgid "Single area"
+msgstr "Nombre del documento"
+
+#: src/nikonmn.cpp:1301
+msgid "Single area (wide)"
 msgstr ""
 
 #: src/nikonmn.cpp:280 src/nikonmn.cpp:1155
@@ -1057,176 +1032,18 @@ msgstr ""
 msgid "Single autofocus"
 msgstr "Exposición automática"
 
-#: src/nikonmn.cpp:291 src/nikonmn.cpp:1232 src/nikonmn.cpp:2111
-#: src/tags.cpp:2653 src/tags.cpp:2766
-msgid "Unknown"
-msgstr "Desconocido"
-
-#: src/nikonmn.cpp:313 src/nikonmn.cpp:494 src/nikonmn.cpp:1254
-#, fuzzy
-msgid "Not used"
-msgstr "No definido"
-
-#: src/nikonmn.cpp:353
-#, fuzzy
-msgid "guess"
-msgstr "Fuente de archivo"
-
-#: src/nikonmn.cpp:1297
-#, fuzzy
-msgid "Single area"
-msgstr "Nombre del documento"
-
-#: src/nikonmn.cpp:1298
-#, fuzzy
-msgid "Dynamic area"
-msgstr "formato planar"
-
-#: src/nikonmn.cpp:1299
-msgid "Closest subject"
-msgstr ""
-
-#: src/nikonmn.cpp:1300
-msgid "Group dynamic-AF"
-msgstr ""
-
-#: src/nikonmn.cpp:1301
-msgid "Single area (wide)"
-msgstr ""
-
-#: src/nikonmn.cpp:1302
-#, fuzzy
-msgid "Dynamic area (wide)"
-msgstr "Balance de blanco"
-
-#: src/nikonmn.cpp:1323
-msgid "none"
-msgstr ""
-
-#: src/nikonmn.cpp:1333
-#, fuzzy
-msgid "used"
-msgstr "No definido"
-
-#: src/nikonmn.cpp:1359
-#, fuzzy
-msgid "All 11 Points"
-msgstr "Punto blanco"
-
 #: src/nikonmn.cpp:1374 src/nikonmn.cpp:1375
 #, fuzzy
 msgid "Single-frame"
 msgstr "Nombre del documento"
 
-#: src/olympusmn.cpp:1023
-msgid "Low Key"
-msgstr ""
-
-#: src/olympusmn.cpp:1024 src/olympusmn.cpp:1066
-msgid "Normal"
-msgstr "Normal"
-
-#: src/olympusmn.cpp:1025
+#: src/panasonicmn.cpp:301
 #, fuzzy
-msgid "High Key"
-msgstr "Luz de día"
+msgid "Spot focussing"
+msgstr "Lugar"
 
-#: src/olympusmn.cpp:1030
-#, fuzzy
-msgid "User-Selected"
-msgstr "Auto bracket"
-
-#: src/olympusmn.cpp:1031
-msgid "Auto-Override"
-msgstr ""
-
-#: src/olympusmn.cpp:1049
-msgid "Off"
-msgstr ""
-
-#: src/olympusmn.cpp:1050
-msgid "Low"
-msgstr ""
-
-#: src/olympusmn.cpp:1051
-msgid "Standard"
-msgstr "Estándar"
-
-#: src/olympusmn.cpp:1052
-#, fuzzy
-msgid "High"
-msgstr "Luz de día"
-
-#: src/olympusmn.cpp:1067
-#, fuzzy
-msgid "Fast"
-msgstr "Flash"
-
-#: src/olympusmn.cpp:1068
-#, fuzzy
-msgid "Panorama"
-msgstr "normal"
-
-#: src/olympusmn.cpp:1074
-#, fuzzy
-msgid "Sequence number"
-msgstr "El número F."
-
-#: src/olympusmn.cpp:1080
-#, fuzzy
-msgid "Left to right"
-msgstr "abajo - derecha"
-
-#: src/olympusmn.cpp:1081
-#, fuzzy
-msgid "Right to left"
-msgstr "derecha - arriba"
-
-#: src/olympusmn.cpp:1082
-#, fuzzy
-msgid "Bottom to top"
-msgstr "abajo - izquierda"
-
-#: src/olympusmn.cpp:1083
-#, fuzzy
-msgid "Top to bottom"
-msgstr "izquierda - abajo"
-
-#: src/olympusmn.cpp:1112 src/olympusmn.cpp:1118 src/olympusmn.cpp:1119
-#, fuzzy
-msgid "Auto"
-msgstr "acción"
-
-#: src/olympusmn.cpp:1124
-msgid "3000 Kelvin"
-msgstr ""
-
-#: src/olympusmn.cpp:1125
-msgid "3700 Kelvin"
-msgstr ""
-
-#: src/olympusmn.cpp:1126
-msgid "4000 Kelvin"
-msgstr ""
-
-#: src/olympusmn.cpp:1127
-msgid "4500 Kelvin"
-msgstr ""
-
-#: src/olympusmn.cpp:1128
-msgid "5500 Kelvin"
-msgstr ""
-
-#: src/olympusmn.cpp:1129
-msgid "6500 Kelvin"
-msgstr ""
-
-#: src/olympusmn.cpp:1130
-msgid "7500 Kelvin"
-msgstr ""
-
-#: src/olympusmn.cpp:1136
-msgid "One-touch"
+#: src/panasonicmn.cpp:300
+msgid "Spot mode off or 3-area (high speed)"
 msgstr ""
 
 #: src/panasonicmn.cpp:299
@@ -1234,51 +1051,95 @@ msgstr ""
 msgid "Spot mode on"
 msgstr "Retrato"
 
-#: src/panasonicmn.cpp:300
-msgid "Spot mode off or 3-area (high speed)"
+#: src/olympusmn.cpp:1051
+msgid "Standard"
+msgstr "Estándar"
+
+#: src/actions.cpp:1659
+msgid "Standard Exif ISO tag exists; not modified\n"
 msgstr ""
 
-#: src/panasonicmn.cpp:301
+#: src/actions.cpp:352
 #, fuzzy
-msgid "Spot focussing"
-msgstr "Lugar"
+msgid "Subject distance"
+msgstr "Distancia del sujeto"
 
-#: src/panasonicmn.cpp:302
-msgid "5-area"
+#: src/tiffimage.cpp:1618 src/tiffimage.cpp:1639 src/tiffimage.cpp:1743
+msgid "TIFF header, offset"
 msgstr ""
 
-#: src/panasonicmn.cpp:303
-msgid "1-area"
+#: src/actions.cpp:1969
+msgid "This file already has the correct name"
 msgstr ""
 
-#: src/panasonicmn.cpp:304
-msgid "1-area (high speed)"
+#: src/exiv2.cpp:216
+msgid ""
+"This program is distributed in the hope that it will be useful,\n"
+"but WITHOUT ANY WARRANTY; without even the implied warranty of\n"
+"MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the\n"
+"GNU General Public License for more details.\n"
 msgstr ""
 
-#: src/panasonicmn.cpp:305
-msgid "3-area (auto)"
+#: src/exiv2.cpp:211
+msgid ""
+"This program is free software; you can redistribute it and/or\n"
+"modify it under the terms of the GNU General Public License\n"
+"as published by the Free Software Foundation; either version 2\n"
+"of the License, or (at your option) any later version.\n"
 msgstr ""
 
-#: src/panasonicmn.cpp:306
-msgid "3-area (left)"
+#: src/actions.cpp:410
+msgid "Thumbnail"
 msgstr ""
 
-#: src/panasonicmn.cpp:307
-msgid "3-area (center)"
+#: src/actions.cpp:1558
+msgid "Timestamp of metadatum with key"
 msgstr ""
 
-#: src/panasonicmn.cpp:308
-msgid "3-area (right)"
-msgstr ""
-
-#: src/panasonicmn.cpp:320
-msgid " EV"
-msgstr ""
-
-#: src/pentaxmn.cpp:752
+#: src/olympusmn.cpp:1083
 #, fuzzy
-msgid "No extended bracketing"
-msgstr "Balance de blanco"
+msgid "Top to bottom"
+msgstr "izquierda - abajo"
+
+#: src/nikonmn.cpp:291 src/nikonmn.cpp:1232 src/nikonmn.cpp:2111
+#: src/tags.cpp:2655 src/tags.cpp:2768 src/tags.cpp:2656 src/tags.cpp:2769
+#: src/tags.cpp:2664 src/tags.cpp:2777
+msgid "Unknown"
+msgstr "Desconocido"
+
+#: src/pentaxmn.cpp:773
+#, fuzzy
+msgid "Unknown "
+msgstr "Desconocido"
+
+#: src/exiv2.cpp:908
+msgid "Unrecognized "
+msgstr ""
+
+#: src/exiv2.cpp:369
+msgid "Unrecognized option"
+msgstr ""
+
+#: src/exiv2.cpp:537
+msgid "Unrecognized print item"
+msgstr ""
+
+#: src/exiv2.cpp:494
+msgid "Unrecognized print mode"
+msgstr ""
+
+#: src/actions.cpp:860
+msgid "Updating timestamp to"
+msgstr ""
+
+#: src/exiv2.cpp:229
+msgid "Usage:"
+msgstr ""
+
+#: src/olympusmn.cpp:1030
+#, fuzzy
+msgid "User-Selected"
+msgstr "Auto bracket"
 
 #: src/pentaxmn.cpp:758
 msgid "WB-BA"
@@ -1288,74 +1149,214 @@ msgstr ""
 msgid "WB-GM"
 msgstr ""
 
-#: src/pentaxmn.cpp:764
-msgid "Saturation"
-msgstr "Saturación"
-
-#: src/pentaxmn.cpp:767
-msgid "Sharpness"
+#: src/actions.cpp:1356 src/actions.cpp:1430
+#, fuzzy
+msgid "Warning"
 msgstr "Nitidez"
 
-#: src/pentaxmn.cpp:770
-msgid "Contrast"
-msgstr "Contraste"
-
-#: src/pentaxmn.cpp:773
+#: src/actions.cpp:407
 #, fuzzy
-msgid "Unknown "
-msgstr "Desconocido"
+msgid "White balance"
+msgstr "Balance de blanco"
 
-#: src/sigmamn.cpp:151
+#: src/actions.cpp:1899
+msgid "Writing Exif data from"
+msgstr ""
+
+#: src/actions.cpp:1907
+msgid "Writing IPTC data from"
+msgstr ""
+
+#: src/actions.cpp:1924
+msgid "Writing JPEG comment from"
+msgstr ""
+
+#: src/actions.cpp:1915
+msgid "Writing XMP data from"
+msgstr ""
+
+#: src/actions.cpp:1122
+msgid "Writing preview"
+msgstr ""
+
+#: src/actions.cpp:1070
 #, fuzzy
-msgid "Program"
-msgstr "Modo de exposición"
+msgid "Writing thumbnail"
+msgstr "Desplazamiento de tira"
 
-#: src/sigmamn.cpp:152
-msgid "Aperture priority"
-msgstr "Prioridad de apertura"
+#: src/exiv2.cpp:221
+msgid ""
+"You should have received a copy of the GNU General Public\n"
+"License along with this program; if not, write to the Free\n"
+"Software Foundation, Inc., 51 Franklin Street, Fifth Floor,\n"
+"Boston, MA 02110-1301 USA\n"
+msgstr ""
 
-#: src/sigmamn.cpp:153
-msgid "Shutter priority"
-msgstr "Prioridad del obturador"
+#: src/exiv2.cpp:230
+msgid ""
+"[ options ] [ action ] file ...\n"
+"\n"
+msgstr ""
 
-#: src/sigmamn.cpp:154
-msgid "Manual"
-msgstr "Manual"
+#: src/tiffimage.cpp:1624 src/tiffimage.cpp:1645 src/tiffimage.cpp:1749
+msgid "big endian encoded"
+msgstr ""
 
-#: src/sigmamn.cpp:165
-msgid "Average"
-msgstr "Promedio"
+#: src/actions.cpp:1564
+msgid "by"
+msgstr ""
 
-#: src/sigmamn.cpp:166
+#: src/actions.cpp:788 src/actions.cpp:1128
 #, fuzzy
-msgid "Center"
+msgid "bytes"
 msgstr "Centímetro"
 
-#: src/sigmamn.cpp:167
-#, fuzzy
-msgid "8-Segment"
-msgstr "multi-lugar"
-
-#: src/tags.cpp:2656
-msgid "Infinity"
+#: src/actions.cpp:1593
+msgid "day"
 msgstr ""
 
-#: src/tags.cpp:2750
-#, fuzzy
-msgid "Digital zoom not used"
-msgstr "Relación de zoom digital"
-
-#: src/tiffimage.cpp:1590
-msgid "TIFF header, offset"
+#: src/actions.cpp:1590
+msgid "days"
 msgstr ""
 
-#: src/tiffimage.cpp:1595
+#: src/crwimage.cpp:682
+msgid "dir"
+msgstr ""
+
+#: src/actions.cpp:1994
+msgid "exists. [O]verwrite, [r]ename or [s]kip?"
+msgstr ""
+
+#: src/actions.cpp:837
+#, fuzzy
+msgid "found in the file"
+msgstr "El flash no disparó."
+
+#: src/exiv2.cpp:375
+msgid "getopt returned unexpected character code"
+msgstr ""
+
+#: src/nikonmn.cpp:353
+#, fuzzy
+msgid "guess"
+msgstr "Fuente de archivo"
+
+#: src/actions.cpp:849
+#, fuzzy
+msgid "in the file"
+msgstr "El flash no disparó."
+
+#: src/exiv2.cpp:411 src/exiv2.cpp:471 src/exiv2.cpp:657
+msgid "is not compatible with a previous option\n"
+msgstr ""
+
+#: src/exiv2.cpp:980
+#, fuzzy
+msgid "line"
+msgstr "pulg"
+
+#: src/tiffimage.cpp:1623 src/tiffimage.cpp:1644 src/tiffimage.cpp:1748
 msgid "little endian encoded"
 msgstr ""
 
-#: src/tiffimage.cpp:1596
-msgid "big endian encoded"
+#: src/actions.cpp:1582
+#, fuzzy
+msgid "month"
+msgstr "Lugar"
+
+#: src/actions.cpp:1579
+#, fuzzy
+msgid "months"
+msgstr "Punto blanco"
+
+#: src/nikonmn.cpp:1323
+msgid "none"
 msgstr ""
+
+#: src/actions.cpp:836
+#, fuzzy
+msgid "nor"
+msgstr "normal"
+
+#: src/actions.cpp:1559
+msgid "not set\n"
+msgstr ""
+
+#: src/crwimage.cpp:686
+#, fuzzy
+msgid "offset"
+msgstr "Suave"
+
+#: src/exiv2.cpp:463
+#, fuzzy
+msgid "option argument"
+msgstr "Nombre del documento"
+
+#: src/actions.cpp:786 src/actions.cpp:1126
+msgid "pixels"
+msgstr ""
+
+#: src/exiv2.cpp:365
+msgid "requires an argument\n"
+msgstr ""
+
+#: src/actions.cpp:1599
+msgid "s"
+msgstr ""
+
+#: src/crwimage.cpp:685
+#, fuzzy
+msgid "size"
+msgstr "Fuente de archivo"
+
+#: src/crwimage.cpp:680
+#, fuzzy
+msgid "tag"
+msgstr "promedio"
+
+#: src/exiv2.cpp:909
+#, fuzzy
+msgid "target"
+msgstr "promedio"
+
+#: src/actions.cpp:1624 src/actions.cpp:1900 src/actions.cpp:1908
+#: src/actions.cpp:1916 src/actions.cpp:1925 src/actions.cpp:2034
+#, fuzzy
+msgid "to"
+msgstr "acción"
+
+#: src/actions.cpp:1071 src/actions.cpp:1129
+#, fuzzy
+msgid "to file"
+msgstr "Espacio de color"
+
+#: src/crwimage.cpp:684
+#, fuzzy
+msgid "type"
+msgstr "Escena nocturna"
+
+#: src/actions.cpp:2024
+msgid "updating timestamp"
+msgstr ""
+
+#: src/nikonmn.cpp:1333
+#, fuzzy
+msgid "used"
+msgstr "No definido"
+
+#: src/actions.cpp:1359 src/actions.cpp:1433
+#, fuzzy
+msgid "value"
+msgstr "creativo"
+
+#: src/actions.cpp:1571
+msgid "year"
+msgstr ""
+
+#: src/actions.cpp:1568 src/actions.cpp:1617
+#, fuzzy
+msgid "years"
+msgstr "Centímetro"
 
 #, fuzzy
 #~ msgid "PowerShot G2"
