@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: exiv2\n"
 "Report-Msgid-Bugs-To: ahuggel@gmx.net\n"
-"POT-Creation-Date: 2010-04-20 16:52+0200\n"
+"POT-Creation-Date: 2010-04-23 08:17+0200\n"
 "PO-Revision-Date: 2008-11-18 14:54+0100\n"
 "Last-Translator: Ivan Masár <helix84@centrum.sk>\n"
 "Language-Team: Slovak <sk-i18n@lists.linux.sk>\n"
@@ -19,40 +19,585 @@ msgstr ""
 "X-Poedit-Language: Slovak\n"
 "X-Poedit-Country: SLOVAKIA\n"
 
-#: src/actions.cpp:254 src/actions.cpp:488 src/actions.cpp:750
-#: src/actions.cpp:767 src/actions.cpp:812 src/actions.cpp:902
-#: src/actions.cpp:1045 src/actions.cpp:1087 src/actions.cpp:1156
-#: src/actions.cpp:1198 src/actions.cpp:1203 src/actions.cpp:1223
-#: src/actions.cpp:1228 src/actions.cpp:1260 src/actions.cpp:1503
-#: src/actions.cpp:1639 src/actions.cpp:1704 src/actions.cpp:1876
-msgid "Failed to open the file\n"
-msgstr "Nepodarilo sa otvoriť súbor\n"
+#: src/exiv2.cpp:237
+msgid ""
+"\n"
+"Actions:\n"
+msgstr ""
+"\n"
+"Operácie:\n"
 
-#: src/actions.cpp:264
-msgid "File name"
-msgstr "Názov súboru"
+#: src/exiv2.cpp:255
+msgid ""
+"\n"
+"Options:\n"
+msgstr ""
+"\n"
+"Voľby:\n"
 
-#: src/actions.cpp:270
-msgid "File size"
-msgstr "Veľkosť súboru"
+#: src/exiv2.cpp:318
+msgid "             :basename:   - original filename without extension\n"
+msgstr "             :basename:   - pôvodný názov súboru bez prípony\n"
+
+#: src/exiv2.cpp:319
+msgid ""
+"             :dirname:    - name of the directory holding the original file\n"
+msgstr ""
+"             :dirname:    - názov adresára, v ktorom sa nachádza pôvodný "
+"súbor\n"
+
+#: src/exiv2.cpp:320
+msgid "             :parentname: - name of parent directory\n"
+msgstr "             :parentname: - názov rodičovského adresára\n"
+
+#: src/exiv2.cpp:285
+#, fuzzy
+msgid "             E : include Exif tags in the list\n"
+msgstr "             s : veľkosť v bajtoch\n"
+
+#: src/exiv2.cpp:286
+#, fuzzy
+msgid "             I : IPTC datasets\n"
+msgstr "             i : údaje IPTC\n"
+
+#: src/exiv2.cpp:287
+#, fuzzy
+msgid "             X : XMP properties\n"
+msgstr "             x : XMP vlastnosti\n"
+
+#: src/exiv2.cpp:300
+msgid "             a : all supported metadata (the default)\n"
+msgstr "             a : všetky podporované metadáta (štandardne)\n"
+
+#: src/exiv2.cpp:276
+#, fuzzy
+msgid ""
+"             a : print Exif, IPTC and XMP metadata (shortcut for -Pkyct)\n"
+msgstr "             v : čisto hodnoty EXIF údajov (skratka pre -Pxgnycv)\n"
+
+#: src/exiv2.cpp:282 src/exiv2.cpp:305
+msgid "             c : JPEG comment\n"
+msgstr "             c : JPEG komentár\n"
+
+#: src/exiv2.cpp:294
+msgid "             c : number of components (count)\n"
+msgstr "             c : počet zložiek\n"
+
+#: src/exiv2.cpp:301
+msgid "             e : Exif section\n"
+msgstr "             e : sekcia EXIF\n"
+
+#: src/exiv2.cpp:289
+msgid "             g : group name\n"
+msgstr "             g : názov skupiny\n"
+
+#: src/exiv2.cpp:279
+#, fuzzy
+msgid "             h : hexdump of the Exif data (-PExgnycsh)\n"
+msgstr ""
+"             h : hexadecimálny výpis EXIF údajov (skratka pre -Pxgnycsh)\n"
+
+#: src/exiv2.cpp:298
+msgid "             h : hexdump of the data\n"
+msgstr "             h : hexadecimálny výpis údajov\n"
+
+#: src/exiv2.cpp:303
+msgid "             i : IPTC data\n"
+msgstr "             i : údaje IPTC\n"
+
+#: src/exiv2.cpp:280
+#, fuzzy
+msgid "             i : IPTC data values (-PIkyct)\n"
+msgstr "             i : hodnoty IPTC údajov\n"
+
+#: src/exiv2.cpp:290
+msgid "             k : key\n"
+msgstr "             k : kľúč\n"
+
+#: src/exiv2.cpp:291
+msgid "             l : tag label\n"
+msgstr "             l : označenie značky\n"
+
+#: src/exiv2.cpp:292
+msgid "             n : tag name\n"
+msgstr "             n : názov značky\n"
+
+#: src/exiv2.cpp:283
+#, fuzzy
+msgid "             p : list available previews\n"
+msgstr "             l : označenie značky\n"
+
+#: src/exiv2.cpp:275
+msgid "             s : print a summary of the Exif metadata (the default)\n"
+msgstr "             s : vypísať zhrnutie EXIF metadát (štandardne)\n"
+
+#: src/exiv2.cpp:295
+msgid "             s : size in bytes\n"
+msgstr "             s : veľkosť v bajtoch\n"
+
+#: src/exiv2.cpp:302
+msgid "             t : Exif thumbnail only\n"
+msgstr "             t : iba EXIF náhľady\n"
+
+#: src/exiv2.cpp:277
+#, fuzzy
+msgid "             t : interpreted (translated) Exif data (-PEkyct)\n"
+msgstr ""
+"             t : interpretované (preložené) EXIF údaje (skratka pre -Pkyct)\n"
+
+#: src/exiv2.cpp:297
+msgid "             t : interpreted (translated) data\n"
+msgstr "             t : interpretované (preložené) hodnoty\n"
+
+#: src/exiv2.cpp:278
+#, fuzzy
+msgid "             v : plain Exif data values (-PExgnycv)\n"
+msgstr "             v : čisto hodnoty EXIF údajov (skratka pre -Pxgnycv)\n"
+
+#: src/exiv2.cpp:296
+msgid "             v : plain data value\n"
+msgstr "             v : čisté dátové hodnoty\n"
+
+#: src/exiv2.cpp:304
+msgid "             x : XMP packet\n"
+msgstr "             x : XMP paket\n"
+
+#: src/exiv2.cpp:281
+#, fuzzy
+msgid "             x : XMP properties (-PXkyct)\n"
+msgstr "             x : XMP vlastnosti\n"
+
+#: src/exiv2.cpp:288
+#, fuzzy
+msgid "             x : print a column with the tag number\n"
+msgstr "             x : vypísať stĺpec s hodnotou značky\n"
+
+#: src/exiv2.cpp:293
+msgid "             y : type\n"
+msgstr "             y : typ\n"
+
+#: src/exiv2.cpp:321
+msgid "           Default filename format is "
+msgstr "           Štandardný formát názvu súboru je "
+
+#: src/exiv2.cpp:273
+msgid "   -D day  Day adjustment with the 'adjust' action.\n"
+msgstr "   -D deň  Nastavenie dní operáciou „adjust“.\n"
+
+#: src/exiv2.cpp:268
+msgid "   -F      Do not prompt before renaming files (Force).\n"
+msgstr "   -F      Nepýtať sa pred premenovaním súborov.\n"
+
+#: src/exiv2.cpp:326
+msgid ""
+"   -M cmd  Command line for the modify action. The format for the\n"
+"           commands is the same as that of the lines of a command file.\n"
+msgstr ""
+"   -M súbor Príkazový riadok operácie „modify“. Formát príkazov je\n"
+"           rovnaký ako formát riadkov súboru s príkazmi.\n"
+
+#: src/exiv2.cpp:272
+msgid "   -O mon  Month adjustment with the 'adjust' action.\n"
+msgstr "   -O mes  Nastavenie mesiacov operáciou „adjust“.\n"
+
+#: src/exiv2.cpp:284
+#, fuzzy
+msgid ""
+"   -P flgs Print flags for fine control of tag lists ('print' action):\n"
+msgstr ""
+"   -P stĺps Vypísať stĺpce zoznamu EXIF značiek (operácia „print“). Platné "
+"voľby:\n"
+
+#: src/exiv2.cpp:329
+msgid ""
+"   -S .suf Use suffix .suf for source files for insert command.\n"
+"\n"
+msgstr ""
+"   -S .suf Použiť príponu .suf pre zdrojové súbory operácie „insert“.\n"
+"\n"
+
+#: src/exiv2.cpp:265
+msgid ""
+"   -T      Only set the file timestamp in 'rename' action, do not rename\n"
+"           the file (overrides -k).\n"
+msgstr ""
+"   -T      Operáciou „rename“ iba nastavovať časové známky, nepremenúvať\n"
+"           súbor (má prioritu pred -k).\n"
+
+#: src/exiv2.cpp:257
+msgid "   -V      Show the program version and exit.\n"
+msgstr "   -V      Zobraziť verziu programu a skončiť.\n"
+
+#: src/exiv2.cpp:271
+msgid "   -Y yrs  Year adjustment with the 'adjust' action.\n"
+msgstr "   -Y rok  Nastavenie rokov operáciou „adjust“.\n"
+
+#: src/exiv2.cpp:269
+msgid ""
+"   -a time Time adjustment in the format [-]HH[:MM[:SS]]. This option\n"
+"           is only used with the 'adjust' action.\n"
+msgstr ""
+"   -a time nastavenie času vo formáte [-]HH[:MM[:SS]]. Táto voľba\n"
+"           sa používa iba s operáciou „adjust“.\n"
+
+#: src/exiv2.cpp:259
+msgid "   -b      Show large binary values.\n"
+msgstr "   -b      Zobrazovať veľké binárne hodnoty.\n"
+
+#: src/exiv2.cpp:323
+msgid "   -c txt  JPEG comment string to set in the image.\n"
+msgstr "   -c txt  Reťazec JPEG komentára, ktorý sa má v obrázku nastaviť.\n"
+
+#: src/exiv2.cpp:299
+msgid ""
+"   -d tgt  Delete target(s) for the 'delete' action. Possible targets are:\n"
+msgstr "   -d cieľ Ciele zmazanie operácie „delete“. Možné ciele sú:\n"
+
+#: src/exiv2.cpp:311
+#, fuzzy
+msgid ""
+"   -e tgt  Extract target(s) for the 'extract' action. Possible targets\n"
+"           are the same as those for the -d option, plus a target to "
+"extract\n"
+"           preview images and a modifier to generate an XMP sidecar file:\n"
+"             p[<n>[,<m> ...]] : Extract preview images.\n"
+"             X : Extract metadata to an XMP sidecar file <file>.xmp\n"
+msgstr ""
+"   -e cieľ Ciele extrakcie operácie „extract“. Možné ciele\n"
+"           rovnaké ako pri voľbe -i, plus:\n"
+"             X : Extrahovať XMP paket do <súbor>.xmp\n"
+
+#: src/exiv2.cpp:267
+msgid "   -f      Do not prompt before overwriting existing files (force).\n"
+msgstr "   -f      Nepýtať sa pred prepísaním existujúcich súborov.\n"
+
+#: src/exiv2.cpp:261
+msgid "   -g key  Only output info for this key (grep).\n"
+msgstr ""
+
+#: src/exiv2.cpp:256
+msgid "   -h      Display this help and exit.\n"
+msgstr "   -h      Zobraziť tohto pomocníka a skončiť.\n"
+
+#: src/exiv2.cpp:306
+#, fuzzy
+msgid ""
+"   -i tgt  Insert target(s) for the 'insert' action. Possible targets are\n"
+"           the same as those for the -d option, plus a modifier:\n"
+"             X : Insert metadata from an XMP sidecar file <file>.xmp\n"
+"           Only JPEG thumbnails can be inserted, they need to be named\n"
+"           <file>-thumb.jpg\n"
+msgstr ""
+"   -i cieľ Ciele vkladania operácie „insert“. Možné ciele sú\n"
+"           rovnaké ako pri voľbe -d, plus:\n"
+"             X : Vložiť XMP paket zo <súbor>.xmp\n"
+"           Je možné vložiť iba náhľady JPEG, musia byť pomenované\n"
+"           <súbor>-thumb.jpg\n"
+
+#: src/exiv2.cpp:263
+msgid "   -k      Preserve file timestamps (keep).\n"
+msgstr "   -k      Zachovať časové známky súborov.\n"
+
+#: src/exiv2.cpp:328
+msgid ""
+"   -l dir  Location (directory) for files to be inserted from or extracted "
+"to.\n"
+msgstr ""
+"   -l adr  Umiestnenie (adresár) súborov, ktoré sa majú vložiť alebo "
+"extrahovať.\n"
+
+#: src/exiv2.cpp:324
+msgid ""
+"   -m file Command file for the modify action. The format for commands is\n"
+"           set|add|del <key> [[<type>] <value>].\n"
+msgstr ""
+"   -m súbor Súbor s príkazmi operácie „modify“. Formát príkazov je\n"
+"           set|add|del <kľúč> [[<typ>] <hodnota>].\n"
+
+#: src/exiv2.cpp:262
+msgid "   -n enc  Charset to use to decode UNICODE Exif user comments.\n"
+msgstr ""
+
+#: src/exiv2.cpp:274
+msgid "   -p mode Print mode for the 'print' action. Possible modes are:\n"
+msgstr "   -p rež  Režim výpisu operácie „print“. možné režimy sú:\n"
+
+#: src/exiv2.cpp:316
+msgid ""
+"   -r fmt  Filename format for the 'rename' action. The format string\n"
+"           follows strftime(3). The following keywords are supported:\n"
+msgstr ""
+"   -r fmt  Formát názvu súboru operácie „rename“. Formátovací reťazec\n"
+"           je podľa strftime(3). Podporované sú nasledovné kľúčové slová:\n"
+
+#: src/exiv2.cpp:264
+msgid ""
+"   -t      Also set the file timestamp in 'rename' action (overrides -k).\n"
+msgstr ""
+"   -t      Pri operácii „rename“ nastaviť aj časové známky súborov (má "
+"prioritu pred -k).\n"
+
+#: src/exiv2.cpp:260
+#, fuzzy
+msgid "   -u      Show unknown tags.\n"
+msgstr "   -u      Nezobrazovať neznáme značky.\n"
+
+#: src/exiv2.cpp:258
+msgid "   -v      Be verbose during the program run.\n"
+msgstr "   -v      Výrečné informácie o behu programu.\n"
+
+#: src/exiv2.cpp:238
+msgid ""
+"  ad | adjust   Adjust Exif timestamps by the given time. This action\n"
+"                requires at least one of the -a, -Y, -O or -D options.\n"
+msgstr ""
+"  ad | adjust   Upraviť časové známky EXIF o daný čas. Táto operácia\n"
+"                vyžaduje aspoň jednu z volieb -a, -Y, -O or -D.\n"
+
+#: src/exiv2.cpp:244
+msgid ""
+"  ex | extract  Extract metadata to *.exv, *.xmp and thumbnail image files.\n"
+msgstr ""
+"  ex | extract  Extrahovať metadáta do súborov *.exv, *.xmp a náhľadov.\n"
+
+#: src/exiv2.cpp:253
+msgid ""
+"  fc | fixcom   Convert the UNICODE Exif user comment to UCS-2. Its current\n"
+"                character encoding can be specified with the -n option.\n"
+msgstr ""
+
+#: src/exiv2.cpp:251
+msgid ""
+"  fi | fixiso   Copy ISO setting from the Nikon Makernote to the regular\n"
+"                Exif tag.\n"
+msgstr ""
+"  fi | fixiso   Skopírovať nastavenie ISO z Pozn. výrobcu Nikon Makernote "
+"do\n"
+"                bežnej EXIF značky.\n"
+
+#: src/exiv2.cpp:242
+msgid ""
+"  in | insert   Insert metadata from corresponding *.exv files.\n"
+"                Use option -S to change the suffix of the input files.\n"
+msgstr ""
+"  in | insert   Vložiť metadáta zo zodpovedajúcich súborov *.exv.\n"
+"                Voľbou -S môžete zmeniť príponu vstupných súborov.\n"
+
+#: src/exiv2.cpp:248
+msgid ""
+"  mo | modify   Apply commands to modify (add, set, delete) the Exif and\n"
+"                IPTC metadata of image files or set the JPEG comment.\n"
+"                Requires option -c, -m or -M.\n"
+msgstr ""
+"  mo | modify   Použiť operácie na zmenu (pridanie, nastavenie, zmazanie) "
+"EXIF\n"
+"                a IPTC metadát obrázkových súborov alebo nastavenie JPEG "
+"komentára.\n"
+"                Vyžaduje voľbu -c, -m alebo -M.\n"
+
+#: src/exiv2.cpp:245
+msgid ""
+"  mv | rename   Rename files and/or set file timestamps according to the\n"
+"                Exif create timestamp. The filename format can be set with\n"
+"                -r format, timestamp options are controlled with -t and -T.\n"
+msgstr ""
+"  mv | rename   Premenovať súbory a/alebo nastaviť časové známky podľa\n"
+"                časovej známky EXIF. Formát názvu súboru je možné nastaviť\n"
+"                voľbou -r, voľby časovej známku sa menia pomocou -t a -T.\n"
+
+#: src/exiv2.cpp:240
+msgid "  pr | print    Print image metadata.\n"
+msgstr "  pr | print    Vypísať metadáta obrázka.\n"
+
+#: src/exiv2.cpp:241
+msgid "  rm | delete   Delete image metadata from the files.\n"
+msgstr "  rm | delete   Zmazať metadáta obrázkov zo súborov.\n"
+
+#: src/panasonicmn.cpp:320
+msgid " EV"
+msgstr " EV"
+
+#: src/actions.cpp:690 src/actions.cpp:715 src/actions.cpp:736
+msgid "(Binary value suppressed)"
+msgstr "(binárna hodnota potlačená)"
+
+#: src/exiv2.cpp:1003
+msgid "-M option"
+msgstr "voľba -M"
+
+#: src/exiv2.cpp:818
+msgid "-S option can only be used with insert action\n"
+msgstr "Voľbu -S možno použiť iba s operáciou insert\n"
+
+#: src/exiv2.cpp:828
+msgid "-T option can only be used with rename action\n"
+msgstr "Voľbu -T možno použiť iba s operáciou rename\n"
+
+#: src/exiv2.cpp:813
+msgid "-l option can only be used with extract or insert actions\n"
+msgstr "Voľbu -l možno použiť iba s operáciami extract alebo insert\n"
+
+#: src/exiv2.cpp:823
+msgid "-t option can only be used with rename action\n"
+msgstr "Voľbu -t možno použiť iba s operáciou rename\n"
+
+#: src/panasonicmn.cpp:303
+msgid "1-area"
+msgstr ""
+
+#: src/panasonicmn.cpp:304
+#, fuzzy
+msgid "1-area (high speed)"
+msgstr "Orezanie vysoká rýchlosť"
+
+#: src/panasonicmn.cpp:305
+msgid "3-area (auto)"
+msgstr ""
+
+#: src/panasonicmn.cpp:307
+msgid "3-area (center)"
+msgstr ""
+
+#: src/panasonicmn.cpp:306
+msgid "3-area (left)"
+msgstr ""
+
+#: src/panasonicmn.cpp:308
+msgid "3-area (right)"
+msgstr ""
+
+#: src/olympusmn.cpp:1124
+msgid "3000 Kelvin"
+msgstr "3000 Kelvinov"
+
+#: src/actions.cpp:342
+msgid "35 mm equivalent"
+msgstr "ekvivalent 35 mm"
+
+#: src/olympusmn.cpp:1125
+msgid "3700 Kelvin"
+msgstr "3700 Kelvinov"
+
+#: src/olympusmn.cpp:1126
+msgid "4000 Kelvin"
+msgstr "4000 Kelvinov"
+
+#: src/olympusmn.cpp:1127
+msgid "4500 Kelvin"
+msgstr "4500 Kelvinov"
+
+#: src/panasonicmn.cpp:302
+msgid "5-area"
+msgstr ""
+
+#: src/olympusmn.cpp:1128
+msgid "5500 Kelvin"
+msgstr "5500 Kelvinov"
+
+#: src/olympusmn.cpp:1129
+msgid "6500 Kelvin"
+msgstr "6500 Kelvinov"
+
+#: src/olympusmn.cpp:1130
+msgid "7500 Kelvin"
+msgstr "7500 Kelvinov"
+
+#: src/sigmamn.cpp:167
+msgid "8-Segment"
+msgstr ""
+
+#: src/exiv2.cpp:674
+msgid "Action adjust is not compatible with the given options\n"
+msgstr "Činnosť adjust nie je kompatibilná so zadanými voľbami\n"
+
+#: src/exiv2.cpp:692
+msgid "Action delete is not compatible with the given options\n"
+msgstr "Činnosť delete nie je kompatibilná so zadanými voľbami\n"
+
+#: src/exiv2.cpp:703
+msgid "Action extract is not compatible with the given options\n"
+msgstr "Činnosť extract nie je kompatibilná so zadanými voľbami\n"
+
+#: src/exiv2.cpp:750
+#, fuzzy
+msgid "Action fixcom is not compatible with the given options\n"
+msgstr "Činnosť fixiso nie je kompatibilná so zadanými voľbami\n"
+
+#: src/exiv2.cpp:741
+msgid "Action fixiso is not compatible with the given options\n"
+msgstr "Činnosť fixiso nie je kompatibilná so zadanými voľbami\n"
+
+#: src/exiv2.cpp:714
+msgid "Action insert is not compatible with the given options\n"
+msgstr "Činnosť insert nie je kompatibilná so zadanými voľbami\n"
+
+#: src/exiv2.cpp:732
+msgid "Action modify is not compatible with the given options\n"
+msgstr "Činnosť modify nie je kompatibilná so zadanými voľbami\n"
+
+#: src/exiv2.cpp:683
+msgid "Action print is not compatible with the given options\n"
+msgstr "Činnosť print nie je kompatibilná so zadanými voľbami\n"
+
+#: src/exiv2.cpp:723
+msgid "Action rename is not compatible with the given options\n"
+msgstr "Činnosť rename nie je kompatibilná so zadanými voľbami\n"
+
+#: src/actions.cpp:1334
+msgid "Add"
+msgstr "Pridať"
+
+#: src/exiv2.cpp:783
+msgid "Adjust action requires at least one -a, -Y, -O or -D option\n"
+msgstr "Operácia adjust vyžaduje aspoň jednu z volieb -a, -Y, -O alebo -D\n"
+
+#: src/actions.cpp:1564
+msgid "Adjusting"
+msgstr "Dolaďuje sa"
+
+# AF = automatické zaostrenie
+#: src/nikonmn.cpp:1359
+#, fuzzy
+msgid "All 11 Points"
+msgstr "body automatického zaostrenia"
+
+#: src/exiv2.cpp:774
+msgid "An action must be specified\n"
+msgstr "Musí byť uvedená operácia\n"
+
+#: src/actions.cpp:316
+msgid "Aperture"
+msgstr "Clona"
+
+# exif-exposureprogram-3
+#: src/sigmamn.cpp:152
+msgid "Aperture priority"
+msgstr "priorita clony"
+
+#: src/exiv2.cpp:793
+msgid "At least one file is required\n"
+msgstr "Je požadovaný aspoň jeden súbor\n"
+
+#: src/olympusmn.cpp:1112 src/olympusmn.cpp:1118 src/olympusmn.cpp:1119
+msgid "Auto"
+msgstr "Auto"
+
+#: src/olympusmn.cpp:1031
+#, fuzzy
+msgid "Auto-Override"
+msgstr "Prepísať"
+
+#: src/sigmamn.cpp:165
+msgid "Average"
+msgstr "priemer"
+
+#: src/olympusmn.cpp:1082
+msgid "Bottom to top"
+msgstr "zdola hore"
 
 #: src/actions.cpp:271 src/actions.cpp:423 src/actions.cpp:1071
 msgid "Bytes"
 msgstr "bajtov"
-
-#: src/actions.cpp:275
-msgid "MIME type"
-msgstr "MIME typ"
-
-#: src/actions.cpp:279
-msgid "Image size"
-msgstr "Veľkosť obrázka"
-
-#: src/actions.cpp:284 src/actions.cpp:526 src/actions.cpp:577
-#: src/actions.cpp:825 src/actions.cpp:1054 src/actions.cpp:1516
-#: src/actions.cpp:1652 src/actions.cpp:1717
-msgid "No Exif data found in the file\n"
-msgstr "V súbore neboli nájdené žiadne EXIF údaje\n"
 
 #: src/actions.cpp:289
 msgid "Camera make"
@@ -62,157 +607,53 @@ msgstr "Zmačka fotoaparátu"
 msgid "Camera model"
 msgstr "Model fotoaparátu"
 
-#: src/actions.cpp:295
-msgid "Image timestamp"
-msgstr "Časová známka obrázka"
+#: src/actions.cpp:1615
+msgid "Can't adjust timestamp by"
+msgstr "Nie je možné upraviť časovú známku o"
 
-#: src/actions.cpp:299
-msgid "Image number"
-msgstr "Číslo obrázka"
+#: src/sigmamn.cpp:166
+msgid "Center"
+msgstr "v strede"
 
-#: src/actions.cpp:304
-msgid "Exposure time"
-msgstr "Čas expozície"
+#: src/nikonmn.cpp:1299
+msgid "Closest subject"
+msgstr "Najbližší subjekt"
 
-#: src/actions.cpp:316
-msgid "Aperture"
-msgstr "Clona"
+#: src/nikonmn.cpp:279 src/nikonmn.cpp:1154
+msgid "Continuous autofocus"
+msgstr "Spojité automatické zaostrenie"
 
-#: src/actions.cpp:326
-msgid "Exposure bias"
-msgstr "Skreslenie expozície"
-
-#: src/actions.cpp:329
-msgid "Flash"
-msgstr "Blesk"
-
-#: src/actions.cpp:332
-msgid "Flash bias"
-msgstr "Skreslenie blesku"
-
-#: src/actions.cpp:337
-msgid "Focal length"
-msgstr "Ohnisková vzdialenosť"
-
-#: src/actions.cpp:342
-msgid "35 mm equivalent"
-msgstr "ekvivalent 35 mm"
-
-# exif-subjectdistance
-#: src/actions.cpp:352
-msgid "Subject distance"
-msgstr "vzdialenosť subjektu"
-
-#: src/actions.cpp:363
-msgid "ISO speed"
-msgstr "ISO rýchlosť"
-
-#: src/actions.cpp:366
-msgid "Exposure mode"
-msgstr "Režim expozície"
-
-# exif-meteringmode
-#: src/actions.cpp:369
-msgid "Metering mode"
-msgstr "merací režim"
-
-#: src/actions.cpp:372
-msgid "Macro mode"
-msgstr "režim makro"
-
-#: src/actions.cpp:375
-msgid "Image quality"
-msgstr "Kvalita obrázka"
-
-#: src/actions.cpp:378
-msgid "Exif Resolution"
-msgstr "Rozlíšenie exif"
-
-#: src/actions.cpp:407
-msgid "White balance"
-msgstr "Vyváženie bielej"
-
-#: src/actions.cpp:410
-msgid "Thumbnail"
-msgstr "Náhľad"
-
-#: src/actions.cpp:414 src/actions.cpp:419 src/olympusmn.cpp:1097
-msgid "None"
-msgstr "Nič"
+#: src/pentaxmn.cpp:770
+msgid "Contrast"
+msgstr "Kontrast"
 
 #: src/actions.cpp:429
 msgid "Copyright"
 msgstr "Copyright"
 
-#: src/actions.cpp:432
-msgid "Exif comment"
-msgstr "Komentár EXIF"
+#: src/exiv2.cpp:209
+msgid "Copyright (C) 2004-2010 Andreas Huggel.\n"
+msgstr "Autorské práva (C) 2004-2010 Andreas Huggel.\n"
 
-#: src/actions.cpp:540 src/actions.cpp:590
-msgid "No IPTC data found in the file\n"
-msgstr "Neboli nájdené žiadne IPTC dáta v súbore\n"
+#: src/actions.cpp:1934
+msgid "Could not write metadata to file"
+msgstr "Nepodarilo sa zapísať metadáta do súboru"
 
-#: src/actions.cpp:554 src/actions.cpp:603
-msgid "No XMP data found in the file\n"
-msgstr "Neboli nájdené žiadne XMP dáta v súbore\n"
+#: src/actions.cpp:1442
+msgid "Del"
+msgstr "Vymazať"
 
-#: src/actions.cpp:561 src/exiv2.cpp:1064
-msgid "Invalid key"
-msgstr "Neplatný kľúč"
+#: src/tags.cpp:2752 src/tags.cpp:2753 src/tags.cpp:2761
+msgid "Digital zoom not used"
+msgstr "Digitálne priblíženie nebolo použité"
 
-#: src/actions.cpp:690 src/actions.cpp:715 src/actions.cpp:736
-msgid "(Binary value suppressed)"
-msgstr "(binárna hodnota potlačená)"
+#: src/nikonmn.cpp:1298
+msgid "Dynamic area"
+msgstr "Dynamická oblasť"
 
-#: src/actions.cpp:757
-msgid "JPEG comment"
-msgstr "Komentár JPEG"
-
-#: src/actions.cpp:782
-#, fuzzy
-msgid "Preview"
-msgstr "Dáta náhľadu"
-
-#: src/actions.cpp:786 src/actions.cpp:1126
-msgid "pixels"
-msgstr "pixelov"
-
-#: src/actions.cpp:788 src/actions.cpp:1128
-msgid "bytes"
-msgstr "bajtov"
-
-#: src/actions.cpp:835
-msgid "Neither tag"
-msgstr "Žiadna značka"
-
-#: src/actions.cpp:836
-msgid "nor"
-msgstr "nor"
-
-#: src/actions.cpp:837
-msgid "found in the file"
-msgstr "nájdený v súbore"
-
-#: src/actions.cpp:842
-msgid "Image file creation timestamp not set in the file"
-msgstr "Časová známka vytvorenia obrázka nebola v súbore nastavená"
-
-#: src/actions.cpp:848 src/actions.cpp:1605
-msgid "Failed to parse timestamp"
-msgstr "Nepodarilo sa prečítať časovú známku"
-
-#: src/actions.cpp:849
-msgid "in the file"
-msgstr "v súbore"
-
-#: src/actions.cpp:860
-msgid "Updating timestamp to"
-msgstr "Časová známka  sa aktualizuje na"
-
-#: src/actions.cpp:954
-#, fuzzy
-msgid "Erasing thumbnail data"
-msgstr "bajtov údajov náhľadov"
+#: src/nikonmn.cpp:1302
+msgid "Dynamic area (wide)"
+msgstr "Dynamická oblasť (široká)"
 
 #: src/actions.cpp:962
 msgid "Erasing Exif data from the file"
@@ -230,728 +671,300 @@ msgstr "Vymazáva sa komentár JPEG zo súboru"
 msgid "Erasing XMP data from the file"
 msgstr "Vymazávajú sa XMP dáta zo súboru"
 
-#: src/actions.cpp:1061
-msgid "Image does not contain an Exif thumbnail\n"
-msgstr "Obrázok neobsahuje EXIF náhľad\n"
-
-#: src/actions.cpp:1070
+#: src/actions.cpp:954
 #, fuzzy
-msgid "Writing thumbnail"
-msgstr "náhľad"
+msgid "Erasing thumbnail data"
+msgstr "bajtov údajov náhľadov"
 
-#: src/actions.cpp:1071 src/actions.cpp:1129
-msgid "to file"
-msgstr "do súboru"
+#: src/exiv2.cpp:461
+msgid "Error parsing"
+msgstr "Spracovanie chýb"
+
+#: src/exiv2.cpp:806
+msgid "Error parsing -M option arguments\n"
+msgstr "Chyba syntaktickej analýzy argumentov voľby -M\n"
+
+#: src/exiv2.cpp:432
+msgid "Error parsing -a option argument"
+msgstr "Chyba syntaktickej analýzy argumentu voľby -a"
+
+#: src/exiv2.cpp:799
+msgid "Error parsing -m option arguments\n"
+msgstr "Chyba syntaktickej analýzy argumentov voľby -m\n"
+
+#: src/actions.cpp:378
+msgid "Exif Resolution"
+msgstr "Rozlíšenie exif"
+
+#: src/actions.cpp:432
+msgid "Exif comment"
+msgstr "Komentár EXIF"
 
 #: src/actions.cpp:1077
 msgid "Exif data doesn't contain a thumbnail\n"
 msgstr "EXIF údaje neobsahujú náhľad\n"
 
-#: src/actions.cpp:1107 src/actions.cpp:1133
-msgid "Image does not have preview"
-msgstr ""
+#: src/actions.cpp:326
+msgid "Exposure bias"
+msgstr "Skreslenie expozície"
 
-#: src/actions.cpp:1122
-#, fuzzy
-msgid "Writing preview"
-msgstr "Zapisuje sa"
+#: src/actions.cpp:366
+msgid "Exposure mode"
+msgstr "Režim expozície"
 
-#: src/actions.cpp:1293
-msgid "Setting JPEG comment"
-msgstr "Nastavuje sa JPEG komentár"
+#: src/actions.cpp:304
+msgid "Exposure time"
+msgstr "Čas expozície"
 
-#: src/actions.cpp:1334
-msgid "Add"
-msgstr "Pridať"
+#: src/exiv2.cpp:967
+msgid "Failed to open command file for reading\n"
+msgstr "Nepodarilo sa otvoriť súbor s príkazmi na čítanie\n"
 
-#: src/actions.cpp:1356 src/actions.cpp:1430
-msgid "Warning"
-msgstr "Upozornenie"
+#: src/actions.cpp:254 src/actions.cpp:488 src/actions.cpp:750
+#: src/actions.cpp:767 src/actions.cpp:812 src/actions.cpp:902
+#: src/actions.cpp:1045 src/actions.cpp:1087 src/actions.cpp:1156
+#: src/actions.cpp:1198 src/actions.cpp:1203 src/actions.cpp:1223
+#: src/actions.cpp:1228 src/actions.cpp:1260 src/actions.cpp:1503
+#: src/actions.cpp:1639 src/actions.cpp:1704 src/actions.cpp:1876
+msgid "Failed to open the file\n"
+msgstr "Nepodarilo sa otvoriť súbor\n"
+
+#: src/actions.cpp:848 src/actions.cpp:1605
+msgid "Failed to parse timestamp"
+msgstr "Nepodarilo sa prečítať časovú známku"
 
 #: src/actions.cpp:1357 src/actions.cpp:1431
 msgid "Failed to read"
 msgstr "Nepodarilo sa prečítať"
 
-#: src/actions.cpp:1359 src/actions.cpp:1433
-msgid "value"
-msgstr "hodnota"
+#: src/actions.cpp:2033
+msgid "Failed to rename"
+msgstr "Nepodarilo sa premenovať"
 
-#: src/actions.cpp:1370
-msgid "Set"
-msgstr "Nastaviť"
+#: src/olympusmn.cpp:1067
+msgid "Fast"
+msgstr "rýchly"
 
-#: src/actions.cpp:1442
-msgid "Del"
-msgstr "Vymazať"
+#: src/actions.cpp:1993 src/exiv2.cpp:168
+msgid "File"
+msgstr "Súbor"
 
-#: src/actions.cpp:1474
-msgid "Reg "
-msgstr "Reg "
+#: src/actions.cpp:264
+msgid "File name"
+msgstr "Názov súboru"
 
-#: src/actions.cpp:1558
-msgid "Timestamp of metadatum with key"
-msgstr "Časová známka metadáta s kľúčom"
+#: src/actions.cpp:270
+msgid "File size"
+msgstr "Veľkosť súboru"
 
-#: src/actions.cpp:1559
-msgid "not set\n"
-msgstr "nenastavené\n"
+#: src/actions.cpp:1960
+msgid "Filename format yields empty filename for the file"
+msgstr "Formát názvu súboru dáva prázdny názov súboru"
 
-#: src/actions.cpp:1564
-msgid "Adjusting"
-msgstr "Dolaďuje sa"
+#: src/actions.cpp:329
+msgid "Flash"
+msgstr "Blesk"
 
-#: src/actions.cpp:1564
-msgid "by"
-msgstr "Autor"
+#: src/actions.cpp:332
+msgid "Flash bias"
+msgstr "Skreslenie blesku"
 
-#: src/actions.cpp:1568 src/actions.cpp:1617
-msgid "years"
-msgstr "rokov"
+#: src/actions.cpp:337
+msgid "Focal length"
+msgstr "Ohnisková vzdialenosť"
 
-#: src/actions.cpp:1571
-msgid "year"
-msgstr "rok"
+#: src/actions.cpp:1731
+msgid "Found Exif user comment with unexpected value type"
+msgstr ""
 
-#: src/actions.cpp:1579
-msgid "months"
-msgstr "mesiacov"
+#: src/nikonmn.cpp:1300
+msgid "Group dynamic-AF"
+msgstr "Skupinové dynamické AZ"
 
-#: src/actions.cpp:1582
-msgid "month"
-msgstr "mesiac"
+#: src/crwimage.cpp:663
+msgid "Header, offset"
+msgstr "Hlavička, ofset"
 
-#: src/actions.cpp:1590
-msgid "days"
-msgstr "dní"
+#: src/olympusmn.cpp:1052
+msgid "High"
+msgstr "vysoká"
 
-#: src/actions.cpp:1593
-msgid "day"
-msgstr "deň"
+#: src/olympusmn.cpp:1025
+msgid "High Key"
+msgstr "Vysoký kľúč"
 
-#: src/actions.cpp:1599
-msgid "s"
-msgstr "s"
+#: src/actions.cpp:363
+msgid "ISO speed"
+msgstr "ISO rýchlosť"
 
-#: src/actions.cpp:1615
-msgid "Can't adjust timestamp by"
-msgstr "Nie je možné upraviť časovú známku o"
+#: src/exiv2.cpp:401 src/exiv2.cpp:454
+msgid "Ignoring surplus option"
+msgstr "Ignoruje sa nadbytočná voľba"
 
-#: src/actions.cpp:1624 src/actions.cpp:1900 src/actions.cpp:1908
-#: src/actions.cpp:1916 src/actions.cpp:1925 src/actions.cpp:2034
-msgid "to"
-msgstr "až"
+#: src/exiv2.cpp:546
+msgid "Ignoring surplus option -P"
+msgstr "Ignoruje sa nadbytočná voľba -P"
 
-#: src/actions.cpp:1659
-msgid "Standard Exif ISO tag exists; not modified\n"
-msgstr "Štandardný EXIF ISO značka už existuje; nebude sa meniť\n"
+#: src/exiv2.cpp:426
+msgid "Ignoring surplus option -a"
+msgstr "Ignoruje sa nadbytočná voľba -a"
 
-#: src/actions.cpp:1667
-msgid "Setting Exif ISO value to"
-msgstr "Nastavuje sa hodnota EXIF ISO na"
+#: src/exiv2.cpp:502
+msgid "Ignoring surplus option -p"
+msgstr "Ignoruje sa nadbytočná voľba -p"
+
+#: src/actions.cpp:1061
+msgid "Image does not contain an Exif thumbnail\n"
+msgstr "Obrázok neobsahuje EXIF náhľad\n"
+
+#: src/actions.cpp:1107 src/actions.cpp:1133
+msgid "Image does not have preview"
+msgstr ""
+
+#: src/actions.cpp:842
+msgid "Image file creation timestamp not set in the file"
+msgstr "Časová známka vytvorenia obrázka nebola v súbore nastavená"
+
+#: src/actions.cpp:299
+msgid "Image number"
+msgstr "Číslo obrázka"
+
+#: src/actions.cpp:375
+msgid "Image quality"
+msgstr "Kvalita obrázka"
+
+#: src/actions.cpp:279
+msgid "Image size"
+msgstr "Veľkosť obrázka"
+
+#: src/actions.cpp:295
+msgid "Image timestamp"
+msgstr "Časová známka obrázka"
+
+#: src/tags.cpp:2658 src/tags.cpp:2659 src/tags.cpp:2667
+msgid "Infinity"
+msgstr "Nekonečno"
+
+#: src/exiv2.cpp:1031
+msgid "Invalid command"
+msgstr "Neplatný príkaz"
+
+#: src/exiv2.cpp:1024 src/exiv2.cpp:1083 src/exiv2.cpp:1093
+msgid "Invalid command line"
+msgstr "Neplatný príkazový riadok"
+
+#: src/actions.cpp:561 src/exiv2.cpp:1064
+msgid "Invalid key"
+msgstr "Neplatný kľúč"
+
+#: src/exiv2.cpp:935
+#, fuzzy
+msgid "Invalid preview number"
+msgstr "Číslo intervalu"
+
+#: src/actions.cpp:757
+msgid "JPEG comment"
+msgstr "Komentár JPEG"
+
+#: src/olympusmn.cpp:1080
+msgid "Left to right"
+msgstr "zľava doprava"
+
+#: src/olympusmn.cpp:1050
+msgid "Low"
+msgstr "nízka"
+
+#: src/olympusmn.cpp:1023
+msgid "Low Key"
+msgstr "Nízky kľúč"
+
+#: src/actions.cpp:275
+msgid "MIME type"
+msgstr "MIME typ"
+
+#: src/actions.cpp:372
+msgid "Macro mode"
+msgstr "režim makro"
+
+#: src/exiv2.cpp:231
+msgid "Manipulate the Exif metadata of images.\n"
+msgstr "Manipulácia s Exif metadátami obrázkov.\n"
+
+#: src/sigmamn.cpp:154
+msgid "Manual"
+msgstr "Manuál"
+
+# exif-meteringmode
+#: src/actions.cpp:369
+msgid "Metering mode"
+msgstr "merací režim"
+
+#: src/exiv2.cpp:789
+msgid "Modify action requires at least one -c, -m or -M option\n"
+msgstr "Operácia modify vyžaduje aspoň jednu z volieb -c, -m alebo -M\n"
+
+#: src/actions.cpp:835
+msgid "Neither tag"
+msgstr "Žiadna značka"
+
+#: src/actions.cpp:1738
+msgid "No Exif UNICODE user comment found"
+msgstr ""
+
+#: src/actions.cpp:284 src/actions.cpp:526 src/actions.cpp:577
+#: src/actions.cpp:825 src/actions.cpp:1054 src/actions.cpp:1516
+#: src/actions.cpp:1652 src/actions.cpp:1717
+msgid "No Exif data found in the file\n"
+msgstr "V súbore neboli nájdené žiadne EXIF údaje\n"
 
 #: src/actions.cpp:1723
 #, fuzzy
 msgid "No Exif user comment found"
 msgstr "Komentár EXIF"
 
-#: src/actions.cpp:1731
-msgid "Found Exif user comment with unexpected value type"
-msgstr ""
-
-#: src/actions.cpp:1738
-msgid "No Exif UNICODE user comment found"
-msgstr ""
-
-#: src/actions.cpp:1744
-#, fuzzy
-msgid "Setting Exif UNICODE user comment to"
-msgstr "Nastavuje sa hodnota EXIF ISO na"
-
-#: src/actions.cpp:1899
-msgid "Writing Exif data from"
-msgstr "Zapisujú sa EXIF údaje z"
-
-#: src/actions.cpp:1907
-msgid "Writing IPTC data from"
-msgstr "Zápis IPTC dát od"
-
-#: src/actions.cpp:1915
-msgid "Writing XMP data from"
-msgstr "Zápis XMP dát od"
-
-#: src/actions.cpp:1924
-msgid "Writing JPEG comment from"
-msgstr "Zápis JPEG komentára od"
-
-#: src/actions.cpp:1934
-msgid "Could not write metadata to file"
-msgstr "Nepodarilo sa zapísať metadáta do súboru"
-
-#: src/actions.cpp:1960
-msgid "Filename format yields empty filename for the file"
-msgstr "Formát názvu súboru dáva prázdny názov súboru"
-
-#: src/actions.cpp:1969
-msgid "This file already has the correct name"
-msgstr "Tento súbor už má správny názov"
-
-#: src/actions.cpp:1993 src/exiv2.cpp:168
-msgid "File"
-msgstr "Súbor"
-
-#: src/actions.cpp:1994
-msgid "exists. [O]verwrite, [r]ename or [s]kip?"
-msgstr "existuje. [P]repísať, p[r]emenovať alebo pre[s]kočiť?"
-
-#: src/actions.cpp:2022
-msgid "Renaming file to"
-msgstr "Súbor sa premenúva na"
-
-#: src/actions.cpp:2024
-msgid "updating timestamp"
-msgstr "aktualizuje sa časová známka"
-
-#: src/actions.cpp:2033
-msgid "Failed to rename"
-msgstr "Nepodarilo sa premenovať"
-
-#: src/actions.cpp:2055
-msgid "Overwrite"
-msgstr "Prepísať"
-
-#: src/crwimage.cpp:663
-msgid "Header, offset"
-msgstr "Hlavička, ofset"
-
-#: src/crwimage.cpp:680
-msgid "tag"
-msgstr "značka"
-
-#: src/crwimage.cpp:682
-msgid "dir"
-msgstr "priečinok"
-
-#: src/crwimage.cpp:684
-msgid "type"
-msgstr "typ"
-
-#: src/crwimage.cpp:685
-msgid "size"
-msgstr "veľkosť"
-
-#: src/crwimage.cpp:686
-msgid "offset"
-msgstr "ofset"
-
-#: src/exiv2.cpp:209
-msgid "Copyright (C) 2004-2010 Andreas Huggel.\n"
-msgstr "Autorské práva (C) 2004-2010 Andreas Huggel.\n"
-
-#: src/exiv2.cpp:211
-msgid ""
-"This program is free software; you can redistribute it and/or\n"
-"modify it under the terms of the GNU General Public License\n"
-"as published by the Free Software Foundation; either version 2\n"
-"of the License, or (at your option) any later version.\n"
-msgstr ""
-
-#: src/exiv2.cpp:216
-msgid ""
-"This program is distributed in the hope that it will be useful,\n"
-"but WITHOUT ANY WARRANTY; without even the implied warranty of\n"
-"MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the\n"
-"GNU General Public License for more details.\n"
-msgstr ""
-"Tento program je šírený v nádeji, že bude užitočný, avšak\n"
-"BEZ AKEJKOĽVEK ZÁRUKY; neposkytujú sa ani odvodené záruky PREDAJNOSTI \n"
-"alebo VHODNOSTI PRE URČITÝ ÚČEL. Ďalšie podrobnosti hľadajte \n"
-"v GNU General Public License.\n"
-
-#: src/exiv2.cpp:221
-msgid ""
-"You should have received a copy of the GNU General Public\n"
-"License along with this program; if not, write to the Free\n"
-"Software Foundation, Inc., 51 Franklin Street, Fifth Floor,\n"
-"Boston, MA 02110-1301 USA\n"
-msgstr ""
-
-#: src/exiv2.cpp:229
-msgid "Usage:"
-msgstr "Použitie:"
-
-#: src/exiv2.cpp:230
-msgid ""
-"[ options ] [ action ] file ...\n"
-"\n"
-msgstr ""
-"[ voľby ] [ činnosť ] súbor ...\n"
-"\n"
-
-#: src/exiv2.cpp:231
-msgid "Manipulate the Exif metadata of images.\n"
-msgstr "Manipulácia s Exif metadátami obrázkov.\n"
-
-#: src/exiv2.cpp:237
-msgid ""
-"\n"
-"Actions:\n"
-msgstr ""
-"\n"
-"Operácie:\n"
-
-#: src/exiv2.cpp:238
-msgid ""
-"  ad | adjust   Adjust Exif timestamps by the given time. This action\n"
-"                requires at least one of the -a, -Y, -O or -D options.\n"
-msgstr ""
-"  ad | adjust   Upraviť časové známky EXIF o daný čas. Táto operácia\n"
-"                vyžaduje aspoň jednu z volieb -a, -Y, -O or -D.\n"
-
-#: src/exiv2.cpp:240
-msgid "  pr | print    Print image metadata.\n"
-msgstr "  pr | print    Vypísať metadáta obrázka.\n"
-
-#: src/exiv2.cpp:241
-msgid "  rm | delete   Delete image metadata from the files.\n"
-msgstr "  rm | delete   Zmazať metadáta obrázkov zo súborov.\n"
-
-#: src/exiv2.cpp:242
-msgid ""
-"  in | insert   Insert metadata from corresponding *.exv files.\n"
-"                Use option -S to change the suffix of the input files.\n"
-msgstr ""
-"  in | insert   Vložiť metadáta zo zodpovedajúcich súborov *.exv.\n"
-"                Voľbou -S môžete zmeniť príponu vstupných súborov.\n"
-
-#: src/exiv2.cpp:244
-msgid ""
-"  ex | extract  Extract metadata to *.exv, *.xmp and thumbnail image files.\n"
-msgstr ""
-"  ex | extract  Extrahovať metadáta do súborov *.exv, *.xmp a náhľadov.\n"
-
-#: src/exiv2.cpp:245
-msgid ""
-"  mv | rename   Rename files and/or set file timestamps according to the\n"
-"                Exif create timestamp. The filename format can be set with\n"
-"                -r format, timestamp options are controlled with -t and -T.\n"
-msgstr ""
-"  mv | rename   Premenovať súbory a/alebo nastaviť časové známky podľa\n"
-"                časovej známky EXIF. Formát názvu súboru je možné nastaviť\n"
-"                voľbou -r, voľby časovej známku sa menia pomocou -t a -T.\n"
-
-#: src/exiv2.cpp:248
-msgid ""
-"  mo | modify   Apply commands to modify (add, set, delete) the Exif and\n"
-"                IPTC metadata of image files or set the JPEG comment.\n"
-"                Requires option -c, -m or -M.\n"
-msgstr ""
-"  mo | modify   Použiť operácie na zmenu (pridanie, nastavenie, zmazanie) "
-"EXIF\n"
-"                a IPTC metadát obrázkových súborov alebo nastavenie JPEG "
-"komentára.\n"
-"                Vyžaduje voľbu -c, -m alebo -M.\n"
-
-#: src/exiv2.cpp:251
-msgid ""
-"  fi | fixiso   Copy ISO setting from the Nikon Makernote to the regular\n"
-"                Exif tag.\n"
-msgstr ""
-"  fi | fixiso   Skopírovať nastavenie ISO z Pozn. výrobcu Nikon Makernote "
-"do\n"
-"                bežnej EXIF značky.\n"
-
-#: src/exiv2.cpp:253
-msgid ""
-"  fc | fixcom   Convert the UNICODE Exif user comment to UCS-2. Its current\n"
-"                character encoding can be specified with the -n option.\n"
-msgstr ""
-
-#: src/exiv2.cpp:255
-msgid ""
-"\n"
-"Options:\n"
-msgstr ""
-"\n"
-"Voľby:\n"
-
-#: src/exiv2.cpp:256
-msgid "   -h      Display this help and exit.\n"
-msgstr "   -h      Zobraziť tohto pomocníka a skončiť.\n"
-
-#: src/exiv2.cpp:257
-msgid "   -V      Show the program version and exit.\n"
-msgstr "   -V      Zobraziť verziu programu a skončiť.\n"
-
-#: src/exiv2.cpp:258
-msgid "   -v      Be verbose during the program run.\n"
-msgstr "   -v      Výrečné informácie o behu programu.\n"
-
-#: src/exiv2.cpp:259
-msgid "   -b      Show large binary values.\n"
-msgstr "   -b      Zobrazovať veľké binárne hodnoty.\n"
-
-#: src/exiv2.cpp:260
-#, fuzzy
-msgid "   -u      Show unknown tags.\n"
-msgstr "   -u      Nezobrazovať neznáme značky.\n"
-
-#: src/exiv2.cpp:261
-msgid "   -g key  Only output info for this key (grep).\n"
-msgstr ""
-
-#: src/exiv2.cpp:262
-msgid "   -n enc  Charset to use to decode UNICODE Exif user comments.\n"
-msgstr ""
-
-#: src/exiv2.cpp:263
-msgid "   -k      Preserve file timestamps (keep).\n"
-msgstr "   -k      Zachovať časové známky súborov.\n"
-
-#: src/exiv2.cpp:264
-msgid ""
-"   -t      Also set the file timestamp in 'rename' action (overrides -k).\n"
-msgstr ""
-"   -t      Pri operácii „rename“ nastaviť aj časové známky súborov (má "
-"prioritu pred -k).\n"
-
-#: src/exiv2.cpp:265
-msgid ""
-"   -T      Only set the file timestamp in 'rename' action, do not rename\n"
-"           the file (overrides -k).\n"
-msgstr ""
-"   -T      Operáciou „rename“ iba nastavovať časové známky, nepremenúvať\n"
-"           súbor (má prioritu pred -k).\n"
-
-#: src/exiv2.cpp:267
-msgid "   -f      Do not prompt before overwriting existing files (force).\n"
-msgstr "   -f      Nepýtať sa pred prepísaním existujúcich súborov.\n"
-
-#: src/exiv2.cpp:268
-msgid "   -F      Do not prompt before renaming files (Force).\n"
-msgstr "   -F      Nepýtať sa pred premenovaním súborov.\n"
-
-#: src/exiv2.cpp:269
-msgid ""
-"   -a time Time adjustment in the format [-]HH[:MM[:SS]]. This option\n"
-"           is only used with the 'adjust' action.\n"
-msgstr ""
-"   -a time nastavenie času vo formáte [-]HH[:MM[:SS]]. Táto voľba\n"
-"           sa používa iba s operáciou „adjust“.\n"
-
-#: src/exiv2.cpp:271
-msgid "   -Y yrs  Year adjustment with the 'adjust' action.\n"
-msgstr "   -Y rok  Nastavenie rokov operáciou „adjust“.\n"
-
-#: src/exiv2.cpp:272
-msgid "   -O mon  Month adjustment with the 'adjust' action.\n"
-msgstr "   -O mes  Nastavenie mesiacov operáciou „adjust“.\n"
-
-#: src/exiv2.cpp:273
-msgid "   -D day  Day adjustment with the 'adjust' action.\n"
-msgstr "   -D deň  Nastavenie dní operáciou „adjust“.\n"
-
-#: src/exiv2.cpp:274
-msgid "   -p mode Print mode for the 'print' action. Possible modes are:\n"
-msgstr "   -p rež  Režim výpisu operácie „print“. možné režimy sú:\n"
-
-#: src/exiv2.cpp:275
-msgid "             s : print a summary of the Exif metadata (the default)\n"
-msgstr "             s : vypísať zhrnutie EXIF metadát (štandardne)\n"
-
-#: src/exiv2.cpp:276
-#, fuzzy
-msgid ""
-"             a : print Exif, IPTC and XMP metadata (shortcut for -Pkyct)\n"
-msgstr "             v : čisto hodnoty EXIF údajov (skratka pre -Pxgnycv)\n"
-
-#: src/exiv2.cpp:277
-#, fuzzy
-msgid "             t : interpreted (translated) Exif data (-PEkyct)\n"
-msgstr ""
-"             t : interpretované (preložené) EXIF údaje (skratka pre -Pkyct)\n"
-
-#: src/exiv2.cpp:278
-#, fuzzy
-msgid "             v : plain Exif data values (-PExgnycv)\n"
-msgstr "             v : čisto hodnoty EXIF údajov (skratka pre -Pxgnycv)\n"
-
-#: src/exiv2.cpp:279
-#, fuzzy
-msgid "             h : hexdump of the Exif data (-PExgnycsh)\n"
-msgstr ""
-"             h : hexadecimálny výpis EXIF údajov (skratka pre -Pxgnycsh)\n"
-
-#: src/exiv2.cpp:280
-#, fuzzy
-msgid "             i : IPTC data values (-PIkyct)\n"
-msgstr "             i : hodnoty IPTC údajov\n"
-
-#: src/exiv2.cpp:281
-#, fuzzy
-msgid "             x : XMP properties (-PXkyct)\n"
-msgstr "             x : XMP vlastnosti\n"
-
-#: src/exiv2.cpp:282 src/exiv2.cpp:305
-msgid "             c : JPEG comment\n"
-msgstr "             c : JPEG komentár\n"
-
-#: src/exiv2.cpp:283
-#, fuzzy
-msgid "             p : list available previews\n"
-msgstr "             l : označenie značky\n"
-
-#: src/exiv2.cpp:284
-#, fuzzy
-msgid ""
-"   -P flgs Print flags for fine control of tag lists ('print' action):\n"
-msgstr ""
-"   -P stĺps Vypísať stĺpce zoznamu EXIF značiek (operácia „print“). Platné "
-"voľby:\n"
-
-#: src/exiv2.cpp:285
-#, fuzzy
-msgid "             E : include Exif tags in the list\n"
-msgstr "             s : veľkosť v bajtoch\n"
-
-#: src/exiv2.cpp:286
-#, fuzzy
-msgid "             I : IPTC datasets\n"
-msgstr "             i : údaje IPTC\n"
-
-#: src/exiv2.cpp:287
-#, fuzzy
-msgid "             X : XMP properties\n"
-msgstr "             x : XMP vlastnosti\n"
-
-#: src/exiv2.cpp:288
-#, fuzzy
-msgid "             x : print a column with the tag number\n"
-msgstr "             x : vypísať stĺpec s hodnotou značky\n"
-
-#: src/exiv2.cpp:289
-msgid "             g : group name\n"
-msgstr "             g : názov skupiny\n"
-
-#: src/exiv2.cpp:290
-msgid "             k : key\n"
-msgstr "             k : kľúč\n"
-
-#: src/exiv2.cpp:291
-msgid "             l : tag label\n"
-msgstr "             l : označenie značky\n"
-
-#: src/exiv2.cpp:292
-msgid "             n : tag name\n"
-msgstr "             n : názov značky\n"
-
-#: src/exiv2.cpp:293
-msgid "             y : type\n"
-msgstr "             y : typ\n"
-
-#: src/exiv2.cpp:294
-msgid "             c : number of components (count)\n"
-msgstr "             c : počet zložiek\n"
-
-#: src/exiv2.cpp:295
-msgid "             s : size in bytes\n"
-msgstr "             s : veľkosť v bajtoch\n"
-
-#: src/exiv2.cpp:296
-msgid "             v : plain data value\n"
-msgstr "             v : čisté dátové hodnoty\n"
-
-#: src/exiv2.cpp:297
-msgid "             t : interpreted (translated) data\n"
-msgstr "             t : interpretované (preložené) hodnoty\n"
-
-#: src/exiv2.cpp:298
-msgid "             h : hexdump of the data\n"
-msgstr "             h : hexadecimálny výpis údajov\n"
-
-#: src/exiv2.cpp:299
-msgid ""
-"   -d tgt  Delete target(s) for the 'delete' action. Possible targets are:\n"
-msgstr "   -d cieľ Ciele zmazanie operácie „delete“. Možné ciele sú:\n"
-
-#: src/exiv2.cpp:300
-msgid "             a : all supported metadata (the default)\n"
-msgstr "             a : všetky podporované metadáta (štandardne)\n"
-
-#: src/exiv2.cpp:301
-msgid "             e : Exif section\n"
-msgstr "             e : sekcia EXIF\n"
-
-#: src/exiv2.cpp:302
-msgid "             t : Exif thumbnail only\n"
-msgstr "             t : iba EXIF náhľady\n"
-
-#: src/exiv2.cpp:303
-msgid "             i : IPTC data\n"
-msgstr "             i : údaje IPTC\n"
-
-#: src/exiv2.cpp:304
-msgid "             x : XMP packet\n"
-msgstr "             x : XMP paket\n"
-
-#: src/exiv2.cpp:306
-#, fuzzy
-msgid ""
-"   -i tgt  Insert target(s) for the 'insert' action. Possible targets are\n"
-"           the same as those for the -d option, plus a modifier:\n"
-"             X : Insert metadata from an XMP sidecar file <file>.xmp\n"
-"           Only JPEG thumbnails can be inserted, they need to be named\n"
-"           <file>-thumb.jpg\n"
-msgstr ""
-"   -i cieľ Ciele vkladania operácie „insert“. Možné ciele sú\n"
-"           rovnaké ako pri voľbe -d, plus:\n"
-"             X : Vložiť XMP paket zo <súbor>.xmp\n"
-"           Je možné vložiť iba náhľady JPEG, musia byť pomenované\n"
-"           <súbor>-thumb.jpg\n"
-
-#: src/exiv2.cpp:311
-#, fuzzy
-msgid ""
-"   -e tgt  Extract target(s) for the 'extract' action. Possible targets\n"
-"           are the same as those for the -d option, plus a target to "
-"extract\n"
-"           preview images and a modifier to generate an XMP sidecar file:\n"
-"             p[<n>[,<m> ...]] : Extract preview images.\n"
-"             X : Extract metadata to an XMP sidecar file <file>.xmp\n"
-msgstr ""
-"   -e cieľ Ciele extrakcie operácie „extract“. Možné ciele\n"
-"           rovnaké ako pri voľbe -i, plus:\n"
-"             X : Extrahovať XMP paket do <súbor>.xmp\n"
-
-#: src/exiv2.cpp:316
-msgid ""
-"   -r fmt  Filename format for the 'rename' action. The format string\n"
-"           follows strftime(3). The following keywords are supported:\n"
-msgstr ""
-"   -r fmt  Formát názvu súboru operácie „rename“. Formátovací reťazec\n"
-"           je podľa strftime(3). Podporované sú nasledovné kľúčové slová:\n"
-
-#: src/exiv2.cpp:318
-msgid "             :basename:   - original filename without extension\n"
-msgstr "             :basename:   - pôvodný názov súboru bez prípony\n"
-
-#: src/exiv2.cpp:319
-msgid ""
-"             :dirname:    - name of the directory holding the original file\n"
-msgstr ""
-"             :dirname:    - názov adresára, v ktorom sa nachádza pôvodný "
-"súbor\n"
-
-#: src/exiv2.cpp:320
-msgid "             :parentname: - name of parent directory\n"
-msgstr "             :parentname: - názov rodičovského adresára\n"
-
-#: src/exiv2.cpp:321
-msgid "           Default filename format is "
-msgstr "           Štandardný formát názvu súboru je "
-
-#: src/exiv2.cpp:323
-msgid "   -c txt  JPEG comment string to set in the image.\n"
-msgstr "   -c txt  Reťazec JPEG komentára, ktorý sa má v obrázku nastaviť.\n"
-
-#: src/exiv2.cpp:324
-msgid ""
-"   -m file Command file for the modify action. The format for commands is\n"
-"           set|add|del <key> [[<type>] <value>].\n"
-msgstr ""
-"   -m súbor Súbor s príkazmi operácie „modify“. Formát príkazov je\n"
-"           set|add|del <kľúč> [[<typ>] <hodnota>].\n"
-
-#: src/exiv2.cpp:326
-msgid ""
-"   -M cmd  Command line for the modify action. The format for the\n"
-"           commands is the same as that of the lines of a command file.\n"
-msgstr ""
-"   -M súbor Príkazový riadok operácie „modify“. Formát príkazov je\n"
-"           rovnaký ako formát riadkov súboru s príkazmi.\n"
-
-#: src/exiv2.cpp:328
-msgid ""
-"   -l dir  Location (directory) for files to be inserted from or extracted "
-"to.\n"
-msgstr ""
-"   -l adr  Umiestnenie (adresár) súborov, ktoré sa majú vložiť alebo "
-"extrahovať.\n"
-
-#: src/exiv2.cpp:329
-msgid ""
-"   -S .suf Use suffix .suf for source files for insert command.\n"
-"\n"
-msgstr ""
-"   -S .suf Použiť príponu .suf pre zdrojové súbory operácie „insert“.\n"
-"\n"
+#: src/actions.cpp:540 src/actions.cpp:590
+msgid "No IPTC data found in the file\n"
+msgstr "Neboli nájdené žiadne IPTC dáta v súbore\n"
+
+#: src/actions.cpp:554 src/actions.cpp:603
+msgid "No XMP data found in the file\n"
+msgstr "Neboli nájdené žiadne XMP dáta v súbore\n"
+
+#: src/pentaxmn.cpp:752
+msgid "No extended bracketing"
+msgstr "Bez rozšírených viacnásobných snímok"
+
+#: src/actions.cpp:414 src/actions.cpp:419 src/olympusmn.cpp:1097
+msgid "None"
+msgstr "Nič"
+
+#: src/olympusmn.cpp:1024 src/olympusmn.cpp:1066
+msgid "Normal"
+msgstr "Normálny"
+
+#: src/nikonmn.cpp:313 src/nikonmn.cpp:494 src/nikonmn.cpp:1254
+msgid "Not used"
+msgstr "Nepoužité"
+
+#: src/olympusmn.cpp:1049
+msgid "Off"
+msgstr "vypnutý"
+
+#: src/olympusmn.cpp:1136
+msgid "One-touch"
+msgstr "jedným dotykom"
 
 #: src/exiv2.cpp:364 src/exiv2.cpp:410 src/exiv2.cpp:469 src/exiv2.cpp:656
 msgid "Option"
 msgstr "Voľba"
 
-#: src/exiv2.cpp:365
-msgid "requires an argument\n"
-msgstr "vyžaduje parameter\n"
-
-#: src/exiv2.cpp:369
-msgid "Unrecognized option"
-msgstr "Neprípustná možnosť"
-
-#: src/exiv2.cpp:375
-msgid "getopt returned unexpected character code"
-msgstr "getopt vrátil neočakávaný kód znaku"
-
-#: src/exiv2.cpp:401 src/exiv2.cpp:454
-msgid "Ignoring surplus option"
-msgstr "Ignoruje sa nadbytočná voľba"
-
-#: src/exiv2.cpp:411 src/exiv2.cpp:471 src/exiv2.cpp:657
-msgid "is not compatible with a previous option\n"
-msgstr "nie je kompatibilná s predošlou voľbou\n"
-
-#: src/exiv2.cpp:426
-msgid "Ignoring surplus option -a"
-msgstr "Ignoruje sa nadbytočná voľba -a"
-
-#: src/exiv2.cpp:432
-msgid "Error parsing -a option argument"
-msgstr "Chyba syntaktickej analýzy argumentu voľby -a"
+#: src/exiv2.cpp:550
+msgid "Option -P is not compatible with a previous option\n"
+msgstr "Voľba -P nie je kompatibilná s predošlou voľbou\n"
 
 #: src/exiv2.cpp:439
 msgid "Option -a is not compatible with a previous option\n"
 msgstr "Voľba -a nie je kompatibilná s predošlou voľbou\n"
-
-#: src/exiv2.cpp:461
-msgid "Error parsing"
-msgstr "Spracovanie chýb"
-
-#: src/exiv2.cpp:463
-msgid "option argument"
-msgstr "argument voľby"
-
-#: src/exiv2.cpp:494
-msgid "Unrecognized print mode"
-msgstr "Nerozpoznaný režim výpisu"
-
-#: src/exiv2.cpp:502
-msgid "Ignoring surplus option -p"
-msgstr "Ignoruje sa nadbytočná voľba -p"
-
-#: src/exiv2.cpp:506
-msgid "Option -p is not compatible with a previous option\n"
-msgstr "Voľba -p nie je kompatibilná s predošlou voľbou\n"
-
-#: src/exiv2.cpp:537
-msgid "Unrecognized print item"
-msgstr "Nerozpoznaný cieľ výpisu"
-
-#: src/exiv2.cpp:546
-msgid "Ignoring surplus option -P"
-msgstr "Ignoruje sa nadbytočná voľba -P"
-
-#: src/exiv2.cpp:550
-msgid "Option -P is not compatible with a previous option\n"
-msgstr "Voľba -P nie je kompatibilná s predošlou voľbou\n"
 
 #: src/exiv2.cpp:577
 msgid "Option -d is not compatible with a previous option\n"
@@ -965,330 +978,193 @@ msgstr "Voľba -e nie je kompatibilná s predošlou voľbou\n"
 msgid "Option -i is not compatible with a previous option\n"
 msgstr "Voľba -i nie je kompatibilná s predošlou voľbou\n"
 
-#: src/exiv2.cpp:674
-msgid "Action adjust is not compatible with the given options\n"
-msgstr "Činnosť adjust nie je kompatibilná so zadanými voľbami\n"
+#: src/exiv2.cpp:506
+msgid "Option -p is not compatible with a previous option\n"
+msgstr "Voľba -p nie je kompatibilná s predošlou voľbou\n"
 
-#: src/exiv2.cpp:683
-msgid "Action print is not compatible with the given options\n"
-msgstr "Činnosť print nie je kompatibilná so zadanými voľbami\n"
-
-#: src/exiv2.cpp:692
-msgid "Action delete is not compatible with the given options\n"
-msgstr "Činnosť delete nie je kompatibilná so zadanými voľbami\n"
-
-#: src/exiv2.cpp:703
-msgid "Action extract is not compatible with the given options\n"
-msgstr "Činnosť extract nie je kompatibilná so zadanými voľbami\n"
-
-#: src/exiv2.cpp:714
-msgid "Action insert is not compatible with the given options\n"
-msgstr "Činnosť insert nie je kompatibilná so zadanými voľbami\n"
-
-#: src/exiv2.cpp:723
-msgid "Action rename is not compatible with the given options\n"
-msgstr "Činnosť rename nie je kompatibilná so zadanými voľbami\n"
-
-#: src/exiv2.cpp:732
-msgid "Action modify is not compatible with the given options\n"
-msgstr "Činnosť modify nie je kompatibilná so zadanými voľbami\n"
-
-#: src/exiv2.cpp:741
-msgid "Action fixiso is not compatible with the given options\n"
-msgstr "Činnosť fixiso nie je kompatibilná so zadanými voľbami\n"
-
-#: src/exiv2.cpp:750
-#, fuzzy
-msgid "Action fixcom is not compatible with the given options\n"
-msgstr "Činnosť fixiso nie je kompatibilná so zadanými voľbami\n"
-
-#: src/exiv2.cpp:774
-msgid "An action must be specified\n"
-msgstr "Musí byť uvedená operácia\n"
-
-#: src/exiv2.cpp:783
-msgid "Adjust action requires at least one -a, -Y, -O or -D option\n"
-msgstr "Operácia adjust vyžaduje aspoň jednu z volieb -a, -Y, -O alebo -D\n"
-
-#: src/exiv2.cpp:789
-msgid "Modify action requires at least one -c, -m or -M option\n"
-msgstr "Operácia modify vyžaduje aspoň jednu z volieb -c, -m alebo -M\n"
-
-#: src/exiv2.cpp:793
-msgid "At least one file is required\n"
-msgstr "Je požadovaný aspoň jeden súbor\n"
-
-#: src/exiv2.cpp:799
-msgid "Error parsing -m option arguments\n"
-msgstr "Chyba syntaktickej analýzy argumentov voľby -m\n"
-
-#: src/exiv2.cpp:806
-msgid "Error parsing -M option arguments\n"
-msgstr "Chyba syntaktickej analýzy argumentov voľby -M\n"
-
-#: src/exiv2.cpp:813
-msgid "-l option can only be used with extract or insert actions\n"
-msgstr "Voľbu -l možno použiť iba s operáciami extract alebo insert\n"
-
-#: src/exiv2.cpp:818
-msgid "-S option can only be used with insert action\n"
-msgstr "Voľbu -S možno použiť iba s operáciou insert\n"
-
-#: src/exiv2.cpp:823
-msgid "-t option can only be used with rename action\n"
-msgstr "Voľbu -t možno použiť iba s operáciou rename\n"
-
-#: src/exiv2.cpp:828
-msgid "-T option can only be used with rename action\n"
-msgstr "Voľbu -T možno použiť iba s operáciou rename\n"
-
-#: src/exiv2.cpp:908
-msgid "Unrecognized "
-msgstr "Nerozpoznaný "
-
-#: src/exiv2.cpp:909
-msgid "target"
-msgstr "cieľ"
-
-#: src/exiv2.cpp:935
-#, fuzzy
-msgid "Invalid preview number"
-msgstr "Číslo intervalu"
-
-#: src/exiv2.cpp:967
-msgid "Failed to open command file for reading\n"
-msgstr "Nepodarilo sa otvoriť súbor s príkazmi na čítanie\n"
-
-#: src/exiv2.cpp:980
-msgid "line"
-msgstr "riadok"
-
-#: src/exiv2.cpp:1003
-msgid "-M option"
-msgstr "voľba -M"
-
-#: src/exiv2.cpp:1024 src/exiv2.cpp:1083 src/exiv2.cpp:1093
-msgid "Invalid command line"
-msgstr "Neplatný príkazový riadok"
-
-#: src/exiv2.cpp:1031
-msgid "Invalid command"
-msgstr "Neplatný príkaz"
-
-#: src/nikonmn.cpp:279 src/nikonmn.cpp:1154
-msgid "Continuous autofocus"
-msgstr "Spojité automatické zaostrenie"
-
-#: src/nikonmn.cpp:280 src/nikonmn.cpp:1155
-msgid "Single autofocus"
-msgstr ""
-
-#: src/nikonmn.cpp:291 src/nikonmn.cpp:1232 src/nikonmn.cpp:2111
-#: src/tags.cpp:2653 src/tags.cpp:2766
-msgid "Unknown"
-msgstr "Neznáme"
-
-#: src/nikonmn.cpp:313 src/nikonmn.cpp:494 src/nikonmn.cpp:1254
-msgid "Not used"
-msgstr "Nepoužité"
-
-#: src/nikonmn.cpp:353
-msgid "guess"
-msgstr "hádať"
-
-#: src/nikonmn.cpp:1297
-msgid "Single area"
-msgstr "Jednoduchá oblasť"
-
-#: src/nikonmn.cpp:1298
-msgid "Dynamic area"
-msgstr "Dynamická oblasť"
-
-#: src/nikonmn.cpp:1299
-msgid "Closest subject"
-msgstr "Najbližší subjekt"
-
-#: src/nikonmn.cpp:1300
-msgid "Group dynamic-AF"
-msgstr "Skupinové dynamické AZ"
-
-#: src/nikonmn.cpp:1301
-msgid "Single area (wide)"
-msgstr ""
-
-#: src/nikonmn.cpp:1302
-msgid "Dynamic area (wide)"
-msgstr "Dynamická oblasť (široká)"
-
-#: src/nikonmn.cpp:1323
-msgid "none"
-msgstr "žiadne"
-
-#: src/nikonmn.cpp:1333
-msgid "used"
-msgstr "použité"
-
-# AF = automatické zaostrenie
-#: src/nikonmn.cpp:1359
-#, fuzzy
-msgid "All 11 Points"
-msgstr "body automatického zaostrenia"
-
-#: src/nikonmn.cpp:1374 src/nikonmn.cpp:1375
-msgid "Single-frame"
-msgstr "jediný záber"
-
-#: src/olympusmn.cpp:1023
-msgid "Low Key"
-msgstr "Nízky kľúč"
-
-#: src/olympusmn.cpp:1024 src/olympusmn.cpp:1066
-msgid "Normal"
-msgstr "Normálny"
-
-#: src/olympusmn.cpp:1025
-msgid "High Key"
-msgstr "Vysoký kľúč"
-
-#: src/olympusmn.cpp:1030
-msgid "User-Selected"
-msgstr "Vybrané používateľom"
-
-#: src/olympusmn.cpp:1031
-#, fuzzy
-msgid "Auto-Override"
+#: src/actions.cpp:2055
+msgid "Overwrite"
 msgstr "Prepísať"
-
-#: src/olympusmn.cpp:1049
-msgid "Off"
-msgstr "vypnutý"
-
-#: src/olympusmn.cpp:1050
-msgid "Low"
-msgstr "nízka"
-
-#: src/olympusmn.cpp:1051
-msgid "Standard"
-msgstr "Štandardný"
-
-#: src/olympusmn.cpp:1052
-msgid "High"
-msgstr "vysoká"
-
-#: src/olympusmn.cpp:1067
-msgid "Fast"
-msgstr "rýchly"
 
 #: src/olympusmn.cpp:1068
 msgid "Panorama"
 msgstr "panoráma"
 
-#: src/olympusmn.cpp:1074
-msgid "Sequence number"
-msgstr "Poradové číslo"
+#: src/actions.cpp:782
+#, fuzzy
+msgid "Preview"
+msgstr "Dáta náhľadu"
 
-#: src/olympusmn.cpp:1080
-msgid "Left to right"
-msgstr "zľava doprava"
+#: src/sigmamn.cpp:151
+msgid "Program"
+msgstr "Program"
+
+#: src/actions.cpp:1474
+msgid "Reg "
+msgstr "Reg "
+
+#: src/actions.cpp:2022
+msgid "Renaming file to"
+msgstr "Súbor sa premenúva na"
 
 #: src/olympusmn.cpp:1081
 msgid "Right to left"
 msgstr "sprava doľava"
 
-#: src/olympusmn.cpp:1082
-msgid "Bottom to top"
-msgstr "zdola hore"
+#: src/pentaxmn.cpp:764
+msgid "Saturation"
+msgstr "Sýtosť"
 
-#: src/olympusmn.cpp:1083
-msgid "Top to bottom"
-msgstr "zhora dolu"
+#: src/olympusmn.cpp:1074
+msgid "Sequence number"
+msgstr "Poradové číslo"
 
-#: src/olympusmn.cpp:1112 src/olympusmn.cpp:1118 src/olympusmn.cpp:1119
-msgid "Auto"
-msgstr "Auto"
+#: src/actions.cpp:1370
+msgid "Set"
+msgstr "Nastaviť"
 
-#: src/olympusmn.cpp:1124
-msgid "3000 Kelvin"
-msgstr "3000 Kelvinov"
+#: src/actions.cpp:1667
+msgid "Setting Exif ISO value to"
+msgstr "Nastavuje sa hodnota EXIF ISO na"
 
-#: src/olympusmn.cpp:1125
-msgid "3700 Kelvin"
-msgstr "3700 Kelvinov"
-
-#: src/olympusmn.cpp:1126
-msgid "4000 Kelvin"
-msgstr "4000 Kelvinov"
-
-#: src/olympusmn.cpp:1127
-msgid "4500 Kelvin"
-msgstr "4500 Kelvinov"
-
-#: src/olympusmn.cpp:1128
-msgid "5500 Kelvin"
-msgstr "5500 Kelvinov"
-
-#: src/olympusmn.cpp:1129
-msgid "6500 Kelvin"
-msgstr "6500 Kelvinov"
-
-#: src/olympusmn.cpp:1130
-msgid "7500 Kelvin"
-msgstr "7500 Kelvinov"
-
-#: src/olympusmn.cpp:1136
-msgid "One-touch"
-msgstr "jedným dotykom"
-
-#: src/panasonicmn.cpp:299
+#: src/actions.cpp:1744
 #, fuzzy
-msgid "Spot mode on"
-msgstr "Bodový režim"
+msgid "Setting Exif UNICODE user comment to"
+msgstr "Nastavuje sa hodnota EXIF ISO na"
 
-#: src/panasonicmn.cpp:300
-msgid "Spot mode off or 3-area (high speed)"
+#: src/actions.cpp:1293
+msgid "Setting JPEG comment"
+msgstr "Nastavuje sa JPEG komentár"
+
+#: src/pentaxmn.cpp:767
+msgid "Sharpness"
+msgstr "Ostrosť"
+
+# exif-exposureprogram-4
+#: src/sigmamn.cpp:153
+msgid "Shutter priority"
+msgstr "priorita uzávierky"
+
+#: src/nikonmn.cpp:1297
+msgid "Single area"
+msgstr "Jednoduchá oblasť"
+
+#: src/nikonmn.cpp:1301
+msgid "Single area (wide)"
 msgstr ""
+
+#: src/nikonmn.cpp:280 src/nikonmn.cpp:1155
+msgid "Single autofocus"
+msgstr ""
+
+#: src/nikonmn.cpp:1374 src/nikonmn.cpp:1375
+msgid "Single-frame"
+msgstr "jediný záber"
 
 #: src/panasonicmn.cpp:301
 #, fuzzy
 msgid "Spot focussing"
 msgstr "Bodové zaostrenie"
 
-#: src/panasonicmn.cpp:302
-msgid "5-area"
+#: src/panasonicmn.cpp:300
+msgid "Spot mode off or 3-area (high speed)"
 msgstr ""
 
-#: src/panasonicmn.cpp:303
-msgid "1-area"
-msgstr ""
-
-#: src/panasonicmn.cpp:304
+#: src/panasonicmn.cpp:299
 #, fuzzy
-msgid "1-area (high speed)"
-msgstr "Orezanie vysoká rýchlosť"
+msgid "Spot mode on"
+msgstr "Bodový režim"
 
-#: src/panasonicmn.cpp:305
-msgid "3-area (auto)"
+#: src/olympusmn.cpp:1051
+msgid "Standard"
+msgstr "Štandardný"
+
+#: src/actions.cpp:1659
+msgid "Standard Exif ISO tag exists; not modified\n"
+msgstr "Štandardný EXIF ISO značka už existuje; nebude sa meniť\n"
+
+# exif-subjectdistance
+#: src/actions.cpp:352
+msgid "Subject distance"
+msgstr "vzdialenosť subjektu"
+
+#: src/tiffimage.cpp:1618 src/tiffimage.cpp:1639 src/tiffimage.cpp:1743
+msgid "TIFF header, offset"
+msgstr "Hlavička TIFF, ofset"
+
+#: src/actions.cpp:1969
+msgid "This file already has the correct name"
+msgstr "Tento súbor už má správny názov"
+
+#: src/exiv2.cpp:216
+msgid ""
+"This program is distributed in the hope that it will be useful,\n"
+"but WITHOUT ANY WARRANTY; without even the implied warranty of\n"
+"MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the\n"
+"GNU General Public License for more details.\n"
+msgstr ""
+"Tento program je šírený v nádeji, že bude užitočný, avšak\n"
+"BEZ AKEJKOĽVEK ZÁRUKY; neposkytujú sa ani odvodené záruky PREDAJNOSTI \n"
+"alebo VHODNOSTI PRE URČITÝ ÚČEL. Ďalšie podrobnosti hľadajte \n"
+"v GNU General Public License.\n"
+
+#: src/exiv2.cpp:211
+msgid ""
+"This program is free software; you can redistribute it and/or\n"
+"modify it under the terms of the GNU General Public License\n"
+"as published by the Free Software Foundation; either version 2\n"
+"of the License, or (at your option) any later version.\n"
 msgstr ""
 
-#: src/panasonicmn.cpp:306
-msgid "3-area (left)"
-msgstr ""
+#: src/actions.cpp:410
+msgid "Thumbnail"
+msgstr "Náhľad"
 
-#: src/panasonicmn.cpp:307
-msgid "3-area (center)"
-msgstr ""
+#: src/actions.cpp:1558
+msgid "Timestamp of metadatum with key"
+msgstr "Časová známka metadáta s kľúčom"
 
-#: src/panasonicmn.cpp:308
-msgid "3-area (right)"
-msgstr ""
+#: src/olympusmn.cpp:1083
+msgid "Top to bottom"
+msgstr "zhora dolu"
 
-#: src/panasonicmn.cpp:320
-msgid " EV"
-msgstr " EV"
+#: src/nikonmn.cpp:291 src/nikonmn.cpp:1232 src/nikonmn.cpp:2111
+#: src/tags.cpp:2655 src/tags.cpp:2768 src/tags.cpp:2656 src/tags.cpp:2769
+#: src/tags.cpp:2664 src/tags.cpp:2777
+msgid "Unknown"
+msgstr "Neznáme"
 
-#: src/pentaxmn.cpp:752
-msgid "No extended bracketing"
-msgstr "Bez rozšírených viacnásobných snímok"
+#: src/pentaxmn.cpp:773
+msgid "Unknown "
+msgstr "Neznáme"
+
+#: src/exiv2.cpp:908
+msgid "Unrecognized "
+msgstr "Nerozpoznaný "
+
+#: src/exiv2.cpp:369
+msgid "Unrecognized option"
+msgstr "Neprípustná možnosť"
+
+#: src/exiv2.cpp:537
+msgid "Unrecognized print item"
+msgstr "Nerozpoznaný cieľ výpisu"
+
+#: src/exiv2.cpp:494
+msgid "Unrecognized print mode"
+msgstr "Nerozpoznaný režim výpisu"
+
+#: src/actions.cpp:860
+msgid "Updating timestamp to"
+msgstr "Časová známka  sa aktualizuje na"
+
+#: src/exiv2.cpp:229
+msgid "Usage:"
+msgstr "Použitie:"
+
+#: src/olympusmn.cpp:1030
+msgid "User-Selected"
+msgstr "Vybrané používateľom"
 
 #: src/pentaxmn.cpp:758
 msgid "WB-BA"
@@ -1298,71 +1174,196 @@ msgstr "WB-BA"
 msgid "WB-GM"
 msgstr "WB-GM"
 
-#: src/pentaxmn.cpp:764
-msgid "Saturation"
-msgstr "Sýtosť"
+#: src/actions.cpp:1356 src/actions.cpp:1430
+msgid "Warning"
+msgstr "Upozornenie"
 
-#: src/pentaxmn.cpp:767
-msgid "Sharpness"
-msgstr "Ostrosť"
+#: src/actions.cpp:407
+msgid "White balance"
+msgstr "Vyváženie bielej"
 
-#: src/pentaxmn.cpp:770
-msgid "Contrast"
-msgstr "Kontrast"
+#: src/actions.cpp:1899
+msgid "Writing Exif data from"
+msgstr "Zapisujú sa EXIF údaje z"
 
-#: src/pentaxmn.cpp:773
-msgid "Unknown "
-msgstr "Neznáme"
+#: src/actions.cpp:1907
+msgid "Writing IPTC data from"
+msgstr "Zápis IPTC dát od"
 
-#: src/sigmamn.cpp:151
-msgid "Program"
-msgstr "Program"
+#: src/actions.cpp:1924
+msgid "Writing JPEG comment from"
+msgstr "Zápis JPEG komentára od"
 
-# exif-exposureprogram-3
-#: src/sigmamn.cpp:152
-msgid "Aperture priority"
-msgstr "priorita clony"
+#: src/actions.cpp:1915
+msgid "Writing XMP data from"
+msgstr "Zápis XMP dát od"
 
-# exif-exposureprogram-4
-#: src/sigmamn.cpp:153
-msgid "Shutter priority"
-msgstr "priorita uzávierky"
+#: src/actions.cpp:1122
+#, fuzzy
+msgid "Writing preview"
+msgstr "Zapisuje sa"
 
-#: src/sigmamn.cpp:154
-msgid "Manual"
-msgstr "Manuál"
+#: src/actions.cpp:1070
+#, fuzzy
+msgid "Writing thumbnail"
+msgstr "náhľad"
 
-#: src/sigmamn.cpp:165
-msgid "Average"
-msgstr "priemer"
-
-#: src/sigmamn.cpp:166
-msgid "Center"
-msgstr "v strede"
-
-#: src/sigmamn.cpp:167
-msgid "8-Segment"
+#: src/exiv2.cpp:221
+msgid ""
+"You should have received a copy of the GNU General Public\n"
+"License along with this program; if not, write to the Free\n"
+"Software Foundation, Inc., 51 Franklin Street, Fifth Floor,\n"
+"Boston, MA 02110-1301 USA\n"
 msgstr ""
 
-#: src/tags.cpp:2656
-msgid "Infinity"
-msgstr "Nekonečno"
+#: src/exiv2.cpp:230
+msgid ""
+"[ options ] [ action ] file ...\n"
+"\n"
+msgstr ""
+"[ voľby ] [ činnosť ] súbor ...\n"
+"\n"
 
-#: src/tags.cpp:2750
-msgid "Digital zoom not used"
-msgstr "Digitálne priblíženie nebolo použité"
+#: src/tiffimage.cpp:1624 src/tiffimage.cpp:1645 src/tiffimage.cpp:1749
+msgid "big endian encoded"
+msgstr ""
 
-#: src/tiffimage.cpp:1590
-msgid "TIFF header, offset"
-msgstr "Hlavička TIFF, ofset"
+#: src/actions.cpp:1564
+msgid "by"
+msgstr "Autor"
 
-#: src/tiffimage.cpp:1595
+#: src/actions.cpp:788 src/actions.cpp:1128
+msgid "bytes"
+msgstr "bajtov"
+
+#: src/actions.cpp:1593
+msgid "day"
+msgstr "deň"
+
+#: src/actions.cpp:1590
+msgid "days"
+msgstr "dní"
+
+#: src/crwimage.cpp:682
+msgid "dir"
+msgstr "priečinok"
+
+#: src/actions.cpp:1994
+msgid "exists. [O]verwrite, [r]ename or [s]kip?"
+msgstr "existuje. [P]repísať, p[r]emenovať alebo pre[s]kočiť?"
+
+#: src/actions.cpp:837
+msgid "found in the file"
+msgstr "nájdený v súbore"
+
+#: src/exiv2.cpp:375
+msgid "getopt returned unexpected character code"
+msgstr "getopt vrátil neočakávaný kód znaku"
+
+#: src/nikonmn.cpp:353
+msgid "guess"
+msgstr "hádať"
+
+#: src/actions.cpp:849
+msgid "in the file"
+msgstr "v súbore"
+
+#: src/exiv2.cpp:411 src/exiv2.cpp:471 src/exiv2.cpp:657
+msgid "is not compatible with a previous option\n"
+msgstr "nie je kompatibilná s predošlou voľbou\n"
+
+#: src/exiv2.cpp:980
+msgid "line"
+msgstr "riadok"
+
+#: src/tiffimage.cpp:1623 src/tiffimage.cpp:1644 src/tiffimage.cpp:1748
 msgid "little endian encoded"
 msgstr ""
 
-#: src/tiffimage.cpp:1596
-msgid "big endian encoded"
-msgstr ""
+#: src/actions.cpp:1582
+msgid "month"
+msgstr "mesiac"
+
+#: src/actions.cpp:1579
+msgid "months"
+msgstr "mesiacov"
+
+#: src/nikonmn.cpp:1323
+msgid "none"
+msgstr "žiadne"
+
+#: src/actions.cpp:836
+msgid "nor"
+msgstr "nor"
+
+#: src/actions.cpp:1559
+msgid "not set\n"
+msgstr "nenastavené\n"
+
+#: src/crwimage.cpp:686
+msgid "offset"
+msgstr "ofset"
+
+#: src/exiv2.cpp:463
+msgid "option argument"
+msgstr "argument voľby"
+
+#: src/actions.cpp:786 src/actions.cpp:1126
+msgid "pixels"
+msgstr "pixelov"
+
+#: src/exiv2.cpp:365
+msgid "requires an argument\n"
+msgstr "vyžaduje parameter\n"
+
+#: src/actions.cpp:1599
+msgid "s"
+msgstr "s"
+
+#: src/crwimage.cpp:685
+msgid "size"
+msgstr "veľkosť"
+
+#: src/crwimage.cpp:680
+msgid "tag"
+msgstr "značka"
+
+#: src/exiv2.cpp:909
+msgid "target"
+msgstr "cieľ"
+
+#: src/actions.cpp:1624 src/actions.cpp:1900 src/actions.cpp:1908
+#: src/actions.cpp:1916 src/actions.cpp:1925 src/actions.cpp:2034
+msgid "to"
+msgstr "až"
+
+#: src/actions.cpp:1071 src/actions.cpp:1129
+msgid "to file"
+msgstr "do súboru"
+
+#: src/crwimage.cpp:684
+msgid "type"
+msgstr "typ"
+
+#: src/actions.cpp:2024
+msgid "updating timestamp"
+msgstr "aktualizuje sa časová známka"
+
+#: src/nikonmn.cpp:1333
+msgid "used"
+msgstr "použité"
+
+#: src/actions.cpp:1359 src/actions.cpp:1433
+msgid "value"
+msgstr "hodnota"
+
+#: src/actions.cpp:1571
+msgid "year"
+msgstr "rok"
+
+#: src/actions.cpp:1568 src/actions.cpp:1617
+msgid "years"
+msgstr "rokov"
 
 #~ msgid "PowerShot A30"
 #~ msgstr "PowerShot A30"
