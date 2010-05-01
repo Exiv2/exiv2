@@ -683,8 +683,7 @@ namespace Exiv2 {
         assert(object != 0);
 
         byte* p = object->start() + 2;
-        for (TiffDirectory::Components::iterator i = object->components_.begin();
-             i != object->components_.end(); ++i) {
+        for (TiffDirectory::Components::iterator i = object->begin(); i != object->end(); ++i) {
             p += updateDirEntry(p, byteOrder(), *i);
         }
     }
@@ -1338,11 +1337,73 @@ namespace Exiv2 {
 
     } // TiffReader::visitDirectory
 
+    void TiffReader::visitDirectoryEnd(TiffDirectory* object)
+    {
+        assert(object != 0);
+
+        if (!(object->tag() == 0xc634 && object->group() == Group::sonysr2)) return;
+        TiffEntryBase* te = 0;
+        int32_t offset = 0;
+        uint32_t size = 0;
+        for (TiffComponent::Components::const_iterator i = object->begin(); i != object->end(); ++i) {
+            switch ((*i)->tag()) {
+            case 0x7200:
+                te = dynamic_cast<TiffEntryBase*>(*i);
+                if (te && te->pValue()) offset = te->pValue()->toLong();
+                break;
+            case 0x7201:
+                te = dynamic_cast<TiffEntryBase*>(*i);
+                if (te && te->pValue()) size = te->pValue()->toLong();
+                break;
+            }
+        }
+        if (!(offset && size)) return;
+
+        // Todo: remove debug output
+        std::cout << "offset = " << offset << "\n"
+                  << "size   = " << size << "\n";
+
+        DataBuf buf = sonyDecrypt(pData_ + baseOffset() + offset, size, object, byteOrder());
+
+        // Todo: remove debug output
+        hexdump(std::cout, buf.pData_, EXV_MIN(100, buf.size_));
+
+    } // TiffReader::visitDirectoryEnd
+
     void TiffReader::visitSubIfd(TiffSubIfd* object)
     {
         assert(object != 0);
 
         readTiffEntry(object);
+
+// <hack>
+// Todo: Merge with the original section
+        if (object->tiffType() == ttUnsignedByte && object->count() == 4) {
+            int32_t offset = getLong(object->pData(), byteOrder());
+
+            // Todo: remove debug output
+            std::cout << "baseOffset = " << baseOffset() << ", offset = " << offset << "\n";
+
+                if (   baseOffset() + offset > size_
+                    || static_cast<int32_t>(baseOffset()) + offset < 0) {
+#ifndef SUPPRESS_WARNINGS
+                    std::cerr << "Error: "
+                              << "Directory " << tiffGroupName(object->group())
+                              << ", entry 0x" << std::setw(4)
+                              << std::setfill('0') << std::hex << object->tag()
+                              << " Sub-IFD pointer " << 1
+                              << " is out of bounds; ignoring it.\n";
+#endif
+                    return;
+                }
+            TiffComponent::AutoPtr td(new TiffDirectory(object->tag(),
+                                                        object->newGroup_));
+            td->setStart(pData_ + baseOffset() + offset);
+            object->addChild(td);
+            return;
+        }
+// </hack>
+
         if (   (object->tiffType() == ttUnsignedLong || object->tiffType() == ttSignedLong
                 || object->tiffType() == ttTiffIfd)
             && object->count() >= 1) {

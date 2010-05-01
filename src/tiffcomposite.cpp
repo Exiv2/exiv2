@@ -166,7 +166,8 @@ namespace Exiv2 {
         { 335, "Sony1MltCsA100" },
         { 336, "Sony1MltCs7D" },
         { 337, "Sony2Cs"      },
-        { 338, "Sony2Cs2"     }
+        { 338, "Sony2Cs2"     },
+        { 339, "SonySR2"      }
     };
 
     bool TiffGroupInfo::operator==(const uint16_t& group) const
