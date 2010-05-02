@@ -1439,7 +1439,7 @@ namespace Exiv2 {
 #endif
                     return;
                 }
-                if (i > 9) { // Todo: should be 19 and shouldn't be hardcoded in the first place
+                if (i > 19) { // Todo: max number of sub-IFDs shouldn't be hardcoded
 #ifndef SUPPRESS_WARNINGS
                     std::cerr << "Warning: "
                               << "Directory " << tiffGroupName(object->group())
