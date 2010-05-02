@@ -1358,15 +1358,33 @@ namespace Exiv2 {
             }
         }
         if (!(offset && size)) return;
+        DataBuf buf = sonyDecrypt(pData_ + baseOffset() + offset, size, object, byteOrder());
 
         // Todo: remove debug output
         std::cout << "offset = " << offset << "\n"
                   << "size   = " << size << "\n";
-
-        DataBuf buf = sonyDecrypt(pData_ + baseOffset() + offset, size, object, byteOrder());
-
-        // Todo: remove debug output
         hexdump(std::cout, buf.pData_, EXV_MIN(100, buf.size_));
+
+// <hack>
+        const byte* pStart = buf.pData_;
+        buf.release(); // Memory leak!
+        TiffComponent::AutoPtr td(new TiffDirectory(object->tag(), Group::sonysr2ifd));
+        td->setStart(pStart);
+        TiffComponent* tc = object->addChild(td);
+        TiffRwState::AutoPtr state(new TiffRwState(byteOrder(), -offset));
+        changeState(state);
+        const byte* pOrigData = pData_;
+        uint32_t origSize = size_;
+        const byte* pOrigLast = pLast_;
+        pData_ = pStart;
+        size_ = size;
+        pLast_ = pStart + size;
+        tc->accept(*this);
+        pData_ = pOrigData;
+        size_ = origSize;
+        pLast_ = pOrigLast;
+        resetState();
+// </hack>
 
     } // TiffReader::visitDirectoryEnd
 
@@ -1421,7 +1439,7 @@ namespace Exiv2 {
 #endif
                     return;
                 }
-                if (object->newGroup_ + i == Group::subimgX) {
+                if (i > 9) { // Todo: should be 19 and shouldn't be hardcoded in the first place
 #ifndef SUPPRESS_WARNINGS
                     std::cerr << "Warning: "
                               << "Directory " << tiffGroupName(object->group())

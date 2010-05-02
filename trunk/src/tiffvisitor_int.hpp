@@ -720,7 +720,7 @@ namespace Exiv2 {
 
         // DATA
         const byte*          pData_;      //!< Pointer to the memory buffer
-        const uint32_t       size_;       //!< Size of the buffer
+        uint32_t             size_;       //!< Size of the buffer
         const byte*          pLast_;      //!< Pointer to the last byte
         TiffComponent* const pRoot_;      //!< Root element of the composite
         TiffRwState*         pState_;     //!< State class

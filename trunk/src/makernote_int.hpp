@@ -119,6 +119,28 @@ namespace Exiv2 {
         const uint16_t sony2cs   = 337; //!< Sony Camera Settings (in Sony2 makernote)
         const uint16_t sony2cs2  = 338; //!< Sony Camera Settings 2 (in Sony2 makernote)
         const uint16_t sonysr2   = 339; //!< Sony SR2 private tags (in a sub-IFD of Exif.Image.DNGPrivateData)
+        const uint16_t sonysr2ifd= 340; //!< Encrypted Sony SR2 sub-IFD tags
+        const uint16_t sonysr2dt1= 341; //!< Sony SR2 data-IFD 1 tags
+        const uint16_t sonysr2dt2= 342; //!< Sony SR2 data-IFD 2 tags
+        const uint16_t sonysr2dt3= 343; //!< Sony SR2 data-IFD 3 tags
+        const uint16_t sonysr2dt4= 344; //!< Sony SR2 data-IFD 4 tags
+        const uint16_t sonysr2dt5= 345; //!< Sony SR2 data-IFD 5 tags
+        const uint16_t sonysr2dt6= 346; //!< Sony SR2 data-IFD 6 tags
+        const uint16_t sonysr2dt7= 347; //!< Sony SR2 data-IFD 7 tags
+        const uint16_t sonysr2dt8= 348; //!< Sony SR2 data-IFD 8 tags
+        const uint16_t sonysr2dt9= 349; //!< Sony SR2 data-IFD 9 tags
+        const uint16_t sonysr2dt10=350; //!< Sony SR2 data-IFD 10 tags
+        const uint16_t sonysr2dt11=351; //!< Sony SR2 data-IFD 11 tags
+        const uint16_t sonysr2dt12=352; //!< Sony SR2 data-IFD 12 tags
+        const uint16_t sonysr2dt13=353; //!< Sony SR2 data-IFD 13 tags
+        const uint16_t sonysr2dt14=354; //!< Sony SR2 data-IFD 14 tags
+        const uint16_t sonysr2dt15=355; //!< Sony SR2 data-IFD 15 tags
+        const uint16_t sonysr2dt16=356; //!< Sony SR2 data-IFD 16 tags
+        const uint16_t sonysr2dt17=357; //!< Sony SR2 data-IFD 17 tags
+        const uint16_t sonysr2dt18=358; //!< Sony SR2 data-IFD 18 tags
+        const uint16_t sonysr2dt19=359; //!< Sony SR2 data-IFD 19 tags
+        const uint16_t sonyidc   = 360; //!< Sony IDC tags
+        const uint16_t sonyidc2  = 361; //!< Sony IDC 2 tags
     }
 
 // *****************************************************************************

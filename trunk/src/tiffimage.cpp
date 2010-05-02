@@ -101,7 +101,17 @@ namespace Exiv2 {
             "Exif.SubImage6.NewSubfileType",
             "Exif.SubImage7.NewSubfileType",
             "Exif.SubImage8.NewSubfileType",
-            "Exif.SubImage9.NewSubfileType"
+            "Exif.SubImage9.NewSubfileType",
+            "Exif.SubImage10.NewSubfileType",
+            "Exif.SubImage11.NewSubfileType",
+            "Exif.SubImage12.NewSubfileType",
+            "Exif.SubImage13.NewSubfileType",
+            "Exif.SubImage14.NewSubfileType",
+            "Exif.SubImage15.NewSubfileType",
+            "Exif.SubImage16.NewSubfileType",
+            "Exif.SubImage17.NewSubfileType",
+            "Exif.SubImage18.NewSubfileType",
+            "Exif.SubImage19.NewSubfileType",
         };
         // Find the group of the primary image, default to "Image"
         std::string groupName = "Image";
@@ -939,9 +949,41 @@ namespace Exiv2 {
         { Tag::root, Group::subimg7,   Group::ifd0,      0x014a    },
         { Tag::root, Group::subimg8,   Group::ifd0,      0x014a    },
         { Tag::root, Group::subimg9,   Group::ifd0,      0x014a    },
+        { Tag::root, Group::subimg10,  Group::ifd0,      0x014a    },
+        { Tag::root, Group::subimg11,  Group::ifd0,      0x014a    },
+        { Tag::root, Group::subimg12,  Group::ifd0,      0x014a    },
+        { Tag::root, Group::subimg13,  Group::ifd0,      0x014a    },
+        { Tag::root, Group::subimg14,  Group::ifd0,      0x014a    },
+        { Tag::root, Group::subimg15,  Group::ifd0,      0x014a    },
+        { Tag::root, Group::subimg16,  Group::ifd0,      0x014a    },
+        { Tag::root, Group::subimg17,  Group::ifd0,      0x014a    },
+        { Tag::root, Group::subimg18,  Group::ifd0,      0x014a    },
+        { Tag::root, Group::subimg19,  Group::ifd0,      0x014a    },
         { Tag::root, Group::exif,      Group::ifd0,      0x8769    },
         { Tag::root, Group::gps,       Group::ifd0,      0x8825    },
         { Tag::root, Group::sonysr2,   Group::ifd0,      0xc634    },
+        { Tag::root, Group::sonysr2ifd,Group::sonysr2,   0x7200    },
+        { Tag::root, Group::sonyidc,   Group::sonysr2,   0x7240    },
+        { Tag::root, Group::sonyidc2,  Group::sonysr2,   0x7241    },
+        { Tag::root, Group::sonysr2dt1,Group::sonysr2ifd,0x74c0    },
+        { Tag::root, Group::sonysr2dt2,Group::sonysr2ifd,0x74c0    },
+        { Tag::root, Group::sonysr2dt3,Group::sonysr2ifd,0x74c0    },
+        { Tag::root, Group::sonysr2dt4,Group::sonysr2ifd,0x74c0    },
+        { Tag::root, Group::sonysr2dt5,Group::sonysr2ifd,0x74c0    },
+        { Tag::root, Group::sonysr2dt6,Group::sonysr2ifd,0x74c0    },
+        { Tag::root, Group::sonysr2dt7,Group::sonysr2ifd,0x74c0    },
+        { Tag::root, Group::sonysr2dt8,Group::sonysr2ifd,0x74c0    },
+        { Tag::root, Group::sonysr2dt9,Group::sonysr2ifd,0x74c0    },
+        { Tag::root, Group::sonysr2dt10,Group::sonysr2ifd,0x74c0   },
+        { Tag::root, Group::sonysr2dt11,Group::sonysr2ifd,0x74c0   },
+        { Tag::root, Group::sonysr2dt12,Group::sonysr2ifd,0x74c0   },
+        { Tag::root, Group::sonysr2dt13,Group::sonysr2ifd,0x74c0   },
+        { Tag::root, Group::sonysr2dt14,Group::sonysr2ifd,0x74c0   },
+        { Tag::root, Group::sonysr2dt15,Group::sonysr2ifd,0x74c0   },
+        { Tag::root, Group::sonysr2dt16,Group::sonysr2ifd,0x74c0   },
+        { Tag::root, Group::sonysr2dt17,Group::sonysr2ifd,0x74c0   },
+        { Tag::root, Group::sonysr2dt18,Group::sonysr2ifd,0x74c0   },
+        { Tag::root, Group::sonysr2dt19,Group::sonysr2ifd,0x74c0   },
         { Tag::root, Group::iop,       Group::exif,      0xa005    },
         { Tag::root, Group::ifd1,      Group::ifd0,      Tag::next },
         { Tag::root, Group::ifd2,      Group::ifd1,      Tag::next },
@@ -1143,6 +1185,106 @@ namespace Exiv2 {
         {    0x0202, Group::subimg9,   newTiffImageSize<0x0201, Group::subimg9>  },
         { Tag::next, Group::subimg9,   newTiffDirectory<Group::ignr>             },
         {  Tag::all, Group::subimg9,   newTiffEntry                              },
+
+        // Subdir subimg10
+        {    0x0111, Group::subimg10,  newTiffImageData<0x0117, Group::subimg10> },
+        {    0x0117, Group::subimg10,  newTiffImageSize<0x0111, Group::subimg10> },
+        {    0x0144, Group::subimg10,  newTiffImageData<0x0145, Group::subimg10> },
+        {    0x0145, Group::subimg10,  newTiffImageSize<0x0144, Group::subimg10> },
+        {    0x0201, Group::subimg10,  newTiffImageData<0x0202, Group::subimg10> },
+        {    0x0202, Group::subimg10,  newTiffImageSize<0x0201, Group::subimg10> },
+        { Tag::next, Group::subimg10,  newTiffDirectory<Group::ignr>             },
+        {  Tag::all, Group::subimg10,  newTiffEntry                              },
+
+        // Subdir subimg11
+        {    0x0111, Group::subimg11,  newTiffImageData<0x0117, Group::subimg11> },
+        {    0x0117, Group::subimg11,  newTiffImageSize<0x0111, Group::subimg11> },
+        {    0x0144, Group::subimg11,  newTiffImageData<0x0145, Group::subimg11> },
+        {    0x0145, Group::subimg11,  newTiffImageSize<0x0144, Group::subimg11> },
+        {    0x0201, Group::subimg11,  newTiffImageData<0x0202, Group::subimg11> },
+        {    0x0202, Group::subimg11,  newTiffImageSize<0x0201, Group::subimg11> },
+        { Tag::next, Group::subimg11,  newTiffDirectory<Group::ignr>             },
+        {  Tag::all, Group::subimg11,  newTiffEntry                              },
+
+        // Subdir subimg12
+        {    0x0111, Group::subimg12,  newTiffImageData<0x0117, Group::subimg12> },
+        {    0x0117, Group::subimg12,  newTiffImageSize<0x0111, Group::subimg12> },
+        {    0x0144, Group::subimg12,  newTiffImageData<0x0145, Group::subimg12> },
+        {    0x0145, Group::subimg12,  newTiffImageSize<0x0144, Group::subimg12> },
+        {    0x0201, Group::subimg12,  newTiffImageData<0x0202, Group::subimg12> },
+        {    0x0202, Group::subimg12,  newTiffImageSize<0x0201, Group::subimg12> },
+        { Tag::next, Group::subimg12,  newTiffDirectory<Group::ignr>             },
+        {  Tag::all, Group::subimg12,  newTiffEntry                              },
+
+        // Subdir subimg13
+        {    0x0111, Group::subimg13,  newTiffImageData<0x0117, Group::subimg13> },
+        {    0x0117, Group::subimg13,  newTiffImageSize<0x0111, Group::subimg13> },
+        {    0x0144, Group::subimg13,  newTiffImageData<0x0145, Group::subimg13> },
+        {    0x0145, Group::subimg13,  newTiffImageSize<0x0144, Group::subimg13> },
+        {    0x0201, Group::subimg13,  newTiffImageData<0x0202, Group::subimg13> },
+        {    0x0202, Group::subimg13,  newTiffImageSize<0x0201, Group::subimg13> },
+        { Tag::next, Group::subimg13,  newTiffDirectory<Group::ignr>             },
+        {  Tag::all, Group::subimg13,  newTiffEntry                              },
+
+        // Subdir subimg14
+        {    0x0111, Group::subimg14,  newTiffImageData<0x0117, Group::subimg14> },
+        {    0x0117, Group::subimg14,  newTiffImageSize<0x0111, Group::subimg14> },
+        {    0x0144, Group::subimg14,  newTiffImageData<0x0145, Group::subimg14> },
+        {    0x0145, Group::subimg14,  newTiffImageSize<0x0144, Group::subimg14> },
+        {    0x0201, Group::subimg14,  newTiffImageData<0x0202, Group::subimg14> },
+        {    0x0202, Group::subimg14,  newTiffImageSize<0x0201, Group::subimg14> },
+        { Tag::next, Group::subimg14,  newTiffDirectory<Group::ignr>             },
+        {  Tag::all, Group::subimg14,  newTiffEntry                              },
+
+        // Subdir subimg15
+        {    0x0111, Group::subimg15,  newTiffImageData<0x0117, Group::subimg15> },
+        {    0x0117, Group::subimg15,  newTiffImageSize<0x0111, Group::subimg15> },
+        {    0x0144, Group::subimg15,  newTiffImageData<0x0145, Group::subimg15> },
+        {    0x0145, Group::subimg15,  newTiffImageSize<0x0144, Group::subimg15> },
+        {    0x0201, Group::subimg15,  newTiffImageData<0x0202, Group::subimg15> },
+        {    0x0202, Group::subimg15,  newTiffImageSize<0x0201, Group::subimg15> },
+        { Tag::next, Group::subimg15,  newTiffDirectory<Group::ignr>             },
+        {  Tag::all, Group::subimg15,  newTiffEntry                              },
+
+        // Subdir subimg16
+        {    0x0111, Group::subimg16,  newTiffImageData<0x0117, Group::subimg16> },
+        {    0x0117, Group::subimg16,  newTiffImageSize<0x0111, Group::subimg16> },
+        {    0x0144, Group::subimg16,  newTiffImageData<0x0145, Group::subimg16> },
+        {    0x0145, Group::subimg16,  newTiffImageSize<0x0144, Group::subimg16> },
+        {    0x0201, Group::subimg16,  newTiffImageData<0x0202, Group::subimg16> },
+        {    0x0202, Group::subimg16,  newTiffImageSize<0x0201, Group::subimg16> },
+        { Tag::next, Group::subimg16,  newTiffDirectory<Group::ignr>             },
+        {  Tag::all, Group::subimg16,  newTiffEntry                              },
+
+        // Subdir subimg17
+        {    0x0111, Group::subimg17,  newTiffImageData<0x0117, Group::subimg17> },
+        {    0x0117, Group::subimg17,  newTiffImageSize<0x0111, Group::subimg17> },
+        {    0x0144, Group::subimg17,  newTiffImageData<0x0145, Group::subimg17> },
+        {    0x0145, Group::subimg17,  newTiffImageSize<0x0144, Group::subimg17> },
+        {    0x0201, Group::subimg17,  newTiffImageData<0x0202, Group::subimg17> },
+        {    0x0202, Group::subimg17,  newTiffImageSize<0x0201, Group::subimg17> },
+        { Tag::next, Group::subimg17,  newTiffDirectory<Group::ignr>             },
+        {  Tag::all, Group::subimg17,  newTiffEntry                              },
+
+        // Subdir subimg18
+        {    0x0111, Group::subimg18,  newTiffImageData<0x0117, Group::subimg18> },
+        {    0x0117, Group::subimg18,  newTiffImageSize<0x0111, Group::subimg18> },
+        {    0x0144, Group::subimg18,  newTiffImageData<0x0145, Group::subimg18> },
+        {    0x0145, Group::subimg18,  newTiffImageSize<0x0144, Group::subimg18> },
+        {    0x0201, Group::subimg18,  newTiffImageData<0x0202, Group::subimg18> },
+        {    0x0202, Group::subimg18,  newTiffImageSize<0x0201, Group::subimg18> },
+        { Tag::next, Group::subimg18,  newTiffDirectory<Group::ignr>             },
+        {  Tag::all, Group::subimg18,  newTiffEntry                              },
+
+        // Subdir subimg19
+        {    0x0111, Group::subimg19,  newTiffImageData<0x0117, Group::subimg19> },
+        {    0x0117, Group::subimg19,  newTiffImageSize<0x0111, Group::subimg19> },
+        {    0x0144, Group::subimg19,  newTiffImageData<0x0145, Group::subimg19> },
+        {    0x0145, Group::subimg19,  newTiffImageSize<0x0144, Group::subimg19> },
+        {    0x0201, Group::subimg19,  newTiffImageData<0x0202, Group::subimg19> },
+        {    0x0202, Group::subimg19,  newTiffImageSize<0x0201, Group::subimg19> },
+        { Tag::next, Group::subimg19,  newTiffDirectory<Group::ignr>             },
+        {  Tag::all, Group::subimg19,  newTiffEntry                              },
 
         // Exif subdir
         {    0xa005, Group::exif,      newTiffSubIfd<Group::iop>                 },
@@ -1367,8 +1509,100 @@ namespace Exiv2 {
         {  Tag::all, Group::sigmamn,   newTiffEntry                              },
 
         // Sony SR2 Private tags
+//    Todo: needs support for 'encrypted sub-IFD' {    0x7200, Group::sonysr2,   newTiffSubIfd<Group::sonysr2ifd>          },
+        {    0x7240, Group::sonysr2,   newTiffSubIfd<Group::sonyidc>                    },
+        {    0x7241, Group::sonysr2,   newTiffSubIfd<Group::sonyidc2>                   },
         { Tag::next, Group::sonysr2,   newTiffDirectory<Group::ignr>             },
         {  Tag::all, Group::sonysr2,   newTiffEntry                              },
+
+        // Sony SR2 sub-IFD tags
+        {    0x74c0, Group::sonysr2ifd,newTiffSubIfd<Group::sonysr2dt1>                 },
+        { Tag::next, Group::sonysr2ifd,newTiffDirectory<Group::ignr>             },
+        {  Tag::all, Group::sonysr2ifd,newTiffEntry                              },
+
+        // Sony IDC tags
+        { Tag::next, Group::sonyidc,   newTiffDirectory<Group::ignr>             },
+        {  Tag::all, Group::sonyidc,   newTiffEntry                              },
+
+        // Sony IDC 2 tags
+        { Tag::next, Group::sonyidc2,  newTiffDirectory<Group::ignr>             },
+        {  Tag::all, Group::sonyidc2,  newTiffEntry                              },
+
+        // Sony SR2 data-IFD 1 tags
+        { Tag::next, Group::sonysr2dt1,newTiffDirectory<Group::ignr>             },
+        {  Tag::all, Group::sonysr2dt1,newTiffEntry                              },
+
+        // Sony SR2 data-IFD 2 tags
+        { Tag::next, Group::sonysr2dt2,newTiffDirectory<Group::ignr>             },
+        {  Tag::all, Group::sonysr2dt2,newTiffEntry                              },
+
+        // Sony SR2 data-IFD 3 tags
+        { Tag::next, Group::sonysr2dt3,newTiffDirectory<Group::ignr>             },
+        {  Tag::all, Group::sonysr2dt3,newTiffEntry                              },
+
+        // Sony SR2 data-IFD 4 tags
+        { Tag::next, Group::sonysr2dt4,newTiffDirectory<Group::ignr>             },
+        {  Tag::all, Group::sonysr2dt4,newTiffEntry                              },
+
+        // Sony SR2 data-IFD 5 tags
+        { Tag::next, Group::sonysr2dt5,newTiffDirectory<Group::ignr>             },
+        {  Tag::all, Group::sonysr2dt5,newTiffEntry                              },
+
+        // Sony SR2 data-IFD 6 tags
+        { Tag::next, Group::sonysr2dt6,newTiffDirectory<Group::ignr>             },
+        {  Tag::all, Group::sonysr2dt6,newTiffEntry                              },
+
+        // Sony SR2 data-IFD 7 tags
+        { Tag::next, Group::sonysr2dt7,newTiffDirectory<Group::ignr>             },
+        {  Tag::all, Group::sonysr2dt7,newTiffEntry                              },
+
+        // Sony SR2 data-IFD 8 tags
+        { Tag::next, Group::sonysr2dt8,newTiffDirectory<Group::ignr>             },
+        {  Tag::all, Group::sonysr2dt8,newTiffEntry                              },
+
+        // Sony SR2 data-IFD 9 tags
+        { Tag::next, Group::sonysr2dt9,newTiffDirectory<Group::ignr>             },
+        {  Tag::all, Group::sonysr2dt9,newTiffEntry                              },
+
+        // Sony SR2 data-IFD 10 tags
+        { Tag::next, Group::sonysr2dt10,newTiffDirectory<Group::ignr>            },
+        {  Tag::all, Group::sonysr2dt10,newTiffEntry                             },
+
+        // Sony SR2 data-IFD 11 tags
+        { Tag::next, Group::sonysr2dt11,newTiffDirectory<Group::ignr>            },
+        {  Tag::all, Group::sonysr2dt11,newTiffEntry                             },
+
+        // Sony SR2 data-IFD 12 tags
+        { Tag::next, Group::sonysr2dt12,newTiffDirectory<Group::ignr>            },
+        {  Tag::all, Group::sonysr2dt12,newTiffEntry                             },
+
+        // Sony SR2 data-IFD 13 tags
+        { Tag::next, Group::sonysr2dt13,newTiffDirectory<Group::ignr>            },
+        {  Tag::all, Group::sonysr2dt13,newTiffEntry                             },
+
+        // Sony SR2 data-IFD 14 tags
+        { Tag::next, Group::sonysr2dt14,newTiffDirectory<Group::ignr>            },
+        {  Tag::all, Group::sonysr2dt14,newTiffEntry                             },
+
+        // Sony SR2 data-IFD 15 tags
+        { Tag::next, Group::sonysr2dt15,newTiffDirectory<Group::ignr>            },
+        {  Tag::all, Group::sonysr2dt15,newTiffEntry                             },
+
+        // Sony SR2 data-IFD 16 tags
+        { Tag::next, Group::sonysr2dt16,newTiffDirectory<Group::ignr>            },
+        {  Tag::all, Group::sonysr2dt16,newTiffEntry                             },
+
+        // Sony SR2 data-IFD 17 tags
+        { Tag::next, Group::sonysr2dt17,newTiffDirectory<Group::ignr>            },
+        {  Tag::all, Group::sonysr2dt17,newTiffEntry                             },
+
+        // Sony SR2 data-IFD 18 tags
+        { Tag::next, Group::sonysr2dt18,newTiffDirectory<Group::ignr>            },
+        {  Tag::all, Group::sonysr2dt18,newTiffEntry                             },
+
+        // Sony SR2 data-IFD 19 tags
+        { Tag::next, Group::sonysr2dt19,newTiffDirectory<Group::ignr>            },
+        {  Tag::all, Group::sonysr2dt19,newTiffEntry                             },
 
         // Sony1 makernote
         {    0x0114, Group::sony1mn,   EXV_COMPLEX_BINARY_ARRAY(sony1CsSet, sonyCsSelector) },
@@ -1676,7 +1910,17 @@ namespace Exiv2 {
             Group::subimg6,
             Group::subimg7,
             Group::subimg8,
-            Group::subimg9
+            Group::subimg9,
+            Group::subimg10,
+            Group::subimg11,
+            Group::subimg12,
+            Group::subimg13,
+            Group::subimg14,
+            Group::subimg15,
+            Group::subimg16,
+            Group::subimg17,
+            Group::subimg18,
+            Group::subimg19
         };
 
         for (unsigned int i = 0; i < EXV_COUNTOF(imageGroups); ++i) {

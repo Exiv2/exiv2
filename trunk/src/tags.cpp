@@ -110,6 +110,16 @@ namespace Exiv2 {
         { subImage7Id,       "SubImage7", "SubImage7",    ExifTags::ifdTagList           },
         { subImage8Id,       "SubImage8", "SubImage8",    ExifTags::ifdTagList           },
         { subImage9Id,       "SubImage9", "SubImage9",    ExifTags::ifdTagList           },
+        { subImage10Id,      "SubImage1", "SubImage10",   ExifTags::ifdTagList           },
+        { subImage11Id,      "SubImage1", "SubImage11",   ExifTags::ifdTagList           },
+        { subImage12Id,      "SubImage1", "SubImage12",   ExifTags::ifdTagList           },
+        { subImage13Id,      "SubImage1", "SubImage13",   ExifTags::ifdTagList           },
+        { subImage14Id,      "SubImage1", "SubImage14",   ExifTags::ifdTagList           },
+        { subImage15Id,      "SubImage1", "SubImage15",   ExifTags::ifdTagList           },
+        { subImage16Id,      "SubImage1", "SubImage16",   ExifTags::ifdTagList           },
+        { subImage17Id,      "SubImage1", "SubImage17",   ExifTags::ifdTagList           },
+        { subImage18Id,      "SubImage1", "SubImage18",   ExifTags::ifdTagList           },
+        { subImage19Id,      "SubImage1", "SubImage19",   ExifTags::ifdTagList           },
         { mnIfdId,           "Makernote", "MakerNote",    ExifTags::mnTagList            },
         { canonIfdId,        "Makernote", "Canon",        CanonMakerNote::tagList        },
         { canonCsIfdId,      "Makernote", "CanonCs",      CanonMakerNote::tagListCs      },
@@ -182,6 +192,28 @@ namespace Exiv2 {
         { sony2CsIfdId,      "Makernote", "Sony2Cs",      SonyMakerNote::tagListCs       },
         { sony2Cs2IfdId,     "Makernote", "Sony2Cs2",     SonyMakerNote::tagListCs2      },
         { sonySr2IfdId,      "Makernote", "SonySR2",      SonyMakerNote::tagListSr2      },
+        { sonySr2SubIfdId,   "Makernote", "SonySR2SubIfd",SonyMakerNote::tagListSr2SubIfd},
+        { sonySr2Dt1IfdId,   "Makernote", "SonySR2Data1", SonyMakerNote::tagListSr2Data  },
+        { sonySr2Dt2IfdId,   "Makernote", "SonySR2Data2", SonyMakerNote::tagListSr2Data  },
+        { sonySr2Dt3IfdId,   "Makernote", "SonySR2Data3", SonyMakerNote::tagListSr2Data  },
+        { sonySr2Dt4IfdId,   "Makernote", "SonySR2Data4", SonyMakerNote::tagListSr2Data  },
+        { sonySr2Dt5IfdId,   "Makernote", "SonySR2Data5", SonyMakerNote::tagListSr2Data  },
+        { sonySr2Dt6IfdId,   "Makernote", "SonySR2Data6", SonyMakerNote::tagListSr2Data  },
+        { sonySr2Dt7IfdId,   "Makernote", "SonySR2Data7", SonyMakerNote::tagListSr2Data  },
+        { sonySr2Dt8IfdId,   "Makernote", "SonySR2Data8", SonyMakerNote::tagListSr2Data  },
+        { sonySr2Dt9IfdId,   "Makernote", "SonySR2Data9", SonyMakerNote::tagListSr2Data  },
+        { sonySr2Dt10IfdId,  "Makernote", "SonySR2Data10",SonyMakerNote::tagListSr2Data  },
+        { sonySr2Dt11IfdId,  "Makernote", "SonySR2Data11",SonyMakerNote::tagListSr2Data  },
+        { sonySr2Dt12IfdId,  "Makernote", "SonySR2Data12",SonyMakerNote::tagListSr2Data  },
+        { sonySr2Dt13IfdId,  "Makernote", "SonySR2Data13",SonyMakerNote::tagListSr2Data  },
+        { sonySr2Dt14IfdId,  "Makernote", "SonySR2Data14",SonyMakerNote::tagListSr2Data  },
+        { sonySr2Dt15IfdId,  "Makernote", "SonySR2Data15",SonyMakerNote::tagListSr2Data  },
+        { sonySr2Dt16IfdId,  "Makernote", "SonySR2Data16",SonyMakerNote::tagListSr2Data  },
+        { sonySr2Dt17IfdId,  "Makernote", "SonySR2Data17",SonyMakerNote::tagListSr2Data  },
+        { sonySr2Dt18IfdId,  "Makernote", "SonySR2Data18",SonyMakerNote::tagListSr2Data  },
+        { sonySr2Dt19IfdId,  "Makernote", "SonySR2Data19",SonyMakerNote::tagListSr2Data  },
+        { sonyIdcIfdId,      "Makernote", "SonyIDC",      SonyMakerNote::tagListIdc      },
+        { sonyIdc2IfdId,     "Makernote", "SonyIDC2",     SonyMakerNote::tagListIdc      },
         { lastIfdId,         "(Last IFD info)", "(Last IFD item)", 0 }
     };
 
@@ -1969,6 +2001,16 @@ namespace Exiv2 {
         case subImage7Id:
         case subImage8Id:
         case subImage9Id:
+        case subImage10Id:
+        case subImage11Id:
+        case subImage12Id:
+        case subImage13Id:
+        case subImage14Id:
+        case subImage15Id:
+        case subImage16Id:
+        case subImage17Id:
+        case subImage18Id:
+        case subImage19Id:
         case panaRawIfdId: rc = true; break;
         default:           rc = false; break;
         }
