@@ -694,4 +694,85 @@ namespace Exiv2 {
     {
         return tagInfoSr2_;
     }
+
+    const TagInfo SonyMakerNote::tagInfoSr2SubIfd_[] = {
+        TagInfo(0x7303, "WB_GRBGLevels", N_("WB GRBG Levels"),
+                N_("WB GRBG levels"),
+                sonySr2SubIfdId, makerTags, signedShort, printValue),
+        TagInfo(0x7313, "WB_RGGBLevels", N_("WB RGGB Levels"),
+                N_("WB RGGB levels"),
+                sonySr2SubIfdId, makerTags, signedShort, printValue),
+        TagInfo(0x74a0, "MaxApertureAtMaxFocal", N_("Max Aperture At Max Focal"),
+                N_("Max aperture at max focal"),
+                sonySr2SubIfdId, makerTags, unsignedShort, printValue),
+        TagInfo(0x74a1, "MaxApertureAtMinFocal", N_("Max Aperture At Min Focal"),
+                N_("Max aperture at min focal"),
+                sonySr2SubIfdId, makerTags, unsignedShort, printValue),
+        TagInfo(0x74c0, "SR2DataIFD", N_("SR2 Data-IFD"),
+                N_("SR2 data-IFD"),
+                sonySr2SubIfdId, makerTags, unsignedLong, printValue),
+        TagInfo(0x7820, "WB_RGBLevelsDaylight", N_("WB RGB Levels Daylight"),
+                N_("WB RGB levels daylight"),
+                sonySr2SubIfdId, makerTags, signedShort, printValue),
+        TagInfo(0x7821, "WB_RGBLevelsCloudy", N_("WB RGB Levels Cloudy"),
+                N_("WB RGB levels cloudy"),
+                sonySr2SubIfdId, makerTags, signedShort, printValue),
+        TagInfo(0x7822, "WB_RGBLevelsTungsten", N_("WB RGB Levels Tungsten"),
+                N_("WB RGB levels tungsten"),
+                sonySr2SubIfdId, makerTags, signedShort, printValue),
+        TagInfo(0x7825, "WB_RGBLevelsShade", N_("WB RGB Levels Shade"),
+                N_("WB RGB levels shade"),
+                sonySr2SubIfdId, makerTags, unsignedShort, printValue),
+        TagInfo(0x7826, "WB_RGBLevelsFluorescent", N_("WB RGB Levels Fluorescent"),
+                N_("WB RGB levels fluorescent"),
+                sonySr2SubIfdId, makerTags, unsignedShort, printValue),
+        TagInfo(0x7828, "WB_RGBLevelsFlash", N_("WB RGB Levels Flash"),
+                N_("WB RGB levels flash"),
+                sonySr2SubIfdId, makerTags, unsignedShort, printValue),
+        // End of list marker
+        TagInfo(0xffff, "(UnknownSonySr2SubIfdTag)", "(UnknownSonySr2SubIfdTag)",
+                N_("Unknown Sony SR2 sub-IFD tag"),
+                sonySr2SubIfdId, makerTags, invalidTypeId, printValue)
+    };
+
+    const TagInfo* SonyMakerNote::tagListSr2SubIfd()
+    {
+        return tagInfoSr2SubIfd_;
+    }
+
+    const TagInfo SonyMakerNote::tagInfoSr2Data_[] = {
+        TagInfo(0x7770, "ColorMode", N_("Color Mode"),
+                N_("Color mode"),
+                sonySr2Dt1IfdId, makerTags, asciiString, printValue),
+        // End of list marker
+        TagInfo(0xffff, "(UnknownSonySr2DataTag)", "(UnknownSonySr2DataTag)",
+                N_("Unknown Sony SR2 data-IFD tag"),
+                sonySr2Dt1IfdId, makerTags, invalidTypeId, printValue)
+    };
+
+    const TagInfo* SonyMakerNote::tagListSr2Data()
+    {
+        return tagInfoSr2Data_;
+    }
+
+    const TagInfo SonyMakerNote::tagInfoIdc_[] = {
+        TagInfo(0x0201, "IDCPreviewStart", N_("IDC Preview Start"),
+                N_("IDC preview start"),
+                sonyIdcIfdId, makerTags, unsignedLong, printValue),
+        TagInfo(0x0202, "IDCPreviewLength", N_("IDC Preview Length"),
+                N_("IDC preview length"),
+                sonyIdcIfdId, makerTags, unsignedLong, printValue),
+
+        // Todo: add remaining Sony IDC tags
+
+        // End of list marker
+        TagInfo(0xffff, "(UnknownSonyIdcTag)", "(UnknownSonyIdcTag)",
+                N_("Unknown Sony SR2 sub-IFD tag"),
+                sonyIdcIfdId, makerTags, invalidTypeId, printValue)
+    };
+
+    const TagInfo* SonyMakerNote::tagListIdc()
+    {
+        return tagInfoIdc_;
+    }
 }                                       // namespace Exiv2
