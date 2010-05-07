@@ -888,7 +888,7 @@ namespace Exiv2 {
             }
         }
         if (tc == 0) {
-            if (tiffPath.size() == 2 && object.get() != 0) {
+            if (tiffPath.size() == 1 && object.get() != 0) {
                 tc = addChild(object);
             }
             else {
