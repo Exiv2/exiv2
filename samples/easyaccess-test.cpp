@@ -18,15 +18,26 @@ struct EasyAccess {
 };
 
 static const EasyAccess easyAccess[] = {
-    { "Orientation",   Exiv2::orientation  },
-    { "ISO speed",     Exiv2::isoSpeed     },
-    { "Flash bias",    Exiv2::flashBias    },
-    { "Exposure mode", Exiv2::exposureMode },
-    { "Scene mode",    Exiv2::sceneMode    },
-    { "Macro mode",    Exiv2::macroMode    },
-    { "Image quality", Exiv2::imageQuality },
-    { "White balance", Exiv2::whiteBalance },
-    { "Lens name",     Exiv2::lensName     }
+    { "Orientation",          Exiv2::orientation      },
+    { "ISO speed",            Exiv2::isoSpeed         },
+    { "Flash bias",           Exiv2::flashBias        },
+    { "Exposure mode",        Exiv2::exposureMode     },
+    { "Scene mode",           Exiv2::sceneMode        },
+    { "Macro mode",           Exiv2::macroMode        },
+    { "Image quality",        Exiv2::imageQuality     },
+    { "White balance",        Exiv2::whiteBalance     },
+    { "Lens name",            Exiv2::lensName         },
+    { "Saturation",           Exiv2::saturation       },
+    { "Sharpness",            Exiv2::sharpness        },
+    { "Contrast",             Exiv2::contrast         },
+    { "Scene capture type",   Exiv2::sceneCaptureType },
+    { "Metering mode",        Exiv2::meteringMode     },
+    { "Camera make",          Exiv2::make             },
+    { "Camera model",         Exiv2::model            },
+    { "Exposure time",        Exiv2::exposureTime     },
+    { "FNumber",              Exiv2::fNumber          },
+    { "Subject distance",     Exiv2::subjectDistance  },
+    { "Camera serial number", Exiv2::serialNumber     }
 };
 
 int main(int argc, char **argv)
