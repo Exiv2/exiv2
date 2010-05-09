@@ -32,8 +32,10 @@ EXIV2_RCSID("@(#) $Id$")
 // included header files
 #ifdef _MSC_VER
 # include "exv_msvc.h"
+# include <winsock.h>
 #else
 # include "exv_conf.h"
+# include <arpa/inet.h>           // htonl (sony_decrypt)
 #endif
 
 #include "makernote_int.hpp"
@@ -46,7 +48,6 @@ EXIV2_RCSID("@(#) $Id$")
 #include <string>
 #include <cstring>
 
-#include <arpa/inet.h>           // htonl (sony_decrypt)
 
 // *****************************************************************************
 namespace {
