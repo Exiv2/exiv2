@@ -64,6 +64,22 @@ namespace Exiv2 {
     EXIV2API ExifData::const_iterator contrast(const ExifData& ed);
     //! Return the scene capture type
     EXIV2API ExifData::const_iterator sceneCaptureType(const ExifData& ed);
+    //! Return the metering mode setting
+    EXIV2API ExifData::const_iterator meteringMode(const ExifData& ed);
+    //! Return the camera make
+    EXIV2API ExifData::const_iterator make(const ExifData& ed);
+    //! Return the camera model
+    EXIV2API ExifData::const_iterator model(const ExifData& ed);
+    //! Return the exposure time
+    EXIV2API ExifData::const_iterator exposureTime(const ExifData& ed);
+    //! Return the F number
+    EXIV2API ExifData::const_iterator fNumber(const ExifData& ed);
+    //! Return the subject distance
+    EXIV2API ExifData::const_iterator subjectDistance(const ExifData& ed);
+    //! Return the camera serial number
+    EXIV2API ExifData::const_iterator serialNumber(const ExifData& ed);
+    //! Return the focal lenght setting
+    EXIV2API ExifData::const_iterator focalLength(const ExifData& ed);
 
 } // namespace Exiv2
 
