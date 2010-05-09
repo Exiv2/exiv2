@@ -100,33 +100,49 @@ namespace Exiv2 {
         {    0x12b9c, N_("K100D") },
         {    0x12b9d, N_("K110D") },
         {    0x12ba2, N_("K100D Super") },
-        {    0x12bb0, N_("Optio T10") },
+        {    0x12bb0, N_("Optio T10/T20") },
         {    0x12be2, N_("Optio W10") },
         {    0x12bf6, N_("Optio M10") },
         {    0x12c1e, N_("K10D") },
         {    0x12c20, N_("Samsung GX10") },
         {    0x12c28, N_("Optio S7") },
+        {    0x12c2d, N_("Optio L20") },
         {    0x12c32, N_("Optio M20") },
         {    0x12c3c, N_("Optio W20") },
         {    0x12c46, N_("Optio A20") },
         {    0x12c8c, N_("Optio M30") },
         {    0x12c78, N_("Optio E30") },
+        {    0x12c7d, N_("Optio E35") },
         {    0x12c82, N_("Optio T30") },
         {    0x12c96, N_("Optio W30") },
         {    0x12ca0, N_("Optio A30") },
         {    0x12cb4, N_("Optio E40") },
         {    0x12cbe, N_("Optio M40") },
         {    0x12cc8, N_("Optio Z10") },
-        {    0x12cdc, N_("Optio S10") },
-        {    0x12ce6, N_("Optio A40") },
-        {    0x12cf0, N_("Optio V10") },
         {    0x12cd2, N_("K20D") },
+        {    0x12cd4, N_("Samsung GX20") },
         {    0x12cdc, N_("Optio S10") },
         {    0x12ce6, N_("Optio A40") },
         {    0x12cf0, N_("Optio V10") },
         {    0x12cfa, N_("K200D") },
+        {    0x12d04, N_("Optio S12") },
         {    0x12d0e, N_("Optio E50") },
         {    0x12d18, N_("Optio M50") },
+        {    0x12d2c, N_("Optio V20") },
+        {    0x12d40, N_("Optio W60") },
+        {    0x12d4a, N_("Optio M60") },
+        {    0x12d68, N_("Optio E60") },
+        {    0x12d72, N_("K2000") },
+        {    0x12d73, N_("K-m") },
+        {    0x12d86, N_("Optio P70") },
+        {    0x12d9a, N_("Optio E70") },
+        {    0x12dae, N_("X70") },
+        {    0x12db8, N_("K-7") },
+        {    0x12dcc, N_("Optio W80") },
+        {    0x12dea, N_("Optio P80") },
+        {    0x12df4, N_("Optio WS80") },
+        {    0x12dfe, N_("K-x") },
+        {    0x12e3a, N_("Optio I-10") },
     };
 
     //! Quality, tag 0x0008
@@ -181,15 +197,19 @@ namespace Exiv2 {
         {    1, N_("Macro") },
         {    2, N_("Infinity") },
         {    3, N_("Manual") },
+        {    4, N_("Super Macro") },
         {    5, N_("Pan Focus") },
         {    16, N_("AF-S") },
         {    17, N_("AF-C") },
+        {    18, N_("AF-A") },
     };
 
     //! AFPoint, tag 0x000e
     extern const TagDetails pentaxAFPoint[] = {
         {    0xffff, N_("Auto") },
         {    0xfffe, N_("Fixed Center") },
+        {    0xfffd, N_("Automatic Tracking AF") },
+        {    0xfffc, N_("Face Recognition AF") },
         {    1, N_("Upper-left") },
         {    2, N_("Top") },
         {    3, N_("Upper-right") },
@@ -201,6 +221,21 @@ namespace Exiv2 {
         {    9, N_("Lower-left") },
         {    10, N_("Bottom") },
         {    11, N_("Lower-right") },
+    };
+
+    //! AFPointInFocus, tag 0x000f
+    extern const TagDetails pentaxAFPointFocus[] = {
+        {    0xffff, N_("None") },
+        {    0, N_("Fixed Center or multiple") },
+        {    1, N_("Top-left") },
+        {    2, N_("Top-center") },
+        {    3, N_("Top-right") },
+        {    4, N_("Left") },
+        {    5, N_("Center") },
+        {    6, N_("Right") },
+        {    7, N_("Bottom-left") },
+        {    8, N_("Bottom-center") },
+        {    9, N_("Bottom-right") },
     };
 
     //! ISO, tag 0x0014
@@ -221,7 +256,12 @@ namespace Exiv2 {
         {    16, N_("1000") },
         {    17, N_("1250") },
         {    18, N_("1600") },
+        {    19, N_("2000") },
+        {    20, N_("2500") },
         {    21, N_("3200") },
+        {    22, N_("4000") },
+        {    23, N_("5000") },
+        {    24, N_("6400") },
         {    50, N_("50") },
         {    100, N_("100") },
         {    200, N_("200") },
@@ -230,6 +270,19 @@ namespace Exiv2 {
         {    800, N_("800") },
         {    1600, N_("1600") },
         {    3200, N_("3200") },
+        {    258, N_("50") },
+        {    259, N_("70") },
+        {    260, N_("100") },
+        {    261, N_("140") },
+        {    262, N_("200") },
+        {    263, N_("280") },
+        {    264, N_("400") },
+        {    265, N_("560") },
+        {    266, N_("800") },
+        {    267, N_("1100") },
+        {    268, N_("1600") },
+        {    269, N_("2200") },
+        {    270, N_("3200") },
     };
 
     //! Generic for Off/On switches
@@ -264,6 +317,7 @@ namespace Exiv2 {
         {    8, N_("WhiteFluorescent") },
         {    9, N_("Flash") },
         {    10, N_("Cloudy") },
+        {    17, N_("Kelvin") },
         {    65534, N_("Unknown") },
         {    65535, N_("User Selected") },
     };
@@ -290,6 +344,7 @@ namespace Exiv2 {
         {    4, N_("Med High") },
         {    5, N_("Very Low") },
         {    6, N_("Very High") },
+        {    65535, N_("None") },
     };
 
     //! Contrast, tag 0x0020
@@ -393,6 +448,7 @@ namespace Exiv2 {
         {    68, N_("Amsterdam") },
         {    69, N_("Stockholm") },
         {    70, N_("Lisbon") },
+        {    71, N_("Copenhagen") },
     };
 
     //! ImageProcessing, combi-tag 0x0032 (4 bytes)
@@ -424,6 +480,9 @@ namespace Exiv2 {
         { 0x001000, N_("Pet") },
         { 0x001100, N_("Candlelight") },
         { 0x001200, N_("Museum") },
+        { 0x001300, N_("Food") },
+        { 0x001400, N_("Stage Lighting") },
+        { 0x001500, N_("Night Snap") },
         /* AUTO PICT modes (auto-selected) */
         { 0x010400, N_("Auto PICT (Standard)") },
         { 0x010500, N_("Auto PICT (Portrait)") },
@@ -461,7 +520,9 @@ namespace Exiv2 {
         { 0x100000, N_("Flash X-Sync Speed AE") },
         { 0x100001, N_("Flash X-Sync Speed AE (1)") },
         /* other modes */
-        { 0x000001, N_("Program") }
+        { 0x000001, N_("Program") },
+        { 0xfe0000, N_("Video (30 fps)") },
+        { 0xff0004, N_("Video (24 fps)") },
     };
 
     //! DriveMode, combi-tag 0x0034 (4 bytes)
@@ -475,6 +536,7 @@ namespace Exiv2 {
         { 0x00000100, N_("Remote Control (3 sec)") },
         { 0x00000200, N_("Remote Control") },
         { 0x00000001, N_("Multiple Exposure") },
+        { 0x000000ff, N_("Video") },
     };
 
     //! ColorSpace, tag 0x0037
@@ -599,12 +661,21 @@ namespace Exiv2 {
         { 0x060d, "smc PENTAX-FA* 400mm F5.6 ED[IF]" },
         { 0x060e, "smc PENTAX-FA* MACRO 200mm F4 ED[IF]" },
         { 0x0700, "smc PENTAX-DA 21mm F3.2 AL Limited" },
+        { 0x074b, "Tamron SP AF 70-200mm F2.8 Di LD [IF] Macro (A001)" },
+        { 0x07d9, "smc PENTAX-DA 50-200mm F4-5.6 ED WR" },
+        { 0x07da, "smc PENTAX-DA 18-55mm F3.5-5.6 AL WR" },
+        { 0x07dc, "Tamron SP AF 10-24mm F3.5-4.5 Di II LD Aspherical [IF]" },
+        { 0x07de, "smc PENTAX-DA 18-55mm F3.5-5.6 AL II" },
+        { 0x07df, "Samsung D-XENON 18-55mm F3.5-5.6 II" },
+        { 0x07e0, "smc PENTAX-DA 15mm F4 ED AL Limited" },
+        { 0x07e1, "Samsung D-XENON 18-250mm F3.5-6.3" },
         { 0x07e5, "smc PENTAX-DA 18-55mm F3.5-5.6 AL II" },
         { 0x07e6, "Tamron AF 17-50mm F2.8 XR Di-II LD (Model A16)" },
         { 0x07e7, "smc PENTAX-DA 18-250mm F3.5-6.3ED AL [IF]" },
         { 0x07e9, "smc PENTAX-DA 35mm F2.8 Macro Limited" },
         { 0x07ea, "smc PENTAX-DA* 300 mm F4ED [IF] SDM (SDM not used)" },
         { 0x07eb, "smc PENTAX-DA* 200mm F2.8 ED [IF] SDM (SDM not used)" },
+        { 0x07ec, "smc PENTAX-DA 55-300mm F4-5.8 ED" },
         { 0x07ee, "TAMRON AF 18-250mm F3.5-6.3 Di II LD Aspherical [IF] MACRO" },
         { 0x07f1, "smc PENTAX-DA* 50-135mm F2.8 ED [IF] SDM (SDM not used)" },
         { 0x07f2, "smc PENTAX-DA* 16-50mm F2.8 ED AL [IF] SDM (SDM not used)" },
@@ -822,6 +893,9 @@ namespace Exiv2 {
         TagInfo(0x000e, "AFPoint", N_("AF point"),
                 N_("Selected AF point"),
                 pentaxIfdId, makerTags, unsignedLong, EXV_PRINT_TAG(pentaxAFPoint)),
+        TagInfo(0x000F, "AFPointInFocus", N_("AF point in focus"),
+                N_("AF point in focus"),
+                pentaxIfdId, makerTags, unsignedLong, EXV_PRINT_TAG(pentaxAFPointFocus)),
         /* Some missing ! */
         TagInfo(0x0012, "ExposureTime", N_("Exposure time"),
                 N_("Exposure time"),
@@ -849,11 +923,18 @@ namespace Exiv2 {
         TagInfo(0x001a, "WhiteBallanceMode", N_("White ballance mode"),
                 N_("White ballance mode"),
                 pentaxIfdId, makerTags, undefined, EXV_PRINT_TAG(pentaxWhiteBallanceMode)),
-        /* Some missing ! */
+        TagInfo(0x001b, "BlueBalance", N_("Blue balance"),
+                N_("Blue color balance"),
+                pentaxIfdId, makerTags, unsignedLong, printValue),
+        TagInfo(0x001c, "RedBalance", N_("Red balance"),
+                N_("Red color balance"),
+                pentaxIfdId, makerTags, unsignedLong, printValue),
         TagInfo(0x001d, "FocalLength", N_("FocalLength"),
                 N_("FocalLength"),
                 pentaxIfdId, makerTags, undefined, printPentaxFocalLength),
-        /* Some missing ! */
+        TagInfo(0x001e, "DigitalZoom", N_("Digital zoom"),
+                N_("Digital zoom"),
+                pentaxIfdId, makerTags, unsignedLong, printValue),
         TagInfo(0x001f, "Saturation", N_("Saturation"),
                 N_("Saturation"),
                 pentaxIfdId, makerTags, undefined, EXV_PRINT_TAG(pentaxSaturation)),
@@ -905,13 +986,19 @@ namespace Exiv2 {
         TagInfo(0x0037, "ColorSpace", N_("Color space"),
                 N_("Color space"),
                 pentaxIfdId, makerTags, unsignedShort, EXV_PRINT_TAG(pentaxColorSpace)),
+        TagInfo(0x0038, "ImageAreaOffset", N_("Image area offset"),
+                N_("Image area offset"),
+                pentaxIfdId, makerTags, unsignedLong, printValue),
+        TagInfo(0x0039, "RawImageSize", N_("Raw image size"),
+                N_("Raw image size"),
+                pentaxIfdId, makerTags, unsignedLong, printValue),
         /* Some missing ! */
         TagInfo(0x003e, "PreviewImageBorders", N_("Preview image borders"),
                 N_("Preview image borders"),
                 pentaxIfdId, makerTags, unsignedByte, printValue),
         TagInfo(0x003f, "LensType", N_("Lens type"),
                 N_("Lens type"),
-                pentaxIfdId, makerTags, unsignedByte, EXV_PRINT_COMBITAG(pentaxLensType, 2, 1)),
+                pentaxIfdId, makerTags, unsignedByte, EXV_PRINT_COMBITAG_MULTI(pentaxLensType, 2, 1, 2)),
         TagInfo(0x0040, "SensitivityAdjust", N_("Sensitivity adjust"),
                 N_("Sensitivity adjust"),
                 pentaxIfdId, makerTags, unsignedLong, printValue),
@@ -952,6 +1039,9 @@ namespace Exiv2 {
         TagInfo(0x0071, "HighISONoiseReduction", N_("High ISO noise reduction"),
                 N_("High ISO noise reduction"),
                 pentaxIfdId, makerTags, unsignedByte, EXV_PRINT_TAG(pentaxHighISONoiseReduction)),
+        TagInfo(0x0072, "AFAdjustment", N_("AF Adjustment"),
+                N_("AF Adjustment"),
+                pentaxIfdId, makerTags, undefined, printValue),
         /* Many missing ! */
         TagInfo(0x0200, "BlackPoint", N_("Black point"),
                 N_("Black point"),
@@ -1018,6 +1108,9 @@ namespace Exiv2 {
         TagInfo(0x0222, "ColorInfo", N_("ColorInfo"),
                 N_("ColorInfo"),
                 pentaxIfdId, makerTags, undefined, printValue), /* TODO: Decoding missing */
+        TagInfo(0x0229, "SerialNumber", N_("Serial Number"),
+                N_("Serial Number"),
+                pentaxIfdId, makerTags, asciiString, printValue),
         // End of list marker
         TagInfo(0xffff, "(UnknownPentaxMakerNoteTag)", "(UnknownPentaxMakerNoteTag)",
                 N_("Unknown PentaxMakerNote tag"),
