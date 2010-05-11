@@ -178,6 +178,14 @@ namespace Exiv2 {
         static std::ostream& printLensId3(std::ostream& os, const Value& value, const ExifData* metadata);
         //! Print focus distance
         static std::ostream& printFocusDistance(std::ostream& os, const Value& value, const ExifData*);
+        //! Print lens aperture value
+        static std::ostream& printAperture(std::ostream& os, const Value& value, const ExifData*);
+        //! Print lens focal length
+        static std::ostream& printFocal(std::ostream& os, const Value& value, const ExifData*);
+        //! Print lens f-stops
+        static std::ostream& printFStops(std::ostream& os, const Value& value, const ExifData*);
+        //! Print exit pupil position
+        static std::ostream& printExitPupilPosition(std::ostream& os, const Value& value, const ExifData*);
         //! Print sensor pixel size
         static std::ostream& print0x009a(std::ostream& os, const Value& value, const ExifData*);
         //! Print retouch history
