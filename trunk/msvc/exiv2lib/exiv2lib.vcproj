@@ -337,7 +337,7 @@ copy/y ..\..\..\zlib-1.2.3\projects\visualc6\Win32_DLL_Release\zlib1.dll $(OutDi
 				RelativePath="..\..\src\minoltamn.cpp">
 			</File>
 			<File
-				RelativePath="..\..\src\minoltasonyvalues.cpp"
+				RelativePath="..\..\src\minoltasonyvalues.cpp">
 			</File>
 			<File
 				RelativePath="..\..\src\mrwimage.cpp">
@@ -489,7 +489,7 @@ copy/y ..\..\..\zlib-1.2.3\projects\visualc6\Win32_DLL_Release\zlib1.dll $(OutDi
 				RelativePath="..\..\src\minoltamn.hpp">
 			</File>
 			<File
-				RelativePath="..\..\src\minoltasonyvalues.hpp"
+				RelativePath="..\..\src\minoltasonyvalues.hpp">
 			</File>
 			<File
 				RelativePath="..\..\src\mn.hpp">
