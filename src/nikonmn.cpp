@@ -1441,10 +1441,10 @@ namespace Exiv2 {
 #ifndef FMOUNTLH
 #define FMOUNTLH
 //------------------------------------------------------------------------------
-// List of AF F-Mount lenses - Version 4.3.400.01                    2010-03-27
+// List of AF F-Mount lenses - Version 4.3.401.01                    2010-04-19
 //------------------------------------------------------------------------------
-#define FMLVERSION "4.3.400.01"
-#define FMLDATE "2010-03-27"
+#define FMLVERSION "4.3.401.01"
+#define FMLDATE "2010-04-19"
 //------------------------------------------------------------------------------
 //
 //
@@ -1800,6 +1800,7 @@ fmountlens[] = {
 {0x7A,0x47,0x50,0x76,0x24,0x24,0x4B,0x06,0x03,0x00,0x05, "Sigma", "", "50-150mm F2.8 EX APO DC HSM"},
 {0xFD,0x47,0x50,0x76,0x24,0x24,0x4B,0x06,0x03,0x00,0x05, "Sigma", "691554", "50-150mm F2.8 EX APO DC HSM II"},
 {0x48,0x3C,0x50,0xA0,0x30,0x40,0x4B,0x02,0x03,0x00,0x05, "Sigma", "736552", "APO 50-500mm F4-6.3 EX HSM"},
+{0x9F,0x37,0x50,0xA0,0x34,0x40,0x4B,0x0E,0x03,0x00,0x05, "Sigma", "", "50-500mm F4.5-6.3 APO DG OS HSM"},
 //M                                         "Sigma" "686550" "50-200mm F4-5.6 DC OS HSM";
 {0x26,0x3C,0x54,0x80,0x30,0x3C,0x1C,0x06,0x00,0x00,0x05, "Sigma", "", "55-200mm F4-5.6 DC"},
 {0x7A,0x3B,0x53,0x80,0x30,0x3C,0x4B,0x06,0x01,0x00,0x05, "Sigma", "", "55-200mm F4-5.6 DC HSM"},
