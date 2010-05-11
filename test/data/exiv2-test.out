@@ -880,21 +880,21 @@ File  4/15: 20040329_224245.jpg
 20040329_224245.jpg   Exif.NikonCb3.WB_RGBGLevels                  Short       4  516 256 419 256
 20040329_224245.jpg   Exif.NikonCb3.0x000e                         Short      56  0 264 256 0 0 112 12 24 3 396 65389 7 65496 346 65486 65531 65502 295 65535 65535 65535 32768 0 0 0 0 2560 0 640 0 768 0 640 0 0 4112 255 255 77 150 29 65484 65466 122 127 65430 65515 0 1280 8 27666 57139 1369 319 61680 26
 20040329_224245.jpg   Exif.NikonLd2.Version                        Undefined   4  1.01
-20040329_224245.jpg   Exif.NikonLd2.ExitPupilPosition              Byte        1  23
-20040329_224245.jpg   Exif.NikonLd2.AFAperture                     Byte        1  52
+20040329_224245.jpg   Exif.NikonLd2.ExitPupilPosition              Byte        1  89.04 mm
+20040329_224245.jpg   Exif.NikonLd2.AFAperture                     Byte        1  F4.49
 20040329_224245.jpg   Exif.NikonLd2.0x0006                         Byte        1  7
 20040329_224245.jpg   Exif.NikonLd2.0x0007                         Byte        1  0
 20040329_224245.jpg   Exif.NikonLd2.FocusPosition                  Byte        1  161
 20040329_224245.jpg   Exif.NikonLd2.FocusDistance                  Byte        1  5.31 m
-20040329_224245.jpg   Exif.NikonLd2.FocalLength                    Byte        1  80
+20040329_224245.jpg   Exif.NikonLd2.FocalLength                    Byte        1  50.40 mm
 20040329_224245.jpg   Exif.NikonLd2.LensIDNumber                   Byte        1  Nikon AF-S DX Zoom-Nikkor 18-70mm f/3.5-4.5G IF-ED
-20040329_224245.jpg   Exif.NikonLd2.LensFStops                     Byte        1  64
-20040329_224245.jpg   Exif.NikonLd2.MinFocalLength                 Byte        1  45
-20040329_224245.jpg   Exif.NikonLd2.MaxFocalLength                 Byte        1  92
-20040329_224245.jpg   Exif.NikonLd2.MaxApertureAtMinFocal          Byte        1  44
-20040329_224245.jpg   Exif.NikonLd2.MaxApertureAtMaxFocal          Byte        1  52
+20040329_224245.jpg   Exif.NikonLd2.LensFStops                     Byte        1  F5.33
+20040329_224245.jpg   Exif.NikonLd2.MinFocalLength                 Byte        1  18.34 mm
+20040329_224245.jpg   Exif.NikonLd2.MaxFocalLength                 Byte        1  71.27 mm
+20040329_224245.jpg   Exif.NikonLd2.MaxApertureAtMinFocal          Byte        1  F3.56
+20040329_224245.jpg   Exif.NikonLd2.MaxApertureAtMaxFocal          Byte        1  F4.49
 20040329_224245.jpg   Exif.NikonLd2.MCUVersion                     Byte        1  132
-20040329_224245.jpg   Exif.NikonLd2.EffectiveMaxAperture           Byte        1  52
+20040329_224245.jpg   Exif.NikonLd2.EffectiveMaxAperture           Byte        1  F4.49
 20040329_224245.jpg   Exif.NikonLd2.0x0013                         Byte        1  23
 20040329_224245.jpg   Exif.NikonLd2.0x0014                         Byte        1  100
 20040329_224245.jpg   Exif.NikonLd2.0x0015                         Byte        1  32
@@ -2468,21 +2468,21 @@ Compare image data and extracted data ------------------------------------
 < 20040329_224245.jpg   Exif.NikonCb3.WB_RGBGLevels                  Short       4  516 256 419 256
 < 20040329_224245.jpg   Exif.NikonCb3.0x000e                         Short      56  0 264 256 0 0 112 12 24 3 396 65389 7 65496 346 65486 65531 65502 295 65535 65535 65535 32768 0 0 0 0 2560 0 640 0 768 0 640 0 0 4112 255 255 77 150 29 65484 65466 122 127 65430 65515 0 1280 8 27666 57139 1369 319 61680 26
 < 20040329_224245.jpg   Exif.NikonLd2.Version                        Undefined   4  1.01
-< 20040329_224245.jpg   Exif.NikonLd2.ExitPupilPosition              Byte        1  23
-< 20040329_224245.jpg   Exif.NikonLd2.AFAperture                     Byte        1  52
+< 20040329_224245.jpg   Exif.NikonLd2.ExitPupilPosition              Byte        1  89.04 mm
+< 20040329_224245.jpg   Exif.NikonLd2.AFAperture                     Byte        1  F4.49
 < 20040329_224245.jpg   Exif.NikonLd2.0x0006                         Byte        1  7
 < 20040329_224245.jpg   Exif.NikonLd2.0x0007                         Byte        1  0
 < 20040329_224245.jpg   Exif.NikonLd2.FocusPosition                  Byte        1  161
 < 20040329_224245.jpg   Exif.NikonLd2.FocusDistance                  Byte        1  5.31 m
-< 20040329_224245.jpg   Exif.NikonLd2.FocalLength                    Byte        1  80
+< 20040329_224245.jpg   Exif.NikonLd2.FocalLength                    Byte        1  50.40 mm
 < 20040329_224245.jpg   Exif.NikonLd2.LensIDNumber                   Byte        1  Nikon AF-S DX Zoom-Nikkor 18-70mm f/3.5-4.5G IF-ED
-< 20040329_224245.jpg   Exif.NikonLd2.LensFStops                     Byte        1  64
-< 20040329_224245.jpg   Exif.NikonLd2.MinFocalLength                 Byte        1  45
-< 20040329_224245.jpg   Exif.NikonLd2.MaxFocalLength                 Byte        1  92
-< 20040329_224245.jpg   Exif.NikonLd2.MaxApertureAtMinFocal          Byte        1  44
-< 20040329_224245.jpg   Exif.NikonLd2.MaxApertureAtMaxFocal          Byte        1  52
+< 20040329_224245.jpg   Exif.NikonLd2.LensFStops                     Byte        1  F5.33
+< 20040329_224245.jpg   Exif.NikonLd2.MinFocalLength                 Byte        1  18.34 mm
+< 20040329_224245.jpg   Exif.NikonLd2.MaxFocalLength                 Byte        1  71.27 mm
+< 20040329_224245.jpg   Exif.NikonLd2.MaxApertureAtMinFocal          Byte        1  F3.56
+< 20040329_224245.jpg   Exif.NikonLd2.MaxApertureAtMaxFocal          Byte        1  F4.49
 < 20040329_224245.jpg   Exif.NikonLd2.MCUVersion                     Byte        1  132
-< 20040329_224245.jpg   Exif.NikonLd2.EffectiveMaxAperture           Byte        1  52
+< 20040329_224245.jpg   Exif.NikonLd2.EffectiveMaxAperture           Byte        1  F4.49
 < 20040329_224245.jpg   Exif.NikonLd2.0x0013                         Byte        1  23
 < 20040329_224245.jpg   Exif.NikonLd2.0x0014                         Byte        1  100
 < 20040329_224245.jpg   Exif.NikonLd2.0x0015                         Byte        1  32
@@ -3984,21 +3984,21 @@ Compare image data and extracted data ------------------------------------
 > 20040329_224245.exv   Exif.NikonCb3.WB_RGBGLevels                  Short       4  1026 1 41729 1
 > 20040329_224245.exv   Exif.NikonCb3.0x000e                         Short      56  0 2049 1 0 0 28672 3072 6144 768 35841 28159 1792 55551 23041 52991 64511 57087 9985 65535 65535 65535 128 0 0 0 0 10 0 32770 0 3 0 32770 0 0 4112 65280 65280 19712 38400 7424 52479 47871 31232 32512 38655 60415 0 5 2048 4716 13279 22789 16129 61680 6656
 > 20040329_224245.exv   Exif.NikonLd2.Version                        Undefined   4  1.01
-> 20040329_224245.exv   Exif.NikonLd2.ExitPupilPosition              Byte        1  23
-> 20040329_224245.exv   Exif.NikonLd2.AFAperture                     Byte        1  52
+> 20040329_224245.exv   Exif.NikonLd2.ExitPupilPosition              Byte        1  89.04 mm
+> 20040329_224245.exv   Exif.NikonLd2.AFAperture                     Byte        1  F4.49
 > 20040329_224245.exv   Exif.NikonLd2.0x0006                         Byte        1  7
 > 20040329_224245.exv   Exif.NikonLd2.0x0007                         Byte        1  0
 > 20040329_224245.exv   Exif.NikonLd2.FocusPosition                  Byte        1  161
 > 20040329_224245.exv   Exif.NikonLd2.FocusDistance                  Byte        1  5.31 m
-> 20040329_224245.exv   Exif.NikonLd2.FocalLength                    Byte        1  80
+> 20040329_224245.exv   Exif.NikonLd2.FocalLength                    Byte        1  50.40 mm
 > 20040329_224245.exv   Exif.NikonLd2.LensIDNumber                   Byte        1  Nikon AF-S DX Zoom-Nikkor 18-70mm f/3.5-4.5G IF-ED
-> 20040329_224245.exv   Exif.NikonLd2.LensFStops                     Byte        1  64
-> 20040329_224245.exv   Exif.NikonLd2.MinFocalLength                 Byte        1  45
-> 20040329_224245.exv   Exif.NikonLd2.MaxFocalLength                 Byte        1  92
-> 20040329_224245.exv   Exif.NikonLd2.MaxApertureAtMinFocal          Byte        1  44
-> 20040329_224245.exv   Exif.NikonLd2.MaxApertureAtMaxFocal          Byte        1  52
+> 20040329_224245.exv   Exif.NikonLd2.LensFStops                     Byte        1  F5.33
+> 20040329_224245.exv   Exif.NikonLd2.MinFocalLength                 Byte        1  18.34 mm
+> 20040329_224245.exv   Exif.NikonLd2.MaxFocalLength                 Byte        1  71.27 mm
+> 20040329_224245.exv   Exif.NikonLd2.MaxApertureAtMinFocal          Byte        1  F3.56
+> 20040329_224245.exv   Exif.NikonLd2.MaxApertureAtMaxFocal          Byte        1  F4.49
 > 20040329_224245.exv   Exif.NikonLd2.MCUVersion                     Byte        1  132
-> 20040329_224245.exv   Exif.NikonLd2.EffectiveMaxAperture           Byte        1  52
+> 20040329_224245.exv   Exif.NikonLd2.EffectiveMaxAperture           Byte        1  F4.49
 > 20040329_224245.exv   Exif.NikonLd2.0x0013                         Byte        1  23
 > 20040329_224245.exv   Exif.NikonLd2.0x0014                         Byte        1  100
 > 20040329_224245.exv   Exif.NikonLd2.0x0015                         Byte        1  32
@@ -5720,21 +5720,21 @@ Compare original and inserted image data ---------------------------------
 < 20040329_224245.jpg   Exif.NikonCb3.WB_RGBGLevels                  Short       4  516 256 419 256
 < 20040329_224245.jpg   Exif.NikonCb3.0x000e                         Short      56  0 264 256 0 0 112 12 24 3 396 65389 7 65496 346 65486 65531 65502 295 65535 65535 65535 32768 0 0 0 0 2560 0 640 0 768 0 640 0 0 4112 255 255 77 150 29 65484 65466 122 127 65430 65515 0 1280 8 27666 57139 1369 319 61680 26
 < 20040329_224245.jpg   Exif.NikonLd2.Version                        Undefined   4  1.01
-< 20040329_224245.jpg   Exif.NikonLd2.ExitPupilPosition              Byte        1  23
-< 20040329_224245.jpg   Exif.NikonLd2.AFAperture                     Byte        1  52
+< 20040329_224245.jpg   Exif.NikonLd2.ExitPupilPosition              Byte        1  89.04 mm
+< 20040329_224245.jpg   Exif.NikonLd2.AFAperture                     Byte        1  F4.49
 < 20040329_224245.jpg   Exif.NikonLd2.0x0006                         Byte        1  7
 < 20040329_224245.jpg   Exif.NikonLd2.0x0007                         Byte        1  0
 < 20040329_224245.jpg   Exif.NikonLd2.FocusPosition                  Byte        1  161
 < 20040329_224245.jpg   Exif.NikonLd2.FocusDistance                  Byte        1  5.31 m
-< 20040329_224245.jpg   Exif.NikonLd2.FocalLength                    Byte        1  80
+< 20040329_224245.jpg   Exif.NikonLd2.FocalLength                    Byte        1  50.40 mm
 < 20040329_224245.jpg   Exif.NikonLd2.LensIDNumber                   Byte        1  Nikon AF-S DX Zoom-Nikkor 18-70mm f/3.5-4.5G IF-ED
-< 20040329_224245.jpg   Exif.NikonLd2.LensFStops                     Byte        1  64
-< 20040329_224245.jpg   Exif.NikonLd2.MinFocalLength                 Byte        1  45
-< 20040329_224245.jpg   Exif.NikonLd2.MaxFocalLength                 Byte        1  92
-< 20040329_224245.jpg   Exif.NikonLd2.MaxApertureAtMinFocal          Byte        1  44
-< 20040329_224245.jpg   Exif.NikonLd2.MaxApertureAtMaxFocal          Byte        1  52
+< 20040329_224245.jpg   Exif.NikonLd2.LensFStops                     Byte        1  F5.33
+< 20040329_224245.jpg   Exif.NikonLd2.MinFocalLength                 Byte        1  18.34 mm
+< 20040329_224245.jpg   Exif.NikonLd2.MaxFocalLength                 Byte        1  71.27 mm
+< 20040329_224245.jpg   Exif.NikonLd2.MaxApertureAtMinFocal          Byte        1  F3.56
+< 20040329_224245.jpg   Exif.NikonLd2.MaxApertureAtMaxFocal          Byte        1  F4.49
 < 20040329_224245.jpg   Exif.NikonLd2.MCUVersion                     Byte        1  132
-< 20040329_224245.jpg   Exif.NikonLd2.EffectiveMaxAperture           Byte        1  52
+< 20040329_224245.jpg   Exif.NikonLd2.EffectiveMaxAperture           Byte        1  F4.49
 < 20040329_224245.jpg   Exif.NikonLd2.0x0013                         Byte        1  23
 < 20040329_224245.jpg   Exif.NikonLd2.0x0014                         Byte        1  100
 < 20040329_224245.jpg   Exif.NikonLd2.0x0015                         Byte        1  32
@@ -7236,21 +7236,21 @@ Compare original and inserted image data ---------------------------------
 > 20040329_224245.exv   Exif.NikonCb3.WB_RGBGLevels                  Short       4  1026 1 41729 1
 > 20040329_224245.exv   Exif.NikonCb3.0x000e                         Short      56  0 2049 1 0 0 28672 3072 6144 768 35841 28159 1792 55551 23041 52991 64511 57087 9985 65535 65535 65535 128 0 0 0 0 10 0 32770 0 3 0 32770 0 0 4112 65280 65280 19712 38400 7424 52479 47871 31232 32512 38655 60415 0 5 2048 4716 13279 22789 16129 61680 6656
 > 20040329_224245.exv   Exif.NikonLd2.Version                        Undefined   4  1.01
-> 20040329_224245.exv   Exif.NikonLd2.ExitPupilPosition              Byte        1  23
-> 20040329_224245.exv   Exif.NikonLd2.AFAperture                     Byte        1  52
+> 20040329_224245.exv   Exif.NikonLd2.ExitPupilPosition              Byte        1  89.04 mm
+> 20040329_224245.exv   Exif.NikonLd2.AFAperture                     Byte        1  F4.49
 > 20040329_224245.exv   Exif.NikonLd2.0x0006                         Byte        1  7
 > 20040329_224245.exv   Exif.NikonLd2.0x0007                         Byte        1  0
 > 20040329_224245.exv   Exif.NikonLd2.FocusPosition                  Byte        1  161
 > 20040329_224245.exv   Exif.NikonLd2.FocusDistance                  Byte        1  5.31 m
-> 20040329_224245.exv   Exif.NikonLd2.FocalLength                    Byte        1  80
+> 20040329_224245.exv   Exif.NikonLd2.FocalLength                    Byte        1  50.40 mm
 > 20040329_224245.exv   Exif.NikonLd2.LensIDNumber                   Byte        1  Nikon AF-S DX Zoom-Nikkor 18-70mm f/3.5-4.5G IF-ED
-> 20040329_224245.exv   Exif.NikonLd2.LensFStops                     Byte        1  64
-> 20040329_224245.exv   Exif.NikonLd2.MinFocalLength                 Byte        1  45
-> 20040329_224245.exv   Exif.NikonLd2.MaxFocalLength                 Byte        1  92
-> 20040329_224245.exv   Exif.NikonLd2.MaxApertureAtMinFocal          Byte        1  44
-> 20040329_224245.exv   Exif.NikonLd2.MaxApertureAtMaxFocal          Byte        1  52
+> 20040329_224245.exv   Exif.NikonLd2.LensFStops                     Byte        1  F5.33
+> 20040329_224245.exv   Exif.NikonLd2.MinFocalLength                 Byte        1  18.34 mm
+> 20040329_224245.exv   Exif.NikonLd2.MaxFocalLength                 Byte        1  71.27 mm
+> 20040329_224245.exv   Exif.NikonLd2.MaxApertureAtMinFocal          Byte        1  F3.56
+> 20040329_224245.exv   Exif.NikonLd2.MaxApertureAtMaxFocal          Byte        1  F4.49
 > 20040329_224245.exv   Exif.NikonLd2.MCUVersion                     Byte        1  132
-> 20040329_224245.exv   Exif.NikonLd2.EffectiveMaxAperture           Byte        1  52
+> 20040329_224245.exv   Exif.NikonLd2.EffectiveMaxAperture           Byte        1  F4.49
 > 20040329_224245.exv   Exif.NikonLd2.0x0013                         Byte        1  23
 > 20040329_224245.exv   Exif.NikonLd2.0x0014                         Byte        1  100
 > 20040329_224245.exv   Exif.NikonLd2.0x0015                         Byte        1  32

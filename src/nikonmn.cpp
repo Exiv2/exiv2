@@ -1060,11 +1060,11 @@ namespace Exiv2 {
     const TagInfo Nikon3MakerNote::tagInfoLd1_[] = {
         TagInfo( 0, "Version", N_("Version"), N_("Version"), nikonLd1IfdId, makerTags, undefined, printExifVersion),
         TagInfo( 6, "LensIDNumber", N_("Lens ID Number"), N_("Lens ID number"), nikonLd1IfdId, makerTags, unsignedByte, printLensId1),
-        TagInfo( 7, "LensFStops", N_("Lens F-Stops"), N_("Lens F-stops"), nikonLd1IfdId, makerTags, unsignedByte, printValue),
-        TagInfo( 8, "MinFocalLength", N_("Min Focal Length"), N_("Min focal length"), nikonLd1IfdId, makerTags, unsignedByte, printValue),
-        TagInfo( 9, "MaxFocalLength", N_("Max Focal Length"), N_("Max focal length"), nikonLd1IfdId, makerTags, unsignedByte, printValue),
-        TagInfo(10, "MaxApertureAtMinFocal", N_("Max Aperture At Min Focal"), N_("Max aperture at min focal"), nikonLd1IfdId, makerTags, unsignedByte, printValue),
-        TagInfo(11, "MaxApertureAtMaxFocal", N_("Max Aperture At Max Focal"), N_("Max aperture at max focal"), nikonLd1IfdId, makerTags, unsignedByte, printValue),
+        TagInfo( 7, "LensFStops", N_("Lens F-Stops"), N_("Lens F-stops"), nikonLd1IfdId, makerTags, unsignedByte, printFStops),
+        TagInfo( 8, "MinFocalLength", N_("Min Focal Length"), N_("Min focal length"), nikonLd1IfdId, makerTags, unsignedByte, printFocal),
+        TagInfo( 9, "MaxFocalLength", N_("Max Focal Length"), N_("Max focal length"), nikonLd1IfdId, makerTags, unsignedByte, printFocal),
+        TagInfo(10, "MaxApertureAtMinFocal", N_("Max Aperture At Min Focal"), N_("Max aperture at min focal"), nikonLd1IfdId, makerTags, unsignedByte, printAperture),
+        TagInfo(11, "MaxApertureAtMaxFocal", N_("Max Aperture At Max Focal"), N_("Max aperture at max focal"), nikonLd1IfdId, makerTags, unsignedByte, printAperture),
         TagInfo(12, "MCUVersion", N_("MCU Version"), N_("MCU version"), nikonLd1IfdId, makerTags, unsignedByte, printValue),
         // End of list marker
         TagInfo(0xffff, "(UnknownNikonLd1Tag)", "(UnknownNikonLd1Tag)", N_("Unknown Nikon Lens Data 1 Tag"), nikonLd1IfdId, makerTags, invalidTypeId, printValue)
@@ -1078,19 +1078,19 @@ namespace Exiv2 {
     // Nikon3 Lens Data 2 Tag Info
     const TagInfo Nikon3MakerNote::tagInfoLd2_[] = {
         TagInfo( 0, "Version", N_("Version"), N_("Version"), nikonLd2IfdId, makerTags, undefined, printExifVersion),
-        TagInfo( 4, "ExitPupilPosition", N_("Exit Pupil Position"), N_("Exit pupil position"), nikonLd2IfdId, makerTags, unsignedByte, printValue),
-        TagInfo( 5, "AFAperture", N_("AF Aperture"), N_("AF aperture"), nikonLd2IfdId, makerTags, unsignedByte, printValue),
+        TagInfo( 4, "ExitPupilPosition", N_("Exit Pupil Position"), N_("Exit pupil position"), nikonLd2IfdId, makerTags, unsignedByte, printExitPupilPosition),
+        TagInfo( 5, "AFAperture", N_("AF Aperture"), N_("AF aperture"), nikonLd2IfdId, makerTags, unsignedByte, printAperture),
         TagInfo( 8, "FocusPosition", N_("Focus Position"), N_("Focus position"), nikonLd2IfdId, makerTags, unsignedByte, printValue),
         TagInfo( 9, "FocusDistance", N_("Focus Distance"), N_("Focus distance"), nikonLd2IfdId, makerTags, unsignedByte, printFocusDistance),
-        TagInfo(10, "FocalLength", N_("Focal Length"), N_("Focal length"), nikonLd2IfdId, makerTags, unsignedByte, printValue),
+        TagInfo(10, "FocalLength", N_("Focal Length"), N_("Focal length"), nikonLd2IfdId, makerTags, unsignedByte, printFocal),
         TagInfo(11, "LensIDNumber", N_("Lens ID Number"), N_("Lens ID number"), nikonLd2IfdId, makerTags, unsignedByte, printLensId2),
-        TagInfo(12, "LensFStops", N_("Lens F-Stops"), N_("Lens F-stops"), nikonLd2IfdId, makerTags, unsignedByte, printValue),
-        TagInfo(13, "MinFocalLength", N_("Min Focal Length"), N_("Min focal length"), nikonLd2IfdId, makerTags, unsignedByte, printValue),
-        TagInfo(14, "MaxFocalLength", N_("Max Focal Length"), N_("Max focal length"), nikonLd2IfdId, makerTags, unsignedByte, printValue),
-        TagInfo(15, "MaxApertureAtMinFocal", N_("Max Aperture At Min Focal"), N_("Max aperture at min focal"), nikonLd2IfdId, makerTags, unsignedByte, printValue),
-        TagInfo(16, "MaxApertureAtMaxFocal", N_("Max Aperture At Max Focal"), N_("Max aperture at max focal"), nikonLd2IfdId, makerTags, unsignedByte, printValue),
+        TagInfo(12, "LensFStops", N_("Lens F-Stops"), N_("Lens F-stops"), nikonLd2IfdId, makerTags, unsignedByte, printFStops),
+        TagInfo(13, "MinFocalLength", N_("Min Focal Length"), N_("Min focal length"), nikonLd2IfdId, makerTags, unsignedByte, printFocal),
+        TagInfo(14, "MaxFocalLength", N_("Max Focal Length"), N_("Max focal length"), nikonLd2IfdId, makerTags, unsignedByte, printFocal),
+        TagInfo(15, "MaxApertureAtMinFocal", N_("Max Aperture At Min Focal"), N_("Max aperture at min focal"), nikonLd2IfdId, makerTags, unsignedByte, printAperture),
+        TagInfo(16, "MaxApertureAtMaxFocal", N_("Max Aperture At Max Focal"), N_("Max aperture at max focal"), nikonLd2IfdId, makerTags, unsignedByte, printAperture),
         TagInfo(17, "MCUVersion", N_("MCU Version"), N_("MCU version"), nikonLd2IfdId, makerTags, unsignedByte, printValue),
-        TagInfo(18, "EffectiveMaxAperture", N_("Effective Max Aperture"), N_("Effective max aperture"), nikonLd2IfdId, makerTags, unsignedByte, printValue),
+        TagInfo(18, "EffectiveMaxAperture", N_("Effective Max Aperture"), N_("Effective max aperture"), nikonLd2IfdId, makerTags, unsignedByte, printAperture),
         // End of list marker
         TagInfo(0xffff, "(UnknownNikonLd2Tag)", "(UnknownNikonLd2Tag)", N_("Unknown Nikon Lens Data 2 Tag"), nikonLd2IfdId, makerTags, invalidTypeId, printValue)
     };
@@ -1103,19 +1103,19 @@ namespace Exiv2 {
     // Nikon3 Lens Data 3 Tag Info
     const TagInfo Nikon3MakerNote::tagInfoLd3_[] = {
         TagInfo( 0, "Version", N_("Version"), N_("Version"), nikonLd3IfdId, makerTags, undefined, printExifVersion),
-        TagInfo( 4, "ExitPupilPosition", N_("Exit Pupil Position"), N_("Exit pupil position"), nikonLd3IfdId, makerTags, unsignedByte, printValue),
-        TagInfo( 5, "AFAperture", N_("AF Aperture"), N_("AF aperture"), nikonLd3IfdId, makerTags, unsignedByte, printValue),
+        TagInfo( 4, "ExitPupilPosition", N_("Exit Pupil Position"), N_("Exit pupil position"), nikonLd3IfdId, makerTags, unsignedByte, printExitPupilPosition),
+        TagInfo( 5, "AFAperture", N_("AF Aperture"), N_("AF aperture"), nikonLd3IfdId, makerTags, unsignedByte, printAperture),
         TagInfo( 8, "FocusPosition", N_("Focus Position"), N_("Focus position"), nikonLd3IfdId, makerTags, unsignedByte, printValue),
         TagInfo(10, "FocusDistance", N_("Focus Distance"), N_("Focus distance"), nikonLd3IfdId, makerTags, unsignedByte, printFocusDistance),
-        TagInfo(11, "FocalLength", N_("Focal Length"), N_("Focal length"), nikonLd3IfdId, makerTags, unsignedByte, printValue),
+        TagInfo(11, "FocalLength", N_("Focal Length"), N_("Focal length"), nikonLd3IfdId, makerTags, unsignedByte, printFocal),
         TagInfo(12, "LensIDNumber", N_("Lens ID Number"), N_("Lens ID number"), nikonLd3IfdId, makerTags, unsignedByte, printLensId3),
-        TagInfo(13, "LensFStops", N_("Lens F-Stops"), N_("Lens F-stops"), nikonLd3IfdId, makerTags, unsignedByte, printValue),
-        TagInfo(14, "MinFocalLength", N_("Min Focal Length"), N_("Min focal length"), nikonLd3IfdId, makerTags, unsignedByte, printValue),
-        TagInfo(15, "MaxFocalLength", N_("Max Focal Length"), N_("Max focal length"), nikonLd3IfdId, makerTags, unsignedByte, printValue),
-        TagInfo(16, "MaxApertureAtMinFocal", N_("Max Aperture At Min Focal"), N_("Max aperture at min focal length"), nikonLd3IfdId, makerTags, unsignedByte, printValue),
-        TagInfo(17, "MaxApertureAtMaxFocal", N_("Max Aperture At Max Focal"), N_("Max aperture at max focal length"), nikonLd3IfdId, makerTags, unsignedByte, printValue),
+        TagInfo(13, "LensFStops", N_("Lens F-Stops"), N_("Lens F-stops"), nikonLd3IfdId, makerTags, unsignedByte, printFStops),
+        TagInfo(14, "MinFocalLength", N_("Min Focal Length"), N_("Min focal length"), nikonLd3IfdId, makerTags, unsignedByte, printFocal),
+        TagInfo(15, "MaxFocalLength", N_("Max Focal Length"), N_("Max focal length"), nikonLd3IfdId, makerTags, unsignedByte, printFocal),
+        TagInfo(16, "MaxApertureAtMinFocal", N_("Max Aperture At Min Focal"), N_("Max aperture at min focal length"), nikonLd3IfdId, makerTags, unsignedByte, printAperture),
+        TagInfo(17, "MaxApertureAtMaxFocal", N_("Max Aperture At Max Focal"), N_("Max aperture at max focal length"), nikonLd3IfdId, makerTags, unsignedByte, printAperture),
         TagInfo(18, "MCUVersion", N_("MCU Version"), N_("MCU version"), nikonLd3IfdId, makerTags, unsignedByte, printValue),
-        TagInfo(19, "EffectiveMaxAperture", N_("Effective Max Aperture"), N_("Effective max aperture"), nikonLd3IfdId, makerTags, unsignedByte, printValue),
+        TagInfo(19, "EffectiveMaxAperture", N_("Effective Max Aperture"), N_("Effective max aperture"), nikonLd3IfdId, makerTags, unsignedByte, printAperture),
         // End of list marker
         TagInfo(0xffff, "(UnknownNikonLd3Tag)", "(UnknownNikonLd3Tag)", N_("Unknown Nikon Lens Data 3 Tag"), nikonLd3IfdId, makerTags, invalidTypeId, printValue)
     };
@@ -2073,6 +2073,66 @@ fmountlens[] = {
         std::ostringstream oss;
         oss.copyfmt(os);
         os << std::fixed << std::setprecision(2) << dist << " m";
+        os.copyfmt(oss);
+        return os;
+    }
+
+    std::ostream& Nikon3MakerNote::printAperture(std::ostream& os, 
+                                                 const Value& value, 
+                                                 const ExifData*)
+    {
+        if (value.count() != 1 || value.typeId() != unsignedByte) {
+            return os << "(" << value << ")";
+        }
+        double aperture = pow(2.0, value.toLong()/24.0);
+        std::ostringstream oss;
+        oss.copyfmt(os);
+        os << std::fixed << std::setprecision(2) << "F" << aperture;
+        os.copyfmt(oss);
+        return os;
+    }
+
+    std::ostream& Nikon3MakerNote::printFocal(std::ostream& os, 
+                                              const Value& value, 
+                                              const ExifData*)
+    {
+        if (value.count() != 1 || value.typeId() != unsignedByte) {
+            return os << "(" << value << ")";
+        }
+        double focal = 5.0 * pow(2.0, value.toLong()/24.0);
+        std::ostringstream oss;
+        oss.copyfmt(os);
+        os << std::fixed << std::setprecision(2) << focal << " mm";
+        os.copyfmt(oss);
+        return os;
+    }
+
+    std::ostream& Nikon3MakerNote::printFStops(std::ostream& os, 
+                                               const Value& value, 
+                                               const ExifData*)
+    {
+        if (value.count() != 1 || value.typeId() != unsignedByte) {
+            return os << "(" << value << ")";
+        }
+        double fstops = value.toLong()/12.0;
+        std::ostringstream oss;
+        oss.copyfmt(os);
+        os << std::fixed << std::setprecision(2) << "F" << fstops;
+        os.copyfmt(oss);
+        return os;
+    }
+
+    std::ostream& Nikon3MakerNote::printExitPupilPosition(std::ostream& os, 
+                                                          const Value& value, 
+                                                          const ExifData*)
+    {
+        if (value.count() != 1 || value.typeId() != unsignedByte || value.toLong() == 0) {
+            return os << "(" << value << ")";
+        }
+        double epp = 2048.0/value.toLong();
+        std::ostringstream oss;
+        oss.copyfmt(os);
+        os << std::fixed << std::setprecision(2) << epp << " mm";
         os.copyfmt(oss);
         return os;
     }
