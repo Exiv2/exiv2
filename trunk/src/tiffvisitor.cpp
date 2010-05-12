@@ -252,7 +252,7 @@ namespace Exiv2 {
         copyObject(object);
     }
 
-    void TiffCopier::visitDirectory(TiffDirectory* object)
+    void TiffCopier::visitDirectory(TiffDirectory* /*object*/)
     {
         // Do not copy directories (avoids problems with SubIfds)
     }
