@@ -1493,6 +1493,8 @@ namespace Exiv2 {
     {
         DataBuf buf(static_cast<long>(ifds_.size()) * 4);
         uint32_t idx = 0;
+        // Sort IFDs by group, needed if image data tags were copied first
+        std::sort(ifds_.begin(), ifds_.end(), cmpGroupLt);
         for (Ifds::const_iterator i = ifds_.begin(); i != ifds_.end(); ++i) {
             idx += writeOffset(buf.pData_ + idx, offset + dataIdx, tiffType(), byteOrder);
             dataIdx += (*i)->size();
@@ -2003,6 +2005,13 @@ namespace Exiv2 {
         assert(rhs != 0);
         if (lhs->tag() != rhs->tag()) return lhs->tag() < rhs->tag();
         return lhs->idx() < rhs->idx();
+    }
+
+    bool cmpGroupLt(TiffComponent const* lhs, TiffComponent const* rhs)
+    {
+        assert(lhs != 0);
+        assert(rhs != 0);
+        return lhs->group() < rhs->group();
     }
 
     TiffComponent::AutoPtr newTiffEntry(uint16_t tag, uint16_t group)

@@ -1627,6 +1627,12 @@ namespace Exiv2 {
      */
     bool cmpTagLt(TiffComponent const* lhs, TiffComponent const* rhs);
 
+    /*!
+      @brief Compare two TIFF component pointers by group. Return true if the
+             group of component lhs is less than that of rhs.
+     */
+    bool cmpGroupLt(TiffComponent const* lhs, TiffComponent const* rhs);
+
     //! Return the group name for a group
     const char* tiffGroupName(uint16_t group);
 
