@@ -200,6 +200,12 @@ namespace Exiv2 {
         { 359, "SonySR2Data19"},
         { 360, "SonyIDC"      },
         { 361, "SonyIDC2"     },
+        { 362, "NikonFi"      },
+        { 363, "NikonAf2"     },
+        { 364, "NikonMe"      },
+        { 365, "NikonFl1"     },
+        { 366, "NikonFl2"     },
+        { 367, "NikonFl3"     },
     };
 
     bool TiffGroupInfo::operator==(const uint16_t& group) const

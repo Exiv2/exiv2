@@ -477,6 +477,145 @@ namespace Exiv2 {
         { 2, ttUnsignedShort, 1 } // The array contains 4 bytes
     };
 
+    //! Nikon Auto Focus 2 binary array - configuration
+    extern const ArrayCfg nikonAf2Cfg = {
+        Group::nikonaf2,   // Group for the elements
+        littleEndian,     // Byte order
+        ttUndefined,      // Type for array entry
+        notEncrypted,     // Not encrypted
+        false,            // No size element
+        true,             // Write all tags
+        true,             // Concatenate gaps
+        { 0, ttUnsignedByte,  1 }
+    };
+    //! Nikon Auto Focus 2 binary array - definition
+    extern const ArrayDef nikonAf2Def[] = {
+        {  0, ttUndefined,     4 }, // Version
+        {  4, ttUnsignedByte,  1 }, // ContrastDetectAF
+        {  5, ttUnsignedByte,  1 }, // AFAreaMode
+        {  6, ttUnsignedByte,  1 }, // PhaseDetectAF
+        {  7, ttUnsignedByte,  1 }, // PrimaryAFPoint
+        {  8, ttUnsignedByte,  7 }, // AFPointsUsed
+        { 16, ttUnsignedShort, 1 }, // AFImageWidth
+        { 18, ttUnsignedShort, 1 }, // AFImageHeight
+        { 20, ttUnsignedShort, 1 }, // AFAreaXPosition
+        { 22, ttUnsignedShort, 1 }, // AFAreaYPosition
+        { 24, ttUnsignedShort, 1 }, // AFAreaWidth
+        { 26, ttUnsignedShort, 1 }, // AFAreaHeight
+        { 28, ttUnsignedShort, 1 }, // ContrastDetectAFInFocus
+    };
+
+    //! Nikon File Info binary array - configuration
+    extern const ArrayCfg nikonFiCfg = {
+        Group::nikonfi,   // Group for the elements
+        littleEndian,     // Byte order
+        ttUndefined,      // Type for array entry
+        notEncrypted,     // Not encrypted
+        false,            // No size element
+        true,             // Write all tags
+        true,             // Concatenate gaps
+        { 0, ttUnsignedByte,  1 }
+    };
+    //! Nikon File Info binary array - definition
+    extern const ArrayDef nikonFiDef[] = {
+        { 0, ttUndefined,     4 }, // Version
+        { 6, ttUnsignedShort, 1 }, // Directory Number
+        { 8, ttUnsignedShort, 1 }  // File Number
+    };
+
+    //! Nikon File Info binary array - configuration
+    extern const ArrayCfg nikonMeCfg = {
+        Group::nikonme,   // Group for the elements
+        littleEndian,     // Byte order
+        ttUndefined,      // Type for array entry
+        notEncrypted,     // Not encrypted
+        false,            // No size element
+        true,             // Write all tags
+        true,             // Concatenate gaps
+        { 0, ttUnsignedByte,  1 }
+    };
+    //! Nikon File Info binary array - definition
+    extern const ArrayDef nikonMeDef[] = {
+        {  0, ttUndefined,     4 }, // Version
+        {  4, ttUnsignedLong,  1 }, // MultiExposureMode
+        {  8, ttUnsignedLong,  1 }, // MultiExposureShots
+        { 12, ttUnsignedLong,  1 }  // MultiExposureAutoGain
+    };
+
+    //! Nikon Flash Info binary array - configuration 1
+    extern const ArrayCfg nikonFl1Cfg = {
+        Group::nikonfl1,  // Group for the elements
+        littleEndian,     // Byte order
+        ttUndefined,      // Type for array entry
+        notEncrypted,     // Not encrypted
+        false,            // No size element
+        true,             // Write all tags
+        true,             // Concatenate gaps
+        { 0, ttUnsignedByte,  1 }
+    };
+    extern const ArrayDef nikonFl1Def[] = {
+        {  0, ttUndefined,     4 }, // Version
+        {  4, ttUnsignedByte,  1 }, // FlashSource
+        {  6, ttUnsignedByte,  2 }, // ExternalFlashFirmware
+        {  8, ttUnsignedByte,  1 }, // ExternalFlashFlags
+        { 11, ttUnsignedByte,  1 }, // FlashFocalLength
+        { 12, ttUnsignedByte,  1 }, // RepeatingFlashRate
+        { 13, ttUnsignedByte,  1 }, // RepeatingFlashCount
+        { 14, ttUnsignedByte,  1 }, // FlashGNDistance
+        { 15, ttUnsignedByte,  1 }, // FlashGroupAControlMode
+        { 16, ttUnsignedByte,  1 } // FlashGroupBControlMode
+    };
+    //! Nikon Flash Info binary array - configuration 2
+    extern const ArrayCfg nikonFl2Cfg = {
+        Group::nikonfl2,  // Group for the elements
+        littleEndian,     // Byte order
+        ttUndefined,      // Type for array entry
+        notEncrypted,     // Not encrypted
+        false,            // No size element
+        true,             // Write all tags
+        true,             // Concatenate gaps
+        { 0, ttUnsignedByte,  1 }
+    };
+    extern const ArrayDef nikonFl2Def[] = {
+        {  0, ttUndefined,     4 }, // Version
+        {  4, ttUnsignedByte,  1 }, // FlashSource
+        {  6, ttUnsignedByte,  2 }, // ExternalFlashFirmware
+        {  8, ttUnsignedByte,  1 }, // ExternalFlashFlags
+        { 12, ttUnsignedByte,  1 }, // FlashFocalLength
+        { 13, ttUnsignedByte,  1 }, // RepeatingFlashRate
+        { 14, ttUnsignedByte,  1 }, // RepeatingFlashCount
+        { 15, ttUnsignedByte,  1 }, // FlashGNDistance
+    };
+    //! Nikon Flash Info binary array - configuration 3
+    extern const ArrayCfg nikonFl3Cfg = {
+        Group::nikonfl3,  // Group for the elements
+        littleEndian,     // Byte order
+        ttUndefined,      // Type for array entry
+        notEncrypted,     // Not encrypted
+        false,            // No size element
+        true,             // Write all tags
+        true,             // Concatenate gaps
+        { 0, ttUnsignedByte,  1 }
+    };
+    //! Nikon Flash Info binary array - definition
+    extern const ArrayDef nikonFl3Def[] = {
+        {  0, ttUndefined,     4 }, // Version
+        {  4, ttUnsignedByte,  1 }, // FlashSource
+        {  6, ttUnsignedByte,  2 }, // ExternalFlashFirmware
+        {  8, ttUnsignedByte,  1 }, // ExternalFlashFlags
+        { 12, ttUnsignedByte,  1 }, // FlashFocalLength
+        { 13, ttUnsignedByte,  1 }, // RepeatingFlashRate
+        { 14, ttUnsignedByte,  1 }, // RepeatingFlashCount
+        { 15, ttUnsignedByte,  1 }, // FlashGNDistance
+        { 16, ttUnsignedByte,  1 }, // FlashColorFilter
+    };
+    //! Nikon Lens Data configurations and definitions
+    extern const ArraySet nikonFlSet[] = {
+        { nikonFl1Cfg, nikonFl1Def, EXV_COUNTOF(nikonFl1Def) },
+        { nikonFl2Cfg, nikonFl2Def, EXV_COUNTOF(nikonFl2Def) },
+        { nikonFl3Cfg, nikonFl3Def, EXV_COUNTOF(nikonFl3Def) }
+    };
+
     //! Nikon Shot Info binary array - configuration 1 (D80)
     extern const ArrayCfg nikonSi1Cfg = {
         Group::nikonsi1,  // Group for the elements
@@ -1038,6 +1177,12 @@ namespace Exiv2 {
         { Tag::root, Group::nikonld1,  Group::nikon3mn,  0x0098    },
         { Tag::root, Group::nikonld2,  Group::nikon3mn,  0x0098    },
         { Tag::root, Group::nikonld3,  Group::nikon3mn,  0x0098    },
+        { Tag::root, Group::nikonme,   Group::nikon3mn,  0x00b0    },
+        { Tag::root, Group::nikonaf2,  Group::nikon3mn,  0x00b7    },
+        { Tag::root, Group::nikonfi,   Group::nikon3mn,  0x00b8    },
+        { Tag::root, Group::nikonfl1,  Group::nikon3mn,  0x00a8    },
+        { Tag::root, Group::nikonfl2,  Group::nikon3mn,  0x00a8    },
+        { Tag::root, Group::nikonfl3,  Group::nikon3mn,  0x00a8    },
         { Tag::root, Group::panamn,    Group::exif,      0x927c    },
         { Tag::root, Group::pentaxmn,  Group::exif,      0x927c    },
         { Tag::root, Group::sigmamn,   Group::exif,      0x927c    },
@@ -1450,6 +1595,10 @@ namespace Exiv2 {
         {    0x0091, Group::nikon3mn,  EXV_COMPLEX_BINARY_ARRAY(nikonSiSet, nikonSelector) },
         {    0x0097, Group::nikon3mn,  EXV_COMPLEX_BINARY_ARRAY(nikonCbSet, nikonSelector) },
         {    0x0098, Group::nikon3mn,  EXV_COMPLEX_BINARY_ARRAY(nikonLdSet, nikonSelector) },
+        {    0x00a8, Group::nikon3mn,  EXV_COMPLEX_BINARY_ARRAY(nikonFlSet, nikonSelector) },
+        {    0x00b0, Group::nikon3mn,  EXV_BINARY_ARRAY(nikonMeCfg, nikonMeDef)  },
+        {    0x00b7, Group::nikon3mn,  EXV_BINARY_ARRAY(nikonAf2Cfg, nikonAf2Def) },
+        {    0x00b8, Group::nikon3mn,  EXV_BINARY_ARRAY(nikonFiCfg, nikonFiDef)  },
         {  Tag::all, Group::nikon3mn,  newTiffEntry                              },
 
         // Nikon3 makernote preview subdir
@@ -1472,6 +1621,20 @@ namespace Exiv2 {
 
         // Nikon3 auto focus
         {  Tag::all, Group::nikonaf,   newTiffBinaryElement                      },
+        
+        // Nikon3 auto focus 2
+        {  Tag::all, Group::nikonaf2,  newTiffBinaryElement                      },
+        
+        // Nikon3 file info
+        {  Tag::all, Group::nikonfi,   newTiffBinaryElement                      },
+
+        // Nikon3 file info
+        {  Tag::all, Group::nikonme,   newTiffBinaryElement                      },
+
+        // Nikon3 flash info
+        {  Tag::all, Group::nikonfl1,  newTiffBinaryElement                      },
+        {  Tag::all, Group::nikonfl2,  newTiffBinaryElement                      },
+        {  Tag::all, Group::nikonfl3,  newTiffBinaryElement                      },
 
         // Nikon3 shot info
         {  Tag::all, Group::nikonsi1,  newTiffBinaryElement                      },

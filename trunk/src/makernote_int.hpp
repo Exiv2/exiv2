@@ -141,6 +141,12 @@ namespace Exiv2 {
         const uint16_t sonysr2dt19=359; //!< Sony SR2 data-IFD 19 tags
         const uint16_t sonyidc   = 360; //!< Sony IDC tags
         const uint16_t sonyidc2  = 361; //!< Sony IDC 2 tags
+        const uint16_t nikonfi   = 362; //!< Nikon File Info Tags
+        const uint16_t nikonaf2  = 363; //!< Nikon Auto Focus 2 Tags
+        const uint16_t nikonme   = 364; //!< Nikon Multi Exposure Tags
+        const uint16_t nikonfl1  = 365; //!< Nikon Flash Info 1 Tags
+        const uint16_t nikonfl2  = 366; //!< Nikon Flash Info 2 Tags
+        const uint16_t nikonfl3  = 367; //!< Nikon Flash Info 3 Tags
     }
 
 // *****************************************************************************
