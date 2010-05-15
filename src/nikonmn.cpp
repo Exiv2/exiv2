@@ -529,11 +529,12 @@ namespace Exiv2 {
         TagInfo(0x0012, "FlashComp", N_("Flash Comp"), N_("Flash compensation setting"), nikon3IfdId, makerTags, undefined, EXV_PRINT_TAG(nikonFlashComp)),
         TagInfo(0x0013, "ISOSettings", N_("ISO Settings"), N_("ISO setting"), nikon3IfdId, makerTags, unsignedShort, print0x0002), // use 0x0002 print fct
         TagInfo(0x0016, "ImageBoundary", N_("Image Boundary"), N_("Image boundary"), nikon3IfdId, makerTags, unsignedShort, printValue),
-        TagInfo(0x0017, "0x0017", "0x0017", N_("Unknown"), nikon3IfdId, makerTags, undefined, printValue),
+        TagInfo(0x0017, "FlashExposureComp", "Flash Exposure Comp", N_("Flash exposure comp"), nikon3IfdId, makerTags, undefined, printValue),
         TagInfo(0x0018, "FlashBracketComp", N_("Flash Bracket Comp"), N_("Flash bracket compensation applied"), nikon3IfdId, makerTags, undefined, EXV_PRINT_TAG(nikonFlashComp)), // use 0x0012 print fct
         TagInfo(0x0019, "ExposureBracketComp", N_("Exposure Bracket Comp"), N_("AE bracket compensation applied"), nikon3IfdId, makerTags, signedRational, printValue),
         TagInfo(0x001a, "ImageProcessing", N_("Image Processing"), N_("Image processing"), nikon3IfdId, makerTags, asciiString, printValue),
         TagInfo(0x001b, "CropHiSpeed", N_("Crop High Speed"), N_("Crop high speed"), nikon3IfdId, makerTags, unsignedShort, printValue),
+        TagInfo(0x001c, "ExposureTuning", N_("Exposure Tuning"), N_("Exposure tuning"), nikon3IfdId, makerTags, unsignedShort, printValue),
         TagInfo(0x001d, "SerialNumber", N_("Serial Number"), N_("Serial Number"), nikon3IfdId, makerTags, asciiString, printValue),
         TagInfo(0x001e, "ColorSpace", N_("Color Space"), N_("Color space"), nikon3IfdId, makerTags, unsignedShort, EXV_PRINT_TAG(nikonColorSpace)),
         TagInfo(0x001f, "VRInfo", N_("VR Info"), N_("VR info"), nikon3IfdId, makerTags, undefined, printValue),
@@ -794,6 +795,216 @@ namespace Exiv2 {
     const TagInfo* Nikon3MakerNote::tagListAf()
     {
         return tagInfoAf_;
+    }
+
+    //! PhaseDetectAF
+    extern const TagDetails nikonPhaseDetectAF[] = {
+        { 0, N_("Off")           },
+        { 1, N_("On (51-point)") },
+        { 2, N_("On (11-point)") }
+    };
+
+    // Nikon3 Auto Focus Tag Info
+    const TagInfo Nikon3MakerNote::tagInfoAf2_[] = {
+        TagInfo(  0, "Version", N_("Version"), N_("Version"), nikonAf2IfdId, makerTags, undefined, printExifVersion),
+        TagInfo(  4, "ContrastDetectAF", N_("Contrast Detect AF"), N_("Contrast detect AF"), nikonAf2IfdId, makerTags, unsignedByte, EXV_PRINT_TAG(nikonOffOn)),
+        TagInfo(  5, "AFAreaMode", N_("AF Area Mode"), N_("AF area mode"), nikonAf2IfdId, makerTags, unsignedByte, printValue),
+        TagInfo(  6, "PhaseDetectAF", N_("Phase Detect AF"), N_("Phase detect AF"), nikonAf2IfdId, makerTags, unsignedByte, EXV_PRINT_TAG(nikonPhaseDetectAF)),
+        TagInfo(  7, "PrimaryAFPoint", N_("Primary AF Point"), N_("Primary AF point"), nikonAf2IfdId, makerTags, unsignedByte, printValue),
+        TagInfo(  8, "AFPointsUsed", N_("AF Points Used"), N_("AF points used"), nikonAf2IfdId, makerTags, unsignedByte, printValue),
+        TagInfo( 16, "AFImageWidth", N_("AF Image Width"), N_("AF image width"), nikonAf2IfdId, makerTags, unsignedShort, printValue),
+        TagInfo( 18, "AFImageHeight", N_("AF Image Height"), N_("AF image height"), nikonAf2IfdId, makerTags, unsignedShort, printValue),
+        TagInfo( 20, "AFAreaXPosition", N_("AF Area X Position"), N_("AF area x position"), nikonAf2IfdId, makerTags, unsignedShort, printValue),
+        TagInfo( 22, "AFAreaYPosition", N_("AF Area Y Position"), N_("AF area y position"), nikonAf2IfdId, makerTags, unsignedShort, printValue),
+        TagInfo( 24, "AFAreaWidth", N_("AF Area Width"), N_("AF area width"), nikonAf2IfdId, makerTags, unsignedShort, printValue),
+        TagInfo( 26, "AFAreaHeight", N_("AF Area Height"), N_("AF area height"), nikonAf2IfdId, makerTags, unsignedShort, printValue),
+        TagInfo( 28, "ContrastDetectAFInFocus", N_("Contrast Detect AF In Focus"), N_("Contrast detect AF in focus"), nikonAf2IfdId, makerTags, unsignedShort, printValue),
+        // End of list marker
+        TagInfo(0xffff, "(UnknownNikonAf2Tag)", "(UnknownNikonAf2Tag)", N_("Unknown Nikon Auto Focus 2 Tag"), nikonAf2IfdId, makerTags, invalidTypeId, printValue)
+    };
+
+    const TagInfo* Nikon3MakerNote::tagListAf2()
+    {
+        return tagInfoAf2_;
+    }
+
+    // Nikon3 File Info Tag Info
+    const TagInfo Nikon3MakerNote::tagInfoFi_[] = {
+        TagInfo( 0, "Version", N_("Version"), N_("Version"), nikonFiIfdId, makerTags, undefined, printExifVersion),
+        TagInfo( 6, "DirectoryNumber", N_("Directory Number"), N_("Directory number"), nikonFiIfdId, makerTags, unsignedShort, printValue),
+        TagInfo( 8, "FileNumber", N_("File Number"), N_("File number"), nikonFiIfdId, makerTags, unsignedShort, printValue),
+        // End of list marker
+        TagInfo(0xffff, "(UnknownNikonFiTag)", "(UnknownNikonFiTag)", N_("Unknown Nikon File Info Tag"), nikonFiIfdId, makerTags, invalidTypeId, printValue)
+    };
+
+    const TagInfo* Nikon3MakerNote::tagListFi()
+    {
+        return tagInfoFi_;
+    }
+
+    //! MultiExposureMode
+    extern const TagDetails nikonMultiExposureMode[] = {
+        { 0, N_("Off")               },
+        { 1, N_("Multiple Exposure") },
+        { 2, N_("Image Overlay")     }
+    };
+
+    // Nikon3 Multi Exposure Tag Info
+    const TagInfo Nikon3MakerNote::tagInfoMe_[] = {
+        TagInfo(  0, "Version", N_("Version"), N_("Version"), nikonMeIfdId, makerTags, undefined, printExifVersion),
+        TagInfo(  4, "MultiExposureMode", N_("Multi Exposure Mode"), N_("Multi exposure mode"), nikonMeIfdId, makerTags, unsignedLong, EXV_PRINT_TAG(nikonMultiExposureMode)),
+        TagInfo(  8, "MultiExposureShots", N_("Multi Exposure Shots"), N_("Multi exposure shots"), nikonMeIfdId, makerTags, unsignedLong, printValue),
+        TagInfo( 12, "MultiExposureAutoGain", N_("Multi Exposure Auto Gain"), N_("Multi exposure auto gain"), nikonMeIfdId, makerTags, unsignedLong, EXV_PRINT_TAG(nikonOffOn)),
+        // End of list marker
+        TagInfo(0xffff, "(UnknownNikonMeTag)", "(UnknownNikonMeTag)", N_("Unknown Nikon Multi Exposure Tag"), nikonMeIfdId, makerTags, invalidTypeId, printValue)
+    };
+
+    const TagInfo* Nikon3MakerNote::tagListMe()
+    {
+        return tagInfoMe_;
+    }
+
+    //! FlashSource
+    extern const TagDetails nikonFlashSource[] = {
+        { 0, N_("None")     },
+        { 1, N_("External") },
+        { 2, N_("Internal") }
+    };
+
+    //! FlashGNDistance
+    extern const TagDetails nikonFlashGNDistance[] = {
+        {   0, N_("None")  },
+        {   1, N_("0.1 m") },
+        {   2, N_("0.2 m") },
+        {   3, N_("0.3 m") },
+        {   4, N_("0.4 m") },
+        {   5, N_("0.5 m") },
+        {   6, N_("0.6 m") },
+        {   7, N_("0.7 m") },
+        {   8, N_("0.8 m") },
+        {   9, N_("0.9 m") },
+        {  10, N_("1.0 m") },
+        {  11, N_("1.1 m") },
+        {  12, N_("1.3 m") },
+        {  13, N_("1.4 m") },
+        {  14, N_("1.6 m") },
+        {  15, N_("1.8 m") },
+        {  16, N_("2.0 m") },
+        {  17, N_("2.2 m") },
+        {  18, N_("2.5 m") },
+        {  19, N_("2.8 m") },
+        {  20, N_("3.2 m") },
+        {  21, N_("3.6 m") },
+        {  22, N_("4.0 m") },
+        {  23, N_("4.5 m") },
+        {  24, N_("5.0 m") },
+        {  25, N_("5.6 m") },
+        {  26, N_("6.3 m") },
+        {  27, N_("7.1 m") },
+        {  28, N_("8.0 m") },
+        {  29, N_("9.0 m") },
+        {  30, N_("10.0 m") },
+        {  31, N_("11.0 m") },
+        {  32, N_("13.0 m") },
+        {  33, N_("14.0 m") },
+        {  34, N_("16.0 m") },
+        {  35, N_("18.0 m") },
+        {  36, N_("20.0 m") },
+        { 255, N_("n/a") }
+    };
+
+    //! FlashControlMode
+    extern const TagDetails nikonFlashControlMode[] = {
+        { 0, N_("Off")                    },
+        { 1, N_("iTTL-BL")                },
+        { 2, N_("iTTL")                   },
+        { 3, N_("Auto Aperture")          },
+        { 4, N_("Automatic")              },
+        { 5, N_("GN (distance priority)") },
+        { 6, N_("Manual")                 },
+        { 7, N_("Repeating Flash")        }
+    };
+
+    //! ExternalFlashFlags
+    extern const TagDetails nikonExternalFlashFlags[] = {
+        { 0, N_("Fired")              },
+        { 2, N_("Bounce Flash")       },
+        { 4, N_("Wide Flash Adapter") }
+    };
+
+    //! FlashColorFilter
+    extern const TagDetails nikonFlashColorFilter[] = {
+        {  0, N_("None")   },
+        {  1, N_("FL-GL1") },
+        {  2, N_("FL-GL2") },
+        {  9, N_("TN-A1")  },
+        { 10, N_("TN-A2")  },
+        { 65, N_("Red")    },
+        { 66, N_("Blue")   },
+        { 67, N_("Yellow") },
+        { 68, N_("Amber")  }
+    };
+
+    // Nikon3 Flash Info 1 Tag Info
+    const TagInfo Nikon3MakerNote::tagInfoFl1_[] = {
+        TagInfo(  0, "Version", N_("Version"), N_("Version"), nikonFl1IfdId, makerTags, undefined, printExifVersion),
+        TagInfo(  4, "FlashSource", N_("Flash Source"), N_("Flash source"), nikonFl1IfdId, makerTags, unsignedByte, EXV_PRINT_TAG(nikonFlashSource)),
+        TagInfo(  5, "0x0005", N_("0x0005"), N_("Unknown"), nikonFl1IfdId, makerTags, unsignedByte, printValue),
+        TagInfo(  6, "ExternalFlashFirmware", N_("External Flash Firmware"), N_("External flash firmware"), nikonFl1IfdId, makerTags, unsignedByte, printValue),
+        TagInfo(  8, "ExternalFlashFlags", N_("External Flash Flags"), N_("External flash flags"), nikonFl1IfdId, makerTags, unsignedByte, EXV_PRINT_TAG(nikonExternalFlashFlags)),
+        TagInfo( 11, "FlashFocalLength", N_("Flash Focal Length"), N_("Flash focal length"), nikonFl1IfdId, makerTags, unsignedByte, printFlashFocalLength),
+        TagInfo( 12, "RepeatingFlashRate", N_("Repeating Flash Rate"), N_("Repeating flash rate"), nikonFl1IfdId, makerTags, unsignedByte, printRepeatingFlashRate),
+        TagInfo( 13, "RepeatingFlashCount", N_("Repeating Flash Count"), N_("Repeating flash count"), nikonFl1IfdId, makerTags, unsignedByte, printRepeatingFlashCount),
+        TagInfo( 14, "FlashGNDistance", N_("Flash GN Distance"), N_("Flash GN distance"), nikonFl1IfdId, makerTags, unsignedByte, EXV_PRINT_TAG(nikonFlashGNDistance)),
+        TagInfo( 15, "FlashGroupAControlMode", N_("Flash Group A Control Mode"), N_("Flash group a control mode"), nikonFl1IfdId, makerTags, unsignedByte, EXV_PRINT_TAG(nikonFlashControlMode)),
+        TagInfo( 16, "FlashGroupBControlMode", N_("Flash Group B Control Mode"), N_("Flash group b control mode"), nikonFl1IfdId, makerTags, unsignedByte, EXV_PRINT_TAG(nikonFlashControlMode)),
+        // End of list marker
+        TagInfo(0xffff, "(UnknownNikonMeTag)", "(UnknownNikonMeTag)", N_("Unknown Nikon Multi Exposure Tag"), nikonFl1IfdId, makerTags, invalidTypeId, printValue)
+    };
+
+    const TagInfo* Nikon3MakerNote::tagListFl1()
+    {
+        return tagInfoFl1_;
+    }
+
+    // Nikon3 Flash Info 2 Tag Info
+    const TagInfo Nikon3MakerNote::tagInfoFl2_[] = {
+        TagInfo(  0, "Version", N_("Version"), N_("Version"), nikonFl2IfdId, makerTags, undefined, printExifVersion),
+        TagInfo(  4, "FlashSource", N_("Flash Source"), N_("Flash source"), nikonFl2IfdId, makerTags, unsignedByte, EXV_PRINT_TAG(nikonFlashSource)),
+        TagInfo(  5, "0x0005", N_("0x0005"), N_("Unknown"), nikonFl2IfdId, makerTags, unsignedByte, printValue),
+        TagInfo(  6, "ExternalFlashFirmware", N_("External Flash Firmware"), N_("External flash firmware"), nikonFl2IfdId, makerTags, unsignedByte, printValue),
+        TagInfo(  8, "ExternalFlashFlags", N_("External Flash Flags"), N_("External flash flags"), nikonFl2IfdId, makerTags, unsignedByte, EXV_PRINT_TAG(nikonExternalFlashFlags)),
+        TagInfo( 12, "FlashFocalLength", N_("Flash Focal Length"), N_("Flash focal length"), nikonFl2IfdId, makerTags, unsignedByte, printFlashFocalLength),
+        TagInfo( 13, "RepeatingFlashRate", N_("Repeating Flash Rate"), N_("Repeating flash rate"), nikonFl2IfdId, makerTags, unsignedByte, printRepeatingFlashRate),
+        TagInfo( 14, "RepeatingFlashCount", N_("Repeating Flash Count"), N_("Repeating flash count"), nikonFl2IfdId, makerTags, unsignedByte, printRepeatingFlashCount),
+        TagInfo( 15, "FlashGNDistance", N_("Flash GN Distance"), N_("Flash GN distance"), nikonFl2IfdId, makerTags, unsignedByte, EXV_PRINT_TAG(nikonFlashGNDistance)),
+        // End of list marker
+        TagInfo(0xffff, "(UnknownNikonMeTag)", "(UnknownNikonMeTag)", N_("Unknown Nikon Multi Exposure Tag"), nikonFl2IfdId, makerTags, invalidTypeId, printValue)
+    };
+
+    const TagInfo* Nikon3MakerNote::tagListFl2()
+    {
+        return tagInfoFl2_;
+    }
+
+    // Nikon3 Flash Info 3 Tag Info
+    const TagInfo Nikon3MakerNote::tagInfoFl3_[] = {
+        TagInfo(  0, "Version", N_("Version"), N_("Version"), nikonFl3IfdId, makerTags, undefined, printExifVersion),
+        TagInfo(  4, "FlashSource", N_("Flash Source"), N_("Flash source"), nikonFl3IfdId, makerTags, unsignedByte, EXV_PRINT_TAG(nikonFlashSource)),
+        TagInfo(  6, "ExternalFlashFirmware", N_("External Flash Firmware"), N_("External flash firmware"), nikonFl3IfdId, makerTags, unsignedByte, printValue),
+        TagInfo(  8, "ExternalFlashFlags", N_("External Flash Flags"), N_("External flash flags"), nikonFl3IfdId, makerTags, unsignedByte, EXV_PRINT_TAG(nikonExternalFlashFlags)),
+        TagInfo( 12, "FlashFocalLength", N_("Flash Focal Length"), N_("Flash focal length"), nikonFl3IfdId, makerTags, unsignedByte, printFlashFocalLength),
+        TagInfo( 13, "RepeatingFlashRate", N_("Repeating Flash Rate"), N_("Repeating flash rate"), nikonFl3IfdId, makerTags, unsignedByte, printRepeatingFlashRate),
+        TagInfo( 14, "RepeatingFlashCount", N_("Repeating Flash Count"), N_("Repeating flash count"), nikonFl3IfdId, makerTags, unsignedByte, printRepeatingFlashCount),
+        TagInfo( 15, "FlashGNDistance", N_("Flash GN Distance"), N_("Flash GN distance"), nikonFl3IfdId, makerTags, unsignedByte, EXV_PRINT_TAG(nikonFlashGNDistance)),
+        TagInfo( 16, "FlashColorFilter", N_("Flash Color Filter"), N_("Flash color filter"), nikonFl3IfdId, makerTags, unsignedByte, EXV_PRINT_TAG(nikonFlashColorFilter)),
+        // End of list marker
+        TagInfo(0xffff, "(UnknownNikonMeTag)", "(UnknownNikonMeTag)", N_("Unknown Nikon Multi Exposure Tag"), nikonFl3IfdId, makerTags, invalidTypeId, printValue)
+    };
+
+    const TagInfo* Nikon3MakerNote::tagListFl3()
+    {
+        return tagInfoFl3_;
     }
 
     // Nikon3 Shot Info D80 Tag Info
@@ -2063,8 +2274,8 @@ fmountlens[] = {
 #endif // EXV_HAVE_LENSDATA
     }
 
-    std::ostream& Nikon3MakerNote::printFocusDistance(std::ostream& os, 
-                                                      const Value& value, 
+    std::ostream& Nikon3MakerNote::printFocusDistance(std::ostream& os,
+                                                      const Value& value,
                                                       const ExifData*)
     {
         if (value.count() != 1 || value.typeId() != unsignedByte) {
@@ -2137,6 +2348,48 @@ fmountlens[] = {
         os.copyfmt(oss);
         return os;
     }
+
+    std::ostream& Nikon3MakerNote::printFlashFocalLength(std::ostream& os, 
+                                                         const Value& value, 
+                                                         const ExifData*)
+    {
+        if (value.count() != 1 || value.typeId() != unsignedByte || value.toLong() == 0 || value.toLong() == 255) {
+            return os << "(" << value << ")";
+        }
+        std::ostringstream oss;
+        oss.copyfmt(os);
+        os << std::fixed << std::setprecision(2) << value.toLong() << " mm";
+        os.copyfmt(oss);
+        return os;
+    }
+
+    std::ostream& Nikon3MakerNote::printRepeatingFlashRate(std::ostream& os, 
+                                                           const Value& value, 
+                                                           const ExifData*)
+    {
+        if (value.count() != 1 || value.typeId() != unsignedByte || value.toLong() == 0 || value.toLong() == 255) {
+            return os << "(" << value << ")";
+        }
+        std::ostringstream oss;
+        oss.copyfmt(os);
+        os << std::fixed << std::setprecision(2) << value.toLong() << " Hz";
+        os.copyfmt(oss);
+        return os;
+    }
+
+    std::ostream& Nikon3MakerNote::printRepeatingFlashCount(std::ostream& os, 
+                                                            const Value& value, 
+                                                            const ExifData*)
+    {
+         if (value.count() != 1 || value.typeId() != unsignedByte || value.toLong() == 0 || value.toLong() == 255) {
+            return os << "(" << value << ")";
+        }
+        std::ostringstream oss;
+        oss.copyfmt(os);
+        os << std::fixed << std::setprecision(2) << value.toLong();
+        os.copyfmt(oss);
+        return os;
+   }
 
     std::ostream& Nikon3MakerNote::print0x009a(std::ostream& os,
                                                const Value& value,

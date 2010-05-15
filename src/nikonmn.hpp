@@ -120,6 +120,18 @@ namespace Exiv2 {
         static const TagInfo* tagListIi();
         //! Return read-only list of built-in Auto Focus tags
         static const TagInfo* tagListAf();
+        //! Return read-only list of built-in Auto Focus 2 tags
+        static const TagInfo* tagListAf2();
+        //! Return read-only list of built-in File Info tags
+        static const TagInfo* tagListFi();
+        //! Return read-only list of built-in Multi Exposure tags
+        static const TagInfo* tagListMe();
+        //! Return read-only list of built-in Flash Info 1 tags
+        static const TagInfo* tagListFl1();
+        //! Return read-only list of built-in Flash Info 2 tags
+        static const TagInfo* tagListFl2();
+        //! Return read-only list of built-in Flash Info 3 tags
+        static const TagInfo* tagListFl3();
         //! Return read-only list of built-in Shot Info D80 tags
         static const TagInfo* tagListSi1();
         //! Return read-only list of built-in Shot Info D40 tags
@@ -192,6 +204,12 @@ namespace Exiv2 {
         static std::ostream& print0x009e(std::ostream& os, const Value& value, const ExifData*);
         //! Print Exif.NikonIi.ISO(2)
         static std::ostream& printIiIso(std::ostream& os, const Value& value, const ExifData*);
+        //! Print flash focal length
+        static std::ostream& printFlashFocalLength(std::ostream& os, const Value& value, const ExifData*);
+        //! Print repeating flash rate
+        static std::ostream& printRepeatingFlashRate(std::ostream& os, const Value& value, const ExifData*);
+        //! Print repeating flash count
+        static std::ostream& printRepeatingFlashCount(std::ostream& os, const Value& value, const ExifData*);
         //@}
 
     private:
@@ -207,6 +225,18 @@ namespace Exiv2 {
         static const TagInfo tagInfoIi_[];
         //! Auto Focus tag information
         static const TagInfo tagInfoAf_[];
+        //! Auto Focus tag 2 information
+        static const TagInfo tagInfoAf2_[];
+        //! File Info tag information
+        static const TagInfo tagInfoFi_[];
+        //! Multi Exposure tag information
+        static const TagInfo tagInfoMe_[];
+        //! Flash Info 1 tag information
+        static const TagInfo tagInfoFl1_[];
+        //! Flash Info 2 tag information
+        static const TagInfo tagInfoFl2_[];
+        //! Flash Info 3 tag information
+        static const TagInfo tagInfoFl3_[];
         //! Shot Info D80 tag information
         static const TagInfo tagInfoSi1_[];
         //! Shot Info D40 tag information
