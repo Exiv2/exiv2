@@ -556,7 +556,7 @@ namespace Exiv2 {
     extern const ArrayDef nikonFl1Def[] = {
         {  0, ttUndefined,     4 }, // Version
         {  4, ttUnsignedByte,  1 }, // FlashSource
-        {  6, ttUnsignedByte,  2 }, // ExternalFlashFirmware
+        {  6, ttUnsignedShort, 1 }, // ExternalFlashFirmware
         {  8, ttUnsignedByte,  1 }, // ExternalFlashFlags
         { 11, ttUnsignedByte,  1 }, // FlashFocalLength
         { 12, ttUnsignedByte,  1 }, // RepeatingFlashRate
@@ -579,7 +579,7 @@ namespace Exiv2 {
     extern const ArrayDef nikonFl2Def[] = {
         {  0, ttUndefined,     4 }, // Version
         {  4, ttUnsignedByte,  1 }, // FlashSource
-        {  6, ttUnsignedByte,  2 }, // ExternalFlashFirmware
+        {  6, ttUnsignedShort, 1 }, // ExternalFlashFirmware
         {  8, ttUnsignedByte,  1 }, // ExternalFlashFlags
         { 12, ttUnsignedByte,  1 }, // FlashFocalLength
         { 13, ttUnsignedByte,  1 }, // RepeatingFlashRate
@@ -601,7 +601,7 @@ namespace Exiv2 {
     extern const ArrayDef nikonFl3Def[] = {
         {  0, ttUndefined,     4 }, // Version
         {  4, ttUnsignedByte,  1 }, // FlashSource
-        {  6, ttUnsignedByte,  2 }, // ExternalFlashFirmware
+        {  6, ttUnsignedShort, 1 }, // ExternalFlashFirmware
         {  8, ttUnsignedByte,  1 }, // ExternalFlashFlags
         { 12, ttUnsignedByte,  1 }, // FlashFocalLength
         { 13, ttUnsignedByte,  1 }, // RepeatingFlashRate
