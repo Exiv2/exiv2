@@ -26,6 +26,7 @@
   Version:   $Rev$
   Author(s): Andreas Huggel (ahu) <ahuggel@gmx.net>
              Gilles Caulier (gc) <caulier dot gilles at gmail dot com>
+             Jens Mueller (jm) <tschensinger at web dot de>
   History:   17-May-04, ahu: created
              25-May-04, ahu: combined all Nikon formats in one component
  */
@@ -2409,7 +2410,7 @@ fmountlens[] = {
                                                             const Value& value, 
                                                             const ExifData*)
     {
-         if (value.count() != 1 || value.typeId() != unsignedByte || value.toLong() == 0 || value.toLong() == 255) {
+        if (value.count() != 1 || value.typeId() != unsignedByte || value.toLong() == 0 || value.toLong() == 255) {
             return os << "(" << value << ")";
         }
         std::ostringstream oss;
@@ -2432,7 +2433,7 @@ fmountlens[] = {
         long h = long(abs(value.toLong())/60.0);
         long min = abs(value.toLong()) - h*60;
         os << std::fixed << "UTC " << sign << std::setw(2) << std::setfill('0') << h << ":" 
-            << std::setw(2) << std::setfill('0') << min;
+           << std::setw(2) << std::setfill('0') << min;
         os.copyfmt(oss);
         return os;
     }
@@ -2450,24 +2451,24 @@ fmountlens[] = {
         switch(pcval)
         {
         case 0:
-          os << "Normal";
-          break;
+            os << "Normal";
+            break;
         case 127:
-          os << "n/a";
-          break;
+            os << "n/a";
+            break;
         case -127:
-          os << "User";
-          break;
+            os << "User";
+            break;
         case -128:
-          os << "Auto";
-          break;
+            os << "Auto";
+            break;
         default:
-          os << pcval;
-          break;
+            os << pcval;
+            break;
         }
         os.copyfmt(oss);
         return os;
-   }
+    }
 
     std::ostream& Nikon3MakerNote::print0x009a(std::ostream& os,
                                                const Value& value,

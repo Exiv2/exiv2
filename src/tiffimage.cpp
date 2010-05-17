@@ -523,7 +523,7 @@ namespace Exiv2 {
         { 8, ttUnsignedShort, 1 }  // File Number
     };
 
-    //! Nikon File Info binary array - configuration
+    //! Nikon Multi Exposure binary array - configuration
     extern const ArrayCfg nikonMeCfg = {
         Group::nikonme,   // Group for the elements
         littleEndian,     // Byte order
@@ -534,7 +534,7 @@ namespace Exiv2 {
         true,             // Concatenate gaps
         { 0, ttUnsignedByte,  1 }
     };
-    //! Nikon File Info binary array - definition
+    //! Nikon Multi Exposure binary array - definition
     extern const ArrayDef nikonMeDef[] = {
         {  0, ttUndefined,     4 }, // Version
         {  4, ttUnsignedLong,  1 }, // MultiExposureMode
@@ -1628,7 +1628,7 @@ namespace Exiv2 {
         // Nikon3 file info
         {  Tag::all, Group::nikonfi,   newTiffBinaryElement                      },
 
-        // Nikon3 file info
+        // Nikon3 multi exposure
         {  Tag::all, Group::nikonme,   newTiffBinaryElement                      },
 
         // Nikon3 flash info
