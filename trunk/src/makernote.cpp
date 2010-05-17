@@ -846,10 +846,10 @@ namespace Exiv2 {
         { 0x0098, "0203",    0, 1,   4 },
         { 0x0098, "0204",    0, 2,   4 },
         // NikonFl
-        { 0x00a8, "0100",    0, 0,   4 },
-        { 0x00a8, "0101",    0, 0,   4 },
-        { 0x00a8, "0102",    0, 1,   4 },
-        { 0x00a8, "0103",    0, 2,   4 },
+        { 0x00a8, "0100",    0, 0,  NA },
+        { 0x00a8, "0101",    0, 0,  NA },
+        { 0x00a8, "0102",    0, 1,  NA },
+        { 0x00a8, "0103",    0, 2,  NA },
     };
 
     int nikonSelector(uint16_t tag, const byte* pData, uint32_t size, TiffComponent* const /*pRoot*/)
