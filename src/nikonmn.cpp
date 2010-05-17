@@ -69,6 +69,16 @@ namespace Exiv2 {
         {  5, N_("High")   }
     };
 
+    //! Off, Low, Normal, High, multiple tags
+    extern const TagDetails nikonActiveDLighning[] = {
+        {     0, N_("Off")        },
+        {     1, N_("Low")        },
+        {     3, N_("Normal")     },
+        {     5, N_("High")       },
+        {     7, N_("Extra High") },
+        { 65535, N_("Auto")       }
+    };
+
     //! Focus area for Nikon cameras.
     extern const char *nikonFocusarea[] = {
         N_("Single area"),
@@ -278,7 +288,8 @@ namespace Exiv2 {
         std::string focus = value.toString();
         if      (focus == "AF-C  ") os << _("Continuous autofocus");
         else if (focus == "AF-S  ") os << _("Single autofocus");
-        else                        os << "(" << value << ")";
+        else if (focus == "AF-A  ") os << _("Automatic");
+        else                      os << "(" << value << ")";
         return os;
     }
 
@@ -521,15 +532,15 @@ namespace Exiv2 {
         TagInfo(0x000a, "0x000a", "0x000a", N_("Unknown"), nikon3IfdId, makerTags, unsignedRational, printValue),
         TagInfo(0x000b, "WhiteBalanceBias", N_("White Balance Bias"), N_("White balance bias"), nikon3IfdId, makerTags, signedShort, printValue),
         TagInfo(0x000c, "WB_RBLevels", N_("WB RB Levels"), N_("WB RB levels"), nikon3IfdId, makerTags, unsignedRational, printValue),
-        TagInfo(0x000d, "ProgramShift", N_("Program Shift"), N_("Program shift"), nikon3IfdId, makerTags, undefined, printValue),
-        TagInfo(0x000e, "ExposureDiff", N_("Exposure Difference"), N_("Exposure difference"), nikon3IfdId, makerTags, undefined, printValue),
+        TagInfo(0x000d, "ProgramShift", N_("Program Shift"), N_("Program shift"), nikon3IfdId, makerTags, undefined, EXV_PRINT_TAG(nikonFlashComp)),
+        TagInfo(0x000e, "ExposureDiff", N_("Exposure Difference"), N_("Exposure difference"), nikon3IfdId, makerTags, undefined, EXV_PRINT_TAG(nikonFlashComp)),
         TagInfo(0x000f, "ISOSelection", N_("ISO Selection"), N_("ISO selection"), nikon3IfdId, makerTags, asciiString, printValue),
         TagInfo(0x0010, "DataDump", N_("Data Dump"), N_("Data dump"), nikon3IfdId, makerTags, undefined, printValue),
         TagInfo(0x0011, "Preview", N_("Pointer to a preview image"), N_("Offset to an IFD containing a preview image"), nikon3IfdId, makerTags, undefined, printValue),
         TagInfo(0x0012, "FlashComp", N_("Flash Comp"), N_("Flash compensation setting"), nikon3IfdId, makerTags, undefined, EXV_PRINT_TAG(nikonFlashComp)),
         TagInfo(0x0013, "ISOSettings", N_("ISO Settings"), N_("ISO setting"), nikon3IfdId, makerTags, unsignedShort, print0x0002), // use 0x0002 print fct
         TagInfo(0x0016, "ImageBoundary", N_("Image Boundary"), N_("Image boundary"), nikon3IfdId, makerTags, unsignedShort, printValue),
-        TagInfo(0x0017, "FlashExposureComp", "Flash Exposure Comp", N_("Flash exposure comp"), nikon3IfdId, makerTags, undefined, printValue),
+        TagInfo(0x0017, "FlashExposureComp", "Flash Exposure Comp", N_("Flash exposure comp"), nikon3IfdId, makerTags, undefined, EXV_PRINT_TAG(nikonFlashComp)),
         TagInfo(0x0018, "FlashBracketComp", N_("Flash Bracket Comp"), N_("Flash bracket compensation applied"), nikon3IfdId, makerTags, undefined, EXV_PRINT_TAG(nikonFlashComp)), // use 0x0012 print fct
         TagInfo(0x0019, "ExposureBracketComp", N_("Exposure Bracket Comp"), N_("AE bracket compensation applied"), nikon3IfdId, makerTags, signedRational, printValue),
         TagInfo(0x001a, "ImageProcessing", N_("Image Processing"), N_("Image processing"), nikon3IfdId, makerTags, asciiString, printValue),
@@ -539,7 +550,7 @@ namespace Exiv2 {
         TagInfo(0x001e, "ColorSpace", N_("Color Space"), N_("Color space"), nikon3IfdId, makerTags, unsignedShort, EXV_PRINT_TAG(nikonColorSpace)),
         TagInfo(0x001f, "VRInfo", N_("VR Info"), N_("VR info"), nikon3IfdId, makerTags, undefined, printValue),
         TagInfo(0x0020, "ImageAuthentication", N_("Image Authentication"), N_("Image authentication"), nikon3IfdId, makerTags, unsignedByte, EXV_PRINT_TAG(nikonOffOn)),
-        TagInfo(0x0022, "ActiveDLighting", N_("ActiveD-Lighting"), N_("ActiveD-lighting"), nikon3IfdId, makerTags, unsignedShort, EXV_PRINT_TAG(nikonOlnh)),
+        TagInfo(0x0022, "ActiveDLighting", N_("ActiveD-Lighting"), N_("ActiveD-lighting"), nikon3IfdId, makerTags, unsignedShort, EXV_PRINT_TAG(nikonActiveDLighning)),
         TagInfo(0x0023, "PictureControl", N_("Picture Control"), N_(" Picture control"), nikon3IfdId, makerTags, undefined, printValue),
         TagInfo(0x0024, "WorldTime", N_("World Time"), N_("World time"), nikon3IfdId, makerTags, undefined, printValue),
         TagInfo(0x0025, "ISOInfo", N_("ISO Info"), N_("ISO info"), nikon3IfdId, makerTags, undefined, printValue),
@@ -679,15 +690,15 @@ namespace Exiv2 {
         TagInfo( 4, "Name", N_("Name"), N_("Name"), nikonPcIfdId, makerTags, asciiString, printValue),
         TagInfo(24, "Base", N_("Base"), N_("Base"), nikonPcIfdId, makerTags, asciiString, printValue),
         TagInfo(48, "Adjust", N_("Adjust"), N_("Adjust"), nikonPcIfdId, makerTags, unsignedByte, EXV_PRINT_TAG(nikonAdjust)),
-        TagInfo(49, "QuickAdjust", N_("Quick Adjust"), N_("Quick adjust"), nikonPcIfdId, makerTags, unsignedByte, printValue),
-        TagInfo(50, "Sharpness", N_("Sharpness"), N_("Sharpness"), nikonPcIfdId, makerTags, unsignedByte, printValue),
-        TagInfo(51, "Contrast", N_("Contrast"), N_("Contrast"), nikonPcIfdId, makerTags, unsignedByte, printValue),
-        TagInfo(52, "Brightness", N_("Brightness"), N_("Brightness"), nikonPcIfdId, makerTags, unsignedByte, printValue),
-        TagInfo(53, "Saturation", N_("Saturation"), N_("Saturation"), nikonPcIfdId, makerTags, unsignedByte, printValue),
-        TagInfo(54, "HueAdjustment", N_("Hue Adjustment"), N_("Hue adjustment"), nikonPcIfdId, makerTags, unsignedByte, printValue),
+        TagInfo(49, "QuickAdjust", N_("Quick Adjust"), N_("Quick adjust"), nikonPcIfdId, makerTags, unsignedByte, printPictureControl),
+        TagInfo(50, "Sharpness", N_("Sharpness"), N_("Sharpness"), nikonPcIfdId, makerTags, unsignedByte, printPictureControl),
+        TagInfo(51, "Contrast", N_("Contrast"), N_("Contrast"), nikonPcIfdId, makerTags, unsignedByte, printPictureControl),
+        TagInfo(52, "Brightness", N_("Brightness"), N_("Brightness"), nikonPcIfdId, makerTags, unsignedByte, printPictureControl),
+        TagInfo(53, "Saturation", N_("Saturation"), N_("Saturation"), nikonPcIfdId, makerTags, unsignedByte, printPictureControl),
+        TagInfo(54, "HueAdjustment", N_("Hue Adjustment"), N_("Hue adjustment"), nikonPcIfdId, makerTags, unsignedByte, printPictureControl),
         TagInfo(55, "FilterEffect", N_("Filter Effect"), N_("Filter effect"), nikonPcIfdId, makerTags, unsignedByte, EXV_PRINT_TAG(nikonFilterEffect)),
         TagInfo(56, "ToningEffect", N_("Toning Effect"), N_("Toning effect"), nikonPcIfdId, makerTags, unsignedByte, EXV_PRINT_TAG(nikonToningEffect)),
-        TagInfo(57, "ToningSaturation", N_("Toning Saturation"), N_("Toning saturation"), nikonPcIfdId, makerTags, unsignedByte, printValue),
+        TagInfo(57, "ToningSaturation", N_("Toning Saturation"), N_("Toning saturation"), nikonPcIfdId, makerTags, unsignedByte, printPictureControl),
         // End of list marker
         TagInfo(0xffff, "(UnknownNikonPcTag)", "(UnknownNikonPcTag)", N_("Unknown Nikon Picture Control Tag"), nikonPcIfdId, makerTags, invalidTypeId, printValue)
     };
@@ -699,7 +710,7 @@ namespace Exiv2 {
 
     // Nikon3 World Time Tag Info
     const TagInfo Nikon3MakerNote::tagInfoWt_[] = {
-        TagInfo(0, "Timezone", N_("Timezone"), N_("Timezone"), nikonWtIfdId, makerTags, signedShort, printValue),
+        TagInfo(0, "Timezone", N_("Timezone"), N_("Timezone"), nikonWtIfdId, makerTags, signedShort, printTimeZone),
         TagInfo(2, "DaylightSavings", N_("Daylight Savings"), N_("Daylight savings"), nikonWtIfdId, makerTags, unsignedByte, EXV_PRINT_TAG(nikonYesNo)),
         TagInfo(3, "DateDisplayFormat", N_("Date Display Format"), N_("Date display format"), nikonWtIfdId, makerTags, unsignedByte, EXV_PRINT_TAG(nikonDateDisplayFormat)),
         // End of list marker
@@ -871,6 +882,22 @@ namespace Exiv2 {
         { 2, N_("Internal") }
     };
 
+    //! FlashFirmware
+    extern const TagDetails nikonFlashFirmware[] = {
+        { 0x0000, N_("n/a")                            },
+        { 0x0101, N_("1.01 (SB-800 or Metz 58 AF-1)")  },
+        { 0x0103, N_("1.03 (SB-800)")                  },
+        { 0x0201, N_("2.01 (SB-800)")                  },
+        { 0x0204, N_("2.04 (SB-600)")                  },
+        { 0x0205, N_("2.05 (SB-600)")                  },
+        { 0x0301, N_("3.01 (SU-800 Remote Commander)") },
+        { 0x0401, N_("4.01 (SB-400)")                  },
+        { 0x0402, N_("4.02 (SB-400)")                  },
+        { 0x0404, N_("4.04 (SB-400)")                  },
+        { 0x0501, N_("5.01 (SB-900)")                  },
+        { 0x0502, N_("5.02 (SB-900)")                  }
+    };
+
     //! FlashGNDistance
     extern const TagDetails nikonFlashGNDistance[] = {
         {   0, N_("None")  },
@@ -950,7 +977,7 @@ namespace Exiv2 {
         TagInfo(  0, "Version", N_("Version"), N_("Version"), nikonFl1IfdId, makerTags, undefined, printExifVersion),
         TagInfo(  4, "FlashSource", N_("Flash Source"), N_("Flash source"), nikonFl1IfdId, makerTags, unsignedByte, EXV_PRINT_TAG(nikonFlashSource)),
         TagInfo(  5, "0x0005", N_("0x0005"), N_("Unknown"), nikonFl1IfdId, makerTags, unsignedByte, printValue),
-        TagInfo(  6, "ExternalFlashFirmware", N_("External Flash Firmware"), N_("External flash firmware"), nikonFl1IfdId, makerTags, unsignedByte, printValue),
+        TagInfo(  6, "ExternalFlashFirmware", N_("External Flash Firmware"), N_("External flash firmware"), nikonFl1IfdId, makerTags, unsignedShort, EXV_PRINT_TAG(nikonFlashFirmware)),
         TagInfo(  8, "ExternalFlashFlags", N_("External Flash Flags"), N_("External flash flags"), nikonFl1IfdId, makerTags, unsignedByte, EXV_PRINT_TAG(nikonExternalFlashFlags)),
         TagInfo( 11, "FlashFocalLength", N_("Flash Focal Length"), N_("Flash focal length"), nikonFl1IfdId, makerTags, unsignedByte, printFlashFocalLength),
         TagInfo( 12, "RepeatingFlashRate", N_("Repeating Flash Rate"), N_("Repeating flash rate"), nikonFl1IfdId, makerTags, unsignedByte, printRepeatingFlashRate),
@@ -972,7 +999,7 @@ namespace Exiv2 {
         TagInfo(  0, "Version", N_("Version"), N_("Version"), nikonFl2IfdId, makerTags, undefined, printExifVersion),
         TagInfo(  4, "FlashSource", N_("Flash Source"), N_("Flash source"), nikonFl2IfdId, makerTags, unsignedByte, EXV_PRINT_TAG(nikonFlashSource)),
         TagInfo(  5, "0x0005", N_("0x0005"), N_("Unknown"), nikonFl2IfdId, makerTags, unsignedByte, printValue),
-        TagInfo(  6, "ExternalFlashFirmware", N_("External Flash Firmware"), N_("External flash firmware"), nikonFl2IfdId, makerTags, unsignedByte, printValue),
+        TagInfo(  6, "ExternalFlashFirmware", N_("External Flash Firmware"), N_("External flash firmware"), nikonFl2IfdId, makerTags, unsignedShort, EXV_PRINT_TAG(nikonFlashFirmware)),
         TagInfo(  8, "ExternalFlashFlags", N_("External Flash Flags"), N_("External flash flags"), nikonFl2IfdId, makerTags, unsignedByte, EXV_PRINT_TAG(nikonExternalFlashFlags)),
         TagInfo( 12, "FlashFocalLength", N_("Flash Focal Length"), N_("Flash focal length"), nikonFl2IfdId, makerTags, unsignedByte, printFlashFocalLength),
         TagInfo( 13, "RepeatingFlashRate", N_("Repeating Flash Rate"), N_("Repeating flash rate"), nikonFl2IfdId, makerTags, unsignedByte, printRepeatingFlashRate),
@@ -991,7 +1018,7 @@ namespace Exiv2 {
     const TagInfo Nikon3MakerNote::tagInfoFl3_[] = {
         TagInfo(  0, "Version", N_("Version"), N_("Version"), nikonFl3IfdId, makerTags, undefined, printExifVersion),
         TagInfo(  4, "FlashSource", N_("Flash Source"), N_("Flash source"), nikonFl3IfdId, makerTags, unsignedByte, EXV_PRINT_TAG(nikonFlashSource)),
-        TagInfo(  6, "ExternalFlashFirmware", N_("External Flash Firmware"), N_("External flash firmware"), nikonFl3IfdId, makerTags, unsignedByte, printValue),
+        TagInfo(  6, "ExternalFlashFirmware", N_("External Flash Firmware"), N_("External flash firmware"), nikonFl3IfdId, makerTags, unsignedShort, EXV_PRINT_TAG(nikonFlashFirmware)),
         TagInfo(  8, "ExternalFlashFlags", N_("External Flash Flags"), N_("External flash flags"), nikonFl3IfdId, makerTags, unsignedByte, EXV_PRINT_TAG(nikonExternalFlashFlags)),
         TagInfo( 12, "FlashFocalLength", N_("Flash Focal Length"), N_("Flash focal length"), nikonFl3IfdId, makerTags, unsignedByte, printFlashFocalLength),
         TagInfo( 13, "RepeatingFlashRate", N_("Repeating Flash Rate"), N_("Repeating flash rate"), nikonFl3IfdId, makerTags, unsignedByte, printRepeatingFlashRate),
@@ -1364,6 +1391,7 @@ namespace Exiv2 {
         std::string focus = value.toString();
         if      (focus == "AF-C  ") os << _("Continuous autofocus");
         else if (focus == "AF-S  ") os << _("Single autofocus");
+        else if (focus == "AF-A  ") os << _("Automatic");
         else                      os << "(" << value << ")";
         return os;
     }
@@ -2299,7 +2327,7 @@ fmountlens[] = {
         double aperture = pow(2.0, value.toLong()/24.0);
         std::ostringstream oss;
         oss.copyfmt(os);
-        os << std::fixed << std::setprecision(2) << "F" << aperture;
+        os << std::fixed << std::setprecision(1) << "F" << aperture;
         os.copyfmt(oss);
         return os;
     }
@@ -2314,7 +2342,7 @@ fmountlens[] = {
         double focal = 5.0 * pow(2.0, value.toLong()/24.0);
         std::ostringstream oss;
         oss.copyfmt(os);
-        os << std::fixed << std::setprecision(2) << focal << " mm";
+        os << std::fixed << std::setprecision(1) << focal << " mm";
         os.copyfmt(oss);
         return os;
     }
@@ -2329,7 +2357,7 @@ fmountlens[] = {
         double fstops = value.toLong()/12.0;
         std::ostringstream oss;
         oss.copyfmt(os);
-        os << std::fixed << std::setprecision(2) << "F" << fstops;
+        os << std::fixed << std::setprecision(1) << "F" << fstops;
         os.copyfmt(oss);
         return os;
     }
@@ -2344,7 +2372,7 @@ fmountlens[] = {
         double epp = 2048.0/value.toLong();
         std::ostringstream oss;
         oss.copyfmt(os);
-        os << std::fixed << std::setprecision(2) << epp << " mm";
+        os << std::fixed << std::setprecision(1) << epp << " mm";
         os.copyfmt(oss);
         return os;
     }
@@ -2358,7 +2386,7 @@ fmountlens[] = {
         }
         std::ostringstream oss;
         oss.copyfmt(os);
-        os << std::fixed << std::setprecision(2) << value.toLong() << " mm";
+        os << std::fixed << std::setprecision(1) << value.toLong() << " mm";
         os.copyfmt(oss);
         return os;
     }
@@ -2387,6 +2415,56 @@ fmountlens[] = {
         std::ostringstream oss;
         oss.copyfmt(os);
         os << std::fixed << std::setprecision(2) << value.toLong();
+        os.copyfmt(oss);
+        return os;
+    }
+
+    std::ostream& Nikon3MakerNote::printTimeZone(std::ostream& os, 
+                                                 const Value& value, 
+                                                 const ExifData*)
+    {
+        if (value.count() != 1 || value.typeId() != signedShort) {
+            return os << "(" << value << ")";
+        }
+        std::ostringstream oss;
+        oss.copyfmt(os);
+        char sign = value.toLong() < 0 ? '-' : '+';
+        long h = long(abs(value.toLong())/60.0);
+        long min = abs(value.toLong()) - h*60;
+        os << std::fixed << "UTC " << sign << std::setw(2) << std::setfill('0') << h << ":" 
+            << std::setw(2) << std::setfill('0') << min;
+        os.copyfmt(oss);
+        return os;
+    }
+
+    std::ostream& Nikon3MakerNote::printPictureControl(std::ostream& os, 
+                                                       const Value& value, 
+                                                       const ExifData*)
+    {
+        if (value.count() != 1 || value.typeId() != unsignedByte) {
+            return os << "(" << value << ")";
+        }
+        long pcval = value.toLong() - 0x80;
+        std::ostringstream oss;
+        oss.copyfmt(os);
+        switch(pcval)
+        {
+        case 0:
+          os << "Normal";
+          break;
+        case 127:
+          os << "n/a";
+          break;
+        case -127:
+          os << "User";
+          break;
+        case -128:
+          os << "Auto";
+          break;
+        default:
+          os << pcval;
+          break;
+        }
         os.copyfmt(oss);
         return os;
    }

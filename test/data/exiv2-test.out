@@ -832,8 +832,8 @@ File  4/15: 20040329_224245.jpg
 20040329_224245.jpg   Exif.Nikon3.FlashSetting                     Ascii      13  NORMAL      
 20040329_224245.jpg   Exif.Nikon3.FlashDevice                      Ascii      13              
 20040329_224245.jpg   Exif.Nikon3.WhiteBalanceBias                 SShort      1  0
-20040329_224245.jpg   Exif.Nikon3.ProgramShift                     Undefined   4  0 1 6 0
-20040329_224245.jpg   Exif.Nikon3.ExposureDiff                     Undefined   4  0 1 12 0
+20040329_224245.jpg   Exif.Nikon3.ProgramShift                     Undefined   4  0.0 EV
+20040329_224245.jpg   Exif.Nikon3.ExposureDiff                     Undefined   4  0.0 EV
 20040329_224245.jpg   Exif.Nikon3.Preview                          Long        1  1430
 20040329_224245.jpg   Exif.NikonPreview.Compression                Short       1  JPEG (old-style)
 20040329_224245.jpg   Exif.NikonPreview.XResolution                Rational    1  300
@@ -845,7 +845,7 @@ File  4/15: 20040329_224245.jpg
 20040329_224245.jpg   Exif.Nikon3.FlashComp                        Undefined   4  0.0 EV
 20040329_224245.jpg   Exif.Nikon3.ISOSettings                      Short       2  200
 20040329_224245.jpg   Exif.Nikon3.ImageBoundary                    Short       4  0 0 3008 2000
-20040329_224245.jpg   Exif.Nikon3.0x0017                           Undefined   4  0 1 6 0
+20040329_224245.jpg   Exif.Nikon3.FlashExposureComp                Undefined   4  0.0 EV
 20040329_224245.jpg   Exif.Nikon3.FlashBracketComp                 Undefined   4  0.0 EV
 20040329_224245.jpg   Exif.Nikon3.ExposureBracketComp              SRational   1  0/1
 20040329_224245.jpg   Exif.Nikon3.ToneComp                         Ascii       9  AUTO    
@@ -880,21 +880,21 @@ File  4/15: 20040329_224245.jpg
 20040329_224245.jpg   Exif.NikonCb3.WB_RGBGLevels                  Short       4  516 256 419 256
 20040329_224245.jpg   Exif.NikonCb3.0x000e                         Short      56  0 264 256 0 0 112 12 24 3 396 65389 7 65496 346 65486 65531 65502 295 65535 65535 65535 32768 0 0 0 0 2560 0 640 0 768 0 640 0 0 4112 255 255 77 150 29 65484 65466 122 127 65430 65515 0 1280 8 27666 57139 1369 319 61680 26
 20040329_224245.jpg   Exif.NikonLd2.Version                        Undefined   4  1.01
-20040329_224245.jpg   Exif.NikonLd2.ExitPupilPosition              Byte        1  89.04 mm
-20040329_224245.jpg   Exif.NikonLd2.AFAperture                     Byte        1  F4.49
+20040329_224245.jpg   Exif.NikonLd2.ExitPupilPosition              Byte        1  89.0 mm
+20040329_224245.jpg   Exif.NikonLd2.AFAperture                     Byte        1  F4.5
 20040329_224245.jpg   Exif.NikonLd2.0x0006                         Byte        1  7
 20040329_224245.jpg   Exif.NikonLd2.0x0007                         Byte        1  0
 20040329_224245.jpg   Exif.NikonLd2.FocusPosition                  Byte        1  161
 20040329_224245.jpg   Exif.NikonLd2.FocusDistance                  Byte        1  5.31 m
-20040329_224245.jpg   Exif.NikonLd2.FocalLength                    Byte        1  50.40 mm
+20040329_224245.jpg   Exif.NikonLd2.FocalLength                    Byte        1  50.4 mm
 20040329_224245.jpg   Exif.NikonLd2.LensIDNumber                   Byte        1  Nikon AF-S DX Zoom-Nikkor 18-70mm f/3.5-4.5G IF-ED
-20040329_224245.jpg   Exif.NikonLd2.LensFStops                     Byte        1  F5.33
-20040329_224245.jpg   Exif.NikonLd2.MinFocalLength                 Byte        1  18.34 mm
-20040329_224245.jpg   Exif.NikonLd2.MaxFocalLength                 Byte        1  71.27 mm
-20040329_224245.jpg   Exif.NikonLd2.MaxApertureAtMinFocal          Byte        1  F3.56
-20040329_224245.jpg   Exif.NikonLd2.MaxApertureAtMaxFocal          Byte        1  F4.49
+20040329_224245.jpg   Exif.NikonLd2.LensFStops                     Byte        1  F5.3
+20040329_224245.jpg   Exif.NikonLd2.MinFocalLength                 Byte        1  18.3 mm
+20040329_224245.jpg   Exif.NikonLd2.MaxFocalLength                 Byte        1  71.3 mm
+20040329_224245.jpg   Exif.NikonLd2.MaxApertureAtMinFocal          Byte        1  F3.6
+20040329_224245.jpg   Exif.NikonLd2.MaxApertureAtMaxFocal          Byte        1  F4.5
 20040329_224245.jpg   Exif.NikonLd2.MCUVersion                     Byte        1  132
-20040329_224245.jpg   Exif.NikonLd2.EffectiveMaxAperture           Byte        1  F4.49
+20040329_224245.jpg   Exif.NikonLd2.EffectiveMaxAperture           Byte        1  F4.5
 20040329_224245.jpg   Exif.NikonLd2.0x0013                         Byte        1  23
 20040329_224245.jpg   Exif.NikonLd2.0x0014                         Byte        1  100
 20040329_224245.jpg   Exif.NikonLd2.0x0015                         Byte        1  32
@@ -912,7 +912,19 @@ File  4/15: 20040329_224245.jpg
 20040329_224245.jpg   Exif.Nikon3.ImageDataSize                    Long        1  2929656
 20040329_224245.jpg   Exif.Nikon3.0x00a3                           Byte        1  0
 20040329_224245.jpg   Exif.Nikon3.ShutterCount                     Long        1  1193
-20040329_224245.jpg   Exif.Nikon3.FlashInfo                        Undefined  20  48 49 48 48 0 78 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+20040329_224245.jpg   Exif.NikonFl1.Version                        Undefined   4  1.00
+20040329_224245.jpg   Exif.NikonFl1.FlashSource                    Byte        1  None
+20040329_224245.jpg   Exif.NikonFl1.0x0005                         Byte        1  78
+20040329_224245.jpg   Exif.NikonFl1.ExternalFlashFirmware          Short       1  n/a
+20040329_224245.jpg   Exif.NikonFl1.ExternalFlashFlags             Byte        1  Fired
+20040329_224245.jpg   Exif.NikonFl1.0x0009                         Byte        2  0 0
+20040329_224245.jpg   Exif.NikonFl1.FlashFocalLength               Byte        1  (0)
+20040329_224245.jpg   Exif.NikonFl1.RepeatingFlashRate             Byte        1  (0)
+20040329_224245.jpg   Exif.NikonFl1.RepeatingFlashCount            Byte        1  (0)
+20040329_224245.jpg   Exif.NikonFl1.FlashGNDistance                Byte        1  None
+20040329_224245.jpg   Exif.NikonFl1.FlashGroupAControlMode         Byte        1  Off
+20040329_224245.jpg   Exif.NikonFl1.FlashGroupBControlMode         Byte        1  Off
+20040329_224245.jpg   Exif.NikonFl1.0x0011                         Byte        3  0 0 0
 20040329_224245.jpg   Exif.Nikon3.ImageOptimization                Ascii      16  NORMAL         
 20040329_224245.jpg   Exif.Nikon3.Saturation                       Ascii      16  NORMAL         
 20040329_224245.jpg   Exif.Nikon3.VariProgram                      Ascii      16                 
@@ -2188,7 +2200,7 @@ Writing thumbnail (image/jpeg, 6137 Bytes) to file ./20060127_225027-thumb.jpg
 exiv2-empty.exv: No Exif data found in the file
 
 Compare image data and extracted data ------------------------------------
-1,1515c1,1515
+1,1527c1,1527
 < File  1/15: exiv2-empty.jpg
 < File  2/15: 20031214_000043.jpg
 < 20031214_000043.jpg   Exif.Image.Make                              Ascii       6  Canon
@@ -2420,8 +2432,8 @@ Compare image data and extracted data ------------------------------------
 < 20040329_224245.jpg   Exif.Nikon3.FlashSetting                     Ascii      13  NORMAL      
 < 20040329_224245.jpg   Exif.Nikon3.FlashDevice                      Ascii      13              
 < 20040329_224245.jpg   Exif.Nikon3.WhiteBalanceBias                 SShort      1  0
-< 20040329_224245.jpg   Exif.Nikon3.ProgramShift                     Undefined   4  0 1 6 0
-< 20040329_224245.jpg   Exif.Nikon3.ExposureDiff                     Undefined   4  0 1 12 0
+< 20040329_224245.jpg   Exif.Nikon3.ProgramShift                     Undefined   4  0.0 EV
+< 20040329_224245.jpg   Exif.Nikon3.ExposureDiff                     Undefined   4  0.0 EV
 < 20040329_224245.jpg   Exif.Nikon3.Preview                          Long        1  1430
 < 20040329_224245.jpg   Exif.NikonPreview.Compression                Short       1  JPEG (old-style)
 < 20040329_224245.jpg   Exif.NikonPreview.XResolution                Rational    1  300
@@ -2433,7 +2445,7 @@ Compare image data and extracted data ------------------------------------
 < 20040329_224245.jpg   Exif.Nikon3.FlashComp                        Undefined   4  0.0 EV
 < 20040329_224245.jpg   Exif.Nikon3.ISOSettings                      Short       2  200
 < 20040329_224245.jpg   Exif.Nikon3.ImageBoundary                    Short       4  0 0 3008 2000
-< 20040329_224245.jpg   Exif.Nikon3.0x0017                           Undefined   4  0 1 6 0
+< 20040329_224245.jpg   Exif.Nikon3.FlashExposureComp                Undefined   4  0.0 EV
 < 20040329_224245.jpg   Exif.Nikon3.FlashBracketComp                 Undefined   4  0.0 EV
 < 20040329_224245.jpg   Exif.Nikon3.ExposureBracketComp              SRational   1  0/1
 < 20040329_224245.jpg   Exif.Nikon3.ToneComp                         Ascii       9  AUTO    
@@ -2468,21 +2480,21 @@ Compare image data and extracted data ------------------------------------
 < 20040329_224245.jpg   Exif.NikonCb3.WB_RGBGLevels                  Short       4  516 256 419 256
 < 20040329_224245.jpg   Exif.NikonCb3.0x000e                         Short      56  0 264 256 0 0 112 12 24 3 396 65389 7 65496 346 65486 65531 65502 295 65535 65535 65535 32768 0 0 0 0 2560 0 640 0 768 0 640 0 0 4112 255 255 77 150 29 65484 65466 122 127 65430 65515 0 1280 8 27666 57139 1369 319 61680 26
 < 20040329_224245.jpg   Exif.NikonLd2.Version                        Undefined   4  1.01
-< 20040329_224245.jpg   Exif.NikonLd2.ExitPupilPosition              Byte        1  89.04 mm
-< 20040329_224245.jpg   Exif.NikonLd2.AFAperture                     Byte        1  F4.49
+< 20040329_224245.jpg   Exif.NikonLd2.ExitPupilPosition              Byte        1  89.0 mm
+< 20040329_224245.jpg   Exif.NikonLd2.AFAperture                     Byte        1  F4.5
 < 20040329_224245.jpg   Exif.NikonLd2.0x0006                         Byte        1  7
 < 20040329_224245.jpg   Exif.NikonLd2.0x0007                         Byte        1  0
 < 20040329_224245.jpg   Exif.NikonLd2.FocusPosition                  Byte        1  161
 < 20040329_224245.jpg   Exif.NikonLd2.FocusDistance                  Byte        1  5.31 m
-< 20040329_224245.jpg   Exif.NikonLd2.FocalLength                    Byte        1  50.40 mm
+< 20040329_224245.jpg   Exif.NikonLd2.FocalLength                    Byte        1  50.4 mm
 < 20040329_224245.jpg   Exif.NikonLd2.LensIDNumber                   Byte        1  Nikon AF-S DX Zoom-Nikkor 18-70mm f/3.5-4.5G IF-ED
-< 20040329_224245.jpg   Exif.NikonLd2.LensFStops                     Byte        1  F5.33
-< 20040329_224245.jpg   Exif.NikonLd2.MinFocalLength                 Byte        1  18.34 mm
-< 20040329_224245.jpg   Exif.NikonLd2.MaxFocalLength                 Byte        1  71.27 mm
-< 20040329_224245.jpg   Exif.NikonLd2.MaxApertureAtMinFocal          Byte        1  F3.56
-< 20040329_224245.jpg   Exif.NikonLd2.MaxApertureAtMaxFocal          Byte        1  F4.49
+< 20040329_224245.jpg   Exif.NikonLd2.LensFStops                     Byte        1  F5.3
+< 20040329_224245.jpg   Exif.NikonLd2.MinFocalLength                 Byte        1  18.3 mm
+< 20040329_224245.jpg   Exif.NikonLd2.MaxFocalLength                 Byte        1  71.3 mm
+< 20040329_224245.jpg   Exif.NikonLd2.MaxApertureAtMinFocal          Byte        1  F3.6
+< 20040329_224245.jpg   Exif.NikonLd2.MaxApertureAtMaxFocal          Byte        1  F4.5
 < 20040329_224245.jpg   Exif.NikonLd2.MCUVersion                     Byte        1  132
-< 20040329_224245.jpg   Exif.NikonLd2.EffectiveMaxAperture           Byte        1  F4.49
+< 20040329_224245.jpg   Exif.NikonLd2.EffectiveMaxAperture           Byte        1  F4.5
 < 20040329_224245.jpg   Exif.NikonLd2.0x0013                         Byte        1  23
 < 20040329_224245.jpg   Exif.NikonLd2.0x0014                         Byte        1  100
 < 20040329_224245.jpg   Exif.NikonLd2.0x0015                         Byte        1  32
@@ -2500,7 +2512,19 @@ Compare image data and extracted data ------------------------------------
 < 20040329_224245.jpg   Exif.Nikon3.ImageDataSize                    Long        1  2929656
 < 20040329_224245.jpg   Exif.Nikon3.0x00a3                           Byte        1  0
 < 20040329_224245.jpg   Exif.Nikon3.ShutterCount                     Long        1  1193
-< 20040329_224245.jpg   Exif.Nikon3.FlashInfo                        Undefined  20  48 49 48 48 0 78 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+< 20040329_224245.jpg   Exif.NikonFl1.Version                        Undefined   4  1.00
+< 20040329_224245.jpg   Exif.NikonFl1.FlashSource                    Byte        1  None
+< 20040329_224245.jpg   Exif.NikonFl1.0x0005                         Byte        1  78
+< 20040329_224245.jpg   Exif.NikonFl1.ExternalFlashFirmware          Short       1  n/a
+< 20040329_224245.jpg   Exif.NikonFl1.ExternalFlashFlags             Byte        1  Fired
+< 20040329_224245.jpg   Exif.NikonFl1.0x0009                         Byte        2  0 0
+< 20040329_224245.jpg   Exif.NikonFl1.FlashFocalLength               Byte        1  (0)
+< 20040329_224245.jpg   Exif.NikonFl1.RepeatingFlashRate             Byte        1  (0)
+< 20040329_224245.jpg   Exif.NikonFl1.RepeatingFlashCount            Byte        1  (0)
+< 20040329_224245.jpg   Exif.NikonFl1.FlashGNDistance                Byte        1  None
+< 20040329_224245.jpg   Exif.NikonFl1.FlashGroupAControlMode         Byte        1  Off
+< 20040329_224245.jpg   Exif.NikonFl1.FlashGroupBControlMode         Byte        1  Off
+< 20040329_224245.jpg   Exif.NikonFl1.0x0011                         Byte        3  0 0 0
 < 20040329_224245.jpg   Exif.Nikon3.ImageOptimization                Ascii      16  NORMAL         
 < 20040329_224245.jpg   Exif.Nikon3.Saturation                       Ascii      16  NORMAL         
 < 20040329_224245.jpg   Exif.Nikon3.VariProgram                      Ascii      16                 
@@ -3936,8 +3960,8 @@ Compare image data and extracted data ------------------------------------
 > 20040329_224245.exv   Exif.Nikon3.FlashSetting                     Ascii      13  NORMAL      
 > 20040329_224245.exv   Exif.Nikon3.FlashDevice                      Ascii      13              
 > 20040329_224245.exv   Exif.Nikon3.WhiteBalanceBias                 SShort      1  0
-> 20040329_224245.exv   Exif.Nikon3.ProgramShift                     Undefined   4  0 1 6 0
-> 20040329_224245.exv   Exif.Nikon3.ExposureDiff                     Undefined   4  0 1 12 0
+> 20040329_224245.exv   Exif.Nikon3.ProgramShift                     Undefined   4  0.0 EV
+> 20040329_224245.exv   Exif.Nikon3.ExposureDiff                     Undefined   4  0.0 EV
 > 20040329_224245.exv   Exif.Nikon3.Preview                          Long        1  1414
 > 20040329_224245.exv   Exif.NikonPreview.Compression                Short       1  JPEG (old-style)
 > 20040329_224245.exv   Exif.NikonPreview.XResolution                Rational    1  300
@@ -3949,7 +3973,7 @@ Compare image data and extracted data ------------------------------------
 > 20040329_224245.exv   Exif.Nikon3.FlashComp                        Undefined   4  0.0 EV
 > 20040329_224245.exv   Exif.Nikon3.ISOSettings                      Short       2  200
 > 20040329_224245.exv   Exif.Nikon3.ImageBoundary                    Short       4  0 0 3008 2000
-> 20040329_224245.exv   Exif.Nikon3.0x0017                           Undefined   4  0 1 6 0
+> 20040329_224245.exv   Exif.Nikon3.FlashExposureComp                Undefined   4  0.0 EV
 > 20040329_224245.exv   Exif.Nikon3.FlashBracketComp                 Undefined   4  0.0 EV
 > 20040329_224245.exv   Exif.Nikon3.ExposureBracketComp              SRational   1  0/1
 > 20040329_224245.exv   Exif.Nikon3.ToneComp                         Ascii       9  AUTO    
@@ -3984,21 +4008,21 @@ Compare image data and extracted data ------------------------------------
 > 20040329_224245.exv   Exif.NikonCb3.WB_RGBGLevels                  Short       4  1026 1 41729 1
 > 20040329_224245.exv   Exif.NikonCb3.0x000e                         Short      56  0 2049 1 0 0 28672 3072 6144 768 35841 28159 1792 55551 23041 52991 64511 57087 9985 65535 65535 65535 128 0 0 0 0 10 0 32770 0 3 0 32770 0 0 4112 65280 65280 19712 38400 7424 52479 47871 31232 32512 38655 60415 0 5 2048 4716 13279 22789 16129 61680 6656
 > 20040329_224245.exv   Exif.NikonLd2.Version                        Undefined   4  1.01
-> 20040329_224245.exv   Exif.NikonLd2.ExitPupilPosition              Byte        1  89.04 mm
-> 20040329_224245.exv   Exif.NikonLd2.AFAperture                     Byte        1  F4.49
+> 20040329_224245.exv   Exif.NikonLd2.ExitPupilPosition              Byte        1  89.0 mm
+> 20040329_224245.exv   Exif.NikonLd2.AFAperture                     Byte        1  F4.5
 > 20040329_224245.exv   Exif.NikonLd2.0x0006                         Byte        1  7
 > 20040329_224245.exv   Exif.NikonLd2.0x0007                         Byte        1  0
 > 20040329_224245.exv   Exif.NikonLd2.FocusPosition                  Byte        1  161
 > 20040329_224245.exv   Exif.NikonLd2.FocusDistance                  Byte        1  5.31 m
-> 20040329_224245.exv   Exif.NikonLd2.FocalLength                    Byte        1  50.40 mm
+> 20040329_224245.exv   Exif.NikonLd2.FocalLength                    Byte        1  50.4 mm
 > 20040329_224245.exv   Exif.NikonLd2.LensIDNumber                   Byte        1  Nikon AF-S DX Zoom-Nikkor 18-70mm f/3.5-4.5G IF-ED
-> 20040329_224245.exv   Exif.NikonLd2.LensFStops                     Byte        1  F5.33
-> 20040329_224245.exv   Exif.NikonLd2.MinFocalLength                 Byte        1  18.34 mm
-> 20040329_224245.exv   Exif.NikonLd2.MaxFocalLength                 Byte        1  71.27 mm
-> 20040329_224245.exv   Exif.NikonLd2.MaxApertureAtMinFocal          Byte        1  F3.56
-> 20040329_224245.exv   Exif.NikonLd2.MaxApertureAtMaxFocal          Byte        1  F4.49
+> 20040329_224245.exv   Exif.NikonLd2.LensFStops                     Byte        1  F5.3
+> 20040329_224245.exv   Exif.NikonLd2.MinFocalLength                 Byte        1  18.3 mm
+> 20040329_224245.exv   Exif.NikonLd2.MaxFocalLength                 Byte        1  71.3 mm
+> 20040329_224245.exv   Exif.NikonLd2.MaxApertureAtMinFocal          Byte        1  F3.6
+> 20040329_224245.exv   Exif.NikonLd2.MaxApertureAtMaxFocal          Byte        1  F4.5
 > 20040329_224245.exv   Exif.NikonLd2.MCUVersion                     Byte        1  132
-> 20040329_224245.exv   Exif.NikonLd2.EffectiveMaxAperture           Byte        1  F4.49
+> 20040329_224245.exv   Exif.NikonLd2.EffectiveMaxAperture           Byte        1  F4.5
 > 20040329_224245.exv   Exif.NikonLd2.0x0013                         Byte        1  23
 > 20040329_224245.exv   Exif.NikonLd2.0x0014                         Byte        1  100
 > 20040329_224245.exv   Exif.NikonLd2.0x0015                         Byte        1  32
@@ -4016,7 +4040,19 @@ Compare image data and extracted data ------------------------------------
 > 20040329_224245.exv   Exif.Nikon3.ImageDataSize                    Long        1  2929656
 > 20040329_224245.exv   Exif.Nikon3.0x00a3                           Byte        1  0
 > 20040329_224245.exv   Exif.Nikon3.ShutterCount                     Long        1  1193
-> 20040329_224245.exv   Exif.Nikon3.FlashInfo                        Undefined  20  48 49 48 48 0 78 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+> 20040329_224245.exv   Exif.NikonFl1.Version                        Undefined   4  1.00
+> 20040329_224245.exv   Exif.NikonFl1.FlashSource                    Byte        1  None
+> 20040329_224245.exv   Exif.NikonFl1.0x0005                         Byte        1  78
+> 20040329_224245.exv   Exif.NikonFl1.ExternalFlashFirmware          Short       1  n/a
+> 20040329_224245.exv   Exif.NikonFl1.ExternalFlashFlags             Byte        1  Fired
+> 20040329_224245.exv   Exif.NikonFl1.0x0009                         Byte        2  0 0
+> 20040329_224245.exv   Exif.NikonFl1.FlashFocalLength               Byte        1  (0)
+> 20040329_224245.exv   Exif.NikonFl1.RepeatingFlashRate             Byte        1  (0)
+> 20040329_224245.exv   Exif.NikonFl1.RepeatingFlashCount            Byte        1  (0)
+> 20040329_224245.exv   Exif.NikonFl1.FlashGNDistance                Byte        1  None
+> 20040329_224245.exv   Exif.NikonFl1.FlashGroupAControlMode         Byte        1  Off
+> 20040329_224245.exv   Exif.NikonFl1.FlashGroupBControlMode         Byte        1  Off
+> 20040329_224245.exv   Exif.NikonFl1.0x0011                         Byte        3  0 0 0
 > 20040329_224245.exv   Exif.Nikon3.ImageOptimization                Ascii      16  NORMAL         
 > 20040329_224245.exv   Exif.Nikon3.Saturation                       Ascii      16  NORMAL         
 > 20040329_224245.exv   Exif.Nikon3.VariProgram                      Ascii      16                 
@@ -5440,7 +5476,7 @@ Writing Exif data from ./20060127_225027.exv to 20060127_225027.jpg
 exiv2-empty.exv: No Exif data found in the file
 
 Compare original and inserted image data ---------------------------------
-1,1515c1,1515
+1,1527c1,1527
 < File  1/15: exiv2-empty.jpg
 < File  2/15: 20031214_000043.jpg
 < 20031214_000043.jpg   Exif.Image.Make                              Ascii       6  Canon
@@ -5672,8 +5708,8 @@ Compare original and inserted image data ---------------------------------
 < 20040329_224245.jpg   Exif.Nikon3.FlashSetting                     Ascii      13  NORMAL      
 < 20040329_224245.jpg   Exif.Nikon3.FlashDevice                      Ascii      13              
 < 20040329_224245.jpg   Exif.Nikon3.WhiteBalanceBias                 SShort      1  0
-< 20040329_224245.jpg   Exif.Nikon3.ProgramShift                     Undefined   4  0 1 6 0
-< 20040329_224245.jpg   Exif.Nikon3.ExposureDiff                     Undefined   4  0 1 12 0
+< 20040329_224245.jpg   Exif.Nikon3.ProgramShift                     Undefined   4  0.0 EV
+< 20040329_224245.jpg   Exif.Nikon3.ExposureDiff                     Undefined   4  0.0 EV
 < 20040329_224245.jpg   Exif.Nikon3.Preview                          Long        1  1430
 < 20040329_224245.jpg   Exif.NikonPreview.Compression                Short       1  JPEG (old-style)
 < 20040329_224245.jpg   Exif.NikonPreview.XResolution                Rational    1  300
@@ -5685,7 +5721,7 @@ Compare original and inserted image data ---------------------------------
 < 20040329_224245.jpg   Exif.Nikon3.FlashComp                        Undefined   4  0.0 EV
 < 20040329_224245.jpg   Exif.Nikon3.ISOSettings                      Short       2  200
 < 20040329_224245.jpg   Exif.Nikon3.ImageBoundary                    Short       4  0 0 3008 2000
-< 20040329_224245.jpg   Exif.Nikon3.0x0017                           Undefined   4  0 1 6 0
+< 20040329_224245.jpg   Exif.Nikon3.FlashExposureComp                Undefined   4  0.0 EV
 < 20040329_224245.jpg   Exif.Nikon3.FlashBracketComp                 Undefined   4  0.0 EV
 < 20040329_224245.jpg   Exif.Nikon3.ExposureBracketComp              SRational   1  0/1
 < 20040329_224245.jpg   Exif.Nikon3.ToneComp                         Ascii       9  AUTO    
@@ -5720,21 +5756,21 @@ Compare original and inserted image data ---------------------------------
 < 20040329_224245.jpg   Exif.NikonCb3.WB_RGBGLevels                  Short       4  516 256 419 256
 < 20040329_224245.jpg   Exif.NikonCb3.0x000e                         Short      56  0 264 256 0 0 112 12 24 3 396 65389 7 65496 346 65486 65531 65502 295 65535 65535 65535 32768 0 0 0 0 2560 0 640 0 768 0 640 0 0 4112 255 255 77 150 29 65484 65466 122 127 65430 65515 0 1280 8 27666 57139 1369 319 61680 26
 < 20040329_224245.jpg   Exif.NikonLd2.Version                        Undefined   4  1.01
-< 20040329_224245.jpg   Exif.NikonLd2.ExitPupilPosition              Byte        1  89.04 mm
-< 20040329_224245.jpg   Exif.NikonLd2.AFAperture                     Byte        1  F4.49
+< 20040329_224245.jpg   Exif.NikonLd2.ExitPupilPosition              Byte        1  89.0 mm
+< 20040329_224245.jpg   Exif.NikonLd2.AFAperture                     Byte        1  F4.5
 < 20040329_224245.jpg   Exif.NikonLd2.0x0006                         Byte        1  7
 < 20040329_224245.jpg   Exif.NikonLd2.0x0007                         Byte        1  0
 < 20040329_224245.jpg   Exif.NikonLd2.FocusPosition                  Byte        1  161
 < 20040329_224245.jpg   Exif.NikonLd2.FocusDistance                  Byte        1  5.31 m
-< 20040329_224245.jpg   Exif.NikonLd2.FocalLength                    Byte        1  50.40 mm
+< 20040329_224245.jpg   Exif.NikonLd2.FocalLength                    Byte        1  50.4 mm
 < 20040329_224245.jpg   Exif.NikonLd2.LensIDNumber                   Byte        1  Nikon AF-S DX Zoom-Nikkor 18-70mm f/3.5-4.5G IF-ED
-< 20040329_224245.jpg   Exif.NikonLd2.LensFStops                     Byte        1  F5.33
-< 20040329_224245.jpg   Exif.NikonLd2.MinFocalLength                 Byte        1  18.34 mm
-< 20040329_224245.jpg   Exif.NikonLd2.MaxFocalLength                 Byte        1  71.27 mm
-< 20040329_224245.jpg   Exif.NikonLd2.MaxApertureAtMinFocal          Byte        1  F3.56
-< 20040329_224245.jpg   Exif.NikonLd2.MaxApertureAtMaxFocal          Byte        1  F4.49
+< 20040329_224245.jpg   Exif.NikonLd2.LensFStops                     Byte        1  F5.3
+< 20040329_224245.jpg   Exif.NikonLd2.MinFocalLength                 Byte        1  18.3 mm
+< 20040329_224245.jpg   Exif.NikonLd2.MaxFocalLength                 Byte        1  71.3 mm
+< 20040329_224245.jpg   Exif.NikonLd2.MaxApertureAtMinFocal          Byte        1  F3.6
+< 20040329_224245.jpg   Exif.NikonLd2.MaxApertureAtMaxFocal          Byte        1  F4.5
 < 20040329_224245.jpg   Exif.NikonLd2.MCUVersion                     Byte        1  132
-< 20040329_224245.jpg   Exif.NikonLd2.EffectiveMaxAperture           Byte        1  F4.49
+< 20040329_224245.jpg   Exif.NikonLd2.EffectiveMaxAperture           Byte        1  F4.5
 < 20040329_224245.jpg   Exif.NikonLd2.0x0013                         Byte        1  23
 < 20040329_224245.jpg   Exif.NikonLd2.0x0014                         Byte        1  100
 < 20040329_224245.jpg   Exif.NikonLd2.0x0015                         Byte        1  32
@@ -5752,7 +5788,19 @@ Compare original and inserted image data ---------------------------------
 < 20040329_224245.jpg   Exif.Nikon3.ImageDataSize                    Long        1  2929656
 < 20040329_224245.jpg   Exif.Nikon3.0x00a3                           Byte        1  0
 < 20040329_224245.jpg   Exif.Nikon3.ShutterCount                     Long        1  1193
-< 20040329_224245.jpg   Exif.Nikon3.FlashInfo                        Undefined  20  48 49 48 48 0 78 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+< 20040329_224245.jpg   Exif.NikonFl1.Version                        Undefined   4  1.00
+< 20040329_224245.jpg   Exif.NikonFl1.FlashSource                    Byte        1  None
+< 20040329_224245.jpg   Exif.NikonFl1.0x0005                         Byte        1  78
+< 20040329_224245.jpg   Exif.NikonFl1.ExternalFlashFirmware          Short       1  n/a
+< 20040329_224245.jpg   Exif.NikonFl1.ExternalFlashFlags             Byte        1  Fired
+< 20040329_224245.jpg   Exif.NikonFl1.0x0009                         Byte        2  0 0
+< 20040329_224245.jpg   Exif.NikonFl1.FlashFocalLength               Byte        1  (0)
+< 20040329_224245.jpg   Exif.NikonFl1.RepeatingFlashRate             Byte        1  (0)
+< 20040329_224245.jpg   Exif.NikonFl1.RepeatingFlashCount            Byte        1  (0)
+< 20040329_224245.jpg   Exif.NikonFl1.FlashGNDistance                Byte        1  None
+< 20040329_224245.jpg   Exif.NikonFl1.FlashGroupAControlMode         Byte        1  Off
+< 20040329_224245.jpg   Exif.NikonFl1.FlashGroupBControlMode         Byte        1  Off
+< 20040329_224245.jpg   Exif.NikonFl1.0x0011                         Byte        3  0 0 0
 < 20040329_224245.jpg   Exif.Nikon3.ImageOptimization                Ascii      16  NORMAL         
 < 20040329_224245.jpg   Exif.Nikon3.Saturation                       Ascii      16  NORMAL         
 < 20040329_224245.jpg   Exif.Nikon3.VariProgram                      Ascii      16                 
@@ -7188,8 +7236,8 @@ Compare original and inserted image data ---------------------------------
 > 20040329_224245.exv   Exif.Nikon3.FlashSetting                     Ascii      13  NORMAL      
 > 20040329_224245.exv   Exif.Nikon3.FlashDevice                      Ascii      13              
 > 20040329_224245.exv   Exif.Nikon3.WhiteBalanceBias                 SShort      1  0
-> 20040329_224245.exv   Exif.Nikon3.ProgramShift                     Undefined   4  0 1 6 0
-> 20040329_224245.exv   Exif.Nikon3.ExposureDiff                     Undefined   4  0 1 12 0
+> 20040329_224245.exv   Exif.Nikon3.ProgramShift                     Undefined   4  0.0 EV
+> 20040329_224245.exv   Exif.Nikon3.ExposureDiff                     Undefined   4  0.0 EV
 > 20040329_224245.exv   Exif.Nikon3.Preview                          Long        1  1414
 > 20040329_224245.exv   Exif.NikonPreview.Compression                Short       1  JPEG (old-style)
 > 20040329_224245.exv   Exif.NikonPreview.XResolution                Rational    1  300
@@ -7201,7 +7249,7 @@ Compare original and inserted image data ---------------------------------
 > 20040329_224245.exv   Exif.Nikon3.FlashComp                        Undefined   4  0.0 EV
 > 20040329_224245.exv   Exif.Nikon3.ISOSettings                      Short       2  200
 > 20040329_224245.exv   Exif.Nikon3.ImageBoundary                    Short       4  0 0 3008 2000
-> 20040329_224245.exv   Exif.Nikon3.0x0017                           Undefined   4  0 1 6 0
+> 20040329_224245.exv   Exif.Nikon3.FlashExposureComp                Undefined   4  0.0 EV
 > 20040329_224245.exv   Exif.Nikon3.FlashBracketComp                 Undefined   4  0.0 EV
 > 20040329_224245.exv   Exif.Nikon3.ExposureBracketComp              SRational   1  0/1
 > 20040329_224245.exv   Exif.Nikon3.ToneComp                         Ascii       9  AUTO    
@@ -7236,21 +7284,21 @@ Compare original and inserted image data ---------------------------------
 > 20040329_224245.exv   Exif.NikonCb3.WB_RGBGLevels                  Short       4  1026 1 41729 1
 > 20040329_224245.exv   Exif.NikonCb3.0x000e                         Short      56  0 2049 1 0 0 28672 3072 6144 768 35841 28159 1792 55551 23041 52991 64511 57087 9985 65535 65535 65535 128 0 0 0 0 10 0 32770 0 3 0 32770 0 0 4112 65280 65280 19712 38400 7424 52479 47871 31232 32512 38655 60415 0 5 2048 4716 13279 22789 16129 61680 6656
 > 20040329_224245.exv   Exif.NikonLd2.Version                        Undefined   4  1.01
-> 20040329_224245.exv   Exif.NikonLd2.ExitPupilPosition              Byte        1  89.04 mm
-> 20040329_224245.exv   Exif.NikonLd2.AFAperture                     Byte        1  F4.49
+> 20040329_224245.exv   Exif.NikonLd2.ExitPupilPosition              Byte        1  89.0 mm
+> 20040329_224245.exv   Exif.NikonLd2.AFAperture                     Byte        1  F4.5
 > 20040329_224245.exv   Exif.NikonLd2.0x0006                         Byte        1  7
 > 20040329_224245.exv   Exif.NikonLd2.0x0007                         Byte        1  0
 > 20040329_224245.exv   Exif.NikonLd2.FocusPosition                  Byte        1  161
 > 20040329_224245.exv   Exif.NikonLd2.FocusDistance                  Byte        1  5.31 m
-> 20040329_224245.exv   Exif.NikonLd2.FocalLength                    Byte        1  50.40 mm
+> 20040329_224245.exv   Exif.NikonLd2.FocalLength                    Byte        1  50.4 mm
 > 20040329_224245.exv   Exif.NikonLd2.LensIDNumber                   Byte        1  Nikon AF-S DX Zoom-Nikkor 18-70mm f/3.5-4.5G IF-ED
-> 20040329_224245.exv   Exif.NikonLd2.LensFStops                     Byte        1  F5.33
-> 20040329_224245.exv   Exif.NikonLd2.MinFocalLength                 Byte        1  18.34 mm
-> 20040329_224245.exv   Exif.NikonLd2.MaxFocalLength                 Byte        1  71.27 mm
-> 20040329_224245.exv   Exif.NikonLd2.MaxApertureAtMinFocal          Byte        1  F3.56
-> 20040329_224245.exv   Exif.NikonLd2.MaxApertureAtMaxFocal          Byte        1  F4.49
+> 20040329_224245.exv   Exif.NikonLd2.LensFStops                     Byte        1  F5.3
+> 20040329_224245.exv   Exif.NikonLd2.MinFocalLength                 Byte        1  18.3 mm
+> 20040329_224245.exv   Exif.NikonLd2.MaxFocalLength                 Byte        1  71.3 mm
+> 20040329_224245.exv   Exif.NikonLd2.MaxApertureAtMinFocal          Byte        1  F3.6
+> 20040329_224245.exv   Exif.NikonLd2.MaxApertureAtMaxFocal          Byte        1  F4.5
 > 20040329_224245.exv   Exif.NikonLd2.MCUVersion                     Byte        1  132
-> 20040329_224245.exv   Exif.NikonLd2.EffectiveMaxAperture           Byte        1  F4.49
+> 20040329_224245.exv   Exif.NikonLd2.EffectiveMaxAperture           Byte        1  F4.5
 > 20040329_224245.exv   Exif.NikonLd2.0x0013                         Byte        1  23
 > 20040329_224245.exv   Exif.NikonLd2.0x0014                         Byte        1  100
 > 20040329_224245.exv   Exif.NikonLd2.0x0015                         Byte        1  32
@@ -7268,7 +7316,19 @@ Compare original and inserted image data ---------------------------------
 > 20040329_224245.exv   Exif.Nikon3.ImageDataSize                    Long        1  2929656
 > 20040329_224245.exv   Exif.Nikon3.0x00a3                           Byte        1  0
 > 20040329_224245.exv   Exif.Nikon3.ShutterCount                     Long        1  1193
-> 20040329_224245.exv   Exif.Nikon3.FlashInfo                        Undefined  20  48 49 48 48 0 78 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+> 20040329_224245.exv   Exif.NikonFl1.Version                        Undefined   4  1.00
+> 20040329_224245.exv   Exif.NikonFl1.FlashSource                    Byte        1  None
+> 20040329_224245.exv   Exif.NikonFl1.0x0005                         Byte        1  78
+> 20040329_224245.exv   Exif.NikonFl1.ExternalFlashFirmware          Short       1  n/a
+> 20040329_224245.exv   Exif.NikonFl1.ExternalFlashFlags             Byte        1  Fired
+> 20040329_224245.exv   Exif.NikonFl1.0x0009                         Byte        2  0 0
+> 20040329_224245.exv   Exif.NikonFl1.FlashFocalLength               Byte        1  (0)
+> 20040329_224245.exv   Exif.NikonFl1.RepeatingFlashRate             Byte        1  (0)
+> 20040329_224245.exv   Exif.NikonFl1.RepeatingFlashCount            Byte        1  (0)
+> 20040329_224245.exv   Exif.NikonFl1.FlashGNDistance                Byte        1  None
+> 20040329_224245.exv   Exif.NikonFl1.FlashGroupAControlMode         Byte        1  Off
+> 20040329_224245.exv   Exif.NikonFl1.FlashGroupBControlMode         Byte        1  Off
+> 20040329_224245.exv   Exif.NikonFl1.0x0011                         Byte        3  0 0 0
 > 20040329_224245.exv   Exif.Nikon3.ImageOptimization                Ascii      16  NORMAL         
 > 20040329_224245.exv   Exif.Nikon3.Saturation                       Ascii      16  NORMAL         
 > 20040329_224245.exv   Exif.Nikon3.VariProgram                      Ascii      16                 

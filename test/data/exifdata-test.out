@@ -736,7 +736,7 @@ Exif.NikonPreview.YCbCrPositioning            0x0213 Makernote    Short       1 
 Exif.Nikon3.FlashComp                         0x0012 Makernote    Undefined   4 0 1 6 0
 Exif.Nikon3.ISOSettings                       0x0013 Makernote    Short       2 0 200
 Exif.Nikon3.ImageBoundary                     0x0016 Makernote    Short       4 0 0 3008 2000
-Exif.Nikon3.0x0017                            0x0017 Makernote    Undefined   4 0 1 6 0
+Exif.Nikon3.FlashExposureComp                 0x0017 Makernote    Undefined   4 0 1 6 0
 Exif.Nikon3.FlashBracketComp                  0x0018 Makernote    Undefined   4 0 1 6 0
 Exif.Nikon3.ExposureBracketComp               0x0019 Makernote    SRational   1 0/1
 Exif.Nikon3.ToneComp                          0x0081 Makernote    Ascii       9 AUTO    
@@ -803,7 +803,19 @@ Exif.Nikon3.SerialNO                          0x00a0 Makernote    Ascii      21 
 Exif.Nikon3.ImageDataSize                     0x00a2 Makernote    Long        1 2929656
 Exif.Nikon3.0x00a3                            0x00a3 Makernote    Byte        1 0
 Exif.Nikon3.ShutterCount                      0x00a7 Makernote    Long        1 1193
-Exif.Nikon3.FlashInfo                         0x00a8 Makernote    Undefined  20 48 49 48 48 0 78 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+Exif.NikonFl1.Version                         0x0000 Makernote    Undefined   4 48 49 48 48
+Exif.NikonFl1.FlashSource                     0x0004 Makernote    Byte        1 0
+Exif.NikonFl1.0x0005                          0x0005 Makernote    Byte        1 78
+Exif.NikonFl1.ExternalFlashFirmware           0x0006 Makernote    Short       1 0
+Exif.NikonFl1.ExternalFlashFlags              0x0008 Makernote    Byte        1 0
+Exif.NikonFl1.0x0009                          0x0009 Makernote    Byte        2 0 0
+Exif.NikonFl1.FlashFocalLength                0x000b Makernote    Byte        1 0
+Exif.NikonFl1.RepeatingFlashRate              0x000c Makernote    Byte        1 0
+Exif.NikonFl1.RepeatingFlashCount             0x000d Makernote    Byte        1 0
+Exif.NikonFl1.FlashGNDistance                 0x000e Makernote    Byte        1 0
+Exif.NikonFl1.FlashGroupAControlMode          0x000f Makernote    Byte        1 0
+Exif.NikonFl1.FlashGroupBControlMode          0x0010 Makernote    Byte        1 0
+Exif.NikonFl1.0x0011                          0x0011 Makernote    Byte        3 0 0 0
 Exif.Nikon3.ImageOptimization                 0x00a9 Makernote    Ascii      16 NORMAL         
 Exif.Nikon3.Saturation                        0x00aa Makernote    Ascii      16 NORMAL         
 Exif.Nikon3.VariProgram                       0x00ab Makernote    Ascii      16                
@@ -895,7 +907,7 @@ Exif.NikonPreview.YCbCrPositioning            0x0213 Makernote    Short       1 
 Exif.Nikon3.FlashComp                         0x0012 Makernote    Undefined   4 0 1 6 0
 Exif.Nikon3.ISOSettings                       0x0013 Makernote    Short       2 0 200
 Exif.Nikon3.ImageBoundary                     0x0016 Makernote    Short       4 0 0 3008 2000
-Exif.Nikon3.0x0017                            0x0017 Makernote    Undefined   4 0 1 6 0
+Exif.Nikon3.FlashExposureComp                 0x0017 Makernote    Undefined   4 0 1 6 0
 Exif.Nikon3.FlashBracketComp                  0x0018 Makernote    Undefined   4 0 1 6 0
 Exif.Nikon3.ExposureBracketComp               0x0019 Makernote    SRational   1 0/1
 Exif.Nikon3.ToneComp                          0x0081 Makernote    Ascii       9 AUTO    
@@ -962,7 +974,19 @@ Exif.Nikon3.SerialNO                          0x00a0 Makernote    Ascii      21 
 Exif.Nikon3.ImageDataSize                     0x00a2 Makernote    Long        1 2929656
 Exif.Nikon3.0x00a3                            0x00a3 Makernote    Byte        1 0
 Exif.Nikon3.ShutterCount                      0x00a7 Makernote    Long        1 1193
-Exif.Nikon3.FlashInfo                         0x00a8 Makernote    Undefined  20 48 49 48 48 0 78 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+Exif.NikonFl1.Version                         0x0000 Makernote    Undefined   4 48 49 48 48
+Exif.NikonFl1.FlashSource                     0x0004 Makernote    Byte        1 0
+Exif.NikonFl1.0x0005                          0x0005 Makernote    Byte        1 78
+Exif.NikonFl1.ExternalFlashFirmware           0x0006 Makernote    Short       1 0
+Exif.NikonFl1.ExternalFlashFlags              0x0008 Makernote    Byte        1 0
+Exif.NikonFl1.0x0009                          0x0009 Makernote    Byte        2 0 0
+Exif.NikonFl1.FlashFocalLength                0x000b Makernote    Byte        1 0
+Exif.NikonFl1.RepeatingFlashRate              0x000c Makernote    Byte        1 0
+Exif.NikonFl1.RepeatingFlashCount             0x000d Makernote    Byte        1 0
+Exif.NikonFl1.FlashGNDistance                 0x000e Makernote    Byte        1 0
+Exif.NikonFl1.FlashGroupAControlMode          0x000f Makernote    Byte        1 0
+Exif.NikonFl1.FlashGroupBControlMode          0x0010 Makernote    Byte        1 0
+Exif.NikonFl1.0x0011                          0x0011 Makernote    Byte        3 0 0 0
 Exif.Nikon3.ImageOptimization                 0x00a9 Makernote    Ascii      16 NORMAL         
 Exif.Nikon3.Saturation                        0x00aa Makernote    Ascii      16 NORMAL         
 Exif.Nikon3.VariProgram                       0x00ab Makernote    Ascii      16                
@@ -1055,7 +1079,7 @@ Exif.NikonPreview.YCbCrPositioning            0x0213 Makernote    Short       1 
 Exif.Nikon3.FlashComp                         0x0012 Makernote    Undefined   4 0 1 6 0
 Exif.Nikon3.ISOSettings                       0x0013 Makernote    Short       2 0 200
 Exif.Nikon3.ImageBoundary                     0x0016 Makernote    Short       4 0 0 3008 2000
-Exif.Nikon3.0x0017                            0x0017 Makernote    Undefined   4 0 1 6 0
+Exif.Nikon3.FlashExposureComp                 0x0017 Makernote    Undefined   4 0 1 6 0
 Exif.Nikon3.FlashBracketComp                  0x0018 Makernote    Undefined   4 0 1 6 0
 Exif.Nikon3.ExposureBracketComp               0x0019 Makernote    SRational   1 0/1
 Exif.Nikon3.ToneComp                          0x0081 Makernote    Ascii       9 AUTO    
@@ -1122,7 +1146,19 @@ Exif.Nikon3.SerialNO                          0x00a0 Makernote    Ascii      21 
 Exif.Nikon3.ImageDataSize                     0x00a2 Makernote    Long        1 2929656
 Exif.Nikon3.0x00a3                            0x00a3 Makernote    Byte        1 0
 Exif.Nikon3.ShutterCount                      0x00a7 Makernote    Long        1 1193
-Exif.Nikon3.FlashInfo                         0x00a8 Makernote    Undefined  20 48 49 48 48 0 78 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+Exif.NikonFl1.Version                         0x0000 Makernote    Undefined   4 48 49 48 48
+Exif.NikonFl1.FlashSource                     0x0004 Makernote    Byte        1 0
+Exif.NikonFl1.0x0005                          0x0005 Makernote    Byte        1 78
+Exif.NikonFl1.ExternalFlashFirmware           0x0006 Makernote    Short       1 0
+Exif.NikonFl1.ExternalFlashFlags              0x0008 Makernote    Byte        1 0
+Exif.NikonFl1.0x0009                          0x0009 Makernote    Byte        2 0 0
+Exif.NikonFl1.FlashFocalLength                0x000b Makernote    Byte        1 0
+Exif.NikonFl1.RepeatingFlashRate              0x000c Makernote    Byte        1 0
+Exif.NikonFl1.RepeatingFlashCount             0x000d Makernote    Byte        1 0
+Exif.NikonFl1.FlashGNDistance                 0x000e Makernote    Byte        1 0
+Exif.NikonFl1.FlashGroupAControlMode          0x000f Makernote    Byte        1 0
+Exif.NikonFl1.FlashGroupBControlMode          0x0010 Makernote    Byte        1 0
+Exif.NikonFl1.0x0011                          0x0011 Makernote    Byte        3 0 0 0
 Exif.Nikon3.ImageOptimization                 0x00a9 Makernote    Ascii      16 NORMAL         
 Exif.Nikon3.Saturation                        0x00aa Makernote    Ascii      16 NORMAL         
 Exif.Nikon3.VariProgram                       0x00ab Makernote    Ascii      16                
@@ -1215,7 +1251,7 @@ Exif.NikonPreview.YCbCrPositioning            0x0213 Makernote    Short       1 
 Exif.Nikon3.FlashComp                         0x0012 Makernote    Undefined   4 0 1 6 0
 Exif.Nikon3.ISOSettings                       0x0013 Makernote    Short       2 0 200
 Exif.Nikon3.ImageBoundary                     0x0016 Makernote    Short       4 0 0 3008 2000
-Exif.Nikon3.0x0017                            0x0017 Makernote    Undefined   4 0 1 6 0
+Exif.Nikon3.FlashExposureComp                 0x0017 Makernote    Undefined   4 0 1 6 0
 Exif.Nikon3.FlashBracketComp                  0x0018 Makernote    Undefined   4 0 1 6 0
 Exif.Nikon3.ExposureBracketComp               0x0019 Makernote    SRational   1 0/1
 Exif.Nikon3.ToneComp                          0x0081 Makernote    Ascii       9 AUTO    
@@ -1282,7 +1318,19 @@ Exif.Nikon3.SerialNO                          0x00a0 Makernote    Ascii      21 
 Exif.Nikon3.ImageDataSize                     0x00a2 Makernote    Long        1 2929656
 Exif.Nikon3.0x00a3                            0x00a3 Makernote    Byte        1 0
 Exif.Nikon3.ShutterCount                      0x00a7 Makernote    Long        1 1193
-Exif.Nikon3.FlashInfo                         0x00a8 Makernote    Undefined  20 48 49 48 48 0 78 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+Exif.NikonFl1.Version                         0x0000 Makernote    Undefined   4 48 49 48 48
+Exif.NikonFl1.FlashSource                     0x0004 Makernote    Byte        1 0
+Exif.NikonFl1.0x0005                          0x0005 Makernote    Byte        1 78
+Exif.NikonFl1.ExternalFlashFirmware           0x0006 Makernote    Short       1 0
+Exif.NikonFl1.ExternalFlashFlags              0x0008 Makernote    Byte        1 0
+Exif.NikonFl1.0x0009                          0x0009 Makernote    Byte        2 0 0
+Exif.NikonFl1.FlashFocalLength                0x000b Makernote    Byte        1 0
+Exif.NikonFl1.RepeatingFlashRate              0x000c Makernote    Byte        1 0
+Exif.NikonFl1.RepeatingFlashCount             0x000d Makernote    Byte        1 0
+Exif.NikonFl1.FlashGNDistance                 0x000e Makernote    Byte        1 0
+Exif.NikonFl1.FlashGroupAControlMode          0x000f Makernote    Byte        1 0
+Exif.NikonFl1.FlashGroupBControlMode          0x0010 Makernote    Byte        1 0
+Exif.NikonFl1.0x0011                          0x0011 Makernote    Byte        3 0 0 0
 Exif.Nikon3.ImageOptimization                 0x00a9 Makernote    Ascii      16 NORMAL         
 Exif.Nikon3.Saturation                        0x00aa Makernote    Ascii      16 NORMAL         
 Exif.Nikon3.VariProgram                       0x00ab Makernote    Ascii      16                

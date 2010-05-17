@@ -210,6 +210,10 @@ namespace Exiv2 {
         static std::ostream& printRepeatingFlashRate(std::ostream& os, const Value& value, const ExifData*);
         //! Print repeating flash count
         static std::ostream& printRepeatingFlashCount(std::ostream& os, const Value& value, const ExifData*);
+        //! Print time zone
+        static std::ostream& printTimeZone(std::ostream& os, const Value& value, const ExifData*);
+        //! Print picture control value
+        static std::ostream& printPictureControl(std::ostream& os, const Value& value, const ExifData*);
         //@}
 
     private:
