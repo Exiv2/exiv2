@@ -142,6 +142,7 @@ namespace Exiv2 {
         {    0x12dea, N_("Optio P80") },
         {    0x12df4, N_("Optio WS80") },
         {    0x12dfe, N_("K-x") },
+        {    0x12e08, N_("645D") },
         {    0x12e3a, N_("Optio I-10") },
     };
 
@@ -531,6 +532,7 @@ namespace Exiv2 {
         { 0x01000000, N_("Continuous") },
         { 0x02000000, N_("Continuous (Hi)") },
         { 0x03000000, N_("Burst") },
+        { 0x00100000, N_("Single-frame") }, /* on 645D */
         { 0x00010000, N_("Self-timer (12 sec)") },
         { 0x00020000, N_("Self-timer (2 sec)") },
         { 0x00000100, N_("Remote Control (3 sec)") },
@@ -688,6 +690,9 @@ namespace Exiv2 {
         { 0x08eb, "smc PENTAX-DA* 200mm F2.8 ED [IF] SDM" },
         { 0x08f1, "smc PENTAX-DA* 50-135mm F2.8 ED [IF] SDM" },
         { 0x08f2, "smc PENTAX-DA* 16-50mm F2.8 ED AL [IF] SDM" },
+        { 0x0b04, "smc PENTAX-FA645 Zoom 45mm-85mm F4.5" },
+        { 0x0b07, "smc PENTAX-FA645 Macro 120mm F4" },
+        { 0x0b11, "smc PENTAX-FA645 Zoom 150mm-300mm F5.6 ED [IF]" },
     };
 
     //! ImageTone, tag 0x004f
@@ -698,6 +703,7 @@ namespace Exiv2 {
         {    3, N_("Landscape") },
         {    4, N_("Vibrant") },
         {    5, N_("Monochrome") },
+        {    7, N_("Reversal film") },
     };
 
     //! DynamicRangeExpansion, tag 0x0069
@@ -712,6 +718,7 @@ namespace Exiv2 {
         {   1, N_("Weakest") },
         {   2, N_("Weak") },
         {   3, N_("Strong") },
+        {   4, N_("Custom") },
     };
 
     std::ostream& PentaxMakerNote::printPentaxVersion(std::ostream& os, const Value& value, const ExifData*)
