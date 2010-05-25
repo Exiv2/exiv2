@@ -683,7 +683,8 @@ namespace Exiv2 {
         assert(object != 0);
 
         byte* p = object->start() + 2;
-        for (TiffDirectory::Components::iterator i = object->begin(); i != object->end(); ++i) {
+        for (TiffDirectory::Components::iterator i = object->components_.begin();
+             i != object->components_.end(); ++i) {
             p += updateDirEntry(p, byteOrder(), *i);
         }
     }
@@ -1337,91 +1338,11 @@ namespace Exiv2 {
 
     } // TiffReader::visitDirectory
 
-    void TiffReader::visitDirectoryEnd(TiffDirectory* object)
-    {
-        assert(object != 0);
-
-        if (!(object->tag() == 0xc634 && object->group() == Group::sonysr2)) return;
-        TiffEntryBase* te = 0;
-        int32_t offset = 0;
-        uint32_t size = 0;
-        for (TiffComponent::Components::const_iterator i = object->begin(); i != object->end(); ++i) {
-            switch ((*i)->tag()) {
-            case 0x7200:
-                te = dynamic_cast<TiffEntryBase*>(*i);
-                if (te && te->pValue()) offset = te->pValue()->toLong();
-                break;
-            case 0x7201:
-                te = dynamic_cast<TiffEntryBase*>(*i);
-                if (te && te->pValue()) size = te->pValue()->toLong();
-                break;
-            }
-        }
-        if (!(offset && size)) return;
-        DataBuf buf = sonyDecrypt(pData_ + baseOffset() + offset, size, object, byteOrder());
-
-        // Todo: remove debug output
-        std::cout << "offset = " << offset << "\n"
-                  << "size   = " << size << "\n";
-        hexdump(std::cout, buf.pData_, EXV_MIN(100, buf.size_));
-
-// <hack>
-        const byte* pStart = buf.pData_;
-        buf.release(); // Memory leak!
-        TiffComponent::AutoPtr td(new TiffDirectory(object->tag(), Group::sonysr2ifd));
-        td->setStart(pStart);
-        TiffComponent* tc = object->addChild(td);
-        TiffRwState::AutoPtr state(new TiffRwState(byteOrder(), -offset));
-        changeState(state);
-        const byte* pOrigData = pData_;
-        uint32_t origSize = size_;
-        const byte* pOrigLast = pLast_;
-        pData_ = pStart;
-        size_ = size;
-        pLast_ = pStart + size;
-        tc->accept(*this);
-        pData_ = pOrigData;
-        size_ = origSize;
-        pLast_ = pOrigLast;
-        resetState();
-// </hack>
-
-    } // TiffReader::visitDirectoryEnd
-
     void TiffReader::visitSubIfd(TiffSubIfd* object)
     {
         assert(object != 0);
 
         readTiffEntry(object);
-
-// <hack>
-// Todo: Merge with the original section
-        if (object->tiffType() == ttUnsignedByte && object->count() == 4) {
-            int32_t offset = getLong(object->pData(), byteOrder());
-
-            // Todo: remove debug output
-            std::cout << "baseOffset = " << baseOffset() << ", offset = " << offset << "\n";
-
-                if (   baseOffset() + offset > size_
-                    || static_cast<int32_t>(baseOffset()) + offset < 0) {
-#ifndef SUPPRESS_WARNINGS
-                    std::cerr << "Error: "
-                              << "Directory " << tiffGroupName(object->group())
-                              << ", entry 0x" << std::setw(4)
-                              << std::setfill('0') << std::hex << object->tag()
-                              << " Sub-IFD pointer " << 1
-                              << " is out of bounds; ignoring it.\n";
-#endif
-                    return;
-                }
-            TiffComponent::AutoPtr td(new TiffDirectory(object->tag(),
-                                                        object->newGroup_));
-            td->setStart(pData_ + baseOffset() + offset);
-            object->addChild(td);
-            return;
-        }
-// </hack>
-
         if (   (object->tiffType() == ttUnsignedLong || object->tiffType() == ttSignedLong
                 || object->tiffType() == ttTiffIfd)
             && object->count() >= 1) {
@@ -1439,7 +1360,7 @@ namespace Exiv2 {
 #endif
                     return;
                 }
-                if (i > 19) { // Todo: max number of sub-IFDs shouldn't be hardcoded
+                if (object->newGroup_ + i == Group::subimgX) {
 #ifndef SUPPRESS_WARNINGS
                     std::cerr << "Warning: "
                               << "Directory " << tiffGroupName(object->group())

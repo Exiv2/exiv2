@@ -110,16 +110,6 @@ namespace Exiv2 {
         { subImage7Id,       "SubImage7", "SubImage7",    ExifTags::ifdTagList           },
         { subImage8Id,       "SubImage8", "SubImage8",    ExifTags::ifdTagList           },
         { subImage9Id,       "SubImage9", "SubImage9",    ExifTags::ifdTagList           },
-        { subImage10Id,      "SubImage1", "SubImage10",   ExifTags::ifdTagList           },
-        { subImage11Id,      "SubImage1", "SubImage11",   ExifTags::ifdTagList           },
-        { subImage12Id,      "SubImage1", "SubImage12",   ExifTags::ifdTagList           },
-        { subImage13Id,      "SubImage1", "SubImage13",   ExifTags::ifdTagList           },
-        { subImage14Id,      "SubImage1", "SubImage14",   ExifTags::ifdTagList           },
-        { subImage15Id,      "SubImage1", "SubImage15",   ExifTags::ifdTagList           },
-        { subImage16Id,      "SubImage1", "SubImage16",   ExifTags::ifdTagList           },
-        { subImage17Id,      "SubImage1", "SubImage17",   ExifTags::ifdTagList           },
-        { subImage18Id,      "SubImage1", "SubImage18",   ExifTags::ifdTagList           },
-        { subImage19Id,      "SubImage1", "SubImage19",   ExifTags::ifdTagList           },
         { mnIfdId,           "Makernote", "MakerNote",    ExifTags::mnTagList            },
         { canonIfdId,        "Makernote", "Canon",        CanonMakerNote::tagList        },
         { canonCsIfdId,      "Makernote", "CanonCs",      CanonMakerNote::tagListCs      },
@@ -197,29 +187,6 @@ namespace Exiv2 {
         { sony1MltCsA100IfdId,"Makernote","Sony1MltCsA100",MinoltaMakerNote::tagListCsA100},
         { sony2CsIfdId,      "Makernote", "Sony2Cs",      SonyMakerNote::tagListCs       },
         { sony2Cs2IfdId,     "Makernote", "Sony2Cs2",     SonyMakerNote::tagListCs2      },
-        { sonySr2IfdId,      "Makernote", "SonySR2",      SonyMakerNote::tagListSr2      },
-        { sonySr2SubIfdId,   "Makernote", "SonySR2SubIfd",SonyMakerNote::tagListSr2SubIfd},
-        { sonySr2Dt1IfdId,   "Makernote", "SonySR2Data1", SonyMakerNote::tagListSr2Data  },
-        { sonySr2Dt2IfdId,   "Makernote", "SonySR2Data2", SonyMakerNote::tagListSr2Data  },
-        { sonySr2Dt3IfdId,   "Makernote", "SonySR2Data3", SonyMakerNote::tagListSr2Data  },
-        { sonySr2Dt4IfdId,   "Makernote", "SonySR2Data4", SonyMakerNote::tagListSr2Data  },
-        { sonySr2Dt5IfdId,   "Makernote", "SonySR2Data5", SonyMakerNote::tagListSr2Data  },
-        { sonySr2Dt6IfdId,   "Makernote", "SonySR2Data6", SonyMakerNote::tagListSr2Data  },
-        { sonySr2Dt7IfdId,   "Makernote", "SonySR2Data7", SonyMakerNote::tagListSr2Data  },
-        { sonySr2Dt8IfdId,   "Makernote", "SonySR2Data8", SonyMakerNote::tagListSr2Data  },
-        { sonySr2Dt9IfdId,   "Makernote", "SonySR2Data9", SonyMakerNote::tagListSr2Data  },
-        { sonySr2Dt10IfdId,  "Makernote", "SonySR2Data10",SonyMakerNote::tagListSr2Data  },
-        { sonySr2Dt11IfdId,  "Makernote", "SonySR2Data11",SonyMakerNote::tagListSr2Data  },
-        { sonySr2Dt12IfdId,  "Makernote", "SonySR2Data12",SonyMakerNote::tagListSr2Data  },
-        { sonySr2Dt13IfdId,  "Makernote", "SonySR2Data13",SonyMakerNote::tagListSr2Data  },
-        { sonySr2Dt14IfdId,  "Makernote", "SonySR2Data14",SonyMakerNote::tagListSr2Data  },
-        { sonySr2Dt15IfdId,  "Makernote", "SonySR2Data15",SonyMakerNote::tagListSr2Data  },
-        { sonySr2Dt16IfdId,  "Makernote", "SonySR2Data16",SonyMakerNote::tagListSr2Data  },
-        { sonySr2Dt17IfdId,  "Makernote", "SonySR2Data17",SonyMakerNote::tagListSr2Data  },
-        { sonySr2Dt18IfdId,  "Makernote", "SonySR2Data18",SonyMakerNote::tagListSr2Data  },
-        { sonySr2Dt19IfdId,  "Makernote", "SonySR2Data19",SonyMakerNote::tagListSr2Data  },
-        { sonyIdcIfdId,      "Makernote", "SonyIDC",      SonyMakerNote::tagListIdc      },
-        { sonyIdc2IfdId,     "Makernote", "SonyIDC2",     SonyMakerNote::tagListIdc      },
         { lastIfdId,         "(Last IFD info)", "(Last IFD item)", 0 }
     };
 
@@ -291,7 +258,7 @@ namespace Exiv2 {
     //! Compression, tag 0x0103
     extern const TagDetails exifCompression[] = {
         {     1, N_("Uncompressed")             },
-        {     2, N_("CCITT 1D")                 },
+        {     2, N_("CCITT RLE")                },
         {     3, N_("T4/Group 3 Fax")           },
         {     4, N_("T6/Group 4 Fax")           },
         {     5, N_("LZW")                      },
@@ -300,31 +267,24 @@ namespace Exiv2 {
         {     8, N_("Adobe Deflate")            },
         {     9, N_("JBIG B&W")                 },
         {    10, N_("JBIG Color")               },
-        {    99, N_("JPEG")                     },
-        {   262, N_("Kodak 262")                },
-        { 32766, N_("Next")                     },
-        { 32767, N_("Sony ARW Compressed")      },
+        { 32766, N_("Next 2-bits RLE")          },
         { 32769, N_("Epson ERF Compressed")     },
-        { 32771, N_("CCIRLEW")                  },
-        { 32773, N_("PackBits")                 },
-        { 32809, N_("Thunderscan")              },
-        { 32867, N_("Kodak KDC Compressed")     },
-        { 32895, N_("IT8CTPAD")                 },
-        { 32896, N_("IT8LW")                    },
-        { 32897, N_("IT8MP")                    },
-        { 32898, N_("IT8BL")                    },
-        { 32908, N_("PixarFilm")                },
-        { 32909, N_("PixarLog")                 },
-        { 32946, N_("Deflate")                  },
-        { 32947, N_("DCS")                      },
-        { 34661, N_("JBIG")                     },
-        { 34676, N_("SGILog")                   },
-        { 34677, N_("SGILog24")                 },
-        { 34712, N_("JPEG 2000")                },
+        { 32771, N_("CCITT RLE 1-word")         },
+        { 32773, N_("PackBits (Macintosh RLE)") },
+        { 32809, N_("Thunderscan RLE")          },
+        { 32895, N_("IT8 CT Padding")           },
+        { 32896, N_("IT8 Linework RLE")         },
+        { 32897, N_("IT8 Monochrome Picture")   },
+        { 32898, N_("IT8 Binary Lineart")       },
+        { 32908, N_("Pixar Film (10-bits LZW)") },
+        { 32909, N_("Pixar Log (11-bits ZIP)")  },
+        { 32946, N_("Pixar Deflate")            },
+        { 32947, N_("Kodak DCS Encoding")       },
+        { 34661, N_("ISO JBIG")                 },
+        { 34676, N_("SGI Log Luminance RLE")    },
+        { 34677, N_("SGI Log 24-bits packed")   },
+        { 34712, N_("Leadtools JPEG 2000")      },
         { 34713, N_("Nikon NEF Compressed")     },
-        { 34718, N_("Microsoft Document Imaging (MDI) Binary Level Codec")          },
-        { 34719, N_("Microsoft Document Imaging (MDI) Progressive Transform Codec") },
-        { 34720, N_("Microsoft Document Imaging (MDI) Vector")                      },
         { 65000, N_("Kodak DCR Compressed")     },
         { 65535, N_("Pentax PEF Compressed")    }
     };
@@ -2007,16 +1967,6 @@ namespace Exiv2 {
         case subImage7Id:
         case subImage8Id:
         case subImage9Id:
-        case subImage10Id:
-        case subImage11Id:
-        case subImage12Id:
-        case subImage13Id:
-        case subImage14Id:
-        case subImage15Id:
-        case subImage16Id:
-        case subImage17Id:
-        case subImage18Id:
-        case subImage19Id:
         case panaRawIfdId: rc = true; break;
         default:           rc = false; break;
         }
