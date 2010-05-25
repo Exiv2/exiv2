@@ -665,8 +665,6 @@ namespace Exiv2 {
         virtual void visitSizeEntry(TiffSizeEntry* object);
         //! Read a TIFF directory from the data buffer
         virtual void visitDirectory(TiffDirectory* object);
-        //! Additional read operations for a TIFF directory after the directory is read
-        virtual void visitDirectoryEnd(TiffDirectory* object);
         //! Read a TIFF sub-IFD from the data buffer
         virtual void visitSubIfd(TiffSubIfd* object);
         //! Read a TIFF makernote entry from the data buffer
@@ -720,7 +718,7 @@ namespace Exiv2 {
 
         // DATA
         const byte*          pData_;      //!< Pointer to the memory buffer
-        uint32_t             size_;       //!< Size of the buffer
+        const uint32_t       size_;       //!< Size of the buffer
         const byte*          pLast_;      //!< Pointer to the last byte
         TiffComponent* const pRoot_;      //!< Root element of the composite
         TiffRwState*         pState_;     //!< State class

@@ -54,16 +54,13 @@ EXIV2_RCSID("@(#) $Id$")
 #include <string>
 #include <cstring>
 
-
 // *****************************************************************************
 namespace {
     // Todo: Can be generalized further - get any tag as a string/long/...
     //! Get the model name from tag Exif.Image.Model
     std::string getExifModel(Exiv2::Internal::TiffComponent* const pRoot);
-    //! Nikon en/decryption function (from dcraw)
+    //! Nikon en/decryption function
     void ncrypt(Exiv2::byte* pData, uint32_t size, uint32_t count, uint32_t serial);
-    //! Sony decryption function (from dcraw)
-    void sony_decrypt(uint32_t* data, long len, int start, int32_t key);
 }
 
 // *****************************************************************************
@@ -908,26 +905,6 @@ namespace Exiv2 {
         }
         return idx;
     }
-
-    DataBuf sonyDecrypt(const byte* pData, uint32_t size, TiffComponent* const pRoot, ByteOrder byteOrder)
-    {
-        DataBuf buf;
-        // Find Exif.SonySR2.SR2SubIFDKey
-        TiffFinder finder(0x7221, Group::sonysr2);
-        pRoot->accept(finder);
-        TiffEntryBase* te = dynamic_cast<TiffEntryBase*>(finder.result());
-        if (!(te && te->pValue() && te->pValue()->size() == 4)) return buf;
-        int32_t key = getLong(te->pData(), byteOrder);
-
-        // Todo: remove debug output
-        std::cout << "key = " << key << "\n";
-
-        buf.alloc(size);
-        memcpy(buf.pData_, pData, buf.size_);
-        sony_decrypt((uint32_t*)buf.pData_, buf.size_/4, 1, key);
-        return buf;
-    }
-
 }}                                      // namespace Internal, Exiv2
 
 // *****************************************************************************
@@ -940,23 +917,6 @@ namespace {
         Exiv2::Internal::TiffEntryBase* te = dynamic_cast<Exiv2::Internal::TiffEntryBase*>(finder.result());
         if (!te || !te->pValue() || te->pValue()->count() == 0) return std::string();
         return te->pValue()->toString();
-    }
-
-    void sony_decrypt(uint32_t* data, long len, int start, int32_t key)
-    {
-        static uint32_t pad[128], p;
-
-        if (start) {
-            for (p=0; p < 4; p++)
-                pad[p] = key = key * 48828125 + 1;
-            pad[3] = pad[3] << 1 | (pad[0]^pad[2]) >> 31;
-            for (p=4; p < 127; p++)
-                pad[p] = (pad[p-4]^pad[p-2]) << 1 | (pad[p-3]^pad[p-1]) >> 31;
-            for (p=0; p < 127; p++)
-                pad[p] = htonl(pad[p]);
-        }
-        while (len--)
-            *data++ ^= pad[p++ & 127] = pad[(p+1) & 127] ^ pad[(p+65) & 127];
     }
 
     void ncrypt(Exiv2::byte* pData, uint32_t size, uint32_t count, uint32_t serial)
