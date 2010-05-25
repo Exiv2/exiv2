@@ -30,18 +30,10 @@ EXIV2_RCSID("@(#) $Id$")
 
 // *****************************************************************************
 // included header files
-
-// htonl method (sony_decrypt)
-#ifdef _MSC_VER                    // MSVC case
+#ifdef _MSC_VER
 # include "exv_msvc.h"
-# include <winsock.h>
 #else
 # include "exv_conf.h"
-# ifdef WIN32                      // MINGW32 case
-#  include <winsock2.h>
-# else                             // LINUX case
-#  include <arpa/inet.h>
-# endif
 #endif
 
 #include "makernote_int.hpp"
