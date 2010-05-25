@@ -190,12 +190,19 @@ namespace Exiv2 {
         { 0,      N_("Normal") },
         { 32767,  N_("High")   }
     };
+
     //! Lookup table to translate Sony release mode values to readable labels
     extern const TagDetails sonyReleaseMode[] = {
         { 0,     N_("Normal")                    },
         { 2,     N_("Burst")                     },
         { 5,     N_("Exposure Bracketing ")      },
         { 6,     N_("White Balance Bracketing ") },
+        { 65535, N_("n/a")                       }
+    };
+
+    //! Lookup table to translate Sony sequence number values to readable labels
+    extern const TagDetails sonySequenceNumber[] = {
+        { 0,     N_("Single")                    },
         { 65535, N_("n/a")                       }
     };
 
@@ -368,6 +375,9 @@ namespace Exiv2 {
         TagInfo(0xB049, "ReleaseMode", N_("Release Mode"),
                 N_("Release Mode"),
                 sony1IfdId, makerTags, unsignedShort, EXV_PRINT_TAG(sonyReleaseMode)),
+        TagInfo(0xB04A, "SequenceNumber", N_("Sequence Number"),
+                N_("Shot number in continous burst mode"),
+                sony1IfdId, makerTags, unsignedShort, EXV_PRINT_TAG(sonySequenceNumber)),
         TagInfo(0xB04B, "AntiBlur", N_("Anti-Blur"),
                 N_("Anti-Blur"),
                 sony1IfdId, makerTags, unsignedShort, EXV_PRINT_TAG(sonyAntiBlur)),
