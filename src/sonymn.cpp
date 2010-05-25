@@ -157,6 +157,14 @@ namespace Exiv2 {
     };
 
     //! Lookup table to translate Sony AF mode values to readable labels
+    extern const TagDetails sonyFocusMode[] = {
+        { 1,     "AF-S"             },
+        { 2,     "AF-C"             },
+        { 4,     N_("Permanent-AF") },
+        { 65535, N_("n/a")          }
+    };
+
+    //! Lookup table to translate Sony AF mode values to readable labels
     extern const TagDetails sonyAFMode[] = {
         { 1,     N_("Multi AF")         },
         { 2,     N_("Center AF")        },
@@ -188,7 +196,7 @@ namespace Exiv2 {
         { 2,     N_("Burst")                     },
         { 5,     N_("Exposure Bracketing ")      },
         { 6,     N_("White Balance Bracketing ") },
-        { 65537, N_("n/a")                       }
+        { 65535, N_("n/a")                       }
     };
 
     std::ostream& SonyMakerNote::print0xb000(std::ostream& os, const Value& value, const ExifData*)
@@ -342,6 +350,9 @@ namespace Exiv2 {
         TagInfo(0xB041, "ExposureMode", N_("Exposure Mode"),
                 N_("Exposure Mode"),
                 sony1IfdId, makerTags, unsignedShort, EXV_PRINT_TAG(sonyExposureMode)),
+        TagInfo(0xB042, "FocusMode", N_("Focus Mode"),
+                N_("Focus mode"),
+                sony1IfdId, makerTags, unsignedShort, EXV_PRINT_TAG(sonyFocusMode)),
         TagInfo(0xB043, "AFMode", N_("AF Mode"),
                 N_("AF Mode"),
                 sony1IfdId, makerTags, unsignedShort, EXV_PRINT_TAG(sonyAFMode)),
@@ -399,7 +410,7 @@ namespace Exiv2 {
     };
 
     //! Lookup table to translate Sony camera settings focus mode values to readable labels
-    extern const TagDetails sonyFocusMode[] = {
+    extern const TagDetails sonyCSFocusMode[] = {
         { 0, N_("Manual") },
         { 1, "AF-S"       },
         { 2, "AF-C"       },
@@ -506,7 +517,7 @@ namespace Exiv2 {
                 sony1CsIfdId, makerTags, unsignedShort, printValue),
         TagInfo(0x0016, "FocusMode", N_("Focus Mode"),
                 N_("Focus Mode"),
-                sony1CsIfdId, makerTags, unsignedShort, EXV_PRINT_TAG(sonyFocusMode)),
+                sony1CsIfdId, makerTags, unsignedShort, EXV_PRINT_TAG(sonyCSFocusMode)),
         TagInfo(0x0017, "AFAreaMode", N_("AF Area Mode"),
                 N_("AF Area Mode"),
                 sony1CsIfdId, makerTags, unsignedShort, printMinoltaSonyAFAreaMode),
@@ -611,7 +622,7 @@ namespace Exiv2 {
 
         TagInfo(0x0016, "FocusMode", N_("Focus Mode"),
                 N_("Focus Mode"),
-                sony1Cs2IfdId, makerTags, unsignedShort, EXV_PRINT_TAG(sonyFocusMode)),
+                sony1Cs2IfdId, makerTags, unsignedShort, EXV_PRINT_TAG(sonyCSFocusMode)),
         TagInfo(0x0017, "AFAreaMode", N_("AF Area Mode"),
                 N_("AF Area Mode"),
                 sony1Cs2IfdId, makerTags, unsignedShort, printMinoltaSonyAFAreaMode),
