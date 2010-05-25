@@ -524,7 +524,7 @@ namespace Exiv2 {
         // NOTE: A700 only
         TagInfo(0x0006, "WhiteBalanceFineTune", N_("White Balance Fine Tune"),
                 N_("White Balance Fine Tune"),
-                sony1CsIfdId, makerTags, unsignedShort, printValue),
+                sony1CsIfdId, makerTags, signedShort, printValue),
         TagInfo(0x0016, "FocusMode", N_("Focus Mode"),
                 N_("Focus Mode"),
                 sony1CsIfdId, makerTags, unsignedShort, EXV_PRINT_TAG(sonyCSFocusMode)),
