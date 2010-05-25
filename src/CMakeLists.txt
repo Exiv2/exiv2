@@ -32,7 +32,6 @@
 SET( LIBEXIV2_PRIVATE_HDR cr2image_int.hpp
                           crwimage_int.hpp
                           makernote_int.hpp
-                          minoltasonyvalues.hpp
                           orfimage_int.hpp
                           pngchunk_int.hpp
                           rw2image_int.hpp
@@ -111,7 +110,6 @@ SET( LIBEXIV2_SRC         basicio.cpp
                           makernote.cpp
                           metadatum.cpp
                           minoltamn.cpp
-                          minoltasonyvalues.cpp
                           mrwimage.cpp
                           nikonmn.cpp
                           olympusmn.cpp
