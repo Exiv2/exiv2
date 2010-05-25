@@ -36,7 +36,6 @@
 				Name="VCCustomBuildTool"/>
 			<Tool
 				Name="VCLibrarianTool"
-				AdditionalDependencies="Ws2_32.lib"
 				OutputFile="$(OutDir)/exiv2.lib"
 				AdditionalLibraryDirectories="..\xmpsdk\Debug;..\..\..\expat-2.0.1\win32\bin\debug"/>
 			<Tool
@@ -92,7 +91,6 @@ cd ..\..\exiv2lib
 				Name="VCCustomBuildTool"/>
 			<Tool
 				Name="VCLibrarianTool"
-				AdditionalDependencies="Ws2_32.lib"
 				OutputFile="$(OutDir)/exiv2.lib"
 				AdditionalLibraryDirectories="..\xmpsdk\Release;..\..\..\expat-2.0.1\win32\bin\release"/>
 			<Tool
@@ -156,7 +154,7 @@ cd ..\..\exiv2lib
 			<Tool
 				Name="VCLinkerTool"
 				AdditionalOptions="/NODEFAULTLIB:LIBMTD"
-				AdditionalDependencies="..\xmpsdk\DebugDLL\xmpsdk.lib ..\..\..\expat-2.0.1\win32\bin\debug\libexpat.lib ..\..\..\zlib-1.2.3\projects\visualc6\Win32_DLL_Debug\zlib1d.lib  Ws2_32.lib"
+				AdditionalDependencies="..\xmpsdk\DebugDLL\xmpsdk.lib ..\..\..\expat-2.0.1\win32\bin\debug\libexpat.lib ..\..\..\zlib-1.2.3\projects\visualc6\Win32_DLL_Debug\zlib1d.lib"
 				OutputFile="$(OutDir)\exiv2.dll"
 				GenerateDebugInformation="TRUE"
 				ImportLibrary="$(TargetDir)\exiv2.lib"
@@ -223,7 +221,7 @@ copy/y ..\..\..\zlib-1.2.3\projects\visualc6\Win32_DLL_Debug\zlib1d.dll $(OutDir
 			<Tool
 				Name="VCLinkerTool"
 				AdditionalOptions="/NODEFAULTLIB:LIBCMT"
-				AdditionalDependencies="..\xmpsdk\ReleaseDLL\xmpsdk.lib ..\..\..\expat-2.0.1\win32\bin\release\libexpat.lib ..\..\..\zlib-1.2.3\projects\visualc6\Win32_DLL_Release\zlib1.lib  Ws2_32.lib"
+				AdditionalDependencies="..\xmpsdk\ReleaseDLL\xmpsdk.lib ..\..\..\expat-2.0.1\win32\bin\release\libexpat.lib ..\..\..\zlib-1.2.3\projects\visualc6\Win32_DLL_Release\zlib1.lib"
 				OutputFile="$(OutDir)\exiv2.dll"
 				GenerateDebugInformation="FALSE"
 				ImportLibrary="$(TargetDir)\exiv2.lib"
