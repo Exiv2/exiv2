@@ -630,6 +630,8 @@ namespace Exiv2 {
     // Sony Camera Settings Tag Version 2 Info
     // NOTE: for A330, A380, A450, A500, A550 Sony model
 
+    // Warnings: Exiftool database give a list of tags shorted in decimal mode, not hexadecimal.
+
     const TagInfo SonyMakerNote::tagInfoCs2_[] = {
 
         TagInfo(0x0010, "FocusMode", N_("Focus Mode"),
