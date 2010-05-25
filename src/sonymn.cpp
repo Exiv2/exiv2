@@ -625,7 +625,7 @@ namespace Exiv2 {
         return tagInfoCs_;
     }
 
-    // -- Sony camera settings ---------------------------------------------------------------
+    // -- Sony camera settings 2 ---------------------------------------------------------------
 
     // Sony Camera Settings Tag Version 2 Info
     // NOTE: all are for A330, A380 Sony model
