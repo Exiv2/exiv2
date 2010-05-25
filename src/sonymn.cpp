@@ -243,7 +243,7 @@ namespace Exiv2 {
         TagInfo(0x0116, "0x0116", "0x0116",
                 N_("Unknown"),
                 sony1IfdId, makerTags, undefined, printValue),
-        TagInfo(0x0e00, "PrintIM", N_("Print IM"),
+        TagInfo(0x0E00, "PrintIM", N_("Print IM"),
                 N_("PrintIM information"),
                 sony1IfdId, makerTags, undefined, printValue),
         TagInfo(0x1000, "MultiBurstMode", N_("Multi Burst Mode"),
