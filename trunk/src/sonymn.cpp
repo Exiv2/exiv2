@@ -632,49 +632,49 @@ namespace Exiv2 {
 
     const TagInfo SonyMakerNote::tagInfoCs2_[] = {
 
-        TagInfo(0x0016, "FocusMode", N_("Focus Mode"),
+        TagInfo(0x0010, "FocusMode", N_("Focus Mode"),
                 N_("Focus Mode"),
                 sony1Cs2IfdId, makerTags, unsignedShort, EXV_PRINT_TAG(sonyCSFocusMode)),
-        TagInfo(0x0017, "AFAreaMode", N_("AF Area Mode"),
+        TagInfo(0x0011, "AFAreaMode", N_("AF Area Mode"),
                 N_("AF Area Mode"),
                 sony1Cs2IfdId, makerTags, unsignedShort, printMinoltaSonyAFAreaMode),
-        TagInfo(0x0018, "LocalAFAreaPoint", N_("Local AF Area Point"),
+        TagInfo(0x0012, "LocalAFAreaPoint", N_("Local AF Area Point"),
                 N_("Local AF Area Point"),
                 sony1Cs2IfdId, makerTags, unsignedShort, printMinoltaSonyLocalAFAreaPoint),
-        TagInfo(0x0019, "MeteringMode", N_("Metering Mode"),
+        TagInfo(0x0013, "MeteringMode", N_("Metering Mode"),
                 N_("Metering Mode"),
                 sony1Cs2IfdId, makerTags, unsignedShort, EXV_PRINT_TAG(sonyMeteringMode)),
-        TagInfo(0x0020, "ISOSetting", N_("ISO Setting"),
+        TagInfo(0x0014, "ISOSetting", N_("ISO Setting"),
                 N_("ISO Setting"),
                 sony1Cs2IfdId, makerTags, unsignedShort, printValue),
-        TagInfo(0x0022, "DynamicRangeOptimizerMode", N_("Dynamic Range Optimizer Mode"),
+        TagInfo(0x0016, "DynamicRangeOptimizerMode", N_("Dynamic Range Optimizer Mode"),
                 N_("Dynamic Range Optimizer Mode"),
                 sony1Cs2IfdId, makerTags, unsignedShort, printMinoltaSonyDynamicRangeOptimizerMode),
-        TagInfo(0x0023, "DynamicRangeOptimizerLevel", N_("Dynamic Range Optimizer Level"),
+        TagInfo(0x0017, "DynamicRangeOptimizerLevel", N_("Dynamic Range Optimizer Level"),
                 N_("Dynamic Range Optimizer Level"),
                 sony1Cs2IfdId, makerTags, unsignedShort, printValue),
-        TagInfo(0x0024, "CreativeStyle", N_("Creative Style"),
+        TagInfo(0x0018, "CreativeStyle", N_("Creative Style"),
                 N_("Creative Style"),
                 sony1Cs2IfdId, makerTags, unsignedShort, EXV_PRINT_TAG(sonyCreativeStyle)),
-        TagInfo(0x0025, "Sharpness", N_("Sharpness"),
+        TagInfo(0x0019, "Sharpness", N_("Sharpness"),
                 N_("Sharpness"),
                 sony1Cs2IfdId, makerTags, unsignedShort, printValue),
-        TagInfo(0x0026, "Contrast", N_("Contrast"),
+        TagInfo(0x001A, "Contrast", N_("Contrast"),
                 N_("Contrast"),
                 sony1Cs2IfdId, makerTags, unsignedShort, printValue),
-        TagInfo(0x0027, "Saturation", N_("Saturation"),
+        TagInfo(0x001B, "Saturation", N_("Saturation"),
                 N_("Saturation"),
                 sony1Cs2IfdId, makerTags, unsignedShort, printValue),
-        TagInfo(0x0035, "FlashMode", N_("FlashMode"),
+        TagInfo(0x0023, "FlashMode", N_("FlashMode"),
                 N_("FlashMode"),
                 sony1Cs2IfdId, makerTags, unsignedShort, EXV_PRINT_TAG(sonyFlashMode)),
-        TagInfo(0x0060, "ExposureProgram", N_("Exposure Program"),
+        TagInfo(0x003C, "ExposureProgram", N_("Exposure Program"),
                 N_("Exposure Program"),
                 sony1Cs2IfdId, makerTags, unsignedShort, EXV_PRINT_TAG(sonyExposureProgram)),
-        TagInfo(0x0063, "Rotation", N_("Rotation"),
+        TagInfo(0x003F, "Rotation", N_("Rotation"),
                 N_("Rotation"),
                 sony1Cs2IfdId, makerTags, unsignedShort, printMinoltaSonyRotation),
-        TagInfo(0x0084, "SonyImageSize", N_("Sony Image Size"),
+        TagInfo(0x0054, "SonyImageSize", N_("Sony Image Size"),
                 N_("Sony Image Size"),
                 sony1Cs2IfdId, makerTags, unsignedShort, EXV_PRINT_TAG(sonyImageSize)),
         // End of list marker
@@ -687,6 +687,8 @@ namespace Exiv2 {
     {
         return tagInfoCs2_;
     }
+
+    // -- Sony Raw settings 2 ---------------------------------------------------------------
 
     const TagInfo SonyMakerNote::tagInfoSr2_[] = {
         TagInfo(0x7200, "SR2SubIFDOffset", N_("SR2 Sub-IFD Offset"),
@@ -717,6 +719,8 @@ namespace Exiv2 {
     {
         return tagInfoSr2_;
     }
+
+    // -- Sony Raw settings 2 sub tags ---------------------------------------------------------------
 
     const TagInfo SonyMakerNote::tagInfoSr2SubIfd_[] = {
         TagInfo(0x7303, "WB_GRBGLevels", N_("WB GRBG Levels"),
@@ -763,6 +767,8 @@ namespace Exiv2 {
         return tagInfoSr2SubIfd_;
     }
 
+    // -- Sony Raw settings 2 data ---------------------------------------------------------------
+
     const TagInfo SonyMakerNote::tagInfoSr2Data_[] = {
         TagInfo(0x7770, "ColorMode", N_("Color Mode"),
                 N_("Color mode"),
@@ -777,6 +783,8 @@ namespace Exiv2 {
     {
         return tagInfoSr2Data_;
     }
+
+    // -- Sony IDC settings 2 ---------------------------------------------------------------
 
     const TagInfo SonyMakerNote::tagInfoIdc_[] = {
         TagInfo(0x0201, "IDCPreviewStart", N_("IDC Preview Start"),
