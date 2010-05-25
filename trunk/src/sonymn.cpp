@@ -628,7 +628,7 @@ namespace Exiv2 {
     // -- Sony camera settings 2 ---------------------------------------------------------------
 
     // Sony Camera Settings Tag Version 2 Info
-    // NOTE: all are for A330, A380 Sony model
+    // NOTE: for A330, A380, A450, A500, A550 Sony model
 
     const TagInfo SonyMakerNote::tagInfoCs2_[] = {
 
