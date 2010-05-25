@@ -86,7 +86,6 @@ CCSRC =  basicio.cpp           \
 	 makernote.cpp         \
 	 metadatum.cpp         \
 	 minoltamn.cpp         \
-	 minoltasonyvalues.cpp \
 	 mrwimage.cpp          \
 	 nikonmn.cpp           \
 	 olympusmn.cpp         \

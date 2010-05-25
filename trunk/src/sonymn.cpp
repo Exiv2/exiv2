@@ -31,7 +31,7 @@ EXIV2_RCSID("@(#) $Id$")
 // *****************************************************************************
 // included header files
 #include "types.hpp"
-#include "minoltasonyvalues.hpp"
+#include "minoltamn.hpp"
 #include "sonymn.hpp"
 #include "value.hpp"
 #include "i18n.h"                // NLS support.
