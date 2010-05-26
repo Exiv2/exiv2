@@ -1,3 +1,75 @@
+Changes from version 0.19 to 0.20
+---------------------------------
+
+* Exiv2 utility
+	- 0000683: %a broken in rename
+	           (Reported by Göran Uddeborg)
+	- 0000572: It should be possible to insert newlines in text strings.
+	           (Implemented using a new function by Leo Sutic)
+	- 0000562: Exif.Photo.UserComment unicode comment doesn't work
+	           (Debian bug 486884)
+	         - Added -g option to 'grep' info for individual tags.
+
+* Exiv2 library
+	- 0000705: Pentax 645D makernote update
+	           (Patch by Michal Čihař)
+	- 0000704: Update of Pentax makernote
+	           (Patch by Michal Čihař)
+	- 0000701: Nikon Capture NX won't save a NEF file manipulated with exiv2
+	           from SVN
+	           (Reported by Frank Hommes)
+	- 0000699: Padding of XMP data results in invalid XMP JPEG segment larger
+	           than 65535 bytes
+	           (Patch by Joachim Gelhaus)
+	- 0000695: Add XMP support for src/metacopy
+	           (Patch by Nikolai Saoukh)
+	- 0000693: src/psdimage.cpp: operands of ? are integers of different
+	           signs: 'unsigned int' and 'long'
+	           (Patch by Nikolai Saoukh)
+	- 0000690: Wrong conversion of IPTC SpecialInstructions in copyIptcToXmp()
+	           (Patch by Volker Grabsch)
+	- 0000686: LLVM clang: error: default initialization of an object of const
+	           type 'class Exiv2::IptcData const' requires a user-provided
+	           default constructor.
+	           (Reported by Nikolai Saoukh)
+	- 0000684: Exif.Image.SubIFDs should support more than 4 sub-IFDs
+	           (Reported by frith [dot] foottit [at] gmail [dot] com in
+	           digiKam bug 210259)
+	- 0000677: Nikon Makernote tags regression in exiv 0.19
+	           (Reported by Mark Purcell. digiKam bug 224094, Debian bug 579835)
+	- 0000674: ShutterSpeedValue should be a signed rational
+	           (Patch by Olivier Tilloy)
+	- 0000673: Allow XMP sidecar files which start with a UTF-8 BOM
+	           (Reported by Michael Friess)
+	- 0000672: Image file gets deleted when writing to it
+	           (Reported with reproducer by Thomas Beutlich)
+	- 0000671: Writing to read-only TIFF-like file fails
+	- 0000668: "TIFF-safe" setExifData variant
+	- 0000666: Optimize binary array elements
+	- 0000665: Write support for Olympus RAW ORF files
+	- 0000662: Incorrect Unicode encoding of Exif UserComment tag
+	           (Leo Sutic)
+	- 0000659: LensType not reported for Pentax K-x
+	           (Reported by Piotr Ryszkiewicz)
+	- 0000611: Add support for makernote of Sony ARW files
+	           (Gilles Caulier)
+	- 0000569: Unable to write GPS data in ORF files with digikam
+	           (Reported by Johannes Wienke. digiKam bug 170693)
+	         - Added Kipi XMP namespace used by digiKam kipi-plugins
+	           (Gilles Caulier)
+	         - Added iView Media Pro and MS Expression Media XMP schemas.
+	           (Steve Wright)
+	         - Generalized class Error, added class WError for use with
+	           Unicode-Paths.
+	         - Updated Nikon Lens lookup table to v4.3.401.01 of
+	           Robert Rottmerhusen's fmountlens list.
+	         - Various fixes and enhancements when building with MSVC.
+	           (Robin Mills, Thomas Beutlich, Jens Mueller)
+	         - Added several missing TIFF tags (from PageMaker 6.0, Adobe
+	           OPI TIFF, Adobe TIFF&PM6 and TIFF/EP specs).
+	         - Completed support for Nikon makernote (Jens Mueller)
+
+
 Changes from version 0.18.2 to 0.19
 -----------------------------------
 
@@ -203,7 +275,7 @@ Changes from version 0.18-pre2 to 0.18
 	         - [translation] Updated Polish translations.
 	           (Piotr Eljasiak)
 	         - [translation] Updated German translation.
-	           (Oliver Dörr)
+	           (Oliver DÃ¶rr)
 	         - [translation] Updated Slovak translations.
 	           (Ivan Masar)
 
@@ -242,7 +314,7 @@ Changes from version 0.18-pre1 to 0.18-pre2
                   (Reported by chrysn)
                 - [exif] Added Olympus2 makernote support. (Vladimir Nadvornik)
                 - [translation] Updated German translation.
-                  (Oliver Dörr)
+                  (Oliver DÃ¶rr)
                 - [translation] Updated Polish translation.
                   (Piotr Eljasiak)
                 - [design] Removed inline functions from class hierarchies.
@@ -335,7 +407,7 @@ Changes from version 0.16 to 0.17
 	         - [miscellaneous] Define pid_t using a typedef instead of #define in
 	           Windows environments. (Robin Mills)
 	         - [translation] Updated German translation.
-	           (Oliver Dörr)
+	           (Oliver DÃ¶rr)
 	         - [translation] Updated French translation.
 	           (Fabien Salvi)
 	         - [translation] Updated Polish translation.
@@ -368,7 +440,7 @@ Changes from version 0.16-pre1 to 0.16
 	           lens database.
 	         - [doc] Added reference tables for XMP properties to documentation.
 	         - [miscellaneous] Updated German translation.
-	           (Oliver Dörr)
+	           (Oliver DÃ¶rr)
 	         - [miscellaneous] Updated Polish translation.
 	           (Piotr Eljasiak)
 
@@ -405,7 +477,7 @@ Changes from version 0.15 to 0.16-pre1
 	         - [miscellaneous] Updated French translation.
 	           (Olivier Tilloy)
 	         - [miscellaneous] Updated German translation.
-	           (Oliver Dörr)
+	           (Oliver DÃ¶rr)
 	         - [miscellaneous] Updated Polish translation.
 	           (Piotr Eljasiak)
 	         - [miscellaneous] Updated Russian translation.
@@ -444,7 +516,7 @@ Changes from version 0.14 to 0.15
 	           lookup table. (Patrick Markert)
 	         - [Exif] Canon ModelId patch. (Gerry Patterson)
 	         - [miscellaneous] Updated German translation. 
-	           (Oliver Dörr)
+	           (Oliver DÃ¶rr)
 	         - [miscellaneous] Updated Russian translation. 
 	           (Alexandre Prokoudine)
 	         - [miscellaneous] Updated French translation. 
@@ -482,7 +554,7 @@ Changes from version 0.13 to 0.14
 	         - [miscellaneous] Fixed version check macro to actually check the 
 	           runtime version and not the compile-time version. Added version() 
 	           and versionNumber() functions.
-	         - [miscellaneous] Updated German translation. (Oliver Dörr)
+	         - [miscellaneous] Updated German translation. (Oliver DÃ¶rr)
 	         - [miscellaneous] Changed name of installed translation files to
 	           lower case exiv2.mo. (Highlighted by Angelo Naselli)
 
@@ -510,7 +582,7 @@ Changes from version 0.12 to 0.13
 	           The currently available translations are still work in progress:
 	           Finnish by Mikael Lammentausta
 	           French by Gilles Caulier (ported from libexif) and Olivier Tilloy
-	           German by Gilles Caulier (ported from libexif) and Oliver Dörr
+	           German by Gilles Caulier (ported from libexif) and Oliver DÃ¶rr
 	           Russian by Alexandre Prokoudine
 	           Polish, Spanish by Gilles Caulier, ported from libexif
 	- 0000460: [exif] Exiv2 should support to decode/encode Windows tags
