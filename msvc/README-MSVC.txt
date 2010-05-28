@@ -5,8 +5,11 @@ Tools
 -----
 
 Created With:   VC9    (VS/2008 Std)
-Tested  With:   VC7.1, VC8 Pro +SP1, VC9Std and VC9Express
+Tested  With:   VC7.1, VC8 Pro +SP1, VC9Std (Windows/XP 32bit)
+                                     VC9 Team Studio (Windows/7 64bit)
                (VC7.1 = VS/2003 .Net; VC8 = VS/2005; VC9 = VS/2008)
+              
+All builds are 32 bit.  There is no DevStudio support for 64bit builds of Exiv2 and dependancies.
 
 1)  Build environments (solution files)
     exiv2.sln           - this builds the exiv2 libraries   (static and dynamic)
@@ -109,7 +112,8 @@ How to build and test exiv2 (with/without organize.exe)
     metacopy.exe: Read and write files must be specified
     bla bla white sheep......
 
-    C:\gnu\exiv2\msvc>diff.exe   runner.txt new.txt
+    C:\gnu\exiv2\msvc>diff.exe   runner.txt  new.txt (Windows/XP)
+    C:\gnu\exiv2\msvc>diff.exe   runner7.txt new.txt (Windows/7)
     --- no differences should be reported --
     
     The test takes less than 1 minute and runs 200+ different test programs.
