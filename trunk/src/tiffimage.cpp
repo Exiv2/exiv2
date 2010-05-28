@@ -543,6 +543,7 @@ namespace Exiv2 {
         true,             // Concatenate gaps
         { 0, ttUnsignedByte,  1 }
     };
+    //! Nikon Flash Info binary array - definition 1
     extern const ArrayDef nikonFl1Def[] = {
         {  0, ttUndefined,     4 }, // Version
         {  4, ttUnsignedByte,  1 }, // FlashSource
@@ -566,6 +567,7 @@ namespace Exiv2 {
         true,             // Concatenate gaps
         { 0, ttUnsignedByte,  1 }
     };
+    //! Nikon Flash Info binary array - definition 2
     extern const ArrayDef nikonFl2Def[] = {
         {  0, ttUndefined,     4 }, // Version
         {  4, ttUnsignedByte,  1 }, // FlashSource
