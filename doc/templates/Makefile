@@ -66,6 +66,12 @@ TABLES = Exif \
          NikonWt \
          NikonIi \
          NikonAf \
+         NikonAf2 \
+         NikonFi \
+         NikonMe \
+         NikonFl1 \
+         NikonFl2 \
+         NikonFl3 \
          NikonSiD80 \
          NikonSiD40 \
          NikonSiD300a \
@@ -93,7 +99,13 @@ TABLES = Exif \
          PanasonicRaw \
          Pentax \
          Sigma \
-         Sony
+         Sony1 \
+         SonyMinolta \
+         Sony1Cs \
+         Sony1Cs2 \
+         Sony1MltCs7D \
+         Sony1MltCsOld \
+         Sony1MltCsA100
 
 SCHEMA = xmp_dc \
          xmp_xmp \

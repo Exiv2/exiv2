@@ -1364,7 +1364,7 @@ namespace Exiv2 {
                 sony1MltCsA100IfdId, makerTags, unsignedShort, EXV_PRINT_TAG(sonyColorSpaceA100)),
         TagInfo(0x0018, "Sharpness", N_("Sharpness"),
                 N_("Sharpness"),
-                sony1CsIfdId, makerTags, unsignedShort, printValue),
+                sony1MltCsA100IfdId, makerTags, unsignedShort, printValue),
         TagInfo(0x0019, "Contrast", N_("Contrast"),
                 N_("Contrast"),
                 sony1MltCsA100IfdId, makerTags, unsignedShort, printValue),
