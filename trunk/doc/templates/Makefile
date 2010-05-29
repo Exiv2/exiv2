@@ -123,8 +123,11 @@ SCHEMA = xmp_dc \
          xmp_iptc \
          xmp_MicrosoftPhoto \
          xmp_digiKam \
+         xmp_kipi \
          xmp_iptcExt \
-         xmp_plus
+         xmp_plus \
+         xmp_mediapro \
+         xmp_expressionmedia
 
 TAGLIST = ../../src/taglist
 

@@ -94,7 +94,7 @@ namespace Exiv2 {
         // Schemas   -   NOTE: Schemas which the XMP-SDK doesn't know must be registered in XmpParser::initialize - Todo: Automate this
         { "http://purl.org/dc/elements/1.1/",             "dc",             xmpDcInfo,        N_("Dublin Core schema")                        },
         { "http://www.digikam.org/ns/1.0/",               "digiKam",        xmpDigikamInfo,   N_("digiKam Photo Management schema")           },
-        { "http://www.digikam.org/ns/kipi/1.0/",          "kipi",           xmpKipiInfo,      N_("KDE Image Program Interface schema")           },
+        { "http://www.digikam.org/ns/kipi/1.0/",          "kipi",           xmpKipiInfo,      N_("KDE Image Program Interface schema")        },
         { "http://ns.adobe.com/xap/1.0/",                 "xmp",            xmpXmpInfo,       N_("XMP Basic schema")                          },
         { "http://ns.adobe.com/xap/1.0/rights/",          "xmpRights",      xmpXmpRightsInfo, N_("XMP Rights Management schema")              },
         { "http://ns.adobe.com/xap/1.0/mm/",              "xmpMM",          xmpXmpMMInfo,     N_("XMP Media Management schema")               },
