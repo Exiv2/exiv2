@@ -525,7 +525,7 @@ namespace Exiv2 {
         { 4,    N_("Shutter speed priority AE") },
         { 8,    N_("Program Shift A")           },
         { 9,    N_("Program Shift S")           },
-        { 16,    N_("Portrait")                  },
+        { 16,   N_("Portrait")                  },
         { 17,   N_("Sports")                    },
         { 18,   N_("Sunset")                    },
         { 19,   N_("Night Portrait")            },
