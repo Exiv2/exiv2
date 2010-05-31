@@ -136,8 +136,9 @@ namespace Exiv2 {
 
     //! Lookup table to translate Sony Quality values to readable labels
     extern const TagDetails sonyQuality[] = {
-        { 0, N_("Normal") },
-        { 1, N_("Fine")   }
+        { 0,     N_("Normal") },
+        { 1,     N_("Fine")   },
+        { 65535, N_("n/a")    }
     };
 
     //! Lookup table to translate Sony anti-blur values to readable labels
