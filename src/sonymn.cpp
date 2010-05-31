@@ -227,6 +227,7 @@ namespace Exiv2 {
             else if (val == "2000") os << "ARW 1.0";
             else if (val == "3000") os << "ARW 2.0";
             else if (val == "3100") os << "ARW 2.1";
+            else if (val == "3200") os << "ARW 2.2";
             else                    os << "(" << value << ")";
         }
         return os;
@@ -314,6 +315,7 @@ namespace Exiv2 {
         TagInfo(0x200A, "HDR", N_("HDR"),
                 N_("High Definition Range Mode"),
                 sony1IfdId, makerTags, unsignedLong, EXV_PRINT_TAG(sonyHDRMode)),
+        // TODO : Implement Shot Info tags decoding.
         TagInfo(0x3000, "ShotInfo", N_("Shot Info"),
                 N_("Shot Information"),
                 sony1IfdId, makerTags, undefined, printValue),
