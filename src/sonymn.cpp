@@ -50,7 +50,7 @@ namespace Exiv2 {
     // -- Standard Sony Makernotes tags ---------------------------------------------------------------
 
     //! Lookup table to translate Sony Auto HDR values to readable labels
-    extern const TagDetails sonyAutoHDR[] = {
+    extern const TagDetails sonyHDRMode[] = {
         { 0x00000, N_("Off")   },
         { 0x10001, N_("Auto")  },
         { 0x10010, "1"         },
@@ -311,9 +311,9 @@ namespace Exiv2 {
         TagInfo(0x2009, "0x2009", "0x2009",
                 N_("Unknown"),
                 sony1IfdId, makerTags, unsignedShort, printValue),
-        TagInfo(0x200A, "AutoHDR", N_("Auto HDR"),
-                N_("Auto High Definition Range"),
-                sony1IfdId, makerTags, unsignedLong, EXV_PRINT_TAG(sonyAutoHDR)),
+        TagInfo(0x200A, "HDR", N_("HDR"),
+                N_("High Definition Range Mode"),
+                sony1IfdId, makerTags, unsignedLong, EXV_PRINT_TAG(sonyHDRMode)),
         TagInfo(0x3000, "ShotInfo", N_("Shot Info"),
                 N_("Shot Information"),
                 sony1IfdId, makerTags, undefined, printValue),
