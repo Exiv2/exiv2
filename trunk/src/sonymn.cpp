@@ -51,8 +51,13 @@ namespace Exiv2 {
 
     //! Lookup table to translate Sony Auto HDR values to readable labels
     extern const TagDetails sonyAutoHDR[] = {
-        { 0x00000, N_("Off") },
-        { 0x10001, N_("On")  }
+        { 0x00000, N_("Off")   },
+        { 0x10001, N_("Auto")  },
+        { 0x10010, "1"         },
+        { 0x10012, "2"         },
+        { 0x10014, "3"         },
+        { 0x10016, "4"         },
+        { 0x10018, "5"         }
     };
 
     //! Lookup table to translate Sony model ID values to readable labels
