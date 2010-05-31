@@ -180,6 +180,7 @@ namespace Exiv2 {
 
     //! Lookup table to translate Sony AF mode values to readable labels
     extern const TagDetails sonyAFMode[] = {
+        { 0,     N_("Default")          },
         { 1,     N_("Multi AF")         },
         { 2,     N_("Center AF")        },
         { 3,     N_("Spot AF")          },
