@@ -195,10 +195,18 @@ namespace Exiv2 {
         { 2, N_("n/a") }
     };
 
+    //! Lookup table to translate Sony macro mode values to readable labels
+    extern const TagDetails sonyMacroMode[] = {
+        { 0,     N_("Off")         },
+        { 1,     N_("On")          },
+        { 2,     N_("Close Focus") },
+        { 65535, N_("n/a")         }
+    };
+
     //! Lookup table to translate Sony flash level values to readable labels
     extern const TagDetails sonyFlashLevel[] = {
         { -32768, N_("Off")    },
-        { -1,     N_("n/a")    },
+        { -1,     N_("On")    },
         { 0,      N_("Normal") },
         { 32767,  N_("High")   }
     };
@@ -368,7 +376,7 @@ namespace Exiv2 {
                 sony1IfdId, makerTags, unsignedLong, printImageSize),
         TagInfo(0xB040, "Macro", N_("Macro"),
                 N_("Macro"),
-                sony1IfdId, makerTags, unsignedShort, printMinoltaSonyBoolValue),
+                sony1IfdId, makerTags, unsignedShort, EXV_PRINT_TAG(sonyMacroMode)),
         TagInfo(0xB041, "ExposureMode", N_("Exposure Mode"),
                 N_("Exposure Mode"),
                 sony1IfdId, makerTags, unsignedShort, EXV_PRINT_TAG(sonyExposureMode)),
