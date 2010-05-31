@@ -97,7 +97,12 @@ namespace Exiv2 {
         { 9,  N_("Advanced Lv2")  },
         { 10, N_("Advanced Lv3")  },
         { 11, N_("Advanced Lv4")  },
-        { 12, N_("Advanced Lv5")  }
+        { 12, N_("Advanced Lv5")  },
+        { 16, "1"                 },
+        { 17, "2"                 },
+        { 18, "3"                 },
+        { 19, "4"                 },
+        { 20, "5"                 }
     };
 
     //! Lookup table to translate Sony exposure mode values to readable labels
