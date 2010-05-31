@@ -165,10 +165,17 @@ namespace Exiv2 {
 
     //! Lookup table to translate Sony WB values to readable labels
     extern const TagDetails sonyWhiteBalance[] = {
-        { 0,  N_("Auto")          },
-        { 4,  N_("Manual")        },
-        { 5,  N_("Daylight")      },
-        { 14, N_("Incandescent")  }
+        { 0,  N_("Auto")                       },
+        { 4,  N_("Manual")                     },
+        { 5,  N_("Daylight")                   },
+        { 6,  N_("Cloudy")                     },
+        { 7,  N_("White Flourescent")          },
+        { 8,  N_("Cool White Flourescent")     },
+        { 9,  N_("Day White Flourescent")      },
+        { 14, N_("Incandescent")               },
+        { 15, N_("Flash")                      },
+        { 17, N_("Underwater 1 (Blue Water)")  },
+        { 18, N_("Underwater 2 (Green Water)") }
     };
 
     //! Lookup table to translate Sony AF mode values to readable labels
