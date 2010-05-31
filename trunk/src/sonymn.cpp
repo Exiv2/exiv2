@@ -70,7 +70,9 @@ namespace Exiv2 {
         { 269, "DSLR-A850" },
         { 273, "DSLR-A550" },
         { 274, "DSLR-A500" },
-        { 275, "DSLR-A450" }
+        { 275, "DSLR-A450" },
+        { 278, "NEX-5"     },
+        { 279, "NEX-3"     }
     };
 
     //! Lookup table to translate Sony zone matching values to readable labels
