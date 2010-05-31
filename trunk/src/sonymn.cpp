@@ -209,8 +209,8 @@ namespace Exiv2 {
 
     //! Lookup table to translate Sony flash level values to readable labels
     extern const TagDetails sonyFlashLevel[] = {
-        { -32768, N_("Off")    },
-        { -1,     N_("On")    },
+        { -32768, N_("Low")    },
+        { -1,     N_("n/a")    },
         { 0,      N_("Normal") },
         { 32767,  N_("High")   }
     };
