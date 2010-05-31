@@ -146,7 +146,7 @@ namespace Exiv2 {
         { 0,     N_("Off")             },
         { 1,     N_("On (Continuous)") },
         { 2,     N_("On (Shooting)")   },
-        { 65535, N_("Not Applicable")  }
+        { 65535, N_("n/a")             }
     };
 
     //! Lookup table to translate Sony dynamic range optimizer values to readable labels
@@ -217,17 +217,24 @@ namespace Exiv2 {
 
     //! Lookup table to translate Sony release mode values to readable labels
     extern const TagDetails sonyReleaseMode[] = {
-        { 0,     N_("Normal")                    },
-        { 2,     N_("Burst")                     },
-        { 5,     N_("Exposure Bracketing ")      },
-        { 6,     N_("White Balance Bracketing ") },
-        { 65535, N_("n/a")                       }
+        { 0,     N_("Normal")                   },
+        { 2,     N_("Burst")                    },
+        { 5,     N_("Exposure Bracketing")      },
+        { 6,     N_("White Balance Bracketing") },
+        { 65535, N_("n/a")                      }
     };
 
     //! Lookup table to translate Sony sequence number values to readable labels
     extern const TagDetails sonySequenceNumber[] = {
         { 0,     N_("Single")                    },
         { 65535, N_("n/a")                       }
+    };
+
+    //! Lookup table to translate Sony long exposure noise reduction values to readable labels
+    extern const TagDetails sonyLongExposureNoiseReduction[] = {
+        { 0,     N_("Off") },
+        { 1,     N_("On")  },
+        { 65535, N_("n/a") }
     };
 
     std::ostream& SonyMakerNote::print0xb000(std::ostream& os, const Value& value, const ExifData*)
@@ -410,7 +417,7 @@ namespace Exiv2 {
                 sony1IfdId, makerTags, unsignedShort, EXV_PRINT_TAG(sonyAntiBlur)),
         TagInfo(0xB04E, "LongExposureNoiseReduction", N_("Long Exposure Noise Reduction"),
                 N_("Long Exposure Noise Reduction"),
-                sony1IfdId, makerTags, unsignedShort, printMinoltaSonyBoolValue),
+                sony1IfdId, makerTags, unsignedShort, EXV_PRINT_TAG(sonyLongExposureNoiseReduction)),
         TagInfo(0xB04F, "DynamicRangeOptimizer", N_("Dynamic Range Optimizer"),
                 N_("Dynamic Range Optimizer"),
                 sony1IfdId, makerTags, unsignedShort, EXV_PRINT_TAG(print0xb04f)),
