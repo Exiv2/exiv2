@@ -976,10 +976,10 @@ namespace Exiv2 {
         TagInfo(0x000E, "WhiteBalance", N_("White Balance"),
                 N_("White balance"),
                 minoltaCs5DIfdId, makerTags, unsignedShort, EXV_PRINT_TAG(minoltaWhiteBalance5D)),
-        TagInfo(0x001a, "FocusPosition", N_("Focus Position"),
+        TagInfo(0x001A, "FocusPosition", N_("Focus Position"),
                 N_("Focus position"),
                 minoltaCs5DIfdId, makerTags, unsignedShort, EXV_PRINT_TAG(minoltaFocusPosition5D)),
-        TagInfo(0x001b, "FocusArea", N_("Focus Area"),
+        TagInfo(0x001B, "FocusArea", N_("Focus Area"),
                 N_("Focus area"),
                 minoltaCs5DIfdId, makerTags, unsignedShort, EXV_PRINT_TAG(minoltaFocusArea5D)),
         TagInfo(0x001F, "FlashFired", N_("Flash Fired"),
@@ -1030,7 +1030,7 @@ namespace Exiv2 {
         TagInfo(0x0091, "ExposureManualBias", N_("Exposure Manual Bias"),
                 N_("Exposure manual bias"),
                 minoltaCs5DIfdId, makerTags, unsignedShort, printMinoltaExposureManualBias5D),
-        TagInfo(0x009e, "AFMode", N_("AF Mode"),
+        TagInfo(0x009E, "AFMode", N_("AF Mode"),
                 N_("AF mode"),
                 minoltaCs5DIfdId, makerTags, unsignedShort, EXV_PRINT_TAG(minoltaAFMode5D)),
         TagInfo(0x00AE, "ImageNumber", N_("Image Number"),
@@ -1050,7 +1050,7 @@ namespace Exiv2 {
         // value and Exposure time is exp(-4+value*0.085)
 
         // End of list marker
-        TagInfo(0xffff, "(UnknownMinoltaCs5DTag)", "(UnknownMinoltaCs5DTag)",
+        TagInfo(0xFFFF, "(UnknownMinoltaCs5DTag)", "(UnknownMinoltaCs5DTag)",
                 N_("Unknown Minolta Camera Settings 5D tag"),
                 minoltaCs5DIfdId, makerTags, invalidTypeId, printValue)
     };
@@ -1087,10 +1087,10 @@ namespace Exiv2 {
 
     //! Lookup table to translate Sony A100 camera settings flash mode values to readable labels
     extern const TagDetails sonyFlashModeA100[] = {
-        { 0, N_("Auto") },
-        { 2, N_("Rear flash sync")   },
-        { 3, N_("Wireless")          },
-        { 4, N_("Fill flash")        },
+        { 0, N_("Auto")            },
+        { 2, N_("Rear flash sync") },
+        { 3, N_("Wireless")        },
+        { 4, N_("Fill flash")      }
     };
 
     //! Lookup table to translate Sony A100 camera settings metering mode values to readable labels
@@ -1195,8 +1195,8 @@ namespace Exiv2 {
 
     //! Lookup table to translate Sony A100 camera settings flash default setup values to readable labels
     extern const TagDetails sonyFlashDefaultA100[] = {
-        { 0, N_("Auto") },
-        { 1, N_("Fill Flash")   }
+        { 0, N_("Auto")       },
+        { 1, N_("Fill Flash") }
     };
 
     //! Lookup table to translate Sony A100 camera settings auto bracket order values to readable labels
@@ -1252,8 +1252,8 @@ namespace Exiv2 {
 
     //! Lookup table to translate Sony A100 camera settings play display values to readable labels
     extern const TagDetails sonyPlayDisplayA100[] = {
-        { 0, N_("Auto-rotate") },
-        { 1, N_("Manual Rotate")  }
+        { 0, N_("Auto-rotate")   },
+        { 1, N_("Manual Rotate") }
     };
 
     //! Lookup table to translate Sony A100 camera settings metering off scale indicator values to readable labels
@@ -1292,14 +1292,14 @@ namespace Exiv2 {
     //! Lookup table to translate Sony A100 camera settings focus mode switch values to readable labels
     extern const TagDetails sonyFocusModeSwitchA100[] = {
         { 0, N_("AM") },
-        { 1, N_("MF")  }
+        { 1, N_("MF") }
     };
 
     //! Lookup table to translate Sony A100 camera settings flash type switch values to readable labels
     extern const TagDetails sonyFlashTypeA100[] = {
-        { 0, N_("Off") },
+        { 0, N_("Off")      },
         { 1, N_("Built-in") },
-        { 2, N_("External")  }
+        { 2, N_("External") }
     };
 
     //! Lookup table to translate Sony A100 camera settings battery level switch values to readable labels
@@ -1881,8 +1881,8 @@ namespace Exiv2 {
 
     //! Lookup table to translate Minolta/Sony bool inverse function values to readable labels
     extern const TagDetails minoltaSonyBoolInverseFunction[] = {
-        { 0, N_("On") },
-        { 1, N_("Off")  }
+        { 0, N_("On")  },
+        { 1, N_("Off") }
     };
 
     std::ostream& printMinoltaSonyBoolInverseValue(std::ostream& os, const Value& value, const ExifData* metadata)
@@ -1946,8 +1946,8 @@ namespace Exiv2 {
 
     //! Lookup table to translate Sony camera settings priority setup shutter release values to readable labels
     extern const TagDetails minoltaSonyPrioritySetupShutterRelease[] = {
-        { 0, N_("AF") },
-        { 1, N_("Release") },
+        { 0, N_("AF")      },
+        { 1, N_("Release") }
     };
 
     std::ostream& printMinoltaSonyPrioritySetupShutterRelease(std::ostream& os, const Value& value, const ExifData* metadata)
