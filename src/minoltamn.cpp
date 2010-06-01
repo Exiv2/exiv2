@@ -1128,7 +1128,15 @@ namespace Exiv2 {
         { 2, N_("Spot")                    }
     };
 
+    //! Lookup table to translate Sony A100 camera settings zone matching mode values to readable labels
+    extern const TagDetails sonyZoneMatchingModeA100[] = {
+        { 0,    N_("Off")      },
+        { 1,    N_("Standard") },
+        { 2,    N_("Advanced") }
+    };
+
     //! Lookup table to translate Sony A100 camera settings color space values to readable labels
+
     extern const TagDetails sonyColorSpaceA100[] = {
         { 0, N_("sRGB")      },
         { 5, N_("Adobe RGB") }
@@ -1388,6 +1396,9 @@ namespace Exiv2 {
         TagInfo(0x0013, "ISOSetting", N_("ISO Setting"),
                 N_("ISO setting"),
                 sony1MltCsA100IfdId, makerTags, unsignedShort, printValue),
+        TagInfo(0x0014, "ZoneMatchingMode", N_("Zone Matching Mode"),
+                N_("Zone Matching Mode"),
+                sony1MltCsA100IfdId, makerTags, unsignedShort, EXV_PRINT_TAG(sonyZoneMatchingModeA100)),
         TagInfo(0x0015, "DynamicRangeOptimizerMode", N_("Dynamic Range Optimizer Mode"),
                 N_("Dynamic range optimizer mode"),
                 sony1MltCsA100IfdId, makerTags, unsignedShort, printMinoltaSonyDynamicRangeOptimizerMode),
