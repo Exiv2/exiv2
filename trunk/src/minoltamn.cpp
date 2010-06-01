@@ -746,11 +746,11 @@ namespace Exiv2 {
         TagInfo(0x0000, "ExposureMode", N_("Exposure Mode"),
                 N_("Exposure mode"),
                 minoltaCs7DIfdId, makerTags, unsignedShort, EXV_PRINT_TAG(minoltaExposureMode7D)),
-        TagInfo(0x0002, "ImageSize", N_("Image Size"),
-                N_("Image size"),
+        TagInfo(0x0002, "MinoltaImageSize", N_("Minolta Image Size"),
+                N_("Minolta Image size"),
                 minoltaCs7DIfdId, makerTags, unsignedShort, EXV_PRINT_TAG(minoltaImageSize7D)),
-        TagInfo(0x0003, "Quality", N_("Image Quality"),
-                N_("Image quality"),
+        TagInfo(0x0003, "MinoltaQuality", N_("Minolta Image Quality"),
+                N_("Minolta Image quality"),
                 minoltaCs7DIfdId, makerTags, unsignedShort, EXV_PRINT_TAG(minoltaImageQuality7D)),
         TagInfo(0x0004, "WhiteBalance", N_("White Balance"),
                 N_("White balance"),
@@ -902,6 +902,15 @@ namespace Exiv2 {
         { 10, N_("80 (Zone Matching Low)")   }
     };
 
+    //! Lookup table to translate Minolta Dynax 5D camera settings color space values to readable labels
+    extern const TagDetails minoltaColorSpace5D[] = {
+        { 0, N_("sRGB (Natural)")  },
+        { 1, N_("sRGB (Natural+)") },
+        { 2, N_("Monochrome")      },
+        { 3, N_("Adobe RGB (ICC)") },
+        { 4, N_("Adobe RGB")       }
+    };
+
     //! Lookup table to translate Minolta Dynax 5D camera settings rotation values to readable labels
     extern const TagDetails minoltaRotation5D[] = {
         { 72, N_("Horizontal (normal)") },
@@ -967,11 +976,11 @@ namespace Exiv2 {
         TagInfo(0x000A, "ExposureMode", N_("Exposure Mode"),
                 N_("Exposure mode"),
                 minoltaCs5DIfdId, makerTags, unsignedShort, EXV_PRINT_TAG(minoltaExposureMode5D)),
-        TagInfo(0x000C, "ImageSize", N_("Image Size"),
-                N_("Image size"),
+        TagInfo(0x000C, "MinoltaImageSize", N_("Minolta Image Size"),
+                N_("Minolta Image size"),
                 minoltaCs5DIfdId, makerTags, unsignedShort, EXV_PRINT_TAG(minoltaImageSize5D)),
-        TagInfo(0x000D, "Quality", N_("Image Quality"),
-                N_("Image quality"),
+        TagInfo(0x000D, "MinoltaQuality", N_("Minolta Image Quality"),
+                N_("Minolta Image quality"),
                 minoltaCs5DIfdId, makerTags, unsignedShort, EXV_PRINT_TAG(minoltaImageQuality5D)),
         TagInfo(0x000E, "WhiteBalance", N_("White Balance"),
                 N_("White balance"),
@@ -991,6 +1000,9 @@ namespace Exiv2 {
         TagInfo(0x0026, "ISOSpeed", N_("ISO Speed Mode"),
                 N_("ISO speed setting"),
                 minoltaCs5DIfdId, makerTags, unsignedShort, EXV_PRINT_TAG(minoltaISOSetting5D)),
+        TagInfo(0x002F, "ColorSpace", N_("Color Space"),
+                N_("Color space"),
+                minoltaCs5DIfdId, makerTags, unsignedShort, EXV_PRINT_TAG(minoltaColorSpace5D)),
         TagInfo(0x0030, "Sharpness", N_("Sharpness"),
                 N_("Sharpness"),
                 minoltaCs5DIfdId, makerTags, unsignedShort, printValue),
