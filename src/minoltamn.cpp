@@ -77,13 +77,6 @@ namespace Exiv2 {
         { 5, N_("Extra Fine") }
     };
 
-    //! Lookup table to translate Minolta zone matching values
-    extern const TagDetails minoltaZoneMatching[] = {
-        { 0, N_("ISO Setting Used") },
-        { 1, N_("High Key")         },
-        { 2, N_("Low Key")          }
-    };
-
     //! Lookup table to translate Minolta image stabilization values
     extern const TagDetails minoltaImageStabilization[] = {
         { 1, N_("Off") },
@@ -157,7 +150,7 @@ namespace Exiv2 {
                 minoltaIfdId, makerTags, unsignedLong, printMinoltaSonyBoolValue),
         TagInfo(0x010a, "ZoneMatching", N_("Zone Matching"),
                 N_("Zone matching"),
-                minoltaIfdId, makerTags, unsignedLong, EXV_PRINT_TAG(minoltaZoneMatching)),
+                minoltaIfdId, makerTags, unsignedLong, printMinoltaSonyZoneMatching),
         TagInfo(0x010b, "ColorTemperature", N_("Color Temperature"),
                 N_("Color temperature"),
                 minoltaIfdId, makerTags, unsignedLong, printValue),
@@ -2101,4 +2094,15 @@ namespace Exiv2 {
         return EXV_PRINT_TAG(minoltaSonyWhiteBalanceStd)(os, value, metadata);
     }
 
+    //! Lookup table to translate Sony/Minolta zone matching values to readable labels
+    extern const TagDetails minoltaSonyZoneMatching[] = {
+        { 0, N_("ISO Setting Used") },
+        { 1, N_("High Key") },
+        { 2, N_("Low Key")  }
+    };
+
+    std::ostream& printMinoltaSonyZoneMatching(std::ostream& os, const Value& value, const ExifData* metadata)
+    {
+        return EXV_PRINT_TAG(minoltaSonyZoneMatching)(os, value, metadata);
+    }
 }                                       // namespace Exiv2
