@@ -107,6 +107,10 @@ namespace Exiv2 {
         TagInfo(0x0018, "ImageStabilizationData", N_("Image Stabilization Data"),
                 N_("Image stabilization data"),
                 minoltaIfdId, makerTags, undefined, printValue),
+        // TODO: Implement WB Info A100 tags decoding.
+        TagInfo(0x0020, "WBInfoA100", N_("WB Info A100"),
+                N_("White balance information for the Sony DSLR-A100"),
+                minoltaIfdId, makerTags, undefined, printValue),
         TagInfo(0x0040, "CompressedImageSize", N_("Compressed Image Size"),
                 N_("Compressed image size"),
                 minoltaIfdId, makerTags, unsignedLong, printValue),
@@ -123,7 +127,7 @@ namespace Exiv2 {
                 N_("Scene Mode"),
                 minoltaIfdId, makerTags, unsignedLong, printMinoltaSonySceneMode),
 
-        // TODO: for A100, use Sony table from minoltasonyvallue.cpp::printMinoltaSonyColorMode().
+        // TODO: for A100, use Sony table from printMinoltaSonyColorMode().
         TagInfo(0x0101, "ColorMode", N_("Color Mode"),
                 N_("Color mode"),
                 minoltaIfdId, makerTags, unsignedLong, EXV_PRINT_TAG(minoltaColorMode)),
@@ -133,6 +137,9 @@ namespace Exiv2 {
                 minoltaIfdId, makerTags, unsignedLong, printMinoltaSonyImageQuality),
 
         // TODO: Tag 0x0103 : quality or image size (see ExifTool doc).
+        TagInfo(0x0103, "0x0103", N_("0x0103"),
+                N_("0x0103"),
+                minoltaIfdId, makerTags, unsignedLong, printValue),
 
         TagInfo(0x0104, "FlashExposureComp", N_("Flash Exposure Compensation"),
                 N_("Flash exposure compensation in EV"),
@@ -161,12 +168,15 @@ namespace Exiv2 {
         TagInfo(0x0112, "WhiteBalanceFineTune", N_("White Balance Fine Tune"),
                 N_("White Balance Fine Tune Value"),
                 minoltaIfdId, makerTags, unsignedLong, printValue),
-        TagInfo(0x0113, "ImageStabilization", N_("Image Stabilization"),
-                N_("Image Stabilization"),
+        TagInfo(0x0113, "ImageStabilizationA100", N_("Image Stabilization A100"),
+                N_("Image Stabilization for the Sony DSLR-A100"),
                 minoltaIfdId, makerTags, unsignedLong, printMinoltaSonyBoolValue),
+
+        // TODO: implement CameraSettingsA100 tags decoding.
         TagInfo(0x0114, "CameraSettings5D", N_("Camera Settings (5D)"),
                 N_("Camera Settings (for Dynax 5D model)"),
                 minoltaIfdId, makerTags, undefined, printValue),
+
         TagInfo(0x0115, "WhiteBalance", N_("White Balance"),
                 N_("White balance"),
                 minoltaIfdId, makerTags, unsignedLong, printMinoltaSonyWhiteBalanceStd),
@@ -203,7 +213,8 @@ namespace Exiv2 {
         { 0, N_("Fill flash")        },
         { 1, N_("Red-eye reduction") },
         { 2, N_("Rear flash sync")   },
-        { 3, N_("Wireless")          }
+        { 3, N_("Wireless")          },
+        { 4, N_("Off")               }
     };
 
     //! Lookup table to translate Minolta Std camera settings white balance values to readable labels
@@ -253,9 +264,9 @@ namespace Exiv2 {
 
     //! Lookup table to translate Minolta Std camera settings metering mode values to readable labels
     extern const TagDetails minoltaMeteringModeStd[] = {
-        { 0, N_("Multi-segment")   },
-        { 1, N_("Center weighted") },
-        { 2, N_("Spot")            }
+        { 0, N_("Multi-segment")           },
+        { 1, N_("Center weighted average") },
+        { 2, N_("Spot")                    }
     };
 
     //! Lookup table to translate Minolta Std camera settings digital zoom values to readable labels
@@ -488,11 +499,11 @@ namespace Exiv2 {
         TagInfo(0x0003, "WhiteBalance", N_("White Balance"),
                 N_("White balance"),
                 minoltaCsNewIfdId, makerTags, unsignedLong, EXV_PRINT_TAG(minoltaWhiteBalanceStd)),
-        TagInfo(0x0004, "ImageSize", N_("Image Size"),
-                N_("Image size"),
+        TagInfo(0x0004, "MinoltaImageSize", N_("Minolta Image Size"),
+                N_("Minolta Image size"),
                 minoltaCsNewIfdId, makerTags, unsignedLong, EXV_PRINT_TAG(minoltaImageSizeStd)),
-        TagInfo(0x0005, "Quality", N_("Image Quality"),
-                N_("Image quality"),
+        TagInfo(0x0005, "MinoltaQuality", N_("Minolta Image Quality"),
+                N_("Minolta Image quality"),
                 minoltaCsNewIfdId, makerTags, unsignedLong, EXV_PRINT_TAG(minoltaImageQualityStd)),
         TagInfo(0x0006, "DriveMode", N_("Drive Mode"),
                 N_("Drive mode"),
