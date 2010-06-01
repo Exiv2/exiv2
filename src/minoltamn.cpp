@@ -107,10 +107,12 @@ namespace Exiv2 {
         TagInfo(0x0018, "ImageStabilizationData", N_("Image Stabilization Data"),
                 N_("Image stabilization data"),
                 minoltaIfdId, makerTags, undefined, printValue),
+
         // TODO: Implement WB Info A100 tags decoding.
         TagInfo(0x0020, "WBInfoA100", N_("WB Info A100"),
                 N_("White balance information for the Sony DSLR-A100"),
                 minoltaIfdId, makerTags, undefined, printValue),
+
         TagInfo(0x0040, "CompressedImageSize", N_("Compressed Image Size"),
                 N_("Compressed image size"),
                 minoltaIfdId, makerTags, unsignedLong, printValue),
@@ -697,8 +699,8 @@ namespace Exiv2 {
     extern const TagDetails minoltaFocusMode7D[] = {
         { 0, N_("Single-shot AF") },
         { 1, N_("Continuous AF")  },
-        { 3, N_("Automatic AF")   },
-        { 4, N_("Manual")         }
+        { 3, N_("Manual")         },
+        { 4, N_("Automatic AF")   }
     };
 
     //! Lookup table to translate Minolta Dynax 7D camera settings AF points values to readable labels
@@ -936,12 +938,6 @@ namespace Exiv2 {
         { 3, "DMF"  }
     };
 
-    //! Lookup table to translate Minolta Dynax 5D camera settings focus mode values to readable labels
-    extern const TagDetails minoltaFocusMode5D[] = {
-        { 0, "AF" },
-        { 1, "MF" }
-    };
-
     //! Method to convert Minolta Dynax 5D exposure manual bias values.
     std::ostream& MinoltaMakerNote::printMinoltaExposureManualBias5D(std::ostream& os, const Value& value, const ExifData*)
     {
@@ -1018,7 +1014,7 @@ namespace Exiv2 {
                 minoltaCs5DIfdId, makerTags, unsignedShort, printValue),
         TagInfo(0x0048, "FocusMode", N_("Focus Mode"),
                 N_("Focus mode"),
-                minoltaCs5DIfdId, makerTags, unsignedShort, EXV_PRINT_TAG(minoltaFocusMode5D)),
+                minoltaCs5DIfdId, makerTags, unsignedShort, EXV_PRINT_TAG(minoltaFocusModeStd)),
         TagInfo(0x0049, "ColorTemperature", N_("Color Temperature"),
                 N_("Color temperature"),
                 minoltaCs5DIfdId, makerTags, signedShort, printValue),
