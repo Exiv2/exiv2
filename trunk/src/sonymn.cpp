@@ -80,13 +80,6 @@ namespace Exiv2 {
         { 279, "NEX-3"     }
     };
 
-    //! Lookup table to translate Sony zone matching values to readable labels
-    extern const TagDetails sonyZoneMatching[] = {
-        { 0, N_("ISO Setting Used") },
-        { 1, N_("High Key") },
-        { 2, N_("Low Key")  }
-    };
-
     //! Lookup table to translate Sony dynamic range optimizer values to readable labels
     extern const TagDetails print0xb025[] = {
         { 0,  N_("Off")           },
@@ -370,7 +363,7 @@ namespace Exiv2 {
                 sony1IfdId, makerTags, unsignedLong, printMinoltaSonySceneMode),
         TagInfo(0xB024, "ZoneMatching", N_("Zone Matching"),
                 N_("Zone Matching"),
-                sony1IfdId, makerTags, unsignedLong, EXV_PRINT_TAG(sonyZoneMatching)),
+                sony1IfdId, makerTags, unsignedLong, printMinoltaSonyZoneMatching),
         TagInfo(0xB025, "DynamicRangeOptimizer", N_("Dynamic Range Optimizer"),
                 N_("Dynamic Range Optimizer"),
                 sony1IfdId, makerTags, unsignedLong, EXV_PRINT_TAG(print0xb025)),
