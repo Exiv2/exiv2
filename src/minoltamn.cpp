@@ -947,6 +947,20 @@ namespace Exiv2 {
         { 3, "DMF"  }
     };
 
+    //! Lookup table to translate Minolta Dynax 5D camera settings picture finish values to readable labels
+    extern const TagDetails minoltaPictureFinish5D[] = {
+        { 0, N_("Natural")         },
+        { 1, N_("Natural+")        },
+        { 2, N_("Portrait")        },
+        { 3, N_("Wind Scene")      },
+        { 4, N_("Evening Scene")   },
+        { 5, N_("Night Scene")     },
+        { 6, N_("Night Portrait")  },
+        { 7, N_("Monochrome")      },
+        { 8, N_("Adobe RGB")       },
+        { 9, N_("Adobe RGB (ICC)") }
+    };
+
     //! Method to convert Minolta Dynax 5D exposure manual bias values.
     std::ostream& MinoltaMakerNote::printMinoltaExposureManualBias5D(std::ostream& os, const Value& value, const ExifData*)
     {
@@ -1039,6 +1053,15 @@ namespace Exiv2 {
         TagInfo(0x0054, "FreeMemoryCardImages", N_("Free Memory Card Images"),
                 N_("Free memory card images"),
                 minoltaCs5DIfdId, makerTags, unsignedShort, printValue),
+        TagInfo(0x0065, "Rotation2", N_("Rotation2"),
+                N_("Rotation2"),
+                minoltaCs5DIfdId, makerTags, unsignedShort, printMinoltaSonyRotation),
+        TagInfo(0x006E, "Color Temperature", N_("Color Temperature"),
+                N_("Color Temperature"),
+                minoltaCs5DIfdId, makerTags, signedShort, printValue),
+        TagInfo(0x0071, "PictureFinish", N_("Picture Finish"),
+                N_("Picture Finish"),
+                minoltaCs5DIfdId, makerTags, unsignedShort, EXV_PRINT_TAG(minoltaPictureFinish5D)),
         TagInfo(0x0091, "ExposureManualBias", N_("Exposure Manual Bias"),
                 N_("Exposure manual bias"),
                 minoltaCs5DIfdId, makerTags, unsignedShort, printMinoltaExposureManualBias5D),
