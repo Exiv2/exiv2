@@ -127,8 +127,8 @@ namespace Exiv2 {
         { 65535, N_("n/a")                      }
     };
 
-    //! Lookup table to translate Sony Quality values to readable labels
-    extern const TagDetails sonyQuality[] = {
+    //! Lookup table to translate Sony JPEG Quality values to readable labels
+    extern const TagDetails sonyJPEGQuality[] = {
         { 0,     N_("Normal") },
         { 1,     N_("Fine")   },
         { 65535, N_("n/a")    }
@@ -400,9 +400,9 @@ namespace Exiv2 {
         TagInfo(0xB044, "AFIlluminator", N_("AF Illuminator"),
                 N_("AF Illuminator"),
                 sony1IfdId, makerTags, unsignedShort, EXV_PRINT_TAG(sonyAFIlluminator)),
-        TagInfo(0xB047, "Quality", N_("Quality"),
-                N_("Quality"),
-                sony1IfdId, makerTags, unsignedShort, EXV_PRINT_TAG(sonyQuality)),
+        TagInfo(0xB047, "JPEGQuality", N_("JPEG Quality"),
+                N_("JPEG Quality"),
+                sony1IfdId, makerTags, unsignedShort, EXV_PRINT_TAG(sonyJPEGQuality)),
         TagInfo(0xB048, "FlashLevel", N_("Flash Level"),
                 N_("Flash Level"),
                 sony1IfdId, makerTags, signedShort, EXV_PRINT_TAG(sonyFlashLevel)),
