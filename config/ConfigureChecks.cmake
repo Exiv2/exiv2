@@ -266,7 +266,7 @@ MACRO( OptionOutput _outputstring )
 ENDMACRO( OptionOutput _outputstring )
 
 MESSAGE( STATUS "------------------------------------------------------------------" )
-MESSAGE( STATUS "${PACKAGE_STRING} configure results      <${PACKAGE_URL}>"          )
+MESSAGE( STATUS "${PACKAGE_STRING} configure results        <${PACKAGE_URL}>"        )
 OptionOutput( "Building PNG support:               " EXIV2_ENABLE_PNG AND ZLIB_FOUND )
 OptionOutput( "Building shared library:            " EXIV2_ENABLE_SHARED             )
 OptionOutput( "XMP metadata support:               " EXIV2_ENABLE_XMP                )
