@@ -183,7 +183,11 @@ namespace Exiv2 {
             "Exif.MinoltaCsNew.Quality",
             "Exif.MinoltaCsOld.Quality",
             "Exif.MinoltaCs5D.Quality",
-            "Exif.MinoltaCs7D.Quality"
+            "Exif.MinoltaCs7D.Quality",
+            "Exif.Sony1.JPEGQuality",
+            "Exif.Sony1.Quality",
+            "Exif.Sony2.JPEGQuality",
+            "Exif.Sony2.Quality"
         };
         return findMetadatum(ed, keys, EXV_COUNTOF(keys));
     }
