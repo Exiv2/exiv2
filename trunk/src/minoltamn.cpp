@@ -138,7 +138,7 @@ namespace Exiv2 {
 
         TagInfo(0x0104, "FlashExposureComp", N_("Flash Exposure Compensation"),
                 N_("Flash exposure compensation in EV"),
-                minoltaIfdId, makerTags, signedRational, printValue),
+                minoltaIfdId, makerTags, signedRational, printMinoltaSonyFlashExposureComp),
         TagInfo(0x0105, "Teleconverter", N_("Teleconverter Model"),
                 N_("Teleconverter Model"),
                 minoltaIfdId, makerTags, unsignedLong, printMinoltaSonyTeleconverterModel),
@@ -494,11 +494,11 @@ namespace Exiv2 {
         TagInfo(0x0003, "WhiteBalance", N_("White Balance"),
                 N_("White balance"),
                 minoltaCsNewIfdId, makerTags, unsignedLong, EXV_PRINT_TAG(minoltaWhiteBalanceStd)),
-        TagInfo(0x0004, "MinoltaImageSize", N_("Minolta Image Size"),
-                N_("Minolta Image size"),
+        TagInfo(0x0004, "ImageSize", N_("Image Size"),
+                N_("Image size"),
                 minoltaCsNewIfdId, makerTags, unsignedLong, EXV_PRINT_TAG(minoltaImageSizeStd)),
-        TagInfo(0x0005, "MinoltaQuality", N_("Minolta Image Quality"),
-                N_("Minolta Image quality"),
+        TagInfo(0x0005, "Quality", N_("Image Quality"),
+                N_("Image quality"),
                 minoltaCsNewIfdId, makerTags, unsignedLong, EXV_PRINT_TAG(minoltaImageQualityStd)),
         TagInfo(0x0006, "DriveMode", N_("Drive Mode"),
                 N_("Drive mode"),
@@ -739,11 +739,11 @@ namespace Exiv2 {
         TagInfo(0x0000, "ExposureMode", N_("Exposure Mode"),
                 N_("Exposure mode"),
                 minoltaCs7DIfdId, makerTags, unsignedShort, EXV_PRINT_TAG(minoltaExposureMode7D)),
-        TagInfo(0x0002, "MinoltaImageSize", N_("Minolta Image Size"),
-                N_("Minolta Image size"),
+        TagInfo(0x0002, "ImageSize", N_("Image Size"),
+                N_("Image size"),
                 minoltaCs7DIfdId, makerTags, unsignedShort, EXV_PRINT_TAG(minoltaImageSize7D)),
-        TagInfo(0x0003, "MinoltaQuality", N_("Minolta Image Quality"),
-                N_("Minolta Image quality"),
+        TagInfo(0x0003, "Quality", N_("Image Quality"),
+                N_("Image quality"),
                 minoltaCs7DIfdId, makerTags, unsignedShort, EXV_PRINT_TAG(minoltaImageQuality7D)),
         TagInfo(0x0004, "WhiteBalance", N_("White Balance"),
                 N_("White balance"),
@@ -983,11 +983,11 @@ namespace Exiv2 {
         TagInfo(0x000A, "ExposureMode", N_("Exposure Mode"),
                 N_("Exposure mode"),
                 minoltaCs5DIfdId, makerTags, unsignedShort, EXV_PRINT_TAG(minoltaExposureMode5D)),
-        TagInfo(0x000C, "MinoltaImageSize", N_("Minolta Image Size"),
-                N_("Minolta Image size"),
+        TagInfo(0x000C, "ImageSize", N_("Image Size"),
+                N_("Image size"),
                 minoltaCs5DIfdId, makerTags, unsignedShort, EXV_PRINT_TAG(minoltaImageSize5D)),
-        TagInfo(0x000D, "MinoltaQuality", N_("Minolta Image Quality"),
-                N_("Minolta Image quality"),
+        TagInfo(0x000D, "Quality", N_("Image Quality"),
+                N_("Image quality"),
                 minoltaCs5DIfdId, makerTags, unsignedShort, EXV_PRINT_TAG(minoltaImageQuality5D)),
         TagInfo(0x000E, "WhiteBalance", N_("White Balance"),
                 N_("White balance"),
@@ -1480,9 +1480,9 @@ namespace Exiv2 {
         TagInfo(0x003B, "SonyImageSize", N_("Sony Image Size"),
                 N_("Sony Image Size"),
                 sony1MltCsA100IfdId, makerTags, unsignedShort, EXV_PRINT_TAG(sonyImageSizeA100)),
-        TagInfo(0x003C, "SonyQuality", N_("SonyQuality"),
-                N_("SonyQuality"),
-                sony1MltCsA100IfdId, makerTags, unsignedShort, printMinoltaSonyQualityCS),
+        TagInfo(0x003C, "Quality", N_("Quality"),
+                N_("Quality"),
+                sony1MltCsA100IfdId, makerTags, unsignedShort, printMinoltaSonyQualityCs),
         TagInfo(0x003D, "InstantPlaybackTime", N_("Instant Playback Time"),
                 N_("Instant playback time"),
                 sony1MltCsA100IfdId, makerTags, unsignedShort, printValue),
@@ -1997,7 +1997,7 @@ namespace Exiv2 {
     // ----------------------------------------------------------------------------------------------------
 
     //! Lookup table to translate Sony camera settings quality values to readable labels
-    extern const TagDetails minoltaSonyQualityCS[] = {
+    extern const TagDetails minoltaSonyQualityCs[] = {
         { 0,   N_("RAW ")       },
         { 2,   N_("CRAW ")      },
         { 16,  N_("Extra Fine") },
@@ -2007,9 +2007,9 @@ namespace Exiv2 {
         { 48,  N_("Standard")   }
     };
 
-    std::ostream& printMinoltaSonyQualityCS(std::ostream& os, const Value& value, const ExifData* metadata)
+    std::ostream& printMinoltaSonyQualityCs(std::ostream& os, const Value& value, const ExifData* metadata)
     {
-        return EXV_PRINT_TAG(minoltaSonyQualityCS)(os, value, metadata);
+        return EXV_PRINT_TAG(minoltaSonyQualityCs)(os, value, metadata);
     }
 
     // ----------------------------------------------------------------------------------------------------
@@ -2116,4 +2116,13 @@ namespace Exiv2 {
     {
         return EXV_PRINT_TAG(minoltaSonyZoneMatching)(os, value, metadata);
     }
+
+    std::ostream& printMinoltaSonyFlashExposureComp(std::ostream& os, const Value& value, const ExifData*)
+    {
+        if (value.count() != 1 || value.typeId() != signedRational) {
+            return os << "(" << value << ")";
+        }
+        return os << std::fixed << std::setprecision(2) << value.toFloat(0) << " EV";
+    }
+
 }                                       // namespace Exiv2
