@@ -131,7 +131,7 @@ namespace Exiv2 {
     EXIV2API std::ostream& printMinoltaSonyPrioritySetupShutterRelease(std::ostream&, const Value&, const ExifData*);
 
     //! Print Minolta/Sony Quality values to readable labels.
-    EXIV2API std::ostream& printMinoltaSonyQualityCS(std::ostream&, const Value&, const ExifData*);
+    EXIV2API std::ostream& printMinoltaSonyQualityCs(std::ostream&, const Value&, const ExifData*);
 
     //! Print Minolta/Sony Rotation values to readable labels.
     EXIV2API std::ostream& printMinoltaSonyRotation(std::ostream&, const Value&, const ExifData*);
@@ -150,6 +150,9 @@ namespace Exiv2 {
 
     //! Print Minolta/Sony ZoneMatching values to readable labels.
     EXIV2API std::ostream& printMinoltaSonyZoneMatching(std::ostream&, const Value&, const ExifData*);
+
+    //! Print Minolta/Sony Flash Exposure Compensation values to readable labels.
+    EXIV2API std::ostream& printMinoltaSonyFlashExposureComp(std::ostream&, const Value&, const ExifData*);
 
     // TODO: Added shared methods here.
 

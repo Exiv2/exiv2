@@ -78,7 +78,7 @@ namespace Exiv2 {
     EXIV2API ExifData::const_iterator subjectDistance(const ExifData& ed);
     //! Return the camera serial number
     EXIV2API ExifData::const_iterator serialNumber(const ExifData& ed);
-    //! Return the focal lenght setting
+    //! Return the focal length setting
     EXIV2API ExifData::const_iterator focalLength(const ExifData& ed);
 
 } // namespace Exiv2

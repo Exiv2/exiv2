@@ -188,7 +188,7 @@ Exif.MinoltaCs5D.0x002b                       0x002b Makernote    Short       1 
 Exif.MinoltaCs5D.0x002c                       0x002c Makernote    Short       1 0
 Exif.MinoltaCs5D.0x002d                       0x002d Makernote    Short       1 0
 Exif.MinoltaCs5D.0x002e                       0x002e Makernote    Short       1 0
-Exif.MinoltaCs5D.0x002f                       0x002f Makernote    Short       1 0
+Exif.MinoltaCs5D.ColorSpace                   0x002f Makernote    Short       1 0
 Exif.MinoltaCs5D.Sharpness                    0x0030 Makernote    Short       1 0
 Exif.MinoltaCs5D.Contrast                     0x0031 Makernote    Short       1 0
 Exif.MinoltaCs5D.Saturation                   0x0032 Makernote    Short       1 0

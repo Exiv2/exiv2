@@ -37,7 +37,8 @@ static const EasyAccess easyAccess[] = {
     { "Exposure time",        Exiv2::exposureTime     },
     { "FNumber",              Exiv2::fNumber          },
     { "Subject distance",     Exiv2::subjectDistance  },
-    { "Camera serial number", Exiv2::serialNumber     }
+    { "Camera serial number", Exiv2::serialNumber     },
+    { "Focal length",         Exiv2::focalLength      }
 };
 
 int main(int argc, char **argv)
@@ -54,10 +55,13 @@ try {
 
     for (unsigned int i = 0; i < EXV_COUNTOF(easyAccess); ++i) {
         Exiv2::ExifData::const_iterator pos = easyAccess[i].findFct_(ed);
+        std::cout << std::setw(20) << std::left << easyAccess[i].label_;
         if (pos != ed.end()) {
-            std::cout << std::setw(13) << std::left << easyAccess[i].label_ << " ("
-                      << std::setw(30) << pos->key() << ") : "
+            std::cout << " (" << std::setw(35) << pos->key() << ") : "
                       << pos->print(&ed) << "\n";
+        }
+        else {
+            std::cout << " (" << std::setw(35) << " " << ") : \n";
         }
     }
 

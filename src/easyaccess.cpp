@@ -70,7 +70,13 @@ namespace Exiv2 {
             "Exif.Image.Orientation",
             "Exif.Panasonic.Rotation",
             "Exif.MinoltaCs5D.Rotation",
-            "Exif.MinoltaCs7D.Rotation"
+            "Exif.MinoltaCs5D.Rotation2",
+            "Exif.MinoltaCs7D.Rotation",
+            "Exif.Sony1MltCsA100.Rotation",
+            "Exif.Sony1Cs.Rotation",
+            "Exif.Sony2Cs.Rotation",
+            "Exif.Sony1Cs2.Rotation",
+            "Exif.Sony2Cs2.Rotation"
         };
         return findMetadatum(ed, keys, EXV_COUNTOF(keys));
     }
@@ -91,6 +97,10 @@ namespace Exiv2 {
             "Exif.MinoltaCsOld.ISOSetting",
             "Exif.MinoltaCs5D.ISOSpeed",
             "Exif.MinoltaCs7D.ISOSpeed",
+            "Exif.Sony1Cs.ISOSetting",
+            "Exif.Sony2Cs.ISOSetting",
+            "Exif.Sony1Cs2.ISOSetting",
+            "Exif.Sony2Cs2.ISOSetting",
             "Exif.Pentax.ISO",
             "Exif.Olympus.ISOSpeed"
         };
@@ -119,7 +129,11 @@ namespace Exiv2 {
             "Exif.CanonSi.FlashBias",
             "Exif.Panasonic.FlashBias",
             "Exif.Olympus.FlashBias",
-            "Exif.OlympusCs.FlashExposureComp"
+            "Exif.OlympusCs.FlashExposureComp",
+            "Exif.Minolta.FlashExposureComp",
+            "Exif.SonyMinolta.FlashExposureComp",
+            "Exif.Sony1.FlashExposureComp",
+            "Exif.Sony2.FlashExposureComp"
         };
         return findMetadatum(ed, keys, EXV_COUNTOF(keys));
     }
@@ -134,6 +148,9 @@ namespace Exiv2 {
             "Exif.MinoltaCs5D.ExposureMode",
             "Exif.MinoltaCsNew.ExposureMode",
             "Exif.MinoltaCsOld.ExposureMode",
+            "Exif.Sony1MltCsA100.ExposureMode",
+            "Exif.Sony1Cs.ExposureProgram",
+            "Exif.Sony2Cs.ExposureProgram",
             "Exif.Sigma.ExposureMode"
         };
         return findMetadatum(ed, keys, EXV_COUNTOF(keys));
@@ -145,10 +162,16 @@ namespace Exiv2 {
             "Exif.CanonCs.EasyMode",
             "Exif.Fujifilm.PictureMode",
             "Exif.MinoltaCsNew.SubjectProgram",
+            "Exif.MinoltaCsOld.SubjectProgram",
+            "Exif.Minolta.SceneMode",
+            "Exif.SonyMinolta.SceneMode",
+            "Exif.Sony1.SceneMode",
+            "Exif.Sony2.SceneMode",
             "Exif.OlympusCs.SceneMode",
             "Exif.Panasonic.ShootingMode",
             "Exif.Panasonic.SceneMode",
-            "Exif.Pentax.PictureMode"
+            "Exif.Pentax.PictureMode",
+            "Exif.Photo.SceneCaptureType"
         };
         return findMetadatum(ed, keys, EXV_COUNTOF(keys));
     }
@@ -162,7 +185,9 @@ namespace Exiv2 {
             "Exif.OlympusCs.MacroMode",
             "Exif.Panasonic.Macro",
             "Exif.MinoltaCsNew.MacroMode",
-            "Exif.MinoltaCsOld.MacroMode"
+            "Exif.MinoltaCsOld.MacroMode",
+            "Exif.Sony1.Macro",
+            "Exif.Sony2.Macro"
         };
         return findMetadatum(ed, keys, EXV_COUNTOF(keys));
     }
@@ -184,10 +209,13 @@ namespace Exiv2 {
             "Exif.MinoltaCsOld.Quality",
             "Exif.MinoltaCs5D.Quality",
             "Exif.MinoltaCs7D.Quality",
+            "Exif.Sony1MltCsA100.Quality",
             "Exif.Sony1.JPEGQuality",
             "Exif.Sony1.Quality",
+            "Exif.Sony1Cs.Quality",
             "Exif.Sony2.JPEGQuality",
-            "Exif.Sony2.Quality"
+            "Exif.Sony2.Quality",
+            "Exif.Sony2Cs.Quality"
         };
         return findMetadatum(ed, keys, EXV_COUNTOF(keys));
     }
@@ -208,6 +236,13 @@ namespace Exiv2 {
             "Exif.MinoltaCs7D.WhiteBalance",
             "Exif.MinoltaCsNew.WhiteBalance",
             "Exif.MinoltaCsOld.WhiteBalance",
+            "Exif.Minolta.WhiteBalance",
+            "Exif.Sony1MltCsA100.WhiteBalance",
+            "Exif.SonyMinolta.WhiteBalance",
+            "Exif.Sony1.WhiteBalance",
+            "Exif.Sony2.WhiteBalance",
+            "Exif.Sony1.WhiteBalance2",
+            "Exif.Sony2.WhiteBalance2",
             "Exif.Photo.WhiteBalance"
         };
         return findMetadatum(ed, keys, EXV_COUNTOF(keys));
@@ -220,8 +255,11 @@ namespace Exiv2 {
             "Exif.NikonLd1.LensIDNumber",
             "Exif.NikonLd2.LensIDNumber",
             "Exif.NikonLd3.LensIDNumber",
+            "Exif.Pentax.LensType",
             "Exif.Minolta.LensID",
-            "Exif.Pentax.LensType"
+            "Exif.SonyMinolta.LensID",
+            "Exif.Sony1.LensID",
+            "Exif.Sony2.LensID"
         };
         return findMetadatum(ed, keys, EXV_COUNTOF(keys));
     }
@@ -294,7 +332,8 @@ namespace Exiv2 {
         static const char* keys[] = {
             "Exif.Photo.MeteringMode",
             "Exif.Image.MeteringMode",
-            "Exif.CanonCs.MeteringMode"
+            "Exif.CanonCs.MeteringMode",
+            "Exif.Sony1MltCsA100.MeteringMode"
         };
         return findMetadatum(ed, keys, EXV_COUNTOF(keys));
     }
