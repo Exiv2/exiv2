@@ -195,7 +195,7 @@ namespace Exiv2 {
     //! Lookup table to translate Sony AF illuminator values to readable labels
     extern const TagDetails sonyAFIlluminator[] = {
         { 0,     N_("Off") },
-        { 1,     N_("On")  },
+        { 1,     N_("Auto")  },
         { 65535, N_("n/a") }
     };
 
