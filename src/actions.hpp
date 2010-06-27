@@ -37,7 +37,7 @@
 #include <string>
 #include <map>
 
-#include "exiv2.hpp"
+#include "exiv2app.hpp"
 #include "image.hpp"
 #include "exif.hpp"
 #include "iptc.hpp"

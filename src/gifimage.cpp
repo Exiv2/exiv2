@@ -25,7 +25,7 @@
   History:   26-Feb-2007, marco: created
  */
 // *****************************************************************************
-#include "rcsid.hpp"
+#include "rcsid_int.hpp"
 EXIV2_RCSID("@(#) $Id$")
 
 //#define DEBUG 1

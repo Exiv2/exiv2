@@ -15,8 +15,7 @@
  */
 // *****************************************************************************
 // included header files
-#include <exiv2/image.hpp>
-#include <exiv2/exif.hpp>
+#include <exiv2/exiv2.hpp>
 
 #include <iostream>
 #include <sstream>

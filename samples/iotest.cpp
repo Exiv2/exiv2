@@ -29,10 +29,8 @@
  */
 // *****************************************************************************
 // included header files
-#include <exiv2/types.hpp>
-#include <exiv2/error.hpp>
-#include <exiv2/futils.hpp>
-#include <exiv2/basicio.hpp>
+#include <exiv2/exiv2.hpp>
+
 #include <cstdio>                               // for EOF
 #include <cstring>
 #include <iostream>

@@ -3,7 +3,7 @@
 // Simple tests for the wide-string error class WError
 
 #include <iostream>
-#include <exiv2/error.hpp>
+#include <exiv2/exiv2.hpp>
 
 int main()
 {

@@ -2,9 +2,7 @@
 // mmap-test.cpp, $Rev$
 // Simple mmap tests
 
-#include <exiv2/basicio.hpp>
-#include <exiv2/error.hpp>
-#include <exiv2/futils.hpp>
+#include <exiv2/exiv2.hpp>
 
 #include <iostream>
 #include <cstring>

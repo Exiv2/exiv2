@@ -2,8 +2,8 @@
 // exifprint.cpp, $Rev$
 // Sample program to print the Exif metadata of an image
 
-#include <exiv2/image.hpp>
-#include <exiv2/exif.hpp>
+#include <exiv2/exiv2.hpp>
+
 #include <iostream>
 #include <iomanip>
 #include <cassert>

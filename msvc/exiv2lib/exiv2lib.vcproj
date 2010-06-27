@@ -454,6 +454,9 @@ copy/y ..\..\..\zlib-1.2.3\projects\visualc6\Win32_DLL_Release\zlib1.dll $(OutDi
 				RelativePath="..\..\src\exif.hpp">
 			</File>
 			<File
+				RelativePath="..\..\src\exiv2.hpp">
+			</File>
+			<File
 				RelativePath="..\..\src\fujimn.hpp">
 			</File>
 			<File
@@ -521,9 +524,6 @@ copy/y ..\..\..\zlib-1.2.3\projects\visualc6\Win32_DLL_Release\zlib1.dll $(OutDi
 			</File>
 			<File
 				RelativePath="..\..\src\rafimage.hpp">
-			</File>
-			<File
-				RelativePath="..\..\src\rcsid.hpp">
 			</File>
 			<File
 				RelativePath="..\..\src\rw2image.hpp">

@@ -28,7 +28,7 @@
  */
 
 // *****************************************************************************
-#include "rcsid.hpp"
+#include "rcsid_int.hpp"
 EXIV2_RCSID("@(#) $Id$")
 
 // *****************************************************************************
@@ -138,7 +138,7 @@ namespace Exiv2 {
 
         TagInfo(0x0104, "FlashExposureComp", N_("Flash Exposure Compensation"),
                 N_("Flash exposure compensation in EV"),
-                minoltaIfdId, makerTags, signedRational, printMinoltaSonyFlashExposureComp),
+                minoltaIfdId, makerTags, signedRational, print0x9204),
         TagInfo(0x0105, "Teleconverter", N_("Teleconverter Model"),
                 N_("Teleconverter Model"),
                 minoltaIfdId, makerTags, unsignedLong, printMinoltaSonyTeleconverterModel),
