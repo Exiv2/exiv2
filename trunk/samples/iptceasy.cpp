@@ -2,8 +2,8 @@
 // iptceasy.cpp, $Rev$
 // The quickest way to access, set or modify IPTC metadata.
 
-#include <exiv2/iptc.hpp>
-#include <exiv2/image.hpp>
+#include <exiv2/exiv2.hpp>
+
 #include <iostream>
 #include <iomanip>
 #include <cassert>

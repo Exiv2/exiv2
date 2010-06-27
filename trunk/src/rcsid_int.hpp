@@ -19,9 +19,9 @@
  * Foundation, Inc., 51 Franklin Street, 5th Floor, Boston, MA 02110-1301 USA.
  */
 /*!
-  @file    rcsid.hpp
+  @file    rcsid_int.hpp
   @brief   Define an RCS id string in every object file compiled from a source
-           file that includes rcsid.hpp.
+           file that includes rcsid_int.hpp.
 
   This is a simplified version of the ACE_RCSID macro that is used in the
   <a href="http://www.cs.wustl.edu/~schmidt/ACE.html">ACE(TM)</a> distribution.
@@ -31,8 +31,8 @@
            <a href="mailto:ahuggel@gmx.net">ahuggel@gmx.net</a>
   @date    02-Feb-04, ahu: created
  */
-#ifndef RCSID_HPP_
-#define RCSID_HPP_
+#ifndef RCSID_INT_HPP_
+#define RCSID_INT_HPP_
 
 #if !defined (EXIV2_RCSID)
 /*!
@@ -42,7 +42,7 @@
          each *.cpp file.  See the ident(1) manual pages for more information.
 
          @code
-         #include "rcsid.hpp"
+         #include "rcsid_int.hpp"
          EXIV2_RCSID("@(#) $Id$");
          @endcode
 
@@ -59,4 +59,4 @@
     }
 
 #endif // #if !defined (EXIV2_RCSID)
-#endif // #ifndef RCSID_HPP_
+#endif // #ifndef RCSID_INT_HPP_

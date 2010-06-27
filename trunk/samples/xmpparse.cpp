@@ -2,9 +2,7 @@
 // xmpparse.cpp, $Rev$
 // Read an XMP packet from a file, parse it and print all (known) properties.
 
-#include <exiv2/basicio.hpp>
-#include <exiv2/xmp.hpp>
-#include <exiv2/error.hpp>
+#include <exiv2/exiv2.hpp>
 
 #include <string>
 #include <iostream>

@@ -2,9 +2,7 @@
 // tiff-test.cpp, $Rev$
 // First and very simple TIFF write test.
 
-#include <exiv2/tiffimage.hpp>
-#include <exiv2/exif.hpp>
-#include <exiv2/error.hpp>
+#include <exiv2/exiv2.hpp>
 
 #include <string>
 #include <iostream>

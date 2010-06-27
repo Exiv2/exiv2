@@ -2,8 +2,7 @@
 // prevtest.cpp, $Rev$
 // Test access to preview images
 
-#include <exiv2/image.hpp>
-#include <exiv2/preview.hpp>
+#include <exiv2/exiv2.hpp>
 
 #include <string>
 #include <iostream>

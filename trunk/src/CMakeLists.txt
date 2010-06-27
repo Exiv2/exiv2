@@ -34,6 +34,7 @@ SET( LIBEXIV2_PRIVATE_HDR cr2image_int.hpp
                           makernote_int.hpp
                           orfimage_int.hpp
                           pngchunk_int.hpp
+                          rcsid_int.hpp
                           rw2image_int.hpp
                           tiffcomposite_int.hpp
                           tifffwd_int.hpp
@@ -52,6 +53,7 @@ SET( LIBEXIV2_HDR         basicio.hpp
                           easyaccess.hpp
                           error.hpp
                           exif.hpp
+                          exiv2.hpp
                           fujimn.hpp
                           futils.hpp
                           gifimage.hpp
@@ -74,7 +76,6 @@ SET( LIBEXIV2_HDR         basicio.hpp
                           properties.hpp
                           psdimage.hpp
                           rafimage.hpp
-                          rcsid.hpp
                           rw2image.hpp
                           sigmamn.hpp
                           sonymn.hpp

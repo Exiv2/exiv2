@@ -405,7 +405,7 @@
 				>
 			</File>
 			<File
-				RelativePath="..\..\src\exiv2.hpp"
+				RelativePath="..\..\src\exiv2app.hpp"
 				>
 			</File>
 			<File

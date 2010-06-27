@@ -26,7 +26,7 @@
 
  */
 // *****************************************************************************
-#include "rcsid.hpp"
+#include "rcsid_int.hpp"
 EXIV2_RCSID("@(#) $Id$")
 
 // Define DEBUG to output debug information to std::cerr, e.g, by calling make

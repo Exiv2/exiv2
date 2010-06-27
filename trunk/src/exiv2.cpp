@@ -27,7 +27,7 @@
   History:   10-Dec-03, ahu: created
  */
 // *****************************************************************************
-#include "rcsid.hpp"
+#include "rcsid_int.hpp"
 EXIV2_RCSID("@(#) $Id$")
 
 // *****************************************************************************
@@ -38,7 +38,7 @@ EXIV2_RCSID("@(#) $Id$")
 # include "exv_conf.h"
 #endif
 
-#include "exiv2.hpp"
+#include "exiv2app.hpp"
 #include "actions.hpp"
 #include "utils.hpp"
 #include "convert.hpp"

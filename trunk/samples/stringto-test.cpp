@@ -2,8 +2,8 @@
 // stringto-test.cpp, $Rev$
 // Test conversions from string to long, float and Rational types.
 
-#include <exiv2/types.hpp>
-#include <exiv2/error.hpp>
+#include <exiv2/exiv2.hpp>
+
 #include <iostream>
 #include <iomanip>
 

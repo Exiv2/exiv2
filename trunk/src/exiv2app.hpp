@@ -19,15 +19,15 @@
  * Foundation, Inc., 51 Franklin Street, 5th Floor, Boston, MA 02110-1301 USA.
  */
 /*!
-  @file    exiv2.hpp
+  @file    exiv2app.hpp
   @brief   Defines class Params, used for the command line handling of exiv2
   @version $Rev$
   @author  Andreas Huggel (ahu)
            <a href="mailto:ahuggel@gmx.net">ahuggel@gmx.net</a>
   @date    08-Dec-03, ahu: created
  */
-#ifndef EXIV2_HPP_
-#define EXIV2_HPP_
+#ifndef EXIV2APP_HPP_
+#define EXIV2APP_HPP_
 
 // *****************************************************************************
 // included header files
@@ -292,4 +292,4 @@ public:
     void version(std::ostream& os =std::cout) const;
 }; // class Params
 
-#endif                                  // #ifndef EXIV2_HPP_
+#endif                                  // #ifndef EXIV2APP_HPP_

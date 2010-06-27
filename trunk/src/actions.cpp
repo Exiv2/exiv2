@@ -26,7 +26,7 @@
              30-Apr-06, Roger Larsson: Print filename if processing multiple files
  */
 // *****************************************************************************
-#include "rcsid.hpp"
+#include "rcsid_int.hpp"
 EXIV2_RCSID("@(#) $Id$")
 
 // *****************************************************************************
@@ -41,7 +41,7 @@ EXIV2_RCSID("@(#) $Id$")
 # include "timegm.h"
 #endif
 #include "actions.hpp"
-#include "exiv2.hpp"
+#include "exiv2app.hpp"
 #include "image.hpp"
 #include "jpgimage.hpp"
 #include "xmpsidecar.hpp"
