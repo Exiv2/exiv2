@@ -32,6 +32,8 @@
            <a href="mailto:wstokes@gmail.com">wstokes@gmail.com</a>
   @author  Gilles Caulier (gc)
            <a href="mailto:caulier dot gilles at gmail dot com">caulier dot gilles at gmail dot com</a>
+  @author  Greg Mansfield
+           <a href="mailto:G.Mansfield at computer dot org">G.Mansfield at computer dot org</a>
   @date    10-Mar-05, wuz: created
  */
 #ifndef OLYMPUSMN_HPP_
@@ -84,10 +86,27 @@ namespace Exiv2 {
         static std::ostream& print0x0204(std::ostream& os, const Value& value, const ExifData*);
         //! Print White Balance Mode
         static std::ostream& print0x1015(std::ostream& os, const Value& value, const ExifData*);
+        //! Print Olympus equipment Lens type
+        static std::ostream& print0x0201(std::ostream& os, const Value& value, const ExifData*);
+        //! Print Olympus CamerID
+        static std::ostream& print0x0209(std::ostream& os, const Value& value, const ExifData*);
+        //! Print Olympus equipment Extender
+        static std::ostream& printEq0x0301(std::ostream& os, const Value& value, const ExifData*);
+        //! Print Olympus camera settings Focus Mode
+        static std::ostream& printCs0x0301(std::ostream& os, const Value& value, const ExifData*);
         //! Print Olympus camera settings Gradation
         static std::ostream& print0x050f(std::ostream& os, const Value& value, const ExifData*);
         //! Print Olympus camera settings Noise Filter
         static std::ostream& print0x0527(std::ostream& os, const Value& value, const ExifData*);
+        //! Print Olympus ArtFilter
+        static  std::ostream& print0x0529(std::ostream& os, const Value& value, const ExifData*);
+        //! Print Olympus focus info ManualFlash
+        static std::ostream& print0x1209(std::ostream& os, const Value& value, const ExifData*);
+        //! Print Olympus focus info AF Point
+        static std::ostream& print0x0308(std::ostream& os, const Value& value, const ExifData*);
+
+        //! Print Olympus generic
+        static std::ostream& printGeneric(std::ostream& os, const Value& value, const ExifData*);
         //@}
 
     private:
