@@ -672,7 +672,7 @@ File  2/15: 20031214_000043.jpg
 20031214_000043.jpg   Exif.CanonSi.0x0000                          Short       1  54
 20031214_000043.jpg   Exif.CanonSi.0x0001                          Short       1  0
 20031214_000043.jpg   Exif.CanonSi.ISOSpeed                        Short       1  100
-20031214_000043.jpg   Exif.CanonSi.0x0003                          Short       1  276
+20031214_000043.jpg   Exif.CanonSi.MeasuredEV                      Short       1  13.62
 20031214_000043.jpg   Exif.CanonSi.TargetAperture                  Short       1  F5
 20031214_000043.jpg   Exif.CanonSi.TargetShutterSpeed              Short       1  1/501 s
 20031214_000043.jpg   Exif.CanonSi.0x0006                          Short       1  0
@@ -692,7 +692,7 @@ File  2/15: 20031214_000043.jpg
 20031214_000043.jpg   Exif.CanonSi.0x0014                          Short       1  0
 20031214_000043.jpg   Exif.CanonSi.ApertureValue                   Short       1  F5
 20031214_000043.jpg   Exif.CanonSi.ShutterSpeedValue               Short       1  1/523 s
-20031214_000043.jpg   Exif.CanonSi.0x0017                          Short       1  0
+20031214_000043.jpg   Exif.CanonSi.MeasuredEV2                     Short       1  -6.00
 20031214_000043.jpg   Exif.CanonSi.0x0018                          Short       1  0
 20031214_000043.jpg   Exif.CanonSi.0x0019                          Short       1  0
 20031214_000043.jpg   Exif.CanonSi.0x001a                          Short       1  250
@@ -1096,7 +1096,7 @@ File  6/15: 20030925_201850.jpg
 20030925_201850.jpg   Exif.CanonSi.0x0000                          Short       1  66
 20030925_201850.jpg   Exif.CanonSi.0x0001                          Short       1  0
 20030925_201850.jpg   Exif.CanonSi.ISOSpeed                        Short       1  100
-20030925_201850.jpg   Exif.CanonSi.0x0003                          Short       1  200
+20030925_201850.jpg   Exif.CanonSi.MeasuredEV                      Short       1  11.25
 20030925_201850.jpg   Exif.CanonSi.TargetAperture                  Short       1  F5.6
 20030925_201850.jpg   Exif.CanonSi.TargetShutterSpeed              Short       1  1/79 s
 20030925_201850.jpg   Exif.CanonSi.0x0006                          Short       1  0
@@ -1116,7 +1116,7 @@ File  6/15: 20030925_201850.jpg
 20030925_201850.jpg   Exif.CanonSi.0x0014                          Short       1  546
 20030925_201850.jpg   Exif.CanonSi.ApertureValue                   Short       1  F5.4
 20030925_201850.jpg   Exif.CanonSi.ShutterSpeedValue               Short       1  1/81 s
-20030925_201850.jpg   Exif.CanonSi.0x0017                          Short       1  140
+20030925_201850.jpg   Exif.CanonSi.MeasuredEV2                     Short       1  11.50
 20030925_201850.jpg   Exif.CanonSi.0x0018                          Short       1  0
 20030925_201850.jpg   Exif.CanonSi.0x0019                          Short       1  0
 20030925_201850.jpg   Exif.CanonSi.0x001a                          Short       1  252
@@ -1689,7 +1689,7 @@ Error: Directory Canon: Next pointer is out of bounds; ignored.
 20060802_095200.jpg   Exif.CanonSi.0x0000                          Short       1  68
 20060802_095200.jpg   Exif.CanonSi.0x0001                          Short       1  0
 20060802_095200.jpg   Exif.CanonSi.ISOSpeed                        Short       1  100
-20060802_095200.jpg   Exif.CanonSi.0x0003                          Short       1  8
+20060802_095200.jpg   Exif.CanonSi.MeasuredEV                      Short       1  5.25
 20060802_095200.jpg   Exif.CanonSi.TargetAperture                  Short       1  F5.6
 20060802_095200.jpg   Exif.CanonSi.TargetShutterSpeed              Short       1  1/60 s
 20060802_095200.jpg   Exif.CanonSi.0x0006                          Short       1  0
@@ -1709,7 +1709,7 @@ Error: Directory Canon: Next pointer is out of bounds; ignored.
 20060802_095200.jpg   Exif.CanonSi.0x0014                          Short       1  0
 20060802_095200.jpg   Exif.CanonSi.ApertureValue                   Short       1  F5.4
 20060802_095200.jpg   Exif.CanonSi.ShutterSpeedValue               Short       1  1/2048 s
-20060802_095200.jpg   Exif.CanonSi.0x0017                          Short       1  87
+20060802_095200.jpg   Exif.CanonSi.MeasuredEV2                     Short       1  4.88
 20060802_095200.jpg   Exif.CanonSi.0x0018                          Short       1  0
 20060802_095200.jpg   Exif.CanonSi.0x0019                          Short       1  0
 20060802_095200.jpg   Exif.CanonSi.0x001a                          Short       1  252
@@ -1884,7 +1884,7 @@ File 14/15: 20001004_015404.jpg
 20001004_015404.jpg   Exif.CanonSi.0x0000                          Short       1  50
 20001004_015404.jpg   Exif.CanonSi.0x0001                          Short       1  0
 20001004_015404.jpg   Exif.CanonSi.ISOSpeed                        Short       1  100
-20001004_015404.jpg   Exif.CanonSi.0x0003                          Short       1  248
+20001004_015404.jpg   Exif.CanonSi.MeasuredEV                      Short       1  12.75
 20001004_015404.jpg   Exif.CanonSi.TargetAperture                  Short       1  F4
 20001004_015404.jpg   Exif.CanonSi.TargetShutterSpeed              Short       1  1/347 s
 20001004_015404.jpg   Exif.CanonSi.0x0006                          Short       1  0
@@ -1904,7 +1904,7 @@ File 14/15: 20001004_015404.jpg
 20001004_015404.jpg   Exif.CanonSi.0x0014                          Short       1  0
 20001004_015404.jpg   Exif.CanonSi.ApertureValue                   Short       1  F4
 20001004_015404.jpg   Exif.CanonSi.ShutterSpeedValue               Short       1  1/431 s
-20001004_015404.jpg   Exif.CanonSi.0x0017                          Short       1  154
+20001004_015404.jpg   Exif.CanonSi.MeasuredEV2                     Short       1  13.25
 20001004_015404.jpg   Exif.CanonSi.0x0018                          Short       1  0
 20001004_015404.jpg   Exif.Canon.0x0000                            Short       6  0 0 0 0 0 0
 20001004_015404.jpg   Exif.Canon.0x000a                            Short      59  118 8 8 0 0 12 7970 63771 12886 5201 28427 28912 13362 52780 584 8689 41493 288 8099 2844 12933 6065 60947 404 13298 55853 12878 9473 56351 4511 8115 1819 29306 6194 4629 25042 13378 59693 16980 9329 56351 33193 8003 5147 17037 6098 7445 41427 13426 60717 53852 9473 58656 45479 4 126 127 126 127
@@ -2027,7 +2027,7 @@ File 15/15: 20060127_225027.jpg
 20060127_225027.jpg   Exif.CanonSi.0x0000                          Short       1  68
 20060127_225027.jpg   Exif.CanonSi.0x0001                          Short       1  0
 20060127_225027.jpg   Exif.CanonSi.ISOSpeed                        Short       1  50
-20060127_225027.jpg   Exif.CanonSi.0x0003                          Short       1  320
+20060127_225027.jpg   Exif.CanonSi.MeasuredEV                      Short       1  15.00
 20060127_225027.jpg   Exif.CanonSi.TargetAperture                  Short       1  F4
 20060127_225027.jpg   Exif.CanonSi.TargetShutterSpeed              Short       1  1/1002 s
 20060127_225027.jpg   Exif.CanonSi.0x0006                          Short       1  0
@@ -2047,7 +2047,7 @@ File 15/15: 20060127_225027.jpg
 20060127_225027.jpg   Exif.CanonSi.0x0014                          Short       1  0
 20060127_225027.jpg   Exif.CanonSi.ApertureValue                   Short       1  F4
 20060127_225027.jpg   Exif.CanonSi.ShutterSpeedValue               Short       1  1/1024 s
-20060127_225027.jpg   Exif.CanonSi.0x0017                          Short       1  0
+20060127_225027.jpg   Exif.CanonSi.MeasuredEV2                     Short       1  -6.00
 20060127_225027.jpg   Exif.CanonSi.0x0018                          Short       1  0
 20060127_225027.jpg   Exif.CanonSi.0x0019                          Short       1  0
 20060127_225027.jpg   Exif.CanonSi.0x001a                          Short       1  250
@@ -2272,7 +2272,7 @@ Compare image data and extracted data ------------------------------------
 < 20031214_000043.jpg   Exif.CanonSi.0x0000                          Short       1  54
 < 20031214_000043.jpg   Exif.CanonSi.0x0001                          Short       1  0
 < 20031214_000043.jpg   Exif.CanonSi.ISOSpeed                        Short       1  100
-< 20031214_000043.jpg   Exif.CanonSi.0x0003                          Short       1  276
+< 20031214_000043.jpg   Exif.CanonSi.MeasuredEV                      Short       1  13.62
 < 20031214_000043.jpg   Exif.CanonSi.TargetAperture                  Short       1  F5
 < 20031214_000043.jpg   Exif.CanonSi.TargetShutterSpeed              Short       1  1/501 s
 < 20031214_000043.jpg   Exif.CanonSi.0x0006                          Short       1  0
@@ -2292,7 +2292,7 @@ Compare image data and extracted data ------------------------------------
 < 20031214_000043.jpg   Exif.CanonSi.0x0014                          Short       1  0
 < 20031214_000043.jpg   Exif.CanonSi.ApertureValue                   Short       1  F5
 < 20031214_000043.jpg   Exif.CanonSi.ShutterSpeedValue               Short       1  1/523 s
-< 20031214_000043.jpg   Exif.CanonSi.0x0017                          Short       1  0
+< 20031214_000043.jpg   Exif.CanonSi.MeasuredEV2                     Short       1  -6.00
 < 20031214_000043.jpg   Exif.CanonSi.0x0018                          Short       1  0
 < 20031214_000043.jpg   Exif.CanonSi.0x0019                          Short       1  0
 < 20031214_000043.jpg   Exif.CanonSi.0x001a                          Short       1  250
@@ -2696,7 +2696,7 @@ Compare image data and extracted data ------------------------------------
 < 20030925_201850.jpg   Exif.CanonSi.0x0000                          Short       1  66
 < 20030925_201850.jpg   Exif.CanonSi.0x0001                          Short       1  0
 < 20030925_201850.jpg   Exif.CanonSi.ISOSpeed                        Short       1  100
-< 20030925_201850.jpg   Exif.CanonSi.0x0003                          Short       1  200
+< 20030925_201850.jpg   Exif.CanonSi.MeasuredEV                      Short       1  11.25
 < 20030925_201850.jpg   Exif.CanonSi.TargetAperture                  Short       1  F5.6
 < 20030925_201850.jpg   Exif.CanonSi.TargetShutterSpeed              Short       1  1/79 s
 < 20030925_201850.jpg   Exif.CanonSi.0x0006                          Short       1  0
@@ -2716,7 +2716,7 @@ Compare image data and extracted data ------------------------------------
 < 20030925_201850.jpg   Exif.CanonSi.0x0014                          Short       1  546
 < 20030925_201850.jpg   Exif.CanonSi.ApertureValue                   Short       1  F5.4
 < 20030925_201850.jpg   Exif.CanonSi.ShutterSpeedValue               Short       1  1/81 s
-< 20030925_201850.jpg   Exif.CanonSi.0x0017                          Short       1  140
+< 20030925_201850.jpg   Exif.CanonSi.MeasuredEV2                     Short       1  11.50
 < 20030925_201850.jpg   Exif.CanonSi.0x0018                          Short       1  0
 < 20030925_201850.jpg   Exif.CanonSi.0x0019                          Short       1  0
 < 20030925_201850.jpg   Exif.CanonSi.0x001a                          Short       1  252
@@ -3288,7 +3288,7 @@ Compare image data and extracted data ------------------------------------
 < 20060802_095200.jpg   Exif.CanonSi.0x0000                          Short       1  68
 < 20060802_095200.jpg   Exif.CanonSi.0x0001                          Short       1  0
 < 20060802_095200.jpg   Exif.CanonSi.ISOSpeed                        Short       1  100
-< 20060802_095200.jpg   Exif.CanonSi.0x0003                          Short       1  8
+< 20060802_095200.jpg   Exif.CanonSi.MeasuredEV                      Short       1  5.25
 < 20060802_095200.jpg   Exif.CanonSi.TargetAperture                  Short       1  F5.6
 < 20060802_095200.jpg   Exif.CanonSi.TargetShutterSpeed              Short       1  1/60 s
 < 20060802_095200.jpg   Exif.CanonSi.0x0006                          Short       1  0
@@ -3308,7 +3308,7 @@ Compare image data and extracted data ------------------------------------
 < 20060802_095200.jpg   Exif.CanonSi.0x0014                          Short       1  0
 < 20060802_095200.jpg   Exif.CanonSi.ApertureValue                   Short       1  F5.4
 < 20060802_095200.jpg   Exif.CanonSi.ShutterSpeedValue               Short       1  1/2048 s
-< 20060802_095200.jpg   Exif.CanonSi.0x0017                          Short       1  87
+< 20060802_095200.jpg   Exif.CanonSi.MeasuredEV2                     Short       1  4.88
 < 20060802_095200.jpg   Exif.CanonSi.0x0018                          Short       1  0
 < 20060802_095200.jpg   Exif.CanonSi.0x0019                          Short       1  0
 < 20060802_095200.jpg   Exif.CanonSi.0x001a                          Short       1  252
@@ -3483,7 +3483,7 @@ Compare image data and extracted data ------------------------------------
 < 20001004_015404.jpg   Exif.CanonSi.0x0000                          Short       1  50
 < 20001004_015404.jpg   Exif.CanonSi.0x0001                          Short       1  0
 < 20001004_015404.jpg   Exif.CanonSi.ISOSpeed                        Short       1  100
-< 20001004_015404.jpg   Exif.CanonSi.0x0003                          Short       1  248
+< 20001004_015404.jpg   Exif.CanonSi.MeasuredEV                      Short       1  12.75
 < 20001004_015404.jpg   Exif.CanonSi.TargetAperture                  Short       1  F4
 < 20001004_015404.jpg   Exif.CanonSi.TargetShutterSpeed              Short       1  1/347 s
 < 20001004_015404.jpg   Exif.CanonSi.0x0006                          Short       1  0
@@ -3503,7 +3503,7 @@ Compare image data and extracted data ------------------------------------
 < 20001004_015404.jpg   Exif.CanonSi.0x0014                          Short       1  0
 < 20001004_015404.jpg   Exif.CanonSi.ApertureValue                   Short       1  F4
 < 20001004_015404.jpg   Exif.CanonSi.ShutterSpeedValue               Short       1  1/431 s
-< 20001004_015404.jpg   Exif.CanonSi.0x0017                          Short       1  154
+< 20001004_015404.jpg   Exif.CanonSi.MeasuredEV2                     Short       1  13.25
 < 20001004_015404.jpg   Exif.CanonSi.0x0018                          Short       1  0
 < 20001004_015404.jpg   Exif.Canon.0x0000                            Short       6  0 0 0 0 0 0
 < 20001004_015404.jpg   Exif.Canon.0x000a                            Short      59  118 8 8 0 0 12 7970 63771 12886 5201 28427 28912 13362 52780 584 8689 41493 288 8099 2844 12933 6065 60947 404 13298 55853 12878 9473 56351 4511 8115 1819 29306 6194 4629 25042 13378 59693 16980 9329 56351 33193 8003 5147 17037 6098 7445 41427 13426 60717 53852 9473 58656 45479 4 126 127 126 127
@@ -3626,7 +3626,7 @@ Compare image data and extracted data ------------------------------------
 < 20060127_225027.jpg   Exif.CanonSi.0x0000                          Short       1  68
 < 20060127_225027.jpg   Exif.CanonSi.0x0001                          Short       1  0
 < 20060127_225027.jpg   Exif.CanonSi.ISOSpeed                        Short       1  50
-< 20060127_225027.jpg   Exif.CanonSi.0x0003                          Short       1  320
+< 20060127_225027.jpg   Exif.CanonSi.MeasuredEV                      Short       1  15.00
 < 20060127_225027.jpg   Exif.CanonSi.TargetAperture                  Short       1  F4
 < 20060127_225027.jpg   Exif.CanonSi.TargetShutterSpeed              Short       1  1/1002 s
 < 20060127_225027.jpg   Exif.CanonSi.0x0006                          Short       1  0
@@ -3646,7 +3646,7 @@ Compare image data and extracted data ------------------------------------
 < 20060127_225027.jpg   Exif.CanonSi.0x0014                          Short       1  0
 < 20060127_225027.jpg   Exif.CanonSi.ApertureValue                   Short       1  F4
 < 20060127_225027.jpg   Exif.CanonSi.ShutterSpeedValue               Short       1  1/1024 s
-< 20060127_225027.jpg   Exif.CanonSi.0x0017                          Short       1  0
+< 20060127_225027.jpg   Exif.CanonSi.MeasuredEV2                     Short       1  -6.00
 < 20060127_225027.jpg   Exif.CanonSi.0x0018                          Short       1  0
 < 20060127_225027.jpg   Exif.CanonSi.0x0019                          Short       1  0
 < 20060127_225027.jpg   Exif.CanonSi.0x001a                          Short       1  250
@@ -3800,7 +3800,7 @@ Compare image data and extracted data ------------------------------------
 > 20031214_000043.exv   Exif.CanonSi.0x0000                          Short       1  54
 > 20031214_000043.exv   Exif.CanonSi.0x0001                          Short       1  0
 > 20031214_000043.exv   Exif.CanonSi.ISOSpeed                        Short       1  100
-> 20031214_000043.exv   Exif.CanonSi.0x0003                          Short       1  276
+> 20031214_000043.exv   Exif.CanonSi.MeasuredEV                      Short       1  13.62
 > 20031214_000043.exv   Exif.CanonSi.TargetAperture                  Short       1  F5
 > 20031214_000043.exv   Exif.CanonSi.TargetShutterSpeed              Short       1  1/501 s
 > 20031214_000043.exv   Exif.CanonSi.0x0006                          Short       1  0
@@ -3820,7 +3820,7 @@ Compare image data and extracted data ------------------------------------
 > 20031214_000043.exv   Exif.CanonSi.0x0014                          Short       1  0
 > 20031214_000043.exv   Exif.CanonSi.ApertureValue                   Short       1  F5
 > 20031214_000043.exv   Exif.CanonSi.ShutterSpeedValue               Short       1  1/523 s
-> 20031214_000043.exv   Exif.CanonSi.0x0017                          Short       1  0
+> 20031214_000043.exv   Exif.CanonSi.MeasuredEV2                     Short       1  -6.00
 > 20031214_000043.exv   Exif.CanonSi.0x0018                          Short       1  0
 > 20031214_000043.exv   Exif.CanonSi.0x0019                          Short       1  0
 > 20031214_000043.exv   Exif.CanonSi.0x001a                          Short       1  250
@@ -4224,7 +4224,7 @@ Compare image data and extracted data ------------------------------------
 > 20030925_201850.exv   Exif.CanonSi.0x0000                          Short       1  66
 > 20030925_201850.exv   Exif.CanonSi.0x0001                          Short       1  0
 > 20030925_201850.exv   Exif.CanonSi.ISOSpeed                        Short       1  100
-> 20030925_201850.exv   Exif.CanonSi.0x0003                          Short       1  200
+> 20030925_201850.exv   Exif.CanonSi.MeasuredEV                      Short       1  11.25
 > 20030925_201850.exv   Exif.CanonSi.TargetAperture                  Short       1  F5.6
 > 20030925_201850.exv   Exif.CanonSi.TargetShutterSpeed              Short       1  1/79 s
 > 20030925_201850.exv   Exif.CanonSi.0x0006                          Short       1  0
@@ -4244,7 +4244,7 @@ Compare image data and extracted data ------------------------------------
 > 20030925_201850.exv   Exif.CanonSi.0x0014                          Short       1  546
 > 20030925_201850.exv   Exif.CanonSi.ApertureValue                   Short       1  F5.4
 > 20030925_201850.exv   Exif.CanonSi.ShutterSpeedValue               Short       1  1/81 s
-> 20030925_201850.exv   Exif.CanonSi.0x0017                          Short       1  140
+> 20030925_201850.exv   Exif.CanonSi.MeasuredEV2                     Short       1  11.50
 > 20030925_201850.exv   Exif.CanonSi.0x0018                          Short       1  0
 > 20030925_201850.exv   Exif.CanonSi.0x0019                          Short       1  0
 > 20030925_201850.exv   Exif.CanonSi.0x001a                          Short       1  252
@@ -4816,7 +4816,7 @@ Compare image data and extracted data ------------------------------------
 > 20060802_095200.exv   Exif.CanonSi.0x0000                          Short       1  68
 > 20060802_095200.exv   Exif.CanonSi.0x0001                          Short       1  0
 > 20060802_095200.exv   Exif.CanonSi.ISOSpeed                        Short       1  100
-> 20060802_095200.exv   Exif.CanonSi.0x0003                          Short       1  8
+> 20060802_095200.exv   Exif.CanonSi.MeasuredEV                      Short       1  5.25
 > 20060802_095200.exv   Exif.CanonSi.TargetAperture                  Short       1  F5.6
 > 20060802_095200.exv   Exif.CanonSi.TargetShutterSpeed              Short       1  1/60 s
 > 20060802_095200.exv   Exif.CanonSi.0x0006                          Short       1  0
@@ -4836,7 +4836,7 @@ Compare image data and extracted data ------------------------------------
 > 20060802_095200.exv   Exif.CanonSi.0x0014                          Short       1  0
 > 20060802_095200.exv   Exif.CanonSi.ApertureValue                   Short       1  F5.4
 > 20060802_095200.exv   Exif.CanonSi.ShutterSpeedValue               Short       1  1/2048 s
-> 20060802_095200.exv   Exif.CanonSi.0x0017                          Short       1  87
+> 20060802_095200.exv   Exif.CanonSi.MeasuredEV2                     Short       1  4.88
 > 20060802_095200.exv   Exif.CanonSi.0x0018                          Short       1  0
 > 20060802_095200.exv   Exif.CanonSi.0x0019                          Short       1  0
 > 20060802_095200.exv   Exif.CanonSi.0x001a                          Short       1  252
@@ -5011,7 +5011,7 @@ Compare image data and extracted data ------------------------------------
 > 20001004_015404.exv   Exif.CanonSi.0x0000                          Short       1  50
 > 20001004_015404.exv   Exif.CanonSi.0x0001                          Short       1  0
 > 20001004_015404.exv   Exif.CanonSi.ISOSpeed                        Short       1  100
-> 20001004_015404.exv   Exif.CanonSi.0x0003                          Short       1  248
+> 20001004_015404.exv   Exif.CanonSi.MeasuredEV                      Short       1  12.75
 > 20001004_015404.exv   Exif.CanonSi.TargetAperture                  Short       1  F4
 > 20001004_015404.exv   Exif.CanonSi.TargetShutterSpeed              Short       1  1/347 s
 > 20001004_015404.exv   Exif.CanonSi.0x0006                          Short       1  0
@@ -5031,7 +5031,7 @@ Compare image data and extracted data ------------------------------------
 > 20001004_015404.exv   Exif.CanonSi.0x0014                          Short       1  0
 > 20001004_015404.exv   Exif.CanonSi.ApertureValue                   Short       1  F4
 > 20001004_015404.exv   Exif.CanonSi.ShutterSpeedValue               Short       1  1/431 s
-> 20001004_015404.exv   Exif.CanonSi.0x0017                          Short       1  154
+> 20001004_015404.exv   Exif.CanonSi.MeasuredEV2                     Short       1  13.25
 > 20001004_015404.exv   Exif.CanonSi.0x0018                          Short       1  0
 > 20001004_015404.exv   Exif.Canon.0x0000                            Short       6  0 0 0 0 0 0
 > 20001004_015404.exv   Exif.Canon.0x000a                            Short      59  118 8 8 0 0 12 7970 63771 12886 5201 28427 28912 13362 52780 584 8689 41493 288 8099 2844 12933 6065 60947 404 13298 55853 12878 9473 56351 4511 8115 1819 29306 6194 4629 25042 13378 59693 16980 9329 56351 33193 8003 5147 17037 6098 7445 41427 13426 60717 53852 9473 58656 45479 4 126 127 126 127
@@ -5154,7 +5154,7 @@ Compare image data and extracted data ------------------------------------
 > 20060127_225027.exv   Exif.CanonSi.0x0000                          Short       1  68
 > 20060127_225027.exv   Exif.CanonSi.0x0001                          Short       1  0
 > 20060127_225027.exv   Exif.CanonSi.ISOSpeed                        Short       1  50
-> 20060127_225027.exv   Exif.CanonSi.0x0003                          Short       1  320
+> 20060127_225027.exv   Exif.CanonSi.MeasuredEV                      Short       1  15.00
 > 20060127_225027.exv   Exif.CanonSi.TargetAperture                  Short       1  F4
 > 20060127_225027.exv   Exif.CanonSi.TargetShutterSpeed              Short       1  1/1002 s
 > 20060127_225027.exv   Exif.CanonSi.0x0006                          Short       1  0
@@ -5174,7 +5174,7 @@ Compare image data and extracted data ------------------------------------
 > 20060127_225027.exv   Exif.CanonSi.0x0014                          Short       1  0
 > 20060127_225027.exv   Exif.CanonSi.ApertureValue                   Short       1  F4
 > 20060127_225027.exv   Exif.CanonSi.ShutterSpeedValue               Short       1  1/1024 s
-> 20060127_225027.exv   Exif.CanonSi.0x0017                          Short       1  0
+> 20060127_225027.exv   Exif.CanonSi.MeasuredEV2                     Short       1  -6.00
 > 20060127_225027.exv   Exif.CanonSi.0x0018                          Short       1  0
 > 20060127_225027.exv   Exif.CanonSi.0x0019                          Short       1  0
 > 20060127_225027.exv   Exif.CanonSi.0x001a                          Short       1  250
@@ -5548,7 +5548,7 @@ Compare original and inserted image data ---------------------------------
 < 20031214_000043.jpg   Exif.CanonSi.0x0000                          Short       1  54
 < 20031214_000043.jpg   Exif.CanonSi.0x0001                          Short       1  0
 < 20031214_000043.jpg   Exif.CanonSi.ISOSpeed                        Short       1  100
-< 20031214_000043.jpg   Exif.CanonSi.0x0003                          Short       1  276
+< 20031214_000043.jpg   Exif.CanonSi.MeasuredEV                      Short       1  13.62
 < 20031214_000043.jpg   Exif.CanonSi.TargetAperture                  Short       1  F5
 < 20031214_000043.jpg   Exif.CanonSi.TargetShutterSpeed              Short       1  1/501 s
 < 20031214_000043.jpg   Exif.CanonSi.0x0006                          Short       1  0
@@ -5568,7 +5568,7 @@ Compare original and inserted image data ---------------------------------
 < 20031214_000043.jpg   Exif.CanonSi.0x0014                          Short       1  0
 < 20031214_000043.jpg   Exif.CanonSi.ApertureValue                   Short       1  F5
 < 20031214_000043.jpg   Exif.CanonSi.ShutterSpeedValue               Short       1  1/523 s
-< 20031214_000043.jpg   Exif.CanonSi.0x0017                          Short       1  0
+< 20031214_000043.jpg   Exif.CanonSi.MeasuredEV2                     Short       1  -6.00
 < 20031214_000043.jpg   Exif.CanonSi.0x0018                          Short       1  0
 < 20031214_000043.jpg   Exif.CanonSi.0x0019                          Short       1  0
 < 20031214_000043.jpg   Exif.CanonSi.0x001a                          Short       1  250
@@ -5972,7 +5972,7 @@ Compare original and inserted image data ---------------------------------
 < 20030925_201850.jpg   Exif.CanonSi.0x0000                          Short       1  66
 < 20030925_201850.jpg   Exif.CanonSi.0x0001                          Short       1  0
 < 20030925_201850.jpg   Exif.CanonSi.ISOSpeed                        Short       1  100
-< 20030925_201850.jpg   Exif.CanonSi.0x0003                          Short       1  200
+< 20030925_201850.jpg   Exif.CanonSi.MeasuredEV                      Short       1  11.25
 < 20030925_201850.jpg   Exif.CanonSi.TargetAperture                  Short       1  F5.6
 < 20030925_201850.jpg   Exif.CanonSi.TargetShutterSpeed              Short       1  1/79 s
 < 20030925_201850.jpg   Exif.CanonSi.0x0006                          Short       1  0
@@ -5992,7 +5992,7 @@ Compare original and inserted image data ---------------------------------
 < 20030925_201850.jpg   Exif.CanonSi.0x0014                          Short       1  546
 < 20030925_201850.jpg   Exif.CanonSi.ApertureValue                   Short       1  F5.4
 < 20030925_201850.jpg   Exif.CanonSi.ShutterSpeedValue               Short       1  1/81 s
-< 20030925_201850.jpg   Exif.CanonSi.0x0017                          Short       1  140
+< 20030925_201850.jpg   Exif.CanonSi.MeasuredEV2                     Short       1  11.50
 < 20030925_201850.jpg   Exif.CanonSi.0x0018                          Short       1  0
 < 20030925_201850.jpg   Exif.CanonSi.0x0019                          Short       1  0
 < 20030925_201850.jpg   Exif.CanonSi.0x001a                          Short       1  252
@@ -6564,7 +6564,7 @@ Compare original and inserted image data ---------------------------------
 < 20060802_095200.jpg   Exif.CanonSi.0x0000                          Short       1  68
 < 20060802_095200.jpg   Exif.CanonSi.0x0001                          Short       1  0
 < 20060802_095200.jpg   Exif.CanonSi.ISOSpeed                        Short       1  100
-< 20060802_095200.jpg   Exif.CanonSi.0x0003                          Short       1  8
+< 20060802_095200.jpg   Exif.CanonSi.MeasuredEV                      Short       1  5.25
 < 20060802_095200.jpg   Exif.CanonSi.TargetAperture                  Short       1  F5.6
 < 20060802_095200.jpg   Exif.CanonSi.TargetShutterSpeed              Short       1  1/60 s
 < 20060802_095200.jpg   Exif.CanonSi.0x0006                          Short       1  0
@@ -6584,7 +6584,7 @@ Compare original and inserted image data ---------------------------------
 < 20060802_095200.jpg   Exif.CanonSi.0x0014                          Short       1  0
 < 20060802_095200.jpg   Exif.CanonSi.ApertureValue                   Short       1  F5.4
 < 20060802_095200.jpg   Exif.CanonSi.ShutterSpeedValue               Short       1  1/2048 s
-< 20060802_095200.jpg   Exif.CanonSi.0x0017                          Short       1  87
+< 20060802_095200.jpg   Exif.CanonSi.MeasuredEV2                     Short       1  4.88
 < 20060802_095200.jpg   Exif.CanonSi.0x0018                          Short       1  0
 < 20060802_095200.jpg   Exif.CanonSi.0x0019                          Short       1  0
 < 20060802_095200.jpg   Exif.CanonSi.0x001a                          Short       1  252
@@ -6759,7 +6759,7 @@ Compare original and inserted image data ---------------------------------
 < 20001004_015404.jpg   Exif.CanonSi.0x0000                          Short       1  50
 < 20001004_015404.jpg   Exif.CanonSi.0x0001                          Short       1  0
 < 20001004_015404.jpg   Exif.CanonSi.ISOSpeed                        Short       1  100
-< 20001004_015404.jpg   Exif.CanonSi.0x0003                          Short       1  248
+< 20001004_015404.jpg   Exif.CanonSi.MeasuredEV                      Short       1  12.75
 < 20001004_015404.jpg   Exif.CanonSi.TargetAperture                  Short       1  F4
 < 20001004_015404.jpg   Exif.CanonSi.TargetShutterSpeed              Short       1  1/347 s
 < 20001004_015404.jpg   Exif.CanonSi.0x0006                          Short       1  0
@@ -6779,7 +6779,7 @@ Compare original and inserted image data ---------------------------------
 < 20001004_015404.jpg   Exif.CanonSi.0x0014                          Short       1  0
 < 20001004_015404.jpg   Exif.CanonSi.ApertureValue                   Short       1  F4
 < 20001004_015404.jpg   Exif.CanonSi.ShutterSpeedValue               Short       1  1/431 s
-< 20001004_015404.jpg   Exif.CanonSi.0x0017                          Short       1  154
+< 20001004_015404.jpg   Exif.CanonSi.MeasuredEV2                     Short       1  13.25
 < 20001004_015404.jpg   Exif.CanonSi.0x0018                          Short       1  0
 < 20001004_015404.jpg   Exif.Canon.0x0000                            Short       6  0 0 0 0 0 0
 < 20001004_015404.jpg   Exif.Canon.0x000a                            Short      59  118 8 8 0 0 12 7970 63771 12886 5201 28427 28912 13362 52780 584 8689 41493 288 8099 2844 12933 6065 60947 404 13298 55853 12878 9473 56351 4511 8115 1819 29306 6194 4629 25042 13378 59693 16980 9329 56351 33193 8003 5147 17037 6098 7445 41427 13426 60717 53852 9473 58656 45479 4 126 127 126 127
@@ -6902,7 +6902,7 @@ Compare original and inserted image data ---------------------------------
 < 20060127_225027.jpg   Exif.CanonSi.0x0000                          Short       1  68
 < 20060127_225027.jpg   Exif.CanonSi.0x0001                          Short       1  0
 < 20060127_225027.jpg   Exif.CanonSi.ISOSpeed                        Short       1  50
-< 20060127_225027.jpg   Exif.CanonSi.0x0003                          Short       1  320
+< 20060127_225027.jpg   Exif.CanonSi.MeasuredEV                      Short       1  15.00
 < 20060127_225027.jpg   Exif.CanonSi.TargetAperture                  Short       1  F4
 < 20060127_225027.jpg   Exif.CanonSi.TargetShutterSpeed              Short       1  1/1002 s
 < 20060127_225027.jpg   Exif.CanonSi.0x0006                          Short       1  0
@@ -6922,7 +6922,7 @@ Compare original and inserted image data ---------------------------------
 < 20060127_225027.jpg   Exif.CanonSi.0x0014                          Short       1  0
 < 20060127_225027.jpg   Exif.CanonSi.ApertureValue                   Short       1  F4
 < 20060127_225027.jpg   Exif.CanonSi.ShutterSpeedValue               Short       1  1/1024 s
-< 20060127_225027.jpg   Exif.CanonSi.0x0017                          Short       1  0
+< 20060127_225027.jpg   Exif.CanonSi.MeasuredEV2                     Short       1  -6.00
 < 20060127_225027.jpg   Exif.CanonSi.0x0018                          Short       1  0
 < 20060127_225027.jpg   Exif.CanonSi.0x0019                          Short       1  0
 < 20060127_225027.jpg   Exif.CanonSi.0x001a                          Short       1  250
@@ -7076,7 +7076,7 @@ Compare original and inserted image data ---------------------------------
 > 20031214_000043.exv   Exif.CanonSi.0x0000                          Short       1  54
 > 20031214_000043.exv   Exif.CanonSi.0x0001                          Short       1  0
 > 20031214_000043.exv   Exif.CanonSi.ISOSpeed                        Short       1  100
-> 20031214_000043.exv   Exif.CanonSi.0x0003                          Short       1  276
+> 20031214_000043.exv   Exif.CanonSi.MeasuredEV                      Short       1  13.62
 > 20031214_000043.exv   Exif.CanonSi.TargetAperture                  Short       1  F5
 > 20031214_000043.exv   Exif.CanonSi.TargetShutterSpeed              Short       1  1/501 s
 > 20031214_000043.exv   Exif.CanonSi.0x0006                          Short       1  0
@@ -7096,7 +7096,7 @@ Compare original and inserted image data ---------------------------------
 > 20031214_000043.exv   Exif.CanonSi.0x0014                          Short       1  0
 > 20031214_000043.exv   Exif.CanonSi.ApertureValue                   Short       1  F5
 > 20031214_000043.exv   Exif.CanonSi.ShutterSpeedValue               Short       1  1/523 s
-> 20031214_000043.exv   Exif.CanonSi.0x0017                          Short       1  0
+> 20031214_000043.exv   Exif.CanonSi.MeasuredEV2                     Short       1  -6.00
 > 20031214_000043.exv   Exif.CanonSi.0x0018                          Short       1  0
 > 20031214_000043.exv   Exif.CanonSi.0x0019                          Short       1  0
 > 20031214_000043.exv   Exif.CanonSi.0x001a                          Short       1  250
@@ -7500,7 +7500,7 @@ Compare original and inserted image data ---------------------------------
 > 20030925_201850.exv   Exif.CanonSi.0x0000                          Short       1  66
 > 20030925_201850.exv   Exif.CanonSi.0x0001                          Short       1  0
 > 20030925_201850.exv   Exif.CanonSi.ISOSpeed                        Short       1  100
-> 20030925_201850.exv   Exif.CanonSi.0x0003                          Short       1  200
+> 20030925_201850.exv   Exif.CanonSi.MeasuredEV                      Short       1  11.25
 > 20030925_201850.exv   Exif.CanonSi.TargetAperture                  Short       1  F5.6
 > 20030925_201850.exv   Exif.CanonSi.TargetShutterSpeed              Short       1  1/79 s
 > 20030925_201850.exv   Exif.CanonSi.0x0006                          Short       1  0
@@ -7520,7 +7520,7 @@ Compare original and inserted image data ---------------------------------
 > 20030925_201850.exv   Exif.CanonSi.0x0014                          Short       1  546
 > 20030925_201850.exv   Exif.CanonSi.ApertureValue                   Short       1  F5.4
 > 20030925_201850.exv   Exif.CanonSi.ShutterSpeedValue               Short       1  1/81 s
-> 20030925_201850.exv   Exif.CanonSi.0x0017                          Short       1  140
+> 20030925_201850.exv   Exif.CanonSi.MeasuredEV2                     Short       1  11.50
 > 20030925_201850.exv   Exif.CanonSi.0x0018                          Short       1  0
 > 20030925_201850.exv   Exif.CanonSi.0x0019                          Short       1  0
 > 20030925_201850.exv   Exif.CanonSi.0x001a                          Short       1  252
@@ -8092,7 +8092,7 @@ Compare original and inserted image data ---------------------------------
 > 20060802_095200.exv   Exif.CanonSi.0x0000                          Short       1  68
 > 20060802_095200.exv   Exif.CanonSi.0x0001                          Short       1  0
 > 20060802_095200.exv   Exif.CanonSi.ISOSpeed                        Short       1  100
-> 20060802_095200.exv   Exif.CanonSi.0x0003                          Short       1  8
+> 20060802_095200.exv   Exif.CanonSi.MeasuredEV                      Short       1  5.25
 > 20060802_095200.exv   Exif.CanonSi.TargetAperture                  Short       1  F5.6
 > 20060802_095200.exv   Exif.CanonSi.TargetShutterSpeed              Short       1  1/60 s
 > 20060802_095200.exv   Exif.CanonSi.0x0006                          Short       1  0
@@ -8112,7 +8112,7 @@ Compare original and inserted image data ---------------------------------
 > 20060802_095200.exv   Exif.CanonSi.0x0014                          Short       1  0
 > 20060802_095200.exv   Exif.CanonSi.ApertureValue                   Short       1  F5.4
 > 20060802_095200.exv   Exif.CanonSi.ShutterSpeedValue               Short       1  1/2048 s
-> 20060802_095200.exv   Exif.CanonSi.0x0017                          Short       1  87
+> 20060802_095200.exv   Exif.CanonSi.MeasuredEV2                     Short       1  4.88
 > 20060802_095200.exv   Exif.CanonSi.0x0018                          Short       1  0
 > 20060802_095200.exv   Exif.CanonSi.0x0019                          Short       1  0
 > 20060802_095200.exv   Exif.CanonSi.0x001a                          Short       1  252
@@ -8287,7 +8287,7 @@ Compare original and inserted image data ---------------------------------
 > 20001004_015404.exv   Exif.CanonSi.0x0000                          Short       1  50
 > 20001004_015404.exv   Exif.CanonSi.0x0001                          Short       1  0
 > 20001004_015404.exv   Exif.CanonSi.ISOSpeed                        Short       1  100
-> 20001004_015404.exv   Exif.CanonSi.0x0003                          Short       1  248
+> 20001004_015404.exv   Exif.CanonSi.MeasuredEV                      Short       1  12.75
 > 20001004_015404.exv   Exif.CanonSi.TargetAperture                  Short       1  F4
 > 20001004_015404.exv   Exif.CanonSi.TargetShutterSpeed              Short       1  1/347 s
 > 20001004_015404.exv   Exif.CanonSi.0x0006                          Short       1  0
@@ -8307,7 +8307,7 @@ Compare original and inserted image data ---------------------------------
 > 20001004_015404.exv   Exif.CanonSi.0x0014                          Short       1  0
 > 20001004_015404.exv   Exif.CanonSi.ApertureValue                   Short       1  F4
 > 20001004_015404.exv   Exif.CanonSi.ShutterSpeedValue               Short       1  1/431 s
-> 20001004_015404.exv   Exif.CanonSi.0x0017                          Short       1  154
+> 20001004_015404.exv   Exif.CanonSi.MeasuredEV2                     Short       1  13.25
 > 20001004_015404.exv   Exif.CanonSi.0x0018                          Short       1  0
 > 20001004_015404.exv   Exif.Canon.0x0000                            Short       6  0 0 0 0 0 0
 > 20001004_015404.exv   Exif.Canon.0x000a                            Short      59  118 8 8 0 0 12 7970 63771 12886 5201 28427 28912 13362 52780 584 8689 41493 288 8099 2844 12933 6065 60947 404 13298 55853 12878 9473 56351 4511 8115 1819 29306 6194 4629 25042 13378 59693 16980 9329 56351 33193 8003 5147 17037 6098 7445 41427 13426 60717 53852 9473 58656 45479 4 126 127 126 127
@@ -8430,7 +8430,7 @@ Compare original and inserted image data ---------------------------------
 > 20060127_225027.exv   Exif.CanonSi.0x0000                          Short       1  68
 > 20060127_225027.exv   Exif.CanonSi.0x0001                          Short       1  0
 > 20060127_225027.exv   Exif.CanonSi.ISOSpeed                        Short       1  50
-> 20060127_225027.exv   Exif.CanonSi.0x0003                          Short       1  320
+> 20060127_225027.exv   Exif.CanonSi.MeasuredEV                      Short       1  15.00
 > 20060127_225027.exv   Exif.CanonSi.TargetAperture                  Short       1  F4
 > 20060127_225027.exv   Exif.CanonSi.TargetShutterSpeed              Short       1  1/1002 s
 > 20060127_225027.exv   Exif.CanonSi.0x0006                          Short       1  0
@@ -8450,7 +8450,7 @@ Compare original and inserted image data ---------------------------------
 > 20060127_225027.exv   Exif.CanonSi.0x0014                          Short       1  0
 > 20060127_225027.exv   Exif.CanonSi.ApertureValue                   Short       1  F4
 > 20060127_225027.exv   Exif.CanonSi.ShutterSpeedValue               Short       1  1/1024 s
-> 20060127_225027.exv   Exif.CanonSi.0x0017                          Short       1  0
+> 20060127_225027.exv   Exif.CanonSi.MeasuredEV2                     Short       1  -6.00
 > 20060127_225027.exv   Exif.CanonSi.0x0018                          Short       1  0
 > 20060127_225027.exv   Exif.CanonSi.0x0019                          Short       1  0
 > 20060127_225027.exv   Exif.CanonSi.0x001a                          Short       1  250
