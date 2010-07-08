@@ -91,6 +91,8 @@ namespace Exiv2 {
         static std::ostream& printCsLens(std::ostream& os, const Value& value, const ExifData*);
         //! ISO speed used
         static std::ostream& printSi0x0002(std::ostream& os, const Value& value, const ExifData*);
+        //! MeasuredEV
+        static std::ostream& printSi0x0003(std::ostream& os, const Value& value, const ExifData*);
         //! Sequence number
         static std::ostream& printSi0x0009(std::ostream& os, const Value& value, const ExifData*);
         //! AF point used
@@ -101,6 +103,8 @@ namespace Exiv2 {
         static std::ostream& printSi0x0015(std::ostream& os, const Value& value, const ExifData*);
         //! Shutter speed
         static std::ostream& printSi0x0016(std::ostream& os, const Value& value, const ExifData*);
+        //! MeasuredEV2
+        static std::ostream& printSi0x0017(std::ostream& os, const Value& value, const ExifData*);
         //@}
 
     private:

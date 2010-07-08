@@ -754,7 +754,7 @@ namespace Exiv2 {
     const TagInfo CanonMakerNote::tagInfoSi_[] = {
         TagInfo(0x0001, "0x0001", "0x0001", N_("Unknown"), canonSiIfdId, makerTags, unsignedShort, printValue),
         TagInfo(0x0002, "ISOSpeed", N_("ISO Speed Used"), N_("ISO speed used"), canonSiIfdId, makerTags, unsignedShort, printSi0x0002),
-        TagInfo(0x0003, "0x0003", "0x0003", N_("Unknown"), canonSiIfdId, makerTags, unsignedShort, printValue),
+        TagInfo(0x0003, "MeasuredEV", N_("Measured EV"), N_("Measured EV"), canonSiIfdId, makerTags, unsignedShort, printSi0x0003),
         TagInfo(0x0004, "TargetAperture", N_("Target Aperture"), N_("Target Aperture"), canonSiIfdId, makerTags, unsignedShort, printSi0x0015),
         TagInfo(0x0005, "TargetShutterSpeed", N_("Target Shutter Speed"), N_("Target shutter speed"), canonSiIfdId, makerTags, unsignedShort, printSi0x0016),
         TagInfo(0x0006, "0x0006", "0x0006", N_("Unknown"), canonSiIfdId, makerTags, unsignedShort, printValue),
@@ -774,7 +774,7 @@ namespace Exiv2 {
         TagInfo(0x0014, "0x0014", "0x0014", N_("Unknown"), canonSiIfdId, makerTags, unsignedShort, printValue),
         TagInfo(0x0015, "ApertureValue", N_("Aperture Value"), N_("Aperture"), canonSiIfdId, makerTags, unsignedShort, printSi0x0015),
         TagInfo(0x0016, "ShutterSpeedValue", N_("Shutter Speed Value"), N_("Shutter speed"), canonSiIfdId, makerTags, unsignedShort, printSi0x0016),
-        TagInfo(0x0017, "0x0017", "0x0017", N_("Unknown"), canonSiIfdId, makerTags, unsignedShort, printValue),
+        TagInfo(0x0017, "MeasuredEV2", N_("Measured EV 2"), N_("Measured EV 2"), canonSiIfdId, makerTags, unsignedShort, printSi0x0017),
         TagInfo(0x0018, "0x0018", "0x0018", N_("Unknown"), canonSiIfdId, makerTags, unsignedShort, printValue),
         TagInfo(0x0019, "0x0019", "0x0019", N_("Unknown"), canonSiIfdId, makerTags, unsignedShort, printValue),
         TagInfo(0x001a, "0x001a", "0x001a", N_("Unknown"), canonSiIfdId, makerTags, unsignedShort, printValue),
@@ -960,7 +960,9 @@ namespace Exiv2 {
                                                     const Value& value,
                                                     const ExifData* metadata)
     {
-        if (!metadata || value.typeId() != unsignedLong) return os << "(" << value << ")";
+        if (   !metadata || value.typeId() != unsignedLong
+            || value.count() == 0) return os << "(" << value << ")";
+
         ExifData::const_iterator pos = metadata->findKey(ExifKey("Exif.Image.Model"));
         if (pos == metadata->end()) return os << "(" << value << ")";
 
@@ -1047,7 +1049,9 @@ namespace Exiv2 {
                                                 const Value& value,
                                                 const ExifData*)
     {
-        if (value.typeId() != unsignedShort) return os << value;
+        if (   value.typeId() != unsignedShort
+            || value.count() == 0) return os << value;
+
         long l = value.toLong();
         if (l == 0) {
             os << "Off";
@@ -1074,7 +1078,8 @@ namespace Exiv2 {
                                            const Value& value,
                                            const ExifData* metadata)
     {
-        if (!metadata || value.typeId() != unsignedShort) return os << value;
+        if (   !metadata || value.typeId() != unsignedShort
+            || value.count() == 0) return os << value;
 
         LensTypeAndFocalLength ltfl;
         ltfl.lensType_ = value.toLong();
@@ -1109,7 +1114,8 @@ namespace Exiv2 {
                                                   const Value& value,
                                                   const ExifData* metadata)
     {
-        if (value.typeId() != unsignedShort) return os << "(" << value << ")";
+        if (   value.typeId() != unsignedShort
+            || value.count() == 0) return os << "(" << value << ")";
 
         const LensIdFct* lif = find(lensIdFct, value.toLong());
         if (!lif) {
@@ -1150,15 +1156,40 @@ namespace Exiv2 {
                                                 const Value& value,
                                                 const ExifData*)
     {
-        // Ported from Exiftool by Will Stokes
-        return os << exp(canonEv(value.toLong()) * log(2.0)) * 100.0 / 32.0;
+        if (   value.typeId() == unsignedShort
+            && value.count() > 0) {
+            // Ported from Exiftool by Will Stokes
+            os << exp(canonEv(value.toLong()) * log(2.0)) * 100.0 / 32.0;
+        }
+        return os;
+    }
+
+    std::ostream& CanonMakerNote::printSi0x0003(std::ostream& os,
+                                                const Value& value,
+                                                const ExifData*)
+    {
+        if (   value.typeId() == unsignedShort
+            && value.count() > 0) {
+            // The offset of '5' seems to be ok for most Canons (see Exiftool)
+            // It might be explained by the fakt, that most Canons have a longest
+            // exposure of 30s which is 5 EV below 1s
+            // see also printSi0x0017
+            std::ostringstream oss;
+            oss.copyfmt(os);
+            os << std::fixed << std::setprecision(2)
+               << value.toLong() / 32.0 + 5.0;
+            os.copyfmt(oss);
+        }
+        return os;
     }
 
     std::ostream& CanonMakerNote::printSi0x0009(std::ostream& os,
                                                 const Value& value,
                                                 const ExifData*)
     {
-        if (value.typeId() != unsignedShort) return os << value;
+        if (   value.typeId() != unsignedShort
+            || value.count() == 0) return os << value;
+
         long l = value.toLong();
         os << l << "";
         // Todo: determine unit
@@ -1169,7 +1200,9 @@ namespace Exiv2 {
                                                 const Value& value,
                                                 const ExifData* pExifData)
     {
-        if (value.typeId() != unsignedShort) return os << value;
+        if (   value.typeId() != unsignedShort
+            || value.count() == 0) return os << value;
+
         long l = value.toLong();
         long num = (l & 0xf000) >> 12;
         os << num << " focus points; ";
@@ -1188,7 +1221,9 @@ namespace Exiv2 {
                                                 const Value& value,
                                                 const ExifData*)
     {
-        if (value.typeId() != unsignedShort) return os << value;
+        if (   value.typeId() != unsignedShort
+            || value.count() == 0) return os << value;
+
         long l = value.toLong();
         if (l == 0xffff) {
             os << "Infinite";
@@ -1203,7 +1238,8 @@ namespace Exiv2 {
                                                 const Value& value,
                                                 const ExifData*)
     {
-        if (value.typeId() != unsignedShort) return os << value;
+        if (   value.typeId() != unsignedShort
+            || value.count() == 0) return os << value;
 
         std::ostringstream oss;
         oss.copyfmt(os);
@@ -1212,7 +1248,6 @@ namespace Exiv2 {
         os << std::setprecision(2)
            << "F" << fnumber(canonEv(val));
         os.copyfmt(oss);
-
         return os;
     }
 
@@ -1220,7 +1255,8 @@ namespace Exiv2 {
                                                 const Value& value,
                                                 const ExifData*)
     {
-        if (value.typeId() != unsignedShort) return os << value;
+        if (   value.typeId() != unsignedShort
+            || value.count() == 0) return os << value;
 
         URational ur = exposureTime(canonEv(value.toLong()));
         os << ur.first;
@@ -1228,6 +1264,21 @@ namespace Exiv2 {
             os << "/" << ur.second;
         }
         return os << " s";
+    }
+
+    std::ostream& CanonMakerNote::printSi0x0017(std::ostream& os,
+                                                const Value& value,
+                                                const ExifData*)
+    {
+        if (   value.typeId() != unsignedShort
+            || value.count() == 0) return os << value;
+
+        std::ostringstream oss;
+        oss.copyfmt(os);
+        os << std::fixed << std::setprecision(2)
+           << value.toLong() / 8.0 - 6.0;
+        os.copyfmt(oss);
+        return os;
     }
 
 // *****************************************************************************
