@@ -666,7 +666,7 @@ File  2/15: 20031214_000043.jpg
 20031214_000043.jpg   Exif.CanonCs.ZoomSourceWidth                 Short       1  2272
 20031214_000043.jpg   Exif.CanonCs.ZoomTargetWidth                 Short       1  2272
 20031214_000043.jpg   Exif.CanonCs.0x0026                          Short       1  0
-20031214_000043.jpg   Exif.CanonCs.0x0027                          Short       1  1
+20031214_000043.jpg   Exif.CanonCs.SpotMeteringMode                Short       1  AF Point
 20031214_000043.jpg   Exif.Canon.FocalLength                       Short       4  21.3 mm
 20031214_000043.jpg   Exif.Canon.0x0003                            Short       4  0 0 0 0
 20031214_000043.jpg   Exif.CanonSi.0x0000                          Short       1  54
@@ -1084,9 +1084,9 @@ File  6/15: 20030925_201850.jpg
 20030925_201850.jpg   Exif.CanonCs.ZoomSourceWidth                 Short       1  3072
 20030925_201850.jpg   Exif.CanonCs.ZoomTargetWidth                 Short       1  3072
 20030925_201850.jpg   Exif.CanonCs.0x0026                          Short       1  0
-20030925_201850.jpg   Exif.CanonCs.0x0027                          Short       1  65535
+20030925_201850.jpg   Exif.CanonCs.SpotMeteringMode                Short       1  (65535)
 20030925_201850.jpg   Exif.CanonCs.PhotoEffect                     Short       1  (65535)
-20030925_201850.jpg   Exif.CanonCs.0x0029                          Short       1  0
+20030925_201850.jpg   Exif.CanonCs.ManualFlashOutput               Short       1  n/a
 20030925_201850.jpg   Exif.CanonCs.ColorTone                       Short       1  0
 20030925_201850.jpg   Exif.CanonCs.0x002b                          Short       1  32767
 20030925_201850.jpg   Exif.CanonCs.0x002c                          Short       1  65535
@@ -1677,9 +1677,9 @@ Error: Directory Canon: Next pointer is out of bounds; ignored.
 20060802_095200.jpg   Exif.CanonCs.ZoomSourceWidth                 Short       1  0
 20060802_095200.jpg   Exif.CanonCs.ZoomTargetWidth                 Short       1  0
 20060802_095200.jpg   Exif.CanonCs.0x0026                          Short       1  0
-20060802_095200.jpg   Exif.CanonCs.0x0027                          Short       1  65535
+20060802_095200.jpg   Exif.CanonCs.SpotMeteringMode                Short       1  (65535)
 20060802_095200.jpg   Exif.CanonCs.PhotoEffect                     Short       1  Off
-20060802_095200.jpg   Exif.CanonCs.0x0029                          Short       1  32767
+20060802_095200.jpg   Exif.CanonCs.ManualFlashOutput               Short       1  (32767)
 20060802_095200.jpg   Exif.CanonCs.ColorTone                       Short       1  0
 20060802_095200.jpg   Exif.CanonCs.0x002b                          Short       1  32767
 20060802_095200.jpg   Exif.CanonCs.0x002c                          Short       1  65535
@@ -2015,9 +2015,9 @@ File 15/15: 20060127_225027.jpg
 20060127_225027.jpg   Exif.CanonCs.ZoomSourceWidth                 Short       1  2272
 20060127_225027.jpg   Exif.CanonCs.ZoomTargetWidth                 Short       1  2272
 20060127_225027.jpg   Exif.CanonCs.0x0026                          Short       1  0
-20060127_225027.jpg   Exif.CanonCs.0x0027                          Short       1  0
+20060127_225027.jpg   Exif.CanonCs.SpotMeteringMode                Short       1  Center
 20060127_225027.jpg   Exif.CanonCs.PhotoEffect                     Short       1  Off
-20060127_225027.jpg   Exif.CanonCs.0x0029                          Short       1  0
+20060127_225027.jpg   Exif.CanonCs.ManualFlashOutput               Short       1  n/a
 20060127_225027.jpg   Exif.CanonCs.ColorTone                       Short       1  32767
 20060127_225027.jpg   Exif.CanonCs.0x002b                          Short       1  32767
 20060127_225027.jpg   Exif.CanonCs.0x002c                          Short       1  0
@@ -2266,7 +2266,7 @@ Compare image data and extracted data ------------------------------------
 < 20031214_000043.jpg   Exif.CanonCs.ZoomSourceWidth                 Short       1  2272
 < 20031214_000043.jpg   Exif.CanonCs.ZoomTargetWidth                 Short       1  2272
 < 20031214_000043.jpg   Exif.CanonCs.0x0026                          Short       1  0
-< 20031214_000043.jpg   Exif.CanonCs.0x0027                          Short       1  1
+< 20031214_000043.jpg   Exif.CanonCs.SpotMeteringMode                Short       1  AF Point
 < 20031214_000043.jpg   Exif.Canon.FocalLength                       Short       4  21.3 mm
 < 20031214_000043.jpg   Exif.Canon.0x0003                            Short       4  0 0 0 0
 < 20031214_000043.jpg   Exif.CanonSi.0x0000                          Short       1  54
@@ -2684,9 +2684,9 @@ Compare image data and extracted data ------------------------------------
 < 20030925_201850.jpg   Exif.CanonCs.ZoomSourceWidth                 Short       1  3072
 < 20030925_201850.jpg   Exif.CanonCs.ZoomTargetWidth                 Short       1  3072
 < 20030925_201850.jpg   Exif.CanonCs.0x0026                          Short       1  0
-< 20030925_201850.jpg   Exif.CanonCs.0x0027                          Short       1  65535
+< 20030925_201850.jpg   Exif.CanonCs.SpotMeteringMode                Short       1  (65535)
 < 20030925_201850.jpg   Exif.CanonCs.PhotoEffect                     Short       1  (65535)
-< 20030925_201850.jpg   Exif.CanonCs.0x0029                          Short       1  0
+< 20030925_201850.jpg   Exif.CanonCs.ManualFlashOutput               Short       1  n/a
 < 20030925_201850.jpg   Exif.CanonCs.ColorTone                       Short       1  0
 < 20030925_201850.jpg   Exif.CanonCs.0x002b                          Short       1  32767
 < 20030925_201850.jpg   Exif.CanonCs.0x002c                          Short       1  65535
@@ -3276,9 +3276,9 @@ Compare image data and extracted data ------------------------------------
 < 20060802_095200.jpg   Exif.CanonCs.ZoomSourceWidth                 Short       1  0
 < 20060802_095200.jpg   Exif.CanonCs.ZoomTargetWidth                 Short       1  0
 < 20060802_095200.jpg   Exif.CanonCs.0x0026                          Short       1  0
-< 20060802_095200.jpg   Exif.CanonCs.0x0027                          Short       1  65535
+< 20060802_095200.jpg   Exif.CanonCs.SpotMeteringMode                Short       1  (65535)
 < 20060802_095200.jpg   Exif.CanonCs.PhotoEffect                     Short       1  Off
-< 20060802_095200.jpg   Exif.CanonCs.0x0029                          Short       1  32767
+< 20060802_095200.jpg   Exif.CanonCs.ManualFlashOutput               Short       1  (32767)
 < 20060802_095200.jpg   Exif.CanonCs.ColorTone                       Short       1  0
 < 20060802_095200.jpg   Exif.CanonCs.0x002b                          Short       1  32767
 < 20060802_095200.jpg   Exif.CanonCs.0x002c                          Short       1  65535
@@ -3614,9 +3614,9 @@ Compare image data and extracted data ------------------------------------
 < 20060127_225027.jpg   Exif.CanonCs.ZoomSourceWidth                 Short       1  2272
 < 20060127_225027.jpg   Exif.CanonCs.ZoomTargetWidth                 Short       1  2272
 < 20060127_225027.jpg   Exif.CanonCs.0x0026                          Short       1  0
-< 20060127_225027.jpg   Exif.CanonCs.0x0027                          Short       1  0
+< 20060127_225027.jpg   Exif.CanonCs.SpotMeteringMode                Short       1  Center
 < 20060127_225027.jpg   Exif.CanonCs.PhotoEffect                     Short       1  Off
-< 20060127_225027.jpg   Exif.CanonCs.0x0029                          Short       1  0
+< 20060127_225027.jpg   Exif.CanonCs.ManualFlashOutput               Short       1  n/a
 < 20060127_225027.jpg   Exif.CanonCs.ColorTone                       Short       1  32767
 < 20060127_225027.jpg   Exif.CanonCs.0x002b                          Short       1  32767
 < 20060127_225027.jpg   Exif.CanonCs.0x002c                          Short       1  0
@@ -3794,7 +3794,7 @@ Compare image data and extracted data ------------------------------------
 > 20031214_000043.exv   Exif.CanonCs.ZoomSourceWidth                 Short       1  2272
 > 20031214_000043.exv   Exif.CanonCs.ZoomTargetWidth                 Short       1  2272
 > 20031214_000043.exv   Exif.CanonCs.0x0026                          Short       1  0
-> 20031214_000043.exv   Exif.CanonCs.0x0027                          Short       1  1
+> 20031214_000043.exv   Exif.CanonCs.SpotMeteringMode                Short       1  AF Point
 > 20031214_000043.exv   Exif.Canon.FocalLength                       Short       4  21.3 mm
 > 20031214_000043.exv   Exif.Canon.0x0003                            Short       4  0 0 0 0
 > 20031214_000043.exv   Exif.CanonSi.0x0000                          Short       1  54
@@ -4212,9 +4212,9 @@ Compare image data and extracted data ------------------------------------
 > 20030925_201850.exv   Exif.CanonCs.ZoomSourceWidth                 Short       1  3072
 > 20030925_201850.exv   Exif.CanonCs.ZoomTargetWidth                 Short       1  3072
 > 20030925_201850.exv   Exif.CanonCs.0x0026                          Short       1  0
-> 20030925_201850.exv   Exif.CanonCs.0x0027                          Short       1  65535
+> 20030925_201850.exv   Exif.CanonCs.SpotMeteringMode                Short       1  (65535)
 > 20030925_201850.exv   Exif.CanonCs.PhotoEffect                     Short       1  (65535)
-> 20030925_201850.exv   Exif.CanonCs.0x0029                          Short       1  0
+> 20030925_201850.exv   Exif.CanonCs.ManualFlashOutput               Short       1  n/a
 > 20030925_201850.exv   Exif.CanonCs.ColorTone                       Short       1  0
 > 20030925_201850.exv   Exif.CanonCs.0x002b                          Short       1  32767
 > 20030925_201850.exv   Exif.CanonCs.0x002c                          Short       1  65535
@@ -4804,9 +4804,9 @@ Compare image data and extracted data ------------------------------------
 > 20060802_095200.exv   Exif.CanonCs.ZoomSourceWidth                 Short       1  0
 > 20060802_095200.exv   Exif.CanonCs.ZoomTargetWidth                 Short       1  0
 > 20060802_095200.exv   Exif.CanonCs.0x0026                          Short       1  0
-> 20060802_095200.exv   Exif.CanonCs.0x0027                          Short       1  65535
+> 20060802_095200.exv   Exif.CanonCs.SpotMeteringMode                Short       1  (65535)
 > 20060802_095200.exv   Exif.CanonCs.PhotoEffect                     Short       1  Off
-> 20060802_095200.exv   Exif.CanonCs.0x0029                          Short       1  32767
+> 20060802_095200.exv   Exif.CanonCs.ManualFlashOutput               Short       1  (32767)
 > 20060802_095200.exv   Exif.CanonCs.ColorTone                       Short       1  0
 > 20060802_095200.exv   Exif.CanonCs.0x002b                          Short       1  32767
 > 20060802_095200.exv   Exif.CanonCs.0x002c                          Short       1  65535
@@ -5142,9 +5142,9 @@ Compare image data and extracted data ------------------------------------
 > 20060127_225027.exv   Exif.CanonCs.ZoomSourceWidth                 Short       1  2272
 > 20060127_225027.exv   Exif.CanonCs.ZoomTargetWidth                 Short       1  2272
 > 20060127_225027.exv   Exif.CanonCs.0x0026                          Short       1  0
-> 20060127_225027.exv   Exif.CanonCs.0x0027                          Short       1  0
+> 20060127_225027.exv   Exif.CanonCs.SpotMeteringMode                Short       1  Center
 > 20060127_225027.exv   Exif.CanonCs.PhotoEffect                     Short       1  Off
-> 20060127_225027.exv   Exif.CanonCs.0x0029                          Short       1  0
+> 20060127_225027.exv   Exif.CanonCs.ManualFlashOutput               Short       1  n/a
 > 20060127_225027.exv   Exif.CanonCs.ColorTone                       Short       1  32767
 > 20060127_225027.exv   Exif.CanonCs.0x002b                          Short       1  32767
 > 20060127_225027.exv   Exif.CanonCs.0x002c                          Short       1  0
@@ -5542,7 +5542,7 @@ Compare original and inserted image data ---------------------------------
 < 20031214_000043.jpg   Exif.CanonCs.ZoomSourceWidth                 Short       1  2272
 < 20031214_000043.jpg   Exif.CanonCs.ZoomTargetWidth                 Short       1  2272
 < 20031214_000043.jpg   Exif.CanonCs.0x0026                          Short       1  0
-< 20031214_000043.jpg   Exif.CanonCs.0x0027                          Short       1  1
+< 20031214_000043.jpg   Exif.CanonCs.SpotMeteringMode                Short       1  AF Point
 < 20031214_000043.jpg   Exif.Canon.FocalLength                       Short       4  21.3 mm
 < 20031214_000043.jpg   Exif.Canon.0x0003                            Short       4  0 0 0 0
 < 20031214_000043.jpg   Exif.CanonSi.0x0000                          Short       1  54
@@ -5960,9 +5960,9 @@ Compare original and inserted image data ---------------------------------
 < 20030925_201850.jpg   Exif.CanonCs.ZoomSourceWidth                 Short       1  3072
 < 20030925_201850.jpg   Exif.CanonCs.ZoomTargetWidth                 Short       1  3072
 < 20030925_201850.jpg   Exif.CanonCs.0x0026                          Short       1  0
-< 20030925_201850.jpg   Exif.CanonCs.0x0027                          Short       1  65535
+< 20030925_201850.jpg   Exif.CanonCs.SpotMeteringMode                Short       1  (65535)
 < 20030925_201850.jpg   Exif.CanonCs.PhotoEffect                     Short       1  (65535)
-< 20030925_201850.jpg   Exif.CanonCs.0x0029                          Short       1  0
+< 20030925_201850.jpg   Exif.CanonCs.ManualFlashOutput               Short       1  n/a
 < 20030925_201850.jpg   Exif.CanonCs.ColorTone                       Short       1  0
 < 20030925_201850.jpg   Exif.CanonCs.0x002b                          Short       1  32767
 < 20030925_201850.jpg   Exif.CanonCs.0x002c                          Short       1  65535
@@ -6552,9 +6552,9 @@ Compare original and inserted image data ---------------------------------
 < 20060802_095200.jpg   Exif.CanonCs.ZoomSourceWidth                 Short       1  0
 < 20060802_095200.jpg   Exif.CanonCs.ZoomTargetWidth                 Short       1  0
 < 20060802_095200.jpg   Exif.CanonCs.0x0026                          Short       1  0
-< 20060802_095200.jpg   Exif.CanonCs.0x0027                          Short       1  65535
+< 20060802_095200.jpg   Exif.CanonCs.SpotMeteringMode                Short       1  (65535)
 < 20060802_095200.jpg   Exif.CanonCs.PhotoEffect                     Short       1  Off
-< 20060802_095200.jpg   Exif.CanonCs.0x0029                          Short       1  32767
+< 20060802_095200.jpg   Exif.CanonCs.ManualFlashOutput               Short       1  (32767)
 < 20060802_095200.jpg   Exif.CanonCs.ColorTone                       Short       1  0
 < 20060802_095200.jpg   Exif.CanonCs.0x002b                          Short       1  32767
 < 20060802_095200.jpg   Exif.CanonCs.0x002c                          Short       1  65535
@@ -6890,9 +6890,9 @@ Compare original and inserted image data ---------------------------------
 < 20060127_225027.jpg   Exif.CanonCs.ZoomSourceWidth                 Short       1  2272
 < 20060127_225027.jpg   Exif.CanonCs.ZoomTargetWidth                 Short       1  2272
 < 20060127_225027.jpg   Exif.CanonCs.0x0026                          Short       1  0
-< 20060127_225027.jpg   Exif.CanonCs.0x0027                          Short       1  0
+< 20060127_225027.jpg   Exif.CanonCs.SpotMeteringMode                Short       1  Center
 < 20060127_225027.jpg   Exif.CanonCs.PhotoEffect                     Short       1  Off
-< 20060127_225027.jpg   Exif.CanonCs.0x0029                          Short       1  0
+< 20060127_225027.jpg   Exif.CanonCs.ManualFlashOutput               Short       1  n/a
 < 20060127_225027.jpg   Exif.CanonCs.ColorTone                       Short       1  32767
 < 20060127_225027.jpg   Exif.CanonCs.0x002b                          Short       1  32767
 < 20060127_225027.jpg   Exif.CanonCs.0x002c                          Short       1  0
@@ -7070,7 +7070,7 @@ Compare original and inserted image data ---------------------------------
 > 20031214_000043.exv   Exif.CanonCs.ZoomSourceWidth                 Short       1  2272
 > 20031214_000043.exv   Exif.CanonCs.ZoomTargetWidth                 Short       1  2272
 > 20031214_000043.exv   Exif.CanonCs.0x0026                          Short       1  0
-> 20031214_000043.exv   Exif.CanonCs.0x0027                          Short       1  1
+> 20031214_000043.exv   Exif.CanonCs.SpotMeteringMode                Short       1  AF Point
 > 20031214_000043.exv   Exif.Canon.FocalLength                       Short       4  21.3 mm
 > 20031214_000043.exv   Exif.Canon.0x0003                            Short       4  0 0 0 0
 > 20031214_000043.exv   Exif.CanonSi.0x0000                          Short       1  54
@@ -7488,9 +7488,9 @@ Compare original and inserted image data ---------------------------------
 > 20030925_201850.exv   Exif.CanonCs.ZoomSourceWidth                 Short       1  3072
 > 20030925_201850.exv   Exif.CanonCs.ZoomTargetWidth                 Short       1  3072
 > 20030925_201850.exv   Exif.CanonCs.0x0026                          Short       1  0
-> 20030925_201850.exv   Exif.CanonCs.0x0027                          Short       1  65535
+> 20030925_201850.exv   Exif.CanonCs.SpotMeteringMode                Short       1  (65535)
 > 20030925_201850.exv   Exif.CanonCs.PhotoEffect                     Short       1  (65535)
-> 20030925_201850.exv   Exif.CanonCs.0x0029                          Short       1  0
+> 20030925_201850.exv   Exif.CanonCs.ManualFlashOutput               Short       1  n/a
 > 20030925_201850.exv   Exif.CanonCs.ColorTone                       Short       1  0
 > 20030925_201850.exv   Exif.CanonCs.0x002b                          Short       1  32767
 > 20030925_201850.exv   Exif.CanonCs.0x002c                          Short       1  65535
@@ -8080,9 +8080,9 @@ Compare original and inserted image data ---------------------------------
 > 20060802_095200.exv   Exif.CanonCs.ZoomSourceWidth                 Short       1  0
 > 20060802_095200.exv   Exif.CanonCs.ZoomTargetWidth                 Short       1  0
 > 20060802_095200.exv   Exif.CanonCs.0x0026                          Short       1  0
-> 20060802_095200.exv   Exif.CanonCs.0x0027                          Short       1  65535
+> 20060802_095200.exv   Exif.CanonCs.SpotMeteringMode                Short       1  (65535)
 > 20060802_095200.exv   Exif.CanonCs.PhotoEffect                     Short       1  Off
-> 20060802_095200.exv   Exif.CanonCs.0x0029                          Short       1  32767
+> 20060802_095200.exv   Exif.CanonCs.ManualFlashOutput               Short       1  (32767)
 > 20060802_095200.exv   Exif.CanonCs.ColorTone                       Short       1  0
 > 20060802_095200.exv   Exif.CanonCs.0x002b                          Short       1  32767
 > 20060802_095200.exv   Exif.CanonCs.0x002c                          Short       1  65535
@@ -8418,9 +8418,9 @@ Compare original and inserted image data ---------------------------------
 > 20060127_225027.exv   Exif.CanonCs.ZoomSourceWidth                 Short       1  2272
 > 20060127_225027.exv   Exif.CanonCs.ZoomTargetWidth                 Short       1  2272
 > 20060127_225027.exv   Exif.CanonCs.0x0026                          Short       1  0
-> 20060127_225027.exv   Exif.CanonCs.0x0027                          Short       1  0
+> 20060127_225027.exv   Exif.CanonCs.SpotMeteringMode                Short       1  Center
 > 20060127_225027.exv   Exif.CanonCs.PhotoEffect                     Short       1  Off
-> 20060127_225027.exv   Exif.CanonCs.0x0029                          Short       1  0
+> 20060127_225027.exv   Exif.CanonCs.ManualFlashOutput               Short       1  n/a
 > 20060127_225027.exv   Exif.CanonCs.ColorTone                       Short       1  32767
 > 20060127_225027.exv   Exif.CanonCs.0x002b                          Short       1  32767
 > 20060127_225027.exv   Exif.CanonCs.0x002c                          Short       1  0
