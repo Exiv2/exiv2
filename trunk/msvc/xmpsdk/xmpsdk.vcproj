@@ -295,10 +295,6 @@
 				>
 			</File>
 			<File
-				RelativePath="..\..\xmpsdk\src\XML_Node.cpp"
-				>
-			</File>
-			<File
 				RelativePath="..\..\xmpsdk\src\MD5.cpp"
 				>
 			</File>
@@ -320,6 +316,10 @@
 			</File>
 			<File
 				RelativePath="..\..\xmpsdk\src\WXMPUtils.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\..\xmpsdk\src\XML_Node.cpp"
 				>
 			</File>
 			<File
