@@ -280,6 +280,7 @@ namespace Exiv2 {
             p_->hFile_ = 0;
 #else
             if (p_->isWriteable_) {
+                seek(0, BasicIo::beg);
                 write(p_->pMappedArea_, p_->mappedLength_);
             }
             if (p_->isMalloced_) {
