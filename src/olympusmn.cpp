@@ -1231,7 +1231,7 @@ namespace Exiv2 {
     //! OlympusEq LensType, tag 0x201
     std::ostream& OlympusMakerNote::print0x0201(std::ostream& os, const Value& value, const ExifData*)
     {
-        // 6 numbers: 0. Make, 1. Unknown, 2. Model, 3. Sub-model, 4-5. Unknown. 
+        // 6 numbers: 0. Make, 1. Unknown, 2. Model, 3. Sub-model, 4-5. Unknown.
         // Only the Make, Model and Sub-model are used to determine the lens model
         static struct {
             byte val[3];
@@ -1299,8 +1299,8 @@ namespace Exiv2 {
         byte v0 = (byte)value.toLong(0);
         byte v2 = (byte)value.toLong(2);
         byte v3 = (byte)value.toLong(3);
-        
-        for (int i = 0; lensTypes[i].val[0] != 0xff; i++) {  
+
+        for (int i = 0; lensTypes[i].val[0] != 0xff; i++) {
             if (lensTypes[i].val[0] == v0 &&
                 lensTypes[i].val[1] == v2 &&
                 lensTypes[i].val[2] == v3) {
@@ -1328,7 +1328,7 @@ namespace Exiv2 {
     //! OlympusEq Extender, tag 0x0301
     std::ostream& OlympusMakerNote::printEq0x0301(std::ostream& os, const Value& value, const ExifData*)
     {
-        // 6 numbers: 0. Make, 1. Unknown, 2. Model, 3. Sub-model, 4-5. Unknown. 
+        // 6 numbers: 0. Make, 1. Unknown, 2. Model, 3. Sub-model, 4-5. Unknown.
         // Only the Make and Model are used to determine the extender model
         static struct {
             byte val[2];
@@ -1349,7 +1349,7 @@ namespace Exiv2 {
         byte v0 = (byte)value.toLong(0);
         byte v2 = (byte)value.toLong(2);
 
-        for (int i = 0; extenderModels[i].val[0] != 0xff; i++) {  
+        for (int i = 0; extenderModels[i].val[0] != 0xff; i++) {
             if (extenderModels[i].val[0] == v0 &&
                 extenderModels[i].val[1] == v2) {
                     return os << extenderModels[i].label;
@@ -1400,7 +1400,7 @@ namespace Exiv2 {
             std::string p = "";    // Used to enable ',' separation
 
             v = (uint16_t)value.toLong(1);
-            for (int i = 0; focusModes1[i].val != 0; i++) {  
+            for (int i = 0; focusModes1[i].val != 0; i++) {
                 if ((v & focusModes1[i].val) != 0) {
                     if (p.size() > 0) {
                         os << ", ";
@@ -1411,7 +1411,7 @@ namespace Exiv2 {
             }
         } else {
             v = (uint16_t)value.toLong(0);
-            for (int i = 0; focusModes0[i].val != 0xff; i++) {  
+            for (int i = 0; focusModes0[i].val != 0xff; i++) {
                if (focusModes0[i].val == v) {
                    os << focusModes0[i].label;
                    break;
@@ -1451,7 +1451,7 @@ namespace Exiv2 {
         uint16_t v0 = (uint16_t)value.toLong(0);
         uint16_t v1 = (uint16_t)value.toLong(1);
 
-        for (int i = 0; artFilters[i].val[0] != 0xffff; i++) {  
+        for (int i = 0; artFilters[i].val[0] != 0xffff; i++) {
             if (artFilters[i].val[0] == v0 &&
                 artFilters[i].val[1] == v1) {
                     return os << artFilters[i].label;
@@ -1543,10 +1543,10 @@ value, const ExifData* metadata)
             }
         }
 
-        uint16_t v = value.toLong(0);
+        uint16_t v = (uint16_t) value.toLong(0);
 
         if (!E3_E30model) {
-            for (int i = 0; afPoints[i].val != 0xffff; i++) {  
+            for (int i = 0; afPoints[i].val != 0xffff; i++) {
                 if (afPoints[i].val == v) {
                     return os << afPoints[i].label;
                 }
@@ -1554,7 +1554,7 @@ value, const ExifData* metadata)
         } else {
 
             // E-3 and E-30
-            for (int i = 0; afPointsE3[i].val != 0xff; i++) {  
+            for (int i = 0; afPointsE3[i].val != 0xff; i++) {
                 if (afPointsE3[i].val == (v & 0x1f)) {
                     os << afPointsE3[i].label;
                     os << ", ";
