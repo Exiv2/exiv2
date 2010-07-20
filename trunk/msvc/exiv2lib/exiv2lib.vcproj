@@ -23,6 +23,7 @@
 			ConfigurationType="4"
 			InheritedPropertySheets="$(VCInstallDir)VCProjectDefaults\UpgradeFromVC71.vsprops"
 			CharacterSet="2"
+			TargetName="exiv2sd"
 			>
 			<Tool
 				Name="VCPreBuildEventTool"
@@ -95,6 +96,7 @@
 			ConfigurationType="4"
 			InheritedPropertySheets="$(VCInstallDir)VCProjectDefaults\UpgradeFromVC71.vsprops"
 			CharacterSet="2"
+			TargetName="exiv2s"
 			>
 			<Tool
 				Name="VCPreBuildEventTool"
@@ -164,6 +166,7 @@
 			ConfigurationType="2"
 			InheritedPropertySheets="$(VCInstallDir)VCProjectDefaults\UpgradeFromVC71.vsprops"
 			CharacterSet="2"
+			TargetName="exiv2d"
 			>
 			<Tool
 				Name="VCPreBuildEventTool"
@@ -249,6 +252,7 @@
 			ConfigurationType="2"
 			InheritedPropertySheets="$(VCInstallDir)VCProjectDefaults\UpgradeFromVC71.vsprops"
 			CharacterSet="2"
+			TargetName="exiv2"
 			>
 			<Tool
 				Name="VCPreBuildEventTool"

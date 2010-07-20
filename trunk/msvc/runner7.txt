@@ -3802,10 +3802,13 @@ Exif.CanonCs.ImageStabilization              Short       1  On
 Exif.CanonCs.DisplayAperture                 Short       1  0
 Exif.CanonCs.ZoomSourceWidth                 Short       1  3264
 Exif.CanonCs.ZoomTargetWidth                 Short       1  3264
+Exif.CanonCs.SpotMeteringMode                Short       1  Center
 Exif.CanonCs.PhotoEffect                     Short       1  (65535)
+Exif.CanonCs.ManualFlashOutput               Short       1  n/a
 Exif.CanonCs.ColorTone                       Short       1  32767
 Exif.Canon.FocalLength                       Short       4  21.3 mm
 Exif.CanonSi.ISOSpeed                        Short       1  100
+Exif.CanonSi.MeasuredEV                      Short       1  14.25
 Exif.CanonSi.TargetAperture                  Short       1  F4
 Exif.CanonSi.TargetShutterSpeed              Short       1  1/501 s
 Exif.CanonSi.WhiteBalance                    Short       1  Sunny
@@ -3815,11 +3818,16 @@ Exif.CanonSi.FlashBias                       Short       1  0 EV
 Exif.CanonSi.SubjectDistance                 Short       1  503
 Exif.CanonSi.ApertureValue                   Short       1  F4
 Exif.CanonSi.ShutterSpeedValue               Short       1  1/546 s
+Exif.CanonSi.MeasuredEV2                     Short       1  -6.00
 Exif.Canon.ImageType                         Ascii      25  IMG:PowerShot S5 IS JPEG
 Exif.Canon.FirmwareVersion                   Ascii      22  Firmware Version 1.01
 Exif.Canon.FileNumber                        Long        1  100-1904
 Exif.Canon.OwnerName                         Ascii      32  Robin Mills
+Exif.Canon.CameraInfo                        Long      148  370 411 0 0 0 384 874 4294967255 0 0 0 0 577 889 4294967150 0 0 4294967287 0 0 1 0 0 0 9 10 888 888 888 384 1015 4294967148 0 0 888 888 0 0 1 3072 3072 3072 3072 3072 4294964224 4294964224 4294964224 4294964224 4294964224 0 4294964224 4294967287 0 0 0 0 0 0 0 0 0 0 164 1024 1024 40 94 0 0 0 0 0 0 525 0 40 94 0 0 3 1 0 0 921 1027 1024 1280 0 40 97 10 881 1646 1711 881 1 1014 384 888 659 4294967148 2 128 1 0 0 0 0 7532 5 0 0 0 0 0 0 7819 8252 8279 128 1 0 4294961112 3 1 7471 0 0 0 0 0 0 0 0 5345 1088 245 446 100 196 44 4091 4091 1 1 25 8 2400605383
 Exif.Canon.ModelID                           Long        1  PowerShot S5 IS
+Exif.Canon.ThumbnailImageValidArea           Short       4  0 0 0 0
+Exif.Canon.SuperMacro                        Short       1  Off
+Exif.Canon.AFInfo                            Short      48  96 2 9 1 2592 1944 1088 245 196 0 0 0 0 0 0 0 0 44 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1 0 0 0
 Exif.Photo.UserComment                       Undefined 264  (Binary value suppressed)
 Exif.Photo.FlashpixVersion                   Undefined   4  1.00
 Exif.Photo.ColorSpace                        Short       1  sRGB
@@ -3954,10 +3962,13 @@ Exif.CanonCs.ImageStabilization              Short       1  On
 Exif.CanonCs.DisplayAperture                 Short       1  0
 Exif.CanonCs.ZoomSourceWidth                 Short       1  3264
 Exif.CanonCs.ZoomTargetWidth                 Short       1  3264
+Exif.CanonCs.SpotMeteringMode                Short       1  Center
 Exif.CanonCs.PhotoEffect                     Short       1  (65535)
+Exif.CanonCs.ManualFlashOutput               Short       1  n/a
 Exif.CanonCs.ColorTone                       Short       1  32767
 Exif.Canon.FocalLength                       Short       4  21.3 mm
 Exif.CanonSi.ISOSpeed                        Short       1  100
+Exif.CanonSi.MeasuredEV                      Short       1  14.25
 Exif.CanonSi.TargetAperture                  Short       1  F4
 Exif.CanonSi.TargetShutterSpeed              Short       1  1/501 s
 Exif.CanonSi.WhiteBalance                    Short       1  Sunny
@@ -3967,11 +3978,16 @@ Exif.CanonSi.FlashBias                       Short       1  0 EV
 Exif.CanonSi.SubjectDistance                 Short       1  503
 Exif.CanonSi.ApertureValue                   Short       1  F4
 Exif.CanonSi.ShutterSpeedValue               Short       1  1/546 s
+Exif.CanonSi.MeasuredEV2                     Short       1  -6.00
 Exif.Canon.ImageType                         Ascii      25  IMG:PowerShot S5 IS JPEG
 Exif.Canon.FirmwareVersion                   Ascii      22  Firmware Version 1.01
 Exif.Canon.FileNumber                        Long        1  100-1904
 Exif.Canon.OwnerName                         Ascii      32  Robin Mills
+Exif.Canon.CameraInfo                        Long      148  370 411 0 0 0 384 874 4294967255 0 0 0 0 577 889 4294967150 0 0 4294967287 0 0 1 0 0 0 9 10 888 888 888 384 1015 4294967148 0 0 888 888 0 0 1 3072 3072 3072 3072 3072 4294964224 4294964224 4294964224 4294964224 4294964224 0 4294964224 4294967287 0 0 0 0 0 0 0 0 0 0 164 1024 1024 40 94 0 0 0 0 0 0 525 0 40 94 0 0 3 1 0 0 921 1027 1024 1280 0 40 97 10 881 1646 1711 881 1 1014 384 888 659 4294967148 2 128 1 0 0 0 0 7532 5 0 0 0 0 0 0 7819 8252 8279 128 1 0 4294961112 3 1 7471 0 0 0 0 0 0 0 0 5345 1088 245 446 100 196 44 4091 4091 1 1 25 8 2400605383
 Exif.Canon.ModelID                           Long        1  PowerShot S5 IS
+Exif.Canon.ThumbnailImageValidArea           Short       4  0 0 0 0
+Exif.Canon.SuperMacro                        Short       1  Off
+Exif.Canon.AFInfo                            Short      48  96 2 9 1 2592 1944 1088 245 196 0 0 0 0 0 0 0 0 44 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1 0 0 0
 Exif.Photo.UserComment                       Undefined 264  (Binary value suppressed)
 Exif.Photo.FlashpixVersion                   Undefined   4  1.00
 Exif.Photo.ColorSpace                        Short       1  sRGB
@@ -4106,10 +4122,13 @@ Exif.CanonCs.ImageStabilization              Short       1  On
 Exif.CanonCs.DisplayAperture                 Short       1  0
 Exif.CanonCs.ZoomSourceWidth                 Short       1  3264
 Exif.CanonCs.ZoomTargetWidth                 Short       1  3264
+Exif.CanonCs.SpotMeteringMode                Short       1  Center
 Exif.CanonCs.PhotoEffect                     Short       1  (65535)
+Exif.CanonCs.ManualFlashOutput               Short       1  n/a
 Exif.CanonCs.ColorTone                       Short       1  32767
 Exif.Canon.FocalLength                       Short       4  21.3 mm
 Exif.CanonSi.ISOSpeed                        Short       1  100
+Exif.CanonSi.MeasuredEV                      Short       1  14.25
 Exif.CanonSi.TargetAperture                  Short       1  F4
 Exif.CanonSi.TargetShutterSpeed              Short       1  1/501 s
 Exif.CanonSi.WhiteBalance                    Short       1  Sunny
@@ -4119,11 +4138,16 @@ Exif.CanonSi.FlashBias                       Short       1  0 EV
 Exif.CanonSi.SubjectDistance                 Short       1  503
 Exif.CanonSi.ApertureValue                   Short       1  F4
 Exif.CanonSi.ShutterSpeedValue               Short       1  1/546 s
+Exif.CanonSi.MeasuredEV2                     Short       1  -6.00
 Exif.Canon.ImageType                         Ascii      25  IMG:PowerShot S5 IS JPEG
 Exif.Canon.FirmwareVersion                   Ascii      22  Firmware Version 1.01
 Exif.Canon.FileNumber                        Long        1  100-1904
 Exif.Canon.OwnerName                         Ascii      32  Robin Mills
+Exif.Canon.CameraInfo                        Long      148  370 411 0 0 0 384 874 4294967255 0 0 0 0 577 889 4294967150 0 0 4294967287 0 0 1 0 0 0 9 10 888 888 888 384 1015 4294967148 0 0 888 888 0 0 1 3072 3072 3072 3072 3072 4294964224 4294964224 4294964224 4294964224 4294964224 0 4294964224 4294967287 0 0 0 0 0 0 0 0 0 0 164 1024 1024 40 94 0 0 0 0 0 0 525 0 40 94 0 0 3 1 0 0 921 1027 1024 1280 0 40 97 10 881 1646 1711 881 1 1014 384 888 659 4294967148 2 128 1 0 0 0 0 7532 5 0 0 0 0 0 0 7819 8252 8279 128 1 0 4294961112 3 1 7471 0 0 0 0 0 0 0 0 5345 1088 245 446 100 196 44 4091 4091 1 1 25 8 2400605383
 Exif.Canon.ModelID                           Long        1  PowerShot S5 IS
+Exif.Canon.ThumbnailImageValidArea           Short       4  0 0 0 0
+Exif.Canon.SuperMacro                        Short       1  Off
+Exif.Canon.AFInfo                            Short      48  96 2 9 1 2592 1944 1088 245 196 0 0 0 0 0 0 0 0 44 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1 0 0 0
 Exif.Photo.UserComment                       Undefined 264  (Binary value suppressed)
 Exif.Photo.FlashpixVersion                   Undefined   4  1.00
 Exif.Photo.ColorSpace                        Short       1  sRGB
@@ -4258,10 +4282,13 @@ Exif.CanonCs.ImageStabilization              Short       1  On
 Exif.CanonCs.DisplayAperture                 Short       1  0
 Exif.CanonCs.ZoomSourceWidth                 Short       1  3264
 Exif.CanonCs.ZoomTargetWidth                 Short       1  3264
+Exif.CanonCs.SpotMeteringMode                Short       1  Center
 Exif.CanonCs.PhotoEffect                     Short       1  (65535)
+Exif.CanonCs.ManualFlashOutput               Short       1  n/a
 Exif.CanonCs.ColorTone                       Short       1  32767
 Exif.Canon.FocalLength                       Short       4  21.3 mm
 Exif.CanonSi.ISOSpeed                        Short       1  100
+Exif.CanonSi.MeasuredEV                      Short       1  14.25
 Exif.CanonSi.TargetAperture                  Short       1  F4
 Exif.CanonSi.TargetShutterSpeed              Short       1  1/501 s
 Exif.CanonSi.WhiteBalance                    Short       1  Sunny
@@ -4271,11 +4298,16 @@ Exif.CanonSi.FlashBias                       Short       1  0 EV
 Exif.CanonSi.SubjectDistance                 Short       1  503
 Exif.CanonSi.ApertureValue                   Short       1  F4
 Exif.CanonSi.ShutterSpeedValue               Short       1  1/546 s
+Exif.CanonSi.MeasuredEV2                     Short       1  -6.00
 Exif.Canon.ImageType                         Ascii      25  IMG:PowerShot S5 IS JPEG
 Exif.Canon.FirmwareVersion                   Ascii      22  Firmware Version 1.01
 Exif.Canon.FileNumber                        Long        1  100-1904
 Exif.Canon.OwnerName                         Ascii      32  Robin Mills
+Exif.Canon.CameraInfo                        Long      148  370 411 0 0 0 384 874 4294967255 0 0 0 0 577 889 4294967150 0 0 4294967287 0 0 1 0 0 0 9 10 888 888 888 384 1015 4294967148 0 0 888 888 0 0 1 3072 3072 3072 3072 3072 4294964224 4294964224 4294964224 4294964224 4294964224 0 4294964224 4294967287 0 0 0 0 0 0 0 0 0 0 164 1024 1024 40 94 0 0 0 0 0 0 525 0 40 94 0 0 3 1 0 0 921 1027 1024 1280 0 40 97 10 881 1646 1711 881 1 1014 384 888 659 4294967148 2 128 1 0 0 0 0 7532 5 0 0 0 0 0 0 7819 8252 8279 128 1 0 4294961112 3 1 7471 0 0 0 0 0 0 0 0 5345 1088 245 446 100 196 44 4091 4091 1 1 25 8 2400605383
 Exif.Canon.ModelID                           Long        1  PowerShot S5 IS
+Exif.Canon.ThumbnailImageValidArea           Short       4  0 0 0 0
+Exif.Canon.SuperMacro                        Short       1  Off
+Exif.Canon.AFInfo                            Short      48  96 2 9 1 2592 1944 1088 245 196 0 0 0 0 0 0 0 0 44 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1 0 0 0
 Exif.Photo.UserComment                       Undefined 264  (Binary value suppressed)
 Exif.Photo.FlashpixVersion                   Undefined   4  1.00
 Exif.Photo.ColorSpace                        Short       1  sRGB
@@ -4355,32 +4387,7 @@ Copyright       :
 Exif comment    : 
 
 -------Debug---------------
-API-MS-Win-Core-Debug-L1-1-0.dll
-API-MS-Win-Core-ErrorHandling-L1-1-0.dll
-API-MS-Win-Core-Fibers-L1-1-0.dll
-API-MS-Win-Core-File-L1-1-0.dll
-API-MS-Win-Core-Handle-L1-1-0.dll
-API-MS-Win-Core-Heap-L1-1-0.dll
-API-MS-Win-Core-IO-L1-1-0.dll
-API-MS-Win-Core-LibraryLoader-L1-1-0.dll
-API-MS-Win-Core-Localization-L1-1-0.dll
-API-MS-Win-Core-Memory-L1-1-0.dll
-API-MS-Win-Core-Misc-L1-1-0.dll
-API-MS-Win-Core-NamedPipe-L1-1-0.dll
-API-MS-Win-Core-ProcessEnvironment-L1-1-0.dll
-API-MS-Win-Core-ProcessThreads-L1-1-0.dll
-API-MS-Win-Core-Profile-L1-1-0.dll
-API-MS-Win-Core-RtlSupport-L1-1-0.dll
-API-MS-Win-Core-String-L1-1-0.dll
-API-MS-Win-Core-Synch-L1-1-0.dll
-API-MS-Win-Core-SysInfo-L1-1-0.dll
-API-MS-Win-Core-ThreadPool-L1-1-0.dll
-API-MS-Win-Core-Util-L1-1-0.dll
-API-MS-Win-Security-Base-L1-1-0.dll
-KERNEL32.dll  
-KERNELBASE.dll
 addmoddel.exe 
-ntdll.dll     
 API-MS-Win-Core-Debug-L1-1-0.dll
 API-MS-Win-Core-ErrorHandling-L1-1-0.dll
 API-MS-Win-Core-Fibers-L1-1-0.dll
@@ -4405,7 +4412,32 @@ API-MS-Win-Core-Util-L1-1-0.dll
 API-MS-Win-Security-Base-L1-1-0.dll
 KERNEL32.dll  
 KERNELBASE.dll
+ntdll.dll     
+API-MS-Win-Core-Debug-L1-1-0.dll
+API-MS-Win-Core-ErrorHandling-L1-1-0.dll
+API-MS-Win-Core-Fibers-L1-1-0.dll
+API-MS-Win-Core-File-L1-1-0.dll
+API-MS-Win-Core-Handle-L1-1-0.dll
+API-MS-Win-Core-Heap-L1-1-0.dll
+API-MS-Win-Core-IO-L1-1-0.dll
+API-MS-Win-Core-LibraryLoader-L1-1-0.dll
+API-MS-Win-Core-Localization-L1-1-0.dll
+API-MS-Win-Core-Memory-L1-1-0.dll
+API-MS-Win-Core-Misc-L1-1-0.dll
+API-MS-Win-Core-NamedPipe-L1-1-0.dll
+API-MS-Win-Core-ProcessEnvironment-L1-1-0.dll
+API-MS-Win-Core-ProcessThreads-L1-1-0.dll
+API-MS-Win-Core-Profile-L1-1-0.dll
+API-MS-Win-Core-RtlSupport-L1-1-0.dll
+API-MS-Win-Core-String-L1-1-0.dll
+API-MS-Win-Core-Synch-L1-1-0.dll
+API-MS-Win-Core-SysInfo-L1-1-0.dll
+API-MS-Win-Core-ThreadPool-L1-1-0.dll
+API-MS-Win-Core-Util-L1-1-0.dll
+API-MS-Win-Security-Base-L1-1-0.dll
 convert-test.exe
+KERNEL32.dll  
+KERNELBASE.dll
 ntdll.dll     
 API-MS-Win-Core-Debug-L1-1-0.dll
 API-MS-Win-Core-ErrorHandling-L1-1-0.dll
@@ -4429,9 +4461,9 @@ API-MS-Win-Core-SysInfo-L1-1-0.dll
 API-MS-Win-Core-ThreadPool-L1-1-0.dll
 API-MS-Win-Core-Util-L1-1-0.dll
 API-MS-Win-Security-Base-L1-1-0.dll
-KERNEL32.dll  
-KERNELBASE.dll
 exifcomment.exe
+KERNEL32.dll  
+KERNELBASE.dll
 ntdll.dll     
 API-MS-Win-Core-Debug-L1-1-0.dll
 API-MS-Win-Core-ErrorHandling-L1-1-0.dll
@@ -4455,9 +4487,9 @@ API-MS-Win-Core-SysInfo-L1-1-0.dll
 API-MS-Win-Core-ThreadPool-L1-1-0.dll
 API-MS-Win-Core-Util-L1-1-0.dll
 API-MS-Win-Security-Base-L1-1-0.dll
-KERNEL32.dll  
-KERNELBASE.dll
 exifdata-test.exe
+KERNEL32.dll  
+KERNELBASE.dll
 ntdll.dll     
 API-MS-Win-Core-Debug-L1-1-0.dll
 API-MS-Win-Core-ErrorHandling-L1-1-0.dll
@@ -4481,9 +4513,9 @@ API-MS-Win-Core-SysInfo-L1-1-0.dll
 API-MS-Win-Core-ThreadPool-L1-1-0.dll
 API-MS-Win-Core-Util-L1-1-0.dll
 API-MS-Win-Security-Base-L1-1-0.dll
-KERNEL32.dll  
-KERNELBASE.dll
 exifprint.exe 
+KERNEL32.dll  
+KERNELBASE.dll
 ntdll.dll     
 API-MS-Win-Core-Debug-L1-1-0.dll
 API-MS-Win-Core-ErrorHandling-L1-1-0.dll
@@ -4507,9 +4539,9 @@ API-MS-Win-Core-SysInfo-L1-1-0.dll
 API-MS-Win-Core-ThreadPool-L1-1-0.dll
 API-MS-Win-Core-Util-L1-1-0.dll
 API-MS-Win-Security-Base-L1-1-0.dll
-KERNEL32.dll  
-KERNELBASE.dll
 exiv2.exe     
+KERNEL32.dll  
+KERNELBASE.dll
 ntdll.dll     
 API-MS-Win-Core-Debug-L1-1-0.dll
 API-MS-Win-Core-ErrorHandling-L1-1-0.dll
@@ -4533,9 +4565,9 @@ API-MS-Win-Core-SysInfo-L1-1-0.dll
 API-MS-Win-Core-ThreadPool-L1-1-0.dll
 API-MS-Win-Core-Util-L1-1-0.dll
 API-MS-Win-Security-Base-L1-1-0.dll
-KERNEL32.dll  
-KERNELBASE.dll
 exivsimple.dll
+KERNEL32.dll  
+KERNELBASE.dll
 ntdll.dll     
 API-MS-Win-Core-Debug-L1-1-0.dll
 API-MS-Win-Core-ErrorHandling-L1-1-0.dll
@@ -4559,9 +4591,9 @@ API-MS-Win-Core-SysInfo-L1-1-0.dll
 API-MS-Win-Core-ThreadPool-L1-1-0.dll
 API-MS-Win-Core-Util-L1-1-0.dll
 API-MS-Win-Security-Base-L1-1-0.dll
-KERNEL32.dll  
-KERNELBASE.dll
 iotest.exe    
+KERNEL32.dll  
+KERNELBASE.dll
 ntdll.dll     
 API-MS-Win-Core-Debug-L1-1-0.dll
 API-MS-Win-Core-ErrorHandling-L1-1-0.dll
@@ -4585,9 +4617,9 @@ API-MS-Win-Core-SysInfo-L1-1-0.dll
 API-MS-Win-Core-ThreadPool-L1-1-0.dll
 API-MS-Win-Core-Util-L1-1-0.dll
 API-MS-Win-Security-Base-L1-1-0.dll
-KERNEL32.dll  
-KERNELBASE.dll
 iptceasy.exe  
+KERNEL32.dll  
+KERNELBASE.dll
 ntdll.dll     
 API-MS-Win-Core-Debug-L1-1-0.dll
 API-MS-Win-Core-ErrorHandling-L1-1-0.dll
@@ -4611,9 +4643,9 @@ API-MS-Win-Core-SysInfo-L1-1-0.dll
 API-MS-Win-Core-ThreadPool-L1-1-0.dll
 API-MS-Win-Core-Util-L1-1-0.dll
 API-MS-Win-Security-Base-L1-1-0.dll
-KERNEL32.dll  
-KERNELBASE.dll
 iptcprint.exe 
+KERNEL32.dll  
+KERNELBASE.dll
 ntdll.dll     
 API-MS-Win-Core-Debug-L1-1-0.dll
 API-MS-Win-Core-ErrorHandling-L1-1-0.dll
@@ -4637,9 +4669,9 @@ API-MS-Win-Core-SysInfo-L1-1-0.dll
 API-MS-Win-Core-ThreadPool-L1-1-0.dll
 API-MS-Win-Core-Util-L1-1-0.dll
 API-MS-Win-Security-Base-L1-1-0.dll
+iptctest.exe  
 KERNEL32.dll  
 KERNELBASE.dll
-iptctest.exe  
 ntdll.dll     
 API-MS-Win-Core-Debug-L1-1-0.dll
 API-MS-Win-Core-ErrorHandling-L1-1-0.dll
@@ -4980,32 +5012,32 @@ KERNELBASE.dll
 ntdll.dll     
 xmpsample.exe 
 -------DebugDLL---------------
-API-MS-Win-Core-Debug-L1-1-0.dll
-API-MS-Win-Core-ErrorHandling-L1-1-0.dll
-API-MS-Win-Core-Fibers-L1-1-0.dll
-API-MS-Win-Core-File-L1-1-0.dll
-API-MS-Win-Core-Handle-L1-1-0.dll
-API-MS-Win-Core-Heap-L1-1-0.dll
-API-MS-Win-Core-IO-L1-1-0.dll
-API-MS-Win-Core-LibraryLoader-L1-1-0.dll
-API-MS-Win-Core-Localization-L1-1-0.dll
-API-MS-Win-Core-Memory-L1-1-0.dll
-API-MS-Win-Core-Misc-L1-1-0.dll
-API-MS-Win-Core-NamedPipe-L1-1-0.dll
-API-MS-Win-Core-ProcessEnvironment-L1-1-0.dll
-API-MS-Win-Core-ProcessThreads-L1-1-0.dll
-API-MS-Win-Core-Profile-L1-1-0.dll
-API-MS-Win-Core-RtlSupport-L1-1-0.dll
-API-MS-Win-Core-String-L1-1-0.dll
-API-MS-Win-Core-Synch-L1-1-0.dll
-API-MS-Win-Core-SysInfo-L1-1-0.dll
-API-MS-Win-Core-ThreadPool-L1-1-0.dll
-API-MS-Win-Core-Util-L1-1-0.dll
-API-MS-Win-Security-Base-L1-1-0.dll
-KERNEL32.dll  
-KERNELBASE.dll
 addmoddel.exe 
-exiv2.dll     
+API-MS-Win-Core-Debug-L1-1-0.dll
+API-MS-Win-Core-ErrorHandling-L1-1-0.dll
+API-MS-Win-Core-Fibers-L1-1-0.dll
+API-MS-Win-Core-File-L1-1-0.dll
+API-MS-Win-Core-Handle-L1-1-0.dll
+API-MS-Win-Core-Heap-L1-1-0.dll
+API-MS-Win-Core-IO-L1-1-0.dll
+API-MS-Win-Core-LibraryLoader-L1-1-0.dll
+API-MS-Win-Core-Localization-L1-1-0.dll
+API-MS-Win-Core-Memory-L1-1-0.dll
+API-MS-Win-Core-Misc-L1-1-0.dll
+API-MS-Win-Core-NamedPipe-L1-1-0.dll
+API-MS-Win-Core-ProcessEnvironment-L1-1-0.dll
+API-MS-Win-Core-ProcessThreads-L1-1-0.dll
+API-MS-Win-Core-Profile-L1-1-0.dll
+API-MS-Win-Core-RtlSupport-L1-1-0.dll
+API-MS-Win-Core-String-L1-1-0.dll
+API-MS-Win-Core-Synch-L1-1-0.dll
+API-MS-Win-Core-SysInfo-L1-1-0.dll
+API-MS-Win-Core-ThreadPool-L1-1-0.dll
+API-MS-Win-Core-Util-L1-1-0.dll
+API-MS-Win-Security-Base-L1-1-0.dll
+exiv2d.dll    
+KERNEL32.dll  
+KERNELBASE.dll
 libexpat.dll  
 ntdll.dll     
 zlib1d.dll    
@@ -5031,10 +5063,10 @@ API-MS-Win-Core-SysInfo-L1-1-0.dll
 API-MS-Win-Core-ThreadPool-L1-1-0.dll
 API-MS-Win-Core-Util-L1-1-0.dll
 API-MS-Win-Security-Base-L1-1-0.dll
-KERNEL32.dll  
-KERNELBASE.dll
 convert-test.exe
-exiv2.dll     
+exiv2d.dll    
+KERNEL32.dll  
+KERNELBASE.dll
 libexpat.dll  
 ntdll.dll     
 zlib1d.dll    
@@ -5060,10 +5092,10 @@ API-MS-Win-Core-SysInfo-L1-1-0.dll
 API-MS-Win-Core-ThreadPool-L1-1-0.dll
 API-MS-Win-Core-Util-L1-1-0.dll
 API-MS-Win-Security-Base-L1-1-0.dll
-KERNEL32.dll  
-KERNELBASE.dll
 exifcomment.exe
-exiv2.dll     
+exiv2d.dll    
+KERNEL32.dll  
+KERNELBASE.dll
 libexpat.dll  
 ntdll.dll     
 zlib1d.dll    
@@ -5089,10 +5121,10 @@ API-MS-Win-Core-SysInfo-L1-1-0.dll
 API-MS-Win-Core-ThreadPool-L1-1-0.dll
 API-MS-Win-Core-Util-L1-1-0.dll
 API-MS-Win-Security-Base-L1-1-0.dll
-KERNEL32.dll  
-KERNELBASE.dll
 exifdata-test.exe
-exiv2.dll     
+exiv2d.dll    
+KERNEL32.dll  
+KERNELBASE.dll
 libexpat.dll  
 ntdll.dll     
 zlib1d.dll    
@@ -5118,10 +5150,10 @@ API-MS-Win-Core-SysInfo-L1-1-0.dll
 API-MS-Win-Core-ThreadPool-L1-1-0.dll
 API-MS-Win-Core-Util-L1-1-0.dll
 API-MS-Win-Security-Base-L1-1-0.dll
-KERNEL32.dll  
-KERNELBASE.dll
 exifprint.exe 
-exiv2.dll     
+exiv2d.dll    
+KERNEL32.dll  
+KERNELBASE.dll
 libexpat.dll  
 ntdll.dll     
 zlib1d.dll    
@@ -5147,10 +5179,10 @@ API-MS-Win-Core-SysInfo-L1-1-0.dll
 API-MS-Win-Core-ThreadPool-L1-1-0.dll
 API-MS-Win-Core-Util-L1-1-0.dll
 API-MS-Win-Security-Base-L1-1-0.dll
-KERNEL32.dll  
-KERNELBASE.dll
-exiv2.dll     
 exiv2.exe     
+exiv2d.dll    
+KERNEL32.dll  
+KERNELBASE.dll
 libexpat.dll  
 ntdll.dll     
 zlib1d.dll    
@@ -5176,10 +5208,10 @@ API-MS-Win-Core-SysInfo-L1-1-0.dll
 API-MS-Win-Core-ThreadPool-L1-1-0.dll
 API-MS-Win-Core-Util-L1-1-0.dll
 API-MS-Win-Security-Base-L1-1-0.dll
-KERNEL32.dll  
-KERNELBASE.dll
-exiv2.dll     
+exiv2d.dll    
 exivsimple.dll
+KERNEL32.dll  
+KERNELBASE.dll
 libexpat.dll  
 ntdll.dll     
 zlib1d.dll    
@@ -5205,10 +5237,10 @@ API-MS-Win-Core-SysInfo-L1-1-0.dll
 API-MS-Win-Core-ThreadPool-L1-1-0.dll
 API-MS-Win-Core-Util-L1-1-0.dll
 API-MS-Win-Security-Base-L1-1-0.dll
-KERNEL32.dll  
-KERNELBASE.dll
-exiv2.dll     
+exiv2d.dll    
 iotest.exe    
+KERNEL32.dll  
+KERNELBASE.dll
 libexpat.dll  
 ntdll.dll     
 zlib1d.dll    
@@ -5234,10 +5266,10 @@ API-MS-Win-Core-SysInfo-L1-1-0.dll
 API-MS-Win-Core-ThreadPool-L1-1-0.dll
 API-MS-Win-Core-Util-L1-1-0.dll
 API-MS-Win-Security-Base-L1-1-0.dll
-KERNEL32.dll  
-KERNELBASE.dll
-exiv2.dll     
+exiv2d.dll    
 iptceasy.exe  
+KERNEL32.dll  
+KERNELBASE.dll
 libexpat.dll  
 ntdll.dll     
 zlib1d.dll    
@@ -5263,10 +5295,10 @@ API-MS-Win-Core-SysInfo-L1-1-0.dll
 API-MS-Win-Core-ThreadPool-L1-1-0.dll
 API-MS-Win-Core-Util-L1-1-0.dll
 API-MS-Win-Security-Base-L1-1-0.dll
-KERNEL32.dll  
-KERNELBASE.dll
-exiv2.dll     
+exiv2d.dll    
 iptcprint.exe 
+KERNEL32.dll  
+KERNELBASE.dll
 libexpat.dll  
 ntdll.dll     
 zlib1d.dll    
@@ -5292,10 +5324,10 @@ API-MS-Win-Core-SysInfo-L1-1-0.dll
 API-MS-Win-Core-ThreadPool-L1-1-0.dll
 API-MS-Win-Core-Util-L1-1-0.dll
 API-MS-Win-Security-Base-L1-1-0.dll
-KERNEL32.dll  
-KERNELBASE.dll
-exiv2.dll     
+exiv2d.dll    
 iptctest.exe  
+KERNEL32.dll  
+KERNELBASE.dll
 libexpat.dll  
 ntdll.dll     
 zlib1d.dll    
@@ -5321,9 +5353,9 @@ API-MS-Win-Core-SysInfo-L1-1-0.dll
 API-MS-Win-Core-ThreadPool-L1-1-0.dll
 API-MS-Win-Core-Util-L1-1-0.dll
 API-MS-Win-Security-Base-L1-1-0.dll
+exiv2d.dll    
 KERNEL32.dll  
 KERNELBASE.dll
-exiv2.dll     
 largeiptc-test.exe
 libexpat.dll  
 ntdll.dll     
@@ -5350,9 +5382,9 @@ API-MS-Win-Core-SysInfo-L1-1-0.dll
 API-MS-Win-Core-ThreadPool-L1-1-0.dll
 API-MS-Win-Core-Util-L1-1-0.dll
 API-MS-Win-Security-Base-L1-1-0.dll
+exiv2d.dll    
 KERNEL32.dll  
 KERNELBASE.dll
-exiv2.dll     
 libexpat.dll  
 metacopy.exe  
 ntdll.dll     
@@ -5379,9 +5411,9 @@ API-MS-Win-Core-SysInfo-L1-1-0.dll
 API-MS-Win-Core-ThreadPool-L1-1-0.dll
 API-MS-Win-Core-Util-L1-1-0.dll
 API-MS-Win-Security-Base-L1-1-0.dll
+exiv2d.dll    
 KERNEL32.dll  
 KERNELBASE.dll
-exiv2.dll     
 libexpat.dll  
 mmap-test.exe 
 ntdll.dll     
@@ -5408,9 +5440,9 @@ API-MS-Win-Core-SysInfo-L1-1-0.dll
 API-MS-Win-Core-ThreadPool-L1-1-0.dll
 API-MS-Win-Core-Util-L1-1-0.dll
 API-MS-Win-Security-Base-L1-1-0.dll
+exiv2d.dll    
 KERNEL32.dll  
 KERNELBASE.dll
-exiv2.dll     
 libexpat.dll  
 ntdll.dll     
 prevtest.exe  
@@ -5437,9 +5469,9 @@ API-MS-Win-Core-SysInfo-L1-1-0.dll
 API-MS-Win-Core-ThreadPool-L1-1-0.dll
 API-MS-Win-Core-Util-L1-1-0.dll
 API-MS-Win-Security-Base-L1-1-0.dll
+exiv2d.dll    
 KERNEL32.dll  
 KERNELBASE.dll
-exiv2.dll     
 libexpat.dll  
 ntdll.dll     
 stringto-test.exe
@@ -5466,9 +5498,9 @@ API-MS-Win-Core-SysInfo-L1-1-0.dll
 API-MS-Win-Core-ThreadPool-L1-1-0.dll
 API-MS-Win-Core-Util-L1-1-0.dll
 API-MS-Win-Security-Base-L1-1-0.dll
+exiv2d.dll    
 KERNEL32.dll  
 KERNELBASE.dll
-exiv2.dll     
 libexpat.dll  
 ntdll.dll     
 taglist.exe   
@@ -5495,9 +5527,9 @@ API-MS-Win-Core-SysInfo-L1-1-0.dll
 API-MS-Win-Core-ThreadPool-L1-1-0.dll
 API-MS-Win-Core-Util-L1-1-0.dll
 API-MS-Win-Security-Base-L1-1-0.dll
+exiv2d.dll    
 KERNEL32.dll  
 KERNELBASE.dll
-exiv2.dll     
 libexpat.dll  
 ntdll.dll     
 tiff-test.exe 
@@ -5550,9 +5582,9 @@ API-MS-Win-Core-SysInfo-L1-1-0.dll
 API-MS-Win-Core-ThreadPool-L1-1-0.dll
 API-MS-Win-Core-Util-L1-1-0.dll
 API-MS-Win-Security-Base-L1-1-0.dll
+exiv2d.dll    
 KERNEL32.dll  
 KERNELBASE.dll
-exiv2.dll     
 libexpat.dll  
 ntdll.dll     
 write-test.exe
@@ -5579,9 +5611,9 @@ API-MS-Win-Core-SysInfo-L1-1-0.dll
 API-MS-Win-Core-ThreadPool-L1-1-0.dll
 API-MS-Win-Core-Util-L1-1-0.dll
 API-MS-Win-Security-Base-L1-1-0.dll
+exiv2d.dll    
 KERNEL32.dll  
 KERNELBASE.dll
-exiv2.dll     
 libexpat.dll  
 ntdll.dll     
 write2-test.exe
@@ -5608,9 +5640,9 @@ API-MS-Win-Core-SysInfo-L1-1-0.dll
 API-MS-Win-Core-ThreadPool-L1-1-0.dll
 API-MS-Win-Core-Util-L1-1-0.dll
 API-MS-Win-Security-Base-L1-1-0.dll
+exiv2d.dll    
 KERNEL32.dll  
 KERNELBASE.dll
-exiv2.dll     
 libexpat.dll  
 ntdll.dll     
 xmpparse.exe  
@@ -5637,9 +5669,9 @@ API-MS-Win-Core-SysInfo-L1-1-0.dll
 API-MS-Win-Core-ThreadPool-L1-1-0.dll
 API-MS-Win-Core-Util-L1-1-0.dll
 API-MS-Win-Security-Base-L1-1-0.dll
+exiv2d.dll    
 KERNEL32.dll  
 KERNELBASE.dll
-exiv2.dll     
 libexpat.dll  
 ntdll.dll     
 xmpparser-test.exe
@@ -5666,40 +5698,15 @@ API-MS-Win-Core-SysInfo-L1-1-0.dll
 API-MS-Win-Core-ThreadPool-L1-1-0.dll
 API-MS-Win-Core-Util-L1-1-0.dll
 API-MS-Win-Security-Base-L1-1-0.dll
+exiv2d.dll    
 KERNEL32.dll  
 KERNELBASE.dll
-exiv2.dll     
 libexpat.dll  
 ntdll.dll     
 xmpsample.exe 
 zlib1d.dll    
 -------Release---------------
-API-MS-Win-Core-Debug-L1-1-0.dll
-API-MS-Win-Core-ErrorHandling-L1-1-0.dll
-API-MS-Win-Core-Fibers-L1-1-0.dll
-API-MS-Win-Core-File-L1-1-0.dll
-API-MS-Win-Core-Handle-L1-1-0.dll
-API-MS-Win-Core-Heap-L1-1-0.dll
-API-MS-Win-Core-IO-L1-1-0.dll
-API-MS-Win-Core-LibraryLoader-L1-1-0.dll
-API-MS-Win-Core-Localization-L1-1-0.dll
-API-MS-Win-Core-Memory-L1-1-0.dll
-API-MS-Win-Core-Misc-L1-1-0.dll
-API-MS-Win-Core-NamedPipe-L1-1-0.dll
-API-MS-Win-Core-ProcessEnvironment-L1-1-0.dll
-API-MS-Win-Core-ProcessThreads-L1-1-0.dll
-API-MS-Win-Core-Profile-L1-1-0.dll
-API-MS-Win-Core-RtlSupport-L1-1-0.dll
-API-MS-Win-Core-String-L1-1-0.dll
-API-MS-Win-Core-Synch-L1-1-0.dll
-API-MS-Win-Core-SysInfo-L1-1-0.dll
-API-MS-Win-Core-ThreadPool-L1-1-0.dll
-API-MS-Win-Core-Util-L1-1-0.dll
-API-MS-Win-Security-Base-L1-1-0.dll
-KERNEL32.dll  
-KERNELBASE.dll
 addmoddel.exe 
-ntdll.dll     
 API-MS-Win-Core-Debug-L1-1-0.dll
 API-MS-Win-Core-ErrorHandling-L1-1-0.dll
 API-MS-Win-Core-Fibers-L1-1-0.dll
@@ -5724,7 +5731,32 @@ API-MS-Win-Core-Util-L1-1-0.dll
 API-MS-Win-Security-Base-L1-1-0.dll
 KERNEL32.dll  
 KERNELBASE.dll
+ntdll.dll     
+API-MS-Win-Core-Debug-L1-1-0.dll
+API-MS-Win-Core-ErrorHandling-L1-1-0.dll
+API-MS-Win-Core-Fibers-L1-1-0.dll
+API-MS-Win-Core-File-L1-1-0.dll
+API-MS-Win-Core-Handle-L1-1-0.dll
+API-MS-Win-Core-Heap-L1-1-0.dll
+API-MS-Win-Core-IO-L1-1-0.dll
+API-MS-Win-Core-LibraryLoader-L1-1-0.dll
+API-MS-Win-Core-Localization-L1-1-0.dll
+API-MS-Win-Core-Memory-L1-1-0.dll
+API-MS-Win-Core-Misc-L1-1-0.dll
+API-MS-Win-Core-NamedPipe-L1-1-0.dll
+API-MS-Win-Core-ProcessEnvironment-L1-1-0.dll
+API-MS-Win-Core-ProcessThreads-L1-1-0.dll
+API-MS-Win-Core-Profile-L1-1-0.dll
+API-MS-Win-Core-RtlSupport-L1-1-0.dll
+API-MS-Win-Core-String-L1-1-0.dll
+API-MS-Win-Core-Synch-L1-1-0.dll
+API-MS-Win-Core-SysInfo-L1-1-0.dll
+API-MS-Win-Core-ThreadPool-L1-1-0.dll
+API-MS-Win-Core-Util-L1-1-0.dll
+API-MS-Win-Security-Base-L1-1-0.dll
 convert-test.exe
+KERNEL32.dll  
+KERNELBASE.dll
 ntdll.dll     
 API-MS-Win-Core-Debug-L1-1-0.dll
 API-MS-Win-Core-ErrorHandling-L1-1-0.dll
@@ -5748,9 +5780,9 @@ API-MS-Win-Core-SysInfo-L1-1-0.dll
 API-MS-Win-Core-ThreadPool-L1-1-0.dll
 API-MS-Win-Core-Util-L1-1-0.dll
 API-MS-Win-Security-Base-L1-1-0.dll
-KERNEL32.dll  
-KERNELBASE.dll
 exifcomment.exe
+KERNEL32.dll  
+KERNELBASE.dll
 ntdll.dll     
 API-MS-Win-Core-Debug-L1-1-0.dll
 API-MS-Win-Core-ErrorHandling-L1-1-0.dll
@@ -5774,9 +5806,9 @@ API-MS-Win-Core-SysInfo-L1-1-0.dll
 API-MS-Win-Core-ThreadPool-L1-1-0.dll
 API-MS-Win-Core-Util-L1-1-0.dll
 API-MS-Win-Security-Base-L1-1-0.dll
-KERNEL32.dll  
-KERNELBASE.dll
 exifdata-test.exe
+KERNEL32.dll  
+KERNELBASE.dll
 ntdll.dll     
 API-MS-Win-Core-Debug-L1-1-0.dll
 API-MS-Win-Core-ErrorHandling-L1-1-0.dll
@@ -5800,9 +5832,9 @@ API-MS-Win-Core-SysInfo-L1-1-0.dll
 API-MS-Win-Core-ThreadPool-L1-1-0.dll
 API-MS-Win-Core-Util-L1-1-0.dll
 API-MS-Win-Security-Base-L1-1-0.dll
-KERNEL32.dll  
-KERNELBASE.dll
 exifprint.exe 
+KERNEL32.dll  
+KERNELBASE.dll
 ntdll.dll     
 API-MS-Win-Core-Debug-L1-1-0.dll
 API-MS-Win-Core-ErrorHandling-L1-1-0.dll
@@ -5826,9 +5858,9 @@ API-MS-Win-Core-SysInfo-L1-1-0.dll
 API-MS-Win-Core-ThreadPool-L1-1-0.dll
 API-MS-Win-Core-Util-L1-1-0.dll
 API-MS-Win-Security-Base-L1-1-0.dll
-KERNEL32.dll  
-KERNELBASE.dll
 exiv2.exe     
+KERNEL32.dll  
+KERNELBASE.dll
 ntdll.dll     
 API-MS-Win-Core-Debug-L1-1-0.dll
 API-MS-Win-Core-ErrorHandling-L1-1-0.dll
@@ -5852,9 +5884,9 @@ API-MS-Win-Core-SysInfo-L1-1-0.dll
 API-MS-Win-Core-ThreadPool-L1-1-0.dll
 API-MS-Win-Core-Util-L1-1-0.dll
 API-MS-Win-Security-Base-L1-1-0.dll
-KERNEL32.dll  
-KERNELBASE.dll
 exivsimple.dll
+KERNEL32.dll  
+KERNELBASE.dll
 ntdll.dll     
 API-MS-Win-Core-Debug-L1-1-0.dll
 API-MS-Win-Core-ErrorHandling-L1-1-0.dll
@@ -5878,9 +5910,9 @@ API-MS-Win-Core-SysInfo-L1-1-0.dll
 API-MS-Win-Core-ThreadPool-L1-1-0.dll
 API-MS-Win-Core-Util-L1-1-0.dll
 API-MS-Win-Security-Base-L1-1-0.dll
-KERNEL32.dll  
-KERNELBASE.dll
 iotest.exe    
+KERNEL32.dll  
+KERNELBASE.dll
 ntdll.dll     
 API-MS-Win-Core-Debug-L1-1-0.dll
 API-MS-Win-Core-ErrorHandling-L1-1-0.dll
@@ -5904,9 +5936,9 @@ API-MS-Win-Core-SysInfo-L1-1-0.dll
 API-MS-Win-Core-ThreadPool-L1-1-0.dll
 API-MS-Win-Core-Util-L1-1-0.dll
 API-MS-Win-Security-Base-L1-1-0.dll
-KERNEL32.dll  
-KERNELBASE.dll
 iptceasy.exe  
+KERNEL32.dll  
+KERNELBASE.dll
 ntdll.dll     
 API-MS-Win-Core-Debug-L1-1-0.dll
 API-MS-Win-Core-ErrorHandling-L1-1-0.dll
@@ -5930,9 +5962,9 @@ API-MS-Win-Core-SysInfo-L1-1-0.dll
 API-MS-Win-Core-ThreadPool-L1-1-0.dll
 API-MS-Win-Core-Util-L1-1-0.dll
 API-MS-Win-Security-Base-L1-1-0.dll
-KERNEL32.dll  
-KERNELBASE.dll
 iptcprint.exe 
+KERNEL32.dll  
+KERNELBASE.dll
 ntdll.dll     
 API-MS-Win-Core-Debug-L1-1-0.dll
 API-MS-Win-Core-ErrorHandling-L1-1-0.dll
@@ -5956,9 +5988,9 @@ API-MS-Win-Core-SysInfo-L1-1-0.dll
 API-MS-Win-Core-ThreadPool-L1-1-0.dll
 API-MS-Win-Core-Util-L1-1-0.dll
 API-MS-Win-Security-Base-L1-1-0.dll
+iptctest.exe  
 KERNEL32.dll  
 KERNELBASE.dll
-iptctest.exe  
 ntdll.dll     
 API-MS-Win-Core-Debug-L1-1-0.dll
 API-MS-Win-Core-ErrorHandling-L1-1-0.dll
@@ -6299,6 +6331,7 @@ KERNELBASE.dll
 ntdll.dll     
 xmpsample.exe 
 -------ReleaseDLL---------------
+addmoddel.exe 
 API-MS-Win-Core-Debug-L1-1-0.dll
 API-MS-Win-Core-ErrorHandling-L1-1-0.dll
 API-MS-Win-Core-Fibers-L1-1-0.dll
@@ -6321,10 +6354,9 @@ API-MS-Win-Core-SysInfo-L1-1-0.dll
 API-MS-Win-Core-ThreadPool-L1-1-0.dll
 API-MS-Win-Core-Util-L1-1-0.dll
 API-MS-Win-Security-Base-L1-1-0.dll
+exiv2.dll     
 KERNEL32.dll  
 KERNELBASE.dll
-addmoddel.exe 
-exiv2.dll     
 libexpat.dll  
 ntdll.dll     
 zlib1.dll     
@@ -6350,10 +6382,10 @@ API-MS-Win-Core-SysInfo-L1-1-0.dll
 API-MS-Win-Core-ThreadPool-L1-1-0.dll
 API-MS-Win-Core-Util-L1-1-0.dll
 API-MS-Win-Security-Base-L1-1-0.dll
-KERNEL32.dll  
-KERNELBASE.dll
 convert-test.exe
 exiv2.dll     
+KERNEL32.dll  
+KERNELBASE.dll
 libexpat.dll  
 ntdll.dll     
 zlib1.dll     
@@ -6379,10 +6411,10 @@ API-MS-Win-Core-SysInfo-L1-1-0.dll
 API-MS-Win-Core-ThreadPool-L1-1-0.dll
 API-MS-Win-Core-Util-L1-1-0.dll
 API-MS-Win-Security-Base-L1-1-0.dll
-KERNEL32.dll  
-KERNELBASE.dll
 exifcomment.exe
 exiv2.dll     
+KERNEL32.dll  
+KERNELBASE.dll
 libexpat.dll  
 ntdll.dll     
 zlib1.dll     
@@ -6408,10 +6440,10 @@ API-MS-Win-Core-SysInfo-L1-1-0.dll
 API-MS-Win-Core-ThreadPool-L1-1-0.dll
 API-MS-Win-Core-Util-L1-1-0.dll
 API-MS-Win-Security-Base-L1-1-0.dll
-KERNEL32.dll  
-KERNELBASE.dll
 exifdata-test.exe
 exiv2.dll     
+KERNEL32.dll  
+KERNELBASE.dll
 libexpat.dll  
 ntdll.dll     
 zlib1.dll     
@@ -6437,10 +6469,10 @@ API-MS-Win-Core-SysInfo-L1-1-0.dll
 API-MS-Win-Core-ThreadPool-L1-1-0.dll
 API-MS-Win-Core-Util-L1-1-0.dll
 API-MS-Win-Security-Base-L1-1-0.dll
-KERNEL32.dll  
-KERNELBASE.dll
 exifprint.exe 
 exiv2.dll     
+KERNEL32.dll  
+KERNELBASE.dll
 libexpat.dll  
 ntdll.dll     
 zlib1.dll     
@@ -6466,10 +6498,10 @@ API-MS-Win-Core-SysInfo-L1-1-0.dll
 API-MS-Win-Core-ThreadPool-L1-1-0.dll
 API-MS-Win-Core-Util-L1-1-0.dll
 API-MS-Win-Security-Base-L1-1-0.dll
-KERNEL32.dll  
-KERNELBASE.dll
 exiv2.dll     
 exiv2.exe     
+KERNEL32.dll  
+KERNELBASE.dll
 libexpat.dll  
 ntdll.dll     
 zlib1.dll     
@@ -6495,10 +6527,10 @@ API-MS-Win-Core-SysInfo-L1-1-0.dll
 API-MS-Win-Core-ThreadPool-L1-1-0.dll
 API-MS-Win-Core-Util-L1-1-0.dll
 API-MS-Win-Security-Base-L1-1-0.dll
-KERNEL32.dll  
-KERNELBASE.dll
 exiv2.dll     
 exivsimple.dll
+KERNEL32.dll  
+KERNELBASE.dll
 libexpat.dll  
 ntdll.dll     
 zlib1.dll     
@@ -6524,10 +6556,10 @@ API-MS-Win-Core-SysInfo-L1-1-0.dll
 API-MS-Win-Core-ThreadPool-L1-1-0.dll
 API-MS-Win-Core-Util-L1-1-0.dll
 API-MS-Win-Security-Base-L1-1-0.dll
-KERNEL32.dll  
-KERNELBASE.dll
 exiv2.dll     
 iotest.exe    
+KERNEL32.dll  
+KERNELBASE.dll
 libexpat.dll  
 ntdll.dll     
 zlib1.dll     
@@ -6553,10 +6585,10 @@ API-MS-Win-Core-SysInfo-L1-1-0.dll
 API-MS-Win-Core-ThreadPool-L1-1-0.dll
 API-MS-Win-Core-Util-L1-1-0.dll
 API-MS-Win-Security-Base-L1-1-0.dll
-KERNEL32.dll  
-KERNELBASE.dll
 exiv2.dll     
 iptceasy.exe  
+KERNEL32.dll  
+KERNELBASE.dll
 libexpat.dll  
 ntdll.dll     
 zlib1.dll     
@@ -6582,10 +6614,10 @@ API-MS-Win-Core-SysInfo-L1-1-0.dll
 API-MS-Win-Core-ThreadPool-L1-1-0.dll
 API-MS-Win-Core-Util-L1-1-0.dll
 API-MS-Win-Security-Base-L1-1-0.dll
-KERNEL32.dll  
-KERNELBASE.dll
 exiv2.dll     
 iptcprint.exe 
+KERNEL32.dll  
+KERNELBASE.dll
 libexpat.dll  
 ntdll.dll     
 zlib1.dll     
@@ -6611,10 +6643,10 @@ API-MS-Win-Core-SysInfo-L1-1-0.dll
 API-MS-Win-Core-ThreadPool-L1-1-0.dll
 API-MS-Win-Core-Util-L1-1-0.dll
 API-MS-Win-Security-Base-L1-1-0.dll
-KERNEL32.dll  
-KERNELBASE.dll
 exiv2.dll     
 iptctest.exe  
+KERNEL32.dll  
+KERNELBASE.dll
 libexpat.dll  
 ntdll.dll     
 zlib1.dll     
@@ -6640,9 +6672,9 @@ API-MS-Win-Core-SysInfo-L1-1-0.dll
 API-MS-Win-Core-ThreadPool-L1-1-0.dll
 API-MS-Win-Core-Util-L1-1-0.dll
 API-MS-Win-Security-Base-L1-1-0.dll
+exiv2.dll     
 KERNEL32.dll  
 KERNELBASE.dll
-exiv2.dll     
 largeiptc-test.exe
 libexpat.dll  
 ntdll.dll     
@@ -6669,9 +6701,9 @@ API-MS-Win-Core-SysInfo-L1-1-0.dll
 API-MS-Win-Core-ThreadPool-L1-1-0.dll
 API-MS-Win-Core-Util-L1-1-0.dll
 API-MS-Win-Security-Base-L1-1-0.dll
+exiv2.dll     
 KERNEL32.dll  
 KERNELBASE.dll
-exiv2.dll     
 libexpat.dll  
 metacopy.exe  
 ntdll.dll     
@@ -6698,9 +6730,9 @@ API-MS-Win-Core-SysInfo-L1-1-0.dll
 API-MS-Win-Core-ThreadPool-L1-1-0.dll
 API-MS-Win-Core-Util-L1-1-0.dll
 API-MS-Win-Security-Base-L1-1-0.dll
+exiv2.dll     
 KERNEL32.dll  
 KERNELBASE.dll
-exiv2.dll     
 libexpat.dll  
 mmap-test.exe 
 ntdll.dll     
@@ -6727,9 +6759,9 @@ API-MS-Win-Core-SysInfo-L1-1-0.dll
 API-MS-Win-Core-ThreadPool-L1-1-0.dll
 API-MS-Win-Core-Util-L1-1-0.dll
 API-MS-Win-Security-Base-L1-1-0.dll
+exiv2.dll     
 KERNEL32.dll  
 KERNELBASE.dll
-exiv2.dll     
 libexpat.dll  
 ntdll.dll     
 prevtest.exe  
@@ -6756,9 +6788,9 @@ API-MS-Win-Core-SysInfo-L1-1-0.dll
 API-MS-Win-Core-ThreadPool-L1-1-0.dll
 API-MS-Win-Core-Util-L1-1-0.dll
 API-MS-Win-Security-Base-L1-1-0.dll
+exiv2.dll     
 KERNEL32.dll  
 KERNELBASE.dll
-exiv2.dll     
 libexpat.dll  
 ntdll.dll     
 stringto-test.exe
@@ -6785,9 +6817,9 @@ API-MS-Win-Core-SysInfo-L1-1-0.dll
 API-MS-Win-Core-ThreadPool-L1-1-0.dll
 API-MS-Win-Core-Util-L1-1-0.dll
 API-MS-Win-Security-Base-L1-1-0.dll
+exiv2.dll     
 KERNEL32.dll  
 KERNELBASE.dll
-exiv2.dll     
 libexpat.dll  
 ntdll.dll     
 taglist.exe   
@@ -6814,9 +6846,9 @@ API-MS-Win-Core-SysInfo-L1-1-0.dll
 API-MS-Win-Core-ThreadPool-L1-1-0.dll
 API-MS-Win-Core-Util-L1-1-0.dll
 API-MS-Win-Security-Base-L1-1-0.dll
+exiv2.dll     
 KERNEL32.dll  
 KERNELBASE.dll
-exiv2.dll     
 libexpat.dll  
 ntdll.dll     
 tiff-test.exe 
@@ -6869,9 +6901,9 @@ API-MS-Win-Core-SysInfo-L1-1-0.dll
 API-MS-Win-Core-ThreadPool-L1-1-0.dll
 API-MS-Win-Core-Util-L1-1-0.dll
 API-MS-Win-Security-Base-L1-1-0.dll
+exiv2.dll     
 KERNEL32.dll  
 KERNELBASE.dll
-exiv2.dll     
 libexpat.dll  
 ntdll.dll     
 write-test.exe
@@ -6898,9 +6930,9 @@ API-MS-Win-Core-SysInfo-L1-1-0.dll
 API-MS-Win-Core-ThreadPool-L1-1-0.dll
 API-MS-Win-Core-Util-L1-1-0.dll
 API-MS-Win-Security-Base-L1-1-0.dll
+exiv2.dll     
 KERNEL32.dll  
 KERNELBASE.dll
-exiv2.dll     
 libexpat.dll  
 ntdll.dll     
 write2-test.exe
@@ -6927,9 +6959,9 @@ API-MS-Win-Core-SysInfo-L1-1-0.dll
 API-MS-Win-Core-ThreadPool-L1-1-0.dll
 API-MS-Win-Core-Util-L1-1-0.dll
 API-MS-Win-Security-Base-L1-1-0.dll
+exiv2.dll     
 KERNEL32.dll  
 KERNELBASE.dll
-exiv2.dll     
 libexpat.dll  
 ntdll.dll     
 xmpparse.exe  
@@ -6956,9 +6988,9 @@ API-MS-Win-Core-SysInfo-L1-1-0.dll
 API-MS-Win-Core-ThreadPool-L1-1-0.dll
 API-MS-Win-Core-Util-L1-1-0.dll
 API-MS-Win-Security-Base-L1-1-0.dll
+exiv2.dll     
 KERNEL32.dll  
 KERNELBASE.dll
-exiv2.dll     
 libexpat.dll  
 ntdll.dll     
 xmpparser-test.exe
@@ -6985,9 +7017,9 @@ API-MS-Win-Core-SysInfo-L1-1-0.dll
 API-MS-Win-Core-ThreadPool-L1-1-0.dll
 API-MS-Win-Core-Util-L1-1-0.dll
 API-MS-Win-Security-Base-L1-1-0.dll
+exiv2.dll     
 KERNEL32.dll  
 KERNELBASE.dll
-exiv2.dll     
 libexpat.dll  
 ntdll.dll     
 xmpsample.exe 
