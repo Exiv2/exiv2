@@ -5,9 +5,11 @@ Tools
 -----
 
 Created With:   VC9    (VS/2008 Std)
-Tested  With:   VC7.1, VC8 Pro +SP1, VC9Std (Windows/XP 32bit)
-                                     VC9 Team Studio (Windows/7 64bit)
-               (VC7.1 = VS/2003 .Net; VC8 = VS/2005; VC9 = VS/2008)
+Tested  With:   VC7.1, VC8 Pro +SP1, VC9Std running Windows/XP 32bit)
+                VC10 run on Windows/7 64bit, and Windows/XP 32bit
+               (VC7.1 = VS/2003 .Net; VC8 = VS/2005; VC9 = VS/2008; VC10 = VS/2010)
+               
+VC10/VS 2010 requires a project change which the conversion wizard doesn't handle.  See below.
               
 All builds are 32 bit.  There is no DevStudio support for 64bit builds of Exiv2 and dependancies.
 
@@ -16,7 +18,7 @@ All builds are 32 bit.  There is no DevStudio support for 64bit builds of Exiv2 
                           and the utility and test programs (exiv2.exe, exifprint.exe)
                           
                           DEPENDS on zlib and expat-2.0.1
-                          Builds with VC9,VC8 and VC7.1
+                          Builds with VC9,VC8 and VC7.1, VC10
             
     exiv2+organize.sln  - builds the same targets as exiv2
                           PLUS the organize.exe command-line program
@@ -26,6 +28,27 @@ All builds are 32 bit.  There is no DevStudio support for 64bit builds of Exiv2 
                           DOES NOT BUILT WITH VC7.1
                           
                           set Environment string BOOST_ROOT=c:\boost_1_37_0
+
+Notes for DevStudio 2010 Users
+------------------------------
+
+A new setting "TargetName"=$(ProjectName) has been added to DevStudio 2010.  There is only one project impacted by this:
+
+Select Project "exiv2lib" in Project Explorer.  Right-Click/Properties
+
++ Configuration Properties\General
+
+exiv2lib.vcproj
+Target Name | exiv2sd		Debug
+			| exiv2d		DebugDLL
+			| exiv2s		Release
+			| exiv2       	ReleaseDLL
+
+If you don't add these setting, you will get 1,000s of errors.  The damming error concerns:
+"Name of output is not equal to target name"  (or something obscure such as this).
+
+This matter has been reported to Microsoft.
+http://msdn.microsoft.com/EN-US/library/E0846D4D-2CE1-48E3-B219-674FF070BF4E#11
 
 How to build and test exiv2 (with/without organize.exe)
 -------------------------------------------------------
@@ -268,14 +291,14 @@ The following 'flavors' have been build:
 
 a) DLLs + MD build and work
 
-DebugDLL| ReleaseDLL = MD{d}  : link exiv2.lib, xmpsdk.lib, libexpat.lib and zlib1{d}.lib
-          Runtime DLLS        :      exiv2.dll, libexpat.dll, zlib1{d}.dll and MSVC{R|P}{_0D.dll)
+DebugDLL| ReleaseDLL = MD{d}  : link exiv2{d}.lib, xmpsdk.lib, libexpat.lib and zlib1{d}.lib
+          Runtime DLLS        :      exiv2{d}.dll, libexpat.dll, zlib1{d}.dll and MSVC{R|P}{_0D.dll)
           _ = 7 for VS2003, 8 for VS2005 and 9 for VS2008
           The MSVC*.dll's are on most machines and a free download from Microsoft
                         
 b) Static + MT build and work
 
-Debug | Release      = MT{d} :  link exiv2.lib, libexpatMT.lib, zlib{d}.lib xmpsdk.lib 
+Debug | Release      = MT{d} :  link exiv2s{d}.lib, libexpatMT.lib, zlib{d}.lib xmpsdk.lib 
           Runtime DLLs       : none
 
 c) Static + MD will work (but not built)
@@ -290,6 +313,7 @@ d) DLLs + MT WILL NOT FUNCTION even if you build it
 Do not build DLLs + MT.  Exiv2.dll exports STL template objects which will crash when linked with the MT run-time.  This is because Exiv2.dll is linked with it's own (static) c-runtime library.  Exiv2.exe is linked with a different c-runtime library.  The two cannot co-exist.
 
 This is not a bug.  There is no workaround.
+
 
 Bugs
 ----
