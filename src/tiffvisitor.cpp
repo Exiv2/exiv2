@@ -1502,7 +1502,7 @@ namespace Exiv2 {
         byte* pData = p;
         if (   size > 4
             && (   baseOffset() + offset >= size_
-                || static_cast<int32_t>(baseOffset()) + offset < 0)) {
+                || static_cast<int32_t>(baseOffset()) + offset <= 0)) {
 #ifndef SUPPRESS_WARNINGS
                 std::cerr << "Error: Offset of "
                           << "directory " << tiffGroupName(object->group())
