@@ -76,7 +76,6 @@ namespace Exiv2 {
         case invalidTypeId:
         case signedByte:
         case unsignedByte:
-        case tiffFloat:
         case tiffDouble:
             value = AutoPtr(new DataValue(typeId));
             break;
@@ -104,6 +103,9 @@ namespace Exiv2 {
             break;
         case signedRational:
             value = AutoPtr(new ValueType<Rational>);
+            break;
+        case tiffFloat:
+            value = AutoPtr(new ValueType<float>);
             break;
         case string:
             value = AutoPtr(new StringValue);

@@ -1209,6 +1209,8 @@ namespace Exiv2 {
     template<> inline TypeId getType<int32_t>() { return signedLong; }
     //! Specialization for a signed rational
     template<> inline TypeId getType<Rational>() { return signedRational; }
+    //! Specialization for a float
+    template<> inline TypeId getType<float>() { return tiffFloat; }
 
     // No default implementation: let the compiler/linker complain
     // template<typename T> inline TypeId getType() { return invalid; }
@@ -1321,6 +1323,8 @@ namespace Exiv2 {
     typedef ValueType<int32_t> LongValue;
     //! Signed rational value type
     typedef ValueType<Rational> RationalValue;
+    //! Float value type
+    typedef ValueType<float> FloatValue;
 
 // *****************************************************************************
 // free functions, template and inline definitions
@@ -1372,6 +1376,12 @@ namespace Exiv2 {
     inline Rational getValue(const byte* buf, ByteOrder byteOrder)
     {
         return getRational(buf, byteOrder);
+    }
+    // Specialization for a 4 byte float value.
+    template<>
+    inline float getValue(const byte* buf, ByteOrder byteOrder)
+    {
+        return getFloat(buf, byteOrder);
     }
 
     /*!
@@ -1440,6 +1450,15 @@ namespace Exiv2 {
     inline long toData(byte* buf, Rational t, ByteOrder byteOrder)
     {
         return r2Data(buf, t, byteOrder);
+    }
+    /*!
+      @brief Specialization to write a float to the data buffer.
+             Return the number of bytes written.
+     */
+    template<>
+    inline long toData(byte* buf, float t, ByteOrder byteOrder)
+    {
+        return f2Data(buf, t, byteOrder);
     }
 
     template<typename T>
@@ -1639,6 +1658,14 @@ namespace Exiv2 {
     {
         ok_ = true;
         return Rational(value_[n].first, value_[n].second);
+    }
+    // Specialization for float.
+    template<>
+    inline Rational ValueType<float>::toRational(long n) const
+    {
+        ok_ = true;
+        // Warning: This is a very simple conversion, see floatToRationalCast()
+        return floatToRationalCast(value_[n]);
     }
 
     template<typename T>
