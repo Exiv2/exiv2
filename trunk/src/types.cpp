@@ -235,6 +235,13 @@ namespace Exiv2 {
         return std::make_pair(nominator, denominator);
     }
 
+    float getFloat(const byte* buf, ByteOrder byteOrder)
+    {
+        assert(sizeof(float) == 4);
+        uint32_t ul = getULong(buf, byteOrder);
+        return *reinterpret_cast<float*>(&ul);
+    }
+
     long us2Data(byte* buf, uint16_t s, ByteOrder byteOrder)
     {
         if (byteOrder == littleEndian) {
@@ -307,6 +314,13 @@ namespace Exiv2 {
         long o = l2Data(buf, l.first, byteOrder);
         o += l2Data(buf+o, l.second, byteOrder);
         return o;
+    }
+
+    long f2Data(byte* buf, float f, ByteOrder byteOrder)
+    {
+        assert(sizeof(float) == 4);
+        uint32_t ul = *reinterpret_cast<uint32_t*>(&f);
+        return ul2Data(buf, ul, byteOrder);
     }
 
     void hexdump(std::ostream& os, const byte* buf, long len, long offset)

@@ -366,6 +366,8 @@ namespace Exiv2 {
     EXIV2API int32_t getLong(const byte* buf, ByteOrder byteOrder);
     //! Read an 8 byte signed rational value from the data buffer
     EXIV2API Rational getRational(const byte* buf, ByteOrder byteOrder);
+    //! Read a 4 byte single precision floating point value (IEEE 754 binary32) from the data buffer
+    EXIV2API float getFloat(const byte* buf, ByteOrder byteOrder);
 
     //! Output operator for our fake rational
     EXIV2API std::ostream& operator<<(std::ostream& os, const Rational& r);
@@ -406,6 +408,11 @@ namespace Exiv2 {
              return number of bytes written.
      */
     EXIV2API long r2Data(byte* buf, Rational l, ByteOrder byteOrder);
+    /*!
+      @brief Convert a single precision floating point (IEEE 754 binary32) float
+             to data, write the data to the buffer, return number of bytes written.
+     */
+    EXIV2API long f2Data(byte* buf, float f, ByteOrder byteOrder);
 
     /*!
       @brief Print len bytes from buf in hex and ASCII format to the given
