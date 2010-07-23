@@ -237,6 +237,9 @@ namespace Exiv2 {
 
     float getFloat(const byte* buf, ByteOrder byteOrder)
     {
+        // This algorithm assumes that the internal representation of the float
+        // type is the 4-byte IEEE 754 binary32 format, which is common but not
+        // required by the C++ standard.
         assert(sizeof(float) == 4);
         uint32_t ul = getULong(buf, byteOrder);
         return *reinterpret_cast<float*>(&ul);
@@ -318,6 +321,9 @@ namespace Exiv2 {
 
     long f2Data(byte* buf, float f, ByteOrder byteOrder)
     {
+        // This algorithm assumes that the internal representation of the float
+        // type is the 4-byte IEEE 754 binary32 format, which is common but not
+        // required by the C++ standard.
         assert(sizeof(float) == 4);
         uint32_t ul = *reinterpret_cast<uint32_t*>(&f);
         return ul2Data(buf, ul, byteOrder);
