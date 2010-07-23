@@ -1597,7 +1597,7 @@ namespace Exiv2 {
     long ValueType<T>::toLong(long n) const
     {
         ok_ = true;
-        return value_[n];
+        return static_cast<long>(value_[n]);
     }
     // Specialization for rational
     template<>
