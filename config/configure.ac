@@ -105,16 +105,25 @@ if test "$USE_TRACKING" = "yes"; then
 fi
 AC_SUBST(DEP_TRACKING,$DEP_TRACKING)
 
-AC_MSG_CHECKING([whether to enable g++ visibility support])
+AC_MSG_CHECKING([whether to enable symbol visibility support])
 AC_ARG_ENABLE(visibility,
-    [  --disable-visibility    do not use g++ visibility support ],
-    GXX_VISIBILITY=$enableval, GXX_VISIBILITY=yes)
-AC_MSG_RESULT($GXX_VISIBILITY)
-if test "$GXX_VISIBILITY" = "yes"; then
-    AX_CXX_CHECK_FLAG(-fvisibility-inlines-hidden,[],[],[GXX_VISIBILITY=yes],[GXX_VISIBILITY=no])
-    if test "$GXX_VISIBILITY" = "yes"; then
-        CXXFLAGS="${CXXFLAGS} -fvisibility=hidden -fvisibility-inlines-hidden"
-        AC_DEFINE(HAVE_GXXCLASSVISIBILITY,1)
+    [  --disable-visibility    do not use symbol visibility support ],
+    VISIBILITY_SUPPORT=$enableval, VISIBILITY_SUPPORT=yes)
+AC_MSG_RESULT($VISIBILITY_SUPPORT)
+if test "$VISIBILITY_SUPPORT" = "yes"; then
+    # Sun Studio C++ compiler (which apparently ignores -fvisibility-inlines-hidden)
+    AX_CXX_CHECK_FLAG(-xldscope=hidden,[],[],[VISIBILITY_SUPPORT=yes],[VISIBILITY_SUPPORT=no])
+    if test "$VISIBILITY_SUPPORT" = "yes"; then
+        CXXFLAGS="${CXXFLAGS} -xldscope=hidden"
+    else
+        # GNU g++
+        AX_CXX_CHECK_FLAG(-fvisibility-inlines-hidden,[],[],[VISIBILITY_SUPPORT=yes],[VISIBILITY_SUPPORT=no])
+    	if test "$VISIBILITY_SUPPORT" = "yes"; then
+           CXXFLAGS="${CXXFLAGS} -fvisibility=hidden -fvisibility-inlines-hidden"
+        fi
+    fi
+    if test "$VISIBILITY_SUPPORT" = "yes"; then
+        AC_DEFINE(WANT_VISIBILITY_SUPPORT)
     fi
     if test "$enable_shared" = "yes"; then
         AC_DEFINE(HAVE_DLL)
@@ -219,9 +228,9 @@ yes) echo "-- Build a shared library......... YES" ;;
 *)   echo "-- Build a shared library......... NO" ;;
 esac
 
-case "$GXX_VISIBILITY" in
-yes) echo "-- Use g++ visibility support..... YES" ;;
-*)   echo "-- Use g++ visibility support..... NO" ;;
+case "$VISIBILITY_SUPPORT" in
+yes) echo "-- Use symbol visibility support.. YES" ;;
+*)   echo "-- Use symbol visibility support.. NO" ;;
 esac
 
 case "x$HAVE_LIBZ" in
