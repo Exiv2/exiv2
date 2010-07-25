@@ -126,8 +126,8 @@
    slash. */
 #undef LSTAT_FOLLOWS_SLASHED_SYMLINK
 
-/* Define if g++ supports C++ visibility features */
-#undef HAVE_GXXCLASSVISIBILITY
+/* Define if C++ visibility support is enabled */
+#undef WANT_VISIBILITY_SUPPORT
 
 /* Define if we have / are building a shared library (DLL) */
 #undef HAVE_DLL
@@ -204,24 +204,36 @@
 # define EXV_UNICODE_PATH
 #endif
 
-/* Shared library support, see http://gcc.gnu.org/wiki/Visibility */
+/* Symbol visibility support */
 #ifdef WIN32
 # define EXV_IMPORT __declspec(dllimport)
 # define EXV_EXPORT __declspec(dllexport)
 # define EXV_DLLLOCAL
 # define EXV_DLLPUBLIC
 #else
-# ifdef EXV_HAVE_GXXCLASSVISIBILITY
-#  define EXV_IMPORT __attribute__ ((visibility("default")))
-#  define EXV_EXPORT __attribute__ ((visibility("default")))
-#  define EXV_DLLLOCAL __attribute__ ((visibility("hidden")))
-#  define EXV_DLLPUBLIC __attribute__ ((visibility("default")))
-# else
+# ifdef EXV_WANT_VISIBILITY_SUPPORT
+#  if defined(__GNUC__) && (__GNUC__ >= 4)
+#   define EXV_IMPORT __attribute__ ((visibility("default")))
+#   define EXV_EXPORT __attribute__ ((visibility("default")))
+#   define EXV_DLLLOCAL __attribute__ ((visibility("hidden")))
+#   define EXV_DLLPUBLIC __attribute__ ((visibility("default")))
+#  elif defined(__SUNPRO_C) && (__SUNPRO_C >= 0x550)
+#   define EXV_IMPORT __global
+#   define EXV_EXPORT __global
+#   define EXV_DLLLOCAL __hidden
+#   define EXV_DLLPUBLIC __global
+#  else
+#   define EXV_IMPORT
+#   define EXV_EXPORT
+#   define EXV_DLLLOCAL
+#   define EXV_DLLPUBLIC
+#  endif
+# else /* ! EXV_WANT_VISIBILITY_SUPPORT */
 #  define EXV_IMPORT
 #  define EXV_EXPORT
 #  define EXV_DLLLOCAL
 #  define EXV_DLLPUBLIC
-# endif /* ! EXV_HAVE_GXXCLASSVISIBILITY */
+# endif /* ! EXV_WANT_VISIBILITY_SUPPORT */
 #endif /* ! WIN32 */
 
 /* Define EXIV2API for DLL builds */
