@@ -42,6 +42,7 @@ EXIV2_RCSID("@(#) $Id$")
 // + standard includes
 #include <iostream>
 #include <iomanip>
+#include <ios>
 #include <sstream>
 #include <stdio.h> // for snprintf (C99)
 #ifdef _MSC_VER
