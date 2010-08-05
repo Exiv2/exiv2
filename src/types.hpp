@@ -62,8 +62,11 @@
 typedef unsigned __int8  uint8_t;
 typedef unsigned __int16 uint16_t;
 typedef unsigned __int32 uint32_t;
+typedef unsigned __int64 uint64_t;
+typedef __int8           int8_t;
 typedef __int16          int16_t;
 typedef __int32          int32_t;
+typedef __int64          int64_t;
 #endif
 
 /*!
@@ -368,6 +371,8 @@ namespace Exiv2 {
     EXIV2API Rational getRational(const byte* buf, ByteOrder byteOrder);
     //! Read a 4 byte single precision floating point value (IEEE 754 binary32) from the data buffer
     EXIV2API float getFloat(const byte* buf, ByteOrder byteOrder);
+    //! Read an 8 byte double precision floating point value (IEEE 754 binary64) from the data buffer
+    EXIV2API double getDouble(const byte* buf, ByteOrder byteOrder);
 
     //! Output operator for our fake rational
     EXIV2API std::ostream& operator<<(std::ostream& os, const Rational& r);
@@ -413,6 +418,11 @@ namespace Exiv2 {
              to data, write the data to the buffer, return number of bytes written.
      */
     EXIV2API long f2Data(byte* buf, float f, ByteOrder byteOrder);
+    /*!
+      @brief Convert a double precision floating point (IEEE 754 binary64) double
+             to data, write the data to the buffer, return number of bytes written.
+     */
+    EXIV2API long d2Data(byte* buf, double d, ByteOrder byteOrder);
 
     /*!
       @brief Print len bytes from buf in hex and ASCII format to the given

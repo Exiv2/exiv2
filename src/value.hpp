@@ -40,6 +40,7 @@
 #include <vector>
 #include <map>
 #include <iostream>
+#include <iomanip>
 #include <sstream>
 #include <memory>
 #include <cstring>
@@ -217,8 +218,8 @@ namespace Exiv2 {
           <TR><TD class="indexkey">signedShort</TD><TD class="indexvalue">%ValueType &lt; int16_t &gt;</TD></TR>
           <TR><TD class="indexkey">signedLong</TD><TD class="indexvalue">%ValueType &lt; int32_t &gt;</TD></TR>
           <TR><TD class="indexkey">signedRational</TD><TD class="indexvalue">%ValueType &lt; Rational &gt;</TD></TR>
-          <TR><TD class="indexkey">tiffFloat</TD><TD class="indexvalue">%DataValue(tiffFloat)</TD></TR>
-          <TR><TD class="indexkey">tiffDouble</TD><TD class="indexvalue">%DataValue(tiffDouble)</TD></TR>
+          <TR><TD class="indexkey">tiffFloat</TD><TD class="indexvalue">%ValueType &lt; float &gt;</TD></TR>
+          <TR><TD class="indexkey">tiffDouble</TD><TD class="indexvalue">%ValueType &lt; double &gt;</TD></TR>
           <TR><TD class="indexkey">tiffIfd</TD><TD class="indexvalue">%ValueType &lt; uint32_t &gt;</TD></TR>
           <TR><TD class="indexkey">date</TD><TD class="indexvalue">%DateValue</TD></TR>
           <TR><TD class="indexkey">time</TD><TD class="indexvalue">%TimeValue</TD></TR>
@@ -1211,6 +1212,8 @@ namespace Exiv2 {
     template<> inline TypeId getType<Rational>() { return signedRational; }
     //! Specialization for a float
     template<> inline TypeId getType<float>() { return tiffFloat; }
+    //! Specialization for a double
+    template<> inline TypeId getType<double>() { return tiffDouble; }
 
     // No default implementation: let the compiler/linker complain
     // template<typename T> inline TypeId getType() { return invalid; }
@@ -1325,6 +1328,8 @@ namespace Exiv2 {
     typedef ValueType<Rational> RationalValue;
     //! Float value type
     typedef ValueType<float> FloatValue;
+    //! Double value type
+    typedef ValueType<double> DoubleValue;
 
 // *****************************************************************************
 // free functions, template and inline definitions
@@ -1382,6 +1387,12 @@ namespace Exiv2 {
     inline float getValue(const byte* buf, ByteOrder byteOrder)
     {
         return getFloat(buf, byteOrder);
+    }
+    // Specialization for a 8 byte double value.
+    template<>
+    inline double getValue(const byte* buf, ByteOrder byteOrder)
+    {
+        return getDouble(buf, byteOrder);
     }
 
     /*!
@@ -1459,6 +1470,15 @@ namespace Exiv2 {
     inline long toData(byte* buf, float t, ByteOrder byteOrder)
     {
         return f2Data(buf, t, byteOrder);
+    }
+    /*!
+      @brief Specialization to write a double to the data buffer.
+             Return the number of bytes written.
+     */
+    template<>
+    inline long toData(byte* buf, double t, ByteOrder byteOrder)
+    {
+        return d2Data(buf, t, byteOrder);
     }
 
     template<typename T>
@@ -1579,7 +1599,7 @@ namespace Exiv2 {
         typename ValueList::const_iterator end = value_.end();
         typename ValueList::const_iterator i = value_.begin();
         while (i != end) {
-            os << *i;
+            os << std::setprecision(15) << *i;
             if (++i != end) os << " ";
         }
         return os;
@@ -1666,6 +1686,14 @@ namespace Exiv2 {
         ok_ = true;
         // Warning: This is a very simple conversion, see floatToRationalCast()
         return floatToRationalCast(value_[n]);
+    }
+    // Specialization for double.
+    template<>
+    inline Rational ValueType<double>::toRational(long n) const
+    {
+        ok_ = true;
+        // Warning: This is a very simple conversion, see floatToRationalCast()
+        return floatToRationalCast(static_cast<float>(value_[n]));
     }
 
     template<typename T>

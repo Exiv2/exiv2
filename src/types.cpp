@@ -245,6 +245,36 @@ namespace Exiv2 {
         return *reinterpret_cast<float*>(&ul);
     }
 
+    double getDouble(const byte* buf, ByteOrder byteOrder)
+    {
+        // This algorithm assumes that the internal representation of the double
+        // type is the 8-byte IEEE 754 binary64 format, which is common but not
+        // required by the C++ standard.
+        assert(sizeof(double) == 8);
+        uint64_t ull = 0;
+        if (byteOrder == littleEndian) {
+            ull =   static_cast<uint64_t>(buf[7]) << 56
+                  | static_cast<uint64_t>(buf[6]) << 48
+                  | static_cast<uint64_t>(buf[5]) << 40
+                  | static_cast<uint64_t>(buf[4]) << 32
+                  | static_cast<uint64_t>(buf[3]) << 24
+                  | static_cast<uint64_t>(buf[2]) << 16
+                  | static_cast<uint64_t>(buf[1]) <<  8
+                  | static_cast<uint64_t>(buf[0]);
+        }
+        else {
+            ull =   static_cast<uint64_t>(buf[0]) << 56
+                  | static_cast<uint64_t>(buf[1]) << 48
+                  | static_cast<uint64_t>(buf[2]) << 40
+                  | static_cast<uint64_t>(buf[3]) << 32
+                  | static_cast<uint64_t>(buf[4]) << 24
+                  | static_cast<uint64_t>(buf[5]) << 16
+                  | static_cast<uint64_t>(buf[6]) <<  8
+                  | static_cast<uint64_t>(buf[7]);
+        }
+        return *reinterpret_cast<double*>(&ull);
+    }
+
     long us2Data(byte* buf, uint16_t s, ByteOrder byteOrder)
     {
         if (byteOrder == littleEndian) {
@@ -327,6 +357,36 @@ namespace Exiv2 {
         assert(sizeof(float) == 4);
         uint32_t ul = *reinterpret_cast<uint32_t*>(&f);
         return ul2Data(buf, ul, byteOrder);
+    }
+
+    long d2Data(byte* buf, double d, ByteOrder byteOrder)
+    {
+        // This algorithm assumes that the internal representation of the double
+        // type is the 8-byte IEEE 754 binary64 format, which is common but not
+        // required by the C++ standard.
+        assert(sizeof(double) == 8);
+        uint64_t ull = *reinterpret_cast<uint64_t*>(&d);
+        if (byteOrder == littleEndian) {
+            buf[0] =  (byte)(ull & 0x00000000000000ff);
+            buf[1] = (byte)((ull & 0x000000000000ff00) >> 8);
+            buf[2] = (byte)((ull & 0x0000000000ff0000) >> 16);
+            buf[3] = (byte)((ull & 0x00000000ff000000) >> 24);
+            buf[4] = (byte)((ull & 0x000000ff00000000) >> 32);
+            buf[5] = (byte)((ull & 0x0000ff0000000000) >> 40);
+            buf[6] = (byte)((ull & 0x00ff000000000000) >> 48);
+            buf[7] = (byte)((ull & 0xff00000000000000) >> 56);
+        }
+        else {
+            buf[0] = (byte)((ull & 0xff00000000000000) >> 56);
+            buf[1] = (byte)((ull & 0x00ff000000000000) >> 48);
+            buf[2] = (byte)((ull & 0x0000ff0000000000) >> 40);
+            buf[3] = (byte)((ull & 0x000000ff00000000) >> 32);
+            buf[4] = (byte)((ull & 0x00000000ff000000) >> 24);
+            buf[5] = (byte)((ull & 0x0000000000ff0000) >> 16);
+            buf[6] = (byte)((ull & 0x000000000000ff00) >> 8);
+            buf[7] =  (byte)(ull & 0x00000000000000ff);
+        }
+        return 8;
     }
 
     void hexdump(std::ostream& os, const byte* buf, long len, long offset)
