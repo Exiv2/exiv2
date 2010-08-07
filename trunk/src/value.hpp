@@ -1233,7 +1233,7 @@ namespace Exiv2 {
         //! Default constructor.
         ValueType();
         //! Constructor.
-        ValueType(TypeId typeId);
+        explicit ValueType(TypeId typeId);
         //! Copy constructor
         ValueType(const ValueType<T>& rhs);
         //! Virtual destructor.
