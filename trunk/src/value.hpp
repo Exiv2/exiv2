@@ -1230,10 +1230,12 @@ namespace Exiv2 {
 
         //! @name Creators
         //@{
-        //! Default constructor.
-        ValueType();
+        //! Default Constructor.
+        explicit ValueType(TypeId typeId =getType<T>());
         //! Constructor.
-        explicit ValueType(TypeId typeId);
+        ValueType(const byte* buf, long len, ByteOrder byteOrder, TypeId typeId =getType<T>());
+        //! Constructor.
+        explicit ValueType(const T& val, TypeId typeId =getType<T>());
         //! Copy constructor
         ValueType(const ValueType<T>& rhs);
         //! Virtual destructor.
@@ -1480,15 +1482,23 @@ namespace Exiv2 {
     }
 
     template<typename T>
-    ValueType<T>::ValueType()
-        : Value(getType<T>()), pDataArea_(0), sizeDataArea_(0)
+    ValueType<T>::ValueType(TypeId typeId)
+        : Value(typeId), pDataArea_(0), sizeDataArea_(0)
     {
     }
 
     template<typename T>
-    ValueType<T>::ValueType(TypeId typeId)
+    ValueType<T>::ValueType(const byte* buf, long len, ByteOrder byteOrder, TypeId typeId)
         : Value(typeId), pDataArea_(0), sizeDataArea_(0)
     {
+        read(buf, len, byteOrder);
+    }
+
+    template<typename T>
+    ValueType<T>::ValueType(const T& val, TypeId typeId)
+        : Value(typeId), pDataArea_(0), sizeDataArea_(0)
+    {
+        value_.push_back(val);
     }
 
     template<typename T>
