@@ -1232,10 +1232,8 @@ namespace Exiv2 {
         //@{
         //! Default constructor.
         ValueType();
-        //! Constructor
-        ValueType(const byte* buf, long len, ByteOrder byteOrder);
-        //! Constructor (Note: Argument \em byteOrder is ignored and deprecated)
-        explicit ValueType(const T& val, ByteOrder byteOrder =littleEndian);
+        //! Constructor.
+        ValueType(TypeId typeId);
         //! Copy constructor
         ValueType(const ValueType<T>& rhs);
         //! Virtual destructor.
@@ -1488,17 +1486,9 @@ namespace Exiv2 {
     }
 
     template<typename T>
-    ValueType<T>::ValueType(const byte* buf, long len, ByteOrder byteOrder)
-        : Value(getType<T>()), pDataArea_(0), sizeDataArea_(0)
+    ValueType<T>::ValueType(TypeId typeId)
+        : Value(typeId), pDataArea_(0), sizeDataArea_(0)
     {
-        read(buf, len, byteOrder);
-    }
-
-    template<typename T>
-    ValueType<T>::ValueType(const T& val, ByteOrder /*byteOrder*/)
-        : Value(getType<T>()), pDataArea_(0), sizeDataArea_(0)
-    {
-        value_.push_back(val);
     }
 
     template<typename T>
