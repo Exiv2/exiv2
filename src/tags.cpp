@@ -37,7 +37,15 @@ EXIV2_RCSID("@(#) $Id$")
 #include "error.hpp"
 #include "futils.hpp"
 #include "value.hpp"
-#include "mn.hpp"                // To ensure that all makernotes are registered
+#include "canonmn.hpp"
+#include "fujimn.hpp"
+#include "minoltamn.hpp"
+#include "nikonmn_int.hpp"
+#include "olympusmn.hpp"
+#include "panasonicmn.hpp"
+#include "pentaxmn.hpp"
+#include "sigmamn.hpp"
+#include "sonymn.hpp"
 #include "i18n.h"                // NLS support.
 
 #include <iostream>
@@ -67,6 +75,9 @@ namespace {
 // *****************************************************************************
 // class member definitions
 namespace Exiv2 {
+
+    // Todo: Remove: temporary fix used during migration of makernote classes to namespace Internal
+    using namespace Internal;
 
     bool TagVocabulary::operator==(const std::string& key) const
     {
