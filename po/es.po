@@ -243,7 +243,7 @@ msgstr "normal"
 #: src/actions.cpp:837
 #, fuzzy
 msgid "found in the file"
-msgid "encontrado en el archivo"
+msgstr "encontrado en el archivo"
 
 #: src/actions.cpp:842
 msgid "Image file creation timestamp not set in the file"
@@ -476,7 +476,7 @@ msgstr "Renombrando archivo a"
 
 #: src/actions.cpp:2024
 msgid "updating timestamp"
-msgid "actualizando fecha y hora"
+msgstr "actualizando fecha y hora"
 
 #: src/actions.cpp:2033
 msgid "Failed to rename"
@@ -943,7 +943,6 @@ msgstr ""
 #: src/canonmn.cpp:160
 msgid "EOS Digital Rebel XTi / 400D / Kiss Digital X"
 msgstr ""
-----------------------------------------
 
 #: src/canonmn.cpp:165 src/canonmn.cpp:168 src/canonmn.cpp:176
 #: src/canonmn.cpp:181 src/canonmn.cpp:182 src/canonmn.cpp:183
@@ -2309,7 +2308,7 @@ msgstr "de derecha a izquiera"
 #: src/canonmn.cpp:794 src/olympusmn.cpp:1082
 #, fuzzy
 msgid "Bottom to top"
-msgstr "de abajo a arriba''
+msgstr "de abajo a arriba"
 
 #: src/canonmn.cpp:795 src/olympusmn.cpp:1083
 #, fuzzy
@@ -2871,7 +2870,7 @@ msgstr "Id del Servicio"
 #: src/datasets.cpp:106
 #, fuzzy
 msgid "Identifies the provider and product"
-msgstr "Identifica al proveedor y el producto
+msgstr "Identifica al proveedor y el producto"
 
 #: src/datasets.cpp:108
 #, fuzzy
@@ -5148,7 +5147,7 @@ msgstr "Tiempo de exposición"
 
 #: src/minoltamn.cpp:159 src/sonymn.cpp:325
 msgid "Color Compensation Filter: negative is green, positive is magenta"
-msgstr "Filtro de compensación del color: el verde es negativo, el magenta es positivo""
+msgstr "Filtro de compensación del color: el verde es negativo, el magenta es positivo"
 
 #: src/minoltamn.cpp:161 src/minoltamn.cpp:1425 src/sonymn.cpp:249
 #: src/sonymn.cpp:527 src/sonymn.cpp:528
@@ -18327,7 +18326,7 @@ msgstr "Escena nocturna / Crepúsculo"
 
 #: src/sonymn.cpp:107
 msgid "Hi-Speed Shutter"
-msgstr "Obturador alta velocidad''
+msgstr "Obturador alta velocidad"
 
 #: src/sonymn.cpp:108
 #, fuzzy
@@ -22523,8 +22522,7 @@ msgstr ""
 
 #, fuzzy
 #~ msgid "Flash fired, compulsatory flash mode"
-%%%#~ msgstr "Flash disparado, modo compulsivo del flash."
-#~ msgstr "El flash no disparó, modo compulsivo del flash."
+#~ msgstr "El flash disparó, modo compulsivo del flash."
 
 #, fuzzy
 #~ msgid "Flash did not fire, compulsatory flash mode."
