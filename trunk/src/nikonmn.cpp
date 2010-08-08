@@ -37,7 +37,7 @@ EXIV2_RCSID("@(#) $Id$")
 // *****************************************************************************
 // included header files
 #include "types.hpp"
-#include "nikonmn.hpp"
+#include "nikonmn_int.hpp"
 #include "value.hpp"
 #include "image.hpp"
 #include "tags.hpp"
@@ -55,6 +55,7 @@ EXIV2_RCSID("@(#) $Id$")
 // *****************************************************************************
 // class member definitions
 namespace Exiv2 {
+    namespace Internal {
 
     //! OffOn, multiple tags
     extern const TagDetails nikonOffOn[] = {
@@ -2506,4 +2507,5 @@ fmountlens[] = {
         }
         return os << s;
     }
-}                                       // namespace Exiv2
+
+}}                                      // namespace Internal, Exiv2

@@ -19,7 +19,7 @@
  * Foundation, Inc., 51 Franklin Street, 5th Floor, Boston, MA 02110-1301 USA.
  */
 /*!
-  @file    nikonmn.hpp
+  @file    nikonmn_int.hpp
   @brief   Nikon makernote tags.<BR>References:<BR>
   [1] <a href="http://www.tawbaware.com/990exif.htm">MakerNote EXIF Tag of the Nikon 990</a> by Max Lyons<BR>
   [2] <a href="http://park2.wakwak.com/%7Etsuruzoh/Computer/Digicams/exif-e.html">Exif file format</a> by TsuruZoh Tachibanaya<BR>
@@ -40,8 +40,8 @@
   @date    17-May-04, ahu: created<BR>
            25-May-04, ahu: combined all Nikon formats in one component
  */
-#ifndef NIKONMN_HPP_
-#define NIKONMN_HPP_
+#ifndef NIKONMN_INT_HPP_
+#define NIKONMN_INT_HPP_
 
 // *****************************************************************************
 // included header files
@@ -56,12 +56,13 @@
 // *****************************************************************************
 // namespace extensions
 namespace Exiv2 {
+    namespace Internal {
 
 // *****************************************************************************
 // class definitions
 
     //! A MakerNote format used by Nikon cameras, such as the E990 and D1.
-    class EXIV2API Nikon1MakerNote {
+    class Nikon1MakerNote {
     public:
         //! Return read-only list of built-in Nikon1 tags
         static const TagInfo* tagList();
@@ -90,7 +91,7 @@ namespace Exiv2 {
       @brief A second MakerNote format used by Nikon cameras, including the
              E700, E800, E900, E900S, E910, E950
      */
-    class EXIV2API Nikon2MakerNote {
+    class Nikon2MakerNote {
     public:
         //! Return read-only list of built-in Nikon2 tags
         static const TagInfo* tagList();
@@ -108,7 +109,7 @@ namespace Exiv2 {
     }; // class Nikon2MakerNote
 
     //! A third MakerNote format used by Nikon cameras, e.g., E5400, SQ, D2H, D70
-    class EXIV2API Nikon3MakerNote {
+    class Nikon3MakerNote {
     public:
         //! Return read-only list of built-in Nikon3 tags
         static const TagInfo* tagList();
@@ -274,6 +275,6 @@ namespace Exiv2 {
 
     }; // class Nikon3MakerNote
 
-}                                       // namespace Exiv2
+}}                                      // namespace Internal, Exiv2
 
-#endif                                  // #ifndef NIKONMN_HPP_
+#endif                                  // #ifndef NIKONMN_INT_HPP_
