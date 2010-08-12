@@ -1917,6 +1917,13 @@ namespace Exiv2 {
                                     N_("Unknown tag"),
                                     ifdIdNotSet, sectionIdNotSet, asciiString, printValue);
 
+    const TagInfo* ExifTags::tagList(const std::string& group)
+    {
+        const IfdInfo* ii = find(ifdInfo_, IfdInfo::Item(group));
+        if (ii == 0 || ii->tagList_ == 0) return 0;
+        return ii->tagList_();
+    } // ExifTags::tagList
+
     const TagInfo* ExifTags::tagList(IfdId ifdId)
     {
         const IfdInfo* ii = find(ifdInfo_, ifdId);

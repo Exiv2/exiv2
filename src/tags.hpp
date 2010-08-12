@@ -323,6 +323,8 @@ namespace Exiv2 {
                                       IfdId ifdId,
                                       const Value& value,
                                       const ExifData* pExifData =0);
+        //! Return read-only list of built-in \em group tags.
+        static const TagInfo* tagList(const std::string& group);
         //! Return read-only list of built-in IFD0/1 tags
         static const TagInfo* ifdTagList();
         //! Return read-only list of built-in Exif IFD tags
