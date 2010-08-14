@@ -31,7 +31,7 @@ EXIV2_RCSID("@(#) $Id$")
 // *****************************************************************************
 // included header files
 #include "types.hpp"
-#include "minoltamn.hpp"
+#include "minoltamn_int.hpp"
 #include "sonymn_int.hpp"
 #include "value.hpp"
 #include "i18n.h"                // NLS support.

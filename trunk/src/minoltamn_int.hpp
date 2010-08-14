@@ -19,7 +19,7 @@
  * Foundation, Inc., 51 Franklin Street, 5th Floor, Boston, MA 02110-1301 USA.
  */
 /*!
-  @file    minoltamn.hpp
+  @file    minoltamn_int.hpp
   @brief   Minolta MakerNote implemented using the following references:<br>
            <a href="http://www.dalibor.cz/minolta/makernote.htm">Minolta Makernote Format Specification</a> by Dalibor Jelinek,<br>
            <a href="http://www.sno.phy.queensu.ca/~phil/exiftool/TagNames/Minolta.html">Minolta Makernote list</a> by Phil Harvey<br>
@@ -33,8 +33,8 @@
            <a href="mailto:caulier dot gilles at gmail dot com">caulier dot gilles at gmail dot com</a>
   @date    06-May-06, gc: submitted
  */
-#ifndef MINOLTAMN_HPP_
-#define MINOLTAMN_HPP_
+#ifndef MINOLTAMN_INT_HPP_
+#define MINOLTAMN_INT_HPP_
 
 // *****************************************************************************
 // included header files
@@ -47,12 +47,13 @@
 // *****************************************************************************
 // namespace extensions
 namespace Exiv2 {
+    namespace Internal {
 
 // *****************************************************************************
 // class definitions
 
     //! MakerNote for Minolta cameras
-    class EXIV2API MinoltaMakerNote {
+    class MinoltaMakerNote {
     public:
         //! Return read-only list of built-in Minolta tags
         static const TagInfo* tagList();
@@ -107,52 +108,52 @@ namespace Exiv2 {
     // -- Minolta and Sony MakerNote Common Values ---------------------------------------
 
     //! Print Minolta/Sony Lens id values to readable labels.
-    EXIV2API std::ostream& printMinoltaSonyLensID(std::ostream&, const Value&, const ExifData*);
+    std::ostream& printMinoltaSonyLensID(std::ostream&, const Value&, const ExifData*);
 
     //! Print Minolta/Sony Color Mode values to readable labels.
-    EXIV2API std::ostream& printMinoltaSonyColorMode(std::ostream&, const Value&, const ExifData*);
+    std::ostream& printMinoltaSonyColorMode(std::ostream&, const Value&, const ExifData*);
 
     //! Print Minolta/Sony bool function values to readable labels.
-    EXIV2API std::ostream& printMinoltaSonyBoolValue(std::ostream&, const Value&, const ExifData*);
+    std::ostream& printMinoltaSonyBoolValue(std::ostream&, const Value&, const ExifData*);
 
     //! Print Minolta/Sony bool inverse function values to readable labels.
-    EXIV2API std::ostream& printMinoltaSonyBoolInverseValue(std::ostream&, const Value&, const ExifData*);
+    std::ostream& printMinoltaSonyBoolInverseValue(std::ostream&, const Value&, const ExifData*);
 
     //! Print Minolta/Sony AF Area Mode values to readable labels.
-    EXIV2API std::ostream& printMinoltaSonyAFAreaMode(std::ostream&, const Value&, const ExifData*);
+    std::ostream& printMinoltaSonyAFAreaMode(std::ostream&, const Value&, const ExifData*);
 
     //! Print Minolta/Sony Local AF Area Point values to readable labels.
-    EXIV2API std::ostream& printMinoltaSonyLocalAFAreaPoint(std::ostream&, const Value&, const ExifData*);
+    std::ostream& printMinoltaSonyLocalAFAreaPoint(std::ostream&, const Value&, const ExifData*);
 
     //! Print Minolta/Sony dynamic range optimizer mode values to readable labels.
-    EXIV2API std::ostream& printMinoltaSonyDynamicRangeOptimizerMode(std::ostream&, const Value&, const ExifData*);
+    std::ostream& printMinoltaSonyDynamicRangeOptimizerMode(std::ostream&, const Value&, const ExifData*);
 
     //! Print Minolta/Sony priority setup shutter release values to readable labels.
-    EXIV2API std::ostream& printMinoltaSonyPrioritySetupShutterRelease(std::ostream&, const Value&, const ExifData*);
+    std::ostream& printMinoltaSonyPrioritySetupShutterRelease(std::ostream&, const Value&, const ExifData*);
 
     //! Print Minolta/Sony Quality values to readable labels.
-    EXIV2API std::ostream& printMinoltaSonyQualityCs(std::ostream&, const Value&, const ExifData*);
+    std::ostream& printMinoltaSonyQualityCs(std::ostream&, const Value&, const ExifData*);
 
     //! Print Minolta/Sony Rotation values to readable labels.
-    EXIV2API std::ostream& printMinoltaSonyRotation(std::ostream&, const Value&, const ExifData*);
+    std::ostream& printMinoltaSonyRotation(std::ostream&, const Value&, const ExifData*);
 
     //! Print Minolta/Sony Scene Mode values to readable labels.
-    EXIV2API std::ostream& printMinoltaSonySceneMode(std::ostream&, const Value&, const ExifData*);
+    std::ostream& printMinoltaSonySceneMode(std::ostream&, const Value&, const ExifData*);
 
     //! Print Minolta/Sony Image Quality values to readable labels.
-    EXIV2API std::ostream& printMinoltaSonyImageQuality(std::ostream&, const Value&, const ExifData*);
+    std::ostream& printMinoltaSonyImageQuality(std::ostream&, const Value&, const ExifData*);
 
     //! Print Minolta/Sony Teleconverter Model values to readable labels.
-    EXIV2API std::ostream& printMinoltaSonyTeleconverterModel(std::ostream&, const Value&, const ExifData*);
+    std::ostream& printMinoltaSonyTeleconverterModel(std::ostream&, const Value&, const ExifData*);
 
     //! Print Minolta/Sony White Balance Std values to readable labels.
-    EXIV2API std::ostream& printMinoltaSonyWhiteBalanceStd(std::ostream&, const Value&, const ExifData*);
+    std::ostream& printMinoltaSonyWhiteBalanceStd(std::ostream&, const Value&, const ExifData*);
 
     //! Print Minolta/Sony ZoneMatching values to readable labels.
-    EXIV2API std::ostream& printMinoltaSonyZoneMatching(std::ostream&, const Value&, const ExifData*);
+    std::ostream& printMinoltaSonyZoneMatching(std::ostream&, const Value&, const ExifData*);
 
     // TODO: Added shared methods here.
 
-}                                       // namespace Exiv2
+}}                                      // namespace Internal, Exiv2
 
-#endif                                  // #ifndef MINOLTAMN_HPP_
+#endif                                  // #ifndef MINOLTAMN_INT_HPP_
