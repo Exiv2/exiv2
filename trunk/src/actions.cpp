@@ -49,7 +49,6 @@ EXIV2_RCSID("@(#) $Id$")
 #include "types.hpp"
 #include "exif.hpp"
 #include "easyaccess.hpp"
-#include "canonmn.hpp"
 #include "iptc.hpp"
 #include "xmp.hpp"
 #include "preview.hpp"

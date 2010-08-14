@@ -32,7 +32,7 @@ EXIV2_RCSID("@(#) $Id$")
 // *****************************************************************************
 // included header files
 #include "types.hpp"
-#include "canonmn.hpp"
+#include "canonmn_int.hpp"
 #include "value.hpp"
 #include "exif.hpp"
 #include "i18n.h"                // NLS support.
@@ -50,6 +50,7 @@ EXIV2_RCSID("@(#) $Id$")
 // *****************************************************************************
 // class member definitions
 namespace Exiv2 {
+    namespace Internal {
 
     //! OffOn, multiple tags
     extern const TagDetails canonOffOn[] = {
@@ -1387,4 +1388,4 @@ namespace Exiv2 {
         return sign * (val + frac) / 32.0f;
     }
 
-}                                       // namespace Exiv2
+}}                                      // namespace Internal, Exiv2

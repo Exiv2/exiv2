@@ -19,7 +19,7 @@
  * Foundation, Inc., 51 Franklin Street, 5th Floor, Boston, MA 02110-1301 USA.
  */
 /*!
-  @file    canonmn.hpp
+  @file    canonmn_int.hpp
   @brief   Canon makernote tags.<BR>References:<BR>
            [1] <a href="http://www.burren.cx/david/canon.html">EXIF MakerNote of Canon</a> by David Burren<br>
            [2] <a href="http://www.sno.phy.queensu.ca/~phil/exiftool/TagNames/Canon.html">Canon makernote tags</a> by Phil Harvey
@@ -31,8 +31,8 @@
            07-Mar-04, ahu: isolated as a separate component<BR>
            12-Aug-06,  dc: started updating all tags
  */
-#ifndef CANONMN_HPP_
-#define CANONMN_HPP_
+#ifndef CANONMN_INT_HPP_
+#define CANONMN_INT_HPP_
 
 // *****************************************************************************
 // included header files
@@ -47,16 +47,15 @@
 // *****************************************************************************
 // namespace extensions
 namespace Exiv2 {
-
-// *****************************************************************************
-// class declarations
     class Value;
+
+    namespace Internal {
 
 // *****************************************************************************
 // class definitions
 
     //! MakerNote for Canon cameras
-    class EXIV2API CanonMakerNote {
+    class CanonMakerNote {
     public:
         //! Return read-only list of built-in Canon tags
         static const TagInfo* tagList();
@@ -139,8 +138,8 @@ namespace Exiv2 {
        128 -> 4
        143 -> 4.46875
      */
-    EXIV2API float canonEv(long val);
+    float canonEv(long val);
 
-}                                       // namespace Exiv2
+}}                                      // namespace Internal, Exiv2
 
-#endif                                  // #ifndef CANONMN_HPP_
+#endif                                  // #ifndef CANONMN_INT_HPP_

@@ -29,7 +29,8 @@
 # IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 # Private headers which are only needed for the library itself
-SET( LIBEXIV2_PRIVATE_HDR cr2image_int.hpp
+SET( LIBEXIV2_PRIVATE_HDR canonmn_int.hpp
+                          cr2image_int.hpp
                           crwimage_int.hpp
                           fujimn_int.hpp
                           makernote_int.hpp
@@ -53,7 +54,6 @@ SET( LIBEXIV2_PRIVATE_HDR cr2image_int.hpp
 # Add standalone C++ header files to this list
 SET( LIBEXIV2_HDR         basicio.hpp
                           bmpimage.hpp
-                          canonmn.hpp
                           convert.hpp
                           cr2image.hpp
                           crwimage.hpp
