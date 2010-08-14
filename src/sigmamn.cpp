@@ -34,7 +34,7 @@ EXIV2_RCSID("@(#) $Id$")
 // *****************************************************************************
 // included header files
 #include "types.hpp"
-#include "sigmamn.hpp"
+#include "sigmamn_int.hpp"
 #include "value.hpp"
 #include "i18n.h"                // NLS support.
 
@@ -48,6 +48,7 @@ EXIV2_RCSID("@(#) $Id$")
 // *****************************************************************************
 // class member definitions
 namespace Exiv2 {
+    namespace Internal {
 
     // Sigma (Foveon) MakerNote Tag Info
     const TagInfo SigmaMakerNote::tagInfo_[] = {
@@ -170,4 +171,4 @@ namespace Exiv2 {
         return os;
     }
 
-}                                       // namespace Exiv2
+}}                                      // namespace Internal, Exiv2
