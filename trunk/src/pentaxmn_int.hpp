@@ -19,7 +19,7 @@
  * Foundation, Inc., 51 Franklin Street, 5th Floor, Boston, MA 02110-1301 USA.
  */
 /*!
-  @file    pentaxmn.hpp
+  @file    pentaxmn_int.hpp
   @brief   Pentax MakerNote implemented according to the specification
            http://www.gvsoft.homedns.org/exif/makernote-pentax-type3.html and
            based on ExifTool implementation and
@@ -29,8 +29,8 @@
            <a href="mailto:michal@cihar.com">michal@cihar.com</a>
   @date    27-Sep-07
  */
-#ifndef PENTAXMN_HPP_
-#define PENTAXMN_HPP_
+#ifndef PENTAXMN_INT_HPP_
+#define PENTAXMN_INT_HPP_
 
 // *****************************************************************************
 // included header files
@@ -46,12 +46,13 @@
 // *****************************************************************************
 // namespace extensions
 namespace Exiv2 {
+    namespace Internal {
 
 // *****************************************************************************
 // class definitions
 
     //! MakerNote for Pentaxfilm cameras
-    class EXIV2API PentaxMakerNote {
+    class PentaxMakerNote {
     public:
         //! Return read-only list of built-in Pentaxfilm tags
         static const TagInfo* tagList();
@@ -119,6 +120,6 @@ namespace Exiv2 {
 //! Shortcut for the printCombiTag template which requires typing the array name only once.
 #define EXV_PRINT_COMBITAG_MULTI(array, count, ignoredcount, ignoredcountmax) printCombiTag<EXV_COUNTOF(array), array, count, ignoredcount, ignoredcountmax>
 
-}                                       // namespace Exiv2
+}}                                      // namespace Internal, Exiv2
 
-#endif                                  // #ifndef PENTAXMN_HPP_
+#endif                                  // #ifndef PENTAXMN_INT_HPP_

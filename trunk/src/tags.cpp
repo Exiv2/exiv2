@@ -43,7 +43,7 @@ EXIV2_RCSID("@(#) $Id$")
 #include "nikonmn_int.hpp"
 #include "olympusmn.hpp"
 #include "panasonicmn_int.hpp"
-#include "pentaxmn.hpp"
+#include "pentaxmn_int.hpp"
 #include "sigmamn.hpp"
 #include "sonymn.hpp"
 #include "i18n.h"                // NLS support.
