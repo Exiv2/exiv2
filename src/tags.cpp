@@ -38,7 +38,7 @@ EXIV2_RCSID("@(#) $Id$")
 #include "futils.hpp"
 #include "value.hpp"
 #include "canonmn.hpp"
-#include "fujimn.hpp"
+#include "fujimn_int.hpp"
 #include "minoltamn_int.hpp"
 #include "nikonmn_int.hpp"
 #include "olympusmn.hpp"

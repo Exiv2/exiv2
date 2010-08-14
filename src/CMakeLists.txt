@@ -31,6 +31,7 @@
 # Private headers which are only needed for the library itself
 SET( LIBEXIV2_PRIVATE_HDR cr2image_int.hpp
                           crwimage_int.hpp
+                          fujimn_int.hpp
                           makernote_int.hpp
                           minoltamn_int.hpp
                           nikonmn_int.hpp
@@ -60,7 +61,6 @@ SET( LIBEXIV2_HDR         basicio.hpp
                           error.hpp
                           exif.hpp
                           exiv2.hpp
-                          fujimn.hpp
                           futils.hpp
                           gifimage.hpp
                           image.hpp

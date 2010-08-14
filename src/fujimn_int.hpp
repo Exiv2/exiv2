@@ -19,7 +19,7 @@
  * Foundation, Inc., 51 Franklin Street, 5th Floor, Boston, MA 02110-1301 USA.
  */
 /*!
-  @file    fujimn.hpp
+  @file    fujimn_int.hpp
   @brief   Fujifilm MakerNote implemented according to the specification
            in Appendix 4: Makernote of Fujifilm of the document
            <a href="http://park2.wakwak.com/%7Etsuruzoh/Computer/Digicams/exif-e.html">
@@ -32,8 +32,8 @@
            <a href="mailto:caulier dot gilles at gmail dot com">caulier dot gilles at gmail dot com</a>
   @date    11-Feb-04, ahu: created
  */
-#ifndef FUJIMN_HPP_
-#define FUJIMN_HPP_
+#ifndef FUJIMN_INT_HPP_
+#define FUJIMN_INT_HPP_
 
 // *****************************************************************************
 // included header files
@@ -43,12 +43,13 @@
 // *****************************************************************************
 // namespace extensions
 namespace Exiv2 {
+    namespace Internal {
 
 // *****************************************************************************
 // class definitions
 
     //! MakerNote for Fujifilm cameras
-    class EXIV2API FujiMakerNote {
+    class FujiMakerNote {
     public:
         //! Return read-only list of built-in Fujifilm tags
         static const TagInfo* tagList();
@@ -59,6 +60,6 @@ namespace Exiv2 {
 
     }; // class FujiMakerNote
 
-}                                       // namespace Exiv2
+}}                                      // namespace Internal, Exiv2
 
-#endif                                  // #ifndef FUJIMN_HPP_
+#endif                                  // #ifndef FUJIMN_INT_HPP_

@@ -34,7 +34,7 @@ EXIV2_RCSID("@(#) $Id$")
 // *****************************************************************************
 // included header files
 #include "types.hpp"
-#include "fujimn.hpp"
+#include "fujimn_int.hpp"
 #include "value.hpp"
 #include "i18n.h"                // NLS support.
 
@@ -48,6 +48,7 @@ EXIV2_RCSID("@(#) $Id$")
 // *****************************************************************************
 // class member definitions
 namespace Exiv2 {
+    namespace Internal {
 
     //! OffOn, multiple tags
     extern const TagDetails fujiOffOn[] = {
@@ -283,4 +284,4 @@ namespace Exiv2 {
         return tagInfo_;
     }
 
-}                                       // namespace Exiv2
+}}                                      // namespace Internal, Exiv2
