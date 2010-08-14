@@ -32,6 +32,7 @@
 SET( LIBEXIV2_PRIVATE_HDR cr2image_int.hpp
                           crwimage_int.hpp
                           makernote_int.hpp
+                          minoltamn_int.hpp
                           nikonmn_int.hpp
                           orfimage_int.hpp
                           panasonicmn_int.hpp
@@ -67,7 +68,6 @@ SET( LIBEXIV2_HDR         basicio.hpp
                           jp2image.hpp
                           jpgimage.hpp
                           metadatum.hpp
-                          minoltamn.hpp
                           mrwimage.hpp
                           olympusmn.hpp
                           orfimage.hpp

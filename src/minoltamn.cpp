@@ -33,7 +33,7 @@ EXIV2_RCSID("@(#) $Id$")
 
 // *****************************************************************************
 // included header files
-#include "minoltamn.hpp"
+#include "minoltamn_int.hpp"
 #include "value.hpp"
 #include "i18n.h"                // NLS support.
 
@@ -46,6 +46,7 @@ EXIV2_RCSID("@(#) $Id$")
 // *****************************************************************************
 // class member definitions
 namespace Exiv2 {
+    namespace Internal {
 
     // -- Standard Minolta Makernotes tags ---------------------------------------------------------------
 
@@ -2125,4 +2126,4 @@ namespace Exiv2 {
         return os << std::fixed << std::setprecision(2) << value.toFloat(0) << " EV";
     }
 
-}                                       // namespace Exiv2
+}}                                      // namespace Internal, Exiv2
