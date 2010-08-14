@@ -19,7 +19,7 @@
  * Foundation, Inc., 51 Franklin Street, 5th Floor, Boston, MA 02110-1301 USA.
  */
 /*!
-  @file    sonymn.hpp
+  @file    sonymn_int.hpp
   @brief   Sony MakerNote implemented using the following references:<br>
            <a href="http://www.sno.phy.queensu.ca/~phil/exiftool/TagNames/Sony.html">Sony Makernote list</a> by Phil Harvey<br>
 Email communication with <a href="mailto:caulier dot gilles at gmail dot com">caulier dot gilles at gmail dot com</a><br>
@@ -31,8 +31,8 @@ Email communication with <a href="mailto:caulier dot gilles at gmail dot com">ca
            <a href="mailto:caulier dot gilles at gmail dot com">caulier dot gilles at gmail dot com</a>
   @date    18-Apr-05, ahu: created
  */
-#ifndef SONYMN_HPP_
-#define SONYMN_HPP_
+#ifndef SONYMN_INT_HPP_
+#define SONYMN_INT_HPP_
 
 // *****************************************************************************
 // included header files
@@ -46,12 +46,13 @@ Email communication with <a href="mailto:caulier dot gilles at gmail dot com">ca
 // *****************************************************************************
 // namespace extensions
 namespace Exiv2 {
+    namespace Internal {
 
 // *****************************************************************************
 // class definitions
 
     //! MakerNote for Sony cameras
-    class EXIV2API SonyMakerNote {
+    class SonyMakerNote {
     public:
         //! Return read-only list of built-in Sony tags
         static const TagInfo* tagList();
@@ -74,6 +75,7 @@ namespace Exiv2 {
         static const TagInfo tagInfoCs2_[];
 
     }; // class SonyMakerNote
-}                                       // namespace Exiv2
 
-#endif                                  // #ifndef SONYMN_HPP_
+}}                                      // namespace Internal, Exiv2
+
+#endif                                  // #ifndef SONYMN_INT_HPP_
