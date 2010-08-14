@@ -39,6 +39,7 @@ SET( LIBEXIV2_PRIVATE_HDR cr2image_int.hpp
                           pngchunk_int.hpp
                           rcsid_int.hpp
                           rw2image_int.hpp
+                          sigmamn_int.hpp
                           tiffcomposite_int.hpp
                           tifffwd_int.hpp
                           tiffimage_int.hpp
@@ -76,7 +77,6 @@ SET( LIBEXIV2_HDR         basicio.hpp
                           psdimage.hpp
                           rafimage.hpp
                           rw2image.hpp
-                          sigmamn.hpp
                           sonymn.hpp
                           tags.hpp
                           tgaimage.hpp

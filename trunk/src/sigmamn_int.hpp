@@ -19,7 +19,7 @@
  * Foundation, Inc., 51 Franklin Street, 5th Floor, Boston, MA 02110-1301 USA.
  */
 /*!
-  @file    sigmamn.hpp
+  @file    sigmamn_int.hpp
   @brief   Sigma and Foveon MakerNote implemented according to the specification
            <a href="http://www.x3f.info/technotes/FileDocs/MakerNoteDoc.html">
            SIGMA and FOVEON EXIF MakerNote Documentation</a> by Foveon.
@@ -28,8 +28,8 @@
            <a href="mailto:ahuggel@gmx.net">ahuggel@gmx.net</a>
   @date    02-Apr-04, ahu: created
  */
-#ifndef SIGMAMN_HPP_
-#define SIGMAMN_HPP_
+#ifndef SIGMAMN_INT_HPP_
+#define SIGMAMN_INT_HPP_
 
 // *****************************************************************************
 // included header files
@@ -44,12 +44,13 @@
 // *****************************************************************************
 // namespace extensions
 namespace Exiv2 {
+    namespace Internal {
 
 // *****************************************************************************
 // class definitions
 
     //! MakerNote for Sigma (Foveon) cameras
-    class EXIV2API SigmaMakerNote {
+    class SigmaMakerNote {
     public:
         //! Return read-only list of built-in Sigma tags
         static const TagInfo* tagList();
@@ -70,6 +71,6 @@ namespace Exiv2 {
 
     }; // class SigmaMakerNote
 
-}                                       // namespace Exiv2
+}}                                      // namespace Internal, Exiv2
 
-#endif                                  // #ifndef SIGMAMN_HPP_
+#endif                                  // #ifndef SIGMAMN_INT_HPP_
