@@ -35,7 +35,7 @@ EXIV2_RCSID("@(#) $Id$")
 // *****************************************************************************
 // included header files
 #include "types.hpp"
-#include "pentaxmn.hpp"
+#include "pentaxmn_int.hpp"
 #include "value.hpp"
 #include "i18n.h"                // NLS support.
 
@@ -49,6 +49,7 @@ EXIV2_RCSID("@(#) $Id$")
 // *****************************************************************************
 // class member definitions
 namespace Exiv2 {
+    namespace Internal {
 
     //! ShootingMode, tag 0x0001
     extern const TagDetails pentaxShootingMode[] = {
@@ -1129,4 +1130,4 @@ namespace Exiv2 {
         return tagInfo_;
     }
 
-}                                       // namespace Exiv2
+}}                                       // namespace Internal, Exiv2
