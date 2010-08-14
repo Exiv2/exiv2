@@ -19,7 +19,7 @@
  * Foundation, Inc., 51 Franklin Street, 5th Floor, Boston, MA 02110-1301 USA.
  */
 /*!
-  @file    panasonicmn.hpp
+  @file    panasonicmn_int.hpp
   @brief   Panasonic MakerNote implemented using the following references:
            <a href="http://www.compton.nu/panasonic.html">Panasonic MakerNote Information</a> by Tom Hughes,
            Panasonic.pm of <a href="http://www.sno.phy.queensu.ca/~phil/exiftool/">ExifTool</a> by Phil Harvey,
@@ -31,8 +31,8 @@
            <a href="mailto:caulier dot gilles at gmail dot com">caulier dot gilles at gmail dot com</a>
   @date    11-Jun-05, ahu: created
  */
-#ifndef PANASONICMN_HPP_
-#define PANASONICMN_HPP_
+#ifndef PANASONICMN_INT_HPP_
+#define PANASONICMN_INT_HPP_
 
 // *****************************************************************************
 // included header files
@@ -46,12 +46,13 @@
 // *****************************************************************************
 // namespace extensions
 namespace Exiv2 {
+    namespace Internal {
 
 // *****************************************************************************
 // class definitions
 
     //! MakerNote for Panasonic cameras
-    class EXIV2API PanasonicMakerNote {
+    class PanasonicMakerNote {
     public:
         //! Return read-only list of built-in Panasonic tags
         static const TagInfo* tagList();
@@ -74,6 +75,6 @@ namespace Exiv2 {
 
     }; // class PanasonicMakerNote
 
-}                                       // namespace Exiv2
+}}                                      // namespace Internal, Exiv2
 
-#endif                                  // #ifndef PANASONICMN_HPP_
+#endif                                  // #ifndef PANASONICMN_INT_HPP_

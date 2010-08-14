@@ -34,6 +34,7 @@ SET( LIBEXIV2_PRIVATE_HDR cr2image_int.hpp
                           makernote_int.hpp
                           nikonmn_int.hpp
                           orfimage_int.hpp
+                          panasonicmn_int.hpp
                           pngchunk_int.hpp
                           rcsid_int.hpp
                           rw2image_int.hpp
@@ -67,7 +68,6 @@ SET( LIBEXIV2_HDR         basicio.hpp
                           mrwimage.hpp
                           olympusmn.hpp
                           orfimage.hpp
-                          panasonicmn.hpp
                           pentaxmn.hpp
                           pgfimage.hpp
                           pngimage.hpp

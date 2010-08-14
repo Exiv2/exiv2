@@ -42,7 +42,7 @@ EXIV2_RCSID("@(#) $Id$")
 #include "minoltamn.hpp"
 #include "nikonmn_int.hpp"
 #include "olympusmn.hpp"
-#include "panasonicmn.hpp"
+#include "panasonicmn_int.hpp"
 #include "pentaxmn.hpp"
 #include "sigmamn.hpp"
 #include "sonymn.hpp"

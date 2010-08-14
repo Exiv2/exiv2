@@ -33,7 +33,7 @@ EXIV2_RCSID("@(#) $Id$")
 // *****************************************************************************
 // included header files
 #include "types.hpp"
-#include "panasonicmn.hpp"
+#include "panasonicmn_int.hpp"
 #include "value.hpp"
 #include "i18n.h"                // NLS support.
 
@@ -47,6 +47,7 @@ EXIV2_RCSID("@(#) $Id$")
 // *****************************************************************************
 // class member definitions
 namespace Exiv2 {
+    namespace Internal {
 
     //! Quality, tag 0x0001
     extern const TagDetails panasonicQuality[] = {
@@ -358,4 +359,4 @@ namespace Exiv2 {
         return tagInfoRaw_;
     }
 
-}                                       // namespace Exiv2
+}}                                      // namespace Internal, Exiv2
