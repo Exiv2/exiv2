@@ -37,7 +37,9 @@ EXIV2_RCSID("@(#) $Id$")
 #include "error.hpp"
 #include "futils.hpp"
 #include "value.hpp"
-#include "canonmn.hpp"
+#include "i18n.h"                // NLS support.
+
+#include "canonmn_int.hpp"
 #include "fujimn_int.hpp"
 #include "minoltamn_int.hpp"
 #include "nikonmn_int.hpp"
@@ -46,7 +48,6 @@ EXIV2_RCSID("@(#) $Id$")
 #include "pentaxmn_int.hpp"
 #include "sigmamn_int.hpp"
 #include "sonymn_int.hpp"
-#include "i18n.h"                // NLS support.
 
 #include <iostream>
 #include <iomanip>

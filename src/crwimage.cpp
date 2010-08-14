@@ -47,7 +47,7 @@ EXIV2_RCSID("@(#) $Id$")
 #include "futils.hpp"
 #include "value.hpp"
 #include "tags.hpp"
-#include "canonmn.hpp"
+#include "canonmn_int.hpp"
 #include "i18n.h"                // NLS support.
 
 // + standard includes
