@@ -36,7 +36,7 @@ EXIV2_RCSID("@(#) $Id$")
 // *****************************************************************************
 // included header files
 #include "types.hpp"
-#include "olympusmn.hpp"
+#include "olympusmn_int.hpp"
 #include "value.hpp"
 #include "image.hpp"
 #include "tags.hpp"
@@ -52,7 +52,7 @@ EXIV2_RCSID("@(#) $Id$")
 // *****************************************************************************
 // class member definitions
 namespace Exiv2 {
-
+    namespace Internal {
 
     //! OffOn, multiple tags
     extern const TagDetails olympusOffOn[] = {
@@ -1566,4 +1566,5 @@ value, const ExifData* metadata)
         }
         return os << v;
     } // OlympusMakerNote::print0x0308
-}                                       // namespace Exiv2
+
+}}                                      // namespace Internal, Exiv2
