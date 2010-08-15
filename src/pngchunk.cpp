@@ -440,41 +440,36 @@ namespace Exiv2 {
     {
         uLongf uncompressedLen = compressedTextSize * 2; // just a starting point
         int zlibResult;
+        int dos = 0;
 
-        do
-        {
+        do {
             arr.alloc(uncompressedLen);
-            zlibResult = uncompress((Bytef*)arr.pData_, &uncompressedLen,
-                                    compressedText, compressedTextSize);
-
-            if (zlibResult == Z_OK)
-            {
-                // then it is all OK
+            zlibResult = uncompress((Bytef*)arr.pData_,
+                                    &uncompressedLen,
+                                    compressedText,
+                                    compressedTextSize);
+            if (zlibResult == Z_OK) {
                 arr.alloc(uncompressedLen);
             }
-            else if (zlibResult == Z_BUF_ERROR)
-            {
+            else if (zlibResult == Z_BUF_ERROR) {
                 // the uncompressedArray needs to be larger
-#ifdef DEBUG
-                std::cout << "Exiv2::PngChunk::parsePngChunk: doubling size for decompression.\n";
-#endif
                 uncompressedLen *= 2;
-
                 // DoS protection. can't be bigger than 64k
-                if ( uncompressedLen > 131072 )
-                    break;
+                if (uncompressedLen > 131072) {
+                    if (++dos > 1) break;
+                    uncompressedLen = 131072;
+                }
             }
-            else
-            {
+            else {
                 // something bad happened
                 throw Error(14);
             }
         }
         while (zlibResult == Z_BUF_ERROR);
 
-        if (zlibResult != Z_OK)
+        if (zlibResult != Z_OK) {
             throw Error(14);
-
+        }
     } // PngChunk::zlibUncompress
 
     std::string PngChunk::zlibCompress(const std::string& text)
