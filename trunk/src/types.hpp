@@ -174,6 +174,7 @@ namespace Exiv2 {
         canonPiIfdId,
         canonPaIfdId,
         canonFiIfdId,
+        canonPrIfdId,
         fujiIfdId,
         minoltaIfdId,
         minoltaCs5DIfdId,

@@ -173,6 +173,7 @@ namespace Exiv2 {
         { 365, "NikonFl1"     },
         { 366, "NikonFl2"     },
         { 367, "NikonFl3"     },
+        { 368, "CanonPr"      },
     };
 
     bool TiffGroupInfo::operator==(const uint16_t& group) const

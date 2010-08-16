@@ -1792,7 +1792,19 @@ Error: Directory Canon: Next pointer is out of bounds; ignored.
 20060802_095200.jpg   Exif.CanonFi.WBBracketValueGM                SShort      1  0
 20060802_095200.jpg   Exif.CanonFi.FilterEffect                    SShort      1  None
 20060802_095200.jpg   Exif.CanonFi.ToningEffect                    SShort      1  None
-20060802_095200.jpg   Exif.Canon.ProcessingInfo                    Short      14  28 0 0 0 0 0 0 0 32774 5200 0 0 0 0
+20060802_095200.jpg   Exif.CanonPr.0x0000                          SShort      1  28
+20060802_095200.jpg   Exif.CanonPr.ToneCurve                       Long        1  Standard
+20060802_095200.jpg   Exif.CanonPr.SharpnessFrequency              SShort      1  n/a
+20060802_095200.jpg   Exif.CanonPr.SensorRedLevel                  SShort      1  0
+20060802_095200.jpg   Exif.CanonPr.SensorBlueLevel                 SShort      1  0
+20060802_095200.jpg   Exif.CanonPr.WhiteBalanceRed                 SShort      1  0
+20060802_095200.jpg   Exif.CanonPr.WhiteBalanceBlue                SShort      1  0
+20060802_095200.jpg   Exif.CanonPr.WhiteBalance                    SShort      1  (-32762)
+20060802_095200.jpg   Exif.CanonPr.ColorTemperature                SShort      1  5200
+20060802_095200.jpg   Exif.CanonPr.PictureStyle                    SShort      1  None
+20060802_095200.jpg   Exif.CanonPr.DigitalGain                     SShort      1  0
+20060802_095200.jpg   Exif.CanonPr.WBShiftAB                       SShort      1  0
+20060802_095200.jpg   Exif.CanonPr.WBShiftGM                       SShort      1  0
 20060802_095200.jpg   Exif.Canon.MeasuredColor                     Short       5  10 746 1024 1024 618
 20060802_095200.jpg   Exif.Canon.VRDOffset                         Long        1  0
 20060802_095200.jpg   Exif.Canon.SensorInfo                        Short      17  34 3596 2360 1 1 84 19 3587 2354 0 0 0 0 0 0 0 0
@@ -2200,7 +2212,7 @@ Writing thumbnail (image/jpeg, 6137 Bytes) to file ./20060127_225027-thumb.jpg
 exiv2-empty.exv: No Exif data found in the file
 
 Compare image data and extracted data ------------------------------------
-1,1527c1,1527
+1,1539c1,1539
 < File  1/15: exiv2-empty.jpg
 < File  2/15: 20031214_000043.jpg
 < 20031214_000043.jpg   Exif.Image.Make                              Ascii       6  Canon
@@ -3391,7 +3403,19 @@ Compare image data and extracted data ------------------------------------
 < 20060802_095200.jpg   Exif.CanonFi.WBBracketValueGM                SShort      1  0
 < 20060802_095200.jpg   Exif.CanonFi.FilterEffect                    SShort      1  None
 < 20060802_095200.jpg   Exif.CanonFi.ToningEffect                    SShort      1  None
-< 20060802_095200.jpg   Exif.Canon.ProcessingInfo                    Short      14  28 0 0 0 0 0 0 0 32774 5200 0 0 0 0
+< 20060802_095200.jpg   Exif.CanonPr.0x0000                          SShort      1  28
+< 20060802_095200.jpg   Exif.CanonPr.ToneCurve                       Long        1  Standard
+< 20060802_095200.jpg   Exif.CanonPr.SharpnessFrequency              SShort      1  n/a
+< 20060802_095200.jpg   Exif.CanonPr.SensorRedLevel                  SShort      1  0
+< 20060802_095200.jpg   Exif.CanonPr.SensorBlueLevel                 SShort      1  0
+< 20060802_095200.jpg   Exif.CanonPr.WhiteBalanceRed                 SShort      1  0
+< 20060802_095200.jpg   Exif.CanonPr.WhiteBalanceBlue                SShort      1  0
+< 20060802_095200.jpg   Exif.CanonPr.WhiteBalance                    SShort      1  (-32762)
+< 20060802_095200.jpg   Exif.CanonPr.ColorTemperature                SShort      1  5200
+< 20060802_095200.jpg   Exif.CanonPr.PictureStyle                    SShort      1  None
+< 20060802_095200.jpg   Exif.CanonPr.DigitalGain                     SShort      1  0
+< 20060802_095200.jpg   Exif.CanonPr.WBShiftAB                       SShort      1  0
+< 20060802_095200.jpg   Exif.CanonPr.WBShiftGM                       SShort      1  0
 < 20060802_095200.jpg   Exif.Canon.MeasuredColor                     Short       5  10 746 1024 1024 618
 < 20060802_095200.jpg   Exif.Canon.VRDOffset                         Long        1  0
 < 20060802_095200.jpg   Exif.Canon.SensorInfo                        Short      17  34 3596 2360 1 1 84 19 3587 2354 0 0 0 0 0 0 0 0
@@ -4919,7 +4943,19 @@ Compare image data and extracted data ------------------------------------
 > 20060802_095200.exv   Exif.CanonFi.WBBracketValueGM                SShort      1  0
 > 20060802_095200.exv   Exif.CanonFi.FilterEffect                    SShort      1  None
 > 20060802_095200.exv   Exif.CanonFi.ToningEffect                    SShort      1  None
-> 20060802_095200.exv   Exif.Canon.ProcessingInfo                    Short      14  28 0 0 0 0 0 0 0 32774 5200 0 0 0 0
+> 20060802_095200.exv   Exif.CanonPr.0x0000                          SShort      1  28
+> 20060802_095200.exv   Exif.CanonPr.ToneCurve                       Long        1  Standard
+> 20060802_095200.exv   Exif.CanonPr.SharpnessFrequency              SShort      1  n/a
+> 20060802_095200.exv   Exif.CanonPr.SensorRedLevel                  SShort      1  0
+> 20060802_095200.exv   Exif.CanonPr.SensorBlueLevel                 SShort      1  0
+> 20060802_095200.exv   Exif.CanonPr.WhiteBalanceRed                 SShort      1  0
+> 20060802_095200.exv   Exif.CanonPr.WhiteBalanceBlue                SShort      1  0
+> 20060802_095200.exv   Exif.CanonPr.WhiteBalance                    SShort      1  (-32762)
+> 20060802_095200.exv   Exif.CanonPr.ColorTemperature                SShort      1  5200
+> 20060802_095200.exv   Exif.CanonPr.PictureStyle                    SShort      1  None
+> 20060802_095200.exv   Exif.CanonPr.DigitalGain                     SShort      1  0
+> 20060802_095200.exv   Exif.CanonPr.WBShiftAB                       SShort      1  0
+> 20060802_095200.exv   Exif.CanonPr.WBShiftGM                       SShort      1  0
 > 20060802_095200.exv   Exif.Canon.MeasuredColor                     Short       5  10 746 1024 1024 618
 > 20060802_095200.exv   Exif.Canon.VRDOffset                         Long        1  0
 > 20060802_095200.exv   Exif.Canon.SensorInfo                        Short      17  34 3596 2360 1 1 84 19 3587 2354 0 0 0 0 0 0 0 0
@@ -5476,7 +5512,7 @@ Writing Exif data from ./20060127_225027.exv to 20060127_225027.jpg
 exiv2-empty.exv: No Exif data found in the file
 
 Compare original and inserted image data ---------------------------------
-1,1527c1,1527
+1,1539c1,1539
 < File  1/15: exiv2-empty.jpg
 < File  2/15: 20031214_000043.jpg
 < 20031214_000043.jpg   Exif.Image.Make                              Ascii       6  Canon
@@ -6667,7 +6703,19 @@ Compare original and inserted image data ---------------------------------
 < 20060802_095200.jpg   Exif.CanonFi.WBBracketValueGM                SShort      1  0
 < 20060802_095200.jpg   Exif.CanonFi.FilterEffect                    SShort      1  None
 < 20060802_095200.jpg   Exif.CanonFi.ToningEffect                    SShort      1  None
-< 20060802_095200.jpg   Exif.Canon.ProcessingInfo                    Short      14  28 0 0 0 0 0 0 0 32774 5200 0 0 0 0
+< 20060802_095200.jpg   Exif.CanonPr.0x0000                          SShort      1  28
+< 20060802_095200.jpg   Exif.CanonPr.ToneCurve                       Long        1  Standard
+< 20060802_095200.jpg   Exif.CanonPr.SharpnessFrequency              SShort      1  n/a
+< 20060802_095200.jpg   Exif.CanonPr.SensorRedLevel                  SShort      1  0
+< 20060802_095200.jpg   Exif.CanonPr.SensorBlueLevel                 SShort      1  0
+< 20060802_095200.jpg   Exif.CanonPr.WhiteBalanceRed                 SShort      1  0
+< 20060802_095200.jpg   Exif.CanonPr.WhiteBalanceBlue                SShort      1  0
+< 20060802_095200.jpg   Exif.CanonPr.WhiteBalance                    SShort      1  (-32762)
+< 20060802_095200.jpg   Exif.CanonPr.ColorTemperature                SShort      1  5200
+< 20060802_095200.jpg   Exif.CanonPr.PictureStyle                    SShort      1  None
+< 20060802_095200.jpg   Exif.CanonPr.DigitalGain                     SShort      1  0
+< 20060802_095200.jpg   Exif.CanonPr.WBShiftAB                       SShort      1  0
+< 20060802_095200.jpg   Exif.CanonPr.WBShiftGM                       SShort      1  0
 < 20060802_095200.jpg   Exif.Canon.MeasuredColor                     Short       5  10 746 1024 1024 618
 < 20060802_095200.jpg   Exif.Canon.VRDOffset                         Long        1  0
 < 20060802_095200.jpg   Exif.Canon.SensorInfo                        Short      17  34 3596 2360 1 1 84 19 3587 2354 0 0 0 0 0 0 0 0
@@ -8195,7 +8243,19 @@ Compare original and inserted image data ---------------------------------
 > 20060802_095200.exv   Exif.CanonFi.WBBracketValueGM                SShort      1  0
 > 20060802_095200.exv   Exif.CanonFi.FilterEffect                    SShort      1  None
 > 20060802_095200.exv   Exif.CanonFi.ToningEffect                    SShort      1  None
-> 20060802_095200.exv   Exif.Canon.ProcessingInfo                    Short      14  28 0 0 0 0 0 0 0 32774 5200 0 0 0 0
+> 20060802_095200.exv   Exif.CanonPr.0x0000                          SShort      1  28
+> 20060802_095200.exv   Exif.CanonPr.ToneCurve                       Long        1  Standard
+> 20060802_095200.exv   Exif.CanonPr.SharpnessFrequency              SShort      1  n/a
+> 20060802_095200.exv   Exif.CanonPr.SensorRedLevel                  SShort      1  0
+> 20060802_095200.exv   Exif.CanonPr.SensorBlueLevel                 SShort      1  0
+> 20060802_095200.exv   Exif.CanonPr.WhiteBalanceRed                 SShort      1  0
+> 20060802_095200.exv   Exif.CanonPr.WhiteBalanceBlue                SShort      1  0
+> 20060802_095200.exv   Exif.CanonPr.WhiteBalance                    SShort      1  (-32762)
+> 20060802_095200.exv   Exif.CanonPr.ColorTemperature                SShort      1  5200
+> 20060802_095200.exv   Exif.CanonPr.PictureStyle                    SShort      1  None
+> 20060802_095200.exv   Exif.CanonPr.DigitalGain                     SShort      1  0
+> 20060802_095200.exv   Exif.CanonPr.WBShiftAB                       SShort      1  0
+> 20060802_095200.exv   Exif.CanonPr.WBShiftGM                       SShort      1  0
 > 20060802_095200.exv   Exif.Canon.MeasuredColor                     Short       5  10 746 1024 1024 618
 > 20060802_095200.exv   Exif.Canon.VRDOffset                         Long        1  0
 > 20060802_095200.exv   Exif.Canon.SensorInfo                        Short      17  34 3596 2360 1 1 84 19 3587 2354 0 0 0 0 0 0 0 0

@@ -124,6 +124,7 @@ namespace Exiv2 {
         const uint16_t nikonfl1  = 365; //!< Nikon Flash Info 1 Tags
         const uint16_t nikonfl2  = 366; //!< Nikon Flash Info 2 Tags
         const uint16_t nikonfl3  = 367; //!< Nikon Flash Info 3 Tags
+        const uint16_t canonpr   = 368; //!< Canon ProcessingInfo Tags
     }
 
 // *****************************************************************************

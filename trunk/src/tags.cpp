@@ -2369,6 +2369,7 @@ namespace Exiv2 {
         { canonPiIfdId,      "Makernote", "CanonPi",      CanonMakerNote::tagListPi      },
         { canonFiIfdId,      "Makernote", "CanonFi",      CanonMakerNote::tagListFi      },
         { canonPaIfdId,      "Makernote", "CanonPa",      CanonMakerNote::tagListPa      },
+        { canonPrIfdId,      "Makernote", "CanonPr",      CanonMakerNote::tagListPr      },
         { fujiIfdId,         "Makernote", "Fujifilm",     FujiMakerNote::tagList         },
         { minoltaIfdId,      "Makernote", "Minolta",      MinoltaMakerNote::tagList      },
         { minoltaCs5DIfdId,  "Makernote", "MinoltaCs5D",  MinoltaMakerNote::tagListCs5D  },
