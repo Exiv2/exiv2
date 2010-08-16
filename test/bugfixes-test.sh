@@ -148,6 +148,31 @@ cp -f ../data/exiv2-nikon-d70.jpg $filename
 echo '------>' Bug $num '<-------' >&2
 $exiv2 -v -f -r %Y-%m-%d-%a-%j $filename
 
+num=711
+# Little endian (II)
+filename=exiv2-bug${num}-1.jpg
+cp -f ../data/exiv2-empty.jpg $filename
+echo '------>' Bug $num '<-------' >&2
+$exiv2 -v -M'set Exif.Image.ProcessingSoftware Initial values, read from the command line' \
+          -M'set Exif.Image.DocumentName Float 0.12345' \
+          -M'set Exif.Image.ImageDescription Double 0.987654321' $filename
+$exiv2 -v -PEkyct $filename
+$exiv2 -v -M'set Exif.Image.ProcessingSoftware Non-intrusive update' $filename
+$exiv2 -v -PEkyct $filename
+$exiv2 -v -M'set Exif.Image.ProcessingSoftware Intrusive update, writing the structure from scratch' $filename
+$exiv2 -v -PEkyct $filename
+# Big endian (MM)
+filename=exiv2-bug${num}-2.jpg
+cp -f ../data/exiv2-kodak-dc210.jpg $filename
+$exiv2 -v -M'set Exif.Image.ProcessingSoftware Initial values, read from the command line' \
+          -M'set Exif.Image.DocumentName Float 0.12345' \
+          -M'set Exif.Image.ImageDescription Double 0.987654321' $filename
+$exiv2 -v -PEkyct $filename
+$exiv2 -v -M'set Exif.Image.ProcessingSoftware Non-intrusive update' $filename
+$exiv2 -v -PEkyct $filename
+$exiv2 -v -M'set Exif.Image.ProcessingSoftware Intrusive update, writing the structure from scratch' $filename
+$exiv2 -v -PEkyct $filename
+
 ) > $results 2>&1
 
 # ----------------------------------------------------------------------
