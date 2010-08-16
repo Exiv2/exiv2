@@ -34,12 +34,10 @@
 // included header files
 #include "metadatum.hpp"
 #include "types.hpp"
-#include "value.hpp"
 
 // + standard includes
 #include <string>
-#include <utility>                              // for std::pair
-#include <iostream>
+#include <iosfwd>
 #include <memory>
 
 // *****************************************************************************
@@ -119,118 +117,6 @@ namespace Exiv2 {
         TypeId typeId_;                         //!< Type id
         PrintFct printFct_;                     //!< Pointer to tag print function
     }; // struct TagInfo
-
-    /*!
-      @brief Helper structure for lookup tables for translations of numeric
-             tag values to human readable labels.
-     */
-    struct EXIV2API TagDetails {
-        long val_;                              //!< Tag value
-        const char* label_;                     //!< Translation of the tag value
-
-        //! Comparison operator for use with the find template
-        bool operator==(long key) const { return val_ == key; }
-    }; // struct TagDetails
-
-    /*!
-      @brief Helper structure for lookup tables for translations of bitmask
-             values to human readable labels.
-     */
-    struct EXIV2API TagDetailsBitmask {
-        uint32_t mask_;                         //!< Bitmask value
-        const char* label_;                     //!< Description of the tag value
-    }; // struct TagDetailsBitmask
-
-    /*!
-      @brief Helper structure for lookup tables for translations of controlled
-             vocabulary strings to their descriptions.
-     */
-    struct EXIV2API TagVocabulary {
-        const char* voc_;                       //!< Vocabulary string
-        const char* label_;                     //!< Description of the vocabulary string
-
-        /*!
-          @brief Comparison operator for use with the find template
-
-          Compare vocabulary strings like "PR-NON" with keys like
-          "http://ns.useplus.org/ldf/vocab/PR-NON" and return true if the vocabulary
-          string matches the end of the key.
-         */
-        bool operator==(const std::string& key) const;
-    }; // struct TagDetails
-
-    /*!
-      @brief Generic pretty-print function to translate a long value to a description
-             by looking up a reference table.
-     */
-    template <int N, const TagDetails (&array)[N]>
-    std::ostream& printTag(std::ostream& os, const Value& value, const ExifData*)
-    {
-        const TagDetails* td = find(array, value.toLong());
-        if (td) {
-            os << exvGettext(td->label_);
-        }
-        else {
-            os << "(" << value << ")";
-        }
-        return os;
-    }
-
-//! Shortcut for the printTag template which requires typing the array name only once.
-#define EXV_PRINT_TAG(array) printTag<EXV_COUNTOF(array), array>
-
-    /*!
-      @brief Generic print function to translate a long value to a description
-             by looking up bitmasks in a reference table.
-     */
-    template <int N, const TagDetailsBitmask (&array)[N]>
-    std::ostream& printTagBitmask(std::ostream& os, const Value& value, const ExifData*)
-    {
-        const uint32_t val = static_cast<uint32_t>(value.toLong());
-        if (val == 0 && N > 0) {
-            const TagDetailsBitmask* td = *(&array);
-            if (td->mask_ == 0) return os << exvGettext(td->label_);
-        }
-        bool sep = false;
-        for (int i = 0; i < N; ++i) {
-            // *& acrobatics is a workaround for a MSVC 7.1 bug
-            const TagDetailsBitmask* td = *(&array) + i;
-
-            if (val & td->mask_) {
-                if (sep) {
-                    os << ", " << exvGettext(td->label_);
-                }
-                else {
-                    os << exvGettext(td->label_);
-                    sep = true;
-                }
-            }
-        }
-        return os;
-    }
-
-//! Shortcut for the printTagBitmask template which requires typing the array name only once.
-#define EXV_PRINT_TAG_BITMASK(array) printTagBitmask<EXV_COUNTOF(array), array>
-
-    /*!
-      @brief Generic pretty-print function to translate a controlled vocabulary value (string)
-             to a description by looking up a reference table.
-     */
-    template <int N, const TagVocabulary (&array)[N]>
-    std::ostream& printTagVocabulary(std::ostream& os, const Value& value, const ExifData*)
-    {
-        const TagVocabulary* td = find(array, value.toString());
-        if (td) {
-            os << exvGettext(td->label_);
-        }
-        else {
-            os << "(" << value << ")";
-        }
-        return os;
-    }
-
-//! Shortcut for the printTagVocabulary template which requires typing the array name only once.
-#define EXV_PRINT_VOCABULARY(array) printTagVocabulary<EXV_COUNTOF(array), array>
 
     //! Exif tag reference, implemented as a static class.
     class EXIV2API ExifTags {
@@ -470,114 +356,6 @@ namespace Exiv2 {
 
     //! Output operator for TagInfo
     EXIV2API std::ostream& operator<<(std::ostream& os, const TagInfo& ti);
-
-    //! @name Functions printing interpreted tag values
-    //@{
-    //! Default print function, using the Value output operator
-    EXIV2API std::ostream& printValue(std::ostream& os, const Value& value, const ExifData*);
-    //! Print the value converted to a long
-    EXIV2API std::ostream& printLong(std::ostream& os, const Value& value, const ExifData*);
-    //! Print a Rational or URational value in floating point format
-    EXIV2API std::ostream& printFloat(std::ostream& os, const Value& value, const ExifData*);
-    //! Print a longitude or latitude value
-    EXIV2API std::ostream& printDegrees(std::ostream& os, const Value& value, const ExifData*);
-    //! Print function converting from UCS-2LE to UTF-8
-    EXIV2API std::ostream& printUcs2(std::ostream& os, const Value& value, const ExifData*);
-    //! Print function for Exif units
-    EXIV2API std::ostream& printExifUnit(std::ostream& os, const Value& value, const ExifData*);
-    //! Print GPS version
-    EXIV2API std::ostream& print0x0000(std::ostream& os, const Value& value, const ExifData*);
-    //! Print GPS altitude ref
-    EXIV2API std::ostream& print0x0005(std::ostream& os, const Value& value, const ExifData*);
-    //! Print GPS altitude
-    EXIV2API std::ostream& print0x0006(std::ostream& os, const Value& value, const ExifData*);
-    //! Print GPS timestamp
-    EXIV2API std::ostream& print0x0007(std::ostream& os, const Value& value, const ExifData*);
-    //! Print GPS status
-    EXIV2API std::ostream& print0x0009(std::ostream& os, const Value& value, const ExifData*);
-    //! Print GPS measurement mode
-    EXIV2API std::ostream& print0x000a(std::ostream& os, const Value& value, const ExifData*);
-    //! Print GPS speed ref
-    EXIV2API std::ostream& print0x000c(std::ostream& os, const Value& value, const ExifData*);
-    //! Print GPS destination distance ref
-    EXIV2API std::ostream& print0x0019(std::ostream& os, const Value& value, const ExifData*);
-    //! Print GPS differential correction
-    EXIV2API std::ostream& print0x001e(std::ostream& os, const Value& value, const ExifData*);
-    //! Print orientation
-    EXIV2API std::ostream& print0x0112(std::ostream& os, const Value& value, const ExifData*);
-    //! Print YCbCrPositioning
-    EXIV2API std::ostream& print0x0213(std::ostream& os, const Value& value, const ExifData*);
-    //! Print the copyright
-    EXIV2API std::ostream& print0x8298(std::ostream& os, const Value& value, const ExifData*);
-    //! Print the exposure time
-    EXIV2API std::ostream& print0x829a(std::ostream& os, const Value& value, const ExifData*);
-    //! Print the f-number
-    EXIV2API std::ostream& print0x829d(std::ostream& os, const Value& value, const ExifData*);
-    //! Print exposure program
-    EXIV2API std::ostream& print0x8822(std::ostream& os, const Value& value, const ExifData*);
-    //! Print ISO speed ratings
-    EXIV2API std::ostream& print0x8827(std::ostream& os, const Value& value, const ExifData*);
-    //! Print components configuration specific to compressed data
-    EXIV2API std::ostream& print0x9101(std::ostream& os, const Value& value, const ExifData*);
-    //! Print exposure time converted from APEX shutter speed value
-    EXIV2API std::ostream& print0x9201(std::ostream& os, const Value& value, const ExifData*);
-    //! Print f-number converted from APEX aperture value
-    EXIV2API std::ostream& print0x9202(std::ostream& os, const Value& value, const ExifData*);
-    //! Print the exposure bias value
-    EXIV2API std::ostream& print0x9204(std::ostream& os, const Value& value, const ExifData*);
-    //! Print the subject distance
-    EXIV2API std::ostream& print0x9206(std::ostream& os, const Value& value, const ExifData*);
-    //! Print metering mode
-    EXIV2API std::ostream& print0x9207(std::ostream& os, const Value& value, const ExifData*);
-    //! Print light source
-    EXIV2API std::ostream& print0x9208(std::ostream& os, const Value& value, const ExifData*);
-    //! Print the actual focal length of the lens
-    EXIV2API std::ostream& print0x920a(std::ostream& os, const Value& value, const ExifData*);
-    //! Print the user comment
-    EXIV2API std::ostream& print0x9286(std::ostream& os, const Value& value, const ExifData*);
-    //! Print color space
-    EXIV2API std::ostream& print0xa001(std::ostream& os, const Value& value, const ExifData*);
-    //! Print sensing method
-    EXIV2API std::ostream& print0xa217(std::ostream& os, const Value& value, const ExifData*);
-    //! Print file source
-    EXIV2API std::ostream& print0xa300(std::ostream& os, const Value& value, const ExifData*);
-    //! Print scene type
-    EXIV2API std::ostream& print0xa301(std::ostream& os, const Value& value, const ExifData*);
-    //! Print custom rendered
-    EXIV2API std::ostream& print0xa401(std::ostream& os, const Value& value, const ExifData*);
-    //! Print exposure mode
-    EXIV2API std::ostream& print0xa402(std::ostream& os, const Value& value, const ExifData*);
-    //! Print white balance
-    EXIV2API std::ostream& print0xa403(std::ostream& os, const Value& value, const ExifData*);
-    //! Print digital zoom ratio
-    EXIV2API std::ostream& print0xa404(std::ostream& os, const Value& value, const ExifData*);
-    //! Print 35mm equivalent focal length
-    EXIV2API std::ostream& print0xa405(std::ostream& os, const Value& value, const ExifData*);
-    //! Print scene capture type
-    EXIV2API std::ostream& print0xa406(std::ostream& os, const Value& value, const ExifData*);
-    //! Print gain control
-    EXIV2API std::ostream& print0xa407(std::ostream& os, const Value& value, const ExifData*);
-    //! Print saturation
-    EXIV2API std::ostream& print0xa409(std::ostream& os, const Value& value, const ExifData*);
-    //! Print subject distance range
-    EXIV2API std::ostream& print0xa40c(std::ostream& os, const Value& value, const ExifData*);
-    //! Print GPS direction ref
-    EXIV2API std::ostream& printGPSDirRef(std::ostream& os, const Value& value, const ExifData*);
-    //! Print contrast, sharpness (normal, soft, hard)
-    EXIV2API std::ostream& printNormalSoftHard(std::ostream& os, const Value& value, const ExifData*);
-    //! Print any version packed in 4 Bytes format : major major minor minor
-    EXIV2API std::ostream& printExifVersion(std::ostream& os, const Value& value, const ExifData*);
-    //! Print any version encoded in the ASCII string majormajorminorminor
-    EXIV2API std::ostream& printXmpVersion(std::ostream& os, const Value& value, const ExifData*);
-    //! Print a date following the format YYYY-MM-DDTHH:MM:SSZ
-    EXIV2API std::ostream& printXmpDate(std::ostream& os, const Value& value, const ExifData*);
-    //@}
-
-    //! Calculate F number from an APEX aperture value
-    EXIV2API float fnumber(float apertureValue);
-
-    //! Calculate the exposure time from an APEX shutter speed value
-    EXIV2API URational exposureTime(float shutterSpeedValue);
 
 }                                       // namespace Exiv2
 

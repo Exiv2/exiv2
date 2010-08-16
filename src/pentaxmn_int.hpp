@@ -35,6 +35,7 @@
 // *****************************************************************************
 // included header files
 #include "tags.hpp"
+#include "tags_int.hpp"
 #include "types.hpp"
 
 // + standard includes

@@ -45,6 +45,7 @@ SET( LIBEXIV2_PRIVATE_HDR canonmn_int.hpp
                           rw2image_int.hpp
                           sigmamn_int.hpp
                           sonymn_int.hpp
+			  tags_int.hpp
                           tiffcomposite_int.hpp
                           tifffwd_int.hpp
                           tiffimage_int.hpp

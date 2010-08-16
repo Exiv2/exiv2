@@ -32,7 +32,7 @@ EXIV2_RCSID("@(#) $Id$")
 // *****************************************************************************
 // included header files
 #include "properties.hpp"
-#include "tags.hpp"
+#include "tags_int.hpp"
 #include "error.hpp"
 #include "types.hpp"
 #include "value.hpp"
@@ -66,6 +66,8 @@ namespace {
 // *****************************************************************************
 // class member definitions
 namespace Exiv2 {
+
+    using namespace Internal;
 
     //! @cond IGNORE
     extern const XmpPropertyInfo xmpDcInfo[];
