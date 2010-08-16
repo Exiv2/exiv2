@@ -34,6 +34,7 @@ EXIV2_RCSID("@(#) $Id$")
 // included header files
 #include "types.hpp"
 #include "panasonicmn_int.hpp"
+#include "tags_int.hpp"
 #include "value.hpp"
 #include "i18n.h"                // NLS support.
 

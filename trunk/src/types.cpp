@@ -177,6 +177,38 @@ namespace Exiv2 {
     // *************************************************************************
     // free functions
 
+    std::ostream& operator<<(std::ostream& os, const Rational& r)
+    {
+        return os << r.first << "/" << r.second;
+    }
+
+    std::istream& operator>>(std::istream& is, Rational& r)
+    {
+        int32_t nominator;
+        int32_t denominator;
+        char c('\0');
+        is >> nominator >> c >> denominator;
+        if (c != '/') is.setstate(std::ios::failbit);
+        if (is) r = std::make_pair(nominator, denominator);
+        return is;
+    }
+
+    std::ostream& operator<<(std::ostream& os, const URational& r)
+    {
+        return os << r.first << "/" << r.second;
+    }
+
+    std::istream& operator>>(std::istream& is, URational& r)
+    {
+        uint32_t nominator;
+        uint32_t denominator;
+        char c('\0');
+        is >> nominator >> c >> denominator;
+        if (c != '/') is.setstate(std::ios::failbit);
+        if (is) r = std::make_pair(nominator, denominator);
+        return is;
+    }
+
     uint16_t getUShort(const byte* buf, ByteOrder byteOrder)
     {
         if (byteOrder == littleEndian) {
@@ -241,8 +273,12 @@ namespace Exiv2 {
         // type is the 4-byte IEEE 754 binary32 format, which is common but not
         // required by the C++ standard.
         assert(sizeof(float) == 4);
-        uint32_t ul = getULong(buf, byteOrder);
-        return *reinterpret_cast<float*>(&ul);
+        union {
+            uint32_t ul_;
+            float    f_;
+        } u;
+        u.ul_ = getULong(buf, byteOrder);
+        return u.f_;
     }
 
     double getDouble(const byte* buf, ByteOrder byteOrder)
@@ -251,28 +287,32 @@ namespace Exiv2 {
         // type is the 8-byte IEEE 754 binary64 format, which is common but not
         // required by the C++ standard.
         assert(sizeof(double) == 8);
-        uint64_t ull = 0;
+        union {
+            uint64_t ull_;
+            double   d_;
+        } u;
+        u.ull_ = 0;
         if (byteOrder == littleEndian) {
-            ull =   static_cast<uint64_t>(buf[7]) << 56
-                  | static_cast<uint64_t>(buf[6]) << 48
-                  | static_cast<uint64_t>(buf[5]) << 40
-                  | static_cast<uint64_t>(buf[4]) << 32
-                  | static_cast<uint64_t>(buf[3]) << 24
-                  | static_cast<uint64_t>(buf[2]) << 16
-                  | static_cast<uint64_t>(buf[1]) <<  8
-                  | static_cast<uint64_t>(buf[0]);
+            u.ull_ =   static_cast<uint64_t>(buf[7]) << 56
+                     | static_cast<uint64_t>(buf[6]) << 48
+                     | static_cast<uint64_t>(buf[5]) << 40
+                     | static_cast<uint64_t>(buf[4]) << 32
+                     | static_cast<uint64_t>(buf[3]) << 24
+                     | static_cast<uint64_t>(buf[2]) << 16
+                     | static_cast<uint64_t>(buf[1]) <<  8
+                     | static_cast<uint64_t>(buf[0]);
         }
         else {
-            ull =   static_cast<uint64_t>(buf[0]) << 56
-                  | static_cast<uint64_t>(buf[1]) << 48
-                  | static_cast<uint64_t>(buf[2]) << 40
-                  | static_cast<uint64_t>(buf[3]) << 32
-                  | static_cast<uint64_t>(buf[4]) << 24
-                  | static_cast<uint64_t>(buf[5]) << 16
-                  | static_cast<uint64_t>(buf[6]) <<  8
-                  | static_cast<uint64_t>(buf[7]);
+            u.ull_ =   static_cast<uint64_t>(buf[0]) << 56
+                     | static_cast<uint64_t>(buf[1]) << 48
+                     | static_cast<uint64_t>(buf[2]) << 40
+                     | static_cast<uint64_t>(buf[3]) << 32
+                     | static_cast<uint64_t>(buf[4]) << 24
+                     | static_cast<uint64_t>(buf[5]) << 16
+                     | static_cast<uint64_t>(buf[6]) <<  8
+                     | static_cast<uint64_t>(buf[7]);
         }
-        return *reinterpret_cast<double*>(&ull);
+        return u.d_;
     }
 
     long us2Data(byte* buf, uint16_t s, ByteOrder byteOrder)
@@ -355,8 +395,12 @@ namespace Exiv2 {
         // type is the 4-byte IEEE 754 binary32 format, which is common but not
         // required by the C++ standard.
         assert(sizeof(float) == 4);
-        uint32_t ul = *reinterpret_cast<uint32_t*>(&f);
-        return ul2Data(buf, ul, byteOrder);
+        union {
+            uint32_t ul_;
+            float    f_;
+        } u;
+        u.f_ = f;
+        return ul2Data(buf, u.ul_, byteOrder);
     }
 
     long d2Data(byte* buf, double d, ByteOrder byteOrder)
@@ -365,26 +409,31 @@ namespace Exiv2 {
         // type is the 8-byte IEEE 754 binary64 format, which is common but not
         // required by the C++ standard.
         assert(sizeof(double) == 8);
-        uint64_t ull = *reinterpret_cast<uint64_t*>(&d);
+        union {
+            uint64_t ull_;
+            double   d_;
+        } u;
+        u.d_ = d;
+        uint64_t m = 0xff;
         if (byteOrder == littleEndian) {
-            buf[0] =  (byte)(ull & 0x00000000000000ff);
-            buf[1] = (byte)((ull & 0x000000000000ff00) >> 8);
-            buf[2] = (byte)((ull & 0x0000000000ff0000) >> 16);
-            buf[3] = (byte)((ull & 0x00000000ff000000) >> 24);
-            buf[4] = (byte)((ull & 0x000000ff00000000) >> 32);
-            buf[5] = (byte)((ull & 0x0000ff0000000000) >> 40);
-            buf[6] = (byte)((ull & 0x00ff000000000000) >> 48);
-            buf[7] = (byte)((ull & 0xff00000000000000) >> 56);
+            buf[0] =  (byte)(u.ull_ & m);
+            buf[1] = (byte)((u.ull_ & (m <<  8)) >>  8);
+            buf[2] = (byte)((u.ull_ & (m << 16)) >> 16);
+            buf[3] = (byte)((u.ull_ & (m << 24)) >> 24);
+            buf[4] = (byte)((u.ull_ & (m << 32)) >> 32);
+            buf[5] = (byte)((u.ull_ & (m << 40)) >> 40);
+            buf[6] = (byte)((u.ull_ & (m << 48)) >> 48);
+            buf[7] = (byte)((u.ull_ & (m << 56)) >> 56);
         }
         else {
-            buf[0] = (byte)((ull & 0xff00000000000000) >> 56);
-            buf[1] = (byte)((ull & 0x00ff000000000000) >> 48);
-            buf[2] = (byte)((ull & 0x0000ff0000000000) >> 40);
-            buf[3] = (byte)((ull & 0x000000ff00000000) >> 32);
-            buf[4] = (byte)((ull & 0x00000000ff000000) >> 24);
-            buf[5] = (byte)((ull & 0x0000000000ff0000) >> 16);
-            buf[6] = (byte)((ull & 0x000000000000ff00) >> 8);
-            buf[7] =  (byte)(ull & 0x00000000000000ff);
+            buf[0] = (byte)((u.ull_ & (m << 56)) >> 56);
+            buf[1] = (byte)((u.ull_ & (m << 48)) >> 48);
+            buf[2] = (byte)((u.ull_ & (m << 40)) >> 40);
+            buf[3] = (byte)((u.ull_ & (m << 32)) >> 32);
+            buf[4] = (byte)((u.ull_ & (m << 24)) >> 24);
+            buf[5] = (byte)((u.ull_ & (m << 16)) >> 16);
+            buf[6] = (byte)((u.ull_ & (m <<  8)) >>  8);
+            buf[7] =  (byte)(u.ull_ & m);
         }
         return 8;
     }

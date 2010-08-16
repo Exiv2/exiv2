@@ -39,7 +39,7 @@ EXIV2_RCSID("@(#) $Id$")
 #include "olympusmn_int.hpp"
 #include "value.hpp"
 #include "image.hpp"
-#include "tags.hpp"
+#include "tags_int.hpp"
 #include "i18n.h"                // NLS support.
 
 // + standard includes
