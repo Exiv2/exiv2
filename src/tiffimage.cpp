@@ -366,6 +366,22 @@ namespace Exiv2 {
         { 2, ttUnsignedLong, 1 }
     };
 
+    //! Canon Processing Info binary array - configuration
+    extern const ArrayCfg canonPrCfg = {
+        Group::canonpr,   // Group for the elements
+        invalidByteOrder, // Use byte order from parent
+        ttUnsignedShort,  // Type for array entry and size element
+        notEncrypted,     // Not encrypted
+        true,             // Has a size element
+        false,            // No fillers
+        false,            // Don't concatenate gaps
+        { 0, ttSignedShort, 1 }
+    };
+    //! Canon File Info binary array - definition
+    extern const ArrayDef canonPrDef[] = {
+        { 2, ttUnsignedLong, 1 }
+    };
+
     //! Nikon Vibration Reduction binary array - configuration
     extern const ArrayCfg nikonVrCfg = {
         Group::nikonvr,   // Group for the elements
@@ -1112,6 +1128,7 @@ namespace Exiv2 {
         { Tag::root, Group::canoncf,   Group::canonmn,   0x000f    },
         { Tag::root, Group::canonpi,   Group::canonmn,   0x0012    },
         { Tag::root, Group::canonfi,   Group::canonmn,   0x0093    },
+        { Tag::root, Group::canonpr,   Group::canonmn,   0x00a0    },
         { Tag::root, Group::nikon1mn,  Group::exif,      0x927c    },
         { Tag::root, Group::nikon2mn,  Group::exif,      0x927c    },
         { Tag::root, Group::nikon3mn,  Group::exif,      0x927c    },
@@ -1423,6 +1440,7 @@ namespace Exiv2 {
         {    0x000f, Group::canonmn,   EXV_SIMPLE_BINARY_ARRAY(canonCfCfg)       },
         {    0x0012, Group::canonmn,   EXV_SIMPLE_BINARY_ARRAY(canonPiCfg)       },
         {    0x0093, Group::canonmn,   EXV_BINARY_ARRAY(canonFiCfg, canonFiDef)  },
+        {    0x00a0, Group::canonmn,   EXV_BINARY_ARRAY(canonPrCfg, canonPrDef)  },
         { Tag::next, Group::canonmn,   newTiffDirectory<Group::ignr>             },
         {  Tag::all, Group::canonmn,   newTiffEntry                              },
 
@@ -1433,6 +1451,7 @@ namespace Exiv2 {
         {  Tag::all, Group::canoncf,   newTiffBinaryElement                      },
         {  Tag::all, Group::canonpi,   newTiffBinaryElement                      },
         {  Tag::all, Group::canonfi,   newTiffBinaryElement                      },
+        {  Tag::all, Group::canonpr,   newTiffBinaryElement                      },
 
         // Nikon1 makernote
         { Tag::next, Group::nikon1mn,  newTiffDirectory<Group::ignr>             },

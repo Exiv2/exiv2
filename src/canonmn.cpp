@@ -782,7 +782,7 @@ namespace Exiv2 {
         return tagInfoCs_;
     }
 
-    //! WhiteBalance, tag 0x0007
+    //! WhiteBalance, multiple tags
     extern const TagDetails canonSiWhiteBalance[] = {
         {  0, N_("Auto")                        },
         {  1, N_("Sunny")                       },
@@ -800,7 +800,11 @@ namespace Exiv2 {
         { 14, N_("Daylight Fluorescent")        },
         { 15, N_("Custom 1")                    },
         { 16, N_("Custom 2")                    },
-        { 17, N_("Underwater")                  }
+        { 17, N_("Underwater")                  },
+        { 18, N_("Custom 3")                    },
+        { 19, N_("Custom 3")                    },
+        { 20, N_("PC Set 4")                    },
+        { 21, N_("PC Set 5")                    }
     };
 
     //! AFPointUsed, tag 0x000e
@@ -1038,6 +1042,70 @@ namespace Exiv2 {
     const TagInfo* CanonMakerNote::tagListFi()
     {
         return tagInfoFi_;
+    }
+
+    //! Tone Curve Values
+    extern const TagDetails canonToneCurve[] = {
+        { 0, N_("Standard") },
+	{ 1, N_("Manual")   },
+	{ 2, N_("Custom")   }
+    };
+
+    //! Sharpness Frequency Values
+    extern const TagDetails canonSharpnessFrequency[] = {
+        { 0, N_("n/a")      },
+        { 1, N_("Lowest")   },
+        { 2, N_("Low")      },
+        { 3, N_("Standard") },
+        { 4, N_("High")     },
+        { 5, N_("Highest")  }
+    };
+
+    //! PictureStyle Values
+    extern const TagDetails canonPictureStyle[] = {
+        { 0x00, N_("None")            },
+        { 0x01, N_("Standard")        },
+        { 0x02, N_("Portrait")        },
+        { 0x03, N_("High Saturation") },
+        { 0x04, N_("Adobe RGB")       },
+        { 0x05, N_("Low Saturation")  },
+        { 0x06, N_("CM Set 1")        },
+        { 0x07, N_("CM Set 2")        },
+        { 0x21, N_("User Def. 1")     },
+        { 0x22, N_("User Def. 2")     },
+        { 0x23, N_("User Def. 3")     },
+        { 0x41, N_("PC 1")            },
+        { 0x42, N_("PC 2")            },
+        { 0x43, N_("PC 3")            },
+        { 0x81, N_("Standard")        },
+        { 0x82, N_("Portrait")        },
+        { 0x83, N_("Landscape")       },
+        { 0x84, N_("Neutral")         },
+        { 0x85, N_("Faithful")        },
+        { 0x86, N_("Monochrome")      },
+    };
+
+    // Canon Processing Info Tag
+    const TagInfo CanonMakerNote::tagInfoPr_[] = {
+        TagInfo(0x0001, "ToneCurve", N_("ToneCurve"), N_("Tone curve"), canonPrIfdId, makerTags, unsignedLong, EXV_PRINT_TAG(canonToneCurve)),
+        TagInfo(0x0002, "Sharpness", N_("Sharpness"), N_("Sharpness"), canonPrIfdId, makerTags, signedShort, printValue),
+        TagInfo(0x0003, "SharpnessFrequency", N_("SharpnessFrequency"), N_("Sharpness frequency"), canonPrIfdId, makerTags, signedShort, EXV_PRINT_TAG(canonSharpnessFrequency)),
+        TagInfo(0x0004, "SensorRedLevel", N_("SensorRedLevel"), N_("Sensor red level"), canonPrIfdId, makerTags, signedShort, printValue),
+        TagInfo(0x0005, "SensorBlueLevel", N_("SensorBlueLevel"), N_("Sensor blue level"), canonPrIfdId, makerTags, signedShort, printValue),
+        TagInfo(0x0006, "WhiteBalanceRed", N_("WhiteBalanceRed"), N_("White balance red"), canonPrIfdId, makerTags, signedShort, printValue),
+        TagInfo(0x0007, "WhiteBalanceBlue", N_("WhiteBalanceBlue"), N_("White balance blue"), canonPrIfdId, makerTags, signedShort, printValue),
+        TagInfo(0x0008, "WhiteBalance", N_("WhiteBalance"), N_("White balance"), canonPrIfdId, makerTags, signedShort, EXV_PRINT_TAG(canonSiWhiteBalance)),
+        TagInfo(0x0009, "ColorTemperature", N_("ColorTemperature"), N_("Color Temperature"), canonPrIfdId, makerTags, signedShort, printValue),
+        TagInfo(0x000a, "PictureStyle", N_("PictureStyle"), N_("Picture style"), canonPrIfdId, makerTags, signedShort, EXV_PRINT_TAG(canonPictureStyle)),
+        TagInfo(0x000b, "DigitalGain", N_("DigitalGain"), N_("Digital gain"), canonPrIfdId, makerTags, signedShort, printValue),
+        TagInfo(0x000c, "WBShiftAB", N_("WBShiftAB"), N_("WBShift AB"), canonPrIfdId, makerTags, signedShort, printValue),
+        TagInfo(0x000d, "WBShiftGM", N_("WBShiftGM"), N_("WB Shift GM"), canonPrIfdId, makerTags, signedShort, printValue),
+        TagInfo(0xffff, "(UnknownCanonPrTag)", "(UnknownCanonPrTag)", N_("Unknown Canon Processing Info tag"), canonPrIfdId, makerTags, invalidTypeId, printValue)
+    };
+
+    const TagInfo* CanonMakerNote::tagListPr()
+    {
+        return tagInfoPr_;
     }
 
     std::ostream& CanonMakerNote::printFiFileNumber(std::ostream& os,

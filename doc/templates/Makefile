@@ -53,6 +53,7 @@ TABLES = Exif \
          CanonPi \
          CanonFi \
          CanonPa \
+         CanonPr \
          Fujifilm \
          Minolta \
          MinoltaCsNew \
