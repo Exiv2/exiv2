@@ -1087,7 +1087,7 @@ namespace Exiv2 {
 
     // Canon Processing Info Tag
     const TagInfo CanonMakerNote::tagInfoPr_[] = {
-        TagInfo(0x0001, "ToneCurve", N_("ToneCurve"), N_("Tone curve"), canonPrIfdId, makerTags, unsignedLong, EXV_PRINT_TAG(canonToneCurve)),
+        TagInfo(0x0001, "ToneCurve", N_("ToneCurve"), N_("Tone curve"), canonPrIfdId, makerTags, signedShort, EXV_PRINT_TAG(canonToneCurve)),
         TagInfo(0x0002, "Sharpness", N_("Sharpness"), N_("Sharpness"), canonPrIfdId, makerTags, signedShort, printValue),
         TagInfo(0x0003, "SharpnessFrequency", N_("SharpnessFrequency"), N_("Sharpness frequency"), canonPrIfdId, makerTags, signedShort, EXV_PRINT_TAG(canonSharpnessFrequency)),
         TagInfo(0x0004, "SensorRedLevel", N_("SensorRedLevel"), N_("Sensor red level"), canonPrIfdId, makerTags, signedShort, printValue),

@@ -1793,7 +1793,8 @@ Error: Directory Canon: Next pointer is out of bounds; ignored.
 20060802_095200.jpg   Exif.CanonFi.FilterEffect                    SShort      1  None
 20060802_095200.jpg   Exif.CanonFi.ToningEffect                    SShort      1  None
 20060802_095200.jpg   Exif.CanonPr.0x0000                          SShort      1  28
-20060802_095200.jpg   Exif.CanonPr.ToneCurve                       Long        1  Standard
+20060802_095200.jpg   Exif.CanonPr.ToneCurve                       SShort      1  Standard
+20060802_095200.jpg   Exif.CanonPr.Sharpness                       SShort      1  0
 20060802_095200.jpg   Exif.CanonPr.SharpnessFrequency              SShort      1  n/a
 20060802_095200.jpg   Exif.CanonPr.SensorRedLevel                  SShort      1  0
 20060802_095200.jpg   Exif.CanonPr.SensorBlueLevel                 SShort      1  0
@@ -2212,7 +2213,7 @@ Writing thumbnail (image/jpeg, 6137 Bytes) to file ./20060127_225027-thumb.jpg
 exiv2-empty.exv: No Exif data found in the file
 
 Compare image data and extracted data ------------------------------------
-1,1539c1,1539
+1,1540c1,1540
 < File  1/15: exiv2-empty.jpg
 < File  2/15: 20031214_000043.jpg
 < 20031214_000043.jpg   Exif.Image.Make                              Ascii       6  Canon
@@ -3404,7 +3405,8 @@ Compare image data and extracted data ------------------------------------
 < 20060802_095200.jpg   Exif.CanonFi.FilterEffect                    SShort      1  None
 < 20060802_095200.jpg   Exif.CanonFi.ToningEffect                    SShort      1  None
 < 20060802_095200.jpg   Exif.CanonPr.0x0000                          SShort      1  28
-< 20060802_095200.jpg   Exif.CanonPr.ToneCurve                       Long        1  Standard
+< 20060802_095200.jpg   Exif.CanonPr.ToneCurve                       SShort      1  Standard
+< 20060802_095200.jpg   Exif.CanonPr.Sharpness                       SShort      1  0
 < 20060802_095200.jpg   Exif.CanonPr.SharpnessFrequency              SShort      1  n/a
 < 20060802_095200.jpg   Exif.CanonPr.SensorRedLevel                  SShort      1  0
 < 20060802_095200.jpg   Exif.CanonPr.SensorBlueLevel                 SShort      1  0
@@ -4944,7 +4946,8 @@ Compare image data and extracted data ------------------------------------
 > 20060802_095200.exv   Exif.CanonFi.FilterEffect                    SShort      1  None
 > 20060802_095200.exv   Exif.CanonFi.ToningEffect                    SShort      1  None
 > 20060802_095200.exv   Exif.CanonPr.0x0000                          SShort      1  28
-> 20060802_095200.exv   Exif.CanonPr.ToneCurve                       Long        1  Standard
+> 20060802_095200.exv   Exif.CanonPr.ToneCurve                       SShort      1  Standard
+> 20060802_095200.exv   Exif.CanonPr.Sharpness                       SShort      1  0
 > 20060802_095200.exv   Exif.CanonPr.SharpnessFrequency              SShort      1  n/a
 > 20060802_095200.exv   Exif.CanonPr.SensorRedLevel                  SShort      1  0
 > 20060802_095200.exv   Exif.CanonPr.SensorBlueLevel                 SShort      1  0
@@ -5512,7 +5515,7 @@ Writing Exif data from ./20060127_225027.exv to 20060127_225027.jpg
 exiv2-empty.exv: No Exif data found in the file
 
 Compare original and inserted image data ---------------------------------
-1,1539c1,1539
+1,1540c1,1540
 < File  1/15: exiv2-empty.jpg
 < File  2/15: 20031214_000043.jpg
 < 20031214_000043.jpg   Exif.Image.Make                              Ascii       6  Canon
@@ -6704,7 +6707,8 @@ Compare original and inserted image data ---------------------------------
 < 20060802_095200.jpg   Exif.CanonFi.FilterEffect                    SShort      1  None
 < 20060802_095200.jpg   Exif.CanonFi.ToningEffect                    SShort      1  None
 < 20060802_095200.jpg   Exif.CanonPr.0x0000                          SShort      1  28
-< 20060802_095200.jpg   Exif.CanonPr.ToneCurve                       Long        1  Standard
+< 20060802_095200.jpg   Exif.CanonPr.ToneCurve                       SShort      1  Standard
+< 20060802_095200.jpg   Exif.CanonPr.Sharpness                       SShort      1  0
 < 20060802_095200.jpg   Exif.CanonPr.SharpnessFrequency              SShort      1  n/a
 < 20060802_095200.jpg   Exif.CanonPr.SensorRedLevel                  SShort      1  0
 < 20060802_095200.jpg   Exif.CanonPr.SensorBlueLevel                 SShort      1  0
@@ -8244,7 +8248,8 @@ Compare original and inserted image data ---------------------------------
 > 20060802_095200.exv   Exif.CanonFi.FilterEffect                    SShort      1  None
 > 20060802_095200.exv   Exif.CanonFi.ToningEffect                    SShort      1  None
 > 20060802_095200.exv   Exif.CanonPr.0x0000                          SShort      1  28
-> 20060802_095200.exv   Exif.CanonPr.ToneCurve                       Long        1  Standard
+> 20060802_095200.exv   Exif.CanonPr.ToneCurve                       SShort      1  Standard
+> 20060802_095200.exv   Exif.CanonPr.Sharpness                       SShort      1  0
 > 20060802_095200.exv   Exif.CanonPr.SharpnessFrequency              SShort      1  n/a
 > 20060802_095200.exv   Exif.CanonPr.SensorRedLevel                  SShort      1  0
 > 20060802_095200.exv   Exif.CanonPr.SensorBlueLevel                 SShort      1  0
