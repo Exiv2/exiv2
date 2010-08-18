@@ -377,10 +377,6 @@ namespace Exiv2 {
         false,            // Don't concatenate gaps
         { 0, ttSignedShort, 1 }
     };
-    //! Canon File Info binary array - definition
-    extern const ArrayDef canonPrDef[] = {
-        { 2, ttUnsignedLong, 1 }
-    };
 
     //! Nikon Vibration Reduction binary array - configuration
     extern const ArrayCfg nikonVrCfg = {
@@ -1440,7 +1436,7 @@ namespace Exiv2 {
         {    0x000f, Group::canonmn,   EXV_SIMPLE_BINARY_ARRAY(canonCfCfg)       },
         {    0x0012, Group::canonmn,   EXV_SIMPLE_BINARY_ARRAY(canonPiCfg)       },
         {    0x0093, Group::canonmn,   EXV_BINARY_ARRAY(canonFiCfg, canonFiDef)  },
-        {    0x00a0, Group::canonmn,   EXV_BINARY_ARRAY(canonPrCfg, canonPrDef)  },
+        {    0x00a0, Group::canonmn,   EXV_SIMPLE_BINARY_ARRAY(canonPrCfg)  },
         { Tag::next, Group::canonmn,   newTiffDirectory<Group::ignr>             },
         {  Tag::all, Group::canonmn,   newTiffEntry                              },
 
