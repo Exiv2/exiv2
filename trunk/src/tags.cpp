@@ -2326,24 +2326,24 @@ namespace Exiv2 {
     using namespace Internal;
 
     //! @cond IGNORE
-    IfdInfo::Item::Item(const std::string& item)
+    GroupInfo::Item::Item(const std::string& item)
     {
         i_ = item;
     }
     //! @endcond
 
-    bool IfdInfo::operator==(IfdId ifdId) const
+    bool GroupInfo::operator==(IfdId ifdId) const
     {
         return ifdId_ == ifdId;
     }
 
-    bool IfdInfo::operator==(const Item& item) const
+    bool GroupInfo::operator==(const Item& item) const
     {
         return 0 == strcmp(item.i_.c_str(), item_);
     }
 
     // Important: IFD item must be unique!
-    const IfdInfo ExifTags::ifdInfo_[] = {
+    const GroupInfo ExifTags::groupInfo_[] = {
         { ifdIdNotSet,       "(Unknown IFD)", "(Unknown item)", 0 },
         { ifd0Id,            "IFD0",      "Image",        ExifTags::ifdTagList           },
         { exifIfdId,         "Exif",      "Photo",        ExifTags::exifTagList          }, // just to avoid 'Exif.Exif.*' keys
@@ -2506,16 +2506,21 @@ namespace Exiv2 {
         return mnTagInfo;
     }
 
+    const GroupInfo* ExifTags::groupList()
+    {
+        return groupInfo_ + 1; // +1 to skip the first (ifdIdNotSet) entry
+    }
+
     const TagInfo* ExifTags::tagList(const std::string& group)
     {
-        const IfdInfo* ii = find(ifdInfo_, IfdInfo::Item(group));
+        const GroupInfo* ii = find(groupInfo_, GroupInfo::Item(group));
         if (ii == 0 || ii->tagList_ == 0) return 0;
         return ii->tagList_();
     } // ExifTags::tagList
 
     const TagInfo* ExifTags::tagList(IfdId ifdId)
     {
-        const IfdInfo* ii = find(ifdInfo_, ifdId);
+        const GroupInfo* ii = find(groupInfo_, ifdId);
         if (ii == 0 || ii->tagList_ == 0) return 0;
         return ii->tagList_();
     } // ExifTags::tagList
@@ -2547,7 +2552,7 @@ namespace Exiv2 {
     bool ExifTags::isMakerIfd(IfdId ifdId)
     {
         bool rc = false;
-        const IfdInfo* ii = find(ifdInfo_, ifdId);
+        const GroupInfo* ii = find(groupInfo_, ifdId);
         if (ii != 0 && 0 == strcmp(ii->name_, "Makernote")) {
             rc = true;
         }
@@ -2630,7 +2635,7 @@ namespace Exiv2 {
     IfdId ExifTags::ifdIdByIfdItem(const std::string& ifdItem)
     {
         IfdId ifdId = ifdIdNotSet;
-        const IfdInfo* ii = find(ifdInfo_, IfdInfo::Item(ifdItem));
+        const GroupInfo* ii = find(groupInfo_, GroupInfo::Item(ifdItem));
         if (ii != 0) ifdId = ii->ifdId_;
         return ifdId;
     }
@@ -2651,15 +2656,15 @@ namespace Exiv2 {
 
     const char* ExifTags::ifdName(IfdId ifdId)
     {
-        const IfdInfo* ii = find(ifdInfo_, ifdId);
-        if (ii == 0) return ifdInfo_[0].name_;
+        const GroupInfo* ii = find(groupInfo_, ifdId);
+        if (ii == 0) return groupInfo_[0].name_;
         return ii->name_;
     } // ExifTags::ifdName
 
     const char* ExifTags::ifdItem(IfdId ifdId)
     {
-        const IfdInfo* ii = find(ifdInfo_, ifdId);
-        if (ii == 0) return ifdInfo_[0].item_;
+        const GroupInfo* ii = find(groupInfo_, ifdId);
+        if (ii == 0) return groupInfo_[0].item_;
         return ii->item_;
     } // ExifTags::ifdItem
 

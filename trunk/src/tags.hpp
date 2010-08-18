@@ -72,7 +72,7 @@ namespace Exiv2 {
 // class definitions
 
     //! The details of an IFD.
-    struct EXIV2API IfdInfo {
+    struct EXIV2API GroupInfo {
         struct Item;
         bool operator==(IfdId ifdId) const;     //!< Comparison operator for IFD id
         bool operator==(const Item& item) const;       //!< Comparison operator for IFD item
@@ -82,8 +82,8 @@ namespace Exiv2 {
         TagListFct tagList_;                    //!< Tag list
     };
 
-    //! Search key to find an IfdInfo by its IFD item.
-    struct EXIV2API IfdInfo::Item {
+    //! Search key to find a GroupInfo by its IFD item.
+    struct EXIV2API GroupInfo::Item {
         Item(const std::string& item);          //!< Constructor
         std::string i_;                         //!< IFD item
     };
@@ -209,6 +209,8 @@ namespace Exiv2 {
                                       IfdId ifdId,
                                       const Value& value,
                                       const ExifData* pExifData =0);
+        //! Return read-only list of build-in groups
+        static const GroupInfo* groupList();
         //! Return read-only list of built-in \em group tags.
         static const TagInfo* tagList(const std::string& group);
         //! Return read-only list of built-in IFD0/1 tags
@@ -244,7 +246,7 @@ namespace Exiv2 {
         static const TagInfo* tagInfo(uint16_t tag, IfdId ifdId);
         static const TagInfo* tagInfo(const std::string& tagName, IfdId ifdId);
 
-        static const IfdInfo     ifdInfo_[];     //!< All Exif and Makernote tag lists
+        static const GroupInfo   groupInfo_[];   //!< All Exif and Makernote tag lists
         static const SectionInfo sectionInfo_[]; //!< Exif (and one common Makernote) sections
 
     }; // class ExifTags
