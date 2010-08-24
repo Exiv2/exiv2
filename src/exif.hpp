@@ -165,8 +165,6 @@ namespace Exiv2 {
         IfdId ifdId() const;
         //! Return the name of the IFD
         const char* ifdName() const;
-        //! Return the related image item (deprecated)
-        std::string ifdItem() const;
         //! Return the index (unique id of this key within the original IFD)
         int idx() const;
         /*!

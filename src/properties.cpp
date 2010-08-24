@@ -1238,6 +1238,7 @@ namespace Exiv2 {
     XmpKey& XmpKey::operator=(const XmpKey& rhs)
     {
         if (this == &rhs) return *this;
+        Key::operator=(rhs);
         *p_ = *rhs.p_;
         return *this;
     }

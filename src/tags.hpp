@@ -310,47 +310,24 @@ namespace Exiv2 {
 
         AutoPtr clone() const;
         //! Return the IFD id
-        IfdId ifdId() const { return ifdId_; }
+        IfdId ifdId() const;
         //! Return the name of the IFD
-        const char* ifdName() const { return ExifTags::ifdName(ifdId()); }
-        //! Return the related image item
-        std::string ifdItem() const { return ifdItem_; }
+        const char* ifdName() const;
         //! Return the name of the Exif section (deprecated)
         std::string sectionName() const;
         //! Return the index (unique id of this key within the original Exif data, 0 if not set)
-        int idx() const { return idx_; }
-        //@}
-
-    protected:
-        //! @name Manipulators
-        //@{
-        /*!
-          @brief Set the key corresponding to the tag and IFD id.
-                 The key is of the form '<b>Exif</b>.ifdItem.tagName'.
-         */
-        void makeKey();
-        /*!
-          @brief Parse and convert the key string into tag and IFD Id.
-                 Updates data members if the string can be decomposed,
-                 or throws \em Error .
-
-          @throw Error if the key cannot be decomposed.
-         */
-        void decomposeKey();
+        int idx() const;
         //@}
 
     private:
         //! Internal virtual copy constructor.
         EXV_DLLLOCAL virtual ExifKey* clone_() const;
 
-        // DATA
-        static const char* familyName_;
+    private:
+        // Pimpl idiom
+        struct Impl;
+        Impl* p_;
 
-        uint16_t tag_;                  //!< Tag value
-        IfdId ifdId_;                   //!< The IFD associated with this tag
-        std::string ifdItem_;           //!< The IFD item
-        int idx_;                       //!< Unique id of the Exif key in the image
-        std::string key_;               //!< Key
     }; // class ExifKey
 
 // *****************************************************************************
