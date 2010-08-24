@@ -352,11 +352,6 @@ namespace Exiv2 {
         return key_.get() == 0 ? "" : key_->ifdName();
     }
 
-    std::string Exifdatum::ifdItem() const
-    {
-        return key_.get() == 0 ? "" : key_->ifdItem();
-    }
-
     int Exifdatum::idx() const
     {
         return key_.get() == 0 ? 0 : key_->idx();

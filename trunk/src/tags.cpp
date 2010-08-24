@@ -2721,123 +2721,70 @@ namespace Exiv2 {
         }
     } // ExifTags::taglist
 
-    const char* ExifKey::familyName_ = "Exif";
+    //! Internal Pimpl structure with private members and data of class ExifKey.
+    struct ExifKey::Impl {
+        //! @name Creators
+        //@{
+        Impl();                         //!< Default constructor
+        //@}
 
-    ExifKey::ExifKey(const std::string& key)
-        : tag_(0), ifdId_(ifdIdNotSet), ifdItem_(""),
-          idx_(0), key_(key)
+        //! @name Manipulators
+        //@{
+        /*!
+          @brief Set the key corresponding to the tag and IFD id.
+                 The key is of the form '<b>Exif</b>.ifdItem.tagName'.
+         */
+        void makeKey(uint16_t tag, IfdId ifdId, const std::string& ifdItem);
+        /*!
+          @brief Parse and convert the key string into tag and IFD Id.
+                 Updates data members if the string can be decomposed,
+                 or throws \em Error .
+
+          @throw Error if the key cannot be decomposed.
+         */
+        void decomposeKey(const std::string& key);
+        //@}
+
+        // DATA
+        static const char* familyName_; //!< "Exif"
+
+        uint16_t tag_;                  //!< Tag value
+        IfdId ifdId_;                   //!< The IFD associated with this tag
+        std::string ifdItem_;           //!< The IFD item
+        int idx_;                       //!< Unique id of the Exif key in the image
+        std::string key_;               //!< Key
+    };
+    //! @endcond
+
+    const char* ExifKey::Impl::familyName_ = "Exif";
+
+    ExifKey::Impl::Impl()
+        : tag_(0), ifdId_(ifdIdNotSet), idx_(0)
     {
-        decomposeKey();
     }
 
-    ExifKey::ExifKey(uint16_t tag, const std::string& ifdItem)
-        : tag_(0), ifdId_(ifdIdNotSet), ifdItem_(""),
-          idx_(0), key_("")
-    {
-        IfdId ifdId = ExifTags::ifdIdByIfdItem(ifdItem);
-        if (!ExifTags::isExifIfd(ifdId) && !ExifTags::isMakerIfd(ifdId)) {
-            throw Error(23, ifdId);
-        }
-        tag_ = tag;
-        ifdId_ = ifdId;
-        ifdItem_ = ifdItem;
-        makeKey();
-    }
-
-    ExifKey::ExifKey(const ExifKey& rhs)
-        : Key(rhs), tag_(rhs.tag_), ifdId_(rhs.ifdId_), ifdItem_(rhs.ifdItem_),
-          idx_(rhs.idx_), key_(rhs.key_)
-    {
-    }
-
-    ExifKey::~ExifKey()
-    {
-    }
-
-    ExifKey& ExifKey::operator=(const ExifKey& rhs)
-    {
-        if (this == &rhs) return *this;
-        Key::operator=(rhs);
-        tag_ = rhs.tag_;
-        ifdId_ = rhs.ifdId_;
-        ifdItem_ = rhs.ifdItem_;
-        idx_ = rhs.idx_;
-        key_ = rhs.key_;
-        return *this;
-    }
-
-    void ExifKey::setIdx(int idx)
-    {
-        idx_ = idx;
-    }
-
-    std::string ExifKey::key() const
-    {
-        return key_;
-    }
-
-    const char* ExifKey::familyName() const
-    {
-        return familyName_;
-    }
-
-    std::string ExifKey::groupName() const
-    {
-        return ifdItem();
-    }
-
-    std::string ExifKey::tagName() const
-    {
-        return ExifTags::tagName(tag_, ifdId_);
-    }
-
-    std::string ExifKey::tagLabel() const
-            {
-        return ExifTags::tagLabel(tag_, ifdId_);
-    }
-
-    uint16_t ExifKey::tag() const
-    {
-        return tag_;
-    }
-
-    ExifKey::AutoPtr ExifKey::clone() const
-    {
-        return AutoPtr(clone_());
-    }
-
-    ExifKey* ExifKey::clone_() const
-    {
-        return new ExifKey(*this);
-    }
-
-    std::string ExifKey::sectionName() const
-    {
-        return ExifTags::sectionName(tag(), ifdId());
-    }
-
-    void ExifKey::decomposeKey()
+    void ExifKey::Impl::decomposeKey(const std::string& key)
     {
         // Get the family name, IFD name and tag name parts of the key
-        std::string::size_type pos1 = key_.find('.');
-        if (pos1 == std::string::npos) throw Error(6, key_);
-        std::string familyName = key_.substr(0, pos1);
+        std::string::size_type pos1 = key.find('.');
+        if (pos1 == std::string::npos) throw Error(6, key);
+        std::string familyName = key.substr(0, pos1);
         if (0 != strcmp(familyName.c_str(), familyName_)) {
-            throw Error(6, key_);
+            throw Error(6, key);
         }
         std::string::size_type pos0 = pos1 + 1;
-        pos1 = key_.find('.', pos0);
-        if (pos1 == std::string::npos) throw Error(6, key_);
-        std::string ifdItem = key_.substr(pos0, pos1 - pos0);
-        if (ifdItem == "") throw Error(6, key_);
-        std::string tagName = key_.substr(pos1 + 1);
-        if (tagName == "") throw Error(6, key_);
+        pos1 = key.find('.', pos0);
+        if (pos1 == std::string::npos) throw Error(6, key);
+        std::string ifdItem = key.substr(pos0, pos1 - pos0);
+        if (ifdItem == "") throw Error(6, key);
+        std::string tagName = key.substr(pos1 + 1);
+        if (tagName == "") throw Error(6, key);
 
         // Find IfdId
         IfdId ifdId = ExifTags::ifdIdByIfdItem(ifdItem);
-        if (ifdId == ifdIdNotSet) throw Error(6, key_);
+        if (ifdId == ifdIdNotSet) throw Error(6, key);
         if (!ExifTags::isExifIfd(ifdId) && !ExifTags::isMakerIfd(ifdId)) {
-            throw Error(6, key_);
+            throw Error(6, key);
         }
         // Convert tag
         uint16_t tag = ExifTags::tag(tagName, ifdId);
@@ -2851,11 +2798,111 @@ namespace Exiv2 {
         key_ = familyName + "." + ifdItem + "." + tagName;
     }
 
-    void ExifKey::makeKey()
+    void ExifKey::Impl::makeKey(uint16_t tag, IfdId ifdId, const std::string& ifdItem)
     {
-        key_ =   std::string(familyName_)
-               + "." + ifdItem_
-               + "." + ExifTags::tagName(tag_, ifdId_);
+        tag_ = tag;
+        ifdId_ = ifdId;
+        ifdItem_ = ifdItem;
+        key_ = std::string(familyName_) + "." + ifdItem + "." + ExifTags::tagName(tag, ifdId);
+    }
+
+    ExifKey::ExifKey(const std::string& key)
+        : p_(new Impl)
+    {
+        p_->decomposeKey(key);
+    }
+
+    ExifKey::ExifKey(uint16_t tag, const std::string& ifdItem)
+        : p_(new Impl)
+    {
+        IfdId ifdId = ExifTags::ifdIdByIfdItem(ifdItem);
+        if (!ExifTags::isExifIfd(ifdId) && !ExifTags::isMakerIfd(ifdId)) {
+            throw Error(23, ifdId);
+        }
+        p_->makeKey(tag, ifdId, ifdItem);
+    }
+
+    ExifKey::ExifKey(const ExifKey& rhs)
+        : Key(rhs), p_(new Impl(*rhs.p_))
+    {
+    }
+
+    ExifKey::~ExifKey()
+    {
+        delete p_;
+    }
+
+    ExifKey& ExifKey::operator=(const ExifKey& rhs)
+    {
+        if (this == &rhs) return *this;
+        Key::operator=(rhs);
+        *p_ = *rhs.p_;
+        return *this;
+    }
+
+    void ExifKey::setIdx(int idx)
+    {
+        p_->idx_ = idx;
+    }
+
+    std::string ExifKey::key() const
+    {
+        return p_->key_;
+    }
+
+    const char* ExifKey::familyName() const
+    {
+        return p_->familyName_;
+    }
+
+    std::string ExifKey::groupName() const
+    {
+        return p_->ifdItem_;
+    }
+
+    std::string ExifKey::tagName() const
+    {
+        return ExifTags::tagName(p_->tag_, p_->ifdId_);
+    }
+
+    std::string ExifKey::tagLabel() const
+    {
+        return ExifTags::tagLabel(p_->tag_, p_->ifdId_);
+    }
+
+    uint16_t ExifKey::tag() const
+    {
+        return p_->tag_;
+    }
+
+    ExifKey::AutoPtr ExifKey::clone() const
+    {
+        return AutoPtr(clone_());
+    }
+
+    ExifKey* ExifKey::clone_() const
+    {
+        return new ExifKey(*this);
+    }
+
+    IfdId ExifKey::ifdId() const
+    {
+        return p_->ifdId_;
+    }
+
+    const char* ExifKey::ifdName() const
+    {
+        return ExifTags::ifdName(p_->ifdId_);
+    }
+
+    std::string ExifKey::sectionName() const
+    {
+        return ExifTags::sectionName(p_->tag_, p_->ifdId_);
+    }
+
+    int ExifKey::idx() const
+    {
+        return p_->idx_;
     }
 
     // *************************************************************************
