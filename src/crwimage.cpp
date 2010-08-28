@@ -1018,7 +1018,7 @@ namespace Exiv2 {
         }
         assert(ifdId != ifdIdNotSet);
 
-        std::string ifdItem(ExifTags::ifdItem(ifdId));
+        std::string ifdItem(Internal::ifdItem(ifdId));
         uint16_t c = 1;
         while (uint32_t(c)*2 < ciffComponent.size()) {
             uint16_t n = 1;
@@ -1072,7 +1072,7 @@ namespace Exiv2 {
             char s[m];
             std::strftime(s, m, "%Y:%m:%d %H:%M:%S", tm);
 
-            ExifKey key(pCrwMapping->tag_, ExifTags::ifdItem(pCrwMapping->ifdId_));
+            ExifKey key(pCrwMapping->tag_, Internal::ifdItem(pCrwMapping->ifdId_));
             AsciiValue value;
             value.read(std::string(s));
             image.exifData().add(key, &value);
@@ -1120,7 +1120,7 @@ namespace Exiv2 {
     {
         assert(pCrwMapping != 0);
         // create a key and value pair
-        ExifKey key(pCrwMapping->tag_, ExifTags::ifdItem(pCrwMapping->ifdId_));
+        ExifKey key(pCrwMapping->tag_, Internal::ifdItem(pCrwMapping->ifdId_));
         Value::AutoPtr value;
         if (ciffComponent.typeId() != directory) {
             value = Value::create(ciffComponent.typeId());
@@ -1175,7 +1175,7 @@ namespace Exiv2 {
         assert(pHead != 0);
 
         // Determine the source Exif metadatum
-        ExifKey ek(pCrwMapping->tag_, ExifTags::ifdItem(pCrwMapping->ifdId_));
+        ExifKey ek(pCrwMapping->tag_, Internal::ifdItem(pCrwMapping->ifdId_));
         ExifData::const_iterator ed = image.exifData().findKey(ek);
 
         // Set the new value or remove the entry
@@ -1283,7 +1283,7 @@ namespace Exiv2 {
         assert(pHead != 0);
 
         time_t t = 0;
-        const ExifKey key(pCrwMapping->tag_, ExifTags::ifdItem(pCrwMapping->ifdId_));
+        const ExifKey key(pCrwMapping->tag_, Internal::ifdItem(pCrwMapping->ifdId_));
         const ExifData::const_iterator ed = image.exifData().findKey(key);
         if (ed != image.exifData().end()) {
             struct tm tm;

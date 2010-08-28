@@ -161,8 +161,8 @@ namespace Exiv2 {
         std::string tagName() const;
         std::string tagLabel() const;
         uint16_t tag() const;
-        //! Return the IFD id
-        IfdId ifdId() const;
+        //! Return the IFD id as an integer. (Do not use, this is meant for library internal use.)
+        int ifdId() const;
         //! Return the name of the IFD
         const char* ifdName() const;
         //! Return the index (unique id of this key within the original IFD)

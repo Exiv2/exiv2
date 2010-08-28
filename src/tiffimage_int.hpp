@@ -34,6 +34,7 @@
 #include "tifffwd_int.hpp"
 #include "tiffcomposite_int.hpp"
 #include "image.hpp"
+#include "tags_int.hpp"
 #include "types.hpp"
 
 // + standard includes
@@ -416,12 +417,12 @@ namespace Exiv2 {
     class FindExifdatum {
     public:
         //! Constructor, initializes the object with the IfdId to look for.
-        FindExifdatum(Exiv2::IfdId ifdId) : ifdId_(ifdId) {}
+        FindExifdatum(Exiv2::Internal::IfdId ifdId) : ifdId_(ifdId) {}
         //! Returns true if IFD id matches.
         bool operator()(const Exiv2::Exifdatum& md) const { return ifdId_ == md.ifdId(); }
 
     private:
-        Exiv2::IfdId ifdId_;
+        Exiv2::Internal::IfdId ifdId_;
 
     }; // class FindExifdatum
 

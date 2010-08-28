@@ -32,6 +32,7 @@
 // *****************************************************************************
 // included header files
 #include "types.hpp"
+#include "tags_int.hpp"
 #include "image.hpp"
 #include "basicio.hpp"
 
@@ -556,7 +557,7 @@ namespace Exiv2 {
             uint16_t      crwDir,
             uint32_t      size,
             uint16_t      tag,
-            IfdId         ifdId,
+            Internal::IfdId ifdId,
             CrwDecodeFct  toExif,
             CrwEncodeFct  fromExif)
             : crwTagId_ (crwTagId),

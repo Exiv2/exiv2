@@ -40,6 +40,7 @@ EXIV2_RCSID("@(#) $Id$")
 #include "exif.hpp"
 #include "metadatum.hpp"
 #include "tags.hpp"
+#include "tags_int.hpp"
 #include "value.hpp"
 #include "types.hpp"
 #include "error.hpp"
@@ -180,7 +181,7 @@ namespace {
     long sumToLong(const Exiv2::Exifdatum& md);
 
     //! Helper function to delete all tags of a specific IFD from the metadata.
-    void eraseIfd(Exiv2::ExifData& ed, Exiv2::IfdId ifdId);
+    void eraseIfd(Exiv2::ExifData& ed, Exiv2::Internal::IfdId ifdId);
 
 }
 
@@ -227,7 +228,11 @@ namespace Exiv2 {
 
     std::ostream& Exifdatum::write(std::ostream& os, const ExifData* pMetadata) const
     {
-        return ExifTags::printTag(os, tag(), ifdId(), value(), pMetadata);
+        if (value().count() == 0) return os;
+        PrintFct fct = printValue;
+        const TagInfo* ti = Internal::tagInfo(tag(), static_cast<IfdId>(ifdId()));
+        if (ti != 0) fct = ti->printFct_;
+        return fct(os, value(), pMetadata);
     }
 
     const Value& Exifdatum::value() const
@@ -301,7 +306,7 @@ namespace Exiv2 {
     int Exifdatum::setValue(const std::string& value)
     {
         if (value_.get() == 0) {
-            TypeId type = ExifTags::tagType(tag(), ifdId());
+            TypeId type = key_->defaultTypeId();
             value_ = Value::create(type);
         }
         return value_->read(value);
@@ -342,7 +347,7 @@ namespace Exiv2 {
         return key_.get() == 0 ? 0xffff : key_->tag();
     }
 
-    IfdId Exifdatum::ifdId() const
+    int Exifdatum::ifdId() const
     {
         return key_.get() == 0 ? ifdIdNotSet : key_->ifdId();
     }
@@ -781,7 +786,7 @@ namespace Exiv2 {
 #ifndef SUPPRESS_WARNINGS
                     std::cerr << "Warning: Exif IFD " << filteredPvTags[i].key_ << " not encoded\n";
 #endif
-                    eraseIfd(ed, ExifTags::ifdIdByIfdItem(filteredPvTags[i].key_));
+                    eraseIfd(ed, Internal::ifdIdByIfdItem(filteredPvTags[i].key_));
                 }
                 break;
             }
@@ -930,7 +935,7 @@ namespace {
     {
         ed.erase(std::remove_if(ed.begin(),
                                 ed.end(),
-                                Exiv2::Internal::FindExifdatum(ifdId)),
+                                Exiv2::FindExifdatum(ifdId)),
                  ed.end());
     }
     //! @endcond
