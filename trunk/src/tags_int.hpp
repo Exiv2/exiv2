@@ -42,6 +42,7 @@
 
 // *****************************************************************************
 // namespace extensions
+
 namespace Exiv2 {
     class ExifData;
 
@@ -49,6 +50,124 @@ namespace Exiv2 {
 
 // *****************************************************************************
 // class definitions
+
+    //! Type to specify the IFD to which a metadata belongs
+    enum IfdId {
+        ifdIdNotSet,
+        ifd0Id,
+        exifIfdId,
+        gpsIfdId,
+        iopIfdId,
+        ifd1Id,
+        ifd2Id,
+        ifd3Id,
+        subImage1Id,
+        subImage2Id,
+        subImage3Id,
+        subImage4Id,
+        subImage5Id,
+        subImage6Id,
+        subImage7Id,
+        subImage8Id,
+        subImage9Id,
+        mnIfdId,
+        canonIfdId,
+        canonCsIfdId,
+        canonSiIfdId,
+        canonCfIfdId,
+        canonPiIfdId,
+        canonPaIfdId,
+        canonFiIfdId,
+        canonPrIfdId,
+        fujiIfdId,
+        minoltaIfdId,
+        minoltaCs5DIfdId,
+        minoltaCs7DIfdId,
+        minoltaCsOldIfdId,
+        minoltaCsNewIfdId,
+        nikon1IfdId,
+        nikon2IfdId,
+        nikon3IfdId,
+        nikonPvIfdId,
+        nikonVrIfdId,
+        nikonPcIfdId,
+        nikonWtIfdId,
+        nikonIiIfdId,
+        nikonAfIfdId,
+        nikonAf2IfdId,
+        nikonFiIfdId,
+        nikonMeIfdId,
+        nikonFl1IfdId,
+        nikonFl2IfdId,
+        nikonFl3IfdId,
+        nikonSi1IfdId,
+        nikonSi2IfdId,
+        nikonSi3IfdId,
+        nikonSi4IfdId,
+        nikonSi5IfdId,
+        nikonSi6IfdId,
+        nikonLd1IfdId,
+        nikonLd2IfdId,
+        nikonLd3IfdId,
+        nikonCb1IfdId,
+        nikonCb2IfdId,
+        nikonCb2aIfdId,
+        nikonCb2bIfdId,
+        nikonCb3IfdId,
+        nikonCb4IfdId,
+        olympusIfdId,
+        olympus2IfdId,
+        olympusCsIfdId,
+        olympusEqIfdId,
+        olympusRdIfdId,
+        olympusRd2IfdId,
+        olympusIpIfdId,
+        olympusFiIfdId,
+        olympusFe1IfdId,
+        olympusFe2IfdId,
+        olympusFe3IfdId,
+        olympusFe4IfdId,
+        olympusFe5IfdId,
+        olympusFe6IfdId,
+        olympusFe7IfdId,
+        olympusFe8IfdId,
+        olympusFe9IfdId,
+        olympusRiIfdId,
+        panasonicIfdId,
+        panaRawIfdId,
+        pentaxIfdId,
+        sigmaIfdId,
+        sony1IfdId,
+        sony2IfdId,
+        sonyMltIfdId,
+        sony1CsIfdId,
+        sony1Cs2IfdId,
+        sony2CsIfdId,
+        sony2Cs2IfdId,
+        sony1MltCs7DIfdId,
+        sony1MltCsOldIfdId,
+        sony1MltCsNewIfdId,
+        sony1MltCsA100IfdId,
+        lastIfdId
+    };
+
+    /*!
+      @brief Section identifiers to logically group tags. A section consists
+             of nothing more than a name, based on the Exif standard.
+     */
+    enum SectionId { sectionIdNotSet,
+                     imgStruct, recOffset, imgCharacter, otherTags, exifFormat,
+                     exifVersion, imgConfig, userInfo, relatedFile, dateTime,
+                     captureCond, gpsTags, iopTags, makerTags, dngTags, panaRaw,
+                     tiffEp, tiffPm6, adobeOpi,
+                     lastSectionId };
+
+    //! The details of a section.
+    struct SectionInfo {
+        SectionId sectionId_;                   //!< Section id
+        const char* name_;                      //!< Section name (one word)
+        const char* desc_;                      //!< Section description
+    };
 
     /*!
       @brief Helper structure for lookup tables for translations of numeric
@@ -164,6 +283,48 @@ namespace Exiv2 {
 
 // *****************************************************************************
 // free functions
+
+    //! Return read-only list of built-in IFD0/1 tags
+    const TagInfo* ifdTagList();
+    //! Return read-only list of built-in Exif IFD tags
+    const TagInfo* exifTagList();
+    //! Return read-only list of built-in IOP tags
+    const TagInfo* iopTagList();
+    //! Return read-only list of built-in GPS tags
+    const TagInfo* gpsTagList();
+    //! Return read-only list of built-in Exiv2 Makernote info tags
+    const TagInfo* mnTagList();
+
+    //! Return the IFD id for an IFD item
+    IfdId ifdIdByIfdItem(const std::string& ifdItem);
+    //! Return the name of the IFD
+    const char* ifdName(IfdId ifdId);
+    //! Return the related image item (image or thumbnail)
+    const char* ifdItem(IfdId ifdId);
+
+    //! Return true if \em ifdId is a makernote IFD id. (Note: returns false for makerIfd)
+    bool isMakerIfd(IfdId ifdId);
+    //! Return true if \em ifdId is an %Exif IFD id.
+    bool isExifIfd(IfdId ifdId);
+
+    //! Print the list of tags for \em ifdId to the output stream \em os
+    void taglist(std::ostream& os, IfdId ifdId);
+    //! Return the tag list for \em ifdId
+    const TagInfo* tagList(IfdId ifdId);
+    //! Return the tag info for \em tag and \em ifdId. (Todo: this is the original version, should be removed)
+    const TagInfo* tagInfoOriginal(uint16_t tag, IfdId ifdId);
+    //! Return the tag info for \em tag and \em ifdId
+    const TagInfo* tagInfo(uint16_t tag, IfdId ifdId);
+    //! Return the tag info for \em tagName and \em ifdId   Todo: do we really need this???
+    const TagInfo* tagInfo(const std::string& tagName, IfdId ifdId);
+    /*!
+      @brief Return the tag number for one combination of IFD id and tagName.
+             If the tagName is not known, it expects tag names in the
+             form "0x01ff" and converts them to unsigned integer.
+
+      @throw Error if the tagname or ifdId is invalid
+     */
+    uint16_t tagNumber(const std::string& tagName, IfdId ifdId);
 
     //! @name Functions printing interpreted tag values
     //@{

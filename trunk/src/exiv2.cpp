@@ -1046,8 +1046,7 @@ namespace {
                 try {
                     Exiv2::ExifKey exifKey(key);
                     metadataId = exif;
-                    defaultType = Exiv2::ExifTags::tagType(exifKey.tag(),
-                                                           exifKey.ifdId());
+                    defaultType = exifKey.defaultTypeId();
                 }
                 catch (const Exiv2::AnyError&) {}
             }

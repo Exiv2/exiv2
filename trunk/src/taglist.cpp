@@ -37,9 +37,8 @@ try {
             break;
         }
 
-        IfdId ifdId = ExifTags::ifdIdByIfdItem(item);
-        if (ExifTags::isExifIfd(ifdId) || ExifTags::isMakerIfd(ifdId)) {
-            ExifTags::taglist(std::cout, ifdId);
+        if (ExifTags::isExifGroup(item) || ExifTags::isMakerGroup(item)) {
+            ExifTags::taglist(std::cout, item);
             break;
         }
 
