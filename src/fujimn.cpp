@@ -277,7 +277,7 @@ namespace Exiv2 {
         // End of list marker
         TagInfo(0xffff, "(UnknownFujiMakerNoteTag)", "(UnknownFujiMakerNoteTag)",
                 N_("Unknown FujiMakerNote tag"),
-                fujiIfdId, makerTags, invalidTypeId, -1, printValue)
+                fujiIfdId, makerTags, undefined, -1, printValue)
     };
 
     const TagInfo* FujiMakerNote::tagList()
