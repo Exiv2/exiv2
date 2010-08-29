@@ -89,15 +89,17 @@ namespace Exiv2 {
             int ifdId,
             int sectionId,
             TypeId typeId,
+            int16_t count,
             PrintFct printFct
         );
         uint16_t tag_;                          //!< Tag
         const char* name_;                      //!< One word tag label
         const char* title_;                     //!< Tag title
         const char* desc_;                      //!< Short tag description
-        int ifdId_;                             //!< Link to the (prefered) IFD
+        int ifdId_;                             //!< Link to the (preferred) IFD
         int sectionId_;                         //!< Section id
         TypeId typeId_;                         //!< Type id
+        int16_t count_;                         //!< The number of values (not bytes!), 0=any, -1=count not known.
         PrintFct printFct_;                     //!< Pointer to tag print function
     }; // struct TagInfo
 
