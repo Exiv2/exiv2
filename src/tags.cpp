@@ -2887,6 +2887,12 @@ namespace Exiv2 {
         return p_->tagInfo_->typeId_;
     }
 
+    uint16_t ExifKey::defaultCount() const
+    {
+        if (p_->tagInfo_ == 0 || p_->tagInfo_->tag_ == 0xffff) return unknownTag.count_;
+        return p_->tagInfo_->count_;
+    }
+
     uint16_t ExifKey::tag() const
     {
         return p_->tag_;
