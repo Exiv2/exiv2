@@ -172,7 +172,7 @@ namespace Exiv2 {
           @throw Error if the key cannot be constructed from the tag and IFD
                  item parameters.
          */
-        ExifKey(const TagInfo& tagInfo);
+        explicit ExifKey(const TagInfo& tagInfo);
         //! Copy constructor
         ExifKey(const ExifKey& rhs);
         //! Destructor
@@ -204,6 +204,8 @@ namespace Exiv2 {
         std::string tagDesc() const;             // Todo: should be in the base class
         //! Return the default type id for this tag.
         TypeId defaultTypeId() const;              // Todo: should be in the base class
+        //! Return the default number of components (not bytes!) this tag has. (0=any, -1=count not known.)
+        uint16_t defaultCount() const;
         virtual uint16_t tag() const;
 
         AutoPtr clone() const;
