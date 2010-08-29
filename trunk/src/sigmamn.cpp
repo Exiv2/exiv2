@@ -124,7 +124,7 @@ namespace Exiv2 {
         // End of list marker
         TagInfo(0xffff, "(UnknownSigmaMakerNoteTag)", "(UnknownSigmaMakerNoteTag)",
                 N_("Unknown SigmaMakerNote tag"),
-                sigmaIfdId, makerTags, invalidTypeId, -1, printValue)
+                sigmaIfdId, makerTags, asciiString, -1, printValue)
     };
 
     const TagInfo* SigmaMakerNote::tagList()

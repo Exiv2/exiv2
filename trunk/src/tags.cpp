@@ -1202,7 +1202,7 @@ namespace Exiv2 {
         // End of list marker
         TagInfo(0xffff, "(UnknownIfdTag)", N_("Unknown IFD tag"),
                 N_("Unknown IFD tag"),
-                ifdIdNotSet, sectionIdNotSet, invalidTypeId, -1, printValue)
+                ifd0Id, sectionIdNotSet, undefined, -1, printValue)
     };
 
     const TagInfo* ifdTagList()
@@ -1611,7 +1611,7 @@ namespace Exiv2 {
         // End of list marker
         TagInfo(0xffff, "(UnknownExifTag)", N_("Unknown Exif tag"),
                 N_("Unknown Exif tag"),
-                ifdIdNotSet, sectionIdNotSet, invalidTypeId, -1, printValue)
+                exifIfdId, sectionIdNotSet, undefined, -1, printValue)
     };
 
     const TagInfo* exifTagList()
@@ -1829,7 +1829,7 @@ namespace Exiv2 {
         // End of list marker
         TagInfo(0xffff, "(UnknownGpsTag)", N_("Unknown GPSInfo tag"),
                 N_("Unknown GPSInfo tag"),
-                ifdIdNotSet, sectionIdNotSet, invalidTypeId, -1, printValue)
+                gpsIfdId, gpsTags, undefined, -1, printValue)
     };
 
     const TagInfo* gpsTagList()
@@ -1861,7 +1861,7 @@ namespace Exiv2 {
         // End of list marker
         TagInfo(0xffff, "(UnknownIopTag)", N_("Unknown Exif Interoperability tag"),
                 N_("Unknown Exif Interoperability tag"),
-                ifdIdNotSet, sectionIdNotSet, invalidTypeId, -1, printValue)
+                iopIfdId, iopTags, undefined, -1, printValue)
     };
 
     const TagInfo* iopTagList()
@@ -1880,7 +1880,7 @@ namespace Exiv2 {
         // End of list marker
         TagInfo(0xffff, "(UnknownMnTag)", N_("Unknown Exiv2 Makernote info tag"),
                 N_("Unknown Exiv2 Makernote info tag"),
-                ifdIdNotSet, sectionIdNotSet, invalidTypeId, -1, printValue)
+                mnIfdId, makerTags, undefined, -1, printValue)
     };
 
     const TagInfo* mnTagList()
@@ -1973,6 +1973,7 @@ namespace Exiv2 {
         return ii->tagList_();
     } // tagList
 
+// Todo: Remove this!
     const TagInfo* tagInfoOriginal(uint16_t tag, IfdId ifdId)
     {
         const TagInfo* ti = tagList(ifdId);

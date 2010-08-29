@@ -1122,7 +1122,7 @@ namespace Exiv2 {
         // End of list marker
         TagInfo(0xffff, "(UnknownPentaxMakerNoteTag)", "(UnknownPentaxMakerNoteTag)",
                 N_("Unknown PentaxMakerNote tag"),
-                pentaxIfdId, makerTags, invalidTypeId, -1, printValue)
+                pentaxIfdId, makerTags, undefined, -1, printValue)
     };
 
     const TagInfo* PentaxMakerNote::tagList()
