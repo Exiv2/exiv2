@@ -465,11 +465,10 @@ namespace Exiv2 {
         TagInfo(0x3000, "RawInfo", N_("Raw Info"),
                 N_("Raw sub-IFD"),
                 olympusIfdId, makerTags, unsignedLong, -1, printValue),
-
         // End of list marker
         TagInfo(0xffff, "(UnknownOlympusMakerNoteTag)", "(UnknownOlympusMakerNoteTag)",
                 N_("Unknown OlympusMakerNote tag"),
-                olympusIfdId, makerTags, undefined, -1, printValue)
+                olympusIfdId, makerTags, asciiString, -1, printValue)
     };
 
     const TagInfo* OlympusMakerNote::tagList()
@@ -708,7 +707,7 @@ namespace Exiv2 {
         TagInfo(0x0903, "LevelGaugeRoll", N_("Level Gauge Roll"), N_("Level gauge roll"), olympusCsIfdId, makerTags, unsignedShort, -1, EXV_PRINT_TAG(olympusOffOn)),
         TagInfo(0x0904, "LevelGaugePitch", N_("Level Gauge Pitch"), N_("Level gauge pitch"), olympusCsIfdId, makerTags, unsignedShort, -1, EXV_PRINT_TAG(olympusOffOn)),
         // End of list marker
-        TagInfo(0xffff, "(UnknownOlympusCsTag)", "(UnknownOlympusCsTag)", N_("Unknown OlympusCs tag"), olympusCsIfdId, makerTags, undefined, -1, printValue)
+        TagInfo(0xffff, "(UnknownOlympusCsTag)", "(UnknownOlympusCsTag)", N_("Unknown OlympusCs tag"), olympusCsIfdId, makerTags, asciiString, -1, printValue)
     };
 
     const TagInfo* OlympusMakerNote::tagListCs()
@@ -761,7 +760,7 @@ namespace Exiv2 {
         TagInfo(0x1002, "FlashFirmwareVersion", N_("Flash Firmware Version"), N_("Flash firmware version"), olympusEqIfdId, makerTags, unsignedLong, -1, printValue),
         TagInfo(0x1003, "FlashSerialNumber", N_("FlashSerialNumber"), N_("FlashSerialNumber"), olympusEqIfdId, makerTags, asciiString, -1, printValue),
         // End of list marker
-        TagInfo(0xffff, "(UnknownOlympusEqTag)", "(UnknownOlympusEqTag)", N_("Unknown OlympusEq tag"), olympusEqIfdId, makerTags, undefined, -1, printValue)
+        TagInfo(0xffff, "(UnknownOlympusEqTag)", "(UnknownOlympusEqTag)", N_("Unknown OlympusEq tag"), olympusEqIfdId, makerTags, asciiString, -1, printValue)
     };
 
     const TagInfo* OlympusMakerNote::tagListEq()
@@ -820,7 +819,7 @@ namespace Exiv2 {
         TagInfo(0x010b, "EditStatus", N_("Edit Status"), N_("Edit status"), olympusRdIfdId, makerTags, unsignedShort, -1, EXV_PRINT_TAG(olympusRdEditStatus)),
         TagInfo(0x010c, "Settings", N_("Settings"), N_("Settings"), olympusRdIfdId, makerTags, unsignedShort, -1, EXV_PRINT_TAG_BITMASK(olympusRdSettings)),
         // End of list marker
-        TagInfo(0xffff, "(UnknownOlympusRdTag)", "(UnknownOlympusRdTag)", N_("Unknown OlympusRd tag"), olympusRdIfdId, makerTags, undefined, -1, printValue)
+        TagInfo(0xffff, "(UnknownOlympusRdTag)", "(UnknownOlympusRdTag)", N_("Unknown OlympusRd tag"), olympusRdIfdId, makerTags, asciiString, -1, printValue)
     };
 
     const TagInfo* OlympusMakerNote::tagListRd()
@@ -899,7 +898,7 @@ namespace Exiv2 {
         TagInfo(0x0119, "AutoGradation", N_("Auto Gradation"), N_("Auto gradation"), olympusRd2IfdId, makerTags, unsignedShort, -1, EXV_PRINT_TAG(olympusOffOn)),
         TagInfo(0x0120, "PMNoiseFilter", N_("PM Noise Filter"), N_("Picture mode noise filter"), olympusRd2IfdId, makerTags, unsignedShort, -1, printValue),
         // End of list marker
-        TagInfo(0xffff, "(UnknownOlympusRd2Tag)", "(UnknownOlympusRd2Tag)", N_("Unknown OlympusRd2 tag"), olympusRd2IfdId, makerTags, undefined, -1, printValue)
+        TagInfo(0xffff, "(UnknownOlympusRd2Tag)", "(UnknownOlympusRd2Tag)", N_("Unknown OlympusRd2 tag"), olympusRd2IfdId, makerTags, asciiString, -1, printValue)
     };
 
     const TagInfo* OlympusMakerNote::tagListRd2()
@@ -980,7 +979,7 @@ namespace Exiv2 {
         TagInfo(0x1200, "FaceDetect", N_("Face Detect"), N_("Face detect"), olympusIpIfdId, makerTags, unsignedLong, -1, EXV_PRINT_TAG(olympusOffOn)),
         TagInfo(0x1201, "FaceDetectArea", N_("Face Detect Area"), N_("Face detect area"), olympusIpIfdId, makerTags, signedShort, -1, printValue),
         // End of list marker
-        TagInfo(0xffff, "(UnknownOlympusIpTag)", "(UnknownOlympusIpTag)", N_("Unknown OlympusIp tag"), olympusIpIfdId, makerTags, undefined, -1, printValue)
+        TagInfo(0xffff, "(UnknownOlympusIpTag)", "(UnknownOlympusIpTag)", N_("Unknown OlympusIp tag"), olympusIpIfdId, makerTags, asciiString, -1, printValue)
     };
 
     const TagInfo* OlympusMakerNote::tagListIp()
@@ -1015,7 +1014,7 @@ namespace Exiv2 {
         TagInfo(0x1500, "SensorTemperature", N_("Sensor Temperature"), N_("Sensor temperature"), olympusFiIfdId, makerTags, signedShort, -1, printValue),
         TagInfo(0x1600, "ImageStabilization", N_("Image Stabilization"), N_("Image stabilization"), olympusFiIfdId, makerTags, unsignedLong, -1, printValue),
         // End of list marker
-        TagInfo(0xffff, "(UnknownOlympusFiTag)", "(UnknownOlympusFiTag)", N_("Unknown OlympusFi tag"), olympusFiIfdId, makerTags, undefined, -1, printValue)
+        TagInfo(0xffff, "(UnknownOlympusFiTag)", "(UnknownOlympusFiTag)", N_("Unknown OlympusFi tag"), olympusFiIfdId, makerTags, asciiString, -1, printValue)
     };
 
     const TagInfo* OlympusMakerNote::tagListFi()
@@ -1026,7 +1025,7 @@ namespace Exiv2 {
     const TagInfo OlympusMakerNote::tagInfoFe_[] = {
         TagInfo(0x0100, "BodyFirmwareVersion", N_("Body Firmware Version"), N_("Body firmware version"), olympusFe1IfdId, makerTags, asciiString, -1, printValue),
         // End of list marker
-        TagInfo(0xffff, "(UnknownOlympusFeTag)", "(UnknownOlympusFeTag)", N_("Unknown OlympusFe tag"), olympusFe1IfdId, makerTags, undefined, -1, printValue)
+        TagInfo(0xffff, "(UnknownOlympusFeTag)", "(UnknownOlympusFeTag)", N_("Unknown OlympusFe tag"), olympusFe1IfdId, makerTags, asciiString, -1, printValue)
     };
 
     const TagInfo* OlympusMakerNote::tagListFe()
@@ -1088,7 +1087,7 @@ namespace Exiv2 {
         TagInfo(0x2022, "CMContrast", N_("CM Contrast"), N_("CM contrast"), olympusRiIfdId, makerTags, signedShort, -1, printValue),
         TagInfo(0x2023, "CMSharpness", N_("CM Sharpness"), N_("CM sharpness"), olympusRiIfdId, makerTags, signedShort, -1, printValue),
         // End of list marker
-        TagInfo(0xffff, "(UnknownOlympusRiTag)", "(UnknownOlympusRiTag)", N_("Unknown OlympusRi tag"), olympusRiIfdId, makerTags, undefined, -1, printValue)
+        TagInfo(0xffff, "(UnknownOlympusRiTag)", "(UnknownOlympusRiTag)", N_("Unknown OlympusRi tag"), olympusRiIfdId, makerTags, asciiString, -1, printValue)
     };
 
     const TagInfo* OlympusMakerNote::tagListRi()

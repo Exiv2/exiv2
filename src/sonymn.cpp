@@ -432,7 +432,7 @@ namespace Exiv2 {
         // End of list marker
         TagInfo(0xffff, "(UnknownSony1MakerNoteTag)", "(UnknownSony1MakerNoteTag)",
                 N_("Unknown Sony1MakerNote tag"),
-                sony1IfdId, makerTags, undefined, -1, printValue)
+                sony1IfdId, makerTags, asciiString, -1, printValue)
     };
 
     const TagInfo* SonyMakerNote::tagList()

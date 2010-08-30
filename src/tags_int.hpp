@@ -311,12 +311,10 @@ namespace Exiv2 {
     void taglist(std::ostream& os, IfdId ifdId);
     //! Return the tag list for \em ifdId
     const TagInfo* tagList(IfdId ifdId);
-    //! Return the tag info for \em tag and \em ifdId. (Todo: this is the original version, should be removed)
-    const TagInfo* tagInfoOriginal(uint16_t tag, IfdId ifdId);
     //! Return the tag info for \em tag and \em ifdId
     const TagInfo* tagInfo(uint16_t tag, IfdId ifdId);
-    //! Return the tag info for \em tagName and \em ifdId   Todo: do we really need this???
-    const TagInfo* tagInfo(const std::string& tagName, IfdId ifdId);
+    //! Return the tag info for \em tagName and \em ifdId
+    const TagInfo* tagInfo(const std::string& tagName, IfdId ifdId);   // Todo: do we really need this???
     /*!
       @brief Return the tag number for one combination of IFD id and tagName.
              If the tagName is not known, it expects tag names in the
