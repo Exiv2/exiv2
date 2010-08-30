@@ -270,33 +270,33 @@ namespace Exiv2 {
       the other parameters in the mapping structure.
     */
     const CrwMapping CrwMap::crwMapping_[] = {
-        //         CrwTag  CrwDir  Size ExifTag IfdId        decodeFct     encodeFct
-        //         ------  ------  ---- ------- -----        ---------     ---------
-        CrwMapping(0x0805, 0x300a,   0, 0,      canonIfdId,  decode0x0805, encode0x0805),
-        CrwMapping(0x080a, 0x2807,   0, 0,      canonIfdId,  decode0x080a, encode0x080a),
-        CrwMapping(0x080b, 0x3004,   0, 0x0007, canonIfdId,  decodeBasic,  encodeBasic),
-        CrwMapping(0x0810, 0x2807,   0, 0x0009, canonIfdId,  decodeBasic,  encodeBasic),
-        CrwMapping(0x0815, 0x2804,   0, 0x0006, canonIfdId,  decodeBasic,  encodeBasic),
-        CrwMapping(0x1029, 0x300b,   0, 0x0002, canonIfdId,  decodeBasic,  encodeBasic),
-        CrwMapping(0x102a, 0x300b,   0, 0x0004, canonIfdId,  decodeArray,  encodeArray),
-        CrwMapping(0x102d, 0x300b,   0, 0x0001, canonIfdId,  decodeArray,  encodeArray),
-        CrwMapping(0x1033, 0x300b,   0, 0x000f, canonIfdId,  decodeArray,  encodeArray),
-        CrwMapping(0x1038, 0x300b,   0, 0x0012, canonIfdId,  decodeArray,  encodeArray),
-        CrwMapping(0x10a9, 0x300b,   0, 0x00a9, canonIfdId,  decodeBasic,  encodeBasic),
+        //         CrwTag  CrwDir  Size ExifTag IfdId    decodeFct     encodeFct
+        //         ------  ------  ---- ------- -----    ---------     ---------
+        CrwMapping(0x0805, 0x300a,   0, 0,      canonId, decode0x0805, encode0x0805),
+        CrwMapping(0x080a, 0x2807,   0, 0,      canonId, decode0x080a, encode0x080a),
+        CrwMapping(0x080b, 0x3004,   0, 0x0007, canonId, decodeBasic,  encodeBasic),
+        CrwMapping(0x0810, 0x2807,   0, 0x0009, canonId, decodeBasic,  encodeBasic),
+        CrwMapping(0x0815, 0x2804,   0, 0x0006, canonId, decodeBasic,  encodeBasic),
+        CrwMapping(0x1029, 0x300b,   0, 0x0002, canonId, decodeBasic,  encodeBasic),
+        CrwMapping(0x102a, 0x300b,   0, 0x0004, canonId, decodeArray,  encodeArray),
+        CrwMapping(0x102d, 0x300b,   0, 0x0001, canonId, decodeArray,  encodeArray),
+        CrwMapping(0x1033, 0x300b,   0, 0x000f, canonId, decodeArray,  encodeArray),
+        CrwMapping(0x1038, 0x300b,   0, 0x0012, canonId, decodeArray,  encodeArray),
+        CrwMapping(0x10a9, 0x300b,   0, 0x00a9, canonId, decodeBasic,  encodeBasic),
         // Mapped to Exif.Photo.ColorSpace instead (see below)
-        //CrwMapping(0x10b4, 0x300b,   0, 0x00b4, canonIfdId,  decodeBasic,  encodeBasic),
-        CrwMapping(0x10b4, 0x300b,   0, 0xa001, exifIfdId,   decodeBasic,  encodeBasic),
-        CrwMapping(0x10b5, 0x300b,   0, 0x00b5, canonIfdId,  decodeBasic,  encodeBasic),
-        CrwMapping(0x10c0, 0x300b,   0, 0x00c0, canonIfdId,  decodeBasic,  encodeBasic),
-        CrwMapping(0x10c1, 0x300b,   0, 0x00c1, canonIfdId,  decodeBasic,  encodeBasic),
-        CrwMapping(0x1807, 0x3002,   0, 0x9206, exifIfdId,   decodeBasic,  encodeBasic),
-        CrwMapping(0x180b, 0x3004,   0, 0x000c, canonIfdId,  decodeBasic,  encodeBasic),
-        CrwMapping(0x180e, 0x300a,   0, 0x9003, exifIfdId,   decode0x180e, encode0x180e),
-        CrwMapping(0x1810, 0x300a,   0, 0xa002, exifIfdId,   decode0x1810, encode0x1810),
-        CrwMapping(0x1817, 0x300a,   4, 0x0008, canonIfdId,  decodeBasic,  encodeBasic),
-        //CrwMapping(0x1818, 0x3002,   0, 0x9204, exifIfdId,   decodeBasic,  encodeBasic),
-        CrwMapping(0x183b, 0x300b,   0, 0x0015, canonIfdId,  decodeBasic,  encodeBasic),
-        CrwMapping(0x2008, 0x0000,   0, 0,      ifd1Id,      decode0x2008, encode0x2008),
+        //CrwMapping(0x10b4, 0x300b,   0, 0x00b4, canonId, decodeBasic,  encodeBasic),
+        CrwMapping(0x10b4, 0x300b,   0, 0xa001, exifId,  decodeBasic,  encodeBasic),
+        CrwMapping(0x10b5, 0x300b,   0, 0x00b5, canonId, decodeBasic,  encodeBasic),
+        CrwMapping(0x10c0, 0x300b,   0, 0x00c0, canonId, decodeBasic,  encodeBasic),
+        CrwMapping(0x10c1, 0x300b,   0, 0x00c1, canonId, decodeBasic,  encodeBasic),
+        CrwMapping(0x1807, 0x3002,   0, 0x9206, exifId,  decodeBasic,  encodeBasic),
+        CrwMapping(0x180b, 0x3004,   0, 0x000c, canonId, decodeBasic,  encodeBasic),
+        CrwMapping(0x180e, 0x300a,   0, 0x9003, exifId,  decode0x180e, encode0x180e),
+        CrwMapping(0x1810, 0x300a,   0, 0xa002, exifId,  decode0x1810, encode0x1810),
+        CrwMapping(0x1817, 0x300a,   4, 0x0008, canonId, decodeBasic,  encodeBasic),
+        //CrwMapping(0x1818, 0x3002,   0, 0x9204, exifId, decodeBasic,  encodeBasic),
+        CrwMapping(0x183b, 0x300b,   0, 0x0015, canonId, decodeBasic,  encodeBasic),
+        CrwMapping(0x2008, 0x0000,   0, 0,      ifd1Id,  decode0x2008, encode0x2008),
         // End of list marker
         CrwMapping(0x0000, 0x0000,   0, 0x0000, ifdIdNotSet, 0,            0)
     }; // CrwMap::crwMapping_[]
@@ -1011,28 +1011,28 @@ namespace Exiv2 {
 
         IfdId ifdId = ifdIdNotSet;
         switch (pCrwMapping->tag_) {
-        case 0x0001: ifdId = canonCsIfdId; break;
-        case 0x0004: ifdId = canonSiIfdId; break;
-        case 0x000f: ifdId = canonCfIfdId; break;
-        case 0x0012: ifdId = canonPiIfdId; break;
+        case 0x0001: ifdId = canonCsId; break;
+        case 0x0004: ifdId = canonSiId; break;
+        case 0x000f: ifdId = canonCfId; break;
+        case 0x0012: ifdId = canonPiId; break;
         }
         assert(ifdId != ifdIdNotSet);
 
-        std::string ifdItem(Internal::ifdItem(ifdId));
+        std::string groupName(Internal::groupName(ifdId));
         uint16_t c = 1;
         while (uint32_t(c)*2 < ciffComponent.size()) {
             uint16_t n = 1;
-            ExifKey key(c, ifdItem);
+            ExifKey key(c, groupName);
             UShortValue value;
-            if (ifdId == canonCsIfdId && c == 23 && ciffComponent.size() > 50) n = 3;
+            if (ifdId == canonCsId && c == 23 && ciffComponent.size() > 50) n = 3;
             value.read(ciffComponent.pData() + c*2, n*2, byteOrder);
             image.exifData().add(key, &value);
-            if (ifdId == canonSiIfdId && c == 21) aperture = value.toLong();
-            if (ifdId == canonSiIfdId && c == 22) shutterSpeed = value.toLong();
+            if (ifdId == canonSiId && c == 21) aperture = value.toLong();
+            if (ifdId == canonSiId && c == 22) shutterSpeed = value.toLong();
             c += n;
         }
 
-        if (ifdId == canonSiIfdId) {
+        if (ifdId == canonSiId) {
             // Exif.Photo.FNumber
             float f = fnumber(canonEv(aperture));
             URational ur = floatToRationalCast(f);
@@ -1072,7 +1072,7 @@ namespace Exiv2 {
             char s[m];
             std::strftime(s, m, "%Y:%m:%d %H:%M:%S", tm);
 
-            ExifKey key(pCrwMapping->tag_, Internal::ifdItem(pCrwMapping->ifdId_));
+            ExifKey key(pCrwMapping->tag_, Internal::groupName(pCrwMapping->ifdId_));
             AsciiValue value;
             value.read(std::string(s));
             image.exifData().add(key, &value);
@@ -1120,7 +1120,7 @@ namespace Exiv2 {
     {
         assert(pCrwMapping != 0);
         // create a key and value pair
-        ExifKey key(pCrwMapping->tag_, Internal::ifdItem(pCrwMapping->ifdId_));
+        ExifKey key(pCrwMapping->tag_, Internal::groupName(pCrwMapping->ifdId_));
         Value::AutoPtr value;
         if (ciffComponent.typeId() != directory) {
             value = Value::create(ciffComponent.typeId());
@@ -1175,7 +1175,7 @@ namespace Exiv2 {
         assert(pHead != 0);
 
         // Determine the source Exif metadatum
-        ExifKey ek(pCrwMapping->tag_, Internal::ifdItem(pCrwMapping->ifdId_));
+        ExifKey ek(pCrwMapping->tag_, Internal::groupName(pCrwMapping->ifdId_));
         ExifData::const_iterator ed = image.exifData().findKey(ek);
 
         // Set the new value or remove the entry
@@ -1254,10 +1254,10 @@ namespace Exiv2 {
 
         IfdId ifdId = ifdIdNotSet;
         switch (pCrwMapping->tag_) {
-        case 0x0001: ifdId = canonCsIfdId; break;
-        case 0x0004: ifdId = canonSiIfdId; break;
-        case 0x000f: ifdId = canonCfIfdId; break;
-        case 0x0012: ifdId = canonPiIfdId; break;
+        case 0x0001: ifdId = canonCsId; break;
+        case 0x0004: ifdId = canonSiId; break;
+        case 0x000f: ifdId = canonCfId; break;
+        case 0x0012: ifdId = canonPiId; break;
         }
         assert(ifdId != ifdIdNotSet);
         DataBuf buf = packIfdId(image.exifData(), ifdId, pHead->byteOrder());
@@ -1283,7 +1283,7 @@ namespace Exiv2 {
         assert(pHead != 0);
 
         time_t t = 0;
-        const ExifKey key(pCrwMapping->tag_, Internal::ifdItem(pCrwMapping->ifdId_));
+        const ExifKey key(pCrwMapping->tag_, Internal::groupName(pCrwMapping->ifdId_));
         const ExifData::const_iterator ed = image.exifData().findKey(key);
         if (ed != image.exifData().end()) {
             struct tm tm;

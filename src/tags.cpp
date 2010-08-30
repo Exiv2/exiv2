@@ -80,104 +80,104 @@ namespace Exiv2 {
 
     using namespace Internal;
 
-    //! List of all known Exif groups. Important: IFD item must be unique!
+    //! List of all known Exif groups. Important: Group name (3rd column) must be unique!
     extern const GroupInfo groupInfo[] = {
-        { ifdIdNotSet,       "(Unknown IFD)", "(Unknown item)", 0 },
-        { ifd0Id,            "IFD0",      "Image",        ifdTagList                     },
-        { exifIfdId,         "Exif",      "Photo",        exifTagList                    }, // just to avoid 'Exif.Exif.*' keys
-        { gpsIfdId,          "GPSInfo",   "GPSInfo",      gpsTagList                     },
-        { iopIfdId,          "Iop",       "Iop",          iopTagList                     },
-        { ifd1Id,            "IFD1",      "Thumbnail",    ifdTagList                     },
-        { ifd2Id,            "IFD2",      "Image2",       ifdTagList                     },
-        { ifd3Id,            "IFD3",      "Image3",       ifdTagList                     },
-        { subImage1Id,       "SubImage1", "SubImage1",    ifdTagList                     },
-        { subImage2Id,       "SubImage2", "SubImage2",    ifdTagList                     },
-        { subImage3Id,       "SubImage3", "SubImage3",    ifdTagList                     },
-        { subImage4Id,       "SubImage4", "SubImage4",    ifdTagList                     },
-        { subImage5Id,       "SubImage5", "SubImage5",    ifdTagList                     },
-        { subImage6Id,       "SubImage6", "SubImage6",    ifdTagList                     },
-        { subImage7Id,       "SubImage7", "SubImage7",    ifdTagList                     },
-        { subImage8Id,       "SubImage8", "SubImage8",    ifdTagList                     },
-        { subImage9Id,       "SubImage9", "SubImage9",    ifdTagList                     },
-        { mnIfdId,           "Makernote", "MakerNote",    mnTagList                      },
-        { canonIfdId,        "Makernote", "Canon",        CanonMakerNote::tagList        },
-        { canonCsIfdId,      "Makernote", "CanonCs",      CanonMakerNote::tagListCs      },
-        { canonSiIfdId,      "Makernote", "CanonSi",      CanonMakerNote::tagListSi      },
-        { canonCfIfdId,      "Makernote", "CanonCf",      CanonMakerNote::tagListCf      },
-        { canonPiIfdId,      "Makernote", "CanonPi",      CanonMakerNote::tagListPi      },
-        { canonFiIfdId,      "Makernote", "CanonFi",      CanonMakerNote::tagListFi      },
-        { canonPaIfdId,      "Makernote", "CanonPa",      CanonMakerNote::tagListPa      },
-        { canonPrIfdId,      "Makernote", "CanonPr",      CanonMakerNote::tagListPr      },
-        { fujiIfdId,         "Makernote", "Fujifilm",     FujiMakerNote::tagList         },
-        { minoltaIfdId,      "Makernote", "Minolta",      MinoltaMakerNote::tagList      },
-        { minoltaCs5DIfdId,  "Makernote", "MinoltaCs5D",  MinoltaMakerNote::tagListCs5D  },
-        { minoltaCs7DIfdId,  "Makernote", "MinoltaCs7D",  MinoltaMakerNote::tagListCs7D  },
-        { minoltaCsOldIfdId, "Makernote", "MinoltaCsOld", MinoltaMakerNote::tagListCsStd },
-        { minoltaCsNewIfdId, "Makernote", "MinoltaCsNew", MinoltaMakerNote::tagListCsStd },
-        { nikon1IfdId,       "Makernote", "Nikon1",       Nikon1MakerNote::tagList       },
-        { nikon2IfdId,       "Makernote", "Nikon2",       Nikon2MakerNote::tagList       },
-        { nikon3IfdId,       "Makernote", "Nikon3",       Nikon3MakerNote::tagList       },
-        { nikonPvIfdId,      "Makernote", "NikonPreview", ifdTagList                     },
-        { nikonVrIfdId,      "Makernote", "NikonVr",      Nikon3MakerNote::tagListVr     },
-        { nikonPcIfdId,      "Makernote", "NikonPc",      Nikon3MakerNote::tagListPc     },
-        { nikonWtIfdId,      "Makernote", "NikonWt",      Nikon3MakerNote::tagListWt     },
-        { nikonIiIfdId,      "Makernote", "NikonIi",      Nikon3MakerNote::tagListIi     },
-        { nikonAfIfdId,      "Makernote", "NikonAf",      Nikon3MakerNote::tagListAf     },
-        { nikonAf2IfdId,     "Makernote", "NikonAf2",     Nikon3MakerNote::tagListAf2    },
-        { nikonFiIfdId,      "Makernote", "NikonFi",      Nikon3MakerNote::tagListFi     },
-        { nikonMeIfdId,      "Makernote", "NikonMe",      Nikon3MakerNote::tagListMe     },
-        { nikonFl1IfdId,     "Makernote", "NikonFl1",     Nikon3MakerNote::tagListFl1    },
-        { nikonFl2IfdId,     "Makernote", "NikonFl2",     Nikon3MakerNote::tagListFl2    },
-        { nikonFl3IfdId,     "Makernote", "NikonFl3",     Nikon3MakerNote::tagListFl3    },
-        { nikonSi1IfdId,     "Makernote", "NikonSiD80",   Nikon3MakerNote::tagListSi1    },
-        { nikonSi2IfdId,     "Makernote", "NikonSiD40",   Nikon3MakerNote::tagListSi2    },
-        { nikonSi3IfdId,     "Makernote", "NikonSiD300a", Nikon3MakerNote::tagListSi3    },
-        { nikonSi4IfdId,     "Makernote", "NikonSiD300b", Nikon3MakerNote::tagListSi4    },
-        { nikonSi5IfdId,     "Makernote", "NikonSi02xx",  Nikon3MakerNote::tagListSi5    },
-        { nikonSi6IfdId,     "Makernote", "NikonSi01xx",  Nikon3MakerNote::tagListSi5    },
-        { nikonCb1IfdId,     "Makernote", "NikonCb1",     Nikon3MakerNote::tagListCb1    },
-        { nikonCb2IfdId,     "Makernote", "NikonCb2",     Nikon3MakerNote::tagListCb2    },
-        { nikonCb2aIfdId,    "Makernote", "NikonCb2a",    Nikon3MakerNote::tagListCb2a   },
-        { nikonCb2bIfdId,    "Makernote", "NikonCb2b",    Nikon3MakerNote::tagListCb2b   },
-        { nikonCb3IfdId,     "Makernote", "NikonCb3",     Nikon3MakerNote::tagListCb3    },
-        { nikonCb4IfdId,     "Makernote", "NikonCb4",     Nikon3MakerNote::tagListCb4    },
-        { nikonLd1IfdId,     "Makernote", "NikonLd1",     Nikon3MakerNote::tagListLd1    },
-        { nikonLd2IfdId,     "Makernote", "NikonLd2",     Nikon3MakerNote::tagListLd2    },
-        { nikonLd3IfdId,     "Makernote", "NikonLd3",     Nikon3MakerNote::tagListLd3    },
-        { olympusIfdId,      "Makernote", "Olympus",      OlympusMakerNote::tagList      },
-        { olympus2IfdId,     "Makernote", "Olympus2",     OlympusMakerNote::tagList      },
-        { olympusCsIfdId,    "Makernote", "OlympusCs",    OlympusMakerNote::tagListCs    },
-        { olympusEqIfdId,    "Makernote", "OlympusEq",    OlympusMakerNote::tagListEq    },
-        { olympusRdIfdId,    "Makernote", "OlympusRd",    OlympusMakerNote::tagListRd    },
-        { olympusRd2IfdId,   "Makernote", "OlympusRd2",   OlympusMakerNote::tagListRd2   },
-        { olympusIpIfdId,    "Makernote", "OlympusIp",    OlympusMakerNote::tagListIp    },
-        { olympusFiIfdId,    "Makernote", "OlympusFi",    OlympusMakerNote::tagListFi    },
-        { olympusFe1IfdId,   "Makernote", "OlympusFe1",   OlympusMakerNote::tagListFe    },
-        { olympusFe2IfdId,   "Makernote", "OlympusFe2",   OlympusMakerNote::tagListFe    },
-        { olympusFe3IfdId,   "Makernote", "OlympusFe3",   OlympusMakerNote::tagListFe    },
-        { olympusFe4IfdId,   "Makernote", "OlympusFe4",   OlympusMakerNote::tagListFe    },
-        { olympusFe5IfdId,   "Makernote", "OlympusFe5",   OlympusMakerNote::tagListFe    },
-        { olympusFe6IfdId,   "Makernote", "OlympusFe6",   OlympusMakerNote::tagListFe    },
-        { olympusFe7IfdId,   "Makernote", "OlympusFe7",   OlympusMakerNote::tagListFe    },
-        { olympusFe8IfdId,   "Makernote", "OlympusFe8",   OlympusMakerNote::tagListFe    },
-        { olympusFe9IfdId,   "Makernote", "OlympusFe9",   OlympusMakerNote::tagListFe    },
-        { olympusRiIfdId,    "Makernote", "OlympusRi",    OlympusMakerNote::tagListRi    },
-        { panasonicIfdId,    "Makernote", "Panasonic",    PanasonicMakerNote::tagList    },
-        { panaRawIfdId,      "PanaRaw",   "PanasonicRaw", PanasonicMakerNote::tagListRaw },
-        { pentaxIfdId,       "Makernote", "Pentax",       PentaxMakerNote::tagList       },
-        { sigmaIfdId,        "Makernote", "Sigma",        SigmaMakerNote::tagList        },
-        { sony1IfdId,        "Makernote", "Sony1",        SonyMakerNote::tagList         },
-        { sony2IfdId,        "Makernote", "Sony2",        SonyMakerNote::tagList         },
-        { sonyMltIfdId,      "Makernote", "SonyMinolta",  MinoltaMakerNote::tagList      },
-        { sony1CsIfdId,      "Makernote", "Sony1Cs",      SonyMakerNote::tagListCs       },
-        { sony1Cs2IfdId,     "Makernote", "Sony1Cs2",     SonyMakerNote::tagListCs2      },
-        { sony1MltCs7DIfdId, "Makernote", "Sony1MltCs7D", MinoltaMakerNote::tagListCs7D  },
-        { sony1MltCsOldIfdId,"Makernote", "Sony1MltCsOld",MinoltaMakerNote::tagListCsStd },
-        { sony1MltCsNewIfdId,"Makernote", "Sony1MltCsNew",MinoltaMakerNote::tagListCsStd },
-        { sony1MltCsA100IfdId,"Makernote","Sony1MltCsA100",MinoltaMakerNote::tagListCsA100},
-        { sony2CsIfdId,      "Makernote", "Sony2Cs",      SonyMakerNote::tagListCs       },
-        { sony2Cs2IfdId,     "Makernote", "Sony2Cs2",     SonyMakerNote::tagListCs2      },
-        { lastIfdId,         "(Last IFD info)", "(Last IFD item)", 0 }
+        { ifdIdNotSet,     "Unknown IFD", "Unknown", 0 },
+        { ifd0Id,          "IFD0",      "Image",        ifdTagList                     },
+        { ifd1Id,          "IFD1",      "Thumbnail",    ifdTagList                     },
+        { ifd2Id,          "IFD2",      "Image2",       ifdTagList                     },
+        { ifd3Id,          "IFD3",      "Image3",       ifdTagList                     },
+        { exifId,          "Exif",      "Photo",        exifTagList                    },
+        { gpsId,           "GPSInfo",   "GPSInfo",      gpsTagList                     },
+        { iopId,           "Iop",       "Iop",          iopTagList                     },
+        { subImage1Id,     "SubImage1", "SubImage1",    ifdTagList                     },
+        { subImage2Id,     "SubImage2", "SubImage2",    ifdTagList                     },
+        { subImage3Id,     "SubImage3", "SubImage3",    ifdTagList                     },
+        { subImage4Id,     "SubImage4", "SubImage4",    ifdTagList                     },
+        { subImage5Id,     "SubImage5", "SubImage5",    ifdTagList                     },
+        { subImage6Id,     "SubImage6", "SubImage6",    ifdTagList                     },
+        { subImage7Id,     "SubImage7", "SubImage7",    ifdTagList                     },
+        { subImage8Id,     "SubImage8", "SubImage8",    ifdTagList                     },
+        { subImage9Id,     "SubImage9", "SubImage9",    ifdTagList                     },
+        { panaRawId,       "PanaRaw",   "PanasonicRaw", PanasonicMakerNote::tagListRaw },
+        { mnId,            "Makernote", "MakerNote",    mnTagList                      },
+        { canonId,         "Makernote", "Canon",        CanonMakerNote::tagList        },
+        { canonCsId,       "Makernote", "CanonCs",      CanonMakerNote::tagListCs      },
+        { canonSiId,       "Makernote", "CanonSi",      CanonMakerNote::tagListSi      },
+        { canonCfId,       "Makernote", "CanonCf",      CanonMakerNote::tagListCf      },
+        { canonPiId,       "Makernote", "CanonPi",      CanonMakerNote::tagListPi      },
+        { canonFiId,       "Makernote", "CanonFi",      CanonMakerNote::tagListFi      },
+        { canonPaId,       "Makernote", "CanonPa",      CanonMakerNote::tagListPa      },
+        { canonPrId,       "Makernote", "CanonPr",      CanonMakerNote::tagListPr      },
+        { fujiId,          "Makernote", "Fujifilm",     FujiMakerNote::tagList         },
+        { minoltaId,       "Makernote", "Minolta",      MinoltaMakerNote::tagList      },
+        { minoltaCs5DId,   "Makernote", "MinoltaCs5D",  MinoltaMakerNote::tagListCs5D  },
+        { minoltaCs7DId,   "Makernote", "MinoltaCs7D",  MinoltaMakerNote::tagListCs7D  },
+        { minoltaCsOldId,  "Makernote", "MinoltaCsOld", MinoltaMakerNote::tagListCsStd },
+        { minoltaCsNewId,  "Makernote", "MinoltaCsNew", MinoltaMakerNote::tagListCsStd },
+        { nikon1Id,        "Makernote", "Nikon1",       Nikon1MakerNote::tagList       },
+        { nikon2Id,        "Makernote", "Nikon2",       Nikon2MakerNote::tagList       },
+        { nikon3Id,        "Makernote", "Nikon3",       Nikon3MakerNote::tagList       },
+        { nikonPvId,       "Makernote", "NikonPreview", ifdTagList                     },
+        { nikonVrId,       "Makernote", "NikonVr",      Nikon3MakerNote::tagListVr     },
+        { nikonPcId,       "Makernote", "NikonPc",      Nikon3MakerNote::tagListPc     },
+        { nikonWtId,       "Makernote", "NikonWt",      Nikon3MakerNote::tagListWt     },
+        { nikonIiId,       "Makernote", "NikonIi",      Nikon3MakerNote::tagListIi     },
+        { nikonAfId,       "Makernote", "NikonAf",      Nikon3MakerNote::tagListAf     },
+        { nikonAf2Id,      "Makernote", "NikonAf2",     Nikon3MakerNote::tagListAf2    },
+        { nikonFiId,       "Makernote", "NikonFi",      Nikon3MakerNote::tagListFi     },
+        { nikonMeId,       "Makernote", "NikonMe",      Nikon3MakerNote::tagListMe     },
+        { nikonFl1Id,      "Makernote", "NikonFl1",     Nikon3MakerNote::tagListFl1    },
+        { nikonFl2Id,      "Makernote", "NikonFl2",     Nikon3MakerNote::tagListFl2    },
+        { nikonFl3Id,      "Makernote", "NikonFl3",     Nikon3MakerNote::tagListFl3    },
+        { nikonSi1Id,      "Makernote", "NikonSiD80",   Nikon3MakerNote::tagListSi1    },
+        { nikonSi2Id,      "Makernote", "NikonSiD40",   Nikon3MakerNote::tagListSi2    },
+        { nikonSi3Id,      "Makernote", "NikonSiD300a", Nikon3MakerNote::tagListSi3    },
+        { nikonSi4Id,      "Makernote", "NikonSiD300b", Nikon3MakerNote::tagListSi4    },
+        { nikonSi5Id,      "Makernote", "NikonSi02xx",  Nikon3MakerNote::tagListSi5    },
+        { nikonSi6Id,      "Makernote", "NikonSi01xx",  Nikon3MakerNote::tagListSi5    },
+        { nikonCb1Id,      "Makernote", "NikonCb1",     Nikon3MakerNote::tagListCb1    },
+        { nikonCb2Id,      "Makernote", "NikonCb2",     Nikon3MakerNote::tagListCb2    },
+        { nikonCb2aId,     "Makernote", "NikonCb2a",    Nikon3MakerNote::tagListCb2a   },
+        { nikonCb2bId,     "Makernote", "NikonCb2b",    Nikon3MakerNote::tagListCb2b   },
+        { nikonCb3Id,      "Makernote", "NikonCb3",     Nikon3MakerNote::tagListCb3    },
+        { nikonCb4Id,      "Makernote", "NikonCb4",     Nikon3MakerNote::tagListCb4    },
+        { nikonLd1Id,      "Makernote", "NikonLd1",     Nikon3MakerNote::tagListLd1    },
+        { nikonLd2Id,      "Makernote", "NikonLd2",     Nikon3MakerNote::tagListLd2    },
+        { nikonLd3Id,      "Makernote", "NikonLd3",     Nikon3MakerNote::tagListLd3    },
+        { olympusId,       "Makernote", "Olympus",      OlympusMakerNote::tagList      },
+        { olympus2Id,      "Makernote", "Olympus2",     OlympusMakerNote::tagList      },
+        { olympusCsId,     "Makernote", "OlympusCs",    OlympusMakerNote::tagListCs    },
+        { olympusEqId,     "Makernote", "OlympusEq",    OlympusMakerNote::tagListEq    },
+        { olympusRdId,     "Makernote", "OlympusRd",    OlympusMakerNote::tagListRd    },
+        { olympusRd2Id,    "Makernote", "OlympusRd2",   OlympusMakerNote::tagListRd2   },
+        { olympusIpId,     "Makernote", "OlympusIp",    OlympusMakerNote::tagListIp    },
+        { olympusFiId,     "Makernote", "OlympusFi",    OlympusMakerNote::tagListFi    },
+        { olympusFe1Id,    "Makernote", "OlympusFe1",   OlympusMakerNote::tagListFe    },
+        { olympusFe2Id,    "Makernote", "OlympusFe2",   OlympusMakerNote::tagListFe    },
+        { olympusFe3Id,    "Makernote", "OlympusFe3",   OlympusMakerNote::tagListFe    },
+        { olympusFe4Id,    "Makernote", "OlympusFe4",   OlympusMakerNote::tagListFe    },
+        { olympusFe5Id,    "Makernote", "OlympusFe5",   OlympusMakerNote::tagListFe    },
+        { olympusFe6Id,    "Makernote", "OlympusFe6",   OlympusMakerNote::tagListFe    },
+        { olympusFe7Id,    "Makernote", "OlympusFe7",   OlympusMakerNote::tagListFe    },
+        { olympusFe8Id,    "Makernote", "OlympusFe8",   OlympusMakerNote::tagListFe    },
+        { olympusFe9Id,    "Makernote", "OlympusFe9",   OlympusMakerNote::tagListFe    },
+        { olympusRiId,     "Makernote", "OlympusRi",    OlympusMakerNote::tagListRi    },
+        { panasonicId,     "Makernote", "Panasonic",    PanasonicMakerNote::tagList    },
+        { pentaxId,        "Makernote", "Pentax",       PentaxMakerNote::tagList       },
+        { sigmaId,         "Makernote", "Sigma",        SigmaMakerNote::tagList        },
+        { sony1Id,         "Makernote", "Sony1",        SonyMakerNote::tagList         },
+        { sony2Id,         "Makernote", "Sony2",        SonyMakerNote::tagList         },
+        { sonyMltId,       "Makernote", "SonyMinolta",  MinoltaMakerNote::tagList      },
+        { sony1CsId,       "Makernote", "Sony1Cs",      SonyMakerNote::tagListCs       },
+        { sony1Cs2Id,      "Makernote", "Sony1Cs2",     SonyMakerNote::tagListCs2      },
+        { sony1MltCs7DId,  "Makernote", "Sony1MltCs7D", MinoltaMakerNote::tagListCs7D  },
+        { sony1MltCsOldId, "Makernote", "Sony1MltCsOld",MinoltaMakerNote::tagListCsStd },
+        { sony1MltCsNewId, "Makernote", "Sony1MltCsNew",MinoltaMakerNote::tagListCsStd },
+        { sony1MltCsA100Id,"Makernote","Sony1MltCsA100",MinoltaMakerNote::tagListCsA100},
+        { sony2CsId,       "Makernote", "Sony2Cs",      SonyMakerNote::tagListCs       },
+        { sony2Cs2Id,      "Makernote", "Sony2Cs2",     SonyMakerNote::tagListCs2      },
+        { lastId,          "(Last IFD info)", "(Last IFD item)", 0 }
     };
 
     //! List of all defined Exif sections.
@@ -1352,39 +1352,39 @@ namespace Exiv2 {
     static const TagInfo exifTagInfo[] = {
         TagInfo(0x829a, "ExposureTime", N_("Exposure Time"),
                 N_("Exposure time, given in seconds (sec)."),
-                exifIfdId, captureCond, unsignedRational, 1, print0x829a),
+                exifId, captureCond, unsignedRational, 1, print0x829a),
         TagInfo(0x829d, "FNumber", N_("FNumber"),
                 N_("The F number."),
-                exifIfdId, captureCond, unsignedRational, 1, print0x829d),
+                exifId, captureCond, unsignedRational, 1, print0x829d),
         TagInfo(0x8822, "ExposureProgram", N_("Exposure Program"),
                 N_("The class of the program used by the camera to set exposure "
                 "when the picture is taken."),
-                exifIfdId, captureCond, unsignedShort, 1, print0x8822),
+                exifId, captureCond, unsignedShort, 1, print0x8822),
         TagInfo(0x8824, "SpectralSensitivity", N_("Spectral Sensitivity"),
                 N_("Indicates the spectral sensitivity of each channel of the "
                 "camera used. The tag value is an ASCII string compatible "
                 "with the standard developed by the ASTM Technical Committee."),
-                exifIfdId, captureCond, asciiString, 0, printValue),
+                exifId, captureCond, asciiString, 0, printValue),
         TagInfo(0x8827, "ISOSpeedRatings", N_("ISO Speed Ratings"),
                 N_("Indicates the ISO Speed and ISO Latitude of the camera or "
                 "input device as specified in ISO 12232."),
-                exifIfdId, captureCond, unsignedShort, 0, print0x8827),
+                exifId, captureCond, unsignedShort, 0, print0x8827),
         TagInfo(0x8828, "OECF", N_("Opto-Electoric Conversion Function"),
                 N_("Indicates the Opto-Electoric Conversion Function (OECF) "
                 "specified in ISO 14524. <OECF> is the relationship between "
                 "the camera optical input and the image values."),
-                exifIfdId, captureCond, undefined, 0, printValue),
+                exifId, captureCond, undefined, 0, printValue),
         TagInfo(0x9000, "ExifVersion", N_("Exif Version"),
                 N_("The version of this standard supported. Nonexistence of this "
                 "field is taken to mean nonconformance to the standard."),
-                exifIfdId, exifVersion, undefined, 4, printExifVersion),
+                exifId, exifVersion, undefined, 4, printExifVersion),
         TagInfo(0x9003, "DateTimeOriginal", N_("Date and Time (original)"),
                 N_("The date and time when the original image data was generated. "
                 "For a digital still camera the date and time the picture was taken are recorded."),
-                exifIfdId, dateTime, asciiString, 20, printValue),
+                exifId, dateTime, asciiString, 20, printValue),
         TagInfo(0x9004, "DateTimeDigitized", N_("Date and Time (digitized)"),
                 N_("The date and time when the image was stored as digital data."),
-                exifIfdId, dateTime, asciiString, 20, printValue),
+                exifId, dateTime, asciiString, 20, printValue),
         TagInfo(0x9101, "ComponentsConfiguration", N_("Components Configuration"),
                 N_("Information specific to compressed data. The channels of "
                 "each component are arranged in order from the 1st "
@@ -1394,72 +1394,72 @@ namespace Exiv2 {
                 "express the order of Y, Cb and Cr, this tag is provided "
                 "for cases when compressed data uses components other than "
                 "Y, Cb, and Cr and to enable support of other sequences."),
-                exifIfdId, imgConfig, undefined, 4, print0x9101),
+                exifId, imgConfig, undefined, 4, print0x9101),
         TagInfo(0x9102, "CompressedBitsPerPixel", N_("Compressed Bits per Pixel"),
                 N_("Information specific to compressed data. The compression mode "
                 "used for a compressed image is indicated in unit bits per pixel."),
-                exifIfdId, imgConfig, unsignedRational, 1, printFloat),
+                exifId, imgConfig, unsignedRational, 1, printFloat),
         TagInfo(0x9201, "ShutterSpeedValue", N_("Shutter speed"),
                 N_("Shutter speed. The unit is the APEX (Additive System of "
                 "Photographic Exposure) setting."),
-                exifIfdId, captureCond, signedRational, 1, print0x9201),
+                exifId, captureCond, signedRational, 1, print0x9201),
         TagInfo(0x9202, "ApertureValue", N_("Aperture"),
                 N_("The lens aperture. The unit is the APEX value."),
-                exifIfdId, captureCond, unsignedRational, 1, print0x9202),
+                exifId, captureCond, unsignedRational, 1, print0x9202),
         TagInfo(0x9203, "BrightnessValue", N_("Brightness"),
                 N_("The value of brightness. The unit is the APEX value. "
                 "Ordinarily it is given in the range of -99.99 to 99.99."),
-                exifIfdId, captureCond, signedRational, 1, printFloat),
+                exifId, captureCond, signedRational, 1, printFloat),
         TagInfo(0x9204, "ExposureBiasValue", N_("Exposure Bias"),
                 N_("The exposure bias. The units is the APEX value. Ordinarily "
                 "it is given in the range of -99.99 to 99.99."),
-                exifIfdId, captureCond, signedRational, 1, print0x9204),
+                exifId, captureCond, signedRational, 1, print0x9204),
         TagInfo(0x9205, "MaxApertureValue", N_("Max Aperture Value"),
                 N_("The smallest F number of the lens. The unit is the APEX value. "
                 "Ordinarily it is given in the range of 00.00 to 99.99, "
                 "but it is not limited to this range."),
-                exifIfdId, captureCond, unsignedRational, 1, print0x9202),
+                exifId, captureCond, unsignedRational, 1, print0x9202),
         TagInfo(0x9206, "SubjectDistance", N_("Subject Distance"),
                 N_("The distance to the subject, given in meters."),
-                exifIfdId, captureCond, unsignedRational, 1, print0x9206),
+                exifId, captureCond, unsignedRational, 1, print0x9206),
         TagInfo(0x9207, "MeteringMode", N_("Metering Mode"),
                 N_("The metering mode."),
-                exifIfdId, captureCond, unsignedShort, 1, print0x9207),
+                exifId, captureCond, unsignedShort, 1, print0x9207),
         TagInfo(0x9208, "LightSource", N_("Light Source"),
                 N_("The kind of light source."),
-                exifIfdId, captureCond, unsignedShort, 1, print0x9208),
+                exifId, captureCond, unsignedShort, 1, print0x9208),
         TagInfo(0x9209, "Flash", N_("Flash"),
                 N_("This tag is recorded when an image is taken using a strobe light (flash)."),
-                exifIfdId, captureCond, unsignedShort, 1, EXV_PRINT_TAG(exifFlash)),
+                exifId, captureCond, unsignedShort, 1, EXV_PRINT_TAG(exifFlash)),
         TagInfo(0x920a, "FocalLength", N_("Focal Length"),
                 N_("The actual focal length of the lens, in mm. Conversion is not "
                 "made to the focal length of a 35 mm film camera."),
-                exifIfdId, captureCond, unsignedRational, 1, print0x920a),
+                exifId, captureCond, unsignedRational, 1, print0x920a),
         TagInfo(0x9214, "SubjectArea", N_("Subject Area"),
                 N_("This tag indicates the location and area of the main subject "
                 "in the overall scene."),
-                exifIfdId, captureCond, unsignedShort, -1, printValue),
+                exifId, captureCond, unsignedShort, -1, printValue),
         TagInfo(0x927c, "MakerNote", N_("Maker Note"),
                 N_("A tag for manufacturers of Exif writers to record any desired "
                 "information. The contents are up to the manufacturer."),
-                exifIfdId, userInfo, undefined, 0, printValue),
+                exifId, userInfo, undefined, 0, printValue),
         TagInfo(0x9286, "UserComment", N_("User Comment"),
                 N_("A tag for Exif users to write keywords or comments on the image "
                 "besides those in <ImageDescription>, and without the "
                 "character code limitations of the <ImageDescription> tag."),
-                exifIfdId, userInfo, comment, 0, print0x9286),
+                exifId, userInfo, comment, 0, print0x9286),
         TagInfo(0x9290, "SubSecTime", N_("Sub-seconds Time"),
                 N_("A tag used to record fractions of seconds for the <DateTime> tag."),
-                exifIfdId, dateTime, asciiString, 0, printValue),
+                exifId, dateTime, asciiString, 0, printValue),
         TagInfo(0x9291, "SubSecTimeOriginal", N_("Sub-seconds Time Original"),
                 N_("A tag used to record fractions of seconds for the <DateTimeOriginal> tag."),
-                exifIfdId, dateTime, asciiString, 0, printValue),
+                exifId, dateTime, asciiString, 0, printValue),
         TagInfo(0x9292, "SubSecTimeDigitized", N_("Sub-seconds Time Digitized"),
                 N_("A tag used to record fractions of seconds for the <DateTimeDigitized> tag."),
-                exifIfdId, dateTime, asciiString, 0, printValue),
+                exifId, dateTime, asciiString, 0, printValue),
         TagInfo(0xa000, "FlashpixVersion", N_("FlashPix Version"),
                 N_("The FlashPix format version supported by a FPXR file."),
-                exifIfdId, exifVersion, undefined, 4, printExifVersion),
+                exifId, exifVersion, undefined, 4, printExifVersion),
         TagInfo(0xa001, "ColorSpace", N_("Color Space"),
                 N_("The color space information tag is always "
                 "recorded as the color space specifier. Normally sRGB "
@@ -1468,14 +1468,14 @@ namespace Exiv2 {
                 "sRGB is used, Uncalibrated is set. Image data "
                 "recorded as Uncalibrated can be treated as sRGB when it is "
                 "converted to FlashPix."),
-                exifIfdId, imgCharacter, unsignedShort, 1, print0xa001),
+                exifId, imgCharacter, unsignedShort, 1, print0xa001),
         TagInfo(0xa002, "PixelXDimension", N_("Pixel X Dimension"),
                 N_("Information specific to compressed data. When a "
                 "compressed file is recorded, the valid width of the "
                 "meaningful image must be recorded in this tag, whether or "
                 "not there is padding data or a restart marker. This tag "
                 "should not exist in an uncompressed file."),
-                exifIfdId, imgConfig, unsignedLong, 1, printValue),
+                exifId, imgConfig, unsignedLong, 1, printValue),
         TagInfo(0xa003, "PixelYDimension", N_("Pixel Y Dimension"),
                 N_("Information specific to compressed data. When a compressed "
                 "file is recorded, the valid height of the meaningful image "
@@ -1484,14 +1484,14 @@ namespace Exiv2 {
                 "uncompressed file. Since data padding is unnecessary in the vertical "
                 "direction, the number of lines recorded in this valid image height tag "
                 "will in fact be the same as that recorded in the SOF."),
-                exifIfdId, imgConfig, unsignedLong, 1, printValue),
+                exifId, imgConfig, unsignedLong, 1, printValue),
         TagInfo(0xa004, "RelatedSoundFile", N_("Related Sound File"),
                 N_("This tag is used to record the name of an audio file related "
                 "to the image data. The only relational information "
                 "recorded here is the Exif audio file name and extension (an "
                 "ASCII string consisting of 8 characters + '.' + 3 "
                 "characters). The path is not recorded."),
-                exifIfdId, relatedFile, asciiString, 13, printValue),
+                exifId, relatedFile, asciiString, 13, printValue),
         TagInfo(0xa005, "InteroperabilityTag", N_("Interoperability IFD Pointer"),
                 N_("Interoperability IFD is composed of tags which stores the "
                 "information to ensure the Interoperability and pointed "
@@ -1499,119 +1499,119 @@ namespace Exiv2 {
                 "The Interoperability structure of Interoperability IFD is "
                 "the same as TIFF defined IFD structure but does not contain the "
                 "image data characteristically compared with normal TIFF IFD."),
-                exifIfdId, exifFormat, unsignedLong, 1, printValue),
+                exifId, exifFormat, unsignedLong, 1, printValue),
         TagInfo(0xa20b, "FlashEnergy", N_("Flash Energy"),
                 N_("Indicates the strobe energy at the time the image is "
                 "captured, as measured in Beam Candle Power Seconds (BCPS)."),
-                exifIfdId, captureCond, unsignedRational, 1, printValue),
+                exifId, captureCond, unsignedRational, 1, printValue),
         TagInfo(0xa20c, "SpatialFrequencyResponse", N_("Spatial Frequency Response"),
                 N_("This tag records the camera or input device spatial frequency "
                 "table and SFR values in the direction of image width, "
                 "image height, and diagonal direction, as specified in ISO 12233."),
-                exifIfdId, captureCond, undefined, 0, printValue),
+                exifId, captureCond, undefined, 0, printValue),
         TagInfo(0xa20e, "FocalPlaneXResolution", N_("Focal Plane X-Resolution"),
                 N_("Indicates the number of pixels in the image width (X) direction "
                 "per <FocalPlaneResolutionUnit> on the camera focal plane."),
-                exifIfdId, captureCond, unsignedRational, 1, printFloat),
+                exifId, captureCond, unsignedRational, 1, printFloat),
         TagInfo(0xa20f, "FocalPlaneYResolution", N_("Focal Plane Y-Resolution"),
                 N_("Indicates the number of pixels in the image height (V) direction "
                 "per <FocalPlaneResolutionUnit> on the camera focal plane."),
-                exifIfdId, captureCond, unsignedRational, 1, printFloat),
+                exifId, captureCond, unsignedRational, 1, printFloat),
         TagInfo(0xa210, "FocalPlaneResolutionUnit", N_("Focal Plane Resolution Unit"),
                 N_("Indicates the unit for measuring <FocalPlaneXResolution> and "
                 "<FocalPlaneYResolution>. This value is the same as the <ResolutionUnit>."),
-                exifIfdId, captureCond, unsignedShort, 1, printExifUnit),
+                exifId, captureCond, unsignedShort, 1, printExifUnit),
         TagInfo(0xa214, "SubjectLocation", N_("Subject Location"),
                 N_("Indicates the location of the main subject in the scene. The "
                 "value of this tag represents the pixel at the center of the "
                 "main subject relative to the left edge, prior to rotation "
                 "processing as per the <Rotation> tag. The first value "
                 "indicates the X column number and second indicates the Y row number."),
-                exifIfdId, captureCond, unsignedShort, 2, printValue),
+                exifId, captureCond, unsignedShort, 2, printValue),
         TagInfo(0xa215, "ExposureIndex", N_("Exposure index"),
                 N_("Indicates the exposure index selected on the camera or "
                 "input device at the time the image is captured."),
-                exifIfdId, captureCond, unsignedRational, 1, printValue),
+                exifId, captureCond, unsignedRational, 1, printValue),
         TagInfo(0xa217, "SensingMethod", N_("Sensing Method"),
                 N_("Indicates the image sensor type on the camera or input device."),
-                exifIfdId, captureCond, unsignedShort, 1, print0xa217),
+                exifId, captureCond, unsignedShort, 1, print0xa217),
         TagInfo(0xa300, "FileSource", N_("File Source"),
                 N_("Indicates the image source. If a DSC recorded the image, "
                 "this tag value of this tag always be set to 3, indicating "
                 "that the image was recorded on a DSC."),
-                exifIfdId, captureCond, undefined, 1, print0xa300),
+                exifId, captureCond, undefined, 1, print0xa300),
         TagInfo(0xa301, "SceneType", N_("Scene Type"),
                 N_("Indicates the type of scene. If a DSC recorded the image, "
                 "this tag value must always be set to 1, indicating that the "
                 "image was directly photographed."),
-                exifIfdId, captureCond, undefined, 1, print0xa301),
+                exifId, captureCond, undefined, 1, print0xa301),
         TagInfo(0xa302, "CFAPattern", N_("Color Filter Array Pattern"),
                 N_("Indicates the color filter array (CFA) geometric pattern of the "
                 "image sensor when a one-chip color area sensor is used. "
                 "It does not apply to all sensing methods."),
-                exifIfdId, captureCond, undefined, 0, printValue),
+                exifId, captureCond, undefined, 0, printValue),
         TagInfo(0xa401, "CustomRendered", N_("Custom Rendered"),
                 N_("This tag indicates the use of special processing on image "
                 "data, such as rendering geared to output. When special "
                 "processing is performed, the reader is expected to disable "
                 "or minimize any further processing."),
-                exifIfdId, captureCond, unsignedShort, 1, print0xa401),
+                exifId, captureCond, unsignedShort, 1, print0xa401),
         TagInfo(0xa402, "ExposureMode", N_("Exposure Mode"),
                 N_("This tag indicates the exposure mode set when the image was "
                 "shot. In auto-bracketing mode, the camera shoots a series of "
                 "frames of the same scene at different exposure settings."),
-                exifIfdId, captureCond, unsignedShort, 1, print0xa402),
+                exifId, captureCond, unsignedShort, 1, print0xa402),
         TagInfo(0xa403, "WhiteBalance", N_("White Balance"),
                 N_("This tag indicates the white balance mode set when the image was shot."),
-                exifIfdId, captureCond, unsignedShort, 1, print0xa403),
+                exifId, captureCond, unsignedShort, 1, print0xa403),
         TagInfo(0xa404, "DigitalZoomRatio", N_("Digital Zoom Ratio"),
                 N_("This tag indicates the digital zoom ratio when the image was "
                 "shot. If the numerator of the recorded value is 0, this "
                 "indicates that digital zoom was not used."),
-                exifIfdId, captureCond, unsignedRational, 1, print0xa404),
+                exifId, captureCond, unsignedRational, 1, print0xa404),
         TagInfo(0xa405, "FocalLengthIn35mmFilm", N_("Focal Length In 35mm Film"),
                 N_("This tag indicates the equivalent focal length assuming a "
                 "35mm film camera, in mm. A value of 0 means the focal "
                 "length is unknown. Note that this tag differs from the "
                 "<FocalLength> tag."),
-                exifIfdId, captureCond, unsignedShort, 1, print0xa405),
+                exifId, captureCond, unsignedShort, 1, print0xa405),
         TagInfo(0xa406, "SceneCaptureType", N_("Scene Capture Type"),
                 N_("This tag indicates the type of scene that was shot. It can "
                 "also be used to record the mode in which the image was "
                 "shot. Note that this differs from the <SceneType> tag."),
-                exifIfdId, captureCond, unsignedShort, 1, print0xa406),
+                exifId, captureCond, unsignedShort, 1, print0xa406),
         TagInfo(0xa407, "GainControl", N_("Gain Control"),
                 N_("This tag indicates the degree of overall image gain adjustment."),
-                exifIfdId, captureCond, unsignedShort, 1, print0xa407),
+                exifId, captureCond, unsignedShort, 1, print0xa407),
         TagInfo(0xa408, "Contrast", N_("Contrast"),
                 N_("This tag indicates the direction of contrast processing "
                 "applied by the camera when the image was shot."),
-                exifIfdId, captureCond, unsignedShort, 1, printNormalSoftHard),
+                exifId, captureCond, unsignedShort, 1, printNormalSoftHard),
         TagInfo(0xa409, "Saturation", N_("Saturation"),
                 N_("This tag indicates the direction of saturation processing "
                 "applied by the camera when the image was shot."),
-                exifIfdId, captureCond, unsignedShort, 1, print0xa409),
+                exifId, captureCond, unsignedShort, 1, print0xa409),
         TagInfo(0xa40a, "Sharpness", N_("Sharpness"),
                 N_("This tag indicates the direction of sharpness processing "
                 "applied by the camera when the image was shot."),
-                exifIfdId, captureCond, unsignedShort, 1, printNormalSoftHard),
+                exifId, captureCond, unsignedShort, 1, printNormalSoftHard),
         TagInfo(0xa40b, "DeviceSettingDescription", N_("Device Setting Description"),
                 N_("This tag indicates information on the picture-taking "
                 "conditions of a particular camera model. The tag is used "
                 "only to indicate the picture-taking conditions in the reader."),
-                exifIfdId, captureCond, undefined, 0, printValue),
+                exifId, captureCond, undefined, 0, printValue),
         TagInfo(0xa40c, "SubjectDistanceRange", N_("Subject Distance Range"),
                 N_("This tag indicates the distance to the subject."),
-                exifIfdId, captureCond, unsignedShort, 1, print0xa40c),
+                exifId, captureCond, unsignedShort, 1, print0xa40c),
         TagInfo(0xa420, "ImageUniqueID", N_("Image Unique ID"),
                 N_("This tag indicates an identifier assigned uniquely to "
                 "each image. It is recorded as an ASCII string equivalent "
                 "to hexadecimal notation and 128-bit fixed length."),
-                exifIfdId, otherTags, asciiString, 33, printValue),
+                exifId, otherTags, asciiString, 33, printValue),
         // End of list marker
         TagInfo(0xffff, "(UnknownExifTag)", N_("Unknown Exif tag"),
                 N_("Unknown Exif tag"),
-                exifIfdId, sectionIdNotSet, asciiString, -1, printValue)
+                exifId, sectionIdNotSet, asciiString, -1, printValue)
     };
 
     const TagInfo* exifTagList()
@@ -1683,11 +1683,11 @@ namespace Exiv2 {
                 "present. (Note: The <GPSVersionID> tag is given in bytes, "
                 "unlike the <ExifVersion> tag. When the version is "
                 "2.0.0.0, the tag value is 02000000.H)."),
-                gpsIfdId, gpsTags, unsignedByte, 4, print0x0000),
+                gpsId, gpsTags, unsignedByte, 4, print0x0000),
         TagInfo(0x0001, "GPSLatitudeRef", N_("GPS Latitude Reference"),
                 N_("Indicates whether the latitude is north or south latitude. The "
                 "ASCII value 'N' indicates north latitude, and 'S' is south latitude."),
-                gpsIfdId, gpsTags, asciiString, 2, EXV_PRINT_TAG(exifGPSLatitudeRef)),
+                gpsId, gpsTags, asciiString, 2, EXV_PRINT_TAG(exifGPSLatitudeRef)),
         TagInfo(0x0002, "GPSLatitude", N_("GPS Latitude"),
                 N_("Indicates the latitude. The latitude is expressed as three "
                 "RATIONAL values giving the degrees, minutes, and seconds, "
@@ -1695,11 +1695,11 @@ namespace Exiv2 {
                 "the format is dd/1,mm/1,ss/1. When degrees and minutes are used "
                 "and, for example, fractions of minutes are given up to two "
                 "decimal places, the format is dd/1,mmmm/100,0/1."),
-                gpsIfdId, gpsTags, unsignedRational, 3, printDegrees),
+                gpsId, gpsTags, unsignedRational, 3, printDegrees),
         TagInfo(0x0003, "GPSLongitudeRef", N_("GPS Longitude Reference"),
                 N_("Indicates whether the longitude is east or west longitude. "
                 "ASCII 'E' indicates east longitude, and 'W' is west longitude."),
-                gpsIfdId, gpsTags, asciiString, 2, EXV_PRINT_TAG(exifGPSLongitudeRef)),
+                gpsId, gpsTags, asciiString, 2, EXV_PRINT_TAG(exifGPSLongitudeRef)),
         TagInfo(0x0004, "GPSLongitude", N_("GPS Longitude"),
                 N_("Indicates the longitude. The longitude is expressed as three "
                 "RATIONAL values giving the degrees, minutes, and seconds, "
@@ -1707,7 +1707,7 @@ namespace Exiv2 {
                 "the format is ddd/1,mm/1,ss/1. When degrees and minutes are "
                 "used and, for example, fractions of minutes are given up to "
                 "two decimal places, the format is ddd/1,mmmm/100,0/1."),
-                gpsIfdId, gpsTags, unsignedRational, 3, printDegrees),
+                gpsId, gpsTags, unsignedRational, 3, printDegrees),
         TagInfo(0x0005, "GPSAltitudeRef", N_("GPS Altitude Reference"),
                 N_("Indicates the altitude used as the reference altitude. If the "
                 "reference is sea level and the altitude is above sea level, 0 "
@@ -1715,67 +1715,67 @@ namespace Exiv2 {
                 "and the altitude is indicated as an absolute value in the "
                 "GSPAltitude tag. The reference unit is meters. Note that this tag "
                 "is BYTE type, unlike other reference tags."),
-                gpsIfdId, gpsTags, unsignedByte, 1, print0x0005),
+                gpsId, gpsTags, unsignedByte, 1, print0x0005),
         TagInfo(0x0006, "GPSAltitude", N_("GPS Altitude"),
                 N_("Indicates the altitude based on the reference in GPSAltitudeRef. "
                 "Altitude is expressed as one RATIONAL value. The reference unit is meters."),
-                gpsIfdId, gpsTags, unsignedRational, 1, print0x0006),
+                gpsId, gpsTags, unsignedRational, 1, print0x0006),
         TagInfo(0x0007, "GPSTimeStamp", N_("GPS Time Stamp"),
                 N_("Indicates the time as UTC (Coordinated Universal Time). "
                 "<TimeStamp> is expressed as three RATIONAL values "
                 "giving the hour, minute, and second (atomic clock)."),
-                gpsIfdId, gpsTags, unsignedRational, 3, print0x0007),
+                gpsId, gpsTags, unsignedRational, 3, print0x0007),
         TagInfo(0x0008, "GPSSatellites", N_("GPS Satellites"),
                 N_("Indicates the GPS satellites used for measurements. This tag can be used "
                 "to describe the number of satellites, their ID number, angle of elevation, "
                 "azimuth, SNR and other information in ASCII notation. The format is not "
                 "specified. If the GPS receiver is incapable of taking measurements, value "
                 "of the tag is set to NULL."),
-                gpsIfdId, gpsTags, asciiString, 0, printValue),
+                gpsId, gpsTags, asciiString, 0, printValue),
         TagInfo(0x0009, "GPSStatus", N_("GPS Status"),
                 N_("Indicates the status of the GPS receiver when the image is recorded. "
                 "\"A\" means measurement is in progress, and \"V\" means the measurement "
                 "is Interoperability."),
-                gpsIfdId, gpsTags, asciiString, 2, print0x0009),
+                gpsId, gpsTags, asciiString, 2, print0x0009),
         TagInfo(0x000a, "GPSMeasureMode", N_("GPS Measure Mode"),
                 N_("Indicates the GPS measurement mode. \"2\" means two-dimensional measurement and \"3\" "
                 "means three-dimensional measurement is in progress."),
-                gpsIfdId, gpsTags, asciiString, 2, print0x000a),
+                gpsId, gpsTags, asciiString, 2, print0x000a),
         TagInfo(0x000b, "GPSDOP", N_("GPS Data Degree of Precision"),
                 N_("Indicates the GPS DOP (data degree of precision). An HDOP value is written "
                 "during two-dimensional measurement, and PDOP during three-dimensional measurement."),
-                gpsIfdId, gpsTags, unsignedRational, 1, printValue),
+                gpsId, gpsTags, unsignedRational, 1, printValue),
         TagInfo(0x000c, "GPSSpeedRef", N_("GPS Speed Reference"),
                 N_("Indicates the unit used to express the GPS receiver speed of movement. "
                 "\"K\" \"M\" and \"N\" represents kilometers per hour, miles per hour, and knots."),
-                gpsIfdId, gpsTags, asciiString, 2, print0x000c),
+                gpsId, gpsTags, asciiString, 2, print0x000c),
         TagInfo(0x000d, "GPSSpeed", N_("GPS Speed"),
                 N_("Indicates the speed of GPS receiver movement."),
-                gpsIfdId, gpsTags, unsignedRational, 1, printValue),
+                gpsId, gpsTags, unsignedRational, 1, printValue),
         TagInfo(0x000e, "GPSTrackRef", N_("GPS Track Ref"),
                 N_("Indicates the reference for giving the direction of GPS receiver movement. "
                 "\"T\" denotes true direction and \"M\" is magnetic direction."),
-                gpsIfdId, gpsTags, asciiString, 2, printGPSDirRef),
+                gpsId, gpsTags, asciiString, 2, printGPSDirRef),
         TagInfo(0x000f, "GPSTrack", N_("GPS Track"),
                 N_("Indicates the direction of GPS receiver movement. The range of values is "
                 "from 0.00 to 359.99."),
-                gpsIfdId, gpsTags, unsignedRational, 1, printValue),
+                gpsId, gpsTags, unsignedRational, 1, printValue),
         TagInfo(0x0010, "GPSImgDirectionRef", N_("GPS Image Direction Reference"),
                 N_("Indicates the reference for giving the direction of the image when it is captured. "
                 "\"T\" denotes true direction and \"M\" is magnetic direction."),
-                gpsIfdId, gpsTags, asciiString, 2, printGPSDirRef),
+                gpsId, gpsTags, asciiString, 2, printGPSDirRef),
         TagInfo(0x0011, "GPSImgDirection", N_("GPS Image Direction"),
                 N_("Indicates the direction of the image when it was captured. The range of values "
                 "is from 0.00 to 359.99."),
-                gpsIfdId, gpsTags, unsignedRational, 1, printValue),
+                gpsId, gpsTags, unsignedRational, 1, printValue),
         TagInfo(0x0012, "GPSMapDatum", N_("GPS Map Datum"),
                 N_("Indicates the geodetic survey data used by the GPS receiver. If the survey data "
                 "is restricted to Japan, the value of this tag is \"TOKYO\" or \"WGS-84\"."),
-                gpsIfdId, gpsTags, asciiString, 0, printValue),
+                gpsId, gpsTags, asciiString, 0, printValue),
         TagInfo(0x0013, "GPSDestLatitudeRef", N_("GPS Destination Latitude Refeference"),
                 N_("Indicates whether the latitude of the destination point is north or south latitude. "
                 "The ASCII value \"N\" indicates north latitude, and \"S\" is south latitude."),
-                gpsIfdId, gpsTags, asciiString, 2, EXV_PRINT_TAG(exifGPSLatitudeRef)),
+                gpsId, gpsTags, asciiString, 2, EXV_PRINT_TAG(exifGPSLatitudeRef)),
         TagInfo(0x0014, "GPSDestLatitude", N_("GPS Destination Latitude"),
                 N_("Indicates the latitude of the destination point. The latitude is expressed as "
                 "three RATIONAL values giving the degrees, minutes, and seconds, respectively. "
@@ -1783,53 +1783,53 @@ namespace Exiv2 {
                 "be dd/1,mm/1,ss/1. When degrees and minutes are used and, for example, "
                 "fractions of minutes are given up to two decimal places, the format would be "
                 "dd/1,mmmm/100,0/1."),
-                gpsIfdId, gpsTags, unsignedRational, 3, printDegrees),
+                gpsId, gpsTags, unsignedRational, 3, printDegrees),
         TagInfo(0x0015, "GPSDestLongitudeRef", N_("GPS Destination Longitude Reference"),
                 N_("Indicates whether the longitude of the destination point is east or west longitude. "
                 "ASCII \"E\" indicates east longitude, and \"W\" is west longitude."),
-                gpsIfdId, gpsTags, asciiString, 2, EXV_PRINT_TAG(exifGPSLongitudeRef)),
+                gpsId, gpsTags, asciiString, 2, EXV_PRINT_TAG(exifGPSLongitudeRef)),
         TagInfo(0x0016, "GPSDestLongitude", N_("GPS Destination Longitude"),
                 N_("Indicates the longitude of the destination point. The longitude is expressed "
                 "as three RATIONAL values giving the degrees, minutes, and seconds, respectively. "
                 "If longitude is expressed as degrees, minutes and seconds, a typical format would be "
                 "ddd/1,mm/1,ss/1. When degrees and minutes are used and, for example, fractions of "
                 "minutes are given up to two decimal places, the format would be ddd/1,mmmm/100,0/1."),
-                gpsIfdId, gpsTags, unsignedRational, 3, printDegrees),
+                gpsId, gpsTags, unsignedRational, 3, printDegrees),
         TagInfo(0x0017, "GPSDestBearingRef", N_("GPS Destination Bearing Reference"),
                 N_("Indicates the reference used for giving the bearing to the destination point. "
                 "\"T\" denotes true direction and \"M\" is magnetic direction."),
-                gpsIfdId, gpsTags, asciiString, 2, printGPSDirRef),
+                gpsId, gpsTags, asciiString, 2, printGPSDirRef),
         TagInfo(0x0018, "GPSDestBearing", N_("GPS Destination Bearing"),
                 N_("Indicates the bearing to the destination point. The range of values is from "
                 "0.00 to 359.99."),
-                gpsIfdId, gpsTags, unsignedRational, 1, printValue),
+                gpsId, gpsTags, unsignedRational, 1, printValue),
         TagInfo(0x0019, "GPSDestDistanceRef", N_("GPS Destination Distance Reference"),
                 N_("Indicates the unit used to express the distance to the destination point. "
                 "\"K\", \"M\" and \"N\" represent kilometers, miles and knots."),
-                gpsIfdId, gpsTags, asciiString, 2, print0x0019),
+                gpsId, gpsTags, asciiString, 2, print0x0019),
         TagInfo(0x001a, "GPSDestDistance", N_("GPS Destination Distance"),
                 N_("Indicates the distance to the destination point."),
-                gpsIfdId, gpsTags, unsignedRational, 1, printValue),
+                gpsId, gpsTags, unsignedRational, 1, printValue),
         TagInfo(0x001b, "GPSProcessingMethod", N_("GPS Processing Method"),
                 N_("A character string recording the name of the method used for location finding. "
                 "The first byte indicates the character code used, and this is followed by the name "
                 "of the method."),
-                gpsIfdId, gpsTags, undefined, 0, printValue),
+                gpsId, gpsTags, undefined, 0, printValue),
         TagInfo(0x001c, "GPSAreaInformation", N_("GPS Area Information"),
                 N_("A character string recording the name of the GPS area. The first byte indicates "
                 "the character code used, and this is followed by the name of the GPS area."),
-                gpsIfdId, gpsTags, undefined, 0, printValue),
+                gpsId, gpsTags, undefined, 0, printValue),
         TagInfo(0x001d, "GPSDateStamp", N_("GPS Date Stamp"),
                 N_("A character string recording date and time information relative to UTC "
                 "(Coordinated Universal Time). The format is \"YYYY:MM:DD.\"."),
-                gpsIfdId, gpsTags, asciiString, 11, printValue),
+                gpsId, gpsTags, asciiString, 11, printValue),
         TagInfo(0x001e, "GPSDifferential", N_("GPS Differential"),
                 N_("Indicates whether differential correction is applied to the GPS receiver."),
-                gpsIfdId, gpsTags, unsignedShort, 1, print0x001e),
+                gpsId, gpsTags, unsignedShort, 1, print0x001e),
         // End of list marker
         TagInfo(0xffff, "(UnknownGpsTag)", N_("Unknown GPSInfo tag"),
                 N_("Unknown GPSInfo tag"),
-                gpsIfdId, gpsTags, asciiString, -1, printValue)
+                gpsId, gpsTags, asciiString, -1, printValue)
     };
 
     const TagInfo* gpsTagList()
@@ -1845,23 +1845,23 @@ namespace Exiv2 {
                 "including the termination code (NULL). see the separate "
                 "volume of Recommended Exif Interoperability Rules (ExifR98) "
                 "for other tags used for ExifR98."),
-                iopIfdId, iopTags, asciiString, 0, printValue),
+                iopId, iopTags, asciiString, 0, printValue),
         TagInfo(0x0002, "InteroperabilityVersion", N_("Interoperability Version"),
                 N_("Interoperability version"),
-                iopIfdId, iopTags, undefined, -1, printExifVersion),
+                iopId, iopTags, undefined, -1, printExifVersion),
         TagInfo(0x1000, "RelatedImageFileFormat", N_("Related Image File Format"),
                 N_("File format of image file"),
-                iopIfdId, iopTags, asciiString, 0, printValue),
+                iopId, iopTags, asciiString, 0, printValue),
         TagInfo(0x1001, "RelatedImageWidth", N_("Related Image Width"),
                 N_("Image width"),
-                iopIfdId, iopTags, unsignedLong, 1, printValue),
+                iopId, iopTags, unsignedLong, 1, printValue),
         TagInfo(0x1002, "RelatedImageLength", N_("Related Image Length"),
                 N_("Image height"),
-                iopIfdId, iopTags, unsignedLong, 1, printValue),
+                iopId, iopTags, unsignedLong, 1, printValue),
         // End of list marker
         TagInfo(0xffff, "(UnknownIopTag)", N_("Unknown Exif Interoperability tag"),
                 N_("Unknown Exif Interoperability tag"),
-                iopIfdId, iopTags, asciiString, -1, printValue)
+                iopId, iopTags, asciiString, -1, printValue)
     };
 
     const TagInfo* iopTagList()
@@ -1873,14 +1873,14 @@ namespace Exiv2 {
     static const TagInfo mnTagInfo[] = {
         TagInfo(0x0001, "Offset", N_("Offset"),
                 N_("Offset of the makernote from the start of the TIFF header."),
-                mnIfdId, makerTags, unsignedLong, 1, printValue),
+                mnId, makerTags, unsignedLong, 1, printValue),
         TagInfo(0x0002, "ByteOrder", N_("Byte Order"),
                 N_("Byte order used to encode MakerNote tags, 'MM' (big-endian) or 'II' (little-endian)."),
-                mnIfdId, makerTags, asciiString, 0, printValue),
+                mnId, makerTags, asciiString, 0, printValue),
         // End of list marker
         TagInfo(0xffff, "(UnknownMnTag)", N_("Unknown Exiv2 Makernote info tag"),
                 N_("Unknown Exiv2 Makernote info tag"),
-                mnIfdId, makerTags, asciiString, -1, printValue)
+                mnId, makerTags, asciiString, -1, printValue)
     };
 
     const TagInfo* mnTagList()
@@ -1898,10 +1898,10 @@ namespace Exiv2 {
         return os << value;
     }
 
-    IfdId ifdIdByIfdItem(const std::string& ifdItem)
+    IfdId groupId(const std::string& groupName)
     {
         IfdId ifdId = ifdIdNotSet;
-        const GroupInfo* ii = find(groupInfo, GroupInfo::Item(ifdItem));
+        const GroupInfo* ii = find(groupInfo, GroupInfo::GroupName(groupName));
         if (ii != 0) ifdId = static_cast<IfdId>(ii->ifdId_);
         return ifdId;
     }
@@ -1909,22 +1909,22 @@ namespace Exiv2 {
     const char* ifdName(IfdId ifdId)
     {
         const GroupInfo* ii = find(groupInfo, ifdId);
-        if (ii == 0) return groupInfo[0].name_;
-        return ii->name_;
+        if (ii == 0) return groupInfo[0].ifdName_;
+        return ii->ifdName_;
     } // ifdName
 
-    const char* ifdItem(IfdId ifdId)
+    const char* groupName(IfdId ifdId)
     {
         const GroupInfo* ii = find(groupInfo, ifdId);
-        if (ii == 0) return groupInfo[0].item_;
-        return ii->item_;
-    } // ifdItem
+        if (ii == 0) return groupInfo[0].groupName_;
+        return ii->groupName_;
+    } // groupName
 
     bool isMakerIfd(IfdId ifdId)
     {
         bool rc = false;
         const GroupInfo* ii = find(groupInfo, ifdId);
-        if (ii != 0 && 0 == strcmp(ii->name_, "Makernote")) {
+        if (ii != 0 && 0 == strcmp(ii->ifdName_, "Makernote")) {
             rc = true;
         }
         return rc;
@@ -1935,9 +1935,9 @@ namespace Exiv2 {
         bool rc;
         switch (ifdId) {
         case ifd0Id:
-        case exifIfdId:
-        case gpsIfdId:
-        case iopIfdId:
+        case exifId:
+        case gpsId:
+        case iopId:
         case ifd1Id:
         case ifd2Id:
         case ifd3Id:
@@ -1950,7 +1950,7 @@ namespace Exiv2 {
         case subImage7Id:
         case subImage8Id:
         case subImage9Id:
-        case panaRawIfdId: rc = true; break;
+        case panaRawId: rc = true; break;
         default:           rc = false; break;
         }
         return rc;
@@ -2591,9 +2591,9 @@ namespace Exiv2 {
 namespace Exiv2 {
 
     //! @cond IGNORE
-    GroupInfo::Item::Item(const std::string& item)
+    GroupInfo::GroupName::GroupName(const std::string& groupName)
     {
-        i_ = item;
+        g_ = groupName;
     }
     //! @endcond
 
@@ -2602,9 +2602,9 @@ namespace Exiv2 {
         return ifdId_ == ifdId;
     }
 
-    bool GroupInfo::operator==(const Item& item) const
+    bool GroupInfo::operator==(const GroupName& groupName) const
     {
-        return 0 == strcmp(item.i_.c_str(), item_);
+        return 0 == strcmp(groupName.g_.c_str(), groupName_);
     }
 
     TagInfo::TagInfo(
@@ -2628,22 +2628,22 @@ namespace Exiv2 {
         return groupInfo + 1; // +1 to skip the first (ifdIdNotSet) entry
     }
 
-    const TagInfo* ExifTags::tagList(const std::string& group)
+    const TagInfo* ExifTags::tagList(const std::string& groupName)
     {
-        const GroupInfo* ii = find(groupInfo, GroupInfo::Item(group));
+        const GroupInfo* ii = find(groupInfo, GroupInfo::GroupName(groupName));
         if (ii == 0 || ii->tagList_ == 0) return 0;
         return ii->tagList_();
     } // ExifTags::tagList
 
-    bool ExifTags::isMakerGroup(const std::string& group)
+    bool ExifTags::isMakerGroup(const std::string& groupName)
     {
-        IfdId ifdId = Internal::ifdIdByIfdItem(group);
+        IfdId ifdId = Internal::groupId(groupName);
         return Internal::isMakerIfd(ifdId);
     }
 
-    bool ExifTags::isExifGroup(const std::string& group)
+    bool ExifTags::isExifGroup(const std::string& groupName)
     {
-        IfdId ifdId = Internal::ifdIdByIfdItem(group);
+        IfdId ifdId = Internal::groupId(groupName);
         return Internal::isExifIfd(ifdId);
     }
 
@@ -2663,9 +2663,9 @@ namespace Exiv2 {
         }
     } // ExifTags::taglist
 
-    void ExifTags::taglist(std::ostream& os, const std::string& group)
+    void ExifTags::taglist(std::ostream& os, const std::string& groupName)
     {
-        IfdId ifdId = Internal::ifdIdByIfdItem(group);
+        IfdId ifdId = Internal::groupId(groupName);
         Internal::taglist(os, ifdId);
     }
 
@@ -2680,7 +2680,7 @@ namespace Exiv2 {
         //@{
         /*!
           @brief Set the key corresponding to the \em tag, \em ifdId and \em tagInfo.
-                 The key is of the form '<b>Exif</b>.ifdItem.tagName'.
+                 The key is of the form '<b>Exif</b>.groupName.tagName'.
          */
         void makeKey(uint16_t tag, IfdId ifdId, const TagInfo* tagInfo);
         /*!
@@ -2706,7 +2706,7 @@ namespace Exiv2 {
         uint16_t tag_;                  //!< Tag value
         IfdId ifdId_;                   //!< The IFD associated with this tag
         int idx_;                       //!< Unique id of the Exif key in the image
-        std::string ifdItem_;           //!< The IFD item
+        std::string groupName_;         //!< The group name
         std::string key_;               //!< %Key
     };
 
@@ -2740,13 +2740,13 @@ namespace Exiv2 {
         std::string::size_type pos0 = pos1 + 1;
         pos1 = key.find('.', pos0);
         if (pos1 == std::string::npos) throw Error(6, key);
-        std::string ifdItem = key.substr(pos0, pos1 - pos0);
-        if (ifdItem == "") throw Error(6, key);
+        std::string groupName = key.substr(pos0, pos1 - pos0);
+        if (groupName == "") throw Error(6, key);
         std::string tn = key.substr(pos1 + 1);
         if (tn == "") throw Error(6, key);
 
         // Find IfdId
-        IfdId ifdId = ifdIdByIfdItem(ifdItem);
+        IfdId ifdId = groupId(groupName);
         if (ifdId == ifdIdNotSet) throw Error(6, key);
         if (!Internal::isExifIfd(ifdId) && !Internal::isMakerIfd(ifdId)) {
             throw Error(6, key);
@@ -2759,9 +2759,9 @@ namespace Exiv2 {
 
         tag_ = tag;
         ifdId_ = ifdId;
-        ifdItem_ = ifdItem;
+        groupName_ = groupName;
         // tagName() translates hex tag name (0xabcd) to a real tag name if there is one
-        key_ = familyName + "." + ifdItem + "." + tagName();
+        key_ = familyName + "." + groupName + "." + tagName();
     }
 
     void ExifKey::Impl::makeKey(uint16_t tag, IfdId ifdId, const TagInfo* tagInfo)
@@ -2771,13 +2771,13 @@ namespace Exiv2 {
         tagInfo_ = tagInfo;
         tag_ = tag;
         ifdId_ = ifdId;
-        key_ = std::string(familyName_) + "." + ifdItem_ + "." + tagName();
+        key_ = std::string(familyName_) + "." + groupName_ + "." + tagName();
     }
 
-    ExifKey::ExifKey(uint16_t tag, const std::string& ifdItem)
+    ExifKey::ExifKey(uint16_t tag, const std::string& groupName)
         : p_(new Impl)
     {
-        IfdId ifdId = ifdIdByIfdItem(ifdItem);
+        IfdId ifdId = groupId(groupName);
         // Todo: Test if this condition can be removed
         if (!Internal::isExifIfd(ifdId) && !Internal::isMakerIfd(ifdId)) {
             throw Error(23, ifdId);
@@ -2786,7 +2786,7 @@ namespace Exiv2 {
         if (ti == 0) {
             throw Error(23, ifdId);
         }
-        p_->ifdItem_ = ifdItem;
+        p_->groupName_ = groupName;
         p_->makeKey(tag, ifdId, ti);
     }
 
@@ -2797,7 +2797,7 @@ namespace Exiv2 {
         if (!Internal::isExifIfd(ifdId) && !Internal::isMakerIfd(ifdId)) {
             throw Error(23, ifdId);
         }
-        p_->ifdItem_ = ifdItem(ifdId);
+        p_->groupName_ = Exiv2::groupName(ifdId);
         p_->makeKey(tagInfo.tag_, ifdId, &tagInfo);
     }
 
@@ -2842,7 +2842,7 @@ namespace Exiv2 {
 
     std::string ExifKey::groupName() const
     {
-        return p_->ifdItem_;                    // Todo: rename ifdItem to groupName
+        return p_->groupName_;
     }
 
     const char* ExifKey::ifdName() const

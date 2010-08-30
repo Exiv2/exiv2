@@ -70,48 +70,12 @@ namespace Exiv2 {
     const TiffType ttTiffIfd          =13; //!< TIFF IFD type
 
     //! Convert the \em tiffType of a \em tag and \em group to an Exiv2 \em typeId.
-    TypeId toTypeId(TiffType tiffType, uint16_t tag, uint16_t group);
+    TypeId toTypeId(TiffType tiffType, uint16_t tag, IfdId group);
     //! Convert the %Exiv2 \em typeId to a TIFF value type.
     TiffType toTiffType(TypeId typeId);
 
     /*!
-      Known TIFF groups
-
-      Todo: what exactly are these and where should they go?
-      Are they going to be mapped to the second part of an Exif key or are they
-      the second part of the key?
-
-      @note Groups with ids > mn are Makernote groups and get treated slightly
-            differently.
-    */
-    namespace Group {
-        const uint16_t none    =   0; //!< Dummy group
-        const uint16_t ifd0    =   1; //!< Exif IFD0
-        const uint16_t ifd1    =   2; //!< Thumbnail IFD
-        const uint16_t ifd2    =   3; //!< IFD2
-        const uint16_t ifd3    =   4; //!< IFD3
-        const uint16_t exif    =   5; //!< Exif IFD
-        const uint16_t gps     =   6; //!< GPS IFD
-        const uint16_t iop     =   7; //!< Interoperability IFD
-        const uint16_t subimg1 =   8; //!< 1st TIFF SubIFD in IFD0
-        const uint16_t subimg2 =   9; //!< 2nd TIFF SubIFD in IFD0
-        const uint16_t subimg3 =  10; //!< 3rd TIFF SubIFD in IFD0
-        const uint16_t subimg4 =  11; //!< 4th TIFF SubIFD in IFD0
-        const uint16_t subimg5 =  12; //!< 5th TIFF SubIFD in IFD0
-        const uint16_t subimg6 =  13; //!< 6th TIFF SubIFD in IFD0
-        const uint16_t subimg7 =  14; //!< 7th TIFF SubIFD in IFD0
-        const uint16_t subimg8 =  15; //!< 8th TIFF SubIFD in IFD0
-        const uint16_t subimg9 =  16; //!< 9th TIFF SubIFD in IFD0
-        const uint16_t subimgX =  17; //!< End of SubIFD list marker, not a valid group
-        const uint16_t panaraw =  64; //!< IFD0 of Panasonic RAW images
-        const uint16_t mn      = 256; //!< Makernote
-        const uint16_t ignr    = 511; //!< Read but do not decode
-    }
-
-    /*!
       Special TIFF tags for the use in TIFF structures only
-
-      Todo: Same Q as above...
     */
     namespace Tag {
         const uint32_t none = 0x10000; //!< Dummy tag
@@ -130,7 +94,7 @@ namespace Exiv2 {
         //! @name Creators
         //@{
         //! Constructor
-        TiffPathItem(uint32_t extendedTag, uint16_t group)
+        TiffPathItem(uint32_t extendedTag, IfdId group)
             : extendedTag_(extendedTag), group_(group) {}
         //@}
 
@@ -141,13 +105,13 @@ namespace Exiv2 {
         //! Return the extended tag (32 bit so that it can contain special tags)
         uint32_t extendedTag() const { return extendedTag_; }
         //! Return the group
-        uint16_t group()       const { return group_; }
+        IfdId    group()       const { return group_; }
         //@}
 
     private:
         // DATA
         uint32_t extendedTag_;
-        uint16_t group_;
+        IfdId    group_;
     }; // class TiffPathItem
 
     /*!
@@ -216,7 +180,7 @@ namespace Exiv2 {
         //! @name Creators
         //@{
         //! Constructor
-        TiffComponent(uint16_t tag, uint16_t group);
+        TiffComponent(uint16_t tag, IfdId group);
         //! Virtual destructor.
         virtual ~TiffComponent();
         //@}
@@ -292,9 +256,9 @@ namespace Exiv2 {
         //! Return the tag of this entry.
         uint16_t tag()                        const { return tag_; }
         //! Return the group id of this component
-        uint16_t group()                      const { return group_; }
+        IfdId    group()                      const { return group_; }
         //! Return a pointer to the start of the binary representation of the component
-        byte* start()                         const { return pStart_; }
+        byte*    start()                      const { return pStart_; }
         /*!
           @brief Return an auto-pointer to a copy of itself (deep copy, but
                  without any children). The caller owns this copy and the
@@ -398,7 +362,7 @@ namespace Exiv2 {
     private:
         // DATA
         uint16_t tag_;      //!< Tag that identifies the component
-        uint16_t group_;    //!< Group id for this component
+        IfdId    group_;    //!< Group id for this component
         /*!
           Pointer to the start of the binary representation of the component in
           a memory buffer. The buffer is allocated and freed outside of this class.
@@ -425,7 +389,7 @@ namespace Exiv2 {
         // DATA
         const char* make_;        //!< Camera make for which these mapping functions apply
         uint32_t    extendedTag_; //!< Tag (32 bit so that it can contain special tags)
-        uint16_t    group_;       //!< Group that contains the tag
+        IfdId       group_;       //!< Group that contains the tag
         DecoderFct  decoderFct_;  //!< Decoder function for matching tags
         EncoderFct  encoderFct_;  //!< Encoder function for matching tags
 
@@ -434,10 +398,10 @@ namespace Exiv2 {
     //! Search key for TIFF mapping structures.
     struct TiffMappingInfo::Key {
         //! Constructor
-        Key(const std::string& m, uint32_t e, uint16_t g) : m_(m), e_(e), g_(g) {}
+        Key(const std::string& m, uint32_t e, IfdId g) : m_(m), e_(e), g_(g) {}
         std::string m_;                    //!< Camera make
         uint32_t    e_;                    //!< Extended tag
-        uint16_t    g_;                    //!< %Group
+        IfdId       g_;                    //!< %Group
     };
 
     /*!
@@ -454,7 +418,7 @@ namespace Exiv2 {
         //! @name Creators
         //@{
         //! Default constructor.
-        TiffEntryBase(uint16_t tag, uint16_t group, TiffType tiffType =ttUndefined);
+        TiffEntryBase(uint16_t tag, IfdId group, TiffType tiffType =ttUndefined);
         //! Virtual destructor.
         virtual ~TiffEntryBase();
         //@}
@@ -603,7 +567,7 @@ namespace Exiv2 {
         //! @name Creators
         //@{
         //! Constructor
-        TiffEntry(uint16_t tag, uint16_t group) : TiffEntryBase(tag, group) {}
+        TiffEntry(uint16_t tag, IfdId group) : TiffEntryBase(tag, group) {}
         //! Virtual destructor.
         virtual ~TiffEntry();
         //@}
@@ -635,7 +599,7 @@ namespace Exiv2 {
         //! @name Creators
         //@{
         //! Constructor
-        TiffDataEntryBase(uint16_t tag, uint16_t group, uint16_t szTag, uint16_t szGroup)
+        TiffDataEntryBase(uint16_t tag, IfdId group, uint16_t szTag, IfdId szGroup)
             : TiffEntryBase(tag, group),
               szTag_(szTag), szGroup_(szGroup) {}
         //! Virtual destructor.
@@ -662,15 +626,15 @@ namespace Exiv2 {
         //! @name Accessors
         //@{
         //! Return the group of the entry which has the size
-        uint16_t szTag() const { return szTag_; }
+        uint16_t szTag()   const { return szTag_; }
         //! Return the group of the entry which has the size
-        uint16_t szGroup() const { return szGroup_; }
+        IfdId    szGroup() const { return szGroup_; }
         //@}
 
     private:
         // DATA
         const uint16_t szTag_;               //!< Tag of the entry with the size
-        const uint16_t szGroup_;             //!< Group of the entry with the size
+        const IfdId    szGroup_;             //!< Group of the entry with the size
 
     }; // class TiffDataEntryBase
 
@@ -691,7 +655,7 @@ namespace Exiv2 {
         //! @name Creators
         //@{
         //! Constructor
-        TiffDataEntry(uint16_t tag, uint16_t group, uint16_t szTag, uint16_t szGroup)
+        TiffDataEntry(uint16_t tag, IfdId group, uint16_t szTag, IfdId szGroup)
             : TiffDataEntryBase(tag, group, szTag, szGroup),
               pDataArea_(0), sizeDataArea_(0) {}
         //! Virtual destructor.
@@ -774,7 +738,7 @@ namespace Exiv2 {
         //! @name Creators
         //@{
         //! Constructor
-        TiffImageEntry(uint16_t tag, uint16_t group, uint16_t szTag, uint16_t szGroup)
+        TiffImageEntry(uint16_t tag, IfdId group, uint16_t szTag, IfdId szGroup)
             : TiffDataEntryBase(tag, group, szTag, szGroup) {}
         //! Virtual destructor.
         virtual ~TiffImageEntry();
@@ -856,7 +820,7 @@ namespace Exiv2 {
         //! @name Creators
         //@{
         //! Constructor
-        TiffSizeEntry(uint16_t tag, uint16_t group, uint16_t dtTag, uint16_t dtGroup)
+        TiffSizeEntry(uint16_t tag, IfdId group, uint16_t dtTag, IfdId dtGroup)
             : TiffEntryBase(tag, group), dtTag_(dtTag), dtGroup_(dtGroup) {}
         //! Virtual destructor.
         virtual ~TiffSizeEntry();
@@ -865,9 +829,9 @@ namespace Exiv2 {
         //! @name Accessors
         //@{
         //! Return the group of the related entry which has the data area
-        uint16_t dtTag() const { return dtTag_; }
+        uint16_t dtTag()   const { return dtTag_; }
         //! Return the group of the related entry which has the data area
-        uint16_t dtGroup() const { return dtGroup_; }
+        IfdId    dtGroup() const { return dtGroup_; }
         //@}
 
     protected:
@@ -885,7 +849,7 @@ namespace Exiv2 {
     private:
         // DATA
         const uint16_t dtTag_;        //!< Tag of the entry with the data area
-        const uint16_t dtGroup_;      //!< Group of the entry with the data area
+        const IfdId    dtGroup_;      //!< Group of the entry with the data area
 
     }; // class TiffSizeEntry
 
@@ -899,7 +863,7 @@ namespace Exiv2 {
         //! @name Creators
         //@{
         //! Default constructor
-        TiffDirectory(uint16_t tag, uint16_t group, bool hasNext =true)
+        TiffDirectory(uint16_t tag, IfdId group, bool hasNext =true)
             : TiffComponent(tag, group), hasNext_(hasNext), pNext_(0) {}
         //! Virtual destructor
         virtual ~TiffDirectory();
@@ -1022,7 +986,7 @@ namespace Exiv2 {
         //! @name Creators
         //@{
         //! Default constructor
-        TiffSubIfd(uint16_t tag, uint16_t group, uint16_t newGroup);
+        TiffSubIfd(uint16_t tag, IfdId group, IfdId newGroup);
         //! Virtual destructor
         virtual ~TiffSubIfd();
         //@}
@@ -1093,7 +1057,7 @@ namespace Exiv2 {
         typedef std::vector<TiffDirectory*> Ifds;
 
         // DATA
-        uint16_t newGroup_; //!< Start of the range of group numbers for the sub-IFDs
+        IfdId    newGroup_; //!< Start of the range of group numbers for the sub-IFDs
         Ifds     ifds_;     //!< The subdirectories
 
     }; // class TiffSubIfd
@@ -1113,7 +1077,7 @@ namespace Exiv2 {
         //! @name Creators
         //@{
         //! Default constructor
-        TiffMnEntry(uint16_t tag, uint16_t group, uint16_t mnGroup);
+        TiffMnEntry(uint16_t tag, IfdId group, IfdId mnGroup);
         //! Virtual destructor
         virtual ~TiffMnEntry();
         //@}
@@ -1167,7 +1131,7 @@ namespace Exiv2 {
         //@}
 
         // DATA
-        uint16_t       mnGroup_;             //!< New group for concrete mn
+        IfdId          mnGroup_;             //!< New group for concrete mn
         TiffComponent* mn_;                  //!< The Makernote
 
     }; // class TiffMnEntry
@@ -1188,8 +1152,8 @@ namespace Exiv2 {
         //@{
         //! Default constructor
         TiffIfdMakernote(uint16_t  tag,
-                         uint16_t  group,
-                         uint16_t  mnGroup,
+                         IfdId     group,
+                         IfdId     mnGroup,
                          MnHeader* pHeader,
                          bool      hasNext =true);
         //! Virtual destructor
@@ -1351,7 +1315,7 @@ namespace Exiv2 {
         //! Comparison with idx
         bool operator==(uint32_t idx) const { return idx_ == idx; }
         //! Get the size in bytes of a tag.
-        uint32_t size(uint16_t tag, uint16_t group) const;
+        uint32_t size(uint16_t tag, IfdId group) const;
         // DATA
         uint32_t idx_;             //!< Index in bytes from the start
         TiffType tiffType_;        //!< TIFF type of the element
@@ -1366,7 +1330,7 @@ namespace Exiv2 {
          */
         uint32_t tagStep() const { return elDefaultDef_.size(0, group_); }
         //DATA
-        uint16_t    group_;        //!< Group for the elements
+        IfdId       group_;        //!< Group for the elements
         ByteOrder   byteOrder_;    //!< Byte order, invalidByteOrder to inherit
         TiffType    elTiffType_;   //!< Type for the array entry and the size element, if any
         CryptFct    cryptFct_;     //!< Crypt function, 0 if not used
@@ -1394,13 +1358,13 @@ namespace Exiv2 {
         //@{
         //! Constructor
         TiffBinaryArray(uint16_t tag,
-                        uint16_t group,
+                        IfdId group,
                         const ArrayCfg* arrayCfg,
                         const ArrayDef* arrayDef,
                         int defSize);
         //! Constructor for a complex binary array
         TiffBinaryArray(uint16_t tag,
-                        uint16_t group,
+                        IfdId group,
                         const ArraySet* arraySet,
                         int setSize,
                         CfgSelFct cfgSelFct);
@@ -1423,7 +1387,7 @@ namespace Exiv2 {
           @param group Group to setup the binary array for.
           @return true if the initialization succeeded, else false.
          */
-        bool initialize(uint16_t group);
+        bool initialize(IfdId group);
         /*!
           @brief Setup cfg and def for the component, in case of a complex binary array.
                  Else do nothing. Return true if the initialization succeeded, else false.
@@ -1527,8 +1491,7 @@ namespace Exiv2 {
         //! @name Creators
         //@{
         //! Constructor
-        TiffBinaryElement(uint16_t tag,
-                          uint16_t group);
+        TiffBinaryElement(uint16_t tag, IfdId group);
         //! Virtual destructor.
         virtual ~TiffBinaryElement();
         //@}
@@ -1613,38 +1576,32 @@ namespace Exiv2 {
      */
     bool cmpGroupLt(TiffComponent const* lhs, TiffComponent const* rhs);
 
-    //! Return the group name for a group
-    const char* tiffGroupName(uint16_t group);
-
-    //! Return the TIFF group id for a group name
-    uint16_t tiffGroupId(const std::string& groupName);
-
     //! Function to create and initialize a new TIFF entry
-    TiffComponent::AutoPtr newTiffEntry(uint16_t tag, uint16_t group);
+    TiffComponent::AutoPtr newTiffEntry(uint16_t tag, IfdId group);
 
     //! Function to create and initialize a new TIFF makernote entry
-    TiffComponent::AutoPtr newTiffMnEntry(uint16_t tag, uint16_t group);
+    TiffComponent::AutoPtr newTiffMnEntry(uint16_t tag, IfdId group);
 
     //! Function to create and initialize a new binary array element
-    TiffComponent::AutoPtr newTiffBinaryElement(uint16_t tag, uint16_t group);
+    TiffComponent::AutoPtr newTiffBinaryElement(uint16_t tag, IfdId group);
 
     //! Function to create and initialize a new TIFF directory
-    template<uint16_t newGroup>
-    TiffComponent::AutoPtr newTiffDirectory(uint16_t tag, uint16_t /*group*/)
+    template<IfdId newGroup>
+    TiffComponent::AutoPtr newTiffDirectory(uint16_t tag, IfdId /*group*/)
     {
         return TiffComponent::AutoPtr(new TiffDirectory(tag, newGroup));
     }
 
     //! Function to create and initialize a new TIFF sub-directory
-    template<uint16_t newGroup>
-    TiffComponent::AutoPtr newTiffSubIfd(uint16_t tag, uint16_t group)
+    template<IfdId newGroup>
+    TiffComponent::AutoPtr newTiffSubIfd(uint16_t tag, IfdId group)
     {
         return TiffComponent::AutoPtr(new TiffSubIfd(tag, group, newGroup));
     }
 
     //! Function to create and initialize a new binary array entry
     template<const ArrayCfg* arrayCfg, int N, const ArrayDef (&arrayDef)[N]>
-    TiffComponent::AutoPtr newTiffBinaryArray0(uint16_t tag, uint16_t group)
+    TiffComponent::AutoPtr newTiffBinaryArray0(uint16_t tag, IfdId group)
     {
         // *& acrobatics is a workaround for a MSVC 7.1 bug
         return TiffComponent::AutoPtr(
@@ -1653,7 +1610,7 @@ namespace Exiv2 {
 
     //! Function to create and initialize a new simple binary array entry
     template<const ArrayCfg* arrayCfg>
-    TiffComponent::AutoPtr newTiffBinaryArray1(uint16_t tag, uint16_t group)
+    TiffComponent::AutoPtr newTiffBinaryArray1(uint16_t tag, IfdId group)
     {
         return TiffComponent::AutoPtr(
             new TiffBinaryArray(tag, group, arrayCfg, 0, 0));
@@ -1661,39 +1618,39 @@ namespace Exiv2 {
 
     //! Function to create and initialize a new complex binary array entry
     template<const ArraySet* arraySet, int N, CfgSelFct cfgSelFct>
-    TiffComponent::AutoPtr newTiffBinaryArray2(uint16_t tag, uint16_t group)
+    TiffComponent::AutoPtr newTiffBinaryArray2(uint16_t tag, IfdId group)
     {
         return TiffComponent::AutoPtr(
             new TiffBinaryArray(tag, group, arraySet, N, cfgSelFct));
     }
 
     //! Function to create and initialize a new TIFF entry for a thumbnail (data)
-    template<uint16_t szTag, uint16_t szGroup>
-    TiffComponent::AutoPtr newTiffThumbData(uint16_t tag, uint16_t group)
+    template<uint16_t szTag, IfdId szGroup>
+    TiffComponent::AutoPtr newTiffThumbData(uint16_t tag, IfdId group)
     {
         return TiffComponent::AutoPtr(
             new TiffDataEntry(tag, group, szTag, szGroup));
     }
 
     //! Function to create and initialize a new TIFF entry for a thumbnail (size)
-    template<uint16_t dtTag, uint16_t dtGroup>
-    TiffComponent::AutoPtr newTiffThumbSize(uint16_t tag, uint16_t group)
+    template<uint16_t dtTag, IfdId dtGroup>
+    TiffComponent::AutoPtr newTiffThumbSize(uint16_t tag, IfdId group)
     {
         return TiffComponent::AutoPtr(
             new TiffSizeEntry(tag, group, dtTag, dtGroup));
     }
 
     //! Function to create and initialize a new TIFF entry for image data
-    template<uint16_t szTag, uint16_t szGroup>
-    TiffComponent::AutoPtr newTiffImageData(uint16_t tag, uint16_t group)
+    template<uint16_t szTag, IfdId szGroup>
+    TiffComponent::AutoPtr newTiffImageData(uint16_t tag, IfdId group)
     {
         return TiffComponent::AutoPtr(
             new TiffImageEntry(tag, group, szTag, szGroup));
     }
 
     //! Function to create and initialize a new TIFF entry for image data (size)
-    template<uint16_t dtTag, uint16_t dtGroup>
-    TiffComponent::AutoPtr newTiffImageSize(uint16_t tag, uint16_t group)
+    template<uint16_t dtTag, IfdId dtGroup>
+    TiffComponent::AutoPtr newTiffImageSize(uint16_t tag, IfdId group)
     {
         // Todo: Same as newTiffThumbSize - consolidate (rename)?
         return TiffComponent::AutoPtr(

@@ -693,7 +693,7 @@ namespace Exiv2 {
             subImage7Id,
             subImage8Id,
             subImage9Id,
-            panaRawIfdId,
+            panaRawId,
             ifd2Id,
             ifd3Id
         };
@@ -786,7 +786,7 @@ namespace Exiv2 {
 #ifndef SUPPRESS_WARNINGS
                     std::cerr << "Warning: Exif IFD " << filteredPvTags[i].key_ << " not encoded\n";
 #endif
-                    eraseIfd(ed, Internal::ifdIdByIfdItem(filteredPvTags[i].key_));
+                    eraseIfd(ed, Internal::groupId(filteredPvTags[i].key_));
                 }
                 break;
             }

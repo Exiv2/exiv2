@@ -32,6 +32,7 @@
 // *****************************************************************************
 // included header files
 #include "types.hpp"
+#include "tags_int.hpp"
 
 // + standard includes
 #include <memory>
@@ -91,27 +92,27 @@ namespace Exiv2 {
      */
     typedef DecoderFct (*FindDecoderFct)(const std::string& make,
                                                uint32_t     extendedTag,
-                                               uint16_t     group);
+                                               IfdId        group);
     /*!
       @brief Type for a function pointer for a function to encode a TIFF component.
      */
     typedef EncoderFct (*FindEncoderFct)(
         const std::string& make,
               uint32_t     extendedTag,
-              uint16_t     group
+              IfdId        group
     );
     /*!
       @brief Type for a function pointer for a function to create a TIFF component.
              Use TiffComponent::AutoPtr, it is not used in this declaration only
              to reduce dependencies.
      */
-    typedef std::auto_ptr<TiffComponent> (*NewTiffCompFct)(uint16_t tag, uint16_t group);
+    typedef std::auto_ptr<TiffComponent> (*NewTiffCompFct)(uint16_t tag, IfdId group);
 
     //! Stack to hold a path from the TIFF root element to a TIFF entry
     typedef std::stack<TiffPathItem> TiffPath;
 
     //! Type for a list of primary image groups
-    typedef std::vector<uint16_t> PrimaryGroups;
+    typedef std::vector<IfdId> PrimaryGroups;
 
 }}                                      // namespace Internal, Exiv2
 

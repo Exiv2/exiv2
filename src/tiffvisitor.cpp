@@ -59,8 +59,8 @@ namespace {
     class FindExifdatum2 {
     public:
         //! Constructor, initializes the object with the group and index to look for.
-        FindExifdatum2(uint16_t group, int idx)
-            : groupName_(Exiv2::Internal::tiffGroupName(group)), idx_(idx) {}
+        FindExifdatum2(Exiv2::Internal::IfdId group, int idx)
+            : groupName_(Exiv2::Internal::groupName(group)), idx_(idx) {}
         //! Returns true if group and index match.
         bool operator()(const Exiv2::Exifdatum& md) const
         {
@@ -127,7 +127,7 @@ namespace Exiv2 {
     {
     }
 
-    void TiffFinder::init(uint16_t tag, uint16_t group)
+    void TiffFinder::init(uint16_t tag, IfdId group)
     {
         tag_ = tag;
         group_ = group;
@@ -226,7 +226,7 @@ namespace Exiv2 {
             TiffCreator::getPath(tiffPath, object->tag(), object->group(), root_);
             pRoot_->addPath(object->tag(), tiffPath, pRoot_, clone);
 #ifdef DEBUG
-            ExifKey key(object->tag(), tiffGroupName(object->group()));
+            ExifKey key(object->tag(), groupName(object->group()));
             std::cerr << "Copied " << key << "\n";
 #endif
         }
@@ -303,7 +303,7 @@ namespace Exiv2 {
         xmpData_.clear();
 
         // Find camera make
-        TiffFinder finder(0x010f, Group::ifd0);
+        TiffFinder finder(0x010f, ifd0Id);
         pRoot_->accept(finder);
         TiffEntryBase* te = dynamic_cast<TiffEntryBase*>(finder.result());
         if (te && te->pValue()) {
@@ -372,7 +372,7 @@ namespace Exiv2 {
     void TiffDecoder::getObjData(byte const*& pData,
                                  long& size,
                                  uint16_t tag,
-                                 uint16_t group,
+                                 IfdId group,
                                  const TiffEntryBase* object)
     {
         if (object && object->tag() == tag && object->group() == group) {
@@ -397,7 +397,7 @@ namespace Exiv2 {
 
         byte const* pData = 0;
         long size = 0;
-        getObjData(pData, size, 0x02bc, Group::ifd0, object);
+        getObjData(pData, size, 0x02bc, ifd0Id, object);
         if (pData) {
             std::string xmpPacket;
             xmpPacket.assign(reinterpret_cast<const char*>(pData), size);
@@ -431,7 +431,7 @@ namespace Exiv2 {
         // 1st choice: IPTCNAA
         byte const* pData = 0;
         long size = 0;
-        getObjData(pData, size, 0x83bb, Group::ifd0, object);
+        getObjData(pData, size, 0x83bb, ifd0Id, object);
         if (pData) {
             if (0 == IptcParser::decode(iptcData_, pData, size)) {
                 return;
@@ -448,7 +448,7 @@ namespace Exiv2 {
         // ImageResources
         pData = 0;
         size = 0;
-        getObjData(pData, size, 0x8649, Group::ifd0, object);
+        getObjData(pData, size, 0x8649, ifd0Id, object);
         if (pData) {
             byte const* record = 0;
             uint32_t sizeHdr = 0;
@@ -488,9 +488,7 @@ namespace Exiv2 {
     void TiffDecoder::decodeStdTiffEntry(const TiffEntryBase* object)
     {
         assert(object != 0);
-        // Todo: ExifKey should have an appropriate c'tor, it should not be
-        //       necessary to use groupName here
-        ExifKey key(object->tag(), tiffGroupName(object->group()));
+        ExifKey key(object->tag(), groupName(object->group()));
         key.setIdx(object->idx());
         exifData_.add(key, object->pValue());
 
@@ -548,7 +546,7 @@ namespace Exiv2 {
             make_ = pos->toString();
         }
         if (make_.empty() && pRoot_) {
-            TiffFinder finder(0x010f, Group::ifd0);
+            TiffFinder finder(0x010f, ifd0Id);
             pRoot_->accept(finder);
             TiffEntryBase* te = dynamic_cast<TiffEntryBase*>(finder.result());
             if (te && te->pValue()) {
@@ -725,7 +723,7 @@ namespace Exiv2 {
         }
         else if (del_) {
             // The makernote is made up of decoded tags, delete binary tag
-            ExifKey key(object->tag(), tiffGroupName(object->group()));
+            ExifKey key(object->tag(), groupName(object->group()));
             ExifData::iterator pos = exifData_.findKey(key);
             if (pos != exifData_.end()) exifData_.erase(pos);
         }
@@ -804,7 +802,7 @@ namespace Exiv2 {
         byteOrder_ = boOrig;
     }
 
-    bool TiffEncoder::isImageTag(uint16_t tag, uint16_t group) const
+    bool TiffEncoder::isImageTag(uint16_t tag, IfdId group) const
     {
         if (!isNewImage_ && pHeader_->isImageTag(tag, group, pPrimaryGroups_)) {
             return true;
@@ -827,7 +825,7 @@ namespace Exiv2 {
         const Exifdatum* ed = datum;
         if (ed == 0) {
             // Non-intrusive writing: find matching tag
-            ExifKey key(object->tag(), tiffGroupName(object->group()));
+            ExifKey key(object->tag(), groupName(object->group()));
             pos = exifData_.findKey(key);
             if (pos != exifData_.end()) {
                 ed = &(*pos);
@@ -894,7 +892,7 @@ namespace Exiv2 {
             if (  object->sizeDataArea_
                 < static_cast<uint32_t>(object->pValue()->sizeDataArea())) {
 #ifdef DEBUG
-                ExifKey key(object->tag(), tiffGroupName(object->group()));
+                ExifKey key(object->tag(), groupName(object->group()));
                 std::cerr << "DATAAREA GREW     " << key << "\n";
 #endif
                 setDirty();
@@ -902,7 +900,7 @@ namespace Exiv2 {
             else {
                 // Write the new dataarea, fill with 0x0
 #ifdef DEBUG
-                ExifKey key(object->tag(), tiffGroupName(object->group()));
+                ExifKey key(object->tag(), groupName(object->group()));
                 std::cerr << "Writing data area for " << key << "\n";
 #endif
                 DataBuf buf = object->pValue()->dataArea();
@@ -939,7 +937,7 @@ namespace Exiv2 {
             std::cerr << "\t DATAAREA IS SET (INTRUSIVE WRITING)";
 #endif
             // Set pseudo strips (without a data pointer) from the size tag
-            ExifKey key(object->szTag(), tiffGroupName(object->szGroup()));
+            ExifKey key(object->szTag(), groupName(object->szGroup()));
             ExifData::const_iterator pos = exifData_.findKey(key);
             const byte* zero = 0;
             if (pos == exifData_.end()) {
@@ -960,7 +958,7 @@ namespace Exiv2 {
                 }
                 if (sizeTotal != sizeDataArea) {
 #ifndef SUPPRESS_WARNINGS
-                    ExifKey key2(object->tag(), tiffGroupName(object->group()));
+                    ExifKey key2(object->tag(), groupName(object->group()));
                     std::cerr << "Error: Sum of all sizes of " << key
                               << " != data size of " << key2 << ". "
                               << "This results in an invalid image.\n";
@@ -985,7 +983,7 @@ namespace Exiv2 {
             }
 #ifndef SUPPRESS_WARNINGS
             else {
-                ExifKey key2(object->tag(), tiffGroupName(object->group()));
+                ExifKey key2(object->tag(), groupName(object->group()));
                 std::cerr << "Warning: No image data to encode " << key2 << ".\n";
             }
 #endif
@@ -1026,7 +1024,7 @@ namespace Exiv2 {
         }
         object->updateValue(datum->getValue(), byteOrder()); // clones the value
 #ifdef DEBUG
-        ExifKey key(object->tag(), tiffGroupName(object->group()));
+        ExifKey key(object->tag(), groupName(object->group()));
         std::cerr << "UPDATING DATA     " << key;
         if (tooLarge) {
             std::cerr << "\t\t\t ALLOCATED " << std::dec << object->size_ << " BYTES";
@@ -1044,7 +1042,7 @@ namespace Exiv2 {
             setDirty();
             object->updateValue(datum->getValue(), byteOrder()); // clones the value
 #ifdef DEBUG
-            ExifKey key(object->tag(), tiffGroupName(object->group()));
+            ExifKey key(object->tag(), groupName(object->group()));
             std::cerr << "UPDATING DATA     " << key;
             std::cerr << "\t\t\t ALLOCATED " << object->size() << " BYTES";
 #endif
@@ -1052,7 +1050,7 @@ namespace Exiv2 {
         else {
             object->setValue(datum->getValue()); // clones the value
 #ifdef DEBUG
-            ExifKey key(object->tag(), tiffGroupName(object->group()));
+            ExifKey key(object->tag(), groupName(object->group()));
             std::cerr << "NOT UPDATING      " << key;
             std::cerr << "\t\t\t PRESERVE VALUE DATA";
 #endif
@@ -1079,9 +1077,9 @@ namespace Exiv2 {
         for (ExifData::const_iterator i = exifData_.begin();
              i != exifData_.end(); ++i) {
 
-            uint16_t group = tiffGroupId(i->groupName());
+            IfdId group = groupId(i->groupName());
             // Skip synthesized info tags
-            if (group == Group::mn) {
+            if (group == mnId) {
                 if (i->tag() == 0x0002) {
                     posBo = i;
                 }
@@ -1119,7 +1117,7 @@ namespace Exiv2 {
          */
         if (posBo == exifData_.end()) return;
 
-        TiffFinder finder(0x927c, Group::exif);
+        TiffFinder finder(0x927c, exifId);
         pRootDir->accept(finder);
         TiffMnEntry* te = dynamic_cast<TiffMnEntry*>(finder.result());
         if (te) {
@@ -1224,14 +1222,14 @@ namespace Exiv2 {
         }
     }
 
-    bool TiffReader::circularReference(const byte* start, uint16_t group)
+    bool TiffReader::circularReference(const byte* start, IfdId group)
     {
         DirList::const_iterator pos = dirList_.find(start);
         if (pos != dirList_.end()) {
 #ifndef SUPPRESS_WARNINGS
             std::cerr << "Error: "
-                      << tiffGroupName(group)  << " pointer references previously read "
-                      << tiffGroupName(pos->second) << " directory. Ignored.\n";
+                      << groupName(group)  << " pointer references previously read "
+                      << groupName(pos->second) << " directory. Ignored.\n";
 #endif
             return true;
         }
@@ -1239,7 +1237,7 @@ namespace Exiv2 {
         return false;
     }
 
-    int TiffReader::nextIdx(uint16_t group)
+    int TiffReader::nextIdx(IfdId group)
     {
         return ++idxSeq_[group];
     }
@@ -1265,7 +1263,7 @@ namespace Exiv2 {
         if (p + 2 > pLast_) {
 #ifndef SUPPRESS_WARNINGS
             std::cerr << "Error: "
-                      << "Directory " << tiffGroupName(object->group())
+                      << "Directory " << groupName(object->group())
                       << ": IFD exceeds data buffer, cannot read entry count.\n";
 #endif
             return;
@@ -1276,7 +1274,7 @@ namespace Exiv2 {
         if (n > 256) {
 #ifndef SUPPRESS_WARNINGS
             std::cerr << "Error: "
-                      << "Directory " << tiffGroupName(object->group()) << " with "
+                      << "Directory " << groupName(object->group()) << " with "
                       << n << " entries considered invalid; not read.\n";
 #endif
             return;
@@ -1285,7 +1283,7 @@ namespace Exiv2 {
             if (p + 12 > pLast_) {
 #ifndef SUPPRESS_WARNINGS
                 std::cerr << "Error: "
-                          << "Directory " << tiffGroupName(object->group())
+                          << "Directory " << groupName(object->group())
                           << ": IFD entry " << i
                           << " lies outside of the data buffer.\n";
 #endif
@@ -1305,7 +1303,7 @@ namespace Exiv2 {
             if (p + 4 > pLast_) {
 #ifndef SUPPRESS_WARNINGS
                 std::cerr << "Error: "
-                          << "Directory " << tiffGroupName(object->group())
+                          << "Directory " << groupName(object->group())
                           << ": IFD exceeds data buffer, cannot read next pointer.\n";
 #endif
                 return;
@@ -1317,7 +1315,7 @@ namespace Exiv2 {
 #ifndef SUPPRESS_WARNINGS
                 if (tc.get() == 0) {
                     std::cerr << "Warning: "
-                              << "Directory " << tiffGroupName(object->group())
+                              << "Directory " << groupName(object->group())
                               << " has an unhandled next pointer.\n";
                 }
 #endif
@@ -1326,7 +1324,7 @@ namespace Exiv2 {
                 if (baseOffset() + next > size_) {
 #ifndef SUPPRESS_WARNINGS
                     std::cerr << "Error: "
-                              << "Directory " << tiffGroupName(object->group())
+                              << "Directory " << groupName(object->group())
                               << ": Next pointer is out of bounds; ignored.\n";
 #endif
                     return;
@@ -1352,7 +1350,7 @@ namespace Exiv2 {
                     || static_cast<int32_t>(baseOffset()) + offset < 0) {
 #ifndef SUPPRESS_WARNINGS
                     std::cerr << "Error: "
-                              << "Directory " << tiffGroupName(object->group())
+                              << "Directory " << groupName(object->group())
                               << ", entry 0x" << std::setw(4)
                               << std::setfill('0') << std::hex << object->tag()
                               << " Sub-IFD pointer " << i
@@ -1360,10 +1358,10 @@ namespace Exiv2 {
 #endif
                     return;
                 }
-                if (object->newGroup_ + i == Group::subimgX) {
+                if (object->newGroup_ + i == subImage9Id + 1) {
 #ifndef SUPPRESS_WARNINGS
                     std::cerr << "Warning: "
-                              << "Directory " << tiffGroupName(object->group())
+                              << "Directory " << groupName(object->group())
                               << ", entry 0x" << std::setw(4)
                               << std::setfill('0') << std::hex << object->tag()
                               << ": Skipping sub-IFDs beyond the first " << i << ".\n";
@@ -1372,7 +1370,7 @@ namespace Exiv2 {
                 }
                 // If there are multiple dirs, group is incremented for each
                 TiffComponent::AutoPtr td(new TiffDirectory(object->tag(),
-                                                            object->newGroup_ + i));
+                                                            static_cast<IfdId>(object->newGroup_ + i)));
                 td->setStart(pData_ + baseOffset() + offset);
                 object->addChild(td);
             }
@@ -1380,7 +1378,7 @@ namespace Exiv2 {
 #ifndef SUPPRESS_WARNINGS
         else {
             std::cerr << "Warning: "
-                      << "Directory " << tiffGroupName(object->group())
+                      << "Directory " << groupName(object->group())
                       << ", entry 0x" << std::setw(4)
                       << std::setfill('0') << std::hex << object->tag()
                       << " doesn't look like a sub-IFD.\n";
@@ -1395,7 +1393,7 @@ namespace Exiv2 {
 
         readTiffEntry(object);
         // Find camera make
-        TiffFinder finder(0x010f, Group::ifd0);
+        TiffFinder finder(0x010f, ifd0Id);
         pRoot_->accept(finder);
         TiffEntryBase* te = dynamic_cast<TiffEntryBase*>(finder.result());
         std::string make;
@@ -1424,7 +1422,7 @@ namespace Exiv2 {
                                 byteOrder())) {
 #ifndef SUPPRESS_WARNINGS
             std::cerr << "Error: Failed to read "
-                      << tiffGroupName(object->ifd_.group())
+                      << groupName(object->ifd_.group())
                       << " IFD Makernote header.\n";
 #ifdef DEBUG
             if (static_cast<uint32_t>(pLast_ - object->start()) >= 16) {
@@ -1462,7 +1460,7 @@ namespace Exiv2 {
 
         if (p + 12 > pLast_) {
 #ifndef SUPPRESS_WARNINGS
-            std::cerr << "Error: Entry in directory " << tiffGroupName(object->group())
+            std::cerr << "Error: Entry in directory " << groupName(object->group())
                       << "requests access to memory beyond the data buffer. "
                       << "Skipping entry.\n";
 #endif
@@ -1475,7 +1473,7 @@ namespace Exiv2 {
         long typeSize = TypeInfo::typeSize(typeId);
         if (0 == typeSize) {
 #ifndef SUPPRESS_WARNINGS
-            std::cerr << "Warning: Directory " << tiffGroupName(object->group())
+            std::cerr << "Warning: Directory " << groupName(object->group())
                       << ", entry 0x" << std::setw(4)
                       << std::setfill('0') << std::hex << object->tag()
                       << " has unknown Exif (TIFF) type " << std::dec << tiffType
@@ -1487,7 +1485,7 @@ namespace Exiv2 {
         uint32_t count = getULong(p, byteOrder());
         if (count >= 0x10000000) {
 #ifndef SUPPRESS_WARNINGS
-            std::cerr << "Error: Directory " << tiffGroupName(object->group())
+            std::cerr << "Error: Directory " << groupName(object->group())
                       << ", entry 0x" << std::setw(4)
                       << std::setfill('0') << std::hex << object->tag()
                       << " has invalid size "
@@ -1505,7 +1503,7 @@ namespace Exiv2 {
                 || static_cast<int32_t>(baseOffset()) + offset <= 0)) {
 #ifndef SUPPRESS_WARNINGS
                 std::cerr << "Error: Offset of "
-                          << "directory " << tiffGroupName(object->group())
+                          << "directory " << groupName(object->group())
                           << ", entry 0x" << std::setw(4)
                           << std::setfill('0') << std::hex << object->tag()
                           << " is out of bounds: "
@@ -1520,7 +1518,7 @@ namespace Exiv2 {
             if (size > static_cast<uint32_t>(pLast_ - pData)) {
 #ifndef SUPPRESS_WARNINGS
                 std::cerr << "Error: Upper boundary of data for "
-                          << "directory " << tiffGroupName(object->group())
+                          << "directory " << groupName(object->group())
                           << ", entry 0x" << std::setw(4)
                           << std::setfill('0') << std::hex << object->tag()
                           << " is out of bounds: "

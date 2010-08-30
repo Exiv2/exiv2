@@ -61,145 +61,6 @@ namespace {
 namespace Exiv2 {
     namespace Internal {
 
-    //! Structure for group and group name info
-    struct TiffGroupInfo {
-        //! Comparison operator for group (id)
-        bool operator==(const uint16_t& group) const;
-        //! Comparison operator for group name
-        bool operator==(const std::string& groupName) const;
-
-        uint16_t group_;   //!< group
-        const char* name_; //!< group name
-    };
-
-    // Todo: This mapping table probably belongs somewhere else - move it
-    // Note: Names must be unique and match those in the third column of
-    //       ExifTags::ifdInfo_[] (tags.cpp)!
-    //! List of groups and their names.
-    extern const TiffGroupInfo tiffGroupInfo[] = {
-        {   1, "Image"        },
-        {   2, "Thumbnail"    },
-        {   3, "Image2"       },
-        {   4, "Image3"       },
-        {   5, "Photo"        },
-        {   6, "GPSInfo"      },
-        {   7, "Iop"          },
-        {   8, "SubImage1"    },
-        {   9, "SubImage2"    },
-        {  10, "SubImage3"    },
-        {  11, "SubImage4"    },
-        {  12, "SubImage5"    },
-        {  13, "SubImage6"    },
-        {  14, "SubImage7"    },
-        {  15, "SubImage8"    },
-        {  16, "SubImage9"    },
-        {  64, "PanasonicRaw" },
-        { 256, "MakerNote"    },
-        // 257 not needed (olympmn)
-        { 258, "Fujifilm"     },
-        { 259, "Canon"        },
-        { 260, "CanonCs"      },
-        { 261, "CanonSi"      },
-        { 262, "CanonCf"      },
-        // 263 not needed (nikonmn)
-        { 264, "Nikon1"       },
-        { 265, "Nikon2"       },
-        { 266, "Nikon3"       },
-        { 267, "Panasonic"    },
-        { 268, "Sigma"        },
-        // 269 not needed (sonymn)
-        { 270, "Sony1"        },
-        { 271, "Sony2"        },
-        { 272, "Minolta"      },
-        { 273, "MinoltaCsOld" },
-        { 274, "MinoltaCsNew" },
-        { 275, "MinoltaCs5D"  },
-        { 276, "MinoltaCs7D"  },
-        { 277, "CanonPi"      },
-        { 278, "CanonPa"      },
-        { 279, "Pentax"       },
-        { 280, "NikonPreview" },
-        { 281, "Olympus"      },
-        { 282, "Olympus2"     },
-        { 283, "OlympusCs"    },
-        { 284, "OlympusEq"    },
-        { 285, "OlympusRd"    },
-        { 286, "OlympusRd2"   },
-        { 287, "OlympusIp"    },
-        { 288, "OlympusFi"    },
-        { 289, "OlympusFe1"   },
-        { 290, "OlympusFe2"   },
-        { 291, "OlympusFe3"   },
-        { 292, "OlympusFe4"   },
-        { 293, "OlympusFe5"   },
-        { 294, "OlympusFe6"   },
-        { 295, "OlympusFe7"   },
-        { 296, "OlympusFe8"   },
-        { 297, "OlympusFe9"   },
-        { 298, "OlympusRi"    },
-        { 299, "NikonWt"      },
-        { 300, "NikonIi"      },
-        { 301, "NikonLd1"     },
-        { 302, "NikonLd2"     },
-        { 303, "NikonLd3"     },
-        { 304, "NikonCb1"     },
-        { 305, "NikonCb2"     },
-        { 306, "NikonCb2a"    },
-        { 307, "NikonCb2b"    },
-        { 308, "NikonCb3"     },
-        { 309, "NikonCb4"     },
-        { 310, "NikonVr"      },
-        { 311, "NikonPc"      },
-        { 312, "NikonAf"      },
-        { 313, "NikonSiD80"   },
-        { 314, "NikonSiD40"   },
-        { 315, "NikonSiD300a" },
-        { 316, "NikonSiD300b" },
-        { 317, "NikonSi02xx"  },
-        { 318, "NikonSi01xx"  },
-        { 320, "CanonFi"      },
-        { 330, "SonyMinolta"  },
-        { 331, "Sony1Cs"      },
-        { 332, "Sony1Cs2"     },
-        { 333, "Sony1MltCsOld"},
-        { 334, "Sony1MltCsNew"},
-        { 335, "Sony1MltCsA100" },
-        { 336, "Sony1MltCs7D" },
-        { 337, "Sony2Cs"      },
-        { 338, "Sony2Cs2"     },
-        { 362, "NikonFi"      },
-        { 363, "NikonAf2"     },
-        { 364, "NikonMe"      },
-        { 365, "NikonFl1"     },
-        { 366, "NikonFl2"     },
-        { 367, "NikonFl3"     },
-        { 368, "CanonPr"      },
-    };
-
-    bool TiffGroupInfo::operator==(const uint16_t& group) const
-    {
-        return group_ == group;
-    }
-
-    bool TiffGroupInfo::operator==(const std::string& groupName) const
-    {
-        return 0 == strcmp(name_, groupName.c_str());
-    }
-
-    const char* tiffGroupName(uint16_t group)
-    {
-        const TiffGroupInfo* gi = find(tiffGroupInfo, group);
-        if (!gi) return "Unknown";
-        return gi->name_;
-    }
-
-    uint16_t tiffGroupId(const std::string& groupName)
-    {
-        const TiffGroupInfo* gi = find(tiffGroupInfo, groupName);
-        if (!gi) return 0;
-        return gi->group_;
-    }
-
     bool TiffMappingInfo::operator==(const TiffMappingInfo::Key& key) const
     {
         return    (   0 == strcmp("*", make_)
@@ -232,12 +93,12 @@ namespace Exiv2 {
         return io_.putb(data);
     }
 
-    TiffComponent::TiffComponent(uint16_t tag, uint16_t group)
+    TiffComponent::TiffComponent(uint16_t tag, IfdId group)
         : tag_(tag), group_(group), pStart_(0)
     {
     }
 
-    TiffEntryBase::TiffEntryBase(uint16_t tag, uint16_t group, TiffType tiffType)
+    TiffEntryBase::TiffEntryBase(uint16_t tag, IfdId group, TiffType tiffType)
         : TiffComponent(tag, group),
           tiffType_(tiffType), count_(0), offset_(0),
           size_(0), pData_(0), isMalloced_(false), idx_(0),
@@ -245,19 +106,19 @@ namespace Exiv2 {
     {
     }
 
-    TiffSubIfd::TiffSubIfd(uint16_t tag, uint16_t group, uint16_t newGroup)
+    TiffSubIfd::TiffSubIfd(uint16_t tag, IfdId group, IfdId newGroup)
         : TiffEntryBase(tag, group, ttUnsignedLong), newGroup_(newGroup)
     {
     }
 
-    TiffMnEntry::TiffMnEntry(uint16_t tag, uint16_t group, uint16_t mnGroup)
+    TiffMnEntry::TiffMnEntry(uint16_t tag, IfdId group, IfdId mnGroup)
         : TiffEntryBase(tag, group, ttUndefined), mnGroup_(mnGroup), mn_(0)
     {
     }
 
     TiffIfdMakernote::TiffIfdMakernote(uint16_t  tag,
-                                       uint16_t  group,
-                                       uint16_t  mnGroup,
+                                       IfdId     group,
+                                       IfdId     mnGroup,
                                        MnHeader* pHeader,
                                        bool      hasNext)
         : TiffComponent(tag, group),
@@ -269,7 +130,7 @@ namespace Exiv2 {
     }
 
     TiffBinaryArray::TiffBinaryArray(uint16_t tag,
-                                     uint16_t group,
+                                     IfdId group,
                                      const ArrayCfg* arrayCfg,
                                      const ArrayDef* arrayDef,
                                      int defSize)
@@ -288,7 +149,7 @@ namespace Exiv2 {
     }
 
     TiffBinaryArray::TiffBinaryArray(uint16_t tag,
-                                     uint16_t group,
+                                     IfdId group,
                                      const ArraySet* arraySet,
                                      int setSize,
                                      CfgSelFct cfgSelFct)
@@ -308,8 +169,7 @@ namespace Exiv2 {
         assert(arraySet_ != 0);
     }
 
-    TiffBinaryElement::TiffBinaryElement(uint16_t tag,
-                                         uint16_t group)
+    TiffBinaryElement::TiffBinaryElement(uint16_t tag, IfdId group)
         : TiffEntryBase(tag, group)
     {
     }
@@ -540,7 +400,7 @@ namespace Exiv2 {
         if (!pValue() || !pSize) {
 #ifndef SUPPRESS_WARNINGS
             std::cerr << "Warning: "
-                      << "Directory " << tiffGroupName(group())
+                      << "Directory " << groupName(group())
                       << ", entry 0x" << std::setw(4)
                       << std::setfill('0') << std::hex << tag()
                       << ": Size or data offset value not set, ignoring them.\n";
@@ -550,7 +410,7 @@ namespace Exiv2 {
         if (pValue()->count() == 0) {
 #ifndef SUPPRESS_WARNINGS
             std::cerr << "Warning: "
-                      << "Directory " << tiffGroupName(group())
+                      << "Directory " << groupName(group())
                       << ", entry 0x" << std::setw(4)
                       << std::setfill('0') << std::hex << tag()
                       << ": Data offset entry value is empty, ignoring it.\n";
@@ -560,7 +420,7 @@ namespace Exiv2 {
         if (pValue()->count() != pSize->count()) {
 #ifndef SUPPRESS_WARNINGS
             std::cerr << "Warning: "
-                      << "Directory " << tiffGroupName(group())
+                      << "Directory " << groupName(group())
                       << ", entry 0x" << std::setw(4)
                       << std::setfill('0') << std::hex << tag()
                       << ": Size and data offset entries have different"
@@ -580,7 +440,7 @@ namespace Exiv2 {
             - offset != size) {
 #ifndef SUPPRESS_WARNINGS
             std::cerr << "Warning: "
-                      << "Directory " << tiffGroupName(group())
+                      << "Directory " << groupName(group())
                       << ", entry 0x" << std::setw(4)
                       << std::setfill('0') << std::hex << tag()
                       << ": Data area is not contiguous, ignoring it.\n";
@@ -592,7 +452,7 @@ namespace Exiv2 {
             || baseOffset + offset > sizeData - size) {
 #ifndef SUPPRESS_WARNINGS
             std::cerr << "Warning: "
-                      << "Directory " << tiffGroupName(group())
+                      << "Directory " << groupName(group())
                       << ", entry 0x" << std::setw(4)
                       << std::setfill('0') << std::hex << tag()
                       << ": Data area exceeds data buffer, ignoring it.\n";
@@ -612,7 +472,7 @@ namespace Exiv2 {
         if (!pValue() || !pSize) {
 #ifndef SUPPRESS_WARNINGS
             std::cerr << "Warning: "
-                      << "Directory " << tiffGroupName(group())
+                      << "Directory " << groupName(group())
                       << ", entry 0x" << std::setw(4)
                       << std::setfill('0') << std::hex << tag()
                       << ": Size or data offset value not set, ignoring them.\n";
@@ -622,7 +482,7 @@ namespace Exiv2 {
         if (pValue()->count() != pSize->count()) {
 #ifndef SUPPRESS_WARNINGS
             std::cerr << "Warning: "
-                      << "Directory " << tiffGroupName(group())
+                      << "Directory " << groupName(group())
                       << ", entry 0x" << std::setw(4)
                       << std::setfill('0') << std::hex << tag()
                       << ": Size and data offset entries have different"
@@ -640,7 +500,7 @@ namespace Exiv2 {
                 || baseOffset + offset > sizeData - size) {
 #ifndef SUPPRESS_WARNINGS
                 std::cerr << "Warning: "
-                          << "Directory " << tiffGroupName(group())
+                          << "Directory " << groupName(group())
                           << ", entry 0x" << std::setw(4)
                           << std::setfill('0') << std::hex << tag()
                           << ": Strip " << std::dec << i
@@ -704,13 +564,13 @@ namespace Exiv2 {
         return pHeader_->write(ioWrapper, byteOrder);
     }
 
-    uint32_t ArrayDef::size(uint16_t tag, uint16_t group) const
+    uint32_t ArrayDef::size(uint16_t tag, IfdId group) const
     {
         TypeId typeId = toTypeId(tiffType_, tag, group);
         return count_ * TypeInfo::typeSize(typeId);
     }
 
-    bool TiffBinaryArray::initialize(uint16_t group)
+    bool TiffBinaryArray::initialize(IfdId group)
     {
         if (arrayCfg_ != 0) return true; // Not a complex array or already initialized
 
@@ -802,7 +662,7 @@ namespace Exiv2 {
         // This is used to prevent duplicate entries. Sub-IFDs also, but the > 1
         // condition takes care of them, see below.
         if (   tiffPath.size() > 1
-            || (tpi.extendedTag() == 0x927c && tpi.group() == Group::exif)) {
+            || (tpi.extendedTag() == 0x927c && tpi.group() == exifId)) {
             if (tpi.extendedTag() == Tag::next) {
                 tc = pNext_;
             }
@@ -1220,7 +1080,7 @@ namespace Exiv2 {
 
         // Number of components to write
         const uint32_t compCount = count();
-        if (compCount > 0xffff) throw Error(49, tiffGroupName(group()));
+        if (compCount > 0xffff) throw Error(49, groupName(group()));
 
         // Size of next IFD, if any
         uint32_t sizeNext = 0;
@@ -1234,7 +1094,7 @@ namespace Exiv2 {
 
         // TIFF standard requires IFD entries to be sorted in ascending order by tag.
         // Not sorting makernote directories sometimes preserves them better.
-        if (group() < Group::mn) {
+        if (group() < mnId) {
             std::sort(components_.begin(), components_.end(), cmpTagLt);
         }
         // Size of IFD values and additional data
@@ -1436,9 +1296,9 @@ namespace Exiv2 {
     {
         uint32_t o2 = imageIdx;
         // For makernotes, write TIFF image data to the data area
-        if (group() > Group::mn) o2 = offset + dataIdx;
+        if (group() > mnId) o2 = offset + dataIdx;
 #ifdef DEBUG
-        std::cerr << "TiffImageEntry, Directory " << tiffGroupName(group())
+        std::cerr << "TiffImageEntry, Directory " << ifdItem(group())
                   << ", entry 0x" << std::setw(4)
                   << std::setfill('0') << std::hex << tag() << std::dec
                   << ": Writing offset " << o2 << "\n";
@@ -1449,7 +1309,7 @@ namespace Exiv2 {
             idx += writeOffset(buf.pData_ + idx, o2, tiffType(), byteOrder);
             o2 += i->second;
             o2 += i->second & 1;                // Align strip data to word boundary
-            if (!(group() > Group::mn)) {
+            if (!(group() > mnId)) {            // Todo: FIX THIS!! SHOULDN'T USE >
                 imageIdx += i->second;
                 imageIdx += i->second & 1;      // Align strip data to word boundary
             }
@@ -1623,7 +1483,7 @@ namespace Exiv2 {
     {
         uint32_t len = 0;
         // For makernotes, write TIFF image data to the data area
-        if (group() > Group::mn) {
+        if (group() > mnId) { // Todo: FIX THIS HACK!!!
             len = writeImage(ioWrapper, byteOrder);
         }
         return len;
@@ -1734,7 +1594,7 @@ namespace Exiv2 {
         uint32_t len = pValue()->sizeDataArea();
         if (len > 0) {
 #ifdef DEBUG
-            std::cerr << "TiffImageEntry, Directory " << tiffGroupName(group())
+            std::cerr << "TiffImageEntry, Directory " << ifdItem(group())
                       << ", entry 0x" << std::setw(4)
                       << std::setfill('0') << std::hex << tag() << std::dec
                       << ": Writing data area, size = " << len;
@@ -1747,7 +1607,7 @@ namespace Exiv2 {
         }
         else {
 #ifdef DEBUG
-            std::cerr << "TiffImageEntry, Directory " << tiffGroupName(group())
+            std::cerr << "TiffImageEntry, Directory " << ifdItem(group())
                       << ", entry 0x" << std::setw(4)
                       << std::setfill('0') << std::hex << tag() << std::dec
                       << ": Writing " << strips_.size() << " strips";
@@ -1873,7 +1733,7 @@ namespace Exiv2 {
     {
         uint32_t len = 0;
         // For makernotes, TIFF image data is written to the data area
-        if (group() > Group::mn) {
+        if (group() > mnId) { // Todo: Fix this hack!!
             len = sizeImage();
         }
         return len;
@@ -1950,11 +1810,11 @@ namespace Exiv2 {
 
     // *************************************************************************
     // free functions
-    TypeId toTypeId(TiffType tiffType, uint16_t tag, uint16_t group)
+    TypeId toTypeId(TiffType tiffType, uint16_t tag, IfdId group)
     {
         TypeId ti = TypeId(tiffType);
         // On the fly type conversion for Exif.Photo.UserComment
-        if (tag == 0x9286 && group == Group::exif && ti == undefined) {
+        if (tag == 0x9286 && group == exifId && ti == undefined) {
             ti = comment;
         }
         return ti;
@@ -1988,17 +1848,17 @@ namespace Exiv2 {
         return lhs->group() < rhs->group();
     }
 
-    TiffComponent::AutoPtr newTiffEntry(uint16_t tag, uint16_t group)
+    TiffComponent::AutoPtr newTiffEntry(uint16_t tag, IfdId group)
     {
         return TiffComponent::AutoPtr(new TiffEntry(tag, group));
     }
 
-    TiffComponent::AutoPtr newTiffMnEntry(uint16_t tag, uint16_t group)
+    TiffComponent::AutoPtr newTiffMnEntry(uint16_t tag, IfdId group)
     {
-        return TiffComponent::AutoPtr(new TiffMnEntry(tag, group, Group::mn));
+        return TiffComponent::AutoPtr(new TiffMnEntry(tag, group, mnId));
     }
 
-    TiffComponent::AutoPtr newTiffBinaryElement(uint16_t tag, uint16_t group)
+    TiffComponent::AutoPtr newTiffBinaryElement(uint16_t tag, IfdId group)
     {
         return TiffComponent::AutoPtr(new TiffBinaryElement(tag, group));
     }
