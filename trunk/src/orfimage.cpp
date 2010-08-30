@@ -176,7 +176,7 @@ namespace Exiv2 {
 
         // Delete IFDs which do not occur in TIFF images
         static const IfdId filteredIfds[] = {
-            panaRawIfdId
+            panaRawId
         };
         for (unsigned int i = 0; i < EXV_COUNTOF(filteredIfds); ++i) {
 #ifdef DEBUG

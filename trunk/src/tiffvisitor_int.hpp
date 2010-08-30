@@ -168,7 +168,7 @@ namespace Exiv2 {
         //! @name Creators
         //@{
         //! Constructor, taking \em tag and \em group of the component to find.
-        TiffFinder(uint16_t tag, uint16_t group)
+        TiffFinder(uint16_t tag, IfdId group)
             : tag_(tag), group_(group), tiffComponent_(0) {}
         //! Virtual destructor
         virtual ~TiffFinder();
@@ -200,7 +200,7 @@ namespace Exiv2 {
         //! Check if \em object matches \em tag and \em group
         void findObject(TiffComponent* object);
         //! Initialize the Finder for a new search.
-        void init(uint16_t tag, uint16_t group);
+        void init(uint16_t tag, IfdId group);
         //@}
 
         //! @name Accessors
@@ -214,7 +214,7 @@ namespace Exiv2 {
 
     private:
         uint16_t tag_;
-        uint16_t group_;
+        IfdId group_;
         TiffComponent* tiffComponent_;
     }; // class TiffFinder
 
@@ -350,7 +350,7 @@ namespace Exiv2 {
         void getObjData(byte const*&         pData,
                         long&                size,
                         uint16_t             tag,
-                        uint16_t             group,
+                        IfdId                group,
                         const TiffEntryBase* object);
         //@}
 
@@ -556,7 +556,7 @@ namespace Exiv2 {
                  is considered an image tag of this image - whether or not
                  it's actually present in the existing image doesn't matter.
          */
-        bool isImageTag(uint16_t tag, uint16_t group) const;
+        bool isImageTag(uint16_t tag, IfdId group) const;
         //@}
 
     private:
@@ -687,9 +687,9 @@ namespace Exiv2 {
         //! Reset the state to the original state as set in the constructor.
         void resetState();
         //! Check IFD directory pointer \em start for circular reference
-        bool circularReference(const byte* start, uint16_t group);
+        bool circularReference(const byte* start, IfdId group);
         //! Return the next idx sequence number for \em group
-        int nextIdx(uint16_t group);
+        int nextIdx(IfdId group);
 
         /*!
           @brief Read deferred components.
@@ -712,7 +712,7 @@ namespace Exiv2 {
         //@}
 
     private:
-        typedef std::map<const byte*, uint16_t> DirList;
+        typedef std::map<const byte*, IfdId> DirList;
         typedef std::map<uint16_t, int> IdxSeq;
         typedef std::vector<TiffComponent*> PostList;
 

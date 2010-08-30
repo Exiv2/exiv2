@@ -127,7 +127,7 @@ namespace Exiv2 {
           @return The default implementation returns \c false.
          */
         virtual bool isImageTag(      uint16_t       tag,
-                                      uint16_t       group,
+                                      IfdId          group,
                                 const PrimaryGroups* pPrimaryGroups) const;
         //@}
 
@@ -156,8 +156,8 @@ namespace Exiv2 {
         //@}
         //@{
         //! @name Accessors
-        bool isImageTag(      uint16_t      tag,
-                              uint16_t      group,
+        bool isImageTag(      uint16_t       tag,
+                              IfdId          group,
                         const PrimaryGroups* pPrimaryGroups) const;
         //@}
 
@@ -173,9 +173,9 @@ namespace Exiv2 {
         //! Search key for TIFF image tag structure.
         struct Key {
             //! Constructor
-            Key(uint16_t t, uint16_t g) : t_(t), g_(g) {}
+            Key(uint16_t t, IfdId g) : t_(t), g_(g) {}
             uint16_t t_;                    //!< %Tag
-            uint16_t g_;                    //!< %Group
+            IfdId    g_;                    //!< %Group
         };
 
         //! Comparison operator to compare a TiffImgTagStruct with a TiffImgTagStruct::Key
@@ -186,7 +186,7 @@ namespace Exiv2 {
 
         // DATA
         uint16_t       tag_;            //!< Image tag
-        uint16_t       group_;          //!< Group that contains the image tag
+        IfdId          group_;          //!< Group that contains the image tag
     }; // struct TiffImgTagStruct
 
     /*!
@@ -197,9 +197,9 @@ namespace Exiv2 {
         //! Search key for TIFF group structure.
         struct Key {
             //! Constructor
-            Key(uint32_t e, uint16_t g) : e_(e), g_(g) {}
+            Key(uint32_t e, IfdId g) : e_(e), g_(g) {}
             uint32_t e_;                    //!< Extended tag
-            uint16_t g_;                    //!< %Group
+            IfdId    g_;                    //!< %Group
         };
 
         //! Comparison operator to compare a TiffGroupStruct with a TiffGroupStruct::Key
@@ -213,7 +213,7 @@ namespace Exiv2 {
 
         // DATA
         uint32_t       extendedTag_;    //!< Tag (32 bit so that it can contain special tags)
-        uint16_t       group_;          //!< Group that contains the tag
+        IfdId          group_;          //!< Group that contains the tag
         NewTiffCompFct newTiffCompFct_; //!< Function to create the correct TIFF component
     };
 
@@ -229,17 +229,17 @@ namespace Exiv2 {
 
         // DATA
         uint32_t       root_;           //!< Tree root element, identifies a tree
-        uint16_t       group_;          //!< Each group is a node in the tree
-        uint16_t       parentGroup_;    //!< Parent group
+        IfdId          group_;          //!< Each group is a node in the tree
+        IfdId          parentGroup_;    //!< Parent group
         uint32_t       parentExtTag_;   //!< Parent tag (32 bit so that it can contain special tags)
     };
 
     //! Search key for TIFF tree structure.
     struct TiffTreeStruct::Key {
         //! Constructor
-        Key(uint32_t r, uint16_t g) : r_(r), g_(g) {}
+        Key(uint32_t r, IfdId g) : r_(r), g_(g) {}
         uint32_t r_;                    //!< Root
-        uint16_t g_;                    //!< %Group
+        IfdId    g_;                    //!< %Group
     };
 
     /*!
@@ -254,7 +254,7 @@ namespace Exiv2 {
                  is 0, then the TIFF entry should be ignored.
         */
         static std::auto_ptr<TiffComponent> create(uint32_t extendedTag,
-                                                   uint16_t group);
+                                                   IfdId    group);
         /*!
           @brief Get the path, i.e., a list of extended tag and group pairs, from
                  the \em root TIFF element to the TIFF entry \em extendedTag and
@@ -262,7 +262,7 @@ namespace Exiv2 {
         */
         static void getPath(TiffPath& tiffPath,
                             uint32_t  extendedTag,
-                            uint16_t  group,
+                            IfdId     group,
                             uint32_t  root);
 
     private:
@@ -388,7 +388,7 @@ namespace Exiv2 {
          */
         static DecoderFct findDecoder(const std::string& make,
                                             uint32_t     extendedTag,
-                                            uint16_t     group);
+                                            IfdId        group);
         /*!
           @brief Find special encoder function for a key.
 
@@ -405,7 +405,7 @@ namespace Exiv2 {
         static EncoderFct findEncoder(
             const std::string& make,
                   uint32_t     extendedTag,
-                  uint16_t     group
+                  IfdId        group
         );
 
     private:
@@ -413,6 +413,7 @@ namespace Exiv2 {
 
     }; // class TiffMapping
 
+    // Todo: Move this class to metadatum_int.hpp or tags_int.hpp
     //! Unary predicate that matches an Exifdatum with a given IfdId.
     class FindExifdatum {
     public:

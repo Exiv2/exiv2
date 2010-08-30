@@ -61,21 +61,21 @@ namespace Exiv2 {
 // *****************************************************************************
 // class definitions
 
-    //! The details of an IFD.
+    //! The details of an Exif group. Groups include IFDs and binary arrays.
     struct EXIV2API GroupInfo {
-        struct Item;
-        bool operator==(int ifdId) const;       //!< Comparison operator for IFD id
-        bool operator==(const Item& item) const;       //!< Comparison operator for IFD item
-        int ifdId_;                             //!< IFD id
-        const char* name_;                      //!< IFD name
-        const char* item_; //!< Related IFD item. This is also an IFD name, unique for each IFD.
-        TagListFct tagList_;                    //!< Tag list
+        struct GroupName;
+        bool operator==(int ifdId) const;        //!< Comparison operator for IFD id
+        bool operator==(const GroupName& groupName) const; //!< Comparison operator for group name
+        int ifdId_;                              //!< IFD id
+        const char* ifdName_;                    //!< IFD name
+        const char* groupName_;                  //!< Group name, unique for each group.
+        TagListFct tagList_;                     //!< Tag list
     };
 
-    //! Search key to find a GroupInfo by its IFD item.
-    struct EXIV2API GroupInfo::Item {
-        Item(const std::string& item);          //!< Constructor
-        std::string i_;                         //!< IFD item
+    //! Search key to find a GroupInfo by its group name.
+    struct EXIV2API GroupInfo::GroupName {
+        GroupName(const std::string& groupName); //!< Constructor
+        std::string g_;                          //!< Group name
     };
 
     //! Tag information
@@ -115,30 +115,29 @@ namespace Exiv2 {
     public:
         //! Return read-only list of build-in groups
         static const GroupInfo* groupList();
-        //! Return read-only list of built-in \em group tags.
-        static const TagInfo* tagList(const std::string& group);
+        //! Return read-only list of built-in \em groupName tags.
+        static const TagInfo* tagList(const std::string& groupName);
 
         //! Print a list of all standard Exif tags to output stream
         static void taglist(std::ostream& os);
-        //! Print the list of tags for \em group
-        static void taglist(std::ostream& os, const std::string& group);
+        //! Print the list of tags for \em groupName
+        static void taglist(std::ostream& os, const std::string& groupName);
 
         /*!
-          @brief Return true if \em group is a makernote group which is
-                 a makernote group.
+          @brief Return true if \em groupName is a makernote group.
         */
-        static bool isMakerGroup(const std::string& group);
+        static bool isMakerGroup(const std::string& groupName);
         /*!
-          @brief Return true if \em group is a TIFF or Exif IFD, else false.
+          @brief Return true if \em groupName is a TIFF or Exif IFD, else false.
                  This is used to differentiate between standard Exif IFDs
                  and IFDs associated with the makernote.
         */
-        static bool isExifGroup(const std::string& group);
+        static bool isExifGroup(const std::string& groupName);
 
     }; // class ExifTags
 
     /*!
-      @brief Concrete keys for Exif metadata.
+      @brief Concrete keys for Exif metadata and access to Exif tag reference data.
      */
     class EXIV2API ExifKey : public Key {
     public:
@@ -153,24 +152,23 @@ namespace Exiv2 {
           @param key The key string.
           @throw Error if the first part of the key is not '<b>Exif</b>' or
                  the remainin parts of the key cannot be parsed and
-                 converted to an ifd-item and tag name.
+                 converted to a group name and tag name.
         */
         explicit ExifKey(const std::string& key);
         /*!
-          @brief Constructor to create an Exif key from a tag and IFD item
-                 string.
+          @brief Constructor to create an Exif key from the tag number and
+                 group name.
           @param tag The tag value
-          @param ifdItem The IFD string. For MakerNote tags, this must be the
-                 IFD item of the specific MakerNote. "MakerNote" is not allowed.
-          @throw Error if the key cannot be constructed from the tag and IFD
-                 item parameters.
+          @param groupName The name of the group, i.e., the second part of
+                 the Exif key.
+          @throw Error if the key cannot be constructed from the tag number
+                 and group name.
          */
-        ExifKey(uint16_t tag, const std::string& ifdItem);
+        ExifKey(uint16_t tag, const std::string& groupName);
         /*!
           @brief Constructor to create an Exif key from a tag info structure
           @param tagInfo The tag info structure
-          @throw Error if the key cannot be constructed from the tag and IFD
-                 item parameters.
+          @throw Error if the key cannot be constructed from the tag info structure
          */
         explicit ExifKey(const TagInfo& tagInfo);
         //! Copy constructor
@@ -193,18 +191,14 @@ namespace Exiv2 {
         //@{
         virtual std::string key() const;
         virtual const char* familyName() const;
-        /*!
-          @brief Return the name of the group (the second part of the key).
-                 For Exif keys, the group name is the IFD item.
-        */
         virtual std::string groupName() const;
         virtual std::string tagName() const;
         virtual std::string tagLabel() const;
         //! Return the tag description.
-        std::string tagDesc() const;             // Todo: should be in the base class
+        std::string tagDesc() const;        // Todo: should be in the base class
         //! Return the default type id for this tag.
-        TypeId defaultTypeId() const;              // Todo: should be in the base class
-        //! Return the default number of components (not bytes!) this tag has. (0=any, -1=count not known.)
+        TypeId defaultTypeId() const;       // Todo: should be in the base class
+        //! Return the default number of components (not bytes!) this tag has. (0=any, -1=count not known)
         uint16_t defaultCount() const;
         virtual uint16_t tag() const;
 
