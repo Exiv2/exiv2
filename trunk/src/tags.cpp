@@ -78,7 +78,7 @@ namespace {
 // class member definitions
 namespace Exiv2 {
 
-    using namespace Internal;    // Todo: remove this!
+    using namespace Internal;
 
     //! List of all known Exif groups. Important: IFD item must be unique!
     extern const GroupInfo groupInfo[] = {
@@ -1202,7 +1202,7 @@ namespace Exiv2 {
         // End of list marker
         TagInfo(0xffff, "(UnknownIfdTag)", N_("Unknown IFD tag"),
                 N_("Unknown IFD tag"),
-                ifd0Id, sectionIdNotSet, undefined, -1, printValue)
+                ifd0Id, sectionIdNotSet, asciiString, -1, printValue)
     };
 
     const TagInfo* ifdTagList()
@@ -1611,7 +1611,7 @@ namespace Exiv2 {
         // End of list marker
         TagInfo(0xffff, "(UnknownExifTag)", N_("Unknown Exif tag"),
                 N_("Unknown Exif tag"),
-                exifIfdId, sectionIdNotSet, undefined, -1, printValue)
+                exifIfdId, sectionIdNotSet, asciiString, -1, printValue)
     };
 
     const TagInfo* exifTagList()
@@ -1829,7 +1829,7 @@ namespace Exiv2 {
         // End of list marker
         TagInfo(0xffff, "(UnknownGpsTag)", N_("Unknown GPSInfo tag"),
                 N_("Unknown GPSInfo tag"),
-                gpsIfdId, gpsTags, undefined, -1, printValue)
+                gpsIfdId, gpsTags, asciiString, -1, printValue)
     };
 
     const TagInfo* gpsTagList()
@@ -1861,7 +1861,7 @@ namespace Exiv2 {
         // End of list marker
         TagInfo(0xffff, "(UnknownIopTag)", N_("Unknown Exif Interoperability tag"),
                 N_("Unknown Exif Interoperability tag"),
-                iopIfdId, iopTags, undefined, -1, printValue)
+                iopIfdId, iopTags, asciiString, -1, printValue)
     };
 
     const TagInfo* iopTagList()
@@ -1880,7 +1880,7 @@ namespace Exiv2 {
         // End of list marker
         TagInfo(0xffff, "(UnknownMnTag)", N_("Unknown Exiv2 Makernote info tag"),
                 N_("Unknown Exiv2 Makernote info tag"),
-                mnIfdId, makerTags, undefined, -1, printValue)
+                mnIfdId, makerTags, asciiString, -1, printValue)
     };
 
     const TagInfo* mnTagList()
@@ -1973,17 +1973,6 @@ namespace Exiv2 {
         return ii->tagList_();
     } // tagList
 
-// Todo: Remove this!
-    const TagInfo* tagInfoOriginal(uint16_t tag, IfdId ifdId)
-    {
-        const TagInfo* ti = tagList(ifdId);
-        if (ti == 0) return 0;
-        for (int idx = 0; ti[idx].tag_ != 0xffff; ++idx) {
-            if (ti[idx].tag_ == tag) return &ti[idx];
-        }
-        return 0;
-    } // tagInfo
-  
     const TagInfo* tagInfo(uint16_t tag, IfdId ifdId)
     {
         const TagInfo* ti = tagList(ifdId);
@@ -2601,8 +2590,6 @@ namespace Exiv2 {
 
 namespace Exiv2 {
 
-    using namespace Internal;
-
     //! @cond IGNORE
     GroupInfo::Item::Item(const std::string& item)
     {
@@ -2882,15 +2869,13 @@ namespace Exiv2 {
 
     TypeId ExifKey::defaultTypeId() const
     {
-//     Todo: This should be changed back once all tag lists have their own default types
-//     if (p_->tagInfo_ == 0) return unknownTag.typeId_;
-        if (p_->tagInfo_ == 0 || p_->tagInfo_->tag_ == 0xffff) return unknownTag.typeId_;
+        if (p_->tagInfo_ == 0) return unknownTag.typeId_;
         return p_->tagInfo_->typeId_;
     }
 
     uint16_t ExifKey::defaultCount() const
     {
-        if (p_->tagInfo_ == 0 || p_->tagInfo_->tag_ == 0xffff) return unknownTag.count_;
+        if (p_->tagInfo_ == 0) return unknownTag.count_;
         return p_->tagInfo_->count_;
     }
 

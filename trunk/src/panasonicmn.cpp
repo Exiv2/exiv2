@@ -281,7 +281,7 @@ namespace Exiv2 {
         TagInfo(0x8006, "WBBlueLevel", N_("WB Blue Level"), N_("WB blue level"), panasonicIfdId, makerTags, unsignedShort, -1, printValue),
         TagInfo(0x8010, "BabyAge", N_("Baby Age"), N_("Baby (or pet) age"), panasonicIfdId, makerTags, asciiString, -1, printValue),
         // End of list marker
-        TagInfo(0xffff, "(UnknownPanasonicMakerNoteTag)", "(UnknownPanasonicMakerNoteTag)", N_("Unknown PanasonicMakerNote tag"), panasonicIfdId, makerTags, undefined, -1, printValue)
+        TagInfo(0xffff, "(UnknownPanasonicMakerNoteTag)", "(UnknownPanasonicMakerNoteTag)", N_("Unknown PanasonicMakerNote tag"), panasonicIfdId, makerTags, asciiString, -1, printValue)
     };
 
     const TagInfo* PanasonicMakerNote::tagList()
@@ -352,7 +352,7 @@ namespace Exiv2 {
         TagInfo(0x8769, "ExifTag", N_("Exif IFD Pointer"), N_("A pointer to the Exif IFD"), panaRawIfdId, panaRaw, unsignedLong, -1, printValue),
         TagInfo(0x8825, "GPSTag", N_("GPS Info IFD Pointer"), N_("A pointer to the GPS Info IFD"), panaRawIfdId, panaRaw, unsignedLong, -1, printValue),
         // End of list marker
-        TagInfo(0xffff, "(UnknownPanasonicRawTag)", "(UnknownPanasonicRawTag)", N_("Unknown PanasonicRaw tag"), panaRawIfdId, panaRaw, undefined, -1, printValue)
+        TagInfo(0xffff, "(UnknownPanasonicRawTag)", "(UnknownPanasonicRawTag)", N_("Unknown PanasonicRaw tag"), panaRawIfdId, panaRaw, asciiString, -1, printValue)
     };
 
     const TagInfo* PanasonicMakerNote::tagListRaw()

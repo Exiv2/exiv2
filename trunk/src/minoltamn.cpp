@@ -184,10 +184,9 @@ namespace Exiv2 {
                 N_("Camera Settings (for Z1, DImage X, and F100 models)"),
                 minoltaIfdId, makerTags, undefined, -1, printValue),
         // End of list marker
-
         TagInfo(0xffff, "(UnknownMinoltaMakerNoteTag)", "(UnknownMinoltaMakerNoteTag)",
                 N_("Unknown Minolta MakerNote tag"),
-                minoltaIfdId, makerTags, undefined, -1, printValue)
+                minoltaIfdId, makerTags, asciiString, -1, printValue)
     };
 
     const TagInfo* MinoltaMakerNote::tagList()
@@ -637,7 +636,6 @@ namespace Exiv2 {
         TagInfo(0x003F, "FlashMetering", N_("Flash Metering"),
                 N_("Flash metering"),
                 minoltaCsNewIfdId, makerTags, unsignedLong, 1, EXV_PRINT_TAG(minoltaFlashMeteringStd)),
-
         // End of list marker
         TagInfo(0xffff, "(UnknownMinoltaCsStdTag)", "(UnknownMinoltaCsStdTag)",
                 N_("Unknown Minolta Camera Settings tag"),
@@ -817,7 +815,6 @@ namespace Exiv2 {
         TagInfo(0x0075, "ZoneMatchingOn", N_("Zone Matching On"),
                 N_("Zone matching on"),
                 minoltaCs7DIfdId, makerTags, unsignedShort, 1, printMinoltaSonyBoolValue),
-
         // End of list marker
         TagInfo(0xffff, "(UnknownMinoltaCs7DTag)", "(UnknownMinoltaCs7DTag)",
                 N_("Unknown Minolta Camera Settings 7D tag"),

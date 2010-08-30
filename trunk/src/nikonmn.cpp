@@ -261,7 +261,7 @@ namespace Exiv2 {
         // End of list marker
         TagInfo(0xffff, "(UnknownNikon1MnTag)", "(UnknownNikon1MnTag)",
                 N_("Unknown Nikon1MakerNote tag"),
-                nikon1IfdId, makerTags, undefined, -1, printValue)
+                nikon1IfdId, makerTags, asciiString, -1, printValue)
     };
 
     const TagInfo* Nikon1MakerNote::tagList()
@@ -489,7 +489,7 @@ namespace Exiv2 {
         // End of list marker
         TagInfo(0xffff, "(UnknownNikon2MnTag)", "(UnknownNikon2MnTag)",
                 N_("Unknown Nikon2MakerNote tag"),
-                nikon2IfdId, makerTags, undefined, -1, printValue)
+                nikon2IfdId, makerTags, asciiString, -1, printValue)
     };
 
     const TagInfo* Nikon2MakerNote::tagList()
@@ -613,7 +613,7 @@ namespace Exiv2 {
         TagInfo(0x0e1d, "ICCProfile", "ICC Profile", N_("ICC profile"), nikon3IfdId, makerTags, undefined, -1, printValue),
         TagInfo(0x0e1e, "CaptureOutput", "Capture Output", N_("Capture output"), nikon3IfdId, makerTags, undefined, -1, printValue),
         // End of list marker
-        TagInfo(0xffff, "(UnknownNikon3MnTag)", "(UnknownNikon3MnTag)", N_("Unknown Nikon3MakerNote tag"), nikon3IfdId, makerTags, undefined, -1, printValue)
+        TagInfo(0xffff, "(UnknownNikon3MnTag)", "(UnknownNikon3MnTag)", N_("Unknown Nikon3MakerNote tag"), nikon3IfdId, makerTags, asciiString, -1, printValue)
     };
 
     const TagInfo* Nikon3MakerNote::tagList()

@@ -231,7 +231,7 @@ namespace Exiv2 {
         TagInfo(0x00e0, "SensorInfo", N_("Sensor Info"), N_("Sensor info"), canonIfdId, makerTags, unsignedShort, -1, printValue),
         TagInfo(0x4001, "ColorData", N_("Color Data"), N_("Color data"), canonIfdId, makerTags, unsignedShort, -1, printValue),
         // End of list marker
-        TagInfo(0xffff, "(UnknownCanonMakerNoteTag)", "(UnknownCanonMakerNoteTag)", N_("Unknown CanonMakerNote tag"), canonIfdId, makerTags, undefined, -1, printValue)
+        TagInfo(0xffff, "(UnknownCanonMakerNoteTag)", "(UnknownCanonMakerNoteTag)", N_("Unknown CanonMakerNote tag"), canonIfdId, makerTags, asciiString, -1, printValue)
     };
 
     const TagInfo* CanonMakerNote::tagList()
