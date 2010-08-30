@@ -243,6 +243,6 @@ typedef int pid_t;
   Disable warnings about 'deprecated' standard functions
   See, eg. http://www.informit.com/guides/content.asp?g=cplusplus&seqNum=259
 */
-#if _MSC_VER >= 1400
+#if defined(_MSC_VER) && (_MSC_VER >= 1400)
 # pragma warning(disable : 4996 4251)
 #endif
