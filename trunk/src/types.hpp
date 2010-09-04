@@ -25,7 +25,7 @@
   @author  Andreas Huggel (ahu)
            <a href="mailto:ahuggel@gmx.net">ahuggel@gmx.net</a>
   @date    09-Jan-04, ahu: created<BR>
-           11-Feb-04, ahu: isolated as a component
+           11-Feb-04, ahu: isolated as a component<BR>
            31-Jul-04, brad: added Time, Data and String values
  */
 #ifndef TYPES_HPP_

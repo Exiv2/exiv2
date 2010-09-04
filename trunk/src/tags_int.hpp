@@ -52,6 +52,9 @@ namespace Exiv2 {
 // *****************************************************************************
 // class definitions
 
+    //! Type for a function pointer for functions interpreting the tag value
+    typedef std::ostream& (*PrintFct)(std::ostream&, const Value&, const ExifData* pExifData);
+
     //! Type to specify the IFD to which a metadata belongs
     enum IfdId {
         ifdIdNotSet,

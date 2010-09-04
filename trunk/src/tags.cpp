@@ -2741,9 +2741,9 @@ namespace Exiv2 {
         pos1 = key.find('.', pos0);
         if (pos1 == std::string::npos) throw Error(6, key);
         std::string groupName = key.substr(pos0, pos1 - pos0);
-        if (groupName == "") throw Error(6, key);
+        if (groupName.empty()) throw Error(6, key);
         std::string tn = key.substr(pos1 + 1);
-        if (tn == "") throw Error(6, key);
+        if (tn.empty()) throw Error(6, key);
 
         // Find IfdId
         IfdId ifdId = groupId(groupName);
