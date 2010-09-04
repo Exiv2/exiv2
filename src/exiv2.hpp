@@ -40,7 +40,6 @@
 #include "easyaccess.hpp"
 #include "error.hpp"
 #include "exif.hpp"
-#include "exiv2.hpp"
 #include "futils.hpp"
 #include "gifimage.hpp"
 #include "image.hpp"
