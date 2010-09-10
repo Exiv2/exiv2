@@ -49,6 +49,7 @@ Options:
    -h      Display this help and exit.
    -V      Show the program version and exit.
    -v      Be verbose during the program run.
+   -q      Silence warnings and error messages during the program run (quiet).
    -b      Show large binary values.
    -u      Show unknown tags.
    -g key  Only output info for this key (grep).

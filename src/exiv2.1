@@ -3,7 +3,7 @@
 .\" First parameter, NAME, should be all caps
 .\" Second parameter, SECTION, should be 1-8, maybe w/ subsection
 .\" other parameters are allowed: see man(7), man(1)
-.TH EXIV2 1 "Feb 14, 2010"
+.TH EXIV2 1 "Sep 10, 2010"
 .\" Please adjust this date whenever revising the manpage.
 .\"
 .\" Some roff macros, for reference:
@@ -126,6 +126,11 @@ Show the program version and exit.
 .TP
 .B \-v
 Be verbose during the program run.
+.TP
+.B \-q
+Silence warnings and error messages from the Exiv2 library during the
+program run (quiet). Note that options \fB\-v\fP and \fB\-q\fP can be
+used at the same time.
 .TP
 .B \-b
 Show large binary values (default is to suppress them).
