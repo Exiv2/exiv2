@@ -334,7 +334,8 @@ namespace Exiv2 {
         { 4, "DiMAGE 7i"                 },
         { 5, "DiMAGE 7Hi"                },
         { 6, "DiMAGE A1"                 },
-        { 7, "DiMAGE A2 | S414"          }
+        { 7, "DiMAGE A2 | S414"          },
+        { 7, "DiMAGE A2 | S414"          }      // To silence compiler warning
     };
 
     //! Lookup table to translate Minolta Std camera settings interval mode values to readable labels
@@ -685,7 +686,8 @@ namespace Exiv2 {
         { 4,   N_("Tungsten")    },
         { 5,   N_("Fluorescent") },
         { 256, N_("Kelvin")      },
-        { 512, N_("Manual")      }
+        { 512, N_("Manual")      },
+        { 512, N_("Manual")      }              // To silence compiler warning
     };
 
     //! Lookup table to translate Minolta Dynax 7D camera settings focus mode values to readable labels

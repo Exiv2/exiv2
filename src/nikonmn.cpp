@@ -82,7 +82,7 @@ namespace Exiv2 {
     };
 
     //! Focus area for Nikon cameras.
-    extern const char *nikonFocusarea[] = {
+    extern const char * const nikonFocusarea[] = {
         N_("Single area"),
         N_("Dynamic area"),
         N_("Dynamic area, closest subject"),
@@ -95,7 +95,7 @@ namespace Exiv2 {
     // module. Note that relative size and position will vary depending on if
     // "wide" or not
     //! Focus points for Nikon cameras, used for Nikon 1 and Nikon 3 makernotes.
-    extern const char *nikonFocuspoints[] = {
+    extern const char * const nikonFocuspoints[] = {
         N_("Center"),
         N_("Top"),
         N_("Bottom"),
@@ -950,7 +950,8 @@ namespace Exiv2 {
         { 4, N_("Automatic")              },
         { 5, N_("GN (distance priority)") },
         { 6, N_("Manual")                 },
-        { 7, N_("Repeating Flash")        }
+        { 7, N_("Repeating Flash")        },
+        { 7, N_("Repeating Flash")        }     // To silence compiler warning
     };
 
     //! ExternalFlashFlags

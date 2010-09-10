@@ -75,7 +75,8 @@ namespace Exiv2 {
         {  769, N_("Fluorescent (warm white)") },
         {  770, N_("Fluorescent (cool white)") },
         { 1024, N_("Incandescent")             },
-        { 3480, N_("Custom")                   }
+        { 3480, N_("Custom")                   },
+        { 3480, N_("Custom")                   } // To silence compiler warning
     };
 
     //! Color, tag 0x1003
@@ -83,7 +84,8 @@ namespace Exiv2 {
         {   0, N_("Normal")               },
         { 256, N_("High")                 },
         { 512, N_("Low")                  },
-        { 768, N_("None (black & white)") }
+        { 768, N_("None (black & white)") },
+        { 768, N_("None (black & white)") }     // To silence compiler warning
     };
 
     //! Tone, tag 0x1004
@@ -98,7 +100,8 @@ namespace Exiv2 {
         { 0, N_("Auto")              },
         { 1, N_("On")                },
         { 2, N_("Off")               },
-        { 3, N_("Red-eye reduction") }
+        { 3, N_("Red-eye reduction") },
+        { 3, N_("Red-eye reduction") }          // To silence compiler warning
     };
 
     //! FocusMode, tag 0x1021

@@ -339,7 +339,8 @@ namespace Exiv2 {
         { 0, N_("None")  },
         { 1, "2x"        },
         { 2, "4x"        },
-        { 3, N_("Other") }
+        { 3, N_("Other") },
+        { 3, N_("Other") }                      // To silence compiler warning
     };
 
     //! Contrast, Saturation Sharpness, tags 0x000d, 0x000e, 0x000f

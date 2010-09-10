@@ -339,14 +339,15 @@ namespace Exiv2 {
 
     //! Saturation, tag 0x001f
     extern const TagDetails pentaxSaturation[] = {
-        {    0, N_("Low") },
-        {    1, N_("Normal") },
-        {    2, N_("High") },
-        {    3, N_("Med Low") },
-        {    4, N_("Med High") },
-        {    5, N_("Very Low") },
-        {    6, N_("Very High") },
-        {    65535, N_("None") },
+        {     0, N_("Low")       },
+        {     1, N_("Normal")    },
+        {     2, N_("High")      },
+        {     3, N_("Med Low")   },
+        {     4, N_("Med High")  },
+        {     5, N_("Very Low")  },
+        {     6, N_("Very High") },
+        { 65535, N_("None")      },
+        { 65535, N_("None")      }              // To silence compiler warning
     };
 
     //! Contrast, tag 0x0020

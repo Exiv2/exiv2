@@ -451,7 +451,8 @@ namespace Exiv2 {
         { 7,  N_("Continuous Bracketing")            },
         { 12, N_("Continuous Low")                   },
         { 18, N_("White Balance Bracketing Low")     },
-        { 19, N_("D-Range Optimizer Bracketing Low") }
+        { 19, N_("D-Range Optimizer Bracketing Low") },
+        { 19, N_("D-Range Optimizer Bracketing Low") } // To silence compiler warning
     };
 
     //! Lookup table to translate Sony camera settings focus mode values to readable labels
