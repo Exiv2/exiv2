@@ -256,6 +256,7 @@ void Params::help(std::ostream& os) const
        << _("   -h      Display this help and exit.\n")
        << _("   -V      Show the program version and exit.\n")
        << _("   -v      Be verbose during the program run.\n")
+       << _("   -q      Silence warnings and error messages during the program run (quiet).\n")
        << _("   -b      Show large binary values.\n")
        << _("   -u      Show unknown tags.\n")
        << _("   -g key  Only output info for this key (grep).\n")
@@ -336,6 +337,7 @@ int Params::option(int opt, const std::string& optarg, int optopt)
     case 'h': help_ = true; break;
     case 'V': version_ = true; break;
     case 'v': verbose_ = true; break;
+    case 'q': Exiv2::LogMsg::setLevel(Exiv2::LogMsg::mute); break;
     case 'k': preserve_ = true; break;
     case 'b': binary_ = false; break;
     case 'u': unknown_ = false; break;
