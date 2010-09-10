@@ -20,7 +20,7 @@
  */
 /*!
   @file    error.hpp
-  @brief   Error class for exceptions
+  @brief   Error class for exceptions, log message class
   @version $Rev$
   @author  Andreas Huggel (ahu)
            <a href="mailto:ahuggel@gmx.net">ahuggel@gmx.net</a>
@@ -38,6 +38,7 @@
 #include <exception>
 #include <string>
 #include <iosfwd>
+#include <sstream>
 
 // *****************************************************************************
 // namespace extensions
@@ -45,6 +46,97 @@ namespace Exiv2 {
 
 // *****************************************************************************
 // class definitions
+
+    /*!
+      @brief Class for a log message, used by the library. Applications can set
+             the log level and provide a customer log message handler (callback
+             function).
+
+             This class is meant to be used as a temporary object like this:
+
+             <code>
+             LogMsg(LogMsg::warn) << "Warning! Something looks fishy.\n";
+             </code>
+
+             The convenience macros EXV_DEBUG, EXV_INFO, EXV_WARN and EXV_ERROR
+             are just shorthands for the constructor calls.
+     */
+    class EXIV2API LogMsg {
+    public:
+        /*!
+          @brief Defined log levels. To suppress all log messages, either set the
+                 log level to \c mute or set the log message handler to 0.
+         */
+        enum Level { debug = 0, info = 1, warn = 2, error = 3, mute = 4 };
+        /*!
+          @brief Type for a log message handler function. The function receives
+                 the log level and message and can process it in an application
+                 specific way.  The default handler sends the log message to
+                 standard error.
+         */
+        typedef void (*Handler)(int, const char*);
+
+        //! @name Creators
+        //@{
+        //! Constructor, takes the log message type as an argument
+        explicit LogMsg(Level msgType) : msgType_(msgType) {}
+        //! Destructor, passes the log message to the message handler depending on the log level
+        ~LogMsg() { if (msgType_ >= level_ && handler_) handler_(msgType_, os_.str().c_str()); }
+        //@}
+
+        //! @name Manipulators
+        //@{
+        /*!
+          @brief Output operator, to pass the message to a log message object.
+                 (This is not perfect. It can deal with some std manipulators
+                 but not all, e.g., not std::endl.)
+         */
+        template<typename T>
+        LogMsg& operator<<(const T& t)
+        {
+            os_ << t;
+            return *this;
+        }
+        //@}
+
+        /*!
+          @brief Set the log level. Only log messages with a level greater or
+                 equal \em level are sent to the log message handler. Default
+                 log level is \c info. To suppress all log messages, set the log
+                 level to \c mute (or set the log message handler to 0).
+        */
+        static void setLevel(Level level) { level_ = level; }
+        /*!
+          @brief Set the log message handler. The default handler writes log
+                 messages to standard error. To suppress all log messages, set
+                 the log message handler to 0 (or set the log level to \c mute).
+         */
+        static void setHandler(Handler handler) { handler_ = handler; }
+        //! Return the current log level
+        static Level level() { return level_; }
+        //! Return the current log message handler
+        static Handler handler() { return handler_; }
+        //! The default log handler. Sends the log message to standard error.
+        static void defaultHandler(int level, const char* s);
+
+    private:
+        // DATA
+        // The output level. Only messages with type >= level_ will be written
+        static Level level_;
+        // The log handler in use
+        static Handler handler_;
+        // The type of this log message
+        const Level msgType_;
+        // Holds the log message until it is passed to the message handler
+        std::ostringstream os_;
+
+    }; // class LogMsg
+
+// Macros for simple access
+#define EXV_DEBUG   LogMsg(LogMsg::debug)  //!< Shorthand for a debug log message object
+#define EXV_INFO    LogMsg(LogMsg::info)   //!< Shorthand for an info log message object
+#define EXV_WARNING LogMsg(LogMsg::warn)   //!< Shorthand for a warning log message object
+#define EXV_ERROR   LogMsg(LogMsg::error)  //!< Shorthand for an error log message object
 
 #ifdef _MSC_VER
 // Disable MSVC warnings "non - DLL-interface classkey 'identifier' used as base

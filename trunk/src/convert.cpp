@@ -487,7 +487,7 @@ namespace Exiv2 {
         std::string value = pos->toString();
         if (!pos->value().ok()) {
 #ifndef SUPPRESS_WARNINGS
-            std::cerr << "Warning: Failed to convert " << from << " to " << to << "\n";
+            EXV_WARNING << "Failed to convert " << from << " to " << to << "\n";
 #endif
             return;
         }
@@ -504,7 +504,7 @@ namespace Exiv2 {
         const CommentValue* cv = dynamic_cast<const CommentValue*>(&pos->value());
         if (cv == 0) {
 #ifndef SUPPRESS_WARNINGS
-            std::cerr << "Warning: Failed to convert " << from << " to " << to << "\n";
+            EXV_WARNING << "Failed to convert " << from << " to " << to << "\n";
 #endif
             return;
         }
@@ -522,7 +522,7 @@ namespace Exiv2 {
             std::string value = pos->toString(i);
             if (!pos->value().ok()) {
 #ifndef SUPPRESS_WARNINGS
-                std::cerr << "Warning: Failed to convert " << from << " to " << to << "\n";
+                EXV_WARNING << "Failed to convert " << from << " to " << to << "\n";
 #endif
                 return;
             }
@@ -544,14 +544,14 @@ namespace Exiv2 {
             std::string value = pos->toString();
             if (!pos->value().ok()) {
 #ifndef SUPPRESS_WARNINGS
-                std::cerr << "Warning: Failed to convert " << from << " to " << to << "\n";
+                EXV_WARNING << "Failed to convert " << from << " to " << to << "\n";
 #endif
                 return;
             }
             if (sscanf(value.c_str(), "%d:%d:%d %d:%d:%d", &year, &month, &day, &hour, &min, &sec) != 6) {
 #ifndef SUPPRESS_WARNINGS
-                std::cerr << "Warning: Failed to convert " << from << " to " << to
-                          << ", unable to parse '" << value << "'\n";
+                EXV_WARNING << "Failed to convert " << from << " to " << to
+                            << ", unable to parse '" << value << "'\n";
 #endif
                 return;
             }
@@ -570,7 +570,7 @@ namespace Exiv2 {
             }
             if (!ok) {
 #ifndef SUPPRESS_WARNINGS
-                std::cerr << "Warning: Failed to convert " << from << " to " << to << "\n";
+                EXV_WARNING << "Failed to convert " << from << " to " << to << "\n";
 #endif
                 return;
             }
@@ -583,7 +583,7 @@ namespace Exiv2 {
 
             if (!pos->value().ok()) {
 #ifndef SUPPRESS_WARNINGS
-                std::cerr << "Warning: Failed to convert " << from << " to " << to << "\n";
+                EXV_WARNING << "Failed to convert " << from << " to " << to << "\n";
 #endif
                 return;
             }
@@ -611,15 +611,15 @@ namespace Exiv2 {
             }
             if (datePos == exifData_->end()) {
 #ifndef SUPPRESS_WARNINGS
-                std::cerr << "Warning: Failed to convert " << from << " to " << to << "\n";
+                EXV_WARNING << "Failed to convert " << from << " to " << to << "\n";
 #endif
                 return;
             }
             std::string value = datePos->toString();
             if (sscanf(value.c_str(), "%d:%d:%d", &year, &month, &day) != 3) {
 #ifndef SUPPRESS_WARNINGS
-                std::cerr << "Warning: Failed to convert " << from << " to " << to
-                          << ", unable to parse '" << value << "'\n";
+                EXV_WARNING << "Failed to convert " << from << " to " << to
+                            << ", unable to parse '" << value << "'\n";
 #endif
                 return;
             }
@@ -694,7 +694,7 @@ namespace Exiv2 {
         int value = pos->toLong();
         if (!pos->value().ok()) {
 #ifndef SUPPRESS_WARNINGS
-            std::cerr << "Warning: Failed to convert " << from << " to " << to << "\n";
+            EXV_WARNING << "Failed to convert " << from << " to " << to << "\n";
 #endif
             return;
         }
@@ -715,14 +715,14 @@ namespace Exiv2 {
         if (!prepareXmpTarget(to)) return;
         if (pos->count() != 3) {
 #ifndef SUPPRESS_WARNINGS
-            std::cerr << "Warning: Failed to convert " << from << " to " << to << "\n";
+            EXV_WARNING << "Failed to convert " << from << " to " << to << "\n";
 #endif
             return;
         }
         Exiv2::ExifData::iterator refPos = exifData_->findKey(ExifKey(std::string(from) + "Ref"));
         if (refPos == exifData_->end()) {
 #ifndef SUPPRESS_WARNINGS
-            std::cerr << "Warning: Failed to convert " << from << " to " << to << "\n";
+            EXV_WARNING << "Failed to convert " << from << " to " << to << "\n";
 #endif
             return;
         }
@@ -732,7 +732,7 @@ namespace Exiv2 {
             const int32_t d = pos->toRational(i).second;
             if (d == 0) {
 #ifndef SUPPRESS_WARNINGS
-                std::cerr << "Warning: Failed to convert " << from << " to " << to << "\n";
+                EXV_WARNING << "Failed to convert " << from << " to " << to << "\n";
 #endif
                 return;
             }
@@ -760,7 +760,7 @@ namespace Exiv2 {
         std::string value;
         if (!getTextValue(value, pos)) {
 #ifndef SUPPRESS_WARNINGS
-            std::cerr << "Warning: Failed to convert " << from << " to " << to << "\n";
+            EXV_WARNING << "Failed to convert " << from << " to " << to << "\n";
 #endif
             return;
         }
@@ -781,7 +781,7 @@ namespace Exiv2 {
         std::string value;
         if (!getTextValue(value, pos)) {
 #ifndef SUPPRESS_WARNINGS
-            std::cerr << "Warning: Failed to convert " << from << " to " << to << "\n";
+            EXV_WARNING << "Failed to convert " << from << " to " << to << "\n";
 #endif
             return;
         }
@@ -800,7 +800,7 @@ namespace Exiv2 {
             std::string value = pos->toString(i);
             if (!pos->value().ok()) {
 #ifndef SUPPRESS_WARNINGS
-                std::cerr << "Warning: Failed to convert " << from << " to " << to << "\n";
+                EXV_WARNING << "Failed to convert " << from << " to " << to << "\n";
 #endif
                 return;
             }
@@ -820,7 +820,7 @@ namespace Exiv2 {
         std::string value = pos->toString();
         if (!pos->value().ok()) {
 #ifndef SUPPRESS_WARNINGS
-            std::cerr << "Warning: Failed to convert " << from << " to " << to << "\n";
+            EXV_WARNING << "Failed to convert " << from << " to " << to << "\n";
 #endif
             return;
         }
@@ -830,7 +830,7 @@ namespace Exiv2 {
         }
 #ifndef SUPPRESS_WARNINGS
         catch (const XMP_Error& e) {
-            std::cerr << "Warning: Failed to convert " << from << " to " << to << " (" << e.GetErrMsg() << ")\n";
+            EXV_WARNING << "Failed to convert " << from << " to " << to << " (" << e.GetErrMsg() << ")\n";
             return;
         }
 #else
@@ -904,7 +904,7 @@ namespace Exiv2 {
         if (erase_) xmpData_->erase(pos);
 #else
 # ifndef SUPPRESS_WARNINGS
-        std::cerr << "Warning: Failed to convert " << from << " to " << to << "\n";
+        EXV_WARNING << "Failed to convert " << from << " to " << to << "\n";
 # endif
 #endif // !EXV_HAVE_XMP_TOOLKIT
     }
@@ -917,7 +917,7 @@ namespace Exiv2 {
         std::string value = pos->toString();
         if (!pos->value().ok() || value.length() < 4) {
 #ifndef SUPPRESS_WARNINGS
-            std::cerr << "Warning: Failed to convert " << from << " to " << to << "\n";
+            EXV_WARNING << "Failed to convert " << from << " to " << to << "\n";
 #endif
             return;
         }
@@ -940,7 +940,7 @@ namespace Exiv2 {
         std::string value = pos->toString();
         if (!pos->value().ok()) {
 #ifndef SUPPRESS_WARNINGS
-            std::cerr << "Warning: Failed to convert " << from << " to " << to << "\n";
+            EXV_WARNING << "Failed to convert " << from << " to " << to << "\n";
 #endif
             return;
         }
@@ -966,7 +966,7 @@ namespace Exiv2 {
                 value |= fired & 1;
 #ifndef SUPPRESS_WARNINGS
             else
-                std::cerr << "Warning: Failed to convert " << std::string(from) + "/exif:Fired" << " to " << to << "\n";
+                EXV_WARNING << "Failed to convert " << std::string(from) + "/exif:Fired" << " to " << to << "\n";
 #endif
         }
         pos = xmpData_->findKey(XmpKey(std::string(from) + "/exif:Return"));
@@ -976,7 +976,7 @@ namespace Exiv2 {
                 value |= (ret & 3) << 1;
 #ifndef SUPPRESS_WARNINGS
             else
-                std::cerr << "Warning: Failed to convert " << std::string(from) + "/exif:Return" << " to " << to << "\n";
+                EXV_WARNING << "Failed to convert " << std::string(from) + "/exif:Return" << " to " << to << "\n";
 #endif
         }
         pos = xmpData_->findKey(XmpKey(std::string(from) + "/exif:Mode"));
@@ -986,7 +986,7 @@ namespace Exiv2 {
                 value |= (mode & 3) << 3;
 #ifndef SUPPRESS_WARNINGS
             else
-                std::cerr << "Warning: Failed to convert " << std::string(from) + "/exif:Mode" << " to " << to << "\n";
+                EXV_WARNING << "Failed to convert " << std::string(from) + "/exif:Mode" << " to " << to << "\n";
 #endif
         }
         pos = xmpData_->findKey(XmpKey(std::string(from) + "/exif:Function"));
@@ -996,7 +996,7 @@ namespace Exiv2 {
                 value |= (function & 1) << 5;
 #ifndef SUPPRESS_WARNINGS
             else
-                std::cerr << "Warning: Failed to convert " << std::string(from) + "/exif:Function" << " to " << to << "\n";
+                EXV_WARNING << "Failed to convert " << std::string(from) + "/exif:Function" << " to " << to << "\n";
 #endif
         }
         pos = xmpData_->findKey(XmpKey(std::string(from) + "/exif:RedEyeMode"));
@@ -1006,7 +1006,7 @@ namespace Exiv2 {
                 value |= (red & 1) << 6;
 #ifndef SUPPRESS_WARNINGS
             else
-                std::cerr << "Warning: Failed to convert " << std::string(from) + "/exif:RedEyeMode" << " to " << to << "\n";
+                EXV_WARNING << "Failed to convert " << std::string(from) + "/exif:RedEyeMode" << " to " << to << "\n";
 #endif
         }
 
@@ -1022,13 +1022,13 @@ namespace Exiv2 {
         std::string value = pos->toString();
         if (!pos->value().ok()) {
 #ifndef SUPPRESS_WARNINGS
-            std::cerr << "Warning: Failed to convert " << from << " to " << to << "\n";
+            EXV_WARNING << "Failed to convert " << from << " to " << to << "\n";
 #endif
             return;
         }
         if (value.empty()) {
 #ifndef SUPPRESS_WARNINGS
-            std::cerr << "Warning: " << from << " is empty\n";
+            EXV_WARNING << from << " is empty\n";
 #endif
             return;
         }
@@ -1059,7 +1059,7 @@ namespace Exiv2 {
         if (   in.bad() || !(ref == 'N' || ref == 'S' || ref == 'E' || ref == 'W')
             || sep1 != ',' || sep2 != ',' || !in.eof()) {
 #ifndef SUPPRESS_WARNINGS
-            std::cerr << "Warning: Failed to convert " << from << " to " << to << "\n";
+            EXV_WARNING << "Failed to convert " << from << " to " << to << "\n";
 #endif
             return;
         }
@@ -1089,7 +1089,7 @@ namespace Exiv2 {
                 std::string value = pos->toString();
                 if (!pos->value().ok()) {
 #ifndef SUPPRESS_WARNINGS
-                    std::cerr << "Warning: Failed to convert " << from << " to " << to << "\n";
+                    EXV_WARNING << "Failed to convert " << from << " to " << to << "\n";
 #endif
                     ++pos;
                     continue;
@@ -1115,7 +1115,7 @@ namespace Exiv2 {
             std::string value;
             if (!getTextValue(value, pos)) {
 #ifndef SUPPRESS_WARNINGS
-                std::cerr << "Warning: Failed to convert " << from << " to " << to << "\n";
+                EXV_WARNING << "Failed to convert " << from << " to " << to << "\n";
 #endif
                 return;
             }
@@ -1131,7 +1131,7 @@ namespace Exiv2 {
             std::string value = pos->toString(i);
             if (!pos->value().ok()) {
 #ifndef SUPPRESS_WARNINGS
-                std::cerr << "Warning: Failed to convert " << from << " to " << to << "\n";
+                EXV_WARNING << "Failed to convert " << from << " to " << to << "\n";
 #endif
                 continue;
             }
@@ -1324,7 +1324,7 @@ namespace Exiv2 {
         cd = iconv_open(to, from);
         if (cd == (iconv_t)(-1)) {
 #ifndef SUPPRESS_WARNINGS
-            std::cerr << "Warning: iconv_open: " << strError() << "\n";
+            EXV_WARNING << "iconv_open: " << strError() << "\n";
 #endif
             return false;
         }
@@ -1343,9 +1343,8 @@ namespace Exiv2 {
             int outbytesProduced = sizeof(outbuf) - 1 - outbytesleft;
             if (rc == size_t(-1) && errno != E2BIG) {
 #ifndef SUPPRESS_WARNINGS
-                std::cerr << "Warning: iconv: "
-                          << strError()
-                          << " inbytesleft = " << inbytesleft << "\n";
+                EXV_WARNING << "iconv: " << strError()
+                            << " inbytesleft = " << inbytesleft << "\n";
 #endif
                 ret = false;
                 break;

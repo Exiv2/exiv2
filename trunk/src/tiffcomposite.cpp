@@ -399,32 +399,29 @@ namespace Exiv2 {
     {
         if (!pValue() || !pSize) {
 #ifndef SUPPRESS_WARNINGS
-            std::cerr << "Warning: "
-                      << "Directory " << groupName(group())
-                      << ", entry 0x" << std::setw(4)
-                      << std::setfill('0') << std::hex << tag()
-                      << ": Size or data offset value not set, ignoring them.\n";
+            EXV_WARNING << "Directory " << groupName(group())
+                        << ", entry 0x" << std::setw(4)
+                        << std::setfill('0') << std::hex << tag()
+                        << ": Size or data offset value not set, ignoring them.\n";
 #endif
             return;
         }
         if (pValue()->count() == 0) {
 #ifndef SUPPRESS_WARNINGS
-            std::cerr << "Warning: "
-                      << "Directory " << groupName(group())
-                      << ", entry 0x" << std::setw(4)
-                      << std::setfill('0') << std::hex << tag()
-                      << ": Data offset entry value is empty, ignoring it.\n";
+            EXV_WARNING << "Directory " << groupName(group())
+                        << ", entry 0x" << std::setw(4)
+                        << std::setfill('0') << std::hex << tag()
+                        << ": Data offset entry value is empty, ignoring it.\n";
 #endif
             return;
         }
         if (pValue()->count() != pSize->count()) {
 #ifndef SUPPRESS_WARNINGS
-            std::cerr << "Warning: "
-                      << "Directory " << groupName(group())
-                      << ", entry 0x" << std::setw(4)
-                      << std::setfill('0') << std::hex << tag()
-                      << ": Size and data offset entries have different"
-                      << " number of components, ignoring them.\n";
+            EXV_WARNING << "Directory " << groupName(group())
+                        << ", entry 0x" << std::setw(4)
+                        << std::setfill('0') << std::hex << tag()
+                        << ": Size and data offset entries have different"
+                        << " number of components, ignoring them.\n";
 #endif
             return;
         }
@@ -439,11 +436,10 @@ namespace Exiv2 {
             + static_cast<uint32_t>(pSize->toLong(pSize->count()-1))
             - offset != size) {
 #ifndef SUPPRESS_WARNINGS
-            std::cerr << "Warning: "
-                      << "Directory " << groupName(group())
-                      << ", entry 0x" << std::setw(4)
-                      << std::setfill('0') << std::hex << tag()
-                      << ": Data area is not contiguous, ignoring it.\n";
+            EXV_WARNING << "Directory " << groupName(group())
+                        << ", entry 0x" << std::setw(4)
+                        << std::setfill('0') << std::hex << tag()
+                        << ": Data area is not contiguous, ignoring it.\n";
 #endif
             return;
         }
@@ -451,11 +447,10 @@ namespace Exiv2 {
             || size > sizeData
             || baseOffset + offset > sizeData - size) {
 #ifndef SUPPRESS_WARNINGS
-            std::cerr << "Warning: "
-                      << "Directory " << groupName(group())
-                      << ", entry 0x" << std::setw(4)
-                      << std::setfill('0') << std::hex << tag()
-                      << ": Data area exceeds data buffer, ignoring it.\n";
+            EXV_WARNING << "Directory " << groupName(group())
+                        << ", entry 0x" << std::setw(4)
+                        << std::setfill('0') << std::hex << tag()
+                        << ": Data area exceeds data buffer, ignoring it.\n";
 #endif
             return;
         }
@@ -471,22 +466,20 @@ namespace Exiv2 {
     {
         if (!pValue() || !pSize) {
 #ifndef SUPPRESS_WARNINGS
-            std::cerr << "Warning: "
-                      << "Directory " << groupName(group())
-                      << ", entry 0x" << std::setw(4)
-                      << std::setfill('0') << std::hex << tag()
-                      << ": Size or data offset value not set, ignoring them.\n";
+            EXV_WARNING << "Directory " << groupName(group())
+                        << ", entry 0x" << std::setw(4)
+                        << std::setfill('0') << std::hex << tag()
+                        << ": Size or data offset value not set, ignoring them.\n";
 #endif
             return;
         }
         if (pValue()->count() != pSize->count()) {
 #ifndef SUPPRESS_WARNINGS
-            std::cerr << "Warning: "
-                      << "Directory " << groupName(group())
-                      << ", entry 0x" << std::setw(4)
-                      << std::setfill('0') << std::hex << tag()
-                      << ": Size and data offset entries have different"
-                      << " number of components, ignoring them.\n";
+            EXV_WARNING << "Directory " << groupName(group())
+                        << ", entry 0x" << std::setw(4)
+                        << std::setfill('0') << std::hex << tag()
+                        << ": Size and data offset entries have different"
+                        << " number of components, ignoring them.\n";
 #endif
             return;
         }
@@ -499,12 +492,11 @@ namespace Exiv2 {
                 || size > sizeData
                 || baseOffset + offset > sizeData - size) {
 #ifndef SUPPRESS_WARNINGS
-                std::cerr << "Warning: "
-                          << "Directory " << groupName(group())
-                          << ", entry 0x" << std::setw(4)
-                          << std::setfill('0') << std::hex << tag()
-                          << ": Strip " << std::dec << i
-                          << " is outside of the data area; ignored.\n";
+                EXV_WARNING << "Directory " << groupName(group())
+                            << ", entry 0x" << std::setw(4)
+                            << std::setfill('0') << std::hex << tag()
+                            << ": Strip " << std::dec << i
+                            << " is outside of the data area; ignored.\n";
 #endif
             }
             else if (size != 0) {
@@ -1824,7 +1816,7 @@ namespace Exiv2 {
     {
         if (static_cast<uint32_t>(typeId) > 0xffff) {
 #ifndef SUPPRESS_WARNINGS
-            std::cerr << "Error: '" << TypeInfo::typeName(typeId)
+            EXV_ERROR << "'" << TypeInfo::typeName(typeId)
                       << "' is not a valid Exif (TIFF) type; using type '"
                       << TypeInfo::typeName(undefined) << "'.\n";
 #endif

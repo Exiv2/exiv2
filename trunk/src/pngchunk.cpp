@@ -276,7 +276,7 @@ namespace Exiv2 {
                 else
                 {
 #ifndef SUPPRESS_WARNINGS
-                    std::cerr << "Exiv2::PngChunk::parseChunkContent: Failed to decode Exif metadata.\n";
+                    EXV_WARNING << "Failed to decode Exif metadata.\n";
 #endif
                     pImage->exifData().clear();
                 }
@@ -317,7 +317,7 @@ namespace Exiv2 {
                                           &iptcBlob[0],
                                           static_cast<uint32_t>(iptcBlob.size()))) {
 #ifndef SUPPRESS_WARNINGS
-                    std::cerr << "Warning: Failed to decode IPTC metadata.\n";
+                    EXV_WARNING << "Failed to decode IPTC metadata.\n";
 #endif
                     pImage->clearIptcData();
                 }
@@ -327,7 +327,7 @@ namespace Exiv2 {
                                           psData.pData_,
                                           psData.size_)) {
 #ifndef SUPPRESS_WARNINGS
-                    std::cerr << "Warning: Failed to decode IPTC metadata.\n";
+                    EXV_WARNING << "Failed to decode IPTC metadata.\n";
 #endif
                     pImage->clearIptcData();
                 }
@@ -351,15 +351,15 @@ namespace Exiv2 {
                 if (idx != std::string::npos && idx > 0)
                 {
 #ifndef SUPPRESS_WARNINGS
-                    std::cerr << "Exiv2::PngChunk::parseChunkContent: Removing " << idx
-                              << " characters from the beginning of the XMP packet\n";
+                    EXV_WARNING << "Removing " << idx
+                                << " characters from the beginning of the XMP packet\n";
 #endif
                     xmpPacket = xmpPacket.substr(idx);
                 }
                 if (XmpParser::decode(pImage->xmpData(), xmpPacket))
                 {
 #ifndef SUPPRESS_WARNINGS
-                    std::cerr << "Exiv2::PngChunk::parseChunkContent: Failed to decode XMP metadata.\n";
+                    EXV_WARNING << "Failed to decode XMP metadata.\n";
 #endif
                 }
             }
@@ -379,15 +379,15 @@ namespace Exiv2 {
                 if (idx != std::string::npos && idx > 0)
                 {
 #ifndef SUPPRESS_WARNINGS
-                    std::cerr << "Warning: Removing " << idx << " characters "
-                              << "from the beginning of the XMP packet\n";
+                    EXV_WARNING << "Removing " << idx << " characters "
+                                << "from the beginning of the XMP packet\n";
 #endif
                     xmpPacket = xmpPacket.substr(idx);
                 }
                 if (XmpParser::decode(pImage->xmpData(), xmpPacket))
                 {
 #ifndef SUPPRESS_WARNINGS
-                    std::cerr << "Warning: Failed to decode XMP metadata.\n";
+                    EXV_WARNING << "Failed to decode XMP metadata.\n";
 #endif
                 }
             }

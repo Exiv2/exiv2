@@ -451,18 +451,16 @@ namespace Exiv2 {
                 int rc = 0;
                 if ((rc = readData(iptcData, dataSet, record, pRead, sizeData)) != 0) {
 #ifndef SUPPRESS_WARNINGS
-                    std::cerr << "Warning: "
-                              << "Failed to read IPTC dataset "
-                              << IptcKey(dataSet, record)
-                              << " (rc = " << rc << "); skipped.\n";
+                    EXV_WARNING << "Failed to read IPTC dataset "
+                                << IptcKey(dataSet, record)
+                                << " (rc = " << rc << "); skipped.\n";
 #endif
                 }
             }
 #ifndef SUPPRESS_WARNINGS
             else {
-                std::cerr << "Warning: "
-                          << "IPTC dataset " << IptcKey(dataSet, record)
-                          << " has invalid size " << sizeData << "; skipped.\n";
+                EXV_WARNING << "IPTC dataset " << IptcKey(dataSet, record)
+                            << " has invalid size " << sizeData << "; skipped.\n";
             }
 #endif
             pRead += sizeData;

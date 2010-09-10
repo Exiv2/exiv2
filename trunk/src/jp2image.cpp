@@ -286,7 +286,7 @@ namespace Exiv2
                             else
                             {
 #ifndef SUPPRESS_WARNINGS
-                                std::cerr << "Exiv2::Jp2Image::readMetadata: Failed to decode Exif metadata.\n";
+                                EXV_WARNING << "Failed to decode Exif metadata.\n";
 #endif
                                 exifData_.clear();
                             }
@@ -305,7 +305,7 @@ namespace Exiv2
                             if (IptcParser::decode(iptcData_, rawData.pData_, rawData.size_))
                             {
 #ifndef SUPPRESS_WARNINGS
-                                std::cerr << "Warning: Failed to decode IPTC metadata.\n";
+                                EXV_WARNING << "Failed to decode IPTC metadata.\n";
 #endif
                                 iptcData_.clear();
                             }
@@ -327,9 +327,8 @@ namespace Exiv2
                             if (idx != std::string::npos && idx > 0)
                             {
 #ifndef SUPPRESS_WARNINGS
-                                std::cerr << "Exiv2::Jp2Image::readMetadata: Removing "
-                                          << static_cast<uint32_t>(idx)
-                                          << " characters from the beginning of the XMP packet\n";
+                                EXV_WARNING << "Removing " << static_cast<uint32_t>(idx)
+                                            << " characters from the beginning of the XMP packet\n";
 #endif
                                 xmpPacket_ = xmpPacket_.substr(idx);
                             }
@@ -337,7 +336,7 @@ namespace Exiv2
                             if (xmpPacket_.size() > 0 && XmpParser::decode(xmpData_, xmpPacket_))
                             {
 #ifndef SUPPRESS_WARNINGS
-                                std::cerr << "Exiv2::Jp2Image::readMetadata: Failed to decode XMP metadata.\n";
+                                EXV_WARNING << "Failed to decode XMP metadata.\n";
 #endif
                             }
                         }
@@ -532,7 +531,7 @@ namespace Exiv2
                         if (XmpParser::encode(xmpPacket_, xmpData_) > 1)
                         {
 #ifndef SUPPRESS_WARNINGS
-                            std::cerr << "Error: Failed to encode XMP metadata.\n";
+                            EXV_ERROR << "Failed to encode XMP metadata.\n";
 #endif
                         }
                     }

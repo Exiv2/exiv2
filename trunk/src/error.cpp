@@ -34,7 +34,9 @@ EXIV2_RCSID("@(#) $Id$")
 #include "i18n.h"                // NLS support.
 
 // + standard includes
+#include <iostream>
 #include <string>
+#include <cassert>
 
 // *****************************************************************************
 namespace {
@@ -110,6 +112,21 @@ namespace {
 // *****************************************************************************
 // class member definitions
 namespace Exiv2 {
+
+    LogMsg::Level LogMsg::level_ = LogMsg::info; // Default output level
+    LogMsg::Handler LogMsg::handler_ = LogMsg::defaultHandler;
+
+    void LogMsg::defaultHandler(int level, const char* s)
+    {
+        switch (static_cast<LogMsg::Level>(level)) {
+        case LogMsg::debug: std::cerr << "Debug: "; break;
+        case LogMsg::info:  break;
+        case LogMsg::warn:  std::cerr << "Warning: "; break;
+        case LogMsg::error: std::cerr << "Error: "; break;
+        case LogMsg::mute:  assert(true);
+        }
+        std::cerr << s;
+    }
 
     AnyError::~AnyError() throw()
     {

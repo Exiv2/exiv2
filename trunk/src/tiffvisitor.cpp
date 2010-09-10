@@ -404,14 +404,14 @@ namespace Exiv2 {
             std::string::size_type idx = xmpPacket.find_first_of('<');
             if (idx != std::string::npos && idx > 0) {
 #ifndef SUPPRESS_WARNINGS
-                std::cerr << "Warning: Removing " << static_cast<unsigned long>(idx)
-						  << " characters from the beginning of the XMP packet\n";
+                EXV_WARNING << "Removing " << static_cast<unsigned long>(idx)
+                            << " characters from the beginning of the XMP packet\n";
 #endif
                 xmpPacket = xmpPacket.substr(idx);
             }
             if (XmpParser::decode(xmpData_, xmpPacket)) {
 #ifndef SUPPRESS_WARNINGS
-                std::cerr << "Warning: Failed to decode XMP metadata.\n";
+                EXV_WARNING << "Failed to decode XMP metadata.\n";
 #endif
             }
         }
@@ -438,8 +438,8 @@ namespace Exiv2 {
             }
 #ifndef SUPPRESS_WARNINGS
             else {
-                std::cerr << "Warning: Failed to decode IPTC block found in "
-                          << "Directory Image, entry 0x83bb\n";
+                EXV_WARNING << "Failed to decode IPTC block found in "
+                            << "Directory Image, entry 0x83bb\n";
             }
 #endif
         }
@@ -462,8 +462,8 @@ namespace Exiv2 {
             }
 #ifndef SUPPRESS_WARNINGS
             else {
-                std::cerr << "Warning: Failed to decode IPTC block found in "
-                          << "Directory Image, entry 0x8649\n";
+                EXV_WARNING << "Failed to decode IPTC block found in "
+                            << "Directory Image, entry 0x8649\n";
             }
 #endif
         }
@@ -624,7 +624,7 @@ namespace Exiv2 {
         std::string xmpPacket;
         if (XmpParser::encode(xmpPacket, xmpData_) > 1) {
 #ifndef SUPPRESS_WARNINGS
-            std::cerr << "Error: Failed to encode XMP metadata.\n";
+            EXV_ERROR << "Failed to encode XMP metadata.\n";
 #endif
         }
         if (!xmpPacket.empty()) {
@@ -942,7 +942,7 @@ namespace Exiv2 {
             const byte* zero = 0;
             if (pos == exifData_.end()) {
 #ifndef SUPPRESS_WARNINGS
-                std::cerr << "Error: Size tag " << key
+                EXV_ERROR << "Size tag " << key
                           << " not found. Writing only one strip.\n";
 #endif
                 object->strips_.clear();
@@ -959,7 +959,7 @@ namespace Exiv2 {
                 if (sizeTotal != sizeDataArea) {
 #ifndef SUPPRESS_WARNINGS
                     ExifKey key2(object->tag(), groupName(object->group()));
-                    std::cerr << "Error: Sum of all sizes of " << key
+                    EXV_ERROR << "Sum of all sizes of " << key
                               << " != data size of " << key2 << ". "
                               << "This results in an invalid image.\n";
 #endif
@@ -984,7 +984,7 @@ namespace Exiv2 {
 #ifndef SUPPRESS_WARNINGS
             else {
                 ExifKey key2(object->tag(), groupName(object->group()));
-                std::cerr << "Warning: No image data to encode " << key2 << ".\n";
+                EXV_WARNING << "No image data to encode " << key2 << ".\n";
             }
 #endif
         }
@@ -1227,8 +1227,7 @@ namespace Exiv2 {
         DirList::const_iterator pos = dirList_.find(start);
         if (pos != dirList_.end()) {
 #ifndef SUPPRESS_WARNINGS
-            std::cerr << "Error: "
-                      << groupName(group)  << " pointer references previously read "
+            EXV_ERROR << groupName(group) << " pointer references previously read "
                       << groupName(pos->second) << " directory. Ignored.\n";
 #endif
             return true;
@@ -1262,8 +1261,7 @@ namespace Exiv2 {
 
         if (p + 2 > pLast_) {
 #ifndef SUPPRESS_WARNINGS
-            std::cerr << "Error: "
-                      << "Directory " << groupName(object->group())
+            EXV_ERROR << "Directory " << groupName(object->group())
                       << ": IFD exceeds data buffer, cannot read entry count.\n";
 #endif
             return;
@@ -1273,8 +1271,7 @@ namespace Exiv2 {
         // Sanity check with an "unreasonably" large number
         if (n > 256) {
 #ifndef SUPPRESS_WARNINGS
-            std::cerr << "Error: "
-                      << "Directory " << groupName(object->group()) << " with "
+            EXV_ERROR << "Directory " << groupName(object->group()) << " with "
                       << n << " entries considered invalid; not read.\n";
 #endif
             return;
@@ -1282,8 +1279,7 @@ namespace Exiv2 {
         for (uint16_t i = 0; i < n; ++i) {
             if (p + 12 > pLast_) {
 #ifndef SUPPRESS_WARNINGS
-                std::cerr << "Error: "
-                          << "Directory " << groupName(object->group())
+                EXV_ERROR << "Directory " << groupName(object->group())
                           << ": IFD entry " << i
                           << " lies outside of the data buffer.\n";
 #endif
@@ -1302,8 +1298,7 @@ namespace Exiv2 {
         if (object->hasNext()) {
             if (p + 4 > pLast_) {
 #ifndef SUPPRESS_WARNINGS
-                std::cerr << "Error: "
-                          << "Directory " << groupName(object->group())
+                EXV_ERROR << "Directory " << groupName(object->group())
                           << ": IFD exceeds data buffer, cannot read next pointer.\n";
 #endif
                 return;
@@ -1314,17 +1309,15 @@ namespace Exiv2 {
                 tc = TiffCreator::create(Tag::next, object->group());
 #ifndef SUPPRESS_WARNINGS
                 if (tc.get() == 0) {
-                    std::cerr << "Warning: "
-                              << "Directory " << groupName(object->group())
-                              << " has an unhandled next pointer.\n";
+                    EXV_WARNING << "Directory " << groupName(object->group())
+                                << " has an unhandled next pointer.\n";
                 }
 #endif
             }
             if (tc.get()) {
                 if (baseOffset() + next > size_) {
 #ifndef SUPPRESS_WARNINGS
-                    std::cerr << "Error: "
-                              << "Directory " << groupName(object->group())
+                    EXV_ERROR << "Directory " << groupName(object->group())
                               << ": Next pointer is out of bounds; ignored.\n";
 #endif
                     return;
@@ -1349,8 +1342,7 @@ namespace Exiv2 {
                 if (   baseOffset() + offset > size_
                     || static_cast<int32_t>(baseOffset()) + offset < 0) {
 #ifndef SUPPRESS_WARNINGS
-                    std::cerr << "Error: "
-                              << "Directory " << groupName(object->group())
+                    EXV_ERROR << "Directory " << groupName(object->group())
                               << ", entry 0x" << std::setw(4)
                               << std::setfill('0') << std::hex << object->tag()
                               << " Sub-IFD pointer " << i
@@ -1360,11 +1352,10 @@ namespace Exiv2 {
                 }
                 if (object->newGroup_ + i == subImage9Id + 1) {
 #ifndef SUPPRESS_WARNINGS
-                    std::cerr << "Warning: "
-                              << "Directory " << groupName(object->group())
-                              << ", entry 0x" << std::setw(4)
-                              << std::setfill('0') << std::hex << object->tag()
-                              << ": Skipping sub-IFDs beyond the first " << i << ".\n";
+                    EXV_WARNING << "Directory " << groupName(object->group())
+                                << ", entry 0x" << std::setw(4)
+                                << std::setfill('0') << std::hex << object->tag()
+                                << ": Skipping sub-IFDs beyond the first " << i << ".\n";
 #endif
                     break;
                 }
@@ -1377,11 +1368,10 @@ namespace Exiv2 {
         }
 #ifndef SUPPRESS_WARNINGS
         else {
-            std::cerr << "Warning: "
-                      << "Directory " << groupName(object->group())
-                      << ", entry 0x" << std::setw(4)
-                      << std::setfill('0') << std::hex << object->tag()
-                      << " doesn't look like a sub-IFD.\n";
+            EXV_WARNING << "Directory " << groupName(object->group())
+                        << ", entry 0x" << std::setw(4)
+                        << std::setfill('0') << std::hex << object->tag()
+                        << " doesn't look like a sub-IFD.\n";
         }
 #endif
 
@@ -1421,7 +1411,7 @@ namespace Exiv2 {
                                 static_cast<uint32_t>(pLast_ - object->start()),
                                 byteOrder())) {
 #ifndef SUPPRESS_WARNINGS
-            std::cerr << "Error: Failed to read "
+            EXV_ERROR << "Failed to read "
                       << groupName(object->ifd_.group())
                       << " IFD Makernote header.\n";
 #ifdef DEBUG
@@ -1460,7 +1450,7 @@ namespace Exiv2 {
 
         if (p + 12 > pLast_) {
 #ifndef SUPPRESS_WARNINGS
-            std::cerr << "Error: Entry in directory " << groupName(object->group())
+            EXV_ERROR << "Entry in directory " << groupName(object->group())
                       << "requests access to memory beyond the data buffer. "
                       << "Skipping entry.\n";
 #endif
@@ -1473,11 +1463,11 @@ namespace Exiv2 {
         long typeSize = TypeInfo::typeSize(typeId);
         if (0 == typeSize) {
 #ifndef SUPPRESS_WARNINGS
-            std::cerr << "Warning: Directory " << groupName(object->group())
-                      << ", entry 0x" << std::setw(4)
-                      << std::setfill('0') << std::hex << object->tag()
-                      << " has unknown Exif (TIFF) type " << std::dec << tiffType
-                      << "; setting type size 1.\n";
+            EXV_WARNING << "Directory " << groupName(object->group())
+                        << ", entry 0x" << std::setw(4)
+                        << std::setfill('0') << std::hex << object->tag()
+                        << " has unknown Exif (TIFF) type " << std::dec << tiffType
+                        << "; setting type size 1.\n";
 #endif
             typeSize = 1;
         }
@@ -1485,7 +1475,7 @@ namespace Exiv2 {
         uint32_t count = getULong(p, byteOrder());
         if (count >= 0x10000000) {
 #ifndef SUPPRESS_WARNINGS
-            std::cerr << "Error: Directory " << groupName(object->group())
+            EXV_ERROR << "Directory " << groupName(object->group())
                       << ", entry 0x" << std::setw(4)
                       << std::setfill('0') << std::hex << object->tag()
                       << " has invalid size "
@@ -1502,14 +1492,13 @@ namespace Exiv2 {
             && (   baseOffset() + offset >= size_
                 || static_cast<int32_t>(baseOffset()) + offset <= 0)) {
 #ifndef SUPPRESS_WARNINGS
-                std::cerr << "Error: Offset of "
-                          << "directory " << groupName(object->group())
-                          << ", entry 0x" << std::setw(4)
-                          << std::setfill('0') << std::hex << object->tag()
-                          << " is out of bounds: "
-                          << "Offset = 0x" << std::setw(8)
-                          << std::setfill('0') << std::hex << offset
-                          << "; truncating the entry\n";
+            EXV_ERROR << "Offset of directory " << groupName(object->group())
+                      << ", entry 0x" << std::setw(4)
+                      << std::setfill('0') << std::hex << object->tag()
+                      << " is out of bounds: "
+                      << "Offset = 0x" << std::setw(8)
+                      << std::setfill('0') << std::hex << offset
+                      << "; truncating the entry\n";
 #endif
                 size = 0;
         }
@@ -1517,7 +1506,7 @@ namespace Exiv2 {
             pData = const_cast<byte*>(pData_) + baseOffset() + offset;
             if (size > static_cast<uint32_t>(pLast_ - pData)) {
 #ifndef SUPPRESS_WARNINGS
-                std::cerr << "Error: Upper boundary of data for "
+                EXV_ERROR << "Upper boundary of data for "
                           << "directory " << groupName(object->group())
                           << ", entry 0x" << std::setw(4)
                           << std::setfill('0') << std::hex << object->tag()

@@ -2084,7 +2084,7 @@ namespace Exiv2 {
             cd = iconv_open("UTF-8", "UCS-2LE");
             if (cd == (iconv_t)(-1)) {
 #ifndef SUPPRESS_WARNINGS
-                std::cerr << "Warning: iconv_open: " << strError() << "\n";
+                EXV_WARNING << "iconv_open: " << strError() << "\n";
 #endif
                 go = false;
             }
@@ -2106,9 +2106,8 @@ namespace Exiv2 {
                               &outbytesleft);
             if (rc == size_t(-1)) {
 #ifndef SUPPRESS_WARNINGS
-                std::cerr << "Warning: iconv: "
-                          << strError()
-                          << " inbytesleft = " << inbytesleft << "\n";
+                EXV_WARNING << "iconv: " << strError()
+                            << " inbytesleft = " << inbytesleft << "\n";
 #endif
                 go = false;
             }
