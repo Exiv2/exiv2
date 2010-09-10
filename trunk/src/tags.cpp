@@ -225,7 +225,8 @@ namespace Exiv2 {
         {  4, N_("Primary image, Transparency mask")                            },
         {  5, N_("Thumbnail/Preview image, Transparency mask")                  },
         {  6, N_("Primary image, Multi page file, Transparency mask")           },
-        {  7, N_("Thumbnail/Preview image, Multi page file, Transparency mask") }
+        {  7, N_("Thumbnail/Preview image, Multi page file, Transparency mask") },
+        {  7, N_("Thumbnail/Preview image, Multi page file, Transparency mask") }  // To silence compiler warning
     };
 
     //! SubfileType, TIFF tag 0x00ff
@@ -310,7 +311,8 @@ namespace Exiv2 {
         { 5, N_("left, top")     },
         { 6, N_("right, top")    },
         { 7, N_("right, bottom") },
-        { 8, N_("left, bottom")  }
+        { 8, N_("left, bottom")  },
+        { 8, N_("left, bottom")  }              // To silence compiler warning
     };
 
     //! Predictor, tag 0x013d
@@ -330,7 +332,8 @@ namespace Exiv2 {
         { 1, N_("Unsigned integer data")                },
         { 2, N_("Two's complement signed integer data") },
         { 3, N_("IEEE floating point data")             },
-        { 4, N_("Undefined data format")                }
+        { 4, N_("Undefined data format")                },
+        { 4, N_("Undefined data format")                } // To silence compiler warning
     };
 
     //! Indexed, tag 0x015a
@@ -1232,7 +1235,8 @@ namespace Exiv2 {
         { 4,   N_("Multi-spot")              },
         { 5,   N_("Multi-segment")           },
         { 6,   N_("Partial")                 },
-        { 255, N_("Other")                   }
+        { 255, N_("Other")                   },
+        { 255, N_("Other")                   }  // To silence compiler warning
     };
 
     //! LightSource, tag 0x9208
@@ -1314,7 +1318,8 @@ namespace Exiv2 {
         { 0, N_("Standard")    },
         { 1, N_("Landscape")   },
         { 2, N_("Portrait")    },
-        { 3, N_("Night scene") }
+        { 3, N_("Night scene") },
+        { 3, N_("Night scene") }                // To silence compiler warning
     };
 
     //! GainControl, tag 0xa407
@@ -1345,7 +1350,8 @@ namespace Exiv2 {
         { 0, N_("Unknown")      },
         { 1, N_("Macro")        },
         { 2, N_("Close view")   },
-        { 3, N_("Distant view") }
+        { 3, N_("Distant view") },
+        { 3, N_("Distant view") }               // To silence compiler warning
     };
 
     // Exif IFD Tags

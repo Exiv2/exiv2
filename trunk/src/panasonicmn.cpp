@@ -68,7 +68,8 @@ namespace Exiv2 {
         {  5, N_("Manual")          },
         {  8, N_("Flash")           },
         { 10, N_("Black and white") },
-        { 11, N_("Manual")          }
+        { 11, N_("Manual")          },
+        { 11, N_("Manual")          }           // To silence compiler warning
     };
 
     //! FocusMode, tag 0x0007
@@ -76,7 +77,8 @@ namespace Exiv2 {
         {  1, N_("Auto")               },
         {  2, N_("Manual")             },
         {  4, N_("Auto, focus button") },
-        {  5, N_("Auto, continuous")   }
+        {  5, N_("Auto, continuous")   },
+        {  5, N_("Auto, continuous")   }        // To silence compiler warning
     };
 
     //! ImageStabilizer, tag 0x001a
@@ -163,7 +165,8 @@ namespace Exiv2 {
         {   7, N_("Medium high") },
         { 256, N_("Low")         },
         { 272, N_("Standard")    },
-        { 288, N_("High")        }
+        { 288, N_("High")        },
+        { 288, N_("High")        }              // To silence compiler warning
     };
 
     //! NoiseReduction, tag 0x002d
@@ -207,7 +210,8 @@ namespace Exiv2 {
         { 1, N_("Off")       },
         { 2, N_("Wide")      },
         { 3, N_("Telephoto") },
-        { 4, N_("Macro")     }
+        { 4, N_("Macro")     },
+        { 4, N_("Macro")     }                  // To silence compiler warning
     };
 
     //! WorldTimeLocation, tag 0x003a
