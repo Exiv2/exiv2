@@ -634,10 +634,10 @@ namespace Exiv2 {
                                           size);
 #ifndef SUPPRESS_WARNINGS
         if (!iptcData.empty()) {
-            std::cerr << "Warning: Ignoring IPTC information encoded in the Exif data.\n";
+            EXV_WARNING << "Ignoring IPTC information encoded in the Exif data.\n";
         }
         if (!xmpData.empty()) {
-            std::cerr << "Warning: Ignoring XMP information encoded in the Exif data.\n";
+            EXV_WARNING << "Ignoring XMP information encoded in the Exif data.\n";
         }
 #endif
         return bo;
@@ -765,7 +765,7 @@ namespace Exiv2 {
                 if (pos != ed.end() && sumToLong(*pos) > 32768) {
                     delTags = true;
 #ifndef SUPPRESS_WARNINGS
-                    std::cerr << "Warning: Exif tag " << pos->key() << " not encoded\n";
+                    EXV_WARNING << "Exif tag " << pos->key() << " not encoded\n";
 #endif
                     ed.erase(pos);
                 }
@@ -775,7 +775,7 @@ namespace Exiv2 {
                     pos = ed.findKey(ExifKey(filteredPvTags[i].key_));
                     if (pos != ed.end()) {
 #ifndef SUPPRESS_WARNINGS
-                        std::cerr << "Warning: Exif tag " << pos->key() << " not encoded\n";
+                        EXV_WARNING << "Exif tag " << pos->key() << " not encoded\n";
 #endif
                         ed.erase(pos);
                     }
@@ -784,7 +784,7 @@ namespace Exiv2 {
             case pttIfd:
                 if (delTags) {
 #ifndef SUPPRESS_WARNINGS
-                    std::cerr << "Warning: Exif IFD " << filteredPvTags[i].key_ << " not encoded\n";
+                    EXV_WARNING << "Exif IFD " << filteredPvTags[i].key_ << " not encoded\n";
 #endif
                     eraseIfd(ed, Internal::groupId(filteredPvTags[i].key_));
                 }
@@ -797,7 +797,7 @@ namespace Exiv2 {
             if (   pos->size() > 4096
                 && pos->tagName().substr(0, 2) == "0x") {
 #ifndef SUPPRESS_WARNINGS
-                std::cerr << "Warning: Exif tag " << pos->key() << " not encoded\n";
+                EXV_WARNING << "Exif tag " << pos->key() << " not encoded\n";
 #endif
                 pos = ed.erase(pos);
             }

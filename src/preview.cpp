@@ -418,7 +418,7 @@ namespace {
         }
         catch (const AnyError& /* error */ ) {
 #ifndef SUPPRESS_WARNINGS
-            std::cerr << "Warning: Invalid JPEG preview image.\n";
+            EXV_WARNING << "Invalid JPEG preview image.\n";
 #endif
             return false;
         }

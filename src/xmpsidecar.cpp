@@ -106,7 +106,7 @@ namespace Exiv2 {
         xmpPacket_ = xmpPacket;
         if (xmpPacket_.size() > 0 && XmpParser::decode(xmpData_, xmpPacket_)) {
 #ifndef SUPPRESS_WARNINGS
-            std::cerr << "Warning: Failed to decode XMP metadata.\n";
+            EXV_WARNING << "Failed to decode XMP metadata.\n";
 #endif
         }
         copyXmpToIptc(xmpData_, iptcData_);
@@ -126,7 +126,7 @@ namespace Exiv2 {
             if (XmpParser::encode(xmpPacket_, xmpData_,
                                   XmpParser::omitPacketWrapper|XmpParser::useCompactFormat) > 1) {
 #ifndef SUPPRESS_WARNINGS
-                std::cerr << "Error: Failed to encode XMP metadata.\n";
+                EXV_ERROR << "Failed to encode XMP metadata.\n";
 #endif
             }
         }

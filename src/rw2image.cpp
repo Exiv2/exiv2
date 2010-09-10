@@ -134,7 +134,7 @@ namespace Exiv2 {
         // Todo: What if there are more preview images?
         if (list.size() > 1) {
 #ifndef SUPPRESS_WARNINGS
-            std::cerr << "Warning: RW2 image contains more than one preview. None used.\n";
+            EXV_WARNING << "RW2 image contains more than one preview. None used.\n";
 #endif
         }
         if (list.size() != 1) return;
@@ -143,7 +143,7 @@ namespace Exiv2 {
         Image::AutoPtr image = ImageFactory::open(preview.pData(), preview.size());
         if (image.get() == 0) {
 #ifndef SUPPRESS_WARNINGS
-            std::cerr << "Warning: Failed to open RW2 preview image.\n";
+            EXV_WARNING << "Failed to open RW2 preview image.\n";
 #endif
             return;
         }

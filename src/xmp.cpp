@@ -449,7 +449,7 @@ namespace Exiv2 {
 
         if (!initialize()) {
 #ifndef SUPPRESS_WARNINGS
-            std::cerr << "XMP Toolkit initialization failed.\n";
+            EXV_ERROR << "XMP toolkit initialization failed.\n";
 #endif
             return 2;
         }
@@ -568,7 +568,7 @@ namespace Exiv2 {
     }
 #ifndef SUPPRESS_WARNINGS
     catch (const XMP_Error& e) {
-        std::cerr << Error(40, e.GetID(), e.GetErrMsg()) << "\n";
+        EXV_ERROR << Error(40, e.GetID(), e.GetErrMsg()) << "\n";
         xmpData.clear();
         return 3;
     }
@@ -586,7 +586,7 @@ namespace Exiv2 {
         xmpData.clear();
         if (!xmpPacket.empty()) {
 #ifndef SUPPRESS_WARNINGS
-            std::cerr << "Warning: XMP toolkit support not compiled in.\n";
+            EXV_WARNING << "XMP toolkit support not compiled in.\n";
 #endif
         }
         return 1;
@@ -606,7 +606,7 @@ namespace Exiv2 {
 
         if (!initialize()) {
 #ifndef SUPPRESS_WARNINGS
-            std::cerr << "XMP Toolkit initialization failed.\n";
+            EXV_ERROR << "XMP toolkit initialization failed.\n";
 #endif
             return 2;
         }
@@ -689,7 +689,7 @@ namespace Exiv2 {
     }
 #ifndef SUPPRESS_WARNINGS
     catch (const XMP_Error& e) {
-        std::cerr << Error(40, e.GetID(), e.GetErrMsg()) << "\n";
+        EXV_ERROR << Error(40, e.GetID(), e.GetErrMsg()) << "\n";
         return 3;
     }
 #else
@@ -706,7 +706,7 @@ namespace Exiv2 {
     {
         if (!xmpData.empty()) {
 #ifndef SUPPRESS_WARNINGS
-            std::cerr << "Warning: XMP toolkit support not compiled in.\n";
+            EXV_WARNING << "XMP toolkit support not compiled in.\n";
 #endif
         }
         return 1;

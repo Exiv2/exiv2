@@ -571,7 +571,7 @@ namespace Exiv2 {
             if (::lstat(pf, &buf1) == -1) {
                 statOk = false;
 #ifndef SUPPRESS_WARNINGS
-                std::cerr << "Warning: " << Error(2, pf, strError(), "::lstat") << "\n";
+                EXV_WARNING << Error(2, pf, strError(), "::lstat") << "\n";
 #endif
             }
             origStMode = buf1.st_mode;
@@ -588,7 +588,7 @@ namespace Exiv2 {
                 if (::stat(pf, &buf1) == -1) {
                     statOk = false;
 #ifndef SUPPRESS_WARNINGS
-                    std::cerr << "Warning: " << Error(2, pf, strError(), "::stat") << "\n";
+                    EXV_WARNING << Error(2, pf, strError(), "::stat") << "\n";
 #endif
                 }
                 origStMode = buf1.st_mode;
@@ -616,14 +616,14 @@ namespace Exiv2 {
                 if (statOk && ::_wstat(wpf, &buf2) == -1) {
                     statOk = false;
 #ifndef SUPPRESS_WARNINGS
-                    std::cerr << "Warning: " << Error(2, wpf, strError(), "::_wstat") << "\n";
+                    EXV_WARNING << Error(2, wpf, strError(), "::_wstat") << "\n";
 #endif
                 }
                 if (statOk && origStMode != buf2.st_mode) {
                     // Set original file permissions
                     if (::_wchmod(wpf, origStMode) == -1) {
 #ifndef SUPPRESS_WARNINGS
-                        std::cerr << "Warning: " << Error(2, wpf, strError(), "::_wchmod") << "\n";
+                        EXV_WARNING << Error(2, wpf, strError(), "::_wchmod") << "\n";
 #endif
                     }
                 }
@@ -643,14 +643,14 @@ namespace Exiv2 {
                 if (statOk && ::stat(pf, &buf2) == -1) {
                     statOk = false;
 #ifndef SUPPRESS_WARNINGS
-                    std::cerr << "Warning: " << Error(2, pf, strError(), "::stat") << "\n";
+                    EXV_WARNING << Error(2, pf, strError(), "::stat") << "\n";
 #endif
                 }
                 if (statOk && origStMode != buf2.st_mode) {
                     // Set original file permissions
                     if (::chmod(pf, origStMode) == -1) {
 #ifndef SUPPRESS_WARNINGS
-                        std::cerr << "Warning: " << Error(2, pf, strError(), "::chmod") << "\n";
+                        EXV_WARNING << Error(2, pf, strError(), "::chmod") << "\n";
 #endif
                     }
                 }

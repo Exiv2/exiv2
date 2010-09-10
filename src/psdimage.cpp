@@ -259,7 +259,7 @@ namespace Exiv2 {
                 if (io_->error() || io_->eof()) throw Error(14);
                 if (IptcParser::decode(iptcData_, rawIPTC.pData_, rawIPTC.size_)) {
 #ifndef SUPPRESS_WARNINGS
-                    std::cerr << "Warning: Failed to decode IPTC metadata.\n";
+                    EXV_WARNING << "Failed to decode IPTC metadata.\n";
 #endif
                     iptcData_.clear();
                 }
@@ -275,7 +275,7 @@ namespace Exiv2 {
                 setByteOrder(bo);
                 if (rawExif.size_ > 0 && byteOrder() == invalidByteOrder) {
 #ifndef SUPPRESS_WARNINGS
-                    std::cerr << "Warning: Failed to decode Exif metadata.\n";
+                    EXV_WARNING << "Failed to decode Exif metadata.\n";
 #endif
                     exifData_.clear();
                 }
@@ -290,7 +290,7 @@ namespace Exiv2 {
                 xmpPacket_.assign(reinterpret_cast<char *>(xmpPacket.pData_), xmpPacket.size_);
                 if (xmpPacket_.size() > 0 && XmpParser::decode(xmpData_, xmpPacket_)) {
 #ifndef SUPPRESS_WARNINGS
-                    std::cerr << "Warning: Failed to decode XMP metadata.\n";
+                    EXV_WARNING << "Failed to decode XMP metadata.\n";
 #endif
                 }
                 break;
@@ -608,7 +608,7 @@ namespace Exiv2 {
         if (writeXmpFromPacket() == false) {
             if (XmpParser::encode(xmpPacket, xmpData) > 1) {
 #ifndef SUPPRESS_WARNINGS
-                std::cerr << "Error: Failed to encode XMP metadata.\n";
+                EXV_ERROR << "Failed to encode XMP metadata.\n";
 #endif
             }
         }
