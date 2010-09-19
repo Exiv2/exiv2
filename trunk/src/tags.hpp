@@ -47,6 +47,7 @@ namespace Exiv2 {
 // *****************************************************************************
 // class declarations
     class ExifData;
+    class ExifKey;
     class Value;
     struct TagInfo;
 
@@ -123,6 +124,13 @@ namespace Exiv2 {
         //! Print the list of tags for \em groupName
         static void taglist(std::ostream& os, const std::string& groupName);
 
+        //! Return the name of the section for an Exif \em key.
+        static const char* sectionName(const ExifKey& key);
+        //! Return the default number of components (not bytes!) \em key has. (0=any, -1=count not known)
+        static uint16_t defaultCount(const ExifKey& key);
+        //! Return the name of the IFD for the group.
+        static const char* ifdName(const std::string& groupName);
+
         /*!
           @brief Return true if \em groupName is a makernote group.
         */
@@ -165,12 +173,6 @@ namespace Exiv2 {
                  and group name.
          */
         ExifKey(uint16_t tag, const std::string& groupName);
-        /*!
-          @brief Constructor to create an Exif key from a tag info structure
-          @param tagInfo The tag info structure
-          @throw Error if the key cannot be constructed from the tag info structure
-         */
-        explicit ExifKey(const TagInfo& tagInfo);
         //! Copy constructor
         ExifKey(const ExifKey& rhs);
         //! Destructor
@@ -192,23 +194,17 @@ namespace Exiv2 {
         virtual std::string key() const;
         virtual const char* familyName() const;
         virtual std::string groupName() const;
+        //! Return the IFD id as an integer. (Do not use, this is meant for library internal use.)
+        int ifdId() const;
         virtual std::string tagName() const;
+        virtual uint16_t tag() const;
         virtual std::string tagLabel() const;
         //! Return the tag description.
         std::string tagDesc() const;        // Todo: should be in the base class
         //! Return the default type id for this tag.
         TypeId defaultTypeId() const;       // Todo: should be in the base class
-        //! Return the default number of components (not bytes!) this tag has. (0=any, -1=count not known)
-        uint16_t defaultCount() const;
-        virtual uint16_t tag() const;
 
         AutoPtr clone() const;
-        //! Return the IFD id as an integer. (Do not use, this is meant for library internal use.)
-        int ifdId() const;
-        //! Return the name of the IFD
-        const char* ifdName() const;
-        //! Return the name of the Exif section (deprecated)
-        std::string sectionName() const;
         //! Return the index (unique id of this key within the original Exif data, 0 if not set)
         int idx() const;
         //@}

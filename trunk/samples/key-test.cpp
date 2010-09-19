@@ -14,6 +14,7 @@
 
 #include <iostream>
 #include <string>
+#include <cstring>
 
 using namespace Exiv2;
 
@@ -59,13 +60,13 @@ int main()
     }
     // ifdName
     tc += 1;
-    if (std::string(ek.ifdName()) != "Iop") {
+    if (std::string(ExifTags::ifdName(ek.groupName())) != "Iop") {
         std::cout << "Testcase failed (ifdName: " << std::endl;
         rc += 1;
     }
     // sectionName
     tc += 1;
-    if (ek.sectionName() != "Interoperability") {
+    if (strcmp(ExifTags::sectionName(ek), "Interoperability") != 0) {
         std::cout << "Testcase failed (sectionName)" << std::endl;
         rc += 1;
     }
@@ -109,13 +110,13 @@ int main()
     }
     // ifdName
     tc += 1;
-    if (std::string(ek2.ifdName()) != "Iop") {
+    if (std::string(ExifTags::ifdName(ek2.groupName())) != "Iop") {
         std::cout << "Testcase failed (ifdName: " << std::endl;
         rc += 1;
     }
     // sectionName
     tc += 1;
-    if (ek2.sectionName() != "Interoperability") {
+    if (strcmp(ExifTags::sectionName(ek2), "Interoperability") != 0) {
         std::cout << "Testcase failed (sectionName)" << std::endl;
         rc += 1;
     }
