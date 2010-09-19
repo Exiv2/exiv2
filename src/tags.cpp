@@ -2640,6 +2640,26 @@ namespace Exiv2 {
         return ii->tagList_();
     } // ExifTags::tagList
 
+    const char* ExifTags::sectionName(const ExifKey& key)
+    {
+        const TagInfo* ti = tagInfo(key.tag(), static_cast<Internal::IfdId>(key.ifdId()));
+        if (ti == 0) return sectionInfo[unknownTag.sectionId_].name_;
+        return sectionInfo[ti->sectionId_].name_;
+    }
+
+    uint16_t ExifTags::defaultCount(const ExifKey& key)
+    {
+        const TagInfo* ti = tagInfo(key.tag(), static_cast<Internal::IfdId>(key.ifdId()));
+        if (ti == 0) return unknownTag.count_;
+        return ti->count_;
+    }
+
+    const char* ExifTags::ifdName(const std::string& groupName)
+    {
+        IfdId ifdId = Internal::groupId(groupName);        
+        return Internal::ifdName(ifdId);
+    }
+
     bool ExifTags::isMakerGroup(const std::string& groupName)
     {
         IfdId ifdId = Internal::groupId(groupName);
@@ -2795,17 +2815,6 @@ namespace Exiv2 {
         p_->makeKey(tag, ifdId, ti);
     }
 
-    ExifKey::ExifKey(const TagInfo& tagInfo)
-        : p_(new Impl)
-    {
-        IfdId ifdId = static_cast<IfdId>(tagInfo.ifdId_);
-        if (!Internal::isExifIfd(ifdId) && !Internal::isMakerIfd(ifdId)) {
-            throw Error(23, ifdId);
-        }
-        p_->groupName_ = Exiv2::groupName(ifdId);
-        p_->makeKey(tagInfo.tag_, ifdId, &tagInfo);
-    }
-
     ExifKey::ExifKey(const std::string& key)
         : p_(new Impl)
     {
@@ -2850,11 +2859,6 @@ namespace Exiv2 {
         return p_->groupName_;
     }
 
-    const char* ExifKey::ifdName() const
-    {
-        return Internal::ifdName(p_->ifdId_);
-    }
-
     std::string ExifKey::tagName() const
     {
         return p_->tagName();
@@ -2878,12 +2882,6 @@ namespace Exiv2 {
         return p_->tagInfo_->typeId_;
     }
 
-    uint16_t ExifKey::defaultCount() const
-    {
-        if (p_->tagInfo_ == 0) return unknownTag.count_;
-        return p_->tagInfo_->count_;
-    }
-
     uint16_t ExifKey::tag() const
     {
         return p_->tag_;
@@ -2904,11 +2902,6 @@ namespace Exiv2 {
         return p_->ifdId_;
     }
 
-    std::string ExifKey::sectionName() const
-    {
-        return sectionInfo[p_->tagInfo_->sectionId_].name_;
-    }
-
     int ExifKey::idx() const
     {
         return p_->idx_;
@@ -2919,7 +2912,8 @@ namespace Exiv2 {
 
     std::ostream& operator<<(std::ostream& os, const TagInfo& ti)
     {
-        ExifKey exifKey(ti);
+        
+        ExifKey exifKey(ti.tag_, Internal::groupName(static_cast<Internal::IfdId>(ti.ifdId_)));
         return os << exifKey.tagName() << ",\t"
                   << std::dec << exifKey.tag() << ",\t"
                   << "0x" << std::setw(4) << std::setfill('0')

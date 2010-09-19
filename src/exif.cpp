@@ -354,7 +354,7 @@ namespace Exiv2 {
 
     const char* Exifdatum::ifdName() const
     {
-        return key_.get() == 0 ? "" : key_->ifdName();
+        return key_.get() == 0 ? "" : Internal::ifdName(static_cast<Internal::IfdId>(key_->ifdId()));
     }
 
     int Exifdatum::idx() const
