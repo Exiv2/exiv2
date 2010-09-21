@@ -123,7 +123,7 @@ namespace Exiv2 {
         case LogMsg::info:  break;
         case LogMsg::warn:  std::cerr << "Warning: "; break;
         case LogMsg::error: std::cerr << "Error: "; break;
-        case LogMsg::mute:  assert(true);
+        case LogMsg::mute:  assert(false);
         }
         std::cerr << s;
     }

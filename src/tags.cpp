@@ -99,6 +99,7 @@ namespace Exiv2 {
         { subImage7Id,     "SubImage7", "SubImage7",    ifdTagList                     },
         { subImage8Id,     "SubImage8", "SubImage8",    ifdTagList                     },
         { subImage9Id,     "SubImage9", "SubImage9",    ifdTagList                     },
+        { subThumb1Id,     "SubThumb1", "SubThumb1",    ifdTagList                     },
         { panaRawId,       "PanaRaw",   "PanasonicRaw", PanasonicMakerNote::tagListRaw },
         { mnId,            "Makernote", "MakerNote",    mnTagList                      },
         { canonId,         "Makernote", "Canon",        CanonMakerNote::tagList        },
@@ -1956,6 +1957,7 @@ namespace Exiv2 {
         case subImage7Id:
         case subImage8Id:
         case subImage9Id:
+        case subThumb1Id:
         case panaRawId: rc = true; break;
         default:           rc = false; break;
         }
