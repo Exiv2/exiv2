@@ -1337,6 +1337,9 @@ namespace Exiv2 {
         if (   (object->tiffType() == ttUnsignedLong || object->tiffType() == ttSignedLong
                 || object->tiffType() == ttTiffIfd)
             && object->count() >= 1) {
+            // Todo: Fix hack
+            uint32_t maxi = 9;
+            if (object->group() == ifd1Id) maxi = 1;
             for (uint32_t i = 0; i < object->count(); ++i) {
                 int32_t offset = getLong(object->pData() + 4*i, byteOrder());
                 if (   baseOffset() + offset > size_
@@ -1350,7 +1353,7 @@ namespace Exiv2 {
 #endif
                     return;
                 }
-                if (object->newGroup_ + i == subImage9Id + 1) {
+                if (i >= maxi) {
 #ifndef SUPPRESS_WARNINGS
                     EXV_WARNING << "Directory " << groupName(object->group())
                                 << ", entry 0x" << std::setw(4)

@@ -255,14 +255,16 @@ namespace {
         { 0,                   createLoaderTiff,         3 },
         { 0,                   createLoaderTiff,         4 },
         { 0,                   createLoaderTiff,         5 },
+        { 0,                   createLoaderTiff,         6 },
         { 0,                   createLoaderExifJpeg,     0 },
         { 0,                   createLoaderExifJpeg,     1 },
         { 0,                   createLoaderExifJpeg,     2 },
         { 0,                   createLoaderExifJpeg,     3 },
         { 0,                   createLoaderExifJpeg,     4 },
         { 0,                   createLoaderExifJpeg,     5 },
-        { "image/x-canon-cr2", createLoaderExifJpeg,     6 },
-        { 0,                   createLoaderExifJpeg,     7 }
+        { 0,                   createLoaderExifJpeg,     6 },
+        { "image/x-canon-cr2", createLoaderExifJpeg,     7 },
+        { 0,                   createLoaderExifJpeg,     8 }
     };
 
     const LoaderExifJpeg::Param LoaderExifJpeg::param_[] = {
@@ -271,9 +273,10 @@ namespace {
         { "Exif.SubImage2.JPEGInterchangeFormat", "Exif.SubImage2.JPEGInterchangeFormatLength", 0 }, // 2
         { "Exif.SubImage3.JPEGInterchangeFormat", "Exif.SubImage3.JPEGInterchangeFormatLength", 0 }, // 3
         { "Exif.SubImage4.JPEGInterchangeFormat", "Exif.SubImage4.JPEGInterchangeFormatLength", 0 }, // 4
-        { "Exif.Image2.JPEGInterchangeFormat",    "Exif.Image2.JPEGInterchangeFormatLength",    0 }, // 5
-        { "Exif.Image.StripOffsets",              "Exif.Image.StripByteCounts",                 0 }, // 6
-        { "Exif.OlympusCs.PreviewImageStart",     "Exif.OlympusCs.PreviewImageLength",          "Exif.MakerNote.Offset"}  // 7
+        { "Exif.SubThumb1.JPEGInterchangeFormat", "Exif.SubThumb1.JPEGInterchangeFormatLength", 0 }, // 5
+        { "Exif.Image2.JPEGInterchangeFormat",    "Exif.Image2.JPEGInterchangeFormatLength",    0 }, // 6
+        { "Exif.Image.StripOffsets",              "Exif.Image.StripByteCounts",                 0 }, // 7
+        { "Exif.OlympusCs.PreviewImageStart",     "Exif.OlympusCs.PreviewImageLength",          "Exif.MakerNote.Offset"}  // 8
     };
 
     const LoaderExifDataJpeg::Param LoaderExifDataJpeg::param_[] = {
@@ -294,7 +297,8 @@ namespace {
         { "SubImage2", "Exif.SubImage2.NewSubfileType", "1" },  // 2
         { "SubImage3", "Exif.SubImage3.NewSubfileType", "1" },  // 3
         { "SubImage4", "Exif.SubImage4.NewSubfileType", "1" },  // 4
-        { "Thumbnail", 0,                               0   }   // 5
+        { "SubThumb1", "Exif.SubThumb1.NewSubfileType", "1" },  // 5
+        { "Thumbnail", 0,                               0   }   // 6
     };
 
     Loader::AutoPtr Loader::create(PreviewId id, const Image &image)

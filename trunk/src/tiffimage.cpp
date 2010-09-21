@@ -1100,6 +1100,7 @@ namespace Exiv2 {
         { Tag::root, ifd3Id,           ifd2Id,           Tag::next },
         { Tag::root, olympusId,        exifId,           0x927c    },
         { Tag::root, olympus2Id,       exifId,           0x927c    },
+        { Tag::root, subThumb1Id,      ifd1Id,           0x014a    },
         { Tag::root, olympusEqId,      olympus2Id,       0x2010    },
         { Tag::root, olympusCsId,      olympus2Id,       0x2020    },
         { Tag::root, olympusRdId,      olympus2Id,       0x2030    },
@@ -1321,10 +1322,21 @@ namespace Exiv2 {
         {    0x0117, ifd1Id,           newTiffThumbSize<0x0111, ifd1Id>          },
         {    0x0144, ifd1Id,           newTiffImageData<0x0145, ifd1Id>          },
         {    0x0145, ifd1Id,           newTiffImageSize<0x0144, ifd1Id>          },
+        {    0x014a, ifd1Id,           newTiffSubIfd<subThumb1Id>                },
         {    0x0201, ifd1Id,           newTiffThumbData<0x0202, ifd1Id>          },
         {    0x0202, ifd1Id,           newTiffThumbSize<0x0201, ifd1Id>          },
         { Tag::next, ifd1Id,           newTiffDirectory<ifd2Id>                  },
         {  Tag::all, ifd1Id,           newTiffEntry                              },
+
+        // Subdir subThumb1
+        {    0x0111, subThumb1Id,      newTiffImageData<0x0117, subThumb1Id>     },
+        {    0x0117, subThumb1Id,      newTiffImageSize<0x0111, subThumb1Id>     },
+        {    0x0144, subThumb1Id,      newTiffImageData<0x0145, subThumb1Id>     },
+        {    0x0145, subThumb1Id,      newTiffImageSize<0x0144, subThumb1Id>     },
+        {    0x0201, subThumb1Id,      newTiffImageData<0x0202, subThumb1Id>     },
+        {    0x0202, subThumb1Id,      newTiffImageSize<0x0201, subThumb1Id>     },
+        { Tag::next, subThumb1Id,      newTiffDirectory<ignoreId>                },
+        {  Tag::all, subThumb1Id,      newTiffEntry                              },
 
         // IFD2 (eg, in Pentax PEF and Canon CR2 files)
         {    0x0111, ifd2Id,           newTiffImageData<0x0117, ifd2Id>          },

@@ -71,6 +71,7 @@ namespace Exiv2 {
         subImage7Id,
         subImage8Id,
         subImage9Id,
+        subThumb1Id,
         panaRawId,
         mnId,
         canonId,
