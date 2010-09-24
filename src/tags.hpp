@@ -173,6 +173,13 @@ namespace Exiv2 {
                  and group name.
          */
         ExifKey(uint16_t tag, const std::string& groupName);
+        /*!
+          @brief Constructor to create an Exif key from a TagInfo instance.
+          @param ti The TagInfo instance
+          @throw Error if the key cannot be constructed from the tag number
+                 and group name.
+         */
+        ExifKey(const TagInfo& ti);
         //! Copy constructor
         ExifKey(const ExifKey& rhs);
         //! Destructor
@@ -212,6 +219,8 @@ namespace Exiv2 {
     private:
         //! Internal virtual copy constructor.
         EXV_DLLLOCAL virtual ExifKey* clone_() const;
+        //! Internal construction method.
+        void create_internal(uint16_t tag, const std::string& groupName);
 
     private:
         // Pimpl idiom
