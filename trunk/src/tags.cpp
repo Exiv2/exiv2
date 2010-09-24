@@ -2801,8 +2801,7 @@ namespace Exiv2 {
         key_ = std::string(familyName_) + "." + groupName_ + "." + tagName();
     }
 
-    ExifKey::ExifKey(uint16_t tag, const std::string& groupName)
-        : p_(new Impl)
+    void ExifKey::create_internal(uint16_t tag, const std::string& groupName)
     {
         IfdId ifdId = groupId(groupName);
         // Todo: Test if this condition can be removed
@@ -2815,6 +2814,18 @@ namespace Exiv2 {
         }
         p_->groupName_ = groupName;
         p_->makeKey(tag, ifdId, ti);
+    }
+
+    ExifKey::ExifKey(uint16_t tag, const std::string& groupName)
+        : p_(new Impl)
+    {
+        create_internal(tag, groupName);
+    }
+
+    ExifKey::ExifKey(const TagInfo& ti)
+        : p_(new Impl)
+    {
+        create_internal(ti.tag_, Internal::groupName(static_cast<Internal::IfdId>(ti.ifdId_)));
     }
 
     ExifKey::ExifKey(const std::string& key)
