@@ -2801,7 +2801,8 @@ namespace Exiv2 {
         key_ = std::string(familyName_) + "." + groupName_ + "." + tagName();
     }
 
-    void ExifKey::create_internal(uint16_t tag, const std::string& groupName)
+    ExifKey::ExifKey(uint16_t tag, const std::string& groupName)
+        : p_(new Impl)
     {
         IfdId ifdId = groupId(groupName);
         // Todo: Test if this condition can be removed
@@ -2816,16 +2817,15 @@ namespace Exiv2 {
         p_->makeKey(tag, ifdId, ti);
     }
 
-    ExifKey::ExifKey(uint16_t tag, const std::string& groupName)
-        : p_(new Impl)
-    {
-        create_internal(tag, groupName);
-    }
-
     ExifKey::ExifKey(const TagInfo& ti)
         : p_(new Impl)
     {
-        create_internal(ti.tag_, Internal::groupName(static_cast<Internal::IfdId>(ti.ifdId_)));
+        IfdId ifdId = static_cast<IfdId>(ti.ifdId_);
+        if (!Internal::isExifIfd(ifdId) && !Internal::isMakerIfd(ifdId)) {
+            throw Error(23, ifdId);
+        }
+        p_->groupName_ = Exiv2::groupName(ifdId);
+        p_->makeKey(ti.tag_, ifdId, &ti);
     }
 
     ExifKey::ExifKey(const std::string& key)
@@ -2925,8 +2925,7 @@ namespace Exiv2 {
 
     std::ostream& operator<<(std::ostream& os, const TagInfo& ti)
     {
-        
-        ExifKey exifKey(ti.tag_, Internal::groupName(static_cast<Internal::IfdId>(ti.ifdId_)));
+        ExifKey exifKey(ti);
         return os << exifKey.tagName() << ",\t"
                   << std::dec << exifKey.tag() << ",\t"
                   << "0x" << std::setw(4) << std::setfill('0')
