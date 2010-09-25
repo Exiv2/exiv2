@@ -219,8 +219,6 @@ namespace Exiv2 {
     private:
         //! Internal virtual copy constructor.
         EXV_DLLLOCAL virtual ExifKey* clone_() const;
-        //! Internal construction method.
-        void create_internal(uint16_t tag, const std::string& groupName);
 
     private:
         // Pimpl idiom
