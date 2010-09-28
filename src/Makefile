@@ -100,6 +100,7 @@ CCSRC += preview.cpp           \
 	 psdimage.cpp          \
 	 rafimage.cpp          \
 	 rw2image.cpp          \
+	 samsungmn.cpp         \
 	 sigmamn.cpp           \
 	 pentaxmn.cpp          \
 	 sonymn.cpp            \

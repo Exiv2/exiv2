@@ -1,0 +1,97 @@
+// ***************************************************************** -*- C++ -*-
+/*
+ * Copyright (C) 2004-2010 Andreas Huggel <ahuggel@gmx.net>
+ *
+ * This program is part of the Exiv2 distribution.
+ *
+ * This program is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU General Public License
+ * as published by the Free Software Foundation; either version 2
+ * of the License, or (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program; if not, write to the Free Software
+ * Foundation, Inc., 51 Franklin Street, 5th Floor, Boston, MA 02110-1301 USA.
+ */
+/*
+  File:      samsungmn.cpp
+  Version:   $Rev$
+  Author(s): Andreas Huggel (ahu) <ahuggel@gmx.net>
+  History:   27-Sep-10, ahu: created
+ */
+// *****************************************************************************
+#include "rcsid_int.hpp"
+EXIV2_RCSID("@(#) $Id$")
+
+// *****************************************************************************
+// included header files
+#include "types.hpp"
+#include "samsungmn_int.hpp"
+#include "tags_int.hpp"
+#include "value.hpp"
+#include "i18n.h"                // NLS support.
+
+// + standard includes
+#include <string>
+#include <sstream>
+#include <iomanip>
+#include <cassert>
+#include <cstring>
+
+// *****************************************************************************
+// class member definitions
+namespace Exiv2 {
+    namespace Internal {
+
+    //! LensType, tag 0xa003
+    extern const TagDetails samsung2LensType[] = {
+        { 1, N_("Samsung 30mm F2")                     },
+        { 2, N_("Samsung Zoom 18-55mm F3.5-5.6 OIS")   },
+        { 3, N_("Samsung Zoom 50-200mm F4-5.6 ED OIS") }
+    };
+
+    // Samsung MakerNote Tag Info
+    const TagInfo Samsung2MakerNote::tagInfo_[] = {
+        TagInfo(0x0001, "Version", N_("Version"), N_("Makernote version"),
+                samsung2Id, makerTags, undefined, -1, printExifVersion),
+        TagInfo(0x0021, "PictureWizard", N_("PictureWizard"), N_("Picture wizard"),
+                samsung2Id, makerTags, unsignedShort, -1, printValue),
+        TagInfo(0x0035, "Preview", N_("Pointer to a preview image"), N_("Offset to an IFD containing a preview image"),
+                samsung2Id, makerTags, unsignedLong, -1, printValue),
+        TagInfo(0x0043, "CameraTemperature", N_("Camera Temperature"), N_("Camera temperature"),
+                samsung2Id, makerTags, undefined, -1, printValue),
+        TagInfo(0xa001, "FirmwareName", N_("Firmware Name"), N_("Firmware name"),
+                samsung2Id, makerTags, asciiString, -1, printValue),
+        TagInfo(0xa003, "LensType", N_("Lens Type"), N_("Lens type"),
+                samsung2Id, makerTags, unsignedShort, -1, EXV_PRINT_TAG(samsung2LensType)),
+        TagInfo(0xa010, "SensorAreas", N_("Sensor Areas"), N_("Sensor areas"),
+                samsung2Id, makerTags, unsignedLong, -1, printValue),
+        TagInfo(0xa013, "ExposureCompensation", N_("Exposure Compensation"), N_("Exposure compensation"),
+                samsung2Id, makerTags, undefined, -1, printValue),
+        TagInfo(0xa014, "ISO", N_("ISO"), N_("ISO"),
+                samsung2Id, makerTags, unsignedLong, -1, printValue),
+        TagInfo(0xa018, "ExposureTime", N_("Exposure Time"), N_("Exposure time"),
+                samsung2Id, makerTags, undefined, -1, printValue),
+        TagInfo(0xa019, "FNumber", N_("FNumber"), N_("The F number."),
+                samsung2Id, makerTags, undefined, -1, printValue),
+        TagInfo(0xa01a, "FocalLengthIn35mmFormat", N_("Focal Length In 35mm Format"), N_("Focal length in 35mm format"),
+                samsung2Id, makerTags, unsignedLong, -1, printValue),
+        TagInfo(0xa021, "WB_RGGBLevels", N_("WB RGGB Levels"), N_("WB RGGB levels"),
+                samsung2Id, makerTags, unsignedLong, -1, printValue),
+        // End of list marker
+        TagInfo(0xffff, "(UnknownSamsung2MakerNoteTag)", "(UnknownSamsung2MakerNoteTag)",
+                N_("Unknown Samsung2MakerNote tag"),
+                samsung2Id, makerTags, undefined, -1, printValue)
+    };
+
+    const TagInfo* Samsung2MakerNote::tagList()
+    {
+        return tagInfo_;
+    }
+
+}}                                      // namespace Internal, Exiv2

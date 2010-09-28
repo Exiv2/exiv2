@@ -163,7 +163,7 @@ namespace Exiv2 {
                  to the start of the TIFF header. \em mnOffset is the offset
                  to the makernote from the start of the TIFF header.
          */
-        virtual uint32_t baseOffset(uint32_t /*mnOffset*/) const;
+        virtual uint32_t baseOffset(uint32_t mnOffset) const;
         //@}
 
     }; // class MnHeader
@@ -391,6 +391,29 @@ namespace Exiv2 {
 
     }; // class PentaxMnHeader
 
+    //! Header of a Samsung Makernote, only used for the relative offset
+    class SamsungMnHeader : public MnHeader {
+    public:
+        //! @name Creators
+        //@{
+        //! Default constructor
+        SamsungMnHeader();
+        //@}
+        //! @name Manipulators
+        //@{
+        virtual bool read(const byte* pData,
+                          uint32_t    size,
+                          ByteOrder   byteOrder);
+        //@}
+        //! @name Accessors
+        //@{
+        virtual uint32_t size() const;
+        virtual uint32_t write(IoWrapper& ioWrapper, ByteOrder byteOrder) const;
+        virtual uint32_t baseOffset(uint32_t mnOffset) const;
+        //@}
+
+    }; // class SamsungMnHeader
+
     //! Header of a Sigma Makernote
     class SigmaMnHeader : public MnHeader {
     public:
@@ -547,6 +570,19 @@ namespace Exiv2 {
     TiffComponent* newPentaxMn2(uint16_t tag,
                                 IfdId    group,
                                 IfdId    mnGroup);
+
+    //! Function to create a Samsung makernote
+    TiffComponent* newSamsungMn(uint16_t    tag,
+                                IfdId       group,
+                                IfdId       mnGroup,
+                                const byte* pData,
+                                uint32_t    size,
+                                ByteOrder   byteOrder);
+
+    //! Function to create a Samsung makernote
+    TiffComponent* newSamsungMn2(uint16_t tag,
+                                 IfdId    group,
+                                 IfdId    mnGroup);
 
     //! Function to create a Sigma makernote
     TiffComponent* newSigmaMn(uint16_t    tag,

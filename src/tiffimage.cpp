@@ -1158,6 +1158,8 @@ namespace Exiv2 {
         { Tag::root, nikonFl3Id,       nikon3Id,         0x00a8    },
         { Tag::root, panasonicId,      exifId,           0x927c    },
         { Tag::root, pentaxId,         exifId,           0x927c    },
+        { Tag::root, samsung2Id,       exifId,           0x927c    },
+        { Tag::root, samsungPvId,      samsung2Id,       0x0035    },
         { Tag::root, sigmaId,          exifId,           0x927c    },
         { Tag::root, sony1Id,          exifId,           0x927c    },
         { Tag::root, sony1CsId,        sony1Id,          0x0114    },
@@ -1551,6 +1553,17 @@ namespace Exiv2 {
         {    0x0004, pentaxId,         newTiffThumbData<0x0003, pentaxId>        },
         { Tag::next, pentaxId,         newTiffDirectory<ignoreId>                },
         {  Tag::all, pentaxId,         newTiffEntry                              },
+
+        // Samsung2 makernote
+        {    0x0035, samsung2Id,       newTiffSubIfd<samsungPvId>                },
+        { Tag::next, samsung2Id,       newTiffDirectory<ignoreId>                },
+        {  Tag::all, samsung2Id,       newTiffEntry                              },
+
+        // Samsung2 makernote preview subdir
+        {    0x0201, samsungPvId,      newTiffThumbData<0x0202, samsungPvId>     },
+        {    0x0202, samsungPvId,      newTiffThumbSize<0x0201, samsungPvId>     },
+        { Tag::next, samsungPvId,      newTiffDirectory<ignoreId>                },
+        {  Tag::all, samsungPvId,      newTiffEntry                              },
 
         // Sigma/Foveon makernote
         { Tag::next, sigmaId,          newTiffDirectory<ignoreId>                },

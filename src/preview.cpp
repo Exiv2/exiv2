@@ -249,6 +249,7 @@ namespace {
         { 0,                   createLoaderExifDataJpeg, 6 },
         { 0,                   createLoaderExifDataJpeg, 7 },
         { "image/x-raw",       createLoaderExifDataJpeg, 8 },
+        { 0,                   createLoaderExifDataJpeg, 9 },
         { 0,                   createLoaderTiff,         0 },
         { 0,                   createLoaderTiff,         1 },
         { 0,                   createLoaderTiff,         2 },
@@ -288,7 +289,8 @@ namespace {
         { "Exif.Olympus.ThumbnailImage",             0                                               }, // 5
         { "Exif.Olympus2.ThumbnailImage",            0                                               }, // 6
         { "Exif.Minolta.Thumbnail",                  0                                               }, // 7
-        { "Exif.PanasonicRaw.PreviewImage",          0                                               }  // 8
+        { "Exif.PanasonicRaw.PreviewImage",          0                                               }, // 8
+        { "Exif.SamsungPreview.JPEGInterchangeFormat", "Exif.SamsungPreview.JPEGInterchangeFormatLength" } // 9
     };
 
     const LoaderTiff::Param LoaderTiff::param_[] = {

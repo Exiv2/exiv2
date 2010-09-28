@@ -138,6 +138,8 @@ namespace Exiv2 {
         olympusRiId,
         panasonicId,
         pentaxId,
+        samsung2Id,
+        samsungPvId,
         sigmaId,
         sony1Id,
         sony2Id,

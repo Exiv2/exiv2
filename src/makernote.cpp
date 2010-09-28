@@ -70,6 +70,7 @@ namespace Exiv2 {
         { "OLYMPUS",        ifdIdNotSet, newOlympusMn,   0               }, // mnGroup_ is not used
         { "Panasonic",      panasonicId, newPanasonicMn, newPanasonicMn2 },
         { "PENTAX",         pentaxId,    newPentaxMn,    newPentaxMn2    },
+        { "SAMSUNG",        samsung2Id,  newSamsungMn,   newSamsungMn2   },
         { "SIGMA",          sigmaId,     newSigmaMn,     newSigmaMn2     },
         { "SONY",           ifdIdNotSet, newSonyMn,      0               }, // mnGroup_ is not used
         // Entries below are only used for lookup by group
@@ -514,6 +515,34 @@ namespace Exiv2 {
         return size_;
     } // PentaxMnHeader::write
 
+    SamsungMnHeader::SamsungMnHeader()
+    {
+        read(0, 0, invalidByteOrder);
+    }
+
+    uint32_t SamsungMnHeader::size() const
+    {
+        return 0;
+    }
+
+    uint32_t SamsungMnHeader::baseOffset(uint32_t mnOffset) const
+    {
+        return mnOffset;
+    }
+
+    bool SamsungMnHeader::read(const byte* /*pData*/,
+                               uint32_t    /*size*/,
+                               ByteOrder   /*byteOrder*/)
+    {
+        return true;
+    } // SamsungMnHeader::read
+
+    uint32_t SamsungMnHeader::write(IoWrapper& /*ioWrapper*/,
+                                    ByteOrder /*byteOrder*/) const
+    {
+        return 0;
+    } // SamsungMnHeader::write
+
     const byte SigmaMnHeader::signature1_[] = {
         'S', 'I', 'G', 'M', 'A', '\0', '\0', '\0', 0x01, 0x00
     };
@@ -739,6 +768,23 @@ namespace Exiv2 {
                                 IfdId    mnGroup)
     {
         return new TiffIfdMakernote(tag, group, mnGroup, new PentaxMnHeader);
+    }
+
+    TiffComponent* newSamsungMn(uint16_t    tag,
+                                IfdId       group,
+                                IfdId       mnGroup,
+                                const byte* /*pData*/,
+                                uint32_t    /*size*/,
+                                ByteOrder   /*byteOrder*/)
+    {
+        return newSamsungMn2(tag, group, mnGroup);
+    }
+
+    TiffComponent* newSamsungMn2(uint16_t tag,
+                                 IfdId    group,
+                                 IfdId    mnGroup)
+    {
+        return new TiffIfdMakernote(tag, group, mnGroup, new SamsungMnHeader);
     }
 
     TiffComponent* newSigmaMn(uint16_t    tag,
