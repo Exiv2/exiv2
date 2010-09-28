@@ -47,6 +47,7 @@ EXIV2_RCSID("@(#) $Id$")
 #include "olympusmn_int.hpp"
 #include "panasonicmn_int.hpp"
 #include "pentaxmn_int.hpp"
+#include "samsungmn_int.hpp"
 #include "sigmamn_int.hpp"
 #include "sonymn_int.hpp"
 
@@ -166,6 +167,8 @@ namespace Exiv2 {
         { olympusRiId,     "Makernote", "OlympusRi",    OlympusMakerNote::tagListRi    },
         { panasonicId,     "Makernote", "Panasonic",    PanasonicMakerNote::tagList    },
         { pentaxId,        "Makernote", "Pentax",       PentaxMakerNote::tagList       },
+        { samsung2Id,      "Makernote", "Samsung2",     Samsung2MakerNote::tagList     },
+        { samsungPvId,     "Makernote", "SamsungPreview", ifdTagList                   },
         { sigmaId,         "Makernote", "Sigma",        SigmaMakerNote::tagList        },
         { sony1Id,         "Makernote", "Sony1",        SonyMakerNote::tagList         },
         { sony2Id,         "Makernote", "Sony2",        SonyMakerNote::tagList         },
