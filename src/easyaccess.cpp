@@ -102,7 +102,8 @@ namespace Exiv2 {
             "Exif.Sony1Cs2.ISOSetting",
             "Exif.Sony2Cs2.ISOSetting",
             "Exif.Pentax.ISO",
-            "Exif.Olympus.ISOSpeed"
+            "Exif.Olympus.ISOSpeed",
+            "Exif.Samsung2.ISO"
         };
 
         // Find the first ISO value which is not "0"
@@ -259,7 +260,8 @@ namespace Exiv2 {
             "Exif.Minolta.LensID",
             "Exif.SonyMinolta.LensID",
             "Exif.Sony1.LensID",
-            "Exif.Sony2.LensID"
+            "Exif.Sony2.LensID",
+            "Exif.Samsung2.LensType"
         };
         return findMetadatum(ed, keys, EXV_COUNTOF(keys));
     }
@@ -358,7 +360,8 @@ namespace Exiv2 {
     {
         static const char* keys[] = {
             "Exif.Photo.ExposureTime",
-            "Exif.Image.ExposureTime"
+            "Exif.Image.ExposureTime",
+            "Exif.Samsung2.ExposureTime"
         };
         return findMetadatum(ed, keys, EXV_COUNTOF(keys));
     }
@@ -367,7 +370,8 @@ namespace Exiv2 {
     {
         static const char* keys[] = {
             "Exif.Photo.FNumber",
-            "Exif.Image.FNumber"
+            "Exif.Image.FNumber",
+            "Exif.Samsung2.FNumber"
         };
         return findMetadatum(ed, keys, EXV_COUNTOF(keys));
     }
