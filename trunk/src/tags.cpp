@@ -261,6 +261,7 @@ namespace Exiv2 {
         {    10, N_("JBIG Color")               },
         { 32766, N_("Next 2-bits RLE")          },
         { 32769, N_("Epson ERF Compressed")     },
+        { 32770, N_("Samsung SRW Compressed")   },
         { 32771, N_("CCITT RLE 1-word")         },
         { 32773, N_("PackBits (Macintosh RLE)") },
         { 32809, N_("Thunderscan RLE")          },
