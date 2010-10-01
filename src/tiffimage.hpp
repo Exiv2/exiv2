@@ -109,6 +109,13 @@ namespace Exiv2 {
         std::string primaryGroup() const;
         //@}
 
+    private:
+        // DATA
+        mutable std::string primaryGroup_;     //!< The primary group
+        mutable std::string mimeType_;         //!< The MIME type
+        mutable int pixelWidth_;               //!< Width of the primary image in pixels 
+        mutable int pixelHeight_;              //!< Height of the primary image in pixels 
+
     }; // class TiffImage
 
     /*!
