@@ -80,17 +80,40 @@ namespace Exiv2 {
     using namespace Internal;
 
     TiffImage::TiffImage(BasicIo::AutoPtr io, bool /*create*/)
-        : Image(ImageType::tiff, mdExif | mdIptc, io)
+        : Image(ImageType::tiff, mdExif | mdIptc, io),
+          pixelWidth_(0), pixelHeight_(0)
     {
     } // TiffImage::TiffImage
 
+    struct MimeTypeList {
+        bool operator==(int compression) const { return compression_ == compression; }
+        int compression_;
+        const char* mimeType_;
+    };
+
+    MimeTypeList mimeTypeList[] = {
+        { 32770, "image/x-samsung-srw" },
+        { 34713, "image/x-nikon-nef"   }
+    };
+
     std::string TiffImage::mimeType() const
     {
-        return "image/tiff";
+        if (!mimeType_.empty()) return mimeType_;
+
+        mimeType_ = std::string("image/tiff");
+        std::string key = "Exif." + primaryGroup() + ".Compression";
+        ExifData::const_iterator md = exifData_.findKey(ExifKey(key));
+        if (md != exifData_.end() && md->count() > 0) {
+            const MimeTypeList* i = find(mimeTypeList, static_cast<int>(md->toLong()));
+            if (i) mimeType_ = std::string(i->mimeType_);
+        }
+        return mimeType_;
     }
 
     std::string TiffImage::primaryGroup() const
     {
+        if (!primaryGroup_.empty()) return primaryGroup_;
+
         static const char* keys[] = {
             "Exif.Image.NewSubfileType",
             "Exif.SubImage1.NewSubfileType",
@@ -104,38 +127,42 @@ namespace Exiv2 {
             "Exif.SubImage9.NewSubfileType"
         };
         // Find the group of the primary image, default to "Image"
-        std::string groupName = "Image";
+        primaryGroup_ = std::string("Image");
         for (unsigned int i = 0; i < EXV_COUNTOF(keys); ++i) {
             ExifData::const_iterator md = exifData_.findKey(ExifKey(keys[i]));
             // Is it the primary image?
             if (md != exifData_.end() && md->count() > 0 && md->toLong() == 0) {
                 // Sometimes there is a JPEG primary image; that's not our first choice
-                groupName = md->groupName();
-                std::string key = "Exif." + groupName + ".JPEGInterchangeFormat";
+                primaryGroup_ = md->groupName();
+                std::string key = "Exif." + primaryGroup_ + ".JPEGInterchangeFormat";
                 if (exifData_.findKey(ExifKey(key)) == exifData_.end()) break;
             }
         }
-        return groupName;
+        return primaryGroup_;
     }
 
     int TiffImage::pixelWidth() const
     {
+        if (pixelWidth_ != 0) return pixelWidth_;
+
         ExifKey key(std::string("Exif.") + primaryGroup() + std::string(".ImageWidth"));
         ExifData::const_iterator imageWidth = exifData_.findKey(key);
         if (imageWidth != exifData_.end() && imageWidth->count() > 0) {
-            return imageWidth->toLong();
+            pixelWidth_ = static_cast<int>(imageWidth->toLong());
         }
-        return 0;
+        return pixelWidth_;
     }
 
     int TiffImage::pixelHeight() const
     {
+        if (pixelHeight_ != 0) return pixelHeight_;
+
         ExifKey key(std::string("Exif.") + primaryGroup() + std::string(".ImageLength"));
         ExifData::const_iterator imageHeight = exifData_.findKey(key);
         if (imageHeight != exifData_.end() && imageHeight->count() > 0) {
-            return imageHeight->toLong();
+            pixelHeight_ = imageHeight->toLong();
         }
-        return 0;
+        return pixelHeight_;
     }
 
     void TiffImage::setComment(const std::string& /*comment*/)

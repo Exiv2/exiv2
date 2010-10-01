@@ -64,7 +64,7 @@ namespace Exiv2 {
 
     std::string Rw2Image::mimeType() const
     {
-        return "image/x-raw";
+        return "image/x-panasonic-rw2";
     }
 
     int Rw2Image::pixelWidth() const
