@@ -109,8 +109,10 @@ namespace Exiv2 {
             ExifData::const_iterator md = exifData_.findKey(ExifKey(keys[i]));
             // Is it the primary image?
             if (md != exifData_.end() && md->count() > 0 && md->toLong() == 0) {
+                // Sometimes there is a JPEG primary image; that's not our first choice
                 groupName = md->groupName();
-                break;
+                std::string key = "Exif." + groupName + ".JPEGInterchangeFormat";
+                if (exifData_.findKey(ExifKey(key)) == exifData_.end()) break;
             }
         }
         return groupName;
