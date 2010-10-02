@@ -79,6 +79,7 @@ SET( LIBEXIV2_HDR         basicio.hpp
                           psdimage.hpp
                           rafimage.hpp
                           rw2image.hpp
+                          samsungmn.hpp
                           tags.hpp
                           tgaimage.hpp
                           tiffimage.hpp
@@ -123,6 +124,7 @@ SET( LIBEXIV2_SRC         basicio.cpp
                           psdimage.cpp
                           rafimage.cpp
                           rw2image.cpp
+                          samsungmn.cpp
                           sigmamn.cpp
                           sonymn.cpp
                           tags.cpp
@@ -181,7 +183,7 @@ ENDIF( EXIV2_ENABLE_XMP )
 # Library
 ADD_LIBRARY( exiv2 ${STATIC_FLAG} ${LIBEXIV2_SRC} )
 
-SET_TARGET_PROPERTIES( exiv2 PROPERTIES VERSION ${GENERIC_LIB_VERSION} 
+SET_TARGET_PROPERTIES( exiv2 PROPERTIES VERSION ${GENERIC_LIB_VERSION}
                                         SOVERSION ${GENERIC_LIB_SOVERSION}
                                         DEFINE_SYMBOL EXV_BUILDING_LIB
                      )
