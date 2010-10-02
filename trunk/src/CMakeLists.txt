@@ -43,6 +43,7 @@ SET( LIBEXIV2_PRIVATE_HDR canonmn_int.hpp
                           pngchunk_int.hpp
                           rcsid_int.hpp
                           rw2image_int.hpp
+                          samsungmn_int.hpp
                           sigmamn_int.hpp
                           sonymn_int.hpp
 			  tags_int.hpp
@@ -79,7 +80,6 @@ SET( LIBEXIV2_HDR         basicio.hpp
                           psdimage.hpp
                           rafimage.hpp
                           rw2image.hpp
-                          samsungmn.hpp
                           tags.hpp
                           tgaimage.hpp
                           tiffimage.hpp
