@@ -489,6 +489,10 @@
 				>
 			</File>
 			<File
+				RelativePath="..\..\src\samsungmn.cpp"
+				>
+			</File>
+			<File
 				RelativePath="..\..\src\sigmamn.cpp"
 				>
 			</File>
@@ -547,10 +551,6 @@
 				>
 			</File>
 			<File
-				RelativePath="..\..\src\canonmn.hpp"
-				>
-			</File>
-			<File
 				RelativePath="..\..\config.h"
 				>
 			</File>
@@ -580,10 +580,6 @@
 			</File>
 			<File
 				RelativePath="..\..\src\exif.hpp"
-				>
-			</File>
-			<File
-				RelativePath="..\..\src\fujimn.hpp"
 				>
 			</File>
 			<File
@@ -619,35 +615,11 @@
 				>
 			</File>
 			<File
-				RelativePath="..\..\src\minoltamn.hpp"
-				>
-			</File>
-			<File
-				RelativePath="..\..\src\mn.hpp"
-				>
-			</File>
-			<File
 				RelativePath="..\..\src\mrwimage.hpp"
 				>
 			</File>
 			<File
-				RelativePath="..\..\src\nikonmn.hpp"
-				>
-			</File>
-			<File
-				RelativePath="..\..\src\olympusmn.hpp"
-				>
-			</File>
-			<File
 				RelativePath="..\..\src\orfimage.hpp"
-				>
-			</File>
-			<File
-				RelativePath="..\..\src\panasonicmn.hpp"
-				>
-			</File>
-			<File
-				RelativePath="..\..\src\pentaxmn.hpp"
 				>
 			</File>
 			<File
@@ -680,14 +652,6 @@
 			</File>
 			<File
 				RelativePath="..\..\src\rw2image.hpp"
-				>
-			</File>
-			<File
-				RelativePath="..\..\src\sigmamn.hpp"
-				>
-			</File>
-			<File
-				RelativePath="..\..\src\sonymn.hpp"
 				>
 			</File>
 			<File
