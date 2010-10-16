@@ -478,6 +478,7 @@ namespace Exiv2 {
         {  37, "Canon EF 35-80mm f/4-5.6"                                   }, // 0
         {  37, "Tamron 70-200mm f/2.8 Di LD IF Macro"                       }, // 1
         {  37, "Tamron AF 28-300mm f/3.5-6.3 XR Di VC LD Aspherical [IF] Macro Model A20" }, // 2
+        {  37, "Tamron SP AF 17-50mm f/2.8 XR Di II VC LD Aspherical [IF] " }, // 3
         {  38, "Canon EF 80-200mm f/4.5-5.6"                                },
         {  39, "Canon EF 75-300mm f/4-5.6"                                  },
         {  40, "Canon EF 28-80mm f/3.5-5.6"                                 },
@@ -544,7 +545,7 @@ namespace Exiv2 {
         { 153, "Sigma 50-500mm f/4-6.3 APO HSM EX"                          }, // 1
         { 153, "Tamron AF 28-300mm f/3.5-6.3 XR LD Aspherical [IF] Macro"   }, // 2
         { 153, "Tamron AF 18-200mm f/3.5-6.3 XR Di II LD Aspherical [IF] Macro Model A14" }, // 3
-        { 153, "Tamron 18-250mm f/3.5-6.3 Di II_LD Aspherical [IF] Macro"   }, // 4
+        { 153, "Tamron 18-250mm f/3.5-6.3 Di II LD Aspherical [IF] Macro"   }, // 4
         { 154, "Canon EF 20mm f/2.8 USM"                                    },
         { 155, "Canon EF 85mm f/1.8 USM"                                    },
         { 156, "Canon EF 28-105mm f/3.5-4.5 USM"                            },
