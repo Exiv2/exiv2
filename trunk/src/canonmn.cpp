@@ -517,6 +517,7 @@ namespace Exiv2 {
         { 137, "Sigma 24-70mm f/2.8 IF EX DG HSM"                           }, // 4
         { 137, "Sigma 18-125mm f/3.8-5.6 DC OS HSM"                         }, // 5
         { 137, "Sigma 17-70mm f/2.8-4 DC Macro OS HSM"                      }, // 6
+        { 137, "Sigma 17-50mm f/2.8 OS HSM"                                 }, // 7
         { 138, "Canon EF 28-80mm f/2.8-4L"                                  },
         { 139, "Canon EF 400mm f/2.8L"                                      },
         { 140, "Canon EF 500mm f/4.5L"                                      },
