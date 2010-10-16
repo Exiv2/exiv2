@@ -609,7 +609,7 @@ namespace Exiv2 {
         { 211, "Canon EF 28-200mm f/3.5-5.6 USM"                            },
         { 212, "Canon EF 28-105mm f/4-5.6 USM"                              },
         { 213, "Canon EF 90-300mm f/4.5-5.6 USM"                            },
-        { 214, "Canon EF-S 18-55mm f/3.5-4.5 USM"                           },
+        { 214, "Canon EF-S 18-55mm f/3.5-5.6 USM"                           },
         { 215, "Canon EF 55-200mm f/4.5-5.6 II USM"                         },
         { 224, "Canon EF 70-200mm f/2.8L IS"                                },
         { 225, "Canon EF 70-200mm f/2.8L IS + 1.4x"                         },
