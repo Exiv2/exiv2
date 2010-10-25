@@ -93,7 +93,8 @@ namespace Exiv2 {
 
     MimeTypeList mimeTypeList[] = {
         { 32770, "image/x-samsung-srw" },
-        { 34713, "image/x-nikon-nef"   }
+        { 34713, "image/x-nikon-nef"   },
+        { 65535, "image/x-pentax-pef"  }
     };
 
     std::string TiffImage::mimeType() const
