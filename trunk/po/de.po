@@ -3799,7 +3799,7 @@ msgid ""
 "   -T      Only set the file timestamp in 'rename' action, do not rename\n"
 "           the file (overrides -k).\n"
 msgstr ""
-"   -T      Setzt nur die Dateizeitsempel in der Aktion \"umbenennen\" und "
+"   -T      Setzt nur die Dateizeitstempel in der Aktion \"umbenennen\" und "
 "benennt nicht die \n"
 "           Datei um (überschreibt -k).\n"
 
