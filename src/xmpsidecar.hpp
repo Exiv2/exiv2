@@ -98,10 +98,6 @@ namespace Exiv2 {
         XmpSidecar& operator=(const XmpSidecar& rhs);
         //@}
 
-        // DATA
-        static const char* xmlHeader_;
-        static const long  xmlHdrCnt_;
-
     }; // class XmpSidecar
 
 // *****************************************************************************
