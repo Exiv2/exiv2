@@ -51,11 +51,14 @@ EXIV2_RCSID("@(#) $Id$")
 #include <cassert>
 
 // *****************************************************************************
+namespace {
+    const char* xmlHeader = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n";
+    const long  xmlHdrCnt = 39; // without the trailing 0-character
+}
+
 // class member definitions
 namespace Exiv2 {
 
-    const char* XmpSidecar::xmlHeader_ = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n";
-    const long XmpSidecar::xmlHdrCnt_ = 39; // without the trailing 0-character
 
     XmpSidecar::XmpSidecar(BasicIo::AutoPtr io, bool create)
         : Image(ImageType::xmp, mdXmp, io)
@@ -63,7 +66,7 @@ namespace Exiv2 {
         if (create) {
             if (io_->open() == 0) {
                 IoCloser closer(*io_);
-                io_->write(reinterpret_cast<const byte*>(xmlHeader_), xmlHdrCnt_);
+                io_->write(reinterpret_cast<const byte*>(xmlHeader), xmlHdrCnt);
             }
         }
     } // XmpSidecar::XmpSidecar
@@ -132,7 +135,7 @@ namespace Exiv2 {
         }
         if (xmpPacket_.size() > 0) {
             if (xmpPacket_.substr(0, 5)  != "<?xml") {
-                xmpPacket_ = xmlHeader_ + xmpPacket_;
+                xmpPacket_ = xmlHeader + xmpPacket_;
             }
             BasicIo::AutoPtr tempIo(io_->temporary()); // may throw
             assert(tempIo.get() != 0);
@@ -160,17 +163,23 @@ namespace Exiv2 {
     bool isXmpType(BasicIo& iIo, bool advance)
     {
         /*
-          Make sure the file starts with and (optional) XML declaration,
-          followed by an XMP header (<?xpacket ... ?>) or an <x:xmpmeta>
-          element. That doesn't cover all cases, since also x:xmpmeta is
-          optional, but let's wait and see.
+          Check if the file starts with an optional XML declaration followed by
+          either an XMP header (<?xpacket ... ?>) or an <x:xmpmeta> element.
+
+          In addition, in order for empty XmpSidecar objects as created by
+          Exiv2 to pass the test, just an XML header is also considered ok.
          */
-
-        // Todo: Proper implementation
-
-        const int32_t len = 13;
+        const int32_t len = 80;
         byte buf[len];
-        iIo.read(buf, len);
+        iIo.read(buf, xmlHdrCnt + 1);
+        if (   iIo.eof()
+            && 0 == strncmp(reinterpret_cast<const char*>(buf), xmlHeader, xmlHdrCnt)) {
+            return true;
+        }
+        if (iIo.error() || iIo.eof()) {
+            return false;
+        }
+        iIo.read(buf + xmlHdrCnt + 1, len - xmlHdrCnt - 1);
         if (iIo.error() || iIo.eof()) {
             return false;
         }
@@ -180,10 +189,19 @@ namespace Exiv2 {
             start = 3;
         }
         bool rc = false;
-        const std::string head(reinterpret_cast<const char*>(buf + start), len - start);
-        if (   head.substr(0, 5)  == "<?xml"
-            || head.substr(0, 9)  == "<?xpacket"
-            || head.substr(0, 10) == "<x:xmpmeta") {
+        std::string head(reinterpret_cast<const char*>(buf + start), len - start);
+        if (head.substr(0, 5)  == "<?xml") {
+            // Forward to the next tag
+            for (unsigned i = 5; i < head.size(); ++i) {
+                if (head[i] == '<') {
+                    head = head.substr(i);
+                    break;
+                }
+            }
+        }
+        if (   head.size() > 9
+            && (   head.substr(0, 9)  == "<?xpacket"
+                || head.substr(0, 10) == "<x:xmpmeta")) {
             rc = true;
         }
         if (!advance || !rc) {
