@@ -170,8 +170,8 @@ namespace Action {
         int printSummary();
         //! Print Exif, IPTC and XMP metadata in user defined format
         int printList();
-        //! Print info for an individual tag specified by its key in a user defined format
-        int grepTag(const std::string& key, const Exiv2::Image* image);
+        //! Return true if key should be printed, else false
+        bool grepTag(const std::string& key);
         //! Print all metadata in a user defined format
         int printMetadata(const Exiv2::Image* image);
         //! Print a metadatum in a user defined format
