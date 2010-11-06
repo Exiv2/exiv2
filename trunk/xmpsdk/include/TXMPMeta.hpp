@@ -267,30 +267,20 @@ public:
     /// new URI.
 
     // ---------------------------------------------------------------------------------------------
-    /// @brief \c RegisterNamespace() registers a namespace URI with a suggested prefix.
+    /// @brief \c RegisterNamespace() registers a namespace URI with a prefix.
     ///
-    /// If the URI is not registered but the suggested prefix is in use, a unique prefix is created
-    /// from the suggested one. The actual registered prefix is returned. The function result tells
-    /// if the registered prefix is the suggested one. It is not an error if the URI is already
-    /// registered, regardless of the prefix.
+    /// If the the prefix is in use, the URI of the existing prefix is overwritten.
     ///
     /// This function is static; make the call directly from the concrete class (\c SXMPMeta).
     ///
     /// @param namespaceURI The URI for the namespace. Must be a valid XML URI.
     ///
-    /// @param suggestedPrefix The suggested prefix to be used if the URI is not yet registered.
-    /// Must be a valid XML name.
-    ///
-    /// @param registeredPrefix [out] A string object in which to return the prefix actually
-    /// registered for this URI.
-    ///
-    /// @return True if the registered prefix matches the suggested prefix.
+    /// @param prefix The prefix to be used. Must be a valid XML name.
     ///
     /// @note No checking is done on either the URI or the prefix.  */
 
-    static bool RegisterNamespace ( XMP_StringPtr namespaceURI,
-                        			XMP_StringPtr suggestedPrefix,
-                       				tStringObj *  registeredPrefix );
+    static void RegisterNamespace ( XMP_StringPtr namespaceURI,
+                                    XMP_StringPtr prefix );
 
     // ---------------------------------------------------------------------------------------------
     /// @brief \c GetNamespacePrefix() obtains the prefix for a registered namespace URI, and

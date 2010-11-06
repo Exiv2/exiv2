@@ -381,13 +381,13 @@ namespace Exiv2 {
         if (!initialized_) {
 #ifdef EXV_HAVE_XMP_TOOLKIT
             initialized_ = SXMPMeta::Initialize();
-            SXMPMeta::RegisterNamespace("http://www.digikam.org/ns/1.0/", "digiKam", 0);
-            SXMPMeta::RegisterNamespace("http://www.digikam.org/ns/kipi/1.0/", "kipi", 0);
-            SXMPMeta::RegisterNamespace("http://ns.microsoft.com/photo/1.0/", "MicrosoftPhoto", 0);
-            SXMPMeta::RegisterNamespace("http://iptc.org/std/Iptc4xmpExt/2008-02-29/", "iptcExt", 0);
-            SXMPMeta::RegisterNamespace("http://ns.useplus.org/ldf/xmp/1.0/", "plus", 0);
-            SXMPMeta::RegisterNamespace("http://ns.iview-multimedia.com/mediapro/1.0/", "mediapro", 0);
-            SXMPMeta::RegisterNamespace("http://ns.microsoft.com/expressionmedia/1.0/", "expressionmedia", 0);
+            SXMPMeta::RegisterNamespace("http://www.digikam.org/ns/1.0/", "digiKam");
+            SXMPMeta::RegisterNamespace("http://www.digikam.org/ns/kipi/1.0/", "kipi");
+            SXMPMeta::RegisterNamespace("http://ns.microsoft.com/photo/1.0/", "MicrosoftPhoto");
+            SXMPMeta::RegisterNamespace("http://iptc.org/std/Iptc4xmpExt/2008-02-29/", "iptcExt");
+            SXMPMeta::RegisterNamespace("http://ns.useplus.org/ldf/xmp/1.0/", "plus");
+            SXMPMeta::RegisterNamespace("http://ns.iview-multimedia.com/mediapro/1.0/", "mediapro");
+            SXMPMeta::RegisterNamespace("http://ns.microsoft.com/expressionmedia/1.0/", "expressionmedia");
 #else
             initialized_ = true;
 #endif
@@ -407,12 +407,13 @@ namespace Exiv2 {
     }
 
 #ifdef EXV_HAVE_XMP_TOOLKIT
-    bool XmpParser::registerNs(const std::string& ns,
+    void XmpParser::registerNs(const std::string& ns,
                                const std::string& prefix)
     {
         try {
             initialize();
-            return SXMPMeta::RegisterNamespace(ns.c_str(), prefix.c_str(), 0);
+            SXMPMeta::DeleteNamespace(ns.c_str());
+            SXMPMeta::RegisterNamespace(ns.c_str(), prefix.c_str());
         }
         catch (const XMP_Error& e) {
             throw Error(40, e.GetID(), e.GetErrMsg());
@@ -610,7 +611,14 @@ namespace Exiv2 {
 #endif
             return 2;
         }
-
+        // Register custom namespaces with XMP-SDK
+        for (XmpProperties::NsRegistry::iterator i = XmpProperties::nsRegistry_.begin();
+             i != XmpProperties::nsRegistry_.end(); ++i) {
+#ifdef DEBUG
+            std::cerr << "Registering " << i->second.prefix_ << " : " << i->first << "\n";
+#endif
+            registerNs(i->first, i->second.prefix_);
+        }
         SXMPMeta meta;
         for (XmpData::const_iterator i = xmpData.begin(); i != xmpData.end(); ++i) {
             const std::string ns = XmpProperties::ns(i->groupName());

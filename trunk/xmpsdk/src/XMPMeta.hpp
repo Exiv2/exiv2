@@ -67,11 +67,9 @@ public:
 	
 	// ---------------------------------------------------------------------------------------------
 	
-	static bool
+	static void
 	RegisterNamespace ( XMP_StringPtr	namespaceURI,
-						XMP_StringPtr	suggestedPrefix,
-						XMP_StringPtr * registeredPrefix,
-						XMP_StringLen * prefixSize );
+                            XMP_StringPtr	prefix );
 	
 	static bool
 	GetNamespacePrefix ( XMP_StringPtr	 namespaceURI,
