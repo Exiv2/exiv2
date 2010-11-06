@@ -346,13 +346,13 @@ namespace {
     {
         offset_ = 0;
         ExifData::const_iterator pos = image_.exifData().findKey(ExifKey(param_[parIdx].offsetKey_));
-        if (pos != image_.exifData().end()) {
+        if (pos != image_.exifData().end() && pos->count() > 0) {
             offset_ = pos->toLong();
         }
 
         size_ = 0;
         pos = image_.exifData().findKey(ExifKey(param_[parIdx].sizeKey_));
-        if (pos != image_.exifData().end()) {
+        if (pos != image_.exifData().end() && pos->count() > 0) {
             size_ = pos->toLong();
         }
 
@@ -360,7 +360,7 @@ namespace {
 
         if (param_[parIdx].baseOffsetKey_) {
             pos = image_.exifData().findKey(ExifKey(param_[parIdx].baseOffsetKey_));
-            if (pos != image_.exifData().end()) {
+            if (pos != image_.exifData().end() && pos->count() > 0) {
                 offset_ += pos->toLong();
             }
         }
@@ -540,19 +540,19 @@ namespace {
         if (pos == exifData.end()) return;
         if (offsetCount != pos->value().count()) return;
         for (int i = 0; i < offsetCount; i++) {
-            size_ += pos->value().toLong(i);
+            size_ += pos->toLong(i);
         }
 
         if (size_ == 0) return;
 
         pos = exifData.findKey(ExifKey(std::string("Exif.") + group_ + ".ImageWidth"));
-        if (pos != exifData.end()) {
-            width_ = pos->value().toLong();
+        if (pos != exifData.end() && pos->count() > 0) {
+            width_ = pos->toLong();
         }
 
         pos = exifData.findKey(ExifKey(std::string("Exif.") + group_ + ".ImageLength"));
-        if (pos != exifData.end()) {
-            height_ = pos->value().toLong();
+        if (pos != exifData.end() && pos->count() > 0) {
+            height_ = pos->toLong();
         }
 
         if (width_ == 0 || height_ == 0) return;
@@ -631,25 +631,27 @@ namespace {
 
             const Value &sizes = preview["Exif.Image." + sizeTag_].value();
 
-            if (sizes.count() == 1) {
-                // this saves one copying of the buffer
-                uint32_t offset = dataValue.toLong(0);
-                uint32_t size = sizes.toLong(0);
-                if (offset + size <= static_cast<uint32_t>(io.size()))
-                    dataValue.setDataArea(base + offset, size);
-            }
-            else {
-                // FIXME: the buffer is probably copied twice, it should be optimized
-                DataBuf buf(size_);
-                Exiv2::byte* pos = buf.pData_;
-                for (int i = 0; i < sizes.count(); i++) {
-                    uint32_t offset = dataValue.toLong(i);
-                    uint32_t size = sizes.toLong(i);
+            if (sizes.count() == dataValue.count()) {
+                if (sizes.count() == 1) {
+                    // this saves one copying of the buffer
+                    uint32_t offset = dataValue.toLong(0);
+                    uint32_t size = sizes.toLong(0);
                     if (offset + size <= static_cast<uint32_t>(io.size()))
-                        memcpy(pos, base + offset, size);
-                    pos += size;
+                        dataValue.setDataArea(base + offset, size);
                 }
-                dataValue.setDataArea(buf.pData_, buf.size_);
+                else {
+                    // FIXME: the buffer is probably copied twice, it should be optimized
+                    DataBuf buf(size_);
+                    Exiv2::byte* pos = buf.pData_;
+                    for (int i = 0; i < sizes.count(); i++) {
+                        uint32_t offset = dataValue.toLong(i);
+                        uint32_t size = sizes.toLong(i);
+                        if (offset + size <= static_cast<uint32_t>(io.size()))
+                            memcpy(pos, base + offset, size);
+                        pos += size;
+                    }
+                    dataValue.setDataArea(buf.pData_, buf.size_);
+                }
             }
         }
 
