@@ -809,6 +809,10 @@ int Params::getopt(int argc, char* const argv[])
             rc = 1;
         }
     }
+    if (rc == 0 && (!cmdFiles_.empty() || !cmdLines_.empty())) {
+        // We'll set them again, after reading the file
+        Exiv2::XmpProperties::unregisterNs();
+    }
     if (   !directory_.empty()
         && !(action_ == Action::insert || action_ == Action::extract)) {
         std::cerr << progname() << ": "

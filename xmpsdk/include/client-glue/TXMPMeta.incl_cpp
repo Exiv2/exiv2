@@ -233,17 +233,11 @@ DumpAliases ( XMP_TextOutputProc outProc,
 
 // -------------------------------------------------------------------------------------------------
 
-XMP_MethodIntro(TXMPMeta,bool)::
+XMP_MethodIntro(TXMPMeta,void)::
 RegisterNamespace ( XMP_StringPtr namespaceURI,
-                    XMP_StringPtr suggestedPrefix,
-                    tStringObj *  registeredPrefix )
+                    XMP_StringPtr prefix )
 {
-	XMP_StringPtr resultPtr = 0;
-	XMP_StringLen resultLen = 0;
-	WrapCheckBool ( prefixMatch, zXMPMeta_RegisterNamespace_1 ( namespaceURI, suggestedPrefix, &resultPtr, &resultLen ) );
-	if ( registeredPrefix != 0 ) registeredPrefix->assign ( resultPtr, resultLen );
-	WXMPMeta_Unlock_1 ( 0 );
-	return prefixMatch;
+	WrapCheckVoid ( zXMPMeta_RegisterNamespace_1 ( namespaceURI, prefix ) );
 }
 
 // -------------------------------------------------------------------------------------------------

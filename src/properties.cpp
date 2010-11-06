@@ -1046,6 +1046,17 @@ namespace Exiv2 {
         std::string ns2 = ns;
         if (   ns2.substr(ns2.size() - 1, 1) != "/"
             && ns2.substr(ns2.size() - 1, 1) != "#") ns2 += "/";
+        // Check if there is already a registered namespace with this prefix
+        const XmpNsInfo* xnp = lookupNsRegistry(XmpNsInfo::Prefix(prefix));
+        if (xnp) {
+#ifndef SUPPRESS_WARNINGS
+            if (strcmp(xnp->ns_, ns2.c_str()) != 0) {
+                EXV_WARNING << "Updating namespace URI for " << prefix << " from "
+                            << xnp->ns_ << " to " << ns2 << "\n";
+            }
+#endif
+            unregisterNs(xnp->ns_);
+        }
         // Allocated memory is freed when the namespace is unregistered.
         // Using malloc/free for better system compatibility in case
         // users don't unregister their namespaces explicitely.
@@ -1059,14 +1070,12 @@ namespace Exiv2 {
         xn.xmpPropertyInfo_ = 0;
         xn.desc_ = "";
         nsRegistry_[ns2] = xn;
-        XmpParser::registerNs(ns2, prefix);
     }
 
     void XmpProperties::unregisterNs(const std::string& ns)
     {
         NsRegistry::iterator i = nsRegistry_.find(ns);
         if (i != nsRegistry_.end()) {
-            XmpParser::unregisterNs(ns);
             std::free(const_cast<char*>(i->second.prefix_));
             std::free(const_cast<char*>(i->second.ns_));
             nsRegistry_.erase(i);

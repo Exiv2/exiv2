@@ -39,8 +39,8 @@ extern "C" {
 #define zXMPMeta_DumpAliases_1(outProc,refCon) \
     WXMPMeta_DumpAliases_1 ( outProc, refCon, &wResult )
 
-#define zXMPMeta_RegisterNamespace_1(namespaceURI,suggestedPrefix,registeredPrefix,prefixSize) \
-    WXMPMeta_RegisterNamespace_1 ( namespaceURI, suggestedPrefix, registeredPrefix, prefixSize, &wResult )
+#define zXMPMeta_RegisterNamespace_1(namespaceURI,prefix) \
+    WXMPMeta_RegisterNamespace_1 ( namespaceURI, prefix, &wResult )
 
 #define zXMPMeta_GetNamespacePrefix_1(namespaceURI,namespacePrefix,prefixSize) \
     WXMPMeta_GetNamespacePrefix_1 ( namespaceURI, namespacePrefix, prefixSize, &wResult )
@@ -232,9 +232,7 @@ WXMPMeta_DumpAliases_1 ( XMP_TextOutputProc outProc,
 
 extern void
 WXMPMeta_RegisterNamespace_1 ( XMP_StringPtr   namespaceURI,
-                               XMP_StringPtr   suggestedPrefix,
-                               XMP_StringPtr * registeredPrefix,
-                               XMP_StringLen * prefixSize,
+                               XMP_StringPtr   prefix,
                                WXMP_Result *   wResult );
 
 extern void

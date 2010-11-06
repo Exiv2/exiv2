@@ -256,8 +256,6 @@ namespace Exiv2 {
              the XMP toolkit to do the job.
      */
     class EXIV2API XmpParser {
-        friend void XmpProperties::registerNs(const std::string&, const std::string&);
-        friend void XmpProperties::unregisterNs(const std::string&);
     public:
         //! Options to control the format of the serialized XMP packet.
         enum XmpFormatFlags {
@@ -325,12 +323,8 @@ namespace Exiv2 {
     private:
         /*!
           @brief Register a namespace with the XMP Toolkit.
-
-          XmpProperties::registerNs calls this to synchronize namespaces.
-
-          @return \em true if the registered prefix matches the suggested prefix.
          */
-        static bool registerNs(const std::string& ns,
+        static void registerNs(const std::string& ns,
                                const std::string& prefix);
         /*!
           @brief Delete a namespace from the XMP Toolkit.

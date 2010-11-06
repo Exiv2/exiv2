@@ -260,7 +260,7 @@ static void StartNamespaceDeclHandler ( void * userData, XMP_StringPtr prefix, X
 	#endif
 	
 	if ( XMP_LitMatch ( uri, "http://purl.org/dc/1.1/" ) ) uri = "http://purl.org/dc/elements/1.1/";
-	(void) XMPMeta::RegisterNamespace ( uri, prefix, &voidStringPtr, &voidStringLen );
+	XMPMeta::RegisterNamespace ( uri, prefix );
 
 }	// StartNamespaceDeclHandler
 

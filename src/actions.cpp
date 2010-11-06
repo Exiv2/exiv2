@@ -1422,7 +1422,7 @@ namespace Action {
             std::cout << _("Reg ") << modifyCmd.key_ << "=\""
                       << modifyCmd.value_ << "\"" << std::endl;
         }
-        // Registration has been done immediately after parsing the command.
+        Exiv2::XmpProperties::registerNs(modifyCmd.value_, modifyCmd.key_);
     }
 
     Modify::AutoPtr Modify::clone() const

@@ -32,34 +32,10 @@ Xmp.exif.NativeDigest                        XmpText   414  36864,40960,40961,37
 < <x:xmpmeta xmlns:x="adobe:ns:meta/" x:xmptk="3.1.2-113">
 ---
 > <x:xmpmeta xmlns:x="adobe:ns:meta/" x:xmptk="XMP Core 4.4.0-Exiv2">
-6,7c6,7
-<     xmlns:xap="http://ns.adobe.com/xap/1.0/"
-<     xmlns:xapMM="http://ns.adobe.com/xap/1.0/mm/"
----
->     xmlns:xmp="http://ns.adobe.com/xap/1.0/"
->     xmlns:xmpMM="http://ns.adobe.com/xap/1.0/mm/"
-13,18c13,18
-<    xap:CreatorTool="Adobe Photoshop CS2 Macintosh"
-<    xap:CreateDate="2005-09-07T15:07:40-07:00"
-<    xap:ModifyDate="2005-09-07T15:09:51-07:00"
-<    xap:MetadataDate="2006-04-10T13:37:10-07:00"
-<    xapMM:DocumentID="uuid:9A3B7F52214211DAB6308A7391270C13"
-<    xapMM:InstanceID="uuid:B59AC1B3214311DAB6308A7391270C13"
----
->    xmp:CreatorTool="Adobe Photoshop CS2 Macintosh"
->    xmp:CreateDate="2005-09-07T15:07:40-07:00"
->    xmp:ModifyDate="2005-09-07T15:09:51-07:00"
->    xmp:MetadataDate="2006-04-10T13:37:10-07:00"
->    xmpMM:DocumentID="uuid:9A3B7F52214211DAB6308A7391270C13"
->    xmpMM:InstanceID="uuid:B59AC1B3214311DAB6308A7391270C13"
 35d34
 <      <rdf:li xml:lang="en-US">Blue Square Test File - .jpg</rdf:li>
 37a37
 >      <rdf:li xml:lang="en-US">Blue Square Test File - .jpg</rdf:li>
-54c54
-<    <xapMM:DerivedFrom
----
->    <xmpMM:DerivedFrom
 -----> Decoding XMP data read from StaffPhotographer-Example.xmp <-----
 Xmp.iptc.IntellectualGenre                   XmpText     7  Profile
 Xmp.iptc.Location                            XmpText    17  Moore family farm
@@ -129,51 +105,8 @@ Xmp.wine.Recommend                           XmpText     5  False
 <   <rdf:Description rdf:about="uuid:0f410644-9396-11d9-bb8e-a67e6693b6e9"
 ---
 >   <rdf:Description rdf:about=""
-9,10c9,10
-<     xmlns:xap="http://ns.adobe.com/xap/1.0/"
-<     xmlns:xapMM="http://ns.adobe.com/xap/1.0/mm/"
----
->     xmlns:xmp="http://ns.adobe.com/xap/1.0/"
->     xmlns:xmpMM="http://ns.adobe.com/xap/1.0/mm/"
-12c12
-<     xmlns:xapRights="http://ns.adobe.com/xap/1.0/rights/"
----
->     xmlns:xmpRights="http://ns.adobe.com/xap/1.0/rights/"
-42,48c42,49
-<    xap:CreateDate="2005-03-13T02:01:44-06:00"
-<    xap:ModifyDate="2005-03-13T02:01:44-06:00"
-<    xap:MetadataDate="2007-01-08T13:25:45+01:00"
-<    xap:CreatorTool="Adobe Photoshop CS Windows"
-<    xapMM:DocumentID="adobe:docid:photoshop:0f410643-9396-11d9-bb8e-a67e6693b6e9"
-<    xapRights:WebStatement="http://www.bignewspaper.com/"
-<    xapRights:Marked="True"
----
->    xmp:CreateDate="2005-03-13T02:01:44-06:00"
->    xmp:ModifyDate="2005-03-13T02:01:44-06:00"
->    xmp:MetadataDate="2007-01-08T13:25:45+01:00"
->    xmp:CreatorTool="Adobe Photoshop CS Windows"
->    xmpMM:DocumentID="adobe:docid:photoshop:0f410643-9396-11d9-bb8e-a67e6693b6e9"
->    xmpMM:InstanceID="uuid:0f410644-9396-11d9-bb8e-a67e6693b6e9"
->    xmpRights:WebStatement="http://www.bignewspaper.com/"
->    xmpRights:Marked="True"
-78c79
-<    <xapMM:DerivedFrom
----
->    <xmpMM:DerivedFrom
-81c82
-<    <xapRights:RightsUsageTerms>
----
->    <xmpRights:RightsUsageTerms>
-85,86c86,87
-<    </xapRights:RightsUsageTerms>
-<    <xapRights:UsageTerms>
----
->    </xmpRights:RightsUsageTerms>
->    <xmpRights:UsageTerms>
-90c91
-<    </xapRights:UsageTerms>
----
->    </xmpRights:UsageTerms>
+46a47
+>    xapMM:InstanceID="uuid:0f410644-9396-11d9-bb8e-a67e6693b6e9"
 160,191c161
 <                                                                                                     
 <                                                                                                     
