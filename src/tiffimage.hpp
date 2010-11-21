@@ -48,6 +48,12 @@ namespace Exiv2 {
     // Add TIFF to the supported image formats
     namespace ImageType {
         const int tiff = 4;          //!< TIFF image type (see class TiffImage)
+        const int dng = 4;           //!< DNG image type (see class TiffImage)
+        const int nef = 4;           //!< NEF image type (see class TiffImage)
+        const int pef = 4;           //!< PEF image type (see class TiffImage)
+        const int arw = 4;           //!< ARW image type (see class TiffImage)
+        const int sr2 = 4;           //!< SR2 image type (see class TiffImage)
+        const int srw = 4;           //!< SRW image type (see class TiffImage)
     }
 
     /*!
