@@ -173,6 +173,13 @@ $exiv2 -v -PEkyct $filename
 $exiv2 -v -M'set Exif.Image.ProcessingSoftware Intrusive update, writing the structure from scratch' $filename
 $exiv2 -v -PEkyct $filename
 
+# Test easy-access keys (using a dummy bug number)
+num=726
+filename=exiv2-bug$num.jpg
+cp -f ../data/exiv2-empty.jpg $filename
+$exiv2 -v -M"set Exif.Image.Make Samsung" $filename
+$binpath/easyaccess-test $filename
+
 ) > $results 2>&1
 
 # ----------------------------------------------------------------------

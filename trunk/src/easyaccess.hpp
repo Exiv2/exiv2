@@ -80,6 +80,8 @@ namespace Exiv2 {
     EXIV2API ExifData::const_iterator serialNumber(const ExifData& ed);
     //! Return the focal length setting
     EXIV2API ExifData::const_iterator focalLength(const ExifData& ed);
+    //! Return the AF point
+    EXIV2API ExifData::const_iterator afPoint(const ExifData& ed);
 
 } // namespace Exiv2
 
