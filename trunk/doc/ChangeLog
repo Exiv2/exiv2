@@ -63,6 +63,8 @@ Changes from version 0.20 to 0.21
 	         - Fixed writing to pseudo memory mapped areas on Linux.
 	         - Modified test for XMP files to not recognize any XML file with
 	           a regular header as XMP.
+	         - Added afPoint() easy-access function.
+	           (Based on a patch by july)
 	         - Updated Spanish translations. (Pablo Valdés)
 
 * MSVC related
