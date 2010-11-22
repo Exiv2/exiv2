@@ -331,3 +331,5 @@ endif
 # This command is intended for maintainers to use; it deletes files
 # that may need special tools to rebuild.
 maintainer-clean: uninstall distclean
+	-$(RM) -r .deps
+	-$(RM) -r .libs
