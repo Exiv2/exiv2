@@ -1,3 +1,77 @@
+Changes from version 0.20 to 0.21
+---------------------------------
+
+* Exiv2 utility
+	- 0000727: Exiv2 command line tool: grep should find all occurrences of a
+	           tag, not only one.
+	           (Reported by Steve Wright)
+	         - Added option -q (quiet) to silence warnings and error messages
+	           from the Exiv2 library to the exiv2 command line tool.
+	         - Allow "migration" of XMP namespaces.
+
+* Exiv2 library
+	- 0000476: Error handler: Applications should be able to register an error
+	           handler. (Based on work by Simson Garfinkel)
+	- 0000614: Silence warnings from code.
+	- 0000712: Support of Sigma 17-50 2.8 OS HSM. (Reported by Steffen bla)
+	- 0000713: Tag 0x0203 in Olympus makernotes should be "Lens ID".
+	- 0000719: Remove makernote classes and pretty-print functions from the
+	           published interface.
+	- 0000721: Remove IfdId from the published interface.
+	- 0000726: Add support for Samsung's .SRW raw format.
+	           (Reported by Oleg Yermakov)
+	- 0000564: Need a way to get a list of all supported tags.
+	           (Reported by Jan Kundr)
+	- 0000593: The default type of Array element tags is incorrect.
+	- 0000625: New image formats and improved makernote support should not
+	           break ABI.
+	- 0000678: Lensname missing with EF100mm f/2.8L Macro IS USM.
+	           (Reported by Christoph Spiel)
+	- 0000711: exiv2 0.20 is corrupting ORF files from E-PL1.
+	           (Reported by Mark Haun)
+	- 0000714: Problem compiling with Sun Studio - visibility.
+	           (Reported by Pavel Heimlich)
+	- 0000717: Writing Exif.Image.ImageDescription in ORF file corrupts file.
+	           (Reported by Wouter Portegijs)
+	- 0000734: Support for Tamron 17-50mm f/2.8 SP XR LD II Di VC.
+	           (Reported by Jari-Matti Mäkelä)
+	- 0000735: Support for Sigma AF 50mm f/1.4 EX DG HSM.
+	           (Reported by Jari-Matti Mäkelä)
+	- 0000736: Exiv2 crash on "print".
+	           (Reported by Bastian Holst)
+	- 0000737: Metadata of Canon EF-S 18-55mm are not read correctly.
+	           (Reported by G. Lechner)
+	- 0000739: exiv2 crashes when examining previews.
+	           (Reported by Jim Nelson)
+	- 0000709: Typo in XMPCore_Impl.hpp. (Patch by Dimitri Schoolwerth)
+	- 0000716: Missing header in canonmp.cpp. (Patch by Pavel Heimlich)
+	- 0000723: Fix pkg-config file. (Patch by Johannes Wienke)
+	- 0000738: PSD resource block handling patch.
+	           (Patch by Michael Ulbrich)
+	         - Updated Nikon Lens lookup table to v4.3.410.01 of
+	           Robert Rottmerhusen's fmountlens list.
+	         - Introduced exiv2.hpp as a wrapper to include all Exiv2 objects.
+	         - Added a count field to the Exif tag reference data.
+	           (Patch by Matthias Baas)
+	         - Added ExifKey::defaultCount() to access the new count reference
+	           information.
+	         - Fixed zlib uncompression of large PNG metadata buffers.
+	         - Improved determination of MIME type.
+	         - Updated Canon makernote. (Greg Mansfield, Axel Waggershauser)
+	         - Updated Olympus makernote. (Greg Mansfield)
+	         - Updated Sony and Minolta makernote tags. (Gilles Caulier)
+	         - Fixed writing to pseudo memory mapped areas on Linux.
+	         - Modified test for XMP files to not recognize any XML file with
+	           a regular header as XMP.
+	         - Updated Spanish translations. (Pablo Valdés)
+
+* MSVC related
+	         - Updated MSVC project files (and notes) to build with
+	           DevStudio 2010 (and with DevStudio 2003/5/8). (Robin Mills)
+	         - Changes to MSVC build environment: renamed generated libraries.
+	           (Robin Mills, Jon Roch-Berry)
+
+
 Changes from version 0.19 to 0.20
 ---------------------------------
 
