@@ -37,7 +37,8 @@ static const EasyAccess easyAccess[] = {
     { "FNumber",              Exiv2::fNumber          },
     { "Subject distance",     Exiv2::subjectDistance  },
     { "Camera serial number", Exiv2::serialNumber     },
-    { "Focal length",         Exiv2::focalLength      }
+    { "Focal length",         Exiv2::focalLength      },
+    { "AF point",             Exiv2::afPoint          }
 };
 
 int main(int argc, char **argv)
