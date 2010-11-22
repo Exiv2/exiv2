@@ -41,8 +41,8 @@ SET( PACKAGE_STRING         "exiv2 0.21" )
 SET( PACKAGE_TARNAME        "exiv2" )
 SET( PACKAGE_VERSION        "0.21" )
 SET( PACKAGE_URL            "http://www.exiv2.org" )
-SET( GENERIC_LIB_VERSION    "9.0.0" )
-SET( GENERIC_LIB_SOVERSION  "9" )
+SET( GENERIC_LIB_VERSION    "10.0.0" )
+SET( GENERIC_LIB_SOVERSION  "10" )
 
 # options and there default values
 OPTION( EXIV2_ENABLE_SHARED        "Build exiv2 as a shared library (dll)"                 ON  )
