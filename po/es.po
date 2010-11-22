@@ -243,7 +243,7 @@ msgstr "normal"
 #: src/actions.cpp:837
 #, fuzzy
 msgid "found in the file"
-msgstr "encontrado en el archivo"
+msgid "encontrado en el archivo"
 
 #: src/actions.cpp:842
 msgid "Image file creation timestamp not set in the file"
@@ -476,7 +476,7 @@ msgstr "Renombrando archivo a"
 
 #: src/actions.cpp:2024
 msgid "updating timestamp"
-msgstr "actualizando fecha y hora"
+msgid "actualizando fecha y hora"
 
 #: src/actions.cpp:2033
 msgid "Failed to rename"
@@ -943,6 +943,7 @@ msgstr ""
 #: src/canonmn.cpp:160
 msgid "EOS Digital Rebel XTi / 400D / Kiss Digital X"
 msgstr ""
+----------------------------------------
 
 #: src/canonmn.cpp:165 src/canonmn.cpp:168 src/canonmn.cpp:176
 #: src/canonmn.cpp:181 src/canonmn.cpp:182 src/canonmn.cpp:183
@@ -2308,7 +2309,7 @@ msgstr "de derecha a izquiera"
 #: src/canonmn.cpp:794 src/olympusmn.cpp:1082
 #, fuzzy
 msgid "Bottom to top"
-msgstr "de abajo a arriba"
+msgstr "de abajo a arriba''
 
 #: src/canonmn.cpp:795 src/olympusmn.cpp:1083
 #, fuzzy
@@ -2870,7 +2871,7 @@ msgstr "Id del Servicio"
 #: src/datasets.cpp:106
 #, fuzzy
 msgid "Identifies the provider and product"
-msgstr "Identifica al proveedor y el producto"
+msgstr "Identifica al proveedor y el producto
 
 #: src/datasets.cpp:108
 #, fuzzy
@@ -2964,11 +2965,15 @@ msgid ""
 "functions follow the ISO 2022 standard and may consist of the escape control "
 "character and one or more graphic characters."
 msgstr ""
+"Esta etiqueta consiste en una o mas funciones de control utilizadas para el anuncio, "
+"invocación o designio de juegos de caracteres codificados. Las funciones de control "
+"siguen el estándar ISO 2022 y pueden consistir en el caracter de control escape "
+"y uno o más caracteres gráficos."
 
 #: src/datasets.cpp:145
 #, fuzzy
 msgid "Unique Name Object"
-msgstr "Retrato"
+msgstr "Nombre único de Objeto"
 
 #: src/datasets.cpp:146
 msgid ""
@@ -2976,6 +2981,10 @@ msgid ""
 "in the IIM, independent of provider and for any media form. The provider "
 "must ensure the UNO is unique. Objects with the same UNO are identical."
 msgstr ""
+"Esta etiqueta proporciona un identificador único globalmente para objetos, "
+"independiente del proveedor y para cualquier tipo de medio, tal y como está "
+"especificado en el IIM. El proveedor debe garantizar que el UNO es único. " 
+"Los objetos con el mismo UNO son idénticos."
 
 #: src/datasets.cpp:151
 #, fuzzy
@@ -2988,22 +2997,29 @@ msgid ""
 "which is described in a document registered by the originator of the ARM "
 "with the IPTC and NAA organizations."
 msgstr ""
+"El DataSet identifica al Abstract Relationship Method identifier (ARM) "
+"que es descrito en un documento registrado por el creador del ARM "
+"con las organizaciones IPTC y NAA."
+### can be improved probably
 
 #: src/datasets.cpp:156
 #, fuzzy
 msgid "ARM Version"
-msgstr "Versión Exif"
+msgstr "Versión ARM"
 
 #: src/datasets.cpp:157
 msgid ""
 "This tag consisting of a binary number representing the particular version "
 "of the ARM specified by tag <ARMId>."
 msgstr ""
+"Consiste en un número binario representando la versión particular "
+"del ARM especificado por la etiqueta <ARMId>."
 
 #: src/datasets.cpp:170
 #, fuzzy
 msgid "Record Version"
 msgstr "Versión Exif"
+### ? not translated 
 
 #: src/datasets.cpp:171
 msgid ""
@@ -3011,11 +3027,14 @@ msgid ""
 "Model, Part II, utilised by the provider. Version numbers are assigned by "
 "IPTC and NAA organizations."
 msgstr ""
+"Número binario, asignado por las organizaciones IPTC y NAA, que identifica " 
+"la versión del Modelo de Intercambio de Información, Parte II, utilizado por "
+"el proveedor."
 
 #: src/datasets.cpp:175
 #, fuzzy
 msgid "Object Type"
-msgstr "Área del sujeto"
+msgstr "Tipo de Objeto"
 
 #: src/datasets.cpp:176
 msgid ""
@@ -3026,11 +3045,17 @@ msgid ""
 "Type Number consisting of graphic characters plus spaces either in English "
 "or in the language of the service as indicated in tag <LanguageIdentifier>"
 msgstr ""
+"Tipo de Objeto; se utiliza para distinguir entre diferentes tipos de objetos "
+"dentro del IIM. Consta de dos partes separadas por un signo de dos puntos, siendo " 
+"la segunda parte opcional. La primera es un número de referencia internacional e "
+"independiente del lenguaje para un tipo de objeto; La segunda una representación "
+"textual del Object Type Number mediante caracteres gráficos y espacios, bien en "
+"Inglés o en el lenguaje del servicio indicado en la etiqueta <LanguageIdentifier>."
 
 #: src/datasets.cpp:184
 #, fuzzy
 msgid "Object Attribute"
-msgstr "Área del sujeto"
+msgstr "Atributos del objeto"
 
 #: src/datasets.cpp:185
 msgid ""
@@ -3042,6 +3067,12 @@ msgid ""
 "English, or in the language of the service as indicated in tag "
 "<LanguageIdentifier>"
 msgstr ""
+"El Object Attribute define la naturaleza del objeto independientemente del tema que trate. "
+"Consta de dos partes separadas por un signo de dos puntos, siendo la segunda parte opcional."
+"La primera es un número de referencia internacional (independiente del lenguaje) para un "
+"atributo del objeto; La segunda una representación textual del Object Attribute Number mediante " 
+"caracteres gráficos y espacios, bien en Inglés o en el lenguaje del servicio indicado en "
+"la etiqueta <LanguageIdentifier>.
 
 #: src/datasets.cpp:193
 #, fuzzy
@@ -3054,6 +3085,9 @@ msgid ""
 "such as updated stories or new crops on photos, should be identified in tag "
 "<EditStatus>."
 msgstr ""
+"Utilizado como referencia rápida (taquigráfica) para el objeto. Los cambios "
+"a datos existentes, como historias actualizadas o nuevos recortes en fotos, "
+"deben estar identificados en la etiqueta <EditStatus>."
 
 #: src/datasets.cpp:198
 #, fuzzy
@@ -3063,15 +3097,16 @@ msgstr "Título del documento"
 #: src/datasets.cpp:199 src/olympusmn.cpp:759
 #, fuzzy
 msgid "Edit Status"
-msgstr "Vista distante"
+msgstr "Editar Estátus"
+#### temptatively, can have several meanings here
 
 #: src/datasets.cpp:200
 msgid "Status of the object data, according to the practice of the provider."
-msgstr ""
+msgstr "Estatus de los datos del objeto, de acuerdo con la costumbre del proveedor "
 
 #: src/datasets.cpp:202
 msgid "Editorial Update"
-msgstr ""
+msgstr "Actualización Editorial"
 
 #: src/datasets.cpp:203
 msgid ""
@@ -3079,10 +3114,13 @@ msgid ""
 "The link to the previous object is made using the tags <ARMIdentifier> and "
 "<ARMVersion>, according to the practices of the provider."
 msgstr ""
+"Indica el tipo de actualización que éste objeto proporciona a un objeto previo. "
+"El enlace al objeto previo se hace usando las etiquetas <ARMIdentifier> y "
+"<ARMVersion>, de acuerdo a las costumbres del proveedor."
 
 #: src/datasets.cpp:207 src/datasets.cpp:212 src/properties.cpp:401
 msgid "Urgency"
-msgstr ""
+msgstr "Urgencia (de edición)"
 
 #: src/datasets.cpp:208
 msgid ""
@@ -3090,20 +3128,23 @@ msgid ""
 "handling priority (see tag <EnvelopePriority>). The \"1\" is most urgent, \"5"
 "\" normal and \"8\" denotes the least-urgent copy."
 msgstr ""
+"Especifica la urgencia editorial del contenido y no equivale necesariamente a "
+"la prioridad de manejo del sobre (véase <EnvelopePriority>). El \"1\" es el más 
+" urgente, \"5""\" indica normal y \"8\" denota a la copia menos prioritaria."
 
 #: src/datasets.cpp:213 src/properties.cpp:155
 #, fuzzy
 msgid "Subject"
-msgstr "Área del sujeto"
+msgstr "Sujeto"
 
 #: src/datasets.cpp:214
 msgid "The Subject Reference is a structured definition of the subject matter."
-msgstr ""
+msgstr "La referencia Sujeto es una definición estructurada del contenido"
 
 #: src/datasets.cpp:216 src/datasets.cpp:221 src/properties.cpp:387
 #, fuzzy
 msgid "Category"
-msgstr "Centímetro"
+msgstr "Categoría"
 
 #: src/datasets.cpp:217
 msgid ""
@@ -3111,10 +3152,13 @@ msgid ""
 "list of categories will be maintained by a regional registry, where "
 "available, otherwise by the provider."
 msgstr ""
+"Identifica el tema del objeto dato en opinión del proveedor. Donde sea posible "
+"una lista de categorías será mantenida por un registro regional, en otro caso sera "
+"proporcionada por el proveedor."
 
 #: src/datasets.cpp:222
 msgid "Supplemental Category"
-msgstr ""
+msgstr "Categoría suplementaria"
 
 #: src/datasets.cpp:223
 msgid ""
@@ -3123,25 +3167,33 @@ msgid ""
 "in tag <Category>. Otherwise, selection of supplemental categories are left "
 "to the provider."
 msgstr ""
+"Las categorías suplementarias permiten refinar el tema de un objeto de datos. "
+"Una categoría suplementaria puede incluir cualquiera de las categorías ya reconocidas "
+"en la etiqueta <Category>. Por lo demás, la selección de categorías suplementarias "
+"se deja al proveedor."
 
 #: src/datasets.cpp:228 src/properties.cpp:399
 msgid "Supplemental Categories"
-msgstr ""
+msgstr "Categorías suplementarias"
 
 #: src/datasets.cpp:229
 #, fuzzy
 msgid "Fixture Id"
-msgstr "Modo de exposición"
+msgstr "Id de objetos permanentes"
+### only my best effort, can be improved probably
 
 #: src/datasets.cpp:230
 msgid ""
 "Identifies object data that recurs often and predictably. Enables users to "
 "immediately find or recall such an object."
 msgstr ""
+"Identifica objetos de datos que recurren a menudo y de modo predecible, "
+"permitiendo a los usuarios encontrarlos inmediatamente o rellamarlos "
+"cuando se precise."
 
 #: src/datasets.cpp:233 src/datasets.cpp:239 src/properties.cpp:377
 msgid "Keywords"
-msgstr ""
+msgstr "Palabras Clave"
 
 #: src/datasets.cpp:234
 msgid ""
@@ -3150,11 +3202,15 @@ msgid ""
 "the same keyword, enabling the receiving system or subsystems to search "
 "across all types of data for related material."
 msgstr ""
+"Utilizado para indicar palabras clave específicas. Se espera que un proveedor de "
+"varios tipos de datos ligados a un mismo tema utilice la misma palabra clave, "
+"permitiendo al sistema receptor o a los distintos subsistemas encontrar rápidamente "
+"todo el material relacionado entre todos los tipos de datos."
 
 #: src/datasets.cpp:240
 #, fuzzy
 msgid "Location Code"
-msgstr "Nombre del documento"
+msgstr "Código de Localidad"
 
 #: src/datasets.cpp:241
 msgid ""
@@ -3165,11 +3221,16 @@ msgid ""
 "space, IPTC will assign an appropriate three-character code under the "
 "provisions of ISO 3166 to avoid conflicts."
 msgstr ""
+"Indica el código de País/localización geográfica referenciado por el contenido "
+"de un objeto. Allí donde la ISO 3166 haya establecido un código apropiado de país "
+"se utilizará ése código. En caso contrario (ej. el espacio o barcos en alta mar, "
+"IPTC asignará un código de tres caracteres apropiado bajo las previsiones de 
+"la ISO 3166 para evitar conflictos."
 
 #: src/datasets.cpp:248
 #, fuzzy
 msgid "Location Name"
-msgstr "Nombre del documento"
+msgstr "Nombre de la localización"
 
 #: src/datasets.cpp:249
 msgid ""
@@ -3177,66 +3238,85 @@ msgid ""
 "referenced by the content of the object, according to guidelines of the "
 "provider."
 msgstr ""
+"Proporciona un nombre, publicable y completo, del país o localización geográfica "
+"referenciado por el contenido de un objeto, de acuerdo a las directrices del proveedor."
 
 #: src/datasets.cpp:253 src/properties.cpp:340
 #, fuzzy
 msgid "Release Date"
-msgstr "Tipo de captura de escena"
+msgstr "Fecha de publicación"
 
 #: src/datasets.cpp:254
 msgid ""
 "Designates in the form CCYYMMDD the earliest date the provider intends the "
 "object to be used. Follows ISO 8601 standard."
 msgstr ""
+"Designa la fecha inicial (expresada en forma CCYYMMDD) a partir de la cual "
+"el proveedor tiene intención de que un objeto concreto pueda ser usado. " 
+"Sigue el estándar ISO 8601."
 
 #: src/datasets.cpp:257
 #, fuzzy
 msgid "Release Time"
-msgstr "Ancho de la imagen"
+msgstr "Tiempo de Publicación"
 
 #: src/datasets.cpp:258
 msgid ""
 "Designates in the form HHMMSS:HHMM the earliest time the provider intends "
 "the object to be used. Follows ISO 8601 standard."
 msgstr ""
+"Designa la hora inicial (expresada en forma HHMMSS:HHMM) a partir de la cual "
+"el proveedor tiene intención de que un objeto concreto pueda ser usado. " 
+"Sigue el estándar ISO 8601."
 
 #: src/datasets.cpp:261
 #, fuzzy
 msgid "Expiration Date"
-msgstr "Tipo de captura de escena"
+msgstr "Fecha de Caducidad"
 
 #: src/datasets.cpp:262
 msgid ""
 "Designates in the form CCYYMMDD the latest date the provider or owner "
 "intends the object data to be used. Follows ISO 8601 standard."
 msgstr ""
+"Designa la fecha de expiración de la validez de un objeto para su uso "
+"(expresada en forma CCYYMMDD) a partir de la cual el proveedor o el usuario consideran "
+"que ya no debe utilizarse mas dicho objeto. Sigue el estándar ISO 8601."
 
 #: src/datasets.cpp:265
 #, fuzzy
 msgid "ExpirationTime"
-msgstr "Fecha y hora"
+msgstr "Tiempo de Caducidad"
 
 #: src/datasets.cpp:266
 msgid ""
 "Designates in the form HHMMSS:HHMM the latest time the provider or owner "
 "intends the object data to be used. Follows ISO 8601 standard."
 msgstr ""
+"Designa la hora de expiración de la validez de un objeto para su uso "
+"(expresada en forma HHMMSS:HHMM) a partir de la cual el proveedor o el usuario consideran "
+"que ya no debe utilizarse mas dicho objeto. Sigue el estándar ISO 8601."
 
 #: src/datasets.cpp:269
 #, fuzzy
 msgid "Special Instructions"
-msgstr "Proceso personalizado"
+msgstr "Instrucciones especiales"
 
 #: src/datasets.cpp:270
 msgid ""
 "Other editorial instructions concerning the use of the object data, such as "
 "embargoes and warnings."
 msgstr ""
+"Instrucciones editoriales adicionales sobre el uso del objeto dato, "
+"como embargos y advertencias."
 
 #: src/datasets.cpp:273 src/properties.cpp:396
 #, fuzzy
 msgid "Instructions"
-msgstr "Proceso personalizado"
+msgstr "Instrucciones"
+
+################################################## stop. rev 18 oct 2010
+
 
 #: src/datasets.cpp:274
 #, fuzzy
@@ -5147,7 +5227,7 @@ msgstr "Tiempo de exposición"
 
 #: src/minoltamn.cpp:159 src/sonymn.cpp:325
 msgid "Color Compensation Filter: negative is green, positive is magenta"
-msgstr "Filtro de compensación del color: el verde es negativo, el magenta es positivo"
+msgstr "Filtro de compensación del color: el verde es negativo, el magenta es positivo""
 
 #: src/minoltamn.cpp:161 src/minoltamn.cpp:1425 src/sonymn.cpp:249
 #: src/sonymn.cpp:527 src/sonymn.cpp:528
@@ -18326,7 +18406,7 @@ msgstr "Escena nocturna / Crepúsculo"
 
 #: src/sonymn.cpp:107
 msgid "Hi-Speed Shutter"
-msgstr "Obturador alta velocidad"
+msgstr "Obturador alta velocidad''
 
 #: src/sonymn.cpp:108
 #, fuzzy
@@ -22522,7 +22602,7 @@ msgstr ""
 
 #, fuzzy
 #~ msgid "Flash fired, compulsatory flash mode"
-#~ msgstr "El flash disparó, modo compulsivo del flash."
+#~ msgstr "Flash disparado, modo compulsivo del flash."
 
 #, fuzzy
 #~ msgid "Flash did not fire, compulsatory flash mode."
