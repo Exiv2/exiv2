@@ -106,25 +106,6 @@
     <td>&nbsp;</td>
    </tr>
    <tr class="EvenRow"> 
-    <td>Sanyo</td>
-    <td>IFD</td>
-    <td>-</td>
-    <td>-</td>
-    <td>-</td>
-    <td><a href="#R6">[6]</a></td>
-    <td>Not supported by Exiv2 yet</td>
-   </tr>
-   <tr class="OddRow"> 
-    <td>SIGMA, FOVEON</td>
-    <td>IFD, at offset 10</td>
-    <td>&quot;SIGMA\0\0\0&quot; or &quot;FOVEON\0\0&quot; followed by two bytes 
-    of unknown meaning</td>
-    <td>&nbsp;</td>
-    <td>&nbsp;</td>
-    <td><a href="#R7">[7]</a></td>
-    <td>&nbsp;</td>
-   </tr>
-   <tr class="EvenRow"> 
     <td>Panasonic</td>
     <td>IFD without a next-IFD pointer at offset 12</td>
     <td>&quot;Panasonic\0\0\0&quot;</td>
@@ -143,6 +124,34 @@
     <td>&nbsp;</td>
    </tr>
    <tr class="EvenRow"> 
+    <td>SAMSUNG</td>
+    <td>IFD</td>
+    <td>None</td>
+    <td>&nbsp;</td>
+    <td>Relative to the beginning of the makernote</td>
+    <td>&nbsp;</td>
+    <td>&nbsp;</td>
+   </tr>
+   <tr class="OddRow"> 
+    <td>Sanyo</td>
+    <td>IFD</td>
+    <td>-</td>
+    <td>-</td>
+    <td>-</td>
+    <td><a href="#R6">[6]</a></td>
+    <td>Not supported by Exiv2 yet</td>
+   </tr>
+   <tr class="EvenRow"> 
+    <td>SIGMA, FOVEON</td>
+    <td>IFD, at offset 10</td>
+    <td>&quot;SIGMA\0\0\0&quot; or &quot;FOVEON\0\0&quot; followed by two bytes 
+    of unknown meaning</td>
+    <td>&nbsp;</td>
+    <td>&nbsp;</td>
+    <td><a href="#R7">[7]</a></td>
+    <td>&nbsp;</td>
+   </tr>
+   <tr class="OddRow"> 
     <td>SONY</td>
     <td>IFD without a next-IFD pointer at offset 12</td>
     <td>&quot;SONY DSC \0\0\0&quot;</td>
@@ -151,7 +160,7 @@
     <td>&nbsp;</td>
     <td>Seen in Jpeg images, e.g., from DSC-W7, DSC-R1</td>
    </tr>
-   <tr class="OddRow"> 
+   <tr class="EvenRow"> 
     <td>SONY</td>
     <td>IFD</td>
     <td>None</td>
