@@ -114,7 +114,7 @@ namespace Exiv2 {
         ExifTags& operator=(const ExifTags& rhs);
 
     public:
-        //! Return read-only list of build-in groups
+        //! Return read-only list of built-in groups
         static const GroupInfo* groupList();
         //! Return read-only list of built-in \em groupName tags.
         static const TagInfo* tagList(const std::string& groupName);
