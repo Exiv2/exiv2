@@ -99,6 +99,7 @@ TABLES = Exif \
 	 Panasonic \
          PanasonicRaw \
          Pentax \
+         Samsung2 \
          Sigma \
          Sony1 \
          SonyMinolta \
