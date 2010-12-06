@@ -248,7 +248,7 @@ namespace {
         { 0,                   createLoaderExifDataJpeg, 5 },
         { 0,                   createLoaderExifDataJpeg, 6 },
         { 0,                   createLoaderExifDataJpeg, 7 },
-        { "image/x-raw",       createLoaderExifDataJpeg, 8 },
+        { "image/x-panasonic-rw2", createLoaderExifDataJpeg, 8 },
         { 0,                   createLoaderExifDataJpeg, 9 },
         { 0,                   createLoaderTiff,         0 },
         { 0,                   createLoaderTiff,         1 },
