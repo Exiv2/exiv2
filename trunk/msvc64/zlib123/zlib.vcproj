@@ -21,7 +21,7 @@
 		<Configuration
 			Name="ReleaseDLL|Win32"
 			OutputDirectory="$(PlatformName)/$(ConfigurationName)"
-			IntermediateDirectory="$(PlatformName)/$(ConfigurationName)/$(ProjectName)"
+			IntermediateDirectory="./build/$(PlatformName)/$(ConfigurationName)"
 			ConfigurationType="2"
 			UseOfMFC="0"
 			ATLMinimizesCRunTimeLibraryUsage="false"
@@ -105,7 +105,7 @@
 		<Configuration
 			Name="Debug|Win32"
 			OutputDirectory="$(PlatformName)/$(ConfigurationName)"
-			IntermediateDirectory="$(PlatformName)/$(ConfigurationName)/$(ProjectName)"
+			IntermediateDirectory="./build/$(PlatformName)/$(ConfigurationName)"
 			ConfigurationType="4"
 			UseOfMFC="0"
 			ATLMinimizesCRunTimeLibraryUsage="false"
@@ -174,7 +174,7 @@
 		<Configuration
 			Name="DebugDLL|Win32"
 			OutputDirectory="$(PlatformName)/$(ConfigurationName)"
-			IntermediateDirectory="$(PlatformName)/$(ConfigurationName)/$(ProjectName)"
+			IntermediateDirectory="./build/$(PlatformName)/$(ConfigurationName)"
 			ConfigurationType="2"
 			UseOfMFC="0"
 			ATLMinimizesCRunTimeLibraryUsage="false"
@@ -261,7 +261,7 @@
 		<Configuration
 			Name="Release|Win32"
 			OutputDirectory="$(PlatformName)/$(ConfigurationName)"
-			IntermediateDirectory="$(PlatformName)/$(ConfigurationName)/$(ProjectName)"
+			IntermediateDirectory="./build/$(PlatformName)/$(ConfigurationName)"
 			ConfigurationType="4"
 			UseOfMFC="0"
 			ATLMinimizesCRunTimeLibraryUsage="false"
@@ -328,7 +328,7 @@
 		<Configuration
 			Name="ReleaseDLL|x64"
 			OutputDirectory="$(PlatformName)\$(ConfigurationName)"
-			IntermediateDirectory="$(PlatformName)\$(ConfigurationName)\$(ProjectName)"
+			IntermediateDirectory="./build/$(PlatformName)/$(ConfigurationName)"
 			ConfigurationType="2"
 			UseOfMFC="0"
 			ATLMinimizesCRunTimeLibraryUsage="false"
@@ -413,7 +413,7 @@
 		<Configuration
 			Name="Debug|x64"
 			OutputDirectory="$(PlatformName)\$(ConfigurationName)"
-			IntermediateDirectory="$(PlatformName)\$(ConfigurationName)\$(ProjectName)"
+			IntermediateDirectory="./build/$(PlatformName)/$(ConfigurationName)"
 			ConfigurationType="4"
 			UseOfMFC="0"
 			ATLMinimizesCRunTimeLibraryUsage="false"
@@ -482,7 +482,7 @@
 		<Configuration
 			Name="DebugDLL|x64"
 			OutputDirectory="$(PlatformName)\$(ConfigurationName)"
-			IntermediateDirectory="$(PlatformName)\$(ConfigurationName)\$(ProjectName)"
+			IntermediateDirectory="./build/$(PlatformName)/$(ConfigurationName)"
 			ConfigurationType="2"
 			UseOfMFC="0"
 			ATLMinimizesCRunTimeLibraryUsage="false"
@@ -570,7 +570,7 @@
 		<Configuration
 			Name="Release|x64"
 			OutputDirectory="$(PlatformName)\$(ConfigurationName)"
-			IntermediateDirectory="$(PlatformName)\$(ConfigurationName)\$(ProjectName)"
+			IntermediateDirectory="./build/$(PlatformName)/$(ConfigurationName)"
 			ConfigurationType="4"
 			UseOfMFC="0"
 			ATLMinimizesCRunTimeLibraryUsage="false"
