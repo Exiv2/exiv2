@@ -382,7 +382,7 @@ namespace Exiv2 {
                 throw Error(2, path(), "MSG2", "DuplicateHandle");
             }
         }
-        p_->hMap_ = CreateFileMapping(p_->hFile_, 0, flProtect, 0, p_->mappedLength_, 0);
+        p_->hMap_ = CreateFileMapping(p_->hFile_, 0, flProtect, 0, (DWORD) p_->mappedLength_, 0);
         if (p_->hMap_ == 0 ) {
 #ifdef EXV_UNICODE_PATH
             if (p_->wpMode_ == Impl::wpUnicode) {
