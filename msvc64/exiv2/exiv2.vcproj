@@ -369,7 +369,7 @@
 			<Tool
 				Name="VCPreBuildEventTool"
 				Description="copy the dlls"
-				CommandLine="copy/y &quot;$(SolutionDir)expat201\$(PlatformName)\$(ConfigurationName)\*.dll&quot; &quot;$(TargetDir)&quot;&#x0D;&#x0A;copy/y &quot;$(SolutionDir)zlib123\$(PlatformName)\$(ConfigurationName)\*.dll&quot; &quot;$(TargetDir)&quot;&#x0D;&#x0A;copy/y &quot;$(SolutionDir)exiv2lib\$(PlatformName)\$(ConfigurationName)\*.dll&quot; &quot;$(TargetDir)&quot;&#x0D;&#x0A;"
+				CommandLine="if NOT EXIST &quot;$(TargetDir)&quot; mkdir &quot;$(TargetDir)&quot;&#x0D;&#x0A;copy/y &quot;$(SolutionDir)expat201\$(PlatformName)\$(ConfigurationName)\*.dll&quot; &quot;$(TargetDir)&quot;&#x0D;&#x0A;copy/y &quot;$(SolutionDir)zlib123\$(PlatformName)\$(ConfigurationName)\*.dll&quot; &quot;$(TargetDir)&quot;&#x0D;&#x0A;copy/y &quot;$(SolutionDir)exiv2lib\$(PlatformName)\$(ConfigurationName)\*.dll&quot; &quot;$(TargetDir)&quot;&#x0D;&#x0A;"
 			/>
 			<Tool
 				Name="VCCustomBuildTool"
@@ -457,7 +457,7 @@
 			<Tool
 				Name="VCPreBuildEventTool"
 				Description="copy the dlls"
-				CommandLine="copy/y &quot;$(SolutionDir)expat201\$(PlatformName)\$(ConfigurationName)\*.dll&quot; &quot;$(TargetDir)&quot;&#x0D;&#x0A;copy/y &quot;$(SolutionDir)zlib123\$(PlatformName)\$(ConfigurationName)\*.dll&quot; &quot;$(TargetDir)&quot;&#x0D;&#x0A;copy/y &quot;$(SolutionDir)exiv2lib\$(PlatformName)\$(ConfigurationName)\*.dll&quot; &quot;$(TargetDir)&quot;&#x0D;&#x0A;"
+				CommandLine="if NOT EXIST &quot;$(TargetDir)&quot; mkdir &quot;$(TargetDir)&quot;&#x0D;&#x0A;copy/y &quot;$(SolutionDir)expat201\$(PlatformName)\$(ConfigurationName)\*.dll&quot; &quot;$(TargetDir)&quot;&#x0D;&#x0A;copy/y &quot;$(SolutionDir)zlib123\$(PlatformName)\$(ConfigurationName)\*.dll&quot; &quot;$(TargetDir)&quot;&#x0D;&#x0A;copy/y &quot;$(SolutionDir)exiv2lib\$(PlatformName)\$(ConfigurationName)\*.dll&quot; &quot;$(TargetDir)&quot;&#x0D;&#x0A;"
 			/>
 			<Tool
 				Name="VCCustomBuildTool"
@@ -547,7 +547,7 @@
 			<Tool
 				Name="VCPreBuildEventTool"
 				Description="copy the dlls"
-				CommandLine="copy/y &quot;$(SolutionDir)expat201\$(PlatformName)\$(ConfigurationName)\*.dll&quot; &quot;$(TargetDir)&quot;&#x0D;&#x0A;copy/y &quot;$(SolutionDir)zlib123\$(PlatformName)\$(ConfigurationName)\*.dll&quot; &quot;$(TargetDir)&quot;&#x0D;&#x0A;copy/y &quot;$(SolutionDir)exiv2lib\$(PlatformName)\$(ConfigurationName)\*.dll&quot; &quot;$(TargetDir)&quot;&#x0D;&#x0A;"
+				CommandLine="if NOT EXIST &quot;$(TargetDir)&quot; mkdir &quot;$(TargetDir)&quot;&#x0D;&#x0A;copy/y &quot;$(SolutionDir)expat201\$(PlatformName)\$(ConfigurationName)\*.dll&quot; &quot;$(TargetDir)&quot;&#x0D;&#x0A;copy/y &quot;$(SolutionDir)zlib123\$(PlatformName)\$(ConfigurationName)\*.dll&quot; &quot;$(TargetDir)&quot;&#x0D;&#x0A;copy/y &quot;$(SolutionDir)exiv2lib\$(PlatformName)\$(ConfigurationName)\*.dll&quot; &quot;$(TargetDir)&quot;&#x0D;&#x0A;"
 			/>
 			<Tool
 				Name="VCCustomBuildTool"
@@ -585,7 +585,6 @@
 			/>
 			<Tool
 				Name="VCPreLinkEventTool"
-				Description=""
 				CommandLine=""
 			/>
 			<Tool
@@ -636,7 +635,7 @@
 			<Tool
 				Name="VCPreBuildEventTool"
 				Description="copy the dlls"
-				CommandLine="copy/y &quot;$(SolutionDir)expat201\$(PlatformName)\$(ConfigurationName)\*.dll&quot; &quot;$(TargetDir)&quot;&#x0D;&#x0A;copy/y &quot;$(SolutionDir)zlib123\$(PlatformName)\$(ConfigurationName)\*.dll&quot; &quot;$(TargetDir)&quot;&#x0D;&#x0A;copy/y &quot;$(SolutionDir)exiv2lib\$(PlatformName)\$(ConfigurationName)\*.dll&quot; &quot;$(TargetDir)&quot;&#x0D;&#x0A;"
+				CommandLine="if NOT EXIST &quot;$(TargetDir)&quot; mkdir &quot;$(TargetDir)&quot;&#x0D;&#x0A;copy/y &quot;$(SolutionDir)expat201\$(PlatformName)\$(ConfigurationName)\*.dll&quot; &quot;$(TargetDir)&quot;&#x0D;&#x0A;copy/y &quot;$(SolutionDir)zlib123\$(PlatformName)\$(ConfigurationName)\*.dll&quot; &quot;$(TargetDir)&quot;&#x0D;&#x0A;copy/y &quot;$(SolutionDir)exiv2lib\$(PlatformName)\$(ConfigurationName)\*.dll&quot; &quot;$(TargetDir)&quot;&#x0D;&#x0A;"
 			/>
 			<Tool
 				Name="VCCustomBuildTool"
