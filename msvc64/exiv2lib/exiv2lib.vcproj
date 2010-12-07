@@ -12,6 +12,9 @@
 		<Platform
 			Name="Win32"
 		/>
+		<Platform
+			Name="x64"
+		/>
 	</Platforms>
 	<ToolFiles>
 	</ToolFiles>
@@ -89,6 +92,79 @@
 			/>
 		</Configuration>
 		<Configuration
+			Name="Debug|x64"
+			OutputDirectory="$(PlatformName)\$(ConfigurationName)"
+			IntermediateDirectory="$(PlatformName)\$(ConfigurationName)"
+			ConfigurationType="4"
+			InheritedPropertySheets="$(VCInstallDir)VCProjectDefaults\UpgradeFromVC71.vsprops"
+			CharacterSet="2"
+			>
+			<Tool
+				Name="VCPreBuildEventTool"
+				CommandLine="if exist ..\include\exiv2 goto :jail&#x0D;&#x0A;mkdir ..\include\exiv2\&#x0D;&#x0A;copy/y ..\..\src\*.h ..\include\exiv2\&#x0D;&#x0A;copy/y ..\..\src\*.hpp ..\include\exiv2\&#x0D;&#x0A;cd ..\include\exiv2&#x0D;&#x0A;del *_int.hpp&#x0D;&#x0A;cd ..\..\exiv2lib&#x0D;&#x0A;:jail&#x0D;&#x0A;"
+			/>
+			<Tool
+				Name="VCCustomBuildTool"
+			/>
+			<Tool
+				Name="VCXMLDataGeneratorTool"
+			/>
+			<Tool
+				Name="VCWebServiceProxyGeneratorTool"
+			/>
+			<Tool
+				Name="VCMIDLTool"
+				TargetEnvironment="3"
+			/>
+			<Tool
+				Name="VCCLCompilerTool"
+				Optimization="0"
+				AdditionalIncludeDirectories="../include;../include/exiv2;../../xmpsdk/include;../../xmpsdk/src;../../../expat-2.0.1/lib;../../../zlib-1.2.3;"
+				PreprocessorDefinitions="WIN32;_DEBUG"
+				MinimalRebuild="true"
+				BasicRuntimeChecks="3"
+				RuntimeLibrary="1"
+				BufferSecurityCheck="true"
+				RuntimeTypeInfo="true"
+				UsePrecompiledHeader="0"
+				BrowseInformation="1"
+				WarningLevel="3"
+				WarnAsError="true"
+				DebugInformationFormat="3"
+			/>
+			<Tool
+				Name="VCManagedResourceCompilerTool"
+			/>
+			<Tool
+				Name="VCResourceCompilerTool"
+			/>
+			<Tool
+				Name="VCPreLinkEventTool"
+			/>
+			<Tool
+				Name="VCLibrarianTool"
+				OutputFile="$(OutDir)/exiv2sd.lib"
+				AdditionalLibraryDirectories="..\xmpsdk\Debug;..\..\..\expat-2.0.1\win32\bin\debug"
+			/>
+			<Tool
+				Name="VCALinkTool"
+			/>
+			<Tool
+				Name="VCXDCMakeTool"
+			/>
+			<Tool
+				Name="VCBscMakeTool"
+			/>
+			<Tool
+				Name="VCFxCopTool"
+			/>
+			<Tool
+				Name="VCPostBuildEventTool"
+				Description="create the bin (delivery) directory"
+				CommandLine="mkdir ..\bin\Debug\&#x0D;&#x0A;copy/y &quot;$(TargetPath)&quot; ..\bin\Debug\$(TargetFileName)&#x0D;&#x0A;"
+			/>
+		</Configuration>
+		<Configuration
 			Name="Release|Win32"
 			OutputDirectory="Release"
 			IntermediateDirectory="Release"
@@ -112,6 +188,76 @@
 			/>
 			<Tool
 				Name="VCMIDLTool"
+			/>
+			<Tool
+				Name="VCCLCompilerTool"
+				AdditionalIncludeDirectories="../include;../include/exiv2;../../xmpsdk/include;../../xmpsdk/src;../../../expat-2.0.1/lib;../../../zlib-1.2.3;"
+				PreprocessorDefinitions="WIN32;_NDEBUG"
+				RuntimeLibrary="0"
+				RuntimeTypeInfo="true"
+				UsePrecompiledHeader="0"
+				BrowseInformation="1"
+				WarningLevel="3"
+				WarnAsError="true"
+				DebugInformationFormat="3"
+			/>
+			<Tool
+				Name="VCManagedResourceCompilerTool"
+			/>
+			<Tool
+				Name="VCResourceCompilerTool"
+			/>
+			<Tool
+				Name="VCPreLinkEventTool"
+			/>
+			<Tool
+				Name="VCLibrarianTool"
+				OutputFile="$(OutDir)/exiv2s.lib"
+				AdditionalLibraryDirectories="..\xmpsdk\Release;..\..\..\expat-2.0.1\win32\bin\release"
+			/>
+			<Tool
+				Name="VCALinkTool"
+			/>
+			<Tool
+				Name="VCXDCMakeTool"
+			/>
+			<Tool
+				Name="VCBscMakeTool"
+			/>
+			<Tool
+				Name="VCFxCopTool"
+			/>
+			<Tool
+				Name="VCPostBuildEventTool"
+				Description="create the bin (delivery) directory"
+				CommandLine="mkdir ..\bin\Release\&#x0D;&#x0A;copy/y &quot;$(TargetPath)&quot; ..\bin\$(ConfigurationName)\$(TargetFileName)&#x0D;&#x0A;&#x0D;&#x0A;"
+			/>
+		</Configuration>
+		<Configuration
+			Name="Release|x64"
+			OutputDirectory="$(PlatformName)\$(ConfigurationName)"
+			IntermediateDirectory="$(PlatformName)\$(ConfigurationName)"
+			ConfigurationType="4"
+			InheritedPropertySheets="$(VCInstallDir)VCProjectDefaults\UpgradeFromVC71.vsprops"
+			CharacterSet="2"
+			>
+			<Tool
+				Name="VCPreBuildEventTool"
+				Description="copy expat and zlib binaries"
+				CommandLine="if exist ..\include\exiv2 goto :jail&#x0D;&#x0A;mkdir ..\include\exiv2\&#x0D;&#x0A;copy/y ..\..\src\*.h ..\include\exiv2\&#x0D;&#x0A;copy/y ..\..\src\*.hpp ..\include\exiv2\&#x0D;&#x0A;cd ..\include\exiv2&#x0D;&#x0A;del *_int.hpp&#x0D;&#x0A;cd ..\..\exiv2lib&#x0D;&#x0A;:jail&#x0D;&#x0A;&#x0D;&#x0A;"
+			/>
+			<Tool
+				Name="VCCustomBuildTool"
+			/>
+			<Tool
+				Name="VCXMLDataGeneratorTool"
+			/>
+			<Tool
+				Name="VCWebServiceProxyGeneratorTool"
+			/>
+			<Tool
+				Name="VCMIDLTool"
+				TargetEnvironment="3"
 			/>
 			<Tool
 				Name="VCCLCompilerTool"
@@ -243,6 +389,93 @@
 			/>
 		</Configuration>
 		<Configuration
+			Name="DebugDLL|x64"
+			OutputDirectory="$(PlatformName)\$(ConfigurationName)"
+			IntermediateDirectory="$(PlatformName)\$(ConfigurationName)"
+			ConfigurationType="2"
+			InheritedPropertySheets="$(VCInstallDir)VCProjectDefaults\UpgradeFromVC71.vsprops"
+			CharacterSet="2"
+			>
+			<Tool
+				Name="VCPreBuildEventTool"
+				Description="copy expat and zlib dlls"
+				CommandLine="if exist ..\include\exiv2 goto :jail&#x0D;&#x0A;mkdir ..\include\exiv2\&#x0D;&#x0A;copy/y ..\..\src\*.h ..\include\exiv2\&#x0D;&#x0A;copy/y ..\..\src\*.hpp ..\include\exiv2\&#x0D;&#x0A;cd ..\include\exiv2&#x0D;&#x0A;del *_int.hpp&#x0D;&#x0A;cd ..\..\exiv2lib&#x0D;&#x0A;:jail&#x0D;&#x0A;copy/y &quot;$(SolutionDir)\expat201\$(PlatformName)\bin\$(ConfigurationName)\*.dll&quot; $(OutDir)&#x0D;&#x0A;copy/y &quot;$(SolutionDir)\zlib123\$(PlatformName)\$(ConfigurationName)\*.dll&quot; $(OutDir)&#x0D;&#x0A;"
+			/>
+			<Tool
+				Name="VCCustomBuildTool"
+			/>
+			<Tool
+				Name="VCXMLDataGeneratorTool"
+			/>
+			<Tool
+				Name="VCWebServiceProxyGeneratorTool"
+			/>
+			<Tool
+				Name="VCMIDLTool"
+				TargetEnvironment="3"
+			/>
+			<Tool
+				Name="VCCLCompilerTool"
+				Optimization="0"
+				AdditionalIncludeDirectories="../include;../include/exiv2;../../xmpsdk/include;../../xmpsdk/src;../../../expat-2.0.1/lib;../../../zlib-1.2.3;"
+				PreprocessorDefinitions="WIN32;_DEBUG;EXV_HAVE_DLL;EXV_BUILDING_LIB"
+				MinimalRebuild="true"
+				BasicRuntimeChecks="3"
+				RuntimeLibrary="3"
+				BufferSecurityCheck="true"
+				RuntimeTypeInfo="true"
+				UsePrecompiledHeader="0"
+				BrowseInformation="1"
+				WarningLevel="3"
+				WarnAsError="false"
+				DebugInformationFormat="3"
+			/>
+			<Tool
+				Name="VCManagedResourceCompilerTool"
+			/>
+			<Tool
+				Name="VCResourceCompilerTool"
+			/>
+			<Tool
+				Name="VCPreLinkEventTool"
+			/>
+			<Tool
+				Name="VCLinkerTool"
+				LinkLibraryDependencies="false"
+				AdditionalOptions="/NODEFAULTLIB:LIBMTD"
+				AdditionalDependencies="..\xmpsdk\$(PlatformName)\$(ConfigurationName)\xmpsdk.lib ..\expat201\$(PlatformName)\bin\$(ConfigurationName)\libexpat.lib ..\zlib123\$(PlatformName)\$(ConfigurationName)\zlib1d.lib"
+				OutputFile="$(OutDir)\exiv2d.dll"
+				GenerateDebugInformation="true"
+				RandomizedBaseAddress="1"
+				DataExecutionPrevention="0"
+				ImportLibrary="$(TargetDir)\exiv2d.lib"
+				TargetMachine="17"
+			/>
+			<Tool
+				Name="VCALinkTool"
+			/>
+			<Tool
+				Name="VCManifestTool"
+			/>
+			<Tool
+				Name="VCXDCMakeTool"
+			/>
+			<Tool
+				Name="VCBscMakeTool"
+			/>
+			<Tool
+				Name="VCFxCopTool"
+			/>
+			<Tool
+				Name="VCAppVerifierTool"
+			/>
+			<Tool
+				Name="VCPostBuildEventTool"
+				Description="copy dlls to the build directory"
+				CommandLine="setlocal&#x0D;&#x0A;set X=$(TargetDir)&#x0D;&#x0A;copy/y &quot;$(SolutionDir)\expat201\$(PlatformName)\bin\$(ConfigurationName)\*.dll&quot; &quot;%X%&quot;&#x0D;&#x0A;copy/y &quot;$(SolutionDir)\expat201\$(PlatformName)\bin\$(ConfigurationName)\*.lib&quot; &quot;%X%&quot;&#x0D;&#x0A;copy/y &quot;$(SolutionDir)\zlib123\$(PlatformName)\$(ConfigurationName)\*.dll&quot; &quot;%X%&quot;&#x0D;&#x0A;copy/y &quot;$(SolutionDir)\zlib123\$(PlatformName)\$(ConfigurationName)\*.lib&quot; &quot;%X%&quot;&#x0D;&#x0A;&#x0D;&#x0A;"
+			/>
+		</Configuration>
+		<Configuration
 			Name="ReleaseDLL|Win32"
 			OutputDirectory="$(ConfigurationName)"
 			IntermediateDirectory="$(ConfigurationName)"
@@ -325,6 +558,93 @@
 				Name="VCPostBuildEventTool"
 				Description="create the bin (delivery) directory"
 				CommandLine="mkdir &quot;$(SolutionDir)\bin\$(ConfigurationName)\&quot;&#x0D;&#x0A;copy/y ..\..\..\expat-2.0.1\win32\bin\Release\libexpat.dll &quot;$(SolutionDir)bin\$(ConfigurationName)&quot;&#x0D;&#x0A;copy/y &quot;$(TargetPath)&quot; &quot;$(SolutionDir)\bin\$(ConfigurationName)\$(TargetFileName)&quot;&#x0D;&#x0A;copy/y &quot;$(TargetDir)\*.dll&quot; &quot;$(SolutionDir)\bin\$(ConfigurationName)\&quot;&#x0D;&#x0A;copy/y &quot;$(TargetDir)\*.lib&quot; &quot;$(SolutionDir)\bin\$(ConfigurationName)\&quot;&#x0D;&#x0A;"
+			/>
+		</Configuration>
+		<Configuration
+			Name="ReleaseDLL|x64"
+			OutputDirectory="$(PlatformName)\$(ConfigurationName)"
+			IntermediateDirectory="$(PlatformName)\$(ConfigurationName)"
+			ConfigurationType="2"
+			InheritedPropertySheets="$(VCInstallDir)VCProjectDefaults\UpgradeFromVC71.vsprops"
+			CharacterSet="2"
+			>
+			<Tool
+				Name="VCPreBuildEventTool"
+				Description="copy expat and zlib dlls"
+				CommandLine="if exist ..\include\exiv2 goto :jail&#x0D;&#x0A;mkdir ..\include\exiv2\&#x0D;&#x0A;copy/y ..\..\src\*.h ..\include\exiv2\&#x0D;&#x0A;copy/y ..\..\src\*.hpp ..\include\exiv2\&#x0D;&#x0A;cd ..\include\exiv2&#x0D;&#x0A;del *_int.hpp&#x0D;&#x0A;cd ..\..\exiv2lib&#x0D;&#x0A;:jail&#x0D;&#x0A;copy/y &quot;$(SolutionDir)\expat201\$(PlatformName)\bin\$(ConfigurationName)\*.dll&quot; $(OutDir)&#x0D;&#x0A;copy/y &quot;$(SolutionDir)\zlib123\$(PlatformName)\$(ConfigurationName)\*.dll&quot; $(OutDir)&#x0D;&#x0A;&#x0D;&#x0A;"
+			/>
+			<Tool
+				Name="VCCustomBuildTool"
+			/>
+			<Tool
+				Name="VCXMLDataGeneratorTool"
+			/>
+			<Tool
+				Name="VCWebServiceProxyGeneratorTool"
+			/>
+			<Tool
+				Name="VCMIDLTool"
+				TargetEnvironment="3"
+			/>
+			<Tool
+				Name="VCCLCompilerTool"
+				Optimization="1"
+				AdditionalIncludeDirectories="../include;../include/exiv2;../../xmpsdk/include;../../xmpsdk/src;../../../expat-2.0.1/lib;../../../zlib-1.2.3;"
+				PreprocessorDefinitions="WIN32;_NDEBUG;EXV_HAVE_DLL;EXV_BUILDING_LIB"
+				MinimalRebuild="true"
+				BasicRuntimeChecks="0"
+				RuntimeLibrary="2"
+				BufferSecurityCheck="true"
+				RuntimeTypeInfo="true"
+				UsePrecompiledHeader="0"
+				BrowseInformation="1"
+				WarningLevel="3"
+				WarnAsError="false"
+				DebugInformationFormat="3"
+			/>
+			<Tool
+				Name="VCManagedResourceCompilerTool"
+			/>
+			<Tool
+				Name="VCResourceCompilerTool"
+			/>
+			<Tool
+				Name="VCPreLinkEventTool"
+			/>
+			<Tool
+				Name="VCLinkerTool"
+				LinkLibraryDependencies="false"
+				AdditionalOptions="/NODEFAULTLIB:LIBCMT"
+				AdditionalDependencies="..\xmpsdk\$(PlatformName)\$(ConfigurationName)\xmpsdk.lib ..\expat201\$(PlatformName)\bin\$(ConfigurationName)\libexpat.lib ..\zlib123\$(PlatformName)\$(ConfigurationName)\zlib1.lib"
+				OutputFile="$(OutDir)\exiv2.dll"
+				GenerateDebugInformation="false"
+				RandomizedBaseAddress="1"
+				DataExecutionPrevention="0"
+				ImportLibrary="$(TargetDir)\exiv2.lib"
+				TargetMachine="17"
+			/>
+			<Tool
+				Name="VCALinkTool"
+			/>
+			<Tool
+				Name="VCManifestTool"
+			/>
+			<Tool
+				Name="VCXDCMakeTool"
+			/>
+			<Tool
+				Name="VCBscMakeTool"
+			/>
+			<Tool
+				Name="VCFxCopTool"
+			/>
+			<Tool
+				Name="VCAppVerifierTool"
+			/>
+			<Tool
+				Name="VCPostBuildEventTool"
+				Description="copy dlls to the build directory"
+				CommandLine="setlocal&#x0D;&#x0A;set X=$(TargetDir)&#x0D;&#x0A;copy/y &quot;$(SolutionDir)\expat201\$(PlatformName)\bin\$(ConfigurationName)\*.dll&quot; &quot;%X%&quot;&#x0D;&#x0A;copy/y &quot;$(SolutionDir)\expat201\$(PlatformName)\bin\$(ConfigurationName)\*.lib&quot; &quot;%X%&quot;&#x0D;&#x0A;copy/y &quot;$(SolutionDir)\zlib123\$(PlatformName)\$(ConfigurationName)\*.dll&quot; &quot;%X%&quot;&#x0D;&#x0A;copy/y &quot;$(SolutionDir)\zlib123\$(PlatformName)\$(ConfigurationName)\*.lib&quot; &quot;%X%&quot;&#x0D;&#x0A;&#x0D;&#x0A;&#x0D;&#x0A;"
 			/>
 		</Configuration>
 	</Configurations>
@@ -453,6 +773,14 @@
 				>
 				<FileConfiguration
 					Name="Debug|Win32"
+					>
+					<Tool
+						Name="VCCLCompilerTool"
+						GeneratePreprocessedFile="0"
+					/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="Debug|x64"
 					>
 					<Tool
 						Name="VCCLCompilerTool"
