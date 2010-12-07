@@ -205,7 +205,9 @@ void Params::cleanup()
 
 void Params::version(std::ostream& os) const
 {
-    os << EXV_PACKAGE_STRING << "\n"
+    bool  b64    = sizeof(void*)==8;
+    char* sBuild = b64 ? " (64 bit build)" : " (32 bit build)" ;
+    os << EXV_PACKAGE_STRING << sBuild << "\n"
        << _("Copyright (C) 2004-2010 Andreas Huggel.\n")
        << "\n"
        << _("This program is free software; you can redistribute it and/or\n"
@@ -904,7 +906,7 @@ namespace {
             case 'p':
             {
                 if (strcmp(action.c_str(), "extract") == 0) {
-                    i += parsePreviewNumbers(Params::instance().previewNumbers_, optarg, i + 1);
+                    i += (size_t) parsePreviewNumbers(Params::instance().previewNumbers_, optarg, (int) i + 1);
                     target |= Params::ctPreview;
                     break;
                 }
@@ -957,7 +959,7 @@ namespace {
         }
         std::cout << std::endl;
 #endif
-        return k - j;
+        return (int) (k - j);
     } // parsePreviewNumbers
 
     bool parseCmdFiles(ModifyCmds& modifyCmds,

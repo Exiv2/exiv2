@@ -392,7 +392,7 @@ namespace Exiv2 {
                 // Append to psBlob
                 append(psBlob, psData.pData_, psData.size_);
                 // Check whether psBlob is complete
-                if (psBlob.size() > 0 && Photoshop::valid(&psBlob[0], psBlob.size())) {
+                if (psBlob.size() > 0 && Photoshop::valid(&psBlob[0], (long) psBlob.size())) {
                     --search;
                     foundCompletePsData = true;
                 }
@@ -582,7 +582,7 @@ namespace Exiv2 {
                 // Append to psBlob
                 append(psBlob, psData.pData_, psData.size_);
                 // Check whether psBlob is complete
-                if (psBlob.size() > 0 && Photoshop::valid(&psBlob[0], psBlob.size())) {
+                if (psBlob.size() > 0 && Photoshop::valid(&psBlob[0],(long) psBlob.size())) {
                     foundCompletePsData = true;
                 }
             }
@@ -626,7 +626,7 @@ namespace Exiv2 {
         }
 
         if (!foundCompletePsData && skipApp13Ps3.size() > 0) throw Error(22);
-        search += skipApp13Ps3.size();
+        search += (int) skipApp13Ps3.size();
 
         if (comPos == 0) {
             if (marker == eoi_) comPos = count;
@@ -722,7 +722,7 @@ namespace Exiv2 {
                     // Set the new IPTC IRB, keeps existing IRBs but removes the
                     // IPTC block if there is no new IPTC data to write
                     DataBuf newPsData = Photoshop::setIptcIrb(psBlob.size() > 0 ? &psBlob[0] : 0,
-                                                              psBlob.size(),
+                                                              (long) psBlob.size(),
                                                               iptcData_);
                     const long maxChunkSize = 0xffff - 16;
                     const byte* chunkStart = newPsData.pData_;
