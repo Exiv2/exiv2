@@ -416,6 +416,7 @@
 				AdditionalDependencies="..\exiv2lib\$(PlatformName)\$(ConfigurationName)\exiv2d.lib ..\expat201\$(PlatformName)\$(ConfigurationName)\libexpat.lib ..\xmpsdk\$(PlatformName)\$(ConfigurationName)\xmpsdk.lib ..\zlib123\$(PlatformName)\$(ConfigurationName)\zlib1d.lib"
 				OutputFile="$(OutDir)/exiv2.exe"
 				LinkIncremental="1"
+				SuppressStartupBanner="false"
 				GenerateDebugInformation="true"
 				ProgramDatabaseFile="$(OutDir)/exiv2.pdb"
 				SubSystem="1"
@@ -444,7 +445,7 @@
 			<Tool
 				Name="VCPostBuildEventTool"
 				Description="copy target to bin"
-				CommandLine="setlocal&#x0D;&#x0A;set X=$(SolutionDir)bin\$(PlatformName)\$(ConfigurationName)\&#x0D;&#x0A;if NOT EXIST &quot;%X%&quot; mkdir &quot;%X%&quot;&#x0D;&#x0A;copy/y &quot;$(TargetPath)&quot; &quot;%X%&quot;&#x0D;&#x0A;copy/y &quot;$(SolutionDir)exiv2lib\$(PlatformName)\$(ConfigurationName)\*.dll&quot;  &quot;%X%&quot;&#x0D;&#x0A;&#x0D;&#x0A;&#x0D;&#x0A;&#x0D;&#x0A;"
+				CommandLine="setlocal&#x0D;&#x0A;set X=$(SolutionDir)bin\$(PlatformName)\$(ConfigurationName)\&#x0D;&#x0A;if NOT EXIST &quot;%X%&quot; mkdir &quot;%X%&quot;&#x0D;&#x0A;copy/y &quot;$(TargetPath)&quot; &quot;%X%&quot;&#x0D;&#x0A;copy/y &quot;$(SolutionDir)exiv2lib\$(PlatformName)\$(ConfigurationName)\*.dll&quot;  &quot;%X%&quot;&#x0D;&#x0A;copy/y &quot;$(SolutionDir)exiv2lib\$(PlatformName)\$(ConfigurationName)\*.lib&quot;  &quot;%X%&quot;&#x0D;&#x0A;copy/y &quot;$(SolutionDir)expat201\$(PlatformName)\$(ConfigurationName)\*.dll&quot;  &quot;%X%&quot;&#x0D;&#x0A;copy/y &quot;$(SolutionDir)expath201\$(PlatformName)\$(ConfigurationName)\*.lib&quot;  &quot;%X%&quot;&#x0D;&#x0A;copy/y &quot;$(SolutionDir)zlib123\$(PlatformName)\$(ConfigurationName)\*.dll&quot;  &quot;%X%&quot;&#x0D;&#x0A;copy/y &quot;$(SolutionDir)zlib123\$(PlatformName)\$(ConfigurationName)\*.lib&quot;  &quot;%X%&quot;&#x0D;&#x0A;&#x0D;&#x0A;&#x0D;&#x0A;&#x0D;&#x0A;"
 			/>
 		</Configuration>
 		<Configuration
@@ -534,7 +535,7 @@
 			<Tool
 				Name="VCPostBuildEventTool"
 				Description="copy target to bin"
-				CommandLine="setlocal&#x0D;&#x0A;set X=$(SolutionDir)bin\$(PlatformName)\$(ConfigurationName)\&#x0D;&#x0A;if NOT EXIST &quot;%X%&quot; mkdir &quot;%X%&quot;&#x0D;&#x0A;copy/y &quot;$(TargetPath)&quot; &quot;%X%&quot;&#x0D;&#x0A;copy/y &quot;$(SolutionDir)exiv2lib\$(PlatformName)\$(ConfigurationName)\*.dll&quot;  &quot;%X%&quot;&#x0D;&#x0A;&#x0D;&#x0A;&#x0D;&#x0A;&#x0D;&#x0A;"
+				CommandLine="setlocal&#x0D;&#x0A;set X=$(SolutionDir)bin\$(PlatformName)\$(ConfigurationName)\&#x0D;&#x0A;if NOT EXIST &quot;%X%&quot; mkdir &quot;%X%&quot;&#x0D;&#x0A;copy/y &quot;$(TargetPath)&quot; &quot;%X%&quot;&#x0D;&#x0A;copy/y &quot;$(SolutionDir)exiv2lib\$(PlatformName)\$(ConfigurationName)\*.dll&quot;  &quot;%X%&quot;&#x0D;&#x0A;copy/y &quot;$(SolutionDir)exiv2lib\$(PlatformName)\$(ConfigurationName)\*.lib&quot;  &quot;%X%&quot;&#x0D;&#x0A;copy/y &quot;$(SolutionDir)expat201\$(PlatformName)\$(ConfigurationName)\*.dll&quot;  &quot;%X%&quot;&#x0D;&#x0A;copy/y &quot;$(SolutionDir)expath201\$(PlatformName)\$(ConfigurationName)\*.lib&quot;  &quot;%X%&quot;&#x0D;&#x0A;copy/y &quot;$(SolutionDir)zlib123\$(PlatformName)\$(ConfigurationName)\*.dll&quot;  &quot;%X%&quot;&#x0D;&#x0A;copy/y &quot;$(SolutionDir)zlib123\$(PlatformName)\$(ConfigurationName)\*.lib&quot;  &quot;%X%&quot;&#x0D;&#x0A;&#x0D;&#x0A;&#x0D;&#x0A;"
 			/>
 		</Configuration>
 		<Configuration
@@ -622,7 +623,7 @@
 			<Tool
 				Name="VCPostBuildEventTool"
 				Description="copy target to bin"
-				CommandLine="setlocal&#x0D;&#x0A;set X=$(SolutionDir)bin\$(PlatformName)\$(ConfigurationName)\&#x0D;&#x0A;if NOT EXIST &quot;%X%&quot; mkdir &quot;%X%&quot;&#x0D;&#x0A;copy/y &quot;$(TargetPath)&quot; &quot;%X%&quot;&#x0D;&#x0A;copy/y &quot;$(SolutionDir)exiv2lib\$(PlatformName)\$(ConfigurationName)\*.dll&quot;  &quot;%X%&quot;&#x0D;&#x0A;&#x0D;&#x0A;&#x0D;&#x0A;&#x0D;&#x0A;"
+				CommandLine="setlocal&#x0D;&#x0A;set X=$(SolutionDir)bin\$(PlatformName)\$(ConfigurationName)\&#x0D;&#x0A;if NOT EXIST &quot;%X%&quot; mkdir &quot;%X%&quot;&#x0D;&#x0A;copy/y &quot;$(TargetPath)&quot; &quot;%X%&quot;&#x0D;&#x0A;copy/y &quot;$(SolutionDir)exiv2lib\$(PlatformName)\$(ConfigurationName)\*.dll&quot;  &quot;%X%&quot;&#x0D;&#x0A;copy/y &quot;$(SolutionDir)exiv2lib\$(PlatformName)\$(ConfigurationName)\*.lib&quot;  &quot;%X%&quot;&#x0D;&#x0A;copy/y &quot;$(SolutionDir)expat201\$(PlatformName)\$(ConfigurationName)\*.dll&quot;  &quot;%X%&quot;&#x0D;&#x0A;copy/y &quot;$(SolutionDir)expath201\$(PlatformName)\$(ConfigurationName)\*.lib&quot;  &quot;%X%&quot;&#x0D;&#x0A;copy/y &quot;$(SolutionDir)zlib123\$(PlatformName)\$(ConfigurationName)\*.dll&quot;  &quot;%X%&quot;&#x0D;&#x0A;copy/y &quot;$(SolutionDir)zlib123\$(PlatformName)\$(ConfigurationName)\*.lib&quot;  &quot;%X%&quot;&#x0D;&#x0A;&#x0D;&#x0A;&#x0D;&#x0A;&#x0D;&#x0A;&#x0D;&#x0A;"
 			/>
 		</Configuration>
 		<Configuration
@@ -711,7 +712,7 @@
 			<Tool
 				Name="VCPostBuildEventTool"
 				Description="copy target to bin"
-				CommandLine="setlocal&#x0D;&#x0A;set X=$(SolutionDir)bin\$(PlatformName)\$(ConfigurationName)\&#x0D;&#x0A;if NOT EXIST &quot;%X%&quot; mkdir &quot;%X%&quot;&#x0D;&#x0A;copy/y &quot;$(TargetPath)&quot; &quot;%X%&quot;&#x0D;&#x0A;copy/y &quot;$(SolutionDir)exiv2lib\$(PlatformName)\$(ConfigurationName)\*.dll&quot;  &quot;%X%&quot;&#x0D;&#x0A;&#x0D;&#x0A;&#x0D;&#x0A;&#x0D;&#x0A;"
+				CommandLine="setlocal&#x0D;&#x0A;set X=$(SolutionDir)bin\$(PlatformName)\$(ConfigurationName)\&#x0D;&#x0A;if NOT EXIST &quot;%X%&quot; mkdir &quot;%X%&quot;&#x0D;&#x0A;copy/y &quot;$(TargetPath)&quot; &quot;%X%&quot;&#x0D;&#x0A;copy/y &quot;$(SolutionDir)exiv2lib\$(PlatformName)\$(ConfigurationName)\*.dll&quot;  &quot;%X%&quot;&#x0D;&#x0A;copy/y &quot;$(SolutionDir)exiv2lib\$(PlatformName)\$(ConfigurationName)\*.lib&quot;  &quot;%X%&quot;&#x0D;&#x0A;copy/y &quot;$(SolutionDir)expat201\$(PlatformName)\$(ConfigurationName)\*.dll&quot;  &quot;%X%&quot;&#x0D;&#x0A;copy/y &quot;$(SolutionDir)expath201\$(PlatformName)\$(ConfigurationName)\*.lib&quot;  &quot;%X%&quot;&#x0D;&#x0A;copy/y &quot;$(SolutionDir)zlib123\$(PlatformName)\$(ConfigurationName)\*.dll&quot;  &quot;%X%&quot;&#x0D;&#x0A;copy/y &quot;$(SolutionDir)zlib123\$(PlatformName)\$(ConfigurationName)\*.lib&quot;  &quot;%X%&quot;&#x0D;&#x0A;&#x0D;&#x0A;&#x0D;&#x0A;&#x0D;&#x0A;"
 			/>
 		</Configuration>
 	</Configurations>
