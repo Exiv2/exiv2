@@ -87,7 +87,7 @@
 			<Tool
 				Name="VCPostBuildEventTool"
 				Description="create the bin (delivery) directory"
-				CommandLine="mkdir ..\bin\Debug\&#x0D;&#x0A;copy/y &quot;$(TargetPath)&quot; ..\bin\Debug\$(TargetFileName)&#x0D;&#x0A;"
+				CommandLine="setlocal&#x0D;&#x0A;set &quot;X=..\bin\$(PlatformName)\$(ConfigurationName)\&quot;&#x0D;&#x0A;if NOT EXIST &quot;%X%&quot; mkdir &quot;%X%&quot; &#x0D;&#x0A;copy/y &quot;$(TargetPath)&quot; &quot;%X%&quot;&#x0D;&#x0A;"
 			/>
 		</Configuration>
 		<Configuration
@@ -159,7 +159,7 @@
 			<Tool
 				Name="VCPostBuildEventTool"
 				Description="create the bin (delivery) directory"
-				CommandLine="mkdir ..\bin\Debug\&#x0D;&#x0A;copy/y &quot;$(TargetPath)&quot; ..\bin\Debug\$(TargetFileName)&#x0D;&#x0A;"
+				CommandLine="setlocal&#x0D;&#x0A;set &quot;X=..\bin\$(PlatformName)\$(ConfigurationName)\&quot;&#x0D;&#x0A;if NOT EXIST &quot;%X%&quot; mkdir &quot;%X%&quot; &#x0D;&#x0A;copy/y &quot;$(TargetPath)&quot; &quot;%X%&quot;&#x0D;&#x0A;"
 			/>
 		</Configuration>
 		<Configuration
@@ -227,7 +227,7 @@
 			<Tool
 				Name="VCPostBuildEventTool"
 				Description="create the bin (delivery) directory"
-				CommandLine="mkdir ..\bin\Release\&#x0D;&#x0A;copy/y &quot;$(TargetPath)&quot; ..\bin\$(ConfigurationName)\$(TargetFileName)&#x0D;&#x0A;&#x0D;&#x0A;"
+				CommandLine="setlocal&#x0D;&#x0A;set &quot;X=..\bin\$(PlatformName)\$(ConfigurationName)\&quot;&#x0D;&#x0A;if NOT EXIST &quot;%X%&quot; mkdir &quot;%X%&quot; &#x0D;&#x0A;copy/y &quot;$(TargetPath)&quot; &quot;%X%&quot;&#x0D;&#x0A;"
 			/>
 		</Configuration>
 		<Configuration
@@ -296,7 +296,7 @@
 			<Tool
 				Name="VCPostBuildEventTool"
 				Description="create the bin (delivery) directory"
-				CommandLine="mkdir ..\bin\Release\&#x0D;&#x0A;copy/y &quot;$(TargetPath)&quot; ..\bin\$(ConfigurationName)\$(TargetFileName)&#x0D;&#x0A;&#x0D;&#x0A;"
+				CommandLine="setlocal&#x0D;&#x0A;set &quot;X=..\bin\$(PlatformName)\$(ConfigurationName)\&quot;&#x0D;&#x0A;if NOT EXIST &quot;%X%&quot; mkdir &quot;%X%&quot; &#x0D;&#x0A;copy/y &quot;$(TargetPath)&quot; &quot;%X%&quot;&#x0D;&#x0A;&#x0D;&#x0A;"
 			/>
 		</Configuration>
 		<Configuration
@@ -351,7 +351,7 @@
 			<Tool
 				Name="VCLinkerTool"
 				AdditionalOptions="/NODEFAULTLIB:LIBMTD"
-				AdditionalDependencies="..\xmpsdk\DebugDLL\xmpsdk.lib ..\..\..\expat-2.0.1\win32\bin\debug\libexpat.lib ..\..\..\zlib-1.2.3\projects\visualc6\Win32_DLL_Debug\zlib1d.lib"
+				AdditionalDependencies="..\xmpsdk\$(PlatformName)\$(ConfigurationName)\xmpsdk.lib ..\expat201\$(PlatformName)\$(ConfigurationName)\libexpat.lib ..\zlib123\$(PlatformName)\$(ConfigurationName)\zlib1d.lib"
 				OutputFile="$(OutDir)\exiv2d.dll"
 				GenerateDebugInformation="true"
 				RandomizedBaseAddress="1"
@@ -380,7 +380,7 @@
 			<Tool
 				Name="VCPostBuildEventTool"
 				Description="create the bin (delivery) directorie"
-				CommandLine="mkdir &quot;$(SolutionDir)bin\DebugDLL\&quot;&#x0D;&#x0A;copy/y ..\..\..\expat-2.0.1\win32\bin\Debug\libexpat.dll &quot;$(SolutionDir)bin\$(ConfigurationName)&quot;&#x0D;&#x0A;copy/y &quot;$(TargetPath)&quot; &quot;$(SolutionDir)bin\$(ConfigurationName)\$(TargetFileName)&quot;&#x0D;&#x0A;copy/y &quot;$(TargetDir)\*.dll&quot; &quot;$(SolutionDir)bin\$(ConfigurationName)\&quot;&#x0D;&#x0A;copy/y &quot;$(TargetDir)\*.lib&quot; &quot;$(SolutionDir)bin\$(ConfigurationName)\&quot;&#x0D;&#x0A;&#x0D;&#x0A;"
+				CommandLine="setlocal&#x0D;&#x0A;set X=$(TargetDir)&#x0D;&#x0A;copy/y &quot;$(SolutionDir)expat201\$(PlatformName)\$(ConfigurationName)\*.dll&quot; &quot;%X%&quot;&#x0D;&#x0A;copy/y &quot;$(SolutionDir)expat201\$(PlatformName)\$(ConfigurationName)\*.lib&quot; &quot;%X%&quot;&#x0D;&#x0A;copy/y &quot;$(SolutionDir)zlib123\$(PlatformName)\$(ConfigurationName)\*.dll&quot; &quot;%X%&quot;&#x0D;&#x0A;copy/y &quot;$(SolutionDir)zlib123\$(PlatformName)\$(ConfigurationName)\*.lib&quot; &quot;%X%&quot;&#x0D;&#x0A;&#x0D;&#x0A;&#x0D;&#x0A;"
 			/>
 		</Configuration>
 		<Configuration
@@ -465,8 +465,8 @@
 			/>
 			<Tool
 				Name="VCPostBuildEventTool"
-				Description="copy dlls to the build directory"
-				CommandLine="setlocal&#x0D;&#x0A;set X=$(TargetDir)&#x0D;&#x0A;copy/y &quot;$(SolutionDir)expat201\$(PlatformName)\$(ConfigurationName)\*.dll&quot; &quot;%X%&quot;&#x0D;&#x0A;copy/y &quot;$(SolutionDir)expat201\$(PlatformName)\$(ConfigurationName)\*.lib&quot; &quot;%X%&quot;&#x0D;&#x0A;copy/y &quot;$(SolutionDir)zlib123\$(PlatformName)\$(ConfigurationName)\*.dll&quot; &quot;%X%&quot;&#x0D;&#x0A;copy/y &quot;$(SolutionDir)zlib123\$(PlatformName)\$(ConfigurationName)\*.lib&quot; &quot;%X%&quot;&#x0D;&#x0A;&#x0D;&#x0A;"
+				Description="create the bin (delivery) directorie"
+				CommandLine="setlocal&#x0D;&#x0A;set X=$(TargetDir)&#x0D;&#x0A;copy/y &quot;$(SolutionDir)expat201\$(PlatformName)\$(ConfigurationName)\*.dll&quot; &quot;%X%&quot;&#x0D;&#x0A;copy/y &quot;$(SolutionDir)expat201\$(PlatformName)\$(ConfigurationName)\*.lib&quot; &quot;%X%&quot;&#x0D;&#x0A;copy/y &quot;$(SolutionDir)zlib123\$(PlatformName)\$(ConfigurationName)\*.dll&quot; &quot;%X%&quot;&#x0D;&#x0A;copy/y &quot;$(SolutionDir)zlib123\$(PlatformName)\$(ConfigurationName)\*.lib&quot; &quot;%X%&quot;&#x0D;&#x0A;&#x0D;&#x0A;&#x0D;&#x0A;"
 			/>
 		</Configuration>
 		<Configuration
@@ -479,7 +479,7 @@
 			<Tool
 				Name="VCPreBuildEventTool"
 				Description="copy expat and zlib dlls"
-				CommandLine="if exist ..\include\exiv2 goto :jail&#x0D;&#x0A;mkdir ..\include\exiv2\&#x0D;&#x0A;copy/y ..\..\src\*.h ..\include\exiv2\&#x0D;&#x0A;copy/y ..\..\src\*.hpp ..\include\exiv2\&#x0D;&#x0A;cd ..\include\exiv2&#x0D;&#x0A;del *_int.hpp&#x0D;&#x0A;cd ..\..\exiv2lib&#x0D;&#x0A;:jail&#x0D;&#x0A;if NOT EXIST &quot;$(OutDir)&quot; mkdir &quot;$(OutDir)&quot;&#x0D;&#x0A;copy/y &quot;$(SolutionDir)expat201\$(PlatformName)\$(ConfigurationName)\*.dll&quot; &quot;$(OutDir)&quot;&#x0D;&#x0A;copy/y &quot;$(SolutionDir)zlib123\$(PlatformName)\$(ConfigurationName)\*.dll&quot; &quot;$(OutDir)&quot;&#x0D;&#x0A;&#x0D;&#x0A;"
+				CommandLine="if exist ..\include\exiv2 goto :jail&#x0D;&#x0A;mkdir ..\include\exiv2\&#x0D;&#x0A;copy/y ..\..\src\*.h ..\include\exiv2\&#x0D;&#x0A;copy/y ..\..\src\*.hpp ..\include\exiv2\&#x0D;&#x0A;cd ..\include\exiv2&#x0D;&#x0A;del *_int.hpp&#x0D;&#x0A;cd ..\..\exiv2lib&#x0D;&#x0A;:jail&#x0D;&#x0A;if NOT EXIST &quot;$(OutDir)&quot; mkdir &quot;$(OutDir)&quot;&#x0D;&#x0A;copy/y &quot;$(SolutionDir)expat201\$(PlatformName)\$(ConfigurationName)\*.dll&quot; &quot;$(OutDir)&quot;&#x0D;&#x0A;copy/y &quot;$(SolutionDir)zlib123\$(PlatformName)\$(ConfigurationName)\*.dll&quot; &quot;$(OutDir)&quot;&#x0D;&#x0A;"
 			/>
 			<Tool
 				Name="VCCustomBuildTool"
@@ -521,7 +521,7 @@
 			<Tool
 				Name="VCLinkerTool"
 				AdditionalOptions="/NODEFAULTLIB:LIBCMT"
-				AdditionalDependencies="..\xmpsdk\ReleaseDLL\xmpsdk.lib ..\..\..\expat-2.0.1\win32\bin\release\libexpat.lib ..\..\..\zlib-1.2.3\projects\visualc6\Win32_DLL_Release\zlib1.lib"
+				AdditionalDependencies="..\xmpsdk\$(PlatformName)\$(ConfigurationName)\xmpsdk.lib ..\expat201\$(PlatformName)\$(ConfigurationName)\libexpat.lib ..\zlib123\$(PlatformName)\$(ConfigurationName)\zlib1.lib"
 				OutputFile="$(OutDir)\exiv2.dll"
 				GenerateDebugInformation="false"
 				RandomizedBaseAddress="1"
