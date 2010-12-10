@@ -206,7 +206,7 @@ void Params::cleanup()
 void Params::version(std::ostream& os) const
 {
     bool  b64    = sizeof(void*)==8;
-    char* sBuild = b64 ? " (64 bit build)" : " (32 bit build)" ;
+    const char* sBuild = b64 ? " (64 bit build)" : " (32 bit build)" ;
     os << EXV_PACKAGE_STRING << sBuild << "\n"
        << _("Copyright (C) 2004-2010 Andreas Huggel.\n")
        << "\n"
