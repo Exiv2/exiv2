@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="Windows-1252"?>
 <VisualStudioProject
 	ProjectType="Visual C++"
-	Version="9.00"
+	Version="8.00"
 	Name="exifdata-test"
 	ProjectGUID="{36F0C797-F6BD-4F5C-8DB2-651D8502872D}"
 	RootNamespace="exifdata-test"

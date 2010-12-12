@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="Windows-1252"?>
 <VisualStudioProject
 	ProjectType="Visual C++"
-	Version="9.00"
+	Version="8.00"
 	Name="write2-test"
 	ProjectGUID="{BBDB5742-0A55-4C2C-973C-E876AAED6ABE}"
 	RootNamespace="write2-test"

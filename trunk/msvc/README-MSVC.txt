@@ -1,5 +1,17 @@
-Notes about msvc build of exiv2
--------------------------------
+Notes about msvc 32 bit build of exiv2
+--------------------------------------
+
++------------------------------------------------------+
+| This version of the build environment builds 32 bit  |
+| builds of exiv2 for DevStudio 2003 (VS7.1) and later |
+|                                                      |
+| Please use the project files in msvc64 for 32 and 64 |
+| bit builds in VS2005 and later.                      |
+| The organize application is not supported in msvc64  |
+| (however it can be added if requested)               |
+|                                                      |
+| Please see msvc64\ReadMe.txt for more information    |
++------------------------------------------------------+
 
 Tools
 -----
