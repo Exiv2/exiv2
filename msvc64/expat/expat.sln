@@ -1,5 +1,5 @@
-Microsoft Visual Studio Solution File, Format Version 10.00
-# Visual Studio 2008
+Microsoft Visual Studio Solution File, Format Version 9.00
+# Visual Studio 2005
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "expat", ".\expat.vcproj", "{6C4C06A3-6F8F-4067-AA4C-D5F41E1FFF9A}"
 EndProject
 Global

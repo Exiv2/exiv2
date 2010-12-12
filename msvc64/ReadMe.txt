@@ -1,11 +1,14 @@
 exiv2\msvc64\ReadMe.txt
------------------------
+--------------------------
 
-Updated: 2010-12-07
+Updated: 2010-12-12
 
-
-This is "work in progress".  At this time, you can build the libraries and the exiv2.exe application.
-You cannot build the test applications such as exifprint.exe
+Work in progress.
+1) Working.
+   Build 32 bit and 64bit builds of exiv2 (and libraries exiv2lib,expat,zlib,xmpsdk) in 32bit and 64bits.
+2) TODO:
+   Test Applications (exifprint etc)
+   Test build with VS2008 and VS2010
 
 Robin Mills
 http://clanmills.com
@@ -40,15 +43,15 @@ c:\gnu>dir
 c:\gnu>
 
 zlib and expat
-msvc64\zlib123\zlib.{sln|vcproj}	   DevStudio Solution and Project files
+msvc64\zlib\zlib.{sln|vcproj}	   DevStudio Solution and Project files
 ..\..\..\zlib-1.2.3\                   Source code
 
-msvc64\expat201\expat.sln expat.vcproj DevStudio Solution and Project files
+msvc64\expat\expat.sln expat.vcproj DevStudio Solution and Project files
 ..\..\..\expat-2.0.1\                  Source code
 
 1.1  Architecture
      There are directories for every component:
-     The libraries: zlib123, expat201, xmpsdk, exiv2lib
+     The libraries: zlib, expat, xmpsdk, exiv2lib
      Applications:  exiv2, exifprint etc......
      
      For each component, there are three build directories:
@@ -57,7 +60,7 @@ msvc64\expat201\expat.sln expat.vcproj DevStudio Solution and Project files
      exiv2lib\x64\{Debug|Release|DebugDLL|ReleaseDLL}       64 bit builds
      
 1.2  Changing the version of expat/zlib/xmpsdk
-     The directory expat is a copy of expat201, zlib is a copy of zlib123
+     The directory expat is a copy of expat, zlib is a copy of zlib
      
      As new versions of the libraries become available (eg zlib125) it will be added.
      To build exiv2 with zlib125, the directory zlib125 should be copied to zlib.
@@ -82,8 +85,7 @@ msvc64\expat201\expat.sln expat.vcproj DevStudio Solution and Project files
 	    Copyright (C) 2004 Cosmin Truta.
 	    For conditions of distribution and use, see copyright notice in zlib.h.
 	
-	    And was obtained from:  http://www.achacha.org/vc2008_zlib123/
-	
+	    And was obtained from:  http://www.achacha.org/vc2008_zlib/
 
      expat 64 bit build
      http://www.start64.com/index.php?option=com_content&task=view&id=3461&Itemid=114

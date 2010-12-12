@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="Windows-1252"?>
 <VisualStudioProject
 	ProjectType="Visual C++"
-	Version="9.00"
+	Version="8.00"
 	Name="stringto-test"
 	ProjectGUID="{156423D3-5FBB-45C6-A7CA-675B32F45C15}"
 	RootNamespace="stringto-test"

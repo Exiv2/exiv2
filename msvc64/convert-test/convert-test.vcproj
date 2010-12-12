@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="Windows-1252"?>
 <VisualStudioProject
 	ProjectType="Visual C++"
-	Version="9.00"
+	Version="8.00"
 	Name="convert-test"
 	ProjectGUID="{610E69BF-9FB7-4A63-AFB5-88C2BA4BE6C1}"
 	RootNamespace="convert-test"

@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="Windows-1252"?>
 <VisualStudioProject
 	ProjectType="Visual C++"
-	Version="9.00"
+	Version="8.00"
 	Name="iptctest"
 	ProjectGUID="{C8F41CDA-76AA-4053-A8DE-F80892C1C2FC}"
 	RootNamespace="iptctest"

@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="Windows-1252"?>
 <VisualStudioProject
 	ProjectType="Visual C++"
-	Version="9.00"
+	Version="8.00"
 	Name="exifprint"
 	ProjectGUID="{8391174F-52D5-4111-A0FE-E87135301CFB}"
 	RootNamespace="exifprint"

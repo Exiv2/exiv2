@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="Windows-1252"?>
 <VisualStudioProject
 	ProjectType="Visual C++"
-	Version="9.00"
+	Version="8.00"
 	Name="metacopy"
 	ProjectGUID="{F59D0AD2-6948-474B-B506-AD14EC9BE551}"
 	RootNamespace="metacopy"

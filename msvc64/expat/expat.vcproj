@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="Windows-1252"?>
 <VisualStudioProject
 	ProjectType="Visual C++"
-	Version="9.00"
+	Version="8.00"
 	Name="expat"
 	ProjectGUID="{6C4C06A3-6F8F-4067-AA4C-D5F41E1FFF9A}"
 	RootNamespace="expat"
