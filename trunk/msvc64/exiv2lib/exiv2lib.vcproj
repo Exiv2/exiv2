@@ -85,8 +85,8 @@
 			/>
 			<Tool
 				Name="VCPostBuildEventTool"
-				Description="create the bin (delivery) directory"
-				CommandLine="mkdir ..\bin\Debug\&#x0D;&#x0A;copy/y &quot;$(TargetPath)&quot; ..\bin\Debug\$(TargetFileName)&#x0D;&#x0A;"
+				Description=""
+				CommandLine=""
 			/>
 		</Configuration>
 		<Configuration
@@ -157,8 +157,8 @@
 			/>
 			<Tool
 				Name="VCPostBuildEventTool"
-				Description="create the bin (delivery) directory"
-				CommandLine="mkdir ..\bin\Debug\&#x0D;&#x0A;copy/y &quot;$(TargetPath)&quot; ..\bin\Debug\$(TargetFileName)&#x0D;&#x0A;"
+				Description=""
+				CommandLine=""
 			/>
 		</Configuration>
 		<Configuration
@@ -225,8 +225,8 @@
 			/>
 			<Tool
 				Name="VCPostBuildEventTool"
-				Description="create the bin (delivery) directory"
-				CommandLine="mkdir ..\bin\Release\&#x0D;&#x0A;copy/y &quot;$(TargetPath)&quot; ..\bin\$(ConfigurationName)\$(TargetFileName)&#x0D;&#x0A;&#x0D;&#x0A;"
+				Description=""
+				CommandLine=""
 			/>
 		</Configuration>
 		<Configuration
@@ -294,8 +294,8 @@
 			/>
 			<Tool
 				Name="VCPostBuildEventTool"
-				Description="create the bin (delivery) directory"
-				CommandLine="mkdir ..\bin\Release\&#x0D;&#x0A;copy/y &quot;$(TargetPath)&quot; ..\bin\$(ConfigurationName)\$(TargetFileName)&#x0D;&#x0A;&#x0D;&#x0A;"
+				Description=""
+				CommandLine=""
 			/>
 		</Configuration>
 		<Configuration
