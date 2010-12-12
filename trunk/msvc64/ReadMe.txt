@@ -6,16 +6,18 @@ Updated: 2010-12-12
 Work in progress.
 1) Working.
    Build 32 bit and 64bit builds of exiv2 (and libraries exiv2lib,expat,zlib,xmpsdk) in 32bit and 64bits.
+   Builds with VS2005, 2008 and 2010
 2) TODO:
+   Provide support for zlib1.2.5
+   Use .psprop files to hold "common" project settings for all projects
    Test Applications (exifprint etc)
-   Test build with VS2008 and VS2010
 
 Robin Mills
 http://clanmills.com
 email: robin@clanmills.com
 
 ####
-T A B L E  of  C O N T E N T S
+T A B L E  o f  C O N T E N T S
 
 1    Design
 1.1  Architecture
@@ -27,7 +29,7 @@ T A B L E  of  C O N T E N T S
 
 3    Build Instructions
 
-## end of table of contents ##
+## end Table of Contents ##
 ####
 
 
@@ -43,7 +45,7 @@ c:\gnu>dir
 c:\gnu>
 
 zlib and expat
-msvc64\zlib\zlib.{sln|vcproj}	   DevStudio Solution and Project files
+msvc64\zlib\zlib.{sln|vcproj}	       DevStudio Solution and Project files
 ..\..\..\zlib-1.2.3\                   Source code
 
 msvc64\expat\expat.sln expat.vcproj DevStudio Solution and Project files
@@ -52,7 +54,7 @@ msvc64\expat\expat.sln expat.vcproj DevStudio Solution and Project files
 1.1  Architecture
      There are directories for every component:
      The libraries: zlib, expat, xmpsdk, exiv2lib
-     Applications:  exiv2, exifprint etc......
+     Applications:  exiv2 (exifprint and other sample apps can be added on request)
      
      For each component, there are three build directories:
      exiv2lib\build											intermediate results
@@ -63,7 +65,7 @@ msvc64\expat\expat.sln expat.vcproj DevStudio Solution and Project files
      The directory expat is a copy of expat, zlib is a copy of zlib
      
      As new versions of the libraries become available (eg zlib125) it will be added.
-     To build exiv2 with zlib125, the directory zlib125 should be copied to zlib.
+     Build instructions for zlib1.2.5 will be provided once zlib1.2.5 has been integrated.
 
 1.3  Relationship with msvc build environment
      This environment is similar to msvc (same build engineer).  However there are significant differences:
