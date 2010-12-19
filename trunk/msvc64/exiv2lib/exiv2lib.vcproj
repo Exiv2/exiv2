@@ -85,7 +85,6 @@
 			/>
 			<Tool
 				Name="VCPostBuildEventTool"
-				Description=""
 				CommandLine=""
 			/>
 		</Configuration>
@@ -157,7 +156,6 @@
 			/>
 			<Tool
 				Name="VCPostBuildEventTool"
-				Description=""
 				CommandLine=""
 			/>
 		</Configuration>
@@ -225,7 +223,6 @@
 			/>
 			<Tool
 				Name="VCPostBuildEventTool"
-				Description=""
 				CommandLine=""
 			/>
 		</Configuration>
@@ -294,7 +291,6 @@
 			/>
 			<Tool
 				Name="VCPostBuildEventTool"
-				Description=""
 				CommandLine=""
 			/>
 		</Configuration>
@@ -349,6 +345,7 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
+				LinkLibraryDependencies="false"
 				AdditionalOptions="/NODEFAULTLIB:LIBMTD"
 				AdditionalDependencies="..\xmpsdk\$(PlatformName)\$(ConfigurationName)\xmpsdk.lib ..\expat\$(PlatformName)\$(ConfigurationName)\libexpat.lib ..\zlib\$(PlatformName)\$(ConfigurationName)\zlib1d.lib"
 				OutputFile="$(OutDir)\exiv2d.dll"
@@ -521,6 +518,7 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
+				LinkLibraryDependencies="false"
 				AdditionalOptions="/NODEFAULTLIB:LIBCMT"
 				AdditionalDependencies="..\xmpsdk\$(PlatformName)\$(ConfigurationName)\xmpsdk.lib ..\expat\$(PlatformName)\$(ConfigurationName)\libexpat.lib ..\zlib\$(PlatformName)\$(ConfigurationName)\zlib1.lib"
 				OutputFile="$(OutDir)\exiv2.dll"
