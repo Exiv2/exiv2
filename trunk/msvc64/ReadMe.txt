@@ -1,21 +1,21 @@
 exiv2\msvc64\ReadMe.txt
 -----------------------
 
-Updated: 2010-12-12 
+Updated: 2010-12-20 
 This is work in progress.
 However it is sufficiently robust to be in current use by a commercial licensee of exiv2.
 
-1) Working
-   Build 32 bit and 64bit builds of exiv2.exe (and libraries exiv2lib,expat,zlib,xmpsdk) in 32bit and 64bits.
-   Builds with VS2005, 2008 and 2010.
+1)   Working
+     Build 32bit and 64bit builds of exiv2.exe (and libraries exiv2lib,expat,zlib,xmpsdk).
+     Builds with VS2005, 2008 and 2010.
 
-2) TODO (in priority order)
-   a) Provide support for zlib1.2.5
-   b) Use .vsprop files to hold "common" project settings
-   c) Build sample/test applications (exifprint etc)
-   d) Provide a "runner.bat" build verification test script
+2)   TODO (in priority order)
+     a) Provide support for zlib1.2.5
+     b) Use .vsprop files to hold "common" project settings
+     c) Build sample/test applications (exifprint etc)
+     d) Provide a "runner.bat" build verification test script
    
-   Assistance appreciated if you wish to become involved.
+     Assistance appreciated if you wish to become involved.
 
 Robin Mills
 http://clanmills.com
@@ -37,11 +37,11 @@ T A B L E  o f  C O N T E N T S
 3    Acknowledgment of prior work
 3.1  Differences between inherited project and the exiv2 projects
 
-## end Table of Contents ##
+## End Table of Contents End ##
 ####
 
-
 1    Build Instructions
+
 1.1  Install zlib and expat sources.
      I use the directory c:\gnu for this purpose, however the name isn't important.
 
@@ -55,11 +55,14 @@ T A B L E  o f  C O N T E N T S
      The URLs from which to obtain zlib and expat are documented in exiv2\msvc\README-MSVC.txt
 
 1.2  Open exiv2\msvc64\exiv2.sln
-     batch build, select all, build
+     Projects are zlib, expat, xmpsdk, exiv2lib, exiv2
+     Build/Batch build...  Select All, Build
      - you will build 5 projects x 2 Platforms (x64|Win32) x 4 Configurations (Debug|Release|DebugDLL|ReleaseDLL)
      = 5x2*4 = 40 builds.
      
-     If you don't have the x64 compiler available, don't select the 64 bit configurations!
+     If you haven't installed the the x64 compiler available, don't select the 64 bit configurations!
+     
+     Build time is 15 minutes on a 2.2GHz Duo Core and consumes 1.0 gBytes of disk space.
      
 1.3  What is built
      The DLL builds use the DLL version of the C runtime libraries
@@ -68,19 +71,27 @@ T A B L E  o f  C O N T E N T S
 
 2    Design
 
-expat and zlib do not provide 64bit builds for DevStudio, so it has been necessary to create the build environments for exiv2.  However, we don't include the source code for zlib or expat - only the build environment.  You are expected to install the "vanilla" expat and zlib libraries in a directory at the same level as exiv2.  I personally always build in the directory c:\gnu - however the name/location/spaces of the build directory are all irrelevant, it's only the relative position of expat-2.0.1 and zlib-1.2.3 which matter.  The names expat-2.0.1 and zlib-1.2.3 are fixed.
+     expat and zlib do not provide 64bit builds for DevStudio,
+     so it has been necessary to create the build environments for exiv2.
+     However, we don't include the source code for zlib or expat - only the build environment.
+     You are expected to install the "vanilla" expat and zlib libraries
+     in a directory at the same level as exiv2.
+     I personally always build in the directory c:\gnu,
+     however the name/location/spaces of the build directory are all irrelevant,
+     it's only the relative position of expat-2.0.1 and zlib-1.2.3 which matter.
+     The names expat-2.0.1 and zlib-1.2.3 fixed (and used by the .vcproj files)
 
-zlib and expat
-msvc64\zlib\zlib.{sln|vcproj}	       DevStudio Solution and Project files
-..\..\..\zlib-1.2.3\                   Source code
+     zlib and expat
+     exiv2\msvc64\zlib\zlib.{sln|vcproj}                    DevStudio files
+     ..\..\..\zlib-1.2.3\                                   Source code
 
-msvc64\expat\expat.sln expat.vcproj DevStudio Solution and Project files
-..\..\..\expat-2.0.1\                  Source code
+     exiv2\msvc64\expat\expat.sln expat.vcproj              DevStudio files
+     ..\..\..\expat-2.0.1\                                  Source code
 
 2.1  Architecture
      There are directories for every component:
      The libraries: zlib, expat, xmpsdk, exiv2lib
-     Applications:  exiv2 (exifprint.exe and other sample apps can be added on request)
+     Applications:  exiv2 (exifprint.exe and other sample apps will be added on request)
      
      For each component, there are three build directories:
      exiv2lib\build											intermediate results
@@ -96,19 +107,19 @@ msvc64\expat\expat.sln expat.vcproj DevStudio Solution and Project files
      It is planned to support zlib 1.2.5 shortly and these notes will be updated at that time.
 
 2.3  Relationship with msvc build environment
-     This environment is similar to msvc (same build engineer).
+     msvc64 is similar to msvc.
      However there are significant differences:
-     1) Support 64bit and 32bit builds
-     2) Provides projects to build expat and zlib
-     3) Is designed to accomodate new versions of expat and zlib when they become available.
-     4) Supports DevStudio 2005, 2008 and 2010 (no support for 2003)
+     1) msvc64 supports 64bit and 32bit builds
+     2) msvc64 provides projects to build expat and zlib
+     3) msvc64 is designed to accomodate new versions of expat and zlib when they become available.
+     4) msvc64 supports DevStudio 2005, 2008 and 2010 (no support for 2003)
      5) msvc64 does not require you to build 'vanilla' expat and zlib projects in advance
      6) msvc64 does not support the organize application
      7) msvc64 does not build the sample/test applications (such as exfprint.exe)
      8) msvc64 has no test/build verification scripts
      
-     msvc will continue to be supported for 32 bit builds using DevStudio 2003 and 2005
-     however there is no plan to enhance or develop that environment going forward.
+     msvc will continue to be supported for 32 bit builds using DevStudio 2003/05/08,
+     however there is no plan to enhance or develop msvc going forward.
 
 3    Acknowledgement of prior work
      This work is based on work by the following people:
@@ -125,7 +136,7 @@ msvc64\expat\expat.sln expat.vcproj DevStudio Solution and Project files
 
 	 I recognise and respect the work performed by those individuals.
 	
-3.1  Differences between inherited project and the exiv2 projects
+3.1  Differences between inherited projects and the exiv2 projects
      There is no compatiblity.
 
 # That's all Folks!
