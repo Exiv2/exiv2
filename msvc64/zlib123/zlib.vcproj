@@ -75,7 +75,7 @@
 				AdditionalDependencies=""
 				LinkIncremental="1"
 				SuppressStartupBanner="true"
-				ModuleDefinitionFile="..\..\..\zlib-1.2.5\win32\zlib.def"
+				ModuleDefinitionFile="..\..\..\zlib-1.2.3\win32\zlib.def"
 				TargetMachine="17"
 			/>
 			<Tool
@@ -161,7 +161,7 @@
 				AdditionalOptions="&quot;/IMPLIB:$(TargetDir)\zlib1.lib&quot;"
 				LinkIncremental="1"
 				SuppressStartupBanner="true"
-				ModuleDefinitionFile="..\..\..\zlib-1.2.5\win32\zlib.def"
+				ModuleDefinitionFile="..\..\..\zlib-1.2.3\win32\zlib.def"
 				TargetMachine="1"
 			/>
 			<Tool
@@ -388,7 +388,7 @@
 				OutputFile="$(OutDir)\$(ProjectName)d.dll"
 				LinkIncremental="2"
 				SuppressStartupBanner="true"
-				ModuleDefinitionFile="..\..\..\zlib-1.2.5\win32\zlib.def"
+				ModuleDefinitionFile="..\..\..\zlib-1.2.3\win32\zlib.def"
 				GenerateDebugInformation="true"
 				ProgramDatabaseFile="$(PlatformName)\$(ConfigurationName)/$(ProjectName).pdb"
 				TargetMachine="17"
@@ -478,7 +478,7 @@
 				OutputFile="$(OutDir)\$(ProjectName)d.dll"
 				LinkIncremental="2"
 				SuppressStartupBanner="true"
-				ModuleDefinitionFile="..\..\..\zlib-1.2.5\win32\zlib.def"
+				ModuleDefinitionFile="..\..\..\zlib-1.2.3\win32\zlib.def"
 				GenerateDebugInformation="true"
 				TargetMachine="1"
 			/>
@@ -653,7 +653,7 @@
 			Filter="cpp;c;cxx;rc;def;r;odl;idl;hpj;bat"
 			>
 			<File
-				RelativePath="..\..\..\zlib-1.2.5\adler32.c"
+				RelativePath="..\..\..\zlib-1.2.3\adler32.c"
 				>
 				<FileConfiguration
 					Name="DLL Release|Win32"
@@ -721,7 +721,7 @@
 				</FileConfiguration>
 			</File>
 			<File
-				RelativePath="..\..\..\zlib-1.2.5\compress.c"
+				RelativePath="..\..\..\zlib-1.2.3\compress.c"
 				>
 				<FileConfiguration
 					Name="DLL Release|Win32"
@@ -789,7 +789,7 @@
 				</FileConfiguration>
 			</File>
 			<File
-				RelativePath="..\..\..\zlib-1.2.5\crc32.c"
+				RelativePath="..\..\..\zlib-1.2.3\crc32.c"
 				>
 				<FileConfiguration
 					Name="DLL Release|Win32"
@@ -857,7 +857,7 @@
 				</FileConfiguration>
 			</File>
 			<File
-				RelativePath="..\..\..\zlib-1.2.5\deflate.c"
+				RelativePath="..\..\..\zlib-1.2.3\deflate.c"
 				>
 				<FileConfiguration
 					Name="DLL Release|Win32"
@@ -925,23 +925,7 @@
 				</FileConfiguration>
 			</File>
 			<File
-				RelativePath="..\..\..\zlib-1.2.5\gzclose.c"
-				>
-			</File>
-			<File
-				RelativePath="..\..\..\zlib-1.2.5\gzlib.c"
-				>
-			</File>
-			<File
-				RelativePath="..\..\..\zlib-1.2.5\gzread.c"
-				>
-			</File>
-			<File
-				RelativePath="..\..\..\zlib-1.2.5\gzwrite.c"
-				>
-			</File>
-			<File
-				RelativePath="..\..\..\zlib-1.2.5\infback.c"
+				RelativePath="..\..\..\zlib-1.2.3\gzio.c"
 				>
 				<FileConfiguration
 					Name="DLL Release|Win32"
@@ -1009,7 +993,7 @@
 				</FileConfiguration>
 			</File>
 			<File
-				RelativePath="..\..\..\zlib-1.2.5\inffast.c"
+				RelativePath="..\..\..\zlib-1.2.3\infback.c"
 				>
 				<FileConfiguration
 					Name="DLL Release|Win32"
@@ -1077,7 +1061,7 @@
 				</FileConfiguration>
 			</File>
 			<File
-				RelativePath="..\..\..\zlib-1.2.5\inflate.c"
+				RelativePath="..\..\..\zlib-1.2.3\inffast.c"
 				>
 				<FileConfiguration
 					Name="DLL Release|Win32"
@@ -1145,7 +1129,7 @@
 				</FileConfiguration>
 			</File>
 			<File
-				RelativePath="..\..\..\zlib-1.2.5\inftrees.c"
+				RelativePath="..\..\..\zlib-1.2.3\inflate.c"
 				>
 				<FileConfiguration
 					Name="DLL Release|Win32"
@@ -1213,7 +1197,7 @@
 				</FileConfiguration>
 			</File>
 			<File
-				RelativePath="..\..\..\zlib-1.2.5\trees.c"
+				RelativePath="..\..\..\zlib-1.2.3\inftrees.c"
 				>
 				<FileConfiguration
 					Name="DLL Release|Win32"
@@ -1281,7 +1265,7 @@
 				</FileConfiguration>
 			</File>
 			<File
-				RelativePath="..\..\..\zlib-1.2.5\uncompr.c"
+				RelativePath="..\..\..\zlib-1.2.3\trees.c"
 				>
 				<FileConfiguration
 					Name="DLL Release|Win32"
@@ -1349,7 +1333,75 @@
 				</FileConfiguration>
 			</File>
 			<File
-				RelativePath="..\..\..\zlib-1.2.5\win32\zlib.def"
+				RelativePath="..\..\..\zlib-1.2.3\uncompr.c"
+				>
+				<FileConfiguration
+					Name="DLL Release|Win32"
+					>
+					<Tool
+						Name="VCCLCompilerTool"
+						PreprocessorDefinitions=""
+					/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="LIB Debug|Win32"
+					>
+					<Tool
+						Name="VCCLCompilerTool"
+						PreprocessorDefinitions=""
+					/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="DLL Debug|Win32"
+					>
+					<Tool
+						Name="VCCLCompilerTool"
+						PreprocessorDefinitions=""
+					/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="LIB Release|Win32"
+					>
+					<Tool
+						Name="VCCLCompilerTool"
+						PreprocessorDefinitions=""
+					/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="DLL Release|x64"
+					>
+					<Tool
+						Name="VCCLCompilerTool"
+						PreprocessorDefinitions=""
+					/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="LIB Debug|x64"
+					>
+					<Tool
+						Name="VCCLCompilerTool"
+						PreprocessorDefinitions=""
+					/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="DLL Debug|x64"
+					>
+					<Tool
+						Name="VCCLCompilerTool"
+						PreprocessorDefinitions=""
+					/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="LIB Release|x64"
+					>
+					<Tool
+						Name="VCCLCompilerTool"
+						PreprocessorDefinitions=""
+					/>
+				</FileConfiguration>
+			</File>
+			<File
+				RelativePath="..\..\..\zlib-1.2.3\win32\zlib.def"
 				>
 				<FileConfiguration
 					Name="LIB Debug|x64"
@@ -1369,7 +1421,7 @@
 				</FileConfiguration>
 			</File>
 			<File
-				RelativePath="..\..\..\zlib-1.2.5\zutil.c"
+				RelativePath="..\..\..\zlib-1.2.3\zutil.c"
 				>
 				<FileConfiguration
 					Name="DLL Release|Win32"
@@ -1442,43 +1494,43 @@
 			Filter="h;hpp;hxx;hm;inl"
 			>
 			<File
-				RelativePath="..\..\..\zlib-1.2.5\crc32.h"
+				RelativePath="..\..\..\zlib-1.2.3\crc32.h"
 				>
 			</File>
 			<File
-				RelativePath="..\..\..\zlib-1.2.5\deflate.h"
+				RelativePath="..\..\..\zlib-1.2.3\deflate.h"
 				>
 			</File>
 			<File
-				RelativePath="..\..\..\zlib-1.2.5\inffast.h"
+				RelativePath="..\..\..\zlib-1.2.3\inffast.h"
 				>
 			</File>
 			<File
-				RelativePath="..\..\..\zlib-1.2.5\inffixed.h"
+				RelativePath="..\..\..\zlib-1.2.3\inffixed.h"
 				>
 			</File>
 			<File
-				RelativePath="..\..\..\zlib-1.2.5\inflate.h"
+				RelativePath="..\..\..\zlib-1.2.3\inflate.h"
 				>
 			</File>
 			<File
-				RelativePath="..\..\..\zlib-1.2.5\inftrees.h"
+				RelativePath="..\..\..\zlib-1.2.3\inftrees.h"
 				>
 			</File>
 			<File
-				RelativePath="..\..\..\zlib-1.2.5\trees.h"
+				RelativePath="..\..\..\zlib-1.2.3\trees.h"
 				>
 			</File>
 			<File
-				RelativePath="..\..\..\zlib-1.2.5\zconf.h"
+				RelativePath="..\..\..\zlib-1.2.3\zconf.h"
 				>
 			</File>
 			<File
-				RelativePath="..\..\..\zlib-1.2.5\zlib.h"
+				RelativePath="..\..\..\zlib-1.2.3\zlib.h"
 				>
 			</File>
 			<File
-				RelativePath="..\..\..\zlib-1.2.5\zutil.h"
+				RelativePath="..\..\..\zlib-1.2.3\zutil.h"
 				>
 			</File>
 		</Filter>
@@ -1487,7 +1539,7 @@
 			Filter="ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe"
 			>
 			<File
-				RelativePath="..\..\..\zlib-1.2.5\win32\zlib1.rc"
+				RelativePath="..\..\..\zlib-1.2.3\win32\zlib1.rc"
 				>
 			</File>
 		</Filter>
