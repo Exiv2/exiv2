@@ -8,12 +8,12 @@ However it is sufficiently robust to be in current use by a commercial licensee 
 1)   Working
      Build 32bit and 64bit builds of exiv2.exe (and libraries exiv2lib,expat,zlib,xmpsdk).
      Builds with VS2005, 2008 and 2010.
+     Supports zlib-1.2.5 or zlib-1.2.3
 
 2)   TODO (in priority order)
-     a) Provide support for zlib1.2.5
-     b) Use .vsprop files to hold "common" project settings
-     c) Build sample/test applications (exifprint etc)
-     d) Provide a "runner.bat" build verification test script
+     a) Provide a "runner.bat" build verification test script
+     b) Build sample/test applications (exifprint etc)
+     c) Use .vsprop files to hold "common" project settings
    
      Assistance appreciated if you wish to become involved.
 
@@ -28,6 +28,7 @@ T A B L E  o f  C O N T E N T S
 1.1  Install zlib and expat sources.
 1.2  Open exiv2\msvc64\exiv2.sln
 1.3  What is build
+1.4  Building with zlib1.2.3
 
 2    Design
 2.1  Architecture
@@ -49,16 +50,21 @@ T A B L E  o f  C O N T E N T S
       Directory of c:\gnu
      2010-12-05  10:05    <DIR>             exiv2                <--- this tree
      2010-12-02  21:06    <DIR>             expat-2.0.1          <--- "vanilla" expat 2.0.1 source tree
-     2010-12-02  20:58    <DIR>             zlib-1.2.3           <--- "vanilla" zlib 1.2.3 source tree
+     2010-12-02  20:58    <DIR>             zlib-1.2.5           <--- "vanilla" zlib 1.2.5 source tree
+     2010-12-02  20:58    <DIR>             zlib-1.2.3 OPTIONAL  <--- "vanilla" zlib 1.2.3 source tree
      c:\gnu>
      
      The URLs from which to obtain zlib and expat are documented in exiv2\msvc\README-MSVC.txt
+     expat-2.0.1 is available from http://voxel.dl.sourceforge.net/sourceforge/expat/expat-2.0.1.tar.gz
+     zlib-1.2.5  is available from http://zlib.net/zlib-1.2.5.tar.gz
 
 1.2  Open exiv2\msvc64\exiv2.sln
      Projects are zlib, expat, xmpsdk, exiv2lib, exiv2
      Build/Batch build...  Select All, Build
-     - you will build 5 projects x 2 Platforms (x64|Win32) x 4 Configurations (Debug|Release|DebugDLL|ReleaseDLL)
-     = 5x2*4 = 40 builds.
+     - 5 projects       (zlib, expat, xmpsdk, exiv2lib, exiv2)
+     x 2 Platforms      (x64|Win32)
+     x 4 Configurations (Debug|Release|DebugDLL|ReleaseDLL)
+     = 5x2x4 = 40 builds.
      
      If you haven't installed the the x64 compiler available, don't select the 64 bit configurations!
      
@@ -68,6 +74,22 @@ T A B L E  o f  C O N T E N T S
      The DLL builds use the DLL version of the C runtime libraries
      The Debug|Release builds use static C runtime libraries
      This is discussed in exiv2\msvc\README-MSVC.txt 
+     
+1.4  Building with zlib1.2.3
+     By default, msvc64 builds with zlib-1.2.5
+     You can build with zlib1.2.3.  To do this:
+     
+     1) copy/y exiv2\msvc64\zlib123\zlib.vcproj exiv2\msvc64\zlib\zlib.vcproj
+
+     2) You will need the sources in a directory parallel to exiv2
+     c:\gnu>dir
+      Directory of c:\gnu
+     2010-12-05  10:05    <DIR>             exiv2                <--- this tree
+     2010-12-02  21:06    <DIR>             expat-2.0.1          <--- "vanilla" expat 2.0.1 source tree
+     2010-12-02  20:58    <DIR>             zlib-1.2.5           <--- "vanilla" zlib 1.2.5 source tree
+     2010-12-02  20:58    <DIR>             zlib-1.2.3 OPTIONAL  <--- "vanilla" zlib 1.2.3 source tree
+     c:\gnu>
+     Please see exiv2\msvc\README-MSVC.txt for information about obtaining zlib-1.2.3
 
 2    Design
 
@@ -78,12 +100,12 @@ T A B L E  o f  C O N T E N T S
      in a directory at the same level as exiv2.
      I personally always build in the directory c:\gnu,
      however the name/location/spaces of the build directory are all irrelevant,
-     it's only the relative position of expat-2.0.1 and zlib-1.2.3 which matter.
-     The names expat-2.0.1 and zlib-1.2.3 fixed (and used by the .vcproj files)
+     it's only the relative position of expat-2.0.1 and zlib-1.2.5 that matter.
+     The names expat-2.0.1 and zlib-1.2.5 fixed (and used by the .vcproj files)
 
      zlib and expat
      exiv2\msvc64\zlib\zlib.{sln|vcproj}                    DevStudio files
-     ..\..\..\zlib-1.2.3\                                   Source code
+     ..\..\..\zlib-1.2.5\                                   Source code
 
      exiv2\msvc64\expat\expat.sln expat.vcproj              DevStudio files
      ..\..\..\expat-2.0.1\                                  Source code
@@ -117,6 +139,7 @@ T A B L E  o f  C O N T E N T S
      6) msvc64 does not support the organize application
      7) msvc64 does not build the sample/test applications (such as exfprint.exe)
      8) msvc64 has no test/build verification scripts
+     9) msvc64 supports building with zlib1.2.5 (default) or zlib1.2.3
      
      msvc will continue to be supported for 32 bit builds using DevStudio 2003/05/08,
      however there is no plan to enhance or develop msvc going forward.
