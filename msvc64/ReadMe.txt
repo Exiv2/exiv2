@@ -1,7 +1,7 @@
 exiv2\msvc64\ReadMe.txt
 -----------------------
 
-Updated: 2010-12-20 
+Updated: 2010-12-24 
 This is work in progress.
 However it is sufficiently robust to be in current use by a commercial licensee of exiv2.
 
@@ -25,10 +25,12 @@ email: robin@clanmills.com
 T A B L E  o f  C O N T E N T S
 
 1    Build Instructions
-1.1  Install zlib and expat sources.
-1.2  Open exiv2\msvc64\exiv2.sln
-1.3  What is build
-1.4  Building with zlib1.2.3
+1.1  Tools
+1.2  Install zlib and expat sources.
+1.3  Open exiv2\msvc64\exiv2.sln
+1.4  What is build
+1.5  Building with zlib1.2.3
+1.6  Express editions of DevStudio
 
 2    Design
 2.1  Architecture
@@ -43,7 +45,13 @@ T A B L E  o f  C O N T E N T S
 
 1    Build Instructions
 
-1.1  Install zlib and expat sources.
+1.1  Tools
+     This has been tested with the "Pro" versions of VS 2005/08/10
+     Express editions dont support 64 bit builds, however it is
+     possible to build 32 bit libraries with "Express".
+     See notes below about DevStudio Express.
+
+1.2  Install zlib and expat sources.
      I use the directory c:\gnu for this purpose, however the name isn't important.
 
      c:\gnu>dir
@@ -58,7 +66,7 @@ T A B L E  o f  C O N T E N T S
      expat-2.0.1 is available from http://voxel.dl.sourceforge.net/sourceforge/expat/expat-2.0.1.tar.gz
      zlib-1.2.5  is available from http://zlib.net/zlib-1.2.5.tar.gz
 
-1.2  Open exiv2\msvc64\exiv2.sln
+1.3  Open exiv2\msvc64\exiv2.sln
      Projects are zlib, expat, xmpsdk, exiv2lib, exiv2
      Build/Batch build...  Select All, Build
      - 5 projects       (zlib, expat, xmpsdk, exiv2lib, exiv2)
@@ -70,12 +78,12 @@ T A B L E  o f  C O N T E N T S
      
      Build time is 15 minutes on a 2.2GHz Duo Core and consumes 1.0 gBytes of disk space.
      
-1.3  What is built
+1.4  What is built
      The DLL builds use the DLL version of the C runtime libraries
      The Debug|Release builds use static C runtime libraries
      This is discussed in exiv2\msvc\README-MSVC.txt 
      
-1.4  Building with zlib1.2.3
+1.5  Building with zlib1.2.3
      By default, msvc64 builds with zlib-1.2.5
      You can build with zlib1.2.3.  To do this:
      
@@ -90,6 +98,26 @@ T A B L E  o f  C O N T E N T S
      2010-12-02  20:58    <DIR>             zlib-1.2.3 OPTIONAL  <--- "vanilla" zlib 1.2.3 source tree
      c:\gnu>
      Please see exiv2\msvc\README-MSVC.txt for information about obtaining zlib-1.2.3
+
+1.6  Express editions of DevStudio
+     Express does not provide a 64bit compiler.
+     You can build 32 bit libraries with DevStudio Express (with a little effort) 
+     The project conversion wizard will fail on any mention of 64 bit configurations.
+     You can "doctor" to project files to remove this using a editor:
+     
+     Cleanup your tree and edit the files.
+     cd exiv2\msvc64
+     call cleaner.bat
+     for /r %f in (*.vcproj) do notepad %f
+     for /r %f in (*.sln)    do notepad %f
+     
+     I personally don't recomment notepad for any purpose at all.
+     I use TextPad http://www.textpad.com/
+     
+     DevStudio Express 2010 (and presumably 2005 and 2008) do not have the "Batch Build" feature.
+     Select "exiv2" right-click "Set as Startup Project" and
+     Select Platform="Win32" Configuration="Debug|DebugDLL|Release|ReleaseDLL"  Build.
+     Only build the Configurations you need.  Build time is about 2 minutes/Configuration.
 
 2    Design
 
