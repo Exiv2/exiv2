@@ -3,17 +3,19 @@ exiv2\msvc64\ReadMe.txt
 
 Updated: 2010-12-24 
 This is work in progress.
-However it is sufficiently robust to be in current use by a commercial licensee of exiv2.
+However this is sufficiently robust to be in current use by a commercial licensee of exiv2.
 
 1)   Working
      Build 32bit and 64bit builds of exiv2.exe (and libraries exiv2lib,expat,zlib,xmpsdk).
      Builds with VS2005, 2008 and 2010.
      Supports zlib-1.2.5 or zlib-1.2.3
+     Notes added about building with VS2010 Express
 
 2)   TODO (in priority order)
      a) Provide a "runner.bat" build verification test script
      b) Build sample/test applications (exifprint etc)
      c) Use .vsprop files to hold "common" project settings
+     d) python script to "doctor" the project files for DevStudio Express
    
      Assistance appreciated if you wish to become involved.
 
@@ -74,7 +76,9 @@ T A B L E  o f  C O N T E N T S
      x 4 Configurations (Debug|Release|DebugDLL|ReleaseDLL)
      = 5x2x4 = 40 builds.
      
-     If you haven't installed the the x64 compiler available, don't select the 64 bit configurations!
+     If you haven't installed the x64 compiler, don't select the 64 bit configurations!
+     You may have to hand-end it vcproj and sln files to hide the 64bit information.
+     See the notes about DevStudio Express for more information about this. 
      
      Build time is 15 minutes on a 2.2GHz Duo Core and consumes 1.0 gBytes of disk space.
      
@@ -117,7 +121,10 @@ T A B L E  o f  C O N T E N T S
      DevStudio Express 2010 (and presumably 2005 and 2008) do not have the "Batch Build" feature.
      Select "exiv2" right-click "Set as Startup Project" and
      Select Platform="Win32" Configuration="Debug|DebugDLL|Release|ReleaseDLL"  Build.
-     Only build the Configurations you need.  Build time is about 2 minutes/Configuration.
+     Build the Configurations you need.  Build time is about 2 minutes/Configuration.
+     
+     I don't want to create an msvc32 directory with seperate project files as this introduces
+     more maintenance work.  I might (no promises) write a python script to edit the project files.
 
 2    Design
 
