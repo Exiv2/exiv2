@@ -52,16 +52,33 @@ namespace Exiv2 {
              the log level and provide a customer log message handler (callback
              function).
 
-             This class is meant to be used as a temporary object like this:
+             This class is meant to be used as a temporary object with the
+             related macro-magic like this:
 
              <code>
-             LogMsg(LogMsg::warn) << "Warning! Something looks fishy.\n";
+             EXV_WARNING << "Warning! Something looks fishy.\n";
              </code>
 
-             The convenience macros EXV_DEBUG, EXV_INFO, EXV_WARN and EXV_ERROR
-             are just shorthands for the constructor calls.
+             which translates to
+
+             <code>
+             if (LogMsg::warn >= LogMsg::level() && LogMsg::handler())
+                 LogMsg(LogMsg::warn).os() << "Warning! Something looks fishy.\n";
+             </code>
+
+             The macros EXV_DEBUG, EXV_INFO, EXV_WARNING and EXV_ERROR are
+             shorthands and ensure efficient use of the logging facility: If a
+             log message doesn't need to be generated because of the log level
+             setting, the temp object is not even created.
+
+             Caveat: The entire log message is not processed in this case. So don't
+             make that call any logic that always needs to be executed.
      */
     class EXIV2API LogMsg {
+        //! Prevent copy-construction: not implemented.
+        LogMsg(const LogMsg&);
+        //! Prevent assignment: not implemented.
+        LogMsg& operator=(const LogMsg&);
     public:
         /*!
           @brief Defined log levels. To suppress all log messages, either set the
@@ -86,17 +103,8 @@ namespace Exiv2 {
 
         //! @name Manipulators
         //@{
-        /*!
-          @brief Output operator, to pass the message to a log message object.
-                 (This is not perfect. It can deal with some std manipulators
-                 but not all, e.g., not std::endl.)
-         */
-        template<typename T>
-        LogMsg& operator<<(const T& t)
-        {
-            os_ << t;
-            return *this;
-        }
+        //! Return a reference to the ostringstream which holds the log message
+        std::ostringstream& os() { return os_; }
         //@}
 
         /*!
@@ -133,10 +141,14 @@ namespace Exiv2 {
     }; // class LogMsg
 
 // Macros for simple access
-#define EXV_DEBUG   LogMsg(LogMsg::debug)  //!< Shorthand for a debug log message object
-#define EXV_INFO    LogMsg(LogMsg::info)   //!< Shorthand for an info log message object
-#define EXV_WARNING LogMsg(LogMsg::warn)   //!< Shorthand for a warning log message object
-#define EXV_ERROR   LogMsg(LogMsg::error)  //!< Shorthand for an error log message object
+//! Shorthand to create a temp debug log message object and return its ostringstream
+#define EXV_DEBUG   if (LogMsg::debug >= LogMsg::level() && LogMsg::handler()) LogMsg(LogMsg::debug).os() 
+//! Shorthand for a temp info log message object and return its ostringstream
+#define EXV_INFO    if (LogMsg::info  >= LogMsg::level() && LogMsg::handler()) LogMsg(LogMsg::info).os() 
+//! Shorthand for a temp warning log message object and return its ostringstream
+#define EXV_WARNING if (LogMsg::warn  >= LogMsg::level() && LogMsg::handler()) LogMsg(LogMsg::warn).os() 
+//! Shorthand for a temp error log message object and return its ostringstream
+#define EXV_ERROR   if (LogMsg::error >= LogMsg::level() && LogMsg::handler()) LogMsg(LogMsg::error).os() 
 
 #ifdef _MSC_VER
 // Disable MSVC warnings "non - DLL-interface classkey 'identifier' used as base
