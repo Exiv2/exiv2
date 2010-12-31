@@ -7,8 +7,6 @@ Notes about msvc 32 bit build of exiv2
 |                                                      |
 | Please use the project files in msvc64 for 32 and 64 |
 | bit builds in VS2005 and later.                      |
-| The organize application is not supported in msvc64  |
-| (however it can be added if requested)               |
 |                                                      |
 | Please see msvc64\ReadMe.txt for more information    |
 +------------------------------------------------------+
@@ -18,12 +16,13 @@ Tools
 
 Created With:   VC9    (VS/2008 Std)
 Tested  With:   VC7.1, VC8 Pro +SP1, VC9Std running Windows/XP 32bit)
-                VC10 run on Windows/7 64bit, and Windows/XP 32bit
+                VC10 running on Windows/7 64bit, and Windows/XP 32bit
                (VC7.1 = VS/2003 .Net; VC8 = VS/2005; VC9 = VS/2008; VC10 = VS/2010)
                
+I recommend you use the msvc64 environment for VS2010.
 VC10/VS 2010 requires a project change which the conversion wizard doesn't handle.  See below.
               
-All builds are 32 bit.  There is no DevStudio support for 64bit builds of Exiv2 and dependancies.
+All builds in msvc are 32bit.  Use msvc64 for 64bit and 32bit builds.
 
 1)  Build environments (solution files)
     exiv2.sln           - this builds the exiv2 libraries   (static and dynamic)
