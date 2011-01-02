@@ -764,22 +764,6 @@
 			<File
 				RelativePath="..\..\src\pngchunk.cpp"
 				>
-				<FileConfiguration
-					Name="Debug|Win32"
-					>
-					<Tool
-						Name="VCCLCompilerTool"
-						GeneratePreprocessedFile="0"
-					/>
-				</FileConfiguration>
-				<FileConfiguration
-					Name="Debug|x64"
-					>
-					<Tool
-						Name="VCCLCompilerTool"
-						GeneratePreprocessedFile="0"
-					/>
-				</FileConfiguration>
 			</File>
 			<File
 				RelativePath="..\..\src\pngimage.cpp"
