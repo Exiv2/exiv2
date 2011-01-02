@@ -1,7 +1,7 @@
 exiv2\msvc64\ReadMe.txt
 -----------------------
 
-Updated: 2010-12-24 
+Updated: 2011-01-02 
 This is work in progress.
 However this is sufficiently robust to be in current use by a commercial licensee of exiv2.
 
@@ -10,12 +10,12 @@ However this is sufficiently robust to be in current use by a commercial license
      Builds with VS2005, 2008 and 2010.
      Supports zlib-1.2.5 or zlib-1.2.3
      Notes added about building with VS2010 Express
+     setbuild.py "doctors" the project files for DevStudio Express
 
 2)   TODO (in priority order)
      a) Provide a "runner.bat" build verification test script
      b) Build sample/test applications (exifprint etc)
      c) Use .vsprop files to hold "common" project settings
-     d) python script to "doctor" the project files for DevStudio Express
    
      Assistance appreciated if you wish to become involved.
 
@@ -32,7 +32,7 @@ T A B L E  o f  C O N T E N T S
 1.3  Open exiv2\msvc64\exiv2.sln
 1.4  What is build
 1.5  Building with zlib1.2.3
-1.6  Express editions of DevStudio
+1.6  Express editions of DevStudio (or 32 bit only builds, or 64 bit only builds)
 
 2    Design
 2.1  Architecture
@@ -51,7 +51,7 @@ T A B L E  o f  C O N T E N T S
      This has been tested with the "Pro" versions of VS 2005/08/10
      Express editions dont support 64 bit builds, however it is
      possible to build 32 bit libraries with "Express".
-     See notes below about DevStudio Express.
+     See notes below about DevStudio Express and building only Win32 or x64 builds
 
 1.2  Install zlib and expat sources.
      I use the directory c:\gnu for this purpose, however the name isn't important.
@@ -103,11 +103,20 @@ T A B L E  o f  C O N T E N T S
      c:\gnu>
      Please see exiv2\msvc\README-MSVC.txt for information about obtaining zlib-1.2.3
 
-1.6  Express editions of DevStudio
+1.6  Express editions of DevStudio (or 32 bit only builds, or 64 bit only builds)
      Express does not provide a 64bit compiler.
-     You can build 32 bit libraries with DevStudio Express (with a little effort) 
-     The project conversion wizard will fail on any mention of 64 bit configurations.
-     You can "doctor" to project files to remove this using a editor:
+     You can build 32 bit libraries with DevStudio Express (with a little effort)
+     
+     Before loading the project, use the python script setbuild.py to select Win32:
+     
+     	c:\gnu\exiv2\msvc64>setbuild Win32
+     	
+     setbuild.py is none destructive.  If you have a 64 bit compiler, you can:
+     1)	Restore the build environment with:   setbuild all
+     2) Select x64 bit builds only with:      setbuild.py x64
+     
+     If you don't have python available (it's a free download from ActiveState.com), 
+     you can "doctor" to project files manually to remove mentiosn of X64 using an editor:
      
      Cleanup your tree and edit the files.
      cd exiv2\msvc64
@@ -116,16 +125,13 @@ T A B L E  o f  C O N T E N T S
      for /r %f in (*.sln)    do notepad %f
      
      I personally don't recomment notepad for any purpose at all.
-     I use TextPad http://www.textpad.com/
+     I use TextPad http://www.textpad.com/  Notepad++ is also good.
      
      DevStudio Express 2010 (and presumably 2005 and 2008) do not have the "Batch Build" feature.
      Select "exiv2" right-click "Set as Startup Project" and
      Select Platform="Win32" Configuration="Debug|DebugDLL|Release|ReleaseDLL"  Build.
      Build the Configurations you need.  Build time is about 2 minutes/Configuration.
      
-     I don't want to create an msvc32 directory with seperate project files as this introduces
-     more maintenance work.  I might (no promises) write a python script to edit the project files.
-
 2    Design
 
      expat and zlib do not provide 64bit builds for DevStudio,
