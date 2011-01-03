@@ -420,11 +420,10 @@ namespace Exiv2 {
         }
     } // XmpParser::registerNs
 #else
-    bool XmpParser::registerNs(const std::string& /*ns*/,
+    void XmpParser::registerNs(const std::string& /*ns*/,
                                const std::string& /*prefix*/)
     {
         initialize();
-        return true;
     } // XmpParser::registerNs
 #endif
 
