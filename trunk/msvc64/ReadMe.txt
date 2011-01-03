@@ -1,7 +1,7 @@
 exiv2\msvc64\ReadMe.txt
 -----------------------
 
-Updated: 2011-01-02 
+Updated: 2011-01-03 
 This is work in progress.
 However this is sufficiently robust to be in current use by a commercial licensee of exiv2.
 
@@ -9,13 +9,12 @@ However this is sufficiently robust to be in current use by a commercial license
      Build 32bit and 64bit builds of exiv2.exe (and libraries exiv2lib,expat,zlib,xmpsdk).
      Builds with VS2005, 2008 and 2010.
      Supports zlib-1.2.5 or zlib-1.2.3
-     Notes added about building with VS2010 Express
      setbuild.py "doctors" the project files for DevStudio Express
+     runner.py build verification script (and binaries/code for depends{32|64}.exe)
 
 2)   TODO (in priority order)
-     a) Provide a "runner.bat" build verification test script
-     b) Build sample/test applications (exifprint etc)
-     c) Use .vsprop files to hold "common" project settings
+     a) Build sample/test applications (exifprint etc)
+     b) Use .vsprop files to hold "common" project settings
    
      Assistance appreciated if you wish to become involved.
 
@@ -41,6 +40,10 @@ T A B L E  o f  C O N T E N T S
 
 3    Acknowledgment of prior work
 3.1  Differences between inherited project and the exiv2 projects
+
+4    Batch builds and tests
+4.1  buildall.bat
+4.2  runner.py
 
 ## End Table of Contents End ##
 ####
@@ -132,6 +135,10 @@ T A B L E  o f  C O N T E N T S
      Select Platform="Win32" Configuration="Debug|DebugDLL|Release|ReleaseDLL"  Build.
      Build the Configurations you need.  Build time is about 2 minutes/Configuration.
      
+     To remove the "memory" of old configurations:
+     setbuild.py all && del/s *.orig
+     (Run this before doing an svn update of the code)
+     
 2    Design
 
      expat and zlib do not provide 64bit builds for DevStudio,
@@ -202,6 +209,25 @@ T A B L E  o f  C O N T E N T S
 	
 3.1  Differences between inherited projects and the exiv2 projects
      There is no compatiblity.
+
+4    Batch builds and tests
+	 
+4.1  buildall.bat
+     This is a real "throw away" kind of script.
+     You will have to run vcvars32.bat for the compiler you intend to use to ensure devenv is on your path.
+
+4.2  runner.py
+	 runner.py [Win32|x64|all]
+	 
+	 This script runs some basic "sanity" checks on the build.  You should compare the output of runner.py
+	 with the reference output runner.txt.  diff/windiff/winmergeu - or whatever your favorite diff tool.
+	 
+	 python runner.py all > new.txt
+	 winmergeu.exe new.txt runner.txt
+	 
+	 If you have only build Win32 (or x64), you'll have to remove the output from runner.txt for the target
+	 that isn't of interest.
+	 
 
 # That's all Folks!
 ##
