@@ -11,21 +11,20 @@ r"""setbuild - set the build environment you require
 
 --------------------
 Revision information: 
-$Id: //depot/bin/setbuild.py#17 $ ##
-
-$Header: //depot/bin/setbuild.py#17 $ 
-$Date: 2008/07/15 $ 
-$DateTime: 2008/07/15 14:50:18 $ 
-$Change: 192 $ 
-$File: //depot/bin/setbuild.py $ 
-$Revision: #17 $ 
-$Author: rmills $
+Rev:      $Id$:
+Header:   $Header$: 
+Date:     $Date$:
+DateTime: $DateTime$: 
+Change:   $Change$: 
+File:     $File$: 
+Revision: $Revision$: 
+Author:   $Author$:
 --------------------
 """
 
 __author__  = "Robin Mills <robin@clanmills.com>"
-__date__    = "$Date"
-__version__ = "$Id: //depot/bin/setbuild.py#17 $"
+__date__    = "$Date$:"
+__version__ = "$Id$:"
 __credits__ = """Everybody who contributed to Python.
 Especially: Guido van Rossum for creating the language.
 And: Mark Lutz (and David Ascher) for the O'Reilly Books which explain it.
