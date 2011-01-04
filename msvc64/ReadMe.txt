@@ -10,6 +10,7 @@ However this is sufficiently robust to be in current use by a commercial license
      Builds with VS2005, 2008 and 2010.
      Supports zlib-1.2.5 or zlib-1.2.3
      setbuild.py "doctors" the project files for DevStudio Express
+     buildall.bat batch building script
      runner.py build verification script (and binaries/code for depends{32|64}.exe)
 
 2)   TODO (in priority order)
@@ -127,7 +128,7 @@ T A B L E  o f  C O N T E N T S
      for /r %f in (*.vcproj) do notepad %f
      for /r %f in (*.sln)    do notepad %f
      
-     I personally don't recomment notepad for any purpose at all.
+     I personally don't recommend notepad for any purpose at all.
      I use TextPad http://www.textpad.com/  Notepad++ is also good.
      
      DevStudio Express 2010 (and presumably 2005 and 2008) do not have the "Batch Build" feature.
@@ -136,8 +137,7 @@ T A B L E  o f  C O N T E N T S
      Build the Configurations you need.  Build time is about 2 minutes/Configuration.
      
      To remove the "memory" of old configurations:
-     setbuild.py all && del/s *.orig
-     (Run this before doing an svn update of the code)
+     setbuild.py reset
      
 2    Design
 
@@ -213,8 +213,12 @@ T A B L E  o f  C O N T E N T S
 4    Batch builds and tests
 	 
 4.1  buildall.bat
-     This is a real "throw away" kind of script.
+     This was intended to be a "throw away" kind of script and it's grown to be quite useful.
      You will have to run vcvars32.bat for the compiler you intend to use to ensure devenv is on your path.
+     
+     It doesn't know anything about building only x64 or only Win32. Change the script if you want something special.
+     
+     I'll probably combine buildall.bat and setbuild.py into a single script one day.
 
 4.2  runner.py
 	 runner.py [Win32|x64|all]
