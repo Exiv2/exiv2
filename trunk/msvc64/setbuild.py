@@ -1,35 +1,13 @@
 #!/usr/bin/env python
 # -*- coding: Latin-1 -*-
 
+"""   setbuild - set the build environment you require  """
+
 ##
 def syntax():
     "syntax - print syntax of setbuild.py "
-    print "syntax: python setbuild.py Win32|x64|all"
+    print "syntax: python setbuild.py Win32|x64|all|reset"
 ##
-
-r"""setbuild - set the build environment you require
-
---------------------
-Revision information: 
-Rev:      $Id$:
-Header:   $Header$: 
-Date:     $Date$:
-DateTime: $DateTime$: 
-Change:   $Change$: 
-File:     $File$: 
-Revision: $Revision$: 
-Author:   $Author$:
---------------------
-"""
-
-__author__  = "Robin Mills <robin@clanmills.com>"
-__date__    = "$Date$:"
-__version__ = "$Id$:"
-__credits__ = """Everybody who contributed to Python.
-Especially: Guido van Rossum for creating the language.
-And: Mark Lutz (and David Ascher) for the O'Reilly Books which explain it.
-"""
-
 
 ##
 # import modules
@@ -174,10 +152,14 @@ if __name__ == '__main__':
         removes  = 	{ 'x64' 	: 'Win32' 
         			, 'win32' 	: 'x64'
         			, 'all' 	: None
+        			, 'reset' 	: None
         			}
         syntaxError = not removes.has_key(option)
         if not syntaxError:
             setbuild(removes[option])
+            
+        if option=='reset':
+        	os.system('del/s *.orig')
 
     if syntaxError:
         syntax()
