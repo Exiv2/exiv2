@@ -651,7 +651,7 @@ namespace Exiv2 {
             }
             // Todo: Xmpdatum should have an XmpValue, not a Value
             const XmpValue* val = dynamic_cast<const XmpValue*>(&i->value());
-            assert(val);
+            if (val == 0) throw Error(52, i->key(), i->typeName());
             options =   xmpArrayOptionBits(val->xmpArrayType())
                       | xmpArrayOptionBits(val->xmpStruct());
             if (   i->typeId() == xmpBag
@@ -686,7 +686,7 @@ namespace Exiv2 {
                 continue;
             }
             // Don't let any Xmpdatum go by unnoticed
-            throw Error(38, i->tagName(), TypeInfo::typeName(i->typeId()));
+            throw Error(38, i->tagName(), i->typeName());
         }
         std::string tmpPacket;
         meta.SerializeToBuffer(&tmpPacket, xmpFormatOptionBits(static_cast<XmpFormatFlags>(formatFlags)), padding); // throws
