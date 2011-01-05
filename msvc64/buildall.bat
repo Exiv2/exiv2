@@ -26,7 +26,10 @@ rem cleanup the bin if necessary
 set DELBIN=0
 if %ACTION%==/rebuild set DELBIN=1
 if %ACTION%==/clean   set DELBIN=1
-if %DELBIN%==1 if EXIST bin rmdir/s/q bin
+if %DELBIN%==1 (
+	if EXIST bin rmdir/s/q bin
+	del/s *.pdb *.ild *.ncb *.bsc *.idb *.ilk *.pch *.tlog
+)
 
 rem ##
 rem the main build activity
