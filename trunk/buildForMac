@@ -1,0 +1,48 @@
+#!/bin/bash
+
+lib=libexiv2.10.dylib
+app=exiv2
+TARGET="MACOSX_DEPLOYMENT_TARGET=10.4"
+
+LIB=./src/.libs/$lib
+APP=./src/.libs/$app
+
+props() {
+	ls    -alt  $*
+	lipo  -info $*
+	otool -L    $*
+	echo ----------------------
+}
+
+build() {
+	make clean
+	./configure CFLAGS="$arch" CXXFLAGS="$arch" CPPFLAGS="$arch" LDFLAGS="$arch -L${PWD}/xmpsdk/src" OBJCFLAGS="$arch" OBJCXXFLAGS="$arch" $TARGET
+	env         CFLAGS="$arch" CXXFLAGS="$arch" CPPFLAGS="$arch" LDFLAGS="$arch -L${PWD}/xmpsdk/src" OBJCFLAGS="$arch" OBJCXXFLAGS="$arch" $TARGET make $TARGET
+	props $APP
+	props $LIB
+}
+
+for arch in '-arch i386' '-arch x86_64' '-arch ppc'; do
+	if [ "$arch"   = "-arch i386"   ]; then
+		build
+		rm -rf app.i386 lib.i386
+		cp                 $APP        app.i386
+		cp                 $LIB        lib.i386
+	elif [ "$arch" = "-arch x86_64" ]; then
+		build
+		rm -rf app.x86_64 lib.x86_64
+		cp                 $APP        app.x86_64
+		cp                 $LIB        lib.x86_64
+	elif [ "$arch" = "-arch ppc" ]; then
+		build
+		rm -rf app.ppc lib.ppc
+		cp                 $APP        app.ppc
+		cp                 $LIB        lib.ppc
+	fi
+done
+
+env $TARGET lipo -arch i386 lib.i386 -arch x86_64 lib.x86_64 -arch ppc lib.ppc -create -output $lib
+env $TARGET lipo -arch i386 app.i386 -arch x86_64 app.x86_64 -arch ppc app.ppc -create -output $app 
+
+props $lib
+props $app

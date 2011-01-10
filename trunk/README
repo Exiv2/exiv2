@@ -17,8 +17,18 @@ For more information on XMP support in Exiv2, see doc/README-XMP.
 Building and Installing
 =======================
 
-To build Exiv2 with MSVC 7.1 or later on Windows, use the solution file
-msvc\exiv2.sln. See msvc\README-MSVC.txt for details.
+You can build the libraries in the following ways:
+
+1 Linux, Mac, Cygwin, Msys (autoconf tools)
+  - general notes follow
+  - see notes below concerning Cygwin/MSYS and MacOSX
+  
+2 Microsoft Visual C++
+  - see msvc/README-MSVC.txt (32bit build VC7.1/2003 and up)
+  - see msvc64/ReadMe.txt    (32bit and 64 bit build VC8/2005 and up)
+
+3 CMake (experimental support for cmake on all platforms)
+  - see README-CMAKE for more information
 
 On UNIX-like systems (including GNU/Linux, Mac OS X, MinGW), use the 
 GNU configure script. Run the following commands from the top directory 
@@ -27,11 +37,17 @@ utility:
 
     $ ./configure
     $ make
-    $ make install
+    $ sudo make install
 
 If you downloaded the source code from the subversion repository, you 
 won't have a configure script. Run 'make config' to generate it and see 
-the section "Hacking" below.
+the section "Hacking" below.  You may need to run autoconf in the config directory:
+
+    $ cd exiv2/config
+    $ autoconf
+    $ mv configure ..
+    $ cd ..
+    $ ./configure etc.......
 
 The default install locations are /usr/local/lib for the library,
 /usr/local/bin for the exiv2 utility and /usr/local/include/exiv2 for the
@@ -168,3 +184,95 @@ To do this on Windows, compile the library with the preprocessor
 symbol EXV_COMMERCIAL_VERSION defined in msvc\include\exv_msvc.h.
 On UNIX-like systems, run the configure script with the options
 --enable-commercial --disable-nls --disable-lensdata
+
+
+To build Exiv2 with MSVC 7.1 or later on Windows, use the solution file
+msvc\exiv2.sln. See msvc\README-MSVC.txt for details.
+
+
+Cygwin/MSYS
+===========
+
+You can build on Cygwin using autoconf.  The process is similar to Linux.  This will generate a 32bit shared library (DLL) version of exiv2.exe and its libraries.
+
+Please observe the following additional steps:
+
+1) You may need to run dos2unix on all the files in the config directory.
+   This is only necessary if your exiv2 directory is SVN:2426 or earlier (2011-01-10)
+   cd exiv2/config
+   dos2unix *
+   cd ..
+   
+2) You may make need to generate the configure script.
+   cd exiv2/config
+   autoconf
+   mv configure ..
+
+3) You should disable compiler visibility:
+   cd exiv2
+   ./configure --disable-visibility
+   
+4) If you wish to build the sample programs, here are the steps:
+   cd exiv2
+   make
+   .... build time about 7 minutes (on a 2.2MHz Duo Core Intel Processor)
+   make install
+   export "PKG_CONFIG_PATH=${PWD}/config"
+   make samples
+   .... build time about 4 minutes
+   
+5) Cygwin builds have dependancies on other cygwin dlls.
+   You can use depends32.exe (in the msvc64 tree) to determine the dependancies.
+   
+   540 /c/gnu/exiv2/src/.libs> ../../msvc64/tools/bin/depends32.exe -q exiv2.exe
+   cygz.dll
+   cygintl-8.dll
+   cygiconv-2.dll
+   cygexpat-1.dll
+   cygstdc++-6.dll
+   CRYPTBASE.dll
+   SspiCli.dll
+   RPCRT4.dll
+   KERNEL32.dll
+   ntdll.dll
+   KERNELBASE.dll
+   ADVAPI32.DLL
+   cygwin1.dll
+   cyggcc_s-1.dll
+   cygexiv2-10.dll
+   exiv2.exe
+   
+   It's possible to run cygwin builds on "vanilla" windows machines (cygwin not installed)
+   provided you ensure that all the dependant cyg*.dll files are available
+   on the path or in the same directory as exiv2.exe.
+   (cryptbase.dll ... advapi32.dll are standard Windows dlls and should not be redistributed).
+   
+MacOSX
+======
+
+By default the Mac will perform a "native" build of exiv2.  On Leopard this is a 32 bit intel/ppc build.  On Snow Leopard, this is a 64 bit intel build (x64).  These correspond to arch={i386 | ppc | x86_64}  The libraries are linked against the run-time libraries of the build machine.
+
+However there are three additional things you may wish to respect.
+
+1  Building and linking xmpsdk
+
+   There is an additional complication that xmpsdk is very strong willed.  You will have to pass OBJCFLAGS (and OBJCXXFLAGS) to the build environment for xmpsdk.
+
+   arch=i386
+   ./configure CFLAGS="$arch" CXXFLAGS="$arch" CPPFLAGS="$arch" LDFLAGS="$arch -L${PWD}/xmpsdk/src" OBJCFLAGS="$arch" OBJCXXFLAGS="$arch"
+   env         CFLAGS="$arch" CXXFLAGS="$arch" CPPFLAGS="$arch" LDFLAGS="$arch"                     OBJCFLAGS="$arch" OBJCXXFLAGS="$arch" make
+
+2  Using the appropriate run-time libraries.
+   You should set the environment string TARGET to modify the 
+   TARGET="MACOSX_DEPLOYMENT_TARGET=10.4"   (or 5 or 6)
+
+3  Building "universal" binaries (library/executables which contain code for more than one architecture).
+   If you wish to build a "universal" library, you should build each of the architectures independantly and combine them with the lipo utility.
+   
+   lipo -arch i386 lib.i386 -arch x86_64 lib.x86_64 -arch ppc lib.ppc -create -output exiv2.20.dylib
+
+The bash script buildForMac embodies all three of these concepts and builds a universal exiv2 on Snow Leopard and Leopard.
+
+
+That's all Folks!
+=================

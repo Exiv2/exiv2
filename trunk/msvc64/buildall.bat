@@ -1,4 +1,4 @@
-@echo off
+@echo of
 
 rem ##
 rem buildall - wee script for building from the command line
@@ -28,7 +28,8 @@ if %ACTION%==/rebuild set DELBIN=1
 if %ACTION%==/clean   set DELBIN=1
 if %DELBIN%==1 (
 	if EXIST bin rmdir/s/q bin
-	del/s *.pdb *.ild *.ncb *.bsc *.idb *.ilk *.pch *.tlog
+	del/s *.pdb *.ild *.ncb *.bsc *.idb *.ilk *.pch *.tlog > NUL
+	rmdir/s/q exiv2lib\win32 rmdir/s/q exiv2lib\x64 rmdir/s/q zlib\win32 zlib\x64 > NUL
 )
 
 rem ##
