@@ -1,4 +1,4 @@
-@echo of
+@echo off
 
 rem ##
 rem buildall - wee script for building from the command line
