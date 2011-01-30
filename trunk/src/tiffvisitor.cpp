@@ -496,7 +496,7 @@ namespace Exiv2 {
 
     void TiffDecoder::visitBinaryArray(TiffBinaryArray* object)
     {
-        if (object->cfg() == 0) {
+        if (object->cfg() == 0 || !object->decoded()) {
             decodeTiffEntry(object);
         }
     }
@@ -765,15 +765,18 @@ namespace Exiv2 {
 
     } // TiffEncoder::visitIfdMakernoteEnd
 
-    void TiffEncoder::visitBinaryArray(TiffBinaryArray* /*object*/)
+    void TiffEncoder::visitBinaryArray(TiffBinaryArray* object)
     {
-        // Nothing to do
+        if (object->cfg() == 0 || !object->decoded()) {
+            encodeTiffComponent(object);
+        }
     }
 
     void TiffEncoder::visitBinaryArrayEnd(TiffBinaryArray* object)
     {
         assert(object != 0);
 
+        if (object->cfg() == 0 || !object->decoded()) return;
         int32_t size = object->TiffEntryBase::doSize();
         if (size == 0) return;
         if (!object->initialize(pRoot_)) return;
@@ -1550,10 +1553,26 @@ namespace Exiv2 {
             return;
         }
 
+        // Check duplicates
+        TiffFinder finder(object->tag(), object->group());
+        pRoot_->accept(finder);
+        TiffEntryBase* te = dynamic_cast<TiffEntryBase*>(finder.result());
+        if (te && te->idx() != object->idx()) {
+#ifndef SUPPRESS_WARNINGS
+            EXV_WARNING << "Not decoding duplicate binary array tag 0x"
+                        << std::setw(4) << std::setfill('0') << std::hex
+                        << object->tag() << std::dec << ", group "
+                        << groupName(object->group()) << ", idx " << object->idx()
+                        << "\n";
+#endif
+            object->setDecoded(false);
+            return;
+        }
+
         if (object->TiffEntryBase::doSize() == 0) return;
         if (!object->initialize(pRoot_)) return;
-
         const ArrayCfg* cfg = object->cfg();
+        if (cfg == 0) return;
 
         const CryptFct cryptFct = cfg->cryptFct_;
         if (cryptFct != 0) {
