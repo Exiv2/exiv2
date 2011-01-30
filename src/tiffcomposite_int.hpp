@@ -1403,6 +1403,8 @@ namespace Exiv2 {
         void iniOrigDataBuf();
         //! Update the original data buffer and its size, return true if successful.
         bool updOrigDataBuf(const byte* pData, uint32_t size);
+        //! Set a flag to indicate if the array was decoded
+        void setDecoded(bool decoded) { decoded_ = decoded; }
         //@}
 
         //! @name Accessors
@@ -1413,6 +1415,8 @@ namespace Exiv2 {
         const ArrayDef* def() const { return arrayDef_; }
         //! Return the number of elements in the definition
         int defSize() const { return defSize_; }
+        //! Return the flag which indicates if the array was decoded
+        bool decoded() const { return decoded_; }
         //@}
 
     protected:
@@ -1481,6 +1485,7 @@ namespace Exiv2 {
         byte* origData_;            //!< Pointer to the original data buffer (unencrypted)
         uint32_t origSize_;         //!< Size of the original data buffer
         TiffComponent* pRoot_;      //!< Pointer to the root component of the TIFF tree. (Only used for intrusive writing.)
+        bool decoded_;              //!< Flag to indicate if the array was decoded
     }; // class TiffBinaryArray
 
     /*!
