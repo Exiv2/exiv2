@@ -169,6 +169,7 @@ namespace Exiv2 {
         { "CaptionsDateTimeStamps", N_("Captions Date Time Stamps"), "Lang Alt", langAlt, xmpExternal, N_("The list of all captions date time stamps for each language alternative captions set in standard XMP tags.") },
         { "ImageHistory",           N_("Image History"),             "Text",     xmpText, xmpExternal, N_("An XML based content to list all action processed on this image with image editor (as crop, rotate, color corrections, adjustements, etc.).") },
         { "LensCorrectionSettings", N_("Lens Correction Settings"),  "Text",     xmpText, xmpExternal, N_("The list of Lens Correction tools settings used to fix lens distorsion. This include Batch Queue Manager and Image editor tools based on LensFun library.") },
+        { "ColorLabel",             N_("Color Label"),               "Text",     xmpText, xmpExternal, N_("The color label assigned to this item. Possible values are \"0\": no label; \"1\": Red; \"2\": Orange; \"3\": Yellow; \"4\": Green; \"5\": Blue; \"6\": Magenta; \"7\": Gray; \"8\": Black; \"9\": White.") },
         // End of list marker
         { 0, 0, 0, invalidTypeId, xmpInternal, 0 }
     };
