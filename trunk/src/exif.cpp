@@ -670,7 +670,8 @@ namespace Exiv2 {
             "Exif.Image.StripByteCounts",
             "Exif.Image.JPEGInterchangeFormat",
             "Exif.Image.JPEGInterchangeFormatLength",
-            "Exif.Image.SubIFDs"
+            "Exif.Image.SubIFDs",
+            "Exif.Image.DNGPrivateData"
         };
         for (unsigned int i = 0; i < EXV_COUNTOF(filteredIfd0Tags); ++i) {
             ExifData::iterator pos = ed.findKey(ExifKey(filteredIfd0Tags[i]));
