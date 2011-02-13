@@ -1,5 +1,5 @@
 exiv2 0.21 (32 bit build)
-Copyright (C) 2004-2010 Andreas Huggel.
+Copyright (C) 2004-2011 Andreas Huggel.
 
 This program is free software; you can redistribute it and/or
 modify it under the terms of the GNU General Public License
@@ -126,7 +126,7 @@ Exif.Thumbnail.ResolutionUnit                Short       1  inch
 Exif.Thumbnail.JPEGInterchangeFormat         Long        1  3498
 Exif.Thumbnail.JPEGInterchangeFormatLength   Long        1  6714
 exiv2 0.21 (32 bit build)
-Copyright (C) 2004-2010 Andreas Huggel.
+Copyright (C) 2004-2011 Andreas Huggel.
 
 This program is free software; you can redistribute it and/or
 modify it under the terms of the GNU General Public License
@@ -253,7 +253,7 @@ Exif.Thumbnail.ResolutionUnit                Short       1  inch
 Exif.Thumbnail.JPEGInterchangeFormat         Long        1  3498
 Exif.Thumbnail.JPEGInterchangeFormatLength   Long        1  6714
 exiv2 0.21 (32 bit build)
-Copyright (C) 2004-2010 Andreas Huggel.
+Copyright (C) 2004-2011 Andreas Huggel.
 
 This program is free software; you can redistribute it and/or
 modify it under the terms of the GNU General Public License
@@ -380,7 +380,7 @@ Exif.Thumbnail.ResolutionUnit                Short       1  inch
 Exif.Thumbnail.JPEGInterchangeFormat         Long        1  3498
 Exif.Thumbnail.JPEGInterchangeFormatLength   Long        1  6714
 exiv2 0.21 (32 bit build)
-Copyright (C) 2004-2010 Andreas Huggel.
+Copyright (C) 2004-2011 Andreas Huggel.
 
 This program is free software; you can redistribute it and/or
 modify it under the terms of the GNU General Public License
@@ -507,7 +507,7 @@ Exif.Thumbnail.ResolutionUnit                Short       1  inch
 Exif.Thumbnail.JPEGInterchangeFormat         Long        1  3498
 Exif.Thumbnail.JPEGInterchangeFormatLength   Long        1  6714
 exiv2 0.21 (64 bit build)
-Copyright (C) 2004-2010 Andreas Huggel.
+Copyright (C) 2004-2011 Andreas Huggel.
 
 This program is free software; you can redistribute it and/or
 modify it under the terms of the GNU General Public License
@@ -634,7 +634,7 @@ Exif.Thumbnail.ResolutionUnit                Short       1  inch
 Exif.Thumbnail.JPEGInterchangeFormat         Long        1  3498
 Exif.Thumbnail.JPEGInterchangeFormatLength   Long        1  6714
 exiv2 0.21 (64 bit build)
-Copyright (C) 2004-2010 Andreas Huggel.
+Copyright (C) 2004-2011 Andreas Huggel.
 
 This program is free software; you can redistribute it and/or
 modify it under the terms of the GNU General Public License
@@ -761,7 +761,7 @@ Exif.Thumbnail.ResolutionUnit                Short       1  inch
 Exif.Thumbnail.JPEGInterchangeFormat         Long        1  3498
 Exif.Thumbnail.JPEGInterchangeFormatLength   Long        1  6714
 exiv2 0.21 (64 bit build)
-Copyright (C) 2004-2010 Andreas Huggel.
+Copyright (C) 2004-2011 Andreas Huggel.
 
 This program is free software; you can redistribute it and/or
 modify it under the terms of the GNU General Public License
@@ -888,7 +888,7 @@ Exif.Thumbnail.ResolutionUnit                Short       1  inch
 Exif.Thumbnail.JPEGInterchangeFormat         Long        1  3498
 Exif.Thumbnail.JPEGInterchangeFormatLength   Long        1  6714
 exiv2 0.21 (64 bit build)
-Copyright (C) 2004-2010 Andreas Huggel.
+Copyright (C) 2004-2011 Andreas Huggel.
 
 This program is free software; you can redistribute it and/or
 modify it under the terms of the GNU General Public License

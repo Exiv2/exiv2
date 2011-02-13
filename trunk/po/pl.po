@@ -3968,8 +3968,8 @@ msgid "TIFF array element tag %1 has wrong type"
 msgstr "Znacznik elementu tablicy TIFF %1 posiada zły typ"
 
 #: src/exiv2.cpp:209
-msgid "Copyright (C) 2004-2010 Andreas Huggel.\n"
-msgstr "Copyright (C) 2004-2010 Andreas Huggel.\n"
+msgid "Copyright (C) 2004-2011 Andreas Huggel.\n"
+msgstr "Copyright (C) 2004-2011 Andreas Huggel.\n"
 
 #: src/exiv2.cpp:211
 msgid ""
