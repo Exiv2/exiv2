@@ -1294,7 +1294,7 @@ namespace Exiv2 {
         // For makernotes, write TIFF image data to the data area
         if (group() > mnId) o2 = offset + dataIdx;
 #ifdef DEBUG
-        std::cerr << "TiffImageEntry, Directory " << ifdItem(group())
+        std::cerr << "TiffImageEntry, Directory " << groupName(group())
                   << ", entry 0x" << std::setw(4)
                   << std::setfill('0') << std::hex << tag() << std::dec
                   << ": Writing offset " << o2 << "\n";
@@ -1590,7 +1590,7 @@ namespace Exiv2 {
         uint32_t len = pValue()->sizeDataArea();
         if (len > 0) {
 #ifdef DEBUG
-            std::cerr << "TiffImageEntry, Directory " << ifdItem(group())
+            std::cerr << "TiffImageEntry, Directory " << groupName(group())
                       << ", entry 0x" << std::setw(4)
                       << std::setfill('0') << std::hex << tag() << std::dec
                       << ": Writing data area, size = " << len;
@@ -1603,7 +1603,7 @@ namespace Exiv2 {
         }
         else {
 #ifdef DEBUG
-            std::cerr << "TiffImageEntry, Directory " << ifdItem(group())
+            std::cerr << "TiffImageEntry, Directory " << groupName(group())
                       << ", entry 0x" << std::setw(4)
                       << std::setfill('0') << std::hex << tag() << std::dec
                       << ": Writing " << strips_.size() << " strips";

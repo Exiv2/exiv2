@@ -1731,7 +1731,7 @@ namespace Exiv2 {
             }
             std::cerr << "extended tag 0x" << std::setw(4) << std::setfill('0')
                       << std::hex << std::right << extendedTag
-                      << ", group " << ifdItem(group) << "\n";
+                      << ", group " << groupName(group) << "\n";
         }
 #endif
         return tc;
@@ -2119,7 +2119,7 @@ namespace Exiv2 {
             return false;
         }
 #ifdef DEBUG
-        ExifKey key(tag, ifdItem(group));
+        ExifKey key(tag, groupName(group));
 #endif
         // If there are primary groups and none matches group, we're done
         if (   pPrimaryGroups != 0
@@ -2137,7 +2137,7 @@ namespace Exiv2 {
             && !pPrimaryGroups->empty()
             && group != ifd0Id) {
 #ifdef DEBUG
-            ExifKey key(tag, ifdItem(group));
+            ExifKey key(tag, groupName(group));
             std::cerr << "Image tag: " << key << " (2)\n";
 #endif
             return true;
@@ -2145,7 +2145,7 @@ namespace Exiv2 {
         // If tag, group is one of the image tags listed above -> bingo!
         if (find(tiffImageTags, TiffImgTagStruct::Key(tag, group))) {
 #ifdef DEBUG
-            ExifKey key(tag, ifdItem(group));
+            ExifKey key(tag, groupName(group));
             std::cerr << "Image tag: " << key << " (3)\n";
 #endif
             return true;
