@@ -1,6 +1,6 @@
 // ***************************************************************** -*- C++ -*-
 /*
- * Copyright (C) 2004-2010 Andreas Huggel <ahuggel@gmx.net>
+ * Copyright (C) 2004-2011 Andreas Huggel <ahuggel@gmx.net>
  *
  * This program is part of the Exiv2 distribution.
  *
@@ -208,7 +208,7 @@ void Params::version(std::ostream& os) const
     bool  b64    = sizeof(void*)==8;
     const char* sBuild = b64 ? " (64 bit build)" : " (32 bit build)" ;
     os << EXV_PACKAGE_STRING << sBuild << "\n"
-       << _("Copyright (C) 2004-2010 Andreas Huggel.\n")
+       << _("Copyright (C) 2004-2011 Andreas Huggel.\n")
        << "\n"
        << _("This program is free software; you can redistribute it and/or\n"
             "modify it under the terms of the GNU General Public License\n"

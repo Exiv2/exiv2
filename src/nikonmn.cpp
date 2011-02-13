@@ -1,6 +1,6 @@
 // ***************************************************************** -*- C++ -*-
 /*
- * Copyright (C) 2004-2010 Andreas Huggel <ahuggel@gmx.net>
+ * Copyright (C) 2004-2011 Andreas Huggel <ahuggel@gmx.net>
  *
  * Lens database for the conversion of Nikon lens data to readable lens names
  * Copyright (C) 2005-2008 Robert Rottmerhusen <lens_id@rottmerhusen.com>
