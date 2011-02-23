@@ -186,7 +186,6 @@ ADD_LIBRARY( exiv2 ${STATIC_FLAG} ${LIBEXIV2_SRC} )
 SET_TARGET_PROPERTIES( exiv2 PROPERTIES VERSION ${GENERIC_LIB_VERSION}
                                         SOVERSION ${GENERIC_LIB_SOVERSION}
                                         DEFINE_SYMBOL EXV_BUILDING_LIB
-                                        LINK_FLAGS "/LIBPATH:../zlib-1.2.5/$(ConfigurationName)"
                      )
 
 TARGET_LINK_LIBRARIES( exiv2 ) # ${EXPAT_LIBRARIES} )
