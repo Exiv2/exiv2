@@ -1042,10 +1042,6 @@ KERNEL32.dll
 KERNELBASE.dll
 ntdll.dll     
 zlib1.dll     
-KERNEL32.dll  
-KERNELBASE.dll
-ntdll.dll     
-zlib1d.dll    
 exiv2d.dll    
 KERNEL32.dll  
 KERNELBASE.dll
@@ -1074,10 +1070,6 @@ KERNEL32.dll
 KERNELBASE.dll
 ntdll.dll     
 zlib1.dll     
-KERNEL32.dll  
-KERNELBASE.dll
-ntdll.dll     
-zlib1d.dll    
 exiv2.exe     
 exiv2d.dll    
 KERNEL32.dll  
@@ -1122,4 +1114,3 @@ exiv2.exe
 KERNEL32.dll  
 KERNELBASE.dll
 ntdll.dll     
-directory =  C:\gnu.master\exiv2\msvc64\bin

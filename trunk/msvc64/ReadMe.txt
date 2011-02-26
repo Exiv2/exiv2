@@ -1,7 +1,7 @@
 exiv2\msvc64\ReadMe.txt
 -----------------------
 
-Updated: 2011-01-03 
+Updated: 2011-02-25 
 This is work in progress.
 However this is sufficiently robust to be in current use by a commercial licensee of exiv2.
 
@@ -106,6 +106,15 @@ T A B L E  o f  C O N T E N T S
      2010-12-02  20:58    <DIR>             zlib-1.2.3 OPTIONAL  <--- "vanilla" zlib 1.2.3 source tree
      c:\gnu>
      Please see exiv2\msvc\README-MSVC.txt for information about obtaining zlib-1.2.3
+     
+     3) Alter the "AdditionalIncludeDirectories" in the following projects:
+        xmpsdk.vcproj
+        exiv2lib.vcproj
+        exiv2.vcproj
+        There are 8 occurances of  "AdditionalIncludeDirectories" in each of the 3 projects.
+        
+        If you have both 1.2.3 and 1.2.5 in your build tree, you'll probably "get away with" not
+        making this change - however this is due to good luck and you should really adjust the vcprojects.
 
 1.6  Express editions of DevStudio (or 32 bit only builds, or 64 bit only builds)
      Express does not provide a 64bit compiler.
@@ -232,6 +241,5 @@ T A B L E  o f  C O N T E N T S
 	 If you have only build Win32 (or x64), you'll have to remove the output from runner.txt for the target
 	 that isn't of interest.
 	 
-
 # That's all Folks!
 ##
