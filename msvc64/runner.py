@@ -77,7 +77,6 @@ def runner(option):
         if option:
             directory = os.path.join(directory,option)
 
-        print "directory = ",directory
         global paths
 
         paths=[]
