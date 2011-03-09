@@ -1,6 +1,24 @@
 Changes from version 0.20 to 0.21
 ---------------------------------
 
+* Exiv2 library
+	- 0000759: Cannot extract exif data from Pentax K-x DNG file.
+	           (Reported by Kenneth Bogert)
+	- 0000752: Crash when writing Exif.Image.Software.
+	           (Reported by Jim Nelson)
+	- 0000750: Assertion in XmpParser::encode should be an exception.
+	- 0000749: Regression: Compilation error with EXV_HAVE_XMP_TOOLKIT undefined.
+	           (Reported by Fulvio Senore)
+	- 0000745: Regression: Panasonic RW2 files are missing information.
+	           (Reported by Matthias Welwarsky)
+	         - Updated configuration files (config.guess, config.sub).
+	         - Added new Color Label value to digiKam 2.0.0 XMP namespace.
+	           (Gilles Caulier)
+
+
+Changes from version 0.20 to 0.21
+---------------------------------
+
 * Exiv2 utility
 	- 0000727: Exiv2 command line tool: grep should find all occurrences of a
 	           tag, not only one.
