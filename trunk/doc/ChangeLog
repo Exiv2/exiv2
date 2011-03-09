@@ -1,5 +1,5 @@
-Changes from version 0.20 to 0.21
----------------------------------
+Changes from version 0.21 to 0.21.1
+-----------------------------------
 
 * Exiv2 library
 	- 0000759: Cannot extract exif data from Pentax K-x DNG file.
