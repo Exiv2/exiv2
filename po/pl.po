@@ -12,7 +12,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: pl\n"
 "Report-Msgid-Bugs-To: ahuggel@gmx.net\n"
-"POT-Creation-Date: 2010-11-22 23:10+0800\n"
+"POT-Creation-Date: 2011-02-13 20:08+0800\n"
 "PO-Revision-Date: 2009-12-30 14:02+0100\n"
 "Last-Translator: Michał Smoczyk <msmoczyk@wp.pl>\n"
 "Language-Team: Polish <pl@li.org>\n"
@@ -97,7 +97,7 @@ msgstr "Odchylenie ekspozycji"
 
 #: src/actions.cpp:328 src/canonmn.cpp:817 src/minoltamn.cpp:874
 #: src/minoltamn.cpp:1198 src/minoltamn.cpp:2098 src/panasonicmn.cpp:69
-#: src/pentaxmn.cpp:320 src/properties.cpp:549 src/sonymn.cpp:171
+#: src/pentaxmn.cpp:320 src/properties.cpp:550 src/sonymn.cpp:171
 #: src/tags.cpp:832 src/tags.cpp:1253 src/tags.cpp:1442
 msgid "Flash"
 msgstr "Lampa błyskowa"
@@ -169,13 +169,13 @@ msgstr "Miniatura"
 #: src/olympusmn.cpp:720 src/olympusmn.cpp:727 src/olympusmn.cpp:1181
 #: src/olympusmn.cpp:1240 src/olympusmn.cpp:1337 src/olympusmn.cpp:1493
 #: src/olympusmn.cpp:1502 src/pentaxmn.cpp:230 src/pentaxmn.cpp:349
-#: src/pentaxmn.cpp:350 src/properties.cpp:900 src/properties.cpp:908
+#: src/pentaxmn.cpp:350 src/properties.cpp:901 src/properties.cpp:909
 #: src/tags.cpp:1332
 msgid "None"
 msgstr "Brak"
 
-#: src/actions.cpp:428 src/datasets.cpp:376 src/properties.cpp:343
-#: src/properties.cpp:509 src/tags.cpp:767
+#: src/actions.cpp:428 src/datasets.cpp:376 src/properties.cpp:344
+#: src/properties.cpp:510 src/tags.cpp:767
 msgid "Copyright"
 msgstr "Prawa autorskie"
 
@@ -203,7 +203,7 @@ msgstr "Komentarz JPEG"
 msgid "Preview"
 msgstr "Podgląd"
 
-#: src/actions.cpp:734 src/actions.cpp:1074 src/properties.cpp:412
+#: src/actions.cpp:734 src/actions.cpp:1074 src/properties.cpp:413
 msgid "pixels"
 msgstr "piksele"
 
@@ -972,8 +972,8 @@ msgstr "Adobe RGB"
 #: src/olympusmn.cpp:415 src/olympusmn.cpp:418 src/olympusmn.cpp:421
 #: src/olympusmn.cpp:1039 src/panasonicmn.cpp:239 src/panasonicmn.cpp:247
 #: src/panasonicmn.cpp:252 src/panasonicmn.cpp:260 src/panasonicmn.cpp:262
-#: src/panasonicmn.cpp:280 src/pentaxmn.cpp:323 src/properties.cpp:795
-#: src/properties.cpp:802 src/sonymn.cpp:293 src/sonymn.cpp:312
+#: src/panasonicmn.cpp:280 src/pentaxmn.cpp:323 src/properties.cpp:796
+#: src/properties.cpp:803 src/sonymn.cpp:293 src/sonymn.cpp:312
 #: src/sonymn.cpp:318 src/sonymn.cpp:321 src/sonymn.cpp:330 src/sonymn.cpp:333
 #: src/sonymn.cpp:336 src/sonymn.cpp:339 src/tags.cpp:1236 src/tags.cpp:1249
 #: src/tags.cpp:1355 src/tags.cpp:2389 src/tags.cpp:2502
@@ -990,7 +990,7 @@ msgid "Various camera settings"
 msgstr "Różne ustawienia aparatu"
 
 #: src/canonmn.cpp:201 src/minoltamn.cpp:538 src/nikonmn.cpp:1325
-#: src/nikonmn.cpp:1350 src/properties.cpp:550 src/tags.cpp:833
+#: src/nikonmn.cpp:1350 src/properties.cpp:551 src/tags.cpp:833
 #: src/tags.cpp:1445
 msgid "Focal Length"
 msgstr "Ogniskowa"
@@ -1008,7 +1008,7 @@ msgstr "Informacje o zdjęciu"
 msgid "Panorama"
 msgstr "panorama"
 
-#: src/canonmn.cpp:205 src/datasets.cpp:396 src/properties.cpp:747
+#: src/canonmn.cpp:205 src/datasets.cpp:396 src/properties.cpp:748
 msgid "Image Type"
 msgstr "Rodzaj obrazu"
 
@@ -1518,8 +1518,8 @@ msgstr "Moje kolory"
 msgid "Still image"
 msgstr "Nieruchomy obraz"
 
-#: src/canonmn.cpp:342 src/canonmn.cpp:343 src/properties.cpp:845
-#: src/properties.cpp:867 src/tags.cpp:1243 src/tags.cpp:1244
+#: src/canonmn.cpp:342 src/canonmn.cpp:343 src/properties.cpp:846
+#: src/properties.cpp:868 src/tags.cpp:1243 src/tags.cpp:1244
 msgid "Other"
 msgstr "Inny"
 
@@ -1864,7 +1864,7 @@ msgstr "Powiększenie cyfrowe"
 #: src/minoltamn.cpp:1416 src/nikonmn.cpp:696 src/olympusmn.cpp:390
 #: src/olympusmn.cpp:800 src/panasonicmn.cpp:257 src/panasonicmn.cpp:268
 #: src/pentaxmn.cpp:850 src/pentaxmn.cpp:950 src/pentaxmn.cpp:951
-#: src/properties.cpp:429 src/properties.cpp:575 src/sigmamn.cpp:89
+#: src/properties.cpp:430 src/properties.cpp:576 src/sigmamn.cpp:89
 #: src/sigmamn.cpp:90 src/sonymn.cpp:324 src/sonymn.cpp:593 src/sonymn.cpp:594
 #: src/sonymn.cpp:699 src/sonymn.cpp:700 src/tags.cpp:1597
 msgid "Contrast"
@@ -1881,7 +1881,7 @@ msgstr "Ustawienie kontrastu"
 #: src/minoltamn.cpp:1419 src/nikonmn.cpp:578 src/nikonmn.cpp:597
 #: src/nikonmn.cpp:698 src/olympusmn.cpp:799 src/olympusmn.cpp:898
 #: src/panasonicmn.cpp:271 src/pentaxmn.cpp:844 src/pentaxmn.cpp:947
-#: src/pentaxmn.cpp:948 src/properties.cpp:447 src/properties.cpp:576
+#: src/pentaxmn.cpp:948 src/properties.cpp:448 src/properties.cpp:577
 #: src/sigmamn.cpp:98 src/sigmamn.cpp:99 src/sonymn.cpp:327 src/sonymn.cpp:596
 #: src/sonymn.cpp:597 src/sonymn.cpp:702 src/sonymn.cpp:703 src/tags.cpp:1601
 msgid "Saturation"
@@ -1896,8 +1896,8 @@ msgstr "Ustawienie nasycenia"
 #: src/minoltamn.cpp:775 src/minoltamn.cpp:1014 src/minoltamn.cpp:1015
 #: src/minoltamn.cpp:1412 src/minoltamn.cpp:1413 src/nikonmn.cpp:695
 #: src/olympusmn.cpp:801 src/panasonicmn.cpp:272 src/pentaxmn.cpp:847
-#: src/pentaxmn.cpp:953 src/pentaxmn.cpp:954 src/properties.cpp:450
-#: src/properties.cpp:577 src/sigmamn.cpp:101 src/sigmamn.cpp:102
+#: src/pentaxmn.cpp:953 src/pentaxmn.cpp:954 src/properties.cpp:451
+#: src/properties.cpp:578 src/sigmamn.cpp:101 src/sigmamn.cpp:102
 #: src/sonymn.cpp:590 src/sonymn.cpp:591 src/sonymn.cpp:696 src/sonymn.cpp:697
 #: src/tags.cpp:1605
 msgid "Sharpness"
@@ -1919,7 +1919,7 @@ msgid "ISO speed setting"
 msgstr "Ustawienie trybu ISO"
 
 #: src/canonmn.cpp:774 src/minoltamn.cpp:508 src/minoltamn.cpp:1005
-#: src/minoltamn.cpp:1394 src/olympusmn.cpp:661 src/properties.cpp:547
+#: src/minoltamn.cpp:1394 src/olympusmn.cpp:661 src/properties.cpp:548
 #: src/sigmamn.cpp:77 src/sonymn.cpp:575 src/sonymn.cpp:576 src/sonymn.cpp:681
 #: src/sonymn.cpp:682 src/tags.cpp:830 src/tags.cpp:1436
 msgid "Metering Mode"
@@ -1941,7 +1941,7 @@ msgstr "Ustawienie typu ogniskowania"
 msgid "AF point selected"
 msgstr "Wybrany punkt AF"
 
-#: src/canonmn.cpp:777 src/properties.cpp:536 src/sonymn.cpp:632
+#: src/canonmn.cpp:777 src/properties.cpp:537 src/sonymn.cpp:632
 #: src/sonymn.cpp:633 src/sonymn.cpp:708 src/sonymn.cpp:709 src/tags.cpp:804
 #: src/tags.cpp:1370
 msgid "Exposure Program"
@@ -1961,7 +1961,7 @@ msgstr "Rodzaj obiektywu"
 msgid "Lens type"
 msgstr "Rodzaj obiektywu"
 
-#: src/canonmn.cpp:780 src/nikonmn.cpp:563 src/properties.cpp:619
+#: src/canonmn.cpp:780 src/nikonmn.cpp:563 src/properties.cpp:620
 msgid "Lens"
 msgstr "Obiektyw"
 
@@ -2187,16 +2187,16 @@ msgstr "PC Set 3"
 msgid "Daylight Fluorescent"
 msgstr "Lampa fluorescencyjna (światło dzienne)"
 
-#: src/canonmn.cpp:826 src/properties.cpp:777
+#: src/canonmn.cpp:826 src/properties.cpp:778
 msgid "Custom 1"
 msgstr "Użytkownika 1"
 
-#: src/canonmn.cpp:827 src/minoltamn.cpp:225 src/properties.cpp:778
+#: src/canonmn.cpp:827 src/minoltamn.cpp:225 src/properties.cpp:779
 msgid "Custom 2"
 msgstr "Użytkownika 2"
 
 #: src/canonmn.cpp:829 src/canonmn.cpp:830 src/minoltamn.cpp:226
-#: src/properties.cpp:779
+#: src/properties.cpp:780
 msgid "Custom 3"
 msgstr "Użytkownika 3"
 
@@ -2250,7 +2250,7 @@ msgstr "Docelowy czas otwarcia migawki"
 #: src/minoltamn.cpp:496 src/minoltamn.cpp:750 src/minoltamn.cpp:993
 #: src/minoltamn.cpp:1376 src/nikonmn.cpp:225 src/nikonmn.cpp:471
 #: src/nikonmn.cpp:528 src/olympusmn.cpp:330 src/olympusmn.cpp:880
-#: src/panasonicmn.cpp:238 src/properties.cpp:459 src/properties.cpp:568
+#: src/panasonicmn.cpp:238 src/properties.cpp:460 src/properties.cpp:569
 #: src/sigmamn.cpp:71 src/sonymn.cpp:289 src/tags.cpp:1575
 msgid "White Balance"
 msgstr "Balans bieli"
@@ -2280,7 +2280,7 @@ msgstr "Użyty punkt AF"
 msgid "Flash Bias"
 msgstr "Odchylenie ekspozycji flesza"
 
-#: src/canonmn.cpp:883 src/properties.cpp:546 src/tags.cpp:829
+#: src/canonmn.cpp:883 src/properties.cpp:547 src/tags.cpp:829
 #: src/tags.cpp:1433
 msgid "Subject Distance"
 msgstr "Odległość obiektu"
@@ -2289,12 +2289,12 @@ msgstr "Odległość obiektu"
 msgid "Subject distance (units are not clear)"
 msgstr "Odległość do obiektu (jednostki nie są jednoznaczne)"
 
-#: src/canonmn.cpp:885 src/olympusmn.cpp:273 src/properties.cpp:542
+#: src/canonmn.cpp:885 src/olympusmn.cpp:273 src/properties.cpp:543
 #: src/tags.cpp:825
 msgid "Aperture Value"
 msgstr "Wartość przysłony"
 
-#: src/canonmn.cpp:886 src/properties.cpp:541 src/tags.cpp:824
+#: src/canonmn.cpp:886 src/properties.cpp:542 src/tags.cpp:824
 msgid "Shutter Speed Value"
 msgstr "Szybkość migawki"
 
@@ -2512,7 +2512,7 @@ msgid "lower-right"
 msgstr "dół-prawo"
 
 #: src/canonmn.cpp:974 src/olympusmn.cpp:225 src/olympusmn.cpp:405
-#: src/panasonicmn.cpp:341 src/properties.cpp:466 src/tags.cpp:420
+#: src/panasonicmn.cpp:341 src/properties.cpp:467 src/tags.cpp:420
 msgid "Image Width"
 msgstr "Szerokość obrazu"
 
@@ -3194,7 +3194,7 @@ msgid ""
 "<ARMVersion>, according to the practices of the provider."
 msgstr ""
 
-#: src/datasets.cpp:207 src/datasets.cpp:212 src/properties.cpp:405
+#: src/datasets.cpp:207 src/datasets.cpp:212 src/properties.cpp:406
 msgid "Urgency"
 msgstr "Ważność"
 
@@ -3213,7 +3213,7 @@ msgstr "Temat"
 msgid "The Subject Reference is a structured definition of the subject matter."
 msgstr ""
 
-#: src/datasets.cpp:216 src/datasets.cpp:221 src/properties.cpp:391
+#: src/datasets.cpp:216 src/datasets.cpp:221 src/properties.cpp:392
 msgid "Category"
 msgstr "Kategoria"
 
@@ -3236,7 +3236,7 @@ msgid ""
 "to the provider."
 msgstr ""
 
-#: src/datasets.cpp:228 src/properties.cpp:403
+#: src/datasets.cpp:228 src/properties.cpp:404
 msgid "Supplemental Categories"
 msgstr "Kategorie dodatkowe"
 
@@ -3251,7 +3251,7 @@ msgid ""
 "immediately find or recall such an object."
 msgstr ""
 
-#: src/datasets.cpp:233 src/datasets.cpp:239 src/properties.cpp:381
+#: src/datasets.cpp:233 src/datasets.cpp:239 src/properties.cpp:382
 msgid "Keywords"
 msgstr "Słowa kluczowe"
 
@@ -3288,7 +3288,7 @@ msgid ""
 "provider."
 msgstr ""
 
-#: src/datasets.cpp:253 src/properties.cpp:344
+#: src/datasets.cpp:253 src/properties.cpp:345
 msgid "Release Date"
 msgstr "Data udostępnienia"
 
@@ -3340,7 +3340,7 @@ msgstr ""
 "Inne instrukcje edytorskie dotyczące użycia danych obiektu, takie jak "
 "ostrzeżenia i ograniczenia."
 
-#: src/datasets.cpp:273 src/properties.cpp:400
+#: src/datasets.cpp:273 src/properties.cpp:401
 msgid "Instructions"
 msgstr "Instrukcje"
 
@@ -3385,7 +3385,7 @@ msgid ""
 "object refers."
 msgstr ""
 
-#: src/datasets.cpp:289 src/datasets.cpp:294 src/properties.cpp:395
+#: src/datasets.cpp:289 src/datasets.cpp:294 src/properties.cpp:396
 msgid "Date Created"
 msgstr "Data utworzenia"
 
@@ -3480,7 +3480,7 @@ msgid ""
 "Where used, a by-line title should follow the by-line it modifies."
 msgstr ""
 
-#: src/datasets.cpp:328 src/datasets.cpp:332 src/properties.cpp:392
+#: src/datasets.cpp:328 src/datasets.cpp:332 src/properties.cpp:393
 msgid "City"
 msgstr "Miasto"
 
@@ -3514,7 +3514,7 @@ msgstr ""
 msgid "State/Province"
 msgstr "Stan/Prowincja"
 
-#: src/datasets.cpp:342 src/properties.cpp:635
+#: src/datasets.cpp:342 src/properties.cpp:636
 msgid "Country Code"
 msgstr "Kod państwa"
 
@@ -3540,11 +3540,11 @@ msgid ""
 "guidelines of the provider."
 msgstr ""
 
-#: src/datasets.cpp:357 src/properties.cpp:393
+#: src/datasets.cpp:357 src/properties.cpp:394
 msgid "Country"
 msgstr "Państwo"
 
-#: src/datasets.cpp:358 src/datasets.cpp:362 src/properties.cpp:404
+#: src/datasets.cpp:358 src/datasets.cpp:362 src/properties.cpp:405
 #, fuzzy
 msgid "Transmission Reference"
 msgstr "Oryginalne miejsce transmisji"
@@ -3555,7 +3555,7 @@ msgid ""
 "practices of the provider."
 msgstr ""
 
-#: src/datasets.cpp:363 src/datasets.cpp:366 src/properties.cpp:399
+#: src/datasets.cpp:363 src/datasets.cpp:366 src/properties.cpp:400
 msgid "Headline"
 msgstr "Nagłówek"
 
@@ -3564,7 +3564,7 @@ msgid ""
 "A publishable entry providing a synopsis of the contents of the object data."
 msgstr ""
 
-#: src/datasets.cpp:367 src/datasets.cpp:370 src/properties.cpp:394
+#: src/datasets.cpp:367 src/datasets.cpp:370 src/properties.cpp:395
 #, fuzzy
 msgid "Credit"
 msgstr "Wyrazy uznania"
@@ -3576,7 +3576,7 @@ msgid ""
 msgstr ""
 
 #: src/datasets.cpp:371 src/datasets.cpp:375 src/properties.cpp:156
-#: src/properties.cpp:401
+#: src/properties.cpp:402
 msgid "Source"
 msgstr "Źródło"
 
@@ -3594,7 +3594,7 @@ msgstr "Zawiera wszelkie niezbędne uwagi o prawach autorskich."
 msgid "Copyright Notice"
 msgstr "Uwaga o prawach autorskich"
 
-#: src/datasets.cpp:380 src/properties.cpp:923 src/properties.cpp:932
+#: src/datasets.cpp:380 src/properties.cpp:924 src/properties.cpp:933
 msgid "Contact"
 msgstr "Kontakt"
 
@@ -3966,6 +3966,11 @@ msgstr "Znacznik elementu tablicy TIFF %1 posiada zły typ"
 #: src/error.cpp:107
 msgid "TIFF array element tag %1 has wrong type"
 msgstr "Znacznik elementu tablicy TIFF %1 posiada zły typ"
+
+#: src/error.cpp:108
+#, fuzzy
+msgid "%1 has invalid XMP value type `%2'"
+msgstr "Nieprawidłowy typ XmpText \"%1\""
 
 #: src/exiv2.cpp:209
 msgid "Copyright (C) 2004-2011 Andreas Huggel.\n"
@@ -4785,7 +4790,7 @@ msgstr "Tryb symulacji filmu"
 #: src/nikonmn.cpp:1249 src/nikonmn.cpp:1262 src/nikonmn.cpp:1275
 #: src/nikonmn.cpp:1288 src/nikonmn.cpp:1301 src/nikonmn.cpp:1320
 #: src/nikonmn.cpp:1345 src/panasonicmn.cpp:335 src/pentaxmn.cpp:865
-#: src/properties.cpp:456
+#: src/properties.cpp:457
 msgid "Version"
 msgstr "Wersja"
 
@@ -4965,7 +4970,7 @@ msgstr "Maksymalna jasność przy maksymalnej ogniskowej"
 msgid "Maximum aperture at maxinimum focal"
 msgstr "Maksymalna jasność przy maksymalnej ogniskowej"
 
-#: src/fujimn.cpp:270 src/properties.cpp:563 src/tags.cpp:1549
+#: src/fujimn.cpp:270 src/properties.cpp:564 src/tags.cpp:1549
 msgid "File Source"
 msgstr "Źródło pliku"
 
@@ -5436,7 +5441,7 @@ msgstr ""
 msgid "Spot focus"
 msgstr "Ostrzenie punktowe"
 
-#: src/minoltamn.cpp:385 src/properties.cpp:438 src/sigmamn.cpp:86
+#: src/minoltamn.cpp:385 src/properties.cpp:439 src/sigmamn.cpp:86
 #: src/sigmamn.cpp:87
 msgid "Exposure"
 msgstr "Ekspozycja"
@@ -5470,7 +5475,7 @@ msgid "Manual flash control"
 msgstr "Ręczne sterowanie lampą"
 
 #: src/minoltamn.cpp:490 src/minoltamn.cpp:741 src/minoltamn.cpp:984
-#: src/minoltamn.cpp:1352 src/olympusmn.cpp:659 src/properties.cpp:567
+#: src/minoltamn.cpp:1352 src/olympusmn.cpp:659 src/properties.cpp:568
 #: src/sigmamn.cpp:74 src/sonymn.cpp:393 src/sonymn.cpp:394 src/tags.cpp:1570
 msgid "Exposure Mode"
 msgstr "Tryb ekspozycji"
@@ -5492,7 +5497,7 @@ msgid "ISO Value"
 msgstr "Czułość ISO"
 
 #: src/minoltamn.cpp:514 src/minoltamn.cpp:797 src/minoltamn.cpp:1023
-#: src/minoltamn.cpp:1367 src/properties.cpp:534 src/tags.cpp:787
+#: src/minoltamn.cpp:1367 src/properties.cpp:535 src/tags.cpp:787
 #: src/tags.cpp:1364
 msgid "Exposure Time"
 msgstr "Czas ekspozycji"
@@ -5687,7 +5692,7 @@ msgid "Internal Flash"
 msgstr "Wewnętrzny flesz"
 
 #: src/minoltamn.cpp:610 src/minoltamn.cpp:611 src/nikonmn.cpp:697
-#: src/olympusmn.cpp:276 src/properties.cpp:424 src/sonymn.cpp:602
+#: src/olympusmn.cpp:276 src/properties.cpp:425 src/sonymn.cpp:602
 #: src/sonymn.cpp:603 src/tags.cpp:1420
 msgid "Brightness"
 msgstr "Jasność"
@@ -5826,7 +5831,7 @@ msgstr "Punkty AF"
 
 #: src/minoltamn.cpp:771 src/minoltamn.cpp:1011 src/minoltamn.cpp:1409
 #: src/nikonmn.cpp:551 src/olympusmn.cpp:683 src/olympusmn.cpp:802
-#: src/olympusmn.cpp:817 src/olympusmn.cpp:888 src/properties.cpp:518
+#: src/olympusmn.cpp:817 src/olympusmn.cpp:888 src/properties.cpp:519
 #: src/sigmamn.cpp:83 src/tags.cpp:1474
 msgid "Color Space"
 msgstr "Przestrzeń kolorów"
@@ -6092,7 +6097,7 @@ msgstr "Predefiniowany"
 msgid "Color Temperature/Color Filter"
 msgstr "Temperatura koloru"
 
-#: src/minoltamn.cpp:1203 src/pentaxmn.cpp:1018 src/properties.cpp:451
+#: src/minoltamn.cpp:1203 src/pentaxmn.cpp:1018 src/properties.cpp:452
 msgid "Temperature"
 msgstr "Temperatura"
 
@@ -7445,7 +7450,7 @@ msgstr "Odcień koloru"
 msgid "Scene mode"
 msgstr "Rodzaj sceny"
 
-#: src/nikonmn.cpp:574 src/olympusmn.cpp:1076 src/properties.cpp:548
+#: src/nikonmn.cpp:574 src/olympusmn.cpp:1076 src/properties.cpp:549
 #: src/tags.cpp:831 src/tags.cpp:1439
 msgid "Light Source"
 msgstr "Źródło światła"
@@ -9095,7 +9100,7 @@ msgstr "ID aparatu"
 msgid "Camera ID data"
 msgstr "Dane identyfikacyjne aparatu"
 
-#: src/olympusmn.cpp:231 src/olympusmn.cpp:232 src/properties.cpp:505
+#: src/olympusmn.cpp:231 src/olympusmn.cpp:232 src/properties.cpp:506
 #: src/sigmamn.cpp:119 src/sigmamn.cpp:120 src/tags.cpp:543
 msgid "Software"
 msgstr "Oprogramowanie"
@@ -10078,7 +10083,7 @@ msgstr "Numer seryjny obiektywu"
 msgid "Lens serial number"
 msgstr "Numer seryjny obiektywu"
 
-#: src/olympusmn.cpp:747 src/properties.cpp:374
+#: src/olympusmn.cpp:747 src/properties.cpp:375
 msgid "Lens Model"
 msgstr "Model obiektywu"
 
@@ -10139,7 +10144,7 @@ msgstr "Wersja firmware ekstendera"
 msgid "Extender firmwareversion"
 msgstr "Wersja firmware ekstendera"
 
-#: src/olympusmn.cpp:760 src/properties.cpp:370
+#: src/olympusmn.cpp:760 src/properties.cpp:371
 msgid "Flash Model"
 msgstr "Model flesza"
 
@@ -10213,7 +10218,7 @@ msgstr "Wersja informacji Raw"
 msgid "Raw development version"
 msgstr "Wersja informacji Raw"
 
-#: src/olympusmn.cpp:809 src/olympusmn.cpp:879 src/properties.cpp:544
+#: src/olympusmn.cpp:809 src/olympusmn.cpp:879 src/properties.cpp:545
 #: src/tags.cpp:827
 msgid "Exposure Bias Value"
 msgstr "Korekta ekspozycji"
@@ -10753,7 +10758,7 @@ msgstr "Automatyczna gradacja"
 msgid "Valid Bits"
 msgstr ""
 
-#: src/olympusmn.cpp:970 src/olympusmn.cpp:1072 src/properties.cpp:431
+#: src/olympusmn.cpp:970 src/olympusmn.cpp:1072 src/properties.cpp:432
 msgid "Crop Left"
 msgstr "Przycięcie lewo"
 
@@ -10761,7 +10766,7 @@ msgstr "Przycięcie lewo"
 msgid "Crop left"
 msgstr "Przycięcie lewo"
 
-#: src/olympusmn.cpp:971 src/olympusmn.cpp:1073 src/properties.cpp:430
+#: src/olympusmn.cpp:971 src/olympusmn.cpp:1073 src/properties.cpp:431
 msgid "Crop Top"
 msgstr "Przycięcie góra"
 
@@ -10769,7 +10774,7 @@ msgstr "Przycięcie góra"
 msgid "Crop top"
 msgstr "Przycięcie góra"
 
-#: src/olympusmn.cpp:972 src/olympusmn.cpp:1074 src/properties.cpp:435
+#: src/olympusmn.cpp:972 src/olympusmn.cpp:1074 src/properties.cpp:436
 msgid "Crop Width"
 msgstr "Przycięcie szerokość"
 
@@ -10777,7 +10782,7 @@ msgstr "Przycięcie szerokość"
 msgid "Crop width"
 msgstr "Przycięcie szerokość"
 
-#: src/olympusmn.cpp:973 src/olympusmn.cpp:1075 src/properties.cpp:436
+#: src/olympusmn.cpp:973 src/olympusmn.cpp:1075 src/properties.cpp:437
 msgid "Crop Height"
 msgstr "Przycięcie wysokość"
 
@@ -11109,7 +11114,7 @@ msgstr "Poziom czerni 2"
 msgid "Black level 2"
 msgstr "Poziom czerni 2"
 
-#: src/olympusmn.cpp:1070 src/properties.cpp:494 src/tags.cpp:704
+#: src/olympusmn.cpp:1070 src/properties.cpp:495 src/tags.cpp:704
 msgid "YCbCr Coefficients"
 msgstr "Współczynniki YCbCr"
 
@@ -11793,7 +11798,7 @@ msgstr "Optyka EX"
 msgid "Telephoto"
 msgstr "Teleobiektyw"
 
-#: src/panasonicmn.cpp:219 src/properties.cpp:876
+#: src/panasonicmn.cpp:219 src/properties.cpp:877
 #, fuzzy
 msgid "Home"
 msgstr "Rzym"
@@ -12075,7 +12080,7 @@ msgstr "Producent"
 msgid "The manufacturer of the recording equipment"
 msgstr "Producent wyposażenia nagrywającego"
 
-#: src/panasonicmn.cpp:350 src/properties.cpp:504 src/tags.cpp:476
+#: src/panasonicmn.cpp:350 src/properties.cpp:505 src/tags.cpp:476
 msgid "Model"
 msgstr "Model"
 
@@ -12091,7 +12096,7 @@ msgstr "Przesunięcia pasów"
 msgid "Strip offsets"
 msgstr "Przesunięcia pasów"
 
-#: src/panasonicmn.cpp:352 src/properties.cpp:471 src/tags.cpp:489
+#: src/panasonicmn.cpp:352 src/properties.cpp:472 src/tags.cpp:489
 msgid "Orientation"
 msgstr "Orientacja"
 
@@ -13359,7 +13364,7 @@ msgstr "Sterowanie podczerwienią (3 s)"
 msgid "Remote Control"
 msgstr "Sterowanie podczerwienią"
 
-#: src/pentaxmn.cpp:543 src/properties.cpp:869
+#: src/pentaxmn.cpp:543 src/properties.cpp:870
 #, fuzzy
 msgid "Video"
 msgstr "Szeroki"
@@ -13520,7 +13525,7 @@ msgstr "Balans kolorów"
 msgid "FocalLength"
 msgstr "Długość ogniskowej"
 
-#: src/pentaxmn.cpp:956 src/pentaxmn.cpp:957 src/properties.cpp:643
+#: src/pentaxmn.cpp:956 src/pentaxmn.cpp:957 src/properties.cpp:644
 msgid "Location"
 msgstr "Położenie"
 
@@ -13899,7 +13904,7 @@ msgstr ""
 "tą właściwość na format zapisu danych. Może zawierać odpowiednie "
 "kwalifikatory."
 
-#: src/properties.cpp:145 src/properties.cpp:196
+#: src/properties.cpp:145 src/properties.cpp:197
 msgid "Identifier"
 msgstr "Identyfikator"
 
@@ -14040,42 +14045,54 @@ msgid ""
 "include Batch Queue Manager and Image editor tools based on LensFun library."
 msgstr ""
 
-#: src/properties.cpp:177
+#: src/properties.cpp:172
+#, fuzzy
+msgid "Color Label"
+msgstr "Przestrzeń kolorów"
+
+#: src/properties.cpp:172
+msgid ""
+"The color label assigned to this item. Possible values are \"0\": no label; "
+"\"1\": Red; \"2\": Orange; \"3\": Yellow; \"4\": Green; \"5\": Blue; \"6\": "
+"Magenta; \"7\": Gray; \"8\": Black; \"9\": White."
+msgstr ""
+
+#: src/properties.cpp:178
 msgid "Enfuse Input Files"
 msgstr ""
 
-#: src/properties.cpp:177
+#: src/properties.cpp:178
 msgid ""
 "The list of files processed with Enfuse program through ExpoBlending tool."
 msgstr ""
 
-#: src/properties.cpp:178
+#: src/properties.cpp:179
 #, fuzzy
 msgid "Enfuse Settings"
 msgstr "Ustawienie odcieni"
 
-#: src/properties.cpp:178
+#: src/properties.cpp:179
 msgid ""
 "The list of Enfuse settings used to blend image stack with ExpoBlending tool."
 msgstr ""
 
-#: src/properties.cpp:184
+#: src/properties.cpp:185
 #, fuzzy
 msgid "Advisory"
 msgstr "Pomocniczy"
 
-#: src/properties.cpp:184
+#: src/properties.cpp:185
 msgid ""
 "An unordered array specifying properties that were edited outside the "
 "authoring application. Each item should contain a single namespace and XPath "
 "separated by one ASCII space (U+0020)."
 msgstr ""
 
-#: src/properties.cpp:187
+#: src/properties.cpp:188
 msgid "Base URL"
 msgstr "Bazowy URL"
 
-#: src/properties.cpp:187
+#: src/properties.cpp:188
 msgid ""
 "The base URL for relative URLs in the document content. If this document "
 "contains Internet links, and those links are relative, they are relative to "
@@ -14084,20 +14101,20 @@ msgid ""
 "based on their notion of where URLs will be interpreted."
 msgstr ""
 
-#: src/properties.cpp:192
+#: src/properties.cpp:193
 msgid "Create Date"
 msgstr "Data utworzenia"
 
-#: src/properties.cpp:192
+#: src/properties.cpp:193
 #, fuzzy
 msgid "The date and time the resource was originally created."
 msgstr "Data i czas zapisania obrazu jako danych cyfrowych."
 
-#: src/properties.cpp:193
+#: src/properties.cpp:194
 msgid "Creator Tool"
 msgstr "Narzędzie tworzące"
 
-#: src/properties.cpp:193
+#: src/properties.cpp:194
 msgid ""
 "The name of the first known tool used to create the resource. If history is "
 "present in the metadata, this value should be equivalent to that of xmpMM:"
@@ -14107,7 +14124,7 @@ msgstr ""
 "metadanych jest zawarta historia, wartość ta powinna być równa właściwości "
 "xmpMM:History's softwareAgent."
 
-#: src/properties.cpp:196
+#: src/properties.cpp:197
 msgid ""
 "An unordered array of text strings that unambiguously identify the resource "
 "within a given context. An array item may be qualified with xmpidq:Scheme to "
@@ -14117,11 +14134,11 @@ msgid ""
 "(single-valued) property."
 msgstr ""
 
-#: src/properties.cpp:201
+#: src/properties.cpp:202
 msgid "Label"
 msgstr "Etykieta"
 
-#: src/properties.cpp:201
+#: src/properties.cpp:202
 msgid ""
 "A word or short phrase that identifies a document as a member of a user-"
 "defined collection. Used to organize documents in a file browser."
@@ -14130,11 +14147,11 @@ msgstr ""
 "(grupy) zdefiniowanej przez użytkownika. Jest to pomocne do porządkowania "
 "dokumentów w przeglądarce plików."
 
-#: src/properties.cpp:203
+#: src/properties.cpp:204
 msgid "Metadata Date"
 msgstr "Data metadanych"
 
-#: src/properties.cpp:203
+#: src/properties.cpp:204
 msgid ""
 "The date and time that any metadata for this resource was last changed. It "
 "should be the same as or more recent than xmp:ModifyDate."
@@ -14142,11 +14159,11 @@ msgstr ""
 "Data i czas kiedy metadane tego zasobu zostały ostatnio zmienione. Powinny "
 "być takie same lub młodsze niż te w xmp:ModifyDate."
 
-#: src/properties.cpp:205
+#: src/properties.cpp:206
 msgid "Modify Date"
 msgstr "Data modyfikacji"
 
-#: src/properties.cpp:205
+#: src/properties.cpp:206
 msgid ""
 "The date and time the resource was last modified. Note: The value of this "
 "property is not necessarily the same as the file's system modification date "
@@ -14156,30 +14173,30 @@ msgstr ""
 "musi być taka sama jak systemowa data modyfikacji pliku, ponieważ jest ona "
 "ustawiana przed zapisem pliku."
 
-#: src/properties.cpp:208
+#: src/properties.cpp:209
 msgid "Nickname"
 msgstr "Pseudonim"
 
-#: src/properties.cpp:208
+#: src/properties.cpp:209
 msgid "A short informal name for the resource."
 msgstr "Krótka nazwa zasobu."
 
-#: src/properties.cpp:209
+#: src/properties.cpp:210
 msgid "Rating"
 msgstr "Ocena"
 
-#: src/properties.cpp:209
+#: src/properties.cpp:210
 msgid ""
 "A number that indicates a document's status relative to other documents, "
 "used to organize documents in a file browser. Values are user-defined within "
 "an application-defined range."
 msgstr ""
 
-#: src/properties.cpp:212
+#: src/properties.cpp:213
 msgid "Thumbnails"
 msgstr "Miniatury"
 
-#: src/properties.cpp:212
+#: src/properties.cpp:213
 #, fuzzy
 msgid ""
 "An alternative array of thumbnail images for a file, which can differ in "
@@ -14188,47 +14205,47 @@ msgstr ""
 "Alternatywna tablica obrazów miniatur dla pliku, które mogą różnić się "
 "swoimi charakterystykami, np. rozmiarem lub kodowaniem obrazu."
 
-#: src/properties.cpp:219
+#: src/properties.cpp:220
 msgid "Certificate"
 msgstr "Certyfikat"
 
-#: src/properties.cpp:219
+#: src/properties.cpp:220
 #, fuzzy
 msgid "Online rights management certificate."
 msgstr "Certyfikat praw zarządzania online."
 
-#: src/properties.cpp:220
+#: src/properties.cpp:221
 msgid "Marked"
 msgstr "Zaznaczone"
 
-#: src/properties.cpp:220
+#: src/properties.cpp:221
 #, fuzzy
 msgid "Indicates that this is a rights-managed resource."
 msgstr "Data (daty) kiedy zdarzyło się coś interesującego w związku z zasobem."
 
-#: src/properties.cpp:221
+#: src/properties.cpp:222
 msgid "Owner"
 msgstr "Właściciel"
 
-#: src/properties.cpp:221
+#: src/properties.cpp:222
 msgid "An unordered array specifying the legal owner(s) of a resource."
 msgstr ""
 "Nieuporządkowana tablica określająca prawnego właściciela (właścicieli) "
 "zasobu."
 
-#: src/properties.cpp:222
+#: src/properties.cpp:223
 msgid "Usage Terms"
 msgstr "Warunki użytkowania"
 
-#: src/properties.cpp:222
+#: src/properties.cpp:223
 msgid "Text instructions on how a resource can be legally used."
 msgstr "Instrukcje tekstowe o sposobie legalnego użycia zasobu."
 
-#: src/properties.cpp:223
+#: src/properties.cpp:224
 msgid "Web Statement"
 msgstr "Strona oświadczenia"
 
-#: src/properties.cpp:223
+#: src/properties.cpp:224
 msgid ""
 "The location of a web page describing the owner and/or rights statement for "
 "this resource."
@@ -14236,11 +14253,11 @@ msgstr ""
 "Lokalizacja strony internetowej określającej prawa użytkowania i właściciela "
 "tego zasobu."
 
-#: src/properties.cpp:229
+#: src/properties.cpp:230
 msgid "Derived From"
 msgstr "Pochodzenie"
 
-#: src/properties.cpp:229
+#: src/properties.cpp:230
 msgid ""
 "A reference to the original document from which this one is derived. It is a "
 "minimal reference; missing components can be assumed to be unchanged. For "
@@ -14249,21 +14266,21 @@ msgid ""
 "specify the instance ID and rendition class of the original."
 msgstr ""
 
-#: src/properties.cpp:234
+#: src/properties.cpp:235
 msgid "Document ID"
 msgstr "Identyfikator dokumentu"
 
-#: src/properties.cpp:234
+#: src/properties.cpp:235
 msgid ""
 "The common identifier for all versions and renditions of a document. It "
 "should be based on a UUID; see Document and Instance IDs below."
 msgstr ""
 
-#: src/properties.cpp:236
+#: src/properties.cpp:237
 msgid "History"
 msgstr "Historia"
 
-#: src/properties.cpp:236
+#: src/properties.cpp:237
 msgid ""
 "An ordered array of high-level user actions that resulted in this resource. "
 "It is intended to give human readers a general indication of the steps taken "
@@ -14272,24 +14289,24 @@ msgid ""
 "other detailed history."
 msgstr ""
 
-#: src/properties.cpp:240
+#: src/properties.cpp:241
 #, fuzzy
 msgid "Instance ID"
 msgstr "Identyfikator ikony"
 
-#: src/properties.cpp:240
+#: src/properties.cpp:241
 msgid ""
 "An identifier for a specific incarnation of a document, updated each time a "
 "file is saved. It should be based on a UUID; see Document and Instance IDs "
 "below."
 msgstr ""
 
-#: src/properties.cpp:242
+#: src/properties.cpp:243
 #, fuzzy
 msgid "Managed From"
 msgstr "Odczytywanie z"
 
-#: src/properties.cpp:242
+#: src/properties.cpp:243
 msgid ""
 "A reference to the document as it was prior to becoming managed. It is set "
 "when a managed document is introduced to an asset management system that "
@@ -14297,24 +14314,24 @@ msgid ""
 "management systems."
 msgstr ""
 
-#: src/properties.cpp:245
+#: src/properties.cpp:246
 #, fuzzy
 msgid "Manager"
 msgstr "Menedżer"
 
-#: src/properties.cpp:245
+#: src/properties.cpp:246
 msgid ""
 "The name of the asset management system that manages this resource. Along "
 "with xmpMM: ManagerVariant, it tells applications which asset management "
 "system to contact concerning this document."
 msgstr ""
 
-#: src/properties.cpp:248
+#: src/properties.cpp:249
 #, fuzzy
 msgid "Manage To"
 msgstr "Zarządzanie"
 
-#: src/properties.cpp:248
+#: src/properties.cpp:249
 msgid ""
 "A URI identifying the managed resource to the asset management system; the "
 "presence of this property is the formal indication that this resource is "
@@ -14322,53 +14339,53 @@ msgid ""
 "system."
 msgstr ""
 
-#: src/properties.cpp:251
+#: src/properties.cpp:252
 #, fuzzy
 msgid "Manage UI"
 msgstr "Obiekt kontrolujący"
 
-#: src/properties.cpp:251
+#: src/properties.cpp:252
 msgid ""
 "A URI that can be used to access information about the managed resource "
 "through a web browser. It might require a custom browser plug-in."
 msgstr ""
 
-#: src/properties.cpp:253
+#: src/properties.cpp:254
 #, fuzzy
 msgid "Manager Variant"
 msgstr "Wariant zarządzania"
 
-#: src/properties.cpp:253
+#: src/properties.cpp:254
 msgid ""
 "Specifies a particular variant of the asset management system. The format of "
 "this property is private to the specific asset management system."
 msgstr ""
 
-#: src/properties.cpp:255
+#: src/properties.cpp:256
 msgid "Rendition Class"
 msgstr "Klasa wykonania"
 
-#: src/properties.cpp:255
+#: src/properties.cpp:256
 msgid ""
 "The rendition class name for this resource. This property should be absent "
 "or set to default for a document version that is not a derived rendition."
 msgstr ""
 
-#: src/properties.cpp:257
+#: src/properties.cpp:258
 msgid "Rendition Params"
 msgstr "Parametry wykonania"
 
-#: src/properties.cpp:257
+#: src/properties.cpp:258
 msgid ""
 "Can be used to provide additional rendition parameters that are too complex "
 "or verbose to encode in xmpMM: RenditionClass."
 msgstr ""
 
-#: src/properties.cpp:259
+#: src/properties.cpp:260
 msgid "Version ID"
 msgstr "Identyfikator wersji"
 
-#: src/properties.cpp:259
+#: src/properties.cpp:260
 msgid ""
 "The document version identifier for this resource. Each version of a "
 "document gets a new identifier, usually simply by incrementing integers 1, "
@@ -14376,11 +14393,11 @@ msgid ""
 "support branching which requires a more complex scheme."
 msgstr ""
 
-#: src/properties.cpp:263
+#: src/properties.cpp:264
 msgid "Versions"
 msgstr "Wersje"
 
-#: src/properties.cpp:263
+#: src/properties.cpp:264
 msgid ""
 "The version history associated with this resource. Entry [1] is the oldest "
 "known version for this document, entry [last()] is the most recent version. "
@@ -14391,39 +14408,39 @@ msgid ""
 "the version history can be truncated at some point."
 msgstr ""
 
-#: src/properties.cpp:269
+#: src/properties.cpp:270
 msgid "Last URL"
 msgstr "Bazowy URL"
 
-#: src/properties.cpp:269
+#: src/properties.cpp:270
 #, fuzzy
 msgid "Deprecated for privacy protection."
 msgstr "Zdeprecjonowane dla ochrony prywatności."
 
-#: src/properties.cpp:270
+#: src/properties.cpp:271
 msgid "Rendition Of"
 msgstr "Wykonanie"
 
-#: src/properties.cpp:270
+#: src/properties.cpp:271
 msgid ""
 "Deprecated in favor of xmpMM:DerivedFrom. A reference to the document of "
 "which this is a rendition."
 msgstr ""
 
-#: src/properties.cpp:272
+#: src/properties.cpp:273
 msgid "Save ID"
 msgstr "Identyfikator zapisu"
 
-#: src/properties.cpp:272
+#: src/properties.cpp:273
 msgid "Deprecated. Previously used only to support the xmpMM:LastURL property."
 msgstr ""
 
-#: src/properties.cpp:278
+#: src/properties.cpp:279
 #, fuzzy
 msgid "Job Reference"
 msgstr "Odnośnik pracy"
 
-#: src/properties.cpp:278
+#: src/properties.cpp:279
 msgid ""
 "References an external job management file for a job process in which the "
 "document is being used. Use of job names is under user control. Typical use "
@@ -14433,31 +14450,31 @@ msgid ""
 "historical information about what jobs a document was part of previously."
 msgstr ""
 
-#: src/properties.cpp:287
+#: src/properties.cpp:288
 msgid "Maximum Page Size"
 msgstr "Maksymalny rozmiar strony"
 
-#: src/properties.cpp:287
+#: src/properties.cpp:288
 #, fuzzy
 msgid ""
 "The size of the largest page in the document (including any in contained "
 "documents)."
 msgstr "Liczba stron w dokumencie (uwzględniająca również dokumenty zawarte)."
 
-#: src/properties.cpp:288
+#: src/properties.cpp:289
 msgid "Number of Pages"
 msgstr "Liczba stron"
 
-#: src/properties.cpp:288
+#: src/properties.cpp:289
 msgid ""
 "The number of pages in the document (including any in contained documents)."
 msgstr "Liczba stron w dokumencie (uwzględniająca również dokumenty zawarte)."
 
-#: src/properties.cpp:289
+#: src/properties.cpp:290
 msgid "Fonts"
 msgstr "Czcionki"
 
-#: src/properties.cpp:289
+#: src/properties.cpp:290
 msgid ""
 "An unordered array of fonts that are used in the document (including any in "
 "contained documents)."
@@ -14465,11 +14482,11 @@ msgstr ""
 "Nieuporządkowana tablica czcionek użytych w dokumencie (zawierająca również "
 "czcionki z dokumentów zawartych)."
 
-#: src/properties.cpp:290
+#: src/properties.cpp:291
 msgid "Colorants"
 msgstr "Barwniki"
 
-#: src/properties.cpp:290
+#: src/properties.cpp:291
 #, fuzzy
 msgid ""
 "An ordered array of colorants (swatches) that are used in the document "
@@ -14478,11 +14495,11 @@ msgstr ""
 "Nieuporządkowana tablica czcionek użytych w dokumencie (zawierająca również "
 "czcionki z dokumentów zawartych)."
 
-#: src/properties.cpp:291
+#: src/properties.cpp:292
 msgid "Plate Names"
 msgstr "Nazwy płyt"
 
-#: src/properties.cpp:291
+#: src/properties.cpp:292
 #, fuzzy
 msgid ""
 "An ordered array of plate names that are needed to print the document "
@@ -14491,53 +14508,53 @@ msgstr ""
 "Nieuporządkowana tablica czcionek użytych w dokumencie (zawierająca również "
 "czcionki z dokumentów zawartych)."
 
-#: src/properties.cpp:297
+#: src/properties.cpp:298
 msgid "Project Reference"
 msgstr "Odniesienie do projektu"
 
-#: src/properties.cpp:297
+#: src/properties.cpp:298
 msgid "A reference to the project that created this file."
 msgstr "Odnośnik do projektu w ramach którego utworzono ten plik."
 
-#: src/properties.cpp:298
+#: src/properties.cpp:299
 msgid "Video Frame Rate"
 msgstr "Klatek na sekundę"
 
-#: src/properties.cpp:298
+#: src/properties.cpp:299
 msgid "The video frame rate. One of: 24, NTSC, PAL."
 msgstr "Liczba klatek na sekundę. Jedno z: 24, NTSC, PAL."
 
-#: src/properties.cpp:299
+#: src/properties.cpp:300
 msgid "Video Frame Size"
 msgstr "Rozmiar ramki wideo"
 
-#: src/properties.cpp:299
+#: src/properties.cpp:300
 msgid "The frame size. For example: w:720, h: 480, unit:pixels"
 msgstr "Rozmiar ramki, na przykład: w:720, h:480, units:pixels"
 
-#: src/properties.cpp:300
+#: src/properties.cpp:301
 msgid "Video Pixel Aspect Ratio"
 msgstr "Proporcje pikseli wideo"
 
-#: src/properties.cpp:300
+#: src/properties.cpp:301
 msgid "The aspect ratio, expressed as ht/wd. For example: \"648/720\" = 0.9"
 msgstr ""
 
-#: src/properties.cpp:301
+#: src/properties.cpp:302
 msgid "Video Pixel Depth"
 msgstr "Głębia pikseli wideo"
 
-#: src/properties.cpp:301
+#: src/properties.cpp:302
 msgid ""
 "The size in bits of each color component of a pixel. Standard Windows 32-bit "
 "pixels have 8 bits per component. One of: 8Int, 16Int, 32Int, 32Float."
 msgstr ""
 
-#: src/properties.cpp:303
+#: src/properties.cpp:304
 msgid "Video Color Space"
 msgstr "Przestrzeń kolorów wideo"
 
-#: src/properties.cpp:303
+#: src/properties.cpp:304
 msgid ""
 "The color space. One of: sRGB (used by Photoshop), CCIR-601 (used for NTSC), "
 "CCIR-709 (used for HD)."
@@ -14545,455 +14562,455 @@ msgstr ""
 "Przestrzeń kolorów. Jedna z: sRGB (używana przez Photoshop), CCIR-601 "
 "(używana dla NTSC), CCIR-709 (używana dla  HD)."
 
-#: src/properties.cpp:305
+#: src/properties.cpp:306
 #, fuzzy
 msgid "Video Alpha Mode"
 msgstr "Minolta model"
 
-#: src/properties.cpp:305
+#: src/properties.cpp:306
 msgid "The alpha mode. One of: straight, pre-multiplied."
 msgstr ""
 
-#: src/properties.cpp:306
+#: src/properties.cpp:307
 msgid "Video Alpha Premultiple Color"
 msgstr ""
 
-#: src/properties.cpp:306
+#: src/properties.cpp:307
 msgid ""
 "A color in CMYK or RGB to be used as the pre-multiple color when alpha mode "
 "is pre-multiplied."
 msgstr ""
 
-#: src/properties.cpp:308
+#: src/properties.cpp:309
 msgid "Video Alpha Unity Is Transparent"
 msgstr ""
 
-#: src/properties.cpp:308
+#: src/properties.cpp:309
 msgid "When true, unity is clear, when false, it is opaque."
 msgstr ""
 
-#: src/properties.cpp:309
+#: src/properties.cpp:310
 msgid "Video Compressor"
 msgstr "Kompresja wideo"
 
-#: src/properties.cpp:309
+#: src/properties.cpp:310
 msgid "Video compression used. For example, jpeg."
 msgstr "Użyta kompresja wideo, na przykład JPEG."
 
-#: src/properties.cpp:310
+#: src/properties.cpp:311
 #, fuzzy
 msgid "Video Field Order"
 msgstr "Kolejność warstw wideo"
 
-#: src/properties.cpp:310
+#: src/properties.cpp:311
 msgid "The field order for video. One of: Upper, Lower, Progressive."
 msgstr ""
 
-#: src/properties.cpp:311
+#: src/properties.cpp:312
 #, fuzzy
 msgid "Pull Down"
 msgstr "Poklatkowość"
 
-#: src/properties.cpp:311
+#: src/properties.cpp:312
 msgid ""
 "The sampling phase of film to be converted to video (pull-down). One of: "
 "WSSWW, SSWWW, SWWWS, WWWSS, WWSSW, WSSWW_24p, SSWWW_24p, SWWWS_24p, "
 "WWWSS_24p, WWSSW_24p."
 msgstr ""
 
-#: src/properties.cpp:313
+#: src/properties.cpp:314
 msgid "Audio Sample Rate"
 msgstr "Częstotliwość próbkowania dźwięku"
 
-#: src/properties.cpp:313
+#: src/properties.cpp:314
 msgid ""
 "The audio sample rate. Can be any value, but commonly 32000, 41100, or 48000."
 msgstr ""
 "Częstotliwość próbkowania dźwięku. Może być dowolną wartością, ale zwykle "
 "wynosi 32000, 41100 lub 48000."
 
-#: src/properties.cpp:314
+#: src/properties.cpp:315
 msgid "Audio Sample Type"
 msgstr "Typ próbkowania dźwięku"
 
-#: src/properties.cpp:314
+#: src/properties.cpp:315
 msgid "The audio sample type. One of: 8Int, 16Int, 32Int, 32Float."
 msgstr "Typ próbkowania dźwięku. Jeden z: 8Int, 16Int, 32Int, 32Float."
 
-#: src/properties.cpp:315
+#: src/properties.cpp:316
 msgid "Audio Channel Type"
 msgstr "Rodzaj kanału dźwięku"
 
-#: src/properties.cpp:315
+#: src/properties.cpp:316
 msgid "The audio channel type. One of: Mono, Stereo, 5.1, 7.1."
 msgstr "Typ kanału dźwięku, jeden z: mono, stereo, 5.1, 7.1."
 
-#: src/properties.cpp:316
+#: src/properties.cpp:317
 msgid "Audio Compressor"
 msgstr "Kompresja dźwięku"
 
-#: src/properties.cpp:316
+#: src/properties.cpp:317
 msgid "The audio compression used. For example, MP3."
 msgstr "Użyta kompresja dźwięku, na przykład MP3."
 
-#: src/properties.cpp:317
+#: src/properties.cpp:318
 msgid "Speaker Placement"
 msgstr "Położenie głośników"
 
-#: src/properties.cpp:317
+#: src/properties.cpp:318
 msgid ""
 "A description of the speaker angles from center front in degrees. For "
 "example: \"Left = -30, Right = 30, Center = 0, LFE = 45, Left Surround = "
 "-110, Right Surround = 110\""
 msgstr ""
 
-#: src/properties.cpp:319
+#: src/properties.cpp:320
 #, fuzzy
 msgid "File Data Rate"
 msgstr "Szybkość transmisji"
 
-#: src/properties.cpp:319
+#: src/properties.cpp:320
 msgid ""
 "The file data rate in megabytes per second. For example: \"36/10\" = 3.6 MB/"
 "sec"
 msgstr ""
 
-#: src/properties.cpp:320
+#: src/properties.cpp:321
 msgid "Tape Name"
 msgstr "Nazwa taśmy"
 
-#: src/properties.cpp:320
+#: src/properties.cpp:321
 msgid ""
 "The name of the tape from which the clip was captured, as set during the "
 "capture process."
 msgstr ""
 
-#: src/properties.cpp:321
+#: src/properties.cpp:322
 msgid "Alternative Tape Name"
 msgstr "Inna nazwa taśmy"
 
-#: src/properties.cpp:321
+#: src/properties.cpp:322
 msgid ""
 "An alternative tape name, set via the project window or timecode dialog in "
 "Premiere. If an alternative name has been set and has not been reverted, "
 "that name is displayed."
 msgstr ""
 
-#: src/properties.cpp:323
+#: src/properties.cpp:324
 msgid "Start Time Code"
 msgstr "Początkowy kod czasu"
 
-#: src/properties.cpp:323
+#: src/properties.cpp:324
 msgid ""
 "The timecode of the first frame of video in the file, as obtained from the "
 "device control."
 msgstr ""
 
-#: src/properties.cpp:324
+#: src/properties.cpp:325
 msgid "Alternative Time code"
 msgstr "Dodatkowy kod czasu"
 
-#: src/properties.cpp:324
+#: src/properties.cpp:325
 msgid ""
 "A timecode set by the user. When specified, it is used instead of the "
 "startTimecode."
 msgstr ""
 
-#: src/properties.cpp:325
+#: src/properties.cpp:326
 msgid "Duration"
 msgstr "Czas trwania"
 
-#: src/properties.cpp:325
+#: src/properties.cpp:326
 msgid "The duration of the media file."
 msgstr "Czas trwania pliku mediów."
 
-#: src/properties.cpp:326
+#: src/properties.cpp:327
 msgid "Scene"
 msgstr "Scena"
 
-#: src/properties.cpp:326
+#: src/properties.cpp:327
 msgid "The name of the scene."
 msgstr "Nazwa sceny."
 
-#: src/properties.cpp:327
+#: src/properties.cpp:328
 msgid "Shot Name"
 msgstr "Nazwa ujęcia"
 
-#: src/properties.cpp:327
+#: src/properties.cpp:328
 #, fuzzy
 msgid "The name of the shot or take."
 msgstr "Nazwa ujęcia."
 
-#: src/properties.cpp:328
+#: src/properties.cpp:329
 msgid "Shot Date"
 msgstr "Data zrobienia"
 
-#: src/properties.cpp:328
+#: src/properties.cpp:329
 msgid "The date and time when the video was shot."
 msgstr "Data i czas zrobienia wideo."
 
-#: src/properties.cpp:329
+#: src/properties.cpp:330
 msgid "Shot Location"
 msgstr "Lokalizacja"
 
-#: src/properties.cpp:329
+#: src/properties.cpp:330
 msgid ""
 "The name of the location where the video was shot. For example: "
 "\"Oktoberfest, Munich Germany\" For more accurate positioning, use the EXIF "
 "GPS values."
 msgstr ""
 
-#: src/properties.cpp:331
+#: src/properties.cpp:332
 #, fuzzy
 msgid "Log Comment"
 msgstr "Dziennik komentarzy"
 
-#: src/properties.cpp:331
+#: src/properties.cpp:332
 #, fuzzy
 msgid "User's log comments."
 msgstr "Komentarze użytkownika."
 
-#: src/properties.cpp:332
+#: src/properties.cpp:333
 msgid "Markers"
 msgstr "Znaczniki"
 
-#: src/properties.cpp:332
+#: src/properties.cpp:333
 #, fuzzy
 msgid "An ordered list of markers"
 msgstr "Uporządkowana lista znaczników"
 
-#: src/properties.cpp:333
+#: src/properties.cpp:334
 #, fuzzy
 msgid "Contributed Media"
 msgstr "Media składowe"
 
-#: src/properties.cpp:333
+#: src/properties.cpp:334
 msgid "An unordered list of all media used to create this media."
 msgstr ""
 
-#: src/properties.cpp:334
+#: src/properties.cpp:335
 msgid "Absolute Peak Audio File Path"
 msgstr ""
 
-#: src/properties.cpp:334
+#: src/properties.cpp:335
 msgid ""
 "The absolute path to the file's peak audio file. If empty, no peak file "
 "exists."
 msgstr ""
 
-#: src/properties.cpp:335
+#: src/properties.cpp:336
 msgid "Relative Peak Audio File Path"
 msgstr ""
 
-#: src/properties.cpp:335
+#: src/properties.cpp:336
 msgid ""
 "The relative path to the file's peak audio file. If empty, no peak file "
 "exists."
 msgstr ""
 
-#: src/properties.cpp:336
+#: src/properties.cpp:337
 msgid "Video Modified Date"
 msgstr "Data modyfikacji wideo"
 
-#: src/properties.cpp:336
+#: src/properties.cpp:337
 msgid "The date and time when the video was last modified."
 msgstr "Data i czas ostatniej modyfikacji wideo."
 
-#: src/properties.cpp:337
+#: src/properties.cpp:338
 msgid "Audio Modified Date"
 msgstr "Data modyfikacji dźwięku"
 
-#: src/properties.cpp:337
+#: src/properties.cpp:338
 msgid "The date and time when the audio was last modified."
 msgstr "Data i czas ostatniej modyfikacji dźwięku."
 
-#: src/properties.cpp:338
+#: src/properties.cpp:339
 msgid "Metadata Modified Date"
 msgstr "Data modyfikacji metadanych"
 
-#: src/properties.cpp:338
+#: src/properties.cpp:339
 msgid "The date and time when the metadata was last modified."
 msgstr "Data i czas ostatniej modyfikacji metadanych."
 
-#: src/properties.cpp:339 src/properties.cpp:507 src/tags.cpp:554
+#: src/properties.cpp:340 src/properties.cpp:508 src/tags.cpp:554
 msgid "Artist"
 msgstr "Artysta"
 
-#: src/properties.cpp:339
+#: src/properties.cpp:340
 msgid "The name of the artist or artists."
 msgstr "Nazwa artysty lub artystów."
 
-#: src/properties.cpp:340
+#: src/properties.cpp:341
 msgid "Album"
 msgstr "Album"
 
-#: src/properties.cpp:340
+#: src/properties.cpp:341
 msgid "The name of the album."
 msgstr "Nazwa albumu."
 
-#: src/properties.cpp:341
+#: src/properties.cpp:342
 msgid "Track Number"
 msgstr "Numer ścieżki"
 
-#: src/properties.cpp:341
+#: src/properties.cpp:342
 msgid ""
 "A numeric value indicating the order of the audio file within its original "
 "recording."
 msgstr ""
 
-#: src/properties.cpp:342
+#: src/properties.cpp:343
 msgid "Genre"
 msgstr "Gatunek"
 
-#: src/properties.cpp:342
+#: src/properties.cpp:343
 msgid "The name of the genre."
 msgstr "Nazwa gatunku."
 
-#: src/properties.cpp:343
+#: src/properties.cpp:344
 msgid "The copyright information."
 msgstr "Informacja o prawach własności."
 
-#: src/properties.cpp:344
+#: src/properties.cpp:345
 msgid "The date the title was released."
 msgstr "Data wydania utworu."
 
-#: src/properties.cpp:345
+#: src/properties.cpp:346
 msgid "Composer"
 msgstr "Kompozytor"
 
-#: src/properties.cpp:345
+#: src/properties.cpp:346
 msgid "The composer's name."
 msgstr "Nazwa (imię i nazwisko) kompozytora."
 
-#: src/properties.cpp:346
+#: src/properties.cpp:347
 msgid "Engineer"
 msgstr "Programista"
 
-#: src/properties.cpp:346
+#: src/properties.cpp:347
 msgid "The engineer's name."
 msgstr "Nazwa (imię i nazwisko) programisty."
 
-#: src/properties.cpp:347
+#: src/properties.cpp:348
 msgid "Tempo"
 msgstr "Tempo"
 
-#: src/properties.cpp:347
+#: src/properties.cpp:348
 msgid "The audio's tempo."
 msgstr "Tempo dźwięku."
 
-#: src/properties.cpp:348
+#: src/properties.cpp:349
 msgid "Instrument"
 msgstr "Instrument"
 
-#: src/properties.cpp:348
+#: src/properties.cpp:349
 msgid "The musical instrument."
 msgstr "Instrument muzyczny."
 
-#: src/properties.cpp:349
+#: src/properties.cpp:350
 msgid "Intro Time"
 msgstr "Czas wstępu"
 
-#: src/properties.cpp:349
+#: src/properties.cpp:350
 #, fuzzy
 msgid "The duration of lead time for queuing music."
 msgstr "Czas trwania pliku mediów."
 
-#: src/properties.cpp:350
+#: src/properties.cpp:351
 msgid "Out Cue"
 msgstr "Wyciszenie"
 
-#: src/properties.cpp:350
+#: src/properties.cpp:351
 #, fuzzy
 msgid "The time at which to fade out."
 msgstr "Czas w którym następuje wyciszenie."
 
-#: src/properties.cpp:351
+#: src/properties.cpp:352
 msgid "Relative Timestamp"
 msgstr "Względny znacznik czasowy"
 
-#: src/properties.cpp:351
+#: src/properties.cpp:352
 msgid "The start time of the media inside the audio project."
 msgstr ""
 
-#: src/properties.cpp:352
+#: src/properties.cpp:353
 msgid "Loop"
 msgstr "Powtarzanie"
 
-#: src/properties.cpp:352
+#: src/properties.cpp:353
 msgid "When true, the clip can be looped seemlessly."
 msgstr ""
 
-#: src/properties.cpp:353
+#: src/properties.cpp:354
 msgid "Number Of Beats"
 msgstr "Liczba uderzeń"
 
-#: src/properties.cpp:353
+#: src/properties.cpp:354
 msgid "The number of beats."
 msgstr "Liczba uderzeń."
 
-#: src/properties.cpp:354
+#: src/properties.cpp:355
 msgid "Key"
 msgstr "Tonacja"
 
-#: src/properties.cpp:354
+#: src/properties.cpp:355
 msgid ""
 "The audio's musical key. One of: C, C#, D, D#, E, F, F#, G, G#, A, A#, B."
 msgstr ""
 "Tonacja muzyczna dźwięku. Jeden z: C, C#, D, D#, E, F, F#, G, G#, A, A#, B."
 
-#: src/properties.cpp:355
+#: src/properties.cpp:356
 #, fuzzy
 msgid "Stretch Mode"
 msgstr "Tryb rozciągnięcia"
 
-#: src/properties.cpp:355
+#: src/properties.cpp:356
 msgid ""
 "The audio stretch mode. One of: Fixed length, Time-Scale, Resample, Beat "
 "Splice, Hybrid."
 msgstr ""
 
-#: src/properties.cpp:356
+#: src/properties.cpp:357
 #, fuzzy
 msgid "Time Scale Parameters"
 msgstr "Parametry skali czasowej"
 
-#: src/properties.cpp:356
+#: src/properties.cpp:357
 msgid "Additional parameters for Time-Scale stretch mode."
 msgstr ""
 
-#: src/properties.cpp:357
+#: src/properties.cpp:358
 #, fuzzy
 msgid "Resample Parameters"
 msgstr "Parametry resamplingu"
 
-#: src/properties.cpp:357
+#: src/properties.cpp:358
 msgid "Additional parameters for Resample stretch mode."
 msgstr ""
 
-#: src/properties.cpp:358
+#: src/properties.cpp:359
 #, fuzzy
 msgid "Beat Splice Parameters"
 msgstr "Parametry Beat Splice"
 
-#: src/properties.cpp:358
+#: src/properties.cpp:359
 msgid "Additional parameters for Beat Splice stretch mode."
 msgstr ""
 
-#: src/properties.cpp:359
+#: src/properties.cpp:360
 msgid "Time Signature"
 msgstr "Tempo muzyczne"
 
-#: src/properties.cpp:359
+#: src/properties.cpp:360
 msgid ""
 "The time signature of the music. One of: 2/4, 3/4, 4/4, 5/4, 7/4, 6/8, 9/8, "
 "12/8, other."
 msgstr ""
 
-#: src/properties.cpp:360
+#: src/properties.cpp:361
 msgid "Scale Type"
 msgstr "Skala muzyczna"
 
-#: src/properties.cpp:360
+#: src/properties.cpp:361
 #, fuzzy
 msgid ""
 "The musical scale used in the music. One of: Major, Minor, Both, Neither. "
@@ -15001,128 +15018,128 @@ msgid ""
 "drums."
 msgstr "Skala muzyczna użyta w utworze."
 
-#: src/properties.cpp:367 src/tags.cpp:1076
+#: src/properties.cpp:368 src/tags.cpp:1076
 msgid "Camera Serial Number"
 msgstr "Numer seryjny aparatu"
 
-#: src/properties.cpp:367
+#: src/properties.cpp:368
 msgid "Camera Serial Number."
 msgstr "Numer seryjny aparatu."
 
-#: src/properties.cpp:368
+#: src/properties.cpp:369
 #, fuzzy
 msgid "Date Acquired"
 msgstr "Data zgrania"
 
-#: src/properties.cpp:368
+#: src/properties.cpp:369
 #, fuzzy
 msgid "Date Acquired."
 msgstr "Data zgrania."
 
-#: src/properties.cpp:369
+#: src/properties.cpp:370
 msgid "Flash Manufacturer"
 msgstr "Producent flesza"
 
-#: src/properties.cpp:369
+#: src/properties.cpp:370
 msgid "Flash Manufacturer."
 msgstr "Producent lampy błyskowej."
 
-#: src/properties.cpp:370
+#: src/properties.cpp:371
 msgid "Flash Model."
 msgstr "Model flesza."
 
-#: src/properties.cpp:371
+#: src/properties.cpp:372
 msgid "Last Keyword IPTC"
 msgstr "Ostatnie słowo kluczowe IPTC"
 
-#: src/properties.cpp:371
+#: src/properties.cpp:372
 msgid "Last Keyword IPTC."
 msgstr "Ostatnie słowo kluczowe IPTC."
 
-#: src/properties.cpp:372
+#: src/properties.cpp:373
 msgid "Last Keyword XMP"
 msgstr "Ostatnie słowo kluczowe XMP"
 
-#: src/properties.cpp:372
+#: src/properties.cpp:373
 msgid "Last Keyword XMP."
 msgstr "Ostatnie słowo kluczowe XMP."
 
-#: src/properties.cpp:373
+#: src/properties.cpp:374
 #, fuzzy
 msgid "Lens Manufacturer"
 msgstr "Producent obiektywu"
 
-#: src/properties.cpp:373
+#: src/properties.cpp:374
 msgid "Lens Manufacturer."
 msgstr "Producent obiektywu."
 
-#: src/properties.cpp:374
+#: src/properties.cpp:375
 msgid "Lens Model."
 msgstr "Model obiektywu."
 
-#: src/properties.cpp:375
+#: src/properties.cpp:376
 msgid "Rating Percent"
 msgstr "Ocena procentowa"
 
-#: src/properties.cpp:375
+#: src/properties.cpp:376
 msgid "Rating Percent."
 msgstr "Ocena procentowa."
 
-#: src/properties.cpp:381
+#: src/properties.cpp:382
 msgid "Keywords."
 msgstr "Słowa kluczowe."
 
-#: src/properties.cpp:382
+#: src/properties.cpp:383
 msgid "PDF Version"
 msgstr "Wersja PDF"
 
-#: src/properties.cpp:382
+#: src/properties.cpp:383
 msgid "The PDF file version (for example: 1.0, 1.3, and so on)."
 msgstr "Wersja pliku PDF (np. 1.0, 1.3, itd.)."
 
-#: src/properties.cpp:383
+#: src/properties.cpp:384
 msgid "Producer"
 msgstr "Producent"
 
-#: src/properties.cpp:383
+#: src/properties.cpp:384
 msgid "The name of the tool that created the PDF document."
 msgstr "Nazwa narzędzia, które utworzyło dokument PDF."
 
-#: src/properties.cpp:389
+#: src/properties.cpp:390
 msgid "Authors Position"
 msgstr "Pozycja autora"
 
-#: src/properties.cpp:389
+#: src/properties.cpp:390
 msgid "By-line title."
 msgstr "Tytuł."
 
-#: src/properties.cpp:390
+#: src/properties.cpp:391
 msgid "Caption Writer"
 msgstr "Autor tytułu"
 
-#: src/properties.cpp:390
+#: src/properties.cpp:391
 #, fuzzy
 msgid "Writer/editor."
 msgstr "Twórca/edytor."
 
-#: src/properties.cpp:391
+#: src/properties.cpp:392
 msgid "Category. Limited to 3 7-bit ASCII characters."
 msgstr "Kategoria. Ograniczone do 3 siedmiobitowych znaków ASCII."
 
-#: src/properties.cpp:392
+#: src/properties.cpp:393
 msgid "City."
 msgstr "Miasto."
 
-#: src/properties.cpp:393
+#: src/properties.cpp:394
 msgid "Country/primary location."
 msgstr "Państwo/lokalizacja."
 
-#: src/properties.cpp:394
+#: src/properties.cpp:395
 #, fuzzy
 msgid "Credit."
 msgstr "Wyrazy uznania."
 
-#: src/properties.cpp:395
+#: src/properties.cpp:396
 msgid ""
 "The date the intellectual content of the document was created (rather than "
 "the creation date of the physical representation), following IIM "
@@ -15131,377 +15148,377 @@ msgid ""
 "photo was digitized for archiving."
 msgstr ""
 
-#: src/properties.cpp:399
+#: src/properties.cpp:400
 msgid "Headline."
 msgstr "Nagłówek."
 
-#: src/properties.cpp:400
+#: src/properties.cpp:401
 msgid "Special instructions."
 msgstr "Specjalne instrukcje."
 
-#: src/properties.cpp:401
+#: src/properties.cpp:402
 msgid "Source."
 msgstr "Źródło."
 
-#: src/properties.cpp:402
+#: src/properties.cpp:403
 msgid "State"
 msgstr "Stan"
 
-#: src/properties.cpp:402
+#: src/properties.cpp:403
 msgid "Province/state."
 msgstr "Prowincja/stan."
 
-#: src/properties.cpp:403
+#: src/properties.cpp:404
 msgid "Supplemental category."
 msgstr "Kategoria dodatkowa."
 
-#: src/properties.cpp:404
+#: src/properties.cpp:405
 #, fuzzy
 msgid "Original transmission reference."
 msgstr "Oryginalne miejsce transmisji."
 
-#: src/properties.cpp:405
+#: src/properties.cpp:406
 msgid "Urgency. Valid range is 1-8."
 msgstr "Pilność, zakres wartości od 1 do 8."
 
-#: src/properties.cpp:413
+#: src/properties.cpp:414
 msgid "inches"
 msgstr "cale"
 
-#: src/properties.cpp:414 src/tags.cpp:247
+#: src/properties.cpp:415 src/tags.cpp:247
 msgid "cm"
 msgstr "cm"
 
-#: src/properties.cpp:418
+#: src/properties.cpp:419
 msgid "Auto Brightness"
 msgstr "Automatyczna regulacja jasności"
 
-#: src/properties.cpp:418
+#: src/properties.cpp:419
 msgid "When true, \"Brightness\" is automatically adjusted."
 msgstr ""
 
-#: src/properties.cpp:419
+#: src/properties.cpp:420
 msgid "Auto Contrast"
 msgstr "Automatyczna regulacja kontrastu"
 
-#: src/properties.cpp:419
+#: src/properties.cpp:420
 msgid "When true, \"Contrast\" is automatically adjusted."
 msgstr ""
 
-#: src/properties.cpp:420
+#: src/properties.cpp:421
 msgid "Auto Exposure"
 msgstr "Automatyczna ekspozycja"
 
-#: src/properties.cpp:420
+#: src/properties.cpp:421
 msgid "When true, \"Exposure\" is automatically adjusted."
 msgstr ""
 
-#: src/properties.cpp:421
+#: src/properties.cpp:422
 msgid "Auto Shadows"
 msgstr "Automatyczne regulacja cieni"
 
-#: src/properties.cpp:421
+#: src/properties.cpp:422
 msgid "When true,\"Shadows\" is automatically adjusted."
 msgstr ""
 
-#: src/properties.cpp:422
+#: src/properties.cpp:423
 msgid "Blue Hue"
 msgstr "Odcień błękitu"
 
-#: src/properties.cpp:422
+#: src/properties.cpp:423
 msgid "\"Blue Hue\" setting. Range -100 to 100."
 msgstr "Odcień błękitu, zakres wartości od -100 do +100."
 
-#: src/properties.cpp:423
+#: src/properties.cpp:424
 msgid "Blue Saturation"
 msgstr "Nasycenie błękitu"
 
-#: src/properties.cpp:423
+#: src/properties.cpp:424
 msgid "\"Blue Saturation\" setting. Range -100 to +100."
 msgstr "Nasycenie błękitu, zakres wartości od -100 do +100."
 
-#: src/properties.cpp:424
+#: src/properties.cpp:425
 msgid "\"Brightness\" setting. Range 0 to +150."
 msgstr "Jasność, zakres wartość od 0 do +150."
 
-#: src/properties.cpp:425
+#: src/properties.cpp:426
 msgid "Camera Profile"
 msgstr "Profil aparatu"
 
-#: src/properties.cpp:425
+#: src/properties.cpp:426
 msgid "\"Camera Profile\" setting."
 msgstr "Ustawienie \"Profil aparatu\"."
 
-#: src/properties.cpp:426
+#: src/properties.cpp:427
 msgid "Chromatic Aberration Blue"
 msgstr "Aberracja chromatyczna błękitu"
 
-#: src/properties.cpp:426
+#: src/properties.cpp:427
 msgid ""
 "\"Chromatic Aberration, Fix Blue/Yellow Fringe\" setting. Range -100 to +100."
 msgstr ""
 "Aberracja chromatyczna, korekcja niebieskiej/żółtej obwódki, zakres wartości "
 "od -100 do +100."
 
-#: src/properties.cpp:427
+#: src/properties.cpp:428
 msgid "Chromatic Aberration Red"
 msgstr "Aberracja chromatyczna czerwieni"
 
-#: src/properties.cpp:427
+#: src/properties.cpp:428
 msgid ""
 "\"Chromatic Aberration, Fix Red/Cyan Fringe\" setting. Range -100 to +100."
 msgstr ""
 "Aberracja chromatyczna, korekcja czerwonej/niebieskozielonej obwódki, zakres "
 "wartości od -100 do +100."
 
-#: src/properties.cpp:428
+#: src/properties.cpp:429
 msgid "Color Noise Reduction"
 msgstr "Redukcja szumów kolorów"
 
-#: src/properties.cpp:428
+#: src/properties.cpp:429
 msgid "\"Color Noise Reducton\" setting. Range 0 to +100."
 msgstr "Redukcja szumów kolorów, zakres wartości od 0 do +100."
 
-#: src/properties.cpp:429
+#: src/properties.cpp:430
 msgid "\"Contrast\" setting. Range -50 to +100."
 msgstr "Kontrast, zakres wartości od -50 do +100."
 
-#: src/properties.cpp:430
+#: src/properties.cpp:431
 msgid "When \"Has Crop\" is true, top of crop rectangle"
 msgstr ""
 
-#: src/properties.cpp:431
+#: src/properties.cpp:432
 msgid "When \"Has Crop\" is true, left of crop rectangle."
 msgstr ""
 
-#: src/properties.cpp:432
+#: src/properties.cpp:433
 msgid "Crop Bottom"
 msgstr "Przycięcie dół"
 
-#: src/properties.cpp:432
+#: src/properties.cpp:433
 msgid "When \"Has Crop\" is true, bottom of crop rectangle."
 msgstr ""
 
-#: src/properties.cpp:433
+#: src/properties.cpp:434
 msgid "Crop Right"
 msgstr "Przycięcie prawo"
 
-#: src/properties.cpp:433
+#: src/properties.cpp:434
 msgid "When \"Has Crop\" is true, right of crop rectangle."
 msgstr ""
 
-#: src/properties.cpp:434
+#: src/properties.cpp:435
 msgid "Crop Angle"
 msgstr "Kąt przycięcia"
 
-#: src/properties.cpp:434
+#: src/properties.cpp:435
 msgid "When \"Has Crop\" is true, angle of crop rectangle."
 msgstr ""
 
-#: src/properties.cpp:435
+#: src/properties.cpp:436
 msgid "Width of resulting cropped image in CropUnits units."
 msgstr ""
 
-#: src/properties.cpp:436
+#: src/properties.cpp:437
 msgid "Height of resulting cropped image in CropUnits units."
 msgstr ""
 
-#: src/properties.cpp:437
+#: src/properties.cpp:438
 msgid "Crop Units"
 msgstr "Jednostki przycięcia"
 
-#: src/properties.cpp:437
+#: src/properties.cpp:438
 msgid "Units for CropWidth and CropHeight. 0=pixels, 1=inches, 2=cm"
 msgstr ""
 
-#: src/properties.cpp:438
+#: src/properties.cpp:439
 msgid "\"Exposure\" setting. Range -4.0 to +4.0."
 msgstr "Ekspozycja, zakres wartości od -4.0 do +4.0."
 
-#: src/properties.cpp:439
+#: src/properties.cpp:440
 msgid "GreenHue"
 msgstr "Odcień zieleni"
 
-#: src/properties.cpp:439
+#: src/properties.cpp:440
 msgid "\"Green Hue\" setting. Range -100 to +100."
 msgstr "Odcień zieleni, zakres wartości od -100 do +100."
 
-#: src/properties.cpp:440
+#: src/properties.cpp:441
 msgid "Green Saturation"
 msgstr "Nasycenie zieleni"
 
-#: src/properties.cpp:440
+#: src/properties.cpp:441
 msgid "\"Green Saturation\" setting. Range -100 to +100."
 msgstr "Nasycenie zieleni, zakres wartości od -100 do +100."
 
-#: src/properties.cpp:441
+#: src/properties.cpp:442
 msgid "Has Crop"
 msgstr "Przycięty"
 
-#: src/properties.cpp:441
+#: src/properties.cpp:442
 msgid "When true, image has a cropping rectangle."
 msgstr ""
 
-#: src/properties.cpp:442
+#: src/properties.cpp:443
 msgid "Has Settings"
 msgstr "Ustawienia niestandardowe"
 
-#: src/properties.cpp:442
+#: src/properties.cpp:443
 msgid "When true, non-default camera raw settings."
 msgstr ""
 
-#: src/properties.cpp:443
+#: src/properties.cpp:444
 #, fuzzy
 msgid "Luminance Smoothing"
 msgstr "Wygładzenie luminancji"
 
-#: src/properties.cpp:443
+#: src/properties.cpp:444
 #, fuzzy
 msgid "\"Luminance Smoothing\" setting. Range 0 to +100."
 msgstr "Nasycenie błękitu, zakres wartości od -100 do +100."
 
-#: src/properties.cpp:444
+#: src/properties.cpp:445
 msgid "Raw File Name"
 msgstr "Nazwa pliku Raw"
 
-#: src/properties.cpp:444
+#: src/properties.cpp:445
 msgid "File name of raw file (not a complete path)."
 msgstr "Nazwa pliku Raw (nie zawiera ścieżki dostępu)."
 
-#: src/properties.cpp:445
+#: src/properties.cpp:446
 msgid "Red Hue"
 msgstr "Odcień czerwieni"
 
-#: src/properties.cpp:445
+#: src/properties.cpp:446
 msgid "\"Red Hue\" setting. Range -100 to +100."
 msgstr "Odcień czerwieni, zakres wartości od -100 do +100."
 
-#: src/properties.cpp:446
+#: src/properties.cpp:447
 msgid "Red Saturation"
 msgstr "Nasycenie czerwieni"
 
-#: src/properties.cpp:446
+#: src/properties.cpp:447
 msgid "\"Red Saturation\" setting. Range -100 to +100."
 msgstr "Nasycenie czerwieni, zakres wartości od -100 do +100."
 
-#: src/properties.cpp:447
+#: src/properties.cpp:448
 msgid "\"Saturation\" setting. Range -100 to +100."
 msgstr "Nasycenie, zakres wartości od -100 do 100."
 
-#: src/properties.cpp:448
+#: src/properties.cpp:449
 msgid "Shadows"
 msgstr "Cienie"
 
-#: src/properties.cpp:448
+#: src/properties.cpp:449
 msgid "\"Shadows\" setting. Range 0 to +100."
 msgstr "Cienie, wartości od 0 do +100."
 
-#: src/properties.cpp:449
+#: src/properties.cpp:450
 msgid "Shadow Tint"
 msgstr "Zabarwienie cieni"
 
-#: src/properties.cpp:449
+#: src/properties.cpp:450
 msgid "\"Shadow Tint\" setting. Range -100 to +100."
 msgstr "Zabarwienie cieni, zakres wartości od -100 do +100."
 
-#: src/properties.cpp:450
+#: src/properties.cpp:451
 msgid "\"Sharpness\" setting. Range 0 to +100."
 msgstr "Ostrość, zakres wartości od 0 do +100."
 
-#: src/properties.cpp:451
+#: src/properties.cpp:452
 msgid "\"Temperature\" setting. Range 2000 to 50000."
 msgstr "Temperatura, zakres wartości od 2000 do 50000."
 
-#: src/properties.cpp:452
+#: src/properties.cpp:453
 msgid "Tint"
 msgstr "Zabarwienie"
 
-#: src/properties.cpp:452
+#: src/properties.cpp:453
 msgid "\"Tint\" setting. Range -150 to +150."
 msgstr "Zabarwienie, zakres wartości od -150 do +150."
 
-#: src/properties.cpp:453
+#: src/properties.cpp:454
 msgid "Tone Curve"
 msgstr "Krzywa tonalna"
 
-#: src/properties.cpp:453
+#: src/properties.cpp:454
 msgid "Array of points (Integer, Integer) defining a \"Tone Curve\"."
 msgstr ""
 
-#: src/properties.cpp:454
+#: src/properties.cpp:455
 msgid "Tone Curve Name"
 msgstr "Nazwa krzywej tonalnej"
 
-#: src/properties.cpp:454
+#: src/properties.cpp:455
 msgid ""
 "The name of the Tone Curve described by ToneCurve. One of: Linear, Medium "
 "Contrast, Strong Contrast, Custom or a user-defined preset name."
 msgstr ""
 
-#: src/properties.cpp:456
+#: src/properties.cpp:457
 msgid "Version of Camera Raw plugin."
 msgstr "Wersja wtyczki RAW aparatu."
 
-#: src/properties.cpp:457
+#: src/properties.cpp:458
 msgid "Vignette Amount"
 msgstr "Wielkość winietowania"
 
-#: src/properties.cpp:457
+#: src/properties.cpp:458
 msgid "\"Vignetting Amount\" setting. Range -100 to +100."
 msgstr "Wielkość winietowania, zakres wartości od -100 do +100."
 
-#: src/properties.cpp:458
+#: src/properties.cpp:459
 msgid "Vignette Midpoint"
 msgstr "Środek winietowania"
 
-#: src/properties.cpp:458
+#: src/properties.cpp:459
 msgid "\"Vignetting Midpoint\" setting. Range 0 to +100."
 msgstr "Środek winietowania, zakres wartości od 0 do +100."
 
-#: src/properties.cpp:459
+#: src/properties.cpp:460
 msgid ""
 "\"White Balance\" setting. One of: As Shot, Auto, Daylight, Cloudy, Shade, "
 "Tungsten, Fluorescent, Flash, Custom"
 msgstr ""
 
-#: src/properties.cpp:466
+#: src/properties.cpp:467
 msgid "TIFF tag 256, 0x100. Image width in pixels."
 msgstr "Znacznik TIFF 256, 0x100. Szerokość obrazu w pikselach."
 
-#: src/properties.cpp:467 src/tags.cpp:425
+#: src/properties.cpp:468 src/tags.cpp:425
 msgid "Image Length"
 msgstr "Długość obrazu"
 
-#: src/properties.cpp:467
+#: src/properties.cpp:468
 msgid "TIFF tag 257, 0x101. Image height in pixels."
 msgstr "Znacznik TIFF 257, 0x101. Wysokość obrazu w pikselach."
 
-#: src/properties.cpp:468
+#: src/properties.cpp:469
 msgid "Bits Per Sample"
 msgstr "Bitów na próbkę"
 
-#: src/properties.cpp:468
+#: src/properties.cpp:469
 msgid "TIFF tag 258, 0x102. Number of bits per component in each channel."
 msgstr ""
 
-#: src/properties.cpp:469 src/tags.cpp:435
+#: src/properties.cpp:470 src/tags.cpp:435
 msgid "Compression"
 msgstr "Kompresja"
 
-#: src/properties.cpp:469
+#: src/properties.cpp:470
 msgid "TIFF tag 259, 0x103. Compression scheme: 1 = uncompressed; 6 = JPEG."
 msgstr ""
 "Znacznik TIFF 259, 0x103. Schemat kompresji: 1 = nieskompresowany; 6 = JPEG."
 
-#: src/properties.cpp:470 src/tags.cpp:441
+#: src/properties.cpp:471 src/tags.cpp:441
 msgid "Photometric Interpretation"
 msgstr "Interpretacja fotometryczna"
 
-#: src/properties.cpp:470
+#: src/properties.cpp:471
 msgid "TIFF tag 262, 0x106. Pixel Composition: 2 = RGB; 6 = YCbCr."
 msgstr "Znacznik TIFF 262, 0x106. Układ pikseli: 2 = RGB; 6 = YCbCr."
 
-#: src/properties.cpp:471
+#: src/properties.cpp:472
 msgid ""
 "TIFF tag 274, 0x112. Orientation:1 = 0th row at top, 0th column at left 2 = "
 "0th row at top, 0th column at right 3 = 0th row at bottom, 0th column at "
@@ -15510,66 +15527,66 @@ msgid ""
 "0th column at bottom 8 = 0th row at left, 0th column at bottom"
 msgstr ""
 
-#: src/properties.cpp:480
+#: src/properties.cpp:481
 msgid "Samples Per Pixel"
 msgstr "Próbek na piksel"
 
-#: src/properties.cpp:480
+#: src/properties.cpp:481
 #, fuzzy
 msgid "TIFF tag 277, 0x115. Number of components per pixel."
 msgstr "Znacznik TIFF 257, 0x101. Wysokość obrazu w pikselach."
 
-#: src/properties.cpp:481 src/tags.cpp:515
+#: src/properties.cpp:482 src/tags.cpp:515
 msgid "Planar Configuration"
 msgstr "Konfiguracja powierzchni"
 
-#: src/properties.cpp:481
+#: src/properties.cpp:482
 msgid "TIFF tag 284, 0x11C. Data layout:1 = chunky; 2 = planar."
 msgstr ""
 
-#: src/properties.cpp:482
+#: src/properties.cpp:483
 msgid "YCbCr Sub Sampling"
 msgstr "Podpróbkowanie YCbCr"
 
-#: src/properties.cpp:482
+#: src/properties.cpp:483
 msgid ""
 "TIFF tag 530, 0x212. Sampling ratio of chrominance components: [2, 1] = "
 "YCbCr4:2:2; [2, 2] = YCbCr4:2:0"
 msgstr ""
 
-#: src/properties.cpp:484 src/tags.cpp:718
+#: src/properties.cpp:485 src/tags.cpp:718
 msgid "YCbCr Positioning"
 msgstr "Rozmieszczenie YCbCr"
 
-#: src/properties.cpp:484
+#: src/properties.cpp:485
 msgid ""
 "TIFF tag 531, 0x213. Position of chrominance vs. luminance components: 1 = "
 "centered; 2 = co-sited."
 msgstr ""
 
-#: src/properties.cpp:486
+#: src/properties.cpp:487
 msgid "X Resolution"
 msgstr "Rozdzielczość Y"
 
-#: src/properties.cpp:486
+#: src/properties.cpp:487
 msgid "TIFF tag 282, 0x11A. Horizontal resolution in pixels per unit."
 msgstr ""
 "Znacznik TIFF 282, 0x11A. Rozdzielczość pozioma w pikselach na jednostkę."
 
-#: src/properties.cpp:487
+#: src/properties.cpp:488
 msgid "Y Resolution"
 msgstr "Rozdzielczość Y"
 
-#: src/properties.cpp:487
+#: src/properties.cpp:488
 msgid "TIFF tag 283, 0x11B. Vertical resolution in pixels per unit."
 msgstr ""
 "Znacznik TIFF 283, 0x11B. Rozdzielczość pionowa w pikselach na jednostkę."
 
-#: src/properties.cpp:488 src/tags.cpp:533
+#: src/properties.cpp:489 src/tags.cpp:533
 msgid "Resolution Unit"
 msgstr "Jednostka rozdzielczości"
 
-#: src/properties.cpp:488
+#: src/properties.cpp:489
 msgid ""
 "TIFF tag 296, 0x128. Unit used for XResolution and YResolution. Value is one "
 "of: 2 = inches; 3 = centimeters."
@@ -15578,50 +15595,50 @@ msgstr ""
 "(XResolution) oraz Rozdzielczość Y (YResolution). Wartości: 2 = cale; 3 = "
 "centymetry."
 
-#: src/properties.cpp:490 src/tags.cpp:538
+#: src/properties.cpp:491 src/tags.cpp:538
 msgid "Transfer Function"
 msgstr "Funkcja przejścia"
 
-#: src/properties.cpp:490
+#: src/properties.cpp:491
 msgid ""
 "TIFF tag 301, 0x12D. Transfer function for image described in tabular style "
 "with 3 * 256 entries."
 msgstr ""
 
-#: src/properties.cpp:492 src/tags.cpp:570
+#: src/properties.cpp:493 src/tags.cpp:570
 msgid "White Point"
 msgstr "Biały punkt"
 
-#: src/properties.cpp:492
+#: src/properties.cpp:493
 msgid "TIFF tag 318, 0x13E. Chromaticity of white point."
 msgstr ""
 
-#: src/properties.cpp:493 src/tags.cpp:575
+#: src/properties.cpp:494 src/tags.cpp:575
 msgid "Primary Chromaticities"
 msgstr "Barwy główne"
 
-#: src/properties.cpp:493
+#: src/properties.cpp:494
 msgid "TIFF tag 319, 0x13F. Chromaticity of the three primary colors."
 msgstr ""
 
-#: src/properties.cpp:494
+#: src/properties.cpp:495
 msgid ""
 "TIFF tag 529, 0x211. Matrix coefficients for RGB to YCbCr transformation."
 msgstr ""
 
-#: src/properties.cpp:495
+#: src/properties.cpp:496
 msgid "Reference Black White"
 msgstr "Czerń/biel odniesienia"
 
-#: src/properties.cpp:495
+#: src/properties.cpp:496
 msgid "TIFF tag 532, 0x214. Reference black and white point values."
 msgstr ""
 
-#: src/properties.cpp:496 src/tags.cpp:550
+#: src/properties.cpp:497 src/tags.cpp:550
 msgid "Date and Time"
 msgstr "Data i czas"
 
-#: src/properties.cpp:496
+#: src/properties.cpp:497
 msgid ""
 "TIFF tag 306, 0x132 (primary) and EXIF tag 37520, 0x9290 (subseconds). Date "
 "and time of image creation (no time zone in EXIF), stored in ISO 8601 "
@@ -15630,11 +15647,11 @@ msgid ""
 "ModifyDate."
 msgstr ""
 
-#: src/properties.cpp:502 src/tags.cpp:463
+#: src/properties.cpp:503 src/tags.cpp:463
 msgid "Image Description"
 msgstr "Opis obrazu"
 
-#: src/properties.cpp:502
+#: src/properties.cpp:503
 msgid ""
 "TIFF tag 270, 0x10E. Description of the image. Note: This property is stored "
 "in XMP as dc:description."
@@ -15642,20 +15659,20 @@ msgstr ""
 "Znacznik TIFF 270, 0x10E. Opis obrazu. Uwaga: ta właściwość jest "
 "przechowywana w XMP jako dc:description."
 
-#: src/properties.cpp:503
+#: src/properties.cpp:504
 #, fuzzy
 msgid "Make"
 msgstr "Wytwórca"
 
-#: src/properties.cpp:503
+#: src/properties.cpp:504
 msgid "TIFF tag 271, 0x10F. Manufacturer of recording equipment."
 msgstr "Znacznik TIFF 271, 0x10F. Producent wyposażenia nagrywającego."
 
-#: src/properties.cpp:504
+#: src/properties.cpp:505
 msgid "TIFF tag 272, 0x110. Model name or number of equipment."
 msgstr "Znacznik TIFF 272, 0x110. Nazwa lub numer modelu wyposażenia."
 
-#: src/properties.cpp:505
+#: src/properties.cpp:506
 msgid ""
 "TIFF tag 305, 0x131. Software or firmware used to generate image. Note: This "
 "property is stored in XMP as xmp:CreatorTool. "
@@ -15663,7 +15680,7 @@ msgstr ""
 "Znacznik TIFF 305, 0x131. Oprogramowanie lub firmware użyte do utworzenia "
 "obrazu. Uwaga: ta właściwość jest przechowywana w XMP jako xmp:CreatorTool. "
 
-#: src/properties.cpp:507
+#: src/properties.cpp:508
 #, fuzzy
 msgid ""
 "TIFF tag 315, 0x13B. Camera owner, photographer or image creator. Note: This "
@@ -15672,7 +15689,7 @@ msgstr ""
 "Znacznik TIFF 305, 0x131. Oprogramowanie lub firmware użyte do utworzenia "
 "obrazu. Uwaga: ta właściwość jest przechowywana w XMP jako xmp:CreatorTool. "
 
-#: src/properties.cpp:509
+#: src/properties.cpp:510
 #, fuzzy
 msgid ""
 "TIFF tag 33432, 0x8298. Copyright information. Note: This property is stored "
@@ -15681,41 +15698,41 @@ msgstr ""
 "Znacznik TIFF 270, 0x10E. Opis obrazu. Uwaga: ta właściwość jest "
 "przechowywana w XMP jako dc:description."
 
-#: src/properties.cpp:516 src/tags.cpp:1388
+#: src/properties.cpp:517 src/tags.cpp:1388
 msgid "Exif Version"
 msgstr "Wersja Exif"
 
-#: src/properties.cpp:516
+#: src/properties.cpp:517
 msgid "EXIF tag 36864, 0x9000. EXIF version number."
 msgstr "Znacznik EXIF 36864, 0x9000. Numer wersji EXIF."
 
-#: src/properties.cpp:517
+#: src/properties.cpp:518
 msgid "Flashpix Version"
 msgstr "Wersja FlashPix"
 
-#: src/properties.cpp:517
+#: src/properties.cpp:518
 msgid "EXIF tag 40960, 0xA000. Version of FlashPix."
 msgstr "Znacznik EXIF 40960, 0xA000. Wersja FlashPix."
 
-#: src/properties.cpp:518
+#: src/properties.cpp:519
 msgid "EXIF tag 40961, 0xA001. Color space information"
 msgstr "Znacznik EXIF 40961, 0xA001. Informacja o przestrzeni kolorów"
 
-#: src/properties.cpp:519 src/tags.cpp:1399
+#: src/properties.cpp:520 src/tags.cpp:1399
 msgid "Components Configuration"
 msgstr "Konfiguracja komponentów"
 
-#: src/properties.cpp:519
+#: src/properties.cpp:520
 msgid ""
 "EXIF tag 37121, 0x9101. Configuration of components in data: 4 5 6 0 (if RGB "
 "compressed data), 1 2 3 0 (other cases)."
 msgstr ""
 
-#: src/properties.cpp:521 src/tags.cpp:823
+#: src/properties.cpp:522 src/tags.cpp:823
 msgid "Compressed Bits Per Pixel"
 msgstr "Skompresowane bity na piksel"
 
-#: src/properties.cpp:521
+#: src/properties.cpp:522
 msgid ""
 "EXIF tag 37122, 0x9102. Compression mode used for a compressed image is "
 "indicated in unit bits per pixel."
@@ -15723,57 +15740,57 @@ msgstr ""
 "Informacja specyficzna dla skompresowanych danych. Rodzaj kompresji użyty "
 "dla skompresowanego obrazu jest określony w jednostkach bitów na piksel."
 
-#: src/properties.cpp:523 src/tags.cpp:1483
+#: src/properties.cpp:524 src/tags.cpp:1483
 msgid "Pixel X Dimension"
 msgstr "Rozmiar X "
 
-#: src/properties.cpp:523
+#: src/properties.cpp:524
 msgid "EXIF tag 40962, 0xA002. Valid image width, in pixels."
 msgstr "Znacznik EXIF 40962, 0xA002. Prawidłowa szerokość obrazu w pikselach."
 
-#: src/properties.cpp:524 src/tags.cpp:1490
+#: src/properties.cpp:525 src/tags.cpp:1490
 msgid "Pixel Y Dimension"
 msgstr "Rozmiar Y"
 
-#: src/properties.cpp:524
+#: src/properties.cpp:525
 msgid "EXIF tag 40963, 0xA003. Valid image height, in pixels."
 msgstr "Znacznik EXIF 40963, 0xA003. Prawidłowa wysokość obrazu w pikselach."
 
-#: src/properties.cpp:525 src/tags.cpp:1457
+#: src/properties.cpp:526 src/tags.cpp:1457
 msgid "User Comment"
 msgstr "Komentarz użytkownika"
 
-#: src/properties.cpp:525
+#: src/properties.cpp:526
 msgid "EXIF tag 37510, 0x9286. Comments from user."
 msgstr "Znacznik EXIF 37510, 0x9286. Komentarze użytkownika."
 
-#: src/properties.cpp:526 src/tags.cpp:1499
+#: src/properties.cpp:527 src/tags.cpp:1499
 msgid "Related Sound File"
 msgstr "Powiązany plik dźwiękowy"
 
-#: src/properties.cpp:526
+#: src/properties.cpp:527
 msgid ""
 "EXIF tag 40964, 0xA004. An \"8.3\" file name for the related sound file."
 msgstr ""
 "Znacznik EXIF 40964, 0xA004. Nazwa powiązanego pliku dźwiękowego w formacie "
 "\"8.3\"."
 
-#: src/properties.cpp:527
+#: src/properties.cpp:528
 msgid "Date and Time Original"
 msgstr "Data i czas (oryginału)"
 
-#: src/properties.cpp:527
+#: src/properties.cpp:528
 msgid ""
 "EXIF tags 36867, 0x9003 (primary) and 37521, 0x9291 (subseconds). Date and "
 "time when original image was generated, in ISO 8601 format. Includes the "
 "EXIF SubSecTimeOriginal data."
 msgstr ""
 
-#: src/properties.cpp:530
+#: src/properties.cpp:531
 msgid "Date and Time Digitized"
 msgstr "Data i czas (obrazu cyfrowego)"
 
-#: src/properties.cpp:530
+#: src/properties.cpp:531
 msgid ""
 "EXIF tag 36868, 0x9004 (primary) and 37522, 0x9292 (subseconds). Date and "
 "time when image was stored as digital data, can be the same as "
@@ -15781,37 +15798,37 @@ msgid ""
 "format. Includes the EXIF SubSecTimeDigitized data."
 msgstr ""
 
-#: src/properties.cpp:534
+#: src/properties.cpp:535
 msgid "EXIF tag 33434, 0x829A. Exposure time in seconds."
 msgstr "Znacznik EXIF 33434, 0x829A. Czas ekspozycji w sekundach."
 
-#: src/properties.cpp:535
+#: src/properties.cpp:536
 msgid "F Number"
 msgstr "Liczba F"
 
-#: src/properties.cpp:535
+#: src/properties.cpp:536
 msgid "EXIF tag 33437, 0x829D. F number."
 msgstr "Znacznik EXIF 33437, 0x829D. Liczba F."
 
-#: src/properties.cpp:536
+#: src/properties.cpp:537
 msgid "EXIF tag 34850, 0x8822. Class of program used for exposure."
 msgstr ""
 "Znacznik EXIF 34850, 0x8822. Rodzaj programu użyty do określenia ekspozycji."
 
-#: src/properties.cpp:537 src/tags.cpp:805 src/tags.cpp:1374
+#: src/properties.cpp:538 src/tags.cpp:805 src/tags.cpp:1374
 msgid "Spectral Sensitivity"
 msgstr "Czułość widmowa"
 
-#: src/properties.cpp:537
+#: src/properties.cpp:538
 msgid "EXIF tag 34852, 0x8824. Spectral sensitivity of each channel."
 msgstr "Znacznik EXIF 34852, 0x8824. Czułość widmowa każdego kanału."
 
-#: src/properties.cpp:538
+#: src/properties.cpp:539
 #, fuzzy
 msgid "ISOSpeedRatings"
 msgstr "Oszacowania szybkości ISO"
 
-#: src/properties.cpp:538
+#: src/properties.cpp:539
 msgid ""
 "EXIF tag 34855, 0x8827. ISO Speed and ISO Latitude of the input device as "
 "specified in ISO 12232."
@@ -15819,11 +15836,11 @@ msgstr ""
 "Znacznik EXIF 34855, 0x8827. Czułość ISO i zakres ISO aparatu lub urządzenia "
 "wejściowego zgodne ze specyfikacją ISO 12232."
 
-#: src/properties.cpp:540 src/tags.cpp:812
+#: src/properties.cpp:541 src/tags.cpp:812
 msgid "OECF"
 msgstr "OECF"
 
-#: src/properties.cpp:540
+#: src/properties.cpp:541
 msgid ""
 "EXIF tag 34856, 0x8828. Opto-Electoric Conversion Function as specified in "
 "ISO 14524."
@@ -15831,7 +15848,7 @@ msgstr ""
 "Znacznik EXIF 34856, 0x8828. Funkcja konwersji optoelektrycznej, "
 "zdefiniowana w dokumencie SO 14524."
 
-#: src/properties.cpp:541
+#: src/properties.cpp:542
 msgid ""
 "EXIF tag 37377, 0x9201. Shutter speed, unit is APEX. See Annex C of the EXIF "
 "specification."
@@ -15839,58 +15856,58 @@ msgstr ""
 "Znacznik EXIF 37377, 0x9201. Czas otwarcia migawki, w jednostkach APEX. "
 "Zobacz Dodatek C w specyfikacji EXIF."
 
-#: src/properties.cpp:542
+#: src/properties.cpp:543
 msgid "EXIF tag 37378, 0x9202. Lens aperture, unit is APEX."
 msgstr "Znacznik EXIF 37378, 0x9202. Przysłona obiektywu, w jednostkach APEX."
 
-#: src/properties.cpp:543 src/tags.cpp:826
+#: src/properties.cpp:544 src/tags.cpp:826
 msgid "Brightness Value"
 msgstr "Jasność"
 
-#: src/properties.cpp:543
+#: src/properties.cpp:544
 msgid "EXIF tag 37379, 0x9203. Brightness, unit is APEX."
 msgstr "Znacznik EXIF 37379, 0x9203. Jasność w jednostkach APEX."
 
-#: src/properties.cpp:544
+#: src/properties.cpp:545
 msgid "EXIF tag 37380, 0x9204. Exposure bias, unit is APEX."
 msgstr "Znacznik EXIF 37380, 0x9204. Odchylenie ekspozycji w jednostkach APEX."
 
-#: src/properties.cpp:545
+#: src/properties.cpp:546
 msgid "Maximum Aperture Value"
 msgstr "Największa wartość przysłony"
 
-#: src/properties.cpp:545
+#: src/properties.cpp:546
 msgid "EXIF tag 37381, 0x9205. Smallest F number of lens, in APEX."
 msgstr ""
 "Znacznik EXIF 37381, 0x9205. Najmniejsza liczba F obiektywu, w jednostkach "
 "APEX."
 
-#: src/properties.cpp:546
+#: src/properties.cpp:547
 msgid "EXIF tag 37382, 0x9206. Distance to subject, in meters."
 msgstr "Znacznik EXIF 37382, 0x9206. Odległość do obiektu podana w metrach."
 
-#: src/properties.cpp:547
+#: src/properties.cpp:548
 msgid "EXIF tag 37383, 0x9207. Metering mode."
 msgstr "Znacznik EXIF 37383, 0x9207. Tryb pomiaru."
 
-#: src/properties.cpp:548
+#: src/properties.cpp:549
 msgid "EXIF tag 37384, 0x9208. Light source."
 msgstr "Znacznik EXIF 37384, 0x9208. Źródło światła."
 
-#: src/properties.cpp:549
+#: src/properties.cpp:550
 msgid "EXIF tag 37385, 0x9209. Strobe light (flash) source data."
 msgstr "Znacznik EXIF 37385, 0x9209. Dane źródła światła błyskowego (flesza)."
 
-#: src/properties.cpp:550
+#: src/properties.cpp:551
 msgid "EXIF tag 37386, 0x920A. Focal length of the lens, in millimeters."
 msgstr ""
 "Znacznik EXIF 37386, 0x920A. Długość ogniskowej obiektywu, w milimetrach."
 
-#: src/properties.cpp:551 src/tags.cpp:1449
+#: src/properties.cpp:552 src/tags.cpp:1449
 msgid "Subject Area"
 msgstr "Obszar obiektu"
 
-#: src/properties.cpp:551
+#: src/properties.cpp:552
 msgid ""
 "EXIF tag 37396, 0x9214. The location and area of the main subject in the "
 "overall scene."
@@ -15898,21 +15915,21 @@ msgstr ""
 "Znacznik EXIF 37396, 0x9214. Położenie i obszar głównego obiektu na całej "
 "scenie."
 
-#: src/properties.cpp:552 src/tags.cpp:834 src/tags.cpp:1514
+#: src/properties.cpp:553 src/tags.cpp:834 src/tags.cpp:1514
 msgid "Flash Energy"
 msgstr "Energia błysku"
 
-#: src/properties.cpp:552
+#: src/properties.cpp:553
 msgid "EXIF tag 41483, 0xA20B. Strobe energy during image capture."
 msgstr ""
 "Znacznik EXIF 41483, 0xA20B. Określa energię światła błyskowego podczas "
 "wykonywania zdjęcia."
 
-#: src/properties.cpp:553 src/tags.cpp:835 src/tags.cpp:1518
+#: src/properties.cpp:554 src/tags.cpp:835 src/tags.cpp:1518
 msgid "Spatial Frequency Response"
 msgstr "Odpowiedź częstotliwości przestrzennej"
 
-#: src/properties.cpp:553
+#: src/properties.cpp:554
 msgid ""
 "EXIF tag 41484, 0xA20C. Input device spatial frequency table and SFR values "
 "as specified in ISO 12233."
@@ -15920,11 +15937,11 @@ msgstr ""
 "Znacznik EXIF 41484, 0xA20C. Określa tablicę częstotliwości przestrzennej i "
 "wartości SFR w sposób określony w dokumencie ISO 12233."
 
-#: src/properties.cpp:555 src/tags.cpp:837
+#: src/properties.cpp:556 src/tags.cpp:837
 msgid "Focal Plane X Resolution"
 msgstr "Rozdzielczość ogniskowej w płaszczyźnie X"
 
-#: src/properties.cpp:555
+#: src/properties.cpp:556
 #, fuzzy
 msgid ""
 "EXIF tag 41486, 0xA20E. Horizontal focal resolution, measured pixels per "
@@ -15932,11 +15949,11 @@ msgid ""
 msgstr ""
 "Znacznik TIFF 282, 0x11A. Rozdzielczość pozioma w pikselach na jednostkę."
 
-#: src/properties.cpp:556 src/tags.cpp:838
+#: src/properties.cpp:557 src/tags.cpp:838
 msgid "Focal Plane Y Resolution"
 msgstr "Rozdzielczość ogniskowej w płaszczyźnie Y"
 
-#: src/properties.cpp:556
+#: src/properties.cpp:557
 #, fuzzy
 msgid ""
 "EXIF tag 41487, 0xA20F. Vertical focal resolution, measured in pixels per "
@@ -15944,74 +15961,74 @@ msgid ""
 msgstr ""
 "Znacznik TIFF 283, 0x11B. Rozdzielczość pionowa w pikselach na jednostkę."
 
-#: src/properties.cpp:557 src/tags.cpp:839 src/tags.cpp:1531
+#: src/properties.cpp:558 src/tags.cpp:839 src/tags.cpp:1531
 msgid "Focal Plane Resolution Unit"
 msgstr "Jednostka rozdzielczości płaszczyzny ogniskowej"
 
-#: src/properties.cpp:557
+#: src/properties.cpp:558
 msgid ""
 "EXIF tag 41488, 0xA210. Unit used for FocalPlaneXResolution and "
 "FocalPlaneYResolution."
 msgstr ""
 
-#: src/properties.cpp:558 src/tags.cpp:843 src/tags.cpp:1535
+#: src/properties.cpp:559 src/tags.cpp:843 src/tags.cpp:1535
 msgid "Subject Location"
 msgstr "Położenie obiektu"
 
-#: src/properties.cpp:558
+#: src/properties.cpp:559
 msgid ""
 "EXIF tag 41492, 0xA214. Location of the main subject of the scene. The first "
 "value is the horizontal pixel and the second value is the vertical pixel at "
 "which the main subject appears."
 msgstr ""
 
-#: src/properties.cpp:561 src/tags.cpp:844
+#: src/properties.cpp:562 src/tags.cpp:844
 msgid "Exposure Index"
 msgstr "Indeks ekspozycji"
 
-#: src/properties.cpp:561
+#: src/properties.cpp:562
 msgid "EXIF tag 41493, 0xA215. Exposure index of input device."
 msgstr ""
 "Znacznik EXIF 41493, 0xA215. Indeks ekspozycji w aparacie lub urządzeniu "
 "wejściowym."
 
-#: src/properties.cpp:562 src/tags.cpp:849 src/tags.cpp:1546
+#: src/properties.cpp:563 src/tags.cpp:849 src/tags.cpp:1546
 msgid "Sensing Method"
 msgstr "Rodzaj czujnika"
 
-#: src/properties.cpp:562
+#: src/properties.cpp:563
 msgid "EXIF tag 41495, 0xA217. Image sensor type on input device."
 msgstr ""
 "Znacznik EXIF 41495, 0xA217. Rodzaj czujnika obrazu w aparacie lub "
 "urządzeniu wejściowym."
 
-#: src/properties.cpp:563
+#: src/properties.cpp:564
 msgid "EXIF tag 41728, 0xA300. Indicates image source."
 msgstr "Znacznik EXIF 41728, 0xA300. Określa źródło obrazu."
 
-#: src/properties.cpp:564 src/tags.cpp:1554
+#: src/properties.cpp:565 src/tags.cpp:1554
 msgid "Scene Type"
 msgstr "Rodzaj sceny"
 
-#: src/properties.cpp:564
+#: src/properties.cpp:565
 msgid "EXIF tag 41729, 0xA301. Indicates the type of scene."
 msgstr "Znacznik EXIF 41729, 0xA301. Określenie rodzaju sceny."
 
-#: src/properties.cpp:565 src/tags.cpp:759
+#: src/properties.cpp:566 src/tags.cpp:759
 msgid "CFA Pattern"
 msgstr "Wzór CFA"
 
-#: src/properties.cpp:565
+#: src/properties.cpp:566
 msgid ""
 "EXIF tag 41730, 0xA302. Color filter array geometric pattern of the image "
 "sense."
 msgstr ""
 
-#: src/properties.cpp:566 src/tags.cpp:1564
+#: src/properties.cpp:567 src/tags.cpp:1564
 msgid "Custom Rendered"
 msgstr "Własny rendering"
 
-#: src/properties.cpp:566
+#: src/properties.cpp:567
 msgid ""
 "EXIF tag 41985, 0xA401. Indicates the use of special processing on image "
 "data."
@@ -16019,7 +16036,7 @@ msgstr ""
 "Znacznik EXIF 41985, 0xA401. Ten znacznik określa użycie specjalnego "
 "przetwarzania danych obrazu."
 
-#: src/properties.cpp:567
+#: src/properties.cpp:568
 msgid ""
 "EXIF tag 41986, 0xA402. Indicates the exposure mode set when the image was "
 "shot."
@@ -16027,7 +16044,7 @@ msgstr ""
 "Znacznik EXIF 41986, 0xA402. Ten znacznik określa tryb ekspozycji ustawiony "
 "przy robieniu zdjęcia."
 
-#: src/properties.cpp:568
+#: src/properties.cpp:569
 msgid ""
 "EXIF tag 41987, 0xA403. Indicates the white balance mode set when the image "
 "was shot."
@@ -16035,11 +16052,11 @@ msgstr ""
 "Znacznik EXIF 41987, 0xA403. Określa tryb balansu bieli ustawiony przy "
 "robieniu zdjęcia."
 
-#: src/properties.cpp:569 src/tags.cpp:1578
+#: src/properties.cpp:570 src/tags.cpp:1578
 msgid "Digital Zoom Ratio"
 msgstr "Współczynnik powiększenia cyfrowego"
 
-#: src/properties.cpp:569
+#: src/properties.cpp:570
 msgid ""
 "EXIF tag 41988, 0xA404. Indicates the digital zoom ratio when the image was "
 "shot."
@@ -16047,11 +16064,11 @@ msgstr ""
 "Znacznik EXIF 41988, 0xA404. Określa współczynnik cyfrowego powiększenia "
 "ustawiony przy robieniu zdjęcia."
 
-#: src/properties.cpp:570 src/tags.cpp:1583
+#: src/properties.cpp:571 src/tags.cpp:1583
 msgid "Focal Length In 35mm Film"
 msgstr "Ogniskowa dla filmu 35mm"
 
-#: src/properties.cpp:570
+#: src/properties.cpp:571
 msgid ""
 "EXIF tag 41989, 0xA405. Indicates the equivalent focal length assuming a "
 "35mm film camera, in mm. A value of 0 means the focal length is unknown. "
@@ -16062,27 +16079,27 @@ msgstr ""
 "nieznana. Należy zauważyć, że ten znacznik różni się od znacznika "
 "FocalLength."
 
-#: src/properties.cpp:573 src/tags.cpp:1589
+#: src/properties.cpp:574 src/tags.cpp:1589
 msgid "Scene Capture Type"
 msgstr "Rodzaj uchwycenia sceny"
 
-#: src/properties.cpp:573
+#: src/properties.cpp:574
 #, fuzzy
 msgid "EXIF tag 41990, 0xA406. Indicates the type of scene that was shot."
 msgstr "Znacznik EXIF 41729, 0xA301. Określenie rodzaju sceny."
 
-#: src/properties.cpp:574 src/tags.cpp:1594
+#: src/properties.cpp:575 src/tags.cpp:1594
 msgid "Gain Control"
 msgstr "Regulacja wzmocnienia"
 
-#: src/properties.cpp:574
+#: src/properties.cpp:575
 msgid ""
 "EXIF tag 41991, 0xA407. Indicates the degree of overall image gain "
 "adjustment."
 msgstr ""
 "Znacznik EXIF 41991, 0xA407. Określa stopień wzmocnienia całego obrazu."
 
-#: src/properties.cpp:575
+#: src/properties.cpp:576
 msgid ""
 "EXIF tag 41992, 0xA408. Indicates the direction of contrast processing "
 "applied by the camera."
@@ -16090,7 +16107,7 @@ msgstr ""
 "Znacznik EXIF 41992, 0xA408. Określa kierunek przetwarzania kontrastu "
 "wykonanego przez aparat przy robieniu zdjęcia."
 
-#: src/properties.cpp:576
+#: src/properties.cpp:577
 msgid ""
 "EXIF tag 41993, 0xA409. Indicates the direction of saturation processing "
 "applied by the camera."
@@ -16098,7 +16115,7 @@ msgstr ""
 "Znacznik EXIF 41993, 0xA409. Określa kierunek przetwarzania nasycenia "
 "wykonanego przez aparat przy robieniu zdjęcia."
 
-#: src/properties.cpp:577
+#: src/properties.cpp:578
 msgid ""
 "EXIF tag 41994, 0xA40A. Indicates the direction of sharpness processing "
 "applied by the camera."
@@ -16106,11 +16123,11 @@ msgstr ""
 "Znacznik EXIF 41994, 0xA40A. Określa kierunek przetwarzania ostrości "
 "wykonanego przez aparat przy robieniu zdjęcia."
 
-#: src/properties.cpp:578 src/tags.cpp:1609
+#: src/properties.cpp:579 src/tags.cpp:1609
 msgid "Device Setting Description"
 msgstr "Opis ustawień urządzenia"
 
-#: src/properties.cpp:578
+#: src/properties.cpp:579
 msgid ""
 "EXIF tag 41995, 0xA40B. Indicates information on the picture-taking "
 "conditions of a particular camera model."
@@ -16118,19 +16135,19 @@ msgstr ""
 "Znacznik EXIF 41995, 0xA40B. Określa informacje o warunkach robienia zdjęcia "
 "dla konkretnego modelu aparatu."
 
-#: src/properties.cpp:579 src/tags.cpp:1614
+#: src/properties.cpp:580 src/tags.cpp:1614
 msgid "Subject Distance Range"
 msgstr "Zakres odległości obiektu"
 
-#: src/properties.cpp:579
+#: src/properties.cpp:580
 msgid "EXIF tag 41996, 0xA40C. Indicates the distance to the subject."
 msgstr "Znacznik EXIF 41996, 0xA40C. Określa odległość od obiektu."
 
-#: src/properties.cpp:580 src/tags.cpp:1617
+#: src/properties.cpp:581 src/tags.cpp:1617
 msgid "Image Unique ID"
 msgstr "Unikalny identyfikator obrazu"
 
-#: src/properties.cpp:580
+#: src/properties.cpp:581
 msgid ""
 "EXIF tag 42016, 0xA420. An identifier assigned uniquely to each image. It is "
 "recorded as a 32 character ASCII string, equivalent to hexadecimal notation "
@@ -16140,11 +16157,11 @@ msgstr ""
 "przypisany każdemu zdjęciu. Jest on zapisany jako 32 znakowy łańcuch ASCII "
 "odpowiadający notacji szesnastkowej o stałej długości 128 bitów."
 
-#: src/properties.cpp:582 src/tags.cpp:1691
+#: src/properties.cpp:583 src/tags.cpp:1691
 msgid "GPS Version ID"
 msgstr "GPS Wersja znacznika"
 
-#: src/properties.cpp:582
+#: src/properties.cpp:583
 msgid ""
 "GPS tag 0, 0x00. A decimal encoding of each of the four EXIF bytes with "
 "period separators. The current value is \"2.0.0.0\"."
@@ -16152,33 +16169,33 @@ msgstr ""
 "Znacznik GPS 0, 0x00. Zakodowany dziesiętnie każdy z czterech bajtów EXIF. "
 "Bieżąca wartość to \"2.0.0.0\"."
 
-#: src/properties.cpp:584 src/tags.cpp:1702
+#: src/properties.cpp:585 src/tags.cpp:1702
 msgid "GPS Latitude"
 msgstr "GPS Szerokość"
 
-#: src/properties.cpp:584
+#: src/properties.cpp:585
 msgid ""
 "GPS tag 2, 0x02 (position) and 1, 0x01 (North/South). Indicates latitude."
 msgstr ""
 "Znacznik GPS 2, 0x02 (pozycja) i 1, 0x01 (oznaczenie). Określa szerokość "
 "geograficzną i jej oznaczenie (północna/południowa)."
 
-#: src/properties.cpp:585 src/tags.cpp:1714
+#: src/properties.cpp:586 src/tags.cpp:1714
 msgid "GPS Longitude"
 msgstr "GPS Długość"
 
-#: src/properties.cpp:585
+#: src/properties.cpp:586
 msgid ""
 "GPS tag 4, 0x04 (position) and 3, 0x03 (East/West). Indicates longitude."
 msgstr ""
 "Znacznik GPS 4, 0x04 (pozycja) i 3, 0x03 (oznaczenie). Określa długość "
 "geograficzną i jej oznaczenie (wschodnia/zachodnia)."
 
-#: src/properties.cpp:586 src/tags.cpp:1722
+#: src/properties.cpp:587 src/tags.cpp:1722
 msgid "GPS Altitude Reference"
 msgstr "GPS Oznaczenie wysokości"
 
-#: src/properties.cpp:586
+#: src/properties.cpp:587
 #, fuzzy
 msgid ""
 "GPS tag 5, 0x05. Indicates whether the altitude is above or below sea level."
@@ -16186,19 +16203,19 @@ msgstr ""
 "Znacznik GPS 5, 0x05. Określa czy wyniesienie jest powyżej czy poniżej "
 "poziomu morza (n.p.m. czy p.p.m.)."
 
-#: src/properties.cpp:587 src/tags.cpp:1730
+#: src/properties.cpp:588 src/tags.cpp:1730
 msgid "GPS Altitude"
 msgstr "GPS Wysokość"
 
-#: src/properties.cpp:587
+#: src/properties.cpp:588
 msgid "GPS tag 6, 0x06. Indicates altitude in meters."
 msgstr "Znacznik GPS 6, 0x06. Wysokość (wyniesienie) w metrach."
 
-#: src/properties.cpp:588 src/tags.cpp:1734
+#: src/properties.cpp:589 src/tags.cpp:1734
 msgid "GPS Time Stamp"
 msgstr "GPS Znacznik czasu"
 
-#: src/properties.cpp:588
+#: src/properties.cpp:589
 msgid ""
 "GPS tag 29 (date), 0x1D, and, and GPS tag 7 (time), 0x07. Time stamp of GPS "
 "data, in Coordinated Universal Time. Note: The GPSDateStamp tag is new in "
@@ -16216,98 +16233,98 @@ msgstr ""
 "DateTimeDigitized. Jeśli data jest niedostępna, exif:GPSTimeStamp nie jest "
 "zapisywany do XMP."
 
-#: src/properties.cpp:594 src/tags.cpp:1739
+#: src/properties.cpp:595 src/tags.cpp:1739
 msgid "GPS Satellites"
 msgstr "GPS Satelity"
 
-#: src/properties.cpp:594
+#: src/properties.cpp:595
 msgid "GPS tag 8, 0x08. Satellite information, format is unspecified."
 msgstr ""
 "Znacznik GPS 8, 0x08. Informacja o satelitach użytych do pomiaru, format "
 "jest nieokreślony."
 
-#: src/properties.cpp:595 src/tags.cpp:1746
+#: src/properties.cpp:596 src/tags.cpp:1746
 msgid "GPS Status"
 msgstr "GPS Stan"
 
-#: src/properties.cpp:595
+#: src/properties.cpp:596
 msgid "GPS tag 9, 0x09. Status of GPS receiver at image creation time."
 msgstr ""
 "Znacznik GPS 9, 0x09. Stan odbiornika GPS w momencie utworzenia obrazu."
 
-#: src/properties.cpp:596 src/tags.cpp:1751
+#: src/properties.cpp:597 src/tags.cpp:1751
 msgid "GPS Measure Mode"
 msgstr "GPS Tryb pomiaru"
 
-#: src/properties.cpp:596
+#: src/properties.cpp:597
 msgid "GPS tag 10, 0x0A. GPS measurement mode, Text type."
 msgstr ""
 "Znacznik GPS 10, 0x0A. Tryb pomiaru GPS. Wartości tekstowe: \"2\" oznacza "
 "pomiar dwuwymiarowy, a \"3\" pomiar trójwymiarowy."
 
-#: src/properties.cpp:597
+#: src/properties.cpp:598
 msgid "GPS DOP"
 msgstr "GPS DOP"
 
-#: src/properties.cpp:597
+#: src/properties.cpp:598
 msgid "GPS tag 11, 0x0B. Degree of precision for GPS data."
 msgstr "Znacznik GPS 11, 0x0B. Stopień precyzji danych GPS."
 
-#: src/properties.cpp:598 src/tags.cpp:1759
+#: src/properties.cpp:599 src/tags.cpp:1759
 msgid "GPS Speed Reference"
 msgstr "GPS Oznaczenie prędkości"
 
-#: src/properties.cpp:598
+#: src/properties.cpp:599
 msgid "GPS tag 12, 0x0C. Units used to speed measurement."
 msgstr ""
 "Znacznik GPS 12, 0x0C. Jednostki użyte do pomiaru prędkości ruchu odbiornika "
 "GPS. \"K\", \"M\" i \"N\" oznaczają kilometry, mile i węzły."
 
-#: src/properties.cpp:599 src/tags.cpp:1763
+#: src/properties.cpp:600 src/tags.cpp:1763
 msgid "GPS Speed"
 msgstr "GPS Prędkość"
 
-#: src/properties.cpp:599
+#: src/properties.cpp:600
 msgid "GPS tag 13, 0x0D. Speed of GPS receiver movement."
 msgstr "Znacznik GPS 13, 0x0D. Prędkość ruchu odbiornika GPS."
 
-#: src/properties.cpp:600
+#: src/properties.cpp:601
 msgid "GPS Track Reference"
 msgstr "GPS Oznaczenie kierunku"
 
-#: src/properties.cpp:600
+#: src/properties.cpp:601
 msgid "GPS tag 14, 0x0E. Reference for movement direction."
 msgstr ""
 "Znacznik GPS 14, 0x0E. Oznaczenie kierunku ruchu odbiornika GPS.  \"T\" "
 "oznacza kierunek rzeczywisty, a \"M\" kierunek magnetyczny."
 
-#: src/properties.cpp:601 src/tags.cpp:1770
+#: src/properties.cpp:602 src/tags.cpp:1770
 msgid "GPS Track"
 msgstr "GPS Kierunek"
 
-#: src/properties.cpp:601
+#: src/properties.cpp:602
 msgid ""
 "GPS tag 15, 0x0F. Direction of GPS movement, values range from 0 to 359.99."
 msgstr ""
 "Znacznik GPS 15, 0x0F. Kierunek ruchu odbiornika GPS, przyjmuje wartości z "
 "zakresu od 0 do 359.99."
 
-#: src/properties.cpp:602 src/tags.cpp:1774
+#: src/properties.cpp:603 src/tags.cpp:1774
 msgid "GPS Image Direction Reference"
 msgstr "GPS Oznaczenie kierunku obrazu"
 
-#: src/properties.cpp:602
+#: src/properties.cpp:603
 #, fuzzy
 msgid "GPS tag 16, 0x10. Reference for image direction."
 msgstr ""
 "Znacznik GPS 16, 0x10. Oznaczenie rodzaju kierunku obrazu. \"T\" oznacza "
 "kierunek rzeczywisty, a \"M\" kierunek magnetyczny."
 
-#: src/properties.cpp:603 src/tags.cpp:1778
+#: src/properties.cpp:604 src/tags.cpp:1778
 msgid "GPS Image Direction"
 msgstr "GPS Kierunek obrazu"
 
-#: src/properties.cpp:603
+#: src/properties.cpp:604
 msgid ""
 "GPS tag 17, 0x11. Direction of image when captured, values range from 0 to "
 "359.99."
@@ -16315,21 +16332,21 @@ msgstr ""
 "Znacznik GPS 17, 0x11. Określa kierunek obrazu podczas wykonywania zdjęcia, "
 "przyjmuje wartości z zakresu od 0 do 359.99."
 
-#: src/properties.cpp:604 src/tags.cpp:1782
+#: src/properties.cpp:605 src/tags.cpp:1782
 msgid "GPS Map Datum"
 msgstr "GPS Układ odniesienia"
 
-#: src/properties.cpp:604
+#: src/properties.cpp:605
 msgid "GPS tag 18, 0x12. Geodetic survey data."
 msgstr ""
 "Znacznik GPS 18, 0x12. Określa układ odniesienia współrzędnych użyty przez "
 "odbiornik GPS."
 
-#: src/properties.cpp:605 src/tags.cpp:1790
+#: src/properties.cpp:606 src/tags.cpp:1790
 msgid "GPS Destination Latitude"
 msgstr "GPS Docelowa szerokość"
 
-#: src/properties.cpp:605
+#: src/properties.cpp:606
 msgid ""
 "GPS tag 20, 0x14 (position) and 19, 0x13 (North/South). Indicates "
 "destination latitude."
@@ -16338,11 +16355,11 @@ msgstr ""
 "geograficzną i oznaczenie szerokości punktu docelowego (\"N\" oznacza "
 "szerokość geograficzną północną, a \"S\" południową)."
 
-#: src/properties.cpp:606 src/tags.cpp:1802
+#: src/properties.cpp:607 src/tags.cpp:1802
 msgid "GPS Destination Longitude"
 msgstr "GPS Docelowa długość"
 
-#: src/properties.cpp:606
+#: src/properties.cpp:607
 msgid ""
 "GPS tag 22, 0x16 (position) and 21, 0x15 (East/West). Indicates destination "
 "longitude."
@@ -16351,49 +16368,49 @@ msgstr ""
 "geograficzną i oznaczenie długości punktu docelowego (\"E\" oznacza długość "
 "geograficzną wschodnią, a \"W\" zachodnią)."
 
-#: src/properties.cpp:607 src/tags.cpp:1809
+#: src/properties.cpp:608 src/tags.cpp:1809
 msgid "GPS Destination Bearing Reference"
 msgstr "GPS Oznaczenie kierunku docelowego"
 
-#: src/properties.cpp:607
+#: src/properties.cpp:608
 msgid "GPS tag 23, 0x17. Reference for movement direction."
 msgstr ""
 "Znacznik GPS 23, 0x17. Oznaczenie kierunku ruchu do punktu docelowego. \"T\" "
 "oznacza kierunek rzeczywisty, a \"M\" kierunek magnetyczny."
 
-#: src/properties.cpp:608 src/tags.cpp:1813
+#: src/properties.cpp:609 src/tags.cpp:1813
 msgid "GPS Destination Bearing"
 msgstr "GPS Kierunek docelowy"
 
-#: src/properties.cpp:608
+#: src/properties.cpp:609
 msgid "GPS tag 24, 0x18. Destination bearing, values from 0 to 359.99."
 msgstr ""
 "Znacznik GPS 24, 0x18. Określa kierunek (namiar) do celu, wartości od 0 do "
 "359.99."
 
-#: src/properties.cpp:609
+#: src/properties.cpp:610
 msgid "GPS Destination Distance Refefrence"
 msgstr "GPS Oznaczenie odległości obiektu"
 
-#: src/properties.cpp:609
+#: src/properties.cpp:610
 msgid "GPS tag 25, 0x19. Units used for speed measurement."
 msgstr ""
 "Znacznik GPS 25, 0x19. Jednostki użyte do pomiaru prędkości. \"K\", \"M\" i "
 "\"N\" oznaczają kilometry, mile i węzły."
 
-#: src/properties.cpp:610 src/tags.cpp:1821
+#: src/properties.cpp:611 src/tags.cpp:1821
 msgid "GPS Destination Distance"
 msgstr "GPS Odległość obiektu"
 
-#: src/properties.cpp:610
+#: src/properties.cpp:611
 msgid "GPS tag 26, 0x1A. Distance to destination."
 msgstr "Znacznik GPS 26, 0x1A. Odległość do obiektu podana w metrach."
 
-#: src/properties.cpp:611 src/tags.cpp:1824
+#: src/properties.cpp:612 src/tags.cpp:1824
 msgid "GPS Processing Method"
 msgstr "GPS Metoda lokalizacji"
 
-#: src/properties.cpp:611
+#: src/properties.cpp:612
 msgid ""
 "GPS tag 27, 0x1B. A character string recording the name of the method used "
 "for location finding."
@@ -16401,20 +16418,20 @@ msgstr ""
 "Znacznik GPS 27, 0x1B. Łańcuch tekstowy określający metodę użytą do "
 "znalezienia lokalizacji."
 
-#: src/properties.cpp:612 src/tags.cpp:1829
+#: src/properties.cpp:613 src/tags.cpp:1829
 msgid "GPS Area Information"
 msgstr "GPS Informacja o obszarze"
 
-#: src/properties.cpp:612
+#: src/properties.cpp:613
 msgid ""
 "GPS tag 28, 0x1C. A character string recording the name of the GPS area."
 msgstr "Znacznik GPS 28, 0x1C. Określa nazwę obszaru GPS."
 
-#: src/properties.cpp:613 src/tags.cpp:1837
+#: src/properties.cpp:614 src/tags.cpp:1837
 msgid "GPS Differential"
 msgstr "GPS Korekcja"
 
-#: src/properties.cpp:613
+#: src/properties.cpp:614
 msgid ""
 "GPS tag 30, 0x1E. Indicates whether differential correction is applied to "
 "the GPS receiver."
@@ -16422,7 +16439,7 @@ msgstr ""
 "Znacznik GPS 30, 0x1E. Określa czy dla odbiornika GPS zastosowana została "
 "korekcja różnicowa."
 
-#: src/properties.cpp:619
+#: src/properties.cpp:620
 msgid ""
 "A description of the lens used to take the photograph. For example, \"70-200 "
 "mm f/2.8-4.0\"."
@@ -16430,36 +16447,36 @@ msgstr ""
 "Opis obiektywu użytego do zrobienia zdjęcia. Na przykład \"70-200 mm "
 "f/2.8-4.0\"."
 
-#: src/properties.cpp:620
+#: src/properties.cpp:621
 msgid "SerialNumber"
 msgstr "Numer seryjny"
 
-#: src/properties.cpp:620
+#: src/properties.cpp:621
 msgid ""
 "The serial number of the camera or camera body used to take the photograph."
 msgstr "Numer seryjny aparatu lub korpusu aparatu użyty do zrobienia zdjęcia."
 
-#: src/properties.cpp:626
+#: src/properties.cpp:627
 msgid "Contact Info-City"
 msgstr "Kontakt-Miasto"
 
-#: src/properties.cpp:626
+#: src/properties.cpp:627
 msgid "The contact information city part."
 msgstr "Część informacji kontaktowej określająca miasto."
 
-#: src/properties.cpp:627
+#: src/properties.cpp:628
 msgid "Contact Info-Country"
 msgstr "Kontakt-Państwo"
 
-#: src/properties.cpp:627
+#: src/properties.cpp:628
 msgid "The contact information country part."
 msgstr "Część informacji kontaktowej określająca państwo."
 
-#: src/properties.cpp:628
+#: src/properties.cpp:629
 msgid "Contact Info-Address"
 msgstr "Kontakt-Adres"
 
-#: src/properties.cpp:628
+#: src/properties.cpp:629
 msgid ""
 "The contact information address part. Comprises an optional company name and "
 "all required information to locate the building or postbox to which mail "
@@ -16469,19 +16486,19 @@ msgstr ""
 "firmy i wszelkie wymagane informacje umożliwiające lokalizację budynku lub "
 "skrzynki pocztowej na którą ma być wysyłana korespondencja."
 
-#: src/properties.cpp:630
+#: src/properties.cpp:631
 msgid "Contact Info-Postal Code"
 msgstr "Kontakt-Kod pocztowy"
 
-#: src/properties.cpp:630
+#: src/properties.cpp:631
 msgid "The contact information part denoting the local postal code."
 msgstr "Część informacji kontaktowej określająca lokalny kod pocztowy."
 
-#: src/properties.cpp:631
+#: src/properties.cpp:632
 msgid "Contact Info-State/Province"
 msgstr "Kontakt-Stan/prowincja"
 
-#: src/properties.cpp:631
+#: src/properties.cpp:632
 msgid ""
 "The contact information part denoting regional information like state or "
 "province."
@@ -16489,33 +16506,33 @@ msgstr ""
 "Cześć informacji kontaktowej oznaczająca informację regionalną, jak na "
 "przykład stan, prowincja lub województwo."
 
-#: src/properties.cpp:632
+#: src/properties.cpp:633
 msgid "Contact Info-Email"
 msgstr "Kontakt-Email"
 
-#: src/properties.cpp:632
+#: src/properties.cpp:633
 msgid "The contact information email address part."
 msgstr "Część informacji kontaktowej określająca adres e-mail."
 
-#: src/properties.cpp:633
+#: src/properties.cpp:634
 msgid "Contact Info-Phone"
 msgstr "Kontakt-Telefon"
 
-#: src/properties.cpp:633
+#: src/properties.cpp:634
 msgid "The contact information phone number part."
 msgstr "Część informacji kontaktowej określająca numer telefonu."
 
-#: src/properties.cpp:634
+#: src/properties.cpp:635
 msgid "Contact Info-Web URL"
 msgstr "Kontakt-URL"
 
-#: src/properties.cpp:634
+#: src/properties.cpp:635
 msgid "The contact information web address part."
 msgstr ""
 "Część informacji kontaktowej określająca adres internetowy, np. witryny "
 "internetowej."
 
-#: src/properties.cpp:635
+#: src/properties.cpp:636
 msgid ""
 "Code of the country the content is focussing on -- either the country shown "
 "in visual media or referenced in text or audio media. This element is at the "
@@ -16524,11 +16541,11 @@ msgid ""
 "should go to the \"Country\" element."
 msgstr ""
 
-#: src/properties.cpp:639
+#: src/properties.cpp:640
 msgid "Creator's Contact Info"
 msgstr "Informacje kontaktowe twórcy"
 
-#: src/properties.cpp:639
+#: src/properties.cpp:640
 msgid ""
 "The creator's contact information provides all necessary information to get "
 "in contact with the creator of this news object and comprises a set of sub-"
@@ -16539,17 +16556,17 @@ msgstr ""
 "Informacje te składają się z zestawu właściwości umożliwiających prawidłowe "
 "zaadresowanie."
 
-#: src/properties.cpp:641
+#: src/properties.cpp:642
 msgid "Intellectual Genre"
 msgstr "Intelektualny rodzaj obiektu"
 
-#: src/properties.cpp:641
+#: src/properties.cpp:642
 msgid ""
 "Describes the nature, intellectual or journalistic characteristic of a news "
 "object, not specifically its content."
 msgstr ""
 
-#: src/properties.cpp:643
+#: src/properties.cpp:644
 msgid ""
 "Name of a location the content is focussing on -- either the location shown "
 "in visual media or referenced by text or audio media. This location name "
@@ -16559,11 +16576,11 @@ msgid ""
 "geographical hierarchy."
 msgstr ""
 
-#: src/properties.cpp:648
+#: src/properties.cpp:649
 msgid "IPTC Scene"
 msgstr "Scena IPTC"
 
-#: src/properties.cpp:648
+#: src/properties.cpp:649
 msgid ""
 "Describes the scene of a photo content. Specifies one or more terms from the "
 "IPTC \"Scene-NewsCodes\". Each Scene is represented as a string of 6 digits "
@@ -16573,11 +16590,11 @@ msgstr ""
 "z \"Scene-NewsCodes\" IPTC. Każda scena jest reprezentowana przez łańcuch 6 "
 "cyfr w nieuporządkowanej liście."
 
-#: src/properties.cpp:650
+#: src/properties.cpp:651
 msgid "IPTC Subject Code"
 msgstr "Kod tematu IPTC"
 
-#: src/properties.cpp:650
+#: src/properties.cpp:651
 msgid ""
 "Specifies one or more Subjects from the IPTC \"Subject-NewsCodes\" taxonomy "
 "to categorize the content. Each Subject is represented as a string of 8 "
@@ -16587,259 +16604,259 @@ msgstr ""
 "hierarchii \"Subject-News Codes\" IPTC. Każdy temat jest reprezentowany "
 "przez łańcuch 8 cyfr w nieuporządkowanej liście."
 
-#: src/properties.cpp:657
+#: src/properties.cpp:658
 #, fuzzy
 msgid "Additional model info"
 msgstr "Informacja o pozycji AF"
 
-#: src/properties.cpp:657
+#: src/properties.cpp:658
 msgid ""
 "Information about the ethnicity and other facts of the model(s) in a model-"
 "released image."
 msgstr ""
 
-#: src/properties.cpp:658
+#: src/properties.cpp:659
 msgid "Code of featured Organisation"
 msgstr ""
 
-#: src/properties.cpp:658
+#: src/properties.cpp:659
 msgid ""
 "Code from controlled vocabulary for identyfing the organisation or company "
 "which is featured in the image."
 msgstr ""
 
-#: src/properties.cpp:659
+#: src/properties.cpp:660
 msgid "Controlled Vocabulary Term"
 msgstr ""
 
-#: src/properties.cpp:659
+#: src/properties.cpp:660
 msgid ""
 "A term to describe the content of the image by a value from a Controlled "
 "Vocabulary."
 msgstr ""
 
-#: src/properties.cpp:660
+#: src/properties.cpp:661
 #, fuzzy
 msgid "Model age"
 msgstr "Model"
 
-#: src/properties.cpp:660
+#: src/properties.cpp:661
 msgid ""
 "Age of the human model(s) at the time this image was taken in a model "
 "released image."
 msgstr ""
 
-#: src/properties.cpp:661
+#: src/properties.cpp:662
 msgid "Name of featured Organisation"
 msgstr ""
 
-#: src/properties.cpp:661
+#: src/properties.cpp:662
 msgid "Name of the organisation or company which is featured in the image."
 msgstr ""
 
-#: src/properties.cpp:662
+#: src/properties.cpp:663
 #, fuzzy
 msgid "Person shown"
 msgstr "Wersje"
 
-#: src/properties.cpp:662
+#: src/properties.cpp:663
 msgid "Name of a person shown in the image."
 msgstr ""
 
-#: src/properties.cpp:663
+#: src/properties.cpp:664
 #, fuzzy
 msgid "Digital Image Identifier"
 msgstr "Cyfrowa stabilizacja obrazu"
 
-#: src/properties.cpp:663
+#: src/properties.cpp:664
 msgid ""
 "Globally unique identifier for this digital image. It is created and applied "
 "by the creator of the digital image at the time of its creation. this value "
 "shall not be changed after that time."
 msgstr ""
 
-#: src/properties.cpp:664
+#: src/properties.cpp:665
 msgid "Physical type of original photo"
 msgstr ""
 
-#: src/properties.cpp:664
+#: src/properties.cpp:665
 #, fuzzy
 msgid "The type of the source digital file."
 msgstr "Czas trwania pliku mediów."
 
-#: src/properties.cpp:665 src/properties.cpp:921 src/properties.cpp:930
+#: src/properties.cpp:666 src/properties.cpp:922 src/properties.cpp:931
 #, fuzzy
 msgid "Event"
 msgstr "Wieczór"
 
-#: src/properties.cpp:665
+#: src/properties.cpp:666
 msgid "Names or describes the specific event at which the photo was taken."
 msgstr ""
 
-#: src/properties.cpp:666
+#: src/properties.cpp:667
 #, fuzzy
 msgid "Maximum available height"
 msgstr "Światło zastane"
 
-#: src/properties.cpp:666
+#: src/properties.cpp:667
 msgid ""
 "The maximum available height in pixels of the original photo from which this "
 "photo has been derived by downsizing."
 msgstr ""
 
-#: src/properties.cpp:667
+#: src/properties.cpp:668
 #, fuzzy
 msgid "Maximum available width"
 msgstr "Maksymalna długość ogniskowej"
 
-#: src/properties.cpp:667
+#: src/properties.cpp:668
 msgid ""
 "The maximum available width in pixels of the original photo from which this "
 "photo has been derived by downsizing."
 msgstr ""
 
-#: src/properties.cpp:668
+#: src/properties.cpp:669
 msgid "Registry Entry"
 msgstr ""
 
-#: src/properties.cpp:668
+#: src/properties.cpp:669
 msgid ""
 "Both a Registry Item Id and a Registry Organisation Id to record any "
 "registration of this digital image with a registry."
 msgstr ""
 
-#: src/properties.cpp:669
+#: src/properties.cpp:670
 #, fuzzy
 msgid "Registry Entry-Item Identifier"
 msgstr "Cyfrowa stabilizacja obrazu"
 
-#: src/properties.cpp:669
+#: src/properties.cpp:670
 msgid ""
 "A unique identifier created by a registry and applied by the creator of the "
 "digital image. This value shall not be changed after being applied. This "
 "identifier is linked to a corresponding Registry Organisation Identifier."
 msgstr ""
 
-#: src/properties.cpp:670
+#: src/properties.cpp:671
 msgid "Registry Entry-Organisation Identifier"
 msgstr ""
 
-#: src/properties.cpp:670
+#: src/properties.cpp:671
 msgid ""
 "An identifier for the registry which issued the corresponding Registry Image "
 "Id."
 msgstr ""
 
-#: src/properties.cpp:671
+#: src/properties.cpp:672
 msgid "IPTC Fields Last Edited"
 msgstr ""
 
-#: src/properties.cpp:671
+#: src/properties.cpp:672
 #, fuzzy
 msgid ""
 "The date and optionally time when any of the IPTC photo metadata fields has "
 "been last edited."
 msgstr "Data i czas ostatniej modyfikacji metadanych."
 
-#: src/properties.cpp:672
+#: src/properties.cpp:673
 #, fuzzy
 msgid "Location shown"
 msgstr "Kod lokalizacji"
 
-#: src/properties.cpp:672
+#: src/properties.cpp:673
 #, fuzzy
 msgid "A location shown in the image."
 msgstr "Przesunięcie obrazu podglądu"
 
-#: src/properties.cpp:673
+#: src/properties.cpp:674
 #, fuzzy
 msgid "Location Created"
 msgstr "Kod lokalizacji"
 
-#: src/properties.cpp:673
+#: src/properties.cpp:674
 #, fuzzy
 msgid "The location the photo was taken."
 msgstr "Nazwa ujęcia."
 
-#: src/properties.cpp:674
+#: src/properties.cpp:675
 #, fuzzy
 msgid "Location-City"
 msgstr "Położenie"
 
-#: src/properties.cpp:674
+#: src/properties.cpp:675
 #, fuzzy
 msgid "Name of the city of a location."
 msgstr "Nazwa artysty lub artystów."
 
-#: src/properties.cpp:675
+#: src/properties.cpp:676
 #, fuzzy
 msgid "Location-Country ISO-Code"
 msgstr "Kod lokalizacji"
 
-#: src/properties.cpp:675
+#: src/properties.cpp:676
 #, fuzzy
 msgid "The ISO code of a country of a location."
 msgstr "Nazwa ujęcia."
 
-#: src/properties.cpp:676
+#: src/properties.cpp:677
 #, fuzzy
 msgid "Location-Country Name"
 msgstr "Nazwa lokalizacji"
 
-#: src/properties.cpp:676
+#: src/properties.cpp:677
 #, fuzzy
 msgid "The name of a country of a location."
 msgstr "Nazwa ujęcia."
 
-#: src/properties.cpp:677
+#: src/properties.cpp:678
 #, fuzzy
 msgid "Location-Province/State"
 msgstr "Prowincja/stan"
 
-#: src/properties.cpp:677
+#: src/properties.cpp:678
 #, fuzzy
 msgid ""
 "The name of a subregion of a country - a province or state - of a location."
 msgstr "Nazwa ujęcia."
 
-#: src/properties.cpp:678
+#: src/properties.cpp:679
 #, fuzzy
 msgid "Location-Sublocation"
 msgstr "Szczegółowa lokalizacja"
 
-#: src/properties.cpp:678
+#: src/properties.cpp:679
 msgid ""
 "Name of a sublocation. This sublocation name could either be the name of a "
 "sublocation to a city or the name of a well known location or (natural) "
 "monument outside a city."
 msgstr ""
 
-#: src/properties.cpp:679
+#: src/properties.cpp:680
 #, fuzzy
 msgid "Location-World Region"
 msgstr "Kod lokalizacji"
 
-#: src/properties.cpp:679
+#: src/properties.cpp:680
 #, fuzzy
 msgid "The name of a world region of a location."
 msgstr "Nazwa ujęcia."
 
-#: src/properties.cpp:680
+#: src/properties.cpp:681
 #, fuzzy
 msgid "Artwork or object in the image"
 msgstr "Odnośnik do projektu w ramach którego utworzono ten plik."
 
-#: src/properties.cpp:680
+#: src/properties.cpp:681
 #, fuzzy
 msgid "A set of metadata about artwork or an object in the image."
 msgstr "Odnośnik do projektu w ramach którego utworzono ten plik."
 
-#: src/properties.cpp:681
+#: src/properties.cpp:682
 #, fuzzy
 msgid "Artwork or object-Copyright notice"
 msgstr "Uwaga o prawach autorskich"
 
-#: src/properties.cpp:681
+#: src/properties.cpp:682
 msgid ""
 "Contains any necessary copyright notice for claiming the intellectual "
 "property for artwork or an object in the image and should identify the "
@@ -16847,1162 +16864,1162 @@ msgid ""
 "property rights."
 msgstr ""
 
-#: src/properties.cpp:682
+#: src/properties.cpp:683
 #, fuzzy
 msgid "Artwork or object-Creator"
 msgstr "Uwaga o prawach autorskich"
 
-#: src/properties.cpp:682
+#: src/properties.cpp:683
 msgid ""
 "Contains the name of the artist who has created artwork or an object in the "
 "image. In cases where the artist could or should not be identified the name "
 "of a company or organisation may be appropriate."
 msgstr ""
 
-#: src/properties.cpp:683
+#: src/properties.cpp:684
 #, fuzzy
 msgid "Artwork or object-Date Created"
 msgstr "Uwaga o prawach autorskich"
 
-#: src/properties.cpp:683
+#: src/properties.cpp:684
 msgid ""
 "Designates the date and optionally the time the artwork or object in the "
 "image was created. This relates to artwork or objects with associated "
 "intellectual property rights."
 msgstr ""
 
-#: src/properties.cpp:684
+#: src/properties.cpp:685
 #, fuzzy
 msgid "Artwork or object-Source"
 msgstr "Uwaga o prawach autorskich"
 
-#: src/properties.cpp:684
+#: src/properties.cpp:685
 msgid ""
 "The organisation or body holding and registering the artwork or object in "
 "the image for inventory purposes."
 msgstr ""
 
-#: src/properties.cpp:685
+#: src/properties.cpp:686
 #, fuzzy
 msgid "Artwork or object-Source inventory number"
 msgstr "Uwaga o prawach autorskich"
 
-#: src/properties.cpp:685
+#: src/properties.cpp:686
 msgid ""
 "The inventory number issued by the organisation or body holding and "
 "registering the artwork or object in the image."
 msgstr ""
 
-#: src/properties.cpp:686
+#: src/properties.cpp:687
 #, fuzzy
 msgid "Artwork or object-Title"
 msgstr "Uwaga o prawach autorskich"
 
-#: src/properties.cpp:686
+#: src/properties.cpp:687
 #, fuzzy
 msgid "A reference for the artwork or object in the image."
 msgstr "Odnośnik do projektu w ramach którego utworzono ten plik."
 
-#: src/properties.cpp:693
+#: src/properties.cpp:694
 msgid "Scan from film"
 msgstr ""
 
-#: src/properties.cpp:694
+#: src/properties.cpp:695
 msgid "Scan from transparency (including slide)"
 msgstr ""
 
-#: src/properties.cpp:695
+#: src/properties.cpp:696
 msgid "Scan from print"
 msgstr ""
 
-#: src/properties.cpp:696
+#: src/properties.cpp:697
 #, fuzzy
 msgid "Camera RAW"
 msgstr "ID aparatu"
 
-#: src/properties.cpp:697
+#: src/properties.cpp:698
 #, fuzzy
 msgid "Camera TIFF"
 msgstr "ID aparatu"
 
-#: src/properties.cpp:698
+#: src/properties.cpp:699
 #, fuzzy
 msgid "Camera JPEG"
 msgstr "ID aparatu"
 
-#: src/properties.cpp:703
+#: src/properties.cpp:704
 #, fuzzy
 msgid "PLUS Version"
 msgstr "Wersja PDF"
 
-#: src/properties.cpp:703
+#: src/properties.cpp:704
 msgid ""
 "The version number of the PLUS standards in place at the time of the "
 "transaction."
 msgstr ""
 
-#: src/properties.cpp:704
+#: src/properties.cpp:705
 #, fuzzy
 msgid "Licensee"
 msgstr "Obiektyw"
 
-#: src/properties.cpp:704
+#: src/properties.cpp:705
 msgid ""
 "Party or parties to whom the license is granted by the Licensor/s under the "
 "license transaction."
 msgstr ""
 
-#: src/properties.cpp:705
+#: src/properties.cpp:706
 #, fuzzy
 msgid "Licensee ID"
 msgstr "ID obiektywu"
 
-#: src/properties.cpp:705
+#: src/properties.cpp:706
 msgid "Optional PLUS-ID identifying each Licensee."
 msgstr ""
 
-#: src/properties.cpp:706
+#: src/properties.cpp:707
 #, fuzzy
 msgid "Licensee Name"
 msgstr "Nazwa lokalizacji"
 
-#: src/properties.cpp:706
+#: src/properties.cpp:707
 #, fuzzy
 msgid "Name of each Licensee."
 msgstr "Nazwa sceny."
 
-#: src/properties.cpp:707
+#: src/properties.cpp:708
 #, fuzzy
 msgid "End User"
 msgstr "Ekstender"
 
-#: src/properties.cpp:707
+#: src/properties.cpp:708
 msgid "Party or parties ultimately making use of the image under the license."
 msgstr ""
 
-#: src/properties.cpp:708
+#: src/properties.cpp:709
 #, fuzzy
 msgid "End User ID"
 msgstr "Ekstender"
 
-#: src/properties.cpp:708
+#: src/properties.cpp:709
 msgid "Optional PLUS-ID identifying each End User."
 msgstr ""
 
-#: src/properties.cpp:709
+#: src/properties.cpp:710
 #, fuzzy
 msgid "End User Name"
 msgstr "Nazwa właściciela"
 
-#: src/properties.cpp:709
+#: src/properties.cpp:710
 #, fuzzy
 msgid "Name of each End User."
 msgstr "Nazwa sceny."
 
-#: src/properties.cpp:710
+#: src/properties.cpp:711
 #, fuzzy
 msgid "Licensor"
 msgstr "Obiektyw"
 
-#: src/properties.cpp:710
+#: src/properties.cpp:711
 msgid "Party or parties granting the license to the Licensee."
 msgstr ""
 
-#: src/properties.cpp:711
+#: src/properties.cpp:712
 #, fuzzy
 msgid "Licensor ID"
 msgstr "ID obiektywu"
 
-#: src/properties.cpp:711
+#: src/properties.cpp:712
 msgid "Optional PLUS-ID identifying each Licensor."
 msgstr ""
 
-#: src/properties.cpp:712
+#: src/properties.cpp:713
 #, fuzzy
 msgid "Licensor Name"
 msgstr "Nazwa lokalizacji"
 
-#: src/properties.cpp:712
+#: src/properties.cpp:713
 #, fuzzy
 msgid "Name of each Licensor."
 msgstr "Nazwa sceny."
 
-#: src/properties.cpp:713
+#: src/properties.cpp:714
 #, fuzzy
 msgid "Licensor Address"
 msgstr "Właściwości obiektywu"
 
-#: src/properties.cpp:713
+#: src/properties.cpp:714
 #, fuzzy
 msgid "Licensor street address."
 msgstr "Nazwa państwa"
 
-#: src/properties.cpp:714
+#: src/properties.cpp:715
 #, fuzzy
 msgid "Licensor Address Detail"
 msgstr "Kontakt-Kod pocztowy"
 
-#: src/properties.cpp:714
+#: src/properties.cpp:715
 #, fuzzy
 msgid "Additional Licensor mailing address details."
 msgstr "Informacja o pozycji AF"
 
-#: src/properties.cpp:715
+#: src/properties.cpp:716
 #, fuzzy
 msgid "Licensor City"
 msgstr "Meksyk"
 
-#: src/properties.cpp:715
+#: src/properties.cpp:716
 #, fuzzy
 msgid "Licensor City name."
 msgstr "Nazwa państwa"
 
-#: src/properties.cpp:716
+#: src/properties.cpp:717
 #, fuzzy
 msgid "Licensor State or Province"
 msgstr "Stan/Prowincja"
 
-#: src/properties.cpp:716
+#: src/properties.cpp:717
 #, fuzzy
 msgid "Licensor State or Province name."
 msgstr "Stan/Prowincja"
 
-#: src/properties.cpp:717
+#: src/properties.cpp:718
 #, fuzzy
 msgid "Licensor Postal Code"
 msgstr "Kontakt-Kod pocztowy"
 
-#: src/properties.cpp:717
+#: src/properties.cpp:718
 #, fuzzy
 msgid "Licensor Postal Code or Zip Code."
 msgstr "Kontakt-Kod pocztowy"
 
-#: src/properties.cpp:718
+#: src/properties.cpp:719
 #, fuzzy
 msgid "Licensor Country"
 msgstr "Państwo"
 
-#: src/properties.cpp:718
+#: src/properties.cpp:719
 #, fuzzy
 msgid "Licensor Country name."
 msgstr "Nazwa państwa"
 
-#: src/properties.cpp:719
+#: src/properties.cpp:720
 #, fuzzy
 msgid "Licensor Telephone Type 1"
 msgstr "Numer seryjny obiektywu"
 
-#: src/properties.cpp:719
+#: src/properties.cpp:720
 #, fuzzy
 msgid "Licensor Telephone Type 1."
 msgstr "Numer seryjny obiektywu"
 
-#: src/properties.cpp:720
+#: src/properties.cpp:721
 #, fuzzy
 msgid "Licensor Telephone 1"
 msgstr "Numer seryjny obiektywu"
 
-#: src/properties.cpp:720
+#: src/properties.cpp:721
 #, fuzzy
 msgid "Licensor Telephone number 1."
 msgstr "Numer seryjny obiektywu"
 
-#: src/properties.cpp:721
+#: src/properties.cpp:722
 #, fuzzy
 msgid "Licensor Telephone Type 2"
 msgstr "Numer seryjny obiektywu"
 
-#: src/properties.cpp:721
+#: src/properties.cpp:722
 #, fuzzy
 msgid "Licensor Telephone Type 2."
 msgstr "Numer seryjny obiektywu"
 
-#: src/properties.cpp:722
+#: src/properties.cpp:723
 #, fuzzy
 msgid "Licensor Telephone 2"
 msgstr "Numer seryjny obiektywu"
 
-#: src/properties.cpp:722
+#: src/properties.cpp:723
 #, fuzzy
 msgid "Licensor Telephone number 2."
 msgstr "Numer seryjny obiektywu"
 
-#: src/properties.cpp:723
+#: src/properties.cpp:724
 #, fuzzy
 msgid "Licensor Email"
 msgstr "Nazwa lokalizacji"
 
-#: src/properties.cpp:723
+#: src/properties.cpp:724
 #, fuzzy
 msgid "Licensor Email address."
 msgstr "Kontakt-Kod pocztowy"
 
-#: src/properties.cpp:724
+#: src/properties.cpp:725
 #, fuzzy
 msgid "Licensor URL"
 msgstr "Bazowy URL"
 
-#: src/properties.cpp:724
+#: src/properties.cpp:725
 msgid "Licensor world wide web address."
 msgstr ""
 
-#: src/properties.cpp:725
+#: src/properties.cpp:726
 #, fuzzy
 msgid "Licensor Notes"
 msgstr "Właściwości obiektywu"
 
-#: src/properties.cpp:725
+#: src/properties.cpp:726
 msgid ""
 "Supplemental information for use in identifying and contacting the Licensor/"
 "s."
 msgstr ""
 
-#: src/properties.cpp:726
+#: src/properties.cpp:727
 #, fuzzy
 msgid "PLUS Media Summary Code"
 msgstr "GPS Tryb pomiaru"
 
-#: src/properties.cpp:726
+#: src/properties.cpp:727
 msgid ""
 "A PLUS-standardized alphanumeric code string summarizing the media usages "
 "included in the license."
 msgstr ""
 
-#: src/properties.cpp:727
+#: src/properties.cpp:728
 #, fuzzy
 msgid "License Start Date"
 msgstr "Dane wykrywania sceny"
 
-#: src/properties.cpp:727
+#: src/properties.cpp:728
 #, fuzzy
 msgid "The date on which the license takes effect."
 msgstr "Data i czas zrobienia wideo."
 
-#: src/properties.cpp:728
+#: src/properties.cpp:729
 #, fuzzy
 msgid "License End Date"
 msgstr "Dane obiektywu"
 
-#: src/properties.cpp:728
+#: src/properties.cpp:729
 #, fuzzy
 msgid "The date on which the license expires."
 msgstr "Nazwa sceny."
 
-#: src/properties.cpp:729
+#: src/properties.cpp:730
 #, fuzzy
 msgid "Media Constraints"
 msgstr "PM Kontrast"
 
-#: src/properties.cpp:729
+#: src/properties.cpp:730
 msgid ""
 "Constraints limiting the scope of PLUS Media Usage/s included in the license "
 "to particular named media or to media not yet specifically defined in the "
 "PLUS Media Matrix."
 msgstr ""
 
-#: src/properties.cpp:730
+#: src/properties.cpp:731
 #, fuzzy
 msgid "Region Constraints"
 msgstr "PM Kontrast"
 
-#: src/properties.cpp:730
+#: src/properties.cpp:731
 msgid ""
 "Constraints limiting the scope of geographic distribution to specific "
 "cities, states, provinces or other areas to be included in or excluded from "
 "the PLUS Regions specified in the Media Usages specified in the license."
 msgstr ""
 
-#: src/properties.cpp:731
+#: src/properties.cpp:732
 #, fuzzy
 msgid "Product or Service Constraints"
 msgstr "Automatyczna regulacja kontrastu"
 
-#: src/properties.cpp:731
+#: src/properties.cpp:732
 msgid ""
 "Constraints limiting usage of the image to promotion of/association with a "
 "named product or service."
 msgstr ""
 
-#: src/properties.cpp:732
+#: src/properties.cpp:733
 #, fuzzy
 msgid "Image File Constraints"
 msgstr "Ustawienia rozmiaru obrazu"
 
-#: src/properties.cpp:732
+#: src/properties.cpp:733
 msgid ""
 "Constraints on the changing of the image file name, metadata or file type."
 msgstr ""
 
-#: src/properties.cpp:733
+#: src/properties.cpp:734
 #, fuzzy
 msgid "Image Alteration Constraints"
 msgstr "Ustawienia jakości obrazu"
 
-#: src/properties.cpp:733
+#: src/properties.cpp:734
 msgid ""
 "Constraints on alteration of the image by cropping, flipping, retouching, "
 "colorization, de-colorization or merging."
 msgstr ""
 
-#: src/properties.cpp:734
+#: src/properties.cpp:735
 #, fuzzy
 msgid "Image Duplication Constraints"
 msgstr "Ustawienia jakości obrazu"
 
-#: src/properties.cpp:734
+#: src/properties.cpp:735
 msgid "Constraints on the creation of duplicates of the image."
 msgstr ""
 
-#: src/properties.cpp:735
+#: src/properties.cpp:736
 #, fuzzy
 msgid "Model Release Status"
 msgstr "Data udostępnienia"
 
-#: src/properties.cpp:735
+#: src/properties.cpp:736
 msgid ""
 "Summarizes the availability and scope of model releases authorizing usage of "
 "the likenesses of persons appearing in the photograph."
 msgstr ""
 
-#: src/properties.cpp:736
+#: src/properties.cpp:737
 #, fuzzy
 msgid "Model Release ID"
 msgstr "Identyfikator modelu"
 
-#: src/properties.cpp:736
+#: src/properties.cpp:737
 msgid "Optional identifier associated with each Model Release."
 msgstr ""
 
-#: src/properties.cpp:737
+#: src/properties.cpp:738
 msgid "Minor Model Age Disclosure"
 msgstr ""
 
-#: src/properties.cpp:737
+#: src/properties.cpp:738
 msgid ""
 "Age of the youngest model pictured in the image, at the time that the image "
 "was made."
 msgstr ""
 
-#: src/properties.cpp:738
+#: src/properties.cpp:739
 #, fuzzy
 msgid "Property Release Status"
 msgstr "Data udostępnienia"
 
-#: src/properties.cpp:738
+#: src/properties.cpp:739
 msgid ""
 "Summarizes the availability and scope of property releases authorizing usage "
 "of the properties appearing in the photograph."
 msgstr ""
 
-#: src/properties.cpp:739
+#: src/properties.cpp:740
 #, fuzzy
 msgid "Property Release ID"
 msgstr "Identyfikator modelu"
 
-#: src/properties.cpp:739
+#: src/properties.cpp:740
 msgid "Optional identifier associated with each Property Release."
 msgstr ""
 
-#: src/properties.cpp:740
+#: src/properties.cpp:741
 #, fuzzy
 msgid "Other Constraints"
 msgstr "Automatyczna regulacja kontrastu"
 
-#: src/properties.cpp:740
+#: src/properties.cpp:741
 #, fuzzy
 msgid "Additional constraints on the license."
 msgstr "Informacja o pozycji AF"
 
-#: src/properties.cpp:741
+#: src/properties.cpp:742
 #, fuzzy
 msgid "Credit Line Required"
 msgstr "Nie używany"
 
-#: src/properties.cpp:741
+#: src/properties.cpp:742
 msgid "Attribution requirements, if any."
 msgstr ""
 
-#: src/properties.cpp:742
+#: src/properties.cpp:743
 msgid "Adult Content Warning"
 msgstr ""
 
-#: src/properties.cpp:742
+#: src/properties.cpp:743
 msgid "Warning indicating the presence of content not suitable for minors."
 msgstr ""
 
-#: src/properties.cpp:743
+#: src/properties.cpp:744
 #, fuzzy
 msgid "Other License Requirements"
 msgstr "Obiektyw"
 
-#: src/properties.cpp:743
+#: src/properties.cpp:744
 #, fuzzy
 msgid "Additional license requirements."
 msgstr "Informacja o pozycji AF"
 
-#: src/properties.cpp:744
+#: src/properties.cpp:745
 #, fuzzy
 msgid "Terms and Conditions Text"
 msgstr "Warunki robienia zdjęcia"
 
-#: src/properties.cpp:744
+#: src/properties.cpp:745
 msgid "Terms and Conditions applying to the license."
 msgstr ""
 
-#: src/properties.cpp:745
+#: src/properties.cpp:746
 #, fuzzy
 msgid "Terms and Conditions URL"
 msgstr "Warunki robienia zdjęcia"
 
-#: src/properties.cpp:745
+#: src/properties.cpp:746
 msgid "URL for Terms and Conditions applying to the license."
 msgstr ""
 
-#: src/properties.cpp:746
+#: src/properties.cpp:747
 #, fuzzy
 msgid "Other License Conditions"
 msgstr "Warunki robienia zdjęcia"
 
-#: src/properties.cpp:746
+#: src/properties.cpp:747
 #, fuzzy
 msgid "Additional license conditions."
 msgstr "Informacja o pozycji AF"
 
-#: src/properties.cpp:747
+#: src/properties.cpp:748
 #, fuzzy
 msgid "Identifies the type of image delivered."
 msgstr "Określa dostawcę i produkt"
 
-#: src/properties.cpp:748
+#: src/properties.cpp:749
 #, fuzzy
 msgid "Licensor Image ID"
 msgstr "ID obiektywu"
 
-#: src/properties.cpp:748
+#: src/properties.cpp:749
 msgid "Optional identifier assigned by the Licensor to the image."
 msgstr ""
 
-#: src/properties.cpp:749
+#: src/properties.cpp:750
 #, fuzzy
 msgid "Image File Name As Delivered"
 msgstr "Powiązany format pliku obrazu"
 
-#: src/properties.cpp:749
+#: src/properties.cpp:750
 msgid ""
 "Name of the image file delivered to the Licensee for use under the license."
 msgstr ""
 
-#: src/properties.cpp:750
+#: src/properties.cpp:751
 #, fuzzy
 msgid "Image File Format As Delivered"
 msgstr "Powiązany format pliku obrazu"
 
-#: src/properties.cpp:750
+#: src/properties.cpp:751
 msgid ""
 "File format of the image file delivered to the Licensee for use under the "
 "license."
 msgstr ""
 
-#: src/properties.cpp:751
+#: src/properties.cpp:752
 #, fuzzy
 msgid "Image File Size As Delivered"
 msgstr "Powiązany format pliku obrazu"
 
-#: src/properties.cpp:751
+#: src/properties.cpp:752
 msgid "Size of the image file delivered to the Licensee."
 msgstr ""
 
-#: src/properties.cpp:752
+#: src/properties.cpp:753
 #, fuzzy
 msgid "Copyright Status"
 msgstr "Prawa autorskie"
 
-#: src/properties.cpp:752
+#: src/properties.cpp:753
 #, fuzzy
 msgid "Copyright status of the image."
 msgstr "Uwaga o prawach autorskich"
 
-#: src/properties.cpp:753
+#: src/properties.cpp:754
 #, fuzzy
 msgid "Copyright Registration Number"
 msgstr "Nazwa właściciela"
 
-#: src/properties.cpp:753
+#: src/properties.cpp:754
 msgid "Copyright Registration Number, if any, applying to the licensed image."
 msgstr ""
 
-#: src/properties.cpp:754
+#: src/properties.cpp:755
 #, fuzzy
 msgid "First Publication Date"
 msgstr "Data utworzenia postaci cyfrowej"
 
-#: src/properties.cpp:754
+#: src/properties.cpp:755
 #, fuzzy
 msgid "The date on which the image was first published."
 msgstr "Data wydania utworu."
 
-#: src/properties.cpp:755
+#: src/properties.cpp:756
 #, fuzzy
 msgid "Copyright Owner"
 msgstr "Prawa autorskie"
 
-#: src/properties.cpp:755
+#: src/properties.cpp:756
 msgid "Owner or owners of the copyright in the licensed image."
 msgstr ""
 
-#: src/properties.cpp:756
+#: src/properties.cpp:757
 #, fuzzy
 msgid "Copyright Owner ID"
 msgstr "Prawa autorskie"
 
-#: src/properties.cpp:756
+#: src/properties.cpp:757
 msgid "Optional PLUS-ID identifying each Copyright Owner."
 msgstr ""
 
-#: src/properties.cpp:757
+#: src/properties.cpp:758
 #, fuzzy
 msgid "Copyright Owner Name"
 msgstr "Nazwa właściciela"
 
-#: src/properties.cpp:757
+#: src/properties.cpp:758
 #, fuzzy
 msgid "Name of Copyright Owner."
 msgstr "Prawa autorskie"
 
-#: src/properties.cpp:758
+#: src/properties.cpp:759
 #, fuzzy
 msgid "Copyright Owner Image ID"
 msgstr "Prawa autorskie"
 
-#: src/properties.cpp:758
+#: src/properties.cpp:759
 msgid "Optional identifier assigned by the Copyright Owner to the image."
 msgstr ""
 
-#: src/properties.cpp:759
+#: src/properties.cpp:760
 #, fuzzy
 msgid "Image Creator"
 msgstr "Orientacja obrazu"
 
-#: src/properties.cpp:759
+#: src/properties.cpp:760
 #, fuzzy
 msgid "Creator/s of the image."
 msgstr "Przesunięcie obrazu podglądu"
 
-#: src/properties.cpp:760
+#: src/properties.cpp:761
 #, fuzzy
 msgid "Image Creator ID"
 msgstr "Orientacja obrazu"
 
-#: src/properties.cpp:760
+#: src/properties.cpp:761
 msgid "Optional PLUS-ID identifying each Image Creator."
 msgstr ""
 
-#: src/properties.cpp:761
+#: src/properties.cpp:762
 #, fuzzy
 msgid "Image Creator Name"
 msgstr "Tonacja obrazu"
 
-#: src/properties.cpp:761
+#: src/properties.cpp:762
 #, fuzzy
 msgid "Name of Image Creator."
 msgstr "Środek obrazu Raw"
 
-#: src/properties.cpp:762
+#: src/properties.cpp:763
 #, fuzzy
 msgid "Image Creator Image ID"
 msgstr "Orientacja obrazu"
 
-#: src/properties.cpp:762
+#: src/properties.cpp:763
 msgid "Optional identifier assigned by the Image Creator to the image."
 msgstr ""
 
-#: src/properties.cpp:763
+#: src/properties.cpp:764
 #, fuzzy
 msgid "Image Supplier ID"
 msgstr "Unikalny identyfikator obrazu"
 
-#: src/properties.cpp:763
+#: src/properties.cpp:764
 msgid "Optional PLUS-ID identifying the Image Supplier."
 msgstr ""
 
-#: src/properties.cpp:764
+#: src/properties.cpp:765
 #, fuzzy
 msgid "Image Supplier Name"
 msgstr "Rozmiar obrazu"
 
-#: src/properties.cpp:764
+#: src/properties.cpp:765
 #, fuzzy
 msgid "Name of Image Supplier."
 msgstr "Środek obrazu Raw"
 
-#: src/properties.cpp:765
+#: src/properties.cpp:766
 #, fuzzy
 msgid "Image Supplier Image ID"
 msgstr "Unikalny identyfikator obrazu"
 
-#: src/properties.cpp:765
+#: src/properties.cpp:766
 msgid "Optional identifier assigned by the Image Supplier to the image."
 msgstr ""
 
-#: src/properties.cpp:766
+#: src/properties.cpp:767
 #, fuzzy
 msgid "Licensee Image ID"
 msgstr "Licznik usuniętych zdjęć"
 
-#: src/properties.cpp:766
+#: src/properties.cpp:767
 msgid "Optional identifier assigned by the Licensee to the image."
 msgstr ""
 
-#: src/properties.cpp:767
+#: src/properties.cpp:768
 #, fuzzy
 msgid "Licensee Image Notes"
 msgstr "Licznik usuniętych zdjęć"
 
-#: src/properties.cpp:767
+#: src/properties.cpp:768
 #, fuzzy
 msgid "Notes added by Licensee."
 msgstr "Nazwa sceny."
 
-#: src/properties.cpp:768
+#: src/properties.cpp:769
 #, fuzzy
 msgid "Other Image Info"
 msgstr "Obiektyw"
 
-#: src/properties.cpp:768
+#: src/properties.cpp:769
 #, fuzzy
 msgid "Additional image information."
 msgstr "Informacja o pozycji AF"
 
-#: src/properties.cpp:769
+#: src/properties.cpp:770
 #, fuzzy
 msgid "License ID"
 msgstr "ID obiektywu"
 
-#: src/properties.cpp:769
+#: src/properties.cpp:770
 msgid "Optional PLUS-ID assigned by the Licensor to the License."
 msgstr ""
 
-#: src/properties.cpp:770
+#: src/properties.cpp:771
 #, fuzzy
 msgid "Licensor Transaction ID"
 msgstr "Data ważności"
 
-#: src/properties.cpp:770
+#: src/properties.cpp:771
 msgid ""
 "Identifier assigned by Licensor for Licensor's reference and internal use."
 msgstr ""
 
-#: src/properties.cpp:771
+#: src/properties.cpp:772
 #, fuzzy
 msgid "Licensee Transaction ID"
 msgstr "Data ważności"
 
-#: src/properties.cpp:771
+#: src/properties.cpp:772
 msgid ""
 "Identifier assigned by Licensee for Licensee's reference and internal use."
 msgstr ""
 
-#: src/properties.cpp:772
+#: src/properties.cpp:773
 #, fuzzy
 msgid "Licensee Project Reference"
 msgstr "Odniesienie do projektu"
 
-#: src/properties.cpp:772
+#: src/properties.cpp:773
 msgid "Project reference name or description assigned by Licensee."
 msgstr ""
 
-#: src/properties.cpp:773
+#: src/properties.cpp:774
 #, fuzzy
 msgid "License Transaction Date"
 msgstr "Data ważności"
 
-#: src/properties.cpp:773
+#: src/properties.cpp:774
 #, fuzzy
 msgid "The date of the License Transaction."
 msgstr "Nazwa sceny."
 
-#: src/properties.cpp:774
+#: src/properties.cpp:775
 #, fuzzy
 msgid "Reuse"
 msgstr "użyto"
 
-#: src/properties.cpp:774
+#: src/properties.cpp:775
 msgid ""
 "Indicates whether a license is a repeat or an initial license.  Reuse may "
 "require that licenses stored in files previously delivered to the customer "
 "be updated."
 msgstr ""
 
-#: src/properties.cpp:775
+#: src/properties.cpp:776
 #, fuzzy
 msgid "Other License Documents"
 msgstr "Warunki robienia zdjęcia"
 
-#: src/properties.cpp:775
+#: src/properties.cpp:776
 msgid ""
 "Reference information for additional documents associated with the license."
 msgstr ""
 
-#: src/properties.cpp:776
+#: src/properties.cpp:777
 #, fuzzy
 msgid "Other License Info"
 msgstr "Obiektyw"
 
-#: src/properties.cpp:776
+#: src/properties.cpp:777
 #, fuzzy
 msgid "Additional license information."
 msgstr "Informacja o pozycji AF"
 
-#: src/properties.cpp:777 src/properties.cpp:778 src/properties.cpp:779
-#: src/properties.cpp:780 src/properties.cpp:781
+#: src/properties.cpp:778 src/properties.cpp:779 src/properties.cpp:780
+#: src/properties.cpp:781 src/properties.cpp:782
 msgid "Optional field for use at Licensor's discretion."
 msgstr ""
 
-#: src/properties.cpp:780
+#: src/properties.cpp:781
 #, fuzzy
 msgid "Custom 4"
 msgstr "Użytkownika 1-4"
 
-#: src/properties.cpp:781
+#: src/properties.cpp:782
 #, fuzzy
 msgid "Custom 5"
 msgstr "Użytkownika 1"
 
-#: src/properties.cpp:782
+#: src/properties.cpp:783
 #, fuzzy
 msgid "Custom 6"
 msgstr "Użytkownika 1"
 
-#: src/properties.cpp:782 src/properties.cpp:783 src/properties.cpp:784
-#: src/properties.cpp:785 src/properties.cpp:786
+#: src/properties.cpp:783 src/properties.cpp:784 src/properties.cpp:785
+#: src/properties.cpp:786 src/properties.cpp:787
 msgid "Optional field for use at Licensee's discretion."
 msgstr ""
 
-#: src/properties.cpp:783
+#: src/properties.cpp:784
 #, fuzzy
 msgid "Custom 7"
 msgstr "Użytkownika 1"
 
-#: src/properties.cpp:784
+#: src/properties.cpp:785
 #, fuzzy
 msgid "Custom 8"
 msgstr "Użytkownika 1"
 
-#: src/properties.cpp:785
+#: src/properties.cpp:786
 #, fuzzy
 msgid "Custom 9"
 msgstr "Użytkownika 1"
 
-#: src/properties.cpp:786
+#: src/properties.cpp:787
 #, fuzzy
 msgid "Custom 10"
 msgstr "Użytkownika 1"
 
-#: src/properties.cpp:793
+#: src/properties.cpp:794
 msgid "Adult Content Warning Required"
 msgstr ""
 
-#: src/properties.cpp:794
+#: src/properties.cpp:795
 #, fuzzy
 msgid "Not Required"
 msgstr "Nie używany"
 
-#: src/properties.cpp:800
+#: src/properties.cpp:801
 #, fuzzy
 msgid "Protected"
 msgstr "ID produktu"
 
-#: src/properties.cpp:801
+#: src/properties.cpp:802
 #, fuzzy
 msgid "Public Domain"
 msgstr "Poklatkowość"
 
-#: src/properties.cpp:807
+#: src/properties.cpp:808
 #, fuzzy
 msgid "Credit Adjacent To Image"
 msgstr "Obraz podglądu"
 
-#: src/properties.cpp:808
+#: src/properties.cpp:809
 msgid "Credit in Credits Area"
 msgstr ""
 
-#: src/properties.cpp:809
+#: src/properties.cpp:810
 #, fuzzy
 msgid "Credit on Image"
 msgstr "Obraz podglądu"
 
-#: src/properties.cpp:810
+#: src/properties.cpp:811
 #, fuzzy
 msgid "Not Require"
 msgstr "Nieokreślony"
 
-#: src/properties.cpp:815
+#: src/properties.cpp:816
 #, fuzzy
 msgid "No Colorization"
 msgstr "Solaryzacja"
 
-#: src/properties.cpp:816
+#: src/properties.cpp:817
 msgid "No Cropping"
 msgstr ""
 
-#: src/properties.cpp:817
+#: src/properties.cpp:818
 #, fuzzy
 msgid "No De-Colorization"
 msgstr "Solaryzacja"
 
-#: src/properties.cpp:818
+#: src/properties.cpp:819
 msgid "No Flipping"
 msgstr ""
 
-#: src/properties.cpp:819
+#: src/properties.cpp:820
 #, fuzzy
 msgid "No Merging"
 msgstr "Redukcja szumów"
 
-#: src/properties.cpp:820
+#: src/properties.cpp:821
 #, fuzzy
 msgid "No Retouching"
 msgstr "Redukcja szumów"
 
-#: src/properties.cpp:825
+#: src/properties.cpp:826
 msgid "Duplication Only as Necessary Under License"
 msgstr ""
 
-#: src/properties.cpp:826
+#: src/properties.cpp:827
 #, fuzzy
 msgid "No Duplication Constraints"
 msgstr "Ustawienia jakości obrazu"
 
-#: src/properties.cpp:827
+#: src/properties.cpp:828
 #, fuzzy
 msgid "No Duplication"
 msgstr "Czas trwania"
 
-#: src/properties.cpp:832
+#: src/properties.cpp:833
 #, fuzzy
 msgid "Maintain File Name"
 msgstr "Nazwa pliku Raw"
 
-#: src/properties.cpp:833
+#: src/properties.cpp:834
 #, fuzzy
 msgid "Maintain File Type"
 msgstr "Nazwa pliku Raw"
 
-#: src/properties.cpp:834
+#: src/properties.cpp:835
 #, fuzzy
 msgid "Maintain ID in File Name"
 msgstr "Oryginalna nazwa pliku Raw"
 
-#: src/properties.cpp:835
+#: src/properties.cpp:836
 #, fuzzy
 msgid "Maintain Metadata"
 msgstr "Minolta data"
 
-#: src/properties.cpp:840
+#: src/properties.cpp:841
 #, fuzzy
 msgid "Windows Bitmap (BMP)"
 msgstr "Windows Tytuł"
 
-#: src/properties.cpp:841
+#: src/properties.cpp:842
 msgid "Digital Negative (DNG)"
 msgstr ""
 
-#: src/properties.cpp:842
+#: src/properties.cpp:843
 msgid "Encapsulated PostScript (EPS)"
 msgstr ""
 
-#: src/properties.cpp:843
+#: src/properties.cpp:844
 #, fuzzy
 msgid "Graphics Interchange Format (GIF)"
 msgstr "Format JPEG"
 
-#: src/properties.cpp:844
+#: src/properties.cpp:845
 #, fuzzy
 msgid "JPEG Interchange Formats (JPG, JIF, JFIF)"
 msgstr "Format JPEG"
 
-#: src/properties.cpp:846
+#: src/properties.cpp:847
 msgid "Macintosh Picture (PICT)"
 msgstr ""
 
-#: src/properties.cpp:847
+#: src/properties.cpp:848
 msgid "Portable Network Graphics (PNG)"
 msgstr ""
 
-#: src/properties.cpp:848
+#: src/properties.cpp:849
 msgid "Photoshop Document (PSD)"
 msgstr ""
 
-#: src/properties.cpp:849
+#: src/properties.cpp:850
 msgid "Proprietary RAW Image Format"
 msgstr ""
 
-#: src/properties.cpp:850
+#: src/properties.cpp:851
 #, fuzzy
 msgid "Tagged Image File Format (TIFF)"
 msgstr "Powiązany format pliku obrazu"
 
-#: src/properties.cpp:851
+#: src/properties.cpp:852
 msgid "Windows Media Photo (HD Photo)"
 msgstr ""
 
-#: src/properties.cpp:856
+#: src/properties.cpp:857
 msgid "Greater than 50 MB"
 msgstr ""
 
-#: src/properties.cpp:857
+#: src/properties.cpp:858
 #, fuzzy
 msgid "Up to 1 MB"
 msgstr "Optio A10"
 
-#: src/properties.cpp:858
+#: src/properties.cpp:859
 #, fuzzy
 msgid "Up to 10 MB"
 msgstr "Optio A10"
 
-#: src/properties.cpp:859
+#: src/properties.cpp:860
 #, fuzzy
 msgid "Up to 30 MB"
 msgstr "Optio 30"
 
-#: src/properties.cpp:860
+#: src/properties.cpp:861
 #, fuzzy
 msgid "Up to 50 MB"
 msgstr "Optio S50"
 
-#: src/properties.cpp:865
+#: src/properties.cpp:866
 #, fuzzy
 msgid "Illustrated Image"
 msgstr "Powiązana szerokość obrazu"
 
-#: src/properties.cpp:866
+#: src/properties.cpp:867
 msgid "Multimedia or Composited Image"
 msgstr ""
 
-#: src/properties.cpp:868
+#: src/properties.cpp:869
 msgid "Photographic Image"
 msgstr ""
 
-#: src/properties.cpp:874
+#: src/properties.cpp:875
 #, fuzzy
 msgid "Cell"
 msgstr "Żółty"
 
-#: src/properties.cpp:875
+#: src/properties.cpp:876
 msgid "FAX"
 msgstr ""
 
-#: src/properties.cpp:877
+#: src/properties.cpp:878
 #, fuzzy
 msgid "Pager"
 msgstr "Menedżer"
 
-#: src/properties.cpp:878
+#: src/properties.cpp:879
 msgid "Work"
 msgstr ""
 
-#: src/properties.cpp:883
+#: src/properties.cpp:884
 #, fuzzy
 msgid "Age Unknown"
 msgstr "Brak informacji"
 
-#: src/properties.cpp:884
+#: src/properties.cpp:885
 msgid "Age 25 or Over"
 msgstr ""
 
-#: src/properties.cpp:885
+#: src/properties.cpp:886
 msgid "Age 24"
 msgstr ""
 
-#: src/properties.cpp:886
+#: src/properties.cpp:887
 msgid "Age 23"
 msgstr ""
 
-#: src/properties.cpp:887
+#: src/properties.cpp:888
 msgid "Age 22"
 msgstr ""
 
-#: src/properties.cpp:888
+#: src/properties.cpp:889
 msgid "Age 21"
 msgstr ""
 
-#: src/properties.cpp:889
+#: src/properties.cpp:890
 msgid "Age 20"
 msgstr ""
 
-#: src/properties.cpp:890
+#: src/properties.cpp:891
 msgid "Age 19"
 msgstr ""
 
-#: src/properties.cpp:891
+#: src/properties.cpp:892
 msgid "Age 18"
 msgstr ""
 
-#: src/properties.cpp:892
+#: src/properties.cpp:893
 msgid "Age 17"
 msgstr ""
 
-#: src/properties.cpp:893
+#: src/properties.cpp:894
 msgid "Age 16"
 msgstr ""
 
-#: src/properties.cpp:894
+#: src/properties.cpp:895
 msgid "Age 15"
 msgstr ""
 
-#: src/properties.cpp:895
+#: src/properties.cpp:896
 msgid "Age 14 or Under"
 msgstr ""
 
-#: src/properties.cpp:901 src/properties.cpp:909 src/properties.cpp:916
+#: src/properties.cpp:902 src/properties.cpp:910 src/properties.cpp:917
 msgid "Not Applicable"
 msgstr ""
 
-#: src/properties.cpp:902
+#: src/properties.cpp:903
 #, fuzzy
 msgid "Unlimited Model Releases"
 msgstr "Identyfikator modelu"
 
-#: src/properties.cpp:903
+#: src/properties.cpp:904
 msgid "Limited or Incomplete Model Releases"
 msgstr ""
 
-#: src/properties.cpp:910
+#: src/properties.cpp:911
 msgid "Unlimited Property Releases"
 msgstr ""
 
-#: src/properties.cpp:911
+#: src/properties.cpp:912
 msgid "Limited or Incomplete Property Releases"
 msgstr ""
 
-#: src/properties.cpp:917
+#: src/properties.cpp:918
 msgid "Repeat Use"
 msgstr ""
 
-#: src/properties.cpp:921 src/properties.cpp:930
+#: src/properties.cpp:922 src/properties.cpp:931
 #, fuzzy
 msgid "Fixture Identification"
 msgstr "Identyfikacja modelu"
 
-#: src/properties.cpp:922 src/properties.cpp:931
+#: src/properties.cpp:923 src/properties.cpp:932
 #, fuzzy
 msgid "Status"
 msgstr "GPS Stan"
 
-#: src/properties.cpp:922 src/properties.cpp:931
+#: src/properties.cpp:923 src/properties.cpp:932
 msgid "A notation making the image unique"
 msgstr ""
 
-#: src/properties.cpp:923 src/properties.cpp:932
+#: src/properties.cpp:924 src/properties.cpp:933
 #, fuzzy
 msgid "People"
 msgstr "Purpurowy"
 
-#: src/properties.cpp:924 src/properties.cpp:933
+#: src/properties.cpp:925 src/properties.cpp:934
 msgid "CatalogSets"
 msgstr ""
 
-#: src/properties.cpp:924 src/properties.cpp:933
+#: src/properties.cpp:925 src/properties.cpp:934
 msgid "Descriptive markers of catalog items by content"
 msgstr ""
 
