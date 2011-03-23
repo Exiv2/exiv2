@@ -177,6 +177,6 @@ commercial version of the Exiv2 library.
 To do this on Windows, compile the library with the preprocessor
 symbol EXV_COMMERCIAL_VERSION defined in msvc\include\exv_msvc.h.
 On UNIX-like systems, run the configure script with the options
---enable-commercial --disable-nls --disable-lensdata
+--enable-commercial --disable-nls --disable-lensdata.
 
 
