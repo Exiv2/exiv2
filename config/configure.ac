@@ -31,12 +31,6 @@ AC_PROG_INSTALL
 AC_PROG_LN_S
 AC_PROG_MAKE_SET
 AC_CANONICAL_HOST
-# Add flag for DLL on Windows
-case "$host_os" in
-*mingw* | *cygwin*)
-    LDFLAGS="$LDFLAGS -no-undefined"
-    ;;
-esac
 
 # ---------------------------------------------------------------------------
 # i18n support
@@ -203,6 +197,17 @@ else
     EXV_LIB_STATIC=
 fi
 AC_SUBST(EXV_LIB_STATIC)
+
+# Add flag for DLL on Windows
+#
+# This must happen after all other configure checks, because
+# the "-no-undefined" flag is only for libtool and may not be
+# passed to GCC by accident.
+case "$host_os" in
+*mingw* | *cygwin*)
+    LDFLAGS="$LDFLAGS -no-undefined"
+    ;;
+esac
 
 # ---------------------------------------------------------------------------
 # Create output files.
