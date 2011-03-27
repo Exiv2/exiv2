@@ -201,7 +201,7 @@ AC_SUBST(EXV_LIB_STATIC)
 # Add flag for DLL on Windows
 #
 # This must happen after all other configure checks, because
-# the "-no-undefined" flag is only for libtool and may not be
+# the "-no-undefined" flag is only for libtool and must not be
 # passed to GCC by accident.
 case "$host_os" in
 *mingw* | *cygwin*)
