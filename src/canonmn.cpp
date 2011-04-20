@@ -551,6 +551,7 @@ namespace Exiv2 {
         { 156, "Canon EF 28-105mm f/3.5-4.5 USM"                            },
         { 160, "Canon EF 20-35mm f/3.5-4.5 USM"                             }, // 0
         { 160, "Tamron AF 19-35mm f/3.5-4.5"                                }, // 1
+        { 160, "Tokina AT-X 107 AF DX Fish-eye 10-17mm f/3.5-4.5"           }, // 2
         { 161, "Canon EF 28-70mm f/2.8L"                                    }, // 0
         { 161, "Sigma 24-70mm EX f/2.8"                                     }, // 1
         { 161, "Sigma 28-70mm f/2.8 EX"                                     }, // 2
@@ -671,6 +672,7 @@ namespace Exiv2 {
         { 150, printCsLensByFocalLength },
         { 152, printCsLensByFocalLength },
         { 153, printCsLensByFocalLength },
+        { 160, printCsLensByFocalLength },
         { 161, printCsLensByFocalLength },
         { 169, printCsLensByFocalLength },
         { 173, printCsLensByFocalLength }, // works partly
