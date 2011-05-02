@@ -104,11 +104,11 @@ namespace {
      */
     int str2Tm(const std::string& timeStr, struct tm* tm);
 
-    //! Convert a UTC time to a string "YYYY:MM:DD HH:MI:SS", "" on error
+    //! Convert a localtime to a string "YYYY:MM:DD HH:MI:SS", "" on error
     std::string time2Str(time_t time);
 
     //! Convert a tm structure to a string "YYYY:MM:DD HH:MI:SS", "" on error
-    std::string tm2Str(struct tm* tm);
+    std::string tm2Str(const struct tm* tm);
 
     /*!
       @brief Copy metadata from source to target according to Params::copyXyz
@@ -1565,7 +1565,7 @@ namespace Action {
                       << " " << _("years") << "\n";
             return 1;
         }
-        time_t time = timegm(&tm);
+        time_t time = mktime(&tm);
         time += adjustment_ + dayAdjustment_ * 86400;
         timeStr = time2Str(time);
         if (Params::instance().verbose_) {
@@ -1739,7 +1739,7 @@ namespace {
     int Timestamp::read(struct tm* tm)
     {
         int rc = 1;
-        time_t t = mktime(tm);
+        time_t t = mktime(tm); // interpret tm according to current timezone settings
         if (t != (time_t)-1) {
             rc = 0;
             actime_  = t;
@@ -1783,22 +1783,18 @@ namespace {
         tm->tm_sec = tmp;
 
         // Conversions to set remaining fields of the tm structure
-        time_t time = timegm(tm);
-#ifdef EXV_HAVE_GMTIME_R
-        if (time == (time_t)-1 || gmtime_r(&time, tm) == 0) return 11;
-#else
-        if (time == (time_t)-1 || std::gmtime(&time)  == 0) return 11;
-#endif
+        if (mktime(tm) == (time_t)-1) return 11;
+
         return 0;
     } // str2Tm
 
     std::string time2Str(time_t time)
     {
-        struct tm* tm = gmtime(&time);
+        struct tm* tm = localtime(&time);
         return tm2Str(tm);
     } // time2Str
 
-    std::string tm2Str(struct tm* tm)
+    std::string tm2Str(const struct tm* tm)
     {
         if (0 == tm) return "";
 
