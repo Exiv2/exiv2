@@ -263,6 +263,7 @@ namespace Exiv2 {
             "Exif.SonyMinolta.LensID",
             "Exif.Sony1.LensID",
             "Exif.Sony2.LensID",
+            "Exif.Panasonic.LensType",
             "Exif.Samsung2.LensType"
         };
         return findMetadatum(ed, keys, EXV_COUNTOF(keys));
