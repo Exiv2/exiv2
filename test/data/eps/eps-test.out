@@ -1,0 +1,810 @@
+Command: exiv2 -pp eps-flat_empty-eof-noeol.eps
+Exit code: 0
+
+Command: exiv2 -pa eps-flat_empty-eof-noeol.eps
+Exit code: 253
+
+Command: exiv2 -pp eps-flat_empty-eof.eps
+Exit code: 0
+
+Command: exiv2 -pa eps-flat_empty-eof.eps
+Exit code: 253
+
+Command: exiv2 -pp eps-flat_empty-noeol.eps
+Exit code: 0
+
+Command: exiv2 -pa eps-flat_empty-noeol.eps
+Exit code: 253
+
+Command: exiv2 -pp eps-flat_empty-xmp.eps
+Exit code: 0
+
+Command: exiv2 -pa eps-flat_empty-xmp.eps
+Xmp.test.test                                XmpText     4  TEST
+Exit code: 253
+
+Command: exiv2 -pp eps-flat_empty.eps
+Exit code: 0
+
+Command: exiv2 -pa eps-flat_empty.eps
+Exit code: 253
+
+Command: exiv2 -pp eps-flat_inkscape-epsi.eps
+Exiv2 exception in print action for file eps-flat_inkscape-epsi.eps:
+eps-flat_inkscape-epsi.eps: The file contains data of an unknown image type
+Exit code: 1
+
+Command: exiv2 -pa eps-flat_inkscape-epsi.eps
+Exiv2 exception in print action for file eps-flat_inkscape-epsi.eps:
+eps-flat_inkscape-epsi.eps: The file contains data of an unknown image type
+Exit code: 1
+
+Command: exiv2 -pp eps-flat_inkscape.eps
+Exit code: 0
+
+Command: exiv2 -pa eps-flat_inkscape.eps
+Exit code: 253
+
+Command: exiv2 -pp eps-flat_minimal-eof.eps
+Exit code: 0
+
+Command: exiv2 -pa eps-flat_minimal-eof.eps
+Exit code: 253
+
+Command: exiv2 -pp eps-flat_minimal-noeol.eps
+Exit code: 0
+
+Command: exiv2 -pa eps-flat_minimal-noeol.eps
+Exit code: 253
+
+Command: exiv2 -pp eps-flat_minimal.eps
+Exit code: 0
+
+Command: exiv2 -pa eps-flat_minimal.eps
+Exit code: 253
+
+Command: exiv2 -pp eps-flat_minimal_xmp-singlequote-begin.eps
+Exit code: 0
+
+Command: exiv2 -pa eps-flat_minimal_xmp-singlequote-begin.eps
+Xmp.test.test                                XmpText     4  TEST
+Exit code: 253
+
+Command: exiv2 -pp eps-flat_minimal_xmp-singlequote-end.eps
+Exit code: 0
+
+Command: exiv2 -pa eps-flat_minimal_xmp-singlequote-end.eps
+Xmp.test.test                                XmpText     4  TEST
+Exit code: 253
+
+Command: exiv2 -pp eps-flat_minimal_xmp-singlequote-id.eps
+Exit code: 0
+
+Command: exiv2 -pa eps-flat_minimal_xmp-singlequote-id.eps
+Xmp.test.test                                XmpText     4  TEST
+Exit code: 253
+
+Command: exiv2 -pp eps-flat_minimal_xmp.eps
+Exit code: 0
+
+Command: exiv2 -pa eps-flat_minimal_xmp.eps
+Xmp.test.test                                XmpText     4  TEST
+Exit code: 253
+
+Command: exiv2 -pp eps-flat_oodraw-lev1.eps
+Exiv2 exception in print action for file eps-flat_oodraw-lev1.eps:
+This does not look like a EPS image
+Exit code: 1
+
+Command: exiv2 -pa eps-flat_oodraw-lev1.eps
+Exiv2 exception in print action for file eps-flat_oodraw-lev1.eps:
+This does not look like a EPS image
+Exit code: 1
+
+Command: exiv2 -pp eps-flat_oodraw-lev2.eps
+Exiv2 exception in print action for file eps-flat_oodraw-lev2.eps:
+This does not look like a EPS image
+Exit code: 1
+
+Command: exiv2 -pa eps-flat_oodraw-lev2.eps
+Exiv2 exception in print action for file eps-flat_oodraw-lev2.eps:
+This does not look like a EPS image
+Exit code: 1
+
+Command: exiv2 -pp eps-flat_oodraw-lev2_eps2eps.eps
+Exit code: 0
+
+Command: exiv2 -pa eps-flat_oodraw-lev2_eps2eps.eps
+Exit code: 253
+
+Command: exiv2 -pp eps-flat_oodraw_ai-10-lev2.eps
+Warning: Unable to handle multiple PostScript pages. Found second page at position: 182443
+Exiv2 exception in print action for file eps-flat_oodraw_ai-10-lev2.eps:
+Failed to read image data
+Exit code: 1
+
+Command: exiv2 -pa eps-flat_oodraw_ai-10-lev2.eps
+Warning: Unable to handle multiple PostScript pages. Found second page at position: 182443
+Exiv2 exception in print action for file eps-flat_oodraw_ai-10-lev2.eps:
+Failed to read image data
+Exit code: 1
+
+Command: exiv2 -pp eps-flat_oodraw_ai-3-lev2.eps
+Exit code: 0
+
+Command: exiv2 -pa eps-flat_oodraw_ai-3-lev2.eps
+Exit code: 253
+
+Command: exiv2 -pp eps-flat_oodraw_ai-3-lev3.eps
+Exit code: 0
+
+Command: exiv2 -pa eps-flat_oodraw_ai-3-lev3.eps
+Exit code: 253
+
+Command: exiv2 -pp eps-flat_oodraw_ai-8-lev2.eps
+Warning: Unable to handle multiple PostScript pages. Found second page at position: 182442
+Exiv2 exception in print action for file eps-flat_oodraw_ai-8-lev2.eps:
+Failed to read image data
+Exit code: 1
+
+Command: exiv2 -pa eps-flat_oodraw_ai-8-lev2.eps
+Warning: Unable to handle multiple PostScript pages. Found second page at position: 182442
+Exiv2 exception in print action for file eps-flat_oodraw_ai-8-lev2.eps:
+Failed to read image data
+Exit code: 1
+
+Command: exiv2 -pp eps-flat_oodraw_ai-8-lev3.eps
+Exit code: 0
+
+Command: exiv2 -pa eps-flat_oodraw_ai-8-lev3.eps
+Exit code: 253
+
+Command: exiv2 -pp eps-flat_oodraw_ai-9-lev2.eps
+Warning: Unable to handle multiple PostScript pages. Found second page at position: 182442
+Exiv2 exception in print action for file eps-flat_oodraw_ai-9-lev2.eps:
+Failed to read image data
+Exit code: 1
+
+Command: exiv2 -pa eps-flat_oodraw_ai-9-lev2.eps
+Warning: Unable to handle multiple PostScript pages. Found second page at position: 182442
+Exiv2 exception in print action for file eps-flat_oodraw_ai-9-lev2.eps:
+Failed to read image data
+Exit code: 1
+
+Command: exiv2 -pp eps-flat_oodraw_ai-cs-lev2.eps
+Warning: Unable to handle multiple PostScript pages. Found second page at position: 182443
+Exiv2 exception in print action for file eps-flat_oodraw_ai-cs-lev2.eps:
+Failed to read image data
+Exit code: 1
+
+Command: exiv2 -pa eps-flat_oodraw_ai-cs-lev2.eps
+Warning: Unable to handle multiple PostScript pages. Found second page at position: 182443
+Exiv2 exception in print action for file eps-flat_oodraw_ai-cs-lev2.eps:
+Failed to read image data
+Exit code: 1
+
+Command: exiv2 -pp eps-flat_oodraw_ai-cs2-lev2.eps
+Warning: Unable to handle multiple PostScript pages. Found second page at position: 182444
+Exiv2 exception in print action for file eps-flat_oodraw_ai-cs2-lev2.eps:
+Failed to read image data
+Exit code: 1
+
+Command: exiv2 -pa eps-flat_oodraw_ai-cs2-lev2.eps
+Warning: Unable to handle multiple PostScript pages. Found second page at position: 182444
+Exiv2 exception in print action for file eps-flat_oodraw_ai-cs2-lev2.eps:
+Failed to read image data
+Exit code: 1
+
+Command: exiv2 -pp eps-flat_oodraw_ai-cs3-lev2.eps
+Warning: Unable to handle multiple PostScript pages. Found second page at position: 182444
+Exiv2 exception in print action for file eps-flat_oodraw_ai-cs3-lev2.eps:
+Failed to read image data
+Exit code: 1
+
+Command: exiv2 -pa eps-flat_oodraw_ai-cs3-lev2.eps
+Warning: Unable to handle multiple PostScript pages. Found second page at position: 182444
+Exiv2 exception in print action for file eps-flat_oodraw_ai-cs3-lev2.eps:
+Failed to read image data
+Exit code: 1
+
+Command: exiv2 -pp eps-flat_oodraw_ai-cs4-lev2.eps
+Warning: Unable to handle multiple PostScript pages. Found second page at position: 182444
+Exiv2 exception in print action for file eps-flat_oodraw_ai-cs4-lev2.eps:
+Failed to read image data
+Exit code: 1
+
+Command: exiv2 -pa eps-flat_oodraw_ai-cs4-lev2.eps
+Warning: Unable to handle multiple PostScript pages. Found second page at position: 182444
+Exiv2 exception in print action for file eps-flat_oodraw_ai-cs4-lev2.eps:
+Failed to read image data
+Exit code: 1
+
+Command: exiv2 -pp eps-flat_oodraw_ai-cs5-lev2.eps
+Warning: Unable to handle multiple PostScript pages. Found second page at position: 182444
+Exiv2 exception in print action for file eps-flat_oodraw_ai-cs5-lev2.eps:
+Failed to read image data
+Exit code: 1
+
+Command: exiv2 -pa eps-flat_oodraw_ai-cs5-lev2.eps
+Warning: Unable to handle multiple PostScript pages. Found second page at position: 182444
+Exiv2 exception in print action for file eps-flat_oodraw_ai-cs5-lev2.eps:
+Failed to read image data
+Exit code: 1
+
+Command: exiv2 -pp eps-flat_oodraw_ai-cs5-lev3-nodocthumb.eps
+Warning: Unable to handle multiple PostScript pages. Found second page at position: 173522
+Exiv2 exception in print action for file eps-flat_oodraw_ai-cs5-lev3-nodocthumb.eps:
+Failed to read image data
+Exit code: 1
+
+Command: exiv2 -pa eps-flat_oodraw_ai-cs5-lev3-nodocthumb.eps
+Warning: Unable to handle multiple PostScript pages. Found second page at position: 173522
+Exiv2 exception in print action for file eps-flat_oodraw_ai-cs5-lev3-nodocthumb.eps:
+Failed to read image data
+Exit code: 1
+
+Command: exiv2 -pp eps-flat_oodraw_ai-cs5-lev3-preview.eps
+Exiv2 exception in print action for file eps-flat_oodraw_ai-cs5-lev3-preview.eps:
+This does not look like a EPS image
+Exit code: 1
+
+Command: exiv2 -pa eps-flat_oodraw_ai-cs5-lev3-preview.eps
+Exiv2 exception in print action for file eps-flat_oodraw_ai-cs5-lev3-preview.eps:
+This does not look like a EPS image
+Exit code: 1
+
+Command: exiv2 -pp eps-flat_oodraw_ai-cs5-lev3.eps
+Warning: Unable to handle multiple PostScript pages. Found second page at position: 182444
+Exiv2 exception in print action for file eps-flat_oodraw_ai-cs5-lev3.eps:
+Failed to read image data
+Exit code: 1
+
+Command: exiv2 -pa eps-flat_oodraw_ai-cs5-lev3.eps
+Warning: Unable to handle multiple PostScript pages. Found second page at position: 182444
+Exiv2 exception in print action for file eps-flat_oodraw_ai-cs5-lev3.eps:
+Failed to read image data
+Exit code: 1
+
+Command: exiv2 -pp eps-flat_photoshop-cs5-ascii-colorprofile.eps
+Exit code: 0
+
+Command: exiv2 -pa eps-flat_photoshop-cs5-ascii-colorprofile.eps
+Xmp.xmp.CreatorTool                          XmpText    29  Adobe Photoshop CS5 Macintosh
+Xmp.xmp.CreateDate                           XmpText    25  2011-03-25T17:23:38+01:00
+Xmp.xmp.MetadataDate                         XmpText    25  2011-03-25T17:24:28+01:00
+Xmp.xmp.ModifyDate                           XmpText    25  2011-03-25T17:24:28+01:00
+Xmp.dc.format                                XmpText    10  image/epsf
+Xmp.xmpMM.InstanceID                         XmpText    40  xmp.iid:04801174072068119109FFD81EEC41EF
+Xmp.xmpMM.DocumentID                         XmpText    40  xmp.did:02801174072068119109FFD81EEC41EF
+Xmp.xmpMM.OriginalDocumentID                 XmpText    40  xmp.did:02801174072068119109FFD81EEC41EF
+Xmp.xmpMM.History                            XmpText     0  type="Seq"
+Xmp.xmpMM.History[1]                         XmpText     0  type="Struct"
+Xmp.xmpMM.History[1]/stEvt:action            XmpText     7  created
+Xmp.xmpMM.History[1]/stEvt:instanceID        XmpText    40  xmp.iid:02801174072068119109FFD81EEC41EF
+Xmp.xmpMM.History[1]/stEvt:when              XmpText    25  2011-03-25T17:23:38+01:00
+Xmp.xmpMM.History[1]/stEvt:softwareAgent     XmpText    29  Adobe Photoshop CS5 Macintosh
+Xmp.xmpMM.History[2]                         XmpText     0  type="Struct"
+Xmp.xmpMM.History[2]/stEvt:action            XmpText     5  saved
+Xmp.xmpMM.History[2]/stEvt:instanceID        XmpText    40  xmp.iid:03801174072068119109FFD81EEC41EF
+Xmp.xmpMM.History[2]/stEvt:when              XmpText    25  2011-03-25T17:24:28+01:00
+Xmp.xmpMM.History[2]/stEvt:softwareAgent     XmpText    29  Adobe Photoshop CS5 Macintosh
+Xmp.xmpMM.History[2]/stEvt:changed           XmpText     1  /
+Xmp.xmpMM.History[3]                         XmpText     0  type="Struct"
+Xmp.xmpMM.History[3]/stEvt:action            XmpText     5  saved
+Xmp.xmpMM.History[3]/stEvt:instanceID        XmpText    40  xmp.iid:04801174072068119109FFD81EEC41EF
+Xmp.xmpMM.History[3]/stEvt:when              XmpText    25  2011-03-25T17:24:28+01:00
+Xmp.xmpMM.History[3]/stEvt:softwareAgent     XmpText    29  Adobe Photoshop CS5 Macintosh
+Xmp.xmpMM.History[3]/stEvt:changed           XmpText     1  /
+Xmp.photoshop.ColorMode                      XmpText     1  3
+Xmp.photoshop.ICCProfile                     XmpText    17  sRGB IEC61966-2.1
+Exit code: 253
+
+Command: exiv2 -pp eps-flat_photoshop-cs5-ascii-preview.eps
+Exit code: 0
+
+Command: exiv2 -pa eps-flat_photoshop-cs5-ascii-preview.eps
+Xmp.xmp.CreatorTool                          XmpText    29  Adobe Photoshop CS5 Macintosh
+Xmp.xmp.CreateDate                           XmpText    25  2011-03-25T17:23:38+01:00
+Xmp.xmp.MetadataDate                         XmpText    25  2011-03-25T17:25:23+01:00
+Xmp.xmp.ModifyDate                           XmpText    25  2011-03-25T17:25:23+01:00
+Xmp.dc.format                                XmpText    10  image/epsf
+Xmp.xmpMM.InstanceID                         XmpText    40  xmp.iid:08801174072068119109FFD81EEC41EF
+Xmp.xmpMM.DocumentID                         XmpText    40  xmp.did:02801174072068119109FFD81EEC41EF
+Xmp.xmpMM.OriginalDocumentID                 XmpText    40  xmp.did:02801174072068119109FFD81EEC41EF
+Xmp.xmpMM.History                            XmpText     0  type="Seq"
+Xmp.xmpMM.History[1]                         XmpText     0  type="Struct"
+Xmp.xmpMM.History[1]/stEvt:action            XmpText     7  created
+Xmp.xmpMM.History[1]/stEvt:instanceID        XmpText    40  xmp.iid:02801174072068119109FFD81EEC41EF
+Xmp.xmpMM.History[1]/stEvt:when              XmpText    25  2011-03-25T17:23:38+01:00
+Xmp.xmpMM.History[1]/stEvt:softwareAgent     XmpText    29  Adobe Photoshop CS5 Macintosh
+Xmp.xmpMM.History[2]                         XmpText     0  type="Struct"
+Xmp.xmpMM.History[2]/stEvt:action            XmpText     5  saved
+Xmp.xmpMM.History[2]/stEvt:instanceID        XmpText    40  xmp.iid:03801174072068119109FFD81EEC41EF
+Xmp.xmpMM.History[2]/stEvt:when              XmpText    25  2011-03-25T17:24:28+01:00
+Xmp.xmpMM.History[2]/stEvt:softwareAgent     XmpText    29  Adobe Photoshop CS5 Macintosh
+Xmp.xmpMM.History[2]/stEvt:changed           XmpText     1  /
+Xmp.xmpMM.History[3]                         XmpText     0  type="Struct"
+Xmp.xmpMM.History[3]/stEvt:action            XmpText     5  saved
+Xmp.xmpMM.History[3]/stEvt:instanceID        XmpText    40  xmp.iid:04801174072068119109FFD81EEC41EF
+Xmp.xmpMM.History[3]/stEvt:when              XmpText    25  2011-03-25T17:24:28+01:00
+Xmp.xmpMM.History[3]/stEvt:softwareAgent     XmpText    29  Adobe Photoshop CS5 Macintosh
+Xmp.xmpMM.History[3]/stEvt:changed           XmpText     1  /
+Xmp.xmpMM.History[4]                         XmpText     0  type="Struct"
+Xmp.xmpMM.History[4]/stEvt:action            XmpText     5  saved
+Xmp.xmpMM.History[4]/stEvt:instanceID        XmpText    40  xmp.iid:05801174072068119109FFD81EEC41EF
+Xmp.xmpMM.History[4]/stEvt:when              XmpText    25  2011-03-25T17:25:06+01:00
+Xmp.xmpMM.History[4]/stEvt:softwareAgent     XmpText    29  Adobe Photoshop CS5 Macintosh
+Xmp.xmpMM.History[4]/stEvt:changed           XmpText     1  /
+Xmp.xmpMM.History[5]                         XmpText     0  type="Struct"
+Xmp.xmpMM.History[5]/stEvt:action            XmpText     5  saved
+Xmp.xmpMM.History[5]/stEvt:instanceID        XmpText    40  xmp.iid:06801174072068119109FFD81EEC41EF
+Xmp.xmpMM.History[5]/stEvt:when              XmpText    25  2011-03-25T17:25:06+01:00
+Xmp.xmpMM.History[5]/stEvt:softwareAgent     XmpText    29  Adobe Photoshop CS5 Macintosh
+Xmp.xmpMM.History[5]/stEvt:changed           XmpText     1  /
+Xmp.xmpMM.History[6]                         XmpText     0  type="Struct"
+Xmp.xmpMM.History[6]/stEvt:action            XmpText     5  saved
+Xmp.xmpMM.History[6]/stEvt:instanceID        XmpText    40  xmp.iid:07801174072068119109FFD81EEC41EF
+Xmp.xmpMM.History[6]/stEvt:when              XmpText    25  2011-03-25T17:25:23+01:00
+Xmp.xmpMM.History[6]/stEvt:softwareAgent     XmpText    29  Adobe Photoshop CS5 Macintosh
+Xmp.xmpMM.History[6]/stEvt:changed           XmpText     1  /
+Xmp.xmpMM.History[7]                         XmpText     0  type="Struct"
+Xmp.xmpMM.History[7]/stEvt:action            XmpText     5  saved
+Xmp.xmpMM.History[7]/stEvt:instanceID        XmpText    40  xmp.iid:08801174072068119109FFD81EEC41EF
+Xmp.xmpMM.History[7]/stEvt:when              XmpText    25  2011-03-25T17:25:23+01:00
+Xmp.xmpMM.History[7]/stEvt:softwareAgent     XmpText    29  Adobe Photoshop CS5 Macintosh
+Xmp.xmpMM.History[7]/stEvt:changed           XmpText     1  /
+Xmp.photoshop.ColorMode                      XmpText     1  3
+Exit code: 253
+
+Command: exiv2 -pp eps-flat_photoshop-cs5-ascii.eps
+Exit code: 0
+
+Command: exiv2 -pa eps-flat_photoshop-cs5-ascii.eps
+Xmp.xmp.CreatorTool                          XmpText    29  Adobe Photoshop CS5 Macintosh
+Xmp.xmp.CreateDate                           XmpText    25  2011-03-25T17:23:38+01:00
+Xmp.xmp.MetadataDate                         XmpText    25  2011-03-25T17:25:06+01:00
+Xmp.xmp.ModifyDate                           XmpText    25  2011-03-25T17:25:06+01:00
+Xmp.dc.format                                XmpText    10  image/epsf
+Xmp.xmpMM.InstanceID                         XmpText    40  xmp.iid:06801174072068119109FFD81EEC41EF
+Xmp.xmpMM.DocumentID                         XmpText    40  xmp.did:02801174072068119109FFD81EEC41EF
+Xmp.xmpMM.OriginalDocumentID                 XmpText    40  xmp.did:02801174072068119109FFD81EEC41EF
+Xmp.xmpMM.History                            XmpText     0  type="Seq"
+Xmp.xmpMM.History[1]                         XmpText     0  type="Struct"
+Xmp.xmpMM.History[1]/stEvt:action            XmpText     7  created
+Xmp.xmpMM.History[1]/stEvt:instanceID        XmpText    40  xmp.iid:02801174072068119109FFD81EEC41EF
+Xmp.xmpMM.History[1]/stEvt:when              XmpText    25  2011-03-25T17:23:38+01:00
+Xmp.xmpMM.History[1]/stEvt:softwareAgent     XmpText    29  Adobe Photoshop CS5 Macintosh
+Xmp.xmpMM.History[2]                         XmpText     0  type="Struct"
+Xmp.xmpMM.History[2]/stEvt:action            XmpText     5  saved
+Xmp.xmpMM.History[2]/stEvt:instanceID        XmpText    40  xmp.iid:03801174072068119109FFD81EEC41EF
+Xmp.xmpMM.History[2]/stEvt:when              XmpText    25  2011-03-25T17:24:28+01:00
+Xmp.xmpMM.History[2]/stEvt:softwareAgent     XmpText    29  Adobe Photoshop CS5 Macintosh
+Xmp.xmpMM.History[2]/stEvt:changed           XmpText     1  /
+Xmp.xmpMM.History[3]                         XmpText     0  type="Struct"
+Xmp.xmpMM.History[3]/stEvt:action            XmpText     5  saved
+Xmp.xmpMM.History[3]/stEvt:instanceID        XmpText    40  xmp.iid:04801174072068119109FFD81EEC41EF
+Xmp.xmpMM.History[3]/stEvt:when              XmpText    25  2011-03-25T17:24:28+01:00
+Xmp.xmpMM.History[3]/stEvt:softwareAgent     XmpText    29  Adobe Photoshop CS5 Macintosh
+Xmp.xmpMM.History[3]/stEvt:changed           XmpText     1  /
+Xmp.xmpMM.History[4]                         XmpText     0  type="Struct"
+Xmp.xmpMM.History[4]/stEvt:action            XmpText     5  saved
+Xmp.xmpMM.History[4]/stEvt:instanceID        XmpText    40  xmp.iid:05801174072068119109FFD81EEC41EF
+Xmp.xmpMM.History[4]/stEvt:when              XmpText    25  2011-03-25T17:25:06+01:00
+Xmp.xmpMM.History[4]/stEvt:softwareAgent     XmpText    29  Adobe Photoshop CS5 Macintosh
+Xmp.xmpMM.History[4]/stEvt:changed           XmpText     1  /
+Xmp.xmpMM.History[5]                         XmpText     0  type="Struct"
+Xmp.xmpMM.History[5]/stEvt:action            XmpText     5  saved
+Xmp.xmpMM.History[5]/stEvt:instanceID        XmpText    40  xmp.iid:06801174072068119109FFD81EEC41EF
+Xmp.xmpMM.History[5]/stEvt:when              XmpText    25  2011-03-25T17:25:06+01:00
+Xmp.xmpMM.History[5]/stEvt:softwareAgent     XmpText    29  Adobe Photoshop CS5 Macintosh
+Xmp.xmpMM.History[5]/stEvt:changed           XmpText     1  /
+Xmp.photoshop.ColorMode                      XmpText     1  3
+Exit code: 253
+
+Command: exiv2 -pp eps-flat_photoshop-cs5-ascii85-preview.eps
+Exit code: 0
+
+Command: exiv2 -pa eps-flat_photoshop-cs5-ascii85-preview.eps
+Xmp.xmp.CreatorTool                          XmpText    29  Adobe Photoshop CS5 Macintosh
+Xmp.xmp.CreateDate                           XmpText    25  2011-03-25T17:23:38+01:00
+Xmp.xmp.MetadataDate                         XmpText    25  2011-03-25T17:27:02+01:00
+Xmp.xmp.ModifyDate                           XmpText    25  2011-03-25T17:27:02+01:00
+Xmp.dc.format                                XmpText    10  image/epsf
+Xmp.xmpMM.InstanceID                         XmpText    40  xmp.iid:0F2983EA072068119109FFD81EEC41EF
+Xmp.xmpMM.DocumentID                         XmpText    40  xmp.did:02801174072068119109FFD81EEC41EF
+Xmp.xmpMM.OriginalDocumentID                 XmpText    40  xmp.did:02801174072068119109FFD81EEC41EF
+Xmp.xmpMM.History                            XmpText     0  type="Seq"
+Xmp.xmpMM.History[1]                         XmpText     0  type="Struct"
+Xmp.xmpMM.History[1]/stEvt:action            XmpText     7  created
+Xmp.xmpMM.History[1]/stEvt:instanceID        XmpText    40  xmp.iid:02801174072068119109FFD81EEC41EF
+Xmp.xmpMM.History[1]/stEvt:when              XmpText    25  2011-03-25T17:23:38+01:00
+Xmp.xmpMM.History[1]/stEvt:softwareAgent     XmpText    29  Adobe Photoshop CS5 Macintosh
+Xmp.xmpMM.History[2]                         XmpText     0  type="Struct"
+Xmp.xmpMM.History[2]/stEvt:action            XmpText     5  saved
+Xmp.xmpMM.History[2]/stEvt:instanceID        XmpText    40  xmp.iid:03801174072068119109FFD81EEC41EF
+Xmp.xmpMM.History[2]/stEvt:when              XmpText    25  2011-03-25T17:24:28+01:00
+Xmp.xmpMM.History[2]/stEvt:softwareAgent     XmpText    29  Adobe Photoshop CS5 Macintosh
+Xmp.xmpMM.History[2]/stEvt:changed           XmpText     1  /
+Xmp.xmpMM.History[3]                         XmpText     0  type="Struct"
+Xmp.xmpMM.History[3]/stEvt:action            XmpText     5  saved
+Xmp.xmpMM.History[3]/stEvt:instanceID        XmpText    40  xmp.iid:04801174072068119109FFD81EEC41EF
+Xmp.xmpMM.History[3]/stEvt:when              XmpText    25  2011-03-25T17:24:28+01:00
+Xmp.xmpMM.History[3]/stEvt:softwareAgent     XmpText    29  Adobe Photoshop CS5 Macintosh
+Xmp.xmpMM.History[3]/stEvt:changed           XmpText     1  /
+Xmp.xmpMM.History[4]                         XmpText     0  type="Struct"
+Xmp.xmpMM.History[4]/stEvt:action            XmpText     5  saved
+Xmp.xmpMM.History[4]/stEvt:instanceID        XmpText    40  xmp.iid:05801174072068119109FFD81EEC41EF
+Xmp.xmpMM.History[4]/stEvt:when              XmpText    25  2011-03-25T17:25:06+01:00
+Xmp.xmpMM.History[4]/stEvt:softwareAgent     XmpText    29  Adobe Photoshop CS5 Macintosh
+Xmp.xmpMM.History[4]/stEvt:changed           XmpText     1  /
+Xmp.xmpMM.History[5]                         XmpText     0  type="Struct"
+Xmp.xmpMM.History[5]/stEvt:action            XmpText     5  saved
+Xmp.xmpMM.History[5]/stEvt:instanceID        XmpText    40  xmp.iid:06801174072068119109FFD81EEC41EF
+Xmp.xmpMM.History[5]/stEvt:when              XmpText    25  2011-03-25T17:25:06+01:00
+Xmp.xmpMM.History[5]/stEvt:softwareAgent     XmpText    29  Adobe Photoshop CS5 Macintosh
+Xmp.xmpMM.History[5]/stEvt:changed           XmpText     1  /
+Xmp.xmpMM.History[6]                         XmpText     0  type="Struct"
+Xmp.xmpMM.History[6]/stEvt:action            XmpText     5  saved
+Xmp.xmpMM.History[6]/stEvt:instanceID        XmpText    40  xmp.iid:07801174072068119109FFD81EEC41EF
+Xmp.xmpMM.History[6]/stEvt:when              XmpText    25  2011-03-25T17:25:23+01:00
+Xmp.xmpMM.History[6]/stEvt:softwareAgent     XmpText    29  Adobe Photoshop CS5 Macintosh
+Xmp.xmpMM.History[6]/stEvt:changed           XmpText     1  /
+Xmp.xmpMM.History[7]                         XmpText     0  type="Struct"
+Xmp.xmpMM.History[7]/stEvt:action            XmpText     5  saved
+Xmp.xmpMM.History[7]/stEvt:instanceID        XmpText    40  xmp.iid:08801174072068119109FFD81EEC41EF
+Xmp.xmpMM.History[7]/stEvt:when              XmpText    25  2011-03-25T17:25:23+01:00
+Xmp.xmpMM.History[7]/stEvt:softwareAgent     XmpText    29  Adobe Photoshop CS5 Macintosh
+Xmp.xmpMM.History[7]/stEvt:changed           XmpText     1  /
+Xmp.xmpMM.History[8]                         XmpText     0  type="Struct"
+Xmp.xmpMM.History[8]/stEvt:action            XmpText     5  saved
+Xmp.xmpMM.History[8]/stEvt:instanceID        XmpText    40  xmp.iid:09801174072068119109FFD81EEC41EF
+Xmp.xmpMM.History[8]/stEvt:when              XmpText    25  2011-03-25T17:25:57+01:00
+Xmp.xmpMM.History[8]/stEvt:softwareAgent     XmpText    29  Adobe Photoshop CS5 Macintosh
+Xmp.xmpMM.History[8]/stEvt:changed           XmpText     1  /
+Xmp.xmpMM.History[9]                         XmpText     0  type="Struct"
+Xmp.xmpMM.History[9]/stEvt:action            XmpText     5  saved
+Xmp.xmpMM.History[9]/stEvt:instanceID        XmpText    40  xmp.iid:0A801174072068119109FFD81EEC41EF
+Xmp.xmpMM.History[9]/stEvt:when              XmpText    25  2011-03-25T17:25:57+01:00
+Xmp.xmpMM.History[9]/stEvt:softwareAgent     XmpText    29  Adobe Photoshop CS5 Macintosh
+Xmp.xmpMM.History[9]/stEvt:changed           XmpText     1  /
+Xmp.xmpMM.History[10]                        XmpText     0  type="Struct"
+Xmp.xmpMM.History[10]/stEvt:action           XmpText     5  saved
+Xmp.xmpMM.History[10]/stEvt:instanceID       XmpText    40  xmp.iid:0A2983EA072068119109FFD81EEC41EF
+Xmp.xmpMM.History[10]/stEvt:when             XmpText    25  2011-03-25T17:26:30+01:00
+Xmp.xmpMM.History[10]/stEvt:softwareAgent    XmpText    29  Adobe Photoshop CS5 Macintosh
+Xmp.xmpMM.History[10]/stEvt:changed          XmpText     1  /
+Xmp.xmpMM.History[11]                        XmpText     0  type="Struct"
+Xmp.xmpMM.History[11]/stEvt:action           XmpText     5  saved
+Xmp.xmpMM.History[11]/stEvt:instanceID       XmpText    40  xmp.iid:0B2983EA072068119109FFD81EEC41EF
+Xmp.xmpMM.History[11]/stEvt:when             XmpText    25  2011-03-25T17:26:30+01:00
+Xmp.xmpMM.History[11]/stEvt:softwareAgent    XmpText    29  Adobe Photoshop CS5 Macintosh
+Xmp.xmpMM.History[11]/stEvt:changed          XmpText     1  /
+Xmp.xmpMM.History[12]                        XmpText     0  type="Struct"
+Xmp.xmpMM.History[12]/stEvt:action           XmpText     5  saved
+Xmp.xmpMM.History[12]/stEvt:instanceID       XmpText    40  xmp.iid:0C2983EA072068119109FFD81EEC41EF
+Xmp.xmpMM.History[12]/stEvt:when             XmpText    25  2011-03-25T17:26:51+01:00
+Xmp.xmpMM.History[12]/stEvt:softwareAgent    XmpText    29  Adobe Photoshop CS5 Macintosh
+Xmp.xmpMM.History[12]/stEvt:changed          XmpText     1  /
+Xmp.xmpMM.History[13]                        XmpText     0  type="Struct"
+Xmp.xmpMM.History[13]/stEvt:action           XmpText     5  saved
+Xmp.xmpMM.History[13]/stEvt:instanceID       XmpText    40  xmp.iid:0D2983EA072068119109FFD81EEC41EF
+Xmp.xmpMM.History[13]/stEvt:when             XmpText    25  2011-03-25T17:26:51+01:00
+Xmp.xmpMM.History[13]/stEvt:softwareAgent    XmpText    29  Adobe Photoshop CS5 Macintosh
+Xmp.xmpMM.History[13]/stEvt:changed          XmpText     1  /
+Xmp.xmpMM.History[14]                        XmpText     0  type="Struct"
+Xmp.xmpMM.History[14]/stEvt:action           XmpText     5  saved
+Xmp.xmpMM.History[14]/stEvt:instanceID       XmpText    40  xmp.iid:0E2983EA072068119109FFD81EEC41EF
+Xmp.xmpMM.History[14]/stEvt:when             XmpText    25  2011-03-25T17:27:02+01:00
+Xmp.xmpMM.History[14]/stEvt:softwareAgent    XmpText    29  Adobe Photoshop CS5 Macintosh
+Xmp.xmpMM.History[14]/stEvt:changed          XmpText     1  /
+Xmp.xmpMM.History[15]                        XmpText     0  type="Struct"
+Xmp.xmpMM.History[15]/stEvt:action           XmpText     5  saved
+Xmp.xmpMM.History[15]/stEvt:instanceID       XmpText    40  xmp.iid:0F2983EA072068119109FFD81EEC41EF
+Xmp.xmpMM.History[15]/stEvt:when             XmpText    25  2011-03-25T17:27:02+01:00
+Xmp.xmpMM.History[15]/stEvt:softwareAgent    XmpText    29  Adobe Photoshop CS5 Macintosh
+Xmp.xmpMM.History[15]/stEvt:changed          XmpText     1  /
+Xmp.photoshop.ColorMode                      XmpText     1  3
+Exit code: 253
+
+Command: exiv2 -pp eps-flat_photoshop-cs5-ascii85.eps
+Exit code: 0
+
+Command: exiv2 -pa eps-flat_photoshop-cs5-ascii85.eps
+Xmp.xmp.CreatorTool                          XmpText    29  Adobe Photoshop CS5 Macintosh
+Xmp.xmp.CreateDate                           XmpText    25  2011-03-25T17:23:38+01:00
+Xmp.xmp.MetadataDate                         XmpText    25  2011-03-25T17:26:51+01:00
+Xmp.xmp.ModifyDate                           XmpText    25  2011-03-25T17:26:51+01:00
+Xmp.dc.format                                XmpText    10  image/epsf
+Xmp.xmpMM.InstanceID                         XmpText    40  xmp.iid:0D2983EA072068119109FFD81EEC41EF
+Xmp.xmpMM.DocumentID                         XmpText    40  xmp.did:02801174072068119109FFD81EEC41EF
+Xmp.xmpMM.OriginalDocumentID                 XmpText    40  xmp.did:02801174072068119109FFD81EEC41EF
+Xmp.xmpMM.History                            XmpText     0  type="Seq"
+Xmp.xmpMM.History[1]                         XmpText     0  type="Struct"
+Xmp.xmpMM.History[1]/stEvt:action            XmpText     7  created
+Xmp.xmpMM.History[1]/stEvt:instanceID        XmpText    40  xmp.iid:02801174072068119109FFD81EEC41EF
+Xmp.xmpMM.History[1]/stEvt:when              XmpText    25  2011-03-25T17:23:38+01:00
+Xmp.xmpMM.History[1]/stEvt:softwareAgent     XmpText    29  Adobe Photoshop CS5 Macintosh
+Xmp.xmpMM.History[2]                         XmpText     0  type="Struct"
+Xmp.xmpMM.History[2]/stEvt:action            XmpText     5  saved
+Xmp.xmpMM.History[2]/stEvt:instanceID        XmpText    40  xmp.iid:03801174072068119109FFD81EEC41EF
+Xmp.xmpMM.History[2]/stEvt:when              XmpText    25  2011-03-25T17:24:28+01:00
+Xmp.xmpMM.History[2]/stEvt:softwareAgent     XmpText    29  Adobe Photoshop CS5 Macintosh
+Xmp.xmpMM.History[2]/stEvt:changed           XmpText     1  /
+Xmp.xmpMM.History[3]                         XmpText     0  type="Struct"
+Xmp.xmpMM.History[3]/stEvt:action            XmpText     5  saved
+Xmp.xmpMM.History[3]/stEvt:instanceID        XmpText    40  xmp.iid:04801174072068119109FFD81EEC41EF
+Xmp.xmpMM.History[3]/stEvt:when              XmpText    25  2011-03-25T17:24:28+01:00
+Xmp.xmpMM.History[3]/stEvt:softwareAgent     XmpText    29  Adobe Photoshop CS5 Macintosh
+Xmp.xmpMM.History[3]/stEvt:changed           XmpText     1  /
+Xmp.xmpMM.History[4]                         XmpText     0  type="Struct"
+Xmp.xmpMM.History[4]/stEvt:action            XmpText     5  saved
+Xmp.xmpMM.History[4]/stEvt:instanceID        XmpText    40  xmp.iid:05801174072068119109FFD81EEC41EF
+Xmp.xmpMM.History[4]/stEvt:when              XmpText    25  2011-03-25T17:25:06+01:00
+Xmp.xmpMM.History[4]/stEvt:softwareAgent     XmpText    29  Adobe Photoshop CS5 Macintosh
+Xmp.xmpMM.History[4]/stEvt:changed           XmpText     1  /
+Xmp.xmpMM.History[5]                         XmpText     0  type="Struct"
+Xmp.xmpMM.History[5]/stEvt:action            XmpText     5  saved
+Xmp.xmpMM.History[5]/stEvt:instanceID        XmpText    40  xmp.iid:06801174072068119109FFD81EEC41EF
+Xmp.xmpMM.History[5]/stEvt:when              XmpText    25  2011-03-25T17:25:06+01:00
+Xmp.xmpMM.History[5]/stEvt:softwareAgent     XmpText    29  Adobe Photoshop CS5 Macintosh
+Xmp.xmpMM.History[5]/stEvt:changed           XmpText     1  /
+Xmp.xmpMM.History[6]                         XmpText     0  type="Struct"
+Xmp.xmpMM.History[6]/stEvt:action            XmpText     5  saved
+Xmp.xmpMM.History[6]/stEvt:instanceID        XmpText    40  xmp.iid:07801174072068119109FFD81EEC41EF
+Xmp.xmpMM.History[6]/stEvt:when              XmpText    25  2011-03-25T17:25:23+01:00
+Xmp.xmpMM.History[6]/stEvt:softwareAgent     XmpText    29  Adobe Photoshop CS5 Macintosh
+Xmp.xmpMM.History[6]/stEvt:changed           XmpText     1  /
+Xmp.xmpMM.History[7]                         XmpText     0  type="Struct"
+Xmp.xmpMM.History[7]/stEvt:action            XmpText     5  saved
+Xmp.xmpMM.History[7]/stEvt:instanceID        XmpText    40  xmp.iid:08801174072068119109FFD81EEC41EF
+Xmp.xmpMM.History[7]/stEvt:when              XmpText    25  2011-03-25T17:25:23+01:00
+Xmp.xmpMM.History[7]/stEvt:softwareAgent     XmpText    29  Adobe Photoshop CS5 Macintosh
+Xmp.xmpMM.History[7]/stEvt:changed           XmpText     1  /
+Xmp.xmpMM.History[8]                         XmpText     0  type="Struct"
+Xmp.xmpMM.History[8]/stEvt:action            XmpText     5  saved
+Xmp.xmpMM.History[8]/stEvt:instanceID        XmpText    40  xmp.iid:09801174072068119109FFD81EEC41EF
+Xmp.xmpMM.History[8]/stEvt:when              XmpText    25  2011-03-25T17:25:57+01:00
+Xmp.xmpMM.History[8]/stEvt:softwareAgent     XmpText    29  Adobe Photoshop CS5 Macintosh
+Xmp.xmpMM.History[8]/stEvt:changed           XmpText     1  /
+Xmp.xmpMM.History[9]                         XmpText     0  type="Struct"
+Xmp.xmpMM.History[9]/stEvt:action            XmpText     5  saved
+Xmp.xmpMM.History[9]/stEvt:instanceID        XmpText    40  xmp.iid:0A801174072068119109FFD81EEC41EF
+Xmp.xmpMM.History[9]/stEvt:when              XmpText    25  2011-03-25T17:25:57+01:00
+Xmp.xmpMM.History[9]/stEvt:softwareAgent     XmpText    29  Adobe Photoshop CS5 Macintosh
+Xmp.xmpMM.History[9]/stEvt:changed           XmpText     1  /
+Xmp.xmpMM.History[10]                        XmpText     0  type="Struct"
+Xmp.xmpMM.History[10]/stEvt:action           XmpText     5  saved
+Xmp.xmpMM.History[10]/stEvt:instanceID       XmpText    40  xmp.iid:0A2983EA072068119109FFD81EEC41EF
+Xmp.xmpMM.History[10]/stEvt:when             XmpText    25  2011-03-25T17:26:30+01:00
+Xmp.xmpMM.History[10]/stEvt:softwareAgent    XmpText    29  Adobe Photoshop CS5 Macintosh
+Xmp.xmpMM.History[10]/stEvt:changed          XmpText     1  /
+Xmp.xmpMM.History[11]                        XmpText     0  type="Struct"
+Xmp.xmpMM.History[11]/stEvt:action           XmpText     5  saved
+Xmp.xmpMM.History[11]/stEvt:instanceID       XmpText    40  xmp.iid:0B2983EA072068119109FFD81EEC41EF
+Xmp.xmpMM.History[11]/stEvt:when             XmpText    25  2011-03-25T17:26:30+01:00
+Xmp.xmpMM.History[11]/stEvt:softwareAgent    XmpText    29  Adobe Photoshop CS5 Macintosh
+Xmp.xmpMM.History[11]/stEvt:changed          XmpText     1  /
+Xmp.xmpMM.History[12]                        XmpText     0  type="Struct"
+Xmp.xmpMM.History[12]/stEvt:action           XmpText     5  saved
+Xmp.xmpMM.History[12]/stEvt:instanceID       XmpText    40  xmp.iid:0C2983EA072068119109FFD81EEC41EF
+Xmp.xmpMM.History[12]/stEvt:when             XmpText    25  2011-03-25T17:26:51+01:00
+Xmp.xmpMM.History[12]/stEvt:softwareAgent    XmpText    29  Adobe Photoshop CS5 Macintosh
+Xmp.xmpMM.History[12]/stEvt:changed          XmpText     1  /
+Xmp.xmpMM.History[13]                        XmpText     0  type="Struct"
+Xmp.xmpMM.History[13]/stEvt:action           XmpText     5  saved
+Xmp.xmpMM.History[13]/stEvt:instanceID       XmpText    40  xmp.iid:0D2983EA072068119109FFD81EEC41EF
+Xmp.xmpMM.History[13]/stEvt:when             XmpText    25  2011-03-25T17:26:51+01:00
+Xmp.xmpMM.History[13]/stEvt:softwareAgent    XmpText    29  Adobe Photoshop CS5 Macintosh
+Xmp.xmpMM.History[13]/stEvt:changed          XmpText     1  /
+Xmp.photoshop.ColorMode                      XmpText     1  3
+Exit code: 253
+
+Command: exiv2 -pp eps-flat_photoshop-cs5-ascii_failure-bigxmp.eps
+Warning: Unable to find XMP metadata as announced at position: 291
+Exiv2 exception in print action for file eps-flat_photoshop-cs5-ascii_failure-bigxmp.eps:
+Failed to read image data
+Exit code: 1
+
+Command: exiv2 -pa eps-flat_photoshop-cs5-ascii_failure-bigxmp.eps
+Warning: Unable to find XMP metadata as announced at position: 291
+Exiv2 exception in print action for file eps-flat_photoshop-cs5-ascii_failure-bigxmp.eps:
+Failed to read image data
+Exit code: 1
+
+Command: exiv2 -pp eps-flat_photoshop-cs5-binary-preview.eps
+Exit code: 0
+
+Command: exiv2 -pa eps-flat_photoshop-cs5-binary-preview.eps
+Xmp.xmp.CreatorTool                          XmpText    29  Adobe Photoshop CS5 Macintosh
+Xmp.xmp.CreateDate                           XmpText    25  2011-03-25T17:23:38+01:00
+Xmp.xmp.MetadataDate                         XmpText    25  2011-03-25T17:26:30+01:00
+Xmp.xmp.ModifyDate                           XmpText    25  2011-03-25T17:26:30+01:00
+Xmp.dc.format                                XmpText    10  image/epsf
+Xmp.xmpMM.InstanceID                         XmpText    40  xmp.iid:0B2983EA072068119109FFD81EEC41EF
+Xmp.xmpMM.DocumentID                         XmpText    40  xmp.did:02801174072068119109FFD81EEC41EF
+Xmp.xmpMM.OriginalDocumentID                 XmpText    40  xmp.did:02801174072068119109FFD81EEC41EF
+Xmp.xmpMM.History                            XmpText     0  type="Seq"
+Xmp.xmpMM.History[1]                         XmpText     0  type="Struct"
+Xmp.xmpMM.History[1]/stEvt:action            XmpText     7  created
+Xmp.xmpMM.History[1]/stEvt:instanceID        XmpText    40  xmp.iid:02801174072068119109FFD81EEC41EF
+Xmp.xmpMM.History[1]/stEvt:when              XmpText    25  2011-03-25T17:23:38+01:00
+Xmp.xmpMM.History[1]/stEvt:softwareAgent     XmpText    29  Adobe Photoshop CS5 Macintosh
+Xmp.xmpMM.History[2]                         XmpText     0  type="Struct"
+Xmp.xmpMM.History[2]/stEvt:action            XmpText     5  saved
+Xmp.xmpMM.History[2]/stEvt:instanceID        XmpText    40  xmp.iid:03801174072068119109FFD81EEC41EF
+Xmp.xmpMM.History[2]/stEvt:when              XmpText    25  2011-03-25T17:24:28+01:00
+Xmp.xmpMM.History[2]/stEvt:softwareAgent     XmpText    29  Adobe Photoshop CS5 Macintosh
+Xmp.xmpMM.History[2]/stEvt:changed           XmpText     1  /
+Xmp.xmpMM.History[3]                         XmpText     0  type="Struct"
+Xmp.xmpMM.History[3]/stEvt:action            XmpText     5  saved
+Xmp.xmpMM.History[3]/stEvt:instanceID        XmpText    40  xmp.iid:04801174072068119109FFD81EEC41EF
+Xmp.xmpMM.History[3]/stEvt:when              XmpText    25  2011-03-25T17:24:28+01:00
+Xmp.xmpMM.History[3]/stEvt:softwareAgent     XmpText    29  Adobe Photoshop CS5 Macintosh
+Xmp.xmpMM.History[3]/stEvt:changed           XmpText     1  /
+Xmp.xmpMM.History[4]                         XmpText     0  type="Struct"
+Xmp.xmpMM.History[4]/stEvt:action            XmpText     5  saved
+Xmp.xmpMM.History[4]/stEvt:instanceID        XmpText    40  xmp.iid:05801174072068119109FFD81EEC41EF
+Xmp.xmpMM.History[4]/stEvt:when              XmpText    25  2011-03-25T17:25:06+01:00
+Xmp.xmpMM.History[4]/stEvt:softwareAgent     XmpText    29  Adobe Photoshop CS5 Macintosh
+Xmp.xmpMM.History[4]/stEvt:changed           XmpText     1  /
+Xmp.xmpMM.History[5]                         XmpText     0  type="Struct"
+Xmp.xmpMM.History[5]/stEvt:action            XmpText     5  saved
+Xmp.xmpMM.History[5]/stEvt:instanceID        XmpText    40  xmp.iid:06801174072068119109FFD81EEC41EF
+Xmp.xmpMM.History[5]/stEvt:when              XmpText    25  2011-03-25T17:25:06+01:00
+Xmp.xmpMM.History[5]/stEvt:softwareAgent     XmpText    29  Adobe Photoshop CS5 Macintosh
+Xmp.xmpMM.History[5]/stEvt:changed           XmpText     1  /
+Xmp.xmpMM.History[6]                         XmpText     0  type="Struct"
+Xmp.xmpMM.History[6]/stEvt:action            XmpText     5  saved
+Xmp.xmpMM.History[6]/stEvt:instanceID        XmpText    40  xmp.iid:07801174072068119109FFD81EEC41EF
+Xmp.xmpMM.History[6]/stEvt:when              XmpText    25  2011-03-25T17:25:23+01:00
+Xmp.xmpMM.History[6]/stEvt:softwareAgent     XmpText    29  Adobe Photoshop CS5 Macintosh
+Xmp.xmpMM.History[6]/stEvt:changed           XmpText     1  /
+Xmp.xmpMM.History[7]                         XmpText     0  type="Struct"
+Xmp.xmpMM.History[7]/stEvt:action            XmpText     5  saved
+Xmp.xmpMM.History[7]/stEvt:instanceID        XmpText    40  xmp.iid:08801174072068119109FFD81EEC41EF
+Xmp.xmpMM.History[7]/stEvt:when              XmpText    25  2011-03-25T17:25:23+01:00
+Xmp.xmpMM.History[7]/stEvt:softwareAgent     XmpText    29  Adobe Photoshop CS5 Macintosh
+Xmp.xmpMM.History[7]/stEvt:changed           XmpText     1  /
+Xmp.xmpMM.History[8]                         XmpText     0  type="Struct"
+Xmp.xmpMM.History[8]/stEvt:action            XmpText     5  saved
+Xmp.xmpMM.History[8]/stEvt:instanceID        XmpText    40  xmp.iid:09801174072068119109FFD81EEC41EF
+Xmp.xmpMM.History[8]/stEvt:when              XmpText    25  2011-03-25T17:25:57+01:00
+Xmp.xmpMM.History[8]/stEvt:softwareAgent     XmpText    29  Adobe Photoshop CS5 Macintosh
+Xmp.xmpMM.History[8]/stEvt:changed           XmpText     1  /
+Xmp.xmpMM.History[9]                         XmpText     0  type="Struct"
+Xmp.xmpMM.History[9]/stEvt:action            XmpText     5  saved
+Xmp.xmpMM.History[9]/stEvt:instanceID        XmpText    40  xmp.iid:0A801174072068119109FFD81EEC41EF
+Xmp.xmpMM.History[9]/stEvt:when              XmpText    25  2011-03-25T17:25:57+01:00
+Xmp.xmpMM.History[9]/stEvt:softwareAgent     XmpText    29  Adobe Photoshop CS5 Macintosh
+Xmp.xmpMM.History[9]/stEvt:changed           XmpText     1  /
+Xmp.xmpMM.History[10]                        XmpText     0  type="Struct"
+Xmp.xmpMM.History[10]/stEvt:action           XmpText     5  saved
+Xmp.xmpMM.History[10]/stEvt:instanceID       XmpText    40  xmp.iid:0A2983EA072068119109FFD81EEC41EF
+Xmp.xmpMM.History[10]/stEvt:when             XmpText    25  2011-03-25T17:26:30+01:00
+Xmp.xmpMM.History[10]/stEvt:softwareAgent    XmpText    29  Adobe Photoshop CS5 Macintosh
+Xmp.xmpMM.History[10]/stEvt:changed          XmpText     1  /
+Xmp.xmpMM.History[11]                        XmpText     0  type="Struct"
+Xmp.xmpMM.History[11]/stEvt:action           XmpText     5  saved
+Xmp.xmpMM.History[11]/stEvt:instanceID       XmpText    40  xmp.iid:0B2983EA072068119109FFD81EEC41EF
+Xmp.xmpMM.History[11]/stEvt:when             XmpText    25  2011-03-25T17:26:30+01:00
+Xmp.xmpMM.History[11]/stEvt:softwareAgent    XmpText    29  Adobe Photoshop CS5 Macintosh
+Xmp.xmpMM.History[11]/stEvt:changed          XmpText     1  /
+Xmp.photoshop.ColorMode                      XmpText     1  3
+Exit code: 253
+
+Command: exiv2 -pp eps-flat_photoshop-cs5-binary.eps
+Exit code: 0
+
+Command: exiv2 -pa eps-flat_photoshop-cs5-binary.eps
+Xmp.xmp.CreatorTool                          XmpText    29  Adobe Photoshop CS5 Macintosh
+Xmp.xmp.CreateDate                           XmpText    25  2011-03-25T17:23:38+01:00
+Xmp.xmp.MetadataDate                         XmpText    25  2011-03-25T17:25:57+01:00
+Xmp.xmp.ModifyDate                           XmpText    25  2011-03-25T17:25:57+01:00
+Xmp.dc.format                                XmpText    10  image/epsf
+Xmp.xmpMM.InstanceID                         XmpText    40  xmp.iid:0A801174072068119109FFD81EEC41EF
+Xmp.xmpMM.DocumentID                         XmpText    40  xmp.did:02801174072068119109FFD81EEC41EF
+Xmp.xmpMM.OriginalDocumentID                 XmpText    40  xmp.did:02801174072068119109FFD81EEC41EF
+Xmp.xmpMM.History                            XmpText     0  type="Seq"
+Xmp.xmpMM.History[1]                         XmpText     0  type="Struct"
+Xmp.xmpMM.History[1]/stEvt:action            XmpText     7  created
+Xmp.xmpMM.History[1]/stEvt:instanceID        XmpText    40  xmp.iid:02801174072068119109FFD81EEC41EF
+Xmp.xmpMM.History[1]/stEvt:when              XmpText    25  2011-03-25T17:23:38+01:00
+Xmp.xmpMM.History[1]/stEvt:softwareAgent     XmpText    29  Adobe Photoshop CS5 Macintosh
+Xmp.xmpMM.History[2]                         XmpText     0  type="Struct"
+Xmp.xmpMM.History[2]/stEvt:action            XmpText     5  saved
+Xmp.xmpMM.History[2]/stEvt:instanceID        XmpText    40  xmp.iid:03801174072068119109FFD81EEC41EF
+Xmp.xmpMM.History[2]/stEvt:when              XmpText    25  2011-03-25T17:24:28+01:00
+Xmp.xmpMM.History[2]/stEvt:softwareAgent     XmpText    29  Adobe Photoshop CS5 Macintosh
+Xmp.xmpMM.History[2]/stEvt:changed           XmpText     1  /
+Xmp.xmpMM.History[3]                         XmpText     0  type="Struct"
+Xmp.xmpMM.History[3]/stEvt:action            XmpText     5  saved
+Xmp.xmpMM.History[3]/stEvt:instanceID        XmpText    40  xmp.iid:04801174072068119109FFD81EEC41EF
+Xmp.xmpMM.History[3]/stEvt:when              XmpText    25  2011-03-25T17:24:28+01:00
+Xmp.xmpMM.History[3]/stEvt:softwareAgent     XmpText    29  Adobe Photoshop CS5 Macintosh
+Xmp.xmpMM.History[3]/stEvt:changed           XmpText     1  /
+Xmp.xmpMM.History[4]                         XmpText     0  type="Struct"
+Xmp.xmpMM.History[4]/stEvt:action            XmpText     5  saved
+Xmp.xmpMM.History[4]/stEvt:instanceID        XmpText    40  xmp.iid:05801174072068119109FFD81EEC41EF
+Xmp.xmpMM.History[4]/stEvt:when              XmpText    25  2011-03-25T17:25:06+01:00
+Xmp.xmpMM.History[4]/stEvt:softwareAgent     XmpText    29  Adobe Photoshop CS5 Macintosh
+Xmp.xmpMM.History[4]/stEvt:changed           XmpText     1  /
+Xmp.xmpMM.History[5]                         XmpText     0  type="Struct"
+Xmp.xmpMM.History[5]/stEvt:action            XmpText     5  saved
+Xmp.xmpMM.History[5]/stEvt:instanceID        XmpText    40  xmp.iid:06801174072068119109FFD81EEC41EF
+Xmp.xmpMM.History[5]/stEvt:when              XmpText    25  2011-03-25T17:25:06+01:00
+Xmp.xmpMM.History[5]/stEvt:softwareAgent     XmpText    29  Adobe Photoshop CS5 Macintosh
+Xmp.xmpMM.History[5]/stEvt:changed           XmpText     1  /
+Xmp.xmpMM.History[6]                         XmpText     0  type="Struct"
+Xmp.xmpMM.History[6]/stEvt:action            XmpText     5  saved
+Xmp.xmpMM.History[6]/stEvt:instanceID        XmpText    40  xmp.iid:07801174072068119109FFD81EEC41EF
+Xmp.xmpMM.History[6]/stEvt:when              XmpText    25  2011-03-25T17:25:23+01:00
+Xmp.xmpMM.History[6]/stEvt:softwareAgent     XmpText    29  Adobe Photoshop CS5 Macintosh
+Xmp.xmpMM.History[6]/stEvt:changed           XmpText     1  /
+Xmp.xmpMM.History[7]                         XmpText     0  type="Struct"
+Xmp.xmpMM.History[7]/stEvt:action            XmpText     5  saved
+Xmp.xmpMM.History[7]/stEvt:instanceID        XmpText    40  xmp.iid:08801174072068119109FFD81EEC41EF
+Xmp.xmpMM.History[7]/stEvt:when              XmpText    25  2011-03-25T17:25:23+01:00
+Xmp.xmpMM.History[7]/stEvt:softwareAgent     XmpText    29  Adobe Photoshop CS5 Macintosh
+Xmp.xmpMM.History[7]/stEvt:changed           XmpText     1  /
+Xmp.xmpMM.History[8]                         XmpText     0  type="Struct"
+Xmp.xmpMM.History[8]/stEvt:action            XmpText     5  saved
+Xmp.xmpMM.History[8]/stEvt:instanceID        XmpText    40  xmp.iid:09801174072068119109FFD81EEC41EF
+Xmp.xmpMM.History[8]/stEvt:when              XmpText    25  2011-03-25T17:25:57+01:00
+Xmp.xmpMM.History[8]/stEvt:softwareAgent     XmpText    29  Adobe Photoshop CS5 Macintosh
+Xmp.xmpMM.History[8]/stEvt:changed           XmpText     1  /
+Xmp.xmpMM.History[9]                         XmpText     0  type="Struct"
+Xmp.xmpMM.History[9]/stEvt:action            XmpText     5  saved
+Xmp.xmpMM.History[9]/stEvt:instanceID        XmpText    40  xmp.iid:0A801174072068119109FFD81EEC41EF
+Xmp.xmpMM.History[9]/stEvt:when              XmpText    25  2011-03-25T17:25:57+01:00
+Xmp.xmpMM.History[9]/stEvt:softwareAgent     XmpText    29  Adobe Photoshop CS5 Macintosh
+Xmp.xmpMM.History[9]/stEvt:changed           XmpText     1  /
+Xmp.photoshop.ColorMode                      XmpText     1  3
+Exit code: 253
+
+Command: exiv2 -pp eps-flat_photoshop-e9-win-doseps.eps
+Exiv2 exception in print action for file eps-flat_photoshop-e9-win-doseps.eps:
+This does not look like a EPS image
+Exit code: 1
+
+Command: exiv2 -pa eps-flat_photoshop-e9-win-doseps.eps
+Exiv2 exception in print action for file eps-flat_photoshop-e9-win-doseps.eps:
+This does not look like a EPS image
+Exit code: 1
+
+Command: exiv2 -pp eps-flat_photoshop-e9-win.eps
+Exit code: 0
+
+Command: exiv2 -pa eps-flat_photoshop-e9-win.eps
+Xmp.xmp.CreatorTool                          XmpText    36  Adobe Photoshop Elements 9.0 Windows
+Xmp.xmp.MetadataDate                         XmpText    25  2011-06-15T17:26:37+02:00
+Xmp.xmp.ModifyDate                           XmpText    25  2011-06-15T17:26:37+02:00
+Xmp.xmp.CreateDate                           XmpText    25  2011-06-15T17:26:37+02:00
+Xmp.xmpMM.InstanceID                         XmpText    40  xmp.iid:BB76D1936397E011BD8F809D442CE889
+Xmp.xmpMM.DocumentID                         XmpText    40  xmp.did:BA76D1936397E011BD8F809D442CE889
+Xmp.xmpMM.OriginalDocumentID                 XmpText    40  xmp.did:BA76D1936397E011BD8F809D442CE889
+Xmp.xmpMM.History                            XmpText     0  type="Seq"
+Xmp.xmpMM.History[1]                         XmpText     0  type="Struct"
+Xmp.xmpMM.History[1]/stEvt:action            XmpText     7  created
+Xmp.xmpMM.History[1]/stEvt:instanceID        XmpText    40  xmp.iid:BA76D1936397E011BD8F809D442CE889
+Xmp.xmpMM.History[1]/stEvt:when              XmpText    25  2011-06-15T17:26:37+02:00
+Xmp.xmpMM.History[1]/stEvt:softwareAgent     XmpText    36  Adobe Photoshop Elements 9.0 Windows
+Xmp.xmpMM.History[2]                         XmpText     0  type="Struct"
+Xmp.xmpMM.History[2]/stEvt:action            XmpText     5  saved
+Xmp.xmpMM.History[2]/stEvt:instanceID        XmpText    40  xmp.iid:BB76D1936397E011BD8F809D442CE889
+Xmp.xmpMM.History[2]/stEvt:when              XmpText    25  2011-06-15T17:26:37+02:00
+Xmp.xmpMM.History[2]/stEvt:softwareAgent     XmpText    36  Adobe Photoshop Elements 9.0 Windows
+Xmp.xmpMM.History[2]/stEvt:changed           XmpText     1  /
+Xmp.dc.format                                XmpText    10  image/epsf
+Xmp.tiff.Orientation                         XmpText     1  top, left
+Xmp.tiff.XResolution                         XmpText    13  118
+Xmp.tiff.YResolution                         XmpText    13  118
+Xmp.tiff.ResolutionUnit                      XmpText     1  cm
+Xmp.tiff.NativeDigest                        XmpText   134  256,257,258,259,262,274,277,284,530,531,282,283,296,301,318,319,529,532,306,270,271,272,305,315,33432;ACFFF7D243A168D5528B080270FB9FEC
+Xmp.exif.PixelXDimension                     XmpText     4  1890
+Xmp.exif.PixelYDimension                     XmpText     4  1417
+Xmp.exif.ColorSpace                          XmpText     1  sRGB
+Xmp.exif.NativeDigest                        XmpText   414  36864,40960,40961,37121,37122,40962,40963,37510,40964,36867,36868,33434,33437,34850,34852,34855,34856,37377,37378,37379,37380,37381,37382,37383,37384,37385,37386,37396,41483,41484,41486,41487,41488,41492,41493,41495,41728,41729,41730,41985,41986,41987,41988,41989,41990,41991,41992,41993,41994,41995,41996,42016,0,2,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,20,22,23,24,25,26,27,28,30;688FEB35A103981B434E9C688B2AB188
+Xmp.photoshop.ColorMode                      XmpText     1  3
+Xmp.photoshop.ICCProfile                     XmpText    17  sRGB IEC61966-2.1
+Exit code: 253
+

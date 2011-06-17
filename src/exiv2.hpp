@@ -38,6 +38,7 @@
 #include "crwimage.hpp"
 #include "datasets.hpp"
 #include "easyaccess.hpp"
+#include "epsimage.hpp"
 #include "error.hpp"
 #include "exif.hpp"
 #include "futils.hpp"

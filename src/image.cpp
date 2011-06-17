@@ -46,6 +46,7 @@ EXIV2_RCSID("@(#) $Id$")
 
 #include "cr2image.hpp"
 #include "crwimage.hpp"
+#include "epsimage.hpp"
 #include "jpgimage.hpp"
 #include "mrwimage.hpp"
 #ifdef EXV_HAVE_LIBZ
@@ -100,6 +101,7 @@ namespace {
     const Registry registry[] = {
         //image type       creation fct     type check  Exif mode    IPTC mode    XMP mode     Comment mode
         //---------------  ---------------  ----------  -----------  -----------  -----------  ------------
+        { ImageType::eps,  newEpsInstance,  isEpsType,  amNone,      amNone,      amReadWrite, amNone      },
         { ImageType::jpeg, newJpegInstance, isJpegType, amReadWrite, amReadWrite, amReadWrite, amReadWrite },
         { ImageType::exv,  newExvInstance,  isExvType,  amReadWrite, amReadWrite, amReadWrite, amReadWrite },
         { ImageType::cr2,  newCr2Instance,  isCr2Type,  amRead,      amRead,      amRead,      amNone      },
