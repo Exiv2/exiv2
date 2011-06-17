@@ -548,7 +548,8 @@ namespace Exiv2 {
         { 153, "Tamron 18-250mm f/3.5-6.3 Di II LD Aspherical [IF] Macro"   }, // 4
         { 154, "Canon EF 20mm f/2.8 USM"                                    },
         { 155, "Canon EF 85mm f/1.8 USM"                                    },
-        { 156, "Canon EF 28-105mm f/3.5-4.5 USM"                            },
+        { 156, "Canon EF 28-105mm f/3.5-4.5 USM"                            }, // 0
+        { 156, "Tamron SP AF 70-300mm F4-5.6 Di VC USD"                     }, // 1
         { 160, "Canon EF 20-35mm f/3.5-4.5 USM"                             }, // 0
         { 160, "Tamron AF 19-35mm f/3.5-4.5"                                }, // 1
         { 160, "Tokina AT-X 107 AF DX Fish-eye 10-17mm f/3.5-4.5"           }, // 2
@@ -672,6 +673,7 @@ namespace Exiv2 {
         { 150, printCsLensByFocalLength },
         { 152, printCsLensByFocalLength },
         { 153, printCsLensByFocalLength },
+        { 156, printCsLensByFocalLength },
         { 160, printCsLensByFocalLength },
         { 161, printCsLensByFocalLength },
         { 169, printCsLensByFocalLength },
