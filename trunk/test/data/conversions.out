@@ -9,15 +9,15 @@ Testcase 2
 ==========
 Xmp.dc.description                           LangAlt     1  lang="x-default" The Exif image description
 Exif.Image.ImageDescription                  Ascii      27  The Exif image description
-Iptc.Application2.Caption                    String     26  The Exif image description
 Iptc.Envelope.CharacterSet                   String      3  $%G
+Iptc.Application2.Caption                    String     26  The Exif image description
 
 Testcase 3
 ==========
 Xmp.dc.description                           LangAlt     1  lang="de-DE" The Exif image description
 Exif.Image.ImageDescription                  Ascii      27  The Exif image description
-Iptc.Application2.Caption                    String     26  The Exif image description
 Iptc.Envelope.CharacterSet                   String      3  $%G
+Iptc.Application2.Caption                    String     26  The Exif image description
 
 Testcase 4
 ==========
@@ -36,8 +36,8 @@ Warning: Failed to convert Xmp.dc.description to Exif.Image.ImageDescription
      <rdf:li xml:lang="x-default">How to fix this mess</rdf:li>
 Xmp.dc.description                           LangAlt     3  lang="x-default" How to fix this mess, lang="de-DE" The Exif image description, lang="it-IT" Ciao bella
 Exif.Image.ImageDescription                  Ascii      21  How to fix this mess
-Iptc.Application2.Caption                    String     20  How to fix this mess
 Iptc.Envelope.CharacterSet                   String      3  $%G
+Iptc.Application2.Caption                    String     20  How to fix this mess
 
 Testcase 6
 ==========
@@ -74,10 +74,10 @@ Testcase 9
 Xmp.dc.subject                               XmpBag      3  Sex, Drugs, Rock'n'roll
 File 1/1: p.jpg
 p.jpg: No Exif data found in the file
+Iptc.Envelope.CharacterSet                   String      3  $%G
 Iptc.Application2.Keywords                   String      3  Sex
 Iptc.Application2.Keywords                   String      5  Drugs
 Iptc.Application2.Keywords                   String     11  Rock'n'roll
-Iptc.Envelope.CharacterSet                   String      3  $%G
 
 Testcase 10
 ===========
@@ -108,8 +108,8 @@ Testcase 13
 Xmp.iptc.Location                            XmpText    12  Kuala Lumpur
 File 1/1: t.jpg
 t.jpg: No Exif data found in the file
-Iptc.Application2.SubLocation                String     12  Kuala Lumpur
 Iptc.Envelope.CharacterSet                   String      3  $%G
+Iptc.Application2.SubLocation                String     12  Kuala Lumpur
 
 Testcase 14
 ===========
@@ -180,5 +180,5 @@ Exif.GPSInfo.GPSLatitudeRef                  Ascii       2  N
 Exif.GPSInfo.GPSLatitude                     Rational    3  3/1 8/1 1858407/62500
 Exif.GPSInfo.GPSTimeStamp                    Rational    3  1/1 2/1 999999999/1000000000
 Exif.GPSInfo.GPSDateStamp                    Ascii      11  2003:12:14
-Iptc.Application2.DateCreated                Date        8  2007-05-09
 Iptc.Envelope.CharacterSet                   String      3  $%G
+Iptc.Application2.DateCreated                Date        8  2007-05-09
