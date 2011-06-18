@@ -1,6 +1,8 @@
 #! /bin/sh
 # Test driver for EPS files
 
+export LC_ALL=C
+
 exiv2="$VALGRIND ../../src/exiv2"
 
 diffargs="--strip-trailing-cr"

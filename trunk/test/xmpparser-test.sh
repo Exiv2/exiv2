@@ -10,6 +10,7 @@ fi
 
 # ----------------------------------------------------------------------
 # Setup
+export LC_ALL=C
 results="./tmp/xmpparser-test.out"
 good="./data/xmpparser-test.out"
 
