@@ -191,6 +191,9 @@ namespace Exiv2
         const size_t firstLinePos = pos;
         pos = readLine(line, data, firstLinePos, size);
         const std::string firstLine = line;
+        #ifdef DEBUG
+        EXV_DEBUG << "Exiv2::EpsImage::doReadWriteMetadata: First line: " << firstLine << "\n";
+        #endif
         bool matched = false;
         for (size_t i = 0; !matched && i < (sizeof epsFirstLine) / (sizeof *epsFirstLine); i++) {
             matched = (firstLine == epsFirstLine[i]);
@@ -198,9 +201,6 @@ namespace Exiv2
         if (!matched) {
             throw Error(3, "EPS");
         }
-        #ifdef DEBUG
-        EXV_DEBUG << "Exiv2::EpsImage::doReadWriteMetadata: Recognized first line: " << firstLine << "\n";
-        #endif
 
         // determine line ending style of the first line
         if (pos >= size) {
