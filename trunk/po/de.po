@@ -3923,7 +3923,7 @@ msgstr "Erfolgreich"
 
 #: src/error.cpp:59
 msgid "This does not look like a %1 image"
-msgstr "Dies scheint kein %1 Bild zu sein."
+msgstr "Dies scheint kein %1-Bild zu sein."
 
 #: src/error.cpp:60
 msgid "Invalid dataset name `%1'"
@@ -3963,7 +3963,7 @@ msgstr "Der Speicher enthält Daten eines unbekannten Bildtypes."
 
 #: src/error.cpp:69
 msgid "Image type %1 is not supported"
-msgstr "Der Bildtyp %1 ist nicht unterstützt."
+msgstr "Der Bildtyp %1 wird nicht unterstützt."
 
 #: src/error.cpp:70
 msgid "Failed to read image data"
@@ -4035,13 +4035,12 @@ msgid "Unsupported time format"
 msgstr "Nicht unterstütztes Zeitformat"
 
 #: src/error.cpp:87
-#, fuzzy
 msgid "Writing to %1 images is not supported"
-msgstr "Das Schreiben von %2 Bildern wird nicht unterstützt."
+msgstr "Das Schreiben von %2-Bildern wird nicht unterstützt."
 
 #: src/error.cpp:88
 msgid "Setting %1 in %2 images is not supported"
-msgstr "Das Setzen von %1 in %2 Bildern ist nicht unterstützt."
+msgstr "Das Setzen von %1 in %2-Bildern wird nicht unterstützt."
 
 #: src/error.cpp:89
 msgid "This does not look like a CRW image"
@@ -4129,9 +4128,8 @@ msgid "TIFF array element tag %1 has wrong type"
 msgstr "Das TIFF-Feldelement %1 hat den falschen Typ"
 
 #: src/error.cpp:108
-#, fuzzy
 msgid "%1 has invalid XMP value type `%2'"
-msgstr "Ungültiger Xmp-Texttyp `%1'"
+msgstr "%1 hat ungültigen XMP-Wertetyp \"%1\""
 
 #: src/exiv2.cpp:209
 msgid "Copyright (C) 2004-2011 Andreas Huggel.\n"
