@@ -120,6 +120,8 @@ namespace Exiv2
         EXV_DLLLOCAL static size_t readPrevLine(std::string& line, const char* data, size_t startPos, size_t size);
         //! Check whether a string has a certain beginning
         EXV_DLLLOCAL static bool startsWith(const std::string& s, const std::string& start);
+        //! Check whether a string contains only white space characters
+        EXV_DLLLOCAL static bool onlyWhitespaces(const std::string& s);
         //! Write data into temp file, taking care of errors
         EXV_DLLLOCAL static void writeTemp(BasicIo& tempIo, const char* data, size_t size);
         //! Write data into temp file, taking care of errors
