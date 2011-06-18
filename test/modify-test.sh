@@ -1,5 +1,6 @@
 #! /bin/sh
 # Test driver for write unit tests to build Exif metadata from scratch
+export LC_ALL=C
 results="./tmp/modify-test.out"
 good="./data/modify-test.out"
 diffargs="--strip-trailing-cr"

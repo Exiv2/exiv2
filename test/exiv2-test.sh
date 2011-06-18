@@ -1,5 +1,6 @@
 #! /bin/sh
 # Test driver for exiv2 utility tests
+export LC_ALL=C
 exiv2="$VALGRIND exiv2 -u"
 results="./tmp/exiv2-test.out"
 good="./data/exiv2-test.out"

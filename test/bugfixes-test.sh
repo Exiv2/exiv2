@@ -1,5 +1,6 @@
 #! /bin/sh
 # Test driver with regression tests for bugfixes
+export LC_ALL=C
 results="./tmp/bugfixes-test.out"
 good="./data/bugfixes-test.out"
 

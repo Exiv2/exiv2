@@ -10,6 +10,7 @@ fi
 
 # ----------------------------------------------------------------------
 # Setup
+export LC_ALL=C
 results="./tmp/conversions.out"
 good="./data/conversions.out"
 
