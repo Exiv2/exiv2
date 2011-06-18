@@ -92,24 +92,16 @@ Xmp.test.test                                XmpText     4  TEST
 Exit code: 253
 
 Command: exiv2 -pp eps-flat_oodraw-lev1.eps
-Exiv2 exception in print action for file eps-flat_oodraw-lev1.eps:
-This does not look like a EPS image
-Exit code: 1
+Exit code: 0
 
 Command: exiv2 -pa eps-flat_oodraw-lev1.eps
-Exiv2 exception in print action for file eps-flat_oodraw-lev1.eps:
-This does not look like a EPS image
-Exit code: 1
+Exit code: 253
 
 Command: exiv2 -pp eps-flat_oodraw-lev2.eps
-Exiv2 exception in print action for file eps-flat_oodraw-lev2.eps:
-This does not look like a EPS image
-Exit code: 1
+Exit code: 0
 
 Command: exiv2 -pa eps-flat_oodraw-lev2.eps
-Exiv2 exception in print action for file eps-flat_oodraw-lev2.eps:
-This does not look like a EPS image
-Exit code: 1
+Exit code: 253
 
 Command: exiv2 -pp eps-flat_oodraw-lev2_eps2eps.eps
 Exit code: 0
@@ -118,16 +110,144 @@ Command: exiv2 -pa eps-flat_oodraw-lev2_eps2eps.eps
 Exit code: 253
 
 Command: exiv2 -pp eps-flat_oodraw_ai-10-lev2.eps
-Warning: Unable to handle multiple PostScript pages. Found second page at position: 182443
-Exiv2 exception in print action for file eps-flat_oodraw_ai-10-lev2.eps:
-Failed to read image data
-Exit code: 1
+Exit code: 0
 
 Command: exiv2 -pa eps-flat_oodraw_ai-10-lev2.eps
-Warning: Unable to handle multiple PostScript pages. Found second page at position: 182443
-Exiv2 exception in print action for file eps-flat_oodraw_ai-10-lev2.eps:
-Failed to read image data
-Exit code: 1
+Xmp.xmp.CreatorTool                          XmpText    21  Adobe Illustrator CS5
+Xmp.xmp.CreateDate                           XmpText    25  2011-03-25T16:12:06+01:00
+Xmp.xmp.MetadataDate                         XmpText    25  2011-03-25T16:12:06+01:00
+Xmp.xmp.ModifyDate                           XmpText    25  2011-03-25T16:12:06+01:00
+Xmp.xmp.Thumbnails                           XmpText     0  type="Alt"
+Xmp.xmp.Thumbnails[1]                        XmpText     0  type="Struct"
+Xmp.xmp.Thumbnails[1]/xmpGImg:width          XmpText     3  256
+Xmp.xmp.Thumbnails[1]/xmpGImg:height         XmpText     3  208
+Xmp.xmp.Thumbnails[1]/xmpGImg:format         XmpText     4  JPEG
+Xmp.xmp.Thumbnails[1]/xmpGImg:image          XmpText   4279  /9j/4AAQSkZJRgABAgEASABIAAD/7QAsUGhvdG9zaG9wIDMuMAA4QklNA+0AAAAAABAASAAAAAEA
+AQBIAAAAAQAB/+4ADkFkb2JlAGTAAAAAAf/bAIQABgQEBAUEBgUFBgkGBQYJCwgGBggLDAoKCwoK
+DBAMDAwMDAwQDA4PEA8ODBMTFBQTExwbGxscHx8fHx8fHx8fHwEHBwcNDA0YEBAYGhURFRofHx8f
+Hx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8f/8AAEQgA0AEAAwER
+AAIRAQMRAf/EAaIAAAAHAQEBAQEAAAAAAAAAAAQFAwIGAQAHCAkKCwEAAgIDAQEBAQEAAAAAAAAA
+AQACAwQFBgcICQoLEAACAQMDAgQCBgcDBAIGAnMBAgMRBAAFIRIxQVEGE2EicYEUMpGhBxWxQiPB
+UtHhMxZi8CRygvElQzRTkqKyY3PCNUQnk6OzNhdUZHTD0uIIJoMJChgZhJRFRqS0VtNVKBry4/PE
+1OT0ZXWFlaW1xdXl9WZ2hpamtsbW5vY3R1dnd4eXp7fH1+f3OEhYaHiImKi4yNjo+Ck5SVlpeYmZ
+qbnJ2en5KjpKWmp6ipqqusra6voRAAICAQIDBQUEBQYECAMDbQEAAhEDBCESMUEFURNhIgZxgZEy
+obHwFMHR4SNCFVJicvEzJDRDghaSUyWiY7LCB3PSNeJEgxdUkwgJChgZJjZFGidkdFU38qOzwygp
+0+PzhJSktMTU5PRldYWVpbXF1eX1RlZmdoaWprbG1ub2R1dnd4eXp7fH1+f3OEhYaHiImKi4yNjo
++DlJWWl5iZmpucnZ6fkqOkpaanqKmqq6ytrq+v/aAAwDAQACEQMRAD8APbW1tvq0X7pPsL+yPDFV
+X6rbf75T/gRgV31W2/3yn/AjFXfVbb/fKf8AAjFXfVbb/fKf8CMVd9Vtv98p/wACMVd9Vtv98p/w
+IxV31W2/3yn/AAIxV31W2/3yn/AjFXfVbb/fKf8AAjFXfVbb/fKf8CMVd9Vtv98p/wACMVd9Vtv9
+8p/wIxV31W2/3yn/AAIxV31W2/3yn/AjFXfVbb/fKf8AAjFXfVbb/fKf8CMVd9Vtv98p/wACMVd9
+Vtv98p/wIxV31W2/3yn/AAIxV31W2/3yn/AjFXfVbb/fKf8AAjFXfVbb/fKf8CMVd9Vtv98p/wAC
+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
+Xmp.xmpTPg.MaxPageSize                       XmpText     0  type="Struct"
+Xmp.xmpTPg.MaxPageSize/stDim:w               XmpText    10  612.000000
+Xmp.xmpTPg.MaxPageSize/stDim:h               XmpText    10  792.000000
+Xmp.xmpTPg.MaxPageSize/stDim:unit            XmpText     6  Points
+Xmp.xmpTPg.NPages                            XmpText     1  1
+Xmp.xmpTPg.HasVisibleTransparency            XmpText     5  False
+Xmp.xmpTPg.HasVisibleOverprint               XmpText     5  False
+Xmp.xmpTPg.PlateNames                        XmpSeq      1  Black
+Xmp.xmpTPg.SwatchGroups                      XmpText     0  type="Seq"
+Xmp.xmpTPg.SwatchGroups[1]                   XmpText     0  type="Struct"
+Xmp.xmpTPg.SwatchGroups[1]/xmpG:groupName    XmpText    20  Default Swatch Group
+Xmp.xmpTPg.SwatchGroups[1]/xmpG:groupType    XmpText     1  0
+Xmp.dc.format                                XmpText    22  application/postscript
+Xmp.xmpMM.DerivedFrom                        XmpText     0  type="Struct"
+Xmp.xmpMM.DerivedFrom/stRef:instanceID       XmpText    40  xmp.iid:07801174072068118C14A928EC4F6B4E
+Xmp.xmpMM.DerivedFrom/stRef:documentID       XmpText    40  xmp.did:07801174072068118C14A928EC4F6B4E
+Xmp.xmpMM.DerivedFrom/stRef:originalDocumentID XmpText    40  xmp.did:01801174072068118C14A928EC4F6B4E
+Xmp.xmpMM.DocumentID                         XmpText    40  xmp.did:08801174072068118C14A928EC4F6B4E
+Xmp.xmpMM.InstanceID                         XmpText    40  xmp.iid:08801174072068118C14A928EC4F6B4E
+Xmp.xmpMM.OriginalDocumentID                 XmpText    40  xmp.did:01801174072068118C14A928EC4F6B4E
+Xmp.xmpMM.History                            XmpText     0  type="Seq"
+Xmp.xmpMM.History[1]                         XmpText     0  type="Struct"
+Xmp.xmpMM.History[1]/stEvt:action            XmpText     5  saved
+Xmp.xmpMM.History[1]/stEvt:instanceID        XmpText    40  xmp.iid:01801174072068118C14A928EC4F6B4E
+Xmp.xmpMM.History[1]/stEvt:when              XmpText    22  2011-03-25T16:07+01:00
+Xmp.xmpMM.History[1]/stEvt:softwareAgent     XmpText    21  Adobe Illustrator CS5
+Xmp.xmpMM.History[1]/stEvt:changed           XmpText     1  /
+Xmp.xmpMM.History[2]                         XmpText     0  type="Struct"
+Xmp.xmpMM.History[2]/stEvt:action            XmpText     5  saved
+Xmp.xmpMM.History[2]/stEvt:instanceID        XmpText    40  xmp.iid:02801174072068118C14A928EC4F6B4E
+Xmp.xmpMM.History[2]/stEvt:when              XmpText    25  2011-03-25T16:07:33+01:00
+Xmp.xmpMM.History[2]/stEvt:softwareAgent     XmpText    21  Adobe Illustrator CS5
+Xmp.xmpMM.History[2]/stEvt:changed           XmpText     1  /
+Xmp.xmpMM.History[3]                         XmpText     0  type="Struct"
+Xmp.xmpMM.History[3]/stEvt:action            XmpText     5  saved
+Xmp.xmpMM.History[3]/stEvt:instanceID        XmpText    40  xmp.iid:03801174072068118C14A928EC4F6B4E
+Xmp.xmpMM.History[3]/stEvt:when              XmpText    25  2011-03-25T16:09:09+01:00
+Xmp.xmpMM.History[3]/stEvt:softwareAgent     XmpText    21  Adobe Illustrator CS5
+Xmp.xmpMM.History[3]/stEvt:changed           XmpText     1  /
+Xmp.xmpMM.History[4]                         XmpText     0  type="Struct"
+Xmp.xmpMM.History[4]/stEvt:action            XmpText     5  saved
+Xmp.xmpMM.History[4]/stEvt:instanceID        XmpText    40  xmp.iid:04801174072068118C14A928EC4F6B4E
+Xmp.xmpMM.History[4]/stEvt:when              XmpText    25  2011-03-25T16:10:28+01:00
+Xmp.xmpMM.History[4]/stEvt:softwareAgent     XmpText    21  Adobe Illustrator CS5
+Xmp.xmpMM.History[4]/stEvt:changed           XmpText     1  /
+Xmp.xmpMM.History[5]                         XmpText     0  type="Struct"
+Xmp.xmpMM.History[5]/stEvt:action            XmpText     5  saved
+Xmp.xmpMM.History[5]/stEvt:instanceID        XmpText    40  xmp.iid:05801174072068118C14A928EC4F6B4E
+Xmp.xmpMM.History[5]/stEvt:when              XmpText    25  2011-03-25T16:11:03+01:00
+Xmp.xmpMM.History[5]/stEvt:softwareAgent     XmpText    21  Adobe Illustrator CS5
+Xmp.xmpMM.History[5]/stEvt:changed           XmpText     1  /
+Xmp.xmpMM.History[6]                         XmpText     0  type="Struct"
+Xmp.xmpMM.History[6]/stEvt:action            XmpText     5  saved
+Xmp.xmpMM.History[6]/stEvt:instanceID        XmpText    40  xmp.iid:06801174072068118C14A928EC4F6B4E
+Xmp.xmpMM.History[6]/stEvt:when              XmpText    25  2011-03-25T16:11:25+01:00
+Xmp.xmpMM.History[6]/stEvt:softwareAgent     XmpText    21  Adobe Illustrator CS5
+Xmp.xmpMM.History[6]/stEvt:changed           XmpText     1  /
+Xmp.xmpMM.History[7]                         XmpText     0  type="Struct"
+Xmp.xmpMM.History[7]/stEvt:action            XmpText     5  saved
+Xmp.xmpMM.History[7]/stEvt:instanceID        XmpText    40  xmp.iid:07801174072068118C14A928EC4F6B4E
+Xmp.xmpMM.History[7]/stEvt:when              XmpText    25  2011-03-25T16:11:44+01:00
+Xmp.xmpMM.History[7]/stEvt:softwareAgent     XmpText    21  Adobe Illustrator CS5
+Xmp.xmpMM.History[7]/stEvt:changed           XmpText     1  /
+Xmp.xmpMM.History[8]                         XmpText     0  type="Struct"
+Xmp.xmpMM.History[8]/stEvt:action            XmpText     5  saved
+Xmp.xmpMM.History[8]/stEvt:instanceID        XmpText    40  xmp.iid:08801174072068118C14A928EC4F6B4E
+Xmp.xmpMM.History[8]/stEvt:when              XmpText    25  2011-03-25T16:12:06+01:00
+Xmp.xmpMM.History[8]/stEvt:softwareAgent     XmpText    21  Adobe Illustrator CS5
+Xmp.xmpMM.History[8]/stEvt:changed           XmpText     1  /
+Exit code: 253
 
 Command: exiv2 -pp eps-flat_oodraw_ai-3-lev2.eps
 Exit code: 0
@@ -142,16 +262,156 @@ Command: exiv2 -pa eps-flat_oodraw_ai-3-lev3.eps
 Exit code: 253
 
 Command: exiv2 -pp eps-flat_oodraw_ai-8-lev2.eps
-Warning: Unable to handle multiple PostScript pages. Found second page at position: 182442
-Exiv2 exception in print action for file eps-flat_oodraw_ai-8-lev2.eps:
-Failed to read image data
-Exit code: 1
+Exit code: 0
 
 Command: exiv2 -pa eps-flat_oodraw_ai-8-lev2.eps
-Warning: Unable to handle multiple PostScript pages. Found second page at position: 182442
-Exiv2 exception in print action for file eps-flat_oodraw_ai-8-lev2.eps:
-Failed to read image data
-Exit code: 1
+Xmp.xmp.CreatorTool                          XmpText    21  Adobe Illustrator CS5
+Xmp.xmp.CreateDate                           XmpText    25  2011-03-25T16:12:46+01:00
+Xmp.xmp.MetadataDate                         XmpText    25  2011-03-25T16:12:46+01:00
+Xmp.xmp.ModifyDate                           XmpText    25  2011-03-25T16:12:46+01:00
+Xmp.xmp.Thumbnails                           XmpText     0  type="Alt"
+Xmp.xmp.Thumbnails[1]                        XmpText     0  type="Struct"
+Xmp.xmp.Thumbnails[1]/xmpGImg:width          XmpText     3  256
+Xmp.xmp.Thumbnails[1]/xmpGImg:height         XmpText     3  208
+Xmp.xmp.Thumbnails[1]/xmpGImg:format         XmpText     4  JPEG
+Xmp.xmp.Thumbnails[1]/xmpGImg:image          XmpText   4279  /9j/4AAQSkZJRgABAgEASABIAAD/7QAsUGhvdG9zaG9wIDMuMAA4QklNA+0AAAAAABAASAAAAAEA
+AQBIAAAAAQAB/+4ADkFkb2JlAGTAAAAAAf/bAIQABgQEBAUEBgUFBgkGBQYJCwgGBggLDAoKCwoK
+DBAMDAwMDAwQDA4PEA8ODBMTFBQTExwbGxscHx8fHx8fHx8fHwEHBwcNDA0YEBAYGhURFRofHx8f
+Hx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8f/8AAEQgA0AEAAwER
+AAIRAQMRAf/EAaIAAAAHAQEBAQEAAAAAAAAAAAQFAwIGAQAHCAkKCwEAAgIDAQEBAQEAAAAAAAAA
+AQACAwQFBgcICQoLEAACAQMDAgQCBgcDBAIGAnMBAgMRBAAFIRIxQVEGE2EicYEUMpGhBxWxQiPB
+UtHhMxZi8CRygvElQzRTkqKyY3PCNUQnk6OzNhdUZHTD0uIIJoMJChgZhJRFRqS0VtNVKBry4/PE
+1OT0ZXWFlaW1xdXl9WZ2hpamtsbW5vY3R1dnd4eXp7fH1+f3OEhYaHiImKi4yNjo+Ck5SVlpeYmZ
+qbnJ2en5KjpKWmp6ipqqusra6voRAAICAQIDBQUEBQYECAMDbQEAAhEDBCESMUEFURNhIgZxgZEy
+obHwFMHR4SNCFVJicvEzJDRDghaSUyWiY7LCB3PSNeJEgxdUkwgJChgZJjZFGidkdFU38qOzwygp
+0+PzhJSktMTU5PRldYWVpbXF1eX1RlZmdoaWprbG1ub2R1dnd4eXp7fH1+f3OEhYaHiImKi4yNjo
++DlJWWl5iZmpucnZ6fkqOkpaanqKmqq6ytrq+v/aAAwDAQACEQMRAD8APbW1tvq0X7pPsL+yPDFV
+X6rbf75T/gRgV31W2/3yn/AjFXfVbb/fKf8AAjFXfVbb/fKf8CMVd9Vtv98p/wACMVd9Vtv98p/w
+IxV31W2/3yn/AAIxV31W2/3yn/AjFXfVbb/fKf8AAjFXfVbb/fKf8CMVd9Vtv98p/wACMVd9Vtv9
+8p/wIxV31W2/3yn/AAIxV31W2/3yn/AjFXfVbb/fKf8AAjFXfVbb/fKf8CMVd9Vtv98p/wACMVd9
+Vtv98p/wIxV31W2/3yn/AAIxV31W2/3yn/AjFXfVbb/fKf8AAjFXfVbb/fKf8CMVd9Vtv98p/wAC
+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
+Xmp.xmpTPg.MaxPageSize                       XmpText     0  type="Struct"
+Xmp.xmpTPg.MaxPageSize/stDim:w               XmpText    10  612.000000
+Xmp.xmpTPg.MaxPageSize/stDim:h               XmpText    10  792.000000
+Xmp.xmpTPg.MaxPageSize/stDim:unit            XmpText     6  Points
+Xmp.xmpTPg.NPages                            XmpText     1  1
+Xmp.xmpTPg.HasVisibleTransparency            XmpText     5  False
+Xmp.xmpTPg.HasVisibleOverprint               XmpText     5  False
+Xmp.xmpTPg.PlateNames                        XmpSeq      1  Black
+Xmp.xmpTPg.SwatchGroups                      XmpText     0  type="Seq"
+Xmp.xmpTPg.SwatchGroups[1]                   XmpText     0  type="Struct"
+Xmp.xmpTPg.SwatchGroups[1]/xmpG:groupName    XmpText    20  Default Swatch Group
+Xmp.xmpTPg.SwatchGroups[1]/xmpG:groupType    XmpText     1  0
+Xmp.dc.format                                XmpText    22  application/postscript
+Xmp.xmpMM.DerivedFrom                        XmpText     0  type="Struct"
+Xmp.xmpMM.DerivedFrom/stRef:instanceID       XmpText    40  xmp.iid:09801174072068118C14A928EC4F6B4E
+Xmp.xmpMM.DerivedFrom/stRef:documentID       XmpText    40  xmp.did:09801174072068118C14A928EC4F6B4E
+Xmp.xmpMM.DerivedFrom/stRef:originalDocumentID XmpText    40  xmp.did:01801174072068118C14A928EC4F6B4E
+Xmp.xmpMM.DocumentID                         XmpText    40  xmp.did:0A801174072068118C14A928EC4F6B4E
+Xmp.xmpMM.InstanceID                         XmpText    40  xmp.iid:0A801174072068118C14A928EC4F6B4E
+Xmp.xmpMM.OriginalDocumentID                 XmpText    40  xmp.did:01801174072068118C14A928EC4F6B4E
+Xmp.xmpMM.History                            XmpText     0  type="Seq"
+Xmp.xmpMM.History[1]                         XmpText     0  type="Struct"
+Xmp.xmpMM.History[1]/stEvt:action            XmpText     5  saved
+Xmp.xmpMM.History[1]/stEvt:instanceID        XmpText    40  xmp.iid:01801174072068118C14A928EC4F6B4E
+Xmp.xmpMM.History[1]/stEvt:when              XmpText    22  2011-03-25T16:07+01:00
+Xmp.xmpMM.History[1]/stEvt:softwareAgent     XmpText    21  Adobe Illustrator CS5
+Xmp.xmpMM.History[1]/stEvt:changed           XmpText     1  /
+Xmp.xmpMM.History[2]                         XmpText     0  type="Struct"
+Xmp.xmpMM.History[2]/stEvt:action            XmpText     5  saved
+Xmp.xmpMM.History[2]/stEvt:instanceID        XmpText    40  xmp.iid:02801174072068118C14A928EC4F6B4E
+Xmp.xmpMM.History[2]/stEvt:when              XmpText    25  2011-03-25T16:07:33+01:00
+Xmp.xmpMM.History[2]/stEvt:softwareAgent     XmpText    21  Adobe Illustrator CS5
+Xmp.xmpMM.History[2]/stEvt:changed           XmpText     1  /
+Xmp.xmpMM.History[3]                         XmpText     0  type="Struct"
+Xmp.xmpMM.History[3]/stEvt:action            XmpText     5  saved
+Xmp.xmpMM.History[3]/stEvt:instanceID        XmpText    40  xmp.iid:03801174072068118C14A928EC4F6B4E
+Xmp.xmpMM.History[3]/stEvt:when              XmpText    25  2011-03-25T16:09:09+01:00
+Xmp.xmpMM.History[3]/stEvt:softwareAgent     XmpText    21  Adobe Illustrator CS5
+Xmp.xmpMM.History[3]/stEvt:changed           XmpText     1  /
+Xmp.xmpMM.History[4]                         XmpText     0  type="Struct"
+Xmp.xmpMM.History[4]/stEvt:action            XmpText     5  saved
+Xmp.xmpMM.History[4]/stEvt:instanceID        XmpText    40  xmp.iid:04801174072068118C14A928EC4F6B4E
+Xmp.xmpMM.History[4]/stEvt:when              XmpText    25  2011-03-25T16:10:28+01:00
+Xmp.xmpMM.History[4]/stEvt:softwareAgent     XmpText    21  Adobe Illustrator CS5
+Xmp.xmpMM.History[4]/stEvt:changed           XmpText     1  /
+Xmp.xmpMM.History[5]                         XmpText     0  type="Struct"
+Xmp.xmpMM.History[5]/stEvt:action            XmpText     5  saved
+Xmp.xmpMM.History[5]/stEvt:instanceID        XmpText    40  xmp.iid:05801174072068118C14A928EC4F6B4E
+Xmp.xmpMM.History[5]/stEvt:when              XmpText    25  2011-03-25T16:11:03+01:00
+Xmp.xmpMM.History[5]/stEvt:softwareAgent     XmpText    21  Adobe Illustrator CS5
+Xmp.xmpMM.History[5]/stEvt:changed           XmpText     1  /
+Xmp.xmpMM.History[6]                         XmpText     0  type="Struct"
+Xmp.xmpMM.History[6]/stEvt:action            XmpText     5  saved
+Xmp.xmpMM.History[6]/stEvt:instanceID        XmpText    40  xmp.iid:06801174072068118C14A928EC4F6B4E
+Xmp.xmpMM.History[6]/stEvt:when              XmpText    25  2011-03-25T16:11:25+01:00
+Xmp.xmpMM.History[6]/stEvt:softwareAgent     XmpText    21  Adobe Illustrator CS5
+Xmp.xmpMM.History[6]/stEvt:changed           XmpText     1  /
+Xmp.xmpMM.History[7]                         XmpText     0  type="Struct"
+Xmp.xmpMM.History[7]/stEvt:action            XmpText     5  saved
+Xmp.xmpMM.History[7]/stEvt:instanceID        XmpText    40  xmp.iid:07801174072068118C14A928EC4F6B4E
+Xmp.xmpMM.History[7]/stEvt:when              XmpText    25  2011-03-25T16:11:44+01:00
+Xmp.xmpMM.History[7]/stEvt:softwareAgent     XmpText    21  Adobe Illustrator CS5
+Xmp.xmpMM.History[7]/stEvt:changed           XmpText     1  /
+Xmp.xmpMM.History[8]                         XmpText     0  type="Struct"
+Xmp.xmpMM.History[8]/stEvt:action            XmpText     5  saved
+Xmp.xmpMM.History[8]/stEvt:instanceID        XmpText    40  xmp.iid:08801174072068118C14A928EC4F6B4E
+Xmp.xmpMM.History[8]/stEvt:when              XmpText    25  2011-03-25T16:12:06+01:00
+Xmp.xmpMM.History[8]/stEvt:softwareAgent     XmpText    21  Adobe Illustrator CS5
+Xmp.xmpMM.History[8]/stEvt:changed           XmpText     1  /
+Xmp.xmpMM.History[9]                         XmpText     0  type="Struct"
+Xmp.xmpMM.History[9]/stEvt:action            XmpText     5  saved
+Xmp.xmpMM.History[9]/stEvt:instanceID        XmpText    40  xmp.iid:09801174072068118C14A928EC4F6B4E
+Xmp.xmpMM.History[9]/stEvt:when              XmpText    25  2011-03-25T16:12:25+01:00
+Xmp.xmpMM.History[9]/stEvt:softwareAgent     XmpText    21  Adobe Illustrator CS5
+Xmp.xmpMM.History[9]/stEvt:changed           XmpText     1  /
+Xmp.xmpMM.History[10]                        XmpText     0  type="Struct"
+Xmp.xmpMM.History[10]/stEvt:action           XmpText     5  saved
+Xmp.xmpMM.History[10]/stEvt:instanceID       XmpText    40  xmp.iid:0A801174072068118C14A928EC4F6B4E
+Xmp.xmpMM.History[10]/stEvt:when             XmpText    25  2011-03-25T16:12:46+01:00
+Xmp.xmpMM.History[10]/stEvt:softwareAgent    XmpText    21  Adobe Illustrator CS5
+Xmp.xmpMM.History[10]/stEvt:changed          XmpText     1  /
+Exit code: 253
 
 Command: exiv2 -pp eps-flat_oodraw_ai-8-lev3.eps
 Exit code: 0
@@ -160,88 +420,836 @@ Command: exiv2 -pa eps-flat_oodraw_ai-8-lev3.eps
 Exit code: 253
 
 Command: exiv2 -pp eps-flat_oodraw_ai-9-lev2.eps
-Warning: Unable to handle multiple PostScript pages. Found second page at position: 182442
-Exiv2 exception in print action for file eps-flat_oodraw_ai-9-lev2.eps:
-Failed to read image data
-Exit code: 1
+Exit code: 0
 
 Command: exiv2 -pa eps-flat_oodraw_ai-9-lev2.eps
-Warning: Unable to handle multiple PostScript pages. Found second page at position: 182442
-Exiv2 exception in print action for file eps-flat_oodraw_ai-9-lev2.eps:
-Failed to read image data
-Exit code: 1
+Xmp.xmp.CreatorTool                          XmpText    21  Adobe Illustrator CS5
+Xmp.xmp.CreateDate                           XmpText    25  2011-03-25T16:12:25+01:00
+Xmp.xmp.MetadataDate                         XmpText    25  2011-03-25T16:12:25+01:00
+Xmp.xmp.ModifyDate                           XmpText    25  2011-03-25T16:12:25+01:00
+Xmp.xmp.Thumbnails                           XmpText     0  type="Alt"
+Xmp.xmp.Thumbnails[1]                        XmpText     0  type="Struct"
+Xmp.xmp.Thumbnails[1]/xmpGImg:width          XmpText     3  256
+Xmp.xmp.Thumbnails[1]/xmpGImg:height         XmpText     3  208
+Xmp.xmp.Thumbnails[1]/xmpGImg:format         XmpText     4  JPEG
+Xmp.xmp.Thumbnails[1]/xmpGImg:image          XmpText   4279  /9j/4AAQSkZJRgABAgEASABIAAD/7QAsUGhvdG9zaG9wIDMuMAA4QklNA+0AAAAAABAASAAAAAEA
+AQBIAAAAAQAB/+4ADkFkb2JlAGTAAAAAAf/bAIQABgQEBAUEBgUFBgkGBQYJCwgGBggLDAoKCwoK
+DBAMDAwMDAwQDA4PEA8ODBMTFBQTExwbGxscHx8fHx8fHx8fHwEHBwcNDA0YEBAYGhURFRofHx8f
+Hx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8f/8AAEQgA0AEAAwER
+AAIRAQMRAf/EAaIAAAAHAQEBAQEAAAAAAAAAAAQFAwIGAQAHCAkKCwEAAgIDAQEBAQEAAAAAAAAA
+AQACAwQFBgcICQoLEAACAQMDAgQCBgcDBAIGAnMBAgMRBAAFIRIxQVEGE2EicYEUMpGhBxWxQiPB
+UtHhMxZi8CRygvElQzRTkqKyY3PCNUQnk6OzNhdUZHTD0uIIJoMJChgZhJRFRqS0VtNVKBry4/PE
+1OT0ZXWFlaW1xdXl9WZ2hpamtsbW5vY3R1dnd4eXp7fH1+f3OEhYaHiImKi4yNjo+Ck5SVlpeYmZ
+qbnJ2en5KjpKWmp6ipqqusra6voRAAICAQIDBQUEBQYECAMDbQEAAhEDBCESMUEFURNhIgZxgZEy
+obHwFMHR4SNCFVJicvEzJDRDghaSUyWiY7LCB3PSNeJEgxdUkwgJChgZJjZFGidkdFU38qOzwygp
+0+PzhJSktMTU5PRldYWVpbXF1eX1RlZmdoaWprbG1ub2R1dnd4eXp7fH1+f3OEhYaHiImKi4yNjo
++DlJWWl5iZmpucnZ6fkqOkpaanqKmqq6ytrq+v/aAAwDAQACEQMRAD8APbW1tvq0X7pPsL+yPDFV
+X6rbf75T/gRgV31W2/3yn/AjFXfVbb/fKf8AAjFXfVbb/fKf8CMVd9Vtv98p/wACMVd9Vtv98p/w
+IxV31W2/3yn/AAIxV31W2/3yn/AjFXfVbb/fKf8AAjFXfVbb/fKf8CMVd9Vtv98p/wACMVd9Vtv9
+8p/wIxV31W2/3yn/AAIxV31W2/3yn/AjFXfVbb/fKf8AAjFXfVbb/fKf8CMVd9Vtv98p/wACMVd9
+Vtv98p/wIxV31W2/3yn/AAIxV31W2/3yn/AjFXfVbb/fKf8AAjFXfVbb/fKf8CMVd9Vtv98p/wAC
+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
+Xmp.xmpTPg.MaxPageSize                       XmpText     0  type="Struct"
+Xmp.xmpTPg.MaxPageSize/stDim:w               XmpText    10  612.000000
+Xmp.xmpTPg.MaxPageSize/stDim:h               XmpText    10  792.000000
+Xmp.xmpTPg.MaxPageSize/stDim:unit            XmpText     6  Points
+Xmp.xmpTPg.NPages                            XmpText     1  1
+Xmp.xmpTPg.HasVisibleTransparency            XmpText     5  False
+Xmp.xmpTPg.HasVisibleOverprint               XmpText     5  False
+Xmp.xmpTPg.PlateNames                        XmpSeq      1  Black
+Xmp.xmpTPg.SwatchGroups                      XmpText     0  type="Seq"
+Xmp.xmpTPg.SwatchGroups[1]                   XmpText     0  type="Struct"
+Xmp.xmpTPg.SwatchGroups[1]/xmpG:groupName    XmpText    20  Default Swatch Group
+Xmp.xmpTPg.SwatchGroups[1]/xmpG:groupType    XmpText     1  0
+Xmp.dc.format                                XmpText    22  application/postscript
+Xmp.xmpMM.DerivedFrom                        XmpText     0  type="Struct"
+Xmp.xmpMM.DerivedFrom/stRef:instanceID       XmpText    40  xmp.iid:08801174072068118C14A928EC4F6B4E
+Xmp.xmpMM.DerivedFrom/stRef:documentID       XmpText    40  xmp.did:08801174072068118C14A928EC4F6B4E
+Xmp.xmpMM.DerivedFrom/stRef:originalDocumentID XmpText    40  xmp.did:01801174072068118C14A928EC4F6B4E
+Xmp.xmpMM.DocumentID                         XmpText    40  xmp.did:09801174072068118C14A928EC4F6B4E
+Xmp.xmpMM.InstanceID                         XmpText    40  xmp.iid:09801174072068118C14A928EC4F6B4E
+Xmp.xmpMM.OriginalDocumentID                 XmpText    40  xmp.did:01801174072068118C14A928EC4F6B4E
+Xmp.xmpMM.History                            XmpText     0  type="Seq"
+Xmp.xmpMM.History[1]                         XmpText     0  type="Struct"
+Xmp.xmpMM.History[1]/stEvt:action            XmpText     5  saved
+Xmp.xmpMM.History[1]/stEvt:instanceID        XmpText    40  xmp.iid:01801174072068118C14A928EC4F6B4E
+Xmp.xmpMM.History[1]/stEvt:when              XmpText    22  2011-03-25T16:07+01:00
+Xmp.xmpMM.History[1]/stEvt:softwareAgent     XmpText    21  Adobe Illustrator CS5
+Xmp.xmpMM.History[1]/stEvt:changed           XmpText     1  /
+Xmp.xmpMM.History[2]                         XmpText     0  type="Struct"
+Xmp.xmpMM.History[2]/stEvt:action            XmpText     5  saved
+Xmp.xmpMM.History[2]/stEvt:instanceID        XmpText    40  xmp.iid:02801174072068118C14A928EC4F6B4E
+Xmp.xmpMM.History[2]/stEvt:when              XmpText    25  2011-03-25T16:07:33+01:00
+Xmp.xmpMM.History[2]/stEvt:softwareAgent     XmpText    21  Adobe Illustrator CS5
+Xmp.xmpMM.History[2]/stEvt:changed           XmpText     1  /
+Xmp.xmpMM.History[3]                         XmpText     0  type="Struct"
+Xmp.xmpMM.History[3]/stEvt:action            XmpText     5  saved
+Xmp.xmpMM.History[3]/stEvt:instanceID        XmpText    40  xmp.iid:03801174072068118C14A928EC4F6B4E
+Xmp.xmpMM.History[3]/stEvt:when              XmpText    25  2011-03-25T16:09:09+01:00
+Xmp.xmpMM.History[3]/stEvt:softwareAgent     XmpText    21  Adobe Illustrator CS5
+Xmp.xmpMM.History[3]/stEvt:changed           XmpText     1  /
+Xmp.xmpMM.History[4]                         XmpText     0  type="Struct"
+Xmp.xmpMM.History[4]/stEvt:action            XmpText     5  saved
+Xmp.xmpMM.History[4]/stEvt:instanceID        XmpText    40  xmp.iid:04801174072068118C14A928EC4F6B4E
+Xmp.xmpMM.History[4]/stEvt:when              XmpText    25  2011-03-25T16:10:28+01:00
+Xmp.xmpMM.History[4]/stEvt:softwareAgent     XmpText    21  Adobe Illustrator CS5
+Xmp.xmpMM.History[4]/stEvt:changed           XmpText     1  /
+Xmp.xmpMM.History[5]                         XmpText     0  type="Struct"
+Xmp.xmpMM.History[5]/stEvt:action            XmpText     5  saved
+Xmp.xmpMM.History[5]/stEvt:instanceID        XmpText    40  xmp.iid:05801174072068118C14A928EC4F6B4E
+Xmp.xmpMM.History[5]/stEvt:when              XmpText    25  2011-03-25T16:11:03+01:00
+Xmp.xmpMM.History[5]/stEvt:softwareAgent     XmpText    21  Adobe Illustrator CS5
+Xmp.xmpMM.History[5]/stEvt:changed           XmpText     1  /
+Xmp.xmpMM.History[6]                         XmpText     0  type="Struct"
+Xmp.xmpMM.History[6]/stEvt:action            XmpText     5  saved
+Xmp.xmpMM.History[6]/stEvt:instanceID        XmpText    40  xmp.iid:06801174072068118C14A928EC4F6B4E
+Xmp.xmpMM.History[6]/stEvt:when              XmpText    25  2011-03-25T16:11:25+01:00
+Xmp.xmpMM.History[6]/stEvt:softwareAgent     XmpText    21  Adobe Illustrator CS5
+Xmp.xmpMM.History[6]/stEvt:changed           XmpText     1  /
+Xmp.xmpMM.History[7]                         XmpText     0  type="Struct"
+Xmp.xmpMM.History[7]/stEvt:action            XmpText     5  saved
+Xmp.xmpMM.History[7]/stEvt:instanceID        XmpText    40  xmp.iid:07801174072068118C14A928EC4F6B4E
+Xmp.xmpMM.History[7]/stEvt:when              XmpText    25  2011-03-25T16:11:44+01:00
+Xmp.xmpMM.History[7]/stEvt:softwareAgent     XmpText    21  Adobe Illustrator CS5
+Xmp.xmpMM.History[7]/stEvt:changed           XmpText     1  /
+Xmp.xmpMM.History[8]                         XmpText     0  type="Struct"
+Xmp.xmpMM.History[8]/stEvt:action            XmpText     5  saved
+Xmp.xmpMM.History[8]/stEvt:instanceID        XmpText    40  xmp.iid:08801174072068118C14A928EC4F6B4E
+Xmp.xmpMM.History[8]/stEvt:when              XmpText    25  2011-03-25T16:12:06+01:00
+Xmp.xmpMM.History[8]/stEvt:softwareAgent     XmpText    21  Adobe Illustrator CS5
+Xmp.xmpMM.History[8]/stEvt:changed           XmpText     1  /
+Xmp.xmpMM.History[9]                         XmpText     0  type="Struct"
+Xmp.xmpMM.History[9]/stEvt:action            XmpText     5  saved
+Xmp.xmpMM.History[9]/stEvt:instanceID        XmpText    40  xmp.iid:09801174072068118C14A928EC4F6B4E
+Xmp.xmpMM.History[9]/stEvt:when              XmpText    25  2011-03-25T16:12:25+01:00
+Xmp.xmpMM.History[9]/stEvt:softwareAgent     XmpText    21  Adobe Illustrator CS5
+Xmp.xmpMM.History[9]/stEvt:changed           XmpText     1  /
+Exit code: 253
 
 Command: exiv2 -pp eps-flat_oodraw_ai-cs-lev2.eps
-Warning: Unable to handle multiple PostScript pages. Found second page at position: 182443
-Exiv2 exception in print action for file eps-flat_oodraw_ai-cs-lev2.eps:
-Failed to read image data
-Exit code: 1
+Exit code: 0
 
 Command: exiv2 -pa eps-flat_oodraw_ai-cs-lev2.eps
-Warning: Unable to handle multiple PostScript pages. Found second page at position: 182443
-Exiv2 exception in print action for file eps-flat_oodraw_ai-cs-lev2.eps:
-Failed to read image data
-Exit code: 1
+Xmp.xmp.CreatorTool                          XmpText    21  Adobe Illustrator CS5
+Xmp.xmp.CreateDate                           XmpText    25  2011-03-25T16:11:44+01:00
+Xmp.xmp.MetadataDate                         XmpText    25  2011-03-25T16:11:44+01:00
+Xmp.xmp.ModifyDate                           XmpText    25  2011-03-25T16:11:44+01:00
+Xmp.xmp.Thumbnails                           XmpText     0  type="Alt"
+Xmp.xmp.Thumbnails[1]                        XmpText     0  type="Struct"
+Xmp.xmp.Thumbnails[1]/xmpGImg:width          XmpText     3  256
+Xmp.xmp.Thumbnails[1]/xmpGImg:height         XmpText     3  208
+Xmp.xmp.Thumbnails[1]/xmpGImg:format         XmpText     4  JPEG
+Xmp.xmp.Thumbnails[1]/xmpGImg:image          XmpText   4279  /9j/4AAQSkZJRgABAgEASABIAAD/7QAsUGhvdG9zaG9wIDMuMAA4QklNA+0AAAAAABAASAAAAAEA
+AQBIAAAAAQAB/+4ADkFkb2JlAGTAAAAAAf/bAIQABgQEBAUEBgUFBgkGBQYJCwgGBggLDAoKCwoK
+DBAMDAwMDAwQDA4PEA8ODBMTFBQTExwbGxscHx8fHx8fHx8fHwEHBwcNDA0YEBAYGhURFRofHx8f
+Hx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8f/8AAEQgA0AEAAwER
+AAIRAQMRAf/EAaIAAAAHAQEBAQEAAAAAAAAAAAQFAwIGAQAHCAkKCwEAAgIDAQEBAQEAAAAAAAAA
+AQACAwQFBgcICQoLEAACAQMDAgQCBgcDBAIGAnMBAgMRBAAFIRIxQVEGE2EicYEUMpGhBxWxQiPB
+UtHhMxZi8CRygvElQzRTkqKyY3PCNUQnk6OzNhdUZHTD0uIIJoMJChgZhJRFRqS0VtNVKBry4/PE
+1OT0ZXWFlaW1xdXl9WZ2hpamtsbW5vY3R1dnd4eXp7fH1+f3OEhYaHiImKi4yNjo+Ck5SVlpeYmZ
+qbnJ2en5KjpKWmp6ipqqusra6voRAAICAQIDBQUEBQYECAMDbQEAAhEDBCESMUEFURNhIgZxgZEy
+obHwFMHR4SNCFVJicvEzJDRDghaSUyWiY7LCB3PSNeJEgxdUkwgJChgZJjZFGidkdFU38qOzwygp
+0+PzhJSktMTU5PRldYWVpbXF1eX1RlZmdoaWprbG1ub2R1dnd4eXp7fH1+f3OEhYaHiImKi4yNjo
++DlJWWl5iZmpucnZ6fkqOkpaanqKmqq6ytrq+v/aAAwDAQACEQMRAD8APbW1tvq0X7pPsL+yPDFV
+X6rbf75T/gRgV31W2/3yn/AjFXfVbb/fKf8AAjFXfVbb/fKf8CMVd9Vtv98p/wACMVd9Vtv98p/w
+IxV31W2/3yn/AAIxV31W2/3yn/AjFXfVbb/fKf8AAjFXfVbb/fKf8CMVd9Vtv98p/wACMVd9Vtv9
+8p/wIxV31W2/3yn/AAIxV31W2/3yn/AjFXfVbb/fKf8AAjFXfVbb/fKf8CMVd9Vtv98p/wACMVd9
+Vtv98p/wIxV31W2/3yn/AAIxV31W2/3yn/AjFXfVbb/fKf8AAjFXfVbb/fKf8CMVd9Vtv98p/wAC
+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
+Xmp.xmpTPg.MaxPageSize                       XmpText     0  type="Struct"
+Xmp.xmpTPg.MaxPageSize/stDim:w               XmpText    10  612.000000
+Xmp.xmpTPg.MaxPageSize/stDim:h               XmpText    10  792.000000
+Xmp.xmpTPg.MaxPageSize/stDim:unit            XmpText     6  Points
+Xmp.xmpTPg.NPages                            XmpText     1  1
+Xmp.xmpTPg.HasVisibleTransparency            XmpText     5  False
+Xmp.xmpTPg.HasVisibleOverprint               XmpText     5  False
+Xmp.xmpTPg.PlateNames                        XmpSeq      1  Black
+Xmp.xmpTPg.SwatchGroups                      XmpText     0  type="Seq"
+Xmp.xmpTPg.SwatchGroups[1]                   XmpText     0  type="Struct"
+Xmp.xmpTPg.SwatchGroups[1]/xmpG:groupName    XmpText    20  Default Swatch Group
+Xmp.xmpTPg.SwatchGroups[1]/xmpG:groupType    XmpText     1  0
+Xmp.dc.format                                XmpText    22  application/postscript
+Xmp.xmpMM.DerivedFrom                        XmpText     0  type="Struct"
+Xmp.xmpMM.DerivedFrom/stRef:instanceID       XmpText    40  xmp.iid:06801174072068118C14A928EC4F6B4E
+Xmp.xmpMM.DerivedFrom/stRef:documentID       XmpText    40  xmp.did:06801174072068118C14A928EC4F6B4E
+Xmp.xmpMM.DerivedFrom/stRef:originalDocumentID XmpText    40  xmp.did:01801174072068118C14A928EC4F6B4E
+Xmp.xmpMM.DocumentID                         XmpText    40  xmp.did:07801174072068118C14A928EC4F6B4E
+Xmp.xmpMM.InstanceID                         XmpText    40  xmp.iid:07801174072068118C14A928EC4F6B4E
+Xmp.xmpMM.OriginalDocumentID                 XmpText    40  xmp.did:01801174072068118C14A928EC4F6B4E
+Xmp.xmpMM.History                            XmpText     0  type="Seq"
+Xmp.xmpMM.History[1]                         XmpText     0  type="Struct"
+Xmp.xmpMM.History[1]/stEvt:action            XmpText     5  saved
+Xmp.xmpMM.History[1]/stEvt:instanceID        XmpText    40  xmp.iid:01801174072068118C14A928EC4F6B4E
+Xmp.xmpMM.History[1]/stEvt:when              XmpText    22  2011-03-25T16:07+01:00
+Xmp.xmpMM.History[1]/stEvt:softwareAgent     XmpText    21  Adobe Illustrator CS5
+Xmp.xmpMM.History[1]/stEvt:changed           XmpText     1  /
+Xmp.xmpMM.History[2]                         XmpText     0  type="Struct"
+Xmp.xmpMM.History[2]/stEvt:action            XmpText     5  saved
+Xmp.xmpMM.History[2]/stEvt:instanceID        XmpText    40  xmp.iid:02801174072068118C14A928EC4F6B4E
+Xmp.xmpMM.History[2]/stEvt:when              XmpText    25  2011-03-25T16:07:33+01:00
+Xmp.xmpMM.History[2]/stEvt:softwareAgent     XmpText    21  Adobe Illustrator CS5
+Xmp.xmpMM.History[2]/stEvt:changed           XmpText     1  /
+Xmp.xmpMM.History[3]                         XmpText     0  type="Struct"
+Xmp.xmpMM.History[3]/stEvt:action            XmpText     5  saved
+Xmp.xmpMM.History[3]/stEvt:instanceID        XmpText    40  xmp.iid:03801174072068118C14A928EC4F6B4E
+Xmp.xmpMM.History[3]/stEvt:when              XmpText    25  2011-03-25T16:09:09+01:00
+Xmp.xmpMM.History[3]/stEvt:softwareAgent     XmpText    21  Adobe Illustrator CS5
+Xmp.xmpMM.History[3]/stEvt:changed           XmpText     1  /
+Xmp.xmpMM.History[4]                         XmpText     0  type="Struct"
+Xmp.xmpMM.History[4]/stEvt:action            XmpText     5  saved
+Xmp.xmpMM.History[4]/stEvt:instanceID        XmpText    40  xmp.iid:04801174072068118C14A928EC4F6B4E
+Xmp.xmpMM.History[4]/stEvt:when              XmpText    25  2011-03-25T16:10:28+01:00
+Xmp.xmpMM.History[4]/stEvt:softwareAgent     XmpText    21  Adobe Illustrator CS5
+Xmp.xmpMM.History[4]/stEvt:changed           XmpText     1  /
+Xmp.xmpMM.History[5]                         XmpText     0  type="Struct"
+Xmp.xmpMM.History[5]/stEvt:action            XmpText     5  saved
+Xmp.xmpMM.History[5]/stEvt:instanceID        XmpText    40  xmp.iid:05801174072068118C14A928EC4F6B4E
+Xmp.xmpMM.History[5]/stEvt:when              XmpText    25  2011-03-25T16:11:03+01:00
+Xmp.xmpMM.History[5]/stEvt:softwareAgent     XmpText    21  Adobe Illustrator CS5
+Xmp.xmpMM.History[5]/stEvt:changed           XmpText     1  /
+Xmp.xmpMM.History[6]                         XmpText     0  type="Struct"
+Xmp.xmpMM.History[6]/stEvt:action            XmpText     5  saved
+Xmp.xmpMM.History[6]/stEvt:instanceID        XmpText    40  xmp.iid:06801174072068118C14A928EC4F6B4E
+Xmp.xmpMM.History[6]/stEvt:when              XmpText    25  2011-03-25T16:11:25+01:00
+Xmp.xmpMM.History[6]/stEvt:softwareAgent     XmpText    21  Adobe Illustrator CS5
+Xmp.xmpMM.History[6]/stEvt:changed           XmpText     1  /
+Xmp.xmpMM.History[7]                         XmpText     0  type="Struct"
+Xmp.xmpMM.History[7]/stEvt:action            XmpText     5  saved
+Xmp.xmpMM.History[7]/stEvt:instanceID        XmpText    40  xmp.iid:07801174072068118C14A928EC4F6B4E
+Xmp.xmpMM.History[7]/stEvt:when              XmpText    25  2011-03-25T16:11:44+01:00
+Xmp.xmpMM.History[7]/stEvt:softwareAgent     XmpText    21  Adobe Illustrator CS5
+Xmp.xmpMM.History[7]/stEvt:changed           XmpText     1  /
+Exit code: 253
 
 Command: exiv2 -pp eps-flat_oodraw_ai-cs2-lev2.eps
-Warning: Unable to handle multiple PostScript pages. Found second page at position: 182444
-Exiv2 exception in print action for file eps-flat_oodraw_ai-cs2-lev2.eps:
-Failed to read image data
-Exit code: 1
+Exit code: 0
 
 Command: exiv2 -pa eps-flat_oodraw_ai-cs2-lev2.eps
-Warning: Unable to handle multiple PostScript pages. Found second page at position: 182444
-Exiv2 exception in print action for file eps-flat_oodraw_ai-cs2-lev2.eps:
-Failed to read image data
-Exit code: 1
+Xmp.xmp.CreatorTool                          XmpText    21  Adobe Illustrator CS5
+Xmp.xmp.CreateDate                           XmpText    25  2011-03-25T16:11:25+01:00
+Xmp.xmp.MetadataDate                         XmpText    25  2011-03-25T16:11:25+01:00
+Xmp.xmp.ModifyDate                           XmpText    25  2011-03-25T16:11:25+01:00
+Xmp.xmp.Thumbnails                           XmpText     0  type="Alt"
+Xmp.xmp.Thumbnails[1]                        XmpText     0  type="Struct"
+Xmp.xmp.Thumbnails[1]/xmpGImg:width          XmpText     3  256
+Xmp.xmp.Thumbnails[1]/xmpGImg:height         XmpText     3  208
+Xmp.xmp.Thumbnails[1]/xmpGImg:format         XmpText     4  JPEG
+Xmp.xmp.Thumbnails[1]/xmpGImg:image          XmpText   4279  /9j/4AAQSkZJRgABAgEASABIAAD/7QAsUGhvdG9zaG9wIDMuMAA4QklNA+0AAAAAABAASAAAAAEA
+AQBIAAAAAQAB/+4ADkFkb2JlAGTAAAAAAf/bAIQABgQEBAUEBgUFBgkGBQYJCwgGBggLDAoKCwoK
+DBAMDAwMDAwQDA4PEA8ODBMTFBQTExwbGxscHx8fHx8fHx8fHwEHBwcNDA0YEBAYGhURFRofHx8f
+Hx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8f/8AAEQgA0AEAAwER
+AAIRAQMRAf/EAaIAAAAHAQEBAQEAAAAAAAAAAAQFAwIGAQAHCAkKCwEAAgIDAQEBAQEAAAAAAAAA
+AQACAwQFBgcICQoLEAACAQMDAgQCBgcDBAIGAnMBAgMRBAAFIRIxQVEGE2EicYEUMpGhBxWxQiPB
+UtHhMxZi8CRygvElQzRTkqKyY3PCNUQnk6OzNhdUZHTD0uIIJoMJChgZhJRFRqS0VtNVKBry4/PE
+1OT0ZXWFlaW1xdXl9WZ2hpamtsbW5vY3R1dnd4eXp7fH1+f3OEhYaHiImKi4yNjo+Ck5SVlpeYmZ
+qbnJ2en5KjpKWmp6ipqqusra6voRAAICAQIDBQUEBQYECAMDbQEAAhEDBCESMUEFURNhIgZxgZEy
+obHwFMHR4SNCFVJicvEzJDRDghaSUyWiY7LCB3PSNeJEgxdUkwgJChgZJjZFGidkdFU38qOzwygp
+0+PzhJSktMTU5PRldYWVpbXF1eX1RlZmdoaWprbG1ub2R1dnd4eXp7fH1+f3OEhYaHiImKi4yNjo
++DlJWWl5iZmpucnZ6fkqOkpaanqKmqq6ytrq+v/aAAwDAQACEQMRAD8APbW1tvq0X7pPsL+yPDFV
+X6rbf75T/gRgV31W2/3yn/AjFXfVbb/fKf8AAjFXfVbb/fKf8CMVd9Vtv98p/wACMVd9Vtv98p/w
+IxV31W2/3yn/AAIxV31W2/3yn/AjFXfVbb/fKf8AAjFXfVbb/fKf8CMVd9Vtv98p/wACMVd9Vtv9
+8p/wIxV31W2/3yn/AAIxV31W2/3yn/AjFXfVbb/fKf8AAjFXfVbb/fKf8CMVd9Vtv98p/wACMVd9
+Vtv98p/wIxV31W2/3yn/AAIxV31W2/3yn/AjFXfVbb/fKf8AAjFXfVbb/fKf8CMVd9Vtv98p/wAC
+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
+Xmp.xmpTPg.MaxPageSize                       XmpText     0  type="Struct"
+Xmp.xmpTPg.MaxPageSize/stDim:w               XmpText    10  612.000000
+Xmp.xmpTPg.MaxPageSize/stDim:h               XmpText    10  792.000000
+Xmp.xmpTPg.MaxPageSize/stDim:unit            XmpText     6  Points
+Xmp.xmpTPg.NPages                            XmpText     1  1
+Xmp.xmpTPg.HasVisibleTransparency            XmpText     5  False
+Xmp.xmpTPg.HasVisibleOverprint               XmpText     5  False
+Xmp.xmpTPg.PlateNames                        XmpSeq      1  Black
+Xmp.xmpTPg.SwatchGroups                      XmpText     0  type="Seq"
+Xmp.xmpTPg.SwatchGroups[1]                   XmpText     0  type="Struct"
+Xmp.xmpTPg.SwatchGroups[1]/xmpG:groupName    XmpText    20  Default Swatch Group
+Xmp.xmpTPg.SwatchGroups[1]/xmpG:groupType    XmpText     1  0
+Xmp.dc.format                                XmpText    22  application/postscript
+Xmp.xmpMM.DerivedFrom                        XmpText     0  type="Struct"
+Xmp.xmpMM.DerivedFrom/stRef:instanceID       XmpText    40  xmp.iid:05801174072068118C14A928EC4F6B4E
+Xmp.xmpMM.DerivedFrom/stRef:documentID       XmpText    40  xmp.did:05801174072068118C14A928EC4F6B4E
+Xmp.xmpMM.DerivedFrom/stRef:originalDocumentID XmpText    40  xmp.did:01801174072068118C14A928EC4F6B4E
+Xmp.xmpMM.DocumentID                         XmpText    40  xmp.did:06801174072068118C14A928EC4F6B4E
+Xmp.xmpMM.InstanceID                         XmpText    40  xmp.iid:06801174072068118C14A928EC4F6B4E
+Xmp.xmpMM.OriginalDocumentID                 XmpText    40  xmp.did:01801174072068118C14A928EC4F6B4E
+Xmp.xmpMM.History                            XmpText     0  type="Seq"
+Xmp.xmpMM.History[1]                         XmpText     0  type="Struct"
+Xmp.xmpMM.History[1]/stEvt:action            XmpText     5  saved
+Xmp.xmpMM.History[1]/stEvt:instanceID        XmpText    40  xmp.iid:01801174072068118C14A928EC4F6B4E
+Xmp.xmpMM.History[1]/stEvt:when              XmpText    22  2011-03-25T16:07+01:00
+Xmp.xmpMM.History[1]/stEvt:softwareAgent     XmpText    21  Adobe Illustrator CS5
+Xmp.xmpMM.History[1]/stEvt:changed           XmpText     1  /
+Xmp.xmpMM.History[2]                         XmpText     0  type="Struct"
+Xmp.xmpMM.History[2]/stEvt:action            XmpText     5  saved
+Xmp.xmpMM.History[2]/stEvt:instanceID        XmpText    40  xmp.iid:02801174072068118C14A928EC4F6B4E
+Xmp.xmpMM.History[2]/stEvt:when              XmpText    25  2011-03-25T16:07:33+01:00
+Xmp.xmpMM.History[2]/stEvt:softwareAgent     XmpText    21  Adobe Illustrator CS5
+Xmp.xmpMM.History[2]/stEvt:changed           XmpText     1  /
+Xmp.xmpMM.History[3]                         XmpText     0  type="Struct"
+Xmp.xmpMM.History[3]/stEvt:action            XmpText     5  saved
+Xmp.xmpMM.History[3]/stEvt:instanceID        XmpText    40  xmp.iid:03801174072068118C14A928EC4F6B4E
+Xmp.xmpMM.History[3]/stEvt:when              XmpText    25  2011-03-25T16:09:09+01:00
+Xmp.xmpMM.History[3]/stEvt:softwareAgent     XmpText    21  Adobe Illustrator CS5
+Xmp.xmpMM.History[3]/stEvt:changed           XmpText     1  /
+Xmp.xmpMM.History[4]                         XmpText     0  type="Struct"
+Xmp.xmpMM.History[4]/stEvt:action            XmpText     5  saved
+Xmp.xmpMM.History[4]/stEvt:instanceID        XmpText    40  xmp.iid:04801174072068118C14A928EC4F6B4E
+Xmp.xmpMM.History[4]/stEvt:when              XmpText    25  2011-03-25T16:10:28+01:00
+Xmp.xmpMM.History[4]/stEvt:softwareAgent     XmpText    21  Adobe Illustrator CS5
+Xmp.xmpMM.History[4]/stEvt:changed           XmpText     1  /
+Xmp.xmpMM.History[5]                         XmpText     0  type="Struct"
+Xmp.xmpMM.History[5]/stEvt:action            XmpText     5  saved
+Xmp.xmpMM.History[5]/stEvt:instanceID        XmpText    40  xmp.iid:05801174072068118C14A928EC4F6B4E
+Xmp.xmpMM.History[5]/stEvt:when              XmpText    25  2011-03-25T16:11:03+01:00
+Xmp.xmpMM.History[5]/stEvt:softwareAgent     XmpText    21  Adobe Illustrator CS5
+Xmp.xmpMM.History[5]/stEvt:changed           XmpText     1  /
+Xmp.xmpMM.History[6]                         XmpText     0  type="Struct"
+Xmp.xmpMM.History[6]/stEvt:action            XmpText     5  saved
+Xmp.xmpMM.History[6]/stEvt:instanceID        XmpText    40  xmp.iid:06801174072068118C14A928EC4F6B4E
+Xmp.xmpMM.History[6]/stEvt:when              XmpText    25  2011-03-25T16:11:25+01:00
+Xmp.xmpMM.History[6]/stEvt:softwareAgent     XmpText    21  Adobe Illustrator CS5
+Xmp.xmpMM.History[6]/stEvt:changed           XmpText     1  /
+Exit code: 253
 
 Command: exiv2 -pp eps-flat_oodraw_ai-cs3-lev2.eps
-Warning: Unable to handle multiple PostScript pages. Found second page at position: 182444
-Exiv2 exception in print action for file eps-flat_oodraw_ai-cs3-lev2.eps:
-Failed to read image data
-Exit code: 1
+Exit code: 0
 
 Command: exiv2 -pa eps-flat_oodraw_ai-cs3-lev2.eps
-Warning: Unable to handle multiple PostScript pages. Found second page at position: 182444
-Exiv2 exception in print action for file eps-flat_oodraw_ai-cs3-lev2.eps:
-Failed to read image data
-Exit code: 1
+Xmp.xmp.CreatorTool                          XmpText    21  Adobe Illustrator CS5
+Xmp.xmp.CreateDate                           XmpText    25  2011-03-25T16:11:03+01:00
+Xmp.xmp.MetadataDate                         XmpText    25  2011-03-25T16:11:03+01:00
+Xmp.xmp.ModifyDate                           XmpText    25  2011-03-25T16:11:03+01:00
+Xmp.xmp.Thumbnails                           XmpText     0  type="Alt"
+Xmp.xmp.Thumbnails[1]                        XmpText     0  type="Struct"
+Xmp.xmp.Thumbnails[1]/xmpGImg:width          XmpText     3  256
+Xmp.xmp.Thumbnails[1]/xmpGImg:height         XmpText     3  208
+Xmp.xmp.Thumbnails[1]/xmpGImg:format         XmpText     4  JPEG
+Xmp.xmp.Thumbnails[1]/xmpGImg:image          XmpText   4279  /9j/4AAQSkZJRgABAgEASABIAAD/7QAsUGhvdG9zaG9wIDMuMAA4QklNA+0AAAAAABAASAAAAAEA
+AQBIAAAAAQAB/+4ADkFkb2JlAGTAAAAAAf/bAIQABgQEBAUEBgUFBgkGBQYJCwgGBggLDAoKCwoK
+DBAMDAwMDAwQDA4PEA8ODBMTFBQTExwbGxscHx8fHx8fHx8fHwEHBwcNDA0YEBAYGhURFRofHx8f
+Hx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8f/8AAEQgA0AEAAwER
+AAIRAQMRAf/EAaIAAAAHAQEBAQEAAAAAAAAAAAQFAwIGAQAHCAkKCwEAAgIDAQEBAQEAAAAAAAAA
+AQACAwQFBgcICQoLEAACAQMDAgQCBgcDBAIGAnMBAgMRBAAFIRIxQVEGE2EicYEUMpGhBxWxQiPB
+UtHhMxZi8CRygvElQzRTkqKyY3PCNUQnk6OzNhdUZHTD0uIIJoMJChgZhJRFRqS0VtNVKBry4/PE
+1OT0ZXWFlaW1xdXl9WZ2hpamtsbW5vY3R1dnd4eXp7fH1+f3OEhYaHiImKi4yNjo+Ck5SVlpeYmZ
+qbnJ2en5KjpKWmp6ipqqusra6voRAAICAQIDBQUEBQYECAMDbQEAAhEDBCESMUEFURNhIgZxgZEy
+obHwFMHR4SNCFVJicvEzJDRDghaSUyWiY7LCB3PSNeJEgxdUkwgJChgZJjZFGidkdFU38qOzwygp
+0+PzhJSktMTU5PRldYWVpbXF1eX1RlZmdoaWprbG1ub2R1dnd4eXp7fH1+f3OEhYaHiImKi4yNjo
++DlJWWl5iZmpucnZ6fkqOkpaanqKmqq6ytrq+v/aAAwDAQACEQMRAD8APbW1tvq0X7pPsL+yPDFV
+X6rbf75T/gRgV31W2/3yn/AjFXfVbb/fKf8AAjFXfVbb/fKf8CMVd9Vtv98p/wACMVd9Vtv98p/w
+IxV31W2/3yn/AAIxV31W2/3yn/AjFXfVbb/fKf8AAjFXfVbb/fKf8CMVd9Vtv98p/wACMVd9Vtv9
+8p/wIxV31W2/3yn/AAIxV31W2/3yn/AjFXfVbb/fKf8AAjFXfVbb/fKf8CMVd9Vtv98p/wACMVd9
+Vtv98p/wIxV31W2/3yn/AAIxV31W2/3yn/AjFXfVbb/fKf8AAjFXfVbb/fKf8CMVd9Vtv98p/wAC
+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
+Xmp.xmpTPg.MaxPageSize                       XmpText     0  type="Struct"
+Xmp.xmpTPg.MaxPageSize/stDim:w               XmpText    10  612.000000
+Xmp.xmpTPg.MaxPageSize/stDim:h               XmpText    10  792.000000
+Xmp.xmpTPg.MaxPageSize/stDim:unit            XmpText     6  Points
+Xmp.xmpTPg.NPages                            XmpText     1  1
+Xmp.xmpTPg.HasVisibleTransparency            XmpText     5  False
+Xmp.xmpTPg.HasVisibleOverprint               XmpText     5  False
+Xmp.xmpTPg.PlateNames                        XmpSeq      1  Black
+Xmp.xmpTPg.SwatchGroups                      XmpText     0  type="Seq"
+Xmp.xmpTPg.SwatchGroups[1]                   XmpText     0  type="Struct"
+Xmp.xmpTPg.SwatchGroups[1]/xmpG:groupName    XmpText    20  Default Swatch Group
+Xmp.xmpTPg.SwatchGroups[1]/xmpG:groupType    XmpText     1  0
+Xmp.dc.format                                XmpText    22  application/postscript
+Xmp.xmpMM.DerivedFrom                        XmpText     0  type="Struct"
+Xmp.xmpMM.DerivedFrom/stRef:instanceID       XmpText    40  xmp.iid:04801174072068118C14A928EC4F6B4E
+Xmp.xmpMM.DerivedFrom/stRef:documentID       XmpText    40  xmp.did:04801174072068118C14A928EC4F6B4E
+Xmp.xmpMM.DerivedFrom/stRef:originalDocumentID XmpText    40  xmp.did:01801174072068118C14A928EC4F6B4E
+Xmp.xmpMM.DocumentID                         XmpText    40  xmp.did:05801174072068118C14A928EC4F6B4E
+Xmp.xmpMM.InstanceID                         XmpText    40  xmp.iid:05801174072068118C14A928EC4F6B4E
+Xmp.xmpMM.OriginalDocumentID                 XmpText    40  xmp.did:01801174072068118C14A928EC4F6B4E
+Xmp.xmpMM.History                            XmpText     0  type="Seq"
+Xmp.xmpMM.History[1]                         XmpText     0  type="Struct"
+Xmp.xmpMM.History[1]/stEvt:action            XmpText     5  saved
+Xmp.xmpMM.History[1]/stEvt:instanceID        XmpText    40  xmp.iid:01801174072068118C14A928EC4F6B4E
+Xmp.xmpMM.History[1]/stEvt:when              XmpText    22  2011-03-25T16:07+01:00
+Xmp.xmpMM.History[1]/stEvt:softwareAgent     XmpText    21  Adobe Illustrator CS5
+Xmp.xmpMM.History[1]/stEvt:changed           XmpText     1  /
+Xmp.xmpMM.History[2]                         XmpText     0  type="Struct"
+Xmp.xmpMM.History[2]/stEvt:action            XmpText     5  saved
+Xmp.xmpMM.History[2]/stEvt:instanceID        XmpText    40  xmp.iid:02801174072068118C14A928EC4F6B4E
+Xmp.xmpMM.History[2]/stEvt:when              XmpText    25  2011-03-25T16:07:33+01:00
+Xmp.xmpMM.History[2]/stEvt:softwareAgent     XmpText    21  Adobe Illustrator CS5
+Xmp.xmpMM.History[2]/stEvt:changed           XmpText     1  /
+Xmp.xmpMM.History[3]                         XmpText     0  type="Struct"
+Xmp.xmpMM.History[3]/stEvt:action            XmpText     5  saved
+Xmp.xmpMM.History[3]/stEvt:instanceID        XmpText    40  xmp.iid:03801174072068118C14A928EC4F6B4E
+Xmp.xmpMM.History[3]/stEvt:when              XmpText    25  2011-03-25T16:09:09+01:00
+Xmp.xmpMM.History[3]/stEvt:softwareAgent     XmpText    21  Adobe Illustrator CS5
+Xmp.xmpMM.History[3]/stEvt:changed           XmpText     1  /
+Xmp.xmpMM.History[4]                         XmpText     0  type="Struct"
+Xmp.xmpMM.History[4]/stEvt:action            XmpText     5  saved
+Xmp.xmpMM.History[4]/stEvt:instanceID        XmpText    40  xmp.iid:04801174072068118C14A928EC4F6B4E
+Xmp.xmpMM.History[4]/stEvt:when              XmpText    25  2011-03-25T16:10:28+01:00
+Xmp.xmpMM.History[4]/stEvt:softwareAgent     XmpText    21  Adobe Illustrator CS5
+Xmp.xmpMM.History[4]/stEvt:changed           XmpText     1  /
+Xmp.xmpMM.History[5]                         XmpText     0  type="Struct"
+Xmp.xmpMM.History[5]/stEvt:action            XmpText     5  saved
+Xmp.xmpMM.History[5]/stEvt:instanceID        XmpText    40  xmp.iid:05801174072068118C14A928EC4F6B4E
+Xmp.xmpMM.History[5]/stEvt:when              XmpText    25  2011-03-25T16:11:03+01:00
+Xmp.xmpMM.History[5]/stEvt:softwareAgent     XmpText    21  Adobe Illustrator CS5
+Xmp.xmpMM.History[5]/stEvt:changed           XmpText     1  /
+Exit code: 253
 
 Command: exiv2 -pp eps-flat_oodraw_ai-cs4-lev2.eps
-Warning: Unable to handle multiple PostScript pages. Found second page at position: 182444
-Exiv2 exception in print action for file eps-flat_oodraw_ai-cs4-lev2.eps:
-Failed to read image data
-Exit code: 1
+Exit code: 0
 
 Command: exiv2 -pa eps-flat_oodraw_ai-cs4-lev2.eps
-Warning: Unable to handle multiple PostScript pages. Found second page at position: 182444
-Exiv2 exception in print action for file eps-flat_oodraw_ai-cs4-lev2.eps:
-Failed to read image data
-Exit code: 1
+Xmp.xmp.CreatorTool                          XmpText    21  Adobe Illustrator CS5
+Xmp.xmp.CreateDate                           XmpText    25  2011-03-25T16:10:28+01:00
+Xmp.xmp.MetadataDate                         XmpText    25  2011-03-25T16:10:28+01:00
+Xmp.xmp.ModifyDate                           XmpText    25  2011-03-25T16:10:28+01:00
+Xmp.xmp.Thumbnails                           XmpText     0  type="Alt"
+Xmp.xmp.Thumbnails[1]                        XmpText     0  type="Struct"
+Xmp.xmp.Thumbnails[1]/xmpGImg:width          XmpText     3  256
+Xmp.xmp.Thumbnails[1]/xmpGImg:height         XmpText     3  208
+Xmp.xmp.Thumbnails[1]/xmpGImg:format         XmpText     4  JPEG
+Xmp.xmp.Thumbnails[1]/xmpGImg:image          XmpText   4279  /9j/4AAQSkZJRgABAgEASABIAAD/7QAsUGhvdG9zaG9wIDMuMAA4QklNA+0AAAAAABAASAAAAAEA
+AQBIAAAAAQAB/+4ADkFkb2JlAGTAAAAAAf/bAIQABgQEBAUEBgUFBgkGBQYJCwgGBggLDAoKCwoK
+DBAMDAwMDAwQDA4PEA8ODBMTFBQTExwbGxscHx8fHx8fHx8fHwEHBwcNDA0YEBAYGhURFRofHx8f
+Hx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8f/8AAEQgA0AEAAwER
+AAIRAQMRAf/EAaIAAAAHAQEBAQEAAAAAAAAAAAQFAwIGAQAHCAkKCwEAAgIDAQEBAQEAAAAAAAAA
+AQACAwQFBgcICQoLEAACAQMDAgQCBgcDBAIGAnMBAgMRBAAFIRIxQVEGE2EicYEUMpGhBxWxQiPB
+UtHhMxZi8CRygvElQzRTkqKyY3PCNUQnk6OzNhdUZHTD0uIIJoMJChgZhJRFRqS0VtNVKBry4/PE
+1OT0ZXWFlaW1xdXl9WZ2hpamtsbW5vY3R1dnd4eXp7fH1+f3OEhYaHiImKi4yNjo+Ck5SVlpeYmZ
+qbnJ2en5KjpKWmp6ipqqusra6voRAAICAQIDBQUEBQYECAMDbQEAAhEDBCESMUEFURNhIgZxgZEy
+obHwFMHR4SNCFVJicvEzJDRDghaSUyWiY7LCB3PSNeJEgxdUkwgJChgZJjZFGidkdFU38qOzwygp
+0+PzhJSktMTU5PRldYWVpbXF1eX1RlZmdoaWprbG1ub2R1dnd4eXp7fH1+f3OEhYaHiImKi4yNjo
++DlJWWl5iZmpucnZ6fkqOkpaanqKmqq6ytrq+v/aAAwDAQACEQMRAD8APbW1tvq0X7pPsL+yPDFV
+X6rbf75T/gRgV31W2/3yn/AjFXfVbb/fKf8AAjFXfVbb/fKf8CMVd9Vtv98p/wACMVd9Vtv98p/w
+IxV31W2/3yn/AAIxV31W2/3yn/AjFXfVbb/fKf8AAjFXfVbb/fKf8CMVd9Vtv98p/wACMVd9Vtv9
+8p/wIxV31W2/3yn/AAIxV31W2/3yn/AjFXfVbb/fKf8AAjFXfVbb/fKf8CMVd9Vtv98p/wACMVd9
+Vtv98p/wIxV31W2/3yn/AAIxV31W2/3yn/AjFXfVbb/fKf8AAjFXfVbb/fKf8CMVd9Vtv98p/wAC
+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
+Xmp.xmpTPg.MaxPageSize                       XmpText     0  type="Struct"
+Xmp.xmpTPg.MaxPageSize/stDim:w               XmpText    10  612.000000
+Xmp.xmpTPg.MaxPageSize/stDim:h               XmpText    10  792.000000
+Xmp.xmpTPg.MaxPageSize/stDim:unit            XmpText     6  Points
+Xmp.xmpTPg.NPages                            XmpText     1  1
+Xmp.xmpTPg.HasVisibleTransparency            XmpText     5  False
+Xmp.xmpTPg.HasVisibleOverprint               XmpText     5  False
+Xmp.xmpTPg.PlateNames                        XmpSeq      1  Black
+Xmp.xmpTPg.SwatchGroups                      XmpText     0  type="Seq"
+Xmp.xmpTPg.SwatchGroups[1]                   XmpText     0  type="Struct"
+Xmp.xmpTPg.SwatchGroups[1]/xmpG:groupName    XmpText    20  Default Swatch Group
+Xmp.xmpTPg.SwatchGroups[1]/xmpG:groupType    XmpText     1  0
+Xmp.dc.format                                XmpText    22  application/postscript
+Xmp.xmpMM.DerivedFrom                        XmpText     0  type="Struct"
+Xmp.xmpMM.DerivedFrom/stRef:instanceID       XmpText    40  xmp.iid:03801174072068118C14A928EC4F6B4E
+Xmp.xmpMM.DerivedFrom/stRef:documentID       XmpText    40  xmp.did:03801174072068118C14A928EC4F6B4E
+Xmp.xmpMM.DerivedFrom/stRef:originalDocumentID XmpText    40  xmp.did:01801174072068118C14A928EC4F6B4E
+Xmp.xmpMM.DocumentID                         XmpText    40  xmp.did:04801174072068118C14A928EC4F6B4E
+Xmp.xmpMM.InstanceID                         XmpText    40  xmp.iid:04801174072068118C14A928EC4F6B4E
+Xmp.xmpMM.OriginalDocumentID                 XmpText    40  xmp.did:01801174072068118C14A928EC4F6B4E
+Xmp.xmpMM.History                            XmpText     0  type="Seq"
+Xmp.xmpMM.History[1]                         XmpText     0  type="Struct"
+Xmp.xmpMM.History[1]/stEvt:action            XmpText     5  saved
+Xmp.xmpMM.History[1]/stEvt:instanceID        XmpText    40  xmp.iid:01801174072068118C14A928EC4F6B4E
+Xmp.xmpMM.History[1]/stEvt:when              XmpText    22  2011-03-25T16:07+01:00
+Xmp.xmpMM.History[1]/stEvt:softwareAgent     XmpText    21  Adobe Illustrator CS5
+Xmp.xmpMM.History[1]/stEvt:changed           XmpText     1  /
+Xmp.xmpMM.History[2]                         XmpText     0  type="Struct"
+Xmp.xmpMM.History[2]/stEvt:action            XmpText     5  saved
+Xmp.xmpMM.History[2]/stEvt:instanceID        XmpText    40  xmp.iid:02801174072068118C14A928EC4F6B4E
+Xmp.xmpMM.History[2]/stEvt:when              XmpText    25  2011-03-25T16:07:33+01:00
+Xmp.xmpMM.History[2]/stEvt:softwareAgent     XmpText    21  Adobe Illustrator CS5
+Xmp.xmpMM.History[2]/stEvt:changed           XmpText     1  /
+Xmp.xmpMM.History[3]                         XmpText     0  type="Struct"
+Xmp.xmpMM.History[3]/stEvt:action            XmpText     5  saved
+Xmp.xmpMM.History[3]/stEvt:instanceID        XmpText    40  xmp.iid:03801174072068118C14A928EC4F6B4E
+Xmp.xmpMM.History[3]/stEvt:when              XmpText    25  2011-03-25T16:09:09+01:00
+Xmp.xmpMM.History[3]/stEvt:softwareAgent     XmpText    21  Adobe Illustrator CS5
+Xmp.xmpMM.History[3]/stEvt:changed           XmpText     1  /
+Xmp.xmpMM.History[4]                         XmpText     0  type="Struct"
+Xmp.xmpMM.History[4]/stEvt:action            XmpText     5  saved
+Xmp.xmpMM.History[4]/stEvt:instanceID        XmpText    40  xmp.iid:04801174072068118C14A928EC4F6B4E
+Xmp.xmpMM.History[4]/stEvt:when              XmpText    25  2011-03-25T16:10:28+01:00
+Xmp.xmpMM.History[4]/stEvt:softwareAgent     XmpText    21  Adobe Illustrator CS5
+Xmp.xmpMM.History[4]/stEvt:changed           XmpText     1  /
+Exit code: 253
 
 Command: exiv2 -pp eps-flat_oodraw_ai-cs5-lev2.eps
-Warning: Unable to handle multiple PostScript pages. Found second page at position: 182444
-Exiv2 exception in print action for file eps-flat_oodraw_ai-cs5-lev2.eps:
-Failed to read image data
-Exit code: 1
+Exit code: 0
 
 Command: exiv2 -pa eps-flat_oodraw_ai-cs5-lev2.eps
-Warning: Unable to handle multiple PostScript pages. Found second page at position: 182444
-Exiv2 exception in print action for file eps-flat_oodraw_ai-cs5-lev2.eps:
-Failed to read image data
-Exit code: 1
+Xmp.xmp.CreatorTool                          XmpText    21  Adobe Illustrator CS5
+Xmp.xmp.CreateDate                           XmpText    25  2011-03-25T16:06:32+01:00
+Xmp.xmp.Thumbnails                           XmpText     0  type="Alt"
+Xmp.xmp.Thumbnails[1]                        XmpText     0  type="Struct"
+Xmp.xmp.Thumbnails[1]/xmpGImg:width          XmpText     3  256
+Xmp.xmp.Thumbnails[1]/xmpGImg:height         XmpText     3  208
+Xmp.xmp.Thumbnails[1]/xmpGImg:format         XmpText     4  JPEG
+Xmp.xmp.Thumbnails[1]/xmpGImg:image          XmpText   4279  /9j/4AAQSkZJRgABAgEASABIAAD/7QAsUGhvdG9zaG9wIDMuMAA4QklNA+0AAAAAABAASAAAAAEA
+AQBIAAAAAQAB/+4ADkFkb2JlAGTAAAAAAf/bAIQABgQEBAUEBgUFBgkGBQYJCwgGBggLDAoKCwoK
+DBAMDAwMDAwQDA4PEA8ODBMTFBQTExwbGxscHx8fHx8fHx8fHwEHBwcNDA0YEBAYGhURFRofHx8f
+Hx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8f/8AAEQgA0AEAAwER
+AAIRAQMRAf/EAaIAAAAHAQEBAQEAAAAAAAAAAAQFAwIGAQAHCAkKCwEAAgIDAQEBAQEAAAAAAAAA
+AQACAwQFBgcICQoLEAACAQMDAgQCBgcDBAIGAnMBAgMRBAAFIRIxQVEGE2EicYEUMpGhBxWxQiPB
+UtHhMxZi8CRygvElQzRTkqKyY3PCNUQnk6OzNhdUZHTD0uIIJoMJChgZhJRFRqS0VtNVKBry4/PE
+1OT0ZXWFlaW1xdXl9WZ2hpamtsbW5vY3R1dnd4eXp7fH1+f3OEhYaHiImKi4yNjo+Ck5SVlpeYmZ
+qbnJ2en5KjpKWmp6ipqqusra6voRAAICAQIDBQUEBQYECAMDbQEAAhEDBCESMUEFURNhIgZxgZEy
+obHwFMHR4SNCFVJicvEzJDRDghaSUyWiY7LCB3PSNeJEgxdUkwgJChgZJjZFGidkdFU38qOzwygp
+0+PzhJSktMTU5PRldYWVpbXF1eX1RlZmdoaWprbG1ub2R1dnd4eXp7fH1+f3OEhYaHiImKi4yNjo
++DlJWWl5iZmpucnZ6fkqOkpaanqKmqq6ytrq+v/aAAwDAQACEQMRAD8APbW1tvq0X7pPsL+yPDFV
+X6rbf75T/gRgV31W2/3yn/AjFXfVbb/fKf8AAjFXfVbb/fKf8CMVd9Vtv98p/wACMVd9Vtv98p/w
+IxV31W2/3yn/AAIxV31W2/3yn/AjFXfVbb/fKf8AAjFXfVbb/fKf8CMVd9Vtv98p/wACMVd9Vtv9
+8p/wIxV31W2/3yn/AAIxV31W2/3yn/AjFXfVbb/fKf8AAjFXfVbb/fKf8CMVd9Vtv98p/wACMVd9
+Vtv98p/wIxV31W2/3yn/AAIxV31W2/3yn/AjFXfVbb/fKf8AAjFXfVbb/fKf8CMVd9Vtv98p/wAC
+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
+Xmp.xmpTPg.MaxPageSize                       XmpText     0  type="Struct"
+Xmp.xmpTPg.MaxPageSize/stDim:w               XmpText    10  612.000000
+Xmp.xmpTPg.MaxPageSize/stDim:h               XmpText    10  792.000000
+Xmp.xmpTPg.MaxPageSize/stDim:unit            XmpText     6  Points
+Xmp.xmpTPg.NPages                            XmpText     1  1
+Xmp.xmpTPg.HasVisibleTransparency            XmpText     5  False
+Xmp.xmpTPg.HasVisibleOverprint               XmpText     5  False
+Xmp.xmpTPg.PlateNames                        XmpSeq      1  Black
+Xmp.xmpTPg.SwatchGroups                      XmpText     0  type="Seq"
+Xmp.xmpTPg.SwatchGroups[1]                   XmpText     0  type="Struct"
+Xmp.xmpTPg.SwatchGroups[1]/xmpG:groupName    XmpText    20  Default Swatch Group
+Xmp.xmpTPg.SwatchGroups[1]/xmpG:groupType    XmpText     1  0
+Xmp.dc.format                                XmpText    22  application/postscript
+Exit code: 253
 
 Command: exiv2 -pp eps-flat_oodraw_ai-cs5-lev3-nodocthumb.eps
-Warning: Unable to handle multiple PostScript pages. Found second page at position: 173522
-Exiv2 exception in print action for file eps-flat_oodraw_ai-cs5-lev3-nodocthumb.eps:
-Failed to read image data
-Exit code: 1
+Exit code: 0
 
 Command: exiv2 -pa eps-flat_oodraw_ai-cs5-lev3-nodocthumb.eps
-Warning: Unable to handle multiple PostScript pages. Found second page at position: 173522
-Exiv2 exception in print action for file eps-flat_oodraw_ai-cs5-lev3-nodocthumb.eps:
-Failed to read image data
-Exit code: 1
+Xmp.xmp.CreatorTool                          XmpText    21  Adobe Illustrator CS5
+Xmp.xmp.CreateDate                           XmpText    25  2011-03-25T16:07:33+01:00
+Xmp.xmp.MetadataDate                         XmpText    25  2011-03-25T16:07:33+01:00
+Xmp.xmp.ModifyDate                           XmpText    25  2011-03-25T16:07:33+01:00
+Xmp.xmp.Thumbnails                           XmpText     0  type="Alt"
+Xmp.xmp.Thumbnails[1]                        XmpText     0  type="Struct"
+Xmp.xmp.Thumbnails[1]/xmpGImg:width          XmpText     3  256
+Xmp.xmp.Thumbnails[1]/xmpGImg:height         XmpText     3  208
+Xmp.xmp.Thumbnails[1]/xmpGImg:format         XmpText     4  JPEG
+Xmp.xmp.Thumbnails[1]/xmpGImg:image          XmpText   4279  /9j/4AAQSkZJRgABAgEASABIAAD/7QAsUGhvdG9zaG9wIDMuMAA4QklNA+0AAAAAABAASAAAAAEA
+AQBIAAAAAQAB/+4ADkFkb2JlAGTAAAAAAf/bAIQABgQEBAUEBgUFBgkGBQYJCwgGBggLDAoKCwoK
+DBAMDAwMDAwQDA4PEA8ODBMTFBQTExwbGxscHx8fHx8fHx8fHwEHBwcNDA0YEBAYGhURFRofHx8f
+Hx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8f/8AAEQgA0AEAAwER
+AAIRAQMRAf/EAaIAAAAHAQEBAQEAAAAAAAAAAAQFAwIGAQAHCAkKCwEAAgIDAQEBAQEAAAAAAAAA
+AQACAwQFBgcICQoLEAACAQMDAgQCBgcDBAIGAnMBAgMRBAAFIRIxQVEGE2EicYEUMpGhBxWxQiPB
+UtHhMxZi8CRygvElQzRTkqKyY3PCNUQnk6OzNhdUZHTD0uIIJoMJChgZhJRFRqS0VtNVKBry4/PE
+1OT0ZXWFlaW1xdXl9WZ2hpamtsbW5vY3R1dnd4eXp7fH1+f3OEhYaHiImKi4yNjo+Ck5SVlpeYmZ
+qbnJ2en5KjpKWmp6ipqqusra6voRAAICAQIDBQUEBQYECAMDbQEAAhEDBCESMUEFURNhIgZxgZEy
+obHwFMHR4SNCFVJicvEzJDRDghaSUyWiY7LCB3PSNeJEgxdUkwgJChgZJjZFGidkdFU38qOzwygp
+0+PzhJSktMTU5PRldYWVpbXF1eX1RlZmdoaWprbG1ub2R1dnd4eXp7fH1+f3OEhYaHiImKi4yNjo
++DlJWWl5iZmpucnZ6fkqOkpaanqKmqq6ytrq+v/aAAwDAQACEQMRAD8APbW1tvq0X7pPsL+yPDFV
+X6rbf75T/gRgV31W2/3yn/AjFXfVbb/fKf8AAjFXfVbb/fKf8CMVd9Vtv98p/wACMVd9Vtv98p/w
+IxV31W2/3yn/AAIxV31W2/3yn/AjFXfVbb/fKf8AAjFXfVbb/fKf8CMVd9Vtv98p/wACMVd9Vtv9
+8p/wIxV31W2/3yn/AAIxV31W2/3yn/AjFXfVbb/fKf8AAjFXfVbb/fKf8CMVd9Vtv98p/wACMVd9
+Vtv98p/wIxV31W2/3yn/AAIxV31W2/3yn/AjFXfVbb/fKf8AAjFXfVbb/fKf8CMVd9Vtv98p/wAC
+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
+Xmp.xmpTPg.MaxPageSize                       XmpText     0  type="Struct"
+Xmp.xmpTPg.MaxPageSize/stDim:w               XmpText    10  612.000000
+Xmp.xmpTPg.MaxPageSize/stDim:h               XmpText    10  792.000000
+Xmp.xmpTPg.MaxPageSize/stDim:unit            XmpText     6  Points
+Xmp.xmpTPg.NPages                            XmpText     1  1
+Xmp.xmpTPg.HasVisibleTransparency            XmpText     5  False
+Xmp.xmpTPg.HasVisibleOverprint               XmpText     5  False
+Xmp.xmpTPg.PlateNames                        XmpSeq      1  Black
+Xmp.xmpTPg.SwatchGroups                      XmpText     0  type="Seq"
+Xmp.xmpTPg.SwatchGroups[1]                   XmpText     0  type="Struct"
+Xmp.xmpTPg.SwatchGroups[1]/xmpG:groupName    XmpText    20  Default Swatch Group
+Xmp.xmpTPg.SwatchGroups[1]/xmpG:groupType    XmpText     1  0
+Xmp.dc.format                                XmpText    22  application/postscript
+Xmp.xmpMM.DerivedFrom                        XmpText     0  type="Struct"
+Xmp.xmpMM.DerivedFrom/stRef:instanceID       XmpText    40  xmp.iid:01801174072068118C14A928EC4F6B4E
+Xmp.xmpMM.DerivedFrom/stRef:documentID       XmpText    40  xmp.did:01801174072068118C14A928EC4F6B4E
+Xmp.xmpMM.DerivedFrom/stRef:originalDocumentID XmpText    40  xmp.did:01801174072068118C14A928EC4F6B4E
+Xmp.xmpMM.DocumentID                         XmpText    40  xmp.did:02801174072068118C14A928EC4F6B4E
+Xmp.xmpMM.InstanceID                         XmpText    40  xmp.iid:02801174072068118C14A928EC4F6B4E
+Xmp.xmpMM.OriginalDocumentID                 XmpText    40  xmp.did:01801174072068118C14A928EC4F6B4E
+Xmp.xmpMM.History                            XmpText     0  type="Seq"
+Xmp.xmpMM.History[1]                         XmpText     0  type="Struct"
+Xmp.xmpMM.History[1]/stEvt:action            XmpText     5  saved
+Xmp.xmpMM.History[1]/stEvt:instanceID        XmpText    40  xmp.iid:01801174072068118C14A928EC4F6B4E
+Xmp.xmpMM.History[1]/stEvt:when              XmpText    22  2011-03-25T16:07+01:00
+Xmp.xmpMM.History[1]/stEvt:softwareAgent     XmpText    21  Adobe Illustrator CS5
+Xmp.xmpMM.History[1]/stEvt:changed           XmpText     1  /
+Xmp.xmpMM.History[2]                         XmpText     0  type="Struct"
+Xmp.xmpMM.History[2]/stEvt:action            XmpText     5  saved
+Xmp.xmpMM.History[2]/stEvt:instanceID        XmpText    40  xmp.iid:02801174072068118C14A928EC4F6B4E
+Xmp.xmpMM.History[2]/stEvt:when              XmpText    25  2011-03-25T16:07:33+01:00
+Xmp.xmpMM.History[2]/stEvt:softwareAgent     XmpText    21  Adobe Illustrator CS5
+Xmp.xmpMM.History[2]/stEvt:changed           XmpText     1  /
+Exit code: 253
 
 Command: exiv2 -pp eps-flat_oodraw_ai-cs5-lev3-preview.eps
 Exiv2 exception in print action for file eps-flat_oodraw_ai-cs5-lev3-preview.eps:
@@ -254,16 +1262,99 @@ This does not look like a EPS image
 Exit code: 1
 
 Command: exiv2 -pp eps-flat_oodraw_ai-cs5-lev3.eps
-Warning: Unable to handle multiple PostScript pages. Found second page at position: 182444
-Exiv2 exception in print action for file eps-flat_oodraw_ai-cs5-lev3.eps:
-Failed to read image data
-Exit code: 1
+Exit code: 0
 
 Command: exiv2 -pa eps-flat_oodraw_ai-cs5-lev3.eps
-Warning: Unable to handle multiple PostScript pages. Found second page at position: 182444
-Exiv2 exception in print action for file eps-flat_oodraw_ai-cs5-lev3.eps:
-Failed to read image data
-Exit code: 1
+Xmp.xmp.CreatorTool                          XmpText    21  Adobe Illustrator CS5
+Xmp.xmp.CreateDate                           XmpText    22  2011-03-25T16:07+01:00
+Xmp.xmp.Thumbnails                           XmpText     0  type="Alt"
+Xmp.xmp.Thumbnails[1]                        XmpText     0  type="Struct"
+Xmp.xmp.Thumbnails[1]/xmpGImg:width          XmpText     3  256
+Xmp.xmp.Thumbnails[1]/xmpGImg:height         XmpText     3  208
+Xmp.xmp.Thumbnails[1]/xmpGImg:format         XmpText     4  JPEG
+Xmp.xmp.Thumbnails[1]/xmpGImg:image          XmpText   4279  /9j/4AAQSkZJRgABAgEASABIAAD/7QAsUGhvdG9zaG9wIDMuMAA4QklNA+0AAAAAABAASAAAAAEA
+AQBIAAAAAQAB/+4ADkFkb2JlAGTAAAAAAf/bAIQABgQEBAUEBgUFBgkGBQYJCwgGBggLDAoKCwoK
+DBAMDAwMDAwQDA4PEA8ODBMTFBQTExwbGxscHx8fHx8fHx8fHwEHBwcNDA0YEBAYGhURFRofHx8f
+Hx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8f/8AAEQgA0AEAAwER
+AAIRAQMRAf/EAaIAAAAHAQEBAQEAAAAAAAAAAAQFAwIGAQAHCAkKCwEAAgIDAQEBAQEAAAAAAAAA
+AQACAwQFBgcICQoLEAACAQMDAgQCBgcDBAIGAnMBAgMRBAAFIRIxQVEGE2EicYEUMpGhBxWxQiPB
+UtHhMxZi8CRygvElQzRTkqKyY3PCNUQnk6OzNhdUZHTD0uIIJoMJChgZhJRFRqS0VtNVKBry4/PE
+1OT0ZXWFlaW1xdXl9WZ2hpamtsbW5vY3R1dnd4eXp7fH1+f3OEhYaHiImKi4yNjo+Ck5SVlpeYmZ
+qbnJ2en5KjpKWmp6ipqqusra6voRAAICAQIDBQUEBQYECAMDbQEAAhEDBCESMUEFURNhIgZxgZEy
+obHwFMHR4SNCFVJicvEzJDRDghaSUyWiY7LCB3PSNeJEgxdUkwgJChgZJjZFGidkdFU38qOzwygp
+0+PzhJSktMTU5PRldYWVpbXF1eX1RlZmdoaWprbG1ub2R1dnd4eXp7fH1+f3OEhYaHiImKi4yNjo
++DlJWWl5iZmpucnZ6fkqOkpaanqKmqq6ytrq+v/aAAwDAQACEQMRAD8APbW1tvq0X7pPsL+yPDFV
+X6rbf75T/gRgV31W2/3yn/AjFXfVbb/fKf8AAjFXfVbb/fKf8CMVd9Vtv98p/wACMVd9Vtv98p/w
+IxV31W2/3yn/AAIxV31W2/3yn/AjFXfVbb/fKf8AAjFXfVbb/fKf8CMVd9Vtv98p/wACMVd9Vtv9
+8p/wIxV31W2/3yn/AAIxV31W2/3yn/AjFXfVbb/fKf8AAjFXfVbb/fKf8CMVd9Vtv98p/wACMVd9
+Vtv98p/wIxV31W2/3yn/AAIxV31W2/3yn/AjFXfVbb/fKf8AAjFXfVbb/fKf8CMVd9Vtv98p/wAC
+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
+Xmp.xmp.MetadataDate                         XmpText    22  2011-03-25T16:07+01:00
+Xmp.xmp.ModifyDate                           XmpText    22  2011-03-25T16:07+01:00
+Xmp.xmpTPg.MaxPageSize                       XmpText     0  type="Struct"
+Xmp.xmpTPg.MaxPageSize/stDim:w               XmpText    10  612.000000
+Xmp.xmpTPg.MaxPageSize/stDim:h               XmpText    10  792.000000
+Xmp.xmpTPg.MaxPageSize/stDim:unit            XmpText     6  Points
+Xmp.xmpTPg.NPages                            XmpText     1  1
+Xmp.xmpTPg.HasVisibleTransparency            XmpText     5  False
+Xmp.xmpTPg.HasVisibleOverprint               XmpText     5  False
+Xmp.xmpTPg.PlateNames                        XmpSeq      1  Black
+Xmp.xmpTPg.SwatchGroups                      XmpText     0  type="Seq"
+Xmp.xmpTPg.SwatchGroups[1]                   XmpText     0  type="Struct"
+Xmp.xmpTPg.SwatchGroups[1]/xmpG:groupName    XmpText    20  Default Swatch Group
+Xmp.xmpTPg.SwatchGroups[1]/xmpG:groupType    XmpText     1  0
+Xmp.dc.format                                XmpText    22  application/postscript
+Xmp.xmpMM.DerivedFrom                        XmpText     0  type="Struct"
+Xmp.xmpMM.DocumentID                         XmpText    40  xmp.did:01801174072068118C14A928EC4F6B4E
+Xmp.xmpMM.InstanceID                         XmpText    40  xmp.iid:01801174072068118C14A928EC4F6B4E
+Xmp.xmpMM.OriginalDocumentID                 XmpText    40  xmp.did:01801174072068118C14A928EC4F6B4E
+Xmp.xmpMM.History                            XmpText     0  type="Seq"
+Xmp.xmpMM.History[1]                         XmpText     0  type="Struct"
+Xmp.xmpMM.History[1]/stEvt:action            XmpText     5  saved
+Xmp.xmpMM.History[1]/stEvt:instanceID        XmpText    40  xmp.iid:01801174072068118C14A928EC4F6B4E
+Xmp.xmpMM.History[1]/stEvt:when              XmpText    22  2011-03-25T16:07+01:00
+Xmp.xmpMM.History[1]/stEvt:softwareAgent     XmpText    21  Adobe Illustrator CS5
+Xmp.xmpMM.History[1]/stEvt:changed           XmpText     1  /
+Exit code: 253
 
 Command: exiv2 -pp eps-flat_photoshop-cs5-ascii-colorprofile.eps
 Exit code: 0

@@ -60,7 +60,8 @@ static const std::string epsDosSignature = "\xc5\xd0\xd3\xc6";
 // first line of EPS
 static const std::string epsFirstLine[] = {
     "%!PS-Adobe-3.0 EPSF-3.0",
-    "%!PS-Adobe-3.1 EPSF-3.0",
+    "%!PS-Adobe-3.0 EPSF-3.0 ",  // OpenOffice
+    "%!PS-Adobe-3.1 EPSF-3.0",   // Illustrator
 };
 
 // blank EPS file
@@ -232,9 +233,10 @@ namespace Exiv2
         size_t posEndPageSetup = size;
         size_t posPageTrailer = size;
         size_t posEof = size;
-        bool inPrologOrSetup = false;
+        bool implicitPage = false;
+        bool inDefaultsOrPrologOrSetup = false;
         bool inPageSetup = false;
-        while (pos < size) {
+        while (pos < posEof) {
             const size_t startPos = pos;
             pos = readLine(line, data, startPos, size);
             // implicit comments
@@ -245,13 +247,14 @@ namespace Exiv2
                     EXV_DEBUG << "Exiv2::EpsImage::doReadWriteMetadata: Found implicit EndComments at position: " << startPos << "\n";
                     #endif
                 }
-                if (posPage == size && !inPrologOrSetup) {
+                if (posPage == size && !inDefaultsOrPrologOrSetup && !onlyWhitespaces(line)) {
                     posPage = startPos;
+                    implicitPage = true;
                     #ifdef DEBUG
                     EXV_DEBUG << "Exiv2::EpsImage::doReadWriteMetadata: Found implicit Page at position: " << startPos << "\n";
                     #endif
                 }
-                if (posEndPageSetup == size && !inPrologOrSetup && !inPageSetup) {
+                if (posEndPageSetup == size && posPage != size && !inPageSetup) {
                     posEndPageSetup = startPos;
                     #ifdef DEBUG
                     EXV_DEBUG << "Exiv2::EpsImage::doReadWriteMetadata: Found implicit EndPageSetup at position: " << startPos << "\n";
@@ -265,83 +268,44 @@ namespace Exiv2
                 #endif
             }
             // explicit comments
+            #ifdef DEBUG
+            bool significantLine = true;
+            #endif
             if (posEndComments == size && posLanguageLevel == size && startsWith(line, "%%LanguageLevel:")) {
                 posLanguageLevel = startPos;
-                #ifdef DEBUG
-                EXV_DEBUG << "Exiv2::EpsImage::doReadWriteMetadata: Found line \"" << line << "\" at position: " << startPos << "\n";
-                #endif
             } else if (posEndComments == size && posContainsXmp == size && startsWith(line, "%ADO_ContainsXMP:")) {
                 posContainsXmp = startPos;
-                #ifdef DEBUG
-                EXV_DEBUG << "Exiv2::EpsImage::doReadWriteMetadata: Found line \"" << line << "\" at position: " << startPos << "\n";
-                #endif
             } else if (posEndComments == size && posPages == size && startsWith(line, "%%Pages:")) {
                 posPages = startPos;
-                #ifdef DEBUG
-                EXV_DEBUG << "Exiv2::EpsImage::doReadWriteMetadata: Found line \"" << line << "\" at position: " << startPos << "\n";
-                #endif
             } else if (posEndComments == size && posExiv2Version == size && startsWith(line, "%Exiv2Version:")) {
                 posExiv2Version = startPos;
-                #ifdef DEBUG
-                EXV_DEBUG << "Exiv2::EpsImage::doReadWriteMetadata: Found line \"" << line << "\" at position: " << startPos << "\n";
-                #endif
             } else if (posEndComments == size && posExiv2Website == size && startsWith(line, "%Exiv2Website:")) {
                 posExiv2Website = startPos;
-                #ifdef DEBUG
-                EXV_DEBUG << "Exiv2::EpsImage::doReadWriteMetadata: Found line \"" << line << "\" at position: " << startPos << "\n";
-                #endif
             } else if (posEndComments == size && line == "%%EndComments") {
                 posEndComments = startPos;
-                #ifdef DEBUG
-                EXV_DEBUG << "Exiv2::EpsImage::doReadWriteMetadata: Found line \"" << line << "\" at position: " << startPos << "\n";
-                #endif
+            } else if (line == "%%BeginDefaults") {
+                inDefaultsOrPrologOrSetup = true;
+            } else if (line == "%%EndDefaults") {
+                inDefaultsOrPrologOrSetup = false;
             } else if (line == "%%BeginProlog") {
-                inPrologOrSetup = true;
-                #ifdef DEBUG
-                EXV_DEBUG << "Exiv2::EpsImage::doReadWriteMetadata: Found line \"" << line << "\" at position: " << startPos << "\n";
-                #endif
+                inDefaultsOrPrologOrSetup = true;
             } else if (line == "%%EndProlog") {
-                inPrologOrSetup = false;
-                #ifdef DEBUG
-                EXV_DEBUG << "Exiv2::EpsImage::doReadWriteMetadata: Found line \"" << line << "\" at position: " << startPos << "\n";
-                #endif
+                inDefaultsOrPrologOrSetup = false;
             } else if (line == "%%BeginSetup") {
-                inPrologOrSetup = true;
-                #ifdef DEBUG
-                EXV_DEBUG << "Exiv2::EpsImage::doReadWriteMetadata: Found line \"" << line << "\" at position: " << startPos << "\n";
-                #endif
+                inDefaultsOrPrologOrSetup = true;
             } else if (line == "%%EndSetup") {
-                inPrologOrSetup = false;
-                #ifdef DEBUG
-                EXV_DEBUG << "Exiv2::EpsImage::doReadWriteMetadata: Found line \"" << line << "\" at position: " << startPos << "\n";
-                #endif
+                inDefaultsOrPrologOrSetup = false;
             } else if (posPage == size && startsWith(line, "%%Page:")) {
                 posPage = startPos;
-                #ifdef DEBUG
-                EXV_DEBUG << "Exiv2::EpsImage::doReadWriteMetadata: Found line \"" << line << "\" at position: " << startPos << "\n";
-                #endif
             } else if (line == "%%BeginPageSetup") {
                 inPageSetup = true;
-                #ifdef DEBUG
-                EXV_DEBUG << "Exiv2::EpsImage::doReadWriteMetadata: Found line \"" << line << "\" at position: " << startPos << "\n";
-                #endif
             } else if (posEndPageSetup == size && line == "%%EndPageSetup") {
                 inPageSetup = false;
                 posEndPageSetup = startPos;
-                #ifdef DEBUG
-                EXV_DEBUG << "Exiv2::EpsImage::doReadWriteMetadata: Found line \"" << line << "\" at position: " << startPos << "\n";
-                #endif
             } else if (posPageTrailer == size && line == "%%PageTrailer") {
                 posPageTrailer = startPos;
-                #ifdef DEBUG
-                EXV_DEBUG << "Exiv2::EpsImage::doReadWriteMetadata: Found line \"" << line << "\" at position: " << startPos << "\n";
-                #endif
             } else if (line == "%%EOF") {
                 posEof = startPos;
-                #ifdef DEBUG
-                EXV_DEBUG << "Exiv2::EpsImage::doReadWriteMetadata: Found line \"" << line << "\" at position: " << startPos << "\n";
-                #endif
-                break;
             } else if (startsWith(line, "%%BeginDocument:")) {
                 // TODO: Add support for embedded documents!
                 #ifndef SUPPRESS_WARNINGS
@@ -349,17 +313,33 @@ namespace Exiv2
                 #endif
                 throw Error(write ? 21 : 14);
             } else if (posPage != size && startsWith(line, "%%Page:")) {
-                #ifndef SUPPRESS_WARNINGS
-                EXV_WARNING << "Unable to handle multiple PostScript pages. Found second page at position: " << startPos << "\n";
-                #endif
-                throw Error(write ? 21 : 14);
+                if (implicitPage) {
+                    #ifndef SUPPRESS_WARNINGS
+                    EXV_WARNING << "Page at position " << startPos << " conflicts with implicit page at position: " << posPage << "\n";
+                    #endif
+                    throw Error(write ? 21 : 14);
+                } else {
+                    #ifndef SUPPRESS_WARNINGS
+                    EXV_WARNING << "Unable to handle multiple PostScript pages. Found second page at position: " << startPos << "\n";
+                    #endif
+                    throw Error(write ? 21 : 14);
+                }
             } else if (startsWith(line, "%%Include")) {
                 #ifndef SUPPRESS_WARNINGS
                 EXV_WARNING << "Unable to handle PostScript %%Include DSC comments yet. Please provide your"
                                " sample EPS file to the Exiv2 project: http://dev.exiv2.org/projects/exiv2\n";
                 #endif
                 throw Error(write ? 21 : 14);
+            } else {
+                #ifdef DEBUG
+                significantLine = false;
+                #endif
             }
+            #ifdef DEBUG
+            if (significantLine) {
+                EXV_DEBUG << "Exiv2::EpsImage::doReadWriteMetadata: Found significant line \"" << line << "\" at position: " << startPos << "\n";
+            }
+            #endif
         }
 
         // interpret comment "%ADO_ContainsXMP:"
@@ -846,6 +826,13 @@ namespace Exiv2
     bool EpsImage::startsWith(const std::string& s, const std::string& start)
     {
         return s.size() >= start.size() && memcmp(s.data(), start.data(), start.size()) == 0;
+    }
+
+    bool EpsImage::onlyWhitespaces(const std::string& s)
+    {
+        // According to the DSC 3.0 specification, 4.4 Parsing Rules,
+        // only spaces and tabs are considered to be white space characters.
+        return s.find_first_not_of(" \t") == std::string::npos;
     }
 
     void EpsImage::writeTemp(BasicIo& tempIo, const char* data, size_t size)
