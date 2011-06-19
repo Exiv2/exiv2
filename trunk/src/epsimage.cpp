@@ -60,8 +60,8 @@ static const std::string epsDosSignature = "\xc5\xd0\xd3\xc6";
 // first line of EPS
 static const std::string epsFirstLine[] = {
     "%!PS-Adobe-3.0 EPSF-3.0",
-    "%!PS-Adobe-3.0 EPSF-3.0 ",  // OpenOffice
-    "%!PS-Adobe-3.1 EPSF-3.0",   // Illustrator
+    "%!PS-Adobe-3.0 EPSF-3.0 ", // OpenOffice
+    "%!PS-Adobe-3.1 EPSF-3.0",  // Illustrator
 };
 
 // blank EPS file
@@ -247,7 +247,7 @@ namespace Exiv2
                     EXV_DEBUG << "Exiv2::EpsImage::doReadWriteMetadata: Found implicit EndComments at position: " << startPos << "\n";
                     #endif
                 }
-                if (posPage == size && !inDefaultsOrPrologOrSetup && !onlyWhitespaces(line)) {
+                if (posPage == size && posEndComments != size && !inDefaultsOrPrologOrSetup && !onlyWhitespaces(line)) {
                     posPage = startPos;
                     implicitPage = true;
                     #ifdef DEBUG
@@ -307,6 +307,12 @@ namespace Exiv2
             } else if (line == "%%EOF") {
                 posEof = startPos;
             } else if (startsWith(line, "%%BeginDocument:")) {
+                if (posEndPageSetup == size) {
+                    #ifndef SUPPRESS_WARNINGS
+                    EXV_WARNING << "Embedded document at invalid position (before explicit or implicit EndPageSetup): " << startPos << "\n";
+                    #endif
+                    throw Error(write ? 21 : 14);
+                }
                 // TODO: Add support for embedded documents!
                 #ifndef SUPPRESS_WARNINGS
                 EXV_WARNING << "Embedded documents are currently not supported. Found embedded document at position: " << startPos << "\n";
@@ -318,12 +324,11 @@ namespace Exiv2
                     EXV_WARNING << "Page at position " << startPos << " conflicts with implicit page at position: " << posPage << "\n";
                     #endif
                     throw Error(write ? 21 : 14);
-                } else {
-                    #ifndef SUPPRESS_WARNINGS
-                    EXV_WARNING << "Unable to handle multiple PostScript pages. Found second page at position: " << startPos << "\n";
-                    #endif
-                    throw Error(write ? 21 : 14);
                 }
+                #ifndef SUPPRESS_WARNINGS
+                EXV_WARNING << "Unable to handle multiple PostScript pages. Found second page at position: " << startPos << "\n";
+                #endif
+                throw Error(write ? 21 : 14);
             } else if (startsWith(line, "%%Include")) {
                 #ifndef SUPPRESS_WARNINGS
                 EXV_WARNING << "Unable to handle PostScript %%Include DSC comments yet. Please provide your"
@@ -788,14 +793,16 @@ namespace Exiv2
     {
         line.clear();
         size_t pos = startPos;
+        // step through line
         while (pos < size && data[pos] != '\r' && data[pos] != '\n') {
             line += data[pos];
             pos++;
         }
-        if (pos >= size) return pos;  // no line ending, but end of string
+        // skip line ending, if present
+        if (pos >= size) return pos;
         pos++;
-        if (pos >= size) return pos;  // single-byte line ending, and end of string
-        if (data[pos - 1] == '\r' && data[pos] == '\n') pos++;  // two-byte line ending
+        if (pos >= size) return pos;
+        if (data[pos - 1] == '\r' && data[pos] == '\n') pos++;
         return pos;
     }
 
