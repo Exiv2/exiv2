@@ -46,3 +46,4 @@ src/metacopy
 src/path-test
 src/taglist
 test/tmp/*
+doc/html
