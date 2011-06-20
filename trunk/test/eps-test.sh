@@ -37,8 +37,8 @@ done
         cp "../data/eps/$image.eps" ./
 
         echo
-        echo "Command: exiv2 -pp $image.eps"
-        $exiv2 -pp "$image.eps"
+        echo "Command: exiv2 -u -pp $image.eps"
+        $exiv2 -u -pp "$image.eps"
         exitcode="$?"
         echo "Exit code: $exitcode"
 
