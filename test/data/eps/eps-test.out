@@ -208,6 +208,14 @@ Exit code: 0
 Command: exiv2 -f -ex eps-flat_minimal_exiftool-8.56.eps
 Exit code: 0
 
+-----> eps-flat_minimal_xmp-readonly.eps <-----
+
+Command: exiv2 -pp eps-flat_minimal_xmp-readonly.eps
+Warning: Unable to handle read-only XMP metadata yet. Please provide your sample EPS file to the Exiv2 project: http://dev.exiv2.org/projects/exiv2
+Exiv2 exception in print action for file eps-flat_minimal_xmp-readonly.eps:
+Failed to read image data
+Exit code: 1
+
 -----> eps-flat_minimal_xmp-singlequote-begin.eps <-----
 
 Command: exiv2 -pp eps-flat_minimal_xmp-singlequote-begin.eps
