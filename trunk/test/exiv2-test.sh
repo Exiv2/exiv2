@@ -78,7 +78,7 @@ echo tmp/
 echo
 echo "Exiv2 version ------------------------------------------------------------"
 which exiv2 || exit 2;
-$exiv2 -V
+$exiv2 -V | sed '1 s, (.. bit build)$, (__ bit build),'
 echo
 echo "Exiv2 help ---------------------------------------------------------------"
 $exiv2 -h
