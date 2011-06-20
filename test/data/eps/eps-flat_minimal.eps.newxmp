@@ -1,0 +1,70 @@
+%!PS-Adobe-3.0 EPSF-3.0
+%%BoundingBox: 5 5 105 105
+%%LanguageLevel: 2
+%ADO_ContainsXMP: MainFirst
+%%Pages: 1
+%Exiv2Version: @Exiv2Version@
+%Exiv2Website: http://www.exiv2.org/
+%%EndComments
+%%Page: 1 1
+%%EndPageComments
+%%BeginPageSetup
+%Exiv2BeginXMP: EndPageSetup
+/currentdistillerparams where
+{pop currentdistillerparams /CoreDistVersion get 5000 lt} {true} ifelse
+{userdict /Exiv2_pdfmark /cleartomark load put
+    userdict /Exiv2_metafile_pdfmark {flushfile cleartomark} bind put}
+{userdict /Exiv2_pdfmark /pdfmark load put
+    userdict /Exiv2_metafile_pdfmark {/PUT pdfmark} bind put} ifelse
+[/NamespacePush Exiv2_pdfmark
+[/_objdef {Exiv2_metadata_stream} /type /stream /OBJ Exiv2_pdfmark
+[{Exiv2_metadata_stream} 2 dict begin
+    /Type /Metadata def /Subtype /XML def currentdict end /PUT Exiv2_pdfmark
+[{Exiv2_metadata_stream}
+    currentfile 0 (% &&end XMP packet marker&&)
+    /SubFileDecode filter Exiv2_metafile_pdfmark
+<?xpacket begin="﻿" id="W5M0MpCehiHzreSzNTczkc9d"?>
+<x:xmpmeta xmlns:x="adobe:ns:meta/" x:xmptk="XMP Core 4.4.0-Exiv2">
+ <rdf:RDF xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#">
+  <rdf:Description rdf:about=""
+    xmlns:test="http://www.example.com/"
+   test:test="TEST"/>
+ </rdf:RDF>
+</x:xmpmeta>
+                                                                                                    
+                                                                                                    
+                                                                                                    
+                                                                                                    
+                                                                                                    
+                                                                                                    
+                                                                                                    
+                                                                                                    
+                                                                                                    
+                                                                                                    
+                                                                                                    
+                                                                                                    
+                                                                                                    
+                                                                                                    
+                                                                                                    
+                                                                                                    
+                                                                                                    
+                                                                                                    
+                                                                                                    
+                                                                                                    
+                           
+<?xpacket end="w"?>
+% &&end XMP packet marker&&
+[/Document 1 dict begin
+    /Metadata {Exiv2_metadata_stream} def currentdict end /BDC Exiv2_pdfmark
+%Exiv2EndXMP
+%%EndPageSetup
+10 setlinewidth
+10 10 moveto
+0 90 rlineto 90 0 rlineto 0 -90 rlineto closepath
+stroke
+%%PageTrailer
+%Exiv2BeginXMP: PageTrailer
+[/EMC Exiv2_pdfmark
+[/NamespacePop Exiv2_pdfmark
+%Exiv2EndXMP
+%%EOF
