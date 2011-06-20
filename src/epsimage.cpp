@@ -240,7 +240,7 @@ namespace Exiv2
             const size_t startPos = pos;
             pos = readLine(line, data, startPos, size);
             // implicit comments
-            if (line == "%%EOF" || !(line.size() >= 2 && line[0] == '%' && '\x21' <= line[1] && line[1] <= '\x7e')) {
+            if (line == "%%EOF" || line == "%begin_xml_code" || !(line.size() >= 2 && line[0] == '%' && '\x21' <= line[1] && line[1] <= '\x7e')) {
                 if (posEndComments == size) {
                     posEndComments = startPos;
                     #ifdef DEBUG
