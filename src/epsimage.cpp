@@ -247,6 +247,8 @@ namespace Exiv2
                     EXV_DEBUG << "Exiv2::EpsImage::doReadWriteMetadata: Found implicit EndComments at position: " << startPos << "\n";
                     #endif
                 }
+            }
+            if (line == "%%EOF" || line == "%begin_xml_code" || (line.size() >= 1 && line[0] != '%')) {
                 if (posPage == size && posEndComments != size && !inDefaultsOrPrologOrSetup && !onlyWhitespaces(line)) {
                     posPage = startPos;
                     implicitPage = true;
