@@ -1876,6 +1876,7 @@ namespace {
         catch (const Exiv2::AnyError& e) {
             std::cerr << target <<
                 ": " << _("Could not write metadata to file") << ": " << e << "\n";
+            return 1;
         }
 
         return 0;
