@@ -2470,3 +2470,160 @@ Warning: Unable to handle PostScript %%Include DSC comments yet. Please provide 
 Exiv2 exception in print action for file eps-nested_minimal_includedocument.eps:
 Failed to read image data
 Exit code: 1
+
+-----> eps-nested_noxmp_ai-3-lev2.eps <-----
+
+Command: exiv2 -u -pp eps-nested_noxmp_ai-3-lev2.eps
+Warning: Embedded documents are currently not supported. Found embedded document at position: 9908
+Exiv2 exception in print action for file eps-nested_noxmp_ai-3-lev2.eps:
+Failed to read image data
+Exit code: 1
+
+-----> eps-nested_noxmp_ai-3-lev3.eps <-----
+
+Command: exiv2 -u -pp eps-nested_noxmp_ai-3-lev3.eps
+Warning: Embedded documents are currently not supported. Found embedded document at position: 9908
+Exiv2 exception in print action for file eps-nested_noxmp_ai-3-lev3.eps:
+Failed to read image data
+Exit code: 1
+
+-----> eps-nested_noxmp_ai-8-lev2.eps <-----
+
+Command: exiv2 -u -pp eps-nested_noxmp_ai-8-lev2.eps
+Warning: Embedded documents are currently not supported. Found embedded document at position: 51363
+Exiv2 exception in print action for file eps-nested_noxmp_ai-8-lev2.eps:
+Failed to read image data
+Exit code: 1
+
+-----> eps-nested_noxmp_ai-8-lev3.eps <-----
+
+Command: exiv2 -u -pp eps-nested_noxmp_ai-8-lev3.eps
+Warning: Embedded documents are currently not supported. Found embedded document at position: 51363
+Exiv2 exception in print action for file eps-nested_noxmp_ai-8-lev3.eps:
+Failed to read image data
+Exit code: 1
+
+-----> eps-nested_noxmp_ai-cs5-lev2.eps <-----
+
+Command: exiv2 -u -pp eps-nested_noxmp_ai-cs5-lev2.eps
+Warning: Embedded documents are currently not supported. Found embedded document at position: 199781
+Exiv2 exception in print action for file eps-nested_noxmp_ai-cs5-lev2.eps:
+Failed to read image data
+Exit code: 1
+
+-----> eps-nested_noxmp_ai-cs5-lev3.eps <-----
+
+Command: exiv2 -u -pp eps-nested_noxmp_ai-cs5-lev3.eps
+Warning: Embedded documents are currently not supported. Found embedded document at position: 199367
+Exiv2 exception in print action for file eps-nested_noxmp_ai-cs5-lev3.eps:
+Failed to read image data
+Exit code: 1
+
+-----> eps-nested_noxmp_indesign-cs5-lev2-bin.eps <-----
+
+Command: exiv2 -u -pp eps-nested_noxmp_indesign-cs5-lev2-bin.eps
+Exiv2 exception in print action for file eps-nested_noxmp_indesign-cs5-lev2-bin.eps:
+This does not look like a EPS image
+Exit code: 1
+
+-----> eps-nested_noxmp_indesign-cs5-lev2.eps <-----
+
+Command: exiv2 -u -pp eps-nested_noxmp_indesign-cs5-lev2.eps
+Exiv2 exception in print action for file eps-nested_noxmp_indesign-cs5-lev2.eps:
+This does not look like a EPS image
+Exit code: 1
+
+-----> eps-nested_noxmp_indesign-cs5-lev3-bin.eps <-----
+
+Command: exiv2 -u -pp eps-nested_noxmp_indesign-cs5-lev3-bin.eps
+Exiv2 exception in print action for file eps-nested_noxmp_indesign-cs5-lev3-bin.eps:
+This does not look like a EPS image
+Exit code: 1
+
+-----> eps-nested_noxmp_indesign-cs5-lev3.eps <-----
+
+Command: exiv2 -u -pp eps-nested_noxmp_indesign-cs5-lev3.eps
+Exiv2 exception in print action for file eps-nested_noxmp_indesign-cs5-lev3.eps:
+This does not look like a EPS image
+Exit code: 1
+
+-----> eps-nested_noxmp_oodraw-lev2-epsi.eps <-----
+
+Command: exiv2 -u -pp eps-nested_noxmp_oodraw-lev2-epsi.eps
+Warning: Embedded documents are currently not supported. Found embedded document at position: 111882
+Exiv2 exception in print action for file eps-nested_noxmp_oodraw-lev2-epsi.eps:
+Failed to read image data
+Exit code: 1
+
+-----> eps-nested_noxmp_oodraw-lev2-preview.eps <-----
+
+Command: exiv2 -u -pp eps-nested_noxmp_oodraw-lev2-preview.eps
+Exiv2 exception in print action for file eps-nested_noxmp_oodraw-lev2-preview.eps:
+This does not look like a EPS image
+Exit code: 1
+
+-----> eps-nested_noxmp_oodraw-lev2.eps <-----
+
+Command: exiv2 -u -pp eps-nested_noxmp_oodraw-lev2.eps
+Warning: Embedded documents are currently not supported. Found embedded document at position: 1937
+Exiv2 exception in print action for file eps-nested_noxmp_oodraw-lev2.eps:
+Failed to read image data
+Exit code: 1
+
+-----> eps-nested_xmp_ai-3-lev3.eps <-----
+
+Command: exiv2 -u -pp eps-nested_xmp_ai-3-lev3.eps
+Exiv2 exception in print action for file eps-nested_xmp_ai-3-lev3.eps:
+This does not look like a EPS image
+Exit code: 1
+
+-----> eps-nested_xmp_ai-8-lev3.eps <-----
+
+Command: exiv2 -u -pp eps-nested_xmp_ai-8-lev3.eps
+Exiv2 exception in print action for file eps-nested_xmp_ai-8-lev3.eps:
+This does not look like a EPS image
+Exit code: 1
+
+-----> eps-nested_xmp_ai-cs5-lev3.eps <-----
+
+Command: exiv2 -u -pp eps-nested_xmp_ai-cs5-lev3.eps
+Exiv2 exception in print action for file eps-nested_xmp_ai-cs5-lev3.eps:
+This does not look like a EPS image
+Exit code: 1
+
+-----> eps-nested_xmp_indesign-cs5-lev3-bin.eps <-----
+
+Command: exiv2 -u -pp eps-nested_xmp_indesign-cs5-lev3-bin.eps
+Exiv2 exception in print action for file eps-nested_xmp_indesign-cs5-lev3-bin.eps:
+This does not look like a EPS image
+Exit code: 1
+
+-----> eps-nested_xmp_indesign-cs5-lev3.eps <-----
+
+Command: exiv2 -u -pp eps-nested_xmp_indesign-cs5-lev3.eps
+Exiv2 exception in print action for file eps-nested_xmp_indesign-cs5-lev3.eps:
+This does not look like a EPS image
+Exit code: 1
+
+-----> eps-nested_xmp_oodraw-lev2-epsi.eps <-----
+
+Command: exiv2 -u -pp eps-nested_xmp_oodraw-lev2-epsi.eps
+Warning: Embedded documents are currently not supported. Found embedded document at position: 111804
+Exiv2 exception in print action for file eps-nested_xmp_oodraw-lev2-epsi.eps:
+Failed to read image data
+Exit code: 1
+
+-----> eps-nested_xmp_oodraw-lev2-preview.eps <-----
+
+Command: exiv2 -u -pp eps-nested_xmp_oodraw-lev2-preview.eps
+Exiv2 exception in print action for file eps-nested_xmp_oodraw-lev2-preview.eps:
+This does not look like a EPS image
+Exit code: 1
+
+-----> eps-nested_xmp_oodraw-lev2.eps <-----
+
+Command: exiv2 -u -pp eps-nested_xmp_oodraw-lev2.eps
+Warning: Embedded documents are currently not supported. Found embedded document at position: 1859
+Exiv2 exception in print action for file eps-nested_xmp_oodraw-lev2.eps:
+Failed to read image data
+Exit code: 1
