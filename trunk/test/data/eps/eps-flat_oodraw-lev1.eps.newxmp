@@ -1,0 +1,131 @@
+%!PS-Adobe-3.0 EPSF-3.0 
+%%BoundingBox: 0 0 539 785
+%%Pages: 0
+%%Creator: Sun Microsystems, Inc.
+%%Title: none
+%%CreationDate: none
+%%LanguageLevel: 2
+%ADO_ContainsXMP: MainFirst
+%Exiv2Version: @Exiv2Version@
+%Exiv2Website: http://www.exiv2.org/
+%%EndComments
+%%BeginProlog
+%%BeginResource: procset SDRes-Prolog 1.0 0
+/b4_inc_state save def
+/dict_count countdictstack def
+/op_count count 1 sub def
+userdict begin
+0 setgray 0 setlinecap 1 setlinewidth 0 setlinejoin 10 setmiterlimit[] 0 setdash newpath
+/languagelevel where {pop languagelevel 1 ne {false setstrokeadjust false setoverprint} if} if
+/bdef {bind def} bind def
+/c {setgray} bdef
+/l {neg lineto} bdef
+/rl {neg rlineto} bdef
+/lc {setlinecap} bdef
+/lj {setlinejoin} bdef
+/lw {setlinewidth} bdef
+/ml {setmiterlimit} bdef
+/ld {setdash} bdef
+/m {neg moveto} bdef
+/ct {6 2 roll neg 6 2 roll neg 6 2 roll neg curveto} bdef
+/r {rotate} bdef
+/t {neg translate} bdef
+/s {scale} bdef
+/sw {show} bdef
+/gs {gsave} bdef
+/gr {grestore} bdef
+/f {findfont dup length dict begin
+{1 index /FID ne {def} {pop pop} ifelse} forall /Encoding ISOLatin1Encoding def
+currentdict end /NFont exch definefont pop /NFont findfont} bdef
+/p {closepath} bdef
+/sf {scalefont setfont} bdef
+/ef {eofill}bdef
+/pc {closepath stroke}bdef
+/ps {stroke}bdef
+/pum {matrix currentmatrix}bdef
+/pom {setmatrix}bdef
+/bs {/aString exch def /nXOfs exch def /nWidth exch def currentpoint nXOfs 0 rmoveto pum nWidth aString stringwidth pop div 1 scale aString show pom moveto} bdef
+%%EndResource
+%%EndProlog
+%%BeginSetup
+%%EndSetup
+%%Page: 1 1
+%%BeginPageSetup
+%Exiv2BeginXMP: EndPageSetup
+/currentdistillerparams where
+{pop currentdistillerparams /CoreDistVersion get 5000 lt} {true} ifelse
+{userdict /Exiv2_pdfmark /cleartomark load put
+    userdict /Exiv2_metafile_pdfmark {flushfile cleartomark} bind put}
+{userdict /Exiv2_pdfmark /pdfmark load put
+    userdict /Exiv2_metafile_pdfmark {/PUT pdfmark} bind put} ifelse
+[/NamespacePush Exiv2_pdfmark
+[/_objdef {Exiv2_metadata_stream} /type /stream /OBJ Exiv2_pdfmark
+[{Exiv2_metadata_stream} 2 dict begin
+    /Type /Metadata def /Subtype /XML def currentdict end /PUT Exiv2_pdfmark
+[{Exiv2_metadata_stream}
+    currentfile 0 (% &&end XMP packet marker&&)
+    /SubFileDecode filter Exiv2_metafile_pdfmark
+<?xpacket begin="﻿" id="W5M0MpCehiHzreSzNTczkc9d"?>
+<x:xmpmeta xmlns:x="adobe:ns:meta/" x:xmptk="XMP Core 4.4.0-Exiv2">
+ <rdf:RDF xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#">
+  <rdf:Description rdf:about=""
+    xmlns:test="http://www.example.com/"
+   test:test="TEST"/>
+ </rdf:RDF>
+</x:xmpmeta>
+                                                                                                    
+                                                                                                    
+                                                                                                    
+                                                                                                    
+                                                                                                    
+                                                                                                    
+                                                                                                    
+                                                                                                    
+                                                                                                    
+                                                                                                    
+                                                                                                    
+                                                                                                    
+                                                                                                    
+                                                                                                    
+                                                                                                    
+                                                                                                    
+                                                                                                    
+                                                                                                    
+                                                                                                    
+                                                                                                    
+                           
+<?xpacket end="w"?>
+% &&end XMP packet marker&&
+[/Document 1 dict begin
+    /Metadata {Exiv2_metadata_stream} def currentdict end /BDC Exiv2_pdfmark
+%Exiv2EndXMP
+%%EndPageSetup
+pum
+0.02836 0.02833 s 
+0 -27700 t
+/tm matrix currentmatrix def
+gs
+tm setmatrix
+-1000 -1000 t 
+1 1 s 
+1000 1000 m 19999 1000 l 19999 28699 l 1000 28699 l 1000 1000 l eoclip newpath
+gs
+0 0 m 18999 0 l 18999 27699 l 0 27699 l 0 0 l eoclip newpath
+
+gs
+tm setmatrix
+7902.22222 12206.11111 t 
+35.27777 35.27777 s 
+gs
+0 0 m 18999 0 l 18999 27699 l 0 27699 l 0 0 l eoclip newpath
+gr
+gr
+0 27700 t 
+pom
+count op_count sub {pop} repeat countdictstack dict_count sub {end} repeat b4_inc_state restore
+%Exiv2BeginXMP: PageTrailer
+[/EMC Exiv2_pdfmark
+[/NamespacePop Exiv2_pdfmark
+%Exiv2EndXMP
+%%Trailer
+%%EOF
