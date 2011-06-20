@@ -1,3 +1,6 @@
+
+-----> eps-flat_empty-eof-noeol.eps <-----
+
 Command: exiv2 -pp eps-flat_empty-eof-noeol.eps
 Exit code: 0
 
@@ -7,20 +10,16 @@ Exit code: 253
 Command: exiv2 -f -eX eps-flat_empty-eof-noeol.eps
 Exit code: 0
 
-Command: diff -q ../data/eps/eps-flat_empty-eof-noeol.xmp eps-flat_empty-eof-noeol.xmp
-Exit code: 0
-
 Command: exiv2 -ix eps-flat_empty-eof-noeol.eps
-Exit code: 0
-
-Command: diff -q eps-flat_empty-eof-noeol.eps.newxmp eps-flat_empty-eof-noeol.eps
 Exit code: 0
 
 Command: (2) exiv2 -ix eps-flat_empty-eof-noeol.eps
 Exit code: 0
 
-Command: (2) diff -q eps-flat_empty-eof-noeol.eps.newxmp eps-flat_empty-eof-noeol.eps
+Command: exiv2 -f -ex eps-flat_empty-eof-noeol.eps
 Exit code: 0
+
+-----> eps-flat_empty-eof.eps <-----
 
 Command: exiv2 -pp eps-flat_empty-eof.eps
 Exit code: 0
@@ -31,20 +30,16 @@ Exit code: 253
 Command: exiv2 -f -eX eps-flat_empty-eof.eps
 Exit code: 0
 
-Command: diff -q ../data/eps/eps-flat_empty-eof.xmp eps-flat_empty-eof.xmp
-Exit code: 0
-
 Command: exiv2 -ix eps-flat_empty-eof.eps
-Exit code: 0
-
-Command: diff -q eps-flat_empty-eof.eps.newxmp eps-flat_empty-eof.eps
 Exit code: 0
 
 Command: (2) exiv2 -ix eps-flat_empty-eof.eps
 Exit code: 0
 
-Command: (2) diff -q eps-flat_empty-eof.eps.newxmp eps-flat_empty-eof.eps
+Command: exiv2 -f -ex eps-flat_empty-eof.eps
 Exit code: 0
+
+-----> eps-flat_empty-noeol.eps <-----
 
 Command: exiv2 -pp eps-flat_empty-noeol.eps
 Exit code: 0
@@ -55,20 +50,16 @@ Exit code: 253
 Command: exiv2 -f -eX eps-flat_empty-noeol.eps
 Exit code: 0
 
-Command: diff -q ../data/eps/eps-flat_empty-noeol.xmp eps-flat_empty-noeol.xmp
-Exit code: 0
-
 Command: exiv2 -ix eps-flat_empty-noeol.eps
-Exit code: 0
-
-Command: diff -q eps-flat_empty-noeol.eps.newxmp eps-flat_empty-noeol.eps
 Exit code: 0
 
 Command: (2) exiv2 -ix eps-flat_empty-noeol.eps
 Exit code: 0
 
-Command: (2) diff -q eps-flat_empty-noeol.eps.newxmp eps-flat_empty-noeol.eps
+Command: exiv2 -f -ex eps-flat_empty-noeol.eps
 Exit code: 0
+
+-----> eps-flat_empty-xmp.eps <-----
 
 Command: exiv2 -pp eps-flat_empty-xmp.eps
 Exit code: 0
@@ -80,20 +71,16 @@ Exit code: 253
 Command: exiv2 -f -eX eps-flat_empty-xmp.eps
 Exit code: 0
 
-Command: diff -q ../data/eps/eps-flat_empty-xmp.xmp eps-flat_empty-xmp.xmp
-Exit code: 0
-
 Command: exiv2 -ix eps-flat_empty-xmp.eps
-Exit code: 0
-
-Command: diff -q eps-flat_empty-xmp.eps.newxmp eps-flat_empty-xmp.eps
 Exit code: 0
 
 Command: (2) exiv2 -ix eps-flat_empty-xmp.eps
 Exit code: 0
 
-Command: (2) diff -q eps-flat_empty-xmp.eps.newxmp eps-flat_empty-xmp.eps
+Command: exiv2 -f -ex eps-flat_empty-xmp.eps
 Exit code: 0
+
+-----> eps-flat_empty.eps <-----
 
 Command: exiv2 -pp eps-flat_empty.eps
 Exit code: 0
@@ -104,51 +91,23 @@ Exit code: 253
 Command: exiv2 -f -eX eps-flat_empty.eps
 Exit code: 0
 
-Command: diff -q ../data/eps/eps-flat_empty.xmp eps-flat_empty.xmp
-Exit code: 0
-
 Command: exiv2 -ix eps-flat_empty.eps
-Exit code: 0
-
-Command: diff -q eps-flat_empty.eps.newxmp eps-flat_empty.eps
 Exit code: 0
 
 Command: (2) exiv2 -ix eps-flat_empty.eps
 Exit code: 0
 
-Command: (2) diff -q eps-flat_empty.eps.newxmp eps-flat_empty.eps
+Command: exiv2 -f -ex eps-flat_empty.eps
 Exit code: 0
+
+-----> eps-flat_inkscape-epsi.eps <-----
 
 Command: exiv2 -pp eps-flat_inkscape-epsi.eps
 Exiv2 exception in print action for file eps-flat_inkscape-epsi.eps:
 eps-flat_inkscape-epsi.eps: The file contains data of an unknown image type
 Exit code: 1
 
-Command: exiv2 -pa eps-flat_inkscape-epsi.eps
-Exiv2 exception in print action for file eps-flat_inkscape-epsi.eps:
-eps-flat_inkscape-epsi.eps: The file contains data of an unknown image type
-Exit code: 1
-
-Command: exiv2 -f -eX eps-flat_inkscape-epsi.eps
-Exiv2 exception in extract action for file eps-flat_inkscape-epsi.eps:
-eps-flat_inkscape-epsi.eps: The file contains data of an unknown image type
-Exit code: 1
-
-Command: exiv2 -ix eps-flat_inkscape-epsi.eps
-Exiv2 exception in insert action for file eps-flat_inkscape-epsi.eps:
-eps-flat_inkscape-epsi.eps: The file contains data of an unknown image type
-Exit code: 1
-
-Command: diff -q eps-flat_inkscape-epsi.eps.newxmp eps-flat_inkscape-epsi.eps
-Exit code: 0
-
-Command: (2) exiv2 -ix eps-flat_inkscape-epsi.eps
-Exiv2 exception in insert action for file eps-flat_inkscape-epsi.eps:
-eps-flat_inkscape-epsi.eps: The file contains data of an unknown image type
-Exit code: 1
-
-Command: (2) diff -q eps-flat_inkscape-epsi.eps.newxmp eps-flat_inkscape-epsi.eps
-Exit code: 0
+-----> eps-flat_inkscape.eps <-----
 
 Command: exiv2 -pp eps-flat_inkscape.eps
 Exit code: 0
@@ -159,20 +118,16 @@ Exit code: 253
 Command: exiv2 -f -eX eps-flat_inkscape.eps
 Exit code: 0
 
-Command: diff -q ../data/eps/eps-flat_inkscape.xmp eps-flat_inkscape.xmp
-Exit code: 0
-
 Command: exiv2 -ix eps-flat_inkscape.eps
-Exit code: 0
-
-Command: diff -q eps-flat_inkscape.eps.newxmp eps-flat_inkscape.eps
 Exit code: 0
 
 Command: (2) exiv2 -ix eps-flat_inkscape.eps
 Exit code: 0
 
-Command: (2) diff -q eps-flat_inkscape.eps.newxmp eps-flat_inkscape.eps
+Command: exiv2 -f -ex eps-flat_inkscape.eps
 Exit code: 0
+
+-----> eps-flat_minimal-eof.eps <-----
 
 Command: exiv2 -pp eps-flat_minimal-eof.eps
 Exit code: 0
@@ -183,20 +138,16 @@ Exit code: 253
 Command: exiv2 -f -eX eps-flat_minimal-eof.eps
 Exit code: 0
 
-Command: diff -q ../data/eps/eps-flat_minimal-eof.xmp eps-flat_minimal-eof.xmp
-Exit code: 0
-
 Command: exiv2 -ix eps-flat_minimal-eof.eps
-Exit code: 0
-
-Command: diff -q eps-flat_minimal-eof.eps.newxmp eps-flat_minimal-eof.eps
 Exit code: 0
 
 Command: (2) exiv2 -ix eps-flat_minimal-eof.eps
 Exit code: 0
 
-Command: (2) diff -q eps-flat_minimal-eof.eps.newxmp eps-flat_minimal-eof.eps
+Command: exiv2 -f -ex eps-flat_minimal-eof.eps
 Exit code: 0
+
+-----> eps-flat_minimal-noeol.eps <-----
 
 Command: exiv2 -pp eps-flat_minimal-noeol.eps
 Exit code: 0
@@ -207,20 +158,16 @@ Exit code: 253
 Command: exiv2 -f -eX eps-flat_minimal-noeol.eps
 Exit code: 0
 
-Command: diff -q ../data/eps/eps-flat_minimal-noeol.xmp eps-flat_minimal-noeol.xmp
-Exit code: 0
-
 Command: exiv2 -ix eps-flat_minimal-noeol.eps
-Exit code: 0
-
-Command: diff -q eps-flat_minimal-noeol.eps.newxmp eps-flat_minimal-noeol.eps
 Exit code: 0
 
 Command: (2) exiv2 -ix eps-flat_minimal-noeol.eps
 Exit code: 0
 
-Command: (2) diff -q eps-flat_minimal-noeol.eps.newxmp eps-flat_minimal-noeol.eps
+Command: exiv2 -f -ex eps-flat_minimal-noeol.eps
 Exit code: 0
+
+-----> eps-flat_minimal.eps <-----
 
 Command: exiv2 -pp eps-flat_minimal.eps
 Exit code: 0
@@ -231,20 +178,16 @@ Exit code: 253
 Command: exiv2 -f -eX eps-flat_minimal.eps
 Exit code: 0
 
-Command: diff -q ../data/eps/eps-flat_minimal.xmp eps-flat_minimal.xmp
-Exit code: 0
-
 Command: exiv2 -ix eps-flat_minimal.eps
-Exit code: 0
-
-Command: diff -q eps-flat_minimal.eps.newxmp eps-flat_minimal.eps
 Exit code: 0
 
 Command: (2) exiv2 -ix eps-flat_minimal.eps
 Exit code: 0
 
-Command: (2) diff -q eps-flat_minimal.eps.newxmp eps-flat_minimal.eps
+Command: exiv2 -f -ex eps-flat_minimal.eps
 Exit code: 0
+
+-----> eps-flat_minimal_exiftool-8.56.eps <-----
 
 Command: exiv2 -pp eps-flat_minimal_exiftool-8.56.eps
 Exit code: 0
@@ -256,20 +199,16 @@ Exit code: 253
 Command: exiv2 -f -eX eps-flat_minimal_exiftool-8.56.eps
 Exit code: 0
 
-Command: diff -q ../data/eps/eps-flat_minimal_exiftool-8.56.xmp eps-flat_minimal_exiftool-8.56.xmp
-Exit code: 0
-
 Command: exiv2 -ix eps-flat_minimal_exiftool-8.56.eps
-Exit code: 0
-
-Command: diff -q eps-flat_minimal_exiftool-8.56.eps.newxmp eps-flat_minimal_exiftool-8.56.eps
 Exit code: 0
 
 Command: (2) exiv2 -ix eps-flat_minimal_exiftool-8.56.eps
 Exit code: 0
 
-Command: (2) diff -q eps-flat_minimal_exiftool-8.56.eps.newxmp eps-flat_minimal_exiftool-8.56.eps
+Command: exiv2 -f -ex eps-flat_minimal_exiftool-8.56.eps
 Exit code: 0
+
+-----> eps-flat_minimal_xmp-singlequote-begin.eps <-----
 
 Command: exiv2 -pp eps-flat_minimal_xmp-singlequote-begin.eps
 Exit code: 0
@@ -281,20 +220,16 @@ Exit code: 253
 Command: exiv2 -f -eX eps-flat_minimal_xmp-singlequote-begin.eps
 Exit code: 0
 
-Command: diff -q ../data/eps/eps-flat_minimal_xmp-singlequote-begin.xmp eps-flat_minimal_xmp-singlequote-begin.xmp
-Exit code: 0
-
 Command: exiv2 -ix eps-flat_minimal_xmp-singlequote-begin.eps
-Exit code: 0
-
-Command: diff -q eps-flat_minimal_xmp-singlequote-begin.eps.newxmp eps-flat_minimal_xmp-singlequote-begin.eps
 Exit code: 0
 
 Command: (2) exiv2 -ix eps-flat_minimal_xmp-singlequote-begin.eps
 Exit code: 0
 
-Command: (2) diff -q eps-flat_minimal_xmp-singlequote-begin.eps.newxmp eps-flat_minimal_xmp-singlequote-begin.eps
+Command: exiv2 -f -ex eps-flat_minimal_xmp-singlequote-begin.eps
 Exit code: 0
+
+-----> eps-flat_minimal_xmp-singlequote-end.eps <-----
 
 Command: exiv2 -pp eps-flat_minimal_xmp-singlequote-end.eps
 Exit code: 0
@@ -306,20 +241,16 @@ Exit code: 253
 Command: exiv2 -f -eX eps-flat_minimal_xmp-singlequote-end.eps
 Exit code: 0
 
-Command: diff -q ../data/eps/eps-flat_minimal_xmp-singlequote-end.xmp eps-flat_minimal_xmp-singlequote-end.xmp
-Exit code: 0
-
 Command: exiv2 -ix eps-flat_minimal_xmp-singlequote-end.eps
-Exit code: 0
-
-Command: diff -q eps-flat_minimal_xmp-singlequote-end.eps.newxmp eps-flat_minimal_xmp-singlequote-end.eps
 Exit code: 0
 
 Command: (2) exiv2 -ix eps-flat_minimal_xmp-singlequote-end.eps
 Exit code: 0
 
-Command: (2) diff -q eps-flat_minimal_xmp-singlequote-end.eps.newxmp eps-flat_minimal_xmp-singlequote-end.eps
+Command: exiv2 -f -ex eps-flat_minimal_xmp-singlequote-end.eps
 Exit code: 0
+
+-----> eps-flat_minimal_xmp-singlequote-id.eps <-----
 
 Command: exiv2 -pp eps-flat_minimal_xmp-singlequote-id.eps
 Exit code: 0
@@ -331,20 +262,16 @@ Exit code: 253
 Command: exiv2 -f -eX eps-flat_minimal_xmp-singlequote-id.eps
 Exit code: 0
 
-Command: diff -q ../data/eps/eps-flat_minimal_xmp-singlequote-id.xmp eps-flat_minimal_xmp-singlequote-id.xmp
-Exit code: 0
-
 Command: exiv2 -ix eps-flat_minimal_xmp-singlequote-id.eps
-Exit code: 0
-
-Command: diff -q eps-flat_minimal_xmp-singlequote-id.eps.newxmp eps-flat_minimal_xmp-singlequote-id.eps
 Exit code: 0
 
 Command: (2) exiv2 -ix eps-flat_minimal_xmp-singlequote-id.eps
 Exit code: 0
 
-Command: (2) diff -q eps-flat_minimal_xmp-singlequote-id.eps.newxmp eps-flat_minimal_xmp-singlequote-id.eps
+Command: exiv2 -f -ex eps-flat_minimal_xmp-singlequote-id.eps
 Exit code: 0
+
+-----> eps-flat_minimal_xmp.eps <-----
 
 Command: exiv2 -pp eps-flat_minimal_xmp.eps
 Exit code: 0
@@ -356,20 +283,16 @@ Exit code: 253
 Command: exiv2 -f -eX eps-flat_minimal_xmp.eps
 Exit code: 0
 
-Command: diff -q ../data/eps/eps-flat_minimal_xmp.xmp eps-flat_minimal_xmp.xmp
-Exit code: 0
-
 Command: exiv2 -ix eps-flat_minimal_xmp.eps
-Exit code: 0
-
-Command: diff -q eps-flat_minimal_xmp.eps.newxmp eps-flat_minimal_xmp.eps
 Exit code: 0
 
 Command: (2) exiv2 -ix eps-flat_minimal_xmp.eps
 Exit code: 0
 
-Command: (2) diff -q eps-flat_minimal_xmp.eps.newxmp eps-flat_minimal_xmp.eps
+Command: exiv2 -f -ex eps-flat_minimal_xmp.eps
 Exit code: 0
+
+-----> eps-flat_minimal_xmp_exiftool-8.56.eps <-----
 
 Command: exiv2 -pp eps-flat_minimal_xmp_exiftool-8.56.eps
 Warning: Page at position 3906 conflicts with implicit page at position: 182
@@ -377,35 +300,7 @@ Exiv2 exception in print action for file eps-flat_minimal_xmp_exiftool-8.56.eps:
 Failed to read image data
 Exit code: 1
 
-Command: exiv2 -pa eps-flat_minimal_xmp_exiftool-8.56.eps
-Warning: Page at position 3906 conflicts with implicit page at position: 182
-Exiv2 exception in print action for file eps-flat_minimal_xmp_exiftool-8.56.eps:
-Failed to read image data
-Exit code: 1
-
-Command: exiv2 -f -eX eps-flat_minimal_xmp_exiftool-8.56.eps
-Warning: Page at position 3906 conflicts with implicit page at position: 182
-Exiv2 exception in extract action for file eps-flat_minimal_xmp_exiftool-8.56.eps:
-Failed to read image data
-Exit code: 1
-
-Command: exiv2 -ix eps-flat_minimal_xmp_exiftool-8.56.eps
-Warning: Page at position 3906 conflicts with implicit page at position: 182
-Exiv2 exception in insert action for file eps-flat_minimal_xmp_exiftool-8.56.eps:
-Failed to read image data
-Exit code: 1
-
-Command: diff -q eps-flat_minimal_xmp_exiftool-8.56.eps.newxmp eps-flat_minimal_xmp_exiftool-8.56.eps
-Exit code: 0
-
-Command: (2) exiv2 -ix eps-flat_minimal_xmp_exiftool-8.56.eps
-Warning: Page at position 3906 conflicts with implicit page at position: 182
-Exiv2 exception in insert action for file eps-flat_minimal_xmp_exiftool-8.56.eps:
-Failed to read image data
-Exit code: 1
-
-Command: (2) diff -q eps-flat_minimal_xmp_exiftool-8.56.eps.newxmp eps-flat_minimal_xmp_exiftool-8.56.eps
-Exit code: 0
+-----> eps-flat_minimal_xmp_exiftool-8.56_fixed.eps <-----
 
 Command: exiv2 -pp eps-flat_minimal_xmp_exiftool-8.56_fixed.eps
 Warning: Second XMP metadata block interferes at position: 849
@@ -420,26 +315,13 @@ Command: exiv2 -f -eX eps-flat_minimal_xmp_exiftool-8.56_fixed.eps
 Warning: Second XMP metadata block interferes at position: 849
 Exit code: 0
 
-Command: diff -q ../data/eps/eps-flat_minimal_xmp_exiftool-8.56_fixed.xmp eps-flat_minimal_xmp_exiftool-8.56_fixed.xmp
-Exit code: 0
-
 Command: exiv2 -ix eps-flat_minimal_xmp_exiftool-8.56_fixed.eps
 Warning: Second XMP metadata block interferes at position: 849
 Warning: Second XMP metadata block interferes at position: 849
 eps-flat_minimal_xmp_exiftool-8.56_fixed.eps: Could not write metadata to file: Failed to write image
-Exit code: 0
+Exit code: 1
 
-Command: diff -q eps-flat_minimal_xmp_exiftool-8.56_fixed.eps.newxmp eps-flat_minimal_xmp_exiftool-8.56_fixed.eps
-Exit code: 0
-
-Command: (2) exiv2 -ix eps-flat_minimal_xmp_exiftool-8.56_fixed.eps
-Warning: Second XMP metadata block interferes at position: 849
-Warning: Second XMP metadata block interferes at position: 849
-eps-flat_minimal_xmp_exiftool-8.56_fixed.eps: Could not write metadata to file: Failed to write image
-Exit code: 0
-
-Command: (2) diff -q eps-flat_minimal_xmp_exiftool-8.56_fixed.eps.newxmp eps-flat_minimal_xmp_exiftool-8.56_fixed.eps
-Exit code: 0
+-----> eps-flat_oodraw-lev1.eps <-----
 
 Command: exiv2 -pp eps-flat_oodraw-lev1.eps
 Exit code: 0
@@ -450,20 +332,16 @@ Exit code: 253
 Command: exiv2 -f -eX eps-flat_oodraw-lev1.eps
 Exit code: 0
 
-Command: diff -q ../data/eps/eps-flat_oodraw-lev1.xmp eps-flat_oodraw-lev1.xmp
-Exit code: 0
-
 Command: exiv2 -ix eps-flat_oodraw-lev1.eps
-Exit code: 0
-
-Command: diff -q eps-flat_oodraw-lev1.eps.newxmp eps-flat_oodraw-lev1.eps
 Exit code: 0
 
 Command: (2) exiv2 -ix eps-flat_oodraw-lev1.eps
 Exit code: 0
 
-Command: (2) diff -q eps-flat_oodraw-lev1.eps.newxmp eps-flat_oodraw-lev1.eps
+Command: exiv2 -f -ex eps-flat_oodraw-lev1.eps
 Exit code: 0
+
+-----> eps-flat_oodraw-lev2.eps <-----
 
 Command: exiv2 -pp eps-flat_oodraw-lev2.eps
 Exit code: 0
@@ -474,20 +352,16 @@ Exit code: 253
 Command: exiv2 -f -eX eps-flat_oodraw-lev2.eps
 Exit code: 0
 
-Command: diff -q ../data/eps/eps-flat_oodraw-lev2.xmp eps-flat_oodraw-lev2.xmp
-Exit code: 0
-
 Command: exiv2 -ix eps-flat_oodraw-lev2.eps
-Exit code: 0
-
-Command: diff -q eps-flat_oodraw-lev2.eps.newxmp eps-flat_oodraw-lev2.eps
 Exit code: 0
 
 Command: (2) exiv2 -ix eps-flat_oodraw-lev2.eps
 Exit code: 0
 
-Command: (2) diff -q eps-flat_oodraw-lev2.eps.newxmp eps-flat_oodraw-lev2.eps
+Command: exiv2 -f -ex eps-flat_oodraw-lev2.eps
 Exit code: 0
+
+-----> eps-flat_oodraw-lev2_eps2eps.eps <-----
 
 Command: exiv2 -pp eps-flat_oodraw-lev2_eps2eps.eps
 Exit code: 0
@@ -498,20 +372,16 @@ Exit code: 253
 Command: exiv2 -f -eX eps-flat_oodraw-lev2_eps2eps.eps
 Exit code: 0
 
-Command: diff -q ../data/eps/eps-flat_oodraw-lev2_eps2eps.xmp eps-flat_oodraw-lev2_eps2eps.xmp
-Exit code: 0
-
 Command: exiv2 -ix eps-flat_oodraw-lev2_eps2eps.eps
-Exit code: 0
-
-Command: diff -q eps-flat_oodraw-lev2_eps2eps.eps.newxmp eps-flat_oodraw-lev2_eps2eps.eps
 Exit code: 0
 
 Command: (2) exiv2 -ix eps-flat_oodraw-lev2_eps2eps.eps
 Exit code: 0
 
-Command: (2) diff -q eps-flat_oodraw-lev2_eps2eps.eps.newxmp eps-flat_oodraw-lev2_eps2eps.eps
+Command: exiv2 -f -ex eps-flat_oodraw-lev2_eps2eps.eps
 Exit code: 0
+
+-----> eps-flat_oodraw_ai-10-lev2.eps <-----
 
 Command: exiv2 -pp eps-flat_oodraw_ai-10-lev2.eps
 Exit code: 0
@@ -656,20 +526,16 @@ Exit code: 253
 Command: exiv2 -f -eX eps-flat_oodraw_ai-10-lev2.eps
 Exit code: 0
 
-Command: diff -q ../data/eps/eps-flat_oodraw_ai-10-lev2.xmp eps-flat_oodraw_ai-10-lev2.xmp
-Exit code: 0
-
 Command: exiv2 -ix eps-flat_oodraw_ai-10-lev2.eps
-Exit code: 0
-
-Command: diff -q eps-flat_oodraw_ai-10-lev2.eps.newxmp eps-flat_oodraw_ai-10-lev2.eps
 Exit code: 0
 
 Command: (2) exiv2 -ix eps-flat_oodraw_ai-10-lev2.eps
 Exit code: 0
 
-Command: (2) diff -q eps-flat_oodraw_ai-10-lev2.eps.newxmp eps-flat_oodraw_ai-10-lev2.eps
+Command: exiv2 -f -ex eps-flat_oodraw_ai-10-lev2.eps
 Exit code: 0
+
+-----> eps-flat_oodraw_ai-3-lev2.eps <-----
 
 Command: exiv2 -pp eps-flat_oodraw_ai-3-lev2.eps
 Exit code: 0
@@ -680,20 +546,16 @@ Exit code: 253
 Command: exiv2 -f -eX eps-flat_oodraw_ai-3-lev2.eps
 Exit code: 0
 
-Command: diff -q ../data/eps/eps-flat_oodraw_ai-3-lev2.xmp eps-flat_oodraw_ai-3-lev2.xmp
-Exit code: 0
-
 Command: exiv2 -ix eps-flat_oodraw_ai-3-lev2.eps
-Exit code: 0
-
-Command: diff -q eps-flat_oodraw_ai-3-lev2.eps.newxmp eps-flat_oodraw_ai-3-lev2.eps
 Exit code: 0
 
 Command: (2) exiv2 -ix eps-flat_oodraw_ai-3-lev2.eps
 Exit code: 0
 
-Command: (2) diff -q eps-flat_oodraw_ai-3-lev2.eps.newxmp eps-flat_oodraw_ai-3-lev2.eps
+Command: exiv2 -f -ex eps-flat_oodraw_ai-3-lev2.eps
 Exit code: 0
+
+-----> eps-flat_oodraw_ai-3-lev3.eps <-----
 
 Command: exiv2 -pp eps-flat_oodraw_ai-3-lev3.eps
 Exit code: 0
@@ -704,20 +566,16 @@ Exit code: 253
 Command: exiv2 -f -eX eps-flat_oodraw_ai-3-lev3.eps
 Exit code: 0
 
-Command: diff -q ../data/eps/eps-flat_oodraw_ai-3-lev3.xmp eps-flat_oodraw_ai-3-lev3.xmp
-Exit code: 0
-
 Command: exiv2 -ix eps-flat_oodraw_ai-3-lev3.eps
-Exit code: 0
-
-Command: diff -q eps-flat_oodraw_ai-3-lev3.eps.newxmp eps-flat_oodraw_ai-3-lev3.eps
 Exit code: 0
 
 Command: (2) exiv2 -ix eps-flat_oodraw_ai-3-lev3.eps
 Exit code: 0
 
-Command: (2) diff -q eps-flat_oodraw_ai-3-lev3.eps.newxmp eps-flat_oodraw_ai-3-lev3.eps
+Command: exiv2 -f -ex eps-flat_oodraw_ai-3-lev3.eps
 Exit code: 0
+
+-----> eps-flat_oodraw_ai-8-lev2.eps <-----
 
 Command: exiv2 -pp eps-flat_oodraw_ai-8-lev2.eps
 Exit code: 0
@@ -874,20 +732,16 @@ Exit code: 253
 Command: exiv2 -f -eX eps-flat_oodraw_ai-8-lev2.eps
 Exit code: 0
 
-Command: diff -q ../data/eps/eps-flat_oodraw_ai-8-lev2.xmp eps-flat_oodraw_ai-8-lev2.xmp
-Exit code: 0
-
 Command: exiv2 -ix eps-flat_oodraw_ai-8-lev2.eps
-Exit code: 0
-
-Command: diff -q eps-flat_oodraw_ai-8-lev2.eps.newxmp eps-flat_oodraw_ai-8-lev2.eps
 Exit code: 0
 
 Command: (2) exiv2 -ix eps-flat_oodraw_ai-8-lev2.eps
 Exit code: 0
 
-Command: (2) diff -q eps-flat_oodraw_ai-8-lev2.eps.newxmp eps-flat_oodraw_ai-8-lev2.eps
+Command: exiv2 -f -ex eps-flat_oodraw_ai-8-lev2.eps
 Exit code: 0
+
+-----> eps-flat_oodraw_ai-8-lev3.eps <-----
 
 Command: exiv2 -pp eps-flat_oodraw_ai-8-lev3.eps
 Exit code: 0
@@ -898,20 +752,16 @@ Exit code: 253
 Command: exiv2 -f -eX eps-flat_oodraw_ai-8-lev3.eps
 Exit code: 0
 
-Command: diff -q ../data/eps/eps-flat_oodraw_ai-8-lev3.xmp eps-flat_oodraw_ai-8-lev3.xmp
-Exit code: 0
-
 Command: exiv2 -ix eps-flat_oodraw_ai-8-lev3.eps
-Exit code: 0
-
-Command: diff -q eps-flat_oodraw_ai-8-lev3.eps.newxmp eps-flat_oodraw_ai-8-lev3.eps
 Exit code: 0
 
 Command: (2) exiv2 -ix eps-flat_oodraw_ai-8-lev3.eps
 Exit code: 0
 
-Command: (2) diff -q eps-flat_oodraw_ai-8-lev3.eps.newxmp eps-flat_oodraw_ai-8-lev3.eps
+Command: exiv2 -f -ex eps-flat_oodraw_ai-8-lev3.eps
 Exit code: 0
+
+-----> eps-flat_oodraw_ai-9-lev2.eps <-----
 
 Command: exiv2 -pp eps-flat_oodraw_ai-9-lev2.eps
 Exit code: 0
@@ -1062,20 +912,16 @@ Exit code: 253
 Command: exiv2 -f -eX eps-flat_oodraw_ai-9-lev2.eps
 Exit code: 0
 
-Command: diff -q ../data/eps/eps-flat_oodraw_ai-9-lev2.xmp eps-flat_oodraw_ai-9-lev2.xmp
-Exit code: 0
-
 Command: exiv2 -ix eps-flat_oodraw_ai-9-lev2.eps
-Exit code: 0
-
-Command: diff -q eps-flat_oodraw_ai-9-lev2.eps.newxmp eps-flat_oodraw_ai-9-lev2.eps
 Exit code: 0
 
 Command: (2) exiv2 -ix eps-flat_oodraw_ai-9-lev2.eps
 Exit code: 0
 
-Command: (2) diff -q eps-flat_oodraw_ai-9-lev2.eps.newxmp eps-flat_oodraw_ai-9-lev2.eps
+Command: exiv2 -f -ex eps-flat_oodraw_ai-9-lev2.eps
 Exit code: 0
+
+-----> eps-flat_oodraw_ai-cs-lev2.eps <-----
 
 Command: exiv2 -pp eps-flat_oodraw_ai-cs-lev2.eps
 Exit code: 0
@@ -1214,20 +1060,16 @@ Exit code: 253
 Command: exiv2 -f -eX eps-flat_oodraw_ai-cs-lev2.eps
 Exit code: 0
 
-Command: diff -q ../data/eps/eps-flat_oodraw_ai-cs-lev2.xmp eps-flat_oodraw_ai-cs-lev2.xmp
-Exit code: 0
-
 Command: exiv2 -ix eps-flat_oodraw_ai-cs-lev2.eps
-Exit code: 0
-
-Command: diff -q eps-flat_oodraw_ai-cs-lev2.eps.newxmp eps-flat_oodraw_ai-cs-lev2.eps
 Exit code: 0
 
 Command: (2) exiv2 -ix eps-flat_oodraw_ai-cs-lev2.eps
 Exit code: 0
 
-Command: (2) diff -q eps-flat_oodraw_ai-cs-lev2.eps.newxmp eps-flat_oodraw_ai-cs-lev2.eps
+Command: exiv2 -f -ex eps-flat_oodraw_ai-cs-lev2.eps
 Exit code: 0
+
+-----> eps-flat_oodraw_ai-cs2-lev2.eps <-----
 
 Command: exiv2 -pp eps-flat_oodraw_ai-cs2-lev2.eps
 Exit code: 0
@@ -1360,20 +1202,16 @@ Exit code: 253
 Command: exiv2 -f -eX eps-flat_oodraw_ai-cs2-lev2.eps
 Exit code: 0
 
-Command: diff -q ../data/eps/eps-flat_oodraw_ai-cs2-lev2.xmp eps-flat_oodraw_ai-cs2-lev2.xmp
-Exit code: 0
-
 Command: exiv2 -ix eps-flat_oodraw_ai-cs2-lev2.eps
-Exit code: 0
-
-Command: diff -q eps-flat_oodraw_ai-cs2-lev2.eps.newxmp eps-flat_oodraw_ai-cs2-lev2.eps
 Exit code: 0
 
 Command: (2) exiv2 -ix eps-flat_oodraw_ai-cs2-lev2.eps
 Exit code: 0
 
-Command: (2) diff -q eps-flat_oodraw_ai-cs2-lev2.eps.newxmp eps-flat_oodraw_ai-cs2-lev2.eps
+Command: exiv2 -f -ex eps-flat_oodraw_ai-cs2-lev2.eps
 Exit code: 0
+
+-----> eps-flat_oodraw_ai-cs3-lev2.eps <-----
 
 Command: exiv2 -pp eps-flat_oodraw_ai-cs3-lev2.eps
 Exit code: 0
@@ -1500,20 +1338,16 @@ Exit code: 253
 Command: exiv2 -f -eX eps-flat_oodraw_ai-cs3-lev2.eps
 Exit code: 0
 
-Command: diff -q ../data/eps/eps-flat_oodraw_ai-cs3-lev2.xmp eps-flat_oodraw_ai-cs3-lev2.xmp
-Exit code: 0
-
 Command: exiv2 -ix eps-flat_oodraw_ai-cs3-lev2.eps
-Exit code: 0
-
-Command: diff -q eps-flat_oodraw_ai-cs3-lev2.eps.newxmp eps-flat_oodraw_ai-cs3-lev2.eps
 Exit code: 0
 
 Command: (2) exiv2 -ix eps-flat_oodraw_ai-cs3-lev2.eps
 Exit code: 0
 
-Command: (2) diff -q eps-flat_oodraw_ai-cs3-lev2.eps.newxmp eps-flat_oodraw_ai-cs3-lev2.eps
+Command: exiv2 -f -ex eps-flat_oodraw_ai-cs3-lev2.eps
 Exit code: 0
+
+-----> eps-flat_oodraw_ai-cs4-lev2.eps <-----
 
 Command: exiv2 -pp eps-flat_oodraw_ai-cs4-lev2.eps
 Exit code: 0
@@ -1634,20 +1468,16 @@ Exit code: 253
 Command: exiv2 -f -eX eps-flat_oodraw_ai-cs4-lev2.eps
 Exit code: 0
 
-Command: diff -q ../data/eps/eps-flat_oodraw_ai-cs4-lev2.xmp eps-flat_oodraw_ai-cs4-lev2.xmp
-Exit code: 0
-
 Command: exiv2 -ix eps-flat_oodraw_ai-cs4-lev2.eps
-Exit code: 0
-
-Command: diff -q eps-flat_oodraw_ai-cs4-lev2.eps.newxmp eps-flat_oodraw_ai-cs4-lev2.eps
 Exit code: 0
 
 Command: (2) exiv2 -ix eps-flat_oodraw_ai-cs4-lev2.eps
 Exit code: 0
 
-Command: (2) diff -q eps-flat_oodraw_ai-cs4-lev2.eps.newxmp eps-flat_oodraw_ai-cs4-lev2.eps
+Command: exiv2 -f -ex eps-flat_oodraw_ai-cs4-lev2.eps
 Exit code: 0
+
+-----> eps-flat_oodraw_ai-cs5-lev2.eps <-----
 
 Command: exiv2 -pp eps-flat_oodraw_ai-cs5-lev2.eps
 Exit code: 0
@@ -1734,20 +1564,16 @@ Exit code: 253
 Command: exiv2 -f -eX eps-flat_oodraw_ai-cs5-lev2.eps
 Exit code: 0
 
-Command: diff -q ../data/eps/eps-flat_oodraw_ai-cs5-lev2.xmp eps-flat_oodraw_ai-cs5-lev2.xmp
-Exit code: 0
-
 Command: exiv2 -ix eps-flat_oodraw_ai-cs5-lev2.eps
-Exit code: 0
-
-Command: diff -q eps-flat_oodraw_ai-cs5-lev2.eps.newxmp eps-flat_oodraw_ai-cs5-lev2.eps
 Exit code: 0
 
 Command: (2) exiv2 -ix eps-flat_oodraw_ai-cs5-lev2.eps
 Exit code: 0
 
-Command: (2) diff -q eps-flat_oodraw_ai-cs5-lev2.eps.newxmp eps-flat_oodraw_ai-cs5-lev2.eps
+Command: exiv2 -f -ex eps-flat_oodraw_ai-cs5-lev2.eps
 Exit code: 0
+
+-----> eps-flat_oodraw_ai-cs5-lev3-nodocthumb.eps <-----
 
 Command: exiv2 -pp eps-flat_oodraw_ai-cs5-lev3-nodocthumb.eps
 Exit code: 0
@@ -1856,51 +1682,23 @@ Exit code: 253
 Command: exiv2 -f -eX eps-flat_oodraw_ai-cs5-lev3-nodocthumb.eps
 Exit code: 0
 
-Command: diff -q ../data/eps/eps-flat_oodraw_ai-cs5-lev3-nodocthumb.xmp eps-flat_oodraw_ai-cs5-lev3-nodocthumb.xmp
-Exit code: 0
-
 Command: exiv2 -ix eps-flat_oodraw_ai-cs5-lev3-nodocthumb.eps
-Exit code: 0
-
-Command: diff -q eps-flat_oodraw_ai-cs5-lev3-nodocthumb.eps.newxmp eps-flat_oodraw_ai-cs5-lev3-nodocthumb.eps
 Exit code: 0
 
 Command: (2) exiv2 -ix eps-flat_oodraw_ai-cs5-lev3-nodocthumb.eps
 Exit code: 0
 
-Command: (2) diff -q eps-flat_oodraw_ai-cs5-lev3-nodocthumb.eps.newxmp eps-flat_oodraw_ai-cs5-lev3-nodocthumb.eps
+Command: exiv2 -f -ex eps-flat_oodraw_ai-cs5-lev3-nodocthumb.eps
 Exit code: 0
+
+-----> eps-flat_oodraw_ai-cs5-lev3-preview.eps <-----
 
 Command: exiv2 -pp eps-flat_oodraw_ai-cs5-lev3-preview.eps
 Exiv2 exception in print action for file eps-flat_oodraw_ai-cs5-lev3-preview.eps:
 This does not look like a EPS image
 Exit code: 1
 
-Command: exiv2 -pa eps-flat_oodraw_ai-cs5-lev3-preview.eps
-Exiv2 exception in print action for file eps-flat_oodraw_ai-cs5-lev3-preview.eps:
-This does not look like a EPS image
-Exit code: 1
-
-Command: exiv2 -f -eX eps-flat_oodraw_ai-cs5-lev3-preview.eps
-Exiv2 exception in extract action for file eps-flat_oodraw_ai-cs5-lev3-preview.eps:
-This does not look like a EPS image
-Exit code: 1
-
-Command: exiv2 -ix eps-flat_oodraw_ai-cs5-lev3-preview.eps
-Exiv2 exception in insert action for file eps-flat_oodraw_ai-cs5-lev3-preview.eps:
-This does not look like a EPS image
-Exit code: 1
-
-Command: diff -q eps-flat_oodraw_ai-cs5-lev3-preview.eps.newxmp eps-flat_oodraw_ai-cs5-lev3-preview.eps
-Exit code: 0
-
-Command: (2) exiv2 -ix eps-flat_oodraw_ai-cs5-lev3-preview.eps
-Exiv2 exception in insert action for file eps-flat_oodraw_ai-cs5-lev3-preview.eps:
-This does not look like a EPS image
-Exit code: 1
-
-Command: (2) diff -q eps-flat_oodraw_ai-cs5-lev3-preview.eps.newxmp eps-flat_oodraw_ai-cs5-lev3-preview.eps
-Exit code: 0
+-----> eps-flat_oodraw_ai-cs5-lev3.eps <-----
 
 Command: exiv2 -pp eps-flat_oodraw_ai-cs5-lev3.eps
 Exit code: 0
@@ -2000,20 +1798,16 @@ Exit code: 253
 Command: exiv2 -f -eX eps-flat_oodraw_ai-cs5-lev3.eps
 Exit code: 0
 
-Command: diff -q ../data/eps/eps-flat_oodraw_ai-cs5-lev3.xmp eps-flat_oodraw_ai-cs5-lev3.xmp
-Exit code: 0
-
 Command: exiv2 -ix eps-flat_oodraw_ai-cs5-lev3.eps
-Exit code: 0
-
-Command: diff -q eps-flat_oodraw_ai-cs5-lev3.eps.newxmp eps-flat_oodraw_ai-cs5-lev3.eps
 Exit code: 0
 
 Command: (2) exiv2 -ix eps-flat_oodraw_ai-cs5-lev3.eps
 Exit code: 0
 
-Command: (2) diff -q eps-flat_oodraw_ai-cs5-lev3.eps.newxmp eps-flat_oodraw_ai-cs5-lev3.eps
+Command: exiv2 -f -ex eps-flat_oodraw_ai-cs5-lev3.eps
 Exit code: 0
+
+-----> eps-flat_photoshop-cs5-ascii-colorprofile.eps <-----
 
 Command: exiv2 -pp eps-flat_photoshop-cs5-ascii-colorprofile.eps
 Exit code: 0
@@ -2052,20 +1846,16 @@ Exit code: 253
 Command: exiv2 -f -eX eps-flat_photoshop-cs5-ascii-colorprofile.eps
 Exit code: 0
 
-Command: diff -q ../data/eps/eps-flat_photoshop-cs5-ascii-colorprofile.xmp eps-flat_photoshop-cs5-ascii-colorprofile.xmp
-Exit code: 0
-
 Command: exiv2 -ix eps-flat_photoshop-cs5-ascii-colorprofile.eps
-Exit code: 0
-
-Command: diff -q eps-flat_photoshop-cs5-ascii-colorprofile.eps.newxmp eps-flat_photoshop-cs5-ascii-colorprofile.eps
 Exit code: 0
 
 Command: (2) exiv2 -ix eps-flat_photoshop-cs5-ascii-colorprofile.eps
 Exit code: 0
 
-Command: (2) diff -q eps-flat_photoshop-cs5-ascii-colorprofile.eps.newxmp eps-flat_photoshop-cs5-ascii-colorprofile.eps
+Command: exiv2 -f -ex eps-flat_photoshop-cs5-ascii-colorprofile.eps
 Exit code: 0
+
+-----> eps-flat_photoshop-cs5-ascii-preview.eps <-----
 
 Command: exiv2 -pp eps-flat_photoshop-cs5-ascii-preview.eps
 Exit code: 0
@@ -2127,20 +1917,16 @@ Exit code: 253
 Command: exiv2 -f -eX eps-flat_photoshop-cs5-ascii-preview.eps
 Exit code: 0
 
-Command: diff -q ../data/eps/eps-flat_photoshop-cs5-ascii-preview.xmp eps-flat_photoshop-cs5-ascii-preview.xmp
-Exit code: 0
-
 Command: exiv2 -ix eps-flat_photoshop-cs5-ascii-preview.eps
-Exit code: 0
-
-Command: diff -q eps-flat_photoshop-cs5-ascii-preview.eps.newxmp eps-flat_photoshop-cs5-ascii-preview.eps
 Exit code: 0
 
 Command: (2) exiv2 -ix eps-flat_photoshop-cs5-ascii-preview.eps
 Exit code: 0
 
-Command: (2) diff -q eps-flat_photoshop-cs5-ascii-preview.eps.newxmp eps-flat_photoshop-cs5-ascii-preview.eps
+Command: exiv2 -f -ex eps-flat_photoshop-cs5-ascii-preview.eps
 Exit code: 0
+
+-----> eps-flat_photoshop-cs5-ascii.eps <-----
 
 Command: exiv2 -pp eps-flat_photoshop-cs5-ascii.eps
 Exit code: 0
@@ -2190,20 +1976,16 @@ Exit code: 253
 Command: exiv2 -f -eX eps-flat_photoshop-cs5-ascii.eps
 Exit code: 0
 
-Command: diff -q ../data/eps/eps-flat_photoshop-cs5-ascii.xmp eps-flat_photoshop-cs5-ascii.xmp
-Exit code: 0
-
 Command: exiv2 -ix eps-flat_photoshop-cs5-ascii.eps
-Exit code: 0
-
-Command: diff -q eps-flat_photoshop-cs5-ascii.eps.newxmp eps-flat_photoshop-cs5-ascii.eps
 Exit code: 0
 
 Command: (2) exiv2 -ix eps-flat_photoshop-cs5-ascii.eps
 Exit code: 0
 
-Command: (2) diff -q eps-flat_photoshop-cs5-ascii.eps.newxmp eps-flat_photoshop-cs5-ascii.eps
+Command: exiv2 -f -ex eps-flat_photoshop-cs5-ascii.eps
 Exit code: 0
+
+-----> eps-flat_photoshop-cs5-ascii85-preview.eps <-----
 
 Command: exiv2 -pp eps-flat_photoshop-cs5-ascii85-preview.eps
 Exit code: 0
@@ -2313,20 +2095,16 @@ Exit code: 253
 Command: exiv2 -f -eX eps-flat_photoshop-cs5-ascii85-preview.eps
 Exit code: 0
 
-Command: diff -q ../data/eps/eps-flat_photoshop-cs5-ascii85-preview.xmp eps-flat_photoshop-cs5-ascii85-preview.xmp
-Exit code: 0
-
 Command: exiv2 -ix eps-flat_photoshop-cs5-ascii85-preview.eps
-Exit code: 0
-
-Command: diff -q eps-flat_photoshop-cs5-ascii85-preview.eps.newxmp eps-flat_photoshop-cs5-ascii85-preview.eps
 Exit code: 0
 
 Command: (2) exiv2 -ix eps-flat_photoshop-cs5-ascii85-preview.eps
 Exit code: 0
 
-Command: (2) diff -q eps-flat_photoshop-cs5-ascii85-preview.eps.newxmp eps-flat_photoshop-cs5-ascii85-preview.eps
+Command: exiv2 -f -ex eps-flat_photoshop-cs5-ascii85-preview.eps
 Exit code: 0
+
+-----> eps-flat_photoshop-cs5-ascii85.eps <-----
 
 Command: exiv2 -pp eps-flat_photoshop-cs5-ascii85.eps
 Exit code: 0
@@ -2424,20 +2202,16 @@ Exit code: 253
 Command: exiv2 -f -eX eps-flat_photoshop-cs5-ascii85.eps
 Exit code: 0
 
-Command: diff -q ../data/eps/eps-flat_photoshop-cs5-ascii85.xmp eps-flat_photoshop-cs5-ascii85.xmp
-Exit code: 0
-
 Command: exiv2 -ix eps-flat_photoshop-cs5-ascii85.eps
-Exit code: 0
-
-Command: diff -q eps-flat_photoshop-cs5-ascii85.eps.newxmp eps-flat_photoshop-cs5-ascii85.eps
 Exit code: 0
 
 Command: (2) exiv2 -ix eps-flat_photoshop-cs5-ascii85.eps
 Exit code: 0
 
-Command: (2) diff -q eps-flat_photoshop-cs5-ascii85.eps.newxmp eps-flat_photoshop-cs5-ascii85.eps
+Command: exiv2 -f -ex eps-flat_photoshop-cs5-ascii85.eps
 Exit code: 0
+
+-----> eps-flat_photoshop-cs5-ascii_failure-bigxmp.eps <-----
 
 Command: exiv2 -pp eps-flat_photoshop-cs5-ascii_failure-bigxmp.eps
 Warning: Unable to find XMP metadata as announced at position: 291
@@ -2445,35 +2219,7 @@ Exiv2 exception in print action for file eps-flat_photoshop-cs5-ascii_failure-bi
 Failed to read image data
 Exit code: 1
 
-Command: exiv2 -pa eps-flat_photoshop-cs5-ascii_failure-bigxmp.eps
-Warning: Unable to find XMP metadata as announced at position: 291
-Exiv2 exception in print action for file eps-flat_photoshop-cs5-ascii_failure-bigxmp.eps:
-Failed to read image data
-Exit code: 1
-
-Command: exiv2 -f -eX eps-flat_photoshop-cs5-ascii_failure-bigxmp.eps
-Warning: Unable to find XMP metadata as announced at position: 291
-Exiv2 exception in extract action for file eps-flat_photoshop-cs5-ascii_failure-bigxmp.eps:
-Failed to read image data
-Exit code: 1
-
-Command: exiv2 -ix eps-flat_photoshop-cs5-ascii_failure-bigxmp.eps
-Warning: Unable to find XMP metadata as announced at position: 291
-Exiv2 exception in insert action for file eps-flat_photoshop-cs5-ascii_failure-bigxmp.eps:
-Failed to read image data
-Exit code: 1
-
-Command: diff -q eps-flat_photoshop-cs5-ascii_failure-bigxmp.eps.newxmp eps-flat_photoshop-cs5-ascii_failure-bigxmp.eps
-Exit code: 0
-
-Command: (2) exiv2 -ix eps-flat_photoshop-cs5-ascii_failure-bigxmp.eps
-Warning: Unable to find XMP metadata as announced at position: 291
-Exiv2 exception in insert action for file eps-flat_photoshop-cs5-ascii_failure-bigxmp.eps:
-Failed to read image data
-Exit code: 1
-
-Command: (2) diff -q eps-flat_photoshop-cs5-ascii_failure-bigxmp.eps.newxmp eps-flat_photoshop-cs5-ascii_failure-bigxmp.eps
-Exit code: 0
+-----> eps-flat_photoshop-cs5-binary-preview.eps <-----
 
 Command: exiv2 -pp eps-flat_photoshop-cs5-binary-preview.eps
 Exit code: 0
@@ -2559,20 +2305,16 @@ Exit code: 253
 Command: exiv2 -f -eX eps-flat_photoshop-cs5-binary-preview.eps
 Exit code: 0
 
-Command: diff -q ../data/eps/eps-flat_photoshop-cs5-binary-preview.xmp eps-flat_photoshop-cs5-binary-preview.xmp
-Exit code: 0
-
 Command: exiv2 -ix eps-flat_photoshop-cs5-binary-preview.eps
-Exit code: 0
-
-Command: diff -q eps-flat_photoshop-cs5-binary-preview.eps.newxmp eps-flat_photoshop-cs5-binary-preview.eps
 Exit code: 0
 
 Command: (2) exiv2 -ix eps-flat_photoshop-cs5-binary-preview.eps
 Exit code: 0
 
-Command: (2) diff -q eps-flat_photoshop-cs5-binary-preview.eps.newxmp eps-flat_photoshop-cs5-binary-preview.eps
+Command: exiv2 -f -ex eps-flat_photoshop-cs5-binary-preview.eps
 Exit code: 0
+
+-----> eps-flat_photoshop-cs5-binary.eps <-----
 
 Command: exiv2 -pp eps-flat_photoshop-cs5-binary.eps
 Exit code: 0
@@ -2646,51 +2388,23 @@ Exit code: 253
 Command: exiv2 -f -eX eps-flat_photoshop-cs5-binary.eps
 Exit code: 0
 
-Command: diff -q ../data/eps/eps-flat_photoshop-cs5-binary.xmp eps-flat_photoshop-cs5-binary.xmp
-Exit code: 0
-
 Command: exiv2 -ix eps-flat_photoshop-cs5-binary.eps
-Exit code: 0
-
-Command: diff -q eps-flat_photoshop-cs5-binary.eps.newxmp eps-flat_photoshop-cs5-binary.eps
 Exit code: 0
 
 Command: (2) exiv2 -ix eps-flat_photoshop-cs5-binary.eps
 Exit code: 0
 
-Command: (2) diff -q eps-flat_photoshop-cs5-binary.eps.newxmp eps-flat_photoshop-cs5-binary.eps
+Command: exiv2 -f -ex eps-flat_photoshop-cs5-binary.eps
 Exit code: 0
+
+-----> eps-flat_photoshop-e9-win-doseps.eps <-----
 
 Command: exiv2 -pp eps-flat_photoshop-e9-win-doseps.eps
 Exiv2 exception in print action for file eps-flat_photoshop-e9-win-doseps.eps:
 This does not look like a EPS image
 Exit code: 1
 
-Command: exiv2 -pa eps-flat_photoshop-e9-win-doseps.eps
-Exiv2 exception in print action for file eps-flat_photoshop-e9-win-doseps.eps:
-This does not look like a EPS image
-Exit code: 1
-
-Command: exiv2 -f -eX eps-flat_photoshop-e9-win-doseps.eps
-Exiv2 exception in extract action for file eps-flat_photoshop-e9-win-doseps.eps:
-This does not look like a EPS image
-Exit code: 1
-
-Command: exiv2 -ix eps-flat_photoshop-e9-win-doseps.eps
-Exiv2 exception in insert action for file eps-flat_photoshop-e9-win-doseps.eps:
-This does not look like a EPS image
-Exit code: 1
-
-Command: diff -q eps-flat_photoshop-e9-win-doseps.eps.newxmp eps-flat_photoshop-e9-win-doseps.eps
-Exit code: 0
-
-Command: (2) exiv2 -ix eps-flat_photoshop-e9-win-doseps.eps
-Exiv2 exception in insert action for file eps-flat_photoshop-e9-win-doseps.eps:
-This does not look like a EPS image
-Exit code: 1
-
-Command: (2) diff -q eps-flat_photoshop-e9-win-doseps.eps.newxmp eps-flat_photoshop-e9-win-doseps.eps
-Exit code: 0
+-----> eps-flat_photoshop-e9-win.eps <-----
 
 Command: exiv2 -pp eps-flat_photoshop-e9-win.eps
 Exit code: 0
@@ -2732,18 +2446,11 @@ Exit code: 253
 Command: exiv2 -f -eX eps-flat_photoshop-e9-win.eps
 Exit code: 0
 
-Command: diff -q ../data/eps/eps-flat_photoshop-e9-win.xmp eps-flat_photoshop-e9-win.xmp
-Exit code: 0
-
 Command: exiv2 -ix eps-flat_photoshop-e9-win.eps
-Exit code: 0
-
-Command: diff -q eps-flat_photoshop-e9-win.eps.newxmp eps-flat_photoshop-e9-win.eps
 Exit code: 0
 
 Command: (2) exiv2 -ix eps-flat_photoshop-e9-win.eps
 Exit code: 0
 
-Command: (2) diff -q eps-flat_photoshop-e9-win.eps.newxmp eps-flat_photoshop-e9-win.eps
+Command: exiv2 -f -ex eps-flat_photoshop-e9-win.eps
 Exit code: 0
-
