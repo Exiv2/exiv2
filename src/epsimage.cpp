@@ -261,6 +261,7 @@ namespace Exiv2
                     #endif
                 }
             }
+            if (line.size() >= 1 && line[0] != '%') continue; // performance optimization
             if (line == "%%EOF" && posPageTrailer == size) {
                 posPageTrailer = startPos;
                 #ifdef DEBUG
