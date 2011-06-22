@@ -37,18 +37,18 @@ done
         cp "../data/eps/$image.eps" ./
 
         echo
-        echo "Command: exiv2 -u -pp $image.eps"
-        $exiv2 -u -pp "$image.eps"
+        echo "Command: exiv2 -u -pa $image.eps"
+        $exiv2 -u -pa "$image.eps"
         exitcode="$?"
         echo "Exit code: $exitcode"
 
-        if [ "$exitcode" -ne 0 ] ; then
+        if [ "$exitcode" -ne 0 -a "$exitcode" -ne 253 ] ; then
             continue
         fi
 
         echo
-        echo "Command: exiv2 -pa $image.eps"
-        $exiv2 -pa "$image.eps"
+        echo "Command: exiv2 -pp $image.eps"
+        $exiv2 -pp "$image.eps"
         echo "Exit code: $?"
 
         echo
