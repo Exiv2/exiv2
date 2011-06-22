@@ -52,6 +52,7 @@ EXIV2_RCSID("@(#) $Id: epsimage.cpp $")
 #include <cassert>
 #include <cstring>
 #include <iostream>
+#include <sstream>
 #include <string>
 
 // signature of DOS EPS
@@ -234,6 +235,7 @@ namespace Exiv2
         size_t posPageTrailer = size;
         size_t posEof = size;
         bool implicitPage = false;
+        bool photoshop = false;
         bool inDefaultsOrPrologOrSetup = false;
         bool inPageSetup = false;
         while (pos < posEof) {
@@ -307,6 +309,8 @@ namespace Exiv2
                 posEndPageSetup = startPos;
             } else if (posPageTrailer == size && line == "%%PageTrailer") {
                 posPageTrailer = startPos;
+            } else if (startsWith(line, "%BeginPhotoshop:")) {
+                photoshop = true;
             } else if (line == "%%EOF") {
                 posEof = startPos;
             } else if (startsWith(line, "%%BeginDocument:")) {
@@ -365,6 +369,7 @@ namespace Exiv2
         }
 
         std::vector<std::pair<size_t, size_t> > removableEmbeddings;
+        bool fixBeginXmlPacket = false;
         size_t xmpPos, xmpSize;
         if (!containsXmp) {
             xmpPos = size;
@@ -390,6 +395,22 @@ namespace Exiv2
                 #ifdef DEBUG
                 EXV_DEBUG << "Exiv2::EpsImage::doReadWriteMetadata: Recognized flexible XMP embedding\n";
                 #endif
+                const size_t posBeginXmlPacket = readPrevLine(line, data, xmpPos, size);
+                if (startsWith(line, "%begin_xml_packet:")) {
+                    #ifdef DEBUG
+                    EXV_DEBUG << "Exiv2::EpsImage::doReadWriteMetadata: Found %begin_xml_packet before flexible XMP embedding\n";
+                    #endif
+                    if (write) {
+                        fixBeginXmlPacket = true;
+                        xmpSize += (xmpPos - posBeginXmlPacket);
+                        xmpPos = posBeginXmlPacket;
+                    }
+                } else if (photoshop) {
+                    #ifndef SUPPRESS_WARNINGS
+                    EXV_WARNING << "Missing %begin_xml_packet in Photoshop EPS at position: " << xmpPos << "\n";
+                    #endif
+                    if (write) throw Error(21);
+                }
             } else {
                 removableEmbeddings = findRemovableEmbeddings(data, posEof, posEndPageSetup, xmpPos, xmpSize, write);
                 if (removableEmbeddings.empty()) {
@@ -545,6 +566,11 @@ namespace Exiv2
                 if (useExistingEmbedding) {
                     // insert XMP metadata into existing flexible embedding
                     if (pos == xmpPos) {
+                        if (fixBeginXmlPacket) {
+                            std::ostringstream sizeStream;
+                            sizeStream << xmpPacket_.size();
+                            writeTemp(*tempIo, "%begin_xml_packet: " + sizeStream.str() + lineEnding);
+                        }
                         writeTemp(*tempIo, xmpPacket_.data(), xmpPacket_.size());
                         skipPos += xmpSize;
                     }
@@ -554,8 +580,12 @@ namespace Exiv2
                         if (line != "%%EndPageSetup") {
                             writeTemp(*tempIo, "%%BeginPageSetup" + lineEnding);
                         }
-                        writeTemp(*tempIo, "%Exiv2BeginXMP: Before %%EndPageSetup" + lineEnding +
-                                           "/currentdistillerparams where" + lineEnding +
+                        writeTemp(*tempIo, "%Exiv2BeginXMP: Before %%EndPageSetup" + lineEnding);
+                        if (photoshop) {
+                            writeTemp(*tempIo, "%Exiv2Notice: The following line is needed by Photoshop." + lineEnding +
+                                               "%begin_xml_code" + lineEnding);
+                        }
+                        writeTemp(*tempIo, "/currentdistillerparams where" + lineEnding +
                                            "{pop currentdistillerparams /CoreDistVersion get 5000 lt} {true} ifelse" + lineEnding +
                                            "{userdict /Exiv2_pdfmark /cleartomark load put" + lineEnding +
                                            "    userdict /Exiv2_metafile_pdfmark {flushfile cleartomark} bind put}" + lineEnding +
@@ -568,12 +598,22 @@ namespace Exiv2
                                            "[{Exiv2_metadata_stream}" + lineEnding +
                                            "    currentfile 0 (% &&end XMP packet marker&&)" + lineEnding +
                                            "    /SubFileDecode filter Exiv2_metafile_pdfmark" + lineEnding);
+                        if (photoshop) {
+                            std::ostringstream sizeStream;
+                            sizeStream << xmpPacket_.size();
+                            writeTemp(*tempIo, "%Exiv2Notice: The following line is needed by Photoshop. Parameter must be exact size of XMP metadata." + lineEnding +
+                                               "%begin_xml_packet: " + sizeStream.str() + lineEnding);
+                        }
                         writeTemp(*tempIo, xmpPacket_.data(), xmpPacket_.size());
                         writeTemp(*tempIo, lineEnding +
                                            "% &&end XMP packet marker&&" + lineEnding +
                                            "[/Document 1 dict begin" + lineEnding +
-                                           "    /Metadata {Exiv2_metadata_stream} def currentdict end /BDC Exiv2_pdfmark" + lineEnding +
-                                           "%Exiv2EndXMP" + lineEnding);
+                                           "    /Metadata {Exiv2_metadata_stream} def currentdict end /BDC Exiv2_pdfmark" + lineEnding);
+                        if (photoshop) {
+                            writeTemp(*tempIo, "%Exiv2Notice: The following line is needed by Photoshop." + lineEnding +
+                                               "%end_xml_code" + lineEnding);
+                        }
+                        writeTemp(*tempIo, "%Exiv2EndXMP" + lineEnding);
                         if (line != "%%EndPageSetup") {
                             writeTemp(*tempIo, "%%EndPageSetup" + lineEnding);
                         }
