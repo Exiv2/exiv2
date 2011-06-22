@@ -51,7 +51,7 @@ currentdict end /NFont exch definefont pop /NFont findfont} bdef
 %%EndSetup
 %%Page: 1 1
 %%BeginPageSetup
-%Exiv2BeginXMP: EndPageSetup
+%Exiv2BeginXMP: Before %%EndPageSetup
 /currentdistillerparams where
 {pop currentdistillerparams /CoreDistVersion get 5000 lt} {true} ifelse
 {userdict /Exiv2_pdfmark /cleartomark load put
@@ -124,7 +124,7 @@ gr
 0 27700 t 
 pom
 count op_count sub {pop} repeat countdictstack dict_count sub {end} repeat b4_inc_state restore
-%Exiv2BeginXMP: PageTrailer
+%Exiv2BeginXMP: After %%PageTrailer
 [/EMC Exiv2_pdfmark
 [/NamespacePop Exiv2_pdfmark
 %Exiv2EndXMP

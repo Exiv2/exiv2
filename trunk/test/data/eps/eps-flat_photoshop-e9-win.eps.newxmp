@@ -248,7 +248,7 @@
 %%Page: 1 1
 %%EndPageComments
 %%BeginPageSetup
-%Exiv2BeginXMP: EndPageSetup
+%Exiv2BeginXMP: Before %%EndPageSetup
 /currentdistillerparams where
 {pop currentdistillerparams /CoreDistVersion get 5000 lt} {true} ifelse
 {userdict /Exiv2_pdfmark /cleartomark load put
@@ -1503,7 +1503,7 @@ P"?p`Uln:q.3t'J8kC:k;NaTsPbaI6,q1+&8P2Q"P#@H7,a>*f8L5f2P"A8;,a)&g
 grestore end % Image Trailer grestore
 grestore % EPS grestore
 %%PageTrailer
-%Exiv2BeginXMP: PageTrailer
+%Exiv2BeginXMP: After %%PageTrailer
 [/EMC Exiv2_pdfmark
 [/NamespacePop Exiv2_pdfmark
 %Exiv2EndXMP

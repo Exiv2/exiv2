@@ -65,7 +65,7 @@ end def
 GS_epswrite_2_0_1001 begin
 /pagesave save store 197 dict begin
 0.1 0.1 scale
-%Exiv2BeginXMP: EndPageSetup
+%Exiv2BeginXMP: Before %%EndPageSetup
 /currentdistillerparams where
 {pop currentdistillerparams /CoreDistVersion get 5000 lt} {true} ifelse
 {userdict /Exiv2_pdfmark /cleartomark load put
@@ -127,7 +127,7 @@ S
 Q
 cleartomark end end pagesave restore
  showpage
-%Exiv2BeginXMP: PageTrailer
+%Exiv2BeginXMP: After %%PageTrailer
 [/EMC Exiv2_pdfmark
 [/NamespacePop Exiv2_pdfmark
 %Exiv2EndXMP

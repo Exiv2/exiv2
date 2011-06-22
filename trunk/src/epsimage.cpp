@@ -554,7 +554,7 @@ namespace Exiv2
                         if (line != "%%EndPageSetup") {
                             writeTemp(*tempIo, "%%BeginPageSetup" + lineEnding);
                         }
-                        writeTemp(*tempIo, "%Exiv2BeginXMP: EndPageSetup" + lineEnding +
+                        writeTemp(*tempIo, "%Exiv2BeginXMP: Before %%EndPageSetup" + lineEnding +
                                            "/currentdistillerparams where" + lineEnding +
                                            "{pop currentdistillerparams /CoreDistVersion get 5000 lt} {true} ifelse" + lineEnding +
                                            "{userdict /Exiv2_pdfmark /cleartomark load put" + lineEnding +
@@ -584,7 +584,7 @@ namespace Exiv2
                         } else {
                             skipPos = posLineEnd;
                         }
-                        writeTemp(*tempIo, "%Exiv2BeginXMP: PageTrailer" + lineEnding +
+                        writeTemp(*tempIo, "%Exiv2BeginXMP: After %%PageTrailer" + lineEnding +
                                            "[/EMC Exiv2_pdfmark" + lineEnding +
                                            "[/NamespacePop Exiv2_pdfmark" + lineEnding +
                                            "%Exiv2EndXMP" + lineEnding);
