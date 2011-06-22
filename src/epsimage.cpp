@@ -370,11 +370,9 @@ namespace Exiv2
 
         std::vector<std::pair<size_t, size_t> > removableEmbeddings;
         bool fixBeginXmlPacket = false;
-        size_t xmpPos, xmpSize;
-        if (!containsXmp) {
-            xmpPos = size;
-            xmpSize = 0;
-        } else {
+        size_t xmpPos = size;
+        size_t xmpSize = 0;
+        if (containsXmp) {
             // search for XMP metadata
             findXmp(xmpPos, xmpSize, data, size, write);
             if (xmpSize == 0) {
@@ -383,6 +381,7 @@ namespace Exiv2
                 #endif
                 throw Error(write ? 21 : 14);
             }
+            // check embedding of XMP metadata
             const size_t posLineAfterXmp = readLine(line, data, xmpPos + xmpSize, size);
             if (line != "") {
                 #ifndef SUPPRESS_WARNINGS
@@ -552,8 +551,8 @@ namespace Exiv2
                 }
                 if (pos == posPage) {
                     if (!startsWith(line, "%%Page:")) {
-                        writeTemp(*tempIo, "%%Page: 1 1" + lineEnding +
-                                           "%%EndPageComments" + lineEnding);
+                        writeTemp(*tempIo, "%%Page: 1 1" + lineEnding);
+                        writeTemp(*tempIo, "%%EndPageComments" + lineEnding);
                     }
                 }
                 // remove unflexible embeddings
@@ -567,9 +566,7 @@ namespace Exiv2
                     // insert XMP metadata into existing flexible embedding
                     if (pos == xmpPos) {
                         if (fixBeginXmlPacket) {
-                            std::ostringstream sizeStream;
-                            sizeStream << xmpPacket_.size();
-                            writeTemp(*tempIo, "%begin_xml_packet: " + sizeStream.str() + lineEnding);
+                            writeTemp(*tempIo, "%begin_xml_packet: " + toString(xmpPacket_.size()) + lineEnding);
                         }
                         writeTemp(*tempIo, xmpPacket_.data(), xmpPacket_.size());
                         skipPos += xmpSize;
@@ -582,36 +579,35 @@ namespace Exiv2
                         }
                         writeTemp(*tempIo, "%Exiv2BeginXMP: Before %%EndPageSetup" + lineEnding);
                         if (photoshop) {
-                            writeTemp(*tempIo, "%Exiv2Notice: The following line is needed by Photoshop." + lineEnding +
-                                               "%begin_xml_code" + lineEnding);
+                            writeTemp(*tempIo, "%Exiv2Notice: The following line is needed by Photoshop." + lineEnding);
+                            writeTemp(*tempIo, "%begin_xml_code" + lineEnding);
                         }
-                        writeTemp(*tempIo, "/currentdistillerparams where" + lineEnding +
-                                           "{pop currentdistillerparams /CoreDistVersion get 5000 lt} {true} ifelse" + lineEnding +
-                                           "{userdict /Exiv2_pdfmark /cleartomark load put" + lineEnding +
-                                           "    userdict /Exiv2_metafile_pdfmark {flushfile cleartomark} bind put}" + lineEnding +
-                                           "{userdict /Exiv2_pdfmark /pdfmark load put" + lineEnding +
-                                           "    userdict /Exiv2_metafile_pdfmark {/PUT pdfmark} bind put} ifelse" + lineEnding +
-                                           "[/NamespacePush Exiv2_pdfmark" + lineEnding +
-                                           "[/_objdef {Exiv2_metadata_stream} /type /stream /OBJ Exiv2_pdfmark" + lineEnding +
-                                           "[{Exiv2_metadata_stream} 2 dict begin" + lineEnding +
-                                           "    /Type /Metadata def /Subtype /XML def currentdict end /PUT Exiv2_pdfmark" + lineEnding +
-                                           "[{Exiv2_metadata_stream}" + lineEnding +
-                                           "    currentfile 0 (% &&end XMP packet marker&&)" + lineEnding +
-                                           "    /SubFileDecode filter Exiv2_metafile_pdfmark" + lineEnding);
+                        writeTemp(*tempIo, "/currentdistillerparams where" + lineEnding);
+                        writeTemp(*tempIo, "{pop currentdistillerparams /CoreDistVersion get 5000 lt} {true} ifelse" + lineEnding);
+                        writeTemp(*tempIo, "{userdict /Exiv2_pdfmark /cleartomark load put" + lineEnding);
+                        writeTemp(*tempIo, "    userdict /Exiv2_metafile_pdfmark {flushfile cleartomark} bind put}" + lineEnding);
+                        writeTemp(*tempIo, "{userdict /Exiv2_pdfmark /pdfmark load put" + lineEnding);
+                        writeTemp(*tempIo, "    userdict /Exiv2_metafile_pdfmark {/PUT pdfmark} bind put} ifelse" + lineEnding);
+                        writeTemp(*tempIo, "[/NamespacePush Exiv2_pdfmark" + lineEnding);
+                        writeTemp(*tempIo, "[/_objdef {Exiv2_metadata_stream} /type /stream /OBJ Exiv2_pdfmark" + lineEnding);
+                        writeTemp(*tempIo, "[{Exiv2_metadata_stream} 2 dict begin" + lineEnding);
+                        writeTemp(*tempIo, "    /Type /Metadata def /Subtype /XML def currentdict end /PUT Exiv2_pdfmark" + lineEnding);
+                        writeTemp(*tempIo, "[{Exiv2_metadata_stream}" + lineEnding);
+                        writeTemp(*tempIo, "    currentfile 0 (% &&end XMP packet marker&&)" + lineEnding);
+                        writeTemp(*tempIo, "    /SubFileDecode filter Exiv2_metafile_pdfmark" + lineEnding);
                         if (photoshop) {
-                            std::ostringstream sizeStream;
-                            sizeStream << xmpPacket_.size();
-                            writeTemp(*tempIo, "%Exiv2Notice: The following line is needed by Photoshop. Parameter must be exact size of XMP metadata." + lineEnding +
-                                               "%begin_xml_packet: " + sizeStream.str() + lineEnding);
+                            writeTemp(*tempIo, "%Exiv2Notice: The following line is needed by Photoshop. "
+                                               "Parameter must be exact size of XMP metadata." + lineEnding);
+                            writeTemp(*tempIo, "%begin_xml_packet: " + toString(xmpPacket_.size()) + lineEnding);
                         }
                         writeTemp(*tempIo, xmpPacket_.data(), xmpPacket_.size());
-                        writeTemp(*tempIo, lineEnding +
-                                           "% &&end XMP packet marker&&" + lineEnding +
-                                           "[/Document 1 dict begin" + lineEnding +
-                                           "    /Metadata {Exiv2_metadata_stream} def currentdict end /BDC Exiv2_pdfmark" + lineEnding);
+                        writeTemp(*tempIo, lineEnding);
+                        writeTemp(*tempIo, "% &&end XMP packet marker&&" + lineEnding);
+                        writeTemp(*tempIo, "[/Document 1 dict begin" + lineEnding);
+                        writeTemp(*tempIo, "    /Metadata {Exiv2_metadata_stream} def currentdict end /BDC Exiv2_pdfmark" + lineEnding);
                         if (photoshop) {
-                            writeTemp(*tempIo, "%Exiv2Notice: The following line is needed by Photoshop." + lineEnding +
-                                               "%end_xml_code" + lineEnding);
+                            writeTemp(*tempIo, "%Exiv2Notice: The following line is needed by Photoshop." + lineEnding);
+                            writeTemp(*tempIo, "%end_xml_code" + lineEnding);
                         }
                         writeTemp(*tempIo, "%Exiv2EndXMP" + lineEnding);
                         if (line != "%%EndPageSetup") {
@@ -624,10 +620,10 @@ namespace Exiv2
                         } else {
                             skipPos = posLineEnd;
                         }
-                        writeTemp(*tempIo, "%Exiv2BeginXMP: After %%PageTrailer" + lineEnding +
-                                           "[/EMC Exiv2_pdfmark" + lineEnding +
-                                           "[/NamespacePop Exiv2_pdfmark" + lineEnding +
-                                           "%Exiv2EndXMP" + lineEnding);
+                        writeTemp(*tempIo, "%Exiv2BeginXMP: After %%PageTrailer" + lineEnding);
+                        writeTemp(*tempIo, "[/EMC Exiv2_pdfmark" + lineEnding);
+                        writeTemp(*tempIo, "[/NamespacePop Exiv2_pdfmark" + lineEnding);
+                        writeTemp(*tempIo, "%Exiv2EndXMP" + lineEnding);
                     }
                 }
                 // add EOF comment if necessary
@@ -883,6 +879,13 @@ namespace Exiv2
         // According to the DSC 3.0 specification, 4.4 Parsing Rules,
         // only spaces and tabs are considered to be white space characters.
         return s.find_first_not_of(" \t") == std::string::npos;
+    }
+
+    std::string EpsImage::toString(size_t size)
+    {
+        std::ostringstream stream;
+        stream << size;
+        return stream.str();
     }
 
     void EpsImage::writeTemp(BasicIo& tempIo, const char* data, size_t size)
