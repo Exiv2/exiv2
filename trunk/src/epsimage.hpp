@@ -122,6 +122,8 @@ namespace Exiv2
         EXV_DLLLOCAL static bool startsWith(const std::string& s, const std::string& start);
         //! Check whether a string contains only white space characters
         EXV_DLLLOCAL static bool onlyWhitespaces(const std::string& s);
+        //! Convert an integer of type size_t to a decimal string
+        EXV_DLLLOCAL static std::string toString(size_t size);
         //! Write data into temp file, taking care of errors
         EXV_DLLLOCAL static void writeTemp(BasicIo& tempIo, const char* data, size_t size);
         //! Write data into temp file, taking care of errors
