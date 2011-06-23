@@ -36,6 +36,7 @@ EXIV2_RCSID("@(#) $Id$")
 # include "exv_conf.h"
 #endif
 
+#include <climits>
 #include <string>
 
 #include "preview.hpp"
@@ -65,6 +66,11 @@ namespace {
 
         return l < r;
     }
+
+    /*!
+      @brief Decode a Base64 string.
+     */
+    std::string decodeBase64(const std::string &src);
 
     /*!
       Base class for image loaders. Provides virtual methods for reading properties
@@ -236,6 +242,29 @@ namespace {
     //! Function to create new LoaderTiff
     Loader::AutoPtr createLoaderTiff(PreviewId id, const Image &image, int parIdx);
 
+    //! Loader for JPEG previews stored in the XMP metadata
+    class LoaderXmpJpeg : public Loader {
+    public:
+        //! Constructor
+        LoaderXmpJpeg(PreviewId id, const Image &image, int parIdx);
+
+        //! Get properties of a preview image with given params
+        virtual PreviewProperties getProperties() const;
+
+        //! Get a buffer that contains the preview image
+        virtual DataBuf getData() const;
+
+        //! Read preview image dimensions
+        virtual bool readDimensions();
+
+    protected:
+        //! Preview image data
+        std::string preview_;
+    };
+
+    //! Function to create new LoaderXmpJpeg
+    Loader::AutoPtr createLoaderXmpJpeg(PreviewId id, const Image &image, int parIdx);
+
 // *****************************************************************************
 // class member definitions
 
@@ -265,7 +294,8 @@ namespace {
         { 0,                       createLoaderExifJpeg,     5 },
         { 0,                       createLoaderExifJpeg,     6 },
         { "image/x-canon-cr2",     createLoaderExifJpeg,     7 },
-        { 0,                       createLoaderExifJpeg,     8 }
+        { 0,                       createLoaderExifJpeg,     8 },
+        { 0,                       createLoaderXmpJpeg,      0 }
     };
 
     const LoaderExifJpeg::Param LoaderExifJpeg::param_[] = {
@@ -661,6 +691,96 @@ namespace {
         XmpData  emptyXmp;
         TiffParser::encode(mio, 0, 0, Exiv2::littleEndian, preview, emptyIptc, emptyXmp);
         return DataBuf(mio.mmap(), mio.size());
+    }
+
+    LoaderXmpJpeg::LoaderXmpJpeg(PreviewId id, const Image &image, int parIdx)
+        : Loader(id, image)
+    {
+        (void)parIdx;
+
+        const Exiv2::XmpData &xmpData = image_.xmpData();
+        XmpData::const_iterator imageDatum = xmpData.findKey(XmpKey("Xmp.xmp.Thumbnails[1]/xmpGImg:image"));
+        if (imageDatum == xmpData.end()) return;
+        XmpData::const_iterator formatDatum = xmpData.findKey(XmpKey("Xmp.xmp.Thumbnails[1]/xmpGImg:format"));
+        if (formatDatum == xmpData.end()) return;
+        XmpData::const_iterator widthDatum = xmpData.findKey(XmpKey("Xmp.xmp.Thumbnails[1]/xmpGImg:width"));
+        if (widthDatum == xmpData.end()) return;
+        XmpData::const_iterator heightDatum = xmpData.findKey(XmpKey("Xmp.xmp.Thumbnails[1]/xmpGImg:height"));
+        if (heightDatum == xmpData.end()) return;
+
+        if (formatDatum->toString() != "JPEG") return;
+
+        width_ = widthDatum->toLong();
+        height_ = heightDatum->toLong();
+        preview_ = decodeBase64(imageDatum->toString());
+        size_ = preview_.size();
+        valid_ = true;
+    }
+
+    Loader::AutoPtr createLoaderXmpJpeg(PreviewId id, const Image &image, int parIdx)
+    {
+        return Loader::AutoPtr(new LoaderXmpJpeg(id, image, parIdx));
+    }
+
+    PreviewProperties LoaderXmpJpeg::getProperties() const
+    {
+        PreviewProperties prop = Loader::getProperties();
+        prop.mimeType_ = "image/jpeg";
+        prop.extension_ = ".jpg";
+#ifdef EXV_UNICODE_PATH
+        prop.wextension_ = EXV_WIDEN(".jpg");
+#endif
+        return prop;
+    }
+
+    DataBuf LoaderXmpJpeg::getData() const
+    {
+        if (!valid()) return DataBuf();
+        return DataBuf(reinterpret_cast<const Exiv2::byte*>(preview_.data()), preview_.size());
+    }
+
+    bool LoaderXmpJpeg::readDimensions()
+    {
+        return valid();
+    }
+
+    static const char encodeBase64Table[64 + 1] = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/";
+
+    std::string decodeBase64(const std::string& src)
+    {
+        const unsigned int srcSize = src.size();
+
+        // create decoding table
+        unsigned int invalid = 64;
+        unsigned int decodeBase64Table[256];
+        for (unsigned int i = 0; i < 256; i++) decodeBase64Table[i] = invalid;
+        for (unsigned int i = 0; i < 64; i++) decodeBase64Table[(unsigned char)encodeBase64Table[i]] = i;
+
+        // calculate dest size
+        unsigned int validSrcSize = 0;
+        for (unsigned int srcPos = 0; srcPos < srcSize; srcPos++) {
+            if (decodeBase64Table[(unsigned char)src[srcPos]] != invalid) validSrcSize++;
+        }
+        if (validSrcSize > UINT_MAX / 3) return std::string(); // avoid integer overflow
+        const unsigned int destSize = (validSrcSize * 3) / 4;
+
+        // allocate dest buffer
+        std::string dest(destSize, 0);
+
+        // decode
+        for (unsigned int srcPos = 0, destPos = 0; destPos < destSize;) {
+            unsigned int buffer = 0;
+            for (int bufferPos = 3; bufferPos >= 0 && srcPos < srcSize; srcPos++) {
+                unsigned int srcValue = decodeBase64Table[(unsigned char)src[srcPos]];
+                if (srcValue == invalid) continue;
+                buffer |= srcValue << (bufferPos * 6);
+                bufferPos--;
+            }
+            for (int bufferPos = 2; bufferPos >= 0 && destPos < destSize; bufferPos--, destPos++) {
+                dest[destPos] = buffer >> (bufferPos * 8);
+            }
+        }
+        return dest;
     }
 
 }                                       // namespace
