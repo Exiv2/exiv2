@@ -10,10 +10,16 @@ if [ $? -ne 0 ] ; then
     diffargs=""
 fi
 (
-binpath="$VALGRIND ../../samples"
+if [ -z "$EXIV2_BINDIR" ] ; then
+    bin="$VALGRIND ../../src"
+    samples="$VALGRIND ../../samples"
+else
+    bin="$VALGRIND $EXIV2_BINDIR"
+    samples="$VALGRIND $EXIV2_BINDIR"
+fi
 cp -f ./data/exiv2-empty.jpg ./tmp
 cd ./tmp
-$binpath/write2-test exiv2-empty.jpg
+$samples/write2-test exiv2-empty.jpg
 ) > $results
 
 diff -q $diffargs $results $good

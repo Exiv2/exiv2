@@ -10,9 +10,15 @@ if [ $? -ne 0 ] ; then
     diffargs=""
 fi
 (
-binpath="$VALGRIND ../../samples"
+if [ -z "$EXIV2_BINDIR" ] ; then
+    bin="$VALGRIND ../../src"
+    samples="$VALGRIND ../../samples"
+else
+    bin="$VALGRIND $EXIV2_BINDIR"
+    samples="$VALGRIND $EXIV2_BINDIR"
+fi
 cd ./tmp
-$binpath/stringto-test
+$samples/stringto-test
 ) > $results
 
 diff -q $diffargs $results $good
