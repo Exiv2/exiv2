@@ -11,7 +11,7 @@ eraseTest()
     cp $datapath/$src $test
 
     #run tests
-    $binpath/metacopy $test $test
+    $bin/metacopy $test $test
 
     #check results
     diffCheck $test $good
@@ -30,7 +30,7 @@ copyTest()
     cp $datapath/$dst $test
 
     #run tests
-    $binpath/metacopy -a $datapath/$src $test
+    $bin/metacopy -a $datapath/$src $test
 
     #check results
     diffCheck $test $good
@@ -49,7 +49,7 @@ iptcTest()
     cp $datapath/$dst $test
 
     #run tests
-    $binpath/metacopy -ip $datapath/$src $test
+    $bin/metacopy -ip $datapath/$src $test
 
     #check results
     diffCheck $test $good
@@ -75,9 +75,14 @@ diffCheck()
 # **********************************************************************
 # main
 
-LD_LIBRARY_PATH=../../src:$LD_LIBRARY_PATH
-export LD_LIBRARY_PATH
-binpath="$VALGRIND ../../src"
+if [ -z "$EXIV2_BINDIR" ] ; then
+    bin="$VALGRIND ../../src"
+    samples="$VALGRIND ../../samples"
+else
+    bin="$VALGRIND $EXIV2_BINDIR"
+    samples="$VALGRIND $EXIV2_BINDIR"
+fi
+
 datapath="../data"
 
 test_files="table.jpg smiley1.jpg smiley2.jpg"

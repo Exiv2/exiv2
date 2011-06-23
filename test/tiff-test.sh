@@ -16,8 +16,13 @@ good="./data/tiff-test.out"
 # ----------------------------------------------------------------------
 # Main routine
 (
-binpath="$VALGRIND ../../samples"
-exiv2="$VALGRIND ../../src/exiv2"
+if [ -z "$EXIV2_BINDIR" ] ; then
+    bin="$VALGRIND ../../src"
+    samples="$VALGRIND ../../samples"
+else
+    bin="$VALGRIND $EXIV2_BINDIR"
+    samples="$VALGRIND $EXIV2_BINDIR"
+fi
 cd ./tmp
 
 # ----------------------------------------------------------------------
@@ -25,7 +30,7 @@ cd ./tmp
 testfile=mini9.tif
 cp -f ../data/$testfile .
 exifprobe $testfile
-$binpath/tiff-test $testfile
+$samples/tiff-test $testfile
 exifprobe $testfile
 
 ) > $results

@@ -5,9 +5,15 @@ export LC_ALL=C
 
 cd tmp/
 
-exiv2="$VALGRIND ../../src/exiv2"
+if [ -z "$EXIV2_BINDIR" ] ; then
+    bin="$VALGRIND ../../src"
+    samples="$VALGRIND ../../samples"
+else
+    bin="$VALGRIND $EXIV2_BINDIR"
+    samples="$VALGRIND $EXIV2_BINDIR"
+fi
 
-exiv2version="`$exiv2 -V | sed -n '1 s,^exiv2 \([^ ]*\).*,\1,p'`"
+exiv2version="`$bin/exiv2 -V | sed -n '1 s,^exiv2 \([^ ]*\).*,\1,p'`"
 if [ -z "$exiv2version" ]; then
     echo "Error: Unable to determine Exiv2 version"
     exit 1
@@ -38,7 +44,7 @@ done
 
         echo
         echo "Command: exiv2 -u -pa $image.eps"
-        $exiv2 -u -pa "$image.eps"
+        $bin/exiv2 -u -pa "$image.eps"
         exitcode="$?"
         echo "Exit code: $exitcode"
 
@@ -48,12 +54,12 @@ done
 
         echo
         echo "Command: exiv2 -pp $image.eps"
-        $exiv2 -pp "$image.eps"
+        $bin/exiv2 -pp "$image.eps"
         echo "Exit code: $?"
 
         echo
         echo "Command: exiv2 -f -eX $image.eps"
-        $exiv2 -f -eX "$image.eps"
+        $bin/exiv2 -f -eX "$image.eps"
         echo "Exit code: $?"
 
         diff -q "../data/eps/$image.xmp" "$image.xmp"
@@ -65,7 +71,7 @@ done
 
         echo
         echo "Command: exiv2 -ix $image.eps"
-        $exiv2 -ix "$image.eps"
+        $bin/exiv2 -ix "$image.eps"
         exitcode="$?"
         echo "Exit code: $exitcode"
 
@@ -79,7 +85,7 @@ done
 
         echo
         echo "Command: (2) exiv2 -ix $image.eps"
-        $exiv2 -ix "$image.eps"
+        $bin/exiv2 -ix "$image.eps"
         echo "Exit code: $?"
 
         diff -q "$image.eps.newxmp" "$image.eps"
@@ -90,7 +96,7 @@ done
 
         echo
         echo "Command: exiv2 -f -ex $image.eps"
-        $exiv2 -f -ex "$image.eps"
+        $bin/exiv2 -f -ex "$image.eps"
         echo "Exit code: $?"
 
         diff -q "../data/eps/eps-test-newxmp.exv" "$image.exv"

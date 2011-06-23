@@ -16,8 +16,13 @@ fi
 # ----------------------------------------------------------------------
 # Main routine
 (
-binpath="$VALGRIND ../../src"
-exiv2="$VALGRIND exiv2"
+if [ -z "$EXIV2_BINDIR" ] ; then
+    bin="$VALGRIND ../../src"
+    samples="$VALGRIND ../../samples"
+else
+    bin="$VALGRIND $EXIV2_BINDIR"
+    samples="$VALGRIND $EXIV2_BINDIR"
+fi
 cmdfile=cmdfile
 crwfile=exiv2-canon-powershot-s40.crw
 
@@ -37,12 +42,12 @@ set Exif.Photo.DateTimeOriginal 2007:11:11 09:10:11
 EOF
 
 cp -f ../data/$crwfile .
-$exiv2 -v -pt $crwfile
+$bin/exiv2 -v -pt $crwfile
 
-$exiv2 -v -m $cmdfile $crwfile
-$binpath/crwparse $crwfile
+$bin/exiv2 -v -m $cmdfile $crwfile
+$bin/crwparse $crwfile
 
-$exiv2 -v -pt $crwfile
+$bin/exiv2 -v -pt $crwfile
 
 # ----------------------------------------------------------------------
 # Testcases: Delete tags
@@ -52,12 +57,12 @@ del Exif.Canon.OwnerName
 EOF
 
 cp -f ../data/$crwfile .
-$exiv2 -v -pt $crwfile
+$bin/exiv2 -v -pt $crwfile
 
-$exiv2 -v -m $cmdfile $crwfile
-$binpath/crwparse $crwfile
+$bin/exiv2 -v -m $cmdfile $crwfile
+$bin/crwparse $crwfile
 
-$exiv2 -v -pt $crwfile
+$bin/exiv2 -v -pt $crwfile
 
 ) > $results 2>&1
 

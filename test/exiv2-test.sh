@@ -1,7 +1,13 @@
 #! /bin/sh
 # Test driver for exiv2 utility tests
 export LC_ALL=C
-exiv2="$VALGRIND exiv2 -u"
+if [ -z "$EXIV2_BINDIR" ] ; then
+    bin="$VALGRIND ../../src"
+    samples="$VALGRIND ../../samples"
+else
+    bin="$VALGRIND $EXIV2_BINDIR"
+    samples="$VALGRIND $EXIV2_BINDIR"
+fi
 results="./tmp/exiv2-test.out"
 good="./data/exiv2-test.out"
 tmpfile=tmp/ttt
@@ -77,44 +83,43 @@ cd tmp/ >/dev/null || exit 1;
 echo tmp/
 echo
 echo "Exiv2 version ------------------------------------------------------------"
-which exiv2 || exit 2;
-$exiv2 -V | sed '1 s, (.. bit build)$, (__ bit build),'
+$bin/exiv2 -u -V | sed '1 s, (.. bit build)$, (__ bit build),'
 echo
 echo "Exiv2 help ---------------------------------------------------------------"
-$exiv2 -h
+$bin/exiv2 -u -h
 echo
 echo "Adjust -------------------------------------------------------------------"
-$exiv2 -v -a-12:01:01 adjust $images
+$bin/exiv2 -u -v -a-12:01:01 adjust $images
 echo
 echo "Rename -------------------------------------------------------------------"
-$exiv2 -vf rename $images
+$bin/exiv2 -u -vf rename $images
 echo
 echo "Print --------------------------------------------------------------------"
-$exiv2 -v print $image2
-$exiv2 -v -b -pt print $image2
-$exiv2 -v -b -pt print $image2 > iii
+$bin/exiv2 -u -v print $image2
+$bin/exiv2 -u -v -b -pt print $image2
+$bin/exiv2 -u -v -b -pt print $image2 > iii
 echo
 echo "Extract Exif data --------------------------------------------------------"
-$exiv2 -vf extract $image2
+$bin/exiv2 -u -vf extract $image2
 echo
 echo "Extract Thumbnail --------------------------------------------------------"
-$exiv2 -vf -et extract $image2
-$exiv2 -v -b -pt print $image3 > jjj
+$bin/exiv2 -u -vf -et extract $image2
+$bin/exiv2 -u -v -b -pt print $image3 > jjj
 echo
 echo "Compare image data and extracted data ------------------------------------"
 diff iii jjj
 echo
 echo "Delete Thumbnail ---------------------------------------------------------"
-$exiv2 -v -dt delete $image2
-$exiv2 -vf -et extract $image2
+$bin/exiv2 -u -v -dt delete $image2
+$bin/exiv2 -u -vf -et extract $image2
 echo
 echo "Delete Exif data ---------------------------------------------------------"
-$exiv2 -v delete $image2
-$exiv2 -v print $image2
+$bin/exiv2 -u -v delete $image2
+$bin/exiv2 -u -v print $image2
 echo
 echo "Insert Exif data ---------------------------------------------------------"
-$exiv2 -v insert $image2
-$exiv2 -v -b -pt print $image3 > kkk
+$bin/exiv2 -u -v insert $image2
+$bin/exiv2 -u -v -b -pt print $image3 > kkk
 echo
 echo "Compare original and inserted image data ---------------------------------"
 diff iii kkk
