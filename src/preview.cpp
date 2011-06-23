@@ -240,32 +240,32 @@ namespace {
 // class member definitions
 
     const Loader::LoaderList Loader::loaderList_[] = {
-        { 0,                   createLoaderExifDataJpeg, 0 },
-        { 0,                   createLoaderExifDataJpeg, 1 },
-        { 0,                   createLoaderExifDataJpeg, 2 },
-        { 0,                   createLoaderExifDataJpeg, 3 },
-        { 0,                   createLoaderExifDataJpeg, 4 },
-        { 0,                   createLoaderExifDataJpeg, 5 },
-        { 0,                   createLoaderExifDataJpeg, 6 },
-        { 0,                   createLoaderExifDataJpeg, 7 },
+        { 0,                       createLoaderExifDataJpeg, 0 },
+        { 0,                       createLoaderExifDataJpeg, 1 },
+        { 0,                       createLoaderExifDataJpeg, 2 },
+        { 0,                       createLoaderExifDataJpeg, 3 },
+        { 0,                       createLoaderExifDataJpeg, 4 },
+        { 0,                       createLoaderExifDataJpeg, 5 },
+        { 0,                       createLoaderExifDataJpeg, 6 },
+        { 0,                       createLoaderExifDataJpeg, 7 },
         { "image/x-panasonic-rw2", createLoaderExifDataJpeg, 8 },
-        { 0,                   createLoaderExifDataJpeg, 9 },
-        { 0,                   createLoaderTiff,         0 },
-        { 0,                   createLoaderTiff,         1 },
-        { 0,                   createLoaderTiff,         2 },
-        { 0,                   createLoaderTiff,         3 },
-        { 0,                   createLoaderTiff,         4 },
-        { 0,                   createLoaderTiff,         5 },
-        { 0,                   createLoaderTiff,         6 },
-        { 0,                   createLoaderExifJpeg,     0 },
-        { 0,                   createLoaderExifJpeg,     1 },
-        { 0,                   createLoaderExifJpeg,     2 },
-        { 0,                   createLoaderExifJpeg,     3 },
-        { 0,                   createLoaderExifJpeg,     4 },
-        { 0,                   createLoaderExifJpeg,     5 },
-        { 0,                   createLoaderExifJpeg,     6 },
-        { "image/x-canon-cr2", createLoaderExifJpeg,     7 },
-        { 0,                   createLoaderExifJpeg,     8 }
+        { 0,                       createLoaderExifDataJpeg, 9 },
+        { 0,                       createLoaderTiff,         0 },
+        { 0,                       createLoaderTiff,         1 },
+        { 0,                       createLoaderTiff,         2 },
+        { 0,                       createLoaderTiff,         3 },
+        { 0,                       createLoaderTiff,         4 },
+        { 0,                       createLoaderTiff,         5 },
+        { 0,                       createLoaderTiff,         6 },
+        { 0,                       createLoaderExifJpeg,     0 },
+        { 0,                       createLoaderExifJpeg,     1 },
+        { 0,                       createLoaderExifJpeg,     2 },
+        { 0,                       createLoaderExifJpeg,     3 },
+        { 0,                       createLoaderExifJpeg,     4 },
+        { 0,                       createLoaderExifJpeg,     5 },
+        { 0,                       createLoaderExifJpeg,     6 },
+        { "image/x-canon-cr2",     createLoaderExifJpeg,     7 },
+        { 0,                       createLoaderExifJpeg,     8 }
     };
 
     const LoaderExifJpeg::Param LoaderExifJpeg::param_[] = {
@@ -281,15 +281,15 @@ namespace {
     };
 
     const LoaderExifDataJpeg::Param LoaderExifDataJpeg::param_[] = {
-        { "Exif.Thumbnail.JPEGInterchangeFormat",    "Exif.Thumbnail.JPEGInterchangeFormatLength"    }, // 0
-        { "Exif.NikonPreview.JPEGInterchangeFormat", "Exif.NikonPreview.JPEGInterchangeFormatLength" }, // 1
-        { "Exif.Pentax.PreviewOffset",               "Exif.Pentax.PreviewLength"                     }, // 2
-        { "Exif.Minolta.ThumbnailOffset",            "Exif.Minolta.ThumbnailLength"                  }, // 3
-        { "Exif.SonyMinolta.ThumbnailOffset",        "Exif.SonyMinolta.ThumbnailLength"              }, // 4
-        { "Exif.Olympus.ThumbnailImage",             0                                               }, // 5
-        { "Exif.Olympus2.ThumbnailImage",            0                                               }, // 6
-        { "Exif.Minolta.Thumbnail",                  0                                               }, // 7
-        { "Exif.PanasonicRaw.PreviewImage",          0                                               }, // 8
+        { "Exif.Thumbnail.JPEGInterchangeFormat",      "Exif.Thumbnail.JPEGInterchangeFormatLength"      }, // 0
+        { "Exif.NikonPreview.JPEGInterchangeFormat",   "Exif.NikonPreview.JPEGInterchangeFormatLength"   }, // 1
+        { "Exif.Pentax.PreviewOffset",                 "Exif.Pentax.PreviewLength"                       }, // 2
+        { "Exif.Minolta.ThumbnailOffset",              "Exif.Minolta.ThumbnailLength"                    }, // 3
+        { "Exif.SonyMinolta.ThumbnailOffset",          "Exif.SonyMinolta.ThumbnailLength"                }, // 4
+        { "Exif.Olympus.ThumbnailImage",               0                                                 }, // 5
+        { "Exif.Olympus2.ThumbnailImage",              0                                                 }, // 6
+        { "Exif.Minolta.Thumbnail",                    0                                                 }, // 7
+        { "Exif.PanasonicRaw.PreviewImage",            0                                                 }, // 8
         { "Exif.SamsungPreview.JPEGInterchangeFormat", "Exif.SamsungPreview.JPEGInterchangeFormatLength" } // 9
     };
 
