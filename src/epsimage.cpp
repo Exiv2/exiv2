@@ -61,7 +61,7 @@ namespace {
     using namespace Exiv2;
 
     // signature of DOS EPS
-    static const std::string epsDosSignature = "\xc5\xd0\xd3\xc6";
+    static const std::string dosEpsSignature = "\xC5\xD0\xD3\xC6";
 
     // first line of EPS
     static const std::string epsFirstLine[] = {
@@ -142,6 +142,38 @@ namespace {
         writeTemp(tempIo, data.data(), data.size());
     }
 
+    //! Get the current write position of temp file, taking care of errors
+    static size_t posTemp(BasicIo& tempIo)
+    {
+        const long pos = tempIo.tell();
+        if (pos == -1) {
+            #ifndef SUPPRESS_WARNINGS
+            EXV_WARNING << "Internal error while determining current write position in temporary file.\n";
+            #endif
+            throw Error(21);
+        }
+        return pos;
+    }
+
+    //! Write an unsigned 32-bit integer into temp file, taking care of errors
+    static void writeTempUInt32LE(BasicIo& tempIo, unsigned int v)
+    {
+        const unsigned char b[4] = {
+            (v >> 0*8) & 0xFF,
+            (v >> 1*8) & 0xFF,
+            (v >> 2*8) & 0xFF,
+            (v >> 3*8) & 0xFF,
+        };
+        writeTemp(tempIo, reinterpret_cast<const char*>(b), sizeof(b));
+    }
+
+    //! Read an unsigned 32-bit integer in little endian
+    static unsigned int readUInt32LE(const char* data, size_t startPos)
+    {
+        const unsigned char* b = reinterpret_cast<const unsigned char*>(data + startPos);
+        return (((((b[3] << 8) | b[2]) << 8) | b[1]) << 8) | b[0];
+    }
+
     //! Check whether a string has a certain beginning
     static bool startsWith(const std::string& s, const std::string& start)
     {
@@ -208,7 +240,7 @@ namespace {
     }
 
     //! Find an XMP block
-    static void findXmp(size_t& xmpPos, size_t& xmpSize, const char* data, size_t size, bool write)
+    static void findXmp(size_t& xmpPos, size_t& xmpSize, const char* data, size_t startPos, size_t size, bool write)
     {
         // prepare list of valid XMP headers
         std::vector<std::pair<std::string, std::string> > xmpHeaders;
@@ -223,7 +255,7 @@ namespace {
 
         // search for valid XMP header
         xmpSize = 0;
-        for (xmpPos = 0; xmpPos < size; xmpPos++) {
+        for (xmpPos = startPos; xmpPos < size; xmpPos++) {
             if (data[xmpPos] != '\x00' && data[xmpPos] != '<') continue;
             for (size_t i = 0; i < xmpHeaders.size(); i++) {
                 const std::string &header = xmpHeaders[i].first;
@@ -290,7 +322,7 @@ namespace {
     }
 
     //! Find removable XMP embeddings
-    static std::vector<std::pair<size_t, size_t> > findRemovableEmbeddings(const char* data, size_t posEof, size_t posEndPageSetup,
+    static std::vector<std::pair<size_t, size_t> > findRemovableEmbeddings(const char* data, size_t posStart, size_t posEof, size_t posEndPageSetup,
                                                                            size_t xmpPos, size_t xmpSize, bool write)
     {
         std::vector<std::pair<size_t, size_t> > removableEmbeddings;
@@ -367,7 +399,7 @@ namespace {
         // check whether another XMP metadata block would take precedence if this one was removed
         {
             size_t xmpPos, xmpSize;
-            findXmp(xmpPos, xmpSize, data, posEndPageSetup, write);
+            findXmp(xmpPos, xmpSize, data, posStart, posEndPageSetup, write);
             if (xmpSize != 0) {
                 #ifndef SUPPRESS_WARNINGS
                 EXV_WARNING << "Second XMP metadata block interferes at position: " << xmpPos << "\n";
@@ -400,16 +432,79 @@ namespace {
 
         // read from input file via memory map
         const char *data = reinterpret_cast<const char*>(io.mmap());
-        const size_t size = io.size();
-        size_t pos = 0;
-        std::string line;
 
-        // TODO: Add support for DOS EPS (C5 D0 D3 C6)
+        // default positions and sizes
+        const size_t size = io.size();
+        size_t posEps = 0;
+        size_t posEndEps = size;
+        size_t posWmf = 0;
+        size_t sizeWmf = 0;
+        size_t posTiff = 0;
+        size_t sizeTiff = 0;
+
+        // check for DOS EPS
+        const bool dosEps = (size >= dosEpsSignature.size() && memcmp(data, dosEpsSignature.data(), dosEpsSignature.size()) == 0);
+        if (dosEps) {
+            #ifdef DEBUG
+            EXV_DEBUG << "readWriteEpsMetadata: Found DOS EPS signature\n";
+            #endif
+            if (size < 30) {
+                #ifndef SUPPRESS_WARNINGS
+                EXV_WARNING << "Premature end of file after DOS EPS signature.\n";
+                #endif
+                throw Error(write ? 21 : 14);
+            }
+            posEps    = readUInt32LE(data, 4);
+            posEndEps = readUInt32LE(data, 8) + posEps;
+            posWmf    = readUInt32LE(data, 12);
+            sizeWmf   = readUInt32LE(data, 16);
+            posTiff   = readUInt32LE(data, 20);
+            sizeTiff  = readUInt32LE(data, 24);
+            #ifdef DEBUG
+            EXV_DEBUG << "readWriteEpsMetadata: EPS section at position " << posEps << ", size " << (posEndEps - posEps) << "\n";
+            EXV_DEBUG << "readWriteEpsMetadata: WMF section at position " << posWmf << ", size " << sizeWmf << "\n";
+            EXV_DEBUG << "readWriteEpsMetadata: TIFF section at position " << posTiff << ", size " << sizeTiff << "\n";
+            #endif
+            if (!(data[28] == '\xFF' && data[29] == '\xFF')) {
+                #ifdef DEBUG
+                EXV_DEBUG << "readWriteEpsMetadata: DOS EPS checksum is not FFFF\n";
+                #endif
+            }
+            if (!((posWmf == 0 && sizeWmf == 0) || (posTiff == 0 && sizeTiff == 0))) {
+                #ifndef SUPPRESS_WARNINGS
+                EXV_WARNING << "DOS EPS file has both WMF and TIFF section. Only one of those is allowed.\n";
+                #endif
+                if (write) throw Error(21);
+            }
+            if (sizeWmf == 0 && sizeTiff == 0) {
+                #ifndef SUPPRESS_WARNINGS
+                EXV_WARNING << "DOS EPS file has neither WMF nor TIFF section. Exactly one of those is required.\n";
+                #endif
+                if (write) throw Error(21);
+            }
+            if (posEps < 30 || posEndEps > size) {
+                #ifndef SUPPRESS_WARNINGS
+                EXV_WARNING << "DOS EPS file has invalid position (" << posEps << ") or size (" << (posEndEps - posEps) << ") for EPS section.\n";
+                #endif
+                throw Error(write ? 21 : 14);
+            }
+            if (sizeWmf != 0 && (posWmf < 30 || posWmf + sizeWmf > size)) {
+                #ifndef SUPPRESS_WARNINGS
+                EXV_WARNING << "DOS EPS file has invalid position (" << posWmf << ") or size (" << sizeWmf << ") for WMF section.\n";
+                #endif
+                if (write) throw Error(21);
+            }
+            if (sizeTiff != 0 && (posTiff < 30 || posTiff + sizeTiff > size)) {
+                #ifndef SUPPRESS_WARNINGS
+                EXV_WARNING << "DOS EPS file has invalid position (" << posTiff << ") or size (" << sizeTiff << ") for TIFF section.\n";
+                #endif
+                if (write) throw Error(21);
+            }
+        }
 
         // check first line
-        const size_t firstLinePos = pos;
-        pos = readLine(line, data, firstLinePos, size);
-        const std::string firstLine = line;
+        std::string firstLine;
+        const size_t posSecondLine = readLine(firstLine, data, posEps, posEndEps);
         #ifdef DEBUG
         EXV_DEBUG << "readWriteEpsMetadata: First line: " << firstLine << "\n";
         #endif
@@ -422,13 +517,13 @@ namespace {
         }
 
         // determine line ending style of the first line
-        if (pos >= size) {
+        if (posSecondLine >= posEndEps) {
             #ifndef SUPPRESS_WARNINGS
             EXV_WARNING << "Premature end of file after first line.\n";
             #endif
             throw Error(write ? 21 : 14);
         }
-        const std::string lineEnding(data + firstLinePos + firstLine.size(), pos - (firstLinePos + firstLine.size()));
+        const std::string lineEnding(data + posEps + firstLine.size(), posSecondLine - (posEps + firstLine.size()));
         #ifdef DEBUG
         if (lineEnding == "\n") {
             EXV_DEBUG << "readWriteEpsMetadata: Line ending style: Unix (LF)\n";
@@ -442,26 +537,27 @@ namespace {
         #endif
 
         // scan comments
-        size_t posLanguageLevel = size;
-        size_t posContainsXmp = size;
-        size_t posPages = size;
-        size_t posExiv2Version = size;
-        size_t posExiv2Website = size;
-        size_t posEndComments = size;
-        size_t posPage = size;
-        size_t posEndPageSetup = size;
-        size_t posPageTrailer = size;
-        size_t posEof = size;
+        size_t posLanguageLevel = posEndEps;
+        size_t posContainsXmp = posEndEps;
+        size_t posPages = posEndEps;
+        size_t posExiv2Version = posEndEps;
+        size_t posExiv2Website = posEndEps;
+        size_t posEndComments = posEndEps;
+        size_t posPage = posEndEps;
+        size_t posEndPageSetup = posEndEps;
+        size_t posPageTrailer = posEndEps;
+        size_t posEof = posEndEps;
         bool implicitPage = false;
         bool photoshop = false;
         bool inDefaultsOrPrologOrSetup = false;
         bool inPageSetup = false;
-        while (pos < posEof) {
+        for (size_t pos = posEps; pos < posEof;) {
             const size_t startPos = pos;
-            pos = readLine(line, data, startPos, size);
+            std::string line;
+            pos = readLine(line, data, startPos, posEndEps);
             // implicit comments
             if (line == "%%EOF" || line == "%begin_xml_code" || !(line.size() >= 2 && line[0] == '%' && '\x21' <= line[1] && line[1] <= '\x7e')) {
-                if (posEndComments == size) {
+                if (posEndComments == posEndEps) {
                     posEndComments = startPos;
                     #ifdef DEBUG
                     EXV_DEBUG << "readWriteEpsMetadata: Found implicit EndComments at position: " << startPos << "\n";
@@ -469,14 +565,14 @@ namespace {
                 }
             }
             if (line == "%%EOF" || line == "%begin_xml_code" || (line.size() >= 1 && line[0] != '%')) {
-                if (posPage == size && posEndComments != size && !inDefaultsOrPrologOrSetup && !onlyWhitespaces(line)) {
+                if (posPage == posEndEps && posEndComments != posEndEps && !inDefaultsOrPrologOrSetup && !onlyWhitespaces(line)) {
                     posPage = startPos;
                     implicitPage = true;
                     #ifdef DEBUG
                     EXV_DEBUG << "readWriteEpsMetadata: Found implicit Page at position: " << startPos << "\n";
                     #endif
                 }
-                if (posEndPageSetup == size && posPage != size && !inPageSetup) {
+                if (posEndPageSetup == posEndEps && posPage != posEndEps && !inPageSetup) {
                     posEndPageSetup = startPos;
                     #ifdef DEBUG
                     EXV_DEBUG << "readWriteEpsMetadata: Found implicit EndPageSetup at position: " << startPos << "\n";
@@ -484,7 +580,7 @@ namespace {
                 }
             }
             if (line.size() >= 1 && line[0] != '%') continue; // performance optimization
-            if (line == "%%EOF" && posPageTrailer == size) {
+            if (line == "%%EOF" && posPageTrailer == posEndEps) {
                 posPageTrailer = startPos;
                 #ifdef DEBUG
                 EXV_DEBUG << "readWriteEpsMetadata: Found implicit PageTrailer at position: " << startPos << "\n";
@@ -494,17 +590,17 @@ namespace {
             #ifdef DEBUG
             bool significantLine = true;
             #endif
-            if (posEndComments == size && posLanguageLevel == size && startsWith(line, "%%LanguageLevel:")) {
+            if (posEndComments == posEndEps && posLanguageLevel == posEndEps && startsWith(line, "%%LanguageLevel:")) {
                 posLanguageLevel = startPos;
-            } else if (posEndComments == size && posContainsXmp == size && startsWith(line, "%ADO_ContainsXMP:")) {
+            } else if (posEndComments == posEndEps && posContainsXmp == posEndEps && startsWith(line, "%ADO_ContainsXMP:")) {
                 posContainsXmp = startPos;
-            } else if (posEndComments == size && posPages == size && startsWith(line, "%%Pages:")) {
+            } else if (posEndComments == posEndEps && posPages == posEndEps && startsWith(line, "%%Pages:")) {
                 posPages = startPos;
-            } else if (posEndComments == size && posExiv2Version == size && startsWith(line, "%Exiv2Version:")) {
+            } else if (posEndComments == posEndEps && posExiv2Version == posEndEps && startsWith(line, "%Exiv2Version:")) {
                 posExiv2Version = startPos;
-            } else if (posEndComments == size && posExiv2Website == size && startsWith(line, "%Exiv2Website:")) {
+            } else if (posEndComments == posEndEps && posExiv2Website == posEndEps && startsWith(line, "%Exiv2Website:")) {
                 posExiv2Website = startPos;
-            } else if (posEndComments == size && line == "%%EndComments") {
+            } else if (posEndComments == posEndEps && line == "%%EndComments") {
                 posEndComments = startPos;
             } else if (line == "%%BeginDefaults") {
                 inDefaultsOrPrologOrSetup = true;
@@ -518,32 +614,32 @@ namespace {
                 inDefaultsOrPrologOrSetup = true;
             } else if (line == "%%EndSetup") {
                 inDefaultsOrPrologOrSetup = false;
-            } else if (posPage == size && startsWith(line, "%%Page:")) {
+            } else if (posPage == posEndEps && startsWith(line, "%%Page:")) {
                 posPage = startPos;
             } else if (line == "%%BeginPageSetup") {
                 inPageSetup = true;
-            } else if (posEndPageSetup == size && line == "%%EndPageSetup") {
+            } else if (posEndPageSetup == posEndEps && line == "%%EndPageSetup") {
                 inPageSetup = false;
                 posEndPageSetup = startPos;
-            } else if (posPageTrailer == size && line == "%%PageTrailer") {
+            } else if (posPageTrailer == posEndEps && line == "%%PageTrailer") {
                 posPageTrailer = startPos;
             } else if (startsWith(line, "%BeginPhotoshop:")) {
                 photoshop = true;
             } else if (line == "%%EOF") {
                 posEof = startPos;
             } else if (startsWith(line, "%%BeginDocument:")) {
-                if (posEndPageSetup == size) {
+                if (posEndPageSetup == posEndEps) {
                     #ifndef SUPPRESS_WARNINGS
-                    EXV_WARNING << "Embedded document at invalid position (before explicit or implicit EndPageSetup): " << startPos << "\n";
+                    EXV_WARNING << "Nested document at invalid position (before explicit or implicit EndPageSetup): " << startPos << "\n";
                     #endif
                     throw Error(write ? 21 : 14);
                 }
-                // TODO: Add support for embedded documents!
+                // TODO: Add support for nested documents!
                 #ifndef SUPPRESS_WARNINGS
-                EXV_WARNING << "Embedded documents are currently not supported. Found embedded document at position: " << startPos << "\n";
+                EXV_WARNING << "Nested documents are currently not supported. Found nested document at position: " << startPos << "\n";
                 #endif
                 throw Error(write ? 21 : 14);
-            } else if (posPage != size && startsWith(line, "%%Page:")) {
+            } else if (posPage != posEndEps && startsWith(line, "%%Page:")) {
                 if (implicitPage) {
                     #ifndef SUPPRESS_WARNINGS
                     EXV_WARNING << "Page at position " << startPos << " conflicts with implicit page at position: " << posPage << "\n";
@@ -573,7 +669,8 @@ namespace {
         }
 
         // interpret comment "%ADO_ContainsXMP:"
-        readLine(line, data, posContainsXmp, size);
+        std::string line;
+        readLine(line, data, posContainsXmp, posEndEps);
         bool containsXmp;
         if (line == "%ADO_ContainsXMP: MainFirst" || line == "%ADO_ContainsXMP:MainFirst") {
             containsXmp = true;
@@ -588,11 +685,11 @@ namespace {
 
         std::vector<std::pair<size_t, size_t> > removableEmbeddings;
         bool fixBeginXmlPacket = false;
-        size_t xmpPos = size;
+        size_t xmpPos = posEndEps;
         size_t xmpSize = 0;
         if (containsXmp) {
             // search for XMP metadata
-            findXmp(xmpPos, xmpSize, data, size, write);
+            findXmp(xmpPos, xmpSize, data, posEps, posEndEps, write);
             if (xmpSize == 0) {
                 #ifndef SUPPRESS_WARNINGS
                 EXV_WARNING << "Unable to find XMP metadata as announced at position: " << posContainsXmp << "\n";
@@ -600,19 +697,19 @@ namespace {
                 throw Error(write ? 21 : 14);
             }
             // check embedding of XMP metadata
-            const size_t posLineAfterXmp = readLine(line, data, xmpPos + xmpSize, size);
+            const size_t posLineAfterXmp = readLine(line, data, xmpPos + xmpSize, posEndEps);
             if (line != "") {
                 #ifndef SUPPRESS_WARNINGS
                 EXV_WARNING << "Unexpected " << line.size() << " bytes of data after XMP at position: " << (xmpPos + xmpSize) << "\n";
                 #endif
                 if (write) throw Error(21);
             }
-            readLine(line, data, posLineAfterXmp, size);
+            readLine(line, data, posLineAfterXmp, posEndEps);
             if (line == "% &&end XMP packet marker&&" || line == "%  &&end XMP packet marker&&") {
                 #ifdef DEBUG
                 EXV_DEBUG << "readWriteEpsMetadata: Recognized flexible XMP embedding\n";
                 #endif
-                const size_t posBeginXmlPacket = readPrevLine(line, data, xmpPos, size);
+                const size_t posBeginXmlPacket = readPrevLine(line, data, xmpPos, posEndEps);
                 if (startsWith(line, "%begin_xml_packet:")) {
                     #ifdef DEBUG
                     EXV_DEBUG << "readWriteEpsMetadata: Found %begin_xml_packet before flexible XMP embedding\n";
@@ -629,7 +726,7 @@ namespace {
                     if (write) throw Error(21);
                 }
             } else {
-                removableEmbeddings = findRemovableEmbeddings(data, posEof, posEndPageSetup, xmpPos, xmpSize, write);
+                removableEmbeddings = findRemovableEmbeddings(data, posEps, posEof, posEndPageSetup, xmpPos, xmpSize, write);
                 if (removableEmbeddings.empty()) {
                     #ifndef SUPPRESS_WARNINGS
                     EXV_WARNING << "Unknown XMP embedding at position: " << xmpPos << "\n";
@@ -640,10 +737,10 @@ namespace {
         }
 
         if (!write) {
-            // copy
+            // copy XMP metadata
             xmpPacket.assign(data + xmpPos, xmpSize);
         } else {
-            const bool useExistingEmbedding = (xmpPos != size && removableEmbeddings.empty());
+            const bool useExistingEmbedding = (xmpPos != posEndEps && removableEmbeddings.empty());
 
             // TODO: Add support for deleting XMP metadata. Note that this is not
             //       as simple as it may seem, and requires special attention!
@@ -679,7 +776,7 @@ namespace {
             positions.push_back(posEndPageSetup);
             positions.push_back(posPageTrailer);
             positions.push_back(posEof);
-            positions.push_back(size);
+            positions.push_back(posEndEps);
             if (useExistingEmbedding) {
                 positions.push_back(xmpPos);
             }
@@ -689,8 +786,13 @@ namespace {
             std::sort(positions.begin(), positions.end());
 
             // assemble result EPS document
-            size_t prevPos = 0;
-            size_t prevSkipPos = 0;
+            if (dosEps) {
+                // DOS EPS header will be written afterwards
+                writeTemp(*tempIo, std::string(30, '\x00'));
+            }
+            const size_t posEpsNew = posTemp(*tempIo);
+            size_t prevPos = posEps;
+            size_t prevSkipPos = prevPos;
             for (std::vector<size_t>::const_iterator i = positions.begin(); i != positions.end(); i++) {
                 const size_t pos = *i;
                 if (pos == prevPos) continue;
@@ -702,53 +804,53 @@ namespace {
                     throw Error(21);
                 }
                 writeTemp(*tempIo, data + prevSkipPos, pos - prevSkipPos);
-                const size_t posLineEnd = readLine(line, data, pos, size);
+                const size_t posLineEnd = readLine(line, data, pos, posEndEps);
                 size_t skipPos = pos;
                 // add last line ending if necessary
-                if (pos == size && pos >= 1 && data[pos - 1] != '\r' && data[pos - 1] != '\n') {
+                if (pos == posEndEps && pos >= 1 && data[pos - 1] != '\r' && data[pos - 1] != '\n') {
                     writeTemp(*tempIo, lineEnding);
                     #ifdef DEBUG
                     EXV_DEBUG << "readWriteEpsMetadata: Added missing line ending of last line\n";
                     #endif
                 }
                 // update and complement DSC comments
-                if (pos == posLanguageLevel && posLanguageLevel != size && !useExistingEmbedding) {
+                if (pos == posLanguageLevel && posLanguageLevel != posEndEps && !useExistingEmbedding) {
                     if (line == "%%LanguageLevel:1" || line == "%%LanguageLevel: 1") {
                         writeTemp(*tempIo, "%%LanguageLevel: 2" + lineEnding);
                         skipPos = posLineEnd;
                     }
                 }
-                if (pos == posContainsXmp && posContainsXmp != size) {
+                if (pos == posContainsXmp && posContainsXmp != posEndEps) {
                     if (line != "%ADO_ContainsXMP: MainFirst") {
                         writeTemp(*tempIo, "%ADO_ContainsXMP: MainFirst" + lineEnding);
                         skipPos = posLineEnd;
                     }
                 }
-                if (pos == posExiv2Version && posExiv2Version != size) {
+                if (pos == posExiv2Version && posExiv2Version != posEndEps) {
                     writeTemp(*tempIo, "%Exiv2Version: " + std::string(version()) + lineEnding);
                     skipPos = posLineEnd;
                 }
-                if (pos == posExiv2Website && posExiv2Website != size) {
+                if (pos == posExiv2Website && posExiv2Website != posEndEps) {
                     writeTemp(*tempIo, "%Exiv2Website: http://www.exiv2.org/" + lineEnding);
                     skipPos = posLineEnd;
                 }
                 if (pos == posEndComments) {
-                    if (posLanguageLevel == size && !useExistingEmbedding) {
+                    if (posLanguageLevel == posEndEps && !useExistingEmbedding) {
                         writeTemp(*tempIo, "%%LanguageLevel: 2" + lineEnding);
                     }
-                    if (posContainsXmp == size) {
+                    if (posContainsXmp == posEndEps) {
                         writeTemp(*tempIo, "%ADO_ContainsXMP: MainFirst" + lineEnding);
                     }
-                    if (posPages == size) {
+                    if (posPages == posEndEps) {
                         writeTemp(*tempIo, "%%Pages: 1" + lineEnding);
                     }
-                    if (posExiv2Version == size) {
+                    if (posExiv2Version == posEndEps) {
                         writeTemp(*tempIo, "%Exiv2Version: " + std::string(version()) + lineEnding);
                     }
-                    if (posExiv2Website == size) {
+                    if (posExiv2Website == posEndEps) {
                         writeTemp(*tempIo, "%Exiv2Website: http://www.exiv2.org/" + lineEnding);
                     }
-                    readLine(line, data, posEndComments, size);
+                    readLine(line, data, posEndComments, posEndEps);
                     if (line != "%%EndComments") {
                         writeTemp(*tempIo, "%%EndComments" + lineEnding);
                     }
@@ -819,7 +921,7 @@ namespace {
                         }
                     }
                     if (pos == posPageTrailer) {
-                        if (pos == size || pos == posEof) {
+                        if (pos == posEndEps || pos == posEof) {
                             writeTemp(*tempIo, "%%PageTrailer" + lineEnding);
                         } else {
                             skipPos = posLineEnd;
@@ -831,11 +933,38 @@ namespace {
                     }
                 }
                 // add EOF comment if necessary
-                if (pos == size && posEof == size) {
+                if (pos == posEndEps && posEof == posEndEps) {
                     writeTemp(*tempIo, "%%EOF" + lineEnding);
                 }
                 prevPos = pos;
                 prevSkipPos = skipPos;
+            }
+            const size_t posEndEpsNew = posTemp(*tempIo);
+            #ifdef DEBUG
+            EXV_DEBUG << "readWriteEpsMetadata: New EPS size: " << (posEndEpsNew - posEpsNew) << "\n";
+            #endif
+            if (dosEps) {
+                // add WMF and/or TIFF section if present
+                writeTemp(*tempIo, data + posWmf, sizeWmf);
+                writeTemp(*tempIo, data + posTiff, sizeTiff);
+                #ifdef DEBUG
+                EXV_DEBUG << "readWriteEpsMetadata: New DOS EPS total size: " << posTemp(*tempIo) << "\n";
+                #endif
+                // write DOS EPS header
+                if (tempIo->seek(0, BasicIo::beg) != 0) {
+                    #ifndef SUPPRESS_WARNINGS
+                    EXV_WARNING << "Internal error while seeking in temporary file.\n";
+                    #endif
+                    throw Error(21);
+                }
+                writeTemp(*tempIo, dosEpsSignature);
+                writeTempUInt32LE(*tempIo, posEpsNew);
+                writeTempUInt32LE(*tempIo, posEndEpsNew - posEpsNew);
+                writeTempUInt32LE(*tempIo, sizeWmf == 0 ? 0 : posEndEpsNew);
+                writeTempUInt32LE(*tempIo, sizeWmf);
+                writeTempUInt32LE(*tempIo, sizeTiff == 0 ? 0 : posEndEpsNew + sizeWmf);
+                writeTempUInt32LE(*tempIo, sizeTiff);
+                writeTemp(*tempIo, std::string("\xFF\xFF"));
             }
 
             // copy temporary file to real output file
@@ -939,7 +1068,7 @@ namespace Exiv2
     bool isEpsType(BasicIo& iIo, bool advance)
     {
         // read as many bytes as needed for the longest (DOS) EPS signature
-        size_t bufSize = epsDosSignature.size();
+        size_t bufSize = dosEpsSignature.size();
         for (size_t i = 0; i < (sizeof epsFirstLine) / (sizeof *epsFirstLine); i++) {
             if (bufSize < epsFirstLine[i].size()) {
                 bufSize = epsFirstLine[i].size();
@@ -951,7 +1080,7 @@ namespace Exiv2
             return false;
         }
         // check for all possible (DOS) EPS signatures
-        bool matched = (memcmp(buf, epsDosSignature.data(), epsDosSignature.size()) == 0);
+        bool matched = (memcmp(buf, dosEpsSignature.data(), dosEpsSignature.size()) == 0);
         for (size_t i = 0; !matched && i < (sizeof epsFirstLine) / (sizeof *epsFirstLine); i++) {
             matched = (memcmp(buf, epsFirstLine[i].data(), epsFirstLine[i].size()) == 0);
         }
@@ -961,4 +1090,5 @@ namespace Exiv2
         }
         return matched;
     }
+
 } // namespace Exiv2
