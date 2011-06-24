@@ -699,13 +699,19 @@ namespace {
         (void)parIdx;
 
         const Exiv2::XmpData &xmpData = image_.xmpData();
-        XmpData::const_iterator imageDatum = xmpData.findKey(XmpKey("Xmp.xmp.Thumbnails[1]/xmpGImg:image"));
+
+        std::string prefix = "xmpGImg";
+        if (xmpData.findKey(XmpKey("Xmp.xmp.Thumbnails[1]/xapGImg:image")) != xmpData.end()) {
+            prefix = "xapGImg";
+        }
+
+        XmpData::const_iterator imageDatum = xmpData.findKey(XmpKey("Xmp.xmp.Thumbnails[1]/" + prefix + ":image"));
         if (imageDatum == xmpData.end()) return;
-        XmpData::const_iterator formatDatum = xmpData.findKey(XmpKey("Xmp.xmp.Thumbnails[1]/xmpGImg:format"));
+        XmpData::const_iterator formatDatum = xmpData.findKey(XmpKey("Xmp.xmp.Thumbnails[1]/" + prefix + ":format"));
         if (formatDatum == xmpData.end()) return;
-        XmpData::const_iterator widthDatum = xmpData.findKey(XmpKey("Xmp.xmp.Thumbnails[1]/xmpGImg:width"));
+        XmpData::const_iterator widthDatum = xmpData.findKey(XmpKey("Xmp.xmp.Thumbnails[1]/" + prefix + ":width"));
         if (widthDatum == xmpData.end()) return;
-        XmpData::const_iterator heightDatum = xmpData.findKey(XmpKey("Xmp.xmp.Thumbnails[1]/xmpGImg:height"));
+        XmpData::const_iterator heightDatum = xmpData.findKey(XmpKey("Xmp.xmp.Thumbnails[1]/" + prefix + ":height"));
         if (heightDatum == xmpData.end()) return;
 
         if (formatDatum->toString() != "JPEG") return;
