@@ -105,31 +105,6 @@ namespace Exiv2
         EpsImage& operator=(const EpsImage& rhs);
         //@}
 
-        //! @name Internal implementation
-        //@{
-        //! Unified implementation of reading and writing metadata
-        EXV_DLLLOCAL void doReadWriteMetadata(bool write);
-        //! Find removable XMP embeddings
-        EXV_DLLLOCAL static std::vector<std::pair<size_t, size_t> > findRemovableEmbeddings(const char* data, size_t posEof, size_t posEndPageSetup,
-                                                                                            size_t xmpPos, size_t xmpSize, bool write);
-        //! Find an XMP block
-        EXV_DLLLOCAL static void findXmp(size_t& xmpPos, size_t& xmpSize, const char* data, size_t size, bool write);
-        //! Read the next line of a buffer, allow for changing line ending style
-        EXV_DLLLOCAL static size_t readLine(std::string& line, const char* data, size_t startPos, size_t size);
-        //! Read the previous line of a buffer, allow for changing line ending style
-        EXV_DLLLOCAL static size_t readPrevLine(std::string& line, const char* data, size_t startPos, size_t size);
-        //! Check whether a string has a certain beginning
-        EXV_DLLLOCAL static bool startsWith(const std::string& s, const std::string& start);
-        //! Check whether a string contains only white space characters
-        EXV_DLLLOCAL static bool onlyWhitespaces(const std::string& s);
-        //! Convert an integer of type size_t to a decimal string
-        EXV_DLLLOCAL static std::string toString(size_t size);
-        //! Write data into temp file, taking care of errors
-        EXV_DLLLOCAL static void writeTemp(BasicIo& tempIo, const char* data, size_t size);
-        //! Write data into temp file, taking care of errors
-        EXV_DLLLOCAL static void writeTemp(BasicIo& tempIo, const std::string &data);
-        //@}
-
     }; // class EpsImage
 
 // *****************************************************************************
