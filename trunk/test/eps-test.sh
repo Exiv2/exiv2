@@ -90,7 +90,9 @@ done
 
         sed "s,@Exiv2Version@,$exiv2version," < "../data/eps/$image.eps.newxmp" > "$image.eps.newxmp"
 
-        diff -q "$image.eps.newxmp" "$image.eps"
+        if ! diff -q "$image.eps.newxmp" "$image.eps" ; then
+            continue
+        fi
 
         echo
         echo "Command: (2) exiv2 -ix $image.eps"
