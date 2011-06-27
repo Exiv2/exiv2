@@ -320,6 +320,11 @@ namespace Exiv2 {
         return writeXmpFromPacket_;
     }
 
+    const NativePreviewList& Image::nativePreviews() const
+    {
+        return nativePreviews_;
+    }
+
     bool Image::good() const
     {
         if (io_->open() != 0) return false;
