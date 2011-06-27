@@ -1074,15 +1074,14 @@ namespace Exiv2
                 bufSize = epsFirstLine[i].size();
             }
         }
-        byte buf[bufSize];
-        iIo.read(buf, bufSize);
+        DataBuf buf = iIo.read(bufSize);
         if (iIo.error() || iIo.eof()) {
             return false;
         }
         // check for all possible (DOS) EPS signatures
-        bool matched = (memcmp(buf, dosEpsSignature.data(), dosEpsSignature.size()) == 0);
+        bool matched = (memcmp(buf.pData_, dosEpsSignature.data(), dosEpsSignature.size()) == 0);
         for (size_t i = 0; !matched && i < (sizeof epsFirstLine) / (sizeof *epsFirstLine); i++) {
-            matched = (memcmp(buf, epsFirstLine[i].data(), epsFirstLine[i].size()) == 0);
+            matched = (memcmp(buf.pData_, epsFirstLine[i].data(), epsFirstLine[i].size()) == 0);
         }
         // seek back if possible and requested
         if (!advance || !matched) {
