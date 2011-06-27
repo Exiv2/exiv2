@@ -296,6 +296,53 @@ namespace Exiv2 {
                 break;
             }
 
+            // - PS 4.0 preview data is fetched from ThumbnailResource
+            // - PS >= 5.0 preview data is fetched from ThumbnailResource2
+            case kPhotoshopResourceID_ThumbnailResource:
+            case kPhotoshopResourceID_ThumbnailResource2:
+            {
+                /*
+                  Photoshop thumbnail resource header
+
+                  offset  length    name            description
+                  ======  ========  ====            ===========
+                   0      4 bytes   format          = 1 (kJpegRGB). Also supports kRawRGB (0).
+                   4      4 bytes   width           Width of thumbnail in pixels.
+                   8      4 bytes   height          Height of thumbnail in pixels.
+                  12      4 bytes   widthbytes      Padded row bytes as (width * bitspixel + 31) / 32 * 4.
+                  16      4 bytes   size            Total size as widthbytes * height * planes
+                  20      4 bytes   compressedsize  Size after compression. Used for consistentcy check.
+                  24      2 bytes   bitspixel       = 24. Bits per pixel.
+                  26      2 bytes   planes          = 1. Number of planes.
+                  28      variable  data            JFIF data in RGB format.
+                                                    Note: For resource ID 1033 the data is in BGR format.
+                */
+                byte buf[28];
+                if (io_->read(buf, 28) != 28)
+                {
+                    throw Error(3, "Photoshop");
+                }
+                NativePreview nativePreview;
+                nativePreview.position_ = io_->tell();
+                nativePreview.size_ = getLong(buf + 20, bigEndian);    // compressedsize
+                nativePreview.width_ = getLong(buf + 4, bigEndian);
+                nativePreview.height_ = getLong(buf + 8, bigEndian);
+                const uint32_t format = getLong(buf + 0, bigEndian);
+
+                if (nativePreview.size_ > 0 && nativePreview.position_ >= 0) {
+                    io_->seek(static_cast<long>(nativePreview.size_), BasicIo::cur);
+                    if (io_->error() || io_->eof()) throw Error(14);
+
+                    if (format == 1) {
+                        nativePreview.mimeType_ = "image/jpeg";
+                        nativePreviews_.push_back(nativePreview);
+                    } else {
+                        // unsupported format of native preview
+                    }
+                }
+                break;
+            }
+
             default:
             {
                 break;
