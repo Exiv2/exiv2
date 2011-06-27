@@ -138,6 +138,29 @@ namespace {
         bool valid_;
     };
 
+    //! Loader for native previews
+    class LoaderNative : public Loader {
+    public:
+        //! Constructor
+        LoaderNative(PreviewId id, const Image &image, int parIdx);
+
+        //! Get properties of a preview image with given params
+        virtual PreviewProperties getProperties() const;
+
+        //! Get a buffer that contains the preview image
+        virtual DataBuf getData() const;
+
+        //! Read preview image dimensions
+        virtual bool readDimensions();
+
+    protected:
+        //! Native preview information
+        NativePreview nativePreview_;
+    };
+
+    //! Function to create new LoaderNative
+    Loader::AutoPtr createLoaderNative(PreviewId id, const Image &image, int parIdx);
+
     //! Loader for Jpeg previews that are not read into ExifData directly
     class LoaderExifJpeg : public Loader {
     public:
@@ -269,6 +292,10 @@ namespace {
 // class member definitions
 
     const Loader::LoaderList Loader::loaderList_[] = {
+        { 0,                       createLoaderNative,       0 },
+        { 0,                       createLoaderNative,       1 },
+        { 0,                       createLoaderNative,       2 },
+        { 0,                       createLoaderNative,       3 },
         { 0,                       createLoaderExifDataJpeg, 0 },
         { 0,                       createLoaderExifDataJpeg, 1 },
         { 0,                       createLoaderExifDataJpeg, 2 },
@@ -369,6 +396,82 @@ namespace {
     PreviewId Loader::getNumLoaders()
     {
         return (PreviewId)EXV_COUNTOF(loaderList_);
+    }
+
+    LoaderNative::LoaderNative(PreviewId id, const Image &image, int parIdx)
+        : Loader(id, image)
+    {
+        if (!(0 <= parIdx && static_cast<size_t>(parIdx) < image.nativePreviews().size())) return;
+        nativePreview_ = image.nativePreviews()[parIdx];
+        size_ = nativePreview_.size_;
+        width_ = nativePreview_.width_;
+        height_ = nativePreview_.height_;
+        valid_ = true;
+    }
+
+    Loader::AutoPtr createLoaderNative(PreviewId id, const Image &image, int parIdx)
+    {
+        return Loader::AutoPtr(new LoaderNative(id, image, parIdx));
+    }
+
+    PreviewProperties LoaderNative::getProperties() const
+    {
+        PreviewProperties prop = Loader::getProperties();
+        prop.mimeType_ = nativePreview_.mimeType_;
+        if (nativePreview_.mimeType_ == "image/jpeg") {
+            prop.extension_ = ".jpg";
+        } else {
+#ifndef SUPPRESS_WARNINGS
+            EXV_WARNING << "Unknown native preview format: " << nativePreview_.mimeType_ << "\n";
+#endif
+            prop.extension_ = ".dat";
+        }
+#ifdef EXV_UNICODE_PATH
+        prop.wextension_ = s2ws(prop.extension_);
+#endif
+        return prop;
+    }
+
+    DataBuf LoaderNative::getData() const
+    {
+        if (!valid()) return DataBuf();
+
+        BasicIo &io = image_.io();
+        if (io.open() != 0) {
+            throw Error(9, io.path(), strError());
+        }
+        IoCloser closer(io);
+        const Exiv2::byte* data = io.mmap();
+        if (io.size() < nativePreview_.position_ + static_cast<long>(nativePreview_.size_)) {
+#ifndef SUPPRESS_WARNINGS
+            EXV_WARNING << "Invalid native preview position or size.\n";
+#endif
+            return DataBuf();
+        }
+        return DataBuf(data + nativePreview_.position_, nativePreview_.size_);
+    }
+
+    bool LoaderNative::readDimensions()
+    {
+        if (!valid()) return false;
+        if (width_ != 0 || height_ != 0) return true;
+
+        const DataBuf data = getData();
+        if (data.size_ == 0) return false;
+        try {
+            Image::AutoPtr image = ImageFactory::open(data.pData_, data.size_);
+            if (image.get() == 0) return false;
+            image->readMetadata();
+
+            width_ = image->pixelWidth();
+            height_ = image->pixelHeight();
+        } catch (const AnyError& /* error */) {
+#ifndef SUPPRESS_WARNINGS
+            EXV_WARNING << "Unable to determine dimensions of native preview image.\n";
+#endif
+            return false;
+        }
+        return true;
     }
 
     LoaderExifJpeg::LoaderExifJpeg(PreviewId id, const Image &image, int parIdx)
