@@ -403,7 +403,7 @@ namespace {
     }
 
     //! Unified implementation of reading and writing EPS metadata
-    static void readWriteEpsMetadata(BasicIo& io, std::string& xmpPacket, bool write)
+    static void readWriteEpsMetadata(BasicIo& io, std::string& xmpPacket, NativePreviewList& nativePreviews, bool write)
     {
         // open input file
         if (io.open() != 0) {
@@ -721,6 +721,27 @@ namespace {
         if (!write) {
             // copy XMP metadata
             xmpPacket.assign(reinterpret_cast<const char*>(data + xmpPos), xmpSize);
+
+            // native previews
+            nativePreviews.clear();
+            if (sizeWmf != 0) {
+                NativePreview nativePreview;
+                nativePreview.position_ = static_cast<long>(posWmf);
+                nativePreview.size_ = sizeWmf;
+                nativePreview.width_ = 0;
+                nativePreview.height_ = 0;
+                nativePreview.mimeType_ = "image/x-wmf";
+                nativePreviews.push_back(nativePreview);
+            }
+            if (sizeTiff) {
+                NativePreview nativePreview;
+                nativePreview.position_ = static_cast<long>(posTiff);
+                nativePreview.size_ = sizeTiff;
+                nativePreview.width_ = 0;
+                nativePreview.height_ = 0;
+                nativePreview.mimeType_ = "image/tiff";
+                nativePreviews.push_back(nativePreview);
+            }
         } else {
             const bool useExistingEmbedding = (xmpPos != posEndEps && removableEmbeddings.empty());
 
@@ -1001,7 +1022,7 @@ namespace Exiv2
         #endif
 
         // read metadata
-        readWriteEpsMetadata(*io_, xmpPacket_, /* write = */ false);
+        readWriteEpsMetadata(*io_, xmpPacket_, nativePreviews_, /* write = */ false);
 
         // decode XMP metadata
         if (xmpPacket_.size() > 0 && XmpParser::decode(xmpData_, xmpPacket_) > 1) {
@@ -1031,7 +1052,7 @@ namespace Exiv2
         }
 
         // write metadata
-        readWriteEpsMetadata(*io_, xmpPacket_, /* write = */ true);
+        readWriteEpsMetadata(*io_, xmpPacket_, nativePreviews_, /* write = */ true);
 
         #ifdef DEBUG
         EXV_DEBUG << "Exiv2::EpsImage::writeMetadata: Finished writing EPS file " << io_->path() << "\n";
