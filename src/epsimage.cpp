@@ -441,12 +441,13 @@ namespace {
             sizeWmf   = getULong(data + 16, littleEndian);
             posTiff   = getULong(data + 20, littleEndian);
             sizeTiff  = getULong(data + 24, littleEndian);
+            const uint16_t checksum = getUShort(data + 28, littleEndian);
             #ifdef DEBUG
             EXV_DEBUG << "readWriteEpsMetadata: EPS section at position " << posEps << ", size " << (posEndEps - posEps) << "\n";
             EXV_DEBUG << "readWriteEpsMetadata: WMF section at position " << posWmf << ", size " << sizeWmf << "\n";
             EXV_DEBUG << "readWriteEpsMetadata: TIFF section at position " << posTiff << ", size " << sizeTiff << "\n";
             #endif
-            if (!(data[28] == 0xFF && data[29] == 0xFF)) {
+            if (checksum != 0xFFFF) {
                 #ifdef DEBUG
                 EXV_DEBUG << "readWriteEpsMetadata: DOS EPS checksum is not FFFF\n";
                 #endif
