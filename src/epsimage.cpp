@@ -1068,14 +1068,14 @@ namespace Exiv2
     bool isEpsType(BasicIo& iIo, bool advance)
     {
         // read as many bytes as needed for the longest (DOS) EPS signature
-        size_t bufSize = dosEpsSignature.size();
+        long bufSize = dosEpsSignature.size();
         for (size_t i = 0; i < (sizeof epsFirstLine) / (sizeof *epsFirstLine); i++) {
-            if (bufSize < epsFirstLine[i].size()) {
-                bufSize = epsFirstLine[i].size();
+            if (bufSize < static_cast<long>(epsFirstLine[i].size())) {
+                bufSize = static_cast<long>(epsFirstLine[i].size());
             }
         }
         DataBuf buf = iIo.read(bufSize);
-        if (iIo.error() || iIo.eof()) {
+        if (iIo.error() || buf.size_ != bufSize) {
             return false;
         }
         // check for all possible (DOS) EPS signatures
@@ -1085,7 +1085,7 @@ namespace Exiv2
         }
         // seek back if possible and requested
         if (!advance || !matched) {
-            iIo.seek(-bufSize, BasicIo::cur);
+            iIo.seek(-buf.size_, BasicIo::cur);
         }
         return matched;
     }
