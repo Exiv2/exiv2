@@ -125,10 +125,10 @@ namespace {
     static const std::string xmpTrailerEndDef = "?>";
 
     //! Write data into temp file, taking care of errors
-    static void writeTemp(BasicIo& tempIo, const char* data, size_t size)
+    static void writeTemp(BasicIo& tempIo, const byte* data, size_t size)
     {
         if (size == 0) return;
-        if (tempIo.write(reinterpret_cast<const byte*>(data), static_cast<long>(size)) != static_cast<long>(size)) {
+        if (tempIo.write(data, static_cast<long>(size)) != static_cast<long>(size)) {
             #ifndef SUPPRESS_WARNINGS
             EXV_WARNING << "Failed to write to temporary file.\n";
             #endif
@@ -139,7 +139,7 @@ namespace {
     //! Write data into temp file, taking care of errors
     static void writeTemp(BasicIo& tempIo, const std::string &data)
     {
-        writeTemp(tempIo, data.data(), data.size());
+        writeTemp(tempIo, reinterpret_cast<const byte*>(data.data()), data.size());
     }
 
     //! Get the current write position of temp file, taking care of errors
@@ -153,25 +153,6 @@ namespace {
             throw Error(21);
         }
         return pos;
-    }
-
-    //! Write an unsigned 32-bit integer into temp file, taking care of errors
-    static void writeTempUInt32LE(BasicIo& tempIo, unsigned int v)
-    {
-        const unsigned char b[4] = {
-            (v >> 0*8) & 0xFF,
-            (v >> 1*8) & 0xFF,
-            (v >> 2*8) & 0xFF,
-            (v >> 3*8) & 0xFF,
-        };
-        writeTemp(tempIo, reinterpret_cast<const char*>(b), sizeof(b));
-    }
-
-    //! Read an unsigned 32-bit integer in little endian
-    static unsigned int readUInt32LE(const char* data, size_t startPos)
-    {
-        const unsigned char* b = reinterpret_cast<const unsigned char*>(data + startPos);
-        return (((((b[3] << 8) | b[2]) << 8) | b[1]) << 8) | b[0];
     }
 
     //! Check whether a string has a certain beginning
@@ -197,7 +178,7 @@ namespace {
     }
 
     //! Read the next line of a buffer, allow for changing line ending style
-    static size_t readLine(std::string& line, const char* data, size_t startPos, size_t size)
+    static size_t readLine(std::string& line, const byte* data, size_t startPos, size_t size)
     {
         line.clear();
         size_t pos = startPos;
@@ -215,7 +196,7 @@ namespace {
     }
 
     //! Read the previous line of a buffer, allow for changing line ending style
-    static size_t readPrevLine(std::string& line, const char* data, size_t startPos, size_t size)
+    static size_t readPrevLine(std::string& line, const byte* data, size_t startPos, size_t size)
     {
         line.clear();
         size_t pos = startPos;
@@ -240,7 +221,7 @@ namespace {
     }
 
     //! Find an XMP block
-    static void findXmp(size_t& xmpPos, size_t& xmpSize, const char* data, size_t startPos, size_t size, bool write)
+    static void findXmp(size_t& xmpPos, size_t& xmpSize, const byte* data, size_t startPos, size_t size, bool write)
     {
         // prepare list of valid XMP headers
         std::vector<std::pair<std::string, std::string> > xmpHeaders;
@@ -322,7 +303,7 @@ namespace {
     }
 
     //! Find removable XMP embeddings
-    static std::vector<std::pair<size_t, size_t> > findRemovableEmbeddings(const char* data, size_t posStart, size_t posEof, size_t posEndPageSetup,
+    static std::vector<std::pair<size_t, size_t> > findRemovableEmbeddings(const byte* data, size_t posStart, size_t posEof, size_t posEndPageSetup,
                                                                            size_t xmpPos, size_t xmpSize, bool write)
     {
         std::vector<std::pair<size_t, size_t> > removableEmbeddings;
@@ -431,7 +412,7 @@ namespace {
         IoCloser closer(io);
 
         // read from input file via memory map
-        const char *data = reinterpret_cast<const char*>(io.mmap());
+        const byte *data = io.mmap();
 
         // default positions and sizes
         const size_t size = io.size();
@@ -454,18 +435,18 @@ namespace {
                 #endif
                 throw Error(write ? 21 : 14);
             }
-            posEps    = readUInt32LE(data, 4);
-            posEndEps = readUInt32LE(data, 8) + posEps;
-            posWmf    = readUInt32LE(data, 12);
-            sizeWmf   = readUInt32LE(data, 16);
-            posTiff   = readUInt32LE(data, 20);
-            sizeTiff  = readUInt32LE(data, 24);
+            posEps    = getULong(data +  4, littleEndian);
+            posEndEps = getULong(data +  8, littleEndian) + posEps;
+            posWmf    = getULong(data + 12, littleEndian);
+            sizeWmf   = getULong(data + 16, littleEndian);
+            posTiff   = getULong(data + 20, littleEndian);
+            sizeTiff  = getULong(data + 24, littleEndian);
             #ifdef DEBUG
             EXV_DEBUG << "readWriteEpsMetadata: EPS section at position " << posEps << ", size " << (posEndEps - posEps) << "\n";
             EXV_DEBUG << "readWriteEpsMetadata: WMF section at position " << posWmf << ", size " << sizeWmf << "\n";
             EXV_DEBUG << "readWriteEpsMetadata: TIFF section at position " << posTiff << ", size " << sizeTiff << "\n";
             #endif
-            if (!(data[28] == '\xFF' && data[29] == '\xFF')) {
+            if (!(data[28] == 0xFF && data[29] == 0xFF)) {
                 #ifdef DEBUG
                 EXV_DEBUG << "readWriteEpsMetadata: DOS EPS checksum is not FFFF\n";
                 #endif
@@ -523,7 +504,7 @@ namespace {
             #endif
             throw Error(write ? 21 : 14);
         }
-        const std::string lineEnding(data + posEps + firstLine.size(), posSecondLine - (posEps + firstLine.size()));
+        const std::string lineEnding(reinterpret_cast<const char*>(data + posEps + firstLine.size()), posSecondLine - (posEps + firstLine.size()));
         #ifdef DEBUG
         if (lineEnding == "\n") {
             EXV_DEBUG << "readWriteEpsMetadata: Line ending style: Unix (LF)\n";
@@ -738,7 +719,7 @@ namespace {
 
         if (!write) {
             // copy XMP metadata
-            xmpPacket.assign(data + xmpPos, xmpSize);
+            xmpPacket.assign(reinterpret_cast<const char*>(data + xmpPos), xmpSize);
         } else {
             const bool useExistingEmbedding = (xmpPos != posEndEps && removableEmbeddings.empty());
 
@@ -874,7 +855,7 @@ namespace {
                         if (fixBeginXmlPacket) {
                             writeTemp(*tempIo, "%begin_xml_packet: " + toString(xmpPacket.size()) + lineEnding);
                         }
-                        writeTemp(*tempIo, xmpPacket.data(), xmpPacket.size());
+                        writeTemp(*tempIo, xmpPacket);
                         skipPos += xmpSize;
                     }
                 } else {
@@ -906,7 +887,7 @@ namespace {
                                                "Parameter must be exact size of XMP metadata." + lineEnding);
                             writeTemp(*tempIo, "%begin_xml_packet: " + toString(xmpPacket.size()) + lineEnding);
                         }
-                        writeTemp(*tempIo, xmpPacket.data(), xmpPacket.size());
+                        writeTemp(*tempIo, xmpPacket);
                         writeTemp(*tempIo, lineEnding);
                         writeTemp(*tempIo, "% &&end XMP packet marker&&" + lineEnding);
                         writeTemp(*tempIo, "[/Document 1 dict begin" + lineEnding);
@@ -957,14 +938,16 @@ namespace {
                     #endif
                     throw Error(21);
                 }
-                writeTemp(*tempIo, dosEpsSignature);
-                writeTempUInt32LE(*tempIo, posEpsNew);
-                writeTempUInt32LE(*tempIo, posEndEpsNew - posEpsNew);
-                writeTempUInt32LE(*tempIo, sizeWmf == 0 ? 0 : posEndEpsNew);
-                writeTempUInt32LE(*tempIo, sizeWmf);
-                writeTempUInt32LE(*tempIo, sizeTiff == 0 ? 0 : posEndEpsNew + sizeWmf);
-                writeTempUInt32LE(*tempIo, sizeTiff);
-                writeTemp(*tempIo, std::string("\xFF\xFF"));
+                byte b[30];
+                dosEpsSignature.copy(reinterpret_cast<char*>(b), dosEpsSignature.size());
+                ul2Data(b +  4, posEpsNew,                                  littleEndian);
+                ul2Data(b +  8, posEndEpsNew - posEpsNew,                   littleEndian);
+                ul2Data(b + 12, sizeWmf == 0 ? 0 : posEndEpsNew,            littleEndian);
+                ul2Data(b + 16, sizeWmf,                                    littleEndian);
+                ul2Data(b + 20, sizeTiff == 0 ? 0 : posEndEpsNew + sizeWmf, littleEndian);
+                ul2Data(b + 24, sizeTiff,                                   littleEndian);
+                us2Data(b + 28, 0xFFFF,                                     littleEndian);
+                writeTemp(*tempIo, b, sizeof(b));
             }
 
             // copy temporary file to real output file
