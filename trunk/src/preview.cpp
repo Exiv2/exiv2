@@ -420,6 +420,10 @@ namespace {
         prop.mimeType_ = nativePreview_.mimeType_;
         if (nativePreview_.mimeType_ == "image/jpeg") {
             prop.extension_ = ".jpg";
+        } else if (nativePreview_.mimeType_ == "image/tiff") {
+            prop.extension_ = ".tif";
+        } else if (nativePreview_.mimeType_ == "image/x-wmf") {
+            prop.extension_ = ".wmf";
         } else {
 #ifndef SUPPRESS_WARNINGS
             EXV_WARNING << "Unknown native preview format: " << nativePreview_.mimeType_ << "\n";
