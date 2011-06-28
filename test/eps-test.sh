@@ -1,10 +1,10 @@
 #! /bin/sh
 # Test driver for EPS files
 
+# ----------------------------------------------------------------------
+# Setup
 export LC_ALL=C
-
 cd tmp/
-
 if [ -z "$EXIV2_BINDIR" ] ; then
     bin="$VALGRIND ../../src"
     samples="$VALGRIND ../../samples"
@@ -12,18 +12,15 @@ else
     bin="$VALGRIND $EXIV2_BINDIR"
     samples="$VALGRIND $EXIV2_BINDIR"
 fi
-
 exiv2version="`$bin/exiv2 -V | sed -n '1 s,^exiv2 \([^ ]*\).*,\1,p'`"
 if [ -z "$exiv2version" ]; then
     echo "Error: Unable to determine Exiv2 version"
     exit 1
 fi
-
 diffargs="--strip-trailing-cr"
 if ! diff -q $diffargs /dev/null /dev/null 2>/dev/null ; then
     diffargs=""
 fi
-
 for file in ../data/eps/eps-*.eps.newxmp; do
     if ! grep "@Exiv2Version@" "$file" >/dev/null ; then
         echo "Error: data/eps/$file contains hard-coded Exiv2 version"
@@ -31,6 +28,8 @@ for file in ../data/eps/eps-*.eps.newxmp; do
     fi
 done
 
+# ----------------------------------------------------------------------
+# Tests
 (
     for file in ../data/eps/eps-*.eps; do
         image="`basename "$file" .eps`"
@@ -118,9 +117,10 @@ done
 
 echo "."
 
+# ----------------------------------------------------------------------
+# Result
 if ! diff -q $diffargs "../data/eps/eps-test.out" "eps-test.out" ; then
     diff -u $diffargs "../data/eps/eps-test.out" "eps-test.out"
     exit 1
 fi
-
 echo "All testcases passed."
