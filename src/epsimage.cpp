@@ -733,7 +733,7 @@ namespace {
                 nativePreview.mimeType_ = "image/x-wmf";
                 nativePreviews.push_back(nativePreview);
             }
-            if (sizeTiff) {
+            if (sizeTiff != 0) {
                 NativePreview nativePreview;
                 nativePreview.position_ = static_cast<long>(posTiff);
                 nativePreview.size_ = sizeTiff;
