@@ -31,7 +31,7 @@ EXIV2_RCSID("@(#) $Id$")
 
 // Define DEBUG to output debug information to std::cerr, e.g, by calling make
 // like this: make DEFS=-DDEBUG crwimage.o
-//#define DEBUG
+//#define DEBUG 1
 
 // *****************************************************************************
 // included header files
