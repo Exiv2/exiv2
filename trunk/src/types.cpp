@@ -351,7 +351,7 @@ namespace Exiv2 {
     long ul2Data(byte* buf, size_t s, ByteOrder byteOrder)
     {
         uint32_t l = (uint32_t) s;
-        return ul2Data(buf,l,byteOrder); // TODO: should this be sizeof(size_t) ?
+        return ul2Data(buf,l,byteOrder);
     }
 #endif
 
