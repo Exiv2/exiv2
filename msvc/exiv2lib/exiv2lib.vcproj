@@ -373,6 +373,10 @@
 				>
 			</File>
 			<File
+				RelativePath="..\..\src\epsimage.cpp"
+				>
+			</File>
+			<File
 				RelativePath="..\..\src\error.cpp"
 				>
 			</File>
@@ -529,6 +533,10 @@
 				>
 			</File>
 			<File
+				RelativePath="..\..\src\version.cpp"
+				>
+			</File>
+			<File
 				RelativePath="..\..\src\xmp.cpp"
 				>
 			</File>
@@ -572,6 +580,10 @@
 			</File>
 			<File
 				RelativePath="..\..\src\easyaccess.hpp"
+				>
+			</File>
+			<File
+				RelativePath="..\..\src\epsimage.hpp"
 				>
 			</File>
 			<File
@@ -680,6 +692,10 @@
 			</File>
 			<File
 				RelativePath="..\..\src\value.hpp"
+				>
+			</File>
+			<File
+				RelativePath="..\..\src\version.hpp"
 				>
 			</File>
 			<File
