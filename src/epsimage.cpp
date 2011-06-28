@@ -727,7 +727,7 @@ namespace {
             if (sizeWmf != 0) {
                 NativePreview nativePreview;
                 nativePreview.position_ = static_cast<long>(posWmf);
-                nativePreview.size_ = sizeWmf;
+                nativePreview.size_ = (uint32_t) sizeWmf;
                 nativePreview.width_ = 0;
                 nativePreview.height_ = 0;
                 nativePreview.mimeType_ = "image/x-wmf";
@@ -736,7 +736,7 @@ namespace {
             if (sizeTiff != 0) {
                 NativePreview nativePreview;
                 nativePreview.position_ = static_cast<long>(posTiff);
-                nativePreview.size_ = sizeTiff;
+                nativePreview.size_ = (uint32_t) sizeTiff;
                 nativePreview.width_ = 0;
                 nativePreview.height_ = 0;
                 nativePreview.mimeType_ = "image/tiff";
@@ -1073,7 +1073,7 @@ namespace Exiv2
     bool isEpsType(BasicIo& iIo, bool advance)
     {
         // read as many bytes as needed for the longest (DOS) EPS signature
-        long bufSize = dosEpsSignature.size();
+        long bufSize = (long) dosEpsSignature.size();
         for (size_t i = 0; i < (sizeof epsFirstLine) / (sizeof *epsFirstLine); i++) {
             if (bufSize < static_cast<long>(epsFirstLine[i].size())) {
                 bufSize = static_cast<long>(epsFirstLine[i].size());

@@ -541,7 +541,7 @@ namespace Exiv2 {
         uLong tmp = crc32(0L, Z_NULL, 0);
         tmp       = crc32(tmp, (const Bytef*)crcData.data(), static_cast<uInt>(crcData.size()));
         byte crc[4];
-        ul2Data(crc, tmp, bigEndian);
+        ul2Data(crc, (uint32_t) tmp, bigEndian);
         // Assemble the chunk
         return std::string((const char*)length, 4) + chunkType + chunkData + std::string((const char*)crc, 4);
 
@@ -578,7 +578,7 @@ namespace Exiv2 {
         uLong tmp = crc32(0L, Z_NULL, 0);
         tmp       = crc32(tmp, (const Bytef*)crcData.data(), static_cast<uInt>(crcData.size()));
         byte crc[4];
-        ul2Data(crc, tmp, bigEndian);
+        ul2Data(crc, (uint32_t)tmp, bigEndian);
         // Assemble the chunk
         return std::string((const char*)length, 4) + chunkType + chunkData + std::string((const char*)crc, 4);
 

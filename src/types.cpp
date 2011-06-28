@@ -320,12 +320,12 @@ namespace Exiv2 {
     long us2Data(byte* buf, uint16_t s, ByteOrder byteOrder)
     {
         if (byteOrder == littleEndian) {
-            buf[0] =  (byte)(s & 0x00ff);
+            buf[0] = (byte) (s & 0x00ff);
             buf[1] = (byte)((s & 0xff00) >> 8);
         }
         else {
             buf[0] = (byte)((s & 0xff00) >> 8);
-            buf[1] =  (byte)(s & 0x00ff);
+            buf[1] = (byte) (s & 0x00ff);
         }
         return 2;
     }
@@ -333,7 +333,7 @@ namespace Exiv2 {
     long ul2Data(byte* buf, uint32_t l, ByteOrder byteOrder)
     {
         if (byteOrder == littleEndian) {
-            buf[0] =  (byte)(l & 0x000000ff);
+            buf[0] = (byte) (l & 0x000000ff);
             buf[1] = (byte)((l & 0x0000ff00) >> 8);
             buf[2] = (byte)((l & 0x00ff0000) >> 16);
             buf[3] = (byte)((l & 0xff000000) >> 24);
@@ -342,10 +342,18 @@ namespace Exiv2 {
             buf[0] = (byte)((l & 0xff000000) >> 24);
             buf[1] = (byte)((l & 0x00ff0000) >> 16);
             buf[2] = (byte)((l & 0x0000ff00) >> 8);
-            buf[3] =  (byte)(l & 0x000000ff);
+            buf[3] = (byte) (l & 0x000000ff);
         }
         return 4;
     }
+
+#ifdef _WIN64
+    long ul2Data(byte* buf, size_t s, ByteOrder byteOrder)
+    {
+        uint32_t l = (uint32_t) s;
+        return ul2Data(buf,l,byteOrder); // TODO: should this be sizeof(size_t) ?
+    }
+#endif
 
     long ur2Data(byte* buf, URational l, ByteOrder byteOrder)
     {

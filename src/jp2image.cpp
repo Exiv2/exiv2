@@ -488,7 +488,7 @@ namespace Exiv2
                             memcpy(rawExif.pData_ + sizeof(ExifHeader), &blob[0], blob.size());
 
                             DataBuf boxData(8 + 16 + rawExif.size_);
-                            ul2Data(boxDataSize, boxData.size_, Exiv2::bigEndian);
+                            ul2Data(boxDataSize, (uint32_t) boxData.size_, Exiv2::bigEndian);
                             ul2Data(boxUUIDtype, kJp2BoxTypeUuid, Exiv2::bigEndian);
                             memcpy(boxData.pData_,          boxDataSize,    4);
                             memcpy(boxData.pData_ + 4,      boxUUIDtype,    4);
@@ -511,7 +511,7 @@ namespace Exiv2
                         if (rawIptc.size_ > 0)
                         {
                             DataBuf boxData(8 + 16 + rawIptc.size_);
-                            ul2Data(boxDataSize, boxData.size_, Exiv2::bigEndian);
+                            ul2Data(boxDataSize, (uint32_t) boxData.size_, Exiv2::bigEndian);
                             ul2Data(boxUUIDtype, kJp2BoxTypeUuid, Exiv2::bigEndian);
                             memcpy(boxData.pData_,          boxDataSize,    4);
                             memcpy(boxData.pData_ + 4,      boxUUIDtype,    4);
@@ -541,7 +541,7 @@ namespace Exiv2
 
                         DataBuf xmp(reinterpret_cast<const byte*>(xmpPacket_.data()), static_cast<long>(xmpPacket_.size()));
                         DataBuf boxData(8 + 16 + xmp.size_);
-                        ul2Data(boxDataSize, boxData.size_, Exiv2::bigEndian);
+                        ul2Data(boxDataSize, (uint32_t)boxData.size_, Exiv2::bigEndian);
                         ul2Data(boxUUIDtype, kJp2BoxTypeUuid, Exiv2::bigEndian);
                         memcpy(boxData.pData_,          boxDataSize,  4);
                         memcpy(boxData.pData_ + 4,      boxUUIDtype,  4);

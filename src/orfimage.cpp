@@ -281,7 +281,7 @@ namespace Exiv2 {
             break;
         }
         us2Data(buf.pData_ + 2, sig_, byteOrder());
-        ul2Data(buf.pData_ + 4, 0x00000008, byteOrder());
+        ul2Data(buf.pData_ + 4, (uint32_t) 0x00000008, byteOrder());
         return buf;
     }
 
