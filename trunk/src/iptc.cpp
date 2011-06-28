@@ -40,6 +40,7 @@ EXIV2_RCSID("@(#) $Id$")
 // + standard includes
 #include <iostream>
 #include <algorithm>
+#include <iterator>
 
 // *****************************************************************************
 namespace {
