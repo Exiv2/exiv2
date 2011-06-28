@@ -51,22 +51,6 @@ done
             continue
         fi
 
-        rm -f "$image-preview"*
-
-        echo
-        echo "Command: exiv2 -pp $image.eps"
-        $bin/exiv2 -pp "$image.eps"
-        echo "Exit code: $?"
-
-        echo
-        echo "Command: exiv2 -f -ep $image.eps"
-        $bin/exiv2 -f -ep "$image.eps"
-        echo "Exit code: $?"
-
-        $bin/exiv2 -pp "$image.eps" 2>/dev/null | sed -n 's,^Preview \([0-9]\+\):.*,\1,p' | while read preview; do
-            diff -q "../data/eps/$image-preview$preview."* "$image-preview$preview."*
-        done
-
         echo
         echo "Command: exiv2 -f -eX $image.eps"
         $bin/exiv2 -f -eX "$image.eps"

@@ -67,6 +67,7 @@ TESTS = addmoddel.sh      \
         iptctest.sh       \
         modify-test.sh    \
         path-test.sh      \
+        preview-test.sh   \
         stringto-test.sh  \
         tiff-test.sh      \
         write-test.sh     \
