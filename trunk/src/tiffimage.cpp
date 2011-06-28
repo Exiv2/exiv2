@@ -1973,7 +1973,7 @@ namespace Exiv2 {
             break;
         }
         us2Data(buf.pData_ + 2, tag_, byteOrder_);
-        ul2Data(buf.pData_ + 4, 0x00000008, byteOrder_);
+        ul2Data(buf.pData_ + 4, (uint32_t)0x00000008, byteOrder_);
         return buf;
     }
 

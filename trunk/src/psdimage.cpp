@@ -582,7 +582,7 @@ namespace Exiv2 {
                 if (out.write(buf, 2) != 2) throw Error(21);
                 us2Data(buf, 0, bigEndian);                      // NULL resource name
                 if (out.write(buf, 2) != 2) throw Error(21);
-                ul2Data(buf, rawIptc.size_, bigEndian);
+                ul2Data(buf, (uint32_t)rawIptc.size_, bigEndian);
                 if (out.write(buf, 4) != 4) throw Error(21);
                 // Write encoded Iptc data
                 if (out.write(rawIptc.pData_, rawIptc.size_) != rawIptc.size_) throw Error(21);

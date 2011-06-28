@@ -294,6 +294,13 @@ namespace Exiv2 {
              return number of bytes written.
      */
     EXIV2API long ul2Data(byte* buf, uint32_t l, ByteOrder byteOrder);
+#ifdef _WIN64
+	/*!
+      @brief Convert an unsigned long to data, write the data to the buffer,
+             return number of bytes written.
+     */
+    EXIV2API long ul2Data(byte* buf, size_t l, ByteOrder byteOrder);
+#endif
     /*!
       @brief Convert an unsigned rational to data, write the data to the buffer,
              return number of bytes written.

@@ -826,7 +826,7 @@ namespace {
         width_ = widthDatum->toLong();
         height_ = heightDatum->toLong();
         preview_ = decodeBase64(imageDatum->toString());
-        size_ = preview_.size();
+        size_ = (uint32_t)preview_.size();
         valid_ = true;
     }
 
@@ -849,7 +849,7 @@ namespace {
     DataBuf LoaderXmpJpeg::getData() const
     {
         if (!valid()) return DataBuf();
-        return DataBuf(reinterpret_cast<const Exiv2::byte*>(preview_.data()), preview_.size());
+        return DataBuf(reinterpret_cast<const Exiv2::byte*>(preview_.data()), (long)preview_.size());
     }
 
     bool LoaderXmpJpeg::readDimensions()
@@ -861,7 +861,7 @@ namespace {
 
     std::string decodeBase64(const std::string& src)
     {
-        const unsigned int srcSize = src.size();
+        const unsigned int srcSize = (const unsigned int) src.size();
 
         // create decoding table
         unsigned int invalid = 64;
