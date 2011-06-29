@@ -506,7 +506,7 @@ namespace Exiv2 {
                 uint16_t sizeOfSize = 4 | 0x8000;
                 us2Data(pWrite, sizeOfSize, bigEndian);
                 pWrite += 2;
-                ul2Data(pWrite, (uint32_t) dataSize, bigEndian);
+                ul2Data(pWrite, dataSize, bigEndian);
                 pWrite += 4;
             }
             else {

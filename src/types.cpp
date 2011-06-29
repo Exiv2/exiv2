@@ -330,8 +330,9 @@ namespace Exiv2 {
         return 2;
     }
 
-    long ul2Data(byte* buf, uint32_t l, ByteOrder byteOrder)
+    long ul2Data(byte* buf, size_t s, ByteOrder byteOrder)
     {
+		uint32_t l = (uint32_t) s; // downcast for 64 bit architecture
         if (byteOrder == littleEndian) {
             buf[0] = (byte) (l & 0x000000ff);
             buf[1] = (byte)((l & 0x0000ff00) >> 8);
@@ -346,14 +347,6 @@ namespace Exiv2 {
         }
         return 4;
     }
-
-#ifdef _WIN64
-    long ul2Data(byte* buf, size_t s, ByteOrder byteOrder)
-    {
-        uint32_t l = (uint32_t) s;
-        return ul2Data(buf,l,byteOrder);
-    }
-#endif
 
     long ur2Data(byte* buf, URational l, ByteOrder byteOrder)
     {
