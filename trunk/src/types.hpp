@@ -293,14 +293,7 @@ namespace Exiv2 {
       @brief Convert an unsigned long to data, write the data to the buffer,
              return number of bytes written.
      */
-    EXIV2API long ul2Data(byte* buf, uint32_t l, ByteOrder byteOrder);
-#ifdef _WIN64
-	/*!
-      @brief Convert an unsigned long to data, write the data to the buffer,
-             return number of bytes written.
-     */
-    EXIV2API long ul2Data(byte* buf, size_t l, ByteOrder byteOrder);
-#endif
+    EXIV2API long ul2Data(byte* buf, size_t s, ByteOrder byteOrder);
     /*!
       @brief Convert an unsigned rational to data, write the data to the buffer,
              return number of bytes written.
