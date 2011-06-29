@@ -143,7 +143,7 @@ namespace {
     }
 
     //! Get the current write position of temp file, taking care of errors
-    static size_t posTemp(BasicIo& tempIo)
+    static uint32_t posTemp(BasicIo& tempIo)
     {
         const long pos = tempIo.tell();
         if (pos == -1) {
@@ -152,7 +152,7 @@ namespace {
             #endif
             throw Error(21);
         }
-        return pos;
+        return static_cast<uint32_t>(pos);
     }
 
     //! Check whether a string has a certain beginning
@@ -415,13 +415,13 @@ namespace {
         const byte *data = io.mmap();
 
         // default positions and sizes
-        const size_t size = io.size();
+        const size_t size = static_cast<size_t>(io.size());
         size_t posEps = 0;
         size_t posEndEps = size;
-        size_t posWmf = 0;
-        size_t sizeWmf = 0;
-        size_t posTiff = 0;
-        size_t sizeTiff = 0;
+        uint32_t posWmf = 0;
+        uint32_t sizeWmf = 0;
+        uint32_t posTiff = 0;
+        uint32_t sizeTiff = 0;
 
         // check for DOS EPS
         const bool dosEps = (size >= dosEpsSignature.size() && memcmp(data, dosEpsSignature.data(), dosEpsSignature.size()) == 0);
@@ -727,7 +727,7 @@ namespace {
             if (sizeWmf != 0) {
                 NativePreview nativePreview;
                 nativePreview.position_ = static_cast<long>(posWmf);
-                nativePreview.size_ = (uint32_t) sizeWmf;
+                nativePreview.size_ = sizeWmf;
                 nativePreview.width_ = 0;
                 nativePreview.height_ = 0;
                 nativePreview.mimeType_ = "image/x-wmf";
@@ -736,7 +736,7 @@ namespace {
             if (sizeTiff != 0) {
                 NativePreview nativePreview;
                 nativePreview.position_ = static_cast<long>(posTiff);
-                nativePreview.size_ = (uint32_t) sizeTiff;
+                nativePreview.size_ = sizeTiff;
                 nativePreview.width_ = 0;
                 nativePreview.height_ = 0;
                 nativePreview.mimeType_ = "image/tiff";
@@ -793,7 +793,7 @@ namespace {
                 // DOS EPS header will be written afterwards
                 writeTemp(*tempIo, std::string(30, '\x00'));
             }
-            const size_t posEpsNew = posTemp(*tempIo);
+            const uint32_t posEpsNew = posTemp(*tempIo);
             size_t prevPos = posEps;
             size_t prevSkipPos = prevPos;
             for (std::vector<size_t>::const_iterator i = positions.begin(); i != positions.end(); i++) {
@@ -942,7 +942,7 @@ namespace {
                 prevPos = pos;
                 prevSkipPos = skipPos;
             }
-            const size_t posEndEpsNew = posTemp(*tempIo);
+            const uint32_t posEndEpsNew = posTemp(*tempIo);
             #ifdef DEBUG
             EXV_DEBUG << "readWriteEpsMetadata: New EPS size: " << (posEndEpsNew - posEpsNew) << "\n";
             #endif
@@ -1073,7 +1073,7 @@ namespace Exiv2
     bool isEpsType(BasicIo& iIo, bool advance)
     {
         // read as many bytes as needed for the longest (DOS) EPS signature
-        long bufSize = (long) dosEpsSignature.size();
+        long bufSize = static_cast<long>(dosEpsSignature.size());
         for (size_t i = 0; i < (sizeof epsFirstLine) / (sizeof *epsFirstLine); i++) {
             if (bufSize < static_cast<long>(epsFirstLine[i].size())) {
                 bufSize = static_cast<long>(epsFirstLine[i].size());
