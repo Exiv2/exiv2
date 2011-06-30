@@ -891,7 +891,7 @@ namespace {
                 bufferPos--;
             }
             for (int bufferPos = 2; bufferPos >= 0 && destPos < destSize; bufferPos--, destPos++) {
-                dest.pData_[destPos] = (Exiv2::byte) (buffer >> (bufferPos * 8)) & 0xFF;
+                dest.pData_[destPos] = static_cast<byte>((buffer >> (bufferPos * 8)) & 0xFF);
             }
         }
         return dest;
