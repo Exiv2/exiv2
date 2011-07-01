@@ -1843,9 +1843,9 @@ Exit code: 0
 Command: exiv2 -f -ex eps-flat_oodraw_ai-cs5-lev3.eps
 Exit code: 0
 
------> eps-flat_oodraw_ai-cs5-lev3_preview-ns-xapGImg.eps <-----
+-----> eps-flat_oodraw_ai-cs5-lev3_ns-xapGImg.eps <-----
 
-Command: exiv2 -u -pa eps-flat_oodraw_ai-cs5-lev3_preview-ns-xapGImg.eps
+Command: exiv2 -u -pa eps-flat_oodraw_ai-cs5-lev3_ns-xapGImg.eps
 Xmp.xmp.CreatorTool                          XmpText    21  Adobe Illustrator CS5
 Xmp.xmp.CreateDate                           XmpText    22  2011-03-25T16:07+01:00
 Xmp.xmp.Thumbnails                           XmpText     0  type="Alt"
@@ -1937,16 +1937,16 @@ Xmp.xmpMM.History[1]/stEvt:softwareAgent     XmpText    21  Adobe Illustrator CS
 Xmp.xmpMM.History[1]/stEvt:changed           XmpText     1  /
 Exit code: 253
 
-Command: exiv2 -f -eX eps-flat_oodraw_ai-cs5-lev3_preview-ns-xapGImg.eps
+Command: exiv2 -f -eX eps-flat_oodraw_ai-cs5-lev3_ns-xapGImg.eps
 Exit code: 0
 
-Command: exiv2 -ix eps-flat_oodraw_ai-cs5-lev3_preview-ns-xapGImg.eps
+Command: exiv2 -ix eps-flat_oodraw_ai-cs5-lev3_ns-xapGImg.eps
 Exit code: 0
 
-Command: (2) exiv2 -ix eps-flat_oodraw_ai-cs5-lev3_preview-ns-xapGImg.eps
+Command: (2) exiv2 -ix eps-flat_oodraw_ai-cs5-lev3_ns-xapGImg.eps
 Exit code: 0
 
-Command: exiv2 -f -ex eps-flat_oodraw_ai-cs5-lev3_preview-ns-xapGImg.eps
+Command: exiv2 -f -ex eps-flat_oodraw_ai-cs5-lev3_ns-xapGImg.eps
 Exit code: 0
 
 -----> eps-flat_photoshop-cs5-ascii-colorprofile.eps <-----
