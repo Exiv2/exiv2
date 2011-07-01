@@ -19,8 +19,10 @@ fi
 
 # ----------------------------------------------------------------------
 # Tests
-images="eps/eps-flat_oodraw_ai-10-lev2.eps \
+images="eps/eps-flat_inkscape-epsi.eps \
+        eps/eps-flat_oodraw_ai-10-lev2.eps \
         eps/eps-flat_oodraw_ai-8-lev2.eps \
+        eps/eps-flat_oodraw_ai-8-lev3.eps \
         eps/eps-flat_oodraw_ai-9-lev2.eps \
         eps/eps-flat_oodraw_ai-cs-lev2.eps \
         eps/eps-flat_oodraw_ai-cs2-lev2.eps \
@@ -31,7 +33,37 @@ images="eps/eps-flat_oodraw_ai-10-lev2.eps \
         eps/eps-flat_oodraw_ai-cs5-lev3-preview.eps \
         eps/eps-flat_oodraw_ai-cs5-lev3.eps \
         eps/eps-flat_oodraw_ai-cs5-lev3_ns-xapGImg.eps \
+        eps/eps-flat_photoshop-cs5-ascii-colorprofile.eps \
+        eps/eps-flat_photoshop-cs5-ascii-preview.eps \
+        eps/eps-flat_photoshop-cs5-ascii.eps \
+        eps/eps-flat_photoshop-cs5-ascii85-preview.eps \
+        eps/eps-flat_photoshop-cs5-ascii85.eps \
+        eps/eps-flat_photoshop-cs5-ascii_failure-bigxmp.eps \
+        eps/eps-flat_photoshop-cs5-binary-preview.eps \
+        eps/eps-flat_photoshop-cs5-binary.eps \
+        eps/eps-flat_photoshop-cs5-binary_exiv2-bigxmp.eps \
+        eps/eps-flat_photoshop-cs5-binary_exiv2.eps \
+        eps/eps-flat_photoshop-cs5-binary_exiv2_missing-begin-xml-packet.eps \
         eps/eps-flat_photoshop-e9-win-doseps.eps \
+        eps/eps-flat_photoshop-e9-win.eps \
+        eps/eps-flat_photoshop-e9-win_exiv2.eps \
+        eps/eps-nested_noxmp_ai-8-lev2.eps \
+        eps/eps-nested_noxmp_ai-8-lev3.eps \
+        eps/eps-nested_noxmp_ai-cs5-lev2.eps \
+        eps/eps-nested_noxmp_ai-cs5-lev3.eps \
+        eps/eps-nested_noxmp_indesign-cs5-lev2-bin.eps \
+        eps/eps-nested_noxmp_indesign-cs5-lev2.eps \
+        eps/eps-nested_noxmp_indesign-cs5-lev3-bin.eps \
+        eps/eps-nested_noxmp_indesign-cs5-lev3.eps \
+        eps/eps-nested_noxmp_oodraw-lev2-epsi.eps \
+        eps/eps-nested_noxmp_oodraw-lev2-preview.eps \
+        eps/eps-nested_xmp_ai-3-lev3.eps \
+        eps/eps-nested_xmp_ai-8-lev3.eps \
+        eps/eps-nested_xmp_ai-cs5-lev3.eps \
+        eps/eps-nested_xmp_indesign-cs5-lev3-bin.eps \
+        eps/eps-nested_xmp_indesign-cs5-lev3.eps \
+        eps/eps-nested_xmp_oodraw-lev2-epsi.eps \
+        eps/eps-nested_xmp_oodraw-lev2-preview.eps \
         exiv2-bug443.jpg \
         exiv2-bug444.jpg \
         exiv2-bug445.jpg \
