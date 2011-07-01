@@ -304,14 +304,68 @@ namespace Exiv2 {
                                 uint16_t     formatFlags =useCompactFormat,
                                 uint32_t     padding =0);
         /*!
+          @brief Lock/unlock function type
+
+          A function of this type can be passed to initialize() to
+          make subsequent registration of XMP namespaces thread-safe.
+          See the initialize() function for more information.
+
+          @param pLockData Pointer to the pLockData passed to initialize()
+          @param lockUnlock Indicates whether to lock (true) or unlock (false)
+         */
+        typedef void (*XmpLockFct)(void* pLockData, bool lockUnlock);
+
+        /*!
           @brief Initialize the XMP Toolkit.
 
           Calling this method is usually not needed, as encode() and
           decode() will initialize the XMP Toolkit if necessary.
 
+          The function takes optional pointers to a callback function
+          \em xmpLockFct and related data \em pLockData that the parser
+          uses when XMP namespaces are subsequently registered.
+
+          The initialize() function itself still is not thread-safe and
+          needs to be called in a thread-safe manner (e.g., on program
+          startup), but if used with suitable additional locking
+          parameters, any subsequent registration of namespaces will be
+          thread-safe.
+
+          Example usage on Windows using a critical section:
+
+          @code
+          void main()
+          {
+              struct XmpLock
+              {
+                  CRITICAL_SECTION cs;
+                  XmpLock()  { InitializeCriticalSection(&cs); }
+                  ~XmpLock() { DeleteCriticalSection(&cs); }
+
+                  static void LockUnlock(void* pData, bool fLock)
+                  {
+                      XmpLock* pThis = reinterpret_cast<XmpLock*>(pData);
+                      if (pThis)
+                      {
+                          (fLock) ? EnterCriticalSection(&pThis->cs)
+                                  : LeaveCriticalSection(&pThis->cs);
+                      }
+                  }
+              } xmpLock;
+
+              // Pass the locking mechanism to the XMP parser on initialization.
+              // Note however that this call itself is still not thread-safe.
+              Exiv2::XmpParser::initialize(XmpLock::LockUnlock, &xmpLock);
+
+              // Program continues here, subsequent registrations of XMP 
+              // namespaces are serialized using xmpLock.
+
+          }
+          @endcode
+
           @return True if the initialization was successful, else false.
          */
-        static bool initialize();
+        static bool initialize(XmpParser::XmpLockFct xmpLockFct =0, void* pLockData =0);
         /*!
           @brief Terminate the XMP Toolkit and unregister custom namespaces.
 
@@ -335,6 +389,8 @@ namespace Exiv2 {
 
         // DATA
         static bool initialized_; //! Indicates if the XMP Toolkit has been initialized
+        static XmpLockFct xmpLockFct_;
+        static void* pLockData_;
 
     }; // class XmpParser
 

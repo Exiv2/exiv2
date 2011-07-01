@@ -101,6 +101,24 @@ namespace {
     //! Make an XMP key from a schema namespace and property path
     Exiv2::XmpKey::AutoPtr makeXmpKey(const std::string& schemaNs,
                                       const std::string& propPath);
+
+    //! Helper class used to serialize critical sections
+    class AutoLock
+    {
+    public:
+        AutoLock(Exiv2::XmpParser::XmpLockFct xmpLockFct, void* pLockData)
+            : xmpLockFct_(xmpLockFct), pLockData_(pLockData)
+        {
+            if (xmpLockFct_) xmpLockFct_(pLockData_, true);
+        }
+        ~AutoLock()
+        {
+            if (xmpLockFct_) xmpLockFct_(pLockData_, false);
+        }
+    private:
+        Exiv2::XmpParser::XmpLockFct xmpLockFct_;
+        void* pLockData_;
+    };
 }
 
 // *****************************************************************************
@@ -375,11 +393,15 @@ namespace Exiv2 {
     }
 
     bool XmpParser::initialized_ = false;
+    XmpParser::XmpLockFct XmpParser::xmpLockFct_ = 0;
+    void* XmpParser::pLockData_ = 0;
 
-    bool XmpParser::initialize()
+    bool XmpParser::initialize(XmpParser::XmpLockFct xmpLockFct, void* pLockData)
     {
         if (!initialized_) {
 #ifdef EXV_HAVE_XMP_TOOLKIT
+            xmpLockFct_ = xmpLockFct;
+            pLockData_ = pLockData;
             initialized_ = SXMPMeta::Initialize();
             SXMPMeta::RegisterNamespace("http://www.digikam.org/ns/1.0/", "digiKam");
             SXMPMeta::RegisterNamespace("http://www.digikam.org/ns/kipi/1.0/", "kipi");
@@ -402,6 +424,8 @@ namespace Exiv2 {
 #ifdef EXV_HAVE_XMP_TOOLKIT
             SXMPMeta::Terminate();
 #endif
+            xmpLockFct_ = 0;
+            pLockData_ = 0;
             initialized_ = false;
         }
     }
@@ -412,6 +436,7 @@ namespace Exiv2 {
     {
         try {
             initialize();
+            AutoLock autoLock(xmpLockFct_, pLockData_);
             SXMPMeta::DeleteNamespace(ns.c_str());
             SXMPMeta::RegisterNamespace(ns.c_str(), prefix.c_str());
         }
