@@ -52,6 +52,7 @@ images="eps/eps-flat_oodraw_ai-10-lev2.eps \
         exiv2-olympus-c8080wz.jpg \
         exiv2-panasonic-dmc-fz5.jpg \
         exiv2-photoshop.psd \
+        exiv2-preview-in-xmp.xmp \
         exiv2-sigma-d10.jpg \
         exiv2-sony-dsc-w7.jpg \
         glider.exv \
