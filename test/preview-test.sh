@@ -22,15 +22,15 @@ fi
 images="eps/eps-flat_oodraw_ai-10-lev2.eps \
         eps/eps-flat_oodraw_ai-8-lev2.eps \
         eps/eps-flat_oodraw_ai-9-lev2.eps \
+        eps/eps-flat_oodraw_ai-cs-lev2.eps \
         eps/eps-flat_oodraw_ai-cs2-lev2.eps \
         eps/eps-flat_oodraw_ai-cs3-lev2.eps \
         eps/eps-flat_oodraw_ai-cs4-lev2.eps \
         eps/eps-flat_oodraw_ai-cs5-lev2.eps \
         eps/eps-flat_oodraw_ai-cs5-lev3-nodocthumb.eps \
+        eps/eps-flat_oodraw_ai-cs5-lev3-preview.eps \
         eps/eps-flat_oodraw_ai-cs5-lev3.eps \
         eps/eps-flat_oodraw_ai-cs5-lev3_ns-xapGImg.eps \
-        eps/eps-flat_oodraw_ai-cs5-lev3-preview.eps \
-        eps/eps-flat_oodraw_ai-cs-lev2.eps \
         eps/eps-flat_photoshop-e9-win-doseps.eps \
         exiv2-bug443.jpg \
         exiv2-bug444.jpg \
@@ -57,19 +57,16 @@ images="eps/eps-flat_oodraw_ai-10-lev2.eps \
         exiv2-sony-dsc-w7.jpg \
         glider.exv \
         imagemagick.pgf \
+        iptc-psAPP13-noIPTC-psAPP13-wIPTC.jpg \
         iptc-psAPP13-noIPTC.jpg \
-        iptc-psAPP13-noIPTC-psAPP13-wIPTC.jpg \
-        iptc-psAPP13-noIPTC-psAPP13-wIPTC.jpg \
+        iptc-psAPP13-wIPTC-psAPP13-noIPTC.jpg \
         iptc-psAPP13-wIPTC1-psAPP13-wIPTC2.jpg \
         iptc-psAPP13-wIPTCbeg.jpg \
+        iptc-psAPP13-wIPTCempty-psAPP13-wIPTC.jpg \
         iptc-psAPP13-wIPTCempty.jpg \
-        iptc-psAPP13-wIPTCempty-psAPP13-wIPTC.jpg \
-        iptc-psAPP13-wIPTCempty-psAPP13-wIPTC.jpg \
         iptc-psAPP13-wIPTCend.jpg \
-        iptc-psAPP13-wIPTCmid1-wIPTCempty-wIPTCmid2.jpg \
-        iptc-psAPP13-wIPTCmid1-wIPTCempty-wIPTCmid2.jpg \
         iptc-psAPP13-wIPTCmid.jpg \
-        iptc-psAPP13-wIPTC-psAPP13-noIPTC.jpg \
+        iptc-psAPP13-wIPTCmid1-wIPTCempty-wIPTCmid2.jpg \
         smiley2.jpg"
 (
     for filepath in $images; do
