@@ -12,7 +12,6 @@ else
     bin="$VALGRIND $EXIV2_BINDIR"
     samples="$VALGRIND $EXIV2_BINDIR"
 fi
-gsed=`gsed --help >/dev/null 2>&1 && echo g`sed
 exiv2version="`$bin/exiv2 -V | sed -n '1 s,^exiv2 \([^ ]*\).*,\1,p'`"
 if [ -z "$exiv2version" ]; then
     echo "Error: Unable to determine Exiv2 version"
@@ -23,7 +22,7 @@ if ! diff -q $diffargs /dev/null /dev/null 2>/dev/null ; then
     diffargs=""
 fi
 for file in ../data/eps/eps-*.eps.newxmp; do
-    if ! grep "@Exiv2Version@" "$file" >/dev/null ; then
+    if ! grep "_Exiv2Version_" "$file" >/dev/null ; then
         echo "Error: data/eps/$file contains hard-coded Exiv2 version"
         exit 1
     fi
@@ -74,7 +73,8 @@ done
             continue
         fi
 
-        $gsed "s,@Exiv2Version@,$exiv2version," < "../data/eps/$image.eps.newxmp" > "$image.eps.newxmp"
+        # using perl instead of sed, because on some systems sed adds a line ending at EOF
+        perl -pe "s,_Exiv2Version_,$exiv2version," < "../data/eps/$image.eps.newxmp" > "$image.eps.newxmp"
 
         if ! diff -q "$image.eps.newxmp" "$image.eps" ; then
             continue
