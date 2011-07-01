@@ -311,6 +311,15 @@ Exit code: 0
 Command: exiv2 -f -ep exiv2-photoshop.psd
 Exit code: 0
 
+-----> exiv2-preview-in-xmp.xmp <-----
+
+Command: exiv2 -pp exiv2-preview-in-xmp.xmp
+Preview 1: image/jpeg, 150x91 pixels, 4745 bytes
+Exit code: 0
+
+Command: exiv2 -f -ep exiv2-preview-in-xmp.xmp
+Exit code: 0
+
 -----> exiv2-sigma-d10.jpg <-----
 
 Command: exiv2 -pp exiv2-sigma-d10.jpg
