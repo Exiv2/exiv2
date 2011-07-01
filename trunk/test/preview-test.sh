@@ -28,7 +28,7 @@ images="eps/eps-flat_oodraw_ai-10-lev2.eps \
         eps/eps-flat_oodraw_ai-cs5-lev2.eps \
         eps/eps-flat_oodraw_ai-cs5-lev3-nodocthumb.eps \
         eps/eps-flat_oodraw_ai-cs5-lev3.eps \
-        eps/eps-flat_oodraw_ai-cs5-lev3_preview-ns-xapGImg.eps \
+        eps/eps-flat_oodraw_ai-cs5-lev3_ns-xapGImg.eps \
         eps/eps-flat_oodraw_ai-cs5-lev3-preview.eps \
         eps/eps-flat_oodraw_ai-cs-lev2.eps \
         eps/eps-flat_photoshop-e9-win-doseps.eps \
