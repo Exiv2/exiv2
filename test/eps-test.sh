@@ -23,7 +23,7 @@ if ! diff -q $diffargs /dev/null /dev/null 2>/dev/null ; then
 fi
 for file in ../data/eps/eps-*.eps.newxmp; do
     if ! grep "_Exiv2Version_" "$file" >/dev/null ; then
-        echo "Error: data/eps/$file contains hard-coded Exiv2 version"
+        echo "Error: $file contains hard-coded Exiv2 version"
         exit 1
     fi
 done
