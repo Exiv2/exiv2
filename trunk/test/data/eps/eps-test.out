@@ -186,6 +186,161 @@ Exit code: 0
 Command: exiv2 -f -ex eps-flat_minimal_exiftool-8.56.eps
 Exit code: 0
 
+-----> eps-flat_minimal_irremovable-xmp-after-endpagesetup.eps <-----
+
+Command: exiv2 -u -pa eps-flat_minimal_irremovable-xmp-after-endpagesetup.eps
+Xmp.test.test                                XmpText    20  TEST-irremovable-xmp
+Exit code: 253
+
+Command: exiv2 -f -eX eps-flat_minimal_irremovable-xmp-after-endpagesetup.eps
+Exit code: 0
+
+Command: exiv2 -ix eps-flat_minimal_irremovable-xmp-after-endpagesetup.eps
+Exit code: 0
+
+Command: (2) exiv2 -ix eps-flat_minimal_irremovable-xmp-after-endpagesetup.eps
+Exit code: 0
+
+Command: exiv2 -f -ex eps-flat_minimal_irremovable-xmp-after-endpagesetup.eps
+Exit code: 0
+
+-----> eps-flat_minimal_irremovable-xmp-after-endpagesetup_no-adocontainsxmp.eps <-----
+
+Command: exiv2 -u -pa eps-flat_minimal_irremovable-xmp-after-endpagesetup_no-adocontainsxmp.eps
+Exit code: 253
+
+Command: exiv2 -f -eX eps-flat_minimal_irremovable-xmp-after-endpagesetup_no-adocontainsxmp.eps
+Exit code: 0
+
+Command: exiv2 -ix eps-flat_minimal_irremovable-xmp-after-endpagesetup_no-adocontainsxmp.eps
+Exit code: 0
+
+Command: (2) exiv2 -ix eps-flat_minimal_irremovable-xmp-after-endpagesetup_no-adocontainsxmp.eps
+Exit code: 0
+
+Command: exiv2 -f -ex eps-flat_minimal_irremovable-xmp-after-endpagesetup_no-adocontainsxmp.eps
+Exit code: 0
+
+-----> eps-flat_minimal_irremovable-xmp-at-endpagesetup.eps <-----
+
+Command: exiv2 -u -pa eps-flat_minimal_irremovable-xmp-at-endpagesetup.eps
+Xmp.test.test                                XmpText    20  TEST-irremovable-xmp
+Exit code: 253
+
+Command: exiv2 -f -eX eps-flat_minimal_irremovable-xmp-at-endpagesetup.eps
+Exit code: 0
+
+Command: exiv2 -ix eps-flat_minimal_irremovable-xmp-at-endpagesetup.eps
+Exit code: 0
+
+Command: (2) exiv2 -ix eps-flat_minimal_irremovable-xmp-at-endpagesetup.eps
+Exit code: 0
+
+Command: exiv2 -f -ex eps-flat_minimal_irremovable-xmp-at-endpagesetup.eps
+Exit code: 0
+
+-----> eps-flat_minimal_irremovable-xmp-at-endpagesetup_no-adocontainsxmp.eps <-----
+
+Command: exiv2 -u -pa eps-flat_minimal_irremovable-xmp-at-endpagesetup_no-adocontainsxmp.eps
+Exit code: 253
+
+Command: exiv2 -f -eX eps-flat_minimal_irremovable-xmp-at-endpagesetup_no-adocontainsxmp.eps
+Exit code: 0
+
+Command: exiv2 -ix eps-flat_minimal_irremovable-xmp-at-endpagesetup_no-adocontainsxmp.eps
+Exit code: 0
+
+Command: (2) exiv2 -ix eps-flat_minimal_irremovable-xmp-at-endpagesetup_no-adocontainsxmp.eps
+Exit code: 0
+
+Command: exiv2 -f -ex eps-flat_minimal_irremovable-xmp-at-endpagesetup_no-adocontainsxmp.eps
+Exit code: 0
+
+-----> eps-flat_minimal_irremovable-xmp-before-endpagesetup.eps <-----
+
+Command: exiv2 -u -pa eps-flat_minimal_irremovable-xmp-before-endpagesetup.eps
+Warning: Inflexible XMP embedding is not replaceable because XMP metadata block is not removable at position: 837
+Xmp.test.test                                XmpText    20  TEST-irremovable-xmp
+Exit code: 253
+
+Command: exiv2 -f -eX eps-flat_minimal_irremovable-xmp-before-endpagesetup.eps
+Warning: Inflexible XMP embedding is not replaceable because XMP metadata block is not removable at position: 837
+Exit code: 0
+
+Command: exiv2 -ix eps-flat_minimal_irremovable-xmp-before-endpagesetup.eps
+Warning: Inflexible XMP embedding is not replaceable because XMP metadata block is not removable at position: 837
+Warning: Inflexible XMP embedding is not replaceable because XMP metadata block is not removable at position: 837
+eps-flat_minimal_irremovable-xmp-before-endpagesetup.eps: Could not write metadata to file: Failed to write image
+Exit code: 1
+
+-----> eps-flat_minimal_irremovable-xmp-before-endpagesetup_no-adocontainsxmp.eps <-----
+
+Command: exiv2 -u -pa eps-flat_minimal_irremovable-xmp-before-endpagesetup_no-adocontainsxmp.eps
+Warning: Inflexible XMP embedding is not replaceable because XMP metadata block is not removable at position: 809
+Exit code: 253
+
+Command: exiv2 -f -eX eps-flat_minimal_irremovable-xmp-before-endpagesetup_no-adocontainsxmp.eps
+Warning: Inflexible XMP embedding is not replaceable because XMP metadata block is not removable at position: 809
+Exit code: 0
+
+Command: exiv2 -ix eps-flat_minimal_irremovable-xmp-before-endpagesetup_no-adocontainsxmp.eps
+Warning: Inflexible XMP embedding is not replaceable because XMP metadata block is not removable at position: 809
+Warning: Inflexible XMP embedding is not replaceable because XMP metadata block is not removable at position: 809
+eps-flat_minimal_irremovable-xmp-before-endpagesetup_no-adocontainsxmp.eps: Could not write metadata to file: Failed to write image
+Exit code: 1
+
+-----> eps-flat_minimal_irremovable-xmp-in-page.eps <-----
+
+Command: exiv2 -u -pa eps-flat_minimal_irremovable-xmp-in-page.eps
+Xmp.test.test                                XmpText    20  TEST-irremovable-xmp
+Exit code: 253
+
+Command: exiv2 -f -eX eps-flat_minimal_irremovable-xmp-in-page.eps
+Exit code: 0
+
+Command: exiv2 -ix eps-flat_minimal_irremovable-xmp-in-page.eps
+Exit code: 0
+
+Command: (2) exiv2 -ix eps-flat_minimal_irremovable-xmp-in-page.eps
+Exit code: 0
+
+Command: exiv2 -f -ex eps-flat_minimal_irremovable-xmp-in-page.eps
+Exit code: 0
+
+-----> eps-flat_minimal_irremovable-xmp-in-page_no-adocontainsxmp.eps <-----
+
+Command: exiv2 -u -pa eps-flat_minimal_irremovable-xmp-in-page_no-adocontainsxmp.eps
+Exit code: 253
+
+Command: exiv2 -f -eX eps-flat_minimal_irremovable-xmp-in-page_no-adocontainsxmp.eps
+Exit code: 0
+
+Command: exiv2 -ix eps-flat_minimal_irremovable-xmp-in-page_no-adocontainsxmp.eps
+Exit code: 0
+
+Command: (2) exiv2 -ix eps-flat_minimal_irremovable-xmp-in-page_no-adocontainsxmp.eps
+Exit code: 0
+
+Command: exiv2 -f -ex eps-flat_minimal_irremovable-xmp-in-page_no-adocontainsxmp.eps
+Exit code: 0
+
+-----> eps-flat_minimal_missing-xmp-embedding-trailer.eps <-----
+
+Command: exiv2 -u -pa eps-flat_minimal_missing-xmp-embedding-trailer.eps
+Warning: Unable to find XMP embedding trailer ending at position: 1424
+Xmp.test.test                                XmpText    34  TEST-missing-xmp-embedding-trailer
+Exit code: 253
+
+Command: exiv2 -f -eX eps-flat_minimal_missing-xmp-embedding-trailer.eps
+Warning: Unable to find XMP embedding trailer ending at position: 1424
+Exit code: 0
+
+Command: exiv2 -ix eps-flat_minimal_missing-xmp-embedding-trailer.eps
+Warning: Unable to find XMP embedding trailer ending at position: 1424
+Warning: Unable to find XMP embedding trailer ending at position: 1424
+eps-flat_minimal_missing-xmp-embedding-trailer.eps: Could not write metadata to file: Failed to write image
+Exit code: 1
+
 -----> eps-flat_minimal_xmp-readonly.eps <-----
 
 Command: exiv2 -u -pa eps-flat_minimal_xmp-readonly.eps
@@ -269,26 +424,18 @@ Exit code: 0
 -----> eps-flat_minimal_xmp_exiftool-8.56.eps <-----
 
 Command: exiv2 -u -pa eps-flat_minimal_xmp_exiftool-8.56.eps
-Warning: Page at position 3906 conflicts with implicit page at position: 182
-Exiv2 exception in print action for file eps-flat_minimal_xmp_exiftool-8.56.eps:
-Failed to read image data
-Exit code: 1
-
------> eps-flat_minimal_xmp_exiftool-8.56_fixed.eps <-----
-
-Command: exiv2 -u -pa eps-flat_minimal_xmp_exiftool-8.56_fixed.eps
-Warning: Second XMP metadata block interferes at position: 849
+Warning: Inflexible XMP embedding is not replaceable because XMP metadata block is not removable at position: 4657
 Xmp.dc.title                                 LangAlt     1  lang="x-default" TEST-Exiftool
 Exit code: 253
 
-Command: exiv2 -f -eX eps-flat_minimal_xmp_exiftool-8.56_fixed.eps
-Warning: Second XMP metadata block interferes at position: 849
+Command: exiv2 -f -eX eps-flat_minimal_xmp_exiftool-8.56.eps
+Warning: Inflexible XMP embedding is not replaceable because XMP metadata block is not removable at position: 4657
 Exit code: 0
 
-Command: exiv2 -ix eps-flat_minimal_xmp_exiftool-8.56_fixed.eps
-Warning: Second XMP metadata block interferes at position: 849
-Warning: Second XMP metadata block interferes at position: 849
-eps-flat_minimal_xmp_exiftool-8.56_fixed.eps: Could not write metadata to file: Failed to write image
+Command: exiv2 -ix eps-flat_minimal_xmp_exiftool-8.56.eps
+Warning: Inflexible XMP embedding is not replaceable because XMP metadata block is not removable at position: 4657
+Warning: Inflexible XMP embedding is not replaceable because XMP metadata block is not removable at position: 4657
+eps-flat_minimal_xmp_exiftool-8.56.eps: Could not write metadata to file: Failed to write image
 Exit code: 1
 
 -----> eps-flat_oodraw-lev1.eps <-----
@@ -2570,6 +2717,23 @@ Warning: Missing %begin_xml_packet in Photoshop EPS at position: 8560
 Warning: Missing %begin_xml_packet in Photoshop EPS at position: 8560
 eps-flat_photoshop-cs5-binary_exiv2_missing-begin-xml-packet.eps: Could not write metadata to file: Failed to write image
 Exit code: 1
+
+-----> eps-flat_photoshop-cs5-binary_no-adocontainsxmp.eps <-----
+
+Command: exiv2 -u -pa eps-flat_photoshop-cs5-binary_no-adocontainsxmp.eps
+Exit code: 253
+
+Command: exiv2 -f -eX eps-flat_photoshop-cs5-binary_no-adocontainsxmp.eps
+Exit code: 0
+
+Command: exiv2 -ix eps-flat_photoshop-cs5-binary_no-adocontainsxmp.eps
+Exit code: 0
+
+Command: (2) exiv2 -ix eps-flat_photoshop-cs5-binary_no-adocontainsxmp.eps
+Exit code: 0
+
+Command: exiv2 -f -ex eps-flat_photoshop-cs5-binary_no-adocontainsxmp.eps
+Exit code: 0
 
 -----> eps-flat_photoshop-e9-win-doseps.eps <-----
 

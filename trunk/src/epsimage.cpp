@@ -302,106 +302,6 @@ namespace {
         }
     }
 
-    //! Find removable XMP embeddings
-    static std::vector<std::pair<size_t, size_t> > findRemovableEmbeddings(const byte* data, size_t posStart, size_t posEof, size_t posEndPageSetup,
-                                                                           size_t xmpPos, size_t xmpSize, bool write)
-    {
-        std::vector<std::pair<size_t, size_t> > removableEmbeddings;
-        std::string line;
-        size_t pos;
-
-        // check after XMP
-        pos = xmpPos + xmpSize;
-        pos = readLine(line, data, pos, posEof);
-        if (line != "") return removableEmbeddings;
-        #ifdef DEBUG
-        EXV_DEBUG << "findRemovableEmbeddings: Found empty line after XMP\n";
-        #endif
-        pos = readLine(line, data, pos, posEof);
-        if (line != "%end_xml_packet") return removableEmbeddings;
-        #ifdef DEBUG
-        EXV_DEBUG << "findRemovableEmbeddings: Found %end_xml_packet\n";
-        #endif
-        size_t posEmbeddingEnd = 0;
-        for (int i = 0; i < 32; i++) {
-            pos = readLine(line, data, pos, posEof);
-            if (line == "%end_xml_code") {
-                posEmbeddingEnd = pos;
-                break;
-            }
-        }
-        if (posEmbeddingEnd == 0) return removableEmbeddings;
-        #ifdef DEBUG
-        EXV_DEBUG << "findRemovableEmbeddings: Found %end_xml_code\n";
-        #endif
-
-        // check before XMP
-        pos = xmpPos;
-        pos = readPrevLine(line, data, pos, posEof);
-        if (!startsWith(line, "%begin_xml_packet: ")) return removableEmbeddings;
-        #ifdef DEBUG
-        EXV_DEBUG << "findRemovableEmbeddings: Found %begin_xml_packet: ...\n";
-        #endif
-        size_t posEmbeddingStart = posEof;
-        for (int i = 0; i < 32; i++) {
-            pos = readPrevLine(line, data, pos, posEof);
-            if (line == "%begin_xml_code") {
-                posEmbeddingStart = pos;
-                break;
-            }
-        }
-        if (posEmbeddingStart == posEof) return removableEmbeddings;
-        #ifdef DEBUG
-        EXV_DEBUG << "findRemovableEmbeddings: Found %begin_xml_code\n";
-        #endif
-
-        // check at EOF
-        pos = posEof;
-        pos = readPrevLine(line, data, pos, posEof);
-        if (line == "[/EMC pdfmark") {
-            // Exiftool style
-            #ifdef DEBUG
-            EXV_DEBUG << "findRemovableEmbeddings: Found [/EMC pdfmark\n";
-            #endif
-        } else if (line == "[/NamespacePop pdfmark") {
-            // Photoshop style
-            #ifdef DEBUG
-            EXV_DEBUG << "findRemovableEmbeddings: Found /NamespacePop pdfmark\n";
-            #endif
-            pos = readPrevLine(line, data, pos, posEof);
-            if (line != "[{nextImage} 1 dict begin /Metadata {photoshop_metadata_stream} def currentdict end /PUT pdfmark") return removableEmbeddings;
-            #ifdef DEBUG
-            EXV_DEBUG << "findRemovableEmbeddings: Found /PUT pdfmark\n";
-            #endif
-        } else {
-           return removableEmbeddings;
-        }
-
-        // check whether another XMP metadata block would take precedence if this one was removed
-        {
-            size_t xmpPos, xmpSize;
-            findXmp(xmpPos, xmpSize, data, posStart, posEndPageSetup, write);
-            if (xmpSize != 0) {
-                #ifndef SUPPRESS_WARNINGS
-                EXV_WARNING << "Second XMP metadata block interferes at position: " << xmpPos << "\n";
-                #endif
-                if (write) throw Error(21);
-            }
-        }
-
-        removableEmbeddings.push_back(std::make_pair(posEmbeddingStart, posEmbeddingEnd));
-        removableEmbeddings.push_back(std::make_pair(pos, posEof));
-        #ifdef DEBUG
-        const size_t n = removableEmbeddings.size();
-        EXV_DEBUG << "findRemovableEmbeddings: Recognized Photoshop-style XMP embedding at "
-                     "[" << removableEmbeddings[n-2].first << "," << removableEmbeddings[n-2].second << ")"
-                     " with trailer "
-                     "[" << removableEmbeddings[n-1].first << "," << removableEmbeddings[n-1].second << ")"
-                     "\n";
-        #endif
-        return removableEmbeddings;
-    }
-
     //! Unified implementation of reading and writing EPS metadata
     static void readWriteEpsMetadata(BasicIo& io, std::string& xmpPacket, NativePreviewList& nativePreviews, bool write)
     {
@@ -529,10 +429,13 @@ namespace {
         size_t posEndPageSetup = posEndEps;
         size_t posPageTrailer = posEndEps;
         size_t posEof = posEndEps;
+        std::vector<std::pair<size_t, size_t> > removableEmbeddings;
         bool implicitPage = false;
         bool photoshop = false;
         bool inDefaultsOrPrologOrSetup = false;
         bool inPageSetup = false;
+        bool inPhotoshopXmp = false;
+        bool inExiv2Xmp = false;
         for (size_t pos = posEps; pos < posEof;) {
             const size_t startPos = pos;
             std::string line;
@@ -546,15 +449,15 @@ namespace {
                     #endif
                 }
             }
-            if (line == "%%EOF" || line == "%begin_xml_code" || (line.size() >= 1 && line[0] != '%')) {
-                if (posPage == posEndEps && posEndComments != posEndEps && !inDefaultsOrPrologOrSetup && !onlyWhitespaces(line)) {
+            if (line == "%%EOF" || (line.size() >= 1 && line[0] != '%')) {
+                if (posPage == posEndEps && posEndComments != posEndEps && !inDefaultsOrPrologOrSetup && !inPhotoshopXmp && !onlyWhitespaces(line)) {
                     posPage = startPos;
                     implicitPage = true;
                     #ifdef DEBUG
                     EXV_DEBUG << "readWriteEpsMetadata: Found implicit Page at position: " << startPos << "\n";
                     #endif
                 }
-                if (posEndPageSetup == posEndEps && posPage != posEndEps && !inPageSetup) {
+                if (posEndPageSetup == posEndEps && posPage != posEndEps && !inPageSetup && !inPhotoshopXmp) {
                     posEndPageSetup = startPos;
                     #ifdef DEBUG
                     EXV_DEBUG << "readWriteEpsMetadata: Found implicit EndPageSetup at position: " << startPos << "\n";
@@ -607,6 +510,22 @@ namespace {
                 posPageTrailer = startPos;
             } else if (startsWith(line, "%BeginPhotoshop:")) {
                 photoshop = true;
+            } else if (posEndPageSetup == posEndEps && line == "%Exiv2BeginXMP: Before %%EndPageSetup") {
+                inExiv2Xmp = true;
+            } else if (posEndPageSetup == posEndEps && line == "%Exiv2EndXMP") {
+                inExiv2Xmp = false;
+            } else if (posEndPageSetup == posEndEps && !inExiv2Xmp && line == "%begin_xml_code") {
+                inPhotoshopXmp = true;
+                removableEmbeddings.push_back(std::make_pair(startPos, startPos));
+            } else if (posEndPageSetup == posEndEps && !inExiv2Xmp && line == "%end_xml_code") {
+                if (!inPhotoshopXmp) {
+                    #ifndef SUPPRESS_WARNINGS
+                    EXV_WARNING << "Unexpected Photoshop end_xml_code at position: " << startPos << "\n";
+                    #endif
+                    throw Error(write ? 21 : 14);
+                }
+                inPhotoshopXmp = false;
+                removableEmbeddings.back().second = pos;
             } else if (line == "%%EOF") {
                 posEof = startPos;
             } else if (startsWith(line, "%%BeginDocument:")) {
@@ -650,6 +569,38 @@ namespace {
             #endif
         }
 
+        // look for the trailers of the removable XMP embeddings
+        const size_t numRemovableEmbeddings = removableEmbeddings.size();
+        size_t posXmpTrailerEnd = posEof;
+        for (size_t i = 0; i < numRemovableEmbeddings; i++) {
+            std::string line1;
+            const size_t posLine1 = readPrevLine(line1, data, posXmpTrailerEnd, posEndEps);
+            std::string line2;
+            const size_t posLine2 = readPrevLine(line2, data, posLine1, posEndEps);
+            size_t posXmpTrailer;
+            if (line1 == "[/EMC pdfmark") { // Exiftool style
+                posXmpTrailer = posLine1;
+            } else if (line1 == "[/NamespacePop pdfmark" &&
+                       line2 == "[{nextImage} 1 dict begin /Metadata {photoshop_metadata_stream} def currentdict end /PUT pdfmark") { // Photoshop style
+                posXmpTrailer = posLine2;
+            } else {
+                #ifndef SUPPRESS_WARNINGS
+                EXV_WARNING << "Unable to find XMP embedding trailer ending at position: " << posXmpTrailerEnd << "\n";
+                #endif
+                if (write) throw Error(21);
+                break;
+            }
+            removableEmbeddings.push_back(std::make_pair(posXmpTrailer, posXmpTrailerEnd));
+            #ifdef DEBUG
+            EXV_DEBUG << "readWriteEpsMetadata: Recognized removable XMP embedding at "
+                         "[" << removableEmbeddings[i].first << "," << removableEmbeddings[i].second << ")"
+                         " with trailer "
+                         "[" << removableEmbeddings.back().first << "," << removableEmbeddings.back().second << ")"
+                         "\n";
+            #endif
+            posXmpTrailerEnd = posXmpTrailer;
+        }
+
         // interpret comment "%ADO_ContainsXMP:"
         std::string line;
         readLine(line, data, posContainsXmp, posEndEps);
@@ -665,8 +616,8 @@ namespace {
             throw Error(write ? 21 : 14);
         }
 
-        std::vector<std::pair<size_t, size_t> > removableEmbeddings;
         bool fixBeginXmlPacket = false;
+        bool flexibleEmbedding = false;
         size_t xmpPos = posEndEps;
         size_t xmpSize = 0;
         if (containsXmp) {
@@ -687,14 +638,15 @@ namespace {
                 if (write) throw Error(21);
             }
             readLine(line, data, posLineAfterXmp, posEndEps);
-            if (line == "% &&end XMP packet marker&&" || line == "%  &&end XMP packet marker&&") {
+            flexibleEmbedding = (line == "% &&end XMP packet marker&&" || line == "%  &&end XMP packet marker&&");
+            if (flexibleEmbedding) {
                 #ifdef DEBUG
-                EXV_DEBUG << "readWriteEpsMetadata: Recognized flexible XMP embedding\n";
+                EXV_DEBUG << "readWriteEpsMetadata: XMP embedding is flexible\n";
                 #endif
                 const size_t posBeginXmlPacket = readPrevLine(line, data, xmpPos, posEndEps);
                 if (startsWith(line, "%begin_xml_packet:")) {
                     #ifdef DEBUG
-                    EXV_DEBUG << "readWriteEpsMetadata: Found %begin_xml_packet before flexible XMP embedding\n";
+                    EXV_DEBUG << "readWriteEpsMetadata: XMP embedding contains %begin_xml_packet\n";
                     #endif
                     if (write) {
                         fixBeginXmlPacket = true;
@@ -708,12 +660,31 @@ namespace {
                     if (write) throw Error(21);
                 }
             } else {
-                removableEmbeddings = findRemovableEmbeddings(data, posEps, posEof, posEndPageSetup, xmpPos, xmpSize, write);
-                if (removableEmbeddings.empty()) {
+                #ifdef DEBUG
+                EXV_DEBUG << "readWriteEpsMetadata: XMP embedding is inflexible\n";
+                #endif
+            }
+        }
+        if (!flexibleEmbedding) {
+            // check if there are irremovable XMP metadata blocks before EndPageSetup
+            size_t posOtherXmp = containsXmp ? xmpPos : posEps;
+            size_t sizeOtherXmp = 0;
+            for (;;) {
+                findXmp(posOtherXmp, sizeOtherXmp, data, posOtherXmp + sizeOtherXmp, posEndPageSetup, write);
+                if (posOtherXmp >= posEndPageSetup) break;
+                bool isRemovableEmbedding = false;
+                for (std::vector<std::pair<size_t, size_t> >::const_iterator e = removableEmbeddings.begin(); e != removableEmbeddings.end(); e++) {
+                    if (e->first <= posOtherXmp && posOtherXmp < e->second) {
+                        isRemovableEmbedding = true;
+                        break;
+                    }
+                }
+                if (!isRemovableEmbedding) {
                     #ifndef SUPPRESS_WARNINGS
-                    EXV_WARNING << "Unknown XMP embedding at position: " << xmpPos << "\n";
+                    EXV_WARNING << "Inflexible XMP embedding is not replaceable because XMP metadata block is not removable at position: " << posOtherXmp << "\n";
                     #endif
                     if (write) throw Error(21);
+                    break;
                 }
             }
         }
@@ -743,8 +714,6 @@ namespace {
                 nativePreviews.push_back(nativePreview);
             }
         } else {
-            const bool useExistingEmbedding = (xmpPos != posEndEps && removableEmbeddings.empty());
-
             // TODO: Add support for deleting XMP metadata. Note that this is not
             //       as simple as it may seem, and requires special attention!
             if (xmpPacket.size() == 0) {
@@ -780,7 +749,7 @@ namespace {
             positions.push_back(posPageTrailer);
             positions.push_back(posEof);
             positions.push_back(posEndEps);
-            if (useExistingEmbedding) {
+            if (flexibleEmbedding) {
                 positions.push_back(xmpPos);
             }
             for (std::vector<std::pair<size_t, size_t> >::const_iterator e = removableEmbeddings.begin(); e != removableEmbeddings.end(); e++) {
@@ -817,7 +786,7 @@ namespace {
                     #endif
                 }
                 // update and complement DSC comments
-                if (pos == posLanguageLevel && posLanguageLevel != posEndEps && !useExistingEmbedding) {
+                if (pos == posLanguageLevel && posLanguageLevel != posEndEps && !flexibleEmbedding) {
                     if (line == "%%LanguageLevel:1" || line == "%%LanguageLevel: 1") {
                         writeTemp(*tempIo, "%%LanguageLevel: 2" + lineEnding);
                         skipPos = posLineEnd;
@@ -838,7 +807,7 @@ namespace {
                     skipPos = posLineEnd;
                 }
                 if (pos == posEndComments) {
-                    if (posLanguageLevel == posEndEps && !useExistingEmbedding) {
+                    if (posLanguageLevel == posEndEps && !flexibleEmbedding) {
                         writeTemp(*tempIo, "%%LanguageLevel: 2" + lineEnding);
                     }
                     if (posContainsXmp == posEndEps) {
@@ -864,14 +833,7 @@ namespace {
                         writeTemp(*tempIo, "%%EndPageComments" + lineEnding);
                     }
                 }
-                // remove unflexible embeddings
-                for (std::vector<std::pair<size_t, size_t> >::const_iterator e = removableEmbeddings.begin(); e != removableEmbeddings.end(); e++) {
-                    if (pos == e->first) {
-                        skipPos = e->second;
-                        break;
-                    }
-                }
-                if (useExistingEmbedding) {
+                if (flexibleEmbedding) {
                     // insert XMP metadata into existing flexible embedding
                     if (pos == xmpPos) {
                         if (fixBeginXmlPacket) {
@@ -881,6 +843,13 @@ namespace {
                         skipPos += xmpSize;
                     }
                 } else {
+                    // remove preceding embedding(s)
+                    for (std::vector<std::pair<size_t, size_t> >::const_iterator e = removableEmbeddings.begin(); e != removableEmbeddings.end(); e++) {
+                        if (pos == e->first) {
+                            skipPos = e->second;
+                            break;
+                        }
+                    }
                     // insert XMP metadata with new flexible embedding
                     if (pos == posEndPageSetup) {
                         if (line != "%%EndPageSetup") {
