@@ -916,7 +916,7 @@ namespace {
             EXV_DEBUG << "readWriteEpsMetadata: New EPS size: " << (posEndEpsNew - posEpsNew) << "\n";
             #endif
             if (dosEps) {
-                // add WMF and/or TIFF section if present
+                // write WMF and/or TIFF section if present
                 writeTemp(*tempIo, data + posWmf, sizeWmf);
                 writeTemp(*tempIo, data + posTiff, sizeTiff);
                 #ifdef DEBUG
@@ -929,16 +929,16 @@ namespace {
                     #endif
                     throw Error(21);
                 }
-                byte b[30];
-                dosEpsSignature.copy(reinterpret_cast<char*>(b), dosEpsSignature.size());
-                ul2Data(b +  4, posEpsNew,                                  littleEndian);
-                ul2Data(b +  8, posEndEpsNew - posEpsNew,                   littleEndian);
-                ul2Data(b + 12, sizeWmf == 0 ? 0 : posEndEpsNew,            littleEndian);
-                ul2Data(b + 16, sizeWmf,                                    littleEndian);
-                ul2Data(b + 20, sizeTiff == 0 ? 0 : posEndEpsNew + sizeWmf, littleEndian);
-                ul2Data(b + 24, sizeTiff,                                   littleEndian);
-                us2Data(b + 28, 0xFFFF,                                     littleEndian);
-                writeTemp(*tempIo, b, sizeof(b));
+                byte dosEpsHeader[30];
+                dosEpsSignature.copy(reinterpret_cast<char*>(dosEpsHeader), dosEpsSignature.size());
+                ul2Data(dosEpsHeader +  4, posEpsNew,                                  littleEndian);
+                ul2Data(dosEpsHeader +  8, posEndEpsNew - posEpsNew,                   littleEndian);
+                ul2Data(dosEpsHeader + 12, sizeWmf == 0 ? 0 : posEndEpsNew,            littleEndian);
+                ul2Data(dosEpsHeader + 16, sizeWmf,                                    littleEndian);
+                ul2Data(dosEpsHeader + 20, sizeTiff == 0 ? 0 : posEndEpsNew + sizeWmf, littleEndian);
+                ul2Data(dosEpsHeader + 24, sizeTiff,                                   littleEndian);
+                us2Data(dosEpsHeader + 28, 0xFFFF,                                     littleEndian);
+                writeTemp(*tempIo, dosEpsHeader, sizeof(dosEpsHeader));
             }
 
             // copy temporary file to real output file
