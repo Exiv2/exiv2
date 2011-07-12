@@ -276,33 +276,33 @@ Exit code: 0
 -----> eps-flat_minimal_irremovable-xmp-before-endpagesetup.eps <-----
 
 Command: exiv2 -u -pa eps-flat_minimal_irremovable-xmp-before-endpagesetup.eps
-Warning: Inflexible XMP embedding is not replaceable because XMP metadata block is not removable at position: 837
+Warning: XMP metadata block is not removable at position: 837
 Xmp.test.test                                XmpText    20  TEST-irremovable-xmp
 Exit code: 253
 
 Command: exiv2 -f -eX eps-flat_minimal_irremovable-xmp-before-endpagesetup.eps
-Warning: Inflexible XMP embedding is not replaceable because XMP metadata block is not removable at position: 837
+Warning: XMP metadata block is not removable at position: 837
 Exit code: 0
 
 Command: exiv2 -ix eps-flat_minimal_irremovable-xmp-before-endpagesetup.eps
-Warning: Inflexible XMP embedding is not replaceable because XMP metadata block is not removable at position: 837
-Warning: Inflexible XMP embedding is not replaceable because XMP metadata block is not removable at position: 837
+Warning: XMP metadata block is not removable at position: 837
+Warning: XMP metadata block is not removable at position: 837
 eps-flat_minimal_irremovable-xmp-before-endpagesetup.eps: Could not write metadata to file: Failed to write image
 Exit code: 1
 
 -----> eps-flat_minimal_irremovable-xmp-before-endpagesetup_no-adocontainsxmp.eps <-----
 
 Command: exiv2 -u -pa eps-flat_minimal_irremovable-xmp-before-endpagesetup_no-adocontainsxmp.eps
-Warning: Inflexible XMP embedding is not replaceable because XMP metadata block is not removable at position: 809
+Warning: XMP metadata block is not removable at position: 809
 Exit code: 253
 
 Command: exiv2 -f -eX eps-flat_minimal_irremovable-xmp-before-endpagesetup_no-adocontainsxmp.eps
-Warning: Inflexible XMP embedding is not replaceable because XMP metadata block is not removable at position: 809
+Warning: XMP metadata block is not removable at position: 809
 Exit code: 0
 
 Command: exiv2 -ix eps-flat_minimal_irremovable-xmp-before-endpagesetup_no-adocontainsxmp.eps
-Warning: Inflexible XMP embedding is not replaceable because XMP metadata block is not removable at position: 809
-Warning: Inflexible XMP embedding is not replaceable because XMP metadata block is not removable at position: 809
+Warning: XMP metadata block is not removable at position: 809
+Warning: XMP metadata block is not removable at position: 809
 eps-flat_minimal_irremovable-xmp-before-endpagesetup_no-adocontainsxmp.eps: Could not write metadata to file: Failed to write image
 Exit code: 1
 

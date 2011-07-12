@@ -691,7 +691,7 @@ namespace {
                 }
                 if (!isRemovableEmbedding) {
                     #ifndef SUPPRESS_WARNINGS
-                    EXV_WARNING << "Inflexible XMP embedding is not replaceable because XMP metadata block is not removable at position: " << posOtherXmp << "\n";
+                    EXV_WARNING << "XMP metadata block is not removable at position: " << posOtherXmp << "\n";
                     #endif
                     if (write) throw Error(21);
                     break;
