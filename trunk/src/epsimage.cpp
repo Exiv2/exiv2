@@ -633,11 +633,10 @@ namespace {
         if (containsXmp) {
             // search for XMP metadata
             findXmp(xmpPos, xmpSize, data, posEps, posEndEps, write);
-            if (xmpSize == 0) {
+            if (xmpPos == posEndEps) {
                 #ifndef SUPPRESS_WARNINGS
                 EXV_WARNING << "Unable to find XMP metadata as announced at position: " << posContainsXmp << "\n";
                 #endif
-                throw Error(write ? 21 : 14);
             }
             // check embedding of XMP metadata
             const size_t posLineAfterXmp = readLine(line, data, xmpPos + xmpSize, posEndEps);
