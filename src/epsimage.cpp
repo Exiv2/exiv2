@@ -644,10 +644,11 @@ namespace {
                 #ifndef SUPPRESS_WARNINGS
                 EXV_WARNING << "Unexpected " << line.size() << " bytes of data after XMP at position: " << (xmpPos + xmpSize) << "\n";
                 #endif
-                if (write) throw Error(21);
+                flexibleEmbedding = false;
+            } else {
+                readLine(line, data, posLineAfterXmp, posEndEps);
+                flexibleEmbedding = (line == "% &&end XMP packet marker&&" || line == "%  &&end XMP packet marker&&");
             }
-            readLine(line, data, posLineAfterXmp, posEndEps);
-            flexibleEmbedding = (line == "% &&end XMP packet marker&&" || line == "%  &&end XMP packet marker&&");
             if (flexibleEmbedding) {
                 #ifdef DEBUG
                 EXV_DEBUG << "readWriteEpsMetadata: XMP embedding is flexible\n";
