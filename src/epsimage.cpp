@@ -435,8 +435,9 @@ namespace {
         bool photoshop = false;
         bool inDefaultsOrPrologOrSetup = false;
         bool inPageSetup = false;
-        bool inPhotoshopXmp = false;
-        bool inExiv2Xmp = false;
+        bool inRemovableEmbedding = false;
+        std::string removableEmbeddingEndLine;
+        unsigned int removableEmbeddingsWithUnmarkedTrailer = 0;
         for (size_t pos = posEps; pos < posEof;) {
             const size_t startPos = pos;
             std::string line;
@@ -451,14 +452,14 @@ namespace {
                 }
             }
             if (line == "%%EOF" || (line.size() >= 1 && line[0] != '%')) {
-                if (posPage == posEndEps && posEndComments != posEndEps && !inDefaultsOrPrologOrSetup && !inPhotoshopXmp && !onlyWhitespaces(line)) {
+                if (posPage == posEndEps && posEndComments != posEndEps && !inDefaultsOrPrologOrSetup && !inRemovableEmbedding && !onlyWhitespaces(line)) {
                     posPage = startPos;
                     implicitPage = true;
                     #ifdef DEBUG
                     EXV_DEBUG << "readWriteEpsMetadata: Found implicit Page at position: " << startPos << "\n";
                     #endif
                 }
-                if (posEndPageSetup == posEndEps && posPage != posEndEps && !inPageSetup && !inPhotoshopXmp) {
+                if (posEndPageSetup == posEndEps && posPage != posEndEps && !inPageSetup && !inRemovableEmbedding) {
                     posEndPageSetup = startPos;
                     #ifdef DEBUG
                     EXV_DEBUG << "readWriteEpsMetadata: Found implicit EndPageSetup at position: " << startPos << "\n";
@@ -514,21 +515,29 @@ namespace {
                 posPageTrailer = startPos;
             } else if (startsWith(line, "%BeginPhotoshop:")) {
                 photoshop = true;
-            } else if (posEndPageSetup == posEndEps && line == "%Exiv2BeginXMP: Before %%EndPageSetup") {
-                inExiv2Xmp = true;
-            } else if (posEndPageSetup == posEndEps && line == "%Exiv2EndXMP") {
-                inExiv2Xmp = false;
-            } else if (posEndPageSetup == posEndEps && !inExiv2Xmp && line == "%begin_xml_code") {
-                inPhotoshopXmp = true;
+            } else if (!inRemovableEmbedding && line == "%Exiv2BeginXMP: Before %%EndPageSetup") {
+                inRemovableEmbedding = true;
                 removableEmbeddings.push_back(std::make_pair(startPos, startPos));
-            } else if (posEndPageSetup == posEndEps && !inExiv2Xmp && line == "%end_xml_code") {
-                if (!inPhotoshopXmp) {
-                    #ifndef SUPPRESS_WARNINGS
-                    EXV_WARNING << "Unexpected Photoshop end_xml_code at position: " << startPos << "\n";
-                    #endif
-                    throw Error(write ? 21 : 14);
-                }
-                inPhotoshopXmp = false;
+                removableEmbeddingEndLine = "%Exiv2EndXMP";
+            } else if (!inRemovableEmbedding && line == "%Exiv2BeginXMP: After %%PageTrailer") {
+                inRemovableEmbedding = true;
+                removableEmbeddings.push_back(std::make_pair(startPos, startPos));
+                removableEmbeddingEndLine = "%Exiv2EndXMP";
+            } else if (!inRemovableEmbedding && line == "%ADOBeginClientInjection: PageSetup End \"AI11EPS\"") {
+                inRemovableEmbedding = true;
+                removableEmbeddings.push_back(std::make_pair(startPos, startPos));
+                removableEmbeddingEndLine = "%ADOEndClientInjection: PageSetup End \"AI11EPS\"";
+            } else if (!inRemovableEmbedding && line == "%ADOBeginClientInjection: PageTrailer Start \"AI11EPS\"") {
+                inRemovableEmbedding = true;
+                removableEmbeddings.push_back(std::make_pair(startPos, startPos));
+                removableEmbeddingEndLine = "%ADOEndClientInjection: PageTrailer Start \"AI11EPS\"";
+            } else if (posEndPageSetup == posEndEps && !inRemovableEmbedding && line == "%begin_xml_code") {
+                inRemovableEmbedding = true;
+                removableEmbeddings.push_back(std::make_pair(startPos, startPos));
+                removableEmbeddingEndLine = "%end_xml_code";
+                removableEmbeddingsWithUnmarkedTrailer++;
+            } else if (inRemovableEmbedding && line == removableEmbeddingEndLine) {
+                inRemovableEmbedding = false;
                 removableEmbeddings.back().second = pos;
             } else if (line == "%%EOF") {
                 posEof = startPos;
@@ -573,10 +582,9 @@ namespace {
             #endif
         }
 
-        // look for the trailers of the removable XMP embeddings
-        const size_t numRemovableEmbeddings = removableEmbeddings.size();
+        // look for the unmarked trailers of some removable XMP embeddings
         size_t posXmpTrailerEnd = posEof;
-        for (size_t i = 0; i < numRemovableEmbeddings; i++) {
+        for (size_t i = 0; i < removableEmbeddingsWithUnmarkedTrailer; i++) {
             std::string line1;
             const size_t posLine1 = readPrevLine(line1, data, posXmpTrailerEnd, posEndEps);
             std::string line2;
@@ -596,9 +604,7 @@ namespace {
             }
             removableEmbeddings.push_back(std::make_pair(posXmpTrailer, posXmpTrailerEnd));
             #ifdef DEBUG
-            EXV_DEBUG << "readWriteEpsMetadata: Recognized removable XMP embedding at "
-                         "[" << removableEmbeddings[i].first << "," << removableEmbeddings[i].second << ")"
-                         " with trailer "
+            EXV_DEBUG << "readWriteEpsMetadata: Recognized unmarked trailer of removable XMP embedding at "
                          "[" << removableEmbeddings.back().first << "," << removableEmbeddings.back().second << ")"
                          "\n";
             #endif
