@@ -32,6 +32,7 @@ images="eps/eps-flat_inkscape-epsi.eps \
         eps/eps-flat_oodraw_ai-cs5-lev3-nodocthumb.eps \
         eps/eps-flat_oodraw_ai-cs5-lev3-preview.eps \
         eps/eps-flat_oodraw_ai-cs5-lev3.eps \
+        eps/eps-flat_oodraw_ai-cs5-lev3_exiftool-8.56.eps \
         eps/eps-flat_oodraw_ai-cs5-lev3_ns-xapGImg.eps \
         eps/eps-flat_photoshop-cs5-ascii-colorprofile.eps \
         eps/eps-flat_photoshop-cs5-ascii-preview.eps \
@@ -41,8 +42,10 @@ images="eps/eps-flat_inkscape-epsi.eps \
         eps/eps-flat_photoshop-cs5-ascii_failure-bigxmp.eps \
         eps/eps-flat_photoshop-cs5-binary-preview.eps \
         eps/eps-flat_photoshop-cs5-binary.eps \
+        eps/eps-flat_photoshop-cs5-binary_exiftool-8.56.eps \
         eps/eps-flat_photoshop-cs5-binary_exiv2-bigxmp.eps \
         eps/eps-flat_photoshop-cs5-binary_exiv2.eps \
+        eps/eps-flat_photoshop-cs5-binary_exiv2_exiftool-8.56.eps \
         eps/eps-flat_photoshop-cs5-binary_exiv2_missing-begin-xml-packet.eps \
         eps/eps-flat_photoshop-cs5-binary_no-adocontainsxmp.eps \
         eps/eps-flat_photoshop-e9-win-doseps.eps \
@@ -63,6 +66,7 @@ images="eps/eps-flat_inkscape-epsi.eps \
         eps/eps-nested_xmp_ai-cs5-lev3.eps \
         eps/eps-nested_xmp_indesign-cs5-lev3-bin.eps \
         eps/eps-nested_xmp_indesign-cs5-lev3.eps \
+        eps/eps-nested_xmp_indesign-cs5-lev3_exiftool-8.56.eps \
         eps/eps-nested_xmp_oodraw-lev2-epsi.eps \
         eps/eps-nested_xmp_oodraw-lev2-preview.eps \
         exiv2-bug443.jpg \
