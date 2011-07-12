@@ -431,6 +431,7 @@ namespace {
         size_t posEof = posEndEps;
         std::vector<std::pair<size_t, size_t> > removableEmbeddings;
         bool implicitPage = false;
+        bool implicitPageTrailer = false;
         bool photoshop = false;
         bool inDefaultsOrPrologOrSetup = false;
         bool inPageSetup = false;
@@ -465,11 +466,14 @@ namespace {
                 }
             }
             if (line.size() >= 1 && line[0] != '%') continue; // performance optimization
-            if (line == "%%EOF" && posPageTrailer == posEndEps) {
-                posPageTrailer = startPos;
-                #ifdef DEBUG
-                EXV_DEBUG << "readWriteEpsMetadata: Found implicit PageTrailer at position: " << startPos << "\n";
-                #endif
+            if (line == "%%EOF" || line == "%%Trailer") {
+                if (posPageTrailer == posEndEps) {
+                    posPageTrailer = startPos;
+                    implicitPageTrailer = true;
+                    #ifdef DEBUG
+                    EXV_DEBUG << "readWriteEpsMetadata: Found implicit PageTrailer at position: " << startPos << "\n";
+                    #endif
+                }
             }
             // explicit comments
             #ifdef DEBUG
@@ -893,11 +897,10 @@ namespace {
                         }
                     }
                     if (pos == posPageTrailer) {
-                        if (pos == posEndEps || pos == posEof) {
-                            writeTemp(*tempIo, "%%PageTrailer" + lineEnding);
-                        } else {
+                        if (!implicitPageTrailer) {
                             skipPos = posLineEnd;
                         }
+                        writeTemp(*tempIo, "%%PageTrailer" + lineEnding);
                         writeTemp(*tempIo, "%Exiv2BeginXMP: After %%PageTrailer" + lineEnding);
                         writeTemp(*tempIo, "[/EMC Exiv2_pdfmark" + lineEnding);
                         writeTemp(*tempIo, "[/NamespacePop Exiv2_pdfmark" + lineEnding);

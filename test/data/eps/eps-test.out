@@ -151,6 +151,23 @@ Exit code: 0
 Command: exiv2 -f -ex eps-flat_minimal-noeol.eps
 Exit code: 0
 
+-----> eps-flat_minimal-trailer.eps <-----
+
+Command: exiv2 -u -pa eps-flat_minimal-trailer.eps
+Exit code: 253
+
+Command: exiv2 -f -eX eps-flat_minimal-trailer.eps
+Exit code: 0
+
+Command: exiv2 -ix eps-flat_minimal-trailer.eps
+Exit code: 0
+
+Command: (2) exiv2 -ix eps-flat_minimal-trailer.eps
+Exit code: 0
+
+Command: exiv2 -f -ex eps-flat_minimal-trailer.eps
+Exit code: 0
+
 -----> eps-flat_minimal.eps <-----
 
 Command: exiv2 -u -pa eps-flat_minimal.eps
