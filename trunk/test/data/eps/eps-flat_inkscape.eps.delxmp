@@ -1,0 +1,40 @@
+%!PS-Adobe-3.0 EPSF-3.0
+%%Creator: inkscape 0.46
+%%Pages: 1
+%%Orientation: Portrait
+%%BoundingBox: 0 0 100 100
+%%HiResBoundingBox: 0 0 100 100
+%%LanguageLevel: 2
+%ADO_ContainsXMP: NoMain
+%Exiv2Version: _Exiv2Version_
+%Exiv2Website: http://www.exiv2.org/
+%%EndComments
+%%Page: 1 1
+0 100 translate
+0.8 -0.8 scale
+0 0 0 setrgbcolor
+[] 0 setdash
+1 setlinewidth
+0 setlinejoin
+0 setlinecap
+gsave [1 0 0 1 0 0] concat
+gsave [1.25 0 0 -1.25 0 125] concat
+gsave [0.1 0 0 0.1 0 0] concat
+0 0 0 setrgbcolor
+[] 0 setdash
+100 setlinewidth
+0 setlinejoin
+0 setlinecap
+newpath
+50 50 moveto
+950 50 lineto
+950 950 lineto
+50 950 lineto
+50 50 lineto
+closepath
+stroke
+grestore
+grestore
+grestore
+showpage
+%%EOF
