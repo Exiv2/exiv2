@@ -2525,9 +2525,22 @@ Exit code: 0
 
 Command: exiv2 -u -pa eps-flat_photoshop-cs5-ascii_failure-bigxmp.eps
 Warning: Unable to find XMP metadata as announced at position: 291
-Exiv2 exception in print action for file eps-flat_photoshop-cs5-ascii_failure-bigxmp.eps:
-Failed to read image data
-Exit code: 1
+Exit code: 253
+
+Command: exiv2 -f -eX eps-flat_photoshop-cs5-ascii_failure-bigxmp.eps
+Warning: Unable to find XMP metadata as announced at position: 291
+Exit code: 0
+
+Command: exiv2 -ix eps-flat_photoshop-cs5-ascii_failure-bigxmp.eps
+Warning: Unable to find XMP metadata as announced at position: 291
+Warning: Unable to find XMP metadata as announced at position: 291
+Exit code: 0
+
+Command: (2) exiv2 -ix eps-flat_photoshop-cs5-ascii_failure-bigxmp.eps
+Exit code: 0
+
+Command: exiv2 -f -ex eps-flat_photoshop-cs5-ascii_failure-bigxmp.eps
+Exit code: 0
 
 -----> eps-flat_photoshop-cs5-binary-preview.eps <-----
 
