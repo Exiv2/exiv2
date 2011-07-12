@@ -4,6 +4,14 @@
 Command: exiv2 -u -pa eps-flat_empty-eof-noeol.eps
 Exit code: 253
 
+Command: exiv2 -dx eps-flat_empty-eof-noeol.eps
+Exit code: 0
+
+Command: exiv2 -f -ex eps-flat_empty-eof-noeol.eps
+Exit code: 0
+
+Restore: eps-flat_empty-eof-noeol.eps
+
 Command: exiv2 -f -eX eps-flat_empty-eof-noeol.eps
 Exit code: 0
 
@@ -21,6 +29,14 @@ Exit code: 0
 Command: exiv2 -u -pa eps-flat_empty-eof.eps
 Exit code: 253
 
+Command: exiv2 -dx eps-flat_empty-eof.eps
+Exit code: 0
+
+Command: exiv2 -f -ex eps-flat_empty-eof.eps
+Exit code: 0
+
+Restore: eps-flat_empty-eof.eps
+
 Command: exiv2 -f -eX eps-flat_empty-eof.eps
 Exit code: 0
 
@@ -37,6 +53,14 @@ Exit code: 0
 
 Command: exiv2 -u -pa eps-flat_empty-noeol.eps
 Exit code: 253
+
+Command: exiv2 -dx eps-flat_empty-noeol.eps
+Exit code: 0
+
+Command: exiv2 -f -ex eps-flat_empty-noeol.eps
+Exit code: 0
+
+Restore: eps-flat_empty-noeol.eps
 
 Command: exiv2 -f -eX eps-flat_empty-noeol.eps
 Exit code: 0
@@ -56,6 +80,14 @@ Command: exiv2 -u -pa eps-flat_empty-xmp.eps
 Xmp.test.test                                XmpText     4  TEST
 Exit code: 253
 
+Command: exiv2 -dx eps-flat_empty-xmp.eps
+Exit code: 0
+
+Command: exiv2 -f -ex eps-flat_empty-xmp.eps
+Exit code: 0
+
+Restore: eps-flat_empty-xmp.eps
+
 Command: exiv2 -f -eX eps-flat_empty-xmp.eps
 Exit code: 0
 
@@ -72,6 +104,14 @@ Exit code: 0
 
 Command: exiv2 -u -pa eps-flat_empty.eps
 Exit code: 253
+
+Command: exiv2 -dx eps-flat_empty.eps
+Exit code: 0
+
+Command: exiv2 -f -ex eps-flat_empty.eps
+Exit code: 0
+
+Restore: eps-flat_empty.eps
 
 Command: exiv2 -f -eX eps-flat_empty.eps
 Exit code: 0
@@ -96,6 +136,14 @@ Exit code: 1
 
 Command: exiv2 -u -pa eps-flat_inkscape.eps
 Exit code: 253
+
+Command: exiv2 -dx eps-flat_inkscape.eps
+Exit code: 0
+
+Command: exiv2 -f -ex eps-flat_inkscape.eps
+Exit code: 0
+
+Restore: eps-flat_inkscape.eps
 
 Command: exiv2 -f -eX eps-flat_inkscape.eps
 Exit code: 0
@@ -122,6 +170,14 @@ Exit code: 1
 Command: exiv2 -u -pa eps-flat_minimal-eof.eps
 Exit code: 253
 
+Command: exiv2 -dx eps-flat_minimal-eof.eps
+Exit code: 0
+
+Command: exiv2 -f -ex eps-flat_minimal-eof.eps
+Exit code: 0
+
+Restore: eps-flat_minimal-eof.eps
+
 Command: exiv2 -f -eX eps-flat_minimal-eof.eps
 Exit code: 0
 
@@ -138,6 +194,14 @@ Exit code: 0
 
 Command: exiv2 -u -pa eps-flat_minimal-noeol.eps
 Exit code: 253
+
+Command: exiv2 -dx eps-flat_minimal-noeol.eps
+Exit code: 0
+
+Command: exiv2 -f -ex eps-flat_minimal-noeol.eps
+Exit code: 0
+
+Restore: eps-flat_minimal-noeol.eps
 
 Command: exiv2 -f -eX eps-flat_minimal-noeol.eps
 Exit code: 0
@@ -156,6 +220,14 @@ Exit code: 0
 Command: exiv2 -u -pa eps-flat_minimal-trailer.eps
 Exit code: 253
 
+Command: exiv2 -dx eps-flat_minimal-trailer.eps
+Exit code: 0
+
+Command: exiv2 -f -ex eps-flat_minimal-trailer.eps
+Exit code: 0
+
+Restore: eps-flat_minimal-trailer.eps
+
 Command: exiv2 -f -eX eps-flat_minimal-trailer.eps
 Exit code: 0
 
@@ -172,6 +244,14 @@ Exit code: 0
 
 Command: exiv2 -u -pa eps-flat_minimal.eps
 Exit code: 253
+
+Command: exiv2 -dx eps-flat_minimal.eps
+Exit code: 0
+
+Command: exiv2 -f -ex eps-flat_minimal.eps
+Exit code: 0
+
+Restore: eps-flat_minimal.eps
 
 Command: exiv2 -f -eX eps-flat_minimal.eps
 Exit code: 0
@@ -191,6 +271,14 @@ Command: exiv2 -u -pa eps-flat_minimal_exiftool-8.56.eps
 Xmp.dc.title                                 LangAlt     1  lang="x-default" TEST-Exiftool
 Exit code: 253
 
+Command: exiv2 -dx eps-flat_minimal_exiftool-8.56.eps
+Exit code: 0
+
+Command: exiv2 -f -ex eps-flat_minimal_exiftool-8.56.eps
+Exit code: 0
+
+Restore: eps-flat_minimal_exiftool-8.56.eps
+
 Command: exiv2 -f -eX eps-flat_minimal_exiftool-8.56.eps
 Exit code: 0
 
@@ -209,6 +297,14 @@ Command: exiv2 -u -pa eps-flat_minimal_irremovable-xmp-after-endpagesetup.eps
 Xmp.test.test                                XmpText    20  TEST-irremovable-xmp
 Exit code: 253
 
+Command: exiv2 -dx eps-flat_minimal_irremovable-xmp-after-endpagesetup.eps
+Exit code: 0
+
+Command: exiv2 -f -ex eps-flat_minimal_irremovable-xmp-after-endpagesetup.eps
+Exit code: 0
+
+Restore: eps-flat_minimal_irremovable-xmp-after-endpagesetup.eps
+
 Command: exiv2 -f -eX eps-flat_minimal_irremovable-xmp-after-endpagesetup.eps
 Exit code: 0
 
@@ -225,6 +321,14 @@ Exit code: 0
 
 Command: exiv2 -u -pa eps-flat_minimal_irremovable-xmp-after-endpagesetup_no-adocontainsxmp.eps
 Exit code: 253
+
+Command: exiv2 -dx eps-flat_minimal_irremovable-xmp-after-endpagesetup_no-adocontainsxmp.eps
+Exit code: 0
+
+Command: exiv2 -f -ex eps-flat_minimal_irremovable-xmp-after-endpagesetup_no-adocontainsxmp.eps
+Exit code: 0
+
+Restore: eps-flat_minimal_irremovable-xmp-after-endpagesetup_no-adocontainsxmp.eps
 
 Command: exiv2 -f -eX eps-flat_minimal_irremovable-xmp-after-endpagesetup_no-adocontainsxmp.eps
 Exit code: 0
@@ -244,6 +348,14 @@ Command: exiv2 -u -pa eps-flat_minimal_irremovable-xmp-at-endpagesetup.eps
 Xmp.test.test                                XmpText    20  TEST-irremovable-xmp
 Exit code: 253
 
+Command: exiv2 -dx eps-flat_minimal_irremovable-xmp-at-endpagesetup.eps
+Exit code: 0
+
+Command: exiv2 -f -ex eps-flat_minimal_irremovable-xmp-at-endpagesetup.eps
+Exit code: 0
+
+Restore: eps-flat_minimal_irremovable-xmp-at-endpagesetup.eps
+
 Command: exiv2 -f -eX eps-flat_minimal_irremovable-xmp-at-endpagesetup.eps
 Exit code: 0
 
@@ -260,6 +372,14 @@ Exit code: 0
 
 Command: exiv2 -u -pa eps-flat_minimal_irremovable-xmp-at-endpagesetup_no-adocontainsxmp.eps
 Exit code: 253
+
+Command: exiv2 -dx eps-flat_minimal_irremovable-xmp-at-endpagesetup_no-adocontainsxmp.eps
+Exit code: 0
+
+Command: exiv2 -f -ex eps-flat_minimal_irremovable-xmp-at-endpagesetup_no-adocontainsxmp.eps
+Exit code: 0
+
+Restore: eps-flat_minimal_irremovable-xmp-at-endpagesetup_no-adocontainsxmp.eps
 
 Command: exiv2 -f -eX eps-flat_minimal_irremovable-xmp-at-endpagesetup_no-adocontainsxmp.eps
 Exit code: 0
@@ -280,6 +400,15 @@ Warning: XMP metadata block is not removable at position: 837
 Xmp.test.test                                XmpText    20  TEST-irremovable-xmp
 Exit code: 253
 
+Command: exiv2 -dx eps-flat_minimal_irremovable-xmp-before-endpagesetup.eps
+Warning: XMP metadata block is not removable at position: 837
+Warning: XMP metadata block is not removable at position: 837
+Exiv2 exception in erase action for file eps-flat_minimal_irremovable-xmp-before-endpagesetup.eps:
+Failed to write image
+Exit code: 1
+
+Restore: eps-flat_minimal_irremovable-xmp-before-endpagesetup.eps
+
 Command: exiv2 -f -eX eps-flat_minimal_irremovable-xmp-before-endpagesetup.eps
 Warning: XMP metadata block is not removable at position: 837
 Exit code: 0
@@ -295,6 +424,15 @@ Exit code: 1
 Command: exiv2 -u -pa eps-flat_minimal_irremovable-xmp-before-endpagesetup_no-adocontainsxmp.eps
 Warning: XMP metadata block is not removable at position: 809
 Exit code: 253
+
+Command: exiv2 -dx eps-flat_minimal_irremovable-xmp-before-endpagesetup_no-adocontainsxmp.eps
+Warning: XMP metadata block is not removable at position: 809
+Warning: XMP metadata block is not removable at position: 809
+Exiv2 exception in erase action for file eps-flat_minimal_irremovable-xmp-before-endpagesetup_no-adocontainsxmp.eps:
+Failed to write image
+Exit code: 1
+
+Restore: eps-flat_minimal_irremovable-xmp-before-endpagesetup_no-adocontainsxmp.eps
 
 Command: exiv2 -f -eX eps-flat_minimal_irremovable-xmp-before-endpagesetup_no-adocontainsxmp.eps
 Warning: XMP metadata block is not removable at position: 809
@@ -312,6 +450,14 @@ Command: exiv2 -u -pa eps-flat_minimal_irremovable-xmp-in-page.eps
 Xmp.test.test                                XmpText    20  TEST-irremovable-xmp
 Exit code: 253
 
+Command: exiv2 -dx eps-flat_minimal_irremovable-xmp-in-page.eps
+Exit code: 0
+
+Command: exiv2 -f -ex eps-flat_minimal_irremovable-xmp-in-page.eps
+Exit code: 0
+
+Restore: eps-flat_minimal_irremovable-xmp-in-page.eps
+
 Command: exiv2 -f -eX eps-flat_minimal_irremovable-xmp-in-page.eps
 Exit code: 0
 
@@ -328,6 +474,14 @@ Exit code: 0
 
 Command: exiv2 -u -pa eps-flat_minimal_irremovable-xmp-in-page_no-adocontainsxmp.eps
 Exit code: 253
+
+Command: exiv2 -dx eps-flat_minimal_irremovable-xmp-in-page_no-adocontainsxmp.eps
+Exit code: 0
+
+Command: exiv2 -f -ex eps-flat_minimal_irremovable-xmp-in-page_no-adocontainsxmp.eps
+Exit code: 0
+
+Restore: eps-flat_minimal_irremovable-xmp-in-page_no-adocontainsxmp.eps
 
 Command: exiv2 -f -eX eps-flat_minimal_irremovable-xmp-in-page_no-adocontainsxmp.eps
 Exit code: 0
@@ -348,6 +502,15 @@ Warning: Unable to find XMP embedding trailer ending at position: 1424
 Xmp.test.test                                XmpText    34  TEST-missing-xmp-embedding-trailer
 Exit code: 253
 
+Command: exiv2 -dx eps-flat_minimal_missing-xmp-embedding-trailer.eps
+Warning: Unable to find XMP embedding trailer ending at position: 1424
+Warning: Unable to find XMP embedding trailer ending at position: 1424
+Exiv2 exception in erase action for file eps-flat_minimal_missing-xmp-embedding-trailer.eps:
+Failed to write image
+Exit code: 1
+
+Restore: eps-flat_minimal_missing-xmp-embedding-trailer.eps
+
 Command: exiv2 -f -eX eps-flat_minimal_missing-xmp-embedding-trailer.eps
 Warning: Unable to find XMP embedding trailer ending at position: 1424
 Exit code: 0
@@ -364,6 +527,16 @@ Command: exiv2 -u -pa eps-flat_minimal_xmp-garbage-before-endmarker.eps
 Warning: Unexpected 42 bytes of data after XMP at position: 1250
 Xmp.test.test                                XmpText     4  TEST
 Exit code: 253
+
+Command: exiv2 -dx eps-flat_minimal_xmp-garbage-before-endmarker.eps
+Warning: Unexpected 42 bytes of data after XMP at position: 1250
+Warning: Unexpected 42 bytes of data after XMP at position: 1250
+Exit code: 0
+
+Command: exiv2 -f -ex eps-flat_minimal_xmp-garbage-before-endmarker.eps
+Exit code: 0
+
+Restore: eps-flat_minimal_xmp-garbage-before-endmarker.eps
 
 Command: exiv2 -f -eX eps-flat_minimal_xmp-garbage-before-endmarker.eps
 Warning: Unexpected 42 bytes of data after XMP at position: 1250
@@ -394,6 +567,14 @@ Command: exiv2 -u -pa eps-flat_minimal_xmp-singlequote-begin.eps
 Xmp.test.test                                XmpText     4  TEST
 Exit code: 253
 
+Command: exiv2 -dx eps-flat_minimal_xmp-singlequote-begin.eps
+Exit code: 0
+
+Command: exiv2 -f -ex eps-flat_minimal_xmp-singlequote-begin.eps
+Exit code: 0
+
+Restore: eps-flat_minimal_xmp-singlequote-begin.eps
+
 Command: exiv2 -f -eX eps-flat_minimal_xmp-singlequote-begin.eps
 Exit code: 0
 
@@ -411,6 +592,14 @@ Exit code: 0
 Command: exiv2 -u -pa eps-flat_minimal_xmp-singlequote-end.eps
 Xmp.test.test                                XmpText     4  TEST
 Exit code: 253
+
+Command: exiv2 -dx eps-flat_minimal_xmp-singlequote-end.eps
+Exit code: 0
+
+Command: exiv2 -f -ex eps-flat_minimal_xmp-singlequote-end.eps
+Exit code: 0
+
+Restore: eps-flat_minimal_xmp-singlequote-end.eps
 
 Command: exiv2 -f -eX eps-flat_minimal_xmp-singlequote-end.eps
 Exit code: 0
@@ -430,6 +619,14 @@ Command: exiv2 -u -pa eps-flat_minimal_xmp-singlequote-id.eps
 Xmp.test.test                                XmpText     4  TEST
 Exit code: 253
 
+Command: exiv2 -dx eps-flat_minimal_xmp-singlequote-id.eps
+Exit code: 0
+
+Command: exiv2 -f -ex eps-flat_minimal_xmp-singlequote-id.eps
+Exit code: 0
+
+Restore: eps-flat_minimal_xmp-singlequote-id.eps
+
 Command: exiv2 -f -eX eps-flat_minimal_xmp-singlequote-id.eps
 Exit code: 0
 
@@ -447,6 +644,14 @@ Exit code: 0
 Command: exiv2 -u -pa eps-flat_minimal_xmp.eps
 Xmp.test.test                                XmpText     4  TEST
 Exit code: 253
+
+Command: exiv2 -dx eps-flat_minimal_xmp.eps
+Exit code: 0
+
+Command: exiv2 -f -ex eps-flat_minimal_xmp.eps
+Exit code: 0
+
+Restore: eps-flat_minimal_xmp.eps
 
 Command: exiv2 -f -eX eps-flat_minimal_xmp.eps
 Exit code: 0
@@ -466,6 +671,14 @@ Command: exiv2 -u -pa eps-flat_minimal_xmp_exiftool-8.56.eps
 Xmp.dc.title                                 LangAlt     1  lang="x-default" TEST-Exiftool
 Exit code: 253
 
+Command: exiv2 -dx eps-flat_minimal_xmp_exiftool-8.56.eps
+Exit code: 0
+
+Command: exiv2 -f -ex eps-flat_minimal_xmp_exiftool-8.56.eps
+Exit code: 0
+
+Restore: eps-flat_minimal_xmp_exiftool-8.56.eps
+
 Command: exiv2 -f -eX eps-flat_minimal_xmp_exiftool-8.56.eps
 Exit code: 0
 
@@ -482,6 +695,14 @@ Exit code: 0
 
 Command: exiv2 -u -pa eps-flat_oodraw-lev1.eps
 Exit code: 253
+
+Command: exiv2 -dx eps-flat_oodraw-lev1.eps
+Exit code: 0
+
+Command: exiv2 -f -ex eps-flat_oodraw-lev1.eps
+Exit code: 0
+
+Restore: eps-flat_oodraw-lev1.eps
 
 Command: exiv2 -f -eX eps-flat_oodraw-lev1.eps
 Exit code: 0
@@ -500,6 +721,14 @@ Exit code: 0
 Command: exiv2 -u -pa eps-flat_oodraw-lev2.eps
 Exit code: 253
 
+Command: exiv2 -dx eps-flat_oodraw-lev2.eps
+Exit code: 0
+
+Command: exiv2 -f -ex eps-flat_oodraw-lev2.eps
+Exit code: 0
+
+Restore: eps-flat_oodraw-lev2.eps
+
 Command: exiv2 -f -eX eps-flat_oodraw-lev2.eps
 Exit code: 0
 
@@ -516,6 +745,14 @@ Exit code: 0
 
 Command: exiv2 -u -pa eps-flat_oodraw-lev2_eps2eps.eps
 Exit code: 253
+
+Command: exiv2 -dx eps-flat_oodraw-lev2_eps2eps.eps
+Exit code: 0
+
+Command: exiv2 -f -ex eps-flat_oodraw-lev2_eps2eps.eps
+Exit code: 0
+
+Restore: eps-flat_oodraw-lev2_eps2eps.eps
 
 Command: exiv2 -f -eX eps-flat_oodraw-lev2_eps2eps.eps
 Exit code: 0
@@ -668,6 +905,14 @@ Xmp.xmpMM.History[8]/stEvt:softwareAgent     XmpText    21  Adobe Illustrator CS
 Xmp.xmpMM.History[8]/stEvt:changed           XmpText     1  /
 Exit code: 253
 
+Command: exiv2 -dx eps-flat_oodraw_ai-10-lev2.eps
+Exit code: 0
+
+Command: exiv2 -f -ex eps-flat_oodraw_ai-10-lev2.eps
+Exit code: 0
+
+Restore: eps-flat_oodraw_ai-10-lev2.eps
+
 Command: exiv2 -f -eX eps-flat_oodraw_ai-10-lev2.eps
 Exit code: 0
 
@@ -685,6 +930,14 @@ Exit code: 0
 Command: exiv2 -u -pa eps-flat_oodraw_ai-3-lev2.eps
 Exit code: 253
 
+Command: exiv2 -dx eps-flat_oodraw_ai-3-lev2.eps
+Exit code: 0
+
+Command: exiv2 -f -ex eps-flat_oodraw_ai-3-lev2.eps
+Exit code: 0
+
+Restore: eps-flat_oodraw_ai-3-lev2.eps
+
 Command: exiv2 -f -eX eps-flat_oodraw_ai-3-lev2.eps
 Exit code: 0
 
@@ -701,6 +954,14 @@ Exit code: 0
 
 Command: exiv2 -u -pa eps-flat_oodraw_ai-3-lev3.eps
 Exit code: 253
+
+Command: exiv2 -dx eps-flat_oodraw_ai-3-lev3.eps
+Exit code: 0
+
+Command: exiv2 -f -ex eps-flat_oodraw_ai-3-lev3.eps
+Exit code: 0
+
+Restore: eps-flat_oodraw_ai-3-lev3.eps
 
 Command: exiv2 -f -eX eps-flat_oodraw_ai-3-lev3.eps
 Exit code: 0
@@ -865,6 +1126,14 @@ Xmp.xmpMM.History[10]/stEvt:softwareAgent    XmpText    21  Adobe Illustrator CS
 Xmp.xmpMM.History[10]/stEvt:changed          XmpText     1  /
 Exit code: 253
 
+Command: exiv2 -dx eps-flat_oodraw_ai-8-lev2.eps
+Exit code: 0
+
+Command: exiv2 -f -ex eps-flat_oodraw_ai-8-lev2.eps
+Exit code: 0
+
+Restore: eps-flat_oodraw_ai-8-lev2.eps
+
 Command: exiv2 -f -eX eps-flat_oodraw_ai-8-lev2.eps
 Exit code: 0
 
@@ -881,6 +1150,14 @@ Exit code: 0
 
 Command: exiv2 -u -pa eps-flat_oodraw_ai-8-lev3.eps
 Exit code: 253
+
+Command: exiv2 -dx eps-flat_oodraw_ai-8-lev3.eps
+Exit code: 0
+
+Command: exiv2 -f -ex eps-flat_oodraw_ai-8-lev3.eps
+Exit code: 0
+
+Restore: eps-flat_oodraw_ai-8-lev3.eps
 
 Command: exiv2 -f -eX eps-flat_oodraw_ai-8-lev3.eps
 Exit code: 0
@@ -1039,6 +1316,14 @@ Xmp.xmpMM.History[9]/stEvt:softwareAgent     XmpText    21  Adobe Illustrator CS
 Xmp.xmpMM.History[9]/stEvt:changed           XmpText     1  /
 Exit code: 253
 
+Command: exiv2 -dx eps-flat_oodraw_ai-9-lev2.eps
+Exit code: 0
+
+Command: exiv2 -f -ex eps-flat_oodraw_ai-9-lev2.eps
+Exit code: 0
+
+Restore: eps-flat_oodraw_ai-9-lev2.eps
+
 Command: exiv2 -f -eX eps-flat_oodraw_ai-9-lev2.eps
 Exit code: 0
 
@@ -1184,6 +1469,14 @@ Xmp.xmpMM.History[7]/stEvt:softwareAgent     XmpText    21  Adobe Illustrator CS
 Xmp.xmpMM.History[7]/stEvt:changed           XmpText     1  /
 Exit code: 253
 
+Command: exiv2 -dx eps-flat_oodraw_ai-cs-lev2.eps
+Exit code: 0
+
+Command: exiv2 -f -ex eps-flat_oodraw_ai-cs-lev2.eps
+Exit code: 0
+
+Restore: eps-flat_oodraw_ai-cs-lev2.eps
+
 Command: exiv2 -f -eX eps-flat_oodraw_ai-cs-lev2.eps
 Exit code: 0
 
@@ -1323,6 +1616,14 @@ Xmp.xmpMM.History[6]/stEvt:softwareAgent     XmpText    21  Adobe Illustrator CS
 Xmp.xmpMM.History[6]/stEvt:changed           XmpText     1  /
 Exit code: 253
 
+Command: exiv2 -dx eps-flat_oodraw_ai-cs2-lev2.eps
+Exit code: 0
+
+Command: exiv2 -f -ex eps-flat_oodraw_ai-cs2-lev2.eps
+Exit code: 0
+
+Restore: eps-flat_oodraw_ai-cs2-lev2.eps
+
 Command: exiv2 -f -eX eps-flat_oodraw_ai-cs2-lev2.eps
 Exit code: 0
 
@@ -1456,6 +1757,14 @@ Xmp.xmpMM.History[5]/stEvt:softwareAgent     XmpText    21  Adobe Illustrator CS
 Xmp.xmpMM.History[5]/stEvt:changed           XmpText     1  /
 Exit code: 253
 
+Command: exiv2 -dx eps-flat_oodraw_ai-cs3-lev2.eps
+Exit code: 0
+
+Command: exiv2 -f -ex eps-flat_oodraw_ai-cs3-lev2.eps
+Exit code: 0
+
+Restore: eps-flat_oodraw_ai-cs3-lev2.eps
+
 Command: exiv2 -f -eX eps-flat_oodraw_ai-cs3-lev2.eps
 Exit code: 0
 
@@ -1583,6 +1892,14 @@ Xmp.xmpMM.History[4]/stEvt:softwareAgent     XmpText    21  Adobe Illustrator CS
 Xmp.xmpMM.History[4]/stEvt:changed           XmpText     1  /
 Exit code: 253
 
+Command: exiv2 -dx eps-flat_oodraw_ai-cs4-lev2.eps
+Exit code: 0
+
+Command: exiv2 -f -ex eps-flat_oodraw_ai-cs4-lev2.eps
+Exit code: 0
+
+Restore: eps-flat_oodraw_ai-cs4-lev2.eps
+
 Command: exiv2 -f -eX eps-flat_oodraw_ai-cs4-lev2.eps
 Exit code: 0
 
@@ -1675,6 +1992,14 @@ Xmp.xmpTPg.SwatchGroups[1]/xmpG:groupName    XmpText    20  Default Swatch Group
 Xmp.xmpTPg.SwatchGroups[1]/xmpG:groupType    XmpText     1  0
 Xmp.dc.format                                XmpText    22  application/postscript
 Exit code: 253
+
+Command: exiv2 -dx eps-flat_oodraw_ai-cs5-lev2.eps
+Exit code: 0
+
+Command: exiv2 -f -ex eps-flat_oodraw_ai-cs5-lev2.eps
+Exit code: 0
+
+Restore: eps-flat_oodraw_ai-cs5-lev2.eps
 
 Command: exiv2 -f -eX eps-flat_oodraw_ai-cs5-lev2.eps
 Exit code: 0
@@ -1790,6 +2115,14 @@ Xmp.xmpMM.History[2]/stEvt:when              XmpText    25  2011-03-25T16:07:33+
 Xmp.xmpMM.History[2]/stEvt:softwareAgent     XmpText    21  Adobe Illustrator CS5
 Xmp.xmpMM.History[2]/stEvt:changed           XmpText     1  /
 Exit code: 253
+
+Command: exiv2 -dx eps-flat_oodraw_ai-cs5-lev3-nodocthumb.eps
+Exit code: 0
+
+Command: exiv2 -f -ex eps-flat_oodraw_ai-cs5-lev3-nodocthumb.eps
+Exit code: 0
+
+Restore: eps-flat_oodraw_ai-cs5-lev3-nodocthumb.eps
 
 Command: exiv2 -f -eX eps-flat_oodraw_ai-cs5-lev3-nodocthumb.eps
 Exit code: 0
@@ -1912,6 +2245,14 @@ Xmp.xmpMM.History[3]/stEvt:softwareAgent     XmpText    21  Adobe Illustrator CS
 Xmp.xmpMM.History[3]/stEvt:changed           XmpText     1  /
 Exit code: 253
 
+Command: exiv2 -dx eps-flat_oodraw_ai-cs5-lev3-preview.eps
+Exit code: 0
+
+Command: exiv2 -f -ex eps-flat_oodraw_ai-cs5-lev3-preview.eps
+Exit code: 0
+
+Restore: eps-flat_oodraw_ai-cs5-lev3-preview.eps
+
 Command: exiv2 -f -eX eps-flat_oodraw_ai-cs5-lev3-preview.eps
 Exit code: 0
 
@@ -2018,6 +2359,14 @@ Xmp.xmpMM.History[1]/stEvt:softwareAgent     XmpText    21  Adobe Illustrator CS
 Xmp.xmpMM.History[1]/stEvt:changed           XmpText     1  /
 Exit code: 253
 
+Command: exiv2 -dx eps-flat_oodraw_ai-cs5-lev3.eps
+Exit code: 0
+
+Command: exiv2 -f -ex eps-flat_oodraw_ai-cs5-lev3.eps
+Exit code: 0
+
+Restore: eps-flat_oodraw_ai-cs5-lev3.eps
+
 Command: exiv2 -f -eX eps-flat_oodraw_ai-cs5-lev3.eps
 Exit code: 0
 
@@ -2035,6 +2384,14 @@ Exit code: 0
 Command: exiv2 -u -pa eps-flat_oodraw_ai-cs5-lev3_exiftool-8.56.eps
 Xmp.dc.title                                 LangAlt     1  lang="x-default" TEST-Exiftool
 Exit code: 253
+
+Command: exiv2 -dx eps-flat_oodraw_ai-cs5-lev3_exiftool-8.56.eps
+Exit code: 0
+
+Command: exiv2 -f -ex eps-flat_oodraw_ai-cs5-lev3_exiftool-8.56.eps
+Exit code: 0
+
+Restore: eps-flat_oodraw_ai-cs5-lev3_exiftool-8.56.eps
 
 Command: exiv2 -f -eX eps-flat_oodraw_ai-cs5-lev3_exiftool-8.56.eps
 Exit code: 0
@@ -2142,6 +2499,14 @@ Xmp.xmpMM.History[1]/stEvt:softwareAgent     XmpText    21  Adobe Illustrator CS
 Xmp.xmpMM.History[1]/stEvt:changed           XmpText     1  /
 Exit code: 253
 
+Command: exiv2 -dx eps-flat_oodraw_ai-cs5-lev3_ns-xapGImg.eps
+Exit code: 0
+
+Command: exiv2 -f -ex eps-flat_oodraw_ai-cs5-lev3_ns-xapGImg.eps
+Exit code: 0
+
+Restore: eps-flat_oodraw_ai-cs5-lev3_ns-xapGImg.eps
+
 Command: exiv2 -f -eX eps-flat_oodraw_ai-cs5-lev3_ns-xapGImg.eps
 Exit code: 0
 
@@ -2186,6 +2551,14 @@ Xmp.xmpMM.History[3]/stEvt:changed           XmpText     1  /
 Xmp.photoshop.ColorMode                      XmpText     1  3
 Xmp.photoshop.ICCProfile                     XmpText    17  sRGB IEC61966-2.1
 Exit code: 253
+
+Command: exiv2 -dx eps-flat_photoshop-cs5-ascii-colorprofile.eps
+Exit code: 0
+
+Command: exiv2 -f -ex eps-flat_photoshop-cs5-ascii-colorprofile.eps
+Exit code: 0
+
+Restore: eps-flat_photoshop-cs5-ascii-colorprofile.eps
 
 Command: exiv2 -f -eX eps-flat_photoshop-cs5-ascii-colorprofile.eps
 Exit code: 0
@@ -2255,6 +2628,14 @@ Xmp.xmpMM.History[7]/stEvt:changed           XmpText     1  /
 Xmp.photoshop.ColorMode                      XmpText     1  3
 Exit code: 253
 
+Command: exiv2 -dx eps-flat_photoshop-cs5-ascii-preview.eps
+Exit code: 0
+
+Command: exiv2 -f -ex eps-flat_photoshop-cs5-ascii-preview.eps
+Exit code: 0
+
+Restore: eps-flat_photoshop-cs5-ascii-preview.eps
+
 Command: exiv2 -f -eX eps-flat_photoshop-cs5-ascii-preview.eps
 Exit code: 0
 
@@ -2310,6 +2691,14 @@ Xmp.xmpMM.History[5]/stEvt:softwareAgent     XmpText    29  Adobe Photoshop CS5 
 Xmp.xmpMM.History[5]/stEvt:changed           XmpText     1  /
 Xmp.photoshop.ColorMode                      XmpText     1  3
 Exit code: 253
+
+Command: exiv2 -dx eps-flat_photoshop-cs5-ascii.eps
+Exit code: 0
+
+Command: exiv2 -f -ex eps-flat_photoshop-cs5-ascii.eps
+Exit code: 0
+
+Restore: eps-flat_photoshop-cs5-ascii.eps
 
 Command: exiv2 -f -eX eps-flat_photoshop-cs5-ascii.eps
 Exit code: 0
@@ -2427,6 +2816,14 @@ Xmp.xmpMM.History[15]/stEvt:changed          XmpText     1  /
 Xmp.photoshop.ColorMode                      XmpText     1  3
 Exit code: 253
 
+Command: exiv2 -dx eps-flat_photoshop-cs5-ascii85-preview.eps
+Exit code: 0
+
+Command: exiv2 -f -ex eps-flat_photoshop-cs5-ascii85-preview.eps
+Exit code: 0
+
+Restore: eps-flat_photoshop-cs5-ascii85-preview.eps
+
 Command: exiv2 -f -eX eps-flat_photoshop-cs5-ascii85-preview.eps
 Exit code: 0
 
@@ -2531,6 +2928,14 @@ Xmp.xmpMM.History[13]/stEvt:changed          XmpText     1  /
 Xmp.photoshop.ColorMode                      XmpText     1  3
 Exit code: 253
 
+Command: exiv2 -dx eps-flat_photoshop-cs5-ascii85.eps
+Exit code: 0
+
+Command: exiv2 -f -ex eps-flat_photoshop-cs5-ascii85.eps
+Exit code: 0
+
+Restore: eps-flat_photoshop-cs5-ascii85.eps
+
 Command: exiv2 -f -eX eps-flat_photoshop-cs5-ascii85.eps
 Exit code: 0
 
@@ -2548,6 +2953,16 @@ Exit code: 0
 Command: exiv2 -u -pa eps-flat_photoshop-cs5-ascii_failure-bigxmp.eps
 Warning: Unable to find XMP metadata as announced at position: 291
 Exit code: 253
+
+Command: exiv2 -dx eps-flat_photoshop-cs5-ascii_failure-bigxmp.eps
+Warning: Unable to find XMP metadata as announced at position: 291
+Warning: Unable to find XMP metadata as announced at position: 291
+Exit code: 0
+
+Command: exiv2 -f -ex eps-flat_photoshop-cs5-ascii_failure-bigxmp.eps
+Exit code: 0
+
+Restore: eps-flat_photoshop-cs5-ascii_failure-bigxmp.eps
 
 Command: exiv2 -f -eX eps-flat_photoshop-cs5-ascii_failure-bigxmp.eps
 Warning: Unable to find XMP metadata as announced at position: 291
@@ -2644,6 +3059,14 @@ Xmp.xmpMM.History[11]/stEvt:changed          XmpText     1  /
 Xmp.photoshop.ColorMode                      XmpText     1  3
 Exit code: 253
 
+Command: exiv2 -dx eps-flat_photoshop-cs5-binary-preview.eps
+Exit code: 0
+
+Command: exiv2 -f -ex eps-flat_photoshop-cs5-binary-preview.eps
+Exit code: 0
+
+Restore: eps-flat_photoshop-cs5-binary-preview.eps
+
 Command: exiv2 -f -eX eps-flat_photoshop-cs5-binary-preview.eps
 Exit code: 0
 
@@ -2723,6 +3146,14 @@ Xmp.xmpMM.History[9]/stEvt:softwareAgent     XmpText    29  Adobe Photoshop CS5 
 Xmp.xmpMM.History[9]/stEvt:changed           XmpText     1  /
 Xmp.photoshop.ColorMode                      XmpText     1  3
 Exit code: 253
+
+Command: exiv2 -dx eps-flat_photoshop-cs5-binary.eps
+Exit code: 0
+
+Command: exiv2 -f -ex eps-flat_photoshop-cs5-binary.eps
+Exit code: 0
+
+Restore: eps-flat_photoshop-cs5-binary.eps
 
 Command: exiv2 -f -eX eps-flat_photoshop-cs5-binary.eps
 Exit code: 0
@@ -2805,6 +3236,14 @@ Xmp.xmpMM.InstanceID                         XmpText    40  xmp.iid:0A8011740720
 Xmp.xmpMM.OriginalDocumentID                 XmpText    40  xmp.did:02801174072068119109FFD81EEC41EF
 Exit code: 253
 
+Command: exiv2 -dx eps-flat_photoshop-cs5-binary_exiftool-8.56.eps
+Exit code: 0
+
+Command: exiv2 -f -ex eps-flat_photoshop-cs5-binary_exiftool-8.56.eps
+Exit code: 0
+
+Restore: eps-flat_photoshop-cs5-binary_exiftool-8.56.eps
+
 Command: exiv2 -f -eX eps-flat_photoshop-cs5-binary_exiftool-8.56.eps
 Exit code: 0
 
@@ -2822,6 +3261,14 @@ Exit code: 0
 Command: exiv2 -u -pa eps-flat_photoshop-cs5-binary_exiv2-bigxmp.eps
 Xmp.test.test                                XmpText   65536  BEGIN________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________END
 Exit code: 253
+
+Command: exiv2 -dx eps-flat_photoshop-cs5-binary_exiv2-bigxmp.eps
+Exit code: 0
+
+Command: exiv2 -f -ex eps-flat_photoshop-cs5-binary_exiv2-bigxmp.eps
+Exit code: 0
+
+Restore: eps-flat_photoshop-cs5-binary_exiv2-bigxmp.eps
 
 Command: exiv2 -f -eX eps-flat_photoshop-cs5-binary_exiv2-bigxmp.eps
 Exit code: 0
@@ -2841,6 +3288,14 @@ Command: exiv2 -u -pa eps-flat_photoshop-cs5-binary_exiv2.eps
 Xmp.test.test                                XmpText    20  TEST-Photoshop-Exiv2
 Exit code: 253
 
+Command: exiv2 -dx eps-flat_photoshop-cs5-binary_exiv2.eps
+Exit code: 0
+
+Command: exiv2 -f -ex eps-flat_photoshop-cs5-binary_exiv2.eps
+Exit code: 0
+
+Restore: eps-flat_photoshop-cs5-binary_exiv2.eps
+
 Command: exiv2 -f -eX eps-flat_photoshop-cs5-binary_exiv2.eps
 Exit code: 0
 
@@ -2858,6 +3313,14 @@ Exit code: 0
 Command: exiv2 -u -pa eps-flat_photoshop-cs5-binary_exiv2_exiftool-8.56.eps
 Xmp.dc.title                                 LangAlt     1  lang="x-default" TEST-Exiftool
 Exit code: 253
+
+Command: exiv2 -dx eps-flat_photoshop-cs5-binary_exiv2_exiftool-8.56.eps
+Exit code: 0
+
+Command: exiv2 -f -ex eps-flat_photoshop-cs5-binary_exiv2_exiftool-8.56.eps
+Exit code: 0
+
+Restore: eps-flat_photoshop-cs5-binary_exiv2_exiftool-8.56.eps
 
 Command: exiv2 -f -eX eps-flat_photoshop-cs5-binary_exiv2_exiftool-8.56.eps
 Exit code: 0
@@ -2878,6 +3341,15 @@ Warning: Missing %begin_xml_packet in Photoshop EPS at position: 8560
 Xmp.test.test                                XmpText    20  TEST-Photoshop-Exiv2
 Exit code: 253
 
+Command: exiv2 -dx eps-flat_photoshop-cs5-binary_exiv2_missing-begin-xml-packet.eps
+Warning: Missing %begin_xml_packet in Photoshop EPS at position: 8560
+Exit code: 0
+
+Command: exiv2 -f -ex eps-flat_photoshop-cs5-binary_exiv2_missing-begin-xml-packet.eps
+Exit code: 0
+
+Restore: eps-flat_photoshop-cs5-binary_exiv2_missing-begin-xml-packet.eps
+
 Command: exiv2 -f -eX eps-flat_photoshop-cs5-binary_exiv2_missing-begin-xml-packet.eps
 Warning: Missing %begin_xml_packet in Photoshop EPS at position: 8560
 Exit code: 0
@@ -2892,6 +3364,14 @@ Exit code: 1
 
 Command: exiv2 -u -pa eps-flat_photoshop-cs5-binary_no-adocontainsxmp.eps
 Exit code: 253
+
+Command: exiv2 -dx eps-flat_photoshop-cs5-binary_no-adocontainsxmp.eps
+Exit code: 0
+
+Command: exiv2 -f -ex eps-flat_photoshop-cs5-binary_no-adocontainsxmp.eps
+Exit code: 0
+
+Restore: eps-flat_photoshop-cs5-binary_no-adocontainsxmp.eps
 
 Command: exiv2 -f -eX eps-flat_photoshop-cs5-binary_no-adocontainsxmp.eps
 Exit code: 0
@@ -2941,6 +3421,14 @@ Xmp.photoshop.ColorMode                      XmpText     1  3
 Xmp.photoshop.ICCProfile                     XmpText    17  sRGB IEC61966-2.1
 Exit code: 253
 
+Command: exiv2 -dx eps-flat_photoshop-e9-win-doseps.eps
+Exit code: 0
+
+Command: exiv2 -f -ex eps-flat_photoshop-e9-win-doseps.eps
+Exit code: 0
+
+Restore: eps-flat_photoshop-e9-win-doseps.eps
+
 Command: exiv2 -f -eX eps-flat_photoshop-e9-win-doseps.eps
 Exit code: 0
 
@@ -2989,6 +3477,14 @@ Xmp.photoshop.ColorMode                      XmpText     1  3
 Xmp.photoshop.ICCProfile                     XmpText    17  sRGB IEC61966-2.1
 Exit code: 253
 
+Command: exiv2 -dx eps-flat_photoshop-e9-win.eps
+Exit code: 0
+
+Command: exiv2 -f -ex eps-flat_photoshop-e9-win.eps
+Exit code: 0
+
+Restore: eps-flat_photoshop-e9-win.eps
+
 Command: exiv2 -f -eX eps-flat_photoshop-e9-win.eps
 Exit code: 0
 
@@ -3006,6 +3502,14 @@ Exit code: 0
 Command: exiv2 -u -pa eps-flat_photoshop-e9-win_exiv2.eps
 Xmp.test.test                                XmpText    20  TEST-Photoshop-Exiv2
 Exit code: 253
+
+Command: exiv2 -dx eps-flat_photoshop-e9-win_exiv2.eps
+Exit code: 0
+
+Command: exiv2 -f -ex eps-flat_photoshop-e9-win_exiv2.eps
+Exit code: 0
+
+Restore: eps-flat_photoshop-e9-win_exiv2.eps
 
 Command: exiv2 -f -eX eps-flat_photoshop-e9-win_exiv2.eps
 Exit code: 0

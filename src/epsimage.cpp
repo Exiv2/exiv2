@@ -626,8 +626,9 @@ namespace {
             throw Error(write ? 21 : 14);
         }
 
+        const bool deleteXmp = (write && xmpPacket.size() == 0);
         bool fixBeginXmlPacket = false;
-        bool flexibleEmbedding = false;
+        bool useFlexibleEmbedding = false;
         size_t xmpPos = posEndEps;
         size_t xmpSize = 0;
         if (containsXmp) {
@@ -644,38 +645,35 @@ namespace {
                 #ifndef SUPPRESS_WARNINGS
                 EXV_WARNING << "Unexpected " << line.size() << " bytes of data after XMP at position: " << (xmpPos + xmpSize) << "\n";
                 #endif
-                flexibleEmbedding = false;
-            } else {
+            } else if (!deleteXmp) {
                 readLine(line, data, posLineAfterXmp, posEndEps);
-                flexibleEmbedding = (line == "% &&end XMP packet marker&&" || line == "%  &&end XMP packet marker&&");
-            }
-            if (flexibleEmbedding) {
-                #ifdef DEBUG
-                EXV_DEBUG << "readWriteEpsMetadata: XMP embedding is flexible\n";
-                #endif
-                const size_t posBeginXmlPacket = readPrevLine(line, data, xmpPos, posEndEps);
-                if (startsWith(line, "%begin_xml_packet:")) {
-                    #ifdef DEBUG
-                    EXV_DEBUG << "readWriteEpsMetadata: XMP embedding contains %begin_xml_packet\n";
-                    #endif
-                    if (write) {
-                        fixBeginXmlPacket = true;
-                        xmpSize += (xmpPos - posBeginXmlPacket);
-                        xmpPos = posBeginXmlPacket;
-                    }
-                } else if (photoshop) {
-                    #ifndef SUPPRESS_WARNINGS
-                    EXV_WARNING << "Missing %begin_xml_packet in Photoshop EPS at position: " << xmpPos << "\n";
-                    #endif
-                    if (write) throw Error(21);
+                if (line == "% &&end XMP packet marker&&" || line == "%  &&end XMP packet marker&&") {
+                    useFlexibleEmbedding = true;
                 }
-            } else {
-                #ifdef DEBUG
-                EXV_DEBUG << "readWriteEpsMetadata: XMP embedding is inflexible\n";
-                #endif
             }
         }
-        if (!flexibleEmbedding) {
+        if (useFlexibleEmbedding) {
+            #ifdef DEBUG
+            EXV_DEBUG << "readWriteEpsMetadata: Using flexible XMP embedding\n";
+            #endif
+            const size_t posBeginXmlPacket = readPrevLine(line, data, xmpPos, posEndEps);
+            if (startsWith(line, "%begin_xml_packet:")) {
+                #ifdef DEBUG
+                EXV_DEBUG << "readWriteEpsMetadata: XMP embedding contains %begin_xml_packet\n";
+                #endif
+                if (write) {
+                    fixBeginXmlPacket = true;
+                    xmpSize += (xmpPos - posBeginXmlPacket);
+                    xmpPos = posBeginXmlPacket;
+                }
+            } else if (photoshop) {
+                #ifndef SUPPRESS_WARNINGS
+                EXV_WARNING << "Missing %begin_xml_packet in Photoshop EPS at position: " << xmpPos << "\n";
+                #endif
+                if (write) throw Error(21);
+            }
+        }
+        if (!useFlexibleEmbedding) {
             // check if there are irremovable XMP metadata blocks before EndPageSetup
             size_t posOtherXmp = containsXmp ? xmpPos : posEps;
             size_t sizeOtherXmp = 0;
@@ -724,15 +722,6 @@ namespace {
                 nativePreviews.push_back(nativePreview);
             }
         } else {
-            // TODO: Add support for deleting XMP metadata. Note that this is not
-            //       as simple as it may seem, and requires special attention!
-            if (xmpPacket.size() == 0) {
-                #ifndef SUPPRESS_WARNINGS
-                EXV_WARNING << "Deleting XMP metadata is currently not supported.\n";
-                #endif
-                throw Error(21);
-            }
-
             // create temporary output file
             BasicIo::AutoPtr tempIo(io.temporary());
             assert (tempIo.get() != 0);
@@ -759,7 +748,7 @@ namespace {
             positions.push_back(posPageTrailer);
             positions.push_back(posEof);
             positions.push_back(posEndEps);
-            if (flexibleEmbedding) {
+            if (useFlexibleEmbedding) {
                 positions.push_back(xmpPos);
             }
             for (std::vector<std::pair<size_t, size_t> >::const_iterator e = removableEmbeddings.begin(); e != removableEmbeddings.end(); e++) {
@@ -772,6 +761,7 @@ namespace {
                 // DOS EPS header will be written afterwards
                 writeTemp(*tempIo, std::string(30, '\x00'));
             }
+            const std::string containsXmpLine = deleteXmp ? "%ADO_ContainsXMP: NoMain" : "%ADO_ContainsXMP: MainFirst";
             const uint32_t posEpsNew = posTemp(*tempIo);
             size_t prevPos = posEps;
             size_t prevSkipPos = prevPos;
@@ -796,15 +786,15 @@ namespace {
                     #endif
                 }
                 // update and complement DSC comments
-                if (pos == posLanguageLevel && posLanguageLevel != posEndEps && !flexibleEmbedding) {
+                if (pos == posLanguageLevel && posLanguageLevel != posEndEps && !useFlexibleEmbedding) {
                     if (line == "%%LanguageLevel:1" || line == "%%LanguageLevel: 1") {
                         writeTemp(*tempIo, "%%LanguageLevel: 2" + lineEnding);
                         skipPos = posLineEnd;
                     }
                 }
                 if (pos == posContainsXmp && posContainsXmp != posEndEps) {
-                    if (line != "%ADO_ContainsXMP: MainFirst") {
-                        writeTemp(*tempIo, "%ADO_ContainsXMP: MainFirst" + lineEnding);
+                    if (line != containsXmpLine) {
+                        writeTemp(*tempIo, containsXmpLine + lineEnding);
                         skipPos = posLineEnd;
                     }
                 }
@@ -817,11 +807,11 @@ namespace {
                     skipPos = posLineEnd;
                 }
                 if (pos == posEndComments) {
-                    if (posLanguageLevel == posEndEps && !flexibleEmbedding) {
+                    if (posLanguageLevel == posEndEps && !useFlexibleEmbedding) {
                         writeTemp(*tempIo, "%%LanguageLevel: 2" + lineEnding);
                     }
                     if (posContainsXmp == posEndEps) {
-                        writeTemp(*tempIo, "%ADO_ContainsXMP: MainFirst" + lineEnding);
+                        writeTemp(*tempIo, containsXmpLine + lineEnding);
                     }
                     if (posPages == posEndEps) {
                         writeTemp(*tempIo, "%%Pages: 1" + lineEnding);
@@ -843,7 +833,7 @@ namespace {
                         writeTemp(*tempIo, "%%EndPageComments" + lineEnding);
                     }
                 }
-                if (flexibleEmbedding) {
+                if (useFlexibleEmbedding) {
                     // insert XMP metadata into existing flexible embedding
                     if (pos == xmpPos) {
                         if (fixBeginXmlPacket) {
@@ -860,8 +850,8 @@ namespace {
                             break;
                         }
                     }
-                    // insert XMP metadata with new flexible embedding
-                    if (pos == posEndPageSetup) {
+                    // insert XMP metadata with new flexible embedding, if necessary
+                    if (pos == posEndPageSetup && !deleteXmp) {
                         if (line != "%%EndPageSetup") {
                             writeTemp(*tempIo, "%%BeginPageSetup" + lineEnding);
                         }
@@ -902,7 +892,7 @@ namespace {
                             writeTemp(*tempIo, "%%EndPageSetup" + lineEnding);
                         }
                     }
-                    if (pos == posPageTrailer) {
+                    if (pos == posPageTrailer && !deleteXmp) {
                         if (!implicitPageTrailer) {
                             skipPos = posLineEnd;
                         }
