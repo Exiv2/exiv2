@@ -124,6 +124,7 @@ gr
 0 27700 t 
 pom
 count op_count sub {pop} repeat countdictstack dict_count sub {end} repeat b4_inc_state restore
+%%PageTrailer
 %Exiv2BeginXMP: After %%PageTrailer
 [/EMC Exiv2_pdfmark
 [/NamespacePop Exiv2_pdfmark
