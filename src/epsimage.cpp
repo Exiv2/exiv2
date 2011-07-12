@@ -275,8 +275,8 @@ namespace {
                         const bool readOnly = xmpTrailers[j].second;
                         if (readOnly) {
                             #ifndef SUPPRESS_WARNINGS
-                            EXV_WARNING << "Unable to handle read-only XMP metadata yet. Please provide your"
-                                           " sample EPS file to the Exiv2 project: http://dev.exiv2.org/projects/exiv2\n";
+                            EXV_WARNING << "Unable to handle read-only XMP metadata yet. Please provide your "
+                                           "sample EPS file to the Exiv2 project: http://dev.exiv2.org/projects/exiv2\n";
                             #endif
                             throw Error(write ? 21 : 14);
                         }
@@ -566,8 +566,8 @@ namespace {
                 throw Error(write ? 21 : 14);
             } else if (startsWith(line, "%%Include")) {
                 #ifndef SUPPRESS_WARNINGS
-                EXV_WARNING << "Unable to handle PostScript %%Include DSC comments yet. Please provide your"
-                               " sample EPS file to the Exiv2 project: http://dev.exiv2.org/projects/exiv2\n";
+                EXV_WARNING << "Unable to handle PostScript %%Include DSC comments yet. Please provide your "
+                               "sample EPS file to the Exiv2 project: http://dev.exiv2.org/projects/exiv2\n";
                 #endif
                 throw Error(write ? 21 : 14);
             } else {
