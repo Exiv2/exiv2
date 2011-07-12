@@ -358,6 +358,28 @@ Warning: Unable to find XMP embedding trailer ending at position: 1424
 eps-flat_minimal_missing-xmp-embedding-trailer.eps: Could not write metadata to file: Failed to write image
 Exit code: 1
 
+-----> eps-flat_minimal_xmp-garbage-before-endmarker.eps <-----
+
+Command: exiv2 -u -pa eps-flat_minimal_xmp-garbage-before-endmarker.eps
+Warning: Unexpected 42 bytes of data after XMP at position: 1250
+Xmp.test.test                                XmpText     4  TEST
+Exit code: 253
+
+Command: exiv2 -f -eX eps-flat_minimal_xmp-garbage-before-endmarker.eps
+Warning: Unexpected 42 bytes of data after XMP at position: 1250
+Exit code: 0
+
+Command: exiv2 -ix eps-flat_minimal_xmp-garbage-before-endmarker.eps
+Warning: Unexpected 42 bytes of data after XMP at position: 1250
+Warning: Unexpected 42 bytes of data after XMP at position: 1250
+Exit code: 0
+
+Command: (2) exiv2 -ix eps-flat_minimal_xmp-garbage-before-endmarker.eps
+Exit code: 0
+
+Command: exiv2 -f -ex eps-flat_minimal_xmp-garbage-before-endmarker.eps
+Exit code: 0
+
 -----> eps-flat_minimal_xmp-readonly.eps <-----
 
 Command: exiv2 -u -pa eps-flat_minimal_xmp-readonly.eps
