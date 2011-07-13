@@ -3551,7 +3551,7 @@ Exit code: 0
 -----> eps-nested_minimal_begindocument-at-page-start.eps <-----
 
 Command: exiv2 -u -pa eps-nested_minimal_begindocument-at-page-start.eps
-Warning: Nested document at invalid position (before explicit or implicit EndPageSetup): 51
+Warning: Nested documents are currently not supported. Found nested document at position: 51
 Exiv2 exception in print action for file eps-nested_minimal_begindocument-at-page-start.eps:
 Failed to read image data
 Exit code: 1
