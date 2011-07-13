@@ -291,6 +291,31 @@ Exit code: 0
 Command: exiv2 -f -ex eps-flat_minimal_exiftool-8.56.eps
 Exit code: 0
 
+-----> eps-flat_minimal_includeresource.eps <-----
+
+Command: exiv2 -u -pa eps-flat_minimal_includeresource.eps
+Exit code: 253
+
+Command: exiv2 -dx eps-flat_minimal_includeresource.eps
+Exit code: 0
+
+Command: exiv2 -f -ex eps-flat_minimal_includeresource.eps
+Exit code: 0
+
+Restore: eps-flat_minimal_includeresource.eps
+
+Command: exiv2 -f -eX eps-flat_minimal_includeresource.eps
+Exit code: 0
+
+Command: exiv2 -ix eps-flat_minimal_includeresource.eps
+Exit code: 0
+
+Command: (2) exiv2 -ix eps-flat_minimal_includeresource.eps
+Exit code: 0
+
+Command: exiv2 -f -ex eps-flat_minimal_includeresource.eps
+Exit code: 0
+
 -----> eps-flat_minimal_irremovable-xmp-after-endpagesetup.eps <-----
 
 Command: exiv2 -u -pa eps-flat_minimal_irremovable-xmp-after-endpagesetup.eps
@@ -3523,13 +3548,71 @@ Exit code: 0
 Command: exiv2 -f -ex eps-flat_photoshop-e9-win_exiv2.eps
 Exit code: 0
 
+-----> eps-nested_minimal_begindocument-at-page-start.eps <-----
+
+Command: exiv2 -u -pa eps-nested_minimal_begindocument-at-page-start.eps
+Warning: Nested document at invalid position (before explicit or implicit EndPageSetup): 51
+Exiv2 exception in print action for file eps-nested_minimal_begindocument-at-page-start.eps:
+Failed to read image data
+Exit code: 1
+
+-----> eps-nested_minimal_begindocument.eps <-----
+
+Command: exiv2 -u -pa eps-nested_minimal_begindocument.eps
+Warning: Nested documents are currently not supported. Found nested document at position: 56
+Exiv2 exception in print action for file eps-nested_minimal_begindocument.eps:
+Failed to read image data
+Exit code: 1
+
+-----> eps-nested_minimal_includedocument-at-page-start.eps <-----
+
+Command: exiv2 -u -pa eps-nested_minimal_includedocument-at-page-start.eps
+Exit code: 253
+
+Command: exiv2 -dx eps-nested_minimal_includedocument-at-page-start.eps
+Exit code: 0
+
+Command: exiv2 -f -ex eps-nested_minimal_includedocument-at-page-start.eps
+Exit code: 0
+
+Restore: eps-nested_minimal_includedocument-at-page-start.eps
+
+Command: exiv2 -f -eX eps-nested_minimal_includedocument-at-page-start.eps
+Exit code: 0
+
+Command: exiv2 -ix eps-nested_minimal_includedocument-at-page-start.eps
+Exit code: 0
+
+Command: (2) exiv2 -ix eps-nested_minimal_includedocument-at-page-start.eps
+Exit code: 0
+
+Command: exiv2 -f -ex eps-nested_minimal_includedocument-at-page-start.eps
+Exit code: 0
+
 -----> eps-nested_minimal_includedocument.eps <-----
 
 Command: exiv2 -u -pa eps-nested_minimal_includedocument.eps
-Warning: Unable to handle PostScript %%Include DSC comments yet. Please provide your sample EPS file to the Exiv2 project: http://dev.exiv2.org/projects/exiv2
-Exiv2 exception in print action for file eps-nested_minimal_includedocument.eps:
-Failed to read image data
-Exit code: 1
+Exit code: 253
+
+Command: exiv2 -dx eps-nested_minimal_includedocument.eps
+Exit code: 0
+
+Command: exiv2 -f -ex eps-nested_minimal_includedocument.eps
+Exit code: 0
+
+Restore: eps-nested_minimal_includedocument.eps
+
+Command: exiv2 -f -eX eps-nested_minimal_includedocument.eps
+Exit code: 0
+
+Command: exiv2 -ix eps-nested_minimal_includedocument.eps
+Exit code: 0
+
+Command: (2) exiv2 -ix eps-nested_minimal_includedocument.eps
+Exit code: 0
+
+Command: exiv2 -f -ex eps-nested_minimal_includedocument.eps
+Exit code: 0
 
 -----> eps-nested_noxmp_ai-3-lev2.eps <-----
 
