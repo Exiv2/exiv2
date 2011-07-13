@@ -451,7 +451,7 @@ namespace {
                     #endif
                 }
             }
-            if (line == "%%EOF" || (line.size() >= 1 && line[0] != '%')) {
+            if (line == "%%EOF" || startsWith(line, "%%IncludeDocument:") || startsWith(line, "%%BeginDocument:") || (line.size() >= 1 && line[0] != '%')) {
                 if (posPage == posEndEps && posEndComments != posEndEps && !inDefaultsOrPrologOrSetup && !inRemovableEmbedding && !onlyWhitespaces(line)) {
                     posPage = startPos;
                     implicitPage = true;
@@ -542,12 +542,6 @@ namespace {
             } else if (line == "%%EOF") {
                 posEof = startPos;
             } else if (startsWith(line, "%%BeginDocument:")) {
-                if (posEndPageSetup == posEndEps) {
-                    #ifndef SUPPRESS_WARNINGS
-                    EXV_WARNING << "Nested document at invalid position (before explicit or implicit EndPageSetup): " << startPos << "\n";
-                    #endif
-                    throw Error(write ? 21 : 14);
-                }
                 // TODO: Add support for nested documents!
                 #ifndef SUPPRESS_WARNINGS
                 EXV_WARNING << "Nested documents are currently not supported. Found nested document at position: " << startPos << "\n";
@@ -562,12 +556,6 @@ namespace {
                 }
                 #ifndef SUPPRESS_WARNINGS
                 EXV_WARNING << "Unable to handle multiple PostScript pages. Found second page at position: " << startPos << "\n";
-                #endif
-                throw Error(write ? 21 : 14);
-            } else if (startsWith(line, "%%Include")) {
-                #ifndef SUPPRESS_WARNINGS
-                EXV_WARNING << "Unable to handle PostScript %%Include DSC comments yet. Please provide your "
-                               "sample EPS file to the Exiv2 project: http://dev.exiv2.org/projects/exiv2\n";
                 #endif
                 throw Error(write ? 21 : 14);
             } else {
