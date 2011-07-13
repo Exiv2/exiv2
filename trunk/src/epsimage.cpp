@@ -786,7 +786,7 @@ namespace {
                     #endif
                 }
                 // update and complement DSC comments
-                if (pos == posLanguageLevel && posLanguageLevel != posEndEps && !useFlexibleEmbedding) {
+                if (pos == posLanguageLevel && posLanguageLevel != posEndEps && !deleteXmp && !useFlexibleEmbedding) {
                     if (line == "%%LanguageLevel:1" || line == "%%LanguageLevel: 1") {
                         writeTemp(*tempIo, "%%LanguageLevel: 2" + lineEnding);
                         skipPos = posLineEnd;
@@ -807,7 +807,7 @@ namespace {
                     skipPos = posLineEnd;
                 }
                 if (pos == posEndComments) {
-                    if (posLanguageLevel == posEndEps && !useFlexibleEmbedding) {
+                    if (posLanguageLevel == posEndEps && !deleteXmp && !useFlexibleEmbedding) {
                         writeTemp(*tempIo, "%%LanguageLevel: 2" + lineEnding);
                     }
                     if (posContainsXmp == posEndEps) {
