@@ -403,10 +403,14 @@ namespace {
     {
         if (!(0 <= parIdx && static_cast<size_t>(parIdx) < image.nativePreviews().size())) return;
         nativePreview_ = image.nativePreviews()[parIdx];
-        size_ = nativePreview_.size_;
         width_ = nativePreview_.width_;
         height_ = nativePreview_.height_;
         valid_ = true;
+        if (nativePreview_.size_ == 0) {
+            size_ = getData().size_;
+        } else {
+            size_ = nativePreview_.size_;
+        }
     }
 
     Loader::AutoPtr createLoaderNative(PreviewId id, const Image &image, int parIdx)
@@ -452,7 +456,11 @@ namespace {
 #endif
             return DataBuf();
         }
-        return DataBuf(data + nativePreview_.position_, nativePreview_.size_);
+        if (nativePreview_.filter_ == "") {
+            return DataBuf(data + nativePreview_.position_, nativePreview_.size_);
+        } else {
+            throw Error(1, "Invalid native preview filter: " + nativePreview_.filter_);
+        }
     }
 
     bool LoaderNative::readDimensions()

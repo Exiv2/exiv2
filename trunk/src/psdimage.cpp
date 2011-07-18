@@ -334,6 +334,7 @@ namespace Exiv2 {
                     if (io_->error() || io_->eof()) throw Error(14);
 
                     if (format == 1) {
+                        nativePreview.filter_ = "";
                         nativePreview.mimeType_ = "image/jpeg";
                         nativePreviews_.push_back(nativePreview);
                     } else {
