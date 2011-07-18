@@ -88,6 +88,7 @@ namespace Exiv2 {
     const char     Photoshop::ps3Id_[] = "Photoshop 3.0\0";
     const char     Photoshop::bimId_[] = "8BIM";
     const uint16_t Photoshop::iptc_    = 0x0404;
+    const uint16_t Photoshop::preview_ = 0x040c;
 
     bool Photoshop::valid(const byte* pPsData,
                           long        sizePsData)
@@ -194,6 +195,16 @@ namespace Exiv2 {
                                  uint32_t *const sizeData)
     {
         return locateIrb(pPsData, sizePsData, iptc_,
+                         record, sizeHdr, sizeData);
+    }
+
+    int Photoshop::locatePreviewIrb(const byte*     pPsData,
+                                    long            sizePsData,
+                                    const byte**    record,
+                                    uint32_t *const sizeHdr,
+                                    uint32_t *const sizeData)
+    {
+        return locateIrb(pPsData, sizePsData, preview_,
                          record, sizeHdr, sizeData);
     }
 

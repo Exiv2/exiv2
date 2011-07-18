@@ -66,6 +66,7 @@ namespace Exiv2 {
         static const char     ps3Id_[]; //!< %Photoshop marker
         static const char     bimId_[]; //!< %Photoshop marker
         static const uint16_t iptc_;    //!< %Photoshop IPTC marker
+        static const uint16_t preview_; //!< %Photoshop preview marker
 
         /*!
           @brief Validates all IRBs
@@ -108,6 +109,14 @@ namespace Exiv2 {
                                  const byte **record,
                                  uint32_t *const sizeHdr,
                                  uint32_t *const sizeData);
+        /*!
+          @brief Forwards to locatePreviewIrb() with \em psTag = \em preview_
+         */
+        static int locatePreviewIrb(const byte *pPsData,
+                                    long sizePsData,
+                                    const byte **record,
+                                    uint32_t *const sizeHdr,
+                                    uint32_t *const sizeData);
         /*!
           @brief Set the new IPTC IRB, keeps existing IRBs but removes the
                  IPTC block if there is no new IPTC data to write.
