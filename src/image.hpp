@@ -64,6 +64,7 @@ namespace Exiv2 {
         uint32_t size_;
         uint32_t width_;
         uint32_t height_;
+        std::string filter_;
         std::string mimeType_;
     };
 

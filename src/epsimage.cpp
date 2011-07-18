@@ -697,6 +697,7 @@ namespace {
                 nativePreview.size_ = sizeWmf;
                 nativePreview.width_ = 0;
                 nativePreview.height_ = 0;
+                nativePreview.filter_ = "";
                 nativePreview.mimeType_ = "image/x-wmf";
                 nativePreviews.push_back(nativePreview);
             }
@@ -706,6 +707,7 @@ namespace {
                 nativePreview.size_ = sizeTiff;
                 nativePreview.width_ = 0;
                 nativePreview.height_ = 0;
+                nativePreview.filter_ = "";
                 nativePreview.mimeType_ = "image/tiff";
                 nativePreviews.push_back(nativePreview);
             }
