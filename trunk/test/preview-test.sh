@@ -30,17 +30,17 @@ images="eps/eps-flat_inkscape-epsi.eps \
         eps/eps-flat_oodraw_ai-cs4-lev2.eps \
         eps/eps-flat_oodraw_ai-cs5-lev2.eps \
         eps/eps-flat_oodraw_ai-cs5-lev3-nodocthumb.eps \
-        eps/eps-flat_oodraw_ai-cs5-lev3-preview.eps \
+        eps/eps-flat_oodraw_ai-cs5-lev3-pre.eps \
         eps/eps-flat_oodraw_ai-cs5-lev3.eps \
         eps/eps-flat_oodraw_ai-cs5-lev3_exiftool-8.56.eps \
         eps/eps-flat_oodraw_ai-cs5-lev3_ns-xapGImg.eps \
         eps/eps-flat_photoshop-cs5-ascii-colorprofile.eps \
-        eps/eps-flat_photoshop-cs5-ascii-preview.eps \
+        eps/eps-flat_photoshop-cs5-ascii-pre.eps \
         eps/eps-flat_photoshop-cs5-ascii.eps \
-        eps/eps-flat_photoshop-cs5-ascii85-preview.eps \
+        eps/eps-flat_photoshop-cs5-ascii85-pre.eps \
         eps/eps-flat_photoshop-cs5-ascii85.eps \
         eps/eps-flat_photoshop-cs5-ascii_failure-bigxmp.eps \
-        eps/eps-flat_photoshop-cs5-binary-preview.eps \
+        eps/eps-flat_photoshop-cs5-binary-pre.eps \
         eps/eps-flat_photoshop-cs5-binary.eps \
         eps/eps-flat_photoshop-cs5-binary_exiftool-8.56.eps \
         eps/eps-flat_photoshop-cs5-binary_exiv2-bigxmp.eps \
@@ -60,7 +60,7 @@ images="eps/eps-flat_inkscape-epsi.eps \
         eps/eps-nested_noxmp_indesign-cs5-lev3-bin.eps \
         eps/eps-nested_noxmp_indesign-cs5-lev3.eps \
         eps/eps-nested_noxmp_oodraw-lev2-epsi.eps \
-        eps/eps-nested_noxmp_oodraw-lev2-preview.eps \
+        eps/eps-nested_noxmp_oodraw-lev2-pre.eps \
         eps/eps-nested_xmp_ai-3-lev3.eps \
         eps/eps-nested_xmp_ai-8-lev3.eps \
         eps/eps-nested_xmp_ai-cs5-lev3.eps \
@@ -68,7 +68,7 @@ images="eps/eps-flat_inkscape-epsi.eps \
         eps/eps-nested_xmp_indesign-cs5-lev3.eps \
         eps/eps-nested_xmp_indesign-cs5-lev3_exiftool-8.56.eps \
         eps/eps-nested_xmp_oodraw-lev2-epsi.eps \
-        eps/eps-nested_xmp_oodraw-lev2-preview.eps \
+        eps/eps-nested_xmp_oodraw-lev2-pre.eps \
         exiv2-bug443.jpg \
         exiv2-bug444.jpg \
         exiv2-bug445.jpg \
@@ -89,7 +89,7 @@ images="eps/eps-flat_inkscape-epsi.eps \
         exiv2-olympus-c8080wz.jpg \
         exiv2-panasonic-dmc-fz5.jpg \
         exiv2-photoshop.psd \
-        exiv2-preview-in-xmp.xmp \
+        exiv2-pre-in-xmp.xmp \
         exiv2-sigma-d10.jpg \
         exiv2-sony-dsc-w7.jpg \
         glider.exv \

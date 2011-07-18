@@ -2161,9 +2161,9 @@ Exit code: 0
 Command: exiv2 -f -ex eps-flat_oodraw_ai-cs5-lev3-nodocthumb.eps
 Exit code: 0
 
------> eps-flat_oodraw_ai-cs5-lev3-preview.eps <-----
+-----> eps-flat_oodraw_ai-cs5-lev3-pre.eps <-----
 
-Command: exiv2 -u -pa eps-flat_oodraw_ai-cs5-lev3-preview.eps
+Command: exiv2 -u -pa eps-flat_oodraw_ai-cs5-lev3-pre.eps
 Xmp.xmp.CreatorTool                          XmpText    21  Adobe Illustrator CS5
 Xmp.xmp.CreateDate                           XmpText    25  2011-03-25T16:09:09+01:00
 Xmp.xmp.MetadataDate                         XmpText    25  2011-03-25T16:09:09+01:00
@@ -2270,24 +2270,24 @@ Xmp.xmpMM.History[3]/stEvt:softwareAgent     XmpText    21  Adobe Illustrator CS
 Xmp.xmpMM.History[3]/stEvt:changed           XmpText     1  /
 Exit code: 253
 
-Command: exiv2 -dx eps-flat_oodraw_ai-cs5-lev3-preview.eps
+Command: exiv2 -dx eps-flat_oodraw_ai-cs5-lev3-pre.eps
 Exit code: 0
 
-Command: exiv2 -f -ex eps-flat_oodraw_ai-cs5-lev3-preview.eps
+Command: exiv2 -f -ex eps-flat_oodraw_ai-cs5-lev3-pre.eps
 Exit code: 0
 
-Restore: eps-flat_oodraw_ai-cs5-lev3-preview.eps
+Restore: eps-flat_oodraw_ai-cs5-lev3-pre.eps
 
-Command: exiv2 -f -eX eps-flat_oodraw_ai-cs5-lev3-preview.eps
+Command: exiv2 -f -eX eps-flat_oodraw_ai-cs5-lev3-pre.eps
 Exit code: 0
 
-Command: exiv2 -ix eps-flat_oodraw_ai-cs5-lev3-preview.eps
+Command: exiv2 -ix eps-flat_oodraw_ai-cs5-lev3-pre.eps
 Exit code: 0
 
-Command: (2) exiv2 -ix eps-flat_oodraw_ai-cs5-lev3-preview.eps
+Command: (2) exiv2 -ix eps-flat_oodraw_ai-cs5-lev3-pre.eps
 Exit code: 0
 
-Command: exiv2 -f -ex eps-flat_oodraw_ai-cs5-lev3-preview.eps
+Command: exiv2 -f -ex eps-flat_oodraw_ai-cs5-lev3-pre.eps
 Exit code: 0
 
 -----> eps-flat_oodraw_ai-cs5-lev3.eps <-----
@@ -2597,9 +2597,9 @@ Exit code: 0
 Command: exiv2 -f -ex eps-flat_photoshop-cs5-ascii-colorprofile.eps
 Exit code: 0
 
------> eps-flat_photoshop-cs5-ascii-preview.eps <-----
+-----> eps-flat_photoshop-cs5-ascii-pre.eps <-----
 
-Command: exiv2 -u -pa eps-flat_photoshop-cs5-ascii-preview.eps
+Command: exiv2 -u -pa eps-flat_photoshop-cs5-ascii-pre.eps
 Xmp.xmp.CreatorTool                          XmpText    29  Adobe Photoshop CS5 Macintosh
 Xmp.xmp.CreateDate                           XmpText    25  2011-03-25T17:23:38+01:00
 Xmp.xmp.MetadataDate                         XmpText    25  2011-03-25T17:25:23+01:00
@@ -2653,24 +2653,24 @@ Xmp.xmpMM.History[7]/stEvt:changed           XmpText     1  /
 Xmp.photoshop.ColorMode                      XmpText     1  3
 Exit code: 253
 
-Command: exiv2 -dx eps-flat_photoshop-cs5-ascii-preview.eps
+Command: exiv2 -dx eps-flat_photoshop-cs5-ascii-pre.eps
 Exit code: 0
 
-Command: exiv2 -f -ex eps-flat_photoshop-cs5-ascii-preview.eps
+Command: exiv2 -f -ex eps-flat_photoshop-cs5-ascii-pre.eps
 Exit code: 0
 
-Restore: eps-flat_photoshop-cs5-ascii-preview.eps
+Restore: eps-flat_photoshop-cs5-ascii-pre.eps
 
-Command: exiv2 -f -eX eps-flat_photoshop-cs5-ascii-preview.eps
+Command: exiv2 -f -eX eps-flat_photoshop-cs5-ascii-pre.eps
 Exit code: 0
 
-Command: exiv2 -ix eps-flat_photoshop-cs5-ascii-preview.eps
+Command: exiv2 -ix eps-flat_photoshop-cs5-ascii-pre.eps
 Exit code: 0
 
-Command: (2) exiv2 -ix eps-flat_photoshop-cs5-ascii-preview.eps
+Command: (2) exiv2 -ix eps-flat_photoshop-cs5-ascii-pre.eps
 Exit code: 0
 
-Command: exiv2 -f -ex eps-flat_photoshop-cs5-ascii-preview.eps
+Command: exiv2 -f -ex eps-flat_photoshop-cs5-ascii-pre.eps
 Exit code: 0
 
 -----> eps-flat_photoshop-cs5-ascii.eps <-----
@@ -2737,9 +2737,9 @@ Exit code: 0
 Command: exiv2 -f -ex eps-flat_photoshop-cs5-ascii.eps
 Exit code: 0
 
------> eps-flat_photoshop-cs5-ascii85-preview.eps <-----
+-----> eps-flat_photoshop-cs5-ascii85-pre.eps <-----
 
-Command: exiv2 -u -pa eps-flat_photoshop-cs5-ascii85-preview.eps
+Command: exiv2 -u -pa eps-flat_photoshop-cs5-ascii85-pre.eps
 Xmp.xmp.CreatorTool                          XmpText    29  Adobe Photoshop CS5 Macintosh
 Xmp.xmp.CreateDate                           XmpText    25  2011-03-25T17:23:38+01:00
 Xmp.xmp.MetadataDate                         XmpText    25  2011-03-25T17:27:02+01:00
@@ -2841,24 +2841,24 @@ Xmp.xmpMM.History[15]/stEvt:changed          XmpText     1  /
 Xmp.photoshop.ColorMode                      XmpText     1  3
 Exit code: 253
 
-Command: exiv2 -dx eps-flat_photoshop-cs5-ascii85-preview.eps
+Command: exiv2 -dx eps-flat_photoshop-cs5-ascii85-pre.eps
 Exit code: 0
 
-Command: exiv2 -f -ex eps-flat_photoshop-cs5-ascii85-preview.eps
+Command: exiv2 -f -ex eps-flat_photoshop-cs5-ascii85-pre.eps
 Exit code: 0
 
-Restore: eps-flat_photoshop-cs5-ascii85-preview.eps
+Restore: eps-flat_photoshop-cs5-ascii85-pre.eps
 
-Command: exiv2 -f -eX eps-flat_photoshop-cs5-ascii85-preview.eps
+Command: exiv2 -f -eX eps-flat_photoshop-cs5-ascii85-pre.eps
 Exit code: 0
 
-Command: exiv2 -ix eps-flat_photoshop-cs5-ascii85-preview.eps
+Command: exiv2 -ix eps-flat_photoshop-cs5-ascii85-pre.eps
 Exit code: 0
 
-Command: (2) exiv2 -ix eps-flat_photoshop-cs5-ascii85-preview.eps
+Command: (2) exiv2 -ix eps-flat_photoshop-cs5-ascii85-pre.eps
 Exit code: 0
 
-Command: exiv2 -f -ex eps-flat_photoshop-cs5-ascii85-preview.eps
+Command: exiv2 -f -ex eps-flat_photoshop-cs5-ascii85-pre.eps
 Exit code: 0
 
 -----> eps-flat_photoshop-cs5-ascii85.eps <-----
@@ -3004,9 +3004,9 @@ Exit code: 0
 Command: exiv2 -f -ex eps-flat_photoshop-cs5-ascii_failure-bigxmp.eps
 Exit code: 0
 
------> eps-flat_photoshop-cs5-binary-preview.eps <-----
+-----> eps-flat_photoshop-cs5-binary-pre.eps <-----
 
-Command: exiv2 -u -pa eps-flat_photoshop-cs5-binary-preview.eps
+Command: exiv2 -u -pa eps-flat_photoshop-cs5-binary-pre.eps
 Xmp.xmp.CreatorTool                          XmpText    29  Adobe Photoshop CS5 Macintosh
 Xmp.xmp.CreateDate                           XmpText    25  2011-03-25T17:23:38+01:00
 Xmp.xmp.MetadataDate                         XmpText    25  2011-03-25T17:26:30+01:00
@@ -3084,24 +3084,24 @@ Xmp.xmpMM.History[11]/stEvt:changed          XmpText     1  /
 Xmp.photoshop.ColorMode                      XmpText     1  3
 Exit code: 253
 
-Command: exiv2 -dx eps-flat_photoshop-cs5-binary-preview.eps
+Command: exiv2 -dx eps-flat_photoshop-cs5-binary-pre.eps
 Exit code: 0
 
-Command: exiv2 -f -ex eps-flat_photoshop-cs5-binary-preview.eps
+Command: exiv2 -f -ex eps-flat_photoshop-cs5-binary-pre.eps
 Exit code: 0
 
-Restore: eps-flat_photoshop-cs5-binary-preview.eps
+Restore: eps-flat_photoshop-cs5-binary-pre.eps
 
-Command: exiv2 -f -eX eps-flat_photoshop-cs5-binary-preview.eps
+Command: exiv2 -f -eX eps-flat_photoshop-cs5-binary-pre.eps
 Exit code: 0
 
-Command: exiv2 -ix eps-flat_photoshop-cs5-binary-preview.eps
+Command: exiv2 -ix eps-flat_photoshop-cs5-binary-pre.eps
 Exit code: 0
 
-Command: (2) exiv2 -ix eps-flat_photoshop-cs5-binary-preview.eps
+Command: (2) exiv2 -ix eps-flat_photoshop-cs5-binary-pre.eps
 Exit code: 0
 
-Command: exiv2 -f -ex eps-flat_photoshop-cs5-binary-preview.eps
+Command: exiv2 -f -ex eps-flat_photoshop-cs5-binary-pre.eps
 Exit code: 0
 
 -----> eps-flat_photoshop-cs5-binary.eps <-----
@@ -3702,11 +3702,11 @@ Exiv2 exception in print action for file eps-nested_noxmp_oodraw-lev2-epsi.eps:
 Failed to read image data
 Exit code: 1
 
------> eps-nested_noxmp_oodraw-lev2-preview.eps <-----
+-----> eps-nested_noxmp_oodraw-lev2-pre.eps <-----
 
-Command: exiv2 -u -pa eps-nested_noxmp_oodraw-lev2-preview.eps
+Command: exiv2 -u -pa eps-nested_noxmp_oodraw-lev2-pre.eps
 Warning: Nested documents are currently not supported. Found nested document at position: 16203
-Exiv2 exception in print action for file eps-nested_noxmp_oodraw-lev2-preview.eps:
+Exiv2 exception in print action for file eps-nested_noxmp_oodraw-lev2-pre.eps:
 Failed to read image data
 Exit code: 1
 
@@ -3774,11 +3774,11 @@ Exiv2 exception in print action for file eps-nested_xmp_oodraw-lev2-epsi.eps:
 Failed to read image data
 Exit code: 1
 
------> eps-nested_xmp_oodraw-lev2-preview.eps <-----
+-----> eps-nested_xmp_oodraw-lev2-pre.eps <-----
 
-Command: exiv2 -u -pa eps-nested_xmp_oodraw-lev2-preview.eps
+Command: exiv2 -u -pa eps-nested_xmp_oodraw-lev2-pre.eps
 Warning: Nested documents are currently not supported. Found nested document at position: 16365
-Exiv2 exception in print action for file eps-nested_xmp_oodraw-lev2-preview.eps:
+Exiv2 exception in print action for file eps-nested_xmp_oodraw-lev2-pre.eps:
 Failed to read image data
 Exit code: 1
 

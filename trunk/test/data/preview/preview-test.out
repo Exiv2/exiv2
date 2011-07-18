@@ -100,14 +100,14 @@ Exit code: 0
 Command: exiv2 -f -ep eps-flat_oodraw_ai-cs5-lev3-nodocthumb.eps
 Exit code: 0
 
------> eps-flat_oodraw_ai-cs5-lev3-preview.eps <-----
+-----> eps-flat_oodraw_ai-cs5-lev3-pre.eps <-----
 
-Command: exiv2 -pp eps-flat_oodraw_ai-cs5-lev3-preview.eps
+Command: exiv2 -pp eps-flat_oodraw_ai-cs5-lev3-pre.eps
 Preview 1: image/tiff, 213x170 pixels, 37902 bytes
 Preview 2: image/jpeg, 256x208 pixels, 3166 bytes
 Exit code: 0
 
-Command: exiv2 -f -ep eps-flat_oodraw_ai-cs5-lev3-preview.eps
+Command: exiv2 -f -ep eps-flat_oodraw_ai-cs5-lev3-pre.eps
 Exit code: 0
 
 -----> eps-flat_oodraw_ai-cs5-lev3.eps <-----
@@ -139,38 +139,43 @@ Exit code: 0
 -----> eps-flat_photoshop-cs5-ascii-colorprofile.eps <-----
 
 Command: exiv2 -pp eps-flat_photoshop-cs5-ascii-colorprofile.eps
+Preview 1: image/jpeg, 37x47 pixels, 854 bytes
 Exit code: 0
 
 Command: exiv2 -f -ep eps-flat_photoshop-cs5-ascii-colorprofile.eps
 Exit code: 0
 
------> eps-flat_photoshop-cs5-ascii-preview.eps <-----
+-----> eps-flat_photoshop-cs5-ascii-pre.eps <-----
 
-Command: exiv2 -pp eps-flat_photoshop-cs5-ascii-preview.eps
+Command: exiv2 -pp eps-flat_photoshop-cs5-ascii-pre.eps
+Preview 1: image/jpeg, 37x47 pixels, 854 bytes
 Exit code: 0
 
-Command: exiv2 -f -ep eps-flat_photoshop-cs5-ascii-preview.eps
+Command: exiv2 -f -ep eps-flat_photoshop-cs5-ascii-pre.eps
 Exit code: 0
 
 -----> eps-flat_photoshop-cs5-ascii.eps <-----
 
 Command: exiv2 -pp eps-flat_photoshop-cs5-ascii.eps
+Preview 1: image/jpeg, 37x47 pixels, 854 bytes
 Exit code: 0
 
 Command: exiv2 -f -ep eps-flat_photoshop-cs5-ascii.eps
 Exit code: 0
 
------> eps-flat_photoshop-cs5-ascii85-preview.eps <-----
+-----> eps-flat_photoshop-cs5-ascii85-pre.eps <-----
 
-Command: exiv2 -pp eps-flat_photoshop-cs5-ascii85-preview.eps
+Command: exiv2 -pp eps-flat_photoshop-cs5-ascii85-pre.eps
+Preview 1: image/jpeg, 37x47 pixels, 854 bytes
 Exit code: 0
 
-Command: exiv2 -f -ep eps-flat_photoshop-cs5-ascii85-preview.eps
+Command: exiv2 -f -ep eps-flat_photoshop-cs5-ascii85-pre.eps
 Exit code: 0
 
 -----> eps-flat_photoshop-cs5-ascii85.eps <-----
 
 Command: exiv2 -pp eps-flat_photoshop-cs5-ascii85.eps
+Preview 1: image/jpeg, 37x47 pixels, 854 bytes
 Exit code: 0
 
 Command: exiv2 -f -ep eps-flat_photoshop-cs5-ascii85.eps
@@ -180,23 +185,26 @@ Exit code: 0
 
 Command: exiv2 -pp eps-flat_photoshop-cs5-ascii_failure-bigxmp.eps
 Warning: Unable to find XMP metadata as announced at position: 291
+Preview 1: image/jpeg, 37x47 pixels, 574 bytes
 Exit code: 0
 
 Command: exiv2 -f -ep eps-flat_photoshop-cs5-ascii_failure-bigxmp.eps
 Warning: Unable to find XMP metadata as announced at position: 291
 Exit code: 0
 
------> eps-flat_photoshop-cs5-binary-preview.eps <-----
+-----> eps-flat_photoshop-cs5-binary-pre.eps <-----
 
-Command: exiv2 -pp eps-flat_photoshop-cs5-binary-preview.eps
+Command: exiv2 -pp eps-flat_photoshop-cs5-binary-pre.eps
+Preview 1: image/jpeg, 37x47 pixels, 854 bytes
 Exit code: 0
 
-Command: exiv2 -f -ep eps-flat_photoshop-cs5-binary-preview.eps
+Command: exiv2 -f -ep eps-flat_photoshop-cs5-binary-pre.eps
 Exit code: 0
 
 -----> eps-flat_photoshop-cs5-binary.eps <-----
 
 Command: exiv2 -pp eps-flat_photoshop-cs5-binary.eps
+Preview 1: image/jpeg, 37x47 pixels, 854 bytes
 Exit code: 0
 
 Command: exiv2 -f -ep eps-flat_photoshop-cs5-binary.eps
@@ -205,6 +213,7 @@ Exit code: 0
 -----> eps-flat_photoshop-cs5-binary_exiftool-8.56.eps <-----
 
 Command: exiv2 -pp eps-flat_photoshop-cs5-binary_exiftool-8.56.eps
+Preview 1: image/jpeg, 37x47 pixels, 854 bytes
 Exit code: 0
 
 Command: exiv2 -f -ep eps-flat_photoshop-cs5-binary_exiftool-8.56.eps
@@ -213,6 +222,7 @@ Exit code: 0
 -----> eps-flat_photoshop-cs5-binary_exiv2-bigxmp.eps <-----
 
 Command: exiv2 -pp eps-flat_photoshop-cs5-binary_exiv2-bigxmp.eps
+Preview 1: image/jpeg, 37x47 pixels, 854 bytes
 Exit code: 0
 
 Command: exiv2 -f -ep eps-flat_photoshop-cs5-binary_exiv2-bigxmp.eps
@@ -221,6 +231,7 @@ Exit code: 0
 -----> eps-flat_photoshop-cs5-binary_exiv2.eps <-----
 
 Command: exiv2 -pp eps-flat_photoshop-cs5-binary_exiv2.eps
+Preview 1: image/jpeg, 37x47 pixels, 854 bytes
 Exit code: 0
 
 Command: exiv2 -f -ep eps-flat_photoshop-cs5-binary_exiv2.eps
@@ -229,6 +240,7 @@ Exit code: 0
 -----> eps-flat_photoshop-cs5-binary_exiv2_exiftool-8.56.eps <-----
 
 Command: exiv2 -pp eps-flat_photoshop-cs5-binary_exiv2_exiftool-8.56.eps
+Preview 1: image/jpeg, 37x47 pixels, 854 bytes
 Exit code: 0
 
 Command: exiv2 -f -ep eps-flat_photoshop-cs5-binary_exiv2_exiftool-8.56.eps
@@ -238,6 +250,7 @@ Exit code: 0
 
 Command: exiv2 -pp eps-flat_photoshop-cs5-binary_exiv2_missing-begin-xml-packet.eps
 Warning: Missing %begin_xml_packet in Photoshop EPS at position: 8560
+Preview 1: image/jpeg, 37x47 pixels, 854 bytes
 Exit code: 0
 
 Command: exiv2 -f -ep eps-flat_photoshop-cs5-binary_exiv2_missing-begin-xml-packet.eps
@@ -247,6 +260,7 @@ Exit code: 0
 -----> eps-flat_photoshop-cs5-binary_no-adocontainsxmp.eps <-----
 
 Command: exiv2 -pp eps-flat_photoshop-cs5-binary_no-adocontainsxmp.eps
+Preview 1: image/jpeg, 37x47 pixels, 854 bytes
 Exit code: 0
 
 Command: exiv2 -f -ep eps-flat_photoshop-cs5-binary_no-adocontainsxmp.eps
@@ -255,7 +269,8 @@ Exit code: 0
 -----> eps-flat_photoshop-e9-win-doseps.eps <-----
 
 Command: exiv2 -pp eps-flat_photoshop-e9-win-doseps.eps
-Preview 1: image/tiff, 454x340 pixels, 23782 bytes
+Preview 1: image/jpeg, 160x120 pixels, 2252 bytes
+Preview 2: image/tiff, 454x340 pixels, 23782 bytes
 Exit code: 0
 
 Command: exiv2 -f -ep eps-flat_photoshop-e9-win-doseps.eps
@@ -264,6 +279,7 @@ Exit code: 0
 -----> eps-flat_photoshop-e9-win.eps <-----
 
 Command: exiv2 -pp eps-flat_photoshop-e9-win.eps
+Preview 1: image/jpeg, 160x120 pixels, 2252 bytes
 Exit code: 0
 
 Command: exiv2 -f -ep eps-flat_photoshop-e9-win.eps
@@ -272,6 +288,7 @@ Exit code: 0
 -----> eps-flat_photoshop-e9-win_exiv2.eps <-----
 
 Command: exiv2 -pp eps-flat_photoshop-e9-win_exiv2.eps
+Preview 1: image/jpeg, 160x120 pixels, 2252 bytes
 Exit code: 0
 
 Command: exiv2 -f -ep eps-flat_photoshop-e9-win_exiv2.eps
@@ -403,17 +420,17 @@ Exiv2 exception in extract action for file eps-nested_noxmp_oodraw-lev2-epsi.eps
 Failed to read image data
 Exit code: 1
 
------> eps-nested_noxmp_oodraw-lev2-preview.eps <-----
+-----> eps-nested_noxmp_oodraw-lev2-pre.eps <-----
 
-Command: exiv2 -pp eps-nested_noxmp_oodraw-lev2-preview.eps
+Command: exiv2 -pp eps-nested_noxmp_oodraw-lev2-pre.eps
 Warning: Nested documents are currently not supported. Found nested document at position: 16203
-Exiv2 exception in print action for file eps-nested_noxmp_oodraw-lev2-preview.eps:
+Exiv2 exception in print action for file eps-nested_noxmp_oodraw-lev2-pre.eps:
 Failed to read image data
 Exit code: 1
 
-Command: exiv2 -f -ep eps-nested_noxmp_oodraw-lev2-preview.eps
+Command: exiv2 -f -ep eps-nested_noxmp_oodraw-lev2-pre.eps
 Warning: Nested documents are currently not supported. Found nested document at position: 16203
-Exiv2 exception in extract action for file eps-nested_noxmp_oodraw-lev2-preview.eps:
+Exiv2 exception in extract action for file eps-nested_noxmp_oodraw-lev2-pre.eps:
 Failed to read image data
 Exit code: 1
 
@@ -515,17 +532,17 @@ Exiv2 exception in extract action for file eps-nested_xmp_oodraw-lev2-epsi.eps:
 Failed to read image data
 Exit code: 1
 
------> eps-nested_xmp_oodraw-lev2-preview.eps <-----
+-----> eps-nested_xmp_oodraw-lev2-pre.eps <-----
 
-Command: exiv2 -pp eps-nested_xmp_oodraw-lev2-preview.eps
+Command: exiv2 -pp eps-nested_xmp_oodraw-lev2-pre.eps
 Warning: Nested documents are currently not supported. Found nested document at position: 16365
-Exiv2 exception in print action for file eps-nested_xmp_oodraw-lev2-preview.eps:
+Exiv2 exception in print action for file eps-nested_xmp_oodraw-lev2-pre.eps:
 Failed to read image data
 Exit code: 1
 
-Command: exiv2 -f -ep eps-nested_xmp_oodraw-lev2-preview.eps
+Command: exiv2 -f -ep eps-nested_xmp_oodraw-lev2-pre.eps
 Warning: Nested documents are currently not supported. Found nested document at position: 16365
-Exiv2 exception in extract action for file eps-nested_xmp_oodraw-lev2-preview.eps:
+Exiv2 exception in extract action for file eps-nested_xmp_oodraw-lev2-pre.eps:
 Failed to read image data
 Exit code: 1
 
@@ -723,13 +740,13 @@ Exit code: 0
 Command: exiv2 -f -ep exiv2-photoshop.psd
 Exit code: 0
 
------> exiv2-preview-in-xmp.xmp <-----
+-----> exiv2-pre-in-xmp.xmp <-----
 
-Command: exiv2 -pp exiv2-preview-in-xmp.xmp
+Command: exiv2 -pp exiv2-pre-in-xmp.xmp
 Preview 1: image/jpeg, 150x91 pixels, 4745 bytes
 Exit code: 0
 
-Command: exiv2 -f -ep exiv2-preview-in-xmp.xmp
+Command: exiv2 -f -ep exiv2-pre-in-xmp.xmp
 Exit code: 0
 
 -----> exiv2-sigma-d10.jpg <-----

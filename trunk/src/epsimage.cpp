@@ -417,6 +417,8 @@ namespace {
         size_t posExiv2Version = posEndEps;
         size_t posExiv2Website = posEndEps;
         size_t posEndComments = posEndEps;
+        size_t posBeginPhotoshop = posEndEps;
+        size_t posEndPhotoshop = posEndEps;
         size_t posPage = posEndEps;
         size_t posEndPageSetup = posEndEps;
         size_t posPageTrailer = posEndEps;
@@ -424,7 +426,6 @@ namespace {
         std::vector<std::pair<size_t, size_t> > removableEmbeddings;
         bool implicitPage = false;
         bool implicitPageTrailer = false;
-        bool photoshop = false;
         bool inDefaultsOrPrologOrSetup = false;
         bool inPageSetup = false;
         bool inRemovableEmbedding = false;
@@ -505,8 +506,10 @@ namespace {
                 posEndPageSetup = startPos;
             } else if (posPageTrailer == posEndEps && line == "%%PageTrailer") {
                 posPageTrailer = startPos;
-            } else if (startsWith(line, "%BeginPhotoshop:")) {
-                photoshop = true;
+            } else if (posBeginPhotoshop == posEndEps && startsWith(line, "%BeginPhotoshop:")) {
+                posBeginPhotoshop = pos;
+            } else if (posBeginPhotoshop != posEndEps && posEndPhotoshop == posEndEps && line == "%EndPhotoshop") {
+                posEndPhotoshop = startPos;
             } else if (!inRemovableEmbedding && line == "%Exiv2BeginXMP: Before %%EndPageSetup") {
                 inRemovableEmbedding = true;
                 removableEmbeddings.push_back(std::make_pair(startPos, startPos));
@@ -646,7 +649,7 @@ namespace {
                     xmpSize += (xmpPos - posBeginXmlPacket);
                     xmpPos = posBeginXmlPacket;
                 }
-            } else if (photoshop) {
+            } else if (posBeginPhotoshop != posEndEps) {
                 #ifndef SUPPRESS_WARNINGS
                 EXV_WARNING << "Missing %begin_xml_packet in Photoshop EPS at position: " << xmpPos << "\n";
                 #endif
@@ -683,6 +686,16 @@ namespace {
 
             // native previews
             nativePreviews.clear();
+            if (posEndPhotoshop != posEndEps) {
+                NativePreview nativePreview;
+                nativePreview.position_ = static_cast<long>(posBeginPhotoshop);
+                nativePreview.size_ = posEndPhotoshop - posBeginPhotoshop;
+                nativePreview.width_ = 0;
+                nativePreview.height_ = 0;
+                nativePreview.filter_ = "hex-irb";
+                nativePreview.mimeType_ = "image/jpeg";
+                nativePreviews.push_back(nativePreview);
+            }
             if (sizeWmf != 0) {
                 NativePreview nativePreview;
                 nativePreview.position_ = static_cast<long>(posWmf);
@@ -838,7 +851,7 @@ namespace {
                             writeTemp(*tempIo, "%%BeginPageSetup" + lineEnding);
                         }
                         writeTemp(*tempIo, "%Exiv2BeginXMP: Before %%EndPageSetup" + lineEnding);
-                        if (photoshop) {
+                        if (posBeginPhotoshop != posEndEps) {
                             writeTemp(*tempIo, "%Exiv2Notice: The following line is needed by Photoshop." + lineEnding);
                             writeTemp(*tempIo, "%begin_xml_code" + lineEnding);
                         }
@@ -855,7 +868,7 @@ namespace {
                         writeTemp(*tempIo, "[{Exiv2_metadata_stream}" + lineEnding);
                         writeTemp(*tempIo, "    currentfile 0 (% &&end XMP packet marker&&)" + lineEnding);
                         writeTemp(*tempIo, "    /SubFileDecode filter Exiv2_metafile_pdfmark" + lineEnding);
-                        if (photoshop) {
+                        if (posBeginPhotoshop != posEndEps) {
                             writeTemp(*tempIo, "%Exiv2Notice: The following line is needed by Photoshop. "
                                                "Parameter must be exact size of XMP metadata." + lineEnding);
                             writeTemp(*tempIo, "%begin_xml_packet: " + toString(xmpPacket.size()) + lineEnding);
@@ -865,7 +878,7 @@ namespace {
                         writeTemp(*tempIo, "% &&end XMP packet marker&&" + lineEnding);
                         writeTemp(*tempIo, "[/Document 1 dict begin" + lineEnding);
                         writeTemp(*tempIo, "    /Metadata {Exiv2_metadata_stream} def currentdict end /BDC Exiv2_pdfmark" + lineEnding);
-                        if (photoshop) {
+                        if (posBeginPhotoshop != posEndEps) {
                             writeTemp(*tempIo, "%Exiv2Notice: The following line is needed by Photoshop." + lineEnding);
                             writeTemp(*tempIo, "%end_xml_code" + lineEnding);
                         }
