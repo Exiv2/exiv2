@@ -457,7 +457,7 @@ namespace {
             return DataBuf();
         }
         if (nativePreview_.filter_ == "") {
-            return DataBuf(data + nativePreview_.position_, nativePreview_.size_);
+            return DataBuf(data + nativePreview_.position_, static_cast<long>(nativePreview_.size_));
         } else {
             throw Error(1, "Invalid native preview filter: " + nativePreview_.filter_);
         }
