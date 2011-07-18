@@ -169,14 +169,6 @@ namespace {
         return s.find_first_not_of(" \t") == std::string::npos;
     }
 
-    //! Convert an integer of type size_t to a decimal string
-    static std::string toString(size_t size)
-    {
-        std::ostringstream stream;
-        stream << size;
-        return stream.str();
-    }
-
     //! Read the next line of a buffer, allow for changing line ending style
     static size_t readLine(std::string& line, const byte* data, size_t startPos, size_t size)
     {
