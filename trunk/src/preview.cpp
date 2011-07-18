@@ -44,6 +44,7 @@ EXIV2_RCSID("@(#) $Id$")
 
 #include "image.hpp"
 #include "cr2image.hpp"
+#include "jpgimage.hpp"
 #include "tiffimage.hpp"
 
 // *****************************************************************************
@@ -463,6 +464,18 @@ namespace {
         }
         if (nativePreview_.filter_ == "") {
             return DataBuf(data + nativePreview_.position_, static_cast<long>(nativePreview_.size_));
+        } else if (nativePreview_.filter_ == "hex-irb") {
+            DataBuf psData = decodeHex(data + nativePreview_.position_, static_cast<long>(nativePreview_.size_));
+            const byte *record;
+            uint32_t sizeHdr;
+            uint32_t sizeData;
+            if (Photoshop::locatePreviewIrb(psData.pData_, psData.size_, &record, &sizeHdr, &sizeData) != 0) {
+#ifndef SUPPRESS_WARNINGS
+                EXV_WARNING << "Missing preview IRB in Photoshop EPS preview.\n";
+#endif
+                return DataBuf();
+            }
+            return DataBuf(record + sizeHdr + 28, sizeData - 28);
         } else {
             throw Error(1, "Invalid native preview filter: " + nativePreview_.filter_);
         }
