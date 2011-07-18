@@ -406,10 +406,10 @@ namespace {
         width_ = nativePreview_.width_;
         height_ = nativePreview_.height_;
         valid_ = true;
-        if (nativePreview_.size_ == 0) {
-            size_ = getData().size_;
-        } else {
+        if (nativePreview_.filter_ == "") {
             size_ = nativePreview_.size_;
+        } else {
+            size_ = getData().size_;
         }
     }
 
