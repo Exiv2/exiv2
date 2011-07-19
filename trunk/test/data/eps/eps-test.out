@@ -956,10 +956,10 @@ Command: exiv2 -u -pa eps-flat_oodraw_ai-3-lev2.eps
 Exit code: 253
 
 Command: exiv2 -dx eps-flat_oodraw_ai-3-lev2.eps
-Exit code: 0
-
-Command: exiv2 -f -ex eps-flat_oodraw_ai-3-lev2.eps
-Exit code: 0
+Warning: Unable to write to EPS files created by Adobe Illustrator 8.0 or older.
+Exiv2 exception in erase action for file eps-flat_oodraw_ai-3-lev2.eps:
+Failed to write image
+Exit code: 1
 
 Restore: eps-flat_oodraw_ai-3-lev2.eps
 
@@ -967,13 +967,9 @@ Command: exiv2 -f -eX eps-flat_oodraw_ai-3-lev2.eps
 Exit code: 0
 
 Command: exiv2 -ix eps-flat_oodraw_ai-3-lev2.eps
-Exit code: 0
-
-Command: (2) exiv2 -ix eps-flat_oodraw_ai-3-lev2.eps
-Exit code: 0
-
-Command: exiv2 -f -ex eps-flat_oodraw_ai-3-lev2.eps
-Exit code: 0
+Warning: Unable to write to EPS files created by Adobe Illustrator 8.0 or older.
+eps-flat_oodraw_ai-3-lev2.eps: Could not write metadata to file: Failed to write image
+Exit code: 1
 
 -----> eps-flat_oodraw_ai-3-lev3.eps <-----
 
@@ -981,10 +977,10 @@ Command: exiv2 -u -pa eps-flat_oodraw_ai-3-lev3.eps
 Exit code: 253
 
 Command: exiv2 -dx eps-flat_oodraw_ai-3-lev3.eps
-Exit code: 0
-
-Command: exiv2 -f -ex eps-flat_oodraw_ai-3-lev3.eps
-Exit code: 0
+Warning: Unable to write to EPS files created by Adobe Illustrator 8.0 or older.
+Exiv2 exception in erase action for file eps-flat_oodraw_ai-3-lev3.eps:
+Failed to write image
+Exit code: 1
 
 Restore: eps-flat_oodraw_ai-3-lev3.eps
 
@@ -992,13 +988,9 @@ Command: exiv2 -f -eX eps-flat_oodraw_ai-3-lev3.eps
 Exit code: 0
 
 Command: exiv2 -ix eps-flat_oodraw_ai-3-lev3.eps
-Exit code: 0
-
-Command: (2) exiv2 -ix eps-flat_oodraw_ai-3-lev3.eps
-Exit code: 0
-
-Command: exiv2 -f -ex eps-flat_oodraw_ai-3-lev3.eps
-Exit code: 0
+Warning: Unable to write to EPS files created by Adobe Illustrator 8.0 or older.
+eps-flat_oodraw_ai-3-lev3.eps: Could not write metadata to file: Failed to write image
+Exit code: 1
 
 -----> eps-flat_oodraw_ai-8-lev2.eps <-----
 
@@ -1177,10 +1169,10 @@ Command: exiv2 -u -pa eps-flat_oodraw_ai-8-lev3.eps
 Exit code: 253
 
 Command: exiv2 -dx eps-flat_oodraw_ai-8-lev3.eps
-Exit code: 0
-
-Command: exiv2 -f -ex eps-flat_oodraw_ai-8-lev3.eps
-Exit code: 0
+Warning: Unable to write to EPS files created by Adobe Illustrator 8.0 or older.
+Exiv2 exception in erase action for file eps-flat_oodraw_ai-8-lev3.eps:
+Failed to write image
+Exit code: 1
 
 Restore: eps-flat_oodraw_ai-8-lev3.eps
 
@@ -1188,13 +1180,9 @@ Command: exiv2 -f -eX eps-flat_oodraw_ai-8-lev3.eps
 Exit code: 0
 
 Command: exiv2 -ix eps-flat_oodraw_ai-8-lev3.eps
-Exit code: 0
-
-Command: (2) exiv2 -ix eps-flat_oodraw_ai-8-lev3.eps
-Exit code: 0
-
-Command: exiv2 -f -ex eps-flat_oodraw_ai-8-lev3.eps
-Exit code: 0
+Warning: Unable to write to EPS files created by Adobe Illustrator 8.0 or older.
+eps-flat_oodraw_ai-8-lev3.eps: Could not write metadata to file: Failed to write image
+Exit code: 1
 
 -----> eps-flat_oodraw_ai-9-lev2.eps <-----
 

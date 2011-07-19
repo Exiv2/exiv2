@@ -424,6 +424,7 @@ namespace {
         size_t posPageTrailer = posEndEps;
         size_t posEof = posEndEps;
         std::vector<std::pair<size_t, size_t> > removableEmbeddings;
+        bool illustrator8 = false;
         bool implicitPage = false;
         bool implicitPageTrailer = false;
         bool inDefaultsOrPrologOrSetup = false;
@@ -483,6 +484,8 @@ namespace {
                 posExiv2Version = startPos;
             } else if (posEndComments == posEndEps && posExiv2Website == posEndEps && startsWith(line, "%Exiv2Website:")) {
                 posExiv2Website = startPos;
+            } else if (posEndComments == posEndEps && startsWith(line, "%%Creator: Adobe Illustrator") && firstLine == "%!PS-Adobe-3.0 EPSF-3.0") {
+                illustrator8 = true;
             } else if (posEndComments == posEndEps && line == "%%EndComments") {
                 posEndComments = startPos;
             } else if (line == "%%BeginDefaults") {
@@ -717,6 +720,14 @@ namespace {
                 nativePreviews.push_back(nativePreview);
             }
         } else {
+            // check for Adobe Illustrator 8.0 or older
+            if (illustrator8) {
+                #ifndef SUPPRESS_WARNINGS
+                EXV_WARNING << "Unable to write to EPS files created by Adobe Illustrator 8.0 or older.\n";
+                #endif
+                throw Error(21);
+            }
+
             // create temporary output file
             BasicIo::AutoPtr tempIo(io.temporary());
             assert (tempIo.get() != 0);
