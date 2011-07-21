@@ -186,6 +186,12 @@ cp -f ../data/exiv2-empty.jpg $filename
 $bin/exiv2 -u -v -M"set Exif.Image.Make Samsung" $filename
 $samples/easyaccess-test $filename
 
+num=769
+filename=exiv2-bug$num.jpg
+cp -f ../data/exiv2-empty.jpg $filename
+$bin/exiv2 -u -v -M"add Exif.Image.Make Canon" -M"add Exif.CanonCs.0x0001 Short 1" -M"add Exif.CanonCs.0x0000 Short 2" $filename
+$bin/exiv2 -u -v -PEkyct $filename
+
 ) > $results 2>&1
 
 # ----------------------------------------------------------------------
