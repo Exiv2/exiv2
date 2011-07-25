@@ -578,6 +578,58 @@ Exit code: 0
 Command: exiv2 -f -ex eps-flat_minimal_xmp-garbage-before-endmarker.eps
 Exit code: 0
 
+-----> eps-flat_minimal_xmp-in-page.eps <-----
+
+Command: exiv2 -u -pa eps-flat_minimal_xmp-in-page.eps
+Xmp.test.test                                XmpText    12  TEST-in-page
+Exit code: 253
+
+Command: exiv2 -dx eps-flat_minimal_xmp-in-page.eps
+Exit code: 0
+
+Command: exiv2 -f -ex eps-flat_minimal_xmp-in-page.eps
+Exit code: 0
+
+Restore: eps-flat_minimal_xmp-in-page.eps
+
+Command: exiv2 -f -eX eps-flat_minimal_xmp-in-page.eps
+Exit code: 0
+
+Command: exiv2 -ix eps-flat_minimal_xmp-in-page.eps
+Exit code: 0
+
+Command: (2) exiv2 -ix eps-flat_minimal_xmp-in-page.eps
+Exit code: 0
+
+Command: exiv2 -f -ex eps-flat_minimal_xmp-in-page.eps
+Exit code: 0
+
+-----> eps-flat_minimal_xmp-in-page_exiftool-8.56.eps <-----
+
+Command: exiv2 -u -pa eps-flat_minimal_xmp-in-page_exiftool-8.56.eps
+Xmp.dc.title                                 LangAlt     1  lang="x-default" TEST-Exiftool
+Exit code: 253
+
+Command: exiv2 -dx eps-flat_minimal_xmp-in-page_exiftool-8.56.eps
+Exit code: 0
+
+Command: exiv2 -f -ex eps-flat_minimal_xmp-in-page_exiftool-8.56.eps
+Exit code: 0
+
+Restore: eps-flat_minimal_xmp-in-page_exiftool-8.56.eps
+
+Command: exiv2 -f -eX eps-flat_minimal_xmp-in-page_exiftool-8.56.eps
+Exit code: 0
+
+Command: exiv2 -ix eps-flat_minimal_xmp-in-page_exiftool-8.56.eps
+Exit code: 0
+
+Command: (2) exiv2 -ix eps-flat_minimal_xmp-in-page_exiftool-8.56.eps
+Exit code: 0
+
+Command: exiv2 -f -ex eps-flat_minimal_xmp-in-page_exiftool-8.56.eps
+Exit code: 0
+
 -----> eps-flat_minimal_xmp-readonly.eps <-----
 
 Command: exiv2 -u -pa eps-flat_minimal_xmp-readonly.eps
@@ -3295,6 +3347,14 @@ Exit code: 0
 Command: exiv2 -f -ex eps-flat_photoshop-cs5-binary_exiv2-bigxmp.eps
 Exit code: 0
 
+-----> eps-flat_photoshop-cs5-binary_exiv2-bug-r2561.eps <-----
+
+Command: exiv2 -u -pa eps-flat_photoshop-cs5-binary_exiv2-bug-r2561.eps
+Warning: Page at position 7633 conflicts with implicit page at position: 469
+Exiv2 exception in print action for file eps-flat_photoshop-cs5-binary_exiv2-bug-r2561.eps:
+Failed to read image data
+Exit code: 1
+
 -----> eps-flat_photoshop-cs5-binary_exiv2.eps <-----
 
 Command: exiv2 -u -pa eps-flat_photoshop-cs5-binary_exiv2.eps
@@ -3321,41 +3381,15 @@ Exit code: 0
 Command: exiv2 -f -ex eps-flat_photoshop-cs5-binary_exiv2.eps
 Exit code: 0
 
------> eps-flat_photoshop-cs5-binary_exiv2_exiftool-8.56.eps <-----
-
-Command: exiv2 -u -pa eps-flat_photoshop-cs5-binary_exiv2_exiftool-8.56.eps
-Xmp.dc.title                                 LangAlt     1  lang="x-default" TEST-Exiftool
-Exit code: 253
-
-Command: exiv2 -dx eps-flat_photoshop-cs5-binary_exiv2_exiftool-8.56.eps
-Exit code: 0
-
-Command: exiv2 -f -ex eps-flat_photoshop-cs5-binary_exiv2_exiftool-8.56.eps
-Exit code: 0
-
-Restore: eps-flat_photoshop-cs5-binary_exiv2_exiftool-8.56.eps
-
-Command: exiv2 -f -eX eps-flat_photoshop-cs5-binary_exiv2_exiftool-8.56.eps
-Exit code: 0
-
-Command: exiv2 -ix eps-flat_photoshop-cs5-binary_exiv2_exiftool-8.56.eps
-Exit code: 0
-
-Command: (2) exiv2 -ix eps-flat_photoshop-cs5-binary_exiv2_exiftool-8.56.eps
-Exit code: 0
-
-Command: exiv2 -f -ex eps-flat_photoshop-cs5-binary_exiv2_exiftool-8.56.eps
-Exit code: 0
-
 -----> eps-flat_photoshop-cs5-binary_exiv2_missing-begin-xml-packet.eps <-----
 
 Command: exiv2 -u -pa eps-flat_photoshop-cs5-binary_exiv2_missing-begin-xml-packet.eps
-Warning: Missing %begin_xml_packet in Photoshop EPS at position: 8560
+Warning: Missing %begin_xml_packet in Photoshop EPS at position: 1396
 Xmp.test.test                                XmpText    20  TEST-Photoshop-Exiv2
 Exit code: 253
 
 Command: exiv2 -dx eps-flat_photoshop-cs5-binary_exiv2_missing-begin-xml-packet.eps
-Warning: Missing %begin_xml_packet in Photoshop EPS at position: 8560
+Warning: Missing %begin_xml_packet in Photoshop EPS at position: 1396
 Exit code: 0
 
 Command: exiv2 -f -ex eps-flat_photoshop-cs5-binary_exiv2_missing-begin-xml-packet.eps
@@ -3364,12 +3398,12 @@ Exit code: 0
 Restore: eps-flat_photoshop-cs5-binary_exiv2_missing-begin-xml-packet.eps
 
 Command: exiv2 -f -eX eps-flat_photoshop-cs5-binary_exiv2_missing-begin-xml-packet.eps
-Warning: Missing %begin_xml_packet in Photoshop EPS at position: 8560
+Warning: Missing %begin_xml_packet in Photoshop EPS at position: 1396
 Exit code: 0
 
 Command: exiv2 -ix eps-flat_photoshop-cs5-binary_exiv2_missing-begin-xml-packet.eps
-Warning: Missing %begin_xml_packet in Photoshop EPS at position: 8560
-Warning: Missing %begin_xml_packet in Photoshop EPS at position: 8560
+Warning: Missing %begin_xml_packet in Photoshop EPS at position: 1396
+Warning: Missing %begin_xml_packet in Photoshop EPS at position: 1396
 eps-flat_photoshop-cs5-binary_exiv2_missing-begin-xml-packet.eps: Could not write metadata to file: Failed to write image
 Exit code: 1
 

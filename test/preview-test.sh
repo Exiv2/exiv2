@@ -45,7 +45,6 @@ images="eps/eps-flat_inkscape-epsi.eps \
         eps/eps-flat_photoshop-cs5-binary_exiftool-8.56.eps \
         eps/eps-flat_photoshop-cs5-binary_exiv2-bigxmp.eps \
         eps/eps-flat_photoshop-cs5-binary_exiv2.eps \
-        eps/eps-flat_photoshop-cs5-binary_exiv2_exiftool-8.56.eps \
         eps/eps-flat_photoshop-cs5-binary_exiv2_missing-begin-xml-packet.eps \
         eps/eps-flat_photoshop-cs5-binary_no-adocontainsxmp.eps \
         eps/eps-flat_photoshop-e9-win-doseps.eps \

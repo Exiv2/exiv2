@@ -436,83 +436,33 @@ namespace {
             const size_t startPos = pos;
             std::string line;
             pos = readLine(line, data, startPos, posEndEps);
-            // implicit comments
-            if (line == "%%EOF" || line == "%begin_xml_code" || !(line.size() >= 2 && line[0] == '%' && '\x21' <= line[1] && line[1] <= '\x7e')) {
-                if (posEndComments == posEndEps) {
-                    posEndComments = startPos;
-                    #ifdef DEBUG
-                    EXV_DEBUG << "readWriteEpsMetadata: Found implicit EndComments at position: " << startPos << "\n";
-                    #endif
-                }
-            }
-            if (line == "%%EOF" || startsWith(line, "%%IncludeDocument:") || startsWith(line, "%%BeginDocument:") || (line.size() >= 1 && line[0] != '%')) {
-                if (posPage == posEndEps && posEndComments != posEndEps && !inPrologOrSetupOrSimilar && !inRemovableEmbedding && !onlyWhitespaces(line)) {
-                    posPage = startPos;
-                    implicitPage = true;
-                    #ifdef DEBUG
-                    EXV_DEBUG << "readWriteEpsMetadata: Found implicit Page at position: " << startPos << "\n";
-                    #endif
-                }
-                if (posEndPageSetup == posEndEps && posPage != posEndEps && !inPageSetup && !inRemovableEmbedding) {
-                    posEndPageSetup = startPos;
-                    #ifdef DEBUG
-                    EXV_DEBUG << "readWriteEpsMetadata: Found implicit EndPageSetup at position: " << startPos << "\n";
-                    #endif
-                }
-            }
-            if (line.size() >= 1 && line[0] != '%') continue; // performance optimization
-            if (line == "%%EOF" || line == "%%Trailer") {
-                if (posPageTrailer == posEndEps) {
-                    posPageTrailer = startPos;
-                    implicitPageTrailer = true;
-                    #ifdef DEBUG
-                    EXV_DEBUG << "readWriteEpsMetadata: Found implicit PageTrailer at position: " << startPos << "\n";
-                    #endif
-                }
-            }
-            // explicit comments
             #ifdef DEBUG
             bool significantLine = true;
             #endif
-            if (posEndComments == posEndEps && posLanguageLevel == posEndEps && startsWith(line, "%%LanguageLevel:")) {
-                posLanguageLevel = startPos;
-            } else if (posEndComments == posEndEps && posContainsXmp == posEndEps && startsWith(line, "%ADO_ContainsXMP:")) {
-                posContainsXmp = startPos;
-            } else if (posEndComments == posEndEps && posPages == posEndEps && startsWith(line, "%%Pages:")) {
-                posPages = startPos;
-            } else if (posEndComments == posEndEps && posExiv2Version == posEndEps && startsWith(line, "%Exiv2Version:")) {
-                posExiv2Version = startPos;
-            } else if (posEndComments == posEndEps && posExiv2Website == posEndEps && startsWith(line, "%Exiv2Website:")) {
-                posExiv2Website = startPos;
-            } else if (posEndComments == posEndEps && startsWith(line, "%%Creator: Adobe Illustrator") && firstLine == "%!PS-Adobe-3.0 EPSF-3.0") {
-                illustrator8 = true;
-            } else if (posEndComments == posEndEps && line == "%%EndComments") {
-                posEndComments = startPos;
-            } else if (line == "%%BeginDefaults") {
+            // explicit "Begin" comments
+            if (line == "%%BeginProlog") {
                 inPrologOrSetupOrSimilar = true;
-            } else if (line == "%%EndDefaults") {
-                inPrologOrSetupOrSimilar = false;
-            } else if (line == "%%BeginProlog") {
-                inPrologOrSetupOrSimilar = true;
-            } else if (line == "%%EndProlog") {
-                inPrologOrSetupOrSimilar = false;
             } else if (line == "%%BeginSetup") {
                 inPrologOrSetupOrSimilar = true;
-            } else if (line == "%%EndSetup") {
-                inPrologOrSetupOrSimilar = false;
+            } else if (line == "%%BeginDefaults") {
+                inPrologOrSetupOrSimilar = true;
+            } else if (startsWith(line, "%%BeginPreview:")) {
+                inPrologOrSetupOrSimilar = true;
             } else if (posPage == posEndEps && startsWith(line, "%%Page:")) {
                 posPage = startPos;
+            } else if (posPage != posEndEps && startsWith(line, "%%Page:")) {
+                if (implicitPage) {
+                    #ifndef SUPPRESS_WARNINGS
+                    EXV_WARNING << "Page at position " << startPos << " conflicts with implicit page at position: " << posPage << "\n";
+                    #endif
+                    throw Error(write ? 21 : 14);
+                }
+                #ifndef SUPPRESS_WARNINGS
+                EXV_WARNING << "Unable to handle multiple PostScript pages. Found second page at position: " << startPos << "\n";
+                #endif
+                throw Error(write ? 21 : 14);
             } else if (line == "%%BeginPageSetup") {
                 inPageSetup = true;
-            } else if (posEndPageSetup == posEndEps && line == "%%EndPageSetup") {
-                inPageSetup = false;
-                posEndPageSetup = startPos;
-            } else if (posPageTrailer == posEndEps && line == "%%PageTrailer") {
-                posPageTrailer = startPos;
-            } else if (posBeginPhotoshop == posEndEps && startsWith(line, "%BeginPhotoshop:")) {
-                posBeginPhotoshop = pos;
-            } else if (posBeginPhotoshop != posEndEps && posEndPhotoshop == posEndEps && line == "%EndPhotoshop") {
-                posEndPhotoshop = startPos;
             } else if (!inRemovableEmbedding && line == "%Exiv2BeginXMP: Before %%EndPageSetup") {
                 inRemovableEmbedding = true;
                 removableEmbeddings.push_back(std::make_pair(startPos, startPos));
@@ -529,11 +479,89 @@ namespace {
                 inRemovableEmbedding = true;
                 removableEmbeddings.push_back(std::make_pair(startPos, startPos));
                 removableEmbeddingEndLine = "%ADOEndClientInjection: PageTrailer Start \"AI11EPS\"";
-            } else if (posEndPageSetup == posEndEps && !inRemovableEmbedding && line == "%begin_xml_code") {
+            } else if (!inRemovableEmbedding && line == "%begin_xml_code") {
                 inRemovableEmbedding = true;
                 removableEmbeddings.push_back(std::make_pair(startPos, startPos));
                 removableEmbeddingEndLine = "%end_xml_code";
                 removableEmbeddingsWithUnmarkedTrailer++;
+            } else {
+                #ifdef DEBUG
+                significantLine = false;
+                #endif
+            }
+            #ifdef DEBUG
+            if (significantLine) {
+                EXV_DEBUG << "readWriteEpsMetadata: Found significant line \"" << line << "\" at position: " << startPos << "\n";
+            }
+            #endif
+            // implicit comments
+            if (line == "%%EOF" || line == "%begin_xml_code" || !(line.size() >= 2 && line[0] == '%' && '\x21' <= line[1] && line[1] <= '\x7e')) {
+                if (posEndComments == posEndEps) {
+                    posEndComments = startPos;
+                    #ifdef DEBUG
+                    EXV_DEBUG << "readWriteEpsMetadata: Found implicit EndComments at position: " << startPos << "\n";
+                    #endif
+                }
+            }
+            if (posPage == posEndEps && posEndComments != posEndEps && !inPrologOrSetupOrSimilar && !inRemovableEmbedding && !onlyWhitespaces(line)) {
+                posPage = startPos;
+                implicitPage = true;
+                posEndPageSetup = startPos;
+                #ifdef DEBUG
+                EXV_DEBUG << "readWriteEpsMetadata: Found implicit Page and EndPageSetup at position: " << startPos << "\n";
+                #endif
+            }
+            if (posEndPageSetup == posEndEps && posPage != posEndEps && !inPageSetup && !inRemovableEmbedding && line.size() >= 1 && line[0] != '%') {
+                posEndPageSetup = startPos;
+                #ifdef DEBUG
+                EXV_DEBUG << "readWriteEpsMetadata: Found implicit EndPageSetup at position: " << startPos << "\n";
+                #endif
+            }
+            if (line.size() >= 1 && line[0] != '%') continue; // performance optimization
+            if (line == "%%EOF" || line == "%%Trailer") {
+                if (posPageTrailer == posEndEps) {
+                    posPageTrailer = startPos;
+                    implicitPageTrailer = true;
+                    #ifdef DEBUG
+                    EXV_DEBUG << "readWriteEpsMetadata: Found implicit PageTrailer at position: " << startPos << "\n";
+                    #endif
+                }
+            }
+            // remaining explicit comments
+            #ifdef DEBUG
+            significantLine = true;
+            #endif
+            if (posEndComments == posEndEps && posLanguageLevel == posEndEps && startsWith(line, "%%LanguageLevel:")) {
+                posLanguageLevel = startPos;
+            } else if (posEndComments == posEndEps && posContainsXmp == posEndEps && startsWith(line, "%ADO_ContainsXMP:")) {
+                posContainsXmp = startPos;
+            } else if (posEndComments == posEndEps && posPages == posEndEps && startsWith(line, "%%Pages:")) {
+                posPages = startPos;
+            } else if (posEndComments == posEndEps && posExiv2Version == posEndEps && startsWith(line, "%Exiv2Version:")) {
+                posExiv2Version = startPos;
+            } else if (posEndComments == posEndEps && posExiv2Website == posEndEps && startsWith(line, "%Exiv2Website:")) {
+                posExiv2Website = startPos;
+            } else if (posEndComments == posEndEps && startsWith(line, "%%Creator: Adobe Illustrator") && firstLine == "%!PS-Adobe-3.0 EPSF-3.0") {
+                illustrator8 = true;
+            } else if (posEndComments == posEndEps && line == "%%EndComments") {
+                posEndComments = startPos;
+            } else if (line == "%%EndProlog") {
+                inPrologOrSetupOrSimilar = false;
+            } else if (line == "%%EndSetup") {
+                inPrologOrSetupOrSimilar = false;
+            } else if (line == "%%EndDefaults") {
+                inPrologOrSetupOrSimilar = false;
+            } else if (line == "%%EndPreview") {
+                inPrologOrSetupOrSimilar = false;
+            } else if (posEndPageSetup == posEndEps && line == "%%EndPageSetup") {
+                inPageSetup = false;
+                posEndPageSetup = startPos;
+            } else if (posPageTrailer == posEndEps && line == "%%PageTrailer") {
+                posPageTrailer = startPos;
+            } else if (posBeginPhotoshop == posEndEps && startsWith(line, "%BeginPhotoshop:")) {
+                posBeginPhotoshop = pos;
+            } else if (posBeginPhotoshop != posEndEps && posEndPhotoshop == posEndEps && line == "%EndPhotoshop") {
+                posEndPhotoshop = startPos;
             } else if (inRemovableEmbedding && line == removableEmbeddingEndLine) {
                 inRemovableEmbedding = false;
                 removableEmbeddings.back().second = pos;
@@ -548,17 +576,6 @@ namespace {
                 // TODO: Add support for nested documents!
                 #ifndef SUPPRESS_WARNINGS
                 EXV_WARNING << "Nested documents are currently not supported. Found nested document at position: " << startPos << "\n";
-                #endif
-                throw Error(write ? 21 : 14);
-            } else if (posPage != posEndEps && startsWith(line, "%%Page:")) {
-                if (implicitPage) {
-                    #ifndef SUPPRESS_WARNINGS
-                    EXV_WARNING << "Page at position " << startPos << " conflicts with implicit page at position: " << posPage << "\n";
-                    #endif
-                    throw Error(write ? 21 : 14);
-                }
-                #ifndef SUPPRESS_WARNINGS
-                EXV_WARNING << "Unable to handle multiple PostScript pages. Found second page at position: " << startPos << "\n";
                 #endif
                 throw Error(write ? 21 : 14);
             } else {
