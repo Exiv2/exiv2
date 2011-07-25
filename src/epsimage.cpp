@@ -427,7 +427,7 @@ namespace {
         bool illustrator8 = false;
         bool implicitPage = false;
         bool implicitPageTrailer = false;
-        bool inDefaultsOrPrologOrSetup = false;
+        bool inPrologOrSetupOrSimilar = false;
         bool inPageSetup = false;
         bool inRemovableEmbedding = false;
         std::string removableEmbeddingEndLine;
@@ -446,7 +446,7 @@ namespace {
                 }
             }
             if (line == "%%EOF" || startsWith(line, "%%IncludeDocument:") || startsWith(line, "%%BeginDocument:") || (line.size() >= 1 && line[0] != '%')) {
-                if (posPage == posEndEps && posEndComments != posEndEps && !inDefaultsOrPrologOrSetup && !inRemovableEmbedding && !onlyWhitespaces(line)) {
+                if (posPage == posEndEps && posEndComments != posEndEps && !inPrologOrSetupOrSimilar && !inRemovableEmbedding && !onlyWhitespaces(line)) {
                     posPage = startPos;
                     implicitPage = true;
                     #ifdef DEBUG
@@ -489,17 +489,17 @@ namespace {
             } else if (posEndComments == posEndEps && line == "%%EndComments") {
                 posEndComments = startPos;
             } else if (line == "%%BeginDefaults") {
-                inDefaultsOrPrologOrSetup = true;
+                inPrologOrSetupOrSimilar = true;
             } else if (line == "%%EndDefaults") {
-                inDefaultsOrPrologOrSetup = false;
+                inPrologOrSetupOrSimilar = false;
             } else if (line == "%%BeginProlog") {
-                inDefaultsOrPrologOrSetup = true;
+                inPrologOrSetupOrSimilar = true;
             } else if (line == "%%EndProlog") {
-                inDefaultsOrPrologOrSetup = false;
+                inPrologOrSetupOrSimilar = false;
             } else if (line == "%%BeginSetup") {
-                inDefaultsOrPrologOrSetup = true;
+                inPrologOrSetupOrSimilar = true;
             } else if (line == "%%EndSetup") {
-                inDefaultsOrPrologOrSetup = false;
+                inPrologOrSetupOrSimilar = false;
             } else if (posPage == posEndEps && startsWith(line, "%%Page:")) {
                 posPage = startPos;
             } else if (line == "%%BeginPageSetup") {
