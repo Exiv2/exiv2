@@ -3539,8 +3539,24 @@ Exit code: 0
 -----> eps-nested_minimal_begindocument-at-page-start.eps <-----
 
 Command: exiv2 -u -pa eps-nested_minimal_begindocument-at-page-start.eps
-Warning: Nested documents are currently not supported. Found nested document at position: 51
+Warning: Nested documents are currently not supported. Found nested document at position: 65
 Exiv2 exception in print action for file eps-nested_minimal_begindocument-at-page-start.eps:
+Failed to read image data
+Exit code: 1
+
+-----> eps-nested_minimal_begindocument-before-page-start.eps <-----
+
+Command: exiv2 -u -pa eps-nested_minimal_begindocument-before-page-start.eps
+Warning: Nested document at invalid position: 51
+Exiv2 exception in print action for file eps-nested_minimal_begindocument-before-page-start.eps:
+Failed to read image data
+Exit code: 1
+
+-----> eps-nested_minimal_begindocument-in-setup.eps <-----
+
+Command: exiv2 -u -pa eps-nested_minimal_begindocument-in-setup.eps
+Warning: Nested document at invalid position: 78
+Exiv2 exception in print action for file eps-nested_minimal_begindocument-in-setup.eps:
 Failed to read image data
 Exit code: 1
 
@@ -3576,6 +3592,22 @@ Exit code: 0
 
 Command: exiv2 -f -ex eps-nested_minimal_includedocument-at-page-start.eps
 Exit code: 0
+
+-----> eps-nested_minimal_includedocument-before-page-start.eps <-----
+
+Command: exiv2 -u -pa eps-nested_minimal_includedocument-before-page-start.eps
+Warning: Nested document at invalid position: 97
+Exiv2 exception in print action for file eps-nested_minimal_includedocument-before-page-start.eps:
+Failed to read image data
+Exit code: 1
+
+-----> eps-nested_minimal_includedocument-in-setup.eps <-----
+
+Command: exiv2 -u -pa eps-nested_minimal_includedocument-in-setup.eps
+Warning: Nested document at invalid position: 124
+Exiv2 exception in print action for file eps-nested_minimal_includedocument-in-setup.eps:
+Failed to read image data
+Exit code: 1
 
 -----> eps-nested_minimal_includedocument.eps <-----
 

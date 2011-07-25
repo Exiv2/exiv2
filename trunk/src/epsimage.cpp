@@ -539,6 +539,11 @@ namespace {
                 removableEmbeddings.back().second = pos;
             } else if (line == "%%EOF") {
                 posEof = startPos;
+            } else if (posPage == posEndEps && (startsWith(line, "%%IncludeDocument:") || startsWith(line, "%%BeginDocument:"))) {
+                #ifndef SUPPRESS_WARNINGS
+                EXV_WARNING << "Nested document at invalid position: " << startPos << "\n";
+                #endif
+                throw Error(write ? 21 : 14);
             } else if (startsWith(line, "%%BeginDocument:")) {
                 // TODO: Add support for nested documents!
                 #ifndef SUPPRESS_WARNINGS
