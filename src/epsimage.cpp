@@ -427,7 +427,7 @@ namespace {
         bool illustrator8 = false;
         bool implicitPage = false;
         bool implicitPageTrailer = false;
-        bool inPrologOrSetupOrSimilar = false;
+        bool inDefaultsPreviewPrologSetup = false;
         bool inPageSetup = false;
         bool inRemovableEmbedding = false;
         std::string removableEmbeddingEndLine;
@@ -440,14 +440,14 @@ namespace {
             bool significantLine = true;
             #endif
             // explicit "Begin" comments
-            if (line == "%%BeginProlog") {
-                inPrologOrSetupOrSimilar = true;
-            } else if (line == "%%BeginSetup") {
-                inPrologOrSetupOrSimilar = true;
-            } else if (line == "%%BeginDefaults") {
-                inPrologOrSetupOrSimilar = true;
+            if (line == "%%BeginDefaults") {
+                inDefaultsPreviewPrologSetup = true;
             } else if (startsWith(line, "%%BeginPreview:")) {
-                inPrologOrSetupOrSimilar = true;
+                inDefaultsPreviewPrologSetup = true;
+            } else if (line == "%%BeginProlog") {
+                inDefaultsPreviewPrologSetup = true;
+            } else if (line == "%%BeginSetup") {
+                inDefaultsPreviewPrologSetup = true;
             } else if (posPage == posEndEps && startsWith(line, "%%Page:")) {
                 posPage = startPos;
             } else if (posPage != posEndEps && startsWith(line, "%%Page:")) {
@@ -503,7 +503,7 @@ namespace {
                     #endif
                 }
             }
-            if (posPage == posEndEps && posEndComments != posEndEps && !inPrologOrSetupOrSimilar && !inRemovableEmbedding && !onlyWhitespaces(line)) {
+            if (posPage == posEndEps && posEndComments != posEndEps && !inDefaultsPreviewPrologSetup && !inRemovableEmbedding && !onlyWhitespaces(line)) {
                 posPage = startPos;
                 implicitPage = true;
                 posEndPageSetup = startPos;
@@ -545,14 +545,14 @@ namespace {
                 illustrator8 = true;
             } else if (posEndComments == posEndEps && line == "%%EndComments") {
                 posEndComments = startPos;
-            } else if (line == "%%EndProlog") {
-                inPrologOrSetupOrSimilar = false;
-            } else if (line == "%%EndSetup") {
-                inPrologOrSetupOrSimilar = false;
             } else if (line == "%%EndDefaults") {
-                inPrologOrSetupOrSimilar = false;
+                inDefaultsPreviewPrologSetup = false;
             } else if (line == "%%EndPreview") {
-                inPrologOrSetupOrSimilar = false;
+                inDefaultsPreviewPrologSetup = false;
+            } else if (line == "%%EndProlog") {
+                inDefaultsPreviewPrologSetup = false;
+            } else if (line == "%%EndSetup") {
+                inDefaultsPreviewPrologSetup = false;
             } else if (posEndPageSetup == posEndEps && line == "%%EndPageSetup") {
                 inPageSetup = false;
                 posEndPageSetup = startPos;
