@@ -237,24 +237,15 @@ Exit code: 0
 Command: exiv2 -f -ep eps-flat_photoshop-cs5-binary_exiv2.eps
 Exit code: 0
 
------> eps-flat_photoshop-cs5-binary_exiv2_exiftool-8.56.eps <-----
-
-Command: exiv2 -pp eps-flat_photoshop-cs5-binary_exiv2_exiftool-8.56.eps
-Preview 1: image/jpeg, 37x47 pixels, 854 bytes
-Exit code: 0
-
-Command: exiv2 -f -ep eps-flat_photoshop-cs5-binary_exiv2_exiftool-8.56.eps
-Exit code: 0
-
 -----> eps-flat_photoshop-cs5-binary_exiv2_missing-begin-xml-packet.eps <-----
 
 Command: exiv2 -pp eps-flat_photoshop-cs5-binary_exiv2_missing-begin-xml-packet.eps
-Warning: Missing %begin_xml_packet in Photoshop EPS at position: 8560
+Warning: Missing %begin_xml_packet in Photoshop EPS at position: 1396
 Preview 1: image/jpeg, 37x47 pixels, 854 bytes
 Exit code: 0
 
 Command: exiv2 -f -ep eps-flat_photoshop-cs5-binary_exiv2_missing-begin-xml-packet.eps
-Warning: Missing %begin_xml_packet in Photoshop EPS at position: 8560
+Warning: Missing %begin_xml_packet in Photoshop EPS at position: 1396
 Exit code: 0
 
 -----> eps-flat_photoshop-cs5-binary_no-adocontainsxmp.eps <-----

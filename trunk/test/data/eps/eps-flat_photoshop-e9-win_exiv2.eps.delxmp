@@ -14,6 +14,10 @@
 %%EndProlog
 %%BeginSetup
 %%EndSetup
+%%Page: 1 1
+%%EndPageComments
+%%BeginPageSetup
+%%EndPageSetup
 %ImageData: 1890 1417 8 3 0 1 3 "beginimage"
 %BeginPhotoshop: 4052
 % 3842494D0425000000000010000000000000000000000000000000003842494D
@@ -245,10 +249,6 @@
 % F550F5DEF66DF6FBF78AF819F8A8F938F9C7FA57FAE7FB77FC07FC98FD29FDBA
 % FE4BFEDCFF6DFFFF
 %%EndICCProfile
-%%Page: 1 1
-%%EndPageComments
-%%BeginPageSetup
-%%EndPageSetup
 gsave % EPS gsave
 /hascolor
 /deviceinfo where

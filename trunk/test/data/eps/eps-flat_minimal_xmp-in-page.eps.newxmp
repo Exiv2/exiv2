@@ -1,19 +1,15 @@
 %!PS-Adobe-3.0 EPSF-3.0
 %%BoundingBox: 5 5 105 105
-%%DocumentNeededResources: font Symbol
 %%LanguageLevel: 2
 %ADO_ContainsXMP: MainFirst
 %%Pages: 1
 %Exiv2Version: _Exiv2Version_
 %Exiv2Website: http://www.exiv2.org/
 %%EndComments
-
-%%BeginProlog
-%%IncludeResource: font Symbol
-%%EndProlog
 %%Page: 1 1
 %%EndPageComments
-%%BeginPageSetup
+10 setlinewidth
+10 10 moveto
 %Exiv2BeginXMP: Before %%EndPageSetup
 /currentdistillerparams where
 {pop currentdistillerparams /CoreDistVersion get 5000 lt} {true} ifelse
@@ -62,14 +58,10 @@
 [/Document 1 dict begin
     /Metadata {Exiv2_metadata_stream} def currentdict end /BDC Exiv2_pdfmark
 %Exiv2EndXMP
-%%EndPageSetup
-10 setlinewidth
-10 10 moveto
 0 90 rlineto 90 0 rlineto 0 -90 rlineto closepath
-stroke
-%%PageTrailer
 %Exiv2BeginXMP: After %%PageTrailer
 [/EMC Exiv2_pdfmark
 [/NamespacePop Exiv2_pdfmark
 %Exiv2EndXMP
+stroke
 %%EOF
