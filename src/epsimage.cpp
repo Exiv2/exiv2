@@ -440,9 +440,9 @@ namespace {
             bool significantLine = true;
             #endif
             // explicit "Begin" comments
-            if (line == "%%BeginDefaults") {
+            if (startsWith(line, "%%BeginPreview:")) {
                 inDefaultsPreviewPrologSetup = true;
-            } else if (startsWith(line, "%%BeginPreview:")) {
+            } else if (line == "%%BeginDefaults") {
                 inDefaultsPreviewPrologSetup = true;
             } else if (line == "%%BeginProlog") {
                 inDefaultsPreviewPrologSetup = true;
@@ -545,9 +545,9 @@ namespace {
                 illustrator8 = true;
             } else if (posEndComments == posEndEps && line == "%%EndComments") {
                 posEndComments = startPos;
-            } else if (line == "%%EndDefaults") {
-                inDefaultsPreviewPrologSetup = false;
             } else if (line == "%%EndPreview") {
+                inDefaultsPreviewPrologSetup = false;
+            } else if (line == "%%EndDefaults") {
                 inDefaultsPreviewPrologSetup = false;
             } else if (line == "%%EndProlog") {
                 inDefaultsPreviewPrologSetup = false;
