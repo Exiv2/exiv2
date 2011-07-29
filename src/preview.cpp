@@ -465,7 +465,7 @@ namespace {
         if (nativePreview_.filter_ == "") {
             return DataBuf(data + nativePreview_.position_, static_cast<long>(nativePreview_.size_));
         } else if (nativePreview_.filter_ == "hex-irb") {
-            DataBuf psData = decodeHex(data + nativePreview_.position_, static_cast<long>(nativePreview_.size_));
+            const DataBuf psData = decodeHex(data + nativePreview_.position_, static_cast<long>(nativePreview_.size_));
             const byte *record;
             uint32_t sizeHdr;
             uint32_t sizeData;
