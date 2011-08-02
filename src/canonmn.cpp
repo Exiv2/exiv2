@@ -20,14 +20,14 @@
  */
 /*
   File:      canonmn.cpp
-  Version:   $Rev$
+  Version:   $Rev: 2478 $
   Author(s): Andreas Huggel (ahu) <ahuggel@gmx.net>
              David Cannings (dc) <david@edeca.net>
              Andi Clemens (ac) <andi.clemens@gmx.net>
  */
 // *****************************************************************************
 #include "rcsid_int.hpp"
-EXIV2_RCSID("@(#) $Id$")
+EXIV2_RCSID("@(#) $Id: canonmn.cpp 2478 2011-06-17 03:08:42Z ahuggel $")
 
 // *****************************************************************************
 // included header files
@@ -479,6 +479,7 @@ namespace Exiv2 {
         {  37, "Tamron 70-200mm f/2.8 Di LD IF Macro"                       }, // 1
         {  37, "Tamron AF 28-300mm f/3.5-6.3 XR Di VC LD Aspherical [IF] Macro Model A20" }, // 2
         {  37, "Tamron SP AF 17-50mm f/2.8 XR Di II VC LD Aspherical [IF] " }, // 3
+        {  37, "Tamron AF 18-270mm f/3.5-6.3 Di II VC LD Aspherical [IF] Macro" }, // 4
         {  38, "Canon EF 80-200mm f/4.5-5.6"                                },
         {  39, "Canon EF 75-300mm f/4-5.6"                                  },
         {  40, "Canon EF 28-80mm f/3.5-5.6"                                 },
