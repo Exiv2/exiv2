@@ -20,7 +20,7 @@
  */
 /*
   File:      tags.cpp
-  Version:   $Rev$
+  Version:   $Rev: 2455 $
   Author(s): Andreas Huggel (ahu) <ahuggel@gmx.net>
              Gilles Caulier (gc) <caulier dot gilles at gmail dot com>
   History:   15-Jan-04, ahu: created
@@ -28,7 +28,7 @@
  */
 // *****************************************************************************
 #include "rcsid_int.hpp"
-EXIV2_RCSID("@(#) $Id$")
+EXIV2_RCSID("@(#) $Id: tags.cpp 2455 2011-02-13 14:39:15Z ahuggel $")
 
 // *****************************************************************************
 // included header files
@@ -1207,6 +1207,189 @@ namespace Exiv2 {
                    "tag pair, except they are for use by raw file editors rather than "
                    "camera manufacturers."),
                 ifd0Id, dngTags, signedRational, -1, printValue), // DNG tag
+        TagInfo(0xc6bf, "ColorimetricReference", N_("Colorimetric Reference"),
+                N_("The DNG color model documents a transform between camera colors and "
+                "CIE XYZ values. This tag describes the colorimetric reference for the "
+                "CIE XYZ values. 0 = The XYZ values are scene-referred. 1 = The XYZ values "
+                "are output-referred, using the ICC profile perceptual dynamic range. This "
+                "tag allows output-referred data to be stored in DNG files and still processed "
+                "correctly by DNG readers."),
+                ifd0Id, dngTags, unsignedShort, 0, printValue), // DNG tag
+        TagInfo(0xc6f3, "CameraCalibrationSignature", N_("Camera Calibration Signature"),
+                N_("A UTF-8 encoded string associated with the CameraCalibration1 and "
+                "CameraCalibration2 tags. The CameraCalibration1 and CameraCalibration2 tags "
+                "should only be used in the DNG color transform if the string stored in the "
+                "CameraCalibrationSignature tag exactly matches the string stored in the "
+                "ProfileCalibrationSignature tag for the selected camera profile."),
+                ifd0Id, dngTags, unsignedByte, 0, printValue), // DNG tag
+        TagInfo(0xc6f4, "ProfileCalibrationSignature", N_("Profile Calibration Signature"),
+                N_("A UTF-8 encoded string associated with the camera profile tags. The "
+                "CameraCalibration1 and CameraCalibration2 tags should only be used in the "
+                "DNG color transfer if the string stored in the CameraCalibrationSignature "
+                "tag exactly matches the string stored in the ProfileCalibrationSignature tag "
+                "for the selected camera profile."),
+                ifd0Id, dngTags, unsignedByte, 0, printValue), // DNG tag
+        TagInfo(0xc6f6, "AsShotProfileName", N_("As Shot Profile Name"),
+                N_("A UTF-8 encoded string containing the name of the \"as shot\" camera "
+                "profile, if any."),
+                ifd0Id, dngTags, unsignedByte, 0, printValue), // DNG tag
+        TagInfo(0xc6f7, "NoiseReductionApplied", N_("Noise Reduction Applied"),
+                N_("This tag indicates how much noise reduction has been applied to the raw "
+                "data on a scale of 0.0 to 1.0. A 0.0 value indicates that no noise reduction "
+                "has been applied. A 1.0 value indicates that the \"ideal\" amount of noise "
+                "reduction has been applied, i.e. that the DNG reader should not apply "
+                "additional noise reduction by default. A value of 0/0 indicates that this "
+                "parameter is unknown."),
+                ifd0Id, dngTags, unsignedRational, 1, printValue), // DNG tag
+        TagInfo(0xc6f8, "ProfileName", N_("Profile Name"),
+                N_("A UTF-8 encoded string containing the name of the camera profile. This "
+                "tag is optional if there is only a single camera profile stored in the file "
+                "but is required for all camera profiles if there is more than one camera "
+                "profile stored in the file."),
+                ifd0Id, dngTags, unsignedByte, 0, printValue), // DNG tag
+        TagInfo(0xc6f9, "ProfileHueSatMapDims", N_("Profile Hue Sat Map Dims"),
+                N_("This tag specifies the number of input samples in each dimension of the "
+                "hue/saturation/value mapping tables. The data for these tables are stored "
+                "in ProfileHueSatMapData1 and ProfileHueSatMapData2 tags. The most common "
+                "case has ValueDivisions equal to 1, so only hue and saturation are used as "
+                "inputs to the mapping table."),
+                ifd0Id, dngTags, unsignedLong, 3, printValue), // DNG tag
+        TagInfo(0xc6fa, "ProfileHueSatMapData1", N_("Profile Hue Sat Map Data 1"),
+                N_("This tag contains the data for the first hue/saturation/value mapping "
+                "table. Each entry of the table contains three 32-bit IEEE floating-point "
+                "values. The first entry is hue shift in degrees; the second entry is "
+                "saturation scale factor; and the third entry is a value scale factor. The "
+                "table entries are stored in the tag in nested loop order, with the value "
+                "divisions in the outer loop, the hue divisions in the middle loop, and the "
+                "saturation divisions in the inner loop. All zero input saturation entries "
+                "are required to have a value scale factor of 1.0."),
+                ifd0Id, dngTags, tiffFloat, 0, printValue), // DNG tag
+        TagInfo(0xc6fb, "ProfileHueSatMapData2", N_("Profile Hue Sat Map Data 2"),
+                N_("This tag contains the data for the second hue/saturation/value mapping "
+                "table. Each entry of the table contains three 32-bit IEEE floating-point "
+                "values. The first entry is hue shift in degrees; the second entry is a "
+                "saturation scale factor; and the third entry is a value scale factor. The "
+                "table entries are stored in the tag in nested loop order, with the value "
+                "divisions in the outer loop, the hue divisions in the middle loop, and the "
+                "saturation divisions in the inner loop. All zero input saturation entries "
+                "are required to have a value scale factor of 1.0."),
+                ifd0Id, dngTags, tiffFloat, 0, printValue), // DNG tag
+        TagInfo(0xc6fc, "ProfileToneCurve", N_("Profile Tone Curve"),
+                N_("This tag contains a default tone curve that can be applied while "
+                "processing the image as a starting point for user adjustments. The curve "
+                "is specified as a list of 32-bit IEEE floating-point value pairs in linear "
+                "gamma. Each sample has an input value in the range of 0.0 to 1.0, and an "
+                "output value in the range of 0.0 to 1.0. The first sample is required to be "
+                "(0.0, 0.0), and the last sample is required to be (1.0, 1.0). Interpolated "
+                "the curve using a cubic spline."),
+                ifd0Id, dngTags, tiffFloat, -1, printValue), // DNG tag
+        TagInfo(0xc6fd, "ProfileEmbedPolicy", N_("Profile Embed Policy"),
+                N_("This tag contains information about the usage rules for the associated "
+                "camera profile."),
+                ifd0Id, dngTags, unsignedLong, 1, printValue), // DNG tag
+        TagInfo(0xc6fe, "ProfileCopyright", N_("Profile Copyright"),
+                N_("A UTF-8 encoded string containing the copyright information for the "
+                "camera profile. This string always should be preserved along with the other "
+                "camera profile tags."),
+                ifd0Id, dngTags, unsignedByte, 0, printValue), // DNG tag
+        TagInfo(0xc714, "ForwardMatrix1", N_("Forward Matrix 1"),
+                N_("This tag defines a matrix that maps white balanced camera colors to XYZ "
+                "D50 colors."),
+                ifd0Id, dngTags, signedRational, -1, printValue), // DNG tag
+        TagInfo(0xc715, "ForwardMatrix2", N_("Forward Matrix 2"),
+                N_("This tag defines a matrix that maps white balanced camera colors to XYZ "
+                "D50 colors."),
+                ifd0Id, dngTags, signedRational, -1, printValue), // DNG tag
+        TagInfo(0xc716, "PreviewApplicationName", N_("Preview Application Name"),
+                N_("A UTF-8 encoded string containing the name of the application that "
+                "created the preview stored in the IFD."),
+                ifd0Id, dngTags, unsignedByte, 0, printValue), // DNG tag
+        TagInfo(0xc717, "PreviewApplicationVersion", N_("Preview Application Version"),
+                N_("A UTF-8 encoded string containing the version number of the application "
+                "that created the preview stored in the IFD."),
+                ifd0Id, dngTags, unsignedByte, 0, printValue), // DNG tag
+        TagInfo(0xc718, "PreviewSettingsName", N_("Preview Settings Name"),
+                N_("A UTF-8 encoded string containing the name of the conversion settings "
+                "(for example, snapshot name) used for the preview stored in the IFD."),
+                ifd0Id, dngTags, unsignedByte, 0, printValue), // DNG tag
+        TagInfo(0xc719, "PreviewSettingsDigest", N_("Preview Settings Digest"),
+                N_("A unique ID of the conversion settings (for example, MD5 digest) used "
+                "to render the preview stored in the IFD."),
+                ifd0Id, dngTags, unsignedByte, 16, printValue), // DNG tag
+        TagInfo(0xc71a, "PreviewColorSpace", N_("Preview Color Space"),
+                N_("This tag specifies the color space in which the rendered preview in this "
+                "IFD is stored. The default value for this tag is sRGB for color previews "
+                "and Gray Gamma 2.2 for monochrome previews."),
+                ifd0Id, dngTags, unsignedLong, 1, printValue), // DNG tag
+        TagInfo(0xc71b, "PreviewDateTime", N_("Preview Date Time"),
+                N_("This tag is an ASCII string containing the name of the date/time at which "
+                "the preview stored in the IFD was rendered. The date/time is encoded using "
+                "ISO 8601 format."),
+                ifd0Id, dngTags, asciiString, 0, printValue), // DNG tag
+        TagInfo(0xc71c, "RawImageDigest", N_("Raw Image Digest"),
+                N_("This tag is an MD5 digest of the raw image data. All pixels in the image "
+                "are processed in row-scan order. Each pixel is zero padded to 16 or 32 bits "
+                "deep (16-bit for data less than or equal to 16 bits deep, 32-bit otherwise). "
+                "The data for each pixel is processed in little-endian byte order."),
+                ifd0Id, dngTags, undefined, 16, printValue), // DNG tag
+        TagInfo(0xc71d, "OriginalRawFileDigest", N_("Original Raw File Digest"),
+                N_("This tag is an MD5 digest of the data stored in the OriginalRawFileData "
+                "tag."),
+                ifd0Id, dngTags, undefined, 16, printValue), // DNG tag
+        TagInfo(0xc71e, "SubTileBlockSize", N_("Sub Tile Block Size"),
+                N_("Normally, the pixels within a tile are stored in simple row-scan order. "
+                "This tag specifies that the pixels within a tile should be grouped first "
+                "into rectangular blocks of the specified size. These blocks are stored in "
+                "row-scan order. Within each block, the pixels are stored in row-scan order. "
+                "The use of a non-default value for this tag requires setting the "
+                "DNGBackwardVersion tag to at least 1.2.0.0."),
+                ifd0Id, dngTags, unsignedLong, 2, printValue), // DNG tag
+        TagInfo(0xc71f, "RowInterleaveFactor", N_("Row Interleave Factor"),
+                N_("This tag specifies that rows of the image are stored in interleaved "
+                "order. The value of the tag specifies the number of interleaved fields. "
+                "The use of a non-default value for this tag requires setting the "
+                "DNGBackwardVersion tag to at least 1.2.0.0."),
+                ifd0Id, dngTags, unsignedLong, 1, printValue), // DNG tag
+        TagInfo(0xc725, "ProfileLookTableDims", N_("Profile Look Table Dims"),
+                N_("This tag specifies the number of input samples in each dimension of a "
+                "default \"look\" table. The data for this table is stored in the "
+                "ProfileLookTableData tag."),
+                ifd0Id, dngTags, unsignedLong, 3, printValue), // DNG tag
+        TagInfo(0xc726, "ProfileLookTableData", N_("Profile Look Table Data"),
+                N_("This tag contains a default \"look\" table that can be applied while "
+                "processing the image as a starting point for user adjustment. This table "
+                "uses the same format as the tables stored in the ProfileHueSatMapData1 "
+                "and ProfileHueSatMapData2 tags, and is applied in the same color space. "
+                "However, it should be applied later in the processing pipe, after any "
+                "exposure compensation and/or fill light stages, but before any tone curve "
+                "stage. Each entry of the table contains three 32-bit IEEE floating-point "
+                "values. The first entry is hue shift in degrees, the second entry is a "
+                "saturation scale factor, and the third entry is a value scale factor. "
+                "The table entries are stored in the tag in nested loop order, with the "
+                "value divisions in the outer loop, the hue divisions in the middle loop, "
+                "and the saturation divisions in the inner loop. All zero input saturation "
+                "entries are required to have a value scale factor of 1.0."),
+                ifd0Id, dngTags, tiffFloat, -1, printValue), // DNG tag
+        TagInfo(0xc740, "OpcodeList1", N_("Opcode List 1"),
+                N_("Specifies the list of opcodes that should be applied to the raw image, "
+                "as read directly from the file."),
+                ifd0Id, dngTags, undefined, -1, printValue), // DNG tag
+        TagInfo(0xc741, "OpcodeList2", N_("Opcode List 2"),
+                N_("Specifies the list of opcodes that should be applied to the raw image, "
+                "just after it has been mapped to linear reference values."),
+                ifd0Id, dngTags, undefined, -1, printValue), // DNG tag
+        TagInfo(0xc74e, "OpcodeList3", N_("Opcode List 3"),
+                N_("Specifies the list of opcodes that should be applied to the raw image, "
+                "just after it has been demosaiced."),
+                ifd0Id, dngTags, undefined, -1, printValue), // DNG tag
+        TagInfo(0xc761, "NoiseProfile", N_("Noise Profile"),
+                N_("NoiseProfile describes the amount of noise in a raw image. Specifically, "
+                "this tag models the amount of signal-dependent photon (shot) noise and "
+                "signal-independent sensor readout noise, two common sources of noise in "
+                "raw images. The model assumes that the noise is white and spatially "
+                "independent, ignoring fixed pattern effects and other sources of noise (e.g., "
+                "pixel response non-uniformity, spatially-dependent thermal effects, etc.)."),
+                ifd0Id, dngTags, tiffDouble, -1, printValue), // DNG tag
         // End of list marker
         TagInfo(0xffff, "(UnknownIfdTag)", N_("Unknown IFD tag"),
                 N_("Unknown IFD tag"),
@@ -1619,6 +1802,32 @@ namespace Exiv2 {
                 "each image. It is recorded as an ASCII string equivalent "
                 "to hexadecimal notation and 128-bit fixed length."),
                 exifId, otherTags, asciiString, 33, printValue),
+        TagInfo(0xa430, "CameraOwnerName", N_("Camera Owner Name"),
+                N_("This tag records the owner of a camera used in "
+                "photography as an ASCII string."),
+                exifId, otherTags, asciiString, 0, printValue),
+        TagInfo(0xa431, "BodySerialNumber", N_("Body Serial Number"),
+                N_("This tag records the serial number of the body of the camera "
+                "that was used in photography as an ASCII string."),
+                exifId, otherTags, asciiString, 0, printValue),
+        TagInfo(0xa432, "LensSpecification", N_("Lens Specification"),
+                N_("This tag notes minimum focal length, maximum focal length, "
+                "minimum F number in the minimum focal length, and minimum F number "
+                "in the maximum focal length, which are specification information "
+                "for the lens that was used in photography. When the minimum F "
+                "number is unknown, the notation is 0/0"),
+                exifId, otherTags, unsignedRational, 4, printValue),
+        TagInfo(0xa433, "LensMake", N_("Lens Make"),
+                N_("This tag records the lens manufactor as an ASCII string."),
+                exifId, otherTags, asciiString, 0, printValue),
+        TagInfo(0xa434, "LensModel", N_("Lens Model"),
+                N_("This tag records the lens's model name and model number as an "
+                "ASCII string."),
+                exifId, otherTags, asciiString, 0, printValue),
+        TagInfo(0xa435, "LensSerialNumber", N_("Lens Serial Number"),
+                N_("This tag records the serial number of the interchangeable lens "
+                "that was used in photography as an ASCII string."),
+                exifId, otherTags, asciiString, 0, printValue),
         // End of list marker
         TagInfo(0xffff, "(UnknownExifTag)", N_("Unknown Exif tag"),
                 N_("Unknown Exif tag"),
