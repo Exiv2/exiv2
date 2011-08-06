@@ -20,7 +20,7 @@
  */
 /*
   File:      tags.cpp
-  Version:   $Rev: 2455 $
+  Version:   $Rev$
   Author(s): Andreas Huggel (ahu) <ahuggel@gmx.net>
              Gilles Caulier (gc) <caulier dot gilles at gmail dot com>
   History:   15-Jan-04, ahu: created
@@ -28,7 +28,7 @@
  */
 // *****************************************************************************
 #include "rcsid_int.hpp"
-EXIV2_RCSID("@(#) $Id: tags.cpp 2455 2011-02-13 14:39:15Z ahuggel $")
+EXIV2_RCSID("@(#) $Id$")
 
 // *****************************************************************************
 // included header files
@@ -1568,6 +1568,38 @@ namespace Exiv2 {
                 "specified in ISO 14524. <OECF> is the relationship between "
                 "the camera optical input and the image values."),
                 exifId, captureCond, undefined, 0, printValue),
+        TagInfo(0x8830, "SensitivityType", N_("Sensitivity Type"),
+                N_("The SensitivityType tag indicates PhotographicSensitivity tag. which "
+                "one of the parameters of ISO12232 is the Although it is an optional tag, "
+                "it should be recorded when a PhotographicSensitivity tag is recorded. "
+                "Value = 4, 5, 6, or 7 may be used in case that the values of plural "
+                "parameters are the same."),
+                exifId, captureCond, unsignedShort, 1, printValue),
+        TagInfo(0x8831, "StandardOutputSensitivity", N_("Standard Output Sensitivity"),
+                N_("This tag indicates the standard output sensitivity value of a camera or "
+                "input device defined in ISO 12232. When recording this tag, the "
+                "PhotographicSensitivity and SensitivityType tags shall also be recorded."),
+                exifId, captureCond, unsignedLong, 1, printValue),
+        TagInfo(0x8832, "RecommendedExposureIndex", N_("Recommended Exposure Index"),
+                N_("This tag indicates the recommended exposure index value of a camera or "
+                "input device defined in ISO 12232. When recording this tag, the "
+                "PhotographicSensitivity and SensitivityType tags shall also be recorded."),
+                exifId, captureCond, unsignedLong, 1, printValue),
+        TagInfo(0x8833, "ISOSpeed", N_("ISO Speed"),
+                N_("This tag indicates the ISO speed value of a camera or input device that "
+                "is defined in ISO 12232. When recording this tag, the PhotographicSensitivity "
+                "and SensitivityType tags shall also be recorded."),
+                exifId, captureCond, unsignedLong, 1, printValue),
+        TagInfo(0x8834, "ISOSpeedLatitudeyyy", N_("ISO Speed Latitude yyy"),
+                N_("This tag indicates the ISO speed latitude yyy value of a camera or input "
+                "device that is defined in ISO 12232. However, this tag shall not be recorded "
+                "without ISOSpeed and ISOSpeedLatitudezzz."),
+                exifId, captureCond, unsignedLong, 1, printValue),
+        TagInfo(0x8835, "ISOSpeedLatitudezzz", N_("ISO Speed Latitude zzz"),
+                N_("This tag indicates the ISO speed latitude zzz value of a camera or input "
+                "device that is defined in ISO 12232. However, this tag shall not be recorded "
+                "without ISOSpeed and ISOSpeedLatitudeyyy."),
+                exifId, captureCond, unsignedLong, 1, printValue),
         TagInfo(0x9000, "ExifVersion", N_("Exif Version"),
                 N_("The version of this standard supported. Nonexistence of this "
                 "field is taken to mean nonconformance to the standard."),
