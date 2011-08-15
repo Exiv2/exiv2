@@ -186,6 +186,18 @@ cp -f ../data/exiv2-empty.jpg $filename
 $bin/exiv2 -u -v -M"set Exif.Image.Make Samsung" $filename
 $samples/easyaccess-test $filename
 
+# Test 'migration of XMP namespaces' (see #751 and related forum post)
+num=751
+filename=exiv2-bug$num.jpg
+xmpname=exiv2-bug$num.xmp
+cp -f ../data/exiv2-empty.jpg $filename
+$bin/exiv2 -v -M'reg imageapp orig/' -M 'set Xmp.imageapp.uuid abcd' $filename
+$bin/exiv2 -f -eX $filename
+cat $xmpname
+$bin/exiv2 -v -M'reg imageapp dest/' -M 'set Xmp.imageapp.uuid abcd' $filename
+$bin/exiv2 -f -eX $filename
+cat $xmpname
+
 num=769
 filename=exiv2-bug$num.jpg
 cp -f ../data/exiv2-empty.jpg $filename
