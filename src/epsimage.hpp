@@ -25,6 +25,7 @@
            <br>[1] <a href="http://partners.adobe.com/public/developer/en/ps/5001.DSC_Spec.pdf">Adobe PostScript Language Document Structuring Conventions Specification, Version 3.0</a>, September 1992
            <br>[2] <a href="http://partners.adobe.com/public/developer/en/ps/5002.EPSF_Spec.pdf">Adobe Encapsulated PostScript File Format Specification, Version 3.0</a>, May 1992
            <br>[3] <a href="http://www.adobe.com/content/dam/Adobe/en/devnet/xmp/pdfs/XMPSpecificationPart3.pdf">Adobe XMP Specification Part 3: Storage in Files</a>, July 2010
+           <br>[4] <a href="http://groups.google.com/group/adobe.illustrator.windows/msg/0a9d7b1244b59062">Re: Thumbnail data format in ai file</a>, Dec 2003
   @version $Rev: $
   @author  Michael Ulbrich (mul)
            <a href="mailto:mul@rentapacs.de">mul@rentapacs.de</a>

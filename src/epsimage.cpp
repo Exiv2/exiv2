@@ -417,6 +417,8 @@ namespace {
         size_t posExiv2Version = posEndEps;
         size_t posExiv2Website = posEndEps;
         size_t posEndComments = posEndEps;
+        size_t posAi7Thumbnail = posEndEps;
+        size_t posAi7ThumbnailEndData = posEndEps;
         size_t posBeginPhotoshop = posEndEps;
         size_t posEndPhotoshop = posEndEps;
         size_t posPage = posEndEps;
@@ -543,6 +545,10 @@ namespace {
                 posExiv2Website = startPos;
             } else if (posEndComments == posEndEps && startsWith(line, "%%Creator: Adobe Illustrator") && firstLine == "%!PS-Adobe-3.0 EPSF-3.0") {
                 illustrator8 = true;
+            } else if (posEndComments == posEndEps && startsWith(line, "%AI7_Thumbnail:")) {
+                posAi7Thumbnail = startPos;
+            } else if (posEndComments == posEndEps && posAi7Thumbnail != posEndEps && posAi7ThumbnailEndData == posEndEps && line == "%%EndData") {
+                posAi7ThumbnailEndData = startPos;
             } else if (posEndComments == posEndEps && line == "%%EndComments") {
                 posEndComments = startPos;
             } else if (line == "%%EndPreview") {
@@ -711,6 +717,45 @@ namespace {
 
             // native previews
             nativePreviews.clear();
+            if (posAi7ThumbnailEndData != posEndEps) {
+                NativePreview nativePreview;
+                std::string dummy;
+                std::string lineAi7Thumbnail;
+                const size_t posBeginData = readLine(lineAi7Thumbnail, data, posAi7Thumbnail, posEndEps);
+                std::istringstream lineStreamAi7Thumbnail(lineAi7Thumbnail);
+                lineStreamAi7Thumbnail >> dummy;
+                lineStreamAi7Thumbnail >> nativePreview.width_;
+                lineStreamAi7Thumbnail >> nativePreview.height_;
+                std::string depth;
+                lineStreamAi7Thumbnail >> depth;
+                std::string lineBeginData;
+                const size_t posAfterBeginData = readLine(lineBeginData, data, posBeginData, posEndEps);
+                std::istringstream lineStreamBeginData(lineBeginData);
+                std::string beginData;
+                lineStreamBeginData >> beginData;
+                lineStreamBeginData >> dummy;
+                std::string type;
+                lineStreamBeginData >> type;
+                nativePreview.position_ = static_cast<long>(posAfterBeginData);
+                nativePreview.size_ = posAi7ThumbnailEndData - posAfterBeginData;
+                nativePreview.filter_ = "hex-ai7thumbnail-pnm";
+                nativePreview.mimeType_ = "image/x-portable-anymap";
+                if (depth != "8") {
+                    #ifndef SUPPRESS_WARNINGS
+                    EXV_WARNING << "Unable to handle Illustrator thumbnail depth: " << depth << "\n";
+                    #endif
+                } else if (beginData != "%%BeginData:") {
+                    #ifndef SUPPRESS_WARNINGS
+                    EXV_WARNING << "Unable to handle Illustrator thumbnail data section: " << lineBeginData << "\n";
+                    #endif
+                } else if (type != "Hex") {
+                    #ifndef SUPPRESS_WARNINGS
+                    EXV_WARNING << "Unable to handle Illustrator thumbnail data type: " << type << "\n";
+                    #endif
+                } else {
+                    nativePreviews.push_back(nativePreview);
+                }
+            }
             if (posEndPhotoshop != posEndEps) {
                 NativePreview nativePreview;
                 nativePreview.position_ = static_cast<long>(posBeginPhotoshop);
