@@ -79,6 +79,16 @@ namespace {
     DataBuf decodeBase64(const std::string &src);
 
     /*!
+      @brief Decode an Illustrator thumbnail that follows after %AI7_Thumbnail.
+     */
+    DataBuf decodeAi7Thumbnail(const DataBuf &src);
+
+    /*!
+      @brief Create a PNM image from raw RGB data.
+     */
+    DataBuf makePnm(uint32_t width, uint32_t height, const DataBuf &rgb);
+
+    /*!
       Base class for image loaders. Provides virtual methods for reading properties
       and DataBuf.
      */
@@ -434,6 +444,8 @@ namespace {
             prop.extension_ = ".tif";
         } else if (nativePreview_.mimeType_ == "image/x-wmf") {
             prop.extension_ = ".wmf";
+        } else if (nativePreview_.mimeType_ == "image/x-portable-anymap") {
+            prop.extension_ = ".pnm";
         } else {
 #ifndef SUPPRESS_WARNINGS
             EXV_WARNING << "Unknown native preview format: " << nativePreview_.mimeType_ << "\n";
@@ -464,6 +476,10 @@ namespace {
         }
         if (nativePreview_.filter_ == "") {
             return DataBuf(data + nativePreview_.position_, static_cast<long>(nativePreview_.size_));
+        } else if (nativePreview_.filter_ == "hex-ai7thumbnail-pnm") {
+            const DataBuf ai7thumbnail = decodeHex(data + nativePreview_.position_, static_cast<long>(nativePreview_.size_));
+            const DataBuf rgb = decodeAi7Thumbnail(ai7thumbnail);
+            return makePnm(width_, height_, rgb);
         } else if (nativePreview_.filter_ == "hex-irb") {
             const DataBuf psData = decodeHex(data + nativePreview_.position_, static_cast<long>(nativePreview_.size_));
             const byte *record;
@@ -954,6 +970,68 @@ namespace {
                 dest.pData_[destPos] = static_cast<byte>((buffer >> (bufferPos * 8)) & 0xFF);
             }
         }
+        return dest;
+    }
+
+    DataBuf decodeAi7Thumbnail(const DataBuf &src)
+    {
+        const byte *colorTable = src.pData_;
+        const long colorTableSize = 256 * 3;
+        if (src.size_ < colorTableSize) {
+#ifndef SUPPRESS_WARNINGS
+            EXV_WARNING << "Invalid size of AI7 thumbnail: " << src.size_ << "\n";
+#endif
+            return DataBuf();
+        }
+        const byte *imageData = src.pData_ + colorTableSize;
+        const long imageDataSize = src.size_ - colorTableSize;
+        const bool rle = (imageDataSize >= 3 && imageData[0] == 'R' && imageData[1] == 'L' && imageData[2] == 'E');
+        std::string dest;
+        for (long i = rle ? 3 : 0; i < imageDataSize;) {
+            byte num = 1;
+            byte value = imageData[i++];
+            if (rle && value == 0xFD) {
+                if (i >= imageDataSize) {
+#ifndef SUPPRESS_WARNINGS
+                    EXV_WARNING << "Unexpected end of image data at AI7 thumbnail.\n";
+#endif
+                    return DataBuf();
+                }
+                value = imageData[i++];
+                if (value != 0xFD) {
+                    if (i >= imageDataSize) {
+#ifndef SUPPRESS_WARNINGS
+                        EXV_WARNING << "Unexpected end of image data at AI7 thumbnail.\n";
+#endif
+                        return DataBuf();
+                    }
+                    num = value;
+                    value = imageData[i++];
+                }
+            }
+            for (; num != 0; num--) {
+                dest.append(reinterpret_cast<const char*>(colorTable + (3*value)), 3);
+            }
+        }
+        return DataBuf(reinterpret_cast<const byte*>(dest.data()), static_cast<long>(dest.size()));
+    }
+
+    DataBuf makePnm(uint32_t width, uint32_t height, const DataBuf &rgb)
+    {
+        const long expectedSize = static_cast<long>(width * height * 3);
+        if (rgb.size_ != expectedSize) {
+#ifndef SUPPRESS_WARNINGS
+            EXV_WARNING << "Invalid size of preview data. Expected " << expectedSize << " bytes, got " << rgb.size_ << " bytes.\n";
+#endif
+            return DataBuf();
+        }
+
+        const std::string header = "P6\n" + toString(width) + " " + toString(height) + "\n255\n";
+        const byte *headerBytes = reinterpret_cast<const byte*>(header.data());
+
+        DataBuf dest(header.size() + rgb.size_);
+        std::copy(headerBytes, headerBytes + header.size(), dest.pData_);
+        std::copy(rgb.pData_, rgb.pData_ + rgb.size_, dest.pData_ + header.size());
         return dest;
     }
 
