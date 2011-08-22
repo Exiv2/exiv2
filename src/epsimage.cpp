@@ -872,7 +872,7 @@ namespace {
                     }
                 }
                 if (pos == posExiv2Version && posExiv2Version != posEndEps) {
-                    writeTemp(*tempIo, "%Exiv2Version: " + std::string(version()) + lineEnding);
+                    writeTemp(*tempIo, "%Exiv2Version: " + versionNumberHexString() + lineEnding);
                     skipPos = posLineEnd;
                 }
                 if (pos == posExiv2Website && posExiv2Website != posEndEps) {
@@ -890,7 +890,7 @@ namespace {
                         writeTemp(*tempIo, "%%Pages: 1" + lineEnding);
                     }
                     if (posExiv2Version == posEndEps) {
-                        writeTemp(*tempIo, "%Exiv2Version: " + std::string(version()) + lineEnding);
+                        writeTemp(*tempIo, "%Exiv2Version: " + versionNumberHexString() + lineEnding);
                     }
                     if (posExiv2Website == posEndEps) {
                         writeTemp(*tempIo, "%Exiv2Website: http://www.exiv2.org/" + lineEnding);

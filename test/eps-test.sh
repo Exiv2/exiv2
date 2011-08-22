@@ -12,7 +12,7 @@ else
     bin="$VALGRIND $EXIV2_BINDIR"
     samples="$VALGRIND $EXIV2_BINDIR"
 fi
-exiv2version="`$bin/exiv2 -V | sed -n '1 s,^exiv2 \([^ ]*\).*,\1,p'`"
+exiv2version="`$bin/exiv2 -V | sed -n '1 s,^exiv2 [^ ]* \([^ ]*\).*,\1,p'`"
 if [ -z "$exiv2version" ]; then
     echo "Error: Unable to determine Exiv2 version"
     exit 1
