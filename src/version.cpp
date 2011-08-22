@@ -39,10 +39,21 @@ EXIV2_RCSID("@(#) $Id$")
 
 #include "version.hpp"
 
+// + standard includes
+#include <iomanip>
+#include <sstream>
+
 namespace Exiv2 {
     int versionNumber()
     {
         return EXIV2_MAKE_VERSION(EXIV2_MAJOR_VERSION, EXIV2_MINOR_VERSION, EXIV2_PATCH_VERSION);
+    }
+
+    std::string versionNumberHexString()
+    {
+        std::ostringstream os;
+        os << std::hex << std::setw(6) << std::setfill('0') << Exiv2::versionNumber();
+        return os.str();
     }
 
     const char* version()
