@@ -32,6 +32,11 @@
 #ifndef VERSION_HPP_
 #define VERSION_HPP_
 
+// *****************************************************************************
+// included header files
+// + standard includes
+#include <string>
+
 /*!
   @brief %Exiv2 MAJOR version number of the library used at compile-time.
  */
@@ -116,6 +121,10 @@ namespace Exiv2 {
       @brief Return the version of %Exiv2 available at runtime as an integer.
     */
     EXIV2API int versionNumber();
+    /*!
+      @brief Return the version of %Exiv2 as hex string of fixed length 6.
+    */
+    EXIV2API std::string versionNumberHexString();
     /*!
       @brief Return the version of %Exiv2 available at runtime as a string.
     */
