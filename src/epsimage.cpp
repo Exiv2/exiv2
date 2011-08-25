@@ -50,6 +50,7 @@ EXIV2_RCSID("@(#) $Id: epsimage.cpp $")
 // + standard includes
 #include <algorithm>
 #include <cassert>
+#include <climits>
 #include <cstring>
 #include <iostream>
 #include <sstream>
@@ -426,6 +427,8 @@ namespace {
         size_t posPageTrailer = posEndEps;
         size_t posEof = posEndEps;
         std::vector<std::pair<size_t, size_t> > removableEmbeddings;
+        unsigned int depth = 0;
+        const unsigned int maxDepth = UINT_MAX;
         bool illustrator8 = false;
         bool implicitPage = false;
         bool implicitPageTrailer = false;
@@ -441,6 +444,39 @@ namespace {
             #ifdef DEBUG
             bool significantLine = true;
             #endif
+            // nested documents
+            if (posPage == posEndEps && (startsWith(line, "%%IncludeDocument:") || startsWith(line, "%%BeginDocument:"))) {
+                #ifndef SUPPRESS_WARNINGS
+                EXV_WARNING << "Nested document at invalid position: " << startPos << "\n";
+                #endif
+                throw Error(write ? 21 : 14);
+            } else if (startsWith(line, "%%BeginDocument:")) {
+                if (depth == maxDepth) {
+                    #ifndef SUPPRESS_WARNINGS
+                    EXV_WARNING << "Document too deeply nested at position: " << startPos << "\n";
+                    #endif
+                    throw Error(write ? 21 : 14);
+                }
+                depth++;
+            } else if (startsWith(line, "%%EndDocument")) {
+                if (depth == 0) {
+                    #ifndef SUPPRESS_WARNINGS
+                    EXV_WARNING << "Unmatched EndDocument at position: " << startPos << "\n";
+                    #endif
+                    throw Error(write ? 21 : 14);
+                }
+                depth--;
+            } else {
+                #ifdef DEBUG
+                significantLine = false;
+                #endif
+            }
+            #ifdef DEBUG
+            if (significantLine) {
+                EXV_DEBUG << "readWriteEpsMetadata: Found significant line \"" << line << "\" at position: " << startPos << "\n";
+            }
+            #endif
+            if (depth != 0) continue;
             // explicit "Begin" comments
             if (startsWith(line, "%%BeginPreview:")) {
                 inDefaultsPreviewPrologSetup = true;
@@ -570,17 +606,6 @@ namespace {
                 removableEmbeddings.back().second = pos;
             } else if (line == "%%EOF") {
                 posEof = startPos;
-            } else if (posPage == posEndEps && (startsWith(line, "%%IncludeDocument:") || startsWith(line, "%%BeginDocument:"))) {
-                #ifndef SUPPRESS_WARNINGS
-                EXV_WARNING << "Nested document at invalid position: " << startPos << "\n";
-                #endif
-                throw Error(write ? 21 : 14);
-            } else if (startsWith(line, "%%BeginDocument:")) {
-                // TODO: Add support for nested documents!
-                #ifndef SUPPRESS_WARNINGS
-                EXV_WARNING << "Nested documents are currently not supported. Found nested document at position: " << startPos << "\n";
-                #endif
-                throw Error(write ? 21 : 14);
             } else {
                 #ifdef DEBUG
                 significantLine = false;
@@ -591,6 +616,14 @@ namespace {
                 EXV_DEBUG << "readWriteEpsMetadata: Found significant line \"" << line << "\" at position: " << startPos << "\n";
             }
             #endif
+        }
+
+        // check for unfinished nested documents
+        if (depth != 0) {
+            #ifndef SUPPRESS_WARNINGS
+            EXV_WARNING << "Unmatched BeginDocument (" << depth << "x)\n";
+            #endif
+            throw Error(write ? 21 : 14);
         }
 
         // look for the unmarked trailers of some removable XMP embeddings
