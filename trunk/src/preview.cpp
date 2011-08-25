@@ -513,7 +513,7 @@ namespace {
             height_ = image->pixelHeight();
         } catch (const AnyError& /* error */) {
 #ifndef SUPPRESS_WARNINGS
-            EXV_WARNING << "Unable to determine dimensions of native preview image.\n";
+            EXV_WARNING << "Invalid native preview image.\n";
 #endif
             return false;
         }
