@@ -301,254 +301,169 @@ Exit code: 0
 -----> eps-nested_noxmp_ai-8-lev2.eps <-----
 
 Command: exiv2 -pp eps-nested_noxmp_ai-8-lev2.eps
-Warning: Nested documents are currently not supported. Found nested document at position: 51363
-Exiv2 exception in print action for file eps-nested_noxmp_ai-8-lev2.eps:
-Failed to read image data
-Exit code: 1
+Preview 1: image/x-portable-anymap, 88x128 pixels, 33806 bytes
+Exit code: 0
 
 Command: exiv2 -f -ep eps-nested_noxmp_ai-8-lev2.eps
-Warning: Nested documents are currently not supported. Found nested document at position: 51363
-Exiv2 exception in extract action for file eps-nested_noxmp_ai-8-lev2.eps:
-Failed to read image data
-Exit code: 1
+Exit code: 0
 
 -----> eps-nested_noxmp_ai-8-lev3.eps <-----
 
 Command: exiv2 -pp eps-nested_noxmp_ai-8-lev3.eps
-Warning: Nested documents are currently not supported. Found nested document at position: 51363
-Exiv2 exception in print action for file eps-nested_noxmp_ai-8-lev3.eps:
-Failed to read image data
-Exit code: 1
+Preview 1: image/x-portable-anymap, 88x128 pixels, 33806 bytes
+Exit code: 0
 
 Command: exiv2 -f -ep eps-nested_noxmp_ai-8-lev3.eps
-Warning: Nested documents are currently not supported. Found nested document at position: 51363
-Exiv2 exception in extract action for file eps-nested_noxmp_ai-8-lev3.eps:
-Failed to read image data
-Exit code: 1
+Exit code: 0
 
 -----> eps-nested_noxmp_ai-cs5-lev2.eps <-----
 
 Command: exiv2 -pp eps-nested_noxmp_ai-cs5-lev2.eps
-Warning: Nested documents are currently not supported. Found nested document at position: 199781
-Exiv2 exception in print action for file eps-nested_noxmp_ai-cs5-lev2.eps:
-Failed to read image data
-Exit code: 1
+Preview 1: image/x-portable-anymap, 88x128 pixels, 33806 bytes
+Preview 2: image/jpeg, 176x256 pixels, 3555 bytes
+Exit code: 0
 
 Command: exiv2 -f -ep eps-nested_noxmp_ai-cs5-lev2.eps
-Warning: Nested documents are currently not supported. Found nested document at position: 199781
-Exiv2 exception in extract action for file eps-nested_noxmp_ai-cs5-lev2.eps:
-Failed to read image data
-Exit code: 1
+Exit code: 0
 
 -----> eps-nested_noxmp_ai-cs5-lev3.eps <-----
 
 Command: exiv2 -pp eps-nested_noxmp_ai-cs5-lev3.eps
-Warning: Nested documents are currently not supported. Found nested document at position: 199367
-Exiv2 exception in print action for file eps-nested_noxmp_ai-cs5-lev3.eps:
-Failed to read image data
-Exit code: 1
+Preview 1: image/x-portable-anymap, 88x128 pixels, 33806 bytes
+Preview 2: image/jpeg, 176x256 pixels, 3555 bytes
+Exit code: 0
 
 Command: exiv2 -f -ep eps-nested_noxmp_ai-cs5-lev3.eps
-Warning: Nested documents are currently not supported. Found nested document at position: 199367
-Exiv2 exception in extract action for file eps-nested_noxmp_ai-cs5-lev3.eps:
-Failed to read image data
-Exit code: 1
+Exit code: 0
 
 -----> eps-nested_noxmp_indesign-cs5-lev2-bin.eps <-----
 
 Command: exiv2 -pp eps-nested_noxmp_indesign-cs5-lev2-bin.eps
-Warning: Nested documents are currently not supported. Found nested document at position: 180329
-Exiv2 exception in print action for file eps-nested_noxmp_indesign-cs5-lev2-bin.eps:
-Failed to read image data
-Exit code: 1
+Preview 1: image/tiff, 595x841 pixels, 8124 bytes
+Exit code: 0
 
 Command: exiv2 -f -ep eps-nested_noxmp_indesign-cs5-lev2-bin.eps
-Warning: Nested documents are currently not supported. Found nested document at position: 180329
-Exiv2 exception in extract action for file eps-nested_noxmp_indesign-cs5-lev2-bin.eps:
-Failed to read image data
-Exit code: 1
+Exit code: 0
 
 -----> eps-nested_noxmp_indesign-cs5-lev2.eps <-----
 
 Command: exiv2 -pp eps-nested_noxmp_indesign-cs5-lev2.eps
-Warning: Nested documents are currently not supported. Found nested document at position: 180411
-Exiv2 exception in print action for file eps-nested_noxmp_indesign-cs5-lev2.eps:
-Failed to read image data
-Exit code: 1
+Preview 1: image/tiff, 595x841 pixels, 8124 bytes
+Exit code: 0
 
 Command: exiv2 -f -ep eps-nested_noxmp_indesign-cs5-lev2.eps
-Warning: Nested documents are currently not supported. Found nested document at position: 180411
-Exiv2 exception in extract action for file eps-nested_noxmp_indesign-cs5-lev2.eps:
-Failed to read image data
-Exit code: 1
+Exit code: 0
 
 -----> eps-nested_noxmp_indesign-cs5-lev3-bin.eps <-----
 
 Command: exiv2 -pp eps-nested_noxmp_indesign-cs5-lev3-bin.eps
-Warning: Nested documents are currently not supported. Found nested document at position: 180329
-Exiv2 exception in print action for file eps-nested_noxmp_indesign-cs5-lev3-bin.eps:
-Failed to read image data
-Exit code: 1
+Preview 1: image/tiff, 595x841 pixels, 8124 bytes
+Exit code: 0
 
 Command: exiv2 -f -ep eps-nested_noxmp_indesign-cs5-lev3-bin.eps
-Warning: Nested documents are currently not supported. Found nested document at position: 180329
-Exiv2 exception in extract action for file eps-nested_noxmp_indesign-cs5-lev3-bin.eps:
-Failed to read image data
-Exit code: 1
+Exit code: 0
 
 -----> eps-nested_noxmp_indesign-cs5-lev3.eps <-----
 
 Command: exiv2 -pp eps-nested_noxmp_indesign-cs5-lev3.eps
-Warning: Nested documents are currently not supported. Found nested document at position: 180411
-Exiv2 exception in print action for file eps-nested_noxmp_indesign-cs5-lev3.eps:
-Failed to read image data
-Exit code: 1
+Preview 1: image/tiff, 595x841 pixels, 8124 bytes
+Exit code: 0
 
 Command: exiv2 -f -ep eps-nested_noxmp_indesign-cs5-lev3.eps
-Warning: Nested documents are currently not supported. Found nested document at position: 180411
-Exiv2 exception in extract action for file eps-nested_noxmp_indesign-cs5-lev3.eps:
-Failed to read image data
-Exit code: 1
+Exit code: 0
 
 -----> eps-nested_noxmp_oodraw-lev2-epsi.eps <-----
 
 Command: exiv2 -pp eps-nested_noxmp_oodraw-lev2-epsi.eps
-Warning: Nested documents are currently not supported. Found nested document at position: 111882
-Exiv2 exception in print action for file eps-nested_noxmp_oodraw-lev2-epsi.eps:
-Failed to read image data
-Exit code: 1
+Exit code: 0
 
 Command: exiv2 -f -ep eps-nested_noxmp_oodraw-lev2-epsi.eps
-Warning: Nested documents are currently not supported. Found nested document at position: 111882
-Exiv2 exception in extract action for file eps-nested_noxmp_oodraw-lev2-epsi.eps:
-Failed to read image data
-Exit code: 1
+Exit code: 0
 
 -----> eps-nested_noxmp_oodraw-lev2-pre.eps <-----
 
 Command: exiv2 -pp eps-nested_noxmp_oodraw-lev2-pre.eps
-Warning: Nested documents are currently not supported. Found nested document at position: 16203
-Exiv2 exception in print action for file eps-nested_noxmp_oodraw-lev2-pre.eps:
-Failed to read image data
-Exit code: 1
+Preview 1: image/tiff, 719x1048 pixels, 14236 bytes
+Exit code: 0
 
 Command: exiv2 -f -ep eps-nested_noxmp_oodraw-lev2-pre.eps
-Warning: Nested documents are currently not supported. Found nested document at position: 16203
-Exiv2 exception in extract action for file eps-nested_noxmp_oodraw-lev2-pre.eps:
-Failed to read image data
-Exit code: 1
+Exit code: 0
 
 -----> eps-nested_xmp_ai-3-lev3.eps <-----
 
 Command: exiv2 -pp eps-nested_xmp_ai-3-lev3.eps
-Warning: Nested documents are currently not supported. Found nested document at position: 24646
-Exiv2 exception in print action for file eps-nested_xmp_ai-3-lev3.eps:
-Failed to read image data
-Exit code: 1
+Preview 1: image/tiff, 100x100 pixels, 11692 bytes
+Exit code: 0
 
 Command: exiv2 -f -ep eps-nested_xmp_ai-3-lev3.eps
-Warning: Nested documents are currently not supported. Found nested document at position: 24646
-Exiv2 exception in extract action for file eps-nested_xmp_ai-3-lev3.eps:
-Failed to read image data
-Exit code: 1
+Exit code: 0
 
 -----> eps-nested_xmp_ai-8-lev3.eps <-----
 
 Command: exiv2 -pp eps-nested_xmp_ai-8-lev3.eps
-Warning: Nested documents are currently not supported. Found nested document at position: 250651
-Exiv2 exception in print action for file eps-nested_xmp_ai-8-lev3.eps:
-Failed to read image data
-Exit code: 1
+Preview 1: image/tiff, 100x100 pixels, 22300 bytes
+Preview 2: image/x-portable-anymap, 128x128 pixels, 49167 bytes
+Exit code: 0
 
 Command: exiv2 -f -ep eps-nested_xmp_ai-8-lev3.eps
-Warning: Nested documents are currently not supported. Found nested document at position: 250651
-Exiv2 exception in extract action for file eps-nested_xmp_ai-8-lev3.eps:
-Failed to read image data
-Exit code: 1
+Exit code: 0
 
 -----> eps-nested_xmp_ai-cs5-lev3.eps <-----
 
 Command: exiv2 -pp eps-nested_xmp_ai-cs5-lev3.eps
-Warning: Nested documents are currently not supported. Found nested document at position: 233935
-Exiv2 exception in print action for file eps-nested_xmp_ai-cs5-lev3.eps:
-Failed to read image data
-Exit code: 1
+Preview 1: image/tiff, 100x100 pixels, 22300 bytes
+Preview 2: image/x-portable-anymap, 128x128 pixels, 49167 bytes
+Preview 3: image/jpeg, 256x256 pixels, 4276 bytes
+Exit code: 0
 
 Command: exiv2 -f -ep eps-nested_xmp_ai-cs5-lev3.eps
-Warning: Nested documents are currently not supported. Found nested document at position: 233935
-Exiv2 exception in extract action for file eps-nested_xmp_ai-cs5-lev3.eps:
-Failed to read image data
-Exit code: 1
+Exit code: 0
 
 -----> eps-nested_xmp_indesign-cs5-lev3-bin.eps <-----
 
 Command: exiv2 -pp eps-nested_xmp_indesign-cs5-lev3-bin.eps
-Warning: Nested documents are currently not supported. Found nested document at position: 180285
-Exiv2 exception in print action for file eps-nested_xmp_indesign-cs5-lev3-bin.eps:
-Failed to read image data
-Exit code: 1
+Preview 1: image/tiff, 595x841 pixels, 8080 bytes
+Exit code: 0
 
 Command: exiv2 -f -ep eps-nested_xmp_indesign-cs5-lev3-bin.eps
-Warning: Nested documents are currently not supported. Found nested document at position: 180285
-Exiv2 exception in extract action for file eps-nested_xmp_indesign-cs5-lev3-bin.eps:
-Failed to read image data
-Exit code: 1
+Exit code: 0
 
 -----> eps-nested_xmp_indesign-cs5-lev3.eps <-----
 
 Command: exiv2 -pp eps-nested_xmp_indesign-cs5-lev3.eps
-Warning: Nested documents are currently not supported. Found nested document at position: 180367
-Exiv2 exception in print action for file eps-nested_xmp_indesign-cs5-lev3.eps:
-Failed to read image data
-Exit code: 1
+Preview 1: image/tiff, 595x841 pixels, 8080 bytes
+Exit code: 0
 
 Command: exiv2 -f -ep eps-nested_xmp_indesign-cs5-lev3.eps
-Warning: Nested documents are currently not supported. Found nested document at position: 180367
-Exiv2 exception in extract action for file eps-nested_xmp_indesign-cs5-lev3.eps:
-Failed to read image data
-Exit code: 1
+Exit code: 0
 
------> eps-nested_xmp_indesign-cs5-lev3_exiftool-8.56.eps <-----
+-----> eps-nested_xmp_indesign-cs5-lev3_failure-exiftool-8.56.eps <-----
 
-Command: exiv2 -pp eps-nested_xmp_indesign-cs5-lev3_exiftool-8.56.eps
-Warning: Nested documents are currently not supported. Found nested document at position: 184091
-Exiv2 exception in print action for file eps-nested_xmp_indesign-cs5-lev3_exiftool-8.56.eps:
-Failed to read image data
-Exit code: 1
+Command: exiv2 -pp eps-nested_xmp_indesign-cs5-lev3_failure-exiftool-8.56.eps
+Warning: Unable to find XMP embedding trailer ending at position: 186519
+Preview 1: image/tiff, 595x841 pixels, 8076 bytes
+Exit code: 0
 
-Command: exiv2 -f -ep eps-nested_xmp_indesign-cs5-lev3_exiftool-8.56.eps
-Warning: Nested documents are currently not supported. Found nested document at position: 184091
-Exiv2 exception in extract action for file eps-nested_xmp_indesign-cs5-lev3_exiftool-8.56.eps:
-Failed to read image data
-Exit code: 1
+Command: exiv2 -f -ep eps-nested_xmp_indesign-cs5-lev3_failure-exiftool-8.56.eps
+Warning: Unable to find XMP embedding trailer ending at position: 186519
+Exit code: 0
 
 -----> eps-nested_xmp_oodraw-lev2-epsi.eps <-----
 
 Command: exiv2 -pp eps-nested_xmp_oodraw-lev2-epsi.eps
-Warning: Nested documents are currently not supported. Found nested document at position: 111804
-Exiv2 exception in print action for file eps-nested_xmp_oodraw-lev2-epsi.eps:
-Failed to read image data
-Exit code: 1
+Exit code: 0
 
 Command: exiv2 -f -ep eps-nested_xmp_oodraw-lev2-epsi.eps
-Warning: Nested documents are currently not supported. Found nested document at position: 111804
-Exiv2 exception in extract action for file eps-nested_xmp_oodraw-lev2-epsi.eps:
-Failed to read image data
-Exit code: 1
+Exit code: 0
 
 -----> eps-nested_xmp_oodraw-lev2-pre.eps <-----
 
 Command: exiv2 -pp eps-nested_xmp_oodraw-lev2-pre.eps
-Warning: Nested documents are currently not supported. Found nested document at position: 16365
-Exiv2 exception in print action for file eps-nested_xmp_oodraw-lev2-pre.eps:
-Failed to read image data
-Exit code: 1
+Preview 1: image/tiff, 719x1048 pixels, 14476 bytes
+Exit code: 0
 
 Command: exiv2 -f -ep eps-nested_xmp_oodraw-lev2-pre.eps
-Warning: Nested documents are currently not supported. Found nested document at position: 16365
-Exiv2 exception in extract action for file eps-nested_xmp_oodraw-lev2-pre.eps:
-Failed to read image data
-Exit code: 1
+Exit code: 0
 
 -----> exiv2-bug443.jpg <-----
 

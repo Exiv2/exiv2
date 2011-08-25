@@ -65,7 +65,7 @@ images="eps/eps-flat_inkscape-epsi.eps \
         eps/eps-nested_xmp_ai-cs5-lev3.eps \
         eps/eps-nested_xmp_indesign-cs5-lev3-bin.eps \
         eps/eps-nested_xmp_indesign-cs5-lev3.eps \
-        eps/eps-nested_xmp_indesign-cs5-lev3_exiftool-8.56.eps \
+        eps/eps-nested_xmp_indesign-cs5-lev3_failure-exiftool-8.56.eps \
         eps/eps-nested_xmp_oodraw-lev2-epsi.eps \
         eps/eps-nested_xmp_oodraw-lev2-pre.eps \
         exiv2-bug443.jpg \

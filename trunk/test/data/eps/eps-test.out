@@ -3573,7 +3573,7 @@ Exit code: 0
 -----> eps-nested_minimal_begindocument-at-page-start.eps <-----
 
 Command: exiv2 -u -pa eps-nested_minimal_begindocument-at-page-start.eps
-Warning: Nested documents are currently not supported. Found nested document at position: 65
+Warning: Nested document at invalid position: 65
 Exiv2 exception in print action for file eps-nested_minimal_begindocument-at-page-start.eps:
 Failed to read image data
 Exit code: 1
@@ -3594,38 +3594,54 @@ Exiv2 exception in print action for file eps-nested_minimal_begindocument-in-set
 Failed to read image data
 Exit code: 1
 
+-----> eps-nested_minimal_begindocument-no-begin.eps <-----
+
+Command: exiv2 -u -pa eps-nested_minimal_begindocument-no-begin.eps
+Warning: Unmatched EndDocument at position: 220
+Exiv2 exception in print action for file eps-nested_minimal_begindocument-no-begin.eps:
+Failed to read image data
+Exit code: 1
+
+-----> eps-nested_minimal_begindocument-no-end.eps <-----
+
+Command: exiv2 -u -pa eps-nested_minimal_begindocument-no-end.eps
+Warning: Unmatched BeginDocument (1x)
+Exiv2 exception in print action for file eps-nested_minimal_begindocument-no-end.eps:
+Failed to read image data
+Exit code: 1
+
 -----> eps-nested_minimal_begindocument.eps <-----
 
 Command: exiv2 -u -pa eps-nested_minimal_begindocument.eps
-Warning: Nested documents are currently not supported. Found nested document at position: 56
-Exiv2 exception in print action for file eps-nested_minimal_begindocument.eps:
-Failed to read image data
-Exit code: 1
+Exit code: 253
+
+Command: exiv2 -dx eps-nested_minimal_begindocument.eps
+Exit code: 0
+
+Command: exiv2 -f -ex eps-nested_minimal_begindocument.eps
+Exit code: 0
+
+Restore: eps-nested_minimal_begindocument.eps
+
+Command: exiv2 -f -eX eps-nested_minimal_begindocument.eps
+Exit code: 0
+
+Command: exiv2 -ix eps-nested_minimal_begindocument.eps
+Exit code: 0
+
+Command: (2) exiv2 -ix eps-nested_minimal_begindocument.eps
+Exit code: 0
+
+Command: exiv2 -f -ex eps-nested_minimal_begindocument.eps
+Exit code: 0
 
 -----> eps-nested_minimal_includedocument-at-page-start.eps <-----
 
 Command: exiv2 -u -pa eps-nested_minimal_includedocument-at-page-start.eps
-Exit code: 253
-
-Command: exiv2 -dx eps-nested_minimal_includedocument-at-page-start.eps
-Exit code: 0
-
-Command: exiv2 -f -ex eps-nested_minimal_includedocument-at-page-start.eps
-Exit code: 0
-
-Restore: eps-nested_minimal_includedocument-at-page-start.eps
-
-Command: exiv2 -f -eX eps-nested_minimal_includedocument-at-page-start.eps
-Exit code: 0
-
-Command: exiv2 -ix eps-nested_minimal_includedocument-at-page-start.eps
-Exit code: 0
-
-Command: (2) exiv2 -ix eps-nested_minimal_includedocument-at-page-start.eps
-Exit code: 0
-
-Command: exiv2 -f -ex eps-nested_minimal_includedocument-at-page-start.eps
-Exit code: 0
+Warning: Nested document at invalid position: 111
+Exiv2 exception in print action for file eps-nested_minimal_includedocument-at-page-start.eps:
+Failed to read image data
+Exit code: 1
 
 -----> eps-nested_minimal_includedocument-before-page-start.eps <-----
 
@@ -3671,175 +3687,1482 @@ Exit code: 0
 -----> eps-nested_noxmp_ai-3-lev2.eps <-----
 
 Command: exiv2 -u -pa eps-nested_noxmp_ai-3-lev2.eps
-Warning: Nested documents are currently not supported. Found nested document at position: 9908
-Exiv2 exception in print action for file eps-nested_noxmp_ai-3-lev2.eps:
-Failed to read image data
+Exit code: 253
+
+Command: exiv2 -dx eps-nested_noxmp_ai-3-lev2.eps
+Warning: Unable to write to EPS files created by Adobe Illustrator 8.0 or older.
+Exiv2 exception in erase action for file eps-nested_noxmp_ai-3-lev2.eps:
+Failed to write image
+Exit code: 1
+
+Restore: eps-nested_noxmp_ai-3-lev2.eps
+
+Command: exiv2 -f -eX eps-nested_noxmp_ai-3-lev2.eps
+Exit code: 0
+
+Command: exiv2 -ix eps-nested_noxmp_ai-3-lev2.eps
+Warning: Unable to write to EPS files created by Adobe Illustrator 8.0 or older.
+eps-nested_noxmp_ai-3-lev2.eps: Could not write metadata to file: Failed to write image
 Exit code: 1
 
 -----> eps-nested_noxmp_ai-3-lev3.eps <-----
 
 Command: exiv2 -u -pa eps-nested_noxmp_ai-3-lev3.eps
-Warning: Nested documents are currently not supported. Found nested document at position: 9908
-Exiv2 exception in print action for file eps-nested_noxmp_ai-3-lev3.eps:
-Failed to read image data
+Exit code: 253
+
+Command: exiv2 -dx eps-nested_noxmp_ai-3-lev3.eps
+Warning: Unable to write to EPS files created by Adobe Illustrator 8.0 or older.
+Exiv2 exception in erase action for file eps-nested_noxmp_ai-3-lev3.eps:
+Failed to write image
+Exit code: 1
+
+Restore: eps-nested_noxmp_ai-3-lev3.eps
+
+Command: exiv2 -f -eX eps-nested_noxmp_ai-3-lev3.eps
+Exit code: 0
+
+Command: exiv2 -ix eps-nested_noxmp_ai-3-lev3.eps
+Warning: Unable to write to EPS files created by Adobe Illustrator 8.0 or older.
+eps-nested_noxmp_ai-3-lev3.eps: Could not write metadata to file: Failed to write image
 Exit code: 1
 
 -----> eps-nested_noxmp_ai-8-lev2.eps <-----
 
 Command: exiv2 -u -pa eps-nested_noxmp_ai-8-lev2.eps
-Warning: Nested documents are currently not supported. Found nested document at position: 51363
-Exiv2 exception in print action for file eps-nested_noxmp_ai-8-lev2.eps:
-Failed to read image data
+Exit code: 253
+
+Command: exiv2 -dx eps-nested_noxmp_ai-8-lev2.eps
+Warning: Unable to write to EPS files created by Adobe Illustrator 8.0 or older.
+Exiv2 exception in erase action for file eps-nested_noxmp_ai-8-lev2.eps:
+Failed to write image
+Exit code: 1
+
+Restore: eps-nested_noxmp_ai-8-lev2.eps
+
+Command: exiv2 -f -eX eps-nested_noxmp_ai-8-lev2.eps
+Exit code: 0
+
+Command: exiv2 -ix eps-nested_noxmp_ai-8-lev2.eps
+Warning: Unable to write to EPS files created by Adobe Illustrator 8.0 or older.
+eps-nested_noxmp_ai-8-lev2.eps: Could not write metadata to file: Failed to write image
 Exit code: 1
 
 -----> eps-nested_noxmp_ai-8-lev3.eps <-----
 
 Command: exiv2 -u -pa eps-nested_noxmp_ai-8-lev3.eps
-Warning: Nested documents are currently not supported. Found nested document at position: 51363
-Exiv2 exception in print action for file eps-nested_noxmp_ai-8-lev3.eps:
-Failed to read image data
+Exit code: 253
+
+Command: exiv2 -dx eps-nested_noxmp_ai-8-lev3.eps
+Warning: Unable to write to EPS files created by Adobe Illustrator 8.0 or older.
+Exiv2 exception in erase action for file eps-nested_noxmp_ai-8-lev3.eps:
+Failed to write image
+Exit code: 1
+
+Restore: eps-nested_noxmp_ai-8-lev3.eps
+
+Command: exiv2 -f -eX eps-nested_noxmp_ai-8-lev3.eps
+Exit code: 0
+
+Command: exiv2 -ix eps-nested_noxmp_ai-8-lev3.eps
+Warning: Unable to write to EPS files created by Adobe Illustrator 8.0 or older.
+eps-nested_noxmp_ai-8-lev3.eps: Could not write metadata to file: Failed to write image
 Exit code: 1
 
 -----> eps-nested_noxmp_ai-cs5-lev2.eps <-----
 
 Command: exiv2 -u -pa eps-nested_noxmp_ai-cs5-lev2.eps
-Warning: Nested documents are currently not supported. Found nested document at position: 199781
-Exiv2 exception in print action for file eps-nested_noxmp_ai-cs5-lev2.eps:
-Failed to read image data
-Exit code: 1
+Xmp.xmp.CreatorTool                          XmpText    21  Adobe Illustrator CS5
+Xmp.xmp.CreateDate                           XmpText    22  2011-03-25T16:16+01:00
+Xmp.xmp.MetadataDate                         XmpText    22  2011-03-25T16:16+01:00
+Xmp.xmp.ModifyDate                           XmpText    22  2011-03-25T16:16+01:00
+Xmp.xmp.Thumbnails                           XmpText     0  type="Alt"
+Xmp.xmp.Thumbnails[1]                        XmpText     0  type="Struct"
+Xmp.xmp.Thumbnails[1]/xmpGImg:width          XmpText     3  176
+Xmp.xmp.Thumbnails[1]/xmpGImg:height         XmpText     3  256
+Xmp.xmp.Thumbnails[1]/xmpGImg:format         XmpText     4  JPEG
+Xmp.xmp.Thumbnails[1]/xmpGImg:image          XmpText   4802  /9j/4AAQSkZJRgABAgEASABIAAD/7QAsUGhvdG9zaG9wIDMuMAA4QklNA+0AAAAAABAASAAAAAEA
+AQBIAAAAAQAB/+4ADkFkb2JlAGTAAAAAAf/bAIQABgQEBAUEBgUFBgkGBQYJCwgGBggLDAoKCwoK
+DBAMDAwMDAwQDA4PEA8ODBMTFBQTExwbGxscHx8fHx8fHx8fHwEHBwcNDA0YEBAYGhURFRofHx8f
+Hx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8f/8AAEQgBAACwAwER
+AAIRAQMRAf/EAaIAAAAHAQEBAQEAAAAAAAAAAAQFAwIGAQAHCAkKCwEAAgIDAQEBAQEAAAAAAAAA
+AQACAwQFBgcICQoLEAACAQMDAgQCBgcDBAIGAnMBAgMRBAAFIRIxQVEGE2EicYEUMpGhBxWxQiPB
+UtHhMxZi8CRygvElQzRTkqKyY3PCNUQnk6OzNhdUZHTD0uIIJoMJChgZhJRFRqS0VtNVKBry4/PE
+1OT0ZXWFlaW1xdXl9WZ2hpamtsbW5vY3R1dnd4eXp7fH1+f3OEhYaHiImKi4yNjo+Ck5SVlpeYmZ
+qbnJ2en5KjpKWmp6ipqqusra6voRAAICAQIDBQUEBQYECAMDbQEAAhEDBCESMUEFURNhIgZxgZEy
+obHwFMHR4SNCFVJicvEzJDRDghaSUyWiY7LCB3PSNeJEgxdUkwgJChgZJjZFGidkdFU38qOzwygp
+0+PzhJSktMTU5PRldYWVpbXF1eX1RlZmdoaWprbG1ub2R1dnd4eXp7fH1+f3OEhYaHiImKi4yNjo
++DlJWWl5iZmpucnZ6fkqOkpaanqKmqq6ytrq+v/aAAwDAQACEQMRAD8A9U4q7FXYq7FXYq8r/wCc
+ov8AyRXmb/ox/wC6hb4q+A8UOxV2KuxV2KuxV2KuxV2KuxV+qGKXYq7FXYq7FXYq7FXYq7FXYq7F
+Xlf/ADlF/wCSK8zf9GP/AHULfFXx1+SMUUv5t+VI5UWSN9RhDowDKQT0IOFX6F/oHQ/+rda/8iY/
+6YFd+gdD/wCrda/8iY/6Yq79A6H/ANW61/5Ex/0xV36B0P8A6t1r/wAiY/6Yq79A6H/1brX/AJEx
+/wBMVd+gdD/6t1r/AMiY/wCmKu/QOh/9W61/5Ex/0xVJvOmh6Knk7XnTT7ZXXTrsqwhjBBED0INM
+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
+q7FXYqnfkb/lMdK/15v+oaXCr//Z
+Xmp.xmpTPg.MaxPageSize                       XmpText     0  type="Struct"
+Xmp.xmpTPg.MaxPageSize/stDim:w               XmpText    10  612.000000
+Xmp.xmpTPg.MaxPageSize/stDim:h               XmpText    10  792.000000
+Xmp.xmpTPg.MaxPageSize/stDim:unit            XmpText     6  Points
+Xmp.xmpTPg.NPages                            XmpText     1  1
+Xmp.xmpTPg.HasVisibleTransparency            XmpText     5  False
+Xmp.xmpTPg.HasVisibleOverprint               XmpText     5  False
+Xmp.xmpTPg.PlateNames                        XmpSeq      1  Black
+Xmp.xmpTPg.SwatchGroups                      XmpText     0  type="Seq"
+Xmp.xmpTPg.SwatchGroups[1]                   XmpText     0  type="Struct"
+Xmp.xmpTPg.SwatchGroups[1]/xmpG:groupName    XmpText    20  Default Swatch Group
+Xmp.xmpTPg.SwatchGroups[1]/xmpG:groupType    XmpText     1  0
+Xmp.dc.format                                XmpText    22  application/postscript
+Xmp.xmpMM.DerivedFrom                        XmpText     0  type="Struct"
+Xmp.xmpMM.DerivedFrom/stRef:instanceID       XmpText    40  xmp.iid:0FE28649082068118C14A928EC4F6B4E
+Xmp.xmpMM.DerivedFrom/stRef:documentID       XmpText    40  xmp.did:0FE28649082068118C14A928EC4F6B4E
+Xmp.xmpMM.DerivedFrom/stRef:originalDocumentID XmpText    40  xmp.did:01801174072068118C14A928EC4F6B4E
+Xmp.xmpMM.DocumentID                         XmpText    40  xmp.did:10E28649082068118C14A928EC4F6B4E
+Xmp.xmpMM.InstanceID                         XmpText    40  xmp.iid:10E28649082068118C14A928EC4F6B4E
+Xmp.xmpMM.OriginalDocumentID                 XmpText    40  xmp.did:01801174072068118C14A928EC4F6B4E
+Xmp.xmpMM.History                            XmpText     0  type="Seq"
+Xmp.xmpMM.History[1]                         XmpText     0  type="Struct"
+Xmp.xmpMM.History[1]/stEvt:action            XmpText     5  saved
+Xmp.xmpMM.History[1]/stEvt:instanceID        XmpText    40  xmp.iid:01801174072068118C14A928EC4F6B4E
+Xmp.xmpMM.History[1]/stEvt:when              XmpText    22  2011-03-25T16:07+01:00
+Xmp.xmpMM.History[1]/stEvt:softwareAgent     XmpText    21  Adobe Illustrator CS5
+Xmp.xmpMM.History[1]/stEvt:changed           XmpText     1  /
+Xmp.xmpMM.History[2]                         XmpText     0  type="Struct"
+Xmp.xmpMM.History[2]/stEvt:action            XmpText     5  saved
+Xmp.xmpMM.History[2]/stEvt:instanceID        XmpText    40  xmp.iid:02801174072068118C14A928EC4F6B4E
+Xmp.xmpMM.History[2]/stEvt:when              XmpText    25  2011-03-25T16:07:33+01:00
+Xmp.xmpMM.History[2]/stEvt:softwareAgent     XmpText    21  Adobe Illustrator CS5
+Xmp.xmpMM.History[2]/stEvt:changed           XmpText     1  /
+Xmp.xmpMM.History[3]                         XmpText     0  type="Struct"
+Xmp.xmpMM.History[3]/stEvt:action            XmpText     5  saved
+Xmp.xmpMM.History[3]/stEvt:instanceID        XmpText    40  xmp.iid:03801174072068118C14A928EC4F6B4E
+Xmp.xmpMM.History[3]/stEvt:when              XmpText    25  2011-03-25T16:09:09+01:00
+Xmp.xmpMM.History[3]/stEvt:softwareAgent     XmpText    21  Adobe Illustrator CS5
+Xmp.xmpMM.History[3]/stEvt:changed           XmpText     1  /
+Xmp.xmpMM.History[4]                         XmpText     0  type="Struct"
+Xmp.xmpMM.History[4]/stEvt:action            XmpText     5  saved
+Xmp.xmpMM.History[4]/stEvt:instanceID        XmpText    40  xmp.iid:04801174072068118C14A928EC4F6B4E
+Xmp.xmpMM.History[4]/stEvt:when              XmpText    25  2011-03-25T16:10:28+01:00
+Xmp.xmpMM.History[4]/stEvt:softwareAgent     XmpText    21  Adobe Illustrator CS5
+Xmp.xmpMM.History[4]/stEvt:changed           XmpText     1  /
+Xmp.xmpMM.History[5]                         XmpText     0  type="Struct"
+Xmp.xmpMM.History[5]/stEvt:action            XmpText     5  saved
+Xmp.xmpMM.History[5]/stEvt:instanceID        XmpText    40  xmp.iid:05801174072068118C14A928EC4F6B4E
+Xmp.xmpMM.History[5]/stEvt:when              XmpText    25  2011-03-25T16:11:03+01:00
+Xmp.xmpMM.History[5]/stEvt:softwareAgent     XmpText    21  Adobe Illustrator CS5
+Xmp.xmpMM.History[5]/stEvt:changed           XmpText     1  /
+Xmp.xmpMM.History[6]                         XmpText     0  type="Struct"
+Xmp.xmpMM.History[6]/stEvt:action            XmpText     5  saved
+Xmp.xmpMM.History[6]/stEvt:instanceID        XmpText    40  xmp.iid:06801174072068118C14A928EC4F6B4E
+Xmp.xmpMM.History[6]/stEvt:when              XmpText    25  2011-03-25T16:11:25+01:00
+Xmp.xmpMM.History[6]/stEvt:softwareAgent     XmpText    21  Adobe Illustrator CS5
+Xmp.xmpMM.History[6]/stEvt:changed           XmpText     1  /
+Xmp.xmpMM.History[7]                         XmpText     0  type="Struct"
+Xmp.xmpMM.History[7]/stEvt:action            XmpText     5  saved
+Xmp.xmpMM.History[7]/stEvt:instanceID        XmpText    40  xmp.iid:07801174072068118C14A928EC4F6B4E
+Xmp.xmpMM.History[7]/stEvt:when              XmpText    25  2011-03-25T16:11:44+01:00
+Xmp.xmpMM.History[7]/stEvt:softwareAgent     XmpText    21  Adobe Illustrator CS5
+Xmp.xmpMM.History[7]/stEvt:changed           XmpText     1  /
+Xmp.xmpMM.History[8]                         XmpText     0  type="Struct"
+Xmp.xmpMM.History[8]/stEvt:action            XmpText     5  saved
+Xmp.xmpMM.History[8]/stEvt:instanceID        XmpText    40  xmp.iid:08801174072068118C14A928EC4F6B4E
+Xmp.xmpMM.History[8]/stEvt:when              XmpText    25  2011-03-25T16:12:06+01:00
+Xmp.xmpMM.History[8]/stEvt:softwareAgent     XmpText    21  Adobe Illustrator CS5
+Xmp.xmpMM.History[8]/stEvt:changed           XmpText     1  /
+Xmp.xmpMM.History[9]                         XmpText     0  type="Struct"
+Xmp.xmpMM.History[9]/stEvt:action            XmpText     5  saved
+Xmp.xmpMM.History[9]/stEvt:instanceID        XmpText    40  xmp.iid:09801174072068118C14A928EC4F6B4E
+Xmp.xmpMM.History[9]/stEvt:when              XmpText    25  2011-03-25T16:12:25+01:00
+Xmp.xmpMM.History[9]/stEvt:softwareAgent     XmpText    21  Adobe Illustrator CS5
+Xmp.xmpMM.History[9]/stEvt:changed           XmpText     1  /
+Xmp.xmpMM.History[10]                        XmpText     0  type="Struct"
+Xmp.xmpMM.History[10]/stEvt:action           XmpText     5  saved
+Xmp.xmpMM.History[10]/stEvt:instanceID       XmpText    40  xmp.iid:0A801174072068118C14A928EC4F6B4E
+Xmp.xmpMM.History[10]/stEvt:when             XmpText    25  2011-03-25T16:12:46+01:00
+Xmp.xmpMM.History[10]/stEvt:softwareAgent    XmpText    21  Adobe Illustrator CS5
+Xmp.xmpMM.History[10]/stEvt:changed          XmpText     1  /
+Xmp.xmpMM.History[11]                        XmpText     0  type="Struct"
+Xmp.xmpMM.History[11]/stEvt:action           XmpText     5  saved
+Xmp.xmpMM.History[11]/stEvt:instanceID       XmpText    40  xmp.iid:0CE28649082068118C14A928EC4F6B4E
+Xmp.xmpMM.History[11]/stEvt:when             XmpText    25  2011-03-25T16:12:58+01:00
+Xmp.xmpMM.History[11]/stEvt:softwareAgent    XmpText    21  Adobe Illustrator CS5
+Xmp.xmpMM.History[11]/stEvt:changed          XmpText     1  /
+Xmp.xmpMM.History[12]                        XmpText     0  type="Struct"
+Xmp.xmpMM.History[12]/stEvt:action           XmpText     5  saved
+Xmp.xmpMM.History[12]/stEvt:instanceID       XmpText    40  xmp.iid:0DE28649082068118C14A928EC4F6B4E
+Xmp.xmpMM.History[12]/stEvt:when             XmpText    25  2011-03-25T16:13:21+01:00
+Xmp.xmpMM.History[12]/stEvt:softwareAgent    XmpText    21  Adobe Illustrator CS5
+Xmp.xmpMM.History[12]/stEvt:changed          XmpText     1  /
+Xmp.xmpMM.History[13]                        XmpText     0  type="Struct"
+Xmp.xmpMM.History[13]/stEvt:action           XmpText     5  saved
+Xmp.xmpMM.History[13]/stEvt:instanceID       XmpText    40  xmp.iid:0EE28649082068118C14A928EC4F6B4E
+Xmp.xmpMM.History[13]/stEvt:when             XmpText    25  2011-03-25T16:13:47+01:00
+Xmp.xmpMM.History[13]/stEvt:softwareAgent    XmpText    21  Adobe Illustrator CS5
+Xmp.xmpMM.History[13]/stEvt:changed          XmpText     1  /
+Xmp.xmpMM.History[14]                        XmpText     0  type="Struct"
+Xmp.xmpMM.History[14]/stEvt:action           XmpText     5  saved
+Xmp.xmpMM.History[14]/stEvt:instanceID       XmpText    40  xmp.iid:0FE28649082068118C14A928EC4F6B4E
+Xmp.xmpMM.History[14]/stEvt:when             XmpText    25  2011-03-25T16:15:36+01:00
+Xmp.xmpMM.History[14]/stEvt:softwareAgent    XmpText    21  Adobe Illustrator CS5
+Xmp.xmpMM.History[14]/stEvt:changed          XmpText     1  /
+Xmp.xmpMM.History[15]                        XmpText     0  type="Struct"
+Xmp.xmpMM.History[15]/stEvt:action           XmpText     5  saved
+Xmp.xmpMM.History[15]/stEvt:instanceID       XmpText    40  xmp.iid:10E28649082068118C14A928EC4F6B4E
+Xmp.xmpMM.History[15]/stEvt:when             XmpText    22  2011-03-25T16:16+01:00
+Xmp.xmpMM.History[15]/stEvt:softwareAgent    XmpText    21  Adobe Illustrator CS5
+Xmp.xmpMM.History[15]/stEvt:changed          XmpText     1  /
+Xmp.xmpMM.Manifest                           XmpText     0  type="Seq"
+Xmp.xmpMM.Manifest[1]                        XmpText     0  type="Struct"
+Xmp.xmpMM.Manifest[1]/stMfs:linkForm         XmpText    16  EmbedByReference
+Xmp.xmpMM.Manifest[1]/stMfs:reference        XmpText     0  type="Struct"
+Xmp.xmpMM.Manifest[1]/stMfs:reference/stRef:filePath XmpText    39  /Users/mul/projects/EPS/zs_inkscape.eps
+Exit code: 253
+
+Command: exiv2 -dx eps-nested_noxmp_ai-cs5-lev2.eps
+Exit code: 0
+
+Command: exiv2 -f -ex eps-nested_noxmp_ai-cs5-lev2.eps
+Exit code: 0
+
+Restore: eps-nested_noxmp_ai-cs5-lev2.eps
+
+Command: exiv2 -f -eX eps-nested_noxmp_ai-cs5-lev2.eps
+Exit code: 0
+
+Command: exiv2 -ix eps-nested_noxmp_ai-cs5-lev2.eps
+Exit code: 0
+
+Command: (2) exiv2 -ix eps-nested_noxmp_ai-cs5-lev2.eps
+Exit code: 0
+
+Command: exiv2 -f -ex eps-nested_noxmp_ai-cs5-lev2.eps
+Exit code: 0
 
 -----> eps-nested_noxmp_ai-cs5-lev3.eps <-----
 
 Command: exiv2 -u -pa eps-nested_noxmp_ai-cs5-lev3.eps
-Warning: Nested documents are currently not supported. Found nested document at position: 199367
-Exiv2 exception in print action for file eps-nested_noxmp_ai-cs5-lev3.eps:
-Failed to read image data
-Exit code: 1
+Xmp.xmp.CreatorTool                          XmpText    21  Adobe Illustrator CS5
+Xmp.xmp.CreateDate                           XmpText    25  2011-03-25T16:15:36+01:00
+Xmp.xmp.MetadataDate                         XmpText    25  2011-03-25T16:15:36+01:00
+Xmp.xmp.ModifyDate                           XmpText    25  2011-03-25T16:15:36+01:00
+Xmp.xmp.Thumbnails                           XmpText     0  type="Alt"
+Xmp.xmp.Thumbnails[1]                        XmpText     0  type="Struct"
+Xmp.xmp.Thumbnails[1]/xmpGImg:width          XmpText     3  176
+Xmp.xmp.Thumbnails[1]/xmpGImg:height         XmpText     3  256
+Xmp.xmp.Thumbnails[1]/xmpGImg:format         XmpText     4  JPEG
+Xmp.xmp.Thumbnails[1]/xmpGImg:image          XmpText   4802  /9j/4AAQSkZJRgABAgEASABIAAD/7QAsUGhvdG9zaG9wIDMuMAA4QklNA+0AAAAAABAASAAAAAEA
+AQBIAAAAAQAB/+4ADkFkb2JlAGTAAAAAAf/bAIQABgQEBAUEBgUFBgkGBQYJCwgGBggLDAoKCwoK
+DBAMDAwMDAwQDA4PEA8ODBMTFBQTExwbGxscHx8fHx8fHx8fHwEHBwcNDA0YEBAYGhURFRofHx8f
+Hx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8f/8AAEQgBAACwAwER
+AAIRAQMRAf/EAaIAAAAHAQEBAQEAAAAAAAAAAAQFAwIGAQAHCAkKCwEAAgIDAQEBAQEAAAAAAAAA
+AQACAwQFBgcICQoLEAACAQMDAgQCBgcDBAIGAnMBAgMRBAAFIRIxQVEGE2EicYEUMpGhBxWxQiPB
+UtHhMxZi8CRygvElQzRTkqKyY3PCNUQnk6OzNhdUZHTD0uIIJoMJChgZhJRFRqS0VtNVKBry4/PE
+1OT0ZXWFlaW1xdXl9WZ2hpamtsbW5vY3R1dnd4eXp7fH1+f3OEhYaHiImKi4yNjo+Ck5SVlpeYmZ
+qbnJ2en5KjpKWmp6ipqqusra6voRAAICAQIDBQUEBQYECAMDbQEAAhEDBCESMUEFURNhIgZxgZEy
+obHwFMHR4SNCFVJicvEzJDRDghaSUyWiY7LCB3PSNeJEgxdUkwgJChgZJjZFGidkdFU38qOzwygp
+0+PzhJSktMTU5PRldYWVpbXF1eX1RlZmdoaWprbG1ub2R1dnd4eXp7fH1+f3OEhYaHiImKi4yNjo
++DlJWWl5iZmpucnZ6fkqOkpaanqKmqq6ytrq+v/aAAwDAQACEQMRAD8A9U4q7FXYq7FXYq8r/wCc
+ov8AyRXmb/ox/wC6hb4q+A8UOxV2KuxV2KuxV2KuxV2KuxV+qGKXYq7FXYq7FXYq7FXYq7FXYq7F
+Xlf/ADlF/wCSK8zf9GP/AHULfFXx1+SMUUv5t+VI5UWSN9RhDowDKQT0IOFX6F/oHQ/+rda/8iY/
+6YFd+gdD/wCrda/8iY/6Yq79A6H/ANW61/5Ex/0xV36B0P8A6t1r/wAiY/6Yq79A6H/1brX/AJEx
+/wBMVd+gdD/6t1r/AMiY/wCmKu/QOh/9W61/5Ex/0xVJvOmh6Knk7XnTT7ZXXTrsqwhjBBED0INM
+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
+q7FXYqnfkb/lMdK/15v+oaXCr//Z
+Xmp.xmpTPg.MaxPageSize                       XmpText     0  type="Struct"
+Xmp.xmpTPg.MaxPageSize/stDim:w               XmpText    10  612.000000
+Xmp.xmpTPg.MaxPageSize/stDim:h               XmpText    10  792.000000
+Xmp.xmpTPg.MaxPageSize/stDim:unit            XmpText     6  Points
+Xmp.xmpTPg.NPages                            XmpText     1  1
+Xmp.xmpTPg.HasVisibleTransparency            XmpText     5  False
+Xmp.xmpTPg.HasVisibleOverprint               XmpText     5  False
+Xmp.xmpTPg.PlateNames                        XmpSeq      1  Black
+Xmp.xmpTPg.SwatchGroups                      XmpText     0  type="Seq"
+Xmp.xmpTPg.SwatchGroups[1]                   XmpText     0  type="Struct"
+Xmp.xmpTPg.SwatchGroups[1]/xmpG:groupName    XmpText    20  Default Swatch Group
+Xmp.xmpTPg.SwatchGroups[1]/xmpG:groupType    XmpText     1  0
+Xmp.dc.format                                XmpText    22  application/postscript
+Xmp.xmpMM.DerivedFrom                        XmpText     0  type="Struct"
+Xmp.xmpMM.DerivedFrom/stRef:instanceID       XmpText    40  xmp.iid:0EE28649082068118C14A928EC4F6B4E
+Xmp.xmpMM.DerivedFrom/stRef:documentID       XmpText    40  xmp.did:0EE28649082068118C14A928EC4F6B4E
+Xmp.xmpMM.DerivedFrom/stRef:originalDocumentID XmpText    40  xmp.did:01801174072068118C14A928EC4F6B4E
+Xmp.xmpMM.DocumentID                         XmpText    40  xmp.did:0FE28649082068118C14A928EC4F6B4E
+Xmp.xmpMM.InstanceID                         XmpText    40  xmp.iid:0FE28649082068118C14A928EC4F6B4E
+Xmp.xmpMM.OriginalDocumentID                 XmpText    40  xmp.did:01801174072068118C14A928EC4F6B4E
+Xmp.xmpMM.History                            XmpText     0  type="Seq"
+Xmp.xmpMM.History[1]                         XmpText     0  type="Struct"
+Xmp.xmpMM.History[1]/stEvt:action            XmpText     5  saved
+Xmp.xmpMM.History[1]/stEvt:instanceID        XmpText    40  xmp.iid:01801174072068118C14A928EC4F6B4E
+Xmp.xmpMM.History[1]/stEvt:when              XmpText    22  2011-03-25T16:07+01:00
+Xmp.xmpMM.History[1]/stEvt:softwareAgent     XmpText    21  Adobe Illustrator CS5
+Xmp.xmpMM.History[1]/stEvt:changed           XmpText     1  /
+Xmp.xmpMM.History[2]                         XmpText     0  type="Struct"
+Xmp.xmpMM.History[2]/stEvt:action            XmpText     5  saved
+Xmp.xmpMM.History[2]/stEvt:instanceID        XmpText    40  xmp.iid:02801174072068118C14A928EC4F6B4E
+Xmp.xmpMM.History[2]/stEvt:when              XmpText    25  2011-03-25T16:07:33+01:00
+Xmp.xmpMM.History[2]/stEvt:softwareAgent     XmpText    21  Adobe Illustrator CS5
+Xmp.xmpMM.History[2]/stEvt:changed           XmpText     1  /
+Xmp.xmpMM.History[3]                         XmpText     0  type="Struct"
+Xmp.xmpMM.History[3]/stEvt:action            XmpText     5  saved
+Xmp.xmpMM.History[3]/stEvt:instanceID        XmpText    40  xmp.iid:03801174072068118C14A928EC4F6B4E
+Xmp.xmpMM.History[3]/stEvt:when              XmpText    25  2011-03-25T16:09:09+01:00
+Xmp.xmpMM.History[3]/stEvt:softwareAgent     XmpText    21  Adobe Illustrator CS5
+Xmp.xmpMM.History[3]/stEvt:changed           XmpText     1  /
+Xmp.xmpMM.History[4]                         XmpText     0  type="Struct"
+Xmp.xmpMM.History[4]/stEvt:action            XmpText     5  saved
+Xmp.xmpMM.History[4]/stEvt:instanceID        XmpText    40  xmp.iid:04801174072068118C14A928EC4F6B4E
+Xmp.xmpMM.History[4]/stEvt:when              XmpText    25  2011-03-25T16:10:28+01:00
+Xmp.xmpMM.History[4]/stEvt:softwareAgent     XmpText    21  Adobe Illustrator CS5
+Xmp.xmpMM.History[4]/stEvt:changed           XmpText     1  /
+Xmp.xmpMM.History[5]                         XmpText     0  type="Struct"
+Xmp.xmpMM.History[5]/stEvt:action            XmpText     5  saved
+Xmp.xmpMM.History[5]/stEvt:instanceID        XmpText    40  xmp.iid:05801174072068118C14A928EC4F6B4E
+Xmp.xmpMM.History[5]/stEvt:when              XmpText    25  2011-03-25T16:11:03+01:00
+Xmp.xmpMM.History[5]/stEvt:softwareAgent     XmpText    21  Adobe Illustrator CS5
+Xmp.xmpMM.History[5]/stEvt:changed           XmpText     1  /
+Xmp.xmpMM.History[6]                         XmpText     0  type="Struct"
+Xmp.xmpMM.History[6]/stEvt:action            XmpText     5  saved
+Xmp.xmpMM.History[6]/stEvt:instanceID        XmpText    40  xmp.iid:06801174072068118C14A928EC4F6B4E
+Xmp.xmpMM.History[6]/stEvt:when              XmpText    25  2011-03-25T16:11:25+01:00
+Xmp.xmpMM.History[6]/stEvt:softwareAgent     XmpText    21  Adobe Illustrator CS5
+Xmp.xmpMM.History[6]/stEvt:changed           XmpText     1  /
+Xmp.xmpMM.History[7]                         XmpText     0  type="Struct"
+Xmp.xmpMM.History[7]/stEvt:action            XmpText     5  saved
+Xmp.xmpMM.History[7]/stEvt:instanceID        XmpText    40  xmp.iid:07801174072068118C14A928EC4F6B4E
+Xmp.xmpMM.History[7]/stEvt:when              XmpText    25  2011-03-25T16:11:44+01:00
+Xmp.xmpMM.History[7]/stEvt:softwareAgent     XmpText    21  Adobe Illustrator CS5
+Xmp.xmpMM.History[7]/stEvt:changed           XmpText     1  /
+Xmp.xmpMM.History[8]                         XmpText     0  type="Struct"
+Xmp.xmpMM.History[8]/stEvt:action            XmpText     5  saved
+Xmp.xmpMM.History[8]/stEvt:instanceID        XmpText    40  xmp.iid:08801174072068118C14A928EC4F6B4E
+Xmp.xmpMM.History[8]/stEvt:when              XmpText    25  2011-03-25T16:12:06+01:00
+Xmp.xmpMM.History[8]/stEvt:softwareAgent     XmpText    21  Adobe Illustrator CS5
+Xmp.xmpMM.History[8]/stEvt:changed           XmpText     1  /
+Xmp.xmpMM.History[9]                         XmpText     0  type="Struct"
+Xmp.xmpMM.History[9]/stEvt:action            XmpText     5  saved
+Xmp.xmpMM.History[9]/stEvt:instanceID        XmpText    40  xmp.iid:09801174072068118C14A928EC4F6B4E
+Xmp.xmpMM.History[9]/stEvt:when              XmpText    25  2011-03-25T16:12:25+01:00
+Xmp.xmpMM.History[9]/stEvt:softwareAgent     XmpText    21  Adobe Illustrator CS5
+Xmp.xmpMM.History[9]/stEvt:changed           XmpText     1  /
+Xmp.xmpMM.History[10]                        XmpText     0  type="Struct"
+Xmp.xmpMM.History[10]/stEvt:action           XmpText     5  saved
+Xmp.xmpMM.History[10]/stEvt:instanceID       XmpText    40  xmp.iid:0A801174072068118C14A928EC4F6B4E
+Xmp.xmpMM.History[10]/stEvt:when             XmpText    25  2011-03-25T16:12:46+01:00
+Xmp.xmpMM.History[10]/stEvt:softwareAgent    XmpText    21  Adobe Illustrator CS5
+Xmp.xmpMM.History[10]/stEvt:changed          XmpText     1  /
+Xmp.xmpMM.History[11]                        XmpText     0  type="Struct"
+Xmp.xmpMM.History[11]/stEvt:action           XmpText     5  saved
+Xmp.xmpMM.History[11]/stEvt:instanceID       XmpText    40  xmp.iid:0CE28649082068118C14A928EC4F6B4E
+Xmp.xmpMM.History[11]/stEvt:when             XmpText    25  2011-03-25T16:12:58+01:00
+Xmp.xmpMM.History[11]/stEvt:softwareAgent    XmpText    21  Adobe Illustrator CS5
+Xmp.xmpMM.History[11]/stEvt:changed          XmpText     1  /
+Xmp.xmpMM.History[12]                        XmpText     0  type="Struct"
+Xmp.xmpMM.History[12]/stEvt:action           XmpText     5  saved
+Xmp.xmpMM.History[12]/stEvt:instanceID       XmpText    40  xmp.iid:0DE28649082068118C14A928EC4F6B4E
+Xmp.xmpMM.History[12]/stEvt:when             XmpText    25  2011-03-25T16:13:21+01:00
+Xmp.xmpMM.History[12]/stEvt:softwareAgent    XmpText    21  Adobe Illustrator CS5
+Xmp.xmpMM.History[12]/stEvt:changed          XmpText     1  /
+Xmp.xmpMM.History[13]                        XmpText     0  type="Struct"
+Xmp.xmpMM.History[13]/stEvt:action           XmpText     5  saved
+Xmp.xmpMM.History[13]/stEvt:instanceID       XmpText    40  xmp.iid:0EE28649082068118C14A928EC4F6B4E
+Xmp.xmpMM.History[13]/stEvt:when             XmpText    25  2011-03-25T16:13:47+01:00
+Xmp.xmpMM.History[13]/stEvt:softwareAgent    XmpText    21  Adobe Illustrator CS5
+Xmp.xmpMM.History[13]/stEvt:changed          XmpText     1  /
+Xmp.xmpMM.History[14]                        XmpText     0  type="Struct"
+Xmp.xmpMM.History[14]/stEvt:action           XmpText     5  saved
+Xmp.xmpMM.History[14]/stEvt:instanceID       XmpText    40  xmp.iid:0FE28649082068118C14A928EC4F6B4E
+Xmp.xmpMM.History[14]/stEvt:when             XmpText    25  2011-03-25T16:15:36+01:00
+Xmp.xmpMM.History[14]/stEvt:softwareAgent    XmpText    21  Adobe Illustrator CS5
+Xmp.xmpMM.History[14]/stEvt:changed          XmpText     1  /
+Xmp.xmpMM.Manifest                           XmpText     0  type="Seq"
+Xmp.xmpMM.Manifest[1]                        XmpText     0  type="Struct"
+Xmp.xmpMM.Manifest[1]/stMfs:linkForm         XmpText    16  EmbedByReference
+Xmp.xmpMM.Manifest[1]/stMfs:reference        XmpText     0  type="Struct"
+Xmp.xmpMM.Manifest[1]/stMfs:reference/stRef:filePath XmpText    39  /Users/mul/projects/EPS/zs_inkscape.eps
+Exit code: 253
+
+Command: exiv2 -dx eps-nested_noxmp_ai-cs5-lev3.eps
+Exit code: 0
+
+Command: exiv2 -f -ex eps-nested_noxmp_ai-cs5-lev3.eps
+Exit code: 0
+
+Restore: eps-nested_noxmp_ai-cs5-lev3.eps
+
+Command: exiv2 -f -eX eps-nested_noxmp_ai-cs5-lev3.eps
+Exit code: 0
+
+Command: exiv2 -ix eps-nested_noxmp_ai-cs5-lev3.eps
+Exit code: 0
+
+Command: (2) exiv2 -ix eps-nested_noxmp_ai-cs5-lev3.eps
+Exit code: 0
+
+Command: exiv2 -f -ex eps-nested_noxmp_ai-cs5-lev3.eps
+Exit code: 0
 
 -----> eps-nested_noxmp_indesign-cs5-lev2-bin.eps <-----
 
 Command: exiv2 -u -pa eps-nested_noxmp_indesign-cs5-lev2-bin.eps
-Warning: Nested documents are currently not supported. Found nested document at position: 180329
-Exiv2 exception in print action for file eps-nested_noxmp_indesign-cs5-lev2-bin.eps:
-Failed to read image data
-Exit code: 1
+Exit code: 253
+
+Command: exiv2 -dx eps-nested_noxmp_indesign-cs5-lev2-bin.eps
+Exit code: 0
+
+Command: exiv2 -f -ex eps-nested_noxmp_indesign-cs5-lev2-bin.eps
+Exit code: 0
+
+Restore: eps-nested_noxmp_indesign-cs5-lev2-bin.eps
+
+Command: exiv2 -f -eX eps-nested_noxmp_indesign-cs5-lev2-bin.eps
+Exit code: 0
+
+Command: exiv2 -ix eps-nested_noxmp_indesign-cs5-lev2-bin.eps
+Exit code: 0
+
+Command: (2) exiv2 -ix eps-nested_noxmp_indesign-cs5-lev2-bin.eps
+Exit code: 0
+
+Command: exiv2 -f -ex eps-nested_noxmp_indesign-cs5-lev2-bin.eps
+Exit code: 0
 
 -----> eps-nested_noxmp_indesign-cs5-lev2.eps <-----
 
 Command: exiv2 -u -pa eps-nested_noxmp_indesign-cs5-lev2.eps
-Warning: Nested documents are currently not supported. Found nested document at position: 180411
-Exiv2 exception in print action for file eps-nested_noxmp_indesign-cs5-lev2.eps:
-Failed to read image data
-Exit code: 1
+Exit code: 253
+
+Command: exiv2 -dx eps-nested_noxmp_indesign-cs5-lev2.eps
+Exit code: 0
+
+Command: exiv2 -f -ex eps-nested_noxmp_indesign-cs5-lev2.eps
+Exit code: 0
+
+Restore: eps-nested_noxmp_indesign-cs5-lev2.eps
+
+Command: exiv2 -f -eX eps-nested_noxmp_indesign-cs5-lev2.eps
+Exit code: 0
+
+Command: exiv2 -ix eps-nested_noxmp_indesign-cs5-lev2.eps
+Exit code: 0
+
+Command: (2) exiv2 -ix eps-nested_noxmp_indesign-cs5-lev2.eps
+Exit code: 0
+
+Command: exiv2 -f -ex eps-nested_noxmp_indesign-cs5-lev2.eps
+Exit code: 0
 
 -----> eps-nested_noxmp_indesign-cs5-lev3-bin.eps <-----
 
 Command: exiv2 -u -pa eps-nested_noxmp_indesign-cs5-lev3-bin.eps
-Warning: Nested documents are currently not supported. Found nested document at position: 180329
-Exiv2 exception in print action for file eps-nested_noxmp_indesign-cs5-lev3-bin.eps:
-Failed to read image data
-Exit code: 1
+Exit code: 253
+
+Command: exiv2 -dx eps-nested_noxmp_indesign-cs5-lev3-bin.eps
+Exit code: 0
+
+Command: exiv2 -f -ex eps-nested_noxmp_indesign-cs5-lev3-bin.eps
+Exit code: 0
+
+Restore: eps-nested_noxmp_indesign-cs5-lev3-bin.eps
+
+Command: exiv2 -f -eX eps-nested_noxmp_indesign-cs5-lev3-bin.eps
+Exit code: 0
+
+Command: exiv2 -ix eps-nested_noxmp_indesign-cs5-lev3-bin.eps
+Exit code: 0
+
+Command: (2) exiv2 -ix eps-nested_noxmp_indesign-cs5-lev3-bin.eps
+Exit code: 0
+
+Command: exiv2 -f -ex eps-nested_noxmp_indesign-cs5-lev3-bin.eps
+Exit code: 0
 
 -----> eps-nested_noxmp_indesign-cs5-lev3.eps <-----
 
 Command: exiv2 -u -pa eps-nested_noxmp_indesign-cs5-lev3.eps
-Warning: Nested documents are currently not supported. Found nested document at position: 180411
-Exiv2 exception in print action for file eps-nested_noxmp_indesign-cs5-lev3.eps:
-Failed to read image data
-Exit code: 1
+Exit code: 253
+
+Command: exiv2 -dx eps-nested_noxmp_indesign-cs5-lev3.eps
+Exit code: 0
+
+Command: exiv2 -f -ex eps-nested_noxmp_indesign-cs5-lev3.eps
+Exit code: 0
+
+Restore: eps-nested_noxmp_indesign-cs5-lev3.eps
+
+Command: exiv2 -f -eX eps-nested_noxmp_indesign-cs5-lev3.eps
+Exit code: 0
+
+Command: exiv2 -ix eps-nested_noxmp_indesign-cs5-lev3.eps
+Exit code: 0
+
+Command: (2) exiv2 -ix eps-nested_noxmp_indesign-cs5-lev3.eps
+Exit code: 0
+
+Command: exiv2 -f -ex eps-nested_noxmp_indesign-cs5-lev3.eps
+Exit code: 0
 
 -----> eps-nested_noxmp_oodraw-lev2-epsi.eps <-----
 
 Command: exiv2 -u -pa eps-nested_noxmp_oodraw-lev2-epsi.eps
-Warning: Nested documents are currently not supported. Found nested document at position: 111882
-Exiv2 exception in print action for file eps-nested_noxmp_oodraw-lev2-epsi.eps:
-Failed to read image data
-Exit code: 1
+Exit code: 253
+
+Command: exiv2 -dx eps-nested_noxmp_oodraw-lev2-epsi.eps
+Exit code: 0
+
+Command: exiv2 -f -ex eps-nested_noxmp_oodraw-lev2-epsi.eps
+Exit code: 0
+
+Restore: eps-nested_noxmp_oodraw-lev2-epsi.eps
+
+Command: exiv2 -f -eX eps-nested_noxmp_oodraw-lev2-epsi.eps
+Exit code: 0
+
+Command: exiv2 -ix eps-nested_noxmp_oodraw-lev2-epsi.eps
+Exit code: 0
+
+Command: (2) exiv2 -ix eps-nested_noxmp_oodraw-lev2-epsi.eps
+Exit code: 0
+
+Command: exiv2 -f -ex eps-nested_noxmp_oodraw-lev2-epsi.eps
+Exit code: 0
 
 -----> eps-nested_noxmp_oodraw-lev2-pre.eps <-----
 
 Command: exiv2 -u -pa eps-nested_noxmp_oodraw-lev2-pre.eps
-Warning: Nested documents are currently not supported. Found nested document at position: 16203
-Exiv2 exception in print action for file eps-nested_noxmp_oodraw-lev2-pre.eps:
-Failed to read image data
-Exit code: 1
+Exit code: 253
+
+Command: exiv2 -dx eps-nested_noxmp_oodraw-lev2-pre.eps
+Exit code: 0
+
+Command: exiv2 -f -ex eps-nested_noxmp_oodraw-lev2-pre.eps
+Exit code: 0
+
+Restore: eps-nested_noxmp_oodraw-lev2-pre.eps
+
+Command: exiv2 -f -eX eps-nested_noxmp_oodraw-lev2-pre.eps
+Exit code: 0
+
+Command: exiv2 -ix eps-nested_noxmp_oodraw-lev2-pre.eps
+Exit code: 0
+
+Command: (2) exiv2 -ix eps-nested_noxmp_oodraw-lev2-pre.eps
+Exit code: 0
+
+Command: exiv2 -f -ex eps-nested_noxmp_oodraw-lev2-pre.eps
+Exit code: 0
 
 -----> eps-nested_noxmp_oodraw-lev2.eps <-----
 
 Command: exiv2 -u -pa eps-nested_noxmp_oodraw-lev2.eps
-Warning: Nested documents are currently not supported. Found nested document at position: 1937
-Exiv2 exception in print action for file eps-nested_noxmp_oodraw-lev2.eps:
-Failed to read image data
-Exit code: 1
+Exit code: 253
+
+Command: exiv2 -dx eps-nested_noxmp_oodraw-lev2.eps
+Exit code: 0
+
+Command: exiv2 -f -ex eps-nested_noxmp_oodraw-lev2.eps
+Exit code: 0
+
+Restore: eps-nested_noxmp_oodraw-lev2.eps
+
+Command: exiv2 -f -eX eps-nested_noxmp_oodraw-lev2.eps
+Exit code: 0
+
+Command: exiv2 -ix eps-nested_noxmp_oodraw-lev2.eps
+Exit code: 0
+
+Command: (2) exiv2 -ix eps-nested_noxmp_oodraw-lev2.eps
+Exit code: 0
+
+Command: exiv2 -f -ex eps-nested_noxmp_oodraw-lev2.eps
+Exit code: 0
 
 -----> eps-nested_xmp_ai-3-lev3.eps <-----
 
 Command: exiv2 -u -pa eps-nested_xmp_ai-3-lev3.eps
-Warning: Nested documents are currently not supported. Found nested document at position: 24646
-Exiv2 exception in print action for file eps-nested_xmp_ai-3-lev3.eps:
-Failed to read image data
+Exit code: 253
+
+Command: exiv2 -dx eps-nested_xmp_ai-3-lev3.eps
+Warning: Unable to write to EPS files created by Adobe Illustrator 8.0 or older.
+Exiv2 exception in erase action for file eps-nested_xmp_ai-3-lev3.eps:
+Failed to write image
+Exit code: 1
+
+Restore: eps-nested_xmp_ai-3-lev3.eps
+
+Command: exiv2 -f -eX eps-nested_xmp_ai-3-lev3.eps
+Exit code: 0
+
+Command: exiv2 -ix eps-nested_xmp_ai-3-lev3.eps
+Warning: Unable to write to EPS files created by Adobe Illustrator 8.0 or older.
+eps-nested_xmp_ai-3-lev3.eps: Could not write metadata to file: Failed to write image
 Exit code: 1
 
 -----> eps-nested_xmp_ai-8-lev3.eps <-----
 
 Command: exiv2 -u -pa eps-nested_xmp_ai-8-lev3.eps
-Warning: Nested documents are currently not supported. Found nested document at position: 250651
-Exiv2 exception in print action for file eps-nested_xmp_ai-8-lev3.eps:
-Failed to read image data
+Exit code: 253
+
+Command: exiv2 -dx eps-nested_xmp_ai-8-lev3.eps
+Warning: Unable to write to EPS files created by Adobe Illustrator 8.0 or older.
+Exiv2 exception in erase action for file eps-nested_xmp_ai-8-lev3.eps:
+Failed to write image
+Exit code: 1
+
+Restore: eps-nested_xmp_ai-8-lev3.eps
+
+Command: exiv2 -f -eX eps-nested_xmp_ai-8-lev3.eps
+Exit code: 0
+
+Command: exiv2 -ix eps-nested_xmp_ai-8-lev3.eps
+Warning: Unable to write to EPS files created by Adobe Illustrator 8.0 or older.
+eps-nested_xmp_ai-8-lev3.eps: Could not write metadata to file: Failed to write image
 Exit code: 1
 
 -----> eps-nested_xmp_ai-cs5-lev3.eps <-----
 
 Command: exiv2 -u -pa eps-nested_xmp_ai-cs5-lev3.eps
-Warning: Nested documents are currently not supported. Found nested document at position: 233935
-Exiv2 exception in print action for file eps-nested_xmp_ai-cs5-lev3.eps:
-Failed to read image data
-Exit code: 1
+Xmp.dc.format                                XmpText    22  application/postscript
+Xmp.dc.title                                 LangAlt     1  lang="x-default" Print
+Xmp.xmp.MetadataDate                         XmpText    25  2011-05-16T16:08:02+02:00
+Xmp.xmp.ModifyDate                           XmpText    25  2011-05-16T16:08:02+02:00
+Xmp.xmp.CreateDate                           XmpText    25  2011-05-16T16:08:02+02:00
+Xmp.xmp.CreatorTool                          XmpText    21  Adobe Illustrator CS5
+Xmp.xmp.Thumbnails                           XmpText     0  type="Alt"
+Xmp.xmp.Thumbnails[1]                        XmpText     0  type="Struct"
+Xmp.xmp.Thumbnails[1]/xmpGImg:width          XmpText     3  256
+Xmp.xmp.Thumbnails[1]/xmpGImg:height         XmpText     3  256
+Xmp.xmp.Thumbnails[1]/xmpGImg:format         XmpText     4  JPEG
+Xmp.xmp.Thumbnails[1]/xmpGImg:image          XmpText   5779  /9j/4AAQSkZJRgABAgEASABIAAD/7QAsUGhvdG9zaG9wIDMuMAA4QklNA+0AAAAAABAASAAAAAEA
+AQBIAAAAAQAB/+4ADkFkb2JlAGTAAAAAAf/bAIQABgQEBAUEBgUFBgkGBQYJCwgGBggLDAoKCwoK
+DBAMDAwMDAwQDA4PEA8ODBMTFBQTExwbGxscHx8fHx8fHx8fHwEHBwcNDA0YEBAYGhURFRofHx8f
+Hx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8f/8AAEQgBAAEAAwER
+AAIRAQMRAf/EAaIAAAAHAQEBAQEAAAAAAAAAAAQFAwIGAQAHCAkKCwEAAgIDAQEBAQEAAAAAAAAA
+AQACAwQFBgcICQoLEAACAQMDAgQCBgcDBAIGAnMBAgMRBAAFIRIxQVEGE2EicYEUMpGhBxWxQiPB
+UtHhMxZi8CRygvElQzRTkqKyY3PCNUQnk6OzNhdUZHTD0uIIJoMJChgZhJRFRqS0VtNVKBry4/PE
+1OT0ZXWFlaW1xdXl9WZ2hpamtsbW5vY3R1dnd4eXp7fH1+f3OEhYaHiImKi4yNjo+Ck5SVlpeYmZ
+qbnJ2en5KjpKWmp6ipqqusra6voRAAICAQIDBQUEBQYECAMDbQEAAhEDBCESMUEFURNhIgZxgZEy
+obHwFMHR4SNCFVJicvEzJDRDghaSUyWiY7LCB3PSNeJEgxdUkwgJChgZJjZFGidkdFU38qOzwygp
+0+PzhJSktMTU5PRldYWVpbXF1eX1RlZmdoaWprbG1ub2R1dnd4eXp7fH1+f3OEhYaHiImKi4yNjo
++DlJWWl5iZmpucnZ6fkqOkpaanqKmqq6ytrq+v/aAAwDAQACEQMRAD8A894FdirsVdirsVdirsVd
+irsVdirsVdirsVdirsVdirsVdirsVdirsVdirsVdirsVdirsVdirsVdirsVdirsVdirsVdirsVdi
+rsVdirsVdirsVdirsVdirsVdirsVdirsVdirsVdirsVdirsVdirsVdirsVdirsVdirsVdirsVdir
+sVdirsVdirsVdirsVdirsVdirsVdirsVdirsVdirsVdirsVdirsVdirsVdirsVdirsVdirsVdirs
+VfXf5O/k7+Wmt/lpoWq6roUN1qF1C7XFwzygsRK6gkK4HQDthVmf/Kgvyg/6lq3/AORk/wD1UxV3
+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
+2Q==
+Xmp.xmpMM.InstanceID                         XmpText    40  xmp.iid:01801174072068118C14F3329EDB4433
+Xmp.xmpMM.DocumentID                         XmpText    40  xmp.did:01801174072068118C14F3329EDB4433
+Xmp.xmpMM.OriginalDocumentID                 XmpText    37  uuid:5D20892493BFDB11914A8590D31508C8
+Xmp.xmpMM.RenditionClass                     XmpText     9  proof:pdf
+Xmp.xmpMM.DerivedFrom                        XmpText     0  type="Struct"
+Xmp.xmpMM.DerivedFrom/stRef:instanceID       XmpText    41  uuid:29e17876-faee-8948-9286-1741a44a591b
+Xmp.xmpMM.DerivedFrom/stRef:documentID       XmpText    40  xmp.did:F77F11740720681188C6A5613A2C864B
+Xmp.xmpMM.DerivedFrom/stRef:originalDocumentID XmpText    37  uuid:5D20892493BFDB11914A8590D31508C8
+Xmp.xmpMM.DerivedFrom/stRef:renditionClass   XmpText     9  proof:pdf
+Xmp.xmpMM.History                            XmpText     0  type="Seq"
+Xmp.xmpMM.History[1]                         XmpText     0  type="Struct"
+Xmp.xmpMM.History[1]/stEvt:action            XmpText     5  saved
+Xmp.xmpMM.History[1]/stEvt:instanceID        XmpText    40  xmp.iid:01801174072068118C14F3329EDB4433
+Xmp.xmpMM.History[1]/stEvt:when              XmpText    25  2011-05-16T16:08:02+02:00
+Xmp.xmpMM.History[1]/stEvt:softwareAgent     XmpText    21  Adobe Illustrator CS5
+Xmp.xmpMM.History[1]/stEvt:changed           XmpText     1  /
+Xmp.xmpMM.Manifest                           XmpText     0  type="Seq"
+Xmp.xmpMM.Manifest[1]                        XmpText     0  type="Struct"
+Xmp.xmpMM.Manifest[1]/stMfs:linkForm         XmpText    16  EmbedByReference
+Xmp.xmpMM.Manifest[1]/stMfs:reference        XmpText     0  type="Struct"
+Xmp.xmpMM.Manifest[1]/stMfs:reference/stRef:filePath XmpText    42  /Users/mul/projects/EPS/zs_minimal_xmp.eps
+Xmp.illustrator.StartupProfile               XmpText     5  Print
+Xmp.xmpTPg.HasVisibleOverprint               XmpText     5  False
+Xmp.xmpTPg.HasVisibleTransparency            XmpText     5  False
+Xmp.xmpTPg.NPages                            XmpText     1  1
+Xmp.xmpTPg.MaxPageSize                       XmpText     0  type="Struct"
+Xmp.xmpTPg.MaxPageSize/stDim:w               XmpText    10  210.001652
+Xmp.xmpTPg.MaxPageSize/stDim:h               XmpText    10  296.999959
+Xmp.xmpTPg.MaxPageSize/stDim:unit            XmpText    11  Millimeters
+Xmp.xmpTPg.SwatchGroups                      XmpText     0  type="Seq"
+Xmp.xmpTPg.SwatchGroups[1]                   XmpText     0  type="Struct"
+Xmp.xmpTPg.SwatchGroups[1]/xmpG:groupName    XmpText    20  Default Swatch Group
+Xmp.xmpTPg.SwatchGroups[1]/xmpG:groupType    XmpText     1  0
+Xmp.xmpTPg.SwatchGroups[1]/xmpG:Colorants    XmpText     0  type="Seq"
+Xmp.xmpTPg.SwatchGroups[1]/xmpG:Colorants[1] XmpText     0  type="Struct"
+Xmp.xmpTPg.SwatchGroups[1]/xmpG:Colorants[1]/xmpG:swatchName XmpText     5  White
+Xmp.xmpTPg.SwatchGroups[1]/xmpG:Colorants[1]/xmpG:mode XmpText     4  CMYK
+Xmp.xmpTPg.SwatchGroups[1]/xmpG:Colorants[1]/xmpG:type XmpText     7  PROCESS
+Xmp.xmpTPg.SwatchGroups[1]/xmpG:Colorants[1]/xmpG:cyan XmpText     8  0.000000
+Xmp.xmpTPg.SwatchGroups[1]/xmpG:Colorants[1]/xmpG:magenta XmpText     8  0.000000
+Xmp.xmpTPg.SwatchGroups[1]/xmpG:Colorants[1]/xmpG:yellow XmpText     8  0.000000
+Xmp.xmpTPg.SwatchGroups[1]/xmpG:Colorants[1]/xmpG:black XmpText     8  0.000000
+Xmp.xmpTPg.SwatchGroups[1]/xmpG:Colorants[2] XmpText     0  type="Struct"
+Xmp.xmpTPg.SwatchGroups[1]/xmpG:Colorants[2]/xmpG:swatchName XmpText     5  Black
+Xmp.xmpTPg.SwatchGroups[1]/xmpG:Colorants[2]/xmpG:mode XmpText     4  CMYK
+Xmp.xmpTPg.SwatchGroups[1]/xmpG:Colorants[2]/xmpG:type XmpText     7  PROCESS
+Xmp.xmpTPg.SwatchGroups[1]/xmpG:Colorants[2]/xmpG:cyan XmpText     8  0.000000
+Xmp.xmpTPg.SwatchGroups[1]/xmpG:Colorants[2]/xmpG:magenta XmpText     8  0.000000
+Xmp.xmpTPg.SwatchGroups[1]/xmpG:Colorants[2]/xmpG:yellow XmpText     8  0.000000
+Xmp.xmpTPg.SwatchGroups[1]/xmpG:Colorants[2]/xmpG:black XmpText    10  100.000000
+Xmp.xmpTPg.SwatchGroups[1]/xmpG:Colorants[3] XmpText     0  type="Struct"
+Xmp.xmpTPg.SwatchGroups[1]/xmpG:Colorants[3]/xmpG:swatchName XmpText     8  CMYK Red
+Xmp.xmpTPg.SwatchGroups[1]/xmpG:Colorants[3]/xmpG:mode XmpText     4  CMYK
+Xmp.xmpTPg.SwatchGroups[1]/xmpG:Colorants[3]/xmpG:type XmpText     7  PROCESS
+Xmp.xmpTPg.SwatchGroups[1]/xmpG:Colorants[3]/xmpG:cyan XmpText     8  0.000000
+Xmp.xmpTPg.SwatchGroups[1]/xmpG:Colorants[3]/xmpG:magenta XmpText    10  100.000000
+Xmp.xmpTPg.SwatchGroups[1]/xmpG:Colorants[3]/xmpG:yellow XmpText    10  100.000000
+Xmp.xmpTPg.SwatchGroups[1]/xmpG:Colorants[3]/xmpG:black XmpText     8  0.000000
+Xmp.xmpTPg.SwatchGroups[1]/xmpG:Colorants[4] XmpText     0  type="Struct"
+Xmp.xmpTPg.SwatchGroups[1]/xmpG:Colorants[4]/xmpG:swatchName XmpText    11  CMYK Yellow
+Xmp.xmpTPg.SwatchGroups[1]/xmpG:Colorants[4]/xmpG:mode XmpText     4  CMYK
+Xmp.xmpTPg.SwatchGroups[1]/xmpG:Colorants[4]/xmpG:type XmpText     7  PROCESS
+Xmp.xmpTPg.SwatchGroups[1]/xmpG:Colorants[4]/xmpG:cyan XmpText     8  0.000000
+Xmp.xmpTPg.SwatchGroups[1]/xmpG:Colorants[4]/xmpG:magenta XmpText     8  0.000000
+Xmp.xmpTPg.SwatchGroups[1]/xmpG:Colorants[4]/xmpG:yellow XmpText    10  100.000000
+Xmp.xmpTPg.SwatchGroups[1]/xmpG:Colorants[4]/xmpG:black XmpText     8  0.000000
+Xmp.xmpTPg.SwatchGroups[1]/xmpG:Colorants[5] XmpText     0  type="Struct"
+Xmp.xmpTPg.SwatchGroups[1]/xmpG:Colorants[5]/xmpG:swatchName XmpText    10  CMYK Green
+Xmp.xmpTPg.SwatchGroups[1]/xmpG:Colorants[5]/xmpG:mode XmpText     4  CMYK
+Xmp.xmpTPg.SwatchGroups[1]/xmpG:Colorants[5]/xmpG:type XmpText     7  PROCESS
+Xmp.xmpTPg.SwatchGroups[1]/xmpG:Colorants[5]/xmpG:cyan XmpText    10  100.000000
+Xmp.xmpTPg.SwatchGroups[1]/xmpG:Colorants[5]/xmpG:magenta XmpText     8  0.000000
+Xmp.xmpTPg.SwatchGroups[1]/xmpG:Colorants[5]/xmpG:yellow XmpText    10  100.000000
+Xmp.xmpTPg.SwatchGroups[1]/xmpG:Colorants[5]/xmpG:black XmpText     8  0.000000
+Xmp.xmpTPg.SwatchGroups[1]/xmpG:Colorants[6] XmpText     0  type="Struct"
+Xmp.xmpTPg.SwatchGroups[1]/xmpG:Colorants[6]/xmpG:swatchName XmpText     9  CMYK Cyan
+Xmp.xmpTPg.SwatchGroups[1]/xmpG:Colorants[6]/xmpG:mode XmpText     4  CMYK
+Xmp.xmpTPg.SwatchGroups[1]/xmpG:Colorants[6]/xmpG:type XmpText     7  PROCESS
+Xmp.xmpTPg.SwatchGroups[1]/xmpG:Colorants[6]/xmpG:cyan XmpText    10  100.000000
+Xmp.xmpTPg.SwatchGroups[1]/xmpG:Colorants[6]/xmpG:magenta XmpText     8  0.000000
+Xmp.xmpTPg.SwatchGroups[1]/xmpG:Colorants[6]/xmpG:yellow XmpText     8  0.000000
+Xmp.xmpTPg.SwatchGroups[1]/xmpG:Colorants[6]/xmpG:black XmpText     8  0.000000
+Xmp.xmpTPg.SwatchGroups[1]/xmpG:Colorants[7] XmpText     0  type="Struct"
+Xmp.xmpTPg.SwatchGroups[1]/xmpG:Colorants[7]/xmpG:swatchName XmpText     9  CMYK Blue
+Xmp.xmpTPg.SwatchGroups[1]/xmpG:Colorants[7]/xmpG:mode XmpText     4  CMYK
+Xmp.xmpTPg.SwatchGroups[1]/xmpG:Colorants[7]/xmpG:type XmpText     7  PROCESS
+Xmp.xmpTPg.SwatchGroups[1]/xmpG:Colorants[7]/xmpG:cyan XmpText    10  100.000000
+Xmp.xmpTPg.SwatchGroups[1]/xmpG:Colorants[7]/xmpG:magenta XmpText    10  100.000000
+Xmp.xmpTPg.SwatchGroups[1]/xmpG:Colorants[7]/xmpG:yellow XmpText     8  0.000000
+Xmp.xmpTPg.SwatchGroups[1]/xmpG:Colorants[7]/xmpG:black XmpText     8  0.000000
+Xmp.xmpTPg.SwatchGroups[1]/xmpG:Colorants[8] XmpText     0  type="Struct"
+Xmp.xmpTPg.SwatchGroups[1]/xmpG:Colorants[8]/xmpG:swatchName XmpText    12  CMYK Magenta
+Xmp.xmpTPg.SwatchGroups[1]/xmpG:Colorants[8]/xmpG:mode XmpText     4  CMYK
+Xmp.xmpTPg.SwatchGroups[1]/xmpG:Colorants[8]/xmpG:type XmpText     7  PROCESS
+Xmp.xmpTPg.SwatchGroups[1]/xmpG:Colorants[8]/xmpG:cyan XmpText     8  0.000000
+Xmp.xmpTPg.SwatchGroups[1]/xmpG:Colorants[8]/xmpG:magenta XmpText    10  100.000000
+Xmp.xmpTPg.SwatchGroups[1]/xmpG:Colorants[8]/xmpG:yellow XmpText     8  0.000000
+Xmp.xmpTPg.SwatchGroups[1]/xmpG:Colorants[8]/xmpG:black XmpText     8  0.000000
+Xmp.xmpTPg.SwatchGroups[1]/xmpG:Colorants[9] XmpText     0  type="Struct"
+Xmp.xmpTPg.SwatchGroups[1]/xmpG:Colorants[9]/xmpG:swatchName XmpText    20  C=15 M=100 Y=90 K=10
+Xmp.xmpTPg.SwatchGroups[1]/xmpG:Colorants[9]/xmpG:mode XmpText     4  CMYK
+Xmp.xmpTPg.SwatchGroups[1]/xmpG:Colorants[9]/xmpG:type XmpText     7  PROCESS
+Xmp.xmpTPg.SwatchGroups[1]/xmpG:Colorants[9]/xmpG:cyan XmpText     9  14.999998
+Xmp.xmpTPg.SwatchGroups[1]/xmpG:Colorants[9]/xmpG:magenta XmpText    10  100.000000
+Xmp.xmpTPg.SwatchGroups[1]/xmpG:Colorants[9]/xmpG:yellow XmpText     9  90.000000
+Xmp.xmpTPg.SwatchGroups[1]/xmpG:Colorants[9]/xmpG:black XmpText     9  10.000002
+Xmp.xmpTPg.SwatchGroups[1]/xmpG:Colorants[10] XmpText     0  type="Struct"
+Xmp.xmpTPg.SwatchGroups[1]/xmpG:Colorants[10]/xmpG:swatchName XmpText    17  C=0 M=90 Y=85 K=0
+Xmp.xmpTPg.SwatchGroups[1]/xmpG:Colorants[10]/xmpG:mode XmpText     4  CMYK
+Xmp.xmpTPg.SwatchGroups[1]/xmpG:Colorants[10]/xmpG:type XmpText     7  PROCESS
+Xmp.xmpTPg.SwatchGroups[1]/xmpG:Colorants[10]/xmpG:cyan XmpText     8  0.000000
+Xmp.xmpTPg.SwatchGroups[1]/xmpG:Colorants[10]/xmpG:magenta XmpText     9  90.000000
+Xmp.xmpTPg.SwatchGroups[1]/xmpG:Colorants[10]/xmpG:yellow XmpText     9  85.000000
+Xmp.xmpTPg.SwatchGroups[1]/xmpG:Colorants[10]/xmpG:black XmpText     8  0.000000
+Xmp.xmpTPg.SwatchGroups[1]/xmpG:Colorants[11] XmpText     0  type="Struct"
+Xmp.xmpTPg.SwatchGroups[1]/xmpG:Colorants[11]/xmpG:swatchName XmpText    17  C=0 M=80 Y=95 K=0
+Xmp.xmpTPg.SwatchGroups[1]/xmpG:Colorants[11]/xmpG:mode XmpText     4  CMYK
+Xmp.xmpTPg.SwatchGroups[1]/xmpG:Colorants[11]/xmpG:type XmpText     7  PROCESS
+Xmp.xmpTPg.SwatchGroups[1]/xmpG:Colorants[11]/xmpG:cyan XmpText     8  0.000000
+Xmp.xmpTPg.SwatchGroups[1]/xmpG:Colorants[11]/xmpG:magenta XmpText     9  80.000000
+Xmp.xmpTPg.SwatchGroups[1]/xmpG:Colorants[11]/xmpG:yellow XmpText     9  95.000000
+Xmp.xmpTPg.SwatchGroups[1]/xmpG:Colorants[11]/xmpG:black XmpText     8  0.000000
+Xmp.xmpTPg.SwatchGroups[1]/xmpG:Colorants[12] XmpText     0  type="Struct"
+Xmp.xmpTPg.SwatchGroups[1]/xmpG:Colorants[12]/xmpG:swatchName XmpText    18  C=0 M=50 Y=100 K=0
+Xmp.xmpTPg.SwatchGroups[1]/xmpG:Colorants[12]/xmpG:mode XmpText     4  CMYK
+Xmp.xmpTPg.SwatchGroups[1]/xmpG:Colorants[12]/xmpG:type XmpText     7  PROCESS
+Xmp.xmpTPg.SwatchGroups[1]/xmpG:Colorants[12]/xmpG:cyan XmpText     8  0.000000
+Xmp.xmpTPg.SwatchGroups[1]/xmpG:Colorants[12]/xmpG:magenta XmpText     9  50.000000
+Xmp.xmpTPg.SwatchGroups[1]/xmpG:Colorants[12]/xmpG:yellow XmpText    10  100.000000
+Xmp.xmpTPg.SwatchGroups[1]/xmpG:Colorants[12]/xmpG:black XmpText     8  0.000000
+Xmp.xmpTPg.SwatchGroups[1]/xmpG:Colorants[13] XmpText     0  type="Struct"
+Xmp.xmpTPg.SwatchGroups[1]/xmpG:Colorants[13]/xmpG:swatchName XmpText    17  C=0 M=35 Y=85 K=0
+Xmp.xmpTPg.SwatchGroups[1]/xmpG:Colorants[13]/xmpG:mode XmpText     4  CMYK
+Xmp.xmpTPg.SwatchGroups[1]/xmpG:Colorants[13]/xmpG:type XmpText     7  PROCESS
+Xmp.xmpTPg.SwatchGroups[1]/xmpG:Colorants[13]/xmpG:cyan XmpText     8  0.000000
+Xmp.xmpTPg.SwatchGroups[1]/xmpG:Colorants[13]/xmpG:magenta XmpText     9  35.000004
+Xmp.xmpTPg.SwatchGroups[1]/xmpG:Colorants[13]/xmpG:yellow XmpText     9  85.000000
+Xmp.xmpTPg.SwatchGroups[1]/xmpG:Colorants[13]/xmpG:black XmpText     8  0.000000
+Xmp.xmpTPg.SwatchGroups[1]/xmpG:Colorants[14] XmpText     0  type="Struct"
+Xmp.xmpTPg.SwatchGroups[1]/xmpG:Colorants[14]/xmpG:swatchName XmpText    16  C=5 M=0 Y=90 K=0
+Xmp.xmpTPg.SwatchGroups[1]/xmpG:Colorants[14]/xmpG:mode XmpText     4  CMYK
+Xmp.xmpTPg.SwatchGroups[1]/xmpG:Colorants[14]/xmpG:type XmpText     7  PROCESS
+Xmp.xmpTPg.SwatchGroups[1]/xmpG:Colorants[14]/xmpG:cyan XmpText     8  5.000001
+Xmp.xmpTPg.SwatchGroups[1]/xmpG:Colorants[14]/xmpG:magenta XmpText     8  0.000000
+Xmp.xmpTPg.SwatchGroups[1]/xmpG:Colorants[14]/xmpG:yellow XmpText     9  90.000000
+Xmp.xmpTPg.SwatchGroups[1]/xmpG:Colorants[14]/xmpG:black XmpText     8  0.000000
+Xmp.xmpTPg.SwatchGroups[1]/xmpG:Colorants[15] XmpText     0  type="Struct"
+Xmp.xmpTPg.SwatchGroups[1]/xmpG:Colorants[15]/xmpG:swatchName XmpText    18  C=20 M=0 Y=100 K=0
+Xmp.xmpTPg.SwatchGroups[1]/xmpG:Colorants[15]/xmpG:mode XmpText     4  CMYK
+Xmp.xmpTPg.SwatchGroups[1]/xmpG:Colorants[15]/xmpG:type XmpText     7  PROCESS
+Xmp.xmpTPg.SwatchGroups[1]/xmpG:Colorants[15]/xmpG:cyan XmpText     9  19.999998
+Xmp.xmpTPg.SwatchGroups[1]/xmpG:Colorants[15]/xmpG:magenta XmpText     8  0.000000
+Xmp.xmpTPg.SwatchGroups[1]/xmpG:Colorants[15]/xmpG:yellow XmpText    10  100.000000
+Xmp.xmpTPg.SwatchGroups[1]/xmpG:Colorants[15]/xmpG:black XmpText     8  0.000000
+Xmp.xmpTPg.SwatchGroups[1]/xmpG:Colorants[16] XmpText     0  type="Struct"
+Xmp.xmpTPg.SwatchGroups[1]/xmpG:Colorants[16]/xmpG:swatchName XmpText    18  C=50 M=0 Y=100 K=0
+Xmp.xmpTPg.SwatchGroups[1]/xmpG:Colorants[16]/xmpG:mode XmpText     4  CMYK
+Xmp.xmpTPg.SwatchGroups[1]/xmpG:Colorants[16]/xmpG:type XmpText     7  PROCESS
+Xmp.xmpTPg.SwatchGroups[1]/xmpG:Colorants[16]/xmpG:cyan XmpText     9  50.000000
+Xmp.xmpTPg.SwatchGroups[1]/xmpG:Colorants[16]/xmpG:magenta XmpText     8  0.000000
+Xmp.xmpTPg.SwatchGroups[1]/xmpG:Colorants[16]/xmpG:yellow XmpText    10  100.000000
+Xmp.xmpTPg.SwatchGroups[1]/xmpG:Colorants[16]/xmpG:black XmpText     8  0.000000
+Xmp.xmpTPg.SwatchGroups[1]/xmpG:Colorants[17] XmpText     0  type="Struct"
+Xmp.xmpTPg.SwatchGroups[1]/xmpG:Colorants[17]/xmpG:swatchName XmpText    18  C=75 M=0 Y=100 K=0
+Xmp.xmpTPg.SwatchGroups[1]/xmpG:Colorants[17]/xmpG:mode XmpText     4  CMYK
+Xmp.xmpTPg.SwatchGroups[1]/xmpG:Colorants[17]/xmpG:type XmpText     7  PROCESS
+Xmp.xmpTPg.SwatchGroups[1]/xmpG:Colorants[17]/xmpG:cyan XmpText     9  75.000000
+Xmp.xmpTPg.SwatchGroups[1]/xmpG:Colorants[17]/xmpG:magenta XmpText     8  0.000000
+Xmp.xmpTPg.SwatchGroups[1]/xmpG:Colorants[17]/xmpG:yellow XmpText    10  100.000000
+Xmp.xmpTPg.SwatchGroups[1]/xmpG:Colorants[17]/xmpG:black XmpText     8  0.000000
+Xmp.xmpTPg.SwatchGroups[1]/xmpG:Colorants[18] XmpText     0  type="Struct"
+Xmp.xmpTPg.SwatchGroups[1]/xmpG:Colorants[18]/xmpG:swatchName XmpText    20  C=85 M=10 Y=100 K=10
+Xmp.xmpTPg.SwatchGroups[1]/xmpG:Colorants[18]/xmpG:mode XmpText     4  CMYK
+Xmp.xmpTPg.SwatchGroups[1]/xmpG:Colorants[18]/xmpG:type XmpText     7  PROCESS
+Xmp.xmpTPg.SwatchGroups[1]/xmpG:Colorants[18]/xmpG:cyan XmpText     9  85.000000
+Xmp.xmpTPg.SwatchGroups[1]/xmpG:Colorants[18]/xmpG:magenta XmpText     9  10.000002
+Xmp.xmpTPg.SwatchGroups[1]/xmpG:Colorants[18]/xmpG:yellow XmpText    10  100.000000
+Xmp.xmpTPg.SwatchGroups[1]/xmpG:Colorants[18]/xmpG:black XmpText     9  10.000002
+Xmp.xmpTPg.SwatchGroups[1]/xmpG:Colorants[19] XmpText     0  type="Struct"
+Xmp.xmpTPg.SwatchGroups[1]/xmpG:Colorants[19]/xmpG:swatchName XmpText    19  C=90 M=30 Y=95 K=30
+Xmp.xmpTPg.SwatchGroups[1]/xmpG:Colorants[19]/xmpG:mode XmpText     4  CMYK
+Xmp.xmpTPg.SwatchGroups[1]/xmpG:Colorants[19]/xmpG:type XmpText     7  PROCESS
+Xmp.xmpTPg.SwatchGroups[1]/xmpG:Colorants[19]/xmpG:cyan XmpText     9  90.000000
+Xmp.xmpTPg.SwatchGroups[1]/xmpG:Colorants[19]/xmpG:magenta XmpText     9  30.000002
+Xmp.xmpTPg.SwatchGroups[1]/xmpG:Colorants[19]/xmpG:yellow XmpText     9  95.000000
+Xmp.xmpTPg.SwatchGroups[1]/xmpG:Colorants[19]/xmpG:black XmpText     9  30.000002
+Xmp.xmpTPg.SwatchGroups[1]/xmpG:Colorants[20] XmpText     0  type="Struct"
+Xmp.xmpTPg.SwatchGroups[1]/xmpG:Colorants[20]/xmpG:swatchName XmpText    17  C=75 M=0 Y=75 K=0
+Xmp.xmpTPg.SwatchGroups[1]/xmpG:Colorants[20]/xmpG:mode XmpText     4  CMYK
+Xmp.xmpTPg.SwatchGroups[1]/xmpG:Colorants[20]/xmpG:type XmpText     7  PROCESS
+Xmp.xmpTPg.SwatchGroups[1]/xmpG:Colorants[20]/xmpG:cyan XmpText     9  75.000000
+Xmp.xmpTPg.SwatchGroups[1]/xmpG:Colorants[20]/xmpG:magenta XmpText     8  0.000000
+Xmp.xmpTPg.SwatchGroups[1]/xmpG:Colorants[20]/xmpG:yellow XmpText     9  75.000000
+Xmp.xmpTPg.SwatchGroups[1]/xmpG:Colorants[20]/xmpG:black XmpText     8  0.000000
+Xmp.xmpTPg.SwatchGroups[1]/xmpG:Colorants[21] XmpText     0  type="Struct"
+Xmp.xmpTPg.SwatchGroups[1]/xmpG:Colorants[21]/xmpG:swatchName XmpText    18  C=80 M=10 Y=45 K=0
+Xmp.xmpTPg.SwatchGroups[1]/xmpG:Colorants[21]/xmpG:mode XmpText     4  CMYK
+Xmp.xmpTPg.SwatchGroups[1]/xmpG:Colorants[21]/xmpG:type XmpText     7  PROCESS
+Xmp.xmpTPg.SwatchGroups[1]/xmpG:Colorants[21]/xmpG:cyan XmpText     9  80.000000
+Xmp.xmpTPg.SwatchGroups[1]/xmpG:Colorants[21]/xmpG:magenta XmpText     9  10.000002
+Xmp.xmpTPg.SwatchGroups[1]/xmpG:Colorants[21]/xmpG:yellow XmpText     9  45.000000
+Xmp.xmpTPg.SwatchGroups[1]/xmpG:Colorants[21]/xmpG:black XmpText     8  0.000000
+Xmp.xmpTPg.SwatchGroups[1]/xmpG:Colorants[22] XmpText     0  type="Struct"
+Xmp.xmpTPg.SwatchGroups[1]/xmpG:Colorants[22]/xmpG:swatchName XmpText    17  C=70 M=15 Y=0 K=0
+Xmp.xmpTPg.SwatchGroups[1]/xmpG:Colorants[22]/xmpG:mode XmpText     4  CMYK
+Xmp.xmpTPg.SwatchGroups[1]/xmpG:Colorants[22]/xmpG:type XmpText     7  PROCESS
+Xmp.xmpTPg.SwatchGroups[1]/xmpG:Colorants[22]/xmpG:cyan XmpText     9  70.000000
+Xmp.xmpTPg.SwatchGroups[1]/xmpG:Colorants[22]/xmpG:magenta XmpText     9  14.999998
+Xmp.xmpTPg.SwatchGroups[1]/xmpG:Colorants[22]/xmpG:yellow XmpText     8  0.000000
+Xmp.xmpTPg.SwatchGroups[1]/xmpG:Colorants[22]/xmpG:black XmpText     8  0.000000
+Xmp.xmpTPg.SwatchGroups[1]/xmpG:Colorants[23] XmpText     0  type="Struct"
+Xmp.xmpTPg.SwatchGroups[1]/xmpG:Colorants[23]/xmpG:swatchName XmpText    17  C=85 M=50 Y=0 K=0
+Xmp.xmpTPg.SwatchGroups[1]/xmpG:Colorants[23]/xmpG:mode XmpText     4  CMYK
+Xmp.xmpTPg.SwatchGroups[1]/xmpG:Colorants[23]/xmpG:type XmpText     7  PROCESS
+Xmp.xmpTPg.SwatchGroups[1]/xmpG:Colorants[23]/xmpG:cyan XmpText     9  85.000000
+Xmp.xmpTPg.SwatchGroups[1]/xmpG:Colorants[23]/xmpG:magenta XmpText     9  50.000000
+Xmp.xmpTPg.SwatchGroups[1]/xmpG:Colorants[23]/xmpG:yellow XmpText     8  0.000000
+Xmp.xmpTPg.SwatchGroups[1]/xmpG:Colorants[23]/xmpG:black XmpText     8  0.000000
+Xmp.xmpTPg.SwatchGroups[1]/xmpG:Colorants[24] XmpText     0  type="Struct"
+Xmp.xmpTPg.SwatchGroups[1]/xmpG:Colorants[24]/xmpG:swatchName XmpText    18  C=100 M=95 Y=5 K=0
+Xmp.xmpTPg.SwatchGroups[1]/xmpG:Colorants[24]/xmpG:mode XmpText     4  CMYK
+Xmp.xmpTPg.SwatchGroups[1]/xmpG:Colorants[24]/xmpG:type XmpText     7  PROCESS
+Xmp.xmpTPg.SwatchGroups[1]/xmpG:Colorants[24]/xmpG:cyan XmpText    10  100.000000
+Xmp.xmpTPg.SwatchGroups[1]/xmpG:Colorants[24]/xmpG:magenta XmpText     9  95.000000
+Xmp.xmpTPg.SwatchGroups[1]/xmpG:Colorants[24]/xmpG:yellow XmpText     8  5.000001
+Xmp.xmpTPg.SwatchGroups[1]/xmpG:Colorants[24]/xmpG:black XmpText     8  0.000000
+Xmp.xmpTPg.SwatchGroups[1]/xmpG:Colorants[25] XmpText     0  type="Struct"
+Xmp.xmpTPg.SwatchGroups[1]/xmpG:Colorants[25]/xmpG:swatchName XmpText    21  C=100 M=100 Y=25 K=25
+Xmp.xmpTPg.SwatchGroups[1]/xmpG:Colorants[25]/xmpG:mode XmpText     4  CMYK
+Xmp.xmpTPg.SwatchGroups[1]/xmpG:Colorants[25]/xmpG:type XmpText     7  PROCESS
+Xmp.xmpTPg.SwatchGroups[1]/xmpG:Colorants[25]/xmpG:cyan XmpText    10  100.000000
+Xmp.xmpTPg.SwatchGroups[1]/xmpG:Colorants[25]/xmpG:magenta XmpText    10  100.000000
+Xmp.xmpTPg.SwatchGroups[1]/xmpG:Colorants[25]/xmpG:yellow XmpText     9  25.000000
+Xmp.xmpTPg.SwatchGroups[1]/xmpG:Colorants[25]/xmpG:black XmpText     9  25.000000
+Xmp.xmpTPg.SwatchGroups[1]/xmpG:Colorants[26] XmpText     0  type="Struct"
+Xmp.xmpTPg.SwatchGroups[1]/xmpG:Colorants[26]/xmpG:swatchName XmpText    18  C=75 M=100 Y=0 K=0
+Xmp.xmpTPg.SwatchGroups[1]/xmpG:Colorants[26]/xmpG:mode XmpText     4  CMYK
+Xmp.xmpTPg.SwatchGroups[1]/xmpG:Colorants[26]/xmpG:type XmpText     7  PROCESS
+Xmp.xmpTPg.SwatchGroups[1]/xmpG:Colorants[26]/xmpG:cyan XmpText     9  75.000000
+Xmp.xmpTPg.SwatchGroups[1]/xmpG:Colorants[26]/xmpG:magenta XmpText    10  100.000000
+Xmp.xmpTPg.SwatchGroups[1]/xmpG:Colorants[26]/xmpG:yellow XmpText     8  0.000000
+Xmp.xmpTPg.SwatchGroups[1]/xmpG:Colorants[26]/xmpG:black XmpText     8  0.000000
+Xmp.xmpTPg.SwatchGroups[1]/xmpG:Colorants[27] XmpText     0  type="Struct"
+Xmp.xmpTPg.SwatchGroups[1]/xmpG:Colorants[27]/xmpG:swatchName XmpText    18  C=50 M=100 Y=0 K=0
+Xmp.xmpTPg.SwatchGroups[1]/xmpG:Colorants[27]/xmpG:mode XmpText     4  CMYK
+Xmp.xmpTPg.SwatchGroups[1]/xmpG:Colorants[27]/xmpG:type XmpText     7  PROCESS
+Xmp.xmpTPg.SwatchGroups[1]/xmpG:Colorants[27]/xmpG:cyan XmpText     9  50.000000
+Xmp.xmpTPg.SwatchGroups[1]/xmpG:Colorants[27]/xmpG:magenta XmpText    10  100.000000
+Xmp.xmpTPg.SwatchGroups[1]/xmpG:Colorants[27]/xmpG:yellow XmpText     8  0.000000
+Xmp.xmpTPg.SwatchGroups[1]/xmpG:Colorants[27]/xmpG:black XmpText     8  0.000000
+Xmp.xmpTPg.SwatchGroups[1]/xmpG:Colorants[28] XmpText     0  type="Struct"
+Xmp.xmpTPg.SwatchGroups[1]/xmpG:Colorants[28]/xmpG:swatchName XmpText    20  C=35 M=100 Y=35 K=10
+Xmp.xmpTPg.SwatchGroups[1]/xmpG:Colorants[28]/xmpG:mode XmpText     4  CMYK
+Xmp.xmpTPg.SwatchGroups[1]/xmpG:Colorants[28]/xmpG:type XmpText     7  PROCESS
+Xmp.xmpTPg.SwatchGroups[1]/xmpG:Colorants[28]/xmpG:cyan XmpText     9  35.000004
+Xmp.xmpTPg.SwatchGroups[1]/xmpG:Colorants[28]/xmpG:magenta XmpText    10  100.000000
+Xmp.xmpTPg.SwatchGroups[1]/xmpG:Colorants[28]/xmpG:yellow XmpText     9  35.000004
+Xmp.xmpTPg.SwatchGroups[1]/xmpG:Colorants[28]/xmpG:black XmpText     9  10.000002
+Xmp.xmpTPg.SwatchGroups[1]/xmpG:Colorants[29] XmpText     0  type="Struct"
+Xmp.xmpTPg.SwatchGroups[1]/xmpG:Colorants[29]/xmpG:swatchName XmpText    19  C=10 M=100 Y=50 K=0
+Xmp.xmpTPg.SwatchGroups[1]/xmpG:Colorants[29]/xmpG:mode XmpText     4  CMYK
+Xmp.xmpTPg.SwatchGroups[1]/xmpG:Colorants[29]/xmpG:type XmpText     7  PROCESS
+Xmp.xmpTPg.SwatchGroups[1]/xmpG:Colorants[29]/xmpG:cyan XmpText     9  10.000002
+Xmp.xmpTPg.SwatchGroups[1]/xmpG:Colorants[29]/xmpG:magenta XmpText    10  100.000000
+Xmp.xmpTPg.SwatchGroups[1]/xmpG:Colorants[29]/xmpG:yellow XmpText     9  50.000000
+Xmp.xmpTPg.SwatchGroups[1]/xmpG:Colorants[29]/xmpG:black XmpText     8  0.000000
+Xmp.xmpTPg.SwatchGroups[1]/xmpG:Colorants[30] XmpText     0  type="Struct"
+Xmp.xmpTPg.SwatchGroups[1]/xmpG:Colorants[30]/xmpG:swatchName XmpText    17  C=0 M=95 Y=20 K=0
+Xmp.xmpTPg.SwatchGroups[1]/xmpG:Colorants[30]/xmpG:mode XmpText     4  CMYK
+Xmp.xmpTPg.SwatchGroups[1]/xmpG:Colorants[30]/xmpG:type XmpText     7  PROCESS
+Xmp.xmpTPg.SwatchGroups[1]/xmpG:Colorants[30]/xmpG:cyan XmpText     8  0.000000
+Xmp.xmpTPg.SwatchGroups[1]/xmpG:Colorants[30]/xmpG:magenta XmpText     9  95.000000
+Xmp.xmpTPg.SwatchGroups[1]/xmpG:Colorants[30]/xmpG:yellow XmpText     9  19.999998
+Xmp.xmpTPg.SwatchGroups[1]/xmpG:Colorants[30]/xmpG:black XmpText     8  0.000000
+Xmp.xmpTPg.SwatchGroups[1]/xmpG:Colorants[31] XmpText     0  type="Struct"
+Xmp.xmpTPg.SwatchGroups[1]/xmpG:Colorants[31]/xmpG:swatchName XmpText    18  C=25 M=25 Y=40 K=0
+Xmp.xmpTPg.SwatchGroups[1]/xmpG:Colorants[31]/xmpG:mode XmpText     4  CMYK
+Xmp.xmpTPg.SwatchGroups[1]/xmpG:Colorants[31]/xmpG:type XmpText     7  PROCESS
+Xmp.xmpTPg.SwatchGroups[1]/xmpG:Colorants[31]/xmpG:cyan XmpText     9  25.000000
+Xmp.xmpTPg.SwatchGroups[1]/xmpG:Colorants[31]/xmpG:magenta XmpText     9  25.000000
+Xmp.xmpTPg.SwatchGroups[1]/xmpG:Colorants[31]/xmpG:yellow XmpText     9  39.999996
+Xmp.xmpTPg.SwatchGroups[1]/xmpG:Colorants[31]/xmpG:black XmpText     8  0.000000
+Xmp.xmpTPg.SwatchGroups[1]/xmpG:Colorants[32] XmpText     0  type="Struct"
+Xmp.xmpTPg.SwatchGroups[1]/xmpG:Colorants[32]/xmpG:swatchName XmpText    18  C=40 M=45 Y=50 K=5
+Xmp.xmpTPg.SwatchGroups[1]/xmpG:Colorants[32]/xmpG:mode XmpText     4  CMYK
+Xmp.xmpTPg.SwatchGroups[1]/xmpG:Colorants[32]/xmpG:type XmpText     7  PROCESS
+Xmp.xmpTPg.SwatchGroups[1]/xmpG:Colorants[32]/xmpG:cyan XmpText     9  39.999996
+Xmp.xmpTPg.SwatchGroups[1]/xmpG:Colorants[32]/xmpG:magenta XmpText     9  45.000000
+Xmp.xmpTPg.SwatchGroups[1]/xmpG:Colorants[32]/xmpG:yellow XmpText     9  50.000000
+Xmp.xmpTPg.SwatchGroups[1]/xmpG:Colorants[32]/xmpG:black XmpText     8  5.000001
+Xmp.xmpTPg.SwatchGroups[1]/xmpG:Colorants[33] XmpText     0  type="Struct"
+Xmp.xmpTPg.SwatchGroups[1]/xmpG:Colorants[33]/xmpG:swatchName XmpText    19  C=50 M=50 Y=60 K=25
+Xmp.xmpTPg.SwatchGroups[1]/xmpG:Colorants[33]/xmpG:mode XmpText     4  CMYK
+Xmp.xmpTPg.SwatchGroups[1]/xmpG:Colorants[33]/xmpG:type XmpText     7  PROCESS
+Xmp.xmpTPg.SwatchGroups[1]/xmpG:Colorants[33]/xmpG:cyan XmpText     9  50.000000
+Xmp.xmpTPg.SwatchGroups[1]/xmpG:Colorants[33]/xmpG:magenta XmpText     9  50.000000
+Xmp.xmpTPg.SwatchGroups[1]/xmpG:Colorants[33]/xmpG:yellow XmpText     9  60.000004
+Xmp.xmpTPg.SwatchGroups[1]/xmpG:Colorants[33]/xmpG:black XmpText     9  25.000000
+Xmp.xmpTPg.SwatchGroups[1]/xmpG:Colorants[34] XmpText     0  type="Struct"
+Xmp.xmpTPg.SwatchGroups[1]/xmpG:Colorants[34]/xmpG:swatchName XmpText    19  C=55 M=60 Y=65 K=40
+Xmp.xmpTPg.SwatchGroups[1]/xmpG:Colorants[34]/xmpG:mode XmpText     4  CMYK
+Xmp.xmpTPg.SwatchGroups[1]/xmpG:Colorants[34]/xmpG:type XmpText     7  PROCESS
+Xmp.xmpTPg.SwatchGroups[1]/xmpG:Colorants[34]/xmpG:cyan XmpText     9  55.000000
+Xmp.xmpTPg.SwatchGroups[1]/xmpG:Colorants[34]/xmpG:magenta XmpText     9  60.000004
+Xmp.xmpTPg.SwatchGroups[1]/xmpG:Colorants[34]/xmpG:yellow XmpText     9  65.000000
+Xmp.xmpTPg.SwatchGroups[1]/xmpG:Colorants[34]/xmpG:black XmpText     9  39.999996
+Xmp.xmpTPg.SwatchGroups[1]/xmpG:Colorants[35] XmpText     0  type="Struct"
+Xmp.xmpTPg.SwatchGroups[1]/xmpG:Colorants[35]/xmpG:swatchName XmpText    18  C=25 M=40 Y=65 K=0
+Xmp.xmpTPg.SwatchGroups[1]/xmpG:Colorants[35]/xmpG:mode XmpText     4  CMYK
+Xmp.xmpTPg.SwatchGroups[1]/xmpG:Colorants[35]/xmpG:type XmpText     7  PROCESS
+Xmp.xmpTPg.SwatchGroups[1]/xmpG:Colorants[35]/xmpG:cyan XmpText     9  25.000000
+Xmp.xmpTPg.SwatchGroups[1]/xmpG:Colorants[35]/xmpG:magenta XmpText     9  39.999996
+Xmp.xmpTPg.SwatchGroups[1]/xmpG:Colorants[35]/xmpG:yellow XmpText     9  65.000000
+Xmp.xmpTPg.SwatchGroups[1]/xmpG:Colorants[35]/xmpG:black XmpText     8  0.000000
+Xmp.xmpTPg.SwatchGroups[1]/xmpG:Colorants[36] XmpText     0  type="Struct"
+Xmp.xmpTPg.SwatchGroups[1]/xmpG:Colorants[36]/xmpG:swatchName XmpText    19  C=30 M=50 Y=75 K=10
+Xmp.xmpTPg.SwatchGroups[1]/xmpG:Colorants[36]/xmpG:mode XmpText     4  CMYK
+Xmp.xmpTPg.SwatchGroups[1]/xmpG:Colorants[36]/xmpG:type XmpText     7  PROCESS
+Xmp.xmpTPg.SwatchGroups[1]/xmpG:Colorants[36]/xmpG:cyan XmpText     9  30.000002
+Xmp.xmpTPg.SwatchGroups[1]/xmpG:Colorants[36]/xmpG:magenta XmpText     9  50.000000
+Xmp.xmpTPg.SwatchGroups[1]/xmpG:Colorants[36]/xmpG:yellow XmpText     9  75.000000
+Xmp.xmpTPg.SwatchGroups[1]/xmpG:Colorants[36]/xmpG:black XmpText     9  10.000002
+Xmp.xmpTPg.SwatchGroups[1]/xmpG:Colorants[37] XmpText     0  type="Struct"
+Xmp.xmpTPg.SwatchGroups[1]/xmpG:Colorants[37]/xmpG:swatchName XmpText    19  C=35 M=60 Y=80 K=25
+Xmp.xmpTPg.SwatchGroups[1]/xmpG:Colorants[37]/xmpG:mode XmpText     4  CMYK
+Xmp.xmpTPg.SwatchGroups[1]/xmpG:Colorants[37]/xmpG:type XmpText     7  PROCESS
+Xmp.xmpTPg.SwatchGroups[1]/xmpG:Colorants[37]/xmpG:cyan XmpText     9  35.000004
+Xmp.xmpTPg.SwatchGroups[1]/xmpG:Colorants[37]/xmpG:magenta XmpText     9  60.000004
+Xmp.xmpTPg.SwatchGroups[1]/xmpG:Colorants[37]/xmpG:yellow XmpText     9  80.000000
+Xmp.xmpTPg.SwatchGroups[1]/xmpG:Colorants[37]/xmpG:black XmpText     9  25.000000
+Xmp.xmpTPg.SwatchGroups[1]/xmpG:Colorants[38] XmpText     0  type="Struct"
+Xmp.xmpTPg.SwatchGroups[1]/xmpG:Colorants[38]/xmpG:swatchName XmpText    19  C=40 M=65 Y=90 K=35
+Xmp.xmpTPg.SwatchGroups[1]/xmpG:Colorants[38]/xmpG:mode XmpText     4  CMYK
+Xmp.xmpTPg.SwatchGroups[1]/xmpG:Colorants[38]/xmpG:type XmpText     7  PROCESS
+Xmp.xmpTPg.SwatchGroups[1]/xmpG:Colorants[38]/xmpG:cyan XmpText     9  39.999996
+Xmp.xmpTPg.SwatchGroups[1]/xmpG:Colorants[38]/xmpG:magenta XmpText     9  65.000000
+Xmp.xmpTPg.SwatchGroups[1]/xmpG:Colorants[38]/xmpG:yellow XmpText     9  90.000000
+Xmp.xmpTPg.SwatchGroups[1]/xmpG:Colorants[38]/xmpG:black XmpText     9  35.000004
+Xmp.xmpTPg.SwatchGroups[1]/xmpG:Colorants[39] XmpText     0  type="Struct"
+Xmp.xmpTPg.SwatchGroups[1]/xmpG:Colorants[39]/xmpG:swatchName XmpText    20  C=40 M=70 Y=100 K=50
+Xmp.xmpTPg.SwatchGroups[1]/xmpG:Colorants[39]/xmpG:mode XmpText     4  CMYK
+Xmp.xmpTPg.SwatchGroups[1]/xmpG:Colorants[39]/xmpG:type XmpText     7  PROCESS
+Xmp.xmpTPg.SwatchGroups[1]/xmpG:Colorants[39]/xmpG:cyan XmpText     9  39.999996
+Xmp.xmpTPg.SwatchGroups[1]/xmpG:Colorants[39]/xmpG:magenta XmpText     9  70.000000
+Xmp.xmpTPg.SwatchGroups[1]/xmpG:Colorants[39]/xmpG:yellow XmpText    10  100.000000
+Xmp.xmpTPg.SwatchGroups[1]/xmpG:Colorants[39]/xmpG:black XmpText     9  50.000000
+Xmp.xmpTPg.SwatchGroups[1]/xmpG:Colorants[40] XmpText     0  type="Struct"
+Xmp.xmpTPg.SwatchGroups[1]/xmpG:Colorants[40]/xmpG:swatchName XmpText    19  C=50 M=70 Y=80 K=70
+Xmp.xmpTPg.SwatchGroups[1]/xmpG:Colorants[40]/xmpG:mode XmpText     4  CMYK
+Xmp.xmpTPg.SwatchGroups[1]/xmpG:Colorants[40]/xmpG:type XmpText     7  PROCESS
+Xmp.xmpTPg.SwatchGroups[1]/xmpG:Colorants[40]/xmpG:cyan XmpText     9  50.000000
+Xmp.xmpTPg.SwatchGroups[1]/xmpG:Colorants[40]/xmpG:magenta XmpText     9  70.000000
+Xmp.xmpTPg.SwatchGroups[1]/xmpG:Colorants[40]/xmpG:yellow XmpText     9  80.000000
+Xmp.xmpTPg.SwatchGroups[1]/xmpG:Colorants[40]/xmpG:black XmpText     9  70.000000
+Xmp.xmpTPg.SwatchGroups[2]                   XmpText     0  type="Struct"
+Xmp.xmpTPg.SwatchGroups[2]/xmpG:groupName    XmpText     5  Grays
+Xmp.xmpTPg.SwatchGroups[2]/xmpG:groupType    XmpText     1  1
+Xmp.xmpTPg.SwatchGroups[2]/xmpG:Colorants    XmpText     0  type="Seq"
+Xmp.xmpTPg.SwatchGroups[2]/xmpG:Colorants[1] XmpText     0  type="Struct"
+Xmp.xmpTPg.SwatchGroups[2]/xmpG:Colorants[1]/xmpG:swatchName XmpText    17  C=0 M=0 Y=0 K=100
+Xmp.xmpTPg.SwatchGroups[2]/xmpG:Colorants[1]/xmpG:mode XmpText     4  CMYK
+Xmp.xmpTPg.SwatchGroups[2]/xmpG:Colorants[1]/xmpG:type XmpText     7  PROCESS
+Xmp.xmpTPg.SwatchGroups[2]/xmpG:Colorants[1]/xmpG:cyan XmpText     8  0.000000
+Xmp.xmpTPg.SwatchGroups[2]/xmpG:Colorants[1]/xmpG:magenta XmpText     8  0.000000
+Xmp.xmpTPg.SwatchGroups[2]/xmpG:Colorants[1]/xmpG:yellow XmpText     8  0.000000
+Xmp.xmpTPg.SwatchGroups[2]/xmpG:Colorants[1]/xmpG:black XmpText    10  100.000000
+Xmp.xmpTPg.SwatchGroups[2]/xmpG:Colorants[2] XmpText     0  type="Struct"
+Xmp.xmpTPg.SwatchGroups[2]/xmpG:Colorants[2]/xmpG:swatchName XmpText    16  C=0 M=0 Y=0 K=90
+Xmp.xmpTPg.SwatchGroups[2]/xmpG:Colorants[2]/xmpG:mode XmpText     4  CMYK
+Xmp.xmpTPg.SwatchGroups[2]/xmpG:Colorants[2]/xmpG:type XmpText     7  PROCESS
+Xmp.xmpTPg.SwatchGroups[2]/xmpG:Colorants[2]/xmpG:cyan XmpText     8  0.000000
+Xmp.xmpTPg.SwatchGroups[2]/xmpG:Colorants[2]/xmpG:magenta XmpText     8  0.000000
+Xmp.xmpTPg.SwatchGroups[2]/xmpG:Colorants[2]/xmpG:yellow XmpText     8  0.000000
+Xmp.xmpTPg.SwatchGroups[2]/xmpG:Colorants[2]/xmpG:black XmpText     9  89.999405
+Xmp.xmpTPg.SwatchGroups[2]/xmpG:Colorants[3] XmpText     0  type="Struct"
+Xmp.xmpTPg.SwatchGroups[2]/xmpG:Colorants[3]/xmpG:swatchName XmpText    16  C=0 M=0 Y=0 K=80
+Xmp.xmpTPg.SwatchGroups[2]/xmpG:Colorants[3]/xmpG:mode XmpText     4  CMYK
+Xmp.xmpTPg.SwatchGroups[2]/xmpG:Colorants[3]/xmpG:type XmpText     7  PROCESS
+Xmp.xmpTPg.SwatchGroups[2]/xmpG:Colorants[3]/xmpG:cyan XmpText     8  0.000000
+Xmp.xmpTPg.SwatchGroups[2]/xmpG:Colorants[3]/xmpG:magenta XmpText     8  0.000000
+Xmp.xmpTPg.SwatchGroups[2]/xmpG:Colorants[3]/xmpG:yellow XmpText     8  0.000000
+Xmp.xmpTPg.SwatchGroups[2]/xmpG:Colorants[3]/xmpG:black XmpText     9  79.998795
+Xmp.xmpTPg.SwatchGroups[2]/xmpG:Colorants[4] XmpText     0  type="Struct"
+Xmp.xmpTPg.SwatchGroups[2]/xmpG:Colorants[4]/xmpG:swatchName XmpText    16  C=0 M=0 Y=0 K=70
+Xmp.xmpTPg.SwatchGroups[2]/xmpG:Colorants[4]/xmpG:mode XmpText     4  CMYK
+Xmp.xmpTPg.SwatchGroups[2]/xmpG:Colorants[4]/xmpG:type XmpText     7  PROCESS
+Xmp.xmpTPg.SwatchGroups[2]/xmpG:Colorants[4]/xmpG:cyan XmpText     8  0.000000
+Xmp.xmpTPg.SwatchGroups[2]/xmpG:Colorants[4]/xmpG:magenta XmpText     8  0.000000
+Xmp.xmpTPg.SwatchGroups[2]/xmpG:Colorants[4]/xmpG:yellow XmpText     8  0.000000
+Xmp.xmpTPg.SwatchGroups[2]/xmpG:Colorants[4]/xmpG:black XmpText     9  69.999702
+Xmp.xmpTPg.SwatchGroups[2]/xmpG:Colorants[5] XmpText     0  type="Struct"
+Xmp.xmpTPg.SwatchGroups[2]/xmpG:Colorants[5]/xmpG:swatchName XmpText    16  C=0 M=0 Y=0 K=60
+Xmp.xmpTPg.SwatchGroups[2]/xmpG:Colorants[5]/xmpG:mode XmpText     4  CMYK
+Xmp.xmpTPg.SwatchGroups[2]/xmpG:Colorants[5]/xmpG:type XmpText     7  PROCESS
+Xmp.xmpTPg.SwatchGroups[2]/xmpG:Colorants[5]/xmpG:cyan XmpText     8  0.000000
+Xmp.xmpTPg.SwatchGroups[2]/xmpG:Colorants[5]/xmpG:magenta XmpText     8  0.000000
+Xmp.xmpTPg.SwatchGroups[2]/xmpG:Colorants[5]/xmpG:yellow XmpText     8  0.000000
+Xmp.xmpTPg.SwatchGroups[2]/xmpG:Colorants[5]/xmpG:black XmpText     9  59.999104
+Xmp.xmpTPg.SwatchGroups[2]/xmpG:Colorants[6] XmpText     0  type="Struct"
+Xmp.xmpTPg.SwatchGroups[2]/xmpG:Colorants[6]/xmpG:swatchName XmpText    16  C=0 M=0 Y=0 K=50
+Xmp.xmpTPg.SwatchGroups[2]/xmpG:Colorants[6]/xmpG:mode XmpText     4  CMYK
+Xmp.xmpTPg.SwatchGroups[2]/xmpG:Colorants[6]/xmpG:type XmpText     7  PROCESS
+Xmp.xmpTPg.SwatchGroups[2]/xmpG:Colorants[6]/xmpG:cyan XmpText     8  0.000000
+Xmp.xmpTPg.SwatchGroups[2]/xmpG:Colorants[6]/xmpG:magenta XmpText     8  0.000000
+Xmp.xmpTPg.SwatchGroups[2]/xmpG:Colorants[6]/xmpG:yellow XmpText     8  0.000000
+Xmp.xmpTPg.SwatchGroups[2]/xmpG:Colorants[6]/xmpG:black XmpText     9  50.000000
+Xmp.xmpTPg.SwatchGroups[2]/xmpG:Colorants[7] XmpText     0  type="Struct"
+Xmp.xmpTPg.SwatchGroups[2]/xmpG:Colorants[7]/xmpG:swatchName XmpText    16  C=0 M=0 Y=0 K=40
+Xmp.xmpTPg.SwatchGroups[2]/xmpG:Colorants[7]/xmpG:mode XmpText     4  CMYK
+Xmp.xmpTPg.SwatchGroups[2]/xmpG:Colorants[7]/xmpG:type XmpText     7  PROCESS
+Xmp.xmpTPg.SwatchGroups[2]/xmpG:Colorants[7]/xmpG:cyan XmpText     8  0.000000
+Xmp.xmpTPg.SwatchGroups[2]/xmpG:Colorants[7]/xmpG:magenta XmpText     8  0.000000
+Xmp.xmpTPg.SwatchGroups[2]/xmpG:Colorants[7]/xmpG:yellow XmpText     8  0.000000
+Xmp.xmpTPg.SwatchGroups[2]/xmpG:Colorants[7]/xmpG:black XmpText     9  39.999401
+Xmp.xmpTPg.SwatchGroups[2]/xmpG:Colorants[8] XmpText     0  type="Struct"
+Xmp.xmpTPg.SwatchGroups[2]/xmpG:Colorants[8]/xmpG:swatchName XmpText    16  C=0 M=0 Y=0 K=30
+Xmp.xmpTPg.SwatchGroups[2]/xmpG:Colorants[8]/xmpG:mode XmpText     4  CMYK
+Xmp.xmpTPg.SwatchGroups[2]/xmpG:Colorants[8]/xmpG:type XmpText     7  PROCESS
+Xmp.xmpTPg.SwatchGroups[2]/xmpG:Colorants[8]/xmpG:cyan XmpText     8  0.000000
+Xmp.xmpTPg.SwatchGroups[2]/xmpG:Colorants[8]/xmpG:magenta XmpText     8  0.000000
+Xmp.xmpTPg.SwatchGroups[2]/xmpG:Colorants[8]/xmpG:yellow XmpText     8  0.000000
+Xmp.xmpTPg.SwatchGroups[2]/xmpG:Colorants[8]/xmpG:black XmpText     9  29.998802
+Xmp.xmpTPg.SwatchGroups[2]/xmpG:Colorants[9] XmpText     0  type="Struct"
+Xmp.xmpTPg.SwatchGroups[2]/xmpG:Colorants[9]/xmpG:swatchName XmpText    16  C=0 M=0 Y=0 K=20
+Xmp.xmpTPg.SwatchGroups[2]/xmpG:Colorants[9]/xmpG:mode XmpText     4  CMYK
+Xmp.xmpTPg.SwatchGroups[2]/xmpG:Colorants[9]/xmpG:type XmpText     7  PROCESS
+Xmp.xmpTPg.SwatchGroups[2]/xmpG:Colorants[9]/xmpG:cyan XmpText     8  0.000000
+Xmp.xmpTPg.SwatchGroups[2]/xmpG:Colorants[9]/xmpG:magenta XmpText     8  0.000000
+Xmp.xmpTPg.SwatchGroups[2]/xmpG:Colorants[9]/xmpG:yellow XmpText     8  0.000000
+Xmp.xmpTPg.SwatchGroups[2]/xmpG:Colorants[9]/xmpG:black XmpText     9  19.999701
+Xmp.xmpTPg.SwatchGroups[2]/xmpG:Colorants[10] XmpText     0  type="Struct"
+Xmp.xmpTPg.SwatchGroups[2]/xmpG:Colorants[10]/xmpG:swatchName XmpText    16  C=0 M=0 Y=0 K=10
+Xmp.xmpTPg.SwatchGroups[2]/xmpG:Colorants[10]/xmpG:mode XmpText     4  CMYK
+Xmp.xmpTPg.SwatchGroups[2]/xmpG:Colorants[10]/xmpG:type XmpText     7  PROCESS
+Xmp.xmpTPg.SwatchGroups[2]/xmpG:Colorants[10]/xmpG:cyan XmpText     8  0.000000
+Xmp.xmpTPg.SwatchGroups[2]/xmpG:Colorants[10]/xmpG:magenta XmpText     8  0.000000
+Xmp.xmpTPg.SwatchGroups[2]/xmpG:Colorants[10]/xmpG:yellow XmpText     8  0.000000
+Xmp.xmpTPg.SwatchGroups[2]/xmpG:Colorants[10]/xmpG:black XmpText     8  9.999103
+Xmp.xmpTPg.SwatchGroups[2]/xmpG:Colorants[11] XmpText     0  type="Struct"
+Xmp.xmpTPg.SwatchGroups[2]/xmpG:Colorants[11]/xmpG:swatchName XmpText    15  C=0 M=0 Y=0 K=5
+Xmp.xmpTPg.SwatchGroups[2]/xmpG:Colorants[11]/xmpG:mode XmpText     4  CMYK
+Xmp.xmpTPg.SwatchGroups[2]/xmpG:Colorants[11]/xmpG:type XmpText     7  PROCESS
+Xmp.xmpTPg.SwatchGroups[2]/xmpG:Colorants[11]/xmpG:cyan XmpText     8  0.000000
+Xmp.xmpTPg.SwatchGroups[2]/xmpG:Colorants[11]/xmpG:magenta XmpText     8  0.000000
+Xmp.xmpTPg.SwatchGroups[2]/xmpG:Colorants[11]/xmpG:yellow XmpText     8  0.000000
+Xmp.xmpTPg.SwatchGroups[2]/xmpG:Colorants[11]/xmpG:black XmpText     8  4.998803
+Xmp.xmpTPg.SwatchGroups[3]                   XmpText     0  type="Struct"
+Xmp.xmpTPg.SwatchGroups[3]/xmpG:groupName    XmpText     7  Brights
+Xmp.xmpTPg.SwatchGroups[3]/xmpG:groupType    XmpText     1  1
+Xmp.xmpTPg.SwatchGroups[3]/xmpG:Colorants    XmpText     0  type="Seq"
+Xmp.xmpTPg.SwatchGroups[3]/xmpG:Colorants[1] XmpText     0  type="Struct"
+Xmp.xmpTPg.SwatchGroups[3]/xmpG:Colorants[1]/xmpG:swatchName XmpText    19  C=0 M=100 Y=100 K=0
+Xmp.xmpTPg.SwatchGroups[3]/xmpG:Colorants[1]/xmpG:mode XmpText     4  CMYK
+Xmp.xmpTPg.SwatchGroups[3]/xmpG:Colorants[1]/xmpG:type XmpText     7  PROCESS
+Xmp.xmpTPg.SwatchGroups[3]/xmpG:Colorants[1]/xmpG:cyan XmpText     8  0.000000
+Xmp.xmpTPg.SwatchGroups[3]/xmpG:Colorants[1]/xmpG:magenta XmpText    10  100.000000
+Xmp.xmpTPg.SwatchGroups[3]/xmpG:Colorants[1]/xmpG:yellow XmpText    10  100.000000
+Xmp.xmpTPg.SwatchGroups[3]/xmpG:Colorants[1]/xmpG:black XmpText     8  0.000000
+Xmp.xmpTPg.SwatchGroups[3]/xmpG:Colorants[2] XmpText     0  type="Struct"
+Xmp.xmpTPg.SwatchGroups[3]/xmpG:Colorants[2]/xmpG:swatchName XmpText    18  C=0 M=75 Y=100 K=0
+Xmp.xmpTPg.SwatchGroups[3]/xmpG:Colorants[2]/xmpG:mode XmpText     4  CMYK
+Xmp.xmpTPg.SwatchGroups[3]/xmpG:Colorants[2]/xmpG:type XmpText     7  PROCESS
+Xmp.xmpTPg.SwatchGroups[3]/xmpG:Colorants[2]/xmpG:cyan XmpText     8  0.000000
+Xmp.xmpTPg.SwatchGroups[3]/xmpG:Colorants[2]/xmpG:magenta XmpText     9  75.000000
+Xmp.xmpTPg.SwatchGroups[3]/xmpG:Colorants[2]/xmpG:yellow XmpText    10  100.000000
+Xmp.xmpTPg.SwatchGroups[3]/xmpG:Colorants[2]/xmpG:black XmpText     8  0.000000
+Xmp.xmpTPg.SwatchGroups[3]/xmpG:Colorants[3] XmpText     0  type="Struct"
+Xmp.xmpTPg.SwatchGroups[3]/xmpG:Colorants[3]/xmpG:swatchName XmpText    17  C=0 M=10 Y=95 K=0
+Xmp.xmpTPg.SwatchGroups[3]/xmpG:Colorants[3]/xmpG:mode XmpText     4  CMYK
+Xmp.xmpTPg.SwatchGroups[3]/xmpG:Colorants[3]/xmpG:type XmpText     7  PROCESS
+Xmp.xmpTPg.SwatchGroups[3]/xmpG:Colorants[3]/xmpG:cyan XmpText     8  0.000000
+Xmp.xmpTPg.SwatchGroups[3]/xmpG:Colorants[3]/xmpG:magenta XmpText     9  10.000002
+Xmp.xmpTPg.SwatchGroups[3]/xmpG:Colorants[3]/xmpG:yellow XmpText     9  95.000000
+Xmp.xmpTPg.SwatchGroups[3]/xmpG:Colorants[3]/xmpG:black XmpText     8  0.000000
+Xmp.xmpTPg.SwatchGroups[3]/xmpG:Colorants[4] XmpText     0  type="Struct"
+Xmp.xmpTPg.SwatchGroups[3]/xmpG:Colorants[4]/xmpG:swatchName XmpText    19  C=85 M=10 Y=100 K=0
+Xmp.xmpTPg.SwatchGroups[3]/xmpG:Colorants[4]/xmpG:mode XmpText     4  CMYK
+Xmp.xmpTPg.SwatchGroups[3]/xmpG:Colorants[4]/xmpG:type XmpText     7  PROCESS
+Xmp.xmpTPg.SwatchGroups[3]/xmpG:Colorants[4]/xmpG:cyan XmpText     9  85.000000
+Xmp.xmpTPg.SwatchGroups[3]/xmpG:Colorants[4]/xmpG:magenta XmpText     9  10.000002
+Xmp.xmpTPg.SwatchGroups[3]/xmpG:Colorants[4]/xmpG:yellow XmpText    10  100.000000
+Xmp.xmpTPg.SwatchGroups[3]/xmpG:Colorants[4]/xmpG:black XmpText     8  0.000000
+Xmp.xmpTPg.SwatchGroups[3]/xmpG:Colorants[5] XmpText     0  type="Struct"
+Xmp.xmpTPg.SwatchGroups[3]/xmpG:Colorants[5]/xmpG:swatchName XmpText    18  C=100 M=90 Y=0 K=0
+Xmp.xmpTPg.SwatchGroups[3]/xmpG:Colorants[5]/xmpG:mode XmpText     4  CMYK
+Xmp.xmpTPg.SwatchGroups[3]/xmpG:Colorants[5]/xmpG:type XmpText     7  PROCESS
+Xmp.xmpTPg.SwatchGroups[3]/xmpG:Colorants[5]/xmpG:cyan XmpText    10  100.000000
+Xmp.xmpTPg.SwatchGroups[3]/xmpG:Colorants[5]/xmpG:magenta XmpText     9  90.000000
+Xmp.xmpTPg.SwatchGroups[3]/xmpG:Colorants[5]/xmpG:yellow XmpText     8  0.000000
+Xmp.xmpTPg.SwatchGroups[3]/xmpG:Colorants[5]/xmpG:black XmpText     8  0.000000
+Xmp.xmpTPg.SwatchGroups[3]/xmpG:Colorants[6] XmpText     0  type="Struct"
+Xmp.xmpTPg.SwatchGroups[3]/xmpG:Colorants[6]/xmpG:swatchName XmpText    17  C=60 M=90 Y=0 K=0
+Xmp.xmpTPg.SwatchGroups[3]/xmpG:Colorants[6]/xmpG:mode XmpText     4  CMYK
+Xmp.xmpTPg.SwatchGroups[3]/xmpG:Colorants[6]/xmpG:type XmpText     7  PROCESS
+Xmp.xmpTPg.SwatchGroups[3]/xmpG:Colorants[6]/xmpG:cyan XmpText     9  60.000004
+Xmp.xmpTPg.SwatchGroups[3]/xmpG:Colorants[6]/xmpG:magenta XmpText     9  90.000000
+Xmp.xmpTPg.SwatchGroups[3]/xmpG:Colorants[6]/xmpG:yellow XmpText     8  0.003099
+Xmp.xmpTPg.SwatchGroups[3]/xmpG:Colorants[6]/xmpG:black XmpText     8  0.003099
+Xmp.pdf.Producer                             XmpText    22  Adobe PDF library 9.90
+Exit code: 253
+
+Command: exiv2 -dx eps-nested_xmp_ai-cs5-lev3.eps
+Exit code: 0
+
+Command: exiv2 -f -ex eps-nested_xmp_ai-cs5-lev3.eps
+Exit code: 0
+
+Restore: eps-nested_xmp_ai-cs5-lev3.eps
+
+Command: exiv2 -f -eX eps-nested_xmp_ai-cs5-lev3.eps
+Exit code: 0
+
+Command: exiv2 -ix eps-nested_xmp_ai-cs5-lev3.eps
+Exit code: 0
+
+Command: (2) exiv2 -ix eps-nested_xmp_ai-cs5-lev3.eps
+Exit code: 0
+
+Command: exiv2 -f -ex eps-nested_xmp_ai-cs5-lev3.eps
+Exit code: 0
 
 -----> eps-nested_xmp_indesign-cs5-lev3-bin.eps <-----
 
 Command: exiv2 -u -pa eps-nested_xmp_indesign-cs5-lev3-bin.eps
-Warning: Nested documents are currently not supported. Found nested document at position: 180285
-Exiv2 exception in print action for file eps-nested_xmp_indesign-cs5-lev3-bin.eps:
-Failed to read image data
-Exit code: 1
+Exit code: 253
+
+Command: exiv2 -dx eps-nested_xmp_indesign-cs5-lev3-bin.eps
+Exit code: 0
+
+Command: exiv2 -f -ex eps-nested_xmp_indesign-cs5-lev3-bin.eps
+Exit code: 0
+
+Restore: eps-nested_xmp_indesign-cs5-lev3-bin.eps
+
+Command: exiv2 -f -eX eps-nested_xmp_indesign-cs5-lev3-bin.eps
+Exit code: 0
+
+Command: exiv2 -ix eps-nested_xmp_indesign-cs5-lev3-bin.eps
+Exit code: 0
+
+Command: (2) exiv2 -ix eps-nested_xmp_indesign-cs5-lev3-bin.eps
+Exit code: 0
+
+Command: exiv2 -f -ex eps-nested_xmp_indesign-cs5-lev3-bin.eps
+Exit code: 0
 
 -----> eps-nested_xmp_indesign-cs5-lev3.eps <-----
 
 Command: exiv2 -u -pa eps-nested_xmp_indesign-cs5-lev3.eps
-Warning: Nested documents are currently not supported. Found nested document at position: 180367
-Exiv2 exception in print action for file eps-nested_xmp_indesign-cs5-lev3.eps:
-Failed to read image data
+Exit code: 253
+
+Command: exiv2 -dx eps-nested_xmp_indesign-cs5-lev3.eps
+Exit code: 0
+
+Command: exiv2 -f -ex eps-nested_xmp_indesign-cs5-lev3.eps
+Exit code: 0
+
+Restore: eps-nested_xmp_indesign-cs5-lev3.eps
+
+Command: exiv2 -f -eX eps-nested_xmp_indesign-cs5-lev3.eps
+Exit code: 0
+
+Command: exiv2 -ix eps-nested_xmp_indesign-cs5-lev3.eps
+Exit code: 0
+
+Command: (2) exiv2 -ix eps-nested_xmp_indesign-cs5-lev3.eps
+Exit code: 0
+
+Command: exiv2 -f -ex eps-nested_xmp_indesign-cs5-lev3.eps
+Exit code: 0
+
+-----> eps-nested_xmp_indesign-cs5-lev3_failure-exiftool-8.56.eps <-----
+
+Command: exiv2 -u -pa eps-nested_xmp_indesign-cs5-lev3_failure-exiftool-8.56.eps
+Warning: Unable to find XMP embedding trailer ending at position: 186519
+Xmp.dc.title                                 LangAlt     1  lang="x-default" TEST-Exiftool
+Exit code: 253
+
+Command: exiv2 -dx eps-nested_xmp_indesign-cs5-lev3_failure-exiftool-8.56.eps
+Warning: Unable to find XMP embedding trailer ending at position: 186519
+Warning: Unable to find XMP embedding trailer ending at position: 186519
+Exiv2 exception in erase action for file eps-nested_xmp_indesign-cs5-lev3_failure-exiftool-8.56.eps:
+Failed to write image
 Exit code: 1
 
------> eps-nested_xmp_indesign-cs5-lev3_exiftool-8.56.eps <-----
+Restore: eps-nested_xmp_indesign-cs5-lev3_failure-exiftool-8.56.eps
 
-Command: exiv2 -u -pa eps-nested_xmp_indesign-cs5-lev3_exiftool-8.56.eps
-Warning: Nested documents are currently not supported. Found nested document at position: 184091
-Exiv2 exception in print action for file eps-nested_xmp_indesign-cs5-lev3_exiftool-8.56.eps:
-Failed to read image data
+Command: exiv2 -f -eX eps-nested_xmp_indesign-cs5-lev3_failure-exiftool-8.56.eps
+Warning: Unable to find XMP embedding trailer ending at position: 186519
+Exit code: 0
+
+Command: exiv2 -ix eps-nested_xmp_indesign-cs5-lev3_failure-exiftool-8.56.eps
+Warning: Unable to find XMP embedding trailer ending at position: 186519
+Warning: Unable to find XMP embedding trailer ending at position: 186519
+eps-nested_xmp_indesign-cs5-lev3_failure-exiftool-8.56.eps: Could not write metadata to file: Failed to write image
 Exit code: 1
 
 -----> eps-nested_xmp_oodraw-lev2-epsi.eps <-----
 
 Command: exiv2 -u -pa eps-nested_xmp_oodraw-lev2-epsi.eps
-Warning: Nested documents are currently not supported. Found nested document at position: 111804
-Exiv2 exception in print action for file eps-nested_xmp_oodraw-lev2-epsi.eps:
-Failed to read image data
-Exit code: 1
+Exit code: 253
+
+Command: exiv2 -dx eps-nested_xmp_oodraw-lev2-epsi.eps
+Exit code: 0
+
+Command: exiv2 -f -ex eps-nested_xmp_oodraw-lev2-epsi.eps
+Exit code: 0
+
+Restore: eps-nested_xmp_oodraw-lev2-epsi.eps
+
+Command: exiv2 -f -eX eps-nested_xmp_oodraw-lev2-epsi.eps
+Exit code: 0
+
+Command: exiv2 -ix eps-nested_xmp_oodraw-lev2-epsi.eps
+Exit code: 0
+
+Command: (2) exiv2 -ix eps-nested_xmp_oodraw-lev2-epsi.eps
+Exit code: 0
+
+Command: exiv2 -f -ex eps-nested_xmp_oodraw-lev2-epsi.eps
+Exit code: 0
 
 -----> eps-nested_xmp_oodraw-lev2-pre.eps <-----
 
 Command: exiv2 -u -pa eps-nested_xmp_oodraw-lev2-pre.eps
-Warning: Nested documents are currently not supported. Found nested document at position: 16365
-Exiv2 exception in print action for file eps-nested_xmp_oodraw-lev2-pre.eps:
-Failed to read image data
-Exit code: 1
+Exit code: 253
+
+Command: exiv2 -dx eps-nested_xmp_oodraw-lev2-pre.eps
+Exit code: 0
+
+Command: exiv2 -f -ex eps-nested_xmp_oodraw-lev2-pre.eps
+Exit code: 0
+
+Restore: eps-nested_xmp_oodraw-lev2-pre.eps
+
+Command: exiv2 -f -eX eps-nested_xmp_oodraw-lev2-pre.eps
+Exit code: 0
+
+Command: exiv2 -ix eps-nested_xmp_oodraw-lev2-pre.eps
+Exit code: 0
+
+Command: (2) exiv2 -ix eps-nested_xmp_oodraw-lev2-pre.eps
+Exit code: 0
+
+Command: exiv2 -f -ex eps-nested_xmp_oodraw-lev2-pre.eps
+Exit code: 0
 
 -----> eps-nested_xmp_oodraw-lev2.eps <-----
 
 Command: exiv2 -u -pa eps-nested_xmp_oodraw-lev2.eps
-Warning: Nested documents are currently not supported. Found nested document at position: 1859
-Exiv2 exception in print action for file eps-nested_xmp_oodraw-lev2.eps:
-Failed to read image data
-Exit code: 1
+Exit code: 253
+
+Command: exiv2 -dx eps-nested_xmp_oodraw-lev2.eps
+Exit code: 0
+
+Command: exiv2 -f -ex eps-nested_xmp_oodraw-lev2.eps
+Exit code: 0
+
+Restore: eps-nested_xmp_oodraw-lev2.eps
+
+Command: exiv2 -f -eX eps-nested_xmp_oodraw-lev2.eps
+Exit code: 0
+
+Command: exiv2 -ix eps-nested_xmp_oodraw-lev2.eps
+Exit code: 0
+
+Command: (2) exiv2 -ix eps-nested_xmp_oodraw-lev2.eps
+Exit code: 0
+
+Command: exiv2 -f -ex eps-nested_xmp_oodraw-lev2.eps
+Exit code: 0
