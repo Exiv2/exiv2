@@ -530,9 +530,6 @@ namespace {
                 }
             }
             // remaining explicit comments
-            #ifdef DEBUG
-            significantLine = true;
-            #endif
             if (posEndComments == posEndEps && posLanguageLevel == posEndEps && startsWith(line, "%%LanguageLevel:")) {
                 posLanguageLevel = startPos;
             } else if (posEndComments == posEndEps && posContainsXmp == posEndEps && startsWith(line, "%ADO_ContainsXMP:")) {
