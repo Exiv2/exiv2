@@ -8,23 +8,25 @@ fi
 
 set -x
 
-exiv2=../../../src/exiv2
-$exiv2 -V
+bin=../../../src
+$bin/exiv2 -V
+
+exiv2version="`$bin/exiv2 -V | sed -n '1 s,^exiv2 [^ ]* \([^ ]*\).*,\1,p'`"
 
 rm -f $1.xmp
-$exiv2 -f -eX $1.eps
+$bin/exiv2 -f -eX $1.eps
 
 cp $1.eps $1.eps.delxmp
-if $exiv2 -dx $1.eps.delxmp; then
-    sed -i 's,%Exiv2Version: 00152a,%Exiv2Version: _Exiv2Version_,' $1.eps.delxmp
+if $bin/exiv2 -dx $1.eps.delxmp; then
+    sed -i "s,%Exiv2Version: $exiv2version,%Exiv2Version: _Exiv2Version_," $1.eps.delxmp
 else
     rm -f $1.eps.delxmp
 fi
 
 cp $1.eps $1.eps.newxmp
 cp eps-test-newxmp.exv $1.eps.exv
-if $exiv2 -ix $1.eps.newxmp; then
-    sed -i 's,%Exiv2Version: 00152a,%Exiv2Version: _Exiv2Version_,' $1.eps.newxmp
+if $bin/exiv2 -ix $1.eps.newxmp; then
+    sed -i "s,%Exiv2Version: $exiv2version,%Exiv2Version: _Exiv2Version_," $1.eps.newxmp
 else
     rm -f $1.eps.newxmp
 fi
