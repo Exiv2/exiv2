@@ -1,3 +1,54 @@
+Changes from version 0.21.1 to 0.22
+-----------------------------------
+
+* Exiv2 utility
+                 - Fixed time setting of -T option when DST is in effect.
+	         - Added version hex number to the output of "exiv2 -V".
+
+* Exiv2 library
+	- 0000785: Exif version 2.3 missing tag codes. (Patch by Jens Mueller)
+	- 0000782: Tamron 18-270mm lens. (Patch by Jens Mueller)
+	- 0000781: Exif 2.3 & DNG 1.2/1.3 tags. (Patch by Jens Mueller)
+	- 0000776: Some tests depend on system settings (locale, path, etc).
+	           (Volker Grabsch)
+	- 0000775: Sort iptc data by record number when encoding.
+	           (Patch by Matthias Baas)
+	- 0000772: New Tamron 70-300 mm lens improperly recognized.
+	           (Reported by Marie-Noëlle Augendre, patch by Milan Knizek)
+	- 0000769: "Assertion `sv == d' failed" in 0.21.1 (r2474).
+	           (Reported by Derek Chen-Becker, reproducer by Paolo Bacchilega)
+	- 0000767: Build failure on MinGW with GCC >= 4.6 because of "-no-undefined".
+	           (Volker Grabsch)
+	- 0000765: Debug messages of psdimages.cpp go to stdout instead of stderr.
+	           (Volker Grabsch)
+	- 0000764: PSD resource block handling patch II.
+	           (Patch by Michael Ulbrich)
+	- 0000761: Setting metadata on an image should always succeed.
+	           (Patch by Matthias Baas)
+	- 0000760: Exiv2 fails to write to JPEG with an empty APP13 Photoshop PS3
+	           segment. (Reported by Stefan Brandl)
+	- 0000757: Wrong ELSE statement in src/CMakeLists.txt.
+	           (Reported by Michael Hansen)
+	- 0000689: Support for Encapsulated PostScript (*.eps) files.
+	           (Michael Ulbrich, Volker Grabsch)
+	- 0000439: The exiv2 library should be re-entrant.
+	           (Patch by Jonathan Potter, GP Software)
+	         - Fixed typo: SupplementalCategory -> SupplementalCategories.
+	           (Jürgen Wolz)
+	         - Added Tokina AT-X 107 AF DX Fish-eye 10-17mm f/3.5-4.5 lens.
+	           (Milan Knizek)
+	         - Added Exif.Panasonic.LensType to the Exiv2::lensName()
+	           easy-access function. (Adrian Woodley)
+	         - Added new function Exiv2::versionNumberHexString().
+	           (Volker Grabsch)
+	         - Updated Nikon Lens lookup table to v4.3.423.01 of
+	           Robert Rottmerhusen's fmountlens list.
+
+	* MSVC related
+	         - Added build environment for MSVC 64 bit builds.
+	           (Robin Mills)
+
+
 Changes from version 0.21 to 0.21.1
 -----------------------------------
 
