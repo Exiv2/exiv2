@@ -1029,7 +1029,7 @@ namespace {
         const std::string header = "P6\n" + toString(width) + " " + toString(height) + "\n255\n";
         const byte *headerBytes = reinterpret_cast<const byte*>(header.data());
 
-        DataBuf dest(header.size() + rgb.size_);
+        DataBuf dest(static_cast<long>(header.size() + rgb.size_));
         std::copy(headerBytes, headerBytes + header.size(), dest.pData_);
         std::copy(rgb.pData_, rgb.pData_ + rgb.size_, dest.pData_ + header.size());
         return dest;
