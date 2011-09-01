@@ -767,7 +767,7 @@ namespace {
                 std::string type;
                 lineStreamBeginData >> type;
                 nativePreview.position_ = static_cast<long>(posAfterBeginData);
-                nativePreview.size_ = posAi7ThumbnailEndData - posAfterBeginData;
+                nativePreview.size_ = static_cast<uint32_t>(posAi7ThumbnailEndData - posAfterBeginData);
                 nativePreview.filter_ = "hex-ai7thumbnail-pnm";
                 nativePreview.mimeType_ = "image/x-portable-anymap";
                 if (depth != "8") {
@@ -789,7 +789,7 @@ namespace {
             if (posEndPhotoshop != posEndEps) {
                 NativePreview nativePreview;
                 nativePreview.position_ = static_cast<long>(posBeginPhotoshop);
-                nativePreview.size_ = posEndPhotoshop - posBeginPhotoshop;
+                nativePreview.size_ = static_cast<uint32_t>(posEndPhotoshop - posBeginPhotoshop);
                 nativePreview.width_ = 0;
                 nativePreview.height_ = 0;
                 nativePreview.filter_ = "hex-irb";
