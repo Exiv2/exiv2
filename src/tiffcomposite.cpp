@@ -1300,6 +1300,7 @@ namespace Exiv2 {
                   << ": Writing offset " << o2 << "\n";
 #endif
         DataBuf buf(static_cast<long>(strips_.size()) * 4);
+        memset(buf.pData_, 0x0, buf.size_);
         uint32_t idx = 0;
         for (Strips::const_iterator i = strips_.begin(); i != strips_.end(); ++i) {
             idx += writeOffset(buf.pData_ + idx, o2, tiffType(), byteOrder);
