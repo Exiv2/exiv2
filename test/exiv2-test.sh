@@ -129,7 +129,7 @@ diff iii kkk
 if [ `../config/config.guess` = "i686-pc-mingw32" ] ; then
     sed 's,\\,/,g' $results > ${results}-new
     mv -f ${results}-new $results
-    unix2dos -q $results
+    unix2dos $results >/dev/null 2>&1
 fi
 
 diff -q -w $diffargs $results $good
