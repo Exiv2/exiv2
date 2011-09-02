@@ -62,21 +62,21 @@ namespace {
     using namespace Exiv2;
 
     // signature of DOS EPS
-    static const std::string dosEpsSignature = "\xC5\xD0\xD3\xC6";
+    const std::string dosEpsSignature = "\xC5\xD0\xD3\xC6";
 
     // first line of EPS
-    static const std::string epsFirstLine[] = {
+    const std::string epsFirstLine[] = {
         "%!PS-Adobe-3.0 EPSF-3.0",
         "%!PS-Adobe-3.0 EPSF-3.0 ", // OpenOffice
         "%!PS-Adobe-3.1 EPSF-3.0",  // Illustrator
     };
 
     // blank EPS file
-    static const std::string epsBlank = "%!PS-Adobe-3.0 EPSF-3.0\n"
+    const std::string epsBlank = "%!PS-Adobe-3.0 EPSF-3.0\n"
                                         "%%BoundingBox: 0 0 0 0\n";
 
     // list of all valid XMP headers
-    static const struct { std::string header; std::string charset; } xmpHeadersDef[] = {
+    const struct { std::string header; std::string charset; } xmpHeadersDef[] = {
 
         // We do not enforce the trailing "?>" here, because the XMP specification
         // permits additional attributes after begin="..." and id="...".
@@ -111,7 +111,7 @@ namespace {
     };
 
     // list of all valid XMP trailers
-    static const struct { std::string trailer; bool readOnly; } xmpTrailersDef[] = {
+    const struct { std::string trailer; bool readOnly; } xmpTrailersDef[] = {
 
         // We do not enforce the trailing "?>" here, because the XMP specification
         // permits additional attributes after end="...".
@@ -123,10 +123,10 @@ namespace {
     };
 
     // closing part of all valid XMP trailers
-    static const std::string xmpTrailerEndDef = "?>";
+    const std::string xmpTrailerEndDef = "?>";
 
     //! Write data into temp file, taking care of errors
-    static void writeTemp(BasicIo& tempIo, const byte* data, size_t size)
+    void writeTemp(BasicIo& tempIo, const byte* data, size_t size)
     {
         if (size == 0) return;
         if (tempIo.write(data, static_cast<long>(size)) != static_cast<long>(size)) {
@@ -138,13 +138,13 @@ namespace {
     }
 
     //! Write data into temp file, taking care of errors
-    static void writeTemp(BasicIo& tempIo, const std::string &data)
+    void writeTemp(BasicIo& tempIo, const std::string &data)
     {
         writeTemp(tempIo, reinterpret_cast<const byte*>(data.data()), data.size());
     }
 
     //! Get the current write position of temp file, taking care of errors
-    static uint32_t posTemp(BasicIo& tempIo)
+    uint32_t posTemp(BasicIo& tempIo)
     {
         const long pos = tempIo.tell();
         if (pos == -1) {
@@ -157,13 +157,13 @@ namespace {
     }
 
     //! Check whether a string has a certain beginning
-    static bool startsWith(const std::string& s, const std::string& start)
+    bool startsWith(const std::string& s, const std::string& start)
     {
         return s.size() >= start.size() && memcmp(s.data(), start.data(), start.size()) == 0;
     }
 
     //! Check whether a string contains only white space characters
-    static bool onlyWhitespaces(const std::string& s)
+    bool onlyWhitespaces(const std::string& s)
     {
         // According to the DSC 3.0 specification, 4.4 Parsing Rules,
         // only spaces and tabs are considered to be white space characters.
@@ -171,7 +171,7 @@ namespace {
     }
 
     //! Read the next line of a buffer, allow for changing line ending style
-    static size_t readLine(std::string& line, const byte* data, size_t startPos, size_t size)
+    size_t readLine(std::string& line, const byte* data, size_t startPos, size_t size)
     {
         line.clear();
         size_t pos = startPos;
@@ -189,7 +189,7 @@ namespace {
     }
 
     //! Read the previous line of a buffer, allow for changing line ending style
-    static size_t readPrevLine(std::string& line, const byte* data, size_t startPos, size_t size)
+    size_t readPrevLine(std::string& line, const byte* data, size_t startPos, size_t size)
     {
         line.clear();
         size_t pos = startPos;
@@ -214,7 +214,7 @@ namespace {
     }
 
     //! Find an XMP block
-    static void findXmp(size_t& xmpPos, size_t& xmpSize, const byte* data, size_t startPos, size_t size, bool write)
+    void findXmp(size_t& xmpPos, size_t& xmpSize, const byte* data, size_t startPos, size_t size, bool write)
     {
         // prepare list of valid XMP headers
         std::vector<std::pair<std::string, std::string> > xmpHeaders;
@@ -296,7 +296,7 @@ namespace {
     }
 
     //! Unified implementation of reading and writing EPS metadata
-    static void readWriteEpsMetadata(BasicIo& io, std::string& xmpPacket, NativePreviewList& nativePreviews, bool write)
+    void readWriteEpsMetadata(BasicIo& io, std::string& xmpPacket, NativePreviewList& nativePreviews, bool write)
     {
         // open input file
         if (io.open() != 0) {
