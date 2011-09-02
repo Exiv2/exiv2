@@ -152,7 +152,9 @@ num=683
 filename=exiv2-bug$num.jpg
 cp -f ../data/exiv2-nikon-d70.jpg $filename
 echo '------>' Bug $num '<-------' >&2
-$bin/exiv2 -u -v -f -r %Y-%m-%d-%a-%j $filename
+rm -f 2004-03-30-Tue-090.jpg
+$bin/exiv2 -u -f -r %Y-%m-%d-%a-%j $filename
+ls 2004-03-30-Tue-090.jpg
 
 num=711
 # Little endian (II)
