@@ -43,6 +43,10 @@ Changes from version 0.21.1 to 0.22
 	           (Volker Grabsch)
 	         - Updated Nikon Lens lookup table to v4.3.423.01 of
 	           Robert Rottmerhusen's fmountlens list.
+	         - Break-up ValueType constructor into two as a workaround for
+	           a MSVC 7.1 bug.
+	         - Simplified LogMsg to make it more portable and more efficient.
+	           (The original version doesn't build with MSVC 7.1.)
 
 	* MSVC related
 	         - Added build environment for MSVC 64 bit builds.
