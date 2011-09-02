@@ -176,7 +176,8 @@ int main(int argc, char* const argv[])
     params.cleanup();
     Exiv2::XmpParser::terminate();
 
-    return rc;
+    // Return a positive one byte code for better consistency across platforms
+    return static_cast<unsigned int>(rc) % 256;
 } // main
 
 // *****************************************************************************
