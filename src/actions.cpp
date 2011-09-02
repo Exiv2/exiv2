@@ -272,11 +272,11 @@ namespace Action {
 
         // MIME type
         printLabel(_("MIME type"));
-        std::cout << image->mimeType() << "\n";
+        std::cout << image->mimeType() << std::endl;
 
         // Image size
         printLabel(_("Image size"));
-        std::cout << image->pixelWidth() << " x " << image->pixelHeight() << "\n";
+        std::cout << image->pixelWidth() << " x " << image->pixelHeight() << std::endl;
 
         if (exifData.empty()) {
             std::cerr << path_ << ": "
