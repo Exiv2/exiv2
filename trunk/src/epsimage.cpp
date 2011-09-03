@@ -73,7 +73,7 @@ namespace {
 
     // blank EPS file
     const std::string epsBlank = "%!PS-Adobe-3.0 EPSF-3.0\n"
-                                        "%%BoundingBox: 0 0 0 0\n";
+                                 "%%BoundingBox: 0 0 0 0\n";
 
     // list of all valid XMP headers
     struct XmpHeaderDef {
