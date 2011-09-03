@@ -76,7 +76,12 @@ namespace {
                                         "%%BoundingBox: 0 0 0 0\n";
 
     // list of all valid XMP headers
-    const struct { std::string header; std::string charset; } xmpHeadersDef[] = {
+    struct XmpHeaderDef {
+        std::string header;
+        std::string charset;
+    };
+
+    const XmpHeaderDef xmpHeadersDef[] = {
 
         // We do not enforce the trailing "?>" here, because the XMP specification
         // permits additional attributes after begin="..." and id="...".
@@ -111,7 +116,12 @@ namespace {
     };
 
     // list of all valid XMP trailers
-    const struct { std::string trailer; bool readOnly; } xmpTrailersDef[] = {
+    struct XmpTrailerDef {
+        std::string trailer;
+        bool readOnly;
+    };
+
+    const XmpTrailerDef xmpTrailersDef[] = {
 
         // We do not enforce the trailing "?>" here, because the XMP specification
         // permits additional attributes after end="...".
