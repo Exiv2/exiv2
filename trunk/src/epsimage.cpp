@@ -76,52 +76,31 @@ namespace {
                                  "%%BoundingBox: 0 0 0 0\n";
 
     // list of all valid XMP headers
-    struct XmpHeaderDef {
-        std::string header;
-        std::string charset;
-    };
-
-    const XmpHeaderDef xmpHeadersDef[] = {
+    const std::string xmpHeaders[] = {
 
         // We do not enforce the trailing "?>" here, because the XMP specification
         // permits additional attributes after begin="..." and id="...".
 
         // normal headers
-        {"<?xpacket begin=\"\xef\xbb\xbf\" id=\"W5M0MpCehiHzreSzNTczkc9d\"", "UTF-8"},
-        {"<?xpacket begin=\"\xef\xbb\xbf\" id='W5M0MpCehiHzreSzNTczkc9d'",   "UTF-8"},
-        {"<?xpacket begin='\xef\xbb\xbf' id=\"W5M0MpCehiHzreSzNTczkc9d\"",   "UTF-8"},
-        {"<?xpacket begin='\xef\xbb\xbf' id='W5M0MpCehiHzreSzNTczkc9d'",     "UTF-8"},
-        {"<?xpacket begin=\"\xef\xbb\xbf\" id=\"W5M0MpCehiHzreSzNTczkc9d\"", "UTF-16BE"},
-        {"<?xpacket begin=\"\xef\xbb\xbf\" id='W5M0MpCehiHzreSzNTczkc9d'",   "UTF-16BE"},
-        {"<?xpacket begin='\xef\xbb\xbf' id=\"W5M0MpCehiHzreSzNTczkc9d\"",   "UTF-16BE"},
-        {"<?xpacket begin='\xef\xbb\xbf' id='W5M0MpCehiHzreSzNTczkc9d'",     "UTF-16BE"},
-        {"<?xpacket begin=\"\xef\xbb\xbf\" id=\"W5M0MpCehiHzreSzNTczkc9d\"", "UTF-16LE"},
-        {"<?xpacket begin=\"\xef\xbb\xbf\" id='W5M0MpCehiHzreSzNTczkc9d'",   "UTF-16LE"},
-        {"<?xpacket begin='\xef\xbb\xbf' id=\"W5M0MpCehiHzreSzNTczkc9d\"",   "UTF-16LE"},
-        {"<?xpacket begin='\xef\xbb\xbf' id='W5M0MpCehiHzreSzNTczkc9d'",     "UTF-16LE"},
-        {"<?xpacket begin=\"\xef\xbb\xbf\" id=\"W5M0MpCehiHzreSzNTczkc9d\"", "UTF-32BE"},
-        {"<?xpacket begin=\"\xef\xbb\xbf\" id='W5M0MpCehiHzreSzNTczkc9d'",   "UTF-32BE"},
-        {"<?xpacket begin='\xef\xbb\xbf' id=\"W5M0MpCehiHzreSzNTczkc9d\"",   "UTF-32BE"},
-        {"<?xpacket begin='\xef\xbb\xbf' id='W5M0MpCehiHzreSzNTczkc9d'",     "UTF-32BE"},
-        {"<?xpacket begin=\"\xef\xbb\xbf\" id=\"W5M0MpCehiHzreSzNTczkc9d\"", "UTF-32LE"},
-        {"<?xpacket begin=\"\xef\xbb\xbf\" id='W5M0MpCehiHzreSzNTczkc9d'",   "UTF-32LE"},
-        {"<?xpacket begin='\xef\xbb\xbf' id=\"W5M0MpCehiHzreSzNTczkc9d\"",   "UTF-32LE"},
-        {"<?xpacket begin='\xef\xbb\xbf' id='W5M0MpCehiHzreSzNTczkc9d'",     "UTF-32LE"},
+        "<?xpacket begin=\"\xef\xbb\xbf\" id=\"W5M0MpCehiHzreSzNTczkc9d\"",
+        "<?xpacket begin=\"\xef\xbb\xbf\" id='W5M0MpCehiHzreSzNTczkc9d'",
+        "<?xpacket begin='\xef\xbb\xbf' id=\"W5M0MpCehiHzreSzNTczkc9d\"",
+        "<?xpacket begin='\xef\xbb\xbf' id='W5M0MpCehiHzreSzNTczkc9d'",
 
         // deprecated headers (empty begin attribute, UTF-8 only)
-        {"<?xpacket begin=\"\" id=\"W5M0MpCehiHzreSzNTczkc9d\"", "UTF-8"},
-        {"<?xpacket begin=\"\" id='W5M0MpCehiHzreSzNTczkc9d'",   "UTF-8"},
-        {"<?xpacket begin='' id=\"W5M0MpCehiHzreSzNTczkc9d\"",   "UTF-8"},
-        {"<?xpacket begin='' id='W5M0MpCehiHzreSzNTczkc9d'",     "UTF-8"},
+        "<?xpacket begin=\"\" id=\"W5M0MpCehiHzreSzNTczkc9d\"",
+        "<?xpacket begin=\"\" id='W5M0MpCehiHzreSzNTczkc9d'",
+        "<?xpacket begin='' id=\"W5M0MpCehiHzreSzNTczkc9d\"",
+        "<?xpacket begin='' id='W5M0MpCehiHzreSzNTczkc9d'",
     };
 
     // list of all valid XMP trailers
-    struct XmpTrailerDef {
+    struct XmpTrailer {
         std::string trailer;
         bool readOnly;
     };
 
-    const XmpTrailerDef xmpTrailersDef[] = {
+    const XmpTrailer xmpTrailers[] = {
 
         // We do not enforce the trailing "?>" here, because the XMP specification
         // permits additional attributes after end="...".
@@ -133,7 +112,7 @@ namespace {
     };
 
     // closing part of all valid XMP trailers
-    const std::string xmpTrailerEndDef = "?>";
+    const std::string xmpTrailerEnd = "?>";
 
     //! Write data into temp file, taking care of errors
     void writeTemp(BasicIo& tempIo, const byte* data, size_t size)
@@ -226,56 +205,31 @@ namespace {
     //! Find an XMP block
     void findXmp(size_t& xmpPos, size_t& xmpSize, const byte* data, size_t startPos, size_t size, bool write)
     {
-        // prepare list of valid XMP headers
-        std::vector<std::pair<std::string, std::string> > xmpHeaders;
-        for (size_t i = 0; i < (sizeof xmpHeadersDef) / (sizeof *xmpHeadersDef); i++) {
-            const std::string &charset = xmpHeadersDef[i].charset;
-            std::string header(xmpHeadersDef[i].header);
-            if (!convertStringCharset(header, "UTF-8", charset.c_str())) {
-                throw Error(28, charset);
-            }
-            xmpHeaders.push_back(make_pair(header, charset));
-        }
-
         // search for valid XMP header
         xmpSize = 0;
         for (xmpPos = startPos; xmpPos < size; xmpPos++) {
             if (data[xmpPos] != '\x00' && data[xmpPos] != '<') continue;
-            for (size_t i = 0; i < xmpHeaders.size(); i++) {
-                const std::string &header = xmpHeaders[i].first;
+            for (size_t i = 0; i < (sizeof xmpHeaders) / (sizeof *xmpHeaders); i++) {
+                const std::string &header = xmpHeaders[i];
                 if (xmpPos + header.size() > size) continue;
                 if (memcmp(data + xmpPos, header.data(), header.size()) != 0) continue;
                 #ifdef DEBUG
                 EXV_DEBUG << "findXmp: Found XMP header at position: " << xmpPos << "\n";
                 #endif
 
-                // prepare list of valid XMP trailers in the charset of the header
-                const std::string &charset = xmpHeaders[i].second;
-                std::vector<std::pair<std::string, bool> > xmpTrailers;
-                for (size_t j = 0; j < (sizeof xmpTrailersDef) / (sizeof *xmpTrailersDef); j++) {
-                    std::string trailer(xmpTrailersDef[j].trailer);
-                    if (!convertStringCharset(trailer, "UTF-8", charset.c_str())) {
-                        throw Error(28, charset);
-                    }
-                    xmpTrailers.push_back(make_pair(trailer, xmpTrailersDef[j].readOnly));
-                }
-                std::string xmpTrailerEnd(xmpTrailerEndDef);
-                if (!convertStringCharset(xmpTrailerEnd, "UTF-8", charset.c_str())) {
-                    throw Error(28, charset);
-                }
-
                 // search for valid XMP trailer
                 for (size_t trailerPos = xmpPos + header.size(); trailerPos < size; trailerPos++) {
                     if (data[xmpPos] != '\x00' && data[xmpPos] != '<') continue;
-                    for (size_t j = 0; j < xmpTrailers.size(); j++) {
-                        const std::string &trailer = xmpTrailers[j].first;
+                    for (size_t j = 0; j < (sizeof xmpTrailers) / (sizeof *xmpTrailers); j++) {
+                        const std::string &trailer = xmpTrailers[j].trailer;
+                        const bool readOnly = xmpTrailers[j].readOnly;
+
                         if (trailerPos + trailer.size() > size) continue;
                         if (memcmp(data + trailerPos, trailer.data(), trailer.size()) != 0) continue;
                         #ifdef DEBUG
                         EXV_DEBUG << "findXmp: Found XMP trailer at position: " << trailerPos << "\n";
                         #endif
 
-                        const bool readOnly = xmpTrailers[j].second;
                         if (readOnly) {
                             #ifndef SUPPRESS_WARNINGS
                             EXV_WARNING << "Unable to handle read-only XMP metadata yet. Please provide your "
