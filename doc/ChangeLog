@@ -39,6 +39,8 @@ Changes from version 0.21.1 to 0.22
 	           (Milan Knizek)
 	         - Added Exif.Panasonic.LensType to the Exiv2::lensName()
 	           easy-access function. (Adrian Woodley)
+	         - Added Exif.OlympusEq.LensModel to the Exiv2::lensName()
+	           easy-access function. (Niels Kristian Bech Jensen)
 	         - Added new function Exiv2::versionNumberHexString().
 	           (Volker Grabsch)
 	         - Updated Nikon Lens lookup table to v4.3.423.01 of
