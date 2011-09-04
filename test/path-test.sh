@@ -9,4 +9,8 @@ else
 fi
 cd ./tmp
 
-$bin/path-test ../data/path-test.txt
+if { test -f "$bin/path-test" || test -f "$bin/path-test.exe"; }; then
+    $bin/path-test ../data/path-test.txt
+else
+    echo "path-test.sh: path-test executable not found. Skipping path tests."
+fi

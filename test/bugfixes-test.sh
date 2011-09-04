@@ -182,11 +182,15 @@ $bin/exiv2 -u -v -M'set Exif.Image.ProcessingSoftware Intrusive update, writing 
 $bin/exiv2 -u -v -PEkyct $filename
 
 # Test easy-access keys (using a dummy bug number)
-num=726
-filename=exiv2-bug$num.jpg
-cp -f ../data/exiv2-empty.jpg $filename
-$bin/exiv2 -u -v -M"set Exif.Image.Make Samsung" $filename
-$samples/easyaccess-test $filename
+if { test -f "$samples/easyaccess-test" || test -f "$samples/easyaccess-test.exe"; }; then
+    num=726
+    filename=exiv2-bug$num.jpg
+    cp -f ../data/exiv2-empty.jpg $filename
+    $bin/exiv2 -u -v -M"set Exif.Image.Make Samsung" $filename
+    $samples/easyaccess-test $filename
+else
+    echo "bugfixes-test.sh: easyaccess-test executable not found. Skipping regression test for issue #726."
+fi
 
 # Test 'migration of XMP namespaces' (see #751 and related forum post)
 num=751

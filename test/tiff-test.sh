@@ -3,7 +3,7 @@
 
 # ----------------------------------------------------------------------
 # Check if the exifprobe tool is available
-if [ `which exifprobe`x = x ] ; then
+if [ `which exifprobe 2>/dev/null`x = x ] ; then
     echo "tiff-test.sh: exifprobe not found. Skipping TIFF tests."
     exit 0
 fi
