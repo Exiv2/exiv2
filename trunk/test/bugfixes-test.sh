@@ -182,7 +182,7 @@ $bin/exiv2 -u -v -M'set Exif.Image.ProcessingSoftware Intrusive update, writing 
 $bin/exiv2 -u -v -PEkyct $filename
 
 # Test easy-access keys (using a dummy bug number)
-if { test -f "$samples/easyaccess-test" || test -f "$samples/easyaccess-test.exe"; }; then
+if { test -f $samples/easyaccess-test || test -f $samples/easyaccess-test.exe; }; then
     num=726
     filename=exiv2-bug$num.jpg
     cp -f ../data/exiv2-empty.jpg $filename
