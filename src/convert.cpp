@@ -40,6 +40,7 @@ EXIV2_RCSID("@(#) $Id$")
 #include "convert.hpp"
 
 // + standard includes
+#include <utility>
 #include <iostream>
 #include <iomanip>
 #include <ios>
@@ -49,6 +50,10 @@ EXIV2_RCSID("@(#) $Id$")
 # define snprintf _snprintf
 #endif
 #include <cstring>
+
+#if defined WIN32 && !defined __CYGWIN__
+# include <windows.h>
+#endif
 
 #ifdef EXV_HAVE_ICONV
 # include <iconv.h>
@@ -65,6 +70,14 @@ EXIV2_RCSID("@(#) $Id$")
 // *****************************************************************************
 // local declarations
 namespace {
+#if defined WIN32 && !defined __CYGWIN__
+    // Convert string charset with Windows MSVC functions.
+    bool convertStringCharsetMsvc(std::string& str, const char* from, const char* to);
+#endif
+#if defined EXV_HAVE_ICONV
+    // Convert string charset with iconv.
+    bool convertStringCharsetIconv(std::string& str, const char* from, const char* to);
+#endif
     /*!
       @brief Get the text value of an XmpDatum \em pos.
 
@@ -1318,7 +1331,184 @@ namespace Exiv2 {
     bool convertStringCharset(std::string &str, const char* from, const char* to)
     {
         if (0 == strcmp(from, to)) return true; // nothing to do
+        bool ret = false;
 #if defined EXV_HAVE_ICONV
+        ret = convertStringCharsetIconv(str, from, to);
+#elif defined WIN32 && !defined __CYGWIN__
+        ret = convertStringCharsetMsvc(str, from, to);
+#else
+# ifndef SUPPRESS_WARNINGS
+        EXV_WARNING << "Charset conversion required but no character mapping functionality available.\n";
+# endif
+#endif
+        return ret;
+    }
+}                                       // namespace Exiv2
+
+// *****************************************************************************
+// local definitions
+namespace {
+
+    using namespace Exiv2;
+
+#if defined WIN32 && !defined __CYGWIN__
+    bool swapBytes(std::string& str)
+    {
+        // Naive byte-swapping, I'm sure this can be done more efficiently
+        if (str.size() & 1) {
+#ifdef DEBUG
+            EXV_DEBUG << "swapBytes: Size " << str.size() << " of input string is not even.\n";
+#endif
+            return false;
+        }
+        for (unsigned int i = 0; i < str.size() / 2; ++i) {
+            char t = str[2 * i];
+            str[2 * i] = str[2 * i + 1];
+            str[2 * i + 1] = t;
+        }
+        return true;
+    }
+
+    bool mb2wc(UINT cp, std::string& str)
+    {
+        if (str.empty()) return true;
+        int len = MultiByteToWideChar(cp, 0, str.c_str(), str.size(), 0, 0);
+        if (len == 0) {
+#ifdef DEBUG
+            EXV_DEBUG << "mb2wc: Failed to determine required size of output buffer.\n";
+#endif
+            return false;
+        }
+        std::vector<std::string::value_type> out;
+        out.resize(len * 2);
+        int ret = MultiByteToWideChar(cp, 0, str.c_str(), str.size(), (LPWSTR)&out[0], len * 2);
+        if (ret == 0) {
+#ifdef DEBUG
+            EXV_DEBUG << "mb2wc: Failed to convert the input string to a wide character string.\n";
+#endif
+            return false;
+        }
+        str.assign(out.begin(), out.end());
+        return true;
+    }
+
+    bool wc2mb(UINT cp, std::string& str)
+    {
+        if (str.empty()) return true;
+        if (str.size() & 1) {
+#ifdef DEBUG
+            EXV_DEBUG << "wc2mb: Size " << str.size() << " of input string is not even.\n";
+#endif
+            return false;
+        }
+        int len = WideCharToMultiByte(cp, 0, (LPCWSTR)str.data(), str.size() / 2, 0, 0, 0, 0);
+        if (len == 0) {
+#ifdef DEBUG
+            EXV_DEBUG << "wc2mb: Failed to determine required size of output buffer.\n";
+#endif
+            return false;
+        }
+        std::vector<std::string::value_type> out;
+        out.resize(len);
+        int ret = WideCharToMultiByte(cp, 0, (LPCWSTR)str.data(), str.size() / 2, (LPSTR)&out[0], len, 0, 0);
+        if (ret == 0) {
+#ifdef DEBUG
+            EXV_DEBUG << "wc2mb: Failed to convert the input string to a multi byte string.\n";
+#endif
+            return false;
+        }
+        str.assign(out.begin(), out.end());
+        return true;
+    }
+
+    bool utf8ToUcs2be(std::string& str)
+    {
+        bool ret = mb2wc(CP_UTF8, str);
+        if (ret) ret = swapBytes(str);
+        return ret;
+    }
+
+    bool utf8ToUcs2le(std::string& str)
+    {
+        return mb2wc(CP_UTF8, str);
+    }
+
+    bool ucs2beToUtf8(std::string& str)
+    {
+        bool ret = swapBytes(str);
+        if (ret) ret = wc2mb(CP_UTF8, str);
+        return ret;
+    }
+
+    bool ucs2beToUcs2le(std::string& str)
+    {
+        return swapBytes(str);
+    }
+
+    bool ucs2leToUtf8(std::string& str)
+    {
+        return wc2mb(CP_UTF8, str);
+    }
+
+    bool ucs2leToUcs2be(std::string& str)
+    {
+        return swapBytes(str);
+    }
+
+    bool iso88591ToUtf8(std::string& str)
+    {
+        bool ret = mb2wc(28591, str);
+        if (ret) ret = wc2mb(CP_UTF8, str);
+        return ret;
+    }
+
+    bool asciiToUtf8(std::string& /*str*/)
+    {
+        // nothing to do
+        return true;
+    }
+
+    typedef bool (*ConvFct)(std::string& str);
+    
+    struct ConvFctList {
+        bool operator==(std::pair<const char*, const char*> fromTo) const
+            { return 0 == strcmp(from_, fromTo.first) && 0 == strcmp(to_, fromTo.second); }
+        const char* from_;
+        const char* to_;
+        ConvFct convFct_;
+    };
+
+    const ConvFctList convFctList[] = {
+        { "UTF-8",      "UCS-2BE", utf8ToUcs2be   },
+        { "UTF-8",      "UCS-2LE", utf8ToUcs2le   },
+        { "UCS-2BE",    "UTF-8",   ucs2beToUtf8   },
+        { "UCS-2BE",    "UCS-2LE", ucs2beToUcs2le },
+        { "UCS-2LE",    "UTF-8",   ucs2leToUtf8   },
+        { "UCS-2LE",    "UCS-2BE", ucs2leToUcs2be },
+        { "ISO-8859-1", "UTF-8",   iso88591ToUtf8 },
+        { "ASCII",      "UTF-8",   asciiToUtf8    }
+        // Update the convertStringCharset() documentation if you add more here!
+    };
+
+    bool convertStringCharsetMsvc(std::string& str, const char* from, const char* to)
+    {
+        bool ret = false;
+        const ConvFctList* p = find(convFctList, std::make_pair(from, to));
+        if (p) ret = p->convFct_(str);
+#ifndef SUPPRESS_WARNINGS
+        else {
+            EXV_WARNING << "No Windows function to map character string from " << from << " to " << to << " available.\n";
+        }
+#endif
+        return ret;
+    }
+
+#endif // defined WIN32 && !defined __CYGWIN__
+#if defined EXV_HAVE_ICONV
+    bool convertStringCharsetIconv(std::string& str, const char* from, const char* to)
+    {
+        if (0 == strcmp(from, to)) return true; // nothing to do
+
         bool ret = true;
         iconv_t cd;
         cd = iconv_open(to, from);
@@ -1329,18 +1519,18 @@ namespace Exiv2 {
             return false;
         }
         std::string outstr;
-        EXV_ICONV_CONST char *inptr = const_cast<char *>(str.c_str());
+        EXV_ICONV_CONST char* inptr = const_cast<char*>(str.c_str());
         size_t inbytesleft = str.length();
         while (inbytesleft) {
-            char outbuf[100];
-            char *outptr = outbuf;
-            size_t outbytesleft = sizeof(outbuf) - 1;
+            char outbuf[256];
+            char* outptr = outbuf;
+            size_t outbytesleft = sizeof(outbuf);
             size_t rc = iconv(cd,
                               &inptr,
                               &inbytesleft,
                               &outptr,
                               &outbytesleft);
-            int outbytesProduced = sizeof(outbuf) - 1 - outbytesleft;
+            int outbytesProduced = sizeof(outbuf) - outbytesleft;
             if (rc == size_t(-1) && errno != E2BIG) {
 #ifndef SUPPRESS_WARNINGS
                 EXV_WARNING << "iconv: " << strError()
@@ -1349,7 +1539,6 @@ namespace Exiv2 {
                 ret = false;
                 break;
             }
-            *outptr = '\0';
             outstr.append(std::string(outbuf, outbytesProduced));
         }
         if (cd != (iconv_t)(-1)) {
@@ -1358,20 +1547,12 @@ namespace Exiv2 {
 
         if (ret) str = outstr;
         return ret;
-#else // !EXV_HAVE_ICONV
-        return false;
-#endif // EXV_HAVE_ICONV
     }
 
-}                                       // namespace Exiv2
-
-// *****************************************************************************
-// local definitions
-namespace {
-
-    bool getTextValue(std::string& value, const Exiv2::XmpData::iterator& pos)
+#endif // EXV_HAVE_ICONV
+    bool getTextValue(std::string& value, const XmpData::iterator& pos)
     {
-        if (pos->typeId() == Exiv2::langAlt) {
+        if (pos->typeId() == langAlt) {
             // get the default language entry without x-default qualifier
             value = pos->toString(0);
             if (!pos->value().ok() && pos->count() == 1) {
