@@ -38,6 +38,7 @@ EXIV2_RCSID("@(#) $Id$")
 #include "error.hpp"
 #include "futils.hpp"
 #include "value.hpp"
+#include "convert.hpp"
 #include "i18n.h"                // NLS support.
 
 #include "canonmn_int.hpp"
@@ -59,14 +60,6 @@ EXIV2_RCSID("@(#) $Id$")
 #include <cassert>
 #include <cmath>
 #include <cstring>
-
-#ifdef EXV_HAVE_ICONV
-# include <iconv.h>
-#endif
-
-#if defined WIN32 && !defined __CYGWIN__
-# include <windows.h>
-#endif
 
 // *****************************************************************************
 // local declarations
@@ -2308,78 +2301,18 @@ namespace Exiv2 {
 
     std::ostream& printUcs2(std::ostream& os, const Value& value, const ExifData*)
     {
-#if defined WIN32 && !defined __CYGWIN__
-        // in Windows the WideCharToMultiByte function can be used
-        if (value.typeId() == unsignedByte) {
-            DataBuf ib(value.size());
-            value.copy(ib.pData_, invalidByteOrder);
-            int out_size = WideCharToMultiByte(CP_UTF8, 0, reinterpret_cast<LPWSTR>(ib.pData_),
-                                               ib.size_ / sizeof(WCHAR), NULL, 0, NULL, NULL);
-            if (out_size >= 0) {
-                DataBuf ob(out_size + 1);
-                WideCharToMultiByte(CP_UTF8, 0, reinterpret_cast<LPWSTR>(ib.pData_),
-                                    ib.size_ / sizeof(WCHAR), reinterpret_cast<char*>(ob.pData_),
-                                    ob.size_, NULL, NULL);
-                os << std::string(reinterpret_cast<char*>(ob.pData_));
-            }
-            else {
-                os << value;
-            }
+        bool cnv = false;
+        if (value.typeId() == unsignedByte && value.size() > 0) {
+            DataBuf buf(value.size());
+            value.copy(buf.pData_, invalidByteOrder);
+            // Strip trailing UCS-2 0-character, if there is one
+            if (buf.pData_[buf.size_ - 1] == 0 && buf.pData_[buf.size_ - 2] == 0)  buf.size_ -= 2;
+            std::string str((const char*)buf.pData_, buf.size_);
+            cnv = convertStringCharset(str, "UCS-2LE", "UTF-8");
+            if (cnv) os << str;
         }
+        if (!cnv) os << value;
         return os;
-#elif defined EXV_HAVE_ICONV // !(defined WIN32 && !defined __CYGWIN__)
-        bool go = true;
-        iconv_t cd = (iconv_t)(-1);
-        if (value.typeId() != unsignedByte) {
-            go = false;
-        }
-        if (go) {
-            cd = iconv_open("UTF-8", "UCS-2LE");
-            if (cd == (iconv_t)(-1)) {
-#ifndef SUPPRESS_WARNINGS
-                EXV_WARNING << "iconv_open: " << strError() << "\n";
-#endif
-                go = false;
-            }
-        }
-        if (go) {
-            DataBuf ib(value.size());
-            value.copy(ib.pData_, invalidByteOrder);
-            DataBuf ob(value.size());
-            char* outptr = reinterpret_cast<char*>(ob.pData_);
-            const char* outbuf = outptr;
-            size_t outbytesleft = ob.size_;
-            EXV_ICONV_CONST char* inbuf
-                = reinterpret_cast<EXV_ICONV_CONST char*>(ib.pData_);
-            size_t inbytesleft = ib.size_;
-            size_t rc = iconv(cd,
-                              &inbuf,
-                              &inbytesleft,
-                              &outptr,
-                              &outbytesleft);
-            if (rc == size_t(-1)) {
-#ifndef SUPPRESS_WARNINGS
-                EXV_WARNING << "iconv: " << strError()
-                            << " inbytesleft = " << inbytesleft << "\n";
-#endif
-                go = false;
-            }
-            if (go) {
-                if (outptr > outbuf && *(outptr-1) == '\0') outptr--;
-                os << std::string(outbuf, outptr-outbuf);
-            }
-        }
-        if (cd != (iconv_t)(-1)) {
-            iconv_close(cd);
-        }
-        if (!go) {
-            os << value;
-        }
-        return os;
-#else
-        os << value;
-        return os;
-#endif // EXV_HAVE_ICONV
     } // printUcs2
 
     std::ostream& printExifUnit(std::ostream& os, const Value& value, const ExifData* metadata)

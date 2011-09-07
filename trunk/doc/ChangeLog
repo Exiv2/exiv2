@@ -29,6 +29,8 @@ Changes from version 0.21.1 to 0.22
 	           segment. (Reported by Stefan Brandl)
 	- 0000757: Wrong ELSE statement in src/CMakeLists.txt.
 	           (Reported by Michael Hansen)
+	- 0000708: On Windows (MSVC and MSYS/MinGw builds), charset conversions
+	           now use respective Windows functions if iconv is not available.
 	- 0000689: Support for Encapsulated PostScript (*.eps) files.
 	           (Michael Ulbrich, Volker Grabsch)
 	- 0000439: The exiv2 library should be re-entrant.
