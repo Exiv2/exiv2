@@ -29,8 +29,8 @@ Changes from version 0.21.1 to 0.22
 	           segment. (Reported by Stefan Brandl)
 	- 0000757: Wrong ELSE statement in src/CMakeLists.txt.
 	           (Reported by Michael Hansen)
-	- 0000708: On Windows (MSVC and MSYS/MinGw builds), charset conversions
-	           now use respective Windows functions if iconv is not available.
+	- 0000708: On Windows (MSVC and MinGW builds), charset conversions now
+	           use respective Windows functions if iconv is not available.
 	- 0000689: Support for Encapsulated PostScript (*.eps) files.
 	           (Michael Ulbrich, Volker Grabsch)
 	- 0000439: The exiv2 library should be re-entrant.
@@ -356,7 +356,7 @@ Changes from version 0.18 to 0.18.1
 	           (Reported with patch by Lukasz Krzyzak)
 	- 0000618: Easy access to information which may be in different Exif tags.
 	           (Based on a patch from Carsten Pfeiffer)
-	- 0000615: Setting the Exif makernote tag aborts if type is not 
+	- 0000615: Setting the Exif makernote tag aborts if type is not
 	           "undefined". (digiKam bug 182738)
 	- 0000609: Building a DLL of Exiv2 0.18 in MinGW requires -no-undefined
 	           linker flag. (Reported with solution by Giuseppe Rota)
