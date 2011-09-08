@@ -71,8 +71,8 @@ EXIV2_RCSID("@(#) $Id$")
 // local declarations
 namespace {
 #if defined WIN32 && !defined __CYGWIN__
-    // Convert string charset with Windows MSVC functions.
-    bool convertStringCharsetMsvc(std::string& str, const char* from, const char* to);
+    // Convert string charset with Windows functions.
+    bool convertStringCharsetWindows(std::string& str, const char* from, const char* to);
 #endif
 #if defined EXV_HAVE_ICONV
     // Convert string charset with iconv.
@@ -1335,7 +1335,7 @@ namespace Exiv2 {
 #if defined EXV_HAVE_ICONV
         ret = convertStringCharsetIconv(str, from, to);
 #elif defined WIN32 && !defined __CYGWIN__
-        ret = convertStringCharsetMsvc(str, from, to);
+        ret = convertStringCharsetWindows(str, from, to);
 #else
 # ifndef SUPPRESS_WARNINGS
         EXV_WARNING << "Charset conversion required but no character mapping functionality available.\n";
@@ -1490,16 +1490,18 @@ namespace {
         // Update the convertStringCharset() documentation if you add more here!
     };
 
-    bool convertStringCharsetMsvc(std::string& str, const char* from, const char* to)
+    bool convertStringCharsetWindows(std::string& str, const char* from, const char* to)
     {
         bool ret = false;
         const ConvFctList* p = find(convFctList, std::make_pair(from, to));
-        if (p) ret = p->convFct_(str);
+        std::string tmpstr = str;
+        if (p) ret = p->convFct_(tmpstr);
 #ifndef SUPPRESS_WARNINGS
         else {
             EXV_WARNING << "No Windows function to map character string from " << from << " to " << to << " available.\n";
         }
 #endif
+        if (ret) str = tmpstr;
         return ret;
     }
 

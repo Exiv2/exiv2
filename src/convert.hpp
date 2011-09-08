@@ -81,29 +81,32 @@ namespace Exiv2 {
 
     /*!
       @brief Convert character encoding of \em str from \em from to \em to.
-             The string is modified and its size may change.
+             If the function succeeds, \em str contains the result string.
 
-      This function uses the iconv library, if Exiv2 was compiled with iconv
-      support.  Otherwise, on Windows, it uses MSVC functions to support a
-      limited number of conversions and issues a warning if an unsupported
-      conversion is attempted. The conversions supported on Windows without
-      iconv are:
+      This function uses the iconv library, if the %Exiv2 library was compiled
+      with iconv support.  Otherwise, on Windows, it uses Windows functions to
+      support a limited number of conversions and fails with a warning if an
+      unsupported conversion is attempted.  If the function is called but %Exiv2
+      was not compiled with iconv support and can't use Windows functions, it
+      fails with a warning.
 
-      from: UTF-8 to: UCS-2BE<br>
-      from: UTF-8 to: UCS-2LE<br>
-      from: UCS-2BE to: UTF-8<br>
-      from: UCS-2BE to: UCS-2LE<br>
-      from: UCS-2LE to: UTF-8<br>
-      from: UCS-2LE to: UCS-2BE<br>
-      from: ISO-8859-1 to: UTF-8<br>
-      from: ASCII to: UTF-8<br>
+      The conversions supported on Windows without iconv are:
 
-      If the function is called but Exiv2 was not compiled with iconv support
-      and can't use Windows MSVC functions, it issues a warning.
+      <TABLE>
+      <TR><TD class="indexkey"><B>from</B></TD><TD class="indexkey">to</TD></TR>
+      <TR><TD class="indexvalue">UTF-8</TD>     <TD class="indexvalue">UCS-2BE</TD></TR>
+      <TR><TD class="indexvalue">UTF-8</TD>     <TD class="indexvalue">UCS-2LE</TD></TR>
+      <TR><TD class="indexvalue">UCS-2BE</TD>   <TD class="indexvalue">UTF-8</TD></TR>
+      <TR><TD class="indexvalue">UCS-2BE</TD>   <TD class="indexvalue">UCS-2LE</TD></TR>
+      <TR><TD class="indexvalue">UCS-2LE</TD>   <TD class="indexvalue">UTF-8</TD></TR>
+      <TR><TD class="indexvalue">UCS-2LE</TD>   <TD class="indexvalue">UCS-2BE</TD></TR>
+      <TR><TD class="indexvalue">ISO-8859-1</TD><TD class="indexvalue">UTF-8</TD></TR>
+      <TR><TD class="indexvalue">ASCII</TD>     <TD class="indexvalue">UTF-8</TD></TR>
+      </TABLE>
 
       @param str  The string to convert. It is updated to the converted string,
                   which may have a different size. If the function call fails,
-                  the string may have been modified.
+                  the string is not modified.
       @param from Charset in which the input string is encoded as a name
                   understood by \c iconv_open(3).
       @param to   Charset to convert the string to as a name
