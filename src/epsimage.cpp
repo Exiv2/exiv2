@@ -43,7 +43,6 @@ EXIV2_RCSID("@(#) $Id: epsimage.cpp $")
 #include "epsimage.hpp"
 #include "image.hpp"
 #include "basicio.hpp"
-#include "convert.hpp"
 #include "error.hpp"
 #include "futils.hpp"
 
