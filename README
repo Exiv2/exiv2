@@ -19,21 +19,24 @@ Building and Installing
 
 You can build the libraries in the following ways:
 
-1 Linux, Mac, Cygwin, Msys (autoconf tools)
+1 UNIX-like systems (including GNU/Linux, Mac OS X, Cygwin, MinGW)
   - general notes follow
-  - FAQ concerning Cygwin/MSYS and MacOSX http://dev.exiv2.org/projects/exiv2/wiki/FAQ
-  
+  - FAQ concerning Cygwin/MSYS and Mac OS X:
+    http://dev.exiv2.org/projects/exiv2/wiki/FAQ
+
 2 Microsoft Visual C++
-  - see msvc/README-MSVC.txt (32bit build            VC7.1/2003 and up)
-  - see msvc64/ReadMe.txt    (32bit and 64 bit build VC8/2005   and up)
+  - see msvc/README-MSVC.txt (32bit build           VC7.1/2003 and up)
+  - see msvc64/ReadMe.txt    (32bit and 64bit build VC8/2005   and up)
 
 3 CMake (experimental support for cmake on all platforms)
   - see README-CMAKE for more information
 
-On UNIX-like systems (including GNU/Linux, Mac OS X, MinGW), use the 
-GNU configure script. Run the following commands from the top directory 
-(containing this file) to configure, build and install the library and 
-utility:
+To build a commercial version of the Exiv2 library, see also section 
+"Commercial version" at the end of this file.
+
+On UNIX-like systems, use the GNU configure script. Run the following
+commands from the top directory (containing this file) to configure,
+build and install the library and utility:
 
     $ ./configure
     $ make
@@ -51,9 +54,6 @@ change the default. Run './configure --help' to see a list of all options.
 To uninstall Exiv2 from a UNIX-like system, run:
 
     $ make uninstall
-
-To build a commercial version of the Exiv2 library, see also section 
-"Commercial version" at the end of this file.
 
 
 Dependencies
@@ -175,8 +175,7 @@ the conversion of Nikon lens data to readable lens names to build a
 commercial version of the Exiv2 library.
 
 To do this on Windows, compile the library with the preprocessor
-symbol EXV_COMMERCIAL_VERSION defined in msvc\include\exv_msvc.h.
-On UNIX-like systems, run the configure script with the options
---enable-commercial --disable-nls --disable-lensdata.
-
-
+symbol EXV_COMMERCIAL_VERSION defined in msvc\include\exv_msvc.h or
+msvc64\include\exv_msvc.h. On UNIX-like systems, run the configure
+script with the options --enable-commercial --disable-nls 
+--disable-lensdata.
