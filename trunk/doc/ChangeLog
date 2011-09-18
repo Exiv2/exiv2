@@ -47,6 +47,7 @@ Changes from version 0.21.1 to 0.22
 	           (Volker Grabsch)
 	         - Updated Nikon Lens lookup table to v4.3.423.01 of
 	           Robert Rottmerhusen's fmountlens list.
+                 - Updated Samsung makernote.
 	         - Break-up ValueType constructor into two as a workaround for
 	           a MSVC 7.1 bug.
 	         - Simplified LogMsg to make it more portable and more efficient.
