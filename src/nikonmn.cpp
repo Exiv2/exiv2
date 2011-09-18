@@ -1204,7 +1204,7 @@ namespace Exiv2 {
         TagInfo( 106, "ShutterCount1", N_("Shutter Count 1"), N_("Shutter count 1"), nikonSi5Id, makerTags, unsignedLong, 1, printValue),
         TagInfo( 110, "DeletedImageCount", N_("Deleted Image Count"), N_("Deleted image count"), nikonSi5Id, makerTags, unsignedLong, 1, printValue),
         TagInfo( 117, "VibrationReduction", N_("Vibration Reduction"), N_("Vibration reduction"), nikonSi5Id, makerTags, unsignedByte, 1, EXV_PRINT_TAG(nikonOffOn2)),
-        TagInfo( 130, "VibrationReduction1", N_(""), N_(""), nikonSi5Id, makerTags, unsignedByte, 1, EXV_PRINT_TAG(nikonOffOn)),
+        TagInfo( 130, "VibrationReduction1", N_("Vibration Reduction 1"), N_("Vibration reduction 1"), nikonSi5Id, makerTags, unsignedByte, 1, EXV_PRINT_TAG(nikonOffOn)),
         TagInfo( 343, "ShutterCount2", N_("Shutter Count 2"), N_("Shutter count 2"), nikonSi5Id, makerTags, undefined, 2, printValue),
         TagInfo( 430, "VibrationReduction2", N_("Vibration Reduction 2"), N_("Vibration reduction 2"), nikonSi5Id, makerTags, unsignedByte, 1, EXV_PRINT_TAG(nikonOffOn3)),
         TagInfo( 598, "ISO", N_("ISO"), N_("ISO"), nikonSi5Id, makerTags, unsignedByte, 1, printIiIso),
