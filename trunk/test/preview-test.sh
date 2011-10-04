@@ -19,7 +19,9 @@ fi
 
 # ----------------------------------------------------------------------
 # Tests
-images="eps/eps-flat_inkscape-epsi.eps \
+images="eps/eps-flat_coreldraw-x3-lev2.eps \
+        eps/eps-flat_coreldraw-x5-lev2.eps \
+        eps/eps-flat_inkscape-epsi.eps \
         eps/eps-flat_oodraw_ai-10-lev2.eps \
         eps/eps-flat_oodraw_ai-8-lev2.eps \
         eps/eps-flat_oodraw_ai-8-lev3.eps \
