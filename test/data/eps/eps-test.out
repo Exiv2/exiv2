@@ -1,4 +1,54 @@
 
+-----> eps-flat_coreldraw-x3-lev2.eps <-----
+
+Command: exiv2 -u -pa eps-flat_coreldraw-x3-lev2.eps
+Exit code: 253
+
+Command: exiv2 -dx eps-flat_coreldraw-x3-lev2.eps
+Exit code: 0
+
+Command: exiv2 -f -ex eps-flat_coreldraw-x3-lev2.eps
+Exit code: 0
+
+Restore: eps-flat_coreldraw-x3-lev2.eps
+
+Command: exiv2 -f -eX eps-flat_coreldraw-x3-lev2.eps
+Exit code: 0
+
+Command: exiv2 -ix eps-flat_coreldraw-x3-lev2.eps
+Exit code: 0
+
+Command: (2) exiv2 -ix eps-flat_coreldraw-x3-lev2.eps
+Exit code: 0
+
+Command: exiv2 -f -ex eps-flat_coreldraw-x3-lev2.eps
+Exit code: 0
+
+-----> eps-flat_coreldraw-x5-lev2.eps <-----
+
+Command: exiv2 -u -pa eps-flat_coreldraw-x5-lev2.eps
+Exit code: 253
+
+Command: exiv2 -dx eps-flat_coreldraw-x5-lev2.eps
+Exit code: 0
+
+Command: exiv2 -f -ex eps-flat_coreldraw-x5-lev2.eps
+Exit code: 0
+
+Restore: eps-flat_coreldraw-x5-lev2.eps
+
+Command: exiv2 -f -eX eps-flat_coreldraw-x5-lev2.eps
+Exit code: 0
+
+Command: exiv2 -ix eps-flat_coreldraw-x5-lev2.eps
+Exit code: 0
+
+Command: (2) exiv2 -ix eps-flat_coreldraw-x5-lev2.eps
+Exit code: 0
+
+Command: exiv2 -f -ex eps-flat_coreldraw-x5-lev2.eps
+Exit code: 0
+
 -----> eps-flat_empty-eof-noeol.eps <-----
 
 Command: exiv2 -u -pa eps-flat_empty-eof-noeol.eps
