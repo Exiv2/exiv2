@@ -98,6 +98,7 @@ namespace Exiv2 {
         nikonIiId,
         nikonAfId,
         nikonAf2Id,
+        nikonAFTId,
         nikonFiId,
         nikonMeId,
         nikonFl1Id,

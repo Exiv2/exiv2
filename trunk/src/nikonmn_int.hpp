@@ -125,6 +125,8 @@ namespace Exiv2 {
         static const TagInfo* tagListAf();
         //! Return read-only list of built-in Auto Focus 2 tags
         static const TagInfo* tagListAf2();
+        //! Return read-only list of built-in AF Fine Tune tags
+        static const TagInfo* tagListAFT();
         //! Return read-only list of built-in File Info tags
         static const TagInfo* tagListFi();
         //! Return read-only list of built-in Multi Exposure tags
@@ -234,6 +236,8 @@ namespace Exiv2 {
         static const TagInfo tagInfoAf_[];
         //! Auto Focus tag 2 information
         static const TagInfo tagInfoAf2_[];
+        //! AF Fine Tune tag information
+        static const TagInfo tagInfoAFT_[];
         //! File Info tag information
         static const TagInfo tagInfoFi_[];
         //! Multi Exposure tag information

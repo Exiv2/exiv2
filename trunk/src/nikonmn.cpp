@@ -603,6 +603,7 @@ namespace Exiv2 {
         TagInfo(0x00b3, "ToningEffect", "Toning Effect", N_("Toning effect"), nikon3Id, makerTags, asciiString, -1, printValue),
         TagInfo(0x00b7, "AFInfo2", "AF Info 2", N_("AF info 2"), nikon3Id, makerTags, undefined, -1, printValue),
         TagInfo(0x00b8, "FileInfo", "File Info", N_("File info"), nikon3Id, makerTags, undefined, -1, printValue),
+        TagInfo(0x00b9, "AFTune", "AF Tune", N_("AF tune"), nikon3Id, makerTags, undefined, -1, printValue),
         TagInfo(0x0e00, "PrintIM", N_("Print IM"), N_("PrintIM information"), nikon3Id, makerTags, undefined, -1, printValue),
         // TODO: Add Capture Data decoding implementation.
         TagInfo(0x0e01, "CaptureData", N_("Capture Data"), N_("Capture data"), nikon3Id, makerTags, undefined, -1, printValue),
@@ -707,6 +708,27 @@ namespace Exiv2 {
     const TagInfo* Nikon3MakerNote::tagListPc()
     {
         return tagInfoPc_;
+    }
+    
+    //! OnOff
+    extern const TagDetails aftOnOff[] = {
+        {  0, N_("Off")  },
+        {  1, N_("On") },
+        {  2, N_("On") }
+    };
+    
+    // Nikon3 AF Fine Tune
+    const TagInfo Nikon3MakerNote::tagInfoAFT_[] = {
+        TagInfo(0, "AFFineTune", N_("AF Fine Tune"), N_("AF fine tune"), nikonAFTId, makerTags, unsignedByte, 1, EXV_PRINT_TAG(aftOnOff)),
+        TagInfo(1, "AFFineTuneIndex", N_("AF Fine Tune Index"), N_("AF fine tune index"), nikonAFTId, makerTags, unsignedByte, 1, printValue),
+        TagInfo(2, "AFFineTuneAdj", N_("AF Fine Tune Adjustment"), N_("AF fine tune adjustment"), nikonAFTId, makerTags, signedByte, 1, printValue),
+        // End of list marker
+        TagInfo(0xffff, "(UnknownNikonAFTTag)", "(UnknownNikonAFTTag)", N_("Unknown Nikon AF Fine Tune Tag"), nikonAFTId, makerTags, unsignedByte, 1, printValue)
+    };
+    
+    const TagInfo* Nikon3MakerNote::tagListAFT()
+    {
+        return tagInfoAFT_;
     }
 
     // Nikon3 World Time Tag Info
