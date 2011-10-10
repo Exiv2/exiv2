@@ -400,7 +400,7 @@ namespace Exiv2 {
             && memcmp("Description", key, 11) == 0
             && pImage->comment().empty())
         {
-            pImage->comment().assign(reinterpret_cast<char*>(arr.pData_), arr.size_);
+            pImage->setComment(std::string(reinterpret_cast<char*>(arr.pData_), arr.size_));
         }
 
     } // PngChunk::parseChunkContent
