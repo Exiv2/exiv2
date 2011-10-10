@@ -1704,10 +1704,10 @@ namespace Exiv2 {
 #ifndef FMOUNTLH
 #define FMOUNTLH
 //------------------------------------------------------------------------------
-// List of AF F-Mount lenses - Version 4.3.423.01                    2011-07-19
+// List of AF F-Mount lenses - Version 4.3.424.01                    2011-10-07
 //------------------------------------------------------------------------------
-#define FMLVERSION "4.3.423.01"
-#define FMLDATE "2011-07-19"
+#define FMLVERSION "4.3.424.01"
+#define FMLDATE "2011-10-07"
 //------------------------------------------------------------------------------
 //
 //
@@ -2127,6 +2127,7 @@ fmountlens[] = {
 {0x07,0x46,0x2B,0x44,0x24,0x30,0x03,0x02,0x00,0x00,0x02, "Tamron", "A05", "SP AF 17-35mm F/2.8-4 Di LD Aspherical (IF)"},
 {0x00,0x53,0x2B,0x50,0x24,0x24,0x00,0x06,0x00,0x00,0x02, "Tamron", "A16", "SP AF 17-50mm F/2.8 XR Di II LD Aspherical (IF)"},
 {0x00,0x54,0x2B,0x50,0x24,0x24,0x00,0x06,0x01,0x00,0x02, "Tamron", "A16NII", "SP AF 17-50mm F/2.8 XR Di II LD Aspherical (IF)"},
+{0xFB,0x54,0x2B,0x50,0x24,0x24,0x84,0x06,0x01,0x00,0x02, "Tamron", "A16NII", "SP AF 17-50mm F/2.8 XR Di II LD Aspherical (IF)"},
 {0xF3,0x54,0x2B,0x50,0x24,0x24,0x84,0x0E,0x01,0x00,0x02, "Tamron", "B005", "SP AF 17-50mm F/2.8 XR Di II VC LD Aspherical (IF)"},
 {0x00,0x3F,0x2D,0x80,0x2B,0x40,0x00,0x06,0x00,0x00,0x02, "Tamron", "A14", "AF 18-200mm F/3.5-6.3 XR Di II LD Aspherical (IF)"},
 {0x00,0x3F,0x2D,0x80,0x2C,0x40,0x00,0x06,0x00,0x00,0x02, "Tamron", "A14", "AF 18-200mm F/3.5-6.3 XR Di II LD Aspherical (IF) Macro"},
