@@ -13,6 +13,11 @@
 
 #ifdef _MSC_VER
 
+#if _MSC_VER >= 1400
+// stdint.h was introduced with DevStudio 2010
+#define EXV_HAVE_STDINT_H 1
+#endif
+
 /* Define to 1 if you have the <process.h> header file. */
 #define EXV_HAVE_PROCESS_H 1
 
