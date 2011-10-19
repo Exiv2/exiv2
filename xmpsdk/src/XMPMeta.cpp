@@ -1019,11 +1019,10 @@ XMPMeta::GetGlobalOptions()
 // ----------------
 
 /* class-static */ void
-XMPMeta::SetGlobalOptions ( XMP_OptionBits options )
+XMPMeta::SetGlobalOptions ( XMP_OptionBits /*options*/ )
 {
 
 	XMP_Throw ( "Unimplemented method XMPMeta::SetGlobalOptions", kXMPErr_Unimplemented );
-		void * p; p = &options;	// Avoid unused param warnings.
 
 }	// SetGlobalOptions
 
@@ -1328,13 +1327,12 @@ XMPMeta::ResolveAlias ( XMP_StringPtr	 aliasNS,
 // -----------
 
 /* class-static */ void
-XMPMeta::DeleteAlias ( XMP_StringPtr aliasNS,
-					   XMP_StringPtr aliasProp )
+XMPMeta::DeleteAlias ( XMP_StringPtr /*aliasNS*/,
+                       XMP_StringPtr /*aliasProp*/ )
 {
 
-	XMP_Assert ( (aliasNS != 0) && (aliasProp != 0) );	// Enforced by wrapper.
+//	Todo: XMP_Assert ( (aliasNS != 0) && (aliasProp != 0) );	/ / Enforced by wrapper.
 	XMP_Throw ( "Unimplemented method XMPMeta::DeleteAlias", kXMPErr_Unimplemented );   // *** #error "write me"
-		void * p; p = &aliasNS; p = &aliasProp;	// Avoid unused param warnings.
 
 }	// DeleteAlias
 
@@ -1567,11 +1565,10 @@ XMPMeta::GetObjectOptions() const
 // ----------------
 
 void
-XMPMeta::SetObjectOptions ( XMP_OptionBits options )
+XMPMeta::SetObjectOptions ( XMP_OptionBits /*options*/ )
 {
 
 	XMP_Throw ( "Unimplemented method XMPMeta::SetObjectOptions", kXMPErr_Unimplemented );
-		void * p; p = &options;	// Avoid unused param warnings.
 
 }	// SetObjectOptions
 

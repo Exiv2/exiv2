@@ -574,13 +574,12 @@ XMPIterator::XMPIterator ( const XMPMeta & xmpObj,
 //
 // Constructor for iterations over global tables such as registered namespaces or aliases.
 
-XMPIterator::XMPIterator ( XMP_StringPtr  schemaNS,
-						   XMP_StringPtr  propName,
-						   XMP_OptionBits options ) : clientRefs(0), info(IterInfo(options,0))
+XMPIterator::XMPIterator ( XMP_StringPtr  /*schemaNS*/,
+                           XMP_StringPtr  /*propName*/,
+                           XMP_OptionBits options ) : clientRefs(0), info(IterInfo(options,0))
 {
 
 	XMP_Throw ( "Unimplemented XMPIterator constructor for global tables", kXMPErr_Unimplemented );
-		void * p; p = &schemaNS; p = &propName; p = &options;	// Avoid unused param warnings.
 
 }	// XMPIterator for global tables
 

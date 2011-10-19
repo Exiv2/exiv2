@@ -1292,11 +1292,11 @@ XMPMeta::SerializeToBuffer ( XMP_StringPtr * rdfString,
 		} else {
 
 			std::string padStr ( "    " );  padStr[0] = padStr[1] = padStr[2] = 0;	// Assume big endian.
-			UTF8_to_UTF32_Proc Converter = UTF8_to_UTF32BE;
+//			UTF8_to_UTF32_Proc Converter = UTF8_to_UTF32BE;
 
 			if ( charEncoding & _XMP_LittleEndian_Bit ) {
 				padStr[0] = ' '; padStr[1] = padStr[2] = padStr[3] = 0;
-				Converter = UTF8_to_UTF32LE;
+//				Converter = UTF8_to_UTF32LE;
 			}
 			
 			utf8Str.swap ( *sOutputStr );
