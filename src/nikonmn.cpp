@@ -1542,7 +1542,7 @@ namespace Exiv2 {
             unsigned focusmetering = value.toLong(0);
             unsigned focuspoint = value.toLong(1);
             unsigned focusused = (value.toLong(2) << 8) + value.toLong(3);
-            enum {standard, wide} combination = standard;
+            // TODO: enum {standard, wide} combination = standard;
             const unsigned focuspoints =   sizeof(nikonFocuspoints)
                                          / sizeof(nikonFocuspoints[0]);
 
@@ -1561,8 +1561,8 @@ namespace Exiv2 {
             case 0x01: os << _("Dynamic area");         break; // D70, D200
             case 0x02: os << _("Closest subject");      break; // D70, D200
             case 0x03: os << _("Group dynamic-AF");     break; // D200
-            case 0x04: os << _("Single area (wide)");   combination = wide; break; // D200
-            case 0x05: os << _("Dynamic area (wide)");  combination = wide; break; // D200
+            case 0x04: os << _("Single area (wide)");   /* TODO: combination = wide; */ break; // D200
+            case 0x05: os << _("Dynamic area (wide)");  /* TODO: combination = wide; */ break; // D200
             default: os << "(" << focusmetering << ")"; break;
             }
 
