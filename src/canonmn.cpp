@@ -494,6 +494,7 @@ namespace Exiv2 {
         {  49, "Canon EF-S 55-250mm f/4-5.6 IS"                             },
         {  50, "Canon EF-S 18-200mm f/3.5-5.6 IS"                           },
         {  51, "Canon EF-S 18-135mm f/3.5-5.6 IS"                           },
+        {  53, "Canon EF-S 18-55mm f/3.5-5.6 III"                           },
         {  94, "Canon TS-E 17mm f/4L"                                       },
         {  95, "Canon TS-E 24.0mm f/3.5 L II"                               },
         { 124, "Canon MP-E 65mm f/2.8 1-5x Macro Photo"                     },
