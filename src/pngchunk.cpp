@@ -95,13 +95,13 @@ namespace Exiv2 {
 
 #ifdef DEBUG
         std::cout << "Exiv2::PngChunk::decodeTXTChunk: TXT chunk key: "
-                  << std::string((const char*)key.pData_) << "\n";
+                  << std::string((const char*)key.pData_, key.size_) << "\n";
 #endif
         DataBuf arr = parseTXTChunk(data, key.size_, type);
 
 #ifdef DEBUG
         std::cout << "Exiv2::PngChunk::decodeTXTChunk: TXT chunk data: "
-                  << std::string((const char*)arr.pData_, 32) << "\n";
+                  << std::string((const char*)arr.pData_, arr.size_) << "\n";
 #endif
         parseChunkContent(pImage, key.pData_, key.size_, arr);
 
@@ -449,7 +449,8 @@ namespace Exiv2 {
                                     compressedText,
                                     compressedTextSize);
             if (zlibResult == Z_OK) {
-                arr.alloc(uncompressedLen);
+                assert((uLongf)arr.size_ >= uncompressedLen);
+                arr.size_ = uncompressedLen;
             }
             else if (zlibResult == Z_BUF_ERROR) {
                 // the uncompressedArray needs to be larger
