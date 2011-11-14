@@ -3,6 +3,16 @@
 ##
 # buildForMac  <configure-options>
 # example:  contrib/buildForMac --disable-shared
+#
+# On Lion: 
+#    contrib/buildForMac --with-zlib=/usr/lib
+#    11 == `uname -a | cut '-d ' -f 3 | cut '-d.' -f 1` 
+
+LION=""
+(echo $OSTYPE | grep 11) > /dev/null
+if [ $? == 0 ]; then
+  	LION="--with-zlib=/usr/lib"
+fi
 
 # b=`basename "${PWD}"`
 
@@ -11,9 +21,17 @@ if [ ! -d contrib ]; then
 	exit 1
 fi
 
-TARGET="MACOSX_DEPLOYMENT_TARGET=10.4"
+TARGET="MACOSX_DEPLOYMENT_TARGET=10.5"
+version=`grep EXIV2_LTVERSION config/config.mk | cut "-d " -f 3 | cut -d: -f 1`
+lib=libexiv2.$version.dylib
 
-lib=libexiv2.10.dylib
+echo
+echo -----------------------------
+echo version = $version
+echo lib = $lib
+echo -----------------------------
+echo
+
 app=exiv2
 LIB=./src/.libs/$lib
 APP=./src/.libs/$app
@@ -33,15 +51,21 @@ props() {
 	echo ----------------------
 }
 
+
+
 build() {
 	make clean
-	./configure CFLAGS="$arch" CXXFLAGS="$arch" CPPFLAGS="$arch" LDFLAGS="$arch -L${PWD}/xmpsdk/src" OBJCFLAGS="$arch" OBJCXXFLAGS="$arch" $TARGET "$@"
-	env         CFLAGS="$arch" CXXFLAGS="$arch" CPPFLAGS="$arch" LDFLAGS="$arch -L${PWD}/xmpsdk/src" OBJCFLAGS="$arch" OBJCXXFLAGS="$arch" $TARGET make $TARGET
+	./configure CFLAGS="$arch" CXXFLAGS="$arch" LDFLAGS="$arch -L${PWD}/xmpsdk/src" OBJCFLAGS="$arch" OBJCXXFLAGS="$arch" $TARGET $LION "$@"
+	make        CFLAGS="$arch" CXXFLAGS="$arch" LDFLAGS="$arch -L${PWD}/xmpsdk/src" OBJCFLAGS="$arch" OBJCXXFLAGS="$arch" $TARGET 
+	if [ "$?" != "0" ]; then
+		echo build failed
+		exit
+	fi
 	props $APP
 	props $LIB
 }
 
-for arch in '-arch i386' '-arch x86_64' '-arch ppc'; do
+for arch in '-arch i386' '-arch x86_64' ; do
 	if [ "$arch"   == "-arch i386"   ]; then
 		build "$@"
 		rm -rf app.i386 lib.i386
@@ -52,19 +76,14 @@ for arch in '-arch i386' '-arch x86_64' '-arch ppc'; do
 		rm -rf app.x86_64 lib.x86_64
 		cp                 $APP        app.x86_64
 		cp                 $LIB        lib.x86_64
-	elif [ "$arch" == "-arch ppc" ]; then
-		build "$@"
-		rm -rf app.ppc lib.ppc
-		cp                 $APP        app.ppc
-		cp                 $LIB        lib.ppc
 	fi
 done
 
 LIB=./src/.libs/$lib
 APP=./src/.libs/$app
 
-env $TARGET lipo -arch i386 lib.i386 -arch x86_64 lib.x86_64 -arch ppc lib.ppc -create -output $LIB
-env $TARGET lipo -arch i386 app.i386 -arch x86_64 app.x86_64 -arch ppc app.ppc -create -output $APP 
+env $TARGET lipo -arch i386 lib.i386 -arch x86_64 lib.x86_64 -create -output $LIB
+env $TARGET lipo -arch i386 app.i386 -arch x86_64 app.x86_64 -create -output $APP 
 
 props $LIB
 props $APP
