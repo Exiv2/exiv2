@@ -1523,10 +1523,9 @@ namespace Exiv2 {
                           << ", exceeds buffer size by "
                           // cast to make MSVC happy
                           << static_cast<uint32_t>(pData + size - pLast_)
-                          << " Bytes; adjusting the size\n";
+                          << " Bytes; truncating the entry\n";
 #endif
-                size = static_cast<uint32_t>(pLast_ - pData);
-                // Todo: adjust count, make size a multiple of typeSize
+                size = 0;
             }
         }
         Value::AutoPtr v = Value::create(typeId);
