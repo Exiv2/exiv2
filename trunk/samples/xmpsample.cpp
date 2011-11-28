@@ -176,6 +176,11 @@ try {
     tv.read("Best man");
     xmpData.add(Exiv2::XmpKey("Xmp.xmpBJ.JobRef[2]/stJob:role"), &tv);
 
+    // Add a creator contact info structure
+    xmpData["Xmp.iptc.CreatorContactInfo/Iptc4xmpCore:CiAdrCity"] = "Kuala Lumpur";
+    xmpData["Xmp.iptc.CreatorContactInfo/Iptc4xmpCore:CiAdrCtry"] = "Malaysia";
+    xmpData["Xmp.iptc.CreatorContactInfo/Iptc4xmpCore:CiUrlWork"] = "http://www.exiv2.org";
+
     // -------------------------------------------------------------------------
     // Output XMP properties
     for (Exiv2::XmpData::const_iterator md = xmpData.begin(); 
