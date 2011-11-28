@@ -305,6 +305,9 @@ Xmp.xmpBJ.JobRef[1]/stJob:name               XmpText    14  Birthday party
 Xmp.xmpBJ.JobRef[1]/stJob:role               XmpText    12  Photographer
 Xmp.xmpBJ.JobRef[2]/stJob:name               XmpText    16  Wedding ceremony
 Xmp.xmpBJ.JobRef[2]/stJob:role               XmpText     8  Best man
+Xmp.iptc.CreatorContactInfo/Iptc4xmpCore:CiAdrCity XmpText    12  Kuala Lumpur
+Xmp.iptc.CreatorContactInfo/Iptc4xmpCore:CiAdrCtry XmpText     8  Malaysia
+Xmp.iptc.CreatorContactInfo/Iptc4xmpCore:CiUrlWork XmpText    20  http://www.exiv2.org
 <?xpacket begin="﻿" id="W5M0MpCehiHzreSzNTczkc9d"?>
 <x:xmpmeta xmlns:x="adobe:ns:meta/" x:xmptk="XMP Core 4.4.0-Exiv2">
  <rdf:RDF xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#">
@@ -316,6 +319,7 @@ Xmp.xmpBJ.JobRef[2]/stJob:role               XmpText     8  Best man
     xmlns:stDim="http://ns.adobe.com/xap/1.0/sType/Dimensions#"
     xmlns:xmpBJ="http://ns.adobe.com/xap/1.0/bj/"
     xmlns:stJob="http://ns.adobe.com/xap/1.0/sType/Job#"
+    xmlns:Iptc4xmpCore="http://iptc.org/std/Iptc4xmpCore/1.0/xmlns/"
    dc:source="xmpsample.cpp"
    dc:one="-1"
    dc:two="3.1415"
@@ -382,6 +386,10 @@ Xmp.xmpBJ.JobRef[2]/stJob:role               XmpText     8  Best man
       stJob:role="Best man"/>
     </rdf:Bag>
    </xmpBJ:JobRef>
+   <Iptc4xmpCore:CreatorContactInfo
+    Iptc4xmpCore:CiAdrCity="Kuala Lumpur"
+    Iptc4xmpCore:CiAdrCtry="Malaysia"
+    Iptc4xmpCore:CiUrlWork="http://www.exiv2.org"/>
   </rdf:Description>
  </rdf:RDF>
 </x:xmpmeta>
