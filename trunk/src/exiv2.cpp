@@ -260,6 +260,7 @@ void Params::help(std::ostream& os) const
        << _("   -V      Show the program version and exit.\n")
        << _("   -v      Be verbose during the program run.\n")
        << _("   -q      Silence warnings and error messages during the program run (quiet).\n")
+       << _("   -Q lvl  Set log-level to d(ebug), i(nfo), w(arning), e(rror) or m(ute).\n")
        << _("   -b      Show large binary values.\n")
        << _("   -u      Show unknown tags.\n")
        << _("   -g key  Only output info for this key (grep).\n")
@@ -341,6 +342,7 @@ int Params::option(int opt, const std::string& optarg, int optopt)
     case 'V': version_ = true; break;
     case 'v': verbose_ = true; break;
     case 'q': Exiv2::LogMsg::setLevel(Exiv2::LogMsg::mute); break;
+    case 'Q': rc = setLogLevel(optarg); break;
     case 'k': preserve_ = true; break;
     case 'b': binary_ = false; break;
     case 'u': unknown_ = false; break;
@@ -384,6 +386,25 @@ int Params::option(int opt, const std::string& optarg, int optopt)
     }
     return rc;
 } // Params::option
+
+int Params::setLogLevel(const std::string& optarg)
+{
+    int rc = 0;
+    const char logLevel = tolower(optarg[0]);
+    switch (logLevel) {
+    case 'd': Exiv2::LogMsg::setLevel(Exiv2::LogMsg::debug); break;
+    case 'i': Exiv2::LogMsg::setLevel(Exiv2::LogMsg::info); break;
+    case 'w': Exiv2::LogMsg::setLevel(Exiv2::LogMsg::warn); break;
+    case 'e': Exiv2::LogMsg::setLevel(Exiv2::LogMsg::error); break;
+    case 'm': Exiv2::LogMsg::setLevel(Exiv2::LogMsg::mute); break;
+    default:
+        std::cerr << progname() << ": " << _("Option") << " -Q: "
+                  << _("Invalid argument") << " \"" << optarg << "\"\n";
+        rc = 1;
+        break;
+    }
+    return rc;
+} // Params::setLogLevel
 
 int Params::evalRename(int opt, const std::string& optarg)
 {
