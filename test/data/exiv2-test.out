@@ -49,6 +49,7 @@ Options:
    -V      Show the program version and exit.
    -v      Be verbose during the program run.
    -q      Silence warnings and error messages during the program run (quiet).
+   -Q lvl  Set log-level to d(ebug), i(nfo), w(arning), e(rror) or m(ute).
    -b      Show large binary values.
    -u      Show unknown tags.
    -g key  Only output info for this key (grep).

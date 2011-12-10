@@ -134,6 +134,11 @@ Silence warnings and error messages from the Exiv2 library during the
 program run (quiet). Note that options \fB\-v\fP and \fB\-q\fP can be
 used at the same time.
 .TP
+.B \-Q \fIlvl\fP
+Set the log-level to 'd'(ebug), 'i'(nfo), 'w'(arning), 'e'(rror)
+or 'm'(ute). The default log-level is 'w'. \fB\-Qm\fP is equivalent
+to \fB\-q\fP. All log messages are written to standard error.
+.TP
 .B \-b
 Show large binary values (default is to suppress them).
 .TP

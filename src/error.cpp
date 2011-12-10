@@ -114,14 +114,14 @@ namespace {
 // class member definitions
 namespace Exiv2 {
 
-    LogMsg::Level LogMsg::level_ = LogMsg::info; // Default output level
+    LogMsg::Level LogMsg::level_ = LogMsg::warn; // Default output level
     LogMsg::Handler LogMsg::handler_ = LogMsg::defaultHandler;
 
     void LogMsg::defaultHandler(int level, const char* s)
     {
         switch (static_cast<LogMsg::Level>(level)) {
         case LogMsg::debug: std::cerr << "Debug: "; break;
-        case LogMsg::info:  break;
+        case LogMsg::info:  std::cerr << "Info: "; break;
         case LogMsg::warn:  std::cerr << "Warning: "; break;
         case LogMsg::error: std::cerr << "Error: "; break;
         case LogMsg::mute:  assert(false);

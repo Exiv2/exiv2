@@ -1874,13 +1874,13 @@ namespace Exiv2 {
                                uint32_t(-1),
                                imageIdx);
             io.transfer(*tempIo); // may throw
-#ifdef DEBUG
-            std::cerr << "Intrusive writing\n";
+#ifndef SUPPRESS_WARNINGS
+            EXV_INFO << "Write strategy: Intrusive\n";
 #endif
         }
-#ifdef DEBUG
+#ifndef SUPPRESS_WARNINGS
         else {
-            std::cerr << "Non-intrusive writing\n";
+            EXV_INFO << "Write strategy: Non-intrusive\n";
         }
 #endif
         return writeMethod;

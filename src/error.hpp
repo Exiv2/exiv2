@@ -110,7 +110,7 @@ namespace Exiv2 {
         /*!
           @brief Set the log level. Only log messages with a level greater or
                  equal \em level are sent to the log message handler. Default
-                 log level is \c info. To suppress all log messages, set the log
+                 log level is \c warn. To suppress all log messages, set the log
                  level to \c mute (or set the log message handler to 0).
         */
         static void setLevel(Level level) { level_ = level; }
