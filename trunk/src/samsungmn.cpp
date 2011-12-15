@@ -55,7 +55,9 @@ namespace Exiv2 {
         { 2, N_("Samsung Zoom 18-55mm F3.5-5.6 OIS")     },
         { 3, N_("Samsung Zoom 50-200mm F4-5.6 ED OIS")   },
         { 4, N_("Samsung 20-50mm F3.5-5.6 Compact Zoom") },
-        { 5, N_("Samsung 20mm F2.8 Pancake")             }
+        { 5, N_("Samsung 20mm F2.8 Pancake")             },
+        { 7, N_("Samsung 60mm F2.8 Macro ED OIS SSA")    },
+        { 8, N_("Samsung 16mm F2.4 Ultra Wide Pancake")  }
     };
 
     //! ColorSpace, tag 0xa011
