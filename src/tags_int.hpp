@@ -141,6 +141,7 @@ namespace Exiv2 {
         pentaxId,
         samsung2Id,
         samsungPvId,
+        samsungPwId,
         sigmaId,
         sony1Id,
         sony2Id,

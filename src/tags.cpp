@@ -163,6 +163,7 @@ namespace Exiv2 {
         { pentaxId,        "Makernote", "Pentax",       PentaxMakerNote::tagList       },
         { samsung2Id,      "Makernote", "Samsung2",     Samsung2MakerNote::tagList     },
         { samsungPvId,     "Makernote", "SamsungPreview", ifdTagList                   },
+        { samsungPwId,     "Makernote", "SamsungPictureWizard", Samsung2MakerNote::tagListPw },
         { sigmaId,         "Makernote", "Sigma",        SigmaMakerNote::tagList        },
         { sony1Id,         "Makernote", "Sony1",        SonyMakerNote::tagList         },
         { sony2Id,         "Makernote", "Sony2",        SonyMakerNote::tagList         },
