@@ -53,10 +53,14 @@ namespace Exiv2 {
     public:
         //! Return read-only list of built-in Samsung tags
         static const TagInfo* tagList();
+        //! Return read-only list of built-in PictureWizard tags
+        static const TagInfo* tagListPw();
 
     private:
         //! Tag information
         static const TagInfo tagInfo_[];
+        //! PictureWizard tag information
+        static const TagInfo tagInfoPw_[];
 
     }; // class Samsung2MakerNote
 

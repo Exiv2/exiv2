@@ -1117,6 +1117,26 @@ namespace Exiv2 {
         { 190, ttSignedShort, 1 }  // Exif.Sony1MltCsA100.ColorCompensationFilter2
     };
 
+    //! Samsung PictureWizard binary array - configuration
+    extern const ArrayCfg samsungPwCfg = {
+        samsungPwId,      // Group for the elements
+        invalidByteOrder, // Use byte order from parent
+        ttUnsignedShort,  // Type for array entry
+        notEncrypted,     // Not encrypted
+        false,            // No size element
+        true,             // Write all tags
+        true,             // Concatenate gaps
+        { 0, ttUnsignedShort, 1 }
+    };
+    //! Samsung PictureWizard binary array - definition
+    extern const ArrayDef samsungPwDef[] = {
+        {  0, ttUnsignedShort, 1 }, // Mode
+        {  2, ttUnsignedShort, 1 }, // Color
+        {  4, ttUnsignedShort, 1 }, // Saturation
+        {  6, ttUnsignedShort, 1 }, // Sharpness
+        {  8, ttUnsignedShort, 1 }  // Contrast
+    };
+
     /*
       This table lists for each group in a tree, its parent group and tag.
       Root identifies the root of a TIFF tree, as there is a need for multiple
@@ -1208,6 +1228,7 @@ namespace Exiv2 {
         { Tag::root, panasonicId,      exifId,           0x927c    },
         { Tag::root, pentaxId,         exifId,           0x927c    },
         { Tag::root, samsung2Id,       exifId,           0x927c    },
+        { Tag::root, samsungPwId,      samsung2Id,       0x0021    },
         { Tag::root, samsungPvId,      samsung2Id,       0x0035    },
         { Tag::root, sigmaId,          exifId,           0x927c    },
         { Tag::root, sony1Id,          exifId,           0x927c    },
@@ -1608,9 +1629,13 @@ namespace Exiv2 {
         {  Tag::all, pentaxId,         newTiffEntry                              },
 
         // Samsung2 makernote
+        {    0x0021, samsung2Id,       EXV_BINARY_ARRAY(samsungPwCfg, samsungPwDef) },
         {    0x0035, samsung2Id,       newTiffSubIfd<samsungPvId>                },
         { Tag::next, samsung2Id,       newTiffDirectory<ignoreId>                },
         {  Tag::all, samsung2Id,       newTiffEntry                              },
+
+        // Samsung PictureWizard binary array
+        {  Tag::all, samsungPwId,      newTiffBinaryElement                      },
 
         // Samsung2 makernote preview subdir
         {    0x0201, samsungPvId,      newTiffThumbData<0x0202, samsungPvId>     },
