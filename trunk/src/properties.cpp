@@ -45,6 +45,7 @@ EXIV2_RCSID("@(#) $Id$")
 #include <sstream>
 #include <cstring>
 #include <cstdlib>
+#include <cctype>
 
 // *****************************************************************************
 namespace {
@@ -110,10 +111,10 @@ namespace Exiv2 {
         { "http://ns.adobe.com/tiff/1.0/",                "tiff",           xmpTiffInfo,      N_("Exif Schema for TIFF Properties")           },
         { "http://ns.adobe.com/exif/1.0/",                "exif",           xmpExifInfo,      N_("Exif schema for Exif-specific Properties")  },
         { "http://ns.adobe.com/exif/1.0/aux/",            "aux",            xmpAuxInfo,       N_("Exif schema for Additional Exif Properties")},
-        { "http://iptc.org/std/Iptc4xmpCore/1.0/xmlns/",  "iptc",           xmpIptcInfo,      N_("IPTC Core schema")                          },
-                                                                                             // NOTE: 'Iptc4xmpCore' is just too long
-        { "http://iptc.org/std/Iptc4xmpExt/2008-02-29/",  "iptcExt",        xmpIptcExtInfo,   N_("IPTC Extension schema")                     },
-                                                                                             // NOTE: It really should be 'Iptc4xmpExt' but following example above
+        { "http://iptc.org/std/Iptc4xmpCore/1.0/xmlns/",  "iptc",           xmpIptcInfo,      N_("IPTC Core schema")                          }, // NOTE: 'Iptc4xmpCore' is just too long, so make 'iptc'
+        { "http://iptc.org/std/Iptc4xmpCore/1.0/xmlns/",  "Iptc4xmpCore",   xmpIptcInfo,      N_("IPTC Core schema")                          }, // the default prefix. But provide the official one too.
+        { "http://iptc.org/std/Iptc4xmpExt/2008-02-29/",  "iptcExt",        xmpIptcExtInfo,   N_("IPTC Extension schema")                     }, // NOTE: It really should be 'Iptc4xmpExt' but following
+        { "http://iptc.org/std/Iptc4xmpExt/2008-02-29/",  "Iptc4xmpExt",    xmpIptcExtInfo,   N_("IPTC Extension schema")                     }, // example above, 'iptcExt' is the default, Iptc4xmpExt works too.
         { "http://ns.useplus.org/ldf/xmp/1.0/",           "plus",           xmpPlusInfo,      N_("PLUS License Data Format schema")           },
         { "http://ns.iview-multimedia.com/mediapro/1.0/", "mediapro",       xmpMediaProInfo,  N_("iView Media Pro schema")                    },
         { "http://ns.microsoft.com/expressionmedia/1.0/", "expressionmedia",xmpExpressionMediaInfo, N_("Expression Media schema")             },
@@ -1131,7 +1132,27 @@ namespace Exiv2 {
 
     TypeId XmpProperties::propertyType(const XmpKey& key)
     {
-        const XmpPropertyInfo* pi = propertyInfo(key);
+        const XmpPropertyInfo* pi = 0;
+        // If the key is that of a nested property, determine the type of the innermost element
+        std::string k = key.key();
+        std::string::size_type i = k.find_last_of('/');
+        if (i != std::string::npos) {
+            for (; i != std::string::npos && !isalpha(k[i]); ++i) {}
+            k = k.substr(i);
+            i = k.find_first_of(':');
+            if (i != std::string::npos) {
+                std::string prefix = k.substr(0, i);
+                std::string property = k.substr(i+1);
+                /*
+                std::cout << "Nested key: " << key.key()
+                          << ", prefix: " << prefix
+                          << ", property: " << property
+                          << "\n";
+                */
+                pi = propertyInfo(XmpKey(prefix, property));
+            }
+        }
+        if (!pi) pi = propertyInfo(key);
         return pi ? pi->typeId_ : xmpText;
     }
 

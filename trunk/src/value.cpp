@@ -758,7 +758,7 @@ namespace Exiv2 {
 
     int XmpArrayValue::read(const std::string& buf)
     {
-        value_.push_back(buf);
+        if (!buf.empty()) value_.push_back(buf);
         return 0;
     }
 
