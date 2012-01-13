@@ -220,5 +220,5 @@ rc=$?
 if [ $rc -eq 0 ] ; then
     echo "All testcases passed."
 else
-    diff $results-stripped $good
+    diff -u $good $results-stripped
 fi
