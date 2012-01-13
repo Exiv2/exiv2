@@ -86,9 +86,20 @@ namespace Exiv2 {
     const char     JpegBase::xmpId_[]  = "http://ns.adobe.com/xap/1.0/\0";
 
     const char     Photoshop::ps3Id_[] = "Photoshop 3.0\0";
-    const char     Photoshop::bimId_[] = "8BIM";
+    const char*    Photoshop::irbId_[] = {"8BIM", "AgHg", "DCSR", "PHUT"};
     const uint16_t Photoshop::iptc_    = 0x0404;
     const uint16_t Photoshop::preview_ = 0x040c;
+
+    bool Photoshop::isIrb(const byte* pPsData,
+                          long        sizePsData)
+    {
+        if (sizePsData < 4) return false;
+        for (size_t i = 0; i < (sizeof irbId_) / (sizeof *irbId_); i++) {
+            assert(strlen(irbId_[i]) == 4);
+            if (memcmp(pPsData, irbId_[i], 4) == 0) return true;
+        }
+        return false;
+    }
 
     bool Photoshop::valid(const byte* pPsData,
                           long        sizePsData)
@@ -126,8 +137,7 @@ namespace Exiv2 {
         std::cerr << "Photoshop::locateIrb: ";
 #endif
         // Data should follow Photoshop format, if not exit
-        while (   position <= sizePsData - 12
-               && memcmp(pPsData + position, Photoshop::bimId_, 4) == 0) {
+        while (position <= sizePsData - 12 && isIrb(pPsData + position, 4)) {
             const byte *hrd = pPsData + position;
             position += 4;
             uint16_t type = getUShort(pPsData + position, bigEndian);
@@ -237,7 +247,7 @@ namespace Exiv2 {
         DataBuf rawIptc = IptcParser::encode(iptcData);
         if (rawIptc.size_ > 0) {
             byte tmpBuf[12];
-            std::memcpy(tmpBuf, Photoshop::bimId_, 4);
+            std::memcpy(tmpBuf, Photoshop::irbId_[0], 4);
             us2Data(tmpBuf + 4, iptc_, bigEndian);
             tmpBuf[6] = 0;
             tmpBuf[7] = 0;

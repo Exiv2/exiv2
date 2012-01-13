@@ -39,6 +39,7 @@ EXIV2_RCSID("@(#) $Id$")
 # include "exv_conf.h"
 #endif
 #include "psdimage.hpp"
+#include "jpgimage.hpp"
 #include "image.hpp"
 #include "basicio.hpp"
 #include "error.hpp"
@@ -56,11 +57,9 @@ EXIV2_RCSID("@(#) $Id$")
 //       Extend this helper to a proper class with all required functionality,
 //       then move it here or into a separate file?
 
-const uint32_t kPhotoshopResourceType = 0x3842494d; // '8BIM'
-
 //! @cond IGNORE
 struct PhotoshopResourceBlock {
-    uint32_t      resourceType;       // always kPhotoshopResourceType
+    uint32_t      resourceType;       // one of the markers in Photoshop::irbId_[]
     uint16_t      resourceId;
     unsigned char resourceName[2];    // Pascal string (length byte + characters), padded to an even size -- this assumes the empty string
     uint32_t      resourceDataSize;
@@ -215,14 +214,11 @@ namespace Exiv2 {
                 throw Error(3, "Photoshop");
             }
 
-            // read resource type and ID
-            uint32_t resourceType = getULong(buf, bigEndian);
-            uint16_t resourceId = getUShort(buf + 4, bigEndian);
-
-            if (resourceType != kPhotoshopResourceType)
+            if (!Photoshop::isIrb(buf, 4))
             {
                 break; // bad resource type
             }
+            uint16_t resourceId = getUShort(buf + 4, bigEndian);
             uint32_t resourceNameLength = buf[6] & ~1;
 
             // skip the resource name, plus any padding
@@ -447,7 +443,8 @@ namespace Exiv2 {
             // read resource type and ID
             uint32_t resourceType = getULong(buf, bigEndian);
 
-            if (resourceType != kPhotoshopResourceType) {
+            if (!Photoshop::isIrb(buf, 4))
+            {
                 throw Error(3, "Photoshop"); // bad resource type
             }
             uint16_t resourceId = getUShort(buf + 4, bigEndian);
@@ -493,11 +490,12 @@ namespace Exiv2 {
                 && resourceId != kPhotoshopResourceID_ExifInfo
                 && resourceId != kPhotoshopResourceID_XMPPacket) {
 #ifdef DEBUG
+                std::cerr << std::hex << "copy : resourceType: " << resourceType << "\n";
                 std::cerr << std::hex << "copy : resourceId: " << resourceId << "\n";
                 std::cerr << std::dec;
 #endif
                 // Copy resource block to new PSD file
-                ul2Data(buf, kPhotoshopResourceType, bigEndian);
+                ul2Data(buf, resourceType, bigEndian);
                 if (outIo.write(buf, 4) != 4) throw Error(21);
                 us2Data(buf, resourceId, bigEndian);
                 if (outIo.write(buf, 2) != 2) throw Error(21);
@@ -577,8 +575,7 @@ namespace Exiv2 {
                 std::cerr << std::hex << "write: resourceId: " << kPhotoshopResourceID_IPTC_NAA << "\n";
                 std::cerr << std::dec << "Writing IPTC_NAA: size: " << rawIptc.size_ << "\n";
 #endif
-                ul2Data(buf, kPhotoshopResourceType, bigEndian);
-                if (out.write(buf, 4) != 4) throw Error(21);
+                if (out.write(reinterpret_cast<const byte*>(Photoshop::irbId_[0]), 4) != 4) throw Error(21);
                 us2Data(buf, kPhotoshopResourceID_IPTC_NAA, bigEndian);
                 if (out.write(buf, 2) != 2) throw Error(21);
                 us2Data(buf, 0, bigEndian);                      // NULL resource name
@@ -618,8 +615,7 @@ namespace Exiv2 {
                 std::cerr << std::hex << "write: resourceId: " << kPhotoshopResourceID_ExifInfo << "\n";
                 std::cerr << std::dec << "Writing ExifInfo: size: " << blob.size() << "\n";
 #endif
-                ul2Data(buf, kPhotoshopResourceType, bigEndian);
-                if (out.write(buf, 4) != 4) throw Error(21);
+                if (out.write(reinterpret_cast<const byte*>(Photoshop::irbId_[0]), 4) != 4) throw Error(21);
                 us2Data(buf, kPhotoshopResourceID_ExifInfo, bigEndian);
                 if (out.write(buf, 2) != 2) throw Error(21);
                 us2Data(buf, 0, bigEndian);                      // NULL resource name
@@ -663,8 +659,7 @@ namespace Exiv2 {
             std::cerr << std::hex << "write: resourceId: " << kPhotoshopResourceID_XMPPacket << "\n";
             std::cerr << std::dec << "Writing XMPPacket: size: " << xmpPacket.size() << "\n";
 #endif
-            ul2Data(buf, kPhotoshopResourceType, bigEndian);
-            if (out.write(buf, 4) != 4) throw Error(21);
+            if (out.write(reinterpret_cast<const byte*>(Photoshop::irbId_[0]), 4) != 4) throw Error(21);
             us2Data(buf, kPhotoshopResourceID_XMPPacket, bigEndian);
             if (out.write(buf, 2) != 2) throw Error(21);
             us2Data(buf, 0, bigEndian);                      // NULL resource name

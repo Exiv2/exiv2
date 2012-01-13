@@ -210,6 +210,17 @@ cp -f ../data/exiv2-empty.jpg $filename
 $bin/exiv2 -u -v -M"add Exif.Image.Make Canon" -M"add Exif.CanonCs.0x0001 Short 1" -M"add Exif.CanonCs.0x0000 Short 2" $filename
 $bin/exiv2 -u -v -PEkyct $filename
 
+num=800
+for type in 8BIM AgHg DCSR PHUT; do
+    for format in jpg psd; do
+        echo "------> Bug $num ($type in $format) <-------" >&2
+        filename=exiv2-bug$num-$type.$format
+        cp -f ../data/$filename .
+        $bin/exiv2 -u -v -M'set Exif.Photo.UserComment Test' $filename
+        $bin/exiv2 -u -pt $filename
+    done
+done
+
 ) > $results 2>&1
 
 # ----------------------------------------------------------------------
