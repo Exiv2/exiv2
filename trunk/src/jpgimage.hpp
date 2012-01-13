@@ -64,10 +64,20 @@ namespace Exiv2 {
     struct EXIV2API Photoshop {
         // Todo: Public for now
         static const char     ps3Id_[]; //!< %Photoshop marker
-        static const char     bimId_[]; //!< %Photoshop marker
+        static const char*    irbId_[]; //!< %Photoshop IRB markers
         static const uint16_t iptc_;    //!< %Photoshop IPTC marker
         static const uint16_t preview_; //!< %Photoshop preview marker
 
+        /*!
+          @brief Checks an IRB
+
+          @param pPsData        Existing IRB buffer
+          @param sizePsData     Size of the IRB buffer
+          @return true  if the IRB marker is known and the buffer is big enough to check this;<BR>
+                  false otherwise
+        */
+        static bool isIrb(const byte* pPsData,
+                          long        sizePsData);
         /*!
           @brief Validates all IRBs
 
