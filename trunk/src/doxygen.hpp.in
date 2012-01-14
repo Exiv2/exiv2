@@ -78,6 +78,10 @@
   - <a href="tags-xmp-MicrosoftPhoto.html">MicrosoftPhoto schema</a>
   - <a href="tags-xmp-mediapro.html">iView Media Pro schema</a>
   - <a href="tags-xmp-expressionmedia.html">Microsoft Expression Media schema</a>
+  - <a href="tags-xmp-MP.html">Microsoft Photo 1.2 schema</a>
+  - <a href="tags-xmp-MPRI.html">Microsoft Photo RegionInfo schema</a>
+  - <a href="tags-xmp-MPReg.html">Microsoft Photo Region schema</a>
+  - <a href="tags-xmp-mwg-rs.html">Metadata Working Group Regions schema</a>
 
   @section formats File Formats
 
