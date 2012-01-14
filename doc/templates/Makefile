@@ -130,7 +130,11 @@ SCHEMA = xmp_dc \
          xmp_iptcExt \
          xmp_plus \
          xmp_mediapro \
-         xmp_expressionmedia
+         xmp_expressionmedia \
+         xmp_MP \
+         xmp_MPRI \
+         xmp_MPReg \
+         xmp_mwg-rs
 
 TAGLIST = ../../src/taglist
 

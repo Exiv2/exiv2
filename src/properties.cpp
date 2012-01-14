@@ -92,6 +92,10 @@ namespace Exiv2 {
     extern const XmpPropertyInfo xmpPlusInfo[];
     extern const XmpPropertyInfo xmpMediaProInfo[];
     extern const XmpPropertyInfo xmpExpressionMediaInfo[];
+    extern const XmpPropertyInfo xmpMicrosoftPhotoInfo[];
+    extern const XmpPropertyInfo xmpMicrosoftPhotoRegionInfoInfo[];
+    extern const XmpPropertyInfo xmpMicrosoftPhotoRegionInfo[];
+    extern const XmpPropertyInfo xmpMWGRegionsInfo[];
 
     extern const XmpNsInfo xmpNsInfo[] = {
         // Schemas   -   NOTE: Schemas which the XMP-SDK doesn't know must be registered in XmpParser::initialize - Todo: Automate this
@@ -118,6 +122,10 @@ namespace Exiv2 {
         { "http://ns.useplus.org/ldf/xmp/1.0/",           "plus",           xmpPlusInfo,      N_("PLUS License Data Format schema")           },
         { "http://ns.iview-multimedia.com/mediapro/1.0/", "mediapro",       xmpMediaProInfo,  N_("iView Media Pro schema")                    },
         { "http://ns.microsoft.com/expressionmedia/1.0/", "expressionmedia",xmpExpressionMediaInfo, N_("Expression Media schema")             },
+        { "http://ns.microsoft.com/photo/1.2/",              "MP",    xmpMicrosoftPhotoInfo,           N_("Microsoft Photo 1.2 schema")       },
+        { "http://ns.microsoft.com/photo/1.2/t/RegionInfo#", "MPRI",  xmpMicrosoftPhotoRegionInfoInfo, N_("Microsoft Photo RegionInfo schema")},
+        { "http://ns.microsoft.com/photo/1.2/t/Region#",     "MPReg", xmpMicrosoftPhotoRegionInfo,     N_("Microsoft Photo Region schema")    },
+        { "http://www.metadataworkinggroup.com/schemas/regions/", "mwg-rs", xmpMWGRegionsInfo,N_("Metadata Working Group Regions schema")     },
 
         // Structures
         { "http://ns.adobe.com/xap/1.0/g/",                   "xapG",    0, N_("Colorant structure")           },
@@ -128,6 +136,7 @@ namespace Exiv2 {
         { "http://ns.adobe.com/xap/1.0/sType/ResourceRef#",   "stRef",   0, N_("ResourceRef structure")        },
         { "http://ns.adobe.com/xap/1.0/sType/Version#",       "stVer",   0, N_("Version structure")            },
         { "http://ns.adobe.com/xap/1.0/sType/Job#",           "stJob",   0, N_("Basic Job/Workflow structure") },
+        { "http://ns.adobe.com/xmp/sType/Area#",              "stArea",  0, N_("Area structure")               },
 
         // Qualifiers
         { "http://ns.adobe.com/xmp/Identifier/qual/1.0/", "xmpidq", 0, N_("Qualifier for xmp:Identifier") }
@@ -934,6 +943,43 @@ namespace Exiv2 {
         { "Status",      N_("Status"),      "Text",     xmpText, xmpExternal, N_("A notation making the image unique")              },
         { "People",      N_("People"),      "bag Text", xmpBag,  xmpExternal, N_("Contact")                                         },
         { "CatalogSets", N_("CatalogSets"), "bag Text", xmpBag,  xmpExternal, N_("Descriptive markers of catalog items by content") },
+        // End of list marker
+        { 0, 0, 0, invalidTypeId, xmpInternal, 0 }
+    };
+
+    extern const XmpPropertyInfo xmpMicrosoftPhotoInfo[] = {
+        { "RegionInfo", N_("RegionInfo"), "RegionInfo", xmpText, xmpInternal, N_("Microsoft Photo people-tagging metadata root") },
+        // End of list marker
+        { 0, 0, 0, invalidTypeId, xmpInternal, 0 }
+    };
+
+    extern const XmpPropertyInfo xmpMicrosoftPhotoRegionInfoInfo[] = {
+        { "DateRegionsValid", N_("DateRegionsValid"), "Date",       xmpText, xmpExternal, N_("Date the last region was created")  },
+        { "Regions",          N_("Regions"),          "bag Region", xmpBag,  xmpExternal, N_("Contains Regions/person tags") },
+        // End of list marker
+        { 0, 0, 0, invalidTypeId, xmpInternal, 0 }
+    };
+
+    extern const XmpPropertyInfo xmpMicrosoftPhotoRegionInfo[] = {
+        { "PersonDisplayName", N_("PersonDisplayName"), "Text", xmpText, xmpExternal, N_("Name of the person (in the given rectangle)")                               },
+        { "Rectangle",         N_("Rectangle"),         "Text", xmpText, xmpExternal, N_("Rectangle that identifies the person within the photo")                     },
+        { "PersonEmailDigest", N_("PersonEmailDigest"), "Text", xmpText, xmpExternal, N_("SHA-1 encrypted message hash of the person's Windows Live e-mail address"), },
+        { "PersonLiveCID",     N_("PersonLiveCID"),     "Text", xmpText, xmpExternal, N_("Signed decimal representation of the person's Windows Live CID")            },
+        // End of list marker
+        { 0, 0, 0, invalidTypeId, xmpInternal, 0 }
+    };
+
+    extern const XmpPropertyInfo xmpMWGRegionsInfo[] = {
+        { "Regions",             N_("Regions"),             "RegionInfo",       xmpText, xmpInternal,        N_("Main structure containing region based information")   },
+        { "AppliedToDimensions", N_("AppliedToDimensions"), "Dimensions",       xmpText, xmpExternal,        N_("Width and height of image when storing region data")   },
+        { "RegionList",          N_("RegionList"),          "bag RegionStruct", xmpBag,  xmpExternal,        N_("List of Region structures")                            },
+        { "Area",                N_("Area"),                "Area",             xmpText, xmpExternal,        N_("Descriptive markers of catalog items by content")      },
+        { "Type",                N_("Type"),                "closed Choice of Text", xmpText, xmpExternal,   N_("Type purpose of region (Face|Pet|Focus|BarCode)")      },
+        { "Name",                N_("Name"),                "Text",             xmpText, xmpExternal,        N_("Name/ short description of content in image region")   },
+        { "Description",         N_("Description"),         "Text",             xmpText, xmpExternal,        N_("Usage scenario for a given focus area (EvaluatedUsed|EvaluatedNotUsed|NotEvaluatedNotUsed)") },
+        { "FocusUsage",          N_("FocusUsage"),          "closed Choice of Text", xmpText, xmpExternal,   N_("Descriptive markers of catalog items by content")      },
+        { "BarCodeValue",        N_("BarCodeValue"),        "Text",             xmpText, xmpExternal,        N_("Decoded BarCode value string")                         },
+        { "Extensions",          N_("Extensions"),          "Text",             undefined, xmpInternal, N_("Any top level XMP property to describe the region content") },
         // End of list marker
         { 0, 0, 0, invalidTypeId, xmpInternal, 0 }
     };

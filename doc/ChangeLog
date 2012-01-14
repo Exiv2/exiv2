@@ -6,6 +6,9 @@ Changes from version 0.21.1 to 0.22
 	         - Added version hex number to the output of "exiv2 -V".
 
 * Exiv2 library
+        - 0000798: Added people/photo region tagging schemas
+	           MS Photo 1.2 RegionInfo and MWG Regions
+		   (Benjamin Henne)
 	- 0000785: Exif version 2.3 missing tag codes. (Patch by Jens Mueller)
 	- 0000782: Tamron 18-270mm lens. (Patch by Jens Mueller)
 	- 0000781: Exif 2.3 & DNG 1.2/1.3 tags. (Patch by Jens Mueller)
