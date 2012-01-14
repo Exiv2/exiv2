@@ -221,7 +221,7 @@ namespace Exiv2 {
         { "Rating",           N_("Rating"),           "Closed Choice of Integer", xmpText,   xmpExternal, N_("A number that indicates a document's status relative to other documents, "
                                                                                                              "used to organize documents in a file browser. Values are user-defined within an "
                                                                                                              "application-defined range.") },
-        { "Thumbnails",       N_("Thumbnails"),       "alt Thumbnail",            undefined, xmpInternal, N_("An alternative array of thumbnail images for a file, which can differ in "
+        { "Thumbnails",       N_("Thumbnails"),       "alt Thumbnail",            xmpText, xmpInternal, N_("An alternative array of thumbnail images for a file, which can differ in "
                                                                                                              "characteristics such as size or image encoding.") },
         // End of list marker
         { 0, 0, 0, invalidTypeId, xmpInternal, 0 }
@@ -979,7 +979,7 @@ namespace Exiv2 {
         { "Description",         N_("Description"),         "Text",             xmpText, xmpExternal,        N_("Usage scenario for a given focus area (EvaluatedUsed|EvaluatedNotUsed|NotEvaluatedNotUsed)") },
         { "FocusUsage",          N_("FocusUsage"),          "closed Choice of Text", xmpText, xmpExternal,   N_("Descriptive markers of catalog items by content")      },
         { "BarCodeValue",        N_("BarCodeValue"),        "Text",             xmpText, xmpExternal,        N_("Decoded BarCode value string")                         },
-        { "Extensions",          N_("Extensions"),          "Text",             undefined, xmpInternal, N_("Any top level XMP property to describe the region content") },
+        { "Extensions",          N_("Extensions"),          "Text",             xmpText, xmpInternal, N_("Any top level XMP property to describe the region content") },
         // End of list marker
         { 0, 0, 0, invalidTypeId, xmpInternal, 0 }
     };
