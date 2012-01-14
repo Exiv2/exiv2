@@ -210,6 +210,14 @@ cp -f ../data/exiv2-empty.jpg $filename
 $bin/exiv2 -u -v -M"add Exif.Image.Make Canon" -M"add Exif.CanonCs.0x0001 Short 1" -M"add Exif.CanonCs.0x0000 Short 2" $filename
 $bin/exiv2 -u -v -PEkyct $filename
 
+num=799
+filename=exiv2-bug$num.jpg
+cp -f ../data/exiv2-empty.jpg $filename
+$bin/exiv2 -v -m ../data/bug$num.cmd $filename
+$bin/exiv2 -v -pa $filename
+$bin/exiv2 -v -f -eX $filename
+cat exiv2-bug$num.xmp
+
 num=800
 for type in 8BIM AgHg DCSR PHUT; do
     for format in jpg psd; do
