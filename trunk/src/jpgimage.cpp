@@ -87,6 +87,7 @@ namespace Exiv2 {
 
     const char     Photoshop::ps3Id_[] = "Photoshop 3.0\0";
     const char*    Photoshop::irbId_[] = {"8BIM", "AgHg", "DCSR", "PHUT"};
+    const char     Photoshop::bimId_[] = "8BIM"; // deprecated
     const uint16_t Photoshop::iptc_    = 0x0404;
     const uint16_t Photoshop::preview_ = 0x040c;
 
