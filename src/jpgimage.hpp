@@ -65,6 +65,7 @@ namespace Exiv2 {
         // Todo: Public for now
         static const char     ps3Id_[]; //!< %Photoshop marker
         static const char*    irbId_[]; //!< %Photoshop IRB markers
+        static const char     bimId_[]; //!< %Photoshop IRB marker (deprecated)
         static const uint16_t iptc_;    //!< %Photoshop IPTC marker
         static const uint16_t preview_; //!< %Photoshop preview marker
 
