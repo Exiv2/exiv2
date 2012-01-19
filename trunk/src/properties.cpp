@@ -1178,37 +1178,36 @@ namespace Exiv2 {
 
     TypeId XmpProperties::propertyType(const XmpKey& key)
     {
-        const XmpPropertyInfo* pi = 0;
+        const XmpPropertyInfo* pi = propertyInfo(key);
+        return pi ? pi->typeId_ : xmpText;
+    }
+
+    const XmpPropertyInfo* XmpProperties::propertyInfo(const XmpKey& key)
+    {
+        std::string prefix = key.groupName();
+        std::string property = key.tagName();
         // If the key is that of a nested property, determine the type of the innermost element
-        std::string k = key.key();
-        std::string::size_type i = k.find_last_of('/');
+        std::string::size_type i = property.find_last_of('/');
         if (i != std::string::npos) {
-            for (; i != std::string::npos && !isalpha(k[i]); ++i) {}
-            k = k.substr(i);
-            i = k.find_first_of(':');
+            for (; i != std::string::npos && !isalpha(property[i]); ++i) {}
+            property = property.substr(i);
+            i = property.find_first_of(':');
             if (i != std::string::npos) {
-                std::string prefix = k.substr(0, i);
-                std::string property = k.substr(i+1);
+                prefix = property.substr(0, i);
+                property = property.substr(i+1);
                 /*
                 std::cout << "Nested key: " << key.key()
                           << ", prefix: " << prefix
                           << ", property: " << property
                           << "\n";
                 */
-                pi = propertyInfo(XmpKey(prefix, property));
             }
         }
-        if (!pi) pi = propertyInfo(key);
-        return pi ? pi->typeId_ : xmpText;
-    }
-
-    const XmpPropertyInfo* XmpProperties::propertyInfo(const XmpKey& key)
-    {
-        const XmpPropertyInfo* pl = propertyList(key.groupName());
+        const XmpPropertyInfo* pl = propertyList(prefix);
         if (!pl) return 0;
         const XmpPropertyInfo* pi = 0;
         for (int i = 0; pl[i].name_ != 0; ++i) {
-            if (0 == strcmp(pl[i].name_, key.tagName().c_str())) {
+            if (0 == strcmp(pl[i].name_, property.c_str())) {
                 pi = pl + i;
                 break;
             }
