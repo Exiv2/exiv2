@@ -1186,7 +1186,7 @@ namespace Exiv2 {
     {
         std::string prefix = key.groupName();
         std::string property = key.tagName();
-        // If the key is that of a nested property, determine the type of the innermost element
+        // If property is a path for a nested property, determines the innermost element
         std::string::size_type i = property.find_last_of('/');
         if (i != std::string::npos) {
             for (; i != std::string::npos && !isalpha(property[i]); ++i) {}
@@ -1195,13 +1195,11 @@ namespace Exiv2 {
             if (i != std::string::npos) {
                 prefix = property.substr(0, i);
                 property = property.substr(i+1);
-                /*
-                std::cout << "Nested key: " << key.key()
-                          << ", prefix: " << prefix
-                          << ", property: " << property
-                          << "\n";
-                */
             }
+#ifdef DEBUG
+            std::cout << "Nested key: " << key.key() << ", prefix: " << prefix
+                      << ", property: " << property << "\n";
+#endif
         }
         const XmpPropertyInfo* pl = propertyList(prefix);
         if (!pl) return 0;
