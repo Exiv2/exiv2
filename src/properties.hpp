@@ -131,6 +131,11 @@ namespace Exiv2 {
         static TypeId propertyType(const XmpKey& key);
         /*!
           @brief Return information for the property for key.
+
+          If the key is a path to a nested property (one which contains a slash,
+          like \c Xmp.MP.RegionInfo/MPRI:Regions), determines the innermost element
+          (\c Xmp.MPRI.Regions) and returns its property information.
+
           @param key The property key
           @return A pointer to the property information, 0 if the
                  key is of an unknown property.
