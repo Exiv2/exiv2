@@ -1098,21 +1098,24 @@ namespace {
         bool explicitType = false;
         if (cmdId != del) {
             // Get type and value
-            std::string::size_type typeStart
-                = line.find_first_not_of(delim, keyEnd+1);
-            std::string::size_type typeEnd
-                = line.find_first_of(delim, typeStart+1);
+            std::string::size_type typeStart = std::string::npos;
+            if (keyEnd != std::string::npos) typeStart = line.find_first_not_of(delim, keyEnd+1);
+            std::string::size_type typeEnd = std::string::npos;
+            if (typeStart != std::string::npos) typeEnd = line.find_first_of(delim, typeStart+1);
             std::string::size_type valStart = typeStart;
-            std::string::size_type valEnd = line.find_last_not_of(delim);
+            std::string::size_type valEnd = std::string::npos;
+            if (valStart != std::string::npos) valEnd = line.find_last_not_of(delim);
 
-            if (   keyEnd == std::string::npos
-                || typeStart == std::string::npos
-                || valStart == std::string::npos) {
+            if (   cmdId == reg
+                && (   keyEnd == std::string::npos
+                    || valStart == std::string::npos)) {
                 throw Exiv2::Error(1, Exiv2::toString(num)
                                    + ": " + _("Invalid command line") + " " );
             }
 
-            if (cmdId != reg && typeEnd != std::string::npos) {
+            if (   cmdId != reg
+                && typeStart != std::string::npos
+                && typeEnd != std::string::npos) {
                 std::string typeStr(line.substr(typeStart, typeEnd-typeStart));
                 Exiv2::TypeId tmpType = Exiv2::TypeInfo::typeId(typeStr);
                 if (tmpType != Exiv2::invalidTypeId) {
@@ -1126,11 +1129,13 @@ namespace {
                 }
             }
 
-            value = parseEscapes(line.substr(valStart, valEnd+1-valStart));
-            std::string::size_type last = value.length()-1;
-            if (   (value[0] == '"' && value[last] == '"')
-                || (value[0] == '\'' && value[last] == '\'')) {
-                value = value.substr(1, value.length()-2);
+            if (valStart != std::string::npos) {
+                value = parseEscapes(line.substr(valStart, valEnd+1-valStart));
+                std::string::size_type last = value.length()-1;
+                if (   (value[0] == '"' && value[last] == '"')
+                       || (value[0] == '\'' && value[last] == '\'')) {
+                    value = value.substr(1, value.length()-2);
+                }
             }
         }
 
