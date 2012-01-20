@@ -6,11 +6,20 @@ good="./data/bugfixes-test.out"
 
 prep_file()
 {
-    gf_num=$1
-    gf_filename=exiv2-bug$gf_num.jpg
-    echo '------>' Bug $gf_num '<-------' >&2
-    cp -f ../data/$gf_filename .
-    echo $gf_filename
+    echo `prep_any_file $1 exiv2-bug$1.jpg`
+}
+
+prep_empty_file()
+{
+    echo `prep_any_file $1 exiv2-empty.jpg`
+}
+
+prep_any_file()
+{
+    printf "$1 " >&3
+    echo '------>' Bug $1 '<-------' >&2
+    cp -f ../data/$2 exiv2-bug$1.jpg
+    echo exiv2-bug$1.jpg
 }
 
 (
@@ -53,8 +62,7 @@ filename=`prep_file $num`
 $bin/exiv2 -u -pi $filename
 
 num=452
-filename=exiv2-bug$num.jpg
-cp -f ../data/exiv2-empty.jpg $filename
+filename=`prep_empty_file $num`
 $bin/exiv2 -u -v -M"set Exif.GPSInfo.GPSLatitude SRational -1/3 -2/3 -3/3" $filename
 $bin/exiv2 -u -pv $filename
 $bin/exiv2 -u -v -M"set Exif.GPSInfo.GPSLatitude Rational 1/3 2/3 3/3" $filename
@@ -77,8 +85,7 @@ filename=`prep_file $num`
 $bin/exiv2 -u -pi $filename
 
 num=498
-filename=exiv2-bug$num.jpg
-cp -f ../data/exiv2-empty.jpg $filename
+filename=`prep_empty_file $num`
 $bin/exiv2 -u -v -M"set Exif.GPSInfo.GPSLatitude 0/1 1/1 2/1" $filename
 $bin/exiv2 -u -v -pv $filename
 $bin/exiv2 -u -v -M"del Exif.GPSInfo.GPSLatitude" $filename
@@ -98,16 +105,12 @@ filename=`prep_file $num`
 $bin/exiv2 -u -px $filename
 
 num=554
-filename=exiv2-bug$num.jpg
-cp -f ../data/exiv2-empty.jpg $filename
-echo '------>' Bug $num '<-------' >&2
+filename=`prep_empty_file $num`
 $bin/exiv2 -u -v -M"set Exif.Image.DateTime Date 2007-05-27" $filename
 $bin/exiv2 -u -pt $filename
 
 num=662
-filename=exiv2-bug$num.jpg
-cp -f ../data/exiv2-empty.jpg $filename
-echo '------>' Bug $num '<-------' >&2
+filename=`prep_empty_file $num`
 
 $bin/exiv2 -u -M"set Exif.Photo.UserComment charset=Ascii An ascii comment" $filename
 $bin/exiv2 -u -PEnh $filename
@@ -135,9 +138,7 @@ $bin/exiv2 -u -M"set Exif.Photo.UserComment charset=Unicode \\ugggg" $filename
 $bin/exiv2 -u -PEnh $filename
 
 num=666
-filename=exiv2-bug$num.jpg
-cp -f ../data/exiv2-empty.jpg $filename
-echo '------>' Bug $num '<-------' >&2
+filename=`prep_empty_file $num`
 
 $bin/exiv2 -u -v -M'set Exif.Image.Make NIKON' \
           -M'set Exif.Image.Model D90' \
@@ -149,14 +150,13 @@ $bin/exiv2 -u -v -M'set Exif.Image.Make NIKON' \
 $bin/exiv2 -u -pa -u -b $filename
 
 num=683
-filename=exiv2-bug$num.jpg
-cp -f ../data/exiv2-nikon-d70.jpg $filename
-echo '------>' Bug $num '<-------' >&2
+filename=`prep_any_file $num exiv2-nikon-d70.jpg`
 rm -f 2004-03-30-Tue-090.jpg
 $bin/exiv2 -u -f -r %Y-%m-%d-%a-%j $filename
 ls 2004-03-30-Tue-090.jpg
 
 num=711
+printf "$num " >&3
 # Little endian (II)
 filename=exiv2-bug${num}-1.jpg
 cp -f ../data/exiv2-empty.jpg $filename
@@ -184,8 +184,7 @@ $bin/exiv2 -u -v -PEkyct $filename
 # Test easy-access keys (using a dummy bug number)
 if { test -f $samples/easyaccess-test || test -f $samples/easyaccess-test.exe; }; then
     num=726
-    filename=exiv2-bug$num.jpg
-    cp -f ../data/exiv2-empty.jpg $filename
+    filename=`prep_empty_file $num`
     $bin/exiv2 -u -v -M"set Exif.Image.Make Samsung" $filename
     $samples/easyaccess-test $filename
 else
@@ -194,9 +193,8 @@ fi
 
 # Test 'migration of XMP namespaces' (see #751 and related forum post)
 num=751
-filename=exiv2-bug$num.jpg
+filename=`prep_empty_file $num`
 xmpname=exiv2-bug$num.xmp
-cp -f ../data/exiv2-empty.jpg $filename
 $bin/exiv2 -v -M'reg imageapp orig/' -M 'set Xmp.imageapp.uuid abcd' $filename
 $bin/exiv2 -f -eX $filename
 cat $xmpname
@@ -205,20 +203,19 @@ $bin/exiv2 -f -eX $filename
 cat $xmpname
 
 num=769
-filename=exiv2-bug$num.jpg
-cp -f ../data/exiv2-empty.jpg $filename
+filename=`prep_empty_file $num`
 $bin/exiv2 -u -v -M"add Exif.Image.Make Canon" -M"add Exif.CanonCs.0x0001 Short 1" -M"add Exif.CanonCs.0x0000 Short 2" $filename
 $bin/exiv2 -u -v -PEkyct $filename
 
 num=799
-filename=exiv2-bug$num.jpg
-cp -f ../data/exiv2-empty.jpg $filename
+filename=`prep_empty_file $num`
 $bin/exiv2 -v -m ../data/bug$num.cmd $filename
 $bin/exiv2 -v -pa $filename
 $bin/exiv2 -v -f -eX $filename
 cat exiv2-bug$num.xmp
 
 num=800
+printf "$num " >&3
 for type in 8BIM AgHg DCSR PHUT; do
     for format in jpg psd; do
         echo "------> Bug $num ($type in $format) <-------" >&2
@@ -229,7 +226,9 @@ for type in 8BIM AgHg DCSR PHUT; do
     done
 done
 
-) > $results 2>&1
+) 3>&1 > $results 2>&1
+
+printf "\n"
 
 # ----------------------------------------------------------------------
 # Evaluate results
