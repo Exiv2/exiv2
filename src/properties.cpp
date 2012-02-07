@@ -188,7 +188,8 @@ namespace Exiv2 {
     extern const XmpPropertyInfo xmpKipiInfo[] = {
         { "EnfuseInputFiles",       N_("Enfuse Input Files"),        "Text",     xmpText, xmpExternal, N_("The list of files processed with Enfuse program through ExpoBlending tool.") },
         { "EnfuseSettings",         N_("Enfuse Settings"),           "Text",     xmpText, xmpExternal, N_("The list of Enfuse settings used to blend image stack with ExpoBlending tool.") },
-        { "picasawebGPhotoId",      N_("PicasaWeb Item ID"),         "Text",     xmpText, xmpExternal, N_("Item ID from PicasaWeb service.") },
+        { "picasawebGPhotoId",      N_("PicasaWeb Item ID"),         "Text",     xmpText, xmpExternal, N_("Item ID from PicasaWeb web service.") },
+        { "yandexGPhotoId",         N_("Yandex Fotki Item ID"),      "Text",     xmpText, xmpExternal, N_("Item ID from Yandex Fotki web service.") },
         // End of list marker
         { 0, 0, 0, invalidTypeId, xmpInternal, 0 }
     };
