@@ -116,9 +116,10 @@ namespace Exiv2 {
         // TYPES
         //! Simple struct stat wrapper for internal use
         struct StructStat {
-            StructStat() : st_mode(0), st_size(0) {}
-            mode_t st_mode;             //!< Permissions
-            off_t  st_size;             //!< Size
+            StructStat() : st_mode(0), st_size(0), st_nlink(0) {}
+            mode_t  st_mode;            //!< Permissions
+            off_t   st_size;            //!< Size
+            nlink_t st_nlink;           //!< Number of hard links 
         };
 
         // METHODS
@@ -231,6 +232,7 @@ namespace Exiv2 {
             if (0 == ret) {
                 buf.st_size = st.st_size;
                 buf.st_mode = st.st_mode;
+                buf.st_nlink = st.st_nlink;
             }
         }
         else
@@ -241,6 +243,7 @@ namespace Exiv2 {
             if (0 == ret) {
                 buf.st_size = st.st_size;
                 buf.st_mode = st.st_mode;
+                buf.st_nlink = st.st_nlink;
             }
         }
         return ret;
@@ -445,8 +448,10 @@ namespace Exiv2 {
         Impl::StructStat buf;
         int ret = p_->stat(buf);
 
-        // If file is > 1MB then use a file, otherwise use memory buffer
-        if (ret != 0 || buf.st_size > 1048576) {
+        // If file is > 1MB and doesn't have hard links then use a file, otherwise
+        // use a memory buffer. I.e., files with hard links always use a memory
+        // buffer, which is a workaround to ensure that the links don't get broken.
+        if (ret != 0 || (buf.st_size > 1048576 && buf.st_nlink == 1)) {
             pid_t pid = ::getpid();
             std::auto_ptr<FileIo> fileIo;
 #ifdef EXV_UNICODE_PATH
@@ -520,7 +525,7 @@ namespace Exiv2 {
             // Optimization if src is another instance of FileIo
             fileIo->close();
             // Check if the file can be written to, if it already exists
-            if (open("w+b") != 0) {
+            if (open("a+b") != 0) {
                 // Remove the (temporary) file
 #ifdef EXV_UNICODE_PATH
                 if (fileIo->p_->wpMode_ == Impl::wpUnicode) {
@@ -533,12 +538,12 @@ namespace Exiv2 {
                 }
 #ifdef EXV_UNICODE_PATH
                 if (p_->wpMode_ == Impl::wpUnicode) {
-                    throw WError(10, wpath(), "w+b", strError().c_str());
+                    throw WError(10, wpath(), "a+b", strError().c_str());
                 }
                 else
 #endif
                 {
-                    throw Error(10, path(), "w+b", strError());
+                    throw Error(10, path(), "a+b", strError());
                 }
             }
             close();
