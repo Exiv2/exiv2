@@ -61,9 +61,10 @@ EXIV2_RCSID("@(#) $Id$")
 # include <unistd.h>                    // for getpid, stat
 #endif
 
-// MSVC doesn't provide mode_t
+// MSVC doesn't provide mode_t, nlink_t
 #ifdef _MSC_VER
 typedef unsigned short mode_t;
+typedef short nlink_t;
 #endif
 
 #if defined WIN32 && !defined __CYGWIN__
@@ -119,7 +120,7 @@ namespace Exiv2 {
             StructStat() : st_mode(0), st_size(0), st_nlink(0) {}
             mode_t  st_mode;            //!< Permissions
             off_t   st_size;            //!< Size
-            nlink_t st_nlink;           //!< Number of hard links 
+            nlink_t st_nlink;           //!< Number of hard links (broken on Windows, see winNumberOfLinks())
         };
 
         // METHODS
@@ -132,6 +133,10 @@ namespace Exiv2 {
         int switchMode(OpMode opMode);
         //! stat wrapper for internal use
         int stat(StructStat& buf) const;
+#if defined WIN32 && !defined __CYGWIN__
+        // Windows function to determine the number of hardlinks (on NTFS)
+        DWORD winNumberOfLinks() const;
+#endif
 
     private:
         // NOT IMPLEMENTED
@@ -249,6 +254,43 @@ namespace Exiv2 {
         return ret;
     } // FileIo::Impl::stat
 
+#if defined WIN32 && !defined __CYGWIN__
+    DWORD FileIo::Impl::winNumberOfLinks() const
+    {
+        DWORD nlink = 1;
+
+        HANDLE hFd = (HANDLE)_get_osfhandle(fileno(fp_));
+        if (hFd != INVALID_HANDLE_VALUE) {
+            typedef BOOL (WINAPI * GetFileInformationByHandle_t)(HANDLE, LPBY_HANDLE_FILE_INFORMATION);
+            HMODULE hKernel = LoadLibrary("kernel32.dll");
+            if (hKernel) {
+                GetFileInformationByHandle_t pfcn_GetFileInformationByHandle = (GetFileInformationByHandle_t)GetProcAddress(hKernel, "GetFileInformationByHandle");
+                if (pfcn_GetFileInformationByHandle) {
+                    BY_HANDLE_FILE_INFORMATION fi = {0};
+                    if (pfcn_GetFileInformationByHandle(hFd, &fi)) {
+                        nlink = fi.nNumberOfLinks;
+                    }
+#ifdef DEBUG
+                    else EXV_DEBUG << "GetFileInformationByHandle failed\n";
+#endif
+                }
+#ifdef DEBUG
+                else EXV_DEBUG << "GetProcAddress(hKernel, \"GetFileInformationByHandle\") failed\n";
+#endif
+                FreeLibrary(hKernel);
+            }
+#ifdef DEBUG
+            else EXV_DEBUG << "LoadLibrary(\"kernel32.dll\") failed\n";
+#endif
+        }
+#ifdef DEBUG
+        else EXV_DEBUG << "_get_osfhandle failed: INVALID_HANDLE_VALUE\n";
+#endif
+
+        return nlink;
+    } // FileIo::Impl::winNumberOfLinks
+
+#endif // defined WIN32 && !defined __CYGWIN__
     FileIo::FileIo(const std::string& path)
         : p_(new Impl(path))
     {
@@ -447,11 +489,16 @@ namespace Exiv2 {
 
         Impl::StructStat buf;
         int ret = p_->stat(buf);
+#if defined WIN32 && !defined __CYGWIN__
+        DWORD nlink = p_->winNumberOfLinks();
+#else 
+        nlink_t nlink = buf.st_nlink;
+#endif
 
         // If file is > 1MB and doesn't have hard links then use a file, otherwise
         // use a memory buffer. I.e., files with hard links always use a memory
         // buffer, which is a workaround to ensure that the links don't get broken.
-        if (ret != 0 || (buf.st_size > 1048576 && buf.st_nlink == 1)) {
+        if (ret != 0 || (buf.st_size > 1048576 && nlink == 1)) {
             pid_t pid = ::getpid();
             std::auto_ptr<FileIo> fileIo;
 #ifdef EXV_UNICODE_PATH
