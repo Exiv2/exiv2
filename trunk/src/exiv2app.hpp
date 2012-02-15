@@ -57,7 +57,7 @@ struct ModifyCmd {
     std::string key_;                           //!< Exiv2 key string
     MetadataId metadataId_;                     //!< Metadata identifier
     Exiv2::TypeId typeId_;                      //!< Exiv2 type identifier
-    //! Flag to indicate if the type was explicitely specified (true)
+    //! Flag to indicate if the type was explicitly specified (true)
     bool explicitType_;
     std::string value_;                         //!< Data
 };
