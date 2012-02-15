@@ -28,7 +28,7 @@
 #    for Iptc Time values it is HH:MM:SS±HH:MM where HH:MM:SS refers to local 
 #    hour, minute and seconds and ±HH:MM refers to hours and minutes ahead or 
 #    behind Universal Coordinated Time.
-#    A default type is used if none is explicitely given. The default type is 
+#    A default type is used if none is explicitly given. The default type is 
 #    determined based on the key.
 # value 
 #    The remaining text on the line is the value. It can optionally be enclosed

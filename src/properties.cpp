@@ -1110,7 +1110,7 @@ namespace Exiv2 {
         }
         // Allocated memory is freed when the namespace is unregistered.
         // Using malloc/free for better system compatibility in case
-        // users don't unregister their namespaces explicitely.
+        // users don't unregister their namespaces explicitly.
         XmpNsInfo xn;
         char* c = static_cast<char*>(std::malloc(ns2.size() + 1));
         std::strcpy(c, ns2.c_str());
