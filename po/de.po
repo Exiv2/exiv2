@@ -3914,7 +3914,7 @@ msgstr "Unbekannter Datensatz"
 #: src/error.cpp:55
 #, fuzzy
 msgid "Error %0: arg2=%2, arg3=%3, arg1=%1."
-msgstr "Fahler %0: arg1=%1, arg2=%2, arg3=%3."
+msgstr "Fehler %0: arg1=%1, arg2=%2, arg3=%3."
 
 #: src/error.cpp:56
 msgid "Success"
@@ -22569,7 +22569,7 @@ msgstr ""
 
 #: src/tags.cpp:1932
 msgid "GPS Latitude Reference"
-msgstr "GPS-Höhenreferenz"
+msgstr "GPS-Breitengradreferenz"
 
 #: src/tags.cpp:1933
 msgid ""
