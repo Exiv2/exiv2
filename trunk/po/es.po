@@ -6700,7 +6700,7 @@ msgstr "Nombre del documento"
 
 #: src/minoltamn.cpp:1103
 #, fuzzy
-msgid "Continous Bracketing Low"
+msgid "Continuous Bracketing Low"
 msgstr "Auto bracket"
 
 #: src/minoltamn.cpp:1104
@@ -6710,7 +6710,7 @@ msgstr "Nombre del documento"
 
 #: src/minoltamn.cpp:1105
 #, fuzzy
-msgid "Continous Bracketing High"
+msgid "Continuous Bracketing High"
 msgstr "Auto bracket"
 
 #: src/minoltamn.cpp:1136 src/sonymn.cpp:158

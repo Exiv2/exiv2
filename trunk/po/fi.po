@@ -6126,7 +6126,7 @@ msgid "Single-frame Bracketing Low"
 msgstr ""
 
 #: src/minoltamn.cpp:1103
-msgid "Continous Bracketing Low"
+msgid "Continuous Bracketing Low"
 msgstr ""
 
 #: src/minoltamn.cpp:1104
@@ -6134,7 +6134,7 @@ msgid "Single-frame Bracketing High"
 msgstr ""
 
 #: src/minoltamn.cpp:1105
-msgid "Continous Bracketing High"
+msgid "Continuous Bracketing High"
 msgstr ""
 
 #: src/minoltamn.cpp:1136 src/sonymn.cpp:158
