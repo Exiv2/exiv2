@@ -1100,9 +1100,9 @@ namespace Exiv2 {
         { 8,    N_("White Balance Bracketing Low")  },
         { 9,    N_("White Balance Bracketing High") },
         { 770,  N_("Single-frame Bracketing Low")   },
-        { 771,  N_("Continous Bracketing Low")      },
+        { 771,  N_("Continuous Bracketing Low")     },
         { 1794, N_("Single-frame Bracketing High")  },
-        { 1795, N_("Continous Bracketing High")     }
+        { 1795, N_("Continuous Bracketing High")    }
     };
 
     //! Lookup table to translate Sony A100 camera settings focus mode values to readable labels

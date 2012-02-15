@@ -6056,7 +6056,7 @@ msgstr ""
 
 #: src/minoltamn.cpp:1103
 #, fuzzy
-msgid "Continous Bracketing Low"
+msgid "Continuous Bracketing Low"
 msgstr "Auto bracketing"
 
 #: src/minoltamn.cpp:1104
@@ -6065,7 +6065,7 @@ msgstr ""
 
 #: src/minoltamn.cpp:1105
 #, fuzzy
-msgid "Continous Bracketing High"
+msgid "Continuous Bracketing High"
 msgstr "Ciągły, wysoki"
 
 #: src/minoltamn.cpp:1136 src/sonymn.cpp:158
