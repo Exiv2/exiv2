@@ -804,7 +804,7 @@ namespace Exiv2 {
             }
             else if (   skipApp1Exif == count
                      || skipApp1Xmp  == count
-                     || find(skipApp13Ps3.begin(), skipApp13Ps3.end(), count) != skipApp13Ps3.end()
+                     || std::find(skipApp13Ps3.begin(), skipApp13Ps3.end(), count) != skipApp13Ps3.end()
                      || skipCom      == count) {
                 --search;
                 io_->seek(size-bufRead, BasicIo::cur);
