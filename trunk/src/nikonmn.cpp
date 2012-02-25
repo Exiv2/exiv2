@@ -50,7 +50,7 @@ EXIV2_RCSID("@(#) $Id$")
 #include <iomanip>
 #include <cassert>
 #include <cstring>
-#include <cmath>
+#include <math.h> //for log, pow, abs
 
 // *****************************************************************************
 // class member definitions
@@ -2477,8 +2477,8 @@ fmountlens[] = {
         std::ostringstream oss;
         oss.copyfmt(os);
         char sign = value.toLong() < 0 ? '-' : '+';
-        long h = long(abs(value.toLong())/60.0);
-        long min = abs(value.toLong()) - h*60;
+        long h = long(abs(value.toFloat())/60.0);
+        long min = abs(value.toFloat()) - h*60;
         os << std::fixed << "UTC " << sign << std::setw(2) << std::setfill('0') << h << ":" 
            << std::setw(2) << std::setfill('0') << min;
         os.copyfmt(oss);
