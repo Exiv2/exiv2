@@ -46,7 +46,7 @@ SET( LIBEXIV2_PRIVATE_HDR canonmn_int.hpp
                           samsungmn_int.hpp
                           sigmamn_int.hpp
                           sonymn_int.hpp
-			  tags_int.hpp
+                          tags_int.hpp
                           tiffcomposite_int.hpp
                           tifffwd_int.hpp
                           tiffimage_int.hpp
@@ -75,7 +75,6 @@ SET( LIBEXIV2_HDR         basicio.hpp
                           mrwimage.hpp
                           orfimage.hpp
                           pgfimage.hpp
-                          pngimage.hpp
                           preview.hpp
                           properties.hpp
                           psdimage.hpp
@@ -161,6 +160,7 @@ IF( EXIV2_ENABLE_PNG )
                           pngchunk.cpp
                           pngimage.cpp
            )
+        set( LIBEXIV2_HDR ${LIBEXIV2_HDR} pngimage.hpp )
     ENDIF( ZLIB_FOUND )
 ENDIF( EXIV2_ENABLE_PNG )
 
@@ -199,11 +199,11 @@ TARGET_LINK_LIBRARIES( exiv2 ${EXPAT_LIBRARIES} )
 
 	IF( EXIV2_ENABLE_PNG )
 		IF( ZLIB_FOUND )
-			IF ( MINGW OR UNIX )
+#			IF ( MINGW OR UNIX )
 				TARGET_LINK_LIBRARIES( exiv2 ${ZLIB_LIBRARIES} )
-			ELSE ( MINGW OR UNIX )
-				TARGET_LINK_LIBRARIES( exiv2 zlibd )
-			ENDIF( MINGW OR UNIX )
+#			ELSE ( MINGW OR UNIX )
+#				TARGET_LINK_LIBRARIES( exiv2 zlibd )
+#			ENDIF( MINGW OR UNIX )
 		ENDIF( ZLIB_FOUND )
 	ENDIF( EXIV2_ENABLE_PNG )
 
