@@ -30,6 +30,8 @@
 
 
 SET( SAMPLES addmoddel.cpp
+             convert-test.cpp
+             easyaccess-test.cpp
              exifcomment.cpp
              exifdata-test.cpp
              exifprint.cpp
@@ -39,6 +41,11 @@ SET( SAMPLES addmoddel.cpp
              iptctest.cpp
              key-test.cpp
              largeiptc-test.cpp
+             mmap-test.cpp
+             prevtest.cpp 
+             stringto-test.cpp
+             tiff-test.cpp
+             werror-test.cpp
              write-test.cpp
              write2-test.cpp
              xmpparse.cpp

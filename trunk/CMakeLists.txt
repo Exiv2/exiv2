@@ -71,12 +71,12 @@ if( MSVC )
 
 	# add_library("../zlib-1.2.5" SHARED IMPORTED)
 
-	include_directories( "../zlib-1.2.5" "../expat-2.0.1/lib" )
-	set(EXPAT_INCLUDE_DIR                "../expat-2.0.1/lib" )
-	set(ZLIB_INCLUDE_DIR  "../zlib-1.2.5"                     )
+	#include_directories( "../zlib-1.2.5" "../expat-2.0.1/lib" )
+	#set(EXPAT_INCLUDE_DIR                "../expat-2.0.1/lib" )
+	#set(ZLIB_INCLUDE_DIR  "../zlib-1.2.5"                     )
 	
-	set(EXPAT_LIBRARY "../expat-2.0.1")
-	set(ZLIB_LIBRARY  "../zlib-1.2.5" )
+	#set(EXPAT_LIBRARY "../expat-2.0.1")
+	#set(ZLIB_LIBRARY  "../zlib-1.2.5" )
 	
 	# target_link_libraries("zlibd.lib")
 	# add_subdirectory("../zlib-1.2.5" "../zlib-1.2.5" )
@@ -113,12 +113,12 @@ if( MSVC )
 	
 endif( MSVC )
 
-IF( MINGW OR UNIX )
+#IF( MINGW OR UNIX )
 	IF( EXIV2_ENABLE_XMP )
 		SET( HAVE_XMP_TOOLKIT ON )
 		SET( XMPLIB "do" )
 	ENDIF( EXIV2_ENABLE_XMP )
-ENDIF( MINGW OR UNIX )
+#ENDIF( MINGW OR UNIX )
 
 #IF( MINGW OR UNIX )
 	INCLUDE( config/ConfigureChecks.cmake )
@@ -131,7 +131,7 @@ SET( INSTALL_TARGET_STANDARD_ARGS
    )
 
 # add sources from XMPSDK directory - this needs to be done here
-IF( MINGW OR UNIX )
+#IF( MINGW OR UNIX )
 	SET( XMPSRC ${CMAKE_CURRENT_SOURCE_DIR}/xmpsdk/src/ExpatAdapter.cpp
 				${CMAKE_CURRENT_SOURCE_DIR}/xmpsdk/src/MD5.cpp
 				${CMAKE_CURRENT_SOURCE_DIR}/xmpsdk/src/ParseRDF.cpp
@@ -149,7 +149,7 @@ IF( MINGW OR UNIX )
 				${CMAKE_CURRENT_SOURCE_DIR}/xmpsdk/src/XMPUtils-FileInfo.cpp
 				${CMAKE_CURRENT_SOURCE_DIR}/xmpsdk/src/XMPUtils.cpp
 	   )
-ENDIF( MINGW OR UNIX )
+#ENDIF( MINGW OR UNIX )
 
 # the following lines need to be added to circumvent the error in xmpsdk\src\MD5.h
 IF( ${EXV_HAVE_STDINT_H} )
