@@ -591,7 +591,7 @@ namespace Exiv2 {
             double dhour = pos->toFloat(0);
             double dmin = pos->toFloat(1);
             // Hack: Need Value::toDouble
-            URational r = pos->toRational(2);
+            Rational r = pos->toRational(2);
             double dsec = static_cast<double>(r.first)/r.second;
 
             if (!pos->value().ok()) {
