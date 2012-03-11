@@ -1035,7 +1035,8 @@ namespace Exiv2 {
         if (ifdId == canonSiId) {
             // Exif.Photo.FNumber
             float f = fnumber(canonEv(aperture));
-            URational ur = floatToRationalCast(f);
+            Rational r = floatToRationalCast(f);
+            URational ur(r.first, r.second);
             URationalValue fn;
             fn.value_.push_back(ur);
             image.exifData().add(ExifKey("Exif.Photo.FNumber"), &fn);
