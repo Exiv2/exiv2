@@ -131,6 +131,8 @@ namespace Exiv2 {
         virtual bool isImageTag(      uint16_t       tag,
                                       IfdId          group,
                                 const PrimaryGroups* pPrimaryGroups) const;
+        //! Convenience function to check if tag, group is in the list of TIFF image tags.
+        bool isTiffImageTag(uint16_t tag, IfdId group) const;
         //@}
 
     private:

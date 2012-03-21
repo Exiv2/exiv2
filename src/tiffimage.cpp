@@ -2080,19 +2080,7 @@ namespace Exiv2 {
         return false;
     }
 
-    TiffHeader::TiffHeader(ByteOrder byteOrder, uint32_t offset, bool hasImageTags)
-        : TiffHeaderBase(42, 8, byteOrder, offset),
-          hasImageTags_(hasImageTags)
-    {
-    }
-
-    TiffHeader::~TiffHeader()
-    {
-    }
-
-    bool TiffHeader::isImageTag(      uint16_t       tag,
-                                      IfdId          group,
-                                const PrimaryGroups* pPrimaryGroups) const
+    bool TiffHeaderBase::isTiffImageTag(uint16_t tag, IfdId group) const
     {
         //! List of TIFF image tags
         static const TiffImgTagStruct tiffImageTags[] = {
@@ -2163,6 +2151,34 @@ namespace Exiv2 {
             { 0x9217, ifd0Id }, // Exif.Image.SensingMethod
         };
 
+        // If tag, group is one of the image tags listed above -> bingo!
+        if (find(tiffImageTags, TiffImgTagStruct::Key(tag, group))) {
+#ifdef DEBUG
+            ExifKey key(tag, groupName(group));
+            std::cerr << "Image tag: " << key << " (3)\n";
+#endif
+            return true;
+        }
+#ifdef DEBUG
+        std::cerr << "Not an image tag: " << key << " (4)\n";
+#endif
+        return false;
+    }
+
+    TiffHeader::TiffHeader(ByteOrder byteOrder, uint32_t offset, bool hasImageTags)
+        : TiffHeaderBase(42, 8, byteOrder, offset),
+          hasImageTags_(hasImageTags)
+    {
+    }
+
+    TiffHeader::~TiffHeader()
+    {
+    }
+
+    bool TiffHeader::isImageTag(      uint16_t       tag,
+                                      IfdId          group,
+                                const PrimaryGroups* pPrimaryGroups) const
+    {
         if (!hasImageTags_) {
 #ifdef DEBUG
             std::cerr << "No image tags in this image\n";
@@ -2193,18 +2209,8 @@ namespace Exiv2 {
 #endif
             return true;
         }
-        // If tag, group is one of the image tags listed above -> bingo!
-        if (find(tiffImageTags, TiffImgTagStruct::Key(tag, group))) {
-#ifdef DEBUG
-            ExifKey key(tag, groupName(group));
-            std::cerr << "Image tag: " << key << " (3)\n";
-#endif
-            return true;
-        }
-#ifdef DEBUG
-        std::cerr << "Not an image tag: " << key << " (4)\n";
-#endif
-        return false;
+        // Finally, if tag, group is one of the TIFF image tags -> bingo!
+        return isTiffImageTag(tag, group);
     } // TiffHeader::isImageTag
 
     void OffsetWriter::setOrigin(OffsetId id, uint32_t origin, ByteOrder byteOrder)

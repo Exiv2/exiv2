@@ -66,6 +66,9 @@ namespace Exiv2 {
         //! @name Accessors
         //@{
         DataBuf write() const;
+        bool isImageTag(      uint16_t       tag,
+                              IfdId          group,
+                        const PrimaryGroups* pPrimaryGroups) const;
         //@}
 
         //! Return the address of offset2 from the start of the header
