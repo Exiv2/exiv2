@@ -55,7 +55,7 @@ EXIV2_RCSID("@(#) $Id$")
 namespace Exiv2 {
 
     RafImage::RafImage(BasicIo::AutoPtr io, bool /*create*/)
-        : Image(ImageType::raf, mdExif | mdIptc, io)
+        : Image(ImageType::raf, mdExif | mdIptc | mdXmp, io)
     {
     } // RafImage::RafImage
 
