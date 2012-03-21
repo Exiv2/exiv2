@@ -292,4 +292,12 @@ namespace Exiv2 {
         return buf;
     } // Cr2Header::write
 
+    bool Cr2Header::isImageTag(uint16_t tag, IfdId group, const PrimaryGroups* /*pPrimaryGroups*/) const
+    {
+        // CR2 image tags are all IFD2 and IFD3 tags
+        if (group == ifd2Id || group == ifd3Id) return true;
+        // ...and any (IFD0) tag that is in the TIFF image tags list
+        return isTiffImageTag(tag, group);
+    }
+
 }}                                      // namespace Internal, Exiv2
