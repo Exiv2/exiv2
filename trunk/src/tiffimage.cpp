@@ -2080,7 +2080,7 @@ namespace Exiv2 {
         return false;
     }
 
-    bool TiffHeaderBase::isTiffImageTag(uint16_t tag, IfdId group) const
+    bool isTiffImageTag(uint16_t tag, IfdId group)
     {
         //! List of TIFF image tags
         static const TiffImgTagStruct tiffImageTags[] = {
