@@ -720,7 +720,8 @@ namespace Exiv2 {
                                                   emptyXmp,
                                                   Tag::root,
                                                   TiffMapping::findEncoder,
-                                                  header.get());
+                                                  header.get(),
+                                                  0);
         if (mio1.size() <= 65527) {
             append(blob, mio1.mmap(), mio1.size());
             return wm;
@@ -817,7 +818,8 @@ namespace Exiv2 {
                                       emptyXmp,
                                       Tag::root,
                                       TiffMapping::findEncoder,
-                                      header.get());
+                                      header.get(),
+                                      0);
         append(blob, mio2.mmap(), mio2.size());
 #ifdef DEBUG
         if (wm == wmIntrusive) {

@@ -86,18 +86,6 @@ namespace Exiv2 {
         return 0;
     }
 
-    void Cr2Image::setExifData(const ExifData& /*exifData*/)
-    {
-        // Todo: implement me!
-        throw(Error(32, "Exif metadata", "CR2"));
-    }
-
-    void Cr2Image::setIptcData(const IptcData& /*iptcData*/)
-    {
-        // Todo: implement me!
-        throw(Error(32, "IPTC metadata", "CR2"));
-    }
-
     void Cr2Image::setComment(const std::string& /*comment*/)
     {
         // not supported
@@ -129,8 +117,29 @@ namespace Exiv2 {
 
     void Cr2Image::writeMetadata()
     {
-        // Todo: implement me!
-        throw(Error(31, "CR2"));
+#ifdef DEBUG
+        std::cerr << "Writing CR2 file " << io_->path() << "\n";
+#endif
+        ByteOrder bo = byteOrder();
+        byte* pData = 0;
+        long size = 0;
+        IoCloser closer(*io_);
+        if (io_->open() == 0) {
+            // Ensure that this is the correct image type
+            if (isCr2Type(*io_, false)) {
+                pData = io_->mmap(true);
+                size = io_->size();
+                Cr2Header cr2Header;
+                if (0 == cr2Header.read(pData, 16)) {
+                    bo = cr2Header.byteOrder();
+                }
+            }
+        }
+        if (bo == invalidByteOrder) {
+            bo = littleEndian;
+        }
+        setByteOrder(bo);
+        Cr2Parser::encode(*io_, pData, size, bo, exifData_, iptcData_, xmpData_); // may throw
     } // Cr2Image::writeMetadata
 
     ByteOrder Cr2Parser::decode(
@@ -153,27 +162,45 @@ namespace Exiv2 {
     }
 
     WriteMethod Cr2Parser::encode(
-              Blob&     blob,
-        const byte*     /*pData*/,
-              uint32_t  /*size*/,
-        const ExifData& /*exifData*/,
-        const IptcData& /*iptcData*/,
-        const XmpData&  /*xmpData*/
+              BasicIo&  io,
+        const byte*     pData,
+              uint32_t  size,
+              ByteOrder byteOrder,
+        const ExifData& exifData,
+        const IptcData& iptcData,
+        const XmpData&  xmpData
     )
     {
-        /* Todo: Implement me!
+        // Copy to be able to modify the Exif data
+        ExifData ed = exifData;
 
-        TiffParserWorker::encode(blob,
-                                 pData,
-                                 size,
-                                 exifData,
-                                 iptcData,
-                                 xmpData,
-                                 TiffCreator::create,
-                                 TiffMapping::findEncoder);
-        */
-        blob.clear();
-        return wmIntrusive;
+        // Delete IFDs which do not occur in TIFF images
+        static const IfdId filteredIfds[] = {
+            panaRawId
+        };
+        for (unsigned int i = 0; i < EXV_COUNTOF(filteredIfds); ++i) {
+#ifdef DEBUG
+            std::cerr << "Warning: Exif IFD " << filteredIfds[i] << " not encoded\n";
+#endif
+            ed.erase(std::remove_if(ed.begin(),
+                                    ed.end(),
+                                    FindExifdatum(filteredIfds[i])),
+                     ed.end());
+        }
+
+        std::auto_ptr<TiffHeaderBase> header(new Cr2Header(byteOrder));
+        OffsetWriter offsetWriter;
+        offsetWriter.setOrigin(OffsetWriter::cr2RawIfdOffset, Cr2Header::offset2addr(), byteOrder);
+        return TiffParserWorker::encode(io,
+                                        pData,
+                                        size,
+                                        ed,
+                                        iptcData,
+                                        xmpData,
+                                        Tag::root,
+                                        TiffMapping::findEncoder,
+                                        header.get(),
+                                        &offsetWriter);
     }
 
     // *************************************************************************
@@ -210,8 +237,8 @@ namespace Exiv2 {
 
     const char* Cr2Header::cr2sig_ = "CR\2\0";
 
-    Cr2Header::Cr2Header()
-        : TiffHeaderBase(42, 16, littleEndian, 0x00000010),
+    Cr2Header::Cr2Header(ByteOrder byteOrder)
+        : TiffHeaderBase(42, 16, byteOrder, 0x00000010),
           offset2_(0x00000000)
     {
     }
@@ -243,8 +270,26 @@ namespace Exiv2 {
 
     DataBuf Cr2Header::write() const
     {
-        // Todo: Implement me!
-        return DataBuf();
-    }
+        DataBuf buf(16);
+        switch (byteOrder()) {
+        case littleEndian:
+            buf.pData_[0] = 0x49;
+            buf.pData_[1] = 0x49;
+            break;
+        case bigEndian:
+            buf.pData_[0] = 0x4d;
+            buf.pData_[1] = 0x4d;
+            break;
+        case invalidByteOrder:
+            assert(false);
+            break;
+        }
+        us2Data(buf.pData_ + 2, tag(), byteOrder());
+        ul2Data(buf.pData_ + 4, 0x00000010, byteOrder());
+        memcpy(buf.pData_ + 8, cr2sig_, 4);
+        // Write a dummy value for the RAW IFD offset. The offset-writer is used to set this offset in a second pass.
+        ul2Data(buf.pData_ + 12, 0x00000000, byteOrder());
+        return buf;
+    } // Cr2Header::write
 
 }}                                      // namespace Internal, Exiv2

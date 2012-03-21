@@ -197,7 +197,8 @@ namespace Exiv2 {
                                         xmpData,
                                         Tag::root,
                                         TiffMapping::findEncoder,
-                                        header.get());
+                                        header.get(),
+                                        0);
     }
 
     // *************************************************************************

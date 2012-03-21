@@ -69,8 +69,8 @@ namespace Exiv2 {
                && key.g_ == group_;
     }
 
-    IoWrapper::IoWrapper(BasicIo& io, const byte* pHeader, long size)
-        : io_(io), pHeader_(pHeader), size_(size), wroteHeader_(false)
+    IoWrapper::IoWrapper(BasicIo& io, const byte* pHeader, long size, OffsetWriter* pow)
+        : io_(io), pHeader_(pHeader), size_(size), wroteHeader_(false), pow_(pow)
     {
         if (pHeader_ == 0 || size_ == 0) wroteHeader_ = true;
     }
@@ -91,6 +91,11 @@ namespace Exiv2 {
             wroteHeader_ = true;
         }
         return io_.putb(data);
+    }
+
+    void IoWrapper::setTarget(int id, uint32_t target)
+    {
+        if (pow_) pow_->setTarget(OffsetWriter::OffsetId(id), target);
     }
 
     TiffComponent::TiffComponent(uint16_t tag, IfdId group)
@@ -1095,6 +1100,15 @@ namespace Exiv2 {
         // Nothing to do if there are no entries and the size of the next IFD is 0
         if (compCount == 0 && sizeNext == 0) return 0;
 
+        // Remember the offset of the CR2 RAW IFD
+        if (group() == ifd3Id) {
+#ifdef DEBUG
+            std::cerr << "Directory " << groupName(group()) << " offset is 0x"
+                      << std::setw(8) << std::setfill('0') << std::hex << offset << std::dec
+                      << "\n";
+#endif
+            ioWrapper.setTarget(OffsetWriter::cr2RawIfdOffset, offset);
+        }
         // Size of all directory entries, without values and additional data
         const uint32_t sizeDir = 2 + 12 * compCount + (hasNext_ ? 4 : 0);
 
@@ -1392,7 +1406,7 @@ namespace Exiv2 {
         std::sort(elements_.begin(), elements_.end(), cmpTagLt);
         uint32_t idx = 0;
         MemIo mio;
-        IoWrapper mioWrapper(mio, 0, 0);
+        IoWrapper mioWrapper(mio, 0, 0, 0);
         // Some array entries need to have the size in the first element
         if (cfg()->hasSize_) {
             byte buf[4];

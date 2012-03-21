@@ -273,7 +273,8 @@ namespace Exiv2 {
                                         xmpData,
                                         Tag::root,
                                         TiffMapping::findEncoder,
-                                        header.get());
+                                        header.get(),
+                                        0);
     } // TiffParser::encode
 
     // *************************************************************************
@@ -1840,7 +1841,8 @@ namespace Exiv2 {
         const XmpData&           xmpData,
               uint32_t           root,
               FindEncoderFct     findEncoderFct,
-              TiffHeaderBase*    pHeader
+              TiffHeaderBase*    pHeader,
+              OffsetWriter*      pOffsetWriter
     )
     {
         /*
@@ -1890,7 +1892,7 @@ namespace Exiv2 {
             DataBuf header = pHeader->write();
             BasicIo::AutoPtr tempIo(io.temporary()); // may throw
             assert(tempIo.get() != 0);
-            IoWrapper ioWrapper(*tempIo, header.pData_, header.size_);
+            IoWrapper ioWrapper(*tempIo, header.pData_, header.size_, pOffsetWriter);
             uint32_t imageIdx(uint32_t(-1));
             createdTree->write(ioWrapper,
                                pHeader->byteOrder(),
@@ -1898,6 +1900,7 @@ namespace Exiv2 {
                                uint32_t(-1),
                                uint32_t(-1),
                                imageIdx);
+            if (pOffsetWriter) pOffsetWriter->writeOffsets(*tempIo);
             io.transfer(*tempIo); // may throw
 #ifndef SUPPRESS_WARNINGS
             EXV_INFO << "Write strategy: Intrusive\n";
@@ -2202,6 +2205,27 @@ namespace Exiv2 {
         std::cerr << "Not an image tag: " << key << " (4)\n";
 #endif
         return false;
+    } // TiffHeader::isImageTag
+
+    void OffsetWriter::setOrigin(OffsetId id, uint32_t origin, ByteOrder byteOrder)
+    {
+        offsetList_[id] = OffsetData(origin, byteOrder);
+    }
+
+    void OffsetWriter::setTarget(OffsetId id, uint32_t target)
+    {
+        OffsetList::iterator it = offsetList_.find(id);
+        if (it != offsetList_.end()) it->second.target_ = target;
+    }
+
+    void OffsetWriter::writeOffsets(BasicIo& io) const
+    {
+        for (OffsetList::const_iterator it = offsetList_.begin(); it != offsetList_.end(); ++it) {
+            io.seek(it->second.origin_, BasicIo::beg);
+            byte buf[4] = { 0, 0, 0, 0 };
+            l2Data(buf, it->second.target_, it->second.byteOrder_);
+            io.write(buf, 4);
+        }
     }
 
 }}                                       // namespace Internal, Exiv2

@@ -73,6 +73,7 @@ namespace Exiv2 {
     struct TiffMappingInfo;
 
     class IoWrapper;
+    class OffsetWriter;
 
 // *****************************************************************************
 // type definitions

@@ -130,10 +130,10 @@ namespace Exiv2 {
         /*!
           brief Constructor.
 
-          The IO wrapper owns neither of the objects passed in so the caller is
+          The IO wrapper owns none of the objects passed in so the caller is
           responsible to keep them alive.
          */
-        IoWrapper(BasicIo& io, const byte* pHeader, long size);
+        IoWrapper(BasicIo& io, const byte* pHeader, long size, OffsetWriter* pow);
         //@}
 
         //! @name Manipulators
@@ -152,6 +152,8 @@ namespace Exiv2 {
           by the data passed in the argument.
          */
         int putb(byte data);
+        //! Wrapper for OffsetWriter::setTarget(), using an int instead of the enum to reduce include deps
+        void setTarget(int id, uint32_t target);
         //@}
 
     private:
@@ -160,6 +162,7 @@ namespace Exiv2 {
         const byte* pHeader_;      //! Pointer to the header data.
         long size_;                //! Size of the header data.
         bool wroteHeader_;         //! Indicates if the header has been written.
+        OffsetWriter* pow_;        //! Pointer to an offset-writer, if any, or 0
     }; // class IoWrapper
 
     /*!

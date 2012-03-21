@@ -38,6 +38,8 @@
 #include "types.hpp"
 
 // + standard includes
+#include <map>
+#include <utility>
 
 // *****************************************************************************
 // namespace extensions
@@ -328,7 +330,8 @@ namespace Exiv2 {
             const XmpData&           xmpData,
                   uint32_t           root,
                   FindEncoderFct     findEncoderFct,
-                  TiffHeaderBase*    pHeader
+                  TiffHeaderBase*    pHeader,
+                  OffsetWriter*      pOffsetWriter
         );
 
     private:
@@ -412,6 +415,60 @@ namespace Exiv2 {
         static const TiffMappingInfo tiffMappingInfo_[]; //<! TIFF mapping table
 
     }; // class TiffMapping
+
+    /*!
+      @brief Class to insert pointers or offsets to computed addresses at
+             specific locations in an image. Used for offsets which are
+             best computed during the regular write process. They are
+             written in a second pass, using the writeOffsets() method.
+     */
+    class OffsetWriter {
+    public:
+        //! Identifiers for supported offsets
+        enum OffsetId {
+            cr2RawIfdOffset  //!< CR2 RAW IFD offset, a pointer in the CR2 header to the 4th IFD in a CR2 image
+        };
+        //! @name Manipulators
+        //@{
+        /*!
+          @brief Set the \em origin of the offset for \em id, i.e., the location in the image where the offset is,
+                 and the byte order to encode the offset.
+
+          If the list doesn't contain an entry for \em id yet, this function will create one.
+        */
+        void setOrigin(OffsetId id, uint32_t origin, ByteOrder byteOrder);
+        /*!
+          @brief Set the \em target for offset \em id, i.e., the address to which the offset points.
+
+          If the list doesn't contain an entry with \em id yet, this function won't do anything.
+        */
+        void setTarget(OffsetId id, uint32_t target);
+        //@}
+
+        //! @name Accessors
+        //@{
+        //! Write the offsets to the IO instance \em io.
+        void writeOffsets(BasicIo& io) const;
+        //@}
+    private:
+        //! Data structure for the offset list.
+        struct OffsetData {
+            //! Default constructor
+            OffsetData() : origin_(0), target_(0), byteOrder_(littleEndian) {}
+            //! Constructor
+            OffsetData(uint32_t origin, ByteOrder byteOrder) : origin_(origin), target_(0), byteOrder_(byteOrder) {}
+            // DATA
+            uint32_t origin_;     //!< Origin address
+            uint32_t target_;     //!< Target address
+            ByteOrder byteOrder_; //!< Byte order to use to encode target address
+        };
+        //! Type of the list containing an identifier and an address pair.
+        typedef std::map<OffsetId, OffsetData> OffsetList;
+
+        // DATA
+        OffsetList offsetList_; //!< List of the offsets to replace
+
+    }; // class OffsetWriter
 
     // Todo: Move this class to metadatum_int.hpp or tags_int.hpp
     //! Unary predicate that matches an Exifdatum with a given IfdId.
