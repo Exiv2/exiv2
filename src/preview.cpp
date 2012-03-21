@@ -46,6 +46,7 @@ EXIV2_RCSID("@(#) $Id$")
 #include "cr2image.hpp"
 #include "jpgimage.hpp"
 #include "tiffimage.hpp"
+#include "tiffimage_int.hpp"
 
 // *****************************************************************************
 namespace {
@@ -329,6 +330,7 @@ namespace {
         { 0,                       createLoaderTiff,         4 },
         { 0,                       createLoaderTiff,         5 },
         { 0,                       createLoaderTiff,         6 },
+        { "image/x-canon-cr2",     createLoaderTiff,         7 },
         { 0,                       createLoaderExifJpeg,     0 },
         { 0,                       createLoaderExifJpeg,     1 },
         { 0,                       createLoaderExifJpeg,     2 },
@@ -373,7 +375,8 @@ namespace {
         { "SubImage3", "Exif.SubImage3.NewSubfileType", "1" },  // 3
         { "SubImage4", "Exif.SubImage4.NewSubfileType", "1" },  // 4
         { "SubThumb1", "Exif.SubThumb1.NewSubfileType", "1" },  // 5
-        { "Thumbnail", 0,                               0   }   // 6
+        { "Thumbnail", 0,                               0   },  // 6
+        { "Image2",    0,                               0   }   // 7
     };
 
     Loader::AutoPtr Loader::create(PreviewId id, const Image &image)
@@ -764,34 +767,17 @@ namespace {
         // copy tags
         for (ExifData::const_iterator pos = exifData.begin(); pos != exifData.end(); ++pos) {
             if (pos->groupName() == group_) {
-
                 /*
-                   write only the neccessary tags
+                   Write only the neccessary TIFF image tags
                    tags that especially could cause problems are:
                    "NewSubfileType" - the result is no longer a thumbnail, it is a standalone image
                    "Orientation" - this tag typically appears only in the "Image" group. Deleting it ensures
                                    consistent result for all previews, including JPEG
                 */
-                std::string name = pos->tagName();
-                if (name != "ImageWidth" &&
-                    name != "ImageLength" &&
-                    name != "BitsPerSample" &&
-                    name != "Compression" &&
-                    name != "PhotometricInterpretation" &&
-                    name != "StripOffsets" &&
-                    name != "SamplesPerPixel" &&
-                    name != "RowsPerStrip" &&
-                    name != "StripByteCounts" &&
-                    name != "XResolution" &&
-                    name != "YResolution" &&
-                    name != "ResolutionUnit" &&
-                    name != "ColorMap" &&
-                    name != "TileWidth" &&
-                    name != "TileLength" &&
-                    name != "TileOffsets" &&
-                    name != "TileByteCounts") continue;
-
-                preview.add(ExifKey("Exif.Image." + pos->tagName()), &pos->value());
+                uint16_t tag = pos->tag();
+                if (tag != 0x00fe && tag != 0x00ff && Internal::isTiffImageTag(tag, Internal::ifd0Id)) {
+                    preview.add(ExifKey(tag, "Image"), &pos->value());
+                }
             }
         }
 
@@ -832,6 +818,11 @@ namespace {
                     dataValue.setDataArea(buf.pData_, buf.size_);
                 }
             }
+        }
+
+        // Fix compression value in the CR2 IFD2 image
+        if (0 == strcmp(group_, "Image2") && image_.mimeType() == "image/x-canon-cr2") {
+            preview["Exif.Image.Compression"] = uint16_t(1);
         }
 
         // write new image
