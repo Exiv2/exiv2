@@ -55,7 +55,7 @@ EXIV2_RCSID("@(#) $Id$")
 namespace Exiv2 {
 
     MrwImage::MrwImage(BasicIo::AutoPtr io, bool /*create*/)
-        : Image(ImageType::mrw, mdExif | mdIptc, io)
+        : Image(ImageType::mrw, mdExif | mdIptc | mdXmp, io)
     {
     } // MrwImage::MrwImage
 

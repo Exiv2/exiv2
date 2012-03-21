@@ -59,7 +59,7 @@ namespace Exiv2 {
     using namespace Internal;
 
     OrfImage::OrfImage(BasicIo::AutoPtr io, bool /*create*/)
-        : Image(ImageType::orf, mdExif | mdIptc, io)
+        : Image(ImageType::orf, mdExif | mdIptc | mdXmp, io)
     {
     } // OrfImage::OrfImage
 
