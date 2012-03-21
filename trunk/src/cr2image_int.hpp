@@ -53,7 +53,7 @@ namespace Exiv2 {
         //! @name Creators
         //@{
         //! Default constructor
-        Cr2Header();
+        Cr2Header(ByteOrder byteOrder =littleEndian);
         //! Destructor.
         ~Cr2Header();
         //@}
@@ -67,6 +67,9 @@ namespace Exiv2 {
         //@{
         DataBuf write() const;
         //@}
+
+        // Return the address of offset2 from the start of the header
+        static uint32_t offset2addr() { return 12; }
 
     private:
         // DATA
