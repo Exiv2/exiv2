@@ -68,7 +68,7 @@ namespace Exiv2 {
         DataBuf write() const;
         //@}
 
-        // Return the address of offset2 from the start of the header
+        //! Return the address of offset2 from the start of the header
         static uint32_t offset2addr() { return 12; }
 
     private:
