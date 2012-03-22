@@ -4015,8 +4015,8 @@ msgid "%1 has invalid XMP value type `%2'"
 msgstr "Clef `%1' invalide"
 
 #: src/exiv2.cpp:212
-msgid "Copyright (C) 2004-2011 Andreas Huggel.\n"
-msgstr "Copyright (C) 2004-2011 Andreas Huggel.\n"
+msgid "Copyright (C) 2004-2012 Andreas Huggel.\n"
+msgstr "Copyright (C) 2004-2012 Andreas Huggel.\n"
 
 #: src/exiv2.cpp:214
 msgid ""
