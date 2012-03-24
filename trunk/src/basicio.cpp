@@ -61,13 +61,11 @@ EXIV2_RCSID("@(#) $Id$")
 # include <unistd.h>                    // for getpid, stat
 #endif
 
-// MSVC doesn't provide mode_t, nlink_t
-#ifdef _MSC_VER
+#if defined WIN32 && !defined __CYGWIN__
+// Windows doesn't provide mode_t, nlink_t
 typedef unsigned short mode_t;
 typedef short nlink_t;
-#endif
 
-#if defined WIN32 && !defined __CYGWIN__
 # include <windows.h>
 # include <io.h>
 #endif
