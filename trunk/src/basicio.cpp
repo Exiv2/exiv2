@@ -262,7 +262,7 @@ namespace Exiv2 {
         HANDLE hFd = (HANDLE)_get_osfhandle(fileno(fp_));
         if (hFd != INVALID_HANDLE_VALUE) {
             typedef BOOL (WINAPI * GetFileInformationByHandle_t)(HANDLE, LPBY_HANDLE_FILE_INFORMATION);
-            HMODULE hKernel = LoadLibrary("kernel32.dll");
+            HMODULE hKernel = LoadLibraryA("kernel32.dll");
             if (hKernel) {
                 GetFileInformationByHandle_t pfcn_GetFileInformationByHandle = (GetFileInformationByHandle_t)GetProcAddress(hKernel, "GetFileInformationByHandle");
                 if (pfcn_GetFileInformationByHandle) {
@@ -280,7 +280,7 @@ namespace Exiv2 {
                 FreeLibrary(hKernel);
             }
 #ifdef DEBUG
-            else EXV_DEBUG << "LoadLibrary(\"kernel32.dll\") failed\n";
+            else EXV_DEBUG << "LoadLibraryA(\"kernel32.dll\") failed\n";
 #endif
         }
 #ifdef DEBUG
