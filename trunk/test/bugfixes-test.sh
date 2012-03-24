@@ -211,7 +211,7 @@ num=799
 filename=`prep_empty_file $num`
 $bin/exiv2 -v -m ../data/bug$num.cmd $filename
 $bin/exiv2 -v -pa $filename
-$bin/exiv2 -v -f -eX $filename
+$bin/exiv2 -f -eX $filename
 cat exiv2-bug$num.xmp
 
 num=800
