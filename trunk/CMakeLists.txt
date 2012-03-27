@@ -86,7 +86,7 @@ if( MSVC )
     #    ..\xmpsdk\Win32\Debug\xmpsdk.lib
     #    ..\zlib\Win32\Debug\zlib1d.lib
     #endif( EXIV2_ENABLE_XMP )
-    
+
 endif( MSVC )
 
 #IF( MINGW OR UNIX )
