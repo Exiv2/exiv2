@@ -4,6 +4,9 @@
 #  EXPAT_INCLUDE_DIRS - where to find expat.h, etc.
 #  EXPAT_LIBRARIES    - List of libraries when using expat.
 #  EXPAT_FOUND        - True if expat found.
+#
+# Redistribution and use is allowed according to the terms of the BSD license.
+# For details see the accompanying COPYING-CMAKE-SCRIPTS file.
 
 # Look for the header file.
 FIND_PATH(EXPAT_INCLUDE_DIR NAMES expat.h)

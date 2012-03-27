@@ -17,6 +17,9 @@
 #   look in C:\MinGW after std. Unix places, that's where 
 #   gettext automatically installed itself on my system.
 # TODO find where else on Windows, Mac, etc gettext might be
+#
+# Redistribution and use is allowed according to the terms of the BSD license.
+# For details see the accompanying COPYING-CMAKE-SCRIPTS file.
 
 IF(MSGFMT_EXECUTABLE)
     SET(MSGFMT_FOUND TRUE)
