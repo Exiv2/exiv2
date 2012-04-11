@@ -382,6 +382,7 @@ namespace Exiv2 {
         virtual uint32_t size() const;
         virtual uint32_t write(IoWrapper& ioWrapper, ByteOrder byteOrder) const;
         virtual uint32_t ifdOffset() const;
+        virtual uint32_t baseOffset(uint32_t mnOffset) const;
         //@}
         static uint32_t sizeOfSignature();
 

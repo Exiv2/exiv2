@@ -321,8 +321,9 @@ namespace {
         { 0,                       createLoaderExifDataJpeg, 5 },
         { 0,                       createLoaderExifDataJpeg, 6 },
         { 0,                       createLoaderExifDataJpeg, 7 },
-        { "image/x-panasonic-rw2", createLoaderExifDataJpeg, 8 },
-        { 0,                       createLoaderExifDataJpeg, 9 },
+        { 0,                       createLoaderExifDataJpeg, 8 },
+        { "image/x-panasonic-rw2", createLoaderExifDataJpeg, 9 },
+        { 0,                       createLoaderExifDataJpeg,10 },
         { 0,                       createLoaderTiff,         0 },
         { 0,                       createLoaderTiff,         1 },
         { 0,                       createLoaderTiff,         2 },
@@ -356,16 +357,17 @@ namespace {
     };
 
     const LoaderExifDataJpeg::Param LoaderExifDataJpeg::param_[] = {
-        { "Exif.Thumbnail.JPEGInterchangeFormat",      "Exif.Thumbnail.JPEGInterchangeFormatLength"      }, // 0
-        { "Exif.NikonPreview.JPEGInterchangeFormat",   "Exif.NikonPreview.JPEGInterchangeFormatLength"   }, // 1
-        { "Exif.Pentax.PreviewOffset",                 "Exif.Pentax.PreviewLength"                       }, // 2
-        { "Exif.Minolta.ThumbnailOffset",              "Exif.Minolta.ThumbnailLength"                    }, // 3
-        { "Exif.SonyMinolta.ThumbnailOffset",          "Exif.SonyMinolta.ThumbnailLength"                }, // 4
-        { "Exif.Olympus.ThumbnailImage",               0                                                 }, // 5
-        { "Exif.Olympus2.ThumbnailImage",              0                                                 }, // 6
-        { "Exif.Minolta.Thumbnail",                    0                                                 }, // 7
-        { "Exif.PanasonicRaw.PreviewImage",            0                                                 }, // 8
-        { "Exif.SamsungPreview.JPEGInterchangeFormat", "Exif.SamsungPreview.JPEGInterchangeFormatLength" } // 9
+        { "Exif.Thumbnail.JPEGInterchangeFormat",      "Exif.Thumbnail.JPEGInterchangeFormatLength"      }, //  0
+        { "Exif.NikonPreview.JPEGInterchangeFormat",   "Exif.NikonPreview.JPEGInterchangeFormatLength"   }, //  1
+        { "Exif.Pentax.PreviewOffset",                 "Exif.Pentax.PreviewLength"                       }, //  2
+        { "Exif.PentaxDng.PreviewOffset",              "Exif.PentaxDng.PreviewLength"                    }, //  3
+        { "Exif.Minolta.ThumbnailOffset",              "Exif.Minolta.ThumbnailLength"                    }, //  4
+        { "Exif.SonyMinolta.ThumbnailOffset",          "Exif.SonyMinolta.ThumbnailLength"                }, //  5
+        { "Exif.Olympus.ThumbnailImage",               0                                                 }, //  6
+        { "Exif.Olympus2.ThumbnailImage",              0                                                 }, //  7
+        { "Exif.Minolta.Thumbnail",                    0                                                 }, //  8
+        { "Exif.PanasonicRaw.PreviewImage",            0                                                 }, //  9
+        { "Exif.SamsungPreview.JPEGInterchangeFormat", "Exif.SamsungPreview.JPEGInterchangeFormatLength" }  // 10
     };
 
     const LoaderTiff::Param LoaderTiff::param_[] = {

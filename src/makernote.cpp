@@ -520,6 +520,11 @@ namespace Exiv2 {
         return header_.size_;
     }
 
+    uint32_t PentaxDngMnHeader::baseOffset(uint32_t mnOffset) const
+    {
+        return mnOffset;
+    }
+
     uint32_t PentaxDngMnHeader::ifdOffset() const
     {
         return sizeOfSignature();
