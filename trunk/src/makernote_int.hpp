@@ -361,6 +361,36 @@ namespace Exiv2 {
 
     }; // class PanasonicMnHeader
 
+    //! Header of an Pentax DNG Makernote
+    class PentaxDngMnHeader : public MnHeader {
+    public:
+        //! @name Creators
+        //@{
+        //! Default constructor
+        PentaxDngMnHeader();
+        //! Virtual destructor.
+        virtual ~PentaxDngMnHeader();
+        //@}
+        //! @name Manipulators
+        //@{
+        virtual bool read(const byte* pData,
+                          uint32_t    size,
+                          ByteOrder   byteOrder);
+        //@}
+        //! @name Accessors
+        //@{
+        virtual uint32_t size() const;
+        virtual uint32_t write(IoWrapper& ioWrapper, ByteOrder byteOrder) const;
+        virtual uint32_t ifdOffset() const;
+        //@}
+        static uint32_t sizeOfSignature();
+
+    private:
+        DataBuf header_;                //!< Data buffer for the makernote header
+        static const byte signature_[]; //!< Pentax DNG makernote header signature
+
+    }; // class PentaxDngMnHeader
+
     //! Header of an Pentax Makernote
     class PentaxMnHeader : public MnHeader {
     public:
@@ -568,6 +598,11 @@ namespace Exiv2 {
 
     //! Function to create an Pentax makernote
     TiffComponent* newPentaxMn2(uint16_t tag,
+                                IfdId    group,
+                                IfdId    mnGroup);
+
+    //! Function to create an Pentax DNG makernote
+    TiffComponent* newPentaxDngMn2(uint16_t tag,
                                 IfdId    group,
                                 IfdId    mnGroup);
 
