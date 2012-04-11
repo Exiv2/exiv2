@@ -1228,6 +1228,7 @@ namespace Exiv2 {
         { Tag::root, nikonFl3Id,       nikon3Id,         0x00a8    },
         { Tag::root, panasonicId,      exifId,           0x927c    },
         { Tag::root, pentaxId,         exifId,           0x927c    },
+        { Tag::root, pentaxDngId,      ifd0Id,           0xc634    },
         { Tag::root, samsung2Id,       exifId,           0x927c    },
         { Tag::root, samsungPwId,      samsung2Id,       0x0021    },
         { Tag::root, samsungPvId,      samsung2Id,       0x0035    },
@@ -1625,10 +1626,10 @@ namespace Exiv2 {
         {  Tag::all, panasonicId,      newTiffEntry                              },
 
         // Pentax DNG makernote
-        {    0x0003, pentaxDngId,         newTiffThumbSize<0x0004, pentaxDngId>        },
-        {    0x0004, pentaxDngId,         newTiffThumbData<0x0003, pentaxDngId>        },
-        { Tag::next, pentaxDngId,         newTiffDirectory<ignoreId>                },
-        {  Tag::all, pentaxDngId,         newTiffEntry                              },
+        {    0x0003, pentaxDngId,      newTiffThumbSize<0x0004, pentaxDngId>     },
+        {    0x0004, pentaxDngId,      newTiffThumbData<0x0003, pentaxDngId>     },
+        { Tag::next, pentaxDngId,      newTiffDirectory<ignoreId>                },
+        {  Tag::all, pentaxDngId,      newTiffEntry                              },
 
         // Pentax makernote
         {    0x0003, pentaxId,         newTiffThumbSize<0x0004, pentaxId>        },

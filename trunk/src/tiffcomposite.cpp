@@ -1034,7 +1034,7 @@ namespace Exiv2 {
         }
         // Count of IFD makernote in tag Exif.Photo.MakerNote is the size of the
         // Makernote in bytes
-        assert(tiffType() == ttUndefined);
+        assert(tiffType() == ttUndefined || tiffType() == ttUnsignedByte || tiffType() == ttSignedByte);
         return mn_->size();
     }
 
