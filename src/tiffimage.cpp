@@ -1283,6 +1283,7 @@ namespace Exiv2 {
         {    0x0201, ifd0Id,           newTiffImageData<0x0202, ifd0Id>          },
         {    0x0202, ifd0Id,           newTiffImageSize<0x0201, ifd0Id>          },
         {    0x014a, ifd0Id,           newTiffSubIfd<subImage1Id>                },
+        {    0xc634, ifd0Id,           newTiffMnEntry                            },
         { Tag::next, ifd0Id,           newTiffDirectory<ifd1Id>                  },
         {  Tag::all, ifd0Id,           newTiffEntry                              },
 
@@ -1622,6 +1623,12 @@ namespace Exiv2 {
         // Panasonic makernote
         { Tag::next, panasonicId,      newTiffDirectory<ignoreId>                },
         {  Tag::all, panasonicId,      newTiffEntry                              },
+
+        // Pentax DNG makernote
+        {    0x0003, pentaxDngId,         newTiffThumbSize<0x0004, pentaxDngId>        },
+        {    0x0004, pentaxDngId,         newTiffThumbData<0x0003, pentaxDngId>        },
+        { Tag::next, pentaxDngId,         newTiffDirectory<ignoreId>                },
+        {  Tag::all, pentaxDngId,         newTiffEntry                              },
 
         // Pentax makernote
         {    0x0003, pentaxId,         newTiffThumbSize<0x0004, pentaxId>        },
