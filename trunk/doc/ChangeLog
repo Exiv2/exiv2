@@ -5,6 +5,7 @@ Changes from version 0.22 to 0.23
                  - Allow to add/set tags without a value with the command line tool.
 
 * Exiv2 library
+	- 0000819: Recognize Pentax MakerNote in DNGPrivateData (Jonathan Kollasch)
 	- 0000815: Patch for Tokina 11-16mm f/2.8 on Canon (Chris Chiappa)
 	- 0000812: Exiv2 destroys hard links (Reported by Anders Kamf)
 	- 0000811: Typo in de.po (Thomas Beutlich)
