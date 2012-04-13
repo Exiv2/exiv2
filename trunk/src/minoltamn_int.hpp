@@ -152,6 +152,9 @@ namespace Exiv2 {
     //! Print Minolta/Sony ZoneMatching values to readable labels.
     std::ostream& printMinoltaSonyZoneMatching(std::ostream&, const Value&, const ExifData*);
 
+    //! Print Minolta/Sony FlashExposureComp values to readable labels.
+    std::ostream& printMinoltaSonyFlashExposureComp(std::ostream&, const Value&, const ExifData*);
+
     // TODO: Added shared methods here.
 
 }}                                      // namespace Internal, Exiv2

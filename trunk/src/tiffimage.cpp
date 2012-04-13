@@ -85,12 +85,15 @@ namespace Exiv2 {
     {
     } // TiffImage::TiffImage
 
+    //! Structure for TIFF compression to MIME type mappings
     struct MimeTypeList {
+        //! Comparison operator for compression
         bool operator==(int compression) const { return compression_ == compression; }
-        int compression_;
-        const char* mimeType_;
+        int compression_;                       //!< TIFF compression
+        const char* mimeType_;                  //!< MIME type
     };
 
+    //! List of TIFF compression to MIME type mappings
     MimeTypeList mimeTypeList[] = {
         { 32770, "image/x-samsung-srw" },
         { 34713, "image/x-nikon-nef"   },
