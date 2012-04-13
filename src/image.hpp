@@ -60,12 +60,12 @@ namespace Exiv2 {
 
     //! Native preview information. This is meant to be used only by the PreviewManager.
     struct NativePreview {
-        long position_;
-        uint32_t size_;
-        uint32_t width_;
-        uint32_t height_;
-        std::string filter_;
-        std::string mimeType_;
+        long position_;                         //!< Position
+        uint32_t size_;                         //!< Size
+        uint32_t width_;                        //!< Width
+        uint32_t height_;                       //!< Height
+        std::string filter_;                    //!< Filter
+        std::string mimeType_;                  //!< MIME type
     };
 
     //! List of native previews. This is meant to be used only by the PreviewManager.

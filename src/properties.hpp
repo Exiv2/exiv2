@@ -222,7 +222,7 @@ namespace Exiv2 {
         static const XmpNsInfo* lookupNsRegistry(const XmpNsInfo::Prefix& prefix);
 
         // DATA
-        static NsRegistry nsRegistry_;          //! Namespace registry
+        static NsRegistry nsRegistry_;          //!< Namespace registry
 
     }; // class XmpProperties
 

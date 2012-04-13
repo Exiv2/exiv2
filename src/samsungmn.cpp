@@ -72,6 +72,7 @@ namespace Exiv2 {
         { 1, N_("On")  }
     };
 
+    //! Print the camera temperature
     std::ostream& printCameraTemperature(std::ostream& os, const Value& value, const ExifData*)
     {
         if (value.count() != 1 || value.typeId() != signedRational) {
@@ -80,6 +81,7 @@ namespace Exiv2 {
         return os << value.toFloat() << " C";
     }
 
+    //! Print the 35mm focal length
     std::ostream& printFocalLength35(std::ostream& os, const Value& value, const ExifData*)
     {
         if (value.count() != 1 || value.typeId() != unsignedLong) {
@@ -155,6 +157,7 @@ namespace Exiv2 {
         { 11, N_("Custom3")   }
     };
 
+    //! Print the tag value minus 4
     std::ostream& printValueMinus4(std::ostream& os, const Value& value, const ExifData*)
     {
         if (value.count() != 1 || value.typeId() != unsignedShort) {

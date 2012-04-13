@@ -190,6 +190,7 @@ namespace Exiv2 {
         virtual uint32_t write(IoWrapper& ioWrapper, ByteOrder byteOrder) const;
         virtual uint32_t ifdOffset() const;
         //@}
+        //! Return the size of the makernote header signature
         static uint32_t sizeOfSignature();
 
     private:
@@ -221,6 +222,7 @@ namespace Exiv2 {
         virtual uint32_t ifdOffset() const;
         virtual uint32_t baseOffset(uint32_t mnOffset) const;
         //@}
+        //! Return the size of the makernote header signature
         static uint32_t sizeOfSignature();
 
     private:
@@ -254,6 +256,7 @@ namespace Exiv2 {
         virtual ByteOrder byteOrder() const;
         virtual uint32_t  baseOffset(uint32_t mnOffset) const;
         //@}
+        //! Return the size of the makernote header signature
         static uint32_t sizeOfSignature();
 
     private:
@@ -286,6 +289,7 @@ namespace Exiv2 {
         virtual uint32_t write(IoWrapper& ioWrapper, ByteOrder byteOrder) const;
         virtual uint32_t ifdOffset() const;
         //@}
+        //! Return the size of the makernote header signature
         static uint32_t sizeOfSignature();
 
     private:
@@ -320,6 +324,7 @@ namespace Exiv2 {
         virtual ByteOrder byteOrder() const;
         virtual uint32_t  baseOffset(uint32_t mnOffset) const;
         //@}
+        //! Return the size of the makernote header signature
         static uint32_t sizeOfSignature();
 
     private:
@@ -352,6 +357,7 @@ namespace Exiv2 {
         virtual uint32_t write(IoWrapper& ioWrapper, ByteOrder byteOrder) const;
         virtual uint32_t ifdOffset() const;
         //@}
+        //! Return the size of the makernote header signature
         static uint32_t sizeOfSignature();
 
     private:
@@ -384,6 +390,7 @@ namespace Exiv2 {
         virtual uint32_t ifdOffset() const;
         virtual uint32_t baseOffset(uint32_t mnOffset) const;
         //@}
+        //! Return the size of the makernote header signature
         static uint32_t sizeOfSignature();
 
     private:
@@ -414,6 +421,7 @@ namespace Exiv2 {
         virtual uint32_t write(IoWrapper& ioWrapper, ByteOrder byteOrder) const;
         virtual uint32_t ifdOffset() const;
         //@}
+        //! Return the size of the makernote header signature
         static uint32_t sizeOfSignature();
 
     private:
@@ -467,6 +475,7 @@ namespace Exiv2 {
         virtual uint32_t write(IoWrapper& ioWrapper, ByteOrder byteOrder) const;
         virtual uint32_t ifdOffset() const;
         //@}
+        //! Return the size of the makernote header signature
         static uint32_t sizeOfSignature();
 
     private:
@@ -499,6 +508,7 @@ namespace Exiv2 {
         virtual uint32_t write(IoWrapper& ioWrapper, ByteOrder byteOrder) const;
         virtual uint32_t ifdOffset() const;
         //@}
+        //! Return the size of the makernote header signature
         static uint32_t sizeOfSignature();
 
     private:
