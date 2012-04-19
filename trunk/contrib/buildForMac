@@ -1,92 +1,61 @@
 #!/bin/bash
 
 ##
-# buildForMac  <configure-options>
-# example:  contrib/buildForMac --disable-shared
+# buildForMac                     <configure-options>
+# example:  contrib/buildForMac --[dis|en]able-shared
 #
-# On Lion: 
-#    contrib/buildForMac --with-zlib=/usr/lib
-#    11 == `uname -a | cut '-d ' -f 3 | cut '-d.' -f 1` 
+##
 
+##
+# test OS level (L=9 SL==10 Lion = 11, ML=12)
 LION=""
-(echo $OSTYPE | grep 11) > /dev/null
-if [ $? == 0 ]; then
+let os=$(uname -a | cut -d' ' -f 3 | cut -d'.' -f 1)
+if [ $(( os >= 11 )) ]; then
   	LION="--with-zlib=/usr/lib"
 fi
-
-# b=`basename "${PWD}"`
 
 if [ ! -d contrib ]; then
 	echo "you are in the wrong directory - please run $0 in the main directory (which includes contrib and src)"
 	exit 1
 fi
 
-TARGET="MACOSX_DEPLOYMENT_TARGET=10.5"
-version=`grep EXIV2_LTVERSION config/config.mk | cut "-d " -f 3 | cut -d: -f 1`
-lib=libexiv2.$version.dylib
+if [ -z $TARGET ]; then export TARGET="MACOSX_DEPLOYMENT_TARGET=10.5" ; fi
 
-echo
-echo -----------------------------
-echo version = $version
-echo lib = $lib
-echo -----------------------------
-echo
-
-app=exiv2
-LIB=./src/.libs/$lib
-APP=./src/.libs/$app
-
-for option in "$@" ; do
-	if [ "$option" == --disable-shared ]; then
-		lib=libexiv2.a
-		LIB=./src/.libs/$lib
-		APP=./src/$app
-	fi
-done
-
-props() {
-	ls    -alt  $*
-	lipo  -info $*
-	otool -L    $*
-	echo ----------------------
-}
-
-
+# version=$(grep EXIV2_LTVERSION config/config.mk | cut "-d " -f 3 | cut -d: -f 1)
+# lib=libexiv2.$version.dylib
 
 build() {
 	make clean
 	./configure CFLAGS="$arch" CXXFLAGS="$arch" LDFLAGS="$arch -L${PWD}/xmpsdk/src" OBJCFLAGS="$arch" OBJCXXFLAGS="$arch" $TARGET $LION "$@"
-	make        CFLAGS="$arch" CXXFLAGS="$arch" LDFLAGS="$arch -L${PWD}/xmpsdk/src" OBJCFLAGS="$arch" OBJCXXFLAGS="$arch" $TARGET 
+	make        CFLAGS="$arch" CXXFLAGS="$arch" LDFLAGS="$arch -L${PWD}/xmpsdk/src" OBJCFLAGS="$arch" OBJCXXFLAGS="$arch" $TARGET all
+	# make        CFLAGS="$arch" CXXFLAGS="$arch" LDFLAGS="$arch -L${PWD}/xmpsdk/src" OBJCFLAGS="$arch" OBJCXXFLAGS="$arch" $TARGET samples
 	if [ "$?" != "0" ]; then
 		echo build failed
 		exit
 	fi
-	props $APP
-	props $LIB
 }
 
+##
+# build one architecture at a time
 for arch in '-arch i386' '-arch x86_64' ; do
-	if [ "$arch"   == "-arch i386"   ]; then
-		build "$@"
-		rm -rf app.i386 lib.i386
-		cp                 $APP        app.i386
-		cp                 $LIB        lib.i386
-	elif [ "$arch" == "-arch x86_64" ]; then
-		build "$@"
-		rm -rf app.x86_64 lib.x86_64
-		cp                 $APP        app.x86_64
-		cp                 $LIB        lib.x86_64
-	fi
+	echo arch = $arch
+	a=${arch:5:100}
+	build "$@"
+
+	##
+	# copy .libs to .arch
+	for d in $(find . -name ".libs" -type d); do
+		D=$(dirname $d)/.$a
+# 		echo --------------
+# 		echo d = $d   D = $D
+# 		echo --------------
+		ditto $d $D
+	done 
 done
 
-LIB=./src/.libs/$lib
-APP=./src/.libs/$app
-
-env $TARGET lipo -arch i386 lib.i386 -arch x86_64 lib.x86_64 -create -output $LIB
-env $TARGET lipo -arch i386 app.i386 -arch x86_64 app.x86_64 -create -output $APP 
-
-props $LIB
-props $APP
+##
+# combine the builds into a universal
+$(dirname $0)/makeUniversal
 
 # That's all Folks!
 ##
