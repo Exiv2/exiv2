@@ -39,7 +39,7 @@ build() {
 # build one architecture at a time
 for arch in '-arch i386' '-arch x86_64' ; do
 	echo arch = $arch
-	a=${arch:5:100}
+	a=${arch:6:100}
 	build "$@"
 
 	##
