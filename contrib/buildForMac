@@ -18,7 +18,7 @@ if [ ! -d contrib ]; then
 	echo "you are in the wrong directory - please run $0 in the main directory (which includes contrib and src)"
 	exit 1
 fi
-
+if [ ! -e configure ]; then make config ; fi
 if [ -z $TARGET ]; then export TARGET="MACOSX_DEPLOYMENT_TARGET=10.5" ; fi
 
 # version=$(grep EXIV2_LTVERSION config/config.mk | cut "-d " -f 3 | cut -d: -f 1)
@@ -46,9 +46,6 @@ for arch in '-arch i386' '-arch x86_64' ; do
 	# copy .libs to .arch
 	for d in $(find . -name ".libs" -type d); do
 		D=$(dirname $d)/.$a
-# 		echo --------------
-# 		echo d = $d   D = $D
-# 		echo --------------
 		ditto $d $D
 	done 
 done
