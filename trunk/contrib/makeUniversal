@@ -18,7 +18,9 @@ for D in $(find . -name ".x86_64"); do
 			if [ $? != '0' ]; then
 				echo FAILED lipo -arch i386 $f -arch x86_64 $F -create -output $U
 			else
-				echo $U $(lipo -info $U|sed -E -e "s/Architectures in the fat file://" -e "s/ are:/ : /") $(stat $U | cut -d' ' -f 2)
+			    eval $(stat -s $U)
+			    s=$(printf "%10s" ${st_size})
+				echo $(lipo -info $U|sed -E -e "s/Architectures in the fat file://" -e "s/ are://" -e "s#$U##" ) "$s" $U
 			fi
 		fi
 	done
