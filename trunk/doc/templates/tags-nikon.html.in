@@ -61,6 +61,11 @@ __NikonAf__
 __NikonAf2__
 <br>
 
+<h3>Nikon AF Fine Tune Tags</h3>
+<p>Click on a column header to sort the table.</p>
+__NikonAFT__
+<br>
+
 <h3>Nikon File Info Tags</h3>
 <p>Click on a column header to sort the table.</p>
 __NikonFi__
@@ -154,11 +159,6 @@ __NikonLd2__
 <h3>Nikon Lens Data 3 Tags</h3>
 <p>Click on a column header to sort the table.</p>
 __NikonLd3__
-<br>
-
-<h3>Nikon AF Fine Tune Tags</h3>
-<p>Click on a column header to sort the table.</p>
-__NikonAFT__
 <br>
 
 </div>
