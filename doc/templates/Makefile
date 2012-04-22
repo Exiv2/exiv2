@@ -87,6 +87,7 @@ TABLES = Exif \
          NikonLd1 \
          NikonLd2 \
          NikonLd3 \
+         NikonAFT \
          Olympus \
          OlympusCs \
          OlympusEq \
