@@ -33,7 +33,7 @@ Changes from version 0.22 to 0.23
 	- 0000790: XMP embedding corrupts CorelDRAW EPS files
 	- 0000778: Add support for Windows Live Photo Gallery face tags (Leif Huhn)
 	- 0000635: [Wish] Write support for Canon RAW CR2 files
-	         - Updated Nikon Lens lookup table to v4.3.426.01 of
+	         - Updated Nikon Lens lookup table to v4.3.428.01 of
 	           Robert Rottmerhusen's fmountlens list.
 	         - Added support for Nikon3 AF Fine Tune array. (Frans van den Bergh)
 	         - Added Canon EF-S 18-55mm f/3.5-5.6 III lens. (Jon Charnas)
