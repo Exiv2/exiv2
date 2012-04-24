@@ -76,6 +76,7 @@ TESTS = addmoddel.sh      \
         conversions.sh
 
 test:
+	./mingfixup.sh
 	@list='$(TESTS)'; for p in $$list; do \
 	    echo Running $$p ...; \
 	    ./$$p; \
