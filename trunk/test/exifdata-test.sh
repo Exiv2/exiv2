@@ -24,7 +24,7 @@ cd ./tmp
 $samples/exifdata-test exiv2-gc.jpg
 $samples/exifdata-test exiv2-canon-powershot-s40.jpg
 $samples/exifdata-test exiv2-nikon-d70.jpg
-) > $results
+)  | tr -d '\r' > $results
 
 diff -q $diffargs $results $good
 rc=$?
