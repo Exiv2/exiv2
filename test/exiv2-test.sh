@@ -1,9 +1,10 @@
 #! /bin/sh
 # Test driver for exiv2 utility tests
 
-os=`uname`
+os=$(uname)
 if [ "${os:0:4}" == "CYGW" ]; then
-	# use the diff.exe in msvc (cygwin's default diff is suspect)
+	# use the diff.exe in msvc
+	# cygwin's diff does not handle binary files as expected
 	export PATH=$PWD/../msvc:$PATH
 fi
 
