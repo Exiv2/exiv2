@@ -1,5 +1,12 @@
 #! /bin/sh
 # Test driver for exiv2 utility tests
+
+os=`uname`
+if [ "${os:0:4}" == "CYGW" ]; then
+	# use the diff.exe in msvc (cygwin's default diff is suspect)
+	export PATH=$PWD/../msvc:$PATH
+fi
+
 export LC_ALL=C
 if [ -z "$EXIV2_BINDIR" ] ; then
     bin="$VALGRIND ../../src"
@@ -126,7 +133,7 @@ diff iii kkk
 
 ) > $results 2>&1
 
-if [ `../config/config.guess` = "i686-pc-mingw32" ] ; then
+if [ -e `which dos2unix` ]; then
     sed 's,\\,/,g' $results > ${results}-new
     mv -f ${results}-new $results
     unix2dos $results >/dev/null 2>&1
