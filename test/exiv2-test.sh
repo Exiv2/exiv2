@@ -1,4 +1,4 @@
-#! /bin/sh
+#! /bin/bash
 # Test driver for exiv2 utility tests
 
 os=$(uname)
