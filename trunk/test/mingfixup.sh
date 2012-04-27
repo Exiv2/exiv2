@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/bash
 
 ##
 # for MING, ensure that we have .exe files in src and samples
