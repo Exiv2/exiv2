@@ -15,37 +15,44 @@ import os.path
 ##
 def Q(path):
     return '"' + path + '"'
-##    
+##
+
+##
+def System(cmd):
+#   print "System ",cmd
+    sys.stdout.flush()
+    os.system(cmd)
 
 ##
 def exe(path,option):
-    """exe - handle a .exe file"""
+    """exe - handle exiv2.exe file"""
     
-#   print "testing ",path
+    if os.path.basename(path)=='exiv2.exe':
+#       print "testing ",path
+        testimages=os.path.realpath('testimages')
+        tif=os.path.join(testimages,'test.tiff')
+        png=os.path.join(testimages,'test.png')
+        jpg=os.path.join(testimages,'test.jpg')
 
-    testimages=os.path.realpath('testimages')
-    tif=os.path.join(testimages,'test.tiff')
-    png=os.path.join(testimages,'test.png')
-    jpg=os.path.join(testimages,'test.jpg')
-
-    os.system(path + " -V")
-    os.system(path + " -pt "+Q(tif) + '2>NUL | grep Original')
-    os.system(path + " -pt "+Q(png) + '2>NUL | grep Original')
-    os.system(path + " -pt "+Q(jpg) + '2>NUL | grep Original')
-    os.system(path + " -pt "+Q(jpg) )
+        System(path + " -V")
+        System(path + " -pt "+Q(tif) + '2>NUL | grep Original')
+        System(path + " -pt "+Q(png) + '2>NUL | grep Original')
+        System(path + " -pt "+Q(jpg) + '2>NUL | grep Original')
+        System(path + " -pt "+Q(jpg) )
 ##
 
 ##
 def dll(path,option):
     """dll - handle a .dll file"""
     
-#   print "testing ",path
+    if os.path.basename(path) in ('exiv2.exe,exiv2.dll','exiv2d.dll','libexpat.dll','zlib1.dll','zlib1d.dll'):
+#        print "testing ",path
 
-    bits=32 if path.find('Win32')>=0 else 64
+        bits=32 if path.find('Win32')>=0 else 64
 
-    depends='tools/bin/depends%d.exe' % (bits)
-    depends=os.path.realpath( depends )
-    os.system(depends + ' -q ' + path + ' | sort')
+        depends='tools/bin/depends%d.exe' % (bits)
+        depends=os.path.realpath( depends )
+        System(depends + ' -q ' + path + ' | sort')
 ##
 
 ##
