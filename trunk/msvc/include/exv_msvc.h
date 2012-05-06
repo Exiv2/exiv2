@@ -53,6 +53,10 @@ typedef int pid_t;
 /* Define to 1 if you have the `iconv' function. */
 # undef EXV_HAVE_ICONV
 
+#ifdef  EXV_HAVE_ICONV
+#define EXV_ICONV_CONST const
+#endif
+
 /* Define as 1 if you have the `zlib' library. (0 to omit zlib) [png support] */
 #define HAVE_LIBZ 1
 
