@@ -1,3 +1,9 @@
+* Review how samples are built: They should use the *installed* version
+  of libexiv2, not some temporary version in the src or build tree.
+
+* Compare the cmake-built shared library with the configure-built version. Do they differ? 
+  Ideally they are the same. If not, we should understand the differences exactly.
+
 * Added cmake target to build/install doc.
 
 * Added Cmake target to release build and packaging.
