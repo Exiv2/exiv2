@@ -6,7 +6,7 @@ exiv2\msvc64\ReadMe.txt
 | the msvc   environment only builds 32bit                  |
 +-----------------------------------------------------------+
 
-Updated: 2012-05-05 
+Updated: 2012-05-07 
 
 Robin Mills
 http://clanmills.com
@@ -273,13 +273,24 @@ T A B L E  o f  C O N T E N T S
 			    echo ---------------------------------
 			    make test
 			done
-	
-	I recommend running listdlls exiv2.exe occasionally during testing to be confident that
-	the test suite is running the MSVC built versions of exiv2 and libraries.
+			
+	Free gift: (you get what you pay for)
+			The script testMSVC.sh to runs this loop for you.
+			The script verifyMSVC.sh validates the output of testMSVC.sh
+			I've added those for my convenience and I hope you'll find them useful.
+
+	And to pass the time (the test suite takes about an hour to run)
+			I recommend running listdlls exiv2.exe occasionally during testing to be confident
+			that the test suite is running the MSVC built versions of exiv2 and libraries.
+			
+			From cygwin:
+			while sleep 1 do; listdlls exiv2.exe ; done
+			or
+			while sleep 10 do ; listdlls exiv2.exe | grep exiv2.exe ; done
 			
 	Note: Cygwin currently ships diff-utils 2.9.2 which treats binary files differently
 	from 2.8.7 (on Mac) and 3.2 (on Ubuntu 12.04).  For this reason, the executable (and
-	support dlls for GNU diff.exe 2.8.7 is provided in msvc/diff.exe.
+	support dlls) for GNU diff.exe 2.8.7 is provided in msvc/diff.exe.
 	The test suite has been "doctored" on cygwin to modify the path appropriately to
 	use this preferred version of diff.exe.
              
