@@ -1,15 +1,17 @@
 Notes about msvc 32 bit build of exiv2
 --------------------------------------
 
-+------------------------------------------------------+
-| This version of the build environment builds 32 bit  |
-| builds of exiv2 for DevStudio 2003 (VS7.1) and later |
-|                                                      |
-| Please use the project files in msvc64 for 32 and 64 |
-| bit builds in VS2005 and later.                      |
-|                                                      |
-| Please see msvc64\ReadMe.txt for more information    |
-+------------------------------------------------------+
++----------------------------------------------------------+
+| This version of the build environment builds 32 bit      |
+| builds of exiv2 for DevStudio 2003 (VS7.1) and later     |
+|                                                          |
+| VS2003 USERS: Use project/sln in this directory to build |
+| VS2005 USERS: Please use msvc64 (even for 32 bit builds) |
+| VS2008 USERS: Please use msvc64 (even for 32 bit builds) |
+| VS2010 USERS: Use msvc64 for all builds                  |
+|                                                          |
+| Please see msvc64\ReadMe.txt for more information        |
++----------------------------------------------------------+
 
 Tools
 -----
@@ -151,6 +153,12 @@ How to build and test exiv2 (with/without organize.exe)
     --- no differences should be reported --
     
     The test takes less than 1 minute and runs 200+ different test programs.
+    
+7)  Running the test suite
+
+    The test suite is a collection of bash scripts and requires a unix-like environment
+    in which to run.  exiv2 msvc and msvc64 builds are tested with cygwin and msys.
+    Please see the file exiv2/msvc64/ReadMe.txt for more information.
     
 How to build exiv2+organize
 ---------------------------
@@ -410,4 +418,5 @@ D) Boost library name conventions
     .lib
     Extension: determined according to the operating system's usual convention. On most unix-style platforms the extensions are .a and .so for static libraries (archives) and shared libraries, respectively. On Windows, .dll indicates a shared library and (except for static libraries built by the gcc toolset, whose names always end in .a) .lib indicates a static or import library. Where supported by toolsets on unix variants, a full version extension is added (e.g. ".so.1.34") and a symbolic link to the library file, named without the trailing version number, will also be created.
 
--- end --
+# That's all Folks
+##
