@@ -752,6 +752,8 @@ namespace Exiv2 {
             { pttLen, "Exif.Pentax.PreviewLength"                     },
             { pttTag, "Exif.Pentax.PreviewOffset"                     },
             { pttTag, "Exif.Pentax.PreviewResolution"                 },
+            { pttLen, "Exif.SamsungPreview.JPEGInterchangeFormatLength" },
+            { pttIfd, "SamsungPreview"                                },
             { pttLen, "Exif.Thumbnail.StripByteCounts"                },
             { pttIfd, "Thumbnail"                                     },
             { pttLen, "Exif.Thumbnail.JPEGInterchangeFormatLength"    },
