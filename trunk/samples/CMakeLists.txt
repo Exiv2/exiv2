@@ -1,9 +1,19 @@
 # CMake build system for exiv2 library and executables
-# Copyright 2008      by Patrick Spendrin <ps_ml@gmx.de>
-# Copyright 2010-2012 by Gilles Caulier <caulier dot gilles at gmail dot com>
-#
+# Copyright 2012-     Robin Mills      <robin@clanmills.com>
+# Copyright 2010-2012 Gilles Caulier   <caulier dot gilles at gmail dot com>
+# Copyright 2008      Patrick Spendrin <ps_ml@gmx.de>
 # Redistribution and use is allowed according to the terms of the BSD license.
 # For details see the accompanying COPYING-CMAKE-SCRIPTS file.
+
+if (MSVC)
+	include(../CMake_msvc.txt)
+	msvc_runtime_configure(${EXIV2_ENABLE_SHARED})
+	include_directories( ${CMAKE_CURRENT_SOURCE_DIR}/../msvc64/include )
+	
+	if ( NOT EXIV2_ENABLE_SHARED )		
+		link_directories(${CMAKE_CURRENT_SOURCE_DIR}/../../zlib-1.2.7/$(ConfigurationName))
+	endif()
+endif()
 
 SET( SAMPLES addmoddel.cpp
              convert-test.cpp
@@ -35,3 +45,6 @@ FOREACH(entry ${SAMPLES})
     ADD_TEST( ${target}_test ${target} )
     TARGET_LINK_LIBRARIES( ${target} exiv2 )
 ENDFOREACH(entry ${SAMPLES})
+
+# That's all Folks!
+##

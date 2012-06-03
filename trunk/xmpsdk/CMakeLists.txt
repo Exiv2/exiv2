@@ -1,14 +1,20 @@
 # CMake build system for exiv2 library and executables
-# Copyright 2008      by Patrick Spendrin <ps_ml at gmx dot de>
-# Copyright 2010-2012 by Gilles Caulier <caulier dot gilles at gmail dot com>
-#
+# Copyright 2012-     Robin Mills      <robin@clanmills.com>
+# Copyright 2010-2012 Gilles Caulier   <caulier dot gilles at gmail dot com>
+# Copyright 2008      Patrick Spendrin <ps_ml at gmx dot de>
+
 # Redistribution and use is allowed according to the terms of the BSD license.
 # For details see the accompanying COPYING-CMAKE-SCRIPTS file.
+
+include(../CMake_msvc.txt)
+msvc_runtime_configure(${EXIV2_ENABLE_SHARED})
 
 IF( EXIV2_ENABLE_XMP AND EXIV2_ENABLE_LIBXMP )
     ADD_LIBRARY( xmp STATIC ${XMPSRC} )
     GET_TARGET_PROPERTY( XMPLIB xmp LOCATION )
-    SET( XMPLIB ${XMPLIB} PARENT_SCOPE )
-
-    INSTALL(TARGETS xmp ${INSTALL_TARGET_STANDARD_ARGS} )
+    # SET( XMPLIB ${XMPLIB} PARENT_SCOPE )
+    # INSTALL(TARGETS xmp ${INSTALL_TARGET_STANDARD_ARGS} )
 ENDIF( EXIV2_ENABLE_XMP AND EXIV2_ENABLE_LIBXMP )
+
+# That's all Folks!
+##

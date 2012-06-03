@@ -1,3 +1,20 @@
+My current list
+
+ToDo: * 2005/32/debug won't run "SideBySide" error (manifest trouble)
+      * try again to simplify path definitions for expat and zlib
+      * add the header files in MSVC 
+      * write FindLibexiv2.cmake
+      * Test Cygwin, MinGW, Xcode and more versions of MSVC
+
+Done: * Builds and passes the test suite on 2005/32, 2008/64, Mac-Lion/64/Makefiles and Ubuntu/12.04/32bit
+      * Updated documentation (README-CMAKE)
+
+Robin Mills
+robin@clanmills.com
+2012-06-03
+
+Inherited from Gilles Caulier <caulier dot gilles at gmail dot com>:
+
 * Review how samples are built: They should use the *installed* version
   of libexiv2, not some temporary version in the src or build tree.
 
