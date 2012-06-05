@@ -219,6 +219,14 @@ IF( ICONV_FOUND )
 	TARGET_LINK_LIBRARIES( exiv2 ${ICONV_LIBRARIES} )
 ENDIF( ICONV_FOUND )
 
+IF (MSVC )
+    ADD_CUSTOM_COMMAND(
+      TARGET exiv2
+      PRE_BUILD
+      COMMAND if NOT exist ..\\include mkdir ..\\include\r\nif NOT exist ..\\include\\exiv2 (\r\nmkdir ..\\include\\exiv2\r\ncopy /y ..\\src\\*.h ..\\include\\exiv2\r\ncopy /y ..\\src\\*.hpp ..\\include\\exiv2\r\n)
+    )
+ENDIF()
+
 ##
 # copy zlib and expat dlls to output directory if necessary
 IF ( MSVC AND EXIV2_ENABLE_SHARED )
