@@ -1,12 +1,13 @@
 My current list
 
-ToDo: * 2005/32/debug won't run "SideBySide" error (manifest trouble)
-      * try again to simplify path definitions for expat and zlib
-      * add the header files in MSVC 
-      * write FindLibexiv2.cmake
-      * Test Cygwin, MinGW, Xcode and more versions of MSVC
+ToDo: * 2005/32/debug won't run. "SideBySide" error (manifest trouble)
+      * I'm not searching correctly for expat, zlib and iconv
+      * Test Cygwin, MinGW, Xcode, NMake and more versions of MSVC
+      * Test Out of source builds
+      * Add the header files to the MSVC UI 
 
-Done: * Builds and passes the test suite on 2005/32, 2008/64, Mac-Lion/64/Makefiles and Ubuntu/12.04/32bit
+Done: * write FindLibexiv2.cmake (Thank you, Gilles)
+	  * Builds and passes the test suite on 2005/32, 2008/64, Mac-Lion/64/Makefiles and Ubuntu/12.04/32bit
       * Updated documentation (README-CMAKE)
 
 Robin Mills
