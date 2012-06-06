@@ -181,47 +181,52 @@ include(../CMake_msvc.txt)
 msvc_runtime_configure(${EXIV2_ENABLE_SHARED})
 
 # ******************************************************************************
-# exiv2 library
-ADD_LIBRARY( exiv2 ${STATIC_FLAG} ${LIBEXIV2_SRC} )
-SET_TARGET_PROPERTIES( exiv2 PROPERTIES
+# exiv2lib library
+ADD_LIBRARY( exiv2lib ${STATIC_FLAG} ${LIBEXIV2_SRC} ${LIBEXIV2_HDR} )
+SET_TARGET_PROPERTIES( exiv2lib PROPERTIES
 	VERSION       ${GENERIC_LIB_VERSION}
 	SOVERSION     ${GENERIC_LIB_SOVERSION}
 	DEFINE_SYMBOL EXV_BUILDING_LIB
+	OUTPUT_NAME   exiv2
 )
-TARGET_LINK_LIBRARIES( exiv2 ${EXPAT_LIBRARIES} )
+if ( MSVC ) 
+	source_group("Header Files" FILES ${LIBEXIV2_HDR} )
+endif()
+
+TARGET_LINK_LIBRARIES( exiv2lib ${EXPAT_LIBRARIES} )
 
 if( EXIV2_ENABLE_LIBXMP )
-	ADD_DEPENDENCIES( exiv2 xmp )
+	ADD_DEPENDENCIES( exiv2lib xmp )
 	LINK_DIRECTORIES(${LIBRARY_OUTPUT_PATH}/$(ConfigurationName))
-	TARGET_LINK_LIBRARIES( exiv2 xmp )
+	TARGET_LINK_LIBRARIES( exiv2lib xmp )
 ENDIF()
 
 IF( EXIV2_ENABLE_PNG )
 	IF( ZLIB_FOUND )
 		IF( MSVC )
 			if ( EXIV2_ENABLE_SHARED )		
-				TARGET_LINK_LIBRARIES( exiv2 optimized ${ZLIB_LIBRARIES} debug ${ZLIB_LIBRARIES}d )
+				TARGET_LINK_LIBRARIES( exiv2lib optimized ${ZLIB_LIBRARIES} debug ${ZLIB_LIBRARIES}d )
 			else()
-				link_directories(${CMAKE_CURRENT_SOURCE_DIR}/../../zlib-1.2.7/$(ConfigurationName))
-				TARGET_LINK_LIBRARIES( exiv2 optimized zlibstatic.lib debug zlibstaticd.lib )
+			#	link_directories(${CMAKE_CURRENT_SOURCE_DIR}/../../zlib-1.2.7/$(ConfigurationName))
+				TARGET_LINK_LIBRARIES( exiv2lib optimized zlibstatic.lib debug zlibstaticd.lib )
 			endif()
 		ELSE()
-			TARGET_LINK_LIBRARIES( exiv2 ${ZLIB_LIBRARIES} )
+			TARGET_LINK_LIBRARIES( exiv2lib ${ZLIB_LIBRARIES} )
 		ENDIF()
 	ENDIF()
 ENDIF()
 
 IF( EXIV2_ENABLE_NLS )
-	TARGET_LINK_LIBRARIES( exiv2 ${LIBINTL_LIBRARIES} )
+	TARGET_LINK_LIBRARIES( exiv2lib ${LIBINTL_LIBRARIES} )
 ENDIF( EXIV2_ENABLE_NLS )
 
 IF( ICONV_FOUND )
-	TARGET_LINK_LIBRARIES( exiv2 ${ICONV_LIBRARIES} )
+	TARGET_LINK_LIBRARIES( exiv2lib ${ICONV_LIBRARIES} )
 ENDIF( ICONV_FOUND )
 
 IF (MSVC )
     ADD_CUSTOM_COMMAND(
-      TARGET exiv2
+      TARGET exiv2lib
       PRE_BUILD
       COMMAND if NOT exist ..\\include mkdir ..\\include\r\nif NOT exist ..\\include\\exiv2 (\r\nmkdir ..\\include\\exiv2\r\ncopy /y ..\\src\\*.h ..\\include\\exiv2\r\ncopy /y ..\\src\\*.hpp ..\\include\\exiv2\r\n)
     )
@@ -231,42 +236,41 @@ ENDIF()
 # copy zlib and expat dlls to output directory if necessary
 IF ( MSVC AND EXIV2_ENABLE_SHARED )
     ADD_CUSTOM_COMMAND(
-      TARGET exiv2
+      TARGET exiv2lib
       POST_BUILD
       COMMAND copy /y $(SolutionDir)\\..\\expat-2.1.0\\$(ConfigurationName)\\*.dll $(SolutionDir)\\bin\\${P_DIR}\\${T_DIR}\\$(ConfigurationName)
     )
     ADD_CUSTOM_COMMAND(
-      TARGET exiv2
+      TARGET exiv2lib
       POST_BUILD
       COMMAND copy /y $(SolutionDir)\\..\\zlib-1.2.7\\$(ConfigurationName)\\*.dll $(SolutionDir)\\bin\\${P_DIR}\\${T_DIR}\\$(ConfigurationName)
     )
 ENDIF()
-INSTALL( TARGETS exiv2 ${INSTALL_TARGET_STANDARD_ARGS} )
+INSTALL( TARGETS exiv2lib ${INSTALL_TARGET_STANDARD_ARGS} )
 
 # ******************************************************************************
 # exiv2 application
-ADD_EXECUTABLE( exiv2bin ${EXIV2_SRC} )
-SET_TARGET_PROPERTIES( exiv2bin PROPERTIES OUTPUT_NAME exiv2 )
-TARGET_LINK_LIBRARIES( exiv2bin exiv2 )
-INSTALL( TARGETS exiv2bin ${INSTALL_TARGET_STANDARD_ARGS} )
+ADD_EXECUTABLE( exiv2 ${EXIV2_SRC} )
+TARGET_LINK_LIBRARIES( exiv2 exiv2lib )
+INSTALL( TARGETS exiv2 ${INSTALL_TARGET_STANDARD_ARGS} )
 
 # ******************************************************************************
 # metacopy sample application
 ADD_EXECUTABLE( metacopy ${MC_SRC} )
-TARGET_LINK_LIBRARIES( metacopy exiv2 )
+TARGET_LINK_LIBRARIES( metacopy exiv2lib )
 INSTALL( TARGETS metacopy ${INSTALL_TARGET_STANDARD_ARGS} )
 
 # ******************************************************************************
 # taglist sample application
 ADD_EXECUTABLE( taglist ${TAGLIST_SRC} )
-TARGET_LINK_LIBRARIES( taglist exiv2 )
+TARGET_LINK_LIBRARIES( taglist exiv2lib )
 INSTALL( TARGETS taglist ${INSTALL_TARGET_STANDARD_ARGS} )
 
 # ******************************************************************************
 # path-test sample application
 ADD_EXECUTABLE( pathtest ${PATHTEST_SRC} )
 SET_TARGET_PROPERTIES( pathtest PROPERTIES OUTPUT_NAME path-test )
-TARGET_LINK_LIBRARIES( pathtest exiv2 )
+TARGET_LINK_LIBRARIES( pathtest exiv2lib )
 INSTALL( TARGETS pathtest ${INSTALL_TARGET_STANDARD_ARGS} )
 
 # ******************************************************************************

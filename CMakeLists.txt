@@ -50,16 +50,17 @@ if( MSVC )
 	msvc_runtime_configure(${EXIV2_ENABLE_SHARED})
 	msvc_runtime_report()
 
-	##
-	# link dependant libraries
-	# apologies for the duplication of information
-	# I've been unable to simply this using the 'set' command
-    set(EXPAT_LIBRARY "../../expat-2.1.0/$(ConfigurationName)/expat")
-    set(ZLIB_LIBRARY  "../../zlib-1.2.7/$(ConfigurationName)/zlib" )
-    include_directories( ../zlib-1.2.7 ../expat-2.1.0/lib)
-    set(EXPAT_INCLUDE_DIR  ../expat-2.1.0/lib )
-    set(ZLIB_INCLUDE_DIR   ../zlib-1.2.7      )
-
+    if ( NOT EXPAT_LIBRARY  )
+		# link dependant libraries
+		# apologies for the duplication of information
+		# I've been unable to simply this using the 'set' command
+    	set(EXPAT_LIBRARY "../../expat-2.1.0/$(ConfigurationName)/expat")
+    	set(ZLIB_LIBRARY  "../../zlib-1.2.7/$(ConfigurationName)/zlib" )
+    	include_directories( ../zlib-1.2.7 ../expat-2.1.0/lib)
+    	set(EXPAT_INCLUDE_DIR  ../expat-2.1.0/lib )
+    	set(ZLIB_INCLUDE_DIR   ../zlib-1.2.7      )
+	endif()
+	
 	if ( EXIV2_ENABLE_SHARED )
 	    add_library(expat-2.1.0 SHARED IMPORTED)
 	    add_library(zlib-1.2.7  SHARED IMPORTED)

@@ -11,7 +11,7 @@ if (MSVC)
 	include_directories( ${CMAKE_CURRENT_SOURCE_DIR}/../include ${CMAKE_CURRENT_SOURCE_DIR}/../msvc64/include )
 	
 	if ( NOT EXIV2_ENABLE_SHARED )		
-		link_directories(${CMAKE_CURRENT_SOURCE_DIR}/../../zlib-1.2.7/$(ConfigurationName))
+	#	link_directories(${CMAKE_CURRENT_SOURCE_DIR}/../../zlib-1.2.7/$(ConfigurationName))
 	endif()
 endif()
 
@@ -43,7 +43,7 @@ FOREACH(entry ${SAMPLES})
     STRING( REPLACE ".cpp" "" target ${entry})
     ADD_EXECUTABLE( ${target} ${target}.cpp )
     ADD_TEST( ${target}_test ${target} )
-    TARGET_LINK_LIBRARIES( ${target} exiv2 )
+    TARGET_LINK_LIBRARIES( ${target} exiv2lib )
 ENDFOREACH(entry ${SAMPLES})
 
 # That's all Folks!
