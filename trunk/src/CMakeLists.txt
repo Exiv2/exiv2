@@ -207,7 +207,6 @@ IF( EXIV2_ENABLE_PNG )
 			if ( EXIV2_ENABLE_SHARED )		
 				TARGET_LINK_LIBRARIES( exiv2lib optimized ${ZLIB_LIBRARIES} debug ${ZLIB_LIBRARIES}d )
 			else()
-			#	link_directories(${CMAKE_CURRENT_SOURCE_DIR}/../../zlib-1.2.7/$(ConfigurationName))
 				TARGET_LINK_LIBRARIES( exiv2lib optimized zlibstatic.lib debug zlibstaticd.lib )
 			endif()
 		ELSE()
@@ -225,26 +224,47 @@ IF( ICONV_FOUND )
 ENDIF( ICONV_FOUND )
 
 IF (MSVC )
-    ADD_CUSTOM_COMMAND(
-      TARGET exiv2lib
-      PRE_BUILD
-      COMMAND if NOT exist ..\\include mkdir ..\\include\r\nif NOT exist ..\\include\\exiv2 (\r\nmkdir ..\\include\\exiv2\r\ncopy /y ..\\src\\*.h ..\\include\\exiv2\r\ncopy /y ..\\src\\*.hpp ..\\include\\exiv2\r\n)
-    )
+	if (OUT_OF_SOURCE) 
+	    ADD_CUSTOM_COMMAND(
+	      TARGET exiv2lib
+	      PRE_BUILD
+	      COMMAND set S=$(SolutionDir)..\\src\nset I=$(SolutionDir)include\nset E=%I%\\exiv2\nif NOT exist %I% mkdir %I%\nif NOT exist %E% mkdir %E%\ncopy /y %S%\\*.h %E%\ncopy /y %S%\\*.hpp %E%
+	    )
+	else()
+	    ADD_CUSTOM_COMMAND(
+	      TARGET exiv2lib
+	      PRE_BUILD
+	      COMMAND set S=$(SolutionDir)src\nset I=$(SolutionDir)include\nset E=%I%\\exiv2\nif NOT exist %I% mkdir %I%\nif NOT exist %E% mkdir %E%\ncopy /y %S%\\*.h %E%\ncopy /y %S%\\*.hpp %E%
+	    )
+	endif()
 ENDIF()
 
 ##
 # copy zlib and expat dlls to output directory if necessary
 IF ( MSVC AND EXIV2_ENABLE_SHARED )
-    ADD_CUSTOM_COMMAND(
-      TARGET exiv2lib
-      POST_BUILD
-      COMMAND copy /y $(SolutionDir)\\..\\expat-2.1.0\\$(ConfigurationName)\\*.dll $(SolutionDir)\\bin\\${P_DIR}\\${T_DIR}\\$(ConfigurationName)
-    )
-    ADD_CUSTOM_COMMAND(
-      TARGET exiv2lib
-      POST_BUILD
-      COMMAND copy /y $(SolutionDir)\\..\\zlib-1.2.7\\$(ConfigurationName)\\*.dll $(SolutionDir)\\bin\\${P_DIR}\\${T_DIR}\\$(ConfigurationName)
-    )
+	if (OUT_OF_SOURCE) 
+	    ADD_CUSTOM_COMMAND(
+	      TARGET exiv2lib
+	      POST_BUILD
+	      COMMAND copy /y $(SolutionDir)..\\..\\${E}\\$(ConfigurationName)\\*.dll $(SolutionDir)\\bin\\${P_DIR}\\${T_DIR}\\$(ConfigurationName)
+	    )
+	    ADD_CUSTOM_COMMAND(
+	      TARGET exiv2lib
+	      POST_BUILD
+	      COMMAND copy /y $(SolutionDir)..\\..\\${Z}\\$(ConfigurationName)\\*.dll $(SolutionDir)\\bin\\${P_DIR}\\${T_DIR}\\$(ConfigurationName)
+	    )
+    else()
+	    ADD_CUSTOM_COMMAND(
+	      TARGET exiv2lib
+	      POST_BUILD
+	      COMMAND copy /y $(SolutionDir)..\\${E}\\$(ConfigurationName)\\*.dll $(SolutionDir)\\bin\\${P_DIR}\\${T_DIR}\\$(ConfigurationName)
+	    )
+	    ADD_CUSTOM_COMMAND(
+	      TARGET exiv2lib
+	      POST_BUILD
+	      COMMAND copy /y $(SolutionDir)..\\${Z}\\$(ConfigurationName)\\*.dll $(SolutionDir)\\bin\\${P_DIR}\\${T_DIR}\\$(ConfigurationName)
+	    )
+    endif()
 ENDIF()
 INSTALL( TARGETS exiv2lib ${INSTALL_TARGET_STANDARD_ARGS} )
 
