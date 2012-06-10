@@ -58,7 +58,7 @@ if( MSVC )
 	endif()
 	
     if ( NOT EXPAT_LIBRARY  )
-		# link dependant libraries
+		# link dependent libraries
     	if (OUT_OF_SOURCE)
     		set(EXPAT_LIBRARY      ../../../${E}/$(ConfigurationName)/expat)
     		set(ZLIB_LIBRARY       ../../../${Z}/$(ConfigurationName)/zlib )
@@ -70,7 +70,7 @@ if( MSVC )
     		set(EXPAT_INCLUDE_DIR  ../${E}/lib )
     		set(ZLIB_INCLUDE_DIR   ../${Z}     )
     	endif()
-    	include_directories( ${EXPAT_INCLUDE_DIR} ${ZLIB_INCLUDE_DIR} ../msvc64/include ../../msvc64/include $(SolutionDir)\\src\\include)
+    	include_directories( ${EXPAT_INCLUDE_DIR} ${ZLIB_INCLUDE_DIR} msvc64\\include src\\include)
 	endif()
 	
 	if ( EXIV2_ENABLE_SHARED )
