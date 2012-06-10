@@ -49,21 +49,33 @@ if( MSVC )
 	msvc_runtime_report()
 	msvc_runtime_configure(${EXIV2_ENABLE_SHARED})
 	msvc_runtime_report()
-
+	
+	set(E expat-2.1.0)
+	set(Z zlib-1.2.7)
+	
+	if( NOT IS_DIRECTORY ./../${E} )
+		set(OUT_OF_SOURCE 1)
+	endif()
+	
     if ( NOT EXPAT_LIBRARY  )
 		# link dependant libraries
-		# apologies for the duplication of information
-		# I've been unable to simply this using the 'set' command
-    	set(EXPAT_LIBRARY "../../expat-2.1.0/$(ConfigurationName)/expat")
-    	set(ZLIB_LIBRARY  "../../zlib-1.2.7/$(ConfigurationName)/zlib" )
-    	include_directories( ../zlib-1.2.7 ../expat-2.1.0/lib)
-    	set(EXPAT_INCLUDE_DIR  ../expat-2.1.0/lib )
-    	set(ZLIB_INCLUDE_DIR   ../zlib-1.2.7      )
+    	if (OUT_OF_SOURCE)
+    		set(EXPAT_LIBRARY      ../../../${E}/$(ConfigurationName)/expat)
+    		set(ZLIB_LIBRARY       ../../../${Z}/$(ConfigurationName)/zlib )
+    		set(EXPAT_INCLUDE_DIR  ../${E}/lib )
+    		set(ZLIB_INCLUDE_DIR   ../${Z}     )
+		else()
+    		set(EXPAT_LIBRARY      ../../${E}/$(ConfigurationName)/expat)
+    		set(ZLIB_LIBRARY       ../../${Z}/$(ConfigurationName)/zlib)
+    		set(EXPAT_INCLUDE_DIR  ../${E}/lib )
+    		set(ZLIB_INCLUDE_DIR   ../${Z}     )
+    	endif()
+    	include_directories( ${EXPAT_INCLUDE_DIR} ${ZLIB_INCLUDE_DIR} ../msvc64/include ../../msvc64/include $(SolutionDir)\\src\\include)
 	endif()
 	
 	if ( EXIV2_ENABLE_SHARED )
-	    add_library(expat-2.1.0 SHARED IMPORTED)
-	    add_library(zlib-1.2.7  SHARED IMPORTED)
+	    add_library(${E} SHARED IMPORTED)
+	    add_library(${Z} SHARED IMPORTED)
 	endif()
 
 	##
@@ -86,7 +98,6 @@ if( MSVC )
     set(CMAKE_CURRENT_BINARY_DIR ${B_DIR})
     set(EXECUTABLE_OUTPUT_PATH   ${B_DIR})
     set(LIBRARY_OUTPUT_PATH      ${B_DIR})
-
 endif( MSVC )
 
 IF( EXIV2_ENABLE_XMP )
