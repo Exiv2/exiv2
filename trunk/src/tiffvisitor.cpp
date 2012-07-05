@@ -820,10 +820,6 @@ namespace Exiv2 {
     {
         assert(object != 0);
 
-        // Skip image tags of existing TIFF image - they were copied earlier -
-        // but add and encode image tags of new images (creation)
-        if (isImageTag(object->tag(), object->group())) return;
-
         ExifData::iterator pos = exifData_.end();
         const Exifdatum* ed = datum;
         if (ed == 0) {
@@ -855,7 +851,9 @@ namespace Exiv2 {
             // duplicate tags
             object->idx_ = ed->idx();
         }
-        if (ed) {
+        // Skip encoding image tags of existing TIFF image - they were copied earlier -
+        // but encode image tags of new images (creation)
+        if (ed && !isImageTag(object->tag(), object->group())) {
             const EncoderFct fct = findEncoderFct_(make_, object->tag(), object->group());
             if (fct) {
                 // If an encoding function is registered for the tag, use it
