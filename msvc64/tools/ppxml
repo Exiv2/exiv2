@@ -1,9 +1,9 @@
 #!/usr/bin/perl
 
+# cpan XML::{Twig,Parser} to install the libraries
+
 use XML::Twig;
 use XML::Parser;
-
-# cpan XML::{Twig,Parser} to install
 
 my $xml = XML::Twig->new(pretty_print => 'indented');
 

@@ -290,7 +290,7 @@ public:
     void help(std::ostream& os =std::cout) const;
 
     //! Print version information to an output stream.
-    void version(std::ostream& os =std::cout) const;
+    void version(bool verbose =false, std::ostream& os =std::cout) const;
 }; // class Params
 
 #endif                                  // #ifndef EXIV2APP_HPP_
