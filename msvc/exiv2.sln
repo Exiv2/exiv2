@@ -4,26 +4,20 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "exifprint", "exifprint\exif
 		{831EF580-92C8-4CA8-B0CE-3D906280A54D} = {831EF580-92C8-4CA8-B0CE-3D906280A54D}
 	EndProjectSection
 EndProject
-
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "key-test", "key-test\key-test.vcproj", "{8391174F-52D5-4111-A0FE-E87135301CFB}"
 	ProjectSection(ProjectDependencies) = postProject
-		{A11EF580-92C8-4CA8-B0CE-3D906280A54D} = {A11EF580-92C8-4CA8-B0CE-3D906280A54D}
 	EndProjectSection
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "path-test", "path-test\path-test.vcproj", "{8391174F-52D5-4111-A0FE-E87135301CFB}"
 	ProjectSection(ProjectDependencies) = postProject
-		{A21EF580-92C8-4CA8-B0CE-3D906280A54D} = {A21EF580-92C8-4CA8-B0CE-3D906280A54D}
 	EndProjectSection
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "werror-test", "werror-test\werror-test.vcproj", "{8391174F-52D5-4111-A0FE-E87135301CFB}"
 	ProjectSection(ProjectDependencies) = postProject
-		{A31EF580-92C8-4CA8-B0CE-3D906280A54D} = {A31EF580-92C8-4CA8-B0CE-3D906280A54D}
 	EndProjectSection
 EndProject
-
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "easyaccess-test", "easyaccess-test\easyaccess-test.vcproj", "{8391174F-52D5-4111-A0FE-E87135301CFB}"
 	ProjectSection(ProjectDependencies) = postProject
-		{FF1EF580-92C8-4CA8-B0CE-3D906280A54D} = {FF1EF580-92C8-4CA8-B0CE-3D906280A54D}
 	EndProjectSection
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "exiv2lib", "exiv2lib\exiv2lib.vcproj", "{831EF580-92C8-4CA8-B0CE-3D906280A54D}"
@@ -153,6 +147,10 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "tiff-test", "tiff-test\tiff
 		{831EF580-92C8-4CA8-B0CE-3D906280A54D} = {831EF580-92C8-4CA8-B0CE-3D906280A54D}
 	EndProjectSection
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "geotag", "geotag\geotag.vcproj", "{7E0025E8-CFBE-4941-BEB7-825F14A87EE1}"
+	ProjectSection(ProjectDependencies) = postProject
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfiguration) = preSolution
 		Debug = Debug
@@ -161,6 +159,38 @@ Global
 		ReleaseDLL = ReleaseDLL
 	EndGlobalSection
 	GlobalSection(ProjectConfiguration) = postSolution
+		{8391174F-52D5-4111-A0FE-E87135301CFB}.Debug.ActiveCfg = Debug|Win32
+		{8391174F-52D5-4111-A0FE-E87135301CFB}.Debug.Build.0 = Debug|Win32
+		{8391174F-52D5-4111-A0FE-E87135301CFB}.DebugDLL.ActiveCfg = DebugDLL|Win32
+		{8391174F-52D5-4111-A0FE-E87135301CFB}.DebugDLL.Build.0 = DebugDLL|Win32
+		{8391174F-52D5-4111-A0FE-E87135301CFB}.Release.ActiveCfg = Release|Win32
+		{8391174F-52D5-4111-A0FE-E87135301CFB}.Release.Build.0 = Release|Win32
+		{8391174F-52D5-4111-A0FE-E87135301CFB}.ReleaseDLL.ActiveCfg = ReleaseDLL|Win32
+		{8391174F-52D5-4111-A0FE-E87135301CFB}.ReleaseDLL.Build.0 = ReleaseDLL|Win32
+		{8391174F-52D5-4111-A0FE-E87135301CFB}.Debug.ActiveCfg = Debug|Win32
+		{8391174F-52D5-4111-A0FE-E87135301CFB}.Debug.Build.0 = Debug|Win32
+		{8391174F-52D5-4111-A0FE-E87135301CFB}.DebugDLL.ActiveCfg = DebugDLL|Win32
+		{8391174F-52D5-4111-A0FE-E87135301CFB}.DebugDLL.Build.0 = DebugDLL|Win32
+		{8391174F-52D5-4111-A0FE-E87135301CFB}.Release.ActiveCfg = Release|Win32
+		{8391174F-52D5-4111-A0FE-E87135301CFB}.Release.Build.0 = Release|Win32
+		{8391174F-52D5-4111-A0FE-E87135301CFB}.ReleaseDLL.ActiveCfg = ReleaseDLL|Win32
+		{8391174F-52D5-4111-A0FE-E87135301CFB}.ReleaseDLL.Build.0 = ReleaseDLL|Win32
+		{8391174F-52D5-4111-A0FE-E87135301CFB}.Debug.ActiveCfg = Debug|Win32
+		{8391174F-52D5-4111-A0FE-E87135301CFB}.Debug.Build.0 = Debug|Win32
+		{8391174F-52D5-4111-A0FE-E87135301CFB}.DebugDLL.ActiveCfg = DebugDLL|Win32
+		{8391174F-52D5-4111-A0FE-E87135301CFB}.DebugDLL.Build.0 = DebugDLL|Win32
+		{8391174F-52D5-4111-A0FE-E87135301CFB}.Release.ActiveCfg = Release|Win32
+		{8391174F-52D5-4111-A0FE-E87135301CFB}.Release.Build.0 = Release|Win32
+		{8391174F-52D5-4111-A0FE-E87135301CFB}.ReleaseDLL.ActiveCfg = ReleaseDLL|Win32
+		{8391174F-52D5-4111-A0FE-E87135301CFB}.ReleaseDLL.Build.0 = ReleaseDLL|Win32
+		{8391174F-52D5-4111-A0FE-E87135301CFB}.Debug.ActiveCfg = Debug|Win32
+		{8391174F-52D5-4111-A0FE-E87135301CFB}.Debug.Build.0 = Debug|Win32
+		{8391174F-52D5-4111-A0FE-E87135301CFB}.DebugDLL.ActiveCfg = DebugDLL|Win32
+		{8391174F-52D5-4111-A0FE-E87135301CFB}.DebugDLL.Build.0 = DebugDLL|Win32
+		{8391174F-52D5-4111-A0FE-E87135301CFB}.Release.ActiveCfg = Release|Win32
+		{8391174F-52D5-4111-A0FE-E87135301CFB}.Release.Build.0 = Release|Win32
+		{8391174F-52D5-4111-A0FE-E87135301CFB}.ReleaseDLL.ActiveCfg = ReleaseDLL|Win32
+		{8391174F-52D5-4111-A0FE-E87135301CFB}.ReleaseDLL.Build.0 = ReleaseDLL|Win32
 		{8391174F-52D5-4111-A0FE-E87135301CFB}.Debug.ActiveCfg = Debug|Win32
 		{8391174F-52D5-4111-A0FE-E87135301CFB}.Debug.Build.0 = Debug|Win32
 		{8391174F-52D5-4111-A0FE-E87135301CFB}.DebugDLL.ActiveCfg = DebugDLL|Win32
@@ -369,6 +399,14 @@ Global
 		{2F4235D0-B5F5-4C59-981D-BA006734B56E}.Release.Build.0 = Release|Win32
 		{2F4235D0-B5F5-4C59-981D-BA006734B56E}.ReleaseDLL.ActiveCfg = ReleaseDLL|Win32
 		{2F4235D0-B5F5-4C59-981D-BA006734B56E}.ReleaseDLL.Build.0 = ReleaseDLL|Win32
+		{7E0025E8-CFBE-4941-BEB7-825F14A87EE1}.Debug.ActiveCfg = Debug|Win32
+		{7E0025E8-CFBE-4941-BEB7-825F14A87EE1}.Debug.Build.0 = Debug|Win32
+		{7E0025E8-CFBE-4941-BEB7-825F14A87EE1}.DebugDLL.ActiveCfg = DebugDLL|Win32
+		{7E0025E8-CFBE-4941-BEB7-825F14A87EE1}.DebugDLL.Build.0 = DebugDLL|Win32
+		{7E0025E8-CFBE-4941-BEB7-825F14A87EE1}.Release.ActiveCfg = Release|Win32
+		{7E0025E8-CFBE-4941-BEB7-825F14A87EE1}.Release.Build.0 = Release|Win32
+		{7E0025E8-CFBE-4941-BEB7-825F14A87EE1}.ReleaseDLL.ActiveCfg = ReleaseDLL|Win32
+		{7E0025E8-CFBE-4941-BEB7-825F14A87EE1}.ReleaseDLL.Build.0 = ReleaseDLL|Win32
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 	EndGlobalSection
