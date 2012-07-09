@@ -147,7 +147,7 @@ int main(int argc, char* const argv[])
         return 0;
     }
     if (params.version_) {
-        params.version();
+		params.version(params.verbose_);
         return 0;
     }
 
@@ -204,7 +204,7 @@ void Params::cleanup()
     instance_ = 0;
 }
 
-void Params::version(std::ostream& os) const
+void Params::version(bool verbose,std::ostream& os) const
 {
     bool  b64    = sizeof(void*)==8;
     const char* sBuild = b64 ? "(64 bit build)" : "(32 bit build)" ;
@@ -225,6 +225,8 @@ void Params::version(std::ostream& os) const
             "License along with this program; if not, write to the Free\n"
             "Software Foundation, Inc., 51 Franklin Street, Fifth Floor,\n"
             "Boston, MA 02110-1301 USA\n");
+	
+	if ( verbose ) dumpLibraryInfo(os);
 }
 
 void Params::usage(std::ostream& os) const

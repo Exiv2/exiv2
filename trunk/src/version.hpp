@@ -173,4 +173,11 @@ namespace Exiv2 {
      */
     EXIV2API bool testVersion(int major, int minor, int patch);
 }                                       // namespace Exiv2
+
+// dumpLibraryInfo is general purpose and not in the Exiv2 namespace
+// dumpLibraryInfo reports on Windows/Linux/Mac, other platforms report nothing
+// dumpLibraryInfo used by exiv2 test suite to inspect loaded libraries at run-time
+EXIV2API void dumpLibraryInfo(std::ostream& os);
+
+
 #endif                                  // VERSION_HPP_
