@@ -70,23 +70,30 @@ namespace Exiv2 {
 
 #include <stdio.h>
 
-// platform specific support for dumpLibraryInfo
-#ifdef  WIN32
-# include <windows.h>
-# include <psapi.h>
-
 #ifndef lengthof
 #define lengthof(x) sizeof(x)/sizeof(x[0])
 #endif
+#ifndef _MAX_PATH
+#define _MAX_PATH 512
+#endif
 
+
+// platform specific support for dumpLibraryInfo
+#if defined(WIN32)
+# include <windows.h>
+# include <psapi.h>
+
+// tell MSVC to link psapi.
+// I'm going to change this to use LoadLibrary("psapi")/FindProcAddress
+// and the code with work on Cygwin
 #ifdef	_MSC_VER
 #pragma comment( lib, "psapi" )
 #endif
 
-#elif   __APPLE__
+#elif defined(__APPLE__)
 # include <mach-o/dyld.h>
 
-#else   __linux__
+#elif defined(__linux__)
 // http://syprog.blogspot.com/2011/12/listing-loaded-shared-objects-in-linux.html
 # include "link.h"
 # include <dlfcn.h>
@@ -133,7 +140,7 @@ EXIV2API void dumpLibraryInfo(std::ostream& os)
 	path[0]=0;
 
 	// enumerate loaded libraries and determine path to executable
-#if WIN32
+#if defined(WIN32)
 	bReport = true;
 	HMODULE handles[100];
 	DWORD   cbNeeded;
@@ -149,7 +156,7 @@ EXIV2API void dumpLibraryInfo(std::ostream& os)
 			}
 		}
 	}
-#elif __APPLE__
+#elif defined(__APPLE__)
 	bReport = true;
 	// man 3 dyld
 	uint32_t count = _dyld_image_count();
@@ -163,8 +170,8 @@ EXIV2API void dumpLibraryInfo(std::ostream& os)
 	     }
 	}
 
-#elif __linux__
-	bReport = true;
+#elif defined(__linux__)
+ 	bReport = true;
 	// http://syprog.blogspot.com/2011/12/listing-loaded-shared-objects-in-linux.html
 	struct lmap* pl;
 	void* ph = dlopen(NULL, RTLD_NOW);
@@ -192,4 +199,3 @@ EXIV2API void dumpLibraryInfo(std::ostream& os)
 		}
 	}
 }
-
