@@ -188,6 +188,8 @@ EXIV2API void dumpLibraryInfo(std::ostream& os)
 	char proc[100];
 	sprintf(proc,"/proc/%d/exe", getpid());
 	path_l = readlink (proc, path, path_max);
+#elif defined(__CYGWIN__)
+	bReport=true;
 #endif
 
 	if ( bReport ) {
@@ -195,7 +197,7 @@ EXIV2API void dumpLibraryInfo(std::ostream& os)
 		if ( path_l > 0 &&  path_l < path_max ) {
 			path[path_l]=0;
 			os << szBuilder << "executable=" << path << std::endl;
-			os << szBuilder << "date=\"" << __DATE__ << "\",time=" __TIME__ << std::endl;
 		}
+		os << szBuilder << "date=\"" << __DATE__ << "\",time=" __TIME__ << std::endl;
 	}
 }
