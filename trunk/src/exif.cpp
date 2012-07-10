@@ -828,7 +828,7 @@ namespace Exiv2 {
         append(blob, mio2.mmap(), mio2.size());
 #ifdef DEBUG
         if (wm == wmIntrusive) {
-            std::cerr << "SIZE OF EXIF DATA IS " << std::dec << io.size() << " BYTES\n";
+            std::cerr << "SIZE OF EXIF DATA IS " << std::dec << mio2.size() << " BYTES\n";
         }
         else {
             std::cerr << "SIZE DOESN'T MATTER, NON-INTRUSIVE WRITING USED\n";

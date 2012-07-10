@@ -96,7 +96,10 @@
 
 #if defined ( DEBUG )
     #if defined ( NDEBUG )
-        #error "XMP environment error - both DEBUG and NDEBUG are defined"
+		#undef NDEBUG
+		#warning
+		#warning "XMP environment - DEBUG and NDEBUG defined.  NDEBUG has been undefined"
+		#warning
     #endif
     #define XMP_DebugBuild 1
 #endif

@@ -2171,7 +2171,7 @@ namespace Exiv2 {
             return true;
         }
 #ifdef DEBUG
-        std::cerr << "Not an image tag: " << key << " (4)\n";
+        std::cerr << "Not an image tag: " << tag << " (4)\n";
 #endif
         return false;
     }
