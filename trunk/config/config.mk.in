@@ -153,7 +153,7 @@ COMPILE.cc = $(CXX) $(CXXFLAGS) $(CPPFLAGS) -c
 COMPILE.c = $(CC) $(CFLAGS) $(CPPFLAGS) -c
 # LINK.cc does not need $(LIBS), libtool's dark magic takes care of that
 # when linking a binary with a libtool library.
-LINK.cc = $(CXX) $(LDFLAGS)
+LINK.cc = $(CXX) $(LDFLAGS) -ldl
 
 # **********************************************************************
 # Installation programs

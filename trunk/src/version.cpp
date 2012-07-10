@@ -68,6 +68,7 @@ namespace Exiv2 {
 }                                       // namespace Exiv2
 
 
+#include <stdio.h>
 
 // platform specific support for dumpLibraryInfo
 #ifdef  WIN32
@@ -85,7 +86,7 @@ namespace Exiv2 {
 #elif   __APPLE__
 # include <mach-o/dyld.h>
 
-#else   __LINUX__
+#else   __linux__
 // http://syprog.blogspot.com/2011/12/listing-loaded-shared-objects-in-linux.html
 # include "link.h"
 # include <dlfcn.h>
@@ -162,7 +163,7 @@ EXIV2API void dumpLibraryInfo(std::ostream& os)
 	     }
 	}
 
-#elif __LINUX__
+#elif __linux__
 	bReport = true;
 	// http://syprog.blogspot.com/2011/12/listing-loaded-shared-objects-in-linux.html
 	struct lmap* pl;
