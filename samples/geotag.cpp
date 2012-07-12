@@ -39,8 +39,9 @@ enum
 ,	typeDirectory = 1
 ,	typeImage	  = 2
 ,	typeXML		  = 3
+,	typeFile      = 4
 };
-static const char* types[]  = { "unknown" , "directory" ,  "image" , "xml" };
+static const char* types[]  = { "unknown" , "directory" ,  "image" , "xml" ,"file" };
 
 class UserData
 {
@@ -72,8 +73,41 @@ static void endElement(void* userData, const char* name)
 
 bool readDir(char* path,strings_t& paths)
 {
-#ifndef _MSC_VER
+	paths.empty();
 	bool bResult = false;
+#ifdef _MSC_VER
+	DWORD attrs    =  GetFileAttributes(path);
+	bool  bOKAttrs =  attrs != INVALID_FILE_ATTRIBUTES;
+	bool  bIsDir   = (attrs  & FILE_ATTRIBUTE_DIRECTORY) ? true : false ;
+
+	if( bOKAttrs && bIsDir ) {
+		bResult = true ;
+
+		char     search[_MAX_PATH+10];
+		strcpy_s(search,_MAX_PATH,path);
+		strcat_s(search,_MAX_PATH,"\\*");
+
+		WIN32_FIND_DATA ffd;
+		HANDLE  hFind = FindFirstFile(search, &ffd);
+		BOOL    bGo = hFind != INVALID_HANDLE_VALUE;
+
+		if ( bGo ) {
+			while ( bGo ) {
+				if (ffd.dwFileAttributes & FILE_ATTRIBUTE_DIRECTORY)
+				{
+					// _tprintf(TEXT("  %s   <DIR>\n"), ffd.cFileName);
+				}
+				else
+				{
+					paths.push_back( std::string(ffd.cFileName));
+					printf("-> %s\n",ffd.cFileName);
+				}
+				bGo = FindNextFile(hFind, &ffd) != 0;
+			} 
+			CloseHandle(hFind);
+		}
+	}
+#else
 	DIR*	dir = opendir (path);
 	if (dir != NULL)
 	{
@@ -87,35 +121,6 @@ bool readDir(char* path,strings_t& paths)
 			paths.push_back(std::string(ent->d_name)) ;
 		}
 		closedir (dir);
-	}
-#else
-	bool bResult = (GetFileAttributesA(path) & FILE_ATTRIBUTE_DIRECTORY)!= 0L ;
-	if ( bResult ) {							 
-		char     search[_MAX_PATH+10];
-		strcpy_s(search,_MAX_PATH,path);
-		strcat_s(search,_MAX_PATH,"\\*");
-
-		WIN32_FIND_DATA ffd;
-		HANDLE  hFind = FindFirstFile(search, &ffd);
-		BOOL    bGo = hFind != INVALID_HANDLE_VALUE;
-		while ( bGo ) {
-			if (ffd.dwFileAttributes & FILE_ATTRIBUTE_DIRECTORY)
-			{
-				// _tprintf(TEXT("  %s   <DIR>\n"), ffd.cFileName);
-				// count++ ;
-			}
-			else // if ( ffd.dwFileAttributes & FILE_ATTRIBUTE_NORMAL)
-			{
-//				filesize.LowPart = ffd.nFileSizeLow;
-//				filesize.HighPart = ffd.nFileSizeHigh;
-//				_tprintf(TEXT("  %s   %ld bytes\n"), ffd.cFileName, filesize.QuadPart);
-				paths.push_back( std::string(ffd.cFileName));
-				printf("-> %s\n",ffd.cFileName);
-			}
-			bGo = FindNextFile(hFind, &ffd) != 0;
-		} 
-
-		CloseHandle(hFind);
 	}
 #endif
 	return bResult ;
@@ -157,6 +162,20 @@ bool readXML(char* path,size_t& count)
 	return bResult ;
 }
 
+bool readFile(char* path,size_t& count)
+{
+	FILE*		f		= fopen(path,"r");
+	bool bResult		= f ? true : false;
+	if ( bResult ) {
+		fseek(f,0L,SEEK_END);
+		count = ftell(f);
+	}
+	if ( f ) fclose(f) ;
+
+	return bResult ;
+}
+
+
 int main(int argc, char* const argv[])
 {
     if ( argc < 2 ) {
@@ -194,6 +213,12 @@ int main(int argc, char* const argv[])
 				}
 			} 
 		} catch (Exiv2::Error& ) {};
+
+		if ( fileType == typeUnknown ) {
+			if ( readFile(arg,count) ) {
+				if ( count ) fileType = typeFile ;
+			}
+		} 
 
 		printf("arg:%s type:%s count:%d\n",arg,types[fileType],count); ;
 	}
