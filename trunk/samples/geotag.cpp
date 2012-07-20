@@ -135,9 +135,9 @@ int timeZoneAdjust()
     GetTimeZoneInformation( &TimeZoneInfo );
     int offset = - ((int)TimeZoneInfo.Bias + (int)TimeZoneInfo.DaylightBias) * 60;
 #else
+    struct tm local ; memcpy(&local,localtime(&now),sizeof(local));
     int offset = local.tm_gmtoff ;
 #endif
-//  struct tm local ; memcpy(&local,localtime(&now),sizeof(local));
 //  struct tm utc   ; memcpy(&utc  ,gmtime   (&now),sizeof(utc  ));
 //  printf("local: offset = %6ld dst = %d time = %s", offset,local.tm_isdst, asctime(&local));
 //  printf("utc  : offset = %6ld dst = %d time = %s", 0     ,utc  .tm_isdst, asctime(&utc  ));
@@ -485,7 +485,7 @@ int main(int argc, char* const argv[])
         size_t count = 0   ;
         time_t t     = 0   ;
         int   type   = getFileType(arg,count) ;
-        printf("%s %s %d",arg,types[type],count) ;
+        printf("%s %s %d",arg,types[type],(int)count) ;
         if ( type == typeImage ) {
             t = readImageTime(arg) ;
             if ( t ) printf(" %ld ",(long int)t);
