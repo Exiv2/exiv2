@@ -18,67 +18,234 @@
 
 #include <vector>
 #include <string>
-
-//using namespace Exiv2;
 using namespace std;
-
-typedef std::vector<std::string> strings_t ;
 
 #ifndef  lengthof
 #define  lengthof(x) (sizeof(*x)/sizeof(x))
 #endif
+#ifndef nil
+#define nil NULL
+#endif
+#ifndef _MAX_PATH
+#define _MAX_PATH 1024
+#endif
 
-#ifdef  _MSC_VER
+#ifdef   _MSC_VER
 #include <windows.h>
-#if     _MSC_VER < 1400
+bool realpath(const char* file,char* path,int path_l=_MAX_PATH);
+bool realpath(const char* file,char* path,int path_l)
+{
+	GetFullPathName(file,path_l,path,NULL);
+	return true;
+}
+
+#if      _MSC_VER < 1400
 #define strcpy_s(d,l,s) strcpy(d,s)
 #define strcat_s(d,l,s) strcat(d,s)
 #endif
 
 #else
 #include <dirent.h>
+#include <unistd.h>
+#include <sys/param.h>
 #endif
 
+// prototypes
+int getFileType(const char* path );
+int getFileType(std::string& path);
+
+string getExifTime(const time_t t);
+time_t parseTime(const char* ,bool bAdjust=true);
+int    timeZoneAdjust();
+
+// Command-line parser
+class Options  {
+public:
+	bool        verbose;
+
+	Options()
+	{
+		verbose     = false;
+	}
+
+	virtual ~Options() {} ;
+} ;
+
+enum
+{   resultOK=0
+,   resultSyntaxError
+,   resultSelectFailed
+};
+
+enum                        // keyword indices
+{   kwHELP = 0
+,   kwVERSION
+,   kwVERBOSE
+,   kwADJUST
+,   kwMAX                   // manages keyword array
+,   kwNEEDVALUE             // bogus keywords for error reporting
+,   kwSYNTAX                // -- ditto --
+,   kwNOVALUE = -kwVERBOSE  // keywords <= kwNOVALUE are flags (no value needed)
+};
+
+// file types supported
 enum
 {   typeUnknown   = 0
 ,   typeDirectory = 1
 ,   typeImage     = 2
 ,   typeXML       = 3
 ,   typeFile      = 4
-,   typeMax       = 5
+,   typeDoc       = 5
+,   typeCode      = 6
+,   typeMax       = 7
 };
 
-enum                        // keyword indices
-{   kwHELP = 0
-,   kwARGS
-,   kwVERSION
-,   kwNOCR
-,   kwUNSPACE
-,   kwCLOSE
-,   kwOPEN
-,   kwEND1
-,   kwEND2
-,   kwSLEEP
-,   kwT1
-,   kwT2
-,   kwSPEED
-,   kwSEND
-,   kwOUTPUT
-,   kwMAX                   // manages keyword array
-,   kwNEEDVALUE             // bogus keywords for error reporting
-,   kwSYNTAX                // -- ditto --
-,   kwNOVALUE = -kwCLOSE    // keywords <= kwNOVALUE are flags (no value needed)
+// Position (from gpx file)
+class Position
+{
+public:
+	         Position(time_t time,double lat,double lon,double ele) : time_(time),lon_(lon),lat_(lat),ele_(ele) {};
+			 Position() { time_=0 ; lat_=0.0 ; lon_=0.0 ; ele_=0.0 ; };
+    virtual ~Position() {} ;
+//  copy constructor
+	Position(const Position& o) : time_(o.time_),lon_(o.lon_),lat_(o.lat_),ele_(o.ele_) {};
+
+//  methods
+	bool good()                 { return time_ || lon_ || lat_ || ele_ ; }
+	std::string getTimeString() { if ( times_.empty() ) times_ = getExifTime(time_) ;  return times_; }
+	time_t getTime()            { return time_ ; }
+
+//  data
+private:
+	time_t      time_;
+	double      lon_ ;
+	double      lat_ ;
+	double      ele_ ;
+	std::string times_;
+// public static data
+public:
+	static int    adjust_;
+	static time_t timeDiffMax;
+} ;
+
+// globals
+typedef std::map<time_t,Position>           TimeDict_t;
+typedef std::map<time_t,Position>::iterator TimeDict_i;
+typedef std::vector<std::string>            strings_t;
+TimeDict_t   gTimeDict ;
+strings_t    gFiles;
+
+int    Position::adjust_     = timeZoneAdjust();
+time_t Position::timeDiffMax = 120 ;
+
+///////////////////////////////////////////////////////////
+// UserData - used by XML Parser
+class UserData
+{
+public:
+	UserData() : indent(0),count(0),nTrkpt(0),bTime(false),bEle(false)  {};
+    virtual ~UserData() {} ;
+
+//  public data members
+    int    indent;
+    size_t count ;
+	Position now ;
+	Position prev;
+    int    nTrkpt;
+    bool   bTime ;
+    bool   bEle  ;
+    double ele;
+    double lat;
+    double lon;
+	std::string xmlt;
+	std::string exift;
+    time_t time;
+// static public data memembers
 };
 
-enum
-{   resultOK=0
-,   resultSyntaxError
-,   resultSelectFailed
-,   resultOpenFailed
-,   resultTimeout
-};
+// XML Parser Callbacks
+static void startElement(void* userData, const char* name, const char** atts )
+{
+    UserData* me = (UserData*) userData;
+    //for ( int i = 0 ; i < me->indent ; i++ ) printf(" ");
+    //printf("begin %s\n",name);
+    me->bTime = strcmp(name,"time")==0;
+    me->bEle  = strcmp(name,"ele")==0;
 
-time_t parseTime(const char* arg)
+    if ( strcmp(name,"trkpt")==0 ) {
+        me->nTrkpt++;
+        while ( *atts ) {
+            const char* a=atts[0];
+            const char* v=atts[1];
+            if ( !strcmp(a,"lat") ) me->lon = atof(v);
+            if ( !strcmp(a,"lon") ) me->lat = atof(v);
+            atts += 2 ;
+        }
+    }
+    me->count++  ;
+    me->indent++ ;
+}
+
+static void endElement(void* userData, const char* name)
+{
+    UserData* me = (UserData*) userData;
+    me->indent-- ;
+    if ( strcmp(name,"trkpt")==0 ) {
+        me->nTrkpt--;
+		me->now = Position(me->time,me->lat,me->lon,me->ele) ;
+
+		// printf("lat,lon = %f,%f ele = %f xml = %s exif = %s\n",me->lat,me->lon,me->ele,me->xmlt.c_str(),me->exift.c_str());
+
+		// if we have a good previous position
+		// add missed entries to timedict
+		if ( me->prev.good() && (me->now.getTime() - me->prev.getTime()) < Position::timeDiffMax ) {
+			time_t missed = me->prev.getTime() ;
+			while ( ++missed < me->now.getTime() )
+				gTimeDict[missed] = me->prev ; // Position(missed,me->lat,me->lon,me->ele) ;
+		}
+
+		// remember our location and put it in gTimeDict
+		gTimeDict[me->time] = me->now ;
+		me->prev = me->now ;
+    }
+}
+
+void charHandler(void* userData,const char* s,int len)
+{
+    UserData* me = (UserData*) userData;
+
+    if ( me->nTrkpt == 1 ) {
+        char buffer[100];
+        int  l_max = 98 ; // lengthof(buffer) -2 ;
+
+        if ( me->bTime && len > 5 ) {
+            if ( len < l_max ) {
+                memcpy(buffer,s,len);
+                buffer[len]=0;
+                char* b = buffer ;
+                while ( *b == ' ' && b < buffer+len ) b++ ;
+				me->xmlt  = b ;
+                me->time  = parseTime(me->xmlt.c_str());
+				me->exift = getExifTime(me->time);
+            }
+            me->bTime=false;
+        }
+        if ( me->bEle && len > 5 ) {
+            if ( len < l_max ) {
+                memcpy(buffer,s,len);
+                buffer[len]=0;
+                char* b = buffer ;
+                while ( *b == ' ' && b < buffer+len ) b++ ;
+                me->ele = atof(b);
+            }
+            me->bEle=false;
+        }
+    }
+}
+
+///////////////////////////////////////////////////////////
+// Time Functions
+time_t parseTime(const char* arg,bool bAdjust)
 {
     time_t result = 0 ;
     try {
@@ -110,9 +277,10 @@ time_t parseTime(const char* arg)
             long tm_gmtoff; /* offset from UTC in seconds */
     #endif
             memset(&T,sizeof(T),0);
-            T.tm_min  = mm  ;
+			T.tm_min  = mm  ;
             T.tm_hour = HH  ;
             T.tm_sec  = SS  ;
+			if ( bAdjust ) T.tm_sec += Position::adjust_ ;
             T.tm_year = YY -1900 ;
             T.tm_mon  = MM -1    ;
             T.tm_mday = DD  ;
@@ -125,113 +293,54 @@ time_t parseTime(const char* arg)
 // West of GMT is negative (PDT = Pacific Daylight = -07:00 == -25200 seconds
 int timeZoneAdjust()
 {
-    time_t now = time(NULL);
-#if   defined(__CYGWIN__)
-    struct tm loc   ; memcpy(&loc  ,localtime(&now),sizeof(loc  ));
-    time_t gmt = timegm(&loc);
-    int offset = (int) ( ((long signed int) gmt) - ((long signed int) now) ) ;
-#elif defined(_MSC_VER)
+    time_t    now   = time(NULL);
+    struct tm local = *localtime(&now) ;
+
+#if   defined(_MSC_VER)
     TIME_ZONE_INFORMATION TimeZoneInfo;
     GetTimeZoneInformation( &TimeZoneInfo );
-    int offset = - ((int)TimeZoneInfo.Bias + (int)TimeZoneInfo.DaylightBias) * 60;
+    int offset = - (((int)TimeZoneInfo.Bias + (int)TimeZoneInfo.DaylightBias) * 60);
+#elif defined(__CYGWIN__)
+    struct tm lcopy  = *localtime(&now);
+    time_t    gmt    =  timegm(&lcopy) ; // timegm modifies lcopy, so don't use local
+    int       offset = (int) ( ((long signed int) gmt) - ((long signed int) now) ) ;
 #else
-    struct tm local ; memcpy(&local,localtime(&now),sizeof(local));
     int offset = local.tm_gmtoff ;
 #endif
-//  struct tm utc   ; memcpy(&utc  ,gmtime   (&now),sizeof(utc  ));
-//  printf("local: offset = %6ld dst = %d time = %s", offset,local.tm_isdst, asctime(&local));
-//  printf("utc  : offset = %6ld dst = %d time = %s", 0     ,utc  .tm_isdst, asctime(&utc  ));
 
-//  printf("timeZoneAdjust = %d\n",offset);
+#if 0
+	// debugging code
+	struct tm utc = *gmtime(&now);
+	printf("utc  :  offset = %6d dst = %d time = %s", 0     ,utc  .tm_isdst, asctime(&utc  ));
+	printf("local:  offset = %6d dst = %d time = %s", offset,local.tm_isdst, asctime(&local));
+	printf("timeZoneAdjust = %6d\n",offset);
+#endif
     return offset ;
 }
 
-class UserData
+string getExifTime(const time_t t)
 {
-public:
-             UserData() : indent(0),count(0),nTrkpt(0),bTime(false),bEle(false)  {};
-    virtual ~UserData() {} ;
-
-//  public data members
-    int    indent;
-    size_t count ;
-    int    nTrkpt;
-    bool   bTime ;
-    bool   bEle  ;
-    double ele;
-    double lat;
-    double lon;
-    time_t t;
-};
-
-static void startElement(void* userData, const char* name, const char** atts )
-{
-    UserData* me = (UserData*) userData;
-    //for ( int i = 0 ; i < me->indent ; i++ ) printf(" ");
-    //printf("begin %s\n",name);
-    me->bTime = strcmp(name,"time")==0;
-    me->bEle  = strcmp(name,"ele")==0;
-
-    if ( strcmp(name,"trkpt")==0 ) {
-        me->nTrkpt++;
-        while ( *atts ) {
-            const char* a=atts[0];
-            const char* v=atts[1];
-            if ( !strcmp(a,"lat") ) me->lon = atof(v);
-            if ( !strcmp(a,"lon") ) me->lat = atof(v);
-            atts += 2 ;
-        }
-    }
-    me->count++  ;
-    me->indent++ ;
+	static char result[100];
+	strftime(result,sizeof(result),"%Y-%m-%d %H:%M:%S",localtime(&t));
+	return result ;
 }
 
-static void endElement(void* userData, const char* name)
+std::string makePath(std::string dir,std::string file)
 {
-    UserData* me = (UserData*) userData;
-    me->indent-- ;
-    if ( strcmp(name,"trkpt")==0 ) {
-        me->nTrkpt--;
-        printf("lat,lon = %f,%f ele = %f time = %ld %s",me->lat,me->lon,me->ele,(long int)me->t,"\n"); // asctime(localtime(&me->t)) ) ;
-    }
-    //for ( int i = 0 ; i < me->indent ; i++ ) printf(" ");
-    //printf("end %s\n",name);
+	return dir + std::string(EXV_SEPERATOR_STR) + file ;
 }
 
-void charHandler(void* userData,const char* s,int len)
+const char* makePath(const char* dir,const char* file)
 {
-    UserData* me = (UserData*) userData;
-
-    if ( me->nTrkpt == 1 ) {
-        char buffer[100];
-        int  l_max = 98 ; // lengthof(buffer) -2 ;
-
-        if ( me->bTime && len > 5 ) {
-            if ( len < l_max ) {
-                memcpy(buffer,s,len);
-                buffer[len]=0;
-                char* b = buffer ;
-                while ( *b == ' ' && b < buffer+len ) b++ ;
-                me->t = parseTime(b);
-            }
-            me->bTime=false;
-        }
-        if ( me->bEle && len > 5 ) {
-            if ( len < l_max ) {
-                memcpy(buffer,s,len);
-                buffer[len]=0;
-                char* b = buffer ;
-                while ( *b == ' ' && b < buffer+len ) b++ ;
-                me->ele = atof(b);
-            }
-            me->bEle=false;
-        }
-    }
+	static char result[_MAX_PATH] ;
+	std::string r = makePath(std::string(dir),std::string(file));
+	strcpy(result,r.c_str());
+	return result;
 }
 
-bool readDir(const char* path,size_t& count)
+// file utilities
+bool readDir(const char* path)
 {
-    strings_t files;
     bool bResult = false;
 
 #ifdef _MSC_VER
@@ -258,8 +367,10 @@ bool readDir(const char* path,size_t& count)
                 }
                 else
                 {
-                    files.push_back( std::string(ffd.cFileName));
-                    printf("-> %s\n",ffd.cFileName);
+					std::string pathName = makePath(path,std::string(ffd.cFileName));
+					if ( getFileType(pathName) == typeImage ) {
+						gFiles.push_back( pathName );
+					}
                 }
                 bGo = FindNextFile(hFind, &ffd) != 0;
             }
@@ -277,16 +388,22 @@ bool readDir(const char* path,size_t& count)
         while ((ent = readdir (dir)) != NULL)
         {
             printf ("%s\n", ent->d_name);
-            files.push_back(std::string(ent->d_name)) ;
+			gFiles.push_back( makePath(path,ent->d_name) ) ;
         }
         closedir (dir);
     }
 #endif
-    count = files.size();
     return bResult ;
 }
 
-bool readXML(const char* path,size_t& count)
+inline size_t sip(FILE* f,char* buffer,size_t max_len,size_t len)
+{
+	while ( !feof(f) && len < max_len && buffer[len-1] != '>')
+		buffer[len++] = fgetc(f);
+	return len;
+}
+
+bool readXML(const char* path)
 {
     FILE*       f       = fopen(path,"r");
     XML_Parser  parser  = XML_ParserCreate(NULL);
@@ -300,21 +417,22 @@ bool readXML(const char* path,size_t& count)
         XML_SetCharacterDataHandler(parser,charHandler);
 
         // a little sip at the data
-        size_t len = fread(buffer,1,sizeof(buffer),f);
+        size_t len = fread(buffer,1,sizeof(buffer)-100,f);
         const char* lead   = "<?xml" ;
         bResult = strncmp(lead,buffer,strlen(lead))==0;
 
         // swallow it
         if ( bResult ) {
+			len = sip(f,buffer,sizeof buffer,len);
             bResult = XML_Parse(parser, buffer,(int)len, len == 0 ) == XML_STATUS_OK;
         }
 
         // drink the rest of the file
-        while ( bResult && !feof(f) ) {
-            len = fread(buffer,1,sizeof(buffer),f);
+        while ( bResult && len != 0 ) {
+            len = fread(buffer,1,sizeof(buffer)-100,f);
+			len = sip(f,buffer,sizeof buffer,len);
             bResult = XML_Parse(parser, buffer,(int)len, len == 0 ) == XML_STATUS_OK;
         };
-        count = me.count ;
     }
 
     if ( f      ) fclose(f);
@@ -323,24 +441,19 @@ bool readXML(const char* path,size_t& count)
     return bResult ;
 }
 
-bool readImage(const char* path,size_t& count)
+bool readImage(const char* path)
 {
     using namespace Exiv2;
     bool bResult = false ;
-    count = 0 ;
 
     try {
         Image::AutoPtr image = ImageFactory::open(path);
         if ( image.get() ) {
             image->readMetadata();
             ExifData &exifData = image->exifData();
-            if ( !exifData.empty() ) {
-                bResult = true ;
-                count   = exifData.count();
-            }
-
+            bResult = !exifData.empty();
         }
-    } catch (Exiv2::Error& ) {};
+    } catch ( ... ) {};
     return bResult ;
 }
 
@@ -365,133 +478,177 @@ time_t readImageTime(const char* path)
                 image->readMetadata();
                 ExifData &exifData = image->exifData();
             //  printf("%s => %s\n",(ds-1), exifData[ds-1].toString().c_str());
-                result = parseTime(exifData[ds-1].toString().c_str());
+				result = parseTime(exifData[ds-1].toString().c_str(),false);
             }
         } catch ( ... ) {};
     }
     return result ;
 }
 
-
-
-bool readFile(const char* path,size_t& count)
+bool sin(const char* s,const char** a)
 {
-    FILE*       f       = fopen(path,"r");
-    bool bResult        = f ? true : false;
-    if ( bResult ) {
-        fseek(f,0L,SEEK_END);
-        count = ftell(f);
+	bool bResult = false ;
+	int i = 0 ;
+	while ( !bResult && a[i]) {
+		bResult = stricmp(s,a[i])==0;
+		i++;
+	}
+	return bResult;
+}
+
+int readFile(const char* path)
+{
+    FILE* f     = fopen(path,"r");
+    int nResult = f ? typeFile : typeUnknown;
+    if (  f ) {
+		const char* docs[] = { ".doc",".txt", nil };
+		const char* code[] = { ".cpp",".h"  ,".pl" ,".py" ,".pyc", nil };
+		const char*  ext   = strstr(path,".");
+		if  ( ext ) {
+			if ( sin(ext,docs) ) nResult = typeDoc;
+			if ( sin(ext,code) ) nResult = typeCode;
+		}
+    //    fseek(f,0L,SEEK_END);
+    //    count = ftell(f);
     }
     if ( f ) fclose(f) ;
 
-    return bResult ;
+    return nResult ;
 }
 
-int getFileType(const char* path,size_t& count)
+int getFileType(std::string& path) { return getFileType(path.c_str()); }
+int getFileType(const char* path)
 {
-    return readXML  (path,count) ? typeXML
-        :  readDir  (path,count) ? typeDirectory
-        :  readImage(path,count) ? typeImage
-        :  readFile (path,count) ? typeFile
-        :  typeUnknown
+    return readXML  (path) ? typeXML
+        :  readDir  (path) ? typeDirectory
+        :  readImage(path) ? typeImage
+        :  readFile (path)
         ;
 }
 
+
+int version(const char* program)
+{
+	printf("%s: %s %s\n",program,__DATE__,__TIME__);
+	return 0;
+}
+
+int help(const char* program,char const* words[],int nWords)
+{
+	printf("usage: %s",program);
+	for ( int i = 0 ; i < nWords ; i++ ) {
+		if ( words[i] )
+			printf(" -%s%s",words[i],i>(-kwNOVALUE)?" value":"");
+	}
+	printf(" path+\n");
+	return 0;
+}
+
+int compare(const char* a,const char* b)
+{
+	int result=*a && *b;
+	while ( result && *a && *b) {
+		char A=*a++;
+		char B=*b++;
+		result=tolower(A)==tolower(B);
+	}
+	return result;
+}
+
+int find(const char* arg,char const* words[],int nWords)
+{
+	int result=0;
+    int count =0;
+
+	for ( int i = 0 ; i < nWords ; i++) {
+		int j = 0 ;
+		while ( arg[j] == '-' ) j++;
+		if ( ::compare(arg+j,words[i]) ) {
+			result = i ;
+			count++;
+		}
+	}
+
+	return count==1?result:kwSYNTAX;
+}
+
+
 int main(int argc, char* const argv[])
 {
-    if ( argc < 2 ) {
-        std::cout << "Usage: " << argv[0] << " arg+\n";
-        return 1;
-    }
+	int result=0;
+	const char* program = argv[0];
 
-#if 0
-    char const* keywords[kwMAX];
-    memset(keywords,0,sizeof(keywords));
-    keywords[kwHELP]    = "help";
-    keywords[kwVERSION] = "version";
-    keywords[kwARGS]    = "args";
-    keywords[kwNOCR]    = "nocr";
-    keywords[kwUNSPACE] = "unspace";
-    keywords[kwCLOSE]   = "close";
-    keywords[kwOPEN]    = "open";
-    keywords[kwEND1]    = "end1";
-    keywords[kwEND2]    = "end2";
-    keywords[kwSLEEP]   = "sleep";
-    keywords[kwT1]      = "t1";
-    keywords[kwT2]      = "t2";
-    keywords[kwSPEED]   = "speed";
-    keywords[kwSEND]    = "send";
-    keywords[kwOUTPUT]  = "output";
-
-    if ( argc < 2 ) help(program,keywords,kwMAX) ;
-
-    for ( int a = 0 ; !result && a < 2 ; a++ ) { // a = 0 is a dry run
-        options options ;
-        for ( int i = 1 ; !result && i < argc ; i++ ) {
-            const char* arg   = argv[i++];
-            const char* value = argv[i  ];
-            int        ivalue = atoi(value?value:"0");
-            int         key   = find(arg,keywords,kwMAX);
-            int         needv = key < kwMAX && key > (-kwNOVALUE);
-
-            if (!needv ) i--;
-            if ( needv && !value ) key = kwNEEDVALUE;
-            if ( arg[0] != '-'   ) key = kwSYNTAX;
-
-            switch ( key ) {
-                case kwHELP     : if ( a ) { /* help(program,keywords,kwMAX)               ; */ } break;
-                case kwARGS     : if ( a ) { /* args(argv,argc)                            ; */ } break;
-                case kwVERSION  : if ( a ) { /* version(program)                           ; */ } break;
-                case kwNOCR     : if ( a ) { /* options.bNOCR=true                         ; */ } break;
-                case kwUNSPACE  : if ( a ) { /* options.bUnspace=true                      ; */ } break;
-                case kwCLOSE    : if ( a ) { /* modem_close(options)                       ; */ } break;
-                case kwOPEN     : if ( a ) { /* options.open = value                       ; }*/  break ;
-                case kwEND1     : if ( a ) { /* options.end1=value                         ; */ } break;
-                case kwEND2     : if ( a ) { /* options.end2=value                         ; */ } break;
-                case kwSLEEP    : if ( a ) { /* sleep(ivalue)                              ; }*/  break ;
-                case kwT1       : if ( a ) { /* options.t1=ivalue                          ; }*/  break ;
-                case kwT2       : if ( a ) { /* options.t2=ivalue                          ; */ } break;
-                case kwSPEED    : if ( a ) { /* options.speed=ivalue                       ; }*/  break ;
-/*
-                case kwSEND     : if ( a )
-                {
-                    result=modem_send(value,options);
-                    if ( result == resultTimeout && options.t2 > 0 )
-                        result = modem_send(value,options,true);
-                } break ;
-                case kwOUTPUT   : if ( a ) { printf("%s",value) ;                       ; } break ;
-*/
-                case kwNEEDVALUE: fprintf(stderr,"error: %s requires a value\n",arg); result = resultSyntaxError ; break ;
-                default         : fprintf(stderr,"error: illegal syntax %s\n",arg)  ; result = resultSyntaxError ; break ;
-            }
-            if ( a ) fflush(stdout);
-            // if ( options.fd < -1 ) result = resultOpenFailed ;
-        }
-    }
-#endif
-
-    const char* types[typeMax];
+	const char* types[typeMax];
     types[typeUnknown  ] = "unknown";
     types[typeDirectory] = "directory";
     types[typeImage    ] = "image";
     types[typeXML      ] = "xml";
+	types[typeDoc      ] = "doc";
+	types[typeCode     ] = "code";
     types[typeFile     ] = "file";
 
-    int tzadjust = timeZoneAdjust();
-    printf("tzadjust seconds = %d HH:MM = %c%02d:%02d [-/+ = West/East of UTC]\n",tzadjust,tzadjust<0?'-':'+',abs(tzadjust/3600),tzadjust%3600);
+	char const* keywords[kwMAX];
+	memset(keywords,0,sizeof(keywords));
+	keywords[kwHELP] 	= "help";
+	keywords[kwVERSION] = "version";
+	keywords[kwVERBOSE] = "verbose";
+	keywords[kwADJUST] 	= "adjust" ;
 
-    for ( int i = 1 ; i < argc ; i++ ) {
-        char* arg = argv[i];
-        size_t count = 0   ;
-        time_t t     = 0   ;
-        int   type   = getFileType(arg,count) ;
-        printf("%s %s %d",arg,types[type],(int)count) ;
-        if ( type == typeImage ) {
-            t = readImageTime(arg) ;
-            if ( t ) printf(" %ld ",(long int)t);
-        }
-        puts(t ? asctime(localtime(&t)) : "" );
+    Options options ;
+
+	if ( argc < 2 ) {
+		::help(program,keywords,kwMAX);
+		return result ;
     }
 
-    return 0;
+    for ( int a = 0 ; !result && a < 2 ; a++ ) { // a = 0 is a dry run
+		if ( a && options.verbose ) {
+			int tzadjust = Position::adjust_;
+			printf("tzadjust seconds = %d HH:MM = %c%02d:%02d [-/+ = West/East of UTC]\n",tzadjust,tzadjust<0?'-':'+',abs(tzadjust/3600),tzadjust%3600);
+
+			for ( TimeDict_i it = gTimeDict.begin() ; it != gTimeDict.end() ; it++) {
+			//	printf("time = %s\n",it->second.getTimeString().c_str()); // ,gTimeDict[*it].sTime
+			}
+			for ( unsigned i = 0 ; i < gFiles.size() ; i++ ) {
+				printf("image[%s%d] = %s\n",i>9?"":" ",i,gFiles[i].c_str());
+			}
+		}
+
+        for ( int i = 1 ; !result && i < argc ; i++ ) {
+            const char* arg   = argv[i++];
+            const char* value = argv[i  ];
+			int        ivalue = ::atoi(value?value:"0");
+			int         key   = ::find(arg,keywords,kwMAX);
+            int         needv = key < kwMAX && key > (-kwNOVALUE);
+
+            if (!needv ) i--;
+            if ( needv && !value ) key = kwNEEDVALUE;
+
+            switch ( key ) {
+				case kwHELP     : if ( a ) { ::help(program,keywords,kwMAX)             ; } break;
+				case kwVERSION  : if ( a ) { ::version(program)                         ; } break;
+				case kwADJUST   : if ( a ) { Position::adjust_=ivalue                   ; } break;
+				case kwVERBOSE  : options.verbose = true                                ;   break;
+                case kwNEEDVALUE: fprintf(stderr,"error: %s requires a value\n",arg); result = resultSyntaxError ; break ;
+                default         :
+				{
+					int   type   = getFileType(arg) ;
+					if ( !a && options.verbose ) printf("%s %s",arg,types[type]) ;
+					if ( type == typeImage ) {
+						time_t t = readImageTime(arg) ;
+						if ( t ) printf(" %ld %s",(long int)t,asctime(localtime(&t)));
+						char path[_MAX_PATH];
+						realpath(arg,path);
+						gFiles.push_back(path);
+					}
+
+					if ( type == typeUnknown ) {
+						fprintf(stderr,"error: illegal syntax %s\n",arg)  ; result = resultSyntaxError ; break ;
+					}
+				}
+            }
+        }
+    }
+
+    return result ;
 }
