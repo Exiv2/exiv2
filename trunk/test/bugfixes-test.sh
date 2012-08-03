@@ -237,11 +237,12 @@ $bin/exiv2 -v -pa $filename
 num=836
 filename=exiv2-bug$num.eps
 echo '------>' Bug $num '<-------' >&2
+cp -f ../data/$filename $filename
 if [ -e $filename/rsrc ]; then
     printf "$num " >&3
-    cp $filename.rsrc $filename/rsrc
+    cp -f ../data/$filename.rsrc $filename/rsrc
     $bin/exiv2 -M'set Exif.Photo.UserComment Test' $filename
-    diff -q $filename/rsrc $filename.rsrc
+    diff -q ../data/$filename.rsrc $filename/rsrc
 else
     # skip this test on systems which do not have resource forks
     printf "($num skipped) " >&3
