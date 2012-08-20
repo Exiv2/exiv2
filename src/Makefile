@@ -65,7 +65,8 @@ CCHDR =  exiv2.hpp             \
          version.hpp
 
 # Add library C++ source files to this list
-CCSRC =  basicio.cpp           \
+CCSRC =  asfvideo.cpp          \
+	 basicio.cpp           \
 	 bmpimage.cpp          \
 	 canonmn.cpp           \
 	 convert.cpp           \
@@ -84,6 +85,7 @@ CCSRC =  basicio.cpp           \
 	 jp2image.cpp          \
 	 jpgimage.cpp          \
 	 makernote.cpp         \
+	 matroskavideo.cpp     \
 	 metadatum.cpp         \
 	 minoltamn.cpp         \
 	 mrwimage.cpp          \
@@ -99,7 +101,9 @@ endif
 CCSRC += preview.cpp           \
 	 properties.cpp        \
 	 psdimage.cpp          \
+	 quicktimevideo.cpp    \
 	 rafimage.cpp          \
+         riffvideo.cpp         \
 	 rw2image.cpp          \
 	 samsungmn.cpp         \
 	 sigmamn.cpp           \

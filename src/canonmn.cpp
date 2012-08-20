@@ -173,6 +173,13 @@ namespace Exiv2 {
         { 0x80000261, N_("EOS 50D") },
         { 0x80000270, N_("EOS Rebel T2i / 550D / Kiss X4") },
         { 0x80000281, N_("EOS-1D Mark IV") },
+        { 0x80000285, N_("EOS 5D Mark III") },
+        { 0x80000286, N_("EOS Rebel T3i / 600D / Kiss X5") },
+        { 0x80000287, N_("EOS 60D") },
+        { 0x80000288, N_("EOS Rebel T3 / 1100D / Kiss X50") },
+        { 0x80000297, N_("WFT-E2 II") },
+        { 0x80000298, N_("WFT-E4 II") },
+        { 0x80000301, N_("EOS Rebel T4i / 650D / Kiss X6i") },
     };
 
     //! SerialNumberFormat, tag 0x0015
@@ -653,11 +660,16 @@ namespace Exiv2 {
         { 249, "Canon EF 800mm f/5.6L IS"                                   },
         { 250, "Canon EF 24 f/1.4L II"                                      },
         { 251, "Canon EF 70-200mm f/2.8L IS II USM"                         },
+        { 252, "Canon EF 70-200mm f/2.8L IS II USM + 1.4x"                  },
+        { 253, "Canon EF 70-200mm f/2.8L IS II USM + 2x"                    },
         { 254, "Canon EF 100mm f/2.8L Macro IS USM"                         },
         { 488, "Canon EF-S 15-85mm f/3.5-5.6 IS USM"                        },
         { 489, "Canon EF 70-300mm f/4-5.6L IS USM"                          },
         { 490, "Canon EF 8-15mm f/4L USM"                                   },
-        { 491, "Canon EF 300mm f/2.8L IS II USM"                            }
+        { 491, "Canon EF 300mm f/2.8L IS II USM"                            },
+        { 494, "Canon EF 600mm f/4.0L IS II USM"                            },
+        { 495, "Canon EF 24-70mm f/2.8L II USM"                             },
+        { 4144,"Canon EF 40mm f/2.8 STM"                                    }
     };
 
     //! A lens id and a pretty-print function for special treatment of the id.

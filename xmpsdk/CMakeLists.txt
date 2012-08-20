@@ -9,6 +9,12 @@
 include(../CMake_msvc.txt)
 msvc_runtime_configure(${EXIV2_ENABLE_SHARED})
 
+FOREACH(_currentfile ${XMPSRC})
+    IF(NOT MSVC)
+        SET_SOURCE_FILES_PROPERTIES(${_currentfile} PROPERTIES COMPILE_FLAGS "-fPIC")
+    ENDIF(NOT MSVC)
+ENDFOREACH(_currentfile ${XMPSRC})
+
 IF( EXIV2_ENABLE_XMP AND EXIV2_ENABLE_LIBXMP )
     ADD_LIBRARY( xmp STATIC ${XMPSRC} )
     GET_TARGET_PROPERTY( XMPLIB xmp LOCATION )

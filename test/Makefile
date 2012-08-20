@@ -73,7 +73,8 @@ TESTS = addmoddel.sh      \
         write-test.sh     \
         write2-test.sh    \
         xmpparser-test.sh \
-        conversions.sh
+        conversions.sh    \
+        video-test.sh
 
 test:
 	./mingfixup.sh
