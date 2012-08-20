@@ -32,7 +32,8 @@ SET( LIBEXIV2_PRIVATE_HDR canonmn_int.hpp
    )
 
 # Add standalone C++ header files to this list
-SET( LIBEXIV2_HDR         basicio.hpp
+SET( LIBEXIV2_HDR         asfvideo.hpp
+                          basicio.hpp
                           bmpimage.hpp
                           convert.hpp
                           cr2image.hpp
@@ -49,6 +50,7 @@ SET( LIBEXIV2_HDR         basicio.hpp
                           iptc.hpp
                           jp2image.hpp
                           jpgimage.hpp
+                          matroskavideo.hpp
                           metadatum.hpp
                           mrwimage.hpp
                           orfimage.hpp
@@ -56,7 +58,9 @@ SET( LIBEXIV2_HDR         basicio.hpp
                           preview.hpp
                           properties.hpp
                           psdimage.hpp
+                          quicktimevideo.hpp
                           rafimage.hpp
+                          riffvideo.hpp
                           rw2image.hpp
                           tags.hpp
                           tgaimage.hpp
@@ -69,7 +73,8 @@ SET( LIBEXIV2_HDR         basicio.hpp
    )
 
 # Add library C++ source files to this list
-SET( LIBEXIV2_SRC         basicio.cpp
+SET( LIBEXIV2_SRC         asfvideo.cpp
+                          basicio.cpp
                           bmpimage.cpp
                           canonmn.cpp
                           convert.cpp
@@ -89,6 +94,7 @@ SET( LIBEXIV2_SRC         basicio.cpp
                           jp2image.cpp
                           jpgimage.cpp
                           makernote.cpp
+                          matroskavideo.cpp
                           metadatum.cpp
                           minoltamn.cpp
                           mrwimage.cpp
@@ -101,7 +107,9 @@ SET( LIBEXIV2_SRC         basicio.cpp
                           preview.cpp
                           properties.cpp
                           psdimage.cpp
+                          quicktimevideo.cpp
                           rafimage.cpp
+                          riffvideo.cpp
                           rw2image.cpp
                           samsungmn.cpp
                           sigmamn.cpp
@@ -182,13 +190,16 @@ msvc_runtime_configure(${EXIV2_ENABLE_SHARED})
 
 # ******************************************************************************
 # exiv2lib library
+
 ADD_LIBRARY( exiv2lib ${STATIC_FLAG} ${LIBEXIV2_SRC} ${LIBEXIV2_HDR} )
+
 SET_TARGET_PROPERTIES( exiv2lib PROPERTIES
 	VERSION       ${GENERIC_LIB_VERSION}
 	SOVERSION     ${GENERIC_LIB_SOVERSION}
 	DEFINE_SYMBOL EXV_BUILDING_LIB
 	OUTPUT_NAME   exiv2
 )
+
 if ( MSVC ) 
 	source_group("Header Files" FILES ${LIBEXIV2_HDR} )
 endif()
