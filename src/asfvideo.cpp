@@ -44,6 +44,7 @@ EXIV2_RCSID("@(#) $Id$")
 #include <cmath>
 #include <cstring>
 #include <ctype.h>
+#include <cassert>
 
 // *****************************************************************************
 // class member definitions
@@ -170,11 +171,11 @@ namespace Exiv2 {
     };
 
     extern const TagDetails contentDescriptionTags[] =  {
-        {    1, "Xmp.video.Title" },
-        {    2, "Xmp.video.Author" },
-        {    3, "Xmp.video.Copyright" },
-        {    4, "Xmp.video.Description" },
-        {    5, "Xmp.video.Rating" }
+        {    0, "Xmp.video.Title" },
+        {    1, "Xmp.video.Author" },
+        {    2, "Xmp.video.Copyright" },
+        {    3, "Xmp.video.Description" },
+        {    4, "Xmp.video.Rating" }
     };
 
     /*!
@@ -453,21 +454,22 @@ namespace Exiv2 {
 
     void AsfVideo::contentDescription(uint64_t size)
     {
-        long pos = io_->tell();
+        const long pos = io_->tell();
+        if (pos == -1) throw Error(14);
         long length[5];
-        const TagDetails* td;
-
         for (int i = 0 ; i < 5 ; ++i) {
             byte buf[2];
             io_->read(buf, 2);
-            length[i] = (long)buf[0] + 16 * (long)buf[1];
+            if (io_->error() || io_->eof()) throw Error(14);
+            length[i] = getUShort(buf, littleEndian);
         }
-
         for (int i = 0 ; i < 5 ; ++i) {
             DataBuf buf(length[i]);
             std::memset(buf.pData_, 0x0, buf.size_);
             io_->read(buf.pData_, length[i]);
-            td = find(contentDescriptionTags, i + 1);
+            if (io_->error() || io_->eof()) throw Error(14);
+            const TagDetails* td = find(contentDescriptionTags, i);
+            assert(td);
             std::string str((const char*)buf.pData_, length[i]);
             if (convertStringCharset(str, "UCS-2LE", "UTF-8")) {
                 xmpData_[td->label_] = str;
@@ -476,7 +478,7 @@ namespace Exiv2 {
                 xmpData_[td->label_] = toString16(buf);
             }
         }
-        io_->seek(pos + size, BasicIo::beg);
+        if (io_->seek(pos + size, BasicIo::beg)) throw Error(14);
     } // AsfVideo::contentDescription
 
     void AsfVideo::streamProperties()
