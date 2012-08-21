@@ -47,6 +47,18 @@ namespace Exiv2 {
         const int mkv = 21; //!< Treating mkv as an image type>
     }
 
+    // Todo: Should be hidden
+    /*!
+      @brief Helper structure for the Matroska tags lookup table.
+     */
+    struct MatroskaTags {
+        uint64_t val_;                          //!< Tag value
+        const char* label_;                     //!< Translation of the tag value
+
+        //! Comparison operator for use with the find template
+       bool operator==(uint64_t key) const { return val_ == key; }
+    }; // struct TagDetails
+
     /*!
       @brief Class to access Matroska video files.
      */
@@ -89,7 +101,7 @@ namespace Exiv2 {
           @param b The byte, which stores the information to calculate the size
           @return Return the size of the block.
          */
-        long findBlockSize(byte b);
+        uint findBlockSize(byte b);
         /*!
           @brief Check for a valid tag and decode the block at the current IO position.
               Calls contentManagement() or skips to next tag, if required.
@@ -97,11 +109,11 @@ namespace Exiv2 {
         void decodeBlock();
         /*!
           @brief Interpret tag information, and save it in the respective XMP container.
-          @param td Pointer to current tag,
+          @param mt Pointer to current tag,
           @param buf Data buffer with the tag information.
           @param size Size of buf.
          */
-        void contentManagement(const Exiv2::Internal::TagDetails* td, Exiv2::DataBuf& buf, long size);
+        void contentManagement(const MatroskaTags* mt, DataBuf& buf, long size);
         /*!
           @brief Calculates Aspect Ratio of a video, and stores it in the
               respective XMP container.

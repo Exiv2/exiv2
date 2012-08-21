@@ -39,6 +39,7 @@ EXIV2_RCSID("@(#) $Id$")
 
 // + standard includes
 #include <cmath>
+#include <cassert>
 
 // *****************************************************************************
 // class member definitions
@@ -46,7 +47,7 @@ namespace Exiv2 {
     namespace Internal {
 
     //! List of composite tags. They are skipped and the child tags are read immediately
-    uint32_t compositeTagsList[] = {
+    uint64_t compositeTagsList[] = {
         0x0000, 0x000e, 0x000f, 0x0020, 0x0026, 0x002e, 0x0036,
         0x0037, 0x003b, 0x005b, 0x0060, 0x0061, 0x0068, 0x05b9,
         0x0dbb, 0x1034, 0x1035, 0x1854, 0x21a7, 0x2240, 0x23c0,
@@ -57,7 +58,7 @@ namespace Exiv2 {
     };
 
     //! List of tags which are ignored, i.e., tag and value won't be read
-    uint32_t ignoredTagsList[] = {
+    uint64_t ignoredTagsList[] = {
         0x0021, 0x0023, 0x0033, 0x0071, 0x0077, 0x006c, 0x0067, 0x007b, 0x02f2, 0x02f3,
         0x1031, 0x1032, 0x13ab, 0x13ac, 0x15ee, 0x23a2, 0x23c6, 0x2e67, 0x33a4, 0x33c5,
         0x3446, 0x2de7, 0x2df8, 0x26bf, 0x28ca, 0x3384, 0x13b8, 0x037e, 0x0485, 0x18d7,
@@ -80,7 +81,7 @@ namespace Exiv2 {
       u   --  Tag used directly for storing metadata
       ui  --  Tag used only internally
      */
-    extern const TagDetails matroskaTags[] = {
+    extern const MatroskaTags matroskaTags[] = {
         {      0x0000, "ChapterDisplay" },                              //s
         {      0x0003, "TrackType" },                                   //ui
         {      0x0005, "ChapterString" },                               //sd
@@ -281,7 +282,7 @@ namespace Exiv2 {
         {   0xf43b675, "Cluster" },                                     //s
     };
 
-    extern const TagDetails matroskaTrackType[] =  {
+    extern const MatroskaTags matroskaTrackType[] =  {
         {   0x1,  "Video" },
         {   0x2,  "Audio" },
         {   0x3,  "Complex" },
@@ -291,27 +292,27 @@ namespace Exiv2 {
         {   0x20, "Control" }
     };
 
-    extern const TagDetails compressionAlgorithm[] =  {
+    extern const MatroskaTags compressionAlgorithm[] =  {
         {   0, "zlib " },
         {   1, "bzlib" },
         {   2, "lzo1x" },
         {   3, "Header Stripping" }
     };
 
-    extern const TagDetails audioChannels[] =  {
+    extern const MatroskaTags audioChannels[] =  {
         {   1, "Mono" },
         {   2, "Stereo" },
         {   5, "5.1 Surround Sound" },
         {   7, "7.1 Surround Sound" }
     };
 
-    extern const TagDetails displayUnit[] =  {
+    extern const MatroskaTags displayUnit[] =  {
         {   0x0,  "Pixels" },
         {   0x1,  "cm" },
         {   0x2,  "inches" }
     };
 
-    extern const TagDetails encryptionAlgorithm[] =  {
+    extern const MatroskaTags encryptionAlgorithm[] =  {
         {   0, "Not Encrypted" },
         {   1, "DES" },
         {   2, "3DES" },
@@ -320,7 +321,7 @@ namespace Exiv2 {
         {   5, "AES" }
     };
 
-    extern const TagDetails chapterPhysicalEquivalent[] =  {
+    extern const MatroskaTags chapterPhysicalEquivalent[] =  {
         {   10, "Index" },
         {   20, "Track" },
         {   30, "Session" },
@@ -330,129 +331,134 @@ namespace Exiv2 {
         {   70, "Set / Package" },
     };
 
-    extern const TagDetails encodingType[] =  {
+    extern const MatroskaTags encodingType[] =  {
         {   0, "Compression" },
         {   1, "Encryption" }
     };
 
-    extern const TagDetails videoScanType[] =  {
+    extern const MatroskaTags videoScanType[] =  {
         {   0, "Progressive" },
         {   1, "Interlaced" }
     };
 
-    extern const TagDetails chapterTranslateCodec[] =  {
+    extern const MatroskaTags chapterTranslateCodec[] =  {
         {   0, "Matroska Script" },
         {   1, "DVD Menu" }
     };
 
-    extern const TagDetails aspectRatioType[] =  {
+    extern const MatroskaTags aspectRatioType[] =  {
         {   0, "Free Resizing" },
         {   1, "Keep Aspect Ratio" },
         {   2, "Fixed" }
     };
 
-    extern const TagDetails contentSignatureAlgorithm[] =  {
+    extern const MatroskaTags contentSignatureAlgorithm[] =  {
         {   0, "Not Signed" },
         {   1, "RSA" }
     };
 
-    extern const TagDetails contentSignatureHashAlgorithm[] =  {
+    extern const MatroskaTags contentSignatureHashAlgorithm[] =  {
         {   0, "Not Signed" },
         {   1, "SHA1-160" },
         {   2, "MD5" }
     };
 
-    extern const TagDetails trackEnable[] =  {
+    extern const MatroskaTags trackEnable[] =  {
         {   0x1,  "Xmp.video.Enabled" },
         {   0x2,  "Xmp.audio.Enabled" },
         {   0x11, "Xmp.video.SubTEnabled" }
     };
 
-    extern const TagDetails defaultOn[] =  {
+    extern const MatroskaTags defaultOn[] =  {
         {   0x1,  "Xmp.video.DefaultOn" },
         {   0x2,  "Xmp.audio.DefaultOn" },
         {   0x11, "Xmp.video.SubTDefaultOn" }
     };
 
-    extern const TagDetails trackForced[] =  {
+    extern const MatroskaTags trackForced[] =  {
         {   0x1,  "Xmp.video.TrackForced" },
         {   0x2,  "Xmp.audio.TrackForced" },
         {   0x11, "Xmp.video.SubTTrackForced" }
     };
 
-    extern const TagDetails trackLacing[] =  {
+    extern const MatroskaTags trackLacing[] =  {
         {   0x1,  "Xmp.video.TrackLacing" },
         {   0x2,  "Xmp.audio.TrackLacing" },
         {   0x11, "Xmp.video.SubTTrackLacing" }
     };
 
-    extern const TagDetails codecDecodeAll[] =  {
+    extern const MatroskaTags codecDecodeAll[] =  {
         {   0x1,  "Xmp.video.CodecDecodeAll" },
         {   0x2,  "Xmp.audio.CodecDecodeAll" },
         {   0x11, "Xmp.video.SubTCodecDecodeAll" }
     };
 
-    extern const TagDetails codecDownloadUrl[] =  {
+    extern const MatroskaTags codecDownloadUrl[] =  {
         {   0x1,  "Xmp.video.CodecDownloadUrl" },
         {   0x2,  "Xmp.audio.CodecDownloadUrl" },
         {   0x11, "Xmp.video.SubTCodecDownloadUrl" }
     };
 
-    extern const TagDetails codecSettings[] =  {
+    extern const MatroskaTags codecSettings[] =  {
         {   0x1,  "Xmp.video.CodecSettings" },
         {   0x2,  "Xmp.audio.CodecSettings" },
         {   0x11, "Xmp.video.SubTCodecSettings" }
     };
 
-    extern const TagDetails trackCodec[] =  {
+    extern const MatroskaTags trackCodec[] =  {
         {   0x1,  "Xmp.video.Codec" },
         {   0x2,  "Xmp.audio.Compressor" },
         {   0x11, "Xmp.video.SubTCodec" }
     };
 
-    extern const TagDetails trackLanguage[] =  {
+    extern const MatroskaTags trackLanguage[] =  {
         {   0x1,  "Xmp.video.TrackLang" },
         {   0x2,  "Xmp.audio.TrackLang" },
         {   0x11, "Xmp.video.SubTLang" }
     };
 
-    extern const TagDetails codecInfo[] =  {
+    extern const MatroskaTags codecInfo[] =  {
         {   0x1,  "Xmp.video.CodecInfo" },
         {   0x2,  "Xmp.audio.CodecInfo" },
         {   0x11, "Xmp.video.SubTCodecInfo" }
     };
 
-    extern const TagDetails streamRate[] =  {
+    extern const MatroskaTags streamRate[] =  {
         {   0x1,  "Xmp.video.FrameRate" },
         {   0x2,  "Xmp.audio.DefaultDuration" }
     };
 
     /*!
-      @brief Function used to calulate Tags, Tags may comprise of more than
-          one byte, that is why two buffers are to be provided.
-          The first buffer calculates size of the Tag and the second buffer
-          is used to calculate the rest of the Tag.
-          Returns Tag Value in unsinged long.
+      @brief Function used to calculate Tags, Tags may comprise of more than
+          one byte. The first byte calculates size of the Tag and the remaining
+          bytes are used to calculate the rest of the Tag.
+          Returns Tag Value.
      */
-    unsigned long returnTagValue(byte b, Exiv2::DataBuf& buf2, int n ) {
-        long temp = 0;
-        long reg1 = 0;
-        reg1 = (b & (int)(pow(2,8-n)-1));
+    uint64_t returnTagValue(byte* buf, uint size)
+    {
+        assert(size > 0 && size <= 8);
 
-        for(int i = n-2; i >= 0; i--) {
-            temp = temp + buf2.pData_[i]*(pow(256,n-i-2));
-        }
-        temp += reg1 * pow(256,n-1);
-        return temp;
+        byte b0 = buf[0] & (0xff >> size);
+        uint64_t ret = b0 << ((size - 1) * 8);
+        for (uint i = 1; i < size; ++i) ret |= buf[i] << ((size - i - 1) * 8);
+        return ret;
     }
 
-    //! Function used to convert buffer data into numerical information, information stored in BigEndian format
-    int64_t returnValue(Exiv2::DataBuf& buf, int n ) {
+    /*!
+        @brief Function used to convert buffer data into numerical information,
+            information stored in BigEndian format
+     */
+    int64_t returnValue(DataBuf& buf, int n)
+    {
+
         int64_t temp = 0;
 
         for(int i = n-1; i >= 0; i--) {
             temp = temp + buf.pData_[i]*(pow(256,n-i-1));
         }
+
+        std::cerr << "n = " << n << ", val = " << temp << std::hex << " (0x" << temp << std::dec << ")\n";
+
         return temp;
     }
 
@@ -501,142 +507,140 @@ namespace Exiv2 {
 
     void MatroskaVideo::decodeBlock()
     {
-        const long bufMinSize = 200;
-        DataBuf buf2(bufMinSize);
-
-        byte b;
-        io_->read(&b, 1);
+        byte buf[8];
+        io_->read(buf, 1);
 
         if(io_->eof()) {
             continueTraversing_ = false;
             return;
         }
 
-        long sz = findBlockSize(b);
-        if (sz > 0) io_->read(buf2.pData_, sz - 1);
+        uint sz = findBlockSize(buf[0]); // 0-8
+        if (sz > 0) io_->read(buf + 1, sz - 1);
 
-        const TagDetails* td;
-        td = find(matroskaTags, returnTagValue(b, buf2, sz));
+        const MatroskaTags* mt = find(matroskaTags, returnTagValue(buf, sz));
 
-        if(td->val_ == 0xc53bb6b || td->val_ == 0xf43b675) {
+        if(mt->val_ == 0xc53bb6b || mt->val_ == 0xf43b675) {
             continueTraversing_ = false;
             return;
         }
 
-        bool skip = find(compositeTagsList, (uint32_t)td->val_);
-        bool ignore = find(ignoredTagsList, (uint32_t)td->val_);
+        bool skip = find(compositeTagsList, mt->val_);
+        bool ignore = find(ignoredTagsList, mt->val_);
 
-        io_->read(&b, 1);
-        sz = findBlockSize(b);
+        io_->read(buf, 1);
+        sz = findBlockSize(buf[0]); // 0-8
 
-        if (sz > 0) io_->read(buf2.pData_, sz - 1);
-        long size = returnTagValue(b, buf2, sz);
+        if (sz > 0) io_->read(buf + 1, sz - 1);
+        uint64_t size = returnTagValue(buf, sz);
 
         if (skip && !ignore) return;
 
+        const uint64_t bufMinSize = 200;
         if (ignore || size > bufMinSize) {
             io_->seek(size, BasicIo::cur);
             return;
         }
 
-        DataBuf buf(bufMinSize);
-        std::memset(buf.pData_, 0x0, buf.size_);
-        io_->read(buf.pData_, size);
-        contentManagement(td, buf, size);
+        DataBuf buf2(bufMinSize);
+        std::memset(buf2.pData_, 0x0, buf2.size_);
+        io_->read(buf2.pData_, size);
+        contentManagement(mt, buf2, size);
     } // MatroskaVideo::decodeBlock
 
-    void MatroskaVideo::contentManagement(const TagDetails* td, Exiv2::DataBuf& buf, long size)
+    void MatroskaVideo::contentManagement(const MatroskaTags* mt, DataBuf& buf, long size)
     {
         int64_t duration_in_ms = 0;
         static double time_code_scale = 1.0, temp = 0;
         static long stream = 0, track_count = 0;
         char str[4] = "No";
-        const TagDetails* internal_td = NULL;
+        const MatroskaTags* internalMt = 0;
 
-        switch (td->val_) {
+        switch (mt->val_) {
 
         case 0x0282: case 0x0d80: case 0x1741: case 0x3ba9: case 0x066e: case 0x0660:
         case 0x065c: case 0x067e: case 0x047a: case 0x0487: case 0x05a3: case 0x136e:
         case 0x23ca: case 0xeb524:
-            xmpData_[exvGettext(td->label_)] = buf.pData_;
+            xmpData_[mt->label_] = buf.pData_;
             break;
 
         case 0x0030: case 0x003a: case 0x0287: case 0x14b0: case 0x14ba: case 0x285:
         case 0x06ae: case 0x0286: case 0x02f7: case 0x2264: case 0x14aa: case 0x14bb:
         case 0x14cc: case 0x14dd:
-            xmpData_[exvGettext(td->label_)] = returnValue(buf, size);
+            xmpData_[mt->label_] = returnValue(buf, size);
 
-            if(td->val_ == 0x0030 || td->val_ == 0x14b0)
+            if (mt->val_ == 0x0030 || mt->val_ == 0x14b0) {
                 width_ = returnValue(buf, size);
-            else if(td->val_ == 0x003a || td->val_ == 0x14ba)
+            }
+            else if (mt->val_ == 0x003a || mt->val_ == 0x14ba) {
                 height_ = returnValue(buf, size);
+            }
             break;
 
         case 0x001a: case 0x001f: case 0x0254: case 0x07e1: case 0x07e5: case 0x07e6:
         case 0x1033: case 0x14b2: case 0x14b3: case 0x23c3: case 0x29bf: case 0x3e8a:
         case 0x3e9a:
-            switch (td->val_) {
-            case 0x001a: internal_td = find(videoScanType, returnValue(buf, size));                 break;
-            case 0x001f: internal_td = find(audioChannels, returnValue(buf, size));                 break;
-            case 0x0254: internal_td = find(compressionAlgorithm, returnValue(buf, size));          break;
-            case 0x07e1: internal_td = find(encryptionAlgorithm, returnValue(buf, size));           break;
-            case 0x1033: internal_td = find(encodingType, returnValue(buf, size));                  break;
+            switch (mt->val_) {
+            case 0x001a: internalMt = find(videoScanType, returnValue(buf, size));                 break;
+            case 0x001f: internalMt = find(audioChannels, returnValue(buf, size));                 break;
+            case 0x0254: internalMt = find(compressionAlgorithm, returnValue(buf, size));          break;
+            case 0x07e1: internalMt = find(encryptionAlgorithm, returnValue(buf, size));           break;
+            case 0x1033: internalMt = find(encodingType, returnValue(buf, size));                  break;
             case 0x3e8a:
-            case 0x07e5: internal_td = find(contentSignatureAlgorithm, returnValue(buf, size));     break;
+            case 0x07e5: internalMt = find(contentSignatureAlgorithm, returnValue(buf, size));     break;
             case 0x3e9a:
-            case 0x07e6: internal_td = find(contentSignatureHashAlgorithm, returnValue(buf, size)); break;
-            case 0x14b2: internal_td = find(displayUnit, returnValue(buf, size));                   break;
-            case 0x14b3: internal_td = find(aspectRatioType, returnValue(buf, size));               break;
-            case 0x23c3: internal_td = find(chapterPhysicalEquivalent, returnValue(buf, size));     break;
-            case 0x29bf: internal_td = find(chapterTranslateCodec, returnValue(buf, size));         break;
+            case 0x07e6: internalMt = find(contentSignatureHashAlgorithm, returnValue(buf, size)); break;
+            case 0x14b2: internalMt = find(displayUnit, returnValue(buf, size));                   break;
+            case 0x14b3: internalMt = find(aspectRatioType, returnValue(buf, size));               break;
+            case 0x23c3: internalMt = find(chapterPhysicalEquivalent, returnValue(buf, size));     break;
+            case 0x29bf: internalMt = find(chapterTranslateCodec, returnValue(buf, size));         break;
             }
-            if(internal_td)
-                xmpData_[exvGettext(td->label_)] = exvGettext(internal_td->label_);
+            if (internalMt) xmpData_[mt->label_] = internalMt->label_;
             break;
 
         case 0x0035: case 0x38b5:
-            xmpData_[exvGettext(td->label_)] = Exiv2::getFloat(buf.pData_, bigEndian);
+            xmpData_[mt->label_] = getFloat(buf.pData_, bigEndian);
             break;
 
         case 0x0039: case 0x0008: case 0x15aa: case 0x001c: case 0x002a: case 0x1a9697:
         case 0x0484:
             if (returnValue(buf, size)) strcpy(str, "Yes");
-            switch (td->val_) {
-            case 0x0039: internal_td = find(trackEnable, stream);     break;
-            case 0x0008: internal_td = find(defaultOn, stream);       break;
-            case 0x15aa: internal_td = find(trackForced, stream);     break;
-            case 0x001c: internal_td = find(trackLacing, stream);     break;
-            case 0x002a: internal_td = find(codecDecodeAll, stream);  break;
-            case 0x1a9697: internal_td = find(codecSettings, stream); break;
-            case 0x0484: internal_td = td; break;
+            switch (mt->val_) {
+            case 0x0039: internalMt = find(trackEnable, stream);     break;
+            case 0x0008: internalMt = find(defaultOn, stream);       break;
+            case 0x15aa: internalMt = find(trackForced, stream);     break;
+            case 0x001c: internalMt = find(trackLacing, stream);     break;
+            case 0x002a: internalMt = find(codecDecodeAll, stream);  break;
+            case 0x1a9697: internalMt = find(codecSettings, stream); break;
+            case 0x0484: internalMt = mt; break;
             }
-            if (internal_td) xmpData_[exvGettext(internal_td->label_)] = str;
+            if (internalMt) xmpData_[internalMt->label_] = str;
             break;
 
         case 0x0006: case 0x2b59c: case 0x58688: case 0x6b240: case 0x1b4040:
-            switch (td->val_) {
-            case 0x0006: internal_td = find(trackCodec, stream);         break;
-            case 0x2b59c: internal_td = find(trackLanguage, stream);     break;
-            case 0x58688: internal_td = find(codecInfo, stream);         break;
+            switch (mt->val_) {
+            case 0x0006: internalMt = find(trackCodec, stream);         break;
+            case 0x2b59c: internalMt = find(trackLanguage, stream);     break;
+            case 0x58688: internalMt = find(codecInfo, stream);         break;
             case 0x6b240:
-            case 0x1b4040: internal_td = find(codecDownloadUrl, stream); break;
+            case 0x1b4040: internalMt = find(codecDownloadUrl, stream); break;
             }
-            if (internal_td) xmpData_[exvGettext(internal_td->label_)] = buf.pData_;
+            if (internalMt) xmpData_[internalMt->label_] = buf.pData_;
             break;
 
         case 0x0489: case 0x0461:
-            switch (td->val_) {
+            switch (mt->val_) {
             case 0x0489:
                 if(size <= 4) {
-                    duration_in_ms = Exiv2::getFloat(buf.pData_, bigEndian) * time_code_scale * 1000;
+                    duration_in_ms = getFloat(buf.pData_, bigEndian) * time_code_scale * 1000;
                 }
                 else {
-                    duration_in_ms = Exiv2::getDouble(buf.pData_, bigEndian) * time_code_scale * 1000;
+                    duration_in_ms = getDouble(buf.pData_, bigEndian) * time_code_scale * 1000;
                 }
                 break;
             case 0x0461: duration_in_ms = returnValue(buf, size)/1000000000; break;
             }
-            xmpData_[exvGettext(td->label_)] = duration_in_ms;
+            xmpData_[mt->label_] = duration_in_ms;
             break;
 
         case 0x0057:
@@ -650,21 +654,21 @@ namespace Exiv2 {
             break;
 
         case 0x0003:
-            internal_td = find(matroskaTrackType, returnValue(buf, size));
-            stream = internal_td->val_;
+            internalMt = find(matroskaTrackType, returnValue(buf, size));
+            stream = internalMt->val_;
             break;
 
         case 0x3e383: case 0x383e3:
-            internal_td = find(streamRate, stream);
+            internalMt = find(streamRate, stream);
             if (returnValue(buf, size)) {
                 switch (stream) {
                 case 1: temp = (double)1000000000/(double)returnValue(buf, size); break;
                 case 2: temp = returnValue(buf, size)/1000;                       break;
                 }
-                if (internal_td) xmpData_[exvGettext(internal_td->label_)] = temp;
+                if (internalMt) xmpData_[internalMt->label_] = temp;
             }
             else
-                if (internal_td) xmpData_[exvGettext(internal_td->label_)] = "Variable Bit Rate";
+                if (internalMt) xmpData_[internalMt->label_] = "Variable Bit Rate";
             break;
 
         default:
@@ -690,7 +694,7 @@ namespace Exiv2 {
         else                        xmpData_["Xmp.video.AspectRatio"] = aspectRatio;
     } // MatroskaVideo::aspectRatio
 
-    long MatroskaVideo::findBlockSize(byte b)
+    uint MatroskaVideo::findBlockSize(byte b)
     {
         if      (b & 128) return 1;
         else if (b &  64) return 2;
