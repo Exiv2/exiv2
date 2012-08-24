@@ -434,32 +434,41 @@ namespace Exiv2 {
           bytes are used to calculate the rest of the Tag.
           Returns Tag Value.
      */
-    uint64_t returnTagValue(byte* buf, uint size)
+    uint64_t returnTagValue(const byte* buf, long size)
     {
         assert(size > 0 && size <= 8);
 
-        byte b0 = buf[0] & (0xff >> size);
-        uint64_t ret = b0 << ((size - 1) * 8);
-        for (uint i = 1; i < size; ++i) ret |= buf[i] << ((size - i - 1) * 8);
-        return ret;
+        uint64_t b0 = buf[0] & (0xff >> size);
+        uint64_t tag = b0 << ((size - 1) * 8);
+        for (long i = 1; i < size; ++i) {
+            tag |= static_cast<uint64_t>(buf[i]) << ((size - i - 1) * 8);
+        }
+
+        return tag;
     }
 
     /*!
         @brief Function used to convert buffer data into numerical information,
             information stored in BigEndian format
      */
-    int64_t returnValue(DataBuf& buf, int n)
+    int64_t returnValue(const byte* buf, long size)
     {
 
         int64_t temp = 0;
 
-        for(int i = n-1; i >= 0; i--) {
-            temp = temp + buf.pData_[i]*(pow(256,n-i-1));
+        for(int i = size-1; i >= 0; i--) {
+            temp = temp + buf[i]*(pow(256,size-i-1));
         }
 
-        std::cerr << "n = " << n << ", val = " << temp << std::hex << " (0x" << temp << std::dec << ")\n";
+        std::cerr << "size = " << size << ", val = " << temp << std::hex << " (0x" << temp << std::dec << ")";
 
-        return temp;
+        uint64_t ret = 0;
+        for (long i = 0; i < size; ++i) {
+            ret |= static_cast<uint64_t>(buf[i]) << ((size - i - 1) * 8);
+        }
+        std::cerr << ", ret = " << ret << std::hex << " (0x" << ret << std::dec << ")\n";
+
+        return ret;
     }
 
 }}                                      // namespace Internal, Exiv2
@@ -545,10 +554,10 @@ namespace Exiv2 {
         DataBuf buf2(bufMinSize);
         std::memset(buf2.pData_, 0x0, buf2.size_);
         io_->read(buf2.pData_, size);
-        contentManagement(mt, buf2, size);
+        contentManagement(mt, buf2.pData_, size);
     } // MatroskaVideo::decodeBlock
 
-    void MatroskaVideo::contentManagement(const MatroskaTags* mt, DataBuf& buf, long size)
+    void MatroskaVideo::contentManagement(const MatroskaTags* mt, const byte* buf, long size)
     {
         int64_t duration_in_ms = 0;
         static double time_code_scale = 1.0, temp = 0;
@@ -561,7 +570,7 @@ namespace Exiv2 {
         case 0x0282: case 0x0d80: case 0x1741: case 0x3ba9: case 0x066e: case 0x0660:
         case 0x065c: case 0x067e: case 0x047a: case 0x0487: case 0x05a3: case 0x136e:
         case 0x23ca: case 0xeb524:
-            xmpData_[mt->label_] = buf.pData_;
+            xmpData_[mt->label_] = buf;
             break;
 
         case 0x0030: case 0x003a: case 0x0287: case 0x14b0: case 0x14ba: case 0x285:
@@ -599,7 +608,7 @@ namespace Exiv2 {
             break;
 
         case 0x0035: case 0x38b5:
-            xmpData_[mt->label_] = getFloat(buf.pData_, bigEndian);
+            xmpData_[mt->label_] = getFloat(buf, bigEndian);
             break;
 
         case 0x0039: case 0x0008: case 0x15aa: case 0x001c: case 0x002a: case 0x1a9697:
@@ -625,20 +634,22 @@ namespace Exiv2 {
             case 0x6b240:
             case 0x1b4040: internalMt = find(codecDownloadUrl, stream); break;
             }
-            if (internalMt) xmpData_[internalMt->label_] = buf.pData_;
+            if (internalMt) xmpData_[internalMt->label_] = buf;
             break;
 
         case 0x0489: case 0x0461:
             switch (mt->val_) {
             case 0x0489:
                 if(size <= 4) {
-                    duration_in_ms = getFloat(buf.pData_, bigEndian) * time_code_scale * 1000;
+                    duration_in_ms = getFloat(buf, bigEndian) * time_code_scale * 1000;
                 }
                 else {
-                    duration_in_ms = getDouble(buf.pData_, bigEndian) * time_code_scale * 1000;
+                    duration_in_ms = getDouble(buf, bigEndian) * time_code_scale * 1000;
                 }
                 break;
-            case 0x0461: duration_in_ms = returnValue(buf, size)/1000000000; break;
+            case 0x0461: {
+                duration_in_ms = returnValue(buf, size)/1000000000; break;
+            }
             }
             xmpData_[mt->label_] = duration_in_ms;
             break;

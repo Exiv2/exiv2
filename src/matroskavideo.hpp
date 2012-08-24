@@ -110,10 +110,10 @@ namespace Exiv2 {
         /*!
           @brief Interpret tag information, and save it in the respective XMP container.
           @param mt Pointer to current tag,
-          @param buf Data buffer with the tag information.
-          @param size Size of buf.
+          @param buf Pointer to the memory area with the tag information.
+          @param size Size of \em buf.
          */
-        void contentManagement(const MatroskaTags* mt, DataBuf& buf, long size);
+        void contentManagement(const MatroskaTags* mt, const byte* buf, long size);
         /*!
           @brief Calculates Aspect Ratio of a video, and stores it in the
               respective XMP container.
