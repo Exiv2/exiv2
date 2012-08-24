@@ -546,6 +546,13 @@ namespace Exiv2 {
         if (skip && !ignore) return;
 
         const uint64_t bufMinSize = 200;
+#ifndef SUPPRESS_WARNINGS
+        if (!ignore && size > bufMinSize) {
+            EXV_WARNING << "Size " << size << " of Matroska tag 0x"
+                        << std::hex << mt->val_ << std::dec
+                        << " is greater than " << bufMinSize << ": ignoring it.\n";
+        }
+#endif
         if (ignore || size > bufMinSize) {
             io_->seek(size, BasicIo::cur);
             return;
