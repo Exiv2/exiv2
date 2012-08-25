@@ -546,12 +546,13 @@ namespace Action {
 
     bool Print::grepTag(const std::string& key)
     {
-        if (Params::instance().keys_.empty()) return true;
-        for (Params::Keys::const_iterator k = Params::instance().keys_.begin();
-             k != Params::instance().keys_.end(); ++k) {
-            if (*k == key) return true;
+        bool result=Params::instance().keys_.empty();
+		if (!result) 
+			for (Params::Keys::const_iterator k = Params::instance().keys_.begin();
+				!result && k != Params::instance().keys_.end(); ++k) {
+					result = key.find(*k) != std::string::npos;
         }
-        return false;
+        return result ;
     }
 
     void Print::printMetadatum(const Exiv2::Metadatum& md, const Exiv2::Image* pImage)
