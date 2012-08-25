@@ -21,6 +21,7 @@
 
 #include <vector>
 #include <string>
+
 using namespace std;
 
 #ifndef  lengthof
@@ -45,7 +46,7 @@ char*    realpath(const char* file,char* path);
 
 #else
 #include <dirent.h>
-#include <unistd.h>     
+#include <unistd.h>
 #include <sys/param.h>
 #define  stricmp strcasecmp
 #endif
@@ -128,7 +129,7 @@ class Position
 {
 public:
              Position(time_t time,double lat,double lon,double ele) : time_(time),lon_(lon),lat_(lat),ele_(ele) {};
-             Position() { time_=0 ; lat_=0.0 ; lon_=0.0 ; ele_=0.0 ; };
+             Position() { time_=0 ; lon_=0.0 ; lat_=0.0 ; ele_=0.0 ; };
     virtual ~Position() {} ;
 //  copy constructor
     Position(const Position& o) : time_(o.time_),lon_(o.lon_),lat_(o.lat_),ele_(o.ele_) {};
@@ -175,7 +176,7 @@ public:
 };
 
 std::string Position::toExifTimeStamp(std::string& t)
-{   
+{
     char        result[200];
     const char* arg = t.c_str();
     int HH = 0 ;
@@ -200,8 +201,9 @@ std::string Position::toExifString(double d)
 
 std::string Position::toExifString(double d,bool bRational,bool bLat)
 {
-    const char* NS= d>=0.0?"N":"S";
-    const char* EW= d>=0.0?"E":"W";
+    const char* NS   = d>=0.0?"N":"S";
+    const char* EW   = d>=0.0?"E":"W";
+	const char* NSEW = bLat  ? NS: EW;
     if ( d < 0 ) d = -d;
     int deg = (int) d;
         d  -= deg;
@@ -211,7 +213,7 @@ std::string Position::toExifString(double d,bool bRational,bool bLat)
         d  *= 60;
     int sec = (int)d;
     char result[200];
-    sprintf(result,bRational ? "%d/1 %d/1 %d/1%s" : "%03d.%02d'%02d\"%s" ,deg,min,sec,bRational?"":bLat?EW:NS);
+    sprintf(result,bRational ? "%d/1 %d/1 %d/1%s" : "%03d.%02d'%02d\"%s" ,deg,min,sec,bRational?"":NSEW);
     return std::string(result);
 }
 
@@ -276,8 +278,8 @@ static void startElement(void* userData, const char* name, const char** atts )
         while ( *atts ) {
             const char* a=atts[0];
             const char* v=atts[1];
-            if ( !strcmp(a,"lat") ) me->lon = atof(v);
-            if ( !strcmp(a,"lon") ) me->lat = atof(v);
+            if ( !strcmp(a,"lat") ) me->lat = atof(v);
+            if ( !strcmp(a,"lon") ) me->lon = atof(v);
             atts += 2 ;
         }
     }
@@ -497,7 +499,7 @@ bool readDir(const char* path,Options& options)
             std::string pathName = makePath(path,ent->d_name);
             struct stat  buf     ;
             lstat(path, &buf );
-            if ( ent->d_name[0] != '.' ) { 
+            if ( ent->d_name[0] != '.' ) {
 
                 // printf("reading %s => %s\n",ent->d_name,pathName.c_str());
                 if ( getFileType(pathName,options) == typeImage ) {
@@ -577,6 +579,8 @@ time_t readImageTime(std::string path,std::string* pS=NULL)
     using namespace Exiv2;
 
     time_t       result       = 0 ;
+	static std::map<std::string,time_t> cache;
+	if ( cache.count(path) == 1 ) return cache[path];
 
     const char* dateStrings[] =
     { "Exif.Photo.DateTimeOriginal"
@@ -598,6 +602,7 @@ time_t readImageTime(std::string path,std::string* pS=NULL)
             }
         } catch ( ... ) {};
     }
+	if ( result ) cache[path] = result;
     return result ;
 }
 
@@ -689,7 +694,7 @@ int compare(const char* a,const char* b)
 int find(const char* arg,char const* words[],int nWords)
 {
     if ( arg[0] != '-' ) return kwSYNTAX;
-    
+
     int result=0;
     int count =0;
 
@@ -806,7 +811,7 @@ int main(int argc,const char* argv[])
                 }
                 if ( type == typeUnknown ) {
                     fprintf(stderr,"error: illegal syntax %s\n",arg);
-                    result = resultSyntaxError ; 
+                    result = resultSyntaxError ;
                 }
                 if ( options.verbose ) printf("\n") ;
             }break;
@@ -835,19 +840,75 @@ int main(int argc,const char* argv[])
         for ( size_t p = 0 ; !options.dryrun && p < gFiles.size() ; p++ ) {
             std::string arg = gFiles[p] ;
             std::string stamp ;
-            time_t t    = readImageTime(arg,&stamp) ;
-            Position* pPos = searchTimeDict(gTimeDict,t,Position::deltaMax_);
-            if ( pPos ) {
-                try {
-                    Exiv2::Image::AutoPtr image = Exiv2::ImageFactory::open(gFiles[p]);
-                    if ( image.get() ) {
-                        image->readMetadata();
-                        Exiv2::ExifData &exifData = image->exifData();
+            try {
+                time_t t       = readImageTime(arg,&stamp) ;
+                Position* pPos = searchTimeDict(gTimeDict,t,Position::deltaMax_);
+                Exiv2::Image::AutoPtr image = Exiv2::ImageFactory::open(gFiles[p]);
+                if ( image.get() ) {
+                    image->readMetadata();
+                    Exiv2::ExifData& exifData = image->exifData();
+#if 0
+                    /*
+					char* keys[]={ "Exif.Image.GPSTag"
+						         , "Exif.GPSInfo.GPSProcessingMethod"
+					             , "Exif.GPSInfo.GPSAltitudeRef"
+							     , "Exif.GPSInfo.GPSVersionID"
+                                 , "Exif.GPSInfo.GPSProcessingMethod"
+                                 , "Exif.GPSInfo.GPSVersionID"
+                                 , "Exif.GPSInfo.GPSMapDatum"
+                                 , "Exif.GPSInfo.GPSLatitude"
+                                 , "Exif.GPSInfo.GPSLongitude"
+                                 , "Exif.GPSInfo.GPSAltitude"
+                                 , "Exif.GPSInfo.GPSAltitudeRef"
+                                 , "Exif.GPSInfo.GPSLatitudeRef"
+                                 , "Exif.GPSInfo.GPSLongitudeRef"
+                                 , "Exif.GPSInfo.GPSDateStamp"
+                                 , "Exif.GPSInfo.GPSTimeStamp"
+					};
+					static int bPrint = true ;
+					for ( int k = 0 ; k < 15 ;   k++ ) {
+						try {
+							if ( bPrint ) printf("erasing %s\n",keys[k]);
+							Exiv2::ExifKey  key = Exiv2::ExifKey(keys[k]);
+							Exiv2::ExifData::iterator kk = exifData.findKey(key);
+							if ( kk != exifData.end() ) exifData.erase(kk);
+						} catch (...) {};
+					}
+					bPrint = false;
+                    */
+#endif
+#if 0
+					Exiv2::ExifData::const_iterator end = exifData.end();
+					for (Exiv2::ExifData::iterator i = exifData.begin(); i != end; ++i) {
+						char name[100];
+						strcpy(name,i->key().c_str());
+						// std::cout << "sniff " << i->key() << std::endl;
+						if ( strstr(name,"GPS") )  {
+							Exiv2::ExifData::iterator pos;
+							Exiv2::ExifKey exifKey = Exiv2::ExifKey(name);
+							pos = exifData.findKey(exifKey);
+							while( pos != exifData.end()) {
+								exifData.erase(pos);
+							}
+						}
+					}
+#endif
+					if ( pPos ) {
+						/*
+						   struct _stat buf;
+   int result;
+   char timebuf[26];
+   char* filename = "crt_stat.c";
+   errno_t err;
 
-                    //  delete exifData["Exif.GPSInfo.GPSProcessingMethod" ];
-                        exifData.erase(exifData.findKey(Exiv2::ExifKey("Exif.GPSInfo.GPSProcessingMethod")));
-                        exifData.erase(exifData.findKey(Exiv2::ExifKey("Exif.GPSInfo.GPSAltitudeRef")));
-                        exifData.erase(exifData.findKey(Exiv2::ExifKey("Exif.GPSInfo.GPSVersionID")));
+   // Get data associated with "crt_stat.c": 
+   result = _stat( filename, &buf );
+
+   int _utime(
+   const char *filename,
+   struct _utimbuf *times 
+);
+   */
 
                         exifData["Exif.GPSInfo.GPSProcessingMethod" ] = "65 83 67 73 73 0 0 0 72 89 66 82 73 68 45 70 73 88"; // ASCII HYBRID-FIX
                         exifData["Exif.GPSInfo.GPSVersionID"        ] = "2 2 0 0";
@@ -856,21 +917,22 @@ int main(int argc,const char* argv[])
                         exifData["Exif.GPSInfo.GPSLatitude"         ] = Position::toExifString(pPos->lat(),true,true);
                         exifData["Exif.GPSInfo.GPSLongitude"        ] = Position::toExifString(pPos->lon(),true,false);
                         exifData["Exif.GPSInfo.GPSAltitude"         ] = Position::toExifString(pPos->ele());
-                        
+
                         exifData["Exif.GPSInfo.GPSAltitudeRef"      ] = pPos->ele()<0.0?"1":"0";
-                        exifData["Exif.GPSInfo.GPSLatitudeRef"      ] = std::string(pPos->lat()>0?"E":"W");
-                        exifData["Exif.GPSInfo.GPSLongitudeRef"     ] = std::string(pPos->lat()>0?"S":"N");
+						exifData["Exif.GPSInfo.GPSLatitudeRef"      ] = pPos->lat()>0?"N":"S";
+						exifData["Exif.GPSInfo.GPSLongitudeRef"     ] = pPos->lon()>0?"E":"W";
 
                         exifData["Exif.GPSInfo.GPSDateStamp"        ] = stamp;
                         exifData["Exif.GPSInfo.GPSTimeStamp"        ] = Position::toExifTimeStamp(stamp);
+						exifData["Exif.Image.GPSTag"                ] = 4908;
 
-                        image->writeMetadata();
+						printf("%s %s % 2d\n",arg.c_str(),pPos->toString().c_str(),pPos->delta());
+                    } else {
+                        printf("%s *** not in time dict ***\n",arg.c_str());
                     }
-                } catch ( ... ) {};
-                printf("%s %s % 2d\n",arg.c_str(),pPos->toString().c_str(),pPos->delta());
-            } else {
-                printf("%s *** not in time dict ***\n",arg.c_str());
-            }
+                    image->writeMetadata();
+				}
+            } catch ( ... ) {};
         }
     }
 
