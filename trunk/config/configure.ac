@@ -103,11 +103,11 @@ AC_MSG_CHECKING([whether to enable symbol visibility support])
 visibility=yes
 # visibility support in cygwin/ming generates 1000's of warning, set off by default
 case "$host_os" in
-	*mingw* | *cygwin*) visiblity=no  ;;
+	*mingw* | *cygwin*) visibility=no  ;;
 esac
 AC_ARG_ENABLE(visibility,
     [  --disable-visibility    do not use symbol visibility support ],
-    VISIBILITY_SUPPORT=$enableval, VISIBILITY_SUPPORT=$visiblity)
+    VISIBILITY_SUPPORT=$enableval, VISIBILITY_SUPPORT=$visibility)
 AC_MSG_RESULT($VISIBILITY_SUPPORT)
 if test "$VISIBILITY_SUPPORT" = "yes"; then
     # Sun Studio C++ compiler (which apparently ignores -fvisibility-inlines-hidden)
