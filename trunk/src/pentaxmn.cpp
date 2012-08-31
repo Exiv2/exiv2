@@ -666,6 +666,7 @@ namespace Exiv2 {
         { 0x060e, "smc PENTAX-FA* MACRO 200mm F4 ED[IF]" },
         { 0x0700, "smc PENTAX-DA 21mm F3.2 AL Limited" },
         { 0x074b, "Tamron SP AF 70-200mm F2.8 Di LD [IF] Macro (A001)" },
+        { 0x07d6, "smc PENTAX-DA 35mm F2.4 AL" },
         { 0x07d9, "smc PENTAX-DA 50-200mm F4-5.6 ED WR" },
         { 0x07da, "smc PENTAX-DA 18-55mm F3.5-5.6 AL WR" },
         { 0x07dc, "Tamron SP AF 10-24mm F3.5-4.5 Di II LD Aspherical [IF]" },
