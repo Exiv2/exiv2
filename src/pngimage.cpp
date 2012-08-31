@@ -136,7 +136,9 @@ namespace Exiv2 {
             // Decode chunk data length.
             uint32_t dataOffset = Exiv2::getULong(cheaderBuf.pData_, Exiv2::bigEndian);
             long pos = io_->tell();
-            if (pos == -1 || static_cast<long>(dataOffset) > imgSize - pos) throw Exiv2::Error(14);
+            if (   pos == -1
+                || dataOffset > uint32_t(0x7FFFFFFF)
+                || static_cast<long>(dataOffset) > imgSize - pos) throw Exiv2::Error(14);
 
             // Perform a chunk triage for item that we need.
 
