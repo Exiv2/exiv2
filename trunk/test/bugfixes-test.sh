@@ -248,6 +248,13 @@ else
     printf "($num skipped) " >&3
 fi
 
+num=841
+filename=exiv2-bug$num.png
+printf "$num " >&3
+echo '------>' Bug $num '<-------' >&2
+cp -f ../data/$filename $filename
+$bin/exiv2 $filename
+
 ) 3>&1 > $results 2>&1
 
 printf "\n"

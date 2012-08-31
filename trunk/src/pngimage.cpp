@@ -118,6 +118,7 @@ namespace Exiv2 {
         }
         clearMetadata();
 
+        const long imgSize = io_->size();
         DataBuf cheaderBuf(8);       // Chunk header size : 4 bytes (data size) + 4 bytes (chunk type).
 
         while(!io_->eof())
@@ -134,7 +135,8 @@ namespace Exiv2 {
 
             // Decode chunk data length.
             uint32_t dataOffset = Exiv2::getULong(cheaderBuf.pData_, Exiv2::bigEndian);
-            if (dataOffset > 0x7FFFFFFF) throw Exiv2::Error(14);
+            long pos = io_->tell();
+            if (pos == -1 || static_cast<long>(dataOffset) > imgSize - pos) throw Exiv2::Error(14);
 
             // Perform a chunk triage for item that we need.
 
