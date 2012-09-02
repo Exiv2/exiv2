@@ -524,7 +524,7 @@ namespace Exiv2 {
             return;
         }
 
-        uint sz = findBlockSize(buf[0]); // 0-8
+        uint32_t sz = findBlockSize(buf[0]); // 0-8
         if (sz > 0) io_->read(buf + 1, sz - 1);
 
         const MatroskaTags* mt = find(matroskaTags, returnTagValue(buf, sz));
@@ -712,7 +712,7 @@ namespace Exiv2 {
         else                        xmpData_["Xmp.video.AspectRatio"] = aspectRatio;
     } // MatroskaVideo::aspectRatio
 
-    uint MatroskaVideo::findBlockSize(byte b)
+    uint32_t MatroskaVideo::findBlockSize(byte b)
     {
         if      (b & 128) return 1;
         else if (b &  64) return 2;
