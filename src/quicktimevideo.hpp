@@ -156,11 +156,29 @@ namespace Exiv2 {
          */
         void userDataDecoder(unsigned long size);
         /*!
+          @brief Interpret Preview Tag, and save it
+              in the respective XMP container.
+          @param size Size of the data block used to store Tag Information.
+         */
+        void previewTagDecoder(unsigned long size);
+        /*!
+          @brief Interpret Track Aperture Tags, and save it
+              in the respective XMP container.
+          @param size Size of the data block used to store Tag Information.
+         */
+        void trackApertureTagDecoder(unsigned long size);
+        /*!
           @brief Interpret Nikon Tag, and save it
               in the respective XMP container.
           @param size Size of the data block used to store Tag Information.
          */
         void NikonTagsDecoder(unsigned long size);
+        /*!
+          @brief Interpret Tags from Different Camera make, and save it
+              in the respective XMP container.
+          @param size Size of the data block used to store Tag Information.
+         */
+        void CameraTagsDecoder(unsigned long size);
         /*!
           @brief Interpret Audio Description Tag, and save it
               in the respective XMP container.

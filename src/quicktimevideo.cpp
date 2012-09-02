@@ -258,6 +258,7 @@ namespace Exiv2 {
         {   "NCHD", "Xmp.video.MakerNoteType" },
         {   "WLOC", "Xmp.video.WindowLocation" },
         {   "SDLN", "Xmp.video.PlayMode" },
+        {   "FFMV", "Xmp.video.StreamName" },
         {   "SelO", "Xmp.video.PlaySelection" },
         {   "name", "Xmp.video.Name" },
         {   "vndr", "Xmp.video.Vendor" },
@@ -456,6 +457,15 @@ namespace Exiv2 {
         {   0xff, "n/a" },
     };
 
+    extern const TagDetails whiteBalance[] = {
+        {   0, "Auto" },
+        {   1, "Daylight" },
+        {   2, "Shade" },
+        {   3, "Fluorescent" },
+        {   4, "Tungsten" },
+        {   5, "Manual" },
+    };
+
     enum movieHeaderTags {
         MovieHeaderVersion, CreateDate, ModifyDate, TimeScale, Duration, PreferredRate, PreferredVolume,
         PreviewTime = 18, PreviewDuration,PosterTime, SelectionTime, SelectionDuration, CurrentTime, NextTrackID
@@ -648,7 +658,7 @@ namespace Exiv2 {
         io_->read(buf.pData_, 4);
         if(size < 8)
             return;
-
+//        std::cerr<<"\n("<<std::setw(5)<<size<<") :" << buf.pData_;
         tagDecoder(buf,size-8);
     } // QuickTimeVideo::decodeBlock
 
@@ -693,6 +703,12 @@ namespace Exiv2 {
         else if (equalsQTimeTag(buf, "stts"))
             timeToSampleDecoder();
 
+        else if (equalsQTimeTag(buf, "pnot"))
+            previewTagDecoder(size);
+
+        else if (equalsQTimeTag(buf, "tapt"))
+            trackApertureTagDecoder(size);
+
         else if (equalsQTimeTag(buf, "url ")) {
             io_->read(buf.pData_, size);
             if (currentStream_ == Video)
@@ -721,6 +737,7 @@ namespace Exiv2 {
         }
 
         else {
+//            std::cerr<<" Unprocessed";
             discard(size);
         }
     } // QuickTimeVideo::tagDecoder
@@ -730,6 +747,102 @@ namespace Exiv2 {
         uint64_t cur_pos = io_->tell();
         io_->seek(cur_pos + size, BasicIo::beg);
     } // QuickTimeVideo::discard
+
+    void QuickTimeVideo::previewTagDecoder(unsigned long size)
+    {
+        DataBuf buf(4);
+        uint64_t cur_pos = io_->tell();
+        io_->read(buf.pData_, 4);
+        xmpData_["Xmp.video.PreviewDate"] = getULong(buf.pData_, bigEndian);
+        io_->read(buf.pData_, 2);
+        xmpData_["Xmp.video.PreviewVersion"] = getShort(buf.pData_, bigEndian);
+
+        io_->read(buf.pData_, 4);
+        if(equalsQTimeTag(buf, "PICT"))
+            xmpData_["Xmp.video.PreviewAtomType"] = "QuickDraw Picture";
+        else
+            xmpData_["Xmp.video.PreviewAtomType"] = Exiv2::toString(buf.pData_);
+
+        io_->seek(cur_pos + size, BasicIo::beg);
+    } // QuickTimeVideo::previewTagDecoder
+
+    void QuickTimeVideo::trackApertureTagDecoder(unsigned long size)
+    {
+        DataBuf buf(4), buf2(2);
+        uint64_t cur_pos = io_->tell();
+        byte n = 3;
+
+        while(n--) {
+            io_->seek(4, BasicIo::cur); io_->read(buf.pData_, 4);
+
+            if(equalsQTimeTag(buf, "clef")) {
+                io_->seek(4, BasicIo::cur);
+                io_->read(buf.pData_, 2); io_->read(buf2.pData_, 2);
+                xmpData_["Xmp.video.CleanApertureWidth"]    =   Exiv2::toString(getUShort(buf.pData_, bigEndian))
+                                                                + "." + Exiv2::toString(getUShort(buf2.pData_, bigEndian));
+                io_->read(buf.pData_, 2); io_->read(buf2.pData_, 2);
+                xmpData_["Xmp.video.CleanApertureHeight"]   =   Exiv2::toString(getUShort(buf.pData_, bigEndian))
+                                                                + "." + Exiv2::toString(getUShort(buf2.pData_, bigEndian));
+            }
+
+            else if(equalsQTimeTag(buf, "prof")) {
+                io_->seek(4, BasicIo::cur);
+                io_->read(buf.pData_, 2); io_->read(buf2.pData_, 2);
+                xmpData_["Xmp.video.ProductionApertureWidth"]    =   Exiv2::toString(getUShort(buf.pData_, bigEndian))
+                                                                + "." + Exiv2::toString(getUShort(buf2.pData_, bigEndian));
+                io_->read(buf.pData_, 2); io_->read(buf2.pData_, 2);
+                xmpData_["Xmp.video.ProductionApertureHeight"]   =   Exiv2::toString(getUShort(buf.pData_, bigEndian))
+                                                                + "." + Exiv2::toString(getUShort(buf2.pData_, bigEndian));
+            }
+
+            else if(equalsQTimeTag(buf, "enof")) {
+                io_->seek(4, BasicIo::cur);
+                io_->read(buf.pData_, 2); io_->read(buf2.pData_, 2);
+                xmpData_["Xmp.video.EncodedPixelsWidth"]    =   Exiv2::toString(getUShort(buf.pData_, bigEndian))
+                                                                + "." + Exiv2::toString(getUShort(buf2.pData_, bigEndian));
+                io_->read(buf.pData_, 2); io_->read(buf2.pData_, 2);
+                xmpData_["Xmp.video.EncodedPixelsHeight"]   =   Exiv2::toString(getUShort(buf.pData_, bigEndian))
+                                                                + "." + Exiv2::toString(getUShort(buf2.pData_, bigEndian));
+            }
+        }
+        io_->seek(cur_pos + size, BasicIo::beg);
+    } // QuickTimeVideo::trackApertureTagDecoder
+
+    void QuickTimeVideo::CameraTagsDecoder(unsigned long size_external)
+    {
+        uint64_t cur_pos = io_->tell();
+        DataBuf buf(50), buf2(4);
+        const TagDetails* td;
+
+        io_->read(buf.pData_, 4);
+        if(equalsQTimeTag(buf, "NIKO")) {
+            io_->seek(cur_pos, BasicIo::beg);
+
+            io_->read(buf.pData_, 24);
+            xmpData_["Xmp.video.Make"] = Exiv2::toString(buf.pData_);
+            io_->read(buf.pData_, 14);
+            xmpData_["Xmp.video.Model"] = Exiv2::toString(buf.pData_);
+            io_->read(buf.pData_, 4);
+            xmpData_["Xmp.video.ExposureTime"] = "1/" + Exiv2::toString( ceil( getULong(buf.pData_, littleEndian) / (double)10));
+            io_->read(buf.pData_, 4); io_->read(buf2.pData_, 4);
+            xmpData_["Xmp.video.FNumber"] =  getULong(buf.pData_, littleEndian) / (double)getULong(buf2.pData_, littleEndian) ;
+            io_->read(buf.pData_, 4); io_->read(buf2.pData_, 4);
+            xmpData_["Xmp.video.ExposureCompensation"] =  getULong(buf.pData_, littleEndian) / (double)getULong(buf2.pData_, littleEndian) ;
+            io_->read(buf.pData_, 10); io_->read(buf.pData_, 4);
+            td = find(whiteBalance, getULong(buf.pData_, littleEndian));
+            if (td)
+                xmpData_["Xmp.video.WhiteBalance"] = exvGettext(td->label_);
+            io_->read(buf.pData_, 4); io_->read(buf2.pData_, 4);
+            xmpData_["Xmp.video.FocalLength"] =  getULong(buf.pData_, littleEndian) / (double)getULong(buf2.pData_, littleEndian) ;
+            io_->seek(95, BasicIo::cur);
+            io_->read(buf.pData_, 48);
+            xmpData_["Xmp.video.Software"] = Exiv2::toString(buf.pData_);
+            io_->read(buf.pData_, 4);
+            xmpData_["Xmp.video.ISO"] = getULong(buf.pData_, littleEndian);
+        }
+
+        io_->seek(cur_pos + size_external, BasicIo::beg);
+    } // QuickTimeVideo::CameraTagsDecoder
 
     void QuickTimeVideo::userDataDecoder(unsigned long size_external)
     {
@@ -757,7 +870,7 @@ namespace Exiv2 {
             td = find(userDatatags, Exiv2::toString( buf.pData_));
 
             tv = find(userDataReferencetags, Exiv2::toString( buf.pData_));
-
+//            std::cerr<<"  =>("<<size<<") "<<buf.pData_;
             if(size == 0 || (size - 12) <= 0)
                 break;
 
@@ -767,12 +880,15 @@ namespace Exiv2 {
             else if(equalsQTimeTag(buf, "NCTG"))
                 NikonTagsDecoder(size - 8);
 
+            else if(equalsQTimeTag(buf, "TAGS"))
+                CameraTagsDecoder(size - 8);
+
             else if(equalsQTimeTag(buf, "CNCV") || equalsQTimeTag(buf, "CNFV")
-                    || equalsQTimeTag(buf, "CNMN") || equalsQTimeTag(buf, "NCHD")) {
+                    || equalsQTimeTag(buf, "CNMN") || equalsQTimeTag(buf, "NCHD")
+                    || equalsQTimeTag(buf, "FFMV")) {
                 io_->read(buf.pData_, size - 8);
                 xmpData_[exvGettext(tv->label_)] = Exiv2::toString(buf.pData_);
             }
-
 
             else if(equalsQTimeTag(buf, "CMbo") || equalsQTimeTag(buf, "Cmbo")) {
                 io_->read(buf.pData_, 2);
@@ -988,7 +1104,6 @@ namespace Exiv2 {
         io_->read(buf.pData_, 4);
         uint64_t noOfEntries, totalframes = 0, timeOfFrames = 0;
         noOfEntries = returnUnsignedBufValue(buf);
-        std::cerr<<": "<<noOfEntries;
         int temp;
 
         for(unsigned long i = 1; i <= noOfEntries; i++) {
@@ -1265,7 +1380,7 @@ namespace Exiv2 {
                 if(currentStream_ == Video)
                     xmpData_["Xmp.video.MediaDuration"] = returnBufValue(buf)/time_scale;
                 else if (currentStream_ == Audio)
-                    xmpData_["Xmp.audio.mediaDuration"] = returnBufValue(buf)/time_scale;
+                    xmpData_["Xmp.audio.MediaDuration"] = returnBufValue(buf)/time_scale;
                 break;
             case MediaLanguageCode:
                 if(currentStream_ == Video)
