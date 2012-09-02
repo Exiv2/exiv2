@@ -101,7 +101,7 @@ namespace Exiv2 {
           @param b The byte, which stores the information to calculate the size
           @return Return the size of the block.
          */
-        uint findBlockSize(byte b);
+        uint32_t findBlockSize(byte b);
         /*!
           @brief Check for a valid tag and decode the block at the current IO position.
               Calls contentManagement() or skips to next tag, if required.
