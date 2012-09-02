@@ -204,7 +204,7 @@ if ( MSVC )
 	source_group("Header Files" FILES ${LIBEXIV2_HDR} )
 endif()
 
-TARGET_LINK_LIBRARIES( exiv2lib ${EXPAT_LIBRARIES} )
+TARGET_LINK_LIBRARIES( exiv2lib dl ${EXPAT_LIBRARIES} )
 
 if( EXIV2_ENABLE_LIBXMP )
 	ADD_DEPENDENCIES( exiv2lib xmp )
