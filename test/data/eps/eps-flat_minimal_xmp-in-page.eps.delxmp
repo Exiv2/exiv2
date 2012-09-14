@@ -8,6 +8,8 @@
 %%EndComments
 %%Page: 1 1
 %%EndPageComments
+%%BeginPageSetup
+%%EndPageSetup
 10 setlinewidth
 10 10 moveto
 0 90 rlineto 90 0 rlineto 0 -90 rlineto closepath

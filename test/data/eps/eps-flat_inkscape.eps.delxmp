@@ -9,6 +9,8 @@
 %Exiv2Website: http://www.exiv2.org/
 %%EndComments
 %%Page: 1 1
+%%BeginPageSetup
+%%EndPageSetup
 0 100 translate
 0.8 -0.8 scale
 0 0 0 setrgbcolor

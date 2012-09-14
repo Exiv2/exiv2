@@ -7,6 +7,8 @@
 %%EndComments
 %%Page: 1 1
 % begin of XMP embedding with non-standard comment
+%%BeginPageSetup
+%%EndPageSetup
 /currentdistillerparams where
 {pop currentdistillerparams /CoreDistVersion get 5000 lt} {true} ifelse
 {userdict /Exiv2_pdfmark /cleartomark load put

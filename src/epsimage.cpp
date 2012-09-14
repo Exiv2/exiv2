@@ -935,6 +935,11 @@ namespace {
                         writeTemp(*tempIo, "%%EndPageComments" + lineEnding);
                     }
                 }
+                if (pos == posBeginPageSetup) {
+                    if (line != "%%BeginPageSetup") {
+                        writeTemp(*tempIo, "%%BeginPageSetup" + lineEnding);
+                    }
+                }
                 if (useFlexibleEmbedding) {
                     // insert XMP metadata into existing flexible embedding
                     if (pos == xmpPos) {
@@ -947,7 +952,8 @@ namespace {
                         EXV_DEBUG << "readWriteEpsMetadata: Skipping to " << skipPos << " at " << __FILE__ << ":" << __LINE__ << "\n";
                         #endif
                     }
-                } else {
+                }
+                if (!useFlexibleEmbedding) {
                     // remove preceding embedding(s)
                     for (std::vector<std::pair<size_t, size_t> >::const_iterator e = removableEmbeddings.begin(); e != removableEmbeddings.end(); e++) {
                         if (pos == e->first) {
@@ -960,9 +966,6 @@ namespace {
                     }
                     // insert XMP metadata with new flexible embedding, if necessary
                     if (pos == posEndPageSetup && !deleteXmp) {
-                        if (line != "%%EndPageSetup") {
-                            writeTemp(*tempIo, "%%BeginPageSetup" + lineEnding);
-                        }
                         writeTemp(*tempIo, "%Exiv2BeginXMP: Before %%EndPageSetup" + lineEnding);
                         if (corelDraw) {
                             writeTemp(*tempIo, "%Exiv2Notice: The following line is needed by CorelDRAW." + lineEnding);
@@ -1004,10 +1007,14 @@ namespace {
                             writeTemp(*tempIo, "@sv" + lineEnding);
                         }
                         writeTemp(*tempIo, "%Exiv2EndXMP" + lineEnding);
-                        if (line != "%%EndPageSetup") {
-                            writeTemp(*tempIo, "%%EndPageSetup" + lineEnding);
-                        }
                     }
+                }
+                if (pos == posEndPageSetup) {
+                    if (line != "%%EndPageSetup") {
+                        writeTemp(*tempIo, "%%EndPageSetup" + lineEnding);
+                    }
+                }
+                if (!useFlexibleEmbedding) {
                     if (pos == posPageTrailer && !deleteXmp) {
                         if (!implicitPageTrailer) {
                             skipPos = posLineEnd;
