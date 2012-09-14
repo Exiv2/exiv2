@@ -70,6 +70,10 @@ images="eps/eps-flat_coreldraw-x3-lev2.eps \
         eps/eps-nested_xmp_indesign-cs5-lev3_failure-exiftool-8.56.eps \
         eps/eps-nested_xmp_oodraw-lev2-epsi.eps \
         eps/eps-nested_xmp_oodraw-lev2-pre.eps \
+        eps/eps-old-r2872_01.eps \
+        eps/eps-old-r2872_02.eps \
+        eps/eps-old-r2872_03.eps \
+        eps/eps-old-r2872_04.eps \
         exiv2-bug443.jpg \
         exiv2-bug444.jpg \
         exiv2-bug445.jpg \
