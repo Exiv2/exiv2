@@ -386,6 +386,7 @@ namespace {
         size_t posBeginPhotoshop = posEndEps;
         size_t posEndPhotoshop = posEndEps;
         size_t posPage = posEndEps;
+        size_t posBeginPageSetup = posEndEps;
         size_t posEndPageSetup = posEndEps;
         size_t posPageTrailer = posEndEps;
         size_t posEof = posEndEps;
@@ -397,7 +398,6 @@ namespace {
         bool implicitPage = false;
         bool implicitPageTrailer = false;
         bool inDefaultsPreviewPrologSetup = false;
-        bool inPageSetup = false;
         bool inRemovableEmbedding = false;
         std::string removableEmbeddingEndLine;
         unsigned int removableEmbeddingsWithUnmarkedTrailer = 0;
@@ -465,7 +465,7 @@ namespace {
                 #endif
                 throw Error(write ? 21 : 14);
             } else if (line == "%%BeginPageSetup") {
-                inPageSetup = true;
+                posBeginPageSetup = startPos;
             } else if (!inRemovableEmbedding && line == "%Exiv2BeginXMP: Before %%EndPageSetup") {
                 inRemovableEmbedding = true;
                 removableEmbeddings.push_back(std::make_pair(startPos, startPos));
@@ -510,18 +510,34 @@ namespace {
             if (posPage == posEndEps && posEndComments != posEndEps && !inDefaultsPreviewPrologSetup && !inRemovableEmbedding && !onlyWhitespaces(line)) {
                 posPage = startPos;
                 implicitPage = true;
+                posBeginPageSetup = startPos;
                 posEndPageSetup = startPos;
                 #ifdef DEBUG
-                EXV_DEBUG << "readWriteEpsMetadata: Found implicit Page and EndPageSetup at position: " << startPos << "\n";
+                EXV_DEBUG << "readWriteEpsMetadata: Found implicit Page, BeginPageSetup and EndPageSetup at position: " << startPos << "\n";
                 #endif
             }
-            if (posEndPageSetup == posEndEps && posPage != posEndEps && !inPageSetup && !inRemovableEmbedding && line.size() >= 1 && line[0] != '%') {
+            if (posBeginPageSetup == posEndEps && posPage != posEndEps && !inRemovableEmbedding && line.size() >= 1 && line[0] != '%') {
+                posBeginPageSetup = startPos;
                 posEndPageSetup = startPos;
                 #ifdef DEBUG
-                EXV_DEBUG << "readWriteEpsMetadata: Found implicit EndPageSetup at position: " << startPos << "\n";
+                EXV_DEBUG << "readWriteEpsMetadata: Found implicit BeginPageSetup and EndPageSetup at position: " << startPos << "\n";
                 #endif
             }
             if (line.size() >= 1 && line[0] != '%') continue; // performance optimization
+            if (line == "%%EOF" || line == "%%Trailer" || line == "%%PageTrailer") {
+                if (posBeginPageSetup == posEndEps) {
+                    posBeginPageSetup = startPos;
+                    #ifdef DEBUG
+                    EXV_DEBUG << "readWriteEpsMetadata: Found implicit BeginPageSetup at position: " << startPos << "\n";
+                    #endif
+                }
+                if (posEndPageSetup == posEndEps) {
+                    posEndPageSetup = startPos;
+                    #ifdef DEBUG
+                    EXV_DEBUG << "readWriteEpsMetadata: Found implicit EndPageSetup at position: " << startPos << "\n";
+                    #endif
+                }
+            }
             if (line == "%%EOF" || line == "%%Trailer") {
                 if (posPageTrailer == posEndEps) {
                     posPageTrailer = startPos;
@@ -561,7 +577,6 @@ namespace {
             } else if (line == "%%EndSetup") {
                 inDefaultsPreviewPrologSetup = false;
             } else if (posEndPageSetup == posEndEps && line == "%%EndPageSetup") {
-                inPageSetup = false;
                 posEndPageSetup = startPos;
             } else if (posPageTrailer == posEndEps && line == "%%PageTrailer") {
                 posPageTrailer = startPos;
@@ -815,6 +830,7 @@ namespace {
             positions.push_back(posExiv2Website);
             positions.push_back(posEndComments);
             positions.push_back(posPage);
+            positions.push_back(posBeginPageSetup);
             positions.push_back(posEndPageSetup);
             positions.push_back(posPageTrailer);
             positions.push_back(posEof);
