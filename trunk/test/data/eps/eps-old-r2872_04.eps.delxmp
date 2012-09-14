@@ -5,6 +5,7 @@
 %%HiResBoundingBox: 0 0 453.6 340.08
 %%SuppressDotGainCompensation
 %ADO_ContainsXMP: NoMain
+%%LanguageLevel: 2
 %%Pages: 1
 %Exiv2Version: _Exiv2Version_
 %Exiv2Website: http://www.exiv2.org/
@@ -16,6 +17,7 @@
 %%Page: 1 1
 %%EndPageComments
 %%BeginPageSetup
+%%EndPageSetup
 %ImageData: 1890 1417 8 3 0 1 3 "beginimage"
 %BeginPhotoshop: 4052
 % 3842494D0425000000000010000000000000000000000000000000003842494D
@@ -247,7 +249,6 @@
 % F550F5DEF66DF6FBF78AF819F8A8F938F9C7FA57FAE7FB77FC07FC98FD29FDBA
 % FE4BFEDCFF6DFFFF
 %%EndICCProfile
-%%EndPageSetup
 gsave % EPS gsave
 /hascolor
 /deviceinfo where
@@ -1453,4 +1454,5 @@ P"?p`Uln:q.3t'J8kC:k;NaTsPbaI6,q1+&8P2Q"P#@H7,a>*f8L5f2P"A8;,a)&g
 %%EndBinary
 grestore end % Image Trailer grestore
 grestore % EPS grestore
+%%PageTrailer
 %%EOF

@@ -522,7 +522,7 @@ namespace {
                 EXV_DEBUG << "readWriteEpsMetadata: Found implicit BeginPageSetup at position: " << startPos << "\n";
                 #endif
             }
-            if (posEndPageSetup == posEndEps && implicitPageSetup) {
+            if (posEndPageSetup == posEndEps && implicitPageSetup && !inRemovableEmbedding && line.size() >= 1 && line[0] != '%') {
                 posEndPageSetup = startPos;
                 #ifdef DEBUG
                 EXV_DEBUG << "readWriteEpsMetadata: Found implicit EndPageSetup at position: " << startPos << "\n";
