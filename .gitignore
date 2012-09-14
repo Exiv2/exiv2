@@ -24,6 +24,7 @@ samples/easyaccess-test
 samples/exifcomment
 samples/exifdata-test
 samples/exifprint
+samples/geotag
 samples/iotest
 samples/iptceasy
 samples/iptcprint
