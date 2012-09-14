@@ -8,6 +8,8 @@
 %%EndComments
 %%Page: 1 1
 %%EndPageComments
+%%BeginPageSetup
+%%EndPageSetup
 %%IncludeDocument: dummy_document.eps
 10 setlinewidth
 10 10 moveto

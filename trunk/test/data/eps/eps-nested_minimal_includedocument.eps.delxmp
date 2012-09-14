@@ -8,6 +8,8 @@
 %%EndComments
 %%Page: 1 1
 %%EndPageComments
+%%BeginPageSetup
+%%EndPageSetup
 save
 %%IncludeDocument: dummy_document.eps
 restore
