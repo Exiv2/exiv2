@@ -439,6 +439,7 @@ namespace {
             if (significantLine) {
                 EXV_DEBUG << "readWriteEpsMetadata: Found significant line \"" << line << "\" at position: " << startPos << "\n";
             }
+            significantLine = true;
             #endif
             if (depth != 0) continue;
             // explicit "Begin" comments
@@ -495,6 +496,7 @@ namespace {
             if (significantLine) {
                 EXV_DEBUG << "readWriteEpsMetadata: Found significant line \"" << line << "\" at position: " << startPos << "\n";
             }
+            significantLine = true;
             #endif
             // implicit comments
             if (line == "%%EOF" || line == "%begin_xml_code" || !(line.size() >= 2 && line[0] == '%' && '\x21' <= line[1] && line[1] <= '\x7e')) {
