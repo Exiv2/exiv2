@@ -680,6 +680,58 @@ Exit code: 0
 Command: exiv2 -f -ex eps-flat_minimal_xmp-in-page_exiftool-8.56.eps
 Exit code: 0
 
+-----> eps-flat_minimal_xmp-no-pagesetup.eps <-----
+
+Command: exiv2 -u -pa eps-flat_minimal_xmp-no-pagesetup.eps
+Xmp.test.test                                XmpText     4  TEST
+Exit code: 253
+
+Command: exiv2 -dx eps-flat_minimal_xmp-no-pagesetup.eps
+Exit code: 0
+
+Command: exiv2 -f -ex eps-flat_minimal_xmp-no-pagesetup.eps
+Exit code: 0
+
+Restore: eps-flat_minimal_xmp-no-pagesetup.eps
+
+Command: exiv2 -f -eX eps-flat_minimal_xmp-no-pagesetup.eps
+Exit code: 0
+
+Command: exiv2 -ix eps-flat_minimal_xmp-no-pagesetup.eps
+Exit code: 0
+
+Command: (2) exiv2 -ix eps-flat_minimal_xmp-no-pagesetup.eps
+Exit code: 0
+
+Command: exiv2 -f -ex eps-flat_minimal_xmp-no-pagesetup.eps
+Exit code: 0
+
+-----> eps-flat_minimal_xmp-no-pagesetup_non-flexible-embedding.eps <-----
+
+Command: exiv2 -u -pa eps-flat_minimal_xmp-no-pagesetup_non-flexible-embedding.eps
+Xmp.test.test                                XmpText     4  TEST
+Exit code: 253
+
+Command: exiv2 -dx eps-flat_minimal_xmp-no-pagesetup_non-flexible-embedding.eps
+Exit code: 0
+
+Command: exiv2 -f -ex eps-flat_minimal_xmp-no-pagesetup_non-flexible-embedding.eps
+Exit code: 0
+
+Restore: eps-flat_minimal_xmp-no-pagesetup_non-flexible-embedding.eps
+
+Command: exiv2 -f -eX eps-flat_minimal_xmp-no-pagesetup_non-flexible-embedding.eps
+Exit code: 0
+
+Command: exiv2 -ix eps-flat_minimal_xmp-no-pagesetup_non-flexible-embedding.eps
+Exit code: 0
+
+Command: (2) exiv2 -ix eps-flat_minimal_xmp-no-pagesetup_non-flexible-embedding.eps
+Exit code: 0
+
+Command: exiv2 -f -ex eps-flat_minimal_xmp-no-pagesetup_non-flexible-embedding.eps
+Exit code: 0
+
 -----> eps-flat_minimal_xmp-readonly.eps <-----
 
 Command: exiv2 -u -pa eps-flat_minimal_xmp-readonly.eps
