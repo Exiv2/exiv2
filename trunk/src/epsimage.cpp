@@ -839,6 +839,9 @@ namespace {
             for (std::vector<size_t>::const_iterator i = positions.begin(); i != positions.end(); i++) {
                 const size_t pos = *i;
                 if (pos == prevPos) continue;
+                #ifdef DEBUG
+                EXV_DEBUG << "readWriteEpsMetadata: Writing at " << pos << "\n";
+                #endif
                 if (pos < prevSkipPos) {
                     #ifndef SUPPRESS_WARNINGS
                     EXV_WARNING << "Internal error while assembling the result EPS document: "
@@ -861,21 +864,33 @@ namespace {
                     if (line == "%%LanguageLevel:1" || line == "%%LanguageLevel: 1") {
                         writeTemp(*tempIo, "%%LanguageLevel: 2" + lineEnding);
                         skipPos = posLineEnd;
+                        #ifdef DEBUG
+                        EXV_DEBUG << "readWriteEpsMetadata: Skipping to " << skipPos << " at " << __FILE__ << ":" << __LINE__ << "\n";
+                        #endif
                     }
                 }
                 if (pos == posContainsXmp && posContainsXmp != posEndEps) {
                     if (line != containsXmpLine) {
                         writeTemp(*tempIo, containsXmpLine + lineEnding);
                         skipPos = posLineEnd;
+                        #ifdef DEBUG
+                        EXV_DEBUG << "readWriteEpsMetadata: Skipping to " << skipPos << " at " << __FILE__ << ":" << __LINE__ << "\n";
+                        #endif
                     }
                 }
                 if (pos == posExiv2Version && posExiv2Version != posEndEps) {
                     writeTemp(*tempIo, "%Exiv2Version: " + versionNumberHexString() + lineEnding);
                     skipPos = posLineEnd;
+                    #ifdef DEBUG
+                    EXV_DEBUG << "readWriteEpsMetadata: Skipping to " << skipPos << " at " << __FILE__ << ":" << __LINE__ << "\n";
+                    #endif
                 }
                 if (pos == posExiv2Website && posExiv2Website != posEndEps) {
                     writeTemp(*tempIo, "%Exiv2Website: http://www.exiv2.org/" + lineEnding);
                     skipPos = posLineEnd;
+                    #ifdef DEBUG
+                    EXV_DEBUG << "readWriteEpsMetadata: Skipping to " << skipPos << " at " << __FILE__ << ":" << __LINE__ << "\n";
+                    #endif
                 }
                 if (pos == posEndComments) {
                     if (posLanguageLevel == posEndEps && !deleteXmp && !useFlexibleEmbedding) {
@@ -912,12 +927,18 @@ namespace {
                         }
                         writeTemp(*tempIo, xmpPacket);
                         skipPos += xmpSize;
+                        #ifdef DEBUG
+                        EXV_DEBUG << "readWriteEpsMetadata: Skipping to " << skipPos << " at " << __FILE__ << ":" << __LINE__ << "\n";
+                        #endif
                     }
                 } else {
                     // remove preceding embedding(s)
                     for (std::vector<std::pair<size_t, size_t> >::const_iterator e = removableEmbeddings.begin(); e != removableEmbeddings.end(); e++) {
                         if (pos == e->first) {
                             skipPos = e->second;
+                            #ifdef DEBUG
+                            EXV_DEBUG << "readWriteEpsMetadata: Skipping to " << skipPos << " at " << __FILE__ << ":" << __LINE__ << "\n";
+                            #endif
                             break;
                         }
                     }
@@ -974,6 +995,9 @@ namespace {
                     if (pos == posPageTrailer && !deleteXmp) {
                         if (!implicitPageTrailer) {
                             skipPos = posLineEnd;
+                            #ifdef DEBUG
+                            EXV_DEBUG << "readWriteEpsMetadata: Skipping to " << skipPos << " at " << __FILE__ << ":" << __LINE__ << "\n";
+                            #endif
                         }
                         writeTemp(*tempIo, "%%PageTrailer" + lineEnding);
                         writeTemp(*tempIo, "%Exiv2BeginXMP: After %%PageTrailer" + lineEnding);
