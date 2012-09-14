@@ -396,6 +396,7 @@ namespace {
         bool illustrator8 = false;
         bool corelDraw = false;
         bool implicitPage = false;
+        bool implicitPageSetup = false;
         bool implicitPageTrailer = false;
         bool inDefaultsPreviewPrologSetup = false;
         bool inRemovableEmbedding = false;
@@ -510,29 +511,35 @@ namespace {
             if (posPage == posEndEps && posEndComments != posEndEps && !inDefaultsPreviewPrologSetup && !inRemovableEmbedding && !onlyWhitespaces(line)) {
                 posPage = startPos;
                 implicitPage = true;
-                posBeginPageSetup = startPos;
-                posEndPageSetup = startPos;
                 #ifdef DEBUG
-                EXV_DEBUG << "readWriteEpsMetadata: Found implicit Page, BeginPageSetup and EndPageSetup at position: " << startPos << "\n";
+                EXV_DEBUG << "readWriteEpsMetadata: Found implicit Page at position: " << startPos << "\n";
                 #endif
             }
-            if (posBeginPageSetup == posEndEps && posPage != posEndEps && !inRemovableEmbedding && line.size() >= 1 && line[0] != '%') {
+            if (posBeginPageSetup == posEndEps && (implicitPage || (posPage != posEndEps && !inRemovableEmbedding && line.size() >= 1 && line[0] != '%'))) {
                 posBeginPageSetup = startPos;
+                implicitPageSetup = true;
+                #ifdef DEBUG
+                EXV_DEBUG << "readWriteEpsMetadata: Found implicit BeginPageSetup at position: " << startPos << "\n";
+                #endif
+            }
+            if (posEndPageSetup == posEndEps && implicitPageSetup) {
                 posEndPageSetup = startPos;
                 #ifdef DEBUG
-                EXV_DEBUG << "readWriteEpsMetadata: Found implicit BeginPageSetup and EndPageSetup at position: " << startPos << "\n";
+                EXV_DEBUG << "readWriteEpsMetadata: Found implicit EndPageSetup at position: " << startPos << "\n";
                 #endif
             }
             if (line.size() >= 1 && line[0] != '%') continue; // performance optimization
             if (line == "%%EOF" || line == "%%Trailer" || line == "%%PageTrailer") {
                 if (posBeginPageSetup == posEndEps) {
                     posBeginPageSetup = startPos;
+                    implicitPageSetup = true;
                     #ifdef DEBUG
                     EXV_DEBUG << "readWriteEpsMetadata: Found implicit BeginPageSetup at position: " << startPos << "\n";
                     #endif
                 }
                 if (posEndPageSetup == posEndEps) {
                     posEndPageSetup = startPos;
+                    implicitPageSetup = true;
                     #ifdef DEBUG
                     EXV_DEBUG << "readWriteEpsMetadata: Found implicit EndPageSetup at position: " << startPos << "\n";
                     #endif
