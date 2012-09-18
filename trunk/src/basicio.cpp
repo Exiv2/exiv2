@@ -833,6 +833,25 @@ namespace Exiv2 {
         return std::fseek(p_->fp_, offset, fileSeek);
     }
 
+	int FileIo::seek( uint64_t offset, Position pos )
+	{
+		assert(p_->fp_ != 0);
+
+		int fileSeek = 0;
+		switch (pos) {
+		case BasicIo::cur: fileSeek = SEEK_CUR; break;
+		case BasicIo::beg: fileSeek = SEEK_SET; break;
+		case BasicIo::end: fileSeek = SEEK_END; break;
+		}
+
+		if (p_->switchMode(Impl::opSeek) != 0) return 1;
+#ifdef _MSC_VER
+		return _fseeki64(p_->fp_, offset, fileSeek);
+#else
+		return std::fseeko(p_->fp_, offset, fileSeek);
+#endif
+	}
+
     long FileIo::tell() const
     {
         assert(p_->fp_ != 0);
@@ -1121,6 +1140,22 @@ namespace Exiv2 {
         p_->eof_ = false;
         return 0;
     }
+
+	int MemIo::seek( uint64_t offset, Position pos )
+	{
+		uint64_t newIdx = 0;
+
+		switch (pos) {
+		case BasicIo::cur: newIdx = p_->idx_ + offset; break;
+		case BasicIo::beg: newIdx = offset; break;
+		case BasicIo::end: newIdx = p_->size_ + offset; break;
+		}
+
+		if (newIdx < 0 || newIdx > p_->size_) return 1;
+		p_->idx_ = static_cast<long>(newIdx);	//not very sure about this. need more test!!    - note by Shawn  fly2xj@gmail.com //TODO
+		p_->eof_ = false;
+		return 0;
+	}
 
     byte* MemIo::mmap(bool /*isWriteable*/)
     {

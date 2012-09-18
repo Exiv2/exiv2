@@ -537,7 +537,7 @@ namespace Exiv2 {
 
         const long bufMinSize = 4;
         DataBuf buf(bufMinSize);
-        buf.pData_[4] = '\0';
+        buf.pData_[3] = '\0';
 
         io_->read(buf.pData_, bufMinSize);
         xmpData_["Xmp.video.Container"] = buf.pData_;
@@ -551,7 +551,7 @@ namespace Exiv2 {
 
     void RiffVideo::decodeBlock()
     {
-        const long bufMinSize = 4;
+        const long bufMinSize = 5;
         DataBuf buf(bufMinSize);
         DataBuf buf2(bufMinSize);
         unsigned long size = 0;
@@ -718,7 +718,7 @@ namespace Exiv2 {
 
     void RiffVideo::skipListData()
     {
-        const long bufMinSize = 4;
+        const long bufMinSize = 5;
         DataBuf buf(bufMinSize);
         buf.pData_[4] = '\0';
         io_->seek(-12, BasicIo::cur);
@@ -854,9 +854,9 @@ namespace Exiv2 {
     void RiffVideo::junkHandler(long size)
     {
         const long bufMinSize = size;
-        DataBuf buf(bufMinSize), buf2(4);
+        DataBuf buf(bufMinSize), buf2(5);
         std::memset(buf.pData_, 0x0, buf.size_);
-        buf.pData_[4] = '\0';
+        buf2.pData_[4] = '\0';
         uint64_t cur_pos = io_->tell();
 
         io_->read(buf.pData_, 4);
@@ -922,7 +922,7 @@ namespace Exiv2 {
 
     void RiffVideo::aviHeaderTagsHandler(long size)
     {
-        const long bufMinSize = 4;
+        const long bufMinSize = 5;
         DataBuf buf(bufMinSize);
         buf.pData_[4] = '\0';
         long width = 0, height = 0, frame_count = 0;
@@ -968,7 +968,7 @@ namespace Exiv2 {
 
     void RiffVideo::streamHandler(long size)
     {
-        const long bufMinSize = 4;
+        const long bufMinSize = 5;
         DataBuf buf(bufMinSize);
         buf.pData_[4]='\0';
         long divisor = 1;
@@ -1032,7 +1032,7 @@ namespace Exiv2 {
 
     void RiffVideo::streamFormatHandler(long size)
     {
-        const long bufMinSize = 4;
+        const long bufMinSize = 5;
         DataBuf buf(bufMinSize);
         buf.pData_[4] = '\0';
         uint64_t cur_pos = io_->tell();
@@ -1163,7 +1163,7 @@ namespace Exiv2 {
         if(frame_rate == 0)
             return;
 
-        uint64_t duration = (double)frame_count * (double)1000 / (double)frame_rate;
+        uint64_t duration = static_cast<uint64_t>((double)frame_count * (double)1000 / (double)frame_rate);
         xmpData_["Xmp.video.FileDataRate"] = (double)io_->size()/(double)(1048576*duration);
         xmpData_["Xmp.video.Duration"] = duration; //Duration in number of seconds
     } // RiffVideo::fillDuration

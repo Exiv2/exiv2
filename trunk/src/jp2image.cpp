@@ -352,7 +352,7 @@ namespace Exiv2
 
             // Move to the next box.
 
-            io_->seek(position - sizeof(box) + box.boxLength, BasicIo::beg);
+            io_->seek(static_cast<long>(position - sizeof(box) + box.boxLength), BasicIo::beg);
             if (io_->error() || io_->eof()) throw Error(14);
         }
 

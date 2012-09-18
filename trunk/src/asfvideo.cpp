@@ -281,9 +281,9 @@ namespace Exiv2 {
     uint64_t getUint64_t(Exiv2::DataBuf& buf) {
         uint64_t temp = 0;
 
-        for(int i = 0; i < 8; ++i)
-            temp = temp + buf.pData_[i]*(pow(256,i));
-
+		for(int i = 0; i < 8; ++i){
+			temp = temp + static_cast<uint64_t>(buf.pData_[i]*(pow(static_cast<float>(256), i)));
+		}
         return temp;
     }
 
@@ -334,7 +334,7 @@ namespace Exiv2 {
 
     void AsfVideo::decodeBlock()
     {
-        const long bufMinSize = 8;
+        const long bufMinSize = 9;
         DataBuf buf(bufMinSize);
         unsigned long size = 0;
         buf.pData_[8] = '\0' ;
@@ -349,14 +349,14 @@ namespace Exiv2 {
             return;
         }
 
-        char GUID[33] = "";
+        char GUID[37] = "";	//the getGUID function write the GUID[36], 
 
         getGUID(guidBuf, GUID);
         tv = find( GUIDReferenceTags, GUID);
 
         std::memset(buf.pData_, 0x0, buf.size_);
         io_->read(buf.pData_, 8);
-        size = getUint64_t(buf);
+        size = static_cast<long>(getUint64_t(buf));
 
         if(tv)
             tagDecoder(tv,size-24);
@@ -487,7 +487,7 @@ namespace Exiv2 {
         buf.pData_[8] = '\0' ;
         byte guidBuf[16]; int stream = 0;
         io_->read(guidBuf, 16);
-        char streamType[33] = "";
+        char streamType[37] = "";
         Exiv2::RiffVideo *test = NULL;
 
         getGUID(guidBuf, streamType);
@@ -599,7 +599,7 @@ namespace Exiv2 {
         io_->read(buf.pData_, 2);
         int recordCount = Exiv2::getUShort(buf.pData_, littleEndian), nameLength = 0, dataLength = 0, dataType = 0;
         Exiv2::Value::AutoPtr v = Exiv2::Value::create(Exiv2::xmpSeq);
-        byte guidBuf[16];   char fileID[33] = "";
+        byte guidBuf[16];   char fileID[37] = "";
 
         while(recordCount--) {
             std::memset(buf.pData_, 0x0, buf.size_);
@@ -670,12 +670,12 @@ namespace Exiv2 {
 
     void AsfVideo::fileProperties()
     {
-        DataBuf buf(8);
+        DataBuf buf(9);
         buf.pData_[8] = '\0' ;
 
         byte guidBuf[16];
         io_->read(guidBuf, 16);
-        char fileID[33] = ""; int count = 7;
+        char fileID[37] = ""; int count = 7;
         getGUID(guidBuf, fileID);
         xmpData_["Xmp.video.FileID"] = fileID;
 

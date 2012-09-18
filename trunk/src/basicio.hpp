@@ -170,6 +170,23 @@ namespace Exiv2 {
               Nonzero if failure;
          */
         virtual int seek(long offset, Position pos) = 0;
+		/*!
+          @brief Move the current IO position.
+          @param offset Number of bytes to move the position relative
+              to the starting position specified by \em pos
+          @param pos Position from which the seek should start
+          @return 0 if successful;<BR>
+              Nonzero if failure;
+         */
+        virtual int seek(uint64_t offset, Position pos) = 0;
+
+#if defined(_MSC_VER)// && defined(_WIN64)
+		        int seek( int     offset, Position pos)
+		    {return seek(static_cast<long>(offset),pos);}
+		        int seek(uint32_t offset, Position pos)
+		    {return seek(static_cast<long>(offset),pos);}
+#endif
+
         /*!
           @brief Direct access to the IO data. For files, this is done by
                  mapping the file into the process's address space; for memory
@@ -426,6 +443,15 @@ namespace Exiv2 {
          */
         virtual int seek(long offset, Position pos);
         /*!
+          @brief Move the current file position.
+          @param offset Number of bytes to move the file position
+              relative to the starting position specified by \em pos
+          @param pos Position from which the seek should start
+          @return 0 if successful;<BR>
+                 Nonzero if failure;
+         */
+		virtual int seek(uint64_t offset, Position pos);
+        /*!
           @brief Map the file into the process's address space. The file must be
                  open before mmap() is called. If the mapped area is writeable,
                  changes may not be written back to the underlying file until
@@ -633,6 +659,15 @@ namespace Exiv2 {
                  Nonzero if failure;
          */
         virtual int seek(long offset, Position pos);
+        /*!
+          @brief Move the current IO position.
+          @param offset Number of bytes to move the IO position
+              relative to the starting position specified by \em pos
+          @param pos Position from which the seek should start
+          @return 0 if successful;<BR>
+                 Nonzero if failure;
+         */
+        virtual int seek(uint64_t offset, Position pos);
         /*!
           @brief Allow direct access to the underlying data buffer. The buffer
                  is not protected against write access in any way, the argument
