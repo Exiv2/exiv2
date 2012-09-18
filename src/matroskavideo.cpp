@@ -457,7 +457,7 @@ namespace Exiv2 {
         int64_t temp = 0;
 
         for(int i = size-1; i >= 0; i--) {
-            temp = temp + buf[i]*(pow(256,size-i-1));
+            temp = temp + static_cast<int64_t>(buf[i]*(pow(256.0, size-i-1)));
         }
 
         std::cerr << "size = " << size << ", val = " << temp << std::hex << " (0x" << temp << std::dec << ")";
@@ -534,8 +534,8 @@ namespace Exiv2 {
             return;
         }
 
-        bool skip = find(compositeTagsList, mt->val_);
-        bool ignore = find(ignoredTagsList, mt->val_);
+        bool skip = find(compositeTagsList, mt->val_) != 0;
+        bool ignore = find(ignoredTagsList, mt->val_) != 0;
 
         io_->read(buf, 1);
         sz = findBlockSize(buf[0]); // 0-8
@@ -560,8 +560,9 @@ namespace Exiv2 {
 
         DataBuf buf2(bufMinSize);
         std::memset(buf2.pData_, 0x0, buf2.size_);
-        io_->read(buf2.pData_, size);
-        contentManagement(mt, buf2.pData_, size);
+		long s = static_cast<long>(size) ;
+        io_->read(buf2.pData_,s);
+        contentManagement(mt, buf2.pData_,s);
     } // MatroskaVideo::decodeBlock
 
     void MatroskaVideo::contentManagement(const MatroskaTags* mt, const byte* buf, long size)
@@ -648,10 +649,10 @@ namespace Exiv2 {
             switch (mt->val_) {
             case 0x0489:
                 if(size <= 4) {
-                    duration_in_ms = getFloat(buf, bigEndian) * time_code_scale * 1000;
+                    duration_in_ms = static_cast<int64_t>(getFloat(buf, bigEndian) * time_code_scale * 1000);
                 }
                 else {
-                    duration_in_ms = getDouble(buf, bigEndian) * time_code_scale * 1000;
+                    duration_in_ms = static_cast<int64_t>(getDouble(buf, bigEndian) * time_code_scale * 1000);
                 }
                 break;
             case 0x0461: {
@@ -673,7 +674,7 @@ namespace Exiv2 {
 
         case 0x0003:
             internalMt = find(matroskaTrackType, returnValue(buf, size));
-            stream = internalMt->val_;
+            stream = static_cast<long>(internalMt->val_);
             break;
 
         case 0x3e383: case 0x383e3:
@@ -681,7 +682,7 @@ namespace Exiv2 {
             if (returnValue(buf, size)) {
                 switch (stream) {
                 case 1: temp = (double)1000000000/(double)returnValue(buf, size); break;
-                case 2: temp = returnValue(buf, size)/1000;                       break;
+                case 2: temp = static_cast<double>(returnValue(buf, size) / 1000); break;
                 }
                 if (internalMt) xmpData_[internalMt->label_] = temp;
             }

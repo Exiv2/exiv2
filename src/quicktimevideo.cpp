@@ -1,4 +1,4 @@
-// ***************************************************************** -*- C++ -*-
+﻿// ***************************************************************** -*- C++ -*-
 /*
  * Copyright (C) 2004-2012 Andreas Huggel <ahuggel@gmx.net>
  *
@@ -555,7 +555,11 @@ namespace Exiv2 {
     int64_t returnBufValue(Exiv2::DataBuf& buf, int n = 4) {
         int64_t temp = 0;
         for(int i = n - 1; i >= 0; i--)
-            temp = temp + buf.pData_[i]*(pow(256,n-i-1));
+#ifdef _MSC_VER
+            temp = temp + static_cast<int64_t>(buf.pData_[i]*(pow(static_cast<float>(256), n-i-1)));
+#else
+			temp = temp + buf.pData_[i]*(pow(256,n-i-1));
+#endif
 
         return temp;
     }
@@ -569,7 +573,11 @@ namespace Exiv2 {
     uint64_t returnUnsignedBufValue(Exiv2::DataBuf& buf, int n = 4) {
         uint64_t temp = 0;
         for(int i = n-1; i >= 0; i--)
-            temp = temp + buf.pData_[i]*(pow(256,n-i-1));
+#if _MSC_VER
+			temp = temp + static_cast<uint64_t>(buf.pData_[i]*(pow(static_cast<float>(256), n-i-1)));
+#else
+			temp = temp + buf.pData_[i]*(pow(256,n-i-1));
+#endif
 
         return temp;
     }
@@ -640,7 +648,7 @@ namespace Exiv2 {
 
     void QuickTimeVideo::decodeBlock()
     {
-        const long bufMinSize = 4;
+        const long bufMinSize = 5;
         DataBuf buf(bufMinSize);
         unsigned long size = 0;
         buf.pData_[4] = '\0' ;
@@ -773,10 +781,10 @@ namespace Exiv2 {
         byte n = 3;
 
         while(n--) {
-            io_->seek(4, BasicIo::cur); io_->read(buf.pData_, 4);
+            io_->seek(static_cast<long>(4), BasicIo::cur); io_->read(buf.pData_, 4);
 
             if(equalsQTimeTag(buf, "clef")) {
-                io_->seek(4, BasicIo::cur);
+                io_->seek(static_cast<long>(4), BasicIo::cur);
                 io_->read(buf.pData_, 2); io_->read(buf2.pData_, 2);
                 xmpData_["Xmp.video.CleanApertureWidth"]    =   Exiv2::toString(getUShort(buf.pData_, bigEndian))
                                                                 + "." + Exiv2::toString(getUShort(buf2.pData_, bigEndian));
@@ -786,7 +794,7 @@ namespace Exiv2 {
             }
 
             else if(equalsQTimeTag(buf, "prof")) {
-                io_->seek(4, BasicIo::cur);
+                io_->seek(static_cast<long>(4), BasicIo::cur);
                 io_->read(buf.pData_, 2); io_->read(buf2.pData_, 2);
                 xmpData_["Xmp.video.ProductionApertureWidth"]    =   Exiv2::toString(getUShort(buf.pData_, bigEndian))
                                                                 + "." + Exiv2::toString(getUShort(buf2.pData_, bigEndian));
@@ -796,7 +804,7 @@ namespace Exiv2 {
             }
 
             else if(equalsQTimeTag(buf, "enof")) {
-                io_->seek(4, BasicIo::cur);
+                io_->seek(static_cast<long>(4), BasicIo::cur);
                 io_->read(buf.pData_, 2); io_->read(buf2.pData_, 2);
                 xmpData_["Xmp.video.EncodedPixelsWidth"]    =   Exiv2::toString(getUShort(buf.pData_, bigEndian))
                                                                 + "." + Exiv2::toString(getUShort(buf2.pData_, bigEndian));
@@ -805,7 +813,7 @@ namespace Exiv2 {
                                                                 + "." + Exiv2::toString(getUShort(buf2.pData_, bigEndian));
             }
         }
-        io_->seek(cur_pos + size, BasicIo::beg);
+        io_->seek(static_cast<long>(cur_pos + size), BasicIo::beg);
     } // QuickTimeVideo::trackApertureTagDecoder
 
     void QuickTimeVideo::CameraTagsDecoder(unsigned long size_external)
@@ -834,7 +842,7 @@ namespace Exiv2 {
                 xmpData_["Xmp.video.WhiteBalance"] = exvGettext(td->label_);
             io_->read(buf.pData_, 4); io_->read(buf2.pData_, 4);
             xmpData_["Xmp.video.FocalLength"] =  getULong(buf.pData_, littleEndian) / (double)getULong(buf2.pData_, littleEndian) ;
-            io_->seek(95, BasicIo::cur);
+            io_->seek(static_cast<long>(95), BasicIo::cur);
             io_->read(buf.pData_, 48);
             xmpData_["Xmp.video.Software"] = Exiv2::toString(buf.pData_);
             io_->read(buf.pData_, 4);
@@ -1104,7 +1112,7 @@ namespace Exiv2 {
         io_->read(buf.pData_, 4);
         uint64_t noOfEntries, totalframes = 0, timeOfFrames = 0;
         noOfEntries = returnUnsignedBufValue(buf);
-        int temp;
+        uint64_t temp;
 
         for(unsigned long i = 1; i <= noOfEntries; i++) {
             io_->read(buf.pData_, 4);
@@ -1171,7 +1179,7 @@ namespace Exiv2 {
                 break;
             }
         }
-        io_->read(buf.pData_, size % 4);
+        io_->read(buf.pData_, static_cast<long>(size % 4));	//cause size is so small, this cast should be right.
     } // QuickTimeVideo::audioDescDecoder
 
     void QuickTimeVideo::imageDescDecoder()
@@ -1219,7 +1227,7 @@ namespace Exiv2 {
                 break;
             }
         }
-        io_->read(buf.pData_, size % 4);
+        io_->read(buf.pData_, static_cast<long>(size % 4));	
         xmpData_["Xmp.video.BitDepth"] = returnBufValue(buf, 1);
     } // QuickTimeVideo::imageDescDecoder
 
@@ -1237,7 +1245,7 @@ namespace Exiv2 {
     } // QuickTimeVideo::multipleEntriesDecoder
 
     void QuickTimeVideo::videoHeaderDecoder(unsigned long size) {
-        DataBuf buf(2);
+        DataBuf buf(3);
         std::memset(buf.pData_, 0x0, buf.size_);
         buf.pData_[2] = '\0';
         currentStream_ = Video;
@@ -1309,7 +1317,7 @@ namespace Exiv2 {
     } // QuickTimeVideo::handlerDecoder
 
     void QuickTimeVideo::fileTypeDecoder(unsigned long size) {
-        DataBuf buf(4);
+        DataBuf buf(5);
         std::memset(buf.pData_, 0x0, buf.size_);
         buf.pData_[4] = '\0';
         Exiv2::Value::AutoPtr v = Exiv2::Value::create(Exiv2::xmpSeq);
@@ -1340,10 +1348,10 @@ namespace Exiv2 {
     } // QuickTimeVideo::fileTypeDecoder
 
     void QuickTimeVideo::mediaHeaderDecoder(unsigned long size) {
-        DataBuf buf(4);
+        DataBuf buf(5);
         std::memset(buf.pData_, 0x0, buf.size_);
         buf.pData_[4] = '\0';
-        int time_scale = 1;
+        int64_t time_scale = 1;
 
         for (int i = 0; size/4 != 0 ; size -=4, i++) {
             io_->read(buf.pData_, 4);
@@ -1397,10 +1405,10 @@ namespace Exiv2 {
     } // QuickTimeVideo::mediaHeaderDecoder
 
     void QuickTimeVideo::trackHeaderDecoder(unsigned long size) {
-        DataBuf buf(4);
+        DataBuf buf(5);
         std::memset(buf.pData_, 0x0, buf.size_);
         buf.pData_[4] = '\0';
-        uint64_t temp = 0;
+        int64_t temp = 0;
 
         for (int i = 0; size/4 != 0  ; size -=4, i++) {
             io_->read(buf.pData_, 4);
@@ -1452,14 +1460,14 @@ namespace Exiv2 {
                 break;
             case ImageWidth:
                 if(currentStream_ == Video) {
-                    temp = returnBufValue(buf, 2) + ((buf.pData_[2] * 256 + buf.pData_[3]) * 0.01);
+                    temp = returnBufValue(buf, 2) + static_cast<int64_t>((buf.pData_[2] * 256 + buf.pData_[3]) * 0.01);
                     xmpData_["Xmp.video.Width"] = temp;
                     width_ = temp;
                 }
                 break;
             case ImageHeight:
                 if(currentStream_ == Video) {
-                    temp = returnBufValue(buf, 2) + ((buf.pData_[2] * 256 + buf.pData_[3]) * 0.01);
+                    temp = returnBufValue(buf, 2) + static_cast<int64_t>((buf.pData_[2] * 256 + buf.pData_[3]) * 0.01);
                     xmpData_["Xmp.video.Height"] = temp;
                     height_ = temp;
                 }
@@ -1472,7 +1480,7 @@ namespace Exiv2 {
     } // QuickTimeVideo::trackHeaderDecoder
 
     void QuickTimeVideo::movieHeaderDecoder(unsigned long size) {
-        DataBuf buf(4);
+        DataBuf buf(5);
         std::memset(buf.pData_, 0x0, buf.size_);
         buf.pData_[4] = '\0';
 
@@ -1557,10 +1565,11 @@ namespace Exiv2 {
 
         bool matched = isQuickTimeType(buf[0], buf[1], buf[2], buf[3]);
         if (!advance || !matched) {
-            iIo.seek(0, BasicIo::beg);
+            iIo.seek(static_cast<long>(0), BasicIo::beg);
         }
 
         return matched;
     }
 
 }                                       // namespace Exiv2
+
