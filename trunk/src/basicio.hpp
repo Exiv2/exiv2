@@ -170,7 +170,7 @@ namespace Exiv2 {
               Nonzero if failure;
          */
         virtual int seek(long offset, Position pos) = 0;
-		/*!
+        /*!
           @brief Move the current IO position.
           @param offset Number of bytes to move the position relative
               to the starting position specified by \em pos
@@ -178,13 +178,13 @@ namespace Exiv2 {
           @return 0 if successful;<BR>
               Nonzero if failure;
          */
+#if defined(_MSC_VER)
         virtual int seek(uint64_t offset, Position pos) = 0;
 
-#if defined(_MSC_VER)// && defined(_WIN64)
-		        int seek( int     offset, Position pos)
-		    {return seek(static_cast<long>(offset),pos);}
-		        int seek(uint32_t offset, Position pos)
-		    {return seek(static_cast<long>(offset),pos);}
+                int seek( int     offset, Position pos)
+            {return seek(static_cast<long>(offset),pos);}
+                int seek(uint32_t offset, Position pos)
+            {return seek(static_cast<long>(offset),pos);}
 #endif
 
         /*!
@@ -450,8 +450,10 @@ namespace Exiv2 {
           @return 0 if successful;<BR>
                  Nonzero if failure;
          */
-		virtual int seek(uint64_t offset, Position pos);
-        /*!
+#if defined(_MSC_VER)
+        virtual int seek(uint64_t offset, Position pos);
+#endif
+		/*!
           @brief Map the file into the process's address space. The file must be
                  open before mmap() is called. If the mapped area is writeable,
                  changes may not be written back to the underlying file until
@@ -658,8 +660,9 @@ namespace Exiv2 {
           @return 0 if successful;<BR>
                  Nonzero if failure;
          */
-        virtual int seek(long offset, Position pos);
-        /*!
+
+		virtual int seek(long offset, Position pos);
+		/*!
           @brief Move the current IO position.
           @param offset Number of bytes to move the IO position
               relative to the starting position specified by \em pos
@@ -667,8 +670,10 @@ namespace Exiv2 {
           @return 0 if successful;<BR>
                  Nonzero if failure;
          */
+#if defined(_MSC_VER)
         virtual int seek(uint64_t offset, Position pos);
-        /*!
+#endif
+		/*!
           @brief Allow direct access to the underlying data buffer. The buffer
                  is not protected against write access in any way, the argument
                  is ignored.
@@ -762,5 +767,4 @@ namespace Exiv2 {
 #endif
 
 }                                       // namespace Exiv2
-
 #endif                                  // #ifndef BASICIO_HPP_

@@ -259,8 +259,12 @@ namespace Exiv2 {
         return ret;
     } // FileIo::Impl::stat
 
+#if defined(__APPLE__)
     void FileIo::Impl::copyXattrFrom(const FileIo& src)
-    {
+#else
+    void FileIo::Impl::copyXattrFrom(const FileIo&)
+#endif
+	{
 #if defined(__APPLE__)
 # if defined(EXV_UNICODE_PATH)
 #  error No xattr API for MacOS X with unicode support
@@ -833,6 +837,7 @@ namespace Exiv2 {
         return std::fseek(p_->fp_, offset, fileSeek);
     }
 
+#if defined(_MSC_VER)
 	int FileIo::seek( uint64_t offset, Position pos )
 	{
 		assert(p_->fp_ != 0);
@@ -845,12 +850,13 @@ namespace Exiv2 {
 		}
 
 		if (p_->switchMode(Impl::opSeek) != 0) return 1;
-#ifdef _MSC_VER
+#ifdef _WIN64
 		return _fseeki64(p_->fp_, offset, fileSeek);
 #else
-		return std::fseeko(p_->fp_, offset, fileSeek);
+		return std::fseek(p_->fp_,static_cast<long>(offset), fileSeek);
 #endif
 	}
+#endif
 
     long FileIo::tell() const
     {
@@ -1141,6 +1147,7 @@ namespace Exiv2 {
         return 0;
     }
 
+#if defined(_MSC_VER)
 	int MemIo::seek( uint64_t offset, Position pos )
 	{
 		uint64_t newIdx = 0;
@@ -1151,11 +1158,12 @@ namespace Exiv2 {
 		case BasicIo::end: newIdx = p_->size_ + offset; break;
 		}
 
-		if (newIdx < 0 || newIdx > p_->size_) return 1;
+		if ( /*newIdx < 0 || */ newIdx > static_cast<uint64_t>(p_->size_) ) return 1;
 		p_->idx_ = static_cast<long>(newIdx);	//not very sure about this. need more test!!    - note by Shawn  fly2xj@gmail.com //TODO
 		p_->eof_ = false;
 		return 0;
 	}
+#endif
 
     byte* MemIo::mmap(bool /*isWriteable*/)
     {
