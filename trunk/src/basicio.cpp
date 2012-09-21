@@ -822,21 +822,6 @@ namespace Exiv2 {
         return putc(data, p_->fp_);
     }
 
-    int FileIo::seek(long offset, Position pos)
-    {
-        assert(p_->fp_ != 0);
-
-        int fileSeek = 0;
-        switch (pos) {
-        case BasicIo::cur: fileSeek = SEEK_CUR; break;
-        case BasicIo::beg: fileSeek = SEEK_SET; break;
-        case BasicIo::end: fileSeek = SEEK_END; break;
-        }
-
-        if (p_->switchMode(Impl::opSeek) != 0) return 1;
-        return std::fseek(p_->fp_, offset, fileSeek);
-    }
-
 #if defined(_MSC_VER)
 	int FileIo::seek( uint64_t offset, Position pos )
 	{
@@ -856,6 +841,21 @@ namespace Exiv2 {
 		return std::fseek(p_->fp_,static_cast<long>(offset), fileSeek);
 #endif
 	}
+#else
+	int FileIo::seek(long offset, Position pos)
+    {
+        assert(p_->fp_ != 0);
+
+        int fileSeek = 0;
+        switch (pos) {
+        case BasicIo::cur: fileSeek = SEEK_CUR; break;
+        case BasicIo::beg: fileSeek = SEEK_SET; break;
+        case BasicIo::end: fileSeek = SEEK_END; break;
+        }
+
+        if (p_->switchMode(Impl::opSeek) != 0) return 1;
+        return std::fseek(p_->fp_, offset, fileSeek);
+    }
 #endif
 
     long FileIo::tell() const
@@ -1131,22 +1131,6 @@ namespace Exiv2 {
         return data;
     }
 
-    int MemIo::seek(long offset, Position pos)
-    {
-        long newIdx = 0;
-
-        switch (pos) {
-        case BasicIo::cur: newIdx = p_->idx_ + offset; break;
-        case BasicIo::beg: newIdx = offset; break;
-        case BasicIo::end: newIdx = p_->size_ + offset; break;
-        }
-
-        if (newIdx < 0 || newIdx > p_->size_) return 1;
-        p_->idx_ = newIdx;
-        p_->eof_ = false;
-        return 0;
-    }
-
 #if defined(_MSC_VER)
 	int MemIo::seek( uint64_t offset, Position pos )
 	{
@@ -1163,6 +1147,22 @@ namespace Exiv2 {
 		p_->eof_ = false;
 		return 0;
 	}
+#else
+	int MemIo::seek(long offset, Position pos)
+    {
+        long newIdx = 0;
+
+        switch (pos) {
+        case BasicIo::cur: newIdx = p_->idx_ + offset; break;
+        case BasicIo::beg: newIdx = offset; break;
+        case BasicIo::end: newIdx = p_->size_ + offset; break;
+        }
+
+        if (newIdx < 0 || newIdx > p_->size_) return 1;
+        p_->idx_ = newIdx;
+        p_->eof_ = false;
+        return 0;
+    }
 #endif
 
     byte* MemIo::mmap(bool /*isWriteable*/)

@@ -15,7 +15,7 @@
 #cmakedefine EXV_HAVE_INTTYPES_H 1
 
 /* Define to 1 if you have the <libintl.h> header file. */
-#cmakedefine EXV_HAVE_LIBINTL_H 1
+#cmakedefine EXV_HAVE_LIBINTL_H 0
 
 #ifndef EXV_COMMERCIAL_VERSION
 
@@ -24,10 +24,10 @@
 
 /* Define to 1 if translation of program messages to the user's
    native language is requested. */
-#cmakedefine EXV_ENABLE_NLS 1
+#cmakedefine EXV_ENABLE_NLS 0
 
 /* Define to 1 if you have the `iconv' function. */
-#cmakedefine EXV_HAVE_ICONV 1
+#cmakedefine EXV_HAVE_ICONV 0
 
 /* Define to 1 to enable conversion of UCS2 encoded Windows tags to UTF-8. */
 #cmakedefine EXV_HAVE_PRINTUCS2 1
@@ -43,7 +43,7 @@
 #endif
 
 /* Define to 1 if you have the <libintl.h> header file. */
-#cmakedefine EXV_HAVE_LIBINTL_H 1
+#cmakedefine EXV_HAVE_LIBINTL_H 0
 
 /* Define to 1 if your system has a GNU libc compatible `malloc' function, and
    to 0 otherwise. */

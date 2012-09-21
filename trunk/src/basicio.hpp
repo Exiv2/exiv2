@@ -169,22 +169,15 @@ namespace Exiv2 {
           @return 0 if successful;<BR>
               Nonzero if failure;
          */
-        virtual int seek(long offset, Position pos) = 0;
-        /*!
-          @brief Move the current IO position.
-          @param offset Number of bytes to move the position relative
-              to the starting position specified by \em pos
-          @param pos Position from which the seek should start
-          @return 0 if successful;<BR>
-              Nonzero if failure;
-         */
 #if defined(_MSC_VER)
         virtual int seek(uint64_t offset, Position pos) = 0;
 
-                int seek( int     offset, Position pos)
-            {return seek(static_cast<long>(offset),pos);}
-                int seek(uint32_t offset, Position pos)
-            {return seek(static_cast<long>(offset),pos);}
+//                int seek( int     offset, Position pos)
+//            {return seek(static_cast<long>(offset),pos);}
+//                int seek(uint32_t offset, Position pos)
+//            {return seek(static_cast<long>(offset),pos);}
+#else
+		virtual int seek(long offset, Position pos) = 0;
 #endif
 
         /*!
@@ -441,17 +434,10 @@ namespace Exiv2 {
           @return 0 if successful;<BR>
                  Nonzero if failure;
          */
-        virtual int seek(long offset, Position pos);
-        /*!
-          @brief Move the current file position.
-          @param offset Number of bytes to move the file position
-              relative to the starting position specified by \em pos
-          @param pos Position from which the seek should start
-          @return 0 if successful;<BR>
-                 Nonzero if failure;
-         */
 #if defined(_MSC_VER)
         virtual int seek(uint64_t offset, Position pos);
+#else
+        virtual int seek(long offset, Position pos);
 #endif
 		/*!
           @brief Map the file into the process's address space. The file must be
@@ -660,18 +646,10 @@ namespace Exiv2 {
           @return 0 if successful;<BR>
                  Nonzero if failure;
          */
-
-		virtual int seek(long offset, Position pos);
-		/*!
-          @brief Move the current IO position.
-          @param offset Number of bytes to move the IO position
-              relative to the starting position specified by \em pos
-          @param pos Position from which the seek should start
-          @return 0 if successful;<BR>
-                 Nonzero if failure;
-         */
 #if defined(_MSC_VER)
         virtual int seek(uint64_t offset, Position pos);
+#else
+		virtual int seek(long offset, Position pos);
 #endif
 		/*!
           @brief Allow direct access to the underlying data buffer. The buffer
