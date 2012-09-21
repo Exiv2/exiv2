@@ -232,7 +232,13 @@ ifdef DEP_TRACKING
 -include $(DEP)
 endif
 
-actions.cpp basicio.cpp exif.cpp exiv2.cpp futils.cpp image.cpp jpgimage.cpp utils.cpp: exv_conf.h
+# be sure to rewrite src/exv_conf.h (from config/config.h) before compiling almost anything!
+actions.cpp   basicio.cpp       bmpimage.cpp       convert.hpp  cr2image.cpp crwimage.cpp   epsimage.cpp      \
+exif.cpp      exiv2.cpp         futils.cpp         futils.hpp   gifimage.cpp image.cpp      jp2image.cpp      \
+jpgimage.cpp  localtime.c       makernote.cpp      mrwimage.cpp orfimage.cpp pgfimage.cpp   pngchunk.cpp      \
+pngimage.cpp  preview.cpp       psdimage.cpp       rafimage.cpp rw2image.cpp tgaimage.cpp   tiffcomposite.cpp \
+tiffimage.cpp tiffvisitor.cpp   types.hpp          utils.cpp    version.cpp  xmpsidecar.cpp \
+asfvideo.cpp  matroskavideo.cpp quicktimevideo.cpp riffvideo.cpp : exv_conf.h
 
 exv_conf.h: $(top_srcdir)/config/config.h
 	sed 's/#define \([A-Z]\)/#define EXV_\1/; s/#undef \([A-Z]\)/#undef EXV_\1/' < $< > $@
