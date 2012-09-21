@@ -10,9 +10,10 @@ include(../CMake_msvc.txt)
 msvc_runtime_configure(${EXIV2_ENABLE_SHARED})
 
 FOREACH(_currentfile ${XMPSRC})
-    IF(NOT MSVC)
+    # http://www.openguru.com/2009/04/cmake-detecting-platformoperating.html
+    IF(NOT MSVC AND NOT CYGWIN AND NOT MSYS)
         SET_SOURCE_FILES_PROPERTIES(${_currentfile} PROPERTIES COMPILE_FLAGS "-fPIC")
-    ENDIF(NOT MSVC)
+    ENDIF(NOT MSVC AND NOT CYGWIN AND NOT MSYS)
 ENDFOREACH(_currentfile ${XMPSRC})
 
 IF( EXIV2_ENABLE_XMP AND EXIV2_ENABLE_LIBXMP )
