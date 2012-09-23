@@ -459,14 +459,16 @@ namespace Exiv2 {
         for(int i = size-1; i >= 0; i--) {
             temp = temp + static_cast<int64_t>(buf[i]*(pow(256.0, size-i-1)));
         }
-
-        std::cerr << "size = " << size << ", val = " << temp << std::hex << " (0x" << temp << std::dec << ")";
+// Todo: remove debug output
+//        std::cerr << "size = " << size << ", val = " << temp << std::hex << " (0x" << temp << std::dec << ")";
 
         uint64_t ret = 0;
         for (long i = 0; i < size; ++i) {
             ret |= static_cast<uint64_t>(buf[i]) << ((size - i - 1) * 8);
         }
-        std::cerr << ", ret = " << ret << std::hex << " (0x" << ret << std::dec << ")\n";
+
+// Todo: remove debug output
+//        std::cerr << ", ret = " << ret << std::hex << " (0x" << ret << std::dec << ")\n";
 
         return ret;
     }
