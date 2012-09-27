@@ -1,7 +1,7 @@
 Current Status
 
-ToDo: * Find and link iconv library on Windows
-      * Polish/improve out of source builds
+ToDo: * Fix out of source builds for NMake
+      * Find and link iconv library on Windows
       * Test Cygwin, MinGW, Xcode, NMake and more versions of MSVC
       * Revisit searching for zlib, expat and iconv
       * Work on the "inherited from Gilles" list below
