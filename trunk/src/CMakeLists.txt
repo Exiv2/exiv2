@@ -234,6 +234,8 @@ IF( ICONV_FOUND )
 	TARGET_LINK_LIBRARIES( exiv2lib ${ICONV_LIBRARIES} )
 ENDIF( ICONV_FOUND )
 
+##
+# copy header files (TODO: rewrite for NMake)
 IF (MSVC )
 	if (OUT_OF_SOURCE) 
 	    ADD_CUSTOM_COMMAND(
@@ -251,7 +253,7 @@ IF (MSVC )
 ENDIF()
 
 ##
-# copy zlib and expat dlls to output directory if necessary
+# copy zlib and expat dlls to output directory (TODO: rewrite for NMake)
 IF ( MSVC AND EXIV2_ENABLE_SHARED )
 	if (OUT_OF_SOURCE) 
 	    ADD_CUSTOM_COMMAND(
