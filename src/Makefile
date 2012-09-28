@@ -95,15 +95,15 @@ CCSRC =  asfvideo.cpp          \
 	 panasonicmn.cpp       \
 	 pgfimage.cpp
 ifdef HAVE_LIBZ
-CCSRC += pngimage.cpp          \
+CCSRC += pngimage.cpp      \
 	 pngchunk.cpp
 endif
-CCSRC += preview.cpp           \
+CCSRC += preview.cpp       \
 	 properties.cpp        \
 	 psdimage.cpp          \
 	 quicktimevideo.cpp    \
 	 rafimage.cpp          \
-         riffvideo.cpp         \
+     riffvideo.cpp         \
 	 rw2image.cpp          \
 	 samsungmn.cpp         \
 	 sigmamn.cpp           \
@@ -315,6 +315,7 @@ mostlyclean:
 	$(RM) $(CCSRC:.cpp=.ii)
 	$(RM) lib
 	$(RM) path-test.o
+	$(RM) exv_conf.h
 	$(RM) $(CCSRC:%.cpp=.libs/%.d) $(CSRC:%.c=.libs/%.d)
 	@$(LIBTOOL) --mode=clean $(RM) $(LOBJ) $(sort $(BINOBJ) $(EXIV2OBJ) $(EXIV2COBJ) $(MCOBJ))
 
@@ -326,7 +327,7 @@ clean: mostlyclean
 # Run `make distclean' from the top source directory to also remove
 # files created by configuring the program.
 distclean: clean
-	$(RM) exv_conf.h doxygen.hpp
+	$(RM) doxygen.hpp
 ifdef DEP_TRACKING
 	$(RM) $(DEP)
 	-rmdir $(DEPDIR)
@@ -339,3 +340,6 @@ endif
 maintainer-clean: uninstall distclean
 	-$(RM) -r .deps
 	-$(RM) -r .libs
+
+# That's all Folks!
+##
