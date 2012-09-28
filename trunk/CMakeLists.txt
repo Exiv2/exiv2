@@ -8,8 +8,22 @@
 
 SET(CMAKE_LEGACY_CYGWIN_WIN32 0) # Remove when CMake >= 2.8.4 is required
 PROJECT( exiv2 )
-
 CMAKE_MINIMUM_REQUIRED( VERSION 2.6 )
+
+##
+# Running cmake in a tree in which we have run ./configure ; make 
+# creates src/exv_conf.h which conflicts with cmake's own exv_conf.h
+# This causes incorrect compilation and linking errors.
+#
+# Halt processing and ask the user to fix this.
+# Remedy $ cd src; make clean -or- $ rm -rf src/exv_conf.h
+macro(trouble M)
+    message(FATAL_ERROR ${M})
+endmacro(trouble) 
+if( EXISTS ${CMAKE_SOURCE_DIR}/src/exv_conf.h  )
+    trouble("${CMAKE_SOURCE_DIR}/src/exv_conf.h exists.  Please remove file and re-run cmake!")
+endif()
+##
 
 SET( PACKAGE_COPYRIGHT      "Andreas Huggel" )
 SET( PACKAGE_BUGREPORT      "ahuggel@gmx.net" )
@@ -44,6 +58,7 @@ IF( MINGW OR UNIX )
                     -W
                    )
 ENDIF( MINGW OR UNIX )
+
 
 if( MSVC )
 	include(CMake_msvc.txt)
