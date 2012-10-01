@@ -561,11 +561,19 @@ namespace Exiv2 {
         { 0x0314, "smc PENTAX-F 35-80mm F4-5.6" },
         { 0x0315, "smc PENTAX-F 80-200mm F4.7-5.6" },
         { 0x0316, "smc PENTAX-F FISH-EYE 17-28mm F3.5-4.5" },
-        { 0x0317, "smc PENTAX-F 100-300mm F4.5-5.6" },
+        { 0x0317, "smc PENTAX-F 100-300mm F4.5-5.6" },                  //0
+        { 0x0317, "Sigma AF 28-300mm F3.5-5.6 DL IF" },                 //1
+        { 0x0317, "Sigma AF 28-300mm F3.5-6.3 DG IF Macro" },           //2
         { 0x0318, "smc PENTAX-F 35-135mm F3.5-4.5" },
-        { 0x0319, "smc PENTAX-F 35-105mm F4-5.6 or SIGMA or Tokina" },
+        { 0x0319, "smc PENTAX-F 35-105mm F4-5.6 or SIGMA or Tokina" },  //0
+        { 0x0319, "Sigma AF 28-300mm F3.5-5.6 DL IF" },                 //1
+        { 0x0319, "Sigma 55-200mm F4-5.6 DC" },                         //2
+        { 0x0319, "Sigma AF 28-300mm F3.5-5.6 DL IF" },                 //3
+        { 0x0319, "Sigma AF 28-300mm F3.5-6.3 DG IF Macro" },           //4
+        { 0x0319, "Tokina 80-200mm F2.8 ATX-Pro" },                     //5
         { 0x031a, "smc PENTAX-F* 250-600mm F5.6 ED[IF]" },
-        { 0x031b, "smc PENTAX-F 28-80mm F3.5-4.5" },
+        { 0x031b, "smc PENTAX-F 28-80mm F3.5-4.5" },                    //0
+        { 0x031b, "Tokina AT-X Pro AF 28-70mm F2.6-2.8" },              //1
         { 0x031c, "smc PENTAX-F 35-70mm F3.5-4.5" },
         { 0x031d, "PENTAX-F 28-80mm F3.5-4.5 or SIGMA AF 18-125mm F3.5-5.6 DC" },
         { 0x031e, "PENTAX-F 70-200mm F4-5.6" },
