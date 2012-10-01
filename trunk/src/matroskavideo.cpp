@@ -548,6 +548,7 @@ namespace Exiv2 {
         if (skip && !ignore) return;
 
         const uint64_t bufMinSize = 200;
+
 #ifndef SUPPRESS_WARNINGS
         if (!ignore && size > bufMinSize) {
             EXV_WARNING << "Size " << size << " of Matroska tag 0x"
