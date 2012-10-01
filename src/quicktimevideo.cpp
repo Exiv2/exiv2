@@ -535,11 +535,12 @@ namespace Exiv2 {
       @return Returns true, if Tag is found in the ignoreList[]
      */
     bool dataIgnoreList (Exiv2::DataBuf& buf) {
-        const char ignoreList[7][5] = {
+        const char ignoreList[8][5] = {
             "moov", "mdia", "minf", "dinf", "alis", "stbl", "cmov",
+            "meta",
         };
 
-        for(int i = 0 ; i < 7 ; ++i)
+        for(int i = 0 ; i < 8 ; ++i)
             if(equalsQTimeTag(buf, ignoreList[i]))
                 return true;
 
@@ -666,7 +667,7 @@ namespace Exiv2 {
         io_->read(buf.pData_, 4);
         if(size < 8)
             return;
-//        std::cerr<<"\n("<<std::setw(5)<<size<<") :" << buf.pData_;
+        std::cerr<<"\n("<<std::setw(5)<<size<<") :" << buf.pData_;
         tagDecoder(buf,size-8);
     } // QuickTimeVideo::decodeBlock
 
@@ -717,6 +718,9 @@ namespace Exiv2 {
         else if (equalsQTimeTag(buf, "tapt"))
             trackApertureTagDecoder(size);
 
+        else if (equalsQTimeTag(buf, "keys"))
+            keysTagDecoder(size);
+
         else if (equalsQTimeTag(buf, "url ")) {
             io_->read(buf.pData_, size);
             if (currentStream_ == Video)
@@ -745,7 +749,7 @@ namespace Exiv2 {
         }
 
         else {
-//            std::cerr<<" Unprocessed";
+            std::cerr<<" Unprocessed";
             discard(size);
         }
     } // QuickTimeVideo::tagDecoder
@@ -773,6 +777,24 @@ namespace Exiv2 {
 
         io_->seek(cur_pos + size, BasicIo::beg);
     } // QuickTimeVideo::previewTagDecoder
+
+    void QuickTimeVideo::keysTagDecoder(unsigned long size)
+    {
+        DataBuf buf(4);
+        uint64_t cur_pos = io_->tell();
+        io_->read(buf.pData_, 4);
+        xmpData_["Xmp.video.PreviewDate"] = getULong(buf.pData_, bigEndian);
+        io_->read(buf.pData_, 2);
+        xmpData_["Xmp.video.PreviewVersion"] = getShort(buf.pData_, bigEndian);
+
+        io_->read(buf.pData_, 4);
+        if(equalsQTimeTag(buf, "PICT"))
+            xmpData_["Xmp.video.PreviewAtomType"] = "QuickDraw Picture";
+        else
+            xmpData_["Xmp.video.PreviewAtomType"] = Exiv2::toString(buf.pData_);
+
+        io_->seek(cur_pos + size, BasicIo::beg);
+    } // QuickTimeVideo::keysTagDecoder
 
     void QuickTimeVideo::trackApertureTagDecoder(unsigned long size)
     {
@@ -878,7 +900,7 @@ namespace Exiv2 {
             td = find(userDatatags, Exiv2::toString( buf.pData_));
 
             tv = find(userDataReferencetags, Exiv2::toString( buf.pData_));
-//            std::cerr<<"  =>("<<size<<") "<<buf.pData_;
+            std::cerr<<"  =>("<<size<<") "<<buf.pData_;
             if(size == 0 || (size - 12) <= 0)
                 break;
 

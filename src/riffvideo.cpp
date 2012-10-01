@@ -537,7 +537,7 @@ namespace Exiv2 {
 
         const long bufMinSize = 4;
         DataBuf buf(bufMinSize);
-        buf.pData_[3] = '\0';
+        buf.pData_[4] = '\0';
 
         io_->read(buf.pData_, bufMinSize);
         xmpData_["Xmp.video.Container"] = buf.pData_;

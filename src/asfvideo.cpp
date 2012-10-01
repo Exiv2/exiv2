@@ -356,10 +356,12 @@ namespace Exiv2 {
 
         std::memset(buf.pData_, 0x0, buf.size_);
         io_->read(buf.pData_, 8);
-        size = static_cast<long>(getUint64_t(buf));
+        size = static_cast<unsigned long>(getUint64_t(buf));
 
-        if(tv)
+        if(tv) {
+            std::cerr<<"\n"<<std::setw(40)<<tv->label_<<"=>"<<std::setw(5)<<size;
             tagDecoder(tv,size-24);
+        }
         else
             io_->seek(cur_pos + size, BasicIo::beg);
 
