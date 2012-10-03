@@ -17,11 +17,8 @@ CMAKE_MINIMUM_REQUIRED( VERSION 2.6 )
 #
 # Halt processing and ask the user to fix this.
 # Remedy $ cd src; make clean -or- $ rm -rf src/exv_conf.h
-macro(trouble M)
-    message(FATAL_ERROR ${M})
-endmacro(trouble) 
 if( EXISTS ${CMAKE_SOURCE_DIR}/src/exv_conf.h  )
-    trouble("${CMAKE_SOURCE_DIR}/src/exv_conf.h exists.  Please remove file and re-run cmake!")
+    message(FATAL_ERROR "${CMAKE_SOURCE_DIR}/src/exv_conf.h exists.  Please remove file and re-run cmake!")
 endif()
 ##
 
@@ -165,6 +162,20 @@ ENDIF( EXIV2_ENABLE_BUILD_SAMPLES )
 IF( EXIV2_ENABLE_BUILD_PO )
     ADD_SUBDIRECTORY( po )
 ENDIF( EXIV2_ENABLE_BUILD_PO )
+
+IF( NOT MSVC )
+    # Issue #722: out of source builds compiled against standard include files such as /usr/local/lib/include/exiv2
+    # do not use CREATE_SYMLINK or CMAKE_CAN_SYMLINK as they don't work on CYGWIN
+	EXECUTE_PROCESS( WORKING_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}         COMMAND ln -s ${CMAKE_CURRENT_SOURCE_DIR}/src exiv2)
+  IF( EXIV2_ENABLE_BUILD_SAMPLES )
+	EXECUTE_PROCESS( WORKING_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}/samples COMMAND ln -s ${CMAKE_CURRENT_SOURCE_DIR}/src exiv2)
+  ENDIF( EXIV2_ENABLE_BUILD_SAMPLES )
+
+  IF( EXIV2_ENABLE_BUILD_PO )
+	EXECUTE_PROCESS( WORKING_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}/po      COMMAND ln -s ${CMAKE_CURRENT_SOURCE_DIR}/src exiv2)
+  ENDIF( EXIV2_ENABLE_BUILD_PO )
+ENDIF()
+
 
 # That's all Folks!
 ##
