@@ -214,6 +214,12 @@ Specify the location of the prebuilt libraries on the cmake command line:
 For example:
 cmake -G "NMake Makefiles" .. -DEXPAT_LIBRARY=%KDE4_INSTALL_DIR%/lib/libexpat.lib
 
+Daniel has provided a patch (SVN:2893) which enables you to specify a ZLIB search path:
+Example:
+   cmake.exe -G "Visual Studio 11 Win64" -DZLIB_ROOT=..\zlib-1.2.7-dev;..\zlib-1.2.7-dev\Release ...
+   
+If ZLIB is not located on the path provided, the normal default (..\zlib-1.2.7) will be used.
+
 ToDo: More information about parameters -DEXPAT_LIBRARTY -DZLIB_LIBRARY etc.
 
 4 Building and Installing for other users (Xcode, Eclipse, Qt)
