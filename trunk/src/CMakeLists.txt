@@ -256,29 +256,20 @@ ENDIF()
 ##
 # copy zlib and expat dlls to output directory (TODO: rewrite for NMake)
 IF ( MSVC AND EXIV2_ENABLE_SHARED )
-	if (OUT_OF_SOURCE) 
-	    ADD_CUSTOM_COMMAND(
-	      TARGET exiv2lib
-	      POST_BUILD
-	      COMMAND copy /y $(SolutionDir)..\\..\\${E}\\$(ConfigurationName)\\*.dll $(SolutionDir)\\bin\\${P_DIR}\\${T_DIR}\\$(ConfigurationName)
-	    )
-	    ADD_CUSTOM_COMMAND(
-	      TARGET exiv2lib
-	      POST_BUILD
-	      COMMAND copy /y $(SolutionDir)..\\..\\${Z}\\$(ConfigurationName)\\*.dll $(SolutionDir)\\bin\\${P_DIR}\\${T_DIR}\\$(ConfigurationName)
-	    )
-    else()
-	    ADD_CUSTOM_COMMAND(
-	      TARGET exiv2lib
-	      POST_BUILD
-	      COMMAND copy /y $(SolutionDir)..\\${E}\\$(ConfigurationName)\\*.dll $(SolutionDir)\\bin\\${P_DIR}\\${T_DIR}\\$(ConfigurationName)
-	    )
-	    ADD_CUSTOM_COMMAND(
-	      TARGET exiv2lib
-	      POST_BUILD
-	      COMMAND copy /y $(SolutionDir)..\\${Z}\\$(ConfigurationName)\\*.dll $(SolutionDir)\\bin\\${P_DIR}\\${T_DIR}\\$(ConfigurationName)
-	    )
-    endif()
+    get_filename_component(EXPAT_LIBRARY_DIR ${EXPAT_LIBRARY} PATH)
+    string(REGEX REPLACE "/" "\\\\" EXPAT_LIBRARY_DIR ${EXPAT_LIBRARY_DIR})
+    get_filename_component(ZLIB_LIBRARY_DIR ${ZLIB_LIBRARY} PATH)
+    string(REGEX REPLACE "/" "\\\\" ZLIB_LIBRARY_DIR ${ZLIB_LIBRARY_DIR})
+    ADD_CUSTOM_COMMAND(
+      TARGET exiv2lib
+      POST_BUILD
+      COMMAND copy /y ${EXPAT_LIBRARY_DIR}\\*.dll $(SolutionDir)\\bin\\${P_DIR}\\${T_DIR}\\$(ConfigurationName)
+    )
+    ADD_CUSTOM_COMMAND(
+      TARGET exiv2lib
+      POST_BUILD
+      COMMAND copy /y ${ZLIB_LIBRARY_DIR}\\*.dll $(SolutionDir)\\bin\\${P_DIR}\\${T_DIR}\\$(ConfigurationName)
+    )
 ENDIF()
 INSTALL( TARGETS exiv2lib ${INSTALL_TARGET_STANDARD_ARGS} )
 

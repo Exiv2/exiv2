@@ -14,6 +14,8 @@ if (MSVC)
 	#	link_directories(${CMAKE_CURRENT_SOURCE_DIR}/../../zlib-1.2.7/$(ConfigurationName))
 	endif()
 endif()
+include_directories("${CMAKE_SOURCE_DIR}/include")
+
 
 SET( SAMPLES addmoddel.cpp
              convert-test.cpp
