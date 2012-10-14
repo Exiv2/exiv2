@@ -212,7 +212,7 @@
 # define EXV_DLLPUBLIC
 #else
 # ifdef EXV_WANT_VISIBILITY_SUPPORT
-#  if defined(__GNUC__) && (__GNUC__ >= 4)
+#  if defined(__GNUC__) && (__GNUC__ >= 4) && !defined(__clang__)
 #   define EXV_IMPORT __attribute__ ((visibility("default")))
 #   define EXV_EXPORT __attribute__ ((visibility("default")))
 #   define EXV_DLLLOCAL __attribute__ ((visibility("hidden")))
