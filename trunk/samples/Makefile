@@ -125,6 +125,10 @@ endif
 
 relink: binclean samples
 
+# link expat directly to geotag
+geotag : geotag.o
+	$(LIBTOOL)  --mode=link $(LINK.cc) -lexpat -o $@ $@.o
+
 # Remove binaries, e.g., to relink them
 binclean:
 	$(RM) $(EXECUTABLE)
