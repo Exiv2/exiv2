@@ -6,9 +6,13 @@
 # Redistribution and use is allowed according to the terms of the BSD license.
 # For details see the accompanying COPYING-CMAKE-SCRIPTS file.
 
-SET(CMAKE_LEGACY_CYGWIN_WIN32 0) # Remove when CMake >= 2.8.4 is required
-PROJECT( exiv2 )
-CMAKE_MINIMUM_REQUIRED( VERSION 2.6 )
+##
+# Issue:#857.  Use g++ instead of c++ (clang) compiler to eliminate warnings
+if (APPLE)
+	set(CMAKE_C_COMPILER gcc)
+	set(CMAKE_CXX_COMPILER g++)
+endif(APPLE)
+##
 
 ##
 # Running cmake in a tree in which we have run ./configure ; make 
@@ -21,6 +25,11 @@ if( EXISTS ${CMAKE_SOURCE_DIR}/src/exv_conf.h  )
     message(FATAL_ERROR "${CMAKE_SOURCE_DIR}/src/exv_conf.h exists.  Please remove file and re-run cmake!")
 endif()
 ##
+
+
+PROJECT( exiv2 )
+CMAKE_MINIMUM_REQUIRED( VERSION 2.6 )
+SET(CMAKE_LEGACY_CYGWIN_WIN32 0) # Remove when CMake >= 2.8.4 is required
 
 SET( PACKAGE_COPYRIGHT      "Andreas Huggel" )
 SET( PACKAGE_BUGREPORT      "ahuggel@gmx.net" )
