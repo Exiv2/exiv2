@@ -981,8 +981,7 @@ namespace Exiv2 {
         //@}
 
         //! Simple Date helper structure
-        EXIV2API struct Date
-        {
+        struct EXIV2API Date {
             Date() : year(0), month(0), day(0) {}
             int year;                           //!< Year
             int month;                          //!< Month
