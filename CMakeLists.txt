@@ -27,9 +27,9 @@ endif()
 ##
 
 
-PROJECT( exiv2 )
-CMAKE_MINIMUM_REQUIRED( VERSION 2.6 )
 SET(CMAKE_LEGACY_CYGWIN_WIN32 0) # Remove when CMake >= 2.8.4 is required
+CMAKE_MINIMUM_REQUIRED( VERSION 2.6 )
+PROJECT( exiv2 )
 
 SET( PACKAGE_COPYRIGHT      "Andreas Huggel" )
 SET( PACKAGE_BUGREPORT      "ahuggel@gmx.net" )

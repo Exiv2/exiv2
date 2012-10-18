@@ -235,6 +235,11 @@ IF( ICONV_FOUND )
 	TARGET_LINK_LIBRARIES( exiv2lib ${ICONV_LIBRARIES} )
 ENDIF( ICONV_FOUND )
 
+IF (CYGWIN)
+    TARGET_LINK_LIBRARIES( exiv2lib psapi )
+ENDIF(CYGWIN)
+
+
 ##
 # copy header files (TODO: rewrite for NMake)
 IF (MSVC )
