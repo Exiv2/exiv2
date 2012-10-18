@@ -207,10 +207,10 @@ AC_SUBST(EXV_LIB_STATIC)
 #
 # This must happen after all other configure checks, because
 # the "-no-undefined" flag is only for libtool and must not be
-# passed to GCC by accident.
+# passed to GCC by accident.  Add link psapi (for version.cpp)
 case "$host_os" in
 *mingw* | *cygwin*)
-    LDFLAGS="$LDFLAGS -no-undefined"
+    LDFLAGS="$LDFLAGS -no-undefined -lpsapi"
     ;;
 esac
 

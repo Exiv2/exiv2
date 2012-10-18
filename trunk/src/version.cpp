@@ -37,6 +37,10 @@ EXIV2_RCSID("@(#) $Id$")
 # include "exv_conf.h"
 #endif
 
+#if defined(__CYGWIN__)
+#include <windows.h>
+#endif
+
 #include "version.hpp"
 
 // + standard includes
@@ -141,7 +145,7 @@ EXIV2API void dumpLibraryInfo(std::ostream& os)
 	path[0]=0;
 
 	// enumerate loaded libraries and determine path to executable
-#if defined(WIN32)
+#if defined(WIN32) || defined(__CYGWIN__)
 	bReport = true;
 	HMODULE handles[100];
 	DWORD   cbNeeded;
@@ -189,8 +193,6 @@ EXIV2API void dumpLibraryInfo(std::ostream& os)
 	char proc[100];
 	sprintf(proc,"/proc/%d/exe", getpid());
 	path_l = readlink (proc, path, path_max);
-#elif defined(__CYGWIN__)
-	bReport=true;
 #endif
 
 	if ( bReport ) {
