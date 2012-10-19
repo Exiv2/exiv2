@@ -54,7 +54,7 @@ ENABLE_XMP = 1
 
 .PHONY: all doc config samples xmpsdk                \
         mostlyclean clean distclean maintainer-clean \
-        install uninstall tests
+        install uninstall
 
 all install: config/config.mk xmpsdk
 	cd src && $(MAKE) $(MAKECMDGOALS)
