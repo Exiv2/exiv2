@@ -72,6 +72,9 @@ samples: config/config.mk
 
 config:
 	cd config && $(MAKE) -f config.make $(MAKECMDGOALS)
+	
+tests:
+	cd test && $(MAKE) test
 
 xmpsdk: config/config.mk
 	if test "x$(ENABLE_XMP)" = "x1"; then cd xmpsdk/src && $(MAKE) $@; fi;
@@ -89,6 +92,7 @@ mostlyclean clean: config/config.mk
 # for packaging.
 distclean: clean
 	rm -f config.log config.status libtool
+	rm -f bin
 	rm -f *~ *.bak *#
 
 # This removes almost everything, including the configure script!

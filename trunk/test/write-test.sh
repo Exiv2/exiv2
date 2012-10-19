@@ -22,9 +22,9 @@ runTestCase()
     rm -f $datapath/iii $datapath/ttt; 
 
     echo "------------------------------------------------------------"
-    $samples/exifprint $rtc_infile > $datapath/iii;
+    $bin/exifprint $rtc_infile > $datapath/iii;
     cp $rtc_infile $rtc_outfile; 
-    $samples/write-test $rtc_infile $rtc_number > $datapath/ttt; 
+    $bin/write-test $rtc_infile $rtc_number > $datapath/ttt; 
     diff -a $datapath/iii $datapath/ttt
 }
 
@@ -32,11 +32,9 @@ runTestCase()
 # main
 
 if [ -z "$EXIV2_BINDIR" ] ; then
-    bin="$VALGRIND ../../src"
-    samples="$VALGRIND ../../samples"
+    bin="$VALGRIND ../../bin"
 else
     bin="$VALGRIND $EXIV2_BINDIR"
-    samples="$VALGRIND $EXIV2_BINDIR"
 fi
 datapath="."
 diffargs="--strip-trailing-cr"

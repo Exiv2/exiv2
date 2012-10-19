@@ -7,11 +7,9 @@ export LC_ALL=C
 results="./xmpparser-test.out"
 good="../data/xmpparser-test.out"
 if [ -z "$EXIV2_BINDIR" ] ; then
-    bin="$VALGRIND ../../src"
-    samples="$VALGRIND ../../samples"
+    bin="$VALGRIND ../../bin"
 else
     bin="$VALGRIND $EXIV2_BINDIR"
-    samples="$VALGRIND $EXIV2_BINDIR"
 fi
 cd ./tmp
 
@@ -29,29 +27,29 @@ fi
 # BlueSquare
 testfile=BlueSquare.xmp
 cp -f ../data/$testfile .
-$samples/xmpparser-test $testfile
+$bin/xmpparser-test $testfile
 diff $testfile ${testfile}-new
 
 # ----------------------------------------------------------------------
 # StaffPhotographer-Example
 testfile=StaffPhotographer-Example.xmp
 cp -f ../data/$testfile .
-$samples/xmpparser-test $testfile
+$bin/xmpparser-test $testfile
 diff $testfile ${testfile}-new
 
 # ----------------------------------------------------------------------
 # xmpsdk
 testfile=xmpsdk.xmp
 cp -f ../data/$testfile .
-$samples/xmpparser-test $testfile
+$bin/xmpparser-test $testfile
 diff $testfile ${testfile}-new
-$samples/xmpparse ${testfile} > t1 2>&1
-$samples/xmpparse ${testfile}-new > t2 2>&1
+$bin/xmpparse ${testfile} > t1 2>&1
+$bin/xmpparse ${testfile}-new > t2 2>&1
 diff t1 t2
 
 # ----------------------------------------------------------------------
 # xmpsample
-$samples/xmpsample
+$bin/xmpsample
 
 # ----------------------------------------------------------------------
 # XMP sample commands

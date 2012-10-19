@@ -17,11 +17,9 @@ fi
 # Main routine
 (
 if [ -z "$EXIV2_BINDIR" ] ; then
-    bin="$VALGRIND ../../src"
-    samples="$VALGRIND ../../samples"
+    bin="$VALGRIND ../../bin"
 else
     bin="$VALGRIND $EXIV2_BINDIR"
-    samples="$VALGRIND $EXIV2_BINDIR"
 fi
 cmdfile=cmdfile
 crwfile=exiv2-canon-powershot-s40.crw

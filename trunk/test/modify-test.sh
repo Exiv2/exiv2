@@ -2,11 +2,9 @@
 # Test driver for write unit tests to build Exif metadata from scratch
 export LC_ALL=C
 if [ -z "$EXIV2_BINDIR" ] ; then
-    bin="$VALGRIND ../../src"
-    samples="$VALGRIND ../../samples"
+    bin="$VALGRIND ../../bin"
 else
     bin="$VALGRIND $EXIV2_BINDIR"
-    samples="$VALGRIND $EXIV2_BINDIR"
 fi
 results="./tmp/modify-test.out"
 good="./data/modify-test.out"

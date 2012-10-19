@@ -8,7 +8,7 @@ printTest()
     good=$datapath/${src}.ipgd
 
     #run tests
-    $samples/iptcprint $datapath/$src > $test
+    $bin/iptcprint $datapath/$src > $test
 
     #check results
     diffCheck $test $good
@@ -26,7 +26,7 @@ removeTest()
     cp $datapath/$src $tmp
 
     #run tests
-    $samples/iptctest $tmp <<-eoc
+    $bin/iptctest $tmp <<-eoc
 		r Iptc.Application2.Byline
 		r Iptc.Application2.Caption
 		r Iptc.Application2.Keywords
@@ -34,7 +34,7 @@ removeTest()
 		r Iptc.Application2.Keywords
 		r Iptc.Application2.CountryName
 eoc
-    $samples/iptcprint $tmp > $test
+    $bin/iptcprint $tmp > $test
 
     #check results
     diffCheck $test $good
@@ -53,7 +53,7 @@ addModTest()
     cp $datapath/$src $tmp
 
     #run tests
-    $samples/iptctest $tmp <<-eoc
+    $bin/iptctest $tmp <<-eoc
 		a Iptc.Application2.Headline          The headline I am
 		a Iptc.Application2.Keywords          Yet another keyword
 		m Iptc.Application2.DateCreated       2004-8-3
@@ -63,7 +63,7 @@ addModTest()
 		a Iptc.Envelope.TimeSent              14:41:0-05:00
 		a Iptc.Application2.RasterizedCaption 230 42 34 2 90 84 23 146
 eoc
-    $samples/iptcprint $tmp > $test
+    $bin/iptcprint $tmp > $test
 
     #check results
     diffCheck $test $good
@@ -82,8 +82,8 @@ extendedTest()
     cp $datapath/$src $tmp
 
     #run tests
-    $samples/iptctest $tmp < $datapath/ext.dat
-    $samples/iptcprint $tmp > $test
+    $bin/iptctest $tmp < $datapath/ext.dat
+    $bin/iptcprint $tmp > $test
 
     #check results
     diffCheck $test $good
@@ -111,11 +111,9 @@ diffCheck()
 # main
 
 if [ -z "$EXIV2_BINDIR" ] ; then
-    bin="$VALGRIND ../../src"
-    samples="$VALGRIND ../../samples"
+    bin="$VALGRIND ../../bin"
 else
     bin="$VALGRIND $EXIV2_BINDIR"
-    samples="$VALGRIND $EXIV2_BINDIR"
 fi
 datapath="../data"
 diffargs="--strip-trailing-cr"

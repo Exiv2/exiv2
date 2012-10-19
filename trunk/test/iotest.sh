@@ -8,7 +8,7 @@ ioTest()
     out2=${1}.2
 
     #run tests
-    $samples/iotest $src $out1 $out2
+    $bin/iotest $src $out1 $out2
     if [ $? -ne 0 ]; then
        errors=`expr $errors + 1`
        return
@@ -39,11 +39,9 @@ diffCheck()
 # main
 
 if [ -z "$EXIV2_BINDIR" ] ; then
-    bin="$VALGRIND ../../src"
-    samples="$VALGRIND ../../samples"
+    bin="$VALGRIND ../../bin"
 else
     bin="$VALGRIND $EXIV2_BINDIR"
-    samples="$VALGRIND $EXIV2_BINDIR"
 fi
 
 datapath="../data"

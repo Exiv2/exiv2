@@ -11,11 +11,9 @@
 export LC_ALL=C
 cd tmp/
 if [ -z "$EXIV2_BINDIR" ] ; then
-    bin="$VALGRIND ../../src"
-    samples="$VALGRIND ../../samples"
+    bin="$VALGRIND ../../bin"
 else
     bin="$VALGRIND $EXIV2_BINDIR"
-    samples="$VALGRIND $EXIV2_BINDIR"
 fi
 diffargs="--strip-trailing-cr"
 if ! diff -q $diffargs /dev/null /dev/null 2>/dev/null ; then

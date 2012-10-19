@@ -11,8 +11,8 @@ if [ $? -ne 0 ] ; then
 fi
 (
 if [ -z "$EXIV2_BINDIR" ] ; then
-    bin="$VALGRIND ../../src"
-    samples="$VALGRIND ../../samples"
+    bin="$VALGRIND ../../bin"
+    samples="$VALGRIND ../../bin"
 else
     bin="$VALGRIND $EXIV2_BINDIR"
     samples="$VALGRIND $EXIV2_BINDIR"
@@ -21,9 +21,9 @@ cp -f ./data/exiv2-gc.jpg ./tmp
 cp -f ./data/exiv2-canon-powershot-s40.jpg ./tmp
 cp -f ./data/exiv2-nikon-d70.jpg ./tmp
 cd ./tmp
-$samples/exifdata-test exiv2-gc.jpg
-$samples/exifdata-test exiv2-canon-powershot-s40.jpg
-$samples/exifdata-test exiv2-nikon-d70.jpg
+$bin/exifdata-test exiv2-gc.jpg
+$bin/exifdata-test exiv2-canon-powershot-s40.jpg
+$bin/exifdata-test exiv2-nikon-d70.jpg
 )  | tr -d '\r' > $results
 
 diff -q $diffargs $results $good

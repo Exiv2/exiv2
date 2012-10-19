@@ -6,6 +6,10 @@
 # Redistribution and use is allowed according to the terms of the BSD license.
 # For details see the accompanying COPYING-CMAKE-SCRIPTS file.
 
+if ( NOT MSVC )
+	set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin)
+endif()
+
 # Private headers which are only needed for the library itself
 SET( LIBEXIV2_PRIVATE_HDR canonmn_int.hpp
                           cr2image_int.hpp
