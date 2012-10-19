@@ -247,17 +247,20 @@ lib: $(OBJ)
 	$(LIBTOOL) --mode=link $(LINK.cc) -o $(LIBRARY) $(LOBJ) -rpath $(libdir) -version-info $(EXIV2_LTVERSION) $(LIBS)
 	@touch lib
 
-path-test: path-test.o utils.o
-	$(CXX) $(CXXFLAGS) path-test.o utils.o -o $@
+path-test: path-test.o utils.o 
+	mkdir -pv ../bin 2>&1 > /dev/null
+	$(CXX) $(CXXFLAGS) path-test.o utils.o -o ../bin/$@
 
 $(BINARY): %: %.o lib
 	@$(LIBTOOL) --mode=link $(LINK.cc) -o $@ $(LIBRARY) $@.o -rpath $(libdir)
 
 $(EXIV2BIN): lib $(EXIV2OBJ) $(EXIV2COBJ)
-	@$(LIBTOOL) --mode=link $(LINK.cc) -o $@ $(LIBRARY) $(EXIV2OBJ) $(EXIV2COBJ) -rpath $(libdir)
+	mkdir -pv ../bin 2>&1 > /dev/null
+	@$(LIBTOOL) --mode=link $(LINK.cc) -o ../bin/$@ $(LIBRARY) $(EXIV2OBJ) $(EXIV2COBJ) -rpath $(libdir)
 
 $(MCBIN): lib $(MCOBJ)
-	@$(LIBTOOL) --mode=link $(LINK.cc) -o $@ $(LIBRARY) $(MCOBJ) -rpath $(libdir)
+	mkdir -pv ../bin 2>&1 > /dev/null
+	@$(LIBTOOL) --mode=link $(LINK.cc) -o ../bin/$@ $(LIBRARY) $(MCOBJ) -rpath $(libdir)
 
 install-header:
 	$(INSTALL_DIRS) $(DESTDIR)$(incdir)
@@ -277,7 +280,7 @@ install-lib: lib install-header
 
 install: $(EXIV2BIN) install-lib
 	$(INSTALL_DIRS) $(DESTDIR)$(bindir)
-	@$(LIBTOOL) --mode=install $(INSTALL_PROGRAM) $(EXIV2EXE) $(DESTDIR)$(bindir)/$(EXIV2EXE)
+	@$(LIBTOOL) --mode=install $(INSTALL_PROGRAM) bin/$(EXIV2EXE) $(DESTDIR)$(bindir)/$(EXIV2EXE)
 	$(INSTALL_DIRS) $(DESTDIR)$(mandir)
 	$(INSTALL_DIRS) $(DESTDIR)$(man1dir)
 	$(INSTALL_DATA) exiv2.1 $(DESTDIR)$(man1dir)/exiv2.1

@@ -7,11 +7,9 @@ export LC_ALL=C
 results="./conversions.out"
 good="../data/conversions.out"
 if [ -z "$EXIV2_BINDIR" ] ; then
-    bin="$VALGRIND ../../src"
-    samples="$VALGRIND ../../samples"
+    bin="$VALGRIND ../../bin"
 else
     bin="$VALGRIND $EXIV2_BINDIR"
-    samples="$VALGRIND $EXIV2_BINDIR"
 fi
 cd ./tmp
 

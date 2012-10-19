@@ -108,7 +108,8 @@ $(BINOBJ): %.o: %.cpp
 	@$(POSTDEPEND)
 
 $(BINARY): %: %.o
-	$(LIBTOOL) --mode=link $(LINK.cc) -o $@ $@.o
+	mkdir -pv ../bin 2>&1 > /dev/null
+	$(LIBTOOL) --mode=link $(LINK.cc) -o ../bin/$@ $@.o
 
 %.ii: %.cpp
 	set -e; \

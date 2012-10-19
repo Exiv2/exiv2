@@ -24,11 +24,9 @@ prep_any_file()
 
 (
 if [ -z "$EXIV2_BINDIR" ] ; then
-    bin="$VALGRIND ../../src"
-    samples="$VALGRIND ../../samples"
+    bin="$VALGRIND ../../bin"
 else
     bin="$VALGRIND $EXIV2_BINDIR"
-    samples="$VALGRIND $EXIV2_BINDIR"
 fi
 cd ./tmp
 
@@ -78,7 +76,7 @@ $bin/exiv2 -u -pt $filename
 
 num=480
 filename=`prep_file $num`
-$samples/largeiptc-test $filename ../data/imagemagick.png
+$bin/largeiptc-test $filename ../data/imagemagick.png
 
 num=495
 filename=`prep_file $num`
@@ -182,11 +180,11 @@ $bin/exiv2 -u -v -M'set Exif.Image.ProcessingSoftware Intrusive update, writing 
 $bin/exiv2 -u -v -PEkyct $filename
 
 # Test easy-access keys (using a dummy bug number)
-if { test -f $samples/easyaccess-test || test -f $samples/easyaccess-test.exe; }; then
+if { test -f $bin/easyaccess-test || test -f $bin/easyaccess-test.exe; }; then
     num=726
     filename=`prep_empty_file $num`
     $bin/exiv2 -u -v -M"set Exif.Image.Make Samsung" $filename
-    $samples/easyaccess-test $filename
+    $bin/easyaccess-test $filename
 else
     echo "bugfixes-test.sh: easyaccess-test executable not found. Skipping regression test for issue #726."
 fi

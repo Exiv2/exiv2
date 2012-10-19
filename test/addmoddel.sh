@@ -11,15 +11,13 @@ if [ $? -ne 0 ] ; then
 fi
 (
 if [ -z "$EXIV2_BINDIR" ] ; then
-    bin="$VALGRIND ../../src"
-    samples="$VALGRIND ../../samples"
+    bin="$VALGRIND ../../bin"
 else
     bin="$VALGRIND $EXIV2_BINDIR"
-    samples="$VALGRIND $EXIV2_BINDIR"
 fi
 cp -f ./data/exiv2-empty.jpg ./tmp
 cd ./tmp
-$samples/addmoddel exiv2-empty.jpg
+$bin/addmoddel exiv2-empty.jpg
 $bin/exiv2 -pv exiv2-empty.jpg
 ) > $results
 
