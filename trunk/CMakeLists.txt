@@ -185,10 +185,12 @@ ENDIF()
 
 ##
 # tests
-ADD_CUSTOM_TARGET(tests COMMAND make test "EXIV2_BINDIR=${CMAKE_BINARY_DIR}/bin"  WORKING_DIRECTORY "${CMAKE_SOURCE_DIR}/test/" )
+ADD_CUSTOM_TARGET(tests COMMAND make test  "EXIV2_BINDIR=${CMAKE_BINARY_DIR}/bin"  WORKING_DIRECTORY "${CMAKE_SOURCE_DIR}/test/" )
+ADD_CUSTOM_TARGET(teste COMMAND make teste "EXIV2_BINDIR=${CMAKE_BINARY_DIR}/bin"  WORKING_DIRECTORY "${CMAKE_SOURCE_DIR}/test/" )
+ADD_CUSTOM_TARGET(testv COMMAND make testv "EXIV2_BINDIR=${CMAKE_BINARY_DIR}/bin"  WORKING_DIRECTORY "${CMAKE_SOURCE_DIR}/test/" )
 
 ##
-# support for test suite TODO: fixup for MSVC and think a bit more about this
+# support for test suite TODO: fixup for MSVC and think a bit more before deploying this
 # ENABLE_TESTING()
 # INCLUDE(Dart)
 # ADD_TEST(tests bash -c "cd ${CMAKE_SOURCE_DIR}/test/ ; make EXIV2_BINDIR=${CMAKE_BINARY_DIR}/bin" )

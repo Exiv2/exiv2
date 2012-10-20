@@ -54,12 +54,19 @@ SHELL = /bin/sh
 
 # ******************************************************************************
 # Targets
-.PHONY: all test clean distclean maintainer-clean
+.PHONY: all test testv teste clean distclean maintainer-clean
 
+##
+# to save download time for simple build/test, we download video and eps data on demand
+# TODO: remove data/eps from depot for the 0.24 release.
+#       If we remove it now, it'll break the test instructions on the web:
+#       http://www.exiv2.org/download.html
+SVN = svn://dev.exiv2.org/svn/testdata/trunk
+
+##
 # Add test drivers to this list
 TESTS = addmoddel.sh      \
         bugfixes-test.sh  \
-        eps-test.sh       \
         exifdata-test.sh  \
         exiv2-test.sh     \
         imagetest.sh      \
@@ -73,8 +80,9 @@ TESTS = addmoddel.sh      \
         write-test.sh     \
         write2-test.sh    \
         xmpparser-test.sh \
-        conversions.sh    \
-        video-test.sh
+        conversions.sh
+TESTV = video-test.sh
+TESTE = eps-test.sh    
 
 test:
 	@list='$(TESTS)'; for p in $$list; do \
@@ -82,8 +90,27 @@ test:
 	    ./$$p; \
 	done
 
+testv:
+	@for t in /video ; do \
+		if [ ! -e data/$$t ]; then \
+	echo svn export '$(SVN)'$$t data$$t ; \
+	     svn export '$(SVN)'$$t data$$t ; \
+	fi ; done
+	@list='$(TESTV)'; for p in $$list; do \
+	    echo Running $$p ...; \
+	    ./$$p; \
+	done
+
+##
+# TODO: download eps data on demand for 0.24 (similar to testv)
+teste:
+	@list='$(TESTE)'; for p in $$list; do \
+	    echo Running $$p ...; \
+	    ./$$p; \
+	done
+
 clean:
-	rm -rf $(top_srcdir)/test/tmp/*
+	rm -rf $(top_srcdir)/test/tmp/* data/video data/eps
 
 distclean: clean
 	$(RM) *~ *.bak *#
@@ -91,3 +118,6 @@ distclean: clean
 # This command is intended for maintainers to use; it deletes files
 # that may need special tools to rebuild.
 maintainer-clean: distclean
+
+# That's all Folks!
+##

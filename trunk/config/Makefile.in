@@ -54,7 +54,7 @@ ENABLE_XMP = @ENABLE_XMP@
 
 .PHONY: all doc config samples xmpsdk                \
         mostlyclean clean distclean maintainer-clean \
-        install uninstall tests
+        install uninstall tests teste testv
 
 all install: config/config.mk xmpsdk
 	cd src && $(MAKE) $(MAKECMDGOALS)
@@ -72,6 +72,12 @@ samples: config/config.mk
 
 tests:
 	cd test && $(MAKE) test
+
+teste:
+	cd test && $(MAKE) teste
+
+testv:
+	cd test && $(MAKE) testv
 
 config:
 	cd config && $(MAKE) -f config.make $(MAKECMDGOALS)
