@@ -12,10 +12,8 @@ fi
 (
 if [ -z "$EXIV2_BINDIR" ] ; then
     bin="$VALGRIND ../../bin"
-    samples="$VALGRIND ../../bin"
 else
     bin="$VALGRIND $EXIV2_BINDIR"
-    samples="$VALGRIND $EXIV2_BINDIR"
 fi
 cp -f ./data/exiv2-gc.jpg ./tmp
 cp -f ./data/exiv2-canon-powershot-s40.jpg ./tmp
