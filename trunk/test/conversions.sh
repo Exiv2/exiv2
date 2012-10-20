@@ -15,7 +15,7 @@ cd ./tmp
 
 # ----------------------------------------------------------------------
 # Check if xmpparser-test exists
-if [ ! -e ../../samples/xmpparser-test -a ! -e "$EXIV2_BINDIR/xmpparser-test" ] ; then
+if [ ! -e ../../bin/xmpparser-test -a ! -e "$EXIV2_BINDIR/xmpparser-test" ] ; then
     echo "xmpparser-test not found. Assuming XMP support is not enabled."
     exit 0
 fi
