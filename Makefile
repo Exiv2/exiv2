@@ -54,7 +54,7 @@ ENABLE_XMP = 1
 
 .PHONY: all doc config samples xmpsdk                \
         mostlyclean clean distclean maintainer-clean \
-        install uninstall
+        install uninstall tests teste testv
 
 all install: config/config.mk xmpsdk
 	cd src && $(MAKE) $(MAKECMDGOALS)
@@ -70,11 +70,17 @@ doc: config/config.mk
 samples: config/config.mk
 	cd samples && $(MAKE) $(MAKECMDGOALS)
 
-config:
-	cd config && $(MAKE) -f config.make $(MAKECMDGOALS)
-	
 tests:
 	cd test && $(MAKE) test
+
+teste:
+	cd test && $(MAKE) teste
+
+testv:
+	cd test && $(MAKE) testv
+
+config:
+	cd config && $(MAKE) -f config.make $(MAKECMDGOALS)
 
 xmpsdk: config/config.mk
 	if test "x$(ENABLE_XMP)" = "x1"; then cd xmpsdk/src && $(MAKE) $@; fi;
@@ -92,7 +98,6 @@ mostlyclean clean: config/config.mk
 # for packaging.
 distclean: clean
 	rm -f config.log config.status libtool
-	rm -f bin
 	rm -f *~ *.bak *#
 
 # This removes almost everything, including the configure script!

@@ -359,7 +359,6 @@ namespace Exiv2 {
         size = static_cast<unsigned long>(getUint64_t(buf));
 
         if(tv) {
-            std::cerr<<"\n"<<std::setw(40)<<tv->label_<<"=>"<<std::setw(5)<<size;
             tagDecoder(tv,size-24);
         }
         else

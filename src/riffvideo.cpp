@@ -551,7 +551,7 @@ namespace Exiv2 {
 
     void RiffVideo::decodeBlock()
     {
-        const long bufMinSize = 5;
+        const long bufMinSize = 4;
         DataBuf buf(bufMinSize);
         DataBuf buf2(bufMinSize);
         unsigned long size = 0;
@@ -718,7 +718,7 @@ namespace Exiv2 {
 
     void RiffVideo::skipListData()
     {
-        const long bufMinSize = 5;
+        const long bufMinSize = 4;
         DataBuf buf(bufMinSize);
         buf.pData_[4] = '\0';
         io_->seek(-12, BasicIo::cur);
@@ -854,7 +854,7 @@ namespace Exiv2 {
     void RiffVideo::junkHandler(long size)
     {
         const long bufMinSize = size;
-        DataBuf buf(bufMinSize), buf2(5);
+        DataBuf buf(bufMinSize), buf2(4);
         std::memset(buf.pData_, 0x0, buf.size_);
         buf2.pData_[4] = '\0';
         uint64_t cur_pos = io_->tell();
@@ -922,7 +922,7 @@ namespace Exiv2 {
 
     void RiffVideo::aviHeaderTagsHandler(long size)
     {
-        const long bufMinSize = 5;
+        const long bufMinSize = 4;
         DataBuf buf(bufMinSize);
         buf.pData_[4] = '\0';
         long width = 0, height = 0, frame_count = 0;
@@ -968,7 +968,7 @@ namespace Exiv2 {
 
     void RiffVideo::streamHandler(long size)
     {
-        const long bufMinSize = 5;
+        const long bufMinSize = 4;
         DataBuf buf(bufMinSize);
         buf.pData_[4]='\0';
         long divisor = 1;
@@ -1032,7 +1032,7 @@ namespace Exiv2 {
 
     void RiffVideo::streamFormatHandler(long size)
     {
-        const long bufMinSize = 5;
+        const long bufMinSize = 4;
         DataBuf buf(bufMinSize);
         buf.pData_[4] = '\0';
         uint64_t cur_pos = io_->tell();

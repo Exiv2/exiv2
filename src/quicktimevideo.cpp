@@ -649,7 +649,7 @@ namespace Exiv2 {
 
     void QuickTimeVideo::decodeBlock()
     {
-        const long bufMinSize = 5;
+        const long bufMinSize = 4;
         DataBuf buf(bufMinSize);
         unsigned long size = 0;
         buf.pData_[4] = '\0' ;
@@ -667,7 +667,7 @@ namespace Exiv2 {
         io_->read(buf.pData_, 4);
         if(size < 8)
             return;
-        std::cerr<<"\n("<<std::setw(5)<<size<<") :" << buf.pData_;
+
         tagDecoder(buf,size-8);
     } // QuickTimeVideo::decodeBlock
 
@@ -749,7 +749,6 @@ namespace Exiv2 {
         }
 
         else {
-            std::cerr<<" Unprocessed";
             discard(size);
         }
     } // QuickTimeVideo::tagDecoder
@@ -900,7 +899,7 @@ namespace Exiv2 {
             td = find(userDatatags, Exiv2::toString( buf.pData_));
 
             tv = find(userDataReferencetags, Exiv2::toString( buf.pData_));
-            std::cerr<<"  =>("<<size<<") "<<buf.pData_;
+
             if(size == 0 || (size - 12) <= 0)
                 break;
 
