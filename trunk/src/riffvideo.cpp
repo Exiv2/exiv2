@@ -741,6 +741,7 @@ namespace Exiv2 {
         tempSize = size; char str[9] = " . . . ";
         uint64_t internal_pos, cur_pos; internal_pos = cur_pos = io_->tell();
         const TagDetails* td;
+        double denominator = 1;
         io_->read(buf.pData_, 4); tempSize -= 4;
 
         while(tempSize > 0) {
@@ -798,7 +799,11 @@ namespace Exiv2 {
                     case 0x000f: case 0x001b: case 0x0016:
                         buf2.pData_[0] = buf.pData_[4]; buf2.pData_[1] = buf.pData_[5];
                         buf2.pData_[2] = buf.pData_[6]; buf2.pData_[3] = buf.pData_[7];
-                        xmpData_[exvGettext(td->label_)] = (double)Exiv2::getLong(buf.pData_, littleEndian) / (double)Exiv2::getLong(buf2.pData_, littleEndian);;
+                        denominator = (double)Exiv2::getLong(buf2.pData_, littleEndian);
+                        if (denominator != 0)
+                            xmpData_[exvGettext(td->label_)] = (double)Exiv2::getLong(buf.pData_, littleEndian) / denominator;
+                        else
+                            xmpData_[exvGettext(td->label_)] = 0;
                         break;
 
                     default:

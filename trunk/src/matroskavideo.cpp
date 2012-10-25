@@ -505,6 +505,7 @@ namespace Exiv2 {
 
         IoCloser closer(*io_);
         clearMetadata();
+        continueTraversing_ = true;
         height_ = width_ = 1;
 
         xmpData_["Xmp.video.FileName"] = io_->path();
