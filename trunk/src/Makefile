@@ -280,7 +280,7 @@ install-lib: lib install-header
 
 install: $(EXIV2BIN) install-lib
 	$(INSTALL_DIRS) $(DESTDIR)$(bindir)
-	@$(LIBTOOL) --mode=install $(INSTALL_PROGRAM) bin/$(EXIV2EXE) $(DESTDIR)$(bindir)/$(EXIV2EXE)
+	@$(LIBTOOL) --mode=install $(INSTALL_PROGRAM) ../bin/$(EXIV2EXE) $(DESTDIR)$(bindir)/$(EXIV2EXE)
 	$(INSTALL_DIRS) $(DESTDIR)$(mandir)
 	$(INSTALL_DIRS) $(DESTDIR)$(man1dir)
 	$(INSTALL_DATA) exiv2.1 $(DESTDIR)$(man1dir)/exiv2.1
