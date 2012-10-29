@@ -103,7 +103,7 @@ CCSRC += preview.cpp       \
 	 psdimage.cpp          \
 	 quicktimevideo.cpp    \
 	 rafimage.cpp          \
-     riffvideo.cpp         \
+	 riffvideo.cpp         \
 	 rw2image.cpp          \
 	 samsungmn.cpp         \
 	 sigmamn.cpp           \
@@ -125,10 +125,6 @@ ifndef HAVE_TIMEGM
 CSRC =   localtime.c
 endif
 
-# Add source files of simple applications to this list
-# Todo: How can we still support crwedit.cpp, crwparse.cpp
-BINSRC = taglist.cpp
-
 # Source files for the Exiv2 application
 EXIV2MAIN = exiv2.cpp
 EXIV2SRC  = actions.cpp       \
@@ -137,10 +133,6 @@ EXIV2SRC  = actions.cpp       \
 ifndef HAVE_TIMEGM
 EXIVCSRC  = localtime.c
 endif
-
-# Source files for the metacopy sample application
-MCMAIN = metacopy.cpp
-MCSRC  = utils.cpp
 
 # ******************************************************************************
 # Library
@@ -172,25 +164,16 @@ HDR = $(CCHDR)
 OBJ = $(CCOBJ) $(COBJ)
 LOBJ = $(CCLOBJ) $(CLOBJ)
 
-BINOBJ = $(BINSRC:.cpp=.o)
-BINARY = $(BINSRC:.cpp=)
-EXECUTABLE = $(BINSRC:.cpp=$(EXEEXT))
-
 EXIV2OBJ = $(EXIV2MAIN:.cpp=.o) $(EXIV2SRC:.cpp=.o)
 EXIV2COBJ = $(EXIVCSRC:.c=.o)
 EXIV2BIN = $(EXIV2MAIN:.cpp=)
 EXIV2EXE = $(EXIV2MAIN:.cpp=$(EXEEXT))
 
-MCOBJ = $(MCMAIN:.cpp=.o) $(MCSRC:.cpp=.o)
-MCBIN = $(MCMAIN:.cpp=)
-MCEXE = $(MCMAIN:.cpp=$(EXEEXT))
-
 ifdef DEP_TRACKING
 DEP = $(CCSRC:%.cpp=$(DEPDIR)/%.d) $(CSRC:%.c=$(DEPDIR)/%.d) \
       $(BINSRC:%.cpp=$(DEPDIR)/%.d) \
       $(EXIV2MAIN:%.cpp=$(DEPDIR)/%.d) $(EXIV2SRC:%.cpp=$(DEPDIR)/%.d) \
-      $(EXIVCSRC:%.c=$(DEPDIR)/%.d) $(MCMAIN:%.cpp=$(DEPDIR)/%.d) \
-      $(MCSRC:%.cpp=$(DEPDIR)/%.d) $(DEPDIR)/path-test.d
+      $(EXIVCSRC:%.c=$(DEPDIR)/%.d)
 
 endif
 
@@ -206,7 +189,7 @@ $(COBJ): %.o: %.c
 	@$(MAKEDEPEND)
 	@$(POSTDEPEND)
 
-$(sort $(BINOBJ) $(EXIV2OBJ) $(MCOBJ) path-test.o): %.o: %.cpp
+$(EXIV2OBJ): %.o: %.cpp
 	$(COMPILE.cc) -o $@ $<
 	@$(MAKEDEPEND)
 	@$(POSTDEPEND)
@@ -241,15 +224,11 @@ exv_conf.h: $(top_srcdir)/config/config.h
 $(LIBTOOL): $(LIBTOOL_DEPS)
 	$(SHELL) $(top_srcdir)/config.status --recheck
 
-bin: lib $(BINARY) $(EXIV2BIN) $(MCBIN) path-test
+bin: lib $(EXIV2BIN)
 
 lib: $(OBJ)
 	$(LIBTOOL) --mode=link $(LINK.cc) -o $(LIBRARY) $(LOBJ) -rpath $(libdir) -version-info $(EXIV2_LTVERSION) $(LIBS)
 	@touch lib
-
-path-test: path-test.o utils.o 
-	mkdir -pv ../bin 2>&1 > /dev/null
-	$(CXX) $(CXXFLAGS) path-test.o utils.o -o ../bin/$@
 
 $(BINARY): %: %.o lib
 	@$(LIBTOOL) --mode=link $(LINK.cc) -o $@ $(LIBRARY) $@.o -rpath $(libdir)
@@ -257,10 +236,6 @@ $(BINARY): %: %.o lib
 $(EXIV2BIN): lib $(EXIV2OBJ) $(EXIV2COBJ)
 	mkdir -pv ../bin 2>&1 > /dev/null
 	@$(LIBTOOL) --mode=link $(LINK.cc) -o ../bin/$@ $(LIBRARY) $(EXIV2OBJ) $(EXIV2COBJ) -rpath $(libdir)
-
-$(MCBIN): lib $(MCOBJ)
-	mkdir -pv ../bin 2>&1 > /dev/null
-	@$(LIBTOOL) --mode=link $(LINK.cc) -o ../bin/$@ $(LIBRARY) $(MCOBJ) -rpath $(libdir)
 
 install-header:
 	$(INSTALL_DIRS) $(DESTDIR)$(incdir)
@@ -317,15 +292,13 @@ mostlyclean:
 	$(RM) core
 	$(RM) $(CCSRC:.cpp=.ii)
 	$(RM) lib
-	$(RM) path-test.o
 	$(RM) exv_conf.h
 	$(RM) $(CCSRC:%.cpp=.libs/%.d) $(CSRC:%.c=.libs/%.d)
-	@$(LIBTOOL) --mode=clean $(RM) $(LOBJ) $(sort $(BINOBJ) $(EXIV2OBJ) $(EXIV2COBJ) $(MCOBJ))
+	@$(LIBTOOL) --mode=clean $(RM) $(LOBJ) $(sort $(EXIV2OBJ) $(EXIV2COBJ) )
 
 clean: mostlyclean
 	@$(LIBTOOL) --mode=clean $(RM) $(LIBRARY)
-	@$(LIBTOOL) --mode=clean $(RM) $(EXECUTABLE) $(EXIV2EXE) $(MCEXE)
-	@$(LIBTOOL) --mode=clean $(RM) path-test$(EXEEXT)
+	@$(LIBTOOL) --mode=clean $(RM) $(EXECUTABLE) $(EXIV2EXE)
 
 # Run `make distclean' from the top source directory to also remove
 # files created by configuring the program.

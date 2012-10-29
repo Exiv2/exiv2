@@ -18,8 +18,7 @@ if (MSVC)
 	#	link_directories(${CMAKE_CURRENT_SOURCE_DIR}/../../zlib-1.2.7/$(ConfigurationName))
 	endif()
 endif()
-include_directories("${CMAKE_SOURCE_DIR}/include")
-
+include_directories("${CMAKE_SOURCE_DIR}/include" "${CMAKE_SOURCE_DIR}/src")
 
 SET( SAMPLES addmoddel.cpp
              convert-test.cpp
@@ -37,6 +36,7 @@ SET( SAMPLES addmoddel.cpp
              mmap-test.cpp
              prevtest.cpp 
              stringto-test.cpp
+             taglist.cpp
              tiff-test.cpp
              werror-test.cpp
              write-test.cpp
@@ -53,5 +53,20 @@ FOREACH(entry ${SAMPLES})
     TARGET_LINK_LIBRARIES( ${target} exiv2lib )
 ENDFOREACH(entry ${SAMPLES})
 
+###################################
+# metacopy/path-test sample applications require utils.cpp support
+SET( MC_SRC metacopy.cpp ../src/utils.cpp )
+ADD_EXECUTABLE( metacopy ${MC_SRC} )
+TARGET_LINK_LIBRARIES( metacopy exiv2lib )
+INSTALL( TARGETS metacopy ${INSTALL_TARGET_STANDARD_ARGS} )
+
+SET( PATHTEST_SRC path-test.cpp ../src/utils.cpp )
+ADD_EXECUTABLE( pathtest ${PATHTEST_SRC} )
+SET_TARGET_PROPERTIES( pathtest PROPERTIES OUTPUT_NAME path-test )
+TARGET_LINK_LIBRARIES( pathtest exiv2lib )
+INSTALL( TARGETS pathtest ${INSTALL_TARGET_STANDARD_ARGS} )
+
 # That's all Folks!
 ##
+
+
