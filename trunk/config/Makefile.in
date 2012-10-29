@@ -98,7 +98,8 @@ mostlyclean clean: config/config.mk
 # for packaging.
 distclean: clean
 	rm -f config.log config.status libtool
-	rm -f *~ *.bak *#
+	rm -f *~ *.bak
+	rm -rf bin
 
 # This removes almost everything, including the configure script!
 maintainer-clean: distclean

@@ -67,9 +67,12 @@ BINSRC = addmoddel.cpp        \
          iptctest.cpp         \
          key-test.cpp         \
          largeiptc-test.cpp   \
+         metacopy.cpp         \
          mmap-test.cpp        \
+         path-test.cpp        \
          prevtest.cpp         \
          stringto-test.cpp    \
+         taglist.cpp          \
          tiff-test.cpp        \
          werror-test.cpp      \
          write-test.cpp       \
@@ -78,6 +81,7 @@ BINSRC = addmoddel.cpp        \
          xmpparser-test.cpp   \
          xmpsample.cpp
 
+         
 # ******************************************************************************
 # Initialisations
 SHELL = /bin/sh
@@ -103,7 +107,7 @@ endif
 samples: $(BINARY)
 
 $(BINOBJ): %.o: %.cpp
-	$(COMPILE.cc) -o $@ $<
+	$(COMPILE.cc) -I../src -o $@ $<
 	@$(MAKEDEPEND)
 	@$(POSTDEPEND)
 
@@ -128,7 +132,14 @@ relink: binclean samples
 
 # link expat directly to geotag
 geotag : geotag.o
-	$(LIBTOOL)  --mode=link $(LINK.cc) -lexpat -o $@ $@.o
+	$(LIBTOOL)  --mode=link $(LINK.cc) -lexpat $@.o -o ../bin/$@ 
+
+# link applications which require utils.cpp support
+metacopy: metacopy.o ../src/utils.o
+	$(LIBTOOL)  --mode=link $(LINK.cc) $@.o ../src/utils.o -o ../bin/$@
+
+path-test: path-test.o ../src/utils.o
+	$(LIBTOOL)  --mode=link $(LINK.cc) $@.o ../src/utils.o -o ../bin/$@
 
 # Remove binaries, e.g., to relink them
 binclean:

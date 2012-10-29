@@ -158,20 +158,6 @@ SET( EXIV2_SRC            exiv2.cpp
                           utils.cpp
 )
 
-# taglist sample application
-SET( TAGLIST_SRC          taglist.cpp )
-
-
-# metacopy sample application
-SET( MC_SRC               metacopy.cpp
-                          utils.cpp
-)
-
-# pathtest sample application
-SET( PATHTEST_SRC         path-test.cpp
-                          utils.cpp
-)
-
 ##
 # modify source lists to suit environment
 IF(NOT HAVE_TIMEGM )
@@ -205,16 +191,16 @@ SET_TARGET_PROPERTIES( exiv2lib PROPERTIES
 )
 
 if ( MSVC ) 
-	source_group("Header Files" FILES ${LIBEXIV2_HDR} )
+    source_group("Header Files" FILES ${LIBEXIV2_HDR} )
     TARGET_LINK_LIBRARIES( exiv2lib ${EXPAT_LIBRARIES} )
 else()
     TARGET_LINK_LIBRARIES( exiv2lib dl ${EXPAT_LIBRARIES} )
 endif()
 
 if( EXIV2_ENABLE_LIBXMP )
-	ADD_DEPENDENCIES( exiv2lib xmp )
-	LINK_DIRECTORIES(${LIBRARY_OUTPUT_PATH}/$(ConfigurationName))
-	TARGET_LINK_LIBRARIES( exiv2lib xmp )
+    ADD_DEPENDENCIES( exiv2lib xmp )
+    LINK_DIRECTORIES(${LIBRARY_OUTPUT_PATH}/$(ConfigurationName))
+    TARGET_LINK_LIBRARIES( exiv2lib xmp )
 ENDIF()
 
 IF( EXIV2_ENABLE_PNG )
@@ -232,11 +218,11 @@ IF( EXIV2_ENABLE_PNG )
 ENDIF()
 
 IF( EXIV2_ENABLE_NLS )
-	TARGET_LINK_LIBRARIES( exiv2lib ${LIBINTL_LIBRARIES} )
+    TARGET_LINK_LIBRARIES( exiv2lib ${LIBINTL_LIBRARIES} )
 ENDIF( EXIV2_ENABLE_NLS )
 
 IF( ICONV_FOUND )
-	TARGET_LINK_LIBRARIES( exiv2lib ${ICONV_LIBRARIES} )
+    TARGET_LINK_LIBRARIES( exiv2lib ${ICONV_LIBRARIES} )
 ENDIF( ICONV_FOUND )
 
 IF (CYGWIN)
@@ -287,25 +273,6 @@ INSTALL( TARGETS exiv2lib ${INSTALL_TARGET_STANDARD_ARGS} )
 ADD_EXECUTABLE( exiv2 ${EXIV2_SRC} )
 TARGET_LINK_LIBRARIES( exiv2 exiv2lib )
 INSTALL( TARGETS exiv2 ${INSTALL_TARGET_STANDARD_ARGS} )
-
-# ******************************************************************************
-# metacopy sample application
-ADD_EXECUTABLE( metacopy ${MC_SRC} )
-TARGET_LINK_LIBRARIES( metacopy exiv2lib )
-INSTALL( TARGETS metacopy ${INSTALL_TARGET_STANDARD_ARGS} )
-
-# ******************************************************************************
-# taglist sample application
-ADD_EXECUTABLE( taglist ${TAGLIST_SRC} )
-TARGET_LINK_LIBRARIES( taglist exiv2lib )
-INSTALL( TARGETS taglist ${INSTALL_TARGET_STANDARD_ARGS} )
-
-# ******************************************************************************
-# path-test sample application
-ADD_EXECUTABLE( pathtest ${PATHTEST_SRC} )
-SET_TARGET_PROPERTIES( pathtest PROPERTIES OUTPUT_NAME path-test )
-TARGET_LINK_LIBRARIES( pathtest exiv2lib )
-INSTALL( TARGETS pathtest ${INSTALL_TARGET_STANDARD_ARGS} )
 
 # ******************************************************************************
 # Headers
