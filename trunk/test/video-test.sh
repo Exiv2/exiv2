@@ -1,4 +1,4 @@
-#! /bin/sh
+#! /bin/bash
 # Test driver for video files
 #
 # video-asf.wmv        http://www.educationalquestions.com/video/DLP_PART_2_768k.wmv
@@ -9,7 +9,8 @@
 # ----------------------------------------------------------------------
 # Setup
 export LC_ALL=C
-if [ `uname -o` == Cygwin ]; then
+os=$(uname -o)
+if [ "$os" == "Cygwin" ]; then
 	export "PATH=$PWD/../msvc:$PATH"
 fi
 cd tmp/
