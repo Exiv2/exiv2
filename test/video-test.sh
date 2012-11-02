@@ -9,6 +9,9 @@
 # ----------------------------------------------------------------------
 # Setup
 export LC_ALL=C
+if [ `uname -o` == Cygwin ]; then
+	export "PATH=$PWD/../msvc:$PATH"
+fi
 cd tmp/
 if [ -z "$EXIV2_BINDIR" ] ; then
     bin="$VALGRIND ../../bin"

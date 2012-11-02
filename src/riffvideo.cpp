@@ -536,7 +536,7 @@ namespace Exiv2 {
         xmpData_["Xmp.video.MimeType"] = mimeType();
 
         const long bufMinSize = 4;
-        DataBuf buf(bufMinSize);
+        DataBuf buf(bufMinSize+1);
         buf.pData_[4] = '\0';
 
         io_->read(buf.pData_, bufMinSize);
@@ -552,8 +552,8 @@ namespace Exiv2 {
     void RiffVideo::decodeBlock()
     {
         const long bufMinSize = 4;
-        DataBuf buf(bufMinSize);
-        DataBuf buf2(bufMinSize);
+        DataBuf buf(bufMinSize+1);
+        DataBuf buf2(bufMinSize+1);
         unsigned long size = 0;
         buf.pData_[4] = '\0' ;
         buf2.pData_[4] = '\0' ;
@@ -719,7 +719,7 @@ namespace Exiv2 {
     void RiffVideo::skipListData()
     {
         const long bufMinSize = 4;
-        DataBuf buf(bufMinSize);
+        DataBuf buf(bufMinSize+1);
         buf.pData_[4] = '\0';
         io_->seek(-12, BasicIo::cur);
         io_->read(buf.pData_, 4);
@@ -732,7 +732,7 @@ namespace Exiv2 {
     void RiffVideo::nikonTagsHandler()
     {
         const long bufMinSize = 100;
-        DataBuf buf(bufMinSize), buf2(4);
+        DataBuf buf(bufMinSize), buf2(4+1);
         buf.pData_[4] = '\0';
         io_->seek(-12, BasicIo::cur);
         io_->read(buf.pData_, 4);
@@ -859,7 +859,7 @@ namespace Exiv2 {
     void RiffVideo::junkHandler(long size)
     {
         const long bufMinSize = size;
-        DataBuf buf(bufMinSize), buf2(4);
+        DataBuf buf(bufMinSize+1), buf2(4+1);
         std::memset(buf.pData_, 0x0, buf.size_);
         buf2.pData_[4] = '\0';
         uint64_t cur_pos = io_->tell();
@@ -928,7 +928,7 @@ namespace Exiv2 {
     void RiffVideo::aviHeaderTagsHandler(long size)
     {
         const long bufMinSize = 4;
-        DataBuf buf(bufMinSize);
+        DataBuf buf(bufMinSize+1);
         buf.pData_[4] = '\0';
         long width = 0, height = 0, frame_count = 0;
         double frame_rate = 1;
@@ -974,7 +974,7 @@ namespace Exiv2 {
     void RiffVideo::streamHandler(long size)
     {
         const long bufMinSize = 4;
-        DataBuf buf(bufMinSize);
+        DataBuf buf(bufMinSize+1);
         buf.pData_[4]='\0';
         long divisor = 1;
         uint64_t cur_pos = io_->tell();
@@ -1038,7 +1038,7 @@ namespace Exiv2 {
     void RiffVideo::streamFormatHandler(long size)
     {
         const long bufMinSize = 4;
-        DataBuf buf(bufMinSize);
+        DataBuf buf(bufMinSize+1);
         buf.pData_[4] = '\0';
         uint64_t cur_pos = io_->tell();
 

@@ -562,7 +562,7 @@ namespace Exiv2 {
             return;
         }
 
-        DataBuf buf2(bufMinSize);
+        DataBuf buf2(bufMinSize+1);
         std::memset(buf2.pData_, 0x0, buf2.size_);
 		long s = static_cast<long>(size) ;
         io_->read(buf2.pData_,s);

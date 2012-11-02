@@ -650,7 +650,7 @@ namespace Exiv2 {
     void QuickTimeVideo::decodeBlock()
     {
         const long bufMinSize = 4;
-        DataBuf buf(bufMinSize);
+        DataBuf buf(bufMinSize+1);
         unsigned long size = 0;
         buf.pData_[4] = '\0' ;
 
@@ -946,7 +946,7 @@ namespace Exiv2 {
     void QuickTimeVideo::NikonTagsDecoder(unsigned long size_external)
     {
         uint64_t cur_pos = io_->tell();
-        DataBuf buf(100), buf2(4);
+        DataBuf buf(100), buf2(4+1);
         unsigned long TagID = 0;
         unsigned short dataLength = 0, dataType = 2;
         const TagDetails* td, *td2;
@@ -1102,7 +1102,7 @@ namespace Exiv2 {
     void QuickTimeVideo::setMediaStream()
     {
         uint64_t current_position = io_->tell();
-        DataBuf buf(4);
+        DataBuf buf(4+1);
 
         while(!io_->eof()) {
             io_->read(buf.pData_, 4);
@@ -1128,7 +1128,7 @@ namespace Exiv2 {
 
     void QuickTimeVideo::timeToSampleDecoder()
     {
-        DataBuf buf(4);
+        DataBuf buf(4+1);
         io_->read(buf.pData_, 4);
         io_->read(buf.pData_, 4);
         uint64_t noOfEntries, totalframes = 0, timeOfFrames = 0;
@@ -1254,7 +1254,7 @@ namespace Exiv2 {
 
     void QuickTimeVideo::multipleEntriesDecoder()
     {
-        DataBuf buf(4);
+        DataBuf buf(4+1);
         io_->read(buf.pData_, 4);
         io_->read(buf.pData_, 4);
         uint64_t noOfEntries;
