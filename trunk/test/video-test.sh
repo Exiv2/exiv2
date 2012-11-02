@@ -9,8 +9,8 @@
 # ----------------------------------------------------------------------
 # Setup
 export LC_ALL=C
-os=$(uname -o)
-if [ "$os" == "Cygwin" ]; then
+os=$(uname)
+if [ "${os:0:4}" == "CYGW" ]; then
 	export "PATH=$PWD/../msvc:$PATH"
 fi
 cd tmp/
