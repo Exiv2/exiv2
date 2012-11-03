@@ -1,15 +1,16 @@
 #!/bin/bash
 
 msvc=$1
-dryrun=$2
+test=$2
+home=$(dirname $0)
 
 if [ -z $msvc ]; then
-	echo usage: $0 \<path-to-msvc-bin\> [dryrun]
+	echo usage: $0 \<path-to-msvc-bin\> [test]
 	exit
 fi
 
-if [ ! -z $dryrun ]; then
-	dryrun=echo
+if [ -z $test ]; then
+	test=tests
 fi
 
 for d in $(find "$msvc" -name exiv2.exe -exec dirname {} ";"); do
@@ -22,7 +23,10 @@ for d in $(find "$msvc" -name exiv2.exe -exec dirname {} ";"); do
     echo $bar $d $bar
     echo $bar $(cygpath -aw "$msvc") $bar
     echo $Bar
-    $dryrun make test
+    (
+      cd "$home/.." 
+      make $test
+    )
 done
 
 # That's all Folks!
