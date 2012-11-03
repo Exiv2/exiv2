@@ -201,7 +201,7 @@ $(EXIV2OBJ): %.o: %.cpp
 
 %.ii: %.cpp
 	set -e; \
-	$(CXXCPP) $(CPPFLAGS) -DEXV_BUILDING_LIB=1 $< | sed '/^[ 	]*$$/d' > $@
+	$(CXXCPP) $(CPPFLAGS) -DEXV_BUILDING_LIB=1 $< | LC_ALL=C sed '/^[ 	]*$$/d' > $@
 
 # ******************************************************************************
 # Targets
@@ -219,7 +219,7 @@ endif
 $(SRC): exv_conf.h
 
 exv_conf.h: $(top_srcdir)/config/config.h
-	sed 's/#define \([A-Z]\)/#define EXV_\1/; s/#undef \([A-Z]\)/#undef EXV_\1/' < $< > $@
+	LC_ALL=C sed 's/#define \([A-Z]\)/#define EXV_\1/; s/#undef \([A-Z]\)/#undef EXV_\1/' < $< > $@
 
 $(LIBTOOL): $(LIBTOOL_DEPS)
 	$(SHELL) $(top_srcdir)/config.status --recheck
