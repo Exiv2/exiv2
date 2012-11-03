@@ -171,11 +171,6 @@ namespace Exiv2 {
          */
 #if defined(_MSC_VER)
         virtual int seek(uint64_t offset, Position pos) = 0;
-
-//                int seek( int     offset, Position pos)
-//            {return seek(static_cast<long>(offset),pos);}
-//                int seek(uint32_t offset, Position pos)
-//            {return seek(static_cast<long>(offset),pos);}
 #else
 		virtual int seek(long offset, Position pos) = 0;
 #endif
