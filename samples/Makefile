@@ -60,16 +60,13 @@ BINSRC = addmoddel.cpp        \
          exifcomment.cpp      \
          exifdata-test.cpp    \
          exifprint.cpp        \
-         geotag.cpp           \
          iotest.cpp           \
          iptceasy.cpp         \
          iptcprint.cpp        \
          iptctest.cpp         \
          key-test.cpp         \
          largeiptc-test.cpp   \
-         metacopy.cpp         \
          mmap-test.cpp        \
-         path-test.cpp        \
          prevtest.cpp         \
          stringto-test.cpp    \
          taglist.cpp          \
@@ -131,14 +128,17 @@ endif
 relink: binclean samples
 
 # link expat directly to geotag
-geotag : geotag.o
+geotag : geotag.cpp
+	$(COMPILE.cc) -I../src -o $@.o $<
 	$(LIBTOOL)  --mode=link $(LINK.cc) -lexpat $@.o -o ../bin/$@ 
 
 # link applications which require utils.cpp support
-metacopy: metacopy.o ../src/utils.o
+metacopy: metacopy.cpp ../src/utils.o
+	$(COMPILE.cc) -I../src -o $@.o $<
 	$(LIBTOOL)  --mode=link $(LINK.cc) $@.o ../src/utils.o -o ../bin/$@
 
-path-test: path-test.o ../src/utils.o
+path-test: path-test.cpp ../src/utils.o
+	$(COMPILE.cc) -I../src -o $@.o $<
 	$(LIBTOOL)  --mode=link $(LINK.cc) $@.o ../src/utils.o -o ../bin/$@
 
 # Remove binaries, e.g., to relink them
