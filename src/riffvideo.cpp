@@ -1153,14 +1153,18 @@ namespace Exiv2 {
         aspectRatio = floor(aspectRatio*10) / 10;
         xmpData_["Xmp.video.AspectRatio"] = aspectRatio;
 
-        if(aspectRatio == 1.3)      xmpData_["Xmp.video.AspectRatio"] = "4:3";
-        else if(aspectRatio == 1.7) xmpData_["Xmp.video.AspectRatio"] = "16:9";
-        else if(aspectRatio == 1.0) xmpData_["Xmp.video.AspectRatio"] = "1:1";
-        else if(aspectRatio == 1.6) xmpData_["Xmp.video.AspectRatio"] = "16:10";
-        else if(aspectRatio == 2.2) xmpData_["Xmp.video.AspectRatio"] = "2.21:1";
-        else if(aspectRatio == 2.3) xmpData_["Xmp.video.AspectRatio"] = "2.35:1";
-        else if(aspectRatio == 1.2) xmpData_["Xmp.video.AspectRatio"] = "5:4";
-        else                        xmpData_["Xmp.video.AspectRatio"] = aspectRatio;
+		int aR = (int) ((aspectRatio*10.0)+0.1);
+
+		switch  (aR) {
+			case 13 : xmpData_["Xmp.video.AspectRatio"] = "4:3"		; break;
+			case 17 : xmpData_["Xmp.video.AspectRatio"] = "16:9"	; break;
+			case 10 : xmpData_["Xmp.video.AspectRatio"] = "1:1"		; break;
+			case 16 : xmpData_["Xmp.video.AspectRatio"] = "16:10"	; break;
+			case 22 : xmpData_["Xmp.video.AspectRatio"] = "2.21:1"  ; break;
+			case 23 : xmpData_["Xmp.video.AspectRatio"] = "2.35:1"  ; break;
+			case 12 : xmpData_["Xmp.video.AspectRatio"] = "5:4"     ; break;
+			default : xmpData_["Xmp.video.AspectRatio"] = aspectRatio;break;
+		}
     } // RiffVideo::fillAspectRatio
 
     void RiffVideo::fillDuration(double frame_rate, long frame_count)
