@@ -8,48 +8,34 @@
 
 # ----------------------------------------------------------------------
 # Setup
-export LC_ALL=C
-os=$(uname)
-if [ "${os:0:4}" == "CYGW" ]; then
-	export "PATH=$PWD/../msvc:$PATH"
-fi
+source ./functions.source
+
 cd tmp/
-if [ -z "$EXIV2_BINDIR" ] ; then
-    bin="$VALGRIND ../../bin"
-else
-    bin="$VALGRIND $EXIV2_BINDIR"
-fi
-diffargs="--strip-trailing-cr"
-if ! diff -q $diffargs /dev/null /dev/null 2>/dev/null ; then
-    diffargs=""
-fi
 
 # ----------------------------------------------------------------------
 # Tests
 (
     for file in ../data/video/video-*; do
         video="`basename "$file"`"
-	if [ $video = "video-test.out" ] ; then
-	    continue
-	fi
+		if [ $video != "video-test.out" ] ; then
 
-        printf "." >&3
+	        printf "." >&3
 
-        echo
-        echo "-----> $video <-----"
+    	    echo
+        	echo "-----> $video <-----"
 
-        cp "../data/video/$video" ./
+	        copyTestFile "video/$video" "$video"
 
-        echo
-        echo "Command: exiv2 -u -pa $video"
-        $bin/exiv2 -u -pa "$video"
-        exitcode="$?"
-        echo "Exit code: $exitcode"
+    	    echo
+        	echo "Command: exiv2 -u -pa $video"
+	        runTest exiv2 -u -pa "$video"
+    	    exitcode="$?"
+        	echo "Exit code: $exitcode"
 
-        if [ "$exitcode" -ne 0 -a "$exitcode" -ne 253 ] ; then
-            continue
-        fi
-
+	        if [ "$exitcode" -ne 0 -a "$exitcode" -ne 253 ] ; then
+    	        continue
+        	fi
+		fi
     done
 ) 3>&1 > "video-test.out" 2>&1
 
@@ -62,3 +48,6 @@ if ! diff -q $diffargs "../data/video/video-test.out" "video-test.out" ; then
     exit 1
 fi
 echo "All testcases passed."
+
+# That's all Folks!
+##

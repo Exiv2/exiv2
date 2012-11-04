@@ -1,28 +1,13 @@
-#! /bin/sh
+#!/bin/bash
 # Test driver for tests of stringToLong/Float/Rational
-results="./tmp/stringto-test.out"
-good="./data/stringto-test.out"
-diffargs="--strip-trailing-cr"
-tmpfile=tmp/ttt
-touch $tmpfile
-diff -q $diffargs $tmpfile $tmpfile 2>/dev/null
-if [ $? -ne 0 ] ; then
-    diffargs=""
-fi
+source ./functions.source
+prepareTest
+
 (
-if [ -z "$EXIV2_BINDIR" ] ; then
-    bin="$VALGRIND ../../bin"
-else
-    bin="$VALGRIND $EXIV2_BINDIR"
-fi
-cd ./tmp
-$bin/stringto-test
+	runTest stringto-test
 ) > $results
 
-diff -q $diffargs $results $good
-rc=$?
-if [ $rc -eq 0 ] ; then
-    echo "All testcases passed."
-else
-    diff $diffargs $results $good
-fi
+reportTest
+
+# That's all Folks!
+##

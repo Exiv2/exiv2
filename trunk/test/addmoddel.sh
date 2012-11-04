@@ -1,30 +1,14 @@
-#! /bin/sh
+#!/bin/bash
 # Test driver to run the addmoddel sample program
-results="./tmp/addmoddel.out"
-good="./data/addmoddel.out"
-diffargs="--strip-trailing-cr"
-tmpfile=tmp/ttt
-touch $tmpfile
-diff -q $diffargs $tmpfile $tmpfile 2>/dev/null
-if [ $? -ne 0 ] ; then
-    diffargs=""
-fi
+source ./functions.source
+
 (
-if [ -z "$EXIV2_BINDIR" ] ; then
-    bin="$VALGRIND ../../bin"
-else
-    bin="$VALGRIND $EXIV2_BINDIR"
-fi
-cp -f ./data/exiv2-empty.jpg ./tmp
-cd ./tmp
-$bin/addmoddel exiv2-empty.jpg
-$bin/exiv2 -pv exiv2-empty.jpg
+	copyTestFile      exiv2-empty.jpg
+	runTest addmoddel exiv2-empty.jpg
+	runTest exiv2 -pv exiv2-empty.jpg
 ) > $results
 
-diff -q $diffargs $results $good
-rc=$?
-if [ $rc -eq 0 ] ; then
-    echo "All testcases passed."
-else
-    diff $diffargs $results $good
-fi
+reportTest
+
+# That's all Folks!
+##

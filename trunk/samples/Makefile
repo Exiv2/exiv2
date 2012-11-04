@@ -60,16 +60,13 @@ BINSRC = addmoddel.cpp        \
          exifcomment.cpp      \
          exifdata-test.cpp    \
          exifprint.cpp        \
-         geotag.cpp           \
          iotest.cpp           \
          iptceasy.cpp         \
          iptcprint.cpp        \
          iptctest.cpp         \
          key-test.cpp         \
          largeiptc-test.cpp   \
-         metacopy.cpp         \
          mmap-test.cpp        \
-         path-test.cpp        \
          prevtest.cpp         \
          stringto-test.cpp    \
          taglist.cpp          \

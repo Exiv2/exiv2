@@ -2,7 +2,7 @@
 
 msvc=$1
 test=$2
-home=$(dirname $0)
+home=$(dirname $(readlink -f $0))
 
 if [ -z $msvc ]; then
 	echo usage: $0 \<path-to-msvc-bin\> [test]
@@ -31,4 +31,3 @@ done
 
 # That's all Folks!
 ##
-

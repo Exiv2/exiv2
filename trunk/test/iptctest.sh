@@ -1,5 +1,7 @@
-#! /bin/sh
+#!/bin/bash
 # Test driver for Iptc metadata
+
+source ./functions.source
 
 printTest()
 {
@@ -8,7 +10,7 @@ printTest()
     good=$datapath/${src}.ipgd
 
     #run tests
-    $bin/iptcprint $datapath/$src > $test
+    runTest iptcprint $datapath/$src > $test
 
     #check results
     diffCheck $test $good
@@ -26,7 +28,7 @@ removeTest()
     cp $datapath/$src $tmp
 
     #run tests
-    $bin/iptctest $tmp <<-eoc
+    runTest iptctest $tmp <<-eoc
 		r Iptc.Application2.Byline
 		r Iptc.Application2.Caption
 		r Iptc.Application2.Keywords
@@ -34,7 +36,7 @@ removeTest()
 		r Iptc.Application2.Keywords
 		r Iptc.Application2.CountryName
 eoc
-    $bin/iptcprint $tmp > $test
+    runTest iptcprint $tmp > $test
 
     #check results
     diffCheck $test $good
@@ -53,7 +55,7 @@ addModTest()
     cp $datapath/$src $tmp
 
     #run tests
-    $bin/iptctest $tmp <<-eoc
+    runTest iptctest $tmp <<-eoc
 		a Iptc.Application2.Headline          The headline I am
 		a Iptc.Application2.Keywords          Yet another keyword
 		m Iptc.Application2.DateCreated       2004-8-3
@@ -63,7 +65,7 @@ addModTest()
 		a Iptc.Envelope.TimeSent              14:41:0-05:00
 		a Iptc.Application2.RasterizedCaption 230 42 34 2 90 84 23 146
 eoc
-    $bin/iptcprint $tmp > $test
+    runTest iptcprint $tmp > $test
 
     #check results
     diffCheck $test $good
@@ -82,8 +84,8 @@ extendedTest()
     cp $datapath/$src $tmp
 
     #run tests
-    $bin/iptctest $tmp < $datapath/ext.dat
-    $bin/iptcprint $tmp > $test
+    runTest iptctest $tmp < $datapath/ext.dat
+    runTest iptcprint $tmp > $test
 
     #check results
     diffCheck $test $good
@@ -110,19 +112,8 @@ diffCheck()
 # **********************************************************************
 # main
 
-if [ -z "$EXIV2_BINDIR" ] ; then
-    bin="$VALGRIND ../../bin"
-else
-    bin="$VALGRIND $EXIV2_BINDIR"
-fi
 datapath="../data"
 diffargs="--strip-trailing-cr"
-tmpfile=tmp/ttt
-touch $tmpfile
-diff -q $diffargs $tmpfile $tmpfile 2>/dev/null
-if [ $? -ne 0 ] ; then
-    diffargs=""
-fi
 
 test_files="glider.exv \
             iptc-noAPP13.jpg \
@@ -168,3 +159,6 @@ if [ $errors -eq 0 ]; then
 else
    echo $errors 'test case(s) failed!'
 fi
+
+# That's all Folks!
+##

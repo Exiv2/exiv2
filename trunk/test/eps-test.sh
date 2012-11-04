@@ -1,15 +1,11 @@
-#! /bin/sh
+#!/bin/bash
 # Test driver for EPS files
 
 # ----------------------------------------------------------------------
 # Setup
-export LC_ALL=C
+source ./functions.source
+
 cd tmp/
-if [ -z "$EXIV2_BINDIR" ] ; then
-    bin="$VALGRIND ../../bin"
-else
-    bin="$VALGRIND $EXIV2_BINDIR"
-fi
 exiv2version="`$bin/exiv2 -V | sed -n '1 s,^exiv2 [^ ]* \([^ ]*\).*,\1,p'`"
 if [ -z "$exiv2version" ]; then
     echo "Error: Unable to determine Exiv2 version"
@@ -37,11 +33,11 @@ done
         echo
         echo "-----> $image.eps <-----"
 
-        cp "../data/eps/$image.eps" ./
+        copyTestFile "eps/$image.eps" "$image.eps"
 
         echo
         echo "Command: exiv2 -u -pa $image.eps"
-        $bin/exiv2 -u -pa "$image.eps"
+        runTest exiv2 -u -pa "$image.eps"
         exitcode="$?"
         echo "Exit code: $exitcode"
 
@@ -51,7 +47,7 @@ done
 
         echo
         echo "Command: exiv2 -dx $image.eps"
-        $bin/exiv2 -dx "$image.eps"
+        runTest exiv2 -dx "$image.eps"
         exitcode="$?"
         echo "Exit code: $exitcode"
 
@@ -69,7 +65,7 @@ done
 
             echo
             echo "Command: exiv2 -f -ex $image.eps"
-            $bin/exiv2 -f -ex "$image.eps"
+            runTest exiv2 -f -ex "$image.eps"
             echo "Exit code: $?"
 
             if ! diff -q "../data/eps/eps-test-delxmp.exv" "$image.exv" ; then
@@ -79,11 +75,11 @@ done
 
         echo
         echo "Restore: $image.eps"
-        cp "../data/eps/$image.eps" ./
+        copyTestFile "eps/$image.eps" "$image.eps"
 
         echo
         echo "Command: exiv2 -f -eX $image.eps"
-        $bin/exiv2 -f -eX "$image.eps"
+        runTest exiv2 -f -eX "$image.eps"
         echo "Exit code: $?"
 
         diff -q "../data/eps/$image.xmp" "$image.xmp"
@@ -91,11 +87,11 @@ done
         # Using "-ix" instead of "-iX" because the latter
         # executes writeMetadata() twice, making it hard to debug.
 
-        cp "../data/eps/eps-test-newxmp.xmp" "$image.exv"
+        copyTestFile "eps/eps-test-newxmp.xmp" "$image.exv"
 
         echo
         echo "Command: exiv2 -ix $image.eps"
-        $bin/exiv2 -ix "$image.eps"
+        runTest exiv2 -ix "$image.eps"
         exitcode="$?"
         echo "Exit code: $exitcode"
 
@@ -112,7 +108,7 @@ done
 
         echo
         echo "Command: (2) exiv2 -ix $image.eps"
-        $bin/exiv2 -ix "$image.eps"
+        runTest exiv2 -ix "$image.eps"
         echo "Exit code: $?"
 
         diff -q "$image.eps.newxmp" "$image.eps"
@@ -123,7 +119,7 @@ done
 
         echo
         echo "Command: exiv2 -f -ex $image.eps"
-        $bin/exiv2 -f -ex "$image.eps"
+        runTest exiv2 -f -ex "$image.eps"
         echo "Exit code: $?"
 
         diff -q "../data/eps/eps-test-newxmp.exv" "$image.exv"
@@ -139,3 +135,6 @@ if ! diff -q $diffargs "../data/eps/eps-test.out" "eps-test.out" ; then
     exit 1
 fi
 echo "All testcases passed."
+
+# That's all Folks!
+##

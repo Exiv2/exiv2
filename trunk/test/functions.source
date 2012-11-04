@@ -1,0 +1,273 @@
+#!/bin/bash
+
+#locale setting
+
+##
+# initialize globals
+export LC_ALL=C
+
+this=$(basename $0 .sh)
+here=$PWD
+
+if [ -z "$EXIV2_BINDIR" ] ; then
+    bin="$here/../bin"
+else
+    bin="$EXIV2_BINDIR"
+fi
+
+exe=$(uname)
+if [ $exe==cygwin -o $exe==mingw ]; then
+    exe=.exe
+else
+    unset exe
+fi
+
+##
+# run a test
+runTest()
+{
+    local prog=$1
+    shift
+    (
+    	cd $here/tmp
+    	if [ ! -z $EXIV2_ECHO ]; then
+			echoTest $VALGRIND $bin/$prog "$@"
+		fi
+		$VALGRIND $bin/$prog "$@"
+	)
+}
+
+##
+# echo commands and arguments
+echoTest()
+{
+	local count=1
+	for i in $@ ; do
+		echo $((count++)):  $i
+	done
+	echo -----------------------
+}
+
+##
+# predictate
+existsTest()
+{
+	local prog=$1
+	result=0
+	if [ -e $bin/$prog -o -e $bin/$prog.exe ]; then
+		result=1
+	fi
+	echo $result
+}
+
+##
+# copy file from data to tmp (copyTestFile from to
+copyTestFile()
+{
+	if [ $# == 2 ]; then
+		cp -f "$here/data/$1" "$here/tmp/$2"
+	elif [ $# == 1 ]; then
+		cp -f "$here/data/$1" "$here/tmp/$1"
+	else
+		echo "*** error copyTestFile: illegal number of inputs = $# ***"
+	fi
+	
+}
+
+##
+# copy 1 or more files from data to tmp
+copyTestFiles()
+{
+	for i in "$@" ; do
+		copyTestFile "$i" "$i"
+	done
+}
+
+##
+# result analysis
+reportTest()
+{
+	if [ -e `which dos2unix` ]; then
+	    sed 's,\\,/,g' $results > ${results}-new
+    	mv -f ${results}-new $results
+	    unix2dos $results >/dev/null 2>&1
+	fi
+
+    if [ $# -eq 0 ]; then
+        lhs=$results
+        rhs=$good
+    else 
+        if [ $# -eq 3 ] ; then
+            diffargs=$1
+            lhs=$2
+            rhs=$3
+        else 
+            lhs=$1
+            rhs=$2
+        fi
+    fi
+
+    diff -q $diffargs $lhs $rhs
+    rc=$?
+    if [ $rc -eq 0 ] ; then
+        echo "all testcases passed."
+    else
+        diff $diffargs $lhs $rhs
+    fi
+}
+
+##
+# moved here from write-test.sh
+runTestCase()
+{
+    rtc_number=$1
+    rtc_infile=$2
+
+    rtc_outfile=$datapath/test${rtc_number}.jpg
+    rtc_jpgthumb=$datapath/thumb${rtc_number}.jpg
+    rtc_tifthumb=$datapath/thumb${rtc_number}.tif
+
+    rm -f $rtc_outfile $rtc_jpgthumb $rtc_tifthumb
+    rm -f $datapath/iii $datapath/ttt; 
+
+    echo "------------------------------------------------------------"
+    runTest exifprint $rtc_infile > $datapath/iii;
+    cp $rtc_infile $rtc_outfile; 
+    runTest write-test $rtc_infile $rtc_number > $datapath/ttt; 
+    diff -a $datapath/iii $datapath/ttt
+}
+
+##
+# moved here from bugfixes-test.sh
+prep_file()
+{
+    echo `prep_any_file $1 exiv2-bug$1.jpg`
+}
+
+prep_empty_file()
+{
+    echo `prep_any_file $1 exiv2-empty.jpg`
+}
+
+prep_any_file()
+{
+    printf "$1 " >&3
+    echo '------>' Bug $1 '<-------' >&2
+    copyTestFile $2 exiv2-bug$1.jpg
+    echo exiv2-bug$1.jpg
+}
+
+##
+# moved here from imagetest.sh
+eraseTest()
+{
+    src=$1
+    test=${src}.etst
+    good=$datapath/${src}.egd
+
+    #setup
+    cp $datapath/$src $test
+
+    #run tests
+    $bin/metacopy $test $test
+
+    #check results
+    diffCheck $test $good
+    printf "."
+}
+
+copyTest()
+{
+    num=$1
+    src=$2
+    dst=$3
+    test=${dst}.c${num}tst
+    good=$datapath/${dst}.c${num}gd
+
+    #setup
+    cp $datapath/$dst $test
+
+    #run tests
+    $bin/metacopy -a $datapath/$src $test
+
+    #check results
+    diffCheck $test $good
+    printf "."
+}
+
+iptcTest()
+{
+    num=$1
+    src=$2
+    dst=$3
+    test=${dst}.i${num}tst
+    good=$datapath/${dst}.i${num}gd
+
+    #setup
+    cp $datapath/$dst $test
+
+    #run tests
+    $bin/metacopy -ip $datapath/$src $test
+
+    #check results
+    diffCheck $test $good
+    printf "."
+}
+
+# Make sure to pass the test file first and the known good file second
+diffCheck() 
+{
+    test=$1
+    good=$2
+    
+    #run diff and check results
+    diff -q --binary $test $good
+    if [ $? -ne 0 ]; then
+       errors=`expr $errors + 1`
+    else
+       rm $test
+    fi 
+}
+
+##
+# prepare temp files
+prepareTest()
+{
+    diffargs="--strip-trailing-cr"
+    good="$here/data/${this}.out"
+    results="$here/tmp/${this}.out"
+    
+	##
+	# cygwin needs a private version of diff for linux compatibility
+	os=$(uname)
+	if [ "${os:0:4}" == "CYGW" ]; then
+		export "PATH=$PWD/../msvc:$PATH"
+	fi
+
+    tmpfile=$here/tmp/$this
+    touch $tmpfile
+    diff -q $diffargs $tmpfile $tmpfile 2>/dev/null
+    if [ $? -ne 0 ]; then
+        diffargs=""
+    fi
+    
+	tmpfile=tmp/ttt
+	touch $tmpfile
+	da1="--strip-trailing-cr"
+	diff -q $da1 $tmpfile $tmpfile 2>/dev/null
+	if [ $? -ne 0 ] ; then
+    	da1=""
+	fi
+	da2="--ignore-matching-lines=^Usage:.*exiv2"
+	diff -q $da2 $tmpfile $tmpfile 2>/dev/null
+	if [ $? -ne 0 ] ; then
+    	da2=""
+	fi
+	diffargs="$da1 $da2"
+    
+}
+
+prepareTest
+
+# That's all Folks!
+##
