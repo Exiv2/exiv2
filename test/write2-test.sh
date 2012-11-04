@@ -1,4 +1,4 @@
-#! /bin/sh
+#!/bin/bash
 # Test driver for write unit tests to build Exif metadata from scratch
 
 source ./functions.source

@@ -1,4 +1,4 @@
-#! /bin/bash
+#!/bin/bash
 # Test driver for video files
 #
 # video-asf.wmv        http://www.educationalquestions.com/video/DLP_PART_2_768k.wmv
