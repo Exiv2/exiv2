@@ -93,7 +93,8 @@ LDFLAGS := `pkg-config exiv2 --libs`
 
 BINOBJ = $(BINSRC:.cpp=.o)
 BINARY = $(BINSRC:.cpp=)
-EXECUTABLE = $(BINSRC:.cpp=$(EXEEXT))
+OTHER  = geotag metacopy path-test
+EXECUTABLE = $(BINSRC:.cpp=$(EXEEXT)) $(OTHER)
 
 ifdef DEP_TRACKING
 DEP = $(BINSRC:%.cpp=$(DEPDIR)/%.d)
@@ -101,7 +102,7 @@ endif
 
 # ******************************************************************************
 # Rules
-samples: $(BINARY) geotag metacopy path-test
+samples: $(BINARY) $(OTHER)
 
 $(BINOBJ): %.o: %.cpp
 	$(COMPILE.cc) -I../src -o $@ $<
@@ -143,7 +144,7 @@ path-test: path-test.cpp ../src/utils.o
 
 # Remove binaries, e.g., to relink them
 binclean:
-	$(RM) $(EXECUTABLE)
+	cd ../bin ; $(RM) $(EXECUTABLE)
 
 mostlyclean:
 	$(RM) core
