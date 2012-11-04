@@ -1,19 +1,12 @@
-#! /bin/sh
+#!/bin/bash
 # Test driver for previews
 
 # ----------------------------------------------------------------------
 # Setup
-export LC_ALL=C
+source ./functions.source
+prepareTest
 cd tmp/
-if [ -z "$EXIV2_BINDIR" ] ; then
-    bin="$VALGRIND ../../bin"
-else
-    bin="$VALGRIND $EXIV2_BINDIR"
-fi
-diffargs="--strip-trailing-cr"
-if ! diff -q $diffargs /dev/null /dev/null 2>/dev/null ; then
-    diffargs=""
-fi
+
 
 # ----------------------------------------------------------------------
 # Tests
@@ -148,3 +141,6 @@ if ! diff -q $diffargs "../data/preview/preview-test.out" "preview-test.out" ; t
     exit 1
 fi
 echo "All testcases passed."
+
+# That's all Folks!
+##

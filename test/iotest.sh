@@ -1,4 +1,4 @@
-#! /bin/sh
+#!/bin/bash
 # Test driver for image file i/o
 
 ioTest()
@@ -8,7 +8,7 @@ ioTest()
     out2=${1}.2
 
     #run tests
-    $bin/iotest $src $out1 $out2
+    runTest iotest $src $out1 $out2
     if [ $? -ne 0 ]; then
        errors=`expr $errors + 1`
        return
@@ -37,12 +37,7 @@ diffCheck()
 
 # **********************************************************************
 # main
-
-if [ -z "$EXIV2_BINDIR" ] ; then
-    bin="$VALGRIND ../../bin"
-else
-    bin="$VALGRIND $EXIV2_BINDIR"
-fi
+source ./functions.source
 
 datapath="../data"
 
@@ -61,3 +56,6 @@ if [ $errors -eq 0 ]; then
 else
    echo $errors 'test case(s) failed!'
 fi
+
+# That's all Folks!
+##

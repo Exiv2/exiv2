@@ -1,71 +1,47 @@
 #! /bin/sh
 # XMP parser test driver
 
-# ----------------------------------------------------------------------
-# Setup
-export LC_ALL=C
-results="./xmpparser-test.out"
-good="../data/xmpparser-test.out"
-if [ -z "$EXIV2_BINDIR" ] ; then
-    bin="$VALGRIND ../../bin"
-else
-    bin="$VALGRIND $EXIV2_BINDIR"
-fi
-cd ./tmp
+source ./functions.source
 
-# ----------------------------------------------------------------------
+##
 # Check if xmpparser-test exists
-if [ ! -e ../../bin/xmpparser-test -a ! -e "$EXIV2_BINDIR/xmpparser-test" ] ; then
+if [ $(existsTest xmpparser-test) != 1 ] ; then
     echo "xmpparser-test not found. Assuming XMP support is not enabled."
     exit 0
 fi
 
-# ----------------------------------------------------------------------
-# Main routine
 (
-# ----------------------------------------------------------------------
-# BlueSquare
-testfile=BlueSquare.xmp
-cp -f ../data/$testfile .
-$bin/xmpparser-test $testfile
-diff $testfile ${testfile}-new
+	cd ./tmp
 
-# ----------------------------------------------------------------------
-# StaffPhotographer-Example
-testfile=StaffPhotographer-Example.xmp
-cp -f ../data/$testfile .
-$bin/xmpparser-test $testfile
-diff $testfile ${testfile}-new
+	files=(BlueSquare.xmp StaffPhotographer-Example.xmp xmpsdk.xmp)
+	copyTestFiles ${files[@]}
 
-# ----------------------------------------------------------------------
-# xmpsdk
-testfile=xmpsdk.xmp
-cp -f ../data/$testfile .
-$bin/xmpparser-test $testfile
-diff $testfile ${testfile}-new
-$bin/xmpparse ${testfile} > t1 2>&1
-$bin/xmpparse ${testfile}-new > t2 2>&1
-diff t1 t2
+	for f in ${files[@]} ; do
+		runTest xmpparser-test $f
+		diff $f ${f}-new
+	done
 
-# ----------------------------------------------------------------------
-# xmpsample
-$bin/xmpsample
+	testfile=xmpsdk.xmp
+	runTest xmpparse ${testfile} > t1 2>&1
+	runTest xmpparse ${testfile}-new > t2 2>&1
+	diff t1 t2
 
-# ----------------------------------------------------------------------
-# XMP sample commands
-cp -f ../data/exiv2-empty.jpg .
-$bin/exiv2 -v -m ../data/cmdxmp.txt exiv2-empty.jpg
-$bin/exiv2 -v -px exiv2-empty.jpg
+	# ----------------------------------------------------------------------
+	# xmpsample
+	runTest xmpsample
+
+	# ----------------------------------------------------------------------
+	# XMP sample commands
+	copyTestFile exiv2-empty.jpg 
+	runTest exiv2 -v -m ../data/cmdxmp.txt exiv2-empty.jpg
+	runTest exiv2 -v -px exiv2-empty.jpg
 
 ) > $results 2>&1
 
 # ----------------------------------------------------------------------
 # Evaluate results
 cat $results | sed 's/\x0d$//' > $results-stripped
-diff -q $results-stripped $good
-rc=$?
-if [ $rc -eq 0 ] ; then
-    echo "All testcases passed."
-else
-    diff $results-stripped $good
-fi
+reportTest $results-stripped $good
+
+# That's all Folks!
+##

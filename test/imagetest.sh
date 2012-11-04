@@ -1,85 +1,9 @@
-#! /bin/sh
+#!/bin/bash
 # Test driver for image file i/o
-
-eraseTest()
-{
-    src=$1
-    test=${src}.etst
-    good=$datapath/${src}.egd
-
-    #setup
-    cp $datapath/$src $test
-
-    #run tests
-    $bin/metacopy $test $test
-
-    #check results
-    diffCheck $test $good
-    printf "."
-}
-
-copyTest()
-{
-    num=$1
-    src=$2
-    dst=$3
-    test=${dst}.c${num}tst
-    good=$datapath/${dst}.c${num}gd
-
-    #setup
-    cp $datapath/$dst $test
-
-    #run tests
-    $bin/metacopy -a $datapath/$src $test
-
-    #check results
-    diffCheck $test $good
-    printf "."
-}
-
-iptcTest()
-{
-    num=$1
-    src=$2
-    dst=$3
-    test=${dst}.i${num}tst
-    good=$datapath/${dst}.i${num}gd
-
-    #setup
-    cp $datapath/$dst $test
-
-    #run tests
-    $bin/metacopy -ip $datapath/$src $test
-
-    #check results
-    diffCheck $test $good
-    printf "."
-}
-
-
-# Make sure to pass the test file first and the known good file second
-diffCheck() 
-{
-    test=$1
-    good=$2
-    
-    #run diff and check results
-    diff -q --binary $test $good
-    if [ $? -ne 0 ]; then
-       errors=`expr $errors + 1`
-    else
-       rm $test
-    fi 
-}
 
 # **********************************************************************
 # main
-
-if [ -z "$EXIV2_BINDIR" ] ; then
-    bin="$VALGRIND ../../bin"
-else
-    bin="$VALGRIND $EXIV2_BINDIR"
-fi
+source ./functions.source
 
 datapath="../data"
 
@@ -130,3 +54,6 @@ if [ $errors -eq 0 ]; then
 else
    echo $errors 'test case(s) failed!'
 fi
+
+# That's all Folks!
+##
