@@ -101,7 +101,7 @@ endif
 
 # ******************************************************************************
 # Rules
-samples: $(BINARY)
+samples: $(BINARY) geotag metacopy path-test
 
 $(BINOBJ): %.o: %.cpp
 	$(COMPILE.cc) -I../src -o $@ $<
