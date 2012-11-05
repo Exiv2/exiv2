@@ -1,10 +1,11 @@
 #!/bin/bash
 
-#locale setting
+##
+# locale setting
+export LC_ALL=C
 
 ##
 # initialize globals
-export LC_ALL=C
 
 this=$(basename $0 .sh)
 here=$PWD
@@ -16,7 +17,7 @@ else
 fi
 
 exe=$(uname)
-if [ $exe==cygwin -o $exe==mingw ]; then
+if [ "${os:0:4}" == "CYGW" -o $exe==mingw ]; then
     exe=.exe
 else
     unset exe
@@ -107,7 +108,11 @@ reportTest()
         fi
     fi
 
-    diff -q $diffargs $lhs $rhs
+    if [ "$PLATFORM" == "cygwin" ]; then
+    	diff -q $diffargs $(cygpath -aw $lhs) $(cygpath -aw $rhs)
+    else
+    	diff -q $diffargs $lhs $rhs
+    fi
     rc=$?
     if [ $rc -eq 0 ] ; then
         echo "all testcases passed."
@@ -242,6 +247,9 @@ prepareTest()
 	os=$(uname)
 	if [ "${os:0:4}" == "CYGW" ]; then
 		export "PATH=$PWD/../msvc:$PATH"
+		export PLATFORM=cygwin
+	else
+		export PLATFORM=$os
 	fi
 
     tmpfile=$here/tmp/$this
