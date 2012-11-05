@@ -9,6 +9,13 @@ if [ -z $msvc ]; then
 	exit
 fi
 
+if [ ! -d "$msvc" ]; then
+	echo directory "$msvc" does not exist
+	exit
+else
+	msvc=$(readlink -f "$msvc")
+fi
+
 if [ -z $test ]; then
 	test=tests
 fi
