@@ -3,8 +3,7 @@
 
 source ./functions.source
 
-(
-	cd ./tmp
+(	cd "$testdir"
 
 	num=426
 	filename=`prep_file $num`
@@ -52,7 +51,7 @@ source ./functions.source
 
 	num=480
 	filename=`prep_file $num`
-	runTest largeiptc-test $filename ../data/imagemagick.png
+	runTest largeiptc-test $filename $datadir/imagemagick.png
 
 	num=495
 	filename=`prep_file $num`
@@ -183,7 +182,8 @@ source ./functions.source
 	
 	num=799
 	filename=`prep_empty_file $num`
-	runTest exiv2 -v -m ../data/bug$num.cmd $filename
+	copyTestFile         bug$num.cmd
+	runTest exiv2 -v -m  bug$num.cmd $filename
 	runTest exiv2 -v -pa $filename
 	runTest exiv2 -f -eX $filename
 	cat exiv2-bug$num.xmp
@@ -216,7 +216,7 @@ source ./functions.source
 		printf "$num " >&3
 		copyTestFile $filename.rsrc $filename/rsrc
 		runTest exiv2 -M'set Exif.Photo.UserComment Test' $filename
-		diff -q ../data/$filename.rsrc $filename/rsrc
+		diff -q $datadir/$filename.rsrc $filename/rsrc
 	else
 		# skip this test on systems which do not have resource forks
 		printf "($num skipped) " >&3

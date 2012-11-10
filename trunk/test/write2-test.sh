@@ -3,9 +3,11 @@
 
 source ./functions.source
 
-(
+(	cd "$testdir"
+
 	copyTestFile        exiv2-empty.jpg
 	runTest write2-test exiv2-empty.jpg
+
 ) > $results
 
 reportTest

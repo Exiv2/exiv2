@@ -1,31 +1,31 @@
 #!/bin/bash
 # Test driver for EPS files
 
-# ----------------------------------------------------------------------
-# Setup
 source ./functions.source
 
-cd tmp/
-exiv2version="`$bin/exiv2 -V | sed -n '1 s,^exiv2 [^ ]* \([^ ]*\).*,\1,p'`"
-if [ -z "$exiv2version" ]; then
-    echo "Error: Unable to determine Exiv2 version"
-    exit 1
-fi
-diffargs="--strip-trailing-cr"
-if ! diff -q $diffargs /dev/null /dev/null 2>/dev/null ; then
-    diffargs=""
-fi
-for file in ../data/eps/eps-*.eps.*; do
-    if ! grep "_Exiv2Version_" "$file" >/dev/null ; then
-        echo "Error: $file contains hard-coded Exiv2 version"
-        exit 1
-    fi
-done
 
-# ----------------------------------------------------------------------
-# Tests
-(
-    for file in ../data/eps/eps-*.eps; do
+(	cd "$testdir"
+
+	##
+	# what version of exiv2 are we using?
+	exiv2version="`$bin/exiv2 -V | sed -n '1 s,^exiv2 [^ ]* \([^ ]*\).*,\1,p'`"
+	if [ -z "$exiv2version" ]; then
+		echo "Error: Unable to determine Exiv2 version"
+		exit 1
+	fi
+
+	##
+	# ensure that no data file is already stamped with the current version
+	for file in $datadir/eps/eps-*.eps.*; do
+		if ! grep "_Exiv2Version_" "$file" >/dev/null ; then
+			echo "Error: $file contains hard-coded Exiv2 version"
+			exit 1
+		fi
+	done
+	
+	##
+	# get down to work!
+    for file in $datadir/eps/eps-*.eps; do
         image="`basename "$file" .eps`"
 
         printf "." >&3
@@ -53,7 +53,7 @@ done
 
         if [ "$exitcode" -eq 0 ] ; then
             # using perl instead of sed, because on some systems sed adds a line ending at EOF
-            perl -pe "s,_Exiv2Version_,$exiv2version," < "../data/eps/$image.eps.delxmp" > "$image.eps.delxmp"
+            perl -pe "s,_Exiv2Version_,$exiv2version," < "$datadir/eps/$image.eps.delxmp" > "$image.eps.delxmp"
 
             if ! diff -q "$image.eps.delxmp" "$image.eps" ; then
                 continue
@@ -68,7 +68,7 @@ done
             runTest exiv2 -f -ex "$image.eps"
             echo "Exit code: $?"
 
-            if ! diff -q "../data/eps/eps-test-delxmp.exv" "$image.exv" ; then
+            if ! diff -q "$datadir/eps/eps-test-delxmp.exv" "$image.exv" ; then
                 continue
             fi
         fi
@@ -82,7 +82,7 @@ done
         runTest exiv2 -f -eX "$image.eps"
         echo "Exit code: $?"
 
-        diff -q "../data/eps/$image.xmp" "$image.xmp"
+        diff -q "$datadir/eps/$image.xmp" "$image.xmp"
 
         # Using "-ix" instead of "-iX" because the latter
         # executes writeMetadata() twice, making it hard to debug.
@@ -100,7 +100,7 @@ done
         fi
 
         # using perl instead of sed, because on some systems sed adds a line ending at EOF
-        perl -pe "s,_Exiv2Version_,$exiv2version," < "../data/eps/$image.eps.newxmp" > "$image.eps.newxmp"
+        perl -pe "s,_Exiv2Version_,$exiv2version," < "$datadir/eps/$image.eps.newxmp" > "$image.eps.newxmp"
 
         if ! diff -q "$image.eps.newxmp" "$image.eps" ; then
             continue
@@ -122,16 +122,17 @@ done
         runTest exiv2 -f -ex "$image.eps"
         echo "Exit code: $?"
 
-        diff -q "../data/eps/eps-test-newxmp.exv" "$image.exv"
+        diff -q "$datadir/eps/eps-test-newxmp.exv" "$image.exv"
     done
-) 3>&1 > "eps-test.out" 2>&1
+    
+) 3>&1 > "$testdir/eps-test.out" 2>&1
 
 echo "."
 
 # ----------------------------------------------------------------------
 # Result
-if ! diff -q $diffargs "../data/eps/eps-test.out" "eps-test.out" ; then
-    diff -u $diffargs "../data/eps/eps-test.out" "eps-test.out"
+if ! diff -q $diffargs "$testdir/$datadir/eps/eps-test.out" "$testdir/eps-test.out" ; then
+    diff  -u $diffargs "$testdir/$datadir/eps/eps-test.out" "$testdir/eps-test.out"
     exit 1
 fi
 echo "All testcases passed."

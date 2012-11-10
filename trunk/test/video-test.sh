@@ -10,11 +10,10 @@
 # Setup
 source ./functions.source
 
-cd tmp/
-
 # ----------------------------------------------------------------------
 # Tests
-(
+(	cd "$testdir"
+
     for file in ../data/video/video-*; do
         video="`basename "$file"`"
 		if [ $video != "video-test.out" ] ; then
@@ -37,14 +36,14 @@ cd tmp/
         	fi
 		fi
     done
-) 3>&1 > "video-test.out" 2>&1
+) 3>&1 > "$testdir/video-test.out" 2>&1
 
 echo "."
 
 # ----------------------------------------------------------------------
 # Result
-if ! diff -q $diffargs "../data/video/video-test.out" "video-test.out" ; then
-    diff -u -a $diffargs "../data/video/video-test.out" "video-test.out"
+if ! diff   -q $diffargs "$testdir/$datadir/video/video-test.out" "$testdir/video-test.out" ; then
+    diff -u -a $diffargs "$testdir/$datadir/video/video-test.out" "$testdir/video-test.out"
     exit 1
 fi
 echo "All testcases passed."

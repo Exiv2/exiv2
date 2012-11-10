@@ -12,13 +12,13 @@ fi
 # ----------------------------------------------------------------------
 # Setup
 source ./functions.source
-prepareTest
 
-# ----------------------------------------------------------------------
-# Main routine
-(
-runTest mini9.tif
-exifprobe $testfile
+(	cd "$testdir"
+
+	copyTestFile mini9.tif
+	runTest      mini9.tif
+	exifprobe   $testfile
+
 ) > $results
 
 # ----------------------------------------------------------------------
