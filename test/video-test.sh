@@ -6,12 +6,8 @@
 # video-matroska.mkv   http://www.bunkus.org/videotools/mkvtoolnix/samples/vsshort-vorbis-subs.mkv
 # video-quicktime.mp4  http://dev.exiv2.org/attachments/362/20100709_002.mp4
 
-# ----------------------------------------------------------------------
-# Setup
 source ./functions.source
 
-# ----------------------------------------------------------------------
-# Tests
 (	cd "$testdir"
 
     for file in ../data/video/video-*; do
@@ -36,6 +32,7 @@ source ./functions.source
         	fi
 		fi
     done
+
 ) 3>&1 > "$testdir/video-test.out" 2>&1
 
 echo "."

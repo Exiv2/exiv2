@@ -1,31 +1,6 @@
 #!/bin/bash
 
 ##
-# locale setting
-export LC_ALL=C
-
-##
-# initialize globals
-this=$(basename $0 .sh)
-here=$PWD
-datapath="../data"
-testdir="$here/tmp"
-datadir="../data"
-
-if [ -z "$EXIV2_BINDIR" ] ; then
-    bin="$here/../bin"
-else
-    bin="$EXIV2_BINDIR"
-fi
-
-exe=$(uname)
-if [ "${os:0:4}" == "CYGW" -o $exe==mingw ]; then
-    exe=.exe
-else
-    unset exe
-fi
-
-##
 # run a test
 runTest()
 {
@@ -228,7 +203,7 @@ iptcTest()
     cp $datapath/$dst $test
 
     #run tests
-    $bin/metacopy -ip $datapath/$src $test
+    runTest metacopy -ip $datapath/$src $test
 
     #check results
     diffCheck $test $good
@@ -242,7 +217,7 @@ diffCheck()
     good=$2
     
     #run diff and check results
-    diff -q --binary $test $good
+    diff -q --binary $diffargs $test $good
     if [ $? -ne 0 ]; then
        errors=`expr $errors + 1`
     else
@@ -366,22 +341,58 @@ extendedTest()
 }
 
 ##
-# prepare temp files
+# prepare temp files and other variables
 prepareTest()
 {
-    diffargs="--strip-trailing-cr"
-    good="$here/data/${this}.out"
-    results="$here/tmp/${this}.out"
-    
 	##
-	# cygwin needs a private version of diff for linux compatibility
+	# locale setting
+	export LC_ALL=C
+
+	##
+	# initialize globals
+	this=$(basename $0 .sh)
+	here=$PWD
+	datapath="../data"
+	testdir="$here/tmp"
+	datadir="../data"
+
+	if [ -z "$EXIV2_BINDIR" ] ; then
+		bin="$here/../bin"
+	else
+		bin="$EXIV2_BINDIR"
+	fi
+
 	os=$(uname)
 	if [ "${os:0:4}" == "CYGW" ]; then
-		export "PATH=$PWD/../msvc:$PATH"
 		export PLATFORM=cygwin
 	else
 		export PLATFORM=$os
 	fi
+
+	if [ "$PLATFORM" == cygwin -o "$PLATFORM" == mingw ]; then
+		exe=.exe
+	fi
+	
+	if [ "$PLATFORM" == cygwin -o "$PLATFORM" == mingw ]; then
+		# We need a private version of diff for linux compatibility
+		diff()
+		{
+			args=()
+			for i in "$@"; do
+				if [ ${i:0:1} != '-' ]; then
+					i="$(cygpath -aw $i)"
+				fi
+				args+=($i)
+			done
+			"$here/../msvc/diff$exe" ${args[@]}
+		}
+	fi
+
+    ##
+    # figure out arguments for diff
+    diffargs="--strip-trailing-cr"
+    good="$here/data/${this}.out"
+    results="$here/tmp/${this}.out"
 
     tmpfile=$here/tmp/$this
     touch $tmpfile
@@ -403,7 +414,6 @@ prepareTest()
     	da2=""
 	fi
 	diffargs="$da1 $da2"
-    
 }
 
 prepareTest
