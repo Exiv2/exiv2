@@ -4,13 +4,10 @@
 # ----------------------------------------------------------------------
 # Setup
 source ./functions.source
-prepareTest
-cd tmp/
 
+(	cd "$testdir"
 
-# ----------------------------------------------------------------------
-# Tests
-images="eps/eps-flat_coreldraw-x3-lev2.eps \
+	images="eps/eps-flat_coreldraw-x3-lev2.eps \
         eps/eps-flat_coreldraw-x5-lev2.eps \
         eps/eps-flat_inkscape-epsi.eps \
         eps/eps-flat_oodraw_ai-10-lev2.eps \
@@ -101,7 +98,7 @@ images="eps/eps-flat_coreldraw-x3-lev2.eps \
         iptc-psAPP13-wIPTCmid.jpg \
         iptc-psAPP13-wIPTCmid1-wIPTCempty-wIPTCmid2.jpg \
         smiley2.jpg"
-(
+
     for filepath in $images; do
         filename=`basename "$filepath"`
         image=`echo "$filename" | sed 's,\.[^.]*$,,'`
@@ -130,6 +127,7 @@ images="eps/eps-flat_coreldraw-x3-lev2.eps \
             diff -q "../data/preview/$image-preview$preview."* "$image-preview$preview."*
         done
     done
+
 ) 3>&1 > "preview-test.out" 2>&1
 
 echo "."

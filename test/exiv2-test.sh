@@ -3,7 +3,8 @@
 
 source ./functions.source
 
-(
+(	cd "$testdir"
+
 	# Add each image to the following three lists.
 	# The image basename in the second and third lists
 	# is the Exif timestamp adjusted by -12:01:01.
@@ -58,7 +59,8 @@ source ./functions.source
 
 	for i in $images; do copyTestFile $i; done
 	echo "Exiv2 test directory -----------------------------------------------------"
-	cd   tmp/ >/dev/null || exit 1;
+	cd "$testdir"
+
 	echo tmp/
 	echo
 	echo "Exiv2 version ------------------------------------------------------------"

@@ -84,6 +84,9 @@ TESTS = addmoddel.sh      \
 TESTV = video-test.sh
 TESTE = eps-test.sh    
 
+tests:
+	cd .. ; make tests
+
 test:
 	@list='$(TESTS)'; for p in $$list; do \
 	    echo Running $$p ...; \

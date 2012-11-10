@@ -10,8 +10,7 @@ if [ $(existsTest xmpparser-test) != 1 ] ; then
     exit 0
 fi
 
-(
-	cd ./tmp
+(	cd "$testdir"
 
 	files=(BlueSquare.xmp StaffPhotographer-Example.xmp xmpsdk.xmp)
 	copyTestFiles ${files[@]}
@@ -32,8 +31,8 @@ fi
 
 	# ----------------------------------------------------------------------
 	# XMP sample commands
-	copyTestFile exiv2-empty.jpg 
-	runTest exiv2 -v -m ../data/cmdxmp.txt exiv2-empty.jpg
+	copyTestFiles exiv2-empty.jpg cmdxmp.txt 
+	runTest exiv2 -v -m cmdxmp.txt exiv2-empty.jpg
 	runTest exiv2 -v -px exiv2-empty.jpg
 
 ) > $results 2>&1
