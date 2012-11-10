@@ -1,8 +1,6 @@
 #!/bin/bash
 # Test driver for previews
 
-# ----------------------------------------------------------------------
-# Setup
 source ./functions.source
 
 (	cd "$testdir"
@@ -128,14 +126,14 @@ source ./functions.source
         done
     done
 
-) 3>&1 > "preview-test.out" 2>&1
+) 3>&1 > "$testdir/preview-test.out" 2>&1
 
 echo "."
 
 # ----------------------------------------------------------------------
 # Result
-if ! diff -q $diffargs "../data/preview/preview-test.out" "preview-test.out" ; then
-    diff -u $diffargs "../data/preview/preview-test.out" "preview-test.out"
+if ! diff -q $diffargs  "$testdir/$datadir/preview/preview-test.out" "$testdir/preview-test.out" ; then
+    diff  -u $diffargs  "$testdir/$datadir/preview/preview-test.out" "$testdir/preview-test.out"
     exit 1
 fi
 echo "All testcases passed."
