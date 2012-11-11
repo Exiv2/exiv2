@@ -119,18 +119,18 @@ runTestCase()
     rtc_number=$1
     rtc_infile=$2
 
-    rtc_outfile=$datapath/test${rtc_number}.jpg
-    rtc_jpgthumb=$datapath/thumb${rtc_number}.jpg
-    rtc_tifthumb=$datapath/thumb${rtc_number}.tif
+    rtc_outfile=test${rtc_number}.jpg
+    rtc_jpgthumb=thumb${rtc_number}.jpg
+    rtc_tifthumb=thumb${rtc_number}.tif
 
     rm -f $rtc_outfile $rtc_jpgthumb $rtc_tifthumb
-    rm -f $datapath/iii $datapath/ttt; 
+    rm -f iii ttt; 
 
     echo "------------------------------------------------------------"
-    runTest exifprint $rtc_infile > $datapath/iii;
+    runTest exifprint $rtc_infile > iii;
     cp $rtc_infile $rtc_outfile; 
-    runTest write-test $rtc_infile $rtc_number > $datapath/ttt; 
-    diff -a $datapath/iii $datapath/ttt
+    runTest write-test $rtc_infile $rtc_number > ttt; 
+    diff -a iii ttt
 }
 
 ##
