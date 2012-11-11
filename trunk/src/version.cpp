@@ -51,7 +51,7 @@ namespace Exiv2 {
     int versionNumber()
     {
         return EXIV2_MAKE_VERSION(EXIV2_MAJOR_VERSION, EXIV2_MINOR_VERSION, EXIV2_PATCH_VERSION);
-    }
+    } 
 
     std::string versionNumberHexString()
     {
@@ -88,8 +88,6 @@ namespace Exiv2 {
 # include <psapi.h>
 
 // tell MSVC to link psapi.
-// I'm going to change this to use LoadLibrary("psapi")/FindProcAddress
-// and the code with work on Cygwin
 #ifdef	_MSC_VER
 #pragma comment( lib, "psapi" )
 #endif
@@ -137,10 +135,16 @@ EXIV2API void dumpLibraryInfo(std::ostream& os)
 	int dll=0;
 #endif
 
-#ifdef	_MSC_VER
-	sprintf(szBuilder,"MSVC=%d,DEBUG=%d,DLL=%d,Bits=%d:",((_MSC_VER-600)/100),debug,dll,bits);
+#if   defined(_MSC_VER)
+	  sprintf(szBuilder,"MSVC=%d,DEBUG=%d,DLL=%d,Bits=%d:",((_MSC_VER-600)/100),debug,dll,bits);
+#elif defined(__clang__)
+	  sprintf(szBuilder,"Clang=%s,DEBUG=%d,DLL=%d,Bits=%d:",__clang_version__,debug,dll,bits);
+#elif defined(__GNUG__)
+	  sprintf(szBuilder,"G++=%s,DEBUG=%d,DLL=%d,Bits=%d: ",__VERSION__,debug,dll,bits);
+#elif defined(__GNUC__)
+	  sprintf(szBuilder,"GCC=%s,DEBUG=%d,DLL=%d,Bits=%d: ",__VERSION__,debug,dll,bits);
 #else
-	sprintf(szBuilder,"GCC=%s,DEBUG=%d,DLL=%d,Bits=%d: ",__VERSION__,debug,dll,bits);
+	  sprintf(szBuilder,"???=%s,DEBUG=%d,DLL=%d,Bits=%d: ",__VERSION__,debug,dll,bits);
 #endif
 	path[0]=0;
 
