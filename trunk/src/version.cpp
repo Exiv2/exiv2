@@ -184,8 +184,13 @@ EXIV2API void dumpLibraryInfo(std::ostream& os)
 	char proc[100];
 	char path[500];
 	sprintf(proc,"/proc/%d/exe", getpid());
-	path_l = readlink (proc, path,sizeof(path));
-	libs.push_back(path);
+	int l = readlink (proc, path,sizeof(path)-1);
+    if (l>0) {
+        path[l]=0;
+        libs.push_back(path);
+    } else {
+        libs.push_back("unknown");
+    }
 
 	// http://syprog.blogspot.com/2011/12/listing-loaded-shared-objects-in-linux.html
 	struct lmap* pl;
@@ -194,9 +199,9 @@ EXIV2API void dumpLibraryInfo(std::ostream& os)
 	p  = p->ptr;
 	pl = (struct lmap*)p->ptr;
 
-	while(NULL != pl)
+	while ( pl )
 	{
-		libraries.push_back(pl->path);
+		libs.push_back(pl->path);
 		pl = pl->next;
 	}
 #endif
