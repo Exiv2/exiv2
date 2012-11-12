@@ -71,8 +71,11 @@ namespace Exiv2 {
     }
 }                                       // namespace Exiv2
 
-
-#include <stdio.h>
+#include <string>
+#include <vector>
+using namespace std;
+typedef vector<string>      string_v;
+typedef string_v::iterator  string_i;
 
 #ifndef lengthof
 #define lengthof(x) sizeof(x)/sizeof(x[0])
@@ -116,13 +119,11 @@ namespace Exiv2 {
 
 EXIV2API void dumpLibraryInfo(std::ostream& os)
 {
-	char    path     [500];
-	char    szBuilder[200];
-	size_t  path_l   = 0  ;
-	size_t  path_max = sizeof(path) - 2;
-	bool    bReport  = false;
-	int     bits     = sizeof(void*);
+	string_v libs; // libs[0] == executable
+	char     builder[200];
+	builder[0] = 0  ;
 
+	int      bits     = sizeof(void*);
 #if defined(_DEBUG) || defined(DEBUG)
 	int debug=1;
 #else
@@ -136,75 +137,77 @@ EXIV2API void dumpLibraryInfo(std::ostream& os)
 #endif
 
 #if   defined(_MSC_VER)
-	  sprintf(szBuilder,"MSVC=%d,DEBUG=%d,DLL=%d,Bits=%d:",((_MSC_VER-600)/100),debug,dll,bits);
+	  sprintf(builder,"MSVC=%d,DEBUG=%d,DLL=%d,Bits=%d:",((_MSC_VER-600)/100),debug,dll,bits);
 #elif defined(__clang__)
-	  sprintf(szBuilder,"Clang=%s,DEBUG=%d,DLL=%d,Bits=%d:",__clang_version__,debug,dll,bits);
+	  sprintf(builder,"Clang=%s,DEBUG=%d,DLL=%d,Bits=%d:",__clang_version__,debug,dll,bits);
 #elif defined(__GNUG__)
-	  sprintf(szBuilder,"G++=%s,DEBUG=%d,DLL=%d,Bits=%d: ",__VERSION__,debug,dll,bits);
+	  sprintf(builder,"G++=%s,DEBUG=%d,DLL=%d,Bits=%d: ",__VERSION__,debug,dll,bits);
 #elif defined(__GNUC__)
-	  sprintf(szBuilder,"GCC=%s,DEBUG=%d,DLL=%d,Bits=%d: ",__VERSION__,debug,dll,bits);
+	  sprintf(builder,"GCC=%s,DEBUG=%d,DLL=%d,Bits=%d: ",__VERSION__,debug,dll,bits);
 #else
-	  sprintf(szBuilder,"???=%s,DEBUG=%d,DLL=%d,Bits=%d: ",__VERSION__,debug,dll,bits);
+	  sprintf(builder,"unknown=%s,DEBUG=%d,DLL=%d,Bits=%d: ",__VERSION__,debug,dll,bits);
 #endif
-	path[0]=0;
 
-	// enumerate loaded libraries and determine path to executable
+	const char* platform = 
+#if defined(__CYGWIN__)	
+	"cygwin";
+#elif defined(__MSC_VER)
+	"windows";
+#elif defined(__APPLE__)
+	"apple";
+#elif defined(__linux__)
+	"linux";
+#else
+	"unknown";
+#endif
+
 #if defined(WIN32) || defined(__CYGWIN__)
-	bReport = true;
-	HMODULE handles[100];
+	// enumerate loaded libraries and determine path to executable
+	HMODULE handles[200];
 	DWORD   cbNeeded;
 	if ( EnumProcessModules(GetCurrentProcess(),handles,lengthof(handles),&cbNeeded)) {
 		char szFilename[_MAX_PATH];
 		for ( DWORD h = 0 ; h < cbNeeded/sizeof(handles[0]) ; h++ ) {
 			GetModuleFileNameA(handles[h],szFilename,lengthof(szFilename)) ;
-			os << szBuilder << "module=" << szFilename << std::endl;
-			if ( h==0 ) {
-				path_l = strlen(szFilename);
-				if ( path_l > path_max ) path_l = 0;
-				if ( path_l > 0        ) strcpy(path,szFilename);
-			}
+			libs.push_back(szFilename);
 		}
 	}
 #elif defined(__APPLE__)
-	bReport = true;
 	// man 3 dyld
 	uint32_t count = _dyld_image_count();
 	for (uint32_t image = 0 ; image < count ; image++ ) {
-		 const char* image_path = _dyld_get_image_name(image);
-		 os << szBuilder << "library=" << image_path << std::endl;
-	     if ( image==0 ) {
-	     	path_l = strlen(image_path);
-	     	if ( path_l > path_max ) path_l = 0;
-	     	if ( path_l > 0        ) strcpy(path,image_path);
-	     }
+		const char* image_path = _dyld_get_image_name(image);
+		libs.push_back(image_path);
 	}
-
 #elif defined(__linux__)
- 	bReport = true;
+	// http://stackoverflow.com/questions/606041/how-do-i-get-the-path-of-a-process-in-unix-linux
+	char proc[100];
+	char path[500];
+	sprintf(proc,"/proc/%d/exe", getpid());
+	path_l = readlink (proc, path,sizeof(path));
+	libs.push_back(path);
+
 	// http://syprog.blogspot.com/2011/12/listing-loaded-shared-objects-in-linux.html
 	struct lmap* pl;
 	void* ph = dlopen(NULL, RTLD_NOW);
 	struct something* p = (struct something*)ph;
-	p = p->ptr;
+	p  = p->ptr;
 	pl = (struct lmap*)p->ptr;
 
 	while(NULL != pl)
 	{
-		os << szBuilder << "library=" << pl->path << std::endl;
+		libraries.push_back(pl->path);
 		pl = pl->next;
 	}
-	// http://stackoverflow.com/questions/606041/how-do-i-get-the-path-of-a-process-in-unix-linux
-	char proc[100];
-	sprintf(proc,"/proc/%d/exe", getpid());
-	path_l = readlink (proc, path, path_max);
 #endif
 
-	if ( bReport ) {
-		os << "builder=" << szBuilder << std::endl;
-		if ( path_l > 0 &&  path_l < path_max ) {
-			path[path_l]=0;
-			os << szBuilder << "executable=" << path << std::endl;
-		}
-		os << szBuilder << "date=\"" << __DATE__ << "\",time=" __TIME__ << std::endl;
+	os << "platform=" << platform << endl;
+	os << "builder="  << builder  << endl;
+	os << "date="     << __DATE__ << endl;
+	os << "time="     << __TIME__ << endl;
+	if ( libs.begin() != libs.end() ) {
+		os << "executable=" << *libs.begin() << endl;
+		for ( string_i lib = libs.begin()+1 ; lib != libs.end() ; lib++ )
+			os << "library=" << *lib << endl;
 	}
 }
