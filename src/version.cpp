@@ -51,7 +51,7 @@ namespace Exiv2 {
     int versionNumber()
     {
         return EXIV2_MAKE_VERSION(EXIV2_MAJOR_VERSION, EXIV2_MINOR_VERSION, EXIV2_PATCH_VERSION);
-    } 
+    }
 
     std::string versionNumberHexString()
     {
@@ -73,6 +73,7 @@ namespace Exiv2 {
 
 #include <string>
 #include <vector>
+#include <stdio.h>
 using namespace std;
 typedef vector<string>      string_v;
 typedef string_v::iterator  string_i;
@@ -121,7 +122,6 @@ EXIV2API void dumpLibraryInfo(std::ostream& os)
 {
 	string_v libs; // libs[0] == executable
 	char     builder[200];
-	builder[0] = 0  ;
 
 	int      bits     = sizeof(void*);
 #if defined(_DEBUG) || defined(DEBUG)
@@ -137,21 +137,21 @@ EXIV2API void dumpLibraryInfo(std::ostream& os)
 #endif
 
 #if   defined(_MSC_VER)
-	  sprintf(builder,"MSVC=%d,DEBUG=%d,DLL=%d,Bits=%d:",((_MSC_VER-600)/100),debug,dll,bits);
+	  sprintf(builder,"MSVC=%d,DEBUG=%d,DLL=%d,Bits=%d"   ,((_MSC_VER-600)/100),debug,dll,bits);
 #elif defined(__clang__)
-	  sprintf(builder,"Clang=%s,DEBUG=%d,DLL=%d,Bits=%d:",__clang_version__,debug,dll,bits);
+	  sprintf(builder,"Clang=%s,DEBUG=%d,DLL=%d,Bits=%d"  ,__clang_version__,debug,dll,bits);
 #elif defined(__GNUG__)
-	  sprintf(builder,"G++=%s,DEBUG=%d,DLL=%d,Bits=%d: ",__VERSION__,debug,dll,bits);
+	  sprintf(builder,"G++=%s,DEBUG=%d,DLL=%d,Bits=%d"    ,__VERSION__,debug,dll,bits);
 #elif defined(__GNUC__)
-	  sprintf(builder,"GCC=%s,DEBUG=%d,DLL=%d,Bits=%d: ",__VERSION__,debug,dll,bits);
+	  sprintf(builder,"GCC=%s,DEBUG=%d,DLL=%d,Bits=%d"    ,__VERSION__,debug,dll,bits);
 #else
-	  sprintf(builder,"unknown=%s,DEBUG=%d,DLL=%d,Bits=%d: ",__VERSION__,debug,dll,bits);
+	  sprintf(builder,"unknown=%s,DEBUG=%d,DLL=%d,Bits=%d",__VERSION__,debug,dll,bits);
 #endif
 
-	const char* platform = 
-#if defined(__CYGWIN__)	
+	const char* platform =
+#if defined(__CYGWIN__)
 	"cygwin";
-#elif defined(__MSC_VER)
+#elif defined(_MSC_VER)
 	"windows";
 #elif defined(__APPLE__)
 	"apple";
