@@ -122,6 +122,10 @@ namespace Exiv2 {
     */
     EXIV2API int versionNumber();
     /*!
+      @brief Return the version string Example: "0.23.0" (major.minor.patch)
+    */
+    EXIV2API std::string versionString();
+    /*!
       @brief Return the version of %Exiv2 as hex string of fixed length 6.
     */
     EXIV2API std::string versionNumberHexString();
@@ -175,8 +179,7 @@ namespace Exiv2 {
 }                                       // namespace Exiv2
 
 // dumpLibraryInfo is general purpose and not in the Exiv2 namespace
-// dumpLibraryInfo reports on Windows/Linux/Mac, other platforms report nothing
-// dumpLibraryInfo used by exiv2 test suite to inspect loaded libraries at run-time
+// used by exiv2 test suite to inspect libraries loaded at run-time
 EXIV2API void dumpLibraryInfo(std::ostream& os);
 
 
