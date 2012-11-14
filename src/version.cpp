@@ -130,7 +130,7 @@ EXIV2API void dumpLibraryInfo(std::ostream& os)
 {
 	  string_v libs; // libs[0] == executable
 
-	  int      bits     = sizeof(void*);
+	  int      bits = sizeof(void*);
 #if   defined(_DEBUG) || defined(DEBUG)
 	  int debug=1;
 #else
@@ -145,15 +145,30 @@ EXIV2API void dumpLibraryInfo(std::ostream& os)
 
       const char* compiler = 
 #if   defined(_MSC_VER)
-	  "MSVC"    ; // ((_MSC_VER-600)/100),debug,dll,bits);
+	  "MSVC"    ;
+
+#ifndef __VERSION__
+	  char version[20];
+	  sprintf(version,"%d.%02d",(_MSC_VER-600)/100,_MSC_VER%100);
+#define __VERSION__ version
+#endif
+
 #elif defined(__clang__)
-	  "Clang"   ; // =%s,DEBUG=%d,DLL=%d,Bits=%d"  ,__clang_version__,debug,dll,bits);
+	  "Clang"   ;
 #elif defined(__GNUG__)
-	  "G++"     ; // =%s,DEBUG=%d,DLL=%d,Bits=%d"    ,__VERSION__,debug,dll,bits);
+	  "G++"     ;
 #elif defined(__GNUC__)
-	  "GCC"     ; // =%s,DEBUG=%d,DLL=%d,Bits=%d"    ,__VERSION__,debug,dll,bits);
+	  "GCC"     ;
 #else
-	  "unknown" ; // =%s,DEBUG=%d,DLL=%d,Bits=%d",__VERSION__,debug,dll,bits);
+	  "unknown" ;
+#endif
+
+#ifndef __VERSION__
+#ifdef  __clang__version__
+#define __VERSION__ __clang__version__
+#else
+#define __VERSION__ "unknown"
+#endif
 #endif
 
 	  const char* platform =
