@@ -53,6 +53,14 @@ namespace Exiv2 {
         return EXIV2_MAKE_VERSION(EXIV2_MAJOR_VERSION, EXIV2_MINOR_VERSION, EXIV2_PATCH_VERSION);
     }
 
+    std::string versionString()
+    {
+        std::ostringstream os;
+        os << EXIV2_MAJOR_VERSION << '.' << EXIV2_MINOR_VERSION << '.' << EXIV2_PATCH_VERSION;
+        return os.str();
+
+    }
+
     std::string versionNumberHexString()
     {
         std::ostringstream os;
@@ -120,45 +128,45 @@ typedef string_v::iterator  string_i;
 
 EXIV2API void dumpLibraryInfo(std::ostream& os)
 {
-	string_v libs; // libs[0] == executable
-	char     builder[200];
+	  string_v libs; // libs[0] == executable
 
-	int      bits     = sizeof(void*);
-#if defined(_DEBUG) || defined(DEBUG)
-	int debug=1;
+	  int      bits     = sizeof(void*);
+#if   defined(_DEBUG) || defined(DEBUG)
+	  int debug=1;
 #else
-	int debug=0;
+	  int debug=0;
 #endif
 
-#if defined(EXV_HAVE_DLL)
-	int dll=1;
+#if   defined(EXV_HAVE_DLL)
+	  int dll=1;
 #else
-	int dll=0;
+	  int dll=0;
 #endif
 
+      const char* compiler = 
 #if   defined(_MSC_VER)
-	  sprintf(builder,"MSVC=%d,DEBUG=%d,DLL=%d,Bits=%d"   ,((_MSC_VER-600)/100),debug,dll,bits);
+	  "MSVC"    ; // ((_MSC_VER-600)/100),debug,dll,bits);
 #elif defined(__clang__)
-	  sprintf(builder,"Clang=%s,DEBUG=%d,DLL=%d,Bits=%d"  ,__clang_version__,debug,dll,bits);
+	  "Clang"   ; // =%s,DEBUG=%d,DLL=%d,Bits=%d"  ,__clang_version__,debug,dll,bits);
 #elif defined(__GNUG__)
-	  sprintf(builder,"G++=%s,DEBUG=%d,DLL=%d,Bits=%d"    ,__VERSION__,debug,dll,bits);
+	  "G++"     ; // =%s,DEBUG=%d,DLL=%d,Bits=%d"    ,__VERSION__,debug,dll,bits);
 #elif defined(__GNUC__)
-	  sprintf(builder,"GCC=%s,DEBUG=%d,DLL=%d,Bits=%d"    ,__VERSION__,debug,dll,bits);
+	  "GCC"     ; // =%s,DEBUG=%d,DLL=%d,Bits=%d"    ,__VERSION__,debug,dll,bits);
 #else
-	  sprintf(builder,"unknown=%s,DEBUG=%d,DLL=%d,Bits=%d",__VERSION__,debug,dll,bits);
+	  "unknown" ; // =%s,DEBUG=%d,DLL=%d,Bits=%d",__VERSION__,debug,dll,bits);
 #endif
 
-	const char* platform =
+	  const char* platform =
 #if defined(__CYGWIN__)
-	"cygwin";
+	  "cygwin";
 #elif defined(_MSC_VER)
-	"windows";
+	  "windows";
 #elif defined(__APPLE__)
-	"apple";
+	  "apple";
 #elif defined(__linux__)
-	"linux";
+	  "linux";
 #else
-	"unknown";
+	  "unknown";
 #endif
 
 #if defined(WIN32) || defined(__CYGWIN__)
@@ -206,10 +214,16 @@ EXIV2API void dumpLibraryInfo(std::ostream& os)
 	}
 #endif
 
-	os << "platform=" << platform << endl;
-	os << "builder="  << builder  << endl;
-	os << "date="     << __DATE__ << endl;
-	os << "time="     << __TIME__ << endl;
+    os << "exiv2="    << Exiv2::versionString() << endl;
+	os << "platform=" << platform               << endl;
+    os << "compiler=" << compiler               << endl;
+    os << "bits="     << bits                   << endl;
+    os << "dll="      << dll                    << endl;
+    os << "debug="    << debug                  << endl;
+    os << "version="  << __VERSION__            << endl; 
+	os << "date="     << __DATE__               << endl;
+	os << "time="     << __TIME__               << endl;
+
 	if ( libs.begin() != libs.end() ) {
 		os << "executable=" << *libs.begin() << endl;
 		for ( string_i lib = libs.begin()+1 ; lib != libs.end() ; lib++ )
