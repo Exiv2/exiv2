@@ -130,7 +130,7 @@ EXIV2API void dumpLibraryInfo(std::ostream& os)
 {
 	  string_v libs; // libs[0] == executable
 
-	  int      bits = sizeof(void*);
+	  int      bits = 8*sizeof(void*);
 #if   defined(_DEBUG) || defined(DEBUG)
 	  int debug=1;
 #else
@@ -143,7 +143,7 @@ EXIV2API void dumpLibraryInfo(std::ostream& os)
 	  int dll=0;
 #endif
 
-      const char* compiler = 
+      const char* compiler =
 #if   defined(_MSC_VER)
 	  "MSVC"    ;
 
@@ -235,7 +235,7 @@ EXIV2API void dumpLibraryInfo(std::ostream& os)
     os << "bits="     << bits                   << endl;
     os << "dll="      << dll                    << endl;
     os << "debug="    << debug                  << endl;
-    os << "version="  << __VERSION__            << endl; 
+    os << "version="  << __VERSION__            << endl;
 	os << "date="     << __DATE__               << endl;
 	os << "time="     << __TIME__               << endl;
 
