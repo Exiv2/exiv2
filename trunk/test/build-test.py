@@ -42,10 +42,10 @@ def apple(dict):
 	platform(dict)
 
 	os_major=int(os.uname()[2].split('.')[0])
-	os_minor=int(os.uname()[2].split['.'][1])
+	os_minor=int(os.uname()[2].split('.')[1])
 	NC=13;ML=12;LION=11;SL=10;LEO=9;
 
- 	if dict['bits'] != '64':
+ 	if dict['bits'] != 64:
  		print '*** expected 64 bit build ***'
 
 	expects= [ 'libSystem.B.dylib'
@@ -56,12 +56,12 @@ def apple(dict):
 			 , 'libdyld.dylib'
 			 , 'libc++.1.dylib'
 			 ] ;
-	if dict[dll]:
+	if dict['dll']:
 		expects=[ 'libexiv2.12.dylib'
 				];
 		expect(dict,expects)
 
-	if os_major == ML and dict['dll']=='1':
+	if os_major == ML and dict['dll']==1:
 		expects= [ 'libexiv2.12.dylib'
 			 , 'libSystem.B.dylib'
 			 , 'libexpat.1.dylib'			 
