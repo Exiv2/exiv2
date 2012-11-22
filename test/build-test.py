@@ -206,9 +206,12 @@ def main(args):
                     dict[k]=dict[k][0]
                     
         # convert numeric strings to ints
-        dict['dll'  ] = int(dict['dll'])
-        dict['debug'] = int(dict['debug'])
-        dict['bits' ] = int(dict['bits'])
+        debug='debug'
+        dll='dll'
+        bits='bits'
+        dict[dll  ] = int(dict[dll])
+        dict[debug] = int(dict[debug])
+        dict[bits ] = int(dict[bits])
 
         ##
         # analyse the version dictionary
@@ -217,11 +220,9 @@ def main(args):
 
         ##
         # report
-        debug='debug'
-        dll='dll'
         v='Release' if dict[debug]==0 else 'Debug'
         d='DLL'     if dict[dll  ]==0 else ''
-        print "build %dbit %-8s  %-12s looks good" % (dict['bits'],dict['platform'],v+d)
+        print "build %dbit %-8s  %-12s looks good" % (dict[bits],dict['platform'],v+d)
     else:
         error("exiv2 not found!")
 
