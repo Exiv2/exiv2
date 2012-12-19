@@ -15,9 +15,11 @@ source ./functions.source
 
 (	cd "$testdir"
 
-	copyTestFile mini9.tif
-	runTest      mini9.tif
-	exifprobe   $testfile
+	testfile=mini9.tif
+	copyTestFile ${testfile}
+	exifprobe ${testfile}
+	runTest tiff-test ${testfile}
+	exifprobe ${testfile}
 
 ) > $results
 
