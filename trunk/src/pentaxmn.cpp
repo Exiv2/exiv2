@@ -65,6 +65,7 @@ namespace Exiv2 {
         {    0x12958, N_("Optio 330GS") },
         {    0x12962, N_("Optio 450/550") },
         {    0x1296c, N_("Optio S") },
+        {    0x12971, N_("Optio S V1.01") },
         {    0x12994, N_("*ist D") },
         {    0x129b2, N_("Optio 33L") },
         {    0x129bc, N_("Optio 33LF") },
@@ -111,14 +112,18 @@ namespace Exiv2 {
         {    0x12c32, N_("Optio M20") },
         {    0x12c3c, N_("Optio W20") },
         {    0x12c46, N_("Optio A20") },
-        {    0x12c8c, N_("Optio M30") },
+//        {    0x12c8c, N_("Optio M30") },
         {    0x12c78, N_("Optio E30") },
         {    0x12c7d, N_("Optio E35") },
         {    0x12c82, N_("Optio T30") },
+        {    0x12c8c, N_("Optio M30") },
+        {    0x12c91, N_("Optio L30") },
         {    0x12c96, N_("Optio W30") },
         {    0x12ca0, N_("Optio A30") },
         {    0x12cb4, N_("Optio E40") },
         {    0x12cbe, N_("Optio M40") },
+        {    0x12cc3, N_("Optio L40") },
+        {    0x12cc5, N_("Optio L36") },
         {    0x12cc8, N_("Optio Z10") },
         {    0x12cd2, N_("K20D") },
         {    0x12cd4, N_("Samsung GX20") },
@@ -129,13 +134,15 @@ namespace Exiv2 {
         {    0x12d04, N_("Optio S12") },
         {    0x12d0e, N_("Optio E50") },
         {    0x12d18, N_("Optio M50") },
+        {    0x12d22, N_("Optio L50") },
         {    0x12d2c, N_("Optio V20") },
         {    0x12d40, N_("Optio W60") },
         {    0x12d4a, N_("Optio M60") },
-        {    0x12d68, N_("Optio E60") },
+        {    0x12d68, N_("Optio E60/M90") },
         {    0x12d72, N_("K2000") },
         {    0x12d73, N_("K-m") },
         {    0x12d86, N_("Optio P70") },
+        {    0x12d90, N_("Optio L70") },
         {    0x12d9a, N_("Optio E70") },
         {    0x12dae, N_("X70") },
         {    0x12db8, N_("K-7") },
@@ -144,7 +151,30 @@ namespace Exiv2 {
         {    0x12df4, N_("Optio WS80") },
         {    0x12dfe, N_("K-x") },
         {    0x12e08, N_("645D") },
+        {    0x12e12, N_("Optio E80") },
+        {    0x12e30, N_("Optio W90") },
         {    0x12e3a, N_("Optio I-10") },
+        {    0x12e44, N_("Optio H90") },
+        {    0x12e4e, N_("Optio E90") },
+        {    0x12e58, N_("X90") },
+        {    0x12e6c, N_("K-r") },
+        {    0x12e76, N_("K-5") },
+        {    0x12e8a, N_("Optio RS1000/RS1500") },
+        {    0x12e94, N_("Optio RZ10") },
+        {    0x12e9e, N_("Optio LS1000") },
+        {    0x12ebc, N_("Optio WG-1 GPS") },
+        {    0x12ed0, N_("Optio S1") },
+        {    0x12ee4, N_("Q") },
+        {    0x12ef8, N_("K-01") },
+        {    0x12f0c, N_("Optio RZ18") },
+        {    0x12f16, N_("Optio VS20") },
+        {    0x12f2a, N_("Optio WG-2 GPS") },
+        {    0x12f48, N_("Optio LS465") },
+        {    0x12f52, N_("K-30") },
+        {    0x12f5c, N_("X-5") },
+        {    0x12f66, N_("Q10") },
+        {    0x12f70, N_("K-5 II") },
+        {    0x12f71, N_("K-5 II s") },
     };
 
     //! Quality, tag 0x0008
@@ -155,6 +185,7 @@ namespace Exiv2 {
         {   3, N_("TIFF") },
         {   4, N_("RAW") },
         {   5, N_("Premium") },
+        {   65535, N_("n/a") },
     };
 
     //! Size, tag 0x0009
@@ -175,22 +206,43 @@ namespace Exiv2 {
         {    23, N_("3056x2296") },
         {    25, N_("2816x2212 or 2816x2112") },
         {    27, N_("3648x2736") },
+        {    29, N_("4000x3000") },
+        {    30, N_("4288x3216") },
+        {    31, N_("4608x3456") },
+        {    129, N_("1920x1080") },
+        {    135, N_("4608x2592") },
+        {    257, N_("3216x3216") },
+// not sure what to do with these values:
+//    '0 0' = 2304x1728
+//    '4 0' = 1600x1200
+//    '5 0' = 2048x1536
+//    '8 0' = 2560x1920
+//    '32 2' = 960x640
+//    '33 2' = 1152x768
+//    '34 2' = 1536x1024
+//    '35 1' = 2400x1600
+//    '36 0' = 3008x2008 or 3040x2024
+//    '37 0' = 3008x2000
     };
 
     //! Flash, tag 0x000c
     extern const TagDetails pentaxFlash[] = {
         {    0x000, N_("Auto, Did not fire") },
-        {    0x001, N_("Off") },
+        {    0x001, N_("Off, Did not fire") },
+        {    0x002, N_("Off, Did not fire") },
         {    0x003, N_("Auto, Did not fire, Red-eye reduction") },
+        {    0x005, N_("On. Did not fire. Wireless (Master)") },
         {    0x100, N_("Auto, Fired") },
-        {    0x102, N_("On") },
+        {    0x102, N_("On, Fired") },
         {    0x103, N_("Auto, Fired, Red-eye reduction") },
         {    0x104, N_("On, Red-eye reduction") },
-        {    0x105, N_("On, Wireless") },
+        {    0x105, N_("On, Wireless (Master)") },
+        {    0x106, N_("On, Wireless (Control)") },
         {    0x108, N_("On, Soft") },
         {    0x109, N_("On, Slow-sync") },
         {    0x10a, N_("On, Slow-sync, Red-eye reduction") },
         {    0x10b, N_("On, Trailing-curtain Sync") },
+// exiftool recognises 2 values, the values here correpond with Value 0
     };
 
     //! Focus, tag 0x000d
@@ -204,6 +256,9 @@ namespace Exiv2 {
         {    16, N_("AF-S") },
         {    17, N_("AF-C") },
         {    18, N_("AF-A") },
+        {    32, N_("Contrast-detect") },
+        {    33, N_("Tracking Contrast-detect") },
+        {    288, N_("Face Detect") },
     };
 
     //! AFPoint, tag 0x000e
@@ -212,6 +267,8 @@ namespace Exiv2 {
         {    0xfffe, N_("Fixed Center") },
         {    0xfffd, N_("Automatic Tracking AF") },
         {    0xfffc, N_("Face Recognition AF") },
+        {    0xfffb, N_("AF Select") },
+        {    0, N_("None") },
         {    1, N_("Upper-left") },
         {    2, N_("Top") },
         {    3, N_("Upper-right") },
@@ -264,10 +321,19 @@ namespace Exiv2 {
         {    22, N_("4000") },
         {    23, N_("5000") },
         {    24, N_("6400") },
+        {    25, N_("8000") },
+        {    26, N_("10000") },
+        {    27, N_("12800") },
+        {    28, N_("16000") },
+        {    29, N_("20000") },
+        {    30, N_("25600") },
+        {    31, N_("32000") },
+        {    32, N_("40000") },
+        {    33, N_("51200") },
         {    50, N_("50") },
         {    100, N_("100") },
         {    200, N_("200") },
-        {    268, N_("200") },
+//        {    268, N_("200") },
         {    400, N_("400") },
         {    800, N_("800") },
         {    1600, N_("1600") },
@@ -285,6 +351,15 @@ namespace Exiv2 {
         {    268, N_("1600") },
         {    269, N_("2200") },
         {    270, N_("3200") },
+        {    271, N_("4500") },
+        {    272, N_("6400") },
+        {    273, N_("9000") },
+        {    274, N_("12800") },
+        {    275, N_("18000") },
+        {    276, N_("25600") },
+        {    277, N_("36000") },
+        {    278, N_("51200") },
+
     };
 
     //! Generic for Off/On switches
@@ -319,6 +394,7 @@ namespace Exiv2 {
         {    8, N_("WhiteFluorescent") },
         {    9, N_("Flash") },
         {    10, N_("Cloudy") },
+        {    15, N_("Color Temperature Enhancement") },
         {    17, N_("Kelvin") },
         {    65534, N_("Unknown") },
         {    65535, N_("User Selected") },
@@ -330,6 +406,7 @@ namespace Exiv2 {
         {    2, N_("Auto (Shade)") },
         {    3, N_("Auto (Flash)") },
         {    4, N_("Auto (Tungsten)") },
+        {    6, N_("Auto (DaylightFluorescent)") },
         {    7, N_("Auto (DaywhiteFluorescent)") },
         {    8, N_("Auto (WhiteFluorescent)") },
         {    10, N_("Auto (Cloudy)") },
@@ -346,6 +423,8 @@ namespace Exiv2 {
         {     4, N_("Med High")  },
         {     5, N_("Very Low")  },
         {     6, N_("Very High") },
+        {     7, N_("-4") },
+        {     8, N_("+4") },
         { 65535, N_("None")      },
         { 65535, N_("None")      }              // To silence compiler warning
     };
@@ -359,6 +438,8 @@ namespace Exiv2 {
         {    4, N_("Med High") },
         {    5, N_("Very Low") },
         {    6, N_("Very High") },
+        {    7, N_("-4") },
+        {    8, N_("+4") },
     };
 
     //! Sharpness, tag 0x0021
@@ -370,6 +451,8 @@ namespace Exiv2 {
         {    4, N_("Med Hard") },
         {    5, N_("Very Soft") },
         {    6, N_("Very Hard") },
+        {    7, N_("-4") },
+        {    8, N_("+4") },
     };
 
     //! Location, tag 0x0022
@@ -452,20 +535,27 @@ namespace Exiv2 {
         {    69, N_("Stockholm") },
         {    70, N_("Lisbon") },
         {    71, N_("Copenhagen") },
+        {    72, N_("Warsaw") },
+        {    73, N_("Prague") },
+        {    74, N_("Budapest") },
     };
 
     //! ImageProcessing, combi-tag 0x0032 (4 bytes)
     extern const TagDetails pentaxImageProcessing[] = {
         { 0x00000000, N_("Unprocessed") },
         { 0x00000004, N_("Digital Filter") },
+        { 0x01000000, N_("Resized") },
         { 0x02000000, N_("Cropped") },
         { 0x04000000, N_("Color Filter") },
+        { 0x06000000, N_("Digital Filter 6") },
         { 0x10000000, N_("Frame Synthesis?") }
     };
 
     //! PictureMode, combi-tag 0x0033 (3 bytes)
     extern const TagDetails pentaxPictureMode[] = {
         { 0x000000, N_("Program") },
+        { 0x000100, N_("Hi-speed Program") },
+        { 0x000200, N_("DOF Program") },
         { 0x000300, N_("MTF Program") },
         { 0x000400, N_("Standard") },
         { 0x000500, N_("Portrait") },
@@ -486,6 +576,13 @@ namespace Exiv2 {
         { 0x001300, N_("Food") },
         { 0x001400, N_("Stage Lighting") },
         { 0x001500, N_("Night Snap") },
+        { 0x001700, N_("Blue Sky") },
+        { 0x001800, N_("Sunset") },
+        { 0x001a00, N_("Night Scene HDR") },
+        { 0x001b00, N_("HDR") },
+        { 0x001c00, N_("Quick Macro") },
+        { 0x001d00, N_("Forest") },
+        { 0x001e00, N_("Backlight Silhouette") },
         /* AUTO PICT modes (auto-selected) */
         { 0x010400, N_("Auto PICT (Standard)") },
         { 0x010500, N_("Auto PICT (Portrait)") },
@@ -504,6 +601,7 @@ namespace Exiv2 {
         { 0x020101, N_("Hi-speed Program") },
         { 0x020201, N_("DOF Program") },
         { 0x020301, N_("MTF Program") },
+        { 0x021601, N_("Shallow DOF") },
         { 0x030001, N_("Green Mode") },
         { 0x040001, N_("Shutter Speed Priority") },
         { 0x050001, N_("Aperture Priority") },
@@ -522,6 +620,12 @@ namespace Exiv2 {
         { 0x0f0001, N_("Sensitivity Priority AE (1)") },
         { 0x100000, N_("Flash X-Sync Speed AE") },
         { 0x100001, N_("Flash X-Sync Speed AE (1)") },
+        { 0x120001, N_("Auto Program (Normal)") },
+        { 0x120101, N_("Auto Program (Hi-Speed)") },
+        { 0x120201, N_("Auto Program (DOF)") },
+        { 0x120301, N_("Auto Program (MTF)") },
+        { 0x121601, N_("Auto Program (Shallow DOF)") },
+        { 0x141601, N_("Blur control") },
         /* other modes */
         { 0x000001, N_("Program") },
         { 0xfe0000, N_("Video (30 fps)") },
@@ -534,12 +638,21 @@ namespace Exiv2 {
         { 0x01000000, N_("Continuous") },
         { 0x02000000, N_("Continuous (Hi)") },
         { 0x03000000, N_("Burst") },
+        { 0xff000000, N_("Video") },
         { 0x00100000, N_("Single-frame") }, /* on 645D */
         { 0x00010000, N_("Self-timer (12 sec)") },
         { 0x00020000, N_("Self-timer (2 sec)") },
+        { 0x000f0000, N_("Video") },
+        { 0x00100000, N_("Mirror Lock-up") },
         { 0x00000100, N_("Remote Control (3 sec)") },
         { 0x00000200, N_("Remote Control") },
+        { 0x00000400, N_("Remote Continuous Shooting") },
         { 0x00000001, N_("Multiple Exposure") },
+        { 0x00000010, N_("HDR") },
+        { 0x00000020, N_("HDR Strong 1") },
+        { 0x00000030, N_("HDR Strong 2") },
+        { 0x00000040, N_("HDR Strong 3") },
+        { 0x000000e0, N_("HDR Auto") },
         { 0x000000ff, N_("Video") },
     };
 
@@ -577,7 +690,9 @@ namespace Exiv2 {
         { 0x031c, "smc PENTAX-F 35-70mm F3.5-4.5" },
         { 0x031d, "PENTAX-F 28-80mm F3.5-4.5 or SIGMA AF 18-125mm F3.5-5.6 DC" },
         { 0x031e, "PENTAX-F 70-200mm F4-5.6" },
-        { 0x031f, "smc PENTAX-F 70-210mm F4-5.6" },
+        { 0x031f, "smc PENTAX-F 70-210mm F4-5.6 or Tokina or Takumar Lens" }, //0
+        { 0x031f, "Tokina AF 730 75-300mm F4.5-5.6" },                        //1
+        { 0x031f, "Tokina AF 730 75-300mm F4.5-5.6" },                        //2
         { 0x0320, "smc PENTAX-F 50mm F1.4" },
         { 0x0321, "smc PENTAX-F 50mm F1.7" },
         { 0x0322, "smc PENTAX-F 135mm F2.8 [IF]" },
@@ -587,11 +702,17 @@ namespace Exiv2 {
         { 0x0327, "smc PENTAX-F* 600mm F4 ED[IF]" },
         { 0x0328, "smc PENTAX-F MACRO 100mm F2.8" },
         { 0x0329, "smc PENTAX-F MACRO 50mm F2.8 or Sigma 50mm F2,8 MACRO" },
-        { 0x032c, "Tamron 35-90mm F4 AF or various SIGMA models" },
-        { 0x032e, "SIGMA APO 70-200mm F2.8 EX" },
+        { 0x032c, "Tamron 35-90mm F4 AF or various SIGMA models" }, // 0
+        { 0x032c, "Sigma 12-24mm F4.5 EX DG" }, // 1
+        { 0x032c, "Sigma 12-24mm F4.5 EX DG" }, // 2
+        { 0x032c, "Sigma 12-24mm F4.5 EX DG" }, // 3
+        { 0x032c, "Sigma 12-24mm F4.5 EX DG" }, // 4
+        { 0x032e, "SIGMA APO 70-200mm F2.8 EX" }, // 0
+        { 0x032e, "Sigma EX APO 100-300mm F4 IF" }, // 1
         { 0x0332, "smc PENTAX-FA 28-70mm F4 AL" },
         { 0x0333, "SIGMA 28mm F1.8 EX DG ASPHERICAL MACRO" },
-        { 0x0334, "smc PENTAX-FA 28-200mm F3.8-5.6 AL[IF]" },
+        { 0x0334, "smc PENTAX-FA 28-200mm F3.8-5.6 AL[IF]" }, // 0
+        { 0x0334, "Tamron AF LD 28-200mm F3.8-5.6 [IF] Aspherical (171D)" }, // 1
         { 0x0335, "smc PENTAX-FA 28-80mm F3.5-5.6 AL" },
         { 0x03f7, "smc PENTAX-DA FISH-EYE 10-17mm F3.5-4.5 ED[IF]" },
         { 0x03f8, "smc PENTAX-DA 12-24mm F4 ED AL[IF]" },
@@ -600,7 +721,16 @@ namespace Exiv2 {
         { 0x03fc, "smc PENTAX-DA 18-55mm F3.5-5.6 AL" },
         { 0x03fd, "smc PENTAX-DA 14mm F2.8 ED[IF]" },
         { 0x03fe, "smc PENTAX-DA 16-45mm F4 ED AL" },
-        { 0x03ff, "SIGMA" },
+        { 0x03ff, "SIGMA" }, // 0
+        { 0x03ff, "Sigma 18-200mm F3.5-6.3 DC" }, // 1
+        { 0x03ff, "Sigma 18-200mm F3.5-6.3 DC" }, // 2
+        { 0x03ff, "Sigma 18-200mm F3.5-6.3 DC" }, // 3
+        { 0x03ff, "Sigma 18-200mm F3.5-6.3 DC" }, // 4
+        { 0x03ff, "Sigma 18-200mm F3.5-6.3 DC" }, // 5
+        { 0x03ff, "Sigma 18-200mm F3.5-6.3 DC" }, // 6
+        { 0x03ff, "Sigma 18-200mm F3.5-6.3 DC" }, // 7
+        { 0x03ff, "Sigma 18-200mm F3.5-6.3 DC" }, // 8
+        { 0x03ff, "Sigma 18-50mm F2.8 EX DC" }, // 9
         { 0x0401, "smc PENTAX-FA SOFT 28mm F2.8" },
         { 0x0402, "smc PENTAX-FA 80-320mm F4.5-5.6" },
         { 0x0403, "smc PENTAX-FA 43mm F1.9 Limited" },
@@ -610,11 +740,13 @@ namespace Exiv2 {
         { 0x0410, "TAMRON AF 80-210mm F4-5.6 (178D)" },
         { 0x0413, "TAMRON SP AF 90mm F2.8 (172E)" },
         { 0x0414, "smc PENTAX-FA 28-80mm F3.5-5.6" },
+        { 0x0415, "Cosina AF 100-300mm F5.6-6.7" },
         { 0x0416, "TOKINA 28-80mm F3.5-5.6" },
         { 0x0417, "smc PENTAX-FA 20-35mm F4 AL" },
         { 0x0418, "smc PENTAX-FA 77mm F1.8 Limited" },
         { 0x0419, "TAMRON SP AF 14mm F2.8" },
-        { 0x041a, "smc PENTAX-FA MACRO 100mm F3.5" },
+        { 0x041a, "smc PENTAX-FA MACRO 100mm F3.5 or Cosina lens" }, //0
+        { 0x041a, "Cosina 100mm F3.5 Macro" }, //1
         { 0x041b, "TAMRON AF28-300mm F/3.5-6.3 LD Aspherical[IF] MACRO (285D)" },
         { 0x041c, "smc PENTAX-FA 35mm F2 AL" },
         { 0x041d, "TAMRON AF 28-200mm F/3.8-5.6 LD Super II MACRO (371D)" },
@@ -627,12 +759,19 @@ namespace Exiv2 {
         { 0x0429, "TAMRON AF 28-200mm Super Zoom F3.8-5.6 Aspherical XR [IF] MACRO (A03)" },
         { 0x042b, "smc PENTAX-FA 28-90mm F3.5-5.6" },
         { 0x042c, "smc PENTAX-FA J 75-300mm F4.5-5.8 AL" },
-        { 0x042d, "TAMRON 28-300mm F3.5-6.3 Ultra zoom XR" },
+        { 0x042d, "TAMRON 28-300mm F3.5-6.3 Ultra zoom XR or Tamron AF 28-300mm F3.5-6.3 XR Di LD Aspherical [IF] Macro" }, //0
         { 0x042e, "smc PENTAX-FA J 28-80mm F3.5-5.6 AL" },
         { 0x042f, "smc PENTAX-FA J 18-35mm F4-5.6 AL" },
         { 0x0431, "TAMRON SP AF 28-75mm F2.8 XR Di (A09)" },
         { 0x0433, "smc PENTAX-D FA 50mm F2.8 MACRO" },
         { 0x0434, "smc PENTAX-D FA 100mm F2.8 MACRO" },
+        { 0x044b, "Tamron SP AF 70-200mm F2.8 Di LD [IF] Macro (A001)" },
+        { 0x04e5, "smc PENTAX-DA 18-55mm F3.5-5.6 AL II" },
+        { 0x04e6, "Tamron SP AF 17-50mm F2.8 XR Di II" },
+        { 0x04e7, "smc PENTAX-DA 18-250mm F3.5-6.3 ED AL [IF]" },
+        { 0x04ed, "Samsung/Schneider D-XENOGON 10-17mm F3.5-4.5" },
+        { 0x04ef, "Samsung D-XENON 12-24mm F4 ED AL [IF]" },
+        { 0x04f3, "smc PENTAX-DA 70mm F2.4 Limited" },
         { 0x04f4, "smc PENTAX-DA 21mm F3.2 AL Limited" },
         { 0x04f5, "Schneider D-XENON 50-200mm" },
         { 0x04f6, "Schneider D-XENON 18-55mm" },
@@ -660,6 +799,7 @@ namespace Exiv2 {
         { 0x050e, "smc PENTAX-FA* 250-600mm F5.6 ED[IF]" },
         { 0x050f, "smc PENTAX-FA 28-105mm F4-5.6" },
         { 0x0510, "smc PENTAX-FA 100-300mm F4.5-5.6" },
+        { 0x0562, "smc PENTAX-FA 100-300mm F4.5-5.6" },
         { 0x0601, "smc PENTAX-FA* 85mm F1.4[IF]" },
         { 0x0602, "smc PENTAX-FA* 200mm F2.8 ED[IF]" },
         { 0x0603, "smc PENTAX-FA* 300mm F2.8 ED[IF]" },
@@ -673,16 +813,22 @@ namespace Exiv2 {
         { 0x060d, "smc PENTAX-FA* 400mm F5.6 ED[IF]" },
         { 0x060e, "smc PENTAX-FA* MACRO 200mm F4 ED[IF]" },
         { 0x0700, "smc PENTAX-DA 21mm F3.2 AL Limited" },
+        { 0x073a, "smc PENTAX-D FA Macro 100mm F2.8 WR" },
         { 0x074b, "Tamron SP AF 70-200mm F2.8 Di LD [IF] Macro (A001)" },
+        { 0x07d4, "smc Pentax-DA 50mm F1.8" },
+        { 0x07d5, "smc PENTAX-DA 40mm F2.8 XS" },
         { 0x07d6, "smc PENTAX-DA 35mm F2.4 AL" },
-        { 0x07d6, "smc PENTAX-DA 35mm F2.4 AL" },
+        { 0x07d8, "smc PENTAX-DA L 55-300mm F4-5.8 ED" },
         { 0x07d9, "smc PENTAX-DA 50-200mm F4-5.6 ED WR" },
         { 0x07da, "smc PENTAX-DA 18-55mm F3.5-5.6 AL WR" },
         { 0x07dc, "Tamron SP AF 10-24mm F3.5-4.5 Di II LD Aspherical [IF]" },
+        { 0x07dd, "smc PENTAX-DA L 50-200mm F4-5.6 ED" },
         { 0x07de, "smc PENTAX-DA 18-55mm F3.5-5.6 AL II" },
         { 0x07df, "Samsung D-XENON 18-55mm F3.5-5.6 II" },
         { 0x07e0, "smc PENTAX-DA 15mm F4 ED AL Limited" },
         { 0x07e1, "Samsung D-XENON 18-250mm F3.5-6.3" },
+        { 0x07e2, "smc PENTAX-DA* 55mm F1.4 SDM (SDM unused)" },
+        { 0x07e3, "smc PENTAX-DA* 55mm F1.4 SDM (SDM unused)" },
         { 0x07e5, "smc PENTAX-DA 18-55mm F3.5-5.6 AL II" },
         { 0x07e6, "Tamron AF 17-50mm F2.8 XR Di-II LD (Model A16)" },
         { 0x07e7, "smc PENTAX-DA 18-250mm F3.5-6.3ED AL [IF]" },
@@ -695,7 +841,21 @@ namespace Exiv2 {
         { 0x07f2, "smc PENTAX-DA* 16-50mm F2.8 ED AL [IF] SDM (SDM not used)" },
         { 0x07f3, "smc PENTAX-DA 70mm F2.4 Limited" },
         { 0x07f4, "smc PENTAX-DA 21mm F3.2 AL Limited" },
+        { 0x0804, "Sigma 50mm F1.4 EX DG HSM" },
         { 0x0808, "SIGMA 18-250mm F3.5-6.3 DC OS HSM" },
+        { 0x080b, "Sigma 10-20mm F3.5 EX DC HSM" },
+        { 0x080c, "Sigma 70-300mm F4-5.6 DG OS" },
+        { 0x080d, "Sigma 120-400mm F4.5-5.6 APO DG OS HSM" },
+        { 0x080e, "Sigma 17-70mm F2.8-4.0 DC Macro OS HSM" },
+        { 0x080f, "Sigma 150-500mm F5-6.3 APO DG OS HSM" },
+        { 0x0810, "Sigma 70-200mm F2.8 EX DG Macro HSM II" },
+        { 0x0811, "Sigma 50-500mm F4.5-6.3 DG OS HSM" },
+        { 0x0812, "Sigma 8-16mm F4.5-5.6 DC HSM" },
+        { 0x0815, "Sigma 17-50mm F2.8 EX DC OS HSM" },
+        { 0x0816, "Sigma 85mm F1.4 EX DG HSM" },
+        { 0x0817, "Sigma 70-200mm F2.8 APO EX DG OS HSM" },
+        { 0x081b, "Sigma 18-200mm F3.5-6.3 II DC HSM" },
+        { 0x08d2, "smc Pentax-DA 18-270mm F3.5-6.3 ED SDM" },
         { 0x08d7, "smc PENTAX-DA 18-135mm F3.5-5.6 ED AL [IF] DC WR" },
         { 0x08e2, "smc PENTAX-DA* 55mm F1.4 SDM" },
         { 0x08e3, "smc PENTAX DA* 60-250mm F4 [IF] SDM"},
@@ -704,9 +864,28 @@ namespace Exiv2 {
         { 0x08eb, "smc PENTAX-DA* 200mm F2.8 ED [IF] SDM" },
         { 0x08f1, "smc PENTAX-DA* 50-135mm F2.8 ED [IF] SDM" },
         { 0x08f2, "smc PENTAX-DA* 16-50mm F2.8 ED AL [IF] SDM" },
+        { 0x08ff, "Sigma lens" }, //0
+        { 0x08ff, "Sigma 70-200mm F2.8 EX DG Macro HSM II" }, //1
+        { 0x08ff, "Sigma 70-200mm F2.8 EX DG Macro HSM II" }, //2
+        { 0x08ff, "Sigma 70-200mm F2.8 EX DG Macro HSM II" }, //3
+        { 0x08ff, "Sigma 70-200mm F2.8 EX DG Macro HSM II" }, //4
+        { 0x0900, "645 Manual lens" }, //1
+        { 0x0a00, "645 A Series lens" }, //1
         { 0x0b04, "smc PENTAX-FA645 Zoom 45mm-85mm F4.5" },
         { 0x0b07, "smc PENTAX-FA645 Macro 120mm F4" },
+        { 0x0b08, "smc PENTAX-FA 645 80-160mm F4.5" },
+        { 0x0b0b, "smc PENTAX-FA 645 35mm F3.5 AL [IF]" },
+        { 0x0b10, "smc PENTAX-FA 645 33-55mm F4.5 AL" },
         { 0x0b11, "smc PENTAX-FA645 Zoom 150mm-300mm F5.6 ED [IF]" },
+        { 0x0d12, "smc PENTAX-D FA 645 55mm F2.8 AL [IF] SDM AW" },
+        { 0x0d13, "smc PENTAX-D FA 645 25mm F4 AL [IF] SDM AW" },
+        { 0x1500, "Pentax Q Manual Lens" },
+        { 0x1501, "01 Standard Prime 8.5mm F1.9" },
+        { 0x1502, "02 Standard Zoom 5-15mm F2.8-4.5" },
+        { 0x1503, "03 Fish-eye 3.2mm F5.6" },
+        { 0x1504, "04 Toy Lens Wide 6.3mm F7.1" },
+        { 0x1505, "05 Toy Lens Telephoto 18mm F8" },
+        { 0x1506, "06 Telephoto Zoom 15-45mm F2.8" },
     };
 
     //! ImageTone, tag 0x004f
@@ -717,7 +896,10 @@ namespace Exiv2 {
         {    3, N_("Landscape") },
         {    4, N_("Vibrant") },
         {    5, N_("Monochrome") },
+        {    6, N_("Muted") },
         {    7, N_("Reversal film") },
+        {    8, N_("Bleach bypass") },
+        {    9, N_("Radiant") },
     };
 
     //! DynamicRangeExpansion, tag 0x0069
