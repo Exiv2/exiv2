@@ -1846,6 +1846,11 @@ namespace Exiv2 {
         if (tag == 0x9286 && group == exifId && ti == undefined) {
             ti = comment;
         }
+        // http://dev.exiv2.org/boards/3/topics/1337
+        // Exif.NikonAFT.AFFineTuneAdj should be signedByte
+        if ( tag == 0x0002 && group == nikonAFTId && ti == unsignedByte ) {
+            ti = signedByte;
+        }
         return ti;
     }
 
