@@ -300,6 +300,12 @@ namespace Exiv2 {
     {
         // byteOrder not needed
         if (buf) value_ = std::string(reinterpret_cast<const char*>(buf), len);
+		// http://dev.exiv2.org/issues/876
+		// garbage in Exif.Canon.LensModel due to len == 74 and strlen(buf) = 17 
+		size_t nullByte = value_.find('\0');
+		if ( nullByte != std::string::npos && nullByte > 0 && (nullByte+1) < (size_t)len )  {
+			value_ = std::string(reinterpret_cast<const char*>(buf), nullByte);
+		}
         return 0;
     }
 
