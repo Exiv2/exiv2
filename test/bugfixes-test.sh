@@ -229,6 +229,14 @@ source ./functions.source
 	copyTestFile $filename
 	runTest exiv2 $filename
 
+	num=876
+	filename=exiv2-bug$num.jpg
+	printf "$num " >&3
+	echo '------>' Bug $num '<-------' >&2
+	copyTestFile  $filename
+	runTest exiv2 -Pkvt $filename | grep Canon | grep Model
+	runTest exiv2 -Pkvt $filename | grep Canon | grep Lens
+
 ) 3>&1 > $results 2>&1
 
 printf "\n"
