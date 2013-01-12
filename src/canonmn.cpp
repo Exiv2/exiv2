@@ -180,6 +180,7 @@ namespace Exiv2 {
         { 0x80000297, N_("WFT-E2 II") },
         { 0x80000298, N_("WFT-E4 II") },
         { 0x80000301, N_("EOS Rebel T4i / 650D / Kiss X6i") },
+        { 0x80000302, N_("EOS 6D") },
     };
 
     //! SerialNumberFormat, tag 0x0015
@@ -669,7 +670,8 @@ namespace Exiv2 {
         { 491, "Canon EF 300mm f/2.8L IS II USM"                            },
         { 494, "Canon EF 600mm f/4.0L IS II USM"                            },
         { 495, "Canon EF 24-70mm f/2.8L II USM"                             },
-        { 4144,"Canon EF 40mm f/2.8 STM"                                    }
+        { 505, "Canon EF 35mm f/2 IS USM"                                   },
+		{ 4144,"Canon EF 40mm f/2.8 STM"                                    }
     };
 
     //! A lens id and a pretty-print function for special treatment of the id.
