@@ -234,8 +234,7 @@ source ./functions.source
 	printf "$num " >&3
 	echo '------>' Bug $num '<-------' >&2
 	copyTestFile  $filename
-	runTest exiv2 -Pkvt $filename | grep Canon | grep Model
-	runTest exiv2 -Pkvt $filename | grep Canon | grep Lens
+	runTest exiv2 -pa $filename | grep Model
 
 ) 3>&1 > $results 2>&1
 
