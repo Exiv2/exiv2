@@ -1693,6 +1693,7 @@ namespace Exiv2 {
                  "Tamron SP AF 17-35mm F2.8-4 Di LD Aspherical IF | "
                  "Sigma AF 50-150mm F2.8 EX DC APO HSM II | "
                  "Sigma 10-20mm F3.5 EX DC HSM | "
+                 "Sigma 50mm F1.4 EX DG HSM | "
                  "Sigma 70-200mm F2.8 II EX DG APO MACRO HSM" },
         { 129,   "Tamron 200-400mm F5.6 LD | "
                  "Tamron 70-300mm F4-5.6 LD" },
@@ -1781,7 +1782,8 @@ namespace Exiv2 {
                  "Sigma 14mm F3.5 | "
                  "Sigma 15mm F2.8 Fisheye" },
         { 25790, "Minolta AF 20mm F2.8" },
-        { 25791, "Minolta/Sony AF 20mm F2.8" },
+        { 25791, "Minolta/Sony AF 20mm F2.8 | " 
+                 "Tokina AT-X 116 PRO DX AF 11-16mm F2.8" },
         { 25810, "Minolta AF 100mm F2.8 Macro" },
         { 25811, "Minolta AF 100mm F2.8 Macro [New] | "
                  "Sigma AF 90mm F2.8 Macro | "
