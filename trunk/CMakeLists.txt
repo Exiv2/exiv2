@@ -190,6 +190,18 @@ ADD_CUSTOM_TARGET(teste COMMAND make teste "EXIV2_BINDIR=${CMAKE_BINARY_DIR}/bin
 ADD_CUSTOM_TARGET(testv COMMAND make testv "EXIV2_BINDIR=${CMAKE_BINARY_DIR}/bin"  WORKING_DIRECTORY "${CMAKE_SOURCE_DIR}/test/" )
 
 ##
+# http://dev.exiv2.org/boards/3/topics/1364
+# copy the taglist to be used to make docs
+IF( MINGW OR UNIX OR APPLE)
+  ADD_CUSTOM_TARGET(doc 
+    COMMAND mkdir -p  "${CMAKE_SOURCE_DIR}/src/bin"
+    COMMAND cp -f     "${CMAKE_BINARY_DIR}/bin/taglist" "${CMAKE_SOURCE_DIR}/src/bin"
+    WORKING_DIRECTORY "${CMAKE_SOURCE_DIR}/doc/"
+    COMMAND make doc 
+  )
+ENDIF()
+
+##
 # support for test suite TODO: fixup for MSVC and think a bit more before deploying this
 # ENABLE_TESTING()
 # INCLUDE(Dart)
