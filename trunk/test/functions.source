@@ -72,11 +72,11 @@ copyTestFiles()
 # result analysis
 reportTest()
 {
-	if [ -e `which dos2unix` ]; then
-	    sed 's,\\,/,g' $results > ${results}-new
+    cat $results | tr \\ / > ${results}-new
     	mv -f ${results}-new $results
-	    unix2dos $results >/dev/null 2>&1
-	fi
+    if [ ! -z `which dos2unix` ]; then
+        unix2dos $results >/dev/null 2>&1
+    fi
 
     if [ $# -eq 0 ]; then
         lhs=$results
@@ -93,9 +93,9 @@ reportTest()
     fi
 
     if [ "$PLATFORM" == "cygwin" ]; then
-    	diff -q $diffargs $(cygpath -aw $lhs) $(cygpath -aw $rhs)
+        diff -q $diffargs $(cygpath -aw $lhs) $(cygpath -aw $rhs)
     else
-    	diff -q $diffargs $lhs $rhs
+        diff -q $diffargs $lhs $rhs
     fi
     rc=$?
     if [ $rc -eq 0 ] ; then
