@@ -70,8 +70,6 @@ doxygen:
 tags:
 	cp -f    $(top_srcdir)/src/bin/taglist $(top_srcdir)/src
 	mkdir -p $(top_srcdir)/doc/html
-	rm   -rf $(top_srcdir)/doc/html
-	mkdir -p $(top_srcdir)/doc/html
 	cd       $(top_srcdir)/doc/templates && $(MAKE) all
 	cp -f    $(top_srcdir)/doc/templates/*.html $(top_srcdir)/doc/html/
 	@echo    "*****************************"
