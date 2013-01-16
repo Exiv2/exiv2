@@ -191,13 +191,14 @@ ADD_CUSTOM_TARGET(testv COMMAND make testv "EXIV2_BINDIR=${CMAKE_BINARY_DIR}/bin
 
 ##
 # http://dev.exiv2.org/boards/3/topics/1364
-# copy the taglist to be used to make docs
+# effectively does an make doc on the root directory
+# has to run make config and ./configure 
+# and copy the taglist to be used to make docs
 IF( MINGW OR UNIX OR APPLE)
   ADD_CUSTOM_TARGET(doc 
-    COMMAND mkdir -p  "${CMAKE_SOURCE_DIR}/src/bin"
-    COMMAND cp -f     "${CMAKE_BINARY_DIR}/bin/taglist" "${CMAKE_SOURCE_DIR}/src/bin"
-    WORKING_DIRECTORY "${CMAKE_SOURCE_DIR}/doc/"
-    COMMAND make doc 
+    WORKING_DIRECTORY "${CMAKE_SOURCE_DIR}"
+    COMMAND chmod +x ./cmake_doc.sh
+    COMMAND ./cmake_doc.sh "${CMAKE_BINARY_DIR}"
   )
 ENDIF()
 
