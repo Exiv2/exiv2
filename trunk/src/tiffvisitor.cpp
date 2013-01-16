@@ -363,6 +363,7 @@ namespace Exiv2 {
         case bigEndian:
             exifData_["Exif.MakerNote.ByteOrder"] = "MM";
             break;
+        case asciiBytes:
         case invalidByteOrder:
             assert(object->byteOrder() != invalidByteOrder);
             break;
