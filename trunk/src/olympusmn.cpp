@@ -756,6 +756,7 @@ namespace Exiv2 {
         TagInfo(0x0302, "ExtenderSerialNumber", N_("Extender Serial Number"), N_("Extender serial number"), olympusEqId, makerTags, asciiString, -1, printValue),
         TagInfo(0x0303, "ExtenderModel", N_("Extender Model"), N_("Extender model"), olympusEqId, makerTags, asciiString, -1, printValue),
         TagInfo(0x0304, "ExtenderFirmwareVersion", N_("Extender Firmware Version"), N_("Extender firmwareversion"), olympusEqId, makerTags, unsignedLong, -1, printValue),
+        TagInfo(0x0403, "ConversionLens", N_("Conversion Lens"), N_("Conversion Lens"), olympusEqId, makerTags, asciiString, -1, printValue),
         TagInfo(0x1000, "FlashType", N_("Flash Type"), N_("Flash type"), olympusEqId, makerTags, unsignedShort, -1, EXV_PRINT_TAG(olympusEqFlashType)),
         TagInfo(0x1001, "FlashModel", N_("Flash Model"), N_("Flash model"), olympusEqId, makerTags, unsignedShort, -1, EXV_PRINT_TAG(olympusEqFlashModel)),
         TagInfo(0x1002, "FlashFirmwareVersion", N_("Flash Firmware Version"), N_("Flash firmware version"), olympusEqId, makerTags, unsignedLong, -1, printValue),
