@@ -72,7 +72,7 @@ copyTestFiles()
 # result analysis
 reportTest()
 {
-    cat $results | tr \\ / > ${results}-new
+    cat $results | tr '\\' '/' > ${results}-new
     	mv -f ${results}-new $results
     if [ ! -z `which dos2unix` ]; then
         unix2dos $results >/dev/null 2>&1
