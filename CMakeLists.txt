@@ -19,13 +19,11 @@ endif(APPLE)
 # creates src/exv_conf.h which conflicts with cmake's own exv_conf.h
 # This causes incorrect compilation and linking errors.
 #
-# Halt processing and ask the user to fix this.
-# Remedy $ cd src; make clean -or- $ rm -rf src/exv_conf.h
-if( EXISTS ${CMAKE_SOURCE_DIR}/src/exv_conf.h  )
-    message(FATAL_ERROR "${CMAKE_SOURCE_DIR}/src/exv_conf.h exists.  Please remove file and re-run cmake!")
+# It's OK to delete this as it will be recreated on demand by <exiv2-dir>/Makefile
+if( EXISTS "${CMAKE_SOURCE_DIR}/src/exv_conf.h"  )
+    file(REMOVE "${CMAKE_SOURCE_DIR}/src/exv_conf.h")
 endif()
 ##
-
 
 SET(CMAKE_LEGACY_CYGWIN_WIN32 0) # Remove when CMake >= 2.8.4 is required
 CMAKE_MINIMUM_REQUIRED( VERSION 2.6 )
@@ -191,12 +189,12 @@ ADD_CUSTOM_TARGET(testv COMMAND make testv "EXIV2_BINDIR=${CMAKE_BINARY_DIR}/bin
 
 ##
 # http://dev.exiv2.org/boards/3/topics/1364
-# effectively does an make doc on the root directory
-# has to run make config and ./configure 
-# and copy the taglist to be used to make docs
+# effectively does a make doc on the root directory
+# has to run 'make config' and './configure' 
+# and copy bin/taglist to <exiv2dir>/bin/taglist for use by 'make doc'
 IF( MINGW OR UNIX OR APPLE)
   ADD_CUSTOM_TARGET(doc 
-    WORKING_DIRECTORY "${CMAKE_SOURCE_DIR}"
+    WORKING_DIRECTORY "${CMAKE_SOURCE_DIR}/doc"
     COMMAND chmod +x ./cmake_doc.sh
     COMMAND ./cmake_doc.sh "${CMAKE_BINARY_DIR}"
   )

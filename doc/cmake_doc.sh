@@ -5,8 +5,8 @@
 ##
 if [ $# == 1 ]; then
     CMAKE_BINARY_DIR="$1"
-    echo hello world
-
+    cd ..
+    
     if [ -e src/exv_conf.h ]; then
         mv src/exv_conf.h src/exv_conf.h.keep
     fi
