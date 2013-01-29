@@ -687,7 +687,8 @@ namespace Exiv2 {
         { 0x031a, "smc PENTAX-F* 250-600mm F5.6 ED[IF]" },
         { 0x031b, "smc PENTAX-F 28-80mm F3.5-4.5" },                    //0
         { 0x031b, "Tokina AT-X Pro AF 28-70mm F2.6-2.8" },              //1
-        { 0x031c, "smc PENTAX-F 35-70mm F3.5-4.5" },
+        { 0x031c, "smc PENTAX-F 35-70mm F3.5-4.5 or Tokina Lens" },     //0
+        { 0x031c, "Tokina AT-X AF 400mm F5.6" },			            //1
         { 0x031d, "PENTAX-F 28-80mm F3.5-4.5 or SIGMA AF 18-125mm F3.5-5.6 DC" },
         { 0x031e, "PENTAX-F 70-200mm F4-5.6" },
         { 0x031f, "smc PENTAX-F 70-210mm F4-5.6 or Tokina or Takumar Lens" }, //0
