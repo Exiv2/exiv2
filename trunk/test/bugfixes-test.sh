@@ -236,6 +236,15 @@ source ./functions.source
 	copyTestFile  $filename
 	runTest exiv2 -pa $filename | grep Model
 
+	num=884
+	filenames="exiv2-bug${num}a.jpg exiv2-bug${num}b.jpg exiv2-bug${num}c.jpg"
+	printf "$num " >&3
+	echo '------>' Bug $num '<-------' >&2
+	for filename in $filenames; do
+	  copyTestFile  $filename
+	  runTest exiv2 -pt $filename | grep -i lenstype
+	done
+
 ) 3>&1 > $results 2>&1
 
 printf "\n"
