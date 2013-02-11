@@ -256,6 +256,7 @@ namespace Exiv2 {
     ExifData::const_iterator lensName(const ExifData& ed)
     {
         static const char* keys[] = {
+            "Exif.Photo.LensModel",
             "Exif.CanonCs.LensType",
             "Exif.NikonLd1.LensIDNumber",
             "Exif.NikonLd2.LensIDNumber",
