@@ -825,7 +825,7 @@ namespace Exiv2 {
               if not found, create it
               set value
         */
-
+        AutoPtr m;
         CiffComponent* cc = 0;
         const Components::iterator b = components_.begin();
         const Components::iterator e = components_.end();
@@ -842,7 +842,7 @@ namespace Exiv2 {
             }
             if (cc == 0) {
                 // Directory doesn't exist yet, add it
-                AutoPtr m(new CiffDirectory(csd.crwDir_, csd.parent_));
+                m = AutoPtr(new CiffDirectory(csd.crwDir_, csd.parent_));
                 cc = m.get();
                 add(m);
             }
@@ -859,7 +859,7 @@ namespace Exiv2 {
             }
             if (cc == 0) {
                 // Tag doesn't exist yet, add it
-                AutoPtr m(new CiffEntry(crwTagId, tag()));
+                m = AutoPtr(new CiffEntry(crwTagId, tag()));
                 cc = m.get();
                 add(m);
             }
