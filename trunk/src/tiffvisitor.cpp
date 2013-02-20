@@ -1164,9 +1164,9 @@ namespace Exiv2 {
     void TiffReader::changeState(TiffRwState::AutoPtr state)
     {
         if (state.get() != 0) {
-            if (pOrigState_ != pState_) delete pState_;
             // invalidByteOrder indicates 'no change'
             if (state->byteOrder_ == invalidByteOrder) state->byteOrder_ = pState_->byteOrder_;
+            if (pOrigState_ != pState_) delete pState_;
             pState_ = state.release();
         }
     }
