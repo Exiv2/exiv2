@@ -1644,10 +1644,12 @@ namespace Exiv2 {
                  "Sigma 100-300mm F4 EX (APO (D) or D IF) | "
                  "Sigma 70mm F2.8 EX DG Macro | "
                  "Sigma 20mm F1.8 EX DG Aspherical RF | "
-                 "Sigma 30mm F1.4 DG EX" },
+                 "Sigma 30mm F1.4 DG EX | "
+                 "Sigma 24mm F1.8 EX DG ASP Macro" },
         { 27,    "Minolta AF 85mm F1.4 G (D)" },
         { 28,    "Minolta/Sony AF 100mm F2.8 Macro (D) | "
-                 "Tamron SP AF 90mm F2.8 Di Macro" },
+                 "Tamron SP AF 90mm F2.8 Di Macro | "
+                 "Tamron AF 180mm F3.5 SP Di LD [IF] Macro" },
         { 29,    "Minolta/Sony AF 75-300mm F4.5-5.6 (D) " },
         { 30,    "Minolta AF 28-80mm F3.5-5.6 (D) | "
                  "Sigma AF 10-20mm F4-5.6 EX DC | "
@@ -1678,13 +1680,27 @@ namespace Exiv2 {
         { 50,    "Sony AF DT 18-250mm F3.5-6.3" },
         { 51,    "Sony AF DT 16-105mm F3.5-5.6 | "
                  "Sony AF DT 55-200mm F4-5.5" },
-        { 52,    "Sony 70-300mm F4.5-5.6 G SSM" },
+        { 52,    "Sony 70-300mm F4.5-5.6 G SSM (SAL70300G) | "
+                 "Tamron SP 70-300mm F4-5.6 Di VC USD" },
         { 53,    "Sony AF 70-400mm F4.5-5.6 G SSM (SAL-70400G)" },
         { 54,    "Carl Zeiss Vario-Sonnar T* 16-35mm F2.8 ZA SSM (SAL-1635Z)" },
         { 55,    "Sony DT 18-55mm F3.5-5.6 SAM (SAL-1855)" },
         { 56,    "Sony AF DT 55-200mm F4-5.6 SAM" },
-        { 57,    "Sony AF DT 50mm F1.8 SAM" },
+        { 57,    "Sony DT 50mm F1.8 SAM (SAL50F18) | "
+                 "Tamron SP AF 60mm F2 Di II LD [IF] Macro 1:1 | "
+                 "Tamron 18-270mm F3.5-6.3 Di II PZD" },
         { 58,    "Sony AF DT 30mm F2.8 SAM Macro" },
+        { 59,    "Sony 28-75mm F2.8 SAM (SAL2875)" },
+        { 60,    "Carl Zeiss Distagon T* 24mm F2 ZA SSM (SAL24F20Z)" },
+        { 61,    "Sony 85mm F2.8 SAM (SAL85F28)" },
+        { 62,    "Sony DT 35mm F1.8 SAM (SAL35F18)" },
+        { 63,    "Sony DT 16-50mm F2.8 SSM (SAL1650)" },
+        { 64,    "Sony 500mm F4.0 G SSM (SAL500F40G)" },
+        { 65,    "Sony DT 18-135mm F3.5-5.6 SAM (SAL18135)" },
+        { 66,    "Sony 300mm F2.8 G SSM II (SAL300F28G2)" },
+        { 68,    "Sony DT 55-300mm F4.5-5.6 SAM (SAL55300)" },
+        { 69,    "Sony 70-400mm F4-5.6 G SSM II (SAL70400G2)" },
+        { 70,    "Sony Carl Zeiss Planar T* 50mm F1.4 ZA SSM (SALF0F14Z)" },
         { 128,   "Sigma 70-200mm F2.8 APO EX DG MACRO | "
                  "Tamron 18-200mm F3.5-6.3 | "
                  "Tamron 28-300mm F3.5-6.3 | "
@@ -1693,8 +1709,12 @@ namespace Exiv2 {
                  "Tamron SP AF 17-35mm F2.8-4 Di LD Aspherical IF | "
                  "Sigma AF 50-150mm F2.8 EX DC APO HSM II | "
                  "Sigma 10-20mm F3.5 EX DC HSM | "
+                 "Sigma 70-200mm F2.8 II EX DG APO MACRO HSM | "
+                 "Sigma 10mm F2.8 EX DC HSM Fisheye | "
                  "Sigma 50mm F1.4 EX DG HSM | "
-                 "Sigma 70-200mm F2.8 II EX DG APO MACRO HSM" },
+                 "Sigma 85mm F1.4 EX DG HSM | "
+                 "Sigma 24-70mm F2.8 IF EX DG HSM | "
+                 "Sigma 18-250mm F3.5-6.3 DC OS HSM" },
         { 129,   "Tamron 200-400mm F5.6 LD | "
                  "Tamron 70-300mm F4-5.6 LD" },
         { 131,   "Tamron 20-40mm F2.7-3.5 SP Aspherical IF" },
@@ -1729,7 +1749,8 @@ namespace Exiv2 {
                  "Tokina AF PRO 28-80mm F2.8 AT-X 280 | "
                  "Tokina AT-X PRO II AF 28-70mm F2.6-2.8 270 | "
                  "Tamron AF 19-35mm F3.5-4.5 | "
-                 "Angenieux AF 28-70mm F2.6" },
+                 "Angenieux AF 28-70mm F2.6 | "
+                 "Tokina AT-X 17 AF 17mm F3.5" },
         { 25530, "Minolta AF 28-135mm F4-4.5" },
         { 25531, "Minolta AF 28-135mm F4-4.5 | "
                  "Sigma ZOOM-alpha 35-135mm F3.5-4.5 | "
@@ -1757,7 +1778,9 @@ namespace Exiv2 {
                  "Sigma AF 170-500mm F5-6.3 APO Aspherical | "
                  "Tokina AT-X AF 300mm F4 | "
                  "Tokina AT-X AF 400mm F5.6 SD | "
-                 "Tokina AF 730 II 75-300mm F4.5-5.6" },
+                 "Tokina AF 730 II 75-300mm F4.5-5.6 | "
+                 "Sigma 800mm F5.6 APO | "
+                 "Sigma AF 400mm F5.6 APO Macro" },
         { 25620, "Minolta AF 50mm F1.4" },
         { 25621, "Minolta AF 50mm F1.4 [New]" },
         { 25630, "Minolta AF 300mm F2.8G APO" },
@@ -1799,6 +1822,9 @@ namespace Exiv2 {
         { 25890, "Minolta AF 80-200mm F2.8 APO" },
         { 25891, "Minolta AF 80-200mm F2.8 APO | "
                  "Tokina 80-200mm F2.8" },
+        { 25900, "Minolta AF 200mm F2.8 G APO + Minolta AF 1.4x APO + 1.4x" },
+        { 25901, "Minolta AF 200mm F2.8 G APO + Minolta AF 1.4x APO + 1.4x | "
+                 "Minolta AF 600mm F4 HS-APO G + Minolta AF 1.4x APO" },
         { 25910, "Minolta AF 35mm F1.4G" },
         { 25911, "Minolta AF 35mm F1.4" },
         { 25920, "Minolta AF 85mm F1.4G" },
@@ -1813,6 +1839,9 @@ namespace Exiv2 {
         { 25971, "Minolta AF 35mm F2 [New]" },
         { 25980, "Minolta AF 100mm F2" },
         { 25981, "Minolta AF 100mm F2" },
+        { 26010, "Minolta AF 200mm F2.8 G APO + Minolta AF 2x APO + 2x" },
+        { 26011, "Minolta AF 200mm F2.8 G APO + Minolta AF 2x APO + 2x | "
+                 "Minolta AF 600mm F4 HS-APO G + Minolta AF 2x APO" },
         { 26040, "Minolta AF 80-200mm F4.5-5.6" },
         { 26041, "Minolta AF 80-200mm F4.5-5.6" },
         { 26050, "Minolta AF 35-80mm F4-5.6" },
@@ -1863,7 +1892,29 @@ namespace Exiv2 {
                  "Tamron SP AF 90mm F2.5"},
         { 45751, "1.4x Teleconverter " },
         { 45851, "Tamron SP AF 300mm F2.8 LD IF" },
-        { 65535, "Manual Lens or No Lens" }
+        { 45871, "Tamron AF 70-210mm F2.8 SP LD" },
+        { 65535, "Manual Lens or No Lens | "
+                 "Sony E 16mm F2.8 | "
+                 "Sony E 20mm F2.8 | "
+                 "Sony E 24mm F1.8 ZA | "
+                 "Sony E 30mm F3.5 Macro | "
+                 "Sony E 35mm F1.8 OSS | "
+                 "Sony E 50mm F1.8 OSS | "
+                 "Sony E 10-18mm F4 OSS | "
+                 "Sony E PZ 16-50mm F3.5-5.6 OSS | "
+                 "Sony E 18-55mm F3.5-5.6 OSS | "
+                 "Sony E 18-200mm F3.5-6.3 OSS | "
+                 "Sony E 55-210mm F4.5-6.3 OSS | "
+                 "Sigma 19mm F2.8 EX DN | "
+                 "Sigma 30mm F2.8 EX DN | "
+                 "Tamron 18-200mm F3.5-6.3 Di III VC | "
+                 "Arax MC 35mm F2.8 Tilt+Shift | "
+                 "Arax MC 80mm F2.8 Tilt+Shift | "
+                 "Zenitar MF 16mm F2.8 Fisheye M42 | "
+                 "Samyang 500mm Mirror F8.0 | "
+                 "Pentacon Auto 135mm F2.8 | "
+                 "Pentacon Auto 29mm F2.8 | "
+                 "Helios 44-2 58mm F2.0" }
     };
 
     std::ostream& printMinoltaSonyLensID(std::ostream& os, const Value& value, const ExifData* metadata)
