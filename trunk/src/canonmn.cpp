@@ -481,7 +481,11 @@ namespace Exiv2 {
         {  32, "Sigma 15mm f/2.8 EX Fisheye"                                }, // 1
         {  33, "Voigtlander or Zeiss Lens"                                  }, // 0
         {  33, "Voigtlander Ultron 40mm f/2 SLII Aspherical"                }, // 1
-        {  33, "Zeiss Distagon 35mm T* f/2 ZE"                              }, // 2
+        {  33, "Zeiss Distagon 15mm T* f/2.8 ZE"                            }, // 2
+        {  33, "Zeiss Distagon 18mm T* f/3.5 ZE"                            }, // 3
+        {  33, "Zeiss Distagon 21mm T* f/2.8 ZE"                            }, // 4
+        {  33, "Zeiss Distagon 28mm T* f/2 ZE"                              }, // 5
+        {  33, "Zeiss Distagon 35mm T* f/2 ZE"                              }, // 6
         {  35, "Canon EF 35-80mm f/4-5.6"                                   },
         {  36, "Canon EF 38-76mm f/4.5-5.6"                                 },
         {  37, "Canon EF 35-80mm f/4-5.6"                                   }, // 0
@@ -520,6 +524,7 @@ namespace Exiv2 {
         { 131, "Sigma APO 50-150mm f/2.8 EX DC HSM"                         }, // 4
         { 131, "Sigma APO 120-300mm f/2.8 EX DG HSM"                        }, // 5
         { 131, "Sigma 4.5mm F2.8 EX DC HSM Circular Fisheye"                }, // 6
+        { 131, "Sigma 70-200mm f/2.8 APO EX HSM"                            }, // 7
         { 132, "Canon EF 1200mm f/5.6L"                                     },
         { 134, "Canon EF 600mm f/4L IS"                                     },
         { 135, "Canon EF 200mm f/1.8L"                                      },
@@ -533,8 +538,12 @@ namespace Exiv2 {
         { 137, "Sigma 17-70mm f/2.8-4 DC Macro OS HSM"                      }, // 6
         { 137, "Sigma 17-50mm f/2.8 OS HSM"                                 }, // 7
         { 137, "Sigma 18-200mm f/3.5-6.3 II DC OS HSM"                      }, // 8
-        { 137, "Sigma 12-24mm f/4.5-5.6 DG HSM II"                          }, // 9
-        { 137, "Tamron AF 18-270mm f/3.5-6.3 Di II VC PZD"                  }, // 10
+        { 137, "Tamron AF 18-270mm f/3.5-6.3 Di II VC PZD"                  }, // 9
+        { 137, "Sigma 12-24mm f/4.5-5.6 DG HSM II"                          }, // 10
+        { 137, "Tamron SP 17-50mm f/2.8 XR Di II VC"                        }, // 11
+        { 137, "Tamron SP 60mm f/2 Macro Di II"                             }, // 12
+        { 137, "Sigma 10-20mm f/3.5 EX DC HSM"                              }, // 13
+        { 137, "Tamron SP 24-70mm f/2.8 Di VC USD"                          }, // 14
         { 138, "Canon EF 28-80mm f/2.8-4L"                                  },
         { 139, "Canon EF 400mm f/2.8L"                                      },
         { 140, "Canon EF 500mm f/4.5L"                                      },
@@ -576,6 +585,7 @@ namespace Exiv2 {
         { 161, "Sigma 28-70mm f/2.8 EX"                                     }, // 2
         { 161, "Tamron AF 17-50mm f/2.8 Di-II LD Aspherical"                }, // 3
         { 161, "Tamron 90mm f/2.8"                                          }, // 4
+        { 161, "Sigma 24-60mm f/2.8 EX DG"                                  }, // 5
         { 162, "Canon EF 200mm f/2.8L"                                      },
         { 163, "Canon EF 300mm f/4L"                                        },
         { 164, "Canon EF 400mm f/5.6L"                                      },
@@ -590,6 +600,7 @@ namespace Exiv2 {
         { 169, "Sigma 50mm f/1.4 EX DG HSM"                                 }, // 4
         { 169, "Sigma 85mm f/1.4 EX DG HSM"                                 }, // 5
         { 169, "Sigma 30mm f/1.4 EX DC HSM"                                 }, // 6
+        { 169, "Sigma 35mm f/1.4 DG HSM"                                    }, // 7
         { 170, "Canon EF 200mm f/2.8L II"                                   },
         { 171, "Canon EF 300mm f/4L"                                        },
         { 172, "Canon EF 400mm f/5.6L"                                      },
@@ -598,6 +609,7 @@ namespace Exiv2 {
         { 173, "Sigma APO Macro 150mm f/3.5 EX DG IF HSM"                   }, // 2
         { 174, "Canon EF 135mm f/2L"                                        }, // 0
         { 174, "Sigma 70-200mm f/2.8 EX DG APO OS HSM"                      }, // 1
+        { 174, "Sigma 50-500mm f/4.5-6.3 APO DG OS HSM"                     }, // 2
         { 175, "Canon EF 400mm f/2.8L"                                      },
         { 176, "Canon EF 24-85mm f/3.5-4.5 USM"                             },
         { 177, "Canon EF 300mm f/4L IS"                                     },
@@ -606,7 +618,8 @@ namespace Exiv2 {
         { 180, "Canon EF 35mm f/1.4L"                                       },
         { 181, "Canon EF 100-400mm f/4.5-5.6L IS + 1.4x"                    },
         { 182, "Canon EF 100-400mm f/4.5-5.6L IS + 2x"                      },
-        { 183, "Canon EF 100-400mm f/4.5-5.6L IS"                           },
+        { 183, "Canon EF 100-400mm f/4.5-5.6L IS"                           }, // 0
+        { 183, "Sigma 150mm f/2.8 EX DG OS HSM APO Macro"                   }, // 1
         { 184, "Canon EF 400mm f/2.8L + 2x"                                 },
         { 185, "Canon EF 600mm f/4L IS"                                     },
         { 186, "Canon EF 70-200mm f/4L"                                     },
@@ -668,10 +681,19 @@ namespace Exiv2 {
         { 489, "Canon EF 70-300mm f/4-5.6L IS USM"                          },
         { 490, "Canon EF 8-15mm f/4L USM"                                   },
         { 491, "Canon EF 300mm f/2.8L IS II USM"                            },
+        { 492, "Canon EF 400mm f/2.8L IS II USM"                            },
+        { 493, "Canon EF 24-105mm f/4L IS USM"                              },
         { 494, "Canon EF 600mm f/4.0L IS II USM"                            },
         { 495, "Canon EF 24-70mm f/2.8L II USM"                             },
+        { 496, "Canon EF 200-400mm f/4L IS USM"                             },
+        { 502, "Canon EF 28mm f/2.8 IS USM"                                 },
+        { 503, "Canon EF 24mm f/2.8 IS USM"                                 },
+        { 504, "Canon EF 24-70mm f/4L IS USM"                               },
         { 505, "Canon EF 35mm f/2 IS USM"                                   },
-		{ 4144,"Canon EF 40mm f/2.8 STM"                                    }
+        { 4142,"Canon EF-S 18-135mm f/3.5-5.6 IS STM"                       },
+        { 4143,"Canon EF-M 18-55mm f/3.5-5.6 IS STM"                        },
+        { 4144,"Canon EF 40mm f/2.8 STM"                                    },
+        { 4145,"Canon EF-M 22mm f/2 STM"                                    }
     };
 
     //! A lens id and a pretty-print function for special treatment of the id.
