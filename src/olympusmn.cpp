@@ -1270,6 +1270,7 @@ namespace Exiv2 {
             { { 0, 22, 16 }, N_("Olympus M.Zuiko Digital 17mm F1.8")                    },
             { { 0, 23,  0 }, N_("Olympus Zuiko Digital Pro ED 35-100mm F2.0")           },
             { { 0, 24,  0 }, N_("Olympus Zuiko Digital 14-45mm F3.5-5.6")               },
+            { { 0, 24, 16 }, N_("Olympus M.Zuiko Digital ED 75-300mm F4.8-6.7 II")      },
             { { 0, 32,  0 }, N_("Olympus Zuiko Digital 35mm F3.5 Macro")                },
             { { 0, 34,  0 }, N_("Olympus Zuiko Digital 17.5-45mm F3.5-5.6")             },
             { { 0, 35,  0 }, N_("Olympus Zuiko Digital ED 14-42mm F3.5-5.6")            },
