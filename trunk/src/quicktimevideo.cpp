@@ -946,7 +946,7 @@ namespace Exiv2 {
     void QuickTimeVideo::NikonTagsDecoder(unsigned long size_external)
     {
         uint64_t cur_pos = io_->tell();
-        DataBuf buf(100), buf2(4+1);
+        DataBuf buf(200), buf2(4+1);
         unsigned long TagID = 0;
         unsigned short dataLength = 0, dataType = 2;
         const TagDetails* td, *td2;
@@ -1056,7 +1056,18 @@ namespace Exiv2 {
             else if(dataType == 2 || dataType == 7) {
                 dataLength = Exiv2::getUShort(buf.pData_, bigEndian);
                 std::memset(buf.pData_, 0x0, buf.size_);
+
+                // Sanity check with an "unreasonably" large number
+                if (dataLength > 200) {
+#ifndef SUPPRESS_WARNINGS
+                    EXV_ERROR << "Xmp.video Nikon Tags, dataLength was found to be larger than 200."
+                              << " Entries considered invalid. Not Processed.\n";
+#endif
+                    io_->seek(io_->tell() + dataLength, BasicIo::beg);
+                }
+            else
                 io_->read(buf.pData_, dataLength);
+
                 if(td)
                     xmpData_[exvGettext(td->label_)] = Exiv2::toString(buf.pData_);
             }
@@ -1066,6 +1077,16 @@ namespace Exiv2 {
                 io_->read(buf.pData_, 4);
                 if(td)
                     xmpData_[exvGettext(td->label_)] = Exiv2::toString(Exiv2::getULong( buf.pData_, bigEndian));
+
+                // Sanity check with an "unreasonably" large number
+                if (dataLength > 200) {
+#ifndef SUPPRESS_WARNINGS
+                    EXV_ERROR << "Xmp.video Nikon Tags, dataLength was found to be larger than 200."
+                              << " Entries considered invalid. Not Processed.\n";
+#endif
+                    io_->seek(io_->tell() + dataLength - 4, BasicIo::beg);
+                }
+            else
                 io_->read(buf.pData_, dataLength - 4);
             }
             else if(dataType == 3)  {
@@ -1074,6 +1095,16 @@ namespace Exiv2 {
                 io_->read(buf.pData_, 2);
                 if(td)
                     xmpData_[exvGettext(td->label_)] = Exiv2::toString(Exiv2::getUShort( buf.pData_, bigEndian));
+
+                // Sanity check with an "unreasonably" large number
+                if (dataLength > 200) {
+#ifndef SUPPRESS_WARNINGS
+                    EXV_ERROR << "Xmp.video Nikon Tags, dataLength was found to be larger than 200."
+                              << " Entries considered invalid. Not Processed.\n";
+#endif
+                    io_->seek(io_->tell() + dataLength - 2, BasicIo::beg);
+                }
+            else
                 io_->read(buf.pData_, dataLength - 2);
             }
             else if(dataType == 5) {
@@ -1083,6 +1114,16 @@ namespace Exiv2 {
                 io_->read(buf2.pData_, 4);
                 if(td)
                     xmpData_[exvGettext(td->label_)] = Exiv2::toString((double)Exiv2::getULong( buf.pData_, bigEndian) / (double)Exiv2::getULong( buf2.pData_, bigEndian));
+
+                // Sanity check with an "unreasonably" large number
+                if (dataLength > 200) {
+#ifndef SUPPRESS_WARNINGS
+                    EXV_ERROR << "Xmp.video Nikon Tags, dataLength was found to be larger than 200."
+                              << " Entries considered invalid. Not Processed.\n";
+#endif
+                    io_->seek(io_->tell() + dataLength - 8, BasicIo::beg);
+                }
+            else
                 io_->read(buf.pData_, dataLength - 8);
             }
             else if(dataType == 8) {
@@ -1092,6 +1133,16 @@ namespace Exiv2 {
                 io_->read(buf2.pData_, 2);
                 if(td)
                     xmpData_[exvGettext(td->label_)] = Exiv2::toString(Exiv2::getUShort( buf.pData_, bigEndian) ) + " " + Exiv2::toString(Exiv2::getUShort( buf2.pData_, bigEndian));
+
+                // Sanity check with an "unreasonably" large number
+                if (dataLength > 200) {
+#ifndef SUPPRESS_WARNINGS
+                    EXV_ERROR << "Xmp.video Nikon Tags, dataLength was found to be larger than 200."
+                              << " Entries considered invalid. Not Processed.\n";
+#endif
+                    io_->seek(io_->tell() + dataLength - 4, BasicIo::beg);
+                }
+            else
                 io_->read(buf.pData_, dataLength - 4);
             }
         }
