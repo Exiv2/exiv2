@@ -744,7 +744,7 @@ namespace Exiv2 {
         double denominator = 1;
         io_->read(buf.pData_, 4); tempSize -= 4;
 
-        while(tempSize > 0) {
+        while((long)tempSize > 0) {
             std::memset(buf.pData_, 0x0, buf.size_);
             io_->read(buf.pData_, 4);
             io_->read(buf2.pData_, 4);
@@ -752,7 +752,7 @@ namespace Exiv2 {
             internal_pos = io_->tell(); tempSize -= (internal_size + 8);
 
             if(equalsRiffTag(buf, "NCVR")) {
-                while(temp > 3) {
+                while((long)temp > 3) {
                     std::memset(buf.pData_, 0x0, buf.size_);
                     io_->read(buf.pData_, 2);
                     tagID = Exiv2::getULong(buf.pData_, littleEndian);
@@ -775,7 +775,7 @@ namespace Exiv2 {
                 }
             }
             else if(equalsRiffTag(buf, "NCTG")) {
-                while(temp > 3) {
+                while((long)temp > 3) {
                     std::memset(buf.pData_, 0x0, buf.size_);
                     io_->read(buf.pData_, 2);
                     tagID = Exiv2::getULong(buf.pData_, littleEndian);
@@ -820,7 +820,13 @@ namespace Exiv2 {
 
             io_->seek(internal_pos + internal_size, BasicIo::beg);
         }
-        io_->seek(cur_pos + size, BasicIo::beg);
+
+        if (size ==0) {
+            io_->seek(cur_pos + 4, BasicIo::beg);
+        }
+        else {
+            io_->seek(cur_pos + size, BasicIo::beg);
+        }
     } // RiffVideo::nikonTagsHandler
 
     void RiffVideo::infoTagsHandler()
