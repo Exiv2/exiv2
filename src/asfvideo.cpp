@@ -596,7 +596,7 @@ namespace Exiv2 {
 
     void AsfVideo::metadataHandler(int meta)
     {
-        DataBuf buf(500);
+        DataBuf buf(5000);
         io_->read(buf.pData_, 2);
         int recordCount = Exiv2::getUShort(buf.pData_, littleEndian), nameLength = 0, dataLength = 0, dataType = 0;
         Exiv2::Value::AutoPtr v = Exiv2::Value::create(Exiv2::xmpSeq);
@@ -614,20 +614,48 @@ namespace Exiv2 {
                 io_->read(buf.pData_, 4);
                 dataLength = Exiv2::getULong(buf.pData_, littleEndian);
 
+                if (nameLength > 5000) {
+#ifndef SUPPRESS_WARNINGS
+                    EXV_ERROR << "Xmp.video.Metadata nameLength was found to be larger than 5000 "
+                              << " entries considered invalid; not read.\n";
+#endif
+                    io_->seek(io_->tell() + nameLength, BasicIo::beg);
+                }
+            else
                 io_->read(buf.pData_, nameLength);
+
                 v->read(toString16(buf));
                 if(dataType == 6) {
                     io_->read(guidBuf, 16);
                     getGUID(guidBuf, fileID);
                 }
                 else
-                    io_->read(buf.pData_, dataLength);
+                    // Sanity check with an "unreasonably" large number
+                    if (dataLength > 5000) {
+#ifndef SUPPRESS_WARNINGS
+                        EXV_ERROR << "Xmp.video.Metadata dataLength was found to be larger than 5000 "
+                                  << " entries considered invalid; not read.\n";
+#endif
+                        io_->seek(io_->tell() + dataLength, BasicIo::beg);
+                    }
+                else
+                        io_->read(buf.pData_, dataLength);
             }
 
             else if(meta == 2) {
                 io_->read(buf.pData_, 2);
                 nameLength = Exiv2::getUShort(buf.pData_, littleEndian);
+
+                if (nameLength > 5000) {
+#ifndef SUPPRESS_WARNINGS
+                    EXV_ERROR << "Xmp.video.Metadata nameLength was found to be larger than 5000 "
+                              << " entries considered invalid; not read.\n";
+#endif
+                    io_->seek(io_->tell() + nameLength, BasicIo::beg);
+                }
+            else
                 io_->read(buf.pData_, nameLength);
+
                 v->read(toString16(buf));
 
                 io_->read(buf.pData_, 2);
@@ -635,6 +663,16 @@ namespace Exiv2 {
 
                 io_->read(buf.pData_, 2);
                 dataLength = Exiv2::getUShort(buf.pData_, littleEndian);
+
+                // Sanity check with an "unreasonably" large number
+                if (dataLength > 5000) {
+#ifndef SUPPRESS_WARNINGS
+                    EXV_ERROR << "Xmp.video.Metadata dataLength was found to be larger than 5000 "
+                              << " entries considered invalid; not read.\n";
+#endif
+                    io_->seek(io_->tell() + dataLength, BasicIo::beg);
+                }
+            else
                 io_->read(buf.pData_, dataLength);
             }
 
