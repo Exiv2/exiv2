@@ -103,6 +103,8 @@ namespace Exiv2 {
         static  std::ostream& print0x0529(std::ostream& os, const Value& value, const ExifData*);
         //! Print Olympus focus info ManualFlash
         static std::ostream& print0x1209(std::ostream& os, const Value& value, const ExifData*);
+        //! Print Olympus focus distance
+        static std::ostream& print0x0305(std::ostream& os, const Value& value, const ExifData*);
         //! Print Olympus focus info AF Point
         static std::ostream& print0x0308(std::ostream& os, const Value& value, const ExifData*);
         //! Print Olympus generic

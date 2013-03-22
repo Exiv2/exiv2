@@ -1005,7 +1005,7 @@ namespace Exiv2 {
         TagInfo(0x0301, "FocusStepCount", N_("Focus Step Count"), N_("Focus step count"), olympusFiId, makerTags, unsignedShort, -1, printValue),
         TagInfo(0x0303, "FocusStepInfinity", N_("Focus Step Infinity"), N_("Focus step infinity"), olympusFiId, makerTags, unsignedShort, -1, printValue),
         TagInfo(0x0304, "FocusStepNear", N_("Focus Step Near"), N_("Focus step near"), olympusFiId, makerTags, unsignedShort, -1, printValue),
-        TagInfo(0x0305, "FocusDistance", N_("Focus Distance"), N_("Focus distance"), olympusFiId, makerTags, unsignedRational, -1, printValue),
+        TagInfo(0x0305, "FocusDistance", N_("Focus Distance"), N_("Focus distance"), olympusFiId, makerTags, unsignedRational, -1, print0x0305),
         TagInfo(0x0308, "AFPoint", N_("AF Point"), N_("AF point"), olympusFiId, makerTags, unsignedShort, -1, print0x0308),
         TagInfo(0x1201, "ExternalFlash", N_("External Flash"), N_("External flash"), olympusFiId, makerTags, unsignedShort, -1, EXV_PRINT_TAG(olympusOffOn)),
         TagInfo(0x1203, "ExternalFlashGuideNumber", N_("External Flash Guide Number"), N_("External flash guide number"), olympusFiId, makerTags, signedRational, -1, printValue),
@@ -1514,6 +1514,26 @@ namespace Exiv2 {
         return os;
     } // OlympusMakerNote::print0x1209
 
+    // Olympus FocusDistance 0x0305
+    std::ostream& OlympusMakerNote::print0x0305(std::ostream& os, const Value& value, const ExifData*) {
+        if (value.count() != 1 || value.typeId() != unsignedRational) {
+            return os << value;
+        }
+        
+        Rational distance = value.toRational();
+        if(static_cast<uint32_t>(distance.first) == 0xffffffff) {
+            os << _("Infinity");
+        }
+        else {
+            std::ostringstream oss;
+            oss.copyfmt(os);
+            os << std::fixed << std::setprecision(2);
+            os << (float)distance.first/1000 << " m";
+            os.copyfmt(oss); 
+        }
+        return os;
+    }
+    
     // Olympus FocusInfo tag 0x0308 AFPoint
     std::ostream& OlympusMakerNote::print0x0308(std::ostream& os, const Value&
 value, const ExifData* metadata)
