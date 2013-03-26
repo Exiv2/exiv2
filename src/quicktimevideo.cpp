@@ -668,6 +668,7 @@ namespace Exiv2 {
         if(size < 8)
             return;
 
+//      std::cerr<<"\nTag=>"<<buf.pData_<<"     size=>"<<size-8;
         tagDecoder(buf,size-8);
     } // QuickTimeVideo::decodeBlock
 
@@ -1079,9 +1080,9 @@ namespace Exiv2 {
                     xmpData_[exvGettext(td->label_)] = Exiv2::toString(Exiv2::getULong( buf.pData_, bigEndian));
 
                 // Sanity check with an "unreasonably" large number
-                if (dataLength > 200) {
+                if (dataLength > 200 || dataLength < 4) {
 #ifndef SUPPRESS_WARNINGS
-                    EXV_ERROR << "Xmp.video Nikon Tags, dataLength was found to be larger than 200."
+                    EXV_ERROR << "Xmp.video Nikon Tags, dataLength was found to be of inapropriate size."
                               << " Entries considered invalid. Not Processed.\n";
 #endif
                     io_->seek(io_->tell() + dataLength - 4, BasicIo::beg);
@@ -1097,9 +1098,9 @@ namespace Exiv2 {
                     xmpData_[exvGettext(td->label_)] = Exiv2::toString(Exiv2::getUShort( buf.pData_, bigEndian));
 
                 // Sanity check with an "unreasonably" large number
-                if (dataLength > 200) {
+                if (dataLength > 200 || dataLength < 2) {
 #ifndef SUPPRESS_WARNINGS
-                    EXV_ERROR << "Xmp.video Nikon Tags, dataLength was found to be larger than 200."
+                    EXV_ERROR << "Xmp.video Nikon Tags, dataLength was found to be of inapropriate size."
                               << " Entries considered invalid. Not Processed.\n";
 #endif
                     io_->seek(io_->tell() + dataLength - 2, BasicIo::beg);
@@ -1116,9 +1117,9 @@ namespace Exiv2 {
                     xmpData_[exvGettext(td->label_)] = Exiv2::toString((double)Exiv2::getULong( buf.pData_, bigEndian) / (double)Exiv2::getULong( buf2.pData_, bigEndian));
 
                 // Sanity check with an "unreasonably" large number
-                if (dataLength > 200) {
+                if (dataLength > 200 || dataLength < 8) {
 #ifndef SUPPRESS_WARNINGS
-                    EXV_ERROR << "Xmp.video Nikon Tags, dataLength was found to be larger than 200."
+                    EXV_ERROR << "Xmp.video Nikon Tags, dataLength was found to be of inapropriate size."
                               << " Entries considered invalid. Not Processed.\n";
 #endif
                     io_->seek(io_->tell() + dataLength - 8, BasicIo::beg);
@@ -1135,9 +1136,9 @@ namespace Exiv2 {
                     xmpData_[exvGettext(td->label_)] = Exiv2::toString(Exiv2::getUShort( buf.pData_, bigEndian) ) + " " + Exiv2::toString(Exiv2::getUShort( buf2.pData_, bigEndian));
 
                 // Sanity check with an "unreasonably" large number
-                if (dataLength > 200) {
+                if (dataLength > 200 || dataLength < 4) {
 #ifndef SUPPRESS_WARNINGS
-                    EXV_ERROR << "Xmp.video Nikon Tags, dataLength was found to be larger than 200."
+                    EXV_ERROR << "Xmp.video Nikon Tags, dataLength was found to be of inapropriate size."
                               << " Entries considered invalid. Not Processed.\n";
 #endif
                     io_->seek(io_->tell() + dataLength - 4, BasicIo::beg);
