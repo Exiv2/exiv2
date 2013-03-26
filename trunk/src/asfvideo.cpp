@@ -557,27 +557,53 @@ namespace Exiv2 {
 
             io_->read(buf.pData_, 2);
             descLength = Exiv2::getUShort(buf.pData_, littleEndian) * 2;
-            io_->read(buf.pData_, descLength);
 
-            if(codecType == 1)
-                xmpData_["Xmp.video.Codec"] = toString16(buf);
-            else if(codecType == 2)
-                xmpData_["Xmp.audio.Compressor"] = toString16(buf);
+            if (descLength < 0) {
+            #ifndef SUPPRESS_WARNINGS
+                    EXV_ERROR   << " Description found in this ASF file is not of valid size ."
+                                << " Entries considered invalid. Not Processed.\n";
+            #endif
+            }
+            else {
+                io_->read(buf.pData_, descLength);
+                if(codecType == 1)
+                    xmpData_["Xmp.video.Codec"] = toString16(buf);
+                else if(codecType == 2)
+                    xmpData_["Xmp.audio.Compressor"] = toString16(buf);
+            }
 
             std::memset(buf.pData_, 0x0, buf.size_);
             io_->read(buf.pData_, 2);
             descLength = Exiv2::getUShort(buf.pData_, littleEndian) * 2;
-            io_->read(buf.pData_, descLength);
 
-            if(codecType == 1)
-                xmpData_["Xmp.video.CodecDescription"] = toString16(buf);
-            else if(codecType == 2)
-                xmpData_["Xmp.audio.CodecDescription"] = toString16(buf);
+            if (descLength < 0) {
+            #ifndef SUPPRESS_WARNINGS
+                    EXV_ERROR   << " Description found in this ASF file is not of valid size ."
+                                << " Entries considered invalid. Not Processed.\n";
+            #endif
+            }
+            else {
+                io_->read(buf.pData_, descLength);
+
+                if(codecType == 1)
+                    xmpData_["Xmp.video.CodecDescription"] = toString16(buf);
+                else if(codecType == 2)
+                    xmpData_["Xmp.audio.CodecDescription"] = toString16(buf);
+            }
 
             std::memset(buf.pData_, 0x0, buf.size_);
             io_->read(buf.pData_, 2);
             descLength = Exiv2::getUShort(buf.pData_, littleEndian);
-            io_->read(buf.pData_, descLength);
+
+            if (descLength < 0) {
+            #ifndef SUPPRESS_WARNINGS
+                    EXV_ERROR   << " Description found in this ASF file is not of valid size ."
+                                << " Entries considered invalid. Not Processed.\n";
+            #endif
+            }
+            else {
+                io_->read(buf.pData_, descLength);
+            }
         }
     } // AsfVideo::codecList
 
