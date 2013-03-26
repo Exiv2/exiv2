@@ -651,6 +651,13 @@ namespace Exiv2 {
 
              if(equalsRiffTag(buf, "AVIF")) {
 
+                 if (size - 4 < 0) {
+             #ifndef SUPPRESS_WARNINGS
+                     EXV_ERROR   << " Exif Tags found in this RIFF file are not of valid size ."
+                                 << " Entries considered invalid. Not Processed.\n";
+             #endif
+                 }
+                 else {
                  io_->read(buf.pData_, size - 4);
 
                  IptcData iptcData;
@@ -673,6 +680,7 @@ namespace Exiv2 {
                      EXV_WARNING << "Ignoring XMP information encoded in the Exif data.\n";
                  }
          #endif
+             }
              }
               // TODO decode CasioData and ZORA Tag
         io_->seek(cur_pos + size, BasicIo::beg);
@@ -737,7 +745,7 @@ namespace Exiv2 {
         io_->seek(-12, BasicIo::cur);
         io_->read(buf.pData_, 4);
 
-        unsigned long internal_size = 0, tagID = 0, dataSize = 0, tempSize, size = Exiv2::getULong(buf.pData_, littleEndian);
+        long internal_size = 0, tagID = 0, dataSize = 0, tempSize, size = Exiv2::getULong(buf.pData_, littleEndian);
         tempSize = size; char str[9] = " . . . ";
         uint64_t internal_pos, cur_pos; internal_pos = cur_pos = io_->tell();
         const TagDetails* td;
@@ -761,8 +769,16 @@ namespace Exiv2 {
                     temp -= (4 + dataSize);
 
                     if(tagID == 0x0001) {
+                        if (dataSize <= 0) {
+                    #ifndef SUPPRESS_WARNINGS
+                            EXV_ERROR   << " Makernotes found in this RIFF file are not of valid size ."
+                                        << " Entries considered invalid. Not Processed.\n";
+                    #endif
+                        }
+                        else {
                         io_->read(buf.pData_, dataSize);
                         xmpData_["Xmp.video.MakerNoteType"] = buf.pData_;
+                        }
                     }
                     else if (tagID == 0x0002) {
                         while(dataSize) {
@@ -783,6 +799,14 @@ namespace Exiv2 {
                     dataSize = Exiv2::getULong(buf.pData_, littleEndian);
                     temp -= (4 + dataSize);
                     td = find(nikonAVITags , tagID);
+
+                    if (dataSize <= 0) {
+                #ifndef SUPPRESS_WARNINGS
+                        EXV_ERROR   << " Makernotes found in this RIFF file are not of valid size ."
+                                    << " Entries considered invalid. Not Processed.\n";
+                #endif
+                    }
+                    else {
                     io_->read(buf.pData_, dataSize);
 
                     switch (tagID) {
@@ -808,6 +832,7 @@ namespace Exiv2 {
 
                     default:
                         break;
+                    }
                     }
                 }
             }
@@ -836,8 +861,8 @@ namespace Exiv2 {
         buf.pData_[4] = '\0';
         io_->seek(-12, BasicIo::cur);
         io_->read(buf.pData_, 4);
-        unsigned long infoSize, size = Exiv2::getULong(buf.pData_, littleEndian);
-        unsigned long size_external = size;
+        long infoSize, size = Exiv2::getULong(buf.pData_, littleEndian);
+        long size_external = size;
         const TagVocabulary* tv;
 
         uint64_t cur_pos = io_->tell();
@@ -851,7 +876,7 @@ namespace Exiv2 {
             io_->read(buf.pData_, 4); size -= 4;
             infoSize = Exiv2::getULong(buf.pData_, littleEndian);
 
-            if(infoSize) {
+            if(infoSize >= 0) {
                 size -= infoSize;
                 io_->read(buf.pData_, infoSize);
             }
@@ -865,6 +890,16 @@ namespace Exiv2 {
     void RiffVideo::junkHandler(long size)
     {
         const long bufMinSize = size;
+
+        if (size < 0) {
+    #ifndef SUPPRESS_WARNINGS
+            EXV_ERROR   << " Junk Data found in this RIFF file are not of valid size ."
+                        << " Entries considered invalid. Not Processed.\n";
+    #endif
+            io_->seek(io_->tell() + 4, BasicIo::beg);
+        }
+
+        else {
         DataBuf buf(bufMinSize+1), buf2(4+1);
         std::memset(buf.pData_, 0x0, buf.size_);
         buf2.pData_[4] = '\0';
@@ -929,6 +964,7 @@ namespace Exiv2 {
         }
 
         io_->seek(cur_pos + size, BasicIo::beg);
+        }
     } // RiffVideo::junkHandler
 
     void RiffVideo::aviHeaderTagsHandler(long size)
