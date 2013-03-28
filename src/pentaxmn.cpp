@@ -665,55 +665,60 @@ namespace Exiv2 {
     //! LensType, combi-tag 0x003f (2 unsigned long)
     extern const TagDetails pentaxLensType[] = {
         { 0x0000, N_("M-42 or No Lens") },
-        { 0x0100, N_("K,M Lens") },
+        { 0x0100, N_("K or M Lens") },
         { 0x0200, N_("A Series Lens") },
-        { 0x0300, "SIGMA" },
+        { 0x0300, "Sigma Lens" },
         { 0x0311, "smc PENTAX-FA SOFT 85mm F2.8" },
         { 0x0312, "smc PENTAX-F 1.7X AF ADAPTER" },
         { 0x0313, "smc PENTAX-F 24-50mm F4" },
         { 0x0314, "smc PENTAX-F 35-80mm F4-5.6" },
         { 0x0315, "smc PENTAX-F 80-200mm F4.7-5.6" },
         { 0x0316, "smc PENTAX-F FISH-EYE 17-28mm F3.5-4.5" },
-        { 0x0317, "smc PENTAX-F 100-300mm F4.5-5.6" },                  //0
-        { 0x0317, "Sigma AF 28-300mm F3.5-5.6 DL IF" },                 //1
-        { 0x0317, "Sigma AF 28-300mm F3.5-6.3 DG IF Macro" },           //2
+        { 0x0317, "smc PENTAX-F 100-300mm F4.5-5.6 or Sigma Lens" },	//0
+        { 0x0317, "Sigma AF 28-300mm F3.5-5.6 DL IF" },			//1
+        { 0x0317, "Sigma AF 28-300mm F3.5-6.3 DG IF Macro" },		//2
         { 0x0318, "smc PENTAX-F 35-135mm F3.5-4.5" },
-        { 0x0319, "smc PENTAX-F 35-105mm F4-5.6 or SIGMA or Tokina" },  //0
-        { 0x0319, "Sigma AF 28-300mm F3.5-5.6 DL IF" },                 //1
-        { 0x0319, "Sigma 55-200mm F4-5.6 DC" },                         //2
-        { 0x0319, "Sigma AF 28-300mm F3.5-5.6 DL IF" },                 //3
-        { 0x0319, "Sigma AF 28-300mm F3.5-6.3 DG IF Macro" },           //4
-        { 0x0319, "Tokina 80-200mm F2.8 ATX-Pro" },                     //5
+        { 0x0319, "smc PENTAX-F 35-105mm F4-5.6 or Sigma or Tokina Lens" },//0
+        { 0x0319, "Sigma AF 28-300mm F3.5-5.6 DL IF" },			//1
+        { 0x0319, "Sigma 55-200mm F4-5.6 DC" },				//2
+        { 0x0319, "Sigma AF 28-300mm F3.5-5.6 DL IF" },			//3
+        { 0x0319, "Sigma AF 28-300mm F3.5-6.3 DG IF Macro" },		//4
+        { 0x0319, "Tokina 80-200mm F2.8 ATX-Pro" },			//5
         { 0x031a, "smc PENTAX-F* 250-600mm F5.6 ED[IF]" },
-        { 0x031b, "smc PENTAX-F 28-80mm F3.5-4.5" },                    //0
-        { 0x031b, "Tokina AT-X Pro AF 28-70mm F2.6-2.8" },              //1
-        { 0x031c, "smc PENTAX-F 35-70mm F3.5-4.5 or Tokina Lens" },     //0
-        { 0x031c, "Tokina AT-X AF 400mm F5.6" },			            //1
-        { 0x031d, "PENTAX-F 28-80mm F3.5-4.5 or SIGMA AF 18-125mm F3.5-5.6 DC" },
+        { 0x031b, "smc PENTAX-F 28-80mm F3.5-4.5 or Tokina Lens" },	//0
+        { 0x031b, "Tokina AT-X Pro AF 28-70mm F2.6-2.8" },		//1
+        { 0x031c, "smc PENTAX-F 35-70mm F3.5-4.5 or Tokina Lens" },	//0
+        { 0x031c, "Tokina 19-35mm F3.5-4.5 AF" },			//1
+        { 0x031c, "Tokina AT-X AF 400mm F5.6" },			//2
+        { 0x031d, "PENTAX-F 28-80mm F3.5-4.5 or Sigma or Tokina Lens" },//0
+        { 0x031d, "Sigma AF 18-125mm F3.5-5.6 DC" },			//1
+        { 0x031d, "Tokina AT-X PRO 28-70mm F2.6-2.8" },			//2
         { 0x031e, "PENTAX-F 70-200mm F4-5.6" },
-        { 0x031f, "smc PENTAX-F 70-210mm F4-5.6 or Tokina or Takumar Lens" }, //0
-        { 0x031f, "Tokina AF 730 75-300mm F4.5-5.6" },                        //1
-        { 0x031f, "Tokina AF 730 75-300mm F4.5-5.6" },                        //2
+        { 0x031f, "smc PENTAX-F 70-210mm F4-5.6 or Tokina or Takumar Lens" },//0
+        { 0x031f, "Tokina AF 730 75-300mm F4.5-5.6" },			//1
+        { 0x031f, "Takumar-F 70-210mm F4-5.6" },			//2
         { 0x0320, "smc PENTAX-F 50mm F1.4" },
         { 0x0321, "smc PENTAX-F 50mm F1.7" },
         { 0x0322, "smc PENTAX-F 135mm F2.8 [IF]" },
         { 0x0323, "smc PENTAX-F 28mm F2.8" },
-        { 0x0324, "SIGMA 20mm F1.8 EX DG ASPHERICAL RF" },
+        { 0x0324, "Sigma 20mm F1.8 EX DG Aspherical RF" },
         { 0x0326, "smc PENTAX-F* 300mm F4.5 ED[IF]" },
         { 0x0327, "smc PENTAX-F* 600mm F4 ED[IF]" },
-        { 0x0328, "smc PENTAX-F MACRO 100mm F2.8" },
-        { 0x0329, "smc PENTAX-F MACRO 50mm F2.8 or Sigma 50mm F2,8 MACRO" },
-        { 0x032c, "Tamron 35-90mm F4 AF or various SIGMA models" }, // 0
-        { 0x032c, "Sigma 12-24mm F4.5 EX DG" }, // 1
-        { 0x032c, "Sigma 12-24mm F4.5 EX DG" }, // 2
-        { 0x032c, "Sigma 12-24mm F4.5 EX DG" }, // 3
-        { 0x032c, "Sigma 12-24mm F4.5 EX DG" }, // 4
-        { 0x032e, "SIGMA APO 70-200mm F2.8 EX" }, // 0
-        { 0x032e, "Sigma EX APO 100-300mm F4 IF" }, // 1
+        { 0x0328, "smc PENTAX-F Macro 100mm F2.8" },
+        { 0x0329, "smc PENTAX-F Macro 50mm F2.8 or Sigma Lens" },	//0
+        { 0x0329, "Sigma 50mm F2.8 Macro" },				//1
+        { 0x032c, "Tamron 35-90mm F4 AF or Sigma Lens" },		//0
+        { 0x032c, "Sigma AF 10-20mm F4-5.6 EX DC" },			//1
+        { 0x032c, "Sigma 12-24mm F4.5 EX DG" },				//2
+        { 0x032c, "Sigma 17-70mm F2.8-4.5 DC Macro" },			//3
+        { 0x032c, "Sigma 18-50mm F3.5-5.6 DC" },			//4
+        { 0x032e, "Sigma Lens" },					//0
+        { 0x032e, "Sigma APO 70-200mm F2.8 EX" },			//1
+        { 0x032e, "Sigma EX APO 100-300mm F4 IF" },			//2
         { 0x0332, "smc PENTAX-FA 28-70mm F4 AL" },
-        { 0x0333, "SIGMA 28mm F1.8 EX DG ASPHERICAL MACRO" },
-        { 0x0334, "smc PENTAX-FA 28-200mm F3.8-5.6 AL[IF]" }, // 0
-        { 0x0334, "Tamron AF LD 28-200mm F3.8-5.6 [IF] Aspherical (171D)" }, // 1
+        { 0x0333, "Sigma 28mm F1.8 EX DG Aspherical Macro" },
+        { 0x0334, "smc PENTAX-FA 28-200mm F3.8-5.6 AL[IF] or Tamron Lens" },//0
+        { 0x0334, "Tamron AF LD 28-200mm F3.8-5.6 [IF] Aspherical (171D)" },//1
         { 0x0335, "smc PENTAX-FA 28-80mm F3.5-5.6 AL" },
         { 0x03f7, "smc PENTAX-DA FISH-EYE 10-17mm F3.5-4.5 ED[IF]" },
         { 0x03f8, "smc PENTAX-DA 12-24mm F4 ED AL[IF]" },
@@ -722,63 +727,69 @@ namespace Exiv2 {
         { 0x03fc, "smc PENTAX-DA 18-55mm F3.5-5.6 AL" },
         { 0x03fd, "smc PENTAX-DA 14mm F2.8 ED[IF]" },
         { 0x03fe, "smc PENTAX-DA 16-45mm F4 ED AL" },
-        { 0x03ff, "SIGMA" }, // 0
-        { 0x03ff, "Sigma 18-200mm F3.5-6.3 DC" }, // 1
-        { 0x03ff, "Sigma 18-200mm F3.5-6.3 DC" }, // 2
-        { 0x03ff, "Sigma 18-200mm F3.5-6.3 DC" }, // 3
-        { 0x03ff, "Sigma 18-200mm F3.5-6.3 DC" }, // 4
-        { 0x03ff, "Sigma 18-200mm F3.5-6.3 DC" }, // 5
-        { 0x03ff, "Sigma 18-200mm F3.5-6.3 DC" }, // 6
-        { 0x03ff, "Sigma 18-200mm F3.5-6.3 DC" }, // 7
-        { 0x03ff, "Sigma 18-200mm F3.5-6.3 DC" }, // 8
-        { 0x03ff, "Sigma 18-50mm F2.8 EX DC" }, // 9
+        { 0x03ff, "Sigma Lens" },					//0
+        { 0x03ff, "Sigma 18-200mm F3.5-6.3 DC" },			//1
+        { 0x03ff, "Sigma DL-II 35-80mm F4-5.6" },			//2
+        { 0x03ff, "Sigma DL Zoom 75-300mm F4-5.6" },			//3
+        { 0x03ff, "Sigma DF EX Aspherical 28-70mm F2.8" },		//4
+        { 0x03ff, "Sigma AF Tele 400mm F5.6 Multi-coated" },		//5
+        { 0x03ff, "Sigma 24-60mm F2.8 EX DG" },				//6
+        { 0x03ff, "Sigma 70-300mm F4-5.6 Macro" },			//7
+        { 0x03ff, "Sigma 55-200mm F4-5.6 DC" },				//8
+        { 0x03ff, "Sigma 18-50mm F2.8 EX DC" },				//9
+        { 0x03ff, "Sigma 18-50mm F2.8 EX DC Macro" },			//10
         { 0x0401, "smc PENTAX-FA SOFT 28mm F2.8" },
         { 0x0402, "smc PENTAX-FA 80-320mm F4.5-5.6" },
         { 0x0403, "smc PENTAX-FA 43mm F1.9 Limited" },
         { 0x0406, "smc PENTAX-FA 35-80mm F4-5.6" },
         { 0x040c, "smc PENTAX-FA 50mm F1.4" },
         { 0x040f, "smc PENTAX-FA 28-105mm F4-5.6 [IF]" },
-        { 0x0410, "TAMRON AF 80-210mm F4-5.6 (178D)" },
-        { 0x0413, "TAMRON SP AF 90mm F2.8 (172E)" },
+        { 0x0410, "Tamron AF 80-210mm F4-5.6 (178D)" },
+        { 0x0413, "Tamron SP AF 90mm F2.8 (172E)" },
         { 0x0414, "smc PENTAX-FA 28-80mm F3.5-5.6" },
         { 0x0415, "Cosina AF 100-300mm F5.6-6.7" },
-        { 0x0416, "TOKINA 28-80mm F3.5-5.6" },
+        { 0x0416, "Tokina 28-80mm F3.5-5.6" },
         { 0x0417, "smc PENTAX-FA 20-35mm F4 AL" },
         { 0x0418, "smc PENTAX-FA 77mm F1.8 Limited" },
-        { 0x0419, "TAMRON SP AF 14mm F2.8" },
-        { 0x041a, "smc PENTAX-FA MACRO 100mm F3.5 or Cosina lens" }, //0
-        { 0x041a, "Cosina 100mm F3.5 Macro" }, //1
-        { 0x041b, "TAMRON AF28-300mm F/3.5-6.3 LD Aspherical[IF] MACRO (285D)" },
+        { 0x0419, "Tamron SP AF 14mm F2.8" },
+        { 0x041a, "smc PENTAX-FA Macro 100mm F3.5 or Cosina lens" },	//0
+        { 0x041a, "Cosina 100mm F3.5 Macro" },				//1
+        { 0x041b, "Tamron AF28-300mm F/3.5-6.3 LD Aspherical[IF] Macro (185D/285D)" },
         { 0x041c, "smc PENTAX-FA 35mm F2 AL" },
-        { 0x041d, "TAMRON AF 28-200mm F/3.8-5.6 LD Super II MACRO (371D)" },
+        { 0x041d, "Tamron AF 28-200mm F/3.8-5.6 LD Super II Macro (371D)" },
         { 0x0422, "smc PENTAX-FA 24-90mm F3.5-4.5 AL[IF]" },
         { 0x0423, "smc PENTAX-FA 100-300mm F4.7-5.8" },
-        { 0x0424, "TAMRON AF70-300mm F/4-5.6 LD MACRO" },
-        { 0x0425, "TAMRON SP AF 24-135mm F3.5-5.6 AD AL (190D)" },
+        { 0x0424, "Tamron AF70-300mm F/4-5.6 LD Macro (572D/A17)" },
+        { 0x0425, "Tamron SP AF 24-135mm F3.5-5.6 AD AL (190D)" },
         { 0x0426, "smc PENTAX-FA 28-105mm F3.2-4.5 AL[IF]" },
         { 0x0427, "smc PENTAX-FA 31mm F1.8AL Limited" },
-        { 0x0429, "TAMRON AF 28-200mm Super Zoom F3.8-5.6 Aspherical XR [IF] MACRO (A03)" },
+        { 0x0429, "Tamron AF 28-200mm Super Zoom F3.8-5.6 Aspherical XR [IF] Macro (A03)" },
         { 0x042b, "smc PENTAX-FA 28-90mm F3.5-5.6" },
         { 0x042c, "smc PENTAX-FA J 75-300mm F4.5-5.8 AL" },
-        { 0x042d, "TAMRON 28-300mm F3.5-6.3 Ultra zoom XR or Tamron AF 28-300mm F3.5-6.3 XR Di LD Aspherical [IF] Macro" }, //0
+        { 0x042d, "Tamron Lens" },					//0
+        { 0x042d, "Tamron 28-300mm F3.5-6.3 Ultra zoom XR" },		//1
+        { 0x042d, "Tamron AF 28-300mm F3.5-6.3 XR Di LD Aspherical [IF] Macro" },//2
         { 0x042e, "smc PENTAX-FA J 28-80mm F3.5-5.6 AL" },
         { 0x042f, "smc PENTAX-FA J 18-35mm F4-5.6 AL" },
-        { 0x0431, "TAMRON SP AF 28-75mm F2.8 XR Di (A09)" },
-        { 0x0433, "smc PENTAX-D FA 50mm F2.8 MACRO" },
-        { 0x0434, "smc PENTAX-D FA 100mm F2.8 MACRO" },
+        { 0x0431, "Tamron SP AF 28-75mm F2.8 XR Di (A09)" },
+        { 0x0433, "smc PENTAX-D FA 50mm F2.8 Macro" },
+        { 0x0434, "smc PENTAX-D FA 100mm F2.8 Macro" },
+        { 0x0438, "Samsung D-XENON 100mm F2.8 Macro" },
         { 0x044b, "Tamron SP AF 70-200mm F2.8 Di LD [IF] Macro (A001)" },
+        { 0x04d6, "smc PENTAX-DA 35mm F2.4 AL" },
         { 0x04e5, "smc PENTAX-DA 18-55mm F3.5-5.6 AL II" },
         { 0x04e6, "Tamron SP AF 17-50mm F2.8 XR Di II" },
         { 0x04e7, "smc PENTAX-DA 18-250mm F3.5-6.3 ED AL [IF]" },
         { 0x04ed, "Samsung/Schneider D-XENOGON 10-17mm F3.5-4.5" },
         { 0x04ef, "Samsung D-XENON 12-24mm F4 ED AL [IF]" },
+        { 0x04f2, "smc PENTAX-DA* 16-50mm F2.8 ED AL [IF] SDM (SDM unused)" },
         { 0x04f3, "smc PENTAX-DA 70mm F2.4 Limited" },
         { 0x04f4, "smc PENTAX-DA 21mm F3.2 AL Limited" },
         { 0x04f5, "Schneider D-XENON 50-200mm" },
         { 0x04f6, "Schneider D-XENON 18-55mm" },
-        { 0x04f7, "smc PENTAX-DA 10-17mm F3.5-4.5 ED [IF] Fisheye zoom" },
+        { 0x04f7, "smc PENTAX-DA FISH-EYE 10-17mm F3.5-4.5 ED [IF]" },
         { 0x04f8, "smc PENTAX-DA 12-24mm F4 ED AL [IF]" },
-        { 0x04f9, "TAMRON XR DiII 18-200mm F3.5-6.3 (A14)" },
+        { 0x04f9, "Tamron XR DiII 18-200mm F3.5-6.3 (A14)" },
         { 0x04fa, "smc PENTAX-DA 50-200mm F4-5.6 ED" },
         { 0x04fb, "smc PENTAX-DA 40mm F2.8 Limited" },
         { 0x04fc, "smc PENTAX-DA 18-55mm F3.5-5.6 AL" },
@@ -791,8 +802,8 @@ namespace Exiv2 {
         { 0x0505, "smc PENTAX-FA* 600mm F4 ED[IF]" },
         { 0x0506, "smc PENTAX-FA* 300mm F4.5 ED[IF]" },
         { 0x0507, "smc PENTAX-FA 135mm F2.8 [IF]" },
-        { 0x0508, "smc PENTAX-FA MACRO 50mm F2.8" },
-        { 0x0509, "smc PENTAX-FA MACRO 100mm F2.8" },
+        { 0x0508, "smc PENTAX-FA Macro 50mm F2.8" },
+        { 0x0509, "smc PENTAX-FA Macro 100mm F2.8" },
         { 0x050a, "smc PENTAX-FA* 85mm F1.4 [IF]" },
         { 0x050b, "smc PENTAX-FA* 200mm F2.8 ED[IF]" },
         { 0x050c, "smc PENTAX-FA 28-80mm F3.5-4.7" },
@@ -812,11 +823,11 @@ namespace Exiv2 {
         { 0x0609, "smc PENTAX-FA 20mm F2.8" },
         { 0x060a, "smc PENTAX-FA* 400mm F5.6 ED[IF]" },
         { 0x060d, "smc PENTAX-FA* 400mm F5.6 ED[IF]" },
-        { 0x060e, "smc PENTAX-FA* MACRO 200mm F4 ED[IF]" },
+        { 0x060e, "smc PENTAX-FA* Macro 200mm F4 ED[IF]" },
         { 0x0700, "smc PENTAX-DA 21mm F3.2 AL Limited" },
         { 0x073a, "smc PENTAX-D FA Macro 100mm F2.8 WR" },
         { 0x074b, "Tamron SP AF 70-200mm F2.8 Di LD [IF] Macro (A001)" },
-        { 0x07d4, "smc Pentax-DA 50mm F1.8" },
+        { 0x07d4, "smc PENTAX-DA 50mm F1.8" },
         { 0x07d5, "smc PENTAX-DA 40mm F2.8 XS" },
         { 0x07d6, "smc PENTAX-DA 35mm F2.4 AL" },
         { 0x07d8, "smc PENTAX-DA L 55-300mm F4-5.8 ED" },
@@ -829,7 +840,7 @@ namespace Exiv2 {
         { 0x07e0, "smc PENTAX-DA 15mm F4 ED AL Limited" },
         { 0x07e1, "Samsung D-XENON 18-250mm F3.5-6.3" },
         { 0x07e2, "smc PENTAX-DA* 55mm F1.4 SDM (SDM unused)" },
-        { 0x07e3, "smc PENTAX-DA* 55mm F1.4 SDM (SDM unused)" },
+        { 0x07e3, "smc PENTAX-DA* 60-250mm F4 [IF] SDM (SDM unused)" },
         { 0x07e5, "smc PENTAX-DA 18-55mm F3.5-5.6 AL II" },
         { 0x07e6, "Tamron AF 17-50mm F2.8 XR Di-II LD (Model A16)" },
         { 0x07e7, "smc PENTAX-DA 18-250mm F3.5-6.3ED AL [IF]" },
@@ -837,13 +848,13 @@ namespace Exiv2 {
         { 0x07ea, "smc PENTAX-DA* 300 mm F4ED [IF] SDM (SDM not used)" },
         { 0x07eb, "smc PENTAX-DA* 200mm F2.8 ED [IF] SDM (SDM not used)" },
         { 0x07ec, "smc PENTAX-DA 55-300mm F4-5.8 ED" },
-        { 0x07ee, "TAMRON AF 18-250mm F3.5-6.3 Di II LD Aspherical [IF] MACRO" },
+        { 0x07ee, "Tamron AF 18-250mm F3.5-6.3 Di II LD Aspherical [IF] Macro" },
         { 0x07f1, "smc PENTAX-DA* 50-135mm F2.8 ED [IF] SDM (SDM not used)" },
         { 0x07f2, "smc PENTAX-DA* 16-50mm F2.8 ED AL [IF] SDM (SDM not used)" },
         { 0x07f3, "smc PENTAX-DA 70mm F2.4 Limited" },
         { 0x07f4, "smc PENTAX-DA 21mm F3.2 AL Limited" },
         { 0x0804, "Sigma 50mm F1.4 EX DG HSM" },
-        { 0x0808, "SIGMA 18-250mm F3.5-6.3 DC OS HSM" },
+        { 0x0808, "Sigma 18-250mm F3.5-6.3 DC OS HSM" },
         { 0x080b, "Sigma 10-20mm F3.5 EX DC HSM" },
         { 0x080c, "Sigma 70-300mm F4-5.6 DG OS" },
         { 0x080d, "Sigma 120-400mm F4.5-5.6 APO DG OS HSM" },
@@ -856,7 +867,7 @@ namespace Exiv2 {
         { 0x0816, "Sigma 85mm F1.4 EX DG HSM" },
         { 0x0817, "Sigma 70-200mm F2.8 APO EX DG OS HSM" },
         { 0x081b, "Sigma 18-200mm F3.5-6.3 II DC HSM" },
-        { 0x08d2, "smc Pentax-DA 18-270mm F3.5-6.3 ED SDM" },
+        { 0x08d2, "smc PENTAX-DA 18-270mm F3.5-6.3 ED SDM" },
         { 0x08d7, "smc PENTAX-DA 18-135mm F3.5-5.6 ED AL [IF] DC WR" },
         { 0x08e2, "smc PENTAX-DA* 55mm F1.4 SDM" },
         { 0x08e3, "smc PENTAX DA* 60-250mm F4 [IF] SDM"},
@@ -865,19 +876,27 @@ namespace Exiv2 {
         { 0x08eb, "smc PENTAX-DA* 200mm F2.8 ED [IF] SDM" },
         { 0x08f1, "smc PENTAX-DA* 50-135mm F2.8 ED [IF] SDM" },
         { 0x08f2, "smc PENTAX-DA* 16-50mm F2.8 ED AL [IF] SDM" },
-        { 0x08ff, "Sigma lens" }, //0
-        { 0x08ff, "Sigma 70-200mm F2.8 EX DG Macro HSM II" }, //1
-        { 0x08ff, "Sigma 70-200mm F2.8 EX DG Macro HSM II" }, //2
-        { 0x08ff, "Sigma 70-200mm F2.8 EX DG Macro HSM II" }, //3
-        { 0x08ff, "Sigma 70-200mm F2.8 EX DG Macro HSM II" }, //4
-        { 0x0900, "645 Manual lens" }, //1
-        { 0x0a00, "645 A Series lens" }, //1
-        { 0x0b04, "smc PENTAX-FA645 Zoom 45mm-85mm F4.5" },
-        { 0x0b07, "smc PENTAX-FA645 Macro 120mm F4" },
+        { 0x08ff, "Sigma Lens" },					//0
+        { 0x08ff, "Sigma 70-200mm F2.8 EX DG Macro HSM II" },		//1
+        { 0x08ff, "Sigma APO 150-500mm F5-6.3 DG OS HSM" },		//2
+        { 0x08ff, "Sigma 50-150mm F2.8 II APO EX DC HSM" },		//3
+        { 0x08ff, "Sigma 4.5mm F2.8 EX DC HSM Circular Fisheye" },	//4
+        { 0x08ff, "Sigma 50-200mm F4-5.6 DC OS" },			//5
+        { 0x0900, "645 Manual Lens" },
+        { 0x0a00, "645 A Series Lens" },
+        { 0x0b01, "smc PENTAX-FA 645 75mm F2.8" },
+        { 0x0b02, "smc PENTAX-FA 645 45mm F2.8" },
+        { 0x0b03, "smc PENTAX-FA* 645 300mm F4 ED [IF]" },
+        { 0x0b04, "smc PENTAX-FA 645 45mm-85mm F4.5" },
+        { 0x0b05, "smc PENTAX-FA 645 400mm F5.6 ED [IF]" },
+        { 0x0b07, "smc PENTAX-FA 645 Macro 120mm F4" },
         { 0x0b08, "smc PENTAX-FA 645 80-160mm F4.5" },
+        { 0x0b09, "smc PENTAX-FA 645 200mm F4 [IF]" },
+        { 0x0b0a, "smc PENTAX-FA 645 150mm F2.8 [IF]" },
         { 0x0b0b, "smc PENTAX-FA 645 35mm F3.5 AL [IF]" },
+        { 0x0b0e, "smc PENTAX-FA 645 55-110mm F5.6" },
         { 0x0b10, "smc PENTAX-FA 645 33-55mm F4.5 AL" },
-        { 0x0b11, "smc PENTAX-FA645 Zoom 150mm-300mm F5.6 ED [IF]" },
+        { 0x0b11, "smc PENTAX-FA 645 150mm-300mm F5.6 ED [IF]" },
         { 0x0d12, "smc PENTAX-D FA 645 55mm F2.8 AL [IF] SDM AW" },
         { 0x0d13, "smc PENTAX-D FA 645 25mm F4 AL [IF] SDM AW" },
         { 0x1500, "Pentax Q Manual Lens" },
