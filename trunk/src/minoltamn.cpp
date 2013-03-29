@@ -1614,8 +1614,8 @@ namespace Exiv2 {
         { 4,     "Minolta AF 85mm F1.4G" },
         { 5,     "Minolta AF 35-70mm F3.5-4.5 [II]" },
         { 6,     "Minolta AF 24-85mm F3.5-4.5 [New]" },
-        { 7,     "Minolta AF 100-300mm F4.5-5.6(D) APO [New] | "
-                 "Minolta AF 100-400mm F4.5-6.7(D) | "
+        { 7,     "Minolta AF 100-300mm F4.5-5.6 (D) APO [New] | "
+                 "Minolta AF 100-400mm F4.5-6.7 (D) | "
                  "Sigma AF 100-300mm F4 EX DG IF" },
         { 8,     "Minolta AF 70-210mm F4.5-5.6 [II]" },
         { 9,     "Minolta AF 50mm F3.5 Macro" },
