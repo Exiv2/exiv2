@@ -58,7 +58,7 @@ GXX = @GXX@
 # Common compiler flags (warnings, symbols [-ggdb], optimization [-O2], etc)
 CXXFLAGS = @CXXFLAGS@
 ifeq ($(GXX),yes)
-	CXXFLAGS += -Wall -Wcast-align -Wpointer-arith -Wformat-security -Wmissing-format-attribute -Woverloaded-virtual -W
+    CXXFLAGS += -Wall -Wcast-align -Wpointer-arith -Wformat-security -Wmissing-format-attribute -Woverloaded-virtual -W
 endif
 
 # Command to run only the preprocessor
@@ -67,7 +67,7 @@ CXXCPP = @CXXCPP@
 # Preprocessor flags
 CPPFLAGS = -I. @CPPFLAGS@ -DEXV_LOCALEDIR=\"$(localedir)\"
 ifeq ($(COMMERCIAL_VERSION),yes)
-	CPPFLAGS += -DEXV_COMMERCIAL_VERSION=1
+    CPPFLAGS += -DEXV_COMMERCIAL_VERSION=1
 endif
 
 # Linker flags and libraries
@@ -84,7 +84,7 @@ GCC = @GCC@
 
 CFLAGS = @CFLAGS@
 ifeq ($(GCC),yes)
-	CFLAGS += -Wall
+    CFLAGS += -Wall
 endif
 
 # **********************************************************************
@@ -92,17 +92,17 @@ endif
 ENABLE_XMP = @ENABLE_XMP@
 
 ifdef ENABLE_XMP
-        XMPSDK_LIBRARY = xmpsdk
-        XMPSDK_DIR = $(top_srcdir)/xmpsdk
-        XMPSDK_CPPFLAGS = -I$(XMPSDK_DIR)/include
-        XMPSDK_LDFLAGS = -L$(XMPSDK_DIR)/src
-        XMPSDK_LIBS = -l$(XMPSDK_LIBRARY)
+    XMPSDK_LIBRARY = xmpsdk
+    XMPSDK_DIR = $(top_srcdir)/xmpsdk
+    XMPSDK_CPPFLAGS = -I$(XMPSDK_DIR)/include
+    XMPSDK_LDFLAGS = -L$(XMPSDK_DIR)/src
+    XMPSDK_LIBS = -l$(XMPSDK_LIBRARY)
 else
-        # Enable additional warnings. XMP Toolkit doesn't compile
-        # with these.
-        ifeq ($(GXX),yes)
-                CXXFLAGS += -Wundef -pedantic
-        endif
+    # Enable additional warnings. XMP Toolkit doesn't compile
+    # with these.
+    ifeq ($(GXX),yes)
+        CXXFLAGS += -Wundef -pedantic
+    endif
 endif
 
 # Expat library needed to compile the XMP Toolkit
@@ -122,29 +122,29 @@ HAVE_TIMEGM = @HAVE_TIMEGM@
 DEP_TRACKING = @DEP_TRACKING@
 
 ifdef DEP_TRACKING
-        # Directory for dependency files
-	DEPDIR = .deps
+    # Directory for dependency files
+    DEPDIR = .deps
 
-        # Command to run the compiler or preprocessor to produce 
-        # dependencies. If you're not using gcc, you may need to change
-        # this to something suitable for your compiler or simply unset
-        # the variable. See the link above for suggestions.
-	MAKEDEPEND = $(CXX) -MM $(CPPFLAGS) -o $*.d $<
+    # Command to run the compiler or preprocessor to produce 
+    # dependencies. If you're not using gcc, you may need to change
+    # this to something suitable for your compiler or simply unset
+    # the variable. See the link above for suggestions.
+    MAKEDEPEND = $(CXX) -MM $(CPPFLAGS) -o $*.d $<
 
-        # Dependency files post-process commands
-        POSTDEPEND = if test ! -d $(DEPDIR); then mkdir $(DEPDIR); fi; \
-	        if test -e $*.d; then cp $*.d $(DEPDIR)/$*.d; \
-	        sed -e 's/^\#.*//' -e 's/^[^:]*: *//' -e 's/ *\\$$//' \
+    # Dependency files post-process commands
+    POSTDEPEND = if test ! -d $(DEPDIR); then mkdir $(DEPDIR); fi; \
+                 if test -e $*.d; then cp $*.d $(DEPDIR)/$*.d; \
+                   sed -e 's/^\#.*//' -e 's/^[^:]*: *//' -e 's/ *\\$$//' \
                     -e '/^$$/ d' -e 's/$$/ :/' < $*.d >> $(DEPDIR)/$*.d; \
-                $(RM) $*.d; fi
+                   $(RM) $*.d; fi
 
-        # Compiler flags to generate dependency files at the same time 
-        # as object files (for gcc)
-        ifeq ($(GXX),yes)
-		CXXFLAGS += -MMD
-		CFLAGS += -MMD
-		MAKEDEPEND =
-        endif
+    # Compiler flags to generate dependency files at the same time 
+    # as object files (for gcc)
+    ifeq ($(GXX),yes)
+        CXXFLAGS += -MMD
+        CFLAGS += -MMD
+        MAKEDEPEND =
+    endif
 endif
 
 # **********************************************************************
@@ -153,7 +153,7 @@ COMPILE.cc = $(CXX) $(CXXFLAGS) $(CPPFLAGS) -c
 COMPILE.c = $(CC) $(CFLAGS) $(CPPFLAGS) -c
 # LINK.cc does not need $(LIBS), libtool's dark magic takes care of that
 # when linking a binary with a libtool library.
-LINK.cc = $(CXX) $(LDFLAGS) -ldl
+LINK.cc = $(CXX) $(LDFLAGS)
 
 # **********************************************************************
 # Installation programs
@@ -183,3 +183,6 @@ incdir = @includedir@/exiv2
 libdir = @libdir@
 mandir = @mandir@
 man1dir = $(mandir)/man1
+
+# That's all Folks!
+##

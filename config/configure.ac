@@ -103,7 +103,7 @@ AC_MSG_CHECKING([whether to enable symbol visibility support])
 visibility=yes
 # visibility support in cygwin/ming generates 1000's of warning, set off by default
 case "$host_os" in
-	*mingw* | *cygwin*) visibility=no  ;;
+    *mingw* | *cygwin*) visibility=no  ;;
 esac
 AC_ARG_ENABLE(visibility,
     [  --disable-visibility    do not use symbol visibility support ],
@@ -117,7 +117,7 @@ if test "$VISIBILITY_SUPPORT" = "yes"; then
     else
         # GNU g++
         AX_CXX_CHECK_FLAG(-fvisibility-inlines-hidden,[],[],[VISIBILITY_SUPPORT=yes],[VISIBILITY_SUPPORT=no])
-    	if test "$VISIBILITY_SUPPORT" = "yes"; then
+        if test "$VISIBILITY_SUPPORT" = "yes"; then
            CXXFLAGS="${CXXFLAGS} -fvisibility=hidden -fvisibility-inlines-hidden"
         fi
     fi
@@ -207,11 +207,13 @@ AC_SUBST(EXV_LIB_STATIC)
 #
 # This must happen after all other configure checks, because
 # the "-no-undefined" flag is only for libtool and must not be
-# passed to GCC by accident.  Add link psapi (for version.cpp)
+# passed to GCC by accident.
+# version.cpp requires link to psapi/Windows and dl/Unix builds
 case "$host_os" in
 *mingw* | *cygwin*)
-    LDFLAGS="$LDFLAGS -no-undefined -lpsapi"
-    ;;
+    LDFLAGS="$LDFLAGS -no-undefined -lpsapi" ;;
+*)
+    LDFLAGS="$LDFLAGS -ldl" ;;
 esac
 
 # ---------------------------------------------------------------------------
