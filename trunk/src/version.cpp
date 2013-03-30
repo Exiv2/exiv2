@@ -37,7 +37,13 @@ EXIV2_RCSID("@(#) $Id$")
 # include "exv_conf.h"
 #endif
 
-#if defined(__CYGWIN__)
+#if defined(__MINGW32__) || defined(__MINGW64__)
+# ifndef  __MINGW__
+#  define __MINGW__
+# endif
+#endif
+
+#if defined(__CYGWIN__) || defined(__MINGW__)
 #include <windows.h>
 #endif
 
@@ -100,7 +106,7 @@ typedef string_v::iterator  string_i;
 # include <psapi.h>
 
 // tell MSVC to link psapi.
-#ifdef	_MSC_VER
+#ifdef  _MSC_VER
 #pragma comment( lib, "psapi" )
 #endif
 
@@ -114,8 +120,8 @@ typedef string_v::iterator  string_i;
 # include <dlfcn.h>
   struct something
   {
-	void*  pointers[3];
-	struct something* ptr;
+    void*  pointers[3];
+    struct something* ptr;
   };
   struct lmap
   {
@@ -124,43 +130,47 @@ typedef string_v::iterator  string_i;
     void*    not_needed1;    /* Pointer to the dynamic section of the shared object */
     struct lmap *next, *prev;/* chain of loaded objects */
   };
+#elif defined(__MINGW32__) || defined(__MINGW64__)
+#ifndef __MINGW__
+#define __MINGW__
+#endif
 #endif
 
 EXIV2API void dumpLibraryInfo(std::ostream& os)
 {
-	  string_v libs; // libs[0] == executable
+      string_v libs; // libs[0] == executable
 
-	  int      bits = 8*sizeof(void*);
+      int      bits = 8*sizeof(void*);
 #if   defined(_DEBUG) || defined(DEBUG)
-	  int debug=1;
+      int debug=1;
 #else
-	  int debug=0;
+      int debug=0;
 #endif
 
 #if   defined(EXV_HAVE_DLL)
-	  int dll=1;
+      int dll=1;
 #else
-	  int dll=0;
+      int dll=0;
 #endif
 
       const char* compiler =
 #if   defined(_MSC_VER)
-	  "MSVC"    ;
+      "MSVC"    ;
 
 #ifndef __VERSION__
-	  char version[20];
-	  sprintf(version,"%d.%02d",(_MSC_VER-600)/100,_MSC_VER%100);
+      char version[20];
+      sprintf(version,"%d.%02d",(_MSC_VER-600)/100,_MSC_VER%100);
 #define __VERSION__ version
 #endif
 
 #elif defined(__clang__)
-	  "Clang"   ;
+      "Clang"   ;
 #elif defined(__GNUG__)
-	  "G++"     ;
+      "G++"     ;
 #elif defined(__GNUC__)
-	  "GCC"     ;
+      "GCC"     ;
 #else
-	  "unknown" ;
+      "unknown" ;
 #endif
 
 #ifndef __VERSION__
@@ -171,43 +181,45 @@ EXIV2API void dumpLibraryInfo(std::ostream& os)
 #endif
 #endif
 
-	  const char* platform =
+      const char* platform =
 #if defined(__CYGWIN__)
-	  "cygwin";
+      "cygwin";
 #elif defined(_MSC_VER)
-	  "windows";
+      "windows";
 #elif defined(__APPLE__)
-	  "apple";
+      "apple";
+#elif defined(__MINGW__)
+      "mingw";
 #elif defined(__linux__)
-	  "linux";
+      "linux";
 #else
-	  "unknown";
+      "unknown";
 #endif
 
-#if defined(WIN32) || defined(__CYGWIN__)
-	// enumerate loaded libraries and determine path to executable
-	HMODULE handles[200];
-	DWORD   cbNeeded;
-	if ( EnumProcessModules(GetCurrentProcess(),handles,lengthof(handles),&cbNeeded)) {
-		char szFilename[_MAX_PATH];
-		for ( DWORD h = 0 ; h < cbNeeded/sizeof(handles[0]) ; h++ ) {
-			GetModuleFileNameA(handles[h],szFilename,lengthof(szFilename)) ;
-			libs.push_back(szFilename);
-		}
-	}
+#if defined(WIN32) || defined(__CYGWIN__) || defined(__MINGW__)
+    // enumerate loaded libraries and determine path to executable
+    HMODULE handles[200];
+    DWORD   cbNeeded;
+    if ( EnumProcessModules(GetCurrentProcess(),handles,lengthof(handles),&cbNeeded)) {
+        char szFilename[_MAX_PATH];
+        for ( DWORD h = 0 ; h < cbNeeded/sizeof(handles[0]) ; h++ ) {
+            GetModuleFileNameA(handles[h],szFilename,lengthof(szFilename)) ;
+            libs.push_back(szFilename);
+        }
+    }
 #elif defined(__APPLE__)
-	// man 3 dyld
-	uint32_t count = _dyld_image_count();
-	for (uint32_t image = 0 ; image < count ; image++ ) {
-		const char* image_path = _dyld_get_image_name(image);
-		libs.push_back(image_path);
-	}
+    // man 3 dyld
+    uint32_t count = _dyld_image_count();
+    for (uint32_t image = 0 ; image < count ; image++ ) {
+        const char* image_path = _dyld_get_image_name(image);
+        libs.push_back(image_path);
+    }
 #elif defined(__linux__)
-	// http://stackoverflow.com/questions/606041/how-do-i-get-the-path-of-a-process-in-unix-linux
-	char proc[100];
-	char path[500];
-	sprintf(proc,"/proc/%d/exe", getpid());
-	int l = readlink (proc, path,sizeof(path)-1);
+    // http://stackoverflow.com/questions/606041/how-do-i-get-the-path-of-a-process-in-unix-linux
+    char proc[100];
+    char path[500];
+    sprintf(proc,"/proc/%d/exe", getpid());
+    int l = readlink (proc, path,sizeof(path)-1);
     if (l>0) {
         path[l]=0;
         libs.push_back(path);
@@ -215,33 +227,33 @@ EXIV2API void dumpLibraryInfo(std::ostream& os)
         libs.push_back("unknown");
     }
 
-	// http://syprog.blogspot.com/2011/12/listing-loaded-shared-objects-in-linux.html
-	struct lmap* pl;
-	void* ph = dlopen(NULL, RTLD_NOW);
-	struct something* p = (struct something*)ph;
-	p  = p->ptr;
-	pl = (struct lmap*)p->ptr;
+    // http://syprog.blogspot.com/2011/12/listing-loaded-shared-objects-in-linux.html
+    struct lmap* pl;
+    void* ph = dlopen(NULL, RTLD_NOW);
+    struct something* p = (struct something*)ph;
+    p  = p->ptr;
+    pl = (struct lmap*)p->ptr;
 
-	while ( pl )
-	{
-		libs.push_back(pl->path);
-		pl = pl->next;
-	}
+    while ( pl )
+    {
+        libs.push_back(pl->path);
+        pl = pl->next;
+    }
 #endif
 
     os << "exiv2="    << Exiv2::versionString() << endl;
-	os << "platform=" << platform               << endl;
+    os << "platform=" << platform               << endl;
     os << "compiler=" << compiler               << endl;
     os << "bits="     << bits                   << endl;
     os << "dll="      << dll                    << endl;
     os << "debug="    << debug                  << endl;
     os << "version="  << __VERSION__            << endl;
-	os << "date="     << __DATE__               << endl;
-	os << "time="     << __TIME__               << endl;
+    os << "date="     << __DATE__               << endl;
+    os << "time="     << __TIME__               << endl;
 
-	if ( libs.begin() != libs.end() ) {
-		os << "executable=" << *libs.begin() << endl;
-		for ( string_i lib = libs.begin()+1 ; lib != libs.end() ; lib++ )
-			os << "library=" << *lib << endl;
-	}
+    if ( libs.begin() != libs.end() ) {
+        os << "executable=" << *libs.begin() << endl;
+        for ( string_i lib = libs.begin()+1 ; lib != libs.end() ; lib++ )
+            os << "library=" << *lib << endl;
+    }
 }
