@@ -486,6 +486,7 @@ namespace Exiv2 {
         {  33, "Carl Zeiss Distagon 21mm T* f/2.8 ZE"                       }, // 4
         {  33, "Carl Zeiss Distagon 28mm T* f/2 ZE"                         }, // 5
         {  33, "Carl Zeiss Distagon 35mm T* f/2 ZE"                         }, // 6
+        {  33, "Carl Zeiss Planar 50mm T* f/1.4 ZE"                         }, // 7
         {  35, "Canon EF 35-80mm f/4-5.6"                                   },
         {  36, "Canon EF 38-76mm f/4.5-5.6"                                 },
         {  37, "Canon EF 35-80mm f/4-5.6 or Tamron Lens"                    }, // 0
