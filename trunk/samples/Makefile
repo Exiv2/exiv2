@@ -83,6 +83,9 @@ BINSRC = addmoddel.cpp        \
 # Initialisations
 SHELL = /bin/sh
 
+PKGCONFIG=pkg-config
+BAR='****************************************'
+
 .SUFFIXES:
 .SUFFIXES: .c .cpp .o .so
 
@@ -105,6 +108,7 @@ endif
 samples: $(BINARY) $(OTHER)
 
 $(BINOBJ): %.o: %.cpp
+	@if [ -z `which $(PKGCONFIG)`  ]; then echo $(BAR) $'\\n***' utility $(PKGCONFIG) not available $'***\n'$(BAR) ; exit 42 ; fi
 	$(COMPILE.cc) -I../src -o $@ $<
 	@$(MAKEDEPEND)
 	@$(POSTDEPEND)
