@@ -90,7 +90,10 @@ tests:
 test:
 	@list='$(TESTS)'; for p in $$list; do \
 	    echo Running $$p ...; \
-	    ./$$p; \
+	    ./$$p;  \
+	    rc=$$?; \
+	    if [ $$rc -ne 0 ]; then echo result = $$rc ; fi ; \
+	    if [ $$rc -gt 2 ]; then exit $$rc          ; fi ; \
 	done
 
 testv:

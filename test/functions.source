@@ -341,6 +341,41 @@ extendedTest()
 }
 
 ##
+# http://stackoverflow.com/questions/1055671/how-can-i-get-the-behavior-of-gnus-readlink-f-on-a-mac
+real_path ()
+{
+    OIFS=$IFS
+    IFS='/'
+    for I in $1; do
+        # Resolve relative path punctuation.
+        if [ "$I" = "." ] || [ -z "$I" ]; then
+            continue
+        elif [ "$I" = ".." ]; then
+            FOO="${FOO%%/${FOO##*/}}"
+            continue
+        else
+            FOO="${FOO}/${I}"
+        fi
+
+        ## Resolve symbolic links
+        if [ -h "$FOO" ];   then
+            IFS=$OIFS
+            set `ls -l "$FOO"`
+            while shift ; do
+                if [ "$1" = "->" ];     then
+                    FOO=$2
+                    shift $#
+                    break
+                fi
+            done
+            IFS='/'
+        fi
+    done
+    IFS=$OIFS
+    echo "$FOO"
+}
+
+##
 # prepare temp files and other variables
 prepareTest()
 {
@@ -416,6 +451,18 @@ prepareTest()
     	da2=""
 	fi
 	diffargs="$da1 $da2"
+
+    ##
+    # test that exiv2 and some sample apps are in the bin!
+    for e in exiv2 exifprint; do
+        e="${bin}/${e}${exe}"
+        if [ ! -e "$e" ]; then
+            echo '******************************************'
+            echo '***' $(real_path "$e") does not exist
+            echo '******************************************'
+            exit 42
+        fi
+    done
 }
 
 prepareTest
