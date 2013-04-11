@@ -112,7 +112,7 @@ namespace Exiv2 {
         {    0x12c32, N_("Optio M20") },
         {    0x12c3c, N_("Optio W20") },
         {    0x12c46, N_("Optio A20") },
-//        {    0x12c8c, N_("Optio M30") },
+        {    0x12c8c, N_("Optio M30") },
         {    0x12c78, N_("Optio E30") },
         {    0x12c7d, N_("Optio E35") },
         {    0x12c82, N_("Optio T30") },
@@ -175,6 +175,7 @@ namespace Exiv2 {
         {    0x12f66, N_("Q10") },
         {    0x12f70, N_("K-5 II") },
         {    0x12f71, N_("K-5 II s") },
+        {    0x12f84, N_("MX-1") },
     };
 
     //! Quality, tag 0x0008
@@ -752,7 +753,7 @@ namespace Exiv2 {
         { 0x0417, "smc PENTAX-FA 20-35mm F4 AL" },
         { 0x0418, "smc PENTAX-FA 77mm F1.8 Limited" },
         { 0x0419, "Tamron SP AF 14mm F2.8" },
-        { 0x041a, "smc PENTAX-FA Macro 100mm F3.5 or Cosina lens" },	//0
+        { 0x041a, "smc PENTAX-FA Macro 100mm F3.5 or Cosina Lens" },	//0
         { 0x041a, "Cosina 100mm F3.5 Macro" },				//1
         { 0x041b, "Tamron AF28-300mm F/3.5-6.3 LD Aspherical[IF] Macro (185D/285D)" },
         { 0x041c, "smc PENTAX-FA 35mm F2 AL" },
@@ -835,7 +836,7 @@ namespace Exiv2 {
         { 0x07da, "smc PENTAX-DA 18-55mm F3.5-5.6 AL WR" },
         { 0x07dc, "Tamron SP AF 10-24mm F3.5-4.5 Di II LD Aspherical [IF]" },
         { 0x07dd, "smc PENTAX-DA L 50-200mm F4-5.6 ED" },
-        { 0x07de, "smc PENTAX-DA 18-55mm F3.5-5.6 AL II" },
+        { 0x07de, "smc PENTAX-DA L 18-55mm F3.5-5.6" },
         { 0x07df, "Samsung D-XENON 18-55mm F3.5-5.6 II" },
         { 0x07e0, "smc PENTAX-DA 15mm F4 ED AL Limited" },
         { 0x07e1, "Samsung D-XENON 18-250mm F3.5-6.3" },
@@ -867,6 +868,7 @@ namespace Exiv2 {
         { 0x0816, "Sigma 85mm F1.4 EX DG HSM" },
         { 0x0817, "Sigma 70-200mm F2.8 APO EX DG OS HSM" },
         { 0x081b, "Sigma 18-200mm F3.5-6.3 II DC HSM" },
+        { 0x081c, "Sigma 18-250mm F3.5-6.3 DC Macro HSM" },
         { 0x08d2, "smc PENTAX-DA 18-270mm F3.5-6.3 ED SDM" },
         { 0x08d7, "smc PENTAX-DA 18-135mm F3.5-5.6 ED AL [IF] DC WR" },
         { 0x08e2, "smc PENTAX-DA* 55mm F1.4 SDM" },
