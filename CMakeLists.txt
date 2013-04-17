@@ -53,7 +53,8 @@ OPTION( EXIV2_ENABLE_BUILD_SAMPLES "Build the unit tests"                       
 OPTION( EXIV2_ENABLE_BUILD_PO      "Build translations files"                              OFF )
 
 IF( MINGW OR UNIX )
-    ADD_DEFINITIONS(-Wall
+    IF ( CMAKE_CXX_COMPILER STREQUAL "g++" OR CMAKE_C_COMPILER STREQUAL "gcc" ) 
+        ADD_DEFINITIONS(-Wall
                     -Wcast-align
                     -Wpointer-arith
                     -Wformat-security
@@ -61,6 +62,7 @@ IF( MINGW OR UNIX )
                     -Woverloaded-virtual
                     -W
                    )
+    ENDIF()
 ENDIF( MINGW OR UNIX )
 
 
