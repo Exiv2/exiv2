@@ -53,15 +53,22 @@
 
  */
 
-#ifndef  __clang__
+#if defined(__clang__)
+#define EXIV2_RCSID(id)
+
+#elif defined(OS_SOLARIS)
 #define EXIV2_RCSID(id) \
-//    namespace { \
     { \
         inline const char* getRcsId(const char*) { return id ; } \
         const char* rcsId = getRcsId(rcsId); \
     }
+
 #else
-#define EXIV2_RCSID(id)
+#define EXIV2_RCSID(id) \
+    namespace { \
+        inline const char* getRcsId(const char*) { return id ; } \
+        const char* rcsId = getRcsId(rcsId); \
+    }
 #endif
 
 #endif // #if !defined (EXIV2_RCSID)
