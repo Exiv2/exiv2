@@ -404,17 +404,22 @@ int timeZoneAdjust()
 {
     time_t    now   = time(NULL);
     struct tm local = *localtime(&now) ;
+    int       offset;
 
 #if   defined(_MSC_VER)
     TIME_ZONE_INFORMATION TimeZoneInfo;
     GetTimeZoneInformation( &TimeZoneInfo );
-    int offset = - (((int)TimeZoneInfo.Bias + (int)TimeZoneInfo.DaylightBias) * 60);
+    offset = - (((int)TimeZoneInfo.Bias + (int)TimeZoneInfo.DaylightBias) * 60);
 #elif defined(__CYGWIN__)
     struct tm lcopy  = *localtime(&now);
     time_t    gmt    =  timegm(&lcopy) ; // timegm modifies lcopy, so don't use local
-    int       offset = (int) ( ((long signed int) gmt) - ((long signed int) now) ) ;
+    offset           = (int) ( ((long signed int) gmt) - ((long signed int) now) ) ;
+#elif defined(OS_SOLARIS)
+    time_t local_tt = (int) mktime(&local);
+    time_t time_gmt = (int) mktime(gmtime(&now));
+    offset = time_gmt - local_tt;
 #else
-    int offset = local.tm_gmtoff ;
+    offset = local.tm_gmtoff ;
 #endif
 
 #if 0

@@ -1,4 +1,4 @@
-﻿// ***************************************************************** -*- C++ -*-
+// ***************************************************************** -*- C++ -*-
 /*
  * Copyright (C) 2004-2012 Andreas Huggel <ahuggel@gmx.net>
  *
@@ -559,7 +559,7 @@ namespace Exiv2 {
 #ifdef _MSC_VER
             temp = temp + static_cast<int64_t>(buf.pData_[i]*(pow(static_cast<float>(256), n-i-1)));
 #else
-			temp = temp + buf.pData_[i]*(pow(256,n-i-1));
+	temp = temp + buf.pData_[i]*(pow((float)256,n-i-1));
 #endif
 
         return temp;
@@ -577,7 +577,7 @@ namespace Exiv2 {
 #if _MSC_VER
 			temp = temp + static_cast<uint64_t>(buf.pData_[i]*(pow(static_cast<float>(256), n-i-1)));
 #else
-			temp = temp + buf.pData_[i]*(pow(256,n-i-1));
+	temp = temp + buf.pData_[i]*(pow((float)256,n-i-1));
 #endif
 
         return temp;

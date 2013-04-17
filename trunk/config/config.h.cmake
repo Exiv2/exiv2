@@ -246,3 +246,20 @@ typedef int pid_t;
 #if defined(_MSC_VER) && (_MSC_VER >= 1400)
 # pragma warning(disable : 4996 4251)
 #endif
+
+/*
+  If you're using Solaris and the Solaris Studio compiler, then you really
+  do need to use -library=stdcxx4 along with these inclusions below
+*/
+#if defined(OS_SOLARIS)
+#include <stdio.h>
+#include <string.h>
+#include <strings.h>
+#include <stdlib.h>
+#include <math.h>
+#if defined(__cplusplus)
+#include <ios>
+#include <fstream>
+#endif
+#endif
+

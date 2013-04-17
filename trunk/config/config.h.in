@@ -246,3 +246,20 @@
 #else
 # define EXIV2API
 #endif /* ! EXV_HAVE_DLL */
+
+/*
+  If you're using Solaris and the Solaris Studio compiler, then you really
+  do need to use -library=stdcxx4 along with these inclusions below
+*/
+#if defined(OS_SOLARIS)
+#include <stdio.h>
+#include <string.h>
+#include <strings.h>
+#include <stdlib.h>
+#include <math.h>
+#if defined(__cplusplus)
+#include <ios>
+#include <fstream>
+#endif
+#endif
+

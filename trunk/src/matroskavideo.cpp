@@ -457,7 +457,7 @@ namespace Exiv2 {
         int64_t temp = 0;
 
         for(int i = size-1; i >= 0; i--) {
-            temp = temp + static_cast<int64_t>(buf[i]*(pow(256.0, size-i-1)));
+            temp = temp + static_cast<int64_t>(buf[i]*(pow(256.0, (double)size-i-1)));
         }
 // Todo: remove debug output
 //        std::cerr << "size = " << size << ", val = " << temp << std::hex << " (0x" << temp << std::dec << ")";

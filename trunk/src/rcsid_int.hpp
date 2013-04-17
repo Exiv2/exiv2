@@ -55,7 +55,8 @@
 
 #ifndef  __clang__
 #define EXIV2_RCSID(id) \
-    namespace { \
+//    namespace { \
+    { \
         inline const char* getRcsId(const char*) { return id ; } \
         const char* rcsId = getRcsId(rcsId); \
     }
