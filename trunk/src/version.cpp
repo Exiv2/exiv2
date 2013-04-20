@@ -169,10 +169,19 @@ EXIV2API void dumpLibraryInfo(std::ostream& os)
       "G++"     ;
 #elif defined(__GNUC__)
       "GCC"     ;
+#elif defined(__SUNPRO_CC)
+      "CC (oracle)";
+#elif defined (__SUNPRO_C)
+      "cc (oracle)";
 #else
       "unknown" ;
 #endif
 
+#if defined(__SUNPRO_CC) || defined (__SUNPRO_C)
+#define     __oracle__      
+#endif
+      
+      
 #ifndef __VERSION__
 #ifdef  __clang__version__
 #define __VERSION__ __clang__version__
