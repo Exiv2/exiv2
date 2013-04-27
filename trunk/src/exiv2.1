@@ -126,8 +126,8 @@ Display help and exit.
 .B \-V
 Show the program version and exit.
 .br
-When -V is combined with -v (Verbose version), build information is
-printed to standard output along with a list of shared libraries which
+When \fB\-V\fP is combined with \fB\-v\fP (Verbose version), build information
+is printed to standard output along with a list of shared libraries which
 have been loaded into memory. Verbose version is supported on Windows
 (both MSVC and Cygwin builds), MacOSX and Linux and is provided
 for test and debugging.
@@ -204,17 +204,17 @@ Print mode for the 'print' action. Possible modes are:
 .br
 s : print a summary of the Exif metadata (the default)
 .br
-a : print Exif, IPTC and XMP metadata (shortcut for -Pkyct)
+a : print Exif, IPTC and XMP metadata (shortcut for \-Pkyct)
 .br
-t : interpreted (translated) Exif tags (-PEkyct) 
+t : interpreted (translated) Exif tags (\-PEkyct) 
 .br
-v : plain Exif tag values (-PExgnycv)
+v : plain Exif tag values (\-PExgnycv)
 .br
-h : hexdump of the Exif data (-PExgnycsh)
+h : hexdump of the Exif data (\-PExgnycsh)
 .br
-i : IPTC datasets (-PIkyct)
+i : IPTC datasets (\-PIkyct)
 .br
-x : XMP properties (-PXkyct)
+x : XMP properties (\-PXkyct)
 .br
 c : JPEG comment
 .br
@@ -289,7 +289,7 @@ images and a modifier to generate an XMP sidecar file:
 p[<n>[,<m> ...]] : Extract preview images. The optional comma separated
 list of preview image numbers is used to determine which preview images
 to extract. The available preview images and their numbers are displayed
-with the 'print' option -pp.
+with the 'print' option \fB\-pp\fP.
 .br
 X : Extract metadata to an XMP sidecar file <file>.xmp. The remaining
 extract targets determine what metadata to extract to the sidecar
@@ -298,11 +298,11 @@ file. Possible are Exif, IPTC and XMP and the default is all of these.
 .TP
 .B \-g \fImatch\fP
 Report only keys which match.  This is sub-string match and not grep, although
-the -g option is intended to help you remember this as grep. The match is case-sensitive.
+the \fB\-g\fP option is intended to help you remember this as grep. The match is case-sensitive.
 .br
 .sp 1
 .nf
-exiv2 -g Date -pt R.jpg  
+exiv2 \-g Date \-pt R.jpg  
 Exif.Image.DateTime           Ascii      20  2012:08:07 16:01:05
 Exif.Photo.DateTimeOriginal   Ascii      20  2011:09:18 16:25:48
 Exif.Photo.DateTimeDigitized  Ascii      20  2011:09:18 16:25:48 
@@ -365,7 +365,7 @@ undefined tags, or incomplete metadata. While
 .B exiv2 
 is able to read
 all metadata that it can write, other programs may have difficulties
-with images that contain non standard\-conforming metadata.
+with images that contain non standard-conforming metadata.
 .SS Command format
 The format of a command is
 .sp 1
@@ -444,13 +444,13 @@ ignored (comments). Remaining lines are commands as described above.
 exiv2 *.jpg
 Prints a summary of the Exif information for all JPEG files in the directory.
 .TP
-exiv2 -pi image.jpg
+exiv2 \-pi image.jpg
 Prints the IPTC metadata of the image.
 .TP
 exiv2 rename img_1234.jpg
 Renames img_1234.jpg (taken on 13\-Nov\-05 at 22:58:31) to 20051113_225831.jpg
 .TP
-exiv2 -r':basename:_%Y%m' rename img_1234.jpg
+exiv2 \-r':basename:_%Y%m' rename img_1234.jpg
 Renames img_1234.jpg to img_1234_200511.jpg
 .TP
 exiv2 \-et img1.jpg img2.jpg
@@ -492,7 +492,7 @@ and GPSLatitudeRef contains either 'N' or 'S' for north or south
 latitude respectively.
 .TP
 .nf
-exiv2 insert -l/tmp -S.CRW /data/*.JPG
+exiv2 insert \-l/tmp -S.CRW /data/*.JPG
 .fi
 Copy all metadata from CRW files in the /tmp directory to JPG files
 with corresponding basenames in the /data directory. Note that this
