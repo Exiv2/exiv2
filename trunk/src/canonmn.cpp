@@ -429,7 +429,7 @@ namespace Exiv2 {
         {   1, "Canon EF 50mm f/1.8"                                        },
         {   2, "Canon EF 28mm f/2.8"                                        },
         {   3, "Canon EF 135mm f/2.8 Soft"                                  },
-        {   4, "Canon EF 35-105mm f/3.5-4.5              "                  }, // 0
+        {   4, "Canon EF 35-105mm f/3.5-4.5"                                }, // 0
         {   4, "Sigma UC Zoom 35-135mm f/4-5.6"                             }, // 1
         {   5, "Canon EF 35-70mm f/3.5-4.5"                                 },
         {   6, "Canon EF 28-70mm f/3.5-4.5"                                 }, // 0
