@@ -83,17 +83,23 @@ MAJOR=$(shell grep "define.*EXIV2_.*_VERSION .*\\d*" src/version.hpp | grep MAJO
 MINOR=$(shell grep "define.*EXIV2_.*_VERSION .*\\d*" src/version.hpp | grep MINOR | sed -e 's/EXIV2//g' | tr -dC [:digit:])
 VERSION=exiv2-$(MAJOR).$(MINOR)
 tarball:
-	if [ -e /tmp/$(VERSION)        ]; then rm -rf /tmp/$(VERSION)        ; fi
-	if [ -e /tmp/$(VERSION).tar    ]; then rm -rf /tmp/$(VERSION).tar    ; fi
-	if [ -e /tmp/$(VERSION).tar.gz ]; then rm -rf /tmp/$(VERSION).tar.gz ; fi
-	svn export . /tmp/$(VERSION)
-	cd   /tmp/$(VERSION)               ;\
+	@rm -rf         /tmp/$(VERSION)  
+	@rm -rf         /tmp/$(VERSION).tar   
+	@rm -rf         /tmp/$(VERSION).tar.gz
+	@rm -rf              $(VERSION).tar.gz
+	svn export -q . /tmp/$(VERSION)
+	@pushd          /tmp/$(VERSION)    ;\
 	make config                        ;\
 	cd ..                              ;\
 	tar cf  $(VERSION).tar $(VERSION)/ ;\
 	gzip    $(VERSION).tar             ;\
+	popd                               ;\
+	mv /tmp/$(VERSION).tar.gz .        ;\
 	ls -alt $(VERSION).tar.gz
 
+configure:
+	make config
+	
 config:
 	cd config && $(MAKE) -f config.make $(MAKECMDGOALS)
 
