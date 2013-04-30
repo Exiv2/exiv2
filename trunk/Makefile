@@ -79,6 +79,27 @@ teste:
 testv:
 	cd test && $(MAKE) testv
 
+MAJOR=$(shell grep "define.*EXIV2_.*_VERSION .*\\d*" src/version.hpp | grep MAJOR | sed -e 's/EXIV2//g' | tr -dC [:digit:])
+MINOR=$(shell grep "define.*EXIV2_.*_VERSION .*\\d*" src/version.hpp | grep MINOR | sed -e 's/EXIV2//g' | tr -dC [:digit:])
+VERSION=exiv2-$(MAJOR).$(MINOR)
+tarball:
+	@rm -rf         /tmp/$(VERSION)  
+	@rm -rf         /tmp/$(VERSION).tar   
+	@rm -rf         /tmp/$(VERSION).tar.gz
+	@rm -rf              $(VERSION).tar.gz
+	svn export -q . /tmp/$(VERSION)
+	@cd             /tmp/$(VERSION)    ;\
+	make config                        ;\
+	cd   -  ; cd /tmp                  ;\
+	tar cf  $(VERSION).tar $(VERSION)/ ;\
+	gzip    $(VERSION).tar             ;\
+	cd   -                             ;\
+	mv /tmp/$(VERSION).tar.gz .        ;\
+	ls -alt $(VERSION).tar.gz
+
+configure:
+	make config
+	
 config:
 	cd config && $(MAKE) -f config.make $(MAKECMDGOALS)
 
