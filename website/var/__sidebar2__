@@ -1,0 +1,39 @@
+<div id="sidebar">
+ <a href="http://www.exiv2.org/" title="Return to the Exiv2 home page">
+  <img src="include/exiv2.jpg" height="91" width="150" border="0" alt="Return to the Exiv2 home page">
+ </a>
+ <ul id="nav">
+  <li><a href="index.html" title="A summary of what Exiv2 is and what it does"><strong>Overview</strong></a></li>
+  <li><a href="whatsnew.html" title="What's new in Exiv2"><strong>What's new</strong></a></li>
+  <li><a href="download.html" title="Download Exiv2 packages"><strong>Download</strong></a></li>
+  <li><a href="metadata.html" title="Supported tags"><strong>Tag reference</strong></a></li>
+   <ul>
+    <li><a href="tags.html" title="Standard Exif tags"><strong>Exif</strong></a></li>
+    <li><a href="tags-canon.html" title="Canon MakerNote tags"><strong>Canon</strong></a></li>
+    <li><a href="tags-fujifilm.html" title="Fujifilm MakerNote tags"><strong>Fujifilm</strong></a></li>
+    <li><a href="tags-minolta.html" title="Minolta MakerNote tags"><strong>Minolta</strong></a></li>
+    <li><a href="tags-nikon.html" title="Nikon MakerNote tags"><strong>Nikon</strong></a></li>
+    <li><a href="tags-olympus.html" title="Olympus MakerNote tags"><strong>Olympus</strong></a></li>
+    <li><a href="tags-panasonic.html" title="Panasonic MakerNote tags"><strong>Panasonic</strong></a></li>
+    <li><a href="tags-pentax.html" title="Pentax MakerNote tags"><strong>Pentax</strong></a></li>
+    <li><a href="tags-samsung.html" title="Samsung MakerNote tags"><strong>Samsung</strong></a></li>
+    <li><a href="tags-sigma.html" title="Sigma/Foveon MakerNote tags"><strong>Sigma</strong></a></li>
+    <li><a href="tags-sony.html" title="Sony MakerNote tags"><strong>Sony</strong></a></li>
+   </ul>
+  </li>
+  <li><a href="makernote.html" title="Exif MakerNote Formats and Specifications"><strong>Makernote</strong></a></li>
+  <li><a href="manpage.html" title="Exiv2 man page"><strong>Man page</strong></a></li>
+  <li><a href="doc/index.html" title="Exiv2 API documentation"><strong>API doc</strong></a></li>
+  <li><a href="http://dev.exiv2.org/wiki/exiv2" title="Exiv2 resources and help centre"><strong>Project</strong></a></li>
+ </ul>
+ __whatsnew-latest__
+
+<div id="firefox">
+<a href="http://www.spreadfirefox.com/?q=affiliates&amp;id=0&amp;t=72">
+ <img src="include/firefox.gif" height="40" width="120" border="0" alt="Get Firefox!" title="Get Firefox!">
+</a>
+</div>
+
+ __validhtml__
+</div>
+<!-- closes sidebar -->

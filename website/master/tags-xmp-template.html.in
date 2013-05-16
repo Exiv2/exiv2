@@ -1,0 +1,16 @@
+__doctype__
+<html>
+__header2__
+<body>
+__sidebar4__
+
+<div id="content">
+__maintitle__
+
+__footer__
+</div>
+<!-- closes content -->
+
+__tracker__
+</body>
+</html>

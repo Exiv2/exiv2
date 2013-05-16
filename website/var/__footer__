@@ -1,0 +1,27 @@
+<div id="footer">
+<table border="0" cellspacing="0" cellpadding="0" width="100%">
+ <tr>
+  <td align="left" valign="top">Copyright &copy; 2004 - 2012 Andreas Huggel</td>
+  <td align="left" valign="middle">
+    <script type="text/javascript">
+    <!-- 
+      var fn = "Andreas Huggel"
+      var us = "ahuggel";
+      var d1 = "gmx";
+      var d2 = "net";
+      var su = "Exiv2 feedback";
+      document.write('<a href=\"ma' + 'il' + 'to:' + fn + ' <' + us + '@' + d1 + '.' + d2 + '>?subject=' + su + '\">');
+    // -->
+    </script>
+    <img src="include/ahuggel.png" width="180" height="21" border="0" alt="Email address">
+    <script type="text/javascript">
+    <!-- 
+      document.write('<\/a>');
+    // -->
+    </script>
+  </td>
+  <td align="right" valign="top">Last modified __last_modified__</td>
+ </tr>
+</table>
+</div>
+<!-- closes footer -->

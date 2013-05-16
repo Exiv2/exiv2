@@ -1,0 +1,51 @@
+<div class="fragment"><pre><span class="comment">// ***************************************************************** -*- C++ -*-</span>
+<span class="comment">// exifprint.cpp, $Rev: 2286 $</span>
+<span class="comment">// Sample program to print the Exif metadata of an image</span>
+
+<span class="preprocessor">#include &lt;exiv2/exiv2.hpp&gt;</span>
+<span class="preprocessor">#include &lt;iostream&gt;</span>
+<span class="preprocessor">#include &lt;iomanip&gt;</span>
+<span class="preprocessor">#include &lt;cassert&gt;</span>
+
+<span class="keywordtype">int</span> main(<span class="keywordtype">int</span> argc, <span class="keywordtype">char</span>* <span class="keyword">const</span> argv[])
+<span class="keyword">try</span> {
+
+    <span class="keywordflow">if</span> (argc != 2) {
+        std::cout &lt;&lt; <span class="stringliteral">"Usage: "</span> &lt;&lt; argv[0] &lt;&lt; <span class="stringliteral">" file\n"</span>;
+        <span class="keywordflow">return</span> 1;
+    }
+
+    Exiv2::Image::AutoPtr image = Exiv2::ImageFactory::open(argv[1]);
+    assert(image.get() != 0);
+    image-&gt;readMetadata();
+
+    Exiv2::ExifData &amp;exifData = image-&gt;exifData();
+    <span class="keywordflow">if</span> (exifData.empty()) {
+        std::string error(argv[1]);
+        error += <span class="stringliteral">": No Exif data found in the file"</span>;
+        <span class="keywordflow">throw</span> Exiv2::Error(1, error);
+    }
+    Exiv2::ExifData::const_iterator end = exifData.end();
+    <span class="keywordflow">for</span> (Exiv2::ExifData::const_iterator i = exifData.begin(); i != end; ++i) {
+        const char* tn = i-&gt;typeName();
+        std::cout &lt;&lt; std::setw(44) &lt;&lt; std::setfill(<span class="charliteral">' '</span>) &lt;&lt; std::left
+                  &lt;&lt; i-&gt;key() &lt;&lt; <span class="stringliteral">" "</span>
+                  &lt;&lt; <span class="stringliteral">"0x"</span> &lt;&lt; std::setw(4) &lt;&lt; std::setfill(<span class="charliteral">'0'</span>) &lt;&lt; std::right
+                  &lt;&lt; std::hex &lt;&lt; i-&gt;tag() &lt;&lt; <span class="stringliteral">" "</span>
+                  &lt;&lt; std::setw(9) &lt;&lt; std::setfill(<span class="charliteral">' '</span>) &lt;&lt; std::left
+                  &lt;&lt; (tn ? tn : <span class="stringliteral">"Unknown"</span>) &lt;&lt; <span class="stringliteral">" "</span>
+                  &lt;&lt; std::dec &lt;&lt; std::setw(3)
+                  &lt;&lt; std::setfill(<span class="charliteral">' '</span>) &lt;&lt; std::right
+                  &lt;&lt; i-&gt;count() &lt;&lt; <span class="stringliteral">"  "</span>
+                  &lt;&lt; std::dec &lt;&lt; i-&gt;value()
+                  &lt;&lt; <span class="stringliteral">"\n"</span>;
+    }
+
+    <span class="keywordflow">return</span> 0;
+}
+<span class="keywordflow">catch</span> (Exiv2::AnyError&amp; e) {
+    std::cout &lt;&lt; <span class="stringliteral">"Caught Exiv2 exception '"</span> &lt;&lt; e.what() &lt;&lt; <span class="stringliteral">"'\n"</span>;
+    <span class="keywordflow">return</span> -1;
+}
+</pre></div>
+

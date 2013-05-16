@@ -1,0 +1,24 @@
+__doctype__
+<html>
+__header1__
+<body>
+__sidebar1__
+
+<div id="content">
+__maintitle__
+<h2>Example 1: exifprint.cpp</h2>
+
+<p>Here is a very simple program to read and print the Exif metadata
+of an image. Go to <a title="Sample usage of high-level metadata operations" 
+href="example2.html#exifprint">Example2</a> to see how the
+output looks like.</p>
+
+__example1__
+
+__footer__
+</div>
+<!-- closes content -->
+
+__tracker__
+</body>
+</html>

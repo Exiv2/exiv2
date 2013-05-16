@@ -1,0 +1,27 @@
+__doctype__
+<html>
+__header2__
+<body>
+__sidebar4__
+
+<div id="content">
+__maintitle__
+<h2>KDE Image Program Interface schema</h2>
+<p>KDE Image Program Interface schema tags, used by digiKam kipi-plugins.</p>
+ <ul>
+  <li>Exiv2 keys are <b><code>Xmp.kipi.&lt;Property&gt;</code></b></li>
+  <li>The schema namespace URI is <b><code>http://www.digikam.org/ns/kipi/1.0/</code></b></li>
+  <li>The preferred schema namespace prefix is <b><code>kipi</code></b></li>
+ </ul>
+<p>Reference: ?</p>
+<p>Click on a column header to sort the table.</p>
+
+__xmp_kipi__
+
+__footer__
+</div>
+<!-- closes content -->
+
+__tracker__
+</body>
+</html>

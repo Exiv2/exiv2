@@ -1,0 +1,7 @@
+<div id="validator">
+<a href="http://validator.w3.org/check?uri=referer">
+ <img border="0" src="include/w3chtml.gif" alt="Valid HTML 4.01!" 
+ title="Valid HTML 4.01!" height="15" width="80">
+</a>
+</div>
+<!-- closes validator -->

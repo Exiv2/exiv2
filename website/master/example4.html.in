@@ -1,0 +1,23 @@
+__doctype__
+<html>
+__header1__
+<body>
+__sidebar1__
+
+<div id="content">
+__maintitle__
+<h2>Example 4: iptceasy.cpp</h2>
+
+<p>This shows the quickest way to access, set or modify IPTC metadata, which is similar to how std::map works. The sample
+program writes the IPTC data to a file. <a title="Reading and printing the IPTC metadata of an image" 
+href="example3.html#smiley1">Example 3</a> has the image with this IPTC data.</p>
+
+__example4__
+
+__footer__
+</div>
+<!-- closes content -->
+
+__tracker__
+</body>
+</html>
