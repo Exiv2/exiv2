@@ -1,0 +1,110 @@
+<div class="fragment"><pre><span class="comment">// ***************************************************************** -*- C++ -*-</span>
+<span class="comment">// addmoddel.cpp, $Rev: 2286 $</span>
+<span class="comment">// Sample program showing how to add, modify and delete Exif metadata.</span>
+
+<span class="preprocessor">#include &lt;exiv2/exiv2.hpp&gt;</span>
+<span class="preprocessor">#include &lt;iostream&gt;</span>
+<span class="preprocessor">#include &lt;iomanip&gt;</span>
+<span class="preprocessor">#include &lt;cassert&gt;</span>
+
+<span class="keywordtype">int</span> main(<span class="keywordtype">int</span> argc, <span class="keywordtype">char</span>* <span class="keyword">const</span> argv[])
+<span class="keyword">try</span> {
+    <span class="keywordflow">if</span> (argc != 2) {
+        std::cout &lt;&lt; <span class="stringliteral">"Usage: "</span> &lt;&lt; argv[0] &lt;&lt; <span class="stringliteral">" file\n"</span>;
+        <span class="keywordflow">return</span> 1;
+    }
+    std::string file(argv[1]);
+
+    <span class="comment">// Container for exif metadata. This is an example of creating</span>
+    <span class="comment">// exif metadata from scratch. If you want to add, modify, delete</span>
+    <span class="comment">// metadata that exists in an image, start with ImageFactory::open</span>
+    Exiv2::ExifData exifData;
+
+    <span class="comment">// *************************************************************************</span>
+    <span class="comment">// Add to the Exif data</span>
+
+    <span class="comment">// This is the quickest way to add (simple) Exif data. If a metadatum for</span>
+    <span class="comment">// a given key already exists, its value is overwritten. Otherwise a new</span>
+    <span class="comment">// tag is added.</span>
+    exifData[<span class="stringliteral">"Exif.Image.Model"</span>] = <span class="stringliteral">"Test 1"</span>;                     <span class="comment">// AsciiValue</span>
+    exifData[<span class="stringliteral">"Exif.Image.SamplesPerPixel"</span>] = uint16_t(162);      <span class="comment">// UShortValue</span>
+    exifData[<span class="stringliteral">"Exif.Image.XResolution"</span>] = int32_t(-2);            <span class="comment">// LongValue</span>
+    exifData[<span class="stringliteral">"Exif.Image.YResolution"</span>] = Exiv2::Rational(-2, 3); <span class="comment">// RationalValue</span>
+    std::cout &lt;&lt; <span class="stringliteral">"Added a few tags the quick way.\n"</span>;
+
+    <span class="comment">// Create a ASCII string value (note the use of create)</span>
+    Exiv2::Value::AutoPtr v = Exiv2::Value::create(Exiv2::asciiString);
+    <span class="comment">// Set the value to a string</span>
+    v-&gt;read(<span class="stringliteral">"1999:12:31 23:59:59"</span>);
+    <span class="comment">// Add the value together with its key to the Exif data container</span>
+    Exiv2::ExifKey key(<span class="stringliteral">"Exif.Photo.DateTimeOriginal"</span>);
+    exifData.add(key, v.get());
+    std::cout &lt;&lt; <span class="stringliteral">"Added key \""</span> &lt;&lt; key &lt;&lt; <span class="stringliteral">"\", value \""</span> &lt;&lt; *v &lt;&lt; <span class="stringliteral">"\"\n"</span>;
+
+    <span class="comment">// Now create a more interesting value (without using the create method)</span>
+    Exiv2::URationalValue::AutoPtr rv(<span class="keyword">new</span> Exiv2::URationalValue);
+    <span class="comment">// Set two rational components from a string</span>
+    rv-&gt;read(<span class="stringliteral">"1/2 1/3"</span>);
+    <span class="comment">// Add more elements through the extended interface of rational value</span>
+    rv-&gt;value_.push_back(std::make_pair(2,3));
+    rv-&gt;value_.push_back(std::make_pair(3,4));
+    <span class="comment">// Add the key and value pair to the Exif data</span>
+    key = Exiv2::ExifKey(<span class="stringliteral">"Exif.Image.PrimaryChromaticities"</span>);
+    exifData.add(key, rv.get());
+    std::cout &lt;&lt; <span class="stringliteral">"Added key \""</span> &lt;&lt; key &lt;&lt; <span class="stringliteral">"\", value \""</span> &lt;&lt; *rv &lt;&lt; <span class="stringliteral">"\"\n"</span>;
+
+    <span class="comment">// *************************************************************************</span>
+    <span class="comment">// Modify Exif data</span>
+
+    <span class="comment">// Since we know that the metadatum exists (or we don't mind creating a new</span>
+    <span class="comment">// tag if it doesn't), we can simply do this:</span>
+    Exiv2::Exifdatum&amp; tag = exifData[<span class="stringliteral">"Exif.Photo.DateTimeOriginal"</span>];
+    std::string date = tag.toString();
+    date.replace(0, 4, <span class="stringliteral">"2000"</span>);
+    tag.setValue(date);
+    std::cout &lt;&lt; <span class="stringliteral">"Modified key \""</span> &lt;&lt; key
+              &lt;&lt; <span class="stringliteral">"\", new value \""</span> &lt;&lt; tag.value() &lt;&lt; <span class="stringliteral">"\"\n"</span>;
+
+    <span class="comment">// Alternatively, we can use findKey()</span>
+    key = Exiv2::ExifKey(<span class="stringliteral">"Exif.Image.PrimaryChromaticities"</span>);
+    Exiv2::ExifData::iterator pos = exifData.findKey(key);
+    <span class="keywordflow">if</span> (pos == exifData.end()) <span class="keywordflow">throw</span> Exiv2::Error(1, <span class="stringliteral">"Key not found"</span>);
+    <span class="comment">// Get a pointer to a copy of the value</span>
+    v = pos-&gt;getValue();
+    <span class="comment">// Downcast the Value pointer to its actual type</span>
+    Exiv2::URationalValue* prv = <span class="keyword">dynamic_cast&lt;</span>Exiv2::URationalValue*<span class="keyword">&gt;</span>(v.release());
+    <span class="keywordflow">if</span> (prv == 0) <span class="keywordflow">throw</span> Exiv2::Error(1, <span class="stringliteral">"Downcast failed"</span>);
+    rv = Exiv2::URationalValue::AutoPtr(prv);
+    <span class="comment">// Modify the value directly through the interface of URationalValue</span>
+    rv-&gt;value_[2] = std::make_pair(88,77);
+    <span class="comment">// Copy the modified value back to the metadatum</span>
+    pos-&gt;setValue(rv.get());
+    std::cout &lt;&lt; <span class="stringliteral">"Modified key \""</span> &lt;&lt; key
+              &lt;&lt; <span class="stringliteral">"\", new value \""</span> &lt;&lt; pos-&gt;value() &lt;&lt; <span class="stringliteral">"\"\n"</span>;
+
+    <span class="comment">// *************************************************************************</span>
+    <span class="comment">// Delete metadata from the Exif data container</span>
+
+    <span class="comment">// Delete the metadatum at iterator position pos</span>
+    key = Exiv2::ExifKey(<span class="stringliteral">"Exif.Image.PrimaryChromaticities"</span>);
+    pos = exifData.findKey(key);
+    <span class="keywordflow">if</span> (pos == exifData.end()) <span class="keywordflow">throw</span> Exiv2::Error(1, <span class="stringliteral">"Key not found"</span>);
+    exifData.erase(pos);
+    std::cout &lt;&lt; <span class="stringliteral">"Deleted key \""</span> &lt;&lt; key &lt;&lt; <span class="stringliteral">"\"\n"</span>;
+
+    <span class="comment">// *************************************************************************</span>
+    <span class="comment">// Finally, write the remaining Exif data to the image file</span>
+    Exiv2::Image::AutoPtr image = Exiv2::ImageFactory::open(file);
+    assert(image.get() != 0);
+
+    image-&gt;setExifData(exifData);
+    image-&gt;writeMetadata();
+
+    <span class="keywordflow">return</span> 0;
+}
+<span class="keywordflow">catch</span> (Exiv2::AnyError&amp; e) {
+    std::cout &lt;&lt; <span class="stringliteral">"Caught Exiv2 exception '"</span> &lt;&lt; e &lt;&lt; <span class="stringliteral">"'\n"</span>;
+    <span class="keywordflow">return</span> -1;
+}
+</pre></div>
+

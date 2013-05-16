@@ -1,0 +1,50 @@
+<div class="fragment"><pre><span class="comment">// ***************************************************************** -*- C++ -*-</span>
+<span class="comment">// iptceasy.cpp, $Rev: 2286 $</span>
+<span class="comment">// The quickest way to access, set or modify IPTC metadata.</span>
+
+<span class="preprocessor">#include &lt;exiv2/exiv2.hpp&gt;</span>
+<span class="preprocessor">#include &lt;iostream&gt;</span>
+<span class="preprocessor">#include &lt;iomanip&gt;</span>
+<span class="preprocessor">#include &lt;cassert&gt;</span>
+
+<span class="keywordtype">int</span> main(<span class="keywordtype">int</span> argc, <span class="keywordtype">char</span>* <span class="keyword">const</span> argv[])
+<span class="keyword">try</span> {
+    <span class="keywordflow">if</span> (argc != 2) {
+        std::cout &lt;&lt; <span class="stringliteral">"Usage: "</span> &lt;&lt; argv[0] &lt;&lt; <span class="stringliteral">" file\n"</span>;
+        <span class="keywordflow">return</span> 1;
+    }
+    std::string file(argv[1]);
+
+    Exiv2::IptcData iptcData;
+
+    iptcData[<span class="stringliteral">"Iptc.Application2.Headline"</span>] = <span class="stringliteral">"The headline I am"</span>;
+    iptcData[<span class="stringliteral">"Iptc.Application2.Keywords"</span>] = <span class="stringliteral">"Yet another keyword"</span>;
+    iptcData[<span class="stringliteral">"Iptc.Application2.DateCreated"</span>] = <span class="stringliteral">"2004-8-3"</span>;
+    iptcData[<span class="stringliteral">"Iptc.Application2.Urgency"</span>] = uint16_t(1);
+    iptcData[<span class="stringliteral">"Iptc.Envelope.ModelVersion"</span>] = 42;
+    iptcData[<span class="stringliteral">"Iptc.Envelope.TimeSent"</span>] = <span class="stringliteral">"14:41:0-05:00"</span>;
+    iptcData[<span class="stringliteral">"Iptc.Application2.RasterizedCaption"</span>] = <span class="stringliteral">"230 42 34 2 90 84 23 146"</span>;
+    iptcData[<span class="stringliteral">"Iptc.0x0009.0x0001"</span>] = <span class="stringliteral">"Who am I?"</span>;
+
+    Exiv2::StringValue value;
+    value.read(<span class="stringliteral">"very!"</span>);
+    iptcData[<span class="stringliteral">"Iptc.Application2.Urgency"</span>] = value;
+
+    std::cout &lt;&lt; <span class="stringliteral">"Time sent: "</span> &lt;&lt; iptcData[<span class="stringliteral">"Iptc.Envelope.TimeSent"</span>] &lt;&lt; <span class="stringliteral">"\n"</span>;
+
+    <span class="comment">// Open image file</span>
+    Exiv2::Image::AutoPtr image = Exiv2::ImageFactory::open(file);
+    assert (image.get() != 0);
+
+    <span class="comment">// Set IPTC data and write it to the file</span>
+    image-&gt;setIptcData(iptcData);
+    image-&gt;writeMetadata();
+
+    <span class="keywordflow">return</span> 0;
+}
+<span class="keywordflow">catch</span> (Exiv2::AnyError&amp; e) {
+    std::cout &lt;&lt; <span class="stringliteral">"Caught Exiv2 exception '"</span> &lt;&lt; e &lt;&lt; <span class="stringliteral">"'\n"</span>;
+    <span class="keywordflow">return</span> -1;
+}
+</pre></div>
+

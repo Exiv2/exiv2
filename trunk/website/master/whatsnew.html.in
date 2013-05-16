@@ -1,0 +1,17 @@
+__doctype__
+<html>
+__header1__
+<body>
+__sidebar1__
+
+<div id="content">
+__maintitle__
+<h2>What's new</h2>
+__whatsnew-table__
+__footer__
+</div>
+<!-- closes content -->
+
+__tracker__
+</body>
+</html>

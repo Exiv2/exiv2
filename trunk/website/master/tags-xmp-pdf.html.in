@@ -1,0 +1,27 @@
+__doctype__
+<html>
+__header2__
+<body>
+__sidebar4__
+
+<div id="content">
+__maintitle__
+<h2>Adobe PDF schema</h2>
+<p>This schema specifies XMP properties used with Adobe PDF documents.</p>
+<ul>
+ <li>Exiv2 keys are <b><code>Xmp.pdf.&lt;Property&gt;</code></b>
+ <li>The schema namespace URI is <b><code>http://ns.adobe.com/pdf/1.3/</code></b></li>
+ <li>The preferred schema namespace prefix is <b><code>pdf</code></b></li>
+</ul>
+<p>Reference: <a href="http://www.adobe.com/devnet/xmp/pdfs/xmp_specification.pdf" title="XMP specification">XMP specification</a></p>
+<p>Click on a column header to sort the table.</p>
+
+__xmp_pdf__
+
+__footer__
+</div>
+<!-- closes content -->
+
+__tracker__
+</body>
+</html>

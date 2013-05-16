@@ -1,0 +1,48 @@
+Release checklist
+-----------------
+1 month before the release: Update po/ directory, notify translators
+2 weeks before the release: Update po/ directory, remind translators
+
+Update po/ directory
+Update issues
+Update ChangeLog
+Update versions (see tagging script)
+Review and update webpages
+  News page
+  Download page
+  Archive page
+  Index page
+  Other pages as needed, external links
+Review and update documentation
+  API doc intro
+  Man page
+  Taglists
+  READMEs
+Linux
+  Compile organize
+  Compile and run tests on Intel 32
+  Compile and run tests on AMD 64
+Mac
+  Compile and run tests on Mac OSX
+MinGW
+  Compile and run tests
+MSVC
+  Compile with 7.1
+  Run tests with 7.1 executables
+  Compile with 8
+  Run tests with 8 executables
+  Compile with 9
+  Run tests with 9 executables
+  Compile with 10
+  Run tests with 10 executables
+Tag release
+Create packages
+Finalize webpages with package information (bin/release_info.sh)
+Publish webpages and packages locally
+Download and test packages
+Test Windows binary on Windows
+Really publish webpages and packages
+Validate uploaded webpages with W3C HTML checker
+Exiv2 forum announcement
+Facebook fan page update
+Freshmeat.net announcement

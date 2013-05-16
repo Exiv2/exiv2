@@ -1,0 +1,86 @@
+__doctype__
+<html>
+__header1__
+<body>
+__sidebar1__
+
+<div id="content">
+__maintitle__
+<h2>Exiv2 Overview</h2>
+<p>Exiv2 is a <a href="#lib">C++ library</a> and a <a href="#util">command line utility</a>
+to manage image <a href="http://en.wikipedia.org/wiki/Metadata">metadata</a>.
+It provides fast and easy read and write access to the 
+<a href="http://en.wikipedia.org/wiki/Exif">Exif</a>, 
+<a href="http://en.wikipedia.org/wiki/IPTC">IPTC</a> and 
+<a href="http://en.wikipedia.org/wiki/Extensible_Metadata_Platform">XMP</a> metadata 
+of images in <a href="http://dev.exiv2.org/wiki/exiv2/Supported_image_formats">various formats</a>.
+Exiv2 is available as <a href="download.html#license">free software</a> and with a 
+<a href="download.html#license">commercial license</a>, and is used in many projects</a>.</p>
+
+<p><a name="lib">The Exiv2 library provides</a></p>
+<ul>
+ <li>
+
+  <table cellspacing="0" align="right" border="0" cellpadding="0">
+    <tr>
+      <td>
+        <div id="ohloh_factoids">
+          <script type="text/javascript" src="http://www.ohloh.net/p/13985/widgets/project_factoids.js"></script>
+        </div>
+      </td>
+    </tr>
+  </table>
+
+  fast read and write access to the Exif, IPTC, and XMP metadata 
+  of an image
+</li>
+ <li>an easy to use and <a href="doc/index.html" title="Exiv2 API documentation">extensively documented</a> API</li>
+ <li>conversions of Exif and IPTC metadata to XMP and vice versa</li>
+ <li>a smart IPTC implementation that does not affect data that programs like Photoshop store
+  in the same image segment</li>
+ <li>Exif <a href="makernote.html" title="Exif Makernote Formats and Specifications">Makernote</a> support:
+  <ul>
+   <li>Makernote tags can be read and written just like any other metadata</li>
+   <li>a sophisticated write algorithm avoids corrupting the Makernote</li>
+  </ul>
+ </li>
+ <li>a simple interface to extract previews embedded in RAW images and Exif thumbnails</li>
+ <li>set and delete methods for Exif thumbnails</li>
+</ul>
+
+<p>Examples: <a title="Reading and printing the Exif metadata of an image" href="example1.html">read Exif</a>;
+   <a title="Sample usage of high-level Exif metadata operations" href="example2.html">add, modify, delete Exif</a>;
+   <a title="Reading and printing the IPTC metadata of an image" href="example3.html">read IPTC</a>;
+   <a title="The quickest way to access, set or modify IPTC metadata" href="example4.html">set IPTC</a>;
+   <a title="Sample (test) usage of high level XMP classes" href="example5.html">set XMP</a>
+</p>
+
+<p><a name="util">Exiv2 is also a command line utility to</a></p>
+<ul>
+ <li>print Exif, IPTC and XMP image metadata in different formats: Exif summary info, interpreted values,
+  or the plain data for each tag (a <a title="Sample Exiv2 utility output" href="sample.html">sample</a> is here)</li>
+ <li><a title="Modify" href="sample.html#modify">set, add and delete</a> Exif, IPTC and XMP image metadata
+  from command line modify commands or command scripts</li>
+ <li>adjust the Exif timestamp (that's how it all started...)</li>
+ <li>rename Exif image files according to the Exif timestamp</li>
+ <li>extract, insert and delete Exif, IPTC and XMP metadata and JPEG comments</li>
+ <li>extract previews from RAW images and thumbnails from the Exif metadata</li>
+ <li>insert and delete the thumbnail image embedded in the Exif metadata</li>
+ <li>print, set and delete the JPEG comment of JPEG images</li>
+ <li>fix the Exif ISO setting of picture taken with Canon and Nikon cameras</li>
+</ul>
+
+<p>Future plans include</p>
+<ul>
+ <li>a unified metadata container</li>
+ <li>support for additional image formats</li>
+ <li>more Makernotes</li>
+</ul>
+<p>The <a href="http://dev.exiv2.org/projects/roadmap/exiv2">roadmap</a> has details for the upcoming version.</p>
+
+__footer__
+</div>
+<!-- closes content -->
+__tracker__
+</body>
+</html>

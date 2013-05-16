@@ -1,0 +1,20 @@
+__doctype__
+<html>
+__header1__
+<body>
+__sidebar1__
+
+<div id="content">
+__maintitle__
+<h2>Exiv2 changelog</h2>
+
+<div class="fragment"><pre>
+__ChangeLog__
+</pre></div>
+__footer__
+</div>
+<!-- closes content -->
+
+__tracker__
+</body>
+</html>

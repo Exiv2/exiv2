@@ -1,0 +1,159 @@
+__doctype__
+<html>
+__header2__
+<body>
+__sidebar1__
+
+<div id="content">
+__maintitle__
+<h2>Download</h2>
+<p>There are two packages available for download here: the original source
+ package and one with just a Windows executable.</p>
+
+<p>From the <b>source package</b> you can build the Exiv2 library, command
+ line utility, the
+ <a title="organize directories with digital images" href="http://dev.exiv2.org/boards/3/topics/show/44">organize</a>
+ tool and a number of simple example and test applications.  With a
+ few additional third party tools you can also generate the complete
+ API documentation. The package includes standard build files for
+ UNIX-like systems (including GNU/Linux, Mac OS X and MinGW) as well
+ as Visual Studio project files for Visual C++ .NET 2003 (MSVC 7.1)
+ and later. After downloading and unpacking the distribution, please
+ see the <em>README</em> file in the top directory for build and
+ installation notes and further information.
+
+<p>The <b>Windows package</b> only contains the command line utility
+ <code>exiv2.exe</code>, Expat DLL, Exiv2 manpage and two sample
+ command files. To get started, run the executable with the -h
+ parameter from a cmd shell:
+ <code><a title="Exiv2 usage" href="sample.html#usage">exiv2 -h</a></code>.
+ For details, read the <a href="manpage.html" title="Exiv2 man page">man page</a>.
+ The Windows executable was compiled with the 
+ <a title="MinGW homepage" href="http://www.mingw.org">MinGW</a> cross compiler
+ on an Intel 32 bit machine running 
+ <a title="Debian homepage" href="http://www.debian.org">Debian</a>.
+</p>
+
+<p>As an alternative to the packages here, many Linux distributions,
+ BSD-based systems and Open Source package collections for Darwin and 
+ Mac OS X have their own Exiv2 packages that can be installed via the
+ package management system of the distribution.</p>
+
+<table class="ReportTable" id="report-2" cellspacing="0">
+ <colgroup>
+  <col>
+  <col>
+  <col align="center">
+  <col align="center">
+  <col>
+ </colgroup>
+ <thead>
+  <tr> 
+   <th><b>Package</b></th>
+   <th><b>Filename</b></th>
+   <th><b>Size (Bytes)</b></th>
+   <th><b>Date</b></th>
+   <th><b>MD5</b></th>
+  </tr>
+ </thead>
+ <tbody>
+  <tr class="OddRow">
+   <td>Exiv2 v__version__ Source</td>
+   <td><a title="Download the v__version__ source package" href="exiv2-__version__.tar.gz" >exiv2-__version__.tar.gz</a></td>
+   <td>__size_src_pkg__</td>
+   <td>__rel_date_src_pkg__</td>
+   <td>__md5sum_src_pkg__</td>
+  </tr>
+  <tr class="EvenRow">
+   <td>Exiv2 v__version__ Windows executable</td>
+   <td><a title="Download the v__version__ Windows executable" href="exiv2-__version__-win.zip" >exiv2-__version__-win.zip</a></td>
+   <td>__size_win_pkg__</td>
+   <td>__rel_date_win_pkg__</td>
+   <td>__md5sum_win_pkg__</td>
+  </tr>
+ </tbody>
+</table>
+<script type="text/javascript">
+//<![CDATA[
+var t1 = new SortableTable(
+  document.getElementById("report-2"),
+  ["String", "String", "Number", "String", "String"]
+);
+t1.onsort = function () { 
+	var rows = t1.tBody.rows;
+	var l = rows.length;
+	for (var i = 0; i < l; i++) {
+		removeClassName(rows[i], i % 2 ? "OddRow" : "EvenRow");
+		addClassName(rows[i], i % 2 ? "EvenRow" : "OddRow");
+	}
+};
+//]]>
+</script>
+
+<p><a title="Old packages" href="archive.html">Older releases</a> are 
+ also still available. 
+ See the <a title="Changelog" href="changelog.html">ChangeLog</a>
+ for a detailed list of changes between releases.</p>
+
+<p>Exiv2 is developed on GNU/Linux with recent versions of
+ <a title="The GNU Compiler Collection" href="http://gcc.gnu.org/">GCC</a>.
+ Written in C++, it uses the standard C++ library, a few POSIX
+ and C functions and is fairly portable. Dependencies are on 
+<a title="zlib homepage" href="http://www.zlib.net">zlib</a> for PNG
+ support, 
+<a title="gettext homepage" href="http://www.gnu.org/software/gettext/">gettext</a> 
+for NLS, 
+<a title="libiconv homepage" href="http://www.gnu.org/software/libiconv/">libiconv</a> 
+ for characterset conversions and
+<a title="Expat homepage" href="http://expat.sourceforge.net/">Expat</a> for XMP support.
+ (Note that modern Linux distributions usually have gettext and iconv in libc 
+  and these features can be disabled individually.)</p>
+
+<h2><a name="devel">Repository</a></h2>
+
+ <p>Exiv2 is maintained in a Subversion repository. You can
+  <a href="http://dev.exiv2.org/repositories/show/exiv2" title="Exiv2 online source code repository" >browse the source code online</a>
+  or get a copy of the latest development code from the repository.
+  Once you have the source code, see the <em>README</em> file in the top
+  directory for build and installation notes.
+ </p>
+
+ <p>To check-out the current source code from the repository, you need a 
+  <a title="Get Subversion!"
+  href="http://en.wikipedia.org/wiki/Comparison_of_Subversion_clients">Subversion client</a>. 
+  If you use a command line client, change to the directory where you want to keep 
+  the source code and type:</p>
+
+<div class="fragment"><pre>
+<span class="stringliteral">$ svn checkout svn://dev.exiv2.org/svn/trunk</span>
+</pre></div>
+
+ <p>Not included in the source distribution are test data and several
+  test drivers.  To download these directly from the repository (about
+  27 MB), change to your local exiv2-__version__/ directory and use the
+  following command:</p>
+
+<div class="fragment"><pre>
+<span class="stringliteral">$ svn export svn://dev.exiv2.org/svn/tags/__version__/test</span>
+</pre></div>
+
+<h2><a name="license">License</a></h2>
+
+<p>Exiv2 is <a href="http://www.gnu.org/philosophy/free-sw.html">free software</a>; 
+you can redistribute it and/or modify it under the terms of the 
+<a href="http://www.gnu.org/licenses/old-licenses/gpl-2.0.html">GNU General Public
+License</a> as published by the Free Software Foundation; either
+version 2 of the License, or (at your option) any later version.</p>
+<p>Alternatively, Exiv2 is also available with a commercial license, which allows it to be 
+used in closed-source projects. Contact me for more information.</p> 
+<p>Exiv2 is distributed in the hope that it will be useful, but
+WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.</p>
+
+__footer__
+</div>
+<!-- closes content -->
+
+__tracker__
+</body>
+</html>

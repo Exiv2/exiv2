@@ -1,0 +1,148 @@
+<div class="fragment"><pre><span class="comment">// ***************************************************************** -*- C++ -*-</span>
+<span class="comment">// xmpsample.cpp, $Rev: 1305+edit $</span>
+<span class="comment">// Sample/test for high level XMP classes. See also addmoddel.cpp</span>
+
+<span class="preprocessor">#include &lt;exiv2/exiv2.hpp&gt;</span>
+
+<span class="preprocessor">#include &lt;string&gt;</span>
+<span class="preprocessor">#include &lt;iostream&gt;</span>
+<span class="preprocessor">#include &lt;iomanip&gt;</span>
+
+<span class="keywordtype">int</span> main()
+<span class="keyword">try</span> {
+    <span class="comment">// The XMP property container</span>
+    Exiv2::XmpData xmpData;
+
+    <span class="comment">// -------------------------------------------------------------------------</span>
+    <span class="comment">// Teaser: Setting XMP properties doesn't get much easier than this:</span>
+
+    xmpData[<span class="stringliteral">"Xmp.dc.source"</span>]  = <span class="stringliteral">"xmpsample.cpp"</span>;    <span class="comment">// a simple text value</span>
+    xmpData[<span class="stringliteral">"Xmp.dc.subject"</span>] = <span class="stringliteral">"Palmtree"</span>;         <span class="comment">// an array item</span>
+    xmpData[<span class="stringliteral">"Xmp.dc.subject"</span>] = <span class="stringliteral">"Rubbertree"</span>;       <span class="comment">// add a 2nd array item</span>
+    <span class="comment">// a language alternative with two entries and without default</span>
+    xmpData[<span class="stringliteral">"Xmp.dc.title"</span>]   = <span class="stringliteral">"lang=de-DE Sonnenuntergang am Strand"</span>;
+    xmpData[<span class="stringliteral">"Xmp.dc.title"</span>]   = <span class="stringliteral">"lang=en-US Sunset on the beach"</span>;
+
+    <span class="comment">// -------------------------------------------------------------------------</span>
+    <span class="comment">// Any properties can be set provided the namespace is known. Values of any</span>
+    <span class="comment">// type can be assigned to an Xmpdatum, if they have an output operator. The</span>
+    <span class="comment">// default XMP value type for unknown properties is a simple text value.</span>
+
+    xmpData[<span class="stringliteral">"Xmp.dc.one"</span>]     = -1;
+    xmpData[<span class="stringliteral">"Xmp.dc.two"</span>]     = 3.1415;
+    xmpData[<span class="stringliteral">"Xmp.dc.three"</span>]   = Exiv2::Rational(5, 7);
+    xmpData[<span class="stringliteral">"Xmp.dc.four"</span>]    = uint16_t(255);
+    xmpData[<span class="stringliteral">"Xmp.dc.five"</span>]    = int32_t(256);
+    xmpData[<span class="stringliteral">"Xmp.dc.six"</span>]     = <span class="keyword">false</span>;
+
+    <span class="comment">// In addition, there is a dedicated assignment operator for Exiv2::Value</span>
+    Exiv2::XmpTextValue val(<span class="stringliteral">"Seven"</span>);
+    xmpData[<span class="stringliteral">"Xmp.dc.seven"</span>]   = val;
+
+    <span class="comment">// -------------------------------------------------------------------------</span>
+    <span class="comment">// Exiv2 has specialized values for simple XMP properties, arrays of simple</span>
+    <span class="comment">// properties and language alternatives.</span>
+
+    <span class="comment">// Add a simple XMP property in a known namespace    </span>
+    Exiv2::Value::AutoPtr v = Exiv2::Value::create(Exiv2::xmpText);
+    v-&gt;read(<span class="stringliteral">"image/jpeg"</span>);
+    xmpData.add(Exiv2::XmpKey(<span class="stringliteral">"Xmp.dc.format"</span>), v.get());
+
+    <span class="comment">// Add an ordered array of text values.</span>
+    v = Exiv2::Value::create(Exiv2::xmpSeq); <span class="comment">// or xmpBag or xmpAlt.</span>
+    v-&gt;read(<span class="stringliteral">"1) The first creator"</span>);         <span class="comment">// The sequence in which the array</span>
+    v-&gt;read(<span class="stringliteral">"2) The second creator"</span>);        <span class="comment">// elements are added is their</span>
+    v-&gt;read(<span class="stringliteral">"3) And another one"</span>);           <span class="comment">// order in the array.</span>
+    xmpData.add(Exiv2::XmpKey(<span class="stringliteral">"Xmp.dc.creator"</span>), v.get());
+
+    <span class="comment">// Add a language alternative property</span>
+    v = Exiv2::Value::create(Exiv2::langAlt);
+    v-&gt;read(<span class="stringliteral">"lang=de-DE Hallo, Welt"</span>);       <span class="comment">// The default doesn't need a </span>
+    v-&gt;read(<span class="stringliteral">"Hello, World"</span>);                 <span class="comment">// qualifier</span>
+    xmpData.add(Exiv2::XmpKey(<span class="stringliteral">"Xmp.dc.description"</span>), v.get());
+
+    <span class="comment">// According to the XMP specification, Xmp.tiff.ImageDescription is an</span>
+    <span class="comment">// alias for Xmp.dc.description. Exiv2 treats an alias just like any</span>
+    <span class="comment">// other property and leaves it to the application to implement specific</span>
+    <span class="comment">// behaviour if desired.</span>
+    xmpData[<span class="stringliteral">"Xmp.tiff.ImageDescription"</span>] = <span class="stringliteral">"TIFF image description"</span>;
+    xmpData[<span class="stringliteral">"Xmp.tiff.ImageDescription"</span>] = <span class="stringliteral">"lang=de-DE TIFF Bildbeschreibung"</span>;
+
+    <span class="comment">// -------------------------------------------------------------------------</span>
+    <span class="comment">// Register a namespace which Exiv2 doesn't know yet. This is only needed</span>
+    <span class="comment">// when properties are added manually. If the XMP metadata is read from an</span>
+    <span class="comment">// image, namespaces are decoded and registered at the same time.</span>
+    Exiv2::XmpProperties::registerNs(<span class="stringliteral">"myNamespace/"</span>, <span class="stringliteral">"ns"</span>);
+
+    <span class="comment">// -------------------------------------------------------------------------</span>
+    <span class="comment">// There are no specialized values for structures, qualifiers and nested</span>
+    <span class="comment">// types. However, these can be added by using an XmpTextValue and a path as</span>
+    <span class="comment">// the key.</span>
+
+    <span class="comment">// Add a structure</span>
+    Exiv2::XmpTextValue tv(<span class="stringliteral">"16"</span>);
+    xmpData.add(Exiv2::XmpKey(<span class="stringliteral">"Xmp.xmpDM.videoFrameSize/stDim:w"</span>), &amp;tv);
+    tv.read(<span class="stringliteral">"9"</span>);
+    xmpData.add(Exiv2::XmpKey(<span class="stringliteral">"Xmp.xmpDM.videoFrameSize/stDim:h"</span>), &amp;tv);
+    tv.read(<span class="stringliteral">"inch"</span>);
+    xmpData.add(Exiv2::XmpKey(<span class="stringliteral">"Xmp.xmpDM.videoFrameSize/stDim:unit"</span>), &amp;tv);
+
+    <span class="comment">// Add an element with a qualifier (using the namespace registered above)</span>
+    xmpData[<span class="stringliteral">"Xmp.dc.publisher"</span>] = <span class="stringliteral">"James Bond"</span>;  <span class="comment">// creates an unordered array</span>
+    xmpData[<span class="stringliteral">"Xmp.dc.publisher[1]/?ns:role"</span>] = <span class="stringliteral">"secret agent"</span>;
+
+    <span class="comment">// Add a qualifer to an array element of Xmp.dc.creator (added above)</span>
+    tv.read(<span class="stringliteral">"programmer"</span>);
+    xmpData.add(Exiv2::XmpKey(<span class="stringliteral">"Xmp.dc.creator[2]/?ns:role"</span>), &amp;tv);
+
+    <span class="comment">// Add an array of structures</span>
+    tv.read(<span class="stringliteral">""</span>);                                         <span class="comment">// Clear the value</span>
+    tv.setXmpArrayType(Exiv2::XmpValue::xaBag);
+    xmpData.add(Exiv2::XmpKey(<span class="stringliteral">"Xmp.xmpBJ.JobRef"</span>), &amp;tv); <span class="comment">// Set the array type.</span>
+
+    tv.setXmpArrayType(Exiv2::XmpValue::xaNone);
+    tv.read(<span class="stringliteral">"Birthday party"</span>);
+    xmpData.add(Exiv2::XmpKey(<span class="stringliteral">"Xmp.xmpBJ.JobRef[1]/stJob:name"</span>), &amp;tv);
+    tv.read(<span class="stringliteral">"Photographer"</span>);
+    xmpData.add(Exiv2::XmpKey(<span class="stringliteral">"Xmp.xmpBJ.JobRef[1]/stJob:role"</span>), &amp;tv);
+
+    tv.read(<span class="stringliteral">"Wedding ceremony"</span>);
+    xmpData.add(Exiv2::XmpKey(<span class="stringliteral">"Xmp.xmpBJ.JobRef[2]/stJob:name"</span>), &amp;tv);
+    tv.read(<span class="stringliteral">"Best man"</span>);
+    xmpData.add(Exiv2::XmpKey(<span class="stringliteral">"Xmp.xmpBJ.JobRef[2]/stJob:role"</span>), &amp;tv);
+
+    <span class="comment">// -------------------------------------------------------------------------</span>
+    <span class="comment">// Output XMP properties</span>
+    <span class="keywordflow">for</span> (Exiv2::XmpData::const_iterator md = xmpData.begin(); 
+         md != xmpData.end(); ++md) {
+        std::cout &lt;&lt; std::setfill(<span class="charliteral">' '</span>) &lt;&lt; std::left
+                  &lt;&lt; std::setw(44)
+                  &lt;&lt; md-&gt;key() &lt;&lt; <span class="stringliteral">" "</span>
+                  &lt;&lt; std::setw(9) &lt;&lt; std::setfill(<span class="charliteral">' '</span>) &lt;&lt; std::left
+                  &lt;&lt; md-&gt;typeName() &lt;&lt; <span class="stringliteral">" "</span>
+                  &lt;&lt; std::dec &lt;&lt; std::setw(3)
+                  &lt;&lt; std::setfill(<span class="charliteral">' '</span>) &lt;&lt; std::right
+                  &lt;&lt; md-&gt;count() &lt;&lt; <span class="stringliteral">"  "</span>
+                  &lt;&lt; std::dec &lt;&lt; md-&gt;value()
+                  &lt;&lt; std::endl;
+    }
+
+    <span class="comment">// -------------------------------------------------------------------------</span>
+    <span class="comment">// Serialize the XMP data and output the XMP packet</span>
+    std::string xmpPacket;
+    <span class="keywordflow">if</span> (0 != Exiv2::XmpParser::encode(xmpPacket, xmpData)) {
+        <span class="keywordflow">throw</span> Exiv2::Error(1, <span class="stringliteral">"Failed to serialize XMP data"</span>);
+    }
+    std::cout &lt;&lt; xmpPacket &lt;&lt; <span class="stringliteral">"\n"</span>;
+
+    <span class="comment">// Cleanup</span>
+    Exiv2::XmpParser::terminate();
+
+    <span class="keywordflow">return</span> 0;
+}
+<span class="keywordflow">catch</span> (Exiv2::AnyError&amp; e) {
+    std::cout &lt;&lt; <span class="stringliteral">"Caught Exiv2 exception '"</span> &lt;&lt; e &lt;&lt; <span class="stringliteral">"'\n"</span>;
+    <span class="keywordflow">return</span> -1;
+}
+</pre></div>
+

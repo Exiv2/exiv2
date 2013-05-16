@@ -1,0 +1,45 @@
+__doctype__
+<html>
+__header1__
+<body>
+__sidebar1__
+
+<div id="content">
+__maintitle__
+<h2>Example 2: addmoddel.cpp</h2>
+<p>Sample usage of high-level Exiv2 library calls to add, modify and delete Exif metadata.</p>
+
+__example2__
+
+<p>Here is the image with the Exif metadata from this example</p>
+
+<img style="border:1px solid #CCCCCC;" src="include/img_2158.jpg" height="386" 
+width="360" title="img_2158.jpg (28036 Bytes)" 
+alt="Image containing the Exif metadata from example 2">
+
+<p>Using the print function from 
+<a title="Reading and printing the Exif metadata of an image" 
+href="example1.html">Example1</a> shows the
+following Exif tags in the image. Note the tag
+<em>Exif.Image.ExifTag</em>: It is required by the Exif standard because
+the metadata contains an <em>Exif.Photo.*</em> tag and is automatically
+added by Exiv2 to ensure that the Exif structure is valid.</p>
+
+<a name="exifprint"></a>
+<div class="fragment"><pre>
+<span class="stringliteral">$ exifprint img_2158.jpg</span>
+Exif.Image.Model                             0x0110 Ascii       7  Test 1
+Exif.Image.SamplesPerPixel                   0x0115 Short       1  162
+Exif.Image.XResolution                       0x011a SLong       1  -2
+Exif.Image.YResolution                       0x011b SRational   1  -2/3
+Exif.Image.ExifTag                           0x8769 Long        1  89
+Exif.Photo.DateTimeOriginal                  0x9003 Ascii      20  2000:12:31 23:59:59
+</pre></div>
+
+__footer__
+</div>
+<!-- closes content -->
+
+__tracker__
+</body>
+</html>
