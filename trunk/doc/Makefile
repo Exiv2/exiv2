@@ -68,7 +68,7 @@ doxygen:
 	doxygen $(top_srcdir)/config/Doxyfile
 
 tags:
-	cp -f    $(top_srcdir)/src/bin/taglist $(top_srcdir)/src
+	cp -f    $(top_srcdir)/bin/taglist $(top_srcdir)/src
 	mkdir -p $(top_srcdir)/doc/html
 	cd       $(top_srcdir)/doc/templates && $(MAKE) all
 	cp -f    $(top_srcdir)/doc/templates/*.html $(top_srcdir)/doc/html/
