@@ -8,9 +8,10 @@ How to build the website
 
 - Build and install exiv2, build the samples and doc. And while you're
   at it, it never hurts to also run the tests.
-- Build bin/rssdate from the source file bin/rssdate.cpp
+- Build website/bin/rssdate from the source file website/bin/rssdate.cpp
 - Define the environment variable EXIV2HOME to the path of your exiv2
   directory, i.e., the parent directory of website/
+- cd website
 - Run 'make update' to import whatever is required from the rest of the
   exiv2 sources (doc/, samples/, src/)
 - Run 'make' to build the web pages
@@ -18,6 +19,15 @@ How to build the website
 Subsequently, 'make clean; make' will remove and rebuild the web
 pages; 'make update' is only needed if something changed in the exiv2
 source or doc.
+
+To build the download page with correct links, dates and checksums (this
+is a step usually done only during the release process, but you can do it
+with the packages from exiv2.org to try):
+
+- Copy the release tarball and windows package to website/html/
+- Run 'bin/release_info.sh <version>', <version> must correspond to the
+  version of the packages in website/html/ (e.g., 0.23)
+- Run 'make' to build the web pages again
 
 Dependencies
 ------------
@@ -27,7 +37,6 @@ Dependencies
 - xsltproc
 - ps2pdf
 - man2html
-- ...
 
 Generated HTML pages
 --------------------
