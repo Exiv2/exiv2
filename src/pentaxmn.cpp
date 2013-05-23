@@ -906,9 +906,9 @@ namespace Exiv2 {
         { 0x1500, "Pentax Q Manual Lens" },
         { 0x1501, "01 Standard Prime 8.5mm F1.9" },
         { 0x1502, "02 Standard Zoom 5-15mm F2.8-4.5" },
-        { 0x1503, "03 Fish-eye 3.2mm F5.6" },
-        { 0x1504, "04 Toy Lens Wide 6.3mm F7.1" },
-        { 0x1505, "05 Toy Lens Telephoto 18mm F8" },
+        { 0x1603, "03 Fish-eye 3.2mm F5.6" },
+        { 0x1604, "04 Toy Lens Wide 6.3mm F7.1" },
+        { 0x1605, "05 Toy Lens Telephoto 18mm F8" },
         { 0x1506, "06 Telephoto Zoom 15-45mm F2.8" },
     };
 
