@@ -99,7 +99,7 @@ tarball:
 
 configure:
 	make config
-	
+
 config:
 	cd config && $(MAKE) -f config.make $(MAKECMDGOALS)
 
