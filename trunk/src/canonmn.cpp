@@ -696,7 +696,8 @@ namespace Exiv2 {
         { 4142,"Canon EF-S 18-135mm f/3.5-5.6 IS STM"                       },
         { 4143,"Canon EF-M 18-55mm f/3.5-5.6 IS STM"                        },
         { 4144,"Canon EF 40mm f/2.8 STM"                                    },
-        { 4145,"Canon EF-M 22mm f/2 STM"                                    }
+        { 4145,"Canon EF-M 22mm f/2 STM"                                    },
+        { 4146,"Canon EF-M 18-55mm f/3.5-5.6 IS STM"                        }
     };
 
     //! A lens id and a pretty-print function for special treatment of the id.
