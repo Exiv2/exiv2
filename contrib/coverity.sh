@@ -19,9 +19,11 @@ fi
 
 ./bootstrap.linux
 
-# Get active git branches to create SCAN import description string
-#./gits branch | sed -e "s/*/#/g" | sed -e "s/On:/#On:/g" | grep "#" | sed -e "s/#On:/On:/g" | sed -e "s/#/BRANCH:/g" > ./build/git_branches.txt
-#desc=$(<build/git_branches.txt)
+# Get active svn branch path to create SCAN import description string
+svn info |grep "URL" | | sed -e "s/URL/BRANCH/g" > ./build/svn_branch.txt
+desc=$(<build/svn_branch.txt)
+
+
 desc=trunk
 
 cd ./build
