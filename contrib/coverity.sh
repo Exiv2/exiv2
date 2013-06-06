@@ -5,7 +5,9 @@
 # Redistribution and use is allowed according to the terms of the BSD license.
 # For details see the accompanying COPYING-CMAKE-SCRIPTS file.
 #
-# Copy this script on root folder where are source code
+# before to run this script you must set these sheel variable :
+# $EXIVCoverityToken with token of Exiv2 project given by Coverity SCAN
+# $EXIVCoverityEmail with email adress to send SCAN result.
 #
 # See this url to see how to prepare your computer with Coverity SCAN tool:
 # http://scan.coverity.com/self-build/
@@ -41,7 +43,7 @@ curl -v \
      --form file=@myproject.tgz \
      --form project=Exiv2 \
      --form token=$EXIVCoverityToken \
-     --form email=caulier.gilles@gmail.com \
+     --form email=$EXIVCoverityEmail \
      --form version=svn-trunk \
      --form description="$desc" \
      http://scan5.coverity.com/cgi-bin/upload.py
