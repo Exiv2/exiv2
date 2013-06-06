@@ -10,7 +10,7 @@
 # $EXIVCoverityEmail with email adress to send SCAN result.
 #
 # See this url to see how to prepare your computer with Coverity SCAN tool:
-# http://scan.coverity.com/self-build/
+# http://scan.coverity.com/projects/297/upload_form
 
 cd ..
 
