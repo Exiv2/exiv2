@@ -20,11 +20,8 @@ fi
 ./bootstrap.linux
 
 # Get active svn branch path to create SCAN import description string
-svn info |grep "URL" | | sed -e "s/URL/BRANCH/g" > ./build/svn_branch.txt
+svn info | grep "URL" | sed -e "s/URL/BRANCH/g" > ./build/svn_branch.txt
 desc=$(<build/svn_branch.txt)
-
-
-desc=trunk
 
 cd ./build
 
