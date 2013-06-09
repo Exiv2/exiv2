@@ -5,9 +5,11 @@
 # Redistribution and use is allowed according to the terms of the BSD license.
 # For details see the accompanying COPYING-CMAKE-SCRIPTS file.
 #
-# before to run this script you must set these sheel variable :
+# Before to run this script you must set these shell variable :
 # $EXIVCoverityToken with token of Exiv2 project given by Coverity SCAN
 # $EXIVCoverityEmail with email adress to send SCAN result.
+#
+# Coverity Scan bin dir must be appended to PATH variable.
 #
 # See this url to see how to prepare your computer with Coverity SCAN tool:
 # http://scan.coverity.com/projects/297/upload_form
@@ -22,7 +24,7 @@ fi
 ./bootstrap.linux
 
 # Get active svn branch path to create SCAN import description string
-svn info | grep "URL" | sed -e "s/URL/BRANCH/g" > ./build/svn_branch.txt
+svn info | grep "URL" | sed '/svn/{s/.*\(svn.*\)/\1/};' > ./build/svn_branch.txt
 desc=$(<build/svn_branch.txt)
 
 cd ./build
