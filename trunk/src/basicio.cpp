@@ -264,7 +264,7 @@ namespace Exiv2 {
 #else
     void FileIo::Impl::copyXattrFrom(const FileIo&)
 #endif
-	{
+    {
 #if defined(__APPLE__)
 # if defined(EXV_UNICODE_PATH)
 #  error No xattr API for MacOS X with unicode support
@@ -292,13 +292,15 @@ namespace Exiv2 {
             if (::getxattr(src.p_->path_.c_str(), name, value, sizeof(value), 0, 0) != valueSize) {
                 throw Error(2, src.p_->path_, strError(), "getxattr");
             }
-#ifdef DEBUG
+// #906.  Mountain Lion 'sandbox' terminates the app when we call setxattr
+#ifndef __APPLE__
+#ifdef  DEBUG
             EXV_DEBUG << "Copying xattr \"" << name << "\" with value size " << valueSize << "\n";
 #endif
             if (::setxattr(path_.c_str(), name, value, valueSize, 0, 0) != 0) {
                 throw Error(2, path_, strError(), "setxattr");
             }
-        }
+#endif
 #else
         // No xattr support for this platform.
 #endif
@@ -541,7 +543,7 @@ namespace Exiv2 {
         int ret = p_->stat(buf);
 #if defined WIN32 && !defined __CYGWIN__
         DWORD nlink = p_->winNumberOfLinks();
-#else 
+#else
         nlink_t nlink = buf.st_nlink;
 #endif
 
@@ -823,26 +825,26 @@ namespace Exiv2 {
     }
 
 #if defined(_MSC_VER)
-	int FileIo::seek( uint64_t offset, Position pos )
-	{
-		assert(p_->fp_ != 0);
+    int FileIo::seek( uint64_t offset, Position pos )
+    {
+        assert(p_->fp_ != 0);
 
-		int fileSeek = 0;
-		switch (pos) {
-		case BasicIo::cur: fileSeek = SEEK_CUR; break;
-		case BasicIo::beg: fileSeek = SEEK_SET; break;
-		case BasicIo::end: fileSeek = SEEK_END; break;
-		}
+        int fileSeek = 0;
+        switch (pos) {
+        case BasicIo::cur: fileSeek = SEEK_CUR; break;
+        case BasicIo::beg: fileSeek = SEEK_SET; break;
+        case BasicIo::end: fileSeek = SEEK_END; break;
+        }
 
-		if (p_->switchMode(Impl::opSeek) != 0) return 1;
+        if (p_->switchMode(Impl::opSeek) != 0) return 1;
 #ifdef _WIN64
-		return _fseeki64(p_->fp_, offset, fileSeek);
+        return _fseeki64(p_->fp_, offset, fileSeek);
 #else
-		return std::fseek(p_->fp_,static_cast<long>(offset), fileSeek);
+        return std::fseek(p_->fp_,static_cast<long>(offset), fileSeek);
 #endif
-	}
+    }
 #else
-	int FileIo::seek(long offset, Position pos)
+    int FileIo::seek(long offset, Position pos)
     {
         assert(p_->fp_ != 0);
 
@@ -1132,23 +1134,23 @@ namespace Exiv2 {
     }
 
 #if defined(_MSC_VER)
-	int MemIo::seek( uint64_t offset, Position pos )
-	{
-		uint64_t newIdx = 0;
+    int MemIo::seek( uint64_t offset, Position pos )
+    {
+        uint64_t newIdx = 0;
 
-		switch (pos) {
-		case BasicIo::cur: newIdx = p_->idx_ + offset; break;
-		case BasicIo::beg: newIdx = offset; break;
-		case BasicIo::end: newIdx = p_->size_ + offset; break;
-		}
+        switch (pos) {
+        case BasicIo::cur: newIdx = p_->idx_ + offset; break;
+        case BasicIo::beg: newIdx = offset; break;
+        case BasicIo::end: newIdx = p_->size_ + offset; break;
+        }
 
-		if ( /*newIdx < 0 || */ newIdx > static_cast<uint64_t>(p_->size_) ) return 1;
-		p_->idx_ = static_cast<long>(newIdx);	//not very sure about this. need more test!!    - note by Shawn  fly2xj@gmail.com //TODO
-		p_->eof_ = false;
-		return 0;
-	}
+        if ( /*newIdx < 0 || */ newIdx > static_cast<uint64_t>(p_->size_) ) return 1;
+        p_->idx_ = static_cast<long>(newIdx);   //not very sure about this. need more test!!    - note by Shawn  fly2xj@gmail.com //TODO
+        p_->eof_ = false;
+        return 0;
+    }
 #else
-	int MemIo::seek(long offset, Position pos)
+    int MemIo::seek(long offset, Position pos)
     {
         long newIdx = 0;
 
