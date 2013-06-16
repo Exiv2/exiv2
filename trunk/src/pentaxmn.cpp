@@ -112,7 +112,6 @@ namespace Exiv2 {
         {    0x12c32, N_("Optio M20") },
         {    0x12c3c, N_("Optio W20") },
         {    0x12c46, N_("Optio A20") },
-        {    0x12c8c, N_("Optio M30") },
         {    0x12c78, N_("Optio E30") },
         {    0x12c7d, N_("Optio E35") },
         {    0x12c82, N_("Optio T30") },
