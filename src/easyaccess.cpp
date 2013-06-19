@@ -269,7 +269,7 @@ namespace Exiv2 {
             "Exif.SonyMinolta.LensID",
             "Exif.Sony1.LensID",
             "Exif.Sony2.LensID",
-            "Exif.OlympusEq.LensModel",
+            "Exif.OlympusEq.LensType",
             "Exif.Panasonic.LensType",
             "Exif.Samsung2.LensType"
         };
