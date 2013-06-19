@@ -61,6 +61,7 @@ namespace Exiv2 {
         {  8, N_("Samsung NX 16mm F2.4 Pancake")          },
         {  9, N_("Samsung NX 85mm F1.4 ED SSA")           },
         { 10, N_("Samsung NX 45mm F1.8")                  },
+        { 11, N_("Samsung NX 45mm F1.8 2D/3D")            },
         { 12, N_("Samsung NX 12-24mm F4-5.6 ED")          }
     };
 
