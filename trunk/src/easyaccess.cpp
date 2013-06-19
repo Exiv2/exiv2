@@ -256,6 +256,8 @@ namespace Exiv2 {
     ExifData::const_iterator lensName(const ExifData& ed)
     {
         static const char* keys[] = {
+            // Exif.Canon.LensModel only reports focal length.
+            // Try Exif.CanonCs.Lenstype first. 
             "Exif.CanonCs.LensType",
             "Exif.Photo.LensModel",
             "Exif.NikonLd1.LensIDNumber",
