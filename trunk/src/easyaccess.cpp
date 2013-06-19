@@ -257,7 +257,7 @@ namespace Exiv2 {
     {
         static const char* keys[] = {
             // Exif.Canon.LensModel only reports focal length.
-            // Try Exif.CanonCs.Lenstype first. 
+            // Try Exif.CanonCs.LensType first. 
             "Exif.CanonCs.LensType",
             "Exif.Photo.LensModel",
             "Exif.NikonLd1.LensIDNumber",
