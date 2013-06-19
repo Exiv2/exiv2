@@ -69,7 +69,7 @@ namespace Exiv2 {
     bool fileExists(const std::string& path, bool ct)
     {
         struct stat buf;
-		int ret = ::stat(path.c_str(), &buf);
+        int ret = ::stat(path.c_str(), &buf);
         if (0 != ret)                    return false;
         if (ct && !S_ISREG(buf.st_mode)) return false;
         return true;
@@ -104,6 +104,9 @@ namespace Exiv2 {
         strerror_r(error, buf, n);
 # endif
         os << buf;
+        // Issue# 908.
+        // report strerror() if strerror_r() returns empty
+        if ( !buf[0] ) os << strerror(error);
 #else
         os << std::strerror(error);
 #endif
