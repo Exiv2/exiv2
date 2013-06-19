@@ -358,7 +358,7 @@ namespace Exiv2 {
         TagInfo(0x0026, "AFInfo", N_("AF Info"), N_("AF info"), canonId, makerTags, unsignedShort, -1, printValue),
         TagInfo(0x0083, "OriginalDecisionDataOffset", N_("Original Decision Data Offset"), N_("Original decision data offset"), canonId, makerTags, signedLong, -1, printValue),
         TagInfo(0x00a4, "WhiteBalanceTable", N_("White Balance Table"), N_("White balance table"), canonId, makerTags, unsignedShort, -1, printValue),
-        TagInfo(0x0095, "LensModel", N_("LensModel"), N_("LensModel"), canonId, makerTags, asciiString, -1, printValue),
+        TagInfo(0x0095, "LensModel", N_("Lens Model"), N_("Lens model"), canonId, makerTags, asciiString, -1, printValue),
         TagInfo(0x0096, "InternalSerialNumber", N_("Internal Serial Number"), N_("Internal serial number"), canonId, makerTags, asciiString, -1, printValue),
         TagInfo(0x0097, "DustRemovalData", N_("Dust Removal Data"), N_("Dust removal data"), canonId, makerTags, asciiString, -1, printValue),
         TagInfo(0x0099, "CustomFunctions", N_("Custom Functions"), N_("Custom functions"), canonId, makerTags, unsignedShort, -1, printValue),

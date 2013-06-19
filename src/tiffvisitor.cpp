@@ -1533,7 +1533,7 @@ namespace Exiv2 {
     	// Exif.Canon.LensModel allocates additional bytes in the file following the null terminator
 		int  group = object->group();
 		int  tag   = object->tag();
-		bool bCanonAscii = canonId == group && tag == 149 && typeId == ttAsciiString ;
+		bool bCanonAscii = canonId == group && tag == 0x0095 && typeId == ttAsciiString ;
 		v->read(pData, size, bCanonAscii ? asciiBytes : byteOrder());
 
         object->setValue(v);
