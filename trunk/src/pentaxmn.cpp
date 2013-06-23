@@ -174,7 +174,10 @@ namespace Exiv2 {
         {    0x12f66, N_("Q10") },
         {    0x12f70, N_("K-5 II") },
         {    0x12f71, N_("K-5 II s") },
+        {    0x12f7a, N_("Q7") },
         {    0x12f84, N_("MX-1") },
+        {    0x12fb6, N_("K-50") },
+        {    0x12fca, N_("K-500") },
     };
 
     //! Quality, tag 0x0008
