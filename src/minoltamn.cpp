@@ -1895,28 +1895,7 @@ namespace Exiv2 {
         { 45751, "1.4x Teleconverter " },
         { 45851, "Tamron SP AF 300mm F2.8 LD IF" },
         { 45871, "Tamron AF 70-210mm F2.8 SP LD" },
-        { 65535, "Manual Lens or No Lens | "
-                 "Sony E 16mm F2.8 | "
-                 "Sony E 20mm F2.8 | "
-                 "Sony E 24mm F1.8 ZA | "
-                 "Sony E 30mm F3.5 Macro | "
-                 "Sony E 35mm F1.8 OSS | "
-                 "Sony E 50mm F1.8 OSS | "
-                 "Sony E 10-18mm F4 OSS | "
-                 "Sony E PZ 16-50mm F3.5-5.6 OSS | "
-                 "Sony E 18-55mm F3.5-5.6 OSS | "
-                 "Sony E 18-200mm F3.5-6.3 OSS | "
-                 "Sony E 55-210mm F4.5-6.3 OSS | "
-                 "Sigma 19mm F2.8 EX DN | "
-                 "Sigma 30mm F2.8 EX DN | "
-                 "Tamron 18-200mm F3.5-6.3 Di III VC | "
-                 "Arax MC 35mm F2.8 Tilt+Shift | "
-                 "Arax MC 80mm F2.8 Tilt+Shift | "
-                 "Zenitar MF 16mm F2.8 Fisheye M42 | "
-                 "Samyang 500mm Mirror F8.0 | "
-                 "Pentacon Auto 135mm F2.8 | "
-                 "Pentacon Auto 29mm F2.8 | "
-                 "Helios 44-2 58mm F2.0" }
+        { 65535, "E-Mount, T-Mount, Other Lens or No Lens" }
     };
 
     std::ostream& printMinoltaSonyLensID(std::ostream& os, const Value& value, const ExifData* metadata)
