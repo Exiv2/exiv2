@@ -301,6 +301,7 @@ namespace Exiv2 {
                 throw Error(2, path_, strError(), "setxattr");
             }
 #endif
+        }
 #else
         // No xattr support for this platform.
 #endif
