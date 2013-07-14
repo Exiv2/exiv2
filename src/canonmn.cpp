@@ -311,6 +311,7 @@ namespace Exiv2 {
         { 0x80000301, N_("EOS Rebel T4i / 650D / Kiss X6i") },
         { 0x80000302, N_("EOS 6D") },
         { 0x80000324, N_("EOS-1D C") },
+        { 0x80000325, N_("EOS 70D") },
         { 0x80000326, N_("EOS Rebel T5i / 700D / Kiss X7i") },
         { 0x80000331, N_("EOS M") },
         { 0x80000346, N_("EOS Rebel SL1 / 100D / Kiss X7") },
