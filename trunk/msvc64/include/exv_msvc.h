@@ -13,6 +13,11 @@
 
 #ifdef _MSC_VER
 
+// http://msdn.microsoft.com/en-us/library/ms235458.aspx
+#if _MSC_VER >= 1700
+#define chmod _chmod
+#endif
+
 #if _MSC_VER >= 1600
 // stdint.h was introduced with DevStudio 2010
 #define EXV_HAVE_STDINT_H 1
