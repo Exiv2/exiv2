@@ -2,8 +2,12 @@ exiv2\msvc64\ReadMe.txt
 -----------------------
 
 +-----------------------------------------------------------+
-| the msvc64 environment can build 32bit and 64bit binaries |
-| the msvc   environment only builds 32bit                  |
+| msvc2012 builds 32bit and 64bit binaries                  |
+|          with Visual Studio 2012                          |
+| msvc64   builds 32bit and 64bit binaries                  |
+|          with Visual Studio 2005/8/10                     |
+| msvc     builds 32bit binaries                            |
+|          with Visual Studio 2003/5/8                      |
 +-----------------------------------------------------------+
 
 Updated: 2012-05-07 
@@ -118,10 +122,10 @@ T A B L E  o f  C O N T E N T S
 
      Before loading the project, use the python script setbuild.py to select Win32:
 
-     	c:\gnu\exiv2\msvc64>setbuild.py Win32
+        c:\gnu\exiv2\msvc64>setbuild.py Win32
 
      setbuild.py is none destructive.  If you have a 64 bit compiler, you can:
-     1)	Restore the build environment with:   setbuild.py all
+     1) Restore the build environment with:   setbuild.py all
      2) Select x64 bit builds only with:      setbuild.py x64
 
      If you don't have python available (it's a free download from ActiveState.com), 
@@ -213,16 +217,16 @@ T A B L E  o f  C O N T E N T S
      This work is based on work by the following people:
      zlib 64 bit build
 
-	    Copyright (C) 2000-2004 Simon-Pierre Cadieux.
-	    Copyright (C) 2004 Cosmin Truta.
-	    For conditions of distribution and use, see copyright notice in zlib.h.
+        Copyright (C) 2000-2004 Simon-Pierre Cadieux.
+        Copyright (C) 2004 Cosmin Truta.
+        For conditions of distribution and use, see copyright notice in zlib.h.
 
-	    And was obtained from:  http://www.achacha.org/vc2008_zlib/
+        And was obtained from:  http://www.achacha.org/vc2008_zlib/
 
      expat 64 bit build
      http://www.start64.com/index.php?option=com_content&task=view&id=3461&Itemid=114
 
-	 I recognise and respect the work performed by those individuals.
+     I recognise and respect the work performed by those individuals.
 
 3.1  Differences between inherited projects and the exiv2 projects
      There is no compatiblity.
@@ -238,16 +242,16 @@ T A B L E  o f  C O N T E N T S
      want something special.
 
 4.2  runner.py
-	 runner.py [Win32|x64|all]
+     runner.py [Win32|x64|all]
 
-	 This script runs some basic "sanity" checks on the build.  You should compare the
+     This script runs some basic "sanity" checks on the build.  You should compare the
          output of runner.py with the reference output runner.txt.  
          diff/windiff/winmergeu - or whatever your favorite diff tool.
 
-	 python runner.py all > new.txt
-	 winmergeu.exe new.txt runner.txt
+     python runner.py all > new.txt
+     winmergeu.exe new.txt runner.txt
 
-	 If you have only build Win32 (or x64), you'll have to remove the output from
+     If you have only build Win32 (or x64), you'll have to remove the output from
          runner.txt for the target that isn't of interest.
          
 4.3  Running the test suite
@@ -266,33 +270,33 @@ T A B L E  o f  C O N T E N T S
 
              I find the following little bash loop very useful.  You should test
              against all the directories in the msvc64/bin directory:
-			 for d in $(find /c/gnu.2005/exiv2/msvc64/bin -name exiv2.exe -exec dirname {} ";"); do
-			    export EXIV2_BINDIR=$d
-			    echo ---------------------------------
-			    echo ---- $d ----
-			    echo ---------------------------------
-			    make test
-			done
-			
-	Free gift: (you get what you pay for)
-			The script testMSVC.sh to runs this loop for you.
-			The script verifyMSVC.sh validates the output of testMSVC.sh
-			I've added those for my convenience and I hope you'll find them useful.
+             for d in $(find /c/gnu.2005/exiv2/msvc64/bin -name exiv2.exe -exec dirname {} ";"); do
+                export EXIV2_BINDIR=$d
+                echo ---------------------------------
+                echo ---- $d ----
+                echo ---------------------------------
+                make test
+            done
+            
+    Free gift: (you get what you pay for)
+            The script testMSVC.sh to runs this loop for you.
+            The script verifyMSVC.sh validates the output of testMSVC.sh
+            I've added those for my convenience and I hope you'll find them useful.
 
-	And to pass the time (the test suite takes about an hour to run)
-			I recommend running listdlls exiv2.exe occasionally during testing to be confident
-			that the test suite is running the MSVC built versions of exiv2 and libraries.
-			
-			From cygwin:
-			while sleep 1 do; listdlls exiv2.exe ; done
-			or
-			while sleep 10 do ; listdlls exiv2.exe | grep exiv2.exe ; done
-			
-	Note: Cygwin currently ships diff-utils 2.9.2 which treats binary files differently
-	from 2.8.7 (on Mac) and 3.2 (on Ubuntu 12.04).  For this reason, the executable (and
-	support dlls) for GNU diff.exe 2.8.7 is provided in msvc/diff.exe.
-	The test suite has been "doctored" on cygwin to modify the path appropriately to
-	use this preferred version of diff.exe.
+    And to pass the time (the test suite takes about an hour to run)
+            I recommend running listdlls exiv2.exe occasionally during testing to be confident
+            that the test suite is running the MSVC built versions of exiv2 and libraries.
+            
+            From cygwin:
+            while sleep 1 do; listdlls exiv2.exe ; done
+            or
+            while sleep 10 do ; listdlls exiv2.exe | grep exiv2.exe ; done
+            
+    Note: Cygwin currently ships diff-utils 2.9.2 which treats binary files differently
+    from 2.8.7 (on Mac) and 3.2 (on Ubuntu 12.04).  For this reason, the executable (and
+    support dlls) for GNU diff.exe 2.8.7 is provided in msvc/diff.exe.
+    The test suite has been "doctored" on cygwin to modify the path appropriately to
+    use this preferred version of diff.exe.
              
 # That's all Folks!
 ##
