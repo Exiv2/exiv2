@@ -1,12 +1,12 @@
-Notes about msvc 32 bit build of exiv2
---------------------------------------
+Notes about msvc2003 32 bit build of exiv2
+------------------------------------------
 
 +-----------------------------------------------------------+
 | msvc2012 builds 32bit and 64bit binaries                  |
 |          with Visual Studio 2012                          |
-| msvc64   builds 32bit and 64bit binaries                  |
+| msvc2005 builds 32bit and 64bit binaries                  |
 |          with Visual Studio 2005/8/10                     |
-| msvc     builds 32bit binaries                            |
+| msvc2003 builds 32bit binaries                            |
 |          with Visual Studio 2003/5/8                      |
 +-----------------------------------------------------------+
 
@@ -18,10 +18,7 @@ Tested  With:   VC7.1, VC8 Pro +SP1, VC9Std running Windows/XP 32bit)
                 VC10 running on Windows/7 64bit, and Windows/XP 32bit
                (VC7.1 = VS/2003 .Net; VC8 = VS/2005; VC9 = VS/2008; VC10 = VS/2010)
                
-I recommend you use the msvc64 environment for VS2010.
-VC10/VS 2010 requires a project change which the conversion wizard doesn't handle.  See below.
-              
-All builds in msvc are 32bit.  Use msvc64 for 64bit and 32bit builds.
+All builds in msvc2003 are 32bit.
 
 1)  Build environments (solution files)
     exiv2.sln           - this builds the exiv2 libraries   (static and dynamic)
@@ -101,7 +98,7 @@ How to build and test exiv2 (with/without organize.exe)
     Rattle roll.... less than a minute ...... snap, crackle, pop (lots of warnings)
     ========== Build: 4 succeeded, 0 failed, 0 up-to-date, 0 skipped ==========
 
-4)  Open the sln file exiv2\msvc\exiv2.sln
+4)  Open the sln file exiv2\msvc2003\exiv2.sln
     On VS2005 and up, the Wizard will offer to upgrade the project files.
     Once more, say yes to everything.
 
@@ -138,15 +135,15 @@ How to build and test exiv2 (with/without organize.exe)
 
 6)  Test from the Command Line (cmd.exe):
     
-    cd exiv2\msvc
-    C:\gnu\exiv2\msvc>runner.bat > new.txt
+    cd exiv2\msvc2003
+    C:\gnu\exiv2\msvc2003>runner.bat > new.txt
     exiv2.exe: An action must be specified
     exiv2.exe: At least one file is required
     metacopy.exe: Read and write files must be specified
     bla bla white sheep......
 
-    C:\gnu\exiv2\msvc>diff.exe   runner.txt  new.txt (Windows/XP)
-    C:\gnu\exiv2\msvc>diff.exe   runner7.txt new.txt (Windows/7)
+    C:\gnu\exiv2\msvc2003>diff.exe   runner.txt  new.txt (Windows/XP)
+    C:\gnu\exiv2\msvc2003>diff.exe   runner7.txt new.txt (Windows/7)
     --- no differences should be reported --
     
     The test takes less than 1 minute and runs 200+ different test programs.
@@ -154,8 +151,8 @@ How to build and test exiv2 (with/without organize.exe)
 7)  Running the test suite
 
     The test suite is a collection of bash scripts and requires a unix-like environment
-    in which to run.  exiv2 msvc and msvc64 builds are tested with cygwin and msys.
-    Please see the file exiv2/msvc64/ReadMe.txt for more information.
+    in which to run.  exiv2 msvc2003/5/12 builds are tested with cygwin and msys.
+    Please see the file exiv2/msvc2005/ReadMe.txt for more information.
     
 How to build exiv2+organize
 ---------------------------
@@ -285,7 +282,7 @@ OR (if you prefer to build from source)
 Where are the libraries and executables?
 ----------------------------------------
 
-exiv2\msvc\bin\{Debug | DebugDLL | Release | ReleaseDLL }
+exiv2\msvc2003\bin\{Debug | DebugDLL | Release | ReleaseDLL }
 
 What's been built?
 ------------------
@@ -340,9 +337,9 @@ http://dev.exiv2.org/projects/exiv2/issues
 Support and Questions
 ---------------------
 
-Information/Documentation  : http://www.exiv2.org/index.html
-Discussion Forum           : http://dev.exiv2.org/wiki/exiv2
-The MSVC build environment : Please contact me directly by email.
+Information/Documentation      : http://www.exiv2.org/index.html
+Discussion Forum               : http://dev.exiv2.org/wiki/exiv2
+The MSVC2003 build environment : Please contact me directly by email.
 
 Robin Mills
 robin@clanmills.com
