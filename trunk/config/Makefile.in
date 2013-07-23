@@ -129,3 +129,14 @@ maintainer-clean: distclean
 
 config/config.mk: 
 	$(error File config/config.mk does not exist. Did you run ./configure?)
+
+rebuild:
+	make distclean
+	make config
+	./configure
+	make
+	sudo make install
+	make samples
+
+# That's all Folks!
+##
