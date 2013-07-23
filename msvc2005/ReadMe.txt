@@ -1,16 +1,16 @@
-exiv2\msvc64\ReadMe.txt
------------------------
+exiv2\msvc2005\ReadMe.txt
+-------------------------
 
 +-----------------------------------------------------------+
 | msvc2012 builds 32bit and 64bit binaries                  |
 |          with Visual Studio 2012                          |
-| msvc64   builds 32bit and 64bit binaries                  |
+| msvc2005 builds 32bit and 64bit binaries                  |
 |          with Visual Studio 2005/8/10                     |
-| msvc     builds 32bit binaries                            |
+| msvc2003 builds 32bit binaries                            |
 |          with Visual Studio 2003/5/8                      |
 +-----------------------------------------------------------+
 
-Updated: 2012-05-07 
+Updated: 2013-07-22 
 
 Robin Mills
 http://clanmills.com
@@ -22,7 +22,7 @@ T A B L E  o f  C O N T E N T S
 1    Build Instructions
 1.1  Tools
 1.2  Install zlib and expat sources.
-1.3  Open exiv2\msvc64\exiv2.sln
+1.3  Open exiv2\msvc2005\exiv2.sln
 1.4  What is build
 1.5  Building with zlib1.2.3 (or 1.2.5) and expat 2.0.1
 1.6  Express editions of DevStudio (or 32 bit only builds, or 64 bit only builds)
@@ -64,11 +64,11 @@ T A B L E  o f  C O N T E N T S
      2010-12-02  20:58    <DIR>             zlib-1.2.3  OPTIONAL <--- "vanilla" zlib  1.2.3 source tree
      c:\gnu>
 
-     The URLs from which to obtain zlib and expat are documented in exiv2\msvc\README-MSVC.txt
+     The URLs from which to obtain zlib and expat are documented in exiv2\msvc2003\ReadMe.txt
      expat-2.1.0 is available from http://voxel.dl.sourceforge.net/sourceforge/expat/expat-2.1.0.tar.gz
      zlib-1.2.7  is available from http://zlib.net/zlib-1.2.7.tar.gz
 
-1.3  Open exiv2\msvc64\exiv2.sln
+1.3  Open exiv2\msvc2005\exiv2.sln
      Projects are zlib, expat, xmpsdk, exiv2lib, exiv2, addmoddel etc...
      Build/Batch build...  Select All, Build
      - 29 projects      (zlib, expat, xmpsdk, exiv2lib, exiv2, addmoddel etc)
@@ -85,14 +85,14 @@ T A B L E  o f  C O N T E N T S
 1.4  What is built
      The DLL builds use the DLL version of the C runtime libraries
      The Debug|Release builds use static C runtime libraries
-     This is discussed in exiv2\msvc\README-MSVC.txt 
+     This is discussed in exiv2\msvc2003\ReadMe.txt 
 
 1.5  Building with zlib1.2.5 (or 1.2.3) and/or expat 2.0.1
-     By default, msvc64 builds with zlib-1.2.7 and expat 2.1.0
+     By default, msvc2005 builds with zlib-1.2.7 and expat 2.1.0
      You can build with zlib1.2.3.  To do this:
 
-     1) copy/y exiv2\msvc64\zlib123\zlib.vcproj   exiv2\msvc64\zlib\
-        copy/y exiv2\msvc64\expat201\expat.vcproj exiv2\msvc64\expat
+     1) copy/y exiv2\msvc2005\zlib123\zlib.vcproj   exiv2\msvc2005\zlib\
+        copy/y exiv2\msvc2005\expat201\expat.vcproj exiv2\msvc2005\expat
 
      2) You will need the sources in a directory parallel to exiv2
      c:\gnu>dir
@@ -103,7 +103,7 @@ T A B L E  o f  C O N T E N T S
      2010-12-02  20:58    <DIR>             zlib-1.2.7           <--- "vanilla" zlib 1.2.7 source tree
      2010-12-02  20:58    <DIR>             zlib-1.2.3 OPTIONAL  <--- "vanilla" zlib 1.2.3 source tree
      c:\gnu>
-     Please see exiv2\msvc\README-MSVC.txt for information about obtaining zlib-1.2.3
+     Please see exiv2\msvc2003\ReadMe.txt for information about obtaining zlib-1.2.3
 
      3) Alter the "AdditionalIncludeDirectories" in the following projects:
         xmpsdk.vcproj
@@ -122,7 +122,7 @@ T A B L E  o f  C O N T E N T S
 
      Before loading the project, use the python script setbuild.py to select Win32:
 
-        c:\gnu\exiv2\msvc64>setbuild.py Win32
+        c:\gnu\exiv2\msvc2005>setbuild.py Win32
 
      setbuild.py is none destructive.  If you have a 64 bit compiler, you can:
      1) Restore the build environment with:   setbuild.py all
@@ -132,7 +132,7 @@ T A B L E  o f  C O N T E N T S
      you can "doctor" to project files manually to remove mentiosn of X64 using an editor:
 
      Cleanup your tree and edit the files.
-     cd exiv2\msvc64
+     cd exiv2\msvc2005
      call cleaner.bat
      for /r %f in (*.vcproj) do notepad %f
      for /r %f in (*.sln)    do notepad %f
@@ -149,7 +149,7 @@ T A B L E  o f  C O N T E N T S
      setbuild.py reset
      
 1.7  Support for DevStudio 11
-     I have successfully built and tested a sub-set of exiv2/msvc64 with DevStudio 11 beta.
+     I have successfully built and tested a sub-set of exiv2/msvc2005 with DevStudio 11 beta.
      
      I have no plan to support beta versions of DevStudio.
      
@@ -166,7 +166,7 @@ T A B L E  o f  C O N T E N T S
      work cleanly for me.  They use different projects for VC9 and VC10.
      They don't provide support for VC8 or 11beta.
      
-     I have created build environments for zlib and expat within exiv2/msvc64.
+     I have created build environments for zlib and expat within exiv2/msvc2005.
      I don't include the source code for zlib or expat - only the build environment.
      
      You are expected to install the "vanilla" expat and zlib libraries
@@ -177,10 +177,10 @@ T A B L E  o f  C O N T E N T S
      The names expat-2.1.0 and zlib-1.2.7 are fixed (and used by the .vcproj files)
 
      zlib and expat
-     exiv2\msvc64\zlib\zlib.vcproj                          DevStudio files
+     exiv2\msvc2005\zlib\zlib.vcproj                          DevStudio files
      ..\..\..\zlib-1.2.7\                                   Source code
 
-     exiv2\msvc64\expat\expat.vcproj                        DevStudio files
+     exiv2\msvc2005\expat\expat.vcproj                        DevStudio files
      ..\..\..\expat-2.1.0\                                  Source code
 
 2.1  Architecture
@@ -198,20 +198,20 @@ T A B L E  o f  C O N T E N T S
      bin\{win32|x84}\Win32\{Debug|Release|DebugDLL|ReleaseDLL} 
      include
 
-2.2  Relationship with msvc build environment
-     msvc64 is similar to msvc.
+2.2  Relationship with msvc2003 build environment
+     msvc2005 is similar to msvc2003.
      However there are significant differences:
-     1) msvc64 supports 64 bit and 32 bit builds
-     2) msvc64 provides projects to build expat and zlib
-     3) msvc64 is designed to accomodate new versions of expat and zlib when they become available.
-     4) msvc64 supports DevStudio 2005, 2008 and 2010 (no support for 2003)
-     5) msvc64 does not require you to build 'vanilla' expat and zlib projects in advance
-     6) msvc64 does not support the organize application
-     7) msvc64 supports building with zlib1.2.7 (default) or zlib1.2.3/5
-     7) msvc64 supports building with expat2.1.0 (default) or expa2.0.1
+     1) msvc2005 supports 64 bit and 32 bit builds
+     2) msvc2005 provides projects to build expat and zlib
+     3) msvc2005 is designed to accomodate new versions of expat and zlib when they become available.
+     4) msvc2005 supports DevStudio 2005, 2008 and 2010 (no support for 2003)
+     5) msvc2005 does not require you to build 'vanilla' expat and zlib projects in advance
+     6) msvc2005 does not support the organize application
+     7) msvc2005 supports building with zlib1.2.7 (default) or zlib1.2.3/5
+     7) msvc2005 supports building with expat2.1.0 (default) or expa2.0.1
 
-     msvc will continue to be supported for 32 bit builds using DevStudio 2003/05/08,
-     however there is no plan to enhance or develop msvc going forward.
+     msvc2003 will continue to be supported for 32 bit builds using DevStudio 2003/05/08,
+     however there is no plan to enhance or develop msvc2003 going forward.
 
 3    Acknowledgement of prior work
      This work is based on work by the following people:
@@ -269,8 +269,8 @@ T A B L E  o f  C O N T E N T S
              export EXIV2_BINDIR=<path-to-directory-with-exiv2.exe>
 
              I find the following little bash loop very useful.  You should test
-             against all the directories in the msvc64/bin directory:
-             for d in $(find /c/gnu.2005/exiv2/msvc64/bin -name exiv2.exe -exec dirname {} ";"); do
+             against all the directories in the msvc2005/bin directory:
+             for d in $(find /c/gnu.2005/exiv2/msvc2005/bin -name exiv2.exe -exec dirname {} ";"); do
                 export EXIV2_BINDIR=$d
                 echo ---------------------------------
                 echo ---- $d ----
@@ -294,7 +294,7 @@ T A B L E  o f  C O N T E N T S
             
     Note: Cygwin currently ships diff-utils 2.9.2 which treats binary files differently
     from 2.8.7 (on Mac) and 3.2 (on Ubuntu 12.04).  For this reason, the executable (and
-    support dlls) for GNU diff.exe 2.8.7 is provided in msvc/diff.exe.
+    support dlls) for GNU diff.exe 2.8.7 is provided in msvc2003/diff.exe.
     The test suite has been "doctored" on cygwin to modify the path appropriately to
     use this preferred version of diff.exe.
              
