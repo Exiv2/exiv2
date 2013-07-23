@@ -7,65 +7,65 @@ runTest()
     local prog=$1
     shift
     (
-        cd $here/tmp
-        if [ ! -z $EXIV2_ECHO ]; then
-            echoTest $VALGRIND $bin/$prog "$@"
-        fi
-        $VALGRIND $bin/$prog "$@"
-    )
+    	cd $here/tmp
+    	if [ ! -z $EXIV2_ECHO ]; then
+			echoTest $VALGRIND $bin/$prog "$@"
+		fi
+		$VALGRIND $bin/$prog "$@"
+	)
 }
 
 ##
 # echo commands and arguments
 echoTest()
 {
-    local count=1
-    for i in $@ ; do
-        echo $((count++)):  $i
-    done
-    echo -----------------------
+	local count=1
+	for i in $@ ; do
+		echo $((count++)):  $i
+	done
+	echo -----------------------
 }
 
 ##
 # predictate
 existsTest()
 {
-    local prog=$1
-    result=0
-    if [ -e $bin/$prog -o -e $bin/$prog.exe ]; then
-        result=1
-    fi
-    echo $result
+	local prog=$1
+	result=0
+	if [ -e $bin/$prog -o -e $bin/$prog.exe ]; then
+		result=1
+	fi
+	echo $result
 }
 
 ##
 # copy file
 copy()
 {
-    \cp "$1" "$2"
+	\cp "$1" "$2"
 }
 
 ##
 # copy file from data to tmp (copyTestFile from to
 copyTestFile()
 {
-    if [ $# == 2 ]; then
-        cp -f "$here/data/$1" "$here/tmp/$2"
-    elif [ $# == 1 ]; then
-        cp -f "$here/data/$1" "$here/tmp/$1"
-    else
-        echo "*** error copyTestFile: illegal number of inputs = $# ***"
-    fi
-    
+	if [ $# == 2 ]; then
+		cp -f "$here/data/$1" "$here/tmp/$2"
+	elif [ $# == 1 ]; then
+		cp -f "$here/data/$1" "$here/tmp/$1"
+	else
+		echo "*** error copyTestFile: illegal number of inputs = $# ***"
+	fi
+	
 }
 
 ##
 # copy 1 or more files from data to tmp
 copyTestFiles()
 {
-    for i in "$@" ; do
-        copyTestFile "$i" "$i"
-    done
+	for i in "$@" ; do
+		copyTestFile "$i" "$i"
+	done
 }
 
 ##
@@ -73,7 +73,7 @@ copyTestFiles()
 reportTest()
 {
     cat $results | tr '\\' '/' > ${results}-new
-        mv -f ${results}-new $results
+    	mv -f ${results}-new $results
     if [ ! -z `which dos2unix` ]; then
         unix2dos $results >/dev/null 2>&1
     fi
@@ -276,12 +276,12 @@ removeTest()
 
     #run tests
     runTest iptctest $tmp <<-eoc
-        r Iptc.Application2.Byline
-        r Iptc.Application2.Caption
-        r Iptc.Application2.Keywords
-        r Iptc.Application2.Keywords
-        r Iptc.Application2.Keywords
-        r Iptc.Application2.CountryName
+		r Iptc.Application2.Byline
+		r Iptc.Application2.Caption
+		r Iptc.Application2.Keywords
+		r Iptc.Application2.Keywords
+		r Iptc.Application2.Keywords
+		r Iptc.Application2.CountryName
 eoc
     runTest iptcprint $tmp > $test
 
@@ -303,14 +303,14 @@ addModTest()
 
     #run tests
     runTest iptctest $tmp <<-eoc
-        a Iptc.Application2.Headline          The headline I am
-        a Iptc.Application2.Keywords          Yet another keyword
-        m Iptc.Application2.DateCreated       2004-8-3
-        a Iptc.Application2.Urgency           3
-        m Iptc.Application2.SuppCategory      "bla bla ba"
-        a Iptc.Envelope.ModelVersion          2
-        a Iptc.Envelope.TimeSent              14:41:0-05:00
-        a Iptc.Application2.RasterizedCaption 230 42 34 2 90 84 23 146
+		a Iptc.Application2.Headline          The headline I am
+		a Iptc.Application2.Keywords          Yet another keyword
+		m Iptc.Application2.DateCreated       2004-8-3
+		a Iptc.Application2.Urgency           3
+		m Iptc.Application2.SuppCategory      "bla bla ba"
+		a Iptc.Envelope.ModelVersion          2
+		a Iptc.Envelope.TimeSent              14:41:0-05:00
+		a Iptc.Application2.RasterizedCaption 230 42 34 2 90 84 23 146
 eoc
     runTest iptcprint $tmp > $test
 
@@ -379,51 +379,51 @@ real_path ()
 # prepare temp files and other variables
 prepareTest()
 {
-    ##
-    # locale setting
-    export LC_ALL=C
+	##
+	# locale setting
+	export LC_ALL=C
 
-    ##
-    # initialize globals
-    this=$(basename $0 .sh)
-    here=$PWD
-    datapath="../data"
-    testdir="$here/tmp"
-    datadir="../data"
+	##
+	# initialize globals
+	this=$(basename $0 .sh)
+	here=$PWD
+	datapath="../data"
+	testdir="$here/tmp"
+	datadir="../data"
 
-    if [ -z "$EXIV2_BINDIR" ] ; then
-        bin="$here/../bin"
-    else
-        bin="$EXIV2_BINDIR"
-    fi
+	if [ -z "$EXIV2_BINDIR" ] ; then
+		bin="$here/../bin"
+	else
+		bin="$EXIV2_BINDIR"
+	fi
 
-    os=$(uname)
-    if [ "${os:0:4}" == "CYGW" ]; then
-        export PLATFORM=cygwin
-    else
-        export PLATFORM=$os
-    fi
+	os=$(uname)
+	if [ "${os:0:4}" == "CYGW" ]; then
+		export PLATFORM=cygwin
+	else
+		export PLATFORM=$os
+	fi
 
-    if [ "$PLATFORM" == cygwin -o "$PLATFORM" == mingw ]; then
-        exe=.exe
-    fi
-    
-    if [ "$PLATFORM" == cygwin -o "$PLATFORM" == mingw ]; then
-        # We need a private version of diff for linux compatibility
-        diff()
-        {
-            args=()
-            for i in "$@"; do
-                if [ ${i:0:1} != '-' ]; then
-                    i="$(cygpath -aw $i)"
-                fi
-                args+=($i)
-            done
-            DIFF=$(readlink -f "$here/../msvc2003/diff$exe")
-            chmod +x "$DIFF"
-                     "$DIFF" ${args[@]}
-        }
-    fi
+	if [ "$PLATFORM" == cygwin -o "$PLATFORM" == mingw ]; then
+		exe=.exe
+	fi
+	
+	if [ "$PLATFORM" == cygwin -o "$PLATFORM" == mingw ]; then
+		# We need a private version of diff for linux compatibility
+		diff()
+		{
+			args=()
+			for i in "$@"; do
+				if [ ${i:0:1} != '-' ]; then
+					i="$(cygpath -aw $i)"
+				fi
+				args+=($i)
+			done
+			DIFF=$(readlink -f "$here/../msvc2003/diff$exe")
+			chmod +x "$DIFF"
+			         "$DIFF" ${args[@]}
+		}
+	fi
 
     ##
     # figure out arguments for diff
@@ -438,19 +438,19 @@ prepareTest()
         diffargs=""
     fi
     
-    tmpfile=tmp/ttt
-    touch $tmpfile
-    da1="--strip-trailing-cr"
-    diff -q $da1 $tmpfile $tmpfile 2>/dev/null
-    if [ $? -ne 0 ] ; then
-        da1=""
-    fi
-    da2="--ignore-matching-lines=^Usage:.*exiv2"
-    diff -q $da2 $tmpfile $tmpfile 2>/dev/null
-    if [ $? -ne 0 ] ; then
-        da2=""
-    fi
-    diffargs="$da1 $da2"
+	tmpfile=tmp/ttt
+	touch $tmpfile
+	da1="--strip-trailing-cr"
+	diff -q $da1 $tmpfile $tmpfile 2>/dev/null
+	if [ $? -ne 0 ] ; then
+    	da1=""
+	fi
+	da2="--ignore-matching-lines=^Usage:.*exiv2"
+	diff -q $da2 $tmpfile $tmpfile 2>/dev/null
+	if [ $? -ne 0 ] ; then
+    	da2=""
+	fi
+	diffargs="$da1 $da2"
 
     ##
     # test that exiv2 and some sample apps are in the bin!
