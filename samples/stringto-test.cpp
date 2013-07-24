@@ -1,6 +1,7 @@
 // ***************************************************************** -*- C++ -*-
 // stringto-test.cpp, $Rev$
 // Test conversions from string to long, float and Rational types.
+// Copyright (C) 2004-2013 Andreas Huggel <ahuggel@gmx.net>
 
 #include <exiv2/exiv2.hpp>
 

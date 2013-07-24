@@ -1,5 +1,6 @@
 // ***************************************************************** -*- C++ -*-
 // Test for large (>65535 bytes) IPTC buffer
+// Copyright (C) 2004-2013 Andreas Huggel <ahuggel@gmx.net>
 
 #include <exiv2/exiv2.hpp>
 
