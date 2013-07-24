@@ -1,6 +1,6 @@
 # ************************************************************* -*- Makefile -*-
 #
-# Copyright (C) 2004-2012 Andreas Huggel <ahuggel@gmx.net>
+# Copyright (C) 2004-2013 Andreas Huggel <ahuggel@gmx.net>
 #
 # This Makefile is part of the Exiv2 distribution.
 #
@@ -104,6 +104,7 @@ DEP = $(BINSRC:%.cpp=$(DEPDIR)/%.d)
 endif
 
 PREFIX = /usr/local/lib
+LINK.cc += -rpath $(PREFIX) -L$(PREFIX) 
 
 # ******************************************************************************
 # Rules
@@ -117,7 +118,7 @@ $(BINOBJ): %.o: %.cpp
 
 $(BINARY): %: %.o
 	mkdir -pv ../bin 2>&1 > /dev/null
-	$(LIBTOOL) --mode=link $(LINK.cc) -rpath $(PREFIX) -L$(PREFIX) -o ../bin/$@ $@.o
+	$(LIBTOOL) --mode=link $(LINK.cc) -o ../bin/$@ $@.o
 
 %.ii: %.cpp
 	set -e; \
