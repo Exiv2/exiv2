@@ -127,7 +127,7 @@ IF( EXIV2_ENABLE_XMP )
     SET( XMPLIB "do" )
 ENDIF( EXIV2_ENABLE_XMP )
 
-INCLUDE( config/ConfigureChecks.cmake )
+INCLUDE( config/CMakeChecks.txt )
 
 SET( INSTALL_TARGET_STANDARD_ARGS
      RUNTIME DESTINATION bin
