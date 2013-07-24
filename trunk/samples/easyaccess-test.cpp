@@ -1,7 +1,6 @@
 // ***************************************************************** -*- C++ -*-
 // easyaccess-test.cpp, $Rev$
 // Sample program using high-level metadata access functions
-// Copyright (C) 2004-2013 Andreas Huggel <ahuggel@gmx.net>
 
 // included header files
 #include <exiv2/exiv2.hpp>

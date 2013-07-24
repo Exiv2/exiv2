@@ -1,7 +1,6 @@
 // ***************************************************************** -*- C++ -*-
 // tiff-test.cpp, $Rev$
 // First and very simple TIFF write test.
-// Copyright (C) 2004-2013 Andreas Huggel <ahuggel@gmx.net>
 
 #include <exiv2/exiv2.hpp>
 

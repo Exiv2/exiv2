@@ -1,7 +1,6 @@
 // ***************************************************************** -*- C++ -*-
 // iptcprint.cpp, $Rev$
 // Sample program to print the IPTC metadata of an image
-// Copyright (C) 2004-2013 Andreas Huggel <ahuggel@gmx.net>
 
 #include <exiv2/exiv2.hpp>
 

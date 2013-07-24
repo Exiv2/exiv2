@@ -2,7 +2,6 @@
 
 // geotag.cpp, $Rev: 2286 $
 // Sample program to read gpx files and update the images with GPS tags
-// Copyright (C) 2004-2013 Andreas Huggel <ahuggel@gmx.net>
 
 #include <exiv2/exiv2.hpp>
 
