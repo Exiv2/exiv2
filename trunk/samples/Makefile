@@ -103,6 +103,8 @@ ifdef DEP_TRACKING
 DEP = $(BINSRC:%.cpp=$(DEPDIR)/%.d)
 endif
 
+PREFIX = /usr/local/lib
+
 # ******************************************************************************
 # Rules
 samples: $(BINARY) $(OTHER)
@@ -115,7 +117,7 @@ $(BINOBJ): %.o: %.cpp
 
 $(BINARY): %: %.o
 	mkdir -pv ../bin 2>&1 > /dev/null
-	$(LIBTOOL) --mode=link $(LINK.cc) -o ../bin/$@ $@.o
+	$(LIBTOOL) --mode=link $(LINK.cc) -rpath $(PREFIX) -L$(PREFIX) -o ../bin/$@ $@.o
 
 %.ii: %.cpp
 	set -e; \
