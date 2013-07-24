@@ -8,8 +8,9 @@
 
 # Manual: Update release number. The files that need changes are:
 # - config/configure.ac
-# - msvc/include/exv_msvc.h
-# - msvc64/include/exv_msvc.h
+# - msvc2003/include/exv_msvc.h
+# - msvc2005/include/exv_msvc.h
+# - msvc2012/include/exv_msvc.h
 # - src/version.hpp
 # - test/data/exiv2-test.out
 # - CMakeLists.txt
