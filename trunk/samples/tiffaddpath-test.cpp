@@ -1,6 +1,7 @@
 // ***************************************************************** -*- C++ -*-
 // tiffaddpath-test.cpp, $Rev$
 // Test driver to test adding new tags to a TIFF composite structure
+// Copyright (C) 2004-2013 Andreas Huggel <ahuggel@gmx.net>
 
 #include "tiffcomposite_int.hpp"
 #include "makernote2_int.hpp"

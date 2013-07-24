@@ -1,6 +1,6 @@
 // ***************************************************************** -*- C++ -*-
 /*
- * Copyright (C) 2004-2012 Andreas Huggel <ahuggel@gmx.net>
+ * Copyright (C) 2004-2013 Andreas Huggel <ahuggel@gmx.net>
  *
  * This program is part of the Exiv2 distribution.
  *
@@ -21,7 +21,7 @@
 /*
   File:      quicktimevideo.cpp
   Version:   $Rev$
-  Author(s): Abhinav Badola for GSoC 2012 (AB) <mail.abu.to@gmail.com>
+  Author(s): Abhinav Badola for GSoC 2013 (AB) <mail.abu.to@gmail.com>
   History:   28-Jun-12, AB: created
   Credits:   See header file
  */
