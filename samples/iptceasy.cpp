@@ -1,7 +1,6 @@
 // ***************************************************************** -*- C++ -*-
 // iptceasy.cpp, $Rev$
 // The quickest way to access, set or modify IPTC metadata.
-// Copyright (C) 2004-2013 Andreas Huggel <ahuggel@gmx.net>
 
 #include <exiv2/exiv2.hpp>
 

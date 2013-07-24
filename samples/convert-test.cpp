@@ -1,7 +1,6 @@
 // ***************************************************************** -*- C++ -*-
 // convert-test.cpp, $Rev$
 // Conversion test driver - make sure you have a copy of the input file around!
-// Copyright (C) 2004-2013 Andreas Huggel <ahuggel@gmx.net>
 
 #include <exiv2/exiv2.hpp>
 

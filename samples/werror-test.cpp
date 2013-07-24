@@ -1,7 +1,6 @@
 // ***************************************************************** -*- C++ -*-
 // werror-test.cpp, $Rev$
 // Simple tests for the wide-string error class WError
-// Copyright (C) 2004-2013 Andreas Huggel <ahuggel@gmx.net>
 
 #include <iostream>
 #include <exiv2/exiv2.hpp>

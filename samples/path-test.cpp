@@ -1,6 +1,5 @@
 // ***************************************************************** -*- C++ -*-
 // path-test.cpp, $Rev$
-// Copyright (C) 2004-2013 Andreas Huggel <ahuggel@gmx.net>
 
 #include "utils.hpp"
 #include <iostream>

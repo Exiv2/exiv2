@@ -1,7 +1,6 @@
 // ***************************************************************** -*- C++ -*-
 // mmap-test.cpp, $Rev$
 // Simple mmap tests
-// Copyright (C) 2004-2013 Andreas Huggel <ahuggel@gmx.net>
 
 #include <exiv2/exiv2.hpp>
 

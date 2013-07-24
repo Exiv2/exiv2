@@ -1,7 +1,6 @@
 // ***************************************************************** -*- C++ -*-
 // prevtest.cpp, $Rev$
 // Test access to preview images
-// Copyright (C) 2004-2013 Andreas Huggel <ahuggel@gmx.net>
 
 #include <exiv2/exiv2.hpp>
 
