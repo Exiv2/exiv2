@@ -1,6 +1,17 @@
 <?xml version = '1.0'?>
 <news>
  <newsitem>
+  <date>30-Jul-2013</date>
+  <title>Exiv2 0.24 released</title>
+  <abstract>Support for reading video metadata, bugfixes.
+  </abstract>
+  <desc>Exiv2 introduces its first support for Video metadata.
+  Many more cameras and accessories are now recognised.
+  Numerous bugs fixes, build and test improvments.
+  More details: <a title="ChangeLog" href="changelog.html">ChangeLog</a>.
+  </desc>
+ </newsitem>
+ <newsitem>
   <date>23-Apr-2012</date>
   <title>Exiv2 0.23 released</title>
   <abstract>Write support for Canon CR2 raw images, bugfixes.

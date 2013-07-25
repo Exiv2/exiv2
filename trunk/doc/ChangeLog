@@ -1,3 +1,117 @@
+Changes from version 0.23 to 0.24
+---------------------------------
+
+* New Team Members since 0.23.
+  Abhinav was a GSoC 2012 student and provided the video read support
+  Neils   has joined the team and is taking care of Maker Notes
+  Robin   takes on the role of Release Manager for the 0.24 and 0.25 releases
+  Tuan    is a GSoC 2013 student and will add support for remote file access in 0.25
+  Mahesh  is a GSoC 2013 student and will provide video write support in 0.25
+  Shawn   contributed to Visual Studio video code port and test harness restructuring
+  
+* Exiv2 library and utility
+  - added support for video formats (asfv, matroska, quicktime, riff)
+  - dded -g <string> feature to command line
+  - added --version --verbose option to report build and run-time information.
+
+* Maker Notes
+  - Many more camera and lens models are now supported.
+                 
+* Samples
+  - new sample "geotag.cpp" (experimental)
+                 
+* Test Harness
+  - test harness restructured to test all builds including Visual Studio
+
+* Build Environment
+  - Long term goal to replace ./configure and msvc environments with CMake
+  - ./configure support on Mac/Linux/Cygwin is robust
+  - CMake       support on Mac.Linux/Cygwin is robust
+  - Visual Studio Support: 
+    msvc2003 (was msvc)   32 bit builds        for 2003/5/8
+    msvc2005 (was msvc64) 32 and 64 bit builds for 2005/8/10
+    msvc2012 (new)        32 and 64 bit builds for 2012.
+  - CMake/Visual Studio support (experimental)
+                                          
+* Thanks to Existing Team Members
+  Andreas - without who none of this would exist
+  Gilles  - the human dynamo
+  Volker  - the EPS code and hardening our test harness
+  Brad    - continues to support and administer dev.exiv2.org
+  Robin   - does a bit of many things and manages the build in particular
+
+* Lots of good feedback from users
+  - I'm not going to mention anybody by name, however several users have
+    been very supportive by providing patches, feedback and encouragement.
+
+Thank You everybody who has contributed to Exiv2.
+Together we make free open source work.
+                 
+Closed:
+685: Patch    incomplete handling of iconv dialects for cmake case
+688: Patch    src/futils.cpp:  incorrect check for linux version of strerror_r
+692: Bug      Revision 2057 broke compilation under FreeBSD and Windows
+694: Patch    config/config.h.cmake:  const must be without quotes
+696: Patch    cmake:  out of src compilation
+698: Bug      CMake Error at po/cmake_install.cmake: 36
+700: Patch    exiv2 (0.19-1) 00_hyphens_used_as_minus.diff
+722: Bug      Unit tests do not build with CMake and out of source build
+728: Patch    typos in cmake files
+728: Patch    typos in cmake files
+804: Bug      build failure in basicio.cpp - headers
+817: Bug      zlib 1.2.6
+820: Bug      Samsung NX100 JPG exports have broken EXIF
+822: Feature  Warnings while compiling with g++4.5
+823: Bug      CMake compilation:  exv_conf.h at the wrong place
+824: Bug      undeclared identifier EXV_ICONV_CONST
+830: Bug      Bug while displaying camera make and camera model with exiv2 0.23
+831: Bug      For TIFF-like images, non-intrusive writing is not used when it should
+832: Patch    Patch to detect Carl Zeiss Planar T* 50mm f/1.4 ZE on canon
+835: Bug      Exiv2 fails to compile under Linux
+838: Bug      Regression:  Visibility support disabled on Linux, when it should be enabled
+840: Bug      example1.cpp clang Mac OS X warnings
+841: Bug      exiv2 crashes on input
+843: Patch    Complete Samsung NX lenses portfolio recognition
+846: Bug      Porting the Video Code to MSVC (umbrella)
+847: Bug      Photoshop doesn't recognize its own EPS files after modification by Exiv2
+848: Bug      commets and copyright is output as ascii, but it always write in UTF-8 format
+849: Bug      autotools build (make config ; ./configure ; make) is broken
+850: Bug      test harness does not run on CMake builds
+852: Bug      CMake error on Win8/VS2012 with XMP (patch included)
+853: Patch    CMake:  more flexible zlib detection
+854: Bug      Sigma 50mm f/1.4 on Canon not detected correctly
+856: Patch    CMAke:  building tests and refactoring on msvc
+860: Bug      PENTAX-DA 18-135mm F3.5-5.6 not detected correctly
+861: Bug      Sigma 18-250mm not properly recognised on Pentax
+862: Bug      Video code is failing the test suite (on all plaforms)
+865: Patch    Patches for locale and boost issue
+868: Patch    Support for two lens for sony mount
+870: Bug      Exif.OlympusEq.0x0403 tag
+872: Feature  New Samsung NX 12-24mm f/4-5.6 ED
+874: Bug      Tiff-test fails
+875: Bug      New lens "Tamron SP 24-70mm F/2.8 Di VC USD"
+876: Bug      New lens:  Canon EF 35mm f/2 IS USM
+877: Bug      New camera:  Canon EOS 6D
+878: Patch    Update list of lenses for Olympus cameras.
+879: Patch    Add another lens for Olympus cameras.
+880: Patch    Another bunch of Olympus lens updates.
+881: Patch    One more Olympus lens - the list is complete.
+882: Bug      Nikon AF-S Nikkor 28mm f/1.8G not recognized
+884: Bug      Missing lenses reported by Paul Bissonnettte
+887: Bug      Samsung D-Xenon 12-24mm not recognized
+888: Bug      (near-)infinite loop in video decoders
+890: Bug      ASF:  heap overflow
+895: Bug      Sigma 30mm f/1.4 on Canon not detected correctly
+896: Patch    User-readable output of Olympus' FocusDistance
+897: Bug      New Compilation Warnings
+899: Bug      New lens:  Pentax smc DA 18-135mm f/3.5-5.6 ED AL [IF] DC WR
+903: Feature  New Lens:  Canon EF-S 55-250mm f/4-5.6 IS II
+904: Bug      Exiv2: lensName misreporting for some CR2s
+906: Bug      Mountain Lion Plugin crashes when setxattr called
+907: Patch    New Lens:  Samsung NX 45mm f1.8
+908: Bug      strerror_r gives no error message back
+909: Patch    New Lens:  Samsung NX 45mm f1.8 2D/3D
+
 Changes from version 0.22 to 0.23
 ---------------------------------
 
