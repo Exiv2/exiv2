@@ -75,6 +75,9 @@ Exiv2 is available as <a href="download.html#license">free software</a> and with
  <li>a unified metadata container</li>
  <li>support for additional image formats</li>
  <li>more Makernotes</li>
+ <li>To support CMake on all platforms</li>
+ <li>Video Write Support</li>
+ <li>Remote IO - support for http/ftp/ssh and other protocols</li>
 </ul>
 <p>The <a href="http://dev.exiv2.org/projects/roadmap/exiv2">roadmap</a> has details for the upcoming version.</p>
 
