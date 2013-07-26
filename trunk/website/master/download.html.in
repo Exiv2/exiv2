@@ -16,7 +16,7 @@ __maintitle__
  tool and a number of simple example and test applications.  With a
  few additional third party tools you can also generate the complete
  API documentation. The package includes standard build files for
- UNIX-like systems (including GNU/Linux, Mac OS X and MinGW) as well
+ UNIX-like systems (including GNU/Linux, Mac OS X, MinGW and Cygwin) as well
  as Visual Studio project files for Visual C++ .NET 2003 (MSVC 7.1)
  and later. After downloading and unpacking the distribution, please
  see the <em>README</em> file in the top directory for build and
@@ -28,10 +28,9 @@ __maintitle__
  parameter from a cmd shell:
  <code><a title="Exiv2 usage" href="sample.html#usage">exiv2 -h</a></code>.
  For details, read the <a href="manpage.html" title="Exiv2 man page">man page</a>.
- The Windows executable was compiled with the 
- <a title="MinGW homepage" href="http://www.mingw.org">MinGW</a> cross compiler
- on an Intel 32 bit machine running 
- <a title="Debian homepage" href="http://www.debian.org">Debian</a>.
+ The Windows executable was compiled using 32bit MinGW tools  
+ <a title="MinGW homepage" href="http://www.mingw.org">MinGW</a> 
+ on an Intel 64 bit machine running Windows 7.
 </p>
 
 <p>As an alternative to the packages here, many Linux distributions,
