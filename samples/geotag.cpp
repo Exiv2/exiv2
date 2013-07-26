@@ -22,6 +22,20 @@
 #include <vector>
 #include <string>
 
+#if defined(__MINGW32__) || defined(__MINGW64__)
+# ifndef  __MINGW__
+#  define __MINGW__
+# endif
+#endif
+
+#ifdef __MINGW__
+// rmills: dummy off for MinGW.  I don't have time to fix this for 0.24
+int main(int,const char**)
+{
+	return 0;
+}
+#else
+
 using namespace std;
 
 #ifndef  lengthof
@@ -943,3 +957,4 @@ int main(int argc,const char* argv[])
 
     return result ;
 }
+#endif
