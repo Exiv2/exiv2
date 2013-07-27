@@ -28,9 +28,8 @@ __maintitle__
  parameter from a cmd shell:
  <code><a title="Exiv2 usage" href="sample.html#usage">exiv2 -h</a></code>.
  For details, read the <a href="manpage.html" title="Exiv2 man page">man page</a>.
- The Windows executable was compiled using 32bit MinGW tools  
- <a title="MinGW homepage" href="http://www.mingw.org">MinGW</a> 
- on an Intel 64 bit machine running Windows 7.
+ The Windows executable is a 32bit static executable compiled with
+ Visual Studio 2005 on an Intel 64 bit machine running Windows 7.
 </p>
 
 <p>As an alternative to the packages here, many Linux distributions,
