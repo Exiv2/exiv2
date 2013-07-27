@@ -27,14 +27,16 @@ Mac
 MinGW
   Compile and run tests
 MSVC
-  Compile with 7.1
+  Compile with 7.1 msvc2003
   Run tests with 7.1 executables
-  Compile with 8
+  Compile with 8   msvc2005
   Run tests with 8 executables
-  Compile with 9
+  Compile with 9   msvc2005
   Run tests with 9 executables
-  Compile with 10
+  Compile with 10  msvc2005
   Run tests with 10 executables
+  Compile with 11  msvc2012
+  Run tests with 11 executables
 Tag release
 Create packages
 Finalize webpages with package information (bin/release_info.sh)
