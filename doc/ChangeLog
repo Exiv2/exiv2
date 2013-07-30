@@ -3,7 +3,7 @@ Changes from version 0.23 to 0.24
 
 * New Team Members since 0.23.
   Abhinav was a GSoC 2012 student and provided the video read support
-  Neils   has joined the team and is taking care of Maker Notes
+  Niels   has joined the team and is taking care of Maker Notes
   Robin   takes on the role of Release Manager for the 0.24 and 0.25 releases
   Tuan    is a GSoC 2013 student and will add support for remote file access in 0.25
   Mahesh  is a GSoC 2013 student and will provide video write support in 0.25
