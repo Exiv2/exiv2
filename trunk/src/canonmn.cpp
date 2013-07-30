@@ -238,11 +238,14 @@ namespace Exiv2 {
         { 0x3380000, N_("PowerShot N") },
         { 0x3390000, N_("IXUS 245 HS / IXY 430F") },
         { 0x3400000, N_("PowerShot SX280 HS") },
+        { 0x3410000, N_("PowerShot SX270 HS") },
+        { 0x3420000, N_("PowerShot A3500 IS") },
         { 0x3430000, N_("PowerShot A2600") },
         { 0x3450000, N_("PowerShot A1400") },
         { 0x3460000, N_("PowerShot ELPH 130 IS / IXUS 140 / IXY 110F") },
-        { 0x3470000, N_("PowerShot ELPH 115 IS / IXUS 132 / IXY 90F") },
+        { 0x3470000, N_("PowerShot ELPH 115 IS / IXUS 132/135 / IXY 90F") },
         { 0x3490000, N_("PowerShot ELPH 330 HS / IXUS 255 HS / IXY 610F") },
+        { 0x3510000, N_("PowerShot A2500") },
         { 0x4040000, N_("PowerShot G1") },
         { 0x6040000, N_("PowerShot S100 / Digital IXUS / IXY Digital") },
         { 0x4007d673, N_("DC19/DC21/DC22") },
@@ -831,7 +834,8 @@ namespace Exiv2 {
         { 4143,"Canon EF-M 18-55mm f/3.5-5.6 IS STM"                        },
         { 4144,"Canon EF 40mm f/2.8 STM"                                    },
         { 4145,"Canon EF-M 22mm f/2 STM"                                    },
-        { 4146,"Canon EF-M 18-55mm f/3.5-5.6 IS STM"                        }
+        { 4146,"Canon EF-M 18-55mm f/3.5-5.6 IS STM"                        },
+        { 4147,"Canon EF-M 11-22mm f/4-5.6 IS STM"                          }
     };
 
     //! A lens id and a pretty-print function for special treatment of the id.
