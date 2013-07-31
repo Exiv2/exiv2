@@ -11,7 +11,7 @@ Changes from version 0.23 to 0.24
   
 * Exiv2 library and utility
   - added support for video formats (asfv, matroska, quicktime, riff)
-  - dded -g <string> feature to command line
+  - added -g <string> feature to command line
   - added --version --verbose option to report build and run-time information.
 
 * Maker Notes
