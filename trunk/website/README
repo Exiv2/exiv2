@@ -14,7 +14,7 @@ How to build the website
 - cd website
 - Run 'make update' to import whatever is required from the rest of the
   exiv2 sources (doc/, samples/, src/)
-- Run 'make' to build the web pages
+- Run 'make' to build the web pages in website/html/
 
 Subsequently, 'make clean; make' will remove and rebuild the web
 pages; 'make update' is only needed if something changed in the exiv2
