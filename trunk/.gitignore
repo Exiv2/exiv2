@@ -44,12 +44,8 @@ samples/xmpparse
 samples/xmpparser-test
 samples/xmpsample
 src/doxygen.hpp
-src/exiv2
 src/exv_conf.h
 src/lib
-src/metacopy
-src/path-test
-src/taglist
 test/tmp/*
 doc/html
 
