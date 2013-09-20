@@ -1,6 +1,7 @@
 Changes from version 0.23 to 0.24
 ---------------------------------
 
+<<<<<<< HEAD
 * New Team Members since 0.23.
   Abhinav was a GSoC 2012 student and provided the video read support
   Niels   has joined the team and is taking care of Maker Notes
@@ -46,22 +47,19 @@ Changes from version 0.23 to 0.24
 
 Thank You everybody who has contributed to Exiv2.
 Together we make free open source work.
+=======
+* Exiv2 utility
+>>>>>>> More modifications to the ChangeLog file to make it look the way it used to: Removed text (will add that to the release notes), re-arranged the issues. Should we even list the cmake related issues, since the cmake build system has not been officially published yet?
 
-	- 0000685: Patch    incomplete handling of iconv dialects for cmake case
+
+* Exiv2 library
 	- 0000688: Patch    src/futils.cpp:  incorrect check for linux version of strerror_r
 	- 0000692: Bug      Revision 2057 broke compilation under FreeBSD and Windows
-	- 0000694: Patch    config/config.h.cmake:  const must be without quotes
-	- 0000696: Patch    cmake:  out of src compilation
-	- 0000698: Bug      CMake Error at po/cmake_install.cmake: 36
 	- 0000700: Patch    exiv2 (0.19-1) 00_hyphens_used_as_minus.diff
-	- 0000722: Bug      Unit tests do not build with CMake and out of source build
-	- 0000728: Patch    typos in cmake files
 	- 0000804: Bug      build failure in basicio.cpp - headers
 	- 0000817: Bug      zlib 1.2.6
 	- 0000820: Bug      Samsung NX100 JPG exports have broken EXIF
 	- 0000822: Feature  Warnings while compiling with g++4.5
-	- 0000823: Bug      CMake compilation:  exv_conf.h at the wrong place
-	- 0000824: Bug      undeclared identifier EXV_ICONV_CONST
 	- 0000830: Bug      Bug while displaying camera make and camera model with exiv2 0.23
 	- 0000831: Bug      For TIFF-like images, non-intrusive writing is not used when it should
 	- 0000832: Patch    Patch to detect Carl Zeiss Planar T* 50mm f/1.4 ZE on canon
@@ -72,13 +70,8 @@ Together we make free open source work.
 	- 0000843: Patch    Complete Samsung NX lenses portfolio recognition
 	- 0000846: Bug      Porting the Video Code to MSVC (umbrella)
 	- 0000847: Bug      Photoshop doesn't recognize its own EPS files after modification by Exiv2
-	- 0000848: Bug      commets and copyright is output as ascii, but it always write in UTF-8 format
 	- 0000849: Bug      autotools build (make config ; ./configure ; make) is broken
-	- 0000850: Bug      test harness does not run on CMake builds
-	- 0000852: Bug      CMake error on Win8/VS2012 with XMP (patch included)
-	- 0000853: Patch    CMake:  more flexible zlib detection
 	- 0000854: Bug      Sigma 50mm f/1.4 on Canon not detected correctly
-	- 0000856: Patch    CMAke:  building tests and refactoring on msvc
 	- 0000860: Bug      PENTAX-DA 18-135mm F3.5-5.6 not detected correctly
 	- 0000861: Bug      Sigma 18-250mm not properly recognised on Pentax
 	- 0000862: Bug      Video code is failing the test suite (on all plaforms)
@@ -109,6 +102,23 @@ Together we make free open source work.
 	- 0000907: Patch    New Lens:  Samsung NX 45mm f1.8
 	- 0000908: Bug      strerror_r gives no error message back
 	- 0000909: Patch    New Lens:  Samsung NX 45mm f1.8 2D/3D
+
+* MSVC related
+	- 0000824: Bug      undeclared identifier EXV_ICONV_CONST
+
+* cmake related
+	- 0000685: Patch    incomplete handling of iconv dialects for cmake case
+	- 0000694: Patch    config/config.h.cmake:  const must be without quotes
+	- 0000696: Patch    cmake:  out of src compilation
+	- 0000698: Bug      CMake Error at po/cmake_install.cmake: 36
+	- 0000722: Bug      Unit tests do not build with CMake and out of source build
+	- 0000728: Patch    typos in cmake files
+	- 0000823: Bug      CMake compilation:  exv_conf.h at the wrong place
+	- 0000850: Bug      test harness does not run on CMake builds
+	- 0000852: Bug      CMake error on Win8/VS2012 with XMP (patch included)
+	- 0000853: Patch    CMake: more flexible zlib detection
+	- 0000856: Patch    CMake: building tests and refactoring on msvc
+
 
 Changes from version 0.22 to 0.23
 ---------------------------------
