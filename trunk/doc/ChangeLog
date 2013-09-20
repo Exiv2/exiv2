@@ -1,55 +1,7 @@
 Changes from version 0.23 to 0.24
 ---------------------------------
 
-<<<<<<< HEAD
-* New Team Members since 0.23.
-  Abhinav was a GSoC 2012 student and provided the video read support
-  Niels   has joined the team and is taking care of Maker Notes
-  Robin   takes on the role of Release Manager for the 0.24 and 0.25 releases
-  Tuan    is a GSoC 2013 student and will add support for remote file access in 0.25
-  Mahesh  is a GSoC 2013 student and will provide video write support in 0.25
-  Shawn   contributed to Visual Studio video code port and test harness restructuring
-
-* Exiv2 library and utility
-  - added support for video formats (asfv, matroska, quicktime, riff)
-  - added -g <string> feature to command line
-  - added --version --verbose option to report build and run-time information.
-
-* Maker Notes
-  - Many more camera and lens models are now supported.
-
-* Samples
-  - new sample "geotag.cpp" (experimental)
-
-* Test Harness
-  - test harness restructured to test all builds including Visual Studio
-
-* Build Environment
-  - Long term goal to replace ./configure and msvc environments with CMake
-  - ./configure support on Mac/Linux/Cygwin is robust
-  - CMake       support on Mac.Linux/Cygwin is robust
-  - Visual Studio Support:
-    msvc2003 (was msvc)   32 bit builds        for 2003/5/8
-    msvc2005 (was msvc64) 32 and 64 bit builds for 2005/8/10
-    msvc2012 (new)        32 and 64 bit builds for 2012.
-  - CMake/Visual Studio support (experimental)
-
-* Thanks to Existing Team Members
-  Andreas - without who none of this would exist
-  Gilles  - the human dynamo
-  Volker  - the EPS code and hardening our test harness
-  Brad    - continues to support and administer dev.exiv2.org
-  Robin   - does a bit of many things and manages the build in particular
-
-* Lots of good feedback from users
-  - I'm not going to mention anybody by name, however several users have
-    been very supportive by providing patches, feedback and encouragement.
-
-Thank You everybody who has contributed to Exiv2.
-Together we make free open source work.
-=======
 * Exiv2 utility
->>>>>>> More modifications to the ChangeLog file to make it look the way it used to: Removed text (will add that to the release notes), re-arranged the issues. Should we even list the cmake related issues, since the cmake build system has not been officially published yet?
 
 
 * Exiv2 library
