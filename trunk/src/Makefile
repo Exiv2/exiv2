@@ -171,7 +171,6 @@ EXIV2EXE = $(EXIV2MAIN:.cpp=$(EXEEXT))
 
 ifdef DEP_TRACKING
 DEP = $(CCSRC:%.cpp=$(DEPDIR)/%.d) $(CSRC:%.c=$(DEPDIR)/%.d) \
-      $(BINSRC:%.cpp=$(DEPDIR)/%.d) \
       $(EXIV2MAIN:%.cpp=$(DEPDIR)/%.d) $(EXIV2SRC:%.cpp=$(DEPDIR)/%.d) \
       $(EXIVCSRC:%.c=$(DEPDIR)/%.d)
 
@@ -230,11 +229,8 @@ lib: $(OBJ)
 	$(LIBTOOL) --mode=link $(LINK.cc) -o $(LIBRARY) $(LOBJ) -rpath $(libdir) -version-info $(EXIV2_LTVERSION) $(LIBS)
 	@touch lib
 
-$(BINARY): %: %.o lib
-	@$(LIBTOOL) --mode=link $(LINK.cc) -o $@ $(LIBRARY) $@.o -rpath $(libdir)
-
 $(EXIV2BIN): lib $(EXIV2OBJ) $(EXIV2COBJ)
-	mkdir -pv ../bin 2>&1 > /dev/null
+	-mkdir ../bin >/dev/null 2>&1
 	@$(LIBTOOL) --mode=link $(LINK.cc) -o ../bin/$@ $(LIBRARY) $(EXIV2OBJ) $(EXIV2COBJ) -rpath $(libdir)
 
 install-header:
@@ -298,7 +294,7 @@ mostlyclean:
 
 clean: mostlyclean
 	@$(LIBTOOL) --mode=clean $(RM) $(LIBRARY)
-	@$(LIBTOOL) --mode=clean $(RM) $(EXECUTABLE) $(EXIV2EXE)
+	@$(LIBTOOL) --mode=clean $(RM) ../bin/$(EXIV2EXE)
 
 # Run `make distclean' from the top source directory to also remove
 # files created by configuring the program.
