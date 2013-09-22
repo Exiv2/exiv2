@@ -681,8 +681,8 @@ namespace Exiv2 {
         { 0x0315, "smc PENTAX-F 80-200mm F4.7-5.6" },
         { 0x0316, "smc PENTAX-F FISH-EYE 17-28mm F3.5-4.5" },
         { 0x0317, "smc PENTAX-F 100-300mm F4.5-5.6" },			//0
-        { 0x0317, "Sigma AF 28-300mm F3.5-5.6 DL IF" },			//1
-        { 0x0317, "Sigma AF 28-300mm F3.5-6.3 DG IF Macro" },		//2
+        { 0x0317, "Sigma AF 28-300mm F3.5-6.3 DG IF Macro" },		//1
+        { 0x0317, "Tokina 80-200mm F2.8 ATX-Pro" },			//2
         { 0x0318, "smc PENTAX-F 35-135mm F3.5-4.5" },
         { 0x0319, "smc PENTAX-F 35-105mm F4-5.6" },			//0
         { 0x0319, "Sigma AF 28-300mm F3.5-5.6 DL IF" },			//1
@@ -715,12 +715,13 @@ namespace Exiv2 {
         { 0x0329, "Sigma 50mm F2.8 Macro" },				//1
         { 0x032c, "Tamron 35-90mm F4 AF" },				//0
         { 0x032c, "Sigma AF 10-20mm F4-5.6 EX DC" },			//1
-        { 0x032c, "Sigma 12-24mm F4.5 EX DG" },				//2
+        { 0x032c, "Sigma 12-24mm F4.5-5.6 EX DG" },			//2
         { 0x032c, "Sigma 17-70mm F2.8-4.5 DC Macro" },			//3
         { 0x032c, "Sigma 18-50mm F3.5-5.6 DC" },			//4
-        { 0x032e, "Sigma Lens" },					//0
+        { 0x032e, "Sigma or Samsung Lens" },				//0
         { 0x032e, "Sigma APO 70-200mm F2.8 EX" },			//1
         { 0x032e, "Sigma EX APO 100-300mm F4 IF" },			//2
+        { 0x032e, "Samsung/Schneider D-XENON 50-200mm F4-5.6 ED" },	//3
         { 0x0332, "smc PENTAX-FA 28-70mm F4 AL" },
         { 0x0333, "Sigma 28mm F1.8 EX DG Aspherical Macro" },
         { 0x0334, "smc PENTAX-FA 28-200mm F3.8-5.6 AL[IF]" },		//0
@@ -780,19 +781,20 @@ namespace Exiv2 {
         { 0x0431, "Tamron SP AF 28-75mm F2.8 XR Di (A09)" },
         { 0x0433, "smc PENTAX-D FA 50mm F2.8 Macro" },
         { 0x0434, "smc PENTAX-D FA 100mm F2.8 Macro" },
-        { 0x0438, "Samsung D-XENON 100mm F2.8 Macro" },
+        { 0x0437, "Samsung/Schneider D-XENOGON 35mm F2" },
+        { 0x0438, "Samsung/Schneider D-XENON 100mm F2.8 Macro" },
         { 0x044b, "Tamron SP AF 70-200mm F2.8 Di LD [IF] Macro (A001)" },
         { 0x04d6, "smc PENTAX-DA 35mm F2.4 AL" },
         { 0x04e5, "smc PENTAX-DA 18-55mm F3.5-5.6 AL II" },
         { 0x04e6, "Tamron SP AF 17-50mm F2.8 XR Di II" },
         { 0x04e7, "smc PENTAX-DA 18-250mm F3.5-6.3 ED AL [IF]" },
         { 0x04ed, "Samsung/Schneider D-XENOGON 10-17mm F3.5-4.5" },
-        { 0x04ef, "Samsung D-XENON 12-24mm F4 ED AL [IF]" },
+        { 0x04ef, "Samsung/Schneider D-XENON 12-24mm F4 ED AL [IF]" },
         { 0x04f2, "smc PENTAX-DA* 16-50mm F2.8 ED AL [IF] SDM (SDM unused)" },
         { 0x04f3, "smc PENTAX-DA 70mm F2.4 Limited" },
         { 0x04f4, "smc PENTAX-DA 21mm F3.2 AL Limited" },
-        { 0x04f5, "Schneider D-XENON 50-200mm" },
-        { 0x04f6, "Schneider D-XENON 18-55mm" },
+        { 0x04f5, "Samsung/Schneider D-XENON 50-200mm F4-5.6" },
+        { 0x04f6, "Samsung/Schneider D-XENON 18-55mm F3.5-5.6" },
         { 0x04f7, "smc PENTAX-DA FISH-EYE 10-17mm F3.5-4.5 ED [IF]" },
         { 0x04f8, "smc PENTAX-DA 12-24mm F4 ED AL [IF]" },
         { 0x04f9, "Tamron XR DiII 18-200mm F3.5-6.3 (A14)" },
@@ -833,6 +835,7 @@ namespace Exiv2 {
         { 0x0700, "smc PENTAX-DA 21mm F3.2 AL Limited" },
         { 0x073a, "smc PENTAX-D FA Macro 100mm F2.8 WR" },
         { 0x074b, "Tamron SP AF 70-200mm F2.8 Di LD [IF] Macro (A001)" },
+        { 0x07ca, "smc PENTAX-DA L 18-55mm F3.5-5.6 AL WR" },
         { 0x07d4, "smc PENTAX-DA 50mm F1.8" },
         { 0x07d5, "smc PENTAX-DA 40mm F2.8 XS" },
         { 0x07d6, "smc PENTAX-DA 35mm F2.4 AL" },
@@ -842,11 +845,12 @@ namespace Exiv2 {
         { 0x07dc, "Tamron SP AF 10-24mm F3.5-4.5 Di II LD Aspherical [IF]" },
         { 0x07dd, "smc PENTAX-DA L 50-200mm F4-5.6 ED" },
         { 0x07de, "smc PENTAX-DA L 18-55mm F3.5-5.6" },
-        { 0x07df, "Samsung D-XENON 18-55mm F3.5-5.6 II" },
+        { 0x07df, "Samsung/Schneider D-XENON 18-55mm F3.5-5.6 II" },
         { 0x07e0, "smc PENTAX-DA 15mm F4 ED AL Limited" },
-        { 0x07e1, "Samsung D-XENON 18-250mm F3.5-6.3" },
+        { 0x07e1, "Samsung/Schneider D-XENON 18-250mm F3.5-6.3" },
         { 0x07e2, "smc PENTAX-DA* 55mm F1.4 SDM (SDM unused)" },
         { 0x07e3, "smc PENTAX-DA* 60-250mm F4 [IF] SDM (SDM unused)" },
+        { 0x07e4, "Samsung 16-45mm F4 ED" },
         { 0x07e5, "smc PENTAX-DA 18-55mm F3.5-5.6 AL II" },
         { 0x07e6, "Tamron AF 17-50mm F2.8 XR Di-II LD (Model A16)" },
         { 0x07e7, "smc PENTAX-DA 18-250mm F3.5-6.3ED AL [IF]" },
@@ -859,6 +863,7 @@ namespace Exiv2 {
         { 0x07f2, "smc PENTAX-DA* 16-50mm F2.8 ED AL [IF] SDM (SDM not used)" },
         { 0x07f3, "smc PENTAX-DA 70mm F2.4 Limited" },
         { 0x07f4, "smc PENTAX-DA 21mm F3.2 AL Limited" },
+        { 0x0803, "Sigma AF 18-125mm F3.5-5.6 DC" },
         { 0x0804, "Sigma 50mm F1.4 EX DG HSM" },
         { 0x0808, "Sigma 18-250mm F3.5-6.3 DC OS HSM" },
         { 0x080b, "Sigma 10-20mm F3.5 EX DC HSM" },
@@ -886,10 +891,11 @@ namespace Exiv2 {
         { 0x08f2, "smc PENTAX-DA* 16-50mm F2.8 ED AL [IF] SDM" },
         { 0x08ff, "Sigma Lens" },					//0
         { 0x08ff, "Sigma 70-200mm F2.8 EX DG Macro HSM II" },		//1
-        { 0x08ff, "Sigma APO 150-500mm F5-6.3 DG OS HSM" },		//2
+        { 0x08ff, "Sigma 150-500mm F5-6.3 DG APO [OS] HSM" },		//2
         { 0x08ff, "Sigma 50-150mm F2.8 II APO EX DC HSM" },		//3
         { 0x08ff, "Sigma 4.5mm F2.8 EX DC HSM Circular Fisheye" },	//4
         { 0x08ff, "Sigma 50-200mm F4-5.6 DC OS" },			//5
+        { 0x08ff, "Sigma 24-70mm F2.8 EX DG HSM" },			//6
         { 0x0900, "645 Manual Lens" },
         { 0x0a00, "645 A Series Lens" },
         { 0x0b01, "smc PENTAX-FA 645 75mm F2.8" },
@@ -902,6 +908,7 @@ namespace Exiv2 {
         { 0x0b09, "smc PENTAX-FA 645 200mm F4 [IF]" },
         { 0x0b0a, "smc PENTAX-FA 645 150mm F2.8 [IF]" },
         { 0x0b0b, "smc PENTAX-FA 645 35mm F3.5 AL [IF]" },
+        { 0x0b0c, "smc PENTAX-FA 645 300mm F5.6 ED [IF]" },
         { 0x0b0e, "smc PENTAX-FA 645 55-110mm F5.6" },
         { 0x0b10, "smc PENTAX-FA 645 33-55mm F4.5 AL" },
         { 0x0b11, "smc PENTAX-FA 645 150mm-300mm F5.6 ED [IF]" },
@@ -915,6 +922,7 @@ namespace Exiv2 {
         { 0x1604, "04 Toy Lens Wide 6.3mm F7.1" },
         { 0x1605, "05 Toy Lens Telephoto 18mm F8" },
         { 0x1506, "06 Telephoto Zoom 15-45mm F2.8" },
+        { 0x1507, "07 Mount Shield 11.5mm F9" },
     };
 
     //! ImageTone, tag 0x004f
