@@ -7,14 +7,6 @@
 # For details see the accompanying COPYING-CMAKE-SCRIPTS file.
 
 ##
-# Issue:#857.  Use g++ instead of c++ (clang) compiler to eliminate warnings
-if (APPLE)
-    set(CMAKE_C_COMPILER gcc)
-    set(CMAKE_CXX_COMPILER g++)
-endif(APPLE)
-##
-
-##
 # Running cmake in a tree in which we have run ./configure ; make 
 # creates src/exv_conf.h which conflicts with cmake's own exv_conf.h
 # This causes incorrect compilation and linking errors.
