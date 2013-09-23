@@ -166,7 +166,7 @@ LOBJ = $(CCLOBJ) $(CLOBJ)
 
 EXIV2OBJ = $(EXIV2MAIN:.cpp=.o) $(EXIV2SRC:.cpp=.o)
 EXIV2COBJ = $(EXIVCSRC:.c=.o)
-EXIV2BIN = $(EXIV2MAIN:.cpp=)
+EXIV2BIN = ../bin/$(EXIV2MAIN:.cpp=)
 EXIV2EXE = $(EXIV2MAIN:.cpp=$(EXEEXT))
 
 ifdef DEP_TRACKING
@@ -231,7 +231,7 @@ lib: $(OBJ)
 
 $(EXIV2BIN): lib $(EXIV2OBJ) $(EXIV2COBJ)
 	-mkdir ../bin >/dev/null 2>&1
-	@$(LIBTOOL) --mode=link $(LINK.cc) -o ../bin/$@ $(LIBRARY) $(EXIV2OBJ) $(EXIV2COBJ) -rpath $(libdir)
+	@$(LIBTOOL) --mode=link $(LINK.cc) -o $@ $(LIBRARY) $(EXIV2OBJ) $(EXIV2COBJ) -rpath $(libdir)
 
 install-header:
 	$(INSTALL_DIRS) $(DESTDIR)$(incdir)
