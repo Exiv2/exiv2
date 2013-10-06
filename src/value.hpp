@@ -493,9 +493,9 @@ namespace Exiv2 {
         //@{
         AutoPtr clone() const { return AutoPtr(clone_()); }
         /*!
-          @brief Write the value to an output stream. Any trailing '\\0'
-                 characters of the ASCII value are stripped and not written to
-                 the output stream.
+          @brief Write the ASCII value up to the the first '\\0' character to an
+                 output stream.  Any further characters are ignored and not
+                 written to the output stream.
         */
         virtual std::ostream& write(std::ostream& os) const;
         //@}

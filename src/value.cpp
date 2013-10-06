@@ -296,16 +296,10 @@ namespace Exiv2 {
         return 0;
     }
 
-	int StringValueBase::read(const byte* buf, long len, ByteOrder byteOrder)
+    int StringValueBase::read(const byte* buf, long len, ByteOrder /*byteOrder*/)
     {
+        // byteOrder not needed
         if (buf) value_ = std::string(reinterpret_cast<const char*>(buf), len);
-		
-		if ( byteOrder == asciiBytes ) {
-			size_t nullByte = value_.find('\0');
-			if ( nullByte != std::string::npos && nullByte > 0 && (nullByte+1) < (size_t)len )  {
-				value_ = std::string(reinterpret_cast<const char*>(buf), nullByte);
-			}
-		}
         return 0;
     }
 
@@ -399,9 +393,10 @@ namespace Exiv2 {
 
     std::ostream& AsciiValue::write(std::ostream& os) const
     {
-        // Strip all trailing '\0's (if any)
-        std::string::size_type pos = value_.find_last_not_of('\0');
-        return os << value_.substr(0, pos + 1);
+        // Write only up to the first '\0' (if any)
+        std::string::size_type pos = value_.find_first_of('\0');
+        if (pos == std::string::npos) pos = value_.size();
+        return os << value_.substr(0, pos);
     }
 
     CommentValue::CharsetTable::CharsetTable(CharsetId charsetId,

@@ -363,7 +363,6 @@ namespace Exiv2 {
         case bigEndian:
             exifData_["Exif.MakerNote.ByteOrder"] = "MM";
             break;
-        case asciiBytes:
         case invalidByteOrder:
             assert(object->byteOrder() != invalidByteOrder);
             break;
@@ -1529,12 +1528,7 @@ namespace Exiv2 {
         }
         Value::AutoPtr v = Value::create(typeId);
         assert(v.get());
-    	// http://dev.exiv2.org/issues/876
-    	// Exif.Canon.LensModel allocates additional bytes in the file following the null terminator
-		int  group = object->group();
-		int  tag   = object->tag();
-		bool bCanonAscii = canonId == group && tag == 0x0095 && typeId == ttAsciiString ;
-		v->read(pData, size, bCanonAscii ? asciiBytes : byteOrder());
+        v->read(pData, size, byteOrder());
 
         object->setValue(v);
         object->setData(pData, size);

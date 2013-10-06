@@ -43,7 +43,7 @@ Changes from version 0.23 to 0.24
 	           (Jaroslav Stepanek)
 	- 0000875: New lens "Tamron SP 24-70mm F/2.8 Di VC USD"
 	           (Reported by Jean-Pierre Verrue, patch by Niels Kristian Bech Jensen)
-!->#839	- 0000876: New lens: Canon EF 35mm f/2 IS USM
+	- 0000876: New lens: Canon EF 35mm f/2 IS USM
 	           (markus kanet, Robin Mills)
 	- 0000877: New camera: Canon EOS 6D
 	           (markus kanet)
@@ -69,7 +69,7 @@ Changes from version 0.23 to 0.24
 	           (Reported by Christian Roumano, patch by Aakash Goenka)
 	- 0000896: User-readable output of Olympus' FocusDistance
 	           (Patch by Teemu Rytilahti)
-!->	- 0000897: New Compilation Warnings
+	- 0000897: New Compilation Warnings
 	- 0000899: New lens: Pentax smc DA 18-135mm f/3.5-5.6 ED AL [IF] DC WR
 	           (Reported by Matthieu Volat, patch by Pascal de Bruijn)
 	- 0000903: New Lens: Canon EF-S 55-250mm f/4-5.6 IS II
