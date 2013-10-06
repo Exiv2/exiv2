@@ -280,7 +280,6 @@ namespace Exiv2 {
             buf.pData_[0] = 0x4d;
             buf.pData_[1] = 0x4d;
             break;
-        case asciiBytes:
         case invalidByteOrder:
             assert(false);
             break;
