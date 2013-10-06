@@ -78,7 +78,11 @@ BINSRC = addmoddel.cpp        \
          xmpparser-test.cpp   \
          xmpsample.cpp
 
-         
+# Samples that need special treatment during compilation or linking
+OTHERSRC = geotag.cpp         \
+           metacopy.cpp       \
+           path-test.cpp
+
 # ******************************************************************************
 # Initialisations
 SHELL = /bin/sh
@@ -96,11 +100,14 @@ LDFLAGS := `pkg-config exiv2 --libs`
 
 BINOBJ = $(BINSRC:.cpp=.o)
 BINARY = $(BINSRC:.cpp=)
-OTHER  = geotag metacopy path-test
-EXECUTABLE = $(BINSRC:.cpp=$(EXEEXT)) $(OTHER)
+
+OTHEROBJ = $(OTHERSRC:.cpp=.o)
+OTHERBIN = $(OTHERSRC:.cpp=)
+
+EXECUTABLE = $(BINSRC:%.cpp=../bin/%$(EXEEXT)) $(OTHERSRC:%.cpp=../bin/%$(EXEEXT))
 
 ifdef DEP_TRACKING
-DEP = $(BINSRC:%.cpp=$(DEPDIR)/%.d)
+DEP = $(BINSRC:%.cpp=$(DEPDIR)/%.d) $(OTHERSRC:%.cpp=$(DEPDIR)/%.d)
 endif
 
 PREFIX = /usr/local/lib
@@ -108,11 +115,11 @@ LINK.cc += -rpath $(PREFIX) -L$(PREFIX)
 
 # ******************************************************************************
 # Rules
-samples: $(BINARY) $(OTHER)
+samples: $(BINARY) $(OTHERBIN)
 
 $(BINOBJ): %.o: %.cpp
 	@if [ -z `which $(PKGCONFIG)`  ]; then echo $(BAR) $'\\n***' utility $(PKGCONFIG) not available $'***\n'$(BAR) ; exit 42 ; fi
-	$(COMPILE.cc) -I../src -o $@ $<
+	$(COMPILE.cc) -o $@ $<
 	@$(MAKEDEPEND)
 	@$(POSTDEPEND)
 
@@ -136,29 +143,28 @@ endif
 relink: binclean samples
 
 # link expat directly to geotag
-geotag : geotag.cpp
-	$(COMPILE.cc) -I../src -o $@.o $<
-	$(LIBTOOL)  --mode=link $(LINK.cc) -lexpat $@.o -o ../bin/$@ 
+geotag: %: %.cpp
+	$(COMPILE.cc) -o $@.o $<
+	@$(MAKEDEPEND)
+	@$(POSTDEPEND)
+	$(LIBTOOL) --mode=link $(LINK.cc) -lexpat $@.o -o ../bin/$@
 
 # link applications which require utils.cpp support
-metacopy: metacopy.cpp ../src/utils.o
+metacopy path-test: %: %.cpp ../src/utils.o
 	$(COMPILE.cc) -I../src -o $@.o $<
-	$(LIBTOOL)  --mode=link $(LINK.cc) $@.o ../src/utils.o -o ../bin/$@
-
-path-test: path-test.cpp ../src/utils.o
-	$(COMPILE.cc) -I../src -o $@.o $<
-	$(LIBTOOL)  --mode=link $(LINK.cc) $@.o ../src/utils.o -o ../bin/$@
+	@$(MAKEDEPEND)
+	@$(POSTDEPEND)
+	$(LIBTOOL) --mode=link $(LINK.cc) $@.o ../src/utils.o -o ../bin/$@
 
 # Remove binaries, e.g., to relink them
 binclean:
-	cd ../bin ; $(RM) $(EXECUTABLE)
+	cd ../bin
+	$(RM) $(EXECUTABLE)
 
 mostlyclean:
 	$(RM) core
-	$(RM) $(CCSRC:.cpp=.ii)
-	$(RM) $(CCSRC:%.cpp=.libs/%.d) $(CSRC:%.c=.libs/%.d)
-	-rmdir .libs
-	$(RM) $(BINOBJ)
+	$(RM) $(BINSRC:.cpp=.ii) $(OTHERSRC:.cpp=.ii)
+	$(RM) $(BINOBJ) $(OTHEROBJ)
 
 clean: binclean mostlyclean
 

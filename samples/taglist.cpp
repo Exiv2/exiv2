@@ -8,10 +8,8 @@
   History:   07-Jan-04, ahu: created
  */
 // *****************************************************************************
-#include "tags.hpp"
-#include "datasets.hpp"
-#include "properties.hpp"
-#include "error.hpp"
+
+#include <exiv2/exiv2.hpp>
 
 #include <string>
 #include <iostream>
