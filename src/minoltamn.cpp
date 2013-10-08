@@ -1714,7 +1714,8 @@ namespace Exiv2 {
                  "Sigma 85mm F1.4 EX DG HSM | "
                  "Sigma 24-70mm F2.8 IF EX DG HSM | "
                  "Sigma 18-250mm F3.5-6.3 DC OS HSM | "
-                 "Sigma 17-50mm F2.8 EX DC HSM" },
+                 "Sigma 17-50mm F2.8 EX DC HSM | "
+                 "Sigma 17-50mm F2.8-4 DC Macro HSM" },
         { 129,   "Tamron 200-400mm F5.6 LD | "
                  "Tamron 70-300mm F4-5.6 LD" },
         { 131,   "Tamron 20-40mm F2.7-3.5 SP Aspherical IF" },
@@ -1755,7 +1756,8 @@ namespace Exiv2 {
         { 25530, "Minolta AF 28-135mm F4-4.5" },
         { 25531, "Minolta AF 28-135mm F4-4.5 | "
                  "Sigma ZOOM-alpha 35-135mm F3.5-4.5 | "
-                 "Sigma 28-105mm F2.8-4 Aspherical" },
+                 "Sigma 28-105mm F2.8-4 Aspherical | "
+                 "Sigma 28-105mm F4-5.6 UC" },
         { 25540, "Minolta AF 35-105mm F3.5-4.5" },
         { 25541, "Minolta AF 35-105mm F3.5-4.5" },
         { 25550, "Minolta AF 70-210mm F4" },
