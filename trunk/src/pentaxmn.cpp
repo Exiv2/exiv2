@@ -180,6 +180,7 @@ namespace Exiv2 {
         {    0x12f98, N_("WG-3") },
         {    0x12fa2, N_("WG-10") },
         {    0x12fb6, N_("K-50") },
+        {    0x12fc0, N_("K-3") },
         {    0x12fca, N_("K-500") },
     };
 
@@ -836,6 +837,11 @@ namespace Exiv2 {
         { 0x073a, "smc PENTAX-D FA Macro 100mm F2.8 WR" },
         { 0x074b, "Tamron SP AF 70-200mm F2.8 Di LD [IF] Macro (A001)" },
         { 0x07ca, "smc PENTAX-DA L 18-55mm F3.5-5.6 AL WR" },
+        { 0x07cc, "HD PENTAX-DA 15mm F4 ED AL Limited" },
+        { 0x07cd, "HD PENTAX-DA 35mm F2.8 Macro Limited" },
+        { 0x07ce, "HD PENTAX-DA 70mm F2.4 Limited" },
+        { 0x07cf, "HD PENTAX-DA 21mm F3.2 ED AL Limited" },
+        { 0x07d0, "HD PENTAX-DA 40mm F2.8 Limited" },
         { 0x07d4, "smc PENTAX-DA 50mm F1.8" },
         { 0x07d5, "smc PENTAX-DA 40mm F2.8 XS" },
         { 0x07d6, "smc PENTAX-DA 35mm F2.4 AL" },
