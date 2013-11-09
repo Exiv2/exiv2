@@ -930,6 +930,7 @@ namespace Exiv2 {
         { 0x1605, "05 Toy Lens Telephoto 18mm F8" },
         { 0x1506, "06 Telephoto Zoom 15-45mm F2.8" },
         { 0x1507, "07 Mount Shield 11.5mm F9" },
+        { 0x1508, "08 Wide Zoom 3.8-5.9mm F3.7-4" },
     };
 
     //! ImageTone, tag 0x004f

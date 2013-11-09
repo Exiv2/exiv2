@@ -780,7 +780,8 @@ namespace Exiv2 {
         { 195, "Canon EF 35-105mm f/4.5-5.6 USM"                            },
         { 196, "Canon EF 75-300mm f/4-5.6 USM"                              },
         { 197, "Canon EF 75-300mm f/4-5.6 IS USM"                           },
-        { 198, "Canon EF 50mm f/1.4 USM"                                    },
+        { 198, "Canon EF 50mm f/1.4 USM"                                    }, // 0
+        { 198, "Zeiss Otus 55mm f/1.4 ZE"                                   }, // 1
         { 199, "Canon EF 28-80mm f/3.5-5.6 USM"                             },
         { 200, "Canon EF 75-300mm f/4-5.6 USM"                              },
         { 201, "Canon EF 28-80mm f/3.5-5.6 USM"                             },
