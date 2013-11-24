@@ -883,6 +883,7 @@ namespace Exiv2 {
         { 0x0815, "Sigma 17-50mm F2.8 EX DC OS HSM" },
         { 0x0816, "Sigma 85mm F1.4 EX DG HSM" },
         { 0x0817, "Sigma 70-200mm F2.8 APO EX DG OS HSM" },
+        { 0x0819, "Sigma 17-50mm F2.8 EX DC HSM" },
         { 0x081b, "Sigma 18-200mm F3.5-6.3 II DC HSM" },
         { 0x081c, "Sigma 18-250mm F3.5-6.3 DC Macro HSM" },
         { 0x081e, "Sigma 17-70mm F2.8-4 DC Macro HSM Contemporary" },
