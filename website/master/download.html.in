@@ -20,7 +20,7 @@ __maintitle__
  as Visual Studio project files for Visual C++ .NET 2003 (MSVC 7.1)
  and later. After downloading and unpacking the distribution, please
  see the <em>README</em> file in the top directory for build and
- installation notes and further information.
+ installation notes and further information.</p>
 
 <p>The <b>Windows package</b> only contains the command line utility
  <code>exiv2.exe</code>, Expat DLL, Exiv2 manpage and two sample
@@ -28,8 +28,10 @@ __maintitle__
  parameter from a cmd shell:
  <code><a title="Exiv2 usage" href="sample.html#usage">exiv2 -h</a></code>.
  For details, read the <a href="manpage.html" title="Exiv2 man page">man page</a>.
- The Windows executable is a 32bit static executable compiled with
- Visual Studio 2005 on an Intel 64 bit machine running Windows 7.
+ The Windows executable was compiled with the 
+ <a title="MinGW homepage" href="http://www.mingw.org">MinGW</a> cross compiler
+ on an x86-64 machine running 
+ <a title="Ubuntu homepage" href="http://www.ubuntu.com">Ubuntu</a>.
 </p>
 
 <p>As an alternative to the packages here, many Linux distributions,
@@ -128,7 +130,7 @@ for NLS,
 
  <p>Not included in the source distribution are test data and several
   test drivers.  To download these directly from the repository (about
-  27 MB), change to your local exiv2-__version__/ directory and use the
+  34 MB), change to your local exiv2-__version__/ directory and use the
   following command:</p>
 
 <div class="fragment"><pre>
