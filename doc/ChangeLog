@@ -1,9 +1,6 @@
 Changes from version 0.23 to 0.24
 ---------------------------------
 
-* Exiv2 utility
-
-
 * Exiv2 library
 	- 0000700: exiv2 (0.19-1) 00_hyphens_used_as_minus.diff
 	           (Reported with patch by Mark Purcell, fixed by Niels Kristian Bech Jensen)
@@ -63,7 +60,7 @@ Changes from version 0.23 to 0.24
 	           (Reported by Romain Henriet, patch by S. Verdoold)
 	- 0000888: (near-)infinite loop in video decoders
 	           (Reported by Alyssa Milburn, patch by Abhinav Badola)
-	- 0000890: ASF:  heap overflow
+	- 0000890: ASF: heap overflow
 	           (Reported by Alyssa Milburn, patch by Abhinav Badola)
 	- 0000895: Sigma 30mm f/1.4 on Canon not detected correctly
 	           (Reported by Christian Roumano, patch by Aakash Goenka)
@@ -84,23 +81,31 @@ Changes from version 0.23 to 0.24
 	           (Reported by Ákos Szőts, patch by Robin Mills)
 	- 0000909: New Lens: Samsung NX 45mm f1.8 2D/3D
 	           (Pascal de Bruijn)
+	- 0000921: New Lens: Sigma 150-500mm f/5-6.3 APO DG OS HSM on Canon (Steve Fosdick)
+	- 0000928: Maintenance of Sony Makernote (Patch by Thomas Beutlich)
 
 * MSVC related
 	- 0000817: zlib 1.2.6 (Reported by Daniel Kaneider, fixed by Robin Mills)
 	- 0000824: undeclared identifier EXV_ICONV_CONST
+	           (Reported by Thomas Beutlich, fixed by Robin Mills)
 
 * cmake related
-	- 0000685: incomplete handling of iconv dialects for cmake case
+	- 0000685: incomplete handling of iconv dialects for cmake case (Nikolai Saoukh)
 	- 0000694: config/config.h.cmake:  const must be without quotes
-	- 0000696: cmake:  out of src compilation
+	           (Nikolai Saoukh, Gilles Caulier)
+	- 0000696: cmake:  out of src compilation (Nikolai Saoukh, Gilles Caulier)
 	- 0000698: CMake Error at po/cmake_install.cmake: 36
+	           (Frank Hommes, Gilles Caulier)
 	- 0000722: Unit tests do not build with CMake and out of source build
-	- 0000728: typos in cmake files
+	           (Johannes Wienke, Robin Mills)
+	- 0000728: typos in cmake files (Nikolai Saoukh, Gilles Caulier)
 	- 0000823: CMake compilation:  exv_conf.h at the wrong place
-	- 0000850: test harness does not run on CMake builds
-	- 0000852: CMake error on Win8/VS2012 with XMP (patch included)
-	- 0000853: CMake: more flexible zlib detection
+	           (Sebastien Gilles, Robin Mills)
+	- 0000850: test harness does not run on CMake builds (Robin Mills)
+	- 0000852: CMake error on Win8/VS2012 with XMP (Patch by Daniel Kaneider)
+	- 0000853: CMake: more flexible zlib detection (Daniel Kaneider, Robin Mills)
 	- 0000856: CMake: building tests and refactoring on msvc
+	           (Daniel Kaneider, Robin Mills)
 
 
 Changes from version 0.22 to 0.23
