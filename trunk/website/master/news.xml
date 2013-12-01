@@ -1,7 +1,7 @@
 <?xml version = '1.0'?>
 <news>
  <newsitem>
-  <date>01-Dec-2013</date>
+  <date>02-Dec-2013</date>
   <title>Exiv2 0.24 released</title>
   <abstract>Support for reading video metadata, makernote updates, bugfixes.
   </abstract>
@@ -12,12 +12,12 @@
   </desc>
  </newsitem>
  <newsitem>
-  <date>01-Dec-2013</date>
+  <date>02-Dec-2013</date>
   <title>GIMP meets (g)exiv2</title>
   <abstract>GIMP gets advanced Exif, XMP, IPTC metadata support
   </abstract>
   <desc>Improved <a title="GIMP gets advanced Exif, XMP, IPTC metadata support - Alexandre Prokoudine" href="http://libregraphicsworld.org/blog/entry/gimp-gets-advanced-exif-xmp-iptc-metadata-support">support for Exif, XMP, and IPTC</a> along with a viewer/editor will be part of
-  GIMP 2.10. <a title="GIMP meets gexiv2 - Jim Nelson" href="http://blog.yorba.org/jim/2013/11/gimp-meets-gexiv2.html">GIMP has adopted gexiv2</a>, and therefore Exiv2, for their photo metadata needs.
+  GIMP 2.10. <a title="GIMP meets gexiv2 - Jim Nelson" href="http://blog.yorba.org/jim/2013/11/gimp-meets-gexiv2.html">GIMP has adopted gexiv2</a>, and therefore Exiv2, for their photo metadata needs. Yay!
   </desc>
  </newsitem>
  <newsitem>
