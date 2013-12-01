@@ -27,11 +27,11 @@ make -j3
 
 # Prepare package
 cd src
-rel=`grep EXV_PACKAGE_VERSION ../msvc/include/exv_msvc.h | sed 's/.*"\(.*\)"/\1/'`
+rel=`grep EXV_PACKAGE_VERSION ../msvc2012/include/exv_msvc.h | sed 's/.*"\(.*\)"/\1/'`
 tmpdir=exiv2-$rel-win
 rm -rf $tmpdir
 mkdir $tmpdir
-cp exiv2 $tmpdir/exiv2.exe
+cp ../bin/exiv2 $tmpdir/exiv2.exe
 cd $tmpdir
 strip exiv2.exe
 cp ../../doc/cmd.txt .

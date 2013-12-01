@@ -35,7 +35,7 @@ cd exiv2-$rel
 make config
 ./configure --disable-shared
 make -j3
-make install
+sudo make install
 make samples
 make doc
 cd test
@@ -49,7 +49,8 @@ make distclean
 rm -f Makefile
 rm -f bootstrap.linux
 rm -f msvc64\\runner.txt
-find . -type f -name '*[Cc][Mm][Aa][Kk][Ee]*' | xargs rm -f
+# 01-Dec-2013, ahu: Include CMake files in the distribution
+#find . -type f -name '*[Cc][Mm][Aa][Kk][Ee]*' | xargs rm -f
 rm -rf xmpsdk/src/.libs
 
 # Create source and doc packages
@@ -63,7 +64,7 @@ rm -rf exiv2-$rel
 tar zxvf exiv2-$rel.tar.gz
 cd exiv2-$rel
 ./configure
-make -j3
+make -j5
 make install
 make samples
 echo Exporting tests, this may take a while...
