@@ -1,5 +1,5 @@
-exiv2 0.23 001700 (32 bit build)
-Copyright (C) 2004-2012 Andreas Huggel.
+exiv2 0.24 001800 (32 bit build)
+Copyright (C) 2004-2013 Andreas Huggel.
 
 This program is free software; you can redistribute it and/or
 modify it under the terms of the GNU General Public License
@@ -125,8 +125,8 @@ Exif.Thumbnail.YResolution                   Rational    1  180
 Exif.Thumbnail.ResolutionUnit                Short       1  inch
 Exif.Thumbnail.JPEGInterchangeFormat         Long        1  3498
 Exif.Thumbnail.JPEGInterchangeFormatLength   Long        1  6714
-exiv2 0.23 001700 (32 bit build)
-Copyright (C) 2004-2012 Andreas Huggel.
+exiv2 0.24 001800 (32 bit build)
+Copyright (C) 2004-2013 Andreas Huggel.
 
 This program is free software; you can redistribute it and/or
 modify it under the terms of the GNU General Public License
@@ -252,8 +252,8 @@ Exif.Thumbnail.YResolution                   Rational    1  180
 Exif.Thumbnail.ResolutionUnit                Short       1  inch
 Exif.Thumbnail.JPEGInterchangeFormat         Long        1  3498
 Exif.Thumbnail.JPEGInterchangeFormatLength   Long        1  6714
-exiv2 0.23 001700 (32 bit build)
-Copyright (C) 2004-2012 Andreas Huggel.
+exiv2 0.24 001800 (32 bit build)
+Copyright (C) 2004-2013 Andreas Huggel.
 
 This program is free software; you can redistribute it and/or
 modify it under the terms of the GNU General Public License
@@ -379,8 +379,8 @@ Exif.Thumbnail.YResolution                   Rational    1  180
 Exif.Thumbnail.ResolutionUnit                Short       1  inch
 Exif.Thumbnail.JPEGInterchangeFormat         Long        1  3498
 Exif.Thumbnail.JPEGInterchangeFormatLength   Long        1  6714
-exiv2 0.23 001700 (32 bit build)
-Copyright (C) 2004-2012 Andreas Huggel.
+exiv2 0.24 001800 (32 bit build)
+Copyright (C) 2004-2013 Andreas Huggel.
 
 This program is free software; you can redistribute it and/or
 modify it under the terms of the GNU General Public License
@@ -506,8 +506,8 @@ Exif.Thumbnail.YResolution                   Rational    1  180
 Exif.Thumbnail.ResolutionUnit                Short       1  inch
 Exif.Thumbnail.JPEGInterchangeFormat         Long        1  3498
 Exif.Thumbnail.JPEGInterchangeFormatLength   Long        1  6714
-exiv2 0.23 001700 (64 bit build)
-Copyright (C) 2004-2012 Andreas Huggel.
+exiv2 0.24 001800 (64 bit build)
+Copyright (C) 2004-2013 Andreas Huggel.
 
 This program is free software; you can redistribute it and/or
 modify it under the terms of the GNU General Public License
@@ -633,8 +633,8 @@ Exif.Thumbnail.YResolution                   Rational    1  180
 Exif.Thumbnail.ResolutionUnit                Short       1  inch
 Exif.Thumbnail.JPEGInterchangeFormat         Long        1  3498
 Exif.Thumbnail.JPEGInterchangeFormatLength   Long        1  6714
-exiv2 0.23 001700 (64 bit build)
-Copyright (C) 2004-2012 Andreas Huggel.
+exiv2 0.24 001800 (64 bit build)
+Copyright (C) 2004-2013 Andreas Huggel.
 
 This program is free software; you can redistribute it and/or
 modify it under the terms of the GNU General Public License
@@ -760,8 +760,8 @@ Exif.Thumbnail.YResolution                   Rational    1  180
 Exif.Thumbnail.ResolutionUnit                Short       1  inch
 Exif.Thumbnail.JPEGInterchangeFormat         Long        1  3498
 Exif.Thumbnail.JPEGInterchangeFormatLength   Long        1  6714
-exiv2 0.23 001700 (64 bit build)
-Copyright (C) 2004-2012 Andreas Huggel.
+exiv2 0.24 001800 (64 bit build)
+Copyright (C) 2004-2013 Andreas Huggel.
 
 This program is free software; you can redistribute it and/or
 modify it under the terms of the GNU General Public License
@@ -887,8 +887,8 @@ Exif.Thumbnail.YResolution                   Rational    1  180
 Exif.Thumbnail.ResolutionUnit                Short       1  inch
 Exif.Thumbnail.JPEGInterchangeFormat         Long        1  3498
 Exif.Thumbnail.JPEGInterchangeFormatLength   Long        1  6714
-exiv2 0.23 001700 (64 bit build)
-Copyright (C) 2004-2012 Andreas Huggel.
+exiv2 0.24 001800 (64 bit build)
+Copyright (C) 2004-2013 Andreas Huggel.
 
 This program is free software; you can redistribute it and/or
 modify it under the terms of the GNU General Public License
