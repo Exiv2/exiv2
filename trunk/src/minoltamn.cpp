@@ -1730,11 +1730,12 @@ namespace Exiv2 {
         { 255,   "Tamron SP AF 17-50mm F2.8 XR Di II LD Aspherical | "
                  "Tamron AF 18-250mm F3.5-6.3 XR Di II LD | "
                  "Tamron AF 55-200mm F4-5.6 Di II | "
-                 "Tamron AF 70-300mm F4-5.6 Di LD MACRO 1:2 | "
+                 "Tamron AF 70-300mm F4-5.6 Di LD Macro 1:2 | "
                  "Tamron SP AF 200-500mm F5.0-6.3 Di LD IF | "
                  "Tamron SP AF 10-24mm F3.5-4.5 Di II LD Aspherical IF | "
                  "Tamron SP AF 70-200mm F2.8 Di LD IF Macro | "
-                 "Tamron SP AF 28-75mm F2.8 XR Di LD Aspherical IF" },
+                 "Tamron SP AF 28-75mm F2.8 XR Di LD Aspherical IF | "
+                 "Tamron AF 90-300mm F4.5-5.6 Telemacro" },
         { 25500, "Minolta AF 50mm F1.7" },
         { 25501, "Minolta AF 50mm F1.7" },
         { 25510, "Minolta AF 35-70mm F4" },
@@ -1896,6 +1897,7 @@ namespace Exiv2 {
                  "Tamron SP AF 90mm F2.5"},
         { 45751, "1.4x Teleconverter " },
         { 45851, "Tamron SP AF 300mm F2.8 LD IF" },
+        { 45861, "Tamron SP AF 35-105mm F2.8 LD Aspherical IF" },
         { 45871, "Tamron AF 70-210mm F2.8 SP LD" },
         { 65535, "E-Mount, T-Mount, Other Lens or No Lens" }
     };
