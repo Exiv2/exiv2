@@ -1252,6 +1252,8 @@ namespace Exiv2 {
         { Tag::root, minoltaCsNewId,   minoltaId,        0x0003    },
         { Tag::root, minoltaCs7DId,    minoltaId,        0x0004    },
         { Tag::root, minoltaCs5DId,    minoltaId,        0x0114    },
+        { Tag::root, casioId,          exifId,           0x927c    },
+        { Tag::root, casio2Id,         exifId,           0x927c    },
         // ---------------------------------------------------------
         // Panasonic RW2 raw images
         { Tag::pana, ifdIdNotSet,      ifdIdNotSet,      Tag::pana },
@@ -1721,6 +1723,14 @@ namespace Exiv2 {
 //        {    0x0117, panaRawId,        newTiffImageSize<0x0111, panaRawId>       },
         { Tag::next, panaRawId,        newTiffDirectory<ignoreId>                },
         {  Tag::all, panaRawId,        newTiffEntry                              },
+
+        // Casio makernote
+        { Tag::next, casioId,          newTiffDirectory<ignoreId>                },
+        {  Tag::all, casioId,          newTiffEntry                              },
+
+        // Casio2 makernote
+        { Tag::next, casio2Id,          newTiffDirectory<ignoreId>                },
+        {  Tag::all, casio2Id,          newTiffEntry                              },
 
         // -----------------------------------------------------------------------
         // Tags which are not de/encoded

@@ -324,6 +324,7 @@ namespace {
         { 0,                       createLoaderExifDataJpeg, 8 },
         { "image/x-panasonic-rw2", createLoaderExifDataJpeg, 9 },
         { 0,                       createLoaderExifDataJpeg,10 },
+        { 0,                       createLoaderExifDataJpeg,11 },
         { 0,                       createLoaderTiff,         0 },
         { 0,                       createLoaderTiff,         1 },
         { 0,                       createLoaderTiff,         2 },
@@ -367,7 +368,8 @@ namespace {
         { "Exif.Olympus2.ThumbnailImage",              0                                                 }, //  7
         { "Exif.Minolta.Thumbnail",                    0                                                 }, //  8
         { "Exif.PanasonicRaw.PreviewImage",            0                                                 }, //  9
-        { "Exif.SamsungPreview.JPEGInterchangeFormat", "Exif.SamsungPreview.JPEGInterchangeFormatLength" }  // 10
+        { "Exif.SamsungPreview.JPEGInterchangeFormat", "Exif.SamsungPreview.JPEGInterchangeFormatLength" }, // 10
+        { "Exif.Casio2.PreviewImage",                  0                                                 }  // 11
     };
 
     const LoaderTiff::Param LoaderTiff::param_[] = {

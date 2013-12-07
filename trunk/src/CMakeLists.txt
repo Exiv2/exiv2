@@ -12,6 +12,7 @@ endif()
 
 # Private headers which are only needed for the library itself
 SET( LIBEXIV2_PRIVATE_HDR canonmn_int.hpp
+                          casiomn_int.hpp
                           cr2image_int.hpp
                           crwimage_int.hpp
                           fujimn_int.hpp
@@ -81,6 +82,7 @@ SET( LIBEXIV2_SRC         asfvideo.cpp
                           basicio.cpp
                           bmpimage.cpp
                           canonmn.cpp
+                          casiomn.cpp
                           convert.cpp
                           cr2image.cpp
                           crwedit.cpp
