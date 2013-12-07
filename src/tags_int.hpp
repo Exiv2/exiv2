@@ -82,6 +82,8 @@ namespace Exiv2 {
         canonPaId,
         canonFiId,
         canonPrId,
+        casioId,
+        casio2Id,
         fujiId,
         minoltaId,
         minoltaCs5DId,

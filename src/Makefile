@@ -69,6 +69,7 @@ CCSRC =  asfvideo.cpp          \
 	 basicio.cpp           \
 	 bmpimage.cpp          \
 	 canonmn.cpp           \
+	 casiomn.cpp           \
 	 convert.cpp           \
 	 cr2image.cpp          \
 	 crwimage.cpp          \

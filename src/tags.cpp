@@ -42,6 +42,7 @@ EXIV2_RCSID("@(#) $Id$")
 #include "i18n.h"                // NLS support.
 
 #include "canonmn_int.hpp"
+#include "casiomn_int.hpp"
 #include "fujimn_int.hpp"
 #include "minoltamn_int.hpp"
 #include "nikonmn_int.hpp"
@@ -104,6 +105,8 @@ namespace Exiv2 {
         { canonFiId,       "Makernote", "CanonFi",      CanonMakerNote::tagListFi      },
         { canonPaId,       "Makernote", "CanonPa",      CanonMakerNote::tagListPa      },
         { canonPrId,       "Makernote", "CanonPr",      CanonMakerNote::tagListPr      },
+        { casioId,         "Makernote", "Casio",        CasioMakerNote::tagList        },
+        { casio2Id,        "Makernote", "Casio2",       Casio2MakerNote::tagList       },
         { fujiId,          "Makernote", "Fujifilm",     FujiMakerNote::tagList         },
         { minoltaId,       "Makernote", "Minolta",      MinoltaMakerNote::tagList      },
         { minoltaCs5DId,   "Makernote", "MinoltaCs5D",  MinoltaMakerNote::tagListCs5D  },
