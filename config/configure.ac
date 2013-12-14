@@ -211,10 +211,13 @@ AC_SUBST(EXV_LIB_STATIC)
 # version.cpp requires link to psapi/Windows and dl/Unix builds
 case "$host_os" in
 *mingw* | *cygwin*)
+    EXV_LIBPSAPI="-lpsapi"
     LDFLAGS="$LDFLAGS -no-undefined -lpsapi" ;;
 *)
+    EXV_LIBPSAPI=
     LDFLAGS="$LDFLAGS -ldl" ;;
 esac
+AC_SUBST(EXV_LIBPSAPI)
 
 # ---------------------------------------------------------------------------
 # Create output files.
