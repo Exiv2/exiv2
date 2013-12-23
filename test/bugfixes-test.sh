@@ -245,6 +245,13 @@ source ./functions.source
 	  runTest exiv2 -pt $filename | grep -i lenstype
 	done
 
+	num=937
+	filename=exiv2-bug$num.jpg
+	printf "$num " >&3
+	echo '------>' Bug $num '<-------' >&2
+	copyTestFile  $filename
+	runTest exiv2 -q -pa $filename | grep dwc
+
 ) 3>&1 > $results 2>&1
 
 printf "\n"
