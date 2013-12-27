@@ -250,7 +250,8 @@ source ./functions.source
 	printf "$num " >&3
 	echo '------>' Bug $num '<-------' >&2
 	copyTestFile  $filename
-	runTest exiv2 -q -pa $filename | grep dwc
+	runTest exiv2 -q -pa      -g dwc  $filename 
+	runTest exiv2 -q -PXkyctl -g Date $filename
 
 ) 3>&1 > $results 2>&1
 

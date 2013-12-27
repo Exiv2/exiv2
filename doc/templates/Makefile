@@ -112,6 +112,7 @@ TABLES = Exif \
          Sony1MltCsA100
 
 SCHEMA = xmp_dc \
+         xmp_dwc \
          xmp_xmp \
          xmp_xmpRights \
          xmp_xmpMM \
@@ -166,7 +167,7 @@ $(TABLES): $(TAGLIST)
 
 Iptc: $(TAGLIST)
 	@echo Generating $@ table...
-	@$(TAGLIST) $@ | sed -e"s/</\&lt;/g" -e"s/>/\&gt;/g" -e"s/±/\&#177;/g" \
+	@$(TAGLIST) $@ | sed -e"s/</\&lt;/g" -e"s/>/\&gt;/g" -e"s/ï¿½/\&#177;/g" \
 	               | awk -f iptc.awk > $@.xml
 	@xsltproc iptc.xsl $@.xml > $@.tmp
 	@sed "s/report1/$@/g" $@.tmp > __$@__
