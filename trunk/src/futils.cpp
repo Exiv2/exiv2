@@ -89,16 +89,10 @@ namespace Exiv2 {
 
 #define UNUSED(x) (void)(x)
 
-#if     EXV_HAVE_STRERROR_R
-#ifndef STRERROR_R_CHAR_P 
-// man 3 sterror_r
-#if    ( _POSIX_C_SOURCE >= 200112L || _XOPEN_SOURCE >= 600 ) && ! _GNU_SOURCE
-// XSI-compliant version of strerror_r() is provided
-#else
-#if     defined(__clang__) || defined(__GNUG__)
-#define STRERROR_R_CHAR_P
-#endif
-#endif
+// Linux GCC 4.8 appears to be confused about strerror_r
+#ifndef EXV_STRERROR_R_CHAR_P
+#ifdef  __gnu_linux__
+#define EXV_STRERROR_R_CHAR_P
 #endif
 #endif
 
@@ -111,7 +105,7 @@ namespace Exiv2 {
         char  buff[n];
         std::memset(buff, 0x0, n);
         // _GNU_SOURCE: See Debian bug #485135
-#ifdef  STRERROR_R_CHAR_P
+#ifdef  EXV_STRERROR_R_CHAR_P
         char* buf = strerror_r(error, buff, n);
 #else
         char* buf   = buff;
