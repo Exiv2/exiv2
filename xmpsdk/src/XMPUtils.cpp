@@ -602,9 +602,9 @@ static size_t MoveLargestProperty ( XMPMeta & stdXMP, XMPMeta * extXMP, PropSize
 		printf ( "  Move %s, %d bytes\n", propName, propSize );
 	#endif
 
-    bool moved = false;
-	moved = MoveOneProperty ( stdXMP, extXMP, schemaURI, propName );
+    bool moved = MoveOneProperty ( stdXMP, extXMP, schemaURI, propName );
 	XMP_Assert ( moved );
+	UNUSED(moved);
 
 	propSizes.erase ( lastPos );
 	return propSize;
@@ -1845,6 +1845,7 @@ XMPUtils::PackageForJPEG ( const XMPMeta & origXMP,
 	const char * packetEnd = 0;
     packetEnd = sStandardXMP->c_str() + sStandardXMP->size() - kTrailerLen;
 	XMP_Assert ( XMP_LitMatch ( packetEnd, kPacketTrailer ) );
+	UNUSED(packetEnd);
 
 	size_t extraPadding = kStdXMPLimit - sStandardXMP->size();	// ! Do this before erasing the trailer.
 	if ( extraPadding > 2047 ) extraPadding = 2047;

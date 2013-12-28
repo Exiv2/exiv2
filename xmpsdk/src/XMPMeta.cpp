@@ -739,14 +739,14 @@ XMPMeta::Initialize()
 	XMP_Assert ( sizeof(XMP_Uns64) == 8 );
 	
 	XMP_Assert ( sizeof(XMP_OptionBits) == 4 );	// Check that option masking work on all 32 bits.
-	XMP_OptionBits flag;
-    flag = ~0UL;
+	XMP_OptionBits flag = ~0UL;
+
 	XMP_Assert ( flag == (XMP_OptionBits)(-1L) );
 	XMP_Assert ( (flag ^ kXMP_PropHasLang) == 0xFFFFFFBFUL );
 	XMP_Assert ( (flag & ~kXMP_PropHasLang) == 0xFFFFFFBFUL );
 	
 	XMP_OptionBits opt1 = 0;	// Check the general option bit macros.
-	XMP_OptionBits opt2 = ~0UL;
+	XMP_OptionBits opt2 = flag;
 	XMP_SetOption ( opt1, kXMP_PropValueIsArray );
 	XMP_ClearOption ( opt2, kXMP_PropValueIsArray );
 	XMP_Assert ( opt1 == ~opt2 );

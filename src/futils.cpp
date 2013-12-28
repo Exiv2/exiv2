@@ -89,6 +89,17 @@ namespace Exiv2 {
 
 #define UNUSED(x) (void)(x)
 
+#if     EXV_HAVE_STRERROR_R
+#ifndef STRERROR_R_CHAR_P 
+// man 3 sterror_r
+#if    ( _POSIX_C_SOURCE >= 200112L || _XOPEN_SOURCE >= 600 ) && ! _GNU_SOURCE
+// XSI-compliant version of strerror_r() is provided
+#else
+#define STRERROR_R_CHAR_P
+#endif
+#endif
+#endif
+
     std::string strError()
     {
         int   error = errno;
