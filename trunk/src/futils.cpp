@@ -95,7 +95,7 @@ namespace Exiv2 {
 #if    ( _POSIX_C_SOURCE >= 200112L || _XOPEN_SOURCE >= 600 ) && ! _GNU_SOURCE
 // XSI-compliant version of strerror_r() is provided
 #else
-#ifdef __clang6__
+#if     defined(__clang__) || defined(__GNUG__)
 #define STRERROR_R_CHAR_P
 #endif
 #endif
