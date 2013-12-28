@@ -5,6 +5,7 @@
 			</File><File RelativePath="..\..\src\basicio.cpp">
 			</File><File RelativePath="..\..\src\bmpimage.cpp">
 			</File><File RelativePath="..\..\src\canonmn.cpp">
+			</File><File RelativePath="..\..\src\casiomn.cpp">
 			</File><File RelativePath="..\..\src\convert.cpp">
 			</File><File RelativePath="..\..\src\cr2image.cpp">
 			</File><File RelativePath="..\..\src\crwimage.cpp">
