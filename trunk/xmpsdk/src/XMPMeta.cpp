@@ -838,7 +838,7 @@ XMPMeta::Terminate() RELEASE_NO_THROW
 /* class-static */ void
 XMPMeta::Unlock ( XMP_OptionBits options )
 {
-	options = options;	// Avoid unused parameter warning.	// *** Need IgnoreParam macro.
+	UNUSED(options);
 
     #if TraceXMPLocking
     	fprintf ( xmpOut, "  Unlocking XMP toolkit, count = %d\n", sLockCount ); fflush ( xmpOut );
@@ -857,7 +857,7 @@ XMPMeta::Unlock ( XMP_OptionBits options )
 void
 XMPMeta::UnlockObject ( XMP_OptionBits options ) const
 {
-	options = options;	// Avoid unused parameter warning.
+	UNUSED(options);
 
 	XMPMeta::Unlock ( 0 );
 

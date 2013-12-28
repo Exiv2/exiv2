@@ -670,7 +670,7 @@ XMPUtils::Terminate() RELEASE_NO_THROW
 /* class static */ void
 XMPUtils::Unlock ( XMP_OptionBits options )
 {
-	options = options;	// Avoid unused parameter warning.
+	UNUSED(options);
 
 	XMPMeta::Unlock ( 0 );
 

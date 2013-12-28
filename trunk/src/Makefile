@@ -231,7 +231,7 @@ lib: $(OBJ)
 	@touch lib
 
 $(EXIV2BIN): lib $(EXIV2OBJ) $(EXIV2COBJ)
-	-mkdir ../bin >/dev/null 2>&1
+	-mkdir -p ../bin >/dev/null 2>&1
 	@$(LIBTOOL) --mode=link $(LINK.cc) -o $@ $(LIBRARY) $(EXIV2OBJ) $(EXIV2COBJ) -rpath $(libdir)
 
 install-header:

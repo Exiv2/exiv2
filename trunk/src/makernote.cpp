@@ -1026,10 +1026,10 @@ namespace Exiv2 {
 
     TiffComponent* newCasioMn(uint16_t    tag,
                              IfdId       group,
-                             IfdId       mnGroup,
+                             IfdId    /* mnGroup*/,
                              const byte* pData,
                              uint32_t    size,
-                             ByteOrder   byteOrder)
+                             ByteOrder/* byteOrder */ )
     {
         if (size > 6 && std::string(reinterpret_cast<const char*>(pData), 6)
                         == std::string("QVC\0\0\0", 6)) {

@@ -46,7 +46,7 @@ static XMP_Node * sDummySchema = 0;	// ! Used for some ugliness with aliases.
 static void
 AddSchemaProps ( IterInfo & info, IterNode & iterSchema, const XMP_Node * xmpSchema )
 {
-	info = info;	// Avoid unused parameter warning.
+	UNUSED(info);
 	#if TraceIterators
 		printf ( "    Adding properties of %s\n", xmpSchema->name.c_str() );
 	#endif
@@ -399,7 +399,7 @@ XMPIterator::Terminate() RELEASE_NO_THROW
 void
 XMPIterator::Unlock	( XMP_OptionBits options )
 {
-	options = options;	// Avoid unused parameter warning.
+	UNUSED(options);
 
 	XMPMeta::Unlock ( 0 );
 	
@@ -727,7 +727,7 @@ XMPIterator::Skip ( XMP_OptionBits iterOptions )
 void
 XMPIterator::UnlockIter	( XMP_OptionBits options )
 {
-	options = options;	// Avoid unused parameter warning.
+	UNUSED(options);
 
 	XMPMeta::Unlock ( 0 );
 	

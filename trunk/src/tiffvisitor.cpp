@@ -101,13 +101,13 @@ namespace Exiv2 {
 
     void TiffVisitor::setGo(GoEvent event, bool go)
     {
-        assert(event >= 0 && event < events_);
+        assert(event >= 0 && static_cast<int>(event) < events_);
         go_[event] = go;
     }
 
     bool TiffVisitor::go(GoEvent event) const
     {
-        assert(event >= 0 && event < events_);
+        assert(event >= 0 && static_cast<int>(event) < events_);
         return go_[event];
     }
 
