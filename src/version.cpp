@@ -147,7 +147,7 @@ EXIV2API void dumpLibraryInfo(std::ostream& os)
       int debug=0;
 #endif
 
-#if   defined(EXV_HAVE_DLL)
+#if   defined(DLL_EXPORT)
       int dll=1;
 #else
       int dll=0;
@@ -178,10 +178,10 @@ EXIV2API void dumpLibraryInfo(std::ostream& os)
 #endif
 
 #if defined(__SUNPRO_CC) || defined (__SUNPRO_C)
-#define     __oracle__      
+#define     __oracle__
 #endif
-      
-      
+
+
 #ifndef __VERSION__
 #ifdef  __clang__version__
 #define __VERSION__ __clang__version__
