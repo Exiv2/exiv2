@@ -147,7 +147,7 @@ EXIV2API void dumpLibraryInfo(std::ostream& os)
       int debug=0;
 #endif
 
-#if   defined(DLL_EXPORT)
+#if   defined(DLL_EXPORT) || defined(EXV_HAVE_DLL)
       int dll=1;
 #else
       int dll=0;
