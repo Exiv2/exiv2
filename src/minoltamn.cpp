@@ -1638,7 +1638,7 @@ namespace Exiv2 {
                  "Sigma 20-40mm F2.8 EX DG Aspherical IF | "
                  "Sigma 18-200mm F3.5-6.3 DC | "
                  "Sigma DC 18-125mm F4-5,6 D | "
-                 "Tamron SP AF 28-75mm F2.8 XR Di (IF) Macro" },
+                 "Tamron SP AF 28-75mm F2.8 XR Di LD Aspherical [IF] Macro" },
         { 25,    "Minolta AF 100-300mm F4.5-5.6 APO (D) | "
                  "Sigma 100-300mm F4 EX (APO (D) or D IF) | "
                  "Sigma 70mm F2.8 EX DG Macro | "
