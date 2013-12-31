@@ -779,7 +779,7 @@ namespace Exiv2 {
         { 0x042d, "Tamron AF 28-300mm F3.5-6.3 XR Di LD Aspherical [IF] Macro" },//2
         { 0x042e, "smc PENTAX-FA J 28-80mm F3.5-5.6 AL" },
         { 0x042f, "smc PENTAX-FA J 18-35mm F4-5.6 AL" },
-        { 0x0431, "Tamron SP AF 28-75mm F2.8 XR Di (A09)" },
+        { 0x0431, "Tamron SP AF 28-75mm F2.8 XR Di LD Aspherical [IF] Macro" },
         { 0x0433, "smc PENTAX-D FA 50mm F2.8 Macro" },
         { 0x0434, "smc PENTAX-D FA 100mm F2.8 Macro" },
         { 0x0437, "Samsung/Schneider D-XENOGON 35mm F2" },
