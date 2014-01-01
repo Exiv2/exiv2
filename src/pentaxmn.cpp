@@ -767,7 +767,7 @@ namespace Exiv2 {
         { 0x041d, "Tamron AF 28-200mm F/3.8-5.6 LD Super II Macro (371D)" },
         { 0x0422, "smc PENTAX-FA 24-90mm F3.5-4.5 AL[IF]" },
         { 0x0423, "smc PENTAX-FA 100-300mm F4.7-5.8" },
-        { 0x0424, "Tamron AF70-300mm F/4-5.6 LD Macro (572D/A17)" },
+        { 0x0424, "Tamron AF 70-300mm F/4-5.6 LD Macro 1:2 (572D/A17)" },
         { 0x0425, "Tamron SP AF 24-135mm F3.5-5.6 AD AL (190D)" },
         { 0x0426, "smc PENTAX-FA 28-105mm F3.2-4.5 AL[IF]" },
         { 0x0427, "smc PENTAX-FA 31mm F1.8AL Limited" },
@@ -779,7 +779,7 @@ namespace Exiv2 {
         { 0x042d, "Tamron AF 28-300mm F3.5-6.3 XR Di LD Aspherical [IF] Macro" },//2
         { 0x042e, "smc PENTAX-FA J 28-80mm F3.5-5.6 AL" },
         { 0x042f, "smc PENTAX-FA J 18-35mm F4-5.6 AL" },
-        { 0x0431, "Tamron SP AF 28-75mm F2.8 XR Di LD Aspherical [IF] Macro" },
+        { 0x0431, "Tamron SP AF 28-75mm F2.8 XR Di LD Aspherical [IF] Macro (A09)" },
         { 0x0433, "smc PENTAX-D FA 50mm F2.8 Macro" },
         { 0x0434, "smc PENTAX-D FA 100mm F2.8 Macro" },
         { 0x0437, "Samsung/Schneider D-XENOGON 35mm F2" },

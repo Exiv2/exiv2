@@ -614,7 +614,7 @@ namespace Exiv2 {
         {  28, "Canon EF 80-200mm f/4.5-5.6"                                }, // 0
         {  28, "Tamron SP AF 28-105mm f/2.8 LD Aspherical IF"               }, // 1
         {  28, "Tamron SP AF 28-75mm f/2.8 XR Di LD Aspherical [IF] Macro"  }, // 2
-        {  28, "Tamron AF 70-300mm f/4.5-5.6 Di LD 1:2 Macro Zoom"          }, // 3
+        {  28, "Tamron AF 70-300mm f/4-5.6 Di LD 1:2 Macro"                 }, // 3
         {  28, "Tamron AF Aspherical 28-200mm f/3.8-5.6"                    }, // 4
         {  29, "Canon EF 50mm f/1.8 MkII"                                   },
         {  30, "Canon EF 35-105mm f/4.5-5.6"                                },
@@ -721,7 +721,7 @@ namespace Exiv2 {
         { 154, "Canon EF 20mm f/2.8 USM"                                    },
         { 155, "Canon EF 85mm f/1.8 USM"                                    },
         { 156, "Canon EF 28-105mm f/3.5-4.5 USM"                            }, // 0
-        { 156, "Tamron SP AF 70-300mm f/4-5.6 Di VC USD"                    }, // 1
+        { 156, "Tamron SP 70-300mm f/4-5.6 Di VC USD"                       }, // 1
         { 160, "Canon EF 20-35mm f/3.5-4.5 USM"                             }, // 0
         { 160, "Tamron AF 19-35mm f/3.5-4.5"                                }, // 1
         { 160, "Tokina AT-X 124 AF 12-24mm f/4 DX"                          }, // 2
