@@ -31,6 +31,7 @@
 
 // *****************************************************************************
 // included header files
+#include "asfvideo.hpp"
 #include "basicio.hpp"
 #include "bmpimage.hpp"
 #include "convert.hpp"
@@ -47,6 +48,7 @@
 #include "iptc.hpp"
 #include "jp2image.hpp"
 #include "jpgimage.hpp"
+#include "matroskavideo.hpp"
 #include "metadatum.hpp"
 #include "mrwimage.hpp"
 #include "orfimage.hpp"
@@ -55,7 +57,9 @@
 #include "preview.hpp"
 #include "properties.hpp"
 #include "psdimage.hpp"
+#include "quicktimevideo.hpp"
 #include "rafimage.hpp"
+#include "riffvideo.hpp"
 #include "rw2image.hpp"
 #include "tags.hpp"
 #include "tgaimage.hpp"
