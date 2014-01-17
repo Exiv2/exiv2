@@ -1135,15 +1135,16 @@ namespace Exiv2 {
     TiffReader::TiffReader(const byte*    pData,
                            uint32_t       size,
                            TiffComponent* pRoot,
-                           TiffRwState::AutoPtr state)
+                           TiffRwState    state)
         : pData_(pData),
           size_(size),
           pLast_(pData + size),
           pRoot_(pRoot),
-          pState_(state.release()),
-          pOrigState_(pState_),
+          origState_(state),
+          mnState_(state),
           postProc_(false)
     {
+        pState_ = &origState_;
         assert(pData_);
         assert(size_ > 0);
 
@@ -1151,35 +1152,37 @@ namespace Exiv2 {
 
     TiffReader::~TiffReader()
     {
-        if (pOrigState_ != pState_) delete pOrigState_;
-        delete pState_;
     }
 
-    void TiffReader::resetState() {
-        if (pOrigState_ != pState_) delete pState_;
-        pState_ = pOrigState_;
-    }
-
-    void TiffReader::changeState(TiffRwState::AutoPtr state)
+    void TiffReader::setOrigState()
     {
-        if (state.get() != 0) {
+        pState_ = &origState_;
+    }
+
+    void TiffReader::setMnState(const TiffRwState* state)
+    {
+        if (state != 0) {
             // invalidByteOrder indicates 'no change'
-            if (state->byteOrder_ == invalidByteOrder) state->byteOrder_ = pState_->byteOrder_;
-            if (pOrigState_ != pState_) delete pState_;
-            pState_ = state.release();
+            if (state->byteOrder() == invalidByteOrder) {
+                mnState_ = TiffRwState(origState_.byteOrder(), state->baseOffset());
+            }
+            else {
+                mnState_ = *state;
+            }
         }
+        pState_ = &mnState_;
     }
 
     ByteOrder TiffReader::byteOrder() const
     {
         assert(pState_);
-        return pState_->byteOrder_;
+        return pState_->byteOrder();
     }
 
     uint32_t TiffReader::baseOffset() const
     {
         assert(pState_);
-        return pState_->baseOffset_;
+        return pState_->baseOffset();
     }
 
     void TiffReader::readDataEntryBase(TiffDataEntryBase* object)
@@ -1244,11 +1247,13 @@ namespace Exiv2 {
 
     void TiffReader::postProcess()
     {
+        setMnState(); // All components to be post-processed must be from the Makernote
         postProc_ = true;
         for (PostList::const_iterator pos = postList_.begin(); pos != postList_.end(); ++pos) {
             (*pos)->accept(*this);
         }
         postProc_ = false;
+        setOrigState();
     }
 
     void TiffReader::visitDirectory(TiffDirectory* object)
@@ -1432,17 +1437,15 @@ namespace Exiv2 {
 
         // Modify reader for Makernote peculiarities, byte order and offset
         object->mnOffset_ = static_cast<uint32_t>(object->start() - pData_);
-        TiffRwState::AutoPtr state(
-            new TiffRwState(object->byteOrder(), object->baseOffset())
-        );
-        changeState(state);
+        TiffRwState state(object->byteOrder(), object->baseOffset());
+        setMnState(&state);
 
     } // TiffReader::visitIfdMakernote
 
     void TiffReader::visitIfdMakernoteEnd(TiffIfdMakernote* /*object*/)
     {
         // Reset state (byte order, create function, offset) back to that for the image
-        resetState();
+        setOrigState();
     } // TiffReader::visitIfdMakernoteEnd
 
     void TiffReader::readTiffEntry(TiffEntryBase* object)

@@ -586,11 +586,7 @@ namespace Exiv2 {
              makernotes).
      */
     class TiffRwState {
-        friend class TiffReader;
     public:
-        //! TiffRWState auto_ptr type
-        typedef std::auto_ptr<TiffRwState> AutoPtr;
-
         //! @name Creators
         //@{
         //! Constructor.
@@ -623,7 +619,7 @@ namespace Exiv2 {
 
     private:
         ByteOrder byteOrder_;
-        const uint32_t baseOffset_;
+        uint32_t  baseOffset_;
     }; // TiffRwState
 
     /*!
@@ -647,7 +643,7 @@ namespace Exiv2 {
         TiffReader(const byte*          pData,
                    uint32_t             size,
                    TiffComponent*       pRoot,
-                   TiffRwState::AutoPtr state);
+                   TiffRwState          state);
 
         //! Virtual destructor
         virtual ~TiffReader();
@@ -682,10 +678,15 @@ namespace Exiv2 {
         void readTiffEntry(TiffEntryBase* object);
         //! Read a TiffDataEntryBase from the data buffer
         void readDataEntryBase(TiffDataEntryBase* object);
-        //! Set the \em state class. Assumes ownership of the object passed in.
-        void changeState(TiffRwState::AutoPtr state);
-        //! Reset the state to the original state as set in the constructor.
-        void resetState();
+        /*!
+          @brief Set the \em state of the reader to one suitable for the Makernote.
+
+          Uses the \em state passed in, if any, and remembers it for use during
+          subsequent calls without any argument.
+         */
+        void setMnState(const TiffRwState* state =0);
+        //! Set the state to the original state as set in the constructor.
+        void setOrigState();
         //! Check IFD directory pointer \em start for circular reference
         bool circularReference(const byte* start, IfdId group);
         //! Return the next idx sequence number for \em group
@@ -721,8 +722,9 @@ namespace Exiv2 {
         const uint32_t       size_;       //!< Size of the buffer
         const byte*          pLast_;      //!< Pointer to the last byte
         TiffComponent* const pRoot_;      //!< Root element of the composite
-        TiffRwState*         pState_;     //!< State class
-        TiffRwState*         pOrigState_; //!< State class as set in the c'tor
+        TiffRwState*         pState_;     //!< Pointer to the state in effect (origState_ or mnState_)
+        TiffRwState          origState_;  //!< State class as set in the c'tor
+        TiffRwState          mnState_;    //!< State class as set in the c'tor or by setMnState()
         DirList              dirList_;    //!< List of IFD pointers and their groups
         IdxSeq               idxSeq_;     //!< Sequences for group, used for the entry's idx
         PostList             postList_;   //!< List of components with deferred reading
