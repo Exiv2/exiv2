@@ -186,7 +186,7 @@ clean:
 	@rm -vf doxygen/mainpage.hpp
 
 publish:
-	rsync -vlDtrz --delete --exclude='.svn' -e ssh html/ andreas@localhost:rs
+	rsync -vlDtrz --delete --exclude='.svn' --include="exiv2-`cat var/__version__`*" --exclude='exiv2-*tar.gz' --exclude='exiv2-*.zip' -e ssh html/ `whoami`@localhost:rs
 
 really-publish:
-	rsync -vlDtrz --delete --exclude='misc/' --exclude='.svn' -e "ssh -2 -i /home/andreas/.ssh/ahuggel.key" html/ ahuggel@exiv2.org:
+	rsync -vlDtrz --delete --exclude='misc/' --exclude='.svn' --include="exiv2-`cat var/__version__`*" --exclude='exiv2-*tar.gz' --exclude='exiv2-*.zip' -e "ssh -2 -i /home/andreas/.ssh/ahuggel.key" html/ ahuggel@exiv2.org:
