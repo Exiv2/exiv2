@@ -1949,8 +1949,7 @@ namespace Exiv2 {
         TiffComponent::AutoPtr rootDir = TiffCreator::create(root, ifdIdNotSet);
         if (0 != rootDir.get()) {
             rootDir->setStart(pData + pHeader->offset());
-            TiffRwState::AutoPtr state(
-                new TiffRwState(pHeader->byteOrder(), 0));
+            TiffRwState state(pHeader->byteOrder(), 0);
             TiffReader reader(pData, size, rootDir.get(), state);
             rootDir->accept(reader);
             reader.postProcess();
