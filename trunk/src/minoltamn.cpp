@@ -1648,7 +1648,7 @@ namespace Exiv2 {
         { 27,    "Minolta AF 85mm F1.4 G (D)" },
         { 28,    "Minolta/Sony AF 100mm F2.8 Macro (D) | "
                  "Tamron SP AF 90mm F2.8 Di Macro | "
-                 "Tamron AF 180mm F3.5 SP Di LD [IF] Macro" },
+                 "Tamron SP AF 180mm F3.5 SP Di LD [IF] Macro" },
         { 29,    "Minolta/Sony AF 75-300mm F4.5-5.6 (D) " },
         { 30,    "Minolta AF 28-80mm F3.5-5.6 (D) | "
                  "Sigma AF 10-20mm F4-5.6 EX DC | "
@@ -1701,8 +1701,8 @@ namespace Exiv2 {
         { 69,    "Sony 70-400mm F4-5.6 G SSM II (SAL70400G2)" },
         { 70,    "Sony Carl Zeiss Planar T* 50mm F1.4 ZA SSM (SALF0F14Z)" },
         { 128,   "Sigma 70-200mm F2.8 APO EX DG MACRO | "
-                 "Tamron 18-200mm F3.5-6.3 | "
-                 "Tamron 28-300mm F3.5-6.3 | "
+                 "Tamron AF 18-200mm F3.5-6.3 XR Di II LD Aspherical [IF] Macro | "
+                 "Tamron AF 28-300mm F3.5-6.3 XR Di LD Aspherical [IF] Macro | "
                  "Tamron 80-300mm F3.5-6.3 | "
                  "Tamron AF 28-200mm F3.8-5.6 XR Di Aspherical [IF] MACRO | "
                  "Tamron SP AF 17-35mm F2.8-4 Di LD Aspherical IF | "
@@ -1727,9 +1727,10 @@ namespace Exiv2 {
         { 146,   "Voigtlander Macro APO-Lanthar 125mm F2.5 SL" },
         { 193,   "Minolta AF 1.4x APO II" },
         { 194,   "Tamron SP AF 17-50mm F2.8 XR Di II LD Aspherical [IF]" },
+        { 203,   "Tamron SP 70-200mm F2.8 Di USD" },
         { 255,   "Tamron SP AF 17-50mm F2.8 XR Di II LD Aspherical | "
                  "Tamron AF 18-250mm F3.5-6.3 XR Di II LD | "
-                 "Tamron AF 55-200mm F4-5.6 Di II | "
+                 "Tamron AF 55-200mm F4-5.6 Di II LD Macro | "
                  "Tamron AF 70-300mm F4-5.6 Di LD Macro 1:2 | "
                  "Tamron SP AF 200-500mm F5.0-6.3 Di LD IF | "
                  "Tamron SP AF 10-24mm F3.5-4.5 Di II LD Aspherical IF | "
