@@ -1,8 +1,8 @@
 #! /bin/sh
 
-wget http://www.rottmerhusen.com/objektives/lensid/files/c-header/fmountlens4.h
+wget http://www.rottmerhusen.com/objektives/lensid/files/c-header/fmountlens4t.h
 
-grep 'List of AF F-Mount lenses - Version .*' fmountlens4.h > /tmp/newversion
+grep 'List of AF F-Mount lenses - Version .*' fmountlens4t.h > /tmp/newversion
 grep 'List of AF F-Mount lenses - Version .*' nikonmn.cpp > /tmp/oldversion
 diff /tmp/oldversion /tmp/newversion
 if [ $? -eq 0 ] ; then
@@ -15,7 +15,7 @@ cat nikonmn.cpp | awk '
     if (!s) {
         s = 1
         print
-        system("cat fmountlens4.h")
+        system("cat fmountlens4t.h")
     }
     else {
         s = 0
@@ -31,4 +31,4 @@ sed 's/struct {unsigned char lid,stps,focs,focl,aps,apl,lfw/static const struct 
 ver=`cat /tmp/newversion | awk '{print $9}'`
 echo
 echo "Updated Nikon Lens lookup table to v$ver of Robert Rottmerhusen's fmountlens list."
-rm -f fmountlens4.h /tmp/newversion /tmp/oldversion new-nikonmn.cpp
+rm -f fmountlens4t.h /tmp/newversion /tmp/oldversion new-nikonmn.cpp
