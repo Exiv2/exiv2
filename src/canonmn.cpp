@@ -793,7 +793,8 @@ namespace Exiv2 {
         { 210, "Canon EF 28-90mm f/4-5.6 USM"                               },
         { 211, "Canon EF 28-200mm f/3.5-5.6 USM"                            },
         { 212, "Canon EF 28-105mm f/4-5.6 USM"                              },
-        { 213, "Canon EF 90-300mm f/4.5-5.6 USM"                            },
+        { 213, "Canon EF 90-300mm f/4.5-5.6 USM"                            }, // 0
+        { 213, "Tamron SP 150-600mm F/5-6.3 Di VC USD"                      }, // 1
         { 214, "Canon EF-S 18-55mm f/3.5-5.6 USM"                           },
         { 215, "Canon EF 55-200mm f/4.5-5.6 II USM"                         },
         { 224, "Canon EF 70-200mm f/2.8L IS"                                },
@@ -836,6 +837,7 @@ namespace Exiv2 {
         { 494, "Canon EF 600mm f/4.0L IS II USM"                            },
         { 495, "Canon EF 24-70mm f/2.8L II USM"                             },
         { 496, "Canon EF 200-400mm f/4L IS USM"                             },
+        { 499, "Canon EF 200-400mm f/4L IS USM + 1.4x"                      },
         { 502, "Canon EF 28mm f/2.8 IS USM"                                 },
         { 503, "Canon EF 24mm f/2.8 IS USM"                                 },
         { 504, "Canon EF 24-70mm f/4L IS USM"                               },
