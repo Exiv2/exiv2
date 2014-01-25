@@ -2130,6 +2130,9 @@ fmountlens[] = {
 {0xA7,0x49,0x80,0xA0,0x24,0x24,0x4B,0x06,0x03,0x00,0x00, "Sigma", "", "APO 200-500mm F2.8 EX DG"},
 {0x48,0x3C,0x8E,0xB0,0x3C,0x3C,0x4B,0x02,0x03,0x00,0x00, "Sigma", "595555", "APO 300-800mm F5.6 EX DG HSM"},
 //
+{0x00,0x00,0x00,0x00,0x00,0x00,0xF1,0x0C,0x00,0x00,0x00, "Sigma", "", "APO Tele Converter 1.4x EX DG"},
+{0x00,0x00,0x00,0x00,0x00,0x00,0xF2,0x18,0x00,0x00,0x00, "Sigma", "", "APO Tele Converter 2x EX DG"},
+//
 //------------------------------------------------------------------------------
 // Tamron lenses by focal length, first fixed then zoom lenses
 //------------------------------------------------------------------------------
@@ -2267,6 +2270,9 @@ fmountlens[] = {
 //M                                         "Tokina" ""          "AT-X 340 AF-II (AF 100-300mm f/4)"
 //M                                         "Tokina" ""          "AF 130 EMZ II (AF 100-300mm f/5.6-6.7)"
 //M                                         "Tokina" ""          "AF 140 EMZ (AF 100-400mm f/4.5-6.3)"
+//
+{0x00,0x00,0x00,0x00,0x00,0x00,0xF1,0x0C,0x00,0x00,0x00, "Kenko", "", "Teleplus PRO 300 DG 1.4x"},
+{0x00,0x00,0x00,0x00,0x00,0x00,0xF2,0x18,0x00,0x00,0x00, "Kenko", "", "Teleplus PRO 300 DG 2.0x"},
 //
 //------------------------------------------------------------------------------
 // Lenses from various other brands
