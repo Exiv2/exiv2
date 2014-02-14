@@ -1697,6 +1697,7 @@ namespace Exiv2 {
         { 64,    "Sony 500mm F4.0 G SSM (SAL500F40G)" },
         { 65,    "Sony DT 18-135mm F3.5-5.6 SAM (SAL18135)" },
         { 66,    "Sony 300mm F2.8 G SSM II (SAL300F28G2)" },
+        { 67,    "Sony 70-200mm F2.8 G SSM II (SAL70200G2)" },
         { 68,    "Sony DT 55-300mm F4.5-5.6 SAM (SAL55300)" },
         { 69,    "Sony 70-400mm F4-5.6 G SSM II (SAL70400G2)" },
         { 70,    "Sony Carl Zeiss Planar T* 50mm F1.4 ZA SSM (SALF0F14Z)" },
