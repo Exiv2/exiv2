@@ -1275,8 +1275,8 @@ namespace Exiv2 {
         TagInfo(0x004f, "ImageTone", N_("Image tone"),
                 N_("Image tone"),
                 pentaxId, makerTags, unsignedShort, -1, EXV_PRINT_TAG(pentaxImageTone)),
-        TagInfo(0x0050, "ColorTemperature", N_("Colort temperature"),
-                N_("Colort temperature"),
+        TagInfo(0x0050, "ColorTemperature", N_("Color temperature"),
+                N_("Color temperature"),
                 pentaxId, makerTags, unsignedShort, -1, printValue),
         /* Some missing ! */
         TagInfo(0x005c, "ShakeReduction", N_("Shake reduction"),
