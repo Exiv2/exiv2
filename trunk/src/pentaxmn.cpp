@@ -872,6 +872,7 @@ namespace Exiv2 {
         { 0x07f4, "smc PENTAX-DA 21mm F3.2 AL Limited" },
         { 0x0803, "Sigma AF 18-125mm F3.5-5.6 DC" },
         { 0x0804, "Sigma 50mm F1.4 EX DG HSM" },
+        { 0x0807, "Sigma 24-70mm F2.8 IF EX DG HSM" },
         { 0x0808, "Sigma 18-250mm F3.5-6.3 DC OS HSM" },
         { 0x080b, "Sigma 10-20mm F3.5 EX DC HSM" },
         { 0x080c, "Sigma 70-300mm F4-5.6 DG OS" },
