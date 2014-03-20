@@ -804,6 +804,7 @@ namespace Exiv2 {
         { 213, "Tamron SP 150-600mm F/5-6.3 Di VC USD"                      }, // 1
         { 214, "Canon EF-S 18-55mm f/3.5-5.6 USM"                           },
         { 215, "Canon EF 55-200mm f/4.5-5.6 II USM"                         },
+        { 217, "Tamron AF 18-270mm f/3.5-6.3 Di II VC PZD"                  },
         { 224, "Canon EF 70-200mm f/2.8L IS"                                },
         { 225, "Canon EF 70-200mm f/2.8L IS + 1.4x"                         },
         { 226, "Canon EF 70-200mm f/2.8L IS + 2x"                           },
