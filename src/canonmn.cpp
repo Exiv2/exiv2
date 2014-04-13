@@ -636,12 +636,14 @@ namespace Exiv2 {
         {  32, "Sigma 15mm f/2.8 EX Fisheye"                                }, // 1
         {  33, "Voigtlander or Carl Zeiss Lens"                             }, // 0
         {  33, "Voigtlander Ultron 40mm f/2 SLII Aspherical"                }, // 1
-        {  33, "Carl Zeiss Distagon 15mm T* f/2.8 ZE"                       }, // 2
-        {  33, "Carl Zeiss Distagon 18mm T* f/3.5 ZE"                       }, // 3
-        {  33, "Carl Zeiss Distagon 21mm T* f/2.8 ZE"                       }, // 4
-        {  33, "Carl Zeiss Distagon 28mm T* f/2 ZE"                         }, // 5
-        {  33, "Carl Zeiss Distagon 35mm T* f/2 ZE"                         }, // 6
-        {  33, "Carl Zeiss Planar 50mm T* f/1.4 ZE"                         }, // 7
+        {  33, "Voigtlander Color Skopar 20mm f/3.5 SLII Aspherical"        }, // 2
+        {  33, "Voigtlander APO-Lanthar 90mm f/3.5 SLII Close Focus"        }, // 3
+        {  33, "Carl Zeiss Distagon 15mm T* f/2.8 ZE"                       }, // 4
+        {  33, "Carl Zeiss Distagon 18mm T* f/3.5 ZE"                       }, // 5
+        {  33, "Carl Zeiss Distagon 21mm T* f/2.8 ZE"                       }, // 6
+        {  33, "Carl Zeiss Distagon 28mm T* f/2 ZE"                         }, // 7
+        {  33, "Carl Zeiss Distagon 35mm T* f/2 ZE"                         }, // 8
+        {  33, "Carl Zeiss Planar 50mm T* f/1.4 ZE"                         }, // 9
         {  35, "Canon EF 35-80mm f/4-5.6"                                   },
         {  36, "Canon EF 38-76mm f/4.5-5.6"                                 },
         {  37, "Canon EF 35-80mm f/4-5.6"                                   }, // 0
