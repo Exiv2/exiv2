@@ -106,6 +106,8 @@ namespace Exiv2 {
         static std::ostream& printSi0x0016(std::ostream& os, const Value& value, const ExifData*);
         //! MeasuredEV2
         static std::ostream& printSi0x0017(std::ostream& os, const Value& value, const ExifData*);
+        //! Focus Distance
+        static std::ostream& printFiFocusDistance(std::ostream& os, const Value& value, const ExifData*);
         //@}
 
     private:
