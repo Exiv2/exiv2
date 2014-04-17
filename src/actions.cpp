@@ -355,6 +355,8 @@ namespace Action {
         }
         if (!done) {
             done = 0 != printTag(exifData, "Exif.CanonSi.SubjectDistance");
+            done = 0 != printTag(exifData, "Exif.CanonSi.FocusDistanceLower");
+            done = 0 != printTag(exifData, "Exif.CanonSi.FocusDistanceUpper");
         }
         std::cout << std::endl;
 

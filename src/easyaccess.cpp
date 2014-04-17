@@ -414,6 +414,8 @@ namespace Exiv2 {
             "Exif.Photo.SubjectDistance",
             "Exif.Image.SubjectDistance",
             "Exif.CanonSi.SubjectDistance",
+            "Exif.CanonFi.FocusDistanceUpper",
+            "Exif.CanonFi.FocusDistanceLower",
             "Exif.MinoltaCsNew.FocusDistance",
             "Exif.Nikon1.FocusDistance",
             "Exif.Nikon3.FocusDistance",

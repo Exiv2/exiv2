@@ -1285,6 +1285,8 @@ namespace Exiv2 {
         TagInfo(0x000f, "ToningEffect", N_("Toning Effect"), N_("Toning Effect"), canonFiId, makerTags, signedShort, 1, EXV_PRINT_TAG(canonToningEffect)),
         TagInfo(0x0010, "MacroMagnification", N_("Macro Magnification"), N_("Macro magnification"), canonFiId, makerTags, signedShort, 1, printValue),
         TagInfo(0x0013, "LiveViewShooting", N_("Live View Shooting"), N_("Live view shooting"), canonFiId, makerTags, signedShort, 1, EXV_PRINT_TAG(canonOffOn)),
+        TagInfo(0x0014, "FocusDistanceUpper", N_("Focus Distance Upper"), N_("Focus Distance Upper"), canonFiId, makerTags, signedShort, 1, printFiFocusDistance),
+        TagInfo(0x0015, "FocusDistanceLower", N_("Focus Distance Lower"), N_("Focus Distance Lower"), canonFiId, makerTags, signedShort, 1, printFiFocusDistance),
         TagInfo(0x0019, "FlashExposureLock", N_("Flash Exposure Lock"), N_("Flash exposure lock"), canonFiId, makerTags, signedShort, 1, EXV_PRINT_TAG(canonOffOn)),
         // End of list marker
         TagInfo(0xffff, "(UnknownCanonFiTag)", "(UnknownCanonFiTag)", N_("Unknown Canon File Info tag"), canonFiId, makerTags, signedShort, 1, printValue)
@@ -1701,6 +1703,29 @@ namespace Exiv2 {
            << value.toLong() / 8.0 - 6.0;
         os.copyfmt(oss);
         return os;
+    }
+
+    std::ostream& CanonMakerNote::printFiFocusDistance(std::ostream& os,
+                                                       const Value& value,
+                                                       const ExifData*)
+    {
+       if (   value.typeId() != signedShort
+         || value.count() == 0) return os << value;
+
+      std::ostringstream oss;
+      oss.copyfmt(os);
+      os << std::fixed << std::setprecision(2);
+
+      long l = value.toLong();
+      if (l == 0xffff) {
+        os << "Infinite";
+      }
+      else {
+        os << value.toLong()/100.0 << " m";
+      }
+
+      os.copyfmt(oss);
+      return os;
     }
 
 // *****************************************************************************
