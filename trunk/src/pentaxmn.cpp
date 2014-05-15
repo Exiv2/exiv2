@@ -182,6 +182,10 @@ namespace Exiv2 {
         {    0x12fb6, N_("K-50") },
         {    0x12fc0, N_("K-3") },
         {    0x12fca, N_("K-500") },
+        {    0x12fde, N_("WG-4 GPS") },
+        {    0x12fe8, N_("WG-4") },
+        {    0x13006, N_("WG-20") },
+        {    0x13010, N_("645Z") },
     };
 
     //! Quality, tag 0x0008
@@ -871,6 +875,7 @@ namespace Exiv2 {
         { 0x07f2, "smc PENTAX-DA* 16-50mm F2.8 ED AL [IF] SDM (SDM not used)" },
         { 0x07f3, "smc PENTAX-DA 70mm F2.4 Limited" },
         { 0x07f4, "smc PENTAX-DA 21mm F3.2 AL Limited" },
+        { 0x0800, "Sigma 50-150mm F2.8 II APO EX DC HSM" },
         { 0x0803, "Sigma AF 18-125mm F3.5-5.6 DC" },
         { 0x0804, "Sigma 50mm F1.4 EX DG HSM" },
         { 0x0807, "Sigma 24-70mm F2.8 IF EX DG HSM" },
