@@ -790,7 +790,7 @@ namespace Exiv2 {
         { 187, "Canon EF 70-200mm f/4L + 1.4x"                              },
         { 188, "Canon EF 70-200mm f/4L + 2x"                                },
         { 189, "Canon EF 70-200mm f/4L + 2.8x"                              },
-        { 190, "Canon EF 100mm f/2.8 Macro"                                 },
+        { 190, "Canon EF 100mm f/2.8 Macro USM"                             },
         { 191, "Canon EF 400mm f/4 DO IS"                                   },
         { 193, "Canon EF 35-80mm f/4-5.6 USM"                               },
         { 194, "Canon EF 80-200mm f/4.5-5.6 USM"                            },
@@ -844,6 +844,7 @@ namespace Exiv2 {
         { 252, "Canon EF 70-200mm f/2.8L IS II USM + 1.4x"                  },
         { 253, "Canon EF 70-200mm f/2.8L IS II USM + 2x"                    },
         { 254, "Canon EF 100mm f/2.8L Macro IS USM"                         },
+        { 255, "Sigma 24-105mm f/4 DG OS HSM | A"                           },
         { 488, "Canon EF-S 15-85mm f/3.5-5.6 IS USM"                        },
         { 489, "Canon EF 70-300mm f/4-5.6L IS USM"                          },
         { 490, "Canon EF 8-15mm f/4L USM"                                   },
@@ -858,13 +859,15 @@ namespace Exiv2 {
         { 503, "Canon EF 24mm f/2.8 IS USM"                                 },
         { 504, "Canon EF 24-70mm f/4L IS USM"                               },
         { 505, "Canon EF 35mm f/2 IS USM"                                   },
+        { 507, "Canon EF 16-35mm f/4L IS USM"                               },
         { 4142,"Canon EF-S 18-135mm f/3.5-5.6 IS STM"                       },
         { 4143,"Canon EF-M 18-55mm f/3.5-5.6 IS STM"                        },
         { 4144,"Canon EF 40mm f/2.8 STM"                                    },
         { 4145,"Canon EF-M 22mm f/2 STM"                                    },
         { 4146,"Canon EF-S 18-55mm f/3.5-5.6 IS STM"                        },
         { 4147,"Canon EF-M 11-22mm f/4-5.6 IS STM"                          },
-        { 4148,"Canon EF-S 55-250mm f/4-5.6 IS STM"                         }
+        { 4148,"Canon EF-S 55-250mm f/4-5.6 IS STM"                         },
+        { 4150,"Canon EF-S 10-18mm f/4.5-5.6 IS STM"                        }
     };
 
     //! A lens id and a pretty-print function for special treatment of the id.

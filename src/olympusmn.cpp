@@ -1416,7 +1416,7 @@ namespace Exiv2 {
             { 1, N_("Sequential shooting AF") },
             { 2, N_("Continuous AF")          },
             { 3, N_("Multi AF")               },
-            { 5, N_("Face detect")            },
+            { 4, N_("Face detect")            },
             { 10, N_("MF")                    },
             // End of list marker
             { 0xff, "" }
