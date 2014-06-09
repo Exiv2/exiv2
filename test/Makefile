@@ -99,8 +99,8 @@ test:
 testv:
 	@for t in /video ; do \
 		if [ ! -e data/$$t ]; then \
-	echo svn export '$(SVN)'$$t data$$t ; \
-	     svn export '$(SVN)'$$t data$$t ; \
+	echo svn export '$(SVN)'$$t data$$t -r 3100 ; \
+	     svn export '$(SVN)'$$t data$$t -r 3100 ; \
 	fi ; done
 	@list='$(TESTV)'; for p in $$list; do \
 	    echo Running $$p ...; \
