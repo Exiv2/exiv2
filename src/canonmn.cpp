@@ -905,7 +905,10 @@ namespace Exiv2 {
         { 169, printCsLensByFocalLengthAndMaxAperture },
         { 173, printCsLensByFocalLengthAndMaxAperture }, // works partly
         { 174, printCsLensByFocalLengthAndMaxAperture }, // not tested
-        { 183, printCsLensByFocalLengthAndMaxAperture }  // not tested
+        { 180, printCsLensByFocalLengthAndMaxAperture },
+        { 183, printCsLensByFocalLengthAndMaxAperture }, // not tested
+        { 198, printCsLensByFocalLengthAndMaxAperture }, // not tested
+        { 213, printCsLensByFocalLengthAndMaxAperture }  // not tested
     };
 
     //! FlashActivity, tag 0x001c
