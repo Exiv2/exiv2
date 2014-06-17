@@ -1332,6 +1332,7 @@ namespace Exiv2 {
             { { 2, 25, 16 }, N_("Lumix G Vario 14-140mm F3.5-5.6 Asph. Power OIS")      },
             { { 2, 32, 16 }, N_("Lumix G Vario 12-32mm F3.5-5.6 Asph. Mega OIS")        },
             { { 2, 33, 16 }, N_("Leica DG Nocticron 42.5mm F1.2 Asph. Power OIS")       },
+            { { 2, 34, 16 }, N_("Leica DG Summilux 15mm F1.7 Asph.")                    },
             { { 3,  1,  0 }, N_("Leica D Vario Elmarit 14-50mm F2.8-3.5 Asph.")         },
             { { 3,  2,  0 }, N_("Leica D Summilux 25mm F1.4 Asph.")                     },
             // End of list marker
