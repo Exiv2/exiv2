@@ -41,13 +41,15 @@ echo "Coverity Scan tarball 'myproject.tgz' uploading in progress..."
 nslookup scan5.coverity.com
 SECONDS=0
 
-curl --form project=Exiv2 \
+curl -# \
+     --form project=Exiv2 \
      --form token=$EXIVCoverityToken \
      --form email=$EXIVCoverityEmail \
      --form file=@myproject.tgz \
      --form version=svn-trunk \
      --form description="$desc" \
-     http://scan5.coverity.com/cgi-bin/upload.py
+     http://scan5.coverity.com/cgi-bin/upload.py \
+     > /dev/null
 
 echo "Done. Coverity Scan tarball 'myproject.tgz' is uploaded and ready for analyse."
 echo "That took approximately $SECONDS seconds to upload."
