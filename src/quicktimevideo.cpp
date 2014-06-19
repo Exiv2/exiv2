@@ -1573,6 +1573,7 @@ namespace Exiv2 {
                 xmpData_["Xmp.video.TimeScale"] = returnBufValue(buf);
                 timeScale_ = returnBufValue(buf); break;
             case Duration:
+                if(timeScale_ != 0) // To prevent division by zero
                 xmpData_["Xmp.video.Duration"] = returnBufValue(buf) * 1000 / timeScale_; break;
             case PreferredRate:
                 xmpData_["Xmp.video.PreferredRate"] = returnBufValue(buf, 2) + ((buf.pData_[2] * 256 + buf.pData_[3]) * 0.01); break;
