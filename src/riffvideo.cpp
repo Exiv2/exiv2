@@ -856,7 +856,7 @@ namespace Exiv2 {
 
     void RiffVideo::infoTagsHandler()
     {
-        const long bufMinSize = 100;
+        const long bufMinSize = 10000;
         DataBuf buf(bufMinSize);
         buf.pData_[4] = '\0';
         io_->seek(-12, BasicIo::cur);
@@ -879,10 +879,14 @@ namespace Exiv2 {
             if(infoSize >= 0) {
                 size -= infoSize;
                 io_->read(buf.pData_, infoSize);
+                if(infoSize < 4)
+                    buf.pData_[infoSize] = '\0';
             }
 
             if(tv)
                 xmpData_[exvGettext(tv->label_)] = buf.pData_;
+            else
+                continue;
         }
         io_->seek(cur_pos + size_external, BasicIo::beg);
     } // RiffVideo::infoTagsHandler
