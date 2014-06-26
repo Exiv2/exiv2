@@ -403,7 +403,7 @@ namespace Exiv2 {
             xmpLockFct_ = xmpLockFct;
             pLockData_ = pLockData;
             initialized_ = SXMPMeta::Initialize();
-	    SXMPMeta::RegisterNamespace("http://rs.tdwg.org/dwc/terms/", "dwc");
+	        SXMPMeta::RegisterNamespace("http://rs.tdwg.org/dwc/index.htm", "dwc");
             SXMPMeta::RegisterNamespace("http://www.digikam.org/ns/1.0/", "digiKam");
             SXMPMeta::RegisterNamespace("http://www.digikam.org/ns/kipi/1.0/", "kipi");
             SXMPMeta::RegisterNamespace("http://ns.microsoft.com/photo/1.0/", "MicrosoftPhoto");
