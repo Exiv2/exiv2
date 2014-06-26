@@ -215,6 +215,7 @@ diffCheck()
 {
     test=$1
     good=$2
+    if [ -z "$errors" ]; then let -a errors=0; fi
     
     #run diff and check results
     diff -q --binary $diffargs $test $good

@@ -253,6 +253,21 @@ source ./functions.source
 	runTest exiv2 -q -pa      -g dwc  $filename 
 	runTest exiv2 -q -PXkyctl -g Date $filename
 
+	num=937a
+	filename=exiv2.dc.dwc.i18n.jpg
+	dataname=exiv2.dc.dwc.i18n.txt
+	diffname=exiv2.dc.dwc.i18n.diff
+	printf "$num " >&3
+	echo '------>' Bug $num '<-------' >&2
+	copyTestFile         $filename
+	copyTestFile         $dataname
+	copyTestFile         $diffname
+	runTest exiv2 -pa    $filename | sort  > $num-before.txt
+	exiv2 -m $dataname   $filename
+	runTest exiv2 -pa    $filename | sort  > $num-after.txt
+	diff $num-before.txt $num-after.txt    > $num.txt
+	diff $num.txt        $diffname
+
 ) 3>&1 > $results 2>&1
 
 printf "\n"
