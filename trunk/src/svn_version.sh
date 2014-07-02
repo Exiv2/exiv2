@@ -13,5 +13,5 @@ if [ ! -e svn_version.h ]; then
 	echo "#define SVN_VERSION $svn_version" > svn_version.h
 fi
 
-# That's All Folks!
+# That's all Folks!
 ##
