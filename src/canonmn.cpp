@@ -744,9 +744,10 @@ namespace Exiv2 {
         { 161, "Canon EF 28-70mm f/2.8L"                                    }, // 0
         { 161, "Sigma 24-70mm EX f/2.8"                                     }, // 1
         { 161, "Sigma 28-70mm f/2.8 EX"                                     }, // 2
-        { 161, "Tamron AF 17-50mm f/2.8 Di-II LD Aspherical"                }, // 3
-        { 161, "Tamron 90mm f/2.8"                                          }, // 4
-        { 161, "Sigma 24-60mm f/2.8 EX DG"                                  }, // 5
+        { 161, "Sigma 24-60mm f/2.8 EX DG"                                  }, // 3
+        { 161, "Tamron AF 17-50mm f/2.8 Di-II LD Aspherical"                }, // 4
+        { 161, "Tamron 90mm f/2.8"                                          }, // 5
+        { 161, "Tamron SP AF 17-35mm f/2.8-4 Di LD Aspherical IF"           }, // 6
         { 162, "Canon EF 200mm f/2.8L"                                      },
         { 163, "Canon EF 300mm f/4L"                                        },
         { 164, "Canon EF 400mm f/5.6L"                                      },
