@@ -37,6 +37,8 @@
 // + standard includes
 #include <string>
 
+#include "svn_version.h"
+
 /*!
   @brief %Exiv2 MAJOR version number of the library used at compile-time.
  */
