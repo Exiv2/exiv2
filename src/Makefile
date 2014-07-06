@@ -224,7 +224,7 @@ exv_conf.h: $(top_srcdir)/config/config.h
 
 # svn_version.h is only rewritten when the svn info | grep Revision has changed
 svn_version.h:
-	svn_version.sh
+	$(SHELL) ./svn_version.sh
 	
 version.hpp : svn_version.h
 	
