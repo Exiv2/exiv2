@@ -237,9 +237,10 @@ EXIV2API void dumpLibraryInfo(std::ostream& os)
     }
 
     // http://syprog.blogspot.com/2011/12/listing-loaded-shared-objects-in-linux.html
-    struct lmap* pl;
-    void* ph = dlopen(NULL, RTLD_NOW);
-    struct something* p = (struct something*)ph;
+    struct lmap*      pl;
+    void*             ph = dlopen(NULL, RTLD_NOW);
+    struct something* p  = (struct something*) ph;
+    
     p  = p->ptr;
     pl = (struct lmap*)p->ptr;
 
@@ -266,4 +267,10 @@ EXIV2API void dumpLibraryInfo(std::ostream& os)
         for ( string_i lib = libs.begin()+1 ; lib != libs.end() ; lib++ )
             os << "library=" << *lib << endl;
     }
+    
+#if defined(__linux__)
+    dlclose(ph);
+    ph=NULL;
+#endif
+
 }
