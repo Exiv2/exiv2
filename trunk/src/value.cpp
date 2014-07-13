@@ -1005,9 +1005,12 @@ namespace Exiv2 {
 
     std::ostream& DateValue::write(std::ostream& os) const
     {
-        return os << date_.year << '-' << std::right
-               << std::setw(2) << std::setfill('0') << date_.month << '-'
-               << std::setw(2) << std::setfill('0') << date_.day;
+        std::ios::fmtflags f( os.flags() );
+        os << date_.year << '-' << std::right
+           << std::setw(2) << std::setfill('0') << date_.month << '-'
+           << std::setw(2) << std::setfill('0') << date_.day;
+    	os.flags(f);
+    	return os;
     }
 
     long DateValue::toLong(long /*n*/) const
@@ -1183,12 +1186,16 @@ namespace Exiv2 {
         char plusMinus = '+';
         if (time_.tzHour < 0 || time_.tzMinute < 0) plusMinus = '-';
 
-        return os << std::right
+        std::ios::fmtflags f( os.flags() );
+        os << std::right
            << std::setw(2) << std::setfill('0') << time_.hour << ':'
            << std::setw(2) << std::setfill('0') << time_.minute << ':'
            << std::setw(2) << std::setfill('0') << time_.second << plusMinus
            << std::setw(2) << std::setfill('0') << abs(time_.tzHour) << ':'
            << std::setw(2) << std::setfill('0') << abs(time_.tzMinute);
+        os.flags(f);
+
+        return os;
     }
 
     long TimeValue::toLong(long /*n*/) const
