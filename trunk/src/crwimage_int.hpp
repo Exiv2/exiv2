@@ -426,6 +426,8 @@ namespace Exiv2 {
     private:
         // DATA
         Components components_; //!< List of components in this dir
+        AutoPtr    m_; // used by recursive doAdd
+        CiffComponent* cc_;
 
     }; // class CiffDirectory
 

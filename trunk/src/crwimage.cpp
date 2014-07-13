@@ -779,11 +779,11 @@ namespace Exiv2 {
     CiffComponent* CiffDirectory::doFindComponent(uint16_t crwTagId,
                                                   uint16_t crwDir) const
     {
-        CiffComponent* cc = 0;
+    	CiffComponent* cc = NULL;
         const Components::const_iterator b = components_.begin();
         const Components::const_iterator e = components_.end();
         for (Components::const_iterator i = b; i != e; ++i) {
-            cc = (*i)->findComponent(crwTagId, crwDir);
+        	cc = (*i)->findComponent(crwTagId, crwDir);
             if (cc) return cc;
         }
         return 0;
@@ -797,8 +797,7 @@ namespace Exiv2 {
         assert(rootDirectory == 0x0000);
         crwDirs.pop();
         if (!pRootDir_) pRootDir_ = new CiffDirectory;
-        CiffComponent* cc = pRootDir_->add(crwDirs, crwTagId);
-        cc->setValue(buf);
+        if ( pRootDir_) pRootDir_->add(crwDirs, crwTagId)->setValue(buf);
     } // CiffHeader::add
 
     CiffComponent* CiffComponent::add(CrwDirs& crwDirs, uint16_t crwTagId)
@@ -825,8 +824,6 @@ namespace Exiv2 {
               if not found, create it
               set value
         */
-        AutoPtr m;
-        CiffComponent* cc = 0;
         const Components::iterator b = components_.begin();
         const Components::iterator e = components_.end();
 
@@ -836,35 +833,35 @@ namespace Exiv2 {
             // Find the directory
             for (Components::iterator i = b; i != e; ++i) {
                 if ((*i)->tag() == csd.crwDir_) {
-                    cc = *i;
+                    cc_ = *i;
                     break;
                 }
             }
-            if (cc == 0) {
+            if (cc_ == 0) {
                 // Directory doesn't exist yet, add it
-                m = AutoPtr(new CiffDirectory(csd.crwDir_, csd.parent_));
-                cc = m.get();
-                add(m);
+                m_ = AutoPtr(new CiffDirectory(csd.crwDir_, csd.parent_));
+                cc_ = m_.get();
+                add(m_);
             }
             // Recursive call to next lower level directory
-            cc = cc->add(crwDirs, crwTagId);
+            cc_ = cc_->add(crwDirs, crwTagId);
         }
         else {
             // Find the tag
             for (Components::iterator i = b; i != e; ++i) {
                 if ((*i)->tagId() == crwTagId) {
-                    cc = *i;
+                    cc_ = *i;
                     break;
                 }
             }
-            if (cc == 0) {
+            if (cc_ == 0) {
                 // Tag doesn't exist yet, add it
-                m = AutoPtr(new CiffEntry(crwTagId, tag()));
-                cc = m.get();
-                add(m);
+                m_ = AutoPtr(new CiffEntry(crwTagId, tag()));
+                cc_ = m_.get();
+                add(m_);
             }
         }
-        return cc;
+        return cc_;
     } // CiffDirectory::doAdd
 
     void CiffHeader::remove(uint16_t crwTagId, uint16_t crwDir)
