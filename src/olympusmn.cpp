@@ -1335,6 +1335,7 @@ namespace Exiv2 {
             { { 2, 34, 16 }, N_("Leica DG Summilux 15mm F1.7 Asph.")                    },
             { { 3,  1,  0 }, N_("Leica D Vario Elmarit 14-50mm F2.8-3.5 Asph.")         },
             { { 3,  2,  0 }, N_("Leica D Summilux 25mm F1.4 Asph.")                     },
+            { { 5,  1, 16 }, N_("Tamron 14-150mm F3.5-5.8 Di III")                      },
             // End of list marker
             { { 0xff,  0,  0 }, "" }
         };
