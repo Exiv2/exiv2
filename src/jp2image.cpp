@@ -317,7 +317,7 @@ namespace Exiv2
                            std::cout << "Exiv2::Jp2Image::readMetadata: Xmp data found\n";
 #endif
 
-                            rawData.alloc(box.boxLength - (sizeof(box) + sizeof(uuid)));
+                            rawData.alloc(box.boxLength - (u_int32_t)(sizeof(box) + sizeof(uuid)));
                             bufRead = io_->read(rawData.pData_, rawData.size_);
                             if (io_->error()) throw Error(14);
                             if (bufRead != rawData.size_) throw Error(20);
