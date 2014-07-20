@@ -320,12 +320,14 @@ namespace Exiv2 {
                                                   const Value& value,
                                                   const ExifData*)
     {
+        std::ios::fmtflags f( os.flags() );
         std::ostringstream oss;
         oss.copyfmt(os);
         os << std::fixed << std::setprecision(1)
            << value.toLong() / 3 << _(" EV");
         os.copyfmt(oss);
 
+        os.flags(f);
         return os;
 
     } // PanasonicMakerNote::print0x0023

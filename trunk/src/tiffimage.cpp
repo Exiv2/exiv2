@@ -2050,6 +2050,7 @@ namespace Exiv2 {
 
     void TiffHeaderBase::print(std::ostream& os, const std::string& prefix) const
     {
+        std::ios::fmtflags f( os.flags() );
         os << prefix
            << _("TIFF header, offset") << " = 0x"
            << std::setw(8) << std::setfill('0') << std::hex << std::right
@@ -2061,6 +2062,7 @@ namespace Exiv2 {
         case invalidByteOrder: break;
         }
         os << "\n";
+        os.flags(f);
     } // TiffHeaderBase::print
 
     ByteOrder TiffHeaderBase::byteOrder() const

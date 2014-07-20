@@ -93,6 +93,7 @@ namespace Exiv2 {
     template <int N, const TagDetails (&array)[N], int count, int ignoredcount, int ignoredcountmax>
     std::ostream& printCombiTag(std::ostream& os, const Value& value, const ExifData* metadata)
     {
+        std::ios::fmtflags f( os.flags() );
         if ((value.count() != count && (value.count() < (count + ignoredcount) || value.count() > (count + ignoredcountmax))) || count > 4) {
             return printValue(os, value, metadata);
         }
@@ -113,6 +114,7 @@ namespace Exiv2 {
                << std::hex << l << std::dec << ")";
         }
 
+        os.flags(f);
         return os;
     }
 

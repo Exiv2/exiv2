@@ -90,6 +90,7 @@ namespace Exiv2 {
     //! Print the 35mm focal length
     std::ostream& printFocalLength35(std::ostream& os, const Value& value, const ExifData*)
     {
+        std::ios::fmtflags f( os.flags() );
         if (value.count() != 1 || value.typeId() != unsignedLong) {
             return os << value;
         }
@@ -103,6 +104,7 @@ namespace Exiv2 {
             os << std::fixed << std::setprecision(1) << length / 10.0 << " mm";
             os.copyfmt(oss);
         }
+        os.flags(f);
         return os;
     }
 

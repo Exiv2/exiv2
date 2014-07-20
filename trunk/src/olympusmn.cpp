@@ -1174,6 +1174,7 @@ namespace Exiv2 {
 
     std::ostream& OlympusMakerNote::print0x0204(std::ostream& os, const Value& value, const ExifData*)
     {
+        std::ios::fmtflags of( os.flags() );
         if (   value.count() == 0
             || value.toRational().second == 0) {
             return os << "(" << value << ")";
@@ -1184,6 +1185,7 @@ namespace Exiv2 {
         oss.copyfmt(os);
         os << std::fixed << std::setprecision(1) << f << "x";
         os.copyfmt(oss);
+        os.flags(of);
         return os;
     } // OlympusMakerNote::print0x0204
 

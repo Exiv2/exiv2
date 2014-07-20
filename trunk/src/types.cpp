@@ -444,6 +444,7 @@ namespace Exiv2 {
     {
         const std::string::size_type pos = 8 + 16 * 3 + 2;
         const std::string align(pos, ' ');
+        std::ios::fmtflags f( os.flags() );
 
         long i = 0;
         while (i < len) {
@@ -461,6 +462,7 @@ namespace Exiv2 {
             os << (width > pos ? "" : align.substr(width)) << ss.str() << "\n";
         }
         os << std::dec << std::setfill(' ');
+        os.flags(f);
     } // hexdump
 
     bool isHex(const std::string& str, size_t size, const std::string& prefix)

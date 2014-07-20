@@ -2277,6 +2277,7 @@ namespace Exiv2 {
 
     std::ostream& printDegrees(std::ostream& os, const Value& value, const ExifData*)
     {
+        std::ios::fmtflags f( os.flags() );
         if (value.count() == 3) {
             std::ostringstream oss;
             oss.copyfmt(os);
@@ -2301,7 +2302,7 @@ namespace Exiv2 {
         else {
             os << value;
         }
-
+        os.flags(f);
         return os;
     } // printDegrees
 
@@ -2348,6 +2349,7 @@ namespace Exiv2 {
 
     std::ostream& print0x0006(std::ostream& os, const Value& value, const ExifData*)
     {
+        std::ios::fmtflags f( os.flags() );
         std::ostringstream oss;
         oss.copyfmt(os);
         const int32_t d = value.toRational().second;
@@ -2356,11 +2358,13 @@ namespace Exiv2 {
         os << std::fixed << std::setprecision(p) << value.toFloat() << " m";
         os.copyfmt(oss);
 
+        os.flags(f);
         return os;
     }
 
     std::ostream& print0x0007(std::ostream& os, const Value& value, const ExifData*)
     {
+        std::ios::fmtflags f( os.flags() );
         if (value.count() == 3) {
             for (int i = 0; i < 3; ++i) {
                 if (value.toRational(i).second == 0) {
@@ -2390,6 +2394,7 @@ namespace Exiv2 {
             os << value;
         }
 
+        os.flags(f);
         return os;
     }
 
@@ -2472,6 +2477,7 @@ namespace Exiv2 {
 
     std::ostream& print0x829d(std::ostream& os, const Value& value, const ExifData*)
     {
+        std::ios::fmtflags f( os.flags() );
         Rational fnumber = value.toRational();
         if (fnumber.second != 0) {
             std::ostringstream oss;
@@ -2483,6 +2489,7 @@ namespace Exiv2 {
         else {
             os << "(" << value << ")";
         }
+        os.flags(f);
         return os;
     }
 
@@ -2529,6 +2536,7 @@ namespace Exiv2 {
 
     std::ostream& print0x9202(std::ostream& os, const Value& value, const ExifData*)
     {
+        std::ios::fmtflags f( os.flags() );
         if (   value.count() == 0
             || value.toRational().second == 0) {
             return os << "(" << value << ")";
@@ -2537,6 +2545,7 @@ namespace Exiv2 {
         oss.copyfmt(os);
         os << "F" << std::setprecision(2) << fnumber(value.toFloat());
         os.copyfmt(oss);
+        os.flags(f);
         return os;
     }
 
@@ -2564,6 +2573,7 @@ namespace Exiv2 {
 
     std::ostream& print0x9206(std::ostream& os, const Value& value, const ExifData*)
     {
+        std::ios::fmtflags f( os.flags() );
         Rational distance = value.toRational();
         if (distance.first == 0) {
             os << _("Unknown");
@@ -2582,6 +2592,7 @@ namespace Exiv2 {
         else {
             os << "(" << value << ")";
         }
+        os.flags(f);
         return os;
     }
 
@@ -2597,6 +2608,7 @@ namespace Exiv2 {
 
     std::ostream& print0x920a(std::ostream& os, const Value& value, const ExifData*)
     {
+        std::ios::fmtflags f( os.flags() );
         Rational length = value.toRational();
         if (length.second != 0) {
             std::ostringstream oss;
@@ -2609,6 +2621,7 @@ namespace Exiv2 {
         else {
             os << "(" << value << ")";
         }
+        os.flags(f);
         return os;
     }
 
@@ -2661,6 +2674,7 @@ namespace Exiv2 {
 
     std::ostream& print0xa404(std::ostream& os, const Value& value, const ExifData*)
     {
+        std::ios::fmtflags f( os.flags() );
         Rational zoom = value.toRational();
         if (zoom.second == 0) {
             os << _("Digital zoom not used");
@@ -2672,6 +2686,7 @@ namespace Exiv2 {
                << (float)zoom.first / zoom.second;
             os.copyfmt(oss);
         }
+        os.flags(f);
         return os;
     }
 
@@ -3109,15 +3124,19 @@ namespace Exiv2 {
 
     std::ostream& operator<<(std::ostream& os, const TagInfo& ti)
     {
+        std::ios::fmtflags f( os.flags() );
         ExifKey exifKey(ti);
-        return os << exifKey.tagName() << ",\t"
-                  << std::dec << exifKey.tag() << ",\t"
-                  << "0x" << std::setw(4) << std::setfill('0')
-                  << std::right << std::hex << exifKey.tag() << ",\t"
-                  << exifKey.groupName() << ",\t"
-                  << exifKey.key() << ",\t"
-                  << TypeInfo::typeName(exifKey.defaultTypeId()) << ",\t"
-                  << exifKey.tagDesc();
+        os << exifKey.tagName() << ",\t"
+           << std::dec << exifKey.tag() << ",\t"
+           << "0x" << std::setw(4) << std::setfill('0')
+           << std::right << std::hex << exifKey.tag() << ",\t"
+           << exifKey.groupName() << ",\t"
+           << exifKey.key() << ",\t"
+           << TypeInfo::typeName(exifKey.defaultTypeId()) << ",\t"
+           << exifKey.tagDesc();
+
+        os.flags(f);
+        return os;
     }
 
 }                                       // namespace Exiv2
