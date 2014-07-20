@@ -2488,6 +2488,7 @@ fmountlens[] = {
                                                            const Value& value, 
                                                            const ExifData*)
     {
+        std::ios::fmtflags f( os.flags() );
         if (value.count() != 1 || value.typeId() != unsignedByte || value.toLong() == 0 || value.toLong() == 255) {
             return os << "(" << value << ")";
         }
@@ -2495,6 +2496,7 @@ fmountlens[] = {
         oss.copyfmt(os);
         os << std::fixed << std::setprecision(2) << value.toLong() << " Hz";
         os.copyfmt(oss);
+        os.flags(f);
         return os;
     }
 
@@ -2502,6 +2504,7 @@ fmountlens[] = {
                                                             const Value& value, 
                                                             const ExifData*)
     {
+        std::ios::fmtflags f( os.flags() );
         if (value.count() != 1 || value.typeId() != unsignedByte || value.toLong() == 0 || value.toLong() == 255) {
             return os << "(" << value << ")";
         }
@@ -2509,6 +2512,7 @@ fmountlens[] = {
         oss.copyfmt(os);
         os << std::fixed << std::setprecision(2) << value.toLong();
         os.copyfmt(oss);
+        os.flags(f);
         return os;
     }
 
