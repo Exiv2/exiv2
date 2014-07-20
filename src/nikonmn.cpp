@@ -298,6 +298,7 @@ namespace Exiv2 {
                                                const Value& value,
                                                const ExifData*)
     {
+        std::ios::fmtflags f( os.flags() );
         Rational distance = value.toRational();
         if (distance.first == 0) {
             os << _("Unknown");
@@ -313,6 +314,7 @@ namespace Exiv2 {
         else {
             os << "(" << value << ")";
         }
+        os.flags(f);
         return os;
     }
 
@@ -320,6 +322,7 @@ namespace Exiv2 {
                                                const Value& value,
                                                const ExifData*)
     {
+        std::ios::fmtflags f( os.flags() );
         Rational zoom = value.toRational();
         if (zoom.first == 0) {
             os << _("Not used");
@@ -335,6 +338,7 @@ namespace Exiv2 {
         else {
             os << "(" << value << ")";
         }
+        os.flags(f);
         return os;
     }
 
@@ -501,6 +505,7 @@ namespace Exiv2 {
                                                const Value& value,
                                                const ExifData*)
     {
+        std::ios::fmtflags f( os.flags() );
         Rational zoom = value.toRational();
         if (zoom.first == 0) {
             os << _("Not used");
@@ -516,6 +521,7 @@ namespace Exiv2 {
         else {
             os << "(" << value << ")";
         }
+        os.flags(f);
         return os;
     }
 
@@ -1460,6 +1466,7 @@ namespace Exiv2 {
                                                const Value& value,
                                                const ExifData*)
     {
+        std::ios::fmtflags f( os.flags() );
         if (   value.count() != 4
             || value.toRational(0).second == 0
             || value.toRational(1).second == 0) {
@@ -1485,6 +1492,7 @@ namespace Exiv2 {
                << static_cast<float>(fno2.first) / fno2.second;
         }
         os.copyfmt(oss);
+        os.flags(f);
         return os;
     }
 
@@ -1492,6 +1500,7 @@ namespace Exiv2 {
                                                const Value& value,
                                                const ExifData*)
     {
+        std::ios::fmtflags f( os.flags() );
         Rational distance = value.toRational();
         if (distance.first == 0) {
             os << _("Unknown");
@@ -1507,6 +1516,7 @@ namespace Exiv2 {
         else {
             os << "(" << value << ")";
         }
+        os.flags(f);
         return os;
     }
 
@@ -1514,6 +1524,7 @@ namespace Exiv2 {
                                                const Value& value,
                                                const ExifData*)
     {
+        std::ios::fmtflags f( os.flags() );
         Rational zoom = value.toRational();
         if (zoom.first == 0) {
             os << _("Not used");
@@ -1529,6 +1540,7 @@ namespace Exiv2 {
         else {
             os << "(" << value << ")";
         }
+        os.flags(f);
         return os;
     }
 
@@ -2399,14 +2411,18 @@ fmountlens[] = {
                                                       const Value& value,
                                                       const ExifData*)
     {
+        std::ios::fmtflags f( os.flags() );
         if (value.count() != 1 || value.typeId() != unsignedByte) {
-            return os << "(" << value << ")";
+            os << "(" << value << ")";
+            os.flags(f);
+            return os;
         }
         double dist = 0.01 * pow(10.0, value.toLong()/40.0);
         std::ostringstream oss;
         oss.copyfmt(os);
         os << std::fixed << std::setprecision(2) << dist << " m";
         os.copyfmt(oss);
+        os.flags(f);
         return os;
     }
 
@@ -2414,14 +2430,18 @@ fmountlens[] = {
                                                  const Value& value, 
                                                  const ExifData*)
     {
+        std::ios::fmtflags f( os.flags() );
         if (value.count() != 1 || value.typeId() != unsignedByte) {
-            return os << "(" << value << ")";
+            os << "(" << value << ")";
+            os.flags(f);
+            return os;
         }
         double aperture = pow(2.0, value.toLong()/24.0);
         std::ostringstream oss;
         oss.copyfmt(os);
         os << std::fixed << std::setprecision(1) << "F" << aperture;
         os.copyfmt(oss);
+        os.flags(f);
         return os;
     }
 
@@ -2444,14 +2464,18 @@ fmountlens[] = {
                                                const Value& value, 
                                                const ExifData*)
     {
+        std::ios::fmtflags f( os.flags() );
         if (value.count() != 1 || value.typeId() != unsignedByte) {
-            return os << "(" << value << ")";
+            os << "(" << value << ")";
+            os.flags(f);
+            return os;
         }
         double fstops = value.toLong()/12.0;
         std::ostringstream oss;
         oss.copyfmt(os);
         os << std::fixed << std::setprecision(1) << "F" << fstops;
         os.copyfmt(oss);
+        os.flags(f);
         return os;
     }
 
@@ -2459,14 +2483,18 @@ fmountlens[] = {
                                                           const Value& value, 
                                                           const ExifData*)
     {
+        std::ios::fmtflags f( os.flags() );
         if (value.count() != 1 || value.typeId() != unsignedByte || value.toLong() == 0) {
-            return os << "(" << value << ")";
+            os << "(" << value << ")";
+            os.flags(f);
+            return os;
         }
         double epp = 2048.0/value.toLong();
         std::ostringstream oss;
         oss.copyfmt(os);
         os << std::fixed << std::setprecision(1) << epp << " mm";
         os.copyfmt(oss);
+        os.flags(f);
         return os;
     }
 
@@ -2474,13 +2502,17 @@ fmountlens[] = {
                                                          const Value& value, 
                                                          const ExifData*)
     {
+        std::ios::fmtflags f( os.flags() );
         if (value.count() != 1 || value.typeId() != unsignedByte || value.toLong() == 0 || value.toLong() == 255) {
-            return os << "(" << value << ")";
+            os << "(" << value << ")";
+            os.flags(f);
+            return os;
         }
         std::ostringstream oss;
         oss.copyfmt(os);
         os << std::fixed << std::setprecision(1) << value.toLong() << " mm";
         os.copyfmt(oss);
+        os.flags(f);
         return os;
     }
 
@@ -2520,8 +2552,11 @@ fmountlens[] = {
                                                  const Value& value, 
                                                  const ExifData*)
     {
+        std::ios::fmtflags f( os.flags() );
         if (value.count() != 1 || value.typeId() != signedShort) {
-            return os << "(" << value << ")";
+            os << "(" << value << ")";
+            os.flags(f);
+            return os;
         }
         std::ostringstream oss;
         oss.copyfmt(os);
@@ -2531,6 +2566,7 @@ fmountlens[] = {
         os << std::fixed << "UTC " << sign << std::setw(2) << std::setfill('0') << h << ":" 
            << std::setw(2) << std::setfill('0') << min;
         os.copyfmt(oss);
+        os.flags(f);
         return os;
     }
 

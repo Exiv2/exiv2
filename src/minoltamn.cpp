@@ -960,22 +960,26 @@ namespace Exiv2 {
     {
         // From Xavier Raynaud: the value is converted from 0:256 to -5.33:5.33
 
+        std::ios::fmtflags f( os.flags() );
         std::ostringstream oss;
         oss.copyfmt(os);
         os << std::fixed << std::setprecision(2)
            << (float (value.toLong()-128)/24);
         os.copyfmt(oss);
+        os.flags(f);
         return os;
     }
 
     //! Method to convert Minolta Dynax 5D exposure compensation values.
     std::ostream& MinoltaMakerNote::printMinoltaExposureCompensation5D(std::ostream& os, const Value& value, const ExifData*)
     {
+        std::ios::fmtflags f( os.flags() );
         std::ostringstream oss;
         oss.copyfmt(os);
         os << std::fixed << std::setprecision(2)
            << (float (value.toLong()-300)/100);
         os.copyfmt(oss);
+        os.flags(f);
         return os;
     }
 
@@ -2151,10 +2155,13 @@ namespace Exiv2 {
 
     std::ostream& printMinoltaSonyFlashExposureComp(std::ostream& os, const Value& value, const ExifData*)
     {
+        std::ios::fmtflags f( os.flags() );
         if (value.count() != 1 || value.typeId() != signedRational) {
             return os << "(" << value << ")";
         }
-        return os << std::fixed << std::setprecision(2) << value.toFloat(0) << " EV";
+        os << std::fixed << std::setprecision(2) << value.toFloat(0) << " EV";
+        os.flags(f);
+        return os;
     }
 
 }}                                      // namespace Internal, Exiv2

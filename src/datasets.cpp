@@ -714,21 +714,24 @@ namespace Exiv2 {
 
     std::ostream& operator<<(std::ostream& os, const DataSet& dataSet)
     {
+        std::ios::fmtflags f( os.flags() );
         IptcKey iptcKey(dataSet.number_, dataSet.recordId_);
-        return os << dataSet.name_ << ", "
-                  << std::dec << dataSet.number_ << ", "
-                  << "0x" << std::setw(4) << std::setfill('0')
-                  << std::right << std::hex << dataSet.number_ << ", "
-                  << IptcDataSets::recordName(dataSet.recordId_) << ", "
-                  << std::boolalpha << dataSet.mandatory_ << ", "
-                  << dataSet.repeatable_ << ", "
-                  << std::dec << dataSet.minbytes_ << ", "
-                  << dataSet.maxbytes_ << ", "
-                  << iptcKey.key() << ", "
-                  << TypeInfo::typeName(
-                      IptcDataSets::dataSetType(dataSet.number_,
-                                                dataSet.recordId_)) << ", "
-                  << dataSet.desc_;
+        os << dataSet.name_ << ", "
+           << std::dec << dataSet.number_ << ", "
+           << "0x" << std::setw(4) << std::setfill('0')
+           << std::right << std::hex << dataSet.number_ << ", "
+           << IptcDataSets::recordName(dataSet.recordId_) << ", "
+           << std::boolalpha << dataSet.mandatory_ << ", "
+           << dataSet.repeatable_ << ", "
+           << std::dec << dataSet.minbytes_ << ", "
+           << dataSet.maxbytes_ << ", "
+           << iptcKey.key() << ", "
+           << TypeInfo::typeName(
+              IptcDataSets::dataSetType(dataSet.number_,
+                                          dataSet.recordId_)) << ", "
+           << dataSet.desc_;
+        os.flags(f);
+        return os;
     }
 
 }                                       // namespace Exiv2
