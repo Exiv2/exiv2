@@ -2290,7 +2290,12 @@ namespace Exiv2 {
             for (int i = 0; i < n + 1; ++i) {
                 const int32_t z = value.toRational(i).first;
                 const int32_t d = value.toRational(i).second;
-                if (d == 0) return os << "(" << value << ")";
+                if (d == 0)
+                {
+                    os << "(" << value << ")";
+                    os.flags(f);
+                    return os;
+                }
                 // Hack: Need Value::toDouble
                 double b = static_cast<double>(z)/d;
                 const int p = z % d == 0 ? 0 : prec[i];

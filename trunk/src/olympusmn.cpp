@@ -1530,7 +1530,9 @@ namespace Exiv2 {
 
     // Olympus FocusDistance 0x0305
     std::ostream& OlympusMakerNote::print0x0305(std::ostream& os, const Value& value, const ExifData*) {
+        std::ios::fmtflags f( os.flags() );
         if (value.count() != 1 || value.typeId() != unsignedRational) {
+            os.flags(f);
             return os << value;
         }
         
@@ -1545,6 +1547,7 @@ namespace Exiv2 {
             os << (float)distance.first/1000 << " m";
             os.copyfmt(oss); 
         }
+        os.flags(f);
         return os;
     }
     

@@ -1374,8 +1374,14 @@ namespace Exiv2 {
                                                     const Value& value,
                                                     const ExifData* metadata)
     {
+        std::ios::fmtflags f( os.flags() );
         if (   !metadata || value.typeId() != unsignedLong
-            || value.count() == 0) return os << "(" << value << ")";
+            || value.count() == 0)
+        {
+            os << "(" << value << ")";
+            os.flags(f);
+            return os;
+        }
 
         ExifData::const_iterator pos = metadata->findKey(ExifKey("Exif.Image.Model"));
         if (pos == metadata->end()) return os << "(" << value << ")";
@@ -1389,7 +1395,9 @@ namespace Exiv2 {
             uint32_t val = value.toLong();
             uint32_t dn = (val & 0xffc0) >> 6;
             uint32_t fn = ((val >> 16) & 0xff) + ((val & 0x3f) << 8);
-            return os << std::dec << dn << "-" << std::setw(4) << std::setfill('0') << fn;
+            os << std::dec << dn << "-" << std::setw(4) << std::setfill('0') << fn;
+            os.flags(f);
+            return os;
         }
         if (   model.find("30D") != std::string::npos
             || model.find("400D") != std::string::npos
@@ -1400,9 +1408,12 @@ namespace Exiv2 {
             uint32_t dn = (val & 0xffc00) >> 10;
             while (dn < 100) dn += 0x40;
             uint32_t fn = ((val & 0x3ff) << 4) + ((val >> 20) & 0x0f);
-            return os << std::dec << dn << "-" << std::setw(4) << std::setfill('0') << fn;
+            os << std::dec << dn << "-" << std::setw(4) << std::setfill('0') << fn;
+            os.flags(f);
+            return os;
         }
 
+        os.flags(f);
         return os << "(" << value << ")";
     }
 
@@ -1410,9 +1421,11 @@ namespace Exiv2 {
                                                    const Value& value,
                                                    const ExifData* metadata)
     {
+        std::ios::fmtflags f( os.flags() );
         if (   !metadata
             || value.count() < 4
             || value.typeId() != unsignedShort) {
+            os.flags(f);
             return os << value;
         }
 
@@ -1429,10 +1442,12 @@ namespace Exiv2 {
                 os << std::fixed << std::setprecision(1);
                 os << fl << " mm";
                 os.copyfmt(oss);
+                os.flags(f);
                 return os;
             }
         }
 
+        os.flags(f);
         return os << value;
     }
 
@@ -1564,9 +1579,13 @@ namespace Exiv2 {
                                               const Value& value,
                                               const ExifData*)
     {
+        std::ios::fmtflags f( os.flags() );
+
         if (   value.count() < 3
             || value.typeId() != unsignedShort) {
-            return os << "(" << value << ")";
+            os << "(" << value << ")";
+            os.flags(f);
+            return os;
         }
 
         float fu = value.toFloat(2);
@@ -1582,6 +1601,7 @@ namespace Exiv2 {
             os << len2 << " - " << len1 << " mm";
         }
         os.copyfmt(oss);
+        os.flags(f);
         return os;
     }
 
@@ -1589,11 +1609,13 @@ namespace Exiv2 {
                                                 const Value& value,
                                                 const ExifData*)
     {
+        std::ios::fmtflags f( os.flags() );
         if (   value.typeId() == unsignedShort
             && value.count() > 0) {
             // Ported from Exiftool by Will Stokes
             os << exp(canonEv(value.toLong()) * log(2.0)) * 100.0 / 32.0;
         }
+        os.flags(f);
         return os;
     }
 
@@ -1654,6 +1676,7 @@ namespace Exiv2 {
                                                 const Value& value,
                                                 const ExifData*)
     {
+        std::ios::fmtflags f( os.flags() );
         if (   value.typeId() != unsignedShort
             || value.count() == 0) return os << value;
 
@@ -1664,6 +1687,7 @@ namespace Exiv2 {
         else {
             os << l << "";
         }
+        os.flags(f);
         return os;
     }
 
@@ -1688,6 +1712,7 @@ namespace Exiv2 {
                                                 const Value& value,
                                                 const ExifData*)
     {
+        std::ios::fmtflags f( os.flags() );
         if (   value.typeId() != unsignedShort
             || value.count() == 0) return os << value;
 
@@ -1696,6 +1721,7 @@ namespace Exiv2 {
         if (ur.second > 1) {
             os << "/" << ur.second;
         }
+        os.flags(f);
         return os << " s";
     }
 
@@ -1718,6 +1744,7 @@ namespace Exiv2 {
                                                        const Value& value,
                                                        const ExifData*)
     {
+       std::ios::fmtflags f( os.flags() );
        if (   value.typeId() != signedShort
          || value.count() == 0) return os << value;
 
@@ -1734,6 +1761,7 @@ namespace Exiv2 {
       }
 
       os.copyfmt(oss);
+      os.flags(f);
       return os;
     }
 

@@ -218,10 +218,12 @@ namespace Exiv2 {
 
     std::ostream& CasioMakerNote::print0x0006(std::ostream& os, const Value& value, const ExifData*)
     {
+        std::ios::fmtflags f( os.flags() );
         std::ostringstream oss;
         oss.copyfmt(os);
         os << std::fixed << std::setprecision(2) << value.toLong() / 1000.0 << _(" m");
         os.copyfmt(oss);
+        os.flags(f);
         return os;
     } 
 
@@ -583,14 +585,18 @@ namespace Exiv2 {
 
     std::ostream& Casio2MakerNote::print0x2022(std::ostream& os, const Value& value, const ExifData*)
     {
+        std::ios::fmtflags f( os.flags() );
         if(value.toLong()>=0x20000000)
         {
-            return os << N_("Inf");
+            os << N_("Inf");
+            os.flags(f);
+            return os;
         };
         std::ostringstream oss;
         oss.copyfmt(os);
         os << std::fixed << std::setprecision(2) << value.toLong() / 1000.0 << _(" m");
         os.copyfmt(oss);
+        os.flags(f);
         return os;
     } 
 

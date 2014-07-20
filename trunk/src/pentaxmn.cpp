@@ -1010,11 +1010,13 @@ namespace Exiv2 {
 
     std::ostream& PentaxMakerNote::printPentaxTime(std::ostream& os, const Value& value, const ExifData*)
     {
+        std::ios::fmtflags f( os.flags() );
         os << std::setw(2) << std::setfill('0') << value.toLong(0);
         os << ":";
         os << std::setw(2) << std::setfill('0') << value.toLong(1);
         os << ":";
         os << std::setw(2) << std::setfill('0') << value.toLong(2);
+        os.flags(f);
         return os;
     }
 
@@ -1026,24 +1028,30 @@ namespace Exiv2 {
 
     std::ostream& PentaxMakerNote::printPentaxFValue(std::ostream& os, const Value& value, const ExifData*)
     {
+        std::ios::fmtflags f( os.flags() );
         os << "F" << std::setprecision(2)
            << static_cast<float>(value.toLong()) / 10;
+        os.flags(f);
         return os;
     }
 
     std::ostream& PentaxMakerNote::printPentaxFocalLength(std::ostream& os, const Value& value, const ExifData*)
     {
+        std::ios::fmtflags f( os.flags() );
         os << std::fixed << std::setprecision(1)
            << static_cast<float>(value.toLong()) / 100
            << " mm";
+        os.flags(f);
         return os;
     }
 
     std::ostream& PentaxMakerNote::printPentaxCompensation(std::ostream& os, const Value& value, const ExifData*)
     {
+        std::ios::fmtflags f( os.flags() );
         os << std::setprecision(2)
            << (static_cast<float>(value.toLong()) - 50) / 10
            << " EV";
+        os.flags(f);
         return os;
     }
 
@@ -1055,9 +1063,11 @@ namespace Exiv2 {
 
     std::ostream& PentaxMakerNote::printPentaxFlashCompensation(std::ostream& os, const Value& value, const ExifData*)
     {
+        std::ios::fmtflags f( os.flags() );
         os << std::setprecision(2)
            << static_cast<float>(value.toLong()) / 256
            << " EV";
+        os.flags(f);
         return os;
     }
 
