@@ -37,12 +37,6 @@ EXIV2_RCSID("@(#) $Id$")
 # include "exv_conf.h"
 #endif
 
-#if defined(__MINGW32__) || defined(__MINGW64__)
-# ifndef  __MINGW__
-#  define __MINGW__
-# endif
-#endif
-
 #if defined(__CYGWIN__) || defined(__MINGW__)
 #include <windows.h>
 #endif
@@ -240,7 +234,7 @@ EXIV2API void dumpLibraryInfo(std::ostream& os)
     struct lmap*      pl;
     void*             ph = dlopen(NULL, RTLD_NOW);
     struct something* p  = (struct something*) ph;
-    
+
     p  = p->ptr;
     pl = (struct lmap*)p->ptr;
 
@@ -267,7 +261,7 @@ EXIV2API void dumpLibraryInfo(std::ostream& os)
         for ( string_i lib = libs.begin()+1 ; lib != libs.end() ; lib++ )
             os << "library=" << *lib << endl;
     }
-    
+
 #if defined(__linux__)
     dlclose(ph);
     ph=NULL;
