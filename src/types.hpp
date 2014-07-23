@@ -39,6 +39,12 @@
 # include "exv_conf.h"
 #endif
 
+#if defined(__MINGW32__) || defined(__MINGW64__)
+# ifndef  __MINGW__
+#  define __MINGW__
+# endif
+#endif
+
 #include "version.hpp"
 
 // + standard includes
@@ -66,6 +72,13 @@ typedef __int64          int64_t;
 // MSVC macro to convert a string to a wide string
 #ifdef EXV_UNICODE_PATH
 # define EXV_WIDEN(t) L ## t
+#endif
+
+#ifdef  __MINGW__
+typedef	unsigned char		u_int8_t;
+typedef	unsigned short		u_int16_t;
+typedef	unsigned int		u_int32_t;
+typedef	unsigned long long	u_int64_t;
 #endif
 
 /*!
