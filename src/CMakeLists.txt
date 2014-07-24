@@ -63,6 +63,7 @@ SET( LIBEXIV2_HDR         asfvideo.hpp
                           preview.hpp
                           properties.hpp
                           psdimage.hpp
+                          svn_version.h
                           quicktimevideo.hpp
                           rafimage.hpp
                           riffvideo.hpp
