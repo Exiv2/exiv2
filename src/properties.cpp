@@ -193,6 +193,7 @@ namespace Exiv2 {
     };
 
     extern const XmpPropertyInfo xmpKipiInfo[] = {
+        { "PanoramaInputFiles",     N_("Panorama Input Files"),      "Text",     xmpText, xmpExternal, N_("The list of files processed with Hugin program through Panorama tool.") },
         { "EnfuseInputFiles",       N_("Enfuse Input Files"),        "Text",     xmpText, xmpExternal, N_("The list of files processed with Enfuse program through ExpoBlending tool.") },
         { "EnfuseSettings",         N_("Enfuse Settings"),           "Text",     xmpText, xmpExternal, N_("The list of Enfuse settings used to blend image stack with ExpoBlending tool.") },
         { "picasawebGPhotoId",      N_("PicasaWeb Item ID"),         "Text",     xmpText, xmpExternal, N_("Item ID from PicasaWeb web service.") },
