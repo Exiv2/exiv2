@@ -74,7 +74,7 @@ typedef __int64          int64_t;
 # define EXV_WIDEN(t) L ## t
 #endif
 
-#ifdef  __MINGW__
+#if defined(__MINGW__) || defined(_MSC_VER)
 typedef	unsigned char		u_int8_t;
 typedef	unsigned short		u_int16_t;
 typedef	unsigned int		u_int32_t;

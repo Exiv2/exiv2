@@ -263,7 +263,7 @@ source ./functions.source
 	copyTestFile         $dataname
 	copyTestFile         $diffname
 	runTest exiv2 -pa    $filename | sort  > $num-before.txt
-	exiv2 -m $dataname   $filename
+	runTest exiv2 -m     $dataname  $filename
 	runTest exiv2 -pa    $filename | sort  > $num-after.txt
 	diff $num-before.txt $num-after.txt    > $num.txt
 	diff $num.txt        $diffname
