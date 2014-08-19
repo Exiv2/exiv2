@@ -2,8 +2,16 @@
 
 set +v
 DIR="$PWD"
-source ~/bin/.profile
+if [ -e /home/rmills/bin/.profile ]; then
+	source /home/rmills/bin/.profile
+fi
+if [ -e /Users/rmills/bin/.profile ]; then
+	source /Users/rmills/bin/.profile
+fi
 cd "$DIR"
+echo ----------------------
+export
+echo ----------------------
 
 if [ -z "$tests" ]; then tests=true; fi
 
