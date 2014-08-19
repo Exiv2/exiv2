@@ -26,8 +26,8 @@ if [ "$PLATFORM" == "cygwin" ]; then
     # 1 trying to get Cygwin to build with gettext and friends
     # 2 trying to get Cygwin to install into a local directory
 	./configure --disable-nls
-	make install
 	make
+	make install
 	make samples
 
 	##
