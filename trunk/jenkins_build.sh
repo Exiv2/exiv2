@@ -79,6 +79,7 @@ if [ "$PLATFORM" == "cygwin" ]; then
 		make
 		make install
 		make samples
+		make tests
 	fi
 fi
 
