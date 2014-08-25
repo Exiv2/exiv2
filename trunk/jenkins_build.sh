@@ -83,7 +83,7 @@ if [ "$PLATFORM" == "cygwin" ]; then
 	fi
 fi
 
-if [ $build == 1 ]; then
+if [ "$build" == "1" ]; then
 	./configure --prefix=$PWD/usr
 	make "LDFLAGS=-L${PWD}/usr/lib -L${PWD}/xmpsdk/src/.libs"
 	make install
