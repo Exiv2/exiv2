@@ -184,7 +184,7 @@ namespace Exiv2 {
              tag values to human readable labels.
      */
     struct TagDetails {
-        long val_;                              //!< Tag value
+        int64_t val_;                           //!< Tag value
         const char* label_;                     //!< Translation of the tag value
 
         //! Comparison operator for use with the find template

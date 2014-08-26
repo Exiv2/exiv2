@@ -1119,11 +1119,18 @@ increment_overflow(number, delta)
 int *	number;
 int	delta;
 {
-	int	number0;
-
-	number0 = *number;
+	int i = *number;
+	/*
+        ** Copied from: https://www.ietf.org/timezones/code/localtime.c
+	** If i >= 0 there can only be overflow if i + delta > INT_MAX
+	** or if delta > INT_MAX - i; given i >= 0, INT_MAX - i cannot overflow.
+	** If i < 0 there can only be overflow if i + delta < INT_MIN
+	** or if delta < INT_MIN - i; given i < 0, INT_MIN - i cannot overflow.
+	*/
+	if ((i >= 0) ? (delta > INT_MAX - i) : (delta < INT_MIN - i))
+		return TRUE;
 	*number += delta;
-	return (*number < number0) != (delta < 0);
+	return FALSE;
 }
 
 static int
