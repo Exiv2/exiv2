@@ -31,68 +31,65 @@ if [ -e config/config.mk ]; then
     make distclean
 fi
 
-make config
+make config # 2>/dev/null >/dev/null
+
+##
+# decide what to do about libcurl and libssh
+export withcurl=''
+export withssh=''
+if grep -q curl ./configure ; then
+    if [ "$curl" == "true" ]; then withcurl=--with-curl ; else withcurl=--without-curl; fi
+fi
+if grep -q ssh  ./configure ; then
+    if [ "$ssh"  == "true" ]; then withssh=--with-ssh   ; else withssh=--without-ssh  ; fi
+fi
+
+if [ "$PLATFORM" == "cygwin" ]; then 
+    if [ "$label" == "MSVC" ] ; then
+        if [ "$msvc" == "true" ]; then
+		    ##
+		    # Invoke MSVC build
+
+	 	    rm -rf $PWD/bin
+	 	    mkdir $PWD/bin
+
+	 	    PATH=$PATH:/cygdrive/c/Windows/System32
+	 	    cmd.exe /c "cd $(cygpath -aw .) && call jenkins_build.bat"
+	 	else
+	 		echo "*** msvc build not requested ***"
+	 	fi
+	 	exit $?
+    else
+		# export LIBS=-lintl
+		# I've given up:
+		# 1. trying to get Cygwin to build with gettext and friends
+		# 2. trying to get Cygwin to install into a local directory
+		./configure --disable-nls  $withcurl $withssh
+		make
+		make install
+		make samples
+		if [ "$tests" == true ]; then
+			make tests
+		fi
+	fi
+fi
 
 build=0
 if [ $PLATFORM == "linux"  -a "$linux"  == "true" ]; then build=1; fi
 if [ $PLATFORM == "macosx" -a "$macosx" == "true" ]; then build=1; fi
 
-
-if [ "$PLATFORM" == "cygwin" ]; then 
-#	export LIBS=-lintl
-    # I've given up:
-    # 1 trying to get Cygwin to build with gettext and friends
-    # 2 trying to get Cygwin to install into a local directory
-    
-    if [ "$label" == "MSVC" ] ; then
-		##
-		# Invoke MSVC build
-	 	export ACTION=/rebuild
-	 	export BuildEnv=native
-	 	export Builder=2005
-	 	export COMPILER=G++
-	 	export debug=false
-	 	export dll=true
-	 	export expat=true
-	 	export libssh=false
-	 	export Linux=true
-	 	export MSVC=true
-	 	export openssl=false
-	 	export release=true
-	 	export static=false
-	 	export teste=false
-	 	export testr=false
-	 	export tests=true
-	 	export testv=false
-	 	export Win32=false
-	 	export x64=true
-	 	export zlib=true 
-
-	 	rm -rf $PWD/bin
-	 	mkdir $PWD/bind	
-
-	 	PATH=$PATH:/cygdrive/c/Windows/System32
-	 	cmd.exe /c "cd $(cygpath -aw .) && call jenkins_build.bat"
-	 	exit $?
-    else
-		./configure --disable-nls
-		make
-		make install
-		make samples
-		make tests
-	fi
-fi
-
-if [ "$build" == "1" ]; then
-	./configure --prefix=$PWD/usr
+if [ $build == 1 ]; then
+    echo -------------
+	echo ./configure --prefix=$PWD/usr  $withcurl $withssh
+    echo -------------
+	./configure --prefix=$PWD/usr  $withcurl $withssh
 	make "LDFLAGS=-L${PWD}/usr/lib -L${PWD}/xmpsdk/src/.libs"
 	make install
-    make samples CXXFLAGS=-I${PWD}/usr/include "LDFLAGS=-L${PWD}/usr/lib -L${PWD}/xmpsdk/src/.libs -lexiv2"
+    make samples "CXXFLAGS=-I${PWD}/usr/include -I${PWD}/src" "LDFLAGS=-L${PWD}/usr/lib -L${PWD}/xmpsdk/src/.libs -lexiv2"
 	if [ "$tests" == true ]; then
 		make tests
 	fi
 fi
-
 
 # That's all Folks!
 ##
