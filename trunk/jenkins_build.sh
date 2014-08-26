@@ -34,8 +34,8 @@ fi
 make config
 
 build=0
-if [ $PLATFORM == "linux" -a "$linux" == "true" ]; then build=1; fi
-if [ $PLATFORM == "macos" -a "$macos" == "true" ]; then build=1; fi
+if [ $PLATFORM == "linux"  -a "$linux"  == "true" ]; then build=1; fi
+if [ $PLATFORM == "macosx" -a "$macosx" == "true" ]; then build=1; fi
 
 
 if [ "$PLATFORM" == "cygwin" ]; then 
