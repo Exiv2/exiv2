@@ -7,8 +7,16 @@
 #	called from terminal 
 #	- script has build-in defaults for some environment variable
 #
+#  arguments:
+#    status    : filter last build with grep
+#
+#  environment variables (all optional)
+#    JENKINS   : URL of jenkins server. Default http://exiv2.dyndns.org:8080
 ##
 result=0
+base=$(basename $0)
+tmp=/tmp/$base.tmp
+if [ -z "$JENKINS"]; then JENKINS=http://exiv2.dyndns.org:8080; fi
 
 ##
 # functions
@@ -19,6 +27,38 @@ run_tests() {
 		fi
 	fi
 }
+
+thepath () { 
+    if [ -d $1 ]; then
+        ( cd $1;
+        pwd );
+    else
+        ( cd $(dirname $1);
+        echo $(pwd)/$(basename $1) );
+    fi
+}
+
+##
+# arg: status [grep-args]
+# example: ./jenkins_build.sh status -e URL
+if [ "$1" == "status" ]; then
+	shift
+	build=$(basename $PWD)
+	declare -A expects=( [linux]=900 [macosx]=1300 [cygwin]=1000 [mingw]=100 [msvc]=1200 )
+	for b in linux macosx cygwin mingw msvc ; do
+		echo $build/$b
+		curl --silent http://exiv2.dyndns.org:8080/job/Exiv2-$build/label=$b/lastBuild/consoleText | tee $tmp | grep -E -e SVN_[A-Z]+= -e JOB_NAME -e BUILD_ID -e Finished $@ ;
+		declare -i lines=$(wc -l $tmp | cut -d/ -f 1)
+		declare -i expect=${expects[$b]}
+		diff=$(( lines-expect>0?lines-expect:expect-lines ))
+		msg=''
+		warn=''
+		if [ "$diff" -gt "200" ]; then warn="***" ; msg="TAKE CARE " ; fi
+		echo "${warn}${msg}lines= ${lines} expect~${expect} diff=${diff}" "${msg}${warn}"
+		echo ''
+	done
+	exit $result
+fi
 
 ##
 # Quick dodge, use rmills ~/bin/.profile to set some environment variables
