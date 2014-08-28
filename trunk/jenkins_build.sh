@@ -8,12 +8,15 @@
 #	- script has build-in defaults for some environment variable
 #
 ##
+result=0
 
 ##
 # functions
 run_tests() {
-	if [ "$tests" == true ]; then
-		make tests
+	if [ "$result" == "0" ]; then
+		if [ "$tests" == true ]; then
+			make tests
+		fi
 	fi
 }
 
@@ -47,11 +50,15 @@ fi
 
 ##
 # set up some defaults (used when running this script from the terminal)
-if [						  -z "$tests"  ]; then export tests=true  ; fi
-if [ $PLATFORM == "macosx" -a -z "$macosx" ]; then export macosx=true ; export label=macosx ; fi
-if [ $PLATFORM == "cygwin" -a -z "cygwin"  ]; then export cygwin=true ; export label=cygwin ; fi
-if [ $PLATFORM == "linux"  -a -z "$linux"  ]; then export linux=true  ; export label=linux	; fi
-if [ $PLATFORM == "mingw"  -a -z "$mingw"  ]; then export mingw=true  ; export label=mingw	; fi
+echo "1 target = $target platform = $PLATFORM WORKSPACE = $WORKSPACE"
+if [ $PLATFORM == "macosx" -a -z "$macosx" ]; then export macosx=true ; export target=macosx    ; fi
+if [ $PLATFORM == "linux"  -a -z "$linux"  ]; then export linux=true  ; export target=linux	    ; fi
+if [ -z "$cygwin"  -a ! -z $CYGWIN         ]; then export cygwin=$CYGWIN                        ; fi                   
+if [ -z "$tests"     ]; then export tests=true                                                  ; fi
+if [ -z "$WORKSPACE" ]; then export WORKSPACE="$0/$PLATFORM"                                    ; fi
+
+if [ -z "$target" ]; then export target=$(basename $(echo $WORKSPACE | sed -E -e 's#\\#/#g'))   ; fi
+echo "2 target = $target platform = $PLATFORM WORKSPACE = $WORKSPACE"
 
 export PATH=$PATH:/bin:/sbin:/usr/sbin:/usr/local/bin:/usr/bin:/usr/lib/pkgconfig:/opt/local/bin:$PWD/usr/bin:/opt/local/bin:/opt/local/sbin:/opt/pkgconfig:bin
 export PKG_CONFIG_PATH=$PKG_CONFIG_PATH:$PWD/usr/lib/pkgconfig:/usr/local/lib/pkgconfig:/usr/lib/pkgconfig
@@ -75,7 +82,7 @@ fi
 ##
 # create ./configure
 # we need to inspect configure to know if libssh and libcurl are options for this build
-make config # &>/dev/null
+make config &>/dev/null
 
 ##
 # decide what to do about curl and ssh
@@ -94,58 +101,66 @@ fi
 
 ##
 # what kind of build is this?
-NONE=0
-UNIX=1
-CYGW=2
-MSVC=3
-MING=$NONE
-build=$NONE
+build=NONE
 
-if [ $PLATFORM == "linux"  -a "$label" == "linux"  -a "$linux"	== "true" ]; then build=$UNIX ; fi
-if [ $PLATFORM == "macosx" -a "$label" == "macosx" -a "$macosx" == "true" ]; then build=$UNIX ; fi
-if [ $PLATFORM == "cygwin" -a "$label" == "cygwin" -a "$cygwin" == "true" ]; then build=$CYGW ; fi
-if [ $PLATFORM == "cygwin" -a "$label" == "mingw"  -a "$mingw"	== "true" ]; then build=$MING ; fi
-if [ $PLATFORM == "cygwin" -a "$label" == "msvc"   -a "$MSVC"	== "true" ]; then build=$MSVC ; fi
+if [ $PLATFORM == "linux"  -a "$target" == "linux"  -a "$linux"	 == "true"  ]; then build=UNIX ; fi
+if [ $PLATFORM == "macosx" -a "$target" == "macosx" -a "$macosx" == "true"  ]; then build=UNIX ; fi
+if [ $PLATFORM == "cygwin" -a "$target" == "cygwin" -a "$cygwin" == "true"  ]; then build=CYGW ; fi
+if [ $PLATFORM == "cygwin" -a "$target" == "mingw"  -a "$mingw"	 == "true"  ]; then build=MING ; fi
+if [ $PLATFORM == "cygwin" -a "$target" == "msvc"   -a "$msvc"	 == "true"  ]; then build=MSVC ; fi
+
+echo "3 target = $target platform = $PLATFORM build = $build"
 
 case "$build" in
-  "$UNIX" ) 
-			echo -------------
-			echo ./configure --prefix=$PWD/usr	$withcurl $withssh
-			echo -------------
-			./configure --prefix=$PWD/usr  $withcurl $withssh
-			make "LDFLAGS=-L${PWD}/usr/lib -L${PWD}/xmpsdk/src/.libs"
-			make install
-			make samples "CXXFLAGS=-I${PWD}/usr/include -I${PWD}/src" "LDFLAGS=-L${PWD}/usr/lib -L${PWD}/xmpsdk/src/.libs -lexiv2"
-			run_tests
+  UNIX) 
+		echo -------------
+		echo ./configure --prefix=$PWD/usr	$withcurl $withssh
+		echo -------------
+		./configure --prefix=$PWD/usr  $withcurl $withssh
+		make "LDFLAGS=-L${PWD}/usr/lib -L${PWD}/xmpsdk/src/.libs"
+		make install
+		make samples "CXXFLAGS=-I${PWD}/usr/include -I${PWD}/src" "LDFLAGS=-L${PWD}/usr/lib -L${PWD}/xmpsdk/src/.libs -lexiv2"
+		result=$?
+		run_tests
   ;;
   
-  "$CYGW" ) 
-			# export LIBS=-lintl
-			# I've given up:
-			# 1. trying to get Cygwin to build with gettext and friends
-			# 2. trying to get Cygwin to install into a local directory
-			./configure --disable-nls  $withcurl $withssh
-			make
-			make install
-			make samples
-			run_tests
+  CYGW) 
+		# export LIBS=-lintl
+		# I've given up:
+		# 1. trying to get Cygwin to build with gettext and friends
+		# 2. trying to get Cygwin to install into a local directory
+		./configure --disable-nls  $withcurl $withssh
+		make
+		result=$?
+		make install
+		make samples
+		run_tests
   ;;
 
-  "$MSVC" ) 
-			rm -rf $PWD/bin
-			mkdir $PWD/bin
+  MING) 
+		echo "**************************************"
+		echo " MinGW build not implemented yet.  ***"
+		echo "**************************************"
+  ;;
 
-			PATH=$PATH:/cygdrive/c/Windows/System32
-			cmd.exe /c "cd $(cygpath -aw .) && call jenkins_build.bat"
+  MSVC) 
+		rm -rf $PWD/bin
+		mkdir $PWD/bin
+
+		PATH=$PATH:/cygdrive/c/Windows/System32
+		cmd.exe /c "cd $(cygpath -aw .) && call jenkins_build.bat"
+		result=$?
   ;;
   
   
-  "$NONE") 
-	 echo "*************************************************"
-	 echo "*** no build for platform $PLATFORM requested ***"
-	 echo "*************************************************"
+  NONE) 
+		echo "**************************************"
+		echo "*** no build requested for $target ***"
+		echo "**************************************"
   ;; 
 esac
+
 set -v
 # That's all Folks!
 ##
+exit $result
