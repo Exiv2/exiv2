@@ -171,7 +171,7 @@ case "$build" in
 		# 2. trying to get Cygwin to install into a local directory
 		./configure --disable-nls  $withcurl $withssh
 		make -j4
-		result=$?
+		# result=$?
 		make install
 		make -j4 samples
 		run_tests
