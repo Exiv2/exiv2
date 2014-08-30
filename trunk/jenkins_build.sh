@@ -47,7 +47,7 @@ if [ "$1" == "status" ]; then
 	declare -A expects=( [linux]=900 [macosx]=1300 [cygwin]=1000 [mingw]=100 [msvc]=1200 )
 	for b in linux macosx cygwin mingw msvc ; do
 		echo $build/$b
-		curl --silent http://exiv2.dyndns.org:8080/job/Exiv2-$build/label=$b/lastBuild/consoleText | tee $tmp | grep -E -e SVN_[A-Z]+= -e JOB_NAME -e BUILD_ID -e Finished $@ ;
+		curl --silent $JENKINS/job/Exiv2-$build/label=$b/lastBuild/consoleText | tee $tmp | grep -E -e SVN_[A-Z]+= -e JOB_NAME -e BUILD_ID -e Finished $@ ;
 		declare -i lines=$(wc -l $tmp | cut -d/ -f 1)
 		declare -i expect=${expects[$b]}
 		diff=$(( lines-expect>0?lines-expect:expect-lines ))
@@ -157,9 +157,9 @@ case "$build" in
 		echo ./configure --prefix=$PWD/usr	$withcurl $withssh
 		echo -------------
 		./configure --prefix=$PWD/usr  $withcurl $withssh
-		make "LDFLAGS=-L${PWD}/usr/lib -L${PWD}/xmpsdk/src/.libs"
+		make -j4 "LDFLAGS=-L${PWD}/usr/lib -L${PWD}/xmpsdk/src/.libs"
 		make install
-		make samples "CXXFLAGS=-I${PWD}/usr/include -I${PWD}/src" "LDFLAGS=-L${PWD}/usr/lib -L${PWD}/xmpsdk/src/.libs -lexiv2"
+		make -j4 samples "CXXFLAGS=-I${PWD}/usr/include -I${PWD}/src" "LDFLAGS=-L${PWD}/usr/lib -L${PWD}/xmpsdk/src/.libs -lexiv2"
 		result=$?
 		run_tests
   ;;
@@ -170,10 +170,10 @@ case "$build" in
 		# 1. trying to get Cygwin to build with gettext and friends
 		# 2. trying to get Cygwin to install into a local directory
 		./configure --disable-nls  $withcurl $withssh
-		make
+		make -j4
 		result=$?
 		make install
-		make samples
+		make -j4 samples
 		run_tests
   ;;
 
