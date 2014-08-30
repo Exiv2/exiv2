@@ -44,7 +44,7 @@ thepath () {
 if [ "$1" == "status" ]; then
 	shift
 	build=$(basename $PWD)
-	declare -A expects=( [linux]=900 [macosx]=1300 [cygwin]=1000 [mingw]=100 [msvc]=1200 )
+	declare -A expects=( [linux]=900 [macosx]=900 [cygwin]=1000 [mingw]=100 [msvc]=1200 )
 	for b in linux macosx cygwin mingw msvc ; do
 		echo $build/$b
 		curl --silent $JENKINS/job/Exiv2-$build/label=$b/lastBuild/consoleText | tee $tmp | grep -E -e SVN_[A-Z]+= -e JOB_NAME -e BUILD_ID -e Finished $@ ;
