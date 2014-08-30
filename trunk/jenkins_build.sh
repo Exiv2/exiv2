@@ -13,6 +13,7 @@
 #  environment variables (all optional)
 #    JENKINS   : URL of jenkins server. Default http://exiv2.dyndns.org:8080
 ##
+start=$(date)
 result=0
 base=$(basename $0)
 tmp=/tmp/$base.tmp
@@ -200,6 +201,8 @@ case "$build" in
   ;; 
 esac
 
+echo start  $start
+echo finish $(date)
 set -v
 # That's all Folks!
 ##
