@@ -1199,6 +1199,9 @@ namespace Exiv2 {
             if (l0 == 1) {
                 os << _("Auto");
             }
+            else {
+                return os << value;
+            }
         }
         else if (value.count() == 2) {
             short l0 = (short)value.toLong(0);
