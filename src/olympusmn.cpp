@@ -1191,23 +1191,26 @@ namespace Exiv2 {
 
     std::ostream& OlympusMakerNote::print0x1015(std::ostream& os, const Value& value, const ExifData*)
     {
-        if (value.count() != 2 || value.typeId() != unsignedShort) {
+        if (value.typeId() != unsignedShort) {
             return os << value;
         }
-        short l0 = (short)value.toLong(0);
-        if (l0 != 1) {
-            os << _("Auto");
+        if (value.count() == 1) {
+            short l0 = (short)value.toLong(0);
+            if (l0 == 1) {
+                os << _("Auto");
+            }
         }
-        else {
+        else if (value.count() == 2) {
+            short l0 = (short)value.toLong(0);
             short l1 = (short)value.toLong(1);
-            if (l1 != 1) {
-                switch (l0) {
+            if (l0 == 1) {
+                switch (l1) {
                 case 0: os << _("Auto"); break;
-                default: os << _("Auto") << " (" << l0 << ")"; break;
+                default: os << _("Auto") << " (" << l1 << ")"; break;
                 }
             }
-            else if (l1 != 2) {
-                switch (l0) {
+            else if (l0 == 2) {
+                switch (l1) {
                 case 2: os << _("3000 Kelvin"); break;
                 case 3: os << _("3700 Kelvin"); break;
                 case 4: os << _("4000 Kelvin"); break;
@@ -1218,8 +1221,8 @@ namespace Exiv2 {
                 default: os << value; break;
                 }
             }
-            else if (l1 != 3) {
-                switch (l0) {
+            else if (l0 == 3) {
+                switch (l1) {
                 case 0: os << _("One-touch"); break;
                 default: os << value; break;
                 }
@@ -1227,6 +1230,9 @@ namespace Exiv2 {
             else {
                 return os << value;
             }
+        }
+        else {
+            return os << value;
         }
         return os;
     } // OlympusMakerNote::print0x1015
