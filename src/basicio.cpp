@@ -710,7 +710,7 @@ namespace Exiv2 {
             // MSVCRT rename that does not overwrite existing files
 #ifdef EXV_UNICODE_PATH
             if (p_->wpMode_ == Impl::wpUnicode) {
-#if defined WIN32 && !defined __CYGWIN__
+#if defined(WIN32) && defined(REPLACEFILE_IGNORE_MERGE_ERRORS)
                 // Windows implementation that deals with the fact that ::rename fails
                 // if the target filename still exists, which regularly happens when
                 // that file has been opened with FILE_SHARE_DELETE by another process,
@@ -748,7 +748,7 @@ namespace Exiv2 {
             else
 #endif // EXV_UNICODE_PATH
             {
-#if defined WIN32 && !defined __CYGWIN__
+#if defined(WIN32) && defined(REPLACEFILE_IGNORE_MERGE_ERRORS)
                 // Windows implementation that deals with the fact that ::rename fails
                 // if the target filename still exists, which regularly happens when
                 // that file has been opened with FILE_SHARE_DELETE by another process,
