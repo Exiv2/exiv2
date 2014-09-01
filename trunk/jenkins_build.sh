@@ -49,8 +49,15 @@ if [ "$1" == "status" ]; then
 	declare -A expects=( [linux]=900 [macosx]=900 [cygwin]=1000 [mingw]=100 [msvc]=1200 )
 	for b in linux macosx cygwin mingw msvc ; do
 		echo $build/$b
-		curl --silent $JENKINS/job/Exiv2-$build/label=$b/lastBuild/consoleText | tee $tmp |\
-		    grep -E -e SVN_[A-Z]+= -e JOB_NAME -e BUILD_ID -e Finished -e seconds $@ ;
+		curl --silent $JENKINS/job/Exiv2-$build/label=$b/lastBuild/consoleText \
+		   | tee $tmp \
+		   | grep -E -e SVN_[A-Z]+= \
+		             -e JOB_NAME    \
+		             -e BUILD_ID    \
+		             -e Finished    \
+		             -e seconds     \
+		             -e succeeded   \
+		             $@
 		declare -i lines=$(wc -l $tmp | cut -d/ -f 1)
 		declare -i expect=${expects[$b]}
 		diff=$(( lines-expect>0?lines-expect:expect-lines ))
