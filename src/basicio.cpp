@@ -710,6 +710,16 @@ namespace Exiv2 {
             // MSVCRT rename that does not overwrite existing files
 #ifdef EXV_UNICODE_PATH
             if (p_->wpMode_ == Impl::wpUnicode) {
+#if defined WIN32 && !defined __CYGWIN__
+                // Windows implementation that deals with the fact that ::rename fails
+                // if the target filename still exists, which regularly happens when
+                // that file has been opened with FILE_SHARE_DELETE by another process,
+                // like a virus scanner or disk indexer
+                // (see also http://stackoverflow.com/a/11023068)
+                if (ReplaceFileW(wpf, fileIo->wpath().c_str(), NULL, REPLACEFILE_IGNORE_MERGE_ERRORS, NULL, NULL) == 0) {
+                    throw WError(17, fileIo->wpath(), wpf, strError().c_str());
+                }
+#else
                 if (fileExists(wpf) && ::_wremove(wpf) != 0) {
                     throw WError(2, wpf, strError().c_str(), "::_wremove");
                 }
@@ -717,6 +727,7 @@ namespace Exiv2 {
                     throw WError(17, fileIo->wpath(), wpf, strError().c_str());
                 }
                 ::_wremove(fileIo->wpath().c_str());
+#endif
                 // Check permissions of new file
                 struct _stat buf2;
                 if (statOk && ::_wstat(wpf, &buf2) == -1) {
@@ -737,6 +748,16 @@ namespace Exiv2 {
             else
 #endif // EXV_UNICODE_PATH
             {
+#if defined WIN32 && !defined __CYGWIN__
+                // Windows implementation that deals with the fact that ::rename fails
+                // if the target filename still exists, which regularly happens when
+                // that file has been opened with FILE_SHARE_DELETE by another process,
+                // like a virus scanner or disk indexer
+                // (see also http://stackoverflow.com/a/11023068)
+                if (ReplaceFile(pf, fileIo->path().c_str(), NULL, REPLACEFILE_IGNORE_MERGE_ERRORS, NULL, NULL) == 0) {
+                    throw Error(17, fileIo->path(), pf, strError());
+                }
+#else
                 if (fileExists(pf) && ::remove(pf) != 0) {
                     throw Error(2, pf, strError(), "::remove");
                 }
@@ -744,6 +765,7 @@ namespace Exiv2 {
                     throw Error(17, fileIo->path(), pf, strError());
                 }
                 ::remove(fileIo->path().c_str());
+#endif
                 // Check permissions of new file
                 struct stat buf2;
                 if (statOk && ::stat(pf, &buf2) == -1) {
