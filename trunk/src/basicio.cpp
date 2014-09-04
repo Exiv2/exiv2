@@ -722,6 +722,7 @@ namespace Exiv2 {
                     ReplaceFileW_t pfcn_ReplaceFileW = (ReplaceFileW_t)GetProcAddress(hKernel, "ReplaceFileW");
                     if (pfcn_ReplaceFileW) {
                         BOOL ret = pfcn_ReplaceFileW(wpf, fileIo->wpath().c_str(), NULL, REPLACEFILE_IGNORE_MERGE_ERRORS, NULL, NULL);
+                        FreeLibrary(hKernel);
                         if (ret == 0) {
                             if (GetLastError() == ERROR_FILE_NOT_FOUND) {
                                 if (::_wrename(fileIo->wpath().c_str(), wpf) == -1) {
@@ -735,6 +736,7 @@ namespace Exiv2 {
                         }
                     }
                     else {
+                        FreeLibrary(hKernel);
                         if (fileExists(wpf) && ::_wremove(wpf) != 0) {
                             throw WError(2, wpf, strError().c_str(), "::_wremove");
                         }
@@ -743,7 +745,6 @@ namespace Exiv2 {
                         }
                         ::_wremove(fileIo->wpath().c_str());
                     }
-                    FreeLibrary(hKernel);
                 }
 #else
                 if (fileExists(wpf) && ::_wremove(wpf) != 0) {
