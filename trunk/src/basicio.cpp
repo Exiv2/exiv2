@@ -716,8 +716,34 @@ namespace Exiv2 {
                 // that file has been opened with FILE_SHARE_DELETE by another process,
                 // like a virus scanner or disk indexer
                 // (see also http://stackoverflow.com/a/11023068)
-                if (ReplaceFileW(wpf, fileIo->wpath().c_str(), NULL, REPLACEFILE_IGNORE_MERGE_ERRORS, NULL, NULL) == 0) {
-                    throw WError(17, fileIo->wpath(), wpf, strError().c_str());
+                typedef BOOL (WINAPI * ReplaceFileW_t)(LPCWSTR, LPCWSTR, LPCWSTR, DWORD, LPVOID, LPVOID);
+                HMODULE hKernel = LoadLibraryA("kernel32.dll");
+                if (hKernel) {
+                    ReplaceFileW_t pfcn_ReplaceFileW = (ReplaceFileW_t)GetProcAddress(hKernel, "ReplaceFileW");
+                    if (pfcn_ReplaceFileW) {
+                        BOOL ret = pfcn_ReplaceFileW(wpf, fileIo->wpath().c_str(), NULL, REPLACEFILE_IGNORE_MERGE_ERRORS, NULL, NULL);
+                        if (ret == 0) {
+                            if (GetLastError() == ERROR_FILE_NOT_FOUND) {
+                                if (::_wrename(fileIo->wpath().c_str(), wpf) == -1) {
+                                    throw WError(17, fileIo->wpath(), wpf, strError().c_str());
+                                }
+                                ::_wremove(fileIo->wpath().c_str());
+                            }
+                            else {
+                                throw WError(17, fileIo->wpath(), wpf, strError().c_str());
+                            }
+                        }
+                    }
+                    else {
+                        if (fileExists(wpf) && ::_wremove(wpf) != 0) {
+                            throw WError(2, wpf, strError().c_str(), "::_wremove");
+                        }
+                        if (::_wrename(fileIo->wpath().c_str(), wpf) == -1) {
+                            throw WError(17, fileIo->wpath(), wpf, strError().c_str());
+                        }
+                        ::_wremove(fileIo->wpath().c_str());
+                    }
+                    FreeLibrary(hKernel);
                 }
 #else
                 if (fileExists(wpf) && ::_wremove(wpf) != 0) {
@@ -754,8 +780,35 @@ namespace Exiv2 {
                 // that file has been opened with FILE_SHARE_DELETE by another process,
                 // like a virus scanner or disk indexer
                 // (see also http://stackoverflow.com/a/11023068)
-                if (ReplaceFile(pf, fileIo->path().c_str(), NULL, REPLACEFILE_IGNORE_MERGE_ERRORS, NULL, NULL) == 0) {
-                    throw Error(17, fileIo->path(), pf, strError());
+                typedef BOOL (WINAPI * ReplaceFileA_t)(LPCSTR, LPCSTR, LPCSTR, DWORD, LPVOID, LPVOID);
+                HMODULE hKernel = LoadLibraryA("kernel32.dll");
+                if (hKernel) {
+                    ReplaceFileA_t pfcn_ReplaceFileA = (ReplaceFileA_t)GetProcAddress(hKernel, "ReplaceFileA");
+                    if (pfcn_ReplaceFileA) {
+                        BOOL ret = pfcn_ReplaceFileA(pf, fileIo->path().c_str(), NULL, REPLACEFILE_IGNORE_MERGE_ERRORS, NULL, NULL);
+                        FreeLibrary(hKernel);
+                        if (ret == 0) {
+                            if (GetLastError() == ERROR_FILE_NOT_FOUND) {
+                                if (::rename(fileIo->path().c_str(), pf) == -1) {
+                                    throw Error(17, fileIo->path(), pf, strError());
+                                }
+                                ::remove(fileIo->path().c_str());
+                            }
+                            else {
+                                throw Error(17, fileIo->path(), pf, strError());
+                            }
+                        }
+                    }
+                    else {
+                        FreeLibrary(hKernel);
+                        if (fileExists(pf) && ::remove(pf) != 0) {
+                            throw Error(2, pf, strError(), "::remove");
+                        }
+                        if (::rename(fileIo->path().c_str(), pf) == -1) {
+                            throw Error(17, fileIo->path(), pf, strError());
+                        }
+                        ::remove(fileIo->path().c_str());
+                    }
                 }
 #else
                 if (fileExists(pf) && ::remove(pf) != 0) {
