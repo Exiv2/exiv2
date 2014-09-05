@@ -762,6 +762,14 @@ namespace Exiv2 {
         { 0x106, N_("Hi 1.5") },
         { 0x107, N_("Hi 1.7") },
         { 0x108, N_("Hi 2.0") },
+        { 0x109, N_("Hi 2.3") },
+        { 0x10a, N_("Hi 2.5") },
+        { 0x10b, N_("Hi 2.7") },
+        { 0x10c, N_("Hi 3.0") },
+        { 0x10d, N_("Hi 3.3") },
+        { 0x10e, N_("Hi 3.5") },
+        { 0x10f, N_("Hi 3.7") },
+        { 0x110, N_("Hi 4.0") },
         { 0x201, N_("Lo 0.3") },
         { 0x202, N_("Lo 0.5") },
         { 0x203, N_("Lo 0.7") },
@@ -839,9 +847,12 @@ namespace Exiv2 {
 
     //! PhaseDetectAF
     extern const TagDetails nikonPhaseDetectAF[] = {
-        { 0, N_("Off")           },
-        { 1, N_("On (51-point)") },
-        { 2, N_("On (11-point)") }
+        { 0, N_("Off")            },
+        { 1, N_("On (51-point)")  },
+        { 2, N_("On (11-point)")  },
+        { 3, N_("On (39-point)")  },
+        { 4, N_("On (hybrid)")    },
+        { 5, N_("On (105-point)") }
     };
 
     // Nikon3 Auto Focus Tag Info
@@ -2327,6 +2338,7 @@ fmountlens[] = {
 {0x4A,0x48,0x24,0x24,0x24,0x0C,0x4D,0x02,0x00,0x00,0x00, "Samyang", "", "AE 14mm f/2.8 ED AS IF UMC"},
 {0x4A,0x60,0x44,0x44,0x0C,0x0C,0x4D,0x02,0x00,0x00,0x00, "Samyang", "", "35mm f/1.4 AS UMC"},
 {0x4A,0x60,0x62,0x62,0x0C,0x0C,0x4D,0x02,0x00,0x00,0x00, "Samyang", "", "AE 85mm f/1.4 AS IF UMC"},
+{0x4A,0x54,0x29,0x29,0x18,0x0C,0x4D,0x02,0x00,0x00,0x00, "Samyang", "", "Samyang 16mm F2.0 ED AS UMC CS"},
 //
 {0x02,0x40,0x44,0x5C,0x2C,0x34,0x02,0x00,0x00,0x00,0x00, "Exakta", "", "AF 35-70mm 1:3.5-4.5 MC"},
 {0x07,0x3E,0x30,0x43,0x2D,0x35,0x03,0x00,0x00,0x00,0x00, "Soligor", "", "AF Zoom 19-35mm 1:3.5-4.5 MC"},

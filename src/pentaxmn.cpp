@@ -186,6 +186,7 @@ namespace Exiv2 {
         {    0x12fe8, N_("WG-4") },
         {    0x13006, N_("WG-20") },
         {    0x13010, N_("645Z") },
+        {    0x1301a, N_("K-S1") },
     };
 
     //! Quality, tag 0x0008
@@ -935,6 +936,7 @@ namespace Exiv2 {
         { 0x0d12, "smc PENTAX-D FA 645 55mm F2.8 AL [IF] SDM AW" },
         { 0x0d13, "smc PENTAX-D FA 645 25mm F4 AL [IF] SDM AW" },
         { 0x0d14, "HD PENTAX-D FA 645 90mm F2.8 ED AW SR" },
+        { 0x0dfd, "HD PENTAX-DA 645 28-45mm F4.5 ED AW SR" },
         { 0x1500, "Pentax Q Manual Lens" },
         { 0x1501, "01 Standard Prime 8.5mm F1.9" },
         { 0x1502, "02 Standard Zoom 5-15mm F2.8-4.5" },
