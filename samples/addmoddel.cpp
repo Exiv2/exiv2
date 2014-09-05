@@ -63,7 +63,7 @@ try {
     std::string date = tag.toString();
     date.replace(0, 4, "2000");
     tag.setValue(date);
-    std::cout << "Modified key \"" << key
+    std::cout << "Modified key \"" << tag.key()
               << "\", new value \"" << tag.value() << "\"\n";
 
     // Alternatively, we can use findKey()
