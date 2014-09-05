@@ -1568,8 +1568,8 @@ namespace Exiv2 {
                 "the camera optical input and the image values."),
                 exifId, captureCond, undefined, 0, printValue),
         TagInfo(0x8830, "SensitivityType", N_("Sensitivity Type"),
-                N_("The SensitivityType tag indicates PhotographicSensitivity tag. which "
-                "one of the parameters of ISO12232 is the Although it is an optional tag, "
+                N_("The SensitivityType tag indicates which one of the parameters of "
+                "ISO12232 is the PhotographicSensitivity tag. Although it is an optional tag, "
                 "it should be recorded when a PhotographicSensitivity tag is recorded. "
                 "Value = 4, 5, 6, or 7 may be used in case that the values of plural "
                 "parameters are the same."),
