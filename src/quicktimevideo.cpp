@@ -1909,7 +1909,7 @@ void QuickTimeVideo::sampleDesc(uint32_t  size)
     uint64_t  cur_pos = io_->tell();
     io_->read(buf.pData_, 4);
     io_->read(buf.pData_, 4);
-    uint32_t  noOfEntries = returnUnsignedBufValue(buf);
+    uint64_t  noOfEntries = returnUnsignedBufValue(buf);
     for(uint32_t i = 1; i <= noOfEntries; i++){
         if		(d->currentStream_ == Video) imageDescDecoder();
         else if (d->currentStream_ == Audio) audioDescDecoder();
@@ -2448,7 +2448,7 @@ void QuickTimeVideo::mediaHeaderDecoder(uint32_t size)
             case MediaDuration:
                 io_->read(buf.pData_,4);
                 time_scale = returnBufValue(buf);
-                bDataWritten = writeAudVidData("MediaDuration", time_scale, 4, 0, 0); break;
+                bDataWritten = writeAudVidData("MediaDuration", (double) time_scale, 4, 0, 0); break;
             case MediaLanguageCode:
                 if(d->currentStream_ == Video){
                     if(xmpData_["Xmp.video.MediaLanguage"].count() > 0){
@@ -2556,23 +2556,25 @@ void QuickTimeVideo::trackHeaderDecoder(uint32_t size)
 bool QuickTimeVideo::writeAudVidData
 ( std::string sXmpTag, double iMulFactor, int64_t iBytCnt, int64_t iOffset, int64_t iRetFuncCall)
 {
-    DataBuf buf(5);
+    // DataBuf buf(5);
     bool	bRetVal	   = false;
     int64_t iXmpTagVal = 0;
 
     if(d->currentStream_ == Video){
         if(xmpData_["Xmp.video." + sXmpTag].count() > 0){
-            iXmpTagVal = xmpData_["Xmp.video." + sXmpTag].toLong()*iMulFactor;
-            if(iRetFuncCall == 0) buf = returnBuf(iXmpTagVal, iBytCnt);
-            else buf = returnUnsignedBuf(iXmpTagVal);
-            bRetVal = writeMultibyte(buf.pData_, iBytCnt ,iOffset);
+            iXmpTagVal = (int64_t) (xmpData_["Xmp.video." + sXmpTag].toLong()*iMulFactor);
+            DataBuf buf = iRetFuncCall == 0 ? returnBuf(iXmpTagVal, (int32_t) iBytCnt)
+				                            : returnUnsignedBuf(iXmpTagVal)
+				                            ;
+            bRetVal     = writeMultibyte(buf.pData_, iBytCnt ,iOffset);
         }
     }
     else if(d->currentStream_ == Audio){
         if(xmpData_["Xmp.audio." + sXmpTag].count() > 0){
             iXmpTagVal = xmpData_["Xmp.audio." + sXmpTag].toLong()*iMulFactor;
-            if(iRetFuncCall == 0) buf = returnBuf(iXmpTagVal, iBytCnt);
-            else buf = returnUnsignedBuf(iXmpTagVal);
+            DataBuf buf = iRetFuncCall == 0 ? returnBuf(iXmpTagVal, (int32_t) iBytCnt)
+				                            : returnUnsignedBuf(iXmpTagVal)
+						                    ;
             bRetVal = writeMultibyte(buf.pData_, iBytCnt ,iOffset);
         }
     }

@@ -143,12 +143,14 @@ namespace Exiv2 {
         }
     }
 
+#ifndef _MSC_VER
     DataBuf& DataBuf::operator=(DataBuf& rhs)
     {
         if (this == &rhs) return *this;
         reset(rhs.release());
         return *this;
     }
+#endif
 
     void DataBuf::alloc(long size)
     {
