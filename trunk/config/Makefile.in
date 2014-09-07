@@ -79,6 +79,9 @@ teste:
 testv:
 	cd test && $(MAKE) testv
 
+testvw:
+	cd test && $(MAKE) testvw	
+
 MAJOR=$(shell grep "define.*EXIV2_.*_VERSION .*\\d*" src/version.hpp | grep MAJOR | sed -e 's/EXIV2//g' | tr -dC [:digit:])
 MINOR=$(shell grep "define.*EXIV2_.*_VERSION .*\\d*" src/version.hpp | grep MINOR | sed -e 's/EXIV2//g' | tr -dC [:digit:])
 VERSION=exiv2-$(MAJOR).$(MINOR)

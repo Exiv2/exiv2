@@ -52,7 +52,8 @@ copyTestFile()
 	if [ $# == 2 ]; then
 		cp -f "$here/data/$1" "$here/tmp/$2"
 	elif [ $# == 1 ]; then
-		cp -f "$here/data/$1" "$here/tmp/$1"
+		stub=$(basename $1)
+		cp -f "$here/data/$1" "$here/tmp/$stub"
 	else
 		echo "*** error copyTestFile: illegal number of inputs = $# ***"
 	fi
@@ -213,14 +214,14 @@ iptcTest()
 # Make sure to pass the test file first and the known good file second
 diffCheck() 
 {
-    test=$1
-    good=$2
+    test=$(real_path $1)
+    good=$(real_path $2)
     if [ -z "$errors" ]; then let -a errors=0; fi
     
     #run diff and check results
-    diff -q --binary $diffargs $test $good
+    diff -q --binary $diffargs "$test" "$good"
     if [ $? -ne 0 ]; then
-       errors=`expr $errors + 1`
+       errors=$(expr $errors + 1)
     else
        rm $test
     fi 
@@ -341,39 +342,49 @@ extendedTest()
     rm $tmp
 }
 
+
 ##
-# http://stackoverflow.com/questions/1055671/how-can-i-get-the-behavior-of-gnus-readlink-f-on-a-mac
+# real_path - report the absolute path to a file
 real_path ()
 {
-    OIFS=$IFS
-    IFS='/'
-    for I in $1; do
-        # Resolve relative path punctuation.
-        if [ "$I" = "." ] || [ -z "$I" ]; then
-            continue
-        elif [ "$I" = ".." ]; then
-            FOO="${FOO%%/${FOO##*/}}"
-            continue
-        else
-            FOO="${FOO}/${I}"
-        fi
+	which realpath 2>/dev/null >/dev/null
+	if [ $? == 0 ]; then
+		realpath "$1"
+	else
+		readlink -f "$1"
+    fi
+}
 
-        ## Resolve symbolic links
-        if [ -h "$FOO" ];   then
-            IFS=$OIFS
-            set `ls -l "$FOO"`
-            while shift ; do
-                if [ "$1" = "->" ];     then
-                    FOO=$2
-                    shift $#
-                    break
-                fi
-            done
-            IFS='/'
-        fi
-    done
-    IFS=$OIFS
-    echo "$FOO"
+copyVideoFiles ()
+{
+	pushd "$testdir" 2>/dev/null >/dev/null
+
+	##
+	# find video files data/video and copy them for testing
+	declare -a videos
+	for video in $datadir/video/* ; do
+		# http://stackoverflow.com/questions/965053/extract-filename-and-extension-in-bash
+		ext="${video##*.}"
+		if [ $ext != out ]; then
+			copyTestFile "$video" 
+			videos+=($(basename "$video"))
+		fi
+	done
+
+	##
+	# TODO: remove debugging code
+	if [ "$FACTORY" == "rmills-mbp.localXX" ]; then
+    	for v in write-video-test.out video-test.out; do
+	    	cp ~/gnu/exiv2/testdata/trunk/video/$v ~/gnu/exiv2/video13/test/data/video/
+		done
+	fi
+
+	# http://stackoverflow.com/questions/7442417/how-to-sort-an-array-in-bash
+	readarray -t sorted < <(printf '%s\0' "${videos[@]}" | sort -z | xargs -0n1) 
+	echo ${videos[*]}
+	unset  videos
+
+	popd 2>/dev/null >/dev/null
 }
 
 ##

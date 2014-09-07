@@ -72,10 +72,12 @@ SET( LIBEXIV2_HDR         asfvideo.hpp
                           tgaimage.hpp
                           tiffimage.hpp
                           types.hpp
+                          utilsvideo.hpp
                           value.hpp
                           version.hpp
                           xmp.hpp
                           xmpsidecar.hpp
+                          utilsvideo.hpp
    )
 
 # Add library C++ source files to this list
@@ -127,10 +129,12 @@ SET( LIBEXIV2_SRC         asfvideo.cpp
                           tiffimage.cpp
                           tiffvisitor.cpp
                           types.cpp
+                          utilsvideo.cpp
                           value.cpp
                           version.cpp
                           xmp.cpp
                           xmpsidecar.cpp
+                          utilsvideo.cpp
    )
 
 ##

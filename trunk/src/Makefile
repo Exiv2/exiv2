@@ -117,6 +117,7 @@ CCSRC += preview.cpp       \
 	 tiffimage.cpp         \
 	 tiffvisitor.cpp       \
 	 types.cpp             \
+	 utilsvideo.cpp        \
 	 value.cpp             \
 	 version.cpp           \
 	 xmp.cpp               \

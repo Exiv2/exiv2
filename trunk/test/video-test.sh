@@ -8,42 +8,35 @@
 
 source ./functions.source
 
+##
+# set up output and reference file
+out=$(real_path "$testdir/$this.out")
+copyTestFile       "video/$this.out"
+
 (	cd "$testdir"
 
-    for file in ../data/video/video-*; do
-        video="`basename "$file"`"
-		if [ $video != "video-test.out" ] ; then
-
-	        printf "." >&3
-
-    	    echo
-        	echo "-----> $video <-----"
-
-	        copyTestFile "video/$video" "$video"
-
-    	    echo
-        	echo "Command: exiv2 -u -pa $video"
-	        runTest exiv2 -u -pa "$video"
-    	    exitcode="$?"
-        	echo "Exit code: $exitcode"
-
-	        if [ "$exitcode" -ne 0 -a "$exitcode" -ne 253 ] ; then
-    	        continue
-        	fi
-		fi
+	videos=($(copyVideoFiles))
+	for video in ${videos[*]}; do
+	    printf "." >&3
+    	echo
+        echo "-----> $video <-----"
+    	echo
+        echo "Command: exiv2 -u -pa $video"
+        # run command                 | ignore binary and no Date nor NumOfColours tags
+	    runTest exiv2 -u -pa "$video" | sed -E -e 's/\d128-\d255/_/g' | grep -a -v -e Date -v -e NumOfC
     done
 
-) 3>&1 > "$testdir/video-test.out" 2>&1
-
-echo "."
+) 3>&1 2>&1 > "$out" 
 
 # ----------------------------------------------------------------------
 # Result
-if ! diff   -q $diffargs "$testdir/$datadir/video/video-test.out" "$testdir/video-test.out" ; then
-    diff -u -a $diffargs "$testdir/$datadir/video/video-test.out" "$testdir/video-test.out"
-    exit 1
+diffCheck "$out" "$testdir/$datadir/video/$this.out" 
+
+if [ $errors ]; then
+	echo -e $errors 'test case(s) failed!'
+else
+	echo -e "all testcases passed."
 fi
-echo "All testcases passed."
 
 # That's all Folks!
 ##

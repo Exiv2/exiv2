@@ -187,6 +187,7 @@ namespace Exiv2 {
 
 // dumpLibraryInfo is general purpose and not in the Exiv2 namespace
 // used by exiv2 test suite to inspect libraries loaded at run-time
+//! TO be completed.
 EXIV2API void dumpLibraryInfo(std::ostream& os);
 
 
