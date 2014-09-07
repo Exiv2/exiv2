@@ -192,6 +192,18 @@ namespace Exiv2 {
     }; // struct TagDetails
 
     /*!
+      @brief Helper structure for lookup tables for translations of numeric
+             tag values to human readable labels.
+     */
+
+    struct RevTagDetails {
+    const char* label_;                     //!< Translation of the tag value
+    long val_;                              //!< Tag value
+
+    //! Comparison operator for use with the find template
+    bool operator==(const std::string& key) const{return label_ == key;}
+    };
+    /*!
       @brief Helper structure for lookup tables for translations of bitmask
              values to human readable labels.
      */

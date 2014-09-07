@@ -187,7 +187,7 @@ ENDIF()
 ADD_CUSTOM_TARGET(tests COMMAND make test  "EXIV2_BINDIR=${CMAKE_BINARY_DIR}/bin"  WORKING_DIRECTORY "${CMAKE_SOURCE_DIR}/test/" )
 ADD_CUSTOM_TARGET(teste COMMAND make teste "EXIV2_BINDIR=${CMAKE_BINARY_DIR}/bin"  WORKING_DIRECTORY "${CMAKE_SOURCE_DIR}/test/" )
 ADD_CUSTOM_TARGET(testv COMMAND make testv "EXIV2_BINDIR=${CMAKE_BINARY_DIR}/bin"  WORKING_DIRECTORY "${CMAKE_SOURCE_DIR}/test/" )
-
+ADD_CUSTOM_TARGET(testvw COMMAND make testvw "EXIV2_BINDIR=${CMAKE_BINARY_DIR}/bin"  WORKING_DIRECTORY "${CMAKE_SOURCE_DIR}/test/" )
 ##
 # http://dev.exiv2.org/boards/3/topics/1364
 # effectively does a make doc on the root directory

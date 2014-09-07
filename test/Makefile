@@ -65,24 +65,25 @@ SVN = svn://dev.exiv2.org/svn/testdata/trunk
 
 ##
 # Add test drivers to this list
-TESTS = addmoddel.sh      \
-        bugfixes-test.sh  \
-        exifdata-test.sh  \
-        exiv2-test.sh     \
-        imagetest.sh      \
-        iotest.sh         \
-        iptctest.sh       \
-        modify-test.sh    \
-        path-test.sh      \
-        preview-test.sh   \
-        stringto-test.sh  \
-        tiff-test.sh      \
-        write-test.sh     \
-        write2-test.sh    \
-        xmpparser-test.sh \
-        conversions.sh
-TESTV = video-test.sh
-TESTE = eps-test.sh    
+TESTS  = addmoddel.sh         \
+         bugfixes-test.sh     \
+         exifdata-test.sh     \
+         exiv2-test.sh        \
+         imagetest.sh         \
+         iotest.sh            \
+         iptctest.sh          \
+         modify-test.sh       \
+         path-test.sh         \
+         preview-test.sh      \
+         stringto-test.sh     \
+         tiff-test.sh         \
+         write-test.sh        \
+         write2-test.sh       \
+         xmpparser-test.sh    \
+         conversions.sh
+TESTV  = video-test.sh         
+TESTE  = eps-test.sh
+TESTVW = write-video-test.sh
 
 tests:
 	cd .. ; make tests
@@ -99,15 +100,26 @@ test:
 testv:
 	@for t in /video ; do \
 		if [ ! -e data/$$t ]; then \
-	echo svn export '$(SVN)'$$t data$$t -r 3100 ; \
-	     svn export '$(SVN)'$$t data$$t -r 3100 ; \
+	echo svn export '$(SVN)'$$t data$$t ; \
+	     svn export '$(SVN)'$$t data$$t ; \
 	fi ; done
 	@list='$(TESTV)'; for p in $$list; do \
 	    echo Running $$p ...; \
 	    ./$$p; \
 	done
 
+testvw:
+	@for t in /video ; do \
+		if [ ! -e data/$$t ]; then \
+	echo svn export '$(SVN)'$$t data$$t ; \
+	     svn export '$(SVN)'$$t data$$t ; \
+	fi ; done
+	@list='$(TESTVW)'; for p in $$list; do \
+	    echo Running $$p ...; \
+	    ./$$p; \
+	done
 ##
+
 # TODO: download eps data on demand for 0.24 (similar to testv)
 teste:
 	@list='$(TESTE)'; for p in $$list; do \

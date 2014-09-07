@@ -1,6 +1,6 @@
 // ***************************************************************** -*- C++ -*-
 /*
- * Copyright (C) 2004-2013 Andreas Huggel <ahuggel@gmx.net>
+ * Copyright (C) 2004-2012 Andreas Huggel <ahuggel@gmx.net>
  *
  * This program is part of the Exiv2 distribution.
  *
@@ -22,6 +22,7 @@
   File:      riffvideo.cpp
   Version:   $Rev$
   Author(s): Abhinav Badola for GSoC 2012 (AB) <mail.abu.to@gmail.com>
+             Mahesh Hegde for GSoC 2013 mailto:maheshmhegade at gmail dot com <maheshmhegade@gmail.com>
   History:   18-Jun-12, AB: created
   Credits:   See header file
  */
@@ -38,18 +39,21 @@ EXIV2_RCSID("@(#) $Id$")
 #include "tags_int.hpp"
 #include "types.hpp"
 #include "tiffimage_int.hpp"
+#include "string.h"
+#include "utilsvideo.hpp"
+
 // + standard includes
 #include <cmath>
 
 // *****************************************************************************
 // class member definitions
-namespace Exiv2 {
-    namespace Internal {
+namespace Exiv2{
+    namespace Internal{
 
     /*!
       @brief Dummy TIFF header structure.
      */
-    class DummyTiffHeader : public TiffHeaderBase {
+    class DummyTiffHeader : public TiffHeaderBase{
     public:
         //! @name Creators
         //@{
@@ -62,26 +66,24 @@ namespace Exiv2 {
         //! @name Manipulators
         //@{
         //! Dummy read function. Does nothing and returns true.
-        bool read(const byte* pData, uint32_t size);
+        bool read(const byte* pData, uint64_t size);
         //@}
 
     }; // class TiffHeader
 
     DummyTiffHeader::DummyTiffHeader(ByteOrder byteOrder)
-        : TiffHeaderBase(42, 0, byteOrder, 0)
-    {
+        : TiffHeaderBase(42, 0, byteOrder, 0){
     }
 
-    DummyTiffHeader::~DummyTiffHeader()
-    {
+    DummyTiffHeader::~DummyTiffHeader(){
     }
 
-    bool DummyTiffHeader::read(const byte* /*pData*/, uint32_t /*size*/)
-    {
+    bool DummyTiffHeader::read(const byte* /*pData*/, uint64_t /*size*/){
         return true;
     }
 
-    extern const TagVocabulary infoTags[] =  {
+    //! RIFF INFO tags supported Under Exiv2.
+    extern const TagVocabulary infoTags[] ={
         {   "AGES", "Xmp.video.Rated" },
         {   "CMNT", "Xmp.video.Comment" },
         {   "CODE", "Xmp.video.EncodedBy" },
@@ -168,7 +170,8 @@ namespace Exiv2 {
         {   "YEAR", "Xmp.video.Year" }
     };
 
-    extern const TagDetails audioEncodingValues[] =  {
+    //! Audio Encoding Information.
+    extern const TagDetails audioEncodingValues[] ={
         {   0x1, "Microsoft PCM" },
         {   0x2, "Microsoft ADPCM" },
         {   0x3, "Microsoft IEEE float" },
@@ -414,7 +417,8 @@ namespace Exiv2 {
         {   0xffff, "Development" }
     };
 
-    extern const TagDetails nikonAVITags[] =  {
+    //! Nikon tags.
+    extern const TagDetails nikonAVITags[] ={
         {   0x0003, "Xmp.video.Make" },
         {   0x0004, "Xmp.video.Model" },
         {   0x0005, "Xmp.video.Software" },
@@ -452,7 +456,8 @@ namespace Exiv2 {
         {   8, "Rotate 270 CW" }
     };
      */
-    extern const TagDetails meteringMode[] =  {
+    //! Metering tags.
+    extern const TagDetails meteringMode[] ={
         {   0, "Unknown" },
         {   1, "Average" },
         {   2, "Center-weighted average" },
@@ -463,335 +468,624 @@ namespace Exiv2 {
         { 255, "Other" }
     };
 
-    extern const TagDetails resolutionUnit[] =  {
+    //!Resolution tag.
+    extern const TagDetails resolutionUnit[] ={
         {   1, "None" },
         {   2, "inches" },
         {   3, "cm" }
     };
 
-    /*!
-      @brief Function used to check equality of a Tags with a
-          particular string (ignores case while comparing).
-      @param buf Data buffer that will contain Tag to compare
-      @param str char* Pointer to string
-      @return Returns true if the buffer value is equal to string.
-     */
-    bool equalsRiffTag(Exiv2::DataBuf& buf ,const char* str) {
-        for(int i = 0; i < 4; i++ )
-            if(toupper(buf.pData_[i]) != str[i])
-                return false;
-        return true;
-    }
+    int64_t i;     //!< temporary variable.
+    int64_t j;     //!< temporary variable.
 
-    enum streamTypeInfo {
+    //! To select specific bytes with in a chunk.
+    enum streamTypeInfo{
         Audio = 1, MIDI, Text, Video
     };
-    enum streamHeaderTags {
+
+    //! To select specific bytes with in a chunk.
+    enum streamHeaderTags{
         codec = 1, sampleRate = 5, sampleCount = 8, quality = 10, sampleSize
     };
-    enum bmptags {
+
+    //! To select specific bytes with in a chunk.
+    enum bmptags{
         imageWidth, imageHeight, planes, bitDepth, compression, imageLength, pixelsPerMeterX, pixelsPerMeterY, numColors, numImportantColors
     };
-    enum audioFormatTags {
+
+    //! To select specific bytes with in a chunk.
+    enum audioFormatTags{
         encoding, numberOfChannels, audioSampleRate, avgBytesPerSec = 4, bitsPerSample = 7
     };
-    enum aviHeaderTags {
-        frameRate, maxDataRate, frameCount = 4, streamCount = 6, imageWidth_h = 8, imageHeight_h
+
+    //! To select specific bytes with in a chunk.
+    enum aviHeaderTags{
+        frameRate, maxDataRate, frameCount = 4,  initialFrames ,streamCount, suggestedBufferSize ,imageWidth_h, imageHeight_h
     };
-}}                                      // namespace Internal, Exiv2
+    }
+}                                      // namespace Internal, Exiv2
 
-namespace Exiv2 {
-    using namespace Exiv2::Internal;
+namespace Exiv2{
+using namespace Exiv2::Internal;
 
-    RiffVideo::RiffVideo(BasicIo::AutoPtr io)
-            : Image(ImageType::riff, mdNone, io)
-    {
-    } // RiffVideo::RiffVideo
+class RiffVideo::Private{
+public:
+    Private(){
+        streamType_ = 0;
+        m_decodeMetaData = true;
+    }
+    //! Variable which stores current stream being processsed.
+    int streamType_;
+    //! Variable to decide whether to decode the metadata or just reveal file structure (Lists inside RIFF)
+    bool m_decodeMetaData;
+    //!variable to decide whether write metadata is possible or not (by default false)
+    bool m_modifyMetadata;
+    //!abstract metadata holding variable (its data about data about data!)
+    RiffMetaSkeleton m_riffFileSkeleton;
+};
 
-    std::string RiffVideo::mimeType() const
-    {
-        return "video/riff";
+RiffVideo::RiffVideo(BasicIo::AutoPtr io)
+    : Image(ImageType::riff, mdNone, io), d(new Private){
+    d->m_modifyMetadata = false;
+    d->m_decodeMetaData = true;
+} // RiffVideo::RiffVideo
+
+RiffVideo::~RiffVideo(){
+    delete d;
+}
+
+std::string RiffVideo::mimeType() const{
+    return "video/riff";
+}
+
+/*!
+ * \brief RiffVideo::findChunkPositions:
+ *                   Return a list of chunk positions for a given chunk Id
+ * \param chunkId
+ * \return:          if No chunk of chunkId exists,then size of returned
+ *                   vector will be zero
+ */
+std::vector<int32_t> RiffVideo::findChunkPositions(const char* chunkId){
+    DataBuf chkId((uint64_t)5);
+    chkId.pData_[4] = '\0';
+    uint64_t i;
+
+    std::vector<int32_t> positions;
+    for ( i=0; i<d->m_riffFileSkeleton.m_primitiveChunks.size(); i++){
+        io_->seek(d->m_riffFileSkeleton.m_primitiveChunks[i]->m_chunkLocation,BasicIo::beg);
+        io_->read(chkId.pData_,4);
+        if(UtilsVideo::compareTagValue(chkId,chunkId)) positions.push_back((int32_t)io_->tell());
+    }
+    return positions;
+}
+
+//Same as above but returns only header locations
+std::vector<int32_t> RiffVideo::findHeaderPositions(const char* headerId){
+    DataBuf hdrId((uint64_t)5);
+    hdrId.pData_[4] = '\0';
+    uint64_t i;
+
+    std::vector<int32_t> positions;
+    for (i=0;i<d->m_riffFileSkeleton.m_headerChunks.size();i++){
+        io_->seek((d->m_riffFileSkeleton.m_headerChunks[i]->m_headerLocation + 4),BasicIo::beg);
+        io_->read(hdrId.pData_,4);
+        if(UtilsVideo::compareTagValue(hdrId,headerId)) positions.push_back((int32_t)io_->tell() - 8);
+    }
+    return positions;
+}
+
+void RiffVideo::writeMetadata(){
+    if (io_->open() != 0) throw Error(9, io_->path(), strError());
+    IoCloser closer(*io_);
+    doWriteMetadata();
+    io_->close();
+    return;
+} // RiffVideo::writeMetadata
+
+/*!
+ * \brief RiffVideo::doWriteMetadata:
+ *                   Search for all the supported ChunkIds in Exiv2 and
+ *                   write the modified data to the file.
+ */
+void RiffVideo::doWriteMetadata(){
+    //pre-write checks to make sure that we are writing to provided Riff file only
+    if (!io_->isopen()) throw Error(20);
+    if (!isRiffType(*io_, false)){
+        if (io_->error() || io_->eof()) throw Error(14);
+        throw Error(3, "RIFF");
     }
 
-    void RiffVideo::writeMetadata()
-    {
-    } // RiffVideo::writeMetadata
+    uint64_t bufMinSize = 4;
 
-    void RiffVideo::readMetadata()
-    {
-        if (io_->open() != 0) throw Error(9, io_->path(), strError());
+    //some initial variable declarations and initialization before traversing through chunks
+    DataBuf chkId(bufMinSize+1);
+    DataBuf chkSize(bufMinSize+1);
 
-        // Ensure that this is the correct image type
-        if (!isRiffType(*io_, false)) {
-            if (io_->error() || io_->eof()) throw Error(14);
-            throw Error(3, "RIFF");
+    chkId.pData_[4] = '\0';
+    chkSize.pData_[4] = '\0';
+
+    //skip "RIFF" "chkSize" "AVI"
+    io_->read(chkId.pData_, bufMinSize);
+    io_->read(chkSize.pData_, bufMinSize);
+    io_->read(chkId.pData_, bufMinSize);
+
+    d->m_decodeMetaData = false;
+    d->m_modifyMetadata = true;
+
+    //write metadata in order
+
+    //find and move to avih position
+    int32_t dummyLong = 0;
+    uint64_t i,j,maxCount;
+
+    std::vector<int32_t> strhChunkPositions = findChunkPositions("STRH");
+
+    std::vector<std::string> primitiveFlags;
+    //Add new tags to the beginning of the container prmitiveFlags and handle conditions to the end of case statements.
+    primitiveFlags.push_back("STRN");
+    primitiveFlags.push_back("FMT ");
+    primitiveFlags.push_back("STRF");
+    primitiveFlags.push_back("STRH");
+    primitiveFlags.push_back("AVIH");
+
+    maxCount = (uint64_t) primitiveFlags.size();
+    for (j=0; j<maxCount; j++){
+        std::vector<int32_t> primitivePositions = findChunkPositions(primitiveFlags.back().c_str());
+        primitiveFlags.pop_back();
+        for (i=0; i<(uint64_t)primitivePositions.size(); i++){
+            io_->seek(primitivePositions[i]+4,BasicIo::beg);
+            switch (j){
+            case 0: aviHeaderTagsHandler(dummyLong); break;
+            case 1: setStreamType();
+                streamHandler(dummyLong);
+                break;
+            case 2: io_->seek(strhChunkPositions[i]+4,BasicIo::beg);
+                setStreamType();
+                io_->seek(primitivePositions[i]+4,BasicIo::beg);
+                streamFormatHandler(dummyLong);
+                break;
+            case 3: d->streamType_ = Audio;
+                streamHandler(dummyLong);
+                break;
+            case 4: dateTimeOriginal(dummyLong); break;
+            default:break;
+            }
         }
+        primitivePositions.clear();
+    }
 
-        IoCloser closer(*io_);
-        clearMetadata();
-        continueTraversing_ = true;
+    std::vector<std::string> headerFlags;
+    //Add new tags to the beginning of the container headerFlags and handle conditions to the end of case statements.
+    headerFlags.push_back("INFO");
+    headerFlags.push_back("NCDT");
+    headerFlags.push_back("ODML");
+    headerFlags.push_back("IDIT");
 
-        xmpData_["Xmp.video.FileSize"] = (double)io_->size()/(double)1048576;
-        xmpData_["Xmp.video.FileName"] = io_->path();
-        xmpData_["Xmp.video.MimeType"] = mimeType();
+    maxCount = (uint64_t) headerFlags.size();
+    for (j=0; j<maxCount; j++){
+        std::vector<int32_t> headerPositions = findHeaderPositions(headerFlags.back().c_str());
+        headerFlags.pop_back();
 
-        const long bufMinSize = 4;
-        DataBuf buf(bufMinSize+1);
-        buf.pData_[4] = '\0';
+        for (i=0; i<(uint64_t)headerPositions.size(); i++){
+            io_->seek(headerPositions[i],BasicIo::beg);
+            switch (j){
+            case 0: io_->seek(headerPositions[i]+8,BasicIo::beg);
+                dateTimeOriginal(dummyLong);
+                break;
+            case 1: odmlTagsHandler(); break;
+            case 2: nikonTagsHandler(); break;
+            case 3: infoTagsHandler(); break;
+                //TODO :implement write functionality for header chunks and exif and iptc metadata
+            default: break;
+            }
+        }
+        headerPositions.clear();
+    }
+    return;
+}// RiffVideo::doWriteMetadata
 
+void RiffVideo::readMetadata(){
+    if (io_->open() != 0) throw Error(9, io_->path(), strError());
+
+    // Ensure that this is the correct image type
+    if (!isRiffType(*io_, false)){
+        if (io_->error() || io_->eof()) throw Error(14);
+        throw Error(3, "RIFF");
+    }
+
+    IoCloser closer(*io_);
+    clearMetadata();
+
+    xmpData_["Xmp.video.FileSize"] = (double)io_->size()/(double)1048576;
+    xmpData_["Xmp.video.FileName"] = io_->path();
+    xmpData_["Xmp.video.MimeType"] = mimeType();
+
+    DataBuf chkId((const int32_t)5);
+    DataBuf chkSize((const int32_t)5);
+    DataBuf chkHeader((const int32_t)5);
+
+    chkId.pData_[4] = '\0';
+    chkHeader.pData_[4] = '\0';
+
+    io_->read(chkId.pData_, 4);
+    xmpData_["Xmp.video.Container"] = chkId.pData_;
+
+    //skip file size
+    io_->read(chkSize.pData_, 4);
+    io_->read(chkHeader.pData_, 4);
+    xmpData_["Xmp.video.FileType"] = chkHeader.pData_;
+
+    d->m_decodeMetaData = true;
+    decodeBlock();
+    return;
+} // RiffVideo::readMetadata
+
+void RiffVideo::decodeBlock(){
+    DataBuf chkId((const int32_t)5);
+    chkId.pData_[4] = '\0' ;
+
+    io_->read(chkId.pData_, 4);
+
+    if(io_->eof()) return;
+    else if(UtilsVideo::compareTagValue(chkId, "LIST") || UtilsVideo::compareTagValue(chkId, "JUNK")){
+        io_->seek(-4,BasicIo::cur);
+        tagDecoder();
+    }
+    return;
+} // RiffVideo::decodeBlock
+
+void RiffVideo::tagDecoder(){
+    DataBuf chkMainId((const int32_t)5);
+    chkMainId.pData_[4] = '\0';
+    io_->read(chkMainId.pData_, 4);
+
+    if(io_->eof()) return;
+
+    if (UtilsVideo::compareTagValue(chkMainId, "LIST")){
+        DataBuf listSize((const int32_t)5);
+        DataBuf chkHeader((const int32_t)5);
+
+        listSize.pData_[4] = '\0';
+        chkHeader.pData_[4] = '\0';
+
+        io_->read(listSize.pData_, 4);
+        uint64_t listsize = Exiv2::getULong(listSize.pData_, littleEndian);
+        io_->read(chkHeader.pData_, 4);
+
+        HeaderChunk* tmpHeaderChunk = new HeaderChunk();
+        memcpy((Exiv2::byte* )tmpHeaderChunk->m_headerId,(const Exiv2::byte*)chkHeader.pData_,5);
+
+        int32_t listend = io_->tell() + listsize - 4 ;
+
+        IoPosition position = PremitiveChunk;
+        while( (position == PremitiveChunk) && (io_->tell() < listend) ){
+            DataBuf chkId((const int32_t)5);
+            DataBuf chkSize((const int32_t)5);
+            chkId.pData_[4] = '\0';
+            chkSize.pData_[4] = '\0';
+
+            io_->read(chkId.pData_, 4);
+            io_->read(chkSize.pData_, 4);
+
+            uint64_t size = Exiv2::getULong(chkSize.pData_, littleEndian);
+
+            const char allPrimitiveFlags[][5]={"JUNK","AVIH","FMT ",
+                                               "STRH","STRF","STRN","STRD"};
+            const char allHeaderFlags[][5]={"NCDT","ODML","MOVI","INFO"};
+
+            if(UtilsVideo::compareTagValue(chkId,allPrimitiveFlags,(int32_t)(sizeof(allPrimitiveFlags)/5))){
+                PrimitiveChunk* tmpPremitiveChunk = new PrimitiveChunk();
+                memcpy((Exiv2::byte* )tmpPremitiveChunk->m_chunkId,(const Exiv2::byte*)chkId.pData_,5);
+                tmpPremitiveChunk->m_chunkLocation = io_->tell() - 8;
+                tmpPremitiveChunk->m_chunkSize = size;
+                d->m_riffFileSkeleton.m_primitiveChunks.push_back(tmpPremitiveChunk);
+            }
+
+            if(UtilsVideo::compareTagValue(chkHeader,allHeaderFlags,(int32_t)(sizeof(allHeaderFlags)/5))){
+                tmpHeaderChunk->m_headerLocation = io_->tell() - 16;
+                tmpHeaderChunk->m_headerSize = listsize ;
+                d->m_riffFileSkeleton.m_headerChunks.push_back(tmpHeaderChunk);
+                position = RiffVideo::TraversingChunk;
+            }
+            //to handle AVI file formats
+            if(!d->m_decodeMetaData && UtilsVideo::compareTagValue(chkId,allPrimitiveFlags,(int32_t)(sizeof(allPrimitiveFlags)/5))) io_->seek(size,BasicIo::cur);
+
+            else if(!d->m_decodeMetaData && UtilsVideo::compareTagValue(chkHeader,allHeaderFlags,(int)(sizeof(allHeaderFlags)/5))) io_->seek((listsize - 12),BasicIo::cur);
+
+            else if(UtilsVideo::compareTagValue(chkId, "JUNK")) junkHandler(size);
+            //primitive chunks note:compare chkId
+            else if(UtilsVideo::compareTagValue(chkId, "AVIH")) aviHeaderTagsHandler(size);
+            else if(UtilsVideo::compareTagValue(chkId, "STRH")){
+                //since strh and strf exist sequential stream type can be set once
+                setStreamType();
+                streamHandler(size);
+            }
+            else if(UtilsVideo::compareTagValue(chkId,"STRF") || UtilsVideo::compareTagValue(chkId, "FMT ")){
+                if(UtilsVideo::compareTagValue(chkId,"FMT ")) d->streamType_ = Audio;
+                streamFormatHandler(size);
+            }
+            else if(UtilsVideo::compareTagValue(chkId, "STRN")) dateTimeOriginal(size, 1);
+            else if(UtilsVideo::compareTagValue(chkId, "STRD")) streamDataTagHandler(size);
+            //add more else if to support more primitive chunks below if any
+            //TODO:add indx support
+
+            //recursive call to decode LIST by breaking out of the loop
+            else if(UtilsVideo::compareTagValue(chkId, "LIST")){
+                position = RiffVideo::TraversingChunk;
+                io_->seek(-8,BasicIo::cur);
+            }
+
+            //header chunks note:compare chkHeader
+            else if(UtilsVideo::compareTagValue(chkHeader, "INFO")){
+                io_->seek(-16,BasicIo::cur);
+                infoTagsHandler();
+            }
+            else if(UtilsVideo::compareTagValue(chkHeader, "NCDT")){
+                io_->seek(-16,BasicIo::cur);
+                nikonTagsHandler();
+            }
+            else if(UtilsVideo::compareTagValue(chkHeader, "ODML")){
+                io_->seek(-16,BasicIo::cur);
+                odmlTagsHandler();
+            }
+            //only way to exit from readMetadata()
+            else if(UtilsVideo::compareTagValue(chkHeader, "MOVI") || UtilsVideo::compareTagValue(chkMainId, "DATA")) io_->seek(listsize-12,BasicIo::cur);
+            //Add read functionality for custom chunk headers or user created tags here with more (else if) before else.
+
+            //skip block with unknown chunk ID (primitive chunk)
+            else if(io_->tell() < listend){
+                position = RiffVideo::TraversingChunk;
+                io_->seek((listend -  (io_->tell()+4)) ,BasicIo::cur);
+            }
+
+            //skip chunk with unknown headerId
+            else io_->seek(io_->tell()+size, BasicIo::cur);
+
+            if(UtilsVideo::compareTagValue(chkId,allPrimitiveFlags,(int32_t)(sizeof(allPrimitiveFlags)/5)) && (size % 2 != 0)) io_->seek(1,BasicIo::cur);
+
+            if(UtilsVideo::compareTagValue(chkId,allHeaderFlags,(int32_t)(sizeof(allHeaderFlags)/5)) && (listsize % 2 != 0)) io_->seek(1,BasicIo::cur);
+        }
+    }
+
+    //AVIX can have JUNK chunk directly inside RIFF chunk
+    else if(UtilsVideo::compareTagValue(chkMainId, "JUNK")){
+        DataBuf junkSize((const int32_t)5);
+        junkSize.pData_[4] = '\0';
+        io_->read(junkSize.pData_, 4);
+        uint64_t size = Exiv2::getULong(junkSize.pData_, littleEndian);
+        if(!d->m_decodeMetaData){
+            HeaderChunk* tmpHeaderChunk = new HeaderChunk();
+            tmpHeaderChunk->m_headerLocation = io_->tell() - 8;
+            tmpHeaderChunk->m_headerSize = size;
+            d->m_riffFileSkeleton.m_headerChunks.push_back(tmpHeaderChunk);
+            io_->seek(size,BasicIo::cur);
+        }
+        else junkHandler(size);
+    }
+    else if(UtilsVideo::compareTagValue(chkMainId, "IDIT")){
+        DataBuf dataSize((const int32_t)5);
+        dataSize.pData_[4] = '\0';
+        io_->read(dataSize.pData_, 4);
+        uint64_t size = Exiv2::getULong(dataSize.pData_, littleEndian);
+        if(!d->m_decodeMetaData){
+            HeaderChunk* tmpHeaderChunk = new HeaderChunk();
+            tmpHeaderChunk->m_headerLocation = io_->tell() - 8;
+            tmpHeaderChunk->m_headerSize = size;
+            d->m_riffFileSkeleton.m_headerChunks.push_back(tmpHeaderChunk);
+            io_->seek(size,BasicIo::cur);
+        }
+        else dateTimeOriginal(size);
+
+    }
+
+    tagDecoder();
+    return;
+} // RiffVideo::tagDecoder
+
+void RiffVideo::streamDataTagHandler(int32_t size){
+    const int32_t bufMinSize = 20000;
+    DataBuf buf(bufMinSize);
+    buf.pData_[4] = '\0';
+    uint64_t cur_pos = io_->tell();
+
+    io_->read(buf.pData_, 8);
+
+    if(UtilsVideo::compareTagValue(buf, "AVIF")){
+
+        if (size - 4 < 0){
+#ifndef SUPPRESS_WARNINGS
+            EXV_ERROR   << " Exif Tags found in this RIFF file are not of valid size ."
+                        << " Entries considered invalid. Not Processed.\n";
+#endif
+        }
+        else{
+            io_->read(buf.pData_, size - 4);
+
+            IptcData iptcData;
+            XmpData  xmpData;
+            DummyTiffHeader tiffHeader(littleEndian);
+            TiffParserWorker::decode(exifData_,
+                                     iptcData,
+                                     xmpData,
+                                     buf.pData_,
+                                     buf.size_,
+                                     Tag::root,
+                                     TiffMapping::findDecoder,
+                                     &tiffHeader);
+
+#ifndef SUPPRESS_WARNINGS
+            if (!iptcData.empty()) EXV_WARNING << "Ignoring IPTC information encoded in the Exif data.\n";
+            if (!xmpData.empty()) EXV_WARNING << "Ignoring XMP information encoded in the Exif data.\n";
+#endif
+        }
+    }
+    // TODO decode CasioData and ZORA Tag
+    io_->seek(cur_pos + size, BasicIo::beg);
+    return;
+} // RiffVideo::streamDataTagHandler
+
+void RiffVideo::dateTimeOriginal(int32_t size, int32_t i){
+    uint64_t cur_pos = io_->tell();
+    if(!d->m_modifyMetadata){
+        io_->seek(-4,BasicIo::cur);
+        DataBuf dataLength(2);
+        dataLength.pData_[1] = '\0';
+
+        io_->read(dataLength.pData_,1);
+        uint64_t bufMinSize = (uint64_t)Exiv2::getShort(dataLength.pData_, littleEndian);
+        DataBuf buf((uint64_t)bufMinSize);
+        io_->seek(3,BasicIo::cur);
         io_->read(buf.pData_, bufMinSize);
-        xmpData_["Xmp.video.Container"] = buf.pData_;
 
-        io_->read(buf.pData_, bufMinSize);
-        io_->read(buf.pData_, bufMinSize);
-        xmpData_["Xmp.video.FileType"] = buf.pData_;
-
-        while (continueTraversing_) decodeBlock();
-    } // RiffVideo::readMetadata
-
-    void RiffVideo::decodeBlock()
-    {
-        const long bufMinSize = 4;
-        DataBuf buf(bufMinSize+1);
-        DataBuf buf2(bufMinSize+1);
-        unsigned long size = 0;
-        buf.pData_[4] = '\0' ;
-        buf2.pData_[4] = '\0' ;
-
-        io_->read(buf2.pData_, 4);
-
-        if(io_->eof() || equalsRiffTag(buf2, "MOVI") || equalsRiffTag(buf2, "DATA")) {
-            continueTraversing_ = false;
-            return;
-        }
-        else if(equalsRiffTag(buf2, "HDRL") || equalsRiffTag(buf2, "STRL")) {
-            decodeBlock();
-        }
-        else {
-            io_->read(buf.pData_, 4);
-            size = Exiv2::getULong(buf.pData_, littleEndian);
-
-        tagDecoder(buf2, size);
-        }
-    } // RiffVideo::decodeBlock
-
-    void RiffVideo::tagDecoder(Exiv2::DataBuf& buf, unsigned long size)
-    {
-        uint64_t cur_pos = io_->tell();
-        static bool listFlag = false, listEnd = false;
-
-        if(equalsRiffTag(buf, "LIST")) {
-            listFlag = true;
-            listEnd = false;
-
-            while((uint64_t)(io_->tell()) < cur_pos + size) decodeBlock();
-
-            listEnd = true;
-            io_->seek(cur_pos + size, BasicIo::beg);
-        }
-        else if(equalsRiffTag(buf, "JUNK") && listEnd) {
-            junkHandler(size);
-        }
-        else if(equalsRiffTag(buf, "AVIH")) {
-            listFlag = false;
-            aviHeaderTagsHandler(size);
-        }
-        else if(equalsRiffTag(buf, "STRH")) {
-            listFlag = false;
-            streamHandler(size);
-        }
-        else if(equalsRiffTag(buf,"STRF") || equalsRiffTag(buf, "FMT ")) {
-            listFlag = false;
-            if(equalsRiffTag(buf,"FMT "))
-                streamType_ = Audio;
-            streamFormatHandler(size);
-        }
-        else if(equalsRiffTag(buf, "STRN")) {
-            listFlag = false;
-            dateTimeOriginal(size, 1);
-        }
-        else if(equalsRiffTag(buf, "STRD")) {
-            listFlag = false;
-            streamDataTagHandler(size);
-        }
-        else if(equalsRiffTag(buf, "IDIT")) {
-            listFlag = false;
-            dateTimeOriginal(size);
-        }
-        else if(equalsRiffTag(buf, "INFO")) {
-            listFlag = false;
-            infoTagsHandler();
-        }
-        else if(equalsRiffTag(buf, "NCDT")) {
-            listFlag = false;
-            nikonTagsHandler();
-        }
-        else if(equalsRiffTag(buf, "ODML")) {
-            listFlag = false;
-            odmlTagsHandler();
-        }
-        else if (listFlag) {
-            // std::cout<<"|unprocessed|"<<buf.pData_;
-            skipListData();
-        }
-        else {
-            // std::cout<<"|unprocessed|"<<buf.pData_;
-            io_->seek(cur_pos + size, BasicIo::beg);
-        }
-    } // RiffVideo::tagDecoder
-
-    void RiffVideo::streamDataTagHandler(long size)
-    {
-        const long bufMinSize = 20000;
-        DataBuf buf(bufMinSize);
-        buf.pData_[4] = '\0';
-        uint64_t cur_pos = io_->tell();
-
-            io_->read(buf.pData_, 8);
-
-             if(equalsRiffTag(buf, "AVIF")) {
-
-                 if (size - 4 < 0) {
-             #ifndef SUPPRESS_WARNINGS
-                     EXV_ERROR   << " Exif Tags found in this RIFF file are not of valid size ."
-                                 << " Entries considered invalid. Not Processed.\n";
-             #endif
-                 }
-                 else {
-                 io_->read(buf.pData_, size - 4);
-
-                 IptcData iptcData;
-                 XmpData  xmpData;
-                 DummyTiffHeader tiffHeader(littleEndian);
-                 TiffParserWorker::decode(exifData_,
-                                          iptcData,
-                                          xmpData,
-                                          buf.pData_,
-                                          buf.size_,
-                                          Tag::root,
-                                          TiffMapping::findDecoder,
-                                          &tiffHeader);
-
-         #ifndef SUPPRESS_WARNINGS
-                 if (!iptcData.empty()) {
-                     EXV_WARNING << "Ignoring IPTC information encoded in the Exif data.\n";
-                 }
-                 if (!xmpData.empty()) {
-                     EXV_WARNING << "Ignoring XMP information encoded in the Exif data.\n";
-                 }
-         #endif
-             }
-             }
-              // TODO decode CasioData and ZORA Tag
+        if(!i) xmpData_["Xmp.video.DateUT"] = buf.pData_;
+        else xmpData_["Xmp.video.StreamName"] = buf.pData_;
         io_->seek(cur_pos + size, BasicIo::beg);
+    }
+    else{
+        DataBuf dataLength(2);
+        dataLength.pData_[1] = '\0';
+        io_->read(dataLength.pData_,1);
+        io_->seek(3,BasicIo::cur);
+        int32_t bufMinSize = (uint64_t)Exiv2::getShort(dataLength.pData_, littleEndian);
 
-    } // RiffVideo::streamDataTagHandler
-
-    void RiffVideo::dateTimeOriginal(long size, int i)
-    {
-        uint64_t cur_pos = io_->tell();
-        const long bufMinSize = 100;
-        DataBuf buf(bufMinSize);
-        io_->read(buf.pData_, size);
-        if(!i)
-            xmpData_["Xmp.video.DateUTC"] = buf.pData_;
-        else
-            xmpData_["Xmp.video.StreamName"] = buf.pData_;
+        if(xmpData_["Xmp.video.DateUT"].count() > 0) writeStringData(xmpData_["Xmp.video.DateUT"],bufMinSize);
+        else if(xmpData_["Xmp.video.StreamName"].count() >0) writeStringData(xmpData_["Xmp.video.StreamName"],bufMinSize);
         io_->seek(cur_pos + size, BasicIo::beg);
-    } // RiffVideo::dateTimeOriginal
+    }
+    return;
+} // RiffVideo::dateTimeOriginal
 
-    void RiffVideo::odmlTagsHandler()
-    {
-        const long bufMinSize = 100;
-        DataBuf buf(bufMinSize);
-        buf.pData_[4] = '\0';
-        io_->seek(-12, BasicIo::cur);
-        io_->read(buf.pData_, 4);
-        unsigned long size = Exiv2::getULong(buf.pData_, littleEndian);
-        unsigned long size2 = size;
+void RiffVideo::odmlTagsHandler(){
+    const int32_t bufMinSize = 4;
+    DataBuf buf(bufMinSize + 1);
+    buf.pData_[4] = '\0';
+    io_->read(buf.pData_,4);
+
+    if(!d->m_modifyMetadata){
+        uint64_t size = Exiv2::getULong(buf.pData_, littleEndian);
+        uint64_t size2 = size;
 
         uint64_t cur_pos = io_->tell();
         io_->read(buf.pData_, 4); size -= 4;
 
-        while(size > 0) {
+        while(size > 0){
             io_->read(buf.pData_, 4); size -= 4;
-            if(equalsRiffTag(buf,"DMLH")) {
+            if(UtilsVideo::compareTagValue(buf,"DMLH")){
                 io_->read(buf.pData_, 4); size -= 4;
                 io_->read(buf.pData_, 4); size -= 4;
                 xmpData_["Xmp.video.TotalFrameCount"] = Exiv2::getULong(buf.pData_, littleEndian);
             }
         }
         io_->seek(cur_pos + size2, BasicIo::beg);
-    } // RiffVideo::odmlTagsHandler
+    }
+    else{
+        if(xmpData_["Xmp.video.TotalFrameCount"].count() > 0){
+            uint64_t tmpSize = Exiv2::getULong(buf.pData_, littleEndian);
+            while(tmpSize > 0){
+                io_->read(buf.pData_,4); tmpSize -= 4;
+                if(UtilsVideo::compareTagValue(buf,"DMLH")){
+                    io_->seek(4,BasicIo::cur);
+                    writeLongData(xmpData_["Xmp.video.TotalFrameCount"]);
+                    return;
+                }
+            }
+        }
+    }
+    return;
+} // RiffVideo::odmlTagsHandler
 
-    void RiffVideo::skipListData()
-    {
-        const long bufMinSize = 4;
-        DataBuf buf(bufMinSize+1);
-        buf.pData_[4] = '\0';
-        io_->seek(-12, BasicIo::cur);
+void RiffVideo::skipListData(){
+    const int32_t bufMinSize = 4;
+    DataBuf buf(bufMinSize+1);
+    buf.pData_[4] = '\0';
+    io_->seek(-12, BasicIo::cur);
+    io_->read(buf.pData_, 4);
+    uint64_t size = Exiv2::getULong(buf.pData_, littleEndian);
+
+    uint64_t cur_pos = io_->tell();
+    io_->seek(cur_pos + size, BasicIo::beg);
+    return;
+} // RiffVideo::skipListData
+
+void RiffVideo::nikonTagsHandler(){
+    const int32_t bufMinSize = 100;
+    DataBuf buf(bufMinSize), buf2(4+1);
+    buf.pData_[4] = '\0';
+    io_->read(buf.pData_, 4);
+
+    int32_t internal_size = 0, tagID = 0, dataSize = 0, tempSize, size = Exiv2::getULong(buf.pData_, littleEndian);
+    tempSize = size; char str[9] = " . . . ";
+    uint64_t internal_pos, cur_pos; internal_pos = cur_pos = io_->tell();
+
+    const TagDetails* td;
+    double denominator = 1;
+    io_->read(buf.pData_, 4); tempSize -= 4;
+
+    while((int32_t)tempSize > 0){
+        std::memset(buf.pData_, 0x0, buf.size_);
         io_->read(buf.pData_, 4);
-        unsigned long size = Exiv2::getULong(buf.pData_, littleEndian);
+        io_->read(buf2.pData_, 4);
+        int32_t temp = internal_size = Exiv2::getULong(buf2.pData_, littleEndian);
+        internal_pos = io_->tell(); tempSize -= (internal_size + 8);
 
-        uint64_t cur_pos = io_->tell();
-        io_->seek(cur_pos + size, BasicIo::beg);
-    } // RiffVideo::skipListData
+        if(UtilsVideo::compareTagValue(buf, "NCVR")){
+            while((int32_t)temp > 3){
+                std::memset(buf.pData_, 0x0, buf.size_);
+                io_->read(buf.pData_, 2);
+                tagID = Exiv2::getULong(buf.pData_, littleEndian);
+                io_->read(buf.pData_, 2);
+                dataSize = Exiv2::getULong(buf.pData_, littleEndian);
+                temp -= (4 + dataSize);
 
-    void RiffVideo::nikonTagsHandler()
-    {
-        const long bufMinSize = 100;
-        DataBuf buf(bufMinSize), buf2(4+1);
-        buf.pData_[4] = '\0';
-        io_->seek(-12, BasicIo::cur);
-        io_->read(buf.pData_, 4);
-
-        long internal_size = 0, tagID = 0, dataSize = 0, tempSize, size = Exiv2::getULong(buf.pData_, littleEndian);
-        tempSize = size; char str[9] = " . . . ";
-        uint64_t internal_pos, cur_pos; internal_pos = cur_pos = io_->tell();
-        const TagDetails* td;
-        double denominator = 1;
-        io_->read(buf.pData_, 4); tempSize -= 4;
-
-        while((long)tempSize > 0) {
-            std::memset(buf.pData_, 0x0, buf.size_);
-            io_->read(buf.pData_, 4);
-            io_->read(buf2.pData_, 4);
-            int temp = internal_size = Exiv2::getULong(buf2.pData_, littleEndian);
-            internal_pos = io_->tell(); tempSize -= (internal_size + 8);
-
-            if(equalsRiffTag(buf, "NCVR")) {
-                while((long)temp > 3) {
-                    std::memset(buf.pData_, 0x0, buf.size_);
-                    io_->read(buf.pData_, 2);
-                    tagID = Exiv2::getULong(buf.pData_, littleEndian);
-                    io_->read(buf.pData_, 2);
-                    dataSize = Exiv2::getULong(buf.pData_, littleEndian);
-                    temp -= (4 + dataSize);
-
-                    if(tagID == 0x0001) {
-                        if (dataSize <= 0) {
-                    #ifndef SUPPRESS_WARNINGS
-                            EXV_ERROR   << " Makernotes found in this RIFF file are not of valid size ."
-                                        << " Entries considered invalid. Not Processed.\n";
-                    #endif
-                        }
-                        else {
+                if(tagID == 0x0001){
+                    if (dataSize <= 0){
+#ifndef SUPPRESS_WARNINGS
+                        EXV_ERROR   << " Makernotes found in this RIFF file are not of valid size ."
+                                    << " Entries considered invalid. Not Processed.\n";
+#endif
+                    }
+                    else if(!d->m_modifyMetadata){
                         io_->read(buf.pData_, dataSize);
                         xmpData_["Xmp.video.MakerNoteType"] = buf.pData_;
-                        }
                     }
-                    else if (tagID == 0x0002) {
-                        while(dataSize) {
+                    else writeStringData(xmpData_["Xmp.video.MakerNoteType"],dataSize);
+                }
+                else if (tagID == 0x0002){
+                    if (dataSize <= 0){
+                    }
+                    else if(!d->m_modifyMetadata){
+                        while(dataSize){
                             std::memset(buf.pData_, 0x0, buf.size_); io_->read(buf.pData_, 1);
                             str[(4 - dataSize) * 2] = (char)(Exiv2::getULong(buf.pData_, littleEndian) + 48);
                             --dataSize;
                         }
                         xmpData_["Xmp.video.MakerNoteVersion"] = str;
                     }
+                    //this is necessary block
+                    else if(xmpData_["Xmp.video.MakerNoteVersion"].count() > 0){
+                        int32_t originalDataSize = dataSize;
+                        std::string makerNoteVersion = xmpData_["Xmp.video.MakerNoteVersion"].toString();
+                        Exiv2::byte* rawMakerNoteVersion = new byte[originalDataSize];
+                        int32_t tmpCounter = 0;
+                        int32_t i;
+                        for(i=(int32_t)min((int32_t)dataSize,(int32_t)makerNoteVersion.size());
+                            i>=(int32_t)0; i--){
+                            rawMakerNoteVersion[tmpCounter] = (Exiv2::byte) (makerNoteVersion[(4 - i) * 2] - 48);
+                            tmpCounter++;
+                        }
+                        if((int32_t)originalDataSize > (int32_t)makerNoteVersion.size()){
+                            for(i=(int32_t)(makerNoteVersion.size()); i<originalDataSize; i++) rawMakerNoteVersion[i] = (Exiv2::byte)0;
+                        }
+                        io_->write(rawMakerNoteVersion,originalDataSize);
+                        delete[] rawMakerNoteVersion;
+                    }
+                    else io_->seek(dataSize,BasicIo::cur);
                 }
             }
-            else if(equalsRiffTag(buf, "NCTG")) {
-                while((long)temp > 3) {
+        }
+        else if(UtilsVideo::compareTagValue(buf, "NCTG")){
+            if(!d->m_modifyMetadata){
+                while((int32_t)temp > 3){
                     std::memset(buf.pData_, 0x0, buf.size_);
                     io_->read(buf.pData_, 2);
                     tagID = Exiv2::getULong(buf.pData_, littleEndian);
@@ -800,119 +1094,205 @@ namespace Exiv2 {
                     temp -= (4 + dataSize);
                     td = find(nikonAVITags , tagID);
 
-                    if (dataSize <= 0) {
-                #ifndef SUPPRESS_WARNINGS
-                        EXV_ERROR   << " Makernotes found in this RIFF file are not of valid size ."
-                                    << " Entries considered invalid. Not Processed.\n";
-                #endif
+                    if (dataSize <= 0){
                     }
-                    else {
-                    io_->read(buf.pData_, dataSize);
+                    else{
+                        switch (tagID)
+                        {
+                        case 0x0003: case 0x0004: case 0x0005: case 0x0006:
+                        case 0x0013: case 0x0014: case 0x0018: case 0x001d:
+                        case 0x001e: case 0x001f: case 0x0020:
+                            io_->read(buf.pData_, dataSize);
+                            xmpData_[exvGettext(td->label_)] = buf.pData_;
+                            break;
+                        case 0x0007: case 0x0010: case 0x0011: case 0x000c:
+                        case 0x0012:
+                            io_->read(buf.pData_, dataSize);
+                            xmpData_[exvGettext(td->label_)] = Exiv2::getULong(buf.pData_, littleEndian);
+                            break;
+                        case 0x0008: case 0x0009: case 0x000a: case 0x000b:
+                        case 0x000f: case 0x001b: case 0x0016:
 
-                    switch (tagID) {
-                    case 0x0003: case 0x0004: case 0x0005: case 0x0006:
-                    case 0x0013: case 0x0014: case 0x0018: case 0x001d:
-                    case 0x001e: case 0x001f: case 0x0020:
-                        xmpData_[exvGettext(td->label_)] = buf.pData_; break;
+                            io_->read(buf.pData_, dataSize);
+                            buf2.pData_[0] = buf.pData_[4];
+                            buf2.pData_[1] = buf.pData_[5];
+                            buf2.pData_[2] = buf.pData_[6];
+                            buf2.pData_[3] = buf.pData_[7];
+                            denominator = (double)Exiv2::getLong(buf2.pData_, littleEndian);
 
-                    case 0x0007: case 0x0010: case 0x0011: case 0x000c:
-                    case 0x0012:
-                        xmpData_[exvGettext(td->label_)] = Exiv2::getULong(buf.pData_, littleEndian); break;
+                            if (denominator != 0) xmpData_[exvGettext(td->label_)] = (double)Exiv2::getLong(buf.pData_, littleEndian) / denominator;
+                            else xmpData_[exvGettext(td->label_)] = 0;
+                            break;
 
-                    case 0x0008: case 0x0009: case 0x000a: case 0x000b:
-                    case 0x000f: case 0x001b: case 0x0016:
-                        buf2.pData_[0] = buf.pData_[4]; buf2.pData_[1] = buf.pData_[5];
-                        buf2.pData_[2] = buf.pData_[6]; buf2.pData_[3] = buf.pData_[7];
-                        denominator = (double)Exiv2::getLong(buf2.pData_, littleEndian);
-                        if (denominator != 0)
-                            xmpData_[exvGettext(td->label_)] = (double)Exiv2::getLong(buf.pData_, littleEndian) / denominator;
-                        else
-                            xmpData_[exvGettext(td->label_)] = 0;
-                        break;
-
-                    default:
-                        break;
+                        default: io_->read(buf.pData_, dataSize);
+                            break;
+                        }
                     }
+                }
+            }
+            else{
+                while((int32_t)temp > 3){
+                    std::memset(buf.pData_, 0x0, buf.size_);
+                    io_->read(buf.pData_, 2);
+                    tagID = Exiv2::getULong(buf.pData_, littleEndian);
+                    io_->read(buf.pData_, 2);
+                    dataSize = Exiv2::getULong(buf.pData_, littleEndian);
+                    temp -= (4 + dataSize);
+                    td = find(nikonAVITags , tagID);
+
+                    if (dataSize <= 0){
+                    }
+                    else{
+                        switch (tagID){
+                        case 0x0003: case 0x0004: case 0x0005: case 0x0006:
+                        case 0x0013: case 0x0014: case 0x0018: case 0x001d:
+                        case 0x001e: case 0x001f: case 0x0020:
+                            writeStringData(xmpData_[exvGettext(td->label_)],dataSize);
+                            break;
+                        case 0x0007: case 0x0010: case 0x0011: case 0x000c:
+                        case 0x0012:
+                            writeLongData(xmpData_[exvGettext(td->label_)],dataSize);
+                            break;
+                        case 0x0008: case 0x0009: case 0x000a: case 0x000b:
+                        case 0x000f: case 0x001b: case 0x0016:
+
+                            io_->read(buf.pData_, dataSize);
+                            buf2.pData_[0] = buf.pData_[4];
+                            buf2.pData_[1] = buf.pData_[5];
+                            buf2.pData_[2] = buf.pData_[6];
+                            buf2.pData_[3] = buf.pData_[7];
+                            denominator = (double)Exiv2::getLong(buf2.pData_, littleEndian);
+
+                            //Variation
+                            if(xmpData_[exvGettext(td->label_)].count() > 0){
+                                io_->seek(-dataSize,BasicIo::cur);
+                                int32_t nikonData = (int32_t)(xmpData_[exvGettext(td->label_)].toFloat()*denominator);
+                                io_->write((Exiv2::byte*)&nikonData,4);
+                                io_->seek((dataSize-4),BasicIo::cur);
+                            }
+                            else io_->seek(dataSize,BasicIo::cur);
+                            break;
+
+                        default: io_->read(buf.pData_, dataSize);
+                            break;
+                        }
                     }
                 }
             }
 
-            else if(equalsRiffTag(buf, "NCTH")) {//TODO Nikon Thumbnail Image
+        }
+
+        else if(UtilsVideo::compareTagValue(buf, "NCTH")){//TODO Nikon Thumbnail Image
+        }
+
+        else if(UtilsVideo::compareTagValue(buf, "NCVW")){//TODO Nikon Preview Image
+        }
+
+        io_->seek(internal_pos + internal_size, BasicIo::beg);
+    }
+
+    if (size ==0) io_->seek(cur_pos + 4, BasicIo::beg);
+    else io_->seek(cur_pos + size, BasicIo::beg);
+    return;
+} // RiffVideo::nikonTagsHandler
+
+void RiffVideo::infoTagsHandler(){
+    const int32_t bufMinSize = 4;
+    DataBuf buf(bufMinSize + 1);
+    buf.pData_[4] = '\0';
+    const int32_t cur_pos = io_->tell();
+    io_->read(buf.pData_, 4);
+    int32_t size = Exiv2::getULong(buf.pData_, littleEndian);
+    io_->seek(4,BasicIo::cur);
+
+    int32_t dataLenght = size;
+    const TagVocabulary* tv;
+
+    int32_t infoSize;
+    if(!d->m_modifyMetadata){
+        const char allPrimitiveFlags[][5]={"GENR","DIRC","IART","ICNM","IEDT","IENG","ILNG",
+                                           "IMUS","INAM","IPRO","ISRC","ISTR","LANG","LOCA",
+                                           "TAPE","YEAR","IPRD","IKEY","ICOP","ICNT","CMNT"};
+        while(dataLenght > 12){
+            io_->read(buf.pData_, 4);
+            if(UtilsVideo::compareTagValue(buf,allPrimitiveFlags,(int32_t)(sizeof(allPrimitiveFlags)/5))){
+                PrimitiveChunk* tmpPremitiveChunk = new PrimitiveChunk();
+                memcpy((Exiv2::byte*)tmpPremitiveChunk->m_chunkId,(const Exiv2::byte*)buf.pData_,5);
+                tmpPremitiveChunk->m_chunkLocation = io_->tell() - 4;
+                d->m_riffFileSkeleton.m_primitiveChunks.push_back(tmpPremitiveChunk);
             }
 
-            else if(equalsRiffTag(buf, "NCVW")) {//TODO Nikon Preview Image
-            }
-
-            io_->seek(internal_pos + internal_size, BasicIo::beg);
-        }
-
-        if (size ==0) {
-            io_->seek(cur_pos + 4, BasicIo::beg);
-        }
-        else {
-            io_->seek(cur_pos + size, BasicIo::beg);
-        }
-    } // RiffVideo::nikonTagsHandler
-
-    void RiffVideo::infoTagsHandler()
-    {
-        const long bufMinSize = 10000;
-        DataBuf buf(bufMinSize);
-        buf.pData_[4] = '\0';
-        io_->seek(-12, BasicIo::cur);
-        io_->read(buf.pData_, 4);
-        long infoSize, size = Exiv2::getULong(buf.pData_, littleEndian);
-        long size_external = size;
-        const TagVocabulary* tv;
-
-        uint64_t cur_pos = io_->tell();
-        io_->read(buf.pData_, 4); size -= 4;
-
-        while(size > 3) {
-            io_->read(buf.pData_, 4); size -= 4;
-            if(!Exiv2::getULong(buf.pData_, littleEndian))
-                break;
-            tv = find(infoTags , Exiv2::toString( buf.pData_));
-            io_->read(buf.pData_, 4); size -= 4;
+            tv = find(infoTags , Exiv2::toString(buf.pData_));
+            io_->read(buf.pData_, 4);
             infoSize = Exiv2::getULong(buf.pData_, littleEndian);
-
-            if(infoSize >= 0) {
-                size -= infoSize;
-                io_->read(buf.pData_, infoSize);
-                if(infoSize < 4)
-                    buf.pData_[infoSize] = '\0';
+            dataLenght -= infoSize;
+            if(tv && infoSize >  4){
+                DataBuf tmpBuf((uint64_t)infoSize+1);
+                tmpBuf.pData_[infoSize] = '\0';
+                io_->read(tmpBuf.pData_,infoSize);
+                xmpData_[exvGettext(tv->label_)] = tmpBuf.pData_;
             }
-
-            if(tv)
-                xmpData_[exvGettext(tv->label_)] = buf.pData_;
-            else
-                continue;
         }
-        io_->seek(cur_pos + size_external, BasicIo::beg);
-    } // RiffVideo::infoTagsHandler
+        io_->seek(cur_pos + size, BasicIo::beg);
+    }
+    else{
+        //First write the tags which already exist in a file
+        std::vector<std::string> existingInfoTags;
+        while(dataLenght > 0){
+            io_->read(buf.pData_, 4);
+            tv = find(infoTags , Exiv2::toString( buf.pData_));
+            io_->read(buf.pData_, 4);
+            infoSize = Exiv2::getULong(buf.pData_, littleEndian);
+            dataLenght -= infoSize;
 
-    void RiffVideo::junkHandler(long size)
-    {
-        const long bufMinSize = size;
-
-        if (size < 0) {
-    #ifndef SUPPRESS_WARNINGS
-            EXV_ERROR   << " Junk Data found in this RIFF file are not of valid size ."
-                        << " Entries considered invalid. Not Processed.\n";
-    #endif
-            io_->seek(io_->tell() + 4, BasicIo::beg);
+            if(tv){
+                if(xmpData_[exvGettext(tv->label_)].count() >0){
+                    existingInfoTags.push_back((std::string)tv->voc_);
+                    writeStringData(xmpData_[exvGettext(tv->label_)],infoSize);
+                }
+            }
         }
 
-        else {
+        //Secondly write tags which are supported by Digikam,
+        //Note that create new LIST chunk is created if tag did not exist before
+        std::vector<std::pair<std::string,std::string> > writethis;
+        for(int32_t i =0; i< (int32_t)(sizeof(infoTags)/sizeof(infoTags[0])); i++){
+            const std::string infoTagData = xmpData_[infoTags[i].label_].toString();
+            const std::string infoTagFlag = (std::string)infoTags[i].voc_;
+            if((xmpData_[infoTags[i].label_].count() > 0) &&
+                    ((findChunkPositions(infoTags[i].voc_)).size() == 0)
+                    && !(std::find(existingInfoTags.begin(), existingInfoTags.end(), infoTagFlag) != existingInfoTags.end()))
+                writethis.push_back(make_pair(infoTagData,infoTagFlag));
+        }
+
+        if(writethis.size() > 0){
+            io_->seek(cur_pos, BasicIo::beg);
+            writeNewSubChunks(writethis);
+        }
+
+        io_->seek(cur_pos + size, BasicIo::beg);
+    }
+    return;
+} // RiffVideo::infoTagsHandler
+
+void RiffVideo::junkHandler(int32_t size){
+    const int32_t bufMinSize = size;
+
+    if (size < 0){
+#ifndef SUPPRESS_WARNINGS
+        EXV_ERROR   << " Junk Data found in this RIFF file are not of valid size ."
+                    << " Entries considered invalid. Not Processed.\n";
+#endif
+        io_->seek(io_->tell() + 4, BasicIo::beg);
+    }
+
+    else{
         DataBuf buf(bufMinSize+1), buf2(4+1);
-        std::memset(buf.pData_, 0x0, buf.size_);
-        buf2.pData_[4] = '\0';
         uint64_t cur_pos = io_->tell();
 
         io_->read(buf.pData_, 4);
         //! Pentax Metadata and Tags
-        if(equalsRiffTag(buf, "PENT")) {
-
+        if(UtilsVideo::compareTagValue(buf, "PENT")){
             io_->seek(cur_pos + 18, BasicIo::beg);
             io_->read(buf.pData_, 26);
             xmpData_["Xmp.video.Make"] = buf.pData_;
@@ -961,53 +1341,44 @@ namespace Exiv2 {
             xmpData_.add(Exiv2::XmpKey("Xmp.xmp.Thumbnails/xmpGImg:image"), &tv);
         */
         }
-        else {
+        else{
             io_->seek(cur_pos, BasicIo::beg);
             io_->read(buf.pData_, size);
             xmpData_["Xmp.video.Junk"] = buf.pData_;
         }
 
         io_->seek(cur_pos + size, BasicIo::beg);
-        }
-    } // RiffVideo::junkHandler
+    }
+    return;
+} // RiffVideo::junkHandler
 
-    void RiffVideo::aviHeaderTagsHandler(long size)
-    {
-        const long bufMinSize = 4;
+void RiffVideo::aviHeaderTagsHandler(int32_t size){
+    if(!d->m_modifyMetadata){
+        const int32_t bufMinSize = 4;
         DataBuf buf(bufMinSize+1);
         buf.pData_[4] = '\0';
-        long width = 0, height = 0, frame_count = 0;
+        int32_t width = 0, height = 0, frame_count = 0;
         double frame_rate = 1;
 
-        uint64_t cur_pos = io_->tell();
+        uint64_t cur_pos = io_->tell(),i;
 
-        for(int i = 0; i <= 9; i++) {
+        for( i = 0; i <= 9; i++){
             std::memset(buf.pData_, 0x0, buf.size_);
             io_->read(buf.pData_, bufMinSize);
 
-            switch(i) {
-            case frameRate:
-                xmpData_["Xmp.video.MicroSecPerFrame"] = Exiv2::getULong(buf.pData_, littleEndian);
-                frame_rate = (double)1000000/(double)Exiv2::getULong(buf.pData_, littleEndian);
-                break;
-            case (maxDataRate):
-                xmpData_["Xmp.video.MaxDataRate"] = (double)Exiv2::getULong(buf.pData_, littleEndian)/(double)1024;
-                break;
-            case frameCount:
-                xmpData_["Xmp.video.FrameCount"] = Exiv2::getULong(buf.pData_, littleEndian);
-                frame_count = Exiv2::getULong(buf.pData_, littleEndian);
-                break;
-            case streamCount:
-                xmpData_["Xmp.video.StreamCount"] = Exiv2::getULong(buf.pData_, littleEndian);
-                break;
-            case imageWidth_h:
-                width = Exiv2::getULong(buf.pData_, littleEndian);
-                xmpData_["Xmp.video.Width"] = width;
-                break;
-            case imageHeight_h:
-                height = Exiv2::getULong(buf.pData_, littleEndian);
-                xmpData_["Xmp.video.Height"] = height;
-                break;
+            switch(i){
+            case frameRate: xmpData_["Xmp.video.MicroSecPerFrame"] = Exiv2::getULong(buf.pData_, littleEndian);
+                frame_rate = (double)1000000/(double)Exiv2::getULong(buf.pData_, littleEndian); break;
+            case (maxDataRate): xmpData_["Xmp.video.MaxDataRate"] = (double)Exiv2::getULong(buf.pData_, littleEndian)/(double)1024; break;
+            case frameCount: xmpData_["Xmp.video.FrameCount"] = Exiv2::getULong(buf.pData_, littleEndian);
+                frame_count = Exiv2::getULong(buf.pData_, littleEndian); break;
+            case initialFrames: xmpData_["Xmp.video.InitialFrames"] = Exiv2::getULong(buf.pData_, littleEndian); break;
+            case streamCount: xmpData_["Xmp.video.StreamCount"] = Exiv2::getULong(buf.pData_, littleEndian); break;
+            case suggestedBufferSize: xmpData_["Xmp.video.SuggestedBufferSize"] = Exiv2::getULong(buf.pData_, littleEndian); break;
+            case imageWidth_h: width = Exiv2::getULong(buf.pData_, littleEndian);
+                xmpData_["Xmp.video.Width"] = width; break;
+            case imageHeight_h: height = Exiv2::getULong(buf.pData_, littleEndian);
+                xmpData_["Xmp.video.Height"] = height; break;
             }
         }
 
@@ -1015,237 +1386,502 @@ namespace Exiv2 {
         fillDuration(frame_rate, frame_count);
 
         io_->seek(cur_pos + size, BasicIo::beg);
-    } // RiffVideo::aviHeaderTagsHandler
+    }
+    else//overwrite metadata from current xmpData_ container{
+        for(int32_t i = 0; i <= 9; i++){
+            switch(i){
+            case frameRate: writeLongData(xmpData_["Xmp.video.MicroSecPerFrame"]); break;
+            case (maxDataRate): if(xmpData_["Xmp.video.MaxDataRate"].count() > 0 ){
+                    int32_t maxDataRate = (int32_t)(xmpData_["Xmp.video.MaxDataRate"].toFloat()*1024);
+                    io_->write((Exiv2::byte*)&maxDataRate,4);
+                }
+                else io_->seek(4,BasicIo::cur);
+                break;
+            case frameCount: writeLongData(xmpData_["Xmp.video.FrameCount"]); break;
+            case initialFrames: writeLongData(xmpData_["Xmp.video.InitialFrames"]); break;
+            case streamCount: writeLongData(xmpData_["Xmp.video.StreamCount"]); break;
+            case suggestedBufferSize: writeLongData(xmpData_["Xmp.video.SuggestedBufferSize"]); break;
+            case imageWidth_h: writeLongData(xmpData_["Xmp.video.Width"]); break;
+            case imageHeight_h: writeLongData(xmpData_["Xmp.video.Height"]); break;
+            default: io_->seek(4,BasicIo::cur); break;
+            }
+        }
+    return;
+} // RiffVideo::aviHeaderTagsHandler
 
-    void RiffVideo::streamHandler(long size)
-    {
-        const long bufMinSize = 4;
+void RiffVideo::setStreamType(){
+    DataBuf chkId((uint64_t)5);
+    io_->read(chkId.pData_,(uint64_t)4);
+    if(UtilsVideo::compareTagValue(chkId, "VIDS"))
+        d->streamType_ = Video;
+    else if (UtilsVideo::compareTagValue(chkId, "AUDS"))
+        d->streamType_ = Audio;
+    return;
+}//RiffVideo::setStreamType
+
+void RiffVideo::streamHandler(int32_t size){
+    if (!d->m_modifyMetadata){
+        uint64_t bufMinSize = 4;
         DataBuf buf(bufMinSize+1);
-        buf.pData_[4]='\0';
-        long divisor = 1;
-        uint64_t cur_pos = io_->tell();
+        buf.pData_[4] =  '\0';
+        int32_t divisor = 1;
+        uint64_t cur_pos = io_->tell() - 4;
 
-        io_->read(buf.pData_, bufMinSize);
-        if(equalsRiffTag(buf, "VIDS"))
-            streamType_ = Video;
-        else if (equalsRiffTag(buf, "AUDS"))
-            streamType_ = Audio;
-
-        for(int i=1; i<=25; i++) {
+        int32_t i;
+        for( i=1; i<=25; i++){
             std::memset(buf.pData_, 0x0, buf.size_);
             io_->read(buf.pData_, bufMinSize);
 
-            switch(i) {
+            switch(i){
             case codec:
-                if(streamType_ == Video)
-                    xmpData_["Xmp.video.Codec"] = buf.pData_;
-                else if (streamType_ == Audio)
-                    xmpData_["Xmp.audio.Codec"] = buf.pData_;
-                else
-                    xmpData_["Xmp.video.Codec"] = buf.pData_;
+                if(d->streamType_ == Video) xmpData_["Xmp.video.Codec"] = buf.pData_;
+                else if (d->streamType_ == Audio) xmpData_["Xmp.audio.Codec"] = buf.pData_;
+                else xmpData_["Xmp.video.Codec"] = buf.pData_;
                 break;
-            case sampleRate:
-                divisor=Exiv2::getULong(buf.pData_, littleEndian);
+            case sampleRate: divisor=Exiv2::getULong(buf.pData_, littleEndian); break;
+            case (sampleRate+1): if(d->streamType_ == Video) xmpData_["Xmp.video.FrameRate"] = returnSampleRate(buf,divisor);
+                else if (d->streamType_ == Audio) xmpData_["Xmp.audio.SampleRate"] = returnSampleRate(buf,divisor);
+                else xmpData_["Xmp.video.StreamSampleRate"] = returnSampleRate(buf,divisor);
                 break;
-            case (sampleRate+1):
-                if(streamType_ == Video)
-                    xmpData_["Xmp.video.FrameRate"] = returnSampleRate(buf,divisor);
-                else if (streamType_ == Audio)
-                    xmpData_["Xmp.audio.SampleRate"] = returnSampleRate(buf,divisor);
-                else
-                     xmpData_["Xmp.video.StreamSampleRate"] = returnSampleRate(buf,divisor);
+            case sampleCount: if(d->streamType_ == Video) xmpData_["Xmp.video.FrameCount"] = Exiv2::getULong(buf.pData_, littleEndian);
+                else if (d->streamType_ == Audio) xmpData_["Xmp.audio.SampleCount"] = Exiv2::getULong(buf.pData_, littleEndian);
+                else xmpData_["Xmp.video.StreamSampleCount"] = Exiv2::getULong(buf.pData_, littleEndian);
                 break;
-            case sampleCount:
-                if(streamType_ == Video)
-                    xmpData_["Xmp.video.FrameCount"] = Exiv2::getULong(buf.pData_, littleEndian);
-                else if (streamType_ == Audio)
-                    xmpData_["Xmp.audio.SampleCount"] = Exiv2::getULong(buf.pData_, littleEndian);
-                else
-                    xmpData_["Xmp.video.StreamSampleCount"] = Exiv2::getULong(buf.pData_, littleEndian);
+            case quality: if(d->streamType_ == Video) xmpData_["Xmp.video.VideoQuality"] = Exiv2::getULong(buf.pData_, littleEndian);
+                else if(d->streamType_ != Audio) xmpData_["Xmp.video.StreamQuality"] = Exiv2::getULong(buf.pData_, littleEndian);
                 break;
-            case quality:
-                if(streamType_ == Video)
-                    xmpData_["Xmp.video.VideoQuality"] = Exiv2::getULong(buf.pData_, littleEndian);
-                else if(streamType_ != Audio)
-                    xmpData_["Xmp.video.StreamQuality"] = Exiv2::getULong(buf.pData_, littleEndian);
-                break;
-            case sampleSize:
-                if(streamType_ == Video)
-                    xmpData_["Xmp.video.VideoSampleSize"] = Exiv2::getULong(buf.pData_, littleEndian);
-                else if(streamType_ != Audio)
-                    xmpData_["Xmp.video.StreamSampleSize"] = Exiv2::getULong(buf.pData_, littleEndian);
+            case sampleSize: if(d->streamType_ == Video) xmpData_["Xmp.video.VideoSampleSize"] = Exiv2::getULong(buf.pData_, littleEndian);
+                else if(d->streamType_ != Audio) xmpData_["Xmp.video.StreamSampleSize"] = Exiv2::getULong(buf.pData_, littleEndian);
                 break;
             }
 
         }
         io_->seek(cur_pos + size, BasicIo::beg);
-    } // RiffVideo::streamHandler
+    }
+    else{
+        DataBuf chkId((uint64_t)5);
+        chkId.pData_[4] = '\0';
+        const int32_t bufMinSize = 4;
 
-    void RiffVideo::streamFormatHandler(long size)
-    {
-        const long bufMinSize = 4;
+        int32_t multiplier;
+        if(d->streamType_ == Video){
+            writeStringData(xmpData_["Xmp.video.Codec"],4,12);
+            io_->read(chkId.pData_,bufMinSize);
+            multiplier = Exiv2::getULong(chkId.pData_, littleEndian);
+
+            //Variation
+            if(xmpData_["Xmp.video.FrameRate"].count() > 0){
+                int32_t frameRate = (int32_t)xmpData_["Xmp.video.FrameRate"].toFloat()*multiplier;
+                io_->write((Exiv2::byte*)&frameRate,4);
+                io_->seek(4,BasicIo::cur);
+            }
+            else io_->seek(8,BasicIo::cur);
+
+            writeLongData(xmpData_["Xmp.video.FrameCount"],4,4);
+            writeLongData(xmpData_["Xmp.video.VideoQuality"],4);
+            writeLongData(xmpData_["Xmp.video.VideoSampleSize"],4);
+        }
+        else if(d->streamType_ == Audio){
+            writeStringData(xmpData_["Xmp.audio.Codec"],4,12);
+
+            io_->read(chkId.pData_,bufMinSize);
+            multiplier = Exiv2::getULong(chkId.pData_, littleEndian);
+
+            //Variation
+            if(xmpData_["Xmp.audio.SampleRate"].count() > 0){
+                int32_t sampleRate = (int32_t)xmpData_["Xmp.audio.SampleRate"].toLong()*multiplier;
+                io_->write((Exiv2::byte*)&sampleRate,4);
+                io_->seek(4,BasicIo::cur);
+            }
+            else io_->seek(8,BasicIo::cur);
+            writeLongData(xmpData_["Xmp.audio.SampleCount"],4);
+        }
+        else{
+            writeLongData(xmpData_["Xmp.video.Codec"],4,12);
+            io_->read(chkId.pData_,bufMinSize);
+            multiplier = Exiv2::getULong(chkId.pData_, littleEndian);
+
+            //Variation
+            if(xmpData_["Xmp.video.StreamSampleRate"].count() > 0){
+                int32_t streamSampleRate = (int32_t)xmpData_["Xmp.video.StreamSampleRate"].toLong()*multiplier;
+                io_->write((Exiv2::byte*)&streamSampleRate,4);
+                io_->seek(4,BasicIo::cur);
+            }
+            else io_->seek(8,BasicIo::cur);
+
+            writeLongData(xmpData_["Xmp.video.StreamSampleCount"],4,4);
+            writeLongData(xmpData_["Xmp.video.StreamQuality"],4);
+            writeLongData(xmpData_["Xmp.video.StreamSampleSize"],4);
+        }
+    }
+    return;
+} // RiffVideo::streamHandler
+
+void RiffVideo::streamFormatHandler(int32_t size){
+    if (!d->m_modifyMetadata){
+        const int32_t bufMinSize = 4;
         DataBuf buf(bufMinSize+1);
         buf.pData_[4] = '\0';
         uint64_t cur_pos = io_->tell();
 
-        if(streamType_ == Video) {
+        if(d->streamType_ == Video){
             io_->read(buf.pData_, bufMinSize);
-
-            for(int i = 0; i <= 9; i++) {
+            for(int32_t i = 0; i <= 9; i++){
                 std::memset(buf.pData_, 0x0, buf.size_);
-
-                switch(i) {
-                case imageWidth: //Will be used in case of debugging
-                    io_->read(buf.pData_, bufMinSize); break;
-                case imageHeight: //Will be used in case of debugging
-                    io_->read(buf.pData_, bufMinSize); break;
-                case planes:
-                    io_->read(buf.pData_, 2);
+                switch(i){
+                //Will be used in case of debugging
+                case imageWidth: io_->read(buf.pData_, bufMinSize); break;
+                case imageHeight: io_->read(buf.pData_, bufMinSize); break;
+                case planes: io_->read(buf.pData_, 2);
                     xmpData_["Xmp.video.Planes"] = Exiv2::getUShort(buf.pData_, littleEndian); break;
-                case bitDepth:
-                    io_->read(buf.pData_, 2);
+                case bitDepth: io_->read(buf.pData_, 2);
                     xmpData_["Xmp.video.PixelDepth"] = Exiv2::getUShort(buf.pData_, littleEndian); break;
-                case compression:
-                    io_->read(buf.pData_, bufMinSize);
+                case compression: io_->read(buf.pData_, bufMinSize);
                     xmpData_["Xmp.video.Compressor"] = buf.pData_; break;
-                case imageLength:
-                    io_->read(buf.pData_, bufMinSize);
+                case imageLength: io_->read(buf.pData_, bufMinSize);
                     xmpData_["Xmp.video.ImageLength"] = Exiv2::getULong(buf.pData_, littleEndian); break;
-                case pixelsPerMeterX:
-                    io_->read(buf.pData_, bufMinSize);
+                case pixelsPerMeterX: io_->read(buf.pData_, bufMinSize);
                     xmpData_["Xmp.video.PixelPerMeterX"] = Exiv2::getULong(buf.pData_, littleEndian); break;
-                case pixelsPerMeterY:
-                    io_->read(buf.pData_, bufMinSize);
+                case pixelsPerMeterY: io_->read(buf.pData_, bufMinSize);
                     xmpData_["Xmp.video.PixelPerMeterY"] = Exiv2::getULong(buf.pData_, littleEndian); break;
-                case numColors:
-                    io_->read(buf.pData_, bufMinSize);
-                    if(Exiv2::getULong(buf.pData_, littleEndian) == 0) {
-                        xmpData_["Xmp.video.NumOfColours"] = "Unspecified";
-                    }
-                    else {
-                        xmpData_["Xmp.video.NumOfColours"] = Exiv2::getULong(buf.pData_, littleEndian);
-                    }
+                case numColors: io_->read(buf.pData_, bufMinSize);
+                    if(Exiv2::getULong(buf.pData_, littleEndian) == 0) xmpData_["Xmp.video.NumOfColours"] = "Unspecified";
+                    else xmpData_["Xmp.video.NumOfColours"] = Exiv2::getULong(buf.pData_, littleEndian);
                     break;
-                case numImportantColors:
-                    io_->read(buf.pData_, bufMinSize);
-                    if(Exiv2::getULong(buf.pData_, littleEndian)) {
-                        xmpData_["Xmp.video.NumIfImpColours"] = Exiv2::getULong(buf.pData_, littleEndian);
-                    }
-                    else {
-                        xmpData_["Xmp.video.NumOfImpColours"] = "All";
-                    }
+                case numImportantColors: io_->read(buf.pData_, bufMinSize);
+                    if(Exiv2::getULong(buf.pData_, littleEndian)) xmpData_["Xmp.video.NumIfImpColours"] = Exiv2::getULong(buf.pData_, littleEndian);
+                    else xmpData_["Xmp.video.NumOfImpColours"] = "All";
                     break;
                 }
             }
         }
-        else if(streamType_ == Audio) {
-            int c = 0;
+        else if(d->streamType_ == Audio){
+            int32_t c = 0;
             const TagDetails* td;
-            for(int i = 0; i <= 7; i++) {
+            for(int32_t i = 0; i <= 7; i++){
                 io_->read(buf.pData_, 2);
 
-                switch(i) {
-                case encoding:
-                    td = find(audioEncodingValues , Exiv2::getUShort(buf.pData_, littleEndian));
-                    if(td) {
-                        xmpData_["Xmp.audio.Compressor"] = exvGettext(td->label_);
-                    }
-                    else {
-                        xmpData_["Xmp.audio.Compressor"] = Exiv2::getUShort(buf.pData_, littleEndian);
-                    }
+                switch(i){
+                case encoding: td = find(audioEncodingValues , Exiv2::getUShort(buf.pData_, littleEndian));
+                    if(td) xmpData_["Xmp.audio.Compressor"] = exvGettext(td->label_);
+                    else xmpData_["Xmp.audio.Compressor"] = Exiv2::getUShort(buf.pData_, littleEndian);
                     break;
-                case numberOfChannels:
-                    c = Exiv2::getUShort(buf.pData_, littleEndian);
+                case numberOfChannels: c = Exiv2::getUShort(buf.pData_, littleEndian);
                     if(c == 1) xmpData_["Xmp.audio.ChannelType"] = "Mono";
                     else if(c == 2) xmpData_["Xmp.audio.ChannelType"] = "Stereo";
                     else if(c == 5) xmpData_["Xmp.audio.ChannelType"] = "5.1 Surround Sound";
                     else if(c == 7) xmpData_["Xmp.audio.ChannelType"] = "7.1 Surround Sound";
                     else xmpData_["Xmp.audio.ChannelType"] = "Mono";
                     break;
-                case audioSampleRate:
-                    xmpData_["Xmp.audio.SampleRate"] = Exiv2::getUShort(buf.pData_, littleEndian);
-                    break;
-                case avgBytesPerSec:
-                    xmpData_["Xmp.audio.SampleType"] = Exiv2::getUShort(buf.pData_, littleEndian);
-                    break;
-                case bitsPerSample:
-                    xmpData_["Xmp.audio.BitsPerSample"] = Exiv2::getUShort(buf.pData_,littleEndian);
-                    io_->read(buf.pData_, 2);
-                    break;
+                case audioSampleRate: xmpData_["Xmp.audio.SampleRate"] = Exiv2::getUShort(buf.pData_, littleEndian); break;
+                case avgBytesPerSec: xmpData_["Xmp.audio.SampleType"] = Exiv2::getUShort(buf.pData_, littleEndian); break;
+                case bitsPerSample: xmpData_["Xmp.audio.BitsPerSample"] = Exiv2::getUShort(buf.pData_,littleEndian);
+                    io_->read(buf.pData_, 2); break;
                 }
             }
         }
         io_->seek(cur_pos + size, BasicIo::beg);
-    } // RiffVideo::streamFormatHandler
+    }
+    else{
+        if(d->streamType_ == Video){
+            DataBuf chkId((uint64_t) 5);
+            chkId.pData_[4] = '\0';
+            io_->read(chkId.pData_,4);
 
-    double RiffVideo::returnSampleRate(Exiv2::DataBuf& buf, long divisor)
-    {
-        return ((double)Exiv2::getULong(buf.pData_, littleEndian) / (double)divisor);
-    } // RiffVideo::returnSampleRate
+            writeLongData(xmpData_["Xmp.video.Width"],4);
+            writeLongData(xmpData_["Xmp.video.Height"],4);
+            writeShortData(xmpData_["Xmp.video.Planes"]);
+            writeShortData(xmpData_["Xmp.video.PixelDepth"]);
+            writeStringData(xmpData_["Xmp.video.Compressor"],4);
+            writeLongData(xmpData_["Xmp.video.ImageLength"],4);
+            writeLongData(xmpData_["Xmp.video.PixelPerMeterX"],4);
+            writeLongData(xmpData_["Xmp.video.PixelPerMeterY"],4);
+            writeLongData(xmpData_["Xmp.video.NumOfColours"],4);
 
-    const char* RiffVideo::printAudioEncoding(uint64_t i)
-    {
-        const TagDetails* td;
-        td = find(audioEncodingValues , i);
-        if(td)
-            return exvGettext(td->label_);
-
-        return "Undefined";
-    } // RiffVideo::printAudioEncoding
-
-    void RiffVideo::fillAspectRatio(long width, long height)
-    {
-        double aspectRatio = (double)width / (double)height;
-        aspectRatio = floor(aspectRatio*10) / 10;
-        xmpData_["Xmp.video.AspectRatio"] = aspectRatio;
-
-		int aR = (int) ((aspectRatio*10.0)+0.1);
-
-		switch  (aR) {
-			case 13 : xmpData_["Xmp.video.AspectRatio"] = "4:3"		; break;
-			case 17 : xmpData_["Xmp.video.AspectRatio"] = "16:9"	; break;
-			case 10 : xmpData_["Xmp.video.AspectRatio"] = "1:1"		; break;
-			case 16 : xmpData_["Xmp.video.AspectRatio"] = "16:10"	; break;
-			case 22 : xmpData_["Xmp.video.AspectRatio"] = "2.21:1"  ; break;
-			case 23 : xmpData_["Xmp.video.AspectRatio"] = "2.35:1"  ; break;
-			case 12 : xmpData_["Xmp.video.AspectRatio"] = "5:4"     ; break;
-			default : xmpData_["Xmp.video.AspectRatio"] = aspectRatio;break;
-		}
-    } // RiffVideo::fillAspectRatio
-
-    void RiffVideo::fillDuration(double frame_rate, long frame_count)
-    {
-        if(frame_rate == 0)
-            return;
-
-        uint64_t duration = static_cast<uint64_t>((double)frame_count * (double)1000 / (double)frame_rate);
-        xmpData_["Xmp.video.FileDataRate"] = (double)io_->size()/(double)(1048576*duration);
-        xmpData_["Xmp.video.Duration"] = duration; //Duration in number of seconds
-    } // RiffVideo::fillDuration
-
-    Image::AutoPtr newRiffInstance(BasicIo::AutoPtr io, bool /*create*/)
-    {
-        Image::AutoPtr image(new RiffVideo(io));
-        if (!image->good()) {
-            image.reset();
+            //Variation
+            if(xmpData_["Xmp.video.NumOfImpColours"].count() > 0){
+                if(std::strcmp(xmpData_["Xmp.video.NumOfImpColours"].toString().c_str(),"All")){
+                    const int32_t numImportantColours = (int32_t) 0;
+                    io_->write((Exiv2::byte*)&numImportantColours,4);
+                }
+                else writeLongData(xmpData_["Xmp.video.NumOfImpColours"],4);
+            }
+            else io_->seek(4,BasicIo::cur);
         }
-        return image;
+        else if(d->streamType_ == Audio){
+            const RevTagDetails* rtd;
+            //Variation
+            if(xmpData_["Xmp.audio.Compressor"].count() > 0){
+                RevTagDetails revTagDetails[(sizeof(audioEncodingValues)/
+                                             sizeof(audioEncodingValues[0]))];
+                reverseTagDetails(audioEncodingValues,revTagDetails,
+                                  (sizeof(audioEncodingValues)
+                                   /sizeof(audioEncodingValues[0])));
+                rtd = find(revTagDetails,xmpData_["Xmp.audio.Compressor"].toString());
+                if(rtd){
+                    uint16_t compressorCode= (uint16_t)rtd->val_;
+                    io_->write((Exiv2::byte*)&compressorCode,2);
+                }
+                else io_->seek(2,BasicIo::cur);
+            }
+            else io_->seek(2,BasicIo::cur);
+
+            if(xmpData_["Xmp.audio.ChannelType"].count() > 0){
+                const int32_t sizeChan = xmpData_["Xmp.audio.ChannelType"].size();
+                DataBuf tmpBuf(sizeChan+1);
+                tmpBuf.pData_[sizeChan+1] = '\0';
+                const std::string audioChannealType = xmpData_["Xmp.audio.ChannelType"].toString();
+                int32_t i;
+                for( i=0; i<=sizeChan;i++) tmpBuf.pData_[i] = (Exiv2::byte)audioChannealType[i];
+                uint16_t channelType = 0;
+                if(UtilsVideo::simpleBytesComparision(tmpBuf,"MONO",sizeChan)) channelType = 1;
+                else if(UtilsVideo::simpleBytesComparision(tmpBuf,"STEREO",sizeChan)) channelType = 2;
+                else if(UtilsVideo::simpleBytesComparision(tmpBuf,"5.1 SURROUND SOUND",sizeChan)) channelType = 5;
+                else if(UtilsVideo::simpleBytesComparision(tmpBuf,"7.1 SURROUND SOUND",sizeChan)) channelType = 7;
+                io_->write((Exiv2::byte*)&channelType,2);
+            }
+            else io_->seek(2,BasicIo::cur);
+
+            writeShortData(xmpData_["Xmp.audio.SampleRate"],2,2);
+            writeShortData(xmpData_["Xmp.audio.SampleType"],2,4);
+            writeShortData(xmpData_["Xmp.audio.BitsPerSample"],2);
+        }
+    }
+    return;
+} // RiffVideo::streamFormatHandler
+
+double RiffVideo::returnSampleRate(Exiv2::DataBuf& buf, int32_t divisor){
+    return ((double)Exiv2::getULong(buf.pData_, littleEndian) / (double)divisor);
+} // RiffVideo::returnSampleRate
+
+const char* RiffVideo::printAudioEncoding(uint64_t i){
+    const TagDetails* td;
+    td = find(audioEncodingValues , i);
+    if(td) return exvGettext(td->label_);
+
+    return "Undefined";
+} // RiffVideo::printAudioEncoding
+
+void RiffVideo::fillAspectRatio(int32_t width, int32_t height){
+    double aspectRatio = (double)width / (double)height;
+    aspectRatio = floor(aspectRatio*10) / 10;
+    xmpData_["Xmp.video.AspectRatio"] = aspectRatio;
+
+    int32_t aR = (int32_t) ((aspectRatio*10.0)+0.1);
+
+    switch  (aR) {
+    case 13 : xmpData_["Xmp.video.AspectRatio"] = "4:3"		; break;
+    case 17 : xmpData_["Xmp.video.AspectRatio"] = "16:9"	; break;
+    case 10 : xmpData_["Xmp.video.AspectRatio"] = "1:1"		; break;
+    case 16 : xmpData_["Xmp.video.AspectRatio"] = "16:10"	; break;
+    case 22 : xmpData_["Xmp.video.AspectRatio"] = "2.21:1"  ; break;
+    case 23 : xmpData_["Xmp.video.AspectRatio"] = "2.35:1"  ; break;
+    case 12 : xmpData_["Xmp.video.AspectRatio"] = "5:4"     ; break;
+    default : xmpData_["Xmp.video.AspectRatio"] = aspectRatio;break;
+    }
+    return;
+} // RiffVideo::fillAspectRatio
+
+void RiffVideo::fillDuration(double frame_rate, int32_t frame_count){
+    if(frame_rate == 0) return;
+
+    uint64_t duration = static_cast<uint64_t>((double)frame_count * (double)1000 / (double)frame_rate);
+    xmpData_["Xmp.video.FileDataRate"] = (double)io_->size()/(double)(1048576*duration);
+    xmpData_["Xmp.video.Duration"] = duration; //Duration in number of seconds
+    return;
+} // RiffVideo::fillDuration
+
+void RiffVideo::reverseTagDetails(const TagDetails inputTagVocabulary[],
+                                  RevTagDetails  outputTagVocabulary[] ,int32_t size){
+    for(int32_t i=0; i<size ;i++){
+        outputTagVocabulary[i].label_ = inputTagVocabulary[i].label_;
+        outputTagVocabulary[i].val_ = inputTagVocabulary[i].val_;
+    }
+    return;
+} // RiffVideo::reverseTagDetails
+
+Image::AutoPtr newRiffInstance(BasicIo::AutoPtr io, bool /*create*/){
+    Image::AutoPtr image(new RiffVideo(io));
+    if (!image->good()) image.reset();
+    return image;
+}
+
+/*!
+ * \brief RiffVideo::copyRestOfTheFile
+ * Move all data to next locations,Currently its blockwise copy,which is inefficient for a
+ * huge video files,and should be changed to inserting technique without moving huge data
+ * like Bundle technology as suggested by Robin.
+ * \param oldSavedData
+ * \return
+ */
+bool RiffVideo::copyRestOfTheFile(DataBuf oldSavedData){
+
+    int32_t writeSize = oldSavedData.size_;
+    int32_t readSize = writeSize;
+    DataBuf readBuf((int32_t)max(readSize,(int32_t)1024));
+    DataBuf writeBuf((int32_t)max(readSize,(int32_t)1024));
+
+    memcpy(writeBuf.pData_,oldSavedData.pData_,readSize);
+    bool lastStream = false,hasData = true;
+
+    while(hasData){
+        if((io_->size() - io_->tell()) < 1024){
+            hasData = false;
+            lastStream = true;
+            readSize = (io_->size() - io_->tell());
+        }
+
+        io_->read(readBuf.pData_,readSize);
+        io_->seek(-readSize,BasicIo::cur);
+        io_->write(writeBuf.pData_,writeSize);
+
+        memcpy(writeBuf.pData_,readBuf.pData_,readSize);
+        writeSize = readSize;
+        if(lastStream) io_->write(writeBuf.pData_,readSize);
+    }
+    return true;
+}
+
+/*!
+ * \brief RiffVideo::writeNewSubChunks
+ *                   precondition:INFO List chunk must exist,atleast with LIST tag,
+ *                   and size field with size one(INFO tag which appear next)
+ *
+ *            |----LIST(Must exist before calling this method)
+ *            |----Size(Must exist, atleast with size 1 if no INFO subchunks exist before)
+ *                     |----INFO (Must exist,exactly with same HeaderChunkId INFO)
+ *
+ * \param chunkData
+ * \return
+ */
+bool RiffVideo::writeNewSubChunks(std::vector<std::pair<std::string,std::string> > chunkData){
+    bool  result = true;
+    int32_t  addSize = 0;
+    for (vector<std::pair<std::string,std::string> >::iterator it = chunkData.begin();
+         it != chunkData.end(); it++){
+        std::pair<std::string,std::string> unitChunk = (*it);
+        addSize += (int32_t)unitChunk.first.size() + (int32_t)8;
+        addSize += addSize%2;
+    }
+    const int32_t cur_pos = io_->tell();
+    DataBuf buf((uint64_t)5);
+    buf.pData_[4] = '\0';
+    io_->seek(4,BasicIo::beg);
+    io_->read(buf.pData_,4);
+    io_->seek(-4,BasicIo::cur);
+
+    const int32_t originalSize = Exiv2::getULong(buf.pData_, littleEndian);
+    int32_t newRiffSize = originalSize + addSize ;
+    io_->write((Exiv2::byte*)&newRiffSize,4);
+
+    io_->seek(cur_pos,BasicIo::beg);
+    io_->read(buf.pData_,4);
+    io_->seek(-4,BasicIo::cur);
+
+    const int32_t originalListSize = Exiv2::getULong(buf.pData_, littleEndian);
+    int32_t newListSize = originalListSize + addSize ;
+    io_->write((Exiv2::byte*)&newListSize,4);
+
+    io_->read(buf.pData_,4);
+    std::vector<DataBuf> previousData;
+    uint64_t i;
+
+    for (vector<std::pair<std::string,std::string> >::iterator it = chunkData.begin();
+         it != chunkData.end(); it++){
+        std::pair<std::string,std::string> unitChunk = (*it);
+        std::string chunkId = unitChunk.second;
+        std::string tmpChunkData = unitChunk.first;
+        uint64_t chunkSize = tmpChunkData.size();
+        chunkSize += chunkSize%2;
+
+        DataBuf copiedData((int32_t)(chunkSize+8));
+
+        io_->read(copiedData.pData_,(chunkSize+8));
+        io_->seek(((-1)*(chunkSize+8)),BasicIo::cur);
+        previousData.push_back(copiedData);
+        Exiv2::byte rawChunkId[4] = {(Exiv2::byte)chunkId[0],(Exiv2::byte)chunkId[1],
+                                     (Exiv2::byte)chunkId[2],(Exiv2::byte)chunkId[3]};
+        Exiv2::byte* rawChunkData = new byte[(int32_t)chunkSize];
+
+        for(i=0; i < chunkSize; i++) rawChunkData[i] = (Exiv2::byte)tmpChunkData[i];
+        if(tmpChunkData.size()%2 != 0) rawChunkData[(int32_t)(chunkSize-1)] = (Exiv2::byte)0;
+
+        io_->write(rawChunkId,4);
+        io_->write((Exiv2::byte*)&chunkSize,4);
+        io_->write(rawChunkData,chunkSize);
+        delete[] rawChunkData;
     }
 
-    bool isRiffType(BasicIo& iIo, bool advance)
-    {
-        const int32_t len = 2;
-        const unsigned char RiffVideoId[4] = { 'R', 'I', 'F' ,'F'};
-        byte buf[len];
-        iIo.read(buf, len);
-        if (iIo.error() || iIo.eof()) {
-            return false;
+    int32_t accessIndex = 0;
+    int32_t netNewMetadataSize = 0;
+    for (i=0; i < (int32_t)previousData.size(); i++) netNewMetadataSize += previousData[i].size_;
+
+    DataBuf metadataPacket((uint64_t)netNewMetadataSize);
+    for (i=0; i < previousData.size(); i++){
+        for(int32_t assignIndex=0; assignIndex<previousData[i].size_; assignIndex++){
+            metadataPacket.pData_[accessIndex] = previousData[i].pData_[assignIndex];
+            accessIndex++;
         }
-        bool matched = (memcmp(buf, RiffVideoId, len) == 0);
-        if (!advance || !matched) {
-            iIo.seek(-len, BasicIo::cur);
-        }
-        return matched;
     }
 
+    copyRestOfTheFile(metadataPacket);
+    return result;
+}
+
+void RiffVideo::writeStringData(Exiv2::Xmpdatum xmpStringData, int32_t size, int32_t skipOffset){
+    if(xmpStringData.count() > 0){
+        std::string dataString = xmpStringData.toString();
+        Exiv2::byte* rawData = new byte[(uint8_t)size];
+        int32_t newSize = (int32_t)dataString.size();
+        for(int32_t i=0; i<min(newSize,size); i++) rawData[i] = (Exiv2::byte)dataString[i];
+        if(size > newSize) for(int32_t i=newSize; i<size; i++) rawData[i] = (Exiv2::byte)0;
+        io_->write(rawData,size);
+        io_->seek((int)skipOffset,BasicIo::cur);
+        delete[] rawData;
+    }
+    else io_->seek((size+skipOffset),BasicIo::cur);
+}
+
+void RiffVideo::writeLongData(Exiv2::Xmpdatum xmpIntData, int32_t size, int32_t skipOffset){
+    if(xmpIntData.count() > 0){
+        int32_t  rawIntData = (int32_t)xmpIntData.toLong();
+        io_->write((Exiv2::byte*)&rawIntData,size);
+        io_->seek(skipOffset,BasicIo::cur);
+    }
+    else io_->seek((size+skipOffset),BasicIo::cur);
+}
+
+void RiffVideo::writeFloatData(Exiv2::Xmpdatum xmpIntData, int32_t size, int32_t skipOffset){
+    if(xmpIntData.count() > 0){
+        int32_t  rawIntData = (int32_t)xmpIntData.toFloat();
+        io_->write((Exiv2::byte*)&rawIntData,size);
+        io_->seek(skipOffset,BasicIo::cur);
+    }
+    else io_->seek((size+skipOffset),BasicIo::cur);
+}
+
+void RiffVideo::writeShortData(Exiv2::Xmpdatum xmpIntData, int16_t size, int32_t skipOffset){
+    if(xmpIntData.count() > 0){
+        int16_t  rawIntData = (int16_t)xmpIntData.toLong();
+        io_->write((Exiv2::byte*)&rawIntData,size);
+        io_->seek(skipOffset,BasicIo::cur);
+    }
+    else io_->seek((size+skipOffset),BasicIo::cur);
+}
+
+bool isRiffType(BasicIo& iIo, bool advance){
+    const int32_t len = 2;
+    const unsigned char RiffVideoId[4] = { 'R', 'I', 'F' ,'F'};
+    Exiv2::byte* buf = new byte[len];
+    iIo.read(buf, len);
+    if (iIo.error() || iIo.eof()){
+        delete[] buf;
+        return false;
+    }
+    bool matched = (memcmp(buf, RiffVideoId, len) == 0);
+    if (!advance || !matched) iIo.seek(-len, BasicIo::cur);
+    delete[] buf;
+    return matched;
+}
 }                                       // namespace Exiv2
+

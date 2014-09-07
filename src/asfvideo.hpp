@@ -69,6 +69,7 @@ namespace Exiv2 {
               method to get a temporary reference.
          */
         AsfVideo(BasicIo::AutoPtr io);
+        ~AsfVideo();
         //@}
 
         //! @name Manipulators
@@ -154,14 +155,9 @@ namespace Exiv2 {
         //@}
 
     private:
-        //! Variable to check the end of metadata traversing.
-        bool continueTraversing_;
-        //! Variable which stores current position of the read pointer.
-        uint64_t localPosition_;
-        //! Variable which stores current stream being processsed.
-        int streamNumber_;
-        //! Variable to store height and width of a video frame.
-        uint64_t height_, width_;
+
+        class Private;
+        Private * const d;
 
     }; //Class AsfVideo
 
