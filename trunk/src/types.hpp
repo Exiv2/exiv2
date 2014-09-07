@@ -230,7 +230,11 @@ namespace Exiv2 {
                  buffer at the original object similar to std::auto_ptr, i.e.,
                  the original object is modified.
          */
+#ifndef _MSC_VER
+		// MSVC reports a template confusion with DataBufRef for this
+		// It seems to be harmless to omit this and rely on the DataBufRef code
         DataBuf& operator=(DataBuf& rhs);
+#endif
         /*!
           @brief Allocate a data buffer of at least the given size. Note that if
                  the requested \em size is less than the current buffer size, no
