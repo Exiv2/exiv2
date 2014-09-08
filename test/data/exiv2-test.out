@@ -21,7 +21,7 @@ Software Foundation, Inc., 51 Franklin Street, Fifth Floor,
 Boston, MA 02110-1301 USA
 
 Exiv2 help ---------------------------------------------------------------
-Usage: exiv2 [ options ] [ action ] file ...
+Usage: lt-exiv2 [ options ] [ action ] file ...
 
 Manipulate the Exif metadata of images.
 
@@ -1505,11 +1505,11 @@ File 11/15: 20050218_212016.jpg
 20050218_212016.jpg   Exif.Panasonic.0x0022                        Short       1  0
 20050218_212016.jpg   Exif.Panasonic.WhiteBalanceBias              Short       1  0 EV
 20050218_212016.jpg   Exif.Panasonic.FlashBias                     Short       1  0
-20050218_212016.jpg   Exif.Panasonic.InternalSerialNumber          Undefined  16  83 48 48 48 53 48 49 49 49 48 50 50 51 0 0 0
+20050218_212016.jpg   Exif.Panasonic.InternalSerialNumber          Undefined  16  S000501110223
 20050218_212016.jpg   Exif.Panasonic.ExifVersion                   Undefined   4  1.00
 20050218_212016.jpg   Exif.Panasonic.0x0027                        Short       1  0
 20050218_212016.jpg   Exif.Panasonic.ColorEffect                   Short       1  Off
-20050218_212016.jpg   Exif.Panasonic.TimeSincePowerOn              Long        1  1450
+20050218_212016.jpg   Exif.Panasonic.TimeSincePowerOn              Long        1  00:00:14.50
 20050218_212016.jpg   Exif.Panasonic.BurstMode                     Short       1  Off
 20050218_212016.jpg   Exif.Panasonic.SequenceNumber                Long        1  0
 20050218_212016.jpg   Exif.Panasonic.Contrast                      Short       1  Normal
@@ -1517,7 +1517,7 @@ File 11/15: 20050218_212016.jpg
 20050218_212016.jpg   Exif.Panasonic.SelfTimer                     Short       1  Off
 20050218_212016.jpg   Exif.Panasonic.0x002f                        Short       1  1
 20050218_212016.jpg   Exif.Panasonic.Rotation                      Short       1  Horizontal (normal)
-20050218_212016.jpg   Exif.Panasonic.0x0031                        Short       1  2
+20050218_212016.jpg   Exif.Panasonic.AFAssistLamp                  Short       1  Enabled but Not Used
 20050218_212016.jpg   Exif.Panasonic.ColorMode                     Short       1  Normal
 20050218_212016.jpg   Exif.Photo.FlashpixVersion                   Undefined   4  1.00
 20050218_212016.jpg   Exif.Photo.ColorSpace                        Short       1  sRGB
@@ -3118,11 +3118,11 @@ Compare image data and extracted data ------------------------------------
 < 20050218_212016.jpg   Exif.Panasonic.0x0022                        Short       1  0
 < 20050218_212016.jpg   Exif.Panasonic.WhiteBalanceBias              Short       1  0 EV
 < 20050218_212016.jpg   Exif.Panasonic.FlashBias                     Short       1  0
-< 20050218_212016.jpg   Exif.Panasonic.InternalSerialNumber          Undefined  16  83 48 48 48 53 48 49 49 49 48 50 50 51 0 0 0
+< 20050218_212016.jpg   Exif.Panasonic.InternalSerialNumber          Undefined  16  S000501110223
 < 20050218_212016.jpg   Exif.Panasonic.ExifVersion                   Undefined   4  1.00
 < 20050218_212016.jpg   Exif.Panasonic.0x0027                        Short       1  0
 < 20050218_212016.jpg   Exif.Panasonic.ColorEffect                   Short       1  Off
-< 20050218_212016.jpg   Exif.Panasonic.TimeSincePowerOn              Long        1  1450
+< 20050218_212016.jpg   Exif.Panasonic.TimeSincePowerOn              Long        1  00:00:14.50
 < 20050218_212016.jpg   Exif.Panasonic.BurstMode                     Short       1  Off
 < 20050218_212016.jpg   Exif.Panasonic.SequenceNumber                Long        1  0
 < 20050218_212016.jpg   Exif.Panasonic.Contrast                      Short       1  Normal
@@ -3130,7 +3130,7 @@ Compare image data and extracted data ------------------------------------
 < 20050218_212016.jpg   Exif.Panasonic.SelfTimer                     Short       1  Off
 < 20050218_212016.jpg   Exif.Panasonic.0x002f                        Short       1  1
 < 20050218_212016.jpg   Exif.Panasonic.Rotation                      Short       1  Horizontal (normal)
-< 20050218_212016.jpg   Exif.Panasonic.0x0031                        Short       1  2
+< 20050218_212016.jpg   Exif.Panasonic.AFAssistLamp                  Short       1  Enabled but Not Used
 < 20050218_212016.jpg   Exif.Panasonic.ColorMode                     Short       1  Normal
 < 20050218_212016.jpg   Exif.Photo.FlashpixVersion                   Undefined   4  1.00
 < 20050218_212016.jpg   Exif.Photo.ColorSpace                        Short       1  sRGB
@@ -4659,11 +4659,11 @@ Compare image data and extracted data ------------------------------------
 > 20050218_212016.exv   Exif.Panasonic.0x0022                        Short       1  0
 > 20050218_212016.exv   Exif.Panasonic.WhiteBalanceBias              Short       1  0 EV
 > 20050218_212016.exv   Exif.Panasonic.FlashBias                     Short       1  0
-> 20050218_212016.exv   Exif.Panasonic.InternalSerialNumber          Undefined  16  83 48 48 48 53 48 49 49 49 48 50 50 51 0 0 0
+> 20050218_212016.exv   Exif.Panasonic.InternalSerialNumber          Undefined  16  S000501110223
 > 20050218_212016.exv   Exif.Panasonic.ExifVersion                   Undefined   4  1.00
 > 20050218_212016.exv   Exif.Panasonic.0x0027                        Short       1  0
 > 20050218_212016.exv   Exif.Panasonic.ColorEffect                   Short       1  Off
-> 20050218_212016.exv   Exif.Panasonic.TimeSincePowerOn              Long        1  1450
+> 20050218_212016.exv   Exif.Panasonic.TimeSincePowerOn              Long        1  00:00:14.50
 > 20050218_212016.exv   Exif.Panasonic.BurstMode                     Short       1  Off
 > 20050218_212016.exv   Exif.Panasonic.SequenceNumber                Long        1  0
 > 20050218_212016.exv   Exif.Panasonic.Contrast                      Short       1  Normal
@@ -4671,7 +4671,7 @@ Compare image data and extracted data ------------------------------------
 > 20050218_212016.exv   Exif.Panasonic.SelfTimer                     Short       1  Off
 > 20050218_212016.exv   Exif.Panasonic.0x002f                        Short       1  1
 > 20050218_212016.exv   Exif.Panasonic.Rotation                      Short       1  Horizontal (normal)
-> 20050218_212016.exv   Exif.Panasonic.0x0031                        Short       1  2
+> 20050218_212016.exv   Exif.Panasonic.AFAssistLamp                  Short       1  Enabled but Not Used
 > 20050218_212016.exv   Exif.Panasonic.ColorMode                     Short       1  Normal
 > 20050218_212016.exv   Exif.Photo.FlashpixVersion                   Undefined   4  1.00
 > 20050218_212016.exv   Exif.Photo.ColorSpace                        Short       1  sRGB
@@ -6420,11 +6420,11 @@ Compare original and inserted image data ---------------------------------
 < 20050218_212016.jpg   Exif.Panasonic.0x0022                        Short       1  0
 < 20050218_212016.jpg   Exif.Panasonic.WhiteBalanceBias              Short       1  0 EV
 < 20050218_212016.jpg   Exif.Panasonic.FlashBias                     Short       1  0
-< 20050218_212016.jpg   Exif.Panasonic.InternalSerialNumber          Undefined  16  83 48 48 48 53 48 49 49 49 48 50 50 51 0 0 0
+< 20050218_212016.jpg   Exif.Panasonic.InternalSerialNumber          Undefined  16  S000501110223
 < 20050218_212016.jpg   Exif.Panasonic.ExifVersion                   Undefined   4  1.00
 < 20050218_212016.jpg   Exif.Panasonic.0x0027                        Short       1  0
 < 20050218_212016.jpg   Exif.Panasonic.ColorEffect                   Short       1  Off
-< 20050218_212016.jpg   Exif.Panasonic.TimeSincePowerOn              Long        1  1450
+< 20050218_212016.jpg   Exif.Panasonic.TimeSincePowerOn              Long        1  00:00:14.50
 < 20050218_212016.jpg   Exif.Panasonic.BurstMode                     Short       1  Off
 < 20050218_212016.jpg   Exif.Panasonic.SequenceNumber                Long        1  0
 < 20050218_212016.jpg   Exif.Panasonic.Contrast                      Short       1  Normal
@@ -6432,7 +6432,7 @@ Compare original and inserted image data ---------------------------------
 < 20050218_212016.jpg   Exif.Panasonic.SelfTimer                     Short       1  Off
 < 20050218_212016.jpg   Exif.Panasonic.0x002f                        Short       1  1
 < 20050218_212016.jpg   Exif.Panasonic.Rotation                      Short       1  Horizontal (normal)
-< 20050218_212016.jpg   Exif.Panasonic.0x0031                        Short       1  2
+< 20050218_212016.jpg   Exif.Panasonic.AFAssistLamp                  Short       1  Enabled but Not Used
 < 20050218_212016.jpg   Exif.Panasonic.ColorMode                     Short       1  Normal
 < 20050218_212016.jpg   Exif.Photo.FlashpixVersion                   Undefined   4  1.00
 < 20050218_212016.jpg   Exif.Photo.ColorSpace                        Short       1  sRGB
@@ -7961,11 +7961,11 @@ Compare original and inserted image data ---------------------------------
 > 20050218_212016.exv   Exif.Panasonic.0x0022                        Short       1  0
 > 20050218_212016.exv   Exif.Panasonic.WhiteBalanceBias              Short       1  0 EV
 > 20050218_212016.exv   Exif.Panasonic.FlashBias                     Short       1  0
-> 20050218_212016.exv   Exif.Panasonic.InternalSerialNumber          Undefined  16  83 48 48 48 53 48 49 49 49 48 50 50 51 0 0 0
+> 20050218_212016.exv   Exif.Panasonic.InternalSerialNumber          Undefined  16  S000501110223
 > 20050218_212016.exv   Exif.Panasonic.ExifVersion                   Undefined   4  1.00
 > 20050218_212016.exv   Exif.Panasonic.0x0027                        Short       1  0
 > 20050218_212016.exv   Exif.Panasonic.ColorEffect                   Short       1  Off
-> 20050218_212016.exv   Exif.Panasonic.TimeSincePowerOn              Long        1  1450
+> 20050218_212016.exv   Exif.Panasonic.TimeSincePowerOn              Long        1  00:00:14.50
 > 20050218_212016.exv   Exif.Panasonic.BurstMode                     Short       1  Off
 > 20050218_212016.exv   Exif.Panasonic.SequenceNumber                Long        1  0
 > 20050218_212016.exv   Exif.Panasonic.Contrast                      Short       1  Normal
@@ -7973,7 +7973,7 @@ Compare original and inserted image data ---------------------------------
 > 20050218_212016.exv   Exif.Panasonic.SelfTimer                     Short       1  Off
 > 20050218_212016.exv   Exif.Panasonic.0x002f                        Short       1  1
 > 20050218_212016.exv   Exif.Panasonic.Rotation                      Short       1  Horizontal (normal)
-> 20050218_212016.exv   Exif.Panasonic.0x0031                        Short       1  2
+> 20050218_212016.exv   Exif.Panasonic.AFAssistLamp                  Short       1  Enabled but Not Used
 > 20050218_212016.exv   Exif.Panasonic.ColorMode                     Short       1  Normal
 > 20050218_212016.exv   Exif.Photo.FlashpixVersion                   Undefined   4  1.00
 > 20050218_212016.exv   Exif.Photo.ColorSpace                        Short       1  sRGB

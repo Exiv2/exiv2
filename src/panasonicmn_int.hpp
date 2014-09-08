@@ -65,6 +65,22 @@ namespace Exiv2 {
         static std::ostream& print0x000f(std::ostream& os, const Value& value, const ExifData*);
         //! Print WhiteBalanceBias
         static std::ostream& print0x0023(std::ostream& os, const Value& value, const ExifData*);
+        //! Print TimeSincePowerOn
+        static std::ostream& print0x0029(std::ostream& os, const Value& value, const ExifData*);
+        //! Print Baby age
+        static std::ostream& print0x0033(std::ostream& os, const Value& value, const ExifData*);
+        //! Print Travel days
+        static std::ostream& print0x0036(std::ostream& os, const Value& value, const ExifData*);
+        //! Print ISO
+        static std::ostream& print0x003c(std::ostream& os, const Value& value, const ExifData*);
+        //! Print special text values: title, landmark, county and so on
+        static std::ostream& printPanasonicText(std::ostream& os, const Value& value, const ExifData*);
+        //! Print accerometer readings
+        static std::ostream& printAccelerometer(std::ostream& os, const Value& value, const ExifData*);
+        //! Print roll angle
+        static std::ostream& printRollAngle(std::ostream& os, const Value& value, const ExifData*);
+        //! Print pitch angle
+        static std::ostream& printPitchAngle(std::ostream& os, const Value& value, const ExifData*);
         //@}
 
     private:
