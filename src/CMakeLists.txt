@@ -63,7 +63,6 @@ SET( LIBEXIV2_HDR         asfvideo.hpp
                           preview.hpp
                           properties.hpp
                           psdimage.hpp
-                          svn_version.h
                           quicktimevideo.hpp
                           rafimage.hpp
                           riffvideo.hpp
@@ -148,6 +147,12 @@ IF( EXIV2_ENABLE_PNG )
         set( LIBEXIV2_HDR ${LIBEXIV2_HDR} pngimage.hpp )
     ENDIF( ZLIB_FOUND )
 ENDIF( EXIV2_ENABLE_PNG )
+
+IF( NOT MSVC )
+    SET( LIBEXIV2_HDR     ${LIBEXIV2_HDR}
+                          svn_version.h
+    )
+ENDIF()
 
 ##
 # add xmp source if xmp is requested and xmp library not built
