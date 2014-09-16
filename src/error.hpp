@@ -274,11 +274,6 @@ namespace Exiv2 {
     }
 
     template<typename charT> template<typename A>
-    /*!
-     * \brief BasicError<charT>::BasicError TODO
-     * \param code
-     * \param arg1
-     */
     BasicError<charT>::BasicError(int code, const A& arg1)
         : code_(code), count_(1), arg1_(toBasicString<charT>(arg1))
     {
@@ -286,12 +281,6 @@ namespace Exiv2 {
     }
 
     template<typename charT> template<typename A, typename B>
-    /*!
-     * \brief BasicError<charT>::BasicError TODO
-     * \param code
-     * \param arg1
-     * \param arg2
-     */
     BasicError<charT>::BasicError(int code, const A& arg1, const B& arg2)
         : code_(code), count_(2),
           arg1_(toBasicString<charT>(arg1)),
@@ -301,13 +290,6 @@ namespace Exiv2 {
     }
 
     template<typename charT> template<typename A, typename B, typename C>
-    /*!
-     * \brief BasicError<charT>::BasicError TODO
-     * \param code
-     * \param arg1
-     * \param arg2
-     * \param arg3
-     */
     BasicError<charT>::BasicError(int code, const A& arg1, const B& arg2, const C& arg3)
         : code_(code), count_(3),
           arg1_(toBasicString<charT>(arg1)),

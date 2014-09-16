@@ -125,12 +125,10 @@ namespace Exiv2 {
         return tit->size_;
     }
 
-    DataBuf::DataBuf(const DataBuf& rhs)
+    DataBuf::DataBuf(DataBuf& rhs)
         : pData_(rhs.pData_), size_(rhs.size_)
     {
-        pData_ = new byte[rhs.size_];
-        size_ = rhs.size_;
-        std::copy(rhs.pData_,rhs.pData_+rhs.size_,pData_);
+        rhs.release();
     }
 
     DataBuf::DataBuf(const byte* pData, long size)
@@ -143,14 +141,12 @@ namespace Exiv2 {
         }
     }
 
-#ifndef _MSC_VER
     DataBuf& DataBuf::operator=(DataBuf& rhs)
     {
         if (this == &rhs) return *this;
         reset(rhs.release());
         return *this;
     }
-#endif
 
     void DataBuf::alloc(long size)
     {
@@ -160,7 +156,6 @@ namespace Exiv2 {
             size_ = 0;
             pData_ = new byte[size];
             size_ = size;
-            std::memset(pData_, 0x0, size_);
         }
     }
 
