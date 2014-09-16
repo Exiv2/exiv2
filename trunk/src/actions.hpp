@@ -159,11 +159,7 @@ namespace Action {
     public:
         virtual ~Print();
         virtual int run(const std::string& path);
-        typedef std::auto_ptr<Print> AutoPtr;            //!< TODO
-        /*!
-         * \brief clone TODO
-         * \return
-         */
+        typedef std::auto_ptr<Print> AutoPtr;
         AutoPtr clone() const;
 
         //! Print the Jpeg comment
@@ -216,18 +212,10 @@ namespace Action {
     public:
         virtual ~Rename();
         virtual int run(const std::string& path);
-        typedef std::auto_ptr<Rename> AutoPtr;            //!<  TODO
-        /*!
-         * \brief clone TODO
-         * \return
-         */
+        typedef std::auto_ptr<Rename> AutoPtr;
         AutoPtr clone() const;
 
     private:
-        /*!
-         * \brief clone TODO
-         * \return
-         */
         virtual Rename* clone_() const;
     }; // class Rename
 
@@ -236,18 +224,10 @@ namespace Action {
     public:
         virtual ~Adjust();
         virtual int run(const std::string& path);
-        typedef std::auto_ptr<Adjust> AutoPtr;             //!< TODO
-        /*!
-         * \brief clone TODO
-         * \return
-         */
+        typedef std::auto_ptr<Adjust> AutoPtr;
         AutoPtr clone() const;
 
     private:
-        /*!
-         * \brief clone TODO
-         * \return
-         */
         virtual Adjust* clone_() const;
         int adjustDateTime(Exiv2::ExifData& exifData,
                            const std::string& key,
@@ -267,11 +247,7 @@ namespace Action {
     public:
         virtual ~Erase();
         virtual int run(const std::string& path);
-        typedef std::auto_ptr<Erase> AutoPtr;            //!< TODO
-        /*!
-         * \brief clone TODO
-         * \return
-         */
+        typedef std::auto_ptr<Erase> AutoPtr;
         AutoPtr clone() const;
 
         /*!
@@ -296,12 +272,8 @@ namespace Action {
         int eraseXmpData(Exiv2::Image* image) const;
 
     private:
-        /*!
-         * \brief clone TODO
-         * \return
-         */
         virtual Erase* clone_() const;
-        std::string path_;                   //!< TODO
+        std::string path_;
 
     }; // class Erase
 
@@ -312,11 +284,7 @@ namespace Action {
     public:
         virtual ~Extract();
         virtual int run(const std::string& path);
-        typedef std::auto_ptr<Extract> AutoPtr;         //!< TODO
-        /*!
-         * \brief clone TODO
-         * \return
-         */
+        typedef std::auto_ptr<Extract> AutoPtr;
         AutoPtr clone() const;
 
         /*!
@@ -339,12 +307,8 @@ namespace Action {
         void writePreviewFile(const Exiv2::PreviewImage& pvImg, int num) const;
 
     private:
-        /*!
-         * \brief clone TODO
-         * \return
-         */
         virtual Extract* clone_() const;
-        std::string path_;                          //!< TODO
+        std::string path_;
 
     }; // class Extract
 
@@ -355,11 +319,7 @@ namespace Action {
     public:
         virtual ~Insert();
         virtual int run(const std::string& path);
-        typedef std::auto_ptr<Insert> AutoPtr;        //!< TODO
-        /*!
-         * \brief clone TODO
-         * \return
-         */
+        typedef std::auto_ptr<Insert> AutoPtr;
         AutoPtr clone() const;
 
         /*!
@@ -388,11 +348,7 @@ namespace Action {
     public:
         virtual ~Modify();
         virtual int run(const std::string& path);
-        typedef std::auto_ptr<Modify> AutoPtr;            //!< TODO
-        /*!
-         * \brief clone TODO
-         * \return
-         */
+        typedef std::auto_ptr<Modify> AutoPtr;
         AutoPtr clone() const;
         Modify() {}
         //! Apply modification commands to the \em pImage, return 0 if successful.
@@ -425,20 +381,12 @@ namespace Action {
     public:
         virtual ~FixIso();
         virtual int run(const std::string& path);
-        typedef std::auto_ptr<FixIso> AutoPtr;            //!< TODO
-        /*!
-         * \brief clone TODO
-         * \return
-         */
+        typedef std::auto_ptr<FixIso> AutoPtr;
         AutoPtr clone() const;
 
     private:
-        /*!
-         * \brief clone TODO
-         * \return
-         */
         virtual FixIso* clone_() const;
-        std::string path_;                          //!< TODO
+        std::string path_;
 
     }; // class FixIso
 
@@ -451,20 +399,12 @@ namespace Action {
     public:
         virtual ~FixCom();
         virtual int run(const std::string& path);
-        typedef std::auto_ptr<FixCom> AutoPtr;          //!< TODO
-        /*!
-         * \brief clone TODO
-         * \return
-         */
+        typedef std::auto_ptr<FixCom> AutoPtr;
         AutoPtr clone() const;
 
     private:
-        /*!
-         * \brief clone TODO
-         * \return
-         */
         virtual FixCom* clone_() const;
-        std::string path_;                             //!< TODO
+        std::string path_;
 
     }; // class FixCom
 
