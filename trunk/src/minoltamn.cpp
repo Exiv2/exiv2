@@ -1720,7 +1720,8 @@ namespace Exiv2 {
                  "Sigma 24-70mm F2.8 IF EX DG HSM | "
                  "Sigma 18-250mm F3.5-6.3 DC OS HSM | "
                  "Sigma 17-50mm F2.8 EX DC HSM | "
-                 "Sigma 17-50mm F2.8-4 DC Macro HSM" },
+                 "Sigma 17-70mm F2.8-4 DC Macro HSM | "
+                 "Sigma 150mm F2.8 EX DG OS HSM APO Macro" },
         { 129,   "Tamron 200-400mm F5.6 LD | "
                  "Tamron 70-300mm F4-5.6 LD" },
         { 131,   "Tamron 20-40mm F2.7-3.5 SP Aspherical IF" },
