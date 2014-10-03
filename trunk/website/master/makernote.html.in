@@ -10,8 +10,8 @@ __maintitle__
 
 <p>
 The Makernote is tag 0x927c in the Exif IFD (Exif.Photo.MakerNote). According to the 
-<a title="The Exif 2.2 standard (PDF)" href="http://www.exif.org/Exif2-2.PDF">
-Exif 2.2 standard</a>, the makernote is <i>"a tag for manufacturers of
+<a title="The Exif 2.2 standard (PDF)" href="Exif2-2.PDF">Exif 2.2 standard</a>, 
+the makernote is <i>"a tag for manufacturers of
 Exif writers to record any desired information. The contents are up to
 the manufacturer, but this tag should not be used for any other than
 its intended purpose."</i></p> 

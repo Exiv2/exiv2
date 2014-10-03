@@ -13,7 +13,7 @@ It provides fast and easy read and write access to the
 <a href="http://en.wikipedia.org/wiki/Exif">Exif</a>, 
 <a href="http://en.wikipedia.org/wiki/IPTC">IPTC</a> and 
 <a href="http://en.wikipedia.org/wiki/Extensible_Metadata_Platform">XMP</a> metadata 
-of images in <a href="http://dev.exiv2.org/wiki/exiv2/Supported_image_formats">various formats</a>.
+of images in <a href="http://dev.exiv2.org/projects/exiv2/wiki/Supported_image_formats">various formats</a>.
 Exiv2 is available as <a href="download.html#license">free software</a> and with a 
 <a href="download.html#license">commercial license</a>, and is used in many projects</a>.</p>
 
@@ -79,7 +79,7 @@ Exiv2 is available as <a href="download.html#license">free software</a> and with
  <li>video write wupport</li>
  <li>remote io - support for http/ftp/ssh and other protocols</li>
 </ul>
-<p>The <a href="http://dev.exiv2.org/projects/roadmap/exiv2">roadmap</a> has details for the upcoming version.</p>
+<p>The <a href="http://dev.exiv2.org/projects/exiv2/roadmap">roadmap</a> has details for the upcoming version.</p>
 
 __footer__
 </div>
