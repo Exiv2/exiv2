@@ -1,6 +1,19 @@
 <?xml version = '1.0'?>
 <news>
  <newsitem>
+  <date>03-Oct-2014</date>
+  <title>We have moved</title>
+  <abstract>The Exiv2 website and Redmine sites have moved.
+  </abstract>
+  <desc>You shouldn't actually notice anything of that, except that we
+  have at the same time also upgraded to a more recent version of
+  Redmine, with new features and a slightly updated look. I also had
+  to update some of the Redmine links. If you find any remaining
+  issues with the sites, please report them to us in the 
+  <a title="Form - Exiv2" href="http://dev.exiv2.org/projects/exiv2/boards">forum</a>.
+  </desc>
+ </newsitem>
+ <newsitem>
   <date>02-Dec-2013</date>
   <title>Exiv2 0.24 released</title>
   <abstract>Support for reading video metadata, makernote updates, bugfixes.
@@ -137,7 +150,7 @@
    makernote updates, and a number of improvements under the hood and
    bug fixes, detailed in the <a title="ChangeLog" href="changelog.html">ChangeLog</a>.
    It also includes a new utility,
-   <a title="organize directories with digital images" href="http://dev.exiv2.org/boards/3/topics/show/44">organize</a>,
+   <a title="organize directories with digital images" href="http://dev.exiv2.org/boards/3/topics/44">organize</a>,
    contributed by Brad Schick.
   </desc>
  </newsitem>
@@ -153,7 +166,7 @@
   Yahoo! group, and a new Exiv2 Wiki, all integrated, with a common
   look-and-feel and a single sign-on. From the main website, these
   project resources are accessible through the
-  <a href="http://dev.exiv2.org/wiki/exiv2" title="Exiv2 project resources and help centre">Project</a>
+  <a href="http://dev.exiv2.org/projects/exiv2/wiki" title="Exiv2 project resources and help centre">Project</a>
   link in the sidebar.<br />
   Thanks to Brad Schick for this latest innovation as well as his
   reliable sysadmin services and sponsorship since the early days of
@@ -437,7 +450,7 @@
    release. It was introduced in release 0.8.<br />
    Added a method to class Image to check which types of metadata are supported.<br />
    See the <a title="ChangeLog" href="changelog.html">changelog</a> and this
-   <a title="Exiv2 bug #451" href="http://dev.exiv2.org/issues/show/451">bug report</a> for details.
+   <a title="Exiv2 bug #451" href="http://dev.exiv2.org/issues/451">bug report</a> for details.
   </desc>
  </newsitem>
  <newsitem>

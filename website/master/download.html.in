@@ -12,7 +12,7 @@ __maintitle__
 
 <p>From the <b>source package</b> you can build the Exiv2 library, command
  line utility, the
- <a title="organize directories with digital images" href="http://dev.exiv2.org/boards/3/topics/show/44">organize</a>
+ <a title="organize directories with digital images" href="http://dev.exiv2.org/boards/3/topics/44">organize</a>
  tool and a number of simple example and test applications.  With a
  few additional third party tools you can also generate the complete
  API documentation. The package includes standard build files for
@@ -112,7 +112,7 @@ for NLS,
 <h2><a name="devel">Repository</a></h2>
 
  <p>Exiv2 is maintained in a Subversion repository. You can
-  <a href="http://dev.exiv2.org/repositories/show/exiv2" title="Exiv2 online source code repository" >browse the source code online</a>
+  <a href="http://dev.exiv2.org/projects/exiv2/repository" title="Exiv2 online source code repository" >browse the source code online</a>
   or get a copy of the latest development code from the repository.
   Once you have the source code, see the <em>README</em> file in the top
   directory for build and installation notes.
