@@ -303,7 +303,7 @@ AppendNodeValue ( XMP_VarString & outputStr, const XMP_VarString & value, bool f
 				XMP_Assert ( (ch == kTab) || (ch == kLF) || (ch == kCR) );
 
 				char hexBuf[16];
-				memcpy ( hexBuf, "&#xn;", 10 );	// AUDIT: Length of "&#xn;" is 5, hexBuf size is 16.
+				memcpy ( hexBuf, "&#xn;", 5 );
 				hexBuf[3] = kHexDigits[ch&0xF];
 				outputStr.append ( hexBuf, 5 );
 
