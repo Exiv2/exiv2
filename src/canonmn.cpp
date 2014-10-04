@@ -264,6 +264,7 @@ namespace Exiv2 {
         { (long int)0x3690000, N_("PowerShot ELPH 135 / IXUS 145 / IXY 120") },
         { (long int)0x3700000, N_("PowerShot ELPH 340 HS / IXUS 265 HS / IXY 630") },
         { (long int)0x3710000, N_("PowerShot ELPH 150 IS / IXUS 155 / IXY 140") },
+        { (long int)0x3760000, N_("PowerShot SX520 HS") },
         { (long int)0x3780000, N_("PowerShot G7 X") },
         { (long int)0x4040000, N_("PowerShot G1") },
         { (long int)0x6040000, N_("PowerShot S100 / Digital IXUS / IXY Digital") },
@@ -770,7 +771,8 @@ namespace Exiv2 {
         { 169, "Sigma 35mm f/1.4 DG HSM"                                    }, // 7
         { 170, "Canon EF 200mm f/2.8L II"                                   },
         { 171, "Canon EF 300mm f/4L"                                        },
-        { 172, "Canon EF 400mm f/5.6L"                                      },
+        { 172, "Canon EF 400mm f/5.6L"                                      }, // 0
+        { 172, "Sigma 150-600mm f/5-6.3 DG OS HSM | S"                      }, // 1
         { 173, "Canon EF 180mm Macro f/3.5L"                                }, // 0
         { 173, "Sigma 180mm EX HSM Macro f/3.5"                             }, // 1
         { 173, "Sigma APO Macro 150mm f/3.5 EX DG IF HSM"                   }, // 2
@@ -910,6 +912,7 @@ namespace Exiv2 {
         { 160, printCsLensByFocalLength },
         { 161, printCsLensByFocalLength },
         { 169, printCsLensByFocalLength },
+        { 172, printCsLensByFocalLength }, // not tested
         { 173, printCsLensByFocalLength }, // works partly
         { 174, printCsLensByFocalLength }, // not tested
         { 180, printCsLensByFocalLength },

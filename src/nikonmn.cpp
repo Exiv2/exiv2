@@ -847,12 +847,13 @@ namespace Exiv2 {
 
     //! PhaseDetectAF
     extern const TagDetails nikonPhaseDetectAF[] = {
-        { 0, N_("Off")            },
-        { 1, N_("On (51-point)")  },
-        { 2, N_("On (11-point)")  },
-        { 3, N_("On (39-point)")  },
-        { 4, N_("On (hybrid)")    },
-        { 5, N_("On (105-point)") }
+        { 0, N_("Off")                },
+        { 1, N_("On (51-point)")      },
+        { 2, N_("On (11-point)")      },
+        { 3, N_("On (39-point)")      },
+        { 4, N_("On (73-point)")      },
+        { 5, N_("On (73-point, new)") },
+        { 6, N_("On (105-point)")     }
     };
 
     // Nikon3 Auto Focus Tag Info
