@@ -38,7 +38,7 @@
 #include <string>
 
 // svn version has not been implemented yet for DevStudio
-#if     defined(_MSC_VER)
+#if     defined(_MSC_VER) && !defined(CMAKE_BUILD_SVN)
 #define SVN_VERSION 0
 #else
 #include "svn_version.h"
