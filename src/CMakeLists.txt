@@ -148,11 +148,18 @@ IF( EXIV2_ENABLE_PNG )
     ENDIF( ZLIB_FOUND )
 ENDIF( EXIV2_ENABLE_PNG )
 
-IF( NOT MSVC )
-    SET( LIBEXIV2_HDR     ${LIBEXIV2_HDR}
-                          svn_version.h
-    )
+CONFIGURE_FILE( ${CMAKE_CURRENT_SOURCE_DIR}/svn_version.h.in
+                ${CMAKE_CURRENT_BINARY_DIR}/svn_version.h @ONLY)
+
+INCLUDE_DIRECTORIES(${CMAKE_CURRENT_BINARY_DIR})
+
+IF( MSVC ) # to support the old VS solution builds
+    ADD_DEFINITIONS("-DCMAKE_BUILD_SVN")
 ENDIF()
+
+SET( LIBEXIV2_HDR     ${LIBEXIV2_HDR}
+                      svn_version.h
+)
 
 ##
 # add xmp source if xmp is requested and xmp library not built
