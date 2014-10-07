@@ -417,7 +417,6 @@ time_t parseTime(const char* arg,bool bAdjust)
 int timeZoneAdjust()
 {
     time_t    now   = time(NULL);
-    struct tm local = *localtime(&now) ;
     int       offset;
 
 #if   defined(_MSC_VER)
@@ -425,15 +424,17 @@ int timeZoneAdjust()
     GetTimeZoneInformation( &TimeZoneInfo );
     offset = - (((int)TimeZoneInfo.Bias + (int)TimeZoneInfo.DaylightBias) * 60);
 #elif defined(__CYGWIN__)
-    struct tm lcopy  = *localtime(&now);
-    time_t    gmt    =  timegm(&lcopy) ; // timegm modifies lcopy, so don't use local
-    offset           = (int) ( ((long signed int) gmt) - ((long signed int) now) ) ;
+    struct tm lcopy = *localtime(&now);
+    time_t    gmt   =  timegm(&lcopy) ; // timegm modifies lcopy
+    offset          = (int) ( ((long signed int) gmt) - ((long signed int) now) ) ;
 #elif defined(OS_SOLARIS)
+    struct tm local = *localtime(&now) ;
     time_t local_tt = (int) mktime(&local);
     time_t time_gmt = (int) mktime(gmtime(&now));
-    offset = time_gmt - local_tt;
+    offset          = time_gmt - local_tt;
 #else
-    offset = local.tm_gmtoff ;
+    struct tm local = *localtime(&now) ;
+    offset          = local.tm_gmtoff ;
 #endif
 
 #if 0
