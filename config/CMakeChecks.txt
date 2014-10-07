@@ -160,12 +160,16 @@ ENDIF( HAVE_SYS_TIME_H )
 #####################################################################################
 # strerror_r returns char*
 
-# NOTE : reverting commit #2041, which break compilation under linux and windows
-
+# NOTE : adding #if _POSIX code for #697
 CHECK_C_SOURCE_COMPILES( "#include <string.h>
 int main() {
 char * c;
+#if  (_POSIX_C_SOURCE >= 200112L || _XOPEN_SOURCE >= 600) && ! _GNU_SOURCE
+  int  l = strerror_r(0,c,0);
+  if ( l ) return 0 ;
+#else
 c = strerror_r(0,c,0);
+#endif   
 return 0;
 }" STRERROR_R_CHAR_P )
 
