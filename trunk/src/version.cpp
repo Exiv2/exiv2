@@ -29,6 +29,12 @@
 #include "rcsid_int.hpp"
 EXIV2_RCSID("@(#) $Id$")
 
+#if defined(__MINGW32__) || defined(__MINGW64__)
+#ifndef __MINGW__
+#define __MINGW__
+#endif
+#endif
+
 // *****************************************************************************
 // included header files
 #ifdef _MSC_VER
@@ -124,10 +130,6 @@ typedef string_v::iterator  string_i;
     void*    not_needed1;    /* Pointer to the dynamic section of the shared object */
     struct lmap *next, *prev;/* chain of loaded objects */
   };
-#elif defined(__MINGW32__) || defined(__MINGW64__)
-#ifndef __MINGW__
-#define __MINGW__
-#endif
 #endif
 
 EXIV2API void dumpLibraryInfo(std::ostream& os)
@@ -191,8 +193,10 @@ EXIV2API void dumpLibraryInfo(std::ostream& os)
       "windows";
 #elif defined(__APPLE__)
       "apple";
-#elif defined(__MINGW__)
-      "mingw";
+#elif defined(__MINGW64__)
+      "mingw64";
+#elif defined(__MINGW32__)
+      "mingw32";
 #elif defined(__linux__)
       "linux";
 #else
