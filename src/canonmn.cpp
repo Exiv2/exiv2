@@ -651,6 +651,7 @@ namespace Exiv2 {
         {  33, "Carl Zeiss Distagon 28mm T* f/2 ZE"                         }, // 7
         {  33, "Carl Zeiss Distagon 35mm T* f/2 ZE"                         }, // 8
         {  33, "Carl Zeiss Planar 50mm T* f/1.4 ZE"                         }, // 9
+        {  33, "Carl Zeiss Apo-Sonnar T* 135mm f/2 ZE"                      }, // 10
         {  35, "Canon EF 35-80mm f/4-5.6"                                   },
         {  36, "Canon EF 38-76mm f/4.5-5.6"                                 },
         {  37, "Canon EF 35-80mm f/4-5.6"                                   }, // 0
@@ -808,6 +809,7 @@ namespace Exiv2 {
         { 197, "Canon EF 75-300mm f/4-5.6 IS USM"                           },
         { 198, "Canon EF 50mm f/1.4 USM"                                    }, // 0
         { 198, "Zeiss Otus 55mm f/1.4 ZE"                                   }, // 1
+        { 198, "Zeiss Otus 85mm f/1.4 ZE"                                   }, // 2
         { 199, "Canon EF 28-80mm f/3.5-5.6 USM"                             },
         { 200, "Canon EF 75-300mm f/4-5.6 USM"                              },
         { 201, "Canon EF 28-80mm f/3.5-5.6 USM"                             },
