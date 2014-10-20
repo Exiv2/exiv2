@@ -13,7 +13,7 @@
 #  environment variables (all optional)
 #    JENKINS   : URL of jenkins server. Default http://exiv2.dyndns.org:8080
 ##
-if [ -z "$JENKINS"]; then export JENKINS=http://exiv2.dyndns.org:8080; fi
+if [ -z "$JENKINS" ]; then export JENKINS=http://exiv2.dyndns.org:8080; fi
 result=0
 base=$(basename $0)
 tmp=/tmp/$base.tmp
