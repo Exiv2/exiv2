@@ -167,7 +167,7 @@ if [ $PLATFORM == "macosx" -a "$target" == "macosx" -a "$macosx" == "true"  ]; t
 if [ $PLATFORM == "cygwin" -a "$target" == "cygwin" -a "$cygwin" == "true"  ]; then build=CYGW ; fi
 if [ $PLATFORM == "cygwin" -a "$target" == "mingw"  -a "$mingw"	 == "true"  ]; then build=MING ; fi
 if [ $PLATFORM == "cygwin" -a "$target" == "msvc"   -a "$msvc"	 == "true"  ]; then build=MSVC ; fi
-if [ $PLATFORM == "mingw"  -a "$buildmingw" == "1"                          ]; then build=MING ; fi
+if [ $PLATFORM == "mingw"  -a "$target" == "mingw"                          ]; then build=MING ; fi
 
 echo "3 target = $target platform = $PLATFORM build = $build"
 
@@ -199,6 +199,7 @@ case "$build" in
 
   MING) 
 		if [ "$buildmingw" == "1" ]; then
+		    ./configure --disable-nls  $withcurl $withssh
 			make -j4
 			make install
 			make -j4 samples
