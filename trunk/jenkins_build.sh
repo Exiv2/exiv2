@@ -16,6 +16,7 @@
 if [ -z "$JENKINS" ]; then export JENKINS=http://exiv2.dyndns.org:8080; fi
 result=0
 base=$(basename $0)
+if [ -z "$base" ]; then base=jenkins_build ; fi
 tmp=/tmp/$base.tmp
 start=$(date)
 starts=$(date +%s)
