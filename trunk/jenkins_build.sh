@@ -21,6 +21,14 @@ start=$(date)
 starts=$(date +%s)
 
 ##
+# are we recursively building mingw?
+buildmingw=0
+if [ "$1" == "buildmingw" ]; then
+	buildmingw=1
+	shift
+fi
+
+##
 # functions
 run_tests() {
 	if [ "$result" == "0" ]; then
@@ -69,6 +77,7 @@ if [ "$1" == "status" ]; then
 	done
 	exit $result
 fi
+
 
 ##
 # Quick dodge, use rmills ~/bin/.profile to set some environment variables
@@ -158,6 +167,7 @@ if [ $PLATFORM == "macosx" -a "$target" == "macosx" -a "$macosx" == "true"  ]; t
 if [ $PLATFORM == "cygwin" -a "$target" == "cygwin" -a "$cygwin" == "true"  ]; then build=CYGW ; fi
 if [ $PLATFORM == "cygwin" -a "$target" == "mingw"  -a "$mingw"	 == "true"  ]; then build=MING ; fi
 if [ $PLATFORM == "cygwin" -a "$target" == "msvc"   -a "$msvc"	 == "true"  ]; then build=MSVC ; fi
+if [ $PLATFORM == "mingw"  -a "$buildmingw" == "1"                          ]; then build=MING ; fi
 
 echo "3 target = $target platform = $PLATFORM build = $build"
 
@@ -188,9 +198,15 @@ case "$build" in
   ;;
 
   MING) 
-		echo "**************************************"
-		echo " MinGW build not implemented yet.  ***"
-		echo "**************************************"
+		if [ "$buildmingw" == "1" ]; then
+			make -j4
+			make install
+			make -j4 samples
+			run_tests
+		else
+			make distclean
+			/c/Users/rmills/com/mingw64.sh "-c jenkins_build.sh buildmingw"
+		fi
   ;;
 
   MSVC) 
