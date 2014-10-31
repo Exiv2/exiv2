@@ -99,6 +99,7 @@ namespace Exiv2 {
     extern const XmpPropertyInfo xmpVideoInfo[];
     extern const XmpPropertyInfo xmpAudioInfo[];
     extern const XmpPropertyInfo xmpDwCInfo[];
+    extern const XmpPropertyInfo xmpLrInfo[];
 
     extern const XmpNsInfo xmpNsInfo[] = {
         // Schemas   -   NOTE: Schemas which the XMP-SDK doesn't know must be registered in XmpParser::initialize - Todo: Automate this
@@ -112,6 +113,7 @@ namespace Exiv2 {
         { "http://ns.adobe.com/xap/1.0/t/pg/",            "xmpTPg",         xmpXmpTPgInfo,    N_("XMP Paged-Text schema")                     },
         { "http://ns.adobe.com/xmp/1.0/DynamicMedia/",    "xmpDM",          xmpXmpDMInfo,     N_("XMP Dynamic Media schema")                  },
         { "http://ns.microsoft.com/photo/1.0/",           "MicrosoftPhoto", xmpMicrosoftInfo, N_("Microsoft Photo schema")                    },
+        { "http://ns.adobe.com/lightroom/1.0/",           "lr",             xmpLrInfo,        N_("Adobe LightRoom schema")                    },
         { "http://ns.adobe.com/pdf/1.3/",                 "pdf",            xmpPdfInfo,       N_("Adobe PDF schema")                          },
         { "http://ns.adobe.com/photoshop/1.0/",           "photoshop",      xmpPhotoshopInfo, N_("Adobe photoshop schema")                    },
         { "http://ns.adobe.com/camera-raw-settings/1.0/", "crs",            xmpCrsInfo,       N_("Camera Raw schema")                         },
@@ -399,6 +401,13 @@ namespace Exiv2 {
         { 0, 0, 0, invalidTypeId, xmpInternal, 0 }
     };
 
+    extern const XmpPropertyInfo xmpLrInfo[] = {
+        { "hierarchicalsubject",    N_("HierarchicalSubject"),    "bag Text",  xmpBag,      xmpExternal, N_("Hierarchical Subject.")    },
+        { "privatertkinfo",         N_("PrivateRTKInfo"),         "Text",      xmpText,     xmpExternal, N_("Private RTK Info.")        },
+        // End of list marker
+        { 0, 0, 0, invalidTypeId, xmpInternal, 0 }
+    };
+        
     extern const XmpPropertyInfo xmpPdfInfo[] = {
         { "Keywords",   N_("Keywords"),    "Text",      xmpText, xmpExternal, N_("Keywords.") },
         { "PDFVersion", N_("PDF Version"), "Text",      xmpText, xmpInternal, N_("The PDF file version (for example: 1.0, 1.3, and so on).") },
