@@ -70,6 +70,7 @@ namespace Exiv2 {
         { "OLYMPUS",        ifdIdNotSet, newOlympusMn,   0               }, // mnGroup_ is not used
         { "Panasonic",      panasonicId, newPanasonicMn, newPanasonicMn2 },
         { "PENTAX",         ifdIdNotSet, newPentaxMn,    0               }, // mnGroup_ is not used
+        { "RICOH",          ifdIdNotSet, newPentaxMn,    0               }, // mnGroup_ is not used
         { "SAMSUNG",        samsung2Id,  newSamsungMn,   newSamsungMn2   },
         { "SIGMA",          sigmaId,     newSigmaMn,     newSigmaMn2     },
         { "SONY",           ifdIdNotSet, newSonyMn,      0               }, // mnGroup_ is not used
