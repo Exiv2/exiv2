@@ -1734,7 +1734,9 @@ namespace Exiv2 {
         { 193,   "Minolta AF 1.4x APO II" },
         { 194,   "Tamron SP AF 17-50mm F2.8 XR Di II LD Aspherical [IF]" },
         { 203,   "Tamron SP 70-200mm F2.8 Di USD" },
+        { 204,   "Tamron SP 24-70mm F2.8 Di USD" },
         { 214,   "Tamron Tamron SP 150-600mm F5-6.3 Di USD" },
+        { 224,   "Tamron SP 90mm F2.8 Di Macro 1:1 USD" },
         { 255,   "Tamron SP AF 17-50mm F2.8 XR Di II LD Aspherical | "
                  "Tamron AF 18-250mm F3.5-6.3 XR Di II LD | "
                  "Tamron AF 55-200mm F4-5.6 Di II LD Macro | "
