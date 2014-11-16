@@ -563,22 +563,28 @@ namespace Exiv2 {
     //! WhiteBalance, tag 0x0500
     extern const TagDetails olympusWhiteBalance[] = {
         {   0, N_("Auto")                              },
+        {   1, N_("Auto (Keep Warm Color Off")         },
         {  16, N_("7500K (Fine Weather with Shade)")   },
         {  17, N_("6000K (Cloudy)")                    },
         {  18, N_("5300K (Fine Weather)")              },
         {  20, N_("3000K (Tungsten light)")            },
         {  21, N_("3600K (Tungsten light-like)")       },
+        {  22, N_("Auto Setup")                        },
+        {  23, N_("5500K (Flash)")                     },
         {  33, N_("6600K (Daylight fluorescent)")      },
         {  34, N_("4500K (Neutral white fluorescent)") },
         {  35, N_("4000K (Cool white fluorescent)")    },
+        {  36, N_("White Fluorescent")                 },
         {  48, N_("3600K (Tungsten light-like)")       },
-        { 256, N_("Custom WB 1")                       },
-        { 257, N_("Custom WB 2")                       },
-        { 258, N_("Custom WB 3")                       },
-        { 259, N_("Custom WB 4")                       },
-        { 512, N_("Custom WB 5400K")                   },
-        { 513, N_("Custom WB 2900K")                   },
-        { 514, N_("Custom WB 8000K")                   }
+        {  67, N_("Underwater")                        },
+        { 256, N_("One Touch WB 1")                    },
+        { 257, N_("One Touch WB 2")                    },
+        { 258, N_("One Touch WB 3")                    },
+        { 259, N_("One Touch WB 4")                    },
+        { 512, N_("Custom WB 1")                       },
+        { 513, N_("Custom WB 2")                       },
+        { 514, N_("Custom WB 3")                       },
+        { 515, N_("Custom WB 4")                       }
     };
 
     //! ModifiedSaturation, tag 0x0504
