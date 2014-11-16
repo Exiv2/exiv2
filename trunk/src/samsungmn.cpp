@@ -50,23 +50,23 @@ namespace Exiv2 {
 
     //! LensType, tag 0xa003
     extern const TagDetails samsung2LensType[] = {
-        {  0, N_("Built-in")                              },
-        {  1, N_("Samsung NX 30mm F2 Pancake")            },
-        {  2, N_("Samsung NX 18-55mm F3.5-5.6 OIS")       },
-        {  3, N_("Samsung NX 50-200mm F4-5.6 ED OIS")     },
-        {  4, N_("Samsung NX 20-50mm F3.5-5.6 ED")        },
-        {  6, N_("Samsung NX 18-200mm F3.5-6.3 ED OIS")   },
-        {  5, N_("Samsung NX 20mm F2.8 Pancake")          },
-        {  7, N_("Samsung NX 60mm F2.8 Macro ED OIS SSA") },
-        {  8, N_("Samsung NX 16mm F2.4 Pancake")          },
-        {  9, N_("Samsung NX 85mm F1.4 ED SSA")           },
-        { 10, N_("Samsung NX 45mm F1.8")                  },
-        { 11, N_("Samsung NX 45mm F1.8 2D/3D")            },
-        { 12, N_("Samsung NX 12-24mm F4-5.6 ED")          },
-        { 13, N_("Saumsun NX 16-50mm F2-2.8 S ED OIS")    },
-        { 14, N_("Samsung NX 10mm F3.5 Fisheye")          },
-        { 15, N_("Samsung NX 16-50mm F3.5-5.6 PZ ED OIS") },
-        { 20, N_("Samsung NX 50-150mm F2.8 S ED OIS")     }
+        {  0, N_("Built-in")                                      },
+        {  1, N_("Samsung NX 30mm F2 Pancake")                    },
+        {  2, N_("Samsung NX 18-55mm F3.5-5.6 OIS")               },
+        {  3, N_("Samsung NX 50-200mm F4-5.6 ED OIS")             },
+        {  4, N_("Samsung NX 20-50mm F3.5-5.6 ED")                },
+        {  6, N_("Samsung NX 18-200mm F3.5-6.3 ED OIS")           },
+        {  5, N_("Samsung NX 20mm F2.8 Pancake")                  },
+        {  7, N_("Samsung NX 60mm F2.8 Macro ED OIS SSA")         },
+        {  8, N_("Samsung NX 16mm F2.4 Pancake")                  },
+        {  9, N_("Samsung NX 85mm F1.4 ED SSA")                   },
+        { 10, N_("Samsung NX 45mm F1.8")                          },
+        { 11, N_("Samsung NX 45mm F1.8 2D/3D")                    },
+        { 12, N_("Samsung NX 12-24mm F4-5.6 ED")                  },
+        { 13, N_("Saumsun NX 16-50mm F2-2.8 S ED OIS")            },
+        { 14, N_("Samsung NX 10mm F3.5 Fisheye")                  },
+        { 15, N_("Samsung NX 16-50mm F3.5-5.6 Power Zoom ED OIS") },
+        { 20, N_("Samsung NX 50-150mm F2.8 S ED OIS")             }
     };
 
     //! ColorSpace, tag 0xa011
