@@ -1459,9 +1459,9 @@ namespace Exiv2 {
                 break;
             case MediaDuration:
                 if(currentStream_ == Video)
-                    xmpData_["Xmp.video.MediaDuration"] = returnBufValue(buf)/time_scale;
+                    xmpData_["Xmp.video.MediaDuration"] = time_scale ? returnBufValue(buf)/time_scale : 0 ;
                 else if (currentStream_ == Audio)
-                    xmpData_["Xmp.audio.MediaDuration"] = returnBufValue(buf)/time_scale;
+                    xmpData_["Xmp.audio.MediaDuration"] = time_scale ? returnBufValue(buf)/time_scale : 0;
                 break;
             case MediaLanguageCode:
                 if(currentStream_ == Video)
