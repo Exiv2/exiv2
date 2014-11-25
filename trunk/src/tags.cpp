@@ -777,7 +777,7 @@ namespace Exiv2 {
                 "written in the order of photographer followed by editor copyright, "
                 "separated by NULL (in this case since the statement also ends with "
                 "a NULL, there are two NULL codes). When only the photographer "
-                "copyright is given, it is terminated by one NULL code . When only "
+                "copyright is given, it is terminated by one NULL code. When only "
                 "the editor copyright is given, the photographer copyright part "
                 "consists of one space followed by a terminating NULL code, then "
                 "the editor copyright is given. When the field is left blank, it is "
