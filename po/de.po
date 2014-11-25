@@ -295,7 +295,7 @@ msgstr "Warnung"
 
 #: src/actions.cpp:1306 src/actions.cpp:1380
 msgid "Failed to read"
-msgstr "Fehler beim lesen"
+msgstr "Fehler beim Lesen"
 
 #: src/actions.cpp:1308 src/actions.cpp:1382
 msgid "value"
@@ -427,7 +427,7 @@ msgstr "Datei"
 
 #: src/actions.cpp:1940
 msgid "exists. [O]verwrite, [r]ename or [s]kip?"
-msgstr "existiert [O]überschreiben, [r]umbennenen oder [s]überspringen?"
+msgstr "existiert [O]überschreiben, [r]umbenennen oder [s]überspringen?"
 
 #: src/actions.cpp:1968
 msgid "Renaming file to"
@@ -439,7 +439,7 @@ msgstr "aktualisiere Zeitstempel"
 
 #: src/actions.cpp:1979
 msgid "Failed to rename"
-msgstr "Fehler beim umbenennen"
+msgstr "Fehler beim Umbenennen"
 
 #: src/actions.cpp:2001
 msgid "Overwrite"
@@ -3848,7 +3848,7 @@ msgid ""
 msgstr ""
 "Gibt die Behandlungspriorität des Umschlags an und nicht die redaktionelle "
 "Wichtigkeit. Dazu ist das <Urgency>-Feld gedacht. \"1\" steht für die "
-"höchste Priorität, \"5\" für normal und \"8\" für die geringste . Die Nummer "
+"höchste Priorität, \"5\" für normal und \"8\" für die geringste. Die Nummer "
 "\"9\" ist für eine benutzerdefinierte Priorität und \"0\" für eine "
 "zukünftige Anwendung."
 
@@ -4074,7 +4074,7 @@ msgid ""
 msgstr ""
 "Identifiziert das Motiv der Objektdaten aus der Sicht des Anbieters. Eine "
 "Liste von Kategorien wird durch eine regionale Instanz, insofern vorhanden, "
-"verwaltet. Wenn nicht wird die Liste vom Anbieter bereit gestellt."
+"verwaltet. Wenn nicht wird die Liste vom Anbieter bereitgestellt."
 
 #: src/datasets.cpp:222
 msgid "Supplemental Category"
@@ -4249,7 +4249,7 @@ msgid ""
 "object refers."
 msgstr ""
 "Gibt den Dienstidentifizierer eines vorangegangenen Umschlags an, auf den "
-"aktuelle Objekt verweist."
+"das aktuelle Objekt verweist."
 
 #: src/datasets.cpp:283
 msgid "Reference Date"
@@ -4555,9 +4555,9 @@ msgid ""
 "Identification of the name of the person involved in the writing, editing or "
 "correcting the object data or caption/abstract."
 msgstr ""
-"Identifiziert den Namen der Person die beim Schreiben, Bearbeiten oder dem "
+"Identifiziert den Namen der Person, die beim Schreiben, Bearbeiten oder dem "
 "Korrigieren der Objektdaten, der Beschriftung oder der Zusammenfassung "
-"beteilgt war."
+"beteiligt war."
 
 #: src/datasets.cpp:392
 msgid "Rasterized Caption"
@@ -4569,7 +4569,7 @@ msgid ""
 "that have not been coded are required for the caption."
 msgstr ""
 "Enthält die Beschreibung der Objektdaten gerastert und wird benutzt wenn "
-"nicht kodierte Zeichen für die Beschriftung benötigt werden ."
+"nicht kodierte Zeichen für die Beschriftung benötigt werden."
 
 #: src/datasets.cpp:397
 msgid "Indicates the color components of an image."
@@ -5076,7 +5076,7 @@ msgstr ""
 
 #: src/exiv2.cpp:266
 msgid "   -b      Show large binary values.\n"
-msgstr "   -b      zeigt große binäre Werte an.\n"
+msgstr "   -b      Zeigt große binäre Werte an.\n"
 
 #: src/exiv2.cpp:267
 #, fuzzy
@@ -5099,7 +5099,7 @@ msgstr "   -k      Bewahrt die Dateizeitstempel (keep).\n"
 msgid ""
 "   -t      Also set the file timestamp in 'rename' action (overrides -k).\n"
 msgstr ""
-"   -t      Setzt beim \"Umbennenen\" auch die Zeitstempel der Datei "
+"   -t      Setzt bei der Aktion 'Umbenennen' auch die Zeitstempel der Datei "
 "(überschreibt -k).\n"
 
 #: src/exiv2.cpp:272
@@ -5107,19 +5107,18 @@ msgid ""
 "   -T      Only set the file timestamp in 'rename' action, do not rename\n"
 "           the file (overrides -k).\n"
 msgstr ""
-"   -T      Setzt nur die Dateizeitstempel in der Aktion \"umbenennen\" und "
-"benennt nicht die \n"
-"           Datei um (überschreibt -k).\n"
+"   -T      Setzt bei der Aktion 'Umbenennen' nur die Dateizeitstempel und "
+"benennt die Datei nicht um (überschreibt -k).\n"
 
 #: src/exiv2.cpp:274
 msgid "   -f      Do not prompt before overwriting existing files (force).\n"
 msgstr ""
-"   -f      Vor dem überschreiben von existierenden Dateien nicht nachfragen "
+"   -f      Keine Nachfrage beim Überschreiben existierender Dateien "
 "(force).\n"
 
 #: src/exiv2.cpp:275
 msgid "   -F      Do not prompt before renaming files (Force).\n"
-msgstr "   -F      Vor dem umbenennen nicht nachfragen (Force).\n"
+msgstr "   -F      Keine Nachfrage beim Umbenennen von Dateien (Force).\n"
 
 #: src/exiv2.cpp:276
 msgid ""
@@ -5131,15 +5130,15 @@ msgstr ""
 
 #: src/exiv2.cpp:278
 msgid "   -Y yrs  Year adjustment with the 'adjust' action.\n"
-msgstr "   -Y yrs  Justierung von Jahren in der Aktion \"justieren\".\n"
+msgstr "   -Y yrs  Justierung von Jahren in der Aktion 'Justieren'.\n"
 
 #: src/exiv2.cpp:279
 msgid "   -O mon  Month adjustment with the 'adjust' action.\n"
-msgstr "   -O mon  Justierung der Monate in der Aktion 'justieren'.\n"
+msgstr "   -O mon  Justierung der Monate in der Aktion 'Justieren'.\n"
 
 #: src/exiv2.cpp:280
 msgid "   -D day  Day adjustment with the 'adjust' action.\n"
-msgstr "   -D day  Jusitierung von tagen in der Aktion \"Justierung\".\n"
+msgstr "   -D day  Jusitierung von Tagen in der Aktion 'Justieren'.\n"
 
 #: src/exiv2.cpp:281
 msgid "   -p mode Print mode for the 'print' action. Possible modes are:\n"
@@ -5322,7 +5321,7 @@ msgid ""
 "   -r fmt  Filename format for the 'rename' action. The format string\n"
 "           follows strftime(3). The following keywords are supported:\n"
 msgstr ""
-"   -r fmt  Dateinamensformat für die Aktion 'umbenennen'. Die "
+"   -r fmt  Dateinamensformat für die Aktion 'Umbenennen'. Die "
 "Formatierungszeichenkette\n"
 "           entspricht strftime(3). Die folgenden Schlüsselwörter werden "
 "unterstützt:\n"
@@ -5371,7 +5370,7 @@ msgid ""
 "   -l dir  Location (directory) for files to be inserted from or extracted "
 "to.\n"
 msgstr ""
-"   -l ord  Lokation (Ordner) für die Dateien aus den eingefügt bzw. "
+"   -l ord  Lokation (Ordner) für die Dateien, aus denen eingefügt bzw. "
 "extrahiert wird.\n"
 
 #: src/exiv2.cpp:336
@@ -5411,7 +5410,7 @@ msgstr "Die überzählige Option wird ignoriert"
 
 #: src/exiv2.cpp:439 src/exiv2.cpp:499 src/exiv2.cpp:685
 msgid "is not compatible with a previous option\n"
-msgstr "kann nicht mit der vorangegangene Option zusammen benutzt werden\n"
+msgstr "kann nicht mit der vorangegangenen Option zusammen benutzt werden\n"
 
 #: src/exiv2.cpp:454
 msgid "Ignoring surplus option -a"
@@ -5424,7 +5423,7 @@ msgstr "Fehler beim Verarbeiten des Arguments \"-a\""
 #: src/exiv2.cpp:467
 msgid "Option -a is not compatible with a previous option\n"
 msgstr ""
-"Die Option \"-a\" kann nicht mit der vorangegangene Option zusammen benutzt "
+"Die Option \"-a\" kann nicht mit der vorangegangenen Option zusammen benutzt "
 "werden\n"
 
 #: src/exiv2.cpp:489
@@ -5446,7 +5445,7 @@ msgstr "Die überflüssige Option \"-p\" wird ignoriert"
 #: src/exiv2.cpp:534
 msgid "Option -p is not compatible with a previous option\n"
 msgstr ""
-"Die Option \"-p\" kann nicht mit der vorangegangene Option zusammen benutzt "
+"Die Option \"-p\" kann nicht mit der vorangegangenen Option zusammen benutzt "
 "werden\n"
 
 #: src/exiv2.cpp:565
@@ -5460,25 +5459,25 @@ msgstr "Die überflüssige Option \"-P\" wird ignoriert"
 #: src/exiv2.cpp:578
 msgid "Option -P is not compatible with a previous option\n"
 msgstr ""
-"Die Option \"-P\" kann nicht mit der vorangegangene Option zusammen benutzt "
+"Die Option \"-P\" kann nicht mit der vorangegangenen Option zusammen benutzt "
 "werden\n"
 
 #: src/exiv2.cpp:605
 msgid "Option -d is not compatible with a previous option\n"
 msgstr ""
-"Die Option \"-d\" kann nicht mit der vorangegangene Option zusammen benutzt "
+"Die Option \"-d\" kann nicht mit der vorangegangenen Option zusammen benutzt "
 "werden\n"
 
 #: src/exiv2.cpp:633
 msgid "Option -e is not compatible with a previous option\n"
 msgstr ""
-"Die Option \"-e\" kann nicht mit der vorangegangene Option zusammen benutzt "
+"Die Option \"-e\" kann nicht mit der vorangegangenen Option zusammen benutzt "
 "werden\n"
 
 #: src/exiv2.cpp:661
 msgid "Option -i is not compatible with a previous option\n"
 msgstr ""
-"Die Option \"-i\" kann nicht mit der vorangegangene Option zusammen benutzt "
+"Die Option \"-i\" kann nicht mit der vorangegangenen Option zusammen benutzt "
 "werden\n"
 
 #: src/exiv2.cpp:702
@@ -5558,11 +5557,11 @@ msgstr "Es muss mindestens eine Datei angegeben werden\n"
 
 #: src/exiv2.cpp:827
 msgid "Error parsing -m option arguments\n"
-msgstr "Fehler beim verarbeiten der Argumente der Option \"-m\"\n"
+msgstr "Fehler beim Verarbeiten der Argumente der Option \"-m\"\n"
 
 #: src/exiv2.cpp:834
 msgid "Error parsing -M option arguments\n"
-msgstr "Fehler beim verarbeiten der Argumente der Option \"-M\"\n"
+msgstr "Fehler beim Verarbeiten der Argumente der Option \"-M\"\n"
 
 #: src/exiv2.cpp:845
 msgid "-l option can only be used with extract or insert actions\n"
@@ -9036,12 +9035,12 @@ msgstr "Kontrasteinstellungen"
 #: src/nikonmn.cpp:846
 #, fuzzy
 msgid "Phase Detect AF"
-msgstr "Fehler beim lesen"
+msgstr "Fehler beim Lesen"
 
 #: src/nikonmn.cpp:846
 #, fuzzy
 msgid "Phase detect AF"
-msgstr "Fehler beim lesen"
+msgstr "Fehler beim Lesen"
 
 #: src/nikonmn.cpp:847
 #, fuzzy
@@ -11994,22 +11993,22 @@ msgstr "Video-Pixelverhältnis"
 #: src/olympusmn.cpp:981 src/pentaxmn.cpp:268
 #, fuzzy
 msgid "Face Detect"
-msgstr "Fehler beim lesen"
+msgstr "Fehler beim Lesen"
 
 #: src/olympusmn.cpp:981 src/olympusmn.cpp:1419 src/olympusmn.cpp:1431
 #, fuzzy
 msgid "Face detect"
-msgstr "Fehler beim lesen"
+msgstr "Fehler beim Lesen"
 
 #: src/olympusmn.cpp:982
 #, fuzzy
 msgid "Face Detect Area"
-msgstr "Fehler beim lesen"
+msgstr "Fehler beim Lesen"
 
 #: src/olympusmn.cpp:982
 #, fuzzy
 msgid "Face detect area"
-msgstr "Fehler beim lesen"
+msgstr "Fehler beim Lesen"
 
 #: src/olympusmn.cpp:984
 #, fuzzy
@@ -16047,7 +16046,7 @@ msgid ""
 "authoring application. Each item should contain a single namespace and XPath "
 "separated by one ASCII space (U+0020)."
 msgstr ""
-"Eine ungeordnete Liste die Eigenschaften angibt, die ausserhalb der "
+"Eine ungeordnete Liste, die Eigenschaften angibt, die ausserhalb der "
 "erstellenden Anwendung bearbeitet wurden. Jeder Eintrag sollte seinen "
 "Namensraum und XPath enthalten, die über ein ASCII-Leerzeichen (U+0020). "
 "getrennt sind."
@@ -16067,7 +16066,7 @@ msgstr ""
 "Die Basis-URL für relative URL's im Dokument. Wenn dieses Dokument "
 "Verknüpfungen im Internet enthält und diese relativ sind, dann sind sie "
 "relativ zu dieser Basis-URL. Diese Eigenschaft stellt einen Standard für "
-"eingebettete URL's zur Verfügung damit sie von Werkzeugen interpretiert "
+"eingebettete URL's zur Verfügung, damit sie von Werkzeugen interpretiert "
 "werden können. Web-Autorenwerkzeuge sollten diesen Wert, basierend auf Ihrer "
 "Absicht wie URL's interpretiert werden, setzen."
 
@@ -16078,7 +16077,7 @@ msgstr "Erstellungsdatum"
 #: src/properties.cpp:229
 msgid "The date and time the resource was originally created."
 msgstr ""
-"Das Datum und die Uhrzeit an dem die Ressource im Original erstellt wurde."
+"Das Datum und die Uhrzeit, an dem die Ressource im Original erstellt wurde."
 
 #: src/properties.cpp:230
 msgid "Creator Tool"
@@ -16090,7 +16089,7 @@ msgid ""
 "present in the metadata, this value should be equivalent to that of xmpMM:"
 "History's softwareAgent property."
 msgstr ""
-"Der Name des ersten bekannten Werkzeuges mit dem die Ressource erstellt "
+"Der Name des ersten bekannten Werkzeuges, mit dem die Ressource erstellt "
 "wurde. Wenn in den Metadaten eine Historie geführt wird, dann sollte dieser "
 "Wert gleich dem in der Eigenschaft xmpMM:History's softwareAgent sein."
 
@@ -16106,7 +16105,7 @@ msgstr ""
 "Eine ungeordnete Liste von Zeichenketten, die die Ressource in einem "
 "gegebenenen Kontext eindeutig identifizieren. Ein Listeneintrag kann mit dem "
 "xmpidq:Scheme qualifiziert werden, um das formale Identifikationssystem zu "
-"bezeichnen dem der Identifikator folgt. Achtung: Die Eigenschaft dc:"
+"bezeichnen, dem der Identifikator folgt. Achtung: Die Eigenschaft dc:"
 "identifier wird nicht benutzt, da ihr ein definierter Schemavermerk fehlt "
 "und sie in der XMP-Spezifikation als als einfache, einwertige Eigenschaft "
 "definiert wurde."
@@ -16120,8 +16119,8 @@ msgid ""
 "A word or short phrase that identifies a document as a member of a user-"
 "defined collection. Used to organize documents in a file browser."
 msgstr ""
-"Ein Wort oder eine kurze Umschreibung die das Dokument als einen Teil einer "
-"benutzerdefinierten SDammlung identifiziert. Es wird benutzt, um die "
+"Ein Wort oder eine kurze Umschreibung, die das Dokument als einen Teil einer "
+"benutzerdefinierten Sammlung identifiziert. Es wird benutzt, um die "
 "Dokumente in einem Dateimanager zu organisieren."
 
 #: src/properties.cpp:240
@@ -16133,7 +16132,7 @@ msgid ""
 "The date and time that any metadata for this resource was last changed. It "
 "should be the same as or more recent than xmp:ModifyDate."
 msgstr ""
-"Das Datum und die Zeit an dem die Metadaten dieser Ressource das letzte Mal "
+"Das Datum und die Zeit, an dem die Metadaten dieser Ressource das letzte Mal "
 "geändert wurden. Es sollte das gleiche oder ein aktuelleres Datum als xmp:"
 "ModifyDate sein."
 
@@ -16147,7 +16146,7 @@ msgid ""
 "property is not necessarily the same as the file's system modification date "
 "because it is set before the file is saved."
 msgstr ""
-"Das Datum und die Zeit am dem die Ressource zuletzt geändert wurde. Achtung: "
+"Das Datum und die Zeit, an dem die Ressource zuletzt geändert wurde. Achtung: "
 "Der Wert dieser Eigenschaft muss nicht der gleiche sein wie das "
 "Änderungsdatum des Dateisystems, da es gesetzt wird bevor die Datei "
 "gespeichert wird."
@@ -16170,8 +16169,8 @@ msgid ""
 "used to organize documents in a file browser. Values are user-defined within "
 "an application-defined range."
 msgstr ""
-"Eine Zahl die den Dokumentenstatus realtiv zu anderen Dokumenten beschreibt. "
-"Sie wird benutzt, um Dokumente in einem dateimanager zu organisieren. Die "
+"Eine Zahl, die den Dokumentenstatus relativ zu anderen Dokumenten beschreibt. "
+"Sie wird benutzt, um Dokumente in einem Dateimanager zu organisieren. Die "
 "Werte werden vom Benutzer innerhalb eines von der Anwendung vorgegebenen "
 "Bereichs gesetzt."
 
@@ -16201,7 +16200,7 @@ msgstr "Markiert"
 
 #: src/properties.cpp:257
 msgid "Indicates that this is a rights-managed resource."
-msgstr "Zeigt an, dass dies eine Ressource ist deren Rechet verwaltet sind."
+msgstr "Zeigt an, dass dies eine Ressource ist, deren Rechte verwaltet sind."
 
 #: src/properties.cpp:258
 msgid "Owner"
@@ -16230,7 +16229,7 @@ msgid ""
 "The location of a web page describing the owner and/or rights statement for "
 "this resource."
 msgstr ""
-"Die Adresse einer-Web-Seite die den Besitzer und/oder die Rechteangaben für "
+"Die Adresse einer Web-Seite, die den Besitzer und/oder die Rechteangaben für "
 "die Ressource beschreibt."
 
 #: src/properties.cpp:266
@@ -16245,12 +16244,12 @@ msgid ""
 "version number of the previous version, or a rendition might only need to "
 "specify the instance ID and rendition class of the original."
 msgstr ""
-"Eine Referenz auf das Originaldokument von dem dieses hier abgeleitet wurde. "
-"Es handelt sich um eine minimale Referenz, Bei fehlenden Komponenten können "
-"Sie davon ausgehen, dass Sie nicht geändert wurden. So müssen Sie für eine "
+"Eine Referenz auf das Originaldokument, von dem dieses hier abgeleitet wurde. "
+"Es handelt sich um eine minimale Referenz. Bei fehlenden Komponenten können "
+"Sie davon ausgehen, dass sie nicht geändert wurden. So müssen Sie für eine "
 "neue Version z.B. nur die Instanz-ID und die Versionsnummer der "
 "vorangegangenen Version angeben. Eine Wiedergabe braucht also nur die "
-"Instanz-ID un die Wiedergabeklasse des Originals angeben."
+"Instanz-ID und die Wiedergabeklasse des Originals angeben."
 
 #: src/properties.cpp:271
 msgid "Document ID"
@@ -16263,7 +16262,7 @@ msgid ""
 msgstr ""
 "Der allgemeine Identifikator für alle Versionen und Wiedergaben eines "
 "Dokuments. Er sollte daher auf der UUID basieren. Sehen Sie dazu die "
-"Dokumenten und Instanz-ID's unten."
+"Dokumenten- und Instanz-ID's unten."
 
 #: src/properties.cpp:273
 msgid "History"
@@ -16277,9 +16276,9 @@ msgid ""
 "be at an abstract level; it is not intended to be an exhaustive keystroke or "
 "other detailed history."
 msgstr ""
-"Eine sortierte Liste von groben umschriebenen Benutzeraktionen die zu dieser "
+"Eine sortierte Liste von groben umschriebenen Benutzeraktionen, die zu dieser "
 "Ressource führten. Dadurch sollen menschliche Leser eine Idee von den "
-"Schritten bekommen die von der vorangegangenen Version zu dieser geführt "
+"Schritten bekommen, die von der vorangegangenen Version zu dieser geführt "
 "haben. Diese Liste sollte auf einer abstrakten Ebene vorliegen. Es ist nicht "
 "gedacht als vollständige Zusammenstellung aller Tastenanschläge oder als "
 "detailierte Anleitung."
@@ -16296,7 +16295,7 @@ msgid ""
 msgstr ""
 "Eine Identikator für eine spezielle Version des Dokumentes, der jedes Mal "
 "aktualisiert wird, wenn die Datei gespeichert wird. Er sollte auf einer UUID "
-"basieren. Sehen Sie dazu unten die Dokumenten und Instanz-ID."
+"basieren. Sehen Sie dazu unten die Dokumenten- und Instanz-ID's."
 
 #: src/properties.cpp:279
 msgid "Managed From"
@@ -16309,8 +16308,8 @@ msgid ""
 "does not currently own it. It may or may not include references to different "
 "management systems."
 msgstr ""
-"Eine Referenz auf das Dokument das es war bevor es verwaltet wurde. Diese "
-"wird gesetzt wenn ein verwaltetes Dokument in eine Bestandsverwaltung "
+"Eine Referenz auf das vormals unverwaltete Dokument. Diese "
+"wird gesetzt, wenn ein verwaltetes Dokument in eine Bestandsverwaltung "
 "aufgenommen wird, die es nicht besitzt. Es kann oder auch nicht Referenzen "
 "auf verschiedene Verwaltungssysteme enthalten."
 
@@ -16325,7 +16324,7 @@ msgid ""
 "system to contact concerning this document."
 msgstr ""
 "Der Name des Verwaltungssystems das diese Ressource verwaltet. Zusammen mit "
-"xmpMM: ManagerVariant, teilt es der Anwendung mit welches "
+"xmpMM: ManagerVariant, teilt es der Anwendung mit, welches "
 "Bestandsverwaltungssystem zu diesem Dokument kontaktiert werden muss."
 
 #: src/properties.cpp:285
@@ -16341,7 +16340,7 @@ msgid ""
 msgstr ""
 "Eine URI die die verwaltete Ressource für das Bestandsverwaltungssystem "
 "identifiziert. Das Vorhandensein dieser Eigenschaft ist ein formaler "
-"Indikator das diese Ressource verwaltet ist. Form und Inhalt dieser URI ist "
+"Indikator, dass diese Ressource verwaltet ist. Form und Inhalt dieser URI ist "
 "nur für das Bestandsverwaltungssystem."
 
 #: src/properties.cpp:288
@@ -18233,7 +18232,7 @@ msgstr ""
 "Exif-Feld 42016, 0xA420. Dieses Feld gibt einen eindeutigen Bild-"
 "Identifikator an. Er wird als ASCII-Zeichenkette in mit einer Länge von 32 "
 "Zeichen aufgezeichnet und hat damit in hexadezimaler Notation eine 128 Bit "
-"Länge ."
+"Länge."
 
 #: src/properties.cpp:619 src/properties.cpp:1137 src/tags.cpp:1931
 msgid "GPS Version ID"
@@ -24946,7 +24945,7 @@ msgstr "Manueller Fokus"
 #: src/sonymn.cpp:235
 #, fuzzy
 msgid "Face Detected"
-msgstr "Fehler beim lesen"
+msgstr "Fehler beim Lesen"
 
 #: src/sonymn.cpp:250
 #, fuzzy
