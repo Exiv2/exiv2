@@ -168,6 +168,20 @@ namespace Exiv2 {
         { 11, N_("Custom3")   }
     };
 
+    //! Print the PictureWizard Color tag value
+    std::ostream& printPwColor(std::ostream& os, const Value& value, const ExifData*)
+    {
+        if (value.count() != 1 || value.typeId() != unsignedShort) {
+            return os << value;
+        }
+        // Special case where no color modification is done
+        if (value.toLong() == 65535) {
+            return os << _("Neutral");
+        }
+        // Output seems to represent Hue in degrees
+        return os << value.toLong();
+    }
+
     //! Print the tag value minus 4
     std::ostream& printValueMinus4(std::ostream& os, const Value& value, const ExifData*)
     {
@@ -180,7 +194,7 @@ namespace Exiv2 {
     // Samsung PictureWizard Tag Info
     const TagInfo Samsung2MakerNote::tagInfoPw_[] = {
         TagInfo(0x0000, "Mode", N_("Mode"), N_("Mode"), samsungPwId, makerTags, unsignedShort, 1, EXV_PRINT_TAG(samsungPwMode)),
-        TagInfo(0x0001, "Color", N_("Color"), N_("Color"), samsungPwId, makerTags, unsignedShort, 1, printValue),
+        TagInfo(0x0001, "Color", N_("Color"), N_("Color"), samsungPwId, makerTags, unsignedShort, 1, printPwColor),
         TagInfo(0x0002, "Saturation", N_("Saturation"), N_("Saturation"), samsungPwId, makerTags, unsignedShort, 1, printValueMinus4),
         TagInfo(0x0003, "Sharpness", N_("Sharpness"), N_("Sharpness"), samsungPwId, makerTags, unsignedShort, 1, printValueMinus4),
         TagInfo(0x0004, "Contrast", N_("Contrast"), N_("Contrast"), samsungPwId, makerTags, unsignedShort, 1, printValueMinus4),
