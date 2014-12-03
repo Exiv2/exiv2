@@ -116,7 +116,6 @@ typedef string_v::iterator  string_i;
 #elif defined(__linux__)
 # include <unistd.h>
 // http://syprog.blogspot.com/2011/12/listing-loaded-shared-objects-in-linux.html
-# include "link.h"
 # include <dlfcn.h>
   struct something
   {
