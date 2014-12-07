@@ -71,16 +71,36 @@ samples: config/config.mk
 	cd samples && $(MAKE) $(MAKECMDGOALS)
 
 tests:
-	cd test && $(MAKE) test
+	@if [ ! -d test ]; then \
+		echo "*** directory test not available ***" ; \
+		echo "*** see http://dev.exiv2.org/projects/exiv2/wiki/How_do_I_build_Exiv2_on_the_XYZ_platform for more information ***" ; \
+	else \
+		cd test && $(MAKE) test ; \
+	fi
 
 teste:
-	cd test && $(MAKE) teste
+	@if [ ! -d test ]; then \
+		echo "*** directory test not available ***" ; \
+		echo "*** see http://dev.exiv2.org/projects/exiv2/wiki/How_do_I_build_Exiv2_on_the_XYZ_platform for more information ***" ; \
+	else \
+		cd test && $(MAKE) teste ; \
+	fi
 
 testv:
-	cd test && $(MAKE) testv
+	@if [ ! -d test ]; then \
+		echo "*** directory test not available ***" ; \
+		echo "*** see http://dev.exiv2.org/projects/exiv2/wiki/How_do_I_build_Exiv2_on_the_XYZ_platform for more information ***" ; \
+	else \
+		cd test && $(MAKE) testv ; \
+	fi
 
 testvw:
-	cd test && $(MAKE) testvw	
+	@if [ ! -d test ]; then \
+		echo "*** directory test not available ***" ; \
+		echo "*** see http://dev.exiv2.org/projects/exiv2/wiki/How_do_I_build_Exiv2_on_the_XYZ_platform for more information ***" ; \
+	else \
+		cd test && $(MAKE) testvw ; \
+	fi
 
 MAJOR=$(shell grep "define.*EXIV2_.*_VERSION .*\\d*" src/version.hpp | grep MAJOR | sed -e 's/EXIV2//g' | tr -dC [:digit:])
 MINOR=$(shell grep "define.*EXIV2_.*_VERSION .*\\d*" src/version.hpp | grep MINOR | sed -e 's/EXIV2//g' | tr -dC [:digit:])
