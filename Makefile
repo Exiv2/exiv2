@@ -71,12 +71,7 @@ samples: config/config.mk
 	cd samples && $(MAKE) $(MAKECMDGOALS)
 
 tests:
-	@if [ ! -d test ]; then \
-		echo "*** directory test not available ***" ; \
-		echo "*** see http://dev.exiv2.org/projects/exiv2/wiki/How_do_I_build_Exiv2_on_the_XYZ_platform for more information ***" ; \
-	else \
-		cd test && $(MAKE) test ; \
-	fi
+	cd test && $(MAKE) test
 
 teste:
 	cd test && $(MAKE) teste
