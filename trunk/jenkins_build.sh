@@ -104,13 +104,13 @@ fi
 ##
 # set up some defaults (used when running this script from the terminal)
 echo "1 target = $target platform = $PLATFORM WORKSPACE = $WORKSPACE"
-if [ $PLATFORM == "macosx" -a -z "$macosx" ]; then export macosx=true ; export target=macosx    ; fi
-if [ $PLATFORM == "linux"  -a -z "$linux"  ]; then export linux=true  ; export target=linux	    ; fi
-if [ -z "$cygwin"          -a ! -z $CYGWIN ]; then export cygwin=$CYGWIN                        ; fi                   
-if [ -z "$tests"     ]; then export tests=true                                                  ; fi
-if [ -z "$WORKSPACE" ]; then export WORKSPACE="$0/$PLATFORM"                                    ; fi
+if [ $PLATFORM == "macosx" -a -z "$macosx"   ]; then export macosx=true ; export target=macosx    ; fi
+if [ $PLATFORM == "linux"  -a -z "$linux"    ]; then export linux=true  ; export target=linux	  ; fi
+if [ -z "$cygwin"          -a ! -z "$CYGWIN" ]; then export cygwin=$CYGWIN                        ; fi                   
+if [ -z "$tests"     ]; then export tests=true                                                    ; fi
+if [ -z "$WORKSPACE" ]; then export WORKSPACE="$0/$PLATFORM"                                      ; fi
 
-if [ -z "$target" ]; then export target=$(basename $(echo $WORKSPACE | sed -E -e 's#\\#/#g'))   ; fi
+if [ -z "$target" ]; then export target=$(basename $(echo $WORKSPACE | sed -E -e 's#\\#/#g'))     ; fi
 echo "2 target = $target platform = $PLATFORM WORKSPACE = $WORKSPACE"
 
 export PATH=$PATH:/bin:/sbin:/usr/sbin:/usr/local/bin:/usr/bin:/usr/lib/pkgconfig:/opt/local/bin:$PWD/usr/bin:/opt/local/bin:/opt/local/sbin:/opt/pkgconfig:bin
