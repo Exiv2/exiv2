@@ -347,11 +347,21 @@ extendedTest()
 # real_path - report the absolute path to a file
 real_path ()
 {
-	which realpath 2>/dev/null >/dev/null
-	if [ $? == 0 ]; then
-		realpath "$1"
+	if [ "$PLATFORM" == "Darwin" ]; then
+		if [ -d "$1" ]; then	
+			cd "$1"
+			echo $PWD
+		else
+			cd $(dirname $1)
+			echo "$PWD"/$(basename "$1")
+		fi
 	else
-		readlink -f "$1"
+		which realpath 2>/dev/null >/dev/null
+		if [ $? == 0 ]; then
+			realpath "$1"
+		else
+			readlink -f "$1"
+		fi
     fi
 }
 
