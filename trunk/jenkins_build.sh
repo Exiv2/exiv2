@@ -163,6 +163,7 @@ case "$build" in
         echo ./configure --prefix=$PWD/usr  $withcurl $withssh
         echo -------------
         ./configure --prefix=$PWD/usr  $withcurl $withssh
+        (cd src ; make svn_version.h)
         make -j4 "LDFLAGS=-L${PWD}/usr/lib -L${PWD}/xmpsdk/src/.libs"
         make install
         make -j4 samples "CXXFLAGS=-I${PWD}/usr/include -I${PWD}/src" "LDFLAGS=-L${PWD}/usr/lib -L${PWD}/xmpsdk/src/.libs -lexiv2"
@@ -176,6 +177,7 @@ case "$build" in
         # 1. trying to get Cygwin to build with gettext and friends
         # 2. trying to get Cygwin to install into a local directory
         ./configure --disable-nls  $withcurl $withssh
+        (cd src ; make svn_version.h)
         make -j4
         # result=$?
         make install
@@ -190,6 +192,7 @@ case "$build" in
             export PKG_CONFIG_PATH=/usr/local/lib/pkgconfig
             echo --- recursive MinGW build ---
             ./configure $withcurl $withssh
+            (cd src ; make svn_version.h)
             make        # DO NOT USE -j4.  It seems to hang the build!
             make install
             make samples
