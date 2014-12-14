@@ -422,7 +422,8 @@ namespace Exiv2 {
         { 3,   N_("Fine")         },
         { 4,   N_("RAW")          },
         { 5,   N_("Superfine")    },
-        { 130, N_("Normal Movie") }
+        { 130, N_("Normal Movie") },
+        { 131, N_("Movie (2)")    }
     };
 
     //! FlashMode, tag 0x0004
@@ -795,6 +796,7 @@ namespace Exiv2 {
         { 183, "Canon EF 100-400mm f/4.5-5.6L IS"                           }, // 0
         { 183, "Sigma 150mm f/2.8 EX DG OS HSM APO Macro"                   }, // 1
         { 183, "Sigma 105mm f/2.8 EX DG OS HSM Macro"                       }, // 2
+        { 183, "Sigma 180mm f/2.8 EX DG OS HSM APO Macro"                   }, // 3
         { 184, "Canon EF 400mm f/2.8L + 2x"                                 },
         { 185, "Canon EF 600mm f/4L IS"                                     },
         { 186, "Canon EF 70-200mm f/4L"                                     },
