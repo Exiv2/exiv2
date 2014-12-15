@@ -169,6 +169,7 @@ case "$build" in
         make -j4 samples "CXXFLAGS=-I${PWD}/usr/include -I${PWD}/src" "LDFLAGS=-L${PWD}/usr/lib -L${PWD}/xmpsdk/src/.libs -lexiv2"
         result=$?
         run_tests
+        exiv2 -v -V
   ;;
   
   CYGW) 
@@ -183,6 +184,7 @@ case "$build" in
         make install
         make -j4 samples
         run_tests
+        exiv2 -v -V
   ;;
 
   MING) 
@@ -191,6 +193,27 @@ case "$build" in
             export CXX=$(which g++)
             export PKG_CONFIG_PATH=/usr/local/lib/pkgconfig
             echo --- recursive MinGW build ---
+
+            ##########################
+            #  To build curl/MinGW/64 (on 32bit MinGW):
+            #  PKG_CONFIG_PATH="/usr/local/lib/pkgconfig/:/usr/lib/pkgconfig/"
+            #  cd /home/rmills/gnu/curl/curl-7.39.0>
+            #  ./configure --prefix=/usr/local --disable-static --enable-shared --host=i686-x64-mingw32
+            #  I haven't succeeded in getting openssl to link with curl on MinGW
+            #  --with-ssl=/usr/local
+            ##########################
+            if [ "$withcurl" == "--with-curl" ]; then
+            	withcurl="--with-curl=/usr/local"
+            fi
+
+            ##########################
+            # I have be unable to build libssh on MinGW (neither 32 nor 64 bits)
+            ##########################
+            if [ "$withssh" == "--with-ssh" ]; then
+            	echo "*** unable to build --with-ssh on MING ***"
+            	withssh="--without-ssh"
+            fi
+            
             ./configure $withcurl $withssh
             (cd src ; make svn_version.h)
             make        # DO NOT USE -j4.  It seems to hang the build!
@@ -281,7 +304,6 @@ case "$build" in
         cmd.exe /c "cd $(cygpath -aw .) && call jenkins_build.bat"
         result=$?
   ;;
-  
   
   NONE) 
         echo "**************************************"
