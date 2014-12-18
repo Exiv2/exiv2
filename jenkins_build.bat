@@ -117,5 +117,8 @@ if %x64%==true   (
 
 popd
 
+rem delete the support libraries (with mozilla's native rm utility)
+msvc2005\tools\bin\rm.exe -rf ..\expat-2.1.0 ..\zlib-1.2.7
+
 rem That's all Folks!
 rem -----------------
