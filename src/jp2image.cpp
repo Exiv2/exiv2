@@ -29,17 +29,9 @@
 #include "rcsid_int.hpp"
 EXIV2_RCSID("@(#) $Id$")
 
-// *****************************************************************************
-
-//#define DEBUG 1
-
-// *****************************************************************************
 // included header files
-#ifdef _MSC_VER
-# include "exv_msvc.h"
-#else
-# include "exv_conf.h"
-#endif
+#include "config.h"
+
 #include "jp2image.hpp"
 #include "tiffimage.hpp"
 #include "image.hpp"
@@ -317,7 +309,7 @@ namespace Exiv2
                            std::cout << "Exiv2::Jp2Image::readMetadata: Xmp data found\n";
 #endif
 
-                            rawData.alloc(box.boxLength - (u_int32_t)(sizeof(box) + sizeof(uuid)));
+                            rawData.alloc(box.boxLength - (uint32_t)(sizeof(box) + sizeof(uuid)));
                             bufRead = io_->read(rawData.pData_, rawData.size_);
                             if (io_->error()) throw Error(14);
                             if (bufRead != rawData.size_) throw Error(20);

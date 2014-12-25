@@ -29,21 +29,10 @@
 #include "rcsid_int.hpp"
 EXIV2_RCSID("@(#) $Id$")
 
-// *****************************************************************************
 // included header files
-#ifdef _MSC_VER
-# include "exv_msvc.h"
-#else
-# include "exv_conf.h"
-#endif
+#include "config.h"
 
-//#define DEBUG 1
 #ifdef EXV_HAVE_LIBZ
-
-extern "C" {
-#include <zlib.h>     // To uncompress or compress text chunk
-}
-
 #include "pngchunk_int.hpp"
 #include "tiffimage.hpp"
 #include "jpgimage.hpp"
@@ -60,6 +49,8 @@ extern "C" {
 #include <iostream>
 #include <cassert>
 #include <cstdio>
+
+#include <zlib.h>     // To uncompress or compress text chunk
 
 /*
 
@@ -690,3 +681,4 @@ namespace Exiv2 {
 
 }}                                      // namespace Internal, Exiv2
 #endif // ifdef EXV_HAVE_LIBZ
+

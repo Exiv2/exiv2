@@ -1,7 +1,6 @@
 // ***************************************************************** -*- C++ -*-
-
 // geotag.cpp, $Rev: 2286 $
-// Sample program to read gpx files and update the images with GPS tags
+// Sample program to read gpx files and update images with GPS tags
 
 #include <exiv2/exiv2.hpp>
 
@@ -28,14 +27,6 @@
 # endif
 #endif
 
-#ifdef __MINGW__
-// rmills: dummy off for MinGW.  I don't have time to fix this for 0.24
-int main(int,const char**)
-{
-	return 0;
-}
-#else
-
 using namespace std;
 
 #ifndef  lengthof
@@ -44,11 +35,8 @@ using namespace std;
 #ifndef nil
 #define nil NULL
 #endif
-#ifndef _MAX_PATH
-#define _MAX_PATH 1024
-#endif
 
-#ifdef   _MSC_VER
+#if defined(_MSC_VER) || defined(__MINGW__)
 #include <windows.h>
 char*    realpath(const char* file,char* path);
 #define  lstat _stat
@@ -57,12 +45,17 @@ char*    realpath(const char* file,char* path);
 #define strcpy_s(d,l,s) strcpy(d,s)
 #define strcat_s(d,l,s) strcat(d,s)
 #endif
+#endif
 
-#else
+#if ! defined(_MSC_VER)
 #include <dirent.h>
 #include <unistd.h>
 #include <sys/param.h>
 #define  stricmp strcasecmp
+#endif
+
+#ifndef _MAX_PATH
+#define _MAX_PATH 1024
 #endif
 
 // prototypes
@@ -75,12 +68,13 @@ time_t parseTime(const char* ,bool bAdjust=false);
 int    timeZoneAdjust();
 
 // platform specific code
-#ifdef   _MSC_VER
+#if defined(_MSC_VER) || defined(__MINGW__)
 char* realpath(const char* file,char* path)
 {
     char* result = (char*) malloc(_MAX_PATH);
     if   (result) GetFullPathName(file,_MAX_PATH,result,NULL);
     return result ;
+    UNUSED(path);
 }
 #endif
 
@@ -419,10 +413,11 @@ int timeZoneAdjust()
     time_t    now   = time(NULL);
     int       offset;
 
-#if   defined(_MSC_VER)
+#if   defined(_MSC_VER) || defined(__MINGW__)
     TIME_ZONE_INFORMATION TimeZoneInfo;
     GetTimeZoneInformation( &TimeZoneInfo );
     offset = - (((int)TimeZoneInfo.Bias + (int)TimeZoneInfo.DaylightBias) * 60);
+    UNUSED(now);
 #elif defined(__CYGWIN__)
     struct tm lcopy = *localtime(&now);
     time_t    gmt   =  timegm(&lcopy) ; // timegm modifies lcopy
@@ -958,4 +953,6 @@ int main(int argc,const char* argv[])
 
     return result ;
 }
-#endif
+
+// That's all Folks!
+////

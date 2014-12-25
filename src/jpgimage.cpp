@@ -31,13 +31,8 @@
 #include "rcsid_int.hpp"
 EXIV2_RCSID("@(#) $Id$")
 
-// *****************************************************************************
 // included header files
-#ifdef _MSC_VER
-# include "exv_msvc.h"
-#else
-# include "exv_conf.h"
-#endif
+#include "config.h"
 
 #include "jpgimage.hpp"
 #include "error.hpp"
@@ -53,6 +48,9 @@ EXIV2_RCSID("@(#) $Id$")
 
 namespace Exiv2 {
 
+    const byte     JpegBase::dht_      = 0xc4;
+    const byte     JpegBase::dqt_      = 0xdb;
+    const byte     JpegBase::dri_      = 0xdd;
     const byte     JpegBase::sos_      = 0xda;
     const byte     JpegBase::eoi_      = 0xd9;
     const byte     JpegBase::app0_     = 0xe0;
@@ -509,6 +507,100 @@ namespace Exiv2 {
         }
     } // JpegBase::readMetadata
 
+    void JpegBase::printStructure()
+    {
+        if (io_->open() != 0) throw Error(9, io_->path(), strError());
+        // Ensure that this is the correct image type
+        if (!isThisType(*io_, false)) {
+            if (io_->error() || io_->eof()) throw Error(14);
+            throw Error(15);
+        }
+        
+        // nemonic for markers
+        std::string nm[256] ;
+        nm[0xd8]="SOI"  ;
+        nm[0xd9]="EOI"  ;
+        nm[0xda]="SOS"  ;
+        nm[0xdb]="DQT"  ;
+        nm[0xdd]="DRI"  ;
+        nm[0xfe]="COM"  ;
+        
+        // 0xe0 .. 0xef are APPn
+        // 0xc0 .. 0xcf are SOFn (except 4)
+        nm[0xc4]="DHT"  ;
+        for ( int i = 0 ; i <= 15 ; i++ ) {
+        	char MN[10];
+        	sprintf(MN,"APP%d",i);
+            nm[0xe0+i] = MN;
+            if ( i != 4 ) {
+                sprintf(MN,"SOF%d",i);
+                nm[0xc0+i] = MN;
+            }
+        }
+
+        // Container for the signature
+        const long bufMinSize = 36;
+        long bufRead = 0, startSig = 0;
+        DataBuf buf(bufMinSize);
+
+        // Read section marker
+        int marker = advanceToMarker();
+        if (marker < 0) throw Error(15);
+
+        printf("STRUCTURE OF FILE:\n");
+        printf("  offset | marker     | size | signature\n");
+        while (1) {
+            // print marker bytes
+            printf("%8ld   %#02x %-5s",io_->tell(), marker,nm[marker].c_str());
+            if ( marker == eoi_ ) break ;
+
+			// Read size and signature
+			std::memset(buf.pData_, 0x0, buf.size_);
+			bufRead = io_->read(buf.pData_, bufMinSize);
+			if (io_->error()) throw Error(14);
+			if (bufRead < 2) throw Error(15);
+			uint16_t size = 0;
+
+			// not all markers have size field.
+			if( ( marker >= sof0_ && marker <= sof15_)
+			||  ( marker >= app0_ && marker <= (app0_ | 0x0F))
+			||    marker == dht_
+			||    marker == dqt_
+			||    marker == dri_
+			||    marker == com_
+			||    marker == sos_
+			){
+				size = getUShort(buf.pData_, bigEndian);
+				printf("%7d   ", size);
+			} else {
+				printf("        ");
+			}
+
+			// only print the signature for appn
+			if (marker >= app0_ && marker <= (app0_ | 0x0F)) {
+				startSig = size>0?2:0;
+				int endSig = size?size:bufRead;
+				if (endSig > 32) endSig = 32 ;
+				while (startSig++ < endSig ) {
+					int c = buf.pData_[startSig-1] ;
+					printf("%c", (' '<=c && c<128) ? c : '.' );
+					// else     endSig = startSig;
+				}
+			}
+
+			// Skip the segment if the size is known
+			if (io_->seek(size - bufRead, BasicIo::cur)) throw Error(14);
+
+			printf("\n");
+			// sos_ is immediately followed by entropy-coded data & eoi_
+			if (marker == sos_) break;
+
+			// Read the beginning of the next segment
+			marker = advanceToMarker();
+        }
+        printf("-----------------\n");
+    }
+
     void JpegBase::writeMetadata()
     {
         if (io_->open() != 0) {
@@ -824,6 +916,10 @@ namespace Exiv2 {
             if (marker < 0) throw Error(22);
             ++count;
         }
+
+        // Populate the fake data, only make sense for remoteio, httpio and sshio.
+        // it avoids allocating memory for parts of the file that contain image-date.
+        io_->populateFakeData();
 
         // Copy rest of the Io
         io_->seek(-2, BasicIo::cur);

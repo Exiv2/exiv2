@@ -110,7 +110,7 @@ source ./functions.source
 
         echo
         echo "Command: exiv2 -pp $filename"
-        $bin/exiv2 -pp "$filename"
+        runTest        exiv2 -pp "$filename"
         exitcode=$?
         echo "Exit code: $exitcode"
 
@@ -118,10 +118,10 @@ source ./functions.source
 
         echo
         echo "Command: exiv2 -f -ep $filename"
-        $bin/exiv2 -f -ep "$filename"
+        runTest        exiv2 -f -ep "$filename"
         echo "Exit code: $?"
 
-        $bin/exiv2 -pp "$filename" 2>/dev/null | sed -n 's,^Preview \([0-9]\+\):.*,\1,p' | while read preview; do
+        runTest exiv2 -pp "$filename" 2>/dev/null | sed -n 's,^Preview \([0-9]\+\):.*,\1,p' | while read preview; do
             diff -q "../data/preview/$image-preview$preview."* "$image-preview$preview."*
         done
     done

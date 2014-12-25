@@ -33,6 +33,7 @@ for d in $(find "$msvc" -name exiv2.exe -exec dirname {} ";"); do
     (
       cd "$home/.." 
       make $test
+      $d/exiv2.exe -v -V
     )
 done
 

@@ -153,7 +153,7 @@ if [ $PLATFORM == "macosx" -a "$target" == "macosx" -a "$macosx" == "true"  ]; t
 if [ $PLATFORM == "cygwin" -a "$target" == "cygwin" -a "$cygwin" == "true"  ]; then build=CYGW ; fi
 if [ $PLATFORM == "cygwin" -a "$target" == "mingw"  -a "$mingw"  == "true"  ]; then build=MING ; fi
 if [ $PLATFORM == "cygwin" -a "$target" == "msvc"   -a "$msvc"   == "true"  ]; then build=MSVC ; fi
-if [ $PLATFORM == "mingw"  -a "$target" == "mingw"              ]; then build=MING ; fi
+if [ $PLATFORM == "mingw"  -a "$target" == "mingw"                          ]; then build=MING ; fi
 
 echo "3 target = $target platform = $PLATFORM build = $build"
 
@@ -162,14 +162,13 @@ case "$build" in
         echo -------------
         echo ./configure --prefix=$PWD/usr  $withcurl $withssh
         echo -------------
-        ./configure --prefix=$PWD/usr  $withcurl $withssh
-        (cd src ; make svn_version.h)
+        ./configure "--prefix=$PWD/usr"  $withcurl $withssh
         make -j4 "LDFLAGS=-L${PWD}/usr/lib -L${PWD}/xmpsdk/src/.libs"
         make install
         make -j4 samples "CXXFLAGS=-I${PWD}/usr/include -I${PWD}/src" "LDFLAGS=-L${PWD}/usr/lib -L${PWD}/xmpsdk/src/.libs -lexiv2"
         result=$?
         run_tests
-        exiv2 -v -V
+        "$PWD/usr/bin/exiv2" -v -V
   ;;
   
   CYGW) 
@@ -178,7 +177,6 @@ case "$build" in
         # 1. trying to get Cygwin to build with gettext and friends
         # 2. trying to get Cygwin to install into a local directory
         ./configure --disable-nls  $withcurl $withssh
-        (cd src ; make svn_version.h)
         make -j4
         # result=$?
         make install
@@ -215,7 +213,6 @@ case "$build" in
             fi
             
             ./configure $withcurl $withssh
-            (cd src ; make svn_version.h)
             make        # DO NOT USE -j4.  It seems to hang the build!
             make install
             make samples

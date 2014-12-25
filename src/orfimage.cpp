@@ -29,13 +29,8 @@
 #include "rcsid_int.hpp"
 EXIV2_RCSID("@(#) $Id$")
 
-// *****************************************************************************
 // included header files
-#ifdef _MSC_VER
-# include "exv_msvc.h"
-#else
-# include "exv_conf.h"
-#endif
+#include "config.h"
 
 #include "orfimage.hpp"
 #include "orfimage_int.hpp"
@@ -277,6 +272,7 @@ namespace Exiv2 {
             buf.pData_[0] = 0x4d;
             buf.pData_[1] = 0x4d;
             break;
+        case asciiBytes:
         case invalidByteOrder:
             assert(false);
             break;

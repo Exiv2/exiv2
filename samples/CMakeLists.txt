@@ -26,6 +26,7 @@ SET( SAMPLES addmoddel.cpp
              exifcomment.cpp
              exifdata-test.cpp
              exifprint.cpp
+             exiv2json.cpp
              geotag.cpp
              iotest.cpp
              iptceasy.cpp

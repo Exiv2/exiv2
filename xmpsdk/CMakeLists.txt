@@ -9,6 +9,8 @@
 include(../CMake_msvc.txt)
 msvc_runtime_configure(${EXIV2_ENABLE_SHARED})
 
+cmake_policy(SET CMP0026 OLD) # Something to do with location
+
 FOREACH(_currentfile ${XMPSRC})
     # http://www.openguru.com/2009/04/cmake-detecting-platformoperating.html
     IF(NOT MSVC AND NOT CYGWIN AND NOT MSYS)

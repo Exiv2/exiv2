@@ -2,15 +2,13 @@ exiv2\msvc2005\ReadMe.txt
 -------------------------
 
 +-----------------------------------------------------------+
-| msvc2012 builds 32bit and 64bit binaries                  |
-|          with Visual Studio 2012                          |
 | msvc2005 builds 32bit and 64bit binaries                  |
-|          with Visual Studio 2005/8/10                     |
+|          with Visual Studio 2005/8/10/12                  |
 | msvc2003 builds 32bit binaries                            |
 |          with Visual Studio 2003/5/8                      |
 +-----------------------------------------------------------+
 
-Updated: 2013-07-22 
+Updated: 2013-12-25 
 
 Robin Mills
 http://clanmills.com
@@ -23,10 +21,10 @@ T A B L E  o f  C O N T E N T S
 1.1  Tools
 1.2  Install zlib and expat sources.
 1.3  Open exiv2\msvc2005\exiv2.sln
-1.4  What is build
-1.5  Building with zlib1.2.3 (or 1.2.5) and expat 2.0.1
-1.6  Express editions of DevStudio (or 32 bit only builds, or 64 bit only builds)
-1.7  Support for DevStudio 11
+1.4  Building with and without webready
+1.5  What is build
+1.6  Building with zlib1.2.3 (or 1.2.5) and expat 2.0.1
+1.7  Express editions of DevStudio (or 32 bit only builds, or 64 bit only builds)
 
 2    Design
 2.1  Architecture
@@ -37,8 +35,7 @@ T A B L E  o f  C O N T E N T S
 
 4    Batch builds and tests
 4.1  buildall.bat
-4.2  runner.py
-4.3  Running the test suite
+4.2  Running the test suite
 
 ## End Table of Contents End ##
 ####
@@ -46,9 +43,9 @@ T A B L E  o f  C O N T E N T S
 1    Build Instructions
 
 1.1  Tools
-     This has been tested with the "Pro" versions of VS 2005/08/10
-     Express editions don't support 64 bit builds, however it is
-     possible to build 32 bit libraries with "Express".
+     This has been tested with the "Pro" versions of VS 2005/08/10/12
+     Some Express editions don't support 64 bit builds
+     however it is  possible to build 32 bit libraries with "Express".
      See notes below about DevStudio Express and building only Win32 or x64 builds
 
 1.2  Install zlib and expat sources.
@@ -57,24 +54,37 @@ T A B L E  o f  C O N T E N T S
      c:\gnu>dir
      Directory of c:\gnu
      2010-12-05  10:05    <DIR>             exiv2                <--- this tree
-     2012-05-04  23:35    <DIR>             expat-2.1.0          <--- "vanilla" expat 2.1.0 source tree
-     2012-05-04  23:35    <DIR>             zlib-1.2.7           <--- "vanilla" zlib  1.2.7 source tree
-     2010-12-02  21:06    <DIR>             expat-2.0.1 OPTIONAL <--- "vanilla" expat 2.0.1 source tree
-     2010-12-02  20:58    <DIR>             zlib-1.2.5  OPTIONAL <--- "vanilla" zlib  1.2.5 source tree
-     2010-12-02  20:58    <DIR>             zlib-1.2.3  OPTIONAL <--- "vanilla" zlib  1.2.3 source tree
+     2012-05-04  23:35    <DIR>             expat                <--- "vanilla" expat   2.1.0  source tree
+     2012-05-04  23:35    <DIR>             zlib                 <--- "vanilla" zlib    1.2.7  source tree
+     2012-05-04  23:35    <DIR>             curl                 <--- "vanilla" curl    7.39.0 source tree
+     2012-05-04  23:35    <DIR>             openssl              <--- "vanilla" openssl 1.0.1j source tree
+     2012-05-04  23:35    <DIR>             libssh               <--- "vanilla" libssh  0.5.5  source tree
      c:\gnu>
+     
+     You can obtain the libraries from http://clanmills.com/files/exiv2libs.zip (6.9mb)
+     I copy those to the directory c:\exiv2libs
+     The script msvc2005/copylibs.bat will copy them from c:\exiv2libs to the correct location
+     
+     11/05/2014  07:26 AM    <DIR>          curl-7.39.0
+     12/07/2014  09:18 AM    <DIR>          expat-2.1.0
+     12/17/2014  09:40 AM    <DIR>          libssh-0.5.5
+     12/17/2014  09:38 AM    <DIR>          openssl-1.0.1j
+     12/07/2014  09:18 AM    <DIR>          zlib-1.2.7
 
      The URLs from which to obtain zlib and expat are documented in exiv2\msvc2003\ReadMe.txt
      expat-2.1.0 is available from http://voxel.dl.sourceforge.net/sourceforge/expat/expat-2.1.0.tar.gz
      zlib-1.2.7  is available from http://zlib.net/zlib-1.2.7.tar.gz
+     curl        is available from http://curl.haxx.se/download.html
+     openssh     is available from https://www.openssl.org/source/
+     libssh      is available from https://www.libssh.org/get-it/
 
 1.3  Open exiv2\msvc2005\exiv2.sln
      Projects are zlib, expat, xmpsdk, exiv2lib, exiv2, addmoddel etc...
      Build/Batch build...  Select All, Build
-     - 29 projects      (zlib, expat, xmpsdk, exiv2lib, exiv2, addmoddel etc)
+     - 41 projects      (zlib, expat, xmpsdk, exiv2lib, exiv2, addmoddel etc)
      x 2 Platforms      (x64|Win32)
      x 4 Configurations (Debug|Release|DebugDLL|ReleaseDLL)
-     = 29x2x4 = 232 builds.
+     = 41x2x4 = 328 builds.
 
      If you haven't installed the x64 compiler, don't select the 64 bit configurations!
      You may have to hand-edit the vcproj and sln files to hide the 64 bit information.
@@ -82,12 +92,23 @@ T A B L E  o f  C O N T E N T S
 
      Build time is 20 minutes on a 2.2GHz Duo Core and consumes 3.0 gBytes of disk space.
 
-1.4  What is built
+1.4  Building with and without webready
+     Building the complete library with webready support requires building
+     openssl, libssh and curl.  This is time consuming.  The build time
+     increases from 5 to 20 minutes.
+     
+     By default, you will not build with webready.
+     
+     To build with webready:
+     1 copy include\exiv2\exv_msvc-webready.h include\exiv2\exv_msvc.h
+     2 open open msvc2005\exiv2-webready.vcproj      
+
+1.5  What is built
      The DLL builds use the DLL version of the C runtime libraries
      The Debug|Release builds use static C runtime libraries
      This is discussed in exiv2\msvc2003\ReadMe.txt 
 
-1.5  Building with zlib1.2.5 (or 1.2.3) and/or expat 2.0.1
+1.6  Building with zlib1.2.5 (or 1.2.3) and/or expat 2.0.1
      By default, msvc2005 builds with zlib-1.2.7 and expat 2.1.0
      You can build with zlib1.2.3.  To do this:
 
@@ -116,7 +137,7 @@ T A B L E  o f  C O N T E N T S
         
      4) Alter "AdditionalIncludeDirectories" for expat 2.0.1
 
-1.6  Express editions of DevStudio (or 32 bit only builds, or 64 bit only builds)
+1.7  Express editions of DevStudio (or 32 bit only builds, or 64 bit only builds)
      Express does not provide a 64 bit compiler.
      You can build 32 bit libraries with DevStudio Express (with a little effort)
 
@@ -147,16 +168,6 @@ T A B L E  o f  C O N T E N T S
 
      To remove the "memory" of old configurations:
      setbuild.py reset
-     
-1.7  Support for DevStudio 11
-     I have successfully built and tested a sub-set of exiv2/msvc2005 with DevStudio 11 beta.
-     
-     I have no plan to support beta versions of DevStudio.
-     
-     I will need to purchase DevStudio 11 when it's available to support exiv2.
-     This is a private purchase and will only be used to support exiv2.
-     I would appreciate a donation of a legal copy of DevStudio 11.
-     (Any Microsoft employees/contractors with staff software purchase privileges?)
 
 2    Design
 
@@ -178,10 +189,10 @@ T A B L E  o f  C O N T E N T S
 
      zlib and expat
      exiv2\msvc2005\zlib\zlib.vcproj                          DevStudio files
-     ..\..\..\zlib-1.2.7\                                   Source code
+     ..\..\..\zlib                                            Source code
 
      exiv2\msvc2005\expat\expat.vcproj                        DevStudio files
-     ..\..\..\expat-2.1.0\                                  Source code
+     ..\..\..\expat                                           Source code
 
 2.1  Architecture
      There are directories for every component:
@@ -195,19 +206,18 @@ T A B L E  o f  C O N T E N T S
      exiv2lib\x64\{Debug|Release|DebugDLL|ReleaseDLL}       64 bit builds
 
      Final builds and include directories (for export to "foreign" projects)
-     bin\{win32|x84}\Win32\{Debug|Release|DebugDLL|ReleaseDLL} 
-     include
+     bin\{win32|x64}\Win32\{Debug|Release|DebugDLL|ReleaseDLL} 
 
 2.2  Relationship with msvc2003 build environment
      msvc2005 is similar to msvc2003.
      However there are significant differences:
      1) msvc2005 supports 64 bit and 32 bit builds
-     2) msvc2005 provides projects to build expat and zlib
+     2) msvc2005 provides projects to build expat, zlib, curl, libssh and openssl
      3) msvc2005 is designed to accomodate new versions of expat and zlib when they become available.
-     4) msvc2005 supports DevStudio 2005, 2008 and 2010 (no support for 2003)
+     4) msvc2005 supports DevStudio 2005 and later (no support for 2003)
      5) msvc2005 does not require you to build 'vanilla' expat and zlib projects in advance
      6) msvc2005 does not support the organize application
-     7) msvc2005 supports building with zlib1.2.7 (default) or zlib1.2.3/5
+     7) msvc2005 supports building with zlib1.2.7  (default) or zlib1.2.3/5
      7) msvc2005 supports building with expat2.1.0 (default) or expa2.0.1
 
      msvc2003 will continue to be supported for 32 bit builds using DevStudio 2003/05/08,
@@ -241,20 +251,7 @@ T A B L E  o f  C O N T E N T S
      It doesn't know anything about building only x64 or only Win32. Change the script if you
      want something special.
 
-4.2  runner.py
-     runner.py [Win32|x64|all]
-
-     This script runs some basic "sanity" checks on the build.  You should compare the
-         output of runner.py with the reference output runner.txt.  
-         diff/windiff/winmergeu - or whatever your favorite diff tool.
-
-     python runner.py all > new.txt
-     winmergeu.exe new.txt runner.txt
-
-     If you have only build Win32 (or x64), you'll have to remove the output from
-         runner.txt for the target that isn't of interest.
-         
-4.3  Running the test suite
+4.2  Running the test suite
      You will need to install cygwin to run the test suite.
      
      This is a two stage process:

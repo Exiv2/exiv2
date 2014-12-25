@@ -1,6 +1,6 @@
 # ***************************************************** -*- Makefile -*-
 #
-# Copyright (C) 2004-2013 Andreas Huggel <ahuggel@gmx.net>
+# Copyright (C) 2004-2012 Andreas Huggel <ahuggel@gmx.net>
 #
 # This Makefile is part of the Exiv2 distribution.
 #
@@ -71,36 +71,13 @@ samples: config/config.mk
 	cd samples && $(MAKE) $(MAKECMDGOALS)
 
 tests:
-	@if [ ! -d test ]; then \
-		echo "*** directory test not available ***" ; \
-		echo "*** see http://dev.exiv2.org/projects/exiv2/wiki/How_do_I_build_Exiv2_on_the_XYZ_platform for more information ***" ; \
-	else \
-		cd test && $(MAKE) test ; \
-	fi
+	cd test && $(MAKE) test
 
-teste:
-	@if [ ! -d test ]; then \
-		echo "*** directory test not available ***" ; \
-		echo "*** see http://dev.exiv2.org/projects/exiv2/wiki/How_do_I_build_Exiv2_on_the_XYZ_platform for more information ***" ; \
-	else \
-		cd test && $(MAKE) teste ; \
-	fi
+teste testx testv:
+	cd test && $(MAKE) $@
 
-testv:
-	@if [ ! -d test ]; then \
-		echo "*** directory test not available ***" ; \
-		echo "*** see http://dev.exiv2.org/projects/exiv2/wiki/How_do_I_build_Exiv2_on_the_XYZ_platform for more information ***" ; \
-	else \
-		cd test && $(MAKE) testv ; \
-	fi
-
-testvw:
-	@if [ ! -d test ]; then \
-		echo "*** directory test not available ***" ; \
-		echo "*** see http://dev.exiv2.org/projects/exiv2/wiki/How_do_I_build_Exiv2_on_the_XYZ_platform for more information ***" ; \
-	else \
-		cd test && $(MAKE) testvw ; \
-	fi
+exiv2 conntest exifprint remotetest:
+	cd src && $(MAKE) $0
 
 MAJOR=$(shell grep "define.*EXIV2_.*_VERSION .*\\d*" src/version.hpp | grep MAJOR | sed -e 's/EXIV2//g' | tr -dC [:digit:])
 MINOR=$(shell grep "define.*EXIV2_.*_VERSION .*\\d*" src/version.hpp | grep MINOR | sed -e 's/EXIV2//g' | tr -dC [:digit:])
@@ -126,8 +103,11 @@ configure:
 config:
 	cd config && $(MAKE) -f config.make $(MAKECMDGOALS)
 
-xmpsdk: config/config.mk
+xmpsdk: src/svn_version.h config/config.mk 
 	if test "x$(ENABLE_XMP)" = "x1"; then cd xmpsdk/src && $(MAKE) $@; fi;
+	
+src/svn_version.h:
+	cd src && $(MAKE) svn_version.h
 
 mostlyclean clean: config/config.mk
 	cd src && $(MAKE) $(MAKECMDGOALS)
@@ -136,6 +116,8 @@ mostlyclean clean: config/config.mk
 	cd xmpsdk/src && $(MAKE) $(MAKECMDGOALS)
 	cd config && $(MAKE) -f config.make $(MAKECMDGOALS)
 	cd po && $(MAKE) $(MAKECMDGOALS)
+	rm -rf test/tmp include/exiv2/exv_conf.h src/svn_version.h
+	mkdir  test/tmp
 
 # `make distclean' also removes files created by configuring 
 # the program. Running `make all distclean' prepares the project 
@@ -143,7 +125,7 @@ mostlyclean clean: config/config.mk
 distclean: clean
 	rm -f config.log config.status libtool
 	rm -f *~ *.bak
-	rm -rf bin
+	if [ -e bin ]; then rm -rf bin ; fi
 
 # This removes almost everything, including the configure script!
 maintainer-clean: distclean
@@ -160,6 +142,6 @@ rebuild:
 	make
 	sudo make install
 	make samples
-
+	
 # That's all Folks!
 ##

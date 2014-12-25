@@ -9,10 +9,10 @@ runTest()
     (
     	cd $here/tmp
     	if [ ! -z $EXIV2_ECHO ]; then
-			echoTest $VALGRIND $bin/$prog "$@"
-		fi
-		$VALGRIND $bin/$prog "$@"
-	)
+			echoTest $VALGRIND $bin$prog "$@"
+	fi
+	$VALGRIND $bin$prog "$@"
+    )
 }
 
 ##
@@ -32,8 +32,14 @@ existsTest()
 {
 	local prog=$1
 	result=0
-	if [ -e $bin/$prog -o -e $bin/$prog.exe ]; then
-		result=1
+	if [ -z "$bin" ]; then
+		if [ ! -z $(which $prog) ]; then
+			result=1
+		fi
+	else
+		if [ -e $bin$prog -o -e $bin$prog.exe ]; then
+			result=1
+		fi
 	fi
 	echo $result
 }
@@ -46,7 +52,7 @@ copy()
 }
 
 ##
-# copy file from data to tmp (copyTestFile from to
+# copy file from data to tmp (copyTestFile from to)
 copyTestFile()
 {
 	if [ $# == 2 ]; then
@@ -76,7 +82,7 @@ reportTest()
     cat $results | tr '\\' '/' > ${results}-new
     	mv -f ${results}-new $results
     if [ ! -z `which dos2unix` ]; then
-        unix2dos $results >/dev/null 2>&1
+        dos2unix $results >/dev/null 2>&1
     fi
 
     if [ $# -eq 0 ]; then
@@ -166,7 +172,7 @@ eraseTest()
     cp $datapath/$src $test
 
     #run tests
-    $bin/metacopy $test $test
+    ${bin}metacopy $test $test
 
     #check results
     diffCheck $test $good
@@ -185,7 +191,7 @@ copyTest()
     cp $datapath/$dst $test
 
     #run tests
-    $bin/metacopy -a $datapath/$src $test
+    ${bin}metacopy -a $datapath/$src $test
 
     #check results
     diffCheck $test $good
@@ -414,14 +420,17 @@ prepareTest()
 	datadir="../data"
 
 	if [ -z "$EXIV2_BINDIR" ] ; then
-		bin="$here/../bin"
+		bin="$here/../bin/"
 	else
-		bin="$EXIV2_BINDIR"
+		bin="$EXIV2_BINDIR/"
 	fi
 
 	os=$(uname)
 	if [ "${os:0:4}" == "CYGW" ]; then
 		export PLATFORM=cygwin
+	elif [ "${os:0:4}" == "MING" ]; then
+		export PLATFORM=mingw
+		# bin=$(dirname $(which exiv2))
 	else
 		export PLATFORM=$os
 	fi
@@ -430,7 +439,7 @@ prepareTest()
 		exe=.exe
 	fi
 	
-	if [ "$PLATFORM" == cygwin -o "$PLATFORM" == mingw ]; then
+	if [ "$PLATFORM" == cygwin ]; then
 		# We need a private version of diff for linux compatibility
 		diff()
 		{
@@ -469,20 +478,36 @@ prepareTest()
 	fi
 	da2="--ignore-matching-lines=^Usage:.*exiv2"
 	diff -q $da2 $tmpfile $tmpfile 2>/dev/null
-	if [ $? -ne 0 ] ; then
-    	da2=""
-	fi
+	#if [ $? -ne 0  -o "$PLATFORM" == mingw ] ; then
+    #	da2=""
+	#fi
 	diffargs="$da1 $da2"
 
+    if [ $PLATFORM == mingw ]; then
+    	# export "PATH=${bin}/:$PATH"
+    	export "PATH=$PATH:${bin}"
+    	bin=''
+    	# echo ---- PATH $PATH ---- ; (IFS=:;for i in $PATH; do echo $i; done) ; echo --------------------
+    fi
+    
     ##
     # test that exiv2 and some sample apps are in the bin!
-    for e in exiv2 exifprint; do
-        e="${bin}/${e}${exe}"
-        if [ ! -e "$e" ]; then
-            echo '******************************************'
-            echo '***' $(real_path "$e") does not exist
-            echo '******************************************'
-            exit 42
+    for e in exiv2 exifprint easyaccess-test metacopy ; do
+    	if [ $PLATFORM == mingw ]; then
+			if [ -z $(which $e) ]; then
+				echo '******************************************'
+				echo '***' $e is not on path           
+				echo '******************************************'
+				exit 37
+			fi
+    	else
+			e="${bin}${e}${exe}"
+			if [ ! -e "$e" ]; then
+				echo '******************************************'
+				echo '***' $(real_path "$e") does not exist
+				echo '******************************************'
+				exit 42
+			fi
         fi
     done
 }

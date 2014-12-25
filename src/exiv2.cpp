@@ -30,13 +30,8 @@
 #include "rcsid_int.hpp"
 EXIV2_RCSID("@(#) $Id$")
 
-// *****************************************************************************
 // included header files
-#ifdef _MSC_VER
-# include "exv_msvc.h"
-#else
-# include "exv_conf.h"
-#endif
+#include "config.h"
 
 #include "exiv2app.hpp"
 #include "actions.hpp"
@@ -52,6 +47,13 @@ EXIV2_RCSID("@(#) $Id$")
 #include <cstring>
 #include <cassert>
 #include <cctype>
+
+#if defined(__MINGW32__) || defined(__MINGW64__)
+# ifndef  __MINGW__
+#  define __MINGW__
+# endif
+#endif
+
 
 // *****************************************************************************
 // local declarations
@@ -225,7 +227,7 @@ void Params::version(bool verbose,std::ostream& os) const
             "License along with this program; if not, write to the Free\n"
             "Software Foundation, Inc., 51 Franklin Street, Fifth Floor,\n"
             "Boston, MA 02110-1301 USA\n");
-	
+
 	if ( verbose ) dumpLibraryInfo(os);
 }
 
@@ -1037,6 +1039,28 @@ namespace {
 	}
     } // parseCmdLines
 
+#if defined(_MSC_VER) || defined(__MINGW__)		
+    static std::string formatArg(const char* arg)
+    {
+		std::string result = "";
+		char        b  = ' ' ;
+		char        e  = '\\'; std::string E = std::string("\\");
+		char        q  = '\''; std::string Q = std::string("'" );
+		bool        qt = false;
+		char* a    = (char*) arg;
+		while  ( *a ) {
+			if ( *a == b || *a == e || *a == q ) qt = true;
+			if ( *a == q ) result += E;
+			if ( *a == e ) result += E;
+			result += std::string(a,1);
+			a++ ;
+		}
+		if (qt) result = Q + result + Q;
+
+		return result;
+	}
+#endif
+
     bool parseLine(ModifyCmd& modifyCmd, const std::string& line, int num)
     {
         const std::string delim = " \t";
@@ -1052,8 +1076,12 @@ namespace {
         if (   cmdStart == std::string::npos
             || cmdEnd == std::string::npos
             || keyStart == std::string::npos) {
+			std::string cmdLine ;
+#if defined(_MSC_VER) || defined(__MINGW__)		
+			for ( int i = 1 ; i < __argc ; i++ ) { cmdLine += std::string(" ") + formatArg(__argv[i]) ; }
+#endif
             throw Exiv2::Error(1, Exiv2::toString(num)
-                               + ": " + _("Invalid command line"));
+                               + ": " + _("Invalid command line:") + cmdLine);
         }
 
         std::string cmd(line.substr(cmdStart, cmdEnd-cmdStart));
@@ -1165,7 +1193,7 @@ namespace {
         return cmdIdAndString[i].cmdId_;
     }
 
-    std::string parseEscapes(const std::string& input) 
+    std::string parseEscapes(const std::string& input)
     {
         std::string result = "";
         for (unsigned int i = 0; i < input.length(); ++i) {
@@ -1242,4 +1270,4 @@ namespace {
     }
 
 }
-        
+

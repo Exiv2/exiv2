@@ -60,6 +60,8 @@ BINSRC = addmoddel.cpp        \
          exifcomment.cpp      \
          exifdata-test.cpp    \
          exifprint.cpp        \
+         exiv2json.cpp        \
+         httptest.cpp         \
          iotest.cpp           \
          iptceasy.cpp         \
          iptcprint.cpp        \
@@ -112,6 +114,7 @@ endif
 
 PREFIX = /usr/local/lib
 LINK.cc += -rpath $(PREFIX) -L$(PREFIX) 
+COMPILE.cc += -I$(top_srcdir)/include/exiv2
 
 # ******************************************************************************
 # Rules
@@ -158,7 +161,6 @@ metacopy path-test: %: %.cpp ../src/utils.o
 
 # Remove binaries, e.g., to relink them
 binclean:
-	cd ../bin
 	$(RM) $(EXECUTABLE)
 
 mostlyclean:

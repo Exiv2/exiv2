@@ -26,6 +26,7 @@ if NOT DEFINED zlib          set zlib=true
 if NOT DEFINED curl          set curl=false
 if NOT DEFINED libssh        set libssh=false
 if NOT DEFINED openssl       set openssl=false
+if %openssl%==true           set curl=true
 
 if %ACTION%==/clean          set tests=false
 if %ACTION%==/upgrade        set tests=false
@@ -35,26 +36,43 @@ if NOT DEFINED LIB           set "LIB=C:\Program Files (x86)\Microsoft Visual St
 if NOT DEFINED LIBPATH       set "LIBPATH=C:\Windows\Microsoft.NET\Framework\v2.0.50727;C:\Program Files (x86)\Microsoft Visual Studio 8\VC\ATLMFC\LIB"
 if NOT DEFINED VS80COMNTOOLS set "VS80COMNTOOLS=C:\Program Files (x86)\Microsoft Visual Studio 8\Common7\Tools\"
 
-rem  --
+rem ----------------------------------------------
 rem  set the build environment
 call "%VS80COMNTOOLS%\..\..\Vc\bin\vcvars32.bat"
 
-rem --
-rem Pull in support libraries
-if NOT EXIST ..\expat-2.1.0 xcopy/yesihq  c:\exiv2libs\expat-2.1.0 ..\expat-2.1.0
-if NOT EXIST ..\zlib-1.2.7  xcopy/yesihq  c:\exiv2libs\zlib-1.2.7  ..\zlib-1.2.7
+rem ----------------------------------------------
+rem copy the support libraries
+xcopy/yesihq  c:\exiv2libs\expat-2.1.0     ..\expat
+xcopy/yesihq  c:\exiv2libs\zlib-1.2.7      ..\zlib
+xcopy/yesihq  c:\exiv2libs\openssl-1.0.1j  ..\openssl
+xcopy/yesihq  c:\exiv2libs\libssh-0.5.5    ..\libssh
+xcopy/yesihq  c:\exiv2libs\curl-7.39.0     ..\curl
 
-rem --
-rem build and test
 
+rem ----------------------------------------------
 pushd msvc2005
 
+rem --
+rem FOO is the current directory in cygwin (/cygdrive/c/users/shared/workspace/exiv2-trunk/label/msvc)
+rem we need this to set the correct directory when we run the test suite from Cygwin
 for /f "tokens=*" %%a in ('cygpath -au ..') do set FOO=%%a
+
+copy exiv2.sln e.sln
+
+set webready=false
+if %curl% == true if %libssh% == true if %openssl% == true set webready=true
+if %webready% == true (
+    copy/y exiv2-webready.sln e.sln
+    copy/y ..\include\exiv2\exv-msvc-webready.h ..\..\include\exiv2\exv-msvc.h
+) 
+
+rem --
+rem Now build and test
 
 if %Win32%==true (
   if %debug%==true (
     if %static%==true (
-      devenv exiv2.sln %ACTION% "Debug|Win32"     
+      devenv e.sln %ACTION% "Debug|Win32"     
       if %tests%==true (
         call bash -c 'cd %FOO%;cd test;./testMSVC.sh ../msvc2005/bin/Win32/Debug'
 ) ) ) )
@@ -62,7 +80,7 @@ if %Win32%==true (
 if %Win32%==true (
   if %release%==true (
     if %static%==true  (
-      devenv exiv2.sln %ACTION% "Release|Win32"    
+      devenv e.sln %ACTION% "Release|Win32"    
       if %tests%==true   (
         call bash -c 'cd %FOO%;cd test;./testMSVC.sh ../msvc2005/bin/Win32/Release'
 ) ) ) )
@@ -70,7 +88,7 @@ if %Win32%==true (
 if %Win32%==true (
   if %debug%==true (
     if %dll%==true   (
-      devenv exiv2.sln %ACTION% "DebugDLL|Win32"   
+      devenv e.sln %ACTION% "DebugDLL|Win32"   
       if %tests%==true (
         call bash -c 'cd %FOO%;cd test;./testMSVC.sh ../msvc2005/bin/Win32/DebugDLL'
 ) ) ) )
@@ -78,7 +96,7 @@ if %Win32%==true (
 if %Win32%==true (
   if %release%==true (
     if %dll%==true     (
-      devenv exiv2.sln %ACTION% "ReleaseDLL|Win32" 
+      devenv e.sln %ACTION% "ReleaseDLL|Win32" 
       if %tests%==true   (
         call bash -c 'cd %FOO%;cd test;./testMSVC.sh ../msvc2005/bin/Win32/ReleaseDLL'
 ) ) ) )
@@ -86,7 +104,7 @@ if %Win32%==true (
 if %x64%==true (
   if %debug%==true (
     if %static%==true (
-      devenv exiv2.sln %ACTION% "Debug|x64"        
+      devenv e.sln %ACTION% "Debug|x64"        
       if %tests%==true (
         call bash -c 'cd %FOO%;cd test;./testMSVC.sh ../msvc2005/bin/x64/Debug'
 ) ) ) )
@@ -94,7 +112,7 @@ if %x64%==true (
 if %x64%==true (
   if %release%==true (
     if %static%==true  (
-      devenv exiv2.sln %ACTION% "Release|x64"      
+      devenv e.sln %ACTION% "Release|x64"      
       if %tests%==true   (
         call bash -c 'cd %FOO%;cd test;./testMSVC.sh ../msvc2005/bin/x64/Release'
 ) ) ) )
@@ -102,7 +120,7 @@ if %x64%==true (
 if %x64%==true (
   if %debug%==true (
     if %dll%==true   (
-      devenv exiv2.sln %ACTION% "DebugDLL|x64"     
+      devenv e.sln %ACTION% "DebugDLL|x64"     
       if %tests%==true (
         call bash -c 'cd %FOO%;cd test;./testMSVC.sh ../msvc2005/bin/x64/DebugDLL'
 ) ) ) )
@@ -110,15 +128,16 @@ if %x64%==true (
 if %x64%==true   (
   if %release%==true (
     if %dll%==true     (
-      devenv exiv2.sln %ACTION% "ReleaseDLL|x64"   
+      devenv e.sln %ACTION% "ReleaseDLL|x64"   
       if %tests%==true   (
         call bash -c 'cd %FOO%;cd test;./testMSVC.sh ../msvc2005/bin/x64/ReleaseDLL'
 ) ) ) )
 
+del e.sln
 popd
 
 rem delete the support libraries (with mozilla's native rm utility)
-msvc2005\tools\bin\rm.exe -rf ..\expat-2.1.0 ..\zlib-1.2.7
+msvc2005\tools\bin\rm.exe -rf ..\expat ..\zlib ..\openssl ..\libssh ..\curl
 
 rem That's all Folks!
 rem -----------------

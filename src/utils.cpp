@@ -28,23 +28,19 @@
 #include "rcsid_int.hpp"
 EXIV2_RCSID("@(#) $Id$")
 
-// *****************************************************************************
 // included header files
-#ifdef _MSC_VER
-# include "exv_msvc.h"
-#else
-# include "exv_conf.h"
-#endif
+#include "config.h"
 
 #include "utils.hpp"
 
 // + standard includes
 #include <sys/types.h>
 #include <sys/stat.h>
-#ifdef _MSC_VER
+#if defined(_MSC_VER)
 # include "getopt_win32.h"
 # define S_ISREG(m)      (((m) & S_IFMT) == S_IFREG)
 #endif
+
 #ifdef EXV_HAVE_UNISTD_H
 # include <unistd.h>                     // for getopt(), stat()
 #endif
