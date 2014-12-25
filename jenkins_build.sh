@@ -122,7 +122,12 @@ if [ -e config/config.mk ]; then
        mkdir bin
     fi
     make distclean
-    if [ -e test/data/eps ]; then rm -rf test/data/eps ; fi
+    if [ -e test/data/eps ]; then
+    	rm -rf test/data/eps ;
+    fi
+    if [ ! -e test/dat/eps ]; then 
+        svn export svn://dev.exiv2.org/svn/testdata/trunk/eps test/data/eps
+    fi
 fi
 
 ##
