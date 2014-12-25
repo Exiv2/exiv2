@@ -4,12 +4,8 @@
   @version $Rev$
 */
 
-#ifdef _MSC_VER
-# include "exv_msvc.h"
-#else
-# include "exv_conf.h"
-#endif
 
+#include "config.h"
 #include "timegm.h"
 
 /*

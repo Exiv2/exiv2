@@ -58,10 +58,7 @@ SHELL = /bin/sh
 
 ##
 # to save download time for simple build/test, we download video and eps data on demand
-# TODO: remove data/eps from depot for the 0.24 release.
-#       If we remove it now, it'll break the test instructions on the web:
-#       http://www.exiv2.org/download.html
-SVN = svn://dev.exiv2.org/svn/testdata/trunk
+SVN      = svn://dev.exiv2.org/svn/testdata/trunk
 
 ##
 # Add test drivers to this list
@@ -84,6 +81,9 @@ TESTS  = addmoddel.sh         \
 TESTV  = video-test.sh         
 TESTE  = eps-test.sh
 TESTVW = write-video-test.sh
+TESTX = httpiotest.sh     \
+        curliotest.sh     \
+        sshiotest.sh
 
 tests:
 	cd .. ; make tests
@@ -120,9 +120,23 @@ testvw:
 	done
 ##
 
+##
 # TODO: download eps data on demand for 0.24 (similar to testv)
 teste:
+	@for t in /eps ; do \
+		if [ ! -e data/$$t ]; then \
+	echo svn export '$(SVN)'$$t data$$t ; \
+	     svn export '$(SVN)'$$t data$$t ; \
+	fi ; done
 	@list='$(TESTE)'; for p in $$list; do \
+	    echo Running $$p ...; \
+	    ./$$p; \
+	done
+
+##
+# TODO: test httpIo and remoteIo
+testx:
+	@list='$(TESTX)'; for p in $$list; do \
 	    echo Running $$p ...; \
 	    ./$$p; \
 	done

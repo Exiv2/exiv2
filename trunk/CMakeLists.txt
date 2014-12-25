@@ -8,18 +8,21 @@
 
 ##
 # Running cmake in a tree in which we have run ./configure ; make 
-# creates src/exv_conf.h which conflicts with cmake's own exv_conf.h
+# creates include/exiv2/exv_conf.h which conflicts with cmake's own exv_conf.h
 # This causes incorrect compilation and linking errors.
 #
 # It's OK to delete this as it will be recreated on demand by <exiv2-dir>/Makefile
-if( EXISTS "${CMAKE_SOURCE_DIR}/src/exv_conf.h"  )
-    file(REMOVE "${CMAKE_SOURCE_DIR}/src/exv_conf.h")
+if( EXISTS "${CMAKE_SOURCE_DIR}/include/exiv2/exv_conf.h"  )
+    file(REMOVE "${CMAKE_SOURCE_DIR}/include/exiv2/exv_conf.h")
 endif()
 ##
 
-SET(CMAKE_LEGACY_CYGWIN_WIN32 0) # Remove when CMake >= 2.8.4 is required
-CMAKE_MINIMUM_REQUIRED( VERSION 2.6 )
+CMAKE_MINIMUM_REQUIRED( VERSION 2.8 )
 PROJECT( exiv2 )
+
+cmake_policy(SET CMP0042 NEW) # enable MACOSX_RPATH support
+SET(CMAKE_INSTALL_RPATH "${CMAKE_INSTALL_PREFIX}/lib")
+
 
 SET( PACKAGE_COPYRIGHT      "Andreas Huggel" )
 SET( PACKAGE_BUGREPORT      "ahuggel@gmx.net" )
@@ -43,6 +46,8 @@ OPTION( EXIV2_ENABLE_LENSDATA      "Build including lens data"                  
 OPTION( EXIV2_ENABLE_COMMERCIAL    "Build with the EXV_COMMERCIAL_VERSION symbol set"      OFF )
 OPTION( EXIV2_ENABLE_BUILD_SAMPLES "Build the unit tests"                                  ON  )
 OPTION( EXIV2_ENABLE_BUILD_PO      "Build translations files"                              OFF )
+OPTION( EXIV2_ENABLE_CURL          "USE Libcurl for HttpIo"                                ON  )
+OPTION( EXIV2_ENABLE_SSH           "USE Libssh for SshIo"                                  ON  )
 
 IF( MINGW OR UNIX )
     IF ( CMAKE_CXX_COMPILER STREQUAL "g++" OR CMAKE_C_COMPILER STREQUAL "gcc" ) 
@@ -57,8 +62,12 @@ IF( MINGW OR UNIX )
     ENDIF()
 ENDIF( MINGW OR UNIX )
 
+INCLUDE_DIRECTORIES( ${CMAKE_SOURCE_DIR}/src/ ${CMAKE_SOURCE_DIR}/include/  ${CMAKE_SOURCE_DIR}/include/exiv2/)
 
 if( MSVC )
+
+    # cmake_policy(SET CMP0008)
+    
     include(CMake_msvc.txt)
     msvc_runtime_report()
     msvc_runtime_configure(${EXIV2_ENABLE_SHARED})
@@ -68,6 +77,8 @@ if( MSVC )
     
     set(E expat-2.1.0)
     set(Z zlib-1.2.7)
+    set(C curl-7.39.0)
+    set(C libssh-0.5.5)   
     
     if( NOT IS_DIRECTORY ./../${E} )
         set(OUT_OF_SOURCE 1)
@@ -80,7 +91,21 @@ if( MSVC )
         include_directories( ${EXPAT_INCLUDE_DIR} msvc64\\include src\\include)
     endif()
     
-    FIND_PACKAGE(ZLIB QUIET)
+    # FIND_PACKAGE(CURL)
+    if ( NOT CURL_FOUND )
+        set(CURL_LIBRARY       ${CMAKE_SOURCE_DIR}/../${C}/$(ConfigurationName)/curl)
+        set(CURL_INCLUDE_DIR   ${CMAKE_SOURCE_DIR}/../${C})
+        include_directories( ${CURL_INCLUDE_DIR})
+    endif()
+
+    # FIND_PACKAGE(SSH)
+    if ( NOT SSH_FOUND )
+        set(SSH_LIBRARY       ${CMAKE_SOURCE_DIR}/../${C}/$(ConfigurationName)/ssh)
+        set(SSH_INCLUDE_DIR   ${CMAKE_SOURCE_DIR}/../${C})
+        include_directories( ${SSH_INCLUDE_DIR})
+    endif()
+    
+    # FIND_PACKAGE(ZLIB QUIET)
     if ( NOT ZLIB_FOUND )
         set(ZLIB_LIBRARY       ${CMAKE_SOURCE_DIR}/../${Z}/$(ConfigurationName)/zlib)
         set(ZLIB_INCLUDE_DIR   ${CMAKE_SOURCE_DIR}/../${Z})
@@ -191,10 +216,12 @@ ENDIF( EXIV2_ENABLE_BUILD_PO )
 
 ##
 # tests
-ADD_CUSTOM_TARGET(tests COMMAND make test  "EXIV2_BINDIR=${CMAKE_BINARY_DIR}/bin"  WORKING_DIRECTORY "${CMAKE_SOURCE_DIR}/test/" )
-ADD_CUSTOM_TARGET(teste COMMAND make teste "EXIV2_BINDIR=${CMAKE_BINARY_DIR}/bin"  WORKING_DIRECTORY "${CMAKE_SOURCE_DIR}/test/" )
-ADD_CUSTOM_TARGET(testv COMMAND make testv "EXIV2_BINDIR=${CMAKE_BINARY_DIR}/bin"  WORKING_DIRECTORY "${CMAKE_SOURCE_DIR}/test/" )
+ADD_CUSTOM_TARGET(tests  COMMAND make test   "EXIV2_BINDIR=${CMAKE_BINARY_DIR}/bin"  WORKING_DIRECTORY "${CMAKE_SOURCE_DIR}/test/" )
+ADD_CUSTOM_TARGET(teste  COMMAND make teste  "EXIV2_BINDIR=${CMAKE_BINARY_DIR}/bin"  WORKING_DIRECTORY "${CMAKE_SOURCE_DIR}/test/" )
+ADD_CUSTOM_TARGET(testv  COMMAND make testv  "EXIV2_BINDIR=${CMAKE_BINARY_DIR}/bin"  WORKING_DIRECTORY "${CMAKE_SOURCE_DIR}/test/" )
 ADD_CUSTOM_TARGET(testvw COMMAND make testvw "EXIV2_BINDIR=${CMAKE_BINARY_DIR}/bin"  WORKING_DIRECTORY "${CMAKE_SOURCE_DIR}/test/" )
+ADD_CUSTOM_TARGET(testx  COMMAND make testx  "EXIV2_BINDIR=${CMAKE_BINARY_DIR}/bin"  WORKING_DIRECTORY "${CMAKE_SOURCE_DIR}/test/" )
+
 ##
 # http://dev.exiv2.org/boards/3/topics/1364
 # effectively does a make doc on the root directory

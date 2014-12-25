@@ -32,13 +32,8 @@
 #include "rcsid_int.hpp"
 EXIV2_RCSID("@(#) $Id$")
 
-// *****************************************************************************
 // included header files
-#ifdef _MSC_VER
-# include "exv_msvc.h"
-#else
-# include "exv_conf.h"
-#endif
+#include "config.h"
 
 #include "image.hpp"
 #include "error.hpp"
@@ -163,6 +158,9 @@ namespace Exiv2 {
     }
 
     Image::~Image()
+    {
+    }
+    void Image::printStructure()
     {
     }
 
@@ -416,19 +414,65 @@ namespace Exiv2 {
         return ImageType::none;
     } // ImageFactory::getType
 
-    Image::AutoPtr ImageFactory::open(const std::string& path)
+    BasicIo::AutoPtr ImageFactory::createIo(const std::string& path, bool useCurl)
     {
-        BasicIo::AutoPtr io(new FileIo(path));
-        Image::AutoPtr image = open(io); // may throw
+        Protocol fProt = fileProtocol(path);
+#if EXV_USE_SSH == 1
+        if (fProt == pSsh || fProt == pSftp) {
+            return BasicIo::AutoPtr(new SshIo(path)); // may throw
+        }
+#endif
+#if EXV_USE_CURL == 1
+        if (useCurl && (fProt == pHttp || fProt == pHttps || fProt == pFtp)) {
+            return BasicIo::AutoPtr(new CurlIo(path)); // may throw
+        }
+#endif
+        if (fProt == pHttp)
+            return BasicIo::AutoPtr(new HttpIo(path)); // may throw
+        if (fProt == pFileUri)
+            return BasicIo::AutoPtr(new FileIo(pathOfFileUrl(path)));
+        if (fProt == pStdin || fProt == pDataUri)
+            return BasicIo::AutoPtr(new XPathIo(path)); // may throw
+
+        return BasicIo::AutoPtr(new FileIo(path));
+        
+        UNUSED(useCurl);
+    } // ImageFactory::createIo
+
+#ifdef EXV_UNICODE_PATH
+    BasicIo::AutoPtr ImageFactory::createIo(const std::wstring& wpath, bool useCurl)
+	{
+        Protocol fProt = fileProtocol(wpath);
+#if EXV_USE_SSH == 1
+        if (fProt == pSsh || fProt == pSftp) {
+            return BasicIo::AutoPtr(new SshIo(wpath));
+        }
+#endif
+#if EXV_USE_CURL == 1
+        if (useCurl && (fProt == pHttp || fProt == pHttps || fProt == pFtp)) {
+            return BasicIo::AutoPtr(new CurlIo(wpath));
+        }
+#endif
+        if (fProt == pHttp)
+            return BasicIo::AutoPtr(new HttpIo(wpath));
+        if (fProt == pFileUri)
+            return BasicIo::AutoPtr(new FileIo(pathOfFileUrl(wpath)));
+        if (fProt == pStdin || fProt == pDataUri)
+            return BasicIo::AutoPtr(new XPathIo(wpath)); // may throw
+        return BasicIo::AutoPtr(new FileIo(wpath));
+    } // ImageFactory::createIo
+#endif
+    Image::AutoPtr ImageFactory::open(const std::string& path, bool useCurl)
+    {
+        Image::AutoPtr image = open(ImageFactory::createIo(path, useCurl)); // may throw
         if (image.get() == 0) throw Error(11, path);
         return image;
     }
 
 #ifdef EXV_UNICODE_PATH
-    Image::AutoPtr ImageFactory::open(const std::wstring& wpath)
+    Image::AutoPtr ImageFactory::open(const std::wstring& wpath, bool useCurl)
     {
-        BasicIo::AutoPtr io(new FileIo(wpath));
-        Image::AutoPtr image = open(io); // may throw
+        Image::AutoPtr image = open(ImageFactory::createIo(wpath, useCurl)); // may throw
         if (image.get() == 0) throw WError(11, wpath);
         return image;
     }

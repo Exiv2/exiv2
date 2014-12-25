@@ -53,7 +53,7 @@
 
  */
 
-#if (defined(__GNUG__) || defined(__GNUC__) || defined (_MSC_VER))  && ! defined(__clang__)
+#if (defined(__GNUG__) || defined(__GNUC__) || defined (_MSC_VER)) && ! defined(__clang__)
 #define EXIV2_RCSID(id) \
     namespace { \
         inline const char* getRcsId(const char*) { return id ; } \

@@ -55,6 +55,32 @@ IF( EXIV2_ENABLE_PNG )
     SET (HAVE_LIBZ ${ZLIB_FOUND})
 ENDIF( EXIV2_ENABLE_PNG )
 
+IF( EXIV2_ENABLE_CURL )
+    FIND_PACKAGE( CURL )
+    INCLUDE_DIRECTORIES( ${CURL_INCLUDE_DIR} )
+    # FindCURL.cmake doesn't check for REQUIRED flags - so we need to check ourselves
+    IF( MINGW OR UNIX )
+        IF (NOT CURL_FOUND)
+            MESSAGE(FATAL_ERROR "missing library curl required for HttpIo")
+        ELSE (NOT CURL_FOUND)
+            SET ( USE_CURL 1 )
+        ENDIF( NOT CURL_FOUND )
+    ENDIF( MINGW OR UNIX )
+ENDIF( EXIV2_ENABLE_CURL )
+
+IF( EXIV2_ENABLE_SSH )
+    FIND_PACKAGE( SSH )
+    INCLUDE_DIRECTORIES( ${SSH_INCLUDE_DIR} )
+    # FindSSH.cmake doesn't check for REQUIRED flags - so we need to check ourselves
+    IF( MINGW OR UNIX )
+        IF (NOT SSH_FOUND)
+            MESSAGE(FATAL_ERROR "missing library libssh required for SshIo")
+        ELSE (NOT SSH_FOUND)
+            SET ( USE_SSH 1 )
+        ENDIF( NOT SSH_FOUND )
+    ENDIF( MINGW OR UNIX )
+ENDIF( EXIV2_ENABLE_SSH )
+
 IF (EXIV2_ENABLE_XMP)
     FIND_PACKAGE(EXPAT)
     INCLUDE_DIRECTORIES(${EXPAT_INCLUDE_DIR})
@@ -160,16 +186,12 @@ ENDIF( HAVE_SYS_TIME_H )
 #####################################################################################
 # strerror_r returns char*
 
-# NOTE : adding #if _POSIX code for #697
+# NOTE : reverting commit #2041, which break compilation under linux and windows
+
 CHECK_C_SOURCE_COMPILES( "#include <string.h>
 int main() {
 char * c;
-#if  (_POSIX_C_SOURCE >= 200112L || _XOPEN_SOURCE >= 600) && ! _GNU_SOURCE
-  int  l = strerror_r(0,c,0);
-  if ( l ) return 0 ;
-#else
 c = strerror_r(0,c,0);
-#endif   
 return 0;
 }" STRERROR_R_CHAR_P )
 
@@ -230,6 +252,8 @@ SET( EXV_SYMBOLS ENABLE_NLS
                  HAVE_WCHAR_H
                  HAVE_XMP_TOOLKIT
                  HAVE__BOOL
+                 USE_CURL
+                 USE_SSH
                  PACKAGE
                  PACKAGE_BUGREPORT
                  PACKAGE_NAME
@@ -245,10 +269,10 @@ FOREACH( entry ${EXV_SYMBOLS} )
     # MESSAGE( EXV_${entry} " : " ${${entry}} )
 ENDFOREACH( entry ${EXV_SYMBOLS} )
 
-CONFIGURE_FILE( config/config.h.cmake ${CMAKE_CURRENT_BINARY_DIR}/exv_conf.h )
+CONFIGURE_FILE( config/config.h.cmake ${CMAKE_SOURCE_DIR}/include/exiv2/exv_conf.h )
 CONFIGURE_FILE( config/exv_msvc.h.cmake ${CMAKE_CURRENT_BINARY_DIR}/exv_msvc.h COPYONLY )
-INSTALL( FILES ${CMAKE_CURRENT_BINARY_DIR}/exv_conf.h DESTINATION include/exiv2 )
-INSTALL( FILES ${CMAKE_CURRENT_BINARY_DIR}/exv_msvc.h DESTINATION include/exiv2 )
+INSTALL( FILES ${CMAKE_SOURCE_DIR}/include/exiv2/exv_conf.h DESTINATION include/exiv2 )
+INSTALL( FILES ${CMAKE_SOURCE_DIR}/include/exiv2/exv_msvc.h DESTINATION include/exiv2 )
 
 CONFIGURE_FILE(config/exiv2_uninstall.cmake ${CMAKE_BINARY_DIR}/cmake_uninstall.cmake COPYONLY)
 ADD_CUSTOM_TARGET(uninstall "${CMAKE_COMMAND}" -P "${CMAKE_BINARY_DIR}/cmake_uninstall.cmake")
@@ -283,4 +307,6 @@ OptionOutput( "Nikon lens database:                " EXIV2_ENABLE_LENSDATA      
 OptionOutput( "Commercial build:                   " EXIV2_ENABLE_COMMERCIAL         )
 OptionOutput( "Build the unit tests:               " EXIV2_ENABLE_BUILD_SAMPLES      )
 OptionOutput( "Building translations files:        " EXIV2_ENABLE_BUILD_PO           )
+OptionOutput( "USE Libcurl for HttpIo:             " EXIV2_ENABLE_CURL               )
+OptionOutput( "USE Libssh for SshIo:               " EXIV2_ENABLE_SSH                )
 MESSAGE( STATUS "------------------------------------------------------------------" )

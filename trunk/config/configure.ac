@@ -151,6 +151,86 @@ AC_ARG_ENABLE(xmp,
     USE_XMP_TOOLKIT=$enableval, USE_XMP_TOOLKIT=yes)
 AC_MSG_RESULT($USE_XMP_TOOLKIT)
 
+# libcurl option might change flags, so we save them initially
+_cppflags="${CPPFLAGS}"
+_ldflags="${LDFLAGS}"
+
+AC_ARG_WITH(curl,
+[  --with-curl[[=DIR]]    use libcurl in DIR],[
+  if test "$withval" != "no" -a "$withval" != "yes"; then
+    CURL_DIR=$withval
+    CPPFLAGS="${CPPFLAGS} -I$withval/include"
+    LDFLAGS="${LDFLAGS} -L$withval/lib"
+  fi
+])
+
+USE_CURL=
+if test "$with_curl" != "no"; then
+    # Check for libcurl library
+    found_curl=yes
+    CURL_CPPFLAGS=
+    CURL_LDFLAGS=
+    CURL_LIBS=
+    AC_CHECK_HEADERS(curl/curl.h,
+        AC_CHECK_LIB(curl, curl_easy_init,[
+            USE_CURL=yes
+            AC_DEFINE([USE_CURL], [1], [Use libcurl library])
+            CURL_LIBS="-lcurl"
+            if test "x${CURL_DIR}" != "x"; then
+                CURL_CPPFLAGS="-I${CURL_DIR}/include"
+                CURL_LDFLAGS="-L${CURL_DIR}/lib"
+            fi],[found_curl=no]),[found_curl=no])
+    if test "$found_curl" = "no"; then
+        AC_MSG_ERROR(either specify a valid curl installation with --with-curl=DIR or disable libcurl support with --disable-curl)
+    fi
+    AC_SUBST(CURL_CPPFLAGS)
+    AC_SUBST(CURL_LDFLAGS)
+    AC_SUBST(CURL_LIBS)
+fi
+CPPFLAGS=${_cppflags}
+LDFLAGS=${_ldflags}
+
+
+# libssh option might change flags, so we save them initially
+_cppflags="${CPPFLAGS}"
+_ldflags="${LDFLAGS}"
+
+AC_ARG_WITH(ssh,
+[  --with-ssh[[=DIR]]    use libssh in DIR],[
+  if test "$withval" != "no" -a "$withval" != "yes"; then
+    SSH_DIR=$withval
+    CPPFLAGS="${CPPFLAGS} -I$withval/include"
+    LDFLAGS="${LDFLAGS} -L$withval/lib"
+  fi
+])
+
+USE_SSH=
+if test "$with_ssh" != "no"; then
+    # Check for libssh library
+    found_ssh=yes
+    SSH_CPPFLAGS=
+    SSH_LDFLAGS=
+    SSH_LIBS=
+    AC_CHECK_HEADERS(libssh/libssh.h,
+        AC_CHECK_LIB(ssh, ssh_new,[
+            USE_SSH=yes
+            AC_DEFINE([USE_SSH], [1], [Use libssh library])
+            SSH_LIBS="-lssh"
+            if test "x${SSH_DIR}" != "x"; then
+                SSH_CPPFLAGS="-I${SSH_DIR}/include"
+                SSH_LDFLAGS="-L${SSH_DIR}/lib"
+            fi],[found_ssh=no]),[found_ssh=no])
+    if test "$found_ssh" = "no"; then
+        AC_MSG_ERROR(either specify a valid libssh installation with --with-ssh=DIR or disable libssh support with --disable-ssh)
+    fi
+    AC_SUBST(SSH_CPPFLAGS)
+    AC_SUBST(SSH_LDFLAGS)
+    AC_SUBST(SSH_LIBS)
+fi
+CPPFLAGS=${_cppflags}
+LDFLAGS=${_ldflags}
+
+
 # expat option might change flags, so we save them initially
 _cppflags="${CPPFLAGS}"
 _ldflags="${LDFLAGS}"
@@ -211,13 +291,10 @@ AC_SUBST(EXV_LIB_STATIC)
 # version.cpp requires link to psapi/Windows and dl/Unix builds
 case "$host_os" in
 *mingw* | *cygwin*)
-    EXV_LIBPSAPI="-lpsapi"
     LDFLAGS="$LDFLAGS -no-undefined -lpsapi" ;;
 *)
-    EXV_LIBPSAPI=
     LDFLAGS="$LDFLAGS -ldl" ;;
 esac
-AC_SUBST(EXV_LIBPSAPI)
 
 # ---------------------------------------------------------------------------
 # Create output files.
@@ -281,6 +358,28 @@ yes) echo "-- XMP metadata support........... YES" ;;
      echo "files are installed and use --with-expat=DIR if it is in a"
      echo "non-standard location. You can get Expat from"
      echo "http://expat.sourceforge.net/"
+     echo "" ;;
+esac
+
+case "$USE_CURL" in
+yes) echo "-- Using Lib Curl................. YES" ;;
+*)   echo "-- Using Lib Curl................. NO"
+     echo ""
+     echo "Libcurl is required for HttpIo in basicIo.cpp. Make sure the Curl header"
+     echo "files are installed and use --with-curl=DIR if it is in a"
+     echo "non-standard location. You can get Curl from"
+     echo "http://curl.haxx.se/libcurl/"
+     echo "" ;;
+esac
+
+case "$USE_SSH" in
+yes) echo "-- Using Lib SSH.................. YES" ;;
+*)   echo "-- Using Lib SSH.................. NO"
+     echo ""
+     echo "Libssh is required for SshIo in basicIo.cpp. Make sure the libssh header"
+     echo "files are installed and use --with-ssh=DIR if it is in a"
+     echo "non-standard location. You can get libssh from"
+     echo "http://www.libssh.org/get-it/"
      echo "" ;;
 esac
 

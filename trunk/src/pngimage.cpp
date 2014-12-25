@@ -29,19 +29,10 @@
 #include "rcsid_int.hpp"
 EXIV2_RCSID("@(#) $Id$")
 
-// *****************************************************************************
-
-//#define DEBUG 1
-
-// *****************************************************************************
 // included header files
-#ifdef _MSC_VER
-# include "exv_msvc.h"
-#else
-# include "exv_conf.h"
-#endif
+#include "config.h"
 
-#ifdef EXV_HAVE_LIBZ
+#ifdef   EXV_HAVE_LIBZ
 #include "pngchunk_int.hpp"
 #include "pngimage.hpp"
 #include "jpgimage.hpp"
@@ -98,6 +89,48 @@ namespace Exiv2 {
     std::string PngImage::mimeType() const
     {
         return "image/png";
+    }
+
+    void PngImage::printStructure()
+    {
+        if (io_->open() != 0) {
+            throw Error(9, io_->path(), strError());
+        }
+        IoCloser closer(*io_);
+        // Ensure that this is the correct image type
+        if (!isPngType(*io_, true)) {
+            if (io_->error() || io_->eof()) throw Error(14);
+            throw Error(3, "PNG");
+        }
+
+        printf("index   |  chunk_type  | chunk_size\n");
+        long index = 0, i = 0;
+        const long imgSize = io_->size();
+        DataBuf cheaderBuf(8);
+
+        while(!io_->eof()) {
+            std::memset(cheaderBuf.pData_, 0x0, cheaderBuf.size_);
+            long bufRead = io_->read(cheaderBuf.pData_, cheaderBuf.size_);
+            if (io_->error()) throw Error(14);
+            if (bufRead != cheaderBuf.size_) throw Error(20);
+
+            // Decode chunk data length.
+            uint32_t dataOffset = Exiv2::getULong(cheaderBuf.pData_, Exiv2::bigEndian);
+            long pos = io_->tell();
+            if (   pos == -1
+                || dataOffset > uint32_t(0x7FFFFFFF)
+                || static_cast<long>(dataOffset) > imgSize - pos) throw Exiv2::Error(14);
+
+            printf("%5ld       ", index);
+            for (i = 4; i < 8; i++)
+                printf("%c", cheaderBuf.pData_[i]);
+            printf("          %u\n", dataOffset);
+
+            index++;
+            io_->seek(dataOffset + 4 , BasicIo::cur);
+            if (io_->error() || io_->eof()) throw Error(14);
+        }
+
     }
 
     void PngImage::readMetadata()
