@@ -122,6 +122,7 @@ if [ -e config/config.mk ]; then
        mkdir bin
     fi
     make distclean
+    if [ -e test/data/eps ]; then rm -rf test/data/eps ; fi
 fi
 
 ##
