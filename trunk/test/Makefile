@@ -58,7 +58,7 @@ SHELL = /bin/sh
 
 ##
 # to save download time for simple build/test, we download video and eps data on demand
-SVN      = svn://dev.exiv2.org/svn/testdata/trunk
+SVN    = svn://dev.exiv2.org/svn/testdata/trunk
 
 ##
 # Add test drivers to this list
@@ -79,11 +79,13 @@ TESTS  = addmoddel.sh         \
          xmpparser-test.sh    \
          conversions.sh
 TESTV  = video-test.sh         
-TESTE  = eps-test.sh
+TESTE  = eps-test.sh         \
+         eps-preview-test.sh
+
 TESTVW = write-video-test.sh
-TESTX = httpiotest.sh     \
-        curliotest.sh     \
-        sshiotest.sh
+TESTX  = httpiotest.sh     \
+         curliotest.sh     \
+         sshiotest.sh
 
 tests:
 	cd .. ; make tests
