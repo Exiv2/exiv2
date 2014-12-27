@@ -61,6 +61,8 @@ EXIV2_RCSID("@(#) $Id$")
 #endif
 #if EXV_USE_SSH == 1
 #include "ssh.hpp"
+#else
+#define mode_t unsigned short
 #endif
 
 // Platform specific headers for handling extended attributes (xattr)
@@ -69,10 +71,7 @@ EXIV2_RCSID("@(#) $Id$")
 #endif
 
 #if defined WIN32 && !defined __CYGWIN__
-// Windows doesn't provide mode_t, nlink_t
-#ifndef EXV_USE_SSH
-typedef unsigned short mode_t;
-#endif
+// Windows doesn't provide nlink_t
 typedef short nlink_t;
 
 # include <windows.h>
@@ -124,12 +123,8 @@ namespace Exiv2 {
         // TYPES
         //! Simple struct stat wrapper for internal use
         struct StructStat {
-#if EXV_USE_SSH == 1
             StructStat() : st_mode(0), st_size(0), st_nlink(0) {}
             mode_t  st_mode;            //!< Permissions
-#else
-            StructStat() : st_size(0), st_nlink(0) {}
-#endif
 			off_t   st_size;            //!< Size
             nlink_t st_nlink;           //!< Number of hard links (broken on Windows, see winNumberOfLinks())
         };
@@ -261,9 +256,7 @@ namespace Exiv2 {
             if (0 == ret) {
                 buf.st_size = st.st_size;
                 buf.st_nlink = st.st_nlink;
-#if EXV_USE_SSH == 1
 				buf.st_mode = st.st_mode;
-#endif
             }
         }
         return ret;
@@ -688,9 +681,7 @@ namespace Exiv2 {
             close();
 
             bool statOk = true;
-#if EXV_USE_SSH == 1
 			mode_t origStMode = 0;
-#endif
 			std::string spf;
             char* pf = 0;
 #ifdef EXV_UNICODE_PATH
@@ -720,9 +711,7 @@ namespace Exiv2 {
                 EXV_WARNING << Error(2, pf, strError(), "::lstat") << "\n";
 #endif
             }
-#if EXV_USE_SSH == 1
             origStMode = buf1.st_mode;
-#endif
             DataBuf lbuf; // So that the allocated memory is freed. Must have same scope as pf
             // In case path() is a symlink, get the path of the linked-to file
             if (statOk && S_ISLNK(buf1.st_mode)) {
@@ -739,18 +728,14 @@ namespace Exiv2 {
                     EXV_WARNING << Error(2, pf, strError(), "::stat") << "\n";
 #endif
                 }
-#if EXV_USE_SSH == 1
                 origStMode = buf1.st_mode;
-#endif
             }
 #else // EXV_HAVE_LSTAT
             Impl::StructStat buf1;
             if (p_->stat(buf1) == -1) {
                 statOk = false;
             }
-#if EXV_USE_SSH == 1
 			origStMode = buf1.st_mode;
-#endif
 #endif // !EXV_HAVE_LSTAT
 
             // MSVCRT rename that does not overwrite existing files
@@ -874,7 +859,6 @@ namespace Exiv2 {
                     EXV_WARNING << Error(2, pf, strError(), "::stat") << "\n";
 #endif
                 }
-#if EXV_USE_SSH == 1
 				if (statOk && origStMode != buf2.st_mode) {
                     // Set original file permissions
                     if (::chmod(pf, origStMode) == -1) {
@@ -883,7 +867,6 @@ namespace Exiv2 {
 #endif
                     }
                 }
-#endif
 			}
         } // if (fileIo)
         else {
@@ -2370,7 +2353,6 @@ namespace Exiv2 {
 #endif
 
 #endif
-
 
 #if EXV_USE_SSH == 1
     //! Internal Pimpl structure of class RemoteIo.
