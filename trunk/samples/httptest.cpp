@@ -9,6 +9,11 @@
 #include <stdlib.h>
 using namespace std;
 
+#if     defined(_MSC_VER)
+#pragma comment(lib, "ws2_32.lib")
+#pragma comment(lib, "wldap32.lib")
+#endif
+
 static int testSyntax(const char* arg)
 {
 	if ( !arg ) {
