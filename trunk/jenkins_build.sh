@@ -152,8 +152,10 @@ case "$build" in
         # I've given up:
         # 1. trying to get Cygwin to build with gettext and friends
         # 2. trying to get Cygwin to install into a local directory
-        echo ./configure ${withcurl} ${withssh}
-             ./configure ${withcurl} ${withssh}
+        make distclean
+        make config
+        echo ./configure ${withcurl} ${withssh} --disable-nls
+             ./configure ${withcurl} ${withssh} --disable-nls
         make -j4
         # result=$?
         make install
