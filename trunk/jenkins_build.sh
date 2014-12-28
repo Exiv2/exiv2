@@ -78,6 +78,10 @@ else
 fi
 
 ##
+# the cygwin version of perl does not seem to work correctly with autotools!
+if [ $PLATFORM == cygwin ]; then export "PATH=/c/Perl64/bin:$PATH" ; fi
+
+##
 # set up some defaults (used when running this script from the terminal)
 echo "1 target = $target platform = $PLATFORM WORKSPACE = $WORKSPACE"
 if [ $PLATFORM == "macosx" -a -z "$macosx"   ]; then export macosx=true ; export target=macosx    ; fi
@@ -132,19 +136,22 @@ if [ $PLATFORM == "cygwin" -a "$target" == "msvc"   -a "$msvc"   == "true"  ]; t
 if [ $PLATFORM == "mingw"  -a "$target" == "mingw"                          ]; then build=MING ; fi
 
 echo "3 target = $target platform = $PLATFORM build = $build"
+echo ---- path and perl -----
+(IFS=:;for i in $PATH; do echo $i ; done)
+echo -- which perl = $(which perl) ---
+perl --version
+echo ---- end of path and perl ----
 
 case "$build" in
   UNIX) 
-        echo -------------
-        echo ./configure --prefix=$PWD/usr $withcurl $withssh
-        echo -------------
-        ./configure "--prefix=$PWD/usr" $withcurl $withssh
+        echo ./configure  --prefix=$PWD/usr  $withcurl $withssh
+             ./configure "--prefix=$PWD/usr" $withcurl $withssh
         make -j4 "LDFLAGS=-L${PWD}/usr/lib -L${PWD}/xmpsdk/src/.libs"
         make install
         make -j4 samples "CXXFLAGS=-I${PWD}/usr/include -I${PWD}/src" "LDFLAGS=-L${PWD}/usr/lib -L${PWD}/xmpsdk/src/.libs -lexiv2"
         result=$?
         run_tests
-        "$PWD/usr/bin/exiv2" -v -V
+        exiv2 -v -V
   ;;
   
   CYGW) 
@@ -152,8 +159,6 @@ case "$build" in
         # I've given up:
         # 1. trying to get Cygwin to build with gettext and friends
         # 2. trying to get Cygwin to install into a local directory
-        make distclean
-        make config
         echo ./configure ${withcurl} ${withssh} --disable-nls
              ./configure ${withcurl} ${withssh} --disable-nls
         make -j4
