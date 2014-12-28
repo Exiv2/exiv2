@@ -71,6 +71,7 @@ if [ `uname` == Darwin  ]; then
     PLATFORM=macosx
 elif [ `uname -o` == Cygwin ]; then
     PLATFORM=cygwin
+    # tweak path to ensure the correct version of perl and expr for autotools
     export "PATH=/bin:$PATH"
 elif [ `uname -o` == Msys ]; then
     PLATFORM=mingw
