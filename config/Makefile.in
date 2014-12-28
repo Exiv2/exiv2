@@ -124,7 +124,7 @@ mostlyclean clean: config/config.mk
 # for packaging.
 distclean: clean
 	rm -f config.log config.status libtool
-	rm -rf test/eps test/video
+	rm -rf test/data/eps test/data/video
 	rm -f *~ *.bak
 	if [ -e bin ]; then rm -rf bin ; fi
 
