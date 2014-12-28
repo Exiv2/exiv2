@@ -150,7 +150,7 @@ case "$build" in
         make -j4 samples "CXXFLAGS=-I${PWD}/usr/include -I${PWD}/src" "LDFLAGS=-L${PWD}/usr/lib -L${PWD}/xmpsdk/src/.libs -lexiv2"
         result=$?
         run_tests
-        exiv2 -v -V
+        "$PWD/usr/bin/exiv2" -v -V
   ;;
   
   CYGW) 
@@ -165,7 +165,7 @@ case "$build" in
         make install
         make -j4 samples
         run_tests
-        exiv2 -v -V
+        /usr/local/bin/exiv2 -v -V
   ;;
 
   MING) 
