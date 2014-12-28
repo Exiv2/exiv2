@@ -63,7 +63,7 @@ set webready=false
 if %curl% == true if %libssh% == true if %openssl% == true set webready=true
 if %webready% == true (
     copy/y exiv2-webready.sln e.sln
-    copy/y ..\include\exiv2\exv-msvc-webready.h ..\include\exiv2\exv-msvc.h
+    copy/y ..\include\exiv2\exv_msvc-webready.h ..\include\exiv2\exv_msvc.h
 ) 
 
 rem --
