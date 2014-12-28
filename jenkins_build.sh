@@ -78,10 +78,6 @@ else
 fi
 
 ##
-# the cygwin version of perl does not seem to work correctly with autotools!
-if [ $PLATFORM == cygwin ]; then export "PATH=/c/Perl64/bin:$PATH" ; fi
-
-##
 # set up some defaults (used when running this script from the terminal)
 echo "1 target = $target platform = $PLATFORM WORKSPACE = $WORKSPACE"
 if [ $PLATFORM == "macosx" -a -z "$macosx"   ]; then export macosx=true ; export target=macosx    ; fi
