@@ -291,7 +291,7 @@ AC_SUBST(EXV_LIB_STATIC)
 # version.cpp requires link to psapi/Windows and dl/Unix builds
 case "$host_os" in
 *mingw* | *cygwin*)
-    LDFLAGS="$LDFLAGS -no-undefined -lpsapi" ;;
+    LDFLAGS="$LDFLAGS -no-undefined -lpsapi -lwldap32 -lws2_32" ;;
 *)
     LDFLAGS="$LDFLAGS -ldl" ;;
 esac
