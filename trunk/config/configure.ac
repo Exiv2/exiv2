@@ -181,7 +181,7 @@ if test "$with_curl" != "no"; then
                 CURL_LDFLAGS="-L${CURL_DIR}/lib"
             fi],[found_curl=no]),[found_curl=no])
     if test "$found_curl" = "no"; then
-        AC_MSG_ERROR(either specify a valid curl installation with --with-curl=DIR or disable libcurl support with --disable-curl)
+        AC_MSG_ERROR(either specify a valid curl installation with --with-curl=DIR or use --without-curl)
     fi
     AC_SUBST(CURL_CPPFLAGS)
     AC_SUBST(CURL_LDFLAGS)
@@ -221,7 +221,7 @@ if test "$with_ssh" != "no"; then
                 SSH_LDFLAGS="-L${SSH_DIR}/lib"
             fi],[found_ssh=no]),[found_ssh=no])
     if test "$found_ssh" = "no"; then
-        AC_MSG_ERROR(either specify a valid libssh installation with --with-ssh=DIR or disable libssh support with --disable-ssh)
+        AC_MSG_ERROR(either specify a valid libssh installation with --with-ssh=DIR or use --without-ssh)
     fi
     AC_SUBST(SSH_CPPFLAGS)
     AC_SUBST(SSH_LDFLAGS)

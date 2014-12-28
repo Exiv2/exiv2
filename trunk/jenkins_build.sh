@@ -64,22 +64,6 @@ if [ "$1" == "status" ]; then
     exit $result
 fi
 
-
-##
-# Quick dodge, use rmills ~/bin/.profile to set some environment variables
-# I think I need this is necessary to find pkg-config
-# This code will be removed later
-# set +v
-DIR="$PWD"
-if [ -e /home/rmills/bin/.profile ]; then
-    source /home/rmills/bin/.profile
-fi
-if [ -e /Users/rmills/bin/.profile ]; then
-    source /Users/rmills/bin/.profile
-fi
-cd "$DIR"
-# set -v
-
 ##
 # where are we?
 export PLATFORM=''
@@ -193,9 +177,9 @@ case "$build" in
 
   MING) 
         if [ ! -z "$BUILDMINGW" ]; then
-            export CC=$(which gcc)
-            export CXX=$(which g++)
-            export PKG_CONFIG_PATH=/usr/local/lib/pkgconfig
+            export  CC=$(which gcc)
+            export  CXX=$(which g++)
+            export "PKG_CONFIG_PATH=/usr/local/lib/pkgconfig:/usr/lib/pkgconfig"
             echo --- recursive MinGW build ---
 
             ##########################
