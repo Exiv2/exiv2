@@ -71,6 +71,7 @@ if [ `uname` == Darwin  ]; then
     PLATFORM=macosx
 elif [ `uname -o` == Cygwin ]; then
     PLATFORM=cygwin
+    export "PATH=/bin:$PATH"
 elif [ `uname -o` == Msys ]; then
     PLATFORM=mingw
 else
@@ -135,6 +136,7 @@ echo "3 target = $target platform = $PLATFORM build = $build"
 echo ---- path and perl -----
 (IFS=:;for i in $PATH; do echo $i ; done)
 echo -- which perl = $(which perl) ---
+echo -- which expr = $(which expr) ---
 perl --version
 echo ---- end of path and perl ----
 
