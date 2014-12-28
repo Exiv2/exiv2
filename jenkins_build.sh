@@ -117,8 +117,8 @@ make config &>/dev/null
 # decide what to do about curl and ssh
 export withcurl='--without-curl'
 export withssh='--without-ssh'
-if [ "$curl" == "true" ]; then withcurl=--with-curl ; fi
-if [ "$ssh"  == "true" ]; then withssh=--with-ssh   ; fi
+if [ "$curl" == "true" ]; then export withcurl=--with-curl ; fi
+if [ "$ssh"  == "true" ]; then export withssh=--with-ssh   ; fi
 
 ##
 # what kind of build is this?
@@ -136,9 +136,9 @@ echo "3 target = $target platform = $PLATFORM build = $build"
 case "$build" in
   UNIX) 
         echo -------------
-        echo ./configure --prefix=$PWD/usr  $withcurl $withssh
+        echo ./configure --prefix=$PWD/usr $withcurl $withssh
         echo -------------
-        ./configure "--prefix=$PWD/usr"  $withcurl $withssh
+        ./configure "--prefix=$PWD/usr" $withcurl $withssh
         make -j4 "LDFLAGS=-L${PWD}/usr/lib -L${PWD}/xmpsdk/src/.libs"
         make install
         make -j4 samples "CXXFLAGS=-I${PWD}/usr/include -I${PWD}/src" "LDFLAGS=-L${PWD}/usr/lib -L${PWD}/xmpsdk/src/.libs -lexiv2"
@@ -152,7 +152,8 @@ case "$build" in
         # I've given up:
         # 1. trying to get Cygwin to build with gettext and friends
         # 2. trying to get Cygwin to install into a local directory
-        ./configure --disable-nls $withcurl $withssh
+        echo ./configure ${withcurl} ${withssh}
+             ./configure ${withcurl} ${withssh}
         make -j4
         # result=$?
         make install
