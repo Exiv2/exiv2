@@ -82,9 +82,9 @@ fi
 echo "1 target = $target platform = $PLATFORM WORKSPACE = $WORKSPACE"
 if [ $PLATFORM == "macosx" -a -z "$macosx"   ]; then export macosx=true ; export target=macosx    ; fi
 if [ $PLATFORM == "linux"  -a -z "$linux"    ]; then export linux=true  ; export target=linux     ; fi
-if [ -z "$cygwin"    -a ! -z "$CYGWIN" ]; then export cygwin=$CYGWIN              ; fi       
-if [ -z "$tests"     ]; then export tests=true                         ; fi
-if [ -z "$WORKSPACE" ]; then export WORKSPACE="$0/$PLATFORM"                  ; fi
+if [ -z "$cygwin"    -a ! -z "$CYGWIN"       ]; then export cygwin=$CYGWIN                        ; fi       
+if [ -z "$tests"                             ]; then export tests=true                            ; fi
+if [ -z "$WORKSPACE"                         ]; then export WORKSPACE="$0/$PLATFORM"              ; fi
 
 if [ -z "$target" ]; then export target=$(basename $(echo $WORKSPACE | sed -E -e 's#\\#/#g'))     ; fi
 echo "2 target = $target platform = $PLATFORM WORKSPACE = $WORKSPACE"
@@ -115,18 +115,10 @@ make config &>/dev/null
 
 ##
 # decide what to do about curl and ssh
-# 3 possibilities:
-# 1 withcurl is empty          (for 0.24 builds without WebReady support)
-# 2 withcurl == --with-curl    (build supports curl and not requested)
-# 3 withcurl == --without-curl (build supports curl and requested)
-export withcurl=''
-export withssh=''
-if grep -q curl ./configure ; then
-    if [ "$curl" == "true" ]; then withcurl=--with-curl ; else withcurl=--without-curl; fi
-fi
-if grep -q ssh  ./configure ; then
-    if [ "$ssh"  == "true" ]; then withssh=--with-ssh   ; else withssh=--without-ssh  ; fi
-fi
+export withcurl='--without-curl'
+export withssh='--without-ssh'
+if [ "$curl" == "true" ]; then withcurl=--with-curl ; fi
+if [ "$ssh"  == "true" ]; then withssh=--with-ssh   ; fi
 
 ##
 # what kind of build is this?
@@ -160,7 +152,7 @@ case "$build" in
         # I've given up:
         # 1. trying to get Cygwin to build with gettext and friends
         # 2. trying to get Cygwin to install into a local directory
-        ./configure --disable-nls  $withcurl $withssh
+        ./configure --disable-nls $withcurl $withssh
         make -j4
         # result=$?
         make install
@@ -289,6 +281,7 @@ case "$build" in
   NONE) 
         echo "**************************************"
         echo "*** no build requested for $target ***"
+        if [ "$target" == "cygwin" ]; then echo try export CYGWIN=true and run $(basename $0) again ; fi
         echo "**************************************"
   ;; 
 esac
