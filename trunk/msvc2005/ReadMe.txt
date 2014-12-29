@@ -101,7 +101,7 @@ T A B L E  o f  C O N T E N T S
      
      To build with webready:
      1 copy include\exiv2\exv_msvc-webready.h include\exiv2\exv_msvc.h
-     2 open open msvc2005\exiv2-webready.vcproj      
+     2 open msvc2005\exiv2-webready.vcproj      
 
 1.5  What is built
      The DLL builds use the DLL version of the C runtime libraries
