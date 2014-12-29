@@ -143,6 +143,8 @@ popd
 
 rem delete the support libraries (with mozilla's native rm utility)
 msvc2005\tools\bin\rm.exe -rf ..\expat ..\zlib ..\openssl ..\libssh ..\curl
+cd ..
+c:\cygwin64\bin\rm.exe -rf openssl
 
 rem That's all Folks!
 rem -----------------
