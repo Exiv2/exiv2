@@ -66,6 +66,8 @@ if %webready% == true (
     copy/y ..\include\exiv2\exv_msvc-webready.h ..\include\exiv2\exv_msvc.h
 ) 
 
+echo ------- from jenkins_build.bat ------------
+set PATH=c:\perl64\bin;%PATH%
 set | sort
 perl --version
 
