@@ -66,6 +66,9 @@ if %webready% == true (
     copy/y ..\include\exiv2\exv_msvc-webready.h ..\include\exiv2\exv_msvc.h
 ) 
 
+set | sort
+perl --version
+
 rem --
 rem Now build and test
 
