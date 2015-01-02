@@ -33,6 +33,7 @@
 // *********************************************************************
 // included header files
 #include "config.h"
+#include "types.hpp"
 
 #define UNUSED(x) (void)(x)
 
@@ -41,7 +42,6 @@
 #endif
 
 // + standard includes
-#include <types.hpp>
 #include <string>
 #include <map>
 #include <limits.h>						 // for UINT_MAX
