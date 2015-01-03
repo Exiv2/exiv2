@@ -26,7 +26,7 @@
 // included header files
 #include "config.h"
 
-#include "exiv2.hpp"
+#include "http.hpp"
 
 #include <sys/types.h>
 #include <stdio.h>

@@ -5,7 +5,7 @@
 #include <map>
 #include <algorithm>
 
-#include <exiv2/exiv2.hpp>
+#include "exiv2.hpp"
 
 namespace Exiv2 {
     typedef std::map<std::string,std::string> dict_t;
