@@ -52,12 +52,14 @@ namespace Exiv2 {
 
     //! Quality, tag 0x0001
     extern const TagDetails panasonicQuality[] = {
-        { 1, N_("TIFF")           },
-        { 2, N_("High")           },
-        { 3, N_("Normal")         },
-        { 6, N_("Very High")      },
-        { 7, N_("Raw")            },
-        { 9, N_("Motion Picture") }
+        {  1, N_("TIFF")           },
+        {  2, N_("High")           },
+        {  3, N_("Normal")         },
+        {  6, N_("Very High")      },
+        {  7, N_("Raw")            },
+        {  9, N_("Motion Picture") },
+        { 11, N_("Full HD Movie")  },
+        { 12, N_("4k Movie")       }
     };
 
     //! WhiteBalance, tag 0x0003
