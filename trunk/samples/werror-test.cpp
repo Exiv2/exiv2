@@ -2,8 +2,9 @@
 // werror-test.cpp, $Rev$
 // Simple tests for the wide-string error class WError
 
-#include <iostream>
 #include <exiv2/exiv2.hpp>
+
+#include <iostream>
 
 int main()
 {

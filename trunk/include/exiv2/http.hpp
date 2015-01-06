@@ -5,8 +5,6 @@
 #include <map>
 #include <algorithm>
 
-#include "exiv2.hpp"
-
 namespace Exiv2 {
     typedef std::map<std::string,std::string> dict_t;
     typedef dict_t::iterator                  dict_i;

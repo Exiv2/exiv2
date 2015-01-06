@@ -28,14 +28,14 @@
  */
 // *****************************************************************************
 // included header files
-#include "image.hpp"
-#include "iptc.hpp"
-#include "exif.hpp"
-#include "types.hpp"
-#include "metacopy.hpp"
+#include <exiv2/exiv2.hpp>
+
 #include <iostream>
 #include <fstream>
 #include <cassert>
+
+#include "utils.hpp"
+#include "metacopy.hpp"
 
 // *****************************************************************************
 // Main

@@ -2,6 +2,9 @@
 // tiffaddpath-test.cpp, $Rev$
 // Test driver to test adding new tags to a TIFF composite structure
 
+
+#include <exiv2/exiv2.hpp>
+
 #include "tiffcomposite_int.hpp"
 #include "makernote2_int.hpp"
 #include "tiffimage_int.hpp"

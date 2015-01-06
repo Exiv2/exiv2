@@ -6,12 +6,13 @@
 
 svn_version_h=svn_version.h
 svn_version=$(svn info .. 2>/dev/null)
+s=$?
 
 ##
 # from Jenkins, svn is almost always a disaster because
 # Jenkins SVN Jenkins is 1.7 and the build machine is normally at least 1.8
-if [ $? == 0 ]; then
-	svn_version=$(echo $svn_version | grep ^Revision | cut -f 2 -d' ')
+if [ "$s" == "0" ]; then
+	svn_version=$(svn info .. | grep ^Revision | cut -f 2 -d' ')
     if [ -z "$svn_version"   ]; then svn_version=0 ; fi
 else
 	svn_version=0

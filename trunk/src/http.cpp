@@ -27,6 +27,7 @@
 #include "config.h"
 
 #include "http.hpp"
+#include "futils.hpp"
 
 #include <sys/types.h>
 #include <stdio.h>

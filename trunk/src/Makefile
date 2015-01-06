@@ -84,7 +84,6 @@ CCSRC =  asfvideo.cpp      \
 	 fujimn.cpp            \
 	 gifimage.cpp          \
 	 http.cpp              \
-	 ssh.cpp               \
 	 image.cpp             \
 	 iptc.cpp              \
 	 jp2image.cpp          \
@@ -113,6 +112,7 @@ CCSRC += preview.cpp       \
 	 riffvideo.cpp         \
 	 rw2image.cpp          \
 	 samsungmn.cpp         \
+	 ssh.cpp               \
 	 sigmamn.cpp           \
 	 sonymn.cpp            \
 	 tags.cpp              \
@@ -133,8 +133,9 @@ endif
 
 # Source files for the Exiv2 application
 EXIV2MAIN = exiv2.cpp
-EXIV2SRC  = actions.cpp    \
-	        utils.cpp
+EXIV2SRC  = actions.cpp \
+            utils.cpp
+
 # C source files for the Exiv2 application
 ifndef HAVE_TIMEGM
 EXIVCSRC  = localtime.c

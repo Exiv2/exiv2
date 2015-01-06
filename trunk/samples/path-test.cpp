@@ -1,11 +1,14 @@
 // ***************************************************************** -*- C++ -*-
 // path-test.cpp, $Rev$
 
-#include "utils.hpp"
+#include <exiv2/exiv2.hpp>
+
 #include <iostream>
 #include <fstream>
 #include <sstream>
 #include <string>
+
+#include "utils.hpp"
 
 int main(int argc, char* const argv[])
 {
