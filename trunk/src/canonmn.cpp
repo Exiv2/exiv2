@@ -651,8 +651,9 @@ namespace Exiv2 {
         {  33, "Carl Zeiss Distagon 21mm T* f/2.8 ZE"                       }, // 6
         {  33, "Carl Zeiss Distagon 28mm T* f/2 ZE"                         }, // 7
         {  33, "Carl Zeiss Distagon 35mm T* f/2 ZE"                         }, // 8
-        {  33, "Carl Zeiss Planar 50mm T* f/1.4 ZE"                         }, // 9
-        {  33, "Carl Zeiss Apo-Sonnar T* 135mm f/2 ZE"                      }, // 10
+        {  33, "Carl Zeiss Apo-Sonnar T* 135mm f/2 ZE"                      }, // 9
+        {  33, "Carl Zeiss Planar 50mm T* f/1.4 ZE"                         }, // 10
+        {  33, "Carl Zeiss Makro-Planar T* 100mm f/2 ZE"                    }, // 11
         {  35, "Canon EF 35-80mm f/4-5.6"                                   },
         {  36, "Canon EF 38-76mm f/4.5-5.6"                                 },
         {  37, "Canon EF 35-80mm f/4-5.6"                                   }, // 0
@@ -727,10 +728,10 @@ namespace Exiv2 {
         { 148, "Canon EF 28-80mm f/3.5-5.6 USM"                             },
         { 149, "Canon EF 100mm f/2 USM"                                     },
         { 150, "Canon EF 14mm f/2.8L"                                       }, // 0
-        { 150, "Sigma 20mm f/1.8 EX DG"                                     }, // 1
+        { 150, "Sigma 20mm EX f/1.8"                                        }, // 1
         { 150, "Sigma 30mm f/1.4 DC HSM"                                    }, // 2
-        { 150, "Sigma 24mm f/1.8 EX DG Macro"                               }, // 3
-        { 150, "Sigma 28mm f/1.8 EX DG Macro"                               }, // 4
+        { 150, "Sigma 24mm f/1.8 DG Macro EX"                               }, // 3
+        { 150, "Sigma 28mm f/1.8 DG Macro EX"                               }, // 4
         { 151, "Canon EF 200mm f/2.8L"                                      },
         { 152, "Canon EF 300mm f/4L IS"                                     }, // 0
         { 152, "Sigma 12-24mm f/4.5-5.6 EX DG ASPHERICAL HSM"               }, // 1
@@ -838,7 +839,8 @@ namespace Exiv2 {
         { 231, "Canon EF 17-40mm f/4L"                                      },
         { 232, "Canon EF 70-300mm f/4.5-5.6 DO IS USM"                      },
         { 233, "Canon EF 28-300mm f/3.5-5.6L IS"                            },
-        { 234, "Canon EF-S 17-85mm f4-5.6 IS USM"                           },
+        { 234, "Canon EF-S 17-85mm f4-5.6 IS USM"                           }, // 0
+        { 234, "Tokina AT-X 12-28mm f/4 PRO DX"                             }, // 1
         { 235, "Canon EF-S 10-22mm f/3.5-4.5 USM"                           },
         { 236, "Canon EF-S 60mm f/2.8 Macro USM"                            },
         { 237, "Canon EF 24-105mm f/4L IS"                                  },
@@ -925,7 +927,8 @@ namespace Exiv2 {
         { 180, printCsLensByFocalLength },
         { 183, printCsLensByFocalLength }, // not tested
         { 198, printCsLensByFocalLength }, // not tested
-        { 213, printCsLensByFocalLength }  // not tested
+        { 213, printCsLensByFocalLength }, // not tested
+        { 234, printCsLensByFocalLength }  // not tested
     };
 
     //! FlashActivity, tag 0x001c
