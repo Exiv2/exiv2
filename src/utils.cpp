@@ -34,8 +34,6 @@ EXIV2_RCSID("@(#) $Id$")
 #include "utils.hpp"
 
 // + standard includes
-#include <sys/types.h>
-#include <sys/stat.h>
 #if defined(_MSC_VER)
 # include "getopt_win32.h"
 # define S_ISREG(m)      (((m) & S_IFMT) == S_IFREG)
@@ -45,6 +43,8 @@ EXIV2_RCSID("@(#) $Id$")
 # include <unistd.h>                     // for getopt(), stat()
 #endif
 
+#include <sys/types.h>
+#include <sys/stat.h>
 #include <climits>
 #include <cerrno>
 #include <cstdlib>

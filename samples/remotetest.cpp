@@ -5,6 +5,7 @@
 // and reset the metadata back to the original status.
 
 #include <exiv2/exiv2.hpp>
+
 #include <iostream>
 #include <iomanip>
 #include <cassert>

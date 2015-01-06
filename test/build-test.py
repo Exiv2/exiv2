@@ -73,12 +73,12 @@ def expect(dict,expects):
 ## 
 def apple(dict):
     expects= [ 'libSystem.B.dylib'
-             , 'libexpat.1.dylib'            
+             , 'libexpat.1.dylib'
              , 'libz.1.dylib'
              , 'libiconv.2.dylib'
-             , 'libstdc++.6.dylib'
              , 'libdyld.dylib'
              , 'libc++.1.dylib'
+             # , 'libstdc++.6.dylib' # I suspect this is only with GCC (Xcode4 and earlier)
              ] ;
 
     # which version of MacOS-X ?

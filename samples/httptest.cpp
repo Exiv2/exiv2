@@ -4,7 +4,8 @@
  This application is to test http.cpp. It provides the function to GET|HEAD|PUT the file via http protocol.
  */
 
-#include "http.hpp"
+#include <exiv2/exiv2.hpp>
+
 #include <iostream>
 #include <stdlib.h>
 using namespace std;
