@@ -655,7 +655,7 @@ namespace Exiv2 {
                    "table, the ColorMap."),
                 ifd0Id, tiffPm6, unsignedShort, 1, EXV_PRINT_TAG(exifIndexed)), // TIFF&PM6 tag
         TagInfo(0x015b, "JPEGTables", N_("JPEG tables"),
-                N_("This optional tag may be used to encode the JPEG quantization and"
+                N_("This optional tag may be used to encode the JPEG quantization and "
                    "Huffman tables for subsequent use by the JPEG decompression process."),
                 ifd0Id, imgStruct, undefined, 0, printValue), // TIFF/EP tag
         TagInfo(0x015F, "OPIProxy", N_("OPI Proxy"),
