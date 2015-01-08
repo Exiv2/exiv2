@@ -78,13 +78,18 @@ TESTS  = addmoddel.sh         \
          write2-test.sh       \
          xmpparser-test.sh    \
          conversions.sh
+
+# video tests
 TESTV  = video-test.sh         
-TESTE  = eps-test.sh         \
+TESTVW = write-video-test.sh
+
+# EPS tests
+TESTE  = eps-test.sh          \
          eps-preview-test.sh
 
-TESTVW = write-video-test.sh
-TESTX  = httpiotest.sh     \
-         curliotest.sh     \
+# webready tests
+TESTX  = httpiotest.sh        \
+         curliotest.sh        \
          sshiotest.sh
 
 tests:
@@ -120,10 +125,7 @@ testvw:
 	    echo Running $$p ...; \
 	    ./$$p; \
 	done
-##
 
-##
-# TODO: download eps data on demand for 0.24 (similar to testv)
 teste:
 	@for t in /eps ; do \
 		if [ ! -e data/$$t ]; then \
@@ -135,8 +137,6 @@ teste:
 	    ./$$p; \
 	done
 
-##
-# TODO: test httpIo and remoteIo
 testx:
 	@list='$(TESTX)'; for p in $$list; do \
 	    echo Running $$p ...; \

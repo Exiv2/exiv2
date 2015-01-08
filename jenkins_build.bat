@@ -1,9 +1,13 @@
 @echo off
+
 rem --
+rem
 rem build exiv2 library from Jenkins (or the command-line)
+rem
+rem --
 
-rem if NOT %label%==MSVC exit/b 0
-
+rem --
+rem set up defaults for undefined variables used by this script
 if NOT DEFINED ACTION        set ACTION=/build
 if NOT DEFINED COMPILER      set COMPILER=G++
 if NOT DEFINED BuildEnv      set BuildEnv=native
@@ -31,49 +35,63 @@ if %openssl%==true           set curl=true
 if %ACTION%==/clean          set tests=false
 if %ACTION%==/upgrade        set tests=false
 
+rem --
+rem init the build environment for the builder
+rem currently, only 2003 (32 bit) and 2005 (32 and 64 bit) are supported
+rem adding additional MSVC compilers (2008, 2010, 2012, etc) should be simple
+rem and has not been done for expediency
+rem should only require:
+rem 1    Invoke the appropriate vsvars32.bat script
+rem 2    Run devenv/upgrade 
+rem 3    set Builder=2005
+rem and all should be good
+set BGOOD=0
 if %Builder%==2003 (
   set   x64=false
   set   Win32=true
   set   curl=false
   set   openssl=false
   set   libssh=false
-  echo ------------------
-  echo calling vcvars32 for Visual Studio 2003
   call "C:\Program Files (x86)\Microsoft Visual Studio .NET 2003\Common7\Tools\vsvars32.bat"
-  set | sort
-  echo ------------------
   pushd msvc2003
+  set   BGOOD=1
 )
 
 if %Builder%==2005 (
-  rem if NOT DEFINED INCLUDE       set "INCLUDE=C:\Program Files (x86)\Microsoft Visual Studio 8\VC\ATLMFC\INCLUDE;C:\Program Files (x86)\Microsoft Visual Studio 8\VC\INCLUDE;C:\Program Files (x86)\Microsoft Visual Studio 8\VC\PlatformSDK\include;c:\Program Files (x86)\Microsoft Visual Studio .NET 2003\SDK\v1.1\include\;c:\home\rmills\dev\win32\boost\include\boost-1_42
-  rem if NOT DEFINED LIB           set "LIB=C:\Program Files (x86)\Microsoft Visual Studio 8\VC\ATLMFC\LIB;C:\Program Files (x86)\Microsoft Visual Studio 8\VC\LIB;C:\Program Files (x86)\Microsoft Visual Studio 8\VC\PlatformSDK\lib;C:\Program Files (x86)\Microsoft Visual Studio 8\SDK\v2.0\lib;c:\Program Files (x86)\Microsoft Visual Studio .NET 2003\SDK\v1.1\Lib\"
-  rem if NOT DEFINED LIBPATH       set "LIBPATH=C:\Windows\Microsoft.NET\Framework\v2.0.50727;C:\Program Files (x86)\Microsoft Visual Studio 8\VC\ATLMFC\LIB"
-  rem if NOT DEFINED VS80COMNTOOLS set "VS80COMNTOOLS=C:\Program Files (x86)\Microsoft Visual Studio 8\Common7\Tools\"
-
-  rem ----------------------------------------------
-  rem  set the build environment
   call "C:\Program Files (x86)\Microsoft Visual Studio 8\Common7\Tools\vsvars32.bat"
-
   pushd msvc2005
+  set   BGOOD=1
 )
 
-call copylibs.bat
+rem --
+rem check we have a good builder
+rem we could test label and msvc
+rem if NOT %label%==MSVC exit/b 1
+rem if NOT %msvc%==true  exit/b 1
+if %BGOOD%==0 (
+  echo "MSVC Builder %Builder% is not supported"
+  exit/b 1
+)
 
 rem --
 rem FOO is the current directory in cygwin (/cygdrive/c/users/shared/workspace/exiv2-trunk/label/msvc)
 rem we need this to set the correct directory when we run the test suite from Cygwin
 for /f "tokens=*" %%a in ('cygpath -au ..') do set FOO=%%a
 
+rem --
+rem  copy external library code and other files appropriate for the build requested
 copy exiv2.sln e.sln
+call copylibs.bat
 
 set webready=false
 if %curl% == true if %libssh% == true if %openssl% == true set webready=true
 if %webready% == true (
-    copy/y exiv2-webready.sln e.sln
-    copy/y ..\include\exiv2\exv_msvc-webready.h ..\include\exiv2\exv_msvc.h
+  copy/y exiv2-webready.sln e.sln
+  copy/y ..\include\exiv2\exv_msvc-webready.h ..\include\exiv2\exv_msvc.h
 ) 
 
+rem --
+rem let the user know what's going on!
 echo ------- from jenkins_build.bat ------------
 set PATH=c:\perl64\bin;%PATH%
 set | sort
@@ -162,9 +180,12 @@ if %x64%==true   (
       if NOT ERRORLEVEL 1 if %tests%==true call bash -c 'cd %FOO%;cd test;./testMSVC.sh ../msvc2005/bin/x64/ReleaseDLL'
 ) ) )
 
+rem --
+rem cleanup time
 del e.sln
 popd
 
+rem --
 rem delete support libraries (with mozilla's native rm utility)
 if %Builder%==2003 msvc2005\tools\bin\rm.exe -rf ..\expat-2.0.1 ..\zlib-1.2.3
 if %Builder%==2005 msvc2005\tools\bin\rm.exe -rf ..\expat ..\zlib ..\openssl ..\libssh ..\curl
