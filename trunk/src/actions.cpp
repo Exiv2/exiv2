@@ -149,6 +149,15 @@ namespace {
              exists and shouldn't be overwritten, else 0.
      */
     int dontOverwrite(const std::string& path);
+
+    /*!
+      @brief Output a text with a given minimum number of chars, honoring
+             multi-byte characters correctly. Replace code in the form
+             os << setw(width) << myString
+             with
+             os << make_pair( myString, width)
+     */
+    std::ostream& operator<<( std::ostream& os, std::pair< const std::string&, unsigned int> strAndWidth);
 }
 
 // *****************************************************************************
@@ -443,8 +452,8 @@ namespace Action {
         if (Params::instance().files_.size() > 1) {
             std::cout << std::setw(20) << path_ << " ";
         }
-        std::cout << std::setw(align_)
-                  << label << ": ";
+        std::cout << std::make_pair( label, align_)
+                  << ": ";
     }
 
     int Print::printTag(const Exiv2::ExifData& exifData,
@@ -2008,5 +2017,17 @@ namespace {
         }
         return 0;
     }
+
+	std::ostream& operator<<( std::ostream& os, std::pair< const std::string&, unsigned int> strAndWidth)
+	{
+	  const std::string& str( strAndWidth.first);
+	  unsigned int minChCount( strAndWidth.second);
+	  unsigned int count = mbstowcs( NULL, str.c_str(), 0); // returns 0xFFFFFFFF on error
+	  if( count < minChCount)
+	  {
+		minChCount += str.size() - count;
+	  }
+	  return os << std::setw( minChCount) << str;
+	}
 
 }
