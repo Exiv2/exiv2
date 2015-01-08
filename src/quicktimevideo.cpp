@@ -1515,9 +1515,9 @@ namespace Exiv2 {
                 break;
             case TrackDuration:
                 if(currentStream_ == Video)
-                    xmpData_["Xmp.video.TrackDuration"] = returnBufValue(buf)/timeScale_;
+                    xmpData_["Xmp.video.TrackDuration"] = timeScale_ ? returnBufValue(buf)/timeScale_ : 0;
                 else if(currentStream_ == Audio)
-                    xmpData_["Xmp.audio.TrackDuration"] = returnBufValue(buf)/timeScale_;
+                    xmpData_["Xmp.audio.TrackDuration"] = timeScale_ ? returnBufValue(buf)/timeScale_ : 0;
                 break;
             case TrackLayer:
                 if(currentStream_ == Video)
