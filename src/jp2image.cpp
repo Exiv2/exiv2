@@ -552,19 +552,19 @@ namespace Exiv2
 
                 case kJp2BoxTypeUuid:
                 {
-                    if(memcmp(boxBuf.pData_ + 8, kJp2UuidExif, sizeof(16)) == 0)
+                    if(memcmp(boxBuf.pData_ + 8, kJp2UuidExif, 16) == 0)
                     {
 #ifdef DEBUG
                         std::cout << "Exiv2::Jp2Image::doWriteMetadata: strip Exif Uuid box\n";
 #endif
                     }
-                    else if(memcmp(boxBuf.pData_ + 8, kJp2UuidIptc, sizeof(16)) == 0)
+                    else if(memcmp(boxBuf.pData_ + 8, kJp2UuidIptc, 16) == 0)
                     {
 #ifdef DEBUG
                         std::cout << "Exiv2::Jp2Image::doWriteMetadata: strip Iptc Uuid box\n";
 #endif
                     }
-                    else if(memcmp(boxBuf.pData_ + 8, kJp2UuidXmp,  sizeof(16)) == 0)
+                    else if(memcmp(boxBuf.pData_ + 8, kJp2UuidXmp,  16) == 0)
                     {
 #ifdef DEBUG
                         std::cout << "Exiv2::Jp2Image::doWriteMetadata: strip Xmp Uuid box\n";
@@ -573,7 +573,7 @@ namespace Exiv2
                     else
                     {
 #ifdef DEBUG
-                        std::cout << "Exiv2::Jp2Image::doWriteMetadata: write Uuid box (lenght: " << box.boxLength << ")\n";
+                        std::cout << "Exiv2::Jp2Image::doWriteMetadata: write Uuid box (length: " << box.boxLength << ")\n";
 #endif
                         if (outIo.write(boxBuf.pData_, boxBuf.size_) != boxBuf.size_) throw Error(21);
                     }
