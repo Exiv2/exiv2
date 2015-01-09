@@ -267,6 +267,9 @@ namespace Exiv2 {
         { (long int)0x3750000, N_("PowerShot SX60 HS") },
         { (long int)0x3760000, N_("PowerShot SX520 HS") },
         { (long int)0x3780000, N_("PowerShot G7 X") },
+        { (long int)0x3800000, N_("PowerShot SX530 HS") },
+        { (long int)0x3820000, N_("PowerShot SX710 HS") },
+        { (long int)0x3830000, N_("PowerShot SX610 HS") },
         { (long int)0x4040000, N_("PowerShot G1") },
         { (long int)0x6040000, N_("PowerShot S100 / Digital IXUS / IXY Digital") },
         { (long int)0x4007d673, N_("DC19/DC21/DC22") },
@@ -649,11 +652,14 @@ namespace Exiv2 {
         {  33, "Carl Zeiss Distagon 15mm T* f/2.8 ZE"                       }, // 4
         {  33, "Carl Zeiss Distagon 18mm T* f/3.5 ZE"                       }, // 5
         {  33, "Carl Zeiss Distagon 21mm T* f/2.8 ZE"                       }, // 6
-        {  33, "Carl Zeiss Distagon 28mm T* f/2 ZE"                         }, // 7
-        {  33, "Carl Zeiss Distagon 35mm T* f/2 ZE"                         }, // 8
-        {  33, "Carl Zeiss Apo-Sonnar T* 135mm f/2 ZE"                      }, // 9
-        {  33, "Carl Zeiss Planar 50mm T* f/1.4 ZE"                         }, // 10
-        {  33, "Carl Zeiss Makro-Planar T* 100mm f/2 ZE"                    }, // 11
+        {  33, "Carl Zeiss Distagon 25mm T* f/2 ZE"                         }, // 7
+        {  33, "Carl Zeiss Distagon 28mm T* f/2 ZE"                         }, // 8
+        {  33, "Carl Zeiss Distagon 35mm T* f/2 ZE"                         }, // 9
+        {  33, "Carl Zeiss Distagon 35mm T* f/1.4 ZE"                       }, // 10
+        {  33, "Carl Zeiss Planar 50mm T* f/1.4 ZE"                         }, // 11
+        {  33, "Carl Zeiss Makro-Planar T* 50mm f/2 ZE"                     }, // 12
+        {  33, "Carl Zeiss Makro-Planar T* 100mm f/2 ZE"                    }, // 13
+        {  33, "Carl Zeiss Apo-Sonnar T* 135mm f/2 ZE"                      }, // 14
         {  35, "Canon EF 35-80mm f/4-5.6"                                   },
         {  36, "Canon EF 38-76mm f/4.5-5.6"                                 },
         {  37, "Canon EF 35-80mm f/4-5.6"                                   }, // 0
@@ -909,7 +915,7 @@ namespace Exiv2 {
         {  28, printCsLensByFocalLength },
         {  31, printCsLensByFocalLength },
         {  32, printCsLensByFocalLength },
-        {  33, printCsLensByFocalLength }, // not tested
+        {  33, printCsLensByFocalLengthAndMaxAperture }, // works partly
         {  37, printCsLensByFocalLength },
         {  42, printCsLensByFocalLength },
         { 131, printCsLensByFocalLength },

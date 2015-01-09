@@ -1721,7 +1721,9 @@ namespace Exiv2 {
                  "Sigma 18-250mm F3.5-6.3 DC OS HSM | "
                  "Sigma 17-50mm F2.8 EX DC HSM | "
                  "Sigma 17-70mm F2.8-4 DC Macro HSM | "
-                 "Sigma 150mm F2.8 EX DG OS HSM APO Macro" },
+                 "Sigma 150mm F2.8 EX DG OS HSM APO Macro | "
+                 "Sigma 150-500mm F5-6.3 APO DG OS HSM | "
+                 "Tamron AF 28-105mm F4-5.6 [IF]" },
         { 129,   "Tamron 200-400mm F5.6 LD | "
                  "Tamron 70-300mm F4-5.6 LD" },
         { 131,   "Tamron 20-40mm F2.7-3.5 SP Aspherical IF" },
@@ -1753,7 +1755,8 @@ namespace Exiv2 {
                  "Sigma UC AF 28-70mm F3.5-4.5 | "
                  "Sigma AF 28-70mm F2.8 | "
                  "Sigma M-AF 70-200mm F2.8 EX Aspherical | "
-                 "Quantaray M-AF 35-80mm F4-5.6 " },
+                 "Quantaray M-AF 35-80mm F4-5.6 | "
+                 "Tokina 28-70mm F2.8-4.5 AF" },
         { 25520, "Minolta AF 28-85mm F3.5-4.5" },
         { 25521, "Minolta AF 28-85mm F3.5-4.5 | "
                  "Tokina 19-35mm F3.5-4.5 | "
