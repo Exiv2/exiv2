@@ -51,7 +51,7 @@ msgstr "MIME-Typ"
 #: src/actions.cpp:278 src/canonmn.cpp:985 src/minoltamn.cpp:500
 #: src/minoltamn.cpp:745 src/minoltamn.cpp:988 src/pentaxmn.cpp:1135
 msgid "Image size"
-msgstr "Bildgrõße"
+msgstr "Bildgröße"
 
 #: src/actions.cpp:283 src/actions.cpp:513 src/actions.cpp:774
 #: src/actions.cpp:1003 src/actions.cpp:1465 src/actions.cpp:1601
@@ -189,7 +189,7 @@ msgstr "Es wurden keine XMP-Daten in der Datei gefunden.\n"
 
 #: src/actions.cpp:639 src/actions.cpp:664 src/actions.cpp:685
 msgid "(Binary value suppressed)"
-msgstr "(Binäre Werte sind unterdrückt)"
+msgstr "(Binärer Wert unterdrückt)"
 
 #: src/actions.cpp:706
 msgid "JPEG comment"
@@ -210,7 +210,7 @@ msgstr "Bytes"
 
 #: src/actions.cpp:784
 msgid "Neither tag"
-msgstr "Keins der Stichwörter"
+msgstr "Keines der Felder"
 
 #: src/actions.cpp:785
 msgid "nor"
@@ -376,22 +376,20 @@ msgid "Setting Exif ISO value to"
 msgstr "Setze den Exif-ISO Wert auf"
 
 #: src/actions.cpp:1672
-#, fuzzy
 msgid "No Exif user comment found"
-msgstr "Exif-Kommentar"
+msgstr "Kein Exif-Nutzerkommentar gefunden"
 
 #: src/actions.cpp:1680
 msgid "Found Exif user comment with unexpected value type"
-msgstr ""
+msgstr "Exif-Nutzerkommentar mit unerwartetem Wertetyp gefunden"
 
 #: src/actions.cpp:1687
 msgid "No Exif UNICODE user comment found"
-msgstr ""
+msgstr "Kein UNICODE-Exif-Nutzerkommentar gefunden"
 
 #: src/actions.cpp:1693
-#, fuzzy
 msgid "Setting Exif UNICODE user comment to"
-msgstr "Setze den Exif-ISO Wert auf"
+msgstr "Setze den UNICODE-Exif-Nutzerkommentar auf"
 
 #: src/actions.cpp:1844
 msgid "Writing Exif data from"
@@ -2170,11 +2168,11 @@ msgstr "Landschaft"
 
 #: src/canonmn.cpp:467
 msgid "Fast shutter"
-msgstr "Schneller Verschluß"
+msgstr "Schneller Verschluss"
 
 #: src/canonmn.cpp:468
 msgid "Slow shutter"
-msgstr "Langsamer Verschluß"
+msgstr "Langsamer Verschluss"
 
 #: src/canonmn.cpp:469 src/minoltamn.cpp:68 src/minoltamn.cpp:951
 #: src/minoltamn.cpp:2068 src/olympusmn.cpp:99 src/pentaxmn.cpp:575
@@ -2234,7 +2232,7 @@ msgstr "Blitz aus"
 
 #: src/canonmn.cpp:480
 msgid "Long shutter"
-msgstr "Langsamer Verschluß"
+msgstr "Langsamer Verschluss"
 
 #: src/canonmn.cpp:482
 msgid "Foliage"
@@ -2430,7 +2428,7 @@ msgstr "Programm (P)"
 
 #: src/canonmn.cpp:570
 msgid "Shutter priority (Tv)"
-msgstr "Verschlußpriorität (Tv)"
+msgstr "Verschlusspriorität (Tv)"
 
 #: src/canonmn.cpp:571
 msgid "Aperture priority (Av)"
@@ -2604,7 +2602,7 @@ msgstr "Fokusmodus-Einstellung"
 #: src/canonmn.cpp:985 src/minoltamn.cpp:499 src/minoltamn.cpp:744
 #: src/minoltamn.cpp:987
 msgid "Image Size"
-msgstr "Bildgrõße"
+msgstr "Bildgröße"
 
 #: src/canonmn.cpp:986
 msgid "Easy Mode"
@@ -3446,7 +3444,7 @@ msgstr "Bildqualität"
 #: src/canonmn.cpp:1271
 #, fuzzy
 msgid "Raw Jpg Size"
-msgstr "Bildgrõße"
+msgstr "Bildgröße"
 
 #: src/canonmn.cpp:1273
 #, fuzzy
@@ -3719,7 +3717,7 @@ msgstr "Typ"
 
 #: src/crwimage.cpp:686
 msgid "size"
-msgstr "GrößeVoll"
+msgstr "Größe"
 
 #: src/crwimage.cpp:687
 msgid "offset"
@@ -4047,9 +4045,9 @@ msgid ""
 "handling priority (see tag <EnvelopePriority>). The \"1\" is most urgent, "
 "\"5\" normal and \"8\" denotes the least-urgent copy."
 msgstr ""
-"Gibt die redaktionelle Wichtigkeit des Inhalts und nicht notwendigerweise "
-"Die Wichtigkeit mit der der Umschlag behandelt werden muß. Siehe dazu daß "
-"Sichwort <EnvelopePriority>. \"1\" ist die höchste, \"5\" normal und \"8\" "
+"Gibt die redaktionelle Wichtigkeit des Inhalts an und nicht notwendigerweise "
+"die Wichtigkeit, mit der der Umschlag behandelt werden muss. Siehe Feld "
+"<EnvelopePriority>. \"1\" ist die höchste, \"5\" normal und \"8\" "
 "die niedrigste Wichtigkeit."
 
 #: src/datasets.cpp:213 src/properties.cpp:174 src/properties.cpp:1292
@@ -4746,9 +4744,8 @@ msgid "This does not look like a JPEG image"
 msgstr "Dies scheint kein JPEG-Bild zu sein."
 
 #: src/error.cpp:72
-#, fuzzy
 msgid "%1: Failed to map file for reading and writing: %2"
-msgstr "Die Kommandozeile konnte nicht gelesen werden\n"
+msgstr "%1: Die Datei konnte nicht für Lese- und Schreibzugriff gemappt werden: %2\n"
 
 #: src/error.cpp:73
 msgid "%1: Failed to rename file to %2: %3"
@@ -4834,7 +4831,7 @@ msgstr ""
 
 #: src/error.cpp:93
 msgid "Size of %1 JPEG segment is larger than 65535 bytes"
-msgstr "Die Größe des %1 JPEG-Segments ist größer als 5535 Bytes."
+msgstr "Die Größe des %1 JPEG-Segments ist größer als 65535 Bytes."
 
 #: src/error.cpp:94
 msgid "Unhandled Xmpdatum %1 of type %2"
@@ -5023,9 +5020,9 @@ msgid ""
 msgstr ""
 "  mo | modify   Wendet Kommandos zum Ändern (Hinzufügen, Setzen, Löschen) "
 "der Exif- und\n"
-"                IPTC Metadaten von Bilddateien an oder setzt das JPEG-"
+"                IPTC-Metadaten von Bilddateien an oder setzt den JPEG-"
 "Kommentar.\n"
-"                Benötigt zusätzlich eine Option von-c, -m oder -M.\n"
+"                Benötigt zusätzlich eine Option von -c, -m oder -M.\n"
 
 #: src/exiv2.cpp:256
 msgid ""
@@ -5041,6 +5038,8 @@ msgid ""
 "  fc | fixcom   Convert the UNICODE Exif user comment to UCS-2. Its current\n"
 "                character encoding can be specified with the -n option.\n"
 msgstr ""
+"  fc | fixcom   Konvertiert den UNICODE-Exif-Nutzerkommentar nach UCS-2. Die zugehörige\n"
+"                Zeichenkodierung kann mit der Option -n angegeben werden.\n"
 
 #: src/exiv2.cpp:260
 msgid ""
@@ -5063,33 +5062,29 @@ msgid "   -v      Be verbose during the program run.\n"
 msgstr "   -v      Ausführliche Meldungen während des Programmlaufs.\n"
 
 #: src/exiv2.cpp:264
-#, fuzzy
-msgid ""
-"   -q      Silence warnings and error messages during the program run "
+msgid "   -q      Silence warnings and error messages during the program run "
 "(quiet).\n"
-msgstr "   -v      Ausführliche Meldungen während des Programmlaufs.\n"
+msgstr "   -q      Schaltet Warnungen und Fehlermeldungen während des Programmlaufs stumm (quiet).\n"
 
 #: src/exiv2.cpp:265
-msgid ""
-"   -Q lvl  Set log-level to d(ebug), i(nfo), w(arning), e(rror) or m(ute).\n"
-msgstr ""
+msgid "   -Q lvl  Set log-level to d(ebug), i(nfo), w(arning), e(rror) or m(ute).\n"
+msgstr "   -Q lvl  Setzt das Log-Level zu d(ebug), i(nfo), w(arning), e(rror) oder m(ute).\n"
 
 #: src/exiv2.cpp:266
 msgid "   -b      Show large binary values.\n"
 msgstr "   -b      Zeigt große binäre Werte an.\n"
 
 #: src/exiv2.cpp:267
-#, fuzzy
 msgid "   -u      Show unknown tags.\n"
-msgstr "   -u      Zeigt keine unbekannten Felder an.\n"
+msgstr "   -u      Zeigt unbekannte Felder an.\n"
 
 #: src/exiv2.cpp:268
 msgid "   -g key  Only output info for this key (grep).\n"
-msgstr ""
+msgstr "   -g key  Ausgabe nur für diesen Schlüssel (grep).\n"
 
 #: src/exiv2.cpp:269
 msgid "   -n enc  Charset to use to decode UNICODE Exif user comments.\n"
-msgstr ""
+msgstr "   -n enc  Setzt den Zeichensatz, um UNICODE-Exif-Nutzerkommentare zu dekodieren.\n"
 
 #: src/exiv2.cpp:270
 msgid "   -k      Preserve file timestamps (keep).\n"
@@ -5150,76 +5145,60 @@ msgstr ""
 "             s : druckt eine Zusammenfassung der Exif-Metadaten (Standard)\n"
 
 #: src/exiv2.cpp:283
-#, fuzzy
 msgid ""
 "             a : print Exif, IPTC and XMP metadata (shortcut for -Pkyct)\n"
 msgstr ""
-"             v : Vollständige Exif-Datenwerte (Kurzform für -Pxgnycv)\n"
+"             a : druckt Exif-, IPTC- und XMP-Metadaten (Kurzform für -Pkyct)\n"
 
 #: src/exiv2.cpp:284
-#, fuzzy
 msgid "             t : interpreted (translated) Exif data (-PEkyct)\n"
-msgstr ""
-"             t : interpretiert (übersetzt) die Exif-Daten (Kurzform für -"
-"Pkyct)\n"
+msgstr "             t : interpretierte (übersetzte) Exif-Daten (-PEkyct)\n"
 
 #: src/exiv2.cpp:285
-#, fuzzy
 msgid "             v : plain Exif data values (-PExgnycv)\n"
-msgstr ""
-"             v : Vollständige Exif-Datenwerte (Kurzform für -Pxgnycv)\n"
+msgstr "             v : blanke Exif-Datenwerte (-PExgnycv)\n"
 
 #: src/exiv2.cpp:286
-#, fuzzy
 msgid "             h : hexdump of the Exif data (-PExgnycsh)\n"
-msgstr "             h : Hexdump der Exif-Daten (Kurzform für -Pxgnycsh)\n"
+msgstr "             h : Hexdump der Exif-Daten (-PExgnycsh)\n"
 
 #: src/exiv2.cpp:287
-#, fuzzy
 msgid "             i : IPTC data values (-PIkyct)\n"
-msgstr "             i : IPTC-Datenwerte\n"
+msgstr "             i : IPTC-Datenwerte (-PIkyct)\n"
 
 #: src/exiv2.cpp:288
-#, fuzzy
 msgid "             x : XMP properties (-PXkyct)\n"
-msgstr "             x : XMP-Eigenschaften\n"
+msgstr "             x : XMP-Eigenschaften (-PXkyct)\n"
 
 #: src/exiv2.cpp:289 src/exiv2.cpp:312
 msgid "             c : JPEG comment\n"
 msgstr "             c : JPEG-Kommentar\n"
 
 #: src/exiv2.cpp:290
-#, fuzzy
 msgid "             p : list available previews\n"
-msgstr "             l : Feldlabel\n"
+msgstr "             p : listet verfügbare Voransichten auf\n"
 
 #: src/exiv2.cpp:291
-#, fuzzy
 msgid ""
 "   -P flgs Print flags for fine control of tag lists ('print' action):\n"
 msgstr ""
-"   -P cols Druckt Spalten für die Exif-Feldliste (Aktion 'Drucken' action). "
-"Gültig sind:\n"
+"   -P flgs Druckflags zur Feinsteuerung der Feldliste (Aktion 'Drucken'). Gültig sind:\n"
 
 #: src/exiv2.cpp:292
-#, fuzzy
 msgid "             E : include Exif tags in the list\n"
-msgstr "             s : Größe in Bytes\n"
+msgstr "             E : berücksichtigt Exif-Felder in der List\n"
 
 #: src/exiv2.cpp:293
-#, fuzzy
 msgid "             I : IPTC datasets\n"
-msgstr "             i : IPTC-Daten\n"
+msgstr "             I : IPTC-Datensätze\n"
 
 #: src/exiv2.cpp:294
-#, fuzzy
 msgid "             X : XMP properties\n"
-msgstr "             x : XMP-Eigenschaften\n"
+msgstr "             X : XMP-Eigenschaften\n"
 
 #: src/exiv2.cpp:295
-#, fuzzy
 msgid "             x : print a column with the tag number\n"
-msgstr "             x : Druckt eine Spalte mit dem Feldwert\n"
+msgstr "             x : druckt eine Spalte mit der Feldnummer\n"
 
 #: src/exiv2.cpp:296
 msgid "             g : group name\n"
@@ -5251,7 +5230,7 @@ msgstr "             s : Größe in Bytes\n"
 
 #: src/exiv2.cpp:303
 msgid "             v : plain data value\n"
-msgstr "             v : Vollständiger Datenwert\n"
+msgstr "             v : Blanker Datenwert\n"
 
 #: src/exiv2.cpp:304
 msgid "             t : interpreted (translated) data\n"
@@ -5264,11 +5243,12 @@ msgstr "             h : Hexdump der Daten\n"
 #: src/exiv2.cpp:306
 msgid ""
 "   -d tgt  Delete target(s) for the 'delete' action. Possible targets are:\n"
-msgstr "   -d ziel  Ziele für die Aktion \"Löschen\". Mögliche Ziele sind:\n"
+msgstr ""
+"   -d tgt  Löschziel(e) für die Aktion \"Löschen\". Mögliche Ziele sind:\n"
 
 #: src/exiv2.cpp:307
 msgid "             a : all supported metadata (the default)\n"
-msgstr "             a : Alle unterstützten Metadaten (Standard)\n"
+msgstr "             a : alle unterstützten Metadaten (Standard)\n"
 
 #: src/exiv2.cpp:308
 msgid "             e : Exif section\n"
@@ -5294,15 +5274,14 @@ msgid ""
 "           Only JPEG thumbnails can be inserted, they need to be named\n"
 "           <file>-thumb.jpg\n"
 msgstr ""
-"   -i ziel  Einfügeziele für die Aktion \"Einfügen\". Mögliche Ziele sind\n"
-"           die gleichen wie bei der Option -d und:\n"
+"   -i tgt  Einfügeziel(e) für die Aktion \"Einfügen\". Mögliche Ziele sind\n"
+"           die gleichen wie bei der Option -d und ein Modifizierer:\n"
 "             X : Fügt die Metadaten aus der XMP-Zusatzdatei <file>.xmp ein\n"
-"           Nur JPEG Bildvorschauen können eingefügt werden. Sie müssen den "
+"           Nur JPEG-Bildvorschauen können eingefügt werden. Sie müssen den "
 "Namen\n"
 "           <file>-thumb.jpg haben.\n"
 
 #: src/exiv2.cpp:318
-#, fuzzy
 msgid ""
 "   -e tgt  Extract target(s) for the 'extract' action. Possible targets\n"
 "           are the same as those for the -d option, plus a target to "
@@ -5311,9 +5290,12 @@ msgid ""
 "             p[<n>[,<m> ...]] : Extract preview images.\n"
 "             X : Extract metadata to an XMP sidecar file <file>.xmp\n"
 msgstr ""
-"   -e ziel  Extraktionsziele für die Aktion 'Extrahieren'. Mögliche Ziele "
+"   -e tgt  Extraktionsziel(e) für die Aktion 'Extrahieren'. Mögliche Ziele "
 "sind\n"
-"           die gleichen wie bei der Option -d, und:\n"
+"           die gleichen wie bei der Option -d sowie ein Ziel zum "
+"Extrahieren\n"
+"           von Vorschaubildern und ein Modifizierer zum Erzeugen einer XMP-Zusatzdatei:\n"
+"             p[<n>[,<m> ...]] : Extrahiert Vorschaubilder.\n"
 "             X : Extrahiert die Metadaten in die XMP-Zusatzdatei <file>.xmp\n"
 
 #: src/exiv2.cpp:323
@@ -5346,7 +5328,7 @@ msgstr "           Das Standardformat des Dateinamens ist "
 
 #: src/exiv2.cpp:330
 msgid "   -c txt  JPEG comment string to set in the image.\n"
-msgstr "   -c txt  JPEG-Kommentar der im Bild gesetzt wird.\n"
+msgstr "   -c txt  JPEG-Kommentar, der im Bild gesetzt wird.\n"
 
 #: src/exiv2.cpp:331
 msgid ""
@@ -5370,7 +5352,7 @@ msgid ""
 "   -l dir  Location (directory) for files to be inserted from or extracted "
 "to.\n"
 msgstr ""
-"   -l ord  Lokation (Ordner) für die Dateien, aus denen eingefügt bzw. "
+"   -l ord  Ort (Ordner) für die Dateien, aus denen eingefügt bzw. "
 "extrahiert wird.\n"
 
 #: src/exiv2.cpp:336
@@ -5410,7 +5392,7 @@ msgstr "Die überzählige Option wird ignoriert"
 
 #: src/exiv2.cpp:439 src/exiv2.cpp:499 src/exiv2.cpp:685
 msgid "is not compatible with a previous option\n"
-msgstr "kann nicht mit der vorangegangenen Option zusammen benutzt werden\n"
+msgstr "kann nicht mit einer vorangegangenen Option zusammen benutzt werden\n"
 
 #: src/exiv2.cpp:454
 msgid "Ignoring surplus option -a"
@@ -5423,7 +5405,7 @@ msgstr "Fehler beim Verarbeiten des Arguments \"-a\""
 #: src/exiv2.cpp:467
 msgid "Option -a is not compatible with a previous option\n"
 msgstr ""
-"Die Option \"-a\" kann nicht mit der vorangegangenen Option zusammen benutzt "
+"Die Option \"-a\" kann nicht mit einer vorangegangenen Option zusammen benutzt "
 "werden\n"
 
 #: src/exiv2.cpp:489
@@ -5445,7 +5427,7 @@ msgstr "Die überflüssige Option \"-p\" wird ignoriert"
 #: src/exiv2.cpp:534
 msgid "Option -p is not compatible with a previous option\n"
 msgstr ""
-"Die Option \"-p\" kann nicht mit der vorangegangenen Option zusammen benutzt "
+"Die Option \"-p\" kann nicht mit einer vorangegangenen Option zusammen benutzt "
 "werden\n"
 
 #: src/exiv2.cpp:565
@@ -5459,25 +5441,25 @@ msgstr "Die überflüssige Option \"-P\" wird ignoriert"
 #: src/exiv2.cpp:578
 msgid "Option -P is not compatible with a previous option\n"
 msgstr ""
-"Die Option \"-P\" kann nicht mit der vorangegangenen Option zusammen benutzt "
+"Die Option \"-P\" kann nicht mit einer vorangegangenen Option zusammen benutzt "
 "werden\n"
 
 #: src/exiv2.cpp:605
 msgid "Option -d is not compatible with a previous option\n"
 msgstr ""
-"Die Option \"-d\" kann nicht mit der vorangegangenen Option zusammen benutzt "
+"Die Option \"-d\" kann nicht mit einer vorangegangenen Option zusammen benutzt "
 "werden\n"
 
 #: src/exiv2.cpp:633
 msgid "Option -e is not compatible with a previous option\n"
 msgstr ""
-"Die Option \"-e\" kann nicht mit der vorangegangenen Option zusammen benutzt "
+"Die Option \"-e\" kann nicht mit einer vorangegangenen Option zusammen benutzt "
 "werden\n"
 
 #: src/exiv2.cpp:661
 msgid "Option -i is not compatible with a previous option\n"
 msgstr ""
-"Die Option \"-i\" kann nicht mit der vorangegangenen Option zusammen benutzt "
+"Die Option \"-i\" kann nicht mit einer vorangegangenen Option zusammen benutzt "
 "werden\n"
 
 #: src/exiv2.cpp:702
@@ -6262,7 +6244,7 @@ msgstr "Blendenpriorität"
 #: src/minoltamn.cpp:203 src/minoltamn.cpp:657 src/minoltamn.cpp:837
 #: src/sigmamn.cpp:156 src/sonymn.cpp:146 src/tags.cpp:1409
 msgid "Shutter priority"
-msgstr "Verschlußpriorität"
+msgstr "Verschlusspriorität"
 
 #: src/minoltamn.cpp:209 src/minoltamn.cpp:1122
 msgid "Fill flash"
@@ -7467,7 +7449,7 @@ msgstr "Blitzkompensationswert"
 #: src/sonymn.cpp:684 src/sonymn.cpp:756 src/sonymn.cpp:757
 #, fuzzy
 msgid "Sony Image Size"
-msgstr "Bildgrõße"
+msgstr "Bildgröße"
 
 #: src/minoltamn.cpp:1487
 msgid "Instant Playback Time"
@@ -7577,17 +7559,17 @@ msgstr "Verschlusszähler"
 #: src/minoltamn.cpp:1524
 #, fuzzy
 msgid "Card shutter lock"
-msgstr "Schneller Verschluß"
+msgstr "Schneller Verschluss"
 
 #: src/minoltamn.cpp:1526
 #, fuzzy
 msgid "Lens Shutter Lock"
-msgstr "Langsamer Verschluß"
+msgstr "Langsamer Verschluss"
 
 #: src/minoltamn.cpp:1527
 #, fuzzy
 msgid "Lens shutter lock"
-msgstr "Langsamer Verschluß"
+msgstr "Langsamer Verschluss"
 
 #: src/minoltamn.cpp:1529
 #, fuzzy
@@ -12151,7 +12133,7 @@ msgstr "Tageslichtweiß Leuchtstoff (N 4600 - 5400K)"
 #: src/olympusmn.cpp:1048
 #, fuzzy
 msgid "Cool White Fluorescent (W 3900 - 4500K)"
-msgstr "Kühles weißes Leuchtstoff (W 3900 - 4500K)"
+msgstr "Kühles weißes Leuchtstofflicht (W 3900 - 4500K)"
 
 #: src/olympusmn.cpp:1049
 #, fuzzy
@@ -14748,7 +14730,7 @@ msgstr "Dschidda"
 
 #: src/pentaxmn.cpp:504
 msgid "Tehran"
-msgstr "Tehran"
+msgstr "Teheran"
 
 #: src/pentaxmn.cpp:505
 msgid "Dubai"
@@ -14780,11 +14762,11 @@ msgstr "Kathmandu"
 
 #: src/pentaxmn.cpp:512
 msgid "Dacca"
-msgstr "Dacca"
+msgstr "Dhaka"
 
 #: src/pentaxmn.cpp:513
 msgid "Yangon"
-msgstr "Yangon"
+msgstr "Rangun"
 
 #: src/pentaxmn.cpp:514
 msgid "Bangkok"
@@ -14860,7 +14842,7 @@ msgstr "Sydney"
 
 #: src/pentaxmn.cpp:532
 msgid "Noumea"
-msgstr "Numea"
+msgstr "Nouméa"
 
 #: src/pentaxmn.cpp:533
 msgid "Wellington"
@@ -14904,24 +14886,23 @@ msgstr "Stockholm"
 
 #: src/pentaxmn.cpp:543
 msgid "Lisbon"
-msgstr "Lisabon"
+msgstr "Lissabon"
 
 #: src/pentaxmn.cpp:544
-#, fuzzy
 msgid "Copenhagen"
-msgstr "Abdeckung"
+msgstr "Kopenhagen"
 
 #: src/pentaxmn.cpp:545
 msgid "Warsaw"
-msgstr ""
+msgstr "Warschau"
 
 #: src/pentaxmn.cpp:546
 msgid "Prague"
-msgstr ""
+msgstr "Prag"
 
 #: src/pentaxmn.cpp:547
 msgid "Budapest"
-msgstr ""
+msgstr "Budapest"
 
 #: src/pentaxmn.cpp:552
 msgid "Unprocessed"
@@ -14934,7 +14915,7 @@ msgstr "Digitaler Filter"
 #: src/pentaxmn.cpp:554
 #, fuzzy
 msgid "Resized"
-msgstr "GrößeVoll"
+msgstr "größengeändert"
 
 #: src/pentaxmn.cpp:555 src/properties.cpp:1065
 msgid "Cropped"
@@ -15080,7 +15061,7 @@ msgstr ""
 
 #: src/pentaxmn.cpp:623
 msgid "Shutter Priority"
-msgstr "Verschlußpriorität"
+msgstr "Verschlusspriorität"
 
 #: src/pentaxmn.cpp:624
 #, fuzzy
@@ -15420,7 +15401,7 @@ msgstr "Bilddatengröße"
 #: src/pentaxmn.cpp:1244 src/pentaxmn.cpp:1245
 #, fuzzy
 msgid "Raw image size"
-msgstr "Bildgrõße"
+msgstr "Bildgröße"
 
 #: src/pentaxmn.cpp:1248 src/pentaxmn.cpp:1249
 msgid "Preview image borders"
@@ -16588,7 +16569,7 @@ msgid ""
 "The size in bits of each color component of a pixel. Standard Windows 32-bit "
 "pixels have 8 bits per component. One of: 8Int, 16Int, 32Int, 32Float."
 msgstr ""
-"Die Größe in BNits für jede Farbkomponente eines Pixels. Standard Windows 32-"
+"Die Größe in Bits für jede Farbkomponente eines Pixels. Standard Windows 32-"
 "Bit Pixel haben 8 Bit pro Farbe. Erlaubt sind : 8Int, 16Int, 32Int, 32Float."
 
 #: src/properties.cpp:340 src/properties.cpp:1040
@@ -17821,7 +17802,7 @@ msgstr "Exif-Feld 40963, 0xA003. Gültige Bildhöhe in Pixeln."
 
 #: src/properties.cpp:562 src/tags.cpp:1671
 msgid "User Comment"
-msgstr "Anmerkung des Nutzers"
+msgstr "Nutzerkommentar"
 
 #: src/properties.cpp:562
 msgid "EXIF tag 37510, 0x9286. Comments from user."
@@ -19582,7 +19563,7 @@ msgstr ""
 #: src/properties.cpp:801
 #, fuzzy
 msgid "Image Supplier Name"
-msgstr "Bildgrõße"
+msgstr "Bildgröße"
 
 #: src/properties.cpp:801
 #, fuzzy
@@ -24815,7 +24796,7 @@ msgstr "Selbstportrait"
 #: src/sonymn.cpp:152
 #, fuzzy
 msgid "Smile Shutter"
-msgstr "Langsamer Verschluß"
+msgstr "Langsamer Verschluss"
 
 #: src/sonymn.cpp:154
 #, fuzzy
@@ -25014,7 +24995,7 @@ msgstr "Minolta Datum"
 #: src/sonymn.cpp:426 src/sonymn.cpp:427
 #, fuzzy
 msgid "Full Image Size"
-msgstr "Bildgrõße"
+msgstr "Bildgröße"
 
 #: src/sonymn.cpp:429
 #, fuzzy
@@ -25116,7 +25097,7 @@ msgstr "Zonenabgleich"
 #: src/sonymn.cpp:659 src/sonymn.cpp:660
 #, fuzzy
 msgid "AF With Shutter"
-msgstr "Schneller Verschluß"
+msgstr "Schneller Verschluss"
 
 #: src/sonymn.cpp:667 src/sonymn.cpp:668
 #, fuzzy
@@ -25193,7 +25174,7 @@ msgstr "Interoperabelitätsinformationen."
 
 #: src/tags.cpp:202
 msgid "Vendor specific information"
-msgstr "Hersteller spezifische Informationen"
+msgstr "Herstellerspezifische Informationen"
 
 #: src/tags.cpp:203
 msgid "Adobe DNG tags"
@@ -25216,7 +25197,7 @@ msgstr ""
 #: src/tags.cpp:207
 #, fuzzy
 msgid "Adobe OPI tags"
-msgstr "Adobe DNG -Felder"
+msgstr "Adobe OPI -Felder"
 
 #: src/tags.cpp:208
 msgid "Last section"
@@ -25255,13 +25236,12 @@ msgid "Thumbnail/Preview image, Multi page file, Transparency mask"
 msgstr "Vorschaubild, Mehrseitendatei, Transparenzmaske"
 
 #: src/tags.cpp:237
-#, fuzzy
 msgid "Full-resolution image data"
-msgstr "Die Bilddaten konnten nicht gelesen werden."
+msgstr "Bilddaten in voller Auflösung"
 
 #: src/tags.cpp:238
 msgid "Reduced-resolution image data"
-msgstr ""
+msgstr "Bilddaten in reduzierter Auflösung"
 
 #: src/tags.cpp:239
 msgid "A single page of a multi-page image"
@@ -25767,8 +25747,8 @@ msgid ""
 "compressed, this designation is not necessary and is omitted. When "
 "thumbnails use JPEG compression, this tag value is set to 6."
 msgstr ""
-"Das Kompressionsschema das für diese Bilddaten verwendet wird. Wenn ein "
-"Primärbild komprimiert wird ist diese Spezifikation nicht notwendig und wird "
+"Das Kompressionsschema, das für diese Bilddaten verwendet wird. Wenn ein "
+"Primärbild komprimiert wird, ist diese Spezifikation nicht notwendig und wird "
 "weggelassen. Wenn die Vorschaubilder JPEG Kompression verwenden, hat dieses "
 "Feld den Wert 6."
 
@@ -27931,7 +27911,7 @@ msgstr "Tageslichtweiß Leuchtstoff (N 4600 - 5400K)"
 
 #: src/tags.cpp:1441
 msgid "Cool white fluorescent (W 3900 - 4500K)"
-msgstr "Kühles weißes Leuchtstoff (W 3900 - 4500K)"
+msgstr "Kühles weißes Leuchtstofflicht (W 3900 - 4500K)"
 
 #: src/tags.cpp:1442
 msgid "White fluorescent (WW 3200 - 3700K)"
@@ -28337,8 +28317,8 @@ msgstr ""
 "Das Farbrauminformationsfeld wird immer als Farbraumspezifikator "
 "gespeichert. Normalerweise wird sRGB benutzt, um den Farbraum an PC und "
 "Monitor anzupassen. Wenn ein anderer Farbraum als sRGB benutzt wird, wird  "
-"\"unkalibriert\" gesetzt. Bilddaten die als unkalibriert aufgezeichnet "
-"wurden kõnnen als sRGB betrachtet werden wenn sie in FlashPix konvertiert "
+"\"unkalibriert\" gesetzt. Bilddaten, die als unkalibriert aufgezeichnet "
+"wurden, können als sRGB betrachtet werden, wenn sie in FlashPix konvertiert "
 "werden."
 
 #: src/tags.cpp:1698
@@ -28349,7 +28329,7 @@ msgid ""
 "not exist in an uncompressed file."
 msgstr ""
 "Informationen spezifisch zu den komprimierten Daten. Wenn eine komprimierte "
-"Datei aufgezeichnet wird muß die Breite des sinnvollen Bildausschnitts in "
+"Datei aufgezeichnet wird, muss die Breite des sinnvollen Bildausschnitts in "
 "diesem Feld aufgezeichnet werden, egal ob Padding Daten oder ein Restart "
 "Marker vorhanden sind. Dieser Feld sollte nicht in einer unkomprimierten "
 "Datei existieren."
@@ -28364,7 +28344,7 @@ msgid ""
 "tag will in fact be the same as that recorded in the SOF."
 msgstr ""
 "Informationen spezifisch zu den komprimierten Daten. Wenn eine komprimierte "
-"Datei aufgezeichnet wird, muß die Höhe des sinnvollen Bildausschnitts in "
+"Datei aufgezeichnet wird, muss die Höhe des sinnvollen Bildausschnitts in "
 "diesem Feld aufgezeichnet werden, egal ob Padding Daten oder ein Restart "
 "Marker vorhanden sind. Dieses Feld sollte nicht in einer unkomprimierten "
 "Datei existieren. Da Padding in der Vertikalen nicht nötig ist, ist die "
@@ -28395,7 +28375,7 @@ msgid ""
 "TIFF defined IFD structure but does not contain the image data "
 "characteristically compared with normal TIFF IFD."
 msgstr ""
-"Das Interoperabilitäts IFD besteht aus Feldern die Informationen enthalten, "
+"Das Interoperabilitäts IFD besteht aus Feldern, die Informationen enthalten, "
 "die die Interoperabilität sicherstellen. Die Interoperabilitätsstruktur des "
 "Interoperabilitäts IFD ist die gleiche wie in der TIFF IFD Struktur, enthält "
 "aber keine Bildcharakteristiken wie das normale TIFF IFD."
@@ -28489,7 +28469,7 @@ msgid ""
 "must always be set to 1, indicating that the image was directly photographed."
 msgstr ""
 "Gibt den Typ der Szene an. Wenn eine Digitalkamera die Szene aufgenommen "
-"hat, muß diese Zahl immer auf 1 gesetzt werden, um anzugeben, das die Szene "
+"hat, muss diese Zahl immer auf 1 gesetzt werden, um anzugeben, das die Szene "
 "direkt fotographiert wurde."
 
 #: src/tags.cpp:1773
