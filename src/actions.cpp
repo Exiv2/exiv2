@@ -149,6 +149,15 @@ namespace {
              exists and shouldn't be overwritten, else 0.
      */
     int dontOverwrite(const std::string& path);
+
+    /*!
+      @brief Output a text with a given minimum number of chars, honoring
+             multi-byte characters correctly. Replace code in the form
+             os << setw(width) << myString
+             with
+             os << make_pair( myString, width)
+     */
+    std::ostream& operator<<( std::ostream& os, std::pair<std::string, int> strAndWidth);
 }
 
 // *****************************************************************************
@@ -307,57 +316,57 @@ namespace Action {
         // Aperture
         // Get if from FNumber and, failing that, try ApertureValue
         {
-			printLabel(_("Aperture"));
-			bool done = false;
-			if (!done) {
-				done = 0 != printTag(exifData, "Exif.Photo.FNumber");
-			}
-			if (!done) {
-				done = 0 != printTag(exifData, "Exif.Photo.ApertureValue");
-			}
-			std::cout << std::endl;
+            printLabel(_("Aperture"));
+            bool done = false;
+            if (!done) {
+                done = 0 != printTag(exifData, "Exif.Photo.FNumber");
+            }
+            if (!done) {
+                done = 0 != printTag(exifData, "Exif.Photo.ApertureValue");
+            }
+            std::cout << std::endl;
 
-			// Exposure bias
-			printTag(exifData, "Exif.Photo.ExposureBiasValue", _("Exposure bias"));
+            // Exposure bias
+            printTag(exifData, "Exif.Photo.ExposureBiasValue", _("Exposure bias"));
 
-			// Flash
-			printTag(exifData, "Exif.Photo.Flash", _("Flash"));
+            // Flash
+            printTag(exifData, "Exif.Photo.Flash", _("Flash"));
 
-			// Flash bias
-			printTag(exifData, Exiv2::flashBias, _("Flash bias"));
+            // Flash bias
+            printTag(exifData, Exiv2::flashBias, _("Flash bias"));
 
-			// Actual focal length and 35 mm equivalent
-			// Todo: Calculate 35 mm equivalent a la jhead
-			Exiv2::ExifData::const_iterator md;
-			printLabel(_("Focal length"));
-			if (1 == printTag(exifData, "Exif.Photo.FocalLength")) {
-				md = exifData.findKey(
-					Exiv2::ExifKey("Exif.Photo.FocalLengthIn35mmFilm"));
-				if (md != exifData.end()) {
-					std::cout << " ("<< _("35 mm equivalent") << ": "
-							  << md->print(&exifData) << ")";
-				}
-			}
-			else {
-				printTag(exifData, "Exif.Canon.FocalLength");
-			}
-			std::cout << std::endl;
+            // Actual focal length and 35 mm equivalent
+            // Todo: Calculate 35 mm equivalent a la jhead
+            Exiv2::ExifData::const_iterator md;
+            printLabel(_("Focal length"));
+            if (1 == printTag(exifData, "Exif.Photo.FocalLength")) {
+                md = exifData.findKey(
+                    Exiv2::ExifKey("Exif.Photo.FocalLengthIn35mmFilm"));
+                if (md != exifData.end()) {
+                    std::cout << " ("<< _("35 mm equivalent") << ": "
+                              << md->print(&exifData) << ")";
+                }
+            }
+            else {
+                printTag(exifData, "Exif.Canon.FocalLength");
+            }
+            std::cout << std::endl;
         }
-        
+
         // Subject distance
         {
-	        printLabel(_("Subject distance"));
-    	    bool done = false;
-			if (!done) {
-				done = 0 != printTag(exifData, "Exif.Photo.SubjectDistance");
-			}
-			if (!done) {
-				done = 0 != printTag(exifData, "Exif.CanonSi.SubjectDistance");
-				done = 0 != printTag(exifData, "Exif.CanonFi.FocusDistanceLower");
-				done = 0 != printTag(exifData, "Exif.CanonFi.FocusDistanceUpper");
-			}
-			std::cout << std::endl;
-		}
+            printLabel(_("Subject distance"));
+            bool done = false;
+            if (!done) {
+                done = 0 != printTag(exifData, "Exif.Photo.SubjectDistance");
+            }
+            if (!done) {
+                done = 0 != printTag(exifData, "Exif.CanonSi.SubjectDistance");
+                done = 0 != printTag(exifData, "Exif.CanonFi.FocusDistanceLower");
+                done = 0 != printTag(exifData, "Exif.CanonFi.FocusDistanceUpper");
+            }
+            std::cout << std::endl;
+        }
 
         // ISO speed
         printTag(exifData, Exiv2::isoSpeed, _("ISO speed"));
@@ -376,34 +385,34 @@ namespace Action {
 
         // Exif Resolution
         {
-			printLabel(_("Exif Resolution"));
-			long xdim = 0;
-			long ydim = 0;
-			if (image->mimeType() == "image/tiff") {
-				xdim = image->pixelWidth();
-				ydim = image->pixelHeight();
-			}
-			else {
-				Exiv2::ExifData::const_iterator md = exifData.findKey(Exiv2::ExifKey("Exif.Image.ImageWidth"));
-				if (md == exifData.end()) {
-					md = exifData.findKey(Exiv2::ExifKey("Exif.Photo.PixelXDimension"));
-				}
-				if (md != exifData.end() && md->count() > 0) {
-					xdim = md->toLong();
-				}
-				md = exifData.findKey(Exiv2::ExifKey("Exif.Image.ImageLength"));
-				if (md == exifData.end()) {
-					md = exifData.findKey(Exiv2::ExifKey("Exif.Photo.PixelYDimension"));
-				}
-				if (md != exifData.end() && md->count() > 0) {
-					ydim = md->toLong();
-				}
-			}
-			if (xdim != 0 && ydim != 0) {
-				std::cout << xdim << " x " << ydim;
-			}
-			std::cout << std::endl;
-		}
+            printLabel(_("Exif Resolution"));
+            long xdim = 0;
+            long ydim = 0;
+            if (image->mimeType() == "image/tiff") {
+                xdim = image->pixelWidth();
+                ydim = image->pixelHeight();
+            }
+            else {
+                Exiv2::ExifData::const_iterator md = exifData.findKey(Exiv2::ExifKey("Exif.Image.ImageWidth"));
+                if (md == exifData.end()) {
+                    md = exifData.findKey(Exiv2::ExifKey("Exif.Photo.PixelXDimension"));
+                }
+                if (md != exifData.end() && md->count() > 0) {
+                    xdim = md->toLong();
+                }
+                md = exifData.findKey(Exiv2::ExifKey("Exif.Image.ImageLength"));
+                if (md == exifData.end()) {
+                    md = exifData.findKey(Exiv2::ExifKey("Exif.Photo.PixelYDimension"));
+                }
+                if (md != exifData.end() && md->count() > 0) {
+                    ydim = md->toLong();
+                }
+            }
+            if (xdim != 0 && ydim != 0) {
+                std::cout << xdim << " x " << ydim;
+            }
+            std::cout << std::endl;
+        }
 
         // White balance
         printTag(exifData, Exiv2::whiteBalance, _("White balance"));
@@ -443,8 +452,8 @@ namespace Action {
         if (Params::instance().files_.size() > 1) {
             std::cout << std::setw(20) << path_ << " ";
         }
-        std::cout << std::setw(align_)
-                  << label << ": ";
+        std::cout << std::make_pair( label, align_)
+                  << ": ";
     }
 
     int Print::printTag(const Exiv2::ExifData& exifData,
@@ -550,10 +559,10 @@ namespace Action {
     bool Print::grepTag(const std::string& key)
     {
         bool result=Params::instance().keys_.empty();
-		if (!result) 
-			for (Params::Keys::const_iterator k = Params::instance().keys_.begin();
-				!result && k != Params::instance().keys_.end(); ++k) {
-					result = key.find(*k) != std::string::npos;
+        if (!result) 
+            for (Params::Keys::const_iterator k = Params::instance().keys_.begin();
+                !result && k != Params::instance().keys_.end(); ++k) {
+                    result = key.find(*k) != std::string::npos;
         }
         return result ;
     }
@@ -2007,6 +2016,18 @@ namespace {
             if (s[0] != 'y' && s[0] != 'Y') return 1;
         }
         return 0;
+    }
+
+    std::ostream& operator<<( std::ostream& os, std::pair<std::string, int> strAndWidth)
+    {
+      const std::string& str( strAndWidth.first);
+      size_t minChCount( strAndWidth.second);
+      size_t count = mbstowcs( NULL, str.c_str(), 0); // returns 0xFFFFFFFF on error
+      if( count < minChCount)
+      {
+        minChCount += str.size() - count;
+      }
+      return os << std::setw( minChCount) << str;
     }
 
 }
