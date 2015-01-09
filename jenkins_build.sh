@@ -142,6 +142,7 @@ perl --version
 echo ---- end of path and perl ----
 
 case "$build" in
+
   UNIX) 
         echo ./configure  --prefix=$PWD/usr  $withcurl $withssh
              ./configure "--prefix=$PWD/usr" $withcurl $withssh
@@ -152,24 +153,42 @@ case "$build" in
         run_tests
         "$PWD/usr/bin/exiv2" -v -V
   ;;
-  
-  CYGW) 
-        # export LIBS=-lintl
-        # I've given up:
-        # 1. trying to get Cygwin to build with gettext and friends
-        # 2. trying to get Cygwin to install into a local directory
-        echo ./configure ${withcurl} ${withssh} --disable-nls
-             ./configure ${withcurl} ${withssh} --disable-nls
-        make -j4
-        # result=$?
-        make install
-        make -j4 samples
-        run_tests
-        /usr/local/bin/exiv2 -v -V
+
+  CYGW)
+        if [ ! -z "$RECURSIVE" ]; then
+			# export LIBS=-lintl
+			# I've given up:
+			# 1 trying to get Cygwin to build with gettext and friends
+			# 2 trying to get Cygwin to install into a local directory
+
+			# deal with 32bit and 64bit build requests
+			# Jenkins invokes the 32 bit cygwin, so recursively build 64 bits.  
+			make clean
+			rm   -rf config.log config.status
+			echo ./configure ${withcurl} ${withssh} --disable-nls
+				 ./configure ${withcurl} ${withssh} --disable-nls 
+			make -j4
+			make install
+			make -j4 samples
+			run_tests
+			/usr/local/bin/exiv2 -v -V
+			result=$?
+        else
+			if [ "$x64" == true ]; then 
+				export RECURSIVE=1
+				/cygdrive/c/cygwin64/bin/bash.exe -c "cd $PWD ; ./$0"
+				result=$?
+			fi
+			if [ "$Win32" == true ]; then 
+				export RECURSIVE=1
+				/cygdrive/c/cygwin/bin/bash.exe -c "cd $PWD ; ./$0"
+				result=$?
+			fi
+        fi
   ;;
 
   MING) 
-        if [ ! -z "$BUILDMINGW" ]; then
+        if [ ! -z "$RECURSIVE" ]; then
             export  CC=$(which gcc)
             export  CXX=$(which g++)
             export "PKG_CONFIG_PATH=/usr/local/lib/pkgconfig:/usr/lib/pkgconfig"
@@ -184,17 +203,17 @@ case "$build" in
             #  --with-ssl=/usr/local
             ##########################
             if [ "$withcurl" == "--with-curl" ]; then
-            	withcurl="--with-curl=/usr/local"
+                withcurl="--with-curl=/usr/local"
             fi
 
             ##########################
             # I have be unable to build libssh on MinGW (neither 32 nor 64 bits)
             ##########################
             if [ "$withssh" == "--with-ssh" ]; then
-            	echo "*** unable to build --with-ssh on MING ***"
-            	withssh="--without-ssh"
+                echo "*** unable to build --with-ssh on MING ***"
+                withssh="--without-ssh"
             fi
-            
+
             ./configure $withcurl $withssh
             make        # DO NOT USE -j4.  It seems to hang the build!
             make install
@@ -206,11 +225,13 @@ case "$build" in
             (
                 export TMP=/tmp
                 export TEMP=$TMP
-                export BUILDMINGW=1
+                export RECURSIVE=1
+                # recursively invoke MinGW/bash with appropriate tool chain
                 if [ "$x64" == true ]; then 
                     /cygdrive/c/MinGW64/msys/1.0/bin/bash.exe -c "export PATH=/c/TDM-GCC-64/bin:/c/MinGW64/bin:/c/MinGW64/msys/1.0/bin:/c/MinGW64/msys/1.0/local/bin; $0"
                     result=$?
-                else
+                fi
+                if [ "$Win32" == true ]; then 
                     /cygdrive/c/MinGW/msys/1.0/bin/bash.exe   -c "export PATH=/c/MinGW/bin:/c/MinGW/msys/1.0/bin:/c/MinGW/msys/1.0/local/bin; $0"
                     result=$?
                 fi
@@ -284,7 +305,7 @@ case "$build" in
         cmd.exe /c "cd $(cygpath -aw .) && call jenkins_build.bat"
         result=$?
   ;;
-  
+
   NONE) 
         echo "**************************************"
         echo "*** no build requested for $target ***"
