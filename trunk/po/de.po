@@ -4745,7 +4745,7 @@ msgstr "Dies scheint kein JPEG-Bild zu sein."
 
 #: src/error.cpp:72
 msgid "%1: Failed to map file for reading and writing: %2"
-msgstr "%1: Die Datei konnte nicht für Lese- und Schreibzugriff gemappt werden: %2\n"
+msgstr "%1: Die Datei konnte nicht für Lese- und Schreibzugriff gemappt werden: %2"
 
 #: src/error.cpp:73
 msgid "%1: Failed to rename file to %2: %3"
