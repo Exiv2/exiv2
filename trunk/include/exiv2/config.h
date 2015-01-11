@@ -10,3 +10,11 @@
 #define EXV_STRERROR_R_CHAR_P
 #endif
 #endif
+
+// Don't know why MinGW refuses to link libregex
+#if defined(__MINGW32__) || defined(__MINGW64__)
+#ifdef EXV_HAVE_REGEX
+#undef EXV_HAVE_REGEX
+#endif
+#endif
+
