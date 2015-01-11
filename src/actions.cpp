@@ -559,10 +559,14 @@ namespace Action {
     bool Print::grepTag(const std::string& key)
     {
         bool result=Params::instance().keys_.empty();
-        if (!result) 
-            for (Params::Keys::const_iterator k = Params::instance().keys_.begin();
-                !result && k != Params::instance().keys_.end(); ++k) {
-                    result = key.find(*k) != std::string::npos;
+        for (Params::Keys::const_iterator k = Params::instance().keys_.begin();
+                !result && k != Params::instance().keys_.end(); ++k)
+        {
+#if EXV_HAVE_REGEX
+            result = regexec( &(*k), key.c_str(), 0, NULL, REG_NOTBOL | REG_NOTEOL) == 0 ;
+#else
+            result = key.find(*k) != std::string::npos;
+#endif
         }
         return result ;
     }

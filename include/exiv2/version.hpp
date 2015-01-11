@@ -36,6 +36,13 @@
 // included header files
 // + standard includes
 #include <string>
+#include <vector>
+#if EXV_HAVE_REGEX
+#include <regex.h>
+typedef std::vector<regex_t> exv_grep_keys_t ;
+#else
+typedef std::vector<std::string> exv_grep_keys_t ;
+#endif
 
 /*!
   @brief %Exiv2 MAJOR version number of the library used at compile-time.
@@ -180,7 +187,7 @@ namespace Exiv2 {
 
 // dumpLibraryInfo is general purpose and not in the Exiv2 namespace
 // used by exiv2 test suite to inspect libraries loaded at run-time
-EXIV2API void dumpLibraryInfo(std::ostream& os);
+EXIV2API void dumpLibraryInfo(std::ostream& os,const exv_grep_keys_t& keys);
 
 
 #endif                                  // VERSION_HPP_

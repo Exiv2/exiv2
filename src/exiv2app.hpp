@@ -40,6 +40,10 @@
 #include <set>
 #include <iostream>
 
+#if EXV_HAVE_REGEX
+#include <regex.h>
+#endif
+
 // *****************************************************************************
 // class definitions
 
@@ -125,7 +129,7 @@ public:
     //! Container for preview image numbers
     typedef std::set<int> PreviewNumbers;
     //! Container for keys
-    typedef std::vector<std::string> Keys;
+    typedef  exv_grep_keys_t Keys;
 
     /*!
       @brief Controls all access to the global Params instance.
@@ -261,6 +265,7 @@ private:
     //! @name Helpers
     //@{
     int setLogLevel(const std::string& optarg);
+    int evalKey( const std::string& optarg);
     int evalRename(int opt, const std::string& optarg);
     int evalAdjust(const std::string& optarg);
     int evalYodAdjust(const Yod& yod, const std::string& optarg);

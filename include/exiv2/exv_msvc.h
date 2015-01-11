@@ -17,7 +17,11 @@
 // stdint.h was introduced with DevStudio 2010
 #define EXV_HAVE_STDINT_H 1
 #endif
-#if    _MSC_VER >= 1700
+#if    _MSC_VER >= 1900
+#define MSDEV_2014    1
+#elif  _MSC_VER >= 1800
+#define MSDEV_2013    1
+#elif  _MSC_VER >= 1700
 #define MSDEV_2012    1
 #elif  _MSC_VER >= 1600
 #define MSDEV_2010    1
@@ -32,6 +36,9 @@
 #if MSDEV_2012
 #define HAVE_NTOHLL 1
 #endif
+
+/* Define to 1 if you have the <regex.h> header file. */
+// #define EXV_HAVE_REGEX 1
 
 /* Define to 1 if you have the <process.h> header file. */
 #define EXV_HAVE_PROCESS_H 1

@@ -3,7 +3,7 @@
 .\" First parameter, NAME, should be all caps
 .\" Second parameter, SECTION, should be 1-8, maybe w/ subsection
 .\" other parameters are allowed: see man(7), man(1)
-.TH EXIV2 1 "Nov 11, 2012"
+.TH EXIV2 1 "Jan 10, 2015"
 .\" Please adjust this date whenever revising the manpage.
 .\"
 .\" Some roff macros, for reference:
@@ -129,7 +129,7 @@ Show the program version and exit.
 When \fB\-V\fP is combined with \fB\-v\fP (Verbose version), build information
 is printed to standard output along with a list of shared libraries which
 have been loaded into memory. Verbose version is supported on Windows
-(both MSVC and Cygwin builds), MacOSX and Linux and is provided
+(MSVC, Cygwin and MinGW builds), MacOSX and Linux and is provided
 for test and debugging.
 .TP
 .B \-v
@@ -152,8 +152,21 @@ Show large binary values (default is to suppress them).
 Show unknown tags (default is to suppress tags which don't have a name).
 .TP
 .B \-g \fIkey\fP
-Only output info for this Exiv2 key (grep). Multiple \fB\-g\fP options
-can be used to grep info for several keys.
+Only output info for this Exiv2 key (grep).
+.br
+Multiple \fB\-g\fP options
+can be used to grep info for several keys.  This option uses the system
+regular expression engine:  see man 3 regex.  Platforms which do not support
+regex use key for a substring match.  You can determine the availability of regex
+using the command: exiv2 -v -V -g have_regex
+
+.nf
+exiv2 \-g Date \-pt R.jpg  
+Exif.Image.DateTime           Ascii      20  2012:08:07 16:01:05
+Exif.Photo.DateTimeOriginal   Ascii      20  2011:09:18 16:25:48
+Exif.Photo.DateTimeDigitized  Ascii      20  2011:09:18 16:25:48 
+.fi
+
 .TP
 .B \-n \fIenc\fP
 Charset to use to decode Exif Unicode user comments. \fIenc\fP is
@@ -294,19 +307,6 @@ with the 'print' option \fB\-pp\fP.
 X : Extract metadata to an XMP sidecar file <file>.xmp. The remaining
 extract targets determine what metadata to extract to the sidecar
 file. Possible are Exif, IPTC and XMP and the default is all of these.
-
-.TP
-.B \-g \fImatch\fP
-Report only keys which match.  This is sub-string match and not grep, although
-the \fB\-g\fP option is intended to help you remember this as grep. The match is case-sensitive.
-.br
-.sp 1
-.nf
-exiv2 \-g Date \-pt R.jpg  
-Exif.Image.DateTime           Ascii      20  2012:08:07 16:01:05
-Exif.Photo.DateTimeOriginal   Ascii      20  2011:09:18 16:25:48
-Exif.Photo.DateTimeDigitized  Ascii      20  2011:09:18 16:25:48 
-.fi
 .sp 1
 .TP
 .B \-r \fIfmt\fP
