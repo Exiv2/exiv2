@@ -383,7 +383,19 @@ static void output(std::ostream& os,const exv_grep_keys_t& keys,const char* name
 
 #if EXV_HAVE__BOOL
     have_bool=1;
-#endif    
+#endif 
+
+#if  EXV_HAVE_STRINGS
+     have_strings=1;
+#endif
+
+#if  EXV_SYS_TYPES
+     have_sys_types=1;
+#endif
+
+#if  EXV_HAVE_UNISTD
+     have_unistd=1;   
+#endif
 
 #if defined(WIN32) || defined(__CYGWIN__) || defined(__MINGW__)
     // enumerate loaded libraries and determine path to executable
@@ -487,6 +499,9 @@ static void output(std::ostream& os,const exv_grep_keys_t& keys,const char* name
     output(os,keys,"have_libz"      ,have_libz      );
     output(os,keys,"have_xmptoolkit",have_xmptoolkit);
     output(os,keys,"have_bool"      ,have_bool      );
+    output(os,keys,"have_strings"   ,have_strings   );
+    output(os,keys,"have_sys_types" ,have_sys_types );
+    output(os,keys,"have_unistd"    ,have_unistd    );
 
 #if defined(__linux__)
     dlclose(ph);

@@ -51,6 +51,9 @@
 /* Define to 1 if you have the <libintl.h> header file. */
 #cmakedefine EXV_HAVE_LIBINTL_H 1
 
+/* Define to 1 if you have the <regex.h> header file. */
+#cmakedefine EXV_HAVE_REGEX 1
+
 /* Define to 1 if your system has a GNU libc compatible `malloc' function, and
    to 0 otherwise. */
 #cmakedefine EXV_HAVE_MALLOC 1
