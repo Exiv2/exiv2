@@ -56,7 +56,7 @@ AM_ICONV
 # Checks for header files.
 # ---------------------------------------------------------------------------
 AC_HEADER_STDC
-AC_CHECK_HEADERS([libintl.h locale.h malloc.h stdint.h stdlib.h string.h unistd.h sys/mman.h utime.h])
+AC_CHECK_HEADERS([libintl.h locale.h malloc.h stdint.h stdlib.h string.h unistd.h sys/mman.h utime.h regex.h])
 
 # ---------------------------------------------------------------------------
 # Checks for typedefs, structures, and compiler characteristics.

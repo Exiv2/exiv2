@@ -48,6 +48,10 @@ EXIV2_RCSID("@(#) $Id$")
 #include <cassert>
 #include <cctype>
 
+#if EXV_HAVE_REGEX
+#include <regex.h>
+#endif
+
 #if defined(__MINGW32__) || defined(__MINGW64__)
 # ifndef  __MINGW__
 #  define __MINGW__
@@ -149,7 +153,7 @@ int main(int argc, char* const argv[])
         return 0;
     }
     if (params.version_) {
-		params.version(params.verbose_);
+        params.version(params.verbose_);
         return 0;
     }
 
@@ -210,8 +214,9 @@ void Params::version(bool verbose,std::ostream& os) const
 {
     bool  b64    = sizeof(void*)==8;
     const char* sBuild = b64 ? "(64 bit build)" : "(32 bit build)" ;
-    os << EXV_PACKAGE_STRING << " " << Exiv2::versionNumberHexString() << " " << sBuild << "\n"
-       << _("Copyright (C) 2004-2013 Andreas Huggel.\n")
+    os << EXV_PACKAGE_STRING << " " << Exiv2::versionNumberHexString() << " " << sBuild << "\n";
+    if ( Params::instance().keys_.empty() ) {
+    os << _("Copyright (C) 2004-2013 Andreas Huggel.\n")
        << "\n"
        << _("This program is free software; you can redistribute it and/or\n"
             "modify it under the terms of the GNU General Public License\n"
@@ -227,8 +232,9 @@ void Params::version(bool verbose,std::ostream& os) const
             "License along with this program; if not, write to the Free\n"
             "Software Foundation, Inc., 51 Franklin Street, Fifth Floor,\n"
             "Boston, MA 02110-1301 USA\n");
+    }
 
-	if ( verbose ) dumpLibraryInfo(os);
+    if ( verbose ) dumpLibraryInfo(os,Params::instance().keys_);
 }
 
 void Params::usage(std::ostream& os) const
@@ -352,7 +358,7 @@ int Params::option(int opt, const std::string& optarg, int optopt)
     case 'u': unknown_ = false; break;
     case 'f': force_ = true; fileExistsPolicy_ = overwritePolicy; break;
     case 'F': force_ = true; fileExistsPolicy_ = renamePolicy; break;
-    case 'g': keys_.push_back(optarg); printMode_ = pmList; break;
+    case 'g': rc = evalKey(optarg); printMode_ = pmList; break;
     case 'n': charset_ = optarg; break;
     case 'r': rc = evalRename(opt, optarg); break;
     case 't': rc = evalRename(opt, optarg); break;
@@ -409,6 +415,37 @@ int Params::setLogLevel(const std::string& optarg)
     }
     return rc;
 } // Params::setLogLevel
+
+int Params::evalKey( const std::string& optarg)
+{
+    int result=0;
+#if EXV_HAVE_REGEX
+    // try to compile a reg-exp from the input argument and store it in the vector
+    const size_t i = keys_.size();
+    keys_.resize(i + 1);
+    regex_t *pRegex = &keys_[i];
+    int errcode = regcomp( pRegex, optarg.c_str(), REG_NOSUB);
+
+    // there was an error compiling the regexp
+    if( errcode ) {
+        size_t length = regerror (errcode, pRegex, NULL, 0);
+        char *buffer = new char[ length];
+        regerror (errcode, pRegex, buffer, length);
+        std::cerr << progname()
+              << ": " << _("Option") << " -g: "
+              << _("Invalid regexp") << " \"" << optarg << "\": " << buffer << "\n";
+      
+        // free the memory and drop the regexp
+        delete[] buffer;
+        regfree( pRegex);
+        keys_.resize(i);
+        result=1;
+    }
+#else
+    keys_.push_back(optarg);
+#endif
+    return result;
+} // Params::evalKey
 
 int Params::evalRename(int opt, const std::string& optarg)
 {
@@ -1036,29 +1073,29 @@ namespace {
         catch (const Exiv2::AnyError& error) {
             std::cerr << _("-M option") << " " << error << "\n";
             return false;
-	}
+        }
     } // parseCmdLines
 
-#if defined(_MSC_VER) || defined(__MINGW__)		
+#if defined(_MSC_VER) || defined(__MINGW__)
     static std::string formatArg(const char* arg)
     {
-		std::string result = "";
-		char        b  = ' ' ;
-		char        e  = '\\'; std::string E = std::string("\\");
-		char        q  = '\''; std::string Q = std::string("'" );
-		bool        qt = false;
-		char* a    = (char*) arg;
-		while  ( *a ) {
-			if ( *a == b || *a == e || *a == q ) qt = true;
-			if ( *a == q ) result += E;
-			if ( *a == e ) result += E;
-			result += std::string(a,1);
-			a++ ;
-		}
-		if (qt) result = Q + result + Q;
+        std::string result = "";
+        char        b  = ' ' ;
+        char        e  = '\\'; std::string E = std::string("\\");
+        char        q  = '\''; std::string Q = std::string("'" );
+        bool        qt = false;
+        char* a    = (char*) arg;
+        while  ( *a ) {
+            if ( *a == b || *a == e || *a == q ) qt = true;
+            if ( *a == q ) result += E;
+            if ( *a == e ) result += E;
+            result += std::string(a,1);
+            a++ ;
+        }
+        if (qt) result = Q + result + Q;
 
-		return result;
-	}
+        return result;
+    }
 #endif
 
     bool parseLine(ModifyCmd& modifyCmd, const std::string& line, int num)
@@ -1076,9 +1113,9 @@ namespace {
         if (   cmdStart == std::string::npos
             || cmdEnd == std::string::npos
             || keyStart == std::string::npos) {
-			std::string cmdLine ;
-#if defined(_MSC_VER) || defined(__MINGW__)		
-			for ( int i = 1 ; i < __argc ; i++ ) { cmdLine += std::string(" ") + formatArg(__argv[i]) ; }
+            std::string cmdLine ;
+#if defined(_MSC_VER) || defined(__MINGW__)     
+            for ( int i = 1 ; i < __argc ; i++ ) { cmdLine += std::string(" ") + formatArg(__argv[i]) ; }
 #endif
             throw Exiv2::Error(1, Exiv2::toString(num)
                                + ": " + _("Invalid command line:") + cmdLine);

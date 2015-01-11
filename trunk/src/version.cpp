@@ -62,8 +62,9 @@ EXIV2_RCSID("@(#) $Id$")
 // + standard includes
 #include <iomanip>
 #include <sstream>
-
-
+#include <string>
+#include <vector>
+#include <stdio.h>
 
 namespace Exiv2 {
     int versionNumber()
@@ -97,9 +98,6 @@ namespace Exiv2 {
     }
 }                                       // namespace Exiv2
 
-#include <string>
-#include <vector>
-#include <stdio.h>
 using namespace std;
 typedef vector<string>      string_v;
 typedef string_v::iterator  string_i;
@@ -146,49 +144,73 @@ typedef string_v::iterator  string_i;
 #endif
 #endif
 
-EXIV2API void dumpLibraryInfo(std::ostream& os)
+static void output(std::ostream& os,const exv_grep_keys_t& keys,const char* name,const std::string& value)
 {
-      string_v libs; // libs[0] == executable
-
-      int      bits = 8*sizeof(void*);
-#if   defined(_DEBUG) || defined(DEBUG)
-      int debug=1;
+    bool bPrint = keys.empty();
+    for( exv_grep_keys_t::const_iterator k = keys.begin();
+        !bPrint && k != keys.end() ; ++k
+    ) {
+#if EXV_HAVE_REGEX
+        bPrint = (  0 == regexec( &(*k), name         , 0, NULL, REG_NOTBOL | REG_NOTEOL)
+                 || 0 == regexec( &(*k), value.c_str(), 0, NULL, REG_NOTBOL | REG_NOTEOL)
+                 );
 #else
-      int debug=0;
+        bPrint = std::string(name).find(*k) != std::string::npos || value.find(*k) != std::string::npos;
+#endif
+    }
+    if ( bPrint ) os << name << "=" << value << endl;
+}
+
+static void output(std::ostream& os,const exv_grep_keys_t& keys,const char* name,int value)
+{
+    std::ostringstream stringStream;
+    stringStream << value;
+    output(os,keys,name,stringStream.str());
+}
+
+    void dumpLibraryInfo(std::ostream& os,const exv_grep_keys_t& keys)
+{
+    string_v libs; // libs[0] == executable
+    
+    int      bits = 8*sizeof(void*);
+#if defined(_DEBUG) || defined(DEBUG)
+    int debug=1;
+#else
+    int debug=0;
 #endif
 
-#if   defined(DLL_EXPORT) || defined(EXV_HAVE_DLL)
-      int dll=1;
+#if defined(DLL_EXPORT) || defined(EXV_HAVE_DLL)
+    int dll=1;
 #else
-      int dll=0;
+    int dll=0;
 #endif
 
-      const char* compiler =
-#if   defined(_MSC_VER)
-      "MSVC"    ;
+    const char* compiler =
+#if defined(_MSC_VER)
+    "MSVC"    ;
 
 #ifndef __VERSION__
-      char version[20];
-      sprintf(version,"%d.%02d",(_MSC_VER-600)/100,_MSC_VER%100);
+    char version[20];
+    sprintf(version,"%d.%02d",(_MSC_VER-600)/100,_MSC_VER%100);
 #define __VERSION__ version
 #endif
 
 #elif defined(__clang__)
-      "Clang"   ;
+    "Clang"   ;
 #elif defined(__GNUG__)
-      "G++"     ;
+    "G++"     ;
 #elif defined(__GNUC__)
-      "GCC"     ;
+    "GCC"     ;
 #elif defined(__SUNPRO_CC)
-      "CC (oracle)";
+    "CC (oracle)";
 #elif defined (__SUNPRO_C)
-      "cc (oracle)";
+    "cc (oracle)";
 #else
-      "unknown" ;
+    "unknown" ;
 #endif
 
 #if defined(__SUNPRO_CC) || defined (__SUNPRO_C)
-#define     __oracle__
+#define __oracle__
 #endif
 
 #ifndef __VERSION__
@@ -199,22 +221,169 @@ EXIV2API void dumpLibraryInfo(std::ostream& os)
 #endif
 #endif
 
-      const char* platform =
+    const char* platform =
 #if defined(__CYGWIN__)
-      "cygwin";
+    "cygwin";
 #elif defined(_MSC_VER)
-      "windows";
+    "windows";
 #elif defined(__APPLE__)
-      "apple";
+    "apple";
 #elif defined(__MINGW64__)
-      "mingw64";
+    "mingw64";
 #elif defined(__MINGW32__)
-      "mingw32";
+    "mingw32";
 #elif defined(__linux__)
-      "linux";
+    "linux";
 #else
-      "unknown";
+    "unknown";
 #endif
+
+    int have_regex      =0;
+    int have_gmtime_r   =0;
+    int have_inttypes   =0;
+    int have_libintl    =0;
+    int have_lensdata   =0;
+    int have_iconv      =0;
+    int have_memory     =0;
+    int have_memset     =0;
+    int have_lstat      =0;
+    int have_stdbool    =0;
+    int have_stdint     =0;
+    int have_stdlib     =0;
+    int have_strlib     =0;
+    int have_strchr     =0;
+    int have_strerror   =0;
+    int have_strerror_r =0;
+    int have_strings_h  =0;
+    int have_strtol     =0;
+    int have_mmap       =0;
+    int have_munmap     =0;
+    int have_sys_stat   =0;
+    int have_timegm     =0;
+    int have_unistd_h   =0;
+    int have_sys_mman   =0;
+    int have_libz       =0;
+    int have_xmptoolkit =0;
+    int have_bool       =0;
+    int have_strings    =0;
+    int have_sys_types  =0;
+    int have_unistd     =0;
+
+#if EXV_HAVE_DECL_STRERROR_R
+    have_strerror_r=1;
+#endif
+ 
+#if EXV_HAVE_GMTIME_R
+    have_gmtime_r=1;
+#endif
+ 
+#if EXV_HAVE_INTTYPES_H
+    have_inttypes=1;
+#endif
+
+#if EXV_HAVE_LIBINTL_H
+    have_libintl=1;
+#endif
+
+#if EXV_HAVE_LENSDATA
+    have_lensdata=1;
+#endif
+
+#if EXV_HAVE_ICONV
+    have_iconv=1;
+#endif
+
+#if EXV_HAVE_LIBINTL_H
+    have_libintl=1;
+#endif
+
+#if EXV_HAVE_REGEX
+    have_regex=1;
+#endif    
+
+#if EXV_HAVE_MEMORY_H
+    have_memory=1;
+#endif    
+
+#if EXV_HAVE_MEMSET
+    have_memset=1;
+#endif    
+
+#if EXV_HAVE_LSTAT
+    have_lstat=1;
+#endif    
+
+#if EXV_HAVE_STDBOOL_H
+    have_stdbool=1;
+#endif    
+
+#if EXV_HAVE_STDINT_H
+    have_stdint=1;
+#endif    
+
+#if EXV_HAVE_STDLIB_H
+    have_stdlib=1;
+#endif    
+
+#if EXV_HAVE_STRCHR
+    have_strchr=1;
+#endif    
+
+#if EXV_HAVE_STRERROR
+    have_strerror=1;
+#endif    
+
+#if EXV_HAVE_STRERROR_R
+    have_strerror_r=1;
+#endif    
+
+#if EXV_HAVE_STRINGS_H
+    have_strings=1;
+#endif    
+
+#if EXV_HAVE_STRTOL
+    have_strtol=1;
+#endif    
+
+#if EXV_HAVE_MMAP
+    have_mmap=1;
+#endif    
+
+#if EXV_HAVE_MUNMAP
+    have_munmap=1;
+#endif    
+
+#if EXV_HAVE_SYS_STAT_H
+    have_sys_stat=1;
+#endif    
+
+#if EXV_HAVE_SYS_TYPES_H
+    have_sys_types=1;
+#endif    
+
+#if EXV_HAVE_TIMEGM
+    have_timegm=1;
+#endif    
+
+#if EXV_HAVE_UNISTD_H
+    have_unistd=1;
+#endif    
+
+#if EXV_HAVE_SYS_MMAN_H
+    have_sys_mman=1;
+#endif    
+
+#if HAVE_LIBZ
+    have_libz=1;
+#endif    
+
+#if EXV_HAVE_XMP_TOOLKIT
+    have_xmptoolkit=1;
+#endif    
+
+#if EXV_HAVE__BOOL
+    have_bool=1;
+#endif    
 
 #if defined(WIN32) || defined(__CYGWIN__) || defined(__MINGW__)
     // enumerate loaded libraries and determine path to executable
@@ -261,34 +430,63 @@ EXIV2API void dumpLibraryInfo(std::ostream& os)
         pl = pl->next;
     }
 #endif
-
-    os << "exiv2="    << Exiv2::versionString() << endl;
-    os << "platform=" << platform               << endl;
-    os << "compiler=" << compiler               << endl;
-    os << "bits="     << bits                   << endl;
-    os << "dll="      << dll                    << endl;
-    os << "debug="    << debug                  << endl;
-    os << "version="  << __VERSION__            << endl;
-    os << "date="     << __DATE__               << endl;
-    os << "time="     << __TIME__               << endl;
-    os << "svn="      << SVN_VERSION            << endl;
-    os << "ssh="      << EXV_USE_SSH            << endl;
+    output(os,keys,"exiv2",Exiv2::versionString());
+    output(os,keys,"platform"       , platform   );
+    output(os,keys,"compiler"       , compiler   );
+    output(os,keys,"bits"           , bits       );
+    output(os,keys,"dll"            , dll        );
+    output(os,keys,"debug"          , debug      );
+    output(os,keys,"version"        , __VERSION__);
+    output(os,keys,"date"           , __DATE__   );
+    output(os,keys,"time"           , __TIME__   );
+    output(os,keys,"svn"            , SVN_VERSION);
+    output(os,keys,"ssh"            , EXV_USE_SSH);
 #if EXV_USE_CURL == 1
-    curl_version_info_data* vinfo   =  curl_version_info(CURLVERSION_NOW);
-    os << "curlversion="            << vinfo->version      << endl;
-    os << "curlprotocols=";
-    for (int i = 0; vinfo->protocols[i]; i++)
-        os << vinfo->protocols[i] << " ";
-    os << endl;
-#else
-    os << "curl="     << EXV_USE_CURL          << endl;
-#endif
-    os << "id="       << "$Id$" << endl;
-    if ( libs.begin() != libs.end() ) {
-        os << "executable=" << *libs.begin() << endl;
-        for ( string_i lib = libs.begin()+1 ; lib != libs.end() ; lib++ )
-            os << "library=" << *lib << endl;
+    std::string curl_protocols;
+    curl_version_info_data* vinfo = curl_version_info(CURLVERSION_NOW);
+    for (int i = 0; vinfo->protocols[i]; i++) {
+        curl_protocols += vinfo->protocols[i];
+        curl_protocols += " " ;
     }
+    output(os,keys,"curlprotocols=" ,curl_protocols);
+#else
+    output(os,keys,"curl="          , EXV_USE_CURL);
+#endif
+    output(os,keys,"id"        , "$Id$");
+    if ( libs.begin() != libs.end() ) {
+        output(os,keys,"executable" ,*libs.begin());
+        for ( string_i lib = libs.begin()+1 ; lib != libs.end() ; lib++ )
+            output(os,keys,"library",*lib);
+    }
+    
+    output(os,keys,"have_regex"     ,have_regex     );
+    output(os,keys,"have_strerror_r",have_strerror_r);
+    output(os,keys,"have_gmtime_r"  ,have_gmtime_r  );
+    output(os,keys,"have_inttypes"  ,have_inttypes  );
+    output(os,keys,"have_libintl"   ,have_libintl   );
+    output(os,keys,"have_lensdata"  ,have_lensdata  );
+    output(os,keys,"have_iconv"     ,have_iconv     );
+    output(os,keys,"have_memory"    ,have_memory    );
+    output(os,keys,"have_memset"    ,have_memset    );
+    output(os,keys,"have_lstat"     ,have_lstat     );
+    output(os,keys,"have_stdbool"   ,have_stdbool   );
+    output(os,keys,"have_stdint"    ,have_stdint    );
+    output(os,keys,"have_stdlib"    ,have_stdlib    );
+    output(os,keys,"have_strlib"    ,have_strlib    );
+    output(os,keys,"have_strchr"    ,have_strchr    );
+    output(os,keys,"have_strerror"  ,have_strerror  );
+    output(os,keys,"have_strerror_r",have_strerror_r);
+    output(os,keys,"have_strings_h" ,have_strings_h );
+    output(os,keys,"have_strtol"    ,have_strtol    );
+    output(os,keys,"have_mmap"      ,have_mmap      );
+    output(os,keys,"have_munmap"    ,have_munmap    );
+    output(os,keys,"have_sys_stat"  ,have_sys_stat  );
+    output(os,keys,"have_timegm"    ,have_timegm    );
+    output(os,keys,"have_unistd_h"  ,have_unistd_h  );
+    output(os,keys,"have_sys_mman"  ,have_sys_mman  );
+    output(os,keys,"have_libz"      ,have_libz      );
+    output(os,keys,"have_xmptoolkit",have_xmptoolkit);
+    output(os,keys,"have_bool"      ,have_bool      );
 
 #if defined(__linux__)
     dlclose(ph);

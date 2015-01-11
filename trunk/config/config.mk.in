@@ -65,7 +65,7 @@ endif
 CXXCPP = @CXXCPP@
 
 # Preprocessor flags
-CPPFLAGS = -I../src -I../include/ -I../include/exiv2 @CPPFLAGS@ -DEXV_LOCALEDIR=\"$(localedir)\"
+CPPFLAGS = -I../src -I../include/ -I../include/exiv2 @CPPFLAGS@ -I/usr/include -DEXV_LOCALEDIR=\"$(localedir)\"
 ifeq ($(COMMERCIAL_VERSION),yes)
 	CPPFLAGS += -DEXV_COMMERCIAL_VERSION=1
 endif
