@@ -21,7 +21,7 @@
 #define MSDEV_2014    1
 #elif  _MSC_VER >= 1800
 #define MSDEV_2013    1
-#if    _MSC_VER >= 1700
+#elif  _MSC_VER >= 1700
 #define MSDEV_2012    1
 #elif  _MSC_VER >= 1600
 #define MSDEV_2010    1
