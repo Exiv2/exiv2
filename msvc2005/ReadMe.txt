@@ -3,12 +3,12 @@ exiv2\msvc2005\ReadMe.txt
 
 +-----------------------------------------------------------+
 | msvc2005 builds 32bit and 64bit binaries                  |
-|          with Visual Studio 2005/8/10/12                  |
+|          with Visual Studio 2005/8/10/12/13/14            |
 | msvc2003 builds 32bit binaries                            |
 |          with Visual Studio 2003/5/8                      |
 +-----------------------------------------------------------+
 
-Updated: 2013-12-29 
+Updated: 2015-01-12 
 
 Robin Mills
 http://clanmills.com
@@ -64,7 +64,7 @@ T A B L E  o f  C O N T E N T S
      2012-05-04  23:35     <DIR>    libssh        <--- "vanilla" libssh  0.5.5  source tree
      c:\gnu>
      
-     You can obtain the libraries from http://clanmills.com/files/exiv2libs.zip (6.9mb)
+     You can obtain the libraries from http://clanmills.com/files/exiv2libs.zip (20mb)
      I copy those to the directory c:\exiv2libs
      The script msvc2005/copylibs.bat will copy them from c:\exiv2libs to the correct location
      
@@ -73,6 +73,10 @@ T A B L E  o f  C O N T E N T S
      12/17/2014  09:40 AM  <DIR>  libssh-0.5.5
      12/17/2014  09:38 AM  <DIR>  openssl-1.0.1j
      12/07/2014  09:18 AM  <DIR>  zlib-1.2.7
+     
+     The following directories are also in the archive for use by msvc2003
+     01/07/2015  11:11 AM    <DIR>          expat-2.0.1
+     01/07/2015  11:10 AM    <DIR>          zlib-1.2.3
 
      The URLs from which to obtain zlib and expat are documented in exiv2\msvc2003\ReadMe.txt
      expat-2.1.0 is available from http://voxel.dl.sourceforge.net/sourceforge/expat/expat-2.1.0.tar.gz
@@ -87,7 +91,7 @@ T A B L E  o f  C O N T E N T S
      - 36 projects      (zlib, expat, xmpsdk, exiv2lib, exiv2, addmoddel etc)
      x 2 Platforms      (x64|Win32)
      x 4 Configurations (Debug|Release|DebugDLL|ReleaseDLL)
-     = 38x2x4 = 288 builds.
+     = 36x2x4 = 288 builds.
      
      When building with webready, you add 5 libraries for a total of 328 builds.
 
@@ -96,11 +100,12 @@ T A B L E  o f  C O N T E N T S
      See the notes about DevStudio Express for more information about this.
 
      Build time is 20 minutes on a 2.2GHz Duo Core and consumes 3.0 gBytes of disk space.
-     Build time with webready is of the order of one hour as we add openssl, curl and libssh.
+     Build time with webready is of the order of one hour as we add 5 libraries.
+     (libcurl, libeay32, ssleay32,libssh,openssl)
 
 1.4  Building with and without webready
      Building the complete library with webready support requires building
-     openssl, libssh and curl.  This is time consuming.  The build time
+     5 additional libraries.  This is time consuming.  The build time
      increases from 5 to 20 minutes.
      
      By default, you will not build with webready.
@@ -115,7 +120,7 @@ T A B L E  o f  C O N T E N T S
      This is discussed in exiv2\msvc2003\ReadMe.txt 
 
 1.6  Express editions of DevStudio (or 32 bit only builds, or 64 bit only builds)
-     Express does not provide a 64 bit compiler.
+     Some Express Editions do not provide a 64 bit compiler.
      You can build 32 bit libraries with DevStudio Express (with a little effort)
 
      Before loading the project, use the python script setbuild.py to select Win32:
