@@ -513,47 +513,40 @@ namespace Action {
 
     int Print::printMetadata(const Exiv2::Image* image)
     {
-        int rc = 0;
+        std::string sMissing;
         if (Params::instance().printTags_ & Exiv2::mdExif) {
             const Exiv2::ExifData& exifData = image->exifData();
             for (Exiv2::ExifData::const_iterator md = exifData.begin();
                  md != exifData.end(); ++md) {
                 printMetadatum(*md, image);
             }
-            if (exifData.empty()) {
-                if (Params::instance().verbose_) {
-                    std::cerr << path_ << ": " << _("No Exif data found in the file\n");
-                }
-                rc = -3;
-            }
+            if (exifData.empty()) sMissing = "Exif" ;
         }
+
         if (Params::instance().printTags_ & Exiv2::mdIptc) {
             const Exiv2::IptcData& iptcData = image->iptcData();
             for (Exiv2::IptcData::const_iterator md = iptcData.begin();
                  md != iptcData.end(); ++md) {
                 printMetadatum(*md, image);
             }
-            if (iptcData.empty()) {
-                if (Params::instance().verbose_) {
-                    std::cerr << path_ << ": " << _("No IPTC data found in the file\n");
-                }
-                rc = -3;
-            }
+            if (iptcData.empty()) sMissing = "IPTC" ;
         }
+
         if (Params::instance().printTags_ & Exiv2::mdXmp) {
             const Exiv2::XmpData& xmpData = image->xmpData();
             for (Exiv2::XmpData::const_iterator md = xmpData.begin();
                  md != xmpData.end(); ++md) {
                 printMetadatum(*md, image);
             }
-            if (xmpData.empty()) {
-                if (Params::instance().verbose_) {
-                    std::cerr << path_ << ": " << _("No XMP data found in the file\n");
-                }
-                rc = -3;
-            }
+            if (xmpData.empty()) sMissing = "XMP" ;
         }
-        return rc;
+
+        bool bTagFilterGiven = !Params::instance().keys_.empty();  // were tag filters given with -g?
+        int  result = ( sMissing.empty() && !bTagFilterGiven ) ? 0 : -3;
+        if ( result ) {
+            std::cerr << path_ << ": " << "(No " << sMissing << " data found in the file)\n";
+        }
+        return result;
     } // Print::printMetadata
 
     bool Print::grepTag(const std::string& key)
