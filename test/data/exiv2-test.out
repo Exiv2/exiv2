@@ -21,7 +21,7 @@ Software Foundation, Inc., 51 Franklin Street, Fifth Floor,
 Boston, MA 02110-1301 USA
 
 Exiv2 help ---------------------------------------------------------------
-Usage: lt-exiv2 [ options ] [ action ] file ...
+Usage: exiv2 [ options ] [ action ] file ...
 
 Manipulate the Exif metadata of images.
 
@@ -602,7 +602,7 @@ File 15/15: 20060127_225027.jpg
 20060127_225027.jpg  Exif comment    :                                                                                                                                                                                                                                                                 
 
 File  1/15: exiv2-empty.jpg
-exiv2-empty.jpg: No Exif data found in the file
+exiv2-empty.jpg: (No Exif data found in the file)
 File  2/15: 20031214_000043.jpg
 20031214_000043.jpg   Exif.Image.Make                              Ascii       6  Canon
 20031214_000043.jpg   Exif.Image.Model                             Ascii      20  Canon PowerShot S40
@@ -2143,7 +2143,7 @@ File 15/15: 20060127_225027.jpg
 20060127_225027.jpg   Exif.Thumbnail.ResolutionUnit                Short       1  inch
 20060127_225027.jpg   Exif.Thumbnail.JPEGInterchangeFormat         Long        1  2548
 20060127_225027.jpg   Exif.Thumbnail.JPEGInterchangeFormatLength   Long        1  6137
-exiv2-empty.jpg: No Exif data found in the file
+exiv2-empty.jpg: (No Exif data found in the file)
 Error: Directory Canon: Next pointer is out of bounds; ignored.
 
 Extract Exif data --------------------------------------------------------
@@ -2211,7 +2211,7 @@ File 14/15: 20001004_015404.jpg
 Writing thumbnail (image/jpeg, 13824 Bytes) to file ./20001004_015404-thumb.jpg
 File 15/15: 20060127_225027.jpg
 Writing thumbnail (image/jpeg, 6137 Bytes) to file ./20060127_225027-thumb.jpg
-exiv2-empty.exv: No Exif data found in the file
+exiv2-empty.exv: (No Exif data found in the file)
 
 Compare image data and extracted data ------------------------------------
 1,1540c1,1540
@@ -5513,7 +5513,7 @@ File 14/15: 20001004_015404.jpg
 Writing Exif data from ./20001004_015404.exv to 20001004_015404.jpg
 File 15/15: 20060127_225027.jpg
 Writing Exif data from ./20060127_225027.exv to 20060127_225027.jpg
-exiv2-empty.exv: No Exif data found in the file
+exiv2-empty.exv: (No Exif data found in the file)
 
 Compare original and inserted image data ---------------------------------
 1,1540c1,1540
