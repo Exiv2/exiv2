@@ -542,7 +542,7 @@ namespace Action {
         }
 
         bool bTagFilterGiven = !Params::instance().keys_.empty();  // were tag filters given with -g?
-        int  result = ( sMissing.empty() && !bTagFilterGiven ) ? 0 : -3;
+        int  result = ( sMissing.empty() || bTagFilterGiven ) ? 0 : -3;
         if ( result ) {
             std::cerr << path_ << ": " << "(No " << sMissing << " data found in the file)\n";
         }
