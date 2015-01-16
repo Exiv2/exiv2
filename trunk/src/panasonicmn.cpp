@@ -234,9 +234,9 @@ namespace Exiv2 {
     //! SelfTimer, tag 0x002e
     extern const TagDetails panasonicSelfTimer[] = {
         { 1, N_("Off")                },
-        { 2, N_("10 s")               },
-        { 3, N_("2 s")                },
-        { 4, N_("10 s / 3 pictures")  }
+        { 2, "10 s"               },
+        { 3, "2 s"                },
+        { 4, "10 s / 3 pictures"  }
     };
 
     //! Rotation, tag 0x0030
