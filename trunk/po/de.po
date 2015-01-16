@@ -5121,19 +5121,19 @@ msgid ""
 "           is only used with the 'adjust' action.\n"
 msgstr ""
 "   -a time Zeitjustierung im Format [-]HH[:MM[:SS]]. Diese Option wird\n"
-"           nur in Zusammenhang mit der Aktion 'Justieren' benutzt.\n"
+"           nur in Zusammenhang mit der Aktion 'adjust' benutzt.\n"
 
 #: src/exiv2.cpp:278
 msgid "   -Y yrs  Year adjustment with the 'adjust' action.\n"
-msgstr "   -Y yrs  Justierung von Jahren in der Aktion 'Justieren'.\n"
+msgstr "   -Y yrs  Justierung von Jahren in der Aktion 'adjust'.\n"
 
 #: src/exiv2.cpp:279
 msgid "   -O mon  Month adjustment with the 'adjust' action.\n"
-msgstr "   -O mon  Justierung der Monate in der Aktion 'Justieren'.\n"
+msgstr "   -O mon  Justierung der Monate in der Aktion 'adjust'.\n"
 
 #: src/exiv2.cpp:280
 msgid "   -D day  Day adjustment with the 'adjust' action.\n"
-msgstr "   -D day  Jusitierung von Tagen in der Aktion 'Justieren'.\n"
+msgstr "   -D day  Justierung von Tagen in der Aktion 'adjust'.\n"
 
 #: src/exiv2.cpp:281
 msgid "   -p mode Print mode for the 'print' action. Possible modes are:\n"
