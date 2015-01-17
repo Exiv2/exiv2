@@ -185,8 +185,6 @@ IF( MSVC ) # to support the old VS solution builds
     ADD_DEFINITIONS("-DCMAKE_BUILD_SVN")
 ENDIF()
 
-SET( LIBEXIV2_HDR     ${LIBEXIV2_HDR} )
-
 ##
 # add xmp source if xmp is requested and xmp library not built
 IF( EXIV2_ENABLE_XMP )
