@@ -60,6 +60,7 @@ include $(top_srcdir)/config/config.mk
 
 # Add standalone C++ header files to this list
 CCHDR =  exiv2.hpp         \
+         config.h          \
          exv_conf.h        \
          exv_msvc.h        \
          Jzon.h            \
