@@ -64,11 +64,10 @@ CCHDR =  exiv2.hpp         \
          exv_conf.h        \
          exv_msvc.h        \
          Jzon.h            \
-         svn_version.h     \
          version.hpp
 
 # Add library C++ source files to this list
-CCSRC =  asfvideo.cpp      \
+CCSRC =  asfvideo.cpp          \
 	 basicio.cpp           \
 	 bmpimage.cpp          \
 	 canonmn.cpp           \
@@ -102,10 +101,10 @@ CCSRC =  asfvideo.cpp      \
 	 pentaxmn.cpp          \
 	 pgfimage.cpp
 ifdef HAVE_LIBZ
-CCSRC += pngimage.cpp      \
+CCSRC += pngimage.cpp          \
 	 pngchunk.cpp
 endif
-CCSRC += preview.cpp       \
+CCSRC += preview.cpp           \
 	 properties.cpp        \
 	 psdimage.cpp          \
 	 quicktimevideo.cpp    \
