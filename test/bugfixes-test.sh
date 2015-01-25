@@ -268,6 +268,13 @@ source ./functions.source
 	diff $diffargs $num-before.txt $num-after.txt    > $num.txt
 	diff $diffargs $num.txt        $diffname
 
+	num=1026
+	filename=exiv2-bug$num.jpg
+	printf "$num " >&3
+	echo '------>' Bug $num '<-------' >&2
+	copyTestFile  $filename
+	runTest exiv2 -q -pa -g Lens $filename 
+
 ) 3>&1 > $results 2>&1
 
 printf "\n"
