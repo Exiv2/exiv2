@@ -23,7 +23,7 @@ PROJECT( exiv2 )
 if( POLICY CMP0042 )
     cmake_policy(SET CMP0042 NEW) # enable MACOSX_RPATH support
 else()
-    SET( CMAKE_MACOSX_RPATH 1 )
+    SET(CMAKE_MACOSX_RPATH 1)
 endif()
 SET(CMAKE_INSTALL_RPATH "${CMAKE_INSTALL_PREFIX}/lib")
 
