@@ -17,10 +17,14 @@ if( EXISTS "${CMAKE_SOURCE_DIR}/include/exiv2/exv_conf.h"  )
 endif()
 ##
 
-CMAKE_MINIMUM_REQUIRED( VERSION 2.8 )
+CMAKE_MINIMUM_REQUIRED( VERSION 2.8.12 )
 PROJECT( exiv2 )
 
-cmake_policy(SET CMP0042 NEW) # enable MACOSX_RPATH support
+if( POLICY CMP0042 )
+    cmake_policy(SET CMP0042 NEW) # enable MACOSX_RPATH support
+else()
+    SET( CMAKE_MACOSX_RPATH 1 )
+endif()
 SET(CMAKE_INSTALL_RPATH "${CMAKE_INSTALL_PREFIX}/lib")
 
 
