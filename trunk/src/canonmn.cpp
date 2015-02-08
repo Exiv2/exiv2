@@ -270,6 +270,7 @@ namespace Exiv2 {
         { (long int)0x3800000, "PowerShot SX530 HS" },
         { (long int)0x3820000, "PowerShot SX710 HS" },
         { (long int)0x3830000, "PowerShot SX610 HS" },
+        { (long int)0x3910000, "PowerShot SX410 HS" },
         { (long int)0x4040000, "PowerShot G1" },
         { (long int)0x6040000, "PowerShot S100 / Digital IXUS / IXY Digital" },
         { (long int)0x4007d673, "DC19/DC21/DC22" },
@@ -346,6 +347,10 @@ namespace Exiv2 {
         { (long int)0x80000331, "EOS M" },
         { (long int)0x80000355, "EOS M2" },
         { (long int)0x80000346, "EOS Rebel SL1 / 100D / Kiss X7" },
+        { (long int)0x80000347, "EOS Rebel T6s / 760D / 8000D" },
+        { (long int)0x80000382, "EOS 5DS" },
+        { (long int)0x80000393, "EOS Rebel T6i / 750D / Kiss X8i" },
+        { (long int)0x80000401, "EOS 5DS R" }
     };
 
     //! SerialNumberFormat, tag 0x0015
@@ -883,8 +888,10 @@ namespace Exiv2 {
         { 504, "Canon EF 24-70mm f/4L IS USM"                               },
         { 505, "Canon EF 35mm f/2 IS USM"                                   },
         { 507, "Canon EF 16-35mm f/4L IS USM"                               },
+        { 508, "Canon EF 11-24mm f/4L USM"                                  },
         { 4142,"Canon EF-S 18-135mm f/3.5-5.6 IS STM"                       },
-        { 4143,"Canon EF-M 18-55mm f/3.5-5.6 IS STM"                        },
+        { 4143,"Canon EF-M 18-55mm f/3.5-5.6 IS STM"                        }, // 0
+        { 4143,"Tamron 18-200mm F/3.5-6.3 Di III VC"                        }, // 1
         { 4144,"Canon EF 40mm f/2.8 STM"                                    },
         { 4145,"Canon EF-M 22mm f/2 STM"                                    },
         { 4146,"Canon EF-S 18-55mm f/3.5-5.6 IS STM"                        },
@@ -892,6 +899,7 @@ namespace Exiv2 {
         { 4148,"Canon EF-S 55-250mm f/4-5.6 IS STM"                         },
         { 4149,"Canon EF-M 55-200mm f/4.5-6.3 IS STM"                       },
         { 4150,"Canon EF-S 10-18mm f/4.5-5.6 IS STM"                        },
+        { 4152,"Canon EF 24-105mm f/3.5-5.6 IS STM"                         },
         { 4154,"Canon EF-S 24mm f/2.8 STM"                                  }
     };
 
@@ -934,7 +942,8 @@ namespace Exiv2 {
         { 183, printCsLensByFocalLength }, // not tested
         { 198, printCsLensByFocalLength }, // not tested
         { 213, printCsLensByFocalLength }, // not tested
-        { 234, printCsLensByFocalLength }  // not tested
+        { 234, printCsLensByFocalLength }, // not tested
+        { 4143,printCsLensByFocalLength }  // not tested
     };
 
     //! FlashActivity, tag 0x001c
@@ -1070,7 +1079,7 @@ namespace Exiv2 {
     //! WhiteBalance, multiple tags
     extern const TagDetails canonSiWhiteBalance[] = {
         {  0, N_("Auto")                        },
-        {  1, N_("Sunny")                       },
+        {  1, N_("Daylight")                    },
         {  2, N_("Cloudy")                      },
         {  3, N_("Tungsten")                    },
         {  4, N_("Fluorescent")                 },
@@ -1089,7 +1098,8 @@ namespace Exiv2 {
         { 18, N_("Custom 3")                    },
         { 19, N_("Custom 3")                    },
         { 20, N_("PC Set 4")                    },
-        { 21, N_("PC Set 5")                    }
+        { 21, N_("PC Set 5")                    },
+        { 23, N_("Auto (ambience priority)")    }
     };
 
     //! AFPointUsed, tag 0x000e
@@ -1370,6 +1380,8 @@ namespace Exiv2 {
         { 0x84, N_("Neutral")         },
         { 0x85, N_("Faithful")        },
         { 0x86, N_("Monochrome")      },
+        { 0x87, N_("Auto")            },
+        { 0x88, N_("Fine Detail")     }
     };
 
     // Canon Processing Info Tag

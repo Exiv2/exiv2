@@ -569,7 +569,7 @@ File 14/15: 20001004_015404.jpg
 20001004_015404.jpg  Macro mode      : Off
 20001004_015404.jpg  Image quality   : Fine
 20001004_015404.jpg  Exif Resolution : 2160 x 1440
-20001004_015404.jpg  White balance   : Sunny
+20001004_015404.jpg  White balance   : Daylight
 20001004_015404.jpg  Thumbnail       : image/jpeg, 13824 Bytes
 20001004_015404.jpg  Copyright       : 
 20001004_015404.jpg  Exif comment    :                                                                                                                                                                                                                                                                 
@@ -1902,7 +1902,7 @@ File 14/15: 20001004_015404.jpg
 20001004_015404.jpg   Exif.CanonSi.TargetAperture                  Short       1  F4
 20001004_015404.jpg   Exif.CanonSi.TargetShutterSpeed              Short       1  1/347 s
 20001004_015404.jpg   Exif.CanonSi.0x0006                          Short       1  0
-20001004_015404.jpg   Exif.CanonSi.WhiteBalance                    Short       1  Sunny
+20001004_015404.jpg   Exif.CanonSi.WhiteBalance                    Short       1  Daylight
 20001004_015404.jpg   Exif.CanonSi.0x0008                          Short       1  3
 20001004_015404.jpg   Exif.CanonSi.Sequence                        Short       1  1
 20001004_015404.jpg   Exif.CanonSi.0x000a                          Short       1  8
@@ -3514,7 +3514,7 @@ Compare image data and extracted data ------------------------------------
 < 20001004_015404.jpg   Exif.CanonSi.TargetAperture                  Short       1  F4
 < 20001004_015404.jpg   Exif.CanonSi.TargetShutterSpeed              Short       1  1/347 s
 < 20001004_015404.jpg   Exif.CanonSi.0x0006                          Short       1  0
-< 20001004_015404.jpg   Exif.CanonSi.WhiteBalance                    Short       1  Sunny
+< 20001004_015404.jpg   Exif.CanonSi.WhiteBalance                    Short       1  Daylight
 < 20001004_015404.jpg   Exif.CanonSi.0x0008                          Short       1  3
 < 20001004_015404.jpg   Exif.CanonSi.Sequence                        Short       1  1
 < 20001004_015404.jpg   Exif.CanonSi.0x000a                          Short       1  8
@@ -5055,7 +5055,7 @@ Compare image data and extracted data ------------------------------------
 > 20001004_015404.exv   Exif.CanonSi.TargetAperture                  Short       1  F4
 > 20001004_015404.exv   Exif.CanonSi.TargetShutterSpeed              Short       1  1/347 s
 > 20001004_015404.exv   Exif.CanonSi.0x0006                          Short       1  0
-> 20001004_015404.exv   Exif.CanonSi.WhiteBalance                    Short       1  Sunny
+> 20001004_015404.exv   Exif.CanonSi.WhiteBalance                    Short       1  Daylight
 > 20001004_015404.exv   Exif.CanonSi.0x0008                          Short       1  3
 > 20001004_015404.exv   Exif.CanonSi.Sequence                        Short       1  1
 > 20001004_015404.exv   Exif.CanonSi.0x000a                          Short       1  8
@@ -6816,7 +6816,7 @@ Compare original and inserted image data ---------------------------------
 < 20001004_015404.jpg   Exif.CanonSi.TargetAperture                  Short       1  F4
 < 20001004_015404.jpg   Exif.CanonSi.TargetShutterSpeed              Short       1  1/347 s
 < 20001004_015404.jpg   Exif.CanonSi.0x0006                          Short       1  0
-< 20001004_015404.jpg   Exif.CanonSi.WhiteBalance                    Short       1  Sunny
+< 20001004_015404.jpg   Exif.CanonSi.WhiteBalance                    Short       1  Daylight
 < 20001004_015404.jpg   Exif.CanonSi.0x0008                          Short       1  3
 < 20001004_015404.jpg   Exif.CanonSi.Sequence                        Short       1  1
 < 20001004_015404.jpg   Exif.CanonSi.0x000a                          Short       1  8
@@ -8357,7 +8357,7 @@ Compare original and inserted image data ---------------------------------
 > 20001004_015404.exv   Exif.CanonSi.TargetAperture                  Short       1  F4
 > 20001004_015404.exv   Exif.CanonSi.TargetShutterSpeed              Short       1  1/347 s
 > 20001004_015404.exv   Exif.CanonSi.0x0006                          Short       1  0
-> 20001004_015404.exv   Exif.CanonSi.WhiteBalance                    Short       1  Sunny
+> 20001004_015404.exv   Exif.CanonSi.WhiteBalance                    Short       1  Daylight
 > 20001004_015404.exv   Exif.CanonSi.0x0008                          Short       1  3
 > 20001004_015404.exv   Exif.CanonSi.Sequence                        Short       1  1
 > 20001004_015404.exv   Exif.CanonSi.0x000a                          Short       1  8
