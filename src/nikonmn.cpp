@@ -150,11 +150,13 @@ namespace Exiv2 {
     extern const TagDetailsBitmask nikonShootingMode[] = {
         { 0x0001, N_("Continuous")               },
         { 0x0002, N_("Delay")                    },
-        { 0x0004, N_("PC control")               },
-        { 0x0010, N_("Exposure bracketing")      },
-        { 0x0020, N_("Auto ISO") },
-        { 0x0040, N_("White balance bracketing") },
-        { 0x0080, N_("IR control")               }
+        { 0x0004, N_("PC Control")               },
+        { 0x0008, N_("Self-timer")               },
+        { 0x0010, N_("Exposure Bracketing")      },
+        { 0x0020, N_("Auto ISO")                 },
+        { 0x0040, N_("White-Balance Bracketing") },
+        { 0x0080, N_("IR Control")               },
+        { 0x0100, N_("D-Lighting Bracketing")    }
     };
 
     //! ShootingMode D70, tag 0x0089
@@ -2012,6 +2014,7 @@ fmountlens[] = {
 {0xA4,0x40,0x2D,0x8E,0x2C,0x40,0xBF,0x0E,0x01,0x00,0x01, "Nikon", "JAA821DA", "AF-S DX Nikkor 18-300mm f/3.5-6.3G ED VR"},
 {0xA5,0x4C,0x44,0x44,0x14,0x14,0xC0,0x06,0x01,0x00,0x01, "Nikon", "JAA137DA", "AF-S Nikkor 35mm f/1.8G ED"},
 {0xA8,0x48,0x8E,0x8E,0x30,0x30,0xC3,0x4E,0x01,0x00,0x01, "Nikon", "JAA342DA", "AF-S Nikkor 300mm f/4E PF ED VR"},
+{0xA8,0x48,0x8E,0x8E,0x30,0x30,0xC3,0x0E,0x01,0x00,0x01, "Nikon", "JAA342DA", "AF-S Nikkor 300mm f/4E PF ED VR"},
 {0xA9,0x4C,0x31,0x31,0x14,0x14,0xC4,0x06,0x01,0x00,0x01, "Nikon", "JAA138DA", "AF-S Nikkor 20mm f/1.8G ED"},
 //
 //   3B 53 80 30 3C   " "0E" "01" "00" "01" "Nikon" "JAA823DA" "AF-S DX Nikkor 55-200mm f/4-5.6G VR II"
