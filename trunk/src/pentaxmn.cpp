@@ -187,6 +187,7 @@ namespace Exiv2 {
         {    0x13006, "WG-20" },
         {    0x13010, "645Z" },
         {    0x1301a, "K-S1" },
+        {    0x13024, "K-S2" },
         {    0x1302e, "Q-S1" },
         {    0x13056, "WG-30" },
     };
@@ -907,6 +908,7 @@ namespace Exiv2 {
         { 0x081e, "Sigma 17-70mm F2.8-4 DC Macro HSM Contemporary" },
         { 0x081f, "Sigma 18-35mm F1.8 DC HSM" },
         { 0x0820, "Sigma 30mm F1.4 DC HSM | A" },
+        { 0x083b, "HD PENTAX-D FA 150-450mm F4.5-5.6 ED DC AW" },
         { 0x08c8, "HD PENTAX-DA 16-85mm F3.5-5.6 ED DC WR" },
         { 0x08d1, "HD PENTAX-DA 20-40mm F2.8-4 ED Limited DC WR" },
         { 0x08d2, "smc PENTAX-DA 18-270mm F3.5-6.3 ED SDM" },
