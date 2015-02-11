@@ -8,7 +8,7 @@ exiv2\msvc2005\ReadMe.txt
 |          with Visual Studio 2003/5/8                      |
 +-----------------------------------------------------------+
 
-Updated: 2015-02-10
+Updated: 2015-02-11
 
 Robin Mills
 http://clanmills.com
@@ -34,6 +34,10 @@ T A B L E  o f  C O N T E N T S
 3.2  Running the test suite
 
 4    Building Applications to use Exiv2
+4.1  Recommended work-flow to create applications
+4.2  Link order
+4.3  tools/bin/depends32.exe and depends64.exe
+4.4  exiv2.exe --verbose --version
 
 5    Acknowledgment of prior work
 5.1  Differences between inherited project and the exiv2 projects
@@ -266,6 +270,8 @@ T A B L E  o f  C O N T E N T S
 
 4    Building Applications to use Exiv2
 
+4.1  Recommended work-flow to create applications
+
      a) add your code code to a sample applications (such as exifprint.exe)
         get the code building and running from there.
         our program will be called exifprint.exe
@@ -288,6 +294,152 @@ T A B L E  o f  C O N T E N T S
     You may prefer to copy the generated libs and dlls in bin/$platform/$configuration
     to your build tree.  When you do this, you will have to explicitly link
     the libraries you have copied.
+
+4.2  Link order
+
+     The correct order is revealed in Visual Studio, by examining exifprint/Properties/Linker/Command-Line:
+
+     /OUT:"C:\cygwin64\home\rmills\gnu\exiv2\video-write\msvc2005\bin/x64/ReleaseDLL\exifprint.exe"
+     /INCREMENTAL:NO /NOLOGO /MANIFEST /MANIFESTFILE:"build/x64/ReleaseDLL\exifprint.exe.intermediate.manifest"
+     /SUBSYSTEM:CONSOLE /MACHINE:X64 /ERRORREPORT:PROMPT kernel32.lib user32.lib
+     gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib
+     "..\bin\x64\releasedll\libexiv2.lib" "..\bin\x64\releasedll\xmpsdk.lib"
+     "..\bin\x64\releasedll\libexpat.lib" "..\bin\x64\releasedll\zlib1.lib"
+
+     I don't believe you have to explicitly link msvc{r|p}XXX as they are linked automatically by the version of Visual Studio.
+     800=Visual Studio 2005, 900=2008, 100=2010, 110=2012, 120=2013.
+
+4.3  tools/bin/depends32.exe and depends64.exe
+
+     C:\cygwin64\home\rmills\gnu\exiv2\video-write\msvc2005\bin\x64\releasedll>depends64 exiv2.exe
+     libexpat.dll
+     PSAPI.DLL
+     NSI.dll
+     API-MS-Win-Core-DelayLoad-L1-1-0.dll
+     API-MS-Win-Core-Interlocked-L1-1-0.dll
+     RPCRT4.dll
+     API-MS-Win-Core-LocalRegistry-L1-1-0.dll
+     msvcrt.dll
+     WS2_32.dll
+     zlib1.dll
+     API-MS-Win-Security-Base-L1-1-0.dll
+     API-MS-Win-Core-Profile-L1-1-0.dll
+     API-MS-Win-Core-Util-L1-1-0.dll
+     API-MS-Win-Core-Fibers-L1-1-0.dll
+     API-MS-Win-Core-ErrorHandling-L1-1-0.dll
+     API-MS-Win-Core-Debug-L1-1-0.dll
+     API-MS-Win-Core-String-L1-1-0.dll
+     API-MS-Win-Core-ProcessEnvironment-L1-1-0.dll
+     API-MS-Win-Core-Localization-L1-1-0.dll
+     API-MS-Win-Core-SysInfo-L1-1-0.dll
+     API-MS-Win-Core-Misc-L1-1-0.dll
+     API-MS-Win-Core-NamedPipe-L1-1-0.dll
+     API-MS-Win-Core-LibraryLoader-L1-1-0.dll
+     API-MS-Win-Core-ThreadPool-L1-1-0.dll
+     API-MS-Win-Core-IO-L1-1-0.dll
+     API-MS-Win-Core-File-L1-1-0.dll
+     API-MS-Win-Core-Synch-L1-1-0.dll
+     API-MS-Win-Core-Handle-L1-1-0.dll
+     API-MS-Win-Core-Memory-L1-1-0.dll
+     API-MS-Win-Core-Heap-L1-1-0.dll
+     API-MS-Win-Core-ProcessThreads-L1-1-0.dll
+     KERNELBASE.dll
+     ntdll.dll
+     API-MS-Win-Core-RtlSupport-L1-1-0.dll
+     KERNEL32.dll
+     libexiv2.dll
+       Not found: MSVCR80.dll
+       Not found: MSVCP80.dll
+     exiv2.exe
+       Not found: MSVCR80.dll
+       Not found: MSVCP80.dll
+
+     C:\cygwin64\home\rmills\gnu\exiv2\video-write\msvc2005\bin\x64\releasedll>
+
+4.4  exiv2.exe --verbose --version
+
+     You can inspect build information using exiv2 -v -V (verbose version):
+
+     C:\cygwin64\home\rmills\gnu\exiv2\video-write\msvc2005\bin\x64\releasedll>exiv2 -v -V
+     exiv2 0.24 001800 (64 bit build)
+     Copyright (C) 2004-2013 Andreas Huggel.
+
+     This program is free software; you can redistribute it and/or
+     modify it under the terms of the GNU General Public License
+     as published by the Free Software Foundation; either version 2
+     of the License, or (at your option) any later version.
+
+     This program is distributed in the hope that it will be useful,
+     but WITHOUT ANY WARRANTY; without even the implied warranty of
+     MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+     GNU General Public License for more details.
+
+     You should have received a copy of the GNU General Public
+     License along with this program; if not, write to the Free
+     Software Foundation, Inc., 51 Franklin Street, Fifth Floor,
+     Boston, MA 02110-1301 USA
+     exiv2=0.24.0
+     platform=windows
+     compiler=MSVC
+     bits=64
+     dll=1
+     debug=0
+     version=8.00
+     date=Feb  1 2015
+     time=21:45:35
+     svn=3592
+     ssh=0
+     curl==0
+     id=$Id: version.cpp 3564 2015-01-11 21:38:40Z robinwmills $
+     executable=C:\cygwin64\home\rmills\gnu\exiv2\video-write\msvc2005\bin\x64\releasedll\exiv2.exe
+     library=C:\Windows\SYSTEM32\ntdll.dll
+     library=C:\Windows\system32\kernel32.dll
+     library=C:\Windows\system32\KERNELBASE.dll
+     library=C:\cygwin64\home\rmills\gnu\exiv2\video-write\msvc2005\bin\x64\releasedll\libexiv2.dll
+     library=C:\cygwin64\home\rmills\gnu\exiv2\video-write\msvc2005\bin\x64\releasedll\zlib1.dll
+     library=C:\Windows\WinSxS\amd64_microsoft.vc80.crt_1fc8b3b9a1e18e3b_8.0.50727.6195_none_88e41e092fab0294\MSVCR80.dl
+     library=C:\Windows\system32\msvcrt.dll
+     library=C:\Windows\system32\WS2_32.dll
+     library=C:\Windows\system32\RPCRT4.dll
+     library=C:\Windows\system32\NSI.dll
+     library=C:\Windows\WinSxS\amd64_microsoft.vc80.crt_1fc8b3b9a1e18e3b_8.0.50727.6195_none_88e41e092fab0294\MSVCP80.dl
+     library=C:\Windows\system32\PSAPI.DLL
+     library=C:\cygwin64\home\rmills\gnu\exiv2\video-write\msvc2005\bin\x64\releasedll\libexpat.dll
+     have_regex=0
+     have_strerror_r=0
+     have_gmtime_r=0
+     have_inttypes=0
+     have_libintl=0
+     have_lensdata=1
+     have_iconv=0
+     have_memory=0
+     have_memset=0
+     have_lstat=0
+     have_stdbool=0
+     have_stdint=0
+     have_stdlib=0
+     have_strlib=0
+     have_strchr=0
+     have_strerror=0
+     have_strerror_r=0
+     have_strings_h=0
+     have_strtol=0
+     have_mmap=0
+     have_munmap=0
+     have_sys_stat=0
+     have_timegm=0
+     have_unistd_h=0
+     have_sys_mman=0
+     have_libz=1
+     have_xmptoolkit=1
+     have_bool=0
+     have_strings=0
+     have_sys_types=0
+     have_unistd=0
+
+     The keys library=path are based on the actual libraries loaded in memory by exiv2.exe
+     The output of exiv2.exe -v -V is used by the test suite to verify that we are using
+     the correct libraries and not some other bandits which happen to reside on the host machine.
 
 5    Acknowledgement of prior work
      This work is based on work by the following people:
