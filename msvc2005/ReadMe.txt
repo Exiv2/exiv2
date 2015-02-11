@@ -35,9 +35,10 @@ T A B L E  o f  C O N T E N T S
 
 4    Building Applications to use Exiv2
 4.1  Recommended work-flow to create applications
-4.2  Link order
-4.3  tools/bin/depends32.exe and depends64.exe
-4.4  exiv2.exe --verbose --version
+4.2  Compiler Include Paths and Options
+4.3  Library Link Order
+4.4  tools/bin/depends32.exe and depends64.exe
+4.5  exiv2.exe --verbose --version
 
 5    Acknowledgment of prior work
 5.1  Differences between inherited project and the exiv2 projects
@@ -290,14 +291,33 @@ T A B L E  o f  C O N T E N T S
         When you reference <exiv2dir>, you can update <exiv2dir> occasionally
         and rebuild with little effort.
 
-    Of course, there are always other ways to achieve your goals in software.
-    You may prefer to copy the generated libs and dlls in bin/$platform/$configuration
-    to your build tree.  When you do this, you will have to explicitly link
-    the libraries you have copied.
+     Of course, there are always other ways to achieve your goals in software.
+     You may prefer to copy the generated libs and dlls in bin/$platform/$configuration
+     to your build tree.  When you do this, you will have to explicitly link
+     the libraries you have copied.
 
-4.2  Link order
+4.2  Compiler Include Paths and Options
 
-     The correct order is revealed in Visual Studio, by examining exifprint/Properties/Linker/Command-Line:
+     The correct include paths and compiler options are revealed in Visual Studio,
+     by examining exifprint/Properties/C++/Command Line:
+
+     /Od
+     /I "C:\cygwin64\home\rmills\gnu\exiv2\video-write\msvc2005\../include"
+     /I "C:\cygwin64\home\rmills\gnu\exiv2\video-write\msvc2005\../include/exiv2"
+     /I "C:\cygwin64\home\rmills\gnu\exiv2\video-write\msvc2005\../xmpsdk/include"
+     /I "C:\cygwin64\home\rmills\gnu\exiv2\video-write\msvc2005\../../expat/lib"
+     /I "C:\cygwin64\home\rmills\gnu\exiv2\video-write\msvc2005\../../zlib"
+     /I "C:\cygwin64\home\rmills\gnu\exiv2\video-write\msvc2005\/../../curl/include"
+     /I "C:\cygwin64\home\rmills\gnu\exiv2\video-write\msvc2005\/../../libssh/include"
+     /I "C:\cygwin64\home\rmills\gnu\exiv2\video-write\msvc2005\xssl/Win32/Release/include"
+     /D "WIN32" /D "_NDEBUG" /D "_CONSOLE" /D "BUILD_GETOPT" /D "EXV_HAVE_DLL" /D "_MBCS"
+     /Gm /EHsc /MD /Fo"build/x64/ReleaseDLL\\" /Fd"build/x64/ReleaseDLL\vc80.pdb"
+     /FR"build/x64/ReleaseDLL\\" /W3 /nologo /c /Zi /TP /errorReport:prompt</pre>The correct library link order
+
+4.3  Library Link Order
+
+     The correct order is revealed in Visual Studio,
+     by examining exifprint/Properties/Linker/Command-Line:
 
      /OUT:"C:\cygwin64\home\rmills\gnu\exiv2\video-write\msvc2005\bin/x64/ReleaseDLL\exifprint.exe"
      /INCREMENTAL:NO /NOLOGO /MANIFEST /MANIFESTFILE:"build/x64/ReleaseDLL\exifprint.exe.intermediate.manifest"
@@ -309,7 +329,7 @@ T A B L E  o f  C O N T E N T S
      I don't believe you have to explicitly link msvc{r|p}XXX as they are linked automatically by the version of Visual Studio.
      800=Visual Studio 2005, 900=2008, 100=2010, 110=2012, 120=2013.
 
-4.3  tools/bin/depends32.exe and depends64.exe
+4.4  tools/bin/depends32.exe and depends64.exe
 
      C:\cygwin64\home\rmills\gnu\exiv2\video-write\msvc2005\bin\x64\releasedll>depends64 exiv2.exe
      libexpat.dll
@@ -356,7 +376,7 @@ T A B L E  o f  C O N T E N T S
 
      C:\cygwin64\home\rmills\gnu\exiv2\video-write\msvc2005\bin\x64\releasedll>
 
-4.4  exiv2.exe --verbose --version
+4.5  exiv2.exe --verbose --version
 
      You can inspect build information using exiv2 -v -V (verbose version):
 
