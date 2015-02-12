@@ -767,7 +767,7 @@ namespace {
         for (ExifData::const_iterator pos = exifData.begin(); pos != exifData.end(); ++pos) {
             if (pos->groupName() == group_) {
                 /*
-                   Write only the neccessary TIFF image tags
+                   Write only the necessary TIFF image tags
                    tags that especially could cause problems are:
                    "NewSubfileType" - the result is no longer a thumbnail, it is a standalone image
                    "Orientation" - this tag typically appears only in the "Image" group. Deleting it ensures

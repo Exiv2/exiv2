@@ -36,7 +36,7 @@ class UtilsVideo
 public:
     static bool compareTagValue(Exiv2::DataBuf &buf, const char *str);
     static bool compareTagValue(Exiv2::DataBuf& buf,const char arr[][5],int32_t arraysize);
-    static bool simpleBytesComparision(Exiv2::DataBuf& buf ,const char* str,int32_t size);
+    static bool simpleBytesComparison(Exiv2::DataBuf& buf ,const char* str,int32_t size);
 }; // class UtilsVideo
 
 } // namespace Exiv2

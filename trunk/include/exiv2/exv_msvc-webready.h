@@ -111,9 +111,9 @@ typedef int pid_t;
 #pragma comment(lib, "ws2_32.lib")
 #pragma comment(lib, "wldap32.lib")
 
-/* File path seperator */
-#define EXV_SEPERATOR_STR "\\"
-#define EXV_SEPERATOR_CHR '\\'
+/* File path separator */
+#define EXV_SEPARATOR_STR "\\"
+#define EXV_SEPARATOR_CHR '\\'
 
 /* Windows unicode path support */
 // #define EXV_UNICODE_PATH

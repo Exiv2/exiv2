@@ -208,13 +208,13 @@ typedef int pid_t;
 #define EXV_HAVE_GXXCLASSVISIBILITY
 #endif
      
-/* File path seperator */
+/* File path separator */
 #if defined(WIN32) && !defined(__CYGWIN__)
-#define EXV_SEPERATOR_STR "\\"
-#define EXV_SEPERATOR_CHR '\\'
+#define EXV_SEPARATOR_STR "\\"
+#define EXV_SEPARATOR_CHR '\\'
 #else
-#define EXV_SEPERATOR_STR "/"
-#define EXV_SEPERATOR_CHR '/'
+#define EXV_SEPARATOR_STR "/"
+#define EXV_SEPARATOR_CHR '/'
 #endif
 
 /* Shared library support, see http://gcc.gnu.org/wiki/Visibility */

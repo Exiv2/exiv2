@@ -353,7 +353,7 @@ EXIVSIMPLE_API int AddMeta(HIMAGE img, const char *key, const char *val, DllType
     return rc;
 }
 
-// If multiple entires exist, this only remove the first one
+// If multiple entries exist, this only remove the first one
 // found. Call multiple times to remove many.
 // Returns 0 on success
 EXIVSIMPLE_API int RemoveMeta(HIMAGE img, const char *key)

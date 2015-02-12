@@ -1167,7 +1167,7 @@ XMPMeta::ParseFromBuffer ( XMP_StringPtr  buffer,
 			
 				// We've got some leftover input, process it first then continue with the current
 				// buffer. Try to fill the pendingInput buffer before parsing further. We use a loop
-				// for wierd edge cases like a 2 byte input buffer, using 1 byte for pendingInput,
+				// for weird edge cases like a 2 byte input buffer, using 1 byte for pendingInput,
 				// then having a partial UTF-8 end and need to absorb more.
 				
 				size_t pendingOverlap = kXMLPendingInputMax - parser.pendingCount;

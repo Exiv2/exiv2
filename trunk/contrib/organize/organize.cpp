@@ -349,7 +349,7 @@ int main(int argc, char* argv[])
     po::options_description hidden("Hidden Options");
     hidden.add_options()
         ("source-dir", po::value< std::string >(), "directory of files to organize, may end in file wildcard")
-        ("dest-dir", po::value< std::string >(), "desination directory for files, may not be within source-dir")
+        ("dest-dir", po::value< std::string >(), "designation directory for files, may not be within source-dir")
         ("pattern", po::value< std::string >(), "subdirectory pattern for grouping files within dest-dir")
         ;
 

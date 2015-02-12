@@ -195,7 +195,7 @@ namespace Exiv2 {
             throw Error(3, "Photoshop");
         }
 
-        // after the color data section, comes a list of resource blocks, preceeded by the total byte size
+        // after the color data section, comes a list of resource blocks, preceded by the total byte size
         if (io_->read(buf, 4) != 4)
         {
             throw Error(3, "Photoshop");

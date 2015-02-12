@@ -85,7 +85,7 @@ LPCTSTR getModuleBase(PMODULE_FILE_INFO pModule,BOOL bQuiet)
 	LPCTSTR base = pModule->GetBaseName() ;
     LPCTSTR result = base ;
     if ( bQuiet ) {
-        // keep quiet about these guys - they're build/compiler dependant
+        // keep quiet about these guys - they're build/compiler dependent
 	    if (   _strnicmp(base,"MSVCR",5) == 0 ) result = NULL ;
 	    if (   _strnicmp(base,"MSVCP",5) == 0 ) result = NULL ;
 	    if (   _strnicmp(base,"API-MS-Win",10) == 0 ) result = NULL ;

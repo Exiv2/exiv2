@@ -792,12 +792,12 @@ namespace Exiv2 {
     class EXIV2API XPathIo : public FileIo {
     public:
         /*!
-            @brief The extention of the temporary file which is created when getting input data
+            @brief The extension of the temporary file which is created when getting input data
                     to read metadata. This file will be deleted in destructor.
         */
         static const std::string TEMP_FILE_EXT;
         /*!
-            @brief The extention of the generated file which is created when getting input data
+            @brief The extension of the generated file which is created when getting input data
                     to add or modify the metadata.
         */
         static const std::string GEN_FILE_EXT;

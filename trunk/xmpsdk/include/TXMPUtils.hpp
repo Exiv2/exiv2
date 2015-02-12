@@ -857,7 +857,7 @@ public:
     ///   internal. You can use this flag together with \c #kXMPUtil_ReplaceOldValues to replace the
     ///   values of existing top-level properties.
     ///
-    ///   \li \c #kXMPUtil_ReplaceOldValues: Propogate all top-level properties from the source to
+    ///   \li \c #kXMPUtil_ReplaceOldValues: Propagate all top-level properties from the source to
     ///   the destination, replacing any existing values. The values of properties in the
     ///   destination that are not in the source are not modified.<br>
     ///   The keep-or-replace-old notion also applies within structs and arrays. Top-level

@@ -845,7 +845,7 @@ XMPUtils::CatenateArrayItems ( const XMPMeta & xmpObj,
 	if ( arrayNode->children.empty() ) goto EXIT;	// ! Need to set the output pointer and length.
 	
 	// Build the result, quoting the array items, adding separators. Hurl if any item isn't simple.
-	// Start the result with the first value, then add the rest with a preceeding separator.
+	// Start the result with the first value, then add the rest with a preceding separator.
 	
 	currItem = arrayNode->children[0];
 	

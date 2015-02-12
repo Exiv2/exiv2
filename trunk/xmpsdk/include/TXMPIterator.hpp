@@ -62,7 +62,7 @@
 /// are visited next. The fields of a struct or items of an array are visited after the qualifiers
 /// of the parent.
 ///
-/// You can specify options when contructing the iteration object to control how the iteration is
+/// You can specify options when constructing the iteration object to control how the iteration is
 /// performed.
 ///
 ///   \li \c #kXMP_IterJustChildren - Visit just the immediate children of the root. Skip the root

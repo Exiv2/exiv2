@@ -461,7 +461,7 @@ namespace Exiv2 {
                 N_("Release Mode"),
                 sony1Id, makerTags, unsignedShort, -1, EXV_PRINT_TAG(sonyReleaseMode)),
         TagInfo(0xB04A, "SequenceNumber", N_("Sequence Number"),
-                N_("Shot number in continous burst mode"),
+                N_("Shot number in continuous burst mode"),
                 sony1Id, makerTags, unsignedShort, -1, EXV_PRINT_TAG(sonySequenceNumber)),
         TagInfo(0xB04B, "AntiBlur", N_("Anti-Blur"),
                 N_("Anti-Blur"),
