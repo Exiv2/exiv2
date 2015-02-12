@@ -1373,7 +1373,7 @@ namespace Exiv2 {
         { "MediaLangCode",      N_("Media Language Code"),          "Integer",               xmpText, xmpExternal, N_("A 16-bit integer that specifies the language code for this media.")   },
         { "MediaModifyDate",    N_("Media Track Modify Date"),      "Integer",               xmpText, xmpExternal, N_("A 32-bit integer that indicates (in seconds since midnight, January 1, 1904) when the media header was last modified.")   },
         { "MediaTimeScale",     N_("Media Time Scale"),             "Integer",               xmpText, xmpExternal, N_("A time value that indicates the time scale for this media-that is, the number of time units that pass per second in its time coordinate system." )   },
-        { "OutputSampleRate",   N_("Output Audio Sample Rate"),     "Integer",               xmpText, xmpExternal, N_("The ouput audio sample rate. Can be any value, but commonly 32000, 41100, or 48000.") },
+        { "OutputSampleRate",   N_("Output Audio Sample Rate"),     "Integer",               xmpText, xmpExternal, N_("The output audio sample rate. Can be any value, but commonly 32000, 41100, or 48000.") },
         { "SampleCount",        N_("Audio Sample Count"),           "Integer",               xmpText, xmpExternal, N_("Sample taken for Analyzing Audio Stream")   },
         { "SampleRate",         N_("Audio Sample Rate"),            "Integer",               xmpText, xmpExternal, N_("The audio sample rate. Can be any value, but commonly 32000, 41100, or 48000.") },
         { "SampleType",         N_("Audio Sample Type"),            "closed Choice of Text", xmpText, xmpExternal, N_("The audio sample type. One of: 8Int, 16Int, 32Int, 32Float.") },
@@ -1438,11 +1438,11 @@ namespace Exiv2 {
                                                 N_("A list (concatenated and separated) of additional measurements, facts, characteristics, or assertions about the record. Meant to provide a mechanism for structured content such as key-value pairs.")
             },
 
-        // Occurence Level Class
-        { "Occurence",                      N_("Occurence"),                         "Occurence",    xmpText,   xmpInternal, 
+        // Occurrence Level Class
+        { "Occurrence",                      N_("Occurrence"),                         "Occurrence",    xmpText,   xmpInternal, 
                                             N_("The category of information pertaining to evidence of an occurrence in nature, in a collection, or in a dataset (specimen, observation, etc.)."),
         },
-            // Occurence Level Terms
+            // Occurrence Level Terms
             { "occurrenceID",                   N_("Occurrence ID"),                        "Text",      xmpText,   xmpExternal,      
                                                 N_("An identifier for the Occurrence (as opposed to a particular digital record of the occurrence). In the absence of a persistent global unique identifier, construct one from a combination of identifiers in the record that will most closely make the occurrenceID globally unique.")
             },
@@ -1537,7 +1537,7 @@ namespace Exiv2 {
                                                 N_("The amount of effort expended during an Event.")
             },
             { "Date",                           N_("Event Date"),                  "Date",      xmpText,    xmpExternal,      
-                                                N_("The date-time or interval during which an Event occured. For occurrences, this is the date-time when the event was recorded. Not suitable for a time in a geological context. Recommended best practice is to use an encoding scheme, such as ISO 8601:2004(E).")
+                                                N_("The date-time or interval during which an Event occurred. For occurrences, this is the date-time when the event was recorded. Not suitable for a time in a geological context. Recommended best practice is to use an encoding scheme, such as ISO 8601:2004(E).")
             },
             { "earliestDate",                   N_("Event Earliest Date"),                  "Date",      xmpText,    xmpExternal,      
                                                 N_("The date-time or interval during which an Event started. For occurrences, this is the date-time when the event was recorded. Not suitable for a time in a geological context. Recommended best practice is to use an encoding scheme, such as ISO 8601:2004(E).")

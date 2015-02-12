@@ -299,8 +299,8 @@ namespace Exiv2 {
         { 34892, N_("Linear Raw")         }
     };
 
-    //! Threshholding, tag 0x0107
-    extern const TagDetails exifThreshholding[] = {
+    //! Thresholding, tag 0x0107
+    extern const TagDetails exifThresholding[] = {
         { 1, N_("No dithering or halftoning")           },
         { 2, N_("Ordered dither or halftone technique") },
         { 3, N_("Randomized process")                   }
@@ -441,10 +441,10 @@ namespace Exiv2 {
                 N_("The pixel composition. In JPEG compressed data a JPEG "
                 "marker is used instead of this tag."),
                 ifd0Id, imgStruct, unsignedShort, 1, EXV_PRINT_TAG(exifPhotometricInterpretation)),
-        TagInfo(0x0107, "Threshholding", N_("Threshholding"),
+        TagInfo(0x0107, "Thresholding", N_("Thresholding"),
                 N_("For black and white TIFF files that represent shades of gray, "
                    "the technique used to convert from gray to black and white pixels."),
-                ifd0Id, imgStruct, unsignedShort, 1, EXV_PRINT_TAG(exifThreshholding)), // TIFF tag
+                ifd0Id, imgStruct, unsignedShort, 1, EXV_PRINT_TAG(exifThresholding)), // TIFF tag
         TagInfo(0x0108, "CellWidth", N_("Cell Width"),
                 N_("The width of the dithering or halftoning matrix used to create a "
                    "dithered or halftoned bilevel file."),

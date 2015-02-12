@@ -241,7 +241,7 @@ AdvanceIterPos ( IterInfo & info )
 		} else {
 			
 			// -------------------------------------------------------------------------------------------
-			// Decide what to do with this iteration node based on its state. Don't use a switch statment,
+			// Decide what to do with this iteration node based on its state. Don't use a switch statement,
 			// some of the cases want to break from the loop. A break in a switch just exits the case.
 			
 			#if TraceIterators

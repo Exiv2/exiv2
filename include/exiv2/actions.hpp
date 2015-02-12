@@ -134,7 +134,7 @@ namespace Action {
           prototype is replaced.
 
           @param type Task type.
-          @param task Pointer to the prototype. Ownership is transfered to the
+          @param task Pointer to the prototype. Ownership is transferred to the
                  task factory. That's what the auto pointer indicates.
         */
         void registerTask(TaskType type, Task::AutoPtr task);
@@ -356,7 +356,7 @@ namespace Action {
 
     private:
         virtual Modify* clone_() const;
-        //! Copy contructor needed because of AutoPtr member
+        //! Copy constructor needed because of AutoPtr member
         Modify(const Modify& /*src*/) : Task() {}
 
         //! Add a metadatum to \em pImage according to \em modifyCmd

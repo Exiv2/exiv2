@@ -50,7 +50,7 @@ bool UtilsVideo::compareTagValue(Exiv2::DataBuf& buf,const char arr[][5],int32_t
     return result;
 }
 
-bool UtilsVideo::simpleBytesComparision(Exiv2::DataBuf& buf ,const char* str,int32_t size){
+bool UtilsVideo::simpleBytesComparison(Exiv2::DataBuf& buf ,const char* str,int32_t size){
     for(int32_t i=0; i<size; i++ )
         if(toupper(buf.pData_[i]) != str[i])
             return false;

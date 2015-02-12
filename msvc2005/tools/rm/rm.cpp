@@ -195,7 +195,7 @@ BOOL empty_directory(wchar_t* name, BOOL force, BOOL verbose, BOOL quiet){
  * option is TRUE, directories will be recursively emptied then deleted.
  * If force is TRUE, file attributes will be changed to allow the program
  * to delete the file.  The verbose option will cause non-fatal error messages
- * to print to stderr.  The quiet option will supress all but fatal
+ * to print to stderr.  The quiet option will suppress all but fatal
  * error messages
  */
 BOOL del(wchar_t* name, BOOL recurse, BOOL force, BOOL verbose, BOOL quiet) {

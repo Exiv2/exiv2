@@ -916,12 +916,12 @@ int main(int argc,const char* argv[])
    char* filename = "crt_stat.c";
    errno_t err;
 
-   // Get data associated with "crt_stat.c": 
+   // Get data associated with "crt_stat.c":
    result = _stat( filename, &buf );
 
    int _utime(
    const char *filename,
-   struct _utimbuf *times 
+   struct _utimbuf *times
 );
    */
 
