@@ -1916,7 +1916,7 @@ namespace {
                       << path << "\n";
             return 1;
         }
-        newPath =   Util::dirname(path) + EXV_SEPERATOR_STR
+        newPath =   Util::dirname(path) + EXV_SEPARATOR_STR
                   + basename + Util::suffix(path);
         if (   Util::dirname(newPath)  == Util::dirname(path)
             && Util::basename(newPath) == Util::basename(path)) {
@@ -1939,7 +1939,7 @@ namespace {
                     break;
                 case Params::renamePolicy:
                     newPath = Util::dirname(path)
-                        + EXV_SEPERATOR_STR + basename
+                        + EXV_SEPARATOR_STR + basename
                         + "_" + Exiv2::toString(seq++)
                         + Util::suffix(path);
                     break;
@@ -1958,7 +1958,7 @@ namespace {
                     case 'R':
                         fileExistsPolicy = Params::renamePolicy;
                         newPath = Util::dirname(path)
-                            + EXV_SEPERATOR_STR + basename
+                            + EXV_SEPARATOR_STR + basename
                             + "_" + Exiv2::toString(seq++)
                             + Util::suffix(path);
                         break;
@@ -1998,7 +1998,7 @@ namespace {
     {
         std::string directory = Params::instance().directory_;
         if (directory.empty()) directory = Util::dirname(path);
-        std::string newPath =   directory + EXV_SEPERATOR_STR
+        std::string newPath =   directory + EXV_SEPARATOR_STR
                               + Util::basename(path, true) + ext;
         return newPath;
     }

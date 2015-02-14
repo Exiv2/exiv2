@@ -205,14 +205,14 @@
       we can rely on checking just for that macro. */
 #define __CYGWIN__  __CYGWIN32__
 #endif
-     
-/* File path seperator */
+
+/* File path separator */
 #if defined WIN32 && !defined __CYGWIN__
-#define SEPERATOR_STR "\\"
-#define SEPERATOR_CHR '\\'
+#define SEPARATOR_STR "\\"
+#define SEPARATOR_CHR '\\'
 #else
-#define SEPERATOR_STR "/"
-#define SEPERATOR_CHR '/'
+#define SEPARATOR_STR "/"
+#define SEPARATOR_CHR '/'
 #endif
 
 /* Windows unicode path support */

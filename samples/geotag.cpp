@@ -451,7 +451,7 @@ string getExifTime(const time_t t)
 
 std::string makePath(std::string dir,std::string file)
 {
-    return dir + std::string(EXV_SEPERATOR_STR) + file ;
+    return dir + std::string(EXV_SEPARATOR_STR) + file ;
 }
 
 const char* makePath(const char* dir,const char* file)
