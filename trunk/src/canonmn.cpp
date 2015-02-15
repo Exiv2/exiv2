@@ -873,7 +873,8 @@ namespace Exiv2 {
         { 252, "Canon EF 70-200mm f/2.8L IS II USM + 1.4x"                  },
         { 253, "Canon EF 70-200mm f/2.8L IS II USM + 2x"                    },
         { 254, "Canon EF 100mm f/2.8L Macro IS USM"                         },
-        { 255, "Sigma 24-105mm f/4 DG OS HSM | A"                           },
+        { 255, "Sigma 24-105mm f/4 DG OS HSM | A"                           }, // 0
+        { 255, "Sigma 180mm f/2.8 EX DG OS HSM APO Macro"                   }, // 1
         { 488, "Canon EF-S 15-85mm f/3.5-5.6 IS USM"                        },
         { 489, "Canon EF 70-300mm f/4-5.6L IS USM"                          },
         { 490, "Canon EF 8-15mm f/4L USM"                                   },
@@ -944,6 +945,7 @@ namespace Exiv2 {
         { 198, printCsLensByFocalLength }, // not tested
         { 213, printCsLensByFocalLength }, // not tested
         { 234, printCsLensByFocalLength }, // not tested
+        { 255, printCsLensByFocalLength }, // not tested
         { 4143,printCsLensByFocalLength }  // not tested
     };
 
