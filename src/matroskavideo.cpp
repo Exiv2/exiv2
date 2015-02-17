@@ -531,6 +531,10 @@ namespace Exiv2 {
         if (sz > 0) io_->read(buf + 1, sz - 1);
 
         const MatroskaTags* mt = find(matroskaTags, returnTagValue(buf, sz));
+        if ( !mt ) {
+            continueTraversing_ = false;
+            return;
+        }
 
         if(mt->val_ == 0xc53bb6b || mt->val_ == 0xf43b675) {
             continueTraversing_ = false;
