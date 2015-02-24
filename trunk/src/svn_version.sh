@@ -10,7 +10,7 @@ s=$?
 
 ##
 # from Jenkins, svn is almost always a disaster because
-# Jenkins SVN Jenkins is 1.7 and the build machine is normally at least 1.8
+# Jenkins SVN Plugin is 1.7 and the build machine is normally at least 1.8
 if [ "$s" == "0" ]; then
 	svn_version=$(svn info .. | grep ^Revision | cut -f 2 -d' ')
     if [ -z "$svn_version"   ]; then svn_version=0 ; fi
@@ -20,7 +20,7 @@ fi
 
 ##
 # report svn_version to output
-set | grep svn_version
+set | grep svn_version | grep -v -e BASH | grep -v -e $svn_version_h
 
 ##
 # sniff svn_version in svn_version.h and delete the file if incorrect
