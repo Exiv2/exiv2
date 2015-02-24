@@ -880,7 +880,8 @@ namespace Exiv2 {
         { 490, "Canon EF 8-15mm f/4L USM"                                   },
         { 491, "Canon EF 300mm f/2.8L IS II USM"                            },
         { 492, "Canon EF 400mm f/2.8L IS II USM"                            },
-        { 493, "Canon EF 24-105mm f/4L IS USM"                              },
+        { 493, "Canon EF 500mm f/4L IS II USM"                              }, // 0
+        { 493, "Canon EF 24-105mm f/4L IS USM"                              }, // 1
         { 494, "Canon EF 600mm f/4.0L IS II USM"                            },
         { 495, "Canon EF 24-70mm f/2.8L II USM"                             },
         { 496, "Canon EF 200-400mm f/4L IS USM"                             },
@@ -946,6 +947,7 @@ namespace Exiv2 {
         { 213, printCsLensByFocalLength }, // not tested
         { 234, printCsLensByFocalLength }, // not tested
         { 255, printCsLensByFocalLength }, // not tested
+        { 493, printCsLensByFocalLength }, // not tested
         { 4143,printCsLensByFocalLength }  // not tested
     };
 
