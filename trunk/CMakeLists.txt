@@ -191,6 +191,8 @@ IF(SUBVERSION_FOUND)
         SET(SVN_REVISION "${svnExiv2_WC_REVISION}")
     ENDIF()
 ENDIF()
+CONFIGURE_FILE( ${CMAKE_CURRENT_SOURCE_DIR}/src/svn_version.h.in
+                ${CMAKE_CURRENT_SOURCE_DIR}/src/svn_version.h @ONLY)
 MESSAGE(STATUS  "SVN version:  ${SVN_REVISION}")
 
 IF( NOT MSVC )
