@@ -274,7 +274,7 @@ svn_version.h:
 	./svn_version.sh
 
 version.hpp : svn_version.h
-	
+
 $(LIBTOOL): $(LIBTOOL_DEPS)
 	$(SHELL) $(top_srcdir)/config.status --recheck
 
@@ -310,7 +310,11 @@ install-header:
 	        echo "$(INSTALL_DATA) ../include/exiv2/$$p $(DESTDIR)$(incdir)/$$p"; \
 	              $(INSTALL_DATA) ../include/exiv2/$$p $(DESTDIR)$(incdir)/$$p; \
 	    else :; fi; \
-	done
+	done ; \
+	if test -e svn_version.h; then \
+	    echo "$(INSTALL_DATA) svn_version.h $(DESTDIR)$(incdir)/svn_version.h"; \
+	          $(INSTALL_DATA) svn_version.h $(DESTDIR)$(incdir)/svn_version.h; \
+    fi
 
 install-lib: lib install-header
 	$(INSTALL_DIRS) $(DESTDIR)$(libdir)
