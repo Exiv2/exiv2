@@ -5,7 +5,7 @@ NOTE:
   Use them only if you're prepared to fix them.
   See TODO-CMAKE for known pending tasks. 
 
-* The existing automake (./configure), msvc2003 and msvc64 build files will continue
+* The existing automake (./configure), msvc2003 and msvc2005 build files will continue
   to be supported by exiv2 until at least v0.26.
   We will flag them as "deprecated" for at least one release cycle (about 12 months).
   Our plan is to only support CMake when our scripts are feature-complete, stable and documented.
@@ -83,6 +83,8 @@ Specific Exiv2 options :
 -DEXIV2_ENABLE_COMMERCIAL    : Build with the EXV_COMMERCIAL_VERSION symbol set. [default=off]
 -DEXIV2_ENABLE_BUILD_SAMPLES : Build the unit tests.                             [default=off]
 -DEXIV2_ENABLE_BUILD_PO      : Build translations files.                         [default=off]
+-DEXIV2_ENABLE_CURL          : USE Libcurl for HttpIo                            [default=off]
+-DEXIV2_ENABLE_SSH           : USE Libssh for SshIo                              [default=off]
 
 Default install locations
 
