@@ -3,19 +3,19 @@ NOTE:
 
 * CMake scripts are "work in progress".
   Use them only if you're prepared to fix them.
-  See TODO-CMAKE for pending tasks. 
+  See TODO-CMAKE for known pending tasks. 
 
-* The existing make, msvc and msvc64 build files will continue
-  to be supported by exiv2 until at least v0.25.
-  We will flag them as "deprecated" for at least one release cycle (about 6 months).
+* The existing automake (./configure), msvc2003 and msvc64 build files will continue
+  to be supported by exiv2 until at least v0.26.
+  We will flag them as "deprecated" for at least one release cycle (about 12 months).
   Our plan is to only support CMake when our scripts are feature-complete, stable and documented.
   
-  All help is appreciated - especially if you are willing to run
-  builds and tests on any platform.  Thanks for your help.
+  All help is appreciated.  If you know and understand CMake (especially with Visual Studio)
+  please consider contributing your time and skill to help Exiv2 and CMake work well together.
   
 Robin Mills
 robin@clanmills.com
-2012-06-01
+2015-02-23
 
 -------------------------------------------------------------------------------
 
@@ -27,7 +27,7 @@ TABLE OF CONTENTS
 
 1 CMake resources
 2 Building and Installing for Unix type systems
-3 Building and Installing for DevStudio Users
+3 Building and Installing for Visual Studio Users
 4 Building and Installing for other users (Xcode, Eclipse, Qt)
 
 1 CMake resources
@@ -101,10 +101,10 @@ b) Using the cmake GUI
 3 Building and installing for DevStudio Users
 =============================================
 
-exiv2 provides three build environment for users of DevStudio:
+exiv2 provides three build environment for users of Visual Studio:
 
-msvc:	32 bit build environment for MSVC 2003 (and 2005 and 2008)
-msvc64: 32 bit AND 64 bit build environment for MSVC 2005 (and 2008 and 2010)
+msvc2003: 32 bit build environment for MSVC 2003
+msvc2005: 32 bit AND 64 bit build environment for MSVC 2005 and later (2008/10/12/13)
 cmake:  This environment
 
 CMake doesn't build code.  It generates build environments.
