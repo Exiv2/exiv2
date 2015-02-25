@@ -89,6 +89,7 @@ if( MSVC )
     endif()
     
     # link dependent libraries
+    FIND_PACKAGE(EXPAT QUIET)
     if ( NOT EXPAT_LIBRARY  )
         set(EXPAT_LIBRARY      ${CMAKE_SOURCE_DIR}/../${E}/$(ConfigurationName)/expat)
         set(EXPAT_INCLUDE_DIR  ${CMAKE_SOURCE_DIR}/../${E}/lib)
@@ -109,7 +110,7 @@ if( MSVC )
         include_directories( ${SSH_INCLUDE_DIR})
     endif()
     
-    # FIND_PACKAGE(ZLIB QUIET)
+    FIND_PACKAGE(ZLIB QUIET)
     if ( NOT ZLIB_FOUND )
         set(ZLIB_LIBRARY       ${CMAKE_SOURCE_DIR}/../${Z}/$(ConfigurationName)/zlib)
         set(ZLIB_INCLUDE_DIR   ${CMAKE_SOURCE_DIR}/../${Z})
