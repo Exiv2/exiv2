@@ -1731,6 +1731,7 @@ namespace Exiv2 {
         { 136,   "Tokina EMZ M100 AF 100mm F3.5" },
         { 137,   "Cosina 70-210mm F2.8-4 AF" },
         { 138,   "Soligor 19-35mm F3.5-4.5" },
+        { 139,   "Tokina AF 28-300mm F4-6.3" },
         { 142,   "Voigtlander 70-300mm F4.5-5.6" },
         { 146,   "Voigtlander Macro APO-Lanthar 125mm F2.5 SL" },
         { 193,   "Minolta AF 1.4x APO II" },
