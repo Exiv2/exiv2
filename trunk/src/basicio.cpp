@@ -1257,7 +1257,6 @@ namespace Exiv2 {
         case BasicIo::end: newIdx = p_->size_ + offset; break;
         }
 
-        if ( /*newIdx < 0 || */ newIdx > static_cast<uint64_t>(p_->size_) ) return 1;
         p_->idx_ = static_cast<long>(newIdx);   //not very sure about this. need more test!!    - note by Shawn  fly2xj@gmail.com //TODO
         p_->eof_ = false;
         return 0;
@@ -1273,7 +1272,7 @@ namespace Exiv2 {
         case BasicIo::end: newIdx = p_->size_ + offset; break;
         }
 
-        if (newIdx < 0 || newIdx > p_->size_) return 1;
+        if (newIdx < 0) return 1;
         p_->idx_ = newIdx;
         p_->eof_ = false;
         return 0;
@@ -1327,7 +1326,7 @@ namespace Exiv2 {
 
     long MemIo::read(byte* buf, long rcount)
     {
-        long avail = p_->size_ - p_->idx_;
+        long avail = EXV_MAX(p_->size_ - p_->idx_, 0);
         long allow = EXV_MIN(rcount, avail);
         std::memcpy(buf, &p_->data_[p_->idx_], allow);
         p_->idx_ += allow;
