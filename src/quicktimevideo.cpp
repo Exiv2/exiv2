@@ -1456,6 +1456,8 @@ namespace Exiv2 {
                 else if (currentStream_ == Audio)
                     xmpData_["Xmp.audio.MediaTimeScale"] = returnBufValue(buf);
                 time_scale = returnBufValue(buf);
+                if (time_scale <= 0)
+                    time_scale = 1;
                 break;
             case MediaDuration:
                 if(currentStream_ == Video)
@@ -1571,7 +1573,9 @@ namespace Exiv2 {
                 xmpData_["Xmp.video.ModificationDate"] = returnUnsignedBufValue(buf); break;
             case TimeScale:
                 xmpData_["Xmp.video.TimeScale"] = returnBufValue(buf);
-                timeScale_ = returnBufValue(buf); break;
+                timeScale_ = returnBufValue(buf);
+                if (timeScale_ <= 0) timeScale_ = 1;
+                break;
             case Duration:
                 if(timeScale_ != 0) // To prevent division by zero
                 xmpData_["Xmp.video.Duration"] = returnBufValue(buf) * 1000 / timeScale_; break;
