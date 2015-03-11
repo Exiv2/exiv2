@@ -166,7 +166,6 @@ Exif.Image.DateTime           Ascii      20  2012:08:07 16:01:05
 Exif.Photo.DateTimeOriginal   Ascii      20  2011:09:18 16:25:48
 Exif.Photo.DateTimeDigitized  Ascii      20  2011:09:18 16:25:48
 .fi
-
 .TP
 .B \-n \fIenc\fP
 Charset to use to decode Exif Unicode user comments. \fIenc\fP is
@@ -410,20 +409,26 @@ e.g., a bag.
 .sp 1
 The format of Exif \fBComment\fP values includes an optional charset
 specification at the beginning:
-.sp 1
+.br
 .B   [charset=Ascii|Jis|Unicode|Undefined ]\fIcomment\fP
 .sp 1
 .B Undefined
 is used by default if the value doesn't start with a charset
 definition.
 .sp 1
-The format for IPTC \fBDate\fP values is YYYY\-MM\-DD (year, month, day),
-that for IPTC \fBTime\fP values is HH:MM:SS+|\-HH:MM, where HH:MM:SS
-refers to local hour, minute and seconds and +|\-HH:MM refers to hours
-and minutes ahead or behind Universal Coordinated Time (+|\- means
-either a + or a \- sign is required).
+The format for an IPTC \fBDate\fP value is:
+.br
+    YYYY\-MM\-DD (year, month, day)
 .sp 1
-The format for \fBRational\fP (and \fBSRational\fP) is one of:
+The format for an IPTC \fBTime\fP value is:
+.br
+    HH:MM:SS (hours, minutes, seconds)
+.br
+and may optionally be followed by:
+.br
+   \-HH:MM or +HH:MM (hours, minutes ahead/behind UTC)
+.sp 1
+The format of \fBRational\fP (and \fBSRational\fP) is one of:
 .br
     integer
 .br
@@ -433,21 +438,20 @@ The format for \fBRational\fP (and \fBSRational\fP) is one of:
 .br
     fnumber
 .sp 1
-Examples:
+Rational Examples:
 .br
     exiv2 "-Mset Exif.Photo.MaxApertureValue 557429/62500" X.jpg
 .br
     exiv2 "-Mset Exif.Photo.MaxApertureValue F5.6" X.jpg
 .sp 1
-The format Fnumber is for the convenience of setting aperture values.
-The aperture value stored in Exif is an \fBAPEX\fP value which can be evaluated by the expression:
-.br
-   apex-value  = log(Fnumber)   * 2.0 / log(2.0)
+The Rational format Fnumber (or fnumber) is for the convenience of setting aperture values.  Aperture values
+are stored in Exif is an \fBAPEX\fP value which can be evaluated by the expression:
+.sp 1
+   apex-value  =    log(Fnumber) * 2.0 / log(2.0)
 .br
    Fnumber     = exp(apex-value * log(2.0) / 2.0)
 .sp 1
-The Fnumber syntax is valid for any \fBRational\fP, even when the key is not an Aperture.
-.br
+The Rational format Fnumber is valid for any \fBRational\fP, even when the key is not an Aperture.
 More information about \fBAPEX\fP value is available from: http://en.wikipedia.org/wiki/APEX_system
 .sp 1
 The format of XMP \fBLangAlt\fP values includes an optional language qualifier:
@@ -534,7 +538,6 @@ Sample command files.
 Taglists with \fIkey\fP and default \fItype\fP values.
 .SH AUTHORS
 .B exiv2
-was written by Andreas Huggel <ahuggel@gmx.net>.
+was written by Andreas Huggel and others.  The Exiv2 project web site is http://exiv2.org
 .PP
-This manual page was originally written by KELEMEN Peter <fuji@debian.org>,
-for the Debian project.
+This manual page was originally created for the Debian project by KELEMEN Peter <fuji@debian.org>.
