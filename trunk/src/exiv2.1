@@ -440,18 +440,17 @@ Examples:
     exiv2 "-Mset Exif.Photo.MaxApertureValue F5.6" X.jpg
 .sp 1
 The format Fnumber is for the convenience of setting aperture values.
-The aperture value stored in Exif is an \fBAPEX\fP number which can be evaluated by the expression::
+The aperture value stored in Exif is an \fBAPEX\fP value which can be evaluated by the expression:
 .br
-   apex-value  = 2 * log(Fnumber) / log(2)
+   apex-value  = log(Fnumber)   * 2.0 / log(2.0)
 .br
-   Fnumber = exp(log(2.0) * apex-value / 2
+   Fnumber     = exp(apex-value * log(2.0) / 2.0)
 .sp 1
 The Fnumber syntax is valid for any \fBRational\fP, even when the key is not an Aperture.
 .br
-More information about \fBAPEX\fP is available from: http://en.wikipedia.org/wiki/APEX_system
+More information about \fBAPEX\fP value is available from: http://en.wikipedia.org/wiki/APEX_system
 .sp 1
-The format of XMP \fBLangAlt\fP values includes an optional language
-qualifier:
+The format of XMP \fBLangAlt\fP values includes an optional language qualifier:
 .sp 1
 .B   [lang=\fIlanguage-code\fP ]\fItext\fP
 .sp 1
