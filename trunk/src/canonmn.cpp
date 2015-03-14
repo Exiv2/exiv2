@@ -804,6 +804,7 @@ namespace Exiv2 {
         { 179, "Canon EF 24mm f/1.4L"                                       },
         { 180, "Canon EF 35mm f/1.4L"                                       }, // 0
         { 180, "Sigma 50mm f/1.4 DG HSM | A"                                }, // 1
+        { 180, "Sigma 24mm f/1.4 DG HSM | A"                                }, // 2
         { 181, "Canon EF 100-400mm f/4.5-5.6L IS + 1.4x"                    },
         { 182, "Canon EF 100-400mm f/4.5-5.6L IS + 2x"                      },
         { 183, "Canon EF 100-400mm f/4.5-5.6L IS"                           }, // 0
