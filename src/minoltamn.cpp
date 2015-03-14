@@ -1764,10 +1764,11 @@ namespace Exiv2 {
                  "Tokina 28-70mm F2.8 AT-X | "
                  "Tokina 80-400mm F4.5-5.6 AT-X AF II 840 | "
                  "Tokina AF PRO 28-80mm F2.8 AT-X 280 | "
-                 "Tokina AT-X PRO II AF 28-70mm F2.6-2.8 270 | "
+                 "Tokina AT-X PRO [II] AF 28-70mm F2.6-2.8 270 | "
                  "Tamron AF 19-35mm F3.5-4.5 | "
                  "Angenieux AF 28-70mm F2.6 | "
-                 "Tokina AT-X 17 AF 17mm F3.5" },
+                 "Tokina AT-X 17 AF 17mm F3.5 | "
+                 "Tokina 20-35mm F3.5-4.5 II AF" },
         { 25530, "Minolta AF 28-135mm F4-4.5" },
         { 25531, "Minolta AF 28-135mm F4-4.5 | "
                  "Sigma ZOOM-alpha 35-135mm F3.5-4.5 | "
@@ -1905,6 +1906,7 @@ namespace Exiv2 {
         { 26681, "Minolta AF 28mm F2 New" },
         { 26721, "Minolta AF 24-105mm F3.5-4.5 (D)" },
         { 45671, "Tokina 70-210mm F4-5.6" },
+        { 45711, "Vivitar 70-210mm F4.5-5.6" },
         { 45741, "Minolta AF200mm F2.8G x2 | "
                  "Tokina 300mm F2.8 x2 | "
                  "Tokina RF 500mm F8.0 x2 | "
