@@ -582,6 +582,9 @@ namespace Exiv2 {
         // If file is > 1MB and doesn't have hard links then use a file, otherwise
         // use a memory buffer. I.e., files with hard links always use a memory
         // buffer, which is a workaround to ensure that the links don't get broken.
+
+        // #1042 and #1043.  Always use a FileIo object to avoid Samba/Ubuntu/cifs error
+        ret = 911;
         if (ret != 0 || (buf.st_size > 1048576 && nlink == 1)) {
             pid_t pid = ::getpid();
             std::auto_ptr<FileIo> fileIo;
