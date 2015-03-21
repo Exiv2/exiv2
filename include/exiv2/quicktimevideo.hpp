@@ -223,7 +223,7 @@ namespace Exiv2 {
 
     private:
         //! Variable which stores Time Scale unit, used to calculate time.
-        uint64_t timeScale_ = 1;
+        uint64_t timeScale_;
         //! Variable which stores current stream being processsed.
         int currentStream_;
         //! Variable to check the end of metadata traversing.
