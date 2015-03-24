@@ -694,6 +694,7 @@ namespace Exiv2 {
          */
         virtual byte* mmap(bool /*isWriteable*/ =false);
         virtual int munmap();
+        virtual int msync();
         //@}
 
         //! @name Accessors
