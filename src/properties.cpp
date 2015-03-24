@@ -96,6 +96,7 @@ namespace Exiv2 {
     extern const XmpPropertyInfo xmpMicrosoftPhotoRegionInfoInfo[];
     extern const XmpPropertyInfo xmpMicrosoftPhotoRegionInfo[];
     extern const XmpPropertyInfo xmpMWGRegionsInfo[];
+    extern const XmpPropertyInfo xmpMWGKeywordInfo[];
     extern const XmpPropertyInfo xmpVideoInfo[];
     extern const XmpPropertyInfo xmpAudioInfo[];
     extern const XmpPropertyInfo xmpDwCInfo[];
@@ -130,7 +131,8 @@ namespace Exiv2 {
         { "http://ns.microsoft.com/photo/1.2/",              "MP",    xmpMicrosoftPhotoInfo,           N_("Microsoft Photo 1.2 schema")       },
         { "http://ns.microsoft.com/photo/1.2/t/RegionInfo#", "MPRI",  xmpMicrosoftPhotoRegionInfoInfo, N_("Microsoft Photo RegionInfo schema")},
         { "http://ns.microsoft.com/photo/1.2/t/Region#",     "MPReg", xmpMicrosoftPhotoRegionInfo,     N_("Microsoft Photo Region schema")    },
-        { "http://www.metadataworkinggroup.com/schemas/regions/", "mwg-rs", xmpMWGRegionsInfo,N_("Metadata Working Group Regions schema")     },
+        { "http://www.metadataworkinggroup.com/schemas/regions/",  "mwg-rs", xmpMWGRegionsInfo, N_("Metadata Working Group Regions schema")   },
+        { "http://www.metadataworkinggroup.com/schemas/keywords/", "mwg-kw", xmpMWGKeywordInfo, N_("Metadata Working Group Keywords schema")  },
         { "http://www.video",                                  "video",          xmpVideoInfo,     N_("XMP Extended Video schema")            },
         { "http://www.audio",                                  "audio",          xmpAudioInfo,     N_("XMP Extended Audio schema")            },
         { "http://rs.tdwg.org/dwc/index.htm",                     "dwc",            xmpDwCInfo,       N_("XMP Darwin Core schema")     		  },
@@ -1002,6 +1004,18 @@ namespace Exiv2 {
         // End of list marker
         { 0, 0, 0, invalidTypeId, xmpInternal, 0 }
     };
+
+    extern const XmpPropertyInfo xmpMWGKeywordInfo[] = {
+        { "Keywords",       N_("Keywords"),     "KeywordInfo",          xmpText, xmpInternal,   N_("Main structure containing keyword based information")   },
+        { "Hierarchy",      N_("Hierarchy"),    "bag KeywordStruct",    xmpBag,  xmpExternal,   N_("List of root keyword structures")   },
+        { "Keyword",        N_("Keyword"),      "Text",                 xmpText, xmpExternal,   N_("Name of keyword (-node)")   },
+        { "Applied",        N_("Applied"),      "Boolean",              xmpText, xmpExternal,   N_("True if this keyword has been applied, False otherwise. If missing, mwg-kw:Applied is presumed True for leaf nodes and False for ancestor nodes")   },
+        { "Children",       N_("Children"),     "bag KeywordStruct",    xmpBag,  xmpExternal,   N_("List of children keyword structures")   },
+
+        // End of list marker
+        { 0, 0, 0, invalidTypeId, xmpInternal, 0 }
+    };
+
 
     extern const XmpPropertyInfo xmpVideoInfo[] = {
         { "Album",                  N_("Album"),                            "Text",                     xmpText, xmpExternal, N_("The name of the album.")   },
