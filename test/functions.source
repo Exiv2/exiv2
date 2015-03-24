@@ -63,7 +63,7 @@ copyTestFile()
 	else
 		echo "*** error copyTestFile: illegal number of inputs = $# ***"
 	fi
-	
+
 }
 
 ##
@@ -88,12 +88,12 @@ reportTest()
     if [ $# -eq 0 ]; then
         lhs=$results
         rhs=$good
-    else 
+    else
         if [ $# -eq 3 ] ; then
             diffargs=$1
             lhs=$2
             rhs=$3
-        else 
+        else
             lhs=$1
             rhs=$2
         fi
@@ -114,7 +114,7 @@ reportTest()
 
 ##
 # moved here from write-test.sh
-# Function: 
+# Function:
 #     runTestCase number file
 # Params:
 #     number: Test case number
@@ -131,12 +131,12 @@ runTestCase()
     rtc_tifthumb=thumb${rtc_number}.tif
 
     rm -f $rtc_outfile $rtc_jpgthumb $rtc_tifthumb
-    rm -f iii ttt; 
+    rm -f iii ttt;
 
     echo "------------------------------------------------------------"
     runTest exifprint $rtc_infile > iii;
-    cp $rtc_infile $rtc_outfile; 
-    runTest write-test $rtc_infile $rtc_number > ttt; 
+    cp $rtc_infile $rtc_outfile;
+    runTest write-test $rtc_infile $rtc_number > ttt;
     diff -a iii ttt
 }
 
@@ -218,19 +218,19 @@ iptcTest()
 }
 
 # Make sure to pass the test file first and the known good file second
-diffCheck() 
+diffCheck()
 {
     test=$(real_path $1)
     good=$(real_path $2)
     if [ -z "$errors" ]; then let -a errors=0; fi
-    
+
     #run diff and check results
     diff -q --binary $diffargs "$test" "$good"
     if [ $? -ne 0 ]; then
        errors=$(expr $errors + 1)
     else
        rm $test
-    fi 
+    fi
 }
 
 
@@ -247,11 +247,11 @@ ioTest()
     if [ $? -ne 0 ]; then
        errors=`expr $errors + 1`
        return
-    fi 
+    fi
 
     #check results
-    diffCheck $out1 $src 
-    diffCheck $out2 $src 
+    diffCheck $out1 $src
+    diffCheck $out2 $src
     printf "."
 }
 
@@ -348,13 +348,23 @@ extendedTest()
     rm $tmp
 }
 
+##
+#
+hardLinkFiles()
+{
+	target="$1"
+	shift
+	for var; do
+		ln $target $var
+	done
+}
 
 ##
 # real_path - report the absolute path to a file
 real_path ()
 {
 	if [ "$PLATFORM" == "Darwin" ]; then
-		if [ -d "$1" ]; then	
+		if [ -d "$1" ]; then
 			cd "$1"
 			echo $PWD
 		else
@@ -382,7 +392,7 @@ copyVideoFiles ()
 		# http://stackoverflow.com/questions/965053/extract-filename-and-extension-in-bash
 		ext="${video##*.}"
 		if [ $ext != out ]; then
-			copyTestFile "$video" 
+			copyTestFile "$video"
 			videos+=($(basename "$video"))
 		fi
 	done
@@ -396,7 +406,7 @@ copyVideoFiles ()
 	fi
 
 	# http://stackoverflow.com/questions/7442417/how-to-sort-an-array-in-bash
-	readarray -t sorted < <(printf '%s\0' "${videos[@]}" | sort -z | xargs -0n1) 
+	readarray -t sorted < <(printf '%s\0' "${videos[@]}" | sort -z | xargs -0n1)
 	echo ${videos[*]}
 	unset  videos
 
@@ -438,7 +448,7 @@ prepareTest()
 	if [ "$PLATFORM" == cygwin -o "$PLATFORM" == mingw ]; then
 		exe=.exe
 	fi
-	
+
 	if [ "$PLATFORM" == cygwin ]; then
 		# We need a private version of diff for linux compatibility
 		diff()
@@ -468,7 +478,7 @@ prepareTest()
     if [ $? -ne 0 ]; then
         diffargs=""
     fi
-    
+
 	tmpfile=tmp/ttt
 	touch $tmpfile
 	da1="--strip-trailing-cr"
@@ -489,14 +499,14 @@ prepareTest()
     	bin=''
     	# echo ---- PATH $PATH ---- ; (IFS=:;for i in $PATH; do echo $i; done) ; echo --------------------
     fi
-    
+
     ##
     # test that exiv2 and some sample apps are in the bin!
     for e in exiv2 exifprint easyaccess-test metacopy ; do
     	if [ $PLATFORM == mingw ]; then
 			if [ -z $(which $e) ]; then
 				echo '******************************************'
-				echo '***' $e is not on path           
+				echo '***' $e is not on path
 				echo '******************************************'
 				exit 37
 			fi
