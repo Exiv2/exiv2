@@ -127,7 +127,7 @@ source ./functions.source
 	rm -f 2004-03-30-Tue-090.jpg
 	runTest exiv2 -u -f -r %Y-%m-%d-%a-%j $filename
 	ls 2004-03-30-Tue-090.jpg
-	
+
 	num=711
 	printf "$num " >&3
 	# Little endian (II)
@@ -153,7 +153,7 @@ source ./functions.source
 	runTest exiv2 -u -v -PEkyct $filename
 	runTest exiv2 -u -v -M'set Exif.Image.ProcessingSoftware Intrusive update, writing the structure from scratch' $filename
 	runTest exiv2 -u -v -PEkyct $filename
-	
+
 	# Test easy-access keys (using a dummy bug number)
 	if [ 1 = $(existsTest easyaccess-test) ]; then
 		num=726
@@ -163,7 +163,7 @@ source ./functions.source
 	else
 		echo "bugfixes-test.sh: easyaccess-test executable not found. Skipping regression test for issue #726."
 	fi
-	
+
 	# Test 'migration of XMP namespaces' (see #751 and related forum post)
 	num=751
 	filename=`prep_empty_file $num`
@@ -174,12 +174,12 @@ source ./functions.source
 	runTest exiv2 -v -M'reg imageapp dest/' -M 'set Xmp.imageapp.uuid abcd' $filename
 	runTest exiv2 -f -eX $filename
 	cat $xmpname
-	
+
 	num=769
 	filename=`prep_empty_file $num`
 	runTest exiv2 -u -v -M"add Exif.Image.Make Canon" -M"add Exif.CanonCs.0x0001 Short 1" -M"add Exif.CanonCs.0x0000 Short 2" $filename
 	runTest exiv2 -u -v -PEkyct $filename
-	
+
 	num=799
 	filename=`prep_empty_file $num`
 	copyTestFile         bug$num.cmd
@@ -187,19 +187,28 @@ source ./functions.source
 	runTest exiv2 -v -pa $filename
 	runTest exiv2 -f -eX $filename
 	cat exiv2-bug$num.xmp
-	
+
 	num=800
 	printf "$num " >&3
 	for type in 8BIM AgHg DCSR PHUT; do
 		for format in jpg psd; do
 			echo "------> Bug $num ($type in $format) <-------" >&2
 			filename=exiv2-bug$num-$type.$format
-			copyTestFile $filename 
+			copyTestFile $filename
 			runTest exiv2 -u -v -M'set Exif.Photo.UserComment Test' $filename
 			runTest exiv2 -u -pt $filename
 		done
 	done
-	
+
+	num=812 # updating a hardlinked file can "empty" the other files!
+	printf "$num " >&3
+	copyTestFile exiv2-bug884c.jpg bug$num.jpg
+	hardLinkFiles                  bug$num.jpg bug$num-B.jpg bug$num-C.jpg
+	runTest exiv2 -u -v -M"set Exif.Photo.UserComment Test Bug $num" bug$num.jpg
+	runTest exiv2 -PE -g UserComment bug${num}*.jpg
+	runTest exiv2 -u -v -M"set Exif.Photo.UserComment Test Bug $num modified" bug$num.jpg
+	runTest exiv2 -PE -g UserComment bug${num}*.jpg
+
 	num=831
 	filename=exiv2-bug$num.tif
 	printf "$num " >&3
@@ -207,7 +216,7 @@ source ./functions.source
 	copyTestFile mini9.tif $filename
 	runTest exiv2 -v -Qd -M'set Exif.Image.ImageDescription Just GIMP' $filename
 	runTest exiv2 -v -pa $filename
-	
+
 	num=836
 	filename=exiv2-bug$num.eps
 	echo '------>' Bug $num '<-------' >&2
@@ -221,7 +230,7 @@ source ./functions.source
 		# skip this test on systems which do not have resource forks
 		printf "($num skipped) " >&3
 	fi
-	
+
 	num=841
 	filename=exiv2-bug$num.png
 	printf "$num " >&3
@@ -250,7 +259,7 @@ source ./functions.source
 	printf "$num " >&3
 	echo '------>' Bug $num '<-------' >&2
 	copyTestFile  $filename
-	runTest exiv2 -q -pa      -g dwc  $filename 
+	runTest exiv2 -q -pa      -g dwc  $filename
 	runTest exiv2 -q -PXkyctl -g Date $filename
 
 	num=937a
@@ -273,7 +282,17 @@ source ./functions.source
 	printf "$num " >&3
 	echo '------>' Bug $num '<-------' >&2
 	copyTestFile  $filename
-	runTest exiv2 -q -pa -g Lens $filename 
+	runTest exiv2 -q -pa -g Lens $filename
+
+	num=1043  # looping and writing to a samba drive can hang!
+	printf "$num " >&3
+	for n in A B C D E F G H I J K L M N O P Q R S T U V W X Y Z; do
+		copyTestFile exiv2-bug884c.jpg bug${num}-$n.jpg
+	done
+	for name in bug${num}-*.jpg; do
+	    runTest exiv2 -u -v -M"set Exif.Photo.UserComment Test Bug $num my filename is $name" $name
+	done
+	runTest exiv2 -PE -g UserComment bug${num}*.jpg
 
 ) 3>&1 > $results 2>&1
 
@@ -282,7 +301,7 @@ printf "\n"
 # ----------------------------------------------------------------------
 # Evaluate results
 cat $results | sed 's/\x0d$//' > $results-stripped
-reportTest $results-stripped $good 
+reportTest $results-stripped $good
 
 # That's all Folks!
 ##
