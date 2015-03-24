@@ -125,7 +125,7 @@ namespace Exiv2 {
         struct StructStat {
             StructStat() : st_mode(0), st_size(0), st_nlink(0) {}
             mode_t  st_mode;            //!< Permissions
-			off_t   st_size;            //!< Size
+            off_t   st_size;            //!< Size
             nlink_t st_nlink;           //!< Number of hard links (broken on Windows, see winNumberOfLinks())
         };
 // #endif
@@ -256,7 +256,7 @@ namespace Exiv2 {
             if (0 == ret) {
                 buf.st_size = st.st_size;
                 buf.st_nlink = st.st_nlink;
-				buf.st_mode = st.st_mode;
+                buf.st_mode = st.st_mode;
             }
         }
         return ret;
@@ -681,8 +681,8 @@ namespace Exiv2 {
             close();
 
             bool statOk = true;
-			mode_t origStMode = 0;
-			std::string spf;
+            mode_t origStMode = 0;
+            std::string spf;
             char* pf = 0;
 #ifdef EXV_UNICODE_PATH
             std::wstring wspf;
@@ -735,7 +735,7 @@ namespace Exiv2 {
             if (p_->stat(buf1) == -1) {
                 statOk = false;
             }
-			origStMode = buf1.st_mode;
+            origStMode = buf1.st_mode;
 #endif // !EXV_HAVE_LSTAT
 
             // MSVCRT rename that does not overwrite existing files
@@ -859,7 +859,7 @@ namespace Exiv2 {
                     EXV_WARNING << Error(2, pf, strError(), "::stat") << "\n";
 #endif
                 }
-				if (statOk && origStMode != buf2.st_mode) {
+                if (statOk && origStMode != buf2.st_mode) {
                     // Set original file permissions
                     if (::chmod(pf, origStMode) == -1) {
 #ifndef SUPPRESS_WARNINGS
@@ -867,7 +867,7 @@ namespace Exiv2 {
 #endif
                     }
                 }
-			}
+            }
         } // if (fileIo)
         else {
             // Generic handling, reopen both to reset to start
@@ -1199,7 +1199,8 @@ namespace Exiv2 {
         MemIo *memIo = dynamic_cast<MemIo*>(&src);
         if (memIo) {
             // Optimization if src is another instance of MemIo
-            if (true == p_->isMalloced_) {
+            if (p_->isMalloced_) {
+				msync();
                 std::free(p_->data_);
             }
             p_->idx_ = 0;
@@ -1287,16 +1288,15 @@ namespace Exiv2 {
 
     int MemIo::munmap()
     {
-    	msync();
-        return 0;
+        return msync();
     }
 
     int MemIo::msync()
     {
 #ifdef MS_SYNC
-    	return ::msync(p_, p_->size_, MS_SYNC);
+        return ::msync(p_, p_->size_, MS_SYNC);
 #else
-		return 0;
+        return 0;
 #endif
     }
 

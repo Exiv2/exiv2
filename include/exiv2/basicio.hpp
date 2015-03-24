@@ -258,7 +258,7 @@ namespace Exiv2 {
           @note This method should be only called after the concerned data (metadata)
                 are all downloaded from the remote file to memory.
          */
-    	virtual void populateFakeData() {}
+        virtual void populateFakeData() {}
         //@}
 
     protected:
@@ -684,7 +684,7 @@ namespace Exiv2 {
 #else
         virtual int seek(long offset, Position pos);
 #endif
-		/*!
+        /*!
           @brief Allow direct access to the underlying data buffer. The buffer
                  is not protected against write access in any way, the argument
                  is ignored.
@@ -694,7 +694,7 @@ namespace Exiv2 {
          */
         virtual byte* mmap(bool /*isWriteable*/ =false);
         virtual int munmap();
-        virtual int msync();
+        int msync();
         //@}
 
         //! @name Accessors
@@ -1272,14 +1272,14 @@ namespace Exiv2 {
      */
     EXIV2API long writeFile(const DataBuf& buf, const std::wstring& wpath);
 #endif
-	/*!
+    /*!
       @brief replace each substring of the subject that matches the given search string with the given replacement.
       @return the subject after replacing.
      */
     EXIV2API std::string ReplaceStringInPlace(std::string subject, const std::string& search,
                           const std::string& replace);
 #ifdef EXV_UNICODE_PATH
-	/*!
+    /*!
       @brief Like ReplaceStringInPlace() but accepts a unicode path in an std::wstring.
       @return the subject after replacing.
       @note This function is only available on Windows.
