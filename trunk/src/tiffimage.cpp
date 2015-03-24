@@ -2123,6 +2123,7 @@ namespace Exiv2 {
             { 0x0124, ifd0Id }, // Exif.Image.T4Options
             { 0x0125, ifd0Id }, // Exif.Image.T6Options
             { 0x0128, ifd0Id }, // Exif.Image.ResolutionUnit
+            { 0x0129, ifd0Id }, // Exif.Image.PageNumber
             { 0x012d, ifd0Id }, // Exif.Image.TransferFunction
             { 0x013d, ifd0Id }, // Exif.Image.Predictor
             { 0x013e, ifd0Id }, // Exif.Image.WhitePoint

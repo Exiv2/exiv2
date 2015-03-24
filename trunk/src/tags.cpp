@@ -534,6 +534,9 @@ namespace Exiv2 {
                 "unit is used for both <XResolution> and <YResolution>. If "
                 "the image resolution is unknown, 2 (inches) is designated."),
                 ifd0Id, imgStruct, unsignedShort, 1, printExifUnit),
+        TagInfo(0x0129, "PageNumber", N_("Page Number"),
+                N_("The page number of the page from which this image was scanned."),
+                ifd0Id, imgStruct, unsignedShort, 2, printValue),
         TagInfo(0x012d, "TransferFunction", N_("Transfer Function"),
                 N_("A transfer function for the image, described in tabular style. "
                 "Normally this tag is not necessary, since color space is "
