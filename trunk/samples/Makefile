@@ -59,7 +59,9 @@ BINSRC = addmoddel.cpp        \
          easyaccess-test.cpp  \
          exifcomment.cpp      \
          exifdata-test.cpp    \
+         exifdata.cpp         \
          exifprint.cpp        \
+         exifvalue.cpp        \
          exiv2json.cpp        \
          httptest.cpp         \
          iotest.cpp           \
@@ -113,7 +115,7 @@ DEP = $(BINSRC:%.cpp=$(DEPDIR)/%.d) $(OTHERSRC:%.cpp=$(DEPDIR)/%.d)
 endif
 
 PREFIX = /usr/local/lib
-LINK.cc += -rpath $(PREFIX) -L$(PREFIX) 
+LINK.cc += -rpath $(PREFIX) -L$(PREFIX)
 COMPILE.cc += -I$(top_srcdir)/include/exiv2
 
 # ******************************************************************************
