@@ -284,6 +284,13 @@ source ./functions.source
 	copyTestFile  $filename
 	runTest exiv2 -q -pa -g Lens $filename
 
+	num=1040
+	filename=exiv2-bug$num.jpg
+	printf "$num " >&3
+	echo '------>' Bug $num '<-------' >&2
+	copyTestFile  $filename
+	runTest exiv2 -px $filename
+
 	num=1043  # looping and writing to a samba drive can hang!
 	printf "$num " >&3
 	for n in A B C D E F G H I J K L M N O P Q R S T U V W X Y Z; do
