@@ -180,6 +180,13 @@ source ./functions.source
 	runTest exiv2 -u -v -M"add Exif.Image.Make Canon" -M"add Exif.CanonCs.0x0001 Short 1" -M"add Exif.CanonCs.0x0000 Short 2" $filename
 	runTest exiv2 -u -v -PEkyct $filename
 
+	num=784
+	filename=exiv2-bug$num.jpg
+	printf "$num " >&3
+	echo '------>' Bug $num '<-------' >&2
+	copyTestFile  $filename
+	runTest exiv2 -px $filename
+
 	num=799
 	filename=`prep_empty_file $num`
 	copyTestFile         bug$num.cmd
