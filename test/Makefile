@@ -135,6 +135,11 @@ teste:
 	@list='$(TESTE)'; for p in $$list; do \
 	    echo Running $$p ...; \
 	    ./$$p; \
+	    rc=$$?; \
+	    if [ $$rc -ne 0 ]; then \
+		echo result = $$rc ; \
+		exit $$rc ; \
+		fi ; \
 	done
 
 testx:

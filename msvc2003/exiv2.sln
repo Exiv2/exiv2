@@ -156,12 +156,24 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "geotag", "geotag\geotag.vcp
 		{831EF580-92C8-4CA8-B0CE-3D906280A54D} = {831EF580-92C8-4CA8-B0CE-3D906280A54D}
 	EndProjectSection
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "exifdata", "exifdata\exifdata.vcproj", "{D8B36F3A-34BB-4540-A731-EEABF1DC2E05}"
+	ProjectSection(ProjectDependencies) = postProject
+		{831EF580-92C8-4CA8-B0CE-3D906280A54D} = {831EF580-92C8-4CA8-B0CE-3D906280A54D}
+	EndProjectSection
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "exifvalue", "exifvalue\exifvalue.vcproj", "{D8B36F3A-34BB-4540-A731-EEABF1DC2E05}"
+	ProjectSection(ProjectDependencies) = postProject
+		{831EF580-92C8-4CA8-B0CE-3D906280A54D} = {831EF580-92C8-4CA8-B0CE-3D906280A54D}
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfiguration) = preSolution
 		Debug = Debug
 		DebugDLL = DebugDLL
 		Release = Release
 		ReleaseDLL = ReleaseDLL
+	EndGlobalSection
+	GlobalSection(ProjectDependencies) = postSolution
 	EndGlobalSection
 	GlobalSection(ProjectConfiguration) = postSolution
 		{8391174F-52D5-4111-A0FE-E87135301CFB}.Debug.ActiveCfg = Debug|Win32
@@ -412,6 +424,22 @@ Global
 		{7E0025E8-CFBE-4941-BEB7-825F14A87EE1}.Release.Build.0 = Release|Win32
 		{7E0025E8-CFBE-4941-BEB7-825F14A87EE1}.ReleaseDLL.ActiveCfg = ReleaseDLL|Win32
 		{7E0025E8-CFBE-4941-BEB7-825F14A87EE1}.ReleaseDLL.Build.0 = ReleaseDLL|Win32
+		{D8B36F3A-34BB-4540-A731-EEABF1DC2E05}.Debug.ActiveCfg = Debug|Win32
+		{D8B36F3A-34BB-4540-A731-EEABF1DC2E05}.Debug.Build.0 = Debug|Win32
+		{D8B36F3A-34BB-4540-A731-EEABF1DC2E05}.DebugDLL.ActiveCfg = DebugDLL|Win32
+		{D8B36F3A-34BB-4540-A731-EEABF1DC2E05}.DebugDLL.Build.0 = DebugDLL|Win32
+		{D8B36F3A-34BB-4540-A731-EEABF1DC2E05}.Release.ActiveCfg = Release|Win32
+		{D8B36F3A-34BB-4540-A731-EEABF1DC2E05}.Release.Build.0 = Release|Win32
+		{D8B36F3A-34BB-4540-A731-EEABF1DC2E05}.ReleaseDLL.ActiveCfg = ReleaseDLL|Win32
+		{D8B36F3A-34BB-4540-A731-EEABF1DC2E05}.ReleaseDLL.Build.0 = ReleaseDLL|Win32
+		{D8B36F3A-34BB-4540-A731-EEABF1DC2E05}.Debug.ActiveCfg = Debug|Win32
+		{D8B36F3A-34BB-4540-A731-EEABF1DC2E05}.Debug.Build.0 = Debug|Win32
+		{D8B36F3A-34BB-4540-A731-EEABF1DC2E05}.DebugDLL.ActiveCfg = DebugDLL|Win32
+		{D8B36F3A-34BB-4540-A731-EEABF1DC2E05}.DebugDLL.Build.0 = DebugDLL|Win32
+		{D8B36F3A-34BB-4540-A731-EEABF1DC2E05}.Release.ActiveCfg = Release|Win32
+		{D8B36F3A-34BB-4540-A731-EEABF1DC2E05}.Release.Build.0 = Release|Win32
+		{D8B36F3A-34BB-4540-A731-EEABF1DC2E05}.ReleaseDLL.ActiveCfg = ReleaseDLL|Win32
+		{D8B36F3A-34BB-4540-A731-EEABF1DC2E05}.ReleaseDLL.Build.0 = ReleaseDLL|Win32
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 	EndGlobalSection
