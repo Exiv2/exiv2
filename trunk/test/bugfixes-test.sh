@@ -186,6 +186,8 @@ source ./functions.source
 	echo '------>' Bug $num '<-------' >&2
 	copyTestFile  $filename
 	runTest exiv2 -px $filename
+	runTest exiv2 -M"add Xmp.lr.hierarchicalSubject root|1st|2nd|3rd|4th|5th" $filename
+	runTest exiv2 -px $filename
 
 	num=799
 	filename=`prep_empty_file $num`
