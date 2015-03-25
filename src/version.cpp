@@ -171,7 +171,7 @@ static void output(std::ostream& os,const exv_grep_keys_t& keys,const char* name
     void dumpLibraryInfo(std::ostream& os,const exv_grep_keys_t& keys)
 {
     string_v libs; // libs[0] == executable
-    
+
     int      bits = 8*sizeof(void*);
 #if defined(_DEBUG) || defined(DEBUG)
     int debug=1;
@@ -238,45 +238,46 @@ static void output(std::ostream& os,const exv_grep_keys_t& keys,const char* name
     "unknown";
 #endif
 
-    int have_regex      =0;
-    int have_gmtime_r   =0;
-    int have_inttypes   =0;
-    int have_libintl    =0;
-    int have_lensdata   =0;
-    int have_iconv      =0;
-    int have_memory     =0;
-    int have_memset     =0;
-    int have_lstat      =0;
-    int have_stdbool    =0;
-    int have_stdint     =0;
-    int have_stdlib     =0;
-    int have_strlib     =0;
-    int have_strchr     =0;
-    int have_strerror   =0;
-    int have_strerror_r =0;
-    int have_strings_h  =0;
-    int have_strtol     =0;
-    int have_mmap       =0;
-    int have_munmap     =0;
-    int have_sys_stat   =0;
-    int have_timegm     =0;
-    int have_unistd_h   =0;
-    int have_sys_mman   =0;
-    int have_libz       =0;
-    int have_xmptoolkit =0;
-    int have_bool       =0;
-    int have_strings    =0;
-    int have_sys_types  =0;
-    int have_unistd     =0;
+    int have_regex       =0;
+    int have_gmtime_r    =0;
+    int have_inttypes    =0;
+    int have_libintl     =0;
+    int have_lensdata    =0;
+    int have_iconv       =0;
+    int have_memory      =0;
+    int have_memset      =0;
+    int have_lstat       =0;
+    int have_stdbool     =0;
+    int have_stdint      =0;
+    int have_stdlib      =0;
+    int have_strlib      =0;
+    int have_strchr      =0;
+    int have_strerror    =0;
+    int have_strerror_r  =0;
+    int have_strings_h   =0;
+    int have_strtol      =0;
+    int have_mmap        =0;
+    int have_munmap      =0;
+    int have_sys_stat    =0;
+    int have_timegm      =0;
+    int have_unistd_h    =0;
+    int have_sys_mman    =0;
+    int have_libz        =0;
+    int have_xmptoolkit  =0;
+    int have_bool        =0;
+    int have_strings     =0;
+    int have_sys_types   =0;
+    int have_unistd      =0;
+    int have_unicode_path=0;
 
 #if EXV_HAVE_DECL_STRERROR_R
     have_strerror_r=1;
 #endif
- 
+
 #if EXV_HAVE_GMTIME_R
     have_gmtime_r=1;
 #endif
- 
+
 #if EXV_HAVE_INTTYPES_H
     have_inttypes=1;
 #endif
@@ -299,91 +300,91 @@ static void output(std::ostream& os,const exv_grep_keys_t& keys,const char* name
 
 #if EXV_HAVE_REGEX
     have_regex=1;
-#endif    
+#endif
 
 #if EXV_HAVE_MEMORY_H
     have_memory=1;
-#endif    
+#endif
 
 #if EXV_HAVE_MEMSET
     have_memset=1;
-#endif    
+#endif
 
 #if EXV_HAVE_LSTAT
     have_lstat=1;
-#endif    
+#endif
 
 #if EXV_HAVE_STDBOOL_H
     have_stdbool=1;
-#endif    
+#endif
 
 #if EXV_HAVE_STDINT_H
     have_stdint=1;
-#endif    
+#endif
 
 #if EXV_HAVE_STDLIB_H
     have_stdlib=1;
-#endif    
+#endif
 
 #if EXV_HAVE_STRCHR
     have_strchr=1;
-#endif    
+#endif
 
 #if EXV_HAVE_STRERROR
     have_strerror=1;
-#endif    
+#endif
 
 #if EXV_HAVE_STRERROR_R
     have_strerror_r=1;
-#endif    
+#endif
 
 #if EXV_HAVE_STRINGS_H
     have_strings=1;
-#endif    
+#endif
 
 #if EXV_HAVE_STRTOL
     have_strtol=1;
-#endif    
+#endif
 
 #if EXV_HAVE_MMAP
     have_mmap=1;
-#endif    
+#endif
 
 #if EXV_HAVE_MUNMAP
     have_munmap=1;
-#endif    
+#endif
 
 #if EXV_HAVE_SYS_STAT_H
     have_sys_stat=1;
-#endif    
+#endif
 
 #if EXV_HAVE_SYS_TYPES_H
     have_sys_types=1;
-#endif    
+#endif
 
 #if EXV_HAVE_TIMEGM
     have_timegm=1;
-#endif    
+#endif
 
 #if EXV_HAVE_UNISTD_H
     have_unistd=1;
-#endif    
+#endif
 
 #if EXV_HAVE_SYS_MMAN_H
     have_sys_mman=1;
-#endif    
+#endif
 
 #if HAVE_LIBZ
     have_libz=1;
-#endif    
+#endif
 
 #if EXV_HAVE_XMP_TOOLKIT
     have_xmptoolkit=1;
-#endif    
+#endif
 
 #if EXV_HAVE__BOOL
     have_bool=1;
-#endif 
+#endif
 
 #if  EXV_HAVE_STRINGS
      have_strings=1;
@@ -394,7 +395,11 @@ static void output(std::ostream& os,const exv_grep_keys_t& keys,const char* name
 #endif
 
 #if  EXV_HAVE_UNISTD
-     have_unistd=1;   
+     have_unistd=1;
+#endif
+
+#if  EXV_UNICODE_PATH
+     have_unicode_path=1;
 #endif
 
 #if defined(WIN32) || defined(__CYGWIN__) || defined(__MINGW__)
@@ -470,38 +475,39 @@ static void output(std::ostream& os,const exv_grep_keys_t& keys,const char* name
         for ( string_i lib = libs.begin()+1 ; lib != libs.end() ; lib++ )
             output(os,keys,"library",*lib);
     }
-    
-    output(os,keys,"have_regex"     ,have_regex     );
-    output(os,keys,"have_strerror_r",have_strerror_r);
-    output(os,keys,"have_gmtime_r"  ,have_gmtime_r  );
-    output(os,keys,"have_inttypes"  ,have_inttypes  );
-    output(os,keys,"have_libintl"   ,have_libintl   );
-    output(os,keys,"have_lensdata"  ,have_lensdata  );
-    output(os,keys,"have_iconv"     ,have_iconv     );
-    output(os,keys,"have_memory"    ,have_memory    );
-    output(os,keys,"have_memset"    ,have_memset    );
-    output(os,keys,"have_lstat"     ,have_lstat     );
-    output(os,keys,"have_stdbool"   ,have_stdbool   );
-    output(os,keys,"have_stdint"    ,have_stdint    );
-    output(os,keys,"have_stdlib"    ,have_stdlib    );
-    output(os,keys,"have_strlib"    ,have_strlib    );
-    output(os,keys,"have_strchr"    ,have_strchr    );
-    output(os,keys,"have_strerror"  ,have_strerror  );
-    output(os,keys,"have_strerror_r",have_strerror_r);
-    output(os,keys,"have_strings_h" ,have_strings_h );
-    output(os,keys,"have_strtol"    ,have_strtol    );
-    output(os,keys,"have_mmap"      ,have_mmap      );
-    output(os,keys,"have_munmap"    ,have_munmap    );
-    output(os,keys,"have_sys_stat"  ,have_sys_stat  );
-    output(os,keys,"have_timegm"    ,have_timegm    );
-    output(os,keys,"have_unistd_h"  ,have_unistd_h  );
-    output(os,keys,"have_sys_mman"  ,have_sys_mman  );
-    output(os,keys,"have_libz"      ,have_libz      );
-    output(os,keys,"have_xmptoolkit",have_xmptoolkit);
-    output(os,keys,"have_bool"      ,have_bool      );
-    output(os,keys,"have_strings"   ,have_strings   );
-    output(os,keys,"have_sys_types" ,have_sys_types );
-    output(os,keys,"have_unistd"    ,have_unistd    );
+
+    output(os,keys,"have_regex"        ,have_regex       );
+    output(os,keys,"have_strerror_r"   ,have_strerror_r  );
+    output(os,keys,"have_gmtime_r"     ,have_gmtime_r    );
+    output(os,keys,"have_inttypes"     ,have_inttypes    );
+    output(os,keys,"have_libintl"      ,have_libintl     );
+    output(os,keys,"have_lensdata"     ,have_lensdata    );
+    output(os,keys,"have_iconv"        ,have_iconv       );
+    output(os,keys,"have_memory"       ,have_memory      );
+    output(os,keys,"have_memset"       ,have_memset      );
+    output(os,keys,"have_lstat"        ,have_lstat       );
+    output(os,keys,"have_stdbool"      ,have_stdbool     );
+    output(os,keys,"have_stdint"       ,have_stdint      );
+    output(os,keys,"have_stdlib"       ,have_stdlib      );
+    output(os,keys,"have_strlib"       ,have_strlib      );
+    output(os,keys,"have_strchr"       ,have_strchr      );
+    output(os,keys,"have_strerror"     ,have_strerror    );
+    output(os,keys,"have_strerror_r"   ,have_strerror_r  );
+    output(os,keys,"have_strings_h"    ,have_strings_h   );
+    output(os,keys,"have_strtol"       ,have_strtol      );
+    output(os,keys,"have_mmap"         ,have_mmap        );
+    output(os,keys,"have_munmap"       ,have_munmap      );
+    output(os,keys,"have_sys_stat"     ,have_sys_stat    );
+    output(os,keys,"have_timegm"       ,have_timegm      );
+    output(os,keys,"have_unistd_h"     ,have_unistd_h    );
+    output(os,keys,"have_sys_mman"     ,have_sys_mman    );
+    output(os,keys,"have_libz"         ,have_libz        );
+    output(os,keys,"have_xmptoolkit"   ,have_xmptoolkit  );
+    output(os,keys,"have_bool"         ,have_bool        );
+    output(os,keys,"have_strings"      ,have_strings     );
+    output(os,keys,"have_sys_types"    ,have_sys_types   );
+    output(os,keys,"have_unistd"       ,have_unistd      );
+    output(os,keys,"have_unicode_path" ,have_unicode_path);
 
 #if defined(__linux__)
     dlclose(ph);
