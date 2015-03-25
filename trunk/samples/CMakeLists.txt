@@ -13,8 +13,8 @@ if (MSVC)
 	include(../CMake_msvc.txt)
 	msvc_runtime_configure(${EXIV2_ENABLE_SHARED})
 	# include_directories( ${CMAKE_CURRENT_SOURCE_DIR}/../include ${CMAKE_CURRENT_SOURCE_DIR}/../msvc64/include )
-	
-	if ( NOT EXIV2_ENABLE_SHARED )		
+
+	if ( NOT EXIV2_ENABLE_SHARED )
 	#	link_directories(${CMAKE_CURRENT_SOURCE_DIR}/../../zlib-1.2.7/$(ConfigurationName))
 	endif()
 endif()
@@ -25,7 +25,9 @@ SET( SAMPLES addmoddel.cpp
              easyaccess-test.cpp
              exifcomment.cpp
              exifdata-test.cpp
+             exifdata.cpp
              exifprint.cpp
+             exifvalue.cpp
              exiv2json.cpp
              geotag.cpp
              iotest.cpp
@@ -35,7 +37,7 @@ SET( SAMPLES addmoddel.cpp
              key-test.cpp
              largeiptc-test.cpp
              mmap-test.cpp
-             prevtest.cpp 
+             prevtest.cpp
              stringto-test.cpp
              taglist.cpp
              tiff-test.cpp
