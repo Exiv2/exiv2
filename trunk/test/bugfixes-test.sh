@@ -294,6 +294,13 @@ source ./functions.source
 	done
 	runTest exiv2 -PE -g UserComment bug${num}*.jpg
 
+	num=1044
+	filename=exiv2-bug$num.tif
+	printf "$num " >&3
+	echo '------>' Bug $num '<-------' >&2
+	copyTestFile  $filename
+	runTest exiv2 -q -pa -g PageNumber $filename
+
 ) 3>&1 > $results 2>&1
 
 printf "\n"
