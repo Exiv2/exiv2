@@ -404,8 +404,8 @@ namespace Exiv2 {
     };
 
     extern const XmpPropertyInfo xmpLrInfo[] = {
-        { "hierarchicalsubject",    N_("HierarchicalSubject"),    "bag Text",  xmpBag,      xmpExternal, N_("Hierarchical Subject.")    },
-        { "privatertkinfo",         N_("PrivateRTKInfo"),         "Text",      xmpText,     xmpExternal, N_("Private RTK Info.")        },
+        { "hierarchicalSubject",    N_("Hierarchical Subject"),    "bag Text",  xmpBag,      xmpExternal, N_("Adobe Lightroom hierarchical keywords.")   },
+        { "privateRTKInfo",         N_("Private RTK Info"),        "Text",      xmpText,     xmpExternal, N_("Adobe Lightroom private RTK info.")        },
         // End of list marker
         { 0, 0, 0, invalidTypeId, xmpInternal, 0 }
     };
