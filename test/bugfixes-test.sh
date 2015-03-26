@@ -211,6 +211,7 @@ source ./functions.source
 
 	num=812 # updating a hardlinked file can "empty" the other files!
 	printf "$num " >&3
+	echo '------>' Bug $num '<-------' >&2
 	copyTestFile exiv2-bug884c.jpg bug$num.jpg
 	hardLinkFiles                  bug$num.jpg bug$num-B.jpg bug$num-C.jpg
 	runTest exiv2 -u -v -M"set Exif.Photo.UserComment Test Bug $num" bug$num.jpg
