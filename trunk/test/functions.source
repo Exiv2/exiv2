@@ -355,7 +355,7 @@ hardLinkFiles()
 	target="$1"
 	shift
 	for var; do
-		if [ -e var ]; then rm -rf $var ; fi
+		if [ -e $var ]; then rm -rf $var ; fi
 		ln $target $var
 	done
 }
