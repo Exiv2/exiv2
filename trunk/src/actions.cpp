@@ -237,10 +237,12 @@ namespace Action {
         path_ = path;
         int rc = 0;
         switch (Params::instance().printMode_) {
-        case Params::pmSummary: rc = printSummary();     break;
-        case Params::pmList:    rc = printList();        break;
-        case Params::pmComment: rc = printComment();     break;
-        case Params::pmPreview: rc = printPreviewList(); break;
+        case Params::pmSummary:   rc = printSummary();     break;
+        case Params::pmList:      rc = printList();        break;
+        case Params::pmComment:   rc = printComment();     break;
+        case Params::pmPreview:   rc = printPreviewList(); break;
+        case Params::pmStructure: rc = printStructure(std::cout,Exiv2::kpsBasic); break;
+        case Params::pmXMP:       rc = printStructure(std::cout,Exiv2::kpsXMP);   break;
         }
         return rc;
     }
@@ -249,6 +251,19 @@ namespace Action {
                   << path << ":\n" << e << "\n";
         return 1;
     } // Print::run
+
+    int Print::printStructure(std::ostream& out,Exiv2::printStructureOption_e option)
+    {
+        if (!Exiv2::fileExists(path_, true)) {
+            std::cerr << path_ << ": "
+                      << _("Failed to open the file\n");
+            return -1;
+        }
+        Exiv2::Image::AutoPtr image = Exiv2::ImageFactory::open(path_);
+        assert(image.get() != 0);
+        image->printStructure(out,option);
+        return 0;
+    }
 
     int Print::printSummary()
     {

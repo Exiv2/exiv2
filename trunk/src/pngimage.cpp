@@ -91,7 +91,7 @@ namespace Exiv2 {
         return "image/png";
     }
 
-    void PngImage::printStructure()
+    void PngImage::printStructure(std::ostream& out,printStructureOption_e option)
     {
         if (io_->open() != 0) {
             throw Error(9, io_->path(), strError());
@@ -103,34 +103,75 @@ namespace Exiv2 {
             throw Error(3, "PNG");
         }
 
-        printf("index   |  chunk_type  | chunk_size\n");
-        long index = 0, i = 0;
-        const long imgSize = io_->size();
-        DataBuf cheaderBuf(8);
+        char    chType[5];
+        chType[0]=0;
+        chType[4]=0;
 
-        while(!io_->eof()) {
-            std::memset(cheaderBuf.pData_, 0x0, cheaderBuf.size_);
-            long bufRead = io_->read(cheaderBuf.pData_, cheaderBuf.size_);
-            if (io_->error()) throw Error(14);
-            if (bufRead != cheaderBuf.size_) throw Error(20);
+        if ( option == kpsBasic || option == kpsXMP ) {
 
-            // Decode chunk data length.
-            uint32_t dataOffset = Exiv2::getULong(cheaderBuf.pData_, Exiv2::bigEndian);
-            long pos = io_->tell();
-            if (   pos == -1
-                || dataOffset > uint32_t(0x7FFFFFFF)
-                || static_cast<long>(dataOffset) > imgSize - pos) throw Exiv2::Error(14);
+            if ( option == kpsBasic ) out << "index | chunk_type | length | data" << std::endl;
 
-            printf("%5ld       ", index);
-            for (i = 4; i < 8; i++)
-                printf("%c", cheaderBuf.pData_[i]);
-            printf("          %u\n", dataOffset);
+            long       index   = 0;
+            const long imgSize = io_->size();
+            DataBuf    cheaderBuf(8);
 
-            index++;
-            io_->seek(dataOffset + 4 , BasicIo::cur);
-            if (io_->error() || io_->eof()) throw Error(14);
+            while( !io_->eof() && ::strcmp(chType,"IEND") ) {
+                std::memset(cheaderBuf.pData_, 0x0, cheaderBuf.size_);
+                long bufRead = io_->read(cheaderBuf.pData_, cheaderBuf.size_);
+                if (io_->error()) throw Error(14);
+                if (bufRead != cheaderBuf.size_) throw Error(20);
+
+                // Decode chunk data length.
+                uint32_t dataOffset = Exiv2::getULong(cheaderBuf.pData_, Exiv2::bigEndian);
+                long pos = io_->tell();
+                if (   pos == -1
+                    || dataOffset > uint32_t(0x7FFFFFFF)
+                    || static_cast<long>(dataOffset) > imgSize - pos) throw Exiv2::Error(14);
+
+                for (int i = 4; i < 8; i++) {
+                    chType[i-4]=cheaderBuf.pData_[i];
+                }
+
+                byte   buff[32];
+                size_t blen  = sizeof(buff)-1;
+                buff  [blen] = 0;
+                buff  [   0] = 0;
+
+                size_t     dOff = dataOffset;
+
+                if ( dataOffset > blen ) {
+                    io_->read(buff,blen);
+                    dataOffset -=  blen ;
+                    for ( size_t i = 0 ; i < blen ; i++ ) {
+                        int c = buff[i] ;
+                        buff[i] = (' '<=c && c<128) ? c : '.' ;
+                    }
+                }
+
+                char sbuff[80];
+                sprintf(sbuff,"%5ld %12s %8lu   %s\n", index++,chType,dOff,buff);
+                if ( option == kpsBasic ) out << sbuff;
+
+                // for XMP, back up and read the whole block
+                const char* key = "XML:com.adobe.xmp" ;
+                int       start = ::strlen(key);
+                buff[start] = 0;
+                if ( option == kpsXMP && ::strcmp((const char*)buff,key) == 0 ) {
+                    io_->seek(-blen , BasicIo::cur);
+                    dataOffset = dOff ;
+                    byte* xmp  = new byte[dataOffset+5];
+                    io_->read(xmp,dataOffset+4);
+                    xmp[dataOffset]=0;
+                    while ( xmp[start] == 0 ) start++;
+                    out << xmp+start << std::endl;
+                    delete [] xmp;
+                    dataOffset = 0;
+                }
+
+                if ( dataOffset ) io_->seek(dataOffset + 4 , BasicIo::cur);
+                if (io_->error()) throw Error(14);
+            }
         }
-
     }
 
     void PngImage::readMetadata()

@@ -296,6 +296,8 @@ void Params::help(std::ostream& os) const
        << _("             x : XMP properties (-PXkyct)\n")
        << _("             c : JPEG comment\n")
        << _("             p : list available previews\n")
+       << _("             S : print structure of image\n")
+       << _("             X : extract XMP from image\n")
        << _("   -P flgs Print flags for fine control of tag lists ('print' action):\n")
        << _("             E : include Exif tags in the list\n")
        << _("             I : IPTC datasets\n")
@@ -555,8 +557,10 @@ int Params::evalPrint(const std::string& optarg)
         case 'h': rc = evalPrintFlags("Exgnycsh"); break;
         case 'i': rc = evalPrintFlags("Ikyct"); break;
         case 'x': rc = evalPrintFlags("Xkyct"); break;
-        case 'c': action_ = Action::print; printMode_ = pmComment; break;
-        case 'p': action_ = Action::print; printMode_ = pmPreview; break;
+        case 'c': action_ = Action::print; printMode_ = pmComment  ; break;
+        case 'p': action_ = Action::print; printMode_ = pmPreview  ; break;
+        case 'S': action_ = Action::print; printMode_ = pmStructure; break;
+        case 'X': action_ = Action::print; printMode_ = pmXMP      ; break;
         default:
             std::cerr << progname() << ": " << _("Unrecognized print mode") << " `"
                       << optarg << "'\n";

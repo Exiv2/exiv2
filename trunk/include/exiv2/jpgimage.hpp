@@ -150,7 +150,7 @@ namespace Exiv2 {
     public:
         //! @name Manipulators
         //@{
-        void printStructure();
+        void printStructure(std::ostream& out,printStructureOption_e option);
         void readMetadata();
         void writeMetadata();
         //@}

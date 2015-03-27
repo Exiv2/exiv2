@@ -72,6 +72,11 @@ namespace Exiv2 {
     typedef std::vector<NativePreview> NativePreviewList;
 
     /*!
+      @brief options for printStructure
+     */
+    typedef enum { kpsNone, kpsBasic, kpsXMP } printStructureOption_e ;
+
+    /*!
       @brief Abstract base class defining the interface for an image. This is
          the top-level interface to the Exiv2 library.
 
@@ -107,7 +112,7 @@ namespace Exiv2 {
           @throw Error if reading of the file fails or the image data is
                 not valid (does not look like data of the specific image type).
          */
-        virtual void printStructure();
+        virtual void printStructure(std::ostream& out,printStructureOption_e option=kpsNone);
         /*!
           @brief Read all metadata supported by a specific image format from the
               image. Before this method is called, the image metadata will be
@@ -450,7 +455,7 @@ namespace Exiv2 {
     class EXIV2API ImageFactory {
         friend bool Image::good() const;
     public:
-		/*!
+        /*!
           @brief Create the appropriate class type implemented BasicIo based on the protocol of the input.
 
           "-" path implies the data from stdin and it is handled by StdinIo.
@@ -466,7 +471,7 @@ namespace Exiv2 {
          */
         static BasicIo::AutoPtr createIo(const std::string& path, bool useCurl = true);
 #ifdef EXV_UNICODE_PATH
-		/*!
+        /*!
           @brief Like createIo() but accepts a unicode path in an std::wstring.
           @note This function is only available on Windows.
          */
