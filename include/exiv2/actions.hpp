@@ -178,6 +178,8 @@ namespace Action {
         void printMetadatum(const Exiv2::Metadatum& md, const Exiv2::Image* image);
         //! Print the label for a summary line
         void printLabel(const std::string& label) const;
+        //! Print image Structure information
+        int printStructure(std::ostream& out,Exiv2::printStructureOption_e option);
         /*!
           @brief Print one summary line with a label (if provided) and requested
                  data. A line break is printed only if a label is provided.

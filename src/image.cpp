@@ -68,6 +68,8 @@ EXIV2_RCSID("@(#) $Id$")
 #include <cstdio>
 #include <cstring>
 #include <cassert>
+#include <iostream>
+
 #include <sys/types.h>
 #include <sys/stat.h>
 #ifdef _MSC_VER
@@ -160,7 +162,7 @@ namespace Exiv2 {
     Image::~Image()
     {
     }
-    void Image::printStructure()
+    void Image::printStructure(std::ostream&, printStructureOption_e)
     {
     }
 
@@ -435,13 +437,13 @@ namespace Exiv2 {
             return BasicIo::AutoPtr(new XPathIo(path)); // may throw
 
         return BasicIo::AutoPtr(new FileIo(path));
-        
+
         UNUSED(useCurl);
     } // ImageFactory::createIo
 
 #ifdef EXV_UNICODE_PATH
     BasicIo::AutoPtr ImageFactory::createIo(const std::wstring& wpath, bool useCurl)
-	{
+    {
         Protocol fProt = fileProtocol(wpath);
 #if EXV_USE_SSH == 1
         if (fProt == pSsh || fProt == pSftp) {

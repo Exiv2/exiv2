@@ -144,7 +144,9 @@ public:
         pmSummary,
         pmList,
         pmComment,
-        pmPreview
+        pmPreview,
+		pmStructure,
+		pmXMP
     };
 
     //! Individual items to print, bitmap
