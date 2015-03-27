@@ -75,6 +75,8 @@ Options:
              x : XMP properties (-PXkyct)
              c : JPEG comment
              p : list available previews
+             S : print structure of image
+             X : extract XMP from image
    -P flgs Print flags for fine control of tag lists ('print' action):
              E : include Exif tags in the list
              I : IPTC datasets
