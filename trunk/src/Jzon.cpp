@@ -884,10 +884,10 @@ namespace Jzon
 	}
 
 
-	Parser::Parser(Node &root) : root(root)
+	Parser::Parser(Node &root) : jsonSize(0), cursor(0), root(root)
 	{
 	}
-	Parser::Parser(Node &root, const std::string &json) : root(root)
+	Parser::Parser(Node &root, const std::string &json) : jsonSize(0), cursor(0), root(root)
 	{
 		SetJson(json);
 	}
