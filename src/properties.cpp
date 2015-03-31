@@ -985,7 +985,7 @@ namespace Exiv2 {
         { "PersonDisplayName", N_("PersonDisplayName"), "Text", xmpText, xmpExternal, N_("Name of the person (in the given rectangle)")                               },
         { "Rectangle",         N_("Rectangle"),         "Text", xmpText, xmpExternal, N_("Rectangle that identifies the person within the photo")                     },
         { "PersonEmailDigest", N_("PersonEmailDigest"), "Text", xmpText, xmpExternal, N_("SHA-1 encrypted message hash of the person's Windows Live e-mail address"), },
-        { "PersonLiveCID",     N_("PersonLiveCID"),     "Text", xmpText, xmpExternal, N_("Signed decimal representation of the person's Windows Live CID")            },
+        { "PersonLiveIdCID",   N_("PersonLiveIdCID"),   "Text", xmpText, xmpExternal, N_("Signed decimal representation of the person's Windows Live CID")            },
         // End of list marker
         { 0, 0, 0, invalidTypeId, xmpInternal, 0 }
     };
