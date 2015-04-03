@@ -137,7 +137,8 @@ SCHEMA = xmp_dc \
          xmp_MP \
          xmp_MPRI \
          xmp_MPReg \
-         xmp_mwg-rs
+         xmp_mwg-rs \
+         xmp_mwg-kw
 
 TAGLIST = ../../bin/taglist
 
