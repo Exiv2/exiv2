@@ -114,7 +114,7 @@ namespace Exiv2 {
         { "http://ns.adobe.com/xap/1.0/t/pg/",            "xmpTPg",         xmpXmpTPgInfo,    N_("XMP Paged-Text schema")                     },
         { "http://ns.adobe.com/xmp/1.0/DynamicMedia/",    "xmpDM",          xmpXmpDMInfo,     N_("XMP Dynamic Media schema")                  },
         { "http://ns.microsoft.com/photo/1.0/",           "MicrosoftPhoto", xmpMicrosoftInfo, N_("Microsoft Photo schema")                    },
-        { "http://ns.adobe.com/lightroom/1.0/",           "lr",             xmpLrInfo,        N_("Adobe LightRoom schema")                    },
+        { "http://ns.adobe.com/lightroom/1.0/",           "lr",             xmpLrInfo,        N_("Adobe Lightroom schema")                    },
         { "http://ns.adobe.com/pdf/1.3/",                 "pdf",            xmpPdfInfo,       N_("Adobe PDF schema")                          },
         { "http://ns.adobe.com/photoshop/1.0/",           "photoshop",      xmpPhotoshopInfo, N_("Adobe photoshop schema")                    },
         { "http://ns.adobe.com/camera-raw-settings/1.0/", "crs",            xmpCrsInfo,       N_("Camera Raw schema")                         },
@@ -1144,7 +1144,7 @@ namespace Exiv2 {
         { "GPSTimeStamp",           N_("GPS Time Stamp"),                   "Date",                     xmpText, xmpInternal, N_("Time stamp of GPS data, ") },
         { "GPSVersionID",           N_("GPS Version ID"),                   "Text",                     xmpText, xmpInternal, N_("A decimal encoding with period separators. ") },
         { "GraphicsMode",           N_("Graphcs Mode"),                     "Text",                     xmpText, xmpExternal, N_("A 16-bit integer that specifies the transfer mode. The transfer mode specifies which Boolean"
-                                                                                                                                 "operation QuickDraw should performwhen drawing ortransferring an image fromone location to another.")   },
+                                                                                                                                 "operation QuickDraw should perform when drawing or transferring an image from one location to another.")   },
         { "Grouping",               N_("Grouping"),                         "Text",                     xmpText, xmpExternal, N_("Information about the Grouping.")   },
         { "HandlerClass",           N_("Handler Class"),                    "Text",                     xmpText, xmpExternal, N_("A four-character code that identifies the type of the handler. Only two values are valid for this field: 'mhlr' for media handlers and 'dhlr' for data handlers.")   },
         { "HandlerDescription",     N_("Handler Description"),              "Text",                     xmpText, xmpExternal, N_("A (counted) string that specifies the name of the component-that is, the media handler used when this media was created..")   },
