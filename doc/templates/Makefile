@@ -113,6 +113,7 @@ TABLES = Exif \
 
 SCHEMA = xmp_dc \
          xmp_dwc \
+         xmp_dcterms \
          xmp_xmp \
          xmp_xmpRights \
          xmp_xmpMM \

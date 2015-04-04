@@ -405,6 +405,7 @@ namespace Exiv2 {
             initialized_ = SXMPMeta::Initialize();
 	        SXMPMeta::RegisterNamespace("http://ns.adobe.com/lightroom/1.0/", "lr");
 	        SXMPMeta::RegisterNamespace("http://rs.tdwg.org/dwc/index.htm", "dwc");
+	        SXMPMeta::RegisterNamespace("http://purl.org/dc/terms/", "dcterms");       
             SXMPMeta::RegisterNamespace("http://www.digikam.org/ns/1.0/", "digiKam");
             SXMPMeta::RegisterNamespace("http://www.digikam.org/ns/kipi/1.0/", "kipi");
             SXMPMeta::RegisterNamespace("http://ns.microsoft.com/photo/1.0/", "MicrosoftPhoto");
