@@ -771,6 +771,7 @@ namespace Exiv2 {
         { 161, "Tamron AF 17-50mm f/2.8 Di-II LD Aspherical"                }, // 4
         { 161, "Tamron 90mm f/2.8"                                          }, // 5
         { 161, "Tamron SP AF 17-35mm f/2.8-4 Di LD Aspherical IF"           }, // 6
+        { 161, "Tamron SP AF 28-75mm f/2.8 XR Di LD Aspherical [IF] Macro"  }, // 7
         { 162, "Canon EF 200mm f/2.8L"                                      },
         { 163, "Canon EF 300mm f/4L"                                        },
         { 164, "Canon EF 400mm f/5.6L"                                      },
