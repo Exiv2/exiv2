@@ -17,7 +17,7 @@ __index2__
   <li>The schema namespace URI is <b><code>http://iptc.org/std/Iptc4xmpExt/2008-02-29/</code></b></li>
   <li>The preferred schema namespace prefix is <b><code>Iptc4xmpExt</code></b></li>
  </ul>
-Reference: <a href="http://www.iptc.org/std/photometadata/2008/specification/IPTC-PhotoMetadata-2008_2.pdf" title="IPTC Standard Photo Metadata 2008">IPTC Photo Metadata 2008</a> standard</p>
+Reference: <a href="http://www.iptc.org/std/photometadata/specification/IPTC-PhotoMetadata" title="IPTC Extension Specification Version 1.2">IPTC Extension Specification Version 1.2</a> standard</p>
 <p>Note: Exiv2 uses <b><code>iptcExt</code></b> (rather than <code>Iptc4xmpExt</code>) as the group name for keys of IPTC Extension schema properties.</p>
 
 <p>Click on a column header to sort the table.</p>

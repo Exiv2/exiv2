@@ -14,7 +14,7 @@ __index2__
   <li>The schema namespace URI is <b><code>http://ns.adobe.com/xmp/1.0/DynamicMedia/</code></b></li>
   <li>The preferred schema namespace prefix is <b><code>xmpDM</code></b></li>
  </ul>
-Reference: <a href="http://www.adobe.com/devnet/xmp/pdfs/xmp_specification.pdf" title="XMP specification">XMP specification</a>
+Reference: <a href="http://www.adobe.com/devnet/xmp.html" title="XMP specification">XMP Specification and Documentation</a>
 </p>
 <p>Click on a column header to sort the table.</p>
 
