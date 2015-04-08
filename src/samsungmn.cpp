@@ -66,7 +66,8 @@ namespace Exiv2 {
         { 13, "Saumsun NX 16-50mm F2-2.8 S ED OIS"            },
         { 14, "Samsung NX 10mm F3.5 Fisheye"                  },
         { 15, "Samsung NX 16-50mm F3.5-5.6 Power Zoom ED OIS" },
-        { 20, "Samsung NX 50-150mm F2.8 S ED OIS"             }
+        { 20, "Samsung NX 50-150mm F2.8 S ED OIS"             },
+        { 21, "Samsung NX 300mm F2.8 ED OIS"                  }
     };
 
     //! ColorSpace, tag 0xa011
