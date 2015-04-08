@@ -215,7 +215,7 @@ void Params::version(bool verbose,std::ostream& os) const
     bool  b64    = sizeof(void*)==8;
     const char* sBuild = b64 ? "(64 bit build)" : "(32 bit build)" ;
     os << EXV_PACKAGE_STRING << " " << Exiv2::versionNumberHexString() << " " << sBuild << "\n";
-    if ( Params::instance().keys_.empty() ) {
+    if ( Params::instance().greps_.empty() ) {
     os << _("Copyright (C) 2004-2013 Andreas Huggel.\n")
        << "\n"
        << _("This program is free software; you can redistribute it and/or\n"
@@ -234,7 +234,7 @@ void Params::version(bool verbose,std::ostream& os) const
             "Boston, MA 02110-1301 USA\n");
     }
 
-    if ( verbose ) dumpLibraryInfo(os,Params::instance().keys_);
+    if ( verbose ) dumpLibraryInfo(os,Params::instance().greps_);
 }
 
 void Params::usage(std::ostream& os) const
@@ -274,6 +274,7 @@ void Params::help(std::ostream& os) const
        << _("   -b      Show large binary values.\n")
        << _("   -u      Show unknown tags.\n")
        << _("   -g key  Only output info for this key (grep).\n")
+       << _("   -K key  Only output info for this key (exact match).\n")
        << _("   -n enc  Charset to use to decode UNICODE Exif user comments.\n")
        << _("   -k      Preserve file timestamps (keep).\n")
        << _("   -t      Also set the file timestamp in 'rename' action (overrides -k).\n")
@@ -360,7 +361,8 @@ int Params::option(int opt, const std::string& optarg, int optopt)
     case 'u': unknown_ = false; break;
     case 'f': force_ = true; fileExistsPolicy_ = overwritePolicy; break;
     case 'F': force_ = true; fileExistsPolicy_ = renamePolicy; break;
-    case 'g': rc = evalKey(optarg); printMode_ = pmList; break;
+    case 'g': rc = evalGrep(optarg); printMode_ = pmList; break;
+    case 'K': rc = evalKey(optarg); printMode_ = pmList; break;
     case 'n': charset_ = optarg; break;
     case 'r': rc = evalRename(opt, optarg); break;
     case 't': rc = evalRename(opt, optarg); break;
@@ -418,14 +420,14 @@ int Params::setLogLevel(const std::string& optarg)
     return rc;
 } // Params::setLogLevel
 
-int Params::evalKey( const std::string& optarg)
+int Params::evalGrep( const std::string& optarg)
 {
     int result=0;
 #if EXV_HAVE_REGEX
     // try to compile a reg-exp from the input argument and store it in the vector
-    const size_t i = keys_.size();
-    keys_.resize(i + 1);
-    regex_t *pRegex = &keys_[i];
+    const size_t i = greps_.size();
+    greps_.resize(i + 1);
+    regex_t *pRegex = &greps_[i];
     int errcode = regcomp( pRegex, optarg.c_str(), REG_NOSUB);
 
     // there was an error compiling the regexp
@@ -436,16 +438,23 @@ int Params::evalKey( const std::string& optarg)
         std::cerr << progname()
               << ": " << _("Option") << " -g: "
               << _("Invalid regexp") << " \"" << optarg << "\": " << buffer << "\n";
-      
+
         // free the memory and drop the regexp
         delete[] buffer;
         regfree( pRegex);
-        keys_.resize(i);
+        greps_.resize(i);
         result=1;
     }
 #else
-    keys_.push_back(optarg);
+    greps_.push_back(optarg);
 #endif
+    return result;
+} // Params::evalGrep
+
+int Params::evalKey( const std::string& optarg)
+{
+    int result=0;
+    keys_.push_back(optarg);
     return result;
 } // Params::evalKey
 
@@ -835,8 +844,55 @@ int Params::nonoption(const std::string& argv)
     return rc;
 } // Params::nonoption
 
-int Params::getopt(int argc, char* const argv[])
+typedef std::map<std::string,std::string> long_t;
+
+int Params::getopt(int argc, char* const Argv[])
 {
+	char** argv = new char* [argc+1];
+	argv[argc] = NULL;
+	long_t longs;
+
+	longs["--adjust"   ] = "-a";
+	longs["--binary"   ] = "-b";
+	longs["--comment"  ] = "-c";
+	longs["--delete"   ] = "-d";
+	longs["--days"     ] = "-D";
+	longs["--force"    ] = "-f";
+	longs["--Force"    ] = "-F";
+	longs["--grep"     ] = "-g";
+	longs["--help"     ] = "-h";
+	longs["--insert"   ] = "-i";
+	longs["--keep"     ] = "-k";
+	longs["--key"      ] = "-K";
+	longs["--location" ] = "-l";
+	longs["--modify"   ] = "-m";
+	longs["--Modify"   ] = "-M";
+	longs["--encode"   ] = "-n";
+	longs["--months"   ] = "-O";
+	longs["--print"    ] = "-p";
+	longs["--Print"    ] = "-P";
+	longs["--quiet"    ] = "-q";
+	longs["--log"      ] = "-Q";
+	longs["--rename"   ] = "-r";
+	longs["--suffix"   ] = "-S";
+	longs["--timestamp"] = "-t";
+	longs["--Timestamp"] = "-T";
+	longs["--unknown"  ] = "-u";
+	longs["--verbose"  ] = "-v";
+	longs["--Version"  ] = "-V";
+	longs["--version"  ] = "-V";
+	longs["--years"    ] = "-Y";
+
+	for ( int i = 0 ; i < argc ; i++ ) {
+		std::string* arg = new std::string(Argv[i]);
+		if (longs.find(*arg) != longs.end() ) {
+			argv[i] = ::strdup(longs[*arg].c_str());
+		} else {
+			argv[i] = ::strdup(Argv[i]);
+		}
+		delete arg;
+	}
+
     int rc = Util::Getopt::getopt(argc, argv, optstring_);
     // Further consistency checks
     if (help_ || version_) return 0;
@@ -903,6 +959,11 @@ int Params::getopt(int argc, char* const argv[])
                   << _("-T option can only be used with rename action\n");
         rc = 1;
     }
+
+	// cleanup the argument vector
+	for ( int i = 0 ; i < argc ; i++ ) ::free((void*)argv[i]);
+    delete [] argv;
+
     return rc;
 } // Params::getopt
 
@@ -1118,7 +1179,7 @@ namespace {
             || cmdEnd == std::string::npos
             || keyStart == std::string::npos) {
             std::string cmdLine ;
-#if defined(_MSC_VER) || defined(__MINGW__)     
+#if defined(_MSC_VER) || defined(__MINGW__)
             for ( int i = 1 ; i < __argc ; i++ ) { cmdLine += std::string(" ") + formatArg(__argv[i]) ; }
 #endif
             throw Exiv2::Error(1, Exiv2::toString(num)
