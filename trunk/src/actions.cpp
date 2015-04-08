@@ -556,7 +556,7 @@ namespace Action {
             if (xmpData.empty()) sMissing = "XMP" ;
         }
 
-        bool bTagFilterGiven = !Params::instance().keys_.empty();  // were tag filters given with -g?
+        bool bTagFilterGiven = !Params::instance().greps_.empty();  // were tag filters given with -g?
         int  result = ( sMissing.empty() || bTagFilterGiven ) ? 0 : -3;
         if ( result ) {
             std::cerr << path_ << ": " << "(No " << sMissing << " data found in the file)\n";
@@ -566,15 +566,26 @@ namespace Action {
 
     bool Print::grepTag(const std::string& key)
     {
+        bool result=Params::instance().greps_.empty();
+        for (Params::Greps::const_iterator g = Params::instance().greps_.begin();
+                !result && g != Params::instance().greps_.end(); ++g)
+        {
+#if EXV_HAVE_REGEX
+            result = regexec( &(*g), key.c_str(), 0, NULL, REG_NOTBOL | REG_NOTEOL) == 0 ;
+#else
+            result = key.find(*g) != std::string::npos;
+#endif
+        }
+        return result ;
+    }
+
+    bool Print::keyTag(const std::string& key)
+    {
         bool result=Params::instance().keys_.empty();
         for (Params::Keys::const_iterator k = Params::instance().keys_.begin();
                 !result && k != Params::instance().keys_.end(); ++k)
         {
-#if EXV_HAVE_REGEX
-            result = regexec( &(*k), key.c_str(), 0, NULL, REG_NOTBOL | REG_NOTEOL) == 0 ;
-#else
-            result = key.find(*k) != std::string::npos;
-#endif
+            result = key.compare(*k) == 0;
         }
         return result ;
     }
@@ -582,6 +593,7 @@ namespace Action {
     void Print::printMetadatum(const Exiv2::Metadatum& md, const Exiv2::Image* pImage)
     {
         if (!grepTag(md.key())) return;
+        if (!keyTag (md.key())) return;
 
         if (   Params::instance().unknown_
             && md.tagName().substr(0, 2) == "0x") {

@@ -3,7 +3,7 @@
 .\" First parameter, NAME, should be all caps
 .\" Second parameter, SECTION, should be 1-8, maybe w/ subsection
 .\" other parameters are allowed: see man(7), man(1)
-.TH EXIV2 1 "Mar 27, 2015"
+.TH EXIV2 1 "Apr 7, 2015"
 .\" Please adjust this date whenever revising the manpage.
 .\"
 .\" Some roff macros, for reference:
@@ -118,6 +118,68 @@ Fix the character encoding of Exif Unicode user comments.  Decodes the
 comment using the auto-detected or specified character encoding and
 writes it back in UCS-2. Use option \fB\-n\fP to specify the current
 encoding of the comment if necessary.
+.br
+.ne 40
+.SH COMMAND SUMMARY
+.sp 1
+.nf
+exiv2 [ opt [arg] ]+ [ act ] file ...
+.sp 1
+option [arg]	long option	description
+-a	tim	--adjust	Modify time stamps.  [+|-]HH[:MM[:SS[.mmm]]]
+-b		--binary	Show large binary values (default is to suppress them).
+-c	txt	--comment	JPEG comment string to set in the image ('modify' action).  ...
+-d	tgt	--delete	Delete target(s) for the 'delete' action. ...
+-D	+-n	--days	Time  adjustment by a positive or negative number of days ...
+-e	tgt	--extract	Extract target(s) for the 'extract' action.
+-f		--force	Do not prompt before overwriting existing  files ...
+-F		--Force	Do not prompt before renaming files (Force rename) ...
+-g	key	--grep	Only output info for this Exiv2 key (grep).
+-h		--help	Display help and exit.
+-i	tgt	--insert	Insert target(s) for the 'insert' action. ...
+-k		--keep	Preserve file timestamps when updating files (keep)
+-K	Key	--key	Report key.  Similar to -g (grep) however key must match exactly.
+-l	dir	--location	Location (directory) for files to be inserted or extracted.
+-m	file	--modify	read commands from cmd-file
+-M	cmd	--Modify	Command line for the 'modify' action. ...
+-n	enc	--encode	Charset to decode Exif Unicode user comments. See: man 3 iconv_open
+-O	+-n	--months	Time adjustment by a positive or negative number of months, ...
+-p	mod	--print	Print report (common reports)
+-P	flg	--Print	Print report (fine grained control)
+-q		--quiet	Silence warnings and error messages from the Exiv2 library ...
+-Q	lvl	--log	Set the log-level to 'd'(ebug), 'i'(nfo), 'w'(arning), 'e'(rror)
+-r	fmt	--rename	Filename format for the 'rename' action. ...
+-S	suf	--suffix	Use suffix .suf for source files for insert command.
+-t		--timestamp	Set the file timestamp according to the Exif create timestamp ...
+-T		--Timestamp	Only set the file timestamp according to Exif create timestamp ...
+-u		--unknown	Show unknown tags ...
+-v		--verbose	verbose
+-V		--version	Show the program version and exit.
+-Y	+-n	--years	Time adjustment by a positive or negative number of years ...
+.sp 1
+act		pr | ex | in | rm | ad | mo | mv | fi | fc
+		print, extract, insert, delete, adjust, modify, rename, fixiso,fixcom
+
+cmd		See "Commands" below.
+
+flg		E | I | X | x | g | k | l | n | y | c | s | v | t | h
+		Exif , IPTC, XMP, num, grp, key, label, name , type, count, size, vanilla, translated, hex
+
+fmt		Default format is %Y%m%d_%H%M%S.
+
+lvl		d | i | i | w | e
+		debug, info, warning, error
+
+mod		s | a | t | v | h | i | x | c | p | i | S | X : 
+		summary, add, translated, vanilla, hex ...
+		iptc ,xmp, comment, preview, Structure,XMP raw
+
+tgt		a | c | e | i | t | x
+		all, comment, exif, iptc, thumb, xmp
+
+.br
+.fi
+.ne 40
 .SH OPTIONS
 .TP
 .B \-h
@@ -152,7 +214,7 @@ Show large binary values (default is to suppress them).
 Show unknown tags (default is to suppress tags which don't have a name).
 .TP
 .B \-g \fIkey\fP
-Only output info for this Exiv2 key (grep).
+Only keys which match the given key (grep).
 .br
 Multiple \fB\-g\fP options
 can be used to grep info for several keys.  This option uses the system
@@ -163,6 +225,17 @@ using the command: exiv2 -v -V -g have_regex
 .nf
 exiv2 \-g Date \-pt R.jpg
 Exif.Image.DateTime           Ascii      20  2012:08:07 16:01:05
+Exif.Photo.DateTimeOriginal   Ascii      20  2011:09:18 16:25:48
+Exif.Photo.DateTimeDigitized  Ascii      20  2011:09:18 16:25:48
+.fi
+.TP
+.B \-K \fIkey\fP
+Only report data for given key.
+.br
+Multiple \fB\-K\fP options can be used to report more than a single key.
+
+.nf
+exiv2 \-K Exif.Photo.DateTimeDigitized -K Exif.Photo.DateTimeOriginal \-pt R.jpg
 Exif.Photo.DateTimeOriginal   Ascii      20  2011:09:18 16:25:48
 Exif.Photo.DateTimeDigitized  Ascii      20  2011:09:18 16:25:48
 .fi
@@ -286,14 +359,23 @@ c : JPEG comment
 .TP
 .B \-i \fItgt\fP
 Insert target(s) for the 'insert' action. Possible targets are the
-same as those for the \fB\-d\fP option, plus a modifier:
-.br
+same as those for the \fB\-d\fP option, plus an optional modifier:
+.sp 1
 X : Insert metadata from an XMP sidecar file <file>.xmp. The remaining
 insert targets determine what metadata to insert from the sidecar
 file. Possible are Exif, IPTC and XMP and the default is all of
 these. Note that the inserted XMP properties include those converted
 to Exif and IPTC.
+.sp 1
+R : Round trip.  Extract an XMP sidecar file to memory and read in back
+into the file.
+.sp 1
+- : Insert metadata from an XMP sidecar read from stdin
 .br
+This is option is intended for "filter" operations on the XMP such as:
+.br
+$ exiv2 -e{tgt}- \fIfilename\fP | xmllint .... | exiv2 -i{tgt}- \fIfilename\fP 
+.sp 1
 Only JPEG thumbnails can be inserted (not TIFF thumbnails), they need to
 be named \fIfile\fP\-thumb.jpg.
 .TP
@@ -306,10 +388,12 @@ p[<n>[,<m> ...]] : Extract preview images. The optional comma separated
 list of preview image numbers is used to determine which preview images
 to extract. The available preview images and their numbers are displayed
 with the 'print' option \fB\-pp\fP.
-.br
+.sp 1
 X : Extract metadata to an XMP sidecar file <file>.xmp. The remaining
 extract targets determine what metadata to extract to the sidecar
 file. Possible are Exif, IPTC and XMP and the default is all of these.
+.sp 1
+- : Output sidecar file to stdout (see -i tgt for example)
 .sp 1
 .TP
 .B \-r \fIfmt\fP

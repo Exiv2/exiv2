@@ -128,8 +128,10 @@ public:
     typedef std::vector<std::string> Files;
     //! Container for preview image numbers
     typedef std::set<int> PreviewNumbers;
+    //! Container for greps
+    typedef  exv_grep_keys_t Greps;
     //! Container for keys
-    typedef  exv_grep_keys_t Keys;
+    typedef std::vector<std::string> Keys;
 
     /*!
       @brief Controls all access to the global Params instance.
@@ -218,7 +220,8 @@ public:
     std::string suffix_;                //!< File extension of the file to insert
     Files files_;                       //!< List of non-option arguments.
     PreviewNumbers previewNumbers_;     //!< List of preview numbers
-    Keys keys_;                         //!< List of keys to 'grep' from the metadata
+    Greps greps_;                       //!< List of keys to 'grep' from the metadata
+    Keys  keys_;                        //!< List of keys to match from the metadata
     std::string charset_;               //!< Charset to use for UNICODE Exif user comment
 
 private:
@@ -234,7 +237,7 @@ private:
       @brief Default constructor. Note that optstring_ is initialized here.
              The c'tor is private to force instantiation through instance().
      */
-    Params() : optstring_(":hVvqfbuktTFa:Y:O:D:r:p:P:d:e:i:c:m:M:l:S:g:n:Q:"),
+    Params() : optstring_(":hVvqfbuktTFa:Y:O:D:r:p:P:d:e:i:c:m:M:l:S:g:K:n:Q:"),
                help_(false),
                version_(false),
                verbose_(false),
@@ -267,6 +270,7 @@ private:
     //! @name Helpers
     //@{
     int setLogLevel(const std::string& optarg);
+    int evalGrep( const std::string& optarg);
     int evalKey( const std::string& optarg);
     int evalRename(int opt, const std::string& optarg);
     int evalAdjust(const std::string& optarg);

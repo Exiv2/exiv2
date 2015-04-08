@@ -144,28 +144,28 @@ typedef string_v::iterator  string_i;
 #endif
 #endif
 
-static void output(std::ostream& os,const exv_grep_keys_t& keys,const char* name,const std::string& value)
+static void output(std::ostream& os,const exv_grep_keys_t& greps,const char* name,const std::string& value)
 {
-    bool bPrint = keys.empty();
-    for( exv_grep_keys_t::const_iterator k = keys.begin();
-        !bPrint && k != keys.end() ; ++k
+    bool bPrint = greps.empty();
+    for( exv_grep_keys_t::const_iterator g = greps.begin();
+        !bPrint && g != greps.end() ; ++g
     ) {
 #if EXV_HAVE_REGEX
-        bPrint = (  0 == regexec( &(*k), name         , 0, NULL, REG_NOTBOL | REG_NOTEOL)
-                 || 0 == regexec( &(*k), value.c_str(), 0, NULL, REG_NOTBOL | REG_NOTEOL)
+        bPrint = (  0 == regexec( &(*g), name         , 0, NULL, REG_NOTBOL | REG_NOTEOL)
+                 || 0 == regexec( &(*g), value.c_str(), 0, NULL, REG_NOTBOL | REG_NOTEOL)
                  );
 #else
-        bPrint = std::string(name).find(*k) != std::string::npos || value.find(*k) != std::string::npos;
+        bPrint = std::string(name).find(*g) != std::string::npos || value.find(*g) != std::string::npos;
 #endif
     }
     if ( bPrint ) os << name << "=" << value << endl;
 }
 
-static void output(std::ostream& os,const exv_grep_keys_t& keys,const char* name,int value)
+static void output(std::ostream& os,const exv_grep_keys_t& greps,const char* name,int value)
 {
     std::ostringstream stringStream;
     stringStream << value;
-    output(os,keys,name,stringStream.str());
+    output(os,greps,name,stringStream.str());
 }
 
     void dumpLibraryInfo(std::ostream& os,const exv_grep_keys_t& keys)

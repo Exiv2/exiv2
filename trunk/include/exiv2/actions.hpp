@@ -172,6 +172,8 @@ namespace Action {
         int printList();
         //! Return true if key should be printed, else false
         bool grepTag(const std::string& key);
+        //! Return true if key should be printed, else false
+        bool keyTag(const std::string& key);
         //! Print all metadata in a user defined format
         int printMetadata(const Exiv2::Image* image);
         //! Print a metadatum in a user defined format
