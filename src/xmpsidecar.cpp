@@ -47,8 +47,9 @@ EXIV2_RCSID("@(#) $Id$")
 
 // *****************************************************************************
 namespace {
-    const char* xmlHeader = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n";
-    const long  xmlHdrCnt = 39; // without the trailing 0-character
+    const char* xmlHeader = "<?xpacket begin=\"\xef\xbb\xbf\" id=\"W5M0MpCehiHzreSzNTczkc9d\"?>\n";
+    const long  xmlHdrCnt = std::strlen(xmlHeader); // without the trailing 0-character
+    const char* xmlFooter = "<?xpacket end=\"w\"?>";
 }
 
 // class member definitions
@@ -130,7 +131,7 @@ namespace Exiv2 {
         }
         if (xmpPacket_.size() > 0) {
             if (xmpPacket_.substr(0, 5)  != "<?xml") {
-                xmpPacket_ = xmlHeader + xmpPacket_;
+                xmpPacket_ = xmlHeader + xmpPacket_ + xmlFooter;
             }
             BasicIo::AutoPtr tempIo(io_->temporary()); // may throw
             assert(tempIo.get() != 0);
