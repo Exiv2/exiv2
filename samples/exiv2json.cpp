@@ -92,6 +92,11 @@ Jzon::Node& addToTree(Jzon::Node& r1,Token token)
 	return r1;
 }
 
+Jzon::Node& addToTree(Jzon::Node& rt,Tokens& tokens,size_t k)
+{
+	return --k == 0 ? addToTree(rt,tokens[0]) :  addToTree(   addToTree(rt,tokens,k)     ,tokens[k]);
+}
+
 // build the json tree for this key.  return location and discover the name
 Jzon::Node& objectForKey(const std::string Key,Jzon::Object& rt,std::string& name)
 {
@@ -104,37 +109,17 @@ Jzon::Node& objectForKey(const std::string Key,Jzon::Object& rt,std::string& nam
 		name = token.n ;
     }
 	size_t  l  = tokens.size()-1; // leave leaf name to push()
+	return addToTree(rt,tokens,l);
 
-    // this is horrible
-	// why can't you have an array of references?
-	// why can't you change a reference without disturbing the referenced object?
-	// why can't you new() a reference?
-	// references are pointers that don't work properly!
-#if 1
-    size_t       k  = 0;
-	Jzon::Node&  r1 = addToTree( rt,tokens[k++]) ; if ( l == k ) return  r1;
-	Jzon::Node&  r2 = addToTree( r1,tokens[k++]) ; if ( l == k ) return  r2;
-	Jzon::Node&  r3 = addToTree( r2,tokens[k++]) ; if ( l == k ) return  r3;
-	Jzon::Node&  r4 = addToTree( r3,tokens[k++]) ; if ( l == k ) return  r4;
-	Jzon::Node&  r5 = addToTree( r4,tokens[k++]) ; if ( l == k ) return  r5;
-	Jzon::Node&  r6 = addToTree( r5,tokens[k++]) ; if ( l == k ) return  r6;
-	Jzon::Node&  r7 = addToTree( r6,tokens[k++]) ; if ( l == k ) return  r7;
-	Jzon::Node&  r8 = addToTree( r7,tokens[k++]) ; if ( l == k ) return  r8;
-	Jzon::Node&  r9 = addToTree( r8,tokens[k++]) ; if ( l == k ) return  r9;
-	Jzon::Node& r10 = addToTree( r9,tokens[k++]) ; if ( l == k ) return r10;
-	Jzon::Node& r11 = addToTree(r10,tokens[k++]) ; if ( l == k ) return r11;
-#else
-	// We could express this prettily as:
-	// Still horrible.  There has to be a way to express this to any depth
-	if ( l == 1 ) return                                                             addToTree(rt,tokens[0]);
-	if ( l == 2 ) return                                                   addToTree(addToTree(rt,tokens[0]),tokens[1]);
-	if ( l == 3 ) return                                         addToTree(addToTree(addToTree(rt,tokens[0]),tokens[1]),tokens[2]);
-	if ( l == 4 ) return                               addToTree(addToTree(addToTree(addToTree(rt,tokens[0]),tokens[1]),tokens[2]),tokens[3]);
-	if ( l == 5 ) return                     addToTree(addToTree(addToTree(addToTree(addToTree(rt,tokens[0]),tokens[1]),tokens[2]),tokens[3]),tokens[4]);
-	if ( l == 6 ) return           addToTree(addToTree(addToTree(addToTree(addToTree(addToTree(rt,tokens[0]),tokens[1]),tokens[2]),tokens[3]),tokens[4]),tokens[5]);
-	if ( l == 7 ) return addToTree(addToTree(addToTree(addToTree(addToTree(addToTree(addToTree(rt,tokens[0]),tokens[1]),tokens[2]),tokens[3]),tokens[4]),tokens[5]),tokens[6]);
+#if 0
+	// The recursion could be expressed these if statements:
+	// Go to the root, and climb out, adding objects or arrays to create the tree
+	// The leaf is pushed onto the top by the caller of objectForKey!
+	if ( l == 1 ) return                                  addToTree(rt,tokens[0]);
+	if ( l == 2 ) return                        addToTree(addToTree(rt,tokens[0]),tokens[1]);
+	if ( l == 3 ) return              addToTree(addToTree(addToTree(rt,tokens[0]),tokens[1]),tokens[2]);
+	if ( l == 4 ) return    addToTree(addToTree(addToTree(addToTree(rt,tokens[0]),tokens[1]),tokens[2]),tokens[3]);
 #endif
-	return rt ;
 }
 
 bool isObject(std::string& value)
