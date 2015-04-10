@@ -112,7 +112,7 @@ Jzon::Node& objectForKey(const std::string Key,Jzon::Object& rt,std::string& nam
 	return addToTree(rt,tokens,l);
 
 #if 0
-	// The recursion could be expressed with these if statements:
+	// The recursion could be expressed by these if statements:
 	// Go to the root, and climb out, adding objects or arrays to create the tree
 	// The leaf is pushed onto the top by the caller of objectForKey!
 	if ( l == 1 ) return                                  addToTree(rt,tokens[0]);
@@ -147,10 +147,10 @@ void push(Jzon::Node& json,const std::string& key,T i)
 
     switch ( i->typeId() ) {
         case Exiv2::xmpText:
-			 if ( ::isObject(value) ) {
+			 if (        ::isObject(value) ) {
 				 Jzon::Object   v;
 				 STORE(json,key,v);
-			 } else if ( isArray(value) ) {
+			 } else if ( ::isArray(value) ) {
 				 Jzon::Array    v;
 				 STORE(json,key,v);
 			 } else {
