@@ -933,7 +933,7 @@ namespace Exiv2 {
     }
 
 #if defined(_MSC_VER)
-    int FileIo::seek( uint64_t offset, Position pos )
+    int FileIo::seek( int64_t offset, Position pos )
     {
         assert(p_->fp_ != 0);
 
@@ -1249,7 +1249,7 @@ namespace Exiv2 {
     }
 
 #if defined(_MSC_VER)
-    int MemIo::seek( uint64_t offset, Position pos )
+    int MemIo::seek( int64_t offset, Position pos )
     {
         uint64_t newIdx = 0;
 
@@ -1853,7 +1853,7 @@ namespace Exiv2 {
     }
 
 #if defined(_MSC_VER)
-    int RemoteIo::seek( uint64_t offset, Position pos )
+    int RemoteIo::seek( int64_t offset, Position pos )
     {
         assert(p_->isMalloced_);
         uint64_t newIdx = 0;
