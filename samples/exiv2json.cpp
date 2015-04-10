@@ -69,94 +69,87 @@ bool getToken(std::string& in,Token& token)
 
 Jzon::Node& addToTree(Jzon::Node& r1,Token token)
 {
-	std::string  key    = token.n  ;
-	size_t       index  = token.i-1; // array Eg: "History[1]" indexed from 1.  Jzon expects 0 based index.
-	bool         bArray = token.a  ;
-
 	Jzon::Object object ;
 	Jzon::Array  array  ;
 
+	std::string  key    = token.n  ;
+	size_t       index  = token.i-1; // array Eg: "History[1]" indexed from 1.  Jzon expects 0 based index.
+	Jzon::Node&  empty  = token.a ? (Jzon::Node&) array : (Jzon::Node&) object ;
+
 	if (  r1.IsObject() ) {
 		Jzon::Object& o1 = r1.AsObject();
-		if ( !o1.Has(key) ) {
-			if ( bArray ) o1.Add(key,array); else o1.Add(key,object);
-		}
+		if (  !o1.Has(key) ) o1.Add(key,empty);
 		return o1.Get(key);
 	} else if ( r1.IsArray() ) {
 		Jzon::Array& a1 = r1.AsArray();
-		while ( a1.GetCount() <= index ) {
-			if ( bArray ) a1.Add(array); else a1.Add(object);
-		}
-		return a1.Get(index);
+		while ( a1.GetCount() <= index ) a1.Add(empty);
+		return  a1.Get(index);
 	}
 	return r1;
 }
 
-Jzon::Node& recursivelyBuildTree(Jzon::Node& rt,Tokens& tokens,size_t k)
+Jzon::Node& recursivelyBuildTree(Jzon::Node& root,Tokens& tokens,size_t k)
 {
-	return --k == 0 ? addToTree(rt,tokens[0]) :  addToTree(   recursivelyBuildTree(rt,tokens,k)     ,tokens[k]);
+	return addToTree( k==0 ? root : recursivelyBuildTree(root,tokens,k-1), tokens[k] );
 }
 
 // build the json tree for this key.  return location and discover the name
-Jzon::Node& objectForKey(const std::string Key,Jzon::Object& rt,std::string& name)
+Jzon::Node& objectForKey(const std::string Key,Jzon::Object& root,std::string& name)
 {
     // Parse the key
     Tokens      tokens ;
     Token       token  ;
     std::string input  = Key ; // Example: "XMP.xmp.MP.RegionInfo/MPRI:Regions[1]/MPReg:Rectangle"
-    while ( getToken(input,token) ) {
-		tokens.push_back(token);
-		name = token.n ;
-    }
-	size_t  l  = tokens.size()-1; // leave leaf name to push()
-	return recursivelyBuildTree(rt,tokens,l);
+    while ( getToken(input,token) ) tokens.push_back(token);
+	size_t      l      = tokens.size()-1; // leave leaf name to push()
+	name               = tokens[l].n ;
+	return recursivelyBuildTree(root,tokens,l-1);
 
 #if 0
 	// recursivelyBuildTree:
 	// Go to the root.  Climb out adding objects or arrays to create the tree
 	// The leaf is pushed on the top by the caller of objectForKey()
 	// The recursion could be expressed by these if statements:
-	if ( l == 1 ) return                                  addToTree(rt,tokens[0]);
-	if ( l == 2 ) return                        addToTree(addToTree(rt,tokens[0]),tokens[1]);
-	if ( l == 3 ) return              addToTree(addToTree(addToTree(rt,tokens[0]),tokens[1]),tokens[2]);
-	if ( l == 4 ) return    addToTree(addToTree(addToTree(addToTree(rt,tokens[0]),tokens[1]),tokens[2]),tokens[3]);
+	if ( l == 1 ) return                               addToTree(root,tokens[0]);
+	if ( l == 2 ) return                     addToTree(addToTree(root,tokens[0]),tokens[1]);
+	if ( l == 3 ) return           addToTree(addToTree(addToTree(root,tokens[0]),tokens[1]),tokens[2]);
+	if ( l == 4 ) return addToTree(addToTree(addToTree(addToTree(root,tokens[0]),tokens[1]),tokens[2]),tokens[3]);
 	...
 #endif
 }
 
 bool isObject(std::string& value)
 {
-	return value.compare(std::string("type=\"Struct\""))==0;
+	return !value.compare(std::string("type=\"Struct\""));
 }
 
 bool isArray(std::string& value)
 {
-	return value.compare(std::string("type=\"Seq\""))==0
-	||     value.compare(std::string("type=\"Bag\""))==0
-	||     value.compare(std::string("type=\"Alt\""))==0
+	return !value.compare(std::string("type=\"Seq\""))
+	||     !value.compare(std::string("type=\"Bag\""))
+	||     !value.compare(std::string("type=\"Alt\""))
 	;
 }
 
-#define STORE(son,key,value) \
- 	if  (json.IsObject()) json.AsObject().Add(key,value);\
- 	else                  json.AsArray() .Add(    value)
+#define STORE(node,key,value) \
+ 	if  (node.IsObject()) node.AsObject().Add(key,value);\
+ 	else                  node.AsArray() .Add(    value)
 
 template <class T>
-void push(Jzon::Node& json,const std::string& key,T i)
+void push(Jzon::Node& node,const std::string& key,T i)
 {
     std::string value = i->value().toString();
-	if ( !json.IsArray() && !json.IsObject() ) return ;
 
     switch ( i->typeId() ) {
         case Exiv2::xmpText:
 			 if (        ::isObject(value) ) {
 				 Jzon::Object   v;
-				 STORE(json,key,v);
+				 STORE(node,key,v);
 			 } else if ( ::isArray(value) ) {
 				 Jzon::Array    v;
-				 STORE(json,key,v);
+				 STORE(node,key,v);
 			 } else {
-				 STORE(json,key,value);
+				 STORE(node,key,value);
 			 }
     	break;
 
@@ -166,12 +159,12 @@ void push(Jzon::Node& json,const std::string& key,T i)
         case Exiv2::signedByte:
         case Exiv2::signedShort:
         case Exiv2::signedLong:
-			 STORE(json,key,(int)i->value().toLong());
+			 STORE(node,key,(int)i->value().toLong());
 	    break;
 
         case Exiv2::tiffFloat:
         case Exiv2::tiffDouble:
-			 STORE(json,key,i->value().toFloat());
+			 STORE(node,key,i->value().toFloat());
         break;
 
         case Exiv2::unsignedRational:
@@ -180,7 +173,7 @@ void push(Jzon::Node& json,const std::string& key,T i)
              Exiv2::Rational rat = i->value().toRational();
              arr.Add(rat.first );
              arr.Add(rat.second);
-			 STORE(json,key,arr);
+			 STORE(node,key,arr);
         } break;
 
         default:
@@ -203,7 +196,7 @@ void push(Jzon::Node& json,const std::string& key,T i)
              	    value = value.substr(0,pos);
              }
              if ( key == "MakerNote") return;
-       	     STORE(json,key,value);
+       	     STORE(node,key,value);
         break;
     }
 }
@@ -240,16 +233,6 @@ void fileSystemPush(const char* path,Jzon::Node& nfs)
 #endif
     fs.Add("st_blksize",(int) blksize       ); /* blocksize for file system I/O   */
     fs.Add("st_blocks" ,(int) blocks        ); /* number of 512B blocks allocated */
-}
-
-std::string escape(Exiv2::XmpData::const_iterator it,bool bValue)
-{
-	std::string   result ;
-
-	std::ostringstream os;
-	if ( bValue ) os << it->value() ; else os << it->key() ;
-
-	return os.str();
 }
 
 int main(int argc, char* const argv[])
