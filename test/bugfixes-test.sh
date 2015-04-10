@@ -319,6 +319,15 @@ source ./functions.source
 	copyTestFile  $filename
 	runTest exiv2 -q -pa -g PageNumber $filename
 
+	num=1053
+	filename=exiv2-bug$num.jpg
+	printf "$num " >&3
+	echo '------>' Bug $num '<-------' >&2
+	copyTestFile exiv2-bug884c.jpg $filename
+	runTest exiv2 -PE -g ImageWidth            $filename
+	runTest exiv2 -PE -K ImageWidth            $filename
+	runTest exiv2 -PE -K Exif.Image.ImageWidth $filename
+
 ) 3>&1 > $results 2>&1
 
 printf "\n"
