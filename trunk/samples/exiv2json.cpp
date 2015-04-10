@@ -42,6 +42,7 @@ struct Token {
 };
 typedef std::vector<Token> Tokens ;
 
+// "XMP.xmp.MP.RegionInfo/MPRI:Regions[1]/MPReg:Rectangle"
 bool getToken(std::string& in,Token& token)
 {
 	bool result = false;
@@ -102,15 +103,15 @@ Jzon::Node& objectForKey(const std::string Key,Jzon::Object& rt,std::string& nam
 		tokens.push_back(token);
 		name = token.n ;
     }
-
-    size_t  k  = 0;
-	size_t  l  = tokens.size()-1; // leave final entry to push()
+	size_t  l  = tokens.size()-1; // leave leaf name to push()
 
     // this is horrible
 	// why can't you have an array of references?
 	// why can't you change a reference without disturbing the referenced object?
 	// why can't you new() a reference?
 	// references are pointers that don't work properly!
+#if 1
+    size_t       k  = 0;
 	Jzon::Node&  r1 = addToTree( rt,tokens[k++]) ; if ( l == k ) return  r1;
 	Jzon::Node&  r2 = addToTree( r1,tokens[k++]) ; if ( l == k ) return  r2;
 	Jzon::Node&  r3 = addToTree( r2,tokens[k++]) ; if ( l == k ) return  r3;
@@ -122,7 +123,17 @@ Jzon::Node& objectForKey(const std::string Key,Jzon::Object& rt,std::string& nam
 	Jzon::Node&  r9 = addToTree( r8,tokens[k++]) ; if ( l == k ) return  r9;
 	Jzon::Node& r10 = addToTree( r9,tokens[k++]) ; if ( l == k ) return r10;
 	Jzon::Node& r11 = addToTree(r10,tokens[k++]) ; if ( l == k ) return r11;
-
+#else
+	// We could express this prettily as:
+	// Still horrible.  There has to be a way to express this to any depth
+	if ( l == 1 ) return                                                             addToTree(rt,tokens[0]);
+	if ( l == 2 ) return                                                   addToTree(addToTree(rt,tokens[0]),tokens[1]);
+	if ( l == 3 ) return                                         addToTree(addToTree(addToTree(rt,tokens[0]),tokens[1]),tokens[2]);
+	if ( l == 4 ) return                               addToTree(addToTree(addToTree(addToTree(rt,tokens[0]),tokens[1]),tokens[2]),tokens[3]);
+	if ( l == 5 ) return                     addToTree(addToTree(addToTree(addToTree(addToTree(rt,tokens[0]),tokens[1]),tokens[2]),tokens[3]),tokens[4]);
+	if ( l == 6 ) return           addToTree(addToTree(addToTree(addToTree(addToTree(addToTree(rt,tokens[0]),tokens[1]),tokens[2]),tokens[3]),tokens[4]),tokens[5]);
+	if ( l == 7 ) return addToTree(addToTree(addToTree(addToTree(addToTree(addToTree(addToTree(rt,tokens[0]),tokens[1]),tokens[2]),tokens[3]),tokens[4]),tokens[5]),tokens[6]);
+#endif
 	return rt ;
 }
 
@@ -151,24 +162,16 @@ void push(Jzon::Node& json,const std::string& key,T i)
 
     switch ( i->typeId() ) {
         case Exiv2::xmpText:
-			 if ( isObject(value) ) {
-				 // ignore this - pushInto will create object when required
-				 break;
+			 if ( ::isObject(value) ) {
+				 Jzon::Object   v;
+				 STORE(json,key,v);
 			 } else if ( isArray(value) ) {
-				 Jzon::Array v;
+				 Jzon::Array    v;
 				 STORE(json,key,v);
 			 } else {
 				 STORE(json,key,value);
 			 }
     	break;
-
-        case Exiv2::date:
-        case Exiv2::time:
-        case Exiv2::asciiString :
-        case Exiv2::string:
-        case Exiv2::comment:
-		     STORE(json,key,value);
-        break;
 
         case Exiv2::unsignedByte:
         case Exiv2::unsignedShort:
@@ -194,6 +197,11 @@ void push(Jzon::Node& json,const std::string& key,T i)
         } break;
 
         default:
+        case Exiv2::date:
+        case Exiv2::time:
+        case Exiv2::asciiString :
+        case Exiv2::string:
+        case Exiv2::comment:
         case Exiv2::undefined:
         case Exiv2::tiffIfd:
         case Exiv2::directory:
@@ -259,14 +267,15 @@ std::string escape(Exiv2::XmpData::const_iterator it,bool bValue)
 
 int main(int argc, char* const argv[])
 try {
-
     if (argc < 2 || argc > 3) {
-        std::cout << "Usage: " << argv[0] << " [option] file\n";
+        std::cout << "Usage: " << argv[0] << " [-option] file\n";
         std::cout << "Option: all | exif | iptc | xmp | filesystem" << argv[0] << " [option] file\n";
         return 1;
     }
-    const char  option = argc == 3 ? argv[1][0] : 'a' ;
     const char* path   = argv[argc-1];
+    const char* opt    = argc == 3 ? argv[1] : "-all" ;
+    while      (opt[0] == '-') opt++ ; // skip past leading -'s
+    char        option = opt[0];
 
     Exiv2::Image::AutoPtr image = Exiv2::ImageFactory::open(path);
     assert(image.get() != 0);
@@ -308,14 +317,6 @@ try {
     	}
 	}
 
-/*
-    This is only for testing long paths
-    {
-    	ExifData::const_iterator i = exifData.begin();
-    	std::string name;
-    	push(objectForKey("This.Is.A.Rather.Long.Path.Key",name,root),name,i);
-    }
-*/
     Jzon::Writer writer(root,Jzon::StandardFormat);
     writer.Write();
     std::cout << writer.GetResult() << std::endl;
