@@ -92,9 +92,9 @@ Jzon::Node& addToTree(Jzon::Node& r1,Token token)
 	return r1;
 }
 
-Jzon::Node& addToTree(Jzon::Node& rt,Tokens& tokens,size_t k)
+Jzon::Node& recursivelyBuildTree(Jzon::Node& rt,Tokens& tokens,size_t k)
 {
-	return --k == 0 ? addToTree(rt,tokens[0]) :  addToTree(   addToTree(rt,tokens,k)     ,tokens[k]);
+	return --k == 0 ? addToTree(rt,tokens[0]) :  addToTree(   recursivelyBuildTree(rt,tokens,k)     ,tokens[k]);
 }
 
 // build the json tree for this key.  return location and discover the name
@@ -109,16 +109,18 @@ Jzon::Node& objectForKey(const std::string Key,Jzon::Object& rt,std::string& nam
 		name = token.n ;
     }
 	size_t  l  = tokens.size()-1; // leave leaf name to push()
-	return addToTree(rt,tokens,l);
+	return recursivelyBuildTree(rt,tokens,l);
 
 #if 0
+	// recursivelyBuildTree:
+	// Go to the root.  Climb out adding objects or arrays to create the tree
+	// The leaf is pushed on the top by the caller of objectForKey()
 	// The recursion could be expressed by these if statements:
-	// Go to the root, and climb out, adding objects or arrays to create the tree
-	// The leaf is pushed onto the top by the caller of objectForKey!
 	if ( l == 1 ) return                                  addToTree(rt,tokens[0]);
 	if ( l == 2 ) return                        addToTree(addToTree(rt,tokens[0]),tokens[1]);
 	if ( l == 3 ) return              addToTree(addToTree(addToTree(rt,tokens[0]),tokens[1]),tokens[2]);
 	if ( l == 4 ) return    addToTree(addToTree(addToTree(addToTree(rt,tokens[0]),tokens[1]),tokens[2]),tokens[3]);
+	...
 #endif
 }
 
