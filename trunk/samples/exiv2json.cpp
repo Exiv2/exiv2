@@ -24,7 +24,7 @@
 #if defined(_MSC_VER) || defined(__MINGW__)
 #include <windows.h>
 #ifndef  PATH_MAX
-# define  PATH_MAX 512
+# define PATH_MAX 512
 #endif
 const char* realpath(const char* file,char* path)
 {
@@ -35,73 +35,139 @@ const char* realpath(const char* file,char* path)
 #include <unistd.h>
 #endif
 
-using namespace std;
-using namespace Jzon;
-using namespace Exiv2;
+struct Token {
+	std::string n; // the name eg "History"
+	bool        a; // name is an array eg History[]
+	int         i; // index (indexed from 1) eg History[1]/stEvt:action
+};
+typedef std::vector<Token> Tokens ;
 
-// http://stackoverflow.com/questions/236129/splitting-a-string-in-c
-static size_t split(const std::string& s, char delim, std::vector<std::string>& elems)
+bool getToken(std::string& in,Token& token)
 {
-    std::stringstream ss(s);
-    std::string       item;
-    while (std::getline(ss, item, delim)) {
-        elems.push_back(item);
+	bool result = false;
+
+	token.n = ""    ;
+	token.a = false ;
+	token.i = 0     ;
+
+	while ( !result && in.length() ) {
+		std::string c = in.substr(0,1);
+		char        C = c[0];
+		in            = in.substr(1,std::string::npos);
+		if ( in.length() == 0 && C != ']' )	token.n += c;
+		if ( C == '/' || C == '[' || C == ':' || C == '.' || C == ']' || in.length() == 0 ) {
+			token.a   = C == '[';
+			if ( C == ']' ) token.i = std::atoi(token.n.c_str()); // encoded string first index == 1
+			result    = token.n.length() > 0 ;
+		}  else {
+			token.n   += c;
+		}
+	}
+	return result;
+}
+
+Jzon::Node& addToTree(Jzon::Node& r1,Token token)
+{
+	std::string  key    = token.n  ;
+	size_t       index  = token.i-1; // array Eg: "History[1]" indexed from 1.  Jzon expects 0 based index.
+	bool         bArray = token.a  ;
+
+	Jzon::Object object ;
+	Jzon::Array  array  ;
+
+	if (  r1.IsObject() ) {
+		Jzon::Object& o1 = r1.AsObject();
+		if ( !o1.Has(key) ) {
+			if ( bArray ) o1.Add(key,array); else o1.Add(key,object);
+		}
+		return o1.Get(key);
+	} else if ( r1.IsArray() ) {
+		Jzon::Array& a1 = r1.AsArray();
+		while ( a1.GetCount() <= index ) {
+			if ( bArray ) a1.Add(array); else a1.Add(object);
+		}
+		return a1.Get(index);
+	}
+	return r1;
+}
+
+// build the json tree for this key.  return location and discover the name
+Jzon::Node& objectForKey(const std::string Key,Jzon::Object& rt,std::string& name)
+{
+    // Parse the key
+    Tokens      tokens ;
+    Token       token  ;
+    std::string input  = Key ; // Example: "XMP.xmp.MP.RegionInfo/MPRI:Regions[1]/MPReg:Rectangle"
+    while ( getToken(input,token) ) {
+		tokens.push_back(token);
+		name = token.n ;
     }
-    return elems.size();
+
+    size_t  k  = 0;
+	size_t  l  = tokens.size()-1; // leave final entry to push()
+
+    // this is horrible
+	// why can't you have an array of references?
+	// why can't you change a reference without disturbing the referenced object?
+	// why can't you new() a reference?
+	// references are pointers that don't work properly!
+	Jzon::Node&  r1 = addToTree( rt,tokens[k++]) ; if ( l == k ) return  r1;
+	Jzon::Node&  r2 = addToTree( r1,tokens[k++]) ; if ( l == k ) return  r2;
+	Jzon::Node&  r3 = addToTree( r2,tokens[k++]) ; if ( l == k ) return  r3;
+	Jzon::Node&  r4 = addToTree( r3,tokens[k++]) ; if ( l == k ) return  r4;
+	Jzon::Node&  r5 = addToTree( r4,tokens[k++]) ; if ( l == k ) return  r5;
+	Jzon::Node&  r6 = addToTree( r5,tokens[k++]) ; if ( l == k ) return  r6;
+	Jzon::Node&  r7 = addToTree( r6,tokens[k++]) ; if ( l == k ) return  r7;
+	Jzon::Node&  r8 = addToTree( r7,tokens[k++]) ; if ( l == k ) return  r8;
+	Jzon::Node&  r9 = addToTree( r8,tokens[k++]) ; if ( l == k ) return  r9;
+	Jzon::Node& r10 = addToTree( r9,tokens[k++]) ; if ( l == k ) return r10;
+	Jzon::Node& r11 = addToTree(r10,tokens[k++]) ; if ( l == k ) return r11;
+
+	return rt ;
 }
 
-Jzon::Object& objectForKey(std::string Key,std::string& name,Jzon::Object& root)
+bool isObject(std::string& value)
 {
-    static Jzon::Object object;
-    
-    std::vector<std::string> keys ;
-    size_t l = split(Key,'.',keys);
-    if   ( l < 3 || l > 7 ) return object; // maybe we should throw
-    
-    name     = keys[l-1];
-    size_t k = 0;
-    Jzon::Object& r1 = root;
-    
-    // this is horrible  References are pointers that don't work properly!
-    if ( !r1.Has(keys[k]) )             r1.Add(keys[k],object);
-    Jzon::Object& r2 = (Jzon::Object&)  r1.Get(keys[k]);
-    if  ( l == 2 ) return r2;
-    
-    if ( !r2.Has(keys[++k]))             r2.Add(keys[k],object);
-    Jzon::Object&   r3 = (Jzon::Object&) r2.Get(keys[k]);
-    if  ( l == 3 ) return r3;
-    
-    if ( !r3.Has(keys[++k]))             r3.Add(keys[k],object);
-    Jzon::Object&   r4 = (Jzon::Object&) r3.Get(keys[k]);
-    if  ( l == 4 ) return r4;
-    
-    if ( !r4.Has(keys[++k]))             r4.Add(keys[k],object);
-    Jzon::Object&   r5 = (Jzon::Object&) r4.Get(keys[k]);
-    if  ( l == 5 ) return r5;
-    
-    if ( !r5.Has(keys[++k]))             r5.Add(keys[k],object);
-    Jzon::Object&   r6 = (Jzon::Object&) r5.Get(keys[k]);
-    if  ( l == 6 ) return r6;
-    
-    if ( !r6.Has(keys[++k]))             r6.Add(keys[k],object);
-    Jzon::Object&   r7 = (Jzon::Object&) r6.Get(keys[k]);
-    if  ( l == 7 ) return r7;
-
-    return object;
+	return value.compare(std::string("type=\"Struct\""))==0;
 }
 
-// ExifData::const_iterator i
+bool isArray(std::string& value)
+{
+	return value.compare(std::string("type=\"Seq\""))==0
+	||     value.compare(std::string("type=\"Bag\""))==0
+	||     value.compare(std::string("type=\"Alt\""))==0
+	;
+}
+
+#define STORE(son,key,value) \
+ 	if  (json.IsObject()) json.AsObject().Add(key,value);\
+ 	else                  json.AsArray() .Add(    value)
+
 template <class T>
-void push(Jzon::Object& json,const std::string& key,T i)
+void push(Jzon::Node& json,const std::string& key,T i)
 {
     std::string value = i->value().toString();
+	if ( !json.IsArray() && !json.IsObject() ) return ;
 
     switch ( i->typeId() ) {
         case Exiv2::xmpText:
-        case Exiv2::asciiString : 
+			 if ( isObject(value) ) {
+				 // ignore this - pushInto will create object when required
+				 break;
+			 } else if ( isArray(value) ) {
+				 Jzon::Array v;
+				 STORE(json,key,v);
+			 } else {
+				 STORE(json,key,value);
+			 }
+    	break;
+
+        case Exiv2::date:
+        case Exiv2::time:
+        case Exiv2::asciiString :
         case Exiv2::string:
         case Exiv2::comment:
-             json.Add(key,value);
+		     STORE(json,key,value);
         break;
 
         case Exiv2::unsignedByte:
@@ -110,27 +176,22 @@ void push(Jzon::Object& json,const std::string& key,T i)
         case Exiv2::signedByte:
         case Exiv2::signedShort:
         case Exiv2::signedLong:
-             json.Add(key,(int)i->value().toLong());
-        break;
-        
+			 STORE(json,key,(int)i->value().toLong());
+	    break;
+
         case Exiv2::tiffFloat:
         case Exiv2::tiffDouble:
-             json.Add(key,i->value().toFloat());
+			 STORE(json,key,i->value().toFloat());
         break;
 
         case Exiv2::unsignedRational:
         case Exiv2::signedRational: {
-             Jzon::Array arr;
-             Rational rat = i->value().toRational();
-             arr.Add (rat.first );
-             arr.Add (rat.second);
-             json.Add(key,arr);
+             Jzon::Array     arr;
+             Exiv2::Rational rat = i->value().toRational();
+             arr.Add(rat.first );
+             arr.Add(rat.second);
+			 STORE(json,key,arr);
         } break;
-
-        case Exiv2::date:
-        case Exiv2::time:
-             json.Add(key,i->value().toString());
-        break;
 
         default:
         case Exiv2::undefined:
@@ -143,11 +204,11 @@ void push(Jzon::Object& json,const std::string& key,T i)
              // http://dev.exiv2.org/boards/3/topics/1367#message-1373
              if ( key == "UserComment" ) {
                 size_t pos  = value.find('\0') ;
-             	if (   pos != string::npos )
+             	if (   pos != std::string::npos )
              	    value = value.substr(0,pos);
              }
-
-             if ( key != "MakerNote") json.Add(key,value);
+             if ( key == "MakerNote") return;
+       	     STORE(json,key,value);
         break;
     }
 }
@@ -156,7 +217,7 @@ void fileSystemPush(const char* path,Jzon::Node& nfs)
 {
     Jzon::Object& fs = (Jzon::Object&) nfs;
     fs.Add("path",path);
-    char resolved_path[PATH_MAX];
+    char resolved_path[2000]; // PATH_MAX];
     fs.Add("realpath",realpath(path,resolved_path));
 
 	struct stat buf;
@@ -181,63 +242,86 @@ void fileSystemPush(const char* path,Jzon::Node& nfs)
 #else
     size_t blksize     = buf.st_blksize;
     size_t blocks      = buf.st_blocks ;
-#endif    
+#endif
     fs.Add("st_blksize",(int) blksize       ); /* blocksize for file system I/O   */
     fs.Add("st_blocks" ,(int) blocks        ); /* number of 512B blocks allocated */
 }
 
+std::string escape(Exiv2::XmpData::const_iterator it,bool bValue)
+{
+	std::string   result ;
+
+	std::ostringstream os;
+	if ( bValue ) os << it->value() ; else os << it->key() ;
+
+	return os.str();
+}
+
 int main(int argc, char* const argv[])
 try {
-    
-    if (argc != 2) {
-        std::cout << "Usage: " << argv[0] << " file\n";
+
+    if (argc < 2 || argc > 3) {
+        std::cout << "Usage: " << argv[0] << " [option] file\n";
+        std::cout << "Option: all | exif | iptc | xmp | filesystem" << argv[0] << " [option] file\n";
         return 1;
     }
-    
-    const char* path=argv[1];
-        
+    const char  option = argc == 3 ? argv[1][0] : 'a' ;
+    const char* path   = argv[argc-1];
+
     Exiv2::Image::AutoPtr image = Exiv2::ImageFactory::open(path);
     assert(image.get() != 0);
     image->readMetadata();
-        
-    Jzon::Object root;
 
-    const char*    FS="FS";
-    Jzon::Object      fs  ;
-    root.Add      (FS,fs) ;
-    fileSystemPush(path,root.Get(FS));
-    
-	Exiv2::ExifData &exifData = image->exifData();
-    for ( ExifData::const_iterator i = exifData.begin(); i != exifData.end() ; ++i ) {
-        std::string   key ;
-        push(objectForKey(i->key(),key,root),key,i);
-    }
+    Jzon::Object   root;
 
-	Exiv2::IptcData &iptcData = image->iptcData();
-    for (Exiv2::IptcData::const_iterator i = iptcData.begin(); i != iptcData.end(); ++i) {
-        std::string key ;
-        push(objectForKey(i->key(),key,root),key,i);
-    }
+	if ( option == 'a' || option == 'f' ) {
+		const char*    FS="FS";
+		Jzon::Object      fs  ;
+		root.Add(FS,fs) ;
+		fileSystemPush(path,root.Get(FS));
+	}
 
-	Exiv2::XmpData  &xmpData  = image->xmpData();
-    for (Exiv2::XmpData::const_iterator i = xmpData.begin(); i != xmpData.end(); ++i) {
-        std::string key ;
-        push(objectForKey(i->key(),key,root),key,i);
-    }
+	if ( option == 'a' || option == 'e' ) {
+		Exiv2::ExifData &exifData = image->exifData();
+		for ( Exiv2::ExifData::const_iterator i = exifData.begin(); i != exifData.end() ; ++i ) {
+        	std::string name   ;
+			Jzon::Node& object = objectForKey(i->key(),root,name);
+        	push(object,name,i);
+    	}
+	}
+
+	if ( option == 'i' || option == 'f' ) {
+		Exiv2::IptcData &iptcData = image->iptcData();
+		for (Exiv2::IptcData::const_iterator i = iptcData.begin(); i != iptcData.end(); ++i) {
+			std::string name   ;
+			Jzon::Node& object = objectForKey(i->key(),root,name);
+			push(object,name,i);
+		}
+	}
+
+	if ( option == 'a' || option == 'x' ) {
+		Exiv2::XmpData  &xmpData  = image->xmpData();
+    	for (Exiv2::XmpData::const_iterator i = xmpData.begin(); i != xmpData.end(); ++i) {
+        	std::string name   ;
+			Jzon::Node& object = objectForKey(i->key(),root,name);
+        	push(object,name,i);
+    	}
+	}
+
 /*
-    This is only for testing long paths    
+    This is only for testing long paths
     {
     	ExifData::const_iterator i = exifData.begin();
-    	std::string key;
-    	push(objectForKey("This.Is.A.Rather.Long.Path.Key",key,root),key,i);
+    	std::string name;
+    	push(objectForKey("This.Is.A.Rather.Long.Path.Key",name,root),name,i);
     }
-*/        
+*/
     Jzon::Writer writer(root,Jzon::StandardFormat);
     writer.Write();
     std::cout << writer.GetResult() << std::endl;
     return 0;
 }
-        
+
 //catch (std::exception& e) {
 //catch (Exiv2::AnyError& e) {
 catch (Exiv2::Error& e) {
