@@ -1,6 +1,6 @@
 // ***************************************************************** -*- C++ -*-
-// exif2json.cpp, $Id: exif2json.cpp 518 2013-05-10 23:53:00Z robinwmills@gmail.com $
-// Sample program to print the Exif metadata in JSON format
+// exiv2json.cpp, $Id: exiv2json.cpp 518 2013-05-10 23:53:00Z robinwmills@gmail.com $
+// Sample program to print metadata in JSON format
 
 #include <exiv2/exiv2.hpp>
 #include <Jzon.h>
@@ -290,7 +290,7 @@ try {
     	}
 	}
 
-	if ( option == 'i' || option == 'f' ) {
+	if ( option == 'a' || option == 'i' ) {
 		Exiv2::IptcData &iptcData = image->iptcData();
 		for (Exiv2::IptcData::const_iterator i = iptcData.begin(); i != iptcData.end(); ++i) {
 			std::string name   ;
