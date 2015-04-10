@@ -53,6 +53,7 @@ Options:
    -b      Show large binary values.
    -u      Show unknown tags.
    -g key  Only output info for this key (grep).
+   -K key  Only output info for this key (exact match).
    -n enc  Charset to use to decode UNICODE Exif user comments.
    -k      Preserve file timestamps (keep).
    -t      Also set the file timestamp in 'rename' action (overrides -k).
