@@ -157,7 +157,11 @@ namespace Exiv2 {
                 int       start = ::strlen(key);
                 buff[start] = 0;
                 if ( option == kpsXMP && ::strcmp((const char*)buff,key) == 0 ) {
-                    io_->seek(-blen , BasicIo::cur);
+#if defined(_MSC_VER)
+                    io_->seek(-static_cast<int64_t>(blen) , BasicIo::cur);
+#else
+                    io_->seek(-static_cast<long>(blen) , BasicIo::cur);
+#endif
                     dataOffset = dOff ;
                     byte* xmp  = new byte[dataOffset+5];
                     io_->read(xmp,dataOffset+4);
