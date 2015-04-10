@@ -1347,7 +1347,7 @@ namespace Exiv2 {
 
     int MemIo::getb()
     {
-        if (p_->idx_ == p_->size_) {
+        if (p_->idx_ >= p_->size_) {
             p_->eof_ = true;
             return EOF;
         }
