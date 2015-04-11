@@ -78,8 +78,8 @@ Jzon::Node& addToTree(Jzon::Node& r1,Token token)
 
 	if (  r1.IsObject() ) {
 		Jzon::Object& o1 = r1.AsObject();
-		if (  !o1.Has(key) ) o1.Add(key,empty);
-		return o1.Get(key);
+		if (   !o1.Has(key) ) o1.Add(key,empty);
+		return  o1.Get(key);
 	} else if ( r1.IsArray() ) {
 		Jzon::Array& a1 = r1.AsArray();
 		while ( a1.GetCount() <= index ) a1.Add(empty);
@@ -238,8 +238,8 @@ void fileSystemPush(const char* path,Jzon::Node& nfs)
 int main(int argc, char* const argv[])
 try {
     if (argc < 2 || argc > 3) {
-        std::cout << "Usage: " << argv[0] << " [-option] file\n";
-        std::cout << "Option: all | exif | iptc | xmp | filesystem" << argv[0] << " [option] file\n";
+        std::cout << "Usage: " << argv[0] << " [-option] file"       << std::endl;
+        std::cout << "Option: all | exif | iptc | xmp | filesystem"  << std::endl;
         return 1;
     }
     const char* path   = argv[argc-1];
