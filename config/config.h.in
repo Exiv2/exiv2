@@ -206,6 +206,12 @@
 #define __CYGWIN__  __CYGWIN32__
 #endif
 
+#if defined __MINGW32__ || defined __MINGW64__
+#ifndef     __MINGW__
+#define     __MINGW__ 1
+#endif
+#endif
+
 /* File path separator */
 #if defined WIN32 && !defined __CYGWIN__
 #define SEPARATOR_STR "\\"
@@ -216,7 +222,7 @@
 #endif
 
 /* Windows unicode path support */
-#if defined WIN32 && !defined __CYGWIN__
+#if defined WIN32 && !defined __CYGWIN__ && !defined __MINGW__
 # define EXV_UNICODE_PATH
 #endif
 
