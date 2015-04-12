@@ -264,6 +264,7 @@ namespace Exiv2 {
         { (long int)0x3690000, "PowerShot ELPH 135 / IXUS 145 / IXY 120" },
         { (long int)0x3700000, "PowerShot ELPH 340 HS / IXUS 265 HS / IXY 630" },
         { (long int)0x3710000, "PowerShot ELPH 150 IS / IXUS 155 / IXY 140" },
+        { (long int)0x3740000, "EOS M3" },
         { (long int)0x3750000, "PowerShot SX60 HS" },
         { (long int)0x3760000, "PowerShot SX520 HS" },
         { (long int)0x3770000, "PowerShot SX400 IS" },
