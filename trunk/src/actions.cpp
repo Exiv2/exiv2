@@ -571,7 +571,7 @@ namespace Action {
                 !result && g != Params::instance().greps_.end(); ++g)
         {
 #if EXV_HAVE_REGEX
-            result = regexec( &(*g), key.c_str(), 0, NULL, REG_EXTENDED) == 0 ;
+            result = regexec( &(*g), key.c_str(), 0, NULL, REG_BASIC) == 0 ;
 #else
             result = key.find(*g) != std::string::npos;
 #endif
