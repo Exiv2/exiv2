@@ -151,8 +151,8 @@ static void output(std::ostream& os,const exv_grep_keys_t& greps,const char* nam
         !bPrint && g != greps.end() ; ++g
     ) {
 #if EXV_HAVE_REGEX
-        bPrint = (  0 == regexec( &(*g), name         , 0, NULL, REG_NOTBOL | REG_NOTEOL)
-                 || 0 == regexec( &(*g), value.c_str(), 0, NULL, REG_NOTBOL | REG_NOTEOL)
+        bPrint = (  0 == regexec( &(*g), name         , 0, NULL, REG_EXTENDED)
+                 || 0 == regexec( &(*g), value.c_str(), 0, NULL, REG_EXTENDED)
                  );
 #else
         bPrint = std::string(name).find(*g) != std::string::npos || value.find(*g) != std::string::npos;
