@@ -52,9 +52,9 @@ extern "C"
 // For all of the functions
 // that take a type, passing invalidTypeId causes the type to be guessed.
 // Guessing types is accurate for IPTC but not for EXIF.
-enum DllTypeId { invalidTypeId, unsignedByte, asciiString, unsignedShort, 
-                unsignedLong, unsignedRational, invalid6, undefined, 
-                signedShort, signedLong, signedRational, 
+enum DllTypeId { invalidTypeId, unsignedByte, asciiString, unsignedShort,
+                unsignedLong, unsignedRational, invalid6, undefined,
+                signedShort, signedLong, signedRational,
                 string, isoDate, isoTime,
                 lastTypeId };
 
@@ -86,7 +86,7 @@ EXIVSIMPLE_API void SetThumbnail(HIMAGE img, const BYTE *buffer, unsigned int si
   @param buffer Pointer where the thumbnaildata is written to (large enough!)
   @param size   Size of buffer
 
-  @return size of the thumbnail, 0 if failed to read the thumbnail, 
+  @return size of the thumbnail, 0 if failed to read the thumbnail,
           (unsigned int)-1 if buffer is too small.
 */
 EXIVSIMPLE_API unsigned int GetThumbnail(HIMAGE img, BYTE *buffer, unsigned int size);

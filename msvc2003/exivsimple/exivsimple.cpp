@@ -51,25 +51,25 @@ EXIVSIMPLE_API HIMAGE OpenFileImage(const char *file)
     }
 
     ImageWrapper *imgWrap = new ImageWrapper;
-	try {
-		imgWrap->image = Exiv2::ImageFactory::open(file);
-	}
-	catch(const Exiv2::AnyError&) {
-		delete imgWrap;
-		return 0;
-	}
-	if (imgWrap->image.get() == 0) {
-		delete imgWrap;
-		return 0;
-	}
+    try {
+        imgWrap->image = Exiv2::ImageFactory::open(file);
+    }
+    catch(const Exiv2::AnyError&) {
+        delete imgWrap;
+        return 0;
+    }
+    if (imgWrap->image.get() == 0) {
+        delete imgWrap;
+        return 0;
+    }
     // Load existing metadata
-	try {
-		imgWrap->image->readMetadata();
-	}
-	catch(const Exiv2::AnyError&) { 
-		delete imgWrap;
-		return 0;
-	}
+    try {
+        imgWrap->image->readMetadata();
+    }
+    catch(const Exiv2::AnyError&) {
+        delete imgWrap;
+        return 0;
+    }
 
     return (HIMAGE)imgWrap;
 }
@@ -79,25 +79,25 @@ EXIVSIMPLE_API HIMAGE OpenMemImage(const BYTE *data, unsigned int size)
     assert(data);
     ImageWrapper *imgWrap = new ImageWrapper;
 
-	try {
-	    imgWrap->image = Exiv2::ImageFactory::open(data, size);
-	}
-	catch(const Exiv2::AnyError&) {
-		delete imgWrap;
-		return 0;
-	}
-	if (imgWrap->image.get() == 0) {
+    try {
+        imgWrap->image = Exiv2::ImageFactory::open(data, size);
+    }
+    catch(const Exiv2::AnyError&) {
         delete imgWrap;
-		return 0;
+        return 0;
+    }
+    if (imgWrap->image.get() == 0) {
+        delete imgWrap;
+        return 0;
     }
     // Load existing metadata
-	try {
-	    imgWrap->image->readMetadata();
-	}
-	catch(const Exiv2::AnyError&) {
-		delete imgWrap;
-		return 0;
-	}
+    try {
+        imgWrap->image->readMetadata();
+    }
+    catch(const Exiv2::AnyError&) {
+        delete imgWrap;
+        return 0;
+    }
 
     return (HIMAGE)imgWrap;
 }
@@ -115,12 +115,12 @@ EXIVSIMPLE_API int SaveImage(HIMAGE img)
 {
     assert(img);
     ImageWrapper *imgWrap = (ImageWrapper*)img;
-	try {
-		imgWrap->image->writeMetadata();
-	}
-	catch(const Exiv2::AnyError&) {
-		return 1;
-	}
+    try {
+        imgWrap->image->writeMetadata();
+    }
+    catch(const Exiv2::AnyError&) {
+        return 1;
+    }
     return 0;
 }
 
@@ -204,7 +204,7 @@ EXIVSIMPLE_API int ReadMeta(HIMAGE img, const char *key, char *buff, int buffsiz
             buff[buffsize-1] = 0;
             rc = 0;
         }
-    } 
+    }
     catch(const Exiv2::AnyError&) {
     }
 
@@ -242,9 +242,12 @@ EXIVSIMPLE_API int ModifyMeta(HIMAGE img, const char *key, const char *val, DllT
     Exiv2::ExifData &exifData = imgWrap->image->exifData();
 
     std::string data(val);
-    // if data starts and ends with quotes, remove them
-    if (data.at(0) == '\"' && data.at(data.size()-1) == '\"') {
-        data = data.substr(1, data.size()-2);
+    {
+        size_t dataLen = data.length();
+        // if data starts and ends with quotes, remove them
+        if (dataLen > 1 && *(data.begin()) == '\"' && *(data.rbegin()) == '\"') {
+            data = data.substr(1, dataLen-2);
+        }
     }
 
     try {
@@ -264,7 +267,7 @@ EXIVSIMPLE_API int ModifyMeta(HIMAGE img, const char *key, const char *val, DllT
         else {
             rc = iptcData.add(iptcKey, value.get());
         }
-    } 
+    }
     catch(const Exiv2::AnyError&) {
     }
 
@@ -312,9 +315,12 @@ EXIVSIMPLE_API int AddMeta(HIMAGE img, const char *key, const char *val, DllType
     Exiv2::ExifData &exifData = imgWrap->image->exifData();
 
     std::string data(val);
-    // if data starts and ends with quotes, remove them
-    if (data.at(0) == '\"' && data.at(data.size()-1) == '\"') {
-        data = data.substr(1, data.size()-2);
+    {
+        size_t dataLen = data.length();
+        // if data starts and ends with quotes, remove them
+        if (dataLen > 1 && *(data.begin()) == '\"' && *(data.rbegin()) == '\"') {
+            data = data.substr(1, dataLen-2);
+        }
     }
 
     try {
@@ -327,7 +333,7 @@ EXIVSIMPLE_API int AddMeta(HIMAGE img, const char *key, const char *val, DllType
         value->read(data);
 
         rc = iptcData.add(iptcKey, value.get());
-    } 
+    }
     catch(const Exiv2::AnyError&) {
     }
 
@@ -374,7 +380,7 @@ EXIVSIMPLE_API int RemoveMeta(HIMAGE img, const char *key)
             iptcData.erase(iter);
             rc = 0;
         }
-    } 
+    }
     catch(const Exiv2::AnyError&) {
     }
 
@@ -407,7 +413,7 @@ EXIVSIMPLE_API int EnumMeta(HIMAGE img, METAENUMPROC proc, void *user)
     Exiv2::ExifData &exifData = imgWrap->image->exifData();
 
     Exiv2::IptcData::const_iterator iend = iptcData.end();
-    for (Exiv2::IptcData::const_iterator i = iptcData.begin(); 
+    for (Exiv2::IptcData::const_iterator i = iptcData.begin();
             i != iend && more; ++i) {
         more = proc(i->key().c_str(), i->value().toString().c_str(), user);
     }
@@ -422,8 +428,8 @@ EXIVSIMPLE_API int EnumMeta(HIMAGE img, METAENUMPROC proc, void *user)
 }
 
 
-BOOL APIENTRY DllMain( HANDLE hModule, 
-                       DWORD  ul_reason_for_call, 
+BOOL APIENTRY DllMain( HANDLE hModule,
+                       DWORD  ul_reason_for_call,
                        LPVOID lpReserved
                      )
 {
@@ -436,4 +442,3 @@ BOOL APIENTRY DllMain( HANDLE hModule,
     }
     return TRUE;
 }
-
