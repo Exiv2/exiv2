@@ -215,9 +215,9 @@ case "$build" in
             fi
 
             ./configure $withcurl $withssh
-            make        # DO NOT USE -j.  It seems to hang the build!
+            make -j       # DO NOT USE -j4.  It seems to hang the build!
             make install
-            make samples
+            make -j samples
             run_tests
             exiv2 -v -V
         else
