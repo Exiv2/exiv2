@@ -507,6 +507,14 @@ namespace Exiv2 {
         }
     } // JpegBase::readMetadata
 
+    bool isBlank(std::string& s)
+    {
+    	for ( std::size_t i = 0 ; i < s.length() ; i++ )
+    		if ( s[i] != ' ' )
+    			return false ;
+    	return true ;
+    }
+
     void JpegBase::printStructure(std::ostream& out,printStructureOption_e option)
     {
         if (io_->open() != 0) throw Error(9, io_->path(), strError());
@@ -542,8 +550,10 @@ namespace Exiv2 {
             }
 
             // Container for the signature
-            const long bufMinSize = 36;
-            long bufRead = 0, startSig = 0;
+            bool        bExtXMP    = false;
+            long        bufRead    =  0;
+            long        startSig   =  0;
+            const long  bufMinSize = 36;
             DataBuf buf(bufMinSize);
 
             // Read section marker
@@ -594,9 +604,45 @@ namespace Exiv2 {
                             byte* xmp  = new byte[size+1];
                             io_->read(xmp,size);
                             int start = 0 ;
-                            while (xmp[start]) start++; start++;
+
+                            // http://wwwimages.adobe.com/content/dam/Adobe/en/devnet/xmp/pdfs/XMPSpecificationPart3.pdf
+                            // if we find HasExtendedXMP, set the flag and ignore this block
+                            // the first extended block is a copy of the Standard block.
+                            // a robust implementation enables extended blocks to be out of sequence
+                            if ( ! bExtXMP ) {
+                            	while (xmp[start]) start++; start++;
+                            	if ( ::strstr((char*)xmp+start,"HasExtendedXMP") ) {
+                            		start  = size ; // ignore this packet, we'll get on the next time around
+	                           		bExtXMP = true;
+                            	}
+                            } else {
+                            	start = 2+35+32+4+4; // Adobe Spec, p19
+                            }
                             xmp[size]=0;
-                            out << xmp + start << std::endl;
+
+							// #922:  Remove blank lines.
+                            // cut the xmp into (non blank) lines
+                            // out << xmp + start; // this is all we need to output without the blank line dance.
+                            std::vector<std::string> lines ;
+                            std::string s((char*)xmp+start);
+                            char nl      = '\n';
+
+                            while( s.length() )
+							{
+								std::size_t end = s.find(nl);
+								if ( end != std::string::npos )
+								{
+									std::string line = s.substr(0,end);
+									if ( !isBlank(line) )
+										lines.push_back(line+nl);
+									s = s.substr(end+1,std::string::npos);
+								} else {
+									lines.push_back(s);
+									s="";
+								}
+							}
+							for ( size_t l = 0 ; l < lines.size() ; l++  ) out << lines[l];
+
                             delete [] xmp;
                             bufRead = size;
                         }
