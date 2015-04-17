@@ -19,7 +19,7 @@
  * Foundation, Inc., 51 Franklin Street, 5th Floor, Boston, MA 02110-1301 USA.
  */
 /*!
-  @file    Casiomn_int.hpp
+  @file    casiomn_int.hpp
   @brief   Casio MakerNote implemented using the following references:
            <a href="http://gvsoft.homedns.org/exif/makernote-casio-type1.html">Casio MakerNote Information</a> by GVsoft,
            Casio.pm of <a href="http://www.sno.phy.queensu.ca/~phil/exiftool/">ExifTool</a> by Phil Harvey,
