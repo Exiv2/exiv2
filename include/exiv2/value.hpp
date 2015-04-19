@@ -872,6 +872,27 @@ namespace Exiv2 {
     }; // class XmpArrayValue
 
     /*!
+      @brief %LangAltValueComparison
+
+      #1058
+	  https://www.adobe.com/content/dam/Adobe/en/devnet/xmp/pdfs/XMPSpecificationPart1.pdf
+	  XMP spec chapter B.4 (page 42) the xml:lang qualifier is to be compared case insensitive.
+      */
+	struct LangAltValueComparator {
+		bool operator() (const std::string& str1, const std::string& str2) const
+		{
+    		bool result = str1.size() != str2.size();
+    		for (std::string::const_iterator c1 = str1.begin()
+    		                               , c2 = str2.begin()
+    		    ; result && c1 != str1.end()
+    		    ; ++c1, ++c2) {
+        			result = tolower(*c1) != tolower(*c2);
+    		}
+    		return result;
+    	}
+	};
+
+    /*!
       @brief %Value type for XMP language alternative properties.
 
       A language alternative is an array consisting of simple text values,
@@ -949,7 +970,7 @@ namespace Exiv2 {
 
     public:
         //! Type used to store language alternative arrays.
-        typedef std::map<std::string, std::string> ValueType;
+        typedef std::map<std::string, std::string,LangAltValueComparator>  ValueType;
         // DATA
         /*!
           @brief Map to store the language alternative values. The language
