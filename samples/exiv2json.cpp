@@ -3,7 +3,8 @@
 // Sample program to print metadata in JSON format
 
 #include <exiv2/exiv2.hpp>
-#include <Jzon.h>
+#include <exiv2/value.hpp>
+#include <exiv2/Jzon.h>
 
 #include <iostream>
 #include <iomanip>
@@ -176,6 +177,21 @@ void push(Jzon::Node& node,const std::string& key,T i)
 			 STORE(node,key,arr);
         } break;
 
+        case Exiv2::langAlt: {
+        	 Jzon::Object l ;
+             const Exiv2::LangAltValue& langs = dynamic_cast<const Exiv2::LangAltValue&>(i->value());
+        	 for ( Exiv2::LangAltValue::ValueType::const_iterator lang = langs.value_.begin()
+        	     ; lang != langs.value_.end()
+        	     ; lang++
+        	 ) {
+        	 	l.Add(lang->first,lang->second);
+        	 }
+        	 Jzon::Object o ;
+        	 o.Add("lang",l);
+        	 STORE(node,key,o);
+        }
+        break;
+
         default:
         case Exiv2::date:
         case Exiv2::time:
@@ -188,7 +204,6 @@ void push(Jzon::Node& node,const std::string& key,T i)
         case Exiv2::xmpAlt:
         case Exiv2::xmpBag:
         case Exiv2::xmpSeq:
-        case Exiv2::langAlt:
              // http://dev.exiv2.org/boards/3/topics/1367#message-1373
              if ( key == "UserComment" ) {
                 size_t pos  = value.find('\0') ;
