@@ -147,7 +147,7 @@ Xmp.ns1.SimpleProp1                          XmpText    13  Simple1 value
 Xmp.ns1.SimpleProp2                          XmpText    13  Simple2 value
 Xmp.ns1.SimpleProp2/?xml:lang                XmpText     9  x-default
 Xmp.ns1.ArrayProp1                           XmpBag      2  Item1.1 value, Item1.2 value
-Xmp.ns1.ArrayProp2                           LangAlt     2  lang="x-one" Item2.1 value, lang="x-two" Item2.2 value
+Xmp.ns1.ArrayProp2                           LangAlt     2  lang="x-two" Item2.2 value, lang="x-one" Item2.1 value
 Xmp.ns1.StructProp                           XmpText     0  type="Struct"
 Xmp.ns1.StructProp/ns2:Field1                XmpText    12  Field1 value
 Xmp.ns1.StructProp/ns2:Field2                XmpText    12  Field2 value
@@ -229,8 +229,8 @@ Xmp.ns1.NestedStructProp/ns2:Outer/ns2:Middle/ns2:Inner/ns2:Field2 XmpText    12
 >    </ns1:ArrayProp1>
 >    <ns1:ArrayProp2>
 >     <rdf:Alt>
->      <rdf:li xml:lang="x-one">Item2.1 value</rdf:li>
 >      <rdf:li xml:lang="x-two">Item2.2 value</rdf:li>
+>      <rdf:li xml:lang="x-one">Item2.1 value</rdf:li>
 >     </rdf:Alt>
 >    </ns1:ArrayProp2>
 >    <ns1:StructProp
@@ -279,9 +279,13 @@ Xmp.ns1.NestedStructProp/ns2:Outer/ns2:Middle/ns2:Inner/ns2:Field2 XmpText    12
 >                            
 > <?xpacket end="w"?>
 \ No newline at end of file
+5c5
+< Xmp.ns1.ArrayProp2                           LangAlt     2  lang="x-two" Item2.2 value, lang="x-one" Item2.1 value
+---
+> Xmp.ns1.ArrayProp2                           LangAlt     2  lang="x-one" Item2.1 value, lang="x-two" Item2.2 value
 Xmp.dc.source                                XmpText    13  xmpsample.cpp
 Xmp.dc.subject                               XmpBag      2  Palmtree, Rubbertree
-Xmp.dc.title                                 LangAlt     2  lang="de-DE" Sonnenuntergang am Strand, lang="en-US" Sunset on the beach
+Xmp.dc.title                                 LangAlt     2  lang="en-US" Sunset on the beach, lang="de-DE" Sonnenuntergang am Strand
 Xmp.dc.one                                   XmpText     2  -1
 Xmp.dc.two                                   XmpText     6  3.1415
 Xmp.dc.three                                 XmpText     3  5/7
@@ -338,8 +342,8 @@ Xmp.iptc.CreatorContactInfo/Iptc4xmpCore:CiUrlWork XmpText    20  http://www.exi
    </dc:subject>
    <dc:title>
     <rdf:Alt>
-     <rdf:li xml:lang="de-DE">Sonnenuntergang am Strand</rdf:li>
      <rdf:li xml:lang="en-US">Sunset on the beach</rdf:li>
+     <rdf:li xml:lang="de-DE">Sonnenuntergang am Strand</rdf:li>
     </rdf:Alt>
    </dc:title>
    <dc:creator>
@@ -460,7 +464,7 @@ Xmp.dc.six                                   XmpText     5  false
 Xmp.dc.seven                                 XmpText     5  Seven
 Xmp.dc.format                                XmpText    10  image/jpeg
 Xmp.dc.subject                               XmpBag      2  Palmtree, Rubbertree
-Xmp.dc.title                                 LangAlt     2  lang="de-DE" Sonnenuntergang am Strand, lang="en-US" Sunset on the beach
+Xmp.dc.title                                 LangAlt     2  lang="en-US" Sunset on the beach, lang="de-DE" Sonnenuntergang am Strand
 Xmp.dc.creator                               XmpText     0  type="Seq"
 Xmp.dc.creator[1]                            XmpText    20  1) The first creator
 Xmp.dc.creator[2]                            XmpText    21  2) The second creator
