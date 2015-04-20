@@ -403,9 +403,9 @@ namespace Exiv2 {
             xmpLockFct_ = xmpLockFct;
             pLockData_ = pLockData;
             initialized_ = SXMPMeta::Initialize();
-	        SXMPMeta::RegisterNamespace("http://ns.adobe.com/lightroom/1.0/", "lr");
-	        SXMPMeta::RegisterNamespace("http://rs.tdwg.org/dwc/index.htm", "dwc");
-	        SXMPMeta::RegisterNamespace("http://purl.org/dc/terms/", "dcterms");       
+            SXMPMeta::RegisterNamespace("http://ns.adobe.com/lightroom/1.0/", "lr");
+            SXMPMeta::RegisterNamespace("http://rs.tdwg.org/dwc/index.htm", "dwc");
+            SXMPMeta::RegisterNamespace("http://purl.org/dc/terms/", "dcterms");
             SXMPMeta::RegisterNamespace("http://www.digikam.org/ns/1.0/", "digiKam");
             SXMPMeta::RegisterNamespace("http://www.digikam.org/ns/kipi/1.0/", "kipi");
             SXMPMeta::RegisterNamespace("http://ns.microsoft.com/photo/1.0/", "MicrosoftPhoto");
@@ -417,9 +417,9 @@ namespace Exiv2 {
             SXMPMeta::RegisterNamespace("http://ns.microsoft.com/photo/1.2/t/RegionInfo#", "MPRI");
             SXMPMeta::RegisterNamespace("http://ns.microsoft.com/photo/1.2/t/Region#", "MPReg");
             SXMPMeta::RegisterNamespace("http://www.metadataworkinggroup.com/schemas/regions/", "mwg-rs");
-	        SXMPMeta::RegisterNamespace("http://www.metadataworkinggroup.com/schemas/keywords/", "mwg-kw");
+            SXMPMeta::RegisterNamespace("http://www.metadataworkinggroup.com/schemas/keywords/", "mwg-kw");
             SXMPMeta::RegisterNamespace("http://ns.adobe.com/xmp/sType/Area#", "stArea");
-            
+
 #else
             initialized_ = true;
 #endif
@@ -659,22 +659,16 @@ namespace Exiv2 {
             XMP_OptionBits options = 0;
 
             if (i->typeId() == langAlt) {
+
                 // Encode Lang Alt property
                 const LangAltValue* la = dynamic_cast<const LangAltValue*>(&i->value());
                 if (la == 0) throw Error(43, i->key());
+
                 int idx = 1;
-                // write the default first
-                LangAltValue::ValueType::const_iterator k = la->value_.find("x-default");
-                if (k != la->value_.end()) {
-#ifdef DEBUG
-                    printNode(ns, i->tagName(), k->second, 0);
-#endif
-                    meta.AppendArrayItem(ns.c_str(), i->tagName().c_str(), kXMP_PropArrayIsAlternate, k->second.c_str());
-                    const std::string item = i->tagName() + "[" + toString(idx++) + "]";
-                    meta.SetQualifier(ns.c_str(), item.c_str(), kXMP_NS_XML, "lang", k->first.c_str());
-                }
-                for (k = la->value_.begin(); k != la->value_.end(); ++k) {
-                    if (k->first == "x-default") continue;
+                for ( LangAltValue::ValueType::const_iterator k = la->value_.begin()
+                    ; k != la->value_.end()
+                    ; ++k
+                ) {
 #ifdef DEBUG
                     printNode(ns, i->tagName(), k->second, 0);
 #endif
@@ -684,6 +678,7 @@ namespace Exiv2 {
                 }
                 continue;
             }
+
             // Todo: Xmpdatum should have an XmpValue, not a Value
             const XmpValue* val = dynamic_cast<const XmpValue*>(&i->value());
             if (val == 0) throw Error(52, i->key(), i->typeName());

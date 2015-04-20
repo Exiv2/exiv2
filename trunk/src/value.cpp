@@ -847,27 +847,33 @@ namespace Exiv2 {
         return static_cast<long>(value_.size());
     }
 
+    static const std::string x_default = "x-default";
+
     std::ostream& LangAltValue::write(std::ostream& os) const
     {
-        bool first = true;
+        bool        first     = true;
+
         // Write the default entry first
-        ValueType::const_iterator i = value_.find("x-default");
+        ValueType::const_iterator i = value_.find(x_default);
         if (i != value_.end()) {
             os << "lang=\"" << i->first << "\" " << i->second;
             first = false;
         }
+
+        // Write the others
         for (i = value_.begin(); i != value_.end(); ++i) {
-            if (i->first == "x-default") continue;
-            if (!first) os << ", ";
-            os << "lang=\"" << i->first << "\" " << i->second;
-            first = false;
+            if (i->first != x_default ) {
+                if (!first) os << ", ";
+                os << "lang=\"" << i->first << "\" " << i->second;
+                first = false;
+            }
         }
         return os;
     }
 
     std::string LangAltValue::toString(long /*n*/) const
     {
-        return toString("x-default");
+        return toString(x_default);
     }
 
     std::string LangAltValue::toString(const std::string& qualifier) const
@@ -1009,8 +1015,8 @@ namespace Exiv2 {
         os << date_.year << '-' << std::right
            << std::setw(2) << std::setfill('0') << date_.month << '-'
            << std::setw(2) << std::setfill('0') << date_.day;
-    	os.flags(f);
-    	return os;
+        os.flags(f);
+        return os;
     }
 
     long DateValue::toLong(long /*n*/) const
