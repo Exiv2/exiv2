@@ -32,10 +32,10 @@ Xmp.exif.NativeDigest                        XmpText   414  36864,40960,40961,37
 < <x:xmpmeta xmlns:x="adobe:ns:meta/" x:xmptk="3.1.2-113">
 ---
 > <x:xmpmeta xmlns:x="adobe:ns:meta/" x:xmptk="XMP Core 4.4.0-Exiv2">
-35d34
-<      <rdf:li xml:lang="en-US">Blue Square Test File - .jpg</rdf:li>
-37a37
->      <rdf:li xml:lang="en-US">Blue Square Test File - .jpg</rdf:li>
+34a35
+>      <rdf:li xml:lang="de-CH">Blaues Quadrat Test Datei - .jpg</rdf:li>
+37d37
+<      <rdf:li xml:lang="de-CH">Blaues Quadrat Test Datei - .jpg</rdf:li>
 -----> Decoding XMP data read from StaffPhotographer-Example.xmp <-----
 Xmp.iptc.IntellectualGenre                   XmpText     7  Profile
 Xmp.iptc.Location                            XmpText    17  Moore family farm
@@ -372,8 +372,8 @@ Xmp.iptc.CreatorContactInfo/Iptc4xmpCore:CiUrlWork XmpText    20  http://www.exi
    </dc:publisher>
    <tiff:ImageDescription>
     <rdf:Alt>
-     <rdf:li xml:lang="x-default">TIFF image description</rdf:li>
      <rdf:li xml:lang="de-DE">TIFF Bildbeschreibung</rdf:li>
+     <rdf:li xml:lang="x-default">TIFF image description</rdf:li>
     </rdf:Alt>
    </tiff:ImageDescription>
    <xmpDM:videoFrameSize

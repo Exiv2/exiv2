@@ -23,7 +23,7 @@ Testcase 4
 ==========
 Warning: Failed to convert Xmp.dc.description to Iptc.Application2.Caption
 Warning: Failed to convert Xmp.dc.description to Exif.Image.ImageDescription
-Xmp.dc.description                           LangAlt     2  lang="de-DE" The Exif image description, lang="it-IT" Ciao bella
+Xmp.dc.description                           LangAlt     2  lang="it-IT" Ciao bella, lang="de-DE" The Exif image description
 File 1/1: k.jpg
 k.jpg: (No Exif data found in the file)
 File 1/1: k.jpg
