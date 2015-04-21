@@ -185,7 +185,6 @@ fi
 	runTest exiv2 -M'set Exif.GPSInfo.GPSLatitudeRef N' u.jpg
 	runTest exiv2 -M'set Exif.GPSInfo.GPSVersionID 2 2 0 1' u.jpg
 	runTest exiv2 -M'set Exif.GPSInfo.GPSTimeStamp 1/1 2/1 999999999/1000000000' u.jpg
-	runTest exiv2 -M'set Iptc.Application2.DateCreated 2007-05-09' u.jpg
 	
 	runTest exiv2 -PEkycv u.jpg
 	runTest exiv2 -pi u.jpg
@@ -201,7 +200,7 @@ fi
 	echo ===========
 	copyTestFile $IMG v.jpg
 	copy u.xmp v.xmp
-	runTest exiv2 -M'set Xmp.tiff.DateTime 2003-12-14T12:01:44Z' v.xmp
+	runTest exiv2 -M'set Xmp.xmp.ModifyDate 2015-04-17T18:10:22Z' v.xmp
 	TZ=GMT-8 runTest exiv2 -iX v.jpg
 	runTest exiv2 -px v.jpg
 	runTest exiv2 -PEkycv v.jpg

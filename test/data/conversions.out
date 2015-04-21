@@ -124,9 +124,8 @@ Exif.GPSInfo.GPSVersionID                    Byte        4  2 2 0 1
 Exif.GPSInfo.GPSLatitudeRef                  Ascii       2  N
 Exif.GPSInfo.GPSLatitude                     Rational    3  3/1 8/1 29734512/1000000
 Exif.GPSInfo.GPSTimeStamp                    Rational    3  1/1 2/1 999999999/1000000000
-Iptc.Application2.DateCreated                Date        8  2007-05-09
+u.jpg: (No IPTC data found in the file)
 Xmp.exif.ExifVersion                         XmpText     4  2.21
-Xmp.exif.DateTimeOriginal                    XmpText    29  2003-12-14T12:01:44.999999999
 Xmp.exif.GPSVersionID                        XmpText     7  2.2.0.1
 Xmp.exif.GPSLatitude                         XmpText    12  3,8.4955752N
 Xmp.exif.GPSTimeStamp                        XmpText    29  2003-12-14T01:02:00.999999999
@@ -137,7 +136,7 @@ Xmp.exif.Flash/exif:Return                   XmpText     1  0
 Xmp.exif.Flash/exif:Mode                     XmpText     1  1
 Xmp.exif.Flash/exif:Function                 XmpText     5  False
 Xmp.exif.Flash/exif:RedEyeMode               XmpText     4  True
-Xmp.photoshop.DateCreated                    XmpText    10  2007-05-09
+Xmp.photoshop.DateCreated                    XmpText    29  2003-12-14T12:01:44.999999999
 Exif.Photo.ExifVersion                       Undefined   4  48 50 50 49
 Exif.Photo.ComponentsConfiguration           Undefined   4  1 2 3 0
 Exif.Photo.DateTimeOriginal                  Ascii      20  2003:12:14 12:01:44
@@ -148,13 +147,12 @@ Exif.GPSInfo.GPSLatitude                     Rational    3  3/1 8/1 1858407/6250
 Exif.GPSInfo.GPSLatitudeRef                  Ascii       2  N
 Exif.GPSInfo.GPSTimeStamp                    Rational    3  1/1 2/1 999999999/1000000000
 Exif.GPSInfo.GPSDateStamp                    Ascii      11  2003:12:14
-Iptc.Application2.DateCreated                Date        8  2007-05-09
+Iptc.Application2.DateCreated                Date        8  2003-12-14
 Iptc.Envelope.CharacterSet                   String      3  $%G
 
 Testcase 15
 ===========
 Xmp.exif.ExifVersion                         XmpText     4  2.21
-Xmp.exif.DateTimeOriginal                    XmpText    29  2003-12-14T12:01:44.999999999
 Xmp.exif.GPSVersionID                        XmpText     7  2.2.0.1
 Xmp.exif.GPSLatitude                         XmpText    12  3,8.4955752N
 Xmp.exif.GPSTimeStamp                        XmpText    29  2003-12-14T01:02:00.999999999
@@ -165,9 +163,9 @@ Xmp.exif.Flash/exif:Mode                     XmpText     1  1
 Xmp.exif.Flash/exif:Function                 XmpText     5  False
 Xmp.exif.Flash/exif:RedEyeMode               XmpText     4  True
 Xmp.exif.ComponentsConfiguration             XmpSeq      4  YCbCr
-Xmp.tiff.DateTime                            XmpText    20  2003-12-14T12:01:44Z
-Xmp.photoshop.DateCreated                    XmpText    10  2007-05-09
-Exif.Image.DateTime                          Ascii      20  2003:12:14 20:01:44
+Xmp.xmp.ModifyDate                           XmpText    20  2015-04-17T18:10:22Z
+Xmp.photoshop.DateCreated                    XmpText    29  2003-12-14T12:01:44.999999999
+Exif.Image.DateTime                          Ascii      20  2015:04:18 02:10:22
 Exif.Image.ExifTag                           Long        1  70
 Exif.Photo.ExifVersion                       Undefined   4  48 50 50 49
 Exif.Photo.DateTimeOriginal                  Ascii      20  2003:12:14 12:01:44
@@ -181,4 +179,4 @@ Exif.GPSInfo.GPSLatitude                     Rational    3  3/1 8/1 1858407/6250
 Exif.GPSInfo.GPSTimeStamp                    Rational    3  1/1 2/1 999999999/1000000000
 Exif.GPSInfo.GPSDateStamp                    Ascii      11  2003:12:14
 Iptc.Envelope.CharacterSet                   String      3  $%G
-Iptc.Application2.DateCreated                Date        8  2007-05-09
+Iptc.Application2.DateCreated                Date        8  2003-12-14
