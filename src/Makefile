@@ -191,6 +191,12 @@ EXIFPOBJ  = $(SAMPLEDIR)$(EXIFPRINT:.cpp=.o)
 EXIFPBIN  = $(EXIFPRINT:.cpp=)
 EXIFPEXE  = $(EXIFPRINT:.cpp=$(EXEEXT))
 
+# exiv2json application
+EXIV2JSON = exiv2json.cpp
+EXIVJOBJ  = $(SAMPLEDIR)$(EXIV2JSON:.cpp=.o)
+EXIVJBIN  = $(EXIV2JSON:.cpp=)
+EXIVJEXE  = $(EXIV2JSON:.cpp=$(EXEEXT))
+
 # cmdfiletest application
 REMOTETEST  = remotetest.cpp
 REMOTETOBJ  = $(SAMPLEDIR)$(REMOTETEST:.cpp=.o)
@@ -206,6 +212,7 @@ DEP = $(CCSRC:%.cpp=$(DEPDIR)/%.d)      \
       $(CONNTEST:%.cpp=$(DEPDIR)/%.d)   \
       $(EXIFPRINT:%.cpp=$(DEPDIR)/%.d)  \
       $(REMOTETEST:%.cpp=$(DEPDIR)/%.d) \
+      $(EXIV2JSON:%.cpp=$(DEPDIR)/%.d) \
       $(EXIVCSRC:%.c=$(DEPDIR)/%.d)
 
 endif
@@ -298,6 +305,10 @@ $(CONNTBIN): lib $(CONNTOBJ)
 $(EXIFPBIN): lib $(EXIFPOBJ)
 	mkdir -pv ../bin 2>&1 > /dev/null
 	@$(LIBTOOL) --mode=link $(LINK.cc) -o ../bin/$@ $(LIBRARY) $(EXIFPOBJ) -rpath $(libdir)
+
+$(EXIVJBIN): lib $(EXIVJOBJ)
+	mkdir -pv ../bin 2>&1 > /dev/null
+	@$(LIBTOOL) --mode=link $(LINK.cc) -o ../bin/$@ $(LIBRARY) $(EXIVJOBJ) -rpath $(libdir)
 
 $(REMOTETBIN): lib $(REMOTETOBJ)
 	mkdir -pv ../bin 2>&1 > /dev/null
