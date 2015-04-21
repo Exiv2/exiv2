@@ -34,7 +34,7 @@ Testcase 5
 Warning: Failed to convert Xmp.dc.description to Iptc.Application2.Caption
 Warning: Failed to convert Xmp.dc.description to Exif.Image.ImageDescription
      <rdf:li xml:lang="x-default">How to fix this mess</rdf:li>
-Xmp.dc.description                           LangAlt     3  lang="x-default" How to fix this mess, lang="de-DE" The Exif image description, lang="it-IT" Ciao bella
+Xmp.dc.description                           LangAlt     3  lang="x-default" How to fix this mess, lang="it-IT" Ciao bella, lang="de-DE" The Exif image description
 Exif.Image.ImageDescription                  Ascii      21  How to fix this mess
 Iptc.Envelope.CharacterSet                   String      3  $%G
 Iptc.Application2.Caption                    String     20  How to fix this mess
