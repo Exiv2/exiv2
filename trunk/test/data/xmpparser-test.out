@@ -1,6 +1,6 @@
 -----> Decoding XMP data read from BlueSquare.xmp <-----
 Xmp.dc.format                                XmpText    10  image/jpeg
-Xmp.dc.title                                 LangAlt     3  lang="x-default" Blue Square Test File - .jpg, lang="de-CH" Blaues Quadrat Test Datei - .jpg, lang="en-US" Blue Square Test File - .jpg
+Xmp.dc.title                                 LangAlt     3  lang="x-default" Blue Square Test File - .jpg, lang="en-US" Blue Square Test File - .jpg, lang="de-CH" Blaues Quadrat Test Datei - .jpg
 Xmp.dc.description                           LangAlt     1  lang="x-default" XMPFiles BlueSquare test file, created in Photoshop CS2, saved as .psd, .jpg, and .tif.
 Xmp.dc.subject                               XmpBag      5  XMP, Blue Square, test file, Photoshop, .jpg
 Xmp.xmp.CreatorTool                          XmpText    29  Adobe Photoshop CS2 Macintosh
@@ -32,10 +32,10 @@ Xmp.exif.NativeDigest                        XmpText   414  36864,40960,40961,37
 < <x:xmpmeta xmlns:x="adobe:ns:meta/" x:xmptk="3.1.2-113">
 ---
 > <x:xmpmeta xmlns:x="adobe:ns:meta/" x:xmptk="XMP Core 4.4.0-Exiv2">
-34a35
->      <rdf:li xml:lang="de-CH">Blaues Quadrat Test Datei - .jpg</rdf:li>
-37d37
-<      <rdf:li xml:lang="de-CH">Blaues Quadrat Test Datei - .jpg</rdf:li>
+35d34
+<      <rdf:li xml:lang="en-US">Blue Square Test File - .jpg</rdf:li>
+36a36
+>      <rdf:li xml:lang="en-US">Blue Square Test File - .jpg</rdf:li>
 -----> Decoding XMP data read from StaffPhotographer-Example.xmp <-----
 Xmp.iptc.IntellectualGenre                   XmpText     7  Profile
 Xmp.iptc.Location                            XmpText    17  Moore family farm
@@ -147,7 +147,7 @@ Xmp.ns1.SimpleProp1                          XmpText    13  Simple1 value
 Xmp.ns1.SimpleProp2                          XmpText    13  Simple2 value
 Xmp.ns1.SimpleProp2/?xml:lang                XmpText     9  x-default
 Xmp.ns1.ArrayProp1                           XmpBag      2  Item1.1 value, Item1.2 value
-Xmp.ns1.ArrayProp2                           LangAlt     2  lang="x-one" Item2.1 value, lang="x-two" Item2.2 value
+Xmp.ns1.ArrayProp2                           LangAlt     2  lang="x-two" Item2.2 value, lang="x-one" Item2.1 value
 Xmp.ns1.StructProp                           XmpText     0  type="Struct"
 Xmp.ns1.StructProp/ns2:Field1                XmpText    12  Field1 value
 Xmp.ns1.StructProp/ns2:Field2                XmpText    12  Field2 value
@@ -229,8 +229,8 @@ Xmp.ns1.NestedStructProp/ns2:Outer/ns2:Middle/ns2:Inner/ns2:Field2 XmpText    12
 >    </ns1:ArrayProp1>
 >    <ns1:ArrayProp2>
 >     <rdf:Alt>
->      <rdf:li xml:lang="x-one">Item2.1 value</rdf:li>
 >      <rdf:li xml:lang="x-two">Item2.2 value</rdf:li>
+>      <rdf:li xml:lang="x-one">Item2.1 value</rdf:li>
 >     </rdf:Alt>
 >    </ns1:ArrayProp2>
 >    <ns1:StructProp
@@ -281,7 +281,7 @@ Xmp.ns1.NestedStructProp/ns2:Outer/ns2:Middle/ns2:Inner/ns2:Field2 XmpText    12
 \ No newline at end of file
 Xmp.dc.source                                XmpText    13  xmpsample.cpp
 Xmp.dc.subject                               XmpBag      2  Palmtree, Rubbertree
-Xmp.dc.title                                 LangAlt     2  lang="de-DE" Sonnenuntergang am Strand, lang="en-US" Sunset on the beach
+Xmp.dc.title                                 LangAlt     2  lang="en-US" Sunset on the beach, lang="de-DE" Sonnenuntergang am Strand
 Xmp.dc.one                                   XmpText     2  -1
 Xmp.dc.two                                   XmpText     6  3.1415
 Xmp.dc.three                                 XmpText     3  5/7
@@ -338,8 +338,8 @@ Xmp.iptc.CreatorContactInfo/Iptc4xmpCore:CiUrlWork XmpText    20  http://www.exi
    </dc:subject>
    <dc:title>
     <rdf:Alt>
-     <rdf:li xml:lang="de-DE">Sonnenuntergang am Strand</rdf:li>
      <rdf:li xml:lang="en-US">Sunset on the beach</rdf:li>
+     <rdf:li xml:lang="de-DE">Sonnenuntergang am Strand</rdf:li>
     </rdf:Alt>
    </dc:title>
    <dc:creator>
@@ -354,8 +354,8 @@ Xmp.iptc.CreatorContactInfo/Iptc4xmpCore:CiUrlWork XmpText    20  http://www.exi
    </dc:creator>
    <dc:description>
     <rdf:Alt>
-     <rdf:li xml:lang="de-DE">Hallo, Welt</rdf:li>
      <rdf:li xml:lang="x-default">Hello, World</rdf:li>
+     <rdf:li xml:lang="de-DE">Hallo, Welt</rdf:li>
     </rdf:Alt>
    </dc:description>
    <dc:publisher>
@@ -368,8 +368,8 @@ Xmp.iptc.CreatorContactInfo/Iptc4xmpCore:CiUrlWork XmpText    20  http://www.exi
    </dc:publisher>
    <tiff:ImageDescription>
     <rdf:Alt>
-     <rdf:li xml:lang="de-DE">TIFF Bildbeschreibung</rdf:li>
      <rdf:li xml:lang="x-default">TIFF image description</rdf:li>
+     <rdf:li xml:lang="de-DE">TIFF Bildbeschreibung</rdf:li>
     </rdf:Alt>
    </tiff:ImageDescription>
    <xmpDM:videoFrameSize

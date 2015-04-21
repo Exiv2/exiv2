@@ -89,13 +89,11 @@ namespace {
     //! Convert XmpFormatFlags to XMP Toolkit format option bits
     XMP_OptionBits xmpFormatOptionBits(Exiv2::XmpParser::XmpFormatFlags flags);
 
-# ifdef DEBUG
     //! Print information about a parsed XMP node
     void printNode(const std::string& schemaNs,
                    const std::string& propPath,
                    const std::string& propValue,
                    const XMP_OptionBits& opt);
-# endif // DEBUG
 #endif // EXV_HAVE_XMP_TOOLKIT
 
     //! Make an XMP key from a schema namespace and property path
@@ -494,9 +492,7 @@ namespace Exiv2 {
         std::string schemaNs, propPath, propValue;
         XMP_OptionBits opt;
         while (iter.Next(&schemaNs, &propPath, &propValue, &opt)) {
-#ifdef DEBUG
             printNode(schemaNs, propPath, propValue, opt);
-#endif
             if (XMP_PropIsAlias(opt)) {
                 throw Error(47, schemaNs, propPath, propValue);
                 continue;
@@ -521,9 +517,7 @@ namespace Exiv2 {
                 while (count-- > 0) {
                     // Get the text
                     bool haveNext = iter.Next(&schemaNs, &propPath, &propValue, &opt);
-#ifdef DEBUG
                     printNode(schemaNs, propPath, propValue, opt);
-#endif
                     if (   !haveNext
                         || !XMP_PropIsSimple(opt)
                         || !XMP_PropHasLang(opt)) {
@@ -532,9 +526,7 @@ namespace Exiv2 {
                     const std::string text = propValue;
                     // Get the language qualifier
                     haveNext = iter.Next(&schemaNs, &propPath, &propValue, &opt);
-#ifdef DEBUG
                     printNode(schemaNs, propPath, propValue, opt);
-#endif
                     if (   !haveNext
                         || !XMP_PropIsSimple(opt)
                         || !XMP_PropIsQualifier(opt)
@@ -571,9 +563,7 @@ namespace Exiv2 {
                     XMP_Index count = meta.CountArrayItems(schemaNs.c_str(), propPath.c_str());
                     while (count-- > 0) {
                         iter.Next(&schemaNs, &propPath, &propValue, &opt);
-#ifdef DEBUG
                         printNode(schemaNs, propPath, propValue, opt);
-#endif
                         val->read(propValue);
                     }
                     xmpData.add(*key.get(), val.get());
@@ -669,12 +659,12 @@ namespace Exiv2 {
                     ; k != la->value_.end()
                     ; ++k
                 ) {
-#ifdef DEBUG
-                    printNode(ns, i->tagName(), k->second, 0);
-#endif
-                    meta.AppendArrayItem(ns.c_str(), i->tagName().c_str(), kXMP_PropArrayIsAlternate, k->second.c_str());
-                    const std::string item = i->tagName() + "[" + toString(idx++) + "]";
-                    meta.SetQualifier(ns.c_str(), item.c_str(), kXMP_NS_XML, "lang", k->first.c_str());
+                	if ( k->second.size() ) { // remove lang specs with no value
+                    	printNode(ns, i->tagName(), k->second, 0);
+                    	meta.AppendArrayItem(ns.c_str(), i->tagName().c_str(), kXMP_PropArrayIsAlternate, k->second.c_str());
+                    	const std::string item = i->tagName() + "[" + toString(idx++) + "]";
+                    	meta.SetQualifier(ns.c_str(), item.c_str(), kXMP_NS_XML, "lang", k->first.c_str());
+                    }
                 }
                 continue;
             }
@@ -687,30 +677,22 @@ namespace Exiv2 {
             if (   i->typeId() == xmpBag
                 || i->typeId() == xmpSeq
                 || i->typeId() == xmpAlt) {
-#ifdef DEBUG
                 printNode(ns, i->tagName(), "", options);
-#endif
                 meta.SetProperty(ns.c_str(), i->tagName().c_str(), 0, options);
                 for (int idx = 0; idx < i->count(); ++idx) {
                     const std::string item = i->tagName() + "[" + toString(idx + 1) + "]";
-#ifdef DEBUG
                     printNode(ns, item, i->toString(idx), 0);
-#endif
                     meta.SetProperty(ns.c_str(), item.c_str(), i->toString(idx).c_str());
                 }
                 continue;
             }
             if (i->typeId() == xmpText) {
                 if (i->count() == 0) {
-#ifdef DEBUG
                     printNode(ns, i->tagName(), "", options);
-#endif
                     meta.SetProperty(ns.c_str(), i->tagName().c_str(), 0, options);
                 }
                 else {
-#ifdef DEBUG
                     printNode(ns, i->tagName(), i->toString(0), options);
-#endif
                     meta.SetProperty(ns.c_str(), i->tagName().c_str(), i->toString(0).c_str(), options);
                 }
                 continue;
@@ -866,6 +848,12 @@ namespace {
         }
         std::cout << std::endl;
     }
+#else
+    void printNode(const std::string& ,
+                   const std::string& ,
+                   const std::string& ,
+                   const XMP_OptionBits& )
+    {}
 #endif // DEBUG
 #endif // EXV_HAVE_XMP_TOOLKIT
 
