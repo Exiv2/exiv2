@@ -3,7 +3,7 @@
 .\" First parameter, NAME, should be all caps
 .\" Second parameter, SECTION, should be 1-8, maybe w/ subsection
 .\" other parameters are allowed: see man(7), man(1)
-.TH EXIV2 1 "Apr 7, 2015"
+.TH EXIV2 1 "Apr 21, 2015"
 .\" Please adjust this date whenever revising the manpage.
 .\"
 .\" Some roff macros, for reference:
@@ -535,19 +535,34 @@ Rational Examples:
 The Rational format Fnumber (or fnumber) is for the convenience of setting aperture values.  Aperture values
 are stored in Exif is an \fBAPEX\fP value which can be evaluated by the expression:
 .sp 1
-   apex-value  =    log(Fnumber) * 2.0 / log(2.0)
+    apex-value  =    log(Fnumber) * 2.0 / log(2.0)
 .br
-   Fnumber     = exp(apex-value * log(2.0) / 2.0)
+    Fnumber     = exp(apex-value * log(2.0) / 2.0)
 .sp 1
 The Rational format Fnumber is valid for any \fBRational\fP, even when the key is not an Aperture.
 More information about \fBAPEX\fP value is available from: http://en.wikipedia.org/wiki/APEX_system
 .sp 1
 The format of XMP \fBLangAlt\fP values includes an optional language qualifier:
+.br
+.B  lang="\fIlanguage-code\fP\fI" text\fP
+.sp
+lang="x-default" is used if the value doesn't start with a language qualifier.
 .sp 1
-.B   [lang=\fIlanguage-code\fP ]\fItext\fP
+    exiv2 -M'set Xmp.dc.title lang="de-DE" Euros' X.jpg
+.br
+    exiv2 -M'set Xmp.dc.title lang="en-GB" Pounds' X.jpg
+.br
+    exiv2 -M'set Xmp.dc.title lang="en-US" In God We Trust' X.jpg
+.br
+    exiv2 -M'set Xmp.dc.title All others pay cash' X.jpg
 .sp 1
-.B x-default
-is used by default if the value doesn't start with a language qualifier.
+To remove a language specification, set the value to '' (empty string)
+.br
+    exiv2 -M'set Xmp.dc.title lang="en-US"' X.jpg
+.sp 1
+To remove all language specifications, delete the key:
+.br
+    exiv2 -M'del Xmp.dc.title' X.jpg
 .TP
 An additional command is available to register XMP namespaces:
 .TP
