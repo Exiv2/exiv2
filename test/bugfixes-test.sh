@@ -336,6 +336,22 @@ source ./functions.source
 	runTest exiv2 -PE -K ImageWidth            $filename
 	runTest exiv2 -PE -K Exif.Image.ImageWidth $filename
 
+	num=1058
+	filename=exiv2-bug$num.jpg
+	printf "$num " >&3
+	echo '------>' Bug $num '<-------' >&2
+	copyTestFile exiv2-empty.jpg $filename
+	# Add titles in 2 languages and one default
+	runTest exiv2 -M'set Xmp.dc.title lang="de-DE" GERMAN'  $filename
+	runTest exiv2 -M'set Xmp.dc.title lang="en-GB" BRITISH' $filename
+	runTest exiv2 -M'set Xmp.dc.title Everybody else'       $filename
+	runTest exiv2 -px                                       $filename
+	# Remove languages, test case for the language
+	runTest exiv2 -M'set Xmp.dc.title lang="DE-de" german'  $filename
+	runTest exiv2 -M'set Xmp.dc.title lang="EN-gb"'         $filename
+	runTest exiv2 -M'set Xmp.dc.title'                      $filename
+	runTest exiv2 -px                                       $filename
+
 ) 3>&1 > $results 2>&1
 
 printf "\n"
