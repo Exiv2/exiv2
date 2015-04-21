@@ -36,7 +36,7 @@
 # History:   15-Jan-04, ahu: created
 #
 # Description:
-#  Simple top-level makefile that mainly forwards to makefiles in 
+#  Simple top-level makefile that mainly forwards to makefiles in
 #  subdirectories.
 #
 # Restrictions:
@@ -83,8 +83,8 @@ MAJOR=$(shell grep "define.*EXIV2_.*_VERSION .*\\d*" src/version.hpp | grep MAJO
 MINOR=$(shell grep "define.*EXIV2_.*_VERSION .*\\d*" src/version.hpp | grep MINOR | sed -e 's/EXIV2//g' | tr -dC [:digit:])
 VERSION=exiv2-$(MAJOR).$(MINOR)
 tarball:
-	@rm -rf         /tmp/$(VERSION)  
-	@rm -rf         /tmp/$(VERSION).tar   
+	@rm -rf         /tmp/$(VERSION)
+	@rm -rf         /tmp/$(VERSION).tar
 	@rm -rf         /tmp/$(VERSION).tar.gz
 	@rm -rf              $(VERSION).tar.gz
 	svn export -q . /tmp/$(VERSION)
@@ -103,9 +103,9 @@ configure:
 config:
 	cd config && $(MAKE) -f config.make $(MAKECMDGOALS)
 
-xmpsdk: src/svn_version.h config/config.mk 
+xmpsdk: src/svn_version.h config/config.mk
 	if test "x$(ENABLE_XMP)" = "x1"; then cd xmpsdk/src && $(MAKE) $@; fi;
-	
+
 src/svn_version.h:
 	cd src && $(MAKE) svn_version.h
 
@@ -119,8 +119,8 @@ mostlyclean clean: config/config.mk
 	rm -rf test/tmp include/exiv2/exv_conf.h src/svn_version.h
 	mkdir  test/tmp
 
-# `make distclean' also removes files created by configuring 
-# the program. Running `make all distclean' prepares the project 
+# `make distclean' also removes files created by configuring
+# the program. Running `make all distclean' prepares the project
 # for packaging.
 distclean: clean
 	rm -f config.log config.status libtool
@@ -133,16 +133,16 @@ maintainer-clean: distclean
 	rm -f configure
 	-cd test && $(MAKE) $(MAKECMDGOALS)
 
-config/config.mk: 
+config/config.mk:
 	$(error File config/config.mk does not exist. Did you run ./configure?)
 
 rebuild:
 	make distclean
 	make config
 	./configure
-	make
+	make -j
 	sudo make install
-	make samples
-	
+	make -j samples
+
 # That's all Folks!
 ##

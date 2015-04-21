@@ -268,7 +268,7 @@ try {
 
     Jzon::Object   root;
 
-	if ( option == 'a' || option == 'f' ) {
+	if ( option == 'f' ) { // only report filesystem when requested
 		const char*    FS="FS";
 		Jzon::Object      fs  ;
 		root.Add(FS,fs) ;

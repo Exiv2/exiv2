@@ -336,6 +336,17 @@ source ./functions.source
 	runTest exiv2 -PE -K ImageWidth            $filename
 	runTest exiv2 -PE -K Exif.Image.ImageWidth $filename
 
+	num=1054
+	filename1=exiv2-bug${num}-1.jpg
+	filename2=exiv2-bug${num}-2.jpg
+	printf "$num " >&3
+	echo '------>' Bug $num '<-------' >&2
+	copyTestFile BlueSquare.xmp   $filename1
+	copyTestFile exiv2-bug784.jpg $filename2
+	runTest exiv2json        $filename1
+	runTest exiv2json x      $filename1
+    runTest exiv2json        $filename2
+
 	num=1058
 	filename=exiv2-bug$num.jpg
 	printf "$num " >&3
