@@ -102,6 +102,7 @@ namespace Exiv2 {
     extern const XmpPropertyInfo xmpDwCInfo[];
     extern const XmpPropertyInfo xmpDctermsInfo[];
     extern const XmpPropertyInfo xmpLrInfo[];
+    extern const XmpPropertyInfo xmpAcdseeInfo[];  
 
     extern const XmpNsInfo xmpNsInfo[] = {
         // Schemas   -   NOTE: Schemas which the XMP-SDK doesn't know must be registered in XmpParser::initialize - Todo: Automate this
@@ -138,6 +139,7 @@ namespace Exiv2 {
         { "http://www.audio",                                  "audio",          xmpAudioInfo,     N_("XMP Extended Audio schema")            },
         { "http://rs.tdwg.org/dwc/index.htm",                     "dwc",            xmpDwCInfo,       N_("XMP Darwin Core schema")     		  },
         { "http://purl.org/dc/terms/",                      "dcterms",       xmpDctermsInfo,   N_("Qualified Dublin Core schema")             }, // Note: used as properties under dwc:record
+        { "http://ns.acdsee.com/iptc/1.0/",                 "acdsee",       xmpAcdseeInfo,      N_("ACDSee XMP schema")                       },
 
 
         // Structures
@@ -2066,6 +2068,18 @@ namespace Exiv2 {
         { 0, 0, 0, invalidTypeId, xmpInternal, 0 }
     };
 
+    extern const XmpPropertyInfo xmpAcdseeInfo[] = {
+        { "caption",       N_("Caption"),     "Text",                 xmpText, xmpExternal,   N_("A brief description of the file")   },
+        { "datetime",      N_("DateTime"),    "Text",                 xmpText, xmpExternal,   N_("Date and Time")   },
+        { "author",        N_("Author"),      "Text",                 xmpText, xmpExternal,   N_("The name of the author or photographer")   },
+        { "rating",        N_("Rating"),      "Text",                 xmpText, xmpExternal,   N_("Numerical rating from 1 to 5")   },
+        { "notes",         N_("Notes"),       "Text",                 xmpText, xmpExternal,   N_("Any descriptive or additional free-form text up to 4,095 characters")   },
+        { "tagged",        N_("Tagged"),      "Text",                 xmpText, xmpExternal,   N_("True or False")   },
+        { "categories",    N_("Categories"),  "Text",                 xmpText, xmpExternal,   N_("Catalog of hierarchical keywords and groups")   },
+
+        // End of list marker
+        { 0, 0, 0, invalidTypeId, xmpInternal, 0 }
+    };
 
     extern const XmpPrintInfo xmpPrintInfo[] = {
         {"Xmp.crs.CropUnits",                 EXV_PRINT_TAG(crsCropUnits)   },
