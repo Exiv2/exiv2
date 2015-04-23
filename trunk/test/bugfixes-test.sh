@@ -363,6 +363,13 @@ source ./functions.source
 	runTest exiv2 -M'set Xmp.dc.title'                      $filename
 	runTest exiv2 -px                                       $filename
 
+	num=1062
+	filename=exiv2-bug$num.jpg
+	printf "$num " >&3
+	echo '------>' Bug $num '<-------' >&2
+	copyTestFile              $filename
+	runTest exiv2 -pa -g zone $filename
+
 ) 3>&1 > $results 2>&1
 
 printf "\n"
