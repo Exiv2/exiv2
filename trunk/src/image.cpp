@@ -164,6 +164,7 @@ namespace Exiv2 {
     }
     void Image::printStructure(std::ostream&, printStructureOption_e)
     {
+        throw Error(13, io_->path());
     }
 
     void Image::clearMetadata()

@@ -303,34 +303,42 @@ namespace Exiv2 {
     }
 
     // http://en.wikipedia.org/wiki/Endianness
-    static uint32_t byteSwap(uint32_t* pValue,bool b)
+    static uint32_t byteSwap(uint32_t value,bool bSwap)
     {
         uint32_t result = 0;
-        uint32_t value  = *pValue ;
         result |= (value & 0x000000FF) << 24;
         result |= (value & 0x0000FF00) << 8;
         result |= (value & 0x00FF0000) >> 8;
         result |= (value & 0xFF000000) >> 24;
-        return b ? result : value;
+        return bSwap ? result : value;
     }
 
-    static uint16_t byteSwap(uint16_t* pValue,bool b)
+    static uint16_t byteSwap(uint16_t value,bool bSwap)
     {
         uint16_t result = 0;
-        uint16_t value  = *pValue ;
         result |= (value & 0x00FF) << 8;
         result |= (value & 0xFF00) >> 8;
-        return b ? result : value;
+        return bSwap ? result : value;
     }
 
     static uint16_t byteSwap2(DataBuf& buf,size_t offset,bool bSwap)
     {
-    	return byteSwap((uint16_t*)&buf.pData_[offset],bSwap);
+    	uint16_t v;
+    	char*    p = (char*) &v;
+    	p[0] = buf.pData_[offset];
+    	p[1] = buf.pData_[offset+1];
+    	return byteSwap(v,bSwap);
     }
 
     static uint32_t byteSwap4(DataBuf& buf,size_t offset,bool bSwap)
     {
-    	return byteSwap((uint32_t*)&buf.pData_[offset],bSwap);
+    	uint32_t v;
+    	char*    p = (char*) &v;
+    	p[0] = buf.pData_[offset];
+    	p[1] = buf.pData_[offset+1];
+    	p[2] = buf.pData_[offset+2];
+    	p[3] = buf.pData_[offset+3];
+    	return byteSwap(v,bSwap);
     }
 
     // http://stackoverflow.com/questions/2342162/stdstring-formatting-like-sprintf
@@ -356,14 +364,15 @@ namespace Exiv2 {
     {
     	std::string result = "";
     	size_t start = 0 ;
-		if (size > 32) size = 32 ;
+    	bool   bLong = size > 32;
+		if (   bLong ) size = 32 ;
 
 		while (start < size ) {
 			int c = (int) buff[start++] ;
 			if (c < ' ' || c > 127) c = '.' ;
 			result +=  (char) c ;
 		}
-		return result;
+		return result + (bLong ? " ..." : "") ;
 	}
 
     std::string rationalValue(byte* buff,size_t size)
@@ -512,8 +521,8 @@ namespace Exiv2 {
 #endif
 			if ( option == kpsBasic ) {
 			//	out << string_format("count = %u\n",count);
-				out << "STRUCTURE OF TIFF FILE:\n";
-				out << "   tag                      |      type |    count |   offset | value\n";
+				out << "STRUCTURE OF TIFF FILE: " << io_->path() << std::endl;
+				out << " address |    tag                      |      type |    count |   offset | value\n";
 			}
 
 			uint32_t   offset = byteSwap4(buf,4,bSwap);
@@ -533,14 +542,15 @@ namespace Exiv2 {
 					uint32_t Count  = byteSwap4(buf,4,bSwap);
 					uint32_t Offset = byteSwap4(buf,8,bSwap);
 					if ( option == kpsBasic ) {
-						out << stringFormat("%#06x %-20s |%10s |%9u |%9u | ",Tag,tagName(Tag),typeName(Type),Count,Offset);
-						if ( Count > 4 && isStringType(Type) ) { // 4 byte or ascii
+						uint32_t address = offset + 2 + i*12 ;
+						out << stringFormat("%8u | %#06x %-20s |%10s |%9u |%9u | ",address,Tag,tagName(Tag),typeName(Type),Count,Offset);
+						if ( isStringType(Type) ) {
 							size_t restore = io_->tell();
 							io_->seek(Offset,BasicIo::beg);
 							size_t size = Count > bufSize ? bufSize : Count;
 							io_->read(buf.pData_,size );
 							io_->seek(restore,BasicIo::beg);
-							out << stringValue(buf.pData_,size);
+							out << stringValue(buf.pData_,Count);
 						} else if ( Count == 1 && Type == Exiv2::unsignedShort ) {
 							out << byteSwap2(buf,8,bSwap);
 						} else if ( Count == 1 && Type == Exiv2::unsignedLong ) {
