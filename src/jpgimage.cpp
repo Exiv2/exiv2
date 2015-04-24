@@ -515,6 +515,8 @@ namespace Exiv2 {
     	return true ;
     }
 
+#define REPORT_MARKER if ( option == kpsBasic ) {  	sprintf(sbuff,"%8ld | %#02x %-5s",io_->tell(), marker,nm[marker].c_str());   out << sbuff; }
+
     void JpegBase::printStructure(std::ostream& out,printStructureOption_e option)
     {
         if (io_->open() != 0) throw Error(9, io_->path(), strError());
@@ -560,13 +562,16 @@ namespace Exiv2 {
             int marker = advanceToMarker();
             if (marker < 0) throw Error(15);
 
-            if ( option == kpsBasic ) out << "  offset | marker   | length | signature" << std::endl ;
-
-            while (1) {
+            bool    done = false;
+            bool    first= true;
+            while (!done) {
                 // print marker bytes
-                sprintf(sbuff,"%8ld   %#02x %-5s",io_->tell(), marker,nm[marker].c_str());
-                if ( option == kpsBasic ) out << sbuff;
-                if ( marker == eoi_ ) break ;
+            	if ( first && option == kpsBasic ) {
+                    out << "STRUCTURE OF JPEG FILE: " << io_->path() << std::endl;
+                    out << " address | marker     | length  | signature" << std::endl ;
+            		REPORT_MARKER;
+            	}
+        		first = false;
 
                 // Read size and signature
                 std::memset(buf.pData_, 0x0, buf.size_);
@@ -586,9 +591,7 @@ namespace Exiv2 {
                 ||    marker == sos_
                 ){
                     size = getUShort(buf.pData_, bigEndian);
-                    sprintf(sbuff,"%7d   ", size);
-                } else {
-                    sprintf(sbuff,"        ");
+                    sprintf(sbuff," | %7d ", size);
                 }
                 if ( option == kpsBasic ) out << sbuff ;
 
@@ -650,6 +653,7 @@ namespace Exiv2 {
                         startSig = size>0?2:0;
                         int endSig = size?size:bufRead;
                         if (endSig > 32) endSig = 32 ;
+                        out << "| ";
                         while (startSig++ < endSig ) {
                             byte c = buf.pData_[startSig-1] ;
                             c      = (' '<=c && c<128) ? c : '.' ;
@@ -659,16 +663,23 @@ namespace Exiv2 {
                     }
                 }
 
-
                 // Skip the segment if the size is known
                 if (io_->seek(size - bufRead, BasicIo::cur)) throw Error(14);
 
                 if ( option == kpsBasic ) out << std::endl;
-                // sos_ is immediately followed by entropy-coded data & eoi_
-                if (marker == sos_) break;
 
-                // Read the beginning of the next segment
-                marker = advanceToMarker();
+                if (marker == sos_)
+                    // sos_ is immediately followed by entropy-coded data & eoi_
+                	done = true;
+                else {
+                	// Read the beginning of the next segment
+                	marker = advanceToMarker();
+            		REPORT_MARKER;
+                    if ( marker == eoi_ ) {
+                        if ( option == kpsBasic ) out << std::endl;
+                    	done = true;
+                    }
+                }
             }
         }
     }

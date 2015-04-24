@@ -3,7 +3,7 @@
 .\" First parameter, NAME, should be all caps
 .\" Second parameter, SECTION, should be 1-8, maybe w/ subsection
 .\" other parameters are allowed: see man(7), man(1)
-.TH EXIV2 1 "Apr 21, 2015"
+.TH EXIV2 1 "Apr 24, 2015"
 .\" Please adjust this date whenever revising the manpage.
 .\"
 .\" Some roff macros, for reference:
@@ -170,7 +170,7 @@ fmt		Default format is %Y%m%d_%H%M%S.
 lvl		d | i | i | w | e
 		debug, info, warning, error
 
-mod		s | a | t | v | h | i | x | c | p | i | S | X : 
+mod		s | a | t | v | h | i | x | c | p | i | S | X :
 		summary, add, translated, vanilla, hex ...
 		iptc ,xmp, comment, preview, Structure,XMP raw
 
@@ -305,9 +305,9 @@ c : JPEG comment
 .br
 p : list available image previews, sorted by preview image size in pixels
 .br
-S : print image structure information (jpg and png only)
+S : print image structure information (jpg, png and tiff only)
 .br
-X : print "raw" XMP (jpg and png only)
+X : print "raw" XMP (jpg, png and tiff only)
 .TP
 .B \-P \fIflgs\fP
 Print flags for fine control of the tag list ('print' action). Allows
@@ -374,7 +374,7 @@ into the file.
 .br
 This is option is intended for "filter" operations on the XMP such as:
 .br
-$ exiv2 -e{tgt}- \fIfilename\fP | xmllint .... | exiv2 -i{tgt}- \fIfilename\fP 
+$ exiv2 -e{tgt}- \fIfilename\fP | xmllint .... | exiv2 -i{tgt}- \fIfilename\fP
 .sp 1
 Only JPEG thumbnails can be inserted (not TIFF thumbnails), they need to
 be named \fIfile\fP\-thumb.jpg.
