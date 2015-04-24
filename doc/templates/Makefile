@@ -129,6 +129,7 @@ SCHEMA = xmp_dc \
          xmp_aux \
          xmp_iptc \
          xmp_MicrosoftPhoto \
+         xmp_acdsee \
          xmp_digiKam \
          xmp_kipi \
          xmp_iptcExt \
