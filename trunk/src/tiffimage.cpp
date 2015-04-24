@@ -302,6 +302,270 @@ namespace Exiv2 {
         return rc;
     }
 
+    // http://en.wikipedia.org/wiki/Endianness
+    static uint32_t byteSwap(uint32_t* pValue,bool b)
+    {
+        uint32_t result = 0;
+        uint32_t value  = *pValue ;
+        result |= (value & 0x000000FF) << 24;
+        result |= (value & 0x0000FF00) << 8;
+        result |= (value & 0x00FF0000) >> 8;
+        result |= (value & 0xFF000000) >> 24;
+        return b ? result : value;
+    }
+
+    static uint16_t byteSwap(uint16_t* pValue,bool b)
+    {
+        uint16_t result = 0;
+        uint16_t value  = *pValue ;
+        result |= (value & 0x00FF) << 8;
+        result |= (value & 0xFF00) >> 8;
+        return b ? result : value;
+    }
+
+    static uint16_t byteSwap2(DataBuf& buf,size_t offset,bool bSwap)
+    {
+    	return byteSwap((uint16_t*)&buf.pData_[offset],bSwap);
+    }
+
+    static uint32_t byteSwap4(DataBuf& buf,size_t offset,bool bSwap)
+    {
+    	return byteSwap((uint32_t*)&buf.pData_[offset],bSwap);
+    }
+
+    // http://stackoverflow.com/questions/2342162/stdstring-formatting-like-sprintf
+    static std::string stringFormat(const std::string fmt_str, ...) {
+		int n = ((int)fmt_str.size()) * 2; /* Reserve two times as much as the length of the fmt_str */
+		std::unique_ptr<char[]> formatted;
+		std::string str;
+		va_list     ap;
+		bool        ok = true;
+		while(ok) {
+			formatted.reset(new char[n]); /* Wrap the plain char array into the unique_ptr */
+			strcpy(&formatted[0], fmt_str.c_str());
+			va_start(ap, fmt_str);
+			int final = vsnprintf(&formatted[0], n, fmt_str.c_str(), ap);
+			va_end(ap);
+			ok = final < 0 || final >= n;
+			if ( ok ) n += abs(final - n + 1);
+		}
+		return std::string(formatted.get());
+    }
+
+    std::string stringValue(byte* buff,size_t size)
+    {
+    	std::string result = "";
+    	size_t start = 0 ;
+		if (size > 32) size = 32 ;
+
+		while (start < size ) {
+			int c = (int) buff[start++] ;
+			if (c < ' ' || c > 127) c = '.' ;
+			result +=  (char) c ;
+		}
+		return result;
+	}
+
+    std::string rationalValue(byte* buff,size_t size)
+    {
+    	std::string result = "";
+    	size_t start = 0 ;
+		if (size > 32) size = 32 ;
+
+		while (start < size ) {
+			int c = (int) buff[start++] ;
+			if (c < ' ' || c > 127) c = '.' ;
+			result +=  (char) c ;
+		}
+		return result;
+	}
+
+    static const char* typeName(uint16_t tag)
+    {
+        //! List of TIFF image tags
+    	const char* result = NULL;
+    	switch (tag ) {
+        	case  1 : result = "BYTE"      ; break;
+        	case  2 : result = "ASCII"     ; break;
+        	case  3 : result = "SHORT"     ; break;
+        	case  4 : result = "LONG"      ; break;
+        	case  5 : result = "RATIONAL"  ; break;
+        	case  6 : result = "SBYTE"     ; break;
+        	case  7 : result = "UNDEFINED" ; break;
+        	case  8 : result = "SSHORT"    ; break;
+        	case  9 : result = "SLONG"     ; break;
+        	case 10 : result = "SRATIONAL" ; break;
+        	case 11 : result = "FLOAT"     ; break;
+        	case 12 : result = "DOUBLE"    ; break;
+        	default : result = "unknown"   ; break;
+        }
+		return result;
+    }
+
+    static const char* tagName(uint16_t tag)
+    {
+    	const char* result = NULL;
+    	switch (tag ) {
+        	case 0x00fe : result = "NewSubfileType"         ; break;
+        	case 0x0100 : result = "Width"                  ; break;
+        	case 0x0101 : result = "Length"                 ; break;
+        	case 0x0102 : result = "BitsPerSample"          ; break;
+        	case 0x0103 : result = "Compression"            ; break;
+        	case 0x0106 : result = "PhotometricInterp"      ; break;
+        	case 0x0111 : result = "StripOffsets"           ; break;
+        	case 0x0112 : result = "Orientation"            ; break;
+        	case 0x0115 : result = "SamplesPerPixel"        ; break;
+        	case 0x0116 : result = "RowsPerStrip"           ; break;
+        	case 0x0117 : result = "StripByteCounts"        ; break;
+        	case 0x011a : result = "XResolution"            ; break;
+        	case 0x011b : result = "YResolution"            ; break;
+        	case 0x011c : result = "PlanarConfig"           ; break;
+        	case 0x0128 : result = "ResolutionUnit"         ; break;
+        	case 0x0131 : result = "Software"               ; break;
+        	case 0x0132 : result = "DateTime"               ; break;
+        	case 0x013d : result = "Predictor"              ; break;
+        	case 0x0153 : result = "SampleFormat"           ; break;
+            case 0x0122 : result = "GrayResponseUnit"       ; break;
+            case 0x0123 : result = "GrayResponseCurve"      ; break;
+            case 0x0124 : result = "T4Options"              ; break;
+            case 0x0125 : result = "T6Options"              ; break;
+            case 0x0129 : result = "PageNumber"             ; break;
+            case 0x012d : result = "TransferFunction"       ; break;
+            case 0x013e : result = "WhitePoint"             ; break;
+            case 0x013f : result = "PrimaryChromas"         ; break;
+            case 0x0140 : result = "ColorMap"               ; break;
+            case 0x0141 : result = "HalftoneHints"          ; break;
+            case 0x0142 : result = "TileWidth"              ; break;
+            case 0x0143 : result = "TileLength"             ; break;
+            case 0x0144 : result = "TileOffsets"            ; break;
+            case 0x0145 : result = "TileByteCounts"         ; break;
+            case 0x014c : result = "InkSet"                 ; break;
+            case 0x014d : result = "InkNames"               ; break;
+            case 0x014e : result = "NumberOfInks"           ; break;
+            case 0x0150 : result = "DotRange"               ; break;
+            case 0x0151 : result = "TargetPrinter"          ; break;
+            case 0x0152 : result = "ExtraSamples"           ; break;
+            case 0x0154 : result = "SMinSampleValue"        ; break;
+            case 0x0155 : result = "SMaxSampleValue"        ; break;
+            case 0x0156 : result = "TransferRange"          ; break;
+            case 0x0157 : result = "ClipPath"               ; break;
+            case 0x0158 : result = "XClipPathUnits"         ; break;
+            case 0x0159 : result = "YClipPathUnits"         ; break;
+            case 0x015a : result = "Indexed"                ; break;
+            case 0x015b : result = "JPEGTables"             ; break;
+            case 0x0200 : result = "JPEGProc"               ; break;
+            case 0x0201 : result = "JPEGInterchangeFormat"  ; break;
+            case 0x0202 : result = "JPEGInterchangeFmtLen"  ; break;
+            case 0x0203 : result = "JPEGRestartInterval"    ; break;
+            case 0x0205 : result = "JPEGLosslessPredictors" ; break;
+            case 0x0206 : result = "JPEGPointTransforms"    ; break;
+            case 0x0207 : result = "JPEGQTables"            ; break;
+            case 0x0208 : result = "JPEGDCTables"           ; break;
+            case 0x0209 : result = "JPEGACTables"           ; break;
+            case 0x0211 : result = "YCbCrCoefficients"      ; break;
+            case 0x0212 : result = "YCbCrSubSampling"       ; break;
+            case 0x0213 : result = "YCbCrPositioning"       ; break;
+            case 0x0214 : result = "ReferenceBlackWhite"    ; break;
+        	case 0x02bc : result = "XMP"                    ; break;
+            case 0x828d : result = "CFARepeatPatternDim"    ; break;
+            case 0x828e : result = "CFAPattern"             ; break;
+        	case 0x8769 : result = "Exif Offset"            ; break;
+            case 0x8773 : result = "InterColorProfile"      ; break;
+            case 0x8824 : result = "SpectralSensitivity"    ; break;
+            case 0x8828 : result = "OECF"                   ; break;
+            case 0x9102 : result = "CompressedBitsPerPixel" ; break;
+            case 0x9217 : result = "SensingMethod"          ; break;
+        	default     : result = "unknown"                ; break;
+        }
+		return result;
+    }
+
+	static bool isStringType(uint16_t type)
+	{
+		return type == Exiv2::asciiString
+			|| type == Exiv2::unsignedByte
+			|| type == Exiv2::signedByte
+			;
+	}
+
+    void TiffImage::printStructure(std::ostream& out,Exiv2::printStructureOption_e option)
+    {
+        if (io_->open() != 0) throw Error(9, io_->path(), strError());
+        // Ensure that this is the correct image type
+        if (!isTiffType(*io_, false)) {
+            if (io_->error() || io_->eof()) throw Error(14);
+            throw Error(15);
+        }
+
+        if ( option == kpsBasic || option == kpsXMP ) {
+			io_->seek(0,BasicIo::beg);
+			// buffer
+			const long  bufSize = 32;
+			DataBuf buf(bufSize);
+
+			// read header (we already know for certain that we have a Tiff file)
+			io_->read(buf.pData_,  8);
+#if __LITTLE_ENDIAN__
+			bool      bSwap   =         buf.pData_[0] == 'M';
+#else
+			bool      bSwap   =         buf.pData_[0] == 'I';
+#endif
+			if ( option == kpsBasic ) {
+			//	out << string_format("count = %u\n",count);
+				out << "STRUCTURE OF TIFF FILE:\n";
+				out << "   tag                      |      type |    count |   offset | value\n";
+			}
+
+			uint32_t   offset = byteSwap4(buf,4,bSwap);
+			while ( offset ) {
+				// if ( option == kpsBasic ) out << stringFormat("bSwap, offset = %d %u\n",bSwap,offset);
+
+				// Read top of dictionary
+				io_->seek(offset,BasicIo::beg);
+				io_->read(buf.pData_, 2);
+				uint16_t   count = byteSwap2(buf,0,bSwap);
+
+				// Read the dictionary
+				for ( int i = 0 ; i < count ; i ++ ) {
+					io_->read(buf.pData_, 12);
+					uint16_t Tag    = byteSwap2(buf,0,bSwap);
+					uint16_t Type   = byteSwap2(buf,2,bSwap);
+					uint32_t Count  = byteSwap4(buf,4,bSwap);
+					uint32_t Offset = byteSwap4(buf,8,bSwap);
+					if ( option == kpsBasic ) {
+						out << stringFormat("%#06x %-20s |%10s |%9u |%9u | ",Tag,tagName(Tag),typeName(Type),Count,Offset);
+						if ( Count > 4 && isStringType(Type) ) { // 4 byte or ascii
+							size_t restore = io_->tell();
+							io_->seek(Offset,BasicIo::beg);
+							size_t size = Count > bufSize ? bufSize : Count;
+							io_->read(buf.pData_,size );
+							io_->seek(restore,BasicIo::beg);
+							out << stringValue(buf.pData_,size);
+						} else if ( Count == 1 && Type == Exiv2::unsignedShort ) {
+							out << byteSwap2(buf,8,bSwap);
+						} else if ( Count == 1 && Type == Exiv2::unsignedLong ) {
+							out << byteSwap2(buf,8,bSwap);
+						}
+
+						out << std::endl;
+					}
+					if ( Tag == 700 ) {
+						const long  bSize = (long) Count;
+						DataBuf buf(bSize+1);
+						size_t restore = io_->tell();
+						io_->seek(Offset,BasicIo::beg);
+						io_->read(buf.pData_,bSize);
+						io_->seek(restore,BasicIo::beg);
+						buf.pData_[bSize]=0;
+						if ( option == kpsXMP ) out << (char*) &buf.pData_[0];
+					}
+				}
+				io_->read(buf.pData_, 4);
+				offset = byteSwap4(buf,0,bSwap);
+			} // while offset
+        }
+    }
+
 }                                       // namespace Exiv2
 
 // Shortcuts for the newTiffBinaryArray templates.
@@ -535,7 +799,7 @@ namespace Exiv2 {
         { 26, ttUnsignedShort, 1 }, // AFAreaHeight
         { 28, ttUnsignedShort, 1 }, // ContrastDetectAFInFocus
     };
-    
+
     //! Nikon AF Fine Tune binary array - configuration
     extern const ArrayCfg nikonAFTCfg = {
         nikonAFTId,       // Group for the elements
@@ -1582,13 +1846,13 @@ namespace Exiv2 {
 
         // Nikon3 auto focus
         {  Tag::all, nikonAfId,        newTiffBinaryElement                      },
-        
+
         // Nikon3 auto focus 2
         {  Tag::all, nikonAf2Id,       newTiffBinaryElement                      },
-        
+
         // Nikon3 AF Fine Tune
         {  Tag::all, nikonAFTId,       newTiffBinaryElement                      },
-        
+
         // Nikon3 file info
         {  Tag::all, nikonFiId,        newTiffBinaryElement                      },
 

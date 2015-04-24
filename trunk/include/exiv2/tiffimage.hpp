@@ -84,6 +84,7 @@ namespace Exiv2 {
 
         //! @name Manipulators
         //@{
+        void printStructure(std::ostream& out,Exiv2::printStructureOption_e option);
         void readMetadata();
         void writeMetadata();
         /*!
@@ -119,8 +120,8 @@ namespace Exiv2 {
         // DATA
         mutable std::string primaryGroup_;     //!< The primary group
         mutable std::string mimeType_;         //!< The MIME type
-        mutable int pixelWidth_;               //!< Width of the primary image in pixels 
-        mutable int pixelHeight_;              //!< Height of the primary image in pixels 
+        mutable int pixelWidth_;               //!< Width of the primary image in pixels
+        mutable int pixelHeight_;              //!< Height of the primary image in pixels
 
     }; // class TiffImage
 
