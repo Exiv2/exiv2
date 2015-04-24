@@ -407,7 +407,7 @@ namespace Exiv2 {
             SXMPMeta::RegisterNamespace("http://www.digikam.org/ns/1.0/", "digiKam");
             SXMPMeta::RegisterNamespace("http://www.digikam.org/ns/kipi/1.0/", "kipi");
             SXMPMeta::RegisterNamespace("http://ns.microsoft.com/photo/1.0/", "MicrosoftPhoto");
-            SXMPMeta::RegisterNamespace("http://ns.acdsee.com/iptc/1.0/", "acdsee");            
+            SXMPMeta::RegisterNamespace("http://ns.acdsee.com/iptc/1.0/", "acdsee");
             SXMPMeta::RegisterNamespace("http://iptc.org/std/Iptc4xmpExt/2008-02-29/", "iptcExt");
             SXMPMeta::RegisterNamespace("http://ns.useplus.org/ldf/xmp/1.0/", "plus");
             SXMPMeta::RegisterNamespace("http://ns.iview-multimedia.com/mediapro/1.0/", "mediapro");
@@ -415,6 +415,7 @@ namespace Exiv2 {
             SXMPMeta::RegisterNamespace("http://ns.microsoft.com/photo/1.2/", "MP");
             SXMPMeta::RegisterNamespace("http://ns.microsoft.com/photo/1.2/t/RegionInfo#", "MPRI");
             SXMPMeta::RegisterNamespace("http://ns.microsoft.com/photo/1.2/t/Region#", "MPReg");
+            SXMPMeta::RegisterNamespace("http://ns.google.com/photos/1.0/panorama/", "GPano");
             SXMPMeta::RegisterNamespace("http://www.metadataworkinggroup.com/schemas/regions/", "mwg-rs");
             SXMPMeta::RegisterNamespace("http://www.metadataworkinggroup.com/schemas/keywords/", "mwg-kw");
             SXMPMeta::RegisterNamespace("http://ns.adobe.com/xmp/sType/Area#", "stArea");

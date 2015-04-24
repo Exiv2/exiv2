@@ -136,6 +136,7 @@ SCHEMA = xmp_dc \
          xmp_plus \
          xmp_mediapro \
          xmp_expressionmedia \
+         xmp_GPano \
          xmp_MP \
          xmp_MPRI \
          xmp_MPReg \

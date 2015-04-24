@@ -102,7 +102,8 @@ namespace Exiv2 {
     extern const XmpPropertyInfo xmpDwCInfo[];
     extern const XmpPropertyInfo xmpDctermsInfo[];
     extern const XmpPropertyInfo xmpLrInfo[];
-    extern const XmpPropertyInfo xmpAcdseeInfo[];  
+    extern const XmpPropertyInfo xmpAcdseeInfo[];
+    extern const XmpPropertyInfo xmpGPanoInfo[];    
 
     extern const XmpNsInfo xmpNsInfo[] = {
         // Schemas   -   NOTE: Schemas which the XMP-SDK doesn't know must be registered in XmpParser::initialize - Todo: Automate this
@@ -140,6 +141,7 @@ namespace Exiv2 {
         { "http://rs.tdwg.org/dwc/index.htm",                     "dwc",            xmpDwCInfo,       N_("XMP Darwin Core schema")     		  },
         { "http://purl.org/dc/terms/",                      "dcterms",       xmpDctermsInfo,   N_("Qualified Dublin Core schema")             }, // Note: used as properties under dwc:record
         { "http://ns.acdsee.com/iptc/1.0/",                 "acdsee",       xmpAcdseeInfo,      N_("ACDSee XMP schema")                       },
+        { "http://ns.google.com/photos/1.0/panorama/",      "GPano",        xmpGPanoInfo,      N_("Google Photo Sphere XMP schema")           },
 
 
         // Structures
@@ -1020,6 +1022,33 @@ namespace Exiv2 {
         { 0, 0, 0, invalidTypeId, xmpInternal, 0 }
     };
 
+    extern const XmpPropertyInfo xmpGPanoInfo[] = {
+        { "UsePanoramaViewer",              N_("Use Panorama Viewer"),              "Boolean",              xmpText, xmpExternal,   N_("Whether to show this image in a panorama viewer rather than as a normal flat image. This may be specified based on user preferences or by the stitching software. The application displaying or ingesting the image may choose to ignore this.")   },
+        { "CaptureSoftware",                N_("Capture Software"),                 "Text",                 xmpText, xmpExternal,   N_("If capture was done using an application on a mobile device, such as an Android phone, the name of the application that was used (such as “Photo Sphere”). This should be left blank if source images were captured manually, such as by using a DSLR on a tripod.")   },
+        { "StitchingSoftware",              N_("Stitching Software"),               "Text",                 xmpText, xmpExternal,   N_("The software that was used to create the final panorama. This may sometimes be the same value as that of  GPano:CaptureSoftware.")   },
+        { "ProjectionType",                 N_("Projection Type"),                  "Open Choice of Text",  xmpText, xmpExternal,   N_("Projection type used in the image file. Google products currently support the value equirectangular.")   },
+        { "PoseHeadingDegrees",             N_("Pose Heading Degrees"),             "Real",                 xmpText, xmpExternal,   N_("Compass heading, measured in degrees, for the center the image. Value must be >= 0 and < 360.")   },
+        { "PosePitchDegrees",               N_("Pose Pitch Degrees"),               "Real",                 xmpText, xmpExternal,   N_("Pitch, measured in degrees, for the center in the image. Value must be >= -90 and <= 90.")   },
+        { "PoseRollDegrees",                N_("Pose Roll Degrees"),                "Real",                 xmpText, xmpExternal,   N_("Roll, measured in degrees, of the image where level with the horizon is 0. Value must be > -180 and <= 180.")   },
+        { "InitialViewHeadingDegrees",      N_("Initial View Heading Degrees"),     "Integer",              xmpText, xmpExternal,   N_("The heading angle of the initial view in degrees.")   },
+        { "InitialViewPitchDegrees",        N_("Initial View Pitch Degrees"),       "Integer",              xmpText, xmpExternal,   N_("The pitch angle of the initial view in degrees.")   },
+        { "InitialViewRollDegrees",         N_("Initial View Roll Degrees"),        "Integer",              xmpText, xmpExternal,   N_("The roll angle of the initial view in degrees.")   },
+        { "InitialHorizontalFOVDegrees",    N_("Initial Horizontal FOV Degrees"),   "Real",                 xmpText, xmpExternal,   N_("The initial horizontal field of view that the viewer should display (in degrees). This is similar to a zoom level.")   },
+        { "FirstPhotoDate",                 N_("First Photo Date"),                 "Date",                 xmpText, xmpExternal,   N_("Date and time for the first image created in the panorama.")   },
+        { "LastPhotoDate",                  N_("Last Photo Date"),                  "Date",                 xmpText, xmpExternal,   N_("Date and time for the last image created in the panorama.")   },
+        { "SourcePhotosCount",              N_("Source Photos Count"),              "Integer",              xmpText, xmpExternal,   N_("Number of source images used to create the panorama")   },
+        { "ExposureLockUsed",               N_("Exposure Lock Used"),               "Boolean",              xmpText, xmpExternal,   N_("When individual source photographs were captured, whether or not the camera’s exposure setting was locked. ")   },
+        { "CroppedAreaImageWidthPixels",    N_("Cropped Area Image Width Pixels"),  "Integer",              xmpText, xmpExternal,   N_("Original width in pixels of the image (equal to the actual image’s width for unedited images).")   },
+        { "CroppedAreaImageHeightPixels",   N_("Cropped Area Image Height Pixels"), "Integer",              xmpText, xmpExternal,   N_("Original height in pixels of the image (equal to the actual image’s height for unedited images).")   },
+        { "FullPanoWidthPixels",            N_("Full Pano Width Pixels"),           "Integer",              xmpText, xmpExternal,   N_("Original full panorama width from which the image was cropped. Or, if only a partial panorama was captured, this specifies the width of what the full panorama would have been.")   },
+        { "FullPanoHeightPixels",           N_("Full Pano Height Pixels"),          "Integer",              xmpText, xmpExternal,   N_("Original full panorama height from which the image was cropped. Or, if only a partial panorama was captured, this specifies the height of what the full panorama would have been.")   },
+        { "CroppedAreaLeftPixels",          N_("Cropped Area Left Pixels"),         "Integer",              xmpText, xmpExternal,   N_("Column where the left edge of the image was cropped from the full sized panorama.")   },
+        { "CroppedAreaTopPixels",           N_("Cropped Area Top Pixels"),          "Integer",              xmpText, xmpExternal,   N_("Row where the top edge of the image was cropped from the full sized panorama.")   },
+        { "InitialCameraDolly",             N_("Initial Camera Dolly"),             "Real",                 xmpText, xmpExternal,   N_("This optional parameter moves the virtual camera position along the line of sight, away from the center of the photo sphere. A rear surface position is represented by the value -1.0, while a front surface position is represented by 1.0. For normal viewing, this parameter should be set to 0.")   },
+
+        // End of list marker
+        { 0, 0, 0, invalidTypeId, xmpInternal, 0 }
+    };
 
     extern const XmpPropertyInfo xmpVideoInfo[] = {
         { "Album",                  N_("Album"),                            "Text",                     xmpText, xmpExternal, N_("The name of the album.")   },
