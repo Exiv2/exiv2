@@ -412,12 +412,12 @@ namespace Exiv2 {
 		return result;
     }
 
-    static const char* tagName(uint16_t tag,int nMaxLength)
+    static const char* tagName(uint16_t tag,size_t nMaxLength)
     {
-    	const char*    result = NULL;
+    	const char* result = NULL;
 
     	// build a static map of tags for fast search
-    	static std::map<int,const char*> tags;
+    	static std::map<int,std::string> tags;
         static bool init  = true;
         static char buffer[80];
 
@@ -433,7 +433,7 @@ namespace Exiv2 {
         init = false;
 
         try {
-        	result = tags[tag];
+        	result = tags[tag].c_str();
         	if ( nMaxLength > sizeof(buffer) )
         		nMaxLength = sizeof(buffer) - 2;
         	strncpy(buffer,result,nMaxLength);
