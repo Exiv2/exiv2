@@ -240,43 +240,43 @@ namespace Exiv2 {
 
     Protocol fileProtocol(const std::string& path) {
         Protocol result = pFile ;
-        static Exiv2::protDict_t protDict;
-        if (!protDict.size()) {
-             protDict["http://" ]   = pHttp;
-             protDict["ftp://"  ]   = pFtp;
-             protDict["https://"]   = pHttps;
-             protDict["sftp://" ]   = pSftp;
-             protDict["ssh://"  ]   = pSsh;
-             protDict["file://" ]   = pFileUri;
-             protDict["data:"   ]   = pDataUri;
-             protDict["-"       ]   = pStdin;
-        }
-        for (Exiv2::protDict_i it = protDict.begin(); it != protDict.end(); it++) {
-            if (path.find(it->first) == 0)
-                 result = it->second;
-        }
+        struct {
+        	std::string name ;
+        	Protocol    prot ;
+        } prots[] =
+        { { "http://"   ,pHttp     }
+        , { "ftp://"    ,pFtp      }
+        , { "sftp://"   ,pSftp     }
+        , { "ssh://"    ,pSsh      }
+        , { "file://"   ,pFileUri  }
+        , { "data://"   ,pDataUri  }
+        , { "-"         ,pStdin    }
+        };
+        for ( size_t i = 0 ; result == pFile && i < sizeof(prots)/sizeof(prots[0]) ; i ++ )
+        	if ( path.find(prots[i].name) == 0 )
+        		result = prots[i].prot;
+
         return result;
     } // fileProtocol
 #ifdef EXV_UNICODE_PATH
     Protocol fileProtocol(const std::wstring& wpath) {
         Protocol result = pFile ;
-        static wprotDict_t protDict;
-        if (!protDict.size()) {
-             protDict[L"http://"  ]  = pHttp;
-             protDict[L"ftp://"   ]  = pFtp;
-             protDict[L"https://" ]  = pHttps;
-             protDict[L"sftp://"  ]  = pSftp;
-             protDict[L"ssh://"   ]  = pSsh;
-             protDict[L"file:///" ]  = pFileUri;
-             protDict[L"data:"    ]  = pDataUri;
-             protDict[L"-"        ]  = pStdin;
-        }
-        for (wprotDict_i it = protDict.begin(); it != protDict.end(); it++) {
-            if (wpath.find(it->first) == 0) {
-                 result = it->second;
-                 break;
-            }
-        }
+        struct {
+        	std::wstring wname ;
+        	Protocol      prot ;
+        } prots[] =
+        { { L"http://"   ,pHttp     }
+        , { L"ftp://"    ,pFtp      }
+        , { L"sftp://"   ,pSftp     }
+        , { L"ssh://"    ,pSsh      }
+        , { L"file://"   ,pFileUri  }
+        , { L"data://"   ,pDataUri  }
+        , { L"-"         ,pStdin    }
+        };
+        for ( size_t i = 0 ; result == pFile && i < sizeof(prots)/sizeof(prots[0]) ; i ++ )
+        	if ( wpath.find(prots[i].wname) == 0 )
+        		result = prots[i].prot;
+
         return result;
     } // fileProtocol
 #endif

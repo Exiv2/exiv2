@@ -53,16 +53,6 @@ namespace Exiv2 {
     enum    EnVar       { envHTTPPOST = 0, envTIMEOUT = 1};
     //! the collection of protocols.
     enum    Protocol    { pFile = 0, pHttp, pFtp, pHttps, pSftp, pSsh, pFileUri, pDataUri, pStdin};
-    //! the dictionary type for the protcol identifer strings.
-    typedef std::map<std::string,Protocol>           protDict_t;
-    //! the dictionary iterator for protcol identifer strings.
-    typedef std::map<std::string,Protocol>::iterator protDict_i;
-#ifdef EXV_UNICODE_PATH
-    //! the dictionary type for the protcol identifer strings.
-    typedef std::map<std::wstring,Protocol> wprotDict_t;
-    //! the dictionary iterator for protcol identifer strings.
-    typedef std::map<std::wstring,Protocol>::iterator wprotDict_i;
-#endif
 // *********************************************************************
 // free functions
     /*!
