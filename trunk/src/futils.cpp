@@ -245,6 +245,7 @@ namespace Exiv2 {
         	Protocol    prot ;
         } prots[] =
         { { "http://"   ,pHttp     }
+        , { "https://"  ,pHttps    }
         , { "ftp://"    ,pFtp      }
         , { "sftp://"   ,pSftp     }
         , { "ssh://"    ,pSsh      }
@@ -266,6 +267,7 @@ namespace Exiv2 {
         	Protocol      prot ;
         } prots[] =
         { { L"http://"   ,pHttp     }
+        , { L"https://"  ,pHttps    }
         , { L"ftp://"    ,pFtp      }
         , { L"sftp://"   ,pSftp     }
         , { L"ssh://"    ,pSsh      }
