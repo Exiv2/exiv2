@@ -49,6 +49,7 @@ EXIV2_RCSID("@(#) $Id$")
 #include <iomanip>
 #include <cassert>
 #include <memory>
+#include <cstdarg>
 
 /* --------------------------------------------------------------------------
 
