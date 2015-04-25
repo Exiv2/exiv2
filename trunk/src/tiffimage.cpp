@@ -411,82 +411,35 @@ namespace Exiv2 {
 		return result;
     }
 
-    static const char* tagName(uint16_t tag)
+    static const char* tagName(uint16_t tag,int nMaxLength)
     {
-    	const char* result = NULL;
-    	switch (tag ) {
-        	case 0x00fe : result = "NewSubfileType"         ; break;
-        	case 0x0100 : result = "Width"                  ; break;
-        	case 0x0101 : result = "Length"                 ; break;
-        	case 0x0102 : result = "BitsPerSample"          ; break;
-        	case 0x0103 : result = "Compression"            ; break;
-        	case 0x0106 : result = "PhotometricInterp"      ; break;
-        	case 0x0111 : result = "StripOffsets"           ; break;
-        	case 0x0112 : result = "Orientation"            ; break;
-        	case 0x0115 : result = "SamplesPerPixel"        ; break;
-        	case 0x0116 : result = "RowsPerStrip"           ; break;
-        	case 0x0117 : result = "StripByteCounts"        ; break;
-        	case 0x011a : result = "XResolution"            ; break;
-        	case 0x011b : result = "YResolution"            ; break;
-        	case 0x011c : result = "PlanarConfig"           ; break;
-        	case 0x0128 : result = "ResolutionUnit"         ; break;
-        	case 0x0131 : result = "Software"               ; break;
-        	case 0x0132 : result = "DateTime"               ; break;
-        	case 0x013d : result = "Predictor"              ; break;
-        	case 0x0153 : result = "SampleFormat"           ; break;
-            case 0x0122 : result = "GrayResponseUnit"       ; break;
-            case 0x0123 : result = "GrayResponseCurve"      ; break;
-            case 0x0124 : result = "T4Options"              ; break;
-            case 0x0125 : result = "T6Options"              ; break;
-            case 0x0129 : result = "PageNumber"             ; break;
-            case 0x012d : result = "TransferFunction"       ; break;
-            case 0x013e : result = "WhitePoint"             ; break;
-            case 0x013f : result = "PrimaryChromas"         ; break;
-            case 0x0140 : result = "ColorMap"               ; break;
-            case 0x0141 : result = "HalftoneHints"          ; break;
-            case 0x0142 : result = "TileWidth"              ; break;
-            case 0x0143 : result = "TileLength"             ; break;
-            case 0x0144 : result = "TileOffsets"            ; break;
-            case 0x0145 : result = "TileByteCounts"         ; break;
-            case 0x014c : result = "InkSet"                 ; break;
-            case 0x014d : result = "InkNames"               ; break;
-            case 0x014e : result = "NumberOfInks"           ; break;
-            case 0x0150 : result = "DotRange"               ; break;
-            case 0x0151 : result = "TargetPrinter"          ; break;
-            case 0x0152 : result = "ExtraSamples"           ; break;
-            case 0x0154 : result = "SMinSampleValue"        ; break;
-            case 0x0155 : result = "SMaxSampleValue"        ; break;
-            case 0x0156 : result = "TransferRange"          ; break;
-            case 0x0157 : result = "ClipPath"               ; break;
-            case 0x0158 : result = "XClipPathUnits"         ; break;
-            case 0x0159 : result = "YClipPathUnits"         ; break;
-            case 0x015a : result = "Indexed"                ; break;
-            case 0x015b : result = "JPEGTables"             ; break;
-            case 0x0200 : result = "JPEGProc"               ; break;
-            case 0x0201 : result = "JPEGInterchangeFormat"  ; break;
-            case 0x0202 : result = "JPEGInterchangeFmtLen"  ; break;
-            case 0x0203 : result = "JPEGRestartInterval"    ; break;
-            case 0x0205 : result = "JPEGLosslessPredictors" ; break;
-            case 0x0206 : result = "JPEGPointTransforms"    ; break;
-            case 0x0207 : result = "JPEGQTables"            ; break;
-            case 0x0208 : result = "JPEGDCTables"           ; break;
-            case 0x0209 : result = "JPEGACTables"           ; break;
-            case 0x0211 : result = "YCbCrCoefficients"      ; break;
-            case 0x0212 : result = "YCbCrSubSampling"       ; break;
-            case 0x0213 : result = "YCbCrPositioning"       ; break;
-            case 0x0214 : result = "ReferenceBlackWhite"    ; break;
-        	case 0x02bc : result = "XMP"                    ; break;
-            case 0x828d : result = "CFARepeatPatternDim"    ; break;
-            case 0x828e : result = "CFAPattern"             ; break;
-        	case 0x8769 : result = "Exif Offset"            ; break;
-            case 0x8773 : result = "InterColorProfile"      ; break;
-            case 0x8824 : result = "SpectralSensitivity"    ; break;
-            case 0x8828 : result = "OECF"                   ; break;
-            case 0x9102 : result = "CompressedBitsPerPixel" ; break;
-            case 0x9217 : result = "SensingMethod"          ; break;
-        	default     : result = "unknown"                ; break;
+    	const char*    result = NULL;
+
+    	// build a static map of tags for fast search
+    	static std::map<int,const char*> tags;
+        static bool init  = true;
+        static char buffer[80];
+
+        if ( init ) {
+        	int idx;
+            const TagInfo* ti ;
+        	for (ti = Exiv2::  mnTagList(), idx = 0; ti[idx].tag_ != 0xffff; ++idx) tags[ti[idx].tag_] = ti[idx].name_;
+        	for (ti = Exiv2:: iopTagList(), idx = 0; ti[idx].tag_ != 0xffff; ++idx) tags[ti[idx].tag_] = ti[idx].name_;
+        	for (ti = Exiv2:: gpsTagList(), idx = 0; ti[idx].tag_ != 0xffff; ++idx) tags[ti[idx].tag_] = ti[idx].name_;
+        	for (ti = Exiv2:: ifdTagList(), idx = 0; ti[idx].tag_ != 0xffff; ++idx) tags[ti[idx].tag_] = ti[idx].name_;
+        	for (ti = Exiv2::exifTagList(), idx = 0; ti[idx].tag_ != 0xffff; ++idx) tags[ti[idx].tag_] = ti[idx].name_;
         }
-		return result;
+        init = false;
+
+        try {
+        	result = tags[tag];
+        	if ( nMaxLength > sizeof(buffer) )
+        		nMaxLength = sizeof(buffer) - 2;
+        	strncpy(buffer,result,nMaxLength);
+        	result = buffer;
+        } catch ( ... ) {}
+
+        return result ;
     }
 
 	static bool isStringType(uint16_t type)
@@ -543,7 +496,7 @@ namespace Exiv2 {
 					uint32_t Offset = byteSwap4(buf,8,bSwap);
 					if ( option == kpsBasic ) {
 						uint32_t address = offset + 2 + i*12 ;
-						out << stringFormat("%8u | %#06x %-20s |%10s |%9u |%9u | ",address,Tag,tagName(Tag),typeName(Type),Count,Offset);
+						out << stringFormat("%8u | %#06x %-20s |%10s |%9u |%9u | ",address,Tag,tagName(Tag,20),typeName(Type),Count,Offset);
 						if ( isStringType(Type) ) {
 							size_t restore = io_->tell();
 							io_->seek(Offset,BasicIo::beg);
