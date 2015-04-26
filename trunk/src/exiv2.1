@@ -28,8 +28,13 @@ exiv2 \- Image metadata manipulation tool
 .\" \fI<whatever>\fP escape sequences to invode bold face and italics,
 .\" respectively.
 .B exiv2
-is a program to read and write Exif, IPTC and XMP image metadata and
-image comments. The following image formats are supported:
+is a program to read and write Exif, IPTC, XMP metadata and
+image comments and can read many vendor makernote tags. The program 
+optionally converts between Exif tags, XMP properties and IPTC
+datasets as recommended by the Exif Standard, the IPTC Standard,
+the XMP specification and Metadata Working Group guidelines.
+.br
+The following image formats are supported:
 .TS
 lB lB lB lB lB
 _	_	_	_	_
@@ -441,7 +446,12 @@ or given on the command line, as in
    exiv2 \-M"add Iptc.Application2.Credit String Mr. Smith" image.jpg
 .fi
 .sp 1
-Note the quotes. Multiple \fB\-m\fP and \fB\-M\fP options can be combined.
+Note the quotes. Multiple \fB\-m\fP and \fB\-M\fP options can be combined,
+and a non-standard XMP namespace registered.
+.sp 1
+.nf
+   exiv2 \-M"reg myprefix http://ns.myprefix.me/" \-M"add Xmp.myprefix.Whom Mr. Smith" \-M"set Exif.Image.Artist Mr. Smith" image.jpg
+.fi
 .sp 1
 When writing Exif, IPTC and XMP metadata,
 .B exiv2
@@ -564,7 +574,7 @@ To remove all language specifications, delete the key:
 .br
     exiv2 -M'del Xmp.dc.title' X.jpg
 .TP
-An additional command is available to register XMP namespaces:
+To register additional XMP namespaces, combine the command with:
 .TP
 .nf
 \fBreg\fP \fIprefix\fP \fInamespace\fP
