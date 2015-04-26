@@ -520,7 +520,7 @@ namespace Exiv2 {
           pRoot_(pRoot),
           isNewImage_(isNewImage),
           pPrimaryGroups_(pPrimaryGroups),
-          pSourceTree_(0),          
+          pSourceTree_(0),
           findEncoderFct_(findEncoderFct),
           dirty_(false),
           writeMethod_(wmNonIntrusive)
@@ -610,6 +610,7 @@ namespace Exiv2 {
 
     void TiffEncoder::encodeXmp()
     {
+#ifdef EXV_HAVE_XMP_TOOLKIT
         ExifKey xmpKey("Exif.Image.XMLPacket");
         // Remove any existing XMP Exif tag
         ExifData::iterator pos = exifData_.findKey(xmpKey);
@@ -632,6 +633,7 @@ namespace Exiv2 {
             Exifdatum xmpDatum(xmpKey, value.get());
             exifData_.add(xmpDatum);
         }
+#endif
     } // TiffEncoder::encodeXmp
 
     void TiffEncoder::setDirty(bool flag)
