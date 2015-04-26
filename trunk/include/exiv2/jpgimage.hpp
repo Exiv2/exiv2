@@ -150,9 +150,16 @@ namespace Exiv2 {
     public:
         //! @name Manipulators
         //@{
-        void printStructure(std::ostream& out,printStructureOption_e option);
         void readMetadata();
         void writeMetadata();
+
+        /*!
+          @brief Print out the structure of image file.
+          @throw Error if reading of the file fails or the image data is
+                not valid (does not look like data of the specific image type).
+          @caution This function is not thread safe and intended for exiv2 -pS for debugging.
+         */
+        void printStructure(std::ostream& out,Exiv2::printStructureOption_e option);
         //@}
 
     protected:

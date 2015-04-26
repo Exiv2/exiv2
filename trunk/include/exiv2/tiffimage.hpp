@@ -84,9 +84,17 @@ namespace Exiv2 {
 
         //! @name Manipulators
         //@{
-        void printStructure(std::ostream& out,Exiv2::printStructureOption_e option);
         void readMetadata();
         void writeMetadata();
+
+        /*!
+          @brief Print out the structure of image file.
+          @throw Error if reading of the file fails or the image data is
+                not valid (does not look like data of the specific image type).
+          @caution This function is not thread safe and intended for exiv2 -pS for debugging.
+         */
+        void printStructure(std::ostream& out,Exiv2::printStructureOption_e option);
+
         /*!
           @brief Not supported. TIFF format does not contain a comment.
               Calling this function will throw an Error(32).
