@@ -48,7 +48,6 @@ EXIV2_RCSID("@(#) $Id$")
 #include <iostream>
 #include <iomanip>
 #include <cassert>
-#include <memory>
 #include <cstdarg>
 
 /* --------------------------------------------------------------------------
@@ -345,20 +344,26 @@ namespace Exiv2 {
     // http://stackoverflow.com/questions/2342162/stdstring-formatting-like-sprintf
     static std::string stringFormat(const std::string fmt_str, ...) {
 		int n = ((int)fmt_str.size()) * 2; /* Reserve two times as much as the length of the fmt_str */
-		std::unique_ptr<char[]> formatted;
+		char* formatted;
 		std::string str;
 		va_list     ap;
 		bool        ok = true;
-		while(ok) {
-			formatted.reset(new char[n]); /* Wrap the plain char array into the unique_ptr */
+		do {
+			formatted = new char[n];
 			strcpy(&formatted[0], fmt_str.c_str());
 			va_start(ap, fmt_str);
 			int final = vsnprintf(&formatted[0], n, fmt_str.c_str(), ap);
 			va_end(ap);
 			ok = final < 0 || final >= n;
-			if ( ok ) n += abs(final - n + 1);
-		}
-		return std::string(formatted.get());
+			if (ok) {
+				n += abs(final - n + 1);
+			}
+			else {
+				str = std::string(formatted);
+			}
+			delete[] formatted;
+		} while (ok);	
+		return str;
     }
 
     std::string stringValue(byte* buff,size_t size)
