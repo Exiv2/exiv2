@@ -1678,16 +1678,20 @@ namespace Exiv2 {
         { 45,    "Carl Zeiss Planar T* 85mm F1.4 ZA (SAL85F14Z)" },
         { 46,    "Carl Zeiss Vario-Sonnar T* DT 16-80mm F3.5-4.5 ZA (SAL1680Z)" },
         { 47,    "Carl Zeiss Sonnar T* 135mm F1.8 ZA (SAL135F18Z)" },
-        { 48,    "Carl Zeiss Vario-Sonnar T* 24-70mm F2.8 ZA SSM (SAL2470Z)" },
+        { 48,    "Carl Zeiss Vario-Sonnar T* 24-70mm F2.8 ZA SSM (SAL2470Z) | "
+                 "Carl Zeiss Vario-Sonnar T* 24-70mm F2.8 ZA SSM II (SAL2470Z2)" },
         { 49,    "Sony AF DT 55-200mm F4-5.6 (SAL55200)" },
         { 50,    "Sony AF DT 18-250mm F3.5-6.3 (SAL18250)" },
         { 51,    "Sony AF DT 16-105mm F3.5-5.6 (SAL16105)" },
 //      { 51,    "Sony AF DT 55-200mm F4-5.5" }, // Anomaly? - unconfirmed.
         { 52,    "Sony 70-300mm F4.5-5.6 G SSM (SAL70300G) | "
+                 "Sony 70-300mm F4.5-5.6 G SSM II (SAL70300G2) | "
                  "Tamron SP 70-300mm F4-5.6 Di USD" },
         { 53,    "Sony AF 70-400mm F4.5-5.6 G SSM (SAL70400G)" },
-        { 54,    "Carl Zeiss Vario-Sonnar T* 16-35mm F2.8 ZA SSM (SAL1635Z)" },
-        { 55,    "Sony DT 18-55mm F3.5-5.6 SAM [II] (SAL1855)" },
+        { 54,    "Carl Zeiss Vario-Sonnar T* 16-35mm F2.8 ZA SSM (SAL1635Z) | "
+                 "Carl Zeiss Vario-Sonnar T* 16-35mm F2.8 ZA SSM II (SAL1635Z2)" },
+        { 55,    "Sony DT 18-55mm F3.5-5.6 SAM [II] (SAL1855) | "
+                 "Sony DT 18-55mm F3.5-5.6 SAM II (SAL18552)" },
         { 56,    "Sony AF DT 55-200mm F4-5.6 SAM (SAL55200-2)" },
         { 57,    "Sony DT 50mm F1.8 SAM (SAL50F18) | "
                  "Tamron SP AF 60mm F2 Di II LD [IF] Macro 1:1 | "
