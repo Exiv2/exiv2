@@ -1690,7 +1690,7 @@ namespace Exiv2 {
         { 53,    "Sony AF 70-400mm F4.5-5.6 G SSM (SAL70400G)" },
         { 54,    "Carl Zeiss Vario-Sonnar T* 16-35mm F2.8 ZA SSM (SAL1635Z) | "
                  "Carl Zeiss Vario-Sonnar T* 16-35mm F2.8 ZA SSM II (SAL1635Z2)" },
-        { 55,    "Sony DT 18-55mm F3.5-5.6 SAM [II] (SAL1855) | "
+        { 55,    "Sony DT 18-55mm F3.5-5.6 SAM (SAL1855) | "
                  "Sony DT 18-55mm F3.5-5.6 SAM II (SAL18552)" },
         { 56,    "Sony AF DT 55-200mm F4-5.6 SAM (SAL55200-2)" },
         { 57,    "Sony DT 50mm F1.8 SAM (SAL50F18) | "
