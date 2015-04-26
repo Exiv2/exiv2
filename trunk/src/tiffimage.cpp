@@ -362,7 +362,7 @@ namespace Exiv2 {
 				str = std::string(formatted);
 			}
 			delete[] formatted;
-		} while (ok);	
+		} while (ok);
 		return str;
     }
 
@@ -468,7 +468,7 @@ namespace Exiv2 {
         if ( option == kpsBasic || option == kpsXMP ) {
 			io_->seek(0,BasicIo::beg);
 			// buffer
-			const long  bufSize = 32;
+			const size_t bufSize = 32;
 			DataBuf buf(bufSize);
 
 			// read header (we already know for certain that we have a Tiff file)
