@@ -356,7 +356,7 @@ namespace Exiv2 {
     {
         std::string result;
 
-        int     need = fmt.size()*4;             // initial guess
+        int     need = (int) fmt.size()*4;       // initial guess
         char*   buffer = new char[need];         // allocate a buffer
         va_list ap;                              // variable arg list
 
@@ -366,6 +366,7 @@ namespace Exiv2 {
 
         if (need < 0) {                          // make buffer bigger
             delete[] buffer;
+			need   = -need ;
             buffer = new char[need+2];
             va_start(ap, fmt);
             need=vsnprintf(buffer, need, fmt.c_str(), ap);

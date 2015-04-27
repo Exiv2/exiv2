@@ -484,8 +484,8 @@ namespace Exiv2 {
                                    : count > 5              ? 5
                                    : count
                                    ;
-                    size_t pad     = isStringType(type) ? 1 : 0;
-                    size_t size    = isStringType(type) ? 1
+                    uint32_t pad   = isStringType(type) ? 1 : 0;
+                    uint32_t size  = isStringType(type) ? 1
                                    : is2ByteType(type)  ? 2
                                    : is4ByteType(type)  ? 4
                                    : 1
