@@ -619,31 +619,7 @@ namespace Exiv2 {
                             }
                             xmp[size]=0;
 
-#if 1
                             out << xmp + start; // this is all we need to output without the blank line dance.
-#else
-                            // #922:  Remove blank lines.
-                            // cut the xmp into (non blank) lines
-                            std::vector<std::string> lines ;
-                            std::string s((char*)xmp+start);
-                            char nl      = '\n';
-
-                            while( s.length() )
-                            {
-                                std::size_t end = s.find(nl);
-                                if ( end != std::string::npos )
-                                {
-                                    std::string line = s.substr(0,end);
-                                    if ( !isBlank(line) )
-                                        lines.push_back(line+nl);
-                                    s = s.substr(end+1,std::string::npos);
-                                } else {
-                                    lines.push_back(s);
-                                    s="";
-                                }
-                            }
-                            for ( size_t l = 0 ; l < lines.size() ; l++  ) out << lines[l];
-#endif
                             delete [] xmp;
                             bufRead = size;
                         }
