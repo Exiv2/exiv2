@@ -130,18 +130,18 @@ namespace Exiv2 {
         { "http://iptc.org/std/Iptc4xmpExt/2008-02-29/",  "Iptc4xmpExt",    xmpIptcExtInfo,   N_("IPTC Extension schema")                     }, // example above, 'iptcExt' is the default, Iptc4xmpExt works too.
         { "http://ns.useplus.org/ldf/xmp/1.0/",           "plus",           xmpPlusInfo,      N_("PLUS License Data Format schema")           },
         { "http://ns.iview-multimedia.com/mediapro/1.0/", "mediapro",       xmpMediaProInfo,  N_("iView Media Pro schema")                    },
-        { "http://ns.microsoft.com/expressionmedia/1.0/", "expressionmedia",xmpExpressionMediaInfo, N_("Expression Media schema")             },
-        { "http://ns.microsoft.com/photo/1.2/",              "MP",    xmpMicrosoftPhotoInfo,           N_("Microsoft Photo 1.2 schema")       },
-        { "http://ns.microsoft.com/photo/1.2/t/RegionInfo#", "MPRI",  xmpMicrosoftPhotoRegionInfoInfo, N_("Microsoft Photo RegionInfo schema")},
-        { "http://ns.microsoft.com/photo/1.2/t/Region#",     "MPReg", xmpMicrosoftPhotoRegionInfo,     N_("Microsoft Photo Region schema")    },
-        { "http://www.metadataworkinggroup.com/schemas/regions/",  "mwg-rs", xmpMWGRegionsInfo, N_("Metadata Working Group Regions schema")   },
-        { "http://www.metadataworkinggroup.com/schemas/keywords/", "mwg-kw", xmpMWGKeywordInfo, N_("Metadata Working Group Keywords schema")  },
-        { "http://www.video",                                  "video",          xmpVideoInfo,     N_("XMP Extended Video schema")            },
-        { "http://www.audio",                                  "audio",          xmpAudioInfo,     N_("XMP Extended Audio schema")            },
-        { "http://rs.tdwg.org/dwc/index.htm",                     "dwc",            xmpDwCInfo,       N_("XMP Darwin Core schema")     		  },
-        { "http://purl.org/dc/terms/",                      "dcterms",       xmpDctermsInfo,   N_("Qualified Dublin Core schema")             }, // Note: used as properties under dwc:record
-        { "http://ns.acdsee.com/iptc/1.0/",                 "acdsee",       xmpAcdseeInfo,      N_("ACDSee XMP schema")                       },
-        { "http://ns.google.com/photos/1.0/panorama/",      "GPano",        xmpGPanoInfo,      N_("Google Photo Sphere XMP schema")           },
+        { "http://ns.microsoft.com/expressionmedia/1.0/", "expressionmedia", xmpExpressionMediaInfo, N_("Expression Media schema")            },
+        { "http://ns.microsoft.com/photo/1.2/",           "MP",             xmpMicrosoftPhotoInfo,           N_("Microsoft Photo 1.2 schema")        },
+        { "http://ns.microsoft.com/photo/1.2/t/RegionInfo#", "MPRI",        xmpMicrosoftPhotoRegionInfoInfo, N_("Microsoft Photo RegionInfo schema") },
+        { "http://ns.microsoft.com/photo/1.2/t/Region#",     "MPReg",       xmpMicrosoftPhotoRegionInfo,     N_("Microsoft Photo Region schema")     },
+        { "http://www.metadataworkinggroup.com/schemas/regions/", "mwg-rs", xmpMWGRegionsInfo, N_("Metadata Working Group Regions schema")      },
+        { "http://www.metadataworkinggroup.com/schemas/keywords/","mwg-kw", xmpMWGKeywordInfo, N_("Metadata Working Group Keywords schema")     },
+        { "http://www.video",                             "video",          xmpVideoInfo,     N_("XMP Extended Video schema")                   },
+        { "http://www.audio",                             "audio",          xmpAudioInfo,     N_("XMP Extended Audio schema")                   },
+        { "http://rs.tdwg.org/dwc/index.htm",             "dwc",            xmpDwCInfo,       N_("XMP Darwin Core schema")     		            },
+        { "http://purl.org/dc/terms/",                    "dcterms",        xmpDctermsInfo,   N_("Qualified Dublin Core schema")                }, // Note: used as properties under dwc:record
+        { "http://ns.acdsee.com/iptc/1.0/",               "acdsee",         xmpAcdseeInfo,    N_("ACDSee XMP schema")                           },
+        { "http://ns.google.com/photos/1.0/panorama/",    "GPano",          xmpGPanoInfo,     N_("Google Photo Sphere XMP schema")              },
 
 
         // Structures
@@ -662,32 +662,32 @@ namespace Exiv2 {
     };
 
     extern const XmpPropertyInfo xmpIptcInfo[] = {
-        { "CiAdrCity",          N_("Contact Info-City"),           "Text",                      xmpText, xmpExternal, N_("The contact information city part.") },
-        { "CiAdrCtry",          N_("Contact Info-Country"),        "Text",                      xmpText, xmpExternal, N_("The contact information country part.") },
-        { "CiAdrExtadr",        N_("Contact Info-Address"),        "Text",                      xmpText, xmpExternal, N_("The contact information address part. Comprises an optional company name and all required "
-                                                                                                                         "information to locate the building or postbox to which mail should be sent.") },
-        { "CiAdrPcode",         N_("Contact Info-Postal Code"),    "Text",                      xmpText, xmpExternal, N_("The contact information part denoting the local postal code.") },
-        { "CiAdrRegion",        N_("Contact Info-State/Province"), "Text",                      xmpText, xmpExternal, N_("The contact information part denoting regional information like state or province.") },
-        { "CiEmailWork",        N_("Contact Info-Email"),          "Text",                      xmpText, xmpExternal, N_("The contact information email address part.") },
-        { "CiTelWork",          N_("Contact Info-Phone"),          "Text",                      xmpText, xmpExternal, N_("The contact information phone number part.") },
-        { "CiUrlWork",          N_("Contact Info-Web URL"),        "Text",                      xmpText, xmpExternal, N_("The contact information web address part.") },
-        { "CountryCode",        N_("Country Code"),                "closed Choice of Text",     xmpText, xmpExternal, N_("Code of the country the content is focussing on -- either the country shown in visual "
-                                                                                                                         "media or referenced in text or audio media. This element is at the top/first level of "
-                                                                                                                         "a top-down geographical hierarchy. The code should be taken from ISO 3166 two or three "
-                                                                                                                         "letter code. The full name of a country should go to the \"Country\" element.") },
         { "CreatorContactInfo", N_("Creator's Contact Info"),      "ContactInfo",               xmpText, xmpExternal, N_("The creator's contact information provides all necessary information to get in contact "
                                                                                                                          "with the creator of this news object and comprises a set of sub-properties for proper addressing.") },
+        { "CiAdrExtadr",        N_("Contact Info-Address"),        "Text",                      xmpText, xmpExternal, N_("sub-key Creator Contact Info: address. Comprises an optional company name and all required "
+                                                                                                                         "information to locate the building or postbox to which mail should be sent.") },
+        { "CiAdrCity",          N_("Contact Info-City"),           "Text",                      xmpText, xmpExternal, N_("sub-key Creator Contact Info: city.") },
+        { "CiAdrRegion",        N_("Contact Info-State/Province"), "Text",                      xmpText, xmpExternal, N_("sub-key Creator Contact Info: state or province.") },
+        { "CiAdrPcode",         N_("Contact Info-Postal Code"),    "Text",                      xmpText, xmpExternal, N_("sub-key Creator Contact Info: local postal code.") },
+        { "CiAdrCtry",          N_("Contact Info-Country"),        "Text",                      xmpText, xmpExternal, N_("sub-key Creator Contact Info: country.") },
+        { "CiEmailWork",        N_("Contact Info-Email"),          "Text",                      xmpText, xmpExternal, N_("sub-key Creator Contact Info: email address.") },
+        { "CiTelWork",          N_("Contact Info-Phone"),          "Text",                      xmpText, xmpExternal, N_("sub-key Creator Contact Info: phone number.") },
+        { "CiUrlWork",          N_("Contact Info-Web URL"),        "Text",                      xmpText, xmpExternal, N_("sub-key Creator Contact Info: web address.") },
         { "IntellectualGenre",  N_("Intellectual Genre"),          "Text",                      xmpText, xmpExternal, N_("Describes the nature, intellectual or journalistic characteristic of a news object, not "
                                                                                                                          "specifically its content.") },
-        { "Location",           N_("Location"),                    "Text",                      xmpText, xmpExternal, N_("Name of a location the content is focussing on -- either the location shown in visual "
-                                                                                                                         "media or referenced by text or audio media. This location name could either be the name "
-                                                                                                                         "of a sublocation to a city or the name of a well known location or (natural) monument "
-                                                                                                                         "outside a city. In the sense of a sublocation to a city this element is at the fourth "
-                                                                                                                         "level of a top-down geographical hierarchy.") },
         { "Scene",              N_("IPTC Scene"),                  "bag closed Choice of Text", xmpBag, xmpExternal, N_("Describes the scene of a photo content. Specifies one or more terms from the IPTC "
                                                                                                                         "\"Scene-NewsCodes\". Each Scene is represented as a string of 6 digits in an unordered list.") },
         { "SubjectCode",        N_("IPTC Subject Code"),           "bag closed Choice of Text", xmpBag, xmpExternal, N_("Specifies one or more Subjects from the IPTC \"Subject-NewsCodes\" taxonomy to "
                                                                                                                         "categorize the content. Each Subject is represented as a string of 8 digits in an unordered list.") },
+        { "Location",           N_("Location"),                    "Text",                      xmpText, xmpExternal, N_("(legacy) Name of a location the content is focussing on -- either the location shown in visual "
+                                                                                                                         "media or referenced by text or audio media. This location name could either be the name "
+                                                                                                                         "of a sublocation to a city or the name of a well known location or (natural) monument "
+                                                                                                                         "outside a city. In the sense of a sublocation to a city this element is at the fourth "
+                                                                                                                         "level of a top-down geographical hierarchy.") },
+        { "CountryCode",        N_("Country Code"),                "closed Choice of Text",     xmpText, xmpExternal, N_("(legacy) Code of the country the content is focussing on -- either the country shown in visual "
+                                                                                                                         "media or referenced in text or audio media. This element is at the top/first level of "
+                                                                                                                         "a top-down geographical hierarchy. The code should be taken from ISO 3166 two or three "
+                                                                                                                         "letter code. The full name of a country should go to the \"Country\" element.") },
         // End of list marker
         { 0, 0, 0, invalidTypeId, xmpInternal, 0 }
     };
@@ -981,8 +981,8 @@ namespace Exiv2 {
     };
 
     extern const XmpPropertyInfo xmpMicrosoftPhotoRegionInfoInfo[] = {
-        { "DateRegionsValid", N_("DateRegionsValid"), "Date",       xmpText, xmpExternal, N_("Date the last region was created")  },
         { "Regions",          N_("Regions"),          "bag Region", xmpBag,  xmpExternal, N_("Contains Regions/person tags") },
+        { "DateRegionsValid", N_("DateRegionsValid"), "Date",       xmpText, xmpExternal, N_("Date the last region was created")  },
         // End of list marker
         { 0, 0, 0, invalidTypeId, xmpInternal, 0 }
     };
@@ -1006,7 +1006,7 @@ namespace Exiv2 {
         { "Description",         N_("Description"),         "Text",             xmpText, xmpExternal,        N_("Usage scenario for a given focus area (EvaluatedUsed|EvaluatedNotUsed|NotEvaluatedNotUsed)") },
         { "FocusUsage",          N_("FocusUsage"),          "closed Choice of Text", xmpText, xmpExternal,   N_("Descriptive markers of catalog items by content")      },
         { "BarCodeValue",        N_("BarCodeValue"),        "Text",             xmpText, xmpExternal,        N_("Decoded BarCode value string")                         },
-        { "Extensions",          N_("Extensions"),          "Text",             xmpText, xmpInternal, N_("Any top level XMP property to describe the region content") },
+        { "Extensions",          N_("Extensions"),          "Text",             xmpText, xmpInternal,        N_("Any top level XMP property to describe the region content") },
         // End of list marker
         { 0, 0, 0, invalidTypeId, xmpInternal, 0 }
     };
