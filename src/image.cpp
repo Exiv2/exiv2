@@ -351,6 +351,47 @@ namespace Exiv2 {
         return ImageFactory::checkMode(imageType_, metadataId);
     }
 
+    std::string Image::stringFormat(const std::string fmt, ...) const
+    {
+        std::string result;
+
+        int     need = fmt.size()*4;             // initial guess
+        char*   buffer = new char[need];         // allocate a buffer
+        va_list ap;                              // variable arg list
+
+        va_start(ap, fmt);
+        need=vsnprintf(buffer, need, fmt.c_str(), ap);
+        va_end(ap);
+
+        if (need < 0) {                          // make buffer bigger
+            delete[] buffer;
+            buffer = new char[need+2];
+            va_start(ap, fmt);
+            need=vsnprintf(buffer, need, fmt.c_str(), ap);
+            va_end(ap);
+        }
+
+        if ( need > 0 ) result = std::string(buffer) ;
+
+        delete[] buffer;                         // free buffer
+        return result;
+    }
+
+    std::string Image::binaryToString(DataBuf& buf,size_t size,size_t start /* = 0 */) const
+    {
+        std::string result = "";
+        byte* buff = buf.pData_;
+
+        size += start;
+
+        while (start < size) {
+            int c = (int) buff[start++] ;
+            if (c < ' ' || c > 127) c = '.' ;
+            result +=  (char) c ;
+        }
+        return result;
+    }
+
     AccessMode ImageFactory::checkMode(int type, MetadataId metadataId)
     {
         const Registry* r = find(registry, type);

@@ -109,13 +109,18 @@ namespace Exiv2 {
 
         if ( option == kpsBasic || option == kpsXMP ) {
 
-            if ( option == kpsBasic ) out << "index | chunk_type | length | data" << std::endl;
+            if ( option == kpsBasic ) {
+                out << "STRUCTURE OF PNG FILE: " << io_->path() << std::endl;
+                out << " address | index | chunk_type |  length | data" << std::endl;
+            }
 
             long       index   = 0;
             const long imgSize = io_->size();
             DataBuf    cheaderBuf(8);
 
             while( !io_->eof() && ::strcmp(chType,"IEND") ) {
+                size_t address = io_->tell();
+
                 std::memset(cheaderBuf.pData_, 0x0, cheaderBuf.size_);
                 long bufRead = io_->read(cheaderBuf.pData_, cheaderBuf.size_);
                 if (io_->error()) throw Error(14);
@@ -132,31 +137,24 @@ namespace Exiv2 {
                     chType[i-4]=cheaderBuf.pData_[i];
                 }
 
-                byte   buff[32];
-                size_t blen  = sizeof(buff)-1;
-                buff  [blen] = 0;
-                buff  [   0] = 0;
-
-                size_t     dOff = dataOffset;
+                size_t      blen = 32   ;
+                size_t      dOff = dataOffset;
+                std::string dataString ;
 
                 if ( dataOffset > blen ) {
-                    io_->read(buff,blen);
+                    DataBuf buff(blen+1);
+                    io_->read(buff.pData_,blen);
                     dataOffset -=  blen ;
-                    for ( size_t i = 0 ; i < blen ; i++ ) {
-                        int c = buff[i] ;
-                        buff[i] = (' '<=c && c<128) ? c : '.' ;
-                    }
+                    dataString  = binaryToString(buff,blen);
                 }
 
-                char sbuff[80];
-                sprintf(sbuff,"%5ld %12s %8lu   %s\n", index++,chType,dOff,buff);
-                if ( option == kpsBasic ) out << sbuff;
+                if ( option == kpsBasic ) out << stringFormat("%8llu | %5ld | %10s |%8lu | ",address, index++,chType,dOff) << dataString << std::endl;
 
                 // for XMP, back up and read the whole block
                 const char* key = "XML:com.adobe.xmp" ;
                 int       start = ::strlen(key);
-                buff[start] = 0;
-                if ( option == kpsXMP && ::strcmp((const char*)buff,key) == 0 ) {
+
+                if ( option == kpsXMP && dataString.find(key)==0 ) {
 #if defined(_MSC_VER)
                     io_->seek(-static_cast<int64_t>(blen) , BasicIo::cur);
 #else
@@ -166,8 +164,8 @@ namespace Exiv2 {
                     byte* xmp  = new byte[dataOffset+5];
                     io_->read(xmp,dataOffset+4);
                     xmp[dataOffset]=0;
-                    while ( xmp[start] == 0 ) start++;
-                    out << xmp+start << std::endl;
+                    while ( xmp[start] == 0 ) start++; // crawl over the '\0' bytes between XML:....\0\0<xml stuff
+                    out << xmp+start;                  // output the xml
                     delete [] xmp;
                     dataOffset = 0;
                 }

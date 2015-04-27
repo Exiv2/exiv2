@@ -509,13 +509,13 @@ namespace Exiv2 {
 
     bool isBlank(std::string& s)
     {
-    	for ( std::size_t i = 0 ; i < s.length() ; i++ )
-    		if ( s[i] != ' ' )
-    			return false ;
-    	return true ;
+        for ( std::size_t i = 0 ; i < s.length() ; i++ )
+            if ( s[i] != ' ' )
+                return false ;
+        return true ;
     }
 
-#define REPORT_MARKER if ( option == kpsBasic ) {  	sprintf(sbuff,"%8ld | %#02x %-5s",io_->tell(), marker,nm[marker].c_str());   out << sbuff; }
+#define REPORT_MARKER if ( option == kpsBasic ) out << stringFormat("%8ld | %#02x %-5s",io_->tell(), marker,nm[marker].c_str())
 
     void JpegBase::printStructure(std::ostream& out,printStructureOption_e option)
     {
@@ -527,9 +527,8 @@ namespace Exiv2 {
         }
 
         if ( option == kpsBasic || option == kpsXMP ) {
-            char sbuff[80];
 
-            // nemonic for markers
+            // nmonic for markers
             std::string nm[256] ;
             nm[0xd8]="SOI"  ;
             nm[0xd9]="EOI"  ;
@@ -554,9 +553,8 @@ namespace Exiv2 {
             // Container for the signature
             bool        bExtXMP    = false;
             long        bufRead    =  0;
-            long        startSig   =  0;
             const long  bufMinSize = 36;
-            DataBuf buf(bufMinSize);
+            DataBuf     buf(bufMinSize);
 
             // Read section marker
             int marker = advanceToMarker();
@@ -566,12 +564,12 @@ namespace Exiv2 {
             bool    first= true;
             while (!done) {
                 // print marker bytes
-            	if ( first && option == kpsBasic ) {
+                if ( first && option == kpsBasic ) {
                     out << "STRUCTURE OF JPEG FILE: " << io_->path() << std::endl;
-                    out << " address | marker     | length  | signature" << std::endl ;
-            		REPORT_MARKER;
-            	}
-        		first = false;
+                    out << " address | marker     | length  | data" << std::endl ;
+                    REPORT_MARKER;
+                }
+                first = false;
 
                 // Read size and signature
                 std::memset(buf.pData_, 0x0, buf.size_);
@@ -579,7 +577,6 @@ namespace Exiv2 {
                 if (io_->error()) throw Error(14);
                 if (bufRead < 2) throw Error(15);
                 uint16_t size = 0;
-                sbuff[0]=0;
 
                 // not all markers have size field.
                 if( ( marker >= sof0_ && marker <= sof15_)
@@ -591,16 +588,15 @@ namespace Exiv2 {
                 ||    marker == sos_
                 ){
                     size = getUShort(buf.pData_, bigEndian);
-                    sprintf(sbuff," | %7d ", size);
                 }
-                if ( option == kpsBasic ) out << sbuff ;
+                if ( option == kpsBasic ) out << stringFormat(" | %7d ", size);
 
                 // only print the signature for appn
                 if (marker >= app0_ && marker <= (app0_ | 0x0F)) {
                     char http[5];
                     http[4]=0;
                     memcpy(http,buf.pData_+2,4);
-                    if ( option == kpsXMP && strncmp(http,"http",4) == 0 ) {
+                    if ( option == kpsXMP && std::strcmp(http,"http") == 0 ) {
                         // http://ns.adobe.com/xap/1.0/
                         if ( size > 0 ) {
                             io_->seek(-bufRead , BasicIo::cur);
@@ -613,53 +609,46 @@ namespace Exiv2 {
                             // the first extended block is a copy of the Standard block.
                             // a robust implementation enables extended blocks to be out of sequence
                             if ( ! bExtXMP ) {
-                            	while (xmp[start]) start++; start++;
-                            	if ( ::strstr((char*)xmp+start,"HasExtendedXMP") ) {
-                            		start  = size ; // ignore this packet, we'll get on the next time around
-	                           		bExtXMP = true;
-                            	}
+                                while (xmp[start]) start++; start++;
+                                if ( ::strstr((char*)xmp+start,"HasExtendedXMP") ) {
+                                    start  = size ; // ignore this packet, we'll get on the next time around
+                                    bExtXMP = true;
+                                }
                             } else {
-                            	start = 2+35+32+4+4; // Adobe Spec, p19
+                                start = 2+35+32+4+4; // Adobe Spec, p19
                             }
                             xmp[size]=0;
 
-							// #922:  Remove blank lines.
+#if 1
+                            out << xmp + start; // this is all we need to output without the blank line dance.
+#else
+                            // #922:  Remove blank lines.
                             // cut the xmp into (non blank) lines
-                            // out << xmp + start; // this is all we need to output without the blank line dance.
                             std::vector<std::string> lines ;
                             std::string s((char*)xmp+start);
                             char nl      = '\n';
 
                             while( s.length() )
-							{
-								std::size_t end = s.find(nl);
-								if ( end != std::string::npos )
-								{
-									std::string line = s.substr(0,end);
-									if ( !isBlank(line) )
-										lines.push_back(line+nl);
-									s = s.substr(end+1,std::string::npos);
-								} else {
-									lines.push_back(s);
-									s="";
-								}
-							}
-							for ( size_t l = 0 ; l < lines.size() ; l++  ) out << lines[l];
-
+                            {
+                                std::size_t end = s.find(nl);
+                                if ( end != std::string::npos )
+                                {
+                                    std::string line = s.substr(0,end);
+                                    if ( !isBlank(line) )
+                                        lines.push_back(line+nl);
+                                    s = s.substr(end+1,std::string::npos);
+                                } else {
+                                    lines.push_back(s);
+                                    s="";
+                                }
+                            }
+                            for ( size_t l = 0 ; l < lines.size() ; l++  ) out << lines[l];
+#endif
                             delete [] xmp;
                             bufRead = size;
                         }
                     } else if ( option == kpsBasic ) {
-                        startSig = size>0?2:0;
-                        int endSig = size?size:bufRead;
-                        if (endSig > 32) endSig = 32 ;
-                        out << "| ";
-                        while (startSig++ < endSig ) {
-                            byte c = buf.pData_[startSig-1] ;
-                            c      = (' '<=c && c<128) ? c : '.' ;
-                            out << (char) c ;
-                            // else     endSig = startSig;
-                        }
+                        out << "| " << binaryToString(buf,32,size>0?2:0);
                     }
                 }
 
@@ -670,14 +659,14 @@ namespace Exiv2 {
 
                 if (marker == sos_)
                     // sos_ is immediately followed by entropy-coded data & eoi_
-                	done = true;
+                    done = true;
                 else {
-                	// Read the beginning of the next segment
-                	marker = advanceToMarker();
-            		REPORT_MARKER;
+                    // Read the beginning of the next segment
+                    marker = advanceToMarker();
+                    REPORT_MARKER;
                     if ( marker == eoi_ ) {
                         if ( option == kpsBasic ) out << std::endl;
-                    	done = true;
+                        done = true;
                     }
                 }
             }
