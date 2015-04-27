@@ -168,7 +168,7 @@ static void output(std::ostream& os,const exv_grep_keys_t& greps,const char* nam
     output(os,greps,name,stringStream.str());
 }
 
-    void dumpLibraryInfo(std::ostream& os,const exv_grep_keys_t& keys)
+void Exiv2::dumpLibraryInfo(std::ostream& os,const exv_grep_keys_t& keys)
 {
     string_v libs; // libs[0] == executable
 

@@ -234,7 +234,7 @@ void Params::version(bool verbose,std::ostream& os) const
             "Boston, MA 02110-1301 USA\n");
     }
 
-    if ( verbose ) dumpLibraryInfo(os,Params::instance().greps_);
+    if ( verbose ) Exiv2::dumpLibraryInfo(os,Params::instance().greps_);
 }
 
 void Params::usage(std::ostream& os) const
