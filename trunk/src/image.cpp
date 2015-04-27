@@ -72,6 +72,7 @@ EXIV2_RCSID("@(#) $Id$")
 
 #include <sys/types.h>
 #include <sys/stat.h>
+#include <stdarg.h>
 #ifdef _MSC_VER
 # define S_ISREG(m)      (((m) & S_IFMT) == S_IFREG)
 #endif
