@@ -16,6 +16,7 @@ __index2__
   <li>The MP schema namespace URI is <b><code>http://ns.microsoft.com/photo/1.2/</code></b></li>
   <li>This schema namespace prefix is <b><code>MP</code></b></li>
  </ul>
+ <ul>
   <li>The MPRI schema namespace URI is <b><code>http://ns.microsoft.com/photo/1.2/t/RegionInfo#</code></b></li>
   <li>This schema namespace prefix is <b><code>MPRI</code></b></li>
  </ul>
