@@ -137,8 +137,8 @@ namespace Exiv2 {
                     chType[i-4]=cheaderBuf.pData_[i];
                 }
 
-                size_t      blen = 32   ;
-                size_t      dOff = dataOffset;
+                uint32_t    blen = 32   ;
+                uint32_t    dOff = dataOffset;
                 std::string dataString ;
 
                 if ( dataOffset > blen ) {
@@ -152,7 +152,7 @@ namespace Exiv2 {
 
                 // for XMP, back up and read the whole block
                 const char* key = "XML:com.adobe.xmp" ;
-                int       start = ::strlen(key);
+                size_t      start = ::strlen(key);
 
                 if ( option == kpsXMP && dataString.find(key)==0 ) {
 #if defined(_MSC_VER)
