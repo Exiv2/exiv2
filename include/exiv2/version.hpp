@@ -183,11 +183,14 @@ namespace Exiv2 {
       @endcode
      */
     EXIV2API bool testVersion(int major, int minor, int patch);
+
+    /*!
+      @brief dumpLibraryInfo implements the exiv2 option --version --verbose
+             used by exiv2 test suite to inspect libraries loaded at run-time
+     */
+    EXIV2API void dumpLibraryInfo(std::ostream& os,const exv_grep_keys_t& keys);
 }                                       // namespace Exiv2
 
-// dumpLibraryInfo is general purpose and not in the Exiv2 namespace
-// used by exiv2 test suite to inspect libraries loaded at run-time
-EXIV2API void dumpLibraryInfo(std::ostream& os,const exv_grep_keys_t& keys);
 
 
 #endif                                  // VERSION_HPP_
