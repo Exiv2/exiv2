@@ -412,6 +412,16 @@ namespace Exiv2 {
         bool writeXmpFromPacket() const;
         //! Return list of native previews. This is meant to be used only by the PreviewManager.
         const NativePreviewList& nativePreviews() const;
+        /*!
+          @brief format a string in the pattern of \em sprintf \em .
+        */
+        std::string stringFormat(const std::string fmt, ...) const;
+
+        /*!
+          @brief format binary for display in \em printStructure() \em .
+        */
+        std::string binaryToString(DataBuf& buf,size_t size,size_t start=0) const;
+
         //@}
 
     protected:

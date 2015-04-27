@@ -323,138 +323,113 @@ namespace Exiv2 {
 
     static uint16_t byteSwap2(DataBuf& buf,size_t offset,bool bSwap)
     {
-    	uint16_t v;
-    	char*    p = (char*) &v;
-    	p[0] = buf.pData_[offset];
-    	p[1] = buf.pData_[offset+1];
-    	return byteSwap(v,bSwap);
+        uint16_t v;
+        char*    p = (char*) &v;
+        p[0] = buf.pData_[offset];
+        p[1] = buf.pData_[offset+1];
+        return byteSwap(v,bSwap);
     }
 
     static uint32_t byteSwap4(DataBuf& buf,size_t offset,bool bSwap)
     {
-    	uint32_t v;
-    	char*    p = (char*) &v;
-    	p[0] = buf.pData_[offset];
-    	p[1] = buf.pData_[offset+1];
-    	p[2] = buf.pData_[offset+2];
-    	p[3] = buf.pData_[offset+3];
-    	return byteSwap(v,bSwap);
+        uint32_t v;
+        char*    p = (char*) &v;
+        p[0] = buf.pData_[offset];
+        p[1] = buf.pData_[offset+1];
+        p[2] = buf.pData_[offset+2];
+        p[3] = buf.pData_[offset+3];
+        return byteSwap(v,bSwap);
     }
-
-    // http://stackoverflow.com/questions/2342162/stdstring-formatting-like-sprintf
-    static std::string stringFormat(const std::string fmt_str, ...) {
-		int n = ((int)fmt_str.size()) * 2; /* Reserve two times as much as the length of the fmt_str */
-		char* formatted;
-		std::string str;
-		va_list     ap;
-		bool        ok = true;
-		do {
-			formatted = new char[n];
-			strcpy(&formatted[0], fmt_str.c_str());
-			va_start(ap, fmt_str);
-			int final = vsnprintf(&formatted[0], n, fmt_str.c_str(), ap);
-			va_end(ap);
-			ok = final < 0 || final >= n;
-			if (ok) {
-				n += abs(final - n + 1);
-			}
-			else {
-				str = std::string(formatted);
-			}
-			delete[] formatted;
-		} while (ok);
-		return str;
-    }
-
-    std::string stringValue(byte* buff,size_t size)
-    {
-    	std::string result = "";
-    	size_t start = 0 ;
-    	bool   bLong = size > 32;
-		if (   bLong ) size = 32 ;
-
-		while (start < size ) {
-			int c = (int) buff[start++] ;
-			if (c < ' ' || c > 127) c = '.' ;
-			result +=  (char) c ;
-		}
-		return result + (bLong ? " ..." : "") ;
-	}
-
-    std::string rationalValue(byte* buff,size_t size)
-    {
-    	std::string result = "";
-    	size_t start = 0 ;
-		if (size > 32) size = 32 ;
-
-		while (start < size ) {
-			int c = (int) buff[start++] ;
-			if (c < ' ' || c > 127) c = '.' ;
-			result +=  (char) c ;
-		}
-		return result;
-	}
 
     static const char* typeName(uint16_t tag)
     {
         //! List of TIFF image tags
-    	const char* result = NULL;
-    	switch (tag ) {
-        	case  1 : result = "BYTE"      ; break;
-        	case  2 : result = "ASCII"     ; break;
-        	case  3 : result = "SHORT"     ; break;
-        	case  4 : result = "LONG"      ; break;
-        	case  5 : result = "RATIONAL"  ; break;
-        	case  6 : result = "SBYTE"     ; break;
-        	case  7 : result = "UNDEFINED" ; break;
-        	case  8 : result = "SSHORT"    ; break;
-        	case  9 : result = "SLONG"     ; break;
-        	case 10 : result = "SRATIONAL" ; break;
-        	case 11 : result = "FLOAT"     ; break;
-        	case 12 : result = "DOUBLE"    ; break;
-        	default : result = "unknown"   ; break;
+        const char* result = NULL;
+        switch (tag ) {
+            case Exiv2::unsignedByte     : result = "BYTE"      ; break;
+            case Exiv2::asciiString      : result = "ASCII"     ; break;
+            case Exiv2::unsignedShort    : result = "SHORT"     ; break;
+            case Exiv2::unsignedLong     : result = "LONG"      ; break;
+            case Exiv2::unsignedRational : result = "RATIONAL"  ; break;
+            case Exiv2::signedByte       : result = "SBYTE"     ; break;
+            case Exiv2::undefined        : result = "UNDEFINED" ; break;
+            case Exiv2::signedShort      : result = "SSHORT"    ; break;
+            case Exiv2::signedLong       : result = "SLONG"     ; break;
+            case Exiv2::signedRational   : result = "SRATIONAL" ; break;
+            case Exiv2::tiffFloat        : result = "FLOAT"     ; break;
+            case Exiv2::tiffDouble       : result = "DOUBLE"    ; break;
+            default                      : result = "unknown"   ; break;
         }
-		return result;
+        return result;
     }
 
     static const char* tagName(uint16_t tag,size_t nMaxLength)
     {
-    	const char* result = NULL;
+        const char* result = NULL;
 
-    	// build a static map of tags for fast search
-    	static std::map<int,std::string> tags;
+        // build a static map of tags for fast search
+        static std::map<int,std::string> tags;
         static bool init  = true;
         static char buffer[80];
 
         if ( init ) {
-        	int idx;
+            int idx;
             const TagInfo* ti ;
-        	for (ti = Exiv2::  mnTagList(), idx = 0; ti[idx].tag_ != 0xffff; ++idx) tags[ti[idx].tag_] = ti[idx].name_;
-        	for (ti = Exiv2:: iopTagList(), idx = 0; ti[idx].tag_ != 0xffff; ++idx) tags[ti[idx].tag_] = ti[idx].name_;
-        	for (ti = Exiv2:: gpsTagList(), idx = 0; ti[idx].tag_ != 0xffff; ++idx) tags[ti[idx].tag_] = ti[idx].name_;
-        	for (ti = Exiv2:: ifdTagList(), idx = 0; ti[idx].tag_ != 0xffff; ++idx) tags[ti[idx].tag_] = ti[idx].name_;
-        	for (ti = Exiv2::exifTagList(), idx = 0; ti[idx].tag_ != 0xffff; ++idx) tags[ti[idx].tag_] = ti[idx].name_;
+            for (ti = Exiv2::  mnTagList(), idx = 0; ti[idx].tag_ != 0xffff; ++idx) tags[ti[idx].tag_] = ti[idx].name_;
+            for (ti = Exiv2:: iopTagList(), idx = 0; ti[idx].tag_ != 0xffff; ++idx) tags[ti[idx].tag_] = ti[idx].name_;
+            for (ti = Exiv2:: gpsTagList(), idx = 0; ti[idx].tag_ != 0xffff; ++idx) tags[ti[idx].tag_] = ti[idx].name_;
+            for (ti = Exiv2:: ifdTagList(), idx = 0; ti[idx].tag_ != 0xffff; ++idx) tags[ti[idx].tag_] = ti[idx].name_;
+            for (ti = Exiv2::exifTagList(), idx = 0; ti[idx].tag_ != 0xffff; ++idx) tags[ti[idx].tag_] = ti[idx].name_;
         }
         init = false;
 
         try {
-        	result = tags[tag].c_str();
-        	if ( nMaxLength > sizeof(buffer) )
-        		nMaxLength = sizeof(buffer) - 2;
-        	strncpy(buffer,result,nMaxLength);
-        	result = buffer;
+            result = tags[tag].c_str();
+            if ( nMaxLength > sizeof(buffer) -2 )
+                 nMaxLength = sizeof(buffer) -2;
+            strncpy(buffer,result,nMaxLength);
+            result = buffer;
         } catch ( ... ) {}
 
         return result ;
     }
 
-	static bool isStringType(uint16_t type)
-	{
-		return type == Exiv2::asciiString
-			|| type == Exiv2::unsignedByte
-			|| type == Exiv2::signedByte
-			;
-	}
+    static bool isStringType(uint16_t type)
+    {
+        return type == Exiv2::asciiString
+            || type == Exiv2::unsignedByte
+            || type == Exiv2::signedByte
+            ;
+    }
+    static bool isShortType(uint16_t type) {
+         return type == Exiv2::unsignedShort
+             || type == Exiv2::signedShort
+             ;
+    }
+    static bool isLongType(uint16_t type) {
+         return type == Exiv2::unsignedLong
+             || type == Exiv2::signedLong
+             ;
+    }
+    static bool isRationalType(uint16_t type) {
+         return type == Exiv2::unsignedRational
+             || type == Exiv2::signedRational
+             ;
+    }
+    static bool is2ByteType(uint16_t type)
+    {
+        return isShortType(type);
+    }
+    static bool is4ByteType(uint16_t type)
+    {
+        return isLongType(type)
+            || isRationalType(type)
+            ;
+    }
+    static bool isPrintXMP(uint16_t type,Exiv2::printStructureOption_e option)
+    {
+        return type == 700 && option == kpsXMP;
+    }
 
     void TiffImage::printStructure(std::ostream& out,Exiv2::printStructureOption_e option)
     {
@@ -466,72 +441,100 @@ namespace Exiv2 {
         }
 
         if ( option == kpsBasic || option == kpsXMP ) {
-			io_->seek(0,BasicIo::beg);
-			// buffer
-			const size_t bufSize = 32;
-			DataBuf buf(bufSize);
+            io_->seek(0,BasicIo::beg);
+            // buffer
+            const size_t dirSize = 32;
+            DataBuf  dir(dirSize);
 
-			// read header (we already know for certain that we have a Tiff file)
-			io_->read(buf.pData_,  8);
+            // read header (we already know for certain that we have a Tiff file)
+            io_->read(dir.pData_,  8);
+            char c = (char) dir.pData_[0] ;
 #if __LITTLE_ENDIAN__
-			bool      bSwap   =         buf.pData_[0] == 'M';
+            bool      bSwap   = c == 'M';
 #else
-			bool      bSwap   =         buf.pData_[0] == 'I';
+            bool      bSwap   = c == 'I';
 #endif
-			if ( option == kpsBasic ) {
-			//	out << string_format("count = %u\n",count);
-				out << "STRUCTURE OF TIFF FILE: " << io_->path() << std::endl;
-				out << " address |    tag                      |      type |    count |   offset | value\n";
-			}
+            if ( option == kpsBasic ) {
+                out << stringFormat("STRUCTURE OF TIFF FILE (%c%c): ",c,c) << io_->path() << std::endl;
+                out << " address |    tag                           |      type |    count |   offset | value\n";
+            }
 
-			uint32_t   offset = byteSwap4(buf,4,bSwap);
-			while ( offset ) {
-				// if ( option == kpsBasic ) out << stringFormat("bSwap, offset = %d %u\n",bSwap,offset);
+            uint32_t start = byteSwap4(dir,4,bSwap);
+            while  ( start ) {
+                // if ( option == kpsBasic ) out << stringFormat("bSwap, start = %d %u\n",bSwap,offset);
 
-				// Read top of dictionary
-				io_->seek(offset,BasicIo::beg);
-				io_->read(buf.pData_, 2);
-				uint16_t   count = byteSwap2(buf,0,bSwap);
+                // Read top of directory
+                io_->seek(start,BasicIo::beg);
+                io_->read(dir.pData_, 2);
+                uint16_t   dirLength = byteSwap2(dir,0,bSwap);
 
-				// Read the dictionary
-				for ( int i = 0 ; i < count ; i ++ ) {
-					io_->read(buf.pData_, 12);
-					uint16_t Tag    = byteSwap2(buf,0,bSwap);
-					uint16_t Type   = byteSwap2(buf,2,bSwap);
-					uint32_t Count  = byteSwap4(buf,4,bSwap);
-					uint32_t Offset = byteSwap4(buf,8,bSwap);
-					if ( option == kpsBasic ) {
-						uint32_t address = offset + 2 + i*12 ;
-						out << stringFormat("%8u | %#06x %-20s |%10s |%9u |%9u | ",address,Tag,tagName(Tag,20),typeName(Type),Count,Offset);
-						if ( isStringType(Type) ) {
-							size_t restore = io_->tell();
-							io_->seek(Offset,BasicIo::beg);
-							size_t size = Count > bufSize ? bufSize : Count;
-							io_->read(buf.pData_,size );
-							io_->seek(restore,BasicIo::beg);
-							out << stringValue(buf.pData_,Count);
-						} else if ( Count == 1 && Type == Exiv2::unsignedShort ) {
-							out << byteSwap2(buf,8,bSwap);
-						} else if ( Count == 1 && Type == Exiv2::unsignedLong ) {
-							out << byteSwap2(buf,8,bSwap);
-						}
+                // Read the dictionary
+                for ( int i = 0 ; i < dirLength ; i ++ ) {
+                    io_->read(dir.pData_, 12);
+                    uint16_t tag    = byteSwap2(dir,0,bSwap);
+                    uint16_t type   = byteSwap2(dir,2,bSwap);
+                    uint32_t count  = byteSwap4(dir,4,bSwap);
+                    uint32_t offset = byteSwap4(dir,8,bSwap);
 
-						out << std::endl;
-					}
-					if ( Tag == 700 ) {
-						const long  bSize = (long) Count;
-						DataBuf buf(bSize+1);
-						size_t restore = io_->tell();
-						io_->seek(Offset,BasicIo::beg);
-						io_->read(buf.pData_,bSize);
-						io_->seek(restore,BasicIo::beg);
-						buf.pData_[bSize]=0;
-						if ( option == kpsXMP ) out << (char*) &buf.pData_[0];
-					}
-				}
-				io_->read(buf.pData_, 4);
-				offset = byteSwap4(buf,0,bSwap);
-			} // while offset
+                    std::string sp = "" ; // output spacer
+
+                    //prepare to print the value
+                    uint16_t kount = isPrintXMP(tag,option) ? count // restrict long arrays
+                                   : isStringType(type)     ? (count > 32 ? 32 : count)
+                                   : count > 5              ? 5
+                                   : count
+                                   ;
+                    size_t pad     = isStringType(type) ? 1 : 0;
+                    size_t size    = isStringType(type) ? 1
+                                   : is2ByteType(type)  ? 2
+                                   : is4ByteType(type)  ? 4
+                                   : 1
+                                   ;
+
+                    DataBuf  buf(size*kount + pad);  // allocate a buffer
+                    if ( isStringType(type) || count*size > 4 ) {          // data is in the directory => read into buffer
+                        size_t   restore = io_->tell();  // save
+                        io_->seek(offset,BasicIo::beg);  // position
+                        io_->read(buf.pData_,kount*size);// read
+                        io_->seek(restore,BasicIo::beg); // restore
+                    } else {                         // move data from directory to the buffer
+                        std::memcpy(buf.pData_,dir.pData_+8,12);
+                    }
+
+                    if ( option == kpsBasic ) {
+                        uint32_t address = start + 2 + i*12 ;
+                        out << stringFormat("%8u | %#06x %-25s |%10s |%9u |%9u | ",address,tag,tagName(tag,25),typeName(type),count,offset);
+
+                        if ( isShortType(type) ){
+                            for ( uint16_t k = 0 ; k < kount ; k++ ) {
+                                out << sp << byteSwap2(buf,k*size,bSwap);
+                                sp = " ";
+                            }
+                        } else if ( isLongType(type) ){
+                            for ( uint16_t k = 0 ; k < kount ; k++ ) {
+                                out << sp << byteSwap4(buf,k*size,bSwap);
+                                sp = " ";
+                            }
+                        } else if ( isRationalType(type) ){
+                            for ( uint16_t k = 0 ; k < kount ; k++ ) {
+                                out << sp << byteSwap2(buf,k*size+(bSwap?2:0),bSwap) << "/" << byteSwap2(buf,k*size+(bSwap?0:2),bSwap);
+                                sp = " ";
+                            }
+                        } else if ( isStringType(type) ) {
+                            out << sp << binaryToString(buf,kount);
+                        }
+                        sp = kount == count ? "" : " ...";
+                        out << sp << std::endl;
+                    }
+
+                    if ( isPrintXMP(tag,option) ) {
+                        buf.pData_[count]=0;
+                        out << (char*) buf.pData_;
+                    }
+                }
+                io_->read(dir.pData_, 4);
+                start = byteSwap4(dir,0,bSwap);
+            } // while offset
         }
     }
 
