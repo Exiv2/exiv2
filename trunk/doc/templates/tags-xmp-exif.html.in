@@ -9,7 +9,7 @@ __index2__
 
 <h2>Exif Schema for Exif-specific Properties</h2>
 <p>The following table lists the XMP properties defined solely by Exif.</p>
-<p>Note: A number of Exif 2.2 properties are not included in XMP. These are generally
+<p>Note: A number of Exif 2.3 properties are not included in XMP. These are generally
  properties that relate directly to the image stream, or that are of little use without access
  to the image stream. A general XMP principle is that XMP metadata should have value
  in and of itself, separate from the primary file content. The omitted properties include:

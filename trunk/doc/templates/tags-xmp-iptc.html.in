@@ -10,7 +10,8 @@ __index2__
 <h2>IPTC Core schema</h2>
 <p>This schema specifies the IPTC Core XMP properties.
  <ul>
-  <li>Exiv2 keys are <b><code>Xmp.iptc.&lt;Property&gt;</code></b>
+  <li>Exiv2 keys are <b><code>Xmp.iptc.&lt;Property&gt;</code></b></li>
+  <li>Creator Contact Info sub-keys are nested: <b><code>Xmp.Iptc4xmpCore.CreatorContactInfo/Iptc4xmpCore:&lt;Property&gt;</code></b></li>
   <li>The schema namespace URI is <b><code>http://iptc.org/std/Iptc4xmpCore/1.0/xmlns/</code></b></li>
   <li>The preferred schema namespace prefix is <b><code>Iptc4xmpCore</code></b></li>
  </ul>

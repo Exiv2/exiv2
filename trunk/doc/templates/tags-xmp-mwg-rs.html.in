@@ -10,7 +10,7 @@ __index2__
 <h2>Metadata Working Group Regions schema</h2>
 <p>The Metadata Working Group's schema for image region metadata.
  <ul>
-  <li>Exiv2 keys are <b><code>Xmp.mwg-rs.&lt;Property&gt;</code></b></li>
+  <li>Exiv2 keys are nested in the form <b><code>Xmp.mwg-rs.Regions/mwg-rs:RegionList/mwg-rs:&lt;Property&gt;</code></b></li>
   <li>The schema namespace URI is <b><code>http://www.metadataworkinggroup.com/schemas/regions/</code></b></li>
   <li>The preferred schema namespace prefix is <b><code>mwg-rs</code></b></li>
  </ul>
