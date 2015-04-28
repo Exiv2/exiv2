@@ -160,7 +160,7 @@ void push(Jzon::Node& node,const std::string& key,T i)
         case Exiv2::signedByte:
         case Exiv2::signedShort:
         case Exiv2::signedLong:
-			 STORE(node,key,(int)i->value().toLong());
+			 STORE(node,key,std::atoi(value.c_str()) );
 	    break;
 
         case Exiv2::tiffFloat:
