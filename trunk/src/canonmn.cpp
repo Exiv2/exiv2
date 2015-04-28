@@ -816,6 +816,7 @@ namespace Exiv2 {
         { 183, "Sigma 150mm f/2.8 EX DG OS HSM APO Macro"                   }, // 1
         { 183, "Sigma 105mm f/2.8 EX DG OS HSM Macro"                       }, // 2
         { 183, "Sigma 180mm f/2.8 EX DG OS HSM APO Macro"                   }, // 3
+        { 183, "Sigma 150-600mm f/5-6.3 DG OS HSM | C"                      }, // 4
         { 184, "Canon EF 400mm f/2.8L + 2x"                                 },
         { 185, "Canon EF 600mm f/4L IS"                                     },
         { 186, "Canon EF 70-200mm f/4L"                                     },
