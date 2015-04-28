@@ -100,15 +100,15 @@ namespace Exiv2 {
 
         scp = ssh_scp_new(session_, SSH_SCP_WRITE, path.c_str());
         if (scp == NULL) {
-            throw Error(1, ssh_get_error(session_));
             rc = SSH_ERROR;
+            throw Error(1, ssh_get_error(session_));
         } else {
             rc = ssh_scp_init(scp);
             if (rc != SSH_OK) {
                 throw Error(1, ssh_get_error(session_));
             } else {
 #ifdef  _MSC_VER
-// S_IRUSR & S_IWUSR not in MSVC (0000400 & 0000200 in /usr/include/sys/stat.h on MacOS-X 10.8) 
+// S_IRUSR & S_IWUSR not in MSVC (0000400 & 0000200 in /usr/include/sys/stat.h on MacOS-X 10.8)
 #define S_IRUSR S_IREAD
 #define S_IWUSR S_IWRITE
 #endif
