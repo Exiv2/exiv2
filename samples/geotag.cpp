@@ -16,7 +16,7 @@
 #include <sys/stat.h>
 #include <sys/types.h>
 
-#include "expat.h"
+#include <expat.h>
 
 #include <vector>
 #include <string>
