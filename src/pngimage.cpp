@@ -148,8 +148,7 @@ namespace Exiv2 {
                     dataString  = binaryToString(buff,blen);
                 }
 
-                if ( option == kpsBasic ) out << stringFormat("%8llu | %5ld | %10s |%8lu | ",address, index++,chType,dOff) << dataString << std::endl;
-
+                if ( option == kpsBasic ) out << stringFormat("%8lu | %5ld | %10s |%8lu | ",(uint32_t)address, index++,chType,dOff) << dataString << std::endl;
                 // for XMP, back up and read the whole block
                 const char* key = "XML:com.adobe.xmp" ;
                 size_t      start = ::strlen(key);

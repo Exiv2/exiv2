@@ -431,6 +431,8 @@ namespace Exiv2 {
         return type == 700 && option == kpsXMP;
     }
 
+#define MIN(a,b) ((a)<(b))?(b):(a)
+
     void TiffImage::printStructure(std::ostream& out,Exiv2::printStructureOption_e option)
     {
         if (io_->open() != 0) throw Error(9, io_->path(), strError());
@@ -449,7 +451,7 @@ namespace Exiv2 {
             // read header (we already know for certain that we have a Tiff file)
             io_->read(dir.pData_,  8);
             char c = (char) dir.pData_[0] ;
-#if __LITTLE_ENDIAN__
+#if __LITTLE_ENDIAN__ || defined(_MSC_VER)
             bool      bSwap   = c == 'M';
 #else
             bool      bSwap   = c == 'I';
@@ -491,7 +493,7 @@ namespace Exiv2 {
                                    : 1
                                    ;
 
-                    DataBuf  buf(size*kount + pad);  // allocate a buffer
+					DataBuf  buf(MIN(size*kount + pad,48));  // allocate a buffer
                     if ( isStringType(type) || count*size > 4 ) {          // data is in the directory => read into buffer
                         size_t   restore = io_->tell();  // save
                         io_->seek(offset,BasicIo::beg);  // position

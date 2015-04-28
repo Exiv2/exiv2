@@ -415,7 +415,7 @@ namespace Exiv2 {
         /*!
           @brief format a string in the pattern of \em sprintf \em .
         */
-        std::string stringFormat(const std::string fmt, ...) const;
+		std::string stringFormat(const char* format, ...) const;
 
         /*!
           @brief format binary for display in \em printStructure() \em .

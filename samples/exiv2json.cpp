@@ -165,7 +165,7 @@ void push(Jzon::Node& node,const std::string& key,T i)
 
         case Exiv2::tiffFloat:
         case Exiv2::tiffDouble:
-			 STORE(node,key,i->value().toFloat());
+			 STORE(node,key,std::atof(value.c_str()) );
         break;
 
         case Exiv2::unsignedRational:
