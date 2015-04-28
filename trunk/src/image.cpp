@@ -352,30 +352,29 @@ namespace Exiv2 {
         return ImageFactory::checkMode(imageType_, metadataId);
     }
 
-    std::string Image::stringFormat(const std::string fmt, ...) const
+    std::string Image::stringFormat(const char* format, ...) const
     {
         std::string result;
 
-        int     need = (int) fmt.size()*4;       // initial guess
-        char*   buffer = new char[need];         // allocate a buffer
-        va_list ap;                              // variable arg list
+		int     need   = (int) std::strlen(format);            // initial guess
+        char*   buffer = NULL;
+		int     again  =    4;
+		int     rc     =   -1;
 
-        va_start(ap, fmt);
-        need=vsnprintf(buffer, need, fmt.c_str(), ap);
-        va_end(ap);
-
-        if (need < 0) {                          // make buffer bigger
-            delete[] buffer;
-			need   = -need ;
-            buffer = new char[need+2];
-            va_start(ap, fmt);
-            need=vsnprintf(buffer, need, fmt.c_str(), ap);
-            va_end(ap);
+        if (rc < 0 && again--) {
+            if ( buffer ) delete[] buffer;
+			need   *= 2 ;
+            buffer = new char[need];
+			if ( buffer ) {
+				va_list  args;                                 // variable arg list
+				va_start(args, format);						   // args start after format
+				rc=vsnprintf(buffer,(unsigned int)need, format, args);
+				va_end(args);		                           // free the args
+			}
         }
 
-        if ( need > 0 ) result = std::string(buffer) ;
-
-        delete[] buffer;                         // free buffer
+        if ( rc > 0 ) result = std::string(buffer) ;
+        if ( buffer ) delete[] buffer;                         // free buffer
         return result;
     }
 
