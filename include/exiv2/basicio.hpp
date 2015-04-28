@@ -866,7 +866,7 @@ namespace Exiv2 {
         //! @name Creators
         //@{
         //! Default constructor. the init status of the block is bNone.
-        BlockMap():type_(bNone), data_(NULL) {}
+        BlockMap():type_(bNone), data_(NULL),size_(0) {}
         //! Destructor. Releases all managed memory.
         virtual ~BlockMap() {
             if (data_) {std::free(data_); data_ = NULL;}
