@@ -11,7 +11,30 @@ count=${#from[@]}
 
 index=0
 (
-    echo '<html><body style="background:pink;margin-left:10px">'
+    echo '<html><head><title>Exiv2 Convert Table</title></head>'
+    echo '<style>'
+    cat   << STYLE
+	body {
+		font                : 11px verdana, arial, helvetica, sans-serif;
+		line-height         : 12px;
+		margin-left         : 20px;
+		margin-top          : 20px;
+		margin-bottom       : 20px;
+		color               : blue;
+		background-color    : #44bbff;
+		width               : 850px;
+	}
+	th {
+		font                : 14px verdana, arial, helvetica, sans-serif;
+		font-style          : bold;
+		line-height         : 12px;
+		color               : black;
+		background-color    : white;
+	}
+STYLE
+    echo '</style>'
+
+    echo '<body><img src="Exiv2Logo.png">'
     echo '<h1>Exiv2 Convert Table</h1>'
     echo '<p>Generated at: ' $(date) '</p>'
 
@@ -23,7 +46,7 @@ index=0
     done
     echo '</table>'
 
-    echo '<html><body><table>'
+    echo '</body></html>'
 ) > convert.html
 
 open convert.html
