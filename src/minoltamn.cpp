@@ -1828,7 +1828,7 @@ namespace Exiv2 {
                  "Sigma 14mm F3.5 | "
                  "Sigma 15mm F2.8 Fisheye" },
         { 25790, "Minolta AF 20mm F2.8" },
-        { 25791, "Minolta/Sony AF 20mm F2.8 | " 
+        { 25791, "Minolta/Sony AF 20mm F2.8 | "
                  "Tokina AT-X 116 PRO DX AF 11-16mm F2.8" },
         { 25810, "Minolta AF 100mm F2.8 Macro" },
         { 25811, "Minolta AF 100mm F2.8 Macro [New] | "
@@ -1919,7 +1919,7 @@ namespace Exiv2 {
         { 45851, "Tamron SP AF 300mm F2.8 LD IF" },
         { 45861, "Tamron SP AF 35-105mm F2.8 LD Aspherical IF" },
         { 45871, "Tamron AF 70-210mm F2.8 SP LD" },
-        { 65535, "E-Mount, T-Mount, Other Lens or No Lens" }
+        { 65535, "Manual lens" }
     };
 
     std::ostream& printMinoltaSonyLensID(std::ostream& os, const Value& value, const ExifData* metadata)
