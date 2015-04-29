@@ -26,10 +26,12 @@ index=0
 	}
 	th {
 		font                : 14px verdana, arial, helvetica, sans-serif;
-		font-style          : bold;
+		font-weight         : bold;
+		font-style          : italic;
 		line-height         : 12px;
 		color               : black;
 		background-color    : white;
+		text-align          : left;
 	}
 STYLE
     echo '</style>'
@@ -39,7 +41,7 @@ STYLE
     echo '<p>Generated at: ' $(date) '</p>'
 
     echo   '<table>'
-    echo   '<tr><th style="text-align:left;font-style:italic">From</th><th>To</th></tr>'
+    echo   '<tr><th>From</th><th>To</th></tr>'
     while [ $index -lt $count ]; do
         printf '<tr><td>%s</td><td>%s</td></tr>\n' "${from[index]}" "${to[index]}"
         index=$((index+1))
