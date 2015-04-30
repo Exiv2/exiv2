@@ -31,6 +31,18 @@ EXIV2_RCSID("@(#) $Id$")
 
 // *****************************************************************************
 // included header files
+#ifdef _MSC_VER
+# include "exv_msvc.h"
+#else
+# include "exv_conf.h"
+#endif
+
+#ifndef    EXV_ENABLE_VIDEO
+namespace  Exiv2 {
+extern int quicktimevideo_extern ;
+int        quicktimevideo_extern = 1;
+}
+#else
 #include "quicktimevideo.hpp"
 #include "futils.hpp"
 #include "basicio.hpp"
@@ -559,7 +571,7 @@ namespace Exiv2 {
 #ifdef _MSC_VER
             temp = temp + static_cast<int64_t>(buf.pData_[i]*(pow(static_cast<float>(256), n-i-1)));
 #else
-	temp = temp + buf.pData_[i]*(pow((float)256,n-i-1));
+            temp = temp + buf.pData_[i]*(pow((float)256,n-i-1));
 #endif
 
         return temp;
@@ -575,9 +587,9 @@ namespace Exiv2 {
         uint64_t temp = 0;
         for(int i = n-1; i >= 0; i--)
 #if _MSC_VER
-			temp = temp + static_cast<uint64_t>(buf.pData_[i]*(pow(static_cast<float>(256), n-i-1)));
+            temp = temp + static_cast<uint64_t>(buf.pData_[i]*(pow(static_cast<float>(256), n-i-1)));
 #else
-	temp = temp + buf.pData_[i]*(pow((float)256,n-i-1));
+            temp = temp + buf.pData_[i]*(pow((float)256,n-i-1));
 #endif
 
         return temp;
@@ -1253,7 +1265,7 @@ namespace Exiv2 {
                 break;
             }
         }
-        io_->read(buf.pData_, static_cast<long>(size % 4));	//cause size is so small, this cast should be right.
+        io_->read(buf.pData_, static_cast<long>(size % 4)); //cause size is so small, this cast should be right.
     } // QuickTimeVideo::audioDescDecoder
 
     void QuickTimeVideo::imageDescDecoder()
@@ -1301,7 +1313,7 @@ namespace Exiv2 {
                 break;
             }
         }
-        io_->read(buf.pData_, static_cast<long>(size % 4));	
+        io_->read(buf.pData_, static_cast<long>(size % 4));
         xmpData_["Xmp.video.BitDepth"] = returnBufValue(buf, 1);
     } // QuickTimeVideo::imageDescDecoder
 
@@ -1613,18 +1625,18 @@ namespace Exiv2 {
         aspectRatio = floor(aspectRatio*10) / 10;
         xmpData_["Xmp.video.AspectRatio"] = aspectRatio;
 
-		int aR = (int) ((aspectRatio*10.0)+0.1);
+        int aR = (int) ((aspectRatio*10.0)+0.1);
 
-		switch  (aR) {
-			case 13 : xmpData_["Xmp.video.AspectRatio"] = "4:3"		; break;
-			case 17 : xmpData_["Xmp.video.AspectRatio"] = "16:9"	; break;
-			case 10 : xmpData_["Xmp.video.AspectRatio"] = "1:1"		; break;
-			case 16 : xmpData_["Xmp.video.AspectRatio"] = "16:10"	; break;
-			case 22 : xmpData_["Xmp.video.AspectRatio"] = "2.21:1"  ; break;
-			case 23 : xmpData_["Xmp.video.AspectRatio"] = "2.35:1"  ; break;
-			case 12 : xmpData_["Xmp.video.AspectRatio"] = "5:4"     ; break;
-			default : xmpData_["Xmp.video.AspectRatio"] = aspectRatio;break;
-		}
+        switch  (aR) {
+            case 13 : xmpData_["Xmp.video.AspectRatio"] = "4:3"     ; break;
+            case 17 : xmpData_["Xmp.video.AspectRatio"] = "16:9"    ; break;
+            case 10 : xmpData_["Xmp.video.AspectRatio"] = "1:1"     ; break;
+            case 16 : xmpData_["Xmp.video.AspectRatio"] = "16:10"   ; break;
+            case 22 : xmpData_["Xmp.video.AspectRatio"] = "2.21:1"  ; break;
+            case 23 : xmpData_["Xmp.video.AspectRatio"] = "2.35:1"  ; break;
+            case 12 : xmpData_["Xmp.video.AspectRatio"] = "5:4"     ; break;
+            default : xmpData_["Xmp.video.AspectRatio"] = aspectRatio;break;
+        }
     } // QuickTimeVideo::aspectRatio
 
 
@@ -1655,4 +1667,4 @@ namespace Exiv2 {
     }
 
 }                                       // namespace Exiv2
-
+#endif // EXV_ENABLE_VIDEO

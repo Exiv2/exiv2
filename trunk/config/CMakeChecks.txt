@@ -55,41 +55,48 @@ IF( EXIV2_ENABLE_PNG )
     SET (HAVE_LIBZ ${ZLIB_FOUND})
 ENDIF( EXIV2_ENABLE_PNG )
 
-IF( EXIV2_ENABLE_CURL )
-    FIND_PACKAGE( CURL )
-    INCLUDE_DIRECTORIES( ${CURL_INCLUDE_DIR} )
-    # FindCURL.cmake doesn't check for REQUIRED flags - so we need to check ourselves
-    IF( MINGW OR UNIX )
-        IF (NOT CURL_FOUND)
-            MESSAGE(FATAL_ERROR "missing library curl required for HttpIo")
-        ELSE (NOT CURL_FOUND)
-            SET ( USE_CURL 1 )
-        ENDIF( NOT CURL_FOUND )
-    ENDIF( MINGW OR UNIX )
-ENDIF( EXIV2_ENABLE_CURL )
+IF( EXIV2_ENABLE_VIDEO )
+    SET( ENABLE_VIDEO 1 )
+ENDIF( EXIV2_ENABLE_VIDEO )
 
-IF( EXIV2_ENABLE_SSH )
-    FIND_PACKAGE( SSH )
-    INCLUDE_DIRECTORIES( ${SSH_INCLUDE_DIR} )
-    # FindSSH.cmake doesn't check for REQUIRED flags - so we need to check ourselves
-    IF( MINGW OR UNIX )
-        IF (NOT SSH_FOUND)
-            MESSAGE(FATAL_ERROR "missing library libssh required for SshIo")
-        ELSE (NOT SSH_FOUND)
-            SET ( USE_SSH 1 )
-        ENDIF( NOT SSH_FOUND )
-    ENDIF( MINGW OR UNIX )
-ENDIF( EXIV2_ENABLE_SSH )
+IF( EXIV2_ENABLE_WEBREADY )
+    SET( ENABLE_WEBREADY 1 )
+    IF( EXIV2_ENABLE_CURL )
+        FIND_PACKAGE( CURL )
+        INCLUDE_DIRECTORIES( ${CURL_INCLUDE_DIR} )
+        # FindCURL.cmake doesn't check for REQUIRED flags - so we need to check ourselves
+        IF( MINGW OR UNIX )
+            IF (NOT CURL_FOUND)
+                MESSAGE(FATAL_ERROR "missing library curl required for HttpIo")
+            ELSE (NOT CURL_FOUND)
+                SET ( USE_CURL 1 )
+            ENDIF( NOT CURL_FOUND )
+        ENDIF( MINGW OR UNIX )
+    ENDIF( EXIV2_ENABLE_CURL )
+
+    IF( EXIV2_ENABLE_SSH )
+        FIND_PACKAGE( SSH )
+        INCLUDE_DIRECTORIES( ${SSH_INCLUDE_DIR} )
+        # FindSSH.cmake doesn't check for REQUIRED flags - so we need to check ourselves
+        IF( MINGW OR UNIX )
+            IF (NOT SSH_FOUND)
+                MESSAGE(FATAL_ERROR "missing library libssh required for SshIo")
+            ELSE (NOT SSH_FOUND)
+                SET ( USE_SSH 1 )
+            ENDIF( NOT SSH_FOUND )
+        ENDIF( MINGW OR UNIX )
+    ENDIF( EXIV2_ENABLE_SSH )
+ENDIF( EXIV2_ENABLE_WEBREADY )
 
 IF (EXIV2_ENABLE_XMP)
     FIND_PACKAGE(EXPAT)
     INCLUDE_DIRECTORIES(${EXPAT_INCLUDE_DIR})
     # FindEXPAT.cmake doesn't check for REQUIRED flags - so we need to check ourselves
-	IF( MINGW OR UNIX )
-		IF (NOT EXPAT_FOUND)
-			MESSAGE(FATAL_ERROR "missing library expat required for XMP")
-		ENDIF( NOT EXPAT_FOUND )
-	ENDIF( MINGW OR UNIX )
+    IF( MINGW OR UNIX )
+        IF (NOT EXPAT_FOUND)
+            MESSAGE(FATAL_ERROR "missing library expat required for XMP")
+        ENDIF( NOT EXPAT_FOUND )
+    ENDIF( MINGW OR UNIX )
 ENDIF (EXIV2_ENABLE_XMP)
 
 IF( EXIV2_ENABLE_SHARED )
@@ -216,6 +223,8 @@ IF( NOT MSVC )
 ENDIF( NOT MSVC )
 
 SET( EXV_SYMBOLS ENABLE_NLS
+                 ENABLE_VIDEO
+                 ENABLE_WEBREADY
                  HAVE_ALARM
                  HAVE_DECL_STRERROR_R
                  HAVE_GMTIME_R
@@ -310,6 +319,12 @@ OptionOutput( "Nikon lens database:                " EXIV2_ENABLE_LENSDATA      
 OptionOutput( "Commercial build:                   " EXIV2_ENABLE_COMMERCIAL         )
 OptionOutput( "Build the unit tests:               " EXIV2_ENABLE_BUILD_SAMPLES      )
 OptionOutput( "Building translations files:        " EXIV2_ENABLE_BUILD_PO           )
+OptionOutput( "Building video support:             " EXIV2_ENABLE_VIDEO              )
+OptionOutput( "Building webready support:          " EXIV2_ENABLE_WEBREADY           )
+
+if    ( EXIV2_ENABLE_WEBREADY )
 OptionOutput( "USE Libcurl for HttpIo:             " EXIV2_ENABLE_CURL               )
 OptionOutput( "USE Libssh for SshIo:               " EXIV2_ENABLE_SSH                )
+endif ( EXIV2_ENABLE_WEBREADY )
+
 MESSAGE( STATUS "------------------------------------------------------------------" )

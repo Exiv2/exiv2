@@ -141,31 +141,33 @@ SET( LIBEXIV2_SRC         asfvideo.cpp
                           utilsvideo.cpp
    )
 
-##
-# add curl support
-IF( EXIV2_ENABLE_CURL )
-    IF( CURL_FOUND )
-        SET( LIBEXIV2_SRC ${LIBEXIV2_SRC}
-                          easyaccess.cpp
-           )
-        set( LIBEXIV2_HDR ${LIBEXIV2_HDR} 
-           ${CMAKE_CURRENT_LIST_DIR}/../include/exiv2/easyaccess.hpp
-        )
+IF( EXIV2_ENABLE_WEBREADY )
+    ##
+    # add curl support
+    IF( EXIV2_ENABLE_CURL )
+        IF( CURL_FOUND )
+            SET( LIBEXIV2_SRC ${LIBEXIV2_SRC}
+                              easyaccess.cpp
+               )
+            set( LIBEXIV2_HDR ${LIBEXIV2_HDR}
+               ${CMAKE_CURRENT_LIST_DIR}/../include/exiv2/easyaccess.hpp
+            )
+        ENDIF()
     ENDIF()
-ENDIF()
 
-##
-# add ssh support
-IF( EXIV2_ENABLE_SSH )
-    IF( SSH_FOUND )
-        SET( LIBEXIV2_SRC ${LIBEXIV2_SRC}
-                          ssh.cpp
-           )
-        set( LIBEXIV2_HDR ${LIBEXIV2_HDR}
-        ${CMAKE_CURRENT_LIST_DIR}/../include/exiv2/ssh.hpp
-        )
+    ##
+    # add ssh support
+    IF( EXIV2_ENABLE_SSH )
+        IF( SSH_FOUND )
+            SET( LIBEXIV2_SRC ${LIBEXIV2_SRC}
+                              ssh.cpp
+               )
+            set( LIBEXIV2_HDR ${LIBEXIV2_HDR}
+            ${CMAKE_CURRENT_LIST_DIR}/../include/exiv2/ssh.hpp
+            )
+        ENDIF()
     ENDIF()
-ENDIF()
+ENDIF( EXIV2_ENABLE_WEBREADY )
 
 ##
 # add png*.cpp files if PNG support requested
@@ -240,7 +242,7 @@ SET_TARGET_PROPERTIES( exiv2lib PROPERTIES
     OUTPUT_NAME   exiv2
 )
 
-if ( MSVC ) 
+if ( MSVC )
     source_group("Header Files" FILES ${LIBEXIV2_HDR} )
     TARGET_LINK_LIBRARIES( exiv2lib ${EXPAT_LIBRARIES} )
     source_group("Header Files" FILES ${LIBCURL_HDR} )
@@ -261,7 +263,7 @@ endif()
 
 if( EXIV2_ENABLE_LIBXMP )
     ADD_DEPENDENCIES( exiv2lib xmp )
-    if  ( MSVC ) 
+    if  ( MSVC )
         LINK_DIRECTORIES(${LIBRARY_OUTPUT_PATH}/$(ConfigurationName))
     endif(MSVC)
     TARGET_LINK_LIBRARIES( exiv2lib xmp )
@@ -270,7 +272,7 @@ ENDIF()
 IF( EXIV2_ENABLE_PNG )
     IF( ZLIB_FOUND )
         IF( MSVC )
-            if ( EXIV2_ENABLE_SHARED )      
+            if ( EXIV2_ENABLE_SHARED )
                 TARGET_LINK_LIBRARIES( exiv2lib optimized ${ZLIB_LIBRARIES} debug ${ZLIB_LIBRARIES}d )
             else()
                 TARGET_LINK_LIBRARIES( exiv2lib optimized zlibstatic.lib debug zlibstaticd.lib )

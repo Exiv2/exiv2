@@ -6,7 +6,6 @@
   @author  Andreas Huggel (ahu)
            <a href="mailto:ahuggel@gmx.net">ahuggel@gmx.net</a>
   @date    07-Feb-04, ahu: created
-           26-Feb-05, ahu: renamed and moved to src directory
  */
 
 #ifdef  _MSC_VER
@@ -92,6 +91,12 @@ typedef int pid_t;
 
 /* Define to 1 if you have the Adobe XMP Toolkit. */
 #define EXV_HAVE_XMP_TOOLKIT 1
+
+/* Define to 1 to enable video/audio metadata support. */
+# undef EXV_ENABLE_VIDEO
+
+/* Define to 1 to enable webready support. */
+#define EXV_ENABLE_WEBREADY 1
 
 /* Define as 1 if you want to use curl to perform http I/O */
 #ifndef EXV_USE_CURL

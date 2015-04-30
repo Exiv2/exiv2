@@ -7,7 +7,7 @@
 # For details see the accompanying COPYING-CMAKE-SCRIPTS file.
 
 ##
-# Running cmake in a tree in which we have run ./configure ; make 
+# Running cmake in a tree in which we have run ./configure ; make
 # creates include/exiv2/exv_conf.h which conflicts with cmake's own exv_conf.h
 # This causes incorrect compilation and linking errors.
 #
@@ -43,6 +43,7 @@ SET( GENERIC_LIB_SOVERSION  "13" )
 OPTION( EXIV2_ENABLE_SHARED        "Build exiv2 as a shared library (dll)"                 ON  )
 OPTION( EXIV2_ENABLE_XMP           "Build with XMP metadata support"                       ON  )
 OPTION( EXIV2_ENABLE_LIBXMP        "Build a static convenience Library for XMP"            ON  )
+OPTION( EXIV2_ENABLE_VIDEO         "Build with video support"                              OFF )
 OPTION( EXIV2_ENABLE_PNG           "Build with png support (requires libz)"                ON  )
 OPTION( EXIV2_ENABLE_NLS           "Build native language support (requires gettext)"      ON  )
 OPTION( EXIV2_ENABLE_PRINTUCS2     "Build with Printucs2"                                  ON  )
@@ -50,11 +51,13 @@ OPTION( EXIV2_ENABLE_LENSDATA      "Build including lens data"                  
 OPTION( EXIV2_ENABLE_COMMERCIAL    "Build with the EXV_COMMERCIAL_VERSION symbol set"      OFF )
 OPTION( EXIV2_ENABLE_BUILD_SAMPLES "Build the unit tests"                                  ON  )
 OPTION( EXIV2_ENABLE_BUILD_PO      "Build translations files"                              OFF )
+OPTION( EXIV2_ENABLE_VIDEO         "Build video support into library"                      OFF )
+OPTION( EXIV2_ENABLE_WEBREADY      "Build webready support into library"                   OFF )
 OPTION( EXIV2_ENABLE_CURL          "USE Libcurl for HttpIo"                                ON  )
 OPTION( EXIV2_ENABLE_SSH           "USE Libssh for SshIo"                                  ON  )
 
 IF( MINGW OR UNIX )
-    IF ( CMAKE_CXX_COMPILER STREQUAL "g++" OR CMAKE_C_COMPILER STREQUAL "gcc" ) 
+    IF ( CMAKE_CXX_COMPILER STREQUAL "g++" OR CMAKE_C_COMPILER STREQUAL "gcc" )
         ADD_DEFINITIONS(-Wall
                     -Wcast-align
                     -Wpointer-arith
@@ -71,23 +74,23 @@ INCLUDE_DIRECTORIES( ${CMAKE_SOURCE_DIR}/src/ ${CMAKE_SOURCE_DIR}/include/  ${CM
 if( MSVC )
 
     # cmake_policy(SET CMP0008)
-    
+
     include(CMake_msvc.txt)
     msvc_runtime_report()
     msvc_runtime_configure(${EXIV2_ENABLE_SHARED})
     msvc_runtime_report()
-    
-    ADD_DEFINITIONS(-DPSAPI_VERSION=1) # to be compatible with <= WinVista (#905)  
-    
+
+    ADD_DEFINITIONS(-DPSAPI_VERSION=1) # to be compatible with <= WinVista (#905)
+
     set(E expat-2.1.0)
     set(Z zlib-1.2.7)
     set(C curl-7.39.0)
-    set(C libssh-0.5.5)   
-    
+    set(C libssh-0.5.5)
+
     if( NOT IS_DIRECTORY ./../${E} )
         set(OUT_OF_SOURCE 1)
     endif()
-    
+
     # link dependent libraries
     FIND_PACKAGE(EXPAT QUIET)
     if ( NOT EXPAT_LIBRARY  )
@@ -95,7 +98,7 @@ if( MSVC )
         set(EXPAT_INCLUDE_DIR  ${CMAKE_SOURCE_DIR}/../${E}/lib)
         include_directories( ${EXPAT_INCLUDE_DIR} msvc64\\include src\\include)
     endif()
-    
+
     # FIND_PACKAGE(CURL)
     if ( NOT CURL_FOUND )
         set(CURL_LIBRARY       ${CMAKE_SOURCE_DIR}/../${C}/$(ConfigurationName)/curl)
@@ -109,14 +112,14 @@ if( MSVC )
         set(SSH_INCLUDE_DIR   ${CMAKE_SOURCE_DIR}/../${C})
         include_directories( ${SSH_INCLUDE_DIR})
     endif()
-    
+
     FIND_PACKAGE(ZLIB QUIET)
     if ( NOT ZLIB_FOUND )
         set(ZLIB_LIBRARY       ${CMAKE_SOURCE_DIR}/../${Z}/$(ConfigurationName)/zlib)
         set(ZLIB_INCLUDE_DIR   ${CMAKE_SOURCE_DIR}/../${Z})
     endif()
     include_directories(${ZLIB_INCLUDE_DIR})
-    
+
     if ( EXIV2_ENABLE_SHARED )
         add_library(${E} SHARED IMPORTED)
         add_library(${Z} SHARED IMPORTED)
@@ -200,7 +203,7 @@ IF( NOT MSVC )
   # Issue #722: out of source builds compiled against standard include files such as /usr/local/lib/include/exiv2
   # do not use CREATE_SYMLINK or CMAKE_CAN_SYMLINK as they don't work on CYGWIN
   EXECUTE_PROCESS( WORKING_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}           COMMAND ln -sf ${CMAKE_CURRENT_SOURCE_DIR}/src exiv2)
-  
+
   IF( EXIV2_ENABLE_BUILD_SAMPLES )
     EXECUTE_PROCESS( WORKING_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}/samples COMMAND ln -sf ${CMAKE_CURRENT_SOURCE_DIR}/src exiv2)
   ENDIF( EXIV2_ENABLE_BUILD_SAMPLES )
@@ -232,10 +235,10 @@ ADD_CUSTOM_TARGET(testx  COMMAND make testx  "EXIV2_BINDIR=${CMAKE_BINARY_DIR}/b
 ##
 # http://dev.exiv2.org/boards/3/topics/1364
 # effectively does a make doc on the root directory
-# has to run 'make config' and './configure' 
+# has to run 'make config' and './configure'
 # and copy bin/taglist to <exiv2dir>/bin/taglist for use by 'make doc'
 IF( MINGW OR UNIX OR APPLE)
-  ADD_CUSTOM_TARGET(doc 
+  ADD_CUSTOM_TARGET(doc
     WORKING_DIRECTORY "${CMAKE_SOURCE_DIR}/doc"
     COMMAND chmod +x ./cmake_doc.sh
     COMMAND ./cmake_doc.sh "${CMAKE_BINARY_DIR}"

@@ -270,6 +270,9 @@ void Exiv2::dumpLibraryInfo(std::ostream& os,const exv_grep_keys_t& keys)
     int have_unistd      =0;
     int have_unicode_path=0;
 
+    int enable_video     =0;
+    int enable_webready  =0;
+
 #if EXV_HAVE_DECL_STRERROR_R
     have_strerror_r=1;
 #endif
@@ -402,6 +405,14 @@ void Exiv2::dumpLibraryInfo(std::ostream& os,const exv_grep_keys_t& keys)
      have_unicode_path=1;
 #endif
 
+#if  EXV_ENABLE_VIDEO
+     enable_video=1;
+#endif
+
+#if  EXV_ENABLE_WEBREADY
+     enable_webready=1;
+#endif
+
 #if defined(WIN32) || defined(__CYGWIN__) || defined(__MINGW__)
     // enumerate loaded libraries and determine path to executable
     HMODULE handles[200];
@@ -508,6 +519,8 @@ void Exiv2::dumpLibraryInfo(std::ostream& os,const exv_grep_keys_t& keys)
     output(os,keys,"have_sys_types"    ,have_sys_types   );
     output(os,keys,"have_unistd"       ,have_unistd      );
     output(os,keys,"have_unicode_path" ,have_unicode_path);
+    output(os,keys,"enable_video"      ,enable_video     );
+    output(os,keys,"enable_webready"   ,enable_webready  );
 
 #if defined(__linux__)
     dlclose(ph);
