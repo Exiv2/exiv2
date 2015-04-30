@@ -1,0 +1,23 @@
+__doctype__
+<html>
+__header2__
+<body>
+__sidebar1__
+
+<div id="content">
+__maintitle__
+<h2>Exiv2 Conversion Table</h2>
+<div>
+<p>Exiv2 maps and will convert Exif tags and IPTC Datasets to and from XMP properties.<br>
+This function is available via the import/export command line options: <a title="exiv2 manpage" href="manpage.html">exiv2 -eX image.jpg; exiv2 -iX image.jpg</a><br>
+and via the exiv2 API: <a title="convert.hpp File Reference" href="convert_8hpp.html">convert.hpp File Reference</a></p>
+</div>
+
+__conversion__
+
+__footer__
+</div>
+<!-- closes content -->
+
+</body>
+</html>

@@ -144,7 +144,7 @@ html/rss.xml: master/news.xml
 	| awk '/pubDate/ { gsub("<[/]?pubDate>", ""); printf "      <pubDate>"; system("bin/rssdate " $$0); printf "</pubDate>\n"; next } /__lastBuildDate__/ { printf "    <lastBuildDate>"; system("date -R"); printf "    </lastBuildDate>\n"; next; } {print}' > $@
 
 # Run bin/release_info.sh to update release related variables (incl __version__)
-update: update-manpage update-intro update-sample update-changelog update-tags update-makernotes
+update: update-manpage update-intro update-sample update-conversion update-changelog update-tags update-makernotes
 
 update-manpage:
 	@man -t exiv2 | ps2pdf - html/exiv2-manpage.pdf
@@ -161,6 +161,9 @@ update-intro:
 
 update-sample:
 	@./bin/sample.sh
+
+update-conversion:
+	@./bin/conversion.sh
 
 update-changelog:
 	@cp -f ../doc/ChangeLog var/__ChangeLog__
