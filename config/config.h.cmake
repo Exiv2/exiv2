@@ -23,6 +23,12 @@
 /* Define to 1 if you have the <libintl.h> header file. */
 #cmakedefine EXV_HAVE_LIBINTL_H 1
 
+/* Define to 1 if you require video support. */
+#cmakedefine EXV_ENABLE_VIDEO 1
+
+/* Define to 1 if you require webready support. */
+#cmakedefine EXV_ENABLE_WEBREADY 1
+
 #ifndef EXV_COMMERCIAL_VERSION
 
 /* Define to 1 to enable translation of Nikon lens names. */
@@ -207,7 +213,7 @@ typedef int pid_t;
 #define __CYGWIN__  __CYGWIN32__
 #define EXV_HAVE_GXXCLASSVISIBILITY
 #endif
-     
+
 /* File path separator */
 #if defined(WIN32) && !defined(__CYGWIN__)
 #define EXV_SEPARATOR_STR "\\"

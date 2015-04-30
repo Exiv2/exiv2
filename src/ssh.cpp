@@ -30,8 +30,12 @@
 EXIV2_RCSID("@(#) $Id: rw2image.cpp 3201 2013-12-01 12:13:42Z ahuggel $")
 
 #include "ssh.hpp"
-#if EXV_USE_SSH == 1
-
+#if EXV_USE_SSH != 1
+namespace Exiv2 {
+extern int ssh_extern;
+int        ssh_extern = 1;
+}
+#else
 // class member definitions
 namespace Exiv2 {
 

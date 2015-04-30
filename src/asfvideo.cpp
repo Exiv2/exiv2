@@ -31,6 +31,18 @@ EXIV2_RCSID("@(#) $Id$")
 
 // *****************************************************************************
 // included header files
+#ifdef _MSC_VER
+# include "exv_msvc.h"
+#else
+# include "exv_conf.h"
+#endif
+
+#ifndef    EXV_ENABLE_VIDEO
+namespace  Exiv2 {
+extern int asfvideo_extern;
+int        asfvideo_extern = 1;
+}
+#else
 #include "asfvideo.hpp"
 #include "futils.hpp"
 #include "basicio.hpp"
@@ -281,9 +293,9 @@ namespace Exiv2 {
     uint64_t getUint64_t(Exiv2::DataBuf& buf) {
         uint64_t temp = 0;
 
-		for(int i = 0; i < 8; ++i){
-			temp = temp + static_cast<uint64_t>(buf.pData_[i]*(pow(static_cast<float>(256), i)));
-		}
+        for(int i = 0; i < 8; ++i){
+            temp = temp + static_cast<uint64_t>(buf.pData_[i]*(pow(static_cast<float>(256), i)));
+        }
         return temp;
     }
 
@@ -349,7 +361,7 @@ namespace Exiv2 {
             return;
         }
 
-        char GUID[37] = "";	//the getGUID function write the GUID[36], 
+        char GUID[37] = ""; //the getGUID function write the GUID[36],
 
         getGUID(guidBuf, GUID);
         tv = find( GUIDReferenceTags, GUID);
@@ -772,18 +784,18 @@ namespace Exiv2 {
         aspectRatio = floor(aspectRatio*10) / 10;
         xmpData_["Xmp.video.AspectRatio"] = aspectRatio;
 
-		int aR = (int) ((aspectRatio*10.0)+0.1);
+        int aR = (int) ((aspectRatio*10.0)+0.1);
 
-		switch  (aR) {
-			case 13 : xmpData_["Xmp.video.AspectRatio"] = "4:3"		; break;
-			case 17 : xmpData_["Xmp.video.AspectRatio"] = "16:9"	; break;
-			case 10 : xmpData_["Xmp.video.AspectRatio"] = "1:1"		; break;
-			case 16 : xmpData_["Xmp.video.AspectRatio"] = "16:10"	; break;
-			case 22 : xmpData_["Xmp.video.AspectRatio"] = "2.21:1"  ; break;
-			case 23 : xmpData_["Xmp.video.AspectRatio"] = "2.35:1"  ; break;
-			case 12 : xmpData_["Xmp.video.AspectRatio"] = "5:4"     ; break;
-			default : xmpData_["Xmp.video.AspectRatio"] = aspectRatio;break;
-		}
+        switch  (aR) {
+            case 13 : xmpData_["Xmp.video.AspectRatio"] = "4:3"     ; break;
+            case 17 : xmpData_["Xmp.video.AspectRatio"] = "16:9"    ; break;
+            case 10 : xmpData_["Xmp.video.AspectRatio"] = "1:1"     ; break;
+            case 16 : xmpData_["Xmp.video.AspectRatio"] = "16:10"   ; break;
+            case 22 : xmpData_["Xmp.video.AspectRatio"] = "2.21:1"  ; break;
+            case 23 : xmpData_["Xmp.video.AspectRatio"] = "2.35:1"  ; break;
+            case 12 : xmpData_["Xmp.video.AspectRatio"] = "5:4"     ; break;
+            default : xmpData_["Xmp.video.AspectRatio"] = aspectRatio;break;
+        }
     } // AsfVideo::aspectRatio
 
 
@@ -815,3 +827,4 @@ namespace Exiv2 {
     }
 
 }                                       // namespace Exiv2
+#endif // EXV_ENABLE_VIDEO

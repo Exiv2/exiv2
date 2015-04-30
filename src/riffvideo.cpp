@@ -31,6 +31,18 @@ EXIV2_RCSID("@(#) $Id$")
 
 // *****************************************************************************
 // included header files
+#ifdef _MSC_VER
+# include "exv_msvc.h"
+#else
+# include "exv_conf.h"
+#endif
+
+#ifndef     EXV_ENABLE_VIDEO
+namespace   Exiv2 {
+extern int  riffvideo_extern ;
+int         riffvideo_extern = 1;
+}
+#else
 #include "riffvideo.hpp"
 #include "futils.hpp"
 #include "basicio.hpp"
@@ -111,7 +123,7 @@ namespace Exiv2 {
         {   "ICOP", "Xmp.video.Copyright" },
         {   "ICRD", "Xmp.video.DateTimeDigitized" },
         {   "ICRP", "Xmp.video.Cropped" },
-        {   "IDIM", "Xmp.video.Dimensions	" },
+        {   "IDIM", "Xmp.video.Dimensions" },
         {   "IDPI", "Xmp.video.DotsPerInch" },
         {   "IDST", "Xmp.video.DistributedBy" },
         {   "IEDT", "Xmp.video.EditedBy" },
@@ -1199,18 +1211,18 @@ namespace Exiv2 {
         aspectRatio = floor(aspectRatio*10) / 10;
         xmpData_["Xmp.video.AspectRatio"] = aspectRatio;
 
-		int aR = (int) ((aspectRatio*10.0)+0.1);
+        int aR = (int) ((aspectRatio*10.0)+0.1);
 
-		switch  (aR) {
-			case 13 : xmpData_["Xmp.video.AspectRatio"] = "4:3"		; break;
-			case 17 : xmpData_["Xmp.video.AspectRatio"] = "16:9"	; break;
-			case 10 : xmpData_["Xmp.video.AspectRatio"] = "1:1"		; break;
-			case 16 : xmpData_["Xmp.video.AspectRatio"] = "16:10"	; break;
-			case 22 : xmpData_["Xmp.video.AspectRatio"] = "2.21:1"  ; break;
-			case 23 : xmpData_["Xmp.video.AspectRatio"] = "2.35:1"  ; break;
-			case 12 : xmpData_["Xmp.video.AspectRatio"] = "5:4"     ; break;
-			default : xmpData_["Xmp.video.AspectRatio"] = aspectRatio;break;
-		}
+        switch  (aR) {
+            case 13 : xmpData_["Xmp.video.AspectRatio"] = "4:3"     ; break;
+            case 17 : xmpData_["Xmp.video.AspectRatio"] = "16:9"    ; break;
+            case 10 : xmpData_["Xmp.video.AspectRatio"] = "1:1"     ; break;
+            case 16 : xmpData_["Xmp.video.AspectRatio"] = "16:10"   ; break;
+            case 22 : xmpData_["Xmp.video.AspectRatio"] = "2.21:1"  ; break;
+            case 23 : xmpData_["Xmp.video.AspectRatio"] = "2.35:1"  ; break;
+            case 12 : xmpData_["Xmp.video.AspectRatio"] = "5:4"     ; break;
+            default : xmpData_["Xmp.video.AspectRatio"] = aspectRatio;break;
+        }
     } // RiffVideo::fillAspectRatio
 
     void RiffVideo::fillDuration(double frame_rate, long frame_count)
@@ -1249,3 +1261,4 @@ namespace Exiv2 {
     }
 
 }                                       // namespace Exiv2
+#endif // EXV_ENABLE_VIDEO

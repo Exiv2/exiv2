@@ -55,10 +55,12 @@ EXIV2_RCSID("@(#) $Id$")
 #include "tgaimage.hpp"
 #include "bmpimage.hpp"
 #include "jp2image.hpp"
+#ifdef EXV_ENABLE_VIDEO
 #include "matroskavideo.hpp"
 #include "quicktimevideo.hpp"
 #include "riffvideo.hpp"
 #include "asfvideo.hpp"
+#endif // EXV_ENABLE_VIDEO
 #include "rw2image.hpp"
 #include "pgfimage.hpp"
 #include "xmpsidecar.hpp"
@@ -129,10 +131,12 @@ namespace {
         { ImageType::tga,  newTgaInstance,  isTgaType,  amNone,      amNone,      amNone,      amNone      },
         { ImageType::bmp,  newBmpInstance,  isBmpType,  amNone,      amNone,      amNone,      amNone      },
         { ImageType::jp2,  newJp2Instance,  isJp2Type,  amReadWrite, amReadWrite, amReadWrite, amNone      },
+#ifdef EXV_ENABLE_VIDEO
         { ImageType::qtime,newQTimeInstance,isQTimeType,amRead,      amNone,      amRead,      amNone      },
         { ImageType::riff, newRiffInstance, isRiffType, amRead,      amNone,      amRead,      amNone      },
         { ImageType::asf,  newAsfInstance,  isAsfType,  amNone,      amNone,      amRead,      amNone      },
         { ImageType::mkv,  newMkvInstance,  isMkvType,  amNone,      amNone,      amRead,      amNone      },
+#endif // EXV_ENABLE_VIDEO
         // End of list marker
         { ImageType::none, 0,               0,          amNone,      amNone,      amNone,      amNone      }
     };
@@ -356,21 +360,21 @@ namespace Exiv2 {
     {
         std::string result;
 
-		int     need   = (int) std::strlen(format);            // initial guess
+        int     need   = (int) std::strlen(format);            // initial guess
         char*   buffer = NULL;
-		int     again  =    4;
-		int     rc     =   -1;
+        int     again  =    4;
+        int     rc     =   -1;
 
         if (rc < 0 && again--) {
             if ( buffer ) delete[] buffer;
-			need   *= 2 ;
+            need   *= 2 ;
             buffer = new char[need];
-			if ( buffer ) {
-				va_list  args;                                 // variable arg list
-				va_start(args, format);						   // args start after format
-				rc=vsnprintf(buffer,(unsigned int)need, format, args);
-				va_end(args);		                           // free the args
-			}
+            if ( buffer ) {
+                va_list  args;                                 // variable arg list
+                va_start(args, format);                        // args start after format
+                rc=vsnprintf(buffer,(unsigned int)need, format, args);
+                va_end(args);                                  // free the args
+            }
         }
 
         if ( rc > 0 ) result = std::string(buffer) ;

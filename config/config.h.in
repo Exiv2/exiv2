@@ -5,8 +5,6 @@
 # include "exv_msvc.h"
 #else
 
-/* config.h.in.  Generated from configure.ac by autoheader.  */
-
 /* Define to 1 if you want to use libssh */
 #undef USE_SSH
 
@@ -39,6 +37,12 @@
 #undef ENABLE_NLS
 
 #endif /* !EXV_COMMERCIAL_VERSION */
+
+/* Define to 1 to include video code in the library */
+#undef ENABLE_VIDEO
+
+/* Define to 1 to include webready code in the library */
+#undef ENABLE_WEBREADY
 
 /* Define to 1 if you have the `iconv' function. */
 #undef HAVE_ICONV
