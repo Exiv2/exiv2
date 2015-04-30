@@ -451,10 +451,10 @@ namespace Exiv2 {
             // read header (we already know for certain that we have a Tiff file)
             io_->read(dir.pData_,  8);
             char c = (char) dir.pData_[0] ;
-#if __LITTLE_ENDIAN__ || defined(_MSC_VER)
-            bool      bSwap   = c == 'M';
+#if  __LITTLE_ENDIAN__
+            bool bSwap   = c == 'M';
 #else
-            bool      bSwap   = c == 'I';
+            bool bSwap   = c == 'I';
 #endif
             if ( option == kpsBasic ) {
                 out << stringFormat("STRUCTURE OF TIFF FILE (%c%c): ",c,c) << io_->path() << std::endl;

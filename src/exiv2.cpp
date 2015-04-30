@@ -52,12 +52,6 @@ EXIV2_RCSID("@(#) $Id$")
 #include <regex.h>
 #endif
 
-#if defined(__MINGW32__) || defined(__MINGW64__)
-# ifndef  __MINGW__
-#  define __MINGW__
-# endif
-#endif
-
 
 // *****************************************************************************
 // local declarations
