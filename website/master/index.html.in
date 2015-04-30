@@ -35,7 +35,7 @@ Exiv2 is available as <a href="download.html#license">free software</a> and with
   of an image
 </li>
  <li>an easy to use and <a href="doc/index.html" title="Exiv2 API documentation">extensively documented</a> API</li>
- <li>conversions of Exif and IPTC metadata to XMP and vice versa</li>
+ <li><a href="conversion.html" title="Exiv2 Conversions">conversions</a> of Exif and IPTC metadata to XMP and vice versa</li>
  <li>a smart IPTC implementation that does not affect data that programs like Photoshop store
   in the same image segment</li>
  <li>Exif <a href="makernote.html" title="Exif Makernote Formats and Specifications">Makernote</a> support:
@@ -64,7 +64,8 @@ Exiv2 is available as <a href="download.html#license">free software</a> and with
  <li>adjust the Exif timestamp (that's how it all started...)</li>
  <li>rename Exif image files according to the Exif timestamp</li>
  <li>extract, insert and delete Exif, IPTC and XMP metadata and JPEG comments</li>
- <li>extract previews from RAW images and thumbnails from the Exif metadata</li>
+ <li><a href="conversion.html" title="Exiv2 Conversions">convert</a> from Exif and IPTC to XMP properties and vice versa</li>
+  <li>extract previews from RAW images and thumbnails from the Exif metadata</li>
  <li>insert and delete the thumbnail image embedded in the Exif metadata</li>
  <li>print, set and delete the JPEG comment of JPEG images</li>
  <li>fix the Exif ISO setting of picture taken with Canon and Nikon cameras</li>
