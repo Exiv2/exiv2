@@ -45,12 +45,6 @@ EXIV2_RCSID("@(#) $Id$")
 #include <curl/curl.h>
 #endif
 
-#if defined(__MINGW32__) || defined(__MINGW64__)
-# ifndef  __MINGW__
-#  define __MINGW__
-# endif
-#endif
-
 #if defined(__CYGWIN__) || defined(__MINGW__)
 #include <windows.h>
 #endif
@@ -138,10 +132,6 @@ typedef string_v::iterator  string_i;
     void*    not_needed1;    /* Pointer to the dynamic section of the shared object */
     struct lmap *next, *prev;/* chain of loaded objects */
   };
-#elif defined(__MINGW32__) || defined(__MINGW64__)
-#ifndef __MINGW__
-#define __MINGW__
-#endif
 #endif
 
 static void output(std::ostream& os,const exv_grep_keys_t& greps,const char* name,const std::string& value)

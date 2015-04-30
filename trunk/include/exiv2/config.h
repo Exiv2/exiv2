@@ -1,3 +1,5 @@
+// config.h
+//
 #ifdef _MSC_VER
 # include "exv_msvc.h"
 #else
@@ -11,9 +13,27 @@
 #endif
 #endif
 
-// Don't know why MinGW refuses to link libregex
 #if defined(__MINGW32__) || defined(__MINGW64__)
+#ifndef __MING__
+#define __MING__ 1
+#endif
+// Don't know why MinGW refuses to link libregex
 #ifdef EXV_HAVE_REGEX
 #undef EXV_HAVE_REGEX
 #endif
 #endif
+
+#ifndef __CYGWIN__
+#if defined(__CYGWIN32__) || defined(__CYGWIN64__)
+#define __CYGWIN__ 1
+#endif
+#endif
+
+#ifndef __LITTLE_ENDIAN__
+#if defined(_MSC_VER) || defined(__CYGWIN__) || defined(__MINGW__)
+#define __LITTLE_ENDIAN__ 1
+#endif
+#endif
+
+// That's all Folks!
+////
