@@ -360,7 +360,7 @@ namespace Exiv2 {
     {
         std::string result;
 
-        int     need   = (int) std::strlen(format);            // initial guess
+        int     need   = (int) std::strlen(format)*2;          // initial guess
         char*   buffer = NULL;
         int     again  =    4;
         int     rc     =   -1;
