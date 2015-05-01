@@ -360,14 +360,14 @@ namespace Exiv2 {
     {
         std::string result;
 
-        int     need   = (int) std::strlen(format)*2;          // initial guess
+        int     need   = (int) std::strlen(format)*4;          // initial guess
         char*   buffer = NULL;
         int     again  =    4;
         int     rc     =   -1;
 
         while (rc < 0 && again--) {
             if ( buffer ) delete[] buffer;
-            need   *= 2 ;
+            need  *= 2 ;
             buffer = new char[need];
             if ( buffer ) {
                 va_list  args;                                 // variable arg list
@@ -377,7 +377,7 @@ namespace Exiv2 {
             }
         }
 
-        if ( rc > 0 ) result = std::string(buffer) ;
+        if ( buffer && rc > 0 ) result = std::string(buffer);  // save the result
         if ( buffer ) delete[] buffer;                         // free buffer
         return result;
     }
