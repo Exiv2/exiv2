@@ -365,7 +365,7 @@ namespace Exiv2 {
         int     again  =    4;
         int     rc     =   -1;
 
-        if (rc < 0 && again--) {
+        while (rc < 0 && again--) {
             if ( buffer ) delete[] buffer;
             need   *= 2 ;
             buffer = new char[need];
