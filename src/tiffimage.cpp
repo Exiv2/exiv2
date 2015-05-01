@@ -302,6 +302,18 @@ namespace Exiv2 {
         return rc;
     }
 
+    bool isBigEndian()
+	{
+    	union {
+        	uint32_t i;
+        	char c[4];
+    	} e = { 0x01000000 };
+
+    	return e.c[0]?true:false;
+	}
+	bool isLittleEndian() { return !isBigEndian(); }
+
+
     // http://en.wikipedia.org/wiki/Endianness
     static uint32_t byteSwap(uint32_t value,bool bSwap)
     {
@@ -451,11 +463,10 @@ namespace Exiv2 {
             // read header (we already know for certain that we have a Tiff file)
             io_->read(dir.pData_,  8);
             char c = (char) dir.pData_[0] ;
-#if  __LITTLE_ENDIAN__
-            bool bSwap   = c == 'M';
-#else
-            bool bSwap   = c == 'I';
-#endif
+            bool bSwap   = ( c == 'M' && isLittleEndian() )
+                        || ( c == 'I' && isBigEndian()    )
+                        ;
+
             if ( option == kpsBasic ) {
                 out << stringFormat("STRUCTURE OF TIFF FILE (%c%c): ",c,c) << io_->path() << std::endl;
                 out << " address |    tag                           |      type |    count |   offset | value\n";
