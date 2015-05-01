@@ -268,11 +268,16 @@ source ./functions.source
 	filename=exiv2-bug$num.jpg
 	printf "$num " >&3
 	echo '------>' Bug $num '<-------' >&2
-	copyTestFile  $filename
-	runTest exiv2 -pX $filename
+	copyTestFile      $filename
+	runTest exiv2 -pX $filename ; echo '' # add a lf after the XMP/xml
 	filename=iptc-psAPP13-wIPTCempty-psAPP13-wIPTC.jpg
-	copyTestFile  $filename
+	copyTestFile      $filename
 	runTest exiv2 -pX $filename
+	for filename in exiv2-bug$num.png exiv2-bug$num.tif exiv2-bug${num}a.jpg; do
+		copyTestFile $filename ;
+		runTest exiv2 -pX $filename ; echo ''
+		runTest exiv2 -pS $filename
+	done
 
 	num=937
 	filename=exiv2-bug$num.jpg
