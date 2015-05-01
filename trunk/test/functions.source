@@ -419,8 +419,9 @@ copyVideoFiles ()
 prepareTest()
 {
 	##
-	# locale setting
+	# locale and timezone setting
 	export LC_ALL=C
+	export TZ=BST-1
 
 	##
 	# initialize globals
