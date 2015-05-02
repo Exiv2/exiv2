@@ -113,18 +113,17 @@ mostlyclean clean: config/config.mk
 	cd src && $(MAKE) $(MAKECMDGOALS)
 	cd doc && $(MAKE) $(MAKECMDGOALS)
 	cd samples && $(MAKE) $(MAKECMDGOALS)
+	cd test && $(MAKE) $(MAKECMDGOALS)
 	cd xmpsdk/src && $(MAKE) $(MAKECMDGOALS)
 	cd config && $(MAKE) -f config.make $(MAKECMDGOALS)
 	cd po && $(MAKE) $(MAKECMDGOALS)
-	rm -rf test/tmp include/exiv2/exv_conf.h src/svn_version.h
-	mkdir  test/tmp
+	rm -f include/exiv2/exv_conf.h src/svn_version.h
 
 # `make distclean' also removes files created by configuring
 # the program. Running `make all distclean' prepares the project
 # for packaging.
 distclean: clean
 	rm -f config.log config.status libtool
-	rm -rf test/data/eps test/data/video
 	rm -f *~ *.bak
 	if [ -e bin ]; then rm -rf bin ; fi
 
