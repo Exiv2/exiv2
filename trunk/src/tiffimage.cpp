@@ -303,15 +303,15 @@ namespace Exiv2 {
     }
 
     bool isBigEndian()
-	{
-    	union {
-        	uint32_t i;
-        	char c[4];
-    	} e = { 0x01000000 };
+    {
+        union {
+            uint32_t i;
+            char c[4];
+        } e = { 0x01000000 };
 
-    	return e.c[0]?true:false;
-	}
-	bool isLittleEndian() { return !isBigEndian(); }
+        return e.c[0]?true:false;
+    }
+    bool isLittleEndian() { return !isBigEndian(); }
 
 
     // http://en.wikipedia.org/wiki/Endianness
@@ -504,7 +504,7 @@ namespace Exiv2 {
                                    : 1
                                    ;
 
-					DataBuf  buf(MIN(size*kount + pad,48));  // allocate a buffer
+                    DataBuf  buf(MIN(size*kount + pad,48));  // allocate a buffer
                     if ( isStringType(type) || count*size > 4 ) {          // data is in the directory => read into buffer
                         size_t   restore = io_->tell();  // save
                         io_->seek(offset,BasicIo::beg);  // position
