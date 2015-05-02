@@ -367,7 +367,7 @@ namespace Exiv2 {
 
         while (rc < 0 && again--) {
             if ( buffer ) delete[] buffer;
-            need   *= 2 ;
+            need  *= 2 ;
             buffer = new char[need];
             if ( buffer ) {
                 va_list  args;                                 // variable arg list
@@ -390,9 +390,12 @@ namespace Exiv2 {
         size += start;
 
         while (start < size) {
-            int c = (int) buff[start++] ;
-            if (c < ' ' || c > 127) c = '.' ;
-            result +=  (char) c ;
+            int   c             = (int) buff[start++] ;
+            bool  bTrailingNull = c == 0 && start == size;
+            if ( !bTrailingNull ) {
+                if (c < ' ' || c > 127) c = '.' ;
+                result +=  (char) c ;
+            }
         }
         return result;
     }
