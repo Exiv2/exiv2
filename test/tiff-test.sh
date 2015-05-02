@@ -20,7 +20,7 @@ exifprobe()
         typ=$(echo $line|cut -d' ' -f 2- | sed -E -e 's/ +/ /g' -e 's/^ //' | cut -d' ' -f 1 ); typs+=($typ)
         len=$(echo $line|cut -d' ' -f 2- | sed -E -e 's/ +/ /g' -e 's/^ //' | cut -d' ' -f 2 ); lens+=($len)
         val=$(echo $line|cut -d' ' -f 2- | sed -E -e 's/ +/ /g' -e 's/^ //' | cut -d' ' -f 3-); vals+=("$val")
-    done < <(exiv2 -pa $f  2>/dev/null) # process pipe
+    done < <( runTest exiv2 -pa $f  2>/dev/null ) # process pipe
     count=${#tags[@]}
 
     echo exiv2 -pa output
@@ -52,7 +52,7 @@ exifprobe()
             OFF=$(echo $line| cut -d'|' -f 5  | sed -E -e's/ +//g'); OFFS+=($OFF)
             VAL=$(echo $line| cut -d'|' -f 6- | sed -e's/^ //'    ); VALS+=($"$VAL")
         fi
-    done < <(exiv2 -pS $f 2>/dev/null)
+    done < <( runTest exiv2 -pS $f 2>/dev/null )
     COUNT=${#TAGS[@]}
 
     echo ''
