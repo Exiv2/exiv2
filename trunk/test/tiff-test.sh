@@ -64,7 +64,7 @@ exifprobe()
 		LEN=${LENS[$INDEX]}
 		OFF=${OFFS[$INDEX]}
 		VAL=${VALS[$INDEX]}
-		ECHO ${TAG} $'\t' ${TYP} $'\t' ${LEN} $'\t' '"'${VAL}'"'
+		echo ${TAG} $'\t' ${TYP} $'\t' ${LEN} $'\t' '"'${VAL}'"'
 		INDEX=$((INDEX+1))
 	done
 
