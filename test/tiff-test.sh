@@ -1,6 +1,11 @@
 #!/bin/bash
 # TIFF parser test driver
 
+if [ "${BASH_VERSION:0:1}" -lt "4" ]; then
+	echo "$0 requires bash v4 or greater.  Running $BASH_VERSION.  $0 skipped."
+	exit 0
+fi
+
 exifprobe()
 {
     f=$1
