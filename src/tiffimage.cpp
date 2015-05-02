@@ -530,7 +530,15 @@ namespace Exiv2 {
                             }
                         } else if ( isRationalType(type) ){
                             for ( uint16_t k = 0 ; k < kount ; k++ ) {
-                                out << sp << byteSwap2(buf,k*size+(bSwap?2:0),bSwap) << "/" << byteSwap2(buf,k*size+(bSwap?0:2),bSwap);
+                            	uint16_t a = byteSwap2(buf,k*size+0,bSwap);
+                            	uint16_t b = byteSwap2(buf,k*size+2,bSwap);
+                            	if ( isLittleEndian() ) {
+                                	if ( bSwap ) out << sp << b << "/" << a;
+                                	else         out << sp << a << "/" << b;
+                                } else {
+                                	if ( bSwap ) out << sp << a << "/" << b;
+                                	else         out << sp << b << "/" << a;
+                                }
                                 sp = " ";
                             }
                         } else if ( isStringType(type) ) {
