@@ -1,6 +1,6 @@
 // ***************************************************************** -*- C++ -*-
 /*
- * Copyright (C) 2004-2013 Andreas Huggel <ahuggel@gmx.net>
+ * Copyright (C) 2004-2015 Andreas Huggel <ahuggel@gmx.net>
  *
  * This program is part of the Exiv2 distribution.
  *
@@ -210,7 +210,7 @@ void Params::version(bool verbose,std::ostream& os) const
     const char* sBuild = b64 ? "(64 bit build)" : "(32 bit build)" ;
     os << EXV_PACKAGE_STRING << " " << Exiv2::versionNumberHexString() << " " << sBuild << "\n";
     if ( Params::instance().greps_.empty() ) {
-    os << _("Copyright (C) 2004-2013 Andreas Huggel.\n")
+    os << _("Copyright (C) 2004-2015 Andreas Huggel.\n")
        << "\n"
        << _("This program is free software; you can redistribute it and/or\n"
             "modify it under the terms of the GNU General Public License\n"

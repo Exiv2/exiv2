@@ -4678,8 +4678,8 @@ msgstr "Clef `%1' invalide"
 
 #: src/exiv2.cpp:212
 #, fuzzy
-msgid "Copyright (C) 2004-2013 Andreas Huggel.\n"
-msgstr "Copyright (C) 2004-2013 Andreas Huggel.\n"
+msgid "Copyright (C) 2004-2015 Andreas Huggel.\n"
+msgstr "Copyright (C) 2004-2015 Andreas Huggel.\n"
 
 #: src/exiv2.cpp:214
 msgid ""
