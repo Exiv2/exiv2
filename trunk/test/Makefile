@@ -54,7 +54,7 @@ SHELL = /bin/sh
 
 # ******************************************************************************
 # Targets
-.PHONY: all test testv teste clean distclean maintainer-clean
+.PHONY: all test testv teste mostlyclean clean distclean maintainer-clean
 
 ##
 # to save download time for simple build/test, we download video and eps data on demand
@@ -148,8 +148,8 @@ testx:
 	    ./$$p; \
 	done
 
-clean:
-	rm -rf $(top_srcdir)/test/tmp/* data/video data/eps
+mostlyclean clean:
+	rm -rf $(top_srcdir)/test/tmp/* 
 
 distclean: clean
 	$(RM) *~ *.bak *#
@@ -157,6 +157,7 @@ distclean: clean
 # This command is intended for maintainers to use; it deletes files
 # that may need special tools to rebuild.
 maintainer-clean: distclean
+	rm -rf $(top_srcdir)/data/video $(top_srcdir)/test/data/eps
 
 # That's all Folks!
 ##
