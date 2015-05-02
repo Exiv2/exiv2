@@ -382,7 +382,7 @@ T A B L E  o f  C O N T E N T S
 
      C:\cygwin64\home\rmills\gnu\exiv2\video-write\msvc2005\bin\x64\releasedll>exiv2 -v -V
      exiv2 0.24 001800 (64 bit build)
-     Copyright (C) 2004-2013 Andreas Huggel.
+     Copyright (C) 2004-2015 Andreas Huggel.
 
      This program is free software; you can redistribute it and/or
      modify it under the terms of the GNU General Public License

@@ -4472,7 +4472,7 @@ msgid "%1 has invalid XMP value type `%2'"
 msgstr ""
 
 #: src/exiv2.cpp:212
-msgid "Copyright (C) 2004-2013 Andreas Huggel.\n"
+msgid "Copyright (C) 2004-2015 Andreas Huggel.\n"
 msgstr ""
 
 #: src/exiv2.cpp:214

@@ -1,6 +1,6 @@
 # ***************************************************** -*- Makefile -*-
 #
-# Copyright (C) 2004-2013 Andreas Huggel <ahuggel@gmx.net>
+# Copyright (C) 2004-2015 Andreas Huggel <ahuggel@gmx.net>
 #
 # This Makefile is part of the Exiv2 distribution.
 #
