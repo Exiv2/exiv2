@@ -190,6 +190,7 @@ namespace Exiv2 {
         {    0x13024, "K-S2" },
         {    0x1302e, "Q-S1" },
         {    0x13056, "WG-30" },
+        {    0x1309c, "K-3 II" },
     };
 
     //! Quality, tag 0x0008
