@@ -58,7 +58,8 @@ for p in uid:
 	remove[p]=empty
 remove['zlib'] = set([ 'pngimage' ])
 
-
+##
+# MSVC strings
 strings = {}
 strings['UID'] = str(uuid.uuid1())
 
@@ -82,15 +83,16 @@ strings['platforms'] = '''
 \t\tReleaseDLL|x64 = ReleaseDLL|x64
 \t\tEndGlobalSection
 '''
-strings['postSolutionBegin'] =	'\tGlobalSection(ProjectConfigurationPlatforms) = postSolution\n'
-strings['postSolutionEnd'  ] =	'\tEndGlobalSection\n'
+strings['postSolutionBegin'] = '\tGlobalSection(ProjectConfigurationPlatforms) = postSolution\n'
+strings['postSolutionEnd'  ] = '\tEndGlobalSection\n'
+
+strings['postProjectBegin' ] = '\tProjectSection(ProjectDependencies) = postProject\n'
+strings['postProjectEnd'   ] = '\tProjectSectionEnd\n'
 
 strings['preSolution']		 = '''\tGlobalSection(SolutionProperties) = preSolution
 \t\tHideSolutionNode = FALSE
 \tEndGlobalSection
 '''
-
-
 ##
 # {831EF580-92C8-4CA8-B0CE-3D906280A54D}.Debug|Win32.ActiveCfg = Debug|Win32
 def compilationForProject(uid):
@@ -115,56 +117,55 @@ def compilationTable():
 #		 ...
 #	EndProjectSection
 # EndProject
-# Filter proj\proj.vcproj -> proj\proj_configure.vcproj
-# 1) Remove unwanted files (using remove[project] set)
-# 2) Add a preprocessor symbol to ask config.h to read exv_msvc_configure.h
 ##
 def projectRecord(project,projects):
 	print( 'Project %-18s uid = %s' % (project, uid[project]) )
 
-	UID    = strings['UID']
+	UID	   = strings['UID']
 	vcnew  = "%s\%s_configure.vcproj" % (project,project)  # write in DOS notation for Visual Studio
 	result = 'Project("{%s}") = "%s", "%s", "{%s}"\n' % (UID,project,vcnew,uid[project])
 
 	count  = 0
-	out    = '\tProjectSection(ProjectDependencies) = postProject\n'
+	out	   = strings['postProjectBegin']
 	for p in projects:
 		if not p in ignore:
 			count=count+1
 			out = out + '\t\t{%s} = {%s}\n' % (uid[p],uid[p])
-	out = out + '\tEndProjectSection\n'
+	out = out + strings['postProjectEnd']
 	if count > 0:
 		result = result + out
 
 	result = result + 'EndProject\n'
+	return result
 
-	# Filter foo\foo.vcproj -> foo\foo_configure.vcproj and remove files we do not want
-	vcold    = os.path.join(project,("%s.vcproj"            % project) )  # path to old file
-	vcnew    = os.path.join(project,("%s_configure.vcproj"  % project) )  # path to new file
+##
+# Filter proj\proj.vcproj -> proj\proj_configure.vcproj
+def writeVCproj(project,projects):
+	vcold	 = os.path.join(project,("%s.vcproj"			% project) )  # path to old file
+	vcnew	 = os.path.join(project,("%s_configure.vcproj"	% project) )  # path to new file
 	xmllines = xml.dom.minidom.parse(vcold).toprettyxml().split('\n')
-	out	     = ""
-	projectGUID='ProjectGUID="{'
+	out		 = ""
 	for line in xmllines:
+		# 1) Update the project GUID
+		projectGUID='ProjectGUID="{'
 		if line.find( projectGUID) > 0:
 			start  = line.find(projectGUID) + len(projectGUID)
 			olduid=line[start:line.find('}',start)-1]
 			line=line.replace(olduid,uid[project]);
-        # remove files
+		# 2) Remove unwanted files (using remove[project] set)
 		if line.find( 'File RelativePath=' ) >= 0:
 			for r in remove[project]:
 				for stub in r:
 					if ( line.find(stub) > 0 ):
 						line =''
-		# add a preprocessor define to help config.h to read exv_conf_configure.h
-		ppold=      'PreprocessorDefinitions="'
+		# 3) Add a preprocessor symbol to ask config.h to read exv_msvc_configure.h
+		ppold=		'PreprocessorDefinitions="'
 		ppnew=ppold+'EXV_MSVC_CONFIGURE;'
 		if line.find( ppold ) > 0:
 			line=line.replace(ppold,ppnew)
 		if len(line)>0:
 			out = out + line + '\n'
 	open(vcnew,'w').write(out)
-
-	return result
 
 ##
 # not assert!
@@ -207,7 +208,7 @@ def main():
 	parser.add_option('-o', '--disable-openssl' , action='store_false', dest='openssl' ,help='disable openssl' )
 	parser.add_option('-E', '--enable-expat'	, action='store_true' , dest='expat'   ,help='enable expat'	   ,default=True)
 	parser.add_option('-e', '--disable-expat'	, action='store_false', dest='expat'   ,help='disable expat'   )
-	parser.add_option('-d', '--default'			, action='store_true' , dest='defolt'  ,help='default'		   ,default=True)
+	parser.add_option('-d', '--default'			, action='store_true' , dest='defolt'  ,help='default'		   ,default=False)
 
 	##
 	# no arguments, report and quit
@@ -218,10 +219,6 @@ def main():
 	##
 	# parse and test for errors
 	(options, args) = parser.parse_args()
-	if options.defolt == True:
-		options.xmp=True
-		options.zlib=True
-		options.expat=True
 	cantHappen(options.curl	   & (not options.webready),'cannot use curl without webready'	 );
 	cantHappen(options.openssl & (not options.webready),'cannot use openssl without webready');
 	cantHappen(options.ssh	   & (not options.webready),'cannot use libssh	without webready');
@@ -246,39 +243,39 @@ def main():
 	cleanProjectSet(options.zlib   ,'zlib'	  )
 
 	##
-	# open the solution file
+	# write solution file
 	sln='exiv2-configure.sln'
 	s = open(sln,'w')
 	s.write(strings['Begin'])
 
-	##
 	# write projects
 	for p in sorted(project):
-		if not p in ignore:
-			# print(p,end=' ')
-			projects=project[p]
+		projects=project[p]
 
-			zap = False
-			zap = zap | ((not options.webready) & ('webready' in projects))
-			zap = zap | ((not options.zlib	  ) & ('zlib'	  in projects))
-			zap = zap | ((not options.xmp	  ) & ('xmp'	  in projects))
-			if zap:
-				project[p]=0
-			else:
-				s.write(projectRecord(p,projects))
+		zap = False
+		zap = zap | ((not options.webready) & ('webready' in projects))
+		zap = zap | ((not options.zlib	  ) & ('zlib'	  in projects))
+		zap = zap | ((not options.xmp	  ) & ('xmp'	  in projects))
+		if zap:
+			project.pop(p)
+		else:
+			s.write(projectRecord(p,projects))
 
-	##
 	# write compilation table
 	s.write(strings['globalBegin'])
 	s.write(strings['platforms'	 ])
 	s.write(compilationTable())
 	s.write(strings['preSolution'])
-	s.write(strings['globalEnd'  ])
+	s.write(strings['globalEnd'	 ])
 
-	##
 	# finish
 	s.write(strings['End'])
 	s.close()
+
+	##
+	# write project files
+	for p in sorted(project):
+		writeVCproj(p,project[p])
 
 	print()
 	print('MSVC 2005 Solution file created: ' + sln)
