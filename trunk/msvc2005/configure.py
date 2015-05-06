@@ -6,17 +6,62 @@ import optparse
 import xml.dom.minidom
 import datetime
 import platform
+import uuid
 
 global empty		   # set:  empty
-global strings		   # dict: Visual Studio Strings
 global uid			   # dict: UID of every projects
 global project		   # dict: dependency sets for every project
+global strings		   # dict: Visual Studio Strings
 global ignore		   # set:  projects/directories to ignore
 
 empty=set([])
-ignore=set(['webready','expat','expat201','expat210','zlib123','zlib125','zlib127','tools'])
+ignore=set(['webready','expat','expat201','expat210','zlib123','zlib125','zlib127','tools','exiv2lib'])
+
+##
+# build dict:uid - hunt the tree for .vcproj files
+# we should read the .vcproj and build the dependency set
+uid = {}
+for d in os.listdir('.'):
+	if os.path.isdir(d) & (not d in ignore):
+		for root, dirs, files in os.walk(d):
+			for file in files:
+				ext = ".vcproj"
+				if file.endswith(ext) & (file.find('configure') < 0):
+					uid[d]=str(uuid.uuid1())
+
+##
+# define project dependances
+project = {}
+# no dependancy
+for p in ['libexpat','zlib']:
+	project[p]=empty
+
+##
+# dependancies
+project['libcurl'			] = set(['webready'					   ])
+project['libssh'			] = set(['webready'					   ])
+project['openssl'			] = set(['webready'					   ])
+project['xmpparser-test'	] = set(['libexiv2','xmpsdk'		   ])
+project['xmpsample'			] = set(['libexiv2','xmpsdk'		   ])
+project['xmpsdk'			] = set(['libexpat'					   ])
+project['libexiv2'			] = set(['zlib'	   ,'libexpat','xmpsdk'])
+project['geotag'			] = set(['libexiv2','libexpat'		   ])
+# all others depend on libexiv2
+for p in uid:
+	if not p in project:
+		project[p]=set(['libexiv2'])
+
+##
+# Remove feature
+remove={}
+for p in uid:
+	remove[p]=empty
+remove['zlib'] = set([ 'pngimage' ])
+
 
 strings = {}
+strings['UID'] = str(uuid.uuid1())
+
 strings['Begin']='''Microsoft Visual Studio Solution File, Format Version 9.00
 # Visual Studio 2005
 ''' + '# Created by:%s at:%s using:%s on:%s in:%s\n' % (sys.argv[0], datetime.datetime.now().time(), platform.node(), platform.platform(), os.path.abspath('.'))
@@ -45,51 +90,6 @@ strings['preSolution']		 = '''\tGlobalSection(SolutionProperties) = preSolution
 \tEndGlobalSection
 '''
 
-##
-# build dict:uid - hunt the tree for .vcproj files
-uid = {}
-for d in os.listdir('.'):
-	if os.path.isdir(d) & (not d in ignore):
-		for root, dirs, files in os.walk(d):
-			for file in files:
-				ext = ".vcproj"
-				if file.endswith(ext) & (file.find('_configure') < 0):
-					path=os.path.join(root, file)
-					stub=file[0:-len(ext)]
-					for line in xml.dom.minidom.parse(path).toprettyxml().split('\n'):
-						if ( line.find('RootNamespace') >= 0 ):
-							start  = 'ProjectGUID="{'
-							start  = line.find(start) + len(start)
-							uid[d] = line[start:line.find('}',start)-1]
-
-##
-# Remove feature
-remove={}
-for p in uid:
-	remove[p]=empty
-remove['zlib'] = set([ 'pngimage' ])
-
-##
-# define project dependances
-project = {}
-# no dependancy
-for p in ['libexpat','zlib']:
-	project[p]=empty
-
-##
-# dependancies
-project['libcurl'			] = set(['webready'					   ])
-project['libssh'			] = set(['webready'					   ])
-project['openssl'			] = set(['webready'					   ])
-project['xmpparser-test'	] = set(['libexiv2','xmpsdk'		   ])
-project['xmpsample'			] = set(['libexiv2','xmpsdk'		   ])
-project['xmpsdk'			] = set(['libexpat'					   ])
-project['libexiv2'			] = set(['zlib'	   ,'libexpat','xmpsdk','libcurl','libeay32','ssleay32','openssl','libssh'])
-project['geotag'			] = set(['libexiv2','libexpat'		   ])
-# all others depend on libexiv2
-for p in uid:
-	if not p in project:
-		project[p]=set(['libexiv2'])
 
 ##
 # {831EF580-92C8-4CA8-B0CE-3D906280A54D}.Debug|Win32.ActiveCfg = Debug|Win32
@@ -120,11 +120,10 @@ def compilationTable():
 # 2) Add a preprocessor symbol to ask config.h to read exv_msvc_configure.h
 ##
 def projectRecord(project,projects):
-#
 	print( 'Project %-18s uid = %s' % (project, uid[project]) )
 
-	UID    = '8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942' # grep 8BC9 exiv2.sln | head -1
-	vcnew  = "%s\%s_configure.vcproj" % (project,project)               # write in DOS notation for Visual Studio
+	UID    = strings['UID']
+	vcnew  = "%s\%s_configure.vcproj" % (project,project)  # write in DOS notation for Visual Studio
 	result = 'Project("{%s}") = "%s", "%s", "{%s}"\n' % (UID,project,vcnew,uid[project])
 
 	count  = 0
@@ -144,9 +143,15 @@ def projectRecord(project,projects):
 	vcnew    = os.path.join(project,("%s_configure.vcproj"  % project) )  # path to new file
 	xmllines = xml.dom.minidom.parse(vcold).toprettyxml().split('\n')
 	out	     = ""
+	projectGUID='ProjectGUID="{'
 	for line in xmllines:
+		if line.find( projectGUID) > 0:
+			start  = line.find(projectGUID) + len(projectGUID)
+			olduid=line[start:line.find('}',start)-1]
+			line=line.replace(olduid,uid[project]);
+        # remove files
 		if line.find( 'File RelativePath=' ) >= 0:
-			for stub in remove[project]:
+			for r in remove[project]:
 				for stub in r:
 					if ( line.find(stub) > 0 ):
 						line =''
