@@ -3,114 +3,71 @@
 import os
 import sys
 import optparse
+import xml.dom.minidom
+import datetime
+import platform
 
 global empty		   # set:  empty
 global strings		   # dict: Visual Studio Strings
 global uid			   # dict: UID of every projects
 global project		   # dict: dependency sets for every project
-global ignore		   # set: projects to ignore
+global ignore		   # set:  projects/directories to ignore
 
 empty=set([])
-ignore=set(['webready'])
+ignore=set(['webready','expat','expat201','expat210','zlib123','zlib125','zlib127','tools'])
 
 strings = {}
 strings['Begin']='''Microsoft Visual Studio Solution File, Format Version 9.00
 # Visual Studio 2005
-'''
+''' + '# Created by:%s at:%s using:%s on:%s in:%s\n' % (sys.argv[0], datetime.datetime.now().time(), platform.node(), platform.platform(), os.path.abspath('.'))
 strings['End'] = ''
 
 strings['globalBegin'] = 'Global'
 strings['globalEnd'	 ] = 'EndGlobal'
 
 strings['platforms'] = '''
-	GlobalSection(SolutionConfigurationPlatforms) = preSolution
-		Debug|Win32 = Debug|Win32
-		Debug|x64 = Debug|x64
-		DebugDLL|Win32 = DebugDLL|Win32
-		DebugDLL|x64 = DebugDLL|x64
-		Release|Win32 = Release|Win32
-		Release|x64 = Release|x64
-		ReleaseDLL|Win32 = ReleaseDLL|Win32
-		ReleaseDLL|x64 = ReleaseDLL|x64
-	EndGlobalSection
+\tGlobalSection(SolutionConfigurationPlatforms) = preSolution
+\t\tDebug|Win32 = Debug|Win32
+\t\tDebug|x64 = Debug|x64
+\t\tDebugDLL|Win32 = DebugDLL|Win32
+\t\tDebugDLL|x64 = DebugDLL|x64
+\t\tRelease|Win32 = Release|Win32
+\t\tRelease|x64 = Release|x64
+\t\tReleaseDLL|Win32 = ReleaseDLL|Win32
+\t\tReleaseDLL|x64 = ReleaseDLL|x64
+\t\tEndGlobalSection
 '''
-strings['postSolutionBegin'] =	 '	  GlobalSection(ProjectConfigurationPlatforms) = postSolution\n'
-strings['postSolutionEnd'  ] =	 '	  EndGlobalSection\n'
+strings['postSolutionBegin'] =	'\tGlobalSection(ProjectConfigurationPlatforms) = postSolution\n'
+strings['postSolutionEnd'  ] =	'\tEndGlobalSection\n'
 
-strings['preSolution']		 = '''	  GlobalSection(SolutionProperties) = preSolution
-		HideSolutionNode = FALSE
-	EndGlobalSection
+strings['preSolution']		 = '''\tGlobalSection(SolutionProperties) = preSolution
+\t\tHideSolutionNode = FALSE
+\tEndGlobalSection
 '''
 
 ##
-# Remove feature (not implemented yet)
-# import sys
-# import xml.dom.minidom
-# global remove			 # dict: files to removed for an option (not implemented yet)
-# remove={}
-# remove['zlib'] = set([ 'pngimage.cpp' ])
-#
-# modify writeProject():
-#	# Filter every .vcproj	foo\foo.vcproj -> foo\foo_configure.vcproj
-#	xml	   = xml.dom.minidom.parse('foo\foo.vcproj')
-#	pretty = xml.toprettyxml()
-#	lines  = pretty.split('\n')
-#	out	   = ""
-#	for line in lines:
-#		if not line.match( '<File RelativePath="..\..\src\pngimage.cpp"></File>' ):
-#			out = out + line.remove('\n')
-#		if not line.match( 'PreprocessorDefinitions=.*"' ):
-#			line=replace('"$','EXV_MSVC_CONFIGURE"')
-#			out = out + line.remove('\n')
-#
-#	open('foo\foo_configure.vcproj').write(out)
-##
-
-# for l in $(find . -name "*" -type d -maxdepth 1); do l=$(basename $l) ; if [ -e $l/$l.vcproj ]; then xmllint $l/$l.vcproj -pretty 1 | grep RootNamespace ; fi; done
+# build dict:uid - hunt the tree for .vcproj files
 uid = {}
-uid['addmoddel'				] = '83914D93-57B3-4718-8A50-662C17C4AE8F'
-uid['conntest'				] = 'E015DB8C-C463-4A6B-88EA-AFC671D84B5B'
-uid['convert-test'			] = 'D802FE1E-7868-4034-92B8-00865E1CABAB'
-uid['easyaccess-test'		] = '30E18D87-0147-4601-9ED2-4D5291645DB3'
-uid['exifcomment'			] = 'D291B6EF-986B-4222-ADA6-38A2EC2A56CE'
-uid['exifdata'				] = '1A091C40-C0F3-4405-B99E-CA60B9855D77'
-uid['exifdata-test'			] = 'FEF9C19E-F774-4D8A-991C-A566C1B2E8B6'
-uid['exifprint'				] = 'BFB98A96-7ABD-4F78-BA8B-2C2C257D74D8'
-uid['exifvalue'				] = 'B85BDC90-013A-4D6B-B774-F2D7E0067DA6'
-uid['exiv2'					] = '07293CAC-00DA-493E-90C9-5D010C2B1B53'
-uid['exiv2json'				] = '4171BC51-2FDD-4BF5-BB80-1D9B2ACB03B9'
-uid['geotag'				] = 'E3073076-4837-4DDB-89E5-5AC297C7481D'
-uid['httptest'				] = '4AC6B957-1506-4EDB-BF6A-CF7CCE86EC1F'
-uid['iotest'				] = '21F0CEB1-D850-4C29-88BF-1CE4171824E6'
-uid['iptceasy'				] = '6860BB9B-2053-46CD-9E2D-EEC199D68982'
-uid['iptcprint'				] = 'A7D22798-1262-4194-94A5-C636BCB68329'
-uid['iptctest'				] = 'AD41F87C-242B-4B61-B767-A9879F0D5C04'
-uid['key-test'				] = 'F11358FA-AA36-46E1-BA80-A17B8042BF9B'
-uid['largeiptc-test'		] = '953404C9-B20A-4D17-8262-9D9AD1CDC5C1'
-uid['libcurl'				] = 'F36F075A-880D-47BA-805F-C47850062121'
-uid['libeay32'				] = '2C117585-9BA4-4BFE-8335-E3E9D51D4DA7'
-uid['libexiv2'				] = '831EF580-92C8-4CA8-B0CE-3D906280A54D'
-uid['libexpat'				] = '6C4C06A3-6F8F-4067-AA4C-D5F41E1FFF9A'
-uid['libssh'				] = '729E4E11-3BBA-4306-B53C-8AEC45E70E10'
-uid['metacopy'				] = 'AD231915-942F-4083-9671-85E26A5798B0'
-uid['mmap-test'				] = '556CB4FC-33BB-4E67-AB0E-1865E67176A5'
-uid['openssl'				] = '3D77E4F8-02EE-491F-B01C-EE8012CABA18'
-uid['path-test'				] = 'E04D48BF-F529-4267-9311-908E94DF5A49'
-uid['prevtest'				] = 'FC7120EC-BEB2-4CC3-9B90-B022F560E584'
-uid['remotetest'			] = 'B25A3F96-68E8-4FD4-860E-2C33E539B892'
-uid['ssleay32'				] = '6ABBF8BA-0A23-4C5C-8AEB-1B2577625DFA'
-uid['stringto-test'			] = '9DCEE051-A07B-4C6B-B2BC-0814F0C323AA'
-uid['taglist'				] = 'DBD630FC-0DA9-41EB-925D-70654D01F6FA'
-uid['tiff-test'				] = 'C34B11A1-B707-46B2-8053-2FA236B369CF'
-uid['utiltest'				] = '495BC686-DF50-4250-B469-9C6B7B33A4B8'
-uid['werror-test'			] = '430C4512-CC73-4943-8CDF-71DEA573BD47'
-uid['write-test'			] = '98A9F59D-FDFE-4B27-88FE-2625F1E7597F'
-uid['write2-test'			] = 'E796088F-0EE6-4EC7-ABA0-8A18F54A4DD7'
-uid['xmpparse'				] = '1708EFC1-414E-4712-80A5-813A6F38814C'
-uid['xmpparser-test'		] = '85121FD0-01A1-49BA-B168-CC8D90F91A6F'
-uid['xmpsample'				] = '45CA5427-4260-4F4A-86B0-FB7AE233D76B'
-uid['xmpsdk'				] = '09877CF4-83B6-44FE-A2E2-629AA5C8093E'
-uid['zlib'					] = '8308C68D-E12B-4C71-96F4-7137F6BEB654'
+for d in os.listdir('.'):
+	if os.path.isdir(d) & (not d in ignore):
+		for root, dirs, files in os.walk(d):
+			for file in files:
+				ext = ".vcproj"
+				if file.endswith(ext) & (file.find('_configure') < 0):
+					path=os.path.join(root, file)
+					stub=file[0:-len(ext)]
+					for line in xml.dom.minidom.parse(path).toprettyxml().split('\n'):
+						if ( line.find('RootNamespace') >= 0 ):
+							start  = 'ProjectGUID="{'
+							start  = line.find(start) + len(start)
+							uid[d] = line[start:line.find('}',start)-1]
+
+##
+# Remove feature
+remove={}
+for p in uid:
+	remove[p]=empty
+remove['zlib'] = set([ 'pngimage' ])
 
 ##
 # define project dependances
@@ -136,33 +93,73 @@ for p in uid:
 
 ##
 # {831EF580-92C8-4CA8-B0CE-3D906280A54D}.Debug|Win32.ActiveCfg = Debug|Win32
-def writeCompilationTable(s,uid):
+def compilationForProject(uid):
+	result = ''
 	for t in [ 'Debug' , 'DebugDLL' , 'Release' , 'ReleaseDLL' ]:
 		for p in [ 'Win32','x64']:
 			for z in ['ActiveCfg','Build.0']:
-				s.write(   '\t\t{%s}.%s|%s.%s = %s|%s\n' % (uid,t,p,z,t,p)	 );
+				result = result +  '\t\t{%s}.%s|%s.%s = %s|%s\n' % (uid,t,p,z,t,p)
+	return result;
+
+def compilationTable():
+	result = strings['postSolutionBegin']
+	for p in project:
+		if type(project[p]) == type(empty):
+			result = result + compilationForProject(uid[p])
+	return result + strings['postSolutionEnd']
 
 ##
-# Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "libexiv2", "libexiv2\libexiv2.vcproj", "{831EF580-92C8-4CA8-B0CE-3D906280A54D}"
+# Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "libexiv2", "libexiv2\libexiv2_configure.vcproj", "{831EF580-92C8-4CA8-B0CE-3D906280A54D}"
 #	ProjectSection(ProjectDependencies) = postProject
 #		{09877CF4-83B6-44FE-A2E2-629AA5C8093E} = {09877CF4-83B6-44FE-A2E2-629AA5C8093E}
 #		 ...
 #	EndProjectSection
 # EndProject
-# '''
-def writeProject(s,project,projects):
-	UID='8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942' # grep 8BC9 exiv2.sln | head -1
-	s.write( 'Project("{%s}") = "%s", "%s\%s.vcproj", "{%s}"\n' % (UID,project,project,project,uid[project]) )
-	count=0
-	out='\tProjectSection(ProjectDependencies) = postProject\n'
+# Filter proj\proj.vcproj -> proj\proj_configure.vcproj
+# 1) Remove unwanted files (using remove[project] set)
+# 2) Add a preprocessor symbol to ask config.h to read exv_msvc_configure.h
+##
+def projectRecord(project,projects):
+#
+	print( 'Project %-18s uid = %s' % (project, uid[project]) )
+
+	UID    = '8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942' # grep 8BC9 exiv2.sln | head -1
+	vcnew  = "%s\%s_configure.vcproj" % (project,project)               # write in DOS notation for Visual Studio
+	result = 'Project("{%s}") = "%s", "%s", "{%s}"\n' % (UID,project,vcnew,uid[project])
+
+	count  = 0
+	out    = '\tProjectSection(ProjectDependencies) = postProject\n'
 	for p in projects:
 		if not p in ignore:
 			count=count+1
 			out = out + '\t\t{%s} = {%s}\n' % (uid[p],uid[p])
 	out = out + '\tEndProjectSection\n'
 	if count > 0:
-		s.write(out)
-	s.write('EndProject\n')
+		result = result + out
+
+	result = result + 'EndProject\n'
+
+	# Filter foo\foo.vcproj -> foo\foo_configure.vcproj and remove files we do not want
+	vcold    = os.path.join(project,("%s.vcproj"            % project) )  # path to old file
+	vcnew    = os.path.join(project,("%s_configure.vcproj"  % project) )  # path to new file
+	xmllines = xml.dom.minidom.parse(vcold).toprettyxml().split('\n')
+	out	     = ""
+	for line in xmllines:
+		if line.find( 'File RelativePath=' ) >= 0:
+			for stub in remove[project]:
+				for stub in r:
+					if ( line.find(stub) > 0 ):
+						line =''
+		# add a preprocessor define to help config.h to read exv_conf_configure.h
+		ppold=      'PreprocessorDefinitions="'
+		ppnew=ppold+'EXV_MSVC_CONFIGURE;'
+		if line.find( ppold ) > 0:
+			line=line.replace(ppold,ppnew)
+		if len(line)>0:
+			out = out + line + '\n'
+	open(vcnew,'w').write(out)
+
+	return result
 
 ##
 # not assert!
@@ -172,12 +169,15 @@ def cantHappen(condition,message):
 		exit(1)
 
 ##
+# if opt is true,  make remove set empty
 # if opt is false, remove lib from all projects
 def cleanProjectSet(opt,lib):
-	if not opt:
+	if opt:
+		remove[lib]=empty
+	else:
 		ignore.add(lib);
 		for p in project:
-			project[p].add(lib)
+			project[p].add(lib) # make sure we have something to remove!
 			project[p].remove(lib)
 
 def main():
@@ -230,6 +230,7 @@ def main():
 	for o, v in sorted(options.__dict__.items()):
 		if o != 'defolt':
 			print(fmt % (o, v))
+	print()
 
 	cleanProjectSet(options.curl   ,'libcurl' )
 	cleanProjectSet(options.openssl,'openssl' )
@@ -240,17 +241,16 @@ def main():
 	cleanProjectSet(options.zlib   ,'zlib'	  )
 
 	##
-	# open the strings file
+	# open the solution file
 	sln='exiv2-configure.sln'
-	s = open(sln,'w') # 'a+')
+	s = open(sln,'w')
 	s.write(strings['Begin'])
 
 	##
 	# write projects
-	print('Projects:',end=' ')
 	for p in sorted(project):
 		if not p in ignore:
-			print(p,end=' ')
+			# print(p,end=' ')
 			projects=project[p]
 
 			zap = False
@@ -260,25 +260,21 @@ def main():
 			if zap:
 				project[p]=0
 			else:
-				writeProject(s,p,projects)
-	print('')
+				s.write(projectRecord(p,projects))
 
 	##
 	# write compilation table
 	s.write(strings['globalBegin'])
 	s.write(strings['platforms'	 ])
-	s.write(strings['postSolutionBegin'	 ])
-	for p in project:
-		if type(project[p]) == type(empty):
-			writeCompilationTable(s,uid[p])
-	s.write(strings['postSolutionEnd'  ])
-	s.write(strings['preSolution'	   ])
-	s.write(strings['globalEnd'])
+	s.write(compilationTable())
+	s.write(strings['preSolution'])
+	s.write(strings['globalEnd'  ])
 
 	##
 	# finish
 	s.write(strings['End'])
 	s.close()
+
 	print()
 	print('MSVC 2005 Solution file created: ' + sln)
 	print()
