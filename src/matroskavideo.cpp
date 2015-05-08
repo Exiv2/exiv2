@@ -31,11 +31,7 @@ EXIV2_RCSID("@(#) $Id$")
 
 // *****************************************************************************
 // included header files
-#ifdef _MSC_VER
-# include "exv_msvc.h"
-#else
-# include "exv_conf.h"
-#endif
+#include "config.h"
 
 #ifndef    EXV_ENABLE_VIDEO
 namespace  Exiv2 {
