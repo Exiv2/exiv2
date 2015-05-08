@@ -51,30 +51,51 @@ for d in os.listdir('.'):
 
 ##
 # define project dependances
-# TODO: read exiv-webready.sln to build project/dependency set
+# This table is generated with the command 'tools/python/depends.py exiv2-webready.sln format'
 project = {}
-# no dependancy
-for p in externlib:
-	project[p]=empty()
-
-##
-# dependancies
-project['xmpparser-test'	] = set(['libexiv2','xmpsdk'			 ])
-project['xmpparse'			] = set(['libexiv2','xmpsdk'			 ])
-project['xmpsample'			] = set(['libexiv2','xmpsdk'			 ])
-project['xmpsdk'			] = set([			'libexpat'			 ])
-project['geotag'			] = set([			'libexpat','libexiv2'])
-project['libexiv2'			] = set([			'libexpat','xmpsdk'	 ,'zlib','libcurl','libeay32','ssleay32','libssh','openssl'])
-project['libcurl'			] = set(['libeay32','ssleay32','libssh'	 ])
-project['libssh'			] = set(['libeay32','ssleay32','openssl' ])
-project['libeay32'			] = set(['openssl' ])
-project['ssleay32'			] = set(['openssl' ])
-
-# all others depend on libexiv2
-for p in uid:
-	if not p in project:
-		project[p]=set(['libexiv2'])
-
+project['addmoddel'			] = set(['libcurl', 'zlib', 'libexpat', 'xmpsdk', 'libexiv2', 'libssh'])
+project['conntest'			] = set(['libcurl', 'zlib', 'libexpat', 'xmpsdk', 'libexiv2', 'libssh'])
+project['convert-test'		] = set(['libcurl', 'zlib', 'libexpat', 'xmpsdk', 'libexiv2', 'libssh'])
+project['easyaccess-test'	] = set(['libcurl', 'zlib', 'libexpat', 'xmpsdk', 'libexiv2', 'libssh'])
+project['exifcomment'		]         = set(['libcurl', 'zlib', 'libexpat', 'xmpsdk', 'libexiv2', 'libssh'])
+project['exifdata'			]            = set(['libexiv2'])
+project['exifdata-test'		]       = set(['libcurl', 'zlib', 'libexpat', 'xmpsdk', 'libexiv2', 'libssh'])
+project['exifprint'			]           = set(['libcurl', 'zlib', 'libexpat', 'xmpsdk', 'libexiv2', 'libssh'])
+project['exifvalue'			]           = set(['libexiv2'])
+project['exiv2'				]               = set(['libeay32', 'ssleay32', 'libcurl', 'zlib', 'libexpat', 'xmpsdk', 'libexiv2', 'libssh'])
+project['exiv2json'			]           = set(['libcurl', 'zlib', 'libexpat', 'xmpsdk', 'libexiv2', 'libssh'])
+project['geotag'			]              = set(['zlib', 'libexpat', 'libexiv2', 'libcurl', 'xmpsdk'])
+project['httptest'			]            = set(['zlib', 'libexpat', 'libexiv2', 'libcurl', 'xmpsdk'])
+project['iotest'			]              = set(['zlib', 'libexpat', 'libexiv2', 'libcurl', 'xmpsdk'])
+project['iptceasy'			]            = set(['zlib', 'libexpat', 'libexiv2', 'libcurl', 'xmpsdk'])
+project['iptcprint'			]           = set(['zlib', 'libexpat', 'libexiv2', 'libcurl', 'xmpsdk'])
+project['iptctest'			]            = set(['zlib', 'libexpat', 'libexiv2', 'libcurl', 'xmpsdk'])
+project['key-test'			]            = set(['zlib', 'libexpat', 'libexiv2', 'libcurl', 'xmpsdk'])
+project['largeiptc-test'	]      = set(['zlib', 'libexpat', 'libexiv2', 'libcurl', 'xmpsdk'])
+project['libcurl'			]             = set(['libssh', 'libeay32', 'ssleay32'])
+project['libeay32'			]            = set(['openssl'])
+project['libexiv2'			]            = set(['libeay32', 'ssleay32', 'libcurl', 'zlib', 'libexpat', 'xmpsdk', 'libssh'])
+project['libexpat'			]            = set([ ])
+project['libssh'			]              = set(['zlib', 'libeay32', 'ssleay32'])
+project['metacopy'			]            = set(['libcurl', 'zlib', 'libexpat', 'xmpsdk', 'libexiv2', 'libssh'])
+project['mmap-test'			]           = set(['libcurl', 'zlib', 'libexpat', 'xmpsdk', 'libexiv2', 'libssh'])
+project['openssl'			]             = set([ ])
+project['path-test'			]           = set(['libcurl', 'zlib', 'libexpat', 'xmpsdk', 'libexiv2', 'libssh'])
+project['prevtest'			]            = set(['libcurl', 'zlib', 'libexpat', 'xmpsdk', 'libexiv2', 'libssh'])
+project['remotetest'		]          = set(['libcurl', 'zlib', 'libexpat', 'xmpsdk', 'libexiv2', 'libssh'])
+project['ssleay32'			]            = set(['openssl'])
+project['stringto-test'		]       = set(['libcurl', 'zlib', 'libexpat', 'xmpsdk', 'libexiv2', 'libssh'])
+project['taglist'			]             = set(['libcurl', 'zlib', 'libexpat', 'xmpsdk', 'libexiv2', 'libssh'])
+project['tiff-test'			]           = set(['libcurl', 'zlib', 'libexpat', 'xmpsdk', 'libexiv2', 'libssh'])
+project['utiltest'			]            = set(['libcurl', 'zlib', 'libexpat', 'xmpsdk', 'libexiv2', 'libssh'])
+project['werror-test'		]         = set(['libcurl', 'zlib', 'libexpat', 'xmpsdk', 'libexiv2', 'libssh'])
+project['write-test'		]          = set(['libcurl', 'zlib', 'libexpat', 'xmpsdk', 'libexiv2', 'libssh'])
+project['write2-test'		]         = set(['libcurl', 'zlib', 'libexpat', 'xmpsdk', 'libexiv2', 'libssh'])
+project['xmpparse'			]            = set(['libcurl', 'zlib', 'libexpat', 'xmpsdk', 'libexiv2', 'libssh'])
+project['xmpparser-test'	]      = set(['libcurl', 'zlib', 'libexpat', 'xmpsdk', 'libexiv2', 'libssh'])
+project['xmpsample'			]           = set(['libcurl', 'zlib', 'libexpat', 'xmpsdk', 'libexiv2', 'libssh'])
+project['xmpsdk'			]              = set([ ])
+project['zlib'				]                = set([ ])
 ##
 # filter
 filters={}
@@ -350,7 +371,7 @@ def main():
 
 	##
 	# write solution file
-	sln='exiv2-configure.sln'
+	sln='exiv2_configure.sln'
 	s = open(sln,'w')
 	s.write(strings['Begin'])
 

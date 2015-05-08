@@ -8,7 +8,7 @@ exiv2\msvc2005\ReadMe.txt
 |          with Visual Studio 2003/5/8                      |
 +-----------------------------------------------------------+
 
-Updated: 2015-02-11
+Updated: 2015-05-08
 
 Robin Mills
 http://clanmills.com
@@ -21,9 +21,10 @@ T A B L E  o f  C O N T E N T S
 1.1  Tools
 1.2  Install zlib and expat sources.
 1.3  Open exiv2\msvc2005\exiv2.sln
-1.4  Building with and without webready
-1.5  What is build
-1.6  Express editions of DevStudio (or 32 bit only builds, or 64 bit only builds)
+1.4  Configuring build options (such as video and webready)
+1.5  Building with exiv2-webready.sln
+1.6  What is build
+1.7  Express editions of DevStudio (or 32 bit only builds, or 64 bit only builds)
 
 2    Design
 2.1  Architecture
@@ -56,6 +57,11 @@ T A B L E  o f  C O N T E N T S
 
      You need a DOS version of perl to build openssl.  Not the cygwin version.
      I use ActiveState Perl.
+
+     configure.bat is used to configure "non-standard" version of exiv2
+     configure.bat requires a python3 interpreter.  I use ActivePython.
+     ActivePython 3.4.1.0 (ActiveState Software Inc.) based on
+     Python 3.4.1 (default, Aug  7 2014, 13:09:27) [MSC v.1600 64 bit (AMD64)] on win32
 
      You need Cygwin to run the test suite because it is written in bash.
 
@@ -99,9 +105,9 @@ T A B L E  o f  C O N T E N T S
      - 36 projects      (zlib, expat, xmpsdk, exiv2lib, exiv2, addmoddel etc)
      x 2 Platforms      (x64|Win32)
      x 4 Configurations (Debug|Release|DebugDLL|ReleaseDLL)
-     = 36x2x4 = 288 builds.
+     = 38x2x4 = 304 builds.
 
-     When building with webready, you add 5 libraries for a total of 328 builds.
+     When building with webready, you add 5 libraries for a total of 344 builds.
 
      If you haven't installed the x64 compiler, don't select the 64 bit configurations!
      You may have to hand-edit the vcproj and sln files to hide the 64 bit information.
@@ -109,9 +115,52 @@ T A B L E  o f  C O N T E N T S
 
      Build time is 20 minutes on a 2.2GHz Duo Core and consumes 3.0 gBytes of disk space.
      Build time with webready is of the order of one hour as we add 5 libraries.
-     (libcurl, libeay32, ssleay32,libssh,openssl)
+     (libcurl, libeay32, ssleay32, libssh, openssl)
 
-1.4  Building with and without webready
+1.4  Configuring build options (such as video and webready)
+
+     The batch file configure.bat is used to reconfigure for various options.
+     You will need a python3 interpreter.  I personally use ActivePython 3.4.1
+
+	 C:\cygwin64\home\rmills\gnu\exiv2\trunk\msvc2005>configure -h
+	 Usage: configure.py [options]
+
+	 Options:
+	  -h, --help            show this help message and exit
+	  -A, --with-app        build sample apps (false)
+	  -a, --without-app     do not build apps
+	  -C, --with-curl       enable curl
+	  -c, --without-curl    disable curl
+	  -E, --with-expat      enable expat (true)
+	  -e, --without-expat   disable expat
+	  -O, --with-openssl    enable openssl
+	  -o, --without-openssl
+							disable openssl
+	  -S, --with-ssh        enable ssh
+	  -s, --without-ssh     disable ssh
+	  -T, --with-test       build test programs (true)
+	  -t, --without-test    do not build test progs
+	  -W, --enable-webready
+							enable webready (false)
+	  -w, --disable-webready
+							enable webready
+	  -V, --enable-video    enable video (false)
+	  -v, --disable-video   disable video
+	  -X, --enable-xmp      enable xmp (true)
+	  -x, --disable-xmp     disable xmp
+	  -Z, --with-zlib       enable zlib/png (true)
+	  -z, --without-zlib    disable zlib/png
+	  -d, --default         default
+
+	 When you run configure.bat it creates a new solution exiv2_configure.sln
+	 configure.bat does not modify the solution or project files used by exiv2.sln
+	 Instead it creates a parallel set of projects files.  For example exivprint\exifprint_configure.vcproj
+
+1.5  Building with exiv2-webready.sln
+	 The solution exiv2-webready.sln was used during development before
+	 we created the configure.bat script to generate solution/project files
+	 We have decided to ship this build mechanism for v0.25 only.
+
      Building the complete library with webready support requires building
      5 additional libraries.  This is time consuming.  The build time
      increases from 5 to 20 minutes.
@@ -122,12 +171,12 @@ T A B L E  o f  C O N T E N T S
      1 copy include\exiv2\exv_msvc-webready.h include\exiv2\exv_msvc.h
      2 open msvc2005\exiv2-webready.vcproj
 
-1.5  What is built
+1.6  What is built
      The DLL builds use the DLL version of the C runtime libraries
      The Debug|Release builds use static C runtime libraries
      This is discussed in exiv2\msvc2003\ReadMe.txt
 
-1.6  Express editions of DevStudio (or 32 bit only builds, or 64 bit only builds)
+1.7  Express editions of DevStudio (or 32 bit only builds, or 64 bit only builds)
      Some Express Editions do not provide a 64 bit compiler.
      You can build 32 bit libraries with DevStudio Express (with a little effort)
 
@@ -208,7 +257,7 @@ T A B L E  o f  C O N T E N T S
      5) msvc2005 does not require you to build 'vanilla' expat and zlib projects in advance
      6) msvc2005 does not support the organize application
      7) msvc2005 supports building with zlib1.2.7 or 1.2.8
-     7) msvc2005 supports building with expat2.1.0
+     8) msvc2005 supports building with expat2.1.0 or expat2.0.1
 
      msvc2003 will continue to be supported for 32 bit builds using DevStudio 2003/05/08,
      however there is no plan to enhance or develop msvc2003 going forward.
