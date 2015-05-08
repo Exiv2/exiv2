@@ -466,9 +466,9 @@ void Exiv2::dumpLibraryInfo(std::ostream& os,const exv_grep_keys_t& keys)
         curl_protocols += vinfo->protocols[i];
         curl_protocols += " " ;
     }
-    output(os,keys,"curlprotocols=" ,curl_protocols);
+    output(os,keys,"curlprotocols" ,curl_protocols);
 #else
-    output(os,keys,"curl="          , EXV_USE_CURL);
+    output(os,keys,"curl"          , EXV_USE_CURL);
 #endif
     output(os,keys,"id"        , "$Id$");
     if ( libs.begin() != libs.end() ) {
