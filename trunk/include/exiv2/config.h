@@ -39,6 +39,7 @@
 #define __LITTLE_ENDIAN__ 1
 #endif
 #endif
+#endif
 
 #ifndef __LITTLE_ENDIAN__
 #if defined(_MSC_VER) || defined(__CYGWIN__) || defined(__MINGW__)

@@ -2,11 +2,14 @@
 
 import os
 import sys
+import uuid
 import optparse
-import xml.dom.minidom
 import datetime
 import platform
-import uuid
+import xml.dom.minidom
+
+def empty():
+	return set([])
 
 global uid			   # dict: UID of every projects
 global project		   # dict: dependency sets for every project
@@ -14,11 +17,16 @@ global strings		   # dict: Visual Studio Strings
 global ignore		   # set:  projects/directories to ignore
 global filters		   # dict: patterns of filenames to be removed from the build
 global filter		   # set:  patterns of filenames to be removed from the build
-global neverfilter	   # set:  project to never filter (zlib etc)
+global externlib	   # set:  project to never filter (zlib etc)
 global format		   # str:  output format
+global build           # set:  projects to be built
 
-ignore	 = set(['expat'		   , 'expat201'	 , 'expat210'	, 'tests', 'testv'
-			   ,'zlib123'	   , 'zlib125'	 , 'zlib127'	, 'tools', 'exiv2lib'
+format   = '%-20s\t%s'
+externlib= set(['libcurl'      , 'libexpat'  , 'zlib'       , 'libcurl'
+               ,'libeay32'     , 'ssleay32'  , 'libssh'     , 'openssl'
+               ])
+ignore	 = set(['expat'		   , 'expat201'	 , 'expat210'	, 'tests'   , 'testv'
+			   ,'zlib123'	   , 'zlib125'	 , 'zlib127'	, 'tools'   , 'exiv2lib'
 			   ])
 apps	 = set(['exifdata'	   , 'exifvalue' , 'geotag'		 , 'xmpsample'	   ])
 tests	 = set(['exifdata-test', 'conntest'	 , 'convert-test', 'easyaccess-test', 'exifcomment'	  , 'httptest'
@@ -28,9 +36,7 @@ tests	 = set(['exifdata-test', 'conntest'	 , 'convert-test', 'easyaccess-test', 
 			  , 'xmpparser-test'
 			  ])
 # always = set(['exiv2'		   , 'exiv2json' , 'addmoddel'	 , 'exifprint'		, 'metacopy' ])
-
-def empty():
-	return set([])
+build=empty()
 
 ##
 # build dict:uid - hunt the tree for .vcproj files
@@ -48,7 +54,7 @@ for d in os.listdir('.'):
 # TODO: read exiv-webready.sln to build project/dependency set
 project = {}
 # no dependancy
-for p in ['libexpat','zlib','openssl']:
+for p in externlib:
 	project[p]=empty()
 
 ##
@@ -71,7 +77,6 @@ for p in uid:
 
 ##
 # filter
-neverfilter=set(['libcurl', 'libexpat' , 'zlib' , 'libcurl','libeay32','ssleay32','libssh','openssl' ])
 filters={}
 filters['zlib'				] = set(['png'	])
 filters['video'				] = set(['video'])
@@ -160,15 +165,22 @@ def projectRecord(project,projects):
 	return result
 
 ##
+#   filter ....exv_msvc.h... -> ....exv_msvc_configure.h....
+def modifyHeaderName(line):
+	headerold='exv_msvc.h'
+	headernew='exv_msvc_configure.h'
+	if line.find(headerold):
+		line=line.replace(headerold,headernew)
+	return line
+
+##
 # Filter proj\proj.vcproj -> proj\proj_configure.vcproj
 def writeVCproj(project,projects):
-	filt	 = empty() if project in neverfilter else filter
 	vcold	 = os.path.join(project,("%s.vcproj"			% project) )  # path to old file
 	vcnew	 = os.path.join(project,("%s_configure.vcproj"	% project) )  # path to new file
 	xmllines = xml.dom.minidom.parse(vcold).toprettyxml().split('\n')
 	out		 = ""
 	for line in xmllines:
-
 		# 1) Update the project GUID
 		projectGUID='ProjectGUID="{'
 		if line.find( projectGUID) > 0:
@@ -176,11 +188,12 @@ def writeVCproj(project,projects):
 			olduid=line[start:line.find('}',start)-1]
 			line=line.replace(olduid,uid[project]);
 
-		# 2) Remove unwanted files (using remove[project] set)
-		if line.find( 'File RelativePath=' ) >= 0:
-			for pattern in filt:
+		# 2) Filter off unwanted files and modify the msvc header file
+		if (not project in externlib) & (line.find( 'File RelativePath=' ) >= 0):
+			for pattern in filter:
 				if ( line.find(pattern) > 0 ):
 					line =''
+			line=modifyHeaderName(line)
 
 		# 3) Add a preprocessor symbol to ask config.h to read exv_msvc_configure.h
 		ppold=		'PreprocessorDefinitions="'
@@ -190,6 +203,7 @@ def writeVCproj(project,projects):
 
 		if len(line)>0:
 			out = out + line + '\n'
+
 	open(vcnew,'w').write(out)
 
 ##
@@ -212,12 +226,13 @@ def headerFilter(path,options):
 	truth['HAVE_EXPAT'		] = options.expat
 	for line in lines:
 		start=line.find('EXV_')
-		if (start > 0) & line.find('define')>0:
+		if (start > 0) & ((line.find('define')>0) | (line.find('undef')>0)):
 			key = line[start+4:line.find(' ',start+4)]
 			if key in truth:
-				line = '#define EXV_%s %d\n' % (key, 1 if truth[key] else 0)
-			# print('key = %s' % key)
+				line = ('#define EXV_%s 1\n' % key) if truth[key] else ('#undef EXV_%s\n' % key)
+		line=modifyHeaderName(line)
 		result += line
+
 	return result
 
 def enableWebready(option, opt_str, value, parser):
@@ -241,8 +256,9 @@ def main():
 	global ignore
 	global filter
 	global filters
-	global neverfilter
+	global externlib
 	global format
+	global build
 
 	##
 	# set up argument parser
@@ -250,27 +266,27 @@ def main():
 	parser = optparse.OptionParser(usage)
 	parser = optparse.OptionParser()
 
-	parser.add_option('-A', '--with-app'		, action='store_true' , dest='app'	   ,help='build sample apps'	   ,default=False)
-	parser.add_option('-a', '--without-app'		, action='store_false', dest='app'	   ,help='do not build apps'	   )
-	parser.add_option('-C', '--with-curl'		, action='store_true' , dest='curl'	   ,help='enable curl'			   ,default=False)
-	parser.add_option('-c', '--without-curl'	, action='store_false', dest='curl'	   ,help='disable curl'			   )
-	parser.add_option('-E', '--with-expat'		, action='store_true' , dest='expat'   ,help='enable expat'			   ,default=True)
-	parser.add_option('-e', '--without-expat'	, action='store_false', dest='expat'   ,help='disable expat'		   )
-	parser.add_option('-O', '--with-openssl'	, action='store_true' , dest='openssl' ,help='enable openssl'		   ,default=False)
-	parser.add_option('-o', '--without-openssl' , action='store_false', dest='openssl' ,help='disable openssl'		   )
-	parser.add_option('-S', '--with-ssh'		, action='store_true' , dest='ssh'	   ,help='enable ssh'			   ,default=False)
-	parser.add_option('-s', '--without-ssh'		, action='store_false', dest='ssh'	   ,help='disable ssh'			   )
-	parser.add_option('-T', '--with-test'		, action='store_true' , dest='test'	   ,help='build test programs'	   ,default=True)
-	parser.add_option('-t', '--without-test'	, action='store_false', dest='test'	   ,help='do not build test progs' )
-	parser.add_option('-W', '--enable-webready' , action='callback'	  , dest='webready',help='enable webready (false)' ,callback=enableWebready,default=False)
-	parser.add_option('-w', '--disable-webready', action='callback'	  , dest='webready',help='enable webready'		   ,callback=disableWebready)
-	parser.add_option('-V', '--enable-video'	, action='store_true' , dest='video'   ,help='enable video (false)'	   ,default=False)
-	parser.add_option('-v', '--disable-video'	, action='store_false', dest='video'   ,help='disable video'		   )
-	parser.add_option('-X', '--enable-xmp'		, action='store_true' , dest='xmp'	   ,help='enable xmp (true)'	   ,default=True)
-	parser.add_option('-x', '--disable-xmp'		, action='store_false', dest='xmp'	   ,help='disable xmp'			   )
-	parser.add_option('-Z', '--with-zlib'		, action='store_true' , dest='zlib'	   ,help='enable zlib/png'		   ,default=True)
-	parser.add_option('-z', '--without-zlib'	, action='store_false', dest='zlib'	   ,help='disable zlib/png'		   )
-	parser.add_option('-d', '--default'			, action='store_true' , dest='default' ,help='default'				   ,default=False)
+	parser.add_option('-A', '--with-app'		, action='store_true' , dest='app'	   ,help='build sample apps (false)' ,default=False)
+	parser.add_option('-a', '--without-app'		, action='store_false', dest='app'	   ,help='do not build apps'	     )
+	parser.add_option('-C', '--with-curl'		, action='store_true' , dest='curl'	   ,help='enable curl'			     ,default=False)
+	parser.add_option('-c', '--without-curl'	, action='store_false', dest='curl'	   ,help='disable curl'			     )
+	parser.add_option('-E', '--with-expat'		, action='store_true' , dest='expat'   ,help='enable expat (true)'		 ,default=True)
+	parser.add_option('-e', '--without-expat'	, action='store_false', dest='expat'   ,help='disable expat'		     )
+	parser.add_option('-O', '--with-openssl'	, action='store_true' , dest='openssl' ,help='enable openssl'		     ,default=False)
+	parser.add_option('-o', '--without-openssl' , action='store_false', dest='openssl' ,help='disable openssl'		     )
+	parser.add_option('-S', '--with-ssh'		, action='store_true' , dest='ssh'	   ,help='enable ssh'			     ,default=False)
+	parser.add_option('-s', '--without-ssh'		, action='store_false', dest='ssh'	   ,help='disable ssh'			     )
+	parser.add_option('-T', '--with-test'		, action='store_true' , dest='test'	   ,help='build test programs (true)',default=True)
+	parser.add_option('-t', '--without-test'	, action='store_false', dest='test'	   ,help='do not build test progs'   )
+	parser.add_option('-W', '--enable-webready' , action='callback'	  , dest='webready',help='enable webready (false)'   ,callback=enableWebready,default=False)
+	parser.add_option('-w', '--disable-webready', action='callback'	  , dest='webready',help='enable webready'		     ,callback=disableWebready)
+	parser.add_option('-V', '--enable-video'	, action='store_true' , dest='video'   ,help='enable video (false)'	     ,default=False)
+	parser.add_option('-v', '--disable-video'	, action='store_false', dest='video'   ,help='disable video'		     )
+	parser.add_option('-X', '--enable-xmp'		, action='store_true' , dest='xmp'	   ,help='enable xmp (true)'	     ,default=True)
+	parser.add_option('-x', '--disable-xmp'		, action='store_false', dest='xmp'	   ,help='disable xmp'			     )
+	parser.add_option('-Z', '--with-zlib'		, action='store_true' , dest='zlib'	   ,help='enable zlib/png (true)'    ,default=True)
+	parser.add_option('-z', '--without-zlib'	, action='store_false', dest='zlib'	   ,help='disable zlib/png'		     )
+	parser.add_option('-d' , '--default'		, action='store_true' , dest='default' ,help='default'				     ,default=False)
 
 	##
 	# no arguments, report and quit
@@ -293,7 +309,6 @@ def main():
 
 	##
 	# print options
-	format='%-20s\t%s'
 	print(format % ('Option' , 'Value'))
 	print(format % ('------' , '-----'))
 	for o, v in sorted(options.__dict__.items()):
@@ -317,7 +332,6 @@ def main():
 
 	##
 	# learn build candidates
-	build=empty()
 	for p in project:
 		skip = p in ignore
 		skip = skip | ((p == 'libssh'	) & ( not options.ssh	 ))
@@ -363,12 +377,12 @@ def main():
 	# write exv_msvc_configure.h by filtering exv_msvc.h
 	include = os.path.join('..','include','exiv2')
 	oldh	= os.path.join(include,'exv_msvc.h');
-	newh	= os.path.join(include,'exv_msvc_config.h');
+	newh	= os.path.join(include,'exv_msvc_configure.h');
 	open(newh,'w').write(headerFilter(oldh,options))
 
 	print()
 	print('MSVC 2005 Solution file created: ' + sln)
-	print()
+	print('header = %s\n' % os.path.abspath(newh))
 
 if __name__ == "__main__":
 	main()
