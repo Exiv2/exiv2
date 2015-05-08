@@ -1,7 +1,11 @@
 // config.h
 //
 #ifdef _MSC_VER
-# include "exv_msvc.h"
+# ifdef EXV_MSVC_CONFIGURE
+#  include "exv_msvc_configure.h"
+# else
+#  include "exv_msvc.h"
+# endif
 #else
 # include "exv_conf.h"
 #endif
@@ -26,6 +30,13 @@
 #ifndef __CYGWIN__
 #if defined(__CYGWIN32__) || defined(__CYGWIN64__)
 #define __CYGWIN__ 1
+#endif
+#endif
+
+#ifndef __LITTLE_ENDIAN__
+#if    defined(__BYTE_ORDER__) && defined(__ORDER_LITTLE_ENDIAN__)
+#if            __BYTE_ORDER__  ==         __ORDER_LITTLE_ENDIAN__
+#define __LITTLE_ENDIAN__ 1
 #endif
 #endif
 

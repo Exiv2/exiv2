@@ -12,11 +12,14 @@ global uid			   # dict: UID of every projects
 global project		   # dict: dependency sets for every project
 global strings		   # dict: Visual Studio Strings
 global ignore		   # set:  projects/directories to ignore
-global filters		   # set:  options/files to remove when option disabled
+global filters		   # dict: patterns of filenames to be removed from the build
 global filter		   # set:  patterns of filenames to be removed from the build
+global neverfilter	   # set:  project to never filter (zlib etc)
+global format		   # str:  output format
 
-ignore	 = set(['expat'		   , 'expat201'	 , 'expat210'	 , 'zlib123'	   , 'zlib125', 'zlib127', 'tools', 'exiv2lib'])
-always	 = set(['exiv2'		   , 'exiv2json' , 'addmoddel'	 , 'exifprint'		, 'metacopy' ])
+ignore	 = set(['expat'		   , 'expat201'	 , 'expat210'	, 'tests', 'testv'
+			   ,'zlib123'	   , 'zlib125'	 , 'zlib127'	, 'tools', 'exiv2lib'
+			   ])
 apps	 = set(['exifdata'	   , 'exifvalue' , 'geotag'		 , 'xmpsample'	   ])
 tests	 = set(['exifdata-test', 'conntest'	 , 'convert-test', 'easyaccess-test', 'exifcomment'	  , 'httptest'
 			  , 'iotest'	   , 'iptceasy'	 , 'iptcprint'	 , 'iptctest'		, 'key-test'	  , 'largeiptc-test'
@@ -24,6 +27,7 @@ tests	 = set(['exifdata-test', 'conntest'	 , 'convert-test', 'easyaccess-test', 
 			  , 'tiff-test'	   , 'utiltest'	 , 'werror-test' , 'write-test'		, 'write2-test'	  , 'xmpparse'
 			  , 'xmpparser-test'
 			  ])
+# always = set(['exiv2'		   , 'exiv2json' , 'addmoddel'	 , 'exifprint'		, 'metacopy' ])
 
 def empty():
 	return set([])
@@ -50,6 +54,7 @@ for p in ['libexpat','zlib','openssl']:
 ##
 # dependancies
 project['xmpparser-test'	] = set(['libexiv2','xmpsdk'			 ])
+project['xmpparse'			] = set(['libexiv2','xmpsdk'			 ])
 project['xmpsample'			] = set(['libexiv2','xmpsdk'			 ])
 project['xmpsdk'			] = set([			'libexpat'			 ])
 project['geotag'			] = set([			'libexpat','libexiv2'])
@@ -65,34 +70,29 @@ for p in uid:
 		project[p]=set(['libexiv2'])
 
 ##
-# projects if not --with--feature
-without={}
-without['webready'			] = set(['libcurl','libeay32','ssleay32','libssh','openssl'])
-without['xmp'				] = set(['xmpsdk'])
-without['zlib'				] = set(['zlib'])
-
-##
-# filters feature
+# filter
+neverfilter=set(['libcurl', 'libexpat' , 'zlib' , 'libcurl','libeay32','ssleay32','libssh','openssl' ])
 filters={}
-filters['zlib'	  ] = set(['png'  ])
-filters['video'	  ] = set(['video'])
-filters['xmp'	  ] = set(['xmp'  ])
-filters['webready'] = set(['xmp'  ])
+filters['zlib'				] = set(['png'	])
+filters['video'				] = set(['video'])
+filters['xmp'				] = set(['xmp'	])
+filters['webready'			] = set([		])
+filter=empty()
 
 ##
 # MSVC strings
 strings = {}
-strings['UID'] = str(uuid.uuid1())
+strings['UID'	] = str(uuid.uuid1())
 
-strings['Begin']='''Microsoft Visual Studio Solution File, Format Version 9.00
+strings['Begin' ]='''Microsoft Visual Studio Solution File, Format Version 9.00
 # Visual Studio 2005
 ''' + '# Created by:%s at:%s using:%s on:%s in:%s\n' % (sys.argv[0], datetime.datetime.now().time(), platform.node(), platform.platform(), os.path.abspath('.'))
-strings['End'] = ''
+strings['End'				] = ''
 
-strings['globalBegin'] = 'Global'
-strings['globalEnd'	 ] = 'EndGlobal'
+strings['globalBegin'		] = 'Global'
+strings['globalEnd'			] = 'EndGlobal'
 
-strings['platforms'] = '''
+strings['platforms'			] = '''
 \tGlobalSection(SolutionConfigurationPlatforms) = preSolution
 \t\tDebug|Win32 = Debug|Win32
 \t\tDebug|x64 = Debug|x64
@@ -104,13 +104,13 @@ strings['platforms'] = '''
 \t\tReleaseDLL|x64 = ReleaseDLL|x64
 \t\tEndGlobalSection
 '''
-strings['postSolutionBegin'] = '\tGlobalSection(ProjectConfigurationPlatforms) = postSolution\n'
-strings['postSolutionEnd'  ] = '\tEndGlobalSection\n'
+strings['postSolutionBegin' ] = '\tGlobalSection(ProjectConfigurationPlatforms) = postSolution\n'
+strings['postSolutionEnd'	] = '\tEndGlobalSection\n'
 
-strings['postProjectBegin' ] = '\tProjectSection(ProjectDependencies) = postProject\n'
-strings['postProjectEnd'   ] = '\tProjectSectionEnd\n'
+strings['postProjectBegin'	] = '\tProjectSection(ProjectDependencies) = postProject\n'
+strings['postProjectEnd'	] = '\tProjectSectionEnd\n'
 
-strings['preSolution']		 = '''\tGlobalSection(SolutionProperties) = preSolution
+strings['preSolution'		] = '''\tGlobalSection(SolutionProperties) = preSolution
 \t\tHideSolutionNode = FALSE
 \tEndGlobalSection
 '''
@@ -140,7 +140,7 @@ def compilationTable():
 # EndProject
 ##
 def projectRecord(project,projects):
-	print( 'Project %-18s %s' % ((project), '{ }' if len(projects) == 0 else projects))
+	print( format % ((project), '{ }' if len(projects) == 0 else projects))
 
 	UID	   = strings['UID']
 	vcnew  = "%s\%s_configure.vcproj" % (project,project)  # write in DOS notation for Visual Studio
@@ -162,7 +162,7 @@ def projectRecord(project,projects):
 ##
 # Filter proj\proj.vcproj -> proj\proj_configure.vcproj
 def writeVCproj(project,projects):
-	filt	 = empty() # if project in nofilter else filters
+	filt	 = empty() if project in neverfilter else filter
 	vcold	 = os.path.join(project,("%s.vcproj"			% project) )  # path to old file
 	vcnew	 = os.path.join(project,("%s_configure.vcproj"	% project) )  # path to new file
 	xmllines = xml.dom.minidom.parse(vcold).toprettyxml().split('\n')
@@ -189,7 +189,7 @@ def writeVCproj(project,projects):
 			line=line.replace(ppold,ppnew)
 
 		if len(line)>0:
-			out = out + line
+			out = out + line + '\n'
 	open(vcnew,'w').write(out)
 
 ##
@@ -221,24 +221,28 @@ def headerFilter(path,options):
 	return result
 
 def enableWebready(option, opt_str, value, parser):
-	parser.values.webready = True
-	parser.values.openssl  = True
-	parser.values.ssh	   = True
-	parser.values.curl	   = True
+	b=True
+	parser.values.webready = b
+	parser.values.openssl  = b
+	parser.values.ssh	   = b
+	parser.values.curl	   = b
 
 def disableWebready(option, opt_str, value, parser):
-	parser.values.webready = False
-	parser.values.openssl  = False
-	parser.values.ssh	   = False
-	parser.values.curl	   = False
+	b=False
+	parser.values.webready = b
+	parser.values.openssl  = b
+	parser.values.ssh	   = b
+	parser.values.curl	   = b
 
 def main():
 	global uid
 	global project
 	global strings
 	global ignore
-	global filters
 	global filter
+	global filters
+	global neverfilter
+	global format
 
 	##
 	# set up argument parser
@@ -246,10 +250,10 @@ def main():
 	parser = optparse.OptionParser(usage)
 	parser = optparse.OptionParser()
 
-	parser.add_option('-C', '--with-curl'		, action='store_true' , dest='curl'	   ,help='enable curl'			   ,default=False)
-	parser.add_option('-c', '--without-curl'	, action='store_false', dest='curl'	   ,help='disable curl'			   )
 	parser.add_option('-A', '--with-app'		, action='store_true' , dest='app'	   ,help='build sample apps'	   ,default=False)
 	parser.add_option('-a', '--without-app'		, action='store_false', dest='app'	   ,help='do not build apps'	   )
+	parser.add_option('-C', '--with-curl'		, action='store_true' , dest='curl'	   ,help='enable curl'			   ,default=False)
+	parser.add_option('-c', '--without-curl'	, action='store_false', dest='curl'	   ,help='disable curl'			   )
 	parser.add_option('-E', '--with-expat'		, action='store_true' , dest='expat'   ,help='enable expat'			   ,default=True)
 	parser.add_option('-e', '--without-expat'	, action='store_false', dest='expat'   ,help='disable expat'		   )
 	parser.add_option('-O', '--with-openssl'	, action='store_true' , dest='openssl' ,help='enable openssl'		   ,default=False)
@@ -266,7 +270,7 @@ def main():
 	parser.add_option('-x', '--disable-xmp'		, action='store_false', dest='xmp'	   ,help='disable xmp'			   )
 	parser.add_option('-Z', '--with-zlib'		, action='store_true' , dest='zlib'	   ,help='enable zlib/png'		   ,default=True)
 	parser.add_option('-z', '--without-zlib'	, action='store_false', dest='zlib'	   ,help='disable zlib/png'		   )
-	parser.add_option('-d', '--default'			, action='store_true' , dest='defolt'  ,help='default'				   ,default=False)
+	parser.add_option('-d', '--default'			, action='store_true' , dest='default' ,help='default'				   ,default=False)
 
 	##
 	# no arguments, report and quit
@@ -289,14 +293,18 @@ def main():
 
 	##
 	# print options
-	fmt='%-20s\t->\t%s'
-	print(fmt % ('Option' , 'Value'))
-	print(fmt % ('------' , '-----'))
+	format='%-20s\t%s'
+	print(format % ('Option' , 'Value'))
+	print(format % ('------' , '-----'))
 	for o, v in sorted(options.__dict__.items()):
-		if o != 'defolt':
-			print(fmt % (o, v))
+		if o != 'default':
+			print(format % (o, v))
 	print()
+	print(format % ('Project','Dependancy'))
+	print(format % ('-------','----------'))
 
+	##
+	# learn the filters
 	if options.video:
 		filters['video']=empty()
 	if options.webready:
@@ -305,21 +313,12 @@ def main():
 		filters['xmp']=empty()
 	if options.zlib:
 		filters['zlib']=empty()
-
-	filter=set([])
-	for opt in filters:
-		for pattern in opt:
-			filter.add(pattern)
+	filter = filters['video'] | filters['xmp'] | filters['webready'] | filters['zlib']
 
 	##
-	# write solution file
-	sln='exiv2-configure.sln'
-	s = open(sln,'w')
-	s.write(strings['Begin'])
-
-	# find build candidates
+	# learn build candidates
 	build=empty()
-	for p in sorted(project):
+	for p in project:
 		skip = p in ignore
 		skip = skip | ((p == 'libssh'	) & ( not options.ssh	 ))
 		skip = skip | ((p == 'libcurl'	) & ( not options.curl	 ))
@@ -331,10 +330,18 @@ def main():
 		skip = skip | ((p == 'zlib'		) & ( not options.zlib	 ))
 		if not skip:
 			build.add(p)
+	# build projects that intersect with the build!
+	for p in build:
+		project[p] = project[p] & build
 
-	# build the projects that intersect with the build!
+	##
+	# write solution file
+	sln='exiv2-configure.sln'
+	s = open(sln,'w')
+	s.write(strings['Begin'])
+
 	for p in sorted(build):
-		s.write(projectRecord(p,build & project[p]))
+		s.write(projectRecord(p,project[p]))
 
 	# write compilation table
 	s.write(strings['globalBegin'])
@@ -349,7 +356,7 @@ def main():
 
 	##
 	# write project files
-	for p in sorted(project):
+	for p in sorted(build):
 		writeVCproj(p,project[p])
 
 	##
