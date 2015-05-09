@@ -4,7 +4,7 @@
 
 #include <exiv2/exiv2.hpp>
 #include <exiv2/value.hpp>
-#include <exiv2/Jzon.h>
+#include "Jzon.h"
 
 #include <iostream>
 #include <iomanip>
