@@ -194,8 +194,8 @@ namespace Exiv2 {
         { "TagsList",               N_("Tags List"),                 "seq Text", xmpSeq,  xmpExternal, N_("The list of complete tags path as string. The path hierarchy is separated by '/' character (ex.: \"City/Paris/Monument/Eiffel Tower\".") },
         { "CaptionsAuthorNames",    N_("Captions Author Names"),     "Lang Alt", langAlt, xmpExternal, N_("The list of all captions author names for each language alternative captions set in standard XMP tags.") },
         { "CaptionsDateTimeStamps", N_("Captions Date Time Stamps"), "Lang Alt", langAlt, xmpExternal, N_("The list of all captions date time stamps for each language alternative captions set in standard XMP tags.") },
-        { "ImageHistory",           N_("Image History"),             "Text",     xmpText, xmpExternal, N_("An XML based content to list all action processed on this image with image editor (as crop, rotate, color corrections, adjustements, etc.).") },
-        { "LensCorrectionSettings", N_("Lens Correction Settings"),  "Text",     xmpText, xmpExternal, N_("The list of Lens Correction tools settings used to fix lens distorsion. This include Batch Queue Manager and Image editor tools based on LensFun library.") },
+        { "ImageHistory",           N_("Image History"),             "Text",     xmpText, xmpExternal, N_("An XML based content to list all action processed on this image with image editor (as crop, rotate, color corrections, adjustments, etc.).") },
+        { "LensCorrectionSettings", N_("Lens Correction Settings"),  "Text",     xmpText, xmpExternal, N_("The list of Lens Correction tools settings used to fix lens distortion. This include Batch Queue Manager and Image editor tools based on LensFun library.") },
         { "ColorLabel",             N_("Color Label"),               "Text",     xmpText, xmpExternal, N_("The color label assigned to this item. Possible values are \"0\": no label; \"1\": Red; \"2\": Orange; \"3\": Yellow; \"4\": Green; \"5\": Blue; \"6\": Magenta; \"7\": Gray; \"8\": Black; \"9\": White.") },
         { "PickLabel",              N_("Pick Label"),                "Text",     xmpText, xmpExternal, N_("The pick label assigned to this item. Possible values are \"0\": no label; \"1\": item rejected; \"2\": item in pending validation; \"3\": item accepted.") },
         // End of list marker
@@ -381,7 +381,7 @@ namespace Exiv2 {
         { "introTime",                    N_("Intro Time"),                       "Time",                  xmpText, xmpInternal, N_("The duration of lead time for queuing music.") },
         { "outCue",                       N_("Out Cue"),                          "Time",                  xmpText, xmpInternal, N_("The time at which to fade out.") },
         { "relativeTimestamp",            N_("Relative Timestamp"),               "Time",                  xmpText, xmpInternal, N_("The start time of the media inside the audio project.") },
-        { "loop",                         N_("Loop"),                             "Boolean",               xmpText, xmpInternal, N_("When true, the clip can be looped seemlessly.") },
+        { "loop",                         N_("Loop"),                             "Boolean",               xmpText, xmpInternal, N_("When true, the clip can be looped seamlessly.") },
         { "numberOfBeats",                N_("Number Of Beats"),                  "Real",                  xmpText, xmpInternal, N_("The number of beats.") },
         { "key",                          N_("Key"),                              "closed Choice of Text", xmpText, xmpInternal, N_("The audio's musical key. One of: C, C#, D, D#, E, F, F#, G, G#, A, A#, B.") },
         { "stretchMode",                  N_("Stretch Mode"),                     "closed Choice of Text", xmpText, xmpInternal, N_("The audio stretch mode. One of: Fixed length, Time-Scale, Resample, Beat Splice, Hybrid.") },
@@ -475,7 +475,7 @@ namespace Exiv2 {
         { "CropHeight",           N_("Crop Height"),               "Real",                             xmpText, xmpExternal, N_("Height of resulting cropped image in CropUnits units.") },
         { "CropUnits",            N_("Crop Units"),                "Integer",                          xmpText, xmpExternal, N_("Units for CropWidth and CropHeight. 0=pixels, 1=inches, 2=cm") },
         { "Exposure",             N_("Exposure"),                  "Real",                             xmpText, xmpExternal, N_("\"Exposure\" setting. Range -4.0 to +4.0.") },
-        { "GreenHue",             N_("GreenHue"),                  "Integer",                          xmpText, xmpExternal, N_("\"Green Hue\" setting. Range -100 to +100.") },
+        { "GreenHue",             N_("Green Hue"),                 "Integer",                          xmpText, xmpExternal, N_("\"Green Hue\" setting. Range -100 to +100.") },
         { "GreenSaturation",      N_("Green Saturation"),          "Integer",                          xmpText, xmpExternal, N_("\"Green Saturation\" setting. Range -100 to +100.") },
         { "HasCrop",              N_("Has Crop"),                  "Boolean",                          xmpText, xmpExternal, N_("When true, image has a cropping rectangle.") },
         { "HasSettings",          N_("Has Settings"),              "Boolean",                          xmpText, xmpExternal, N_("When true, non-default camera raw settings.") },
@@ -645,7 +645,7 @@ namespace Exiv2 {
         { "GPSDestLongitude",         N_("GPS Destination Longitude"),           "GPSCoordinate",                xmpText, xmpInternal, N_("GPS tag 22, 0x16 (position) and 21, 0x15 (East/West). Indicates destination longitude.") },
         { "GPSDestBearingRef",        N_("GPS Destination Bearing Reference"),   "Closed Choice of Text",        xmpText, xmpInternal, N_("GPS tag 23, 0x17. Reference for movement direction.") },
         { "GPSDestBearing",           N_("GPS Destination Bearing"),             "Rational",                     xmpText, xmpInternal, N_("GPS tag 24, 0x18. Destination bearing, values from 0 to 359.99.") },
-        { "GPSDestDistanceRef",       N_("GPS Destination Distance Refefrence"), "Closed Choice  of Text",       xmpText, xmpInternal, N_("GPS tag 25, 0x19. Units used for speed measurement.") },
+        { "GPSDestDistanceRef",       N_("GPS Destination Distance Reference"),  "Closed Choice  of Text",       xmpText, xmpInternal, N_("GPS tag 25, 0x19. Units used for speed measurement.") },
         { "GPSDestDistance",          N_("GPS Destination Distance"),            "Rational",                     xmpText, xmpInternal, N_("GPS tag 26, 0x1A. Distance to destination.") },
         { "GPSProcessingMethod",      N_("GPS Processing Method"),               "Text",                         xmpText, xmpInternal, N_("GPS tag 27, 0x1B. A character string recording the name of the method used for location finding.") },
         { "GPSAreaInformation",       N_("GPS Area Information"),                "Text",                         xmpText, xmpInternal, N_("GPS tag 28, 0x1C. A character string recording the name of the GPS area.") },
@@ -656,7 +656,7 @@ namespace Exiv2 {
 
     extern const XmpPropertyInfo xmpAuxInfo[] = {
         { "Lens",             N_("Lens"),             "Text",        xmpText,          xmpInternal, N_("A description of the lens used to take the photograph. For example, \"70-200 mm f/2.8-4.0\".") },
-        { "SerialNumber",     N_("SerialNumber"),     "Text",        xmpText,          xmpInternal, N_("The serial number of the camera or camera body used to take the photograph.") },
+        { "SerialNumber",     N_("Serial Number"),     "Text",       xmpText,          xmpInternal, N_("The serial number of the camera or camera body used to take the photograph.") },
         // End of list marker
         { 0, 0, 0, invalidTypeId, xmpInternal, 0 }
     };
@@ -694,7 +694,7 @@ namespace Exiv2 {
 
     extern const XmpPropertyInfo xmpIptcExtInfo[] = {
         { "AddlModelInfo",           N_("Additional model info"),           "Text",                       xmpText, xmpExternal, N_("Information about the ethnicity and other facts of the model(s) in a model-released image.") },
-        { "OrganisationInImageCode", N_("Code of featured Organisation"),   "bag Text",                   xmpBag,  xmpExternal, N_("Code from controlled vocabulary for identyfing the organisation or company which is featured in the image.") },
+        { "OrganisationInImageCode", N_("Code of featured Organisation"),   "bag Text",                   xmpBag,  xmpExternal, N_("Code from controlled vocabulary for identifying the organisation or company which is featured in the image.") },
         { "CVterm",                  N_("Controlled Vocabulary Term"),      "bag URI",                    xmpBag,  xmpExternal, N_("A term to describe the content of the image by a value from a Controlled Vocabulary.") },
         { "ModelAge",                N_("Model age"),                       "bag Integer",                xmpBag,  xmpExternal, N_("Age of the human model(s) at the time this image was taken in a model released image.") },
         { "OrganisationInImageName", N_("Name of featured Organisation"),   "bag Text",                   xmpBag,  xmpExternal, N_("Name of the organisation or company which is featured in the image.") },
@@ -960,7 +960,7 @@ namespace Exiv2 {
         { "Event",       N_("Event"),       "Text",     xmpText, xmpExternal, N_("Fixture Identification")                          },
         { "Status",      N_("Status"),      "Text",     xmpText, xmpExternal, N_("A notation making the image unique")              },
         { "People",      N_("People"),      "bag Text", xmpBag,  xmpExternal, N_("Contact")                                         },
-        { "CatalogSets", N_("CatalogSets"), "bag Text", xmpBag,  xmpExternal, N_("Descriptive markers of catalog items by content") },
+        { "CatalogSets", N_("Catalog Sets"), "bag Text", xmpBag,  xmpExternal, N_("Descriptive markers of catalog items by content") },
         // End of list marker
         { 0, 0, 0, invalidTypeId, xmpInternal, 0 }
     };
@@ -969,7 +969,7 @@ namespace Exiv2 {
         { "Event",       N_("Event"),       "Text",     xmpText, xmpExternal, N_("Fixture Identification")                          },
         { "Status",      N_("Status"),      "Text",     xmpText, xmpExternal, N_("A notation making the image unique")              },
         { "People",      N_("People"),      "bag Text", xmpBag,  xmpExternal, N_("Contact")                                         },
-        { "CatalogSets", N_("CatalogSets"), "bag Text", xmpBag,  xmpExternal, N_("Descriptive markers of catalog items by content") },
+        { "CatalogSets", N_("Catalog Sets"), "bag Text", xmpBag,  xmpExternal, N_("Descriptive markers of catalog items by content") },
         // End of list marker
         { 0, 0, 0, invalidTypeId, xmpInternal, 0 }
     };
@@ -981,32 +981,32 @@ namespace Exiv2 {
     };
 
     extern const XmpPropertyInfo xmpMicrosoftPhotoRegionInfoInfo[] = {
-        { "Regions",          N_("Regions"),          "bag Region", xmpBag,  xmpExternal, N_("Contains Regions/person tags") },
-        { "DateRegionsValid", N_("DateRegionsValid"), "Date",       xmpText, xmpExternal, N_("Date the last region was created")  },
+        { "Regions",          N_("Regions"),            "bag Region", xmpBag,  xmpExternal, N_("Contains Regions/person tags") },
+        { "DateRegionsValid", N_("Date Regions Valid"), "Date",       xmpText, xmpExternal, N_("Date the last region was created")  },
         // End of list marker
         { 0, 0, 0, invalidTypeId, xmpInternal, 0 }
     };
 
     extern const XmpPropertyInfo xmpMicrosoftPhotoRegionInfo[] = {
-        { "PersonDisplayName", N_("PersonDisplayName"), "Text", xmpText, xmpExternal, N_("Name of the person (in the given rectangle)")                               },
-        { "Rectangle",         N_("Rectangle"),         "Text", xmpText, xmpExternal, N_("Rectangle that identifies the person within the photo")                     },
-        { "PersonEmailDigest", N_("PersonEmailDigest"), "Text", xmpText, xmpExternal, N_("SHA-1 encrypted message hash of the person's Windows Live e-mail address"), },
-        { "PersonLiveIdCID",   N_("PersonLiveIdCID"),   "Text", xmpText, xmpExternal, N_("Signed decimal representation of the person's Windows Live CID")            },
+        { "PersonDisplayName", N_("Person Display Name"),   "Text", xmpText, xmpExternal, N_("Name of the person (in the given rectangle)")                               },
+        { "Rectangle",         N_("Rectangle"),             "Text", xmpText, xmpExternal, N_("Rectangle that identifies the person within the photo")                     },
+        { "PersonEmailDigest", N_("Person Email Digest"),   "Text", xmpText, xmpExternal, N_("SHA-1 encrypted message hash of the person's Windows Live e-mail address"), },
+        { "PersonLiveIdCID",   N_("Person LiveId CID"),     "Text", xmpText, xmpExternal, N_("Signed decimal representation of the person's Windows Live CID")            },
         // End of list marker
         { 0, 0, 0, invalidTypeId, xmpInternal, 0 }
     };
 
     extern const XmpPropertyInfo xmpMWGRegionsInfo[] = {
-        { "Regions",             N_("Regions"),             "RegionInfo",       xmpText, xmpInternal,        N_("Main structure containing region based information")   },
-        { "AppliedToDimensions", N_("AppliedToDimensions"), "Dimensions",       xmpText, xmpExternal,        N_("Width and height of image when storing region data")   },
-        { "RegionList",          N_("RegionList"),          "bag RegionStruct", xmpBag,  xmpExternal,        N_("List of Region structures")                            },
-        { "Area",                N_("Area"),                "Area",             xmpText, xmpExternal,        N_("Descriptive markers of catalog items by content")      },
-        { "Type",                N_("Type"),                "closed Choice of Text", xmpText, xmpExternal,   N_("Type purpose of region (Face|Pet|Focus|BarCode)")      },
-        { "Name",                N_("Name"),                "Text",             xmpText, xmpExternal,        N_("Name/ short description of content in image region")   },
-        { "Description",         N_("Description"),         "Text",             xmpText, xmpExternal,        N_("Usage scenario for a given focus area (EvaluatedUsed|EvaluatedNotUsed|NotEvaluatedNotUsed)") },
-        { "FocusUsage",          N_("FocusUsage"),          "closed Choice of Text", xmpText, xmpExternal,   N_("Descriptive markers of catalog items by content")      },
-        { "BarCodeValue",        N_("BarCodeValue"),        "Text",             xmpText, xmpExternal,        N_("Decoded BarCode value string")                         },
-        { "Extensions",          N_("Extensions"),          "Text",             xmpText, xmpInternal,        N_("Any top level XMP property to describe the region content") },
+        { "Regions",             N_("Regions"),               "RegionInfo",       xmpText, xmpInternal,        N_("Main structure containing region based information")   },
+        { "AppliedToDimensions", N_("Applied To Dimensions"), "Dimensions",       xmpText, xmpExternal,        N_("Width and height of image when storing region data")   },
+        { "RegionList",          N_("Region List"),           "bag RegionStruct", xmpBag,  xmpExternal,        N_("List of Region structures")                            },
+        { "Area",                N_("Area"),                  "Area",             xmpText, xmpExternal,        N_("Descriptive markers of catalog items by content")      },
+        { "Type",                N_("Type"),                  "closed Choice of Text", xmpText, xmpExternal,   N_("Type purpose of region (Face|Pet|Focus|BarCode)")      },
+        { "Name",                N_("Name"),                  "Text",             xmpText, xmpExternal,        N_("Name/ short description of content in image region")   },
+        { "Description",         N_("Description"),           "Text",             xmpText, xmpExternal,        N_("Usage scenario for a given focus area (EvaluatedUsed|EvaluatedNotUsed|NotEvaluatedNotUsed)") },
+        { "FocusUsage",          N_("Focus Usage"),           "closed Choice of Text", xmpText, xmpExternal,   N_("Descriptive markers of catalog items by content")      },
+        { "BarCodeValue",        N_("Bar Code Value"),        "Text",             xmpText, xmpExternal,        N_("Decoded BarCode value string")                         },
+        { "Extensions",          N_("Extensions"),            "Text",             xmpText, xmpInternal,        N_("Any top level XMP property to describe the region content") },
         // End of list marker
         { 0, 0, 0, invalidTypeId, xmpInternal, 0 }
     };
@@ -1145,7 +1145,7 @@ namespace Exiv2 {
         { "ExposureCompensation",   N_("Exposure Compensation"),            "Text",                     xmpText, xmpExternal, N_("Exposure Compensation Information.")   },
         { "ExposureProgram",        N_("Exposure Program"),                 "Text",                     xmpText, xmpExternal, N_("Exposure Program Information.")   },
         { "ExposureTime",           N_("Exposure Time"),                    "Rational",                 xmpText, xmpInternal, N_("Exposure time in seconds.") },
-        { "ExtendedContentDescription",N_("Extended Content Description"),  "Text",                     xmpSeq,  xmpExternal, N_("Extended Content Description,ususally found in ASF type files.")   },
+        { "ExtendedContentDescription",N_("Extended Content Description"),  "Text",                     xmpSeq,  xmpExternal, N_("Extended Content Description, usually found in ASF type files.")   },
         { "FileDataRate",           N_("File Data Rate"),                   "Rational",                 xmpText, xmpExternal, N_("The file data rate in megabytes per second. For example: \"36/10\" = 3.6 MB/sec") },
         { "FileID",                 N_("File ID"),                          "Text",                     xmpText, xmpExternal, N_("File ID.")   },
         { "FileLength",             N_("File Length"),                      "Integer",                  xmpText, xmpInternal, N_("File length.") },
@@ -1176,7 +1176,7 @@ namespace Exiv2 {
         { "GPSSatellites",          N_("GPS Satellites"),                   "Text",                     xmpText, xmpInternal, N_("Satellite information, format is unspecified.") },
         { "GPSTimeStamp",           N_("GPS Time Stamp"),                   "Date",                     xmpText, xmpInternal, N_("Time stamp of GPS data, ") },
         { "GPSVersionID",           N_("GPS Version ID"),                   "Text",                     xmpText, xmpInternal, N_("A decimal encoding with period separators. ") },
-        { "GraphicsMode",           N_("Graphcs Mode"),                     "Text",                     xmpText, xmpExternal, N_("A 16-bit integer that specifies the transfer mode. The transfer mode specifies which Boolean"
+        { "GraphicsMode",           N_("Graphics Mode"),                    "Text",                     xmpText, xmpExternal, N_("A 16-bit integer that specifies the transfer mode. The transfer mode specifies which Boolean"
                                                                                                                                  "operation QuickDraw should perform when drawing or transferring an image from one location to another.")   },
         { "Grouping",               N_("Grouping"),                         "Text",                     xmpText, xmpExternal, N_("Information about the Grouping.")   },
         { "HandlerClass",           N_("Handler Class"),                    "Text",                     xmpText, xmpExternal, N_("A four-character code that identifies the type of the handler. Only two values are valid for this field: 'mhlr' for media handlers and 'dhlr' for data handlers.")   },
@@ -1256,7 +1256,7 @@ namespace Exiv2 {
         { "PictureControlAdjust",   N_("Picture Control Adjust"),           "Text",                     xmpText, xmpExternal, N_("Picture Control Adjust Information.")   },
         { "PictureControlQuickAdjust",N_("Picture Control Quick Adjust"),   "Text",                     xmpText, xmpExternal, N_("Picture Control Quick Adjustment Settings.")   },
         { "PlaySelection",          N_("Play Selection"),                   "Text",                     xmpText, xmpExternal, N_("Play Selection.")   },
-        { "PlayMode",               N_("PlayMode"),                         "Text",                     xmpText, xmpExternal, N_("Information about the Play Mode.")   },
+        { "PlayMode",               N_("Play Mode"),                        "Text",                     xmpText, xmpExternal, N_("Information about the Play Mode.")   },
         { "PhysicalEquivalent",     N_("Chapter Physical Equivalent"),      "Text",                     xmpText, xmpExternal, N_("Contains the information of External media.")   },
         { "PixelDepth",             N_("Video Pixel Depth"),                "closed Choice of Text",    xmpText, xmpExternal, N_("The size in bits of each color component of a pixel. Standard Windows 32-bit "
                                                                                                                                  "pixels have 8 bits per component. One of: 8Int, 16Int, 32Int, 32Float.") },
@@ -1313,7 +1313,7 @@ namespace Exiv2 {
         { "Statistics",             N_("Statistics"),                       "Text",                     xmpText, xmpExternal, N_("Statistics.")   },
         { "StreamCount",            N_("Stream Count"),                     "Integer",                  xmpText, xmpExternal, N_("Total Number Of Streams")   },
         { "StreamName",             N_("Stream Name"),                      "Text",                     xmpText, xmpExternal, N_("Describes the Stream Name. Eg - FUJIFILM AVI STREAM 0100")   },
-        { "StreamQuality",          N_("Stream Quality"),                   "Integer",                  xmpText, xmpExternal, N_("Generral Stream Quality")   },
+        { "StreamQuality",          N_("Stream Quality"),                   "Integer",                  xmpText, xmpExternal, N_("General Stream Quality")   },
         { "StreamSampleRate",       N_("Stream Sample Rate"),               "Rational",                 xmpText, xmpExternal, N_("Stream Sample Rate")   },
         { "StreamSampleCount",      N_("Stream Sample Count"),              "Integer",                  xmpText, xmpExternal, N_("Stream Sample Count")   },
         { "StreamSampleSize",       N_("Stream Sample Size"),               "Integer",                  xmpText, xmpExternal, N_("General Stream Sample Size")   },
@@ -1336,7 +1336,7 @@ namespace Exiv2 {
         { "TagLanguage",            N_("Tag Language"),                     "Text",                     xmpText, xmpExternal, N_("Language that has been used to define tags")   },
         { "TagName",                N_("Tag Name"),                         "Text",                     xmpText, xmpExternal, N_("Tags could be used to define several titles for a segment.")   },
         { "TagString",              N_("Tag String"),                       "Text",                     xmpText, xmpExternal, N_("Information contained in a Tags")   },
-        { "TargetType",             N_("Target Type"),                      "Text",                     xmpText, xmpExternal, N_("A string describing the logical level of the object the Tag is refering to.")   },
+        { "TargetType",             N_("Target Type"),                      "Text",                     xmpText, xmpExternal, N_("A string describing the logical level of the object the Tag is referring to.")   },
         { "Technician",             N_("Technician"),                       "Text",                     xmpText, xmpExternal, N_("Technician, in most cases name of person.")   },
         { "ThumbnailHeight",        N_("Thumbnail Height"),                 "Integer",                  xmpText, xmpExternal, N_("Preview Image Thumbnail Height.")   },
         { "ThumbnailLength",        N_("Thumbnail Length"),                 "Integer",                  xmpText, xmpExternal, N_("Preview Image Thumbnail Length.")   },
@@ -1384,7 +1384,7 @@ namespace Exiv2 {
         { "WhiteBalanceFineTune",   N_("White Balance Fine Tune"),          "Integer",                  xmpText, xmpExternal, N_("White Balance Fine Tune.") },
         { "Width",                  N_("Video Width"),                      "Integer",                  xmpText, xmpExternal, N_("Video width in pixels")   },
         { "WindowLocation",         N_("Window Location"),                  "Text",                     xmpText, xmpExternal, N_("Information about the Window Location.")   },
-        { "WorldTime",              N_("WorldTime"),                        "Integer",                  xmpText, xmpExternal, N_("World Time")   },
+        { "WorldTime",              N_("World Time"),                       "Integer",                  xmpText, xmpExternal, N_("World Time")   },
         { "WrittenBy",              N_("Written By"),                       "Text",                     xmpText, xmpExternal, N_("Written By, i.e. name of person or organization.")   },
         { "WritingApp",             N_("Writing App"),                      "Text",                     xmpText, xmpExternal, N_("Contains the name of the application used to create the file (like \"mkvmerge 0.8.1\")")   },
         { "XResolution",            N_("X Resolution"),                     "Rational",                 xmpText, xmpInternal, N_("Horizontal resolution in pixels per unit.") },
@@ -1405,8 +1405,8 @@ namespace Exiv2 {
         { "CodecInfo",          N_("Audio Codec Information"),      "Text",                  xmpText, xmpExternal, N_("Contains information the codec needs before decoding can be started. An example is the Vorbis initialization packets for Vorbis audio.")   },
         { "CodecSettings",      N_("Audio Codec Settings"),         "Text",                  xmpText, xmpExternal, N_("Contains settings the codec needs before decoding can be started.")   },
         { "Compressor",         N_("Audio Compressor"),             "Text",                  xmpText, xmpExternal, N_("The audio compression used. For example, MP3.") },
-        { "DefaultDuration",    N_("MicroSec audio chunk lasts"),   "Text",                  xmpText, xmpExternal, N_("The number of micro seconds an audio chunk plays.")   },
-        { "DefaultStream",      N_("Default Stream"),               "Text",                  xmpText, xmpExternal, N_("Audio Stream that would be played by default.")   },
+        { "DefaultDuration",    N_("Audio Default Duration"),       "Text",                  xmpText, xmpExternal, N_("The number of micro seconds an audio chunk plays.")   },
+        { "DefaultStream",      N_("Audio Default Stream"),         "Text",                  xmpText, xmpExternal, N_("Audio Stream that would be played by default.")   },
         { "DefaultOn",          N_("Audio Track Default On"),       "Text",                  xmpText, xmpExternal, N_("Audio Track Default On , i.e. Enabled/Disabled")   },
         { "Enabled",            N_("Audio Track Enabled"),          "Text",                  xmpText, xmpExternal, N_("Status of Audio Track, i.e. Enabled/Disabled")   },
         { "Format",             N_("Audio Format"),                 "Text",                  xmpText, xmpExternal, N_("A four-character code that identifies the format of the audio.")   },
@@ -1808,7 +1808,7 @@ namespace Exiv2 {
             { "coordinatePrecision",            N_("Coordinate Precision"),                 "Text",     xmpText,    xmpExternal, 
                                                 N_("A decimal representation of the precision of the coordinates given in the decimalLatitude and decimalLongitude.")
             },
-            { "pointRadiusSpatialFit",          N_("Point Radius SpatialFit"),              "Real",      xmpText,   xmpExternal,      
+            { "pointRadiusSpatialFit",          N_("Point Radius Spatial Fit"),              "Real",      xmpText,   xmpExternal,      
                                                 N_("The ratio of the area of the point-radius (decimalLatitude, decimalLongitude, coordinateUncertaintyInMeters) to the area of the true (original, or most specific) spatial representation of the Location. Legal values are 0, greater than or equal to 1, or undefined. A value of 1 is an exact match or 100% overlap. A value of 0 should be used if the given point-radius does not completely contain the original representation. The pointRadiusSpatialFit is undefined (and should be left blank) if the original representation is a point without uncertainty and the given georeference is not that same point (without uncertainty). If both the original and the given georeference are the same point, the pointRadiusSpatialFit is 1.")
             },
             { "footprintWKT",                   N_("Footprint WKT"),                         "Text",      xmpText,    xmpExternal,      
@@ -2099,7 +2099,7 @@ namespace Exiv2 {
 
     extern const XmpPropertyInfo xmpAcdseeInfo[] = {
         { "caption",       N_("Caption"),     "Text",                 xmpText, xmpExternal,   N_("A brief description of the file")   },
-        { "datetime",      N_("DateTime"),    "Text",                 xmpText, xmpExternal,   N_("Date and Time")   },
+        { "datetime",      N_("Date Time"),   "Text",                 xmpText, xmpExternal,   N_("Date and Time")   },
         { "author",        N_("Author"),      "Text",                 xmpText, xmpExternal,   N_("The name of the author or photographer")   },
         { "rating",        N_("Rating"),      "Text",                 xmpText, xmpExternal,   N_("Numerical rating from 1 to 5")   },
         { "notes",         N_("Notes"),       "Text",                 xmpText, xmpExternal,   N_("Any descriptive or additional free-form text up to 4,095 characters")   },
