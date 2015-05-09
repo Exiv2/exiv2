@@ -10,7 +10,7 @@ msgstr ""
 "Project-Id-Version: Exiv2\n"
 "Report-Msgid-Bugs-To: ahuggel@gmx.net\n"
 "POT-Creation-Date: 2014-02-20 04:43+0100\n"
-"PO-Revision-Date: 2015-05-09 12:05-0500\n"
+"PO-Revision-Date: 2015-05-09 14:59-0500\n"
 "Last-Translator: Alan Pater <alan.pater@gmail.com>\n"
 "Language-Team: Spanish <es@li.org>\n"
 "Language: es\n"
@@ -18,6 +18,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "X-Generator: Poedit 1.5.4\n"
+"X-Poedit-Basepath: ..\n"
 
 #: src/actions.cpp:253 src/actions.cpp:486 src/actions.cpp:699
 #: src/actions.cpp:716 src/actions.cpp:761 src/actions.cpp:851
@@ -4432,7 +4433,7 @@ msgstr "País"
 
 #: src/datasets.cpp:358 src/datasets.cpp:362 src/properties.cpp:441
 msgid "Transmission Reference"
-msgstr ""
+msgstr "Referencia de transmisión"
 
 #: src/datasets.cpp:359
 msgid ""
@@ -9487,9 +9488,8 @@ msgid "Flash Source"
 msgstr "Fuente de flash"
 
 #: src/nikonmn.cpp:1004 src/nikonmn.cpp:1026 src/nikonmn.cpp:1046
-#, fuzzy
 msgid "Flash source"
-msgstr "Fuente de archivo"
+msgstr "Fuente de flash"
 
 #: src/nikonmn.cpp:1005 src/nikonmn.cpp:1027
 msgid "0x0005"
@@ -17307,7 +17307,7 @@ msgstr ""
 
 #: src/properties.cpp:426
 msgid "By-line title."
-msgstr ""
+msgstr "Puesto del autor."
 
 #: src/properties.cpp:427
 msgid "Caption Writer"
