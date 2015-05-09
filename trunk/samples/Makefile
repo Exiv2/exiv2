@@ -55,6 +55,7 @@ include $(top_srcdir)/config/config.mk
 
 # Add source files of sample programs to this list
 BINSRC = addmoddel.cpp        \
+         conntest.cpp         \
          convert-test.cpp     \
          easyaccess-test.cpp  \
          exifcomment.cpp      \
@@ -62,7 +63,6 @@ BINSRC = addmoddel.cpp        \
          exifdata.cpp         \
          exifprint.cpp        \
          exifvalue.cpp        \
-         exiv2json.cpp        \
          httptest.cpp         \
          iotest.cpp           \
          iptceasy.cpp         \
@@ -72,6 +72,7 @@ BINSRC = addmoddel.cpp        \
          largeiptc-test.cpp   \
          mmap-test.cpp        \
          prevtest.cpp         \
+         remotetest.cpp       \
          stringto-test.cpp    \
          taglist.cpp          \
          tiff-test.cpp        \
@@ -83,7 +84,8 @@ BINSRC = addmoddel.cpp        \
          xmpsample.cpp
 
 # Samples that need special treatment during compilation or linking
-OTHERSRC = geotag.cpp         \
+OTHERSRC = exiv2json.cpp      \
+           geotag.cpp         \
            metacopy.cpp       \
            path-test.cpp
 
@@ -132,6 +134,11 @@ $(BINARY): %: %.o
 	mkdir -pv ../bin 2>&1 > /dev/null
 	$(LIBTOOL) --mode=link $(LINK.cc) -o ../bin/$@ $@.o
 
+%.o: %.cpp
+	$(COMPILE.cc) -o $@ $<
+	@$(MAKEDEPEND)
+	@$(POSTDEPEND)
+
 %.ii: %.cpp
 	set -e; \
 	$(CXXCPP) -E $(CPPFLAGS) $< | sed '/^[ 	]*$$/d' > $@
@@ -161,12 +168,12 @@ metacopy path-test: %: %.cpp ../src/utils.o
 	@$(POSTDEPEND)
 	$(LIBTOOL) --mode=link $(LINK.cc) $@.o ../src/utils.o -o ../bin/$@
 
-# link applications which require Jzon.cpp support
-exiv2json: %: %.cpp ../samples/Jzon.o
-	$(COMPILE.cc) -I. -o $@.o $<
+# exiv2json sample requires Jzon
+exiv2json: %: %.cpp Jzon.o
+	$(COMPILE.cc) -o $@.o $<
 	@$(MAKEDEPEND)
 	@$(POSTDEPEND)
-	$(LIBTOOL) --mode=link $(LINK.cc) $@.o ../samples/Jzon.o -o ../bin/$@
+	$(LIBTOOL) --mode=link $(LINK.cc) Jzon.o $@.o -o ../bin/$@
 
 # Remove binaries, e.g., to relink them
 binclean:
