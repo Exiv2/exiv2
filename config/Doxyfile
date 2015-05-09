@@ -701,13 +701,13 @@ RECURSIVE              = NO
 # run.
 
 EXCLUDE                = ../samples/Jzon.h \
-                         ../src/getopt_win32.c \
-                         ../src/getopt_win32.h \
                          ../samples/Jzon.cpp \
+                         ../src/getopt_win32.c \
                          ../src/localtime.c \
-                         ../src/private.h \
-                         ../src/timegm.h \
-                         ../src/tzfile.h
+                         ../include/exiv2/getopt_win32.h \
+                         ../include/exiv2/private.h \
+                         ../include/exiv2/timegm.h \
+                         ../include/exiv2/tzfile.h
 
 # The EXCLUDE_SYMLINKS tag can be used to select whether or not files or
 # directories that are symbolic links (a Unix file system feature) are excluded
