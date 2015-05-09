@@ -700,10 +700,10 @@ RECURSIVE              = NO
 # Note that relative paths are relative to the directory from which doxygen is
 # run.
 
-EXCLUDE                = ../include/exiv2/Jzon.h \
+EXCLUDE                = ../samples/Jzon.h \
                          ../src/getopt_win32.c \
                          ../src/getopt_win32.h \
-                         ../src/Jzon.cpp \
+                         ../samples/Jzon.cpp \
                          ../src/localtime.c \
                          ../src/private.h \
                          ../src/timegm.h \
