@@ -3,7 +3,7 @@
 .\" First parameter, NAME, should be all caps
 .\" Second parameter, SECTION, should be 1-8, maybe w/ subsection
 .\" other parameters are allowed: see man(7), man(1)
-.TH EXIV2 1 "Apr 24, 2015"
+.TH EXIV2 1 "May 9, 2015"
 .\" Please adjust this date whenever revising the manpage.
 .\"
 .\" Some roff macros, for reference:
@@ -371,11 +371,6 @@ insert targets determine what metadata to insert from the sidecar
 file. Possible are Exif, IPTC and XMP and the default is all of
 these. Note that the inserted XMP properties include those converted
 to Exif and IPTC.
-.sp 1
-R : Round trip.  Extract an XMP sidecar file to memory and read in back
-into the file.
-.sp 1
-- : Insert metadata from an XMP sidecar read from stdin
 .br
 This is option is intended for "filter" operations on the XMP such as:
 .br
