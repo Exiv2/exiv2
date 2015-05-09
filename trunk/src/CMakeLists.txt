@@ -57,7 +57,6 @@ SET( LIBEXIV2_HDR         ${CMAKE_CURRENT_LIST_DIR}/../include/exiv2/asfvideo.hp
                           ${CMAKE_CURRENT_LIST_DIR}/../include/exiv2/iptc.hpp
                           ${CMAKE_CURRENT_LIST_DIR}/../include/exiv2/jp2image.hpp
                           ${CMAKE_CURRENT_LIST_DIR}/../include/exiv2/jpgimage.hpp
-                          ${CMAKE_CURRENT_LIST_DIR}/../include/exiv2/Jzon.h
                           ${CMAKE_CURRENT_LIST_DIR}/../include/exiv2/matroskavideo.hpp
                           ${CMAKE_CURRENT_LIST_DIR}/../include/exiv2/metadatum.hpp
                           ${CMAKE_CURRENT_LIST_DIR}/../include/exiv2/mrwimage.hpp
@@ -105,7 +104,6 @@ SET( LIBEXIV2_SRC         asfvideo.cpp
                           iptc.cpp
                           jp2image.cpp
                           jpgimage.cpp
-                          Jzon.cpp
                           makernote.cpp
                           matroskavideo.cpp
                           metadatum.cpp

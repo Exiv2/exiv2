@@ -28,7 +28,6 @@ SET( SAMPLES addmoddel.cpp
              exifdata.cpp
              exifprint.cpp
              exifvalue.cpp
-             exiv2json.cpp
              geotag.cpp
              iotest.cpp
              iptceasy.cpp
@@ -68,6 +67,12 @@ ADD_EXECUTABLE( pathtest ${PATHTEST_SRC} )
 SET_TARGET_PROPERTIES( pathtest PROPERTIES OUTPUT_NAME path-test )
 TARGET_LINK_LIBRARIES( pathtest exiv2lib )
 INSTALL( TARGETS pathtest ${INSTALL_TARGET_STANDARD_ARGS} )
+
+SET( EXIV2JSON_SRC exiv2json.cpp Jzon.cpp )
+ADD_EXECUTABLE( exiv2json ${EXIV2JSON_SRC} )
+SET_TARGET_PROPERTIES( exiv2json PROPERTIES OUTPUT_NAME exiv2json )
+TARGET_LINK_LIBRARIES( exiv2json exiv2lib )
+INSTALL( TARGETS exiv2json ${INSTALL_TARGET_STANDARD_ARGS} )
 
 # That's all Folks!
 ##

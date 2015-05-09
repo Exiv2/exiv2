@@ -63,7 +63,6 @@ CCHDR =  exiv2.hpp         \
          config.h          \
          exv_conf.h        \
          exv_msvc.h        \
-         Jzon.h            \
          version.hpp
 
 # Add library C++ source files to this list
@@ -88,7 +87,6 @@ CCSRC =  asfvideo.cpp          \
 	 iptc.cpp              \
 	 jp2image.cpp          \
 	 jpgimage.cpp          \
-	 Jzon.cpp              \
 	 makernote.cpp         \
 	 matroskavideo.cpp     \
 	 metadatum.cpp         \

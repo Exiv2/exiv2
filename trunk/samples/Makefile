@@ -161,6 +161,13 @@ metacopy path-test: %: %.cpp ../src/utils.o
 	@$(POSTDEPEND)
 	$(LIBTOOL) --mode=link $(LINK.cc) $@.o ../src/utils.o -o ../bin/$@
 
+# link applications which require Jzon.cpp support
+exiv2json: %: %.cpp ../samples/Jzon.o
+	$(COMPILE.cc) -I. -o $@.o $<
+	@$(MAKEDEPEND)
+	@$(POSTDEPEND)
+	$(LIBTOOL) --mode=link $(LINK.cc) $@.o ../samples/Jzon.o -o ../bin/$@
+
 # Remove binaries, e.g., to relink them
 binclean:
 	$(RM) $(EXECUTABLE)
