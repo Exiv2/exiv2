@@ -175,42 +175,12 @@ EXIV2COBJ = $(EXIVCSRC:.c=.o)
 EXIV2BIN  = $(EXIV2MAIN:.cpp=)
 EXIV2EXE  = $(EXIV2MAIN:.cpp=$(EXEEXT))
 
-SAMPLEDIR = ../samples/
-
-# connection test application
-CONNTEST  = conntest.cpp
-CONNTOBJ  = $(SAMPLEDIR)$(CONNTEST:.cpp=.o)
-CONNTBIN  = $(CONNTEST:.cpp=)
-CONNTEXE  = $(CONNTEST:.cpp=$(EXEEXT))
-
-# exifprint application
-EXIFPRINT = exifprint.cpp
-EXIFPOBJ  = $(SAMPLEDIR)$(EXIFPRINT:.cpp=.o)
-EXIFPBIN  = $(EXIFPRINT:.cpp=)
-EXIFPEXE  = $(EXIFPRINT:.cpp=$(EXEEXT))
-
-# exiv2json application
-EXIV2JSON = exiv2json.cpp
-EXIVJOBJ  = $(SAMPLEDIR)$(EXIV2JSON:.cpp=.o)
-EXIVJBIN  = $(EXIV2JSON:.cpp=)
-EXIVJEXE  = $(EXIV2JSON:.cpp=$(EXEEXT))
-
-# cmdfiletest application
-REMOTETEST  = remotetest.cpp
-REMOTETOBJ  = $(SAMPLEDIR)$(REMOTETEST:.cpp=.o)
-REMOTETBIN  = $(REMOTETEST:.cpp=)
-REMOTETEXE  = $(REMOTETEST:.cpp=$(EXEEXT))
-
 ifdef DEP_TRACKING
 DEP = $(CCSRC:%.cpp=$(DEPDIR)/%.d)      \
       $(CSRC:%.c=$(DEPDIR)/%.d)         \
       $(BINSRC:%.cpp=$(DEPDIR)/%.d)     \
       $(EXIV2MAIN:%.cpp=$(DEPDIR)/%.d)  \
       $(EXIV2SRC:%.cpp=$(DEPDIR)/%.d)   \
-      $(CONNTEST:%.cpp=$(DEPDIR)/%.d)   \
-      $(EXIFPRINT:%.cpp=$(DEPDIR)/%.d)  \
-      $(REMOTETEST:%.cpp=$(DEPDIR)/%.d) \
-      $(EXIV2JSON:%.cpp=$(DEPDIR)/%.d) \
       $(EXIVCSRC:%.c=$(DEPDIR)/%.d)
 
 endif
@@ -228,21 +198,6 @@ $(COBJ): %.o: %.c
 	@$(POSTDEPEND)
 
 $(EXIV2OBJ): %.o: %.cpp
-	$(COMPILE.cc) -o $@ $<
-	@$(MAKEDEPEND)
-	@$(POSTDEPEND)
-
-$(CONNTOBJ): %.o: %.cpp
-	$(COMPILE.cc) -o $@ $<
-	@$(MAKEDEPEND)
-	@$(POSTDEPEND)
-
-$(EXIFPOBJ): %.o: %.cpp
-	$(COMPILE.cc) -o $@ $<
-	@$(MAKEDEPEND)
-	@$(POSTDEPEND)
-
-$(REMOTETOBJ): %.o: %.cpp
 	$(COMPILE.cc) -o $@ $<
 	@$(MAKEDEPEND)
 	@$(POSTDEPEND)
@@ -283,7 +238,7 @@ version.hpp : svn_version.h
 $(LIBTOOL): $(LIBTOOL_DEPS)
 	$(SHELL) $(top_srcdir)/config.status --recheck
 
-bin: lib $(EXIV2BIN) $(CONNTBIN) $(EXIFPBIN) $(REMOTETBIN)
+bin: lib $(EXIV2BIN)
 
 lib: $(OBJ)
 	$(LIBTOOL) --mode=link $(LINK.cc) -o $(LIBRARY) $(LOBJ) -rpath $(libdir) -version-info $(EXIV2_LTVERSION) $(LIBS)
@@ -295,22 +250,6 @@ $(BINARY): %: %.o lib
 $(EXIV2BIN): lib $(EXIV2OBJ) $(EXIV2COBJ)
 	mkdir -pv ../bin 2>&1 > /dev/null
 	@$(LIBTOOL) --mode=link $(LINK.cc) -o ../bin/$@ $(LIBRARY) $(EXIV2OBJ) $(EXIV2COBJ) -rpath $(libdir)
-
-$(CONNTBIN): lib $(CONNTOBJ)
-	mkdir -pv ../bin 2>&1 > /dev/null
-	@$(LIBTOOL) --mode=link $(LINK.cc) -o ../bin/$@ $(LIBRARY) $(CONNTOBJ) -rpath $(libdir) $(LIBS)
-
-$(EXIFPBIN): lib $(EXIFPOBJ)
-	mkdir -pv ../bin 2>&1 > /dev/null
-	@$(LIBTOOL) --mode=link $(LINK.cc) -o ../bin/$@ $(LIBRARY) $(EXIFPOBJ) -rpath $(libdir)
-
-$(EXIVJBIN): lib $(EXIVJOBJ)
-	mkdir -pv ../bin 2>&1 > /dev/null
-	@$(LIBTOOL) --mode=link $(LINK.cc) -o ../bin/$@ $(LIBRARY) $(EXIVJOBJ) -rpath $(libdir)
-
-$(REMOTETBIN): lib $(REMOTETOBJ)
-	mkdir -pv ../bin 2>&1 > /dev/null
-	@$(LIBTOOL) --mode=link $(LINK.cc) -o ../bin/$@ $(LIBRARY) $(REMOTETOBJ) -rpath $(libdir)
 
 install-header:
 	$(INSTALL_DIRS) $(DESTDIR)$(incdir)
@@ -372,7 +311,7 @@ mostlyclean:
 	$(RM) $(CCSRC:.cpp=.ii)
 	$(RM) lib
 	$(RM) -rf $(CCSRC:%.cpp=.libs/%.d) $(CSRC:%.c=.libs/%.d) .libs/*.dSYM
-	@$(LIBTOOL) --mode=clean $(RM) $(LOBJ) $(sort $(EXIV2OBJ) $(EXIV2COBJ) $(CONNTOBJ) $(EXIFPOBJ) $(REMOTETOBJ) )
+	@$(LIBTOOL) --mode=clean $(RM) $(LOBJ) $(sort $(EXIV2OBJ) $(EXIV2COBJ))
 
 clean: mostlyclean
 	@$(LIBTOOL) --mode=clean $(RM) $(LIBRARY)
