@@ -38,6 +38,7 @@ EXIV2_RCSID("@(#) $Id$")
 #include "tiffvisitor_int.hpp"
 #include "makernote_int.hpp"
 #include "image.hpp"
+#include "image_int.hpp"
 #include "error.hpp"
 #include "futils.hpp"
 #include "types.hpp"
@@ -438,14 +439,14 @@ namespace Exiv2 {
             || isRationalType(type)
             ;
     }
-    static bool isPrintXMP(uint16_t type,Exiv2::printStructureOption_e option)
+    static bool isPrintXMP(uint16_t type, Exiv2::PrintStructureOption option)
     {
         return type == 700 && option == kpsXMP;
     }
 
 #define MIN(a,b) ((a)<(b))?(b):(a)
 
-    void TiffImage::printStructure(std::ostream& out,Exiv2::printStructureOption_e option)
+    void TiffImage::printStructure(std::ostream& out, Exiv2::PrintStructureOption option)
     {
         if (io_->open() != 0) throw Error(9, io_->path(), strError());
         // Ensure that this is the correct image type
@@ -468,13 +469,13 @@ namespace Exiv2 {
                         ;
 
             if ( option == kpsBasic ) {
-                out << stringFormat("STRUCTURE OF TIFF FILE (%c%c): ",c,c) << io_->path() << std::endl;
+                out << Internal::stringFormat("STRUCTURE OF TIFF FILE (%c%c): ",c,c) << io_->path() << std::endl;
                 out << " address |    tag                           |      type |    count |   offset | value\n";
             }
 
             uint32_t start = byteSwap4(dir,4,bSwap);
             while  ( start ) {
-                // if ( option == kpsBasic ) out << stringFormat("bSwap, start = %d %u\n",bSwap,offset);
+                // if ( option == kpsBasic ) out << Internal::stringFormat("bSwap, start = %d %u\n",bSwap,offset);
 
                 // Read top of directory
                 io_->seek(start,BasicIo::beg);
@@ -516,7 +517,7 @@ namespace Exiv2 {
 
                     if ( option == kpsBasic ) {
                         uint32_t address = start + 2 + i*12 ;
-                        out << stringFormat("%8u | %#06x %-25s |%10s |%9u |%9u | ",address,tag,tagName(tag,25),typeName(type),count,offset);
+                        out << Internal::stringFormat("%8u | %#06x %-25s |%10s |%9u |%9u | ",address,tag,tagName(tag,25),typeName(type),count,offset);
 
                         if ( isShortType(type) ){
                             for ( uint16_t k = 0 ; k < kount ; k++ ) {
@@ -542,7 +543,7 @@ namespace Exiv2 {
                                 sp = " ";
                             }
                         } else if ( isStringType(type) ) {
-                            out << sp << binaryToString(buf,kount);
+                            out << sp << Internal::binaryToString(buf, kount);
                         }
                         sp = kount == count ? "" : " ...";
                         out << sp << std::endl;

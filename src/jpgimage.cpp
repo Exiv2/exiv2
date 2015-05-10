@@ -35,6 +35,7 @@ EXIV2_RCSID("@(#) $Id$")
 #include "config.h"
 
 #include "jpgimage.hpp"
+#include "image_int.hpp"
 #include "error.hpp"
 #include "futils.hpp"
 
@@ -515,9 +516,9 @@ namespace Exiv2 {
         return true ;
     }
 
-#define REPORT_MARKER if ( option == kpsBasic ) out << stringFormat("%8ld | %#02x %-5s",io_->tell(), marker,nm[marker].c_str())
+#define REPORT_MARKER if ( option == kpsBasic ) out << Internal::stringFormat("%8ld | %#02x %-5s",io_->tell(), marker,nm[marker].c_str())
 
-    void JpegBase::printStructure(std::ostream& out,printStructureOption_e option)
+    void JpegBase::printStructure(std::ostream& out, PrintStructureOption option)
     {
         if (io_->open() != 0) throw Error(9, io_->path(), strError());
         // Ensure that this is the correct image type
@@ -589,7 +590,7 @@ namespace Exiv2 {
                 ){
                     size = getUShort(buf.pData_, bigEndian);
                 }
-                if ( option == kpsBasic ) out << stringFormat(" | %7d ", size);
+                if ( option == kpsBasic ) out << Internal::stringFormat(" | %7d ", size);
 
                 // only print the signature for appn
                 if (marker >= app0_ && marker <= (app0_ | 0x0F)) {
@@ -624,7 +625,7 @@ namespace Exiv2 {
                             bufRead = size;
                         }
                     } else if ( option == kpsBasic ) {
-                        out << "| " << binaryToString(buf,32,size>0?2:0);
+                        out << "| " << Internal::binaryToString(buf,32,size>0?2:0);
                     }
                 }
 
