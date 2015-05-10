@@ -253,7 +253,7 @@ namespace Exiv2 {
                 N_("Scene mode"),
                 olympusCsId, makerTags, unsignedShort, -1, EXV_PRINT_TAG(olympusSceneMode)),
         TagInfo(0x0404, "Firmware", N_("Firmware"),
-                N_("Firmwarer"),
+                N_("Firmware"),
                 olympusId, makerTags, asciiString, -1, printValue),
         TagInfo(0x0e00, "PrintIM", N_("Print IM"),
                 N_("PrintIM information"),
