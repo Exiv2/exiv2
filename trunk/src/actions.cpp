@@ -252,7 +252,7 @@ namespace Action {
         return 1;
     } // Print::run
 
-    int Print::printStructure(std::ostream& out,Exiv2::printStructureOption_e option)
+    int Print::printStructure(std::ostream& out, Exiv2::PrintStructureOption option)
     {
         if (!Exiv2::fileExists(path_, true)) {
             std::cerr << path_ << ": "

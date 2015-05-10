@@ -72,9 +72,9 @@ namespace Exiv2 {
     typedef std::vector<NativePreview> NativePreviewList;
 
     /*!
-      @brief options for printStructure
+      @brief Options for printStructure
      */
-    typedef enum { kpsNone, kpsBasic, kpsXMP } printStructureOption_e ;
+    typedef enum { kpsNone, kpsBasic, kpsXMP } PrintStructureOption;
 
     /*!
       @brief Abstract base class defining the interface for an image. This is
@@ -113,7 +113,7 @@ namespace Exiv2 {
                 not valid (does not look like data of the specific image type).
           @caution This function is not thread safe and intended for exiv2 -pS for debugging.
          */
-        virtual void printStructure(std::ostream& out,printStructureOption_e option=kpsNone);
+        virtual void printStructure(std::ostream& out, PrintStructureOption option =kpsNone);
         /*!
           @brief Read all metadata supported by a specific image format from the
               image. Before this method is called, the image metadata will be
@@ -412,16 +412,6 @@ namespace Exiv2 {
         bool writeXmpFromPacket() const;
         //! Return list of native previews. This is meant to be used only by the PreviewManager.
         const NativePreviewList& nativePreviews() const;
-        /*!
-          @brief format a string in the pattern of \em sprintf \em .
-        */
-		std::string stringFormat(const char* format, ...) const;
-
-        /*!
-          @brief format binary for display in \em printStructure() \em .
-        */
-        std::string binaryToString(DataBuf& buf,size_t size,size_t start=0) const;
-
         //@}
 
     protected:

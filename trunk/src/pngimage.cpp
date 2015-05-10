@@ -37,6 +37,7 @@ EXIV2_RCSID("@(#) $Id$")
 #include "pngimage.hpp"
 #include "jpgimage.hpp"
 #include "image.hpp"
+#include "image_int.hpp"
 #include "basicio.hpp"
 #include "error.hpp"
 #include "futils.hpp"
@@ -91,7 +92,7 @@ namespace Exiv2 {
         return "image/png";
     }
 
-    void PngImage::printStructure(std::ostream& out,printStructureOption_e option)
+    void PngImage::printStructure(std::ostream& out, PrintStructureOption option)
     {
         if (io_->open() != 0) {
             throw Error(9, io_->path(), strError());
@@ -145,10 +146,10 @@ namespace Exiv2 {
                     DataBuf buff(blen+1);
                     io_->read(buff.pData_,blen);
                     dataOffset -=  blen ;
-                    dataString  = binaryToString(buff,blen);
+                    dataString  = Internal::binaryToString(buff, blen);
                 }
 
-                if ( option == kpsBasic ) out << stringFormat("%8d | %5d | %10s |%8d | ",(uint32_t)address, index++,chType,dOff) << dataString << std::endl;
+                if ( option == kpsBasic ) out << Internal::stringFormat("%8d | %5d | %10s |%8d | ",(uint32_t)address, index++,chType,dOff) << dataString << std::endl;
                 // for XMP, back up and read the whole block
                 const char* key = "XML:com.adobe.xmp" ;
                 size_t      start = ::strlen(key);
