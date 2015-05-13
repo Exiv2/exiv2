@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: exiv2\n"
 "Report-Msgid-Bugs-To: ahuggel@gmx.net\n"
-"POT-Creation-Date: 2015-05-10 05:05+0200\n"
+"POT-Creation-Date: 2015-05-13 04:21+0200\n"
 "PO-Revision-Date: 2008-11-18 14:54+0100\n"
 "Last-Translator: Ivan Masár <helix84@centrum.sk>\n"
 "Language-Team: Slovak <sk-i18n@lists.linux.sk>\n"
@@ -162,8 +162,8 @@ msgstr "Náhľad"
 #: src/nikonmn.cpp:175 src/nikonmn.cpp:190 src/nikonmn.cpp:923
 #: src/nikonmn.cpp:948 src/nikonmn.cpp:1010 src/olympusmn.cpp:142
 #: src/olympusmn.cpp:726 src/olympusmn.cpp:733 src/olympusmn.cpp:1189
-#: src/olympusmn.cpp:1258 src/olympusmn.cpp:1405 src/olympusmn.cpp:1610
-#: src/olympusmn.cpp:1619 src/pentaxmn.cpp:287 src/pentaxmn.cpp:303
+#: src/olympusmn.cpp:1258 src/olympusmn.cpp:1407 src/olympusmn.cpp:1612
+#: src/olympusmn.cpp:1621 src/pentaxmn.cpp:287 src/pentaxmn.cpp:303
 #: src/pentaxmn.cpp:450 src/pentaxmn.cpp:451 src/properties.cpp:939
 #: src/properties.cpp:947 src/tags.cpp:1517
 msgid "None"
@@ -452,7 +452,7 @@ msgstr "Prepísať"
 #: src/olympusmn.cpp:86 src/olympusmn.cpp:501 src/olympusmn.cpp:529
 #: src/olympusmn.cpp:540 src/olympusmn.cpp:557 src/olympusmn.cpp:592
 #: src/olympusmn.cpp:654 src/olympusmn.cpp:919 src/olympusmn.cpp:1140
-#: src/olympusmn.cpp:1498 src/olympusmn.cpp:1499 src/olympusmn.cpp:1565
+#: src/olympusmn.cpp:1500 src/olympusmn.cpp:1501 src/olympusmn.cpp:1567
 #: src/panasonicmn.cpp:93 src/panasonicmn.cpp:102 src/panasonicmn.cpp:109
 #: src/panasonicmn.cpp:197 src/panasonicmn.cpp:207 src/panasonicmn.cpp:236
 #: src/panasonicmn.cpp:273 src/panasonicmn.cpp:288 src/panasonicmn.cpp:325
@@ -473,7 +473,7 @@ msgstr "vypnutý"
 #: src/nikonmn.cpp:648 src/nikonmn.cpp:724 src/nikonmn.cpp:725
 #: src/nikonmn.cpp:1242 src/olympusmn.cpp:60 src/olympusmn.cpp:80
 #: src/olympusmn.cpp:87 src/olympusmn.cpp:502 src/olympusmn.cpp:530
-#: src/olympusmn.cpp:1566 src/panasonicmn.cpp:101 src/panasonicmn.cpp:289
+#: src/olympusmn.cpp:1568 src/panasonicmn.cpp:101 src/panasonicmn.cpp:289
 #: src/panasonicmn.cpp:326 src/panasonicmn.cpp:363 src/panasonicmn.cpp:380
 #: src/panasonicmn.cpp:430 src/pentaxmn.cpp:390 src/pentaxmn.cpp:983
 #: src/sonymn.cpp:204 src/sonymn.cpp:256 src/sonymn.cpp:287
@@ -1201,7 +1201,7 @@ msgstr "stredný rozsah"
 msgid "Far range"
 msgstr "V diaľke"
 
-#: src/canonmn.cpp:578 src/olympusmn.cpp:1585 src/pentaxmn.cpp:268
+#: src/canonmn.cpp:578 src/olympusmn.cpp:1587 src/pentaxmn.cpp:268
 #: src/tags.cpp:2590
 msgid "Infinity"
 msgstr "Nekonečno"
@@ -1221,7 +1221,7 @@ msgstr "Automatický výber"
 
 #: src/canonmn.cpp:586 src/minoltamn.cpp:287 src/minoltamn.cpp:706
 #: src/minoltamn.cpp:921 src/minoltamn.cpp:2005 src/nikonmn.cpp:103
-#: src/olympusmn.cpp:1608 src/pentaxmn.cpp:295 src/pentaxmn.cpp:310
+#: src/olympusmn.cpp:1610 src/pentaxmn.cpp:295 src/pentaxmn.cpp:310
 msgid "Right"
 msgstr "vpravo"
 
@@ -5489,7 +5489,7 @@ msgstr "Kelvinov"
 msgid "Single-shot AF"
 msgstr "automatické zaostrenie pre jeden záber"
 
-#: src/minoltamn.cpp:696 src/olympusmn.cpp:510 src/olympusmn.cpp:1439
+#: src/minoltamn.cpp:696 src/olympusmn.cpp:510 src/olympusmn.cpp:1441
 msgid "Continuous AF"
 msgstr "spojité automatické zaostrenie"
 
@@ -5940,8 +5940,8 @@ msgstr "Štandardná škála"
 msgid "AM"
 msgstr ""
 
-#: src/minoltamn.cpp:1336 src/olympusmn.cpp:512 src/olympusmn.cpp:1442
-#: src/olympusmn.cpp:1452
+#: src/minoltamn.cpp:1336 src/olympusmn.cpp:512 src/olympusmn.cpp:1444
+#: src/olympusmn.cpp:1454
 msgid "MF"
 msgstr ""
 
@@ -8794,13 +8794,9 @@ msgstr "Viacnásobné snímky so zmenou vyváženia bielej"
 msgid "White balance bracket"
 msgstr "Viacnásobné snímky so zmenou vyváženia bielej"
 
-#: src/olympusmn.cpp:255 src/sigmamn.cpp:116 src/sigmamn.cpp:117
+#: src/olympusmn.cpp:255 src/olympusmn.cpp:256 src/sigmamn.cpp:116
+#: src/sigmamn.cpp:117
 msgid "Firmware"
-msgstr "Firmvér"
-
-#: src/olympusmn.cpp:256
-#, fuzzy
-msgid "Firmwarer"
 msgstr "Firmvér"
 
 #: src/olympusmn.cpp:261
@@ -9155,16 +9151,16 @@ msgstr "Riadenie farieb"
 msgid "Spot+Shadow control"
 msgstr "Riadenie farieb"
 
-#: src/olympusmn.cpp:508 src/olympusmn.cpp:1437
+#: src/olympusmn.cpp:508 src/olympusmn.cpp:1439
 #, fuzzy
 msgid "Single AF"
 msgstr "Jednotlivý"
 
-#: src/olympusmn.cpp:509 src/olympusmn.cpp:1438
+#: src/olympusmn.cpp:509 src/olympusmn.cpp:1440
 msgid "Sequential shooting AF"
 msgstr ""
 
-#: src/olympusmn.cpp:511 src/olympusmn.cpp:1440 src/sonymn.cpp:236
+#: src/olympusmn.cpp:511 src/olympusmn.cpp:1442 src/sonymn.cpp:236
 #, fuzzy
 msgid "Multi AF"
 msgstr "Viacbodový"
@@ -10615,7 +10611,7 @@ msgstr "Názov objektu"
 msgid "Face Detect"
 msgstr "Nepodarilo sa prečítať"
 
-#: src/olympusmn.cpp:987 src/olympusmn.cpp:1441 src/olympusmn.cpp:1453
+#: src/olympusmn.cpp:987 src/olympusmn.cpp:1443 src/olympusmn.cpp:1455
 #, fuzzy
 msgid "Face detect"
 msgstr "Nepodarilo sa prečítať"
@@ -11119,310 +11115,310 @@ msgstr "7500 Kelvinov"
 msgid "One-touch"
 msgstr "jedným dotykom"
 
-#: src/olympusmn.cpp:1450
+#: src/olympusmn.cpp:1452
 msgid "S-AF"
 msgstr ""
 
-#: src/olympusmn.cpp:1451
+#: src/olympusmn.cpp:1453
 msgid "C-AF"
 msgstr ""
 
-#: src/olympusmn.cpp:1454
+#: src/olympusmn.cpp:1456
 #, fuzzy
 msgid "Imager AF"
 msgstr "Jedinečný ID obrázka"
 
-#: src/olympusmn.cpp:1455
+#: src/olympusmn.cpp:1457
 #, fuzzy
 msgid "AF sensor"
 msgstr "Moje vyhľadávania"
 
-#: src/olympusmn.cpp:1500
+#: src/olympusmn.cpp:1502
 #, fuzzy
 msgid "Soft Focus"
 msgstr "Bodové zaostrenie"
 
-#: src/olympusmn.cpp:1501
+#: src/olympusmn.cpp:1503
 msgid "Pop Art"
 msgstr ""
 
-#: src/olympusmn.cpp:1502
+#: src/olympusmn.cpp:1504
 msgid "Pale & Light Color"
 msgstr ""
 
-#: src/olympusmn.cpp:1503
+#: src/olympusmn.cpp:1505
 #, fuzzy
 msgid "Light Tone"
 msgstr "Oblasť vpravo"
 
-#: src/olympusmn.cpp:1504 src/panasonicmn.cpp:150
+#: src/olympusmn.cpp:1506 src/panasonicmn.cpp:150
 msgid "Pin Hole"
 msgstr ""
 
-#: src/olympusmn.cpp:1505
+#: src/olympusmn.cpp:1507
 msgid "Grainy Film"
 msgstr ""
 
-#: src/olympusmn.cpp:1506
+#: src/olympusmn.cpp:1508
 #, fuzzy
 msgid "Diorama"
 msgstr "panoráma"
 
-#: src/olympusmn.cpp:1507
+#: src/olympusmn.cpp:1509
 #, fuzzy
 msgid "Cross Process"
 msgstr "režim zaostrenia"
 
 # exif-flashenergy
-#: src/olympusmn.cpp:1508
+#: src/olympusmn.cpp:1510
 #, fuzzy
 msgid "Fish Eye"
 msgstr "energia blesku"
 
-#: src/olympusmn.cpp:1509
+#: src/olympusmn.cpp:1511
 msgid "Drawing"
 msgstr ""
 
-#: src/olympusmn.cpp:1510
+#: src/olympusmn.cpp:1512
 msgid "Gentle Sepia"
 msgstr ""
 
-#: src/olympusmn.cpp:1511
+#: src/olympusmn.cpp:1513
 msgid "Pale & Light Color II"
 msgstr ""
 
-#: src/olympusmn.cpp:1512
+#: src/olympusmn.cpp:1514
 msgid "Pop Art II"
 msgstr ""
 
-#: src/olympusmn.cpp:1513
+#: src/olympusmn.cpp:1515
 msgid "Pin Hole II"
 msgstr ""
 
-#: src/olympusmn.cpp:1514
+#: src/olympusmn.cpp:1516
 msgid "Pin Hole III"
 msgstr ""
 
-#: src/olympusmn.cpp:1515
-msgid "Grainy Film II"
-msgstr ""
-
-#: src/olympusmn.cpp:1516
-#, fuzzy
-msgid "Dramatic Tone"
-msgstr "Informácie o snímke"
-
 #: src/olympusmn.cpp:1517
-msgid "Punk"
+msgid "Grainy Film II"
 msgstr ""
 
 #: src/olympusmn.cpp:1518
 #, fuzzy
-msgid "Soft Focus 2"
-msgstr "Bodové zaostrenie"
+msgid "Dramatic Tone"
+msgstr "Informácie o snímke"
 
 #: src/olympusmn.cpp:1519
-msgid "Sparkle"
+msgid "Punk"
 msgstr ""
 
 #: src/olympusmn.cpp:1520
 #, fuzzy
-msgid "Watercolor"
-msgstr "Prirodzená farba"
+msgid "Soft Focus 2"
+msgstr "Bodové zaostrenie"
 
 #: src/olympusmn.cpp:1521
-msgid "Key Line"
+msgid "Sparkle"
 msgstr ""
 
 #: src/olympusmn.cpp:1522
+#, fuzzy
+msgid "Watercolor"
+msgstr "Prirodzená farba"
+
+#: src/olympusmn.cpp:1523
+msgid "Key Line"
+msgstr ""
+
+#: src/olympusmn.cpp:1524
 msgid "Key Line II"
 msgstr ""
 
-#: src/olympusmn.cpp:1523
+#: src/olympusmn.cpp:1525
 #, fuzzy
 msgid "Miniature"
 msgstr "Max. clona"
 
-#: src/olympusmn.cpp:1524
+#: src/olympusmn.cpp:1526
 #, fuzzy
 msgid "Reflection"
 msgstr "Výber"
 
-#: src/olympusmn.cpp:1525
-msgid "Fragmented"
-msgstr ""
-
-#: src/olympusmn.cpp:1526
-#, fuzzy
-msgid "Cross Process II"
-msgstr "režim zaostrenia"
-
 #: src/olympusmn.cpp:1527
-msgid "Dramatic Tone II"
+msgid "Fragmented"
 msgstr ""
 
 #: src/olympusmn.cpp:1528
 #, fuzzy
+msgid "Cross Process II"
+msgstr "režim zaostrenia"
+
+#: src/olympusmn.cpp:1529
+msgid "Dramatic Tone II"
+msgstr ""
+
+#: src/olympusmn.cpp:1530
+#, fuzzy
 msgid "Watercolor I"
 msgstr "Prirodzená farba"
 
-#: src/olympusmn.cpp:1529
+#: src/olympusmn.cpp:1531
 #, fuzzy
 msgid "Watercolor II"
 msgstr "Prirodzená farba"
 
-#: src/olympusmn.cpp:1530
+#: src/olympusmn.cpp:1532
 #, fuzzy
 msgid "Diorama II"
 msgstr "panoráma"
 
-#: src/olympusmn.cpp:1531
+#: src/olympusmn.cpp:1533
 msgid "Vintage"
 msgstr ""
 
-#: src/olympusmn.cpp:1532
+#: src/olympusmn.cpp:1534
 #, fuzzy
 msgid "Vintage II"
 msgstr "Manažér"
 
-#: src/olympusmn.cpp:1533
+#: src/olympusmn.cpp:1535
 #, fuzzy
 msgid "Vintage III"
 msgstr "Manažér"
 
-#: src/olympusmn.cpp:1534
+#: src/olympusmn.cpp:1536
 #, fuzzy
 msgid "Partial Color"
 msgstr "Prirodzená farba"
 
-#: src/olympusmn.cpp:1535
+#: src/olympusmn.cpp:1537
 #, fuzzy
 msgid "Partial Color II"
 msgstr "Prirodzená farba"
 
-#: src/olympusmn.cpp:1536
+#: src/olympusmn.cpp:1538
 #, fuzzy
 msgid "Partial Color III"
 msgstr "Prirodzená farba"
 
-#: src/olympusmn.cpp:1606
+#: src/olympusmn.cpp:1608
 #, fuzzy
 msgid "Left (or n/a)"
 msgstr "Oblasť vľavo"
 
-#: src/olympusmn.cpp:1607 src/olympusmn.cpp:1625
+#: src/olympusmn.cpp:1609 src/olympusmn.cpp:1627
 #, fuzzy
 msgid "Center (horizontal)"
 msgstr "Stredná oblasť (vodorovná orientácia)"
 
-#: src/olympusmn.cpp:1609 src/olympusmn.cpp:1636
+#: src/olympusmn.cpp:1611 src/olympusmn.cpp:1638
 #, fuzzy
 msgid "Center (vertical)"
 msgstr "Stredná oblasť (zvislá orientácia)"
 
-#: src/olympusmn.cpp:1620
-msgid "Top-left (horizontal)"
-msgstr ""
-
-#: src/olympusmn.cpp:1621
-#, fuzzy
-msgid "Top-center (horizontal)"
-msgstr "Stredná oblasť (vodorovná orientácia)"
-
 #: src/olympusmn.cpp:1622
-msgid "Top-right (horizontal)"
+msgid "Top-left (horizontal)"
 msgstr ""
 
 #: src/olympusmn.cpp:1623
 #, fuzzy
+msgid "Top-center (horizontal)"
+msgstr "Stredná oblasť (vodorovná orientácia)"
+
+#: src/olympusmn.cpp:1624
+msgid "Top-right (horizontal)"
+msgstr ""
+
+#: src/olympusmn.cpp:1625
+#, fuzzy
 msgid "Left (horizontal)"
 msgstr "Horizontálne (normálne)"
 
-#: src/olympusmn.cpp:1624
+#: src/olympusmn.cpp:1626
 msgid "Mid-left (horizontal)"
 msgstr ""
 
-#: src/olympusmn.cpp:1626
+#: src/olympusmn.cpp:1628
 msgid "Mid-right (horizontal)"
 msgstr ""
 
-#: src/olympusmn.cpp:1627
+#: src/olympusmn.cpp:1629
 #, fuzzy
 msgid "Right (horizontal)"
 msgstr "Horizontálne (normálne)"
 
-#: src/olympusmn.cpp:1628
+#: src/olympusmn.cpp:1630
 #, fuzzy
 msgid "Bottom-left (horizontal)"
 msgstr "vľavo dolu"
 
-#: src/olympusmn.cpp:1629
+#: src/olympusmn.cpp:1631
 #, fuzzy
 msgid "Bottom-center (horizontal)"
 msgstr "vľavo dolu"
 
-#: src/olympusmn.cpp:1630
+#: src/olympusmn.cpp:1632
 #, fuzzy
 msgid "Bottom-right (horizontal)"
 msgstr "vpravo dolu"
 
-#: src/olympusmn.cpp:1631
+#: src/olympusmn.cpp:1633
 msgid "Top-left (vertical)"
 msgstr ""
 
-#: src/olympusmn.cpp:1632
+#: src/olympusmn.cpp:1634
 #, fuzzy
 msgid "Top-center (vertical)"
 msgstr "v strede"
 
-#: src/olympusmn.cpp:1633
+#: src/olympusmn.cpp:1635
 #, fuzzy
 msgid "Top-right (vertical)"
 msgstr "vpravo hore"
 
-#: src/olympusmn.cpp:1634
+#: src/olympusmn.cpp:1636
 msgid "Left (vertical)"
 msgstr ""
 
-#: src/olympusmn.cpp:1635
-msgid "Mid-left (vertical)"
-msgstr ""
-
 #: src/olympusmn.cpp:1637
-#, fuzzy
-msgid "Mid-right (vertical)"
-msgstr "v strede vpravo"
-
-#: src/olympusmn.cpp:1638
-msgid "Right (vertical)"
+msgid "Mid-left (vertical)"
 msgstr ""
 
 #: src/olympusmn.cpp:1639
 #, fuzzy
+msgid "Mid-right (vertical)"
+msgstr "v strede vpravo"
+
+#: src/olympusmn.cpp:1640
+msgid "Right (vertical)"
+msgstr ""
+
+#: src/olympusmn.cpp:1641
+#, fuzzy
 msgid "Bottom-left (vertical)"
 msgstr "vľavo dolu"
 
-#: src/olympusmn.cpp:1640
+#: src/olympusmn.cpp:1642
 #, fuzzy
 msgid "Bottom-center (vertical)"
 msgstr "vľavo dolu"
 
-#: src/olympusmn.cpp:1641
+#: src/olympusmn.cpp:1643
 #, fuzzy
 msgid "Bottom-right (vertical)"
 msgstr "vpravo dolu"
 
-#: src/olympusmn.cpp:1678
+#: src/olympusmn.cpp:1680
 #, fuzzy
 msgid "Single Target"
 msgstr "Jednoduchá oblasť"
 
-#: src/olympusmn.cpp:1679
+#: src/olympusmn.cpp:1681
 #, fuzzy
 msgid "All Target"
 msgstr "cieľ"
 
-#: src/olympusmn.cpp:1680
+#: src/olympusmn.cpp:1682
 #, fuzzy
 msgid "Dynamic Single Target"
 msgstr "Nastavenie dynamického rozsahu"
@@ -24984,7 +24980,7 @@ msgstr "Dynamický rozsah"
 
 #: src/tags.cpp:622
 #, c-format
-msgid "The component values that correspond to a 0%% dot and 100%% dot."
+msgid "The component values that correspond to a 0% dot and 100% dot."
 msgstr ""
 
 #: src/tags.cpp:624
@@ -27933,19 +27929,19 @@ msgstr "Neznáma značka"
 msgid "Digital zoom not used"
 msgstr "Digitálne priblíženie nebolo použité"
 
-#: src/tiffimage.cpp:2308
+#: src/tiffimage.cpp:2309
 msgid "TIFF header, offset"
 msgstr "Hlavička TIFF, ofset"
 
-#: src/tiffimage.cpp:2313
+#: src/tiffimage.cpp:2314
 msgid "little endian encoded"
 msgstr ""
 
-#: src/tiffimage.cpp:2314
+#: src/tiffimage.cpp:2315
 msgid "big endian encoded"
 msgstr ""
 
-#: src/tiffimage.cpp:2315
+#: src/tiffimage.cpp:2316
 #, fuzzy
 msgid "ascii bytes"
 msgstr "bajtov"

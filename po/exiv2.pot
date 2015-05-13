@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: ahuggel@gmx.net\n"
-"POT-Creation-Date: 2015-05-10 05:05+0200\n"
+"POT-Creation-Date: 2015-05-13 04:21+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -157,8 +157,8 @@ msgstr ""
 #: src/nikonmn.cpp:175 src/nikonmn.cpp:190 src/nikonmn.cpp:923
 #: src/nikonmn.cpp:948 src/nikonmn.cpp:1010 src/olympusmn.cpp:142
 #: src/olympusmn.cpp:726 src/olympusmn.cpp:733 src/olympusmn.cpp:1189
-#: src/olympusmn.cpp:1258 src/olympusmn.cpp:1405 src/olympusmn.cpp:1610
-#: src/olympusmn.cpp:1619 src/pentaxmn.cpp:287 src/pentaxmn.cpp:303
+#: src/olympusmn.cpp:1258 src/olympusmn.cpp:1407 src/olympusmn.cpp:1612
+#: src/olympusmn.cpp:1621 src/pentaxmn.cpp:287 src/pentaxmn.cpp:303
 #: src/pentaxmn.cpp:450 src/pentaxmn.cpp:451 src/properties.cpp:939
 #: src/properties.cpp:947 src/tags.cpp:1517
 msgid "None"
@@ -441,7 +441,7 @@ msgstr ""
 #: src/olympusmn.cpp:86 src/olympusmn.cpp:501 src/olympusmn.cpp:529
 #: src/olympusmn.cpp:540 src/olympusmn.cpp:557 src/olympusmn.cpp:592
 #: src/olympusmn.cpp:654 src/olympusmn.cpp:919 src/olympusmn.cpp:1140
-#: src/olympusmn.cpp:1498 src/olympusmn.cpp:1499 src/olympusmn.cpp:1565
+#: src/olympusmn.cpp:1500 src/olympusmn.cpp:1501 src/olympusmn.cpp:1567
 #: src/panasonicmn.cpp:93 src/panasonicmn.cpp:102 src/panasonicmn.cpp:109
 #: src/panasonicmn.cpp:197 src/panasonicmn.cpp:207 src/panasonicmn.cpp:236
 #: src/panasonicmn.cpp:273 src/panasonicmn.cpp:288 src/panasonicmn.cpp:325
@@ -462,7 +462,7 @@ msgstr ""
 #: src/nikonmn.cpp:648 src/nikonmn.cpp:724 src/nikonmn.cpp:725
 #: src/nikonmn.cpp:1242 src/olympusmn.cpp:60 src/olympusmn.cpp:80
 #: src/olympusmn.cpp:87 src/olympusmn.cpp:502 src/olympusmn.cpp:530
-#: src/olympusmn.cpp:1566 src/panasonicmn.cpp:101 src/panasonicmn.cpp:289
+#: src/olympusmn.cpp:1568 src/panasonicmn.cpp:101 src/panasonicmn.cpp:289
 #: src/panasonicmn.cpp:326 src/panasonicmn.cpp:363 src/panasonicmn.cpp:380
 #: src/panasonicmn.cpp:430 src/pentaxmn.cpp:390 src/pentaxmn.cpp:983
 #: src/sonymn.cpp:204 src/sonymn.cpp:256 src/sonymn.cpp:287
@@ -1153,7 +1153,7 @@ msgstr ""
 msgid "Far range"
 msgstr ""
 
-#: src/canonmn.cpp:578 src/olympusmn.cpp:1585 src/pentaxmn.cpp:268
+#: src/canonmn.cpp:578 src/olympusmn.cpp:1587 src/pentaxmn.cpp:268
 #: src/tags.cpp:2590
 msgid "Infinity"
 msgstr ""
@@ -1172,7 +1172,7 @@ msgstr ""
 
 #: src/canonmn.cpp:586 src/minoltamn.cpp:287 src/minoltamn.cpp:706
 #: src/minoltamn.cpp:921 src/minoltamn.cpp:2005 src/nikonmn.cpp:103
-#: src/olympusmn.cpp:1608 src/pentaxmn.cpp:295 src/pentaxmn.cpp:310
+#: src/olympusmn.cpp:1610 src/pentaxmn.cpp:295 src/pentaxmn.cpp:310
 msgid "Right"
 msgstr ""
 
@@ -5170,7 +5170,7 @@ msgstr ""
 msgid "Single-shot AF"
 msgstr ""
 
-#: src/minoltamn.cpp:696 src/olympusmn.cpp:510 src/olympusmn.cpp:1439
+#: src/minoltamn.cpp:696 src/olympusmn.cpp:510 src/olympusmn.cpp:1441
 msgid "Continuous AF"
 msgstr ""
 
@@ -5575,8 +5575,8 @@ msgstr ""
 msgid "AM"
 msgstr ""
 
-#: src/minoltamn.cpp:1336 src/olympusmn.cpp:512 src/olympusmn.cpp:1442
-#: src/olympusmn.cpp:1452
+#: src/minoltamn.cpp:1336 src/olympusmn.cpp:512 src/olympusmn.cpp:1444
+#: src/olympusmn.cpp:1454
 msgid "MF"
 msgstr ""
 
@@ -8009,12 +8009,9 @@ msgstr ""
 msgid "White balance bracket"
 msgstr ""
 
-#: src/olympusmn.cpp:255 src/sigmamn.cpp:116 src/sigmamn.cpp:117
+#: src/olympusmn.cpp:255 src/olympusmn.cpp:256 src/sigmamn.cpp:116
+#: src/sigmamn.cpp:117
 msgid "Firmware"
-msgstr ""
-
-#: src/olympusmn.cpp:256
-msgid "Firmwarer"
 msgstr ""
 
 #: src/olympusmn.cpp:261
@@ -8346,15 +8343,15 @@ msgstr ""
 msgid "Spot+Shadow control"
 msgstr ""
 
-#: src/olympusmn.cpp:508 src/olympusmn.cpp:1437
+#: src/olympusmn.cpp:508 src/olympusmn.cpp:1439
 msgid "Single AF"
 msgstr ""
 
-#: src/olympusmn.cpp:509 src/olympusmn.cpp:1438
+#: src/olympusmn.cpp:509 src/olympusmn.cpp:1440
 msgid "Sequential shooting AF"
 msgstr ""
 
-#: src/olympusmn.cpp:511 src/olympusmn.cpp:1440 src/sonymn.cpp:236
+#: src/olympusmn.cpp:511 src/olympusmn.cpp:1442 src/sonymn.cpp:236
 msgid "Multi AF"
 msgstr ""
 
@@ -9536,7 +9533,7 @@ msgstr ""
 msgid "Face Detect"
 msgstr ""
 
-#: src/olympusmn.cpp:987 src/olympusmn.cpp:1441 src/olympusmn.cpp:1453
+#: src/olympusmn.cpp:987 src/olympusmn.cpp:1443 src/olympusmn.cpp:1455
 msgid "Face detect"
 msgstr ""
 
@@ -9948,271 +9945,271 @@ msgstr ""
 msgid "One-touch"
 msgstr ""
 
-#: src/olympusmn.cpp:1450
+#: src/olympusmn.cpp:1452
 msgid "S-AF"
 msgstr ""
 
-#: src/olympusmn.cpp:1451
+#: src/olympusmn.cpp:1453
 msgid "C-AF"
 msgstr ""
 
-#: src/olympusmn.cpp:1454
+#: src/olympusmn.cpp:1456
 msgid "Imager AF"
 msgstr ""
 
-#: src/olympusmn.cpp:1455
+#: src/olympusmn.cpp:1457
 msgid "AF sensor"
 msgstr ""
 
-#: src/olympusmn.cpp:1500
+#: src/olympusmn.cpp:1502
 msgid "Soft Focus"
 msgstr ""
 
-#: src/olympusmn.cpp:1501
+#: src/olympusmn.cpp:1503
 msgid "Pop Art"
 msgstr ""
 
-#: src/olympusmn.cpp:1502
+#: src/olympusmn.cpp:1504
 msgid "Pale & Light Color"
 msgstr ""
 
-#: src/olympusmn.cpp:1503
+#: src/olympusmn.cpp:1505
 msgid "Light Tone"
 msgstr ""
 
-#: src/olympusmn.cpp:1504 src/panasonicmn.cpp:150
+#: src/olympusmn.cpp:1506 src/panasonicmn.cpp:150
 msgid "Pin Hole"
 msgstr ""
 
-#: src/olympusmn.cpp:1505
+#: src/olympusmn.cpp:1507
 msgid "Grainy Film"
 msgstr ""
 
-#: src/olympusmn.cpp:1506
+#: src/olympusmn.cpp:1508
 msgid "Diorama"
 msgstr ""
 
-#: src/olympusmn.cpp:1507
+#: src/olympusmn.cpp:1509
 msgid "Cross Process"
 msgstr ""
 
-#: src/olympusmn.cpp:1508
+#: src/olympusmn.cpp:1510
 msgid "Fish Eye"
 msgstr ""
 
-#: src/olympusmn.cpp:1509
+#: src/olympusmn.cpp:1511
 msgid "Drawing"
 msgstr ""
 
-#: src/olympusmn.cpp:1510
+#: src/olympusmn.cpp:1512
 msgid "Gentle Sepia"
 msgstr ""
 
-#: src/olympusmn.cpp:1511
+#: src/olympusmn.cpp:1513
 msgid "Pale & Light Color II"
 msgstr ""
 
-#: src/olympusmn.cpp:1512
+#: src/olympusmn.cpp:1514
 msgid "Pop Art II"
 msgstr ""
 
-#: src/olympusmn.cpp:1513
+#: src/olympusmn.cpp:1515
 msgid "Pin Hole II"
 msgstr ""
 
-#: src/olympusmn.cpp:1514
+#: src/olympusmn.cpp:1516
 msgid "Pin Hole III"
 msgstr ""
 
-#: src/olympusmn.cpp:1515
+#: src/olympusmn.cpp:1517
 msgid "Grainy Film II"
 msgstr ""
 
-#: src/olympusmn.cpp:1516
+#: src/olympusmn.cpp:1518
 msgid "Dramatic Tone"
 msgstr ""
 
-#: src/olympusmn.cpp:1517
+#: src/olympusmn.cpp:1519
 msgid "Punk"
 msgstr ""
 
-#: src/olympusmn.cpp:1518
+#: src/olympusmn.cpp:1520
 msgid "Soft Focus 2"
 msgstr ""
 
-#: src/olympusmn.cpp:1519
+#: src/olympusmn.cpp:1521
 msgid "Sparkle"
 msgstr ""
 
-#: src/olympusmn.cpp:1520
+#: src/olympusmn.cpp:1522
 msgid "Watercolor"
 msgstr ""
 
-#: src/olympusmn.cpp:1521
+#: src/olympusmn.cpp:1523
 msgid "Key Line"
 msgstr ""
 
-#: src/olympusmn.cpp:1522
+#: src/olympusmn.cpp:1524
 msgid "Key Line II"
 msgstr ""
 
-#: src/olympusmn.cpp:1523
+#: src/olympusmn.cpp:1525
 msgid "Miniature"
 msgstr ""
 
-#: src/olympusmn.cpp:1524
+#: src/olympusmn.cpp:1526
 msgid "Reflection"
 msgstr ""
 
-#: src/olympusmn.cpp:1525
+#: src/olympusmn.cpp:1527
 msgid "Fragmented"
 msgstr ""
 
-#: src/olympusmn.cpp:1526
+#: src/olympusmn.cpp:1528
 msgid "Cross Process II"
 msgstr ""
 
-#: src/olympusmn.cpp:1527
+#: src/olympusmn.cpp:1529
 msgid "Dramatic Tone II"
 msgstr ""
 
-#: src/olympusmn.cpp:1528
+#: src/olympusmn.cpp:1530
 msgid "Watercolor I"
 msgstr ""
 
-#: src/olympusmn.cpp:1529
+#: src/olympusmn.cpp:1531
 msgid "Watercolor II"
 msgstr ""
 
-#: src/olympusmn.cpp:1530
+#: src/olympusmn.cpp:1532
 msgid "Diorama II"
 msgstr ""
 
-#: src/olympusmn.cpp:1531
+#: src/olympusmn.cpp:1533
 msgid "Vintage"
 msgstr ""
 
-#: src/olympusmn.cpp:1532
+#: src/olympusmn.cpp:1534
 msgid "Vintage II"
 msgstr ""
 
-#: src/olympusmn.cpp:1533
+#: src/olympusmn.cpp:1535
 msgid "Vintage III"
 msgstr ""
 
-#: src/olympusmn.cpp:1534
+#: src/olympusmn.cpp:1536
 msgid "Partial Color"
 msgstr ""
 
-#: src/olympusmn.cpp:1535
+#: src/olympusmn.cpp:1537
 msgid "Partial Color II"
 msgstr ""
 
-#: src/olympusmn.cpp:1536
+#: src/olympusmn.cpp:1538
 msgid "Partial Color III"
 msgstr ""
 
-#: src/olympusmn.cpp:1606
+#: src/olympusmn.cpp:1608
 msgid "Left (or n/a)"
 msgstr ""
 
-#: src/olympusmn.cpp:1607 src/olympusmn.cpp:1625
+#: src/olympusmn.cpp:1609 src/olympusmn.cpp:1627
 msgid "Center (horizontal)"
 msgstr ""
 
-#: src/olympusmn.cpp:1609 src/olympusmn.cpp:1636
+#: src/olympusmn.cpp:1611 src/olympusmn.cpp:1638
 msgid "Center (vertical)"
 msgstr ""
 
-#: src/olympusmn.cpp:1620
+#: src/olympusmn.cpp:1622
 msgid "Top-left (horizontal)"
 msgstr ""
 
-#: src/olympusmn.cpp:1621
+#: src/olympusmn.cpp:1623
 msgid "Top-center (horizontal)"
 msgstr ""
 
-#: src/olympusmn.cpp:1622
+#: src/olympusmn.cpp:1624
 msgid "Top-right (horizontal)"
 msgstr ""
 
-#: src/olympusmn.cpp:1623
+#: src/olympusmn.cpp:1625
 msgid "Left (horizontal)"
 msgstr ""
 
-#: src/olympusmn.cpp:1624
+#: src/olympusmn.cpp:1626
 msgid "Mid-left (horizontal)"
 msgstr ""
 
-#: src/olympusmn.cpp:1626
+#: src/olympusmn.cpp:1628
 msgid "Mid-right (horizontal)"
 msgstr ""
 
-#: src/olympusmn.cpp:1627
+#: src/olympusmn.cpp:1629
 msgid "Right (horizontal)"
 msgstr ""
 
-#: src/olympusmn.cpp:1628
+#: src/olympusmn.cpp:1630
 msgid "Bottom-left (horizontal)"
 msgstr ""
 
-#: src/olympusmn.cpp:1629
+#: src/olympusmn.cpp:1631
 msgid "Bottom-center (horizontal)"
 msgstr ""
 
-#: src/olympusmn.cpp:1630
+#: src/olympusmn.cpp:1632
 msgid "Bottom-right (horizontal)"
 msgstr ""
 
-#: src/olympusmn.cpp:1631
+#: src/olympusmn.cpp:1633
 msgid "Top-left (vertical)"
 msgstr ""
 
-#: src/olympusmn.cpp:1632
+#: src/olympusmn.cpp:1634
 msgid "Top-center (vertical)"
 msgstr ""
 
-#: src/olympusmn.cpp:1633
+#: src/olympusmn.cpp:1635
 msgid "Top-right (vertical)"
 msgstr ""
 
-#: src/olympusmn.cpp:1634
+#: src/olympusmn.cpp:1636
 msgid "Left (vertical)"
 msgstr ""
 
-#: src/olympusmn.cpp:1635
+#: src/olympusmn.cpp:1637
 msgid "Mid-left (vertical)"
 msgstr ""
 
-#: src/olympusmn.cpp:1637
+#: src/olympusmn.cpp:1639
 msgid "Mid-right (vertical)"
 msgstr ""
 
-#: src/olympusmn.cpp:1638
+#: src/olympusmn.cpp:1640
 msgid "Right (vertical)"
 msgstr ""
 
-#: src/olympusmn.cpp:1639
+#: src/olympusmn.cpp:1641
 msgid "Bottom-left (vertical)"
 msgstr ""
 
-#: src/olympusmn.cpp:1640
+#: src/olympusmn.cpp:1642
 msgid "Bottom-center (vertical)"
 msgstr ""
 
-#: src/olympusmn.cpp:1641
+#: src/olympusmn.cpp:1643
 msgid "Bottom-right (vertical)"
 msgstr ""
 
-#: src/olympusmn.cpp:1678
+#: src/olympusmn.cpp:1680
 msgid "Single Target"
 msgstr ""
 
-#: src/olympusmn.cpp:1679
+#: src/olympusmn.cpp:1681
 msgid "All Target"
 msgstr ""
 
-#: src/olympusmn.cpp:1680
+#: src/olympusmn.cpp:1682
 msgid "Dynamic Single Target"
 msgstr ""
 
@@ -22534,7 +22531,7 @@ msgstr ""
 
 #: src/tags.cpp:622
 #, c-format
-msgid "The component values that correspond to a 0%% dot and 100%% dot."
+msgid "The component values that correspond to a 0% dot and 100% dot."
 msgstr ""
 
 #: src/tags.cpp:624
@@ -25133,18 +25130,18 @@ msgstr ""
 msgid "Digital zoom not used"
 msgstr ""
 
-#: src/tiffimage.cpp:2308
+#: src/tiffimage.cpp:2309
 msgid "TIFF header, offset"
 msgstr ""
 
-#: src/tiffimage.cpp:2313
+#: src/tiffimage.cpp:2314
 msgid "little endian encoded"
 msgstr ""
 
-#: src/tiffimage.cpp:2314
+#: src/tiffimage.cpp:2315
 msgid "big endian encoded"
 msgstr ""
 
-#: src/tiffimage.cpp:2315
+#: src/tiffimage.cpp:2316
 msgid "ascii bytes"
 msgstr ""
