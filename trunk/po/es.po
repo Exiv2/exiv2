@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Exiv2\n"
 "Report-Msgid-Bugs-To: ahuggel@gmx.net\n"
-"POT-Creation-Date: 2015-05-10 05:05+0200\n"
+"POT-Creation-Date: 2015-05-13 04:21+0200\n"
 "PO-Revision-Date: 2015-05-10 14:00-0500\n"
 "Last-Translator: Alan Pater <alan.pater@gmail.com>\n"
 "Language-Team: Spanish <es@li.org>\n"
@@ -19,7 +19,6 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "X-Generator: Poedit 1.5.4\n"
 "X-Poedit-Basepath: ..\n"
-
 
 #: src/actions.cpp:259 src/actions.cpp:272 src/actions.cpp:513
 #: src/actions.cpp:735 src/actions.cpp:752 src/actions.cpp:797
@@ -161,8 +160,8 @@ msgstr "Miniatura"
 #: src/nikonmn.cpp:175 src/nikonmn.cpp:190 src/nikonmn.cpp:923
 #: src/nikonmn.cpp:948 src/nikonmn.cpp:1010 src/olympusmn.cpp:142
 #: src/olympusmn.cpp:726 src/olympusmn.cpp:733 src/olympusmn.cpp:1189
-#: src/olympusmn.cpp:1258 src/olympusmn.cpp:1405 src/olympusmn.cpp:1610
-#: src/olympusmn.cpp:1619 src/pentaxmn.cpp:287 src/pentaxmn.cpp:303
+#: src/olympusmn.cpp:1258 src/olympusmn.cpp:1407 src/olympusmn.cpp:1612
+#: src/olympusmn.cpp:1621 src/pentaxmn.cpp:287 src/pentaxmn.cpp:303
 #: src/pentaxmn.cpp:450 src/pentaxmn.cpp:451 src/properties.cpp:939
 #: src/properties.cpp:947 src/tags.cpp:1517
 msgid "None"
@@ -446,7 +445,7 @@ msgstr "Sobreescribir"
 #: src/olympusmn.cpp:86 src/olympusmn.cpp:501 src/olympusmn.cpp:529
 #: src/olympusmn.cpp:540 src/olympusmn.cpp:557 src/olympusmn.cpp:592
 #: src/olympusmn.cpp:654 src/olympusmn.cpp:919 src/olympusmn.cpp:1140
-#: src/olympusmn.cpp:1498 src/olympusmn.cpp:1499 src/olympusmn.cpp:1565
+#: src/olympusmn.cpp:1500 src/olympusmn.cpp:1501 src/olympusmn.cpp:1567
 #: src/panasonicmn.cpp:93 src/panasonicmn.cpp:102 src/panasonicmn.cpp:109
 #: src/panasonicmn.cpp:197 src/panasonicmn.cpp:207 src/panasonicmn.cpp:236
 #: src/panasonicmn.cpp:273 src/panasonicmn.cpp:288 src/panasonicmn.cpp:325
@@ -467,7 +466,7 @@ msgstr "Apagado"
 #: src/nikonmn.cpp:648 src/nikonmn.cpp:724 src/nikonmn.cpp:725
 #: src/nikonmn.cpp:1242 src/olympusmn.cpp:60 src/olympusmn.cpp:80
 #: src/olympusmn.cpp:87 src/olympusmn.cpp:502 src/olympusmn.cpp:530
-#: src/olympusmn.cpp:1566 src/panasonicmn.cpp:101 src/panasonicmn.cpp:289
+#: src/olympusmn.cpp:1568 src/panasonicmn.cpp:101 src/panasonicmn.cpp:289
 #: src/panasonicmn.cpp:326 src/panasonicmn.cpp:363 src/panasonicmn.cpp:380
 #: src/panasonicmn.cpp:430 src/pentaxmn.cpp:390 src/pentaxmn.cpp:983
 #: src/sonymn.cpp:204 src/sonymn.cpp:256 src/sonymn.cpp:287
@@ -1159,7 +1158,7 @@ msgstr "Rango medio"
 msgid "Far range"
 msgstr "Rango lejano"
 
-#: src/canonmn.cpp:578 src/olympusmn.cpp:1585 src/pentaxmn.cpp:268
+#: src/canonmn.cpp:578 src/olympusmn.cpp:1587 src/pentaxmn.cpp:268
 #: src/tags.cpp:2590
 msgid "Infinity"
 msgstr "Infinito"
@@ -1178,7 +1177,7 @@ msgstr "Autoseleccionado"
 
 #: src/canonmn.cpp:586 src/minoltamn.cpp:287 src/minoltamn.cpp:706
 #: src/minoltamn.cpp:921 src/minoltamn.cpp:2005 src/nikonmn.cpp:103
-#: src/olympusmn.cpp:1608 src/pentaxmn.cpp:295 src/pentaxmn.cpp:310
+#: src/olympusmn.cpp:1610 src/pentaxmn.cpp:295 src/pentaxmn.cpp:310
 msgid "Right"
 msgstr "Derecha"
 
@@ -5481,7 +5480,7 @@ msgstr "Kelvin"
 msgid "Single-shot AF"
 msgstr "AF un disparo"
 
-#: src/minoltamn.cpp:696 src/olympusmn.cpp:510 src/olympusmn.cpp:1439
+#: src/minoltamn.cpp:696 src/olympusmn.cpp:510 src/olympusmn.cpp:1441
 msgid "Continuous AF"
 msgstr "AF continuo"
 
@@ -5886,8 +5885,8 @@ msgstr ""
 msgid "AM"
 msgstr "AM"
 
-#: src/minoltamn.cpp:1336 src/olympusmn.cpp:512 src/olympusmn.cpp:1442
-#: src/olympusmn.cpp:1452
+#: src/minoltamn.cpp:1336 src/olympusmn.cpp:512 src/olympusmn.cpp:1444
+#: src/olympusmn.cpp:1454
 msgid "MF"
 msgstr "MF"
 
@@ -8327,12 +8326,9 @@ msgstr "Horquillado de balance de blancos"
 msgid "White balance bracket"
 msgstr "Horquillado de balance de blancos"
 
-#: src/olympusmn.cpp:255 src/sigmamn.cpp:116 src/sigmamn.cpp:117
+#: src/olympusmn.cpp:255 src/olympusmn.cpp:256 src/sigmamn.cpp:116
+#: src/sigmamn.cpp:117
 msgid "Firmware"
-msgstr "Firmware"
-
-#: src/olympusmn.cpp:256
-msgid "Firmwarer"
 msgstr "Firmware"
 
 #: src/olympusmn.cpp:261
@@ -8664,15 +8660,15 @@ msgstr "Control de Spot+Énfasis"
 msgid "Spot+Shadow control"
 msgstr "Control de Spot+Sombra"
 
-#: src/olympusmn.cpp:508 src/olympusmn.cpp:1437
+#: src/olympusmn.cpp:508 src/olympusmn.cpp:1439
 msgid "Single AF"
 msgstr "AF sencillo"
 
-#: src/olympusmn.cpp:509 src/olympusmn.cpp:1438
+#: src/olympusmn.cpp:509 src/olympusmn.cpp:1440
 msgid "Sequential shooting AF"
 msgstr "Disparo AF secuencial"
 
-#: src/olympusmn.cpp:511 src/olympusmn.cpp:1440 src/sonymn.cpp:236
+#: src/olympusmn.cpp:511 src/olympusmn.cpp:1442 src/sonymn.cpp:236
 msgid "Multi AF"
 msgstr "AF multi"
 
@@ -9854,7 +9850,7 @@ msgstr "Marco de aspecto"
 msgid "Face Detect"
 msgstr "Detección de la cara"
 
-#: src/olympusmn.cpp:987 src/olympusmn.cpp:1441 src/olympusmn.cpp:1453
+#: src/olympusmn.cpp:987 src/olympusmn.cpp:1443 src/olympusmn.cpp:1455
 msgid "Face detect"
 msgstr "Detección de la cara"
 
@@ -10266,271 +10262,271 @@ msgstr "7500 Kelvin"
 msgid "One-touch"
 msgstr "Un-toque"
 
-#: src/olympusmn.cpp:1450
+#: src/olympusmn.cpp:1452
 msgid "S-AF"
 msgstr ""
 
-#: src/olympusmn.cpp:1451
+#: src/olympusmn.cpp:1453
 msgid "C-AF"
 msgstr ""
 
-#: src/olympusmn.cpp:1454
+#: src/olympusmn.cpp:1456
 msgid "Imager AF"
 msgstr "Enfoque automático Imager"
 
-#: src/olympusmn.cpp:1455
+#: src/olympusmn.cpp:1457
 msgid "AF sensor"
 msgstr ""
 
-#: src/olympusmn.cpp:1500
+#: src/olympusmn.cpp:1502
 msgid "Soft Focus"
 msgstr ""
 
-#: src/olympusmn.cpp:1501
+#: src/olympusmn.cpp:1503
 msgid "Pop Art"
 msgstr ""
 
-#: src/olympusmn.cpp:1502
+#: src/olympusmn.cpp:1504
 msgid "Pale & Light Color"
 msgstr ""
 
-#: src/olympusmn.cpp:1503
+#: src/olympusmn.cpp:1505
 msgid "Light Tone"
 msgstr ""
 
-#: src/olympusmn.cpp:1504 src/panasonicmn.cpp:150
+#: src/olympusmn.cpp:1506 src/panasonicmn.cpp:150
 msgid "Pin Hole"
 msgstr "Agujero del pasador"
 
-#: src/olympusmn.cpp:1505
+#: src/olympusmn.cpp:1507
 msgid "Grainy Film"
 msgstr ""
 
-#: src/olympusmn.cpp:1506
+#: src/olympusmn.cpp:1508
 msgid "Diorama"
 msgstr ""
 
-#: src/olympusmn.cpp:1507
+#: src/olympusmn.cpp:1509
 msgid "Cross Process"
 msgstr ""
 
-#: src/olympusmn.cpp:1508
+#: src/olympusmn.cpp:1510
 msgid "Fish Eye"
 msgstr ""
 
-#: src/olympusmn.cpp:1509
+#: src/olympusmn.cpp:1511
 msgid "Drawing"
 msgstr ""
 
-#: src/olympusmn.cpp:1510
+#: src/olympusmn.cpp:1512
 msgid "Gentle Sepia"
 msgstr ""
 
-#: src/olympusmn.cpp:1511
+#: src/olympusmn.cpp:1513
 msgid "Pale & Light Color II"
 msgstr ""
 
-#: src/olympusmn.cpp:1512
+#: src/olympusmn.cpp:1514
 msgid "Pop Art II"
 msgstr ""
 
-#: src/olympusmn.cpp:1513
+#: src/olympusmn.cpp:1515
 msgid "Pin Hole II"
 msgstr ""
 
-#: src/olympusmn.cpp:1514
+#: src/olympusmn.cpp:1516
 msgid "Pin Hole III"
 msgstr ""
 
-#: src/olympusmn.cpp:1515
+#: src/olympusmn.cpp:1517
 msgid "Grainy Film II"
 msgstr ""
 
-#: src/olympusmn.cpp:1516
+#: src/olympusmn.cpp:1518
 msgid "Dramatic Tone"
 msgstr ""
 
-#: src/olympusmn.cpp:1517
+#: src/olympusmn.cpp:1519
 msgid "Punk"
 msgstr ""
 
-#: src/olympusmn.cpp:1518
+#: src/olympusmn.cpp:1520
 msgid "Soft Focus 2"
 msgstr ""
 
-#: src/olympusmn.cpp:1519
+#: src/olympusmn.cpp:1521
 msgid "Sparkle"
 msgstr ""
 
-#: src/olympusmn.cpp:1520
+#: src/olympusmn.cpp:1522
 msgid "Watercolor"
 msgstr ""
 
-#: src/olympusmn.cpp:1521
+#: src/olympusmn.cpp:1523
 msgid "Key Line"
 msgstr ""
 
-#: src/olympusmn.cpp:1522
+#: src/olympusmn.cpp:1524
 msgid "Key Line II"
 msgstr ""
 
-#: src/olympusmn.cpp:1523
+#: src/olympusmn.cpp:1525
 msgid "Miniature"
 msgstr ""
 
-#: src/olympusmn.cpp:1524
+#: src/olympusmn.cpp:1526
 msgid "Reflection"
 msgstr ""
 
-#: src/olympusmn.cpp:1525
+#: src/olympusmn.cpp:1527
 msgid "Fragmented"
 msgstr ""
 
-#: src/olympusmn.cpp:1526
+#: src/olympusmn.cpp:1528
 msgid "Cross Process II"
 msgstr ""
 
-#: src/olympusmn.cpp:1527
+#: src/olympusmn.cpp:1529
 msgid "Dramatic Tone II"
 msgstr ""
 
-#: src/olympusmn.cpp:1528
+#: src/olympusmn.cpp:1530
 msgid "Watercolor I"
 msgstr ""
 
-#: src/olympusmn.cpp:1529
+#: src/olympusmn.cpp:1531
 msgid "Watercolor II"
 msgstr ""
 
-#: src/olympusmn.cpp:1530
+#: src/olympusmn.cpp:1532
 msgid "Diorama II"
 msgstr ""
 
-#: src/olympusmn.cpp:1531
+#: src/olympusmn.cpp:1533
 msgid "Vintage"
 msgstr ""
 
-#: src/olympusmn.cpp:1532
+#: src/olympusmn.cpp:1534
 msgid "Vintage II"
 msgstr ""
 
-#: src/olympusmn.cpp:1533
+#: src/olympusmn.cpp:1535
 msgid "Vintage III"
 msgstr ""
 
-#: src/olympusmn.cpp:1534
+#: src/olympusmn.cpp:1536
 msgid "Partial Color"
 msgstr ""
 
-#: src/olympusmn.cpp:1535
+#: src/olympusmn.cpp:1537
 msgid "Partial Color II"
 msgstr ""
 
-#: src/olympusmn.cpp:1536
+#: src/olympusmn.cpp:1538
 msgid "Partial Color III"
 msgstr ""
 
-#: src/olympusmn.cpp:1606
+#: src/olympusmn.cpp:1608
 msgid "Left (or n/a)"
 msgstr ""
 
-#: src/olympusmn.cpp:1607 src/olympusmn.cpp:1625
+#: src/olympusmn.cpp:1609 src/olympusmn.cpp:1627
 msgid "Center (horizontal)"
 msgstr ""
 
-#: src/olympusmn.cpp:1609 src/olympusmn.cpp:1636
+#: src/olympusmn.cpp:1611 src/olympusmn.cpp:1638
 msgid "Center (vertical)"
 msgstr ""
 
-#: src/olympusmn.cpp:1620
+#: src/olympusmn.cpp:1622
 msgid "Top-left (horizontal)"
 msgstr ""
 
-#: src/olympusmn.cpp:1621
+#: src/olympusmn.cpp:1623
 msgid "Top-center (horizontal)"
 msgstr ""
 
-#: src/olympusmn.cpp:1622
+#: src/olympusmn.cpp:1624
 msgid "Top-right (horizontal)"
 msgstr ""
 
-#: src/olympusmn.cpp:1623
+#: src/olympusmn.cpp:1625
 msgid "Left (horizontal)"
 msgstr ""
 
-#: src/olympusmn.cpp:1624
+#: src/olympusmn.cpp:1626
 msgid "Mid-left (horizontal)"
 msgstr ""
 
-#: src/olympusmn.cpp:1626
+#: src/olympusmn.cpp:1628
 msgid "Mid-right (horizontal)"
 msgstr ""
 
-#: src/olympusmn.cpp:1627
+#: src/olympusmn.cpp:1629
 msgid "Right (horizontal)"
 msgstr ""
 
-#: src/olympusmn.cpp:1628
+#: src/olympusmn.cpp:1630
 msgid "Bottom-left (horizontal)"
 msgstr ""
 
-#: src/olympusmn.cpp:1629
+#: src/olympusmn.cpp:1631
 msgid "Bottom-center (horizontal)"
 msgstr ""
 
-#: src/olympusmn.cpp:1630
+#: src/olympusmn.cpp:1632
 msgid "Bottom-right (horizontal)"
 msgstr ""
 
-#: src/olympusmn.cpp:1631
+#: src/olympusmn.cpp:1633
 msgid "Top-left (vertical)"
 msgstr ""
 
-#: src/olympusmn.cpp:1632
+#: src/olympusmn.cpp:1634
 msgid "Top-center (vertical)"
 msgstr ""
 
-#: src/olympusmn.cpp:1633
+#: src/olympusmn.cpp:1635
 msgid "Top-right (vertical)"
 msgstr ""
 
-#: src/olympusmn.cpp:1634
+#: src/olympusmn.cpp:1636
 msgid "Left (vertical)"
 msgstr ""
 
-#: src/olympusmn.cpp:1635
+#: src/olympusmn.cpp:1637
 msgid "Mid-left (vertical)"
 msgstr ""
 
-#: src/olympusmn.cpp:1637
+#: src/olympusmn.cpp:1639
 msgid "Mid-right (vertical)"
 msgstr ""
 
-#: src/olympusmn.cpp:1638
+#: src/olympusmn.cpp:1640
 msgid "Right (vertical)"
 msgstr ""
 
-#: src/olympusmn.cpp:1639
+#: src/olympusmn.cpp:1641
 msgid "Bottom-left (vertical)"
 msgstr ""
 
-#: src/olympusmn.cpp:1640
+#: src/olympusmn.cpp:1642
 msgid "Bottom-center (vertical)"
 msgstr ""
 
-#: src/olympusmn.cpp:1641
+#: src/olympusmn.cpp:1643
 msgid "Bottom-right (vertical)"
 msgstr ""
 
-#: src/olympusmn.cpp:1678
+#: src/olympusmn.cpp:1680
 msgid "Single Target"
 msgstr ""
 
-#: src/olympusmn.cpp:1679
+#: src/olympusmn.cpp:1681
 msgid "All Target"
 msgstr ""
 
-#: src/olympusmn.cpp:1680
+#: src/olympusmn.cpp:1682
 msgid "Dynamic Single Target"
 msgstr ""
 
@@ -21161,6 +21157,7 @@ msgid "Point Radius Spatial Fit"
 msgstr "Ajuste espacial del radio-punto"
 
 #: src/properties.cpp:1812
+#, fuzzy, c-format
 msgid ""
 "The ratio of the area of the point-radius (decimalLatitude, "
 "decimalLongitude, coordinateUncertaintyInMeters) to the area of the true "
@@ -21223,6 +21220,7 @@ msgid "Footprint Spatial Fit"
 msgstr "Ajuste espacial de footprint"
 
 #: src/properties.cpp:1821
+#, fuzzy, c-format
 msgid ""
 "The ratio of the area of the footprint (footprintWKT) to the area of the "
 "true (original, or most specific) spatial representation of the Location. "
@@ -23797,8 +23795,8 @@ msgstr "Rango de puntos"
 
 #: src/tags.cpp:622
 #, c-format
-msgid "The component values that correspond to a 0%% dot and 100%% dot."
-msgstr ""
+msgid "The component values that correspond to a 0% dot and 100% dot."
+msgstr "Los valores de los componentes que corresponden al 0% dot y 100% dot."
 
 #: src/tags.cpp:624
 msgid "Target Printer"
@@ -27041,1690 +27039,18 @@ msgstr "Etiqueta desconocida"
 msgid "Digital zoom not used"
 msgstr "Zoom digital no usado"
 
-#: src/tiffimage.cpp:2308
+#: src/tiffimage.cpp:2309
 msgid "TIFF header, offset"
 msgstr "Cabecera TIFF, posición"
 
-#: src/tiffimage.cpp:2313
+#: src/tiffimage.cpp:2314
 msgid "little endian encoded"
 msgstr "codificado little endian"
 
-#: src/tiffimage.cpp:2314
+#: src/tiffimage.cpp:2315
 msgid "big endian encoded"
 msgstr "codificado big endian"
 
-#: src/tiffimage.cpp:2315
+#: src/tiffimage.cpp:2316
 msgid "ascii bytes"
 msgstr "bytes ascii"
-
-#~ msgid "No IPTC data found in the file\n"
-#~ msgstr "No se encontraron datos IPTC en el archivo\n"
-
-#~ msgid "No XMP data found in the file\n"
-#~ msgstr "No se encontraron datos XMP en el archivo\n"
-
-#~ msgid "PowerShot A30"
-#~ msgstr "PowerShot A30"
-
-#~ msgid "PowerShot S300 / Digital IXUS 300 / IXY Digital 300"
-#~ msgstr "PowerShot S300 / Digital IXUS 300 / IXY Digital 300"
-
-#~ msgid "PowerShot A20"
-#~ msgstr "PowerShot A20"
-
-#~ msgid "PowerShot A10"
-#~ msgstr "PowerShot A10"
-
-#~ msgid "PowerShot S110 / Digital IXUS v / IXY Digital 200"
-#~ msgstr "PowerShot S110 / Digital IXUS v / IXY Digital 200"
-
-#~ msgid "PowerShot G2"
-#~ msgstr "PowerShot G2"
-
-#~ msgid "PowerShot S40"
-#~ msgstr "PowerShot S40"
-
-#~ msgid "PowerShot S30"
-#~ msgstr "PowerShot S30"
-
-#~ msgid "PowerShot A40"
-#~ msgstr "PowerShot A40"
-
-#~ msgid "EOS D30"
-#~ msgstr "EOS D30"
-
-#~ msgid "PowerShot A100"
-#~ msgstr "PowerShot A100"
-
-#~ msgid "PowerShot S200 / Digital IXUS v2 / IXY Digital 200a"
-#~ msgstr "PowerShot S200 / Digital IXUS v2 / IXY Digital 200a"
-
-#~ msgid "PowerShot A200"
-#~ msgstr "PowerShot A200"
-
-#~ msgid "PowerShot S330 / Digital IXUS 330 / IXY Digital 300a"
-#~ msgstr "PowerShot S330 / Digital IXUS 330 / IXY Digital 300a"
-
-#~ msgid "PowerShot G3"
-#~ msgstr "PowerShot G3"
-
-#~ msgid "PowerShot S45"
-#~ msgstr "PowerShot S45"
-
-#~ msgid "PowerShot SD100 / Digital IXUS II / IXY Digital 30"
-#~ msgstr "PowerShot SD100 / Digital IXUS II / IXY Digital 30"
-
-#~ msgid "PowerShot S230 / Digital IXUS v3 / IXY Digital 320"
-#~ msgstr "PowerShot S230 / Digital IXUS v3 / IXY Digital 320"
-
-#~ msgid "PowerShot A70"
-#~ msgstr "PowerShot A70"
-
-#~ msgid "PowerShot A60"
-#~ msgstr "PowerShot A60"
-
-#~ msgid "PowerShot S400 / Digital IXUS 400 / IXY Digital 400"
-#~ msgstr "PowerShot S400 / Digital IXUS 400 / IXY Digital 400"
-
-#~ msgid "PowerShot G5"
-#~ msgstr "PowerShot G5"
-
-#~ msgid "PowerShot A300"
-#~ msgstr "PowerShot A300"
-
-#~ msgid "PowerShot S50"
-#~ msgstr "PowerShot S50"
-
-#~ msgid "PowerShot A80"
-#~ msgstr "PowerShot A80"
-
-#~ msgid "PowerShot SD10 / Digital IXUS i / IXY Digital L"
-#~ msgstr "PowerShot SD10 / Digital IXUS i / IXY Digital L"
-
-#~ msgid "PowerShot S1 IS"
-#~ msgstr "PowerShot S1 IS"
-
-#~ msgid "PowerShot Pro1"
-#~ msgstr "PowerShot Pro1"
-
-#~ msgid "PowerShot S70"
-#~ msgstr "PowerShot S70"
-
-#~ msgid "PowerShot S60"
-#~ msgstr "PowerShot S60"
-
-#~ msgid "PowerShot G6"
-#~ msgstr "PowerShot G6"
-
-#~ msgid "PowerShot S500 / Digital IXUS 500 / IXY Digital 500"
-#~ msgstr "PowerShot S500 / Digital IXUS 500 / IXY Digital 500"
-
-#~ msgid "PowerShot A75"
-#~ msgstr "PowerShot A75"
-
-#~ msgid "PowerShot SD110 / Digital IXUS IIs / IXY Digital 30a"
-#~ msgstr "PowerShot SD110 / Digital IXUS IIs / IXY Digital 30a"
-
-#~ msgid "PowerShot A400"
-#~ msgstr "PowerShot A400"
-
-#~ msgid "PowerShot A310"
-#~ msgstr "PowerShot A310"
-
-#~ msgid "PowerShot A85"
-#~ msgstr "PowerShot A85"
-
-#~ msgid "PowerShot S410 / Digital IXUS 430 / IXY Digital 450"
-#~ msgstr "PowerShot S410 / Digital IXUS 430 / IXY Digital 450"
-
-#~ msgid "PowerShot A95"
-#~ msgstr "PowerShot A95"
-
-#~ msgid "PowerShot SD300 / Digital IXUS 40 / IXY Digital 50"
-#~ msgstr "PowerShot SD300 / Digital IXUS 40 / IXY Digital 50"
-
-#~ msgid "PowerShot SD200 / Digital IXUS 30 / IXY Digital 40"
-#~ msgstr "PowerShot SD200 / Digital IXUS 30 / IXY Digital 40"
-
-#~ msgid "PowerShot A520"
-#~ msgstr "PowerShot A520"
-
-#~ msgid "PowerShot A510"
-#~ msgstr "PowerShot A510"
-
-#~ msgid "PowerShot SD20 / Digital IXUS i5 / IXY Digital L2"
-#~ msgstr "PowerShot SD20 / Digital IXUS i5 / IXY Digital L2"
-
-#~ msgid "PowerShot S2 IS"
-#~ msgstr "PowerShot S2 IS"
-
-#~ msgid "PowerShot SD430 / IXUS Wireless / IXY Wireless"
-#~ msgstr "PowerShot SD430 / IXUS Wireless / IXY Wireless"
-
-#~ msgid "PowerShot SD500 / Digital IXUS 700 / IXY Digital 600"
-#~ msgstr "PowerShot SD500 / Digital IXUS 700 / IXY Digital 600"
-
-#~ msgid "EOS D60"
-#~ msgstr "EOS D60"
-
-#~ msgid "PowerShot SD30 / Digital IXUS i zoom / IXY Digital L3"
-#~ msgstr "PowerShot SD30 / Digital IXUS i zoom / IXY Digital L3"
-
-#~ msgid "PowerShot A430"
-#~ msgstr "PowerShot A430"
-
-#~ msgid "PowerShot A410"
-#~ msgstr "PowerShot A410"
-
-#~ msgid "PowerShot S80"
-#~ msgstr "PowerShot S80"
-
-#~ msgid "PowerShot A620"
-#~ msgstr "PowerShot A620"
-
-#~ msgid "PowerShot A610"
-#~ msgstr "PowerShot A610"
-
-#~ msgid "PowerShot SD630 / Digital IXUS 65 / IXY Digital 80"
-#~ msgstr "PowerShot SD630 / Digital IXUS 65 / IXY Digital 80"
-
-#~ msgid "PowerShot SD450 / Digital IXUS 55 / IXY Digital 60"
-#~ msgstr "PowerShot SD450 / Digital IXUS 55 / IXY Digital 60"
-
-#~ msgid "PowerShot TX1"
-#~ msgstr "PowerShot TX1"
-
-#~ msgid "PowerShot SD400 / Digital IXUS 50 / IXY Digital 55"
-#~ msgstr "PowerShot SD400 / Digital IXUS 50 / IXY Digital 55"
-
-#~ msgid "PowerShot A420"
-#~ msgstr "PowerShot A420"
-
-#~ msgid "PowerShot SD900 / Digital IXUS 900 Ti / IXY Digital 1000"
-#~ msgstr "PowerShot SD900 / Digital IXUS 900 Ti / IXY Digital 1000"
-
-#~ msgid "PowerShot SD550 / Digital IXUS 750 / IXY Digital 700"
-#~ msgstr "PowerShot SD550 / Digital IXUS 750 / IXY Digital 700"
-
-#~ msgid "PowerShot A700"
-#~ msgstr "PowerShot A700"
-
-#~ msgid "PowerShot SD700 IS / Digital IXUS 800 IS / IXY Digital 800 IS"
-#~ msgstr "PowerShot SD700 IS / Digital IXUS 800 IS / IXY Digital 800 IS"
-
-#~ msgid "PowerShot S3 IS"
-#~ msgstr "PowerShot S3 IS"
-
-#~ msgid "PowerShot A540"
-#~ msgstr "PowerShot A540"
-
-#~ msgid "PowerShot SD600 / Digital IXUS 60 / IXY Digital 70"
-#~ msgstr "PowerShot SD600 / Digital IXUS 60 / IXY Digital 70"
-
-#~ msgid "PowerShot G7"
-#~ msgstr "PowerShot G7"
-
-#~ msgid "PowerShot A530"
-#~ msgstr "PowerShot A530"
-
-#~ msgid "PowerShot SD800 IS / Digital IXUS 850 IS / IXY Digital 900 IS"
-#~ msgstr "PowerShot SD800 IS / Digital IXUS 850 IS / IXY Digital 900 IS"
-
-#~ msgid "PowerShot SD40 / Digital IXUS i7 / IXY Digital L4"
-#~ msgstr "PowerShot SD40 / Digital IXUS i7 / IXY Digital L4"
-
-#~ msgid "PowerShot A710 IS"
-#~ msgstr "PowerShot A710 IS"
-
-#~ msgid "PowerShot A640"
-#~ msgstr "PowerShot A640"
-
-#~ msgid "PowerShot A630"
-#~ msgstr "PowerShot A630"
-
-#~ msgid "PowerShot S5 IS"
-#~ msgstr "PowerShot S5 IS"
-
-#~ msgid "PowerShot A460"
-#~ msgstr "PowerShot A460"
-
-#~ msgid "PowerShot SD850 IS / Digital IXUS 950 IS"
-#~ msgstr "PowerShot SD850 IS / Digital IXUS 950 IS"
-
-#~ msgid "PowerShot A570 IS"
-#~ msgstr "PowerShot A570 IS"
-
-#~ msgid "PowerShot A560"
-#~ msgstr "PowerShot A560"
-
-#~ msgid "PowerShot SD750 / Digital IXUS 75 / IXY Digital 90"
-#~ msgstr "PowerShot SD750 / Digital IXUS 75 / IXY Digital 90"
-
-#~ msgid "PowerShot SD1000 / Digital IXUS 70 / IXY Digital 10"
-#~ msgstr "PowerShot SD1000 / Digital IXUS 70 / IXY Digital 10"
-
-#~ msgid "PowerShot A550"
-#~ msgstr "PowerShot A550"
-
-#~ msgid "PowerShot A450"
-#~ msgstr "PowerShot A450"
-
-#~ msgid "PowerShot G9"
-#~ msgstr "PowerShot G9"
-
-#~ msgid "PowerShot A650 IS"
-#~ msgstr "PowerShot A650 IS"
-
-#~ msgid "PowerShot A720 IS"
-#~ msgstr "PowerShot A720 IS"
-
-#~ msgid "PowerShot SX100 IS"
-#~ msgstr "PowerShot SX100 IS"
-
-#~ msgid "PowerShot SD950 IS / Digital IXUS 960 IS / IXY Digital 2000 IS"
-#~ msgstr "PowerShot SD950 IS / Digital IXUS 960 IS / IXY Digital 2000 IS"
-
-#~ msgid "PowerShot SD870 IS / Digital IXUS 860 IS / IXY Digital 910 IS"
-#~ msgstr "PowerShot SD870 IS / Digital IXUS 860 IS / IXY Digital 910 IS"
-
-#~ msgid "PowerShot SD890 IS / Digital IXUS 970 IS / IXY Digital 820 IS"
-#~ msgstr "PowerShot SD890 IS / Digital IXUS 970 IS / IXY Digital 820 IS"
-
-#~ msgid "PowerShot SD790 IS / Digital IXUS 90 IS / IXY Digital 95 IS"
-#~ msgstr "PowerShot SD790 IS / Digital IXUS 90 IS / IXY Digital 95 IS"
-
-#~ msgid "PowerShot SD770 IS / Digital IXUS 85 IS / IXY Digital 25 IS"
-#~ msgstr "PowerShot SD770 IS / Digital IXUS 85 IS / IXY Digital 25 IS"
-
-#~ msgid "PowerShot A590 IS"
-#~ msgstr "PowerShot A590 IS"
-
-#~ msgid "PowerShot A580"
-#~ msgstr "PowerShot A580"
-
-#~ msgid "PowerShot A470"
-#~ msgstr "PowerShot A470"
-
-#~ msgid "PowerShot SD1100 IS / Digital IXUS 80 IS / IXY Digital 20 IS"
-#~ msgstr "PowerShot SD1100 IS / Digital IXUS 80 IS / IXY Digital 20 IS"
-
-#~ msgid "PowerShot SX1 IS"
-#~ msgstr "PowerShot SX1 IS"
-
-#~ msgid "PowerShot SX10 IS"
-#~ msgstr "PowerShot SX10 IS"
-
-#~ msgid "PowerShot A1000 IS"
-#~ msgstr "PowerShot A1000 IS"
-
-#~ msgid "PowerShot G10"
-#~ msgstr "PowerShot G10"
-
-#~ msgid "PowerShot A2000 IS"
-#~ msgstr "PowerShot A2000 IS"
-
-#~ msgid "PowerShot SX110 IS"
-#~ msgstr "PowerShot SX110 IS"
-
-#~ msgid "PowerShot SD990 IS / Digital IXUS 980 IS / IXY Digital 3000 IS"
-#~ msgstr "PowerShot SD990 IS / Digital IXUS 980 IS / IXY Digital 3000 IS"
-
-#~ msgid "PowerShot SD880 IS / Digital IXUS 870 IS / IXY Digital 920 IS"
-#~ msgstr "PowerShot SD880 IS / Digital IXUS 870 IS / IXY Digital 920 IS"
-
-#~ msgid "PowerShot E1"
-#~ msgstr "PowerShot E1"
-
-#~ msgid "PowerShot D10"
-#~ msgstr "PowerShot D10"
-
-#~ msgid "PowerShot SD960 IS / Digital IXUS 110 IS / IXY Digital 510 IS"
-#~ msgstr "PowerShot SD960 IS / Digital IXUS 110 IS / IXY Digital 510 IS"
-
-#~ msgid "PowerShot A2100 IS"
-#~ msgstr "PowerShot A2100 IS"
-
-#~ msgid "PowerShot A480"
-#~ msgstr "PowerShot A480"
-
-#~ msgid "PowerShot SX200 IS"
-#~ msgstr "PowerShot SX200 IS"
-
-#~ msgid "PowerShot SD970 IS / Digital IXUS 990 IS / IXY Digital 830 IS"
-#~ msgstr "PowerShot SD970 IS / Digital IXUS 990 IS / IXY Digital 830 IS"
-
-#~ msgid "PowerShot SD780 IS / Digital IXUS 100 IS / IXY Digital 210 IS"
-#~ msgstr "PowerShot SD780 IS / Digital IXUS 100 IS / IXY Digital 210 IS"
-
-#~ msgid "PowerShot A1100 IS"
-#~ msgstr "PowerShot A1100 IS"
-
-#~ msgid "PowerShot SD1200 IS / Digital IXUS 95 IS / IXY Digital 110 IS"
-#~ msgstr "PowerShot SD1200 IS / Digital IXUS 95 IS / IXY Digital 110 IS"
-
-#~ msgid "PowerShot G11"
-#~ msgstr "PowerShot G11"
-
-#~ msgid "PowerShot SX120 IS"
-#~ msgstr "PowerShot SX120 IS"
-
-#~ msgid "PowerShot S90"
-#~ msgstr "PowerShot S90"
-
-#~ msgid "PowerShot SX20 IS"
-#~ msgstr "PowerShot SX20 IS"
-
-#~ msgid "PowerShot SD980 IS / Digital IXUS 200 IS / IXY Digital 930 IS"
-#~ msgstr "PowerShot SD980 IS / Digital IXUS 200 IS / IXY Digital 930 IS"
-
-#~ msgid "PowerShot SD940 IS / Digital IXUS 120 IS / IXY Digital 220 IS"
-#~ msgstr "PowerShot SD940 IS / Digital IXUS 120 IS / IXY Digital 220 IS"
-
-#~ msgid "PowerShot A495"
-#~ msgstr "PowerShot A495"
-
-#~ msgid "PowerShot A490"
-#~ msgstr "PowerShot A490"
-
-#~ msgid "PowerShot A3100 IS / A3150 IS"
-#~ msgstr "PowerShot A3100 IS / A3150 IS"
-
-#~ msgid "PowerShot A3000 IS"
-#~ msgstr "PowerShot A3000 IS"
-
-#~ msgid "PowerShot SD1400 IS / IXUS 130 / IXY 400F"
-#~ msgstr "PowerShot SD1400 IS / IXUS 130 / IXY 400F"
-
-#~ msgid "PowerShot SD1300 IS / IXUS 105 / IXY 200F"
-#~ msgstr "PowerShot SD1300 IS / IXUS 105 / IXY 200F"
-
-#~ msgid "PowerShot SD3500 IS / IXUS 210 / IXY 10S"
-#~ msgstr "PowerShot SD3500 IS / IXUS 210 / IXY 10S"
-
-#~ msgid "PowerShot SX210 IS"
-#~ msgstr "PowerShot SX210 IS"
-
-#~ msgid "PowerShot SD4000 IS / IXUS 300 HS / IXY 30S"
-#~ msgstr "PowerShot SD4000 IS / IXUS 300 HS / IXY 30S"
-
-#~ msgid "PowerShot SD4500 IS / IXUS 1000 HS / IXY 50S"
-#~ msgstr "PowerShot SD4500 IS / IXUS 1000 HS / IXY 50S"
-
-#~ msgid "PowerShot G12"
-#~ msgstr "PowerShot G12"
-
-#~ msgid "PowerShot SX30 IS"
-#~ msgstr "PowerShot SX30 IS"
-
-#~ msgid "PowerShot SX130 IS"
-#~ msgstr "PowerShot SX130 IS"
-
-#~ msgid "PowerShot S95"
-#~ msgstr "PowerShot S95"
-
-#~ msgid "PowerShot A3300 IS"
-#~ msgstr "PowerShot A3300 IS"
-
-#~ msgid "PowerShot A3200 IS"
-#~ msgstr "PowerShot A3200 IS"
-
-#~ msgid "PowerShot ELPH 500 HS / IXUS 310 HS / IXY 31S"
-#~ msgstr "PowerShot ELPH 500 HS / IXUS 310 HS / IXY 31S"
-
-#~ msgid "PowerShot Pro90 IS"
-#~ msgstr "PowerShot Pro90 IS"
-
-#~ msgid "PowerShot A800"
-#~ msgstr "PowerShot A800"
-
-#~ msgid "PowerShot ELPH 100 HS / IXUS 115 HS / IXY 210F"
-#~ msgstr "PowerShot ELPH 100 HS / IXUS 115 HS / IXY 210F"
-
-#~ msgid "PowerShot SX230 HS"
-#~ msgstr "PowerShot SX230 HS"
-
-#~ msgid "PowerShot ELPH 300 HS / IXUS 220 HS / IXY 410F"
-#~ msgstr "PowerShot ELPH 300 HS / IXUS 220 HS / IXY 410F"
-
-#~ msgid "PowerShot A2200"
-#~ msgstr "PowerShot A2200"
-
-#~ msgid "PowerShot A1200"
-#~ msgstr "PowerShot A1200"
-
-#~ msgid "PowerShot SX220 HS"
-#~ msgstr "PowerShot SX220 HS"
-
-#~ msgid "PowerShot G1 X"
-#~ msgstr "PowerShot G1 X"
-
-#~ msgid "PowerShot SX150 IS"
-#~ msgstr "PowerShot SX150 IS"
-
-#~ msgid "PowerShot ELPH 510 HS / IXUS 1100 HS / IXY 51S"
-#~ msgstr "PowerShot ELPH 510 HS / IXUS 1100 HS / IXY 51S"
-
-#~ msgid "PowerShot S100 (new)"
-#~ msgstr "PowerShot S100 (new)"
-
-#~ msgid "PowerShot SX40 HS"
-#~ msgstr "PowerShot SX40 HS"
-
-#~ msgid "PowerShot ELPH 310 HS / IXUS 230 HS / IXY 600F"
-#~ msgstr "PowerShot ELPH 310 HS / IXUS 230 HS / IXY 600F"
-
-#~ msgid "PowerShot ELPH 500 HS / IXUS 320 HS / IXY 32S"
-#~ msgstr "PowerShot ELPH 500 HS / IXUS 320 HS / IXY 32S"
-
-#~ msgid "PowerShot A1300"
-#~ msgstr "PowerShot A1300"
-
-#~ msgid "PowerShot A810"
-#~ msgstr "PowerShot A810"
-
-#~ msgid "PowerShot ELPH 320 HS / IXUS 240 HS / IXY 420F"
-#~ msgstr "PowerShot ELPH 320 HS / IXUS 240 HS / IXY 420F"
-
-#~ msgid "PowerShot ELPH 110 HS / IXUS 125 HS / IXY 220F"
-#~ msgstr "PowerShot ELPH 110 HS / IXUS 125 HS / IXY 220F"
-
-#~ msgid "PowerShot D20"
-#~ msgstr "PowerShot D20"
-
-#~ msgid "PowerShot A4000 IS"
-#~ msgstr "PowerShot A4000 IS"
-
-#~ msgid "PowerShot SX260 HS"
-#~ msgstr "PowerShot SX260 HS"
-
-#~ msgid "PowerShot SX240 HS"
-#~ msgstr "PowerShot SX240 HS"
-
-#~ msgid "PowerShot ELPH 530 HS / IXUS 510 HS / IXY 1"
-#~ msgstr "PowerShot ELPH 530 HS / IXUS 510 HS / IXY 1"
-
-#~ msgid "PowerShot ELPH 520 HS / IXUS 500 HS / IXY 3"
-#~ msgstr "PowerShot ELPH 520 HS / IXUS 500 HS / IXY 3"
-
-#~ msgid "PowerShot A3400 IS"
-#~ msgstr "PowerShot A3400 IS"
-
-#~ msgid "PowerShot A2400 IS"
-#~ msgstr "PowerShot A2400 IS"
-
-#~ msgid "PowerShot A2300"
-#~ msgstr "PowerShot A2300"
-
-#~ msgid "PowerShot G15"
-#~ msgstr "PowerShot G15"
-
-#~ msgid "PowerShot SX50"
-#~ msgstr "PowerShot SX50"
-
-#~ msgid "PowerShot SX160 IS"
-#~ msgstr "PowerShot SX160 IS"
-
-#~ msgid "PowerShot S110 (new)"
-#~ msgstr "PowerShot S110 (new)"
-
-#~ msgid "PowerShot SX500 IS"
-#~ msgstr "PowerShot SX500 IS"
-
-#~ msgid "PowerShot N"
-#~ msgstr "PowerShot N"
-
-#~ msgid "IXUS 245 HS / IXY 430F"
-#~ msgstr "IXUS 245 HS / IXY 430F"
-
-#~ msgid "PowerShot SX280 HS"
-#~ msgstr "PowerShot SX280 HS"
-
-#~ msgid "PowerShot A2600"
-#~ msgstr "PowerShot A2600"
-
-#~ msgid "PowerShot A1400"
-#~ msgstr "PowerShot A1400"
-
-#~ msgid "PowerShot ELPH 130 IS / IXUS 140 / IXY 110F"
-#~ msgstr "PowerShot ELPH 130 IS / IXUS 140 / IXY 110F"
-
-#~ msgid "PowerShot ELPH 115 IS / IXUS 132 / IXY 90F"
-#~ msgstr "PowerShot ELPH 115 IS / IXUS 132 / IXY 90F"
-
-#~ msgid "PowerShot ELPH 330 HS / IXUS 255 HS / IXY 610F"
-#~ msgstr "PowerShot ELPH 330 HS / IXUS 255 HS / IXY 610F"
-
-#~ msgid "PowerShot G1"
-#~ msgstr "PowerShot G1"
-
-#~ msgid "PowerShot S100 / Digital IXUS / IXY Digital"
-#~ msgstr "PowerShot S100 / Digital IXUS / IXY Digital"
-
-#~ msgid "DC19/DC21/DC22"
-#~ msgstr "DC19/DC21/DC22"
-
-#~ msgid "XH A1"
-#~ msgstr "XH A1"
-
-#~ msgid "HV10"
-#~ msgstr "HV10"
-
-#~ msgid "MD130/MD140/MD150/MD160/ZR850"
-#~ msgstr "MD130/MD140/MD150/MD160/ZR850"
-
-#~ msgid "DC50"
-#~ msgstr "DC50"
-
-#~ msgid "HV20"
-#~ msgstr "HV20"
-
-#~ msgid "DC211"
-#~ msgstr "DC211"
-
-#~ msgid "HG10"
-#~ msgstr "HG10"
-
-#~ msgid "HR10"
-#~ msgstr "HR10"
-
-#~ msgid "MD255/ZR950"
-#~ msgstr "MD255/ZR950"
-
-#~ msgid "HF11"
-#~ msgstr "HF11"
-
-#~ msgid "HV30"
-#~ msgstr "HV30"
-
-#~ msgid "XH A1S"
-#~ msgstr "XH A1S"
-
-#~ msgid "DC301/DC310/DC311/DC320/DC330"
-#~ msgstr "DC301/DC310/DC311/DC320/DC330"
-
-#~ msgid "FS100"
-#~ msgstr "FS100"
-
-#~ msgid "HF10"
-#~ msgstr "HF10"
-
-#~ msgid "HG20/HG21"
-#~ msgstr "HG20/HG21"
-
-#~ msgid "HF21"
-#~ msgstr "HF21"
-
-#~ msgid "HF S11"
-#~ msgstr "HF S11"
-
-#~ msgid "HV40"
-#~ msgstr "HV40"
-
-#~ msgid "DC410/DC411/DC420"
-#~ msgstr "DC410/DC411/DC420"
-
-#~ msgid "FS19/FS20/FS21/FS22/FS200"
-#~ msgstr "FS19/FS20/FS21/FS22/FS200"
-
-#~ msgid "HF20/HF200"
-#~ msgstr "HF20/HF200"
-
-#~ msgid "HF S10/S100"
-#~ msgstr "HF S10/S100"
-
-#~ msgid "HF R10/R16/R17/R18/R100/R106"
-#~ msgstr "HF R10/R16/R17/R18/R100/R106"
-
-#~ msgid "HF M30/M31/M36/M300/M306"
-#~ msgstr "HF M30/M31/M36/M300/M306"
-
-#~ msgid "HF S20/S21/S200"
-#~ msgstr "HF S20/S21/S200"
-
-#~ msgid "FS31/FS36/FS37/FS300/FS305/FS306/FS307"
-#~ msgstr "FS31/FS36/FS37/FS300/FS305/FS306/FS307"
-
-#~ msgid "EOS-1D"
-#~ msgstr "EOS-1D"
-
-#~ msgid "EOS-1DS"
-#~ msgstr "EOS-1DS"
-
-#~ msgid "EOS 10D"
-#~ msgstr "EOS 10D"
-
-#~ msgid "EOS-1D Mark III"
-#~ msgstr "EOS-1D Mark III"
-
-#~ msgid "EOS Digital Rebel / 300D / Kiss Digital"
-#~ msgstr "EOS Digital Rebel / 300D / Kiss Digital"
-
-#~ msgid "EOS-1D Mark II"
-#~ msgstr "EOS-1D Mark II"
-
-#~ msgid "EOS 20D"
-#~ msgstr "EOS 20D"
-
-#~ msgid "EOS Digital Rebel XSi / 450D / Kiss X2"
-#~ msgstr "EOS Digital Rebel XSi / 450D / Kiss X2"
-
-#~ msgid "EOS-1Ds Mark II"
-#~ msgstr "EOS-1Ds Mark II"
-
-#~ msgid "EOS Digital Rebel XT / 350D / Kiss Digital N"
-#~ msgstr "EOS Digital Rebel XT / 350D / Kiss Digital N"
-
-#~ msgid "EOS 40D"
-#~ msgstr "EOS 40D"
-
-#~ msgid "EOS 5D"
-#~ msgstr "EOS 5D"
-
-#~ msgid "EOS-1Ds Mark III"
-#~ msgstr "EOS-1Ds Mark III"
-
-#~ msgid "EOS 5D Mark II"
-#~ msgstr "EOS 5D Mark II"
-
-#~ msgid "WFT-E1"
-#~ msgstr "WFT-E1"
-
-#~ msgid "EOS-1D Mark II N"
-#~ msgstr "EOS-1D Mark II N"
-
-#~ msgid "EOS 30D"
-#~ msgstr "EOS 30D"
-
-#~ msgid "EOS Digital Rebel XTi / 400D / Kiss Digital X"
-#~ msgstr "EOS Digital Rebel XTi / 400D / Kiss Digital X"
-
-#~ msgid "WFT-E2"
-#~ msgstr "WFT-E2"
-
-#~ msgid "WFT-E3"
-#~ msgstr "WFT-E3"
-
-#~ msgid "EOS-1D X"
-#~ msgstr "EOS-1D X"
-
-#~ msgid "WFT-E4"
-#~ msgstr "WFT-E4"
-
-#~ msgid "WFT-E5"
-#~ msgstr "WFT-E5"
-
-#~ msgid "EOS 5D Mark III"
-#~ msgstr "EOS 5D Mark III"
-
-#~ msgid "EOS Rebel T3i / 600D / Kiss X5"
-#~ msgstr "EOS Rebel T3i / 600D / Kiss X5"
-
-#~ msgid "EOS 60D"
-#~ msgstr "EOS 60D"
-
-#~ msgid "EOS Rebel T3 / 1100D / Kiss X50"
-#~ msgstr "EOS Rebel T3 / 1100D / Kiss X50"
-
-#~ msgid "WFT-E2 II"
-#~ msgstr "WFT-E2 II"
-
-#~ msgid "WFT-E4 II"
-#~ msgstr "WFT-E4 II"
-
-#~ msgid "EOS Rebel T4i / 650D / Kiss X6i"
-#~ msgstr "EOS Rebel T4i / 650D / Kiss X6i"
-
-#~ msgid "EOS 6D"
-#~ msgstr "EOS 6D"
-
-#~ msgid "EOS-1D C"
-#~ msgstr "EOS-1D C"
-
-#~ msgid "EOS 70D"
-#~ msgstr "EOS 70D"
-
-#~ msgid "EOS Rebel T5i / 700D / Kiss X7i"
-#~ msgstr "EOS Rebel T5i / 700D / Kiss X7i"
-
-#~ msgid "EOS M"
-#~ msgstr "EOS M"
-
-#~ msgid "EOS Rebel SL1 / 100D / Kiss X7"
-#~ msgstr "EOS Rebel SL1 / 100D / Kiss X7"
-
-#~ msgid "Sunny"
-#~ msgstr "Soleado"
-
-#~ msgid "Copyright (C) 2004-2013 Andreas Huggel.\n"
-#~ msgstr "Copyright (C) 2004-2013 Andreas Huggel.\n"
-
-#~ msgid "1.03 (SB-800)"
-#~ msgstr "1.03 (SB-800)"
-
-#~ msgid "2.01 (SB-800)"
-#~ msgstr "2.01 (SB-800)"
-
-#~ msgid "2.04 (SB-600)"
-#~ msgstr "2.04 (SB-600)"
-
-#~ msgid "2.05 (SB-600)"
-#~ msgstr "2.05 (SB-600)"
-
-#~ msgid "4.01 (SB-400)"
-#~ msgstr "4.01 (SB-400)"
-
-#~ msgid "4.02 (SB-400)"
-#~ msgstr "4.02 (SB-400)"
-
-#~ msgid "4.04 (SB-400)"
-#~ msgstr "4.04 (SB-400)"
-
-#~ msgid "5.01 (SB-900)"
-#~ msgstr "5.01 (SB-900)"
-
-#~ msgid "5.02 (SB-900)"
-#~ msgstr "5.02 (SB-900)"
-
-#~ msgid "0.1 m"
-#~ msgstr "0,1 m"
-
-#~ msgid "0.2 m"
-#~ msgstr "0,2 m"
-
-#~ msgid "0.3 m"
-#~ msgstr "0,3 m"
-
-#~ msgid "0.4 m"
-#~ msgstr "0,4 m"
-
-#~ msgid "0.5 m"
-#~ msgstr "0,5 m"
-
-#~ msgid "0.6 m"
-#~ msgstr "0,6 m"
-
-#~ msgid "0.7 m"
-#~ msgstr "0,7 m"
-
-#~ msgid "0.8 m"
-#~ msgstr "0,8 m"
-
-#~ msgid "0.9 m"
-#~ msgstr "0,9 m"
-
-#~ msgid "1.0 m"
-#~ msgstr "1,0 m"
-
-#~ msgid "1.1 m"
-#~ msgstr "1,1 m"
-
-#~ msgid "1.3 m"
-#~ msgstr "1,3 m"
-
-#~ msgid "1.4 m"
-#~ msgstr "1,4 m"
-
-#~ msgid "1.6 m"
-#~ msgstr "1,6 m"
-
-#~ msgid "1.8 m"
-#~ msgstr "1,8 m"
-
-#~ msgid "2.0 m"
-#~ msgstr "2,0 m"
-
-#~ msgid "2.2 m"
-#~ msgstr "2,2 m"
-
-#~ msgid "2.5 m"
-#~ msgstr "2,5 m"
-
-#~ msgid "2.8 m"
-#~ msgstr "2,8 m"
-
-#~ msgid "3.2 m"
-#~ msgstr "3,2 m"
-
-#~ msgid "3.6 m"
-#~ msgstr "3,6 m"
-
-#~ msgid "4.0 m"
-#~ msgstr "4,0 m"
-
-#~ msgid "4.5 m"
-#~ msgstr "4,5 m"
-
-#~ msgid "5.0 m"
-#~ msgstr "5,0 m"
-
-#~ msgid "5.6 m"
-#~ msgstr "5,6 m"
-
-#~ msgid "6.3 m"
-#~ msgstr "6,3 m"
-
-#~ msgid "7.1 m"
-#~ msgstr "7,1 m"
-
-#~ msgid "8.0 m"
-#~ msgstr "8,0 m"
-
-#~ msgid "9.0 m"
-#~ msgstr "9,0 m"
-
-#~ msgid "10.0 m"
-#~ msgstr "10,0 m"
-
-#~ msgid "11.0 m"
-#~ msgstr "11,0 m"
-
-#~ msgid "13.0 m"
-#~ msgstr "13,0 m"
-
-#~ msgid "14.0 m"
-#~ msgstr "14,0 m"
-
-#~ msgid "16.0 m"
-#~ msgstr "16,0 m"
-
-#~ msgid "18.0 m"
-#~ msgstr "18,0 m"
-
-#~ msgid "20.0 m"
-#~ msgstr "20,0 m"
-
-#~ msgid "0"
-#~ msgstr "0"
-
-#~ msgid "+1"
-#~ msgstr "+1"
-
-#~ msgid "+2"
-#~ msgstr "+2"
-
-#~ msgid "+8"
-#~ msgstr "+8"
-
-#~ msgid "+16"
-#~ msgstr "+16"
-
-#~ msgid "-16"
-#~ msgstr "-16"
-
-#~ msgid "-8"
-#~ msgstr "-8"
-
-#~ msgid "-2"
-#~ msgstr "-2"
-
-#~ msgid "-1"
-#~ msgstr "-1"
-
-#~ msgid "+17"
-#~ msgstr "+17"
-
-#~ msgid "-17"
-#~ msgstr "-17"
-
-#~ msgid "+9"
-#~ msgstr "+9"
-
-#~ msgid "+18"
-#~ msgstr "+18"
-
-#~ msgid "-18"
-#~ msgstr "-18"
-
-#~ msgid "-9"
-#~ msgstr "-9"
-
-#~ msgid "+19"
-#~ msgstr "+19"
-
-#~ msgid "-19"
-#~ msgstr "-19"
-
-#~ msgid "+5"
-#~ msgstr "+5"
-
-#~ msgid "+10"
-#~ msgstr "+10"
-
-#~ msgid "+20"
-#~ msgstr "+20"
-
-#~ msgid "-20"
-#~ msgstr "-20"
-
-#~ msgid "-10"
-#~ msgstr "-10"
-
-#~ msgid "-5"
-#~ msgstr "-5"
-
-#~ msgid "+11"
-#~ msgstr "+11"
-
-#~ msgid "-11"
-#~ msgstr "-11"
-
-#~ msgid "+3"
-#~ msgstr "+3"
-
-#~ msgid "+6"
-#~ msgstr "+6"
-
-#~ msgid "+12"
-#~ msgstr "+12"
-
-#~ msgid "-12"
-#~ msgstr "-12"
-
-#~ msgid "-6"
-#~ msgstr "-6"
-
-#~ msgid "-3"
-#~ msgstr "-3"
-
-#~ msgid "+13"
-#~ msgstr "+13"
-
-#~ msgid "-13"
-#~ msgstr "-13"
-
-#~ msgid "+7"
-#~ msgstr "+7"
-
-#~ msgid "+14"
-#~ msgstr "+14"
-
-#~ msgid "-14"
-#~ msgstr "-14"
-
-#~ msgid "-7"
-#~ msgstr "-7"
-
-#~ msgid "+15"
-#~ msgstr "+15"
-
-#~ msgid "-15"
-#~ msgstr "-15"
-
-#~ msgid "Custom WB 5400K"
-#~ msgstr "Personalizado WB 5400K"
-
-#~ msgid "Custom WB 2900K"
-#~ msgstr "Personalizado WB 2900K"
-
-#~ msgid "Custom WB 8000K"
-#~ msgstr "Personalizado WB 8000K"
-
-#~ msgid "Olympus M.Zuiko Digital ED 14-42mm F3.5-5.6"
-#~ msgstr "Olympus M.Zuiko Digital ED 14-42mm F3.5-5.6"
-
-#~ msgid "Olympus M.Zuiko Digital 17mm F2.8 Pancake"
-#~ msgstr "Olympus M.Zuiko Digital 17mm F2.8 Pancake"
-
-#~ msgid "Olympus M.Zuiko Digital ED 14-150mm F4.0-5.6"
-#~ msgstr "Olympus M.Zuiko Digital ED 14-150mm F4.0-5.6"
-
-#~ msgid "Olympus M.Zuiko Digital ED 9-18mm F4.0-5.6"
-#~ msgstr "Olympus M.Zuiko Digital ED 9-18mm F4.0-5.6"
-
-#~ msgid "Olympus M.Zuiko Digital ED 14-42mm F3.5-5.6 L"
-#~ msgstr "Olympus M.Zuiko Digital ED 14-42mm F3.5-5.6 L"
-
-#~ msgid "Olympus M.Zuiko Digital ED 40-150mm F4.0-5.6"
-#~ msgstr "Olympus M.Zuiko Digital ED 40-150mm F4.0-5.6"
-
-#~ msgid "Olympus M.Zuiko Digital ED 12mm F2.0"
-#~ msgstr "Olympus M.Zuiko Digital ED 12mm F2.0"
-
-#~ msgid "Olympus M.Zuiko Digital ED 75-300mm F4.8-6.7"
-#~ msgstr "Olympus M.Zuiko Digital ED 75-300mm F4.8-6.7"
-
-#~ msgid "Olympus M.Zuiko Digital 14-42mm F3.5-5.6 II"
-#~ msgstr "Olympus M.Zuiko Digital 14-42mm F3.5-5.6 II"
-
-#~ msgid "Kenko Tokina Reflex 300mm F6.3 MF Macro"
-#~ msgstr "Kenko Tokina Reflex 300mm F6.3 MF Macro"
-
-#~ msgid "Olympus M.Zuiko Digital ED 12-50mm F3.5-6.3 EZ"
-#~ msgstr "Olympus M.Zuiko Digital ED 12-50mm F3.5-6.3 EZ"
-
-#~ msgid "Olympus M.Zuiko Digital 45mm F1.8"
-#~ msgstr "Olympus M.Zuiko Digital 45mm F1.8"
-
-#~ msgid "Olympus M.Zuiko Digital ED 60mm F2.8 Macro"
-#~ msgstr "Olympus M.Zuiko Digital ED 60mm F2.8 Macro"
-
-#~ msgid "Olympus M.Zuiko Digital ED 14-42mm F3.5-5.6 II R"
-#~ msgstr "Olympus M.Zuiko Digital ED 14-42mm F3.5-5.6 II R"
-
-#~ msgid "Olympus M.Zuiko Digital ED 40-150mm F4.0-5.6 R"
-#~ msgstr "Olympus M.Zuiko Digital ED 40-150mm F4.0-5.6 R"
-
-#~ msgid "Olympus M.Zuiko Digital ED 75mm F1.8"
-#~ msgstr "Olympus M.Zuiko Digital ED 75mm F1.8"
-
-#~ msgid "Olympus M.Zuiko Digital 17mm F1.8"
-#~ msgstr "Olympus M.Zuiko Digital 17mm F1.8"
-
-#~ msgid "Olympus M.Zuiko Digital ED 75-300mm F4.8-6.7 II"
-#~ msgstr "Olympus M.Zuiko Digital ED 75-300mm F4.8-6.7 II"
-
-#~ msgid "Sigma 18-50mm F3.5-5.6 DC"
-#~ msgstr "Sigma 18-50mm F3.5-5.6 DC"
-
-#~ msgid "Sigma 30mm F2.8 EX DN"
-#~ msgstr "Sigma 30mm F2.8 EX DN"
-
-#~ msgid "Sigma 19mm F2.8 EX DN"
-#~ msgstr "Sigma 19mm F2.8 EX DN"
-
-#~ msgid "Sigma 30mm F2.8 DN | A"
-#~ msgstr "Sigma 30mm F2.8 DN | A"
-
-#~ msgid "Sigma 19mm F2.8 DN | A"
-#~ msgstr "Sigma 19mm F2.8 DN | A"
-
-#~ msgid "Sigma 60mm F2.8 DN | A"
-#~ msgstr "Sigma 60mm F2.8 DN | A"
-
-#~ msgid "Sigma 18-50mm F2.8 EX DC Macro"
-#~ msgstr "Sigma 18-50mm F2.8 EX DC Macro"
-
-#~ msgid "Sigma 30mm F1.4 EX DC HSM"
-#~ msgstr "Sigma 30mm F1.4 EX DC HSM"
-
-#~ msgid "Sigma 70-200mm F2.8 EX DG Macro HSM II"
-#~ msgstr "Sigma 70-200mm F2.8 EX DG Macro HSM II"
-
-#~ msgid "Sigma 50mm F1.4 EX DG HSM"
-#~ msgstr "Sigma 50mm F1.4 EX DG HSM"
-
-#~ msgid "Lumix G Vario 45-200mm F4.0-5.6 Mega OIS"
-#~ msgstr "Lumix G Vario 45-200mm F4.0-5.6 Mega OIS"
-
-#~ msgid "Leica D Vario Elmar 14-50mm F3.8-5.6 Asph. Mega OIS"
-#~ msgstr "Leica D Vario Elmar 14-50mm F3.8-5.6 Asph. Mega OIS"
-
-#~ msgid "Lumix G Vario HD 14-140mm F4.0-5.8 Asph. Mega OIS"
-#~ msgstr "Lumix G Vario HD 14-140mm F4.0-5.8 Asph. Mega OIS"
-
-#~ msgid "Lumix G Vario 7-14mm F4.0 Asph."
-#~ msgstr "Lumix G Vario 7-14mm F4.0 Asph."
-
-#~ msgid "Leica DG Macro-Elmarit 45mm F2.8 Asph. Mega OIS"
-#~ msgstr "Leica DG Macro-Elmarit 45mm F2.8 Asph. Mega OIS"
-
-#~ msgid "Lumix G Vario 14-42mm F3.5-5.6 Asph. Mega OIS"
-#~ msgstr "Lumix G Vario 14-42mm F3.5-5.6 Asph. Mega OIS"
-
-#~ msgid "Lumix G Fisheye 8mm F3.5"
-#~ msgstr "Lumix G Fisheye 8mm F3.5"
-
-#~ msgid "Lumix G Vario 100-300mm F4.0-5.6 Mega OIS"
-#~ msgstr "Lumix G Vario 100-300mm F4.0-5.6 Mega OIS"
-
-#~ msgid "Lumix G 14mm F2.5 Asph."
-#~ msgstr "Lumix G 14mm F2.5 Asph."
-
-#~ msgid "Lumix G 3D 12.5mm F12"
-#~ msgstr "Lumix G 3D 12.5mm F12"
-
-#~ msgid "Leica DG Summilux 25mm F1.4 Asph."
-#~ msgstr "Leica DG Summilux 25mm F1.4 Asph."
-
-#~ msgid "Lumix G X Vario PZ 45-175mm F4.0-5.6 Asph. Power OIS"
-#~ msgstr "Lumix G X Vario PZ 45-175mm F4.0-5.6 Asph. Power OIS"
-
-#~ msgid "Lumix G X Vario 12-35mm F2.8 Asph. Power OIS"
-#~ msgstr "Lumix G X Vario 12-35mm F2.8 Asph. Power OIS"
-
-#~ msgid "Lumix G Vario 45-150mm F4.0-5.6 Asph. Mega OIS"
-#~ msgstr "Lumix G Vario 45-150mm F4.0-5.6 Asph. Mega OIS"
-
-#~ msgid "Lumix G X Vario 35-100mm F2.8 Power OIS"
-#~ msgstr "Lumix G X Vario 35-100mm F2.8 Power OIS"
-
-#~ msgid "Lumix G Vario 14-42mm F3.5-5.6 II Asph. Mega OIS"
-#~ msgstr "Lumix G Vario 14-42mm F3.5-5.6 II Asph. Mega OIS"
-
-#~ msgid "Lumix G Vario 14-140mm F3.5-5.6 Asph. Power OIS"
-#~ msgstr "Lumix G Vario 14-140mm F3.5-5.6 Asph. Power OIS"
-
-#~ msgid "10s"
-#~ msgstr "10s"
-
-#~ msgid "2s"
-#~ msgstr "2s"
-
-#~ msgid "Baby Age"
-#~ msgstr "Edad del bebé"
-
-#~ msgid "Baby (or pet) age"
-#~ msgstr "Edad del bebé (o mascota)"
-
-#~ msgid "Spot mode on"
-#~ msgstr "Modo punto activado"
-
-#~ msgid "Optio 330/430"
-#~ msgstr "Optio 330/430"
-
-#~ msgid "Optio 230"
-#~ msgstr "Optio 230"
-
-#~ msgid "Optio 330GS"
-#~ msgstr "Optio 330GS"
-
-#~ msgid "Optio 450/550"
-#~ msgstr "Optio 450/550"
-
-#~ msgid "Optio S"
-#~ msgstr "Optio S"
-
-#~ msgid "Optio S V1.01"
-#~ msgstr "Optio S V1.01"
-
-#~ msgid "*ist D"
-#~ msgstr "*ist D"
-
-#~ msgid "Optio 33L"
-#~ msgstr "Optio 33L"
-
-#~ msgid "Optio 33LF"
-#~ msgstr "Optio 33LF"
-
-#~ msgid "Optio 33WR/43WR/555"
-#~ msgstr "Optio 33WR/43WR/555"
-
-#~ msgid "Optio S4"
-#~ msgstr "Optio S4"
-
-#~ msgid "Optio MX"
-#~ msgstr "Optio MX"
-
-#~ msgid "Optio S40"
-#~ msgstr "Optio S40"
-
-#~ msgid "Optio S4i"
-#~ msgstr "Optio S4i"
-
-#~ msgid "Optio 30"
-#~ msgstr "Optio 30"
-
-#~ msgid "Optio S30"
-#~ msgstr "Optio S30"
-
-#~ msgid "Optio 750Z"
-#~ msgstr "Optio 750Z"
-
-#~ msgid "Optio SV"
-#~ msgstr "Optio SV"
-
-#~ msgid "Optio SVi"
-#~ msgstr "Optio SVi"
-
-#~ msgid "Optio X"
-#~ msgstr "Optio X"
-
-#~ msgid "Optio S5i"
-#~ msgstr "Optio S5i"
-
-#~ msgid "Optio S50"
-#~ msgstr "Optio S50"
-
-#~ msgid "*ist DS"
-#~ msgstr "*ist DS"
-
-#~ msgid "Optio MX4"
-#~ msgstr "Optio MX4"
-
-#~ msgid "Optio S5n"
-#~ msgstr "Optio S5n"
-
-#~ msgid "Optio WP"
-#~ msgstr "Optio WP"
-
-#~ msgid "Optio S55"
-#~ msgstr "Optio S55"
-
-#~ msgid "Optio S5z"
-#~ msgstr "Optio S5z"
-
-#~ msgid "*ist DL"
-#~ msgstr "*ist DL"
-
-#~ msgid "Optio S60"
-#~ msgstr "Optio S60"
-
-#~ msgid "Optio S45"
-#~ msgstr "Optio S45"
-
-#~ msgid "Optio S6"
-#~ msgstr "Optio S6"
-
-#~ msgid "Optio WPi"
-#~ msgstr "Optio WPi"
-
-#~ msgid "BenQ DC X600"
-#~ msgstr "BenQ DC X600"
-
-#~ msgid "*ist DS2"
-#~ msgstr "*ist DS2"
-
-#~ msgid "Samsung GX-1S"
-#~ msgstr "Samsung GX-1S"
-
-#~ msgid "Optio A10"
-#~ msgstr "Optio A10"
-
-#~ msgid "*ist DL2"
-#~ msgstr "*ist DL2"
-
-#~ msgid "Samsung GX-1L"
-#~ msgstr "Samsung GX-1L"
-
-#~ msgid "K100D"
-#~ msgstr "K100D"
-
-#~ msgid "K110D"
-#~ msgstr "K110D"
-
-#~ msgid "K100D Super"
-#~ msgstr "K100D Súper"
-
-#~ msgid "Optio T10/T20"
-#~ msgstr "Optio T10/T20"
-
-#~ msgid "Optio W10"
-#~ msgstr "Optio W10"
-
-#~ msgid "Optio M10"
-#~ msgstr "Optio M10"
-
-#~ msgid "K10D"
-#~ msgstr "K10D"
-
-#~ msgid "Samsung GX10"
-#~ msgstr "Samsung GX10"
-
-#~ msgid "Optio S7"
-#~ msgstr "Optio S7"
-
-#~ msgid "Optio L20"
-#~ msgstr "Optio L20"
-
-#~ msgid "Optio M20"
-#~ msgstr "Optio M20"
-
-#~ msgid "Optio W20"
-#~ msgstr "Optio W20"
-
-#~ msgid "Optio A20"
-#~ msgstr "Optio A20"
-
-#~ msgid "Optio E30"
-#~ msgstr "Optio E30"
-
-#~ msgid "Optio E35"
-#~ msgstr "Optio E35"
-
-#~ msgid "Optio T30"
-#~ msgstr "Optio T30"
-
-#~ msgid "Optio M30"
-#~ msgstr "Optio M30"
-
-#~ msgid "Optio L30"
-#~ msgstr "Optio L30"
-
-#~ msgid "Optio W30"
-#~ msgstr "Optio W30"
-
-#~ msgid "Optio A30"
-#~ msgstr "Optio A30"
-
-#~ msgid "Optio E40"
-#~ msgstr "Optio E40"
-
-#~ msgid "Optio M40"
-#~ msgstr "Optio M40"
-
-#~ msgid "Optio L40"
-#~ msgstr "Optio L40"
-
-#~ msgid "Optio L36"
-#~ msgstr "Optio L36"
-
-#~ msgid "Optio Z10"
-#~ msgstr "Optio Z10"
-
-#~ msgid "K20D"
-#~ msgstr "K20D"
-
-#~ msgid "Samsung GX20"
-#~ msgstr "Samsung GX20"
-
-#~ msgid "Optio S10"
-#~ msgstr "Optio S10"
-
-#~ msgid "Optio A40"
-#~ msgstr "Optio A40"
-
-#~ msgid "Optio V10"
-#~ msgstr "Optio V10"
-
-#~ msgid "K200D"
-#~ msgstr "K200D"
-
-#~ msgid "Optio S12"
-#~ msgstr "Optio S12"
-
-#~ msgid "Optio E50"
-#~ msgstr "Optio E50"
-
-#~ msgid "Optio M50"
-#~ msgstr "Optio M50"
-
-#~ msgid "Optio L50"
-#~ msgstr "Optio L50"
-
-#~ msgid "Optio V20"
-#~ msgstr "Optio V20"
-
-#~ msgid "Optio W60"
-#~ msgstr "Optio W60"
-
-#~ msgid "Optio M60"
-#~ msgstr "Optio M60"
-
-#~ msgid "K2000"
-#~ msgstr "K2000"
-
-#~ msgid "K-m"
-#~ msgstr "K-m"
-
-#~ msgid "Optio P70"
-#~ msgstr "Optio P70"
-
-#~ msgid "Optio E70"
-#~ msgstr "Optio E70"
-
-#~ msgid "X70"
-#~ msgstr "X70"
-
-#~ msgid "K-7"
-#~ msgstr "K-7"
-
-#~ msgid "Optio W80"
-#~ msgstr "Optio W80"
-
-#~ msgid "Optio P80"
-#~ msgstr "Optio P80"
-
-#~ msgid "Optio WS80"
-#~ msgstr "Optio WS80"
-
-#~ msgid "K-x"
-#~ msgstr "K-x"
-
-#~ msgid "645D"
-#~ msgstr "645D"
-
-#~ msgid "Optio I-10"
-#~ msgstr "Optio I-10"
-
-#~ msgid "640x480"
-#~ msgstr "640x480"
-
-#~ msgid "1024x768"
-#~ msgstr "1024x768"
-
-#~ msgid "1280x960"
-#~ msgstr "1280x960"
-
-#~ msgid "1600x1200"
-#~ msgstr "1600x1200"
-
-#~ msgid "2048x1536"
-#~ msgstr "2048x1536"
-
-#~ msgid "3072x2304"
-#~ msgstr "3072x2304"
-
-#~ msgid "3264x2448"
-#~ msgstr "3264x2448"
-
-#~ msgid "320x240"
-#~ msgstr "320x240"
-
-#~ msgid "2288x1712"
-#~ msgstr "2288x1712"
-
-#~ msgid "2592x1944"
-#~ msgstr "2592x1944"
-
-#~ msgid "3056x2296"
-#~ msgstr "3056x2296"
-
-#~ msgid "3648x2736"
-#~ msgstr "3648x2736"
-
-#~ msgid "50"
-#~ msgstr "50"
-
-#~ msgid "64"
-#~ msgstr "64"
-
-#~ msgid "80"
-#~ msgstr "80"
-
-#~ msgid "100"
-#~ msgstr "100"
-
-#~ msgid "125"
-#~ msgstr "125"
-
-#~ msgid "160"
-#~ msgstr "160"
-
-#~ msgid "200"
-#~ msgstr "200"
-
-#~ msgid "250"
-#~ msgstr "250"
-
-#~ msgid "320"
-#~ msgstr "320"
-
-#~ msgid "400"
-#~ msgstr "400"
-
-#~ msgid "500"
-#~ msgstr "500"
-
-#~ msgid "640"
-#~ msgstr "640"
-
-#~ msgid "800"
-#~ msgstr "800"
-
-#~ msgid "1000"
-#~ msgstr "1000"
-
-#~ msgid "1250"
-#~ msgstr "1250"
-
-#~ msgid "1600"
-#~ msgstr "1600"
-
-#~ msgid "2000"
-#~ msgstr "2000"
-
-#~ msgid "2500"
-#~ msgstr "2500"
-
-#~ msgid "3200"
-#~ msgstr "3200"
-
-#~ msgid "4000"
-#~ msgstr "4000"
-
-#~ msgid "5000"
-#~ msgstr "5000"
-
-#~ msgid "6400"
-#~ msgstr "6400"
-
-#~ msgid "70"
-#~ msgstr "70"
-
-#~ msgid "140"
-#~ msgstr "140"
-
-#~ msgid "280"
-#~ msgstr "280"
-
-#~ msgid "560"
-#~ msgstr "560"
-
-#~ msgid "1100"
-#~ msgstr "1100"
-
-#~ msgid "2200"
-#~ msgstr "2200"
-
-#~ msgid "Colort temperature"
-#~ msgstr "temperatura de color"
-
-#~ msgid "When true, the clip can be looped seemlessly."
-#~ msgstr ""
-#~ "Cuando es verdadero, el fragmento de película se puede repetir "
-#~ "indefinidamente"
-
-#~ msgid "GreenHue"
-#~ msgstr "Tono verde"
-
-#~ msgid "SerialNumber"
-#~ msgstr "NúmeroSerie"
-
-#~ msgid ""
-#~ "The contact information address part. Comprises an optional company name "
-#~ "and all required information to locate the building or postbox to which "
-#~ "mail should be sent."
-#~ msgstr ""
-#~ "La parte de dirección de contacto de información. Consta de un nombre de "
-#~ "compañía opcional y toda la información requerida para localizar el "
-#~ "edificio o distrito postal al que debe enviarse el correo."
-
-#~ msgid "The contact information email address part."
-#~ msgstr "La parte de correo de información de contacto."
-
-#~ msgid "The contact information web address part."
-#~ msgstr "La parte de dirección web de información de contacto."
-
-#~ msgid ""
-#~ "Code of the country the content is focussing on -- either the country "
-#~ "shown in visual media or referenced in text or audio media. This element "
-#~ "is at the top/first level of a top-down geographical hierarchy. The code "
-#~ "should be taken from ISO 3166 two or three letter code. The full name of "
-#~ "a country should go to the \"Country\" element."
-#~ msgstr ""
-#~ "Código del país en la que el contenido está enfocado --o el archivo "
-#~ "mostrado en medios visuales o referenciado en texto o medio acústico. "
-#~ "Este elemento es el el primer/superior nivel de una jerarquía "
-#~ "descendente. El código debe tomarse del código de dos o tres letras ISO "
-#~ "3166. El nombre completo de un país debería ir al elemento «país»."
-
-#~ msgid ""
-#~ "Name of a location the content is focussing on -- either the location "
-#~ "shown in visual media or referenced by text or audio media. This location "
-#~ "name could either be the name of a sublocation to a city or the name of a "
-#~ "well known location or (natural) monument outside a city. In the sense of "
-#~ "a sublocation to a city this element is at the fourth level of a top-down "
-#~ "geographical hierarchy."
-#~ msgstr ""
-#~ "Nombre de un lugar en el que se concentra el contenido --o el lugar "
-#~ "mostrado en medios visuales o referenciados por texto o audio. Este "
-#~ "nombre de lugar puede ser tanto el nombre de una sububicación de una "
-#~ "ciudad o el nombre de una ubicación muy conocida o (natural) monumento "
-#~ "fuera de la ciudad. En el sentido de una sububicación a una ciudad este "
-#~ "elemento se encuentra  en el cuarto nivel en una jerarquía "
-#~ "geográficamente descendente."
-
-#~ msgid "DateRegionsValid"
-#~ msgstr "Validación de datos de zona"
-
-#~ msgid "PersonDisplayName"
-#~ msgstr "Nombre para mostrar"
-
-#~ msgid "FocusUsage"
-#~ msgstr "UsodeFoco"
-
-#~ msgid "Standard "
-#~ msgstr "Estándar "
-
-#~ msgid "Landscape "
-#~ msgstr "Apaisado "
-
-#~ msgid "Soft Snap"
-#~ msgstr "Toma suave"
-
-#~ msgid "Gourmet"
-#~ msgstr "Gourmet"
-
-#~ msgid "Handheld Twilight"
-#~ msgstr "Obturador de mano"
-
-#~ msgid "Threshholding"
-#~ msgstr "Umbrales"
-
-#~ msgid "The component values that correspond to a 0% dot and 100% dot."
-#~ msgstr ""
-#~ "Los valores de los componentes que corresponden al 0% dot y 100% dot."
-
-#~ msgid ""
-#~ "This optional tag may be used to encode the JPEG quantization andHuffman "
-#~ "tables for subsequent use by the JPEG decompression process."
-#~ msgstr ""
-#~ "Esta etiqueta opcional puede emplearse para codificar la cuantización del "
-#~ "JPEG y las tablas Huffman para posterior utilización del proceso de "
-#~ "descompresión de JPEG."
-
-#~ msgid ""
-#~ "Copyright information. In this standard the tag is used to indicate both "
-#~ "the photographer and editor copyrights. It is the copyright notice of the "
-#~ "person or organization claiming rights to the image. The Interoperability "
-#~ "copyright statement including date and rights should be written in this "
-#~ "field; e.g., \"Copyright, John Smith, 19xx. All rights reserved.\". In "
-#~ "this standard the field records both the photographer and editor "
-#~ "copyrights, with each recorded in a separate part of the statement. When "
-#~ "there is a clear distinction between the photographer and editor "
-#~ "copyrights, these are to be written in the order of photographer followed "
-#~ "by editor copyright, separated by NULL (in this case since the statement "
-#~ "also ends with a NULL, there are two NULL codes). When only the "
-#~ "photographer copyright is given, it is terminated by one NULL code . When "
-#~ "only the editor copyright is given, the photographer copyright part "
-#~ "consists of one space followed by a terminating NULL code, then the "
-#~ "editor copyright is given. When the field is left blank, it is treated as "
-#~ "unknown."
-#~ msgstr ""
-#~ "Información del Copyright. En este estándar la etiqueta se utiliza para "
-#~ "indicar tanto el copyright del fotógrafo como el del editor. Es la nota "
-#~ "de copyright de la persona u Organización que reclama derechos sobre la "
-#~ "imagen. En este campo debería escribirse la declaración de copyrtight de "
-#~ "inter-operabilidad, incluyendo la fecha y los derechos; ej: \"Copyright, "
-#~ "Juan Pérez, 20xx. Todos los derechos reservados.\" En este estándar el "
-#~ "campo registra tanto al copyright del fotógrafo como el del editor, con "
-#~ "cada uno registrado en una parte separada de la declaración. Cuando hay "
-#~ "una distinción clara entre ambos copyrights, primero debería escribirse "
-#~ "el del fotógrafo seguido por el del editor, separados por NULL (en este "
-#~ "caso, debido a que la declaración también termina con un NULL, hay dos "
-#~ "códigos NULL) (vea el ejemplo 1). Cuando se da solo el del fotógrafo, "
-#~ "está terminado por un código NULL (vea el ejemplo 2). Cuando se da solo "
-#~ "el del editor, la parte del copyright del fotógrafo consiste de un "
-#~ "espacio seguido de un código de terminación NULL, luego se da el "
-#~ "copyright del editor (vea el ejemplo 3). Cuando el campo se deja en "
-#~ "blanco, se trata como desconocido."

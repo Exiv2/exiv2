@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: exiv2\n"
 "Report-Msgid-Bugs-To: ahuggel@gmx.net\n"
-"POT-Creation-Date: 2015-05-10 05:05+0200\n"
+"POT-Creation-Date: 2015-05-13 04:21+0200\n"
 "PO-Revision-Date: 2014-07-30 18:51+0000\n"
 "Last-Translator: abuyop <Unknown>\n"
 "Language-Team: malay loco team\n"
@@ -157,8 +157,8 @@ msgstr "Thumbnail"
 #: src/nikonmn.cpp:175 src/nikonmn.cpp:190 src/nikonmn.cpp:923
 #: src/nikonmn.cpp:948 src/nikonmn.cpp:1010 src/olympusmn.cpp:142
 #: src/olympusmn.cpp:726 src/olympusmn.cpp:733 src/olympusmn.cpp:1189
-#: src/olympusmn.cpp:1258 src/olympusmn.cpp:1405 src/olympusmn.cpp:1610
-#: src/olympusmn.cpp:1619 src/pentaxmn.cpp:287 src/pentaxmn.cpp:303
+#: src/olympusmn.cpp:1258 src/olympusmn.cpp:1407 src/olympusmn.cpp:1612
+#: src/olympusmn.cpp:1621 src/pentaxmn.cpp:287 src/pentaxmn.cpp:303
 #: src/pentaxmn.cpp:450 src/pentaxmn.cpp:451 src/properties.cpp:939
 #: src/properties.cpp:947 src/tags.cpp:1517
 msgid "None"
@@ -441,7 +441,7 @@ msgstr "Tulis-ganti"
 #: src/olympusmn.cpp:86 src/olympusmn.cpp:501 src/olympusmn.cpp:529
 #: src/olympusmn.cpp:540 src/olympusmn.cpp:557 src/olympusmn.cpp:592
 #: src/olympusmn.cpp:654 src/olympusmn.cpp:919 src/olympusmn.cpp:1140
-#: src/olympusmn.cpp:1498 src/olympusmn.cpp:1499 src/olympusmn.cpp:1565
+#: src/olympusmn.cpp:1500 src/olympusmn.cpp:1501 src/olympusmn.cpp:1567
 #: src/panasonicmn.cpp:93 src/panasonicmn.cpp:102 src/panasonicmn.cpp:109
 #: src/panasonicmn.cpp:197 src/panasonicmn.cpp:207 src/panasonicmn.cpp:236
 #: src/panasonicmn.cpp:273 src/panasonicmn.cpp:288 src/panasonicmn.cpp:325
@@ -462,7 +462,7 @@ msgstr "Hidup"
 #: src/nikonmn.cpp:648 src/nikonmn.cpp:724 src/nikonmn.cpp:725
 #: src/nikonmn.cpp:1242 src/olympusmn.cpp:60 src/olympusmn.cpp:80
 #: src/olympusmn.cpp:87 src/olympusmn.cpp:502 src/olympusmn.cpp:530
-#: src/olympusmn.cpp:1566 src/panasonicmn.cpp:101 src/panasonicmn.cpp:289
+#: src/olympusmn.cpp:1568 src/panasonicmn.cpp:101 src/panasonicmn.cpp:289
 #: src/panasonicmn.cpp:326 src/panasonicmn.cpp:363 src/panasonicmn.cpp:380
 #: src/panasonicmn.cpp:430 src/pentaxmn.cpp:390 src/pentaxmn.cpp:983
 #: src/sonymn.cpp:204 src/sonymn.cpp:256 src/sonymn.cpp:287
@@ -1154,7 +1154,7 @@ msgstr "Julat sederhana"
 msgid "Far range"
 msgstr "Julat jauh"
 
-#: src/canonmn.cpp:578 src/olympusmn.cpp:1585 src/pentaxmn.cpp:268
+#: src/canonmn.cpp:578 src/olympusmn.cpp:1587 src/pentaxmn.cpp:268
 #: src/tags.cpp:2590
 msgid "Infinity"
 msgstr "Tanpa had"
@@ -1173,7 +1173,7 @@ msgstr "Dipilih-sendiri"
 
 #: src/canonmn.cpp:586 src/minoltamn.cpp:287 src/minoltamn.cpp:706
 #: src/minoltamn.cpp:921 src/minoltamn.cpp:2005 src/nikonmn.cpp:103
-#: src/olympusmn.cpp:1608 src/pentaxmn.cpp:295 src/pentaxmn.cpp:310
+#: src/olympusmn.cpp:1610 src/pentaxmn.cpp:295 src/pentaxmn.cpp:310
 msgid "Right"
 msgstr "Kanan"
 
@@ -5421,7 +5421,7 @@ msgstr "Kelvin"
 msgid "Single-shot AF"
 msgstr "AF Syot-tunggal"
 
-#: src/minoltamn.cpp:696 src/olympusmn.cpp:510 src/olympusmn.cpp:1439
+#: src/minoltamn.cpp:696 src/olympusmn.cpp:510 src/olympusmn.cpp:1441
 msgid "Continuous AF"
 msgstr "AF Berterusan"
 
@@ -5826,8 +5826,8 @@ msgstr "Melebihi Skala"
 msgid "AM"
 msgstr "AM"
 
-#: src/minoltamn.cpp:1336 src/olympusmn.cpp:512 src/olympusmn.cpp:1442
-#: src/olympusmn.cpp:1452
+#: src/minoltamn.cpp:1336 src/olympusmn.cpp:512 src/olympusmn.cpp:1444
+#: src/olympusmn.cpp:1454
 msgid "MF"
 msgstr "MF"
 
@@ -8278,12 +8278,9 @@ msgstr "Pendakap Imbangan Putih"
 msgid "White balance bracket"
 msgstr "Pendakap imbangan putih"
 
-#: src/olympusmn.cpp:255 src/sigmamn.cpp:116 src/sigmamn.cpp:117
+#: src/olympusmn.cpp:255 src/olympusmn.cpp:256 src/sigmamn.cpp:116
+#: src/sigmamn.cpp:117
 msgid "Firmware"
-msgstr "Perisian Tegar"
-
-#: src/olympusmn.cpp:256
-msgid "Firmwarer"
 msgstr "Perisian Tegar"
 
 #: src/olympusmn.cpp:261
@@ -8615,15 +8612,15 @@ msgstr "Kawalan Bintik+Sorot"
 msgid "Spot+Shadow control"
 msgstr "Kawalan Bintik+Bayang"
 
-#: src/olympusmn.cpp:508 src/olympusmn.cpp:1437
+#: src/olympusmn.cpp:508 src/olympusmn.cpp:1439
 msgid "Single AF"
 msgstr "AF Tunggal"
 
-#: src/olympusmn.cpp:509 src/olympusmn.cpp:1438
+#: src/olympusmn.cpp:509 src/olympusmn.cpp:1440
 msgid "Sequential shooting AF"
 msgstr "AF penggambaran berjujukan"
 
-#: src/olympusmn.cpp:511 src/olympusmn.cpp:1440 src/sonymn.cpp:236
+#: src/olympusmn.cpp:511 src/olympusmn.cpp:1442 src/sonymn.cpp:236
 msgid "Multi AF"
 msgstr "Berbilang AF"
 
@@ -9812,7 +9809,7 @@ msgstr "Bingkai nisbah"
 msgid "Face Detect"
 msgstr "Kesan Wajah"
 
-#: src/olympusmn.cpp:987 src/olympusmn.cpp:1441 src/olympusmn.cpp:1453
+#: src/olympusmn.cpp:987 src/olympusmn.cpp:1443 src/olympusmn.cpp:1455
 msgid "Face detect"
 msgstr "Kesan wajah"
 
@@ -10224,289 +10221,289 @@ msgstr "7500 Kelvin"
 msgid "One-touch"
 msgstr "One-touch"
 
-#: src/olympusmn.cpp:1450
+#: src/olympusmn.cpp:1452
 msgid "S-AF"
 msgstr "S-AF"
 
-#: src/olympusmn.cpp:1451
+#: src/olympusmn.cpp:1453
 msgid "C-AF"
 msgstr "C-AF"
 
-#: src/olympusmn.cpp:1454
+#: src/olympusmn.cpp:1456
 msgid "Imager AF"
 msgstr "AF Pengimej"
 
-#: src/olympusmn.cpp:1455
+#: src/olympusmn.cpp:1457
 msgid "AF sensor"
 msgstr "Penderia AF"
 
-#: src/olympusmn.cpp:1500
+#: src/olympusmn.cpp:1502
 msgid "Soft Focus"
 msgstr "Fokus Lembut"
 
-#: src/olympusmn.cpp:1501
+#: src/olympusmn.cpp:1503
 msgid "Pop Art"
 msgstr "Seni Pop"
 
-#: src/olympusmn.cpp:1502
+#: src/olympusmn.cpp:1504
 msgid "Pale & Light Color"
 msgstr "Warna Pudar & Cerah"
 
-#: src/olympusmn.cpp:1503
+#: src/olympusmn.cpp:1505
 msgid "Light Tone"
 msgstr "Ton Cerah"
 
-#: src/olympusmn.cpp:1504 src/panasonicmn.cpp:150
+#: src/olympusmn.cpp:1506 src/panasonicmn.cpp:150
 msgid "Pin Hole"
 msgstr "Lubang Pin"
 
-#: src/olympusmn.cpp:1505
+#: src/olympusmn.cpp:1507
 msgid "Grainy Film"
 msgstr "Filem Berbintik"
 
-#: src/olympusmn.cpp:1506
+#: src/olympusmn.cpp:1508
 msgid "Diorama"
 msgstr "Diorama"
 
-#: src/olympusmn.cpp:1507
+#: src/olympusmn.cpp:1509
 msgid "Cross Process"
 msgstr "Proses Silang"
 
-#: src/olympusmn.cpp:1508
+#: src/olympusmn.cpp:1510
 msgid "Fish Eye"
 msgstr "Mata Ikan"
 
-#: src/olympusmn.cpp:1509
+#: src/olympusmn.cpp:1511
 msgid "Drawing"
 msgstr "Pelukisan"
 
-#: src/olympusmn.cpp:1510
+#: src/olympusmn.cpp:1512
 msgid "Gentle Sepia"
 msgstr ""
 
-#: src/olympusmn.cpp:1511
+#: src/olympusmn.cpp:1513
 #, fuzzy
 msgid "Pale & Light Color II"
 msgstr "Warna Pudar & Cerah"
 
-#: src/olympusmn.cpp:1512
+#: src/olympusmn.cpp:1514
 #, fuzzy
 msgid "Pop Art II"
 msgstr "Seni Pop"
 
-#: src/olympusmn.cpp:1513
+#: src/olympusmn.cpp:1515
 #, fuzzy
 msgid "Pin Hole II"
 msgstr "Lubang Pin"
 
-#: src/olympusmn.cpp:1514
+#: src/olympusmn.cpp:1516
 #, fuzzy
 msgid "Pin Hole III"
 msgstr "Lubang Pin"
 
-#: src/olympusmn.cpp:1515
+#: src/olympusmn.cpp:1517
 #, fuzzy
 msgid "Grainy Film II"
 msgstr "Filem Berbintik"
 
-#: src/olympusmn.cpp:1516
+#: src/olympusmn.cpp:1518
 msgid "Dramatic Tone"
 msgstr ""
 
-#: src/olympusmn.cpp:1517
-msgid "Punk"
-msgstr ""
-
-#: src/olympusmn.cpp:1518
-#, fuzzy
-msgid "Soft Focus 2"
-msgstr "Fokus Lembut"
-
 #: src/olympusmn.cpp:1519
-msgid "Sparkle"
+msgid "Punk"
 msgstr ""
 
 #: src/olympusmn.cpp:1520
 #, fuzzy
-msgid "Watercolor"
-msgstr "Warna alamiah"
+msgid "Soft Focus 2"
+msgstr "Fokus Lembut"
 
 #: src/olympusmn.cpp:1521
-msgid "Key Line"
+msgid "Sparkle"
 msgstr ""
 
 #: src/olympusmn.cpp:1522
+#, fuzzy
+msgid "Watercolor"
+msgstr "Warna alamiah"
+
+#: src/olympusmn.cpp:1523
+msgid "Key Line"
+msgstr ""
+
+#: src/olympusmn.cpp:1524
 msgid "Key Line II"
 msgstr ""
 
-#: src/olympusmn.cpp:1523
+#: src/olympusmn.cpp:1525
 #, fuzzy
 msgid "Miniature"
 msgstr "Bukaan minimum"
 
-#: src/olympusmn.cpp:1524
+#: src/olympusmn.cpp:1526
 #, fuzzy
 msgid "Reflection"
 msgstr "Pemilihan"
 
-#: src/olympusmn.cpp:1525
-msgid "Fragmented"
-msgstr ""
-
-#: src/olympusmn.cpp:1526
-#, fuzzy
-msgid "Cross Process II"
-msgstr "Proses Silang"
-
 #: src/olympusmn.cpp:1527
-msgid "Dramatic Tone II"
+msgid "Fragmented"
 msgstr ""
 
 #: src/olympusmn.cpp:1528
 #, fuzzy
+msgid "Cross Process II"
+msgstr "Proses Silang"
+
+#: src/olympusmn.cpp:1529
+msgid "Dramatic Tone II"
+msgstr ""
+
+#: src/olympusmn.cpp:1530
+#, fuzzy
 msgid "Watercolor I"
 msgstr "Warna alamiah"
 
-#: src/olympusmn.cpp:1529
+#: src/olympusmn.cpp:1531
 #, fuzzy
 msgid "Watercolor II"
 msgstr "Warna alamiah"
 
-#: src/olympusmn.cpp:1530
+#: src/olympusmn.cpp:1532
 #, fuzzy
 msgid "Diorama II"
 msgstr "Diorama"
 
-#: src/olympusmn.cpp:1531
+#: src/olympusmn.cpp:1533
 msgid "Vintage"
 msgstr ""
 
-#: src/olympusmn.cpp:1532
+#: src/olympusmn.cpp:1534
 #, fuzzy
 msgid "Vintage II"
 msgstr "Urus UI"
 
-#: src/olympusmn.cpp:1533
+#: src/olympusmn.cpp:1535
 #, fuzzy
 msgid "Vintage III"
 msgstr "Urus UI"
 
-#: src/olympusmn.cpp:1534
+#: src/olympusmn.cpp:1536
 #, fuzzy
 msgid "Partial Color"
 msgstr "Warna Alamiah"
 
-#: src/olympusmn.cpp:1535
+#: src/olympusmn.cpp:1537
 #, fuzzy
 msgid "Partial Color II"
 msgstr "Warna Alamiah"
 
-#: src/olympusmn.cpp:1536
+#: src/olympusmn.cpp:1538
 #, fuzzy
 msgid "Partial Color III"
 msgstr "Warna Alamiah"
 
-#: src/olympusmn.cpp:1606
+#: src/olympusmn.cpp:1608
 msgid "Left (or n/a)"
 msgstr "Kiri (atau t/b)"
 
-#: src/olympusmn.cpp:1607 src/olympusmn.cpp:1625
+#: src/olympusmn.cpp:1609 src/olympusmn.cpp:1627
 msgid "Center (horizontal)"
 msgstr "Tengah (mengufuk)"
 
-#: src/olympusmn.cpp:1609 src/olympusmn.cpp:1636
+#: src/olympusmn.cpp:1611 src/olympusmn.cpp:1638
 msgid "Center (vertical)"
 msgstr "Pusat(menegak)"
 
-#: src/olympusmn.cpp:1620
+#: src/olympusmn.cpp:1622
 msgid "Top-left (horizontal)"
 msgstr "Kiri-atas (mengufuk)"
 
-#: src/olympusmn.cpp:1621
+#: src/olympusmn.cpp:1623
 msgid "Top-center (horizontal)"
 msgstr "Pusat-atas (mengufuk)"
 
-#: src/olympusmn.cpp:1622
+#: src/olympusmn.cpp:1624
 msgid "Top-right (horizontal)"
 msgstr "Kanan-atas (mengufuk)"
 
-#: src/olympusmn.cpp:1623
+#: src/olympusmn.cpp:1625
 msgid "Left (horizontal)"
 msgstr "Kiri (mengufuk)"
 
-#: src/olympusmn.cpp:1624
+#: src/olympusmn.cpp:1626
 msgid "Mid-left (horizontal)"
 msgstr "Kiri-tengah (mengufuk)"
 
-#: src/olympusmn.cpp:1626
+#: src/olympusmn.cpp:1628
 msgid "Mid-right (horizontal)"
 msgstr "Kanan-tengah (mengufuk)"
 
-#: src/olympusmn.cpp:1627
+#: src/olympusmn.cpp:1629
 msgid "Right (horizontal)"
 msgstr "Kanan (mengufuk)"
 
-#: src/olympusmn.cpp:1628
+#: src/olympusmn.cpp:1630
 msgid "Bottom-left (horizontal)"
 msgstr "Kiri-bawah (mengufuk)"
 
-#: src/olympusmn.cpp:1629
+#: src/olympusmn.cpp:1631
 msgid "Bottom-center (horizontal)"
 msgstr "Pusat-bawah (mengufuk)"
 
-#: src/olympusmn.cpp:1630
+#: src/olympusmn.cpp:1632
 msgid "Bottom-right (horizontal)"
 msgstr "Kanan-bawah (mengufuk)"
 
-#: src/olympusmn.cpp:1631
+#: src/olympusmn.cpp:1633
 msgid "Top-left (vertical)"
 msgstr "Kiri-atas (menegak)"
 
-#: src/olympusmn.cpp:1632
+#: src/olympusmn.cpp:1634
 msgid "Top-center (vertical)"
 msgstr "Pusat-atas (menegak)"
 
-#: src/olympusmn.cpp:1633
+#: src/olympusmn.cpp:1635
 msgid "Top-right (vertical)"
 msgstr "Kanan-atas (menegak)"
 
-#: src/olympusmn.cpp:1634
+#: src/olympusmn.cpp:1636
 msgid "Left (vertical)"
 msgstr "Kiri (menegak)"
 
-#: src/olympusmn.cpp:1635
+#: src/olympusmn.cpp:1637
 msgid "Mid-left (vertical)"
 msgstr "Kiri-tengah (menegak)"
 
-#: src/olympusmn.cpp:1637
+#: src/olympusmn.cpp:1639
 msgid "Mid-right (vertical)"
 msgstr "Kanan-tengah (menegak)"
 
-#: src/olympusmn.cpp:1638
+#: src/olympusmn.cpp:1640
 msgid "Right (vertical)"
 msgstr "Kanan (menegak)"
 
-#: src/olympusmn.cpp:1639
+#: src/olympusmn.cpp:1641
 msgid "Bottom-left (vertical)"
 msgstr "Kiri-bawah (menegak)"
 
-#: src/olympusmn.cpp:1640
+#: src/olympusmn.cpp:1642
 msgid "Bottom-center (vertical)"
 msgstr "Pusat-bawah (menegak)"
 
-#: src/olympusmn.cpp:1641
+#: src/olympusmn.cpp:1643
 msgid "Bottom-right (vertical)"
 msgstr "Kanan-bawah (menegak)"
 
-#: src/olympusmn.cpp:1678
+#: src/olympusmn.cpp:1680
 msgid "Single Target"
 msgstr "Sasaran Tunggal"
 
-#: src/olympusmn.cpp:1679
+#: src/olympusmn.cpp:1681
 msgid "All Target"
 msgstr "Semua Sasaran"
 
-#: src/olympusmn.cpp:1680
+#: src/olympusmn.cpp:1682
 msgid "Dynamic Single Target"
 msgstr "Sasaran Tunggal Dinamik"
 
@@ -23711,7 +23708,7 @@ msgstr "Julat Bintik"
 
 #: src/tags.cpp:622
 #, fuzzy, c-format
-msgid "The component values that correspond to a 0%% dot and 100%% dot."
+msgid "The component values that correspond to a 0% dot and 100% dot."
 msgstr "Nilai komponen yang berkaitan dengan 0% dot dan 100% dot."
 
 #: src/tags.cpp:624
@@ -26993,19 +26990,19 @@ msgstr "Tag tidak diketahui"
 msgid "Digital zoom not used"
 msgstr "Zum digital tidak digunakan"
 
-#: src/tiffimage.cpp:2308
+#: src/tiffimage.cpp:2309
 msgid "TIFF header, offset"
 msgstr "Pengepala TIFF, ofset"
 
-#: src/tiffimage.cpp:2313
+#: src/tiffimage.cpp:2314
 msgid "little endian encoded"
 msgstr "little endian terenkod"
 
-#: src/tiffimage.cpp:2314
+#: src/tiffimage.cpp:2315
 msgid "big endian encoded"
 msgstr "big endian terenkod"
 
-#: src/tiffimage.cpp:2315
+#: src/tiffimage.cpp:2316
 #, fuzzy
 msgid "ascii bytes"
 msgstr "bait"

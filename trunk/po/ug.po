@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: exiv2\n"
 "Report-Msgid-Bugs-To: ahuggel@gmx.net\n"
-"POT-Creation-Date: 2015-05-10 05:05+0200\n"
+"POT-Creation-Date: 2015-05-13 04:21+0200\n"
 "PO-Revision-Date: 2014-04-16 21:24+0000\n"
 "Last-Translator: Gheyret T.Kenji <Unknown>\n"
 "Language-Team: Uyghur Computer Science Association <UKIJ@yahoogroups.com>\n"
@@ -158,8 +158,8 @@ msgstr "كىچىك سۈرەت"
 #: src/nikonmn.cpp:175 src/nikonmn.cpp:190 src/nikonmn.cpp:923
 #: src/nikonmn.cpp:948 src/nikonmn.cpp:1010 src/olympusmn.cpp:142
 #: src/olympusmn.cpp:726 src/olympusmn.cpp:733 src/olympusmn.cpp:1189
-#: src/olympusmn.cpp:1258 src/olympusmn.cpp:1405 src/olympusmn.cpp:1610
-#: src/olympusmn.cpp:1619 src/pentaxmn.cpp:287 src/pentaxmn.cpp:303
+#: src/olympusmn.cpp:1258 src/olympusmn.cpp:1407 src/olympusmn.cpp:1612
+#: src/olympusmn.cpp:1621 src/pentaxmn.cpp:287 src/pentaxmn.cpp:303
 #: src/pentaxmn.cpp:450 src/pentaxmn.cpp:451 src/properties.cpp:939
 #: src/properties.cpp:947 src/tags.cpp:1517
 msgid "None"
@@ -442,7 +442,7 @@ msgstr "قاپلا"
 #: src/olympusmn.cpp:86 src/olympusmn.cpp:501 src/olympusmn.cpp:529
 #: src/olympusmn.cpp:540 src/olympusmn.cpp:557 src/olympusmn.cpp:592
 #: src/olympusmn.cpp:654 src/olympusmn.cpp:919 src/olympusmn.cpp:1140
-#: src/olympusmn.cpp:1498 src/olympusmn.cpp:1499 src/olympusmn.cpp:1565
+#: src/olympusmn.cpp:1500 src/olympusmn.cpp:1501 src/olympusmn.cpp:1567
 #: src/panasonicmn.cpp:93 src/panasonicmn.cpp:102 src/panasonicmn.cpp:109
 #: src/panasonicmn.cpp:197 src/panasonicmn.cpp:207 src/panasonicmn.cpp:236
 #: src/panasonicmn.cpp:273 src/panasonicmn.cpp:288 src/panasonicmn.cpp:325
@@ -463,7 +463,7 @@ msgstr "تاقا"
 #: src/nikonmn.cpp:648 src/nikonmn.cpp:724 src/nikonmn.cpp:725
 #: src/nikonmn.cpp:1242 src/olympusmn.cpp:60 src/olympusmn.cpp:80
 #: src/olympusmn.cpp:87 src/olympusmn.cpp:502 src/olympusmn.cpp:530
-#: src/olympusmn.cpp:1566 src/panasonicmn.cpp:101 src/panasonicmn.cpp:289
+#: src/olympusmn.cpp:1568 src/panasonicmn.cpp:101 src/panasonicmn.cpp:289
 #: src/panasonicmn.cpp:326 src/panasonicmn.cpp:363 src/panasonicmn.cpp:380
 #: src/panasonicmn.cpp:430 src/pentaxmn.cpp:390 src/pentaxmn.cpp:983
 #: src/sonymn.cpp:204 src/sonymn.cpp:256 src/sonymn.cpp:287
@@ -1156,7 +1156,7 @@ msgstr "ئوتتۇرا دائىرە"
 msgid "Far range"
 msgstr "يىراق دائىرە"
 
-#: src/canonmn.cpp:578 src/olympusmn.cpp:1585 src/pentaxmn.cpp:268
+#: src/canonmn.cpp:578 src/olympusmn.cpp:1587 src/pentaxmn.cpp:268
 #: src/tags.cpp:2590
 msgid "Infinity"
 msgstr "چەكسىز"
@@ -1175,7 +1175,7 @@ msgstr "ئاپتوماتىك تاللاش"
 
 #: src/canonmn.cpp:586 src/minoltamn.cpp:287 src/minoltamn.cpp:706
 #: src/minoltamn.cpp:921 src/minoltamn.cpp:2005 src/nikonmn.cpp:103
-#: src/olympusmn.cpp:1608 src/pentaxmn.cpp:295 src/pentaxmn.cpp:310
+#: src/olympusmn.cpp:1610 src/pentaxmn.cpp:295 src/pentaxmn.cpp:310
 msgid "Right"
 msgstr "ئوڭ"
 
@@ -5261,7 +5261,7 @@ msgstr "كېلۋىن"
 msgid "Single-shot AF"
 msgstr "يەككە قېتىملىق AF"
 
-#: src/minoltamn.cpp:696 src/olympusmn.cpp:510 src/olympusmn.cpp:1439
+#: src/minoltamn.cpp:696 src/olympusmn.cpp:510 src/olympusmn.cpp:1441
 msgid "Continuous AF"
 msgstr "ئۆزلۈكسىز ئاپتوماتىك فۇكۇس"
 
@@ -5668,8 +5668,8 @@ msgstr "نىسبەت ئۈستىدە"
 msgid "AM"
 msgstr "چ ب"
 
-#: src/minoltamn.cpp:1336 src/olympusmn.cpp:512 src/olympusmn.cpp:1442
-#: src/olympusmn.cpp:1452
+#: src/minoltamn.cpp:1336 src/olympusmn.cpp:512 src/olympusmn.cpp:1444
+#: src/olympusmn.cpp:1454
 msgid "MF"
 msgstr "MF"
 
@@ -8232,13 +8232,9 @@ msgstr "ئاق تەڭپۇڭلۇق تەگلىكى"
 msgid "White balance bracket"
 msgstr "ئاق تەڭپۇڭلۇق تەگلىكى"
 
-#: src/olympusmn.cpp:255 src/sigmamn.cpp:116 src/sigmamn.cpp:117
+#: src/olympusmn.cpp:255 src/olympusmn.cpp:256 src/sigmamn.cpp:116
+#: src/sigmamn.cpp:117
 msgid "Firmware"
-msgstr "Firmware"
-
-#: src/olympusmn.cpp:256
-#, fuzzy
-msgid "Firmwarer"
 msgstr "Firmware"
 
 #: src/olympusmn.cpp:261
@@ -8596,16 +8592,16 @@ msgstr ""
 msgid "Spot+Shadow control"
 msgstr "رەڭ تىزگىنى"
 
-#: src/olympusmn.cpp:508 src/olympusmn.cpp:1437
+#: src/olympusmn.cpp:508 src/olympusmn.cpp:1439
 #, fuzzy
 msgid "Single AF"
 msgstr "يەككە رايۇن"
 
-#: src/olympusmn.cpp:509 src/olympusmn.cpp:1438
+#: src/olympusmn.cpp:509 src/olympusmn.cpp:1440
 msgid "Sequential shooting AF"
 msgstr ""
 
-#: src/olympusmn.cpp:511 src/olympusmn.cpp:1440 src/sonymn.cpp:236
+#: src/olympusmn.cpp:511 src/olympusmn.cpp:1442 src/sonymn.cpp:236
 msgid "Multi AF"
 msgstr ""
 
@@ -9904,7 +9900,7 @@ msgstr "قىياپەت كاندۇك"
 msgid "Face Detect"
 msgstr "چىراي بايقاش"
 
-#: src/olympusmn.cpp:987 src/olympusmn.cpp:1441 src/olympusmn.cpp:1453
+#: src/olympusmn.cpp:987 src/olympusmn.cpp:1443 src/olympusmn.cpp:1455
 #, fuzzy
 msgid "Face detect"
 msgstr "چىراي بايقاش"
@@ -10346,288 +10342,288 @@ msgstr "7500 كېلۋىن‏"
 msgid "One-touch"
 msgstr "چەكمە"
 
-#: src/olympusmn.cpp:1450
+#: src/olympusmn.cpp:1452
 msgid "S-AF"
 msgstr ""
 
-#: src/olympusmn.cpp:1451
+#: src/olympusmn.cpp:1453
 msgid "C-AF"
 msgstr ""
 
-#: src/olympusmn.cpp:1454
+#: src/olympusmn.cpp:1456
 #, fuzzy
 msgid "Imager AF"
 msgstr "سۈرەت چوڭلۇقى"
 
-#: src/olympusmn.cpp:1455
+#: src/olympusmn.cpp:1457
 #, fuzzy
 msgid "AF sensor"
 msgstr "ئاپتوماتىك فۇكۇس ئىزدەش"
 
-#: src/olympusmn.cpp:1500
+#: src/olympusmn.cpp:1502
 #, fuzzy
 msgid "Soft Focus"
 msgstr "فوكۇس نوقتا"
 
-#: src/olympusmn.cpp:1501
+#: src/olympusmn.cpp:1503
 msgid "Pop Art"
 msgstr ""
 
-#: src/olympusmn.cpp:1502
+#: src/olympusmn.cpp:1504
 msgid "Pale & Light Color"
 msgstr ""
 
-#: src/olympusmn.cpp:1503
+#: src/olympusmn.cpp:1505
 #, fuzzy
 msgid "Light Tone"
 msgstr "ئوڭ رايۇن"
 
-#: src/olympusmn.cpp:1504 src/panasonicmn.cpp:150
+#: src/olympusmn.cpp:1506 src/panasonicmn.cpp:150
 msgid "Pin Hole"
 msgstr ""
 
-#: src/olympusmn.cpp:1505
+#: src/olympusmn.cpp:1507
 msgid "Grainy Film"
 msgstr ""
 
-#: src/olympusmn.cpp:1506
+#: src/olympusmn.cpp:1508
 #, fuzzy
 msgid "Diorama"
 msgstr "Panorama"
 
-#: src/olympusmn.cpp:1507
+#: src/olympusmn.cpp:1509
 #, fuzzy
 msgid "Cross Process"
 msgstr "فوكۇسنى توغرىلاش"
 
-#: src/olympusmn.cpp:1508
+#: src/olympusmn.cpp:1510
 msgid "Fish Eye"
 msgstr "بېلىق كۆز"
 
-#: src/olympusmn.cpp:1509
+#: src/olympusmn.cpp:1511
 msgid "Drawing"
 msgstr "سىزمىچىلىق"
 
-#: src/olympusmn.cpp:1510
+#: src/olympusmn.cpp:1512
 msgid "Gentle Sepia"
 msgstr ""
 
-#: src/olympusmn.cpp:1511
+#: src/olympusmn.cpp:1513
 msgid "Pale & Light Color II"
 msgstr ""
 
-#: src/olympusmn.cpp:1512
+#: src/olympusmn.cpp:1514
 msgid "Pop Art II"
 msgstr ""
 
-#: src/olympusmn.cpp:1513
+#: src/olympusmn.cpp:1515
 msgid "Pin Hole II"
 msgstr ""
 
-#: src/olympusmn.cpp:1514
+#: src/olympusmn.cpp:1516
 msgid "Pin Hole III"
 msgstr ""
 
-#: src/olympusmn.cpp:1515
+#: src/olympusmn.cpp:1517
 msgid "Grainy Film II"
 msgstr ""
 
-#: src/olympusmn.cpp:1516
+#: src/olympusmn.cpp:1518
 msgid "Dramatic Tone"
 msgstr ""
 
-#: src/olympusmn.cpp:1517
-msgid "Punk"
-msgstr ""
-
-#: src/olympusmn.cpp:1518
-#, fuzzy
-msgid "Soft Focus 2"
-msgstr "فوكۇس نوقتا"
-
 #: src/olympusmn.cpp:1519
-msgid "Sparkle"
+msgid "Punk"
 msgstr ""
 
 #: src/olympusmn.cpp:1520
 #, fuzzy
-msgid "Watercolor"
-msgstr "تەبىئىي رەڭ"
+msgid "Soft Focus 2"
+msgstr "فوكۇس نوقتا"
 
 #: src/olympusmn.cpp:1521
-msgid "Key Line"
+msgid "Sparkle"
 msgstr ""
 
 #: src/olympusmn.cpp:1522
+#, fuzzy
+msgid "Watercolor"
+msgstr "تەبىئىي رەڭ"
+
+#: src/olympusmn.cpp:1523
+msgid "Key Line"
+msgstr ""
+
+#: src/olympusmn.cpp:1524
 msgid "Key Line II"
 msgstr ""
 
-#: src/olympusmn.cpp:1523
+#: src/olympusmn.cpp:1525
 #, fuzzy
 msgid "Miniature"
 msgstr "ئەڭ كىچىك نۇر گەردىشى"
 
-#: src/olympusmn.cpp:1524
+#: src/olympusmn.cpp:1526
 #, fuzzy
 msgid "Reflection"
 msgstr "تاللاش"
 
-#: src/olympusmn.cpp:1525
-msgid "Fragmented"
-msgstr ""
-
-#: src/olympusmn.cpp:1526
-#, fuzzy
-msgid "Cross Process II"
-msgstr "فوكۇسنى توغرىلاش"
-
 #: src/olympusmn.cpp:1527
-msgid "Dramatic Tone II"
+msgid "Fragmented"
 msgstr ""
 
 #: src/olympusmn.cpp:1528
 #, fuzzy
+msgid "Cross Process II"
+msgstr "فوكۇسنى توغرىلاش"
+
+#: src/olympusmn.cpp:1529
+msgid "Dramatic Tone II"
+msgstr ""
+
+#: src/olympusmn.cpp:1530
+#, fuzzy
 msgid "Watercolor I"
 msgstr "تەبىئىي رەڭ"
 
-#: src/olympusmn.cpp:1529
+#: src/olympusmn.cpp:1531
 #, fuzzy
 msgid "Watercolor II"
 msgstr "تەبىئىي رەڭ"
 
-#: src/olympusmn.cpp:1530
+#: src/olympusmn.cpp:1532
 msgid "Diorama II"
 msgstr ""
 
-#: src/olympusmn.cpp:1531
+#: src/olympusmn.cpp:1533
 msgid "Vintage"
 msgstr ""
 
-#: src/olympusmn.cpp:1532
+#: src/olympusmn.cpp:1534
 msgid "Vintage II"
 msgstr ""
 
-#: src/olympusmn.cpp:1533
+#: src/olympusmn.cpp:1535
 msgid "Vintage III"
 msgstr ""
 
-#: src/olympusmn.cpp:1534
+#: src/olympusmn.cpp:1536
 #, fuzzy
 msgid "Partial Color"
 msgstr "تەبىئىي رەڭ"
 
-#: src/olympusmn.cpp:1535
+#: src/olympusmn.cpp:1537
 #, fuzzy
 msgid "Partial Color II"
 msgstr "تەبىئىي رەڭ"
 
-#: src/olympusmn.cpp:1536
+#: src/olympusmn.cpp:1538
 #, fuzzy
 msgid "Partial Color III"
 msgstr "تەبىئىي رەڭ"
 
-#: src/olympusmn.cpp:1606
+#: src/olympusmn.cpp:1608
 #, fuzzy
 msgid "Left (or n/a)"
 msgstr "سول(توغرىسى)"
 
-#: src/olympusmn.cpp:1607 src/olympusmn.cpp:1625
+#: src/olympusmn.cpp:1609 src/olympusmn.cpp:1627
 msgid "Center (horizontal)"
 msgstr "مەركەز( توغرىسى)"
 
-#: src/olympusmn.cpp:1609 src/olympusmn.cpp:1636
+#: src/olympusmn.cpp:1611 src/olympusmn.cpp:1638
 msgid "Center (vertical)"
 msgstr "مەركەز(تىك)"
 
-#: src/olympusmn.cpp:1620
+#: src/olympusmn.cpp:1622
 msgid "Top-left (horizontal)"
 msgstr "ئۈستى سول(توغرىسى)"
 
-#: src/olympusmn.cpp:1621
+#: src/olympusmn.cpp:1623
 msgid "Top-center (horizontal)"
 msgstr "ئۈستى مەركەز(توغرىسى"
 
-#: src/olympusmn.cpp:1622
+#: src/olympusmn.cpp:1624
 msgid "Top-right (horizontal)"
 msgstr "ئۈستى ئوڭ(توغرىسى)"
 
-#: src/olympusmn.cpp:1623
+#: src/olympusmn.cpp:1625
 msgid "Left (horizontal)"
 msgstr "سول(توغرىسى)"
 
-#: src/olympusmn.cpp:1624
+#: src/olympusmn.cpp:1626
 msgid "Mid-left (horizontal)"
 msgstr "ئوتتۇرا سول(توغرىسى)"
 
-#: src/olympusmn.cpp:1626
+#: src/olympusmn.cpp:1628
 msgid "Mid-right (horizontal)"
 msgstr "ئوتتۇرا ئوڭ(توغرىسى)"
 
-#: src/olympusmn.cpp:1627
+#: src/olympusmn.cpp:1629
 msgid "Right (horizontal)"
 msgstr "ئوڭ(توغرىسى)"
 
-#: src/olympusmn.cpp:1628
+#: src/olympusmn.cpp:1630
 msgid "Bottom-left (horizontal)"
 msgstr "تۆۋەنكى سول(توغرىسى)"
 
-#: src/olympusmn.cpp:1629
+#: src/olympusmn.cpp:1631
 msgid "Bottom-center (horizontal)"
 msgstr "تۆۋەنكى مەركەز(توغرىسى)"
 
-#: src/olympusmn.cpp:1630
+#: src/olympusmn.cpp:1632
 msgid "Bottom-right (horizontal)"
 msgstr "تۆۋەنكى ئوڭ(توغرىسى)"
 
-#: src/olympusmn.cpp:1631
+#: src/olympusmn.cpp:1633
 msgid "Top-left (vertical)"
 msgstr "ئۈستى سول(تىك)"
 
-#: src/olympusmn.cpp:1632
+#: src/olympusmn.cpp:1634
 msgid "Top-center (vertical)"
 msgstr "ئۈستى مەركەز"
 
-#: src/olympusmn.cpp:1633
+#: src/olympusmn.cpp:1635
 msgid "Top-right (vertical)"
 msgstr "ئۈستى ئوڭ(تىك)"
 
-#: src/olympusmn.cpp:1634
+#: src/olympusmn.cpp:1636
 msgid "Left (vertical)"
 msgstr "سول(تىك)"
 
-#: src/olympusmn.cpp:1635
+#: src/olympusmn.cpp:1637
 msgid "Mid-left (vertical)"
 msgstr "ئوتتۇرا سول(تىك)"
 
-#: src/olympusmn.cpp:1637
+#: src/olympusmn.cpp:1639
 msgid "Mid-right (vertical)"
 msgstr "ئوتتۇرا ئوڭ( تىك)"
 
-#: src/olympusmn.cpp:1638
+#: src/olympusmn.cpp:1640
 msgid "Right (vertical)"
 msgstr "ئوڭ(تىك)"
 
-#: src/olympusmn.cpp:1639
+#: src/olympusmn.cpp:1641
 msgid "Bottom-left (vertical)"
 msgstr "تۆۋەنكى سول(تىك)"
 
-#: src/olympusmn.cpp:1640
+#: src/olympusmn.cpp:1642
 msgid "Bottom-center (vertical)"
 msgstr "تۆۋەنكى مەركەز(تىك)"
 
-#: src/olympusmn.cpp:1641
+#: src/olympusmn.cpp:1643
 msgid "Bottom-right (vertical)"
 msgstr "تۆۋەنكى ئوڭ(تىك)"
 
-#: src/olympusmn.cpp:1678
+#: src/olympusmn.cpp:1680
 msgid "Single Target"
 msgstr "يەككە نىشان"
 
-#: src/olympusmn.cpp:1679
+#: src/olympusmn.cpp:1681
 msgid "All Target"
 msgstr "بارلىق نىشان"
 
-#: src/olympusmn.cpp:1680
+#: src/olympusmn.cpp:1682
 msgid "Dynamic Single Target"
 msgstr "ھەركەتچان يەككە نىشان"
 
@@ -23808,7 +23804,7 @@ msgstr "فوكۇس دائىرىسى"
 
 #: src/tags.cpp:622
 #, c-format
-msgid "The component values that correspond to a 0%% dot and 100%% dot."
+msgid "The component values that correspond to a 0% dot and 100% dot."
 msgstr ""
 
 #: src/tags.cpp:624
@@ -26529,494 +26525,20 @@ msgstr "نامەلۇم خەتكۈش"
 msgid "Digital zoom not used"
 msgstr "رەقەملىك كېڭەيتىش تارايتىش تەڭشىكى"
 
-#: src/tiffimage.cpp:2308
+#: src/tiffimage.cpp:2309
 #, fuzzy
 msgid "TIFF header, offset"
 msgstr "بەت قېشى، ئېغىش"
 
-#: src/tiffimage.cpp:2313
+#: src/tiffimage.cpp:2314
 msgid "little endian encoded"
 msgstr ""
 
-#: src/tiffimage.cpp:2314
+#: src/tiffimage.cpp:2315
 msgid "big endian encoded"
 msgstr ""
 
-#: src/tiffimage.cpp:2315
+#: src/tiffimage.cpp:2316
 #, fuzzy
 msgid "ascii bytes"
 msgstr "بايت"
-
-#~ msgid "No IPTC data found in the file\n"
-#~ msgstr "ھۆججەتتىن IPTCسانلىق مەلۇماتىنى تاپالمىدى\n"
-
-#~ msgid "No XMP data found in the file\n"
-#~ msgstr "ھۆججەتتەXMP سانلىق مەلۇماتى يوق\n"
-
-#~ msgid "EOS D30"
-#~ msgstr "EOS D30"
-
-#~ msgid "EOS D60"
-#~ msgstr "EOS D60"
-
-#~ msgid "HV10"
-#~ msgstr "HV10"
-
-#~ msgid "EOS-1D"
-#~ msgstr "EOS-1D"
-
-#~ msgid "EOS-1DS"
-#~ msgstr "EOS-1DS"
-
-#~ msgid "EOS 10D"
-#~ msgstr "EOS 10D"
-
-#~ msgid "EOS-1D Mark III"
-#~ msgstr "EOS-1DبەلگەIII"
-
-#~ msgid "EOS Digital Rebel / 300D / Kiss Digital"
-#~ msgstr "EOS Digital Rebel / 300D / Kiss Digital"
-
-#~ msgid "EOS-1D Mark II"
-#~ msgstr "EOS-1D  II"
-
-#~ msgid "EOS 20D"
-#~ msgstr "EOS 20D"
-
-#~ msgid "EOS-1Ds Mark II"
-#~ msgstr "EOS-1Ds Mark II"
-
-#~ msgid "EOS 5D"
-#~ msgstr "EOS 5D"
-
-#~ msgid "EOS-1D Mark II N"
-#~ msgstr "EOS-1D Mark II N"
-
-#~ msgid "EOS 30D"
-#~ msgstr "EOS 30D"
-
-#~ msgid "EOS 7D"
-#~ msgstr "EOS 7D"
-
-#~ msgid "EOS 50D"
-#~ msgstr "EOS 50D"
-
-#~ msgid "EOS-1D Mark IV"
-#~ msgstr "EOS-1D Mark IV"
-
-#~ msgid "Sunny"
-#~ msgstr "ئوچۇق كۈن"
-
-#~ msgid "1.03 (SB-800)"
-#~ msgstr "1.03 (SB-800)"
-
-#~ msgid "2.01 (SB-800)"
-#~ msgstr "1.03 (SB-800)"
-
-#~ msgid "2.04 (SB-600)"
-#~ msgstr "2.04 (SB-600)"
-
-#~ msgid "2.05 (SB-600)"
-#~ msgstr "2.04 (SB-600)"
-
-#~ msgid "4.01 (SB-400)"
-#~ msgstr "4.01 (SB-800)"
-
-#~ msgid "4.02 (SB-400)"
-#~ msgstr "4.02 (SB-800)"
-
-#~ msgid "4.04 (SB-400)"
-#~ msgstr "4.04 (SB-800)"
-
-#~ msgid "5.01 (SB-900)"
-#~ msgstr "5.02 (SB-800)"
-
-#~ msgid "0.1 m"
-#~ msgstr "0.1 مېتىر"
-
-#~ msgid "0.2 m"
-#~ msgstr "0.2 مېتىر"
-
-#~ msgid "0.3 m"
-#~ msgstr "0.3 مېتىر"
-
-#~ msgid "0.4 m"
-#~ msgstr "0.4 مېتىر"
-
-#~ msgid "0.5 m"
-#~ msgstr "0.5 مېتىر"
-
-#~ msgid "0.6 m"
-#~ msgstr "0.6 مېتىر"
-
-#~ msgid "0.7 m"
-#~ msgstr "0.7 مېتىر"
-
-#~ msgid "0.8 m"
-#~ msgstr "0.8 مېتىر"
-
-#~ msgid "0.9 m"
-#~ msgstr "0.9 مېتىر"
-
-#~ msgid "1.0 m"
-#~ msgstr "1.0 مېتىر"
-
-#~ msgid "1.1 m"
-#~ msgstr "1.1 مېتىر"
-
-#~ msgid "1.3 m"
-#~ msgstr "1.2 مېتىر"
-
-#~ msgid "1.4 m"
-#~ msgstr "1.3 مېتىر"
-
-#~ msgid "1.6 m"
-#~ msgstr "1.6 مېتىر"
-
-#~ msgid "1.8 m"
-#~ msgstr "1.8 مېتىر"
-
-#~ msgid "2.0 m"
-#~ msgstr "2.0 مېتىر"
-
-#~ msgid "2.2 m"
-#~ msgstr "2.2 مېتىر"
-
-#~ msgid "2.5 m"
-#~ msgstr "2.5 مېتىر"
-
-#~ msgid "2.8 m"
-#~ msgstr "2.8 مېتىر"
-
-#~ msgid "3.2 m"
-#~ msgstr "3.2 مېتىر"
-
-#~ msgid "3.6 m"
-#~ msgstr "3.6 مېتىر"
-
-#~ msgid "4.0 m"
-#~ msgstr "4.0 مېتىر"
-
-#~ msgid "4.5 m"
-#~ msgstr "4.5 مېتىر"
-
-#~ msgid "5.0 m"
-#~ msgstr "5.0 مېتىر"
-
-#~ msgid "5.6 m"
-#~ msgstr "5.6 مېتىر"
-
-#~ msgid "6.3 m"
-#~ msgstr "6.3 مېتىر"
-
-#~ msgid "7.1 m"
-#~ msgstr "7.1 مېتىر"
-
-#~ msgid "8.0 m"
-#~ msgstr "8.0 مېتىر"
-
-#~ msgid "9.0 m"
-#~ msgstr "9.0 مېتىر"
-
-#~ msgid "10.0 m"
-#~ msgstr "10.0 مېتىر"
-
-#~ msgid "11.0 m"
-#~ msgstr "11.0 مېتىر"
-
-#~ msgid "13.0 m"
-#~ msgstr "13.0 مېتىر"
-
-#~ msgid "14.0 m"
-#~ msgstr "14.0 مېتىر"
-
-#~ msgid "16.0 m"
-#~ msgstr "16.0 مېتىر"
-
-#~ msgid "18.0 m"
-#~ msgstr "18.0 مېتىر"
-
-#~ msgid "20.0 m"
-#~ msgstr "2.0 مېتىر"
-
-#~ msgid "0"
-#~ msgstr "0"
-
-#~ msgid "+1"
-#~ msgstr "+1"
-
-#~ msgid "+2"
-#~ msgstr "+2"
-
-#~ msgid "+8"
-#~ msgstr "+8"
-
-#~ msgid "+16"
-#~ msgstr "+16"
-
-#~ msgid "-16"
-#~ msgstr "-16"
-
-#~ msgid "-8"
-#~ msgstr "-8"
-
-#~ msgid "-2"
-#~ msgstr "-2"
-
-#~ msgid "-1"
-#~ msgstr "-1"
-
-#~ msgid "+17"
-#~ msgstr "+17"
-
-#~ msgid "-17"
-#~ msgstr "-17"
-
-#~ msgid "+9"
-#~ msgstr "+9"
-
-#~ msgid "+18"
-#~ msgstr "+18"
-
-#~ msgid "-18"
-#~ msgstr "-18"
-
-#~ msgid "-9"
-#~ msgstr "-9"
-
-#~ msgid "+19"
-#~ msgstr "+19"
-
-#~ msgid "-19"
-#~ msgstr "-19"
-
-#~ msgid "+5"
-#~ msgstr "+5"
-
-#~ msgid "+10"
-#~ msgstr "+10"
-
-#~ msgid "+20"
-#~ msgstr "+20"
-
-#~ msgid "-20"
-#~ msgstr "-20"
-
-#~ msgid "-10"
-#~ msgstr "-10"
-
-#~ msgid "-5"
-#~ msgstr "-5"
-
-#~ msgid "+11"
-#~ msgstr "+11"
-
-#~ msgid "-11"
-#~ msgstr "-11"
-
-#~ msgid "+3"
-#~ msgstr "+3"
-
-#~ msgid "+6"
-#~ msgstr "+6"
-
-#~ msgid "+12"
-#~ msgstr "+12"
-
-#~ msgid "-12"
-#~ msgstr "-12"
-
-#~ msgid "-6"
-#~ msgstr "-6"
-
-#~ msgid "-3"
-#~ msgstr "-3"
-
-#~ msgid "+13"
-#~ msgstr "+13"
-
-#~ msgid "-13"
-#~ msgstr "-13"
-
-#~ msgid "+7"
-#~ msgstr "+7"
-
-#~ msgid "+14"
-#~ msgstr "+14"
-
-#~ msgid "-14"
-#~ msgstr "-14"
-
-#~ msgid "-7"
-#~ msgstr "-7"
-
-#~ msgid "+15"
-#~ msgstr "+15"
-
-#~ msgid "-15"
-#~ msgstr "-15"
-
-#~ msgid "Custom WB 5400K"
-#~ msgstr "ئىختىيارى ئاق تەڭپۇڭلۇق  5400K"
-
-#~ msgid "Custom WB 2900K"
-#~ msgstr "ئىختىيارى ئاق تەڭپۇڭلۇق 2900K"
-
-#~ msgid "Custom WB 8000K"
-#~ msgstr "ئىختىيارى ئاق تەڭپۇڭلۇق   8000K"
-
-#~ msgid "4:3"
-#~ msgstr "4:3"
-
-#~ msgid "3:2"
-#~ msgstr "3:2"
-
-#~ msgid "16:9"
-#~ msgstr "16:9"
-
-#~ msgid "6:6"
-#~ msgstr "6:6"
-
-#~ msgid "5:4"
-#~ msgstr "5:4"
-
-#~ msgid "7:6"
-#~ msgstr "7:6"
-
-#~ msgid "6:5"
-#~ msgstr "6:5"
-
-#~ msgid "7:5"
-#~ msgstr "7:5"
-
-#~ msgid "3:4"
-#~ msgstr "3:4"
-
-#~ msgid "2s"
-#~ msgstr "2s"
-
-#~ msgid "Samsung GX20"
-#~ msgstr "سامسوڭGX20"
-
-#~ msgid "640x480"
-#~ msgstr "640x480"
-
-#~ msgid "1024x768"
-#~ msgstr "1024x768"
-
-#~ msgid "1280x960"
-#~ msgstr "1280x960"
-
-#~ msgid "1600x1200"
-#~ msgstr "1600x1200"
-
-#~ msgid "2048x1536"
-#~ msgstr "2048x1536"
-
-#~ msgid "3072x2304"
-#~ msgstr "3072x2304"
-
-#~ msgid "3264x2448"
-#~ msgstr "3264x2448"
-
-#~ msgid "320x240"
-#~ msgstr "320x240"
-
-#~ msgid "2288x1712"
-#~ msgstr "2288x1712"
-
-#~ msgid "2592x1944"
-#~ msgstr "2592x1944"
-
-#~ msgid "3056x2296"
-#~ msgstr "3056x2296"
-
-#~ msgid "3648x2736"
-#~ msgstr "3648x2736"
-
-#~ msgid "50"
-#~ msgstr "50"
-
-#~ msgid "64"
-#~ msgstr "64"
-
-#~ msgid "80"
-#~ msgstr "80"
-
-#~ msgid "100"
-#~ msgstr "100"
-
-#~ msgid "125"
-#~ msgstr "125"
-
-#~ msgid "160"
-#~ msgstr "160"
-
-#~ msgid "200"
-#~ msgstr "200"
-
-#~ msgid "250"
-#~ msgstr "250"
-
-#~ msgid "320"
-#~ msgstr "320"
-
-#~ msgid "400"
-#~ msgstr "400"
-
-#~ msgid "500"
-#~ msgstr "500"
-
-#~ msgid "640"
-#~ msgstr "640"
-
-#~ msgid "800"
-#~ msgstr "800"
-
-#~ msgid "1000"
-#~ msgstr "1000"
-
-#~ msgid "1250"
-#~ msgstr "1250"
-
-#~ msgid "1600"
-#~ msgstr "1600"
-
-#~ msgid "2000"
-#~ msgstr "2000"
-
-#~ msgid "2500"
-#~ msgstr "2500"
-
-#~ msgid "3200"
-#~ msgstr "3200"
-
-#~ msgid "4000"
-#~ msgstr "4000"
-
-#~ msgid "5000"
-#~ msgstr "5000"
-
-#~ msgid "6400"
-#~ msgstr "6400"
-
-#~ msgid "70"
-#~ msgstr "70"
-
-#~ msgid "140"
-#~ msgstr "140"
-
-#~ msgid "280"
-#~ msgstr "280"
-
-#~ msgid "560"
-#~ msgstr "560"
-
-#~ msgid "1100"
-#~ msgstr "1100"
-
-#~ msgid "2200"
-#~ msgstr "2200"
-
-#~ msgid "Standard "
-#~ msgstr "ئۆلچەملىك "
