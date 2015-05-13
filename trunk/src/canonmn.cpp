@@ -649,7 +649,7 @@ namespace Exiv2 {
         {  28, "Tamron SP AF 28-75mm f/2.8 XR Di LD Aspherical [IF] Macro"  }, // 2
         {  28, "Tamron AF 70-300mm f/4-5.6 Di LD 1:2 Macro"                 }, // 3
         {  28, "Tamron AF Aspherical 28-200mm f/3.8-5.6"                    }, // 4
-        {  29, "Canon EF 50mm f/1.8 MkII"                                   },
+        {  29, "Canon EF 50mm f/1.8 II"                                     },
         {  30, "Canon EF 35-105mm f/4.5-5.6"                                },
         {  31, "Canon EF 75-300mm f/4-5.6"                                  }, // 0
         {  31, "Tamron SP AF 300mm f/2.8 LD IF"                             }, // 1
