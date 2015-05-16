@@ -4,11 +4,10 @@
 # Daniel Nylander <po@danielnylander.se>, 2007, 2008, 2009.
 # Arve Eriksson, 2011.
 # Josef Andersson <josef.andersson@fripost.org>, 2015.
-# Kommentar av Josef:
+# Kommentar från Josef:
 # Denna översättning innehåller väldigt många
 # specifika textdomäner och fackspråk.
 # Det förekommer med största sannolikhet misstag.
-#
 # En del hjälp på vägen.
 # Fotoord: http://www.fotoord.se/mediawiki/index.php?title=Huvudsida
 # Tagg-referenser http://www.exiv2.org/metadata.html
@@ -21,9 +20,9 @@ msgstr ""
 "Project-Id-Version: exiv2 trunk\n"
 "Report-Msgid-Bugs-To: ahuggel@gmx.net\n"
 "POT-Creation-Date: 2015-05-13 04:21+0200\n"
-"PO-Revision-Date: 2015-04-27 20:59+0200\n"
+"PO-Revision-Date: 2015-05-15 19:40+0200\n"
 "Last-Translator: Josef Andersson <josef.andersson@fripost.org>\n"
-"Language-Team: Swedish\n"
+"Language-Team: tp-sv\n"
 "Language: sv\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -118,7 +117,7 @@ msgstr "Brännvidd"
 
 #: src/actions.cpp:361
 msgid "35 mm equivalent"
-msgstr "35mm motvarighet"
+msgstr "35mm motsvarighet"
 
 #: src/actions.cpp:373
 msgid "Subject distance"
@@ -691,11 +690,11 @@ msgstr "Tabell för vitbalans"
 #: src/canonmn.cpp:403 src/olympusmn.cpp:753 src/properties.cpp:406
 #: src/properties.cpp:1199 src/tags.cpp:1857
 msgid "Lens Model"
-msgstr "Linsmodell"
+msgstr "Objektivmodell"
 
 #: src/canonmn.cpp:403 src/olympusmn.cpp:753
 msgid "Lens model"
-msgstr "Linsmodell"
+msgstr "Objektivmodell"
 
 #: src/canonmn.cpp:404 src/olympusmn.cpp:748 src/panasonicmn.cpp:455
 msgid "Internal Serial Number"
@@ -803,9 +802,8 @@ msgid "Normal Movie"
 msgstr "Normal film"
 
 #: src/canonmn.cpp:439
-#, fuzzy
 msgid "Movie (2)"
-msgstr "Film"
+msgstr "Film (2)"
 
 #: src/canonmn.cpp:445 src/canonmn.cpp:541 src/canonmn.cpp:569
 #: src/canonmn.cpp:1094 src/canonmn.cpp:1301 src/canonmn.cpp:1396
@@ -1285,7 +1283,7 @@ msgstr "Normal AE"
 #: src/canonmn.cpp:990 src/minoltamn.cpp:527 src/minoltamn.cpp:769
 #: src/minoltamn.cpp:1049 src/pentaxmn.cpp:1198 src/pentaxmn.cpp:1199
 msgid "Exposure compensation"
-msgstr "Exponeringskompensering"
+msgstr "Exponeringskompensation"
 
 #: src/canonmn.cpp:991 src/minoltamn.cpp:1579 src/pentaxmn.cpp:1300
 #: src/pentaxmn.cpp:1301
@@ -1294,7 +1292,7 @@ msgstr "AE-lås"
 
 #: src/canonmn.cpp:992
 msgid "AE lock + exposure compensation"
-msgstr "AE-lås + exponeringskompensering"
+msgstr "AE-lås + exponeringskompensation"
 
 #: src/canonmn.cpp:993
 msgid "No AE"
@@ -1510,23 +1508,23 @@ msgstr "Inställning för exponeringsläge"
 #: src/canonmn.cpp:1061 src/nikonmn.cpp:570 src/olympusmn.cpp:751
 #: src/panasonicmn.cpp:493 src/properties.cpp:1200
 msgid "Lens Type"
-msgstr "Linstyp"
+msgstr "Objektivtyp"
 
 #: src/canonmn.cpp:1061 src/nikonmn.cpp:570 src/olympusmn.cpp:751
 #: src/panasonicmn.cpp:493 src/pentaxmn.cpp:1287 src/pentaxmn.cpp:1288
 msgid "Lens type"
-msgstr "Linstyp"
+msgstr "Objektivtyp"
 
 #: src/canonmn.cpp:1062 src/nikonmn.cpp:571 src/properties.cpp:658
 msgid "Lens"
-msgstr "Lins"
+msgstr "Objektiv"
 
 #: src/canonmn.cpp:1062
 msgid ""
 "'long' and 'short' focal length of lens (in 'focal units') and 'focal units' "
 "per mm"
 msgstr ""
-"”lång” och ”kort” brännvidd för linsen (i ”brännviddsenheter”) och "
+"”lång” och ”kort” brännvidd för objektivet (i ”brännviddsenheter”) och "
 "”brännviddsenheter” per mm"
 
 #: src/canonmn.cpp:1063
@@ -1755,9 +1753,8 @@ msgid "PC Set 5"
 msgstr "PC set 5"
 
 #: src/canonmn.cpp:1115
-#, fuzzy
 msgid "Auto (ambience priority)"
-msgstr "GN (avståndsprioritet)"
+msgstr "Auto (ambiensprioritet)"
 
 #: src/canonmn.cpp:1120 src/canonmn.cpp:1239 src/canonmn.cpp:1247
 msgid "left"
@@ -1828,7 +1825,7 @@ msgstr "Använd AF-punkt"
 
 #: src/canonmn.cpp:1162 src/olympusmn.cpp:372
 msgid "Flash Bias"
-msgstr "Blixtkompensering"
+msgstr "Blixtkompensation"
 
 #: src/canonmn.cpp:1166 src/properties.cpp:585 src/tags.cpp:831
 #: src/tags.cpp:1650
@@ -1910,7 +1907,7 @@ msgstr "Brusreduktion"
 
 #: src/canonmn.cpp:1207
 msgid "Long exposure noise reduction"
-msgstr "Reduktion för störningar vid lång exponeringstid"
+msgstr "Reduktion för brus vid lång exponeringstid"
 
 #: src/canonmn.cpp:1208
 msgid "Shutter Ae Lock"
@@ -1922,11 +1919,11 @@ msgstr "Slutar-/AE-låsknappar"
 
 #: src/canonmn.cpp:1209
 msgid "Mirror Lockup"
-msgstr "Spegellåsning"
+msgstr "Spegeluppfällning"
 
 #: src/canonmn.cpp:1209
 msgid "Mirror lockup"
-msgstr "Spegellåsning"
+msgstr "Spegeluppfällning"
 
 #: src/canonmn.cpp:1210 src/sonymn.cpp:699 src/sonymn.cpp:700
 msgid "Exposure Level Increments"
@@ -1970,11 +1967,11 @@ msgstr "Synkronisera slutarskydd"
 
 #: src/canonmn.cpp:1215
 msgid "Lens AF Stop Button"
-msgstr "Lins-AF stoppknapp"
+msgstr "Objektiv-AF stoppknapp"
 
 #: src/canonmn.cpp:1215
 msgid "Lens AF stop button Fn. Switch"
-msgstr "Lins-AF stoppknapp-funktionsväxlare"
+msgstr "Objektiv-AF stoppknapp-funktionsväxlare"
 
 #: src/canonmn.cpp:1216
 msgid "Fill Flash Auto Reduction"
@@ -2252,14 +2249,12 @@ msgid "Live view shooting"
 msgstr "Direktvyfotografering"
 
 #: src/canonmn.cpp:1345
-#, fuzzy
 msgid "Focus Distance Upper"
-msgstr "Fokusavstånd"
+msgstr "Fokusavstånd övre"
 
 #: src/canonmn.cpp:1346
-#, fuzzy
 msgid "Focus Distance Lower"
-msgstr "Fokusavstånd"
+msgstr "Fokusavstånd nedre"
 
 #: src/canonmn.cpp:1347
 msgid "Flash Exposure Lock"
@@ -2345,9 +2340,8 @@ msgid "Monochrome"
 msgstr "Svartvitt"
 
 #: src/canonmn.cpp:1397
-#, fuzzy
 msgid "Fine Detail"
-msgstr "Blixtdetaljer"
+msgstr "Detaljerade detaljer"
 
 #: src/canonmn.cpp:1402
 msgid "ToneCurve"
@@ -2560,10 +2554,10 @@ msgid ""
 "from the original. This is not intended to be a sequential serial number "
 "reception check."
 msgstr ""
-"Tecknena bildar ett nummer unikt för datumet som anges i taggen <DateSent> "
+"Tecknen bildar ett nummer unikt för datumet som anges i taggen <DateSent> "
 "och för tjänste-IDn angiven i taggen <ServiceIdentifier>. Om identiska "
 "kuvertnummer visas med samma datum och tjänste-ID, måste posterna 2-9 vara "
-"samma som i originalet. Det här är inte avsett som en sekvensiell "
+"samma som i originalet. Det här är inte avsett som en sekventiell "
 "serienummermottagningskontroll."
 
 #: src/datasets.cpp:117
@@ -2636,7 +2630,7 @@ msgid ""
 "character and one or more graphic characters."
 msgstr ""
 "Taggen består av en eller fler kontrollfunktioner som används för "
-"tillgännagivande, åkallande eller benämning av kodade teckenuppsättningar. "
+"tillkännagivande, åkallande eller benämning av kodade teckenuppsättningar. "
 "Kontrollfunktionerna följer standarden ISO 2022 och kan bestå av "
 "flyktkontrolltecknet och en eller fler grafiska tecken."
 
@@ -2709,7 +2703,7 @@ msgid ""
 msgstr ""
 "Objekttyp används för att skilja mellan olika typer av objekt inom IIM. Den "
 "första delen är ett nummer som representerar en språkoberoende "
-"internationell referens till en objekttyp föld av en kolonavskiljare. Den "
+"internationell referens till en objekttyp följd av en kolonavskiljare. Den "
 "andra delen, om den används, är en textrepresentation av objekttypsnumret "
 "och består av grafiska tecken och blanksteg antingen på engelska eller i "
 "tjänstens språk som visas i taggen <LanguageIdentifier>"
@@ -3075,7 +3069,7 @@ msgstr "Programversion"
 #: src/datasets.cpp:314
 msgid "Used to identify the version of the program mentioned in tag <Program>."
 msgstr ""
-"Används för att identifiera versionen av programmmet som nämns i taggen "
+"Används för att identifiera versionen av programmet som nämns i taggen "
 "<Program>."
 
 #: src/datasets.cpp:316
@@ -3202,7 +3196,7 @@ msgid ""
 "A code representing the location of original transmission according to "
 "practices of the provider."
 msgstr ""
-"En kod som representerar platsen för den ursprungliga sändingen enligt "
+"En kod som representerar platsen för den ursprungliga sändningen enligt "
 "leverantörens praxis."
 
 #: src/datasets.cpp:363 src/datasets.cpp:366 src/properties.cpp:438
@@ -3576,7 +3570,7 @@ msgstr "Kunde inte avkoda Lang Alt-egenskap %1 med opt=%2"
 
 #: src/error.cpp:98
 msgid "Failed to decode Lang Alt qualifier %1 with opt=%2"
-msgstr "Kunde inte avkoda Lang Alt-kvalifierare %1 med opt=%2"
+msgstr "Kunde inte avkoda Lang Alt-kvalificerare %1 med opt=%2"
 
 #: src/error.cpp:99
 msgid "Failed to encode Lang Alt property %1"
@@ -3801,9 +3795,9 @@ msgid "   -g key  Only output info for this key (grep).\n"
 msgstr "   -g nyckel Bara utmatningsinformation för den här nyckeln (grep).\n"
 
 #: src/exiv2.cpp:271
-#, fuzzy
 msgid "   -K key  Only output info for this key (exact match).\n"
-msgstr "   -g nyckel Bara utmatningsinformation för den här nyckeln (grep).\n"
+msgstr ""
+"   -K nyckel Bara utmatningsinformation för den här nyckeln (exakt träff).\n"
 
 #: src/exiv2.cpp:272
 msgid "   -n enc  Charset to use to decode UNICODE Exif user comments.\n"
@@ -3903,14 +3897,12 @@ msgid "             p : list available previews\n"
 msgstr "             p : lista tillgängliga förhandsvisningar\n"
 
 #: src/exiv2.cpp:294
-#, fuzzy
 msgid "             S : print structure of image\n"
-msgstr "             v : vanligt datavärde\n"
+msgstr "             S : skriv ut bildstruktur\n"
 
 #: src/exiv2.cpp:295
-#, fuzzy
 msgid "             X : extract XMP from image\n"
-msgstr "             X : XMP-egenskaper\n"
+msgstr "             X : extrahera XMP från bild\n"
 
 #: src/exiv2.cpp:296
 msgid ""
@@ -4115,9 +4107,8 @@ msgid "Invalid argument"
 msgstr "Ogiltigt argument"
 
 #: src/exiv2.cpp:434
-#, fuzzy
 msgid "Invalid regexp"
-msgstr "Ogiltigt argument"
+msgstr "Ogiltig regexp"
 
 #: src/exiv2.cpp:473 src/exiv2.cpp:526
 msgid "Ignoring surplus option"
@@ -4242,7 +4233,7 @@ msgstr "Fel vid tolkning av argument för flaggan -m\n"
 
 #: src/exiv2.cpp:927
 msgid "Error parsing -M option arguments\n"
-msgstr "Fel vid tolking av -M-flaggans argument\n"
+msgstr "Fel vid tolkning av -M-flaggans argument\n"
 
 #: src/exiv2.cpp:938
 msgid "-l option can only be used with extract or insert actions\n"
@@ -4286,9 +4277,8 @@ msgid "-M option"
 msgstr "flaggan -M"
 
 #: src/exiv2.cpp:1180
-#, fuzzy
 msgid "Invalid command line:"
-msgstr "Ogiltig kommandorad"
+msgstr "Ogiltig kommandorad:"
 
 #: src/exiv2.cpp:1187
 msgid "Invalid command"
@@ -4610,19 +4600,19 @@ msgstr "Utvecklingsdynamikintervall"
 
 #: src/fujimn.cpp:258
 msgid "Minimum Focal Length"
-msgstr "Minsta brännviddslängd"
+msgstr "Minsta brännvidd"
 
 #: src/fujimn.cpp:259
 msgid "Minimum focal length"
-msgstr "Minsta brännviddslängd"
+msgstr "Minsta brännvidd"
 
 #: src/fujimn.cpp:261
 msgid "Maximum Focal Length"
-msgstr "Största brännviddslängd"
+msgstr "Största brännvidd"
 
 #: src/fujimn.cpp:262
 msgid "Maximum focal length"
-msgstr "Största brännviddslängd"
+msgstr "Största brännvidd"
 
 #: src/fujimn.cpp:264
 msgid "Maximum Aperture at Mininimum Focal"
@@ -4829,7 +4819,7 @@ msgstr "Blixtexponeringskompensation"
 
 #: src/minoltamn.cpp:142 src/minoltamn.cpp:584 src/sonymn.cpp:327
 msgid "Flash exposure compensation in EV"
-msgstr "Blixtexponseringskompensering i EV"
+msgstr "Blixtexponeringskompensation i EV"
 
 #: src/minoltamn.cpp:144 src/minoltamn.cpp:145 src/sonymn.cpp:329
 #: src/sonymn.cpp:330
@@ -4860,20 +4850,20 @@ msgstr "Färgtemperatur"
 
 #: src/minoltamn.cpp:159 src/sonymn.cpp:424
 msgid "Lens ID"
-msgstr "Lins-ID"
+msgstr "Objektiv-ID"
 
 #: src/minoltamn.cpp:160 src/sonymn.cpp:425
 msgid "Lens identifier"
-msgstr "Linsidentifierare"
+msgstr "Objektividentifierare"
 
 #: src/minoltamn.cpp:162 src/minoltamn.cpp:1482 src/minoltamn.cpp:1584
 #: src/sonymn.cpp:409
 msgid "Color Compensation Filter"
-msgstr "Färgkompenseringsfilter"
+msgstr "Färgkompensationsfilter"
 
 #: src/minoltamn.cpp:163 src/sonymn.cpp:410
 msgid "Color Compensation Filter: negative is green, positive is magenta"
-msgstr "Färgkompenseringsfilter: negativt är grön, positivt är magenta"
+msgstr "Färgkompensationsfilter: negativt är grön, positivt är magenta"
 
 #: src/minoltamn.cpp:165 src/minoltamn.cpp:1476 src/properties.cpp:1384
 #: src/sonymn.cpp:332 src/sonymn.cpp:612 src/sonymn.cpp:613
@@ -5179,7 +5169,7 @@ msgstr "Makroläge"
 #: src/minoltamn.cpp:526 src/minoltamn.cpp:768 src/minoltamn.cpp:1048
 #: src/properties.cpp:1145
 msgid "Exposure Compensation"
-msgstr "Exponeringskompensering"
+msgstr "Exponeringskompensation"
 
 #: src/minoltamn.cpp:529
 msgid "Bracket Step"
@@ -5689,7 +5679,7 @@ msgstr "Kontinuerlig gaffling hög"
 
 #: src/minoltamn.cpp:1140 src/sonymn.cpp:205
 msgid "Advanced"
-msgstr "Advancerat"
+msgstr "Avancerat"
 
 #: src/minoltamn.cpp:1155 src/minoltamn.cpp:1437 src/sonymn.cpp:500
 msgid "Continuous Bracketing"
@@ -5867,11 +5857,11 @@ msgstr "Tillräckligt mycket ström kvar"
 
 #: src/minoltamn.cpp:1359
 msgid "Exposure Compensation Setting"
-msgstr "Exponeringskompenseringsinställning"
+msgstr "Exponeringskompensationsinställning"
 
 #: src/minoltamn.cpp:1360
 msgid "Exposure compensation setting"
-msgstr "Exponeringskompenseringsinställning"
+msgstr "Exponeringskompensationsinställning"
 
 #: src/minoltamn.cpp:1362
 msgid "High Speed Sync"
@@ -6038,7 +6028,7 @@ msgstr "Finjustering av vitbalans"
 
 #: src/minoltamn.cpp:1483
 msgid "Color compensation filter"
-msgstr "Färgkompenseringsfilter"
+msgstr "Färgkompensationsfilter"
 
 #: src/minoltamn.cpp:1485 src/minoltamn.cpp:1486 src/sonymn.cpp:690
 #: src/sonymn.cpp:691 src/sonymn.cpp:763 src/sonymn.cpp:764
@@ -6119,11 +6109,11 @@ msgstr "Kontrollplatta inställd"
 
 #: src/minoltamn.cpp:1521
 msgid "Exposure Compensation Mode"
-msgstr "Exponeringskompenseringsläge"
+msgstr "Exponeringskompensationsläge"
 
 #: src/minoltamn.cpp:1522
 msgid "Exposure compensation mode"
-msgstr "Exponeringskompenseringsläge"
+msgstr "Exponeringskompensationsläge"
 
 #: src/minoltamn.cpp:1525
 msgid "AF assist"
@@ -6139,11 +6129,11 @@ msgstr "Kort-slutarlåsning"
 
 #: src/minoltamn.cpp:1530
 msgid "Lens Shutter Lock"
-msgstr "Lins-slutarlåsning"
+msgstr "Objektiv-slutarlåsning"
 
 #: src/minoltamn.cpp:1531
 msgid "Lens shutter lock"
-msgstr "Lins-slutarlåsning"
+msgstr "Objektiv-slutarlåsning"
 
 #: src/minoltamn.cpp:1533
 msgid "AF Area Illumination"
@@ -6225,7 +6215,7 @@ msgstr "Blixtexponeringsindikator"
 
 #: src/minoltamn.cpp:1558
 msgid "Flash exposure indicator"
-msgstr "Blixexponeringsindikator"
+msgstr "Blixtexponeringsindikator"
 
 #: src/minoltamn.cpp:1560
 msgid "Flash Exposure Indicator Next"
@@ -6243,7 +6233,7 @@ msgstr "Blixtexponeringsindikator, sista"
 #: src/minoltamn.cpp:1564
 msgid "Flash exposure indicator last (indicator for last shot when bracketing)"
 msgstr ""
-"Blixexponeringsindikator, sista (indikator för sista bilden vid gaffling)"
+"Blixtexponeringsindikator, sista (indikator för sista bilden vid gaffling)"
 
 #: src/minoltamn.cpp:1569
 msgid "Focus Mode Switch"
@@ -6267,7 +6257,7 @@ msgstr "AE-lås"
 
 #: src/minoltamn.cpp:1585
 msgid "Color compensation filter: negative is green, positive is magenta"
-msgstr "Färgkompenseringsfilter: negativt är grön, positivt är magenta"
+msgstr "Färgkompensationsfilter: negativt är grön, positivt är magenta"
 
 #: src/minoltamn.cpp:1587 src/tags.cpp:766
 msgid "Battery Level"
@@ -6478,7 +6468,6 @@ msgid "Delay"
 msgstr "Fördröjning"
 
 #: src/nikonmn.cpp:153
-#, fuzzy
 msgid "PC Control"
 msgstr "PC-kontroll"
 
@@ -6491,19 +6480,16 @@ msgid "Auto ISO"
 msgstr "Auto-ISO"
 
 #: src/nikonmn.cpp:157
-#, fuzzy
 msgid "White-Balance Bracketing"
 msgstr "Vitbalansgaffling"
 
 #: src/nikonmn.cpp:158
-#, fuzzy
 msgid "IR Control"
 msgstr "IR-kontroll"
 
 #: src/nikonmn.cpp:159
-#, fuzzy
 msgid "D-Lighting Bracketing"
-msgstr "Kontinuerlig gaffling"
+msgstr "D-ljus-gaffling"
 
 #: src/nikonmn.cpp:166
 msgid "PC control"
@@ -6644,11 +6630,11 @@ msgstr "Inställning för bildjustering"
 
 #: src/nikonmn.cpp:251 src/nikonmn.cpp:489 src/nikonmn.cpp:569
 msgid "Auxiliary Lens"
-msgstr "Extern lins"
+msgstr "Externt objektiv"
 
 #: src/nikonmn.cpp:252 src/nikonmn.cpp:490 src/nikonmn.cpp:569
 msgid "Auxiliary lens (adapter)"
-msgstr "Extern lins (adapter)"
+msgstr "Externt objektiv (adapter)"
 
 #: src/nikonmn.cpp:255 src/nikonmn.cpp:572 src/olympusmn.cpp:304
 msgid "Manual focus distance"
@@ -6788,7 +6774,7 @@ msgstr "Blixtkomp"
 
 #: src/nikonmn.cpp:549
 msgid "Flash compensation setting"
-msgstr "Inställning för blixtkompensering"
+msgstr "Inställning för blixtkompensation"
 
 #: src/nikonmn.cpp:551
 msgid "Image Boundary"
@@ -6808,7 +6794,7 @@ msgstr "Blixtgafflingskomp"
 
 #: src/nikonmn.cpp:553
 msgid "Flash bracket compensation applied"
-msgstr "Blixtgafflingskompensering tillämpad"
+msgstr "Blixtgafflingskompensation tillämpad"
 
 #: src/nikonmn.cpp:554
 msgid "Exposure Bracket Comp"
@@ -6816,7 +6802,7 @@ msgstr "Exponeringsgafflingkomp"
 
 #: src/nikonmn.cpp:554
 msgid "AE bracket compensation applied"
-msgstr "AE-gafflingskompensering tillämpad"
+msgstr "AE-gafflingskompensation tillämpad"
 
 #: src/nikonmn.cpp:555 src/olympusmn.cpp:459
 msgid "Image Processing"
@@ -6900,11 +6886,11 @@ msgstr "Vinjettkontroll"
 
 #: src/nikonmn.cpp:568
 msgid "Tone Compensation"
-msgstr "Tonkompensering"
+msgstr "Tonkompensation"
 
 #: src/nikonmn.cpp:568
 msgid "Tone compensation"
-msgstr "Tonkompensering"
+msgstr "Tonkompensation"
 
 #: src/nikonmn.cpp:574
 msgid "Mode of flash used"
@@ -6928,7 +6914,7 @@ msgstr "Autogaffling, släpp"
 
 #: src/nikonmn.cpp:578
 msgid "Lens FStops"
-msgstr "Lins F-stopp"
+msgstr "Objektiv FStops"
 
 #: src/nikonmn.cpp:579
 msgid "Contrast Curve"
@@ -6998,11 +6984,11 @@ msgstr "Färgbalans"
 
 #: src/nikonmn.cpp:590
 msgid "Lens Data"
-msgstr "Linsdata"
+msgstr "Objektivdata"
 
 #: src/nikonmn.cpp:590
 msgid "Lens data settings"
-msgstr "Linsdatainställningar"
+msgstr "Objektivdatainställningar"
 
 #: src/nikonmn.cpp:591
 msgid "Raw Image Center"
@@ -7344,39 +7330,36 @@ msgid "Hi 2.0"
 msgstr "Hög 2,0"
 
 #: src/nikonmn.cpp:767
-#, fuzzy
 msgid "Hi 2.3"
-msgstr "Hög 2,0"
+msgstr "Hög 2,3"
 
 #: src/nikonmn.cpp:768
-#, fuzzy
 msgid "Hi 2.5"
-msgstr "Hög 2,0"
+msgstr "Hög 2,5"
 
 #: src/nikonmn.cpp:769
-#, fuzzy
 msgid "Hi 2.7"
-msgstr "Hög 2,0"
+msgstr "Hög 2,7"
 
 #: src/nikonmn.cpp:770
 msgid "Hi 3.0"
-msgstr ""
+msgstr "Hi 3.0"
 
 #: src/nikonmn.cpp:771
 msgid "Hi 3.3"
-msgstr ""
+msgstr "Hi 3.3"
 
 #: src/nikonmn.cpp:772
 msgid "Hi 3.5"
-msgstr ""
+msgstr "Hi 3.5"
 
 #: src/nikonmn.cpp:773
 msgid "Hi 3.7"
-msgstr ""
+msgstr "Hi 3.5"
 
 #: src/nikonmn.cpp:774
 msgid "Hi 4.0"
-msgstr ""
+msgstr "Hi 4.0"
 
 #: src/nikonmn.cpp:775
 msgid "Lo 0.3"
@@ -7487,24 +7470,20 @@ msgid "On (11-point)"
 msgstr "På (11-punkts)"
 
 #: src/nikonmn.cpp:855
-#, fuzzy
 msgid "On (39-point)"
-msgstr "På (51-punkts)"
+msgstr "På (39-punkts)"
 
 #: src/nikonmn.cpp:856
-#, fuzzy
 msgid "On (73-point)"
-msgstr "På (51-punkts)"
+msgstr "På (73-punkts)"
 
 #: src/nikonmn.cpp:857
-#, fuzzy
 msgid "On (73-point, new)"
-msgstr "På (51-punkts)"
+msgstr "På (73-punkts, ny)"
 
 #: src/nikonmn.cpp:858
-#, fuzzy
 msgid "On (105-point)"
-msgstr "På (11-punkts)"
+msgstr "På (105-punkts)"
 
 #: src/nikonmn.cpp:864
 msgid "Contrast Detect AF"
@@ -7725,11 +7704,11 @@ msgstr "Externa blixtflaggor"
 
 #: src/nikonmn.cpp:1028 src/nikonmn.cpp:1050 src/nikonmn.cpp:1069
 msgid "Flash Focal Length"
-msgstr "Blixtens brännviddslängd"
+msgstr "Blixtens brännvidd"
 
 #: src/nikonmn.cpp:1028 src/nikonmn.cpp:1050 src/nikonmn.cpp:1069
 msgid "Flash focal length"
-msgstr "Blixtens brännviddslängd"
+msgstr "Blixtens brännvidd"
 
 #: src/nikonmn.cpp:1029 src/nikonmn.cpp:1051 src/nikonmn.cpp:1070
 msgid "Repeating Flash Rate"
@@ -7741,7 +7720,7 @@ msgstr "Blixtupprepningsfrekvens"
 
 #: src/nikonmn.cpp:1030 src/nikonmn.cpp:1052 src/nikonmn.cpp:1071
 msgid "Repeating Flash Count"
-msgstr "Antal blixtupprepningsar"
+msgstr "Antal blixtupprepningar"
 
 #: src/nikonmn.cpp:1030 src/nikonmn.cpp:1052 src/nikonmn.cpp:1071
 msgid "Repeating flash count"
@@ -7915,39 +7894,39 @@ msgstr "Okänd Nikon Färgbalans 4-tagg"
 
 #: src/nikonmn.cpp:1346 src/nikonmn.cpp:1370 src/nikonmn.cpp:1395
 msgid "Lens ID Number"
-msgstr "Lins-IDnummer"
+msgstr "Objektiv-IDnummer"
 
 #: src/nikonmn.cpp:1346 src/nikonmn.cpp:1370 src/nikonmn.cpp:1395
 msgid "Lens ID number"
-msgstr "Lins-ID-nummer"
+msgstr "Objektiv-ID-nummer"
 
 #: src/nikonmn.cpp:1347 src/nikonmn.cpp:1371 src/nikonmn.cpp:1396
 msgid "Lens F-Stops"
-msgstr "Lins F-stopp"
+msgstr "Objektiv F-stopp"
 
 #: src/nikonmn.cpp:1347 src/nikonmn.cpp:1371 src/nikonmn.cpp:1396
 msgid "Lens F-stops"
-msgstr "Lins F-stopp"
+msgstr "Objektiv F-stopp"
 
 #: src/nikonmn.cpp:1348 src/nikonmn.cpp:1372 src/nikonmn.cpp:1397
 #: src/olympusmn.cpp:757
 msgid "Min Focal Length"
-msgstr "Min brännviddslängd"
+msgstr "Min brännvidd"
 
 #: src/nikonmn.cpp:1348 src/nikonmn.cpp:1372 src/nikonmn.cpp:1397
 #: src/olympusmn.cpp:757
 msgid "Min focal length"
-msgstr "Min brännviddslängd"
+msgstr "Min brännvidd"
 
 #: src/nikonmn.cpp:1349 src/nikonmn.cpp:1373 src/nikonmn.cpp:1398
 #: src/olympusmn.cpp:758
 msgid "Max Focal Length"
-msgstr "Max brännviddslängd"
+msgstr "Max brännvidd"
 
 #: src/nikonmn.cpp:1349 src/nikonmn.cpp:1373 src/nikonmn.cpp:1398
 #: src/olympusmn.cpp:758
 msgid "Max focal length"
-msgstr "Max brännviddslängd"
+msgstr "Max brännvidd"
 
 #: src/nikonmn.cpp:1350 src/nikonmn.cpp:1374 src/nikonmn.cpp:1399
 #: src/olympusmn.cpp:755
@@ -7977,7 +7956,7 @@ msgstr "MCU-version"
 
 #: src/nikonmn.cpp:1354
 msgid "Unknown Nikon Lens Data 1 Tag"
-msgstr "Okänd Nikon linsdata 1-tagg"
+msgstr "Okänd Nikon objektivdata 1-tagg"
 
 #: src/nikonmn.cpp:1365 src/nikonmn.cpp:1390
 msgid "Exit Pupil Position"
@@ -8005,19 +7984,19 @@ msgstr "Effektiv maxbländning"
 
 #: src/nikonmn.cpp:1379
 msgid "Unknown Nikon Lens Data 2 Tag"
-msgstr "Okänd Nikon linsdata 2-tagg"
+msgstr "Okänd Nikon objektivdata 2-tagg"
 
 #: src/nikonmn.cpp:1399
 msgid "Max aperture at min focal length"
-msgstr "Max bländning vid min brännviddslängd"
+msgstr "Max bländning vid min brännvidd"
 
 #: src/nikonmn.cpp:1400
 msgid "Max aperture at max focal length"
-msgstr "Max bländning vid max brännviddslängd"
+msgstr "Max bländning vid max brännvidd"
 
 #: src/nikonmn.cpp:1404
 msgid "Unknown Nikon Lens Data 3 Tag"
-msgstr "Okänd Nikon linsdata 3-tagg"
+msgstr "Okänd Nikon objektivdata 3-tagg"
 
 #: src/nikonmn.cpp:1590
 msgid "Closest subject"
@@ -8224,11 +8203,11 @@ msgstr "Fokalplan, diagonalt"
 
 #: src/olympusmn.cpp:213
 msgid "Lens Distortion Parameters"
-msgstr "Linsdistortionsparametrar"
+msgstr "Objektivdistorsionsparametrar"
 
 #: src/olympusmn.cpp:214
 msgid "Lens distortion parameters"
-msgstr "Linsdistortionsparametrar"
+msgstr "Objektivdistorsionsparametrar"
 
 #: src/olympusmn.cpp:216 src/olympusmn.cpp:746
 msgid "Camera Type"
@@ -8339,7 +8318,7 @@ msgstr "Gaffling"
 
 #: src/olympusmn.cpp:286
 msgid "Exposure compensation value"
-msgstr "Värde för exponeringskompensering"
+msgstr "Värde för exponeringskompensation"
 
 #: src/olympusmn.cpp:288 src/olympusmn.cpp:1022
 msgid "Sensor Temperature"
@@ -8351,11 +8330,11 @@ msgstr "Sensortemperatur"
 
 #: src/olympusmn.cpp:291
 msgid "Lens Temperature"
-msgstr "Linstemperatur"
+msgstr "Objektivtemperatur"
 
 #: src/olympusmn.cpp:292
 msgid "Lens temperature"
-msgstr "Linstemperatur"
+msgstr "Objektivtemperatur"
 
 #: src/olympusmn.cpp:294
 msgid "Light Condition"
@@ -8460,7 +8439,7 @@ msgstr "Serienummer 2"
 #: src/olympusmn.cpp:373 src/olympusmn.cpp:677 src/pentaxmn.cpp:1307
 #: src/pentaxmn.cpp:1308
 msgid "Flash exposure compensation"
-msgstr "Blixtexponeringskompensering"
+msgstr "Blixtexponeringskompensation"
 
 #: src/olympusmn.cpp:381 src/olympusmn.cpp:1018
 msgid "External Flash Bounce"
@@ -8540,19 +8519,19 @@ msgstr "CCD-skanningsläge"
 
 #: src/olympusmn.cpp:441
 msgid "Infinity Lens Step"
-msgstr "Oändlig linsstegning"
+msgstr "Oändlig objektivstegning"
 
 #: src/olympusmn.cpp:442
 msgid "Infinity lens step"
-msgstr "Oändlig linsstegning"
+msgstr "Oändlig objektivstegning"
 
 #: src/olympusmn.cpp:444
 msgid "Near Lens Step"
-msgstr "Nära linsstegning"
+msgstr "Nära objektivstegning"
 
 #: src/olympusmn.cpp:445
 msgid "Near lens step"
-msgstr "Nära linsstegning"
+msgstr "Nära objektivstegning"
 
 #: src/olympusmn.cpp:447
 msgid "Equipment Info"
@@ -8624,7 +8603,7 @@ msgstr "Mönster+AF"
 
 #: src/olympusmn.cpp:495
 msgid "Spot+Highlight control"
-msgstr "Punkt+markeringskontroll"
+msgstr "Punkt+högdagerkontroll"
 
 #: src/olympusmn.cpp:496
 msgid "Spot+Shadow control"
@@ -8724,7 +8703,7 @@ msgstr "Kanal 4, hög"
 
 #: src/olympusmn.cpp:566
 msgid "Auto (Keep Warm Color Off"
-msgstr ""
+msgstr "Auto (varma färger av"
 
 #: src/olympusmn.cpp:567
 msgid "7500K (Fine Weather with Shade)"
@@ -8747,14 +8726,12 @@ msgid "3600K (Tungsten light-like)"
 msgstr "3600K (Volframartat ljus)"
 
 #: src/olympusmn.cpp:572
-#, fuzzy
 msgid "Auto Setup"
-msgstr "Autobländning"
+msgstr "Autoinställning"
 
 #: src/olympusmn.cpp:573
-#, fuzzy
 msgid "5500K (Flash)"
-msgstr "Auto (blixt)"
+msgstr "5500K (blixt)"
 
 #: src/olympusmn.cpp:574
 msgid "6600K (Daylight fluorescent)"
@@ -8769,29 +8746,24 @@ msgid "4000K (Cool white fluorescent)"
 msgstr "4000K (Fluorescerande kallt vitt)"
 
 #: src/olympusmn.cpp:577
-#, fuzzy
 msgid "White Fluorescent"
 msgstr "Vitt fluorescerande"
 
 #: src/olympusmn.cpp:580
-#, fuzzy
 msgid "One Touch WB 1"
-msgstr "Enkelberörings-vb"
+msgstr "Enkelberörings-vb 1"
 
 #: src/olympusmn.cpp:581
-#, fuzzy
 msgid "One Touch WB 2"
-msgstr "Enkelberörings-vb"
+msgstr "Enkelberörings-vb 2"
 
 #: src/olympusmn.cpp:582
-#, fuzzy
 msgid "One Touch WB 3"
-msgstr "Enkelberörings-vb"
+msgstr "Enkelberörings-vb 3"
 
 #: src/olympusmn.cpp:583
-#, fuzzy
 msgid "One Touch WB 4"
-msgstr "Enkelberörings-vb"
+msgstr "Enkelberörings-vb 4"
 
 #: src/olympusmn.cpp:584
 msgid "Custom WB 1"
@@ -9023,19 +8995,19 @@ msgstr "Inställning för skärpa"
 
 #: src/olympusmn.cpp:692 src/olympusmn.cpp:982
 msgid "Distortion Correction"
-msgstr "Distortionskorrigering"
+msgstr "Distorsionkorrigering"
 
 #: src/olympusmn.cpp:692 src/olympusmn.cpp:982
 msgid "Distortion correction"
-msgstr "Distortionskorrigering"
+msgstr "Distorsionkorrigering"
 
 #: src/olympusmn.cpp:693 src/olympusmn.cpp:983 src/panasonicmn.cpp:516
 msgid "Shading Compensation"
-msgstr "Skuggkompensering"
+msgstr "Skuggkompensation"
 
 #: src/olympusmn.cpp:693 src/olympusmn.cpp:983
 msgid "Shading compensation"
-msgstr "Skuggkompensering"
+msgstr "Skuggkompensation"
 
 #: src/olympusmn.cpp:694
 msgid "Compression Factor"
@@ -9204,19 +9176,19 @@ msgstr "Serienummer"
 
 #: src/olympusmn.cpp:752 src/panasonicmn.cpp:494 src/tags.cpp:1861
 msgid "Lens Serial Number"
-msgstr "Serienummer för lins"
+msgstr "Serienummer för objektiv"
 
 #: src/olympusmn.cpp:752 src/panasonicmn.cpp:494
 msgid "Lens serial number"
-msgstr "Serienummer för lins"
+msgstr "Serienummer för objektiv"
 
 #: src/olympusmn.cpp:754
 msgid "Lens Firmware Version"
-msgstr "Linsens fast-programvaruversion"
+msgstr "Objektivets fast-programvaruversion"
 
 #: src/olympusmn.cpp:754
 msgid "Lens firmware version"
-msgstr "Linsens fast-programvaruversion"
+msgstr "Objektivets fast-programvaruversion"
 
 #: src/olympusmn.cpp:759
 msgid "Max Aperture At Current Focal"
@@ -9228,11 +9200,11 @@ msgstr "Max bländning vid nuvarande brännvidd"
 
 #: src/olympusmn.cpp:760
 msgid "Lens Properties"
-msgstr "Linsegenskaper"
+msgstr "Objektivegenskaper"
 
 #: src/olympusmn.cpp:760
 msgid "Lens properties"
-msgstr "Linsegenskaper"
+msgstr "Objektivegenskaper"
 
 #: src/olympusmn.cpp:761
 msgid "Extender"
@@ -9264,11 +9236,11 @@ msgstr "Förlängarens fast-programvaruversion"
 
 #: src/olympusmn.cpp:765 src/panasonicmn.cpp:471
 msgid "Conversion Lens"
-msgstr "Konverteringslins"
+msgstr "Konverteringsobjektiv"
 
 #: src/olympusmn.cpp:765 src/panasonicmn.cpp:471
 msgid "Conversion lens"
-msgstr "Konverteringslins"
+msgstr "Konverteringsobjektiv"
 
 #: src/olympusmn.cpp:767 src/properties.cpp:402
 msgid "Flash Model"
@@ -10113,7 +10085,7 @@ msgstr "Vitbalanskomp"
 
 #: src/olympusmn.cpp:1084
 msgid "White balance comp"
-msgstr "Vitbalanskompensering"
+msgstr "Vitbalanskompensation"
 
 #: src/olympusmn.cpp:1085
 msgid "Saturation Setting"
@@ -10129,11 +10101,11 @@ msgstr "Nyansinställning"
 
 #: src/olympusmn.cpp:1089
 msgid "CM Exposure Compensation"
-msgstr "CM-exponeringskompensering"
+msgstr "CM-exponeringskompensation"
 
 #: src/olympusmn.cpp:1089
 msgid "CM exposure compensation"
-msgstr "CM-exponeringskompensering"
+msgstr "CM-exponeringskompensation"
 
 #: src/olympusmn.cpp:1090
 msgid "CM White Balance"
@@ -10145,11 +10117,11 @@ msgstr "CM-vitbalans"
 
 #: src/olympusmn.cpp:1091
 msgid "CM White Balance Comp"
-msgstr "CM-vitbalanskompensering"
+msgstr "CM-vitbalanskompensation"
 
 #: src/olympusmn.cpp:1091
 msgid "CM white balance comp"
-msgstr "CM-vitbalanskompensering"
+msgstr "CM-vitbalanskompensation"
 
 #: src/olympusmn.cpp:1092
 msgid "CM White Balance Gray Point"
@@ -10297,130 +10269,111 @@ msgstr "Ritning"
 
 #: src/olympusmn.cpp:1512
 msgid "Gentle Sepia"
-msgstr ""
+msgstr "Mild sepia"
 
 #: src/olympusmn.cpp:1513
-#, fuzzy
 msgid "Pale & Light Color II"
-msgstr "Blek & ljus färg"
+msgstr "Blek & ljus färg 2"
 
 #: src/olympusmn.cpp:1514
-#, fuzzy
 msgid "Pop Art II"
-msgstr "Popkonst"
+msgstr "Popkonst 2"
 
 #: src/olympusmn.cpp:1515
-#, fuzzy
 msgid "Pin Hole II"
-msgstr "Nålsöga"
+msgstr "Nålsöga 2"
 
 #: src/olympusmn.cpp:1516
-#, fuzzy
 msgid "Pin Hole III"
-msgstr "Nålsöga"
+msgstr "Nålsöga 3"
 
 #: src/olympusmn.cpp:1517
-#, fuzzy
 msgid "Grainy Film II"
-msgstr "Grynig film"
+msgstr "Grynig film 2"
 
 #: src/olympusmn.cpp:1518
-#, fuzzy
 msgid "Dramatic Tone"
-msgstr "Formering"
+msgstr "Dramatisk nyans"
 
 #: src/olympusmn.cpp:1519
 msgid "Punk"
-msgstr ""
+msgstr "Punk"
 
 #: src/olympusmn.cpp:1520
-#, fuzzy
 msgid "Soft Focus 2"
-msgstr "Mjukt fokus"
+msgstr "Mjukt fokus 2"
 
 #: src/olympusmn.cpp:1521
 msgid "Sparkle"
-msgstr ""
+msgstr "Gnista"
 
 #: src/olympusmn.cpp:1522
-#, fuzzy
 msgid "Watercolor"
-msgstr "Naturlig färg"
+msgstr "Vattenfärg"
 
 #: src/olympusmn.cpp:1523
 msgid "Key Line"
-msgstr ""
+msgstr "Nyckelrad"
 
 #: src/olympusmn.cpp:1524
 msgid "Key Line II"
-msgstr ""
+msgstr "Nyckelrad 2"
 
 #: src/olympusmn.cpp:1525
-#, fuzzy
 msgid "Miniature"
-msgstr "Minsta bländare"
+msgstr "Miniatyr"
 
 #: src/olympusmn.cpp:1526
-#, fuzzy
 msgid "Reflection"
-msgstr "Markering"
+msgstr "Spegling"
 
 #: src/olympusmn.cpp:1527
 msgid "Fragmented"
-msgstr ""
+msgstr "Fragmenterad"
 
 #: src/olympusmn.cpp:1528
-#, fuzzy
 msgid "Cross Process II"
-msgstr "Korsprocess"
+msgstr "Korsprocess 2"
 
 #: src/olympusmn.cpp:1529
 msgid "Dramatic Tone II"
-msgstr ""
+msgstr "Dramatiskt ton 2"
 
 #: src/olympusmn.cpp:1530
-#, fuzzy
 msgid "Watercolor I"
-msgstr "Naturlig färg"
+msgstr "Vattenfärg 1"
 
 #: src/olympusmn.cpp:1531
-#, fuzzy
 msgid "Watercolor II"
-msgstr "Naturlig färg"
+msgstr "Vattenfärg 2"
 
 #: src/olympusmn.cpp:1532
-#, fuzzy
 msgid "Diorama II"
-msgstr "Diorama"
+msgstr "Diorama 2"
 
 #: src/olympusmn.cpp:1533
 msgid "Vintage"
-msgstr ""
+msgstr "Vintage"
 
 #: src/olympusmn.cpp:1534
-#, fuzzy
 msgid "Vintage II"
-msgstr "Hantera UI"
+msgstr "Vintage 2"
 
 #: src/olympusmn.cpp:1535
-#, fuzzy
 msgid "Vintage III"
-msgstr "Hantera UI"
+msgstr "Vintage 3"
 
 #: src/olympusmn.cpp:1536
-#, fuzzy
 msgid "Partial Color"
-msgstr "Naturlig färg"
+msgstr "Delvis färg"
 
 #: src/olympusmn.cpp:1537
-#, fuzzy
 msgid "Partial Color II"
-msgstr "Naturlig färg"
+msgstr "Delvis färg 2"
 
 #: src/olympusmn.cpp:1538
-#, fuzzy
 msgid "Partial Color III"
-msgstr "Naturlig färg"
+msgstr "Delvis färg 3"
 
 #: src/olympusmn.cpp:1608
 msgid "Left (or n/a)"
@@ -10468,7 +10421,7 @@ msgstr "Nederst till vänster (horisontell)"
 
 #: src/olympusmn.cpp:1631
 msgid "Bottom-center (horizontal)"
-msgstr "Nederst i mitten (horisontellk)"
+msgstr "Nederst i mitten (horisontell)"
 
 #: src/olympusmn.cpp:1632
 msgid "Bottom-right (horizontal)"
@@ -10539,14 +10492,12 @@ msgid "Motion Picture"
 msgstr "Rörlig bild"
 
 #: src/panasonicmn.cpp:61
-#, fuzzy
 msgid "Full HD Movie"
-msgstr "Liten film"
+msgstr "Full HD-film"
 
 #: src/panasonicmn.cpp:62
-#, fuzzy
 msgid "4k Movie"
-msgstr "Film"
+msgstr "4k-film"
 
 #: src/panasonicmn.cpp:70
 msgid "Halogen"
@@ -10570,7 +10521,7 @@ msgstr "AF-C"
 
 #: src/panasonicmn.cpp:87
 msgid "AF-F"
-msgstr ""
+msgstr "AF-F"
 
 #: src/panasonicmn.cpp:95 src/panasonicmn.cpp:122
 msgid "Panning"
@@ -10581,9 +10532,8 @@ msgid "Tele-macro"
 msgstr "Telemakro"
 
 #: src/panasonicmn.cpp:104
-#, fuzzy
 msgid "Macro-zoom"
-msgstr "Makro"
+msgstr "Makro-zoom"
 
 #: src/panasonicmn.cpp:112 src/panasonicmn.cpp:373
 msgid "Scenery"
@@ -10642,9 +10592,8 @@ msgid "Intelligent ISO"
 msgstr "Intelligent ISO"
 
 #: src/panasonicmn.cpp:144
-#, fuzzy
 msgid "Clipboard"
-msgstr "Vit tavla"
+msgstr "Urklipp"
 
 #: src/panasonicmn.cpp:145
 msgid "High speed continuous shooting"
@@ -10655,34 +10604,28 @@ msgid "Intelligent auto"
 msgstr "Intelligent auto"
 
 #: src/panasonicmn.cpp:147
-#, fuzzy
 msgid "Multi-aspect"
-msgstr "Flera punkter"
+msgstr "Multi-aspekt"
 
 #: src/panasonicmn.cpp:148
-#, fuzzy
 msgid "Transform"
-msgstr "Överföringsintervall"
+msgstr "Transformera"
 
 #: src/panasonicmn.cpp:149
-#, fuzzy
 msgid "Flash Burst"
-msgstr "Blixtkompensering"
+msgstr "Blixtseriebild"
 
 #: src/panasonicmn.cpp:151
-#, fuzzy
 msgid "Film Grain"
-msgstr "Filmläsare"
+msgstr "Filmgrynighet"
 
 #: src/panasonicmn.cpp:152
-#, fuzzy
 msgid "My Color"
-msgstr "Mina färger"
+msgstr "Min färg"
 
 #: src/panasonicmn.cpp:153
-#, fuzzy
 msgid "Photo Frame"
-msgstr "Panoramaram"
+msgstr "Bildruteram"
 
 #: src/panasonicmn.cpp:154 src/panasonicmn.cpp:160 src/panasonicmn.cpp:527
 #: src/pentaxmn.cpp:604 src/pentaxmn.cpp:673
@@ -10695,122 +10638,111 @@ msgstr "Handburen mörkertagning"
 
 #: src/panasonicmn.cpp:156
 msgid "3D"
-msgstr ""
+msgstr "3d"
 
 #: src/panasonicmn.cpp:157 src/panasonicmn.cpp:185
-#, fuzzy
 msgid "Creative Control"
-msgstr "Fjärrkontroll"
+msgstr "Kreativ kontroll"
 
 #: src/panasonicmn.cpp:159
 msgid "Glass Through"
-msgstr ""
+msgstr "Genom glas"
 
 #: src/panasonicmn.cpp:161 src/pentaxmn.cpp:568
 msgid "Digital Filter"
 msgstr "Digitalt filter"
 
 #: src/panasonicmn.cpp:162
-#, fuzzy
 msgid "Clear Portrait"
-msgstr "Självporträtt"
+msgstr "Rent porträtt"
 
 #: src/panasonicmn.cpp:163
-#, fuzzy
 msgid "Silky Skin"
 msgstr "Mjuk hud"
 
 #: src/panasonicmn.cpp:164
-#, fuzzy
 msgid "Backlit Softness"
-msgstr "Bakgrundsbelyst siluett"
+msgstr "Bakgrundsbelyst mjukhet"
 
 #: src/panasonicmn.cpp:165
 msgid "Clear in Backlight"
-msgstr ""
+msgstr "Klar med bakgrundsljus"
 
 #: src/panasonicmn.cpp:166
-#, fuzzy
 msgid "Relaxing Tone"
-msgstr "Relation"
+msgstr "Avslappnad nyans"
 
 #: src/panasonicmn.cpp:167
 msgid "Sweet Child's Face"
-msgstr ""
+msgstr "Sött barnansikte"
 
 #: src/panasonicmn.cpp:168
-#, fuzzy
 msgid "Distinct Scenery"
-msgstr "Nattscen"
+msgstr "Distinkt omgivning"
 
 #: src/panasonicmn.cpp:169
-#, fuzzy
 msgid "Bright Blue Sky"
-msgstr "Blå himmel"
+msgstr "Klarblå himmel"
 
 #: src/panasonicmn.cpp:170
 msgid "Romantic Sunset Glow"
-msgstr ""
+msgstr "Romantisk skymmningsglöd"
 
 #: src/panasonicmn.cpp:171
 msgid "Vivid Sunset Glow"
-msgstr ""
+msgstr "Intensiv skymmningsglöd"
 
 #: src/panasonicmn.cpp:172
 msgid "Glistening Water"
-msgstr ""
+msgstr "Glittrande vatten"
 
 #: src/panasonicmn.cpp:173
 msgid "Clear Nightscape"
-msgstr ""
+msgstr "Klar natt"
 
 #: src/panasonicmn.cpp:174
 msgid "Cool Night Sky"
-msgstr ""
+msgstr "Cool natt"
 
 #: src/panasonicmn.cpp:175
 msgid "Warm Glowing Nightscape"
-msgstr ""
+msgstr "Varm glödande natt"
 
 #: src/panasonicmn.cpp:176
 msgid "Artistic Nightscape"
-msgstr ""
+msgstr "Artistisk natt"
 
 #: src/panasonicmn.cpp:177
-#, fuzzy
 msgid "Glittering Illuminations"
-msgstr "AF-ytbelysning"
+msgstr "Glittrande belysningar"
 
 #: src/panasonicmn.cpp:178
-#, fuzzy
 msgid "Clear Night Portrait"
-msgstr "Nattporträtt"
+msgstr "Rent nattporträtt"
 
 #: src/panasonicmn.cpp:179
 msgid "Soft Image of a Flower"
-msgstr ""
+msgstr "Mjuk bild av blomma"
 
 #: src/panasonicmn.cpp:180
 msgid "Appetizing Food"
-msgstr ""
+msgstr "Aptitretande mat"
 
 #: src/panasonicmn.cpp:181
-#, fuzzy
 msgid "Cute Desert"
-msgstr "Kostymdesigner"
+msgstr "Söt öken"
 
 #: src/panasonicmn.cpp:182
 msgid "Freeze Animal Motion"
-msgstr ""
+msgstr "Fryst djurrörelse"
 
 #: src/panasonicmn.cpp:183
-#, fuzzy
 msgid "Clear Sports Shot"
-msgstr "Avancerad sportfotografering"
+msgstr "Ren sportfotografering"
 
 #: src/panasonicmn.cpp:192
 msgid "Stereo"
-msgstr ""
+msgstr "Stereo"
 
 #: src/panasonicmn.cpp:198
 msgid "Warm"
@@ -10822,7 +10754,7 @@ msgstr "Häftig"
 
 #: src/panasonicmn.cpp:202
 msgid "Happy"
-msgstr ""
+msgstr "Glad"
 
 #: src/panasonicmn.cpp:208
 msgid "Low/High quality"
@@ -10857,23 +10789,20 @@ msgid "Highest (+2)"
 msgstr "Högsta (+2)"
 
 #: src/panasonicmn.cpp:245 src/panasonicmn.cpp:387
-#, fuzzy
 msgid "Rotate 180"
-msgstr "Rotera 90 medsols"
+msgstr "Rotera 180"
 
 #: src/panasonicmn.cpp:253
 msgid "Enabled but Not Used"
-msgstr ""
+msgstr "Aktiverad men inte använd"
 
 #: src/panasonicmn.cpp:254
-#, fuzzy
 msgid "Disabled but Required"
-msgstr "Krävs ej"
+msgstr "Inaktiverad men krävs"
 
 #: src/panasonicmn.cpp:255
-#, fuzzy
 msgid "Disabled and Not Required"
-msgstr "Krävs ej"
+msgstr "Inaktiverad och krävs ej"
 
 #: src/panasonicmn.cpp:268
 msgid "EX optics"
@@ -10917,153 +10846,139 @@ msgstr "Mjuk (S&V)"
 
 #: src/panasonicmn.cpp:301
 msgid "Nostalgic"
-msgstr ""
+msgstr "Nostalgisk"
 
 #: src/panasonicmn.cpp:302 src/pentaxmn.cpp:972
 msgid "Vibrant"
 msgstr "Lysande"
 
 #: src/panasonicmn.cpp:307
-#, fuzzy
 msgid "No Bracket"
-msgstr "Gaffling"
+msgstr "Ingen gaffling"
 
 #: src/panasonicmn.cpp:308
 msgid "3 images, Sequence 0/-/+"
-msgstr ""
+msgstr "Tre bilder, sekvens 0/-/+"
 
 #: src/panasonicmn.cpp:309
 msgid "3 images, Sequence -/0/+"
-msgstr ""
+msgstr "Tre bilder, sekvens 0/-/+"
 
 #: src/panasonicmn.cpp:310
 msgid "5 images, Sequence 0/-/+"
-msgstr ""
+msgstr "Fem bilder, sekvens 0/-/+"
 
 #: src/panasonicmn.cpp:311
 msgid "5 images, Sequence -/0/+"
-msgstr ""
+msgstr "Fem bilder, sekvens 0/-/+"
 
 #: src/panasonicmn.cpp:312
 msgid "7 images, Sequence 0/-/+"
-msgstr ""
+msgstr "Sju bilder, sekvens 0/-/+"
 
 #: src/panasonicmn.cpp:313
 msgid "7 images, Sequence -/0/+"
-msgstr ""
+msgstr "Sju bilder, sekvens 0/-/+"
 
 #: src/panasonicmn.cpp:319
-#, fuzzy
 msgid "1st"
-msgstr "10s"
+msgstr "1sta"
 
 #: src/panasonicmn.cpp:320
 msgid "2nd"
-msgstr ""
+msgstr "Andra"
 
 #: src/panasonicmn.cpp:340
 msgid "Yes (flash required but disabled"
-msgstr ""
+msgstr "Ja (blixt krävs, men är inaktiverad"
 
 #: src/panasonicmn.cpp:349
-#, fuzzy
 msgid "Extended"
-msgstr "Förlängare"
+msgstr "Utökad"
 
 #: src/panasonicmn.cpp:368
-#, fuzzy
 msgid "NoAuto"
-msgstr "Auto"
+msgstr "NoAuto"
 
 #: src/panasonicmn.cpp:369
-#, fuzzy
 msgid "Standard or Custom"
-msgstr "Standardform"
+msgstr "Standard eller anpassad"
 
 #: src/panasonicmn.cpp:386
-#, fuzzy
 msgid "Rotate CW"
-msgstr "Rotera 90 medsols"
+msgstr "Rotera medsols"
 
 #: src/panasonicmn.cpp:388
-#, fuzzy
 msgid "Rotate CCW"
-msgstr "Rotera 90 medsols"
+msgstr "Rotera motsols"
 
 #: src/panasonicmn.cpp:389
 msgid "Tilt upwards"
-msgstr ""
+msgstr "Luta uppåt"
 
 #: src/panasonicmn.cpp:390
 msgid "Tilt downwards"
-msgstr ""
+msgstr "Luta neråt"
 
 #: src/panasonicmn.cpp:396
-#, fuzzy
 msgid "Left to Right"
 msgstr "Vänster till höger"
 
 #: src/panasonicmn.cpp:397
-#, fuzzy
 msgid "Right to Left"
 msgstr "Höger till vänster"
 
 #: src/panasonicmn.cpp:398
-#, fuzzy
 msgid "Top to Bottom"
 msgstr "Topp till botten"
 
 #: src/panasonicmn.cpp:399
-#, fuzzy
 msgid "Bottom to Top"
 msgstr "Botten till topp"
 
 #: src/panasonicmn.cpp:405
-#, fuzzy
 msgid "Time Lapse"
 msgstr "Tidsskala"
 
 #: src/panasonicmn.cpp:406
-#, fuzzy
 msgid "Stop-Motion Animation"
-msgstr "Platsinformation"
+msgstr "Stop-Motion-animation"
 
 #: src/panasonicmn.cpp:412
 msgid "1 EV"
-msgstr ""
+msgstr "1 EV"
 
 #: src/panasonicmn.cpp:413
 msgid "2 EV"
-msgstr ""
+msgstr "2 EV"
 
 #: src/panasonicmn.cpp:414
 msgid "3 EV"
-msgstr ""
+msgstr "3 EV"
 
 #: src/panasonicmn.cpp:415
 msgid "1 EV (Auto)"
-msgstr ""
+msgstr "1 EV (Auto)"
 
 #: src/panasonicmn.cpp:416
 msgid "2 EV (Auto)"
-msgstr ""
+msgstr "2 EV (Auto)"
 
 #: src/panasonicmn.cpp:417
 msgid "3 EV (Auto)"
-msgstr ""
+msgstr "3 EV (Auto)"
 
 #: src/panasonicmn.cpp:422
 msgid "Mechanical"
-msgstr ""
+msgstr "Mekanism"
 
 #: src/panasonicmn.cpp:423
-#, fuzzy
 msgid "Electronic"
-msgstr "Markering"
+msgstr "Elektronisk"
 
 #: src/panasonicmn.cpp:424
 msgid "Hybrid"
-msgstr ""
+msgstr "Hybrid"
 
 #: src/panasonicmn.cpp:450
 msgid "Audio"
@@ -11113,19 +11028,16 @@ msgid "Self Timer"
 msgstr "Självutlösare"
 
 #: src/panasonicmn.cpp:467
-#, fuzzy
 msgid "AF Assist Lamp"
-msgstr "AF-hjälp"
+msgstr "AF-hjälplampa"
 
 #: src/panasonicmn.cpp:469
-#, fuzzy
 msgid "Baby Age 1"
-msgstr "Bebisens ålder"
+msgstr "Bebisens ålder 1"
 
 #: src/panasonicmn.cpp:469
-#, fuzzy
 msgid "Baby (or pet) age 1"
-msgstr "Bebisens (eller husdjurets) ålder"
+msgstr "Bebisens (eller husdjurets) ålder 1"
 
 #: src/panasonicmn.cpp:470
 msgid "Optical Zoom Mode"
@@ -11152,43 +11064,36 @@ msgid "World time location"
 msgstr "Världstidsplats"
 
 #: src/panasonicmn.cpp:475
-#, fuzzy
 msgid "Text Stamp 1"
-msgstr "GPS-tidsstämpel"
+msgstr "Textstämpel 1"
 
 #: src/panasonicmn.cpp:476
 msgid "Program ISO"
 msgstr "Program-ISO"
 
 #: src/panasonicmn.cpp:477
-#, fuzzy
 msgid "Advanced Scene Type"
-msgstr "Scentyp"
+msgstr "Avancerad scentyp"
 
 #: src/panasonicmn.cpp:478
-#, fuzzy
 msgid "Text Stamp 2"
-msgstr "GPS-tidsstämpel"
+msgstr "Textstämpel 2"
 
 #: src/panasonicmn.cpp:479
-#, fuzzy
 msgid "Faces detected"
 msgstr "Ansikte avkänt"
 
 #: src/panasonicmn.cpp:483
-#, fuzzy
 msgid "Color Temp Kelvin"
-msgstr "Färgtemperaturinställning"
+msgstr "Färgtemperatur Kelvin"
 
 #: src/panasonicmn.cpp:483
-#, fuzzy
 msgid "Color Temperatur in Kelvin"
-msgstr "Färgtemperatur"
+msgstr "Färgtemperatur i Kelvin"
 
 #: src/panasonicmn.cpp:484
-#, fuzzy
 msgid "Bracket Settings"
-msgstr "Gaffling"
+msgstr "Gafflingsinställningar"
 
 #: src/panasonicmn.cpp:485
 msgid "WB Adjust AB"
@@ -11207,24 +11112,20 @@ msgid "WBAdjustGM. Positive is a shift toward green."
 msgstr "VB justera GM. Positivt är ett skifte mot grönt."
 
 #: src/panasonicmn.cpp:487
-#, fuzzy
 msgid "Flash Curtain"
-msgstr "Blixtinformation"
+msgstr "Blixtridå"
 
 #: src/panasonicmn.cpp:488
-#, fuzzy
 msgid "Long Shutter Noise Reduction"
-msgstr "Lång exponering, brusreducering"
+msgstr "Lång bländare, brusreducering"
 
 #: src/panasonicmn.cpp:491
-#, fuzzy
 msgid "AF Point Position"
-msgstr "AF-fokusposition"
+msgstr "AF-punktposition"
 
 #: src/panasonicmn.cpp:492
-#, fuzzy
 msgid "Face detection info"
-msgstr "Ansiktsspårning"
+msgstr "Ansiktsspårningsinfo"
 
 #: src/panasonicmn.cpp:495
 msgid "Accessory Type"
@@ -11235,53 +11136,44 @@ msgid "Accessory type"
 msgstr "Typ av tillbehör"
 
 #: src/panasonicmn.cpp:496
-#, fuzzy
 msgid "Accessory Serial Number"
-msgstr "Kropp-serienummer"
+msgstr "Tillbehörsserienummer"
 
 #: src/panasonicmn.cpp:497
-#, fuzzy
 msgid "Transform 1"
-msgstr "Överföringsintervall"
+msgstr "Transform 1"
 
 #: src/panasonicmn.cpp:498
-#, fuzzy
 msgid "Intelligent Exposure"
-msgstr "Intelligent auto"
+msgstr "Intelligent exponering"
 
 #: src/panasonicmn.cpp:499
-#, fuzzy
 msgid "Firmware Version of the Lens"
-msgstr "Version av fast programvara"
+msgstr "Version av fast programvara för objektivet"
 
 #: src/panasonicmn.cpp:500
-#, fuzzy
 msgid "Face recognation info"
-msgstr "Ansiktsigenkänning AF"
+msgstr "Ansiktsigenkänningsinfo"
 
 #: src/panasonicmn.cpp:501
-#, fuzzy
 msgid "Flash Warning"
-msgstr "Fokusvarning"
+msgstr "Blixtvarning"
 
 #: src/panasonicmn.cpp:501
-#, fuzzy
 msgid "Flash warning"
-msgstr "Blixtmätning"
+msgstr "Blixtvarning"
 
 #: src/panasonicmn.cpp:502 src/properties.cpp:186 src/properties.cpp:1349
 msgid "Title"
 msgstr "Titel"
 
 #: src/panasonicmn.cpp:503
-#, fuzzy
 msgid "Baby Name"
-msgstr "Bebisens ålder"
+msgstr "Bebisens namn"
 
 #: src/panasonicmn.cpp:503
-#, fuzzy
 msgid "Baby name (or pet name)"
-msgstr "Bebisens (eller husdjurets) ålder"
+msgstr "Bebisens (eller husdjurets) namn"
 
 #: src/panasonicmn.cpp:504 src/pentaxmn.cpp:1235 src/pentaxmn.cpp:1236
 #: src/properties.cpp:682 src/properties.cpp:1458
@@ -11294,123 +11186,107 @@ msgstr "Tillstånd"
 
 #: src/panasonicmn.cpp:508
 msgid "Landmark"
-msgstr ""
+msgstr "Landmärke"
 
 #: src/panasonicmn.cpp:509
-#, fuzzy
 msgid "Intelligent resolution"
-msgstr "Intelligent auto"
+msgstr "Intelligent upplösning"
 
 #: src/panasonicmn.cpp:510
-#, fuzzy
 msgid "Burst Speed"
-msgstr "Slutarhastighet"
+msgstr "Seriebildshastighet"
 
 #: src/panasonicmn.cpp:510
 msgid "Burst Speed in pictures per second"
-msgstr ""
+msgstr "Hastighet för seriebildsläge i bilder per sekund"
 
 #: src/panasonicmn.cpp:511
-#, fuzzy
 msgid "Intelligent Dynamic Range"
-msgstr "Utvecklingsdynamikintervall"
+msgstr "Intelligent dynamikintervall"
 
 #: src/panasonicmn.cpp:512
-#, fuzzy
 msgid "Clear Retouch"
-msgstr "Ingen retuschering"
+msgstr "Ren retuschering"
 
 #: src/panasonicmn.cpp:513
-#, fuzzy
 msgid "City2"
-msgstr "Stad"
+msgstr "Stad 2"
 
 #: src/panasonicmn.cpp:515
-#, fuzzy
 msgid "Photo style"
-msgstr "Bildstil"
+msgstr "Fotostil"
 
 #: src/panasonicmn.cpp:517
 msgid "Accelerometer Z"
-msgstr ""
+msgstr "Accelerometer Z"
 
 #: src/panasonicmn.cpp:517
 msgid "positive is acceleration upwards"
-msgstr ""
+msgstr "positivt är acceleration uppåt"
 
 #: src/panasonicmn.cpp:518
-#, fuzzy
 msgid "Accelerometer X"
-msgstr "Bildpunkter per meter X"
+msgstr "Accelerometer x"
 
 #: src/panasonicmn.cpp:518
 msgid "positive is acceleration to the left"
-msgstr ""
+msgstr "positivt är vänsteracceleration"
 
 #: src/panasonicmn.cpp:519
-#, fuzzy
 msgid "Accelerometer Y"
-msgstr "Bildpunkter per y-meter"
+msgstr "Accelerometer y"
 
 #: src/panasonicmn.cpp:519
 msgid "positive is acceleration backwards"
-msgstr ""
+msgstr "positivt är acceleration bakåt"
 
 #: src/panasonicmn.cpp:520
-#, fuzzy
 msgid "Camera Orientation"
-msgstr "Bildorientering"
+msgstr "Kameraorientering"
 
 #: src/panasonicmn.cpp:521
-#, fuzzy
 msgid "Roll Angle"
-msgstr "Beskärningsvinkel"
+msgstr "Roll-vinkel"
 
 #: src/panasonicmn.cpp:521
 msgid "degress of clockwise camera rotation"
-msgstr ""
+msgstr "grader av klockvis kamerarotation"
 
 #: src/panasonicmn.cpp:522
 msgid "Pitch Angle"
-msgstr ""
+msgstr "Pitch angle"
 
 #: src/panasonicmn.cpp:522
 msgid "degress of upwards camera tilt"
-msgstr ""
+msgstr "grader på kameralutning uppåt"
 
 #: src/panasonicmn.cpp:523
-#, fuzzy
 msgid "Sweep Panorama Direction"
-msgstr "Panoramariktning"
+msgstr "Panoramasvepriktning"
 
 #: src/panasonicmn.cpp:524
 msgid "Field of View of Panorama"
-msgstr ""
+msgstr "Fält för panoramavy"
 
 #: src/panasonicmn.cpp:525
-#, fuzzy
 msgid "Timer Recording"
-msgstr "RAW+JPG-indexering"
+msgstr "Tidtagarinspelning"
 
 #: src/panasonicmn.cpp:526
-#, fuzzy
 msgid "Internal ND Filter"
-msgstr "Intern + extern"
+msgstr "Internt ND-filter"
 
 #: src/panasonicmn.cpp:528
-#, fuzzy
 msgid "Shutter Type"
-msgstr "Slutartid"
+msgstr "Slutartyp"
 
 #: src/panasonicmn.cpp:529
-#, fuzzy
 msgid "Clear Retouch Value"
-msgstr "Mätningsvärde"
+msgstr "Rent retusheringsvärde"
 
 #: src/panasonicmn.cpp:530
-#, fuzzy
 msgid "TouchAE"
-msgstr "Berörings-AF"
+msgstr "Berörings-AE"
 
 #: src/panasonicmn.cpp:533
 msgid "MakerNote Version"
@@ -11445,47 +11321,40 @@ msgid "WB blue level"
 msgstr "VB blånivå"
 
 #: src/panasonicmn.cpp:539
-#, fuzzy
 msgid "Text Stamp 3"
-msgstr "GPS-tidsstämpel"
+msgstr "Textstämpel 3"
 
 #: src/panasonicmn.cpp:540
-#, fuzzy
 msgid "Text Stamp 4"
-msgstr "GPS-tidsstämpel"
+msgstr "Textstämpel 4"
 
 #: src/panasonicmn.cpp:541
-#, fuzzy
 msgid "Baby Age 2"
-msgstr "Bebisens ålder"
+msgstr "Bebisens ålder 2"
 
 #: src/panasonicmn.cpp:541
-#, fuzzy
 msgid "Baby (or pet) age 2"
-msgstr "Bebisens (eller husdjurets) ålder"
+msgstr "Bebisens (eller husdjurets) ålder 2"
 
 #: src/panasonicmn.cpp:542
-#, fuzzy
 msgid "Transform 2"
-msgstr "Överföringsintervall"
+msgstr "Transformera 2"
 
 #: src/panasonicmn.cpp:544
 msgid "Unknown PanasonicMakerNote tag"
 msgstr "Okänd PanasonicMakerNote-tagg"
 
 #: src/panasonicmn.cpp:562
-#, fuzzy
 msgid "Spot mode on or 9 area"
-msgstr "Punktläge på"
+msgstr "Punktläge på eller 9-område"
 
 #: src/panasonicmn.cpp:563
 msgid "Spot mode off or 3-area (high speed)"
-msgstr "Punktläge av eller 3-områda (hög hastighet)"
+msgstr "Punktläge av eller 3-område (hög hastighet)"
 
 #: src/panasonicmn.cpp:564
-#, fuzzy
 msgid "23-area"
-msgstr "5-område"
+msgstr "23-område"
 
 #: src/panasonicmn.cpp:565
 msgid "Spot focussing"
@@ -11520,18 +11389,16 @@ msgid "3-area (right)"
 msgstr "3-område (höger)"
 
 #: src/panasonicmn.cpp:574
-#, fuzzy
 msgid "Spot Focusing 2"
-msgstr "Punktfokusering"
+msgstr "Punktfokusering 2"
 
 #: src/panasonicmn.cpp:588
 msgid " EV"
 msgstr " EV"
 
 #: src/panasonicmn.cpp:621 src/panasonicmn.cpp:637
-#, fuzzy
 msgid "not set"
-msgstr "ej satt\n"
+msgstr "ej satt"
 
 #: src/panasonicmn.cpp:725
 msgid "Panasonic raw version"
@@ -11744,7 +11611,7 @@ msgstr "AF-A"
 
 #: src/pentaxmn.cpp:275
 msgid "Contrast-detect"
-msgstr "Kontrasupptäckning"
+msgstr "Kontrastigenkänning"
 
 #: src/pentaxmn.cpp:276
 msgid "Tracking Contrast-detect"
@@ -11824,7 +11691,7 @@ msgstr "Auto (volfram)"
 
 #: src/pentaxmn.cpp:431
 msgid "Auto (DaylightFluorescent)"
-msgstr "Auto (dagsljusflouruserande)"
+msgstr "Auto (dagsljusfluorescerande)"
 
 #: src/pentaxmn.cpp:432
 msgid "Auto (DaywhiteFluorescent)"
@@ -12208,7 +12075,7 @@ msgstr "DOF-program"
 
 #: src/pentaxmn.cpp:581 src/pentaxmn.cpp:625
 msgid "MTF Program"
-msgstr "MTF-progam"
+msgstr "MTF-program"
 
 #: src/pentaxmn.cpp:587
 msgid "Night Scene Portrait"
@@ -12312,7 +12179,7 @@ msgstr "Manuell (Av-autobländning)"
 
 #: src/pentaxmn.cpp:636
 msgid "Bulb (Off-Auto-Aperture)"
-msgstr "Glödlampa (autobländing-av)"
+msgstr "Glödlampa (autobländning-av)"
 
 #: src/pentaxmn.cpp:638
 msgid "Shutter Priority"
@@ -12397,7 +12264,7 @@ msgstr "Självutlösning (2 sek)"
 
 #: src/pentaxmn.cpp:668
 msgid "Mirror Lock-up"
-msgstr "Spegelåsning"
+msgstr "Spegeluppfällning"
 
 #: src/pentaxmn.cpp:669
 msgid "Remote Control (3 sec)"
@@ -12429,15 +12296,15 @@ msgstr "HDR auto"
 
 #: src/pentaxmn.cpp:689
 msgid "M-42 or No Lens"
-msgstr "M-42 eller ingen lins"
+msgstr "M-42 eller inget objektiv"
 
 #: src/pentaxmn.cpp:690
 msgid "K or M Lens"
-msgstr "K eller M-lins"
+msgstr "K eller M-objektiv"
 
 #: src/pentaxmn.cpp:691
 msgid "A Series Lens"
-msgstr "Serie A-lins"
+msgstr "Serie A-objektiv"
 
 #: src/pentaxmn.cpp:969
 msgid "Bright"
@@ -12617,7 +12484,7 @@ msgstr "Ljusvärde"
 
 #: src/pentaxmn.cpp:1261
 msgid "Camera calculated light value, includes exposure compensation"
-msgstr "Kamerans beräknade ljusvärde, inkluderar exponeringskompensering"
+msgstr "Kamerans beräknade ljusvärde, inkluderar exponeringskompensation"
 
 #: src/pentaxmn.cpp:1277 src/pentaxmn.cpp:1278
 msgid "Image area offset"
@@ -12649,11 +12516,11 @@ msgstr "Bildton"
 
 #: src/pentaxmn.cpp:1318
 msgid "Shake reduction"
-msgstr "Skakreducering"
+msgstr "Bildstabilisering"
 
 #: src/pentaxmn.cpp:1319
 msgid "Shake reduction information"
-msgstr "Skakreduceringsinformation"
+msgstr "Bildstabiliseringinformation"
 
 #: src/pentaxmn.cpp:1324 src/pentaxmn.cpp:1325
 msgid "Dynamic range expansion"
@@ -12685,7 +12552,7 @@ msgstr "AE-info"
 
 #: src/pentaxmn.cpp:1347 src/pentaxmn.cpp:1348
 msgid "LensInfo"
-msgstr "Linsinfo"
+msgstr "Objektivinfo"
 
 #: src/pentaxmn.cpp:1350 src/pentaxmn.cpp:1351
 msgid "FlashInfo"
@@ -12796,9 +12663,8 @@ msgid "Microsoft Photo schema"
 msgstr "Microsoft Photo-schema"
 
 #: src/properties.cpp:120
-#, fuzzy
 msgid "Adobe Lightroom schema"
-msgstr "Adobe Photoshop-schema"
+msgstr "Adobe Lightroom-schema"
 
 #: src/properties.cpp:121
 msgid "Adobe PDF schema"
@@ -12861,9 +12727,8 @@ msgid "Metadata Working Group Regions schema"
 msgstr "Metadata Working Group Regions-schema"
 
 #: src/properties.cpp:138
-#, fuzzy
 msgid "Metadata Working Group Keywords schema"
-msgstr "Metadata Working Group Regions-schema"
+msgstr "Metadata Working Group Keywords-schema"
 
 #: src/properties.cpp:139
 msgid "XMP Extended Video schema"
@@ -12878,18 +12743,16 @@ msgid "XMP Darwin Core schema"
 msgstr "XMP Darwin Core-schema"
 
 #: src/properties.cpp:142
-#, fuzzy
 msgid "Qualified Dublin Core schema"
-msgstr "Dublin Core-schema"
+msgstr "Qualified Dublin Core-schema"
 
 #: src/properties.cpp:143
-#, fuzzy
 msgid "ACDSee XMP schema"
-msgstr "Adobe PDF-schema"
+msgstr "ACDSee XMP-schema"
 
 #: src/properties.cpp:144
 msgid "Google Photo Sphere XMP schema"
-msgstr ""
+msgstr "Google Photo Sphere XMP-schema"
 
 #: src/properties.cpp:148
 msgid "Colorant structure"
@@ -12929,7 +12792,7 @@ msgstr "Områdesstruktur"
 
 #: src/properties.cpp:159
 msgid "Qualifier for xmp:Identifier"
-msgstr "Kvalifierare för xmp:Identifier"
+msgstr "Kvalificerare för xmp:Identifier"
 
 #: src/properties.cpp:163
 msgid "Contributor"
@@ -13045,7 +12908,7 @@ msgid ""
 msgstr ""
 "Åberopande av informella rättigheter, valt efter språk. I regel innehåller "
 "rättighetsinformation ett åberopande av olika äganderättigheter associerade "
-"med resursen, inklusive immaterial äganderätt."
+"med resursen, inklusive immateriell äganderätt."
 
 #: src/properties.cpp:183
 msgid "Unique identifier of the work from which this resource was derived."
@@ -13116,28 +12979,26 @@ msgid "Image History"
 msgstr "Bildhistorik"
 
 #: src/properties.cpp:197
-#, fuzzy
 msgid ""
 "An XML based content to list all action processed on this image with image "
 "editor (as crop, rotate, color corrections, adjustments, etc.)."
 msgstr ""
-"Ett XML-baserat innehåll som räknar upp all handling behandlad på den här "
+"Ett XML-baserat innehåll som listar alla åtgärder som verkställts på den här "
 "bilden med bildredigerare (som beskär, rotera, färgkorrektur, justeringar, "
 "osv.)."
 
 #: src/properties.cpp:198
 msgid "Lens Correction Settings"
-msgstr "Linskorrigeringar"
+msgstr "Objektivkorrigeringar"
 
 #: src/properties.cpp:198
-#, fuzzy
 msgid ""
 "The list of Lens Correction tools settings used to fix lens distortion. This "
 "include Batch Queue Manager and Image editor tools based on LensFun library."
 msgstr ""
-"Listan över sverktygsinställningar för linskorrigering som används för att "
-"rätta till linsdistortion. Det inkluderar automatiserad köhanterare och "
-"bildredigeringsverktyg baserad på biblioteket LensFun."
+"Listan över verktygsinställningar för objektivkorrigering som används för "
+"att rätta till objektivdistorsion. Det inkluderar automatiserad köhanterare "
+"och bildredigeringsverktyg baserad på biblioteket LensFun."
 
 #: src/properties.cpp:199
 msgid "Color Label"
@@ -13168,16 +13029,14 @@ msgstr ""
 "accepteras."
 
 #: src/properties.cpp:206
-#, fuzzy
 msgid "Panorama Input Files"
-msgstr "Indatafiler för Enfuse"
+msgstr "Indatafiler för Panorama"
 
 #: src/properties.cpp:206
-#, fuzzy
 msgid "The list of files processed with Hugin program through Panorama tool."
 msgstr ""
-"Listan över filer som behandlats med programmet Enfuse genom verktyget "
-"ExpoBlending."
+"Listan över filer som behandlats med programmet Hugin genom verktyget "
+"Panorama."
 
 #: src/properties.cpp:207
 msgid "Enfuse Input Files"
@@ -13284,7 +13143,7 @@ msgstr ""
 "ett givet sammanhang. Ett vektorobjekt kan kvalificeras med xmpidq:Scheme "
 "för att visa vilket formellt identifieringssystem identifieraren följer. "
 "OBS: Egenskapen dc:identifier används inte eftersom den saknar en definierad "
-"schema-kvalifierare och har definierats i XMP-specifikationen som en enkel "
+"schema-kvalificerare och har definierats i XMP-specifikationen som en enkel "
 "egenskap (ett värde)."
 
 #: src/properties.cpp:233
@@ -13417,7 +13276,7 @@ msgid ""
 "specify the instance ID and rendition class of the original."
 msgstr ""
 "En referens till det ursprungliga dokumentet från vilket det här härrör. Det "
-"är en minimal referens; saknade komponentar kan antas vara oförändrade. En "
+"är en minimal referens; saknade komponenter kan antas vara oförändrade. En "
 "ny version kanske till exempel bara behöver ange instans-ID och föregående "
 "versionens versionsnummer, eller ett återgivande kanske bara behöver ange "
 "instans-ID och återgivningsklassen för originalet."
@@ -14151,7 +14010,6 @@ msgid "Loop"
 msgstr "Upprepa"
 
 #: src/properties.cpp:384
-#, fuzzy
 msgid "When true, the clip can be looped seamlessly."
 msgstr "Om sant kan klippet upprepas utan avbrott."
 
@@ -14281,15 +14139,15 @@ msgstr "Senaste nyckelordet XMP."
 
 #: src/properties.cpp:405
 msgid "Lens Manufacturer"
-msgstr "Linsens tillverkare"
+msgstr "Objektivtillverkare"
 
 #: src/properties.cpp:405
 msgid "Lens Manufacturer."
-msgstr "Linsens tillverkare."
+msgstr "Objektivtillverkare."
 
 #: src/properties.cpp:406 src/properties.cpp:1199
 msgid "Lens Model."
-msgstr "Linsmodell."
+msgstr "Objektivmodell."
 
 #: src/properties.cpp:407
 msgid "Rating Percent"
@@ -14301,20 +14159,19 @@ msgstr "Betyg i procent."
 
 #: src/properties.cpp:413
 msgid "Hierarchical Subject"
-msgstr ""
+msgstr "Hierarkiskt subjekt"
 
 #: src/properties.cpp:413
 msgid "Adobe Lightroom hierarchical keywords."
-msgstr ""
+msgstr "Adobe Lightroom hierarkiska nyckelord."
 
 #: src/properties.cpp:414
-#, fuzzy
 msgid "Private RTK Info"
-msgstr "Bildinfo"
+msgstr "Privat RTK-info"
 
 #: src/properties.cpp:414
 msgid "Adobe Lightroom private RTK info."
-msgstr ""
+msgstr "Adobe Lightroom privat RTK info."
 
 #: src/properties.cpp:420
 msgid "Keywords."
@@ -14567,7 +14424,6 @@ msgid "\"Exposure\" setting. Range -4.0 to +4.0."
 msgstr "Inställningen ”Exponering”. Intervall: -4,0 till +4,0."
 
 #: src/properties.cpp:478
-#, fuzzy
 msgid "Green Hue"
 msgstr "Grön nyans"
 
@@ -15111,7 +14967,7 @@ msgstr ""
 
 #: src/properties.cpp:581
 msgid "EXIF tag 37378, 0x9202. Lens aperture, unit is APEX."
-msgstr "Exif-tagg 37378, 0x9202. Linsöppning i enheten APEX."
+msgstr "Exif-tagg 37378, 0x9202. Objektivöppning i enheten APEX."
 
 #: src/properties.cpp:582 src/tags.cpp:828
 msgid "Brightness Value"
@@ -15131,7 +14987,7 @@ msgstr "Maximalt bländarvärde"
 
 #: src/properties.cpp:584
 msgid "EXIF tag 37381, 0x9205. Smallest F number of lens, in APEX."
-msgstr "Exif-tagg 37381, 0x9205. Linsens minsta F-nummer i enheten APEX."
+msgstr "Exif-tagg 37381, 0x9205. Objektivets minsta F-nummer i enheten APEX."
 
 #: src/properties.cpp:585
 msgid "EXIF tag 37382, 0x9206. Distance to subject, in meters."
@@ -15151,7 +15007,7 @@ msgstr "Exif-tagg 37385, 0x9209. Källdata för stroboskopljus (blixt)."
 
 #: src/properties.cpp:589
 msgid "EXIF tag 37386, 0x920A. Focal length of the lens, in millimeters."
-msgstr "Exif-tagg 37386, 0x920A. Linsens brännviddslängd i millimeter."
+msgstr "Exif-tagg 37386, 0x920A. Objektivets brännvidd i millimeter."
 
 #: src/properties.cpp:590 src/tags.cpp:1666
 msgid "Subject Area"
@@ -15316,7 +15172,7 @@ msgstr ""
 
 #: src/properties.cpp:609 src/tags.cpp:1800
 msgid "Focal Length In 35mm Film"
-msgstr "Bränviddslängd i 35 mm-film"
+msgstr "Bränvidd i 35 mm-film"
 
 #: src/properties.cpp:609
 msgid ""
@@ -15324,9 +15180,9 @@ msgid ""
 "35mm film camera, in mm. A value of 0 means the focal length is unknown. "
 "Note that this tag differs from the FocalLength tag."
 msgstr ""
-"Exif-tagg 41989, 0xA405. Visar motsvarande brännviddslängd om det hade varit "
-"en 35 mm-filmkamera, i mm. Värdet 0 betyder att brännviddslängden är okänd. "
-"Observera att den här taggen skiljer sig från taggen Fokallängd."
+"Exif-tagg 41989, 0xA405. Visar motsvarande brännvidd om det hade varit en 35 "
+"mm-filmkamera, i mm. Värdet 0 betyder att brännvidden är okänd. Observera "
+"att den här taggen skiljer sig från taggen brännvid."
 
 #: src/properties.cpp:612 src/tags.cpp:1806
 msgid "Scene Capture Type"
@@ -15565,7 +15421,7 @@ msgstr "GPS-kartans datum"
 
 #: src/properties.cpp:643
 msgid "GPS tag 18, 0x12. Geodetic survey data."
-msgstr "GPS-tagg 18, 0x12. Geodektiskt mätningsdata."
+msgstr "GPS-tagg 18, 0x12. Geodetiskt mätningsdata."
 
 #: src/properties.cpp:644 src/tags.cpp:2033
 msgid "GPS Destination Latitude"
@@ -15661,8 +15517,8 @@ msgid ""
 "A description of the lens used to take the photograph. For example, \"70-200 "
 "mm f/2.8-4.0\"."
 msgstr ""
-"En beskrivning av linsen som användes för att ta bilden. Exempel: ”70-200 mm "
-"f/2,8-4,0”."
+"En beskrivning av objektivet som användes för att ta bilden. Exempel: "
+"”70-200 mm f/2,8-4,0”."
 
 #: src/properties.cpp:659
 msgid ""
@@ -15689,33 +15545,30 @@ msgid "Contact Info-Address"
 msgstr "Kontaktinfo-Adress"
 
 #: src/properties.cpp:667
-#, fuzzy
 msgid ""
 "sub-key Creator Contact Info: address. Comprises an optional company name "
 "and all required information to locate the building or postbox to which mail "
 "should be sent."
 msgstr ""
-"Adresselementet i kontaktinformationen. Omfattar ett valfritt företagsnamn "
-"och all nödvändig information för att hitta byggnaden eller brevlådan dit "
-"all post ska skickas."
+"undernyckel Skaparens kontaktinformation: adress. Omfattar ett valfritt "
+"företagsnamn och all nödvändig information för att hitta byggnaden eller "
+"brevlådan dit all post ska skickas."
 
 #: src/properties.cpp:669
 msgid "Contact Info-City"
 msgstr "Kontaktinfo-Stad"
 
 #: src/properties.cpp:669
-#, fuzzy
 msgid "sub-key Creator Contact Info: city."
-msgstr "Skaparens kontaktinfo"
+msgstr "undernyckel Skaparens kontaktinfo: stad."
 
 #: src/properties.cpp:670
 msgid "Contact Info-State/Province"
 msgstr "Kontaktinfo-Stat/provins"
 
 #: src/properties.cpp:670
-#, fuzzy
 msgid "sub-key Creator Contact Info: state or province."
-msgstr "Kontaktinfo-Stat/provins"
+msgstr "undernyckel Skaparens kontaktinfo: stat/provins."
 
 #: src/properties.cpp:671
 msgid "Contact Info-Postal Code"
@@ -15723,43 +15576,39 @@ msgstr "Kontaktinfo-Postnummer"
 
 #: src/properties.cpp:671
 msgid "sub-key Creator Contact Info: local postal code."
-msgstr ""
+msgstr "undernyckelskapare kontaktinfo: lokal postkod."
 
 #: src/properties.cpp:672
 msgid "Contact Info-Country"
 msgstr "Kontaktinfo-Land"
 
 #: src/properties.cpp:672
-#, fuzzy
 msgid "sub-key Creator Contact Info: country."
-msgstr "Skaparens kontaktinfo"
+msgstr "undernyckel Skaparens kontaktinfo: Land."
 
 #: src/properties.cpp:673
 msgid "Contact Info-Email"
 msgstr "Kontaktinfo-E-post"
 
 #: src/properties.cpp:673
-#, fuzzy
 msgid "sub-key Creator Contact Info: email address."
-msgstr "E-postadresselementet i kontaktinformationen."
+msgstr "undernyckel Skaparens kontaktinfo: e-postadress."
 
 #: src/properties.cpp:674
 msgid "Contact Info-Phone"
 msgstr "Kontaktinfo-Telefon"
 
 #: src/properties.cpp:674
-#, fuzzy
 msgid "sub-key Creator Contact Info: phone number."
-msgstr "Skaparens kontaktinfo"
+msgstr "undernyckel Skaparens kontaktinfo: telefon."
 
 #: src/properties.cpp:675
 msgid "Contact Info-Web URL"
 msgstr "Kontaktinfo-Webbsida"
 
 #: src/properties.cpp:675
-#, fuzzy
 msgid "sub-key Creator Contact Info: web address."
-msgstr "Skaparens kontaktinfo"
+msgstr "undernyckel Skaparens kontaktinfo: webbadress."
 
 #: src/properties.cpp:676
 msgid "Intellectual Genre"
@@ -15802,7 +15651,6 @@ msgstr ""
 "siffror i en osorterad lista."
 
 #: src/properties.cpp:682
-#, fuzzy
 msgid ""
 "(legacy) Name of a location the content is focussing on -- either the "
 "location shown in visual media or referenced by text or audio media. This "
@@ -15811,15 +15659,14 @@ msgid ""
 "sense of a sublocation to a city this element is at the fourth level of a "
 "top-down geographical hierarchy."
 msgstr ""
-"Namnet på en plats innehållet fokuserar på - antingen platsen som visas i "
-"det visuella mediat eller som den som hänvisas i text- eller ljudmedia. "
-"Platsens namn kan antingen vara en delplats i en stad eller namnet på en "
-"välkänd plats eller (natur-) monument utanför en stad. I sammanhanget "
-"delplats i en stad är det här elementet på den fjärde nivån i en vertikal "
-"geografisk hierarki."
+"(föråldrad) Namnet på en plats innehållet fokuserar på - antingen platsen "
+"som visas i visuell media eller som den som hänvisas i text- eller "
+"ljudmedia. Platsens namn kan antingen vara en delplats i en stad eller "
+"namnet på en välkänd plats eller (natur-) monument utanför en stad. I "
+"sammanhanget delplats i en stad är det här elementet på den fjärde nivån i "
+"en vertikal geografisk hierarki."
 
 #: src/properties.cpp:687
-#, fuzzy
 msgid ""
 "(legacy) Code of the country the content is focussing on -- either the "
 "country shown in visual media or referenced in text or audio media. This "
@@ -15827,9 +15674,9 @@ msgid ""
 "code should be taken from ISO 3166 two or three letter code. The full name "
 "of a country should go to the \"Country\" element."
 msgstr ""
-"Koden för landet innehållet fokuserar på - antingen landet som visas i det "
-"visuella mediat eller som hänvisas till i text- eller ljudmedia. Det här "
-"elementet är längst upp/första nivån i en vertikal geografisk hierarki. "
+"(föråldrad) Koden för landet innehållet fokuserar på - antingen landet som "
+"visas i visuella media eller som hänvisas till i text- eller ljudmedia. Det "
+"här elementet är längst upp/första nivån i en vertikal geografisk hierarki. "
 "Landskoden bör hämtas bland ISO 3166s två- eller trebokstavskoder. Landets "
 "hela namn hör hemma i ”Land”-elementet."
 
@@ -15850,7 +15697,6 @@ msgid "Code of featured Organisation"
 msgstr "Kod för visad organisation"
 
 #: src/properties.cpp:697
-#, fuzzy
 msgid ""
 "Code from controlled vocabulary for identifying the organisation or company "
 "which is featured in the image."
@@ -16189,7 +16035,7 @@ msgstr "PLUS-version"
 msgid ""
 "The version number of the PLUS standards in place at the time of the "
 "transaction."
-msgstr "Versionnumret för PLUS-standarderna då transaktionen tilldrog sig."
+msgstr "Versionsnummret för PLUS-standarderna då transaktionen tilldrog sig."
 
 #: src/properties.cpp:743
 msgid "Licensee"
@@ -16883,7 +16729,7 @@ msgstr "Anpassad 10"
 
 #: src/properties.cpp:832
 msgid "Adult Content Warning Required"
-msgstr "Varning om pronografiskt material krävs"
+msgstr "Varning om pornografiskt material krävs"
 
 #: src/properties.cpp:833
 msgid "Not Required"
@@ -17150,9 +16996,8 @@ msgid "People"
 msgstr "Personer"
 
 #: src/properties.cpp:963 src/properties.cpp:972
-#, fuzzy
 msgid "Catalog Sets"
-msgstr "Kataloger"
+msgstr "Katalogmängd"
 
 #: src/properties.cpp:963 src/properties.cpp:972 src/properties.cpp:1003
 #: src/properties.cpp:1007
@@ -17165,7 +17010,7 @@ msgstr "Regioninfo"
 
 #: src/properties.cpp:978
 msgid "Microsoft Photo people-tagging metadata root"
-msgstr "Microsoft Photo personigenkännings metadatarot"
+msgstr "Microsoft Photo metadatarot för personigenkänning"
 
 #: src/properties.cpp:984 src/properties.cpp:1000
 msgid "Regions"
@@ -17176,18 +17021,16 @@ msgid "Contains Regions/person tags"
 msgstr "Innehåller områdes-/persontaggar"
 
 #: src/properties.cpp:985
-#, fuzzy
 msgid "Date Regions Valid"
-msgstr "DateRegionsValid"
+msgstr "Datum för giltiga områden"
 
 #: src/properties.cpp:985
 msgid "Date the last region was created"
 msgstr "Datum då det sista området skapades"
 
 #: src/properties.cpp:991
-#, fuzzy
 msgid "Person Display Name"
-msgstr "PersonDisplayName"
+msgstr "Visningsnamn"
 
 #: src/properties.cpp:991
 msgid "Name of the person (in the given rectangle)"
@@ -17202,9 +17045,8 @@ msgid "Rectangle that identifies the person within the photo"
 msgstr "Rektangel som identifierar personen i fotot"
 
 #: src/properties.cpp:993
-#, fuzzy
 msgid "Person Email Digest"
-msgstr "PersonEmailDigest"
+msgstr "E-postsammandrag"
 
 #: src/properties.cpp:993
 msgid ""
@@ -17212,9 +17054,8 @@ msgid ""
 msgstr "SHA-1 krypterat meddelandehash för personens Windows Live e-postadress"
 
 #: src/properties.cpp:994
-#, fuzzy
 msgid "Person LiveId CID"
-msgstr "PersonLiveCID"
+msgstr "LiveId CID"
 
 #: src/properties.cpp:994
 msgid "Signed decimal representation of the person's Windows Live CID"
@@ -17225,18 +17066,16 @@ msgid "Main structure containing region based information"
 msgstr "Huvudstruktur innehållandes områdesbaserad information"
 
 #: src/properties.cpp:1001
-#, fuzzy
 msgid "Applied To Dimensions"
-msgstr "AppliedToDimensions"
+msgstr "Verkställd på dimensioner"
 
 #: src/properties.cpp:1001
 msgid "Width and height of image when storing region data"
 msgstr "Bredd och höjd på bild vid lagring av områdesdata"
 
 #: src/properties.cpp:1002
-#, fuzzy
 msgid "Region List"
-msgstr "RegionList"
+msgstr "Områdeslista"
 
 #: src/properties.cpp:1002
 msgid "List of Region structures"
@@ -17263,14 +17102,12 @@ msgstr ""
 "NotEvaluatedNotUsed)"
 
 #: src/properties.cpp:1007
-#, fuzzy
 msgid "Focus Usage"
-msgstr "FocusUsage"
+msgstr "Fokus användning"
 
 #: src/properties.cpp:1008
-#, fuzzy
 msgid "Bar Code Value"
-msgstr "BarCodeValue"
+msgstr "Streckkodsvärde"
 
 #: src/properties.cpp:1008
 msgid "Decoded BarCode value string"
@@ -17285,47 +17122,44 @@ msgid "Any top level XMP property to describe the region content"
 msgstr "Alla XMP-egenskaper på toppnivå som beskriver regionsinnehåll"
 
 #: src/properties.cpp:1015
-#, fuzzy
 msgid "Main structure containing keyword based information"
-msgstr "Huvudstruktur innehållandes områdesbaserad information"
+msgstr "Huvudstruktur innehållandes nyckelordsbaserad information"
 
 #: src/properties.cpp:1016
 msgid "Hierarchy"
-msgstr ""
+msgstr "Hierarki"
 
 #: src/properties.cpp:1016
-#, fuzzy
 msgid "List of root keyword structures"
-msgstr "Lista över regionstrukturer"
+msgstr "Lista över rotnyckelordsstrukturer"
 
 #: src/properties.cpp:1017
-#, fuzzy
 msgid "Keyword"
 msgstr "Nyckelord"
 
 #: src/properties.cpp:1017
 msgid "Name of keyword (-node)"
-msgstr ""
+msgstr "Namn på nyckelord (-nod)"
 
 #: src/properties.cpp:1018
 msgid "Applied"
-msgstr ""
+msgstr "Verkställd"
 
 #: src/properties.cpp:1018
 msgid ""
 "True if this keyword has been applied, False otherwise. If missing, mwg-kw:"
 "Applied is presumed True for leaf nodes and False for ancestor nodes"
 msgstr ""
+"True om nyckelordet har verkställts, False annars. Om saknat, antas mwg-kw:"
+"Applied vara True för lövnoder och False för släktnoder"
 
 #: src/properties.cpp:1019
-#, fuzzy
 msgid "List of children keyword structures"
-msgstr "Lista över regionstrukturer"
+msgstr "Lista över underordnade nyckelordsstrukturer"
 
 #: src/properties.cpp:1026
-#, fuzzy
 msgid "Use Panorama Viewer"
-msgstr "Panoramaläge"
+msgstr "Använda Panoramvisare"
 
 #: src/properties.cpp:1026
 msgid ""
@@ -17334,11 +17168,14 @@ msgid ""
 "software. The application displaying or ingesting the image may choose to "
 "ignore this."
 msgstr ""
+"Huruvida denna bild ska visas i en panoramavisare istället för som en normal "
+"platt bild. Det kan specificeras baserat på användarinställningar eller "
+"genom programvaran för stitching. Programmet som visar använder bilden kan "
+"välja att ignorera detta."
 
 #: src/properties.cpp:1027
-#, fuzzy
 msgid "Capture Software"
-msgstr "Fånga data"
+msgstr "Fångstprogramvara"
 
 #: src/properties.cpp:1027
 msgid ""
@@ -17347,157 +17184,169 @@ msgid ""
 "Sphere\"). This should be left blank if source images were captured "
 "manually, such as by using a DSLR on a tripod."
 msgstr ""
+"Om fångst skedde med ett program eller en mobil enhet, som en Android-"
+"telefon, namnet på programmet som används (som en ”Photo Sphere”). Detta ska "
+"lämnas tomt om källbilder fångades manuellt, som genom att använde en DSLR "
+"på en tripod."
 
 #: src/properties.cpp:1028
-#, fuzzy
 msgid "Stitching Software"
-msgstr "Behandlingsmjukvara"
+msgstr "Stitching-programvara"
 
 #: src/properties.cpp:1028
 msgid ""
 "The software that was used to create the final panorama. This may sometimes "
 "be the same value as that of  GPano:CaptureSoftware."
 msgstr ""
+"Programmet som användes för att skapa det slutgiltiga panoramat. Det kan "
+"ibland vara samma värde som  GPano:CaptureSoftware."
 
 #: src/properties.cpp:1029
-#, fuzzy
 msgid "Projection Type"
-msgstr "Objekttyp"
+msgstr "Projektionstyp"
 
 #: src/properties.cpp:1029
 msgid ""
 "Projection type used in the image file. Google products currently support "
 "the value equirectangular."
 msgstr ""
+"Projektionstyp använd i bildfilen. Google-produkter stödjer för tillfället "
+"värdet equirectangular."
 
 #: src/properties.cpp:1030
 msgid "Pose Heading Degrees"
-msgstr ""
+msgstr "Position kompassriktning i grader"
 
 #: src/properties.cpp:1030
 msgid ""
 "Compass heading, measured in degrees, for the center the image. Value must "
 "be >= 0 and < 360."
 msgstr ""
+"Grader för kompassriktning för att centrera bilden. Värdet måste vara >= 0 "
+"och < 360."
 
 #: src/properties.cpp:1031
 msgid "Pose Pitch Degrees"
-msgstr ""
+msgstr "Position Pitch grader"
 
 #: src/properties.cpp:1031
 msgid ""
 "Pitch, measured in degrees, for the center in the image. Value must be >= "
 "-90 and <= 90."
 msgstr ""
+"Pitch, i grader för centrum i bilden. Värdet måste vara >= -90 och <= 90."
 
 #: src/properties.cpp:1032
 msgid "Pose Roll Degrees"
-msgstr ""
+msgstr "Position Roll i grader"
 
 #: src/properties.cpp:1032
 msgid ""
 "Roll, measured in degrees, of the image where level with the horizon is 0. "
 "Value must be > -180 and <= 180."
 msgstr ""
+"Roll i grader för bilden, där nivå med horisonten är 0. Värdet måste vara > "
+"- 180 och <= 180."
 
 #: src/properties.cpp:1033
 msgid "Initial View Heading Degrees"
-msgstr ""
+msgstr "Initial vy, riktning i grader"
 
 #: src/properties.cpp:1033
 msgid "The heading angle of the initial view in degrees."
-msgstr ""
+msgstr "Vinkeln för riktningen av den initiala vyn i grader."
 
 #: src/properties.cpp:1034
 msgid "Initial View Pitch Degrees"
-msgstr ""
+msgstr "Initial vy, Pitch i grader"
 
 #: src/properties.cpp:1034
-#, fuzzy
 msgid "The pitch angle of the initial view in degrees."
-msgstr "Avstånd till motivet i meter."
+msgstr "Pitch-vinkel för initial vy i grader."
 
 #: src/properties.cpp:1035
 msgid "Initial View Roll Degrees"
-msgstr ""
+msgstr "Initial vy, Roll i grader"
 
 #: src/properties.cpp:1035
 msgid "The roll angle of the initial view in degrees."
-msgstr ""
+msgstr "Roll-vinkel för den initiala vyn i grader."
 
 #: src/properties.cpp:1036
 msgid "Initial Horizontal FOV Degrees"
-msgstr ""
+msgstr "Initial horisonell FOV i grader"
 
 #: src/properties.cpp:1036
 msgid ""
 "The initial horizontal field of view that the viewer should display (in "
 "degrees). This is similar to a zoom level."
 msgstr ""
+"Initiala horisontella fältet för vyn som visaren ska visa (i grader). Det är "
+"liknande en zoomnivå."
 
 #: src/properties.cpp:1037
-#, fuzzy
 msgid "First Photo Date"
-msgstr "Första publiceringsdatum"
+msgstr "Första fotodatum"
 
 #: src/properties.cpp:1037
 msgid "Date and time for the first image created in the panorama."
-msgstr ""
+msgstr "Datum och tid för den första bilden skapad i panoramat."
 
 #: src/properties.cpp:1038
-#, fuzzy
 msgid "Last Photo Date"
-msgstr "Bilddatum"
+msgstr "Senaste fotodatum"
 
 #: src/properties.cpp:1038
-#, fuzzy
 msgid "Date and time for the last image created in the panorama."
-msgstr "Datum och tid i ISO 8601-format för när originalvideon skapades. "
+msgstr "Datum och tid för när den senaste bilden i panoramat skapades."
 
 #: src/properties.cpp:1039
 msgid "Source Photos Count"
-msgstr ""
+msgstr "Antal källfoton"
 
 #: src/properties.cpp:1039
 msgid "Number of source images used to create the panorama"
-msgstr ""
+msgstr "Antal källbilder använda för att skapa panoramat"
 
 #: src/properties.cpp:1040
-#, fuzzy
 msgid "Exposure Lock Used"
-msgstr "Exponeringsläge"
+msgstr "Exponeringslås använt"
 
 #: src/properties.cpp:1040
 msgid ""
 "When individual source photographs were captured, whether or not the "
 "camera's exposure setting was locked. "
 msgstr ""
+"När individuella källfotografier fångades, oavsett om kamerans "
+"exponeringsinställning var låst. "
 
 #: src/properties.cpp:1041
-#, fuzzy
 msgid "Cropped Area Image Width Pixels"
-msgstr "Bredd på källbild"
+msgstr "Bredd på beskuret bildområde i bildpunkter"
 
 #: src/properties.cpp:1041
 msgid ""
 "Original width in pixels of the image (equal to the actual image's width for "
 "unedited images)."
 msgstr ""
+"Originalbredd i bildpunkter för bilden (likadan som den aktuella bildens "
+"bredd för oredigerade bilder)."
 
 #: src/properties.cpp:1042
-#, fuzzy
 msgid "Cropped Area Image Height Pixels"
-msgstr "Höjd på källbild"
+msgstr "Höjd på beskuret bildområde i bildpunkter"
 
 #: src/properties.cpp:1042
 msgid ""
 "Original height in pixels of the image (equal to the actual image's height "
 "for unedited images)."
 msgstr ""
+"Originalhöjd i bildpunkter för bilden (likadan som den aktuella bildens höjd "
+"för oredigerade bilder)."
 
 #: src/properties.cpp:1043
 msgid "Full Pano Width Pixels"
-msgstr ""
+msgstr "Hel panoramabredd i bildpunkter"
 
 #: src/properties.cpp:1043
 msgid ""
@@ -17505,10 +17354,13 @@ msgid ""
 "partial panorama was captured, this specifies the width of what the full "
 "panorama would have been."
 msgstr ""
+"Ursprungliga hela panoramabredden från vilken bilden beskärdes. Eller, om "
+"bara en delvis panorama fångades, anger detta bredden på vad hela panoramat "
+"skulle ha varit."
 
 #: src/properties.cpp:1044
 msgid "Full Pano Height Pixels"
-msgstr ""
+msgstr "Hel panoramahöjd i bildpunkter"
 
 #: src/properties.cpp:1044
 msgid ""
@@ -17516,30 +17368,35 @@ msgid ""
 "a partial panorama was captured, this specifies the height of what the full "
 "panorama would have been."
 msgstr ""
+"Ursprungliga hela panoramahöjden från vilken bilden beskärdes. Eller, om "
+"bara en delvis panorama fångades, anger detta höjden på vad hela panoramat "
+"skulle ha varit."
 
 #: src/properties.cpp:1045
 msgid "Cropped Area Left Pixels"
-msgstr ""
+msgstr "Beskuret område till vänster i bildpunkter"
 
 #: src/properties.cpp:1045
 msgid ""
 "Column where the left edge of the image was cropped from the full sized "
 "panorama."
 msgstr ""
+"Kolumn från var den vänstra kanten av bilden beskärdes från fullstora "
+"panoramat."
 
 #: src/properties.cpp:1046
 msgid "Cropped Area Top Pixels"
-msgstr ""
+msgstr "Beskuret område överst i bildpunkter"
 
 #: src/properties.cpp:1046
 msgid ""
 "Row where the top edge of the image was cropped from the full sized panorama."
 msgstr ""
+"Rad från var den översta kanten av bilden beskärdes från fullstora panoramat."
 
 #: src/properties.cpp:1047
-#, fuzzy
 msgid "Initial Camera Dolly"
-msgstr "Unik kameramodell"
+msgstr "Initial kameravagn"
 
 #: src/properties.cpp:1047
 msgid ""
@@ -17548,6 +17405,10 @@ msgid ""
 "represented by the value -1.0, while a front surface position is represented "
 "by 1.0. For normal viewing, this parameter should be set to 0."
 msgstr ""
+"Denna valfria parameter flyttar den virtuella kamerapositionen längs "
+"synfältet, bort från centrum av fotosfären. Bakre ytposition representeras "
+"av -1.0 medan främre ytposition representeras av 1.0. För normal visning bör "
+"parametern sättas till 0."
 
 #: src/properties.cpp:1055
 msgid "Archival Location"
@@ -17744,7 +17605,7 @@ msgstr "QTime-kompatibel filtyps-märke"
 
 #: src/properties.cpp:1085
 msgid "Other QuickTime Compatible FileType Brand"
-msgstr "Andra QuickTime-kompatible fil-typsmärke"
+msgstr "Andra QuickTime-kompatibla fil-typsmärken"
 
 #: src/properties.cpp:1086
 msgid "Information about the Composer."
@@ -17828,11 +17689,11 @@ msgstr "Signaturhash-algoritm för innehåll"
 
 #: src/properties.cpp:1096
 msgid "Content Signature Hash Algorithm. Eg: SHA1-160 or MD5"
-msgstr "Signaturhash-algoritm för innehåll. Exempelivs: SHA1-160 eller MD5"
+msgstr "Signaturhash-algoritm för innehåll. Exempelvis: SHA1-160 eller MD5"
 
 #: src/properties.cpp:1097
 msgid "Indicates the direction of contrast processing applied by the camera."
-msgstr "Indikerar riktningen på konstrastbearbetning tillagd av kameran."
+msgstr "Indikerar riktningen på kontrastbearbetning tillagd av kameran."
 
 #: src/properties.cpp:1098
 msgid "Copyright, can be name of an organization or an individual."
@@ -17882,7 +17743,7 @@ msgstr "Antal bildpunkter att beskäras från vänster."
 
 #: src/properties.cpp:1105
 msgid "Pixel Crop Right"
-msgstr "Bildpunkstbeskärning höger"
+msgstr "Bildpunktsbeskärning höger"
 
 #: src/properties.cpp:1105
 msgid "Number of Pixels to be cropped from the right."
@@ -17929,7 +17790,7 @@ msgid ""
 "format."
 msgstr ""
 "Datum och tid för när videon lagrades som digitalt data, kan vara detsamma "
-"som DateTimeOriginal om ursprunligen lagrat i digital form. Lagras i ISO "
+"som DateTimeOriginal om ursprungligen lagrat i digital form. Lagras i ISO "
 "8601-format."
 
 #: src/properties.cpp:1113
@@ -18026,7 +17887,7 @@ msgstr "Punkter per tum"
 
 #: src/properties.cpp:1124
 msgid "The duration of the media file. Measured in milli-seconds."
-msgstr "Längden på mediafilen. Mäts i milisekunder."
+msgstr "Längden på mediafilen. Mäts i millisekunder."
 
 #: src/properties.cpp:1125
 msgid "EBML Read Version"
@@ -18132,7 +17993,7 @@ msgstr "Kodare"
 
 #: src/properties.cpp:1141
 msgid "Information about the Encoder."
-msgstr "Informaton om kodaren."
+msgstr "Information om kodaren."
 
 #: src/properties.cpp:1142
 msgid "End Timecode"
@@ -18148,11 +18009,11 @@ msgstr "Utrustning"
 
 #: src/properties.cpp:1144
 msgid "Information about the Equipment used for recording Video."
-msgstr "Information om utrustnngen som användes för att spela in video."
+msgstr "Information om utrustningen som användes för att spela in video."
 
 #: src/properties.cpp:1145
 msgid "Exposure Compensation Information."
-msgstr "Exponeringskompenseringsinformation."
+msgstr "Exponeringskompensationsinformation."
 
 #: src/properties.cpp:1146
 msgid "Exposure Program Information."
@@ -18167,7 +18028,6 @@ msgid "Extended Content Description"
 msgstr "Extended Content Description"
 
 #: src/properties.cpp:1148
-#, fuzzy
 msgid "Extended Content Description, usually found in ASF type files."
 msgstr "Extended Content Description, vanligen funnet i filer av typen ASF."
 
@@ -18193,7 +18053,7 @@ msgstr "Filnamn"
 
 #: src/properties.cpp:1152
 msgid "File Name or Absolute File Path"
-msgstr "Filnamn eller absolut sökvväg"
+msgstr "Filnamn eller absolut sökväg"
 
 #: src/properties.cpp:1153
 msgid "File Size"
@@ -18221,15 +18081,15 @@ msgstr "Version på fast programvara för kamera-/videoenheten."
 
 #: src/properties.cpp:1157
 msgid "F number. Camera Lens specific data."
-msgstr "F-nummer. Kameralinsspecifik data."
+msgstr "F-nummer. Kameraobjektivsspecifik data."
 
 #: src/properties.cpp:1158
 msgid "Focal length of the lens, in millimeters."
-msgstr "Brännvidd på linsen i millimeter."
+msgstr "Brännvidd på objektivet i millimeter."
 
 #: src/properties.cpp:1159
 msgid "Focus Mode of the Lens. Eg - AF for Auto Focus"
-msgstr "Fokusläge på linsen. Exempelvis - AF för autofokus"
+msgstr "Fokusläge på objektivet. Exempelvis - AF för autofokus"
 
 #: src/properties.cpp:1160
 msgid "Indication of movie format (computer-generated, digitized, and so on)."
@@ -18298,11 +18158,11 @@ msgstr "(Öst/väst). Indikerar longitud."
 
 #: src/properties.cpp:1175
 msgid "Geodetic survey data."
-msgstr "Geodektiskt undersökningsdata."
+msgstr "Geodetiskt undersökningsdata."
 
 #: src/properties.cpp:1176
 msgid "Satellite information, format is unspecified."
-msgstr "Satellitinformation, format ospecifierat."
+msgstr "Satellitinformation, format ospecificerat."
 
 #: src/properties.cpp:1177
 msgid "Time stamp of GPS data, "
@@ -18313,20 +18173,18 @@ msgid "A decimal encoding with period separators. "
 msgstr "En decimalkodning med punktseparatorer. "
 
 #: src/properties.cpp:1179
-#, fuzzy
 msgid "Graphics Mode"
-msgstr "Graphcs-läge"
+msgstr "Graphics-läge"
 
 #: src/properties.cpp:1179
-#, fuzzy
 msgid ""
 "A 16-bit integer that specifies the transfer mode. The transfer mode "
 "specifies which Booleanoperation QuickDraw should perform when drawing or "
 "transferring an image from one location to another."
 msgstr ""
 "Ett 16-bitars heltal som anger överföringsläget. Överföringsläget anger "
-"vilken boolsk åtgärd QuickDraw ska utföra vid uppritning eller överföring av "
-"en bild från en plats till en annan."
+"vilken boolesk åtgärd QuickDraw ska utföra vid uppritning eller överföring "
+"av en bild från en plats till en annan."
 
 #: src/properties.cpp:1181
 msgid "Grouping"
@@ -18472,7 +18330,7 @@ msgstr "Längden på mediafilen."
 
 #: src/properties.cpp:1200
 msgid "Lens Type."
-msgstr "Linstyp."
+msgstr "Objektivtyp."
 
 #: src/properties.cpp:1201
 msgid "Lightness"
@@ -18556,7 +18414,7 @@ msgstr "Kameratillverkarens URL."
 
 #: src/properties.cpp:1211
 msgid "Smallest F number of lens, in APEX."
-msgstr "Minsta F-nummer för lins i APEX."
+msgstr "Minsta F-nummer för objektiv i APEX."
 
 #: src/properties.cpp:1212
 msgid "Maximum Bit Rate"
@@ -18581,7 +18439,7 @@ msgid ""
 "Peak rate at which data is presented in a video (Expressed in kB/s(kiloBytes "
 "per Second))"
 msgstr ""
-"Topphastighet för när data presenteras i en video (Utryckt i kB/s(kilobytes "
+"Topphastighet för när data presenteras i en video (uttryckt i kB/s(kilobytes "
 "per sekund))"
 
 #: src/properties.cpp:1214 src/properties.cpp:1417
@@ -18898,7 +18756,6 @@ msgid "Play Selection."
 msgstr "Spela markerade."
 
 #: src/properties.cpp:1259
-#, fuzzy
 msgid "Play Mode"
 msgstr "Uppspelningsläge"
 
@@ -18908,7 +18765,7 @@ msgstr "Information om uppspelningsläge."
 
 #: src/properties.cpp:1260
 msgid "Chapter Physical Equivalent"
-msgstr "Kapitel fysiskmotsvarighet"
+msgstr "Avsnitt fysisk motsvarighet"
 
 #: src/properties.cpp:1260
 msgid "Contains the information of External media."
@@ -19196,7 +19053,7 @@ msgstr ""
 
 #: src/properties.cpp:1302
 msgid "Software used to generate / create Video data."
-msgstr "Programmmet som användes för att generera / skapa videodata."
+msgstr "Programmet som användes för att generera / skapa videodata."
 
 #: src/properties.cpp:1303
 msgid "Software Version"
@@ -19284,14 +19141,13 @@ msgstr "Strömnamn"
 
 #: src/properties.cpp:1315
 msgid "Describes the Stream Name. Eg - FUJIFILM AVI STREAM 0100"
-msgstr "Beskrivning av strömnamnet, exempevis FUJIFILM AVI STREAM 0100"
+msgstr "Beskrivning av strömnamnet, exempelvis FUJIFILM AVI STREAM 0100"
 
 #: src/properties.cpp:1316
 msgid "Stream Quality"
 msgstr "Strömkvalitet"
 
 #: src/properties.cpp:1316
-#, fuzzy
 msgid "General Stream Quality"
 msgstr "Allmän strömkvalitet"
 
@@ -19459,7 +19315,6 @@ msgid "Target Type"
 msgstr "Måltyp"
 
 #: src/properties.cpp:1339
-#, fuzzy
 msgid ""
 "A string describing the logical level of the object the Tag is referring to."
 msgstr ""
@@ -19495,7 +19350,7 @@ msgstr "Förhandsvisningsbredd på miniatyrbild."
 
 #: src/properties.cpp:1344
 msgid "Timecode Scale"
-msgstr "Tidsskodskala"
+msgstr "Tidkodsskala"
 
 #: src/properties.cpp:1344
 msgid ""
@@ -19530,8 +19385,8 @@ msgid ""
 msgstr ""
 "Ett tidsvärde som indikerar tidsskalan för denna film - det vill säga "
 "antalet tidsenheter som passerar per sekund i dess tidskoordinatsystem. Ett "
-"tidskoordinatsystem som mäter tid i sextiodelar av en sekund har till "
-"exempel en tidsskala på 60."
+"tidskoordinatsystem som mäter tid i sextiondel av en sekund har till exempel "
+"en tidsskala på 60."
 
 #: src/properties.cpp:1349
 msgid ""
@@ -19648,7 +19503,7 @@ msgid ""
 msgstr ""
 "Ett 16-bitars heltal som indikerar detta spårs spatiala prioritet i dess "
 "film. QuickTime MovieToolbox använder värdet för att bestämma hur spår "
-"överlagrar varanda. Spår med lägre lagervärden visas före spår med höge "
+"överlagrar varandra. Spår med lägre lagervärden visas före spår med höge "
 "lagervärden."
 
 #: src/properties.cpp:1364
@@ -19901,7 +19756,7 @@ msgstr "Information om ljudkodeken decode all, i.e. aktiverade/inaktiverade"
 
 #: src/properties.cpp:1403
 msgid "Audio Codec Description"
-msgstr "Ljudkodedbeskrivning"
+msgstr "Ljudkodekbeskrivning"
 
 #: src/properties.cpp:1404
 msgid "Audio Codec Download URL"
@@ -19921,25 +19776,23 @@ msgid ""
 "example is the Vorbis initialization packets for Vorbis audio."
 msgstr ""
 "Information kodeken behöver innan avkodning kan ske. Ett exempel är paketen "
-"Vorbis-intialisering för Vorbis-ljud."
+"Vorbis-initiering för Vorbis-ljud."
 
 #: src/properties.cpp:1406
 msgid "Audio Codec Settings"
 msgstr "Ljudkodekinställningar"
 
 #: src/properties.cpp:1408
-#, fuzzy
 msgid "Audio Default Duration"
-msgstr "Speltid för ljud"
+msgstr "Standardlängd för ljud"
 
 #: src/properties.cpp:1408
 msgid "The number of micro seconds an audio chunk plays."
 msgstr "Antalet mikrosekunder en ljudchunk spelar."
 
 #: src/properties.cpp:1409
-#, fuzzy
 msgid "Audio Default Stream"
-msgstr "Standardström"
+msgstr "Standardström för ljud"
 
 #: src/properties.cpp:1409
 msgid "Audio Stream that would be played by default."
@@ -19974,7 +19827,6 @@ msgid "Output Audio Sample Rate"
 msgstr "Samplingsfrekvens för ljudutmatning"
 
 #: src/properties.cpp:1423
-#, fuzzy
 msgid ""
 "The output audio sample rate. Can be any value, but commonly 32000, 41100, "
 "or 48000."
@@ -20039,35 +19891,32 @@ msgid "Audio URN"
 msgstr "Ljud-URN"
 
 #: src/properties.cpp:1449
-#, fuzzy
 msgid "The nature or genre of the resource."
-msgstr "Namnet på genren."
+msgstr "Namnet på genren eller resursens natur."
 
 #: src/properties.cpp:1450
-#, fuzzy
 msgid "Date Modified"
-msgstr "Datum för identifiering"
+msgstr "Datum ändrad"
 
 #: src/properties.cpp:1450
-#, fuzzy
 msgid "Date on which the resource was changed."
-msgstr "År då videon skapades."
+msgstr "Datim då resursen ändrades."
 
 #: src/properties.cpp:1451
-#, fuzzy
 msgid "A language of the resource."
-msgstr "Ett kort informellt namn för resursen."
+msgstr "Ett språk för resursen."
 
 #: src/properties.cpp:1452
-#, fuzzy
 msgid "License"
-msgstr "Licensinnehavare"
+msgstr "Licens"
 
 #: src/properties.cpp:1452
 msgid ""
 "A legal document giving official permission to do something with the "
 "resource."
 msgstr ""
+"Ett juridiskt dokument som ger officiell tillåtelse att göra något med "
+"resursen."
 
 #: src/properties.cpp:1453
 msgid "Rights Holder"
@@ -20088,15 +19937,16 @@ msgid ""
 "Information about who can access the resource or an indication of its "
 "security status."
 msgstr ""
+"Information om vilken som kan komma åt resursen eller en indikation på dess "
+"säkerhetsstatus."
 
 #: src/properties.cpp:1455
 msgid "Bibliographic Citation"
 msgstr "Källhänvisning"
 
 #: src/properties.cpp:1455
-#, fuzzy
 msgid "A bibliographic reference for the resource."
-msgstr "Ett kort informellt namn för resursen."
+msgstr "En källhänvisning för resursen."
 
 #: src/properties.cpp:1456
 msgid "References"
@@ -20111,23 +19961,20 @@ msgstr ""
 "beskrivna resursen."
 
 #: src/properties.cpp:1459
-#, fuzzy
 msgid "*Main structure* containing Darwin Core location based information."
-msgstr "Huvudstruktur innehållandes områdesbaserad information"
+msgstr "*Huvudstruktur* innehållandes Darwin Core platsbaserad information."
 
 #: src/properties.cpp:1468
-#, fuzzy
 msgid "Record"
-msgstr "Inspelad av"
+msgstr "Post"
 
 #: src/properties.cpp:1469
-#, fuzzy
 msgid "*Main structure* containing record based information."
-msgstr "Huvudstruktur innehållandes områdesbaserad information"
+msgstr "*Huvudstruktur* innehållandes postbaserad information."
 
 #: src/properties.cpp:1472
 msgid "Institution ID"
-msgstr "Instutions-ID"
+msgstr "Institutions-ID"
 
 #: src/properties.cpp:1473
 msgid ""
@@ -20155,7 +20002,7 @@ msgstr ""
 
 #: src/properties.cpp:1478
 msgid "Institution Code"
-msgstr "Instutionskod"
+msgstr "Institutionskod"
 
 #: src/properties.cpp:1479
 msgid ""
@@ -20200,7 +20047,7 @@ msgstr ""
 
 #: src/properties.cpp:1490
 msgid "Owner Institution Code"
-msgstr "Kod för ägarinstituion"
+msgstr "Kod för ägarinstitution"
 
 #: src/properties.cpp:1491
 msgid ""
@@ -20264,14 +20111,12 @@ msgstr ""
 "innehåll som nyckel-värdepar."
 
 #: src/properties.cpp:1507
-#, fuzzy
 msgid "Occurrence"
-msgstr "Händelse-ID"
+msgstr "Förekomst"
 
 #: src/properties.cpp:1508
-#, fuzzy
 msgid "*Main structure* containing occurrence based information."
-msgstr "Huvudstruktur innehållandes områdesbaserad information"
+msgstr "*Huvudstruktur* innehållandes förekomstbaserad information."
 
 #: src/properties.cpp:1511
 msgid "Occurrence ID"
@@ -20301,14 +20146,12 @@ msgstr ""
 "En identifierare (helst unik) för posten i datamängden eller -samlingen."
 
 #: src/properties.cpp:1517
-#, fuzzy
 msgid "Occurrence Details"
-msgstr "Status på förekomst"
+msgstr "Detaljer om förekomst"
 
 #: src/properties.cpp:1518
-#, fuzzy
 msgid "Depreciated. Details about the Occurrence."
-msgstr "Kommentarer eller anteckningar om förekomsten."
+msgstr "Föråldrad. Detaljer om förekomsten."
 
 #: src/properties.cpp:1520
 msgid "Occurrence Remarks"
@@ -20353,21 +20196,20 @@ msgid "Individual ID"
 msgstr "Individ-ID"
 
 #: src/properties.cpp:1530
-#, fuzzy
 msgid ""
 "Depreciated. An identifier for an individual or named group of individual "
 "organisms represented in the Occurrence. Meant to accommodate resampling of "
 "the same individual or group for monitoring purposes. May be a global unique "
 "identifier or an identifier specific to a data set."
 msgstr ""
-"En identifierare för en individ eller namngedd grupp av individuella "
-"organismer representerade i förekomsten. Avsedd att underlätta återsampling "
-"av samma individ eller grupp i övervakningssyften. Kan vara en global unik "
-"identifierare eller en identifierare specifik för en datamängd."
+"Föråldrad. En identifierare för en individ eller namngiven grupp av "
+"individuella organismer representerade i förekomsten. Avsedd att underlätta "
+"återsampling av samma individ eller grupp i övervakningssyften. Kan vara en "
+"global unik identifierare eller en identifierare specifik för en datamängd."
 
 #: src/properties.cpp:1532
 msgid "Individual Count"
-msgstr "Indvidantal"
+msgstr "Individantal"
 
 #: src/properties.cpp:1533
 msgid ""
@@ -20375,21 +20217,20 @@ msgid ""
 msgstr "Antalet individer närvarande vid förekomsten."
 
 #: src/properties.cpp:1535
-#, fuzzy
 msgid "Organism Quantity"
-msgstr "Strömkvalitet"
+msgstr "Organismkvantitet"
 
 #: src/properties.cpp:1536
 msgid "A number or enumeration value for the quantity of organisms."
-msgstr ""
+msgstr "En siffra eller uppräkningsvärde för antalet organismer."
 
 #: src/properties.cpp:1538
 msgid "Organism Quantity Type"
-msgstr ""
+msgstr "Organism antalstyp"
 
 #: src/properties.cpp:1539
 msgid "The type of quantification system used for the quantity of organisms."
-msgstr ""
+msgstr "Typ av kvantifieringssystem som används för antalet organismer."
 
 #: src/properties.cpp:1541
 msgid "Sex"
@@ -20401,7 +20242,7 @@ msgid ""
 "Recommended best practice is to use a controlled vocabulary."
 msgstr ""
 "Kön på individ(erna) i förekomsten. Rekommenderad användning är att använda "
-"en kontrollerad vokalbulär."
+"en kontrollerad vokabulär."
 
 #: src/properties.cpp:1544
 msgid "Life Stage"
@@ -20511,13 +20352,12 @@ msgid "Previous Identifications"
 msgstr "Tidigare identifieringar"
 
 #: src/properties.cpp:1569
-#, fuzzy
 msgid ""
 "Depreciated. A list (concatenated and separated) of previous assignments of "
 "names to the Occurrence."
 msgstr ""
-"En lista (konkatenerad och separerad) över tidigare tilldelningar av namn i "
-"förekomsten."
+"Föråldrad. En lista (konkatenerad och separerad) över tidigare tilldelningar "
+"av namn i förekomsten."
 
 #: src/properties.cpp:1571
 msgid "Associated Media"
@@ -20550,13 +20390,12 @@ msgid "Associated Occurrences"
 msgstr "Associerade förekomster"
 
 #: src/properties.cpp:1578
-#, fuzzy
 msgid ""
 "Depreciated. A list (concatenated and separated) of identifiers of other "
 "Occurrence records and their associations to this Occurrence."
 msgstr ""
-"En lista (konkatenerad och separerad) över identifierare över andra "
-"förekomstsposter och deras associationer till denna förekomst."
+"Föråldrad. En lista (konkatenerad och separerad) över identifierare över "
+"andra förekomstsposter och deras associationer till denna förekomst."
 
 #: src/properties.cpp:1580
 msgid "Associated Sequences"
@@ -20585,145 +20424,135 @@ msgstr ""
 "och deras associationer med förekomsten."
 
 #: src/properties.cpp:1588
-#, fuzzy
 msgid "Organism"
-msgstr "Organisation"
+msgstr "Organism"
 
 #: src/properties.cpp:1589
-#, fuzzy
 msgid "*Main structure* containing organism based information."
-msgstr "Huvudstruktur innehållandes områdesbaserad information"
+msgstr "*Huvudstruktur* innehållandes organismbaserad information."
 
 #: src/properties.cpp:1592
 msgid "Organism ID"
-msgstr ""
+msgstr "Organism-ID"
 
 #: src/properties.cpp:1593
-#, fuzzy
 msgid ""
 "An identifier for the Organism instance (as opposed to a particular digital "
 "record of the Organism). May be a globally unique identifier or an "
 "identifier specific to the data set."
 msgstr ""
-"En identifierare för mängden av taxoninformation (data associerat med taxon-"
-"klassen). Kan vara en global unik identifierare eller en identifierare "
-"specifik för datamängden."
+"En identifierare för organisminstansen (i motsats till en specifik digital "
+"post av organismen). Kan vara en global unik identifierare eller en "
+"identifierare specifik för datamängden."
 
 #: src/properties.cpp:1595
-#, fuzzy
 msgid "Organism Name"
-msgstr "Strömnamn"
+msgstr "Organismnamn"
 
 #: src/properties.cpp:1596
 msgid "A textual name or label assigned to an Organism instance."
-msgstr ""
+msgstr "Ett namn eller en etikett tilldelad till en organisminstans."
 
 #: src/properties.cpp:1598
 msgid "Organism Scope"
-msgstr ""
+msgstr "Organismomfång"
 
 #: src/properties.cpp:1599
-#, fuzzy
 msgid ""
 "A description of the kind of Organism instance. Can be used to indicate "
 "whether the Organism instance represents a discrete organism or if it "
 "represents a particular type of aggregation. Recommended best practice is to "
 "use a controlled vocabulary."
 msgstr ""
-"En kategorisk beskrivning av omfattningen för hur georeferensen har "
-"verifierats för att representera den bästa spatiala beskrivningen. "
-"Rekommenderad användning är att använda en kontrollerad vokabulär."
+"En beskrivning av organisminstansen. Kan användas för att indikera huruvida "
+"organisminstansen representerar en diskret organism eller om dne "
+"representerar en speciellt typ av aggregation. Rekommenderad användning är "
+"att använda en kontrollerad vokabulär."
 
 #: src/properties.cpp:1601
-#, fuzzy
 msgid "Organism Associated Occurrences"
-msgstr "Associerade förekomster"
+msgstr "Organismassocierade förekomster"
 
 #: src/properties.cpp:1602
-#, fuzzy
 msgid ""
 "A list (concatenated and separated with a vertical bar ' | ') of identifiers "
 "of other Occurrence records and their associations to this Occurrence."
 msgstr ""
-"En lista (konkatenerad och separerad) över identifierare över andra "
-"förekomstsposter och deras associationer till denna förekomst."
+"En lista (konkatenerad och separerad med ett vertikalt ”| ”) över "
+"identifierare över andra förekomstsposter och deras associationer till denna "
+"förekomst."
 
 #: src/properties.cpp:1604
-#, fuzzy
 msgid "Associated Organisms"
-msgstr "Associerade förekomster"
+msgstr "Associerade organismer"
 
 #: src/properties.cpp:1605
-#, fuzzy
 msgid ""
 "A list (concatenated and separated with a vertical bar ' | ' ) of "
 "identifiers of other Organisms and their associations to this Organism."
 msgstr ""
-"En lista (konkatenerad och separerad) över identifierare över andra "
-"förekomstsposter och deras associationer till denna förekomst."
+"En lista (konkatenerad och separerad med ”|”) över identifierare över andra "
+"organismer och deras associationer till denna organism."
 
 #: src/properties.cpp:1608
-#, fuzzy
 msgid ""
 "A list (concatenated and separated with a vertical bar ' | ' ) of previous "
 "assignments of names to the Organism."
 msgstr ""
-"En lista (konkatenerad och separerad) över tidigare tilldelningar av namn i "
-"förekomsten."
+"En lista (konkatenerad and separerad med '”|” ) över tidigare tilldelning av "
+"namn till organismen."
 
 #: src/properties.cpp:1610
-#, fuzzy
 msgid "Organism Remarks"
-msgstr "Taxonanmärkningar"
+msgstr "Organismanmärkningar"
 
 #: src/properties.cpp:1611
-#, fuzzy
 msgid "Comments or notes about the Organism instance."
-msgstr "Kommentarer eller anteckningar om förekomsten."
+msgstr "Kommentarer eller anteckningar om organisminstansen."
 
 #: src/properties.cpp:1615
-#, fuzzy
 msgid "Material Sample"
-msgstr "Materialsamplings-ID"
+msgstr "Materialsampling"
 
 #: src/properties.cpp:1616
-#, fuzzy
 msgid "*Main structure* containing material sample based information."
-msgstr "Huvudstruktur innehållandes områdesbaserad information"
+msgstr "*Huvudstruktur* innehållandes materialsamplingsbaserad information."
 
 #: src/properties.cpp:1618
-#, fuzzy
 msgid "Living Specimen"
-msgstr "Kvällsscen"
+msgstr "Levande exemplar"
 
 #: src/properties.cpp:1619
-#, fuzzy
 msgid ""
 "*Main structure* containing living specimen based information. A specimen "
 "that is alive."
-msgstr "Huvudstruktur innehållandes områdesbaserad information"
+msgstr ""
+"*Huvudstruktur* innehållandes information baserad på levande exemplar. Ett "
+"levande exemplar."
 
 #: src/properties.cpp:1621
 msgid "Preserved Specimen"
-msgstr ""
+msgstr "Bevarat exemplar"
 
 #: src/properties.cpp:1622
-#, fuzzy
 msgid ""
 "*Main structure* containing preserved specimen based information. A specimen "
 "that has been preserved."
-msgstr "Huvudstruktur innehållandes områdesbaserad information"
+msgstr ""
+"*Huvudstruktur* innehållandes information baserad på bevarat exemplar. Ett "
+"exemplar som bevarats."
 
 #: src/properties.cpp:1624
 msgid "Fossil Specimen"
-msgstr ""
+msgstr "Fossilt exemplar"
 
 #: src/properties.cpp:1625
-#, fuzzy
 msgid ""
 "*Main structure* containing fossil specimen based information. A preserved "
 "specimen that is a fossil."
-msgstr "Huvudstruktur innehållandes områdesbaserad information"
+msgstr ""
+"*Huvudstruktur* innehållandes information baserad på fossilt exemplar. Ett "
+"bevarat exemplar som är en fossil."
 
 #: src/properties.cpp:1628
 msgid "Material Sample ID"
@@ -20737,32 +20566,31 @@ msgid ""
 "that will most closely make the materialSampleID globally unique."
 msgstr ""
 "En identifierare för MaterialSample (som motsats till en specifik digital "
-"post av materialsamopling). I frånvaron av en beständig global unik "
+"post av materialsampling). I frånvaron av en beständig global unik "
 "identifierare, skapa en från en kombination av identifierare i posten som "
 "närmast gör materialSampleID globalt unik."
 
 #: src/properties.cpp:1634
-#, fuzzy
 msgid "*Main structure* containing event based information."
-msgstr "Huvudstruktur innehållandes områdesbaserad information"
+msgstr "*Huvudstruktur* innehållandes händelsebaserad information."
 
 #: src/properties.cpp:1636
 msgid "Human Observation"
-msgstr ""
+msgstr "Mänsklig observation"
 
 #: src/properties.cpp:1637
-#, fuzzy
 msgid "*Main structure* containing human observation based information."
-msgstr "Huvudstruktur innehållandes områdesbaserad information"
+msgstr ""
+"*Huvudstruktur* innehållandes information baserad på mänsklig observation."
 
 #: src/properties.cpp:1639
 msgid "Machine Observation"
-msgstr ""
+msgstr "Maskinell obeservation"
 
 #: src/properties.cpp:1640
-#, fuzzy
 msgid "*Main structure* containing machine observation based information."
-msgstr "Huvudstruktur innehållandes områdesbaserad information"
+msgstr ""
+"*Huvudstruktur* innehållandes information baserad på maskinell observation."
 
 #: src/properties.cpp:1643
 msgid "Event ID"
@@ -20779,16 +20607,16 @@ msgstr ""
 "eller en identifierare specifik för datamängden."
 
 #: src/properties.cpp:1646
-#, fuzzy
 msgid "Parent Event ID"
-msgstr "Händelse-ID"
+msgstr "Överordnat händelse-ID"
 
 #: src/properties.cpp:1647
-#, fuzzy
 msgid ""
 "An identifier for the broader Event that groups this and potentially other "
 "Events."
-msgstr "En identifierare för resursen som är subjektet för relationen."
+msgstr ""
+"En identifierare för den bredare händelse som grupperar den här, och "
+"potentiellt andra händelser."
 
 #: src/properties.cpp:1649
 msgid "Event Date"
@@ -20807,40 +20635,36 @@ msgstr ""
 "kodningsscheman som ISO 8601:2004(E)."
 
 #: src/properties.cpp:1652
-#, fuzzy
 msgid "Event Earliest Date"
-msgstr "Händelsedatum"
+msgstr "Tidigaste händelsedatum"
 
 #: src/properties.cpp:1653
-#, fuzzy
 msgid ""
 "Depreciated. (Child of Xmp.dwc.Event) The date-time or interval during which "
 "an Event started. For occurrences, this is the date-time when the event was "
 "recorded. Not suitable for a time in a geological context. Recommended best "
 "practice is to use an encoding scheme, such as ISO 8601:2004(E)."
 msgstr ""
-"Datum-tid eller intervallet under vilket en händelser inträffade. För "
-"förekomster är detta datum-tid när händelsen spelades in. Passar in för tid "
-"i ett geologiskt sammanhang. Rekommenderat användning är att använda "
-"kodningsscheman som ISO 8601:2004(E)."
+"Föråldrad. (Underordnad Xmp.dwc.Event) Datum-tid eller intervallet under "
+"vilket en händelse inträffade. För förekomster är detta datum-tid när "
+"händelsen spelades in. Passar inte för tid i ett geologiskt sammanhang. "
+"Rekommenderat användning är att använda kodningsscheman som ISO 8601:2004(E)."
 
 #: src/properties.cpp:1655
-#, fuzzy
 msgid "Event Latest Date"
-msgstr "Händelsedatum"
+msgstr "Senare händelsedatum"
 
 #: src/properties.cpp:1656
-#, fuzzy
 msgid ""
 "Depreciated. (Child of Xmp.dwc.Event) The date-time or interval during which "
 "an Event ended. For occurrences, this is the date-time when the event was "
 "recorded. Not suitable for a time in a geological context. Recommended best "
 "practice is to use an encoding scheme, such as ISO 8601:2004(E)."
 msgstr ""
-"Datum-tid eller intervallet under vilket en händelser inträffade. För "
-"förekomster är detta datum-tid när händelsen spelades in. Passar in för tid "
-"i ett geologiskt sammanhang. Rekommenderat användning är att använda "
-"kodningsscheman som ISO 8601:2004(E)."
+"Föråldrad. (Underordnad Xmp.dwc.Event) Datum-tid eller intervallet under "
+"vilket en händelse inträffade. För förekomster är detta datum-tid när "
+"händelsen spelades in. Passar inte för tid i ett geologiskt sammanhang. "
+"Rekommenderat användning är att använda kodningsscheman som ISO 8601:2004(E)."
 
 #: src/properties.cpp:1658
 msgid "Event Time"
@@ -20852,7 +20676,7 @@ msgid ""
 "practice is to use an encoding scheme, such as ISO 8601:2004(E)."
 msgstr ""
 "Tid eller intervall under vilken en händelser inträffat. Rekommenderad "
-"användning är att använda ett kodningsschem som ISO 8601:2004(E)."
+"användning är att använda ett kodningsschema som ISO 8601:2004(E)."
 
 #: src/properties.cpp:1661
 msgid "Start Day Of Year"
@@ -20864,8 +20688,8 @@ msgid ""
 "January 1, 365 for December 31, except in a leap year, in which case it is "
 "366)."
 msgstr ""
-"Tidgaste dagnummer då vilken händelsen inträffade (1 för januari, 365 för 31:"
-"a december förutom skottår då det är 366)."
+"Tidigaste dagnummer då vilken händelsen inträffade (1 för januari, 365 för "
+"31:a december förutom skottår då det är 366)."
 
 #: src/properties.cpp:1664
 msgid "End Day Of Year"
@@ -20877,7 +20701,7 @@ msgid ""
 "January 1, 365 for December 31, except in a leap year, in which case it is "
 "366)."
 msgstr ""
-"Det sista dagnummret på året då vilken händelsen inträffade (1 för januari, "
+"Det sista dagnumret på året då vilken händelsen inträffade (1 för januari, "
 "365 för 31:a december utom skottår då det är 366)."
 
 #: src/properties.cpp:1668
@@ -20944,26 +20768,28 @@ msgid "The amount of effort expended during an Event."
 msgstr "Mängden av arbetsinsats som gick åt under en händelse."
 
 #: src/properties.cpp:1688
-#, fuzzy
 msgid "Sampling Size Value"
-msgstr "SMin samplingsvärde"
+msgstr "Värde på samplingsstorlek"
 
 #: src/properties.cpp:1689
 msgid ""
 "A numeric value for a measurement of the size (time duration, length, area, "
 "or volume) of a sample in a sampling event."
 msgstr ""
+"Ett numeriskt värde för mätningen av storleken (tid, längd, område eller "
+"volym) för en sampling i en samplingshändelse."
 
 #: src/properties.cpp:1691
-#, fuzzy
 msgid "Sampling Size Unit"
-msgstr "Samplingsförsök"
+msgstr "Enhet för samplingsstorlek"
 
 #: src/properties.cpp:1692
 msgid ""
 "The unit of measurement of the size (time duration, length, area, or volume) "
 "of a sample in a sampling event."
 msgstr ""
+"Enheten för mätningen av storlek (tid, längd, område eller volym) för en "
+"sampling i en samplingshändelse."
 
 #: src/properties.cpp:1694
 msgid "Field Number"
@@ -20982,14 +20808,13 @@ msgid "Field Notes"
 msgstr "Fältanteckningar"
 
 #: src/properties.cpp:1698
-#, fuzzy
 msgid ""
 "One of (a) an indicator of the existence of, (b) a reference to "
 "(publication, URI), or (c) the text of notes taken in the field about the "
 "Event."
 msgstr ""
-"En a) en indikator på existensen av b) en referens till (publikation, URI) "
-"eller c) texten för anteckningar i fältet om händelsen."
+"En (a) en indikator på existensen av , (b) en referens till (publikation, "
+"URI) eller (c) texten för anteckningar i fältet om händelsen."
 
 #: src/properties.cpp:1700
 msgid "Event Remarks"
@@ -21000,16 +20825,16 @@ msgid "Comments or notes about the Event."
 msgstr "Kommentarer eller anteckningar om händelsen."
 
 #: src/properties.cpp:1705
-#, fuzzy
 msgid "Location Class"
-msgstr "Platskod"
+msgstr "Platsklass"
 
 #: src/properties.cpp:1706
-#, fuzzy
 msgid ""
 "Depreciated. Use Xmp.dcterms.Location instead. *Main structure* containing "
 "location based information."
-msgstr "Huvudstruktur innehållandes områdesbaserad information"
+msgstr ""
+"Föråldrad. Använd Xmp.dcterms.Location istället. *Huvudstruktur* "
+"innehållandes platsbaserad information."
 
 #: src/properties.cpp:1709
 msgid "Location ID"
@@ -21036,7 +20861,7 @@ msgid ""
 "controlled vocabulary such as the Getty Thesaurus of Geographic Names."
 msgstr ""
 "En identifierare för det geografiska området är platsen var. Rekommenderad "
-"användnng är att använda en beständig identifierare från en kontrollerad "
+"användning är att använda en beständig identifierare från en kontrollerad "
 "vokabulär som Getty uppslagsverk över geografiska namn."
 
 #: src/properties.cpp:1715
@@ -21139,15 +20964,15 @@ msgstr ""
 
 #: src/properties.cpp:1739
 msgid "County"
-msgstr "County"
+msgstr "Län"
 
 #: src/properties.cpp:1740
 msgid ""
 "The full, unabbreviated name of the next smaller administrative region than "
 "stateProvince (county, shire, department, etc.) in which the Location occurs."
 msgstr ""
-"Hela oavkortade namnet för nästa mindre adminstrativa region än statProvince "
-"(land, län, avdelning, etc.) där platsen förekomster."
+"Hela oavkortade namnet för nästa mindre administrativa region än "
+"statProvince (land, län, avdelning, etc.) där platsen förekomster."
 
 #: src/properties.cpp:1742
 msgid "Municipality"
@@ -21179,7 +21004,7 @@ msgstr ""
 "information kan ges i andra geografiska termer (higherGeography, continent, "
 "country, stateProvince, county, municipality, waterBody, island, "
 "islandGroup). Denna term kan innehålla modifierad information jämfört med "
-"originalet för att korrektera fel eller standardisera beskrivningen."
+"originalet för att rätta fel eller standardisera beskrivningen."
 
 #: src/properties.cpp:1748
 msgid "Verbatim Locality"
@@ -21227,7 +21052,7 @@ msgstr ""
 
 #: src/properties.cpp:1760
 msgid "Verbatim Depth"
-msgstr "Boktstavligt djup"
+msgstr "Bokstavligt djup"
 
 #: src/properties.cpp:1761
 msgid "The original description of the depth below the local surface."
@@ -21298,7 +21123,7 @@ msgid ""
 "publication (gazetteer), institution, or team of individuals."
 msgstr ""
 "Information om källan för denna platsinformation. Kan vara en publikation "
-"(gazetteer), instution eller team av individer."
+"(ortförteckning), institution eller team av individer."
 
 #: src/properties.cpp:1778
 msgid "Location Remarks"
@@ -21319,8 +21144,8 @@ msgid ""
 "coordinates should be stored in verbatimSRS and the coordinate system should "
 "be stored in verbatimCoordinateSystem."
 msgstr ""
-"Utförlig original-spatiala koordinaterna för platsen. Koordinatellippsioden, "
-"geodektiskt datum eller spatialt referenssystem (SRS) för dessa koordinater "
+"Utförlig original-spatiala koordinaterna för platsen. Koordinatellipsioden, "
+"geodetiskt datum eller spatialt referenssystem (SRS) för dessa koordinater "
 "bör lagras i verbatimSRS och koordinatsystemen ska lagras i "
 "verbatimCoordinateSystem."
 
@@ -21335,7 +21160,7 @@ msgid ""
 "should be stored in verbatimSRS and the coordinate system should be stored "
 "in verbatimCoordinateSystem."
 msgstr ""
-"Utförlig original-latitud för platsen. Koordinatellipsioden, geodektiskt "
+"Utförlig original-latitud för platsen. Koordinatellipsioden, geodetiskt "
 "datum eller spatialt referenssystem (SRS) för dessa koordinator bör lagras i "
 "verbatimSRS och koordinatsystemet bör lagras i verbatimCoordinateSystem."
 
@@ -21350,7 +21175,7 @@ msgid ""
 "should be stored in verbatimSRS and the coordinate system should be stored "
 "in verbatimCoordinateSystem."
 msgstr ""
-"Utförlig original-longitud för platsen. Koordinatellipsioden, geodektiskt "
+"Utförlig original-longitud för platsen. Koordinatellipsioden, geodetiskt "
 "datum eller spatialt referenssystem (SRS) för dessa koordinator bör lagras i "
 "verbatimSRS och koordinatsystemet bör lagras i verbatimCoordinateSystem."
 
@@ -21382,7 +21207,7 @@ msgid ""
 "Otherwise use a controlled vocabulary for the name or code of the ellipsoid, "
 "if known. If none of these is known, use the value \"unknown\"."
 msgstr ""
-"Ellipsiod, geodektiskt datum eller spatialt referenssystem (SRS) varpå "
+"Ellipsiod, geodetiskt datum eller spatialt referenssystem (SRS) varpå "
 "koordinater givna i verbatimLatitude och verbatimLongitude eller "
 "verbatimCoordinates baseras. Rekommenderad användning är att använda EPSG-"
 "kod som en kontrollerad vokabulär för att erhålla ett SRS om känt. Använd "
@@ -21403,9 +21228,9 @@ msgid ""
 "Legal values lie between -90 and 90, inclusive."
 msgstr ""
 "Geografisk latitud (i decimal grader använd den spatiala referenssystemet "
-"givet i geodektiskt datum) för det geografiska centret för en plats. "
-"Positiva värden är norr om ekvatorn, negativa värden är söder om den. "
-"Giltiga värden är mellan -90 och 90."
+"givet i geodetiskt datum) för det geografiska centret för en plats. Positiva "
+"värden är norr om ekvatorn, negativa värden är söder om den. Giltiga värden "
+"är mellan -90 och 90."
 
 #: src/properties.cpp:1799
 msgid "Decimal Longitude"
@@ -21419,13 +21244,13 @@ msgid ""
 "of it. Legal values lie between -180 and 180, inclusive."
 msgstr ""
 "Geografisk longitud (i decimal grader använd den spatiala referenssystemet "
-"givent i geodektiskt datum) för det geografiska centret för en plats. "
-"Positiva värden är öster om Greenwich-meridianen, negativa värden är väster "
-"om den. Giltiga värden är mellan -180 och 180."
+"givet i geodetiskt datum) för det geografiska centret för en plats. Positiva "
+"värden är öster om Greenwich-meridianen, negativa värden är väster om den. "
+"Giltiga värden är mellan -180 och 180."
 
 #: src/properties.cpp:1802
 msgid "Geodetic Datum"
-msgstr "Geodektiskt datum"
+msgstr "Geodetiskt datum"
 
 #: src/properties.cpp:1803
 msgid ""
@@ -21441,9 +21266,9 @@ msgstr ""
 "geografiska koordinaterna givna i decimalLatitude och decimalLongitude. "
 "Rekommenderad användning är att använda EPSG-koden som en kontrollerad "
 "vokabulär för att erhålla ett SRS om känt. Använd annars en kontrollerad "
-"vokabulär för namnet eller koden för geodektiskt datum om känd. Använd "
-"annars en kontrollerad vokabulär för namnet eller koden för ellipsioden om "
-"kände. Om ingen av dessa är kända använd värdet ”unknown”."
+"vokabulär för namnet eller koden för geodetiskt datum om känd. Använd annars "
+"en kontrollerad vokabulär för namnet eller koden för ellipsioden om kände. "
+"Om ingen av dessa är kända använd värdet ”unknown”."
 
 #: src/properties.cpp:1805
 msgid "Coordinate Uncertainty In Meters"
@@ -21457,7 +21282,7 @@ msgid ""
 "estimated, or is not applicable (because there are no coordinates). Zero is "
 "not a valid value for this term."
 msgstr ""
-"Horisantal distans (i meter) från den givna decimalLatitude och "
+"Horisontell distans (i meter) från den givna decimalLatitude och "
 "decimalLongitude beskrivande den minsta cirkeln innehållande hela platsen. "
 "Lämna värdet tomt om osäkerheten är okänd, inte kan beräknas eller inte är "
 "tillämpbar (eftersom det inte finns koordinater). Noll är inte ett giltigt "
@@ -21476,12 +21301,10 @@ msgstr ""
 "decimalLatitude och decimalLongitude."
 
 #: src/properties.cpp:1811
-#, fuzzy
 msgid "Point Radius Spatial Fit"
-msgstr "Point Radius SpatialFit"
+msgstr "Point Radius Spatial Fit"
 
 #: src/properties.cpp:1812
-#, fuzzy, c-format
 msgid ""
 "The ratio of the area of the point-radius (decimalLatitude, "
 "decimalLongitude, coordinateUncertaintyInMeters) to the area of the true "
@@ -21497,11 +21320,11 @@ msgid ""
 msgstr ""
 "Ration för området för punkt-radien (decimalLatitude, decimalLongitude, "
 "coordinateUncertaintyInMeters) gentemot den riktiga (original eller mest "
-"specifierade) spatiala representation för platse. Giltiga värden är 0, "
+"specificerade) spatiala representation för plats. Giltiga värden är 0, "
 "större än eller lika med 1 eller okänd. Värde 1 är en precis matchning eller "
 "100% överlappande. Värde 0 bör användas om den givna punkt-radien inte helt "
-"innehåller originalrepresentationen. pointRadiusSpatialFit är odefinifierad "
-"(och bör lämnas tom) om originalrepresentationen är en punkt utan osökerhet "
+"innehåller originalrepresentationen. pointRadiusSpatialFit är odefinierad "
+"(och bör lämnas tom) om originalrepresentationen är en punkt utan osäkerhet "
 "och den givna georeferensen inte är samma punkt (utan osäkerhet). Om både "
 "originalet och den givna georeferensen är samma punkt är "
 "pointRadiusSpatialFit 1."
@@ -21533,7 +21356,7 @@ msgid ""
 "SRS of the decimalLatitude and decimalLongitude, even if it is the same as "
 "for the footprintWKT - use the geodeticDatum instead."
 msgstr ""
-"En välkänd text (WKT)-represenation av det spatiala referenssystemet (SRS) "
+"En välkänd text (WKT)-representation av det spatiala referenssystemet (SRS) "
 "för footprintWKT för platsen. Använd inte termen för att beskriva SRS för "
 "decimalLatitude och decimalLongitude även om det är samma som för "
 "footprintWKT - använd geodeticDatum istället."
@@ -21543,7 +21366,6 @@ msgid "Footprint Spatial Fit"
 msgstr "Spatial fit för fingeravtryck"
 
 #: src/properties.cpp:1821
-#, fuzzy, c-format
 msgid ""
 "The ratio of the area of the footprint (footprintWKT) to the area of the "
 "true (original, or most specific) spatial representation of the Location. "
@@ -21556,18 +21378,18 @@ msgid ""
 "footprintSpatialFit is 1."
 msgstr ""
 "Ration för området för fingeravtrycket (footprintWKT) gentemot den riktiga "
-"(original eller mest specifierade) spatiala representation för platse. "
+"(original eller mest specificerade) spatiala representation för plats. "
 "Giltiga värden är 0, större än eller lika med 1 eller okänd. Värde 1 är en "
 "precis matchning eller 100% överlappande. Värde 0 bör användas om den givna "
 "punkt-radien inte helt innehåller originalrepresentationen. "
-"footprintSpatialFit är odefinifierad (och bör lämnas tom) om "
-"originalrepresentationen är en punkt utan osökerhet och den givna "
+"footprintSpatialFit är odefinierad (och bör lämnas tom) om "
+"originalrepresentationen är en punkt utan osäkerhet och den givna "
 "georeferensen inte är samma punkt (utan osäkerhet). Om både originalet och "
 "den givna georeferensen är samma punkt är footprintSpatialFit 1."
 
 #: src/properties.cpp:1823
 msgid "Georeferenced By"
-msgstr "Georeferenced av"
+msgstr "Georefererad av"
 
 #: src/properties.cpp:1824
 msgid ""
@@ -21581,14 +21403,14 @@ msgstr ""
 
 #: src/properties.cpp:1826
 msgid "Georeferenced Date"
-msgstr "Georeferenserat datum"
+msgstr "Georefererat datum"
 
 #: src/properties.cpp:1827
 msgid ""
 "The date on which the Location was georeferenced. Recommended best practice "
 "is to use an encoding scheme, such as ISO 8601:2004(E)."
 msgstr ""
-"Datumet för platsen blev georeferenserad. Rekommenderad användning är att "
+"Datumet för platsen blev georefererad. Rekommenderad användning är att "
 "använda ett kodningschema som ISO 8601:2004(E)."
 
 #: src/properties.cpp:1829
@@ -21613,7 +21435,7 @@ msgid ""
 "used to georeference the Location, described specifically enough to allow "
 "anyone in the future to use the same resources."
 msgstr ""
-"En lista (konkatenerad och separerad) över kartor, gazetter och andra "
+"En lista (konkatenerad och separerad) över kartor, ortförteckning och andra "
 "resurser som används för georeferenser till platsen, beskrivet specifikt nog "
 "för att tillåta alla att i framtiden använda samma resurs."
 
@@ -21646,14 +21468,13 @@ msgstr ""
 "metoden refererad till i georeferenceProtocol."
 
 #: src/properties.cpp:1843
-#, fuzzy
 msgid "Geological Context"
-msgstr "Geologiskt kontext-ID"
+msgstr "Geologiskt kontext"
 
 #: src/properties.cpp:1844
-#, fuzzy
 msgid "*Main structure* containing geological context based information."
-msgstr "Huvudstruktur innehållandes områdesbaserad information"
+msgstr ""
+"*Huvudstruktur* innehållandes information baserad på geologiskt kontext."
 
 #: src/properties.cpp:1847
 msgid "Geological Context ID"
@@ -21680,9 +21501,9 @@ msgid ""
 "stratigraphic eonothem or the informal name (\"Precambrian\") attributable "
 "to the stratigraphic horizon from which the cataloged item was collected."
 msgstr ""
-"Hela namnet för tidigast möjlida geokronologiska eon eller lägsta chrono-"
+"Hela namnet för tidigast möjliga geokronologiska eon eller lägsta chrono-"
 "stratigraphic eonothem för informella namnet (”Precambrian”) som kan "
-"attribueras till strategrafiska området från vilken den katalogiserade "
+"attribueras till stratigrafiska området från vilken det katalogiserade "
 "objektet samlades in."
 
 #: src/properties.cpp:1853
@@ -21697,7 +21518,7 @@ msgid ""
 msgstr ""
 "Hela namnet för senaste möjliga geokronologiska eon eller högsta chrono-"
 "stratigraphic eonothem för informella namnet (”Precambrian”) som kan "
-"attribueras till strategrafiska området från vilken den katalogiserade "
+"attribueras till stratigrafiska området från vilken det katalogiserade "
 "objektet samlades in."
 
 #: src/properties.cpp:1856
@@ -21711,8 +21532,8 @@ msgid ""
 "which the cataloged item was collected."
 msgstr ""
 "Hela namnet för tidigaste möjliga geokronologiska eon eller lägsta chrono-"
-"stratigraphic erathem som kan attribueras till strategrafiska området från "
-"vilken den katalogiserade objektet samlades in."
+"stratigraphic erathem som kan attribueras till stratigrafiska området från "
+"vilken det katalogiserade objektet samlades in."
 
 #: src/properties.cpp:1859
 msgid "Latest Era Or Highest Erathem"
@@ -21725,8 +21546,8 @@ msgid ""
 "which the cataloged item was collected."
 msgstr ""
 "Hela namnet för senast möjliga geokronologiska era eller hösta chrono-"
-"stratigraphic erathem som kan attribueras till strategrafiska området från "
-"vilken den katalogiserade objektet samlades in."
+"stratigraphic erathem som kan attribueras till stratigrafiska området från "
+"vilken det katalogiserade objektet samlades in."
 
 #: src/properties.cpp:1862
 msgid "Earliest Period Or Lowest System"
@@ -21739,8 +21560,8 @@ msgid ""
 "which the cataloged item was collected."
 msgstr ""
 "Hela namnet för tidigaste möjliga geokronologiska eon eller lägsta chrono-"
-"stratigraphic erathem som kan attribueras till strategrafiska området från "
-"vilken den katalogiserade objektet samlades in."
+"stratigraphic erathem som kan attribueras till stratigrafiska området från "
+"vilken det katalogiserade objektet samlades in."
 
 #: src/properties.cpp:1865
 msgid "Latest Period Or Highest System"
@@ -21753,8 +21574,8 @@ msgid ""
 "which the cataloged item was collected."
 msgstr ""
 "Hela namnet för senaste möjliga geokronologiska period eller lägsta chrono-"
-"stratigraphic erathem som kan attribueras till strategrafiska området från "
-"vilken den katalogiserade objektet samlades in."
+"stratigraphic erathem som kan attribueras till stratigrafiska området från "
+"vilken det katalogiserade objektet samlades in."
 
 #: src/properties.cpp:1868
 msgid "Earliest Epoch Or Lowest Series"
@@ -21767,7 +21588,7 @@ msgid ""
 "which the cataloged item was collected."
 msgstr ""
 "Hela namnet för tidigast möjliga geokronologiska epok eller lägsta "
-"chronostratigraphic serie med attribut till strategrafiska området från "
+"chronostratigraphic serie med attribut till stratigrafiska området från "
 "vilken det katalogiserade objektet samlades in."
 
 #: src/properties.cpp:1871
@@ -21781,7 +21602,7 @@ msgid ""
 "which the cataloged item was collected."
 msgstr ""
 "Hela namnet för senast möjliga geokronologiska epok eller högsta "
-"chronostratigraphic serie med attribut till strategrafiska området från "
+"chronostratigraphic serie med attribut till stratigrafiska området från "
 "vilken det katalogiserade objektet samlades in."
 
 #: src/properties.cpp:1874
@@ -21795,7 +21616,7 @@ msgid ""
 "which the cataloged item was collected."
 msgstr ""
 "Hela namnet för tidigast möjliga geokronologiska ålder eller lägsta "
-"chronostratigraphic serie med attribut till strategrafiska området från "
+"chronostratigraphic serie med attribut till stratigrafiska området från "
 "vilken det katalogiserade objektet samlades in."
 
 #: src/properties.cpp:1877
@@ -21809,7 +21630,7 @@ msgid ""
 "which the cataloged item was collected."
 msgstr ""
 "Hela namnet för senast möjliga geokronologiska epok eller lägsta "
-"chronostratigraphic serie med attribut till strategrafiska området från "
+"chronostratigraphic serie med attribut till stratigrafiska området från "
 "vilken det katalogiserade objektet samlades in."
 
 #: src/properties.cpp:1880
@@ -21822,7 +21643,7 @@ msgid ""
 "stratigraphic horizon from which the cataloged item was collected."
 msgstr ""
 "Hela namnet för lägsta möjliga geologiska biostrategiska zon från "
-"strategrafiska området från vilken det katalogiserade objektet samlades in."
+"stratigrafiska området från vilken det katalogiserade objektet samlades in."
 
 #: src/properties.cpp:1883
 msgid "Highest Biostratigraphic Zone"
@@ -21834,18 +21655,18 @@ msgid ""
 "the stratigraphic horizon from which the cataloged item was collected."
 msgstr ""
 "Hela namnet för högsta möjliga geologiska biostrategiska zon från "
-"strategrafiska området från vilken det katalogiserade objektet samlades in."
+"stratigrafiska området från vilken det katalogiserade objektet samlades in."
 
 #: src/properties.cpp:1886
 msgid "Lithostratigraphic Terms"
-msgstr "Litostraigrafiska termer"
+msgstr "Litostratigrafiska termer"
 
 #: src/properties.cpp:1887
 msgid ""
 "The combination of all litho-stratigraphic names for the rock from which the "
 "cataloged item was collected."
 msgstr ""
-"Kombinationen av alla lithostrategiska namn för stenen från vilken det "
+"Kombinationen av alla litostratigrafiska namn för stenen från vilken det "
 "katalogiserade objektet samlades in."
 
 #: src/properties.cpp:1889
@@ -21857,7 +21678,7 @@ msgid ""
 "The full name of the lithostratigraphic group from which the cataloged item "
 "was collected."
 msgstr ""
-"Hela namnet på lithostratigraphic gruppen från vilken det katalogiserade "
+"Hela namnet på litostratigrafiska gruppen från vilken det katalogiserade "
 "objektet samlades in."
 
 #: src/properties.cpp:1892
@@ -21869,7 +21690,7 @@ msgid ""
 "The full name of the lithostratigraphic formation from which the cataloged "
 "item was collected."
 msgstr ""
-"Hela namnet på den lithostratigrafiska formationen från vilken det "
+"Hela namnet på den litostratigrafiska formationen från vilken det "
 "katalogiserade objektet samlades in."
 
 #: src/properties.cpp:1895
@@ -21881,7 +21702,7 @@ msgid ""
 "The full name of the lithostratigraphic member from which the cataloged item "
 "was collected."
 msgstr ""
-"Hela namnet för den lithostratigrafiska medlemen från vilken det "
+"Hela namnet för den litostratigrafiska medlemmen från vilken det "
 "katalogiserade objektet samlades in."
 
 #: src/properties.cpp:1898
@@ -21893,18 +21714,16 @@ msgid ""
 "The full name of the lithostratigraphic bed from which the cataloged item "
 "was collected."
 msgstr ""
-"Hela namnet för den lithostratigrafiska bädden från vilken den "
-"katalogiserade objektet samlades in."
+"Hela namnet för den litostratigrafiska bädden från vilken det katalogiserade "
+"objektet samlades in."
 
 #: src/properties.cpp:1903
-#, fuzzy
 msgid "Identification"
-msgstr "Identifierings-ID"
+msgstr "Identifiering"
 
 #: src/properties.cpp:1904
-#, fuzzy
 msgid "*Main structure* containing identification based information."
-msgstr "Huvudstruktur innehållandes områdesbaserad information"
+msgstr "*Huvudstruktur* innehållandes identifieringsbaserad information."
 
 #: src/properties.cpp:1907
 msgid "Identification ID"
@@ -21917,7 +21736,7 @@ msgid ""
 "or an identifier specific to the data set."
 msgstr ""
 "En identifierare för identifikationen (huvuddelen av informationen "
-"assosicerad med tilldelningen av ett vetenskapligt namn). Kan vara en global "
+"associerad med tilldelningen av ett vetenskapligt namn). Kan vara en global "
 "unik identifierare eller en identifierare specifik för datamängden."
 
 #: src/properties.cpp:1910
@@ -21929,8 +21748,8 @@ msgid ""
 "A list (concatenated and separated) of names of people, groups, or "
 "organizations who assigned the Taxon to the subject."
 msgstr ""
-"En lista (konkaterade eller separerade) över namn på personer, grupper eller "
-"organisationer som tilldelat Taxon till ämnet."
+"En lista (konkatenerade eller separerade) över namn på personer, grupper "
+"eller organisationer som tilldelat Taxon till ämnet."
 
 #: src/properties.cpp:1913
 msgid "Date Identified"
@@ -21968,7 +21787,7 @@ msgid ""
 "has been verified to be correct. Recommended best practice is to use a "
 "controlled vocabulary such as that used in HISPID/ABCD."
 msgstr ""
-"En kategorisk indikator för till vilken utökning den taxanomiska "
+"En kategorisk indikator för till vilken utökning den taxonomiska "
 "identifieringen har verifierats vara korrekt. Rekommenderad användning är "
 "att använda en kontrollerad vokabulär som den används i HISPID/ABCD."
 
@@ -22005,14 +21824,12 @@ msgstr ""
 "nedskriven vetenskapligt namn, publikation) tillämpade för objektet."
 
 #: src/properties.cpp:1933
-#, fuzzy
 msgid "Taxon"
-msgstr "Taxon-ID"
+msgstr "Taxon"
 
 #: src/properties.cpp:1934
-#, fuzzy
 msgid "*Main structure* containing taxonomic based information."
-msgstr "Huvudstruktur innehållandes områdesbaserad information"
+msgstr "*Huvudstruktur* innehållandes taxanomibaserad information."
 
 #: src/properties.cpp:1937
 msgid "Taxon ID"
@@ -22159,7 +21976,7 @@ msgid ""
 "specific element of the scientificName."
 msgstr ""
 "Hela namnet med författarskap och datuminformation, om känt, över de mest "
-"närliggande högst graderade föräldrataxonet (i en klassifiering) över det "
+"närliggande högst graderade föräldrataxonet (i en klassificering) över det "
 "mest specifika elementet för det vetenskapliga namnet."
 
 #: src/properties.cpp:1970
@@ -22191,10 +22008,10 @@ msgid ""
 "experts and other sources should be given."
 msgstr ""
 "Referensen till källan i vilken det specifika taxonkonceptet undantag är "
-"definierat eller implicerat - traditionell signatur med latin ”sensull” "
-"eller ”sec.”. (från secundum vilket betyder ”according to”). För taxa som "
-"resulterar från identifieringar  bör en referens till nycklarna, "
-"monograferna, experterna och  källorna ges."
+"definierat eller implicerat - traditionell signatur med latin ”sensu” eller "
+"”sec.”. (från secundum vilket betyder ”enligt”). För taxa som resulterar "
+"från identifieringar  bör en referens till nycklarna, monograferna, "
+"experterna och  källorna ges."
 
 #: src/properties.cpp:1976
 msgid "Name Published In"
@@ -22218,7 +22035,7 @@ msgstr "Fyrsiffrigt år då scientificName först publicerades."
 
 #: src/properties.cpp:1982
 msgid "Higher Classification"
-msgstr "Högre klassficering"
+msgstr "Högre klassificering"
 
 #: src/properties.cpp:1983
 msgid ""
@@ -22260,7 +22077,7 @@ msgstr "Klass"
 #: src/properties.cpp:1992
 msgid "The full scientific name of the class in which the taxon is classified."
 msgstr ""
-"Hela vetenskapliga namnet för klassen i vilken taxoneT är klassifierad."
+"Hela vetenskapliga namnet för klassen i vilken taxonet är klassificerat."
 
 #: src/properties.cpp:1994
 msgid "Order"
@@ -22268,7 +22085,8 @@ msgstr "Sortering"
 
 #: src/properties.cpp:1995
 msgid "The full scientific name of the order in which the taxon is classified."
-msgstr "Hela vetenskapliga namnet för ordningen i vilken taxonet klassifieras."
+msgstr ""
+"Hela vetenskapliga namnet för ordningen i vilken taxonet är klassificerat."
 
 #: src/properties.cpp:1997
 msgid "Family"
@@ -22307,7 +22125,7 @@ msgstr "Specifik epitet"
 
 #: src/properties.cpp:2007
 msgid "The name of the first or species epithet of the scientificName."
-msgstr "Namnet på första, eller arteptitet för det vetenskapligt namnet."
+msgstr "Namnet på första, eller artepitet för scientificName."
 
 #: src/properties.cpp:2009
 msgid "Infraspecific Epithet"
@@ -22319,7 +22137,7 @@ msgid ""
 "scientificName, excluding any rank designation."
 msgstr ""
 "Namn på lägsta eller avslutande infraspecifik epitet för vetenskapligt "
-"namnet, uteslutande graderingsbestämmning."
+"namnet, uteslutande graderingsbestämning."
 
 #: src/properties.cpp:2012
 msgid "Taxon Rank"
@@ -22342,8 +22160,8 @@ msgid ""
 "The taxonomic rank of the most specific name in the scientificName as it "
 "appears in the original record."
 msgstr ""
-"Taxonomiska graderingen för det mest specifika namnet i det vetenskapliga "
-"namnet som det visas i originalposten."
+"Taxonomiska graderingen för det mest specifika namnet i scientificName som "
+"det visas i originalposten."
 
 #: src/properties.cpp:2018
 msgid "Scientific Name Authorship"
@@ -22367,7 +22185,7 @@ msgstr "Ett vanligt eller inländskt namn."
 
 #: src/properties.cpp:2024
 msgid "Nomenclatural Code"
-msgstr "Nomeklaturkod"
+msgstr "Nomenklaturkod"
 
 #: src/properties.cpp:2025
 msgid ""
@@ -22401,7 +22219,7 @@ msgstr ""
 
 #: src/properties.cpp:2030
 msgid "Nomenclatural Status"
-msgstr "Nomeklaturstatus"
+msgstr "Nomenklaturstatus"
 
 #: src/properties.cpp:2031
 msgid ""
@@ -22410,7 +22228,7 @@ msgid ""
 "on an algorithm according to the business rules of the code. It requires no "
 "taxonomic opinion."
 msgstr ""
-"Statusen relaterat till originalpublikatioen för namnet och dess anpassning "
+"Statusen relaterat till originalpublikationen för namnet och dess anpassning "
 "till relevanta regler för nomenklaturen. Det är baserat på en algoritm "
 "enligt affärsreglerna för koden. Det kräver inget taxonomiskt alternativ."
 
@@ -22423,20 +22241,19 @@ msgid "Comments or notes about the taxon or name."
 msgstr "Kommentarer eller anteckningar om taxonet eller namnet."
 
 #: src/properties.cpp:2038
-#, fuzzy
 msgid "Resource Relationship"
-msgstr "Resurserrelations-ID"
+msgstr "Resursrelation"
 
 #: src/properties.cpp:2039
-#, fuzzy
 msgid ""
 "*Main structure* containing relationships between resources based "
 "information."
-msgstr "Huvudstruktur innehållandes områdesbaserad information"
+msgstr ""
+"*Huvudstruktur* innehållandes relationer mellan resursbaserad information."
 
 #: src/properties.cpp:2042
 msgid "Resource Relationship ID"
-msgstr "Resurserrelations-ID"
+msgstr "Resursrelations-ID"
 
 #: src/properties.cpp:2043
 msgid ""
@@ -22514,14 +22331,12 @@ msgid "Comments or notes about the relationship between the two resources."
 msgstr "Kommentarer eller anteckningar om relationen mellan de två resurserna."
 
 #: src/properties.cpp:2065
-#, fuzzy
 msgid "Measurement Or Fact"
-msgstr "Mätningsnoggranhet"
+msgstr "Mätningsnogrannhet eller fakta"
 
 #: src/properties.cpp:2066
-#, fuzzy
 msgid "*Main structure* containing measurement based information."
-msgstr "Huvudstruktur innehållandes områdesbaserad information"
+msgstr "*Huvudstruktur* innehållandes mätningsbaserad information."
 
 #: src/properties.cpp:2069
 msgid "Measurement ID"
@@ -22546,7 +22361,7 @@ msgid ""
 "The nature of the measurement, fact, characteristic, or assertion. "
 "Recommended best practice is to use a controlled vocabulary."
 msgstr ""
-"Typ för mätningen, faktan, karaktestriken eller försäkran. Rekommenderad "
+"Typ för mätningen, faktan, karakteristiken eller försäkran. Rekommenderad "
 "användning är att använda en kontrollerad vokabulär."
 
 #: src/properties.cpp:2075
@@ -22555,7 +22370,7 @@ msgstr "Mätningsvärde"
 
 #: src/properties.cpp:2076
 msgid "The value of the measurement, fact, characteristic, or assertion."
-msgstr "Värde på mätningen, faktan, karakterstiken eller försäkran."
+msgstr "Värde på mätningen, faktan, karakteristiken eller försäkran."
 
 #: src/properties.cpp:2078
 msgid "Measurement Accuracy"
@@ -22624,49 +22439,44 @@ msgid "Comments or notes accompanying the MeasurementOrFact."
 msgstr "Kommentarer eller anteckningar tillhörande mätning eller fakta."
 
 #: src/properties.cpp:2101
-#, fuzzy
 msgid "A brief description of the file"
-msgstr "Ursprungliga textbeskrivningen för platsen."
+msgstr "En kort beskrivning av filen"
 
 #: src/properties.cpp:2102
-#, fuzzy
 msgid "Date Time"
 msgstr "Datum och tid"
 
 #: src/properties.cpp:2103
-#, fuzzy
 msgid "The name of the author or photographer"
-msgstr "Namnet på bilden eller tagningen."
+msgstr "Namnet på författaren eller fotografen"
 
 #: src/properties.cpp:2104
 msgid "Numerical rating from 1 to 5"
-msgstr ""
+msgstr "Numerisk gradering från 1 till 5"
 
 #: src/properties.cpp:2105
-#, fuzzy
 msgid "Notes"
-msgstr "Fältanteckningar"
+msgstr "Anteckningar"
 
 #: src/properties.cpp:2105
 msgid "Any descriptive or additional free-form text up to 4,095 characters"
-msgstr ""
+msgstr "Beskrivande eller ytterligare fritext upp till 4095 tecken"
 
 #: src/properties.cpp:2106
 msgid "Tagged"
-msgstr ""
+msgstr "Taggad"
 
 #: src/properties.cpp:2106
 msgid "True or False"
-msgstr ""
+msgstr "True eller False"
 
 #: src/properties.cpp:2107
-#, fuzzy
 msgid "Categories"
-msgstr "Kategori"
+msgstr "Kategorier"
 
 #: src/properties.cpp:2107
 msgid "Catalog of hierarchical keywords and groups"
-msgstr ""
+msgstr "Katalog över hierarkiska nyckelord och grupper"
 
 #: src/sigmamn.cpp:62
 msgid "Resolution Mode"
@@ -22694,11 +22504,11 @@ msgstr "Fokusinställning"
 
 #: src/sigmamn.cpp:80
 msgid "Lens Range"
-msgstr "Linsens intervall"
+msgstr "Objektivintervall"
 
 #: src/sigmamn.cpp:81
 msgid "Lens focal length range"
-msgstr "Linsens brännviddsintervall"
+msgstr "Objektiv-brännviddsintervall"
 
 #: src/sigmamn.cpp:92 src/sigmamn.cpp:93
 msgid "Shadow"
@@ -22706,7 +22516,7 @@ msgstr "Skugga"
 
 #: src/sigmamn.cpp:95 src/sigmamn.cpp:96
 msgid "Highlight"
-msgstr "Markera"
+msgstr "Högdagrar"
 
 #: src/sigmamn.cpp:104
 msgid "Fill Light"
@@ -22965,9 +22775,8 @@ msgid "Release Mode"
 msgstr "Släppläge"
 
 #: src/sonymn.cpp:464
-#, fuzzy
 msgid "Shot number in continuous burst mode"
-msgstr "Bildantal i seriebildsläge"
+msgstr "Bildnummer i seriebildsläge"
 
 #: src/sonymn.cpp:466 src/sonymn.cpp:467
 msgid "Anti-Blur"
@@ -23543,7 +23352,7 @@ msgstr "Ja, obligatorisk, motverka röda ögon"
 
 #: src/tags.cpp:388
 msgid "Yes, compulsory, red-eye reduction, return light not detected"
-msgstr "Ja, obligatorisk, moteverka röda ögon, återvändande ljus inte avkänt"
+msgstr "Ja, obligatorisk, motverka röda ögon, återvändande ljus inte avkänt"
 
 #: src/tags.cpp:389
 msgid "Yes, compulsory, red-eye reduction, return light detected"
@@ -23587,7 +23396,7 @@ msgstr "Stegad layout C: jämna rader förskjuts höger med 1/2 kolumn"
 
 #: src/tags.cpp:403
 msgid "Staggered layout D: even rows are offset left by 1/2 column"
-msgstr "Stegad layout D: jämna rader förskjkuts vänster med 1/2 kolumn"
+msgstr "Stegad layout D: jämna rader förskjuts vänster med 1/2 kolumn"
 
 #: src/tags.cpp:408
 msgid "Processing Software"
@@ -23669,9 +23478,8 @@ msgstr ""
 "istället för denna tagg."
 
 #: src/tags.cpp:444
-#, fuzzy
 msgid "Thresholding"
-msgstr "Threshholding"
+msgstr "Tröskelvärde"
 
 #: src/tags.cpp:445
 msgid ""
@@ -23868,7 +23676,7 @@ msgstr "T4-alternativ"
 
 #: src/tags.cpp:527
 msgid "T.4-encoding options."
-msgstr "T.4-kodningsalternaiv."
+msgstr "T.4-kodningsalternativ."
 
 #: src/tags.cpp:529
 msgid "T6 Options"
@@ -23889,14 +23697,12 @@ msgstr ""
 "tum."
 
 #: src/tags.cpp:537
-#, fuzzy
 msgid "Page Number"
-msgstr "Bildnummer"
+msgstr "Sidnummer"
 
 #: src/tags.cpp:538
-#, fuzzy
 msgid "The page number of the page from which this image was scanned."
-msgstr "Namnet på dokumentet från vilken bilden skannades in"
+msgstr "Sidonumret för sidan från vilken bilden skannades in."
 
 #: src/tags.cpp:541
 msgid ""
@@ -24109,9 +23915,8 @@ msgid "Dot Range"
 msgstr "Punktintervall"
 
 #: src/tags.cpp:622
-#, fuzzy, c-format
 msgid "The component values that correspond to a 0% dot and 100% dot."
-msgstr "Komponentvärden som motsvarar en 0% dutt och en 100% dutt."
+msgstr "Komponentvärden som motsvarar en 0% punkt och en 100% punkt."
 
 #: src/tags.cpp:624
 msgid "Target Printer"
@@ -24217,7 +24022,6 @@ msgid "JPEG tables"
 msgstr "JPEG-tabeller"
 
 #: src/tags.cpp:661
-#, fuzzy
 msgid ""
 "This optional tag may be used to encode the JPEG quantization and Huffman "
 "tables for subsequent use by the JPEG decompression process."
@@ -24477,7 +24281,6 @@ msgstr ""
 "singel-chip färgområdessensor används. Det gäller inte för alla sensormetoder"
 
 #: src/tags.cpp:770
-#, fuzzy
 msgid ""
 "Copyright information. In this standard the tag is used to indicate both the "
 "photographer and editor copyrights. It is the copyright notice of the person "
@@ -24648,7 +24451,7 @@ msgstr "Slutarhastighet."
 
 #: src/tags.cpp:827
 msgid "The lens aperture."
-msgstr "Linsens öppning."
+msgstr "Objektivets öppning."
 
 #: src/tags.cpp:828
 msgid "The value of brightness."
@@ -24664,7 +24467,7 @@ msgstr "Största bländarvärde"
 
 #: src/tags.cpp:830
 msgid "The smallest F number of the lens."
-msgstr "Linsens minsta F-nummer."
+msgstr "Objektivets minsta F-nummer."
 
 #: src/tags.cpp:831 src/tags.cpp:1651
 msgid "The distance to the subject, given in meters."
@@ -24684,7 +24487,7 @@ msgstr "Visar blixtens tillstånd när bilden togs."
 
 #: src/tags.cpp:835
 msgid "The actual focal length of the lens, in mm."
-msgstr "Den faktiska brännvidden för linsen i millimeter."
+msgstr "Den faktiska brännvidden för objektivet i millimeter."
 
 #: src/tags.cpp:836
 msgid "Amount of flash energy (BCPS)."
@@ -24749,7 +24552,7 @@ msgstr "Visar platsen och ytan för huvudmotivet i scenen."
 
 #: src/tags.cpp:846
 msgid "Encodes the camera exposure index setting when image was captured."
-msgstr "Kodar kamerans exponderingsindexinställning när bilden togs."
+msgstr "Kodar kamerans exponeringsindexinställning när bilden togs."
 
 #: src/tags.cpp:847
 msgid "TIFF/EP Standard ID"
@@ -24890,7 +24693,7 @@ msgid ""
 "numbers in LinearRaw space. This is a required tag for non-RGB CFA images."
 msgstr ""
 "Tillhandahåller en mappning mellan värdena i CFAPattern-taggen och "
-"plannumrena i LinearRaw-rymden. Taggen krävs för icke-RGB CFA-bilder."
+"plannumren i LinearRaw-rymden. Taggen krävs för icke-RGB CFA-bilder."
 
 #: src/tags.cpp:902
 msgid "CFA Layout"
@@ -24910,7 +24713,7 @@ msgid ""
 msgstr ""
 "Beskriver en uppslagningstabell som mappar lagrade värden som linjära "
 "värden. Taggen används oftast för att öka komprimeringen genom att lagra den "
-"råa datan i ett icke-linnjärt, mer visuellt standardiserat utrymme med färre "
+"råa datan i ett icke-linjärt, mer visuellt standardiserat utrymme med färre "
 "totala kodningsnivåer. Om SamplesPerPixel inte är lika med ett gäller denna "
 "enda tabell för alla samplingar för varje bildpunkt."
 
@@ -24932,7 +24735,7 @@ msgstr ""
 "Anger noll-ljusets (s.k. termiskt svart eller svart ström) kodningsnivå, som "
 "ett upprepat mönster. Mönstrets origo är det översta vänstra hörnet i "
 "ActiveArea-rektangeln. Värdena lagras i ordningen rad-kolumn-"
-"samplinsskanning."
+"samplingskanning."
 
 #: src/tags.cpp:921
 msgid "Black Level Delta H"
@@ -25213,14 +25016,14 @@ msgid ""
 "units) to move the zero point. Positive values result in brighter default "
 "results, while negative values result in darker default results."
 msgstr ""
-"Kameramodeller gör olika avvägningar mellan utrymme för markeringar och "
-"skuggbrus. Vissa ger ett stort utrymme för markering vid normal exponering. "
-"Det här möjliggör tillämpning av stor negativ exponeringskompensering vid "
+"Kameramodeller gör olika avvägningar mellan utrymme för högdagrar och "
+"skuggbrus. Vissa ger ett stort utrymme för högdagrar vid normal exponering. "
+"Det här möjliggör tillämpning av stor negativ exponeringskompensation vid "
 "RAW-konvertering, men betyder också att normala exponeringar innehåller mer "
 "skuggbrus. Andra modeller ger mindre utrymme vid normal exponering. Det ger "
-"mindre utrymme för negativ exponeringskompensering, men ger ett lägre "
+"mindre utrymme för negativ exponeringskompensation, men ger ett lägre "
 "skuggbrus för normala exponeringar. På grund av dessa skillnader måste en "
-"RAW-konverterare variera sin nollpunkt för exponeringskompenseringskontroll "
+"RAW-konverterare variera sin nollpunkt för exponeringskompensationskontroll "
 "från en modell till en annan. BaselineExposure anger med hur mycket (i EV-"
 "enheter) som nollpunkten ska flyttas. Positiva värden ger ljusare resultat, "
 "medan negativa värden ger mörkare resultat."
@@ -25294,8 +25097,8 @@ msgid ""
 "significantly non-linear."
 msgstr ""
 "Vissa sensorer har ett oförutsägbart olinjärt drag i sin respons när de når "
-"taket för sitt kodningsintervall. Det resulterar i färgskiftningar i de "
-"markerade områdena i den resulterande bilden om inte RAW-konverteraren "
+"taket för sitt kodningsintervall. Det resulterar i färgskiftningar i "
+"högdagerområdena i den resulterande bilden om inte RAW-konverteraren "
 "kompenserar för effekten. LinearResponeLimit specificerar gränsen i "
 "kodningsintervallet där responsen kan bli svårt olinjär."
 
@@ -25309,15 +25112,15 @@ msgstr ""
 
 #: src/tags.cpp:1082
 msgid "Lens Info"
-msgstr "Linsinformation"
+msgstr "Objektivinformation"
 
 #: src/tags.cpp:1083
 msgid ""
 "Contains information about the lens that captured the image. If the minimum "
 "f-stops are unknown, they should be encoded as 0/0."
 msgstr ""
-"Innehåller information om linsen som tog bilden. Om de minsta f-stoppen är "
-"okända ska de kodas som 0/0."
+"Innehåller information om objektivet som tog bilden. Om de minsta f-stoppen "
+"är okända ska de kodas som 0/0."
 
 #: src/tags.cpp:1086
 msgid "Chroma Blur Radius"
@@ -25639,7 +25442,7 @@ msgstr ""
 "Färgmodellen DNG dokumenterar en transformering mellan kamerafärger oc CIE "
 "XYZ-värden. Denna tagg beskriver den colorimetriska referensen för CIE XYZ--"
 "värdena. 0 = XYZ-värdena är scenrefererade. 1 = XYZ-värdena är "
-"utmatningsrefereade, använder ICC perceptual dynamic range. Denna tagg "
+"utmatningsrefererade, använder ICC perceptual dynamic range. Denna tagg "
 "tillåter utmatningsrefererad data till att lagras i DNG-filer och ändå "
 "bearbetas korrekt av DNG-läsare."
 
@@ -25673,7 +25476,7 @@ msgid ""
 "tag exactly matches the string stored in the ProfileCalibrationSignature tag "
 "for the selected camera profile."
 msgstr ""
-"En UTF8-kodad sträng associerad med kameraprofilentaggarna. Taggarna "
+"En UTF8-kodad sträng associerad med kameraprofiltaggarna. Taggarna "
 "CameraCalibration1 och CameraCalibration2 bör endast användas i DNG-"
 "färgtransformering om strängen lagrad i CameraCalibrationSignature precis "
 "matchar strängen lagrad i taggen ProfileCalibrationSignature för den valda "
@@ -25738,11 +25541,11 @@ msgid ""
 "has ValueDivisions equal to 1, so only hue and saturation are used as inputs "
 "to the mapping table."
 msgstr ""
-"Taggen specifierar antalet inmatningssamplingar för varje dimension avhue/"
-"saturation/value mapping tables. Data för dessa tabeller lagras i taggarna "
-"ProfileHueSatMapData1 och ProfileHueSatMapData2. Den vanligaste användningen "
-"har ValueDivisions lika med 1, så endast hue och saturation används som "
-"indata för mappningstabellen."
+"Taggen specifierar antalet inmatningssamplingar för varje dimension av "
+"nyans-/mättnad-/intensitetsmappningstabellerna. Data för dessa tabeller "
+"lagras i taggarna ProfileHueSatMapData1 och ProfileHueSatMapData2. Den "
+"vanligaste användningen har ValueDivisions lika med 1, så endast nyans och "
+"mättnad används som indata för mappningstabellen."
 
 #: src/tags.cpp:1259
 msgid "Profile Hue Sat Map Data 1"
@@ -25759,12 +25562,12 @@ msgid ""
 "divisions in the inner loop. All zero input saturation entries are required "
 "to have a value scale factor of 1.0."
 msgstr ""
-"Taggen innehåller data för den första nyans-/mättnad-/värde-"
+"Taggen innehåller data för den första nyans-/mättnad-/intensitet-"
 "mappningstabellen. Varje post i tabellen innehåller tre 32-bitars IEEE "
 "flyttalsvärden. Första värdet är nyans-skiftning i grader, det andra värdet "
-"är mättnadsskalfaktor och det tredje värdet är en värdeskalfaktor. "
-"Tabellposterna lagras i taggen i nästlad loop-order, med värdedelaren i "
-"yttre loop, nyansdelarna i mittenloopen och mättnadsdelarna i inre loop. "
+"är mättnadsskalfaktor och det tredje värdet är en intensitetsskalfaktor. "
+"Tabellposterna lagras i taggen i nästlad loop-order, med intensitetsdelaren "
+"i yttre loop, nyansdelarna i mittenloopen och mättnadsdelarna i inre loop. "
 "Alla nollindata poster måste ha skalfaktor 1.0."
 
 #: src/tags.cpp:1269
@@ -25782,12 +25585,12 @@ msgid ""
 "saturation divisions in the inner loop. All zero input saturation entries "
 "are required to have a value scale factor of 1.0."
 msgstr ""
-"Taggen innehåller data för det andra nyans-/mättnad-/värde-"
+"Taggen innehåller data för det andra nyans-/mättnad-/intensitet-"
 "mappningstabellen. Varje post i tabellen innehåller tre 32-bitars IEEE "
 "flyttalsvärden. Första värdet är nyans-skiftning i grader, det andra värdet "
-"är mättnads-skalfaktor och det tredje värdet är en värdeskalfaktor. "
-"Tabellposterna lagras i taggen i nästlad loop-order, med värdedelaren i "
-"yttre loop, nyans-delarna i mittenloop och mättnadsdelarna i inre loopen. "
+"är mättnads-skalfaktor och det tredje värdet är en intensitetsskalfaktor. "
+"Tabellposterna lagras i taggen i nästlad loop-order, med intensitetsdelaren "
+"i yttre loop, nyans-delarna i mittenloop och mättnadsdelarna i inre loopen. "
 "Alla nollindata poster måste ha skalfaktor 1.0."
 
 #: src/tags.cpp:1279
@@ -25891,7 +25694,7 @@ msgstr ""
 
 #: src/tags.cpp:1317
 msgid "Preview Settings Digest"
-msgstr "Inställningssummma för förhandsvisning"
+msgstr "Inställningssumma för förhandsvisning"
 
 #: src/tags.cpp:1318
 msgid ""
@@ -25912,7 +25715,7 @@ msgid ""
 "Gray Gamma 2.2 for monochrome previews."
 msgstr ""
 "Taggen specificerar färgrymden i vilken den renderade förhandsvisningen i "
-"IFD lagras. Standardvärdet för denna tagg är sRGB för färgförhandsvisingar "
+"IFD lagras. Standardvärdet för denna tagg är sRGB för färgförhandsvisningar "
 "och Gray Gamma 2.2 för monokroma förhandsvisningar."
 
 #: src/tags.cpp:1326
@@ -25925,7 +25728,7 @@ msgid ""
 "the preview stored in the IFD was rendered. The date/time is encoded using "
 "ISO 8601 format."
 msgstr ""
-"Taggen är en ASCII-sträng innehållades namnet för datum/tid då "
+"Taggen är en ASCII-sträng innehållandes namnet för datum/tid då "
 "förhandsvisningen i IFD renderades. Datum/tid är kodat med ISO 8601-formatet."
 
 #: src/tags.cpp:1331
@@ -25968,10 +25771,10 @@ msgid ""
 "use of a non-default value for this tag requires setting the "
 "DNGBackwardVersion tag to at least 1.2.0.0."
 msgstr ""
-"Vanligvis lagras bildpunkterna i en ruta i enkel radskanningordning. Taggen "
+"Vanligtvis lagras bildpunkterna i en ruta i enkel radskanningordning. Taggen "
 "anger att bildpunkterna i en ruta ska grupperas, först till rektangulära "
 "block av specificerad storlek. Blocken lagras i radskanningsordning. I varje "
-"block kommer bildpunkterna att lagras i radskanningsordning. Användninge att "
+"block kommer bildpunkterna att lagras i radskanningsordning. Användningen av "
 "ett icke-standardvärde för denna tagg kräver att DNGBackwardVersion är minst "
 "1.2.0.0."
 
@@ -26030,13 +25833,13 @@ msgstr ""
 "använder samma format som tabellerna lagrade i ProfileHueSatMapData1 och "
 "ProfileHueSatMapData2 och verkställs i samma färgrymd. Den ska dock "
 "verkställas senare i bearbetningsströmmen, efter eventuell "
-"exponeringskompensantion och/eller fyllnadsljus, men innnan tonkurvesteget. "
+"exponeringskompensation och/eller fyllnadsljus, men innan tonkurvesteget. "
 "Varje post i tabellen innehåller tre 32-bitars IEEE flyttalsvärden. Första "
-"värdet är hue-skift i grader, andra värdet är mättnadsskalfaktor och den "
-"tredje posten är värdeskalfakto. Tabellposterna lagras i taggen i nästlad "
-"loop-ordning, med värdedivisionen i den yttre loopen, hue-divisionen i "
-"mittenloopen och mättnadsdivisionen i den inre loopen. Alla nollindata-"
-"mättnadinmatningar kräver en skalfaktor på 1.0."
+"värdet är nyans-skiftning i grader, andra värdet är mättnadsskalfaktorn och "
+"den tredje posten är intensitetsskalfaktorn. Tabellposterna lagras i taggen "
+"i nästlad loop-ordning, med intensitetsdivisionen i den yttre loopen, nyans-"
+"divisionen i mittenloopen och mättnadsdivisionen i den inre loopen. Alla "
+"nollindata-mättnadinmatningar kräver en skalfaktor på 1.0."
 
 #: src/tags.cpp:1375
 msgid "Opcode List 1"
@@ -26088,7 +25891,7 @@ msgid ""
 "response non-uniformity, spatially-dependent thermal effects, etc.)."
 msgstr ""
 "NoiseProfile beskriver mängden brus i en råbild. Specifikt modellerar taggen "
-"mängden signalberoende foton (blixt)-brus och signalobereonde "
+"mängden signalberoende foton (blixt)-brus och signaloberoende "
 "sensorläsarbrus, två vanliga bruskällor i råa bilder. Modellen antar att "
 "bruset är vitt spatialt oberoende, ignorerar bestämda mönstereffekter och "
 "andra källor av brus (e.g. bildpunktavvikelse, spatialberoende "
@@ -26180,7 +25983,7 @@ msgstr "D50"
 
 #: src/tags.cpp:1453
 msgid "ISO studio tungsten"
-msgstr "ISO studio wolfram"
+msgstr "ISO studio volfram"
 
 #: src/tags.cpp:1454
 msgid "Other light source"
@@ -26286,8 +26089,8 @@ msgid ""
 "14524. <OECF> is the relationship between the camera optical input and the "
 "image values."
 msgstr ""
-"Visar den opto-elektoriska konverteringsfunktionen (OECF) som specificeras i "
-"ISO 14524. <OECF> är förhållandet mellan kamerans optiska inmatning och "
+"Visar den opto-elektroniska konverteringsfunktionen (OECF) som specificeras "
+"i ISO 14524. <OECF> är förhållandet mellan kamerans optiska inmatning och "
 "bildens värden."
 
 #: src/tags.cpp:1573
@@ -26295,18 +26098,16 @@ msgid "Sensitivity Type"
 msgstr "Känslighetstyp"
 
 #: src/tags.cpp:1574
-#, fuzzy
 msgid ""
 "The SensitivityType tag indicates which one of the parameters of ISO12232 is "
 "the PhotographicSensitivity tag. Although it is an optional tag, it should "
 "be recorded when a PhotographicSensitivity tag is recorded. Value = 4, 5, 6, "
 "or 7 may be used in case that the values of plural parameters are the same."
 msgstr ""
-"Taggen känslighetstyp indikerar PhotographicSensitivity-taggen, vilken är "
-"densamma som en av parametrarna för ISO122332. Även om det är en valfri tagg "
-"bör en lagras när taggen PhotographicSensitivity lagras. Värde = 4, 5, 6 "
-"eller 7 kan användas i det fall att värdena på fleratalet parametrar är "
-"detsamma."
+"Taggen känslighetstyp indikerar vilken av parametrarna för ISO122332 som är "
+"PhotographicSensitivity-taggen. Även om det är en valfri tagg bör den lagras "
+"när taggen PhotographicSensitivity lagras. Värde = 4, 5, 6 eller 7 kan "
+"användas i det fall att värdena på flertalet parametrar är detsamma."
 
 #: src/tags.cpp:1580
 msgid "Standard Output Sensitivity"
@@ -26440,7 +26241,7 @@ msgstr ""
 
 #: src/tags.cpp:1635
 msgid "The lens aperture. The unit is the APEX value."
-msgstr "Linsöppningen. Enheten är APEX-värdet."
+msgstr "Objektivöppningen. Enheten är APEX-värdet."
 
 #: src/tags.cpp:1638
 msgid ""
@@ -26467,8 +26268,8 @@ msgid ""
 "The smallest F number of the lens. The unit is the APEX value. Ordinarily it "
 "is given in the range of 00.00 to 99.99, but it is not limited to this range."
 msgstr ""
-"Linsens minsta F-nummer. Enheten är APEX-värdet. I vanliga fall anges det i "
-"intervallet 00,00 till 99,99, men det är inte begränsat till det."
+"Objektivets minsta F-nummer. Enheten är APEX-värdet. I vanliga fall anges "
+"det i intervallet 00,00 till 99,99, men det är inte begränsat till det."
 
 #: src/tags.cpp:1660
 msgid ""
@@ -26480,8 +26281,8 @@ msgid ""
 "The actual focal length of the lens, in mm. Conversion is not made to the "
 "focal length of a 35 mm film camera."
 msgstr ""
-"Linsens faktiskt brännviddslängd i mm. Konvertering sker inte för "
-"brännviddslängden hos en 35 mm filmkamera."
+"Objektivets faktiskt brännvidd i mm. Konvertering sker inte för brännvidd "
+"hos en 35 mm filmkamera."
 
 #: src/tags.cpp:1667
 msgid ""
@@ -26637,7 +26438,7 @@ msgid ""
 "direction, as specified in ISO 12233."
 msgstr ""
 "Taggen lagrar kamerans eller inmatningsenhetens spatialfrekvenstabell och "
-"SFR-värden i fråga om bildens bredd, höjd, och diagonella riktning, enligt "
+"SFR-värden i fråga om bildens bredd, höjd och diagonal riktning enligt "
 "specifikationen ISO 12233."
 
 #: src/tags.cpp:1740
@@ -26769,9 +26570,9 @@ msgid ""
 "in mm. A value of 0 means the focal length is unknown. Note that this tag "
 "differs from the <FocalLength> tag."
 msgstr ""
-"Taggen visar den motsvarande brännviddslängden jämfört med en 35 mm "
-"filmkamera i mm. Värdet 0 betyder att brännviddslängden är okänd. Notera att "
-"den här taggen inte är samma som <FocalLength>."
+"Taggen visar den motsvarande brännvidd jämfört med en 35 mm filmkamera i mm. "
+"Värdet 0 betyder att brännvidden är okänd. Notera att den här taggen inte är "
+"samma som <FocalLength>."
 
 #: src/tags.cpp:1807
 msgid ""
@@ -26860,7 +26661,7 @@ msgstr ""
 
 #: src/tags.cpp:1847
 msgid "Lens Specification"
-msgstr "Linsspecifikation"
+msgstr "Objektivspecifikation"
 
 #: src/tags.cpp:1848
 msgid ""
@@ -26869,30 +26670,31 @@ msgid ""
 "length, which are specification information for the lens that was used in "
 "photography. When the minimum F number is unknown, the notation is 0/0"
 msgstr ""
-"Taggen anger minimal brännviddslängd, maximal brännviddslängd, minsta F-"
-"nummer i den minsta brännviddslängden och minsta F-nummer i den maximala "
-"brännviddslängden, vilket är specifikationsinformation för linsen som "
-"användes i fotografiet. När det minsta F-numret är okänt är notationen 0/0"
+"Taggen anger minimal brännvidd, maximal brännvidd, minsta F-nummer i den "
+"minsta brännvidden och minsta F-nummer i den maximala brännvidden, vilket är "
+"specifikationsinformation för objektivet som användes i fotografiet. När det "
+"minsta F-numret är okänt är notationen 0/0"
 
 #: src/tags.cpp:1854
 msgid "Lens Make"
-msgstr "Linstillverkare"
+msgstr "Objektivtillverkare"
 
 #: src/tags.cpp:1855
 msgid "This tag records the lens manufactor as an ASCII string."
-msgstr "Taggen sparar linstillverkaren som en ASCII-sträng."
+msgstr "Taggen sparar objektivtillverkaren som en ASCII-sträng."
 
 #: src/tags.cpp:1858
 msgid ""
 "This tag records the lens's model name and model number as an ASCII string."
-msgstr "Taggen sparar linsmodellens namn och modellnummer som en ASCII-sträng."
+msgstr ""
+"Taggen sparar objektivmodellens namn och modellnummer som en ASCII-sträng."
 
 #: src/tags.cpp:1862
 msgid ""
 "This tag records the serial number of the interchangeable lens that was used "
 "in photography as an ASCII string."
 msgstr ""
-"Taggen lagrar serienumret för den utbytbara linsen som användes i "
+"Taggen lagrar serienumret för den utbytbara objektivet som användes i "
 "fotografiet som en ASCII-sträng."
 
 #: src/tags.cpp:1866 src/tags.cpp:1867
@@ -27172,7 +26974,7 @@ msgid ""
 "data is restricted to Japan, the value of this tag is \"TOKYO\" or "
 "\"WGS-84\"."
 msgstr ""
-"Visar den geodektiska mätningsdatan som GPS-mottagaren använder. Om "
+"Visar den geodetiska mätningsdatan som GPS-mottagaren använder. Om "
 "mätningsdatan begränsas till Japan är taggens värde ”TOKYO” eller ”WGS-84”."
 
 #: src/tags.cpp:2029
@@ -27386,6 +27188,5 @@ msgid "big endian encoded"
 msgstr "big endian-kodad"
 
 #: src/tiffimage.cpp:2316
-#, fuzzy
 msgid "ascii bytes"
-msgstr "byte"
+msgstr "ascii-byte"
