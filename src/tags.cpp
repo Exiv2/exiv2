@@ -975,7 +975,7 @@ namespace Exiv2 {
                    "scan order."),
                 ifd0Id, dngTags, signedRational, -1, printValue), // DNG tag
         TagInfo(0xc623, "CameraCalibration1", N_("Camera Calibration 1"),
-                N_("CameraClalibration1 defines a calibration matrix that transforms "
+                N_("CameraCalibration1 defines a calibration matrix that transforms "
                    "reference camera native space values to individual camera native "
                    "space values under the first calibration illuminant. The matrix is "
                    "stored in row scan order. This matrix is stored separately from the "
@@ -2026,7 +2026,7 @@ namespace Exiv2 {
                 N_("Indicates the geodetic survey data used by the GPS receiver. If the survey data "
                 "is restricted to Japan, the value of this tag is \"TOKYO\" or \"WGS-84\"."),
                 gpsId, gpsTags, asciiString, 0, printValue),
-        TagInfo(0x0013, "GPSDestLatitudeRef", N_("GPS Destination Latitude Refeference"),
+        TagInfo(0x0013, "GPSDestLatitudeRef", N_("GPS Destination Latitude Reference"),
                 N_("Indicates whether the latitude of the destination point is north or south latitude. "
                 "The ASCII value \"N\" indicates north latitude, and \"S\" is south latitude."),
                 gpsId, gpsTags, asciiString, 2, EXV_PRINT_TAG(exifGPSLatitudeRef)),
