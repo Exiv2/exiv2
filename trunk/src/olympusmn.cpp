@@ -340,7 +340,7 @@ namespace Exiv2 {
                 N_("Blue balance"),
                 olympusId, makerTags, unsignedShort, -1, printValue),
         TagInfo(0x1019, "ColorMatrixNumber", N_("Color Matrix Number"),
-                N_("Color matrix mumber"),
+                N_("Color matrix number"),
                 olympusId, makerTags, unsignedShort, -1, printValue),
         TagInfo(0x101a, "SerialNumber2", N_("Serial Number 2"),
                 N_("Serial number 2"),

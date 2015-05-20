@@ -403,8 +403,8 @@ namespace Exiv2 {
         {    2, N_("Spot") },
     };
 
-    //! WhiteBallance, tag 0x0019
-    extern const TagDetails pentaxWhiteBallance[] = {
+    //! WhiteBalance, tag 0x0019
+    extern const TagDetails pentaxWhiteBalance[] = {
         {    0, N_("Auto") },
         {    1, N_("Daylight") },
         {    2, N_("Shade") },
@@ -422,8 +422,8 @@ namespace Exiv2 {
         {    65535, N_("User Selected") },
     };
 
-    //! WhiteBallance, tag 0x001a
-    extern const TagDetails pentaxWhiteBallanceMode[] = {
+    //! WhiteBalance, tag 0x001a
+    extern const TagDetails pentaxWhiteBalanceMode[] = {
         {    1, N_("Auto (Daylight)") },
         {    2, N_("Auto (Shade)") },
         {    3, N_("Auto (Flash)") },
@@ -1157,7 +1157,7 @@ namespace Exiv2 {
                 N_("Offset to an IFD containing a preview image"),
                 pentaxId, makerTags, undefined, -1, printValue),
         TagInfo(0x0005, "ModelID", N_("Model identification"),
-                N_("Pentax model idenfication"),
+                N_("Pentax model identification"),
                 pentaxId, makerTags, unsignedShort, -1, EXV_PRINT_TAG(pentaxModel)),
         TagInfo(0x0006, "Date", N_("Date"),
                 N_("Date"),
@@ -1205,12 +1205,12 @@ namespace Exiv2 {
         TagInfo(0x0018, "AutoBracketing", N_("AutoBracketing"),
                 N_("AutoBracketing"),
                 pentaxId, makerTags, undefined, -1, printPentaxBracketing),
-        TagInfo(0x0019, "WhiteBallance", N_("White ballance"),
-                N_("White ballance"),
-                pentaxId, makerTags, undefined, -1, EXV_PRINT_TAG(pentaxWhiteBallance)),
-        TagInfo(0x001a, "WhiteBallanceMode", N_("White ballance mode"),
-                N_("White ballance mode"),
-                pentaxId, makerTags, undefined, -1, EXV_PRINT_TAG(pentaxWhiteBallanceMode)),
+        TagInfo(0x0019, "WhiteBalance", N_("White balance"),
+                N_("White balance"),
+                pentaxId, makerTags, undefined, -1, EXV_PRINT_TAG(pentaxWhiteBalance)),
+        TagInfo(0x001a, "WhiteBalanceMode", N_("White balance mode"),
+                N_("White balance mode"),
+                pentaxId, makerTags, undefined, -1, EXV_PRINT_TAG(pentaxWhiteBalanceMode)),
         TagInfo(0x001b, "BlueBalance", N_("Blue balance"),
                 N_("Blue color balance"),
                 pentaxId, makerTags, unsignedLong, -1, printValue),

@@ -497,7 +497,7 @@ namespace Exiv2 {
         TagInfo(0x0059, "Transform1", N_("Transform 1"), N_("Transform 1"), panasonicId, makerTags, undefined, -1, printValue),
         TagInfo(0x005d, "IntelligentExposure", N_("Intelligent Exposure"), N_("Intelligent Exposure"), panasonicId, makerTags, unsignedShort, -1, EXV_PRINT_TAG(panasonicIntelligentExposure)),
         TagInfo(0x0060, "LensFirmwareVersion", N_("Firmware Version of the Lens"), N_("Firmware Version of the Lens"), panasonicId, makerTags, undefined, -1, printValue),
-        TagInfo(0x0061, "FaceRecInfo", N_("Face recognation info"), N_("Face recognation info"), panasonicId, makerTags, undefined, -1, printValue),
+        TagInfo(0x0061, "FaceRecInfo", N_("Face recognition info"), N_("Face recognition info"), panasonicId, makerTags, undefined, -1, printValue),
         TagInfo(0x0062, "FlashWarning", N_("Flash Warning"), N_("Flash warning"), panasonicId, makerTags, unsignedShort, -1, EXV_PRINT_TAG(panasonicFlashWarning)),
         TagInfo(0x0065, "Title", N_("Title"), N_("Title"), panasonicId, makerTags, undefined, -1, printPanasonicText),
         TagInfo(0x0066, "BabyName", N_("Baby Name"), N_("Baby name (or pet name)"), panasonicId, makerTags, undefined, -1, printPanasonicText),
