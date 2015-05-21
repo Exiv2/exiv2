@@ -11,7 +11,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: pl\n"
 "Report-Msgid-Bugs-To: ahuggel@gmx.net\n"
-"POT-Creation-Date: 2015-05-13 04:21+0200\n"
+"POT-Creation-Date: 2015-05-21 11:23+0000\n"
 "PO-Revision-Date: 2009-12-30 14:02+0100\n"
 "Last-Translator: Michał Smoczyk <msmoczyk@wp.pl>\n"
 "Language-Team: Polish <pl@li.org>\n"
@@ -151,8 +151,8 @@ msgstr "Rozdzielczość Exif"
 #: src/actions.cpp:433 src/canonmn.cpp:1409 src/minoltamn.cpp:178
 #: src/minoltamn.cpp:497 src/minoltamn.cpp:751 src/minoltamn.cpp:998
 #: src/minoltamn.cpp:1381 src/nikonmn.cpp:228 src/nikonmn.cpp:478
-#: src/nikonmn.cpp:536 src/olympusmn.cpp:887 src/sigmamn.cpp:72
-#: src/sonymn.cpp:339
+#: src/nikonmn.cpp:536 src/olympusmn.cpp:887 src/pentaxmn.cpp:1208
+#: src/pentaxmn.cpp:1209 src/sigmamn.cpp:72 src/sonymn.cpp:339
 msgid "White balance"
 msgstr "Balans bieli"
 
@@ -526,7 +526,7 @@ msgstr "Adobe RGB"
 #: src/nikonmn.cpp:306 src/nikonmn.cpp:463 src/nikonmn.cpp:484
 #: src/nikonmn.cpp:493 src/nikonmn.cpp:541 src/nikonmn.cpp:593
 #: src/nikonmn.cpp:596 src/nikonmn.cpp:599 src/nikonmn.cpp:1025
-#: src/nikonmn.cpp:1047 src/nikonmn.cpp:1520 src/nikonmn.cpp:2675
+#: src/nikonmn.cpp:1047 src/nikonmn.cpp:1520 src/nikonmn.cpp:2676
 #: src/olympusmn.cpp:186 src/olympusmn.cpp:325 src/olympusmn.cpp:328
 #: src/olympusmn.cpp:334 src/olympusmn.cpp:349 src/olympusmn.cpp:352
 #: src/olympusmn.cpp:355 src/olympusmn.cpp:358 src/olympusmn.cpp:361
@@ -4598,19 +4598,23 @@ msgid "Maximum focal length"
 msgstr "Maksymalna długość ogniskowej"
 
 #: src/fujimn.cpp:264
-msgid "Maximum Aperture at Mininimum Focal"
+#, fuzzy
+msgid "Maximum Aperture at Minimum Focal"
 msgstr "Maksymalna jasność przy minimalnej ogniskowej"
 
 #: src/fujimn.cpp:265
-msgid "Maximum aperture at mininimum focal"
+#, fuzzy
+msgid "Maximum aperture at minimum focal"
 msgstr "Maksymalna jasność przy minimalnej ogniskowej"
 
 #: src/fujimn.cpp:267
-msgid "Maximum Aperture at Maxinimum Focal"
+#, fuzzy
+msgid "Maximum Aperture at Maximum Focal"
 msgstr "Maksymalna jasność przy maksymalnej ogniskowej"
 
 #: src/fujimn.cpp:268
-msgid "Maximum aperture at maxinimum focal"
+#, fuzzy
+msgid "Maximum aperture at maximum focal"
 msgstr "Maksymalna jasność przy maksymalnej ogniskowej"
 
 #: src/fujimn.cpp:270 src/properties.cpp:602 src/tags.cpp:1766
@@ -8710,7 +8714,7 @@ msgstr "Poziom czerni"
 msgid "Black level"
 msgstr "Poziom czerni"
 
-#: src/olympusmn.cpp:331
+#: src/olympusmn.cpp:331 src/pentaxmn.cpp:1211 src/pentaxmn.cpp:1212
 msgid "White balance mode"
 msgstr "Tryb balansu bieli"
 
@@ -8737,7 +8741,7 @@ msgstr "Matryca kolorów 1"
 
 #: src/olympusmn.cpp:343
 #, fuzzy
-msgid "Color matrix mumber"
+msgid "Color matrix number"
 msgstr "Matryca kolorów 2"
 
 #: src/olympusmn.cpp:345
@@ -11719,7 +11723,7 @@ msgstr "Wersja firmware"
 
 #: src/panasonicmn.cpp:500
 #, fuzzy
-msgid "Face recognation info"
+msgid "Face recognition info"
 msgstr "Informacja o redukcji wstrząsów"
 
 #: src/panasonicmn.cpp:501
@@ -13029,7 +13033,8 @@ msgid "Model identification"
 msgstr "Identyfikacja modelu"
 
 #: src/pentaxmn.cpp:1160
-msgid "Pentax model idenfication"
+#, fuzzy
+msgid "Pentax model identification"
 msgstr "Identyfikacja modelu Pentax"
 
 #: src/pentaxmn.cpp:1162 src/pentaxmn.cpp:1163 src/properties.cpp:167
@@ -13084,14 +13089,6 @@ msgstr "Tryb pomiaru"
 #: src/pentaxmn.cpp:1205 src/pentaxmn.cpp:1206
 msgid "AutoBracketing"
 msgstr "Auto bracketing"
-
-#: src/pentaxmn.cpp:1208 src/pentaxmn.cpp:1209
-msgid "White ballance"
-msgstr "Balans bieli"
-
-#: src/pentaxmn.cpp:1211 src/pentaxmn.cpp:1212
-msgid "White ballance mode"
-msgstr "Tryb balansu bieli"
 
 #: src/pentaxmn.cpp:1215
 #, fuzzy
@@ -14959,7 +14956,8 @@ msgid "Color Noise Reduction"
 msgstr "Redukcja szumów kolorów"
 
 #: src/properties.cpp:467 src/properties.cpp:1080
-msgid "\"Color Noise Reducton\" setting. Range 0 to +100."
+#, fuzzy
+msgid "\"Color Noise Reduction\" setting. Range 0 to +100."
 msgstr "Redukcja szumów kolorów, zakres wartości od 0 do +100."
 
 #: src/properties.cpp:468
@@ -20399,7 +20397,7 @@ msgstr ""
 
 #: src/properties.cpp:1368
 msgid ""
-"Chapter Translate Codec information. Usually used in Matroska filr type."
+"Chapter Translate Codec information. Usually used in Matroska file type."
 msgstr ""
 
 #: src/properties.cpp:1369 src/properties.cpp:1370
@@ -25481,7 +25479,7 @@ msgstr "Kalibracja aparatu 1"
 
 #: src/tags.cpp:978
 msgid ""
-"CameraClalibration1 defines a calibration matrix that transforms reference "
+"CameraCalibration1 defines a calibration matrix that transforms reference "
 "camera native space values to individual camera native space values under "
 "the first calibration illuminant. The matrix is stored in row scan order. "
 "This matrix is stored separately from the matrix specified by the "
@@ -27357,7 +27355,8 @@ msgstr ""
 "tego znacznika to \"TOKYO\" lub \"WGS-84\"."
 
 #: src/tags.cpp:2029
-msgid "GPS Destination Latitude Refeference"
+#, fuzzy
+msgid "GPS Destination Latitude Reference"
 msgstr "GPS Określenie szerokości celu"
 
 #: src/tags.cpp:2030
@@ -27574,3 +27573,9 @@ msgstr "zakodowane jako big endian"
 #, fuzzy
 msgid "ascii bytes"
 msgstr "bajtów"
+
+#~ msgid "White ballance"
+#~ msgstr "Balans bieli"
+
+#~ msgid "White ballance mode"
+#~ msgstr "Tryb balansu bieli"

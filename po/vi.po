@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: exiv2\n"
 "Report-Msgid-Bugs-To: ahuggel@gmx.net\n"
-"POT-Creation-Date: 2015-05-13 04:21+0200\n"
+"POT-Creation-Date: 2015-05-21 11:23+0000\n"
 "PO-Revision-Date: 2011-04-27 03:48+0000\n"
 "Last-Translator: Lê Hoàng Phương <Unknown>\n"
 "Language-Team: Vietnamese <vi@li.org>\n"
@@ -147,8 +147,8 @@ msgstr "Độ phân giải X"
 #: src/actions.cpp:433 src/canonmn.cpp:1409 src/minoltamn.cpp:178
 #: src/minoltamn.cpp:497 src/minoltamn.cpp:751 src/minoltamn.cpp:998
 #: src/minoltamn.cpp:1381 src/nikonmn.cpp:228 src/nikonmn.cpp:478
-#: src/nikonmn.cpp:536 src/olympusmn.cpp:887 src/sigmamn.cpp:72
-#: src/sonymn.cpp:339
+#: src/nikonmn.cpp:536 src/olympusmn.cpp:887 src/pentaxmn.cpp:1208
+#: src/pentaxmn.cpp:1209 src/sigmamn.cpp:72 src/sonymn.cpp:339
 msgid "White balance"
 msgstr "Cân bằng trắng"
 
@@ -533,7 +533,7 @@ msgstr "Thẻ Adobe DNG"
 #: src/nikonmn.cpp:306 src/nikonmn.cpp:463 src/nikonmn.cpp:484
 #: src/nikonmn.cpp:493 src/nikonmn.cpp:541 src/nikonmn.cpp:593
 #: src/nikonmn.cpp:596 src/nikonmn.cpp:599 src/nikonmn.cpp:1025
-#: src/nikonmn.cpp:1047 src/nikonmn.cpp:1520 src/nikonmn.cpp:2675
+#: src/nikonmn.cpp:1047 src/nikonmn.cpp:1520 src/nikonmn.cpp:2676
 #: src/olympusmn.cpp:186 src/olympusmn.cpp:325 src/olympusmn.cpp:328
 #: src/olympusmn.cpp:334 src/olympusmn.cpp:349 src/olympusmn.cpp:352
 #: src/olympusmn.cpp:355 src/olympusmn.cpp:358 src/olympusmn.cpp:361
@@ -4551,19 +4551,23 @@ msgid "Maximum focal length"
 msgstr "Khoảng tiêu cự tối thiểu"
 
 #: src/fujimn.cpp:264
-msgid "Maximum Aperture at Mininimum Focal"
+#, fuzzy
+msgid "Maximum Aperture at Minimum Focal"
 msgstr "Khẩu độ Tối đa tai Tiêu cự Tối thiểu"
 
 #: src/fujimn.cpp:265
-msgid "Maximum aperture at mininimum focal"
+#, fuzzy
+msgid "Maximum aperture at minimum focal"
 msgstr "Khẩu độ tối đa tại tiêu cự tối thiểu"
 
 #: src/fujimn.cpp:267
-msgid "Maximum Aperture at Maxinimum Focal"
+#, fuzzy
+msgid "Maximum Aperture at Maximum Focal"
 msgstr "Khẩu độ Tối đa tại Tiêu cự Tối đa"
 
 #: src/fujimn.cpp:268
-msgid "Maximum aperture at maxinimum focal"
+#, fuzzy
+msgid "Maximum aperture at maximum focal"
 msgstr "Khẩu độ tối đa tại tiêu cự tối đa"
 
 #: src/fujimn.cpp:270 src/properties.cpp:602 src/tags.cpp:1766
@@ -8763,7 +8767,7 @@ msgstr "Cường độ Đèn chớp"
 msgid "Black level"
 msgstr "Cường độ đèn chớp"
 
-#: src/olympusmn.cpp:331
+#: src/olympusmn.cpp:331 src/pentaxmn.cpp:1211 src/pentaxmn.cpp:1212
 msgid "White balance mode"
 msgstr "Chế độ cân bằng trắng"
 
@@ -8788,7 +8792,8 @@ msgid "Color Matrix Number"
 msgstr "Số ma trận màu"
 
 #: src/olympusmn.cpp:343
-msgid "Color matrix mumber"
+#, fuzzy
+msgid "Color matrix number"
 msgstr "Số ma trận màu"
 
 #: src/olympusmn.cpp:345
@@ -11788,7 +11793,7 @@ msgstr "Phiên bản phần vững"
 
 #: src/panasonicmn.cpp:500
 #, fuzzy
-msgid "Face recognation info"
+msgid "Face recognition info"
 msgstr "Tự động lấy nét và tự động nhận diện khuôn mặt"
 
 #: src/panasonicmn.cpp:501
@@ -13105,7 +13110,8 @@ msgid "Model identification"
 msgstr "Nhận diện mẫu máy ảnh Pentax"
 
 #: src/pentaxmn.cpp:1160
-msgid "Pentax model idenfication"
+#, fuzzy
+msgid "Pentax model identification"
 msgstr "Nhận diện mẫu máy ảnh Pentax"
 
 #: src/pentaxmn.cpp:1162 src/pentaxmn.cpp:1163 src/properties.cpp:167
@@ -13162,14 +13168,6 @@ msgstr "Chếđộđođạc"
 #, fuzzy
 msgid "AutoBracketing"
 msgstr "Tự động"
-
-#: src/pentaxmn.cpp:1208 src/pentaxmn.cpp:1209
-msgid "White ballance"
-msgstr "Cân bằng trắng"
-
-#: src/pentaxmn.cpp:1211 src/pentaxmn.cpp:1212
-msgid "White ballance mode"
-msgstr "Chế độ cân bằng trắng"
 
 #: src/pentaxmn.cpp:1215
 msgid "Blue color balance"
@@ -15017,7 +15015,8 @@ msgid "Color Noise Reduction"
 msgstr "Tiêu giảm độ nhiễu màu sác"
 
 #: src/properties.cpp:467 src/properties.cpp:1080
-msgid "\"Color Noise Reducton\" setting. Range 0 to +100."
+#, fuzzy
+msgid "\"Color Noise Reduction\" setting. Range 0 to +100."
 msgstr "Tùy chỉnh \"TIêu giảm độ nhiễu màu sắc\". Khoảng từ 0 tới +100."
 
 #: src/properties.cpp:468
@@ -20189,7 +20188,7 @@ msgstr ""
 
 #: src/properties.cpp:1368
 msgid ""
-"Chapter Translate Codec information. Usually used in Matroska filr type."
+"Chapter Translate Codec information. Usually used in Matroska file type."
 msgstr ""
 
 #: src/properties.cpp:1369 src/properties.cpp:1370
@@ -25071,7 +25070,7 @@ msgstr ""
 
 #: src/tags.cpp:978
 msgid ""
-"CameraClalibration1 defines a calibration matrix that transforms reference "
+"CameraCalibration1 defines a calibration matrix that transforms reference "
 "camera native space values to individual camera native space values under "
 "the first calibration illuminant. The matrix is stored in row scan order. "
 "This matrix is stored separately from the matrix specified by the "
@@ -26780,8 +26779,9 @@ msgid ""
 msgstr ""
 
 #: src/tags.cpp:2029
-msgid "GPS Destination Latitude Refeference"
-msgstr ""
+#, fuzzy
+msgid "GPS Destination Latitude Reference"
+msgstr "GPS Vĩ độ"
 
 #: src/tags.cpp:2030
 msgid ""
@@ -26965,3 +26965,9 @@ msgstr ""
 #: src/tiffimage.cpp:2316
 msgid "ascii bytes"
 msgstr ""
+
+#~ msgid "White ballance"
+#~ msgstr "Cân bằng trắng"
+
+#~ msgid "White ballance mode"
+#~ msgstr "Chế độ cân bằng trắng"
