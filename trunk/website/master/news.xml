@@ -30,7 +30,7 @@
   <abstract>GIMP gets advanced Exif, XMP, IPTC metadata support
   </abstract>
   <desc>Improved <a title="GIMP gets advanced Exif, XMP, IPTC metadata support - Alexandre Prokoudine" href="http://libregraphicsworld.org/blog/entry/gimp-gets-advanced-exif-xmp-iptc-metadata-support">support for Exif, XMP, and IPTC</a> along with a viewer/editor will be part of
-  GIMP 2.10. <a title="GIMP meets gexiv2 - Jim Nelson" href="http://blog.yorba.org/jim/2013/11/gimp-meets-gexiv2.html">GIMP has adopted gexiv2</a>, and therefore Exiv2, for their photo metadata needs. Yay!
+  GIMP 2.10. <a title="GIMP meets gexiv2 - Jim Nelson" href="https://blogs.gnome.org/jnelson/2013/11/06/gimp-meets-gexiv2/">GIMP has adopted gexiv2</a>, and therefore Exiv2, for their photo metadata needs. Yay!
   </desc>
  </newsitem>
  <newsitem>
