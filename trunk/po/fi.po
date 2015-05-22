@@ -26719,11 +26719,3 @@ msgstr ""
 #, fuzzy
 msgid "ascii bytes"
 msgstr "tavua"
-
-#, fuzzy
-#~ msgid "White ballance"
-#~ msgstr "Valkotasapaino"
-
-#, fuzzy
-#~ msgid "White ballance mode"
-#~ msgstr "Valkotasapaino"

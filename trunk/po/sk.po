@@ -27942,9 +27942,3 @@ msgstr ""
 #, fuzzy
 msgid "ascii bytes"
 msgstr "bajtov"
-
-#~ msgid "White ballance"
-#~ msgstr "Vyváženie bielej"
-
-#~ msgid "White ballance mode"
-#~ msgstr "Režim vyváženia bielej"

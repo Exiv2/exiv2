@@ -27889,11 +27889,3 @@ msgstr "encodage gros-boutiste"
 #, fuzzy
 msgid "ascii bytes"
 msgstr "octets"
-
-#, fuzzy
-#~ msgid "White ballance"
-#~ msgstr "Balance des blancs"
-
-#, fuzzy
-#~ msgid "White ballance mode"
-#~ msgstr "Mode balance des blancs"

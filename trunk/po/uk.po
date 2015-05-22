@@ -26889,11 +26889,3 @@ msgstr "великий  endian закодований"
 #: src/tiffimage.cpp:2316
 msgid "ascii bytes"
 msgstr ""
-
-#, fuzzy
-#~ msgid "White ballance"
-#~ msgstr "Баланс білого"
-
-#, fuzzy
-#~ msgid "White ballance mode"
-#~ msgstr "Режим балансу білого"

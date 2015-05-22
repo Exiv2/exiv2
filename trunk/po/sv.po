@@ -27196,9 +27196,3 @@ msgstr "big endian-kodad"
 #: src/tiffimage.cpp:2316
 msgid "ascii bytes"
 msgstr "ascii-byte"
-
-#~ msgid "White ballance"
-#~ msgstr "Vitbalans"
-
-#~ msgid "White ballance mode"
-#~ msgstr "Vitbalansläge"

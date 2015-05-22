@@ -27814,9 +27814,3 @@ msgstr ""
 #: src/tiffimage.cpp:2316
 msgid "ascii bytes"
 msgstr ""
-
-#~ msgid "White ballance"
-#~ msgstr "Equilíbrio branco"
-
-#~ msgid "White ballance mode"
-#~ msgstr "Modo de equilíbrio branco"

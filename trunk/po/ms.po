@@ -27008,9 +27008,3 @@ msgstr "big endian terenkod"
 #, fuzzy
 msgid "ascii bytes"
 msgstr "bait"
-
-#~ msgid "White ballance"
-#~ msgstr "Imbangan putih"
-
-#~ msgid "White ballance mode"
-#~ msgstr "Mod imbangan putih"

@@ -27938,9 +27938,3 @@ msgstr "\"Big Endian\" kodiert"
 #, fuzzy
 msgid "ascii bytes"
 msgstr "Bytes"
-
-#~ msgid "White ballance"
-#~ msgstr "Weißabgleich"
-
-#~ msgid "White ballance mode"
-#~ msgstr "Weißabgleichsmodus"

@@ -26991,9 +26991,3 @@ msgstr ""
 #, fuzzy
 msgid "ascii bytes"
 msgstr "bytes"
-
-#~ msgid "White ballance"
-#~ msgstr "Balance de brancos"
-
-#~ msgid "White ballance mode"
-#~ msgstr "Modo do balance de brancos"

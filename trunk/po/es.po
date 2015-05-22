@@ -27056,9 +27056,3 @@ msgstr "codificado big endian"
 #: src/tiffimage.cpp:2316
 msgid "ascii bytes"
 msgstr "bytes ascii"
-
-#~ msgid "White ballance"
-#~ msgstr "Balance de blancos"
-
-#~ msgid "White ballance mode"
-#~ msgstr "Modo de balance de blancos"
