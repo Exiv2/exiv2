@@ -1695,8 +1695,7 @@ namespace Exiv2 {
         { 56,    "Sony AF DT 55-200mm F4-5.6 SAM (SAL55200-2)" },
         { 57,    "Sony DT 50mm F1.8 SAM (SAL50F18) | "
                  "Tamron SP AF 60mm F2 Di II LD [IF] Macro 1:1 | "
-                 "Tamron 18-270mm F3.5-6.3 Di II PZD | "
-                 "Sigma 18-35mm F1.8 DC HSM" },
+                 "Tamron 18-270mm F3.5-6.3 Di II PZD" },
         { 58,    "Sony AF DT 30mm F2.8 SAM Macro (SAL30M28)" },
         { 59,    "Sony 28-75mm F2.8 SAM (SAL2875)" },
         { 60,    "Carl Zeiss Distagon T* 24mm F2 ZA SSM (SAL24F20Z)" },
@@ -1729,7 +1728,8 @@ namespace Exiv2 {
                  "Sigma 150mm F2.8 EX DG OS HSM APO Macro | "
                  "Sigma 150-500mm F5-6.3 APO DG OS HSM | "
                  "Tamron AF 28-105mm F4-5.6 [IF] | "
-                 "Sigma 35mm F1.4 DG HSM" },
+                 "Sigma 35mm F1.4 DG HSM | "
+                 "Sigma 18-35mm F1.8 DC HSM" },
         { 129,   "Tamron 200-400mm F5.6 LD | "
                  "Tamron 70-300mm F4-5.6 LD" },
         { 131,   "Tamron 20-40mm F2.7-3.5 SP Aspherical IF" },
@@ -1744,6 +1744,7 @@ namespace Exiv2 {
         { 194,   "Tamron SP AF 17-50mm F2.8 XR Di II LD Aspherical [IF]" },
         { 203,   "Tamron SP 70-200mm F2.8 Di USD" },
         { 204,   "Tamron SP 24-70mm F2.8 Di USD" },
+        { 213,   "Tamron 16-300mm F3.5-6.3 Di II PZD" },
         { 214,   "Tamron Tamron SP 150-600mm F5-6.3 Di USD" },
         { 224,   "Tamron SP 90mm F2.8 Di Macro 1:1 USD" },
         { 255,   "Tamron SP AF 17-50mm F2.8 XR Di II LD Aspherical | "

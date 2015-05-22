@@ -885,7 +885,7 @@ namespace Exiv2 {
         { 255, "Sigma 180mm f/2.8 EX DG OS HSM APO Macro"                   }, // 1
         { 488, "Canon EF-S 15-85mm f/3.5-5.6 IS USM"                        },
         { 489, "Canon EF 70-300mm f/4-5.6L IS USM"                          },
-        { 490, "Canon EF 8-15mm f/4L USM"                                   },
+        { 490, "Canon EF 8-15mm f/4L Fisheye USM"                           },
         { 491, "Canon EF 300mm f/2.8L IS II USM"                            },
         { 492, "Canon EF 400mm f/2.8L IS II USM"                            },
         { 493, "Canon EF 500mm f/4L IS II USM"                              }, // 0
@@ -898,6 +898,7 @@ namespace Exiv2 {
         { 503, "Canon EF 24mm f/2.8 IS USM"                                 },
         { 504, "Canon EF 24-70mm f/4L IS USM"                               },
         { 505, "Canon EF 35mm f/2 IS USM"                                   },
+        { 506, "Canon EF 400mm f/4 DO IS II USM"                            },
         { 507, "Canon EF 16-35mm f/4L IS USM"                               },
         { 508, "Canon EF 11-24mm f/4L USM"                                  },
         { 4142,"Canon EF-S 18-135mm f/3.5-5.6 IS STM"                       },
@@ -911,7 +912,8 @@ namespace Exiv2 {
         { 4149,"Canon EF-M 55-200mm f/4.5-6.3 IS STM"                       },
         { 4150,"Canon EF-S 10-18mm f/4.5-5.6 IS STM"                        },
         { 4152,"Canon EF 24-105mm f/3.5-5.6 IS STM"                         },
-        { 4154,"Canon EF-S 24mm f/2.8 STM"                                  }
+        { 4154,"Canon EF-S 24mm f/2.8 STM"                                  },
+        { 4156,"Canon EF 50mm f/1.8 STM"                                    }
     };
 
     //! A lens id and a pretty-print function for special treatment of the id.
