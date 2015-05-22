@@ -27027,9 +27027,3 @@ msgstr "big endian kodiranje"
 #, fuzzy
 msgid "ascii bytes"
 msgstr "bajta"
-
-#~ msgid "White ballance"
-#~ msgstr "Bijeli balans"
-
-#~ msgid "White ballance mode"
-#~ msgstr "Režim bijeli balans"

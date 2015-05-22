@@ -26965,9 +26965,3 @@ msgstr ""
 #: src/tiffimage.cpp:2316
 msgid "ascii bytes"
 msgstr ""
-
-#~ msgid "White ballance"
-#~ msgstr "Cân bằng trắng"
-
-#~ msgid "White ballance mode"
-#~ msgstr "Chế độ cân bằng trắng"

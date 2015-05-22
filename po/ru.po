@@ -28328,11 +28328,3 @@ msgstr ""
 #, fuzzy
 msgid "ascii bytes"
 msgstr "байт"
-
-#, fuzzy
-#~ msgid "White ballance"
-#~ msgstr "Баланс белого"
-
-#, fuzzy
-#~ msgid "White ballance mode"
-#~ msgstr "Баланс белого"

@@ -26542,9 +26542,3 @@ msgstr ""
 #, fuzzy
 msgid "ascii bytes"
 msgstr "بايت"
-
-#~ msgid "White ballance"
-#~ msgstr "ئاق تەڭپۇڭلۇق"
-
-#~ msgid "White ballance mode"
-#~ msgstr "ئاق تەڭپۇڭلۇق ھالىتى"

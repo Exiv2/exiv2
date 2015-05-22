@@ -27573,9 +27573,3 @@ msgstr "zakodowane jako big endian"
 #, fuzzy
 msgid "ascii bytes"
 msgstr "bajtów"
-
-#~ msgid "White ballance"
-#~ msgstr "Balans bieli"
-
-#~ msgid "White ballance mode"
-#~ msgstr "Tryb balansu bieli"
