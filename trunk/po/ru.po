@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ru\n"
 "Report-Msgid-Bugs-To: ahuggel@gmx.net\n"
-"POT-Creation-Date: 2015-05-21 11:23+0000\n"
+"POT-Creation-Date: 2015-05-23 11:32+0200\n"
 "PO-Revision-Date: 2008-05-26 04:03+0300\n"
 "Last-Translator: Alexandre Prokoudine <alexandre.prokoudine@gmail.com>\n"
 "Language-Team: Russian <ru@li.org>\n"
@@ -45,8 +45,8 @@ msgstr "Байт"
 msgid "MIME type"
 msgstr "Тип MIME"
 
-#: src/actions.cpp:297 src/canonmn.cpp:1049 src/minoltamn.cpp:500
-#: src/minoltamn.cpp:745 src/minoltamn.cpp:992 src/pentaxmn.cpp:1171
+#: src/actions.cpp:297 src/canonmn.cpp:1051 src/minoltamn.cpp:500
+#: src/minoltamn.cpp:745 src/minoltamn.cpp:992 src/pentaxmn.cpp:1172
 msgid "Image size"
 msgstr "Размер изображения"
 
@@ -73,12 +73,12 @@ msgid "Image number"
 msgstr "Номер снимка"
 
 #: src/actions.cpp:322 src/minoltamn.cpp:515 src/minoltamn.cpp:798
-#: src/minoltamn.cpp:1028 src/minoltamn.cpp:1372 src/pentaxmn.cpp:1188
-#: src/pentaxmn.cpp:1189
+#: src/minoltamn.cpp:1028 src/minoltamn.cpp:1372 src/pentaxmn.cpp:1189
+#: src/pentaxmn.cpp:1190
 msgid "Exposure time"
 msgstr "Время экспозиции"
 
-#: src/actions.cpp:334 src/canonmn.cpp:1168 src/minoltamn.cpp:1266
+#: src/actions.cpp:334 src/canonmn.cpp:1170 src/minoltamn.cpp:1266
 #: src/tags.cpp:1634
 msgid "Aperture"
 msgstr "Диафрагма"
@@ -87,14 +87,14 @@ msgstr "Диафрагма"
 msgid "Exposure bias"
 msgstr "Смещение экспозиции"
 
-#: src/actions.cpp:348 src/canonmn.cpp:1099 src/minoltamn.cpp:874
-#: src/minoltamn.cpp:1202 src/minoltamn.cpp:2150 src/panasonicmn.cpp:72
-#: src/pentaxmn.cpp:417 src/properties.cpp:588 src/sonymn.cpp:220
+#: src/actions.cpp:348 src/canonmn.cpp:1101 src/minoltamn.cpp:874
+#: src/minoltamn.cpp:1202 src/minoltamn.cpp:2151 src/panasonicmn.cpp:72
+#: src/pentaxmn.cpp:418 src/properties.cpp:588 src/sonymn.cpp:220
 #: src/tags.cpp:834 src/tags.cpp:1438 src/tags.cpp:1659
 msgid "Flash"
 msgstr "Вспышка"
 
-#: src/actions.cpp:351 src/canonmn.cpp:1162 src/panasonicmn.cpp:454
+#: src/actions.cpp:351 src/canonmn.cpp:1164 src/panasonicmn.cpp:454
 #, fuzzy
 msgid "Flash bias"
 msgstr "Вспышка сработала"
@@ -127,13 +127,13 @@ msgstr "Режим экспозиции"
 msgid "Metering mode"
 msgstr "Режим замера"
 
-#: src/actions.cpp:396 src/canonmn.cpp:1040 src/minoltamn.cpp:521
+#: src/actions.cpp:396 src/canonmn.cpp:1042 src/minoltamn.cpp:521
 #: src/olympusmn.cpp:202 src/olympusmn.cpp:669 src/panasonicmn.cpp:448
 msgid "Macro mode"
 msgstr "Режим макросъёмки"
 
 #: src/actions.cpp:399 src/minoltamn.cpp:133 src/minoltamn.cpp:503
-#: src/minoltamn.cpp:748 src/minoltamn.cpp:995 src/pentaxmn.cpp:1168
+#: src/minoltamn.cpp:748 src/minoltamn.cpp:995 src/pentaxmn.cpp:1169
 #: src/sonymn.cpp:324
 msgid "Image quality"
 msgstr "Качество изображения"
@@ -142,11 +142,11 @@ msgstr "Качество изображения"
 msgid "Exif Resolution"
 msgstr "Разрешение Exif"
 
-#: src/actions.cpp:433 src/canonmn.cpp:1409 src/minoltamn.cpp:178
+#: src/actions.cpp:433 src/canonmn.cpp:1411 src/minoltamn.cpp:178
 #: src/minoltamn.cpp:497 src/minoltamn.cpp:751 src/minoltamn.cpp:998
 #: src/minoltamn.cpp:1381 src/nikonmn.cpp:228 src/nikonmn.cpp:478
-#: src/nikonmn.cpp:536 src/olympusmn.cpp:887 src/pentaxmn.cpp:1208
-#: src/pentaxmn.cpp:1209 src/sigmamn.cpp:72 src/sonymn.cpp:339
+#: src/nikonmn.cpp:536 src/olympusmn.cpp:887 src/pentaxmn.cpp:1209
+#: src/pentaxmn.cpp:1210 src/sigmamn.cpp:72 src/sonymn.cpp:339
 msgid "White balance"
 msgstr "Баланс белого"
 
@@ -155,14 +155,14 @@ msgid "Thumbnail"
 msgstr "Эскиз"
 
 #: src/actions.cpp:440 src/actions.cpp:445 src/canonmn.cpp:523
-#: src/canonmn.cpp:1313 src/canonmn.cpp:1322 src/canonmn.cpp:1376
-#: src/minoltamn.cpp:310 src/minoltamn.cpp:399 src/minoltamn.cpp:2128
+#: src/canonmn.cpp:1315 src/canonmn.cpp:1324 src/canonmn.cpp:1378
+#: src/minoltamn.cpp:310 src/minoltamn.cpp:399 src/minoltamn.cpp:2129
 #: src/nikonmn.cpp:175 src/nikonmn.cpp:190 src/nikonmn.cpp:923
 #: src/nikonmn.cpp:948 src/nikonmn.cpp:1010 src/olympusmn.cpp:142
 #: src/olympusmn.cpp:726 src/olympusmn.cpp:733 src/olympusmn.cpp:1189
 #: src/olympusmn.cpp:1258 src/olympusmn.cpp:1407 src/olympusmn.cpp:1612
-#: src/olympusmn.cpp:1621 src/pentaxmn.cpp:287 src/pentaxmn.cpp:303
-#: src/pentaxmn.cpp:450 src/pentaxmn.cpp:451 src/properties.cpp:939
+#: src/olympusmn.cpp:1621 src/pentaxmn.cpp:288 src/pentaxmn.cpp:304
+#: src/pentaxmn.cpp:451 src/pentaxmn.cpp:452 src/properties.cpp:939
 #: src/properties.cpp:947 src/tags.cpp:1517
 msgid "None"
 msgstr "Ничего"
@@ -437,12 +437,12 @@ msgid "Overwrite"
 msgstr "Перезаписать"
 
 #: src/canonmn.cpp:58 src/canonmn.cpp:369 src/canonmn.cpp:428
-#: src/canonmn.cpp:444 src/canonmn.cpp:998 src/canonmn.cpp:1011
-#: src/canonmn.cpp:1274 src/canonmn.cpp:1297 src/canonmn.cpp:1306
+#: src/canonmn.cpp:444 src/canonmn.cpp:1000 src/canonmn.cpp:1013
+#: src/canonmn.cpp:1276 src/canonmn.cpp:1299 src/canonmn.cpp:1308
 #: src/fujimn.cpp:56 src/fujimn.cpp:102 src/fujimn.cpp:140
 #: src/minoltamn.cpp:84 src/minoltamn.cpp:213 src/minoltamn.cpp:270
 #: src/minoltamn.cpp:1138 src/minoltamn.cpp:1279 src/minoltamn.cpp:1341
-#: src/minoltamn.cpp:1962 src/minoltamn.cpp:1976 src/minoltamn.cpp:2024
+#: src/minoltamn.cpp:1963 src/minoltamn.cpp:1977 src/minoltamn.cpp:2025
 #: src/nikonmn.cpp:62 src/nikonmn.cpp:68 src/nikonmn.cpp:76
 #: src/nikonmn.cpp:206 src/nikonmn.cpp:649 src/nikonmn.cpp:674
 #: src/nikonmn.cpp:723 src/nikonmn.cpp:758 src/nikonmn.cpp:852
@@ -458,7 +458,7 @@ msgstr "Перезаписать"
 #: src/panasonicmn.cpp:331 src/panasonicmn.cpp:345 src/panasonicmn.cpp:354
 #: src/panasonicmn.cpp:362 src/panasonicmn.cpp:379 src/panasonicmn.cpp:395
 #: src/panasonicmn.cpp:404 src/panasonicmn.cpp:411 src/panasonicmn.cpp:429
-#: src/pentaxmn.cpp:389 src/pentaxmn.cpp:982 src/pentaxmn.cpp:988
+#: src/pentaxmn.cpp:390 src/pentaxmn.cpp:983 src/pentaxmn.cpp:989
 #: src/sonymn.cpp:56 src/sonymn.cpp:127 src/sonymn.cpp:188 src/sonymn.cpp:196
 #: src/sonymn.cpp:203 src/sonymn.cpp:248 src/sonymn.cpp:255 src/sonymn.cpp:286
 #: src/sonymn.cpp:549
@@ -466,15 +466,15 @@ msgid "Off"
 msgstr "Выкл"
 
 #: src/canonmn.cpp:59 src/canonmn.cpp:427 src/canonmn.cpp:446
-#: src/canonmn.cpp:999 src/canonmn.cpp:1300 src/fujimn.cpp:57
+#: src/canonmn.cpp:1001 src/canonmn.cpp:1302 src/fujimn.cpp:57
 #: src/fujimn.cpp:101 src/fujimn.cpp:141 src/minoltamn.cpp:85
-#: src/minoltamn.cpp:1963 src/minoltamn.cpp:1975 src/nikonmn.cpp:63
+#: src/minoltamn.cpp:1964 src/minoltamn.cpp:1976 src/nikonmn.cpp:63
 #: src/nikonmn.cpp:648 src/nikonmn.cpp:724 src/nikonmn.cpp:725
 #: src/nikonmn.cpp:1242 src/olympusmn.cpp:60 src/olympusmn.cpp:80
 #: src/olympusmn.cpp:87 src/olympusmn.cpp:502 src/olympusmn.cpp:530
 #: src/olympusmn.cpp:1568 src/panasonicmn.cpp:101 src/panasonicmn.cpp:289
 #: src/panasonicmn.cpp:326 src/panasonicmn.cpp:363 src/panasonicmn.cpp:380
-#: src/panasonicmn.cpp:430 src/pentaxmn.cpp:390 src/pentaxmn.cpp:983
+#: src/panasonicmn.cpp:430 src/pentaxmn.cpp:391 src/pentaxmn.cpp:984
 #: src/sonymn.cpp:204 src/sonymn.cpp:256 src/sonymn.cpp:287
 msgid "On"
 msgstr "Вкл"
@@ -501,27 +501,27 @@ msgstr "Вкл"
 
 #: src/canonmn.cpp:376 src/minoltamn.cpp:1146 src/nikonmn.cpp:136
 #: src/olympusmn.cpp:601 src/olympusmn.cpp:781 src/olympusmn.cpp:846
-#: src/pentaxmn.cpp:683 src/tags.cpp:1459
+#: src/pentaxmn.cpp:684 src/tags.cpp:1459
 msgid "sRGB"
 msgstr "sRGB"
 
-#: src/canonmn.cpp:377 src/canonmn.cpp:1380 src/minoltamn.cpp:359
+#: src/canonmn.cpp:377 src/canonmn.cpp:1382 src/minoltamn.cpp:359
 #: src/minoltamn.cpp:729 src/minoltamn.cpp:905 src/minoltamn.cpp:954
 #: src/minoltamn.cpp:1147 src/nikonmn.cpp:137 src/olympusmn.cpp:602
-#: src/olympusmn.cpp:782 src/olympusmn.cpp:847 src/pentaxmn.cpp:684
+#: src/olympusmn.cpp:782 src/olympusmn.cpp:847 src/pentaxmn.cpp:685
 #: src/sonymn.cpp:531 src/sonymn.cpp:556 src/tags.cpp:1460
 msgid "Adobe RGB"
 msgstr "Adobe RGB"
 
 #: src/canonmn.cpp:382 src/canonmn.cpp:385 src/canonmn.cpp:410
-#: src/canonmn.cpp:411 src/canonmn.cpp:412 src/canonmn.cpp:1045
-#: src/canonmn.cpp:1047 src/canonmn.cpp:1048 src/canonmn.cpp:1060
-#: src/canonmn.cpp:1069 src/canonmn.cpp:1070 src/canonmn.cpp:1077
-#: src/canonmn.cpp:1148 src/canonmn.cpp:1153 src/canonmn.cpp:1155
-#: src/canonmn.cpp:1157 src/canonmn.cpp:1158 src/canonmn.cpp:1159
-#: src/canonmn.cpp:1160 src/canonmn.cpp:1163 src/canonmn.cpp:1164
-#: src/canonmn.cpp:1165 src/canonmn.cpp:1167 src/canonmn.cpp:1171
-#: src/canonmn.cpp:1172 src/canonmn.cpp:1173 src/fujimn.cpp:214
+#: src/canonmn.cpp:411 src/canonmn.cpp:412 src/canonmn.cpp:1047
+#: src/canonmn.cpp:1049 src/canonmn.cpp:1050 src/canonmn.cpp:1062
+#: src/canonmn.cpp:1071 src/canonmn.cpp:1072 src/canonmn.cpp:1079
+#: src/canonmn.cpp:1150 src/canonmn.cpp:1155 src/canonmn.cpp:1157
+#: src/canonmn.cpp:1159 src/canonmn.cpp:1160 src/canonmn.cpp:1161
+#: src/canonmn.cpp:1162 src/canonmn.cpp:1165 src/canonmn.cpp:1166
+#: src/canonmn.cpp:1167 src/canonmn.cpp:1169 src/canonmn.cpp:1173
+#: src/canonmn.cpp:1174 src/canonmn.cpp:1175 src/fujimn.cpp:214
 #: src/fujimn.cpp:223 src/fujimn.cpp:232 src/nikonmn.cpp:240
 #: src/nikonmn.cpp:306 src/nikonmn.cpp:463 src/nikonmn.cpp:484
 #: src/nikonmn.cpp:493 src/nikonmn.cpp:541 src/nikonmn.cpp:593
@@ -535,7 +535,7 @@ msgstr "Adobe RGB"
 #: src/olympusmn.cpp:415 src/olympusmn.cpp:418 src/olympusmn.cpp:421
 #: src/olympusmn.cpp:1046 src/panasonicmn.cpp:444 src/panasonicmn.cpp:452
 #: src/panasonicmn.cpp:457 src/panasonicmn.cpp:465 src/panasonicmn.cpp:532
-#: src/pentaxmn.cpp:421 src/properties.cpp:834 src/properties.cpp:841
+#: src/pentaxmn.cpp:422 src/properties.cpp:834 src/properties.cpp:841
 #: src/sonymn.cpp:342 src/sonymn.cpp:361 src/sonymn.cpp:367 src/sonymn.cpp:370
 #: src/sonymn.cpp:379 src/sonymn.cpp:382 src/sonymn.cpp:385 src/sonymn.cpp:388
 #: src/tags.cpp:1421 src/tags.cpp:1434 src/tags.cpp:1540 src/tags.cpp:2587
@@ -588,7 +588,7 @@ msgstr "Версия прошивки"
 msgid "Firmware version"
 msgstr "Версия прошивки"
 
-#: src/canonmn.cpp:390 src/canonmn.cpp:1331 src/nikonmn.cpp:889
+#: src/canonmn.cpp:390 src/canonmn.cpp:1333 src/nikonmn.cpp:889
 #, fuzzy
 msgid "File Number"
 msgstr "Число F"
@@ -603,7 +603,7 @@ msgid "Owner Name"
 msgstr "Имя владельца"
 
 #: src/canonmn.cpp:392 src/fujimn.cpp:182 src/nikonmn.cpp:558
-#: src/olympusmn.cpp:747 src/pentaxmn.cpp:1399 src/pentaxmn.cpp:1400
+#: src/olympusmn.cpp:747 src/pentaxmn.cpp:1400 src/pentaxmn.cpp:1401
 #: src/properties.cpp:659 src/sigmamn.cpp:56
 msgid "Serial Number"
 msgstr "Серийный номер"
@@ -666,8 +666,8 @@ msgstr "Серийный номер"
 msgid "Serial number format"
 msgstr "Серийный номер"
 
-#: src/canonmn.cpp:399 src/minoltamn.cpp:2094 src/olympusmn.cpp:110
-#: src/olympusmn.cpp:503 src/pentaxmn.cpp:270
+#: src/canonmn.cpp:399 src/minoltamn.cpp:2095 src/olympusmn.cpp:110
+#: src/olympusmn.cpp:503 src/pentaxmn.cpp:271
 #, fuzzy
 msgid "Super Macro"
 msgstr "Супермакро"
@@ -797,7 +797,7 @@ msgid "Unknown CanonMakerNote tag"
 msgstr "Неизвестный тэг CanonMakerNote"
 
 #: src/canonmn.cpp:433 src/minoltamn.cpp:78 src/minoltamn.cpp:246
-#: src/minoltamn.cpp:677 src/minoltamn.cpp:863 src/minoltamn.cpp:2112
+#: src/minoltamn.cpp:677 src/minoltamn.cpp:863 src/minoltamn.cpp:2113
 #: src/panasonicmn.cpp:126
 msgid "Economy"
 msgstr "Экономичный"
@@ -809,20 +809,20 @@ msgstr "Экономичный"
 #: src/olympusmn.cpp:162 src/olympusmn.cpp:170 src/olympusmn.cpp:1115
 #: src/olympusmn.cpp:1157 src/panasonicmn.cpp:57 src/panasonicmn.cpp:110
 #: src/panasonicmn.cpp:214 src/panasonicmn.cpp:260 src/panasonicmn.cpp:385
-#: src/pentaxmn.cpp:266 src/pentaxmn.cpp:442 src/pentaxmn.cpp:457
-#: src/pentaxmn.cpp:470 src/sonymn.cpp:180 src/sonymn.cpp:265
+#: src/pentaxmn.cpp:267 src/pentaxmn.cpp:443 src/pentaxmn.cpp:458
+#: src/pentaxmn.cpp:471 src/sonymn.cpp:180 src/sonymn.cpp:265
 #: src/sonymn.cpp:271 src/tags.cpp:1526 src/tags.cpp:1533
 msgid "Normal"
 msgstr ""
 
 #: src/canonmn.cpp:435 src/minoltamn.cpp:76 src/minoltamn.cpp:244
-#: src/minoltamn.cpp:674 src/minoltamn.cpp:860 src/minoltamn.cpp:2056
-#: src/minoltamn.cpp:2110 src/sonymn.cpp:181
+#: src/minoltamn.cpp:674 src/minoltamn.cpp:860 src/minoltamn.cpp:2057
+#: src/minoltamn.cpp:2111 src/sonymn.cpp:181
 #, fuzzy
 msgid "Fine"
 msgstr "in"
 
-#: src/canonmn.cpp:436 src/olympusmn.cpp:649 src/pentaxmn.cpp:202
+#: src/canonmn.cpp:436 src/olympusmn.cpp:649 src/pentaxmn.cpp:203
 msgid "RAW"
 msgstr "RAW"
 
@@ -842,18 +842,18 @@ msgid "Movie (2)"
 msgstr "Кино"
 
 #: src/canonmn.cpp:445 src/canonmn.cpp:541 src/canonmn.cpp:569
-#: src/canonmn.cpp:1094 src/canonmn.cpp:1301 src/canonmn.cpp:1396
+#: src/canonmn.cpp:1096 src/canonmn.cpp:1303 src/canonmn.cpp:1398
 #: src/fujimn.cpp:71 src/fujimn.cpp:100 src/fujimn.cpp:109 src/fujimn.cpp:115
 #: src/minoltamn.cpp:218 src/minoltamn.cpp:324 src/minoltamn.cpp:659
 #: src/minoltamn.cpp:682 src/minoltamn.cpp:716 src/minoltamn.cpp:839
 #: src/minoltamn.cpp:868 src/minoltamn.cpp:888 src/minoltamn.cpp:1123
-#: src/minoltamn.cpp:1186 src/minoltamn.cpp:1239 src/minoltamn.cpp:2028
-#: src/minoltamn.cpp:2095 src/minoltamn.cpp:2144 src/nikonmn.cpp:81
+#: src/minoltamn.cpp:1186 src/minoltamn.cpp:1239 src/minoltamn.cpp:2029
+#: src/minoltamn.cpp:2096 src/minoltamn.cpp:2145 src/nikonmn.cpp:81
 #: src/nikonmn.cpp:451 src/olympusmn.cpp:94 src/olympusmn.cpp:156
 #: src/olympusmn.cpp:559 src/olympusmn.cpp:565 src/olympusmn.cpp:611
 #: src/olympusmn.cpp:1206 src/olympusmn.cpp:1217 src/olympusmn.cpp:1218
 #: src/panasonicmn.cpp:67 src/panasonicmn.cpp:81 src/pentaxmn.cpp:56
-#: src/pentaxmn.cpp:282 src/pentaxmn.cpp:408 src/sonymn.cpp:57
+#: src/pentaxmn.cpp:283 src/pentaxmn.cpp:409 src/sonymn.cpp:57
 #: src/sonymn.cpp:130 src/sonymn.cpp:145 src/sonymn.cpp:210 src/sonymn.cpp:249
 #: src/sonymn.cpp:548 src/sonymn.cpp:565 src/tags.cpp:1410 src/tags.cpp:1495
 #: src/tags.cpp:1502
@@ -890,10 +890,10 @@ msgstr "внешняя"
 msgid "Single / timer"
 msgstr "Серийный номер"
 
-#: src/canonmn.cpp:458 src/canonmn.cpp:472 src/canonmn.cpp:984
+#: src/canonmn.cpp:458 src/canonmn.cpp:472 src/canonmn.cpp:986
 #: src/fujimn.cpp:225 src/minoltamn.cpp:253 src/minoltamn.cpp:1101
 #: src/minoltamn.cpp:1153 src/nikonmn.cpp:151 src/nikonmn.cpp:164
-#: src/pentaxmn.cpp:660
+#: src/pentaxmn.cpp:661
 #, fuzzy
 msgid "Continuous"
 msgstr "Продолжительный ведущий режим"
@@ -938,7 +938,7 @@ msgstr "AI Focus"
 msgid "Manual focus"
 msgstr "Ручная фокусировка"
 
-#: src/canonmn.cpp:471 src/canonmn.cpp:983 src/sonymn.cpp:280
+#: src/canonmn.cpp:471 src/canonmn.cpp:985 src/sonymn.cpp:280
 #, fuzzy
 msgid "Single"
 msgstr "One-Shot"
@@ -949,36 +949,36 @@ msgstr "One-Shot"
 msgid "Pan focus"
 msgstr "Ручная фокусировка"
 
-#: src/canonmn.cpp:480 src/canonmn.cpp:1283 src/minoltamn.cpp:666
+#: src/canonmn.cpp:480 src/canonmn.cpp:1285 src/minoltamn.cpp:666
 #: src/minoltamn.cpp:852 src/sonymn.cpp:583
 #, fuzzy
 msgid "Large"
 msgstr "Язык"
 
-#: src/canonmn.cpp:481 src/canonmn.cpp:1026 src/canonmn.cpp:1284
+#: src/canonmn.cpp:481 src/canonmn.cpp:1028 src/canonmn.cpp:1286
 #: src/minoltamn.cpp:667 src/minoltamn.cpp:853 src/minoltamn.cpp:1226
 #: src/properties.cpp:1220 src/sonymn.cpp:584
 #, fuzzy
 msgid "Medium"
 msgstr "Низкий"
 
-#: src/canonmn.cpp:482 src/canonmn.cpp:1285 src/minoltamn.cpp:668
+#: src/canonmn.cpp:482 src/canonmn.cpp:1287 src/minoltamn.cpp:668
 #: src/minoltamn.cpp:854 src/minoltamn.cpp:1227 src/sonymn.cpp:585
 #, fuzzy
 msgid "Small"
 msgstr "Кино"
 
-#: src/canonmn.cpp:483 src/canonmn.cpp:1286
+#: src/canonmn.cpp:483 src/canonmn.cpp:1288
 #, fuzzy
 msgid "Medium 1"
 msgstr "Низкий"
 
-#: src/canonmn.cpp:484 src/canonmn.cpp:1287
+#: src/canonmn.cpp:484 src/canonmn.cpp:1289
 #, fuzzy
 msgid "Medium 2"
 msgstr "Низкий"
 
-#: src/canonmn.cpp:485 src/canonmn.cpp:1288
+#: src/canonmn.cpp:485 src/canonmn.cpp:1290
 #, fuzzy
 msgid "Medium 3"
 msgstr "Низкий"
@@ -988,25 +988,25 @@ msgstr "Низкий"
 msgid "Full auto"
 msgstr "Режим захвата"
 
-#: src/canonmn.cpp:491 src/canonmn.cpp:568 src/canonmn.cpp:972
-#: src/canonmn.cpp:1360 src/fujimn.cpp:110 src/fujimn.cpp:135
+#: src/canonmn.cpp:491 src/canonmn.cpp:568 src/canonmn.cpp:974
+#: src/canonmn.cpp:1362 src/fujimn.cpp:110 src/fujimn.cpp:135
 #: src/minoltamn.cpp:204 src/minoltamn.cpp:658 src/minoltamn.cpp:689
 #: src/minoltamn.cpp:690 src/minoltamn.cpp:697 src/minoltamn.cpp:838
 #: src/minoltamn.cpp:876 src/minoltamn.cpp:1285 src/nikonmn.cpp:996
 #: src/olympusmn.cpp:157 src/olympusmn.cpp:482 src/olympusmn.cpp:560
 #: src/panasonicmn.cpp:71 src/panasonicmn.cpp:74 src/panasonicmn.cpp:82
-#: src/panasonicmn.cpp:120 src/pentaxmn.cpp:58 src/pentaxmn.cpp:269
-#: src/pentaxmn.cpp:413 src/pentaxmn.cpp:619 src/pentaxmn.cpp:632
+#: src/panasonicmn.cpp:120 src/pentaxmn.cpp:58 src/pentaxmn.cpp:270
+#: src/pentaxmn.cpp:414 src/pentaxmn.cpp:620 src/pentaxmn.cpp:633
 #: src/sigmamn.cpp:157 src/sonymn.cpp:160 src/sonymn.cpp:211
 #: src/sonymn.cpp:509 src/sonymn.cpp:566 src/tags.cpp:1409 src/tags.cpp:1496
 #: src/tags.cpp:1503
 msgid "Manual"
 msgstr "Ручная"
 
-#: src/canonmn.cpp:492 src/canonmn.cpp:1392 src/fujimn.cpp:117
-#: src/minoltamn.cpp:66 src/minoltamn.cpp:846 src/minoltamn.cpp:1939
-#: src/minoltamn.cpp:2091 src/olympusmn.cpp:98 src/pentaxmn.cpp:584
-#: src/pentaxmn.cpp:971 src/sonymn.cpp:150 src/sonymn.cpp:527
+#: src/canonmn.cpp:492 src/canonmn.cpp:1394 src/fujimn.cpp:117
+#: src/minoltamn.cpp:66 src/minoltamn.cpp:846 src/minoltamn.cpp:1940
+#: src/minoltamn.cpp:2092 src/olympusmn.cpp:98 src/pentaxmn.cpp:585
+#: src/pentaxmn.cpp:972 src/sonymn.cpp:150 src/sonymn.cpp:527
 #: src/sonymn.cpp:576 src/tags.cpp:1509
 msgid "Landscape"
 msgstr "Альбом"
@@ -1021,7 +1021,7 @@ msgid "Slow shutter"
 msgstr ""
 
 #: src/canonmn.cpp:495 src/minoltamn.cpp:68 src/minoltamn.cpp:951
-#: src/minoltamn.cpp:2088 src/olympusmn.cpp:99 src/pentaxmn.cpp:590
+#: src/minoltamn.cpp:2089 src/olympusmn.cpp:99 src/pentaxmn.cpp:591
 #, fuzzy
 msgid "Night Scene"
 msgstr "Ночная съёмка"
@@ -1030,25 +1030,25 @@ msgstr "Ночная съёмка"
 msgid "Gray scale"
 msgstr ""
 
-#: src/canonmn.cpp:497 src/canonmn.cpp:1015 src/canonmn.cpp:1323
+#: src/canonmn.cpp:497 src/canonmn.cpp:1017 src/canonmn.cpp:1325
 #: src/minoltamn.cpp:61 src/nikonmn.cpp:192 src/nikonmn.cpp:685
 #: src/olympusmn.cpp:621 src/olympusmn.cpp:638 src/olympusmn.cpp:863
 #: src/olympusmn.cpp:878 src/panasonicmn.cpp:201 src/sonymn.cpp:537
 msgid "Sepia"
 msgstr "Сепия"
 
-#: src/canonmn.cpp:498 src/canonmn.cpp:1378 src/canonmn.cpp:1391
+#: src/canonmn.cpp:498 src/canonmn.cpp:1380 src/canonmn.cpp:1393
 #: src/fujimn.cpp:116 src/minoltamn.cpp:63 src/minoltamn.cpp:311
-#: src/minoltamn.cpp:842 src/minoltamn.cpp:948 src/minoltamn.cpp:1938
-#: src/minoltamn.cpp:2086 src/olympusmn.cpp:96 src/olympusmn.cpp:619
-#: src/panasonicmn.cpp:111 src/panasonicmn.cpp:374 src/pentaxmn.cpp:583
-#: src/pentaxmn.cpp:970 src/sonymn.cpp:146 src/sonymn.cpp:526
+#: src/minoltamn.cpp:842 src/minoltamn.cpp:948 src/minoltamn.cpp:1939
+#: src/minoltamn.cpp:2087 src/olympusmn.cpp:96 src/olympusmn.cpp:619
+#: src/panasonicmn.cpp:111 src/panasonicmn.cpp:374 src/pentaxmn.cpp:584
+#: src/pentaxmn.cpp:971 src/sonymn.cpp:146 src/sonymn.cpp:526
 #: src/sonymn.cpp:572 src/tags.cpp:1510
 msgid "Portrait"
 msgstr "Портрет"
 
 #: src/canonmn.cpp:499 src/fujimn.cpp:118 src/minoltamn.cpp:843
-#: src/minoltamn.cpp:2090 src/panasonicmn.cpp:113 src/sonymn.cpp:148
+#: src/minoltamn.cpp:2091 src/panasonicmn.cpp:113 src/sonymn.cpp:148
 #: src/sonymn.cpp:573
 msgid "Sports"
 msgstr "Спорт"
@@ -1062,15 +1062,15 @@ msgstr "Макросъёмка"
 msgid "Black & white"
 msgstr "Чёрно-белый"
 
-#: src/canonmn.cpp:503 src/canonmn.cpp:1012 src/olympusmn.cpp:134
+#: src/canonmn.cpp:503 src/canonmn.cpp:1014 src/olympusmn.cpp:134
 #: src/olympusmn.cpp:616 src/olympusmn.cpp:859 src/panasonicmn.cpp:262
 #: src/panasonicmn.cpp:370 src/sonymn.cpp:525 src/sonymn.cpp:555
 #, fuzzy
 msgid "Vivid"
 msgstr "Цвет"
 
-#: src/canonmn.cpp:504 src/canonmn.cpp:1013 src/canonmn.cpp:1393
-#: src/minoltamn.cpp:1944 src/minoltamn.cpp:1945 src/olympusmn.cpp:627
+#: src/canonmn.cpp:504 src/canonmn.cpp:1015 src/canonmn.cpp:1395
+#: src/minoltamn.cpp:1945 src/minoltamn.cpp:1946 src/olympusmn.cpp:627
 #: src/olympusmn.cpp:637 src/olympusmn.cpp:868 src/olympusmn.cpp:877
 #: src/sonymn.cpp:532 src/sonymn.cpp:557
 #, fuzzy
@@ -1105,7 +1105,7 @@ msgstr "Фейерверк"
 msgid "Beach"
 msgstr "Пляж"
 
-#: src/canonmn.cpp:512 src/canonmn.cpp:1110 src/fujimn.cpp:132
+#: src/canonmn.cpp:512 src/canonmn.cpp:1112 src/fujimn.cpp:132
 #: src/olympusmn.cpp:579 src/panasonicmn.cpp:138 src/sonymn.cpp:164
 msgid "Underwater"
 msgstr "Подводная съемка"
@@ -1144,33 +1144,33 @@ msgstr "Эскиз"
 msgid "Other"
 msgstr "Север"
 
-#: src/canonmn.cpp:532 src/canonmn.cpp:1027 src/canonmn.cpp:1368
+#: src/canonmn.cpp:532 src/canonmn.cpp:1029 src/canonmn.cpp:1370
 #: src/fujimn.cpp:86 src/fujimn.cpp:95 src/minoltamn.cpp:1168
 #: src/minoltamn.cpp:1174 src/minoltamn.cpp:1180 src/minoltamn.cpp:1349
 #: src/nikonmn.cpp:69 src/nikonmn.cpp:77 src/nikonmn.cpp:208
 #: src/olympusmn.cpp:171 src/olympusmn.cpp:1141 src/panasonicmn.cpp:215
 #: src/panasonicmn.cpp:219 src/panasonicmn.cpp:332 src/panasonicmn.cpp:346
-#: src/panasonicmn.cpp:355 src/pentaxmn.cpp:441 src/pentaxmn.cpp:456
+#: src/panasonicmn.cpp:355 src/pentaxmn.cpp:442 src/pentaxmn.cpp:457
 #: src/sonymn.cpp:263 src/tags.cpp:1534
 msgid "Low"
 msgstr "Низкий"
 
-#: src/canonmn.cpp:534 src/canonmn.cpp:1370 src/fujimn.cpp:85
+#: src/canonmn.cpp:534 src/canonmn.cpp:1372 src/fujimn.cpp:85
 #: src/fujimn.cpp:94 src/minoltamn.cpp:1169 src/minoltamn.cpp:1175
 #: src/minoltamn.cpp:1181 src/nikonmn.cpp:71 src/nikonmn.cpp:79
 #: src/nikonmn.cpp:210 src/olympusmn.cpp:169 src/olympusmn.cpp:1143
 #: src/panasonicmn.cpp:56 src/panasonicmn.cpp:216 src/panasonicmn.cpp:221
 #: src/panasonicmn.cpp:222 src/panasonicmn.cpp:334 src/panasonicmn.cpp:348
-#: src/panasonicmn.cpp:357 src/pentaxmn.cpp:443 src/pentaxmn.cpp:458
+#: src/panasonicmn.cpp:357 src/pentaxmn.cpp:444 src/pentaxmn.cpp:459
 #: src/sonymn.cpp:266 src/tags.cpp:1535
 msgid "High"
 msgstr "Высокий"
 
-#: src/canonmn.cpp:539 src/canonmn.cpp:1024 src/canonmn.cpp:1028
-#: src/canonmn.cpp:1033 src/canonmn.cpp:1366 src/nikonmn.cpp:679
+#: src/canonmn.cpp:539 src/canonmn.cpp:1026 src/canonmn.cpp:1030
+#: src/canonmn.cpp:1035 src/canonmn.cpp:1368 src/nikonmn.cpp:679
 #: src/nikonmn.cpp:694 src/nikonmn.cpp:930 src/nikonmn.cpp:985
 #: src/nikonmn.cpp:1240 src/olympusmn.cpp:626 src/olympusmn.cpp:636
-#: src/panasonicmn.cpp:318 src/panasonicmn.cpp:657 src/pentaxmn.cpp:204
+#: src/panasonicmn.cpp:318 src/panasonicmn.cpp:657 src/pentaxmn.cpp:205
 #: src/sonymn.cpp:175 src/sonymn.cpp:183 src/sonymn.cpp:191 src/sonymn.cpp:230
 #: src/sonymn.cpp:243 src/sonymn.cpp:250 src/sonymn.cpp:258 src/sonymn.cpp:264
 #: src/sonymn.cpp:275 src/sonymn.cpp:281 src/sonymn.cpp:288
@@ -1188,8 +1188,8 @@ msgid "Default"
 msgstr "По умолчанию"
 
 #: src/canonmn.cpp:559 src/minoltamn.cpp:265 src/minoltamn.cpp:883
-#: src/minoltamn.cpp:933 src/minoltamn.cpp:1133 src/minoltamn.cpp:1990
-#: src/olympusmn.cpp:492 src/panasonicmn.cpp:119 src/pentaxmn.cpp:403
+#: src/minoltamn.cpp:933 src/minoltamn.cpp:1133 src/minoltamn.cpp:1991
+#: src/olympusmn.cpp:492 src/panasonicmn.cpp:119 src/pentaxmn.cpp:404
 #: src/sonymn.cpp:519 src/tags.cpp:1424
 #, fuzzy
 msgid "Spot"
@@ -1219,11 +1219,11 @@ msgstr "Центровзвешенный"
 msgid "Not known"
 msgstr "Неизвестно"
 
-#: src/canonmn.cpp:571 src/canonmn.cpp:1040 src/fujimn.cpp:207
-#: src/minoltamn.cpp:847 src/minoltamn.cpp:2093 src/olympusmn.cpp:109
+#: src/canonmn.cpp:571 src/canonmn.cpp:1042 src/fujimn.cpp:207
+#: src/minoltamn.cpp:847 src/minoltamn.cpp:2094 src/olympusmn.cpp:109
 #: src/olympusmn.cpp:151 src/olympusmn.cpp:201 src/panasonicmn.cpp:118
 #: src/panasonicmn.cpp:276 src/panasonicmn.cpp:277 src/panasonicmn.cpp:448
-#: src/pentaxmn.cpp:267 src/pentaxmn.cpp:585 src/sonymn.cpp:162
+#: src/pentaxmn.cpp:268 src/pentaxmn.cpp:586 src/sonymn.cpp:162
 #: src/sonymn.cpp:439 src/sonymn.cpp:440 src/sonymn.cpp:577 src/tags.cpp:1541
 msgid "Macro"
 msgstr "Макро"
@@ -1247,7 +1247,7 @@ msgstr "Модель"
 msgid "Far range"
 msgstr "Динамический диапазон"
 
-#: src/canonmn.cpp:578 src/olympusmn.cpp:1587 src/pentaxmn.cpp:268
+#: src/canonmn.cpp:578 src/olympusmn.cpp:1587 src/pentaxmn.cpp:269
 #: src/tags.cpp:2590
 #, fuzzy
 msgid "Infinity"
@@ -1268,22 +1268,22 @@ msgid "Auto-selected"
 msgstr "Автобрекетирование"
 
 #: src/canonmn.cpp:586 src/minoltamn.cpp:287 src/minoltamn.cpp:706
-#: src/minoltamn.cpp:921 src/minoltamn.cpp:2005 src/nikonmn.cpp:103
-#: src/olympusmn.cpp:1610 src/pentaxmn.cpp:295 src/pentaxmn.cpp:310
+#: src/minoltamn.cpp:921 src/minoltamn.cpp:2006 src/nikonmn.cpp:103
+#: src/olympusmn.cpp:1610 src/pentaxmn.cpp:296 src/pentaxmn.cpp:311
 #, fuzzy
 msgid "Right"
 msgstr "Ночной портрет"
 
-#: src/canonmn.cpp:587 src/canonmn.cpp:1005 src/minoltamn.cpp:284
-#: src/minoltamn.cpp:703 src/minoltamn.cpp:2002 src/nikonmn.cpp:99
-#: src/nikonmn.cpp:808 src/nikonmn.cpp:823 src/pentaxmn.cpp:293
-#: src/pentaxmn.cpp:309 src/sigmamn.cpp:169
+#: src/canonmn.cpp:587 src/canonmn.cpp:1007 src/minoltamn.cpp:284
+#: src/minoltamn.cpp:703 src/minoltamn.cpp:2003 src/nikonmn.cpp:99
+#: src/nikonmn.cpp:808 src/nikonmn.cpp:823 src/pentaxmn.cpp:294
+#: src/pentaxmn.cpp:310 src/sigmamn.cpp:169
 msgid "Center"
 msgstr "Центральный"
 
 #: src/canonmn.cpp:588 src/minoltamn.cpp:291 src/minoltamn.cpp:710
-#: src/minoltamn.cpp:925 src/minoltamn.cpp:2009 src/nikonmn.cpp:102
-#: src/pentaxmn.cpp:291 src/pentaxmn.cpp:308
+#: src/minoltamn.cpp:925 src/minoltamn.cpp:2010 src/nikonmn.cpp:102
+#: src/pentaxmn.cpp:292 src/pentaxmn.cpp:309
 #, fuzzy
 msgid "Left"
 msgstr "Левая"
@@ -1322,129 +1322,129 @@ msgstr "A-DEP"
 msgid "M-DEP"
 msgstr "M-DEP"
 
-#: src/canonmn.cpp:964 src/minoltamn.cpp:297 src/nikonmn.cpp:142
+#: src/canonmn.cpp:966 src/minoltamn.cpp:297 src/nikonmn.cpp:142
 msgid "Did not fire"
 msgstr "Вспышка не сработала"
 
-#: src/canonmn.cpp:965 src/minoltamn.cpp:298 src/nikonmn.cpp:1003
+#: src/canonmn.cpp:967 src/minoltamn.cpp:298 src/nikonmn.cpp:1003
 #: src/panasonicmn.cpp:252 src/tags.cpp:369
 msgid "Fired"
 msgstr "Сработала"
 
-#: src/canonmn.cpp:970 src/olympusmn.cpp:1016
+#: src/canonmn.cpp:972 src/olympusmn.cpp:1016
 msgid "External flash"
 msgstr "Внешняя вспышка"
 
-#: src/canonmn.cpp:971 src/olympusmn.cpp:1020
+#: src/canonmn.cpp:973 src/olympusmn.cpp:1020
 msgid "Internal flash"
 msgstr "Встроенная вспышка"
 
-#: src/canonmn.cpp:973 src/olympusmn.cpp:558 src/sonymn.cpp:543
+#: src/canonmn.cpp:975 src/olympusmn.cpp:558 src/sonymn.cpp:543
 msgid "TTL"
 msgstr "TTL"
 
-#: src/canonmn.cpp:974
+#: src/canonmn.cpp:976
 msgid "A-TTL"
 msgstr "A-TTL"
 
-#: src/canonmn.cpp:975
+#: src/canonmn.cpp:977
 msgid "E-TTL"
 msgstr "E-TTL"
 
-#: src/canonmn.cpp:976
+#: src/canonmn.cpp:978
 msgid "FP sync enabled"
 msgstr ""
 
-#: src/canonmn.cpp:977
+#: src/canonmn.cpp:979
 msgid "2nd-curtain sync used"
 msgstr ""
 
-#: src/canonmn.cpp:978
+#: src/canonmn.cpp:980
 #, fuzzy
 msgid "FP sync used"
 msgstr "Использованная точка AF"
 
-#: src/canonmn.cpp:989
+#: src/canonmn.cpp:991
 #, fuzzy
 msgid "Normal AE"
 msgstr "VGA Normal"
 
-#: src/canonmn.cpp:990 src/minoltamn.cpp:527 src/minoltamn.cpp:769
-#: src/minoltamn.cpp:1049 src/pentaxmn.cpp:1198 src/pentaxmn.cpp:1199
+#: src/canonmn.cpp:992 src/minoltamn.cpp:527 src/minoltamn.cpp:769
+#: src/minoltamn.cpp:1049 src/pentaxmn.cpp:1199 src/pentaxmn.cpp:1200
 msgid "Exposure compensation"
 msgstr "Компенсация экспозиции"
 
-#: src/canonmn.cpp:991 src/minoltamn.cpp:1579 src/pentaxmn.cpp:1300
-#: src/pentaxmn.cpp:1301
+#: src/canonmn.cpp:993 src/minoltamn.cpp:1579 src/pentaxmn.cpp:1301
+#: src/pentaxmn.cpp:1302
 msgid "AE lock"
 msgstr "Фиксация экспозиции"
 
-#: src/canonmn.cpp:992
+#: src/canonmn.cpp:994
 #, fuzzy
 msgid "AE lock + exposure compensation"
 msgstr "Фиксация + компенсация экспозиции"
 
-#: src/canonmn.cpp:993
+#: src/canonmn.cpp:995
 #, fuzzy
 msgid "No AE"
 msgstr "VGA Normal"
 
-#: src/canonmn.cpp:1000
+#: src/canonmn.cpp:1002
 #, fuzzy
 msgid "On, shot only"
 msgstr "One-Shot"
 
-#: src/canonmn.cpp:1006 src/canonmn.cpp:1058 src/nikonmn.cpp:839
+#: src/canonmn.cpp:1008 src/canonmn.cpp:1060 src/nikonmn.cpp:839
 #: src/olympusmn.cpp:1015
 #, fuzzy
 msgid "AF Point"
 msgstr "Использованная точка AF"
 
-#: src/canonmn.cpp:1014
+#: src/canonmn.cpp:1016
 #, fuzzy
 msgid "Smooth"
 msgstr "месяц"
 
-#: src/canonmn.cpp:1016 src/nikonmn.cpp:684
+#: src/canonmn.cpp:1018 src/nikonmn.cpp:684
 msgid "B&W"
 msgstr "Ч/Б"
 
-#: src/canonmn.cpp:1017 src/canonmn.cpp:1100 src/canonmn.cpp:1361
+#: src/canonmn.cpp:1019 src/canonmn.cpp:1102 src/canonmn.cpp:1363
 #: src/fujimn.cpp:78 src/fujimn.cpp:79 src/minoltamn.cpp:222
-#: src/minoltamn.cpp:1188 src/minoltamn.cpp:1191 src/minoltamn.cpp:2152
-#: src/pentaxmn.cpp:992
+#: src/minoltamn.cpp:1188 src/minoltamn.cpp:1191 src/minoltamn.cpp:2153
+#: src/pentaxmn.cpp:993
 msgid "Custom"
 msgstr "Свой"
 
-#: src/canonmn.cpp:1018 src/canonmn.cpp:1019
+#: src/canonmn.cpp:1020 src/canonmn.cpp:1021
 #, fuzzy
 msgid "My color data"
 msgstr "Цвет"
 
-#: src/canonmn.cpp:1025 src/pentaxmn.cpp:210
+#: src/canonmn.cpp:1027 src/pentaxmn.cpp:211
 #, fuzzy
 msgid "Full"
 msgstr "Полный"
 
-#: src/canonmn.cpp:1034
+#: src/canonmn.cpp:1036
 msgid "sRAW1 (mRAW)"
 msgstr ""
 
-#: src/canonmn.cpp:1035
+#: src/canonmn.cpp:1037
 msgid "sRAW2 (sRAW)"
 msgstr ""
 
-#: src/canonmn.cpp:1041
+#: src/canonmn.cpp:1043
 #, fuzzy
 msgid "Selftimer"
 msgstr "Серийный номер"
 
-#: src/canonmn.cpp:1041 src/panasonicmn.cpp:464
+#: src/canonmn.cpp:1043 src/panasonicmn.cpp:464
 #, fuzzy
 msgid "Self timer"
 msgstr "Серийный номер"
 
-#: src/canonmn.cpp:1042 src/fujimn.cpp:186 src/minoltamn.cpp:1488
+#: src/canonmn.cpp:1044 src/fujimn.cpp:186 src/minoltamn.cpp:1488
 #: src/minoltamn.cpp:1489 src/nikonmn.cpp:224 src/nikonmn.cpp:465
 #: src/nikonmn.cpp:535 src/olympusmn.cpp:198 src/panasonicmn.cpp:441
 #: src/sigmamn.cpp:113 src/sigmamn.cpp:114 src/sonymn.cpp:696
@@ -1452,30 +1452,30 @@ msgstr "Серийный номер"
 msgid "Quality"
 msgstr "Качество"
 
-#: src/canonmn.cpp:1043 src/fujimn.cpp:201 src/minoltamn.cpp:493
+#: src/canonmn.cpp:1045 src/fujimn.cpp:201 src/minoltamn.cpp:493
 #: src/minoltamn.cpp:762 src/nikonmn.cpp:574 src/olympusmn.cpp:279
 #: src/olympusmn.cpp:676
 msgid "Flash Mode"
 msgstr "Режим вспышки"
 
-#: src/canonmn.cpp:1043
+#: src/canonmn.cpp:1045
 #, fuzzy
 msgid "Flash mode setting"
 msgstr "Вспышка сработала"
 
-#: src/canonmn.cpp:1044 src/minoltamn.cpp:505 src/minoltamn.cpp:1431
+#: src/canonmn.cpp:1046 src/minoltamn.cpp:505 src/minoltamn.cpp:1431
 #: src/olympusmn.cpp:706 src/sigmamn.cpp:59 src/sonymn.cpp:608
 #: src/sonymn.cpp:609
 #, fuzzy
 msgid "Drive Mode"
 msgstr "Режим замера"
 
-#: src/canonmn.cpp:1044
+#: src/canonmn.cpp:1046
 #, fuzzy
 msgid "Drive mode setting"
 msgstr "Режим макросъёмки"
 
-#: src/canonmn.cpp:1046 src/fujimn.cpp:210 src/minoltamn.cpp:622
+#: src/canonmn.cpp:1048 src/fujimn.cpp:210 src/minoltamn.cpp:622
 #: src/minoltamn.cpp:753 src/minoltamn.cpp:1039 src/minoltamn.cpp:1383
 #: src/nikonmn.cpp:480 src/olympusmn.cpp:300 src/olympusmn.cpp:670
 #: src/panasonicmn.cpp:445 src/properties.cpp:1159 src/sonymn.cpp:445
@@ -1484,103 +1484,103 @@ msgstr "Режим макросъёмки"
 msgid "Focus Mode"
 msgstr "Способ фокусировки"
 
-#: src/canonmn.cpp:1046
+#: src/canonmn.cpp:1048
 #, fuzzy
 msgid "Focus mode setting"
 msgstr "Способ фокусировки"
 
-#: src/canonmn.cpp:1049 src/minoltamn.cpp:499 src/minoltamn.cpp:744
+#: src/canonmn.cpp:1051 src/minoltamn.cpp:499 src/minoltamn.cpp:744
 #: src/minoltamn.cpp:991
 msgid "Image Size"
 msgstr "Размер изображения"
 
-#: src/canonmn.cpp:1050
+#: src/canonmn.cpp:1052
 #, fuzzy
 msgid "Easy Mode"
 msgstr "Режим вспышки"
 
-#: src/canonmn.cpp:1050
+#: src/canonmn.cpp:1052
 #, fuzzy
 msgid "Easy shooting mode"
 msgstr "Режим замера"
 
-#: src/canonmn.cpp:1051 src/minoltamn.cpp:523 src/nikonmn.cpp:257
+#: src/canonmn.cpp:1053 src/minoltamn.cpp:523 src/nikonmn.cpp:257
 #: src/nikonmn.cpp:486 src/nikonmn.cpp:573 src/olympusmn.cpp:207
 msgid "Digital Zoom"
 msgstr "Цифровой трансфокатор"
 
-#: src/canonmn.cpp:1051 src/minoltamn.cpp:524 src/pentaxmn.cpp:1223
-#: src/pentaxmn.cpp:1224
+#: src/canonmn.cpp:1053 src/minoltamn.cpp:524 src/pentaxmn.cpp:1224
+#: src/pentaxmn.cpp:1225
 msgid "Digital zoom"
 msgstr "Цифровой трансфокатор"
 
-#: src/canonmn.cpp:1052 src/minoltamn.cpp:386 src/minoltamn.cpp:574
+#: src/canonmn.cpp:1054 src/minoltamn.cpp:386 src/minoltamn.cpp:574
 #: src/minoltamn.cpp:575 src/minoltamn.cpp:777 src/minoltamn.cpp:778
 #: src/minoltamn.cpp:1021 src/minoltamn.cpp:1022 src/minoltamn.cpp:1419
 #: src/minoltamn.cpp:1420 src/nikonmn.cpp:705 src/olympusmn.cpp:390
 #: src/olympusmn.cpp:807 src/panasonicmn.cpp:462 src/panasonicmn.cpp:473
-#: src/pentaxmn.cpp:1129 src/pentaxmn.cpp:1229 src/pentaxmn.cpp:1230
+#: src/pentaxmn.cpp:1130 src/pentaxmn.cpp:1230 src/pentaxmn.cpp:1231
 #: src/properties.cpp:468 src/properties.cpp:614 src/properties.cpp:1097
 #: src/sigmamn.cpp:89 src/sigmamn.cpp:90 src/sonymn.cpp:373 src/sonymn.cpp:642
 #: src/sonymn.cpp:643 src/sonymn.cpp:748 src/sonymn.cpp:749 src/tags.cpp:1814
 msgid "Contrast"
 msgstr "Контраст"
 
-#: src/canonmn.cpp:1052 src/fujimn.cpp:199 src/olympusmn.cpp:391
+#: src/canonmn.cpp:1054 src/fujimn.cpp:199 src/olympusmn.cpp:391
 #: src/olympusmn.cpp:687 src/olympusmn.cpp:1087 src/panasonicmn.cpp:462
 #, fuzzy
 msgid "Contrast setting"
 msgstr "Настройка контраста"
 
-#: src/canonmn.cpp:1053 src/minoltamn.cpp:387 src/minoltamn.cpp:571
+#: src/canonmn.cpp:1055 src/minoltamn.cpp:387 src/minoltamn.cpp:571
 #: src/minoltamn.cpp:572 src/minoltamn.cpp:780 src/minoltamn.cpp:781
 #: src/minoltamn.cpp:1024 src/minoltamn.cpp:1025 src/minoltamn.cpp:1422
 #: src/minoltamn.cpp:1423 src/nikonmn.cpp:586 src/nikonmn.cpp:605
 #: src/nikonmn.cpp:707 src/olympusmn.cpp:806 src/olympusmn.cpp:905
-#: src/panasonicmn.cpp:480 src/pentaxmn.cpp:1123 src/pentaxmn.cpp:1226
-#: src/pentaxmn.cpp:1227 src/properties.cpp:486 src/properties.cpp:615
+#: src/panasonicmn.cpp:480 src/pentaxmn.cpp:1124 src/pentaxmn.cpp:1227
+#: src/pentaxmn.cpp:1228 src/properties.cpp:486 src/properties.cpp:615
 #: src/properties.cpp:1295 src/sigmamn.cpp:98 src/sigmamn.cpp:99
 #: src/sonymn.cpp:376 src/sonymn.cpp:645 src/sonymn.cpp:646 src/sonymn.cpp:751
 #: src/sonymn.cpp:752 src/tags.cpp:1818
 msgid "Saturation"
 msgstr "Насыщенность"
 
-#: src/canonmn.cpp:1053 src/olympusmn.cpp:1085
+#: src/canonmn.cpp:1055 src/olympusmn.cpp:1085
 #, fuzzy
 msgid "Saturation setting"
 msgstr "Настройка контраста"
 
-#: src/canonmn.cpp:1054 src/canonmn.cpp:1403 src/fujimn.cpp:189
+#: src/canonmn.cpp:1056 src/canonmn.cpp:1405 src/fujimn.cpp:189
 #: src/minoltamn.cpp:577 src/minoltamn.cpp:578 src/minoltamn.cpp:774
 #: src/minoltamn.cpp:775 src/minoltamn.cpp:1018 src/minoltamn.cpp:1019
 #: src/minoltamn.cpp:1416 src/minoltamn.cpp:1417 src/nikonmn.cpp:704
-#: src/olympusmn.cpp:808 src/panasonicmn.cpp:481 src/pentaxmn.cpp:1126
-#: src/pentaxmn.cpp:1232 src/pentaxmn.cpp:1233 src/properties.cpp:489
+#: src/olympusmn.cpp:808 src/panasonicmn.cpp:481 src/pentaxmn.cpp:1127
+#: src/pentaxmn.cpp:1233 src/pentaxmn.cpp:1234 src/properties.cpp:489
 #: src/properties.cpp:616 src/properties.cpp:1301 src/sigmamn.cpp:101
 #: src/sigmamn.cpp:102 src/sonymn.cpp:639 src/sonymn.cpp:640
 #: src/sonymn.cpp:745 src/sonymn.cpp:746 src/tags.cpp:1822
 msgid "Sharpness"
 msgstr "Резкость"
 
-#: src/canonmn.cpp:1054 src/fujimn.cpp:190 src/olympusmn.cpp:688
+#: src/canonmn.cpp:1056 src/fujimn.cpp:190 src/olympusmn.cpp:688
 #: src/olympusmn.cpp:1088
 #, fuzzy
 msgid "Sharpness setting"
 msgstr "Настройка резкости"
 
-#: src/canonmn.cpp:1055 src/minoltamn.cpp:765 src/minoltamn.cpp:1012
+#: src/canonmn.cpp:1057 src/minoltamn.cpp:765 src/minoltamn.cpp:1012
 #, fuzzy
 msgid "ISO Speed Mode"
 msgstr "Скорость ISO"
 
-#: src/canonmn.cpp:1055 src/minoltamn.cpp:766 src/minoltamn.cpp:1013
+#: src/canonmn.cpp:1057 src/minoltamn.cpp:766 src/minoltamn.cpp:1013
 #: src/nikonmn.cpp:219 src/nikonmn.cpp:475 src/nikonmn.cpp:533
 #: src/panasonicmn.cpp:734
 #, fuzzy
 msgid "ISO speed setting"
 msgstr "Скорость ISO"
 
-#: src/canonmn.cpp:1056 src/minoltamn.cpp:508 src/minoltamn.cpp:1009
+#: src/canonmn.cpp:1058 src/minoltamn.cpp:508 src/minoltamn.cpp:1009
 #: src/minoltamn.cpp:1398 src/olympusmn.cpp:667 src/properties.cpp:586
 #: src/properties.cpp:1223 src/sigmamn.cpp:77 src/sonymn.cpp:624
 #: src/sonymn.cpp:625 src/sonymn.cpp:730 src/sonymn.cpp:731 src/tags.cpp:832
@@ -1588,364 +1588,364 @@ msgstr "Скорость ISO"
 msgid "Metering Mode"
 msgstr "Режим замера"
 
-#: src/canonmn.cpp:1056
+#: src/canonmn.cpp:1058
 #, fuzzy
 msgid "Metering mode setting"
 msgstr "Режим макросъёмки"
 
-#: src/canonmn.cpp:1057
+#: src/canonmn.cpp:1059
 #, fuzzy
 msgid "Focus Type"
 msgstr "Способ фокусировки"
 
-#: src/canonmn.cpp:1057
+#: src/canonmn.cpp:1059
 #, fuzzy
 msgid "Focus type setting"
 msgstr "Способ фокусировки"
 
-#: src/canonmn.cpp:1058
+#: src/canonmn.cpp:1060
 #, fuzzy
 msgid "AF point selected"
 msgstr "Использованная точка AF"
 
-#: src/canonmn.cpp:1059 src/properties.cpp:575 src/properties.cpp:1146
+#: src/canonmn.cpp:1061 src/properties.cpp:575 src/properties.cpp:1146
 #: src/sonymn.cpp:681 src/sonymn.cpp:682 src/sonymn.cpp:757 src/sonymn.cpp:758
 #: src/tags.cpp:806 src/tags.cpp:1555
 msgid "Exposure Program"
 msgstr "Программа экспозиции"
 
-#: src/canonmn.cpp:1059
+#: src/canonmn.cpp:1061
 #, fuzzy
 msgid "Exposure mode setting"
 msgstr "Режим экспозиции"
 
-#: src/canonmn.cpp:1061 src/nikonmn.cpp:570 src/olympusmn.cpp:751
+#: src/canonmn.cpp:1063 src/nikonmn.cpp:570 src/olympusmn.cpp:751
 #: src/panasonicmn.cpp:493 src/properties.cpp:1200
 msgid "Lens Type"
 msgstr "Тип объектива"
 
-#: src/canonmn.cpp:1061 src/nikonmn.cpp:570 src/olympusmn.cpp:751
-#: src/panasonicmn.cpp:493 src/pentaxmn.cpp:1287 src/pentaxmn.cpp:1288
+#: src/canonmn.cpp:1063 src/nikonmn.cpp:570 src/olympusmn.cpp:751
+#: src/panasonicmn.cpp:493 src/pentaxmn.cpp:1288 src/pentaxmn.cpp:1289
 msgid "Lens type"
 msgstr "Тип объектива"
 
-#: src/canonmn.cpp:1062 src/nikonmn.cpp:571 src/properties.cpp:658
+#: src/canonmn.cpp:1064 src/nikonmn.cpp:571 src/properties.cpp:658
 msgid "Lens"
 msgstr "Объектив"
 
-#: src/canonmn.cpp:1062
+#: src/canonmn.cpp:1064
 msgid ""
 "'long' and 'short' focal length of lens (in 'focal units') and 'focal units' "
 "per mm"
 msgstr ""
 
-#: src/canonmn.cpp:1063
+#: src/canonmn.cpp:1065
 msgid "Short Focal"
 msgstr ""
 
-#: src/canonmn.cpp:1063
+#: src/canonmn.cpp:1065
 #, fuzzy
 msgid "Short focal"
 msgstr "Ручная фокусировка"
 
-#: src/canonmn.cpp:1064
+#: src/canonmn.cpp:1066
 #, fuzzy
 msgid "Focal Units"
 msgstr "Фокусное расстояние"
 
-#: src/canonmn.cpp:1064
+#: src/canonmn.cpp:1066
 #, fuzzy
 msgid "Focal units"
 msgstr "Фокусное расстояние"
 
-#: src/canonmn.cpp:1065 src/minoltamn.cpp:553
+#: src/canonmn.cpp:1067 src/minoltamn.cpp:553
 #, fuzzy
 msgid "Max Aperture"
 msgstr "Диафрагма"
 
-#: src/canonmn.cpp:1065 src/minoltamn.cpp:554
+#: src/canonmn.cpp:1067 src/minoltamn.cpp:554
 #, fuzzy
 msgid "Max aperture"
 msgstr "Максимально открытая диафрагма"
 
-#: src/canonmn.cpp:1066
+#: src/canonmn.cpp:1068
 #, fuzzy
 msgid "Min Aperture"
 msgstr "Диафрагма"
 
-#: src/canonmn.cpp:1066
+#: src/canonmn.cpp:1068
 #, fuzzy
 msgid "Min aperture"
 msgstr "Максимально открытая диафрагма"
 
-#: src/canonmn.cpp:1067
+#: src/canonmn.cpp:1069
 #, fuzzy
 msgid "Flash Activity"
 msgstr "Вспышка сработала"
 
-#: src/canonmn.cpp:1067
+#: src/canonmn.cpp:1069
 #, fuzzy
 msgid "Flash activity"
 msgstr "Вспышка сработала"
 
-#: src/canonmn.cpp:1068
+#: src/canonmn.cpp:1070
 #, fuzzy
 msgid "Flash Details"
 msgstr "Вспышка сработала"
 
-#: src/canonmn.cpp:1068
+#: src/canonmn.cpp:1070
 #, fuzzy
 msgid "Flash details"
 msgstr "Режим вспышки"
 
-#: src/canonmn.cpp:1071
+#: src/canonmn.cpp:1073
 #, fuzzy
 msgid "Focus Continuous"
 msgstr "Продолжительный ведущий режим"
 
-#: src/canonmn.cpp:1071
+#: src/canonmn.cpp:1073
 #, fuzzy
 msgid "Focus continuous setting"
 msgstr "Способ фокусировки"
 
-#: src/canonmn.cpp:1072
+#: src/canonmn.cpp:1074
 #, fuzzy
 msgid "AESetting"
 msgstr "Настройка резкости"
 
-#: src/canonmn.cpp:1072
+#: src/canonmn.cpp:1074
 #, fuzzy
 msgid "AE setting"
 msgstr "Способ фокусировки"
 
-#: src/canonmn.cpp:1073 src/minoltamn.cpp:147 src/minoltamn.cpp:814
+#: src/canonmn.cpp:1075 src/minoltamn.cpp:147 src/minoltamn.cpp:814
 #: src/minoltamn.cpp:1075 src/minoltamn.cpp:1566 src/nikonmn.cpp:607
 #: src/olympusmn.cpp:709 src/olympusmn.cpp:1023 src/panasonicmn.cpp:447
 #: src/sonymn.cpp:421 src/sonymn.cpp:684 src/sonymn.cpp:685
 msgid "Image Stabilization"
 msgstr "Стабилизация снимка"
 
-#: src/canonmn.cpp:1073 src/minoltamn.cpp:148 src/minoltamn.cpp:815
+#: src/canonmn.cpp:1075 src/minoltamn.cpp:148 src/minoltamn.cpp:815
 #: src/minoltamn.cpp:1076 src/minoltamn.cpp:1567 src/nikonmn.cpp:607
 #: src/olympusmn.cpp:709 src/olympusmn.cpp:1023 src/panasonicmn.cpp:447
 #: src/sonymn.cpp:422
 msgid "Image stabilization"
 msgstr "Стабилизация снимка"
 
-#: src/canonmn.cpp:1074
+#: src/canonmn.cpp:1076
 #, fuzzy
 msgid "Display Aperture"
 msgstr "Диафрагма"
 
-#: src/canonmn.cpp:1074
+#: src/canonmn.cpp:1076
 #, fuzzy
 msgid "Display aperture"
 msgstr "Максимально открытая диафрагма"
 
-#: src/canonmn.cpp:1075
+#: src/canonmn.cpp:1077
 #, fuzzy
 msgid "Zoom Source Width"
 msgstr "Ширина изображения"
 
-#: src/canonmn.cpp:1075
+#: src/canonmn.cpp:1077
 #, fuzzy
 msgid "Zoom source width"
 msgstr "Ширина изображения"
 
-#: src/canonmn.cpp:1076
+#: src/canonmn.cpp:1078
 #, fuzzy
 msgid "Zoom Target Width"
 msgstr "Ширина изображения"
 
-#: src/canonmn.cpp:1076
+#: src/canonmn.cpp:1078
 #, fuzzy
 msgid "Zoom target width"
 msgstr "Ширина изображения"
 
-#: src/canonmn.cpp:1078
+#: src/canonmn.cpp:1080
 #, fuzzy
 msgid "Spot Metering Mode"
 msgstr "Режим замера"
 
-#: src/canonmn.cpp:1078
+#: src/canonmn.cpp:1080
 #, fuzzy
 msgid "Spot metering mode"
 msgstr "Режим замера"
 
-#: src/canonmn.cpp:1079
+#: src/canonmn.cpp:1081
 #, fuzzy
 msgid "Photo Effect"
 msgstr "Цветовое пространство"
 
-#: src/canonmn.cpp:1079
+#: src/canonmn.cpp:1081
 #, fuzzy
 msgid "Photo effect"
 msgstr "Цветовое пространство"
 
-#: src/canonmn.cpp:1080
+#: src/canonmn.cpp:1082
 #, fuzzy
 msgid "Manual Flash Output"
 msgstr "Ручная экспозиция"
 
-#: src/canonmn.cpp:1080
+#: src/canonmn.cpp:1082
 #, fuzzy
 msgid "Manual flash output"
 msgstr "Ручная экспозиция"
 
-#: src/canonmn.cpp:1081
+#: src/canonmn.cpp:1083
 #, fuzzy
 msgid "Color Tone"
 msgstr "Цветовое пространство"
 
-#: src/canonmn.cpp:1081
+#: src/canonmn.cpp:1083
 #, fuzzy
 msgid "Color tone"
 msgstr "Цветовое пространство"
 
-#: src/canonmn.cpp:1082
+#: src/canonmn.cpp:1084
 msgid "SRAW Quality Tone"
 msgstr ""
 
-#: src/canonmn.cpp:1082
+#: src/canonmn.cpp:1084
 #, fuzzy
 msgid "SRAW quality"
 msgstr "Качество изображения"
 
-#: src/canonmn.cpp:1084
+#: src/canonmn.cpp:1086
 #, fuzzy
 msgid "Unknown Canon Camera Settings 1 tag"
 msgstr "Настройка контраста"
 
-#: src/canonmn.cpp:1095 src/fujimn.cpp:72 src/minoltamn.cpp:219
+#: src/canonmn.cpp:1097 src/fujimn.cpp:72 src/minoltamn.cpp:219
 #: src/minoltamn.cpp:683 src/minoltamn.cpp:869 src/minoltamn.cpp:1197
-#: src/minoltamn.cpp:2146 src/nikonmn.cpp:453 src/panasonicmn.cpp:68
-#: src/pentaxmn.cpp:409 src/sonymn.cpp:212 src/tags.cpp:1435
+#: src/minoltamn.cpp:2147 src/nikonmn.cpp:453 src/panasonicmn.cpp:68
+#: src/pentaxmn.cpp:410 src/sonymn.cpp:212 src/tags.cpp:1435
 msgid "Daylight"
 msgstr "Дневной свет"
 
-#: src/canonmn.cpp:1096 src/fujimn.cpp:73 src/minoltamn.cpp:220
+#: src/canonmn.cpp:1098 src/fujimn.cpp:73 src/minoltamn.cpp:220
 #: src/minoltamn.cpp:685 src/minoltamn.cpp:870 src/minoltamn.cpp:1198
-#: src/minoltamn.cpp:2147 src/nikonmn.cpp:456 src/olympusmn.cpp:1048
-#: src/panasonicmn.cpp:69 src/pentaxmn.cpp:418 src/sonymn.cpp:213
+#: src/minoltamn.cpp:2148 src/nikonmn.cpp:456 src/olympusmn.cpp:1048
+#: src/panasonicmn.cpp:69 src/pentaxmn.cpp:419 src/sonymn.cpp:213
 msgid "Cloudy"
 msgstr "Облачно"
 
-#: src/canonmn.cpp:1097 src/minoltamn.cpp:221 src/minoltamn.cpp:686
-#: src/minoltamn.cpp:872 src/minoltamn.cpp:1200 src/minoltamn.cpp:2149
-#: src/pentaxmn.cpp:412
+#: src/canonmn.cpp:1099 src/minoltamn.cpp:221 src/minoltamn.cpp:686
+#: src/minoltamn.cpp:872 src/minoltamn.cpp:1200 src/minoltamn.cpp:2150
+#: src/pentaxmn.cpp:413
 msgid "Tungsten"
 msgstr "Лампа накаливания"
 
-#: src/canonmn.cpp:1098 src/minoltamn.cpp:223 src/minoltamn.cpp:687
-#: src/minoltamn.cpp:873 src/minoltamn.cpp:1201 src/minoltamn.cpp:2151
-#: src/nikonmn.cpp:455 src/pentaxmn.cpp:411 src/tags.cpp:1436
+#: src/canonmn.cpp:1100 src/minoltamn.cpp:223 src/minoltamn.cpp:687
+#: src/minoltamn.cpp:873 src/minoltamn.cpp:1201 src/minoltamn.cpp:2152
+#: src/nikonmn.cpp:455 src/pentaxmn.cpp:412 src/tags.cpp:1436
 msgid "Fluorescent"
 msgstr "Флуоресцентная лампа"
 
-#: src/canonmn.cpp:1101 src/minoltamn.cpp:57 src/minoltamn.cpp:1942
+#: src/canonmn.cpp:1103 src/minoltamn.cpp:57 src/minoltamn.cpp:1943
 #: src/sonymn.cpp:530
 msgid "Black & White"
 msgstr "Чёрно-белый"
 
-#: src/canonmn.cpp:1102 src/minoltamn.cpp:684 src/minoltamn.cpp:871
-#: src/minoltamn.cpp:1199 src/minoltamn.cpp:2148 src/olympusmn.cpp:1047
-#: src/panasonicmn.cpp:75 src/pentaxmn.cpp:410 src/tags.cpp:1441
+#: src/canonmn.cpp:1104 src/minoltamn.cpp:684 src/minoltamn.cpp:871
+#: src/minoltamn.cpp:1199 src/minoltamn.cpp:2149 src/olympusmn.cpp:1047
+#: src/panasonicmn.cpp:75 src/pentaxmn.cpp:411 src/tags.cpp:1441
 msgid "Shade"
 msgstr "Тень"
 
-#: src/canonmn.cpp:1103
+#: src/canonmn.cpp:1105
 msgid "Manual Temperature (Kelvin)"
 msgstr ""
 
-#: src/canonmn.cpp:1104
+#: src/canonmn.cpp:1106
 msgid "PC Set 1"
 msgstr ""
 
-#: src/canonmn.cpp:1105
+#: src/canonmn.cpp:1107
 msgid "PC Set 2"
 msgstr ""
 
-#: src/canonmn.cpp:1106
+#: src/canonmn.cpp:1108
 msgid "PC Set 3"
 msgstr ""
 
-#: src/canonmn.cpp:1107
+#: src/canonmn.cpp:1109
 #, fuzzy
 msgid "Daylight Fluorescent"
 msgstr "Флуоресцентная лампа"
 
-#: src/canonmn.cpp:1108 src/properties.cpp:816
+#: src/canonmn.cpp:1110 src/properties.cpp:816
 msgid "Custom 1"
 msgstr "Свой 1"
 
-#: src/canonmn.cpp:1109 src/minoltamn.cpp:225 src/properties.cpp:817
+#: src/canonmn.cpp:1111 src/minoltamn.cpp:225 src/properties.cpp:817
 msgid "Custom 2"
 msgstr "Свой 2"
 
-#: src/canonmn.cpp:1111 src/canonmn.cpp:1112 src/minoltamn.cpp:226
+#: src/canonmn.cpp:1113 src/canonmn.cpp:1114 src/minoltamn.cpp:226
 #: src/properties.cpp:818
 #, fuzzy
 msgid "Custom 3"
 msgstr "Свой"
 
-#: src/canonmn.cpp:1113
+#: src/canonmn.cpp:1115
 msgid "PC Set 4"
 msgstr ""
 
-#: src/canonmn.cpp:1114
+#: src/canonmn.cpp:1116
 msgid "PC Set 5"
 msgstr ""
 
-#: src/canonmn.cpp:1115
+#: src/canonmn.cpp:1117
 #, fuzzy
 msgid "Auto (ambience priority)"
 msgstr "Приоритет выдержки"
 
-#: src/canonmn.cpp:1120 src/canonmn.cpp:1239 src/canonmn.cpp:1247
+#: src/canonmn.cpp:1122 src/canonmn.cpp:1241 src/canonmn.cpp:1249
 #, fuzzy
 msgid "left"
 msgstr "Левая"
 
-#: src/canonmn.cpp:1121 src/canonmn.cpp:1236 src/canonmn.cpp:1248
+#: src/canonmn.cpp:1123 src/canonmn.cpp:1238 src/canonmn.cpp:1250
 #, fuzzy
 msgid "center"
 msgstr "Центральный"
 
-#: src/canonmn.cpp:1122 src/canonmn.cpp:1233 src/canonmn.cpp:1249
+#: src/canonmn.cpp:1124 src/canonmn.cpp:1235 src/canonmn.cpp:1251
 #, fuzzy
 msgid "right"
 msgstr "Яркость+"
 
-#: src/canonmn.cpp:1149
+#: src/canonmn.cpp:1151
 #, fuzzy
 msgid "ISO Speed Used"
 msgstr "Скорость ISO"
 
-#: src/canonmn.cpp:1149
+#: src/canonmn.cpp:1151
 #, fuzzy
 msgid "ISO speed used"
 msgstr "Скорость ISO"
 
-#: src/canonmn.cpp:1150
+#: src/canonmn.cpp:1152
 msgid "Measured EV"
 msgstr ""
 
-#: src/canonmn.cpp:1151
+#: src/canonmn.cpp:1153
 #, fuzzy
 msgid "Target Aperture"
 msgstr "Диафрагма"
 
-#: src/canonmn.cpp:1152
+#: src/canonmn.cpp:1154
 #, fuzzy
 msgid "Target Shutter Speed"
 msgstr "Скорость срабатывания затвора"
 
-#: src/canonmn.cpp:1152
+#: src/canonmn.cpp:1154
 #, fuzzy
 msgid "Target shutter speed"
 msgstr "Скорость срабатывания затвора"
 
-#: src/canonmn.cpp:1154 src/fujimn.cpp:192 src/minoltamn.cpp:177
+#: src/canonmn.cpp:1156 src/fujimn.cpp:192 src/minoltamn.cpp:177
 #: src/minoltamn.cpp:496 src/minoltamn.cpp:750 src/minoltamn.cpp:997
 #: src/minoltamn.cpp:1380 src/nikonmn.cpp:227 src/nikonmn.cpp:477
 #: src/nikonmn.cpp:536 src/olympusmn.cpp:330 src/olympusmn.cpp:887
@@ -1955,114 +1955,114 @@ msgstr "Скорость срабатывания затвора"
 msgid "White Balance"
 msgstr "Баланс белого"
 
-#: src/canonmn.cpp:1154 src/fujimn.cpp:193 src/minoltamn.cpp:1447
+#: src/canonmn.cpp:1156 src/fujimn.cpp:193 src/minoltamn.cpp:1447
 #: src/panasonicmn.cpp:443
 #, fuzzy
 msgid "White balance setting"
 msgstr "Настройка баланса белого"
 
-#: src/canonmn.cpp:1156
+#: src/canonmn.cpp:1158
 #, fuzzy
 msgid "Sequence"
 msgstr "Номер последовательности"
 
-#: src/canonmn.cpp:1156
+#: src/canonmn.cpp:1158
 msgid "Sequence number (if in a continuous burst)"
 msgstr ""
 
-#: src/canonmn.cpp:1161
+#: src/canonmn.cpp:1163
 #, fuzzy
 msgid "AF Point Used"
 msgstr "Использованная точка AF"
 
-#: src/canonmn.cpp:1161
+#: src/canonmn.cpp:1163
 #, fuzzy
 msgid "AF point used"
 msgstr "Использованная точка AF"
 
-#: src/canonmn.cpp:1162 src/olympusmn.cpp:372
+#: src/canonmn.cpp:1164 src/olympusmn.cpp:372
 #, fuzzy
 msgid "Flash Bias"
 msgstr "Вспышка сработала"
 
-#: src/canonmn.cpp:1166 src/properties.cpp:585 src/tags.cpp:831
+#: src/canonmn.cpp:1168 src/properties.cpp:585 src/tags.cpp:831
 #: src/tags.cpp:1650
 msgid "Subject Distance"
 msgstr "Расстояние до объекта"
 
-#: src/canonmn.cpp:1166
+#: src/canonmn.cpp:1168
 msgid "Subject distance (units are not clear)"
 msgstr ""
 
-#: src/canonmn.cpp:1168 src/olympusmn.cpp:273 src/properties.cpp:581
+#: src/canonmn.cpp:1170 src/olympusmn.cpp:273 src/properties.cpp:581
 #: src/tags.cpp:827
 #, fuzzy
 msgid "Aperture Value"
 msgstr "Диафрагма"
 
-#: src/canonmn.cpp:1169 src/properties.cpp:580 src/tags.cpp:826
+#: src/canonmn.cpp:1171 src/properties.cpp:580 src/tags.cpp:826
 #, fuzzy
 msgid "Shutter Speed Value"
 msgstr "Скорость срабатывания затвора"
 
-#: src/canonmn.cpp:1169 src/tags.cpp:1630
+#: src/canonmn.cpp:1171 src/tags.cpp:1630
 msgid "Shutter speed"
 msgstr "Скорость срабатывания затвора"
 
-#: src/canonmn.cpp:1170
+#: src/canonmn.cpp:1172
 msgid "Measured EV 2"
 msgstr ""
 
-#: src/canonmn.cpp:1175
+#: src/canonmn.cpp:1177
 #, fuzzy
 msgid "Unknown Canon Camera Settings 2 tag"
 msgstr "Настройка контраста"
 
-#: src/canonmn.cpp:1185 src/olympusmn.cpp:1171
+#: src/canonmn.cpp:1187 src/olympusmn.cpp:1171
 #, fuzzy
 msgid "Left to right"
 msgstr "слева направо"
 
-#: src/canonmn.cpp:1186 src/olympusmn.cpp:1172
+#: src/canonmn.cpp:1188 src/olympusmn.cpp:1172
 #, fuzzy
 msgid "Right to left"
 msgstr "справа налево"
 
-#: src/canonmn.cpp:1187 src/olympusmn.cpp:1173
+#: src/canonmn.cpp:1189 src/olympusmn.cpp:1173
 #, fuzzy
 msgid "Bottom to top"
 msgstr "снизу вверх"
 
-#: src/canonmn.cpp:1188 src/olympusmn.cpp:1174
+#: src/canonmn.cpp:1190 src/olympusmn.cpp:1174
 #, fuzzy
 msgid "Top to bottom"
 msgstr "сверху вниз"
 
-#: src/canonmn.cpp:1189
+#: src/canonmn.cpp:1191
 msgid "2x2 matrix (Clockwise)"
 msgstr ""
 
-#: src/canonmn.cpp:1194
+#: src/canonmn.cpp:1196
 msgid "Panorama Frame"
 msgstr "Кадр панорамы"
 
-#: src/canonmn.cpp:1194
+#: src/canonmn.cpp:1196
 msgid "Panorama frame number"
 msgstr "Номер кадра панорамы"
 
-#: src/canonmn.cpp:1195
+#: src/canonmn.cpp:1197
 msgid "Panorama Direction"
 msgstr "направление панорамы"
 
-#: src/canonmn.cpp:1195
+#: src/canonmn.cpp:1197
 msgid "Panorama direction"
 msgstr "Направление съёмки панорамы"
 
-#: src/canonmn.cpp:1197
+#: src/canonmn.cpp:1199
 msgid "Unknown Canon Panorama tag"
 msgstr "Неизвестный панорамный тэг Canon"
 
-#: src/canonmn.cpp:1207 src/canonmn.cpp:1337 src/minoltamn.cpp:807
+#: src/canonmn.cpp:1209 src/canonmn.cpp:1339 src/minoltamn.cpp:807
 #: src/minoltamn.cpp:1072 src/minoltamn.cpp:1497 src/nikonmn.cpp:587
 #: src/olympusmn.cpp:438 src/olympusmn.cpp:608 src/olympusmn.cpp:691
 #: src/olympusmn.cpp:811 src/olympusmn.cpp:826 src/olympusmn.cpp:896
@@ -2070,624 +2070,624 @@ msgstr "Неизвестный панорамный тэг Canon"
 msgid "Noise Reduction"
 msgstr "Подавление шума"
 
-#: src/canonmn.cpp:1207
+#: src/canonmn.cpp:1209
 msgid "Long exposure noise reduction"
 msgstr "Подавление шума при длительной выдержке"
 
-#: src/canonmn.cpp:1208
+#: src/canonmn.cpp:1210
 #, fuzzy
 msgid "Shutter Ae Lock"
 msgstr "Скорость срабатывания затвора"
 
-#: src/canonmn.cpp:1208
+#: src/canonmn.cpp:1210
 #, fuzzy
 msgid "Shutter/AE lock buttons"
 msgstr "Выдержка"
 
-#: src/canonmn.cpp:1209
+#: src/canonmn.cpp:1211
 msgid "Mirror Lockup"
 msgstr ""
 
-#: src/canonmn.cpp:1209
+#: src/canonmn.cpp:1211
 msgid "Mirror lockup"
 msgstr ""
 
-#: src/canonmn.cpp:1210 src/sonymn.cpp:699 src/sonymn.cpp:700
+#: src/canonmn.cpp:1212 src/sonymn.cpp:699 src/sonymn.cpp:700
 #, fuzzy
 msgid "Exposure Level Increments"
 msgstr "Режим экспозиции"
 
-#: src/canonmn.cpp:1210
+#: src/canonmn.cpp:1212
 msgid "Tv/Av and exposure level"
 msgstr ""
 
-#: src/canonmn.cpp:1211 src/minoltamn.cpp:1524
+#: src/canonmn.cpp:1213 src/minoltamn.cpp:1524
 #, fuzzy
 msgid "AF Assist"
 msgstr "Тип сцены"
 
-#: src/canonmn.cpp:1211
+#: src/canonmn.cpp:1213
 msgid "AF assist light"
 msgstr ""
 
-#: src/canonmn.cpp:1212
+#: src/canonmn.cpp:1214
 #, fuzzy
 msgid "Flash Sync Speed Av"
 msgstr "Режим вспышки"
 
-#: src/canonmn.cpp:1212
+#: src/canonmn.cpp:1214
 #, fuzzy
 msgid "Shutter speed in Av mode"
 msgstr "Скорость срабатывания затвора"
 
-#: src/canonmn.cpp:1213
+#: src/canonmn.cpp:1215
 #, fuzzy
 msgid "AEB Sequence"
 msgstr "Номер последовательности"
 
-#: src/canonmn.cpp:1213
+#: src/canonmn.cpp:1215
 msgid "AEB sequence/auto cancellation"
 msgstr ""
 
-#: src/canonmn.cpp:1214
+#: src/canonmn.cpp:1216
 #, fuzzy
 msgid "Shutter Curtain Sync"
 msgstr "Выдержка"
 
-#: src/canonmn.cpp:1214
+#: src/canonmn.cpp:1216
 #, fuzzy
 msgid "Shutter curtain sync"
 msgstr "Приоритет выдержки"
 
-#: src/canonmn.cpp:1215
+#: src/canonmn.cpp:1217
 #, fuzzy
 msgid "Lens AF Stop Button"
 msgstr "Тип объектива"
 
-#: src/canonmn.cpp:1215
+#: src/canonmn.cpp:1217
 #, fuzzy
 msgid "Lens AF stop button Fn. Switch"
 msgstr "Тип объектива"
 
-#: src/canonmn.cpp:1216
+#: src/canonmn.cpp:1218
 #, fuzzy
 msgid "Fill Flash Auto Reduction"
 msgstr "Подавление шума"
 
-#: src/canonmn.cpp:1216
+#: src/canonmn.cpp:1218
 msgid "Auto reduction of fill flash"
 msgstr ""
 
-#: src/canonmn.cpp:1217
+#: src/canonmn.cpp:1219
 msgid "Menu Button Return"
 msgstr ""
 
-#: src/canonmn.cpp:1217
+#: src/canonmn.cpp:1219
 msgid "Menu button return position"
 msgstr ""
 
-#: src/canonmn.cpp:1218
+#: src/canonmn.cpp:1220
 #, fuzzy
 msgid "Set Button Function"
 msgstr "Инструкции"
 
-#: src/canonmn.cpp:1218
+#: src/canonmn.cpp:1220
 msgid "SET button func. when shooting"
 msgstr ""
 
-#: src/canonmn.cpp:1219
+#: src/canonmn.cpp:1221
 msgid "Sensor Cleaning"
 msgstr "Очистка сенсора"
 
-#: src/canonmn.cpp:1219
+#: src/canonmn.cpp:1221
 msgid "Sensor cleaning"
 msgstr "Очистка сенсора"
 
-#: src/canonmn.cpp:1220
+#: src/canonmn.cpp:1222
 msgid "Superimposed Display"
 msgstr ""
 
-#: src/canonmn.cpp:1220
+#: src/canonmn.cpp:1222
 msgid "Superimposed display"
 msgstr ""
 
-#: src/canonmn.cpp:1221
+#: src/canonmn.cpp:1223
 msgid "Shutter Release No CF Card"
 msgstr ""
 
-#: src/canonmn.cpp:1221
+#: src/canonmn.cpp:1223
 msgid "Shutter Release W/O CF Card"
 msgstr ""
 
-#: src/canonmn.cpp:1223
+#: src/canonmn.cpp:1225
 #, fuzzy
 msgid "Unknown Canon Custom Function tag"
 msgstr "Настройка контраста"
 
-#: src/canonmn.cpp:1234
+#: src/canonmn.cpp:1236
 #, fuzzy
 msgid "mid-right"
 msgstr "слева направо"
 
-#: src/canonmn.cpp:1235 src/canonmn.cpp:1252
+#: src/canonmn.cpp:1237 src/canonmn.cpp:1254
 #, fuzzy
 msgid "bottom"
 msgstr "снизу вверх"
 
-#: src/canonmn.cpp:1237 src/canonmn.cpp:1244
+#: src/canonmn.cpp:1239 src/canonmn.cpp:1246
 #, fuzzy
 msgid "top"
 msgstr "в"
 
-#: src/canonmn.cpp:1238
+#: src/canonmn.cpp:1240
 #, fuzzy
 msgid "mid-left"
 msgstr "Левая"
 
-#: src/canonmn.cpp:1245
+#: src/canonmn.cpp:1247
 #, fuzzy
 msgid "upper-left"
 msgstr "Правая"
 
-#: src/canonmn.cpp:1246
+#: src/canonmn.cpp:1248
 #, fuzzy
 msgid "upper-right"
 msgstr "Правая"
 
-#: src/canonmn.cpp:1250
+#: src/canonmn.cpp:1252
 #, fuzzy
 msgid "lower-left"
 msgstr "Правая"
 
-#: src/canonmn.cpp:1251
+#: src/canonmn.cpp:1253
 #, fuzzy
 msgid "lower-right"
 msgstr "Правая"
 
-#: src/canonmn.cpp:1257 src/olympusmn.cpp:225 src/olympusmn.cpp:405
+#: src/canonmn.cpp:1259 src/olympusmn.cpp:225 src/olympusmn.cpp:405
 #: src/panasonicmn.cpp:731 src/properties.cpp:505 src/tags.cpp:419
 msgid "Image Width"
 msgstr "Ширина изображения"
 
-#: src/canonmn.cpp:1257 src/olympusmn.cpp:226 src/olympusmn.cpp:406
+#: src/canonmn.cpp:1259 src/olympusmn.cpp:226 src/olympusmn.cpp:406
 #: src/panasonicmn.cpp:489 src/panasonicmn.cpp:731 src/tags.cpp:2110
 msgid "Image width"
 msgstr "Ширина изображения"
 
-#: src/canonmn.cpp:1258 src/olympusmn.cpp:228 src/olympusmn.cpp:408
+#: src/canonmn.cpp:1260 src/olympusmn.cpp:228 src/olympusmn.cpp:408
 #: src/panasonicmn.cpp:730
 #, fuzzy
 msgid "Image Height"
 msgstr "Длина изображения"
 
-#: src/canonmn.cpp:1258 src/olympusmn.cpp:229 src/olympusmn.cpp:409
+#: src/canonmn.cpp:1260 src/olympusmn.cpp:229 src/olympusmn.cpp:409
 #: src/panasonicmn.cpp:490 src/panasonicmn.cpp:730 src/tags.cpp:2113
 msgid "Image height"
 msgstr "Высота изображения"
 
-#: src/canonmn.cpp:1259
+#: src/canonmn.cpp:1261
 #, fuzzy
 msgid "Image Width As Shot"
 msgstr "Ширина изображения"
 
-#: src/canonmn.cpp:1259
+#: src/canonmn.cpp:1261
 #, fuzzy
 msgid "Image width (as shot)"
 msgstr "Ширина изображения"
 
-#: src/canonmn.cpp:1260
+#: src/canonmn.cpp:1262
 #, fuzzy
 msgid "Image Height As Shot"
 msgstr "Длина изображения"
 
-#: src/canonmn.cpp:1260
+#: src/canonmn.cpp:1262
 #, fuzzy
 msgid "Image height (as shot)"
 msgstr "Высота изображения"
 
-#: src/canonmn.cpp:1261 src/nikonmn.cpp:868
+#: src/canonmn.cpp:1263 src/nikonmn.cpp:868
 #, fuzzy
 msgid "AF Points Used"
 msgstr "Использованная точка AF"
 
-#: src/canonmn.cpp:1261 src/nikonmn.cpp:868
+#: src/canonmn.cpp:1263 src/nikonmn.cpp:868
 #, fuzzy
 msgid "AF points used"
 msgstr "Использованная точка AF"
 
-#: src/canonmn.cpp:1262
+#: src/canonmn.cpp:1264
 #, fuzzy
 msgid "AF Points Used 20D"
 msgstr "Использованная точка AF"
 
-#: src/canonmn.cpp:1262
+#: src/canonmn.cpp:1264
 #, fuzzy
 msgid "AF points used (20D)"
 msgstr "Использованная точка AF"
 
-#: src/canonmn.cpp:1264
+#: src/canonmn.cpp:1266
 #, fuzzy
 msgid "Unknown Canon Picture Info tag"
 msgstr "Неизвестный тэг"
 
-#: src/canonmn.cpp:1275
+#: src/canonmn.cpp:1277
 msgid "AEB"
 msgstr ""
 
-#: src/canonmn.cpp:1276
+#: src/canonmn.cpp:1278
 msgid "FEB"
 msgstr ""
 
-#: src/canonmn.cpp:1277 src/minoltamn.cpp:511 src/nikonmn.cpp:783
+#: src/canonmn.cpp:1279 src/minoltamn.cpp:511 src/nikonmn.cpp:783
 #: src/nikonmn.cpp:1158 src/nikonmn.cpp:1218 src/nikonmn.cpp:1254
 #, fuzzy
 msgid "ISO"
 msgstr "О снимке"
 
-#: src/canonmn.cpp:1278
+#: src/canonmn.cpp:1280
 msgid "WB"
 msgstr ""
 
-#: src/canonmn.cpp:1289
+#: src/canonmn.cpp:1291
 msgid "Postcard"
 msgstr ""
 
-#: src/canonmn.cpp:1290
+#: src/canonmn.cpp:1292
 msgid "Widescreen"
 msgstr ""
 
-#: src/canonmn.cpp:1291
+#: src/canonmn.cpp:1293
 #, fuzzy
 msgid "Medium Movie"
 msgstr "Низкий"
 
-#: src/canonmn.cpp:1292
+#: src/canonmn.cpp:1294
 #, fuzzy
 msgid "Small Movie"
 msgstr "Кино"
 
-#: src/canonmn.cpp:1298
+#: src/canonmn.cpp:1300
 #, fuzzy
 msgid "On 1"
 msgstr "Вкл"
 
-#: src/canonmn.cpp:1299
+#: src/canonmn.cpp:1301
 #, fuzzy
 msgid "On 2"
 msgstr "Вкл"
 
-#: src/canonmn.cpp:1307
+#: src/canonmn.cpp:1309
 #, fuzzy
 msgid "On (shift AB)"
 msgstr "One-Shot"
 
-#: src/canonmn.cpp:1308
+#: src/canonmn.cpp:1310
 #, fuzzy
 msgid "On (shift GM)"
 msgstr "One-Shot"
 
-#: src/canonmn.cpp:1314 src/nikonmn.cpp:675 src/nikonmn.cpp:688
+#: src/canonmn.cpp:1316 src/nikonmn.cpp:675 src/nikonmn.cpp:688
 #: src/nikonmn.cpp:1017 src/olympusmn.cpp:628 src/olympusmn.cpp:869
 msgid "Yellow"
 msgstr ""
 
-#: src/canonmn.cpp:1315 src/nikonmn.cpp:676 src/olympusmn.cpp:629
+#: src/canonmn.cpp:1317 src/nikonmn.cpp:676 src/olympusmn.cpp:629
 #: src/olympusmn.cpp:870
 #, fuzzy
 msgid "Orange"
 msgstr "Динамический диапазон"
 
-#: src/canonmn.cpp:1316 src/nikonmn.cpp:677 src/nikonmn.cpp:687
+#: src/canonmn.cpp:1318 src/nikonmn.cpp:677 src/nikonmn.cpp:687
 #: src/nikonmn.cpp:1015 src/olympusmn.cpp:630 src/olympusmn.cpp:871
 msgid "Red"
 msgstr ""
 
-#: src/canonmn.cpp:1317 src/canonmn.cpp:1326 src/nikonmn.cpp:678
+#: src/canonmn.cpp:1319 src/canonmn.cpp:1328 src/nikonmn.cpp:678
 #: src/nikonmn.cpp:689 src/olympusmn.cpp:631 src/olympusmn.cpp:641
 #: src/olympusmn.cpp:872 src/olympusmn.cpp:881
 #, fuzzy
 msgid "Green"
 msgstr "Режим замера"
 
-#: src/canonmn.cpp:1324 src/nikonmn.cpp:691 src/nikonmn.cpp:1016
+#: src/canonmn.cpp:1326 src/nikonmn.cpp:691 src/nikonmn.cpp:1016
 #: src/olympusmn.cpp:639 src/olympusmn.cpp:879
 #, fuzzy
 msgid "Blue"
 msgstr "значение"
 
-#: src/canonmn.cpp:1325 src/olympusmn.cpp:640 src/olympusmn.cpp:880
+#: src/canonmn.cpp:1327 src/olympusmn.cpp:640 src/olympusmn.cpp:880
 msgid "Purple"
 msgstr ""
 
-#: src/canonmn.cpp:1332
+#: src/canonmn.cpp:1334
 #, fuzzy
 msgid "Bracket Mode"
 msgstr "Брекетинг"
 
-#: src/canonmn.cpp:1333
+#: src/canonmn.cpp:1335
 #, fuzzy
 msgid "Bracket Value"
 msgstr "Брекетинг"
 
-#: src/canonmn.cpp:1334
+#: src/canonmn.cpp:1336
 #, fuzzy
 msgid "Bracket Shot Number"
 msgstr "Брекетинг"
 
-#: src/canonmn.cpp:1335
+#: src/canonmn.cpp:1337
 #, fuzzy
 msgid "Raw Jpg Quality"
 msgstr "Качество"
 
-#: src/canonmn.cpp:1336
+#: src/canonmn.cpp:1338
 #, fuzzy
 msgid "Raw Jpg Size"
 msgstr "Размер изображения"
 
-#: src/canonmn.cpp:1338
+#: src/canonmn.cpp:1340
 #, fuzzy
 msgid "WB Bracket Mode"
 msgstr "Брекетинг"
 
-#: src/canonmn.cpp:1339
+#: src/canonmn.cpp:1341
 #, fuzzy
 msgid "WB Bracket Value AB"
 msgstr "Таблица баланса белого"
 
-#: src/canonmn.cpp:1340
+#: src/canonmn.cpp:1342
 #, fuzzy
 msgid "WB Bracket Value GM"
 msgstr "Таблица баланса белого"
 
-#: src/canonmn.cpp:1341 src/nikonmn.cpp:709 src/properties.cpp:1155
+#: src/canonmn.cpp:1343 src/nikonmn.cpp:709 src/properties.cpp:1155
 #, fuzzy
 msgid "Filter Effect"
 msgstr "Цветовой эффект"
 
-#: src/canonmn.cpp:1342 src/nikonmn.cpp:710 src/properties.cpp:1350
+#: src/canonmn.cpp:1344 src/nikonmn.cpp:710 src/properties.cpp:1350
 #, fuzzy
 msgid "Toning Effect"
 msgstr "Цветовое пространство"
 
-#: src/canonmn.cpp:1343
+#: src/canonmn.cpp:1345
 #, fuzzy
 msgid "Macro Magnification"
 msgstr "Версия модели"
 
-#: src/canonmn.cpp:1343
+#: src/canonmn.cpp:1345
 #, fuzzy
 msgid "Macro magnification"
 msgstr "Версия модели"
 
-#: src/canonmn.cpp:1344
+#: src/canonmn.cpp:1346
 msgid "Live View Shooting"
 msgstr ""
 
-#: src/canonmn.cpp:1344
+#: src/canonmn.cpp:1346
 #, fuzzy
 msgid "Live view shooting"
 msgstr "Режим макросъёмки"
 
-#: src/canonmn.cpp:1345
+#: src/canonmn.cpp:1347
 #, fuzzy
 msgid "Focus Distance Upper"
 msgstr "Расстояние ручного фокуса"
 
-#: src/canonmn.cpp:1346
+#: src/canonmn.cpp:1348
 #, fuzzy
 msgid "Focus Distance Lower"
 msgstr "Расстояние ручного фокуса"
 
-#: src/canonmn.cpp:1347
+#: src/canonmn.cpp:1349
 #, fuzzy
 msgid "Flash Exposure Lock"
 msgstr "Компенсация вспышки ?"
 
-#: src/canonmn.cpp:1347
+#: src/canonmn.cpp:1349
 #, fuzzy
 msgid "Flash exposure lock"
 msgstr "Компенсация вспышки ?"
 
-#: src/canonmn.cpp:1349
+#: src/canonmn.cpp:1351
 #, fuzzy
 msgid "Unknown Canon File Info tag"
 msgstr "Неизвестный тэг"
 
-#: src/canonmn.cpp:1359 src/canonmn.cpp:1369 src/canonmn.cpp:1377
-#: src/canonmn.cpp:1390 src/fujimn.cpp:147 src/fujimn.cpp:154
+#: src/canonmn.cpp:1361 src/canonmn.cpp:1371 src/canonmn.cpp:1379
+#: src/canonmn.cpp:1392 src/fujimn.cpp:147 src/fujimn.cpp:154
 #: src/minoltamn.cpp:77 src/minoltamn.cpp:245 src/minoltamn.cpp:1139
-#: src/minoltamn.cpp:1225 src/minoltamn.cpp:1936 src/minoltamn.cpp:2025
-#: src/minoltamn.cpp:2059 src/minoltamn.cpp:2085 src/minoltamn.cpp:2111
+#: src/minoltamn.cpp:1225 src/minoltamn.cpp:1937 src/minoltamn.cpp:2026
+#: src/minoltamn.cpp:2060 src/minoltamn.cpp:2086 src/minoltamn.cpp:2112
 #: src/olympusmn.cpp:93 src/olympusmn.cpp:1142 src/panasonicmn.cpp:220
 #: src/panasonicmn.cpp:227 src/panasonicmn.cpp:267 src/panasonicmn.cpp:333
-#: src/panasonicmn.cpp:347 src/panasonicmn.cpp:356 src/pentaxmn.cpp:582
+#: src/panasonicmn.cpp:347 src/panasonicmn.cpp:356 src/pentaxmn.cpp:583
 #: src/sonymn.cpp:128 src/sonymn.cpp:197 src/sonymn.cpp:524 src/sonymn.cpp:554
 #: src/tags.cpp:1508
 msgid "Standard"
 msgstr ""
 
-#: src/canonmn.cpp:1367
+#: src/canonmn.cpp:1369
 #, fuzzy
 msgid "Lowest"
 msgstr "Правая"
 
-#: src/canonmn.cpp:1371
+#: src/canonmn.cpp:1373
 #, fuzzy
 msgid "Highest"
 msgstr "Высокий"
 
-#: src/canonmn.cpp:1379
+#: src/canonmn.cpp:1381
 #, fuzzy
 msgid "High Saturation"
 msgstr "Насыщенность"
 
-#: src/canonmn.cpp:1381
+#: src/canonmn.cpp:1383
 #, fuzzy
 msgid "Low Saturation"
 msgstr "Насыщенность"
 
-#: src/canonmn.cpp:1382
+#: src/canonmn.cpp:1384
 msgid "CM Set 1"
 msgstr ""
 
-#: src/canonmn.cpp:1383
+#: src/canonmn.cpp:1385
 msgid "CM Set 2"
 msgstr ""
 
-#: src/canonmn.cpp:1384
+#: src/canonmn.cpp:1386
 msgid "User Def. 1"
 msgstr ""
 
-#: src/canonmn.cpp:1385
+#: src/canonmn.cpp:1387
 msgid "User Def. 2"
 msgstr ""
 
-#: src/canonmn.cpp:1386
+#: src/canonmn.cpp:1388
 msgid "User Def. 3"
 msgstr ""
 
-#: src/canonmn.cpp:1387
+#: src/canonmn.cpp:1389
 msgid "PC 1"
 msgstr ""
 
-#: src/canonmn.cpp:1388
+#: src/canonmn.cpp:1390
 msgid "PC 2"
 msgstr ""
 
-#: src/canonmn.cpp:1389
+#: src/canonmn.cpp:1391
 msgid "PC 3"
 msgstr ""
 
-#: src/canonmn.cpp:1394
+#: src/canonmn.cpp:1396
 msgid "Faithful"
 msgstr ""
 
-#: src/canonmn.cpp:1395 src/minoltamn.cpp:903 src/minoltamn.cpp:953
+#: src/canonmn.cpp:1397 src/minoltamn.cpp:903 src/minoltamn.cpp:953
 #: src/nikonmn.cpp:429 src/panasonicmn.cpp:184 src/panasonicmn.cpp:372
-#: src/pentaxmn.cpp:973
+#: src/pentaxmn.cpp:974
 msgid "Monochrome"
 msgstr "Монохромный"
 
-#: src/canonmn.cpp:1397
+#: src/canonmn.cpp:1399
 #, fuzzy
 msgid "Fine Detail"
 msgstr "Вспышка сработала"
 
-#: src/canonmn.cpp:1402
+#: src/canonmn.cpp:1404
 #, fuzzy
 msgid "ToneCurve"
 msgstr "Кривая тонкоррекции"
 
-#: src/canonmn.cpp:1402
+#: src/canonmn.cpp:1404
 msgid "Tone curve"
 msgstr "Тональная кривая"
 
-#: src/canonmn.cpp:1404
+#: src/canonmn.cpp:1406
 #, fuzzy
 msgid "SharpnessFrequency"
 msgstr "Резкость"
 
-#: src/canonmn.cpp:1404
+#: src/canonmn.cpp:1406
 #, fuzzy
 msgid "Sharpness frequency"
 msgstr "Резкость"
 
-#: src/canonmn.cpp:1405
+#: src/canonmn.cpp:1407
 #, fuzzy
 msgid "SensorRedLevel"
 msgstr "Заряд батареи"
 
-#: src/canonmn.cpp:1405
+#: src/canonmn.cpp:1407
 #, fuzzy
 msgid "Sensor red level"
 msgstr "Под уровнем моря"
 
-#: src/canonmn.cpp:1406
+#: src/canonmn.cpp:1408
 #, fuzzy
 msgid "SensorBlueLevel"
 msgstr "Заряд батареи"
 
-#: src/canonmn.cpp:1406
+#: src/canonmn.cpp:1408
 #, fuzzy
 msgid "Sensor blue level"
 msgstr "Под уровнем моря"
 
-#: src/canonmn.cpp:1407
+#: src/canonmn.cpp:1409
 #, fuzzy
 msgid "WhiteBalanceRed"
 msgstr "Баланс белого"
 
-#: src/canonmn.cpp:1407
+#: src/canonmn.cpp:1409
 #, fuzzy
 msgid "White balance red"
 msgstr "Баланс белого"
 
-#: src/canonmn.cpp:1408
+#: src/canonmn.cpp:1410
 #, fuzzy
 msgid "WhiteBalanceBlue"
 msgstr "Таблица баланса белого"
 
-#: src/canonmn.cpp:1408
+#: src/canonmn.cpp:1410
 #, fuzzy
 msgid "White balance blue"
 msgstr "Таблица баланса белого"
 
-#: src/canonmn.cpp:1409
+#: src/canonmn.cpp:1411
 #, fuzzy
 msgid "WhiteBalance"
 msgstr "Баланс белого"
 
-#: src/canonmn.cpp:1410
+#: src/canonmn.cpp:1412
 #, fuzzy
 msgid "ColorTemperature"
 msgstr "Температура цвета"
 
-#: src/canonmn.cpp:1410 src/minoltamn.cpp:156 src/minoltamn.cpp:786
+#: src/canonmn.cpp:1412 src/minoltamn.cpp:156 src/minoltamn.cpp:786
 #: src/minoltamn.cpp:1042 src/minoltamn.cpp:1057 src/minoltamn.cpp:1058
 #: src/minoltamn.cpp:1479 src/minoltamn.cpp:1581 src/olympusmn.cpp:840
 #: src/sonymn.cpp:406 src/sonymn.cpp:407
 msgid "Color Temperature"
 msgstr "Температура цвета"
 
-#: src/canonmn.cpp:1411
+#: src/canonmn.cpp:1413
 #, fuzzy
 msgid "PictureStyle"
 msgstr "Портретный режим"
 
-#: src/canonmn.cpp:1411
+#: src/canonmn.cpp:1413
 #, fuzzy
 msgid "Picture style"
 msgstr "Портретный режим"
 
-#: src/canonmn.cpp:1412
+#: src/canonmn.cpp:1414
 #, fuzzy
 msgid "DigitalGain"
 msgstr "Цифровой макрорежим"
 
-#: src/canonmn.cpp:1412
+#: src/canonmn.cpp:1414
 #, fuzzy
 msgid "Digital gain"
 msgstr "Цифровой макрорежим"
 
-#: src/canonmn.cpp:1413
+#: src/canonmn.cpp:1415
 msgid "WBShiftAB"
 msgstr ""
 
-#: src/canonmn.cpp:1413
+#: src/canonmn.cpp:1415
 #, fuzzy
 msgid "WBShift AB"
 msgstr "One-Shot"
 
-#: src/canonmn.cpp:1414
+#: src/canonmn.cpp:1416
 msgid "WBShiftGM"
 msgstr ""
 
-#: src/canonmn.cpp:1414
+#: src/canonmn.cpp:1416
 #, fuzzy
 msgid "WB Shift GM"
 msgstr "One-Shot"
 
-#: src/canonmn.cpp:1415
+#: src/canonmn.cpp:1417
 #, fuzzy
 msgid "Unknown Canon Processing Info tag"
 msgstr "Неизвестный тэг"
@@ -2740,8 +2740,8 @@ msgid ""
 "IPTC and NAA organizations."
 msgstr ""
 
-#: src/datasets.cpp:90 src/panasonicmn.cpp:283 src/pentaxmn.cpp:483
-#: src/pentaxmn.cpp:1241 src/pentaxmn.cpp:1242
+#: src/datasets.cpp:90 src/panasonicmn.cpp:283 src/pentaxmn.cpp:484
+#: src/pentaxmn.cpp:1242 src/pentaxmn.cpp:1243
 #, fuzzy
 msgid "Destination"
 msgstr "Ориентация"
@@ -3202,7 +3202,7 @@ msgstr ""
 
 #: src/datasets.cpp:310 src/minoltamn.cpp:201 src/minoltamn.cpp:655
 #: src/minoltamn.cpp:835 src/olympusmn.cpp:483 src/panasonicmn.cpp:115
-#: src/pentaxmn.cpp:578 src/pentaxmn.cpp:652 src/sigmamn.cpp:154
+#: src/pentaxmn.cpp:579 src/pentaxmn.cpp:653 src/sigmamn.cpp:154
 #: src/sonymn.cpp:151
 msgid "Program"
 msgstr "Программа"
@@ -4468,7 +4468,7 @@ msgstr "Подавление эффекта красных глаз"
 msgid "Night scene"
 msgstr "Ночная съёмка"
 
-#: src/fujimn.cpp:120 src/pentaxmn.cpp:615 src/pentaxmn.cpp:622
+#: src/fujimn.cpp:120 src/pentaxmn.cpp:616 src/pentaxmn.cpp:623
 #: src/sonymn.cpp:567
 #, fuzzy
 msgid "Program AE"
@@ -4483,13 +4483,13 @@ msgid "Anti-blur"
 msgstr "Антиразмывание"
 
 #: src/fujimn.cpp:123 src/minoltamn.cpp:314 src/minoltamn.cpp:844
-#: src/minoltamn.cpp:1940 src/minoltamn.cpp:2089 src/olympusmn.cpp:108
-#: src/panasonicmn.cpp:141 src/pentaxmn.cpp:593 src/pentaxmn.cpp:602
+#: src/minoltamn.cpp:1941 src/minoltamn.cpp:2090 src/olympusmn.cpp:108
+#: src/panasonicmn.cpp:141 src/pentaxmn.cpp:594 src/pentaxmn.cpp:603
 #: src/sonymn.cpp:528 src/sonymn.cpp:574
 msgid "Sunset"
 msgstr "Закат"
 
-#: src/fujimn.cpp:124 src/olympusmn.cpp:113 src/pentaxmn.cpp:597
+#: src/fujimn.cpp:124 src/olympusmn.cpp:113 src/pentaxmn.cpp:598
 msgid "Museum"
 msgstr "Музей"
 
@@ -4502,7 +4502,7 @@ msgid "Flower"
 msgstr "Цветок"
 
 #: src/fujimn.cpp:127 src/minoltamn.cpp:312 src/minoltamn.cpp:402
-#: src/minoltamn.cpp:2087 src/pentaxmn.cpp:592
+#: src/minoltamn.cpp:2088 src/pentaxmn.cpp:593
 msgid "Text"
 msgstr "Текст"
 
@@ -4530,7 +4530,7 @@ msgid "Chrome"
 msgstr "Монохромный"
 
 #: src/fujimn.cpp:155 src/minoltamn.cpp:917 src/minoltamn.cpp:931
-#: src/minoltamn.cpp:1988 src/panasonicmn.cpp:274
+#: src/minoltamn.cpp:1989 src/panasonicmn.cpp:274
 #, fuzzy
 msgid "Wide"
 msgstr "Цвет"
@@ -4562,7 +4562,7 @@ msgid "Auto (100-400%)"
 msgstr "Авто (100-400%)"
 
 #: src/fujimn.cpp:170 src/minoltamn.cpp:74 src/minoltamn.cpp:242
-#: src/minoltamn.cpp:673 src/minoltamn.cpp:859 src/minoltamn.cpp:2108
+#: src/minoltamn.cpp:673 src/minoltamn.cpp:859 src/minoltamn.cpp:2109
 #: src/olympusmn.cpp:74 src/panasonicmn.cpp:59
 msgid "Raw"
 msgstr "Raw"
@@ -4593,7 +4593,7 @@ msgstr "Разрешение по X"
 #: src/nikonmn.cpp:1247 src/nikonmn.cpp:1267 src/nikonmn.cpp:1280
 #: src/nikonmn.cpp:1293 src/nikonmn.cpp:1306 src/nikonmn.cpp:1319
 #: src/nikonmn.cpp:1332 src/nikonmn.cpp:1345 src/nikonmn.cpp:1364
-#: src/nikonmn.cpp:1389 src/panasonicmn.cpp:725 src/pentaxmn.cpp:1144
+#: src/nikonmn.cpp:1389 src/panasonicmn.cpp:725 src/pentaxmn.cpp:1145
 #: src/properties.cpp:495
 msgid "Version"
 msgstr "Версия"
@@ -4823,7 +4823,7 @@ msgstr "Номер заказа"
 msgid "Frame Number"
 msgstr "Число F"
 
-#: src/fujimn.cpp:277 src/pentaxmn.cpp:1256 src/pentaxmn.cpp:1257
+#: src/fujimn.cpp:277 src/pentaxmn.cpp:1257 src/pentaxmn.cpp:1258
 #, fuzzy
 msgid "Frame number"
 msgstr "Номер изображения"
@@ -4837,7 +4837,7 @@ msgstr "Неизвестный тэг CanonMakerNote"
 msgid "Natural Color"
 msgstr "Естественный цвет"
 
-#: src/minoltamn.cpp:58 src/minoltamn.cpp:1937
+#: src/minoltamn.cpp:58 src/minoltamn.cpp:1938
 #, fuzzy
 msgid "Vivid Color"
 msgstr "Цвет"
@@ -4847,13 +4847,13 @@ msgstr "Цвет"
 msgid "Solarization"
 msgstr "Насыщенность"
 
-#: src/minoltamn.cpp:60 src/minoltamn.cpp:1943
+#: src/minoltamn.cpp:60 src/minoltamn.cpp:1944
 msgid "AdobeRGB"
 msgstr "Adobe RGB"
 
 #: src/minoltamn.cpp:62 src/minoltamn.cpp:946 src/olympusmn.cpp:617
 #: src/olympusmn.cpp:860 src/panasonicmn.cpp:261 src/panasonicmn.cpp:371
-#: src/pentaxmn.cpp:968
+#: src/pentaxmn.cpp:969
 #, fuzzy
 msgid "Natural"
 msgstr "внешняя"
@@ -4872,17 +4872,17 @@ msgstr "внешняя"
 msgid "Evening"
 msgstr "Вечер"
 
-#: src/minoltamn.cpp:69 src/minoltamn.cpp:952 src/minoltamn.cpp:2092
+#: src/minoltamn.cpp:69 src/minoltamn.cpp:952 src/minoltamn.cpp:2093
 #: src/sonymn.cpp:575
 msgid "Night Portrait"
 msgstr "Ночной портрет"
 
-#: src/minoltamn.cpp:75 src/minoltamn.cpp:2109
+#: src/minoltamn.cpp:75 src/minoltamn.cpp:2110
 #, fuzzy
 msgid "Super Fine"
 msgstr "SXGA Fine"
 
-#: src/minoltamn.cpp:79 src/minoltamn.cpp:2055 src/minoltamn.cpp:2113
+#: src/minoltamn.cpp:79 src/minoltamn.cpp:2056 src/minoltamn.cpp:2114
 #: src/sonymn.cpp:182
 #, fuzzy
 msgid "Extra Fine"
@@ -5043,8 +5043,8 @@ msgid "Zone matching"
 msgstr "Подавление шума"
 
 #: src/minoltamn.cpp:157 src/minoltamn.cpp:787 src/minoltamn.cpp:1043
-#: src/minoltamn.cpp:1480 src/minoltamn.cpp:1582 src/pentaxmn.cpp:1314
-#: src/pentaxmn.cpp:1315
+#: src/minoltamn.cpp:1480 src/minoltamn.cpp:1582 src/pentaxmn.cpp:1315
+#: src/pentaxmn.cpp:1316
 msgid "Color temperature"
 msgstr "Температура цвета"
 
@@ -5211,47 +5211,47 @@ msgstr "Центрально-взвешенный средний"
 msgid "Electronic magnification"
 msgstr ""
 
-#: src/minoltamn.cpp:285 src/minoltamn.cpp:704 src/minoltamn.cpp:2003
+#: src/minoltamn.cpp:285 src/minoltamn.cpp:704 src/minoltamn.cpp:2004
 #: src/nikonmn.cpp:100 src/nikonmn.cpp:809 src/nikonmn.cpp:824
-#: src/pentaxmn.cpp:289
+#: src/pentaxmn.cpp:290
 #, fuzzy
 msgid "Top"
 msgstr "в"
 
-#: src/minoltamn.cpp:286 src/minoltamn.cpp:705 src/pentaxmn.cpp:307
+#: src/minoltamn.cpp:286 src/minoltamn.cpp:705 src/pentaxmn.cpp:308
 #, fuzzy
 msgid "Top-right"
 msgstr "Авторские и смежные права"
 
-#: src/minoltamn.cpp:288 src/minoltamn.cpp:707 src/pentaxmn.cpp:313
+#: src/minoltamn.cpp:288 src/minoltamn.cpp:707 src/pentaxmn.cpp:314
 #, fuzzy
 msgid "Bottom-right"
 msgstr "слева направо"
 
-#: src/minoltamn.cpp:289 src/minoltamn.cpp:708 src/minoltamn.cpp:2007
+#: src/minoltamn.cpp:289 src/minoltamn.cpp:708 src/minoltamn.cpp:2008
 #: src/nikonmn.cpp:101 src/nikonmn.cpp:810 src/nikonmn.cpp:825
-#: src/pentaxmn.cpp:297
+#: src/pentaxmn.cpp:298
 #, fuzzy
 msgid "Bottom"
 msgstr "снизу вверх"
 
-#: src/minoltamn.cpp:290 src/minoltamn.cpp:709 src/pentaxmn.cpp:311
+#: src/minoltamn.cpp:290 src/minoltamn.cpp:709 src/pentaxmn.cpp:312
 #, fuzzy
 msgid "Bottom-left"
 msgstr "справа налево"
 
-#: src/minoltamn.cpp:292 src/minoltamn.cpp:711 src/pentaxmn.cpp:305
+#: src/minoltamn.cpp:292 src/minoltamn.cpp:711 src/pentaxmn.cpp:306
 #, fuzzy
 msgid "Top-left"
 msgstr "справа налево"
 
-#: src/minoltamn.cpp:303 src/olympusmn.cpp:163 src/pentaxmn.cpp:471
+#: src/minoltamn.cpp:303 src/olympusmn.cpp:163 src/pentaxmn.cpp:472
 #: src/tags.cpp:1528
 #, fuzzy
 msgid "Hard"
 msgstr "Высокий"
 
-#: src/minoltamn.cpp:305 src/olympusmn.cpp:164 src/pentaxmn.cpp:469
+#: src/minoltamn.cpp:305 src/olympusmn.cpp:164 src/pentaxmn.cpp:470
 #: src/tags.cpp:1527
 #, fuzzy
 msgid "Soft"
@@ -5379,12 +5379,12 @@ msgid "Exposure Mode"
 msgstr "Режим экспозиции"
 
 #: src/minoltamn.cpp:494 src/minoltamn.cpp:763 src/olympusmn.cpp:280
-#: src/olympusmn.cpp:676 src/pentaxmn.cpp:1175
+#: src/olympusmn.cpp:676 src/pentaxmn.cpp:1176
 msgid "Flash mode"
 msgstr "Режим вспышки"
 
 #: src/minoltamn.cpp:506 src/minoltamn.cpp:1432 src/olympusmn.cpp:706
-#: src/pentaxmn.cpp:1270 src/pentaxmn.cpp:1271 src/sigmamn.cpp:60
+#: src/pentaxmn.cpp:1271 src/pentaxmn.cpp:1272 src/sigmamn.cpp:60
 #, fuzzy
 msgid "Drive mode"
 msgstr "Режим замера"
@@ -5601,7 +5601,7 @@ msgstr "Имя владельца"
 msgid "ColorMode"
 msgstr "Цвет"
 
-#: src/minoltamn.cpp:601 src/minoltamn.cpp:1208 src/pentaxmn.cpp:571
+#: src/minoltamn.cpp:601 src/minoltamn.cpp:1208 src/pentaxmn.cpp:572
 #, fuzzy
 msgid "Color Filter"
 msgstr "Цветовое пространство"
@@ -5665,7 +5665,7 @@ msgstr "Способ фокусировки"
 #: src/minoltamn.cpp:623 src/minoltamn.cpp:754 src/minoltamn.cpp:1040
 #: src/minoltamn.cpp:1384 src/nikonmn.cpp:234 src/nikonmn.cpp:481
 #: src/nikonmn.cpp:538 src/olympusmn.cpp:301 src/olympusmn.cpp:670
-#: src/panasonicmn.cpp:445 src/pentaxmn.cpp:1178
+#: src/panasonicmn.cpp:445 src/pentaxmn.cpp:1179
 msgid "Focus mode"
 msgstr "Способ фокусировки"
 
@@ -5727,7 +5727,7 @@ msgid "Raw+Jpeg"
 msgstr "Размер изображения"
 
 #: src/minoltamn.cpp:688 src/minoltamn.cpp:875 src/panasonicmn.cpp:76
-#: src/pentaxmn.cpp:420
+#: src/pentaxmn.cpp:421
 #, fuzzy
 msgid "Kelvin"
 msgstr "3000 K"
@@ -5757,17 +5757,17 @@ msgstr "внешняя"
 msgid "sRGB (Natural+)"
 msgstr "внешняя"
 
-#: src/minoltamn.cpp:734 src/minoltamn.cpp:910 src/minoltamn.cpp:2071
+#: src/minoltamn.cpp:734 src/minoltamn.cpp:910 src/minoltamn.cpp:2072
 #: src/panasonicmn.cpp:244
 msgid "Horizontal (normal)"
 msgstr ""
 
-#: src/minoltamn.cpp:735 src/minoltamn.cpp:911 src/minoltamn.cpp:2072
+#: src/minoltamn.cpp:735 src/minoltamn.cpp:911 src/minoltamn.cpp:2073
 #: src/panasonicmn.cpp:246
 msgid "Rotate 90 CW"
 msgstr ""
 
-#: src/minoltamn.cpp:736 src/minoltamn.cpp:912 src/minoltamn.cpp:2073
+#: src/minoltamn.cpp:736 src/minoltamn.cpp:912 src/minoltamn.cpp:2074
 #: src/panasonicmn.cpp:247
 msgid "Rotate 270 CW"
 msgstr ""
@@ -5791,7 +5791,7 @@ msgstr "Цветовое пространство"
 
 #: src/minoltamn.cpp:772 src/minoltamn.cpp:1016 src/minoltamn.cpp:1414
 #: src/nikonmn.cpp:559 src/olympusmn.cpp:689 src/olympusmn.cpp:824
-#: src/olympusmn.cpp:895 src/pentaxmn.cpp:1274 src/pentaxmn.cpp:1275
+#: src/olympusmn.cpp:895 src/pentaxmn.cpp:1275 src/pentaxmn.cpp:1276
 #: src/sigmamn.cpp:84
 #, fuzzy
 msgid "Color space"
@@ -5827,7 +5827,7 @@ msgstr "Номер изображения"
 #: src/minoltamn.cpp:808 src/minoltamn.cpp:1073 src/minoltamn.cpp:1498
 #: src/nikonmn.cpp:587 src/olympusmn.cpp:439 src/olympusmn.cpp:691
 #: src/olympusmn.cpp:826 src/olympusmn.cpp:896 src/olympusmn.cpp:981
-#: src/panasonicmn.cpp:463 src/pentaxmn.cpp:1303 src/pentaxmn.cpp:1304
+#: src/panasonicmn.cpp:463 src/pentaxmn.cpp:1304 src/pentaxmn.cpp:1305
 #, fuzzy
 msgid "Noise reduction"
 msgstr "Подавление шума"
@@ -5856,7 +5856,7 @@ msgstr "Программа"
 msgid "Program Shift S"
 msgstr "Программа"
 
-#: src/minoltamn.cpp:845 src/minoltamn.cpp:1941 src/minoltamn.cpp:2096
+#: src/minoltamn.cpp:845 src/minoltamn.cpp:1942 src/minoltamn.cpp:2097
 #: src/sonymn.cpp:529
 #, fuzzy
 msgid "Night View/Portrait"
@@ -6053,12 +6053,12 @@ msgstr "Настройка баланса белого"
 msgid "Preset"
 msgstr "Пресет"
 
-#: src/minoltamn.cpp:1189 src/minoltamn.cpp:1192 src/minoltamn.cpp:2145
+#: src/minoltamn.cpp:1189 src/minoltamn.cpp:1192 src/minoltamn.cpp:2146
 #, fuzzy
 msgid "Color Temperature/Color Filter"
 msgstr "Температура цвета"
 
-#: src/minoltamn.cpp:1207 src/pentaxmn.cpp:1297 src/properties.cpp:490
+#: src/minoltamn.cpp:1207 src/pentaxmn.cpp:1298 src/properties.cpp:490
 msgid "Temperature"
 msgstr "Температура"
 
@@ -6219,7 +6219,7 @@ msgstr ""
 msgid "Built-in"
 msgstr ""
 
-#: src/minoltamn.cpp:1348 src/pentaxmn.cpp:446 src/pentaxmn.cpp:461
+#: src/minoltamn.cpp:1348 src/pentaxmn.cpp:447 src/pentaxmn.cpp:462
 #, fuzzy
 msgid "Very Low"
 msgstr "Низкий"
@@ -6719,144 +6719,144 @@ msgstr "Заряд батареи"
 msgid "Unknown Sony Camera Settings A100 tag"
 msgstr "Настройка контраста"
 
-#: src/minoltamn.cpp:1946 src/sonymn.cpp:533
+#: src/minoltamn.cpp:1947 src/sonymn.cpp:533
 #, fuzzy
 msgid "Clear"
 msgstr "Категория"
 
-#: src/minoltamn.cpp:1947 src/sonymn.cpp:534
+#: src/minoltamn.cpp:1948 src/sonymn.cpp:534
 #, fuzzy
 msgid "Deep"
 msgstr "Центральный"
 
-#: src/minoltamn.cpp:1948 src/sonymn.cpp:535
+#: src/minoltamn.cpp:1949 src/sonymn.cpp:535
 #, fuzzy
 msgid "Light"
 msgstr "Ночной портрет"
 
-#: src/minoltamn.cpp:1949
+#: src/minoltamn.cpp:1950
 #, fuzzy
 msgid "Night View"
 msgstr "Ночная съёмка"
 
-#: src/minoltamn.cpp:1950
+#: src/minoltamn.cpp:1951
 msgid "Autumn Leaves"
 msgstr ""
 
-#: src/minoltamn.cpp:1989
+#: src/minoltamn.cpp:1990
 #, fuzzy
 msgid "Local"
 msgstr "Местоположение объекта съёмки"
 
-#: src/minoltamn.cpp:2004
+#: src/minoltamn.cpp:2005
 #, fuzzy
 msgid "Top-Right"
 msgstr "Авторские и смежные права"
 
-#: src/minoltamn.cpp:2006
+#: src/minoltamn.cpp:2007
 #, fuzzy
 msgid "Bottom-Right"
 msgstr "слева направо"
 
-#: src/minoltamn.cpp:2008
+#: src/minoltamn.cpp:2009
 #, fuzzy
 msgid "Bottom-Left"
 msgstr "снизу вверх"
 
-#: src/minoltamn.cpp:2010
+#: src/minoltamn.cpp:2011
 #, fuzzy
 msgid "Top-Left"
 msgstr "справа налево"
 
-#: src/minoltamn.cpp:2011
+#: src/minoltamn.cpp:2012
 #, fuzzy
 msgid "Far-Right"
 msgstr "Авторские права"
 
-#: src/minoltamn.cpp:2012
+#: src/minoltamn.cpp:2013
 #, fuzzy
 msgid "Far-Left"
 msgstr "справа налево"
 
-#: src/minoltamn.cpp:2026 src/sonymn.cpp:129
+#: src/minoltamn.cpp:2027 src/sonymn.cpp:129
 #, fuzzy
 msgid "Advanced Auto"
 msgstr "Функция передачи"
 
-#: src/minoltamn.cpp:2027
+#: src/minoltamn.cpp:2028
 #, fuzzy
 msgid "Advanced Level"
 msgstr "Заряд батареи"
 
-#: src/minoltamn.cpp:2040
+#: src/minoltamn.cpp:2041
 msgid "AF"
 msgstr ""
 
-#: src/minoltamn.cpp:2041
+#: src/minoltamn.cpp:2042
 #, fuzzy
 msgid "Release"
 msgstr "Дата пубикации"
 
-#: src/minoltamn.cpp:2053
+#: src/minoltamn.cpp:2054
 #, fuzzy
 msgid "RAW "
 msgstr "RAW"
 
-#: src/minoltamn.cpp:2054
+#: src/minoltamn.cpp:2055
 #, fuzzy
 msgid "CRAW "
 msgstr "RAW"
 
-#: src/minoltamn.cpp:2057
+#: src/minoltamn.cpp:2058
 #, fuzzy
 msgid "RAW+JPEG"
 msgstr "JPEG"
 
-#: src/minoltamn.cpp:2058
+#: src/minoltamn.cpp:2059
 #, fuzzy
 msgid "CRAW+JPEG"
 msgstr "JPEG"
 
-#: src/minoltamn.cpp:2114
+#: src/minoltamn.cpp:2115
 msgid "Raw + JPEG"
 msgstr ""
 
-#: src/minoltamn.cpp:2115
+#: src/minoltamn.cpp:2116
 #, fuzzy
 msgid "Compressed Raw"
 msgstr "Уровень сжатия"
 
-#: src/minoltamn.cpp:2116
+#: src/minoltamn.cpp:2117
 #, fuzzy
 msgid "Compressed Raw + JPEG"
 msgstr "Сжатых битов на пиксел"
 
-#: src/minoltamn.cpp:2129
+#: src/minoltamn.cpp:2130
 msgid "Minolta AF 2x APO (D)"
 msgstr ""
 
-#: src/minoltamn.cpp:2130
+#: src/minoltamn.cpp:2131
 msgid "Minolta AF 2x APO II"
 msgstr ""
 
-#: src/minoltamn.cpp:2131
+#: src/minoltamn.cpp:2132
 msgid "Minolta AF 1.4x APO (D)"
 msgstr ""
 
-#: src/minoltamn.cpp:2132
+#: src/minoltamn.cpp:2133
 msgid "Minolta AF 1.4x APO II"
 msgstr ""
 
-#: src/minoltamn.cpp:2162
+#: src/minoltamn.cpp:2163
 #, fuzzy
 msgid "ISO Setting Used"
 msgstr "Настройка резкости"
 
-#: src/minoltamn.cpp:2163 src/olympusmn.cpp:126 src/olympusmn.cpp:1116
+#: src/minoltamn.cpp:2164 src/olympusmn.cpp:126 src/olympusmn.cpp:1116
 msgid "High Key"
 msgstr "Высокий ключ"
 
-#: src/minoltamn.cpp:2164 src/olympusmn.cpp:132 src/olympusmn.cpp:1114
+#: src/minoltamn.cpp:2165 src/olympusmn.cpp:132 src/olympusmn.cpp:1114
 msgid "Low Key"
 msgstr "Низкий ключ"
 
@@ -6890,25 +6890,25 @@ msgid "Dynamic area (wide)"
 msgstr ""
 
 #: src/nikonmn.cpp:104 src/nikonmn.cpp:813 src/nikonmn.cpp:828
-#: src/pentaxmn.cpp:288
+#: src/pentaxmn.cpp:289
 #, fuzzy
 msgid "Upper-left"
 msgstr "Правая"
 
 #: src/nikonmn.cpp:105 src/nikonmn.cpp:814 src/nikonmn.cpp:829
-#: src/pentaxmn.cpp:290
+#: src/pentaxmn.cpp:291
 #, fuzzy
 msgid "Upper-right"
 msgstr "Правая"
 
 #: src/nikonmn.cpp:106 src/nikonmn.cpp:815 src/nikonmn.cpp:830
-#: src/pentaxmn.cpp:296
+#: src/pentaxmn.cpp:297
 #, fuzzy
 msgid "Lower-left"
 msgstr "Правая"
 
 #: src/nikonmn.cpp:107 src/nikonmn.cpp:816 src/nikonmn.cpp:831
-#: src/pentaxmn.cpp:298
+#: src/pentaxmn.cpp:299
 #, fuzzy
 msgid "Lower-right"
 msgstr "Правая"
@@ -7292,12 +7292,12 @@ msgstr "Время экспозиции"
 msgid "Exposure difference"
 msgstr "Режим экспозиции"
 
-#: src/nikonmn.cpp:548 src/pentaxmn.cpp:1156
+#: src/nikonmn.cpp:548 src/pentaxmn.cpp:1157
 #, fuzzy
 msgid "Pointer to a preview image"
 msgstr "Версия эскиза"
 
-#: src/nikonmn.cpp:548 src/pentaxmn.cpp:1157
+#: src/nikonmn.cpp:548 src/pentaxmn.cpp:1158
 msgid "Offset to an IFD containing a preview image"
 msgstr ""
 
@@ -7351,7 +7351,7 @@ msgstr "Тонкомпенсация"
 msgid "Image Processing"
 msgstr "Резкость изображения"
 
-#: src/nikonmn.cpp:555 src/pentaxmn.cpp:1264 src/pentaxmn.cpp:1265
+#: src/nikonmn.cpp:555 src/pentaxmn.cpp:1265 src/pentaxmn.cpp:1266
 #, fuzzy
 msgid "Image processing"
 msgstr "Резкость изображения"
@@ -7461,7 +7461,7 @@ msgstr "Вспышка сработала"
 msgid "Shooting Mode"
 msgstr "Режим съемки"
 
-#: src/nikonmn.cpp:576 src/panasonicmn.cpp:449 src/pentaxmn.cpp:1147
+#: src/nikonmn.cpp:576 src/panasonicmn.cpp:449 src/pentaxmn.cpp:1148
 msgid "Shooting mode"
 msgstr "Режим съемки"
 
@@ -7768,12 +7768,12 @@ msgid "Unknown Nikon3MakerNote tag"
 msgstr "Неизвестный тэг CanonMakerNote"
 
 #: src/nikonmn.cpp:635 src/olympusmn.cpp:65 src/panasonicmn.cpp:191
-#: src/panasonicmn.cpp:339 src/panasonicmn.cpp:435 src/pentaxmn.cpp:395
+#: src/panasonicmn.cpp:339 src/panasonicmn.cpp:435 src/pentaxmn.cpp:396
 msgid "No"
 msgstr "Нет"
 
 #: src/nikonmn.cpp:636 src/olympusmn.cpp:66 src/panasonicmn.cpp:190
-#: src/panasonicmn.cpp:436 src/pentaxmn.cpp:396
+#: src/panasonicmn.cpp:436 src/pentaxmn.cpp:397
 msgid "Yes"
 msgstr "Да"
 
@@ -8085,12 +8085,12 @@ msgstr "Серийный номер"
 msgid "Dynamic Area (wide)"
 msgstr "Динамический диапазон"
 
-#: src/nikonmn.cpp:811 src/nikonmn.cpp:826 src/pentaxmn.cpp:292
+#: src/nikonmn.cpp:811 src/nikonmn.cpp:826 src/pentaxmn.cpp:293
 #, fuzzy
 msgid "Mid-left"
 msgstr "Левая"
 
-#: src/nikonmn.cpp:812 src/nikonmn.cpp:827 src/pentaxmn.cpp:294
+#: src/nikonmn.cpp:812 src/nikonmn.cpp:827 src/pentaxmn.cpp:295
 #, fuzzy
 msgid "Mid-right"
 msgstr "слева направо"
@@ -8110,7 +8110,7 @@ msgstr "Авторские права"
 msgid "AF area mode"
 msgstr "Режим вспышки"
 
-#: src/nikonmn.cpp:839 src/olympusmn.cpp:1015 src/pentaxmn.cpp:1181
+#: src/nikonmn.cpp:839 src/olympusmn.cpp:1015 src/pentaxmn.cpp:1182
 #, fuzzy
 msgid "AF point"
 msgstr "Использованная точка AF"
@@ -8277,7 +8277,7 @@ msgstr "Номер заказа"
 msgid "Unknown Nikon File Info Tag"
 msgstr "Неизвестный тэг"
 
-#: src/nikonmn.cpp:902 src/pentaxmn.cpp:672
+#: src/nikonmn.cpp:902 src/pentaxmn.cpp:673
 #, fuzzy
 msgid "Multiple Exposure"
 msgstr "Режим экспозиции"
@@ -8483,8 +8483,8 @@ msgid "Flash color filter"
 msgstr "Цветовое пространство"
 
 #: src/nikonmn.cpp:1086 src/nikonmn.cpp:1099 src/nikonmn.cpp:1159
-#: src/nikonmn.cpp:1219 src/nikonmn.cpp:1255 src/pentaxmn.cpp:1321
-#: src/pentaxmn.cpp:1322
+#: src/nikonmn.cpp:1219 src/nikonmn.cpp:1255 src/pentaxmn.cpp:1322
+#: src/pentaxmn.cpp:1323
 #, fuzzy
 msgid "Shutter count"
 msgstr "Выдержка"
@@ -8799,8 +8799,8 @@ msgstr ""
 msgid "All 11 Points"
 msgstr "Использованная точка AF"
 
-#: src/nikonmn.cpp:1665 src/nikonmn.cpp:1666 src/pentaxmn.cpp:659
-#: src/pentaxmn.cpp:664
+#: src/nikonmn.cpp:1665 src/nikonmn.cpp:1666 src/pentaxmn.cpp:660
+#: src/pentaxmn.cpp:665
 #, fuzzy
 msgid "Single-frame"
 msgstr "Серийный номер"
@@ -8824,7 +8824,7 @@ msgstr "Стандартный свет A"
 msgid "On (preset)"
 msgstr ""
 
-#: src/olympusmn.cpp:95 src/pentaxmn.cpp:586
+#: src/olympusmn.cpp:95 src/pentaxmn.cpp:587
 #, fuzzy
 msgid "Sport"
 msgstr "Спорт"
@@ -8849,7 +8849,7 @@ msgstr "Вкл"
 msgid "Night+Portrait"
 msgstr "Ночной портрет"
 
-#: src/olympusmn.cpp:111 src/panasonicmn.cpp:131 src/pentaxmn.cpp:598
+#: src/olympusmn.cpp:111 src/panasonicmn.cpp:131 src/pentaxmn.cpp:599
 #: src/sonymn.cpp:165
 msgid "Food"
 msgstr "Пища"
@@ -8892,7 +8892,7 @@ msgstr ""
 msgid "My Mode"
 msgstr "Режим вспышки"
 
-#: src/olympusmn.cpp:121 src/panasonicmn.cpp:142 src/pentaxmn.cpp:595
+#: src/olympusmn.cpp:121 src/panasonicmn.cpp:142 src/pentaxmn.cpp:596
 #: src/sonymn.cpp:169
 #, fuzzy
 msgid "Pet"
@@ -9258,7 +9258,7 @@ msgstr "Заряд батареи"
 msgid "Black level"
 msgstr "Заряд батареи"
 
-#: src/olympusmn.cpp:331 src/pentaxmn.cpp:1211 src/pentaxmn.cpp:1212
+#: src/olympusmn.cpp:331 src/pentaxmn.cpp:1212 src/pentaxmn.cpp:1213
 msgid "White balance mode"
 msgstr "Баланс белого"
 
@@ -9267,7 +9267,7 @@ msgstr "Баланс белого"
 msgid "Red Balance"
 msgstr "Баланс белого"
 
-#: src/olympusmn.cpp:337 src/pentaxmn.cpp:1217
+#: src/olympusmn.cpp:337 src/pentaxmn.cpp:1218
 #, fuzzy
 msgid "Red balance"
 msgstr "Баланс белого"
@@ -9277,7 +9277,7 @@ msgstr "Баланс белого"
 msgid "Blue Balance"
 msgstr "Баланс белого"
 
-#: src/olympusmn.cpp:340 src/panasonicmn.cpp:733 src/pentaxmn.cpp:1214
+#: src/olympusmn.cpp:340 src/panasonicmn.cpp:733 src/pentaxmn.cpp:1215
 #, fuzzy
 msgid "Blue balance"
 msgstr "Баланс белого"
@@ -9302,8 +9302,8 @@ msgstr "Серийный номер"
 msgid "Serial number 2"
 msgstr "Серийный номер"
 
-#: src/olympusmn.cpp:373 src/olympusmn.cpp:677 src/pentaxmn.cpp:1307
-#: src/pentaxmn.cpp:1308
+#: src/olympusmn.cpp:373 src/olympusmn.cpp:677 src/pentaxmn.cpp:1308
+#: src/pentaxmn.cpp:1309
 #, fuzzy
 msgid "Flash exposure compensation"
 msgstr "Компенсация вспышки ?"
@@ -9744,7 +9744,7 @@ msgstr "Порядок заполнения"
 msgid "Noise Filter (ISO Boost)"
 msgstr "Порядок заполнения"
 
-#: src/olympusmn.cpp:618 src/olympusmn.cpp:861 src/pentaxmn.cpp:974
+#: src/olympusmn.cpp:618 src/olympusmn.cpp:861 src/pentaxmn.cpp:975
 msgid "Muted"
 msgstr ""
 
@@ -10004,8 +10004,8 @@ msgstr "Уровень сжатия"
 msgid "Gradation"
 msgstr "Длительность"
 
-#: src/olympusmn.cpp:696 src/olympusmn.cpp:898 src/pentaxmn.cpp:1267
-#: src/pentaxmn.cpp:1268
+#: src/olympusmn.cpp:696 src/olympusmn.cpp:898 src/pentaxmn.cpp:1268
+#: src/pentaxmn.cpp:1269
 #, fuzzy
 msgid "Picture mode"
 msgstr "Портретный режим"
@@ -10960,7 +10960,7 @@ msgstr "Название/имя объекта съёмки"
 msgid "Aspect frame"
 msgstr "Название/имя объекта съёмки"
 
-#: src/olympusmn.cpp:987 src/panasonicmn.cpp:573 src/pentaxmn.cpp:277
+#: src/olympusmn.cpp:987 src/panasonicmn.cpp:573 src/pentaxmn.cpp:278
 #, fuzzy
 msgid "Face Detect"
 msgstr "Не удалось прочитать"
@@ -11420,7 +11420,7 @@ msgstr "Резкость"
 msgid "Unknown OlympusRi tag"
 msgstr "Неизвестное поле"
 
-#: src/olympusmn.cpp:1121 src/pentaxmn.cpp:435
+#: src/olympusmn.cpp:1121 src/pentaxmn.cpp:436
 #, fuzzy
 msgid "User-Selected"
 msgstr "Автобрекетирование"
@@ -11771,11 +11771,11 @@ msgstr ""
 msgid "Dynamic Single Target"
 msgstr "Настройка баланса белого"
 
-#: src/panasonicmn.cpp:55 src/pentaxmn.cpp:201
+#: src/panasonicmn.cpp:55 src/pentaxmn.cpp:202
 msgid "TIFF"
 msgstr ""
 
-#: src/panasonicmn.cpp:58 src/pentaxmn.cpp:447 src/pentaxmn.cpp:462
+#: src/panasonicmn.cpp:58 src/pentaxmn.cpp:448 src/pentaxmn.cpp:463
 #, fuzzy
 msgid "Very High"
 msgstr "Высокий"
@@ -11809,11 +11809,11 @@ msgstr "AI Focus"
 msgid "Auto, continuous"
 msgstr "Продолжительный ведущий режим"
 
-#: src/panasonicmn.cpp:85 src/pentaxmn.cpp:272
+#: src/panasonicmn.cpp:85 src/pentaxmn.cpp:273
 msgid "AF-S"
 msgstr ""
 
-#: src/panasonicmn.cpp:86 src/pentaxmn.cpp:273
+#: src/panasonicmn.cpp:86 src/pentaxmn.cpp:274
 msgid "AF-C"
 msgstr ""
 
@@ -11871,7 +11871,7 @@ msgstr ""
 msgid "Soft skin"
 msgstr "О снимке"
 
-#: src/panasonicmn.cpp:134 src/pentaxmn.cpp:596
+#: src/panasonicmn.cpp:134 src/pentaxmn.cpp:597
 #, fuzzy
 msgid "Candlelight"
 msgstr "Дневной свет"
@@ -11945,7 +11945,7 @@ msgid "Photo Frame"
 msgstr "Кадр панорамы"
 
 #: src/panasonicmn.cpp:154 src/panasonicmn.cpp:160 src/panasonicmn.cpp:527
-#: src/pentaxmn.cpp:604 src/pentaxmn.cpp:673
+#: src/pentaxmn.cpp:605 src/pentaxmn.cpp:674
 msgid "HDR"
 msgstr ""
 
@@ -11967,7 +11967,7 @@ msgstr "Пульт Д/У?"
 msgid "Glass Through"
 msgstr ""
 
-#: src/panasonicmn.cpp:161 src/pentaxmn.cpp:568
+#: src/panasonicmn.cpp:161 src/pentaxmn.cpp:569
 msgid "Digital Filter"
 msgstr "Цифровой фильтр"
 
@@ -12190,7 +12190,7 @@ msgstr "Стандартный свет A"
 msgid "Nostalgic"
 msgstr ""
 
-#: src/panasonicmn.cpp:302 src/pentaxmn.cpp:972
+#: src/panasonicmn.cpp:302 src/pentaxmn.cpp:973
 msgid "Vibrant"
 msgstr ""
 
@@ -12563,7 +12563,7 @@ msgstr "Имя владельца"
 msgid "Baby name (or pet name)"
 msgstr ""
 
-#: src/panasonicmn.cpp:504 src/pentaxmn.cpp:1235 src/pentaxmn.cpp:1236
+#: src/panasonicmn.cpp:504 src/pentaxmn.cpp:1236 src/pentaxmn.cpp:1237
 #: src/properties.cpp:682 src/properties.cpp:1458
 #, fuzzy
 msgid "Location"
@@ -12952,1269 +12952,1269 @@ msgstr "Неизвестный тэг"
 msgid "Night-Scene"
 msgstr "Ночная съёмка"
 
-#: src/pentaxmn.cpp:198
+#: src/pentaxmn.cpp:199
 #, fuzzy
 msgid "Good"
 msgstr "Пища"
 
-#: src/pentaxmn.cpp:199
+#: src/pentaxmn.cpp:200
 #, fuzzy
 msgid "Better"
 msgstr "Центральный"
 
-#: src/pentaxmn.cpp:200
+#: src/pentaxmn.cpp:201
 #, fuzzy
 msgid "Best"
 msgstr "Запад"
 
-#: src/pentaxmn.cpp:203
+#: src/pentaxmn.cpp:204
 msgid "Premium"
 msgstr ""
 
-#: src/pentaxmn.cpp:215
+#: src/pentaxmn.cpp:216
 msgid "2560x1920 or 2304x1728"
 msgstr ""
 
-#: src/pentaxmn.cpp:221
+#: src/pentaxmn.cpp:222
 msgid "2304x1728 or 2592x1944"
 msgstr ""
 
-#: src/pentaxmn.cpp:223
+#: src/pentaxmn.cpp:224
 msgid "2816x2212 or 2816x2112"
 msgstr ""
 
-#: src/pentaxmn.cpp:246
+#: src/pentaxmn.cpp:247
 #, fuzzy
 msgid "Auto, Did not fire"
 msgstr "Вспышка не сработала"
 
-#: src/pentaxmn.cpp:247 src/pentaxmn.cpp:248
+#: src/pentaxmn.cpp:248 src/pentaxmn.cpp:249
 #, fuzzy
 msgid "Off, Did not fire"
 msgstr "Вспышка не сработала"
 
-#: src/pentaxmn.cpp:249
+#: src/pentaxmn.cpp:250
 #, fuzzy
 msgid "Auto, Did not fire, Red-eye reduction"
 msgstr "авто + подавление эффекта красных глаз"
 
-#: src/pentaxmn.cpp:250
+#: src/pentaxmn.cpp:251
 msgid "On. Did not fire. Wireless (Master)"
 msgstr ""
 
-#: src/pentaxmn.cpp:251
+#: src/pentaxmn.cpp:252
 #, fuzzy
 msgid "Auto, Fired"
 msgstr "Автобрекетирование"
 
-#: src/pentaxmn.cpp:252
+#: src/pentaxmn.cpp:253
 #, fuzzy
 msgid "On, Fired"
 msgstr "Сработала"
 
-#: src/pentaxmn.cpp:253
+#: src/pentaxmn.cpp:254
 #, fuzzy
 msgid "Auto, Fired, Red-eye reduction"
 msgstr "авто + подавление эффекта красных глаз"
 
-#: src/pentaxmn.cpp:254
+#: src/pentaxmn.cpp:255
 #, fuzzy
 msgid "On, Red-eye reduction"
 msgstr "Подавление эффекта красных глаз"
 
-#: src/pentaxmn.cpp:255
+#: src/pentaxmn.cpp:256
 msgid "On, Wireless (Master)"
 msgstr ""
 
-#: src/pentaxmn.cpp:256
+#: src/pentaxmn.cpp:257
 msgid "On, Wireless (Control)"
 msgstr ""
 
-#: src/pentaxmn.cpp:257
+#: src/pentaxmn.cpp:258
 msgid "On, Soft"
 msgstr ""
 
-#: src/pentaxmn.cpp:258
+#: src/pentaxmn.cpp:259
 #, fuzzy
 msgid "On, Slow-sync"
 msgstr "медленная синхронизация"
 
-#: src/pentaxmn.cpp:259
+#: src/pentaxmn.cpp:260
 #, fuzzy
 msgid "On, Slow-sync, Red-eye reduction"
 msgstr "Да, с подавлением эффекта красных глаз"
 
-#: src/pentaxmn.cpp:260
+#: src/pentaxmn.cpp:261
 msgid "On, Trailing-curtain Sync"
 msgstr ""
 
-#: src/pentaxmn.cpp:271
+#: src/pentaxmn.cpp:272
 #, fuzzy
 msgid "Pan Focus"
 msgstr "Ручная фокусировка"
 
-#: src/pentaxmn.cpp:274
+#: src/pentaxmn.cpp:275
 msgid "AF-A"
 msgstr ""
 
-#: src/pentaxmn.cpp:275
+#: src/pentaxmn.cpp:276
 #, fuzzy
 msgid "Contrast-detect"
 msgstr "Настройка контраста"
 
-#: src/pentaxmn.cpp:276
+#: src/pentaxmn.cpp:277
 #, fuzzy
 msgid "Tracking Contrast-detect"
 msgstr "Настройка контраста"
 
-#: src/pentaxmn.cpp:283
+#: src/pentaxmn.cpp:284
 #, fuzzy
 msgid "Fixed Center"
 msgstr "Ясная погода"
 
-#: src/pentaxmn.cpp:284
+#: src/pentaxmn.cpp:285
 #, fuzzy
 msgid "Automatic Tracking AF"
 msgstr "Автоматический"
 
-#: src/pentaxmn.cpp:285
+#: src/pentaxmn.cpp:286
 msgid "Face Recognition AF"
 msgstr ""
 
-#: src/pentaxmn.cpp:286
+#: src/pentaxmn.cpp:287
 #, fuzzy
 msgid "AF Select"
 msgstr "Выбор ISO"
 
-#: src/pentaxmn.cpp:304
+#: src/pentaxmn.cpp:305
 #, fuzzy
 msgid "Fixed Center or multiple"
 msgstr "Ясная погода"
 
-#: src/pentaxmn.cpp:306
+#: src/pentaxmn.cpp:307
 #, fuzzy
 msgid "Top-center"
 msgstr "Центральный"
 
-#: src/pentaxmn.cpp:312
+#: src/pentaxmn.cpp:313
 #, fuzzy
 msgid "Bottom-center"
 msgstr "слева направо"
 
-#: src/pentaxmn.cpp:401
+#: src/pentaxmn.cpp:402
 #, fuzzy
 msgid "Multi Segment"
 msgstr "Режим замера"
 
-#: src/pentaxmn.cpp:402
+#: src/pentaxmn.cpp:403
 #, fuzzy
 msgid "Center Weighted"
 msgstr "Центровзвешенный"
 
-#: src/pentaxmn.cpp:414
+#: src/pentaxmn.cpp:415
 #, fuzzy
 msgid "DaylightFluorescent"
 msgstr "Флуоресцентная лампа"
 
-#: src/pentaxmn.cpp:415
+#: src/pentaxmn.cpp:416
 #, fuzzy
 msgid "DaywhiteFluorescent"
 msgstr "Флуоресцентная лампа"
 
-#: src/pentaxmn.cpp:416
+#: src/pentaxmn.cpp:417
 #, fuzzy
 msgid "WhiteFluorescent"
 msgstr "Флуоресцентная лампа"
 
-#: src/pentaxmn.cpp:419
+#: src/pentaxmn.cpp:420
 #, fuzzy
 msgid "Color Temperature Enhancement"
 msgstr "Температура цвета"
 
-#: src/pentaxmn.cpp:422
+#: src/pentaxmn.cpp:423
 #, fuzzy
 msgid "User Selected"
 msgstr "Автобрекетирование"
 
-#: src/pentaxmn.cpp:427
+#: src/pentaxmn.cpp:428
 #, fuzzy
 msgid "Auto (Daylight)"
 msgstr "Дневной свет"
 
-#: src/pentaxmn.cpp:428
+#: src/pentaxmn.cpp:429
 #, fuzzy
 msgid "Auto (Shade)"
 msgstr "Тень"
 
-#: src/pentaxmn.cpp:429
+#: src/pentaxmn.cpp:430
 #, fuzzy
 msgid "Auto (Flash)"
 msgstr "Автобрекетирование"
 
-#: src/pentaxmn.cpp:430
+#: src/pentaxmn.cpp:431
 #, fuzzy
 msgid "Auto (Tungsten)"
 msgstr "Лампа накаливания"
 
-#: src/pentaxmn.cpp:431
+#: src/pentaxmn.cpp:432
 #, fuzzy
 msgid "Auto (DaylightFluorescent)"
 msgstr "Флуоресцентная лампа"
 
-#: src/pentaxmn.cpp:432
+#: src/pentaxmn.cpp:433
 #, fuzzy
 msgid "Auto (DaywhiteFluorescent)"
 msgstr "Флуоресцентная лампа"
 
-#: src/pentaxmn.cpp:433
+#: src/pentaxmn.cpp:434
 #, fuzzy
 msgid "Auto (WhiteFluorescent)"
 msgstr "Флуоресцентная лампа"
 
-#: src/pentaxmn.cpp:434
+#: src/pentaxmn.cpp:435
 #, fuzzy
 msgid "Auto (Cloudy)"
 msgstr "Облачно"
 
-#: src/pentaxmn.cpp:436
+#: src/pentaxmn.cpp:437
 #, fuzzy
 msgid "Preset (Fireworks?)"
 msgstr "Фейерверк"
 
-#: src/pentaxmn.cpp:444 src/pentaxmn.cpp:459
+#: src/pentaxmn.cpp:445 src/pentaxmn.cpp:460
 #, fuzzy
 msgid "Med Low"
 msgstr "Низкий"
 
-#: src/pentaxmn.cpp:445 src/pentaxmn.cpp:460
+#: src/pentaxmn.cpp:446 src/pentaxmn.cpp:461
 #, fuzzy
 msgid "Med High"
 msgstr "Высокий"
 
-#: src/pentaxmn.cpp:448 src/pentaxmn.cpp:463 src/pentaxmn.cpp:476
+#: src/pentaxmn.cpp:449 src/pentaxmn.cpp:464 src/pentaxmn.cpp:477
 msgid "-4"
 msgstr ""
 
-#: src/pentaxmn.cpp:449 src/pentaxmn.cpp:464 src/pentaxmn.cpp:477
+#: src/pentaxmn.cpp:450 src/pentaxmn.cpp:465 src/pentaxmn.cpp:478
 msgid "+4"
 msgstr ""
 
-#: src/pentaxmn.cpp:472
+#: src/pentaxmn.cpp:473
 #, fuzzy
 msgid "Med Soft"
 msgstr "Низкий"
 
-#: src/pentaxmn.cpp:473
+#: src/pentaxmn.cpp:474
 #, fuzzy
 msgid "Med Hard"
 msgstr "Высокий"
 
-#: src/pentaxmn.cpp:474
+#: src/pentaxmn.cpp:475
 msgid "Very Soft"
 msgstr ""
 
-#: src/pentaxmn.cpp:475
+#: src/pentaxmn.cpp:476
 #, fuzzy
 msgid "Very Hard"
 msgstr "Высокий"
 
-#: src/pentaxmn.cpp:482 src/pentaxmn.cpp:1239
+#: src/pentaxmn.cpp:483 src/pentaxmn.cpp:1240
 #, fuzzy
 msgid "Home town"
 msgstr "Тип изображения"
 
-#: src/pentaxmn.cpp:488
+#: src/pentaxmn.cpp:489
 msgid "Pago Pago"
 msgstr ""
 
-#: src/pentaxmn.cpp:489
+#: src/pentaxmn.cpp:490
 msgid "Honolulu"
 msgstr "Гонолулу"
 
-#: src/pentaxmn.cpp:490
+#: src/pentaxmn.cpp:491
 #, fuzzy
 msgid "Anchorage"
 msgstr "Средний"
 
-#: src/pentaxmn.cpp:491
+#: src/pentaxmn.cpp:492
 msgid "Vancouver"
 msgstr "Ванкувер"
 
-#: src/pentaxmn.cpp:492
+#: src/pentaxmn.cpp:493
 msgid "San Fransisco"
 msgstr ""
 
-#: src/pentaxmn.cpp:493
+#: src/pentaxmn.cpp:494
 msgid "Los Angeles"
 msgstr ""
 
-#: src/pentaxmn.cpp:494
+#: src/pentaxmn.cpp:495
 #, fuzzy
 msgid "Calgary"
 msgstr "Категория"
 
-#: src/pentaxmn.cpp:495
+#: src/pentaxmn.cpp:496
 #, fuzzy
 msgid "Denver"
 msgstr "Центральный"
 
-#: src/pentaxmn.cpp:496
+#: src/pentaxmn.cpp:497
 msgid "Mexico City"
 msgstr "Мехико"
 
-#: src/pentaxmn.cpp:497
+#: src/pentaxmn.cpp:498
 msgid "Chicago"
 msgstr "Чикаго"
 
-#: src/pentaxmn.cpp:498
+#: src/pentaxmn.cpp:499
 msgid "Miami"
 msgstr "Майами"
 
-#: src/pentaxmn.cpp:499
+#: src/pentaxmn.cpp:500
 msgid "Toronto"
 msgstr "Торонто"
 
-#: src/pentaxmn.cpp:500
+#: src/pentaxmn.cpp:501
 msgid "New York"
 msgstr "Нью-Йорк"
 
-#: src/pentaxmn.cpp:501
+#: src/pentaxmn.cpp:502
 msgid "Santiago"
 msgstr "Сантьяго"
 
-#: src/pentaxmn.cpp:502
+#: src/pentaxmn.cpp:503
 msgid "Caracus"
 msgstr ""
 
-#: src/pentaxmn.cpp:503
+#: src/pentaxmn.cpp:504
 msgid "Halifax"
 msgstr "Галифакс"
 
-#: src/pentaxmn.cpp:504
+#: src/pentaxmn.cpp:505
 msgid "Buenos Aires"
 msgstr "Буэнос-Айрэс"
 
-#: src/pentaxmn.cpp:505
+#: src/pentaxmn.cpp:506
 msgid "Sao Paulo"
 msgstr ""
 
-#: src/pentaxmn.cpp:506
+#: src/pentaxmn.cpp:507
 msgid "Rio de Janeiro"
 msgstr ""
 
-#: src/pentaxmn.cpp:507
+#: src/pentaxmn.cpp:508
 msgid "Madrid"
 msgstr "Мадрид"
 
-#: src/pentaxmn.cpp:508
+#: src/pentaxmn.cpp:509
 msgid "London"
 msgstr "Лондон"
 
-#: src/pentaxmn.cpp:509
+#: src/pentaxmn.cpp:510
 msgid "Paris"
 msgstr "Париж"
 
-#: src/pentaxmn.cpp:510
+#: src/pentaxmn.cpp:511
 msgid "Milan"
 msgstr "Милан"
 
-#: src/pentaxmn.cpp:511
+#: src/pentaxmn.cpp:512
 msgid "Rome"
 msgstr "Рим"
 
-#: src/pentaxmn.cpp:512
+#: src/pentaxmn.cpp:513
 msgid "Berlin"
 msgstr "Берлин"
 
-#: src/pentaxmn.cpp:513
+#: src/pentaxmn.cpp:514
 msgid "Johannesburg"
 msgstr ""
 
-#: src/pentaxmn.cpp:514
+#: src/pentaxmn.cpp:515
 #, fuzzy
 msgid "Istanbul"
 msgstr "Кабул"
 
-#: src/pentaxmn.cpp:515
+#: src/pentaxmn.cpp:516
 msgid "Cairo"
 msgstr "Каир"
 
-#: src/pentaxmn.cpp:516
+#: src/pentaxmn.cpp:517
 msgid "Jerusalem"
 msgstr "Иерусалим"
 
-#: src/pentaxmn.cpp:517
+#: src/pentaxmn.cpp:518
 msgid "Moscow"
 msgstr "Москва"
 
-#: src/pentaxmn.cpp:518
+#: src/pentaxmn.cpp:519
 msgid "Jeddah"
 msgstr ""
 
-#: src/pentaxmn.cpp:519
+#: src/pentaxmn.cpp:520
 msgid "Tehran"
 msgstr "Тегеран"
 
-#: src/pentaxmn.cpp:520
+#: src/pentaxmn.cpp:521
 msgid "Dubai"
 msgstr "Дубаи"
 
-#: src/pentaxmn.cpp:521
+#: src/pentaxmn.cpp:522
 msgid "Karachi"
 msgstr "Карачи"
 
-#: src/pentaxmn.cpp:522
+#: src/pentaxmn.cpp:523
 msgid "Kabul"
 msgstr "Кабул"
 
-#: src/pentaxmn.cpp:523
+#: src/pentaxmn.cpp:524
 #, fuzzy
 msgid "Male"
 msgstr "Ручная"
 
-#: src/pentaxmn.cpp:524
+#: src/pentaxmn.cpp:525
 msgid "Delhi"
 msgstr "Дели"
 
-#: src/pentaxmn.cpp:525
+#: src/pentaxmn.cpp:526
 #, fuzzy
 msgid "Colombo"
 msgstr "Цветовое пространство"
 
-#: src/pentaxmn.cpp:526
+#: src/pentaxmn.cpp:527
 msgid "Kathmandu"
 msgstr "Катманду"
 
-#: src/pentaxmn.cpp:527
+#: src/pentaxmn.cpp:528
 #, fuzzy
 msgid "Dacca"
 msgstr "Дакар"
 
-#: src/pentaxmn.cpp:528
+#: src/pentaxmn.cpp:529
 #, fuzzy
 msgid "Yangon"
 msgstr "ничего"
 
-#: src/pentaxmn.cpp:529
+#: src/pentaxmn.cpp:530
 msgid "Bangkok"
 msgstr "Бангкок"
 
-#: src/pentaxmn.cpp:530
+#: src/pentaxmn.cpp:531
 msgid "Kuala Lumpur"
 msgstr ""
 
-#: src/pentaxmn.cpp:531
+#: src/pentaxmn.cpp:532
 #, fuzzy
 msgid "Vientiane"
 msgstr "Ориентация"
 
-#: src/pentaxmn.cpp:532
+#: src/pentaxmn.cpp:533
 msgid "Singapore"
 msgstr "Сингапур"
 
-#: src/pentaxmn.cpp:533
+#: src/pentaxmn.cpp:534
 msgid "Phnom Penh"
 msgstr ""
 
-#: src/pentaxmn.cpp:534
+#: src/pentaxmn.cpp:535
 msgid "Ho Chi Minh"
 msgstr ""
 
-#: src/pentaxmn.cpp:535
+#: src/pentaxmn.cpp:536
 msgid "Jakarta"
 msgstr "Джакарта"
 
-#: src/pentaxmn.cpp:536
+#: src/pentaxmn.cpp:537
 msgid "Hong Kong"
 msgstr "Гонконг"
 
-#: src/pentaxmn.cpp:537
+#: src/pentaxmn.cpp:538
 #, fuzzy
 msgid "Perth"
 msgstr "Север"
 
-#: src/pentaxmn.cpp:538
+#: src/pentaxmn.cpp:539
 msgid "Beijing"
 msgstr "Пекин"
 
-#: src/pentaxmn.cpp:539
+#: src/pentaxmn.cpp:540
 msgid "Shanghai"
 msgstr "Шанхай"
 
-#: src/pentaxmn.cpp:540
+#: src/pentaxmn.cpp:541
 #, fuzzy
 msgid "Manila"
 msgstr "Ручная"
 
-#: src/pentaxmn.cpp:541
+#: src/pentaxmn.cpp:542
 #, fuzzy
 msgid "Taipei"
 msgstr "Время отправки"
 
-#: src/pentaxmn.cpp:542
+#: src/pentaxmn.cpp:543
 msgid "Seoul"
 msgstr "Сеул"
 
-#: src/pentaxmn.cpp:543
+#: src/pentaxmn.cpp:544
 msgid "Adelaide"
 msgstr ""
 
-#: src/pentaxmn.cpp:544
+#: src/pentaxmn.cpp:545
 msgid "Tokyo"
 msgstr "Токио"
 
-#: src/pentaxmn.cpp:545
+#: src/pentaxmn.cpp:546
 msgid "Guam"
 msgstr ""
 
-#: src/pentaxmn.cpp:546
+#: src/pentaxmn.cpp:547
 msgid "Sydney"
 msgstr "Сидней"
 
-#: src/pentaxmn.cpp:547
+#: src/pentaxmn.cpp:548
 #, fuzzy
 msgid "Noumea"
 msgstr "Число F"
 
-#: src/pentaxmn.cpp:548
+#: src/pentaxmn.cpp:549
 msgid "Wellington"
 msgstr ""
 
-#: src/pentaxmn.cpp:549
+#: src/pentaxmn.cpp:550
 msgid "Auckland"
 msgstr ""
 
-#: src/pentaxmn.cpp:550
+#: src/pentaxmn.cpp:551
 msgid "Lima"
 msgstr "Лима"
 
-#: src/pentaxmn.cpp:551
+#: src/pentaxmn.cpp:552
 msgid "Dakar"
 msgstr "Дакар"
 
-#: src/pentaxmn.cpp:552
+#: src/pentaxmn.cpp:553
 msgid "Algiers"
 msgstr ""
 
-#: src/pentaxmn.cpp:553
+#: src/pentaxmn.cpp:554
 msgid "Helsinki"
 msgstr "Хельсинки"
 
-#: src/pentaxmn.cpp:554
+#: src/pentaxmn.cpp:555
 #, fuzzy
 msgid "Athens"
 msgstr "Объектив"
 
-#: src/pentaxmn.cpp:555
+#: src/pentaxmn.cpp:556
 msgid "Nairobi"
 msgstr "Найроби"
 
-#: src/pentaxmn.cpp:556
+#: src/pentaxmn.cpp:557
 msgid "Amsterdam"
 msgstr "Амстердам"
 
-#: src/pentaxmn.cpp:557
+#: src/pentaxmn.cpp:558
 msgid "Stockholm"
 msgstr "Стокгольм"
 
-#: src/pentaxmn.cpp:558
+#: src/pentaxmn.cpp:559
 msgid "Lisbon"
 msgstr ""
 
-#: src/pentaxmn.cpp:559
+#: src/pentaxmn.cpp:560
 #, fuzzy
 msgid "Copenhagen"
 msgstr "Охват"
 
-#: src/pentaxmn.cpp:560
+#: src/pentaxmn.cpp:561
 msgid "Warsaw"
 msgstr ""
 
-#: src/pentaxmn.cpp:561
+#: src/pentaxmn.cpp:562
 msgid "Prague"
 msgstr ""
 
-#: src/pentaxmn.cpp:562
+#: src/pentaxmn.cpp:563
 msgid "Budapest"
 msgstr ""
 
-#: src/pentaxmn.cpp:567
+#: src/pentaxmn.cpp:568
 #, fuzzy
 msgid "Unprocessed"
 msgstr "Несжатый"
 
-#: src/pentaxmn.cpp:569
+#: src/pentaxmn.cpp:570
 #, fuzzy
 msgid "Resized"
 msgstr "размер"
 
-#: src/pentaxmn.cpp:570 src/properties.cpp:1106
+#: src/pentaxmn.cpp:571 src/properties.cpp:1106
 #, fuzzy
 msgid "Cropped"
 msgstr "Монохромный"
 
-#: src/pentaxmn.cpp:572
+#: src/pentaxmn.cpp:573
 #, fuzzy
 msgid "Digital Filter 6"
 msgstr "Цифровой фильтр"
 
-#: src/pentaxmn.cpp:573
+#: src/pentaxmn.cpp:574
 msgid "Frame Synthesis?"
 msgstr ""
 
-#: src/pentaxmn.cpp:579 src/pentaxmn.cpp:623
+#: src/pentaxmn.cpp:580 src/pentaxmn.cpp:624
 #, fuzzy
 msgid "Hi-speed Program"
 msgstr "Программа экспозиции"
 
-#: src/pentaxmn.cpp:580 src/pentaxmn.cpp:624
+#: src/pentaxmn.cpp:581 src/pentaxmn.cpp:625
 #, fuzzy
 msgid "DOF Program"
 msgstr "Программа"
 
-#: src/pentaxmn.cpp:581 src/pentaxmn.cpp:625
+#: src/pentaxmn.cpp:582 src/pentaxmn.cpp:626
 #, fuzzy
 msgid "MTF Program"
 msgstr "Программа"
 
-#: src/pentaxmn.cpp:587
+#: src/pentaxmn.cpp:588
 #, fuzzy
 msgid "Night Scene Portrait"
 msgstr "Ночной портрет"
 
-#: src/pentaxmn.cpp:588
+#: src/pentaxmn.cpp:589
 #, fuzzy
 msgid "No Flash"
 msgstr "Без вспышки"
 
-#: src/pentaxmn.cpp:591
+#: src/pentaxmn.cpp:592
 msgid "Surf & Snow"
 msgstr ""
 
-#: src/pentaxmn.cpp:594
+#: src/pentaxmn.cpp:595
 msgid "Kids"
 msgstr ""
 
-#: src/pentaxmn.cpp:599
+#: src/pentaxmn.cpp:600
 #, fuzzy
 msgid "Stage Lighting"
 msgstr "Длина изображения"
 
-#: src/pentaxmn.cpp:600
+#: src/pentaxmn.cpp:601
 #, fuzzy
 msgid "Night Snap"
 msgstr "Ночная съёмка"
 
-#: src/pentaxmn.cpp:601
+#: src/pentaxmn.cpp:602
 #, fuzzy
 msgid "Blue Sky"
 msgstr "значение"
 
-#: src/pentaxmn.cpp:603
+#: src/pentaxmn.cpp:604
 #, fuzzy
 msgid "Night Scene HDR"
 msgstr "Ночная съёмка"
 
-#: src/pentaxmn.cpp:605
+#: src/pentaxmn.cpp:606
 #, fuzzy
 msgid "Quick Macro"
 msgstr "Супермакро"
 
-#: src/pentaxmn.cpp:606
+#: src/pentaxmn.cpp:607
 #, fuzzy
 msgid "Forest"
 msgstr "Флуоресцентная лампа"
 
-#: src/pentaxmn.cpp:607
+#: src/pentaxmn.cpp:608
 msgid "Backlight Silhouette"
 msgstr ""
 
-#: src/pentaxmn.cpp:609
+#: src/pentaxmn.cpp:610
 #, fuzzy
 msgid "Auto PICT (Standard)"
 msgstr "Альбом"
 
-#: src/pentaxmn.cpp:610
+#: src/pentaxmn.cpp:611
 #, fuzzy
 msgid "Auto PICT (Portrait)"
 msgstr "Автоматический контраст"
 
-#: src/pentaxmn.cpp:611
+#: src/pentaxmn.cpp:612
 #, fuzzy
 msgid "Auto PICT (Landscape)"
 msgstr "Альбом"
 
-#: src/pentaxmn.cpp:612
+#: src/pentaxmn.cpp:613
 #, fuzzy
 msgid "Auto PICT (Macro)"
 msgstr "Альбом"
 
-#: src/pentaxmn.cpp:613
+#: src/pentaxmn.cpp:614
 #, fuzzy
 msgid "Auto PICT (Sport)"
 msgstr "Альбом"
 
-#: src/pentaxmn.cpp:616 src/pentaxmn.cpp:627
+#: src/pentaxmn.cpp:617 src/pentaxmn.cpp:628
 #, fuzzy
 msgid "Green Mode"
 msgstr "Режим замера"
 
-#: src/pentaxmn.cpp:617 src/pentaxmn.cpp:628
+#: src/pentaxmn.cpp:618 src/pentaxmn.cpp:629
 #, fuzzy
 msgid "Shutter Speed Priority"
 msgstr "Приоритет выдержки"
 
-#: src/pentaxmn.cpp:618 src/pentaxmn.cpp:629
+#: src/pentaxmn.cpp:619 src/pentaxmn.cpp:630
 #, fuzzy
 msgid "Aperture Priority"
 msgstr "Приоритет диафрагмы"
 
-#: src/pentaxmn.cpp:620 src/pentaxmn.cpp:633
+#: src/pentaxmn.cpp:621 src/pentaxmn.cpp:634
 msgid "Bulb"
 msgstr ""
 
-#: src/pentaxmn.cpp:626
+#: src/pentaxmn.cpp:627
 msgid "Shallow DOF"
 msgstr ""
 
-#: src/pentaxmn.cpp:630
+#: src/pentaxmn.cpp:631
 #, fuzzy
 msgid "Program Tv Shift"
 msgstr "Программа"
 
-#: src/pentaxmn.cpp:631
+#: src/pentaxmn.cpp:632
 #, fuzzy
 msgid "Program Av Shift"
 msgstr "Программа"
 
-#: src/pentaxmn.cpp:634
+#: src/pentaxmn.cpp:635
 #, fuzzy
 msgid "Aperture Priority (Off-Auto-Aperture)"
 msgstr "Приоритет диафрагмы (Av)"
 
-#: src/pentaxmn.cpp:635
+#: src/pentaxmn.cpp:636
 #, fuzzy
 msgid "Manual (Off-Auto-Aperture)"
 msgstr "Приоритет диафрагмы (Av)"
 
-#: src/pentaxmn.cpp:636
+#: src/pentaxmn.cpp:637
 #, fuzzy
 msgid "Bulb (Off-Auto-Aperture)"
 msgstr "Приоритет диафрагмы (Av)"
 
-#: src/pentaxmn.cpp:638
+#: src/pentaxmn.cpp:639
 #, fuzzy
 msgid "Shutter Priority"
 msgstr "Приоритет выдержки"
 
-#: src/pentaxmn.cpp:639
+#: src/pentaxmn.cpp:640
 #, fuzzy
 msgid "Shutter & Aperture Priority AE"
 msgstr "Приоритет выдержки"
 
-#: src/pentaxmn.cpp:640
+#: src/pentaxmn.cpp:641
 #, fuzzy
 msgid "Shutter & Aperture Priority AE (1)"
 msgstr "Приоритет выдержки"
 
-#: src/pentaxmn.cpp:641
+#: src/pentaxmn.cpp:642
 #, fuzzy
 msgid "Sensitivity Priority AE"
 msgstr "Спектральная чувствительность"
 
-#: src/pentaxmn.cpp:642
+#: src/pentaxmn.cpp:643
 #, fuzzy
 msgid "Sensitivity Priority AE (1)"
 msgstr "Приоритет выдержки"
 
-#: src/pentaxmn.cpp:643
+#: src/pentaxmn.cpp:644
 msgid "Flash X-Sync Speed AE"
 msgstr ""
 
-#: src/pentaxmn.cpp:644
+#: src/pentaxmn.cpp:645
 msgid "Flash X-Sync Speed AE (1)"
 msgstr ""
 
-#: src/pentaxmn.cpp:645
+#: src/pentaxmn.cpp:646
 #, fuzzy
 msgid "Auto Program (Normal)"
 msgstr "Программа (P)"
 
-#: src/pentaxmn.cpp:646
+#: src/pentaxmn.cpp:647
 msgid "Auto Program (Hi-Speed)"
 msgstr ""
 
-#: src/pentaxmn.cpp:647
+#: src/pentaxmn.cpp:648
 #, fuzzy
 msgid "Auto Program (DOF)"
 msgstr "Программа (P)"
 
-#: src/pentaxmn.cpp:648
+#: src/pentaxmn.cpp:649
 #, fuzzy
 msgid "Auto Program (MTF)"
 msgstr "Программа (P)"
 
-#: src/pentaxmn.cpp:649
+#: src/pentaxmn.cpp:650
 msgid "Auto Program (Shallow DOF)"
 msgstr ""
 
-#: src/pentaxmn.cpp:650
+#: src/pentaxmn.cpp:651
 #, fuzzy
 msgid "Blur control"
 msgstr "Цветовое пространство"
 
-#: src/pentaxmn.cpp:653
+#: src/pentaxmn.cpp:654
 msgid "Video (30 fps)"
 msgstr ""
 
-#: src/pentaxmn.cpp:654
+#: src/pentaxmn.cpp:655
 msgid "Video (24 fps)"
 msgstr ""
 
-#: src/pentaxmn.cpp:661
+#: src/pentaxmn.cpp:662
 #, fuzzy
 msgid "Continuous (Hi)"
 msgstr "Продолжительный ведущий режим"
 
-#: src/pentaxmn.cpp:662 src/sonymn.cpp:272
+#: src/pentaxmn.cpp:663 src/sonymn.cpp:272
 #, fuzzy
 msgid "Burst"
 msgstr "Способ фокусировки"
 
-#: src/pentaxmn.cpp:663 src/pentaxmn.cpp:667 src/pentaxmn.cpp:678
+#: src/pentaxmn.cpp:664 src/pentaxmn.cpp:668 src/pentaxmn.cpp:679
 #: src/properties.cpp:908
 #, fuzzy
 msgid "Video"
 msgstr "Цвет"
 
-#: src/pentaxmn.cpp:665
+#: src/pentaxmn.cpp:666
 #, fuzzy
 msgid "Self-timer (12 sec)"
 msgstr "Серийный номер"
 
-#: src/pentaxmn.cpp:666
+#: src/pentaxmn.cpp:667
 #, fuzzy
 msgid "Self-timer (2 sec)"
 msgstr "Серийный номер"
 
-#: src/pentaxmn.cpp:668
+#: src/pentaxmn.cpp:669
 msgid "Mirror Lock-up"
 msgstr ""
 
-#: src/pentaxmn.cpp:669
+#: src/pentaxmn.cpp:670
 #, fuzzy
 msgid "Remote Control (3 sec)"
 msgstr "Пульт Д/У?"
 
-#: src/pentaxmn.cpp:670
+#: src/pentaxmn.cpp:671
 #, fuzzy
 msgid "Remote Control"
 msgstr "Пульт Д/У?"
 
-#: src/pentaxmn.cpp:671
+#: src/pentaxmn.cpp:672
 #, fuzzy
 msgid "Remote Continuous Shooting"
 msgstr "Способ фокусировки"
 
-#: src/pentaxmn.cpp:674
+#: src/pentaxmn.cpp:675
 #, fuzzy
 msgid "HDR Strong 1"
 msgstr "Насыщенность"
 
-#: src/pentaxmn.cpp:675
+#: src/pentaxmn.cpp:676
 #, fuzzy
 msgid "HDR Strong 2"
 msgstr "Насыщенность"
 
-#: src/pentaxmn.cpp:676
+#: src/pentaxmn.cpp:677
 #, fuzzy
 msgid "HDR Strong 3"
 msgstr "Насыщенность"
 
-#: src/pentaxmn.cpp:677
+#: src/pentaxmn.cpp:678
 #, fuzzy
 msgid "HDR Auto"
 msgstr "Авто"
 
-#: src/pentaxmn.cpp:689
+#: src/pentaxmn.cpp:690
 msgid "M-42 or No Lens"
 msgstr ""
 
-#: src/pentaxmn.cpp:690
+#: src/pentaxmn.cpp:691
 #, fuzzy
 msgid "K or M Lens"
 msgstr "Объектив"
 
-#: src/pentaxmn.cpp:691
+#: src/pentaxmn.cpp:692
 msgid "A Series Lens"
 msgstr ""
 
-#: src/pentaxmn.cpp:969
+#: src/pentaxmn.cpp:970
 #, fuzzy
 msgid "Bright"
 msgstr "Яркость+"
 
-#: src/pentaxmn.cpp:975
+#: src/pentaxmn.cpp:976
 msgid "Reversal film"
 msgstr ""
 
-#: src/pentaxmn.cpp:976
+#: src/pentaxmn.cpp:977
 msgid "Bleach bypass"
 msgstr ""
 
-#: src/pentaxmn.cpp:977
+#: src/pentaxmn.cpp:978
 msgid "Radiant"
 msgstr ""
 
-#: src/pentaxmn.cpp:989
+#: src/pentaxmn.cpp:990
 #, fuzzy
 msgid "Weakest"
 msgstr "Запад"
 
-#: src/pentaxmn.cpp:990
+#: src/pentaxmn.cpp:991
 #, fuzzy
 msgid "Weak"
 msgstr "Запад"
 
-#: src/pentaxmn.cpp:991
+#: src/pentaxmn.cpp:992
 #, fuzzy
 msgid "Strong"
 msgstr "Насыщенность"
 
-#: src/pentaxmn.cpp:1111
+#: src/pentaxmn.cpp:1112
 #, fuzzy
 msgid "No extended bracketing"
 msgstr "Настройка баланса белого"
 
-#: src/pentaxmn.cpp:1117
+#: src/pentaxmn.cpp:1118
 msgid "WB-BA"
 msgstr "WB-BA"
 
-#: src/pentaxmn.cpp:1120
+#: src/pentaxmn.cpp:1121
 msgid "WB-GM"
 msgstr "WB-GM"
 
-#: src/pentaxmn.cpp:1132
+#: src/pentaxmn.cpp:1133
 #, fuzzy
 msgid "Unknown "
 msgstr "Неизвестно"
 
-#: src/pentaxmn.cpp:1145
+#: src/pentaxmn.cpp:1146
 #, fuzzy
 msgid "Pentax Makernote version"
 msgstr "Версия прошивки"
 
-#: src/pentaxmn.cpp:1148
+#: src/pentaxmn.cpp:1149
 #, fuzzy
 msgid "Camera shooting mode"
 msgstr "Режим замера"
 
-#: src/pentaxmn.cpp:1150 src/pentaxmn.cpp:1151
+#: src/pentaxmn.cpp:1151 src/pentaxmn.cpp:1152
 msgid "Resolution of a preview image"
 msgstr ""
 
-#: src/pentaxmn.cpp:1153
+#: src/pentaxmn.cpp:1154
 #, fuzzy
 msgid "Length of a preview image"
 msgstr "Версия эскиза"
 
-#: src/pentaxmn.cpp:1154
+#: src/pentaxmn.cpp:1155
 msgid "Size of an IFD containing a preview image"
 msgstr ""
 
-#: src/pentaxmn.cpp:1159
+#: src/pentaxmn.cpp:1160
 #, fuzzy
 msgid "Model identification"
 msgstr "Версия модели"
 
-#: src/pentaxmn.cpp:1160
+#: src/pentaxmn.cpp:1161
 #, fuzzy
 msgid "Pentax model identification"
 msgstr "Версия модели"
 
-#: src/pentaxmn.cpp:1162 src/pentaxmn.cpp:1163 src/properties.cpp:167
+#: src/pentaxmn.cpp:1163 src/pentaxmn.cpp:1164 src/properties.cpp:167
 #, fuzzy
 msgid "Date"
 msgstr "Программное обеспечение"
 
-#: src/pentaxmn.cpp:1165 src/pentaxmn.cpp:1166
+#: src/pentaxmn.cpp:1166 src/pentaxmn.cpp:1167
 #, fuzzy
 msgid "Time"
 msgstr "Время отправки"
 
-#: src/pentaxmn.cpp:1169
+#: src/pentaxmn.cpp:1170
 #, fuzzy
 msgid "Image quality settings"
 msgstr "Описание снимка"
 
-#: src/pentaxmn.cpp:1172
+#: src/pentaxmn.cpp:1173
 #, fuzzy
 msgid "Image size settings"
 msgstr "Описание снимка"
 
-#: src/pentaxmn.cpp:1176
+#: src/pentaxmn.cpp:1177
 #, fuzzy
 msgid "Flash mode settings"
 msgstr "Вспышка сработала"
 
-#: src/pentaxmn.cpp:1179
+#: src/pentaxmn.cpp:1180
 #, fuzzy
 msgid "Focus mode settings"
 msgstr "Способ фокусировки"
 
-#: src/pentaxmn.cpp:1182
+#: src/pentaxmn.cpp:1183
 #, fuzzy
 msgid "Selected AF point"
 msgstr "Использованная точка AF"
 
-#: src/pentaxmn.cpp:1184 src/pentaxmn.cpp:1185
+#: src/pentaxmn.cpp:1185 src/pentaxmn.cpp:1186
 #, fuzzy
 msgid "AF point in focus"
 msgstr "Использованная точка AF"
 
-#: src/pentaxmn.cpp:1191 src/pentaxmn.cpp:1192
+#: src/pentaxmn.cpp:1192 src/pentaxmn.cpp:1193
 #, fuzzy
 msgid "F-Number"
 msgstr "Число F"
 
-#: src/pentaxmn.cpp:1194
+#: src/pentaxmn.cpp:1195
 #, fuzzy
 msgid "ISO sensitivity"
 msgstr "Спектральная чувствительность"
 
-#: src/pentaxmn.cpp:1195
+#: src/pentaxmn.cpp:1196
 #, fuzzy
 msgid "ISO sensitivity settings"
 msgstr "Параметры объектива"
 
-#: src/pentaxmn.cpp:1202 src/pentaxmn.cpp:1203
+#: src/pentaxmn.cpp:1203 src/pentaxmn.cpp:1204
 #, fuzzy
 msgid "MeteringMode"
 msgstr "Режим замера"
 
-#: src/pentaxmn.cpp:1205 src/pentaxmn.cpp:1206
+#: src/pentaxmn.cpp:1206 src/pentaxmn.cpp:1207
 #, fuzzy
 msgid "AutoBracketing"
 msgstr "Автобрекетирование"
 
-#: src/pentaxmn.cpp:1215
+#: src/pentaxmn.cpp:1216
 #, fuzzy
 msgid "Blue color balance"
 msgstr "Баланс белого"
 
-#: src/pentaxmn.cpp:1218
+#: src/pentaxmn.cpp:1219
 #, fuzzy
 msgid "Red color balance"
 msgstr "Цветовое пространство"
 
-#: src/pentaxmn.cpp:1220 src/pentaxmn.cpp:1221
+#: src/pentaxmn.cpp:1221 src/pentaxmn.cpp:1222
 #, fuzzy
 msgid "FocalLength"
 msgstr "Фокусное расстояние"
 
-#: src/pentaxmn.cpp:1238
+#: src/pentaxmn.cpp:1239
 #, fuzzy
 msgid "Hometown"
 msgstr "Рим"
 
-#: src/pentaxmn.cpp:1244
+#: src/pentaxmn.cpp:1245
 msgid "Hometown DST"
 msgstr ""
 
-#: src/pentaxmn.cpp:1245
+#: src/pentaxmn.cpp:1246
 msgid "Whether day saving time is active in home town"
 msgstr ""
 
-#: src/pentaxmn.cpp:1247
+#: src/pentaxmn.cpp:1248
 #, fuzzy
 msgid "Destination DST"
 msgstr "Ориентация"
 
-#: src/pentaxmn.cpp:1248
+#: src/pentaxmn.cpp:1249
 msgid "Whether day saving time is active in destination"
 msgstr ""
 
-#: src/pentaxmn.cpp:1250 src/pentaxmn.cpp:1251
+#: src/pentaxmn.cpp:1251 src/pentaxmn.cpp:1252
 #, fuzzy
 msgid "DSPFirmwareVersion"
 msgstr "Версия прошивки"
 
-#: src/pentaxmn.cpp:1253 src/pentaxmn.cpp:1254
+#: src/pentaxmn.cpp:1254 src/pentaxmn.cpp:1255
 #, fuzzy
 msgid "CPUFirmwareVersion"
 msgstr "Версия прошивки"
 
-#: src/pentaxmn.cpp:1260
+#: src/pentaxmn.cpp:1261
 #, fuzzy
 msgid "Light value"
 msgstr "Яркость"
 
-#: src/pentaxmn.cpp:1261
+#: src/pentaxmn.cpp:1262
 msgid "Camera calculated light value, includes exposure compensation"
 msgstr ""
 
-#: src/pentaxmn.cpp:1277 src/pentaxmn.cpp:1278
+#: src/pentaxmn.cpp:1278 src/pentaxmn.cpp:1279
 #, fuzzy
 msgid "Image area offset"
 msgstr "Размер изображения"
 
-#: src/pentaxmn.cpp:1280 src/pentaxmn.cpp:1281
+#: src/pentaxmn.cpp:1281 src/pentaxmn.cpp:1282
 #, fuzzy
 msgid "Raw image size"
 msgstr "Размер изображения"
 
-#: src/pentaxmn.cpp:1284 src/pentaxmn.cpp:1285
+#: src/pentaxmn.cpp:1285 src/pentaxmn.cpp:1286
 #, fuzzy
 msgid "Preview image borders"
 msgstr "Версия эскиза"
 
-#: src/pentaxmn.cpp:1290 src/pentaxmn.cpp:1291
+#: src/pentaxmn.cpp:1291 src/pentaxmn.cpp:1292
 #, fuzzy
 msgid "Sensitivity adjust"
 msgstr "Спектральная чувствительность"
 
-#: src/pentaxmn.cpp:1293 src/pentaxmn.cpp:1294
+#: src/pentaxmn.cpp:1294 src/pentaxmn.cpp:1295
 msgid "Digital filter"
 msgstr "Цифровой фильтр"
 
-#: src/pentaxmn.cpp:1298
+#: src/pentaxmn.cpp:1299
 #, fuzzy
 msgid "Camera temperature"
 msgstr "Температура цвета"
 
-#: src/pentaxmn.cpp:1311 src/pentaxmn.cpp:1312
+#: src/pentaxmn.cpp:1312 src/pentaxmn.cpp:1313
 #, fuzzy
 msgid "Image tone"
 msgstr "Тип изображения"
 
-#: src/pentaxmn.cpp:1318
+#: src/pentaxmn.cpp:1319
 #, fuzzy
 msgid "Shake reduction"
 msgstr "Подавление шума"
 
-#: src/pentaxmn.cpp:1319
+#: src/pentaxmn.cpp:1320
 #, fuzzy
 msgid "Shake reduction information"
 msgstr "Способ фокусировки"
 
-#: src/pentaxmn.cpp:1324 src/pentaxmn.cpp:1325
+#: src/pentaxmn.cpp:1325 src/pentaxmn.cpp:1326
 #, fuzzy
 msgid "Dynamic range expansion"
 msgstr "Настройка баланса белого"
 
-#: src/pentaxmn.cpp:1327 src/pentaxmn.cpp:1328
+#: src/pentaxmn.cpp:1328 src/pentaxmn.cpp:1329
 msgid "High ISO noise reduction"
 msgstr "Подавление шума на высоких ISO"
 
-#: src/pentaxmn.cpp:1330 src/pentaxmn.cpp:1331
+#: src/pentaxmn.cpp:1331 src/pentaxmn.cpp:1332
 #, fuzzy
 msgid "AF Adjustment"
 msgstr "Подстройка оттенка"
 
-#: src/pentaxmn.cpp:1334 src/pentaxmn.cpp:1335
+#: src/pentaxmn.cpp:1335 src/pentaxmn.cpp:1336
 msgid "Black point"
 msgstr "Точка черного"
 
-#: src/pentaxmn.cpp:1337 src/pentaxmn.cpp:1338
+#: src/pentaxmn.cpp:1338 src/pentaxmn.cpp:1339
 msgid "White point"
 msgstr "Точка белого"
 
-#: src/pentaxmn.cpp:1341 src/pentaxmn.cpp:1342
+#: src/pentaxmn.cpp:1342 src/pentaxmn.cpp:1343
 #, fuzzy
 msgid "ShotInfo"
 msgstr "Способ фокусировки"
 
-#: src/pentaxmn.cpp:1344 src/pentaxmn.cpp:1345
+#: src/pentaxmn.cpp:1345 src/pentaxmn.cpp:1346
 #, fuzzy
 msgid "AEInfo"
 msgstr "Способ фокусировки"
 
-#: src/pentaxmn.cpp:1347 src/pentaxmn.cpp:1348
+#: src/pentaxmn.cpp:1348 src/pentaxmn.cpp:1349
 #, fuzzy
 msgid "LensInfo"
 msgstr "Объектив"
 
-#: src/pentaxmn.cpp:1350 src/pentaxmn.cpp:1351
+#: src/pentaxmn.cpp:1351 src/pentaxmn.cpp:1352
 #, fuzzy
 msgid "FlashInfo"
 msgstr "Вспышка"
 
-#: src/pentaxmn.cpp:1353 src/pentaxmn.cpp:1354
+#: src/pentaxmn.cpp:1354 src/pentaxmn.cpp:1355
 #, fuzzy
 msgid "AEMeteringSegments"
 msgstr "Режим замера"
 
-#: src/pentaxmn.cpp:1356 src/pentaxmn.cpp:1357
+#: src/pentaxmn.cpp:1357 src/pentaxmn.cpp:1358
 #, fuzzy
 msgid "FlashADump"
 msgstr "Режим вспышки"
 
-#: src/pentaxmn.cpp:1359 src/pentaxmn.cpp:1360
+#: src/pentaxmn.cpp:1360 src/pentaxmn.cpp:1361
 #, fuzzy
 msgid "FlashBDump"
 msgstr "Режим вспышки"
 
-#: src/pentaxmn.cpp:1363 src/pentaxmn.cpp:1364
+#: src/pentaxmn.cpp:1364 src/pentaxmn.cpp:1365
 #, fuzzy
 msgid "WB_RGGBLevelsDaylight"
 msgstr "Флуоресцентная лампа"
 
-#: src/pentaxmn.cpp:1366 src/pentaxmn.cpp:1367
+#: src/pentaxmn.cpp:1367 src/pentaxmn.cpp:1368
 #, fuzzy
 msgid "WB_RGGBLevelsShade"
 msgstr "Заряд батареи"
 
-#: src/pentaxmn.cpp:1369 src/pentaxmn.cpp:1370
+#: src/pentaxmn.cpp:1370 src/pentaxmn.cpp:1371
 #, fuzzy
 msgid "WB_RGGBLevelsCloudy"
 msgstr "Заряд батареи"
 
-#: src/pentaxmn.cpp:1372 src/pentaxmn.cpp:1373
+#: src/pentaxmn.cpp:1373 src/pentaxmn.cpp:1374
 #, fuzzy
 msgid "WB_RGGBLevelsTungsten"
 msgstr "Заряд батареи"
 
-#: src/pentaxmn.cpp:1375 src/pentaxmn.cpp:1376
+#: src/pentaxmn.cpp:1376 src/pentaxmn.cpp:1377
 #, fuzzy
 msgid "WB_RGGBLevelsFluorescentD"
 msgstr "Флуоресцентная лампа"
 
-#: src/pentaxmn.cpp:1378 src/pentaxmn.cpp:1379
+#: src/pentaxmn.cpp:1379 src/pentaxmn.cpp:1380
 #, fuzzy
 msgid "WB_RGGBLevelsFluorescentN"
 msgstr "Флуоресцентная лампа"
 
-#: src/pentaxmn.cpp:1381 src/pentaxmn.cpp:1382
+#: src/pentaxmn.cpp:1382 src/pentaxmn.cpp:1383
 #, fuzzy
 msgid "WB_RGGBLevelsFluorescentW"
 msgstr "Флуоресцентная лампа"
 
-#: src/pentaxmn.cpp:1384 src/pentaxmn.cpp:1385
+#: src/pentaxmn.cpp:1385 src/pentaxmn.cpp:1386
 #, fuzzy
 msgid "WB_RGGBLevelsFlash"
 msgstr "Заряд батареи"
 
-#: src/pentaxmn.cpp:1387 src/pentaxmn.cpp:1388
+#: src/pentaxmn.cpp:1388 src/pentaxmn.cpp:1389
 #, fuzzy
 msgid "CameraInfo"
 msgstr "ID камеры"
 
-#: src/pentaxmn.cpp:1390 src/pentaxmn.cpp:1391
+#: src/pentaxmn.cpp:1391 src/pentaxmn.cpp:1392
 #, fuzzy
 msgid "BatteryInfo"
 msgstr "ID камеры"
 
-#: src/pentaxmn.cpp:1393 src/pentaxmn.cpp:1394
+#: src/pentaxmn.cpp:1394 src/pentaxmn.cpp:1395
 #, fuzzy
 msgid "AFInfo"
 msgstr "Способ фокусировки"
 
-#: src/pentaxmn.cpp:1396 src/pentaxmn.cpp:1397
+#: src/pentaxmn.cpp:1397 src/pentaxmn.cpp:1398
 #, fuzzy
 msgid "ColorInfo"
 msgstr "Цвет"
 
-#: src/pentaxmn.cpp:1404
+#: src/pentaxmn.cpp:1405
 msgid "Unknown PentaxMakerNote tag"
 msgstr "Неизвестный тег PentaxMakerNote"
 
