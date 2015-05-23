@@ -21297,7 +21297,7 @@ msgid "Point Radius Spatial Fit"
 msgstr "Point Radius Spatial Fit"
 
 #: src/properties.cpp:1812
-#, c-format
+#, fuzzy, c-format
 msgid ""
 "The ratio of the area of the point-radius (decimalLatitude, "
 "decimalLongitude, coordinateUncertaintyInMeters) to the area of the true "
@@ -21359,7 +21359,7 @@ msgid "Footprint Spatial Fit"
 msgstr "Spatial fit för fingeravtryck"
 
 #: src/properties.cpp:1821
-#, c-format
+#, fuzzy, c-format
 msgid ""
 "The ratio of the area of the footprint (footprintWKT) to the area of the "
 "true (original, or most specific) spatial representation of the Location. "
@@ -23909,7 +23909,7 @@ msgid "Dot Range"
 msgstr "Punktintervall"
 
 #: src/tags.cpp:622
-#, c-format
+#, fuzzy, c-format
 msgid "The component values that correspond to a 0% dot and 100% dot."
 msgstr "Komponentvärden som motsvarar en 0% punkt och en 100% punkt."
 
