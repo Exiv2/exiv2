@@ -1,3 +1,250 @@
+Changes from version 0.24 to 0.25
+---------------------------------
+
+* Exiv2 library
+	- 0000442:	exivsimple has array index errors when stripping quotes form trivial input strings
+				(Thomas Beutlich)
+	- 0000707:	Use SVN eol-style LF on all files
+				(Andreas Huggel, Robin Mills)
+	- 0000886:	Access violation on IptcData::operator[] when key is invalid
+				(Robin Mills)
+	- 0000901:	PNG images with tiff tags throw exceptions
+	- 0000934:	Plasma kde crashes when specific jpeg is on the Desktop
+				(Robin Mills)
+	- 0000945:	TIFF parser,Binary array elements should be decoded using the Makernote's endianness, not that of the image 
+				(Andreas Huggel)
+	- 0000970:	Coverity scan : Issue CID 981992 , 981993
+				(Mahesh Hegde, Phil Harvey, Niels Kristian Bech Jensen)
+	- 0000984:	Fix 'failed to rename file' problem caused by virus scanner in windows
+				(Axel Waggershauser, Thomas Beutlich,Robin Mills)
+	- 0000989:	Wrong key name in output of addmodel sample
+				(Thomas Beutlich, Robin Mills)
+	- 0001019:	Cppcheck: Suspicious usage of 'sizeof' with a numeric constant as parameter.
+				(Thomas Beutlich, Robin Mills)
+	- 0001021:	Printing tags does not honor multi-byte label widths correctly
+				(Thomas Schmidt, Robin Mills)
+	- 0001039:	Wrong ApertureValue written
+				(Torsten Flammiger, Robin Mills)
+	- 0001043:	pyexiv2 fails on cifs shares on an Ubuntu client
+				(thoralf schulze, Robin Mills, Thomas Beutlich)
+	- 0001044:	TIFF parser,Parse TIFF PageNumber
+				(Robin Mills)
+	- 0001047:	Add new sample applications exifdata and exivvalue
+				(Robin Mills)
+	- 0001053:	Add option -K Key (--key Key) to specify one or more keys to output.
+				(Robin Mills)
+	- 0001065:	Is fileProtocol thread-safe?
+				(Max Pozdeev, Robin Mills)
+	- 0001072:	test/tiff-test.sh is failing on Motorola PPC
+				(Robin Mills)
+	- 0001073:	test/bugfixes-test.sh is producing results that change with the time-zone
+				(Robin Mills)
+	- 0001084:	Garbage in Exif.Image.Make and Exif.Image.Model in some Samsung SRW files
+
+* XMP related
+	- 0000774:	"exiv2 -eX" followed by "exiv2 -iX" produces invalid XMP metadata packet
+				(Alan Pater)
+	- 0000784:	Writing Xmp.lr.hierarchicalSubject writes wrong datatype
+				(Lucas Beeler, Alan Pater)
+	- 0000863:	Unicode issue writing to XMP sidecar
+	- 0000864:	Mapping of Exif DateTime fields to XMP changed in spec
+				(Marcel Wiesweg, Alan Pater)
+	- 0000937:	Support Darwin Core (DwC) XMP metadata
+				(Alan Pater)
+	- 0000946:	Xmp.MPReg.PersonLiveCID vs. PersonLiveIdCID
+				(Phil Harvey, Alan Pater)
+	- 0001040:	MWG-KW schema
+				(Alan Pater)
+	- 0001054:	Overhaul exiv2json.cpp to build a deeply recursive JSON tree of XMP data
+				(Robin Mills)
+	- 0001058:	xml:lang should be treated case insensitive
+				(Tobias E., Robin Mills)
+	- 0001059:	Support ACDSee XMP properties
+				(Alan Pater)
+	- 0001063:	Google Photo Sphere XMP namespace and properties
+				(Alan Pater)
+
+* Makernote related
+	- 0000833:	Sony NEX Lens Information
+				(Pascal de Bruijn, Torsten Bronger, Robin Mills)
+	- 0000919:	Handle Pentax makernotes in samsung-rebranded cameras
+				(Michael Karcher, Niels Kristian Bech Jensen)
+	- 0000924:	Olympus XZ-1 FocusDistance incorrect
+				(Niels Kristian Bech Jensen)
+	- 0000929:	Support Panasonic Makernote
+				(Nicolas Nicofo, T Modes, Niels Kristian Bech Jensen)
+	- 0000933:	Casio Makernotes
+				(T Modes, Niels Kristian Bech Jensen)
+	- 0000954:	patch: support for Exif.CanonFi.FocusDistanceUpper and Exif.CanonFi.FocusDistanceLower
+				(Roman Lebedev, Niels Kristian Bech Jensen)
+	- 0000965:	Pentax K-3 MakerNote not recognized due to different maker tag
+				(Pascal de Bruijn, Niels Kristian Bech Jensen)
+	- 0000972:	Update Panasoic EXIF Information
+				(Bernd Steinhauser, T Modes, Niels Kristian Bech Jensen)
+	- 0000981:	Local build crashes in olympusmn.cpp
+				(Robin Mills)
+	- 0001037:	MeasuredEV in CanonSi
+				(Axel Waggershauser, Robin Mills)
+	- 0001062:	Exif.NikonWt.Timezone translated value can have 'cruft'
+				(Robin Mills)
+
+* Lens support related
+	- 0000834:	detection of Pentax DA 35/2.4 lens
+				(Jaroslav and Pascal, Andreas Huggel)
+	- 0000839:	Canon EOS M EF-M lenses
+				(Pascal de Bruijn, Robin Mills)
+	- 0000926:	Lens matching on Canon
+				(Niels Kristian Bech Jensen)
+	- 0000927:	Sigma Lens Not detected
+				(Niels Kristian Bech Jensen)
+	- 0000938:	Tamron 18-270 is not detected anymore
+				(Torsten Bronger, Niels Kristian Bech Jensen)
+	- 0000942:	Wrong aperture for Tamron 70-300?
+				(Torsten Bronger, Niels Kristian Bech Jensen)
+	- 0000943:	Tamron lens names: USD excludes AF
+				(Torsten Bronger, Niels Kristian Bech Jensen)
+	- 0000944:	Doubled "AF" for some Tokina lens model names on Nikon cameras
+				(Torsten Bronger, Niels Kristian Bech Jensen)
+	- 0000947:	LensID 137 in exiv2  0.23 and 0.24 instead of Tamron as Sigma ???
+				(Thomas Mörschel, Niels Kristian Bech Jensen)
+	- 0000948:	Recognize Samsung NX 10mm Fisheye
+				(Pascal de Bruijn, Niels Kristian Bech Jensen)
+	- 0000951:	Pentax/Sigma 24-70mm F2.8 IF EX DG HSM data
+				(Terence Duell, Niels Kristian Bech Jensen)
+	- 0000953:	patch: add Tamron AF 18-270mm f/3.5-6.3 Di II VC PZD for Canon
+				(Pekka Sarnila, Niels Kristian Bech Jensen)
+	- 0000959:	Wrong value in Exiv data for Sigma lenses (24-105 & 50)
+				(Niels Kristian Bech Jensen)
+	- 0000969:	Recognising Sigma 50mm F1.4 DG HSM
+				(Robin Mills, Niels Kristian Bech Jensen)
+	- 0000982:	Improve detection of Canon lenses sharing the same IDs
+				(Alexander Steffen, Niels Kristian Bech Jensen)
+	- 0000988:	New Lens: Samsung NX 16-50 PZ ED OIS
+				(Pascal de Bruijn, Robin Mills)
+	- 0000996:	Sigma 28mm 1.8 EX DG MACRO wrongly detected as "lens 150"
+				(Niels Kristian Bech Jensen)
+	- 0001000:	trivial: samsung lens id re-sorting
+				(Pascal de Bruijn, Robin Mills)
+	- 0001005:	trivial: Canon EF-S 24mm f/2.8 STM detection
+				(Pascal de Bruijn)
+	- 0001026:	Lens not recognized
+				(Bastien O, Niels Kristian Bech Jensen)
+	- 0001027:	Lens not recognized
+				(Niels Kristian Bech Jensen)
+	- 0001036:	New lens ID for Tamron 70-300mm f/4-5.6 Di VC USD (Canon mount)
+				(C M, Niels Kristian Bech Jensen)
+	- 0001051:	Lens request Tamron SP AF 28-75mm F/2.8 XR Di LD Aspherical [IF] MACRO
+				(Petrov Vlad, Niels Kristian Bech Jensen)
+	- 0001070:	New lens: Sigma 150-600mm f/5-6.3 DG OS HSM Contemporary for Canon
+				(Alexander Steffen, Niels Kristian Bech Jensen)
+	- 0001079:	Rename Canon EF 50mm f/1.8 MkII
+				(Niels Kristian Bech Jensen)
+
+* Build environment related
+	- 0000697:	config/ConfigureChecks.cmake: STRERROR_R_CHAR_P revisited 
+				(Nikolai Saoukh, Robin Mills)
+	- 0000857:	CMake compilation issue on MacOS-X 4.5.1/Mountain Lion
+				(Robin Mills)
+	- 0000859:	Compilation warning using Clang
+				(Davide Anastasia, Andreas Huggel, Robin Mills)
+	- 0000905:	Exiv2 does not run on Windows Vista
+				(Daniel Kaneider, Robin Mills)
+	- 0000916:	Implement "Cloud Ready"
+				(Robin Mills, Tuan Nhu)
+	- 0000920:	Cross compiling for Android on OSX is keep using '/usr/bin/gcc'
+				(Tao Wang, Gilles Caulier, Robin Mills)
+	- 0000939:	make gen.py Python3 compatible
+				(Alex Turbov, Robin Mills)
+	- 0000940:	Compilation warnings
+				(Robin Mills)
+	- 0000966:	svn_version.sh not executable
+				(Michael Pratt, Robin Mills)
+	- 0000974:	svn_version.h not installed, but included in installed version.hpp
+				(Jehan Pagès, Robin Mills)
+	- 0000976:	Include Run-Time Search Path for Cmake Builds in exiv2 binary
+				( Gilles Caulier, Nehal J Wani)
+	- 0000979:	Temporary File Rename Issue on Windows/MSVC
+				(Robin Mills)
+	- 0000983:	Fix Compiler Warnings when using GCC 4.8.1-4
+				(Nehal J Wani)
+	- 0000991:	Windows build broken (CMake+svn_version.sh)
+				(Daniel Kaneider, Robin Mills)
+	- 0000993:	Generating svn_version.h with CMake
+				(Daniel Kaneider, Robin Mills)
+	- 0000994:	CMake: wrong build rule for svn_version.h
+				(Jehan Pagès, Daniel Kaneider, Robin Mills)
+	- 0001007:	exiv2 0.24 Build error on blackfin arch
+				(Nicolas Serafini, Robin Mills)
+	- 0001012:	Avoid cyclic inclusion dependency between http.hpp and exiv2.hpp
+				(Thomas Beutlich, Robin Mills)
+	- 0001013:	Fix includes of futils.hpp
+				(Thomas Beutlich, Robin Mills)
+	- 0001014:	Duplicated header files
+				(Thomas Beutlich, Robin Mills)
+	- 0001015:	Avoid MSVC x64 compiler warning in futils.cpp
+				(Thomas Beutlich, Robin Mills)
+	- 0001016:	Duplicated header exv_msvc.h
+				(Thomas Beutlich, Robin Mills)
+	- 0001032:	CMake doesn't build svn_version.h anymore
+				(Daniel Kaneider, Robin Mills)
+	- 0001046:	Report the state of EXV_UNICODE_PATH in exiv2 -vV
+				(Robin Mills)
+	- 0001066:	Unable to build for Mac OSX 10.6
+				(Max Pozdeev, Robin Mills)
+
+* Video support related
+	- 0000858:	SVN repository download size
+				(Daniel Kaneider, Robin Mills)
+	- 0000936:	Video headers include internal include files and need to be added to exiv2.hpp
+				(Andreas Huggel, Robin Mills)
+	- 0000956:	Support for  .MTS movie format
+				(Abhinav Badola, Robin Mills)
+	- 0000960:	Problem With Exiv2 ( Video files)
+				(Henrique Fernandes, Abhinav Badola)
+	- 0000961:	Crash in digikam while reading metadata from a .MTS movie file
+				( Gilles Caulier, Robin Mills)
+	- 0000999:	Arithmetic exception in QuickTimeVideo::mediaHeaderDecoder
+				(Luca Carlon, Abhinav Badola)
+	- 0001017:	Arithmetic exception in QuickTimeVideo::mediaHeaderDecoder
+				(Mathieu Clabaut)
+	- 0001033:	webm with opus audio. Segmentation fault.
+				(Boris Bogar, Abhinav Badola)
+	- 0001069:	Make Video Code a build option
+				(Robin Mills)
+
+* Translations
+	- 0000950:	Typo in po/exiv2.pot, "Colort temperature" should be replaced by "Color temperature"
+				(Javier Lopez, Niels Kristian Bech Jensen)
+	- 0001003:	Typos in German translation
+				(Thomas Beutlich)
+	- 0001004:	Missing German translation
+				(Thomas Beutlich)
+	- 0001022:	Tag description typo
+				(Thomas Beutlich)
+	- 0001025:	Camera model names are defined as localized strings, causing automatic defaults to report incorrect names 
+				(Niels Kristian Bech Jensen, Thomas Schmidt)
+	- 0001029:	Fix common typos
+				(Thomas Beutlich, Robin Mills)
+	- 0001075:	Swedish translation of exiv2
+				(J A, Niels Kristian Bech Jensen)
+	- 0001085:	Typos in strings
+				(Anders Jonsson, Alan Pater)
+
+* Documentation and website
+	- 0000869:	Invalid links in XMP tag reference pages
+				(Alan Pater)
+	- 0000958:	Which video formats are supported by exiv 0.24?
+				(Mahesh Hegde, Abhinav Badola)
+	- 0000986:	Website: Invalid link to Exif spec
+				(Thomas Beutlich, Andreas Huggel)
+	- 0000987:	Strange wording of Exif.Photo.SensitivityType
+				(Thomas Beutlich, Robin Mills)
+	- 0001006:	Directory "test" missing from Exiv2 v0.24 tar/gunzip file
+				(Niels Kristian Bech Jensen, Robin Mills)
+	- 0001055:	Provide coding guideline on the project Wiki
+				(Robin Mills)
+
+
 Changes from version 0.23 to 0.24
 ---------------------------------
 
