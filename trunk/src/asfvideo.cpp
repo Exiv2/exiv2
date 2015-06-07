@@ -32,12 +32,8 @@ EXIV2_RCSID("@(#) $Id$")
 // *****************************************************************************
 // included header files
 #include "config.h"
-#ifndef    EXV_ENABLE_VIDEO
-namespace  Exiv2 {
-extern int asfvideo_extern;
-int        asfvideo_extern = 1;
-}
-#else
+
+#ifdef EXV_ENABLE_VIDEO
 #include "asfvideo.hpp"
 #include "futils.hpp"
 #include "basicio.hpp"
