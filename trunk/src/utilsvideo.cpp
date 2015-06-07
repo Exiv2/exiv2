@@ -28,7 +28,7 @@
  */
 // *****************************************************************************
 #include "rcsid_int.hpp"
-EXIV2_RCSID("@(#) $Id:$")
+EXIV2_RCSID("@(#) $Id: utilsvideo.cpp 3777 2015-05-02 11:55:40Z ahuggel $")
 
 #ifdef EXV_ENABLE_VIDEO
 #include "utilsvideo.hpp"
