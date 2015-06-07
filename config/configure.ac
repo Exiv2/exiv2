@@ -153,13 +153,15 @@ AC_MSG_RESULT($USE_XMP_TOOLKIT)
 
 AC_MSG_CHECKING([whether to compile with video support])
 AC_ARG_ENABLE(video,
-    [  --enable-video          compile with the ENABLE_VIDEO set ],
-    ENABLE_VIDEO=$enableval, ENABLE_VIDEO=no)
-AC_MSG_RESULT($ENABLE_VIDEO)
-AC_SUBST(ENABLE_VIDEO)
-if test "$enable_video" = "yes"; then
+    [  --enable-video          compile with video support ],
+    USE_VIDEO=$enableval, USE_VIDEO=no)
+AC_MSG_RESULT($USE_VIDEO)
+ENABLE_VIDEO=
+if test "$USE_VIDEO" = "yes"; then
+    ENABLE_VIDEO=1
     AC_DEFINE(ENABLE_VIDEO)
 fi
+AC_SUBST(ENABLE_VIDEO,$ENABLE_VIDEO)
 
 AC_MSG_CHECKING([whether to compile with webready support])
 AC_ARG_ENABLE(webready,
@@ -380,8 +382,8 @@ yes) echo "-- XMP metadata support........... YES" ;;
      echo "" ;;
 esac
 
-case "$ENABLE_VIDEO" in
-yes) echo "-- Video support.................. YES" ;;
+case "x$ENABLE_VIDEO" in
+x1)  echo "-- Video support.................. YES" ;;
 *)   echo "-- Video support.................. NO"
 esac
 

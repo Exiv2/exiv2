@@ -121,6 +121,10 @@ EXPAT_CPPFLAGS = @EXPAT_CPPFLAGS@
 EXPAT_LIBS = @EXPAT_LIBS@
 
 # **********************************************************************
+# Video support
+ENABLE_VIDEO = @ENABLE_VIDEO@
+
+# **********************************************************************
 # Libraries, include files, functions
 HAVE_LIBZ = @HAVE_LIBZ@
 HAVE_STDINT = @HAVE_STDINT@

@@ -66,8 +66,7 @@ CCHDR =  exiv2.hpp         \
          version.hpp
 
 # Add library C++ source files to this list
-CCSRC =  asfvideo.cpp          \
-	 basicio.cpp           \
+CCSRC =  basicio.cpp           \
 	 bmpimage.cpp          \
 	 canonmn.cpp           \
 	 casiomn.cpp           \
@@ -88,7 +87,6 @@ CCSRC =  asfvideo.cpp          \
 	 jp2image.cpp          \
 	 jpgimage.cpp          \
 	 makernote.cpp         \
-	 matroskavideo.cpp     \
 	 metadatum.cpp         \
 	 minoltamn.cpp         \
 	 mrwimage.cpp          \
@@ -105,9 +103,7 @@ endif
 CCSRC += preview.cpp           \
 	 properties.cpp        \
 	 psdimage.cpp          \
-	 quicktimevideo.cpp    \
 	 rafimage.cpp          \
-	 riffvideo.cpp         \
 	 rw2image.cpp          \
 	 samsungmn.cpp         \
 	 ssh.cpp               \
@@ -119,11 +115,17 @@ CCSRC += preview.cpp           \
 	 tiffimage.cpp         \
 	 tiffvisitor.cpp       \
 	 types.cpp             \
-	 utilsvideo.cpp        \
 	 value.cpp             \
 	 version.cpp           \
 	 xmp.cpp               \
 	 xmpsidecar.cpp
+ifdef ENABLE_VIDEO
+CCSRC += asfvideo.cpp          \
+	 matroskavideo.cpp     \
+	 quicktimevideo.cpp    \
+	 riffvideo.cpp         \
+	 utilsvideo.cpp
+endif
 
 # Add library C source files to this list
 ifndef HAVE_TIMEGM
