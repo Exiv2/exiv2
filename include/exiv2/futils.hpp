@@ -35,8 +35,6 @@
 #include "config.h"
 #include "types.hpp"
 
-#define UNUSED(x) (void)(x)
-
 #ifdef EXV_HAVE_STDINT_H
 # include <stdint.h>                     // for uint8_t
 #endif

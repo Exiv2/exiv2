@@ -446,7 +446,7 @@ namespace Exiv2 {
 
         return BasicIo::AutoPtr(new FileIo(path));
 
-        UNUSED(useCurl);
+        (void)(useCurl);
     } // ImageFactory::createIo
 
 #ifdef EXV_UNICODE_PATH

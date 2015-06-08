@@ -96,7 +96,7 @@ namespace Exiv2 {
     typedef std::pair<int32_t, int32_t> Rational;
 
     //! Type to express the byte order (little or big endian)
-    enum ByteOrder { invalidByteOrder, littleEndian, bigEndian,asciiBytes };
+    enum ByteOrder { invalidByteOrder, littleEndian, bigEndian };
 
     //! Type to indicate write method used by TIFF parsers
     enum WriteMethod { wmIntrusive, wmNonIntrusive };

@@ -58,6 +58,8 @@ char*    realpath(const char* file,char* path);
 #define _MAX_PATH 1024
 #endif
 
+#define UNUSED(x) (void)(x)
+
 // prototypes
 class Options;
 int getFileType(const char* path ,Options& options);
