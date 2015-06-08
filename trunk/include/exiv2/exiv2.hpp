@@ -68,6 +68,4 @@
 #include "xmp.hpp"
 #include "xmpsidecar.hpp"
 
-#include <vector>
-
 #endif                                  // #ifndef EXIV2_HPP_
