@@ -53,16 +53,22 @@ FOREACH(entry ${SAMPLES})
     ADD_EXECUTABLE( ${target} ${target}.cpp )
     ADD_TEST( ${target}_test ${target} )
     TARGET_LINK_LIBRARIES( ${target} exiv2lib )
+    #INSTALL( TARGETS ${target} ${INSTALL_TARGET_STANDARD_ARGS} )
 ENDFOREACH(entry ${SAMPLES})
 
 ###################################
 # metacopy/path-test sample applications require utils.cpp support
-SET( MC_SRC metacopy.cpp ../src/utils.cpp )
+IF( MSVC )
+    SET( PATHTEST_SRC      ${PATHTEST_SRC} ../src/getopt_win32.c )
+    SET( MC_SRC            ${MC_SRC}       ../src/getopt_win32.c )
+ENDIF( MSVC )
+
+SET( MC_SRC ${MC_SRC} metacopy.cpp ../src/utils.cpp )
 ADD_EXECUTABLE( metacopy ${MC_SRC} )
 TARGET_LINK_LIBRARIES( metacopy exiv2lib )
 INSTALL( TARGETS metacopy ${INSTALL_TARGET_STANDARD_ARGS} )
 
-SET( PATHTEST_SRC path-test.cpp ../src/utils.cpp )
+SET( PATHTEST_SRC ${PATHTEST_SRC}  path-test.cpp ../src/utils.cpp )
 ADD_EXECUTABLE( pathtest ${PATHTEST_SRC} )
 SET_TARGET_PROPERTIES( pathtest PROPERTIES OUTPUT_NAME path-test )
 TARGET_LINK_LIBRARIES( pathtest exiv2lib )
