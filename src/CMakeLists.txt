@@ -217,10 +217,8 @@ IF(NOT HAVE_TIMEGM )
 ENDIF( NOT HAVE_TIMEGM )
 
 IF( MSVC )
-    SET( MC_SRC           ${MC_SRC}       getopt_win32.c )
     SET( EXIV2_SRC        ${EXIV2_SRC}    getopt_win32.c )
     SET( LIBEXIV2_SRC     ${LIBEXIV2_SRC} getopt_win32.c )
-    SET( PATHTEST_SRC     ${PATHTEST_SRC} getopt_win32.c )
 ENDIF( MSVC )
 
 ##
@@ -294,50 +292,6 @@ IF (CYGWIN OR MINGW)
 ENDIF(CYGWIN OR MINGW)
 
 
-##
-# copy curl dlls to output directory (TODO: rewrite for NMake)
-IF ( MSVC AND EXIV2_ENABLE_CURL )
-    get_filename_component(CURL_LIBRARY_DIR ${CURL_LIBRARY} PATH)
-    string(REGEX REPLACE "/" "\\\\" CURL_LIBRARY_DIR ${CURL_LIBRARY_DIR})
-    ADD_CUSTOM_COMMAND(
-      TARGET exiv2lib
-      POST_BUILD
-      COMMAND copy /y ${CURL_LIBRARY_DIR}\\*.dll $(SolutionDir)\\bin\\${P_DIR}\\${T_DIR}\\$(ConfigurationName)
-    )
-ENDIF()
-INSTALL( TARGETS exiv2lib ${INSTALL_TARGET_STANDARD_ARGS} )
-
-##
-# copy libssh dlls to output directory (TODO: rewrite for NMake)
-IF ( MSVC AND EXIV2_ENABLE_SSH )
-    get_filename_component(SSH_LIBRARY_DIR ${SSH_LIBRARY} PATH)
-    string(REGEX REPLACE "/" "\\\\" SSH_LIBRARY_DIR ${SSH_LIBRARY_DIR})
-    ADD_CUSTOM_COMMAND(
-      TARGET exiv2lib
-      POST_BUILD
-      COMMAND copy /y ${SSH_LIBRARY_DIR}\\*.dll $(SolutionDir)\\bin\\${P_DIR}\\${T_DIR}\\$(ConfigurationName)
-    )
-ENDIF()
-INSTALL( TARGETS exiv2lib ${INSTALL_TARGET_STANDARD_ARGS} )
-
-##
-# copy zlib and expat dlls to output directory (TODO: rewrite for NMake)
-IF ( MSVC AND EXIV2_ENABLE_SHARED )
-    get_filename_component(EXPAT_LIBRARY_DIR ${EXPAT_LIBRARY} PATH)
-    string(REGEX REPLACE "/" "\\\\" EXPAT_LIBRARY_DIR ${EXPAT_LIBRARY_DIR})
-    get_filename_component(ZLIB_LIBRARY_DIR ${ZLIB_LIBRARY} PATH)
-    string(REGEX REPLACE "/" "\\\\" ZLIB_LIBRARY_DIR ${ZLIB_LIBRARY_DIR})
-    ADD_CUSTOM_COMMAND(
-      TARGET exiv2lib
-      POST_BUILD
-      COMMAND copy /y ${EXPAT_LIBRARY_DIR}\\*.dll $(SolutionDir)\\bin\\${P_DIR}\\${T_DIR}\\$(ConfigurationName)
-    )
-    ADD_CUSTOM_COMMAND(
-      TARGET exiv2lib
-      POST_BUILD
-      COMMAND copy /y ${ZLIB_LIBRARY_DIR}\\*.dll $(SolutionDir)\\bin\\${P_DIR}\\${T_DIR}\\$(ConfigurationName)
-    )
-ENDIF()
 INSTALL( TARGETS exiv2lib ${INSTALL_TARGET_STANDARD_ARGS} )
 
 # ******************************************************************************
