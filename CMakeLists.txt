@@ -99,7 +99,7 @@ if( MSVC )
         include_directories( ${EXPAT_INCLUDE_DIR} msvc64\\include src\\include)
     endif()
 
-    # FIND_PACKAGE(CURL)
+    FIND_PACKAGE(CURL)
     if ( NOT CURL_FOUND )
         set(CURL_LIBRARY       ${CMAKE_SOURCE_DIR}/../${C}/$(ConfigurationName)/curl)
         set(CURL_INCLUDE_DIR   ${CMAKE_SOURCE_DIR}/../${C})

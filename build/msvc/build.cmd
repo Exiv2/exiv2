@@ -9,6 +9,9 @@ REM ---------------------------------------------------
 rem  https://github.com/madler/zlib/commits
 SET ZLIB_COMMIT_LONG=50893291621658f355bc5b4d450a8d06a563053d
 
+rem https://github.com/bagder/curl
+SET CURL_COMMIT_LONG=dd39a671019d713bd077be9eed511c2dc6013598
+
 ml64.exe > NUL
 IF ERRORLEVEL 1 (
 	set Platform=Win32
@@ -97,6 +100,7 @@ IF NOT EXIST %INSTALL_DIR% (
 )
 
 
+
 SET ZLIB_COMMIT=%ZLIB_COMMIT_LONG:~0,7%
 IF NOT EXIST %TEMP_DIR%\zlib-%ZLIB_COMMIT%.zip (
 	%CYGWIN_DIR%\bin\wget.exe -O %TEMP_DIR%/zlib-%ZLIB_COMMIT%.zip --no-check-certificate http://github.com/madler/zlib/zipball/%ZLIB_COMMIT_LONG%
@@ -142,10 +146,38 @@ IF NOT EXIST expat-2.1.0.build (
 	popd
 )
 
+
+
+
+SET CURL_COMMIT=%CURL_COMMIT_LONG:~0,7%
+IF NOT EXIST %TEMP_DIR%\curl-%CURL_COMMIT%.zip (
+	%CYGWIN_DIR%\bin\wget.exe -O %TEMP_DIR%/curl-%CURL_COMMIT%.zip --no-check-certificate http://github.com/bagder/curl/zipball/%CURL_COMMIT_LONG%
+)
+
+IF NOT EXIST curl-%CURL_COMMIT% (
+	%CYGWIN_DIR%\bin\unzip.exe -q %TEMP_DIR%/curl-%CURL_COMMIT%.zip
+	%CYGWIN_DIR%\bin\mv.exe bagder-curl-* curl-%CURL_COMMIT%
+)
+
+IF NOT EXIST curl-%CURL_COMMIT%.build (
+    mkdir curl-%CURL_COMMIT%.build
+    
+    pushd curl-%CURL_COMMIT%.build
+	%CMAKE_DIR%\bin\cmake.exe -G "%VS_CMAKE%" -DCMAKE_INSTALL_PREFIX=..\%INSTALL_DIR% -DBUILD_CURL_TESTS=OFF -DCMAKE_USE_OPENSSL=OFF -DCMAKE_USE_LIBSSH2=OFF ..\curl-%CURL_COMMIT%
+	IF errorlevel 1 goto error_end
+	%CMAKE_DIR%\bin\cmake.exe --build . --config %Configuration%
+	IF errorlevel 1 goto error_end
+	%CMAKE_DIR%\bin\cmake.exe --build . --config %Configuration% --target install
+	IF errorlevel 1 goto error_end
+    
+    popd
+)
+
+
 IF NOT EXIST exiv2-trunk (
     %CYGWIN_DIR%\bin\svn.exe co svn://dev.exiv2.org/svn/trunk exiv2-trunk
 ) ELSE (
-    %CYGWIN_DIR%\bin\svn.exe update exiv2-trunk
+REM    %CYGWIN_DIR%\bin\svn.exe update exiv2-trunk
 )
 
 IF NOT EXIST exiv2-trunk.build (
@@ -154,7 +186,7 @@ IF NOT EXIST exiv2-trunk.build (
     
 pushd exiv2-trunk.build
 
-%CMAKE_DIR%\bin\cmake.exe -G "%VS_CMAKE%" -DCMAKE_INSTALL_PREFIX=..\%INSTALL_DIR% -DCMAKE_PROGRAM_PATH=%SVN_DIR% -DEXIV2_ENABLE_BUILD_SAMPLES=ON -DEXIV2_ENABLE_CURL=OFF -DEXIV2_ENABLE_SSH=OFF ..\exiv2-trunk
+%CMAKE_DIR%\bin\cmake.exe -G "%VS_CMAKE%" -DCMAKE_INSTALL_PREFIX=..\%INSTALL_DIR% -DCMAKE_PROGRAM_PATH=%SVN_DIR% -DEXIV2_ENABLE_WEBREADY=ON -DEXIV2_ENABLE_BUILD_SAMPLES=ON -DEXIV2_ENABLE_CURL=ON -DEXIV2_ENABLE_SSH=OFF ..\exiv2-trunk
 
 IF errorlevel 1 goto error_end
 
