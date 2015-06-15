@@ -1380,7 +1380,7 @@ namespace Exiv2 {
 
     }
 
-#if XPATH_MEMIO
+#if EXV_XPATH_MEMIO
     XPathIo::XPathIo(const std::string& path) {
         Protocol prot = fileProtocol(path);
 
