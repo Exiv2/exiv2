@@ -29,9 +29,10 @@
 #ifndef BASICIO_HPP_
 #define BASICIO_HPP_
 
-// The way to handle data from stdin or data uri path. If XPATH_MEMIO = 1, it uses MemIo. Otherwises, it uses FileIo.
-#ifndef XPATH_MEMIO
-#define XPATH_MEMIO 0
+// The way to handle data from stdin or data uri path. If EXV_XPATH_MEMIO = 1,
+// it uses MemIo. Otherwises, it uses FileIo.
+#ifndef EXV_XPATH_MEMIO
+#define EXV_XPATH_MEMIO 0
 #endif
 
 // *****************************************************************************
@@ -760,7 +761,7 @@ namespace Exiv2 {
     /*!
       @brief Provides binary IO for the data from stdin and data uri path.
      */
-#if XPATH_MEMIO
+#if EXV_XPATH_MEMIO
     class EXIV2API XPathIo : public MemIo {
     public:
         //! @name Creators
