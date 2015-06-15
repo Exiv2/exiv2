@@ -51,7 +51,7 @@ typedef std::vector<std::string> exv_grep_keys_t ;
 /*!
   @brief %Exiv2 MINOR version number of the library used at compile-time.
  */
-#define EXIV2_MINOR_VERSION (24)
+#define EXIV2_MINOR_VERSION (25)
 /*!
   @brief %Exiv2 PATCH version number of the library used at compile-time.
  */
@@ -129,7 +129,7 @@ namespace Exiv2 {
     */
     EXIV2API int versionNumber();
     /*!
-      @brief Return the version string Example: "0.24.0" (major.minor.patch)
+      @brief Return the version string Example: "0.25.0" (major.minor.patch)
     */
     EXIV2API std::string versionString();
     /*!

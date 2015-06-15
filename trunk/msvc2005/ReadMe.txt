@@ -430,7 +430,7 @@ T A B L E  o f  C O N T E N T S
      You can inspect build information using exiv2 -v -V (verbose version):
 
      C:\cygwin64\home\rmills\gnu\exiv2\video-write\msvc2005\bin\x64\releasedll>exiv2 -v -V
-     exiv2 0.24 001800 (64 bit build)
+     exiv2 0.25 001900 (64 bit build)
      Copyright (C) 2004-2015 Andreas Huggel.
 
      This program is free software; you can redistribute it and/or
@@ -447,7 +447,7 @@ T A B L E  o f  C O N T E N T S
      License along with this program; if not, write to the Free
      Software Foundation, Inc., 51 Franklin Street, Fifth Floor,
      Boston, MA 02110-1301 USA
-     exiv2=0.24.0
+     exiv2=0.25.0
      platform=windows
      compiler=MSVC
      bits=64
