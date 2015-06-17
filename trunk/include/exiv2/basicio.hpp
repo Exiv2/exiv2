@@ -35,6 +35,10 @@
 #define EXV_XPATH_MEMIO 0
 #endif
 
+#ifndef EXV_USE_CURL
+#define EXV_USE_CURL 0
+#endif
+
 // *****************************************************************************
 // included header files
 #include "types.hpp"
@@ -47,6 +51,7 @@
 #include <fcntl.h>      // _O_BINARY in FileIo::FileIo
 #include <ctime>        // timestamp for the name of temporary file
 #include <cstring>      // std::memcpy
+
 // *****************************************************************************
 // namespace extensions
 namespace Exiv2 {
@@ -1141,7 +1146,6 @@ namespace Exiv2 {
         virtual ~HttpIo(){}
         //@}
     };
-
 
 #if EXV_USE_CURL == 1
     /*!

@@ -13,7 +13,10 @@ namespace Exiv2 {
 
 }
 
-#if EXV_USE_CURL
+#ifndef EXV_USE_CURL
+#define EXV_USE_CURL 0
+#endif
+#if EXV_USE_CURL == 1
 #include <curl/curl.h>
 #endif
 
