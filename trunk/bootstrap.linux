@@ -8,11 +8,11 @@
 # We will work on command line using GNU Make
 export MAKEFILES_TYPE='Unix Makefiles'
 
-if [ ! -d "build" ]; then
-    mkdir build
+if [ ! -d "build.cmake" ]; then
+    mkdir build.cmake
 fi
 
-cd build
+cd build.cmake
 
 cmake -G "$MAKEFILES_TYPE" . \
       -DCMAKE_BUILD_TYPE=debugfull \
