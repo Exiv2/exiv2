@@ -58,7 +58,9 @@
 #include "psdimage.hpp"
 #include "rafimage.hpp"
 #include "rw2image.hpp"
+#if EXV_USE_SSH == 1
 #include "ssh.hpp"
+#endif
 #include "tags.hpp"
 #include "tgaimage.hpp"
 #include "tiffimage.hpp"

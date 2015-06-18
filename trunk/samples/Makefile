@@ -107,7 +107,7 @@ LDFLAGS := `pkg-config exiv2 --libs`
 BINOBJ = $(BINSRC:.cpp=.o)
 BINARY = $(BINSRC:.cpp=)
 
-OTHEROBJ = $(OTHERSRC:.cpp=.o)
+OTHEROBJ = $(OTHERSRC:.cpp=.o) Jzon.o
 OTHERBIN = $(OTHERSRC:.cpp=)
 
 EXECUTABLE = $(BINSRC:%.cpp=../bin/%$(EXEEXT)) $(OTHERSRC:%.cpp=../bin/%$(EXEEXT))
@@ -118,6 +118,11 @@ endif
 
 PREFIX = /usr/local/lib
 LINK.cc += -rpath $(PREFIX) -L$(PREFIX)
+
+# TODO: This should really not be here. We should use the installed headers
+# to build the samples. Some errors only show up in this scenario, e.g., errors
+# due to missing headers which are not installed (depending on compile-time
+# settings) but may be wrongly included from other headers.
 COMPILE.cc += -I$(top_srcdir)/include/exiv2
 
 # ******************************************************************************
@@ -163,7 +168,7 @@ geotag: %: %.cpp
 
 # link applications which require utils.cpp support
 metacopy path-test: %: %.cpp ../src/utils.o
-	$(COMPILE.cc) -I../src -o $@.o $<
+	$(COMPILE.cc) -I../src -I../include/exiv2 -o $@.o $<
 	@$(MAKEDEPEND)
 	@$(POSTDEPEND)
 	$(LIBTOOL) --mode=link $(LINK.cc) $@.o ../src/utils.o -o ../bin/$@

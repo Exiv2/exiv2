@@ -29,16 +29,6 @@
 #ifndef BASICIO_HPP_
 #define BASICIO_HPP_
 
-// The way to handle data from stdin or data uri path. If EXV_XPATH_MEMIO = 1,
-// it uses MemIo. Otherwises, it uses FileIo.
-#ifndef EXV_XPATH_MEMIO
-#define EXV_XPATH_MEMIO 0
-#endif
-
-#ifndef EXV_USE_CURL
-#define EXV_USE_CURL 0
-#endif
-
 // *****************************************************************************
 // included header files
 #include "types.hpp"
@@ -51,6 +41,18 @@
 #include <fcntl.h>      // _O_BINARY in FileIo::FileIo
 #include <ctime>        // timestamp for the name of temporary file
 #include <cstring>      // std::memcpy
+
+// The way to handle data from stdin or data uri path. If EXV_XPATH_MEMIO = 1,
+// it uses MemIo. Otherwises, it uses FileIo.
+#ifndef EXV_XPATH_MEMIO
+#define EXV_XPATH_MEMIO 0
+#endif
+#ifndef EXV_USE_CURL
+#define EXV_USE_CURL 0
+#endif
+#ifndef EXV_USE_SSH
+#define EXV_USE_SSH 0
+#endif
 
 // *****************************************************************************
 // namespace extensions
