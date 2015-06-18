@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Exiv2\n"
 "Report-Msgid-Bugs-To: ahuggel@gmx.net\n"
-"POT-Creation-Date: 2015-05-23 11:32+0200\n"
+"POT-Creation-Date: 2015-06-18 18:40+0800\n"
 "PO-Revision-Date: 2009-04-12 16:06+0000\n"
 "Last-Translator: Mikael Lammentausta\n"
 "Language-Team:  <fi@li.org>\n"
@@ -20537,8 +20537,8 @@ msgstr "Resoluutioyksikkö"
 
 #: src/properties.cpp:1479
 msgid ""
-"The name (or acronym) in use by the institution having custody of the "
-"object(s) or information referred to in the record."
+"The name (or acronym) in use by the institution having custody of the object"
+"(s) or information referred to in the record."
 msgstr ""
 
 #: src/properties.cpp:1481
@@ -22008,8 +22008,8 @@ msgstr "Linssin ominaisuudet"
 #: src/properties.cpp:1914
 msgid ""
 "The date on which the subject was identified as representing the Taxon. "
-"Recommended best practice is to use an encoding scheme, such as ISO "
-"8601:2004(E)."
+"Recommended best practice is to use an encoding scheme, such as ISO 8601:2004"
+"(E)."
 msgstr ""
 
 #: src/properties.cpp:1916
@@ -26703,19 +26703,18 @@ msgstr "Tuntematon"
 msgid "Digital zoom not used"
 msgstr ""
 
-#: src/tiffimage.cpp:2309
+#: src/tiffimage.cpp:2308
 msgid "TIFF header, offset"
 msgstr ""
 
-#: src/tiffimage.cpp:2314
+#: src/tiffimage.cpp:2313
 msgid "little endian encoded"
 msgstr ""
 
-#: src/tiffimage.cpp:2315
+#: src/tiffimage.cpp:2314
 msgid "big endian encoded"
 msgstr ""
 
-#: src/tiffimage.cpp:2316
 #, fuzzy
-msgid "ascii bytes"
-msgstr "tavua"
+#~ msgid "ascii bytes"
+#~ msgstr "tavua"

@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Exiv2\n"
 "Report-Msgid-Bugs-To: ahuggel@gmx.net\n"
-"POT-Creation-Date: 2015-05-23 11:32+0200\n"
+"POT-Creation-Date: 2015-06-18 18:40+0800\n"
 "PO-Revision-Date: 2015-05-10 14:00-0500\n"
 "Last-Translator: Alan Pater <alan.pater@gmail.com>\n"
 "Language-Team: Spanish <es@li.org>\n"
@@ -2584,11 +2584,11 @@ msgid ""
 "and \"8\" the least urgent copy. The numeral \"9\" indicates a User Defined "
 "Priority. The numeral \"0\" is reserved for future use."
 msgstr ""
-"No especifica la urgencia editorial (para eso véase la etiqueta "
-"<Urgency>)sino la prioridad de manejo de los sobres. \"1\" indica el más "
-"urgente, \"5\" urgencia normal y \"8\" las copias menos urgentes. El \"9\" "
-"permite al usuario definir una prioridad personalizada. El \"0\" está "
-"reservado para usos futuros."
+"No especifica la urgencia editorial (para eso véase la etiqueta <Urgency>)"
+"sino la prioridad de manejo de los sobres. \"1\" indica el más urgente, "
+"\"5\" urgencia normal y \"8\" las copias menos urgentes. El \"9\" permite al "
+"usuario definir una prioridad personalizada. El \"0\" está reservado para "
+"usos futuros."
 
 #: src/datasets.cpp:129
 msgid "Date Sent"
@@ -3821,8 +3821,8 @@ msgstr ""
 msgid ""
 "   -Q lvl  Set log-level to d(ebug), i(nfo), w(arning), e(rror) or m(ute).\n"
 msgstr ""
-"   -Q lvl  Configurar nivel-registro para d(ebug), i(nfo), w(arning), "
-"e(rror) or m(ute).\n"
+"   -Q lvl  Configurar nivel-registro para d(ebug), i(nfo), w(arning), e"
+"(rror) or m(ute).\n"
 
 #: src/exiv2.cpp:268
 msgid "   -b      Show large binary values.\n"
@@ -19886,8 +19886,8 @@ msgstr "Código de la institución"
 
 #: src/properties.cpp:1479
 msgid ""
-"The name (or acronym) in use by the institution having custody of the "
-"object(s) or information referred to in the record."
+"The name (or acronym) in use by the institution having custody of the object"
+"(s) or information referred to in the record."
 msgstr ""
 "El nombre (o acrónimo) en uso por la institución que tenga la custodia del "
 "espécimen o información mencionada en el registro."
@@ -21616,8 +21616,8 @@ msgstr "Fecha de la identificación"
 #: src/properties.cpp:1914
 msgid ""
 "The date on which the subject was identified as representing the Taxon. "
-"Recommended best practice is to use an encoding scheme, such as ISO "
-"8601:2004(E)."
+"Recommended best practice is to use an encoding scheme, such as ISO 8601:2004"
+"(E)."
 msgstr ""
 "La fecha en que fue identificada la entidad biológica como representativa "
 "del taxón. Se recomienda utilizar un esquema de codificación, como la norma "
@@ -27041,18 +27041,17 @@ msgstr "Etiqueta desconocida"
 msgid "Digital zoom not used"
 msgstr "Zoom digital no usado"
 
-#: src/tiffimage.cpp:2309
+#: src/tiffimage.cpp:2308
 msgid "TIFF header, offset"
 msgstr "Cabecera TIFF, posición"
 
-#: src/tiffimage.cpp:2314
+#: src/tiffimage.cpp:2313
 msgid "little endian encoded"
 msgstr "codificado little endian"
 
-#: src/tiffimage.cpp:2315
+#: src/tiffimage.cpp:2314
 msgid "big endian encoded"
 msgstr "codificado big endian"
 
-#: src/tiffimage.cpp:2316
-msgid "ascii bytes"
-msgstr "bytes ascii"
+#~ msgid "ascii bytes"
+#~ msgstr "bytes ascii"

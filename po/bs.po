@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: exiv2\n"
 "Report-Msgid-Bugs-To: ahuggel@gmx.net\n"
-"POT-Creation-Date: 2015-05-23 11:32+0200\n"
+"POT-Creation-Date: 2015-06-18 18:40+0800\n"
 "PO-Revision-Date: 2015-04-13 21:19+0000\n"
 "Last-Translator: Samir Ribić <Unknown>\n"
 "Language-Team: Bosnian <bs@li.org>\n"
@@ -2511,8 +2511,8 @@ msgstr ""
 "Binarni broj  predstavlja format datoteke.Format datoteke mora biti "
 "registriran s IPTC ili NAA s jedinstvenim brojem dodijeljenim na njega."
 "Informacije se koriste za usmjeravanje podataka k odgovarajućih sistema kako "
-"bi se omogućilo prijemnom sistemu da bi  obavljanjao odgovarajuće "
-"zadatke(akcije) tamo gdje su zadate."
+"bi se omogućilo prijemnom sistemu da bi  obavljanjao odgovarajuće zadatke"
+"(akcije) tamo gdje su zadate."
 
 #: src/datasets.cpp:101
 msgid "File Version"
@@ -20305,8 +20305,8 @@ msgstr "Režim rezolucije"
 
 #: src/properties.cpp:1479
 msgid ""
-"The name (or acronym) in use by the institution having custody of the "
-"object(s) or information referred to in the record."
+"The name (or acronym) in use by the institution having custody of the object"
+"(s) or information referred to in the record."
 msgstr ""
 
 #: src/properties.cpp:1481
@@ -21809,8 +21809,8 @@ msgstr "Identifikator"
 #: src/properties.cpp:1914
 msgid ""
 "The date on which the subject was identified as representing the Taxon. "
-"Recommended best practice is to use an encoding scheme, such as ISO "
-"8601:2004(E)."
+"Recommended best practice is to use an encoding scheme, such as ISO 8601:2004"
+"(E)."
 msgstr ""
 
 #: src/properties.cpp:1916
@@ -24519,8 +24519,8 @@ msgid ""
 "Unit of measurement for FocalPlaneXResolution(37390) and "
 "FocalPlaneYResolution(37391)."
 msgstr ""
-"Jedinica mjere za FocalPlaneXResolution(37390) i "
-"FocalPlaneYResolution(37391)."
+"Jedinica mjere za FocalPlaneXResolution(37390) i FocalPlaneYResolution"
+"(37391)."
 
 #: src/tags.cpp:842
 msgid "Number assigned to an image, e.g., in a chained image burst."
@@ -25325,8 +25325,8 @@ msgstr ""
 "odredjuje matricu koja bi trebala biti dodana kordinatama boja kamere prije "
 "procesuiranja vrijednosti kroz ICC profil odredjen. AsShotICCProfile "
 "oznakom. Matrica je pohranjena u po pravilu skeniranja  reda.  Ako je "
-"ColorPlanes veci od tri, onda se dimenzije podataka o bojama matrice "
-"mogu(ali nije potrebno) smanjiti na tri, u tom slucaju AsShotICCProfile bi "
+"ColorPlanes veci od tri, onda se dimenzije podataka o bojama matrice mogu"
+"(ali nije potrebno) smanjiti na tri, u tom slucaju AsShotICCProfile bi "
 "trebao imati tri umjesto ColorPlanes ulaznih komponenti."
 
 #: src/tags.cpp:1198
@@ -27011,19 +27011,18 @@ msgstr "Nepoznata oznaka"
 msgid "Digital zoom not used"
 msgstr "Digitalni zoom nije korišten"
 
-#: src/tiffimage.cpp:2309
+#: src/tiffimage.cpp:2308
 msgid "TIFF header, offset"
 msgstr "TIFF zaglavlje, offset"
 
-#: src/tiffimage.cpp:2314
+#: src/tiffimage.cpp:2313
 msgid "little endian encoded"
 msgstr "little endian kodiranje"
 
-#: src/tiffimage.cpp:2315
+#: src/tiffimage.cpp:2314
 msgid "big endian encoded"
 msgstr "big endian kodiranje"
 
-#: src/tiffimage.cpp:2316
 #, fuzzy
-msgid "ascii bytes"
-msgstr "bajta"
+#~ msgid "ascii bytes"
+#~ msgstr "bajta"

@@ -12,7 +12,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: de\n"
 "Report-Msgid-Bugs-To: ahuggel@gmx.net\n"
-"POT-Creation-Date: 2015-05-23 11:32+0200\n"
+"POT-Creation-Date: 2015-06-18 18:40+0800\n"
 "PO-Revision-Date: 2008-11-16 21:57+0100\n"
 "Last-Translator: Oliver Dörr <kde@doerr-privat.de>\n"
 "Language-Team: german <kde-i18n-de@kde.org>\n"
@@ -3917,8 +3917,8 @@ msgstr ""
 msgid ""
 "   -Q lvl  Set log-level to d(ebug), i(nfo), w(arning), e(rror) or m(ute).\n"
 msgstr ""
-"   -Q lvl  Setzt das Log-Level zu d(ebug), i(nfo), w(arning), e(rror) oder "
-"m(ute).\n"
+"   -Q lvl  Setzt das Log-Level zu d(ebug), i(nfo), w(arning), e(rror) oder m"
+"(ute).\n"
 
 #: src/exiv2.cpp:268
 msgid "   -b      Show large binary values.\n"
@@ -21316,8 +21316,8 @@ msgstr "Auflösungsmodus"
 
 #: src/properties.cpp:1479
 msgid ""
-"The name (or acronym) in use by the institution having custody of the "
-"object(s) or information referred to in the record."
+"The name (or acronym) in use by the institution having custody of the object"
+"(s) or information referred to in the record."
 msgstr ""
 
 #: src/properties.cpp:1481
@@ -22817,8 +22817,8 @@ msgstr "Identifizierer"
 #: src/properties.cpp:1914
 msgid ""
 "The date on which the subject was identified as representing the Taxon. "
-"Recommended best practice is to use an encoding scheme, such as ISO "
-"8601:2004(E)."
+"Recommended best practice is to use an encoding scheme, such as ISO 8601:2004"
+"(E)."
 msgstr ""
 
 #: src/properties.cpp:1916
@@ -27922,19 +27922,18 @@ msgstr "Unbekanntes Feld"
 msgid "Digital zoom not used"
 msgstr "Digital Zoom wurde nicht benutzt"
 
-#: src/tiffimage.cpp:2309
+#: src/tiffimage.cpp:2308
 msgid "TIFF header, offset"
 msgstr "TIFF-Header, offset"
 
-#: src/tiffimage.cpp:2314
+#: src/tiffimage.cpp:2313
 msgid "little endian encoded"
 msgstr "\"Little-Endian\" kodiert"
 
-#: src/tiffimage.cpp:2315
+#: src/tiffimage.cpp:2314
 msgid "big endian encoded"
 msgstr "\"Big Endian\" kodiert"
 
-#: src/tiffimage.cpp:2316
 #, fuzzy
-msgid "ascii bytes"
-msgstr "Bytes"
+#~ msgid "ascii bytes"
+#~ msgstr "Bytes"
