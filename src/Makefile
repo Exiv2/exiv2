@@ -105,9 +105,11 @@ CCSRC += preview.cpp           \
 	 psdimage.cpp          \
 	 rafimage.cpp          \
 	 rw2image.cpp          \
-	 samsungmn.cpp         \
-	 ssh.cpp               \
-	 sigmamn.cpp           \
+	 samsungmn.cpp
+ifdef USE_SSH
+CCSRC += ssh.cpp
+endif
+CCSRC += sigmamn.cpp           \
 	 sonymn.cpp            \
 	 tags.cpp              \
 	 tgaimage.cpp          \

@@ -31,9 +31,11 @@
 
 // *********************************************************************
 // included header files
+#include "futils.hpp"
+
 // + standard includes
 #include <string>
-#include <futils.hpp>
+
 // *********************************************************************
 // namespace extensions
 /*!

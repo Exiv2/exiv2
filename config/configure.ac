@@ -234,7 +234,7 @@ if test "$enable_webready" = "yes"; then
         SSH_LIBS=
         AC_CHECK_HEADERS(libssh/libssh.h,
             AC_CHECK_LIB(ssh, ssh_new,[
-                USE_SSH=yes
+                USE_SSH=1
                 AC_DEFINE([USE_SSH], [1], [Use libssh library])
                 SSH_LIBS="-lssh"
                 if test "x${SSH_DIR}" != "x"; then
@@ -248,6 +248,7 @@ if test "$enable_webready" = "yes"; then
         AC_SUBST(SSH_LDFLAGS)
         AC_SUBST(SSH_LIBS)
     fi
+    AC_SUBST(USE_SSH,$USE_SSH)
     CPPFLAGS=${_cppflags}
     LDFLAGS=${_ldflags}
 fi
@@ -405,8 +406,8 @@ yes) echo "-- Using Lib Curl................. YES" ;;
      echo "" ;;
 esac
 
-case "$USE_SSH" in
-yes) echo "-- Using Lib SSH.................. YES" ;;
+case "x$USE_SSH" in
+x1)  echo "-- Using Lib SSH.................. YES" ;;
 *)   echo "-- Using Lib SSH.................. NO"
      echo ""
      echo "Libssh is required for SshIo in basicIo.cpp. Make sure the libssh header"
