@@ -1,6 +1,6 @@
 #!/bin/sh
 
-# Copyright (c) 2013, Gilles Caulier, <caulier dot gilles at gmail dot com>
+# Copyright (c) 2013-2015, Gilles Caulier, <caulier dot gilles at gmail dot com>
 #
 # Redistribution and use is allowed according to the terms of the BSD license.
 # For details see the accompanying COPYING-CMAKE-SCRIPTS file.
@@ -17,19 +17,26 @@
 cd ..
 
 # Manage build sub-dir
-if [ -d "build" ]; then
-    rm -rfv ./build
+if [ -d "build.cmake" ]; then
+    rm -rfv ./build.cmake
 fi
 
-./bootstrap.linux
+if [[ "$OSTYPE" == "linux-gnu" ]]; then
+    ./bootstrap.linux
+elif [[ "$OSTYPE" == "darwin"* ]]; then
+    ./bootstrap.macports
+else
+    echo "Unsupported platform..."
+    exit -1
+fi
 
 # Get active svn branch path to create SCAN import description string
-svn info | grep "URL" | sed '/svn/{s/.*\(svn.*\)/\1/};' > ./build/svn_branch.txt
-desc=$(<build/svn_branch.txt)
+svn info | grep "URL" | sed '/svn/{s/.*\(svn.*\)/\1/};' > ./build.cmake/svn_branch.txt
+desc=$(<build.cmake/svn_branch.txt)
 
-cd ./build
+cd ./build.cmake
 
-cov-build --dir cov-int --tmpdir ~/tmp make
+cov-build --dir cov-int --tmpdir ~/tmp make -j8
 tar czvf myproject.tgz cov-int
 
 echo "-- SCAN Import description --"
@@ -42,13 +49,12 @@ nslookup scan5.coverity.com
 SECONDS=0
 
 curl -# \
-     --form project=Exiv2 \
      --form token=$EXIVCoverityToken \
      --form email=$EXIVCoverityEmail \
      --form file=@myproject.tgz \
      --form version=svn-trunk \
      --form description="$desc" \
-     http://scan5.coverity.com/cgi-bin/upload.py \
+     https://scan.coverity.com/builds?project=Exiv2 \
      > /dev/null
 
 echo "Done. Coverity Scan tarball 'myproject.tgz' is uploaded and ready for analyse."
