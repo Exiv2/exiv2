@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: exiv2\n"
 "Report-Msgid-Bugs-To: ahuggel@gmx.net\n"
-"POT-Creation-Date: 2015-05-23 11:32+0200\n"
+"POT-Creation-Date: 2015-06-18 18:40+0800\n"
 "PO-Revision-Date: 2014-07-30 18:51+0000\n"
 "Last-Translator: abuyop <Unknown>\n"
 "Language-Team: malay loco team\n"
@@ -3768,8 +3768,8 @@ msgstr "   -q      Amaran dan mesej senyap semasa program berjalan (quiet).\n"
 msgid ""
 "   -Q lvl  Set log-level to d(ebug), i(nfo), w(arning), e(rror) or m(ute).\n"
 msgstr ""
-"   -Q lvl Tetapkan log-level ke d(ebug), i(nfo), w(arning), e(rror) atau "
-"m(ute).\n"
+"   -Q lvl Tetapkan log-level ke d(ebug), i(nfo), w(arning), e(rror) atau m"
+"(ute).\n"
 
 #: src/exiv2.cpp:268
 msgid "   -b      Show large binary values.\n"
@@ -18532,8 +18532,8 @@ msgid ""
 "Peak rate at which data is presented in a video (Expressed in kB/s(kiloBytes "
 "per Second))"
 msgstr ""
-"Kadar puncak yang mana data dipersembah dalam video (Diungkap dalam kB/"
-"s(Kilobait se Saat))"
+"Kadar puncak yang mana data dipersembah dalam video (Diungkap dalam kB/s"
+"(Kilobait se Saat))"
 
 #: src/properties.cpp:1214 src/properties.cpp:1417
 msgid "Media Track Create Date"
@@ -20107,8 +20107,8 @@ msgstr "Mod Resolusi"
 
 #: src/properties.cpp:1479
 msgid ""
-"The name (or acronym) in use by the institution having custody of the "
-"object(s) or information referred to in the record."
+"The name (or acronym) in use by the institution having custody of the object"
+"(s) or information referred to in the record."
 msgstr ""
 
 #: src/properties.cpp:1481
@@ -21617,8 +21617,8 @@ msgstr "Pengenalpasti:"
 #: src/properties.cpp:1914
 msgid ""
 "The date on which the subject was identified as representing the Taxon. "
-"Recommended best practice is to use an encoding scheme, such as ISO "
-"8601:2004(E)."
+"Recommended best practice is to use an encoding scheme, such as ISO 8601:2004"
+"(E)."
 msgstr ""
 
 #: src/properties.cpp:1916
@@ -24318,8 +24318,8 @@ msgid ""
 "Unit of measurement for FocalPlaneXResolution(37390) and "
 "FocalPlaneYResolution(37391)."
 msgstr ""
-"Unit pengukuran untuk FocalPlaneXResolution(37390) dan "
-"FocalPlaneYResolution(37391)."
+"Unit pengukuran untuk FocalPlaneXResolution(37390) dan FocalPlaneYResolution"
+"(37391)."
 
 #: src/tags.cpp:842
 msgid "Number assigned to an image, e.g., in a chained image burst."
@@ -26992,19 +26992,18 @@ msgstr "Tag tidak diketahui"
 msgid "Digital zoom not used"
 msgstr "Zum digital tidak digunakan"
 
-#: src/tiffimage.cpp:2309
+#: src/tiffimage.cpp:2308
 msgid "TIFF header, offset"
 msgstr "Pengepala TIFF, ofset"
 
-#: src/tiffimage.cpp:2314
+#: src/tiffimage.cpp:2313
 msgid "little endian encoded"
 msgstr "little endian terenkod"
 
-#: src/tiffimage.cpp:2315
+#: src/tiffimage.cpp:2314
 msgid "big endian encoded"
 msgstr "big endian terenkod"
 
-#: src/tiffimage.cpp:2316
 #, fuzzy
-msgid "ascii bytes"
-msgstr "bait"
+#~ msgid "ascii bytes"
+#~ msgstr "bait"

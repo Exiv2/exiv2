@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: exiv2\n"
 "Report-Msgid-Bugs-To: ahuggel@gmx.net\n"
-"POT-Creation-Date: 2015-05-23 11:32+0200\n"
+"POT-Creation-Date: 2015-06-18 18:40+0800\n"
 "PO-Revision-Date: 2014-12-19 21:59+0000\n"
 "Last-Translator: Fran Fondo <franfondo@gmail.com>\n"
 "Language-Team: Galician <kde-i18n-doc@kde.org>\n"
@@ -20448,8 +20448,8 @@ msgstr "Modo de resolución"
 
 #: src/properties.cpp:1479
 msgid ""
-"The name (or acronym) in use by the institution having custody of the "
-"object(s) or information referred to in the record."
+"The name (or acronym) in use by the institution having custody of the object"
+"(s) or information referred to in the record."
 msgstr ""
 
 #: src/properties.cpp:1481
@@ -21935,8 +21935,8 @@ msgstr "Identificador"
 #: src/properties.cpp:1914
 msgid ""
 "The date on which the subject was identified as representing the Taxon. "
-"Recommended best practice is to use an encoding scheme, such as ISO "
-"8601:2004(E)."
+"Recommended best practice is to use an encoding scheme, such as ISO 8601:2004"
+"(E)."
 msgstr ""
 
 #: src/properties.cpp:1916
@@ -26974,20 +26974,19 @@ msgstr "Etiqueta descoñecida"
 msgid "Digital zoom not used"
 msgstr "Axuste de zoom dixital"
 
-#: src/tiffimage.cpp:2309
+#: src/tiffimage.cpp:2308
 #, fuzzy
 msgid "TIFF header, offset"
 msgstr "Cabeceira, desprazamento"
 
-#: src/tiffimage.cpp:2314
+#: src/tiffimage.cpp:2313
 msgid "little endian encoded"
 msgstr ""
 
-#: src/tiffimage.cpp:2315
+#: src/tiffimage.cpp:2314
 msgid "big endian encoded"
 msgstr ""
 
-#: src/tiffimage.cpp:2316
 #, fuzzy
-msgid "ascii bytes"
-msgstr "bytes"
+#~ msgid "ascii bytes"
+#~ msgstr "bytes"

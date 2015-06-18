@@ -19,7 +19,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: exiv2 trunk\n"
 "Report-Msgid-Bugs-To: ahuggel@gmx.net\n"
-"POT-Creation-Date: 2015-05-23 11:32+0200\n"
+"POT-Creation-Date: 2015-06-18 18:40+0800\n"
 "PO-Revision-Date: 2015-05-22 10:24+0100\n"
 "Last-Translator: Josef Andersson <josef.andersson@fripost.org>\n"
 "Language-Team: tp-sv\n"
@@ -3779,8 +3779,8 @@ msgstr ""
 msgid ""
 "   -Q lvl  Set log-level to d(ebug), i(nfo), w(arning), e(rror) or m(ute).\n"
 msgstr ""
-"   -Q lvl  Ange loggnivå för d(ebug), i(nfo), w(arning), e(rror) eller "
-"m(ute).\n"
+"   -Q lvl  Ange loggnivå för d(ebug), i(nfo), w(arning), e(rror) eller m"
+"(ute).\n"
 
 #: src/exiv2.cpp:268
 msgid "   -b      Show large binary values.\n"
@@ -19974,8 +19974,8 @@ msgid ""
 "An identifier for the institution having custody of the object(s) or "
 "information referred to in the record."
 msgstr ""
-"En identifierare för institutionen som förvaltar objekt(en) eller "
-"information(en) inspelningen hänvisar till."
+"En identifierare för institutionen som förvaltar objekt(en) eller information"
+"(en) inspelningen hänvisar till."
 
 #: src/properties.cpp:1475
 msgid "Collection ID"
@@ -19999,11 +19999,11 @@ msgstr "Institutionskod"
 
 #: src/properties.cpp:1479
 msgid ""
-"The name (or acronym) in use by the institution having custody of the "
-"object(s) or information referred to in the record."
+"The name (or acronym) in use by the institution having custody of the object"
+"(s) or information referred to in the record."
 msgstr ""
-"Namnet (eller akronymen) använd av institutionen som har vårdnaden av "
-"objekt(en) eller information(en) inspelningen hänvisar till."
+"Namnet (eller akronymen) använd av institutionen som har vårdnaden av objekt"
+"(en) eller information(en) inspelningen hänvisar till."
 
 #: src/properties.cpp:1481
 msgid "Dataset ID"
@@ -21752,8 +21752,8 @@ msgstr "Datum för identifiering"
 #: src/properties.cpp:1914
 msgid ""
 "The date on which the subject was identified as representing the Taxon. "
-"Recommended best practice is to use an encoding scheme, such as ISO "
-"8601:2004(E)."
+"Recommended best practice is to use an encoding scheme, such as ISO 8601:2004"
+"(E)."
 msgstr ""
 "Datumet då ett subjekt identifierades som representant för Taxon. Bästa "
 "användningssätt är att använda ett kodningsschema som exempelvis ISO "
@@ -24521,8 +24521,8 @@ msgid ""
 "Unit of measurement for FocalPlaneXResolution(37390) and "
 "FocalPlaneYResolution(37391)."
 msgstr ""
-"Mätningsenhet för FocalPlaneXResolution(37390) och "
-"FocalPlaneYResolution(37391)."
+"Mätningsenhet för FocalPlaneXResolution(37390) och FocalPlaneYResolution"
+"(37391)."
 
 #: src/tags.cpp:842
 msgid "Number assigned to an image, e.g., in a chained image burst."
@@ -27170,18 +27170,17 @@ msgstr "Okänd tagg"
 msgid "Digital zoom not used"
 msgstr "Digital zoom inte använd"
 
-#: src/tiffimage.cpp:2309
+#: src/tiffimage.cpp:2308
 msgid "TIFF header, offset"
 msgstr "TIFF-huvud, förskjutning"
 
-#: src/tiffimage.cpp:2314
+#: src/tiffimage.cpp:2313
 msgid "little endian encoded"
 msgstr "little endian-kodad"
 
-#: src/tiffimage.cpp:2315
+#: src/tiffimage.cpp:2314
 msgid "big endian encoded"
 msgstr "big endian-kodad"
 
-#: src/tiffimage.cpp:2316
-msgid "ascii bytes"
-msgstr "ascii-byte"
+#~ msgid "ascii bytes"
+#~ msgstr "ascii-byte"

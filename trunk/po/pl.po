@@ -11,7 +11,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: pl\n"
 "Report-Msgid-Bugs-To: ahuggel@gmx.net\n"
-"POT-Creation-Date: 2015-05-23 11:32+0200\n"
+"POT-Creation-Date: 2015-06-18 18:40+0800\n"
 "PO-Revision-Date: 2009-12-30 14:02+0100\n"
 "Last-Translator: Michał Smoczyk <msmoczyk@wp.pl>\n"
 "Language-Team: Polish <pl@li.org>\n"
@@ -20888,8 +20888,8 @@ msgstr "Tryb rozdzielczości"
 
 #: src/properties.cpp:1479
 msgid ""
-"The name (or acronym) in use by the institution having custody of the "
-"object(s) or information referred to in the record."
+"The name (or acronym) in use by the institution having custody of the object"
+"(s) or information referred to in the record."
 msgstr ""
 
 #: src/properties.cpp:1481
@@ -22389,8 +22389,8 @@ msgstr "Identyfikator"
 #: src/properties.cpp:1914
 msgid ""
 "The date on which the subject was identified as representing the Taxon. "
-"Recommended best practice is to use an encoding scheme, such as ISO "
-"8601:2004(E)."
+"Recommended best practice is to use an encoding scheme, such as ISO 8601:2004"
+"(E)."
 msgstr ""
 
 #: src/properties.cpp:1916
@@ -27557,19 +27557,18 @@ msgstr "Nieznany znacznik"
 msgid "Digital zoom not used"
 msgstr "Nie użyto cyfrowego zoomu"
 
-#: src/tiffimage.cpp:2309
+#: src/tiffimage.cpp:2308
 msgid "TIFF header, offset"
 msgstr "Przesunięcie nagłówka TIFF"
 
-#: src/tiffimage.cpp:2314
+#: src/tiffimage.cpp:2313
 msgid "little endian encoded"
 msgstr "zakodowane jako little endian"
 
-#: src/tiffimage.cpp:2315
+#: src/tiffimage.cpp:2314
 msgid "big endian encoded"
 msgstr "zakodowane jako big endian"
 
-#: src/tiffimage.cpp:2316
 #, fuzzy
-msgid "ascii bytes"
-msgstr "bajtów"
+#~ msgid "ascii bytes"
+#~ msgstr "bajtów"

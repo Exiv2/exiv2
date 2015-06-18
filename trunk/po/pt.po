@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: exiv2\n"
 "Report-Msgid-Bugs-To: ahuggel@gmx.net\n"
-"POT-Creation-Date: 2015-05-23 11:32+0200\n"
+"POT-Creation-Date: 2015-06-18 18:40+0800\n"
 "PO-Revision-Date: 2014-01-27 14:10+0000\n"
 "Last-Translator: Fábio Nogueira <deb-user-ba@ubuntu.com>\n"
 "Language-Team: Brazilian Portuguese <pt_BR@li.org>\n"
@@ -21203,8 +21203,8 @@ msgstr ""
 
 #: src/properties.cpp:1479
 msgid ""
-"The name (or acronym) in use by the institution having custody of the "
-"object(s) or information referred to in the record."
+"The name (or acronym) in use by the institution having custody of the object"
+"(s) or information referred to in the record."
 msgstr ""
 
 #: src/properties.cpp:1481
@@ -22668,8 +22668,8 @@ msgstr "Identificador de imagem digital"
 #: src/properties.cpp:1914
 msgid ""
 "The date on which the subject was identified as representing the Taxon. "
-"Recommended best practice is to use an encoding scheme, such as ISO "
-"8601:2004(E)."
+"Recommended best practice is to use an encoding scheme, such as ISO 8601:2004"
+"(E)."
 msgstr ""
 
 #: src/properties.cpp:1916
@@ -25456,8 +25456,8 @@ msgid ""
 "Unit of measurement for FocalPlaneXResolution(37390) and "
 "FocalPlaneYResolution(37391)."
 msgstr ""
-"Unidade de medida para FocalPlaneXResolution(37390) e "
-"FocalPlaneYResolution(37391)."
+"Unidade de medida para FocalPlaneXResolution(37390) e FocalPlaneYResolution"
+"(37391)."
 
 #: src/tags.cpp:842
 msgid "Number assigned to an image, e.g., in a chained image burst."
@@ -27798,19 +27798,15 @@ msgstr "etiqueta OlympusCs desconhecido"
 msgid "Digital zoom not used"
 msgstr "Razão de Zoom Digital."
 
-#: src/tiffimage.cpp:2309
+#: src/tiffimage.cpp:2308
 #, fuzzy
 msgid "TIFF header, offset"
 msgstr "Deslocamento de área da imagem"
 
-#: src/tiffimage.cpp:2314
+#: src/tiffimage.cpp:2313
 msgid "little endian encoded"
 msgstr ""
 
-#: src/tiffimage.cpp:2315
+#: src/tiffimage.cpp:2314
 msgid "big endian encoded"
-msgstr ""
-
-#: src/tiffimage.cpp:2316
-msgid "ascii bytes"
 msgstr ""
