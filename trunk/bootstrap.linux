@@ -1,6 +1,6 @@
 #!/bin/sh
 
-# Copyright (c) 2008-2012, Gilles Caulier, <caulier dot gilles at gmail dot com>
+# Copyright (c) 2008-2015, Gilles Caulier, <caulier dot gilles at gmail dot com>
 # 
 # Redistribution and use is allowed according to the terms of the BSD license.
 # For details see the accompanying COPYING-CMAKE-SCRIPTS file.
@@ -17,7 +17,20 @@ cd build
 cmake -G "$MAKEFILES_TYPE" . \
       -DCMAKE_BUILD_TYPE=debugfull \
       -DCMAKE_INSTALL_PREFIX=/usr \
-      -DEXIV2_ENABLE_BUILD_SAMPLES=on \
-      -DEXIV2_ENABLE_BUILD_PO=on \
+      -DEXIV2_ENABLE_SHARED=ON \
+      -DEXIV2_ENABLE_XMP=ON \
+      -DEXIV2_ENABLE_LIBXMP=ON \
+      -DEXIV2_ENABLE_VIDEO=ON \
+      -DEXIV2_ENABLE_PNG=ON \
+      -DEXIV2_ENABLE_NLS=ON \
+      -DEXIV2_ENABLE_PRINTUCS2=ON \
+      -DEXIV2_ENABLE_LENSDATA=ON \
+      -DEXIV2_ENABLE_COMMERCIAL=OFF \
+      -DEXIV2_ENABLE_BUILD_SAMPLES=ON \
+      -DEXIV2_ENABLE_BUILD_PO=ON \
+      -DEXIV2_ENABLE_VIDEO=ON \
+      -DEXIV2_ENABLE_WEBREADY=ON \
+      -DEXIV2_ENABLE_CURL=ON \
+      -DEXIV2_ENABLE_SSH=ON \
       -Wno-dev \
       ..
