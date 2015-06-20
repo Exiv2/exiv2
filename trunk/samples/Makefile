@@ -113,7 +113,7 @@ OTHERBIN = $(OTHERSRC:.cpp=)
 EXECUTABLE = $(BINSRC:%.cpp=../bin/%$(EXEEXT)) $(OTHERSRC:%.cpp=../bin/%$(EXEEXT))
 
 ifdef DEP_TRACKING
-DEP = $(BINSRC:%.cpp=$(DEPDIR)/%.d) $(OTHERSRC:%.cpp=$(DEPDIR)/%.d)
+DEP = $(BINSRC:%.cpp=$(DEPDIR)/%.d) $(OTHERSRC:%.cpp=$(DEPDIR)/%.d) $(DEPDIR)/Jzon.d
 endif
 
 PREFIX = /usr/local/lib
@@ -186,7 +186,7 @@ binclean:
 
 mostlyclean:
 	$(RM) core
-	$(RM) $(BINSRC:.cpp=.ii) $(OTHERSRC:.cpp=.ii)
+	$(RM) $(BINSRC:.cpp=.ii) $(OTHERSRC:.cpp=.ii) Jzon.ii
 	$(RM) $(BINOBJ) $(OTHEROBJ)
 
 clean: binclean mostlyclean
