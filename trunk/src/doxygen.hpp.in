@@ -86,13 +86,13 @@
 
   @section formats File Formats
 
-  <P>See the <A HREF="http://dev.exiv2.org/wiki/exiv2/Supported_image_formats">list of supported image formats</A>
+  <P>See the <A HREF="http://dev.exiv2.org/projects/exiv2/wiki/Supported_image_formats">list of supported image formats</A>
   in the Wiki and the <A HREF="crw-mapping.html">Canon CRW mapping</A>.</P>
 
   @section supp Support
 
   <p>All project resources are accessible from the
-  <A HREF="http://dev.exiv2.org/wiki/exiv2">project website</A>.</p>
+  <A HREF="http://dev.exiv2.org/projects/exiv2/wiki">project website</A>.</p>
 
   <p>Please send feedback or queries to the %Exiv2 forum. For new bug reports
   and feature requests, please open an issue.</p>
