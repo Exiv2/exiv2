@@ -28,6 +28,20 @@ __maintitle__
  </thead>
  <tbody>
   <tr class="OddRow">
+   <td>Exiv2 v0.24 Source</td>
+   <td><a title="Download the v0.24 source package" href="exiv2-0.24.tar.gz" >exiv2-0.24.tar.gz</a></td>
+   <td>4635028</td>
+   <td>02-Dec-2013</td>
+   <td>b8a23dc56a98ede85c00718a97a8d6fc</td>
+  </tr>
+  <tr class="EvenRow">
+   <td>Exiv2 v0.24 Windows executable</td>
+   <td><a title="Download the v0.24 Windows executable" href="exiv2-0.24-win.zip" >exiv2-0.24-win.zip</a></td>
+   <td>1875613</td>
+   <td>02-Dec-2013</td>
+   <td>fdb4b9f605d23546e008949b4e09d3d9</td>
+  </tr>
+  <tr class="OddRow">
    <td>Exiv2 v0.23 Source</td>
    <td><a title="Download the v0.23 source package" href="exiv2-0.23.tar.gz" >exiv2-0.23.tar.gz</a></td>
    <td>3524381</td>
