@@ -287,6 +287,7 @@ uninstall-header:
 	    echo "$(RM) $(DESTDIR)$(incdir)/$$p"; \
 	    $(RM) $(DESTDIR)$(incdir)/$$p; \
 	done
+	$(RM) $(DESTDIR)$(incdir)/svn_version.h
 	-rmdir $(DESTDIR)$(incdir)
 
 uninstall-lib: uninstall-header
