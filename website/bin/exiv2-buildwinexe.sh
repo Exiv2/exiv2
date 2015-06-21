@@ -17,17 +17,21 @@ if [ ! -e $dir ] ; then
     echo "Error: Directory $dir doesn't exist."
     exit 1
 fi
-
-# Configure and cross-compile
+echo
+echo ==========================================================================
+echo Configure and cross-compile
+echo
 cd $dir
-make maintainer-clean
+sudo make maintainer-clean
 make config
 ./configure --disable-shared --disable-visibility --target=i586-mingw32msvc --host=i586-mingw32msvc --build=i586-linux --disable-nls --with-zlib=$HOME/mingw --with-libiconv-prefix=$HOME/mingw --with-expat=$HOME/mingw
-make -j3
-
-# Prepare package
+make -j4
+echo
+echo ==========================================================================
+echo Prepare package
+echo
 cd src
-rel=`grep EXV_PACKAGE_VERSION ../msvc2012/include/exv_msvc.h | sed 's/.*"\(.*\)"/\1/'`
+rel=`grep EXV_PACKAGE_VERSION ../include/exiv2/exv_msvc.h | sed 's/.*"\(.*\)"/\1/'`
 tmpdir=exiv2-$rel-win
 rm -rf $tmpdir
 mkdir $tmpdir
@@ -40,11 +44,18 @@ cp $HOME/mingw/dll/libexpat.dll .
 todos cmd.txt cmdxmp.txt
 $HOME/src/exiv2/exiv2-htmlman.sh ../exiv2.1
 zip exiv2-$rel-win.zip exiv2.exe cmd.txt cmdxmp.txt exiv2-man.html libexpat.dll
-
-# Cleanup
+echo
+echo ==========================================================================
+echo Cleanup
+echo
 mv exiv2-$rel-win.zip ../../..
 cd ..
 rm -rf $tmpdir
 cd ../..
+echo
+echo ==========================================================================
+echo Error-summary
+echo
+grep 'Error ' exiv2-buildwinexe.out | grep -v -e'BasicError ' -e'Error 1 (ignored)'
 
 ) 2>&1 | tee exiv2-buildwinexe.out 2>&1

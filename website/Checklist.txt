@@ -37,8 +37,8 @@ MSVC
   Run tests with 10 executables
   Compile with 11  msvc2012
   Run tests with 11 executables
-Tag release
-Create packages
+Tag release (bin/exiv2-tagrelease.sh)
+Create packages (bin/exiv2-buildrelease.sh, bin/exiv2-buildwinexe.sh)
 Finalize webpages with package information (bin/release_info.sh)
 Publish webpages and packages locally
 Download and test packages
