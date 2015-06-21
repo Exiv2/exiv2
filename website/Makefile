@@ -192,4 +192,4 @@ publish:
 	rsync -vlDtrz --delete --exclude='.svn' --include="exiv2-`cat var/__version__`*" --exclude='exiv2-*tar.gz' --exclude='exiv2-*.zip' -e ssh html/ `whoami`@localhost:rs
 
 really-publish:
-	rsync -vlDtrz --delete --exclude='misc/' --exclude='.svn' --include="exiv2-`cat var/__version__`*" --exclude='exiv2-*tar.gz' --exclude='exiv2-*.zip' -e "ssh -2 -i $$HOME/.ssh/exiv2.pem" html/ exiv2@exiv2.org:/var/www/exiv2/
+	rsync -vlDtrz --delete --exclude='misc/' --exclude='.svn' --include="exiv2-`cat var/__version__`*" --exclude='exiv2-*tar.gz' --exclude='exiv2-*.zip' -e "ssh -2 -i $$HOME/.ssh/root@exiv2.org" html/ root@exiv2.org:/var/www/exiv2/
