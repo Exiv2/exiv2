@@ -5,12 +5,14 @@
   <title>Exiv2 0.25 released</title>
   <abstract>A large collection of new features, new lenses and bugfixes.
   </abstract>
-  <desc>Both 2013 GSoC projects, '<a title="Web Ready" href="http://dev.exiv2.org/projects/exiv2/wiki/GSoC_2013_%22Cloud_Ready%22_Project_Specification">Web Ready</a>' by Tuan (mentored by Robin)
+  <desc>This release contains a large collection of new features, new lenses and bugfixes
+  across all areas of Exiv2. See the
+  <a title="ChangeLog" href="changelog.html">ChangeLog</a> for the complete long
+  list of changes.
+  Both 2013 GSoC projects, '<a title="Web Ready" href="http://dev.exiv2.org/projects/exiv2/wiki/GSoC_2013_%22Cloud_Ready%22_Project_Specification">Web Ready</a>' by Tuan (mentored by Robin)
   and 'Video Write support' by Mahesh (Abhinav) are included as build options,
   the latter builds together with Video Read support, which is no longer part
-  of the standard build. See the
-  <a title="ChangeLog" href="changelog.html">ChangeLog</a> for the complete long
-  list of changes in this release.
+  of the standard build.
   </desc>
  </newsitem>
  <newsitem>
