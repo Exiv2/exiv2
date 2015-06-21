@@ -154,15 +154,15 @@ namespace Exiv2 {
     }; // class FileIo::Impl
 
     FileIo::Impl::Impl(const std::string& path)
-        : path_(path)
-        , fp_(0), opMode_(opSeek)
-        , pMappedArea_(0), mappedLength_(0), isMalloced_(false), isWriteable_(false)
+        : path_(path),
 #ifdef EXV_UNICODE_PATH
-        , wpMode_(wpStandard)
+        wpMode_(wpStandard),
 #endif
+        fp_(0), opMode_(opSeek),
 #if defined WIN32 && !defined __CYGWIN__
-        , hFile_(0), hMap_(0)
+        hFile_(0), hMap_(0),
 #endif
+        pMappedArea_(0), mappedLength_(0), isMalloced_(false), isWriteable_(false)
     {
     }
 
