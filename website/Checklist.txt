@@ -40,10 +40,10 @@ MSVC
 Tag release (bin/exiv2-tagrelease.sh)
 Create packages (bin/exiv2-buildrelease.sh, bin/exiv2-buildwinexe.sh)
 Finalize webpages with package information (bin/release_info.sh)
-Publish webpages and packages locally
+Publish webpages and packages locally (make publish)
 Download and test packages
 Test Windows binary on Windows
-Really publish webpages and packages
+Really publish webpages and packages (make really-publish)
 Validate uploaded webpages with W3C HTML checker
 Exiv2 forum announcement
 Facebook fan page update
