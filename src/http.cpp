@@ -44,7 +44,6 @@
 #define SNOOZE         0
 
 #if defined(__MINGW32__) || defined(__MINGW64__)
-#define __MINGW__
 #define  fopen_S(f,n,a)  f=fopen(n,a)
 #endif
 
