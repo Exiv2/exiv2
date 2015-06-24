@@ -9,6 +9,7 @@
   <li><a href="metadata.html" title="Supported tags"><strong>Tag reference</strong></a></li>
    <ul>
     <li><a href="tags-xmp-dc.html"><strong>dc</strong></a></li>
+    <li><a href="tags-xmp-dwc.html"><strong>dwc</strong></a></li>
     <li><a href="tags-xmp-xmp.html"><strong>xmp</strong></a></li>
     <li><a href="tags-xmp-xmpRights.html"><strong>xmpRights</strong></a></li>
     <li><a href="tags-xmp-xmpMM.html"><strong>xmpMM</strong></a></li>

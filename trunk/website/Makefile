@@ -64,6 +64,7 @@ TABLES = Exif \
          Iptc
 
 SCHEMA = dc \
+         dwc \
          xmp \
          xmpRights \
          xmpMM \
