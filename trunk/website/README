@@ -8,9 +8,9 @@ How to build the website
 
 - Build and install exiv2, build the samples and doc. And while you're
   at it, it never hurts to also run the tests.
-- Build website/bin/rssdate from the source file website/bin/rssdate.cpp
+- Build website/bin/rssdate from the source file website/bin/rssdate.cpp 
 - Define the environment variable EXIV2HOME to the path of your exiv2
-  directory, i.e., the parent directory of website/
+  directory, i.e., the parent directory of website/ 
 - cd website
 - Run 'make update' to import whatever is required from the rest of the
   exiv2 sources (doc/, samples/, src/)
