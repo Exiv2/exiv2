@@ -64,7 +64,6 @@ TABLES = Exif \
          Iptc
 
 SCHEMA = dc \
-         dwc \
          xmp \
          xmpRights \
          xmpMM \
@@ -79,16 +78,22 @@ SCHEMA = dc \
          aux \
          iptc \
          iptcExt \
-         MicrosoftPhoto \
+         plus \
+         mwg-rs \
+         mwg-kw \
+         dwc \
+         dcterms \
          digiKam \
          kipi \
-         plus \
-         mediapro \
-         expressionmedia \
+         GPano \
+         lr \
          MP \
          MPRI \
          MPReg \
-         mwg-rs
+         acdsee \
+         mediapro \
+         expressionmedia \
+         MicrosoftPhoto
 
 all: html doc
 
