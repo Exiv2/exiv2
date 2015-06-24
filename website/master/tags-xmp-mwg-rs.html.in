@@ -6,14 +6,16 @@ __sidebar4__
 
 <div id="content">
 __maintitle__
+
 <h2>Metadata Working Group Regions schema</h2>
-<p>The Metadata Working Group's schema for image region metadata.</p>
+<p>The Metadata Working Group's schema for image region metadata.
  <ul>
-  <li>Exiv2 keys are <b><code>Xmp.mwg-rs.&lt;Property&gt;</code></b></li>
+  <li>Exiv2 keys are nested in the form <b><code>Xmp.mwg-rs.Regions/mwg-rs:RegionList/mwg-rs:&lt;Property&gt;</code></b></li>
   <li>The schema namespace URI is <b><code>http://www.metadataworkinggroup.com/schemas/regions/</code></b></li>
   <li>The preferred schema namespace prefix is <b><code>mwg-rs</code></b></li>
  </ul>
-<p>Reference: <a href="http://www.metadataworkinggroup.org/pdf/mwg_guidance.pdf" title="Guidelines for Handling Image Metadata">Guidelines for Handling Image Metadata</a></p>
+Reference: <a href="http://www.metadataworkinggroup.org/pdf/mwg_guidance.pdf" title="Guidelines for Handling Image Metadata">Guidelines for Handling Image Metadata</a></p>
+
 <p>Click on a column header to sort the table.</p>
 
 __xmp_mwg-rs__
