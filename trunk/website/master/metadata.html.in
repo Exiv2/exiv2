@@ -30,7 +30,7 @@ __maintitle__
 <h3>XMP properties</h3>
 <ul>
  <li><a href="tags-xmp-dc.html">Dublin Core schema (dc)</a></li>
- <li><a href="tags-xmp-dwc.html">Darwin Core schema (dc)</a></li>
+ <li><a href="tags-xmp-dwc.html">Darwin Core schema (dwc)</a></li>
  <li><a href="tags-xmp-xmp.html">XMP Basic schema (xmp)</a></li>
  <li><a href="tags-xmp-xmpRights.html">XMP Rights Management schema (xmpRights)</a></li>
  <li><a href="tags-xmp-xmpMM.html">XMP Media Management schema (xmpMM)</a></li>
