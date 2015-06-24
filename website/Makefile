@@ -91,8 +91,9 @@ SCHEMA = dc \
 
 all: html doc
 
-.PHONY: html doc news clean update update-intro update-sample update-changelog \
-        update-makernotes publish really-publish
+.PHONY: html doc news clean update \
+        update-manpage update-intro update-sample update-conversion update-changelog update-tags update-makernotes \
+        publish really-publish
 
 html: news
 	@bin/gen.py master/*.in
