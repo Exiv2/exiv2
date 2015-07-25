@@ -730,6 +730,7 @@ namespace Exiv2 {
         { 0x0328, "smc PENTAX-F Macro 100mm F2.8" },
         { 0x0329, "smc PENTAX-F Macro 50mm F2.8" },			//0
         { 0x0329, "Sigma 50mm F2.8 Macro" },				//1
+        { 0x032a, "Sigma 300mm F2.8 EX DG APO IF" },
         { 0x032c, "Tamron 35-90mm F4 AF" },				//0
         { 0x032c, "Sigma AF 10-20mm F4-5.6 EX DC" },			//1
         { 0x032c, "Sigma 12-24mm F4.5-5.6 EX DG" },			//2
