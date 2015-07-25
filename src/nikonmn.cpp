@@ -1732,10 +1732,10 @@ namespace Exiv2 {
 #ifndef FMOUNTLH
 #define FMOUNTLH
 //------------------------------------------------------------------------------
-// List of AF F-Mount lenses - Version 4.4.482.01                    2015-04-26
+// List of AF F-Mount lenses - Version 4.4.483.01                    2015-06-17
 //------------------------------------------------------------------------------
-#define FMLVERSION "4.4.482.01"
-#define FMLDATE "2015-04-26"
+#define FMLVERSION "4.4.483.01"
+#define FMLDATE "2015-06-17"
 //------------------------------------------------------------------------------
 //
 //
@@ -2231,6 +2231,7 @@ fmountlens[] = {
 {0x00,0x48,0x3C,0x6A,0x24,0x24,0x00,0x02,0x00,0x00,0x00, "Tamron", "176D", "SP AF 28-105mm F/2.8 LD Aspherical IF"},
 //M                                         "Tamron" "276D"   "SP AF 28-105mm F/2.8 LD Aspherical IF";
 //M                                         "Tamron" "179D"   "AF 28-105mm F4.0-5.6 IF";
+{0x4D,0x3E,0x3C,0x80,0x2E,0x3C,0x62,0x02,0x00,0x00,0x00, "Tamron", "A03N", "AF 28-200mm F/3.8-5.6 XR Aspherical (IF) Macro"},
 //M                                         "Tamron" "471D"   "AF 28-200mm F/3.8-5.6 Aspherical IF Super2 Silver";
 {0x0B,0x3E,0x3D,0x7F,0x2F,0x3D,0x0E,0x00,0x00,0x00,0x00, "Tamron", "71D", "AF 28-200mm F/3.8-5.6"},
 {0x0B,0x3E,0x3D,0x7F,0x2F,0x3D,0x0E,0x02,0x00,0x00,0x00, "Tamron", "171D", "AF 28-200mm F/3.8-5.6D"},
