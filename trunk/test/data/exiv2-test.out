@@ -171,11 +171,11 @@ Adjusting `Exif.Image.DateTime' by -43261s to 2005:05:27 05:18:33
 Adjusting `Exif.Photo.DateTimeOriginal' by -43261s to 2005:05:27 05:18:33
 Adjusting `Exif.Photo.DateTimeDigitized' by -43261s to 2005:05:27 05:18:33
 File 13/15: exiv2-canon-eos-20d.jpg
-Error: Directory Canon: Next pointer is out of bounds; ignored.
+Warning: Directory Canon has an unexpected next pointer; ignored.
 Adjusting `Exif.Image.DateTime' by -43261s to 2006:08:02 09:52:00
 Adjusting `Exif.Photo.DateTimeOriginal' by -43261s to 2006:08:02 09:52:00
 Adjusting `Exif.Photo.DateTimeDigitized' by -43261s to 2006:08:02 09:52:00
-Error: Directory Canon: Next pointer is out of bounds; ignored.
+Warning: Directory Canon has an unexpected next pointer; ignored.
 File 14/15: exiv2-canon-eos-d30.jpg
 Adjusting `Exif.Image.DateTime' by -43261s to 2000:10:04 01:54:04
 Adjusting `Exif.Photo.DateTimeOriginal' by -43261s to 2000:10:04 01:54:04
@@ -211,7 +211,7 @@ Renaming file to ./20050218_212016.jpg
 File 12/15: exiv2-sony-dsc-w7.jpg
 Renaming file to ./20050527_051833.jpg
 File 13/15: exiv2-canon-eos-20d.jpg
-Error: Directory Canon: Next pointer is out of bounds; ignored.
+Warning: Directory Canon has an unexpected next pointer; ignored.
 Renaming file to ./20060802_095200.jpg
 File 14/15: exiv2-canon-eos-d30.jpg
 Renaming file to ./20001004_015404.jpg
@@ -523,7 +523,7 @@ File 12/15: 20050527_051833.jpg
 20050527_051833.jpg  Exif comment    : 
 
 File 13/15: 20060802_095200.jpg
-Error: Directory Canon: Next pointer is out of bounds; ignored.
+Warning: Directory Canon has an unexpected next pointer; ignored.
 20060802_095200.jpg  File name       : 20060802_095200.jpg
 20060802_095200.jpg  File size       : 20733 Bytes
 20060802_095200.jpg  MIME type       : image/jpeg
@@ -1617,7 +1617,7 @@ File 12/15: 20050527_051833.jpg
 20050527_051833.jpg   Exif.Thumbnail.JPEGInterchangeFormat         Long        1  2484
 20050527_051833.jpg   Exif.Thumbnail.JPEGInterchangeFormatLength   Long        1  15605
 File 13/15: 20060802_095200.jpg
-Error: Directory Canon: Next pointer is out of bounds; ignored.
+Warning: Directory Canon has an unexpected next pointer; ignored.
 20060802_095200.jpg   Exif.Image.Make                              Ascii       6  Canon
 20060802_095200.jpg   Exif.Image.Model                             Ascii      14  Canon EOS 20D
 20060802_095200.jpg   Exif.Image.Orientation                       Short       1  top, left
@@ -2147,7 +2147,7 @@ File 15/15: 20060127_225027.jpg
 20060127_225027.jpg   Exif.Thumbnail.JPEGInterchangeFormat         Long        1  2548
 20060127_225027.jpg   Exif.Thumbnail.JPEGInterchangeFormatLength   Long        1  6137
 exiv2-empty.jpg: (No Exif data found in the file)
-Error: Directory Canon: Next pointer is out of bounds; ignored.
+Warning: Directory Canon has an unexpected next pointer; ignored.
 
 Extract Exif data --------------------------------------------------------
 File  1/15: exiv2-empty.jpg
@@ -2175,7 +2175,7 @@ Writing Exif data from 20050218_212016.jpg to ./20050218_212016.exv
 File 12/15: 20050527_051833.jpg
 Writing Exif data from 20050527_051833.jpg to ./20050527_051833.exv
 File 13/15: 20060802_095200.jpg
-Error: Directory Canon: Next pointer is out of bounds; ignored.
+Warning: Directory Canon has an unexpected next pointer; ignored.
 Writing Exif data from 20060802_095200.jpg to ./20060802_095200.exv
 File 14/15: 20001004_015404.jpg
 Writing Exif data from 20001004_015404.jpg to ./20001004_015404.exv
@@ -2208,7 +2208,7 @@ Writing thumbnail (image/jpeg, 10308 Bytes) to file ./20050218_212016-thumb.jpg
 File 12/15: 20050527_051833.jpg
 Writing thumbnail (image/jpeg, 15605 Bytes) to file ./20050527_051833-thumb.jpg
 File 13/15: 20060802_095200.jpg
-Error: Directory Canon: Next pointer is out of bounds; ignored.
+Warning: Directory Canon has an unexpected next pointer; ignored.
 Writing thumbnail (image/jpeg, 6260 Bytes) to file ./20060802_095200-thumb.jpg
 File 14/15: 20001004_015404.jpg
 Writing thumbnail (image/jpeg, 13824 Bytes) to file ./20001004_015404-thumb.jpg
@@ -5325,9 +5325,9 @@ Erasing thumbnail data
 File 12/15: 20050527_051833.jpg
 Erasing thumbnail data
 File 13/15: 20060802_095200.jpg
-Error: Directory Canon: Next pointer is out of bounds; ignored.
+Warning: Directory Canon has an unexpected next pointer; ignored.
 Erasing thumbnail data
-Error: Directory Canon: Next pointer is out of bounds; ignored.
+Warning: Directory Canon has an unexpected next pointer; ignored.
 File 14/15: 20001004_015404.jpg
 Erasing thumbnail data
 File 15/15: 20060127_225027.jpg
