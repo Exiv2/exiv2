@@ -1526,6 +1526,7 @@ namespace Exiv2 {
       Each entry of the table defines for a particular tag and group combination
       the corresponding TIFF component create function.
      */
+#define ignoreTiffComponent 0
     const TiffGroupStruct TiffCreator::tiffGroupStruct_[] = {
         // ext. tag  group             create function
         //---------  ----------------- -----------------------------------------
@@ -1553,7 +1554,7 @@ namespace Exiv2 {
         {    0x0145, subImage1Id,      newTiffImageSize<0x0144, subImage1Id>     },
         {    0x0201, subImage1Id,      newTiffImageData<0x0202, subImage1Id>     },
         {    0x0202, subImage1Id,      newTiffImageSize<0x0201, subImage1Id>     },
-        { Tag::next, subImage1Id,      newTiffDirectory<ignoreId>                },
+        { Tag::next, subImage1Id,      ignoreTiffComponent                       },
         {  Tag::all, subImage1Id,      newTiffEntry                              },
 
         // Subdir subImage2
@@ -1563,7 +1564,7 @@ namespace Exiv2 {
         {    0x0145, subImage2Id,      newTiffImageSize<0x0144, subImage2Id>     },
         {    0x0201, subImage2Id,      newTiffImageData<0x0202, subImage2Id>     },
         {    0x0202, subImage2Id,      newTiffImageSize<0x0201, subImage2Id>     },
-        { Tag::next, subImage2Id,      newTiffDirectory<ignoreId>                },
+        { Tag::next, subImage2Id,      ignoreTiffComponent                       },
         {  Tag::all, subImage2Id,      newTiffEntry                              },
 
         // Subdir subImage3
@@ -1573,7 +1574,7 @@ namespace Exiv2 {
         {    0x0145, subImage3Id,      newTiffImageSize<0x0144, subImage3Id>     },
         {    0x0201, subImage3Id,      newTiffImageData<0x0202, subImage3Id>     },
         {    0x0202, subImage3Id,      newTiffImageSize<0x0201, subImage3Id>     },
-        { Tag::next, subImage3Id,      newTiffDirectory<ignoreId>                },
+        { Tag::next, subImage3Id,      ignoreTiffComponent                       },
         {  Tag::all, subImage3Id,      newTiffEntry                              },
 
         // Subdir subImage4
@@ -1583,7 +1584,7 @@ namespace Exiv2 {
         {    0x0145, subImage4Id,      newTiffImageSize<0x0144, subImage4Id>     },
         {    0x0201, subImage4Id,      newTiffImageData<0x0202, subImage4Id>     },
         {    0x0202, subImage4Id,      newTiffImageSize<0x0201, subImage4Id>     },
-        { Tag::next, subImage4Id,      newTiffDirectory<ignoreId>                },
+        { Tag::next, subImage4Id,      ignoreTiffComponent                       },
         {  Tag::all, subImage4Id,      newTiffEntry                              },
 
         // Subdir subImage5
@@ -1593,7 +1594,7 @@ namespace Exiv2 {
         {    0x0145, subImage5Id,      newTiffImageSize<0x0144, subImage5Id>     },
         {    0x0201, subImage5Id,      newTiffImageData<0x0202, subImage5Id>     },
         {    0x0202, subImage5Id,      newTiffImageSize<0x0201, subImage5Id>     },
-        { Tag::next, subImage5Id,      newTiffDirectory<ignoreId>                },
+        { Tag::next, subImage5Id,      ignoreTiffComponent                       },
         {  Tag::all, subImage5Id,      newTiffEntry                              },
 
         // Subdir subImage6
@@ -1603,7 +1604,7 @@ namespace Exiv2 {
         {    0x0145, subImage6Id,      newTiffImageSize<0x0144, subImage6Id>     },
         {    0x0201, subImage6Id,      newTiffImageData<0x0202, subImage6Id>     },
         {    0x0202, subImage6Id,      newTiffImageSize<0x0201, subImage6Id>     },
-        { Tag::next, subImage6Id,      newTiffDirectory<ignoreId>                },
+        { Tag::next, subImage6Id,      ignoreTiffComponent                       },
         {  Tag::all, subImage6Id,      newTiffEntry                              },
 
         // Subdir subImage7
@@ -1613,7 +1614,7 @@ namespace Exiv2 {
         {    0x0145, subImage7Id,      newTiffImageSize<0x0144, subImage7Id>     },
         {    0x0201, subImage7Id,      newTiffImageData<0x0202, subImage7Id>     },
         {    0x0202, subImage7Id,      newTiffImageSize<0x0201, subImage7Id>     },
-        { Tag::next, subImage7Id,      newTiffDirectory<ignoreId>                },
+        { Tag::next, subImage7Id,      ignoreTiffComponent                       },
         {  Tag::all, subImage7Id,      newTiffEntry                              },
 
         // Subdir subImage8
@@ -1623,7 +1624,7 @@ namespace Exiv2 {
         {    0x0145, subImage8Id,      newTiffImageSize<0x0144, subImage8Id>     },
         {    0x0201, subImage8Id,      newTiffImageData<0x0202, subImage8Id>     },
         {    0x0202, subImage8Id,      newTiffImageSize<0x0201, subImage8Id>     },
-        { Tag::next, subImage8Id,      newTiffDirectory<ignoreId>                },
+        { Tag::next, subImage8Id,      ignoreTiffComponent                       },
         {  Tag::all, subImage8Id,      newTiffEntry                              },
 
         // Subdir subImage9
@@ -1633,21 +1634,21 @@ namespace Exiv2 {
         {    0x0145, subImage9Id,      newTiffImageSize<0x0144, subImage9Id>     },
         {    0x0201, subImage9Id,      newTiffImageData<0x0202, subImage9Id>     },
         {    0x0202, subImage9Id,      newTiffImageSize<0x0201, subImage9Id>     },
-        { Tag::next, subImage9Id,      newTiffDirectory<ignoreId>                },
+        { Tag::next, subImage9Id,      ignoreTiffComponent                       },
         {  Tag::all, subImage9Id,      newTiffEntry                              },
 
         // Exif subdir
         {    0xa005, exifId,           newTiffSubIfd<iopId>                      },
         {    0x927c, exifId,           newTiffMnEntry                            },
-        { Tag::next, exifId,           newTiffDirectory<ignoreId>                },
+        { Tag::next, exifId,           ignoreTiffComponent                       },
         {  Tag::all, exifId,           newTiffEntry                              },
 
         // GPS subdir
-        { Tag::next, gpsId,            newTiffDirectory<ignoreId>                },
+        { Tag::next, gpsId,            ignoreTiffComponent                       },
         {  Tag::all, gpsId,            newTiffEntry                              },
 
         // IOP subdir
-        { Tag::next, iopId,            newTiffDirectory<ignoreId>                },
+        { Tag::next, iopId,            ignoreTiffComponent                       },
         {  Tag::all, iopId,            newTiffEntry                              },
 
         // IFD1
@@ -1668,7 +1669,7 @@ namespace Exiv2 {
         {    0x0145, subThumb1Id,      newTiffImageSize<0x0144, subThumb1Id>     },
         {    0x0201, subThumb1Id,      newTiffImageData<0x0202, subThumb1Id>     },
         {    0x0202, subThumb1Id,      newTiffImageSize<0x0201, subThumb1Id>     },
-        { Tag::next, subThumb1Id,      newTiffDirectory<ignoreId>                },
+        { Tag::next, subThumb1Id,      ignoreTiffComponent                       },
         {  Tag::all, subThumb1Id,      newTiffEntry                              },
 
         // IFD2 (eg, in Pentax PEF and Canon CR2 files)
@@ -1688,14 +1689,14 @@ namespace Exiv2 {
         {    0x0145, ifd1Id,           newTiffImageSize<0x0144, ifd3Id>          },
         {    0x0201, ifd3Id,           newTiffImageData<0x0202, ifd3Id>          },
         {    0x0202, ifd3Id,           newTiffImageSize<0x0201, ifd3Id>          },
-        { Tag::next, ifd3Id,           newTiffDirectory<ignoreId>                },
+        { Tag::next, ifd3Id,           ignoreTiffComponent                       },
         {  Tag::all, ifd3Id,           newTiffEntry                              },
 
         // Olympus makernote - some Olympus cameras use Minolta structures
         // Todo: Adding such tags will not work (maybe result in a Minolta makernote), need separate groups
         {    0x0001, olympusId,        EXV_SIMPLE_BINARY_ARRAY(minoCsoCfg)       },
         {    0x0003, olympusId,        EXV_SIMPLE_BINARY_ARRAY(minoCsnCfg)       },
-        { Tag::next, olympusId,        newTiffDirectory<ignoreId>                },
+        { Tag::next, olympusId,        ignoreTiffComponent                       },
         {  Tag::all, olympusId,        newTiffEntry                              },
 
         // Olympus2 makernote
@@ -1717,7 +1718,7 @@ namespace Exiv2 {
         {    0x2800, olympus2Id,       newTiffSubIfd<olympusFe8Id>               },
         {    0x2900, olympus2Id,       newTiffSubIfd<olympusFe9Id>               },
         {    0x3000, olympus2Id,       newTiffSubIfd<olympusRiId>                },
-        { Tag::next, olympus2Id,       newTiffDirectory<ignoreId>                },
+        { Tag::next, olympus2Id,       ignoreTiffComponent                       },
         {  Tag::all, olympus2Id,       newTiffEntry                              },
 
         // Olympus2 equipment subdir
@@ -1771,7 +1772,7 @@ namespace Exiv2 {
         {  Tag::all, olympusRiId,        newTiffEntry                            },
 
         // Fujifilm makernote
-        { Tag::next, fujiId,           newTiffDirectory<ignoreId>                },
+        { Tag::next, fujiId,           ignoreTiffComponent                       },
         {  Tag::all, fujiId,           newTiffEntry                              },
 
         // Canon makernote
@@ -1782,7 +1783,7 @@ namespace Exiv2 {
         {    0x0012, canonId,          EXV_SIMPLE_BINARY_ARRAY(canonPiCfg)       },
         {    0x0093, canonId,          EXV_BINARY_ARRAY(canonFiCfg, canonFiDef)  },
         {    0x00a0, canonId,          EXV_SIMPLE_BINARY_ARRAY(canonPrCfg)  },
-        { Tag::next, canonId,          newTiffDirectory<ignoreId>                },
+        { Tag::next, canonId,          ignoreTiffComponent                       },
         {  Tag::all, canonId,          newTiffEntry                              },
 
         // Canon makernote composite tags
@@ -1795,15 +1796,15 @@ namespace Exiv2 {
         {  Tag::all, canonPrId,        newTiffBinaryElement                      },
 
         // Nikon1 makernote
-        { Tag::next, nikon1Id,         newTiffDirectory<ignoreId>                },
+        { Tag::next, nikon1Id,         ignoreTiffComponent                       },
         {  Tag::all, nikon1Id,         newTiffEntry                              },
 
         // Nikon2 makernote
-        { Tag::next, nikon2Id,         newTiffDirectory<ignoreId>                },
+        { Tag::next, nikon2Id,         ignoreTiffComponent                       },
         {  Tag::all, nikon2Id,         newTiffEntry                              },
 
         // Nikon3 makernote
-        { Tag::next, nikon3Id,         newTiffDirectory<ignoreId>                },
+        { Tag::next, nikon3Id,         ignoreTiffComponent                       },
         {    0x0011, nikon3Id,         newTiffSubIfd<nikonPvId>                  },
         {    0x001f, nikon3Id,         EXV_BINARY_ARRAY(nikonVrCfg, nikonVrDef)  },
         {    0x0023, nikon3Id,         EXV_BINARY_ARRAY(nikonPcCfg, nikonPcDef)  },
@@ -1823,7 +1824,7 @@ namespace Exiv2 {
         // Nikon3 makernote preview subdir
         {    0x0201, nikonPvId,        newTiffThumbData<0x0202, nikonPvId>       },
         {    0x0202, nikonPvId,        newTiffThumbSize<0x0201, nikonPvId>       },
-        { Tag::next, nikonPvId,        newTiffDirectory<ignoreId>                },
+        { Tag::next, nikonPvId,        ignoreTiffComponent                       },
         {  Tag::all, nikonPvId,        newTiffEntry                              },
 
         // Nikon3 vibration reduction
@@ -1880,25 +1881,25 @@ namespace Exiv2 {
         {  Tag::all, nikonLd3Id,       newTiffBinaryElement                      },
 
         // Panasonic makernote
-        { Tag::next, panasonicId,      newTiffDirectory<ignoreId>                },
+        { Tag::next, panasonicId,      ignoreTiffComponent                       },
         {  Tag::all, panasonicId,      newTiffEntry                              },
 
         // Pentax DNG makernote
         {    0x0003, pentaxDngId,      newTiffThumbSize<0x0004, pentaxDngId>     },
         {    0x0004, pentaxDngId,      newTiffThumbData<0x0003, pentaxDngId>     },
-        { Tag::next, pentaxDngId,      newTiffDirectory<ignoreId>                },
+        { Tag::next, pentaxDngId,      ignoreTiffComponent                       },
         {  Tag::all, pentaxDngId,      newTiffEntry                              },
 
         // Pentax makernote
         {    0x0003, pentaxId,         newTiffThumbSize<0x0004, pentaxId>        },
         {    0x0004, pentaxId,         newTiffThumbData<0x0003, pentaxId>        },
-        { Tag::next, pentaxId,         newTiffDirectory<ignoreId>                },
+        { Tag::next, pentaxId,         ignoreTiffComponent                       },
         {  Tag::all, pentaxId,         newTiffEntry                              },
 
         // Samsung2 makernote
         {    0x0021, samsung2Id,       EXV_BINARY_ARRAY(samsungPwCfg, samsungPwDef) },
         {    0x0035, samsung2Id,       newTiffSubIfd<samsungPvId>                },
-        { Tag::next, samsung2Id,       newTiffDirectory<ignoreId>                },
+        { Tag::next, samsung2Id,       ignoreTiffComponent                       },
         {  Tag::all, samsung2Id,       newTiffEntry                              },
 
         // Samsung PictureWizard binary array
@@ -1907,17 +1908,17 @@ namespace Exiv2 {
         // Samsung2 makernote preview subdir
         {    0x0201, samsungPvId,      newTiffThumbData<0x0202, samsungPvId>     },
         {    0x0202, samsungPvId,      newTiffThumbSize<0x0201, samsungPvId>     },
-        { Tag::next, samsungPvId,      newTiffDirectory<ignoreId>                },
+        { Tag::next, samsungPvId,      ignoreTiffComponent                       },
         {  Tag::all, samsungPvId,      newTiffEntry                              },
 
         // Sigma/Foveon makernote
-        { Tag::next, sigmaId,          newTiffDirectory<ignoreId>                },
+        { Tag::next, sigmaId,          ignoreTiffComponent                       },
         {  Tag::all, sigmaId,          newTiffEntry                              },
 
         // Sony1 makernote
         {    0x0114, sony1Id,          EXV_COMPLEX_BINARY_ARRAY(sony1CsSet, sonyCsSelector) },
         {    0xb028, sony1Id,          newTiffSubIfd<sonyMltId>                  },
-        { Tag::next, sony1Id,          newTiffDirectory<ignoreId>                },
+        { Tag::next, sony1Id,          ignoreTiffComponent                       },
         {  Tag::all, sony1Id,          newTiffEntry                              },
 
         // Sony1 camera settings
@@ -1926,7 +1927,7 @@ namespace Exiv2 {
 
         // Sony2 makernote
         {    0x0114, sony2Id,          EXV_COMPLEX_BINARY_ARRAY(sony2CsSet, sonyCsSelector) },
-        { Tag::next, sony2Id,          newTiffDirectory<ignoreId>                },
+        { Tag::next, sony2Id,          ignoreTiffComponent                       },
         {  Tag::all, sony2Id,          newTiffEntry                              },
 
         // Sony2 camera settings
@@ -1940,7 +1941,7 @@ namespace Exiv2 {
         {    0x0088, sonyMltId,        newTiffThumbData<0x0089, sonyMltId>       },
         {    0x0089, sonyMltId,        newTiffThumbSize<0x0088, sonyMltId>       },
         {    0x0114, sonyMltId,        EXV_BINARY_ARRAY(sony1MCsA100Cfg, sony1MCsA100Def)},
-        { Tag::next, sonyMltId,        newTiffDirectory<ignoreId>                },
+        { Tag::next, sonyMltId,        ignoreTiffComponent                       },
         {  Tag::all, sonyMltId,        newTiffEntry                              },
 
         // Sony1 Minolta makernote composite tags
@@ -1956,7 +1957,7 @@ namespace Exiv2 {
         {    0x0088, minoltaId,        newTiffThumbData<0x0089, minoltaId>       },
         {    0x0089, minoltaId,        newTiffThumbSize<0x0088, minoltaId>       },
         {    0x0114, minoltaId,        EXV_BINARY_ARRAY(minoCs5Cfg, minoCs5Def)  },
-        { Tag::next, minoltaId,        newTiffDirectory<ignoreId>                },
+        { Tag::next, minoltaId,        ignoreTiffComponent                       },
         {  Tag::all, minoltaId,        newTiffEntry                              },
 
         // Minolta makernote composite tags
@@ -1974,20 +1975,20 @@ namespace Exiv2 {
         {    0x8825, panaRawId,        newTiffSubIfd<gpsId>                      },
 //        {    0x0111, panaRawId,        newTiffImageData<0x0117, panaRawId>       },
 //        {    0x0117, panaRawId,        newTiffImageSize<0x0111, panaRawId>       },
-        { Tag::next, panaRawId,        newTiffDirectory<ignoreId>                },
+        { Tag::next, panaRawId,        ignoreTiffComponent                       },
         {  Tag::all, panaRawId,        newTiffEntry                              },
 
         // Casio makernote
-        { Tag::next, casioId,          newTiffDirectory<ignoreId>                },
+        { Tag::next, casioId,          ignoreTiffComponent                       },
         {  Tag::all, casioId,          newTiffEntry                              },
 
         // Casio2 makernote
-        { Tag::next, casio2Id,          newTiffDirectory<ignoreId>                },
+        { Tag::next, casio2Id,          ignoreTiffComponent                       },
         {  Tag::all, casio2Id,          newTiffEntry                              },
 
         // -----------------------------------------------------------------------
         // Tags which are not de/encoded
-        { Tag::next, ignoreId,           newTiffDirectory<ignoreId>              },
+        { Tag::next, ignoreId,           ignoreTiffComponent                     },
         {  Tag::all, ignoreId,           newTiffEntry                            }
     };
 

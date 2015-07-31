@@ -1229,7 +1229,7 @@ namespace Exiv2 {
         if (pos != dirList_.end()) {
 #ifndef SUPPRESS_WARNINGS
             EXV_ERROR << groupName(group) << " pointer references previously read "
-                      << groupName(pos->second) << " directory. Ignored.\n";
+                      << groupName(pos->second) << " directory; ignored.\n";
 #endif
             return true;
         }
@@ -1313,7 +1313,7 @@ namespace Exiv2 {
 #ifndef SUPPRESS_WARNINGS
                 if (tc.get() == 0) {
                     EXV_WARNING << "Directory " << groupName(object->group())
-                                << " has an unhandled next pointer.\n";
+                                << " has an unexpected next pointer; ignored.\n";
                 }
 #endif
             }

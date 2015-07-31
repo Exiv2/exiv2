@@ -67,12 +67,12 @@ Exit code: 0
 -----> exiv2-canon-eos-20d.jpg <-----
 
 Command: exiv2 -pp exiv2-canon-eos-20d.jpg
-Error: Directory Canon: Next pointer is out of bounds; ignored.
+Warning: Directory Canon has an unexpected next pointer; ignored.
 Preview 1: image/jpeg, 160x120 pixels, 6260 bytes
 Exit code: 0
 
 Command: exiv2 -f -ep exiv2-canon-eos-20d.jpg
-Error: Directory Canon: Next pointer is out of bounds; ignored.
+Warning: Directory Canon has an unexpected next pointer; ignored.
 Exit code: 0
 
 -----> exiv2-canon-eos-300d.jpg <-----
