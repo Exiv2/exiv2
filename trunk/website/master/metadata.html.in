@@ -43,6 +43,7 @@ __maintitle__
 
  <li><a href="tags-xmp-tiff.html">Exif schema for TIFF Properties (tiff)</a></li>
  <li><a href="tags-xmp-exif.html">Exif schema for Exif-specific Properties (exif)</a></li>
+ <li><a href="tags-xmp-exifEX.html">Exif 2.3 metadata for XMP Properties (exif)</a></li>
  <li><a href="tags-xmp-aux.html">Exif schema for Additional Exif Properties (aux)</a></li>
 
  <li><a href="tags-xmp-iptc.html">IPTC Core schema (Iptc4xmpCore)</a></li>
