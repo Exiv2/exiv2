@@ -126,6 +126,7 @@ SCHEMA = xmp_dc \
          xmp_crs \
          xmp_tiff \
          xmp_exif \
+         xmp_exifEX \
          xmp_aux \
          xmp_iptc \
          xmp_MicrosoftPhoto \

@@ -75,6 +75,7 @@ SCHEMA = dc \
          crs \
          tiff \
          exif \
+         exifEX \
          aux \
          iptc \
          iptcExt \

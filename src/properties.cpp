@@ -86,6 +86,7 @@ namespace Exiv2 {
     extern const XmpPropertyInfo xmpCrsInfo[];
     extern const XmpPropertyInfo xmpTiffInfo[];
     extern const XmpPropertyInfo xmpExifInfo[];
+    extern const XmpPropertyInfo xmpExifEXInfo[];
     extern const XmpPropertyInfo xmpAuxInfo[];
     extern const XmpPropertyInfo xmpIptcInfo[];
     extern const XmpPropertyInfo xmpIptcExtInfo[];
@@ -123,6 +124,7 @@ namespace Exiv2 {
         { "http://ns.adobe.com/camera-raw-settings/1.0/", "crs",            xmpCrsInfo,       N_("Camera Raw schema")                         },
         { "http://ns.adobe.com/tiff/1.0/",                "tiff",           xmpTiffInfo,      N_("Exif Schema for TIFF Properties")           },
         { "http://ns.adobe.com/exif/1.0/",                "exif",           xmpExifInfo,      N_("Exif schema for Exif-specific Properties")  },
+        { "http://cipa.jp/exif/1.0/",                     "exifEX",         xmpExifEXInfo,    N_("Exif 2.3 metadata for XMP")  },
         { "http://ns.adobe.com/exif/1.0/aux/",            "aux",            xmpAuxInfo,       N_("Exif schema for Additional Exif Properties")},
         { "http://iptc.org/std/Iptc4xmpCore/1.0/xmlns/",  "iptc",           xmpIptcInfo,      N_("IPTC Core schema")                          }, // NOTE: 'Iptc4xmpCore' is just too long, so make 'iptc'
         { "http://iptc.org/std/Iptc4xmpCore/1.0/xmlns/",  "Iptc4xmpCore",   xmpIptcInfo,      N_("IPTC Core schema")                          }, // the default prefix. But provide the official one too.
@@ -650,6 +652,37 @@ namespace Exiv2 {
         { "GPSProcessingMethod",      N_("GPS Processing Method"),               "Text",                         xmpText, xmpInternal, N_("GPS tag 27, 0x1B. A character string recording the name of the method used for location finding.") },
         { "GPSAreaInformation",       N_("GPS Area Information"),                "Text",                         xmpText, xmpInternal, N_("GPS tag 28, 0x1C. A character string recording the name of the GPS area.") },
         { "GPSDifferential",          N_("GPS Differential"),                    "Closed Choice of Integer",     xmpText, xmpInternal, N_("GPS tag 30, 0x1E. Indicates whether differential correction is applied to the GPS receiver.") },
+        // End of list marker
+        { 0, 0, 0, invalidTypeId, xmpInternal, 0 }
+    };
+
+    extern const XmpPropertyInfo xmpExifEXInfo[] = {
+        { "Gamma",                      N_("Gamma"),                    "Rational",                 xmpText, xmpInternal, N_("EXIF tag 42240, 0xA500. Indicates the value of coefficient gamma.") },
+        { "PhotographicSensitivity",    N_("Photographic Sensitivity"), "Integer",                  xmpText, xmpInternal, N_("EXIF tag 34855, 0x8827. Indicates the sensitivity of the camera or input device when the image was shot up to the value of 65535 with one of the following parameters that are defined in ISO 12232: standard output sensitivity (SOS), recommended exposure index (REI), or ISO speed.") },
+        { "SensitivityType",            N_("Sensitivity Type"),         "Closed Choice of Integer", xmpText, xmpInternal, N_("EXIF tag 34864, 0x8830. Indicates which one of the parameters of ISO12232 is used for PhotographicSensitivity:0 = Unknown "
+                                                                                                                             "1 = Standard output sensitivity (SOS) "
+                                                                                                                             "2 = Recommended exposure index (REI) "
+                                                                                                                             "3 = ISO speed "
+                                                                                                                             "4 = Standard output sensitivity (SOS) and recommended exposure index (REI) "
+                                                                                                                             "5 = Standard output sensitivity (SOS) and ISO speed "
+                                                                                                                             "6 = Recommended exposure index (REI) and ISO speed "
+                                                                                                                             "7 = Standard output sensitivity (SOS) and recommended exposure index (REI) and ISO speed") },
+        { "StandardOutput-Sensitivity", N_("Standard Output Sensitivity"),  "Integer",              xmpText, xmpInternal, N_("EXIF tag 34865, 0x8831. Indicates the standard output sensitivity value of a camera or input device defined in ISO 12232.") },
+        { "RecommendedExposureIndex"    N_("Recommended Exposure Index"),   "Integer",              xmpText, xmpInternal, N_("EXIF tag 34866, 0x8832. Indicates the recommended exposure index value of a camera or input device defined in ISO 12232.") },
+        { "ISOSpeed",                   N_("ISO Speed"),                    "Integer",              xmpText, xmpInternal, N_("EXIF tag 34867, 0x8833. Indicates the ISO speed value of a camera or input device defined in ISO 12232.") },
+        { "ISOSpeedLatitudeyyy",        N_("ISO Speed Latitude yyy"),       "Integer",              xmpText, xmpInternal, N_("EXIF tag 34868, 0x8834. Indicates the ISO speed latitude yyy value of a camera or input device defined in ISO 12232.") },
+        { "ISOSpeedLatitudezzz",        N_("ISO Speed Latitude zzz"),       "Integer",              xmpText, xmpInternal, N_("EXIF tag 34869, 0x8835. Indicates the ISO speed latitude zzz value of a camera or input device defined in ISO 12232.") },
+        { "CameraOwnerName",            N_("Camera Owner Name"),            "Proper-Name",          xmpText, xmpInternal, N_("EXIF tag 42032, 0xA430. This tag records the owner of a camera used in photography as an ASCII string.") },
+        { "BodySerialNumber",           N_("Body Serial Number"),           "Text",                 xmpText, xmpInternal, N_("EXIF tag 42033, 0xA431. The serial number of the camera or camera body used to take the photograph.") },
+        { "LensSpecification",          N_("Lens Specification"),           "Ordered array of Rational",    xmpText, xmpInternal, N_("EXIF tag 42034, 0xA432. notes minimum focal length, maximum focal length, minimum F number in the minimum focal length, and minimum F number in the maximum focal length, which are specification information for the lens that was used in photography.") },
+        { "LensMake",                   N_("Lens Make"),                    "Proper-Name",          xmpText, xmpInternal, N_("EXIF tag 42035, 0xA433. Records the lens manufacturer as an ASCII string.") },
+        { "LensModel",                  N_("Lens Model"),                   "Text",                 xmpText, xmpInternal, N_("EXIF tag 42036, 0xA434. Records the lens’s model name and model number as an ASCII string.") },
+        { "LensSerialNumber",           N_("Lens Serial Number"),           "Text",                 xmpText, xmpInternal, N_("EXIF tag 42037, 0xA435. This tag records the serial number of the interchangeable lens that was used in photography as an ASCII string.") },
+
+        { "InteroperabilityIndex",    N_("Interoperability Index"),         "Closed Choice of Text",    xmpText, xmpInternal, N_("EXIF tag 1, 0x0001. Indicates the identification of the Interoperability rule.  "
+                                                                                                                                 "R98 = Indicates a file conforming to R98 file specification of Recommended Exif Interoperability Rules (Exif R 98) or to DCF basic file stipulated by Design Rule for Camera File System (DCF). "
+                                                                                                                                 "THM = Indicates a file conforming to DCF thumbnail file stipulated by Design rule for Camera File System. "
+                                                                                                                                 "R03 = Indicates a file conforming to DCF Option File stipulated by Design rule for Camera File System.") },
         // End of list marker
         { 0, 0, 0, invalidTypeId, xmpInternal, 0 }
     };
