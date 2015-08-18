@@ -273,6 +273,8 @@ namespace Exiv2 {
         { (long int)0x3800000, "PowerShot SX530 HS" },
         { (long int)0x3820000, "PowerShot SX710 HS" },
         { (long int)0x3830000, "PowerShot SX610 HS" },
+        { (long int)0x3850000, "PowerShot G3 X" },
+        { (long int)0x3860000, "PowerShot ELPH 165 HS / IXUS 165 / IXY 160" },
         { (long int)0x3870000, "PowerShot ELPH 160 / IXUS 160" },
         { (long int)0x3890000, "PowerShot ELPH 170 IS / IXUS 170" },
         { (long int)0x3910000, "PowerShot SX410 HS" },
@@ -901,6 +903,7 @@ namespace Exiv2 {
         { 506, "Canon EF 400mm f/4 DO IS II USM"                            },
         { 507, "Canon EF 16-35mm f/4L IS USM"                               },
         { 508, "Canon EF 11-24mm f/4L USM"                                  },
+        { 747, "Canon EF 100-400mm f/4.5-5.6L IS II USM"                    },
         { 4142,"Canon EF-S 18-135mm f/3.5-5.6 IS STM"                       },
         { 4143,"Canon EF-M 18-55mm f/3.5-5.6 IS STM"                        }, // 0
         { 4143,"Tamron 18-200mm F/3.5-6.3 Di III VC"                        }, // 1
