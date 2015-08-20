@@ -52,7 +52,9 @@
 #include "mrwimage.hpp"
 #include "orfimage.hpp"
 #include "pgfimage.hpp"
+#ifdef   EXV_HAVE_LIBZ
 #include "pngimage.hpp"
+#endif
 #include "preview.hpp"
 #include "properties.hpp"
 #include "psdimage.hpp"
