@@ -79,7 +79,8 @@ namespace Exiv2 {
         { "-",              olympusId,   0,              newOlympusMn2   },
         { "-",              olympus2Id,  0,              newOlympus2Mn2  },
         { "-",              pentaxId,    0,              newPentaxMn2    },
-        { "-",              pentaxDngId, 0,              newPentaxDngMn2 }
+        { "-",              pentaxDngId, 0,              newPentaxDngMn2 },
+        { "-",              casio2Id,    0,              newCasio2Mn2    }
     };
 
     bool TiffMnRegistry::operator==(const std::string& key) const
