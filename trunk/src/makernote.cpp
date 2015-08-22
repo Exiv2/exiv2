@@ -80,6 +80,7 @@ namespace Exiv2 {
         { "-",              olympus2Id,  0,              newOlympus2Mn2  },
         { "-",              pentaxId,    0,              newPentaxMn2    },
         { "-",              pentaxDngId, 0,              newPentaxDngMn2 },
+        { "-",              casioId,     0,              newIfdMn2       },
         { "-",              casio2Id,    0,              newCasio2Mn2    }
     };
 
