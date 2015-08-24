@@ -69,25 +69,32 @@ EXIV2_RCSID("@(#) $Id$")
 # include <XMP.incl_cpp>
 #include "xmp.hpp"
 
-static XMP_Status namespaceDumper ( void* /*refCon*/
-                  , XMP_StringPtr buffer
-                  , XMP_StringLen bufferSize
-) {
-	XMP_Status result = 0 ;
-	std::string out(buffer,bufferSize);
-	// remove blanks
-	// http://stackoverflow.com/questions/83439/remove-spaces-from-stdstring-in-c
-	std::string::iterator end_pos = std::remove(out.begin(), out.end(), ' ');
-	out.erase(end_pos, out.end());
+typedef struct {
+    std::ostream& os;
+    const char*   name;
+} NSDumper;
 
-	bool bHttp = out.find("http://") != std::string::npos ;
-	bool bNS   = out.find(":") != std::string::npos && !bHttp;
-	if ( bHttp || bNS ) {
-		if ( bNS )   std::cout << "xmlns=" ;
-		             std::cout <<  out     ;
-		if ( bHttp ) std::cout << std::endl;
-	}
-	return     result;
+static XMP_Status namespaceDumper
+( void*         refCon
+, XMP_StringPtr buffer
+, XMP_StringLen bufferSize
+) {
+    XMP_Status result = 0 ;
+    std::string out(buffer,bufferSize);
+    // remove blanks
+    // http://stackoverflow.com/questions/83439/remove-spaces-from-stdstring-in-c
+    std::string::iterator end_pos = std::remove(out.begin(), out.end(), ' ');
+    out.erase(end_pos, out.end());
+
+    bool bHttp = out.find("http://") != std::string::npos ;
+    bool bNS   = out.find(":") != std::string::npos && !bHttp;
+    if ( bHttp || bNS ) {
+        NSDumper* nsDumper = (NSDumper*) refCon;
+        if ( bNS )   nsDumper->os << nsDumper->name << "=" ;
+                     nsDumper->os <<  out     ;
+        if ( bHttp ) nsDumper->os << std::endl;
+    }
+    return     result;
 }
 #endif // EXV_HAVE_XMP_TOOLKIT
 
@@ -165,11 +172,11 @@ typedef string_v::iterator  string_i;
   };
 #endif
 
-static void output(std::ostream& os,const exv_grep_keys_t& greps,const char* name,const std::string& value)
+static bool shouldOutput(const exv_grep_keys_t& greps,const char* name,const std::string& value)
 {
     bool bPrint = greps.empty();
     for( exv_grep_keys_t::const_iterator g = greps.begin();
-        !bPrint && g != greps.end() ; ++g
+      !bPrint && g != greps.end() ; ++g
     ) {
 #if EXV_HAVE_REGEX
         bPrint = (  0 == regexec( &(*g), name         , 0, NULL, 0)
@@ -179,7 +186,12 @@ static void output(std::ostream& os,const exv_grep_keys_t& greps,const char* nam
         bPrint = std::string(name).find(*g) != std::string::npos || value.find(*g) != std::string::npos;
 #endif
     }
-    if ( bPrint ) os << name << "=" << value << endl;
+    return bPrint;
+}
+
+static void output(std::ostream& os,const exv_grep_keys_t& greps,const char* name,const std::string& value)
+{
+    if ( shouldOutput(greps,name,value) ) os << name << "=" << value << endl;
 }
 
 static void output(std::ostream& os,const exv_grep_keys_t& greps,const char* name,int value)
@@ -545,7 +557,11 @@ void Exiv2::dumpLibraryInfo(std::ostream& os,const exv_grep_keys_t& keys)
 
 #ifdef EXV_HAVE_XMP_TOOLKIT
     Exiv2::XmpParser::initialize();
-    SXMPMeta::DumpNamespaces(namespaceDumper,NULL);
+    const char* name = "xmlns";
+    NSDumper nsDumper = { os,name };
+    if ( shouldOutput(keys,name,"") ) {
+        SXMPMeta::DumpNamespaces(namespaceDumper,&nsDumper);
+    }
 #endif
 
 #if defined(__linux__)
