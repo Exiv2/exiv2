@@ -2463,22 +2463,23 @@ namespace Exiv2 {
 
     std::ostream& print0x829a(std::ostream& os, const Value& value, const ExifData*)
     {
-        Rational t = value.toRational();
-        if (t.first > 1 && t.second > 1 && t.second >= t.first) {
-            t.second = static_cast<uint32_t>(
-                static_cast<float>(t.second) / t.first + 0.5);
+        if (value.count() == 0) return os;
+        if (value.typeId() != unsignedRational) return os << "(" << value << ")";
+
+        URational t = value.toRational();
+        if (t.first == 0 || t.second == 0) {
+            os << "(" << t << ")";
+        }
+        else if (t.second == t.first) {
+            os << "1 s";
+        }
+        else if (t.second % t.first == 0) {
+            t.second = t.second / t.first;
             t.first = 1;
-        }
-        if (t.second > 1 && t.second < t.first) {
-            t.first = static_cast<uint32_t>(
-                static_cast<float>(t.first) / t.second + 0.5);
-            t.second = 1;
-        }
-        if (t.second == 1) {
-            os << t.first << " s";
+            os << t << " s";
         }
         else {
-            os << t.first << "/" << t.second << " s";
+            os << static_cast<float>(t.first) / t.second << " s";
         }
         return os;
     }
