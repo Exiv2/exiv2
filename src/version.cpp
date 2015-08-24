@@ -67,7 +67,6 @@ EXIV2_RCSID("@(#) $Id$")
 # define TXMP_STRING_TYPE std::string
 # include <XMPSDK.hpp>
 # include <XMP.incl_cpp>
-#endif // EXV_HAVE_XMP_TOOLKIT
 #include "xmp.hpp"
 
 static XMP_Status namespaceDumper ( void* /*refCon*/
@@ -90,6 +89,7 @@ static XMP_Status namespaceDumper ( void* /*refCon*/
 	}
 	return     result;
 }
+#endif // EXV_HAVE_XMP_TOOLKIT
 
 namespace Exiv2 {
     int versionNumber()
@@ -543,8 +543,10 @@ void Exiv2::dumpLibraryInfo(std::ostream& os,const exv_grep_keys_t& keys)
     output(os,keys,"enable_video"      ,enable_video     );
     output(os,keys,"enable_webready"   ,enable_webready  );
 
+#ifdef EXV_HAVE_XMP_TOOLKIT
     Exiv2::XmpParser::initialize();
     SXMPMeta::DumpNamespaces(namespaceDumper,NULL);
+#endif
 
 #if defined(__linux__)
     dlclose(ph);
