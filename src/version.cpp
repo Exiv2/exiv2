@@ -60,6 +60,37 @@ EXIV2_RCSID("@(#) $Id$")
 #include <vector>
 #include <stdio.h>
 
+#include <iostream>
+
+// Adobe XMP Toolkit
+#ifdef EXV_HAVE_XMP_TOOLKIT
+# define TXMP_STRING_TYPE std::string
+# include <XMPSDK.hpp>
+# include <XMP.incl_cpp>
+#endif // EXV_HAVE_XMP_TOOLKIT
+#include "xmp.hpp"
+
+static XMP_Status namespaceDumper ( void* /*refCon*/
+                  , XMP_StringPtr buffer
+                  , XMP_StringLen bufferSize
+) {
+	XMP_Status result = 0 ;
+	std::string out(buffer,bufferSize);
+	// remove blanks
+	// http://stackoverflow.com/questions/83439/remove-spaces-from-stdstring-in-c
+	std::string::iterator end_pos = std::remove(out.begin(), out.end(), ' ');
+	out.erase(end_pos, out.end());
+
+	bool bHttp = out.find("http://") != std::string::npos ;
+	bool bNS   = out.find(":") != std::string::npos && !bHttp;
+	if ( bHttp || bNS ) {
+		if ( bNS )   std::cout << "xmlns=" ;
+		             std::cout <<  out     ;
+		if ( bHttp ) std::cout << std::endl;
+	}
+	return     result;
+}
+
 namespace Exiv2 {
     int versionNumber()
     {
@@ -511,6 +542,9 @@ void Exiv2::dumpLibraryInfo(std::ostream& os,const exv_grep_keys_t& keys)
     output(os,keys,"have_unicode_path" ,have_unicode_path);
     output(os,keys,"enable_video"      ,enable_video     );
     output(os,keys,"enable_webready"   ,enable_webready  );
+
+    Exiv2::XmpParser::initialize();
+    SXMPMeta::DumpNamespaces(namespaceDumper,NULL);
 
 #if defined(__linux__)
     dlclose(ph);
