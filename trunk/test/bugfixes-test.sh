@@ -279,6 +279,27 @@ source ./functions.source
 		runTest exiv2 -pS $filename
 	done
 
+	num=935
+	filename=`prep_empty_file $num`
+	runTest exiv2 -u -v -M"set Exif.Photo.ExposureTime 605/10" $filename
+	runTest exiv2 -u -pv -gExif.Photo.ExposureTime $filename
+	runTest exiv2 -u -pa -gExif.Photo.ExposureTime $filename
+	runTest exiv2 -u -v -M"set Exif.Photo.ExposureTime 2/3" $filename
+	runTest exiv2 -u -pv -gExif.Photo.ExposureTime $filename
+	runTest exiv2 -u -pa -gExif.Photo.ExposureTime $filename
+	runTest exiv2 -u -v -M"set Exif.Photo.ExposureTime 0/0" $filename
+	runTest exiv2 -u -pv -gExif.Photo.ExposureTime $filename
+	runTest exiv2 -u -pa -gExif.Photo.ExposureTime $filename
+	runTest exiv2 -u -v -M"set Exif.Photo.ExposureTime 605/605" $filename
+	runTest exiv2 -u -pv -gExif.Photo.ExposureTime $filename
+	runTest exiv2 -u -pa -gExif.Photo.ExposureTime $filename
+	runTest exiv2 -u -v -M"set Exif.Photo.ExposureTime 100/1500" $filename
+	runTest exiv2 -u -pv -gExif.Photo.ExposureTime $filename
+	runTest exiv2 -u -pa -gExif.Photo.ExposureTime $filename
+	runTest exiv2 -u -v -M"set Exif.Photo.ExposureTime Ascii Test" $filename
+	runTest exiv2 -u -pv -gExif.Photo.ExposureTime $filename
+	runTest exiv2 -u -pa -gExif.Photo.ExposureTime $filename
+
 	num=937
 	filename=exiv2-bug$num.jpg
 	printf "$num " >&3
