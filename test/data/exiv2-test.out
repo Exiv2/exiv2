@@ -261,7 +261,7 @@ File  3/15: 20000506_020544.jpg
 20000506_020544.jpg  Camera model    : E990
 20000506_020544.jpg  Image timestamp : 2000:05:06 02:05:44
 20000506_020544.jpg  Image number    : 
-20000506_020544.jpg  Exposure time   : 1/89 s
+20000506_020544.jpg  Exposure time   : 0.0111982 s
 20000506_020544.jpg  Aperture        : F7
 20000506_020544.jpg  Exposure bias   : 0 EV
 20000506_020544.jpg  Flash           : No flash
@@ -746,7 +746,7 @@ File  3/15: 20000506_020544.jpg
 20000506_020544.jpg   Exif.Image.DateTime                          Ascii      20  2000:05:06 02:05:44
 20000506_020544.jpg   Exif.Image.YCbCrPositioning                  Short       1  Co-sited
 20000506_020544.jpg   Exif.Image.ExifTag                           Long        1  284
-20000506_020544.jpg   Exif.Photo.ExposureTime                      Rational    1  1/89 s
+20000506_020544.jpg   Exif.Photo.ExposureTime                      Rational    1  0.0111982 s
 20000506_020544.jpg   Exif.Photo.FNumber                           Rational    1  F7
 20000506_020544.jpg   Exif.Photo.ExposureProgram                   Short       1  Aperture priority
 20000506_020544.jpg   Exif.Photo.ISOSpeedRatings                   Short       1  100
@@ -2359,7 +2359,7 @@ Compare image data and extracted data ------------------------------------
 < 20000506_020544.jpg   Exif.Image.DateTime                          Ascii      20  2000:05:06 02:05:44
 < 20000506_020544.jpg   Exif.Image.YCbCrPositioning                  Short       1  Co-sited
 < 20000506_020544.jpg   Exif.Image.ExifTag                           Long        1  284
-< 20000506_020544.jpg   Exif.Photo.ExposureTime                      Rational    1  1/89 s
+< 20000506_020544.jpg   Exif.Photo.ExposureTime                      Rational    1  0.0111982 s
 < 20000506_020544.jpg   Exif.Photo.FNumber                           Rational    1  F7
 < 20000506_020544.jpg   Exif.Photo.ExposureProgram                   Short       1  Aperture priority
 < 20000506_020544.jpg   Exif.Photo.ISOSpeedRatings                   Short       1  100
@@ -3900,7 +3900,7 @@ Compare image data and extracted data ------------------------------------
 > 20000506_020544.exv   Exif.Image.DateTime                          Ascii      20  2000:05:06 02:05:44
 > 20000506_020544.exv   Exif.Image.YCbCrPositioning                  Short       1  Co-sited
 > 20000506_020544.exv   Exif.Image.ExifTag                           Long        1  216
-> 20000506_020544.exv   Exif.Photo.ExposureTime                      Rational    1  1/89 s
+> 20000506_020544.exv   Exif.Photo.ExposureTime                      Rational    1  0.0111982 s
 > 20000506_020544.exv   Exif.Photo.FNumber                           Rational    1  F7
 > 20000506_020544.exv   Exif.Photo.ExposureProgram                   Short       1  Aperture priority
 > 20000506_020544.exv   Exif.Photo.ISOSpeedRatings                   Short       1  100
@@ -5661,7 +5661,7 @@ Compare original and inserted image data ---------------------------------
 < 20000506_020544.jpg   Exif.Image.DateTime                          Ascii      20  2000:05:06 02:05:44
 < 20000506_020544.jpg   Exif.Image.YCbCrPositioning                  Short       1  Co-sited
 < 20000506_020544.jpg   Exif.Image.ExifTag                           Long        1  284
-< 20000506_020544.jpg   Exif.Photo.ExposureTime                      Rational    1  1/89 s
+< 20000506_020544.jpg   Exif.Photo.ExposureTime                      Rational    1  0.0111982 s
 < 20000506_020544.jpg   Exif.Photo.FNumber                           Rational    1  F7
 < 20000506_020544.jpg   Exif.Photo.ExposureProgram                   Short       1  Aperture priority
 < 20000506_020544.jpg   Exif.Photo.ISOSpeedRatings                   Short       1  100
@@ -7202,7 +7202,7 @@ Compare original and inserted image data ---------------------------------
 > 20000506_020544.exv   Exif.Image.DateTime                          Ascii      20  2000:05:06 02:05:44
 > 20000506_020544.exv   Exif.Image.YCbCrPositioning                  Short       1  Co-sited
 > 20000506_020544.exv   Exif.Image.ExifTag                           Long        1  216
-> 20000506_020544.exv   Exif.Photo.ExposureTime                      Rational    1  1/89 s
+> 20000506_020544.exv   Exif.Photo.ExposureTime                      Rational    1  0.0111982 s
 > 20000506_020544.exv   Exif.Photo.FNumber                           Rational    1  F7
 > 20000506_020544.exv   Exif.Photo.ExposureProgram                   Short       1  Aperture priority
 > 20000506_020544.exv   Exif.Photo.ISOSpeedRatings                   Short       1  100
