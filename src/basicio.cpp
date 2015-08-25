@@ -1174,7 +1174,6 @@ namespace Exiv2 {
     MemIo::~MemIo()
     {
         if (p_->isMalloced_) {
-            msync();
             std::free(p_->data_);
         }
         delete p_;
@@ -1200,7 +1199,6 @@ namespace Exiv2 {
         if (memIo) {
             // Optimization if src is another instance of MemIo
             if (p_->isMalloced_) {
-				msync();
                 std::free(p_->data_);
             }
             p_->idx_ = 0;
@@ -1288,16 +1286,7 @@ namespace Exiv2 {
 
     int MemIo::munmap()
     {
-        return msync();
-    }
-
-    int MemIo::msync()
-    {
-#ifdef MS_SYNC
-        return ::msync(p_, p_->size_, MS_SYNC);
-#else
         return 0;
-#endif
     }
 
     long MemIo::tell() const
