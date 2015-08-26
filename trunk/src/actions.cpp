@@ -2025,9 +2025,11 @@ namespace {
     {
         std::string directory = Params::instance().directory_;
         if (directory.empty()) directory = Util::dirname(path);
-        std::string newPath =   directory + EXV_SEPARATOR_STR
-                              + Util::basename(path, true) + ext;
-        return newPath;
+        directory   = Exiv2::fileProtocol(path) == Exiv2::pFile
+                    ? directory + EXV_SEPARATOR_STR
+                    : "" // use current directory for remote files
+                    ;
+        return directory + Util::basename(path, true) + ext;
     }
 
     int dontOverwrite(const std::string& path)
