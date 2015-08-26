@@ -241,8 +241,10 @@ namespace Action {
         case Params::pmList:      rc = printList();        break;
         case Params::pmComment:   rc = printComment();     break;
         case Params::pmPreview:   rc = printPreviewList(); break;
-        case Params::pmStructure: rc = printStructure(std::cout,Exiv2::kpsBasic); break;
-        case Params::pmXMP:       rc = printStructure(std::cout,Exiv2::kpsXMP);   break;
+        case Params::pmStructure: rc = printStructure(std::cout,Exiv2::kpsBasic)     ; break;
+        case Params::pmXMP:       rc = printStructure(std::cout,Exiv2::kpsXMP)       ; break;
+        case Params::pmIccProfile:rc = printStructure(std::cout,Exiv2::kpsIccProfile); break;
+        case Params::pmRecursive: rc = printStructure(std::cout,Exiv2::kpsRecursive) ; break;
         }
         return rc;
     }
@@ -1007,6 +1009,9 @@ namespace Action {
         if (Params::instance().target_ & Params::ctPreview) {
             rc = writePreviews();
         }
+        if (Params::instance().target_ & Params::ctIccProfile) {
+            rc = writeIccProfile();
+        }
         if (   !(Params::instance().target_ & Params::ctXmpSidecar)
             && !(Params::instance().target_ & Params::ctThumb)
             && !(Params::instance().target_ & Params::ctPreview)) {
@@ -1097,6 +1102,32 @@ namespace Action {
         }
         return 0;
     } // Extract::writePreviews
+
+    int Extract::writeIccProfile() const
+    {
+        if (!Exiv2::fileExists(path_, true)) {
+            std::cerr << path_
+                      << ": " << _("Failed to open the file\n");
+            return -1;
+        }
+        Exiv2::Image::AutoPtr image = Exiv2::ImageFactory::open(path_);
+        assert(image.get() != 0);
+		image->readMetadata();
+
+		std::string    iccPath   = newFilePath(path_,".icc");
+		std::filebuf   iccBuffer ;
+		iccBuffer.open(iccPath,std::ios::out);
+		std::ostream   iccStream(&iccBuffer);
+
+		image->printStructure(iccStream,Exiv2::kpsIccProfile);
+
+		iccBuffer.close();
+        if (Params::instance().verbose_) {
+            std::cout << _("Writing iccProfile: ") << iccPath << std::endl;
+        }
+		return 0;
+    } // Extract::writeIccProfile
+
 
     void Extract::writePreviewFile(const Exiv2::PreviewImage& pvImg, int num) const
     {

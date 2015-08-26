@@ -309,6 +309,10 @@ namespace Action {
                  depending on the format of the Exif thumbnail image.
          */
         void writePreviewFile(const Exiv2::PreviewImage& pvImg, int num) const;
+        /*!
+          @brief Write embedded iccProfile files.
+         */
+        int writeIccProfile() const;
 
     private:
         virtual Extract* clone_() const;

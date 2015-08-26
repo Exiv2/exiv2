@@ -369,6 +369,7 @@ int Params::option(int opt, const std::string& optarg, int optopt)
     case 'P': rc = evalPrintFlags(optarg); break;
     case 'd': rc = evalDelete(optarg); break;
     case 'e': rc = evalExtract(optarg); break;
+    case 'C': rc = evalExtract(optarg); break;
     case 'i': rc = evalInsert(optarg); break;
     case 'c': rc = evalModify(opt, optarg); break;
     case 'm': rc = evalModify(opt, optarg); break;
@@ -560,10 +561,12 @@ int Params::evalPrint(const std::string& optarg)
         case 'h': rc = evalPrintFlags("Exgnycsh"); break;
         case 'i': rc = evalPrintFlags("Ikyct"); break;
         case 'x': rc = evalPrintFlags("Xkyct"); break;
-        case 'c': action_ = Action::print; printMode_ = pmComment  ; break;
-        case 'p': action_ = Action::print; printMode_ = pmPreview  ; break;
-        case 'S': action_ = Action::print; printMode_ = pmStructure; break;
-        case 'X': action_ = Action::print; printMode_ = pmXMP      ; break;
+        case 'c': action_ = Action::print; printMode_ = pmComment    ; break;
+        case 'p': action_ = Action::print; printMode_ = pmPreview    ; break;
+        case 'C': action_ = Action::print; printMode_ = pmIccProfile ; break;
+        case 'R': action_ = Action::print; printMode_ = pmRecursive  ; break;
+        case 'S': action_ = Action::print; printMode_ = pmStructure  ; break;
+        case 'X': action_ = Action::print; printMode_ = pmXMP        ; break;
         default:
             std::cerr << progname() << ": " << _("Unrecognized print mode") << " `"
                       << optarg << "'\n";
@@ -1017,6 +1020,7 @@ namespace {
             case 'x': target |= Params::ctXmp; break;
             case 'c': target |= Params::ctComment; break;
             case 't': target |= Params::ctThumb; break;
+            case 'C': target |= Params::ctIccProfile; break;
             case 'a': target |=   Params::ctExif
                                 | Params::ctIptc
                                 | Params::ctComment

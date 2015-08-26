@@ -148,7 +148,9 @@ public:
         pmComment,
         pmPreview,
 		pmStructure,
-		pmXMP
+		pmXMP,
+		pmIccProfile,
+		pmRecursive
     };
 
     //! Individual items to print, bitmap
@@ -174,7 +176,8 @@ public:
         ctThumb      =  8,
         ctXmp        = 16,
         ctXmpSidecar = 32,
-        ctPreview    = 64
+        ctPreview    = 64,
+        ctIccProfile =128
     };
 
     //! Enumerates the policies to handle existing files in rename action

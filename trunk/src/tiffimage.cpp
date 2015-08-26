@@ -455,6 +455,11 @@ namespace Exiv2 {
             throw Error(15);
         }
 
+        if ( option == kpsIccProfile || option == kpsRecursive ) {
+        	throw Error(13, io_->path());
+        }
+
+
         if ( option == kpsBasic || option == kpsXMP ) {
             io_->seek(0,BasicIo::beg);
             // buffer

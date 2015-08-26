@@ -104,6 +104,10 @@ namespace Exiv2 {
             throw Error(3, "PNG");
         }
 
+        if ( option == kpsIccProfile || option == kpsRecursive ) {
+        	throw Error(13, io_->path());
+        }
+
         char    chType[5];
         chType[0]=0;
         chType[4]=0;

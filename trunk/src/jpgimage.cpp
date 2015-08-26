@@ -527,7 +527,7 @@ namespace Exiv2 {
             throw Error(15);
         }
 
-        if ( option == kpsBasic || option == kpsXMP ) {
+        if ( option == kpsBasic || option == kpsXMP || option == kpsIccProfile || option == kpsRecursive) {
 
             // nmonic for markers
             std::string nm[256] ;
@@ -565,7 +565,7 @@ namespace Exiv2 {
             bool    first= true;
             while (!done) {
                 // print marker bytes
-                if ( first && option == kpsBasic ) {
+                if ( first && (option == kpsBasic||option==kpsRecursive) ) {
                     out << "STRUCTURE OF JPEG FILE: " << io_->path() << std::endl;
                     out << " address | marker     | length  | data" << std::endl ;
                     REPORT_MARKER;
@@ -597,7 +597,9 @@ namespace Exiv2 {
                     char http[5];
                     http[4]=0;
                     memcpy(http,buf.pData_+2,4);
+
                     if ( option == kpsXMP && std::strcmp(http,"http") == 0 ) {
+                        // extract XMP
                         // http://ns.adobe.com/xap/1.0/
                         if ( size > 0 ) {
                             io_->seek(-bufRead , BasicIo::cur);
@@ -623,6 +625,17 @@ namespace Exiv2 {
                             out << xmp + start; // this is all we need to output without the blank line dance.
                             delete [] xmp;
                             bufRead = size;
+                        }
+                    } else if ( option == kpsIccProfile && std::strcmp(http,"ICC_") == 0 ) {
+                        // extract ICCProfile
+                        if ( size > 0 ) {
+                            io_->seek(-bufRead , BasicIo::cur);
+                            byte* icc  = new byte[size];
+                            io_->read(icc,size);
+                            std::size_t start=16;
+                            out.write( ((const char*)icc)+start,size-start);
+                            bufRead = size;
+                            delete [] icc;
                         }
                     } else if ( option == kpsBasic ) {
                         out << "| " << Internal::binaryToString(buf,32,size>0?2:0);
