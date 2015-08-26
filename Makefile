@@ -79,6 +79,12 @@ teste testx testv:
 exiv2 conntest exifprint remotetest:
 	cd src && $(MAKE) $0
 
+addmoddel		exifcomment		exifvalue	httptest	iptctest		mmap-test	stringto-test \
+exifdata		iotest			key-test	path-test	taglist			write2-test write-test	\
+convert-test	exifdata-test	exiv2json	iptceasy	largeiptc-test	prevtest	tiff-test	\
+easyaccess-test	geotag			iptcprint	metacopy	werror-test	xmpparser-test 	xmpsample xmpparse :
+	cd samples && $(MAKE) $(MAKECMDGOALS)
+
 MAJOR=$(shell grep "define.*EXIV2_.*_VERSION .*\\d*" src/version.hpp | grep MAJOR | sed -e 's/EXIV2//g' | tr -dC [:digit:])
 MINOR=$(shell grep "define.*EXIV2_.*_VERSION .*\\d*" src/version.hpp | grep MINOR | sed -e 's/EXIV2//g' | tr -dC [:digit:])
 VERSION=exiv2-$(MAJOR).$(MINOR)
