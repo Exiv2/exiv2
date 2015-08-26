@@ -74,7 +74,7 @@ namespace Exiv2 {
     /*!
       @brief Options for printStructure
      */
-    typedef enum { kpsNone, kpsBasic, kpsXMP } PrintStructureOption;
+    typedef enum { kpsNone, kpsBasic, kpsXMP, kpsRecursive, kpsIccProfile } PrintStructureOption;
 
     /*!
       @brief Abstract base class defining the interface for an image. This is
