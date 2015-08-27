@@ -47,6 +47,12 @@ EXIV2_RCSID("@(#) $Id$")
 
 #if defined(__CYGWIN__) || defined(__MINGW__)
 #include <windows.h>
+# if __LP64__
+#  ifdef  _WIN64
+#   undef _WIN64
+#  endif
+#  define _WIN64 1
+# endif
 #endif
 
 #include "http.hpp"
