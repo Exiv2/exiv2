@@ -1126,7 +1126,7 @@ namespace Action {
 
 		std::string    iccPath   = newFilePath(path_,".icc");
 		std::filebuf   iccBuffer ;
-		iccBuffer.open(iccPath,std::ios::out);
+		iccBuffer.open(iccPath.c_str(),std::ios::out);
 		std::ostream   iccStream(&iccBuffer);
 
 		image->printStructure(iccStream,Exiv2::kpsIccProfile);
