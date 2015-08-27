@@ -530,40 +530,49 @@ namespace Action {
 
     int Print::printMetadata(const Exiv2::Image* image)
     {
-        std::string sMissing;
+        bool ret = false;
+        bool noExif = false;
         if (Params::instance().printTags_ & Exiv2::mdExif) {
             const Exiv2::ExifData& exifData = image->exifData();
             for (Exiv2::ExifData::const_iterator md = exifData.begin();
                  md != exifData.end(); ++md) {
-                printMetadatum(*md, image);
+                ret |= printMetadatum(*md, image);
             }
-            if (exifData.empty()) sMissing = "Exif" ;
+            if (exifData.empty()) noExif = true;
         }
 
+        bool noIptc = false;
         if (Params::instance().printTags_ & Exiv2::mdIptc) {
             const Exiv2::IptcData& iptcData = image->iptcData();
             for (Exiv2::IptcData::const_iterator md = iptcData.begin();
                  md != iptcData.end(); ++md) {
-                printMetadatum(*md, image);
+                ret |= printMetadatum(*md, image);
             }
-            if (iptcData.empty()) sMissing = "IPTC" ;
+            if (iptcData.empty()) noIptc = true;
         }
 
+        bool noXmp = false;
         if (Params::instance().printTags_ & Exiv2::mdXmp) {
             const Exiv2::XmpData& xmpData = image->xmpData();
             for (Exiv2::XmpData::const_iterator md = xmpData.begin();
                  md != xmpData.end(); ++md) {
-                printMetadatum(*md, image);
+                ret |= printMetadatum(*md, image);
             }
-            if (xmpData.empty()) sMissing = "XMP" ;
+            if (xmpData.empty()) noXmp = true;
         }
 
-        bool bTagFilterGiven = !Params::instance().greps_.empty();  // were tag filters given with -g?
-        int  result = ( sMissing.empty() || bTagFilterGiven ) ? 0 : -3;
-        if ( result ) {
-            std::cerr << path_ << ": " << "(No " << sMissing << " data found in the file)\n";
+        // With -v, inform about the absence of any (requested) type of metadata
+        if (Params::instance().verbose_) {
+            if (noExif) std::cerr << path_ << ": " << _("No Exif data found in the file\n");
+            if (noIptc) std::cerr << path_ << ": " << _("No IPTC data found in the file\n");
+            if (noXmp)  std::cerr << path_ << ": " << _("No XMP data found in the file\n");
         }
-        return result;
+
+        // With -g or -K, return -3 if no matching tags were found
+        int rc = 0;
+        if ((!Params::instance().greps_.empty() || !Params::instance().keys_.empty()) && !ret) rc = 1;
+
+        return rc;
     } // Print::printMetadata
 
     bool Print::grepTag(const std::string& key)
@@ -592,14 +601,14 @@ namespace Action {
         return result ;
     }
 
-    void Print::printMetadatum(const Exiv2::Metadatum& md, const Exiv2::Image* pImage)
+    bool Print::printMetadatum(const Exiv2::Metadatum& md, const Exiv2::Image* pImage)
     {
-        if (!grepTag(md.key())) return;
-        if (!keyTag (md.key())) return;
+        if (!grepTag(md.key())) return false;
+        if (!keyTag (md.key())) return false;
 
         if (   Params::instance().unknown_
             && md.tagName().substr(0, 2) == "0x") {
-            return;
+            return false;
         }
         bool const manyFiles = Params::instance().files_.size() > 1;
         if (manyFiles) {
@@ -675,7 +684,7 @@ namespace Action {
                     || md.typeId() == Exiv2::signedByte)
                 && md.size() > 128) {
                 std::cout << _("(Binary value suppressed)") << std::endl;
-                return;
+                return true;
             }
             bool done = false;
             if (0 == strcmp(md.key().c_str(), "Exif.Photo.UserComment")) {
@@ -700,7 +709,7 @@ namespace Action {
                     || md.typeId() == Exiv2::signedByte)
                 && md.size() > 128) {
                 std::cout << _("(Binary value suppressed)") << std::endl;
-                return;
+                return true;
             }
             bool done = false;
             if (0 == strcmp(md.key().c_str(), "Exif.Photo.UserComment")) {
@@ -721,13 +730,14 @@ namespace Action {
                     || md.typeId() == Exiv2::signedByte)
                 && md.size() > 128) {
                 std::cout << _("(Binary value suppressed)") << std::endl;
-                return;
+                return true;
             }
             Exiv2::DataBuf buf(md.size());
             md.copy(buf.pData_, pImage->byteOrder());
             Exiv2::hexdump(std::cout, buf.pData_, buf.size_);
         }
         std::cout << std::endl;
+        return true;
     } // Print::printMetadatum
 
     int Print::printComment()
