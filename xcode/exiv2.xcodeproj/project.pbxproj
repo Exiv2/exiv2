@@ -166,6 +166,7 @@
 		A10C3F4717DE241F008DC351 /* version.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = version.hpp; sourceTree = "<group>"; };
 		A10C3F4817DE241F008DC351 /* xmp.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = xmp.hpp; sourceTree = "<group>"; };
 		A10C3F4917DE241F008DC351 /* xmpsidecar.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = xmpsidecar.hpp; sourceTree = "<group>"; };
+		A1467F9B1B8F1B0400A2E7CD /* ReadMe.txt */ = {isa = PBXFileReference; lastKnownFileType = text; path = ReadMe.txt; sourceTree = "<group>"; };
 		A17533341B8E7C63003247E0 /* path-test */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.executable"; name = "path-test"; path = "../bin/path-test"; sourceTree = "<group>"; };
 		A17533351B8E7C63003247E0 /* metacopy */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.executable"; name = metacopy; path = ../bin/metacopy; sourceTree = "<group>"; };
 		A17533361B8E7C63003247E0 /* geotag */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.executable"; name = geotag; path = ../bin/geotag; sourceTree = "<group>"; };
@@ -265,6 +266,7 @@
 		A10C3EB117DE224C008DC351 = {
 			isa = PBXGroup;
 			children = (
+				A1467F9B1B8F1B0400A2E7CD /* ReadMe.txt */,
 				A17533331B8E7C12003247E0 /* bin */,
 				A10C3EFE17DE241F008DC351 /* include */,
 				A1C107F417DF042500DB5F0F /* samples */,
@@ -1195,6 +1197,7 @@
 				A14E159A1B8F04F8006F2E61 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		A14E159D1B8F0755006F2E61 /* Build configuration list for PBXLegacyTarget "configure" */ = {
 			isa = XCConfigurationList;
@@ -1203,6 +1206,7 @@
 				A14E159F1B8F0755006F2E61 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		A17533751B8E7DA9003247E0 /* Build configuration list for PBXLegacyTarget "tests" */ = {
 			isa = XCConfigurationList;
