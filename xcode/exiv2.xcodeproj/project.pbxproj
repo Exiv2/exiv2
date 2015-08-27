@@ -12,7 +12,7 @@
 			containerPortal = A10C3EB217DE224C008DC351 /* Project object */;
 			proxyType = 1;
 			remoteGlobalIDString = A105A09C1B8E36D100833CA3;
-			remoteInfo = "exiv2-debug";
+			remoteInfo = exiv2;
 		};
 /* End PBXContainerItemProxy section */
 
@@ -562,24 +562,10 @@
 /* End PBXGroup section */
 
 /* Begin PBXLegacyTarget section */
-		A105A09C1B8E36D100833CA3 /* exiv2-debug */ = {
+		A105A09C1B8E36D100833CA3 /* exiv2 */ = {
 			isa = PBXLegacyTarget;
 			buildArgumentsString = "make -j CXXFLAGS=-ggdb $(ACTION)";
-			buildConfigurationList = A105A09D1B8E36D100833CA3 /* Build configuration list for PBXLegacyTarget "exiv2-debug" */;
-			buildPhases = (
-			);
-			buildToolPath = /usr/bin/env;
-			buildWorkingDirectory = "$(PROJECT_DIR)/..";
-			dependencies = (
-			);
-			name = "exiv2-debug";
-			passBuildSettingsInEnvironment = 1;
-			productName = "exiv2-debug";
-		};
-		A10C3EB617DE224C008DC351 /* exiv2 */ = {
-			isa = PBXLegacyTarget;
-			buildArgumentsString = "make -j $(ACTION)";
-			buildConfigurationList = A10C3EB917DE224C008DC351 /* Build configuration list for PBXLegacyTarget "exiv2" */;
+			buildConfigurationList = A105A09D1B8E36D100833CA3 /* Build configuration list for PBXLegacyTarget "exiv2" */;
 			buildPhases = (
 			);
 			buildToolPath = /usr/bin/env;
@@ -589,6 +575,48 @@
 			name = exiv2;
 			passBuildSettingsInEnvironment = 1;
 			productName = exiv2;
+		};
+		A13633F91B8EF5AD0046FC3F /* samples */ = {
+			isa = PBXLegacyTarget;
+			buildArgumentsString = "$(TARGET_NAME)";
+			buildConfigurationList = A13633FC1B8EF5AD0046FC3F /* Build configuration list for PBXLegacyTarget "samples" */;
+			buildPhases = (
+			);
+			buildToolPath = /usr/bin/make;
+			buildWorkingDirectory = "$(PROJECT_DIR)/..";
+			dependencies = (
+			);
+			name = samples;
+			passBuildSettingsInEnvironment = 1;
+			productName = samples;
+		};
+		A14E15981B8F04F8006F2E61 /* config */ = {
+			isa = PBXLegacyTarget;
+			buildArgumentsString = "PATH=/usr/local/bin:/opt/local/bin:$(PATH) make config";
+			buildConfigurationList = A14E159B1B8F04F8006F2E61 /* Build configuration list for PBXLegacyTarget "config" */;
+			buildPhases = (
+			);
+			buildToolPath = /usr/bin/env;
+			buildWorkingDirectory = "$(PROJECT_DIR)/..";
+			dependencies = (
+			);
+			name = config;
+			passBuildSettingsInEnvironment = 1;
+			productName = config;
+		};
+		A14E159C1B8F0755006F2E61 /* configure */ = {
+			isa = PBXLegacyTarget;
+			buildArgumentsString = ./configure;
+			buildConfigurationList = A14E159D1B8F0755006F2E61 /* Build configuration list for PBXLegacyTarget "configure" */;
+			buildPhases = (
+			);
+			buildToolPath = /usr/bin/env;
+			buildWorkingDirectory = "$(PROJECT_DIR)/..";
+			dependencies = (
+			);
+			name = configure;
+			passBuildSettingsInEnvironment = 1;
+			productName = configure;
 		};
 		A17533741B8E7DA9003247E0 /* tests */ = {
 			isa = PBXLegacyTarget;
@@ -645,6 +673,15 @@
 					A105A09C1B8E36D100833CA3 = {
 						CreatedOnToolsVersion = 6.4;
 					};
+					A13633F91B8EF5AD0046FC3F = {
+						CreatedOnToolsVersion = 6.4;
+					};
+					A14E15981B8F04F8006F2E61 = {
+						CreatedOnToolsVersion = 6.4;
+					};
+					A14E159C1B8F0755006F2E61 = {
+						CreatedOnToolsVersion = 6.4;
+					};
 					A17533741B8E7DA9003247E0 = {
 						CreatedOnToolsVersion = 6.4;
 					};
@@ -668,11 +705,13 @@
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				A10C3EB617DE224C008DC351 /* exiv2 */,
-				A105A09C1B8E36D100833CA3 /* exiv2-debug */,
-				A1CF5C7F1B8E3EA600B0D341 /* exiv2json */,
+				A14E15981B8F04F8006F2E61 /* config */,
+				A14E159C1B8F0755006F2E61 /* configure */,
+				A105A09C1B8E36D100833CA3 /* exiv2 */,
 				A1CF5C851B8E4AB400B0D341 /* install */,
+				A13633F91B8EF5AD0046FC3F /* samples */,
 				A17533741B8E7DA9003247E0 /* tests */,
+				A1CF5C7F1B8E3EA600B0D341 /* exiv2json */,
 			);
 		};
 /* End PBXProject section */
@@ -680,7 +719,7 @@
 /* Begin PBXTargetDependency section */
 		A1CF5C841B8E3EB400B0D341 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
-			target = A105A09C1B8E36D100833CA3 /* exiv2-debug */;
+			target = A105A09C1B8E36D100833CA3 /* exiv2 */;
 			targetProxy = A1CF5C831B8E3EB400B0D341 /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
@@ -795,20 +834,162 @@
 			};
 			name = Release;
 		};
-		A10C3EBA17DE224C008DC351 /* Debug */ = {
+		A13633FA1B8EF5AD0046FC3F /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
 				DEBUGGING_SYMBOLS = YES;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				GCC_GENERATE_DEBUGGING_SYMBOLS = YES;
+				GCC_NO_COMMON_BLOCKS = YES;
 				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				MTL_ENABLE_DEBUG_INFO = YES;
+				OTHER_CFLAGS = "";
 				OTHER_LDFLAGS = "";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
 			name = Debug;
 		};
-		A10C3EBB17DE224C008DC351 /* Release */ = {
+		A13633FB1B8EF5AD0046FC3F /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				COPY_PHASE_STRIP = NO;
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				OTHER_CFLAGS = "";
+				OTHER_LDFLAGS = "";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Release;
+		};
+		A14E15991B8F04F8006F2E61 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				DEBUGGING_SYMBOLS = YES;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_GENERATE_DEBUGGING_SYMBOLS = YES;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				MTL_ENABLE_DEBUG_INFO = YES;
+				OTHER_CFLAGS = "";
+				OTHER_LDFLAGS = "";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Debug;
+		};
+		A14E159A1B8F04F8006F2E61 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				COPY_PHASE_STRIP = NO;
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				OTHER_CFLAGS = "";
+				OTHER_LDFLAGS = "";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Release;
+		};
+		A14E159E1B8F0755006F2E61 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				DEBUGGING_SYMBOLS = YES;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_GENERATE_DEBUGGING_SYMBOLS = YES;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				MTL_ENABLE_DEBUG_INFO = YES;
+				OTHER_CFLAGS = "";
+				OTHER_LDFLAGS = "";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Debug;
+		};
+		A14E159F1B8F0755006F2E61 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				COPY_PHASE_STRIP = NO;
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				MTL_ENABLE_DEBUG_INFO = NO;
 				OTHER_CFLAGS = "";
 				OTHER_LDFLAGS = "";
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -980,7 +1161,7 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		A105A09D1B8E36D100833CA3 /* Build configuration list for PBXLegacyTarget "exiv2-debug" */ = {
+		A105A09D1B8E36D100833CA3 /* Build configuration list for PBXLegacyTarget "exiv2" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				A105A09E1B8E36D100833CA3 /* Debug */,
@@ -998,14 +1179,30 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		A10C3EB917DE224C008DC351 /* Build configuration list for PBXLegacyTarget "exiv2" */ = {
+		A13633FC1B8EF5AD0046FC3F /* Build configuration list for PBXLegacyTarget "samples" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				A10C3EBA17DE224C008DC351 /* Debug */,
-				A10C3EBB17DE224C008DC351 /* Release */,
+				A13633FA1B8EF5AD0046FC3F /* Debug */,
+				A13633FB1B8EF5AD0046FC3F /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
+		};
+		A14E159B1B8F04F8006F2E61 /* Build configuration list for PBXLegacyTarget "config" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				A14E15991B8F04F8006F2E61 /* Debug */,
+				A14E159A1B8F04F8006F2E61 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+		};
+		A14E159D1B8F0755006F2E61 /* Build configuration list for PBXLegacyTarget "configure" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				A14E159E1B8F0755006F2E61 /* Debug */,
+				A14E159F1B8F0755006F2E61 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
 		};
 		A17533751B8E7DA9003247E0 /* Build configuration list for PBXLegacyTarget "tests" */ = {
 			isa = XCConfigurationList;
