@@ -25,9 +25,9 @@ Warning: Failed to convert Xmp.dc.description to Iptc.Application2.Caption
 Warning: Failed to convert Xmp.dc.description to Exif.Image.ImageDescription
 Xmp.dc.description                           LangAlt     2  lang="it-IT" Ciao bella, lang="de-DE" The Exif image description
 File 1/1: k.jpg
-k.jpg: (No Exif data found in the file)
+k.jpg: No Exif data found in the file
 File 1/1: k.jpg
-k.jpg: (No IPTC data found in the file)
+k.jpg: No IPTC data found in the file
 
 Testcase 5
 ==========
@@ -46,7 +46,7 @@ Exif.Photo.UserComment                       Undefined  59  charset="Jis" This i
 Xmp.exif.UserComment                         LangAlt     1  lang="x-default" This is a JIS encoded Exif user comment. Or was it?
 Exif.Photo.UserComment                       Undefined 110  charset="Unicode" This is a JIS encoded Exif user comment. Or was it?
 File 1/1: m.xmp
-m.xmp: (No IPTC data found in the file)
+m.xmp: No IPTC data found in the file
 
 Testcase 7
 ==========
@@ -54,7 +54,7 @@ Xmp.exif.UserComment                         LangAlt     1  lang="x-default" Thi
 Exif.Image.ExifTag                           Long        1  26
 Exif.Photo.UserComment                       Undefined 110  charset="Unicode" This is a JIS encoded Exif user comment. Or was it?
 File 1/1: n.jpg
-n.jpg: (No IPTC data found in the file)
+n.jpg: No IPTC data found in the file
 
 Testcase 8
 ==========
@@ -63,7 +63,7 @@ Iptc.Application2.Keywords                   String      5  Drugs
 Iptc.Application2.Keywords                   String     11  Rock'n'roll
 Xmp.dc.subject                               XmpBag      3  Sex, Drugs, Rock'n'roll
 File 1/1: o.xmp
-o.xmp: (No Exif data found in the file)
+o.xmp: No Exif data found in the file
 Iptc.Application2.Keywords                   String      3  Sex
 Iptc.Application2.Keywords                   String      5  Drugs
 Iptc.Application2.Keywords                   String     11  Rock'n'roll
@@ -73,7 +73,7 @@ Testcase 9
 ==========
 Xmp.dc.subject                               XmpBag      3  Sex, Drugs, Rock'n'roll
 File 1/1: p.jpg
-p.jpg: (No Exif data found in the file)
+p.jpg: No Exif data found in the file
 Iptc.Envelope.CharacterSet                   String      3  $%G
 Iptc.Application2.Keywords                   String      3  Sex
 Iptc.Application2.Keywords                   String      5  Drugs
@@ -85,21 +85,21 @@ Exif.Image.Software                          Ascii       6  Exiv2
 Xmp.tiff.Software                            XmpText     5  Exiv2
 Exif.Image.Software                          Ascii       6  Exiv2
 File 1/1: q.xmp
-q.xmp: (No IPTC data found in the file)
+q.xmp: No IPTC data found in the file
 
 Testcase 11
 ===========
 Xmp.tiff.Software                            XmpText     5  Exiv2
 Exif.Image.Software                          Ascii       6  Exiv2
 File 1/1: r.jpg
-r.jpg: (No IPTC data found in the file)
+r.jpg: No IPTC data found in the file
 
 Testcase 12
 ===========
 Iptc.Application2.SubLocation                String     12  Kuala Lumpur
 Xmp.iptc.Location                            XmpText    12  Kuala Lumpur
 File 1/1: s.xmp
-s.xmp: (No Exif data found in the file)
+s.xmp: No Exif data found in the file
 Iptc.Application2.SubLocation                String     12  Kuala Lumpur
 Iptc.Envelope.CharacterSet                   String      3  $%G
 
@@ -107,7 +107,7 @@ Testcase 13
 ===========
 Xmp.iptc.Location                            XmpText    12  Kuala Lumpur
 File 1/1: t.jpg
-t.jpg: (No Exif data found in the file)
+t.jpg: No Exif data found in the file
 Iptc.Envelope.CharacterSet                   String      3  $%G
 Iptc.Application2.SubLocation                String     12  Kuala Lumpur
 
@@ -124,7 +124,6 @@ Exif.GPSInfo.GPSVersionID                    Byte        4  2 2 0 1
 Exif.GPSInfo.GPSLatitudeRef                  Ascii       2  N
 Exif.GPSInfo.GPSLatitude                     Rational    3  3/1 8/1 29734512/1000000
 Exif.GPSInfo.GPSTimeStamp                    Rational    3  1/1 2/1 999999999/1000000000
-u.jpg: (No IPTC data found in the file)
 Xmp.exif.ExifVersion                         XmpText     4  2.21
 Xmp.exif.GPSVersionID                        XmpText     7  2.2.0.1
 Xmp.exif.GPSLatitude                         XmpText    12  3,8.4955752N
