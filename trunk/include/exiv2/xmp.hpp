@@ -357,7 +357,7 @@ namespace Exiv2 {
               // Note however that this call itself is still not thread-safe.
               Exiv2::XmpParser::initialize(XmpLock::LockUnlock, &xmpLock);
 
-              // Program continues here, subsequent registrations of XMP 
+              // Program continues here, subsequent registrations of XMP
               // namespaces are serialized using xmpLock.
 
           }
@@ -373,6 +373,14 @@ namespace Exiv2 {
           allow the XMP Toolkit to cleanly shutdown.
          */
         static void terminate();
+
+        /*!
+         @brief object a map of registered namespaces
+
+         This will initialize the Parser if necessary
+         */
+        static void getRegisteredNamespaces(std::map<std::string,std::string>& dict);
+
 
     private:
         /*!

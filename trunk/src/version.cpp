@@ -70,39 +70,8 @@ EXIV2_RCSID("@(#) $Id$")
 
 // Adobe XMP Toolkit
 #ifdef EXV_HAVE_XMP_TOOLKIT
-# define TXMP_STRING_TYPE std::string
-# include <XMPSDK.hpp>
-# include <XMP.incl_cpp>
 #include "xmp.hpp"
-
-typedef struct {
-    std::ostream& os;
-    const char*   name;
-} NSDumper;
-
-static XMP_Status namespaceDumper
-( void*         refCon
-, XMP_StringPtr buffer
-, XMP_StringLen bufferSize
-) {
-    XMP_Status result = 0 ;
-    std::string out(buffer,bufferSize);
-    // remove blanks
-    // http://stackoverflow.com/questions/83439/remove-spaces-from-stdstring-in-c
-    std::string::iterator end_pos = std::remove(out.begin(), out.end(), ' ');
-    out.erase(end_pos, out.end());
-
-    bool bHttp = out.find("http://") != std::string::npos ;
-    bool bNS   = out.find(":") != std::string::npos && !bHttp;
-    if ( bHttp || bNS ) {
-        NSDumper* nsDumper = (NSDumper*) refCon;
-        if ( bNS )   nsDumper->os << nsDumper->name << "=" ;
-                     nsDumper->os <<  out     ;
-        if ( bHttp ) nsDumper->os << std::endl;
-    }
-    return     result;
-}
-#endif // EXV_HAVE_XMP_TOOLKIT
+#endif
 
 namespace Exiv2 {
     int versionNumber()
@@ -562,11 +531,16 @@ void Exiv2::dumpLibraryInfo(std::ostream& os,const exv_grep_keys_t& keys)
     output(os,keys,"enable_webready"   ,enable_webready  );
 
 #ifdef EXV_HAVE_XMP_TOOLKIT
-    Exiv2::XmpParser::initialize();
     const char* name = "xmlns";
-    NSDumper nsDumper = { os,name };
-    if ( shouldOutput(keys,name,"") ) {
-        SXMPMeta::DumpNamespaces(namespaceDumper,&nsDumper);
+    typedef std::map<std::string,std::string> dict_t;
+    typedef dict_t::const_iterator            dict_i;
+    
+    dict_t ns;
+    Exiv2::XmpParser::getRegisteredNamespaces(ns);
+    for ( dict_i it = ns.begin(); it != ns.end() ; it++ ) {
+        std::string xmlns = (*it).first;
+        std::string uri   = (*it).second;
+        output(os,keys,name,xmlns+":"+uri);
     }
 #endif
 
