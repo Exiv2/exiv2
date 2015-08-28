@@ -419,13 +419,61 @@ namespace Exiv2 {
             SXMPMeta::RegisterNamespace("http://www.metadataworkinggroup.com/schemas/regions/", "mwg-rs");
             SXMPMeta::RegisterNamespace("http://www.metadataworkinggroup.com/schemas/keywords/", "mwg-kw");
             SXMPMeta::RegisterNamespace("http://ns.adobe.com/xmp/sType/Area#", "stArea");
-	    SXMPMeta::RegisterNamespace("http://cipa.jp/exif/1.0/", "exifEX");
+        SXMPMeta::RegisterNamespace("http://cipa.jp/exif/1.0/", "exifEX");
 
 #else
             initialized_ = true;
 #endif
         }
         return initialized_;
+    }
+
+    static XMP_Status nsDumper
+    ( void*           refCon
+    , XMP_StringPtr   buffer
+    , XMP_StringLen   bufferSize
+    ) {
+        XMP_Status result = 0 ;
+        std::string out(buffer,bufferSize);
+
+        // remove blanks
+        // http://stackoverflow.com/questions/83439/remove-spaces-from-stdstring-in-c
+        std::string::iterator end_pos = std::remove(out.begin(), out.end(), ' ');
+        out.erase(end_pos, out.end());
+
+        bool bURI = out.find("http://") != std::string::npos   ;
+        bool bNS  = out.find(":") != std::string::npos && !bURI;
+
+        // pop trailing ':' on a namespace
+        if ( bNS ) {
+            if ( out[out.length()-1] == ':' ) out.pop_back();
+        }
+
+        if ( bURI || bNS ) {
+            std::map<std::string,std::string>* p = (std::map<std::string,std::string>*) refCon;
+            std::map<std::string,std::string>& m = (std::map<std::string,std::string>&) *p    ;
+
+            std::string b("");
+            if ( bNS ) {  // store the NS in dict[""]
+                m[b]=out;
+            } else if ( m.find(b) != m.end() ) {  // store dict[uri] = dict[""]
+                m[m[b]]=out;
+                m.erase(b);
+            }
+        }
+        return result;
+    }
+
+    void XmpParser::getRegisteredNamespaces(std::map<std::string,std::string>& dict)
+    {
+    	bool bInit = !initialized_;
+        try {
+        	if (bInit) initialize();
+        	SXMPMeta::DumpNamespaces(nsDumper,&dict);
+        	if (bInit) terminate();
+        } catch (const XMP_Error& e) {
+            throw Error(40, e.GetID(), e.GetErrMsg());
+        }
     }
 
     void XmpParser::terminate()
@@ -662,11 +710,11 @@ namespace Exiv2 {
                     ; k != la->value_.end()
                     ; ++k
                 ) {
-                	if ( k->second.size() ) { // remove lang specs with no value
-                    	printNode(ns, i->tagName(), k->second, 0);
-                    	meta.AppendArrayItem(ns.c_str(), i->tagName().c_str(), kXMP_PropArrayIsAlternate, k->second.c_str());
-                    	const std::string item = i->tagName() + "[" + toString(idx++) + "]";
-                    	meta.SetQualifier(ns.c_str(), item.c_str(), kXMP_NS_XML, "lang", k->first.c_str());
+                    if ( k->second.size() ) { // remove lang specs with no value
+                        printNode(ns, i->tagName(), k->second, 0);
+                        meta.AppendArrayItem(ns.c_str(), i->tagName().c_str(), kXMP_PropArrayIsAlternate, k->second.c_str());
+                        const std::string item = i->tagName() + "[" + toString(idx++) + "]";
+                        meta.SetQualifier(ns.c_str(), item.c_str(), kXMP_NS_XML, "lang", k->first.c_str());
                     }
                 }
                 continue;
