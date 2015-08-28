@@ -1,0 +1,103 @@
+__doctype__
+<html lang="en">
+__header4__
+<body>
+__navbar__
+
+    <div class="jumbotron">
+      <div class="container">
+	__maintitle__
+	<p class="lead">Exiv2 is a <a href="#lib">C++ library</a> and a <a href="#util">command line utility</a>
+	  to manage image <a href="http://en.wikipedia.org/wiki/Metadata">metadata</a>.
+	  It provides fast and easy read and write access to the 
+	  <a href="http://en.wikipedia.org/wiki/Exif">Exif</a>, 
+	  <a href="http://en.wikipedia.org/wiki/IPTC">IPTC</a> and 
+	  <a href="http://en.wikipedia.org/wiki/Extensible_Metadata_Platform">XMP</a> metadata 
+	  of images in <a href="http://dev.exiv2.org/projects/exiv2/wiki/Supported_image_formats">various formats</a>.
+	  Exiv2 is available as <a href="download.html#license">free software</a> and with a 
+	  <a href="download.html#license">commercial license</a>, and is used in many projects.
+        </p>
+      </div>
+    </div><!-- /.jumbotron -->
+
+    <div class="container">
+      <div class="page-header">
+	<h1>Getting started</h1>
+      </div>
+
+      <div class="row">
+        <div class="col-sm-6">
+
+	  <h2 id="lib">Exiv2 library features</h2>
+	  <ul>
+	    <li>Fast read and write access to the Exif, IPTC, and XMP metadata of an image</li>
+	    <li>Easy to use and <a href="doc/index.html" title="Exiv2 API documentation">extensively documented</a> API</li>
+	    <li><a href="conversion.html" title="Exiv2 Conversions">conversions</a> of Exif and IPTC metadata to XMP and vice versa</li>
+	    <li>Smart IPTC implementation that does not affect data that programs like Photoshop store
+	      in the same image segment</li>
+	    <li>Exif <a href="makernote.html" title="Exif Makernote Formats and Specifications">Makernote</a> support:
+	      <ul>
+		<li>Makernote tags can be read and written just like any other metadata</li>
+		<li>Sophisticated write algorithm avoids corrupting the Makernote</li>
+	      </ul>
+	    </li>
+	    <li>Simple interface to extract previews embedded in RAW images and Exif thumbnails</li>
+	    <li>Set and delete methods for Exif thumbnails</li>
+	  </ul>
+
+	  <h2>Library examples</h2>
+	  <p>
+	    <a title="Reading and printing the Exif metadata of an image" href="example1.html">read Exif</a>;
+	    <a title="Sample usage of high-level Exif metadata operations" href="example2.html">add, modify, delete Exif</a>;
+	    <a title="Reading and printing the IPTC metadata of an image" href="example3.html">read IPTC</a>;
+	    <a title="The quickest way to access, set or modify IPTC metadata" href="example4.html">set IPTC</a>;
+	    <a title="Sample (test) usage of high level XMP classes" href="example5.html">set XMP</a>
+	  </p>
+
+	  <h2 id="util">Exiv2 command line utility features</h2>
+	  <ul>
+	    <li>Print Exif, IPTC and XMP image metadata in different formats: Exif summary info, interpreted values,
+	      or the plain data for each tag (a <a title="Sample Exiv2 utility output" href="sample.html">sample</a> is here)</li>
+	    <li><a title="Modify" href="sample.html#modify">Set, add and delete</a> Exif, IPTC and XMP image metadata
+	      from command line modify commands or command scripts</li>
+	    <li>Adjust the Exif timestamp (that's how it all started...)</li>
+	    <li>Rename Exif image files according to the Exif timestamp</li>
+	    <li>Extract, insert and delete Exif, IPTC and XMP metadata and JPEG comments</li>
+	    <li><a href="conversion.html" title="Exiv2 Conversions">Convert</a> from Exif and IPTC to XMP properties and vice versa</li>
+	    <li>Extract previews from RAW images and thumbnails from the Exif metadata</li>
+	    <li>Insert and delete the thumbnail image embedded in the Exif metadata</li>
+	    <li>Print, set and delete the JPEG comment of JPEG images</li>
+	    <li>Fix the Exif ISO setting of picture taken with Canon and Nikon cameras</li>
+	  </ul>
+
+	  <h2>Future plans</h2>
+	  <ul>
+	    <li>a unified metadata container</li>
+	    <li>support for additional image formats</li>
+	    <li>more Makernotes</li>
+	    <li>to support CMake on all platforms</li>
+	  </ul>
+	  <p>The <a href="http://dev.exiv2.org/projects/exiv2/roadmap">roadmap</a> has details for the upcoming version.</p>
+        </div><!-- /.col-sm-6 -->
+
+        <div class="col-sm-6">
+
+	  __whatsnew-latest__
+
+	  <div id="openhub_factoids">
+            <h2>Open HUB factoids</h2>
+<!--
+	    <script type="text/javascript" src="http://www.openhub.net/p/13985/widgets/project_factoids.js"></script>
+-->
+	  </div>
+        </div><!-- /.col-sm-6 -->
+      </div><!-- /.row -->
+
+      __footer__
+
+    </div><!-- /.container -->
+
+    __bootstrap__
+
+  </body>
+</html>
