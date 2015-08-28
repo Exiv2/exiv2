@@ -179,7 +179,8 @@ update-makernotes:
 	@cp -f ../doc/templates/__makernotes__ var/__makernotes__
 
 $(TABLES):
-	@cp -f ../doc/templates/__$@__ var/__$@__
+	@cp -f ../doc/templates/$@.xml var/
+	@xsltproc var/exif.xsl var/$@.xml > var/__$@__
 
 Iptc:
 	@cp -f ../doc/templates/$@.xml var/
