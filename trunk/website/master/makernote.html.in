@@ -1,15 +1,16 @@
 __doctype__
-<html>
-__header2__
+<html lang="en">
+__header4__
 <body>
-__sidebar1__
+__navbar__
 
-<div id="content">
-__maintitle__
-<h2>Makernote formats and specifications</h2>
+<div class="container">
+  <div class="page-header">
+    <h1>Makernote formats and specifications</h1>
+  </div>
 
-<p>
-The Makernote is tag 0x927c in the Exif IFD (Exif.Photo.MakerNote). According to the 
+<p class="lead">
+The Makernote is tag 0x927c in the Exif IFD, <code>Exif.Photo.MakerNote</code>. According to the 
 <a title="The Exif 2.2 standard (PDF)" href="Exif2-2.PDF">Exif 2.2 standard</a>, 
 the makernote is <i>"a tag for manufacturers of
 Exif writers to record any desired information. The contents are up to
@@ -47,7 +48,7 @@ beginning of the makernote field for the makernote IFD to address the
 issue.</p>
 
 <p>The following table summarizes the structures of the makernote
-field used by some vendors.  Please let me know if you have additional
+field used by some vendors. Please let me know if you have additional
 information.</p>
 
 __makernotes__
@@ -77,10 +78,9 @@ __makernotes__
   Various Makernote specifications</a> from the <a href="http://www.ozhiker.com/electronics/pjmt/index.html">
   PHP JPEG Metadata Toolkit</a> by Evan Hunter<br>
   <a name="R10">[10]</a> <a href="http://www.sno.phy.queensu.ca/~phil/exiftool/">ExifTool</a>, the most complete and up-to-date tool for reading and writing meta information in image files, by Phil Harvey</p>
-__footer__
-</div>
-<!-- closes content -->
 
-__tracker__
+__footer__
+</div><!-- /.container -->
+__bootstrap__
 </body>
 </html>

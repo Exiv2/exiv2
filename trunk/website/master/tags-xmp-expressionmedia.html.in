@@ -1,28 +1,27 @@
 __doctype__
-<html>
-__header2__
+<html lang="en">
+__header4__
 <body>
-__sidebar4__
+__navbar__
 
-<div id="content">
-__maintitle__
-<h2>Microsoft Expression Media schema</h2>
+<div class="container">
+  <div class="page-header">
+    <h1>Metadata reference tables</h1>
+  </div>
+<div><h2>Microsoft Expression Media schema</h2></div>
 <p>This is the Microsoft badged version of the 
    <a href="tags-xmp-mediapro.html" title="iView Media Pro schema">iView Media Pro schema</a>.</p>
  <ul>
-  <li>Exiv2 keys are <b><code>Xmp.expressionmedia.&lt;Property&gt;</code></b></li>
-  <li>The schema namespace URI is <b><code>http://ns.microsoft.com/expressionmedia/1.0/</code></b></li>
-  <li>The preferred schema namespace prefix is <b><code>expressionmedia</code></b></li>
+  <li>Exiv2 keys are <code>Xmp.expressionmedia.&lt;Property&gt;</code></li>
+  <li>The schema namespace URI is <code>http://ns.microsoft.com/expressionmedia/1.0/</code></li>
+  <li>The preferred schema namespace prefix is <code>expressionmedia</code></li>
  </ul>
 <p>Reference: ?</p>
-<p>Click on a column header to sort the table.</p>
 
 __xmp_expressionmedia__
 
 __footer__
-</div>
-<!-- closes content -->
-
-__tracker__
+</div><!-- /.container -->
+__bootstrap__
 </body>
 </html>

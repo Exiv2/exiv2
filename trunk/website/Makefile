@@ -60,8 +60,7 @@ TABLES = Exif \
          Sony1Cs2 \
          Sony1MltCs7D \
          Sony1MltCsOld \
-         Sony1MltCsA100 \
-         Iptc
+         Sony1MltCsA100
 
 SCHEMA = dc \
          xmp \
@@ -158,12 +157,11 @@ update-manpage:
 	@man -t exiv2 | ps2pdf - html/exiv2-manpage.pdf
 	@cat ../src/exiv2.1 | sed '/^JPEG/ i\
 ' | man2html -Hlinux.die.net -M/man -p | sed -e's,\(HREF=.*\)+,\1/,' -e'1,15d' -e'/NAME="index"/,$$d' \
-	| sed -e's/ &lt;<A HREF="mailto.*&gt;//' -e'$$d' > var/__manpage__
+	| sed -e's/ &lt;<A HREF="mailto.*&gt;//' -e'$$d' | sed -e's/<TABLE>/<TABLE class="table table-striped">/' -e's,<TR VALIGN=top><TD><HR></TD><TD><HR></TD><TD><HR></TD><TD><HR></TD><TD><HR></TD></TR>,,' -e's/<TR VALIGN=top>/<TR>/' -e's,<TR><TD>\([A-Z0-9]*\)</TD>,<TR><TH>\1</TH>,' -e's/<H2>/<H2 class="text-capitalize">/' > var/__manpage__
 
 update-intro:
 	@cp -f ../doc/templates/__intro__ doxygen/draft-intro.html
 	@sed -e 's,="makernote.html,="../makernote.html,' \
-	     -e 's,<a href="mailto:ahuggel@gmx.net"> contact me</a>,contact me,' \
 	    doxygen/draft-intro.html > doxygen/intro.html
 	@rm -f doxygen/draft-intro.html
 
@@ -183,10 +181,15 @@ update-makernotes:
 $(TABLES):
 	@cp -f ../doc/templates/__$@__ var/__$@__
 
-$(SCHEMA):
-	@cp -f ../doc/templates/__xmp_$@__ var/__xmp_$@__
+Iptc:
+	@cp -f ../doc/templates/$@.xml var/
+	@xsltproc var/iptc.xsl var/$@.xml > var/__$@__
 
-update-tags: $(TABLES) $(SCHEMA)
+$(SCHEMA):
+	@cp -f ../doc/templates/xmp_$@.xml var/
+	@xsltproc var/xmp.xsl var/xmp_$@.xml > var/__xmp_$@__
+
+update-tags: $(TABLES) Iptc $(SCHEMA)
 
 clean:
 	@rm -vf html/*.html

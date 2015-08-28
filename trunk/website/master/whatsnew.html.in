@@ -1,17 +1,18 @@
 __doctype__
-<html>
-__header1__
+<html lang="en">
+__header4__
 <body>
-__sidebar1__
+__navbar__
 
-<div id="content">
-__maintitle__
-<h2>What's new</h2>
+<div class="container">
+  <div class="page-header">
+    <h1>What's new</h1>
+  </div>
+
 __whatsnew-table__
-__footer__
-</div>
-<!-- closes content -->
 
-__tracker__
+__footer__
+</div><!-- /.container -->
+__bootstrap__
 </body>
 </html>

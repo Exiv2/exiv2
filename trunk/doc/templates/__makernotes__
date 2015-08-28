@@ -1,4 +1,4 @@
-<table class="ReportTable" id="report-1" cellspacing="0">
+<table class="table table-striped">
   <colgroup>
     <col>
     <col>
@@ -10,17 +10,17 @@
   </colgroup>
   <thead>
    <tr> 
-    <th><b>Make</b></th>
-    <th><b>Format</b></th>
-    <th><b>Header</b></th>
-    <th><b>Endian</b> <sup>1)</sup></th>
-    <th><b>Offsets</b> <sup>2)</sup></th>
-    <th><b>Ref</b></th>
-    <th><b>Remarks</b></th>
+    <th>Make</th>
+    <th>Format</th>
+    <th>Header</th>
+    <th>Endian <sup>1)</sup></th>
+    <th>Offsets <sup>2)</sup></th>
+    <th>Ref</th>
+    <th>Remarks</th>
    </tr>
   </thead>
   <tbody>
-   <tr class="OddRow"> 
+   <tr> 
     <td>Canon</td>
     <td>IFD</td>
     <td>None</td>
@@ -29,7 +29,7 @@
     <td><a href="#R2">[2]</a></td>
     <td>Some CR2 images have a non-zero next-IFD pointer</td>
    </tr>
-   <tr class="EvenRow"> 
+   <tr> 
     <td>Casio</td>
     <td>IFD</td>
     <td>-</td>
@@ -38,7 +38,7 @@
     <td><a href="#R4">[4]</a></td>
     <td>Not supported by Exiv2 yet</td>
    </tr>
-   <tr class="OddRow"> 
+   <tr> 
     <td>FUJI</td>
     <td>IFD, usually at offset 12</td>
     <td>Starts with the string &quot;FUJI&quot; 
@@ -48,7 +48,7 @@
     <td><a href="#R1">[1]</a></td>
     <td>Exif data uses big-endian (MM) byte order</td>
    </tr>
-   <tr class="EvenRow">
+   <tr>
     <td>Minolta, KONICA&nbsp;MINOLTA</td>
     <td>IFD</td>
     <td>None</td>
@@ -58,7 +58,7 @@
     <td>Camera settings tag is encoded in big-endian (MM) style, regardless of
     the encoding style of the Exif data</td>
    </tr>
-   <tr class="OddRow"> 
+   <tr> 
     <td>NIKON</td>
     <td>IFD</td>
     <td>None</td>
@@ -67,7 +67,7 @@
     <td><a href="#R3">[3]</a></td>
     <td>Models using this makernote include E990, D1</td>
    </tr>
-   <tr class="EvenRow"> 
+   <tr> 
     <td>NIKON</td>
     <td>IFD, at offset 8</td>
     <td>&quot;Nikon\0&quot; followed by two bytes of unknown meaning</td>
@@ -76,7 +76,7 @@
     <td><a href="#R1">[1]</a></td>
     <td>Models using this makernote include E700, E800, E900, E900S, E910, E950</td>
    </tr>
-   <tr class="OddRow"> 
+   <tr> 
     <td>NIKON</td>
     <td>IFD, usually at offset 18</td>
     <td>&quot;Nikon\0&quot; followed by 4 bytes which look like a version code 
@@ -87,7 +87,7 @@
     <td>Models using this makernote include E5400, SQ, D2H, D70, D100, D200. 
     Makernote IFD of the D200 has no next-IFD pointer. (Is this a bug?)</td>
    </tr>
-   <tr class="EvenRow"> 
+   <tr> 
     <td>OLYMPUS</td>
     <td>IFD, at offset 8</td>
     <td>&quot;OLYMP\0&quot; followed by two bytes of unknown meaning</td>
@@ -96,7 +96,7 @@
     <td><a href="#R1">[1]</a></td>
     <td>&nbsp;</td>
    </tr>
-   <tr class="OddRow"> 
+   <tr> 
     <td>OLYMPUS</td>
     <td>IFD, at offset 12</td>
     <td>&quot;OLYMPUS\0II&quot; followed by two bytes of unknown meaning</td>
@@ -105,7 +105,7 @@
     <td>&nbsp;</td>
     <td>&nbsp;</td>
    </tr>
-   <tr class="EvenRow"> 
+   <tr> 
     <td>Panasonic</td>
     <td>IFD without a next-IFD pointer at offset 12</td>
     <td>&quot;Panasonic\0\0\0&quot;</td>
@@ -114,7 +114,7 @@
     <td><a href="#R8">[8]</a></td>
     <td>&nbsp;</td>
    </tr>
-   <tr class="OddRow"> 
+   <tr> 
     <td>PENTAX</td>
     <td>IFD at offset 6</td>
     <td>&quot;AOC\0&quot; followed by two bytes of unknown meaning</td>
@@ -123,7 +123,7 @@
     <td><a href="#R11">[11]</a></td>
     <td>&nbsp;</td>
    </tr>
-   <tr class="EvenRow"> 
+   <tr> 
     <td>SAMSUNG</td>
     <td>IFD</td>
     <td>None</td>
@@ -132,7 +132,7 @@
     <td>&nbsp;</td>
     <td>&nbsp;</td>
    </tr>
-   <tr class="OddRow"> 
+   <tr> 
     <td>Sanyo</td>
     <td>IFD</td>
     <td>-</td>
@@ -141,7 +141,7 @@
     <td><a href="#R6">[6]</a></td>
     <td>Not supported by Exiv2 yet</td>
    </tr>
-   <tr class="EvenRow"> 
+   <tr> 
     <td>SIGMA, FOVEON</td>
     <td>IFD, at offset 10</td>
     <td>&quot;SIGMA\0\0\0&quot; or &quot;FOVEON\0\0&quot; followed by two bytes 
@@ -151,7 +151,7 @@
     <td><a href="#R7">[7]</a></td>
     <td>&nbsp;</td>
    </tr>
-   <tr class="OddRow"> 
+   <tr> 
     <td>SONY</td>
     <td>IFD without a next-IFD pointer at offset 12</td>
     <td>&quot;SONY DSC \0\0\0&quot;</td>
@@ -160,7 +160,7 @@
     <td>&nbsp;</td>
     <td>Seen in Jpeg images, e.g., from DSC-W7, DSC-R1</td>
    </tr>
-   <tr class="EvenRow"> 
+   <tr> 
     <td>SONY</td>
     <td>IFD</td>
     <td>None</td>
@@ -171,22 +171,6 @@
    </tr>
   </tbody>
 </table>
-<script type="text/javascript">
-//<![CDATA[
-var t1 = new SortableTable(
-  document.getElementById("report-1"),
-  ["String", "String", "String", "String", "String", "String", "String"]
-);
-t1.onsort = function () { 
-	var rows = t1.tBody.rows;
-	var l = rows.length;
-	for (var i = 0; i < l; i++) {
-		removeClassName(rows[i], i % 2 ? "OddRow" : "EvenRow");
-		addClassName(rows[i], i % 2 ? "EvenRow" : "OddRow");
-	}
-};
-//]]>
-</script>
 
 <p>
  <small>

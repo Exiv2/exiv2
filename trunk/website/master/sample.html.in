@@ -1,43 +1,53 @@
 __doctype__
-<html>
-__header1__
+<html lang="en">
+__header4__
 <body>
-__sidebar1__
+__navbar__
 
-<div id="content">
-__maintitle__
-<h2>Exiv2 utility sample output</h2>
+<div class="container">
+  <div class="page-header">
+    <h1>Command line utility examples</h1>
+  </div>
 
-<img style="border:1px solid #CCCCCC;" src="include/img_1771.jpg" height="360" width="480" title="img_1771.jpg (32764 Bytes)" alt="Sample image with the Exif data shown below">
-
-<p>By default, the utility prints a summary of the Exif information</p> 
-
-<div class="fragment"><pre>
+<div class="row">
+  <div class="col-md-6">
+    <p>By default, the utility prints a summary of the Exif information</p> 
+    <pre>
 <span class="stringliteral">$ exiv2 img_1771.jpg</span>
 
 __sample-p__
-</pre></div>
+    </pre>
+  </div><!-- /.col-md-6 -->
+  <div class="col-md-6">
+    <p>&nbsp;</p>
+    <img src="include/img_1771.jpg" class="img-responsive img-rounded center-block" title="img_1771.jpg (32764 Bytes)" alt="Image with the Exif data shown in the sample output">
+    <p class="text-center text-muted"><em>Image with the Exif data shown in the sample output</em></p>
+  </div><!-- /.col-md-6 -->
+</div><!-- /.row -->
 
+<p>&nbsp;</p>
 <p>With the <code>-pt</code> option, the utility prints out all Exif information as interpreted (translated) values. Alternatively, <code>-pv</code> prints the plain Exif data values.</p> 
 
-<div class="fragment"><pre>
+<pre>
 <span class="stringliteral">$ exiv2 -pt img_1771.jpg</span>
 
 __sample-pt__
-</pre></div>
+</pre>
 
+<p>&nbsp;</p>
 <p>Short description of the actions and options supported by the Exiv2 utility 
 (see the <a href="manpage.html" title="Exiv2 man page">man page</a> for details)</p>
 
-<div class="fragment"><a name="usage"></a><pre>
+<a name="usage"></a><pre>
 <span class="stringliteral">$ exiv2 -h</span>
 
 __sample-h__
-</pre></div>
+</pre>
 
-<p><a name="modify">You can modify any Exif or IPTC metadata using modify-commands from a file (<code>-m</code> option) or directly from the command line (<code>-M</code> option). Multiple <code>-M</code> and <code>-m</code> directives can be combined. Here is a sample command file for the modify option (lines starting with <code>#</code> are comments)</a></p>
+<p>&nbsp;</p>
+<p id="modify">You can modify any Exif or IPTC metadata using modify-commands from a file (<code>-m</code> option) or directly from the command line (<code>-M</code> option). Multiple <code>-M</code> and <code>-m</code> directives can be combined. Here is a sample command file for the modify option (lines starting with <code>#</code> are comments)</p>
 
-<div class="fragment"><pre>
+<pre>
 <span class="comment"># Sample Exiv2 command file</span>
 # -------------------------
 #
@@ -88,13 +98,14 @@ set  Exif.Image.DateTime	Ascii	"Zwanzig nach fuenf"
  set Exif.Image.Artist			"Vincent van Gogh"
 
 set Exif.Photo.UserComment      Comment charset=Ascii This is an ASCII Exif comment
-</pre></div>
+</pre>
 
-<p><a name="xmp">The following commands are for XMP tags</a>, 
+<p>&nbsp;</p>
+<p id="xmp">The following commands are for XMP tags, 
 the <a href="example5.html#output">result</a> 
 is the same as that of Example 5.</p>
 
-<div class="fragment"><pre>
+<pre>
 <span class="comment"># Sample Exiv2 command file for XMP tags</span>
 # --------------------------------------
 
@@ -178,12 +189,10 @@ set Xmp.xmpBJ.JobRef[1]/stJob:role   XmpText   Photographer
 set Xmp.xmpBJ.JobRef[2]/stJob:name             Wedding ceremony
 set Xmp.xmpBJ.JobRef[2]/stJob:role             Best man
 
-</pre></div>
+</pre>
 
 __footer__
-</div>
-<!-- closes content -->
-
-__tracker__
+</div><!-- /.container -->
+__bootstrap__
 </body>
 </html>

@@ -1,16 +1,16 @@
 __doctype__
-<html>
-__header2__
+<html lang="en">
+__header4__
 <body>
-__sidebar4__
+__navbar__
 
-<div id="content">
-__maintitle__
+<div class="container">
+  <div class="page-header">
+    <h1>Metadata reference tables</h1>
+  </div>
 
 __footer__
-</div>
-<!-- closes content -->
-
-__tracker__
+</div><!-- /.container -->
+__bootstrap__
 </body>
 </html>
