@@ -1,20 +1,22 @@
 __doctype__
 <html>
-__header1__
+__header4__
 <body>
-__sidebar1__
+__navbar__
 
-<div id="content">
-__maintitle__
-<h2>Exiv2 Command line utility man page</h2>
+<div class="container">
+  <div class="page-header">
+    <h1>Command line utility man page &nbsp; &nbsp; 
+      <a href="exiv2-manpage.pdf" title="Exiv2 man page (PDF)" class="btn btn-danger">
+       <span class="glyphicon glyphicon-download-alt" aria-hidden="true"></span>&nbsp; Download PDF
+      </a>
+    </h1>
+  </div>
 
-<a href="exiv2-manpage.pdf" title="Exiv2 man page (PDF)">PDF version</a>
-
-__manpage__
+  __manpage__
 
 __footer__
-</div>
-<!-- closes content -->
-__tracker__
+</div><!-- /.container -->
+__bootstrap__
 </body>
 </html>

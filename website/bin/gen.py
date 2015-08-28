@@ -16,6 +16,10 @@ def gen_html(file):
    text = open(file).read()
    for var in vars:
       vartext = open(vardir + "/" + var).read()
+      if var == "__navbar__":
+         # Mark the link for the current file as active
+         file2 = re.sub(r'.*/(.*).in', r'\1', file)
+         vartext = re.sub(r'<li><a href="('+file2+')', r'<li class="active"><a href="\1', vartext)
       text = text.replace(var, vartext)
    text = last_modified(text)
    return text

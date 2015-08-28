@@ -1,27 +1,26 @@
 __doctype__
-<html>
-__header2__
+<html lang="en">
+__header4__
 <body>
-__sidebar4__
+__navbar__
 
-<div id="content">
-__maintitle__
-<h2>Microsoft Photo Schema</h2>
+<div class="container">
+  <div class="page-header">
+    <h1>Metadata reference tables</h1>
+  </div>
+<div><h2>Microsoft Photo Schema</h2></div>
 <p>This schema specifies XMP properties used by Microsoft.
  <ul>
-  <li>Exiv2 keys are <b><code>Xmp.MicrosoftPhoto.&lt;Property&gt;</code></b>
-  <li>The schema namespace URI is <b><code>http://ns.microsoft.com/photo/1.0/</code></b></li>
-  <li>The preferred schema namespace prefix is <b><code>MicrosoftPhoto</code></b></li>
+  <li>Exiv2 keys are <code>Xmp.MicrosoftPhoto.&lt;Property&gt;</code>
+  <li>The schema namespace URI is <code>http://ns.microsoft.com/photo/1.0/</code></li>
+  <li>The preferred schema namespace prefix is <code>MicrosoftPhoto</code></li>
  </ul>
 </p>
-<p>Click on a column header to sort the table.</p>
 
 __xmp_MicrosoftPhoto__
 
 __footer__
-</div>
-<!-- closes content -->
-
-__tracker__
+</div><!-- /.container -->
+__bootstrap__
 </body>
 </html>

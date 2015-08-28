@@ -1,24 +1,23 @@
 __doctype__
-<html>
-__header2__
+<html lang="en">
+__header4__
 <body>
-__sidebar3__
+__navbar__
 
-<div id="content">
-__maintitle__
-<h2>IPTC datasets defined in Exiv2</h2>
+<div class="container">
+  <div class="page-header">
+    <h1>Metadata reference tables</h1>
+  </div>
+<div><h2>IPTC datasets defined in Exiv2</h2></div>
 
 <p>Datasets are defined according to the specification of the IPTC 
 <a href="https://iptc.org/standards/iim/">Information Interchange Model (IIM)</a>.</p>
 
-<p>Click on a column header to sort the table.</p>
 
 __Iptc__
 
 __footer__
-</div>
-<!-- closes content -->
-
-__tracker__
+</div><!-- /.container -->
+__bootstrap__
 </body>
 </html>

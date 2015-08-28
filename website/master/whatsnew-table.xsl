@@ -4,41 +4,15 @@
 
 <!-- *********************************************************************** -->
 <xsl:template match="news">
- <table width="100%" border="0" cellpadding="4" cellspacing="0">
-  <colgroup>
-   <col width="90" />
-   <col />
-  </colgroup>
-  <tbody>
+ <table class="table table-striped">
    <xsl:apply-templates select="newsitem" />
-  </tbody>
  </table>
 </xsl:template>
 
 <!-- *********************************************************************** -->
-<xsl:template match="newsitem[position() mod 2 = 0]">
- <xsl:call-template name="data-row">
-  <xsl:with-param name="rowClass" select="'evencolor'" />
- </xsl:call-template>
-</xsl:template>
-
-<!-- *********************************************************************** -->
-<xsl:template match="newsitem[position() mod 2 = 1]">
- <xsl:call-template name="data-row">
-  <xsl:with-param name="rowClass" select="'oddcolor'" />
- </xsl:call-template>
-</xsl:template>
-
-<!-- *********************************************************************** -->
-<xsl:template match="desc">
-  <xsl:copy-of select="text()|*" />
-</xsl:template>
-
-<!-- *********************************************************************** -->
-<xsl:template name="data-row">
- <xsl:param name="rowClass" />
- <tr><xsl:attribute name="class"><xsl:value-of select="$rowClass" /></xsl:attribute>
-  <td valign="top"><xsl:value-of select="date" /></td>
+<xsl:template match="newsitem">
+ <tr>
+  <td class="text-nowrap"><xsl:value-of select="date" /></td>
   <td>
    <b>
     <a><xsl:attribute name="name">item<xsl:value-of select="position()" /></xsl:attribute>
@@ -49,6 +23,11 @@
    <xsl:apply-templates select="desc" />
   </td>
  </tr>
+</xsl:template>
+
+<!-- *********************************************************************** -->
+<xsl:template match="desc">
+  <xsl:copy-of select="text()|*" />
 </xsl:template>
 
 <!-- *********************************************************************** -->

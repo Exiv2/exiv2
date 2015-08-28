@@ -1,15 +1,21 @@
 __doctype__
-<html>
-__header2__
+<html lang="en">
+__header4__
 <body>
-__sidebar1__
+__navbar__
 
-<div id="content">
-__maintitle__
-<h2>Archive</h2>
-<p>These are all previously released versions of Exiv2. For the most current version, go to the <a title="Current version of Exiv2" href="download.html">download page</a>.</p>
+<div class="jumbotron">
+  <div class="container">
+    <h1>Archive</h1>
+    <p class="lead">All previously released versions of Exiv2.
+      For the most current version, go to the <a title="Current version of Exiv2" href="download.html">download page</a>.
+    </p>
+  </div>
+</div><!-- /.jumbotron -->
 
-<table class="ReportTable" id="report-1" cellspacing="0">
+<div class="container">
+
+<table class="table table-striped">
  <colgroup>
   <col>
   <col>
@@ -19,513 +25,495 @@ __maintitle__
  </colgroup>
  <thead>
   <tr> 
-   <th><b>Package</b></th>
-   <th><b>Filename</b></th>
-   <th><b>Size (Bytes)</b></th>
-   <th><b>Date</b></th>
-   <th><b>MD5</b></th>
+   <th>Package</th>
+   <th>Filename</th>
+   <th>Size (Bytes)</th>
+   <th>Date</th>
+   <th>MD5</th>
   </tr>
  </thead>
  <tbody>
-  <tr class="OddRow">
+  <tr>
    <td>Exiv2 v0.24 Source</td>
    <td><a title="Download the v0.24 source package" href="exiv2-0.24.tar.gz" >exiv2-0.24.tar.gz</a></td>
    <td>4635028</td>
-   <td>02-Dec-2013</td>
+   <td class="text-nowrap">02-Dec-2013</td>
    <td>b8a23dc56a98ede85c00718a97a8d6fc</td>
   </tr>
-  <tr class="EvenRow">
+  <tr>
    <td>Exiv2 v0.24 Windows executable</td>
    <td><a title="Download the v0.24 Windows executable" href="exiv2-0.24-win.zip" >exiv2-0.24-win.zip</a></td>
    <td>1875613</td>
-   <td>02-Dec-2013</td>
+   <td class="text-nowrap">02-Dec-2013</td>
    <td>fdb4b9f605d23546e008949b4e09d3d9</td>
   </tr>
-  <tr class="OddRow">
+  <tr>
    <td>Exiv2 v0.23 Source</td>
    <td><a title="Download the v0.23 source package" href="exiv2-0.23.tar.gz" >exiv2-0.23.tar.gz</a></td>
    <td>3524381</td>
-   <td>23-Apr-2012</td>
+   <td class="text-nowrap">23-Apr-2012</td>
    <td>dab67c07bb63a4386d4ea607a8e06eaf</td>
   </tr>
-  <tr class="EvenRow">
+  <tr>
    <td>Exiv2 v0.23 Windows executable</td>
    <td><a title="Download the v0.23 Windows executable" href="exiv2-0.23-win.zip" >exiv2-0.23-win.zip</a></td>
    <td>1762504</td>
-   <td>23-Apr-2012</td>
+   <td class="text-nowrap">23-Apr-2012</td>
    <td>6966ba9862071d008797f663786d49e9</td>
   </tr>
-  <tr class="OddRow">
+  <tr>
    <td>Exiv2 v0.22 Source</td>
    <td><a title="Download the v0.22 source package" href="exiv2-0.22.tar.gz" >exiv2-0.22.tar.gz</a></td>
    <td>3482572</td>
-   <td>18-Sep-2011</td>
+   <td class="text-nowrap">18-Sep-2011</td>
    <td>84d7d5b1802529efca8ac3d6e6a97e3a</td>
   </tr>
-  <tr class="EvenRow">
+  <tr>
    <td>Exiv2 v0.22 Windows executable</td>
    <td><a title="Download the v0.22 Windows executable" href="exiv2-0.22-win.zip" >exiv2-0.22-win.zip</a></td>
    <td>1677934</td>
-   <td>18-Sep-2011</td>
+   <td class="text-nowrap">18-Sep-2011</td>
    <td>20f918dce2504a3a59df2de24f785c64</td>
   </tr>
-  <tr class="OddRow">
+  <tr>
    <td>Exiv2 v0.21.1 Source</td>
    <td><a title="Download the v0.21.1 source package" href="exiv2-0.21.1.tar.gz" >exiv2-0.21.1.tar.gz</a></td>
    <td>3004521</td>
-   <td>14-Feb-2011</td>
+   <td class="text-nowrap">14-Feb-2011</td>
    <td>5c99bbcaa998f6b200b92f2bf0ac4f9e</td>
   </tr>
-  <tr class="EvenRow">
+  <tr>
    <td>Exiv2 v0.21.1 Windows executable</td>
    <td><a title="Download the v0.21.1 Windows executable" href="exiv2-0.21.1-win.zip" >exiv2-0.21.1-win.zip</a></td>
    <td>1640376</td>
-   <td>14-Feb-2011</td>
+   <td class="text-nowrap">14-Feb-2011</td>
    <td>ddfdd3be4e3a64d9a6571ee7a873eeda</td>
   </tr>
-  <tr class="OddRow">
+  <tr>
    <td>Exiv2 v0.21 Source</td>
    <td><a title="Download the v0.21 source package" href="exiv2-0.21.tar.gz" >exiv2-0.21.tar.gz</a></td>
    <td>3002066</td>
-   <td>01-Dec-2010</td>
+   <td class="text-nowrap">01-Dec-2010</td>
    <td>2caf74de59b5424996959ccea1c001fb</td>
   </tr>
-  <tr class="EvenRow">
+  <tr>
    <td>Exiv2 v0.21 Windows executable</td>
    <td><a title="Download the v0.21 Windows executable" href="exiv2-0.21-win.zip" >exiv2-0.21-win.zip</a></td>
    <td>1639929</td>
-   <td>01-Dec-2010</td>
+   <td class="text-nowrap">01-Dec-2010</td>
    <td>6a9fc0b4cef4dbbc7820bb24791ec2d3</td>
   </tr>
-  <tr class="OddRow">
+  <tr>
    <td>Exiv2 v0.20 Source</td>
    <td><a title="Download the v0.20 source package" href="exiv2-0.20.tar.gz" >exiv2-0.20.tar.gz</a></td>
    <td>2941045</td>
-   <td>30-May-2010</td>
+   <td class="text-nowrap">30-May-2010</td>
    <td>3173d08a4313dc94b7bd1b7cdbda2093</td>
   </tr>
-  <tr class="EvenRow">
+  <tr>
    <td>Exiv2 v0.20 Windows executable</td>
    <td><a title="Download the v0.20 Windows executable" href="exiv2-0.20-win.zip" >exiv2-0.20-win.zip</a></td>
    <td>1604291</td>
-   <td>30-May-2010</td>
+   <td class="text-nowrap">30-May-2010</td>
    <td>9c572b6c50d8c484a0d61dd7f2385966</td>
   </tr>
-  <tr class="OddRow">
+  <tr>
    <td>Exiv2 v0.19 Source</td>
    <td><a title="Download the v0.19 source package" href="exiv2-0.19.tar.gz" >exiv2-0.19.tar.gz</a></td>
    <td>2658781</td>
-   <td>30-Dec-2009</td>
+   <td class="text-nowrap">30-Dec-2009</td>
    <td>f52fb75a2cb7512f1484deab76473e13</td>
   </tr>
-  <tr class="EvenRow">
+  <tr>
    <td>Exiv2 v0.19 Windows executable</td>
    <td><a title="Download the v0.19 Windows executable" href="exiv2-0.19-win.zip" >exiv2-0.19-win.zip</a></td>
    <td>1637143</td>
-   <td>30-Dec-2009</td>
+   <td class="text-nowrap">30-Dec-2009</td>
    <td>ea6f54ab7cfbfc4fdc68e2332e0e15af</td>
   </tr>
-  <tr class="OddRow">
+  <tr>
    <td>Exiv2 v0.18.2 Source</td>
    <td><a title="Download the v0.18.2 source package" href="exiv2-0.18.2.tar.gz" >exiv2-0.18.2.tar.gz</a></td>
    <td>2394263</td>
-   <td>24-Jun-2009</td>
+   <td class="text-nowrap">24-Jun-2009</td>
    <td>300cc55e098d7ff7560b4c6992282c53</td>
   </tr>
-  <tr class="EvenRow">
+  <tr>
    <td>Exiv2 v0.18.2 Windows executable</td>
    <td><a title="Download the v0.18.2 Windows executable" href="exiv2-0.18.2-win.zip" >exiv2-0.18.2-win.zip</a></td>
    <td>1773751</td>
-   <td>24-Jun-2009</td>
+   <td class="text-nowrap">24-Jun-2009</td>
    <td>566dc35c684d79d0b4083f2122cae65e</td>
   </tr>
-  <tr class="OddRow">
+  <tr>
    <td>Exiv2 v0.18.1 Source</td>
    <td><a title="Download the v0.18.1 source package" href="exiv2-0.18.1.tar.gz" >exiv2-0.18.1.tar.gz</a></td>
    <td>2342158</td>
-   <td>06-Apr-2009</td>
+   <td class="text-nowrap">06-Apr-2009</td>
    <td>744f06b3a2beeb2341f30b157cbd8e7e</td>
   </tr>
-  <tr class="EvenRow">
+  <tr>
    <td>Exiv2 v0.18.1 Windows executable</td>
    <td><a title="Download the v0.18.1 Windows executable" href="exiv2-0.18.1-win.zip" >exiv2-0.18.1-win.zip</a></td>
    <td>1767271</td>
-   <td>06-Apr-2009</td>
+   <td class="text-nowrap">06-Apr-2009</td>
    <td>c7591a7aed7f3bee68a6372511e32521</td>
   </tr>
-  <tr class="OddRow">
+  <tr>
    <td>Exiv2 v0.18 Source</td>
    <td><a title="Download the v0.18 source package" href="exiv2-0.18.tar.gz" >exiv2-0.18.tar.gz</a></td>
    <td>2299215</td>
-   <td>18-Dec-2008</td>
+   <td class="text-nowrap">18-Dec-2008</td>
    <td>03044792525ae0a1b109df5a53b858fb</td>
   </tr>
-  <tr class="EvenRow">
+  <tr>
    <td>Exiv2 v0.18 Windows executable</td>
    <td><a title="Download the v0.18 Windows executable" href="exiv2-0.18-win.zip" >exiv2-0.18-win.zip</a></td>
    <td>1602335</td>
-   <td>18-Dec-2008</td>
+   <td class="text-nowrap">18-Dec-2008</td>
    <td>3f782e5c340a54a23309e120d00c5e88</td>
   </tr>
-  <tr class="OddRow">
+  <tr>
    <td>Exiv2 v0.18-pre2 Source</td>
    <td><a title="Download the v0.18-pre2 source package" href="exiv2-0.18-pre2.tar.gz" >exiv2-0.18-pre2.tar.gz</a></td>
    <td>2198231</td>
-   <td>04-Nov-2008</td>
+   <td class="text-nowrap">04-Nov-2008</td>
    <td>7b52cebd0af071fe663a4a06e64d47cd</td>
   </tr>
-  <tr class="EvenRow">
+  <tr>
    <td>Exiv2 v0.18-pre2 Windows executable</td>
    <td><a title="Download the v0.18-pre2 Windows executable" href="exiv2-0.18-pre2-win.zip" >exiv2-0.18-pre2-win.zip</a></td>
    <td>1574233</td>
-   <td>04-Nov-2008</td>
+   <td class="text-nowrap">04-Nov-2008</td>
    <td>e007e0a988fb5508605c5f0eb4930d7c</td>
   </tr>
-  <tr class="OddRow">
+  <tr>
    <td>Exiv2 v0.18-pre1 Source</td>
    <td><a title="Download the v0.18-pre1 source package" href="exiv2-0.18-pre1.tar.gz" >exiv2-0.18-pre1.tar.gz</a></td>
    <td>1838552</td>
-   <td>11-Sep-2008</td>
+   <td class="text-nowrap">11-Sep-2008</td>
    <td>63b4bbcfe5a1c02187c795b8a67b8112</td>
   </tr>
-  <tr class="EvenRow">
+  <tr>
    <td>Exiv2 v0.18-pre1 Windows executable</td>
    <td><a title="Download the v0.18-pre1 Windows executable" href="exiv2-0.18-pre1-win.zip" >exiv2-0.18-pre1-win.zip</a></td>
    <td>1553504</td>
-   <td>11-Sep-2008</td>
+   <td class="text-nowrap">11-Sep-2008</td>
    <td>1b64f0ce990ba99fbd06f90126b4995a</td>
   </tr>
-  <tr class="OddRow">
+  <tr>
    <td>Exiv2 v0.17.1 Source</td>
    <td><a title="Download the v0.17.1 source package" href="exiv2-0.17.1.tar.gz" >exiv2-0.17.1.tar.gz</a></td>
    <td>1807220</td>
-   <td>19-Jun-2008</td>
+   <td class="text-nowrap">19-Jun-2008</td>
    <td>52a602f4f0d9e89b7084ac795b7547ac</td>
   </tr>
-  <tr class="EvenRow">
+  <tr>
    <td>Exiv2 v0.17.1 Windows executable</td>
    <td><a title="Download the v0.17.1 Windows executable" href="exiv2-0.17.1-win.zip" >exiv2-0.17.1-win.zip</a></td>
    <td>1557896</td>
-   <td>19-Jun-2008</td>
+   <td class="text-nowrap">19-Jun-2008</td>
    <td>b33ee61aef7d9fe37e75c776523bc72c</td>
   </tr>
-  <tr class="OddRow">
+  <tr>
    <td>Exiv2 v0.17 Source</td>
    <td><a title="Download the v0.17 source package" href="exiv2-0.17.tar.gz" >exiv2-0.17.tar.gz</a></td>
    <td>1807917</td>
-   <td>06-Jun-2008</td>
+   <td class="text-nowrap">06-Jun-2008</td>
    <td>800508a2d6db7b736cced8cfeff97a4e</td>
   </tr>
-  <tr class="EvenRow">
+  <tr>
    <td>Exiv2 v0.17 Windows executable</td>
    <td><a title="Download the v0.17 Windows executable" href="exiv2-0.17-win.zip" >exiv2-0.17-win.zip</a></td>
    <td>1557670</td>
-   <td>06-Jun-2008</td>
+   <td class="text-nowrap">06-Jun-2008</td>
    <td>78635a863842789be0ce7129205e1467</td>
   </tr>
-  <tr class="OddRow">
+  <tr>
    <td>Exiv2 v0.16 Source</td>
    <td><a title="Download the v0.16 source package" href="exiv2-0.16.tar.gz" >exiv2-0.16.tar.gz</a></td>
    <td>1591822</td>
-   <td>10-Jan-2008</td>
+   <td class="text-nowrap">10-Jan-2008</td>
    <td>a6e72343885d990c593bd013c6c988f1</td>
   </tr>
-  <tr class="EvenRow">
+  <tr>
    <td>Exiv2 v0.16 Documentation</td>
    <td><a title="Download the v0.16 API documentation and metadata tag reference" href="exiv2-0.16-doc.tar.gz" >exiv2-0.16-doc.tar.gz</a></td>
    <td>2730508</td>
-   <td>10-Jan-2008</td>
+   <td class="text-nowrap">10-Jan-2008</td>
    <td>ad8bf4b006b6a22f5a9d50856c1b6285</td>
   </tr>
-  <tr class="OddRow">
+  <tr>
    <td>Exiv2 v0.16 Windows executable</td>
    <td><a title="Download the v0.16 Windows executable" href="exiv2-0.16-win.zip" >exiv2-0.16-win.zip</a></td>
    <td>1499946</td>
-   <td>10-Jan-2008</td>
+   <td class="text-nowrap">10-Jan-2008</td>
    <td>8de2fc0f942a7fa4ade825da2743a7ca</td>
   </tr>
-  <tr class="EvenRow">
+  <tr>
    <td>Exiv2 v0.16-pre1 Source</td>
    <td><a title="Download the v0.16-pre1 source package" href="exiv2-0.16-pre1.tar.gz" >exiv2-0.16-pre1.tar.gz</a></td>
    <td>1540861</td>
-   <td>09-Nov-2007</td>
+   <td class="text-nowrap">09-Nov-2007</td>
    <td>e4d0836f92b917f6e5ff85041c8717fb</td>
   </tr>
-  <tr class="OddRow">
+  <tr>
    <td>Exiv2 v0.16-pre1 Documentation</td>
    <td><a title="Download the v0.16-pre1 API documentation and metadata tag reference" href="exiv2-0.16-pre1-doc.tar.gz" >exiv2-0.16-pre1-doc.tar.gz</a></td>
    <td>2713829</td>
-   <td>09-Nov-2007</td>
+   <td class="text-nowrap">09-Nov-2007</td>
    <td>7e1b5bc79195e3d818f4c7e12866bf99</td>
   </tr>
-  <tr class="EvenRow">
+  <tr>
    <td>Exiv2 v0.16-pre1 Windows executable</td>
    <td><a title="Download the v0.16-pre1 Windows executable" href="exiv2-0.16-pre1-win.zip" >exiv2-0.16-pre1-win.zip</a></td>
    <td>1498744</td>
-   <td>09-Nov-2007</td>
+   <td class="text-nowrap">09-Nov-2007</td>
    <td>570d7e34404aa3315811e5a33d13f9cd</td>
   </tr>
-  <tr class="OddRow">
+  <tr>
    <td>Exiv2 v0.15 Source</td>
    <td><a title="Download the v0.15 source package" href="exiv2-0.15.tar.gz" >exiv2-0.15.tar.gz</a></td>
    <td>1133249</td>
-   <td>10-Jul-2007</td>
+   <td class="text-nowrap">10-Jul-2007</td>
    <td>bb18d19e1d6fb255dadda456cadec00e</td>
   </tr>
-  <tr class="EvenRow">
+  <tr>
    <td>Exiv2 v0.15 Documentation</td>
    <td><a title="Download the v0.15 API documentation and metadata tag reference" href="exiv2-0.15-doc.tar.gz" >exiv2-0.15-doc.tar.gz</a></td>
    <td>2586720</td>
-   <td>10-Jul-2007</td>
+   <td class="text-nowrap">10-Jul-2007</td>
    <td>51adef87722e057805ad863be9cb131a</td>
   </tr>
-  <tr class="OddRow">
+  <tr>
    <td>Exiv2 v0.15 Windows executable</td>
    <td><a title="Download the v0.15 Windows executable" href="exiv2-0.15-win.zip" >exiv2-0.15-win.zip</a></td>
    <td>1115891</td>
-   <td>10-Jul-2007</td>
+   <td class="text-nowrap">10-Jul-2007</td>
    <td>508f9376c7c143876ef202b1308ff0dd</td>
   </tr>
-  <tr class="EvenRow">
+  <tr>
    <td>Exiv2 v0.14 Source</td>
    <td><a title="Download the v0.14 source package" href="exiv2-0.14.tar.gz" >exiv2-0.14.tar.gz</a></td>
    <td>1028225</td>
-   <td>19-Mar-2007</td>
+   <td class="text-nowrap">19-Mar-2007</td>
    <td>6f8edde77d95f49fc83329feb615bb33</td>
   </tr>
-  <tr class="OddRow">
+  <tr>
    <td>Exiv2 v0.14 Documentation</td>
    <td><a title="Download the v0.14 API documentation and metadata tag reference" href="exiv2-0.14-doc.tar.gz" >exiv2-0.14-doc.tar.gz</a></td>
    <td>1835888</td>
-   <td>20-Mar-2007</td>
+   <td class="text-nowrap">20-Mar-2007</td>
    <td>7245efe6934e8febc4466e50acd939f6</td>
   </tr>
-  <tr class="EvenRow">
+  <tr>
    <td>Exiv2 v0.14 Windows executable</td>
    <td><a title="Download the v0.14 Windows executable" href="exiv2-0.14-win.zip" >exiv2-0.14-win.zip</a></td>
    <td>1112164</td>
-   <td>19-Mar-2007</td>
+   <td class="text-nowrap">19-Mar-2007</td>
    <td>635019737e2b72446055b4929e8871ac</td>
   </tr>
-  <tr class="OddRow">
+  <tr>
    <td>Exiv2 v0.13 Source</td>
    <td><a title="Download the v0.13 source package" href="exiv2-0.13.tar.gz" >exiv2-0.13.tar.gz</a></td>
    <td>2841724</td>
-   <td>03-Mar-2007</td>
+   <td class="text-nowrap">03-Mar-2007</td>
    <td>492d476e3130ac27983d93e5595d81e8</td>
   </tr>
-  <tr class="EvenRow">
+  <tr>
    <td>Exiv2 v0.13 Windows executable</td>
    <td><a title="Download the v0.13 Windows executable" href="exiv2-0.13-win.zip" >exiv2-0.13-win.zip</a></td>
    <td>1109773</td>
-   <td>03-Mar-2007</td>
+   <td class="text-nowrap">03-Mar-2007</td>
    <td>825d221f787ef97b5dc571f30d4cf561</td>
   </tr>
-  <tr class="OddRow">
+  <tr>
    <td>Exiv2 v0.12 Source</td>
    <td><a title="Download the v0.12 source package" href="exiv2-0.12.tar.gz" >exiv2-0.12.tar.gz</a></td>
    <td>2359138</td>
-   <td>27-Nov-2006</td>
+   <td class="text-nowrap">27-Nov-2006</td>
    <td>a97a4e489df7ec99458e3e33b506c3e6</td>
   </tr>
-  <tr class="EvenRow">
+  <tr>
    <td>Exiv2 v0.12 Windows executable</td>
    <td><a title="Download the v0.12 Windows executable" href="exiv2-0.12-win.zip" >exiv2-0.12-win.zip</a></td>
    <td>440131</td>
-   <td>01-Dec-2006</td>
+   <td class="text-nowrap">01-Dec-2006</td>
    <td>82dbfa8f4d190b26c99481b778e01a06</td>
   </tr>
-  <tr class="OddRow">
+  <tr>
    <td>Exiv2 v0.11 Source</td>
    <td><a title="Download the v0.11 source package" href="exiv2-0.11.tar.gz" >exiv2-0.11.tar.gz</a></td>
    <td>2380087</td>
-   <td>16-Sep-2006</td>
+   <td class="text-nowrap">16-Sep-2006</td>
    <td>269ce822946c56549d086f0c08dffc79</td>
   </tr>
-  <tr class="EvenRow">
+  <tr>
    <td>Exiv2 v0.11 Windows executable</td>
    <td><a title="Download the v0.11 Windows executable" href="exiv2-0.11-win.zip" >exiv2-0.11-win.zip</a></td>
    <td>407109</td>
-   <td>16-Sep-2006</td>
+   <td class="text-nowrap">16-Sep-2006</td>
    <td>cc75a88f1c447e7bff63da0de0c7c24b</td>
   </tr>
-  <tr class="OddRow">
+  <tr>
    <td>Exiv2 v0.10 Source</td>
    <td><a title="Download the v0.10 source package" href="exiv2-0.10.tar.gz" >exiv2-0.10.tar.gz</a></td>
    <td>2053756</td>
-   <td>03-Jun-2006</td>
+   <td class="text-nowrap">03-Jun-2006</td>
    <td>5af2256fb9895d9331684e8c1865b956</td>
   </tr>
-  <tr class="EvenRow">
+  <tr>
    <td>Exiv2 v0.10 Windows executable</td>
    <td><a title="Download the v0.10 Windows executable" href="exiv2-0.10-win.zip" >exiv2-0.10-win.zip</a></td>
    <td>404766</td>
-   <td>03-Jun-2006</td>
+   <td class="text-nowrap">03-Jun-2006</td>
    <td>b67a0a6804bce8b85593325b02c0d2cf</td>
   </tr>
-  <tr class="OddRow">
+  <tr>
    <td>Exiv2 v0.9.1 Source</td>
    <td><a title="Download the v0.9.1 source package" href="exiv2-0.9.1.tar.gz" >exiv2-0.9.1.tar.gz</a></td>
    <td>1602868</td>
-   <td>04-Feb-2006</td>
+   <td class="text-nowrap">04-Feb-2006</td>
    <td>4c6593751368f5e9235d85e0d4058e67</td>
   </tr>
-  <tr class="EvenRow">
+  <tr>
    <td>Exiv2 v0.9.1 Windows executable</td>
    <td><a title="Download the v0.9.1 Windows executable" href="exiv2-0.9.1-win.zip" >exiv2-0.9.1-win.zip</a></td>
    <td>355312</td>
-   <td>04-Feb-2006</td>
+   <td class="text-nowrap">04-Feb-2006</td>
    <td>805c81c16741f2e41e59e7dfd37fe1a2</td>
   </tr>
-  <tr class="OddRow">
+  <tr>
    <td>Exiv2 v0.9 Source</td>
    <td><a title="Download the v0.9 source package" href="exiv2-0.9.tar.gz" >exiv2-0.9.tar.gz</a></td>
    <td>1613781</td>
-   <td>26-Jan-2006</td>
+   <td class="text-nowrap">26-Jan-2006</td>
    <td>ee82fcba2741f5c771cb21d3eacefeef</td>
   </tr>
-  <tr class="EvenRow">
+  <tr>
    <td>Exiv2 v0.9 Windows executable</td>
    <td><a title="Download the v0.9 Windows executable" href="exiv2-0.9-win.zip" >exiv2-0.9-win.zip</a></td>
    <td>355270</td>
-   <td>26-Jan-2006</td>
+   <td class="text-nowrap">26-Jan-2006</td>
    <td>fa54efd391e87fea0c309b65ca5f1a65</td>
   </tr>
-  <tr class="OddRow">
+  <tr>
    <td>Exiv2 v0.8 Source</td>
    <td><a title="Download the v0.8 source package" href="exiv2-0.8.tar.gz" >exiv2-0.8.tar.gz</a></td>
    <td>1318689</td>
-   <td>19-Nov-2005</td>
+   <td class="text-nowrap">19-Nov-2005</td>
    <td>70779ef4adb2a41732c44dcdbd535412</td>
   </tr>
-  <tr class="EvenRow">
+  <tr>
    <td>Exiv2 v0.8 Windows executable</td>
    <td><a title="Download the v0.8 Windows executable" href="exiv2-0.8-win.zip" >exiv2-0.8-win.zip</a></td>
    <td>338156</td>
-   <td>19-Nov-2005</td>
+   <td class="text-nowrap">19-Nov-2005</td>
    <td>bfc1787972dcc5557833b2d75be32447</td>
   </tr>
-  <tr class="OddRow">
+  <tr>
    <td>Exiv2 v0.7 Source</td>
    <td><a title="Download the v0.7 source package" href="exiv2-0.7.tar.gz" >exiv2-0.7.tar.gz</a></td>
    <td>1245111</td>
-   <td>15-Jun-2005</td>
+   <td class="text-nowrap">15-Jun-2005</td>
    <td>540e720b77c05ca50d5005a140e38138</td>
   </tr>
-  <tr class="EvenRow">
+  <tr>
    <td>Exiv2 v0.7 Windows executable</td>
    <td><a title="Download the v0.7 Windows executable" href="exiv2-0.7-win.zip" >exiv2-0.7-win.zip</a></td>
    <td>273949</td>
-   <td>15-Jun-2005</td>
+   <td class="text-nowrap">15-Jun-2005</td>
    <td>6c26bdb7a2c949c7771269ead55b53b2</td>
   </tr>
-  <tr class="OddRow">
+  <tr>
    <td>Exiv2 v0.6.2 Source</td>
    <td><a title="Download the v0.6.2 source package" href="exiv2-0.6.2.tar.gz" >exiv2-0.6.2.tar.gz</a></td>
    <td>975615</td>
-   <td>06-Mar-2005</td>
+   <td class="text-nowrap">06-Mar-2005</td>
    <td>2f41777091b2145c4799c3bed55519e3</td>
   </tr>
-  <tr class="EvenRow">
+  <tr>
    <td>Exiv2 v0.6.2 Windows executable</td>
    <td><a title="Download the v0.6.2 Windows executable" href="exiv2-0.6.2-win.zip" >exiv2-0.6.2-win.zip</a></td>
    <td>248513</td>
-   <td>06-Mar-2005</td>
+   <td class="text-nowrap">06-Mar-2005</td>
    <td>7031cc7228ac376f643601d72d919e91</td>
   </tr>
-  <tr class="OddRow">
+  <tr>
    <td>Exiv2 v0.6.1 Source</td>
    <td><a title="Download the v0.6.1 source package" href="exiv2-0.6.1.tar.gz" >exiv2-0.6.1.tar.gz</a></td>
    <td>749879</td>
-   <td>17-Jan-2005</td>
+   <td class="text-nowrap">17-Jan-2005</td>
    <td>34b702a84c3448832c07bb0c02e829bc</td>
   </tr>
-  <tr class="EvenRow">
+  <tr>
    <td>Exiv2 v0.6.1 Windows executable</td>
    <td><a title="Download the v0.6.1 Windows executable" href="exiv2-0.6.1-win.zip" >exiv2-0.6.1-win.zip</a></td>
    <td>248002</td>
-   <td>17-Jan-2005</td>
+   <td class="text-nowrap">17-Jan-2005</td>
    <td>fdfc905dd8a13a43d4980a9091bb1e48</td>
   </tr>
-  <tr class="OddRow">
+  <tr>
    <td>Exiv2 v0.6 Source</td>
    <td><a title="Download the v0.6 source package" href="exiv2-0.6.tar.gz" >exiv2-0.6.tar.gz</a></td>
    <td>716240</td>
-   <td>12-Dec-2004</td>
+   <td class="text-nowrap">12-Dec-2004</td>
    <td>464bcf3878d65196e0a326b2e24752e9</td>
   </tr>
-  <tr class="EvenRow">
+  <tr>
    <td>Exiv2 v0.6 Windows executable</td>
    <td><a title="Download the v0.6 Windows executable" href="exiv2-0.6-win.zip" >exiv2-0.6-win.zip</a></td>
    <td>236965</td>
-   <td>12-Dec-2004</td>
+   <td class="text-nowrap">12-Dec-2004</td>
    <td>66088a3424b6e2fbc2a7a8887d2b1343</td>
   </tr>
-  <tr class="OddRow">
+  <tr>
    <td>Exiv2 v0.5 Source</td>
    <td><a title="Download the v0.5 source package" href="exiv2-0.5.tar.gz" >exiv2-0.5.tar.gz</a></td>
    <td>645739</td>
-   <td>13-Sep-2004</td>
+   <td class="text-nowrap">13-Sep-2004</td>
    <td>e9362bc1b9e5cea5b095a99af08613ee</td>
   </tr>
-  <tr class="EvenRow">
+  <tr>
    <td>Exiv2 v0.5 Windows executable</td>
    <td><a title="Download the v0.5 Windows executable" href="exiv2-0.5-win.zip" >exiv2-0.5-win.zip</a></td>
    <td>219168</td>
-   <td>13-Sep-2004</td>
+   <td class="text-nowrap">13-Sep-2004</td>
    <td>8347281c3d7430ab48547d04a9c42a8d</td>
   </tr>
-  <tr class="OddRow">
+  <tr>
    <td>Exiv2 v0.4 Source</td>
    <td><a title="Download the v0.4 source package" href="exiv2-0.4.tar.gz" >exiv2-0.4.tar.gz</a></td>
    <td>430893</td>
-   <td>03-Jul-2004</td>
+   <td class="text-nowrap">03-Jul-2004</td>
    <td>8b29148c36225836a1935a8b4193b060</td>
   </tr>
-  <tr class="EvenRow">
+  <tr>
    <td>Exiv2 v0.4 Windows executable</td>
    <td><a title="Download the v0.4 Windows executable" href="exiv2-0.4-win.zip" >exiv2-0.4-win.zip</a></td>
    <td>197304</td>
-   <td>03-Jul-2004</td>
+   <td class="text-nowrap">03-Jul-2004</td>
    <td>fa05437d78c32737f17c9c6ea8badb24</td>
   </tr>
-  <tr class="OddRow">
+  <tr>
    <td>Exiv2 v0.3 Source</td>
    <td><a title="Download the v0.3 source package" href="exiv2-0.3.tar.gz" >exiv2-0.3.tar.gz</a></td>
    <td>372479</td>
-   <td>10-May-2004</td>
+   <td class="text-nowrap">10-May-2004</td>
    <td>3ea7ecc9a37ebf75a46c6e7f0286ab55</td>
   </tr>
-  <tr class="EvenRow">
+  <tr>
    <td>Exiv2 v0.3 Windows executable</td>
    <td><a title="Download the v0.3 Windows executable" href="exiv2-0.3-win.zip" >exiv2-0.3-win.zip</a></td>
    <td>188242</td>
-   <td>10-May-2004</td>
+   <td class="text-nowrap">10-May-2004</td>
    <td>be15cbf86e3a3e91a44f1749f6eb8f1d</td>
   </tr>
  </tbody>
 </table>
-<script type="text/javascript">
-//<![CDATA[
-var t1 = new SortableTable(
-  document.getElementById("report-1"),
-  ["String", "String", "Number", "String", "String"]
-);
-t1.onsort = function () { 
-	var rows = t1.tBody.rows;
-	var l = rows.length;
-	for (var i = 0; i < l; i++) {
-		removeClassName(rows[i], i % 2 ? "OddRow" : "EvenRow");
-		addClassName(rows[i], i % 2 ? "EvenRow" : "OddRow");
-	}
-};
-//]]>
-</script>
 
 __footer__
-</div>
-<!-- closes content -->
-
-__tracker__
+</div><!-- /.container -->
+__bootstrap__
 </body>
 </html>

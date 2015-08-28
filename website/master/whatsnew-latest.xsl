@@ -6,34 +6,39 @@
 <xsl:template match="news">
  <div id="latest">
   <h2>Latest News</h2>
-  <ul id="news">
+  <div class="list-group">
    <xsl:apply-templates select="newsitem[position()&lt;5]" />
-   <xsl:if test="newsitem[last()>4]">
-    <li>
-     <span class="newstitle"><a href="whatsnew.html#item5">More news...</a></span>
-    </li>
-   </xsl:if>
-  </ul>
+  </div>
  </div>
  <xsl:comment> closes latest </xsl:comment>
 </xsl:template>
 
 <!-- *********************************************************************** -->
 <xsl:template match="newsitem">
- <li>
-  <a>
-   <xsl:attribute name="href">
-    <xsl:value-of select="concat('whatsnew.html#item', position())" />
-   </xsl:attribute>
-    <span class="newstitle">
-     <xsl:value-of select="title" />
-    </span>
-    <br />
-    <span class="newsabstract">
-    <xsl:value-of select="abstract" />
-    </span>
-  </a>
- </li>
+ <a>
+  <xsl:attribute name="href">
+   <xsl:value-of select="concat('whatsnew.html#item', position())" />
+  </xsl:attribute>
+  <xsl:attribute name="class">
+  <xsl:choose>
+   <xsl:when test="position() &lt; 2">
+    <xsl:value-of select="'list-group-item active'" />
+   </xsl:when>
+   <xsl:otherwise>
+    <xsl:value-of select="'list-group-item'" />
+   </xsl:otherwise>
+  </xsl:choose>
+  </xsl:attribute>
+  <h4 class="list-group-item-heading"> 
+   <xsl:value-of select="concat(title, ' ')" />
+   <small>
+    <xsl:value-of select="date" />
+   </small>
+  </h4>
+  <p class="list-group-item-text">
+   <xsl:value-of select="abstract" />
+  </p>
+ </a>
 </xsl:template>
 
 <!-- *********************************************************************** -->
