@@ -371,8 +371,8 @@ source ./functions.source
 	echo '------>' Bug $num '<-------' >&2
 	copyTestFile BlueSquare.xmp   $filename1
 	copyTestFile exiv2-bug784.jpg $filename2
-	# runTest exiv2json        $filename1   TODO: This is Throwing
-	# runTest exiv2json x      $filename1   Caught Exiv2 exception 'XMP Toolkit error 9: Fatal namespace map problem'
+	runTest exiv2json        $filename1
+	runTest exiv2json x      $filename1
     runTest exiv2json        $filename2
 
 	num=1058
