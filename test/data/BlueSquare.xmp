@@ -3,19 +3,19 @@
  <rdf:RDF xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#">
   <rdf:Description rdf:about=""
     xmlns:dc="http://purl.org/dc/elements/1.1/"
-    xmlns:xap="http://ns.adobe.com/xap/1.0/"
-    xmlns:xapMM="http://ns.adobe.com/xap/1.0/mm/"
+    xmlns:xmp="http://ns.adobe.com/xap/1.0/"
+    xmlns:xmpMM="http://ns.adobe.com/xap/1.0/mm/"
     xmlns:stRef="http://ns.adobe.com/xap/1.0/sType/ResourceRef#"
     xmlns:photoshop="http://ns.adobe.com/photoshop/1.0/"
     xmlns:tiff="http://ns.adobe.com/tiff/1.0/"
     xmlns:exif="http://ns.adobe.com/exif/1.0/"
    dc:format="image/jpeg"
-   xap:CreatorTool="Adobe Photoshop CS2 Macintosh"
-   xap:CreateDate="2005-09-07T15:07:40-07:00"
-   xap:ModifyDate="2005-09-07T15:09:51-07:00"
-   xap:MetadataDate="2006-04-10T13:37:10-07:00"
-   xapMM:DocumentID="uuid:9A3B7F52214211DAB6308A7391270C13"
-   xapMM:InstanceID="uuid:B59AC1B3214311DAB6308A7391270C13"
+   xmp:CreatorTool="Adobe Photoshop CS2 Macintosh"
+   xmp:CreateDate="2005-09-07T15:07:40-07:00"
+   xmp:ModifyDate="2005-09-07T15:09:51-07:00"
+   xmp:MetadataDate="2006-04-10T13:37:10-07:00"
+   xmpMM:DocumentID="uuid:9A3B7F52214211DAB6308A7391270C13"
+   xmpMM:InstanceID="uuid:B59AC1B3214311DAB6308A7391270C13"
    photoshop:ColorMode="3"
    photoshop:ICCProfile="sRGB IEC61966-2.1"
    tiff:Orientation="1"
@@ -51,7 +51,7 @@
      <rdf:li>.jpg</rdf:li>
     </rdf:Bag>
    </dc:subject>
-   <xapMM:DerivedFrom
+   <xmpMM:DerivedFrom
     stRef:instanceID="uuid:9A3B7F4F214211DAB6308A7391270C13"
     stRef:documentID="uuid:9A3B7F4E214211DAB6308A7391270C13"/>
    <tiff:BitsPerSample>
@@ -64,25 +64,25 @@
   </rdf:Description>
  </rdf:RDF>
 </x:xmpmeta>
-                                                                                                    
-                                                                                                    
-                                                                                                    
-                                                                                                    
-                                                                                                    
-                                                                                                    
-                                                                                                    
-                                                                                                    
-                                                                                                    
-                                                                                                    
-                                                                                                    
-                                                                                                    
-                                                                                                    
-                                                                                                    
-                                                                                                    
-                                                                                                    
-                                                                                                    
-                                                                                                    
-                                                                                                    
-                                                                                                    
-                           
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 <?xpacket end="w"?>
