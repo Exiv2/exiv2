@@ -317,9 +317,7 @@ try {
             }
 
             // get the namespace dictionary from XMP
-            typedef std::map<std::string,std::string> dict_t;
-            typedef std::map<std::string,std::string>::const_iterator dict_i;
-            dict_t  nsDict;
+            std::map<std::string,std::string>         nsDict;
             Exiv2::XmpParser::getRegisteredNamespaces(nsDict);
 
             // create and populate a Jzon::Object for the namespaces
