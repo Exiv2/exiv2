@@ -36,6 +36,50 @@ Xmp.exif.NativeDigest                        XmpText   414  36864,40960,40961,37
 <      <rdf:li xml:lang="en-US">Blue Square Test File - .jpg</rdf:li>
 36a36
 >      <rdf:li xml:lang="en-US">Blue Square Test File - .jpg</rdf:li>
+67,87c67,87
+< 
+< 
+< 
+< 
+< 
+< 
+< 
+< 
+< 
+< 
+< 
+< 
+< 
+< 
+< 
+< 
+< 
+< 
+< 
+< 
+< 
+---
+>                                                                                                     
+>                                                                                                     
+>                                                                                                     
+>                                                                                                     
+>                                                                                                     
+>                                                                                                     
+>                                                                                                     
+>                                                                                                     
+>                                                                                                     
+>                                                                                                     
+>                                                                                                     
+>                                                                                                     
+>                                                                                                     
+>                                                                                                     
+>                                                                                                     
+>                                                                                                     
+>                                                                                                     
+>                                                                                                     
+>                                                                                                     
+>                                                                                                     
+>                            
 -----> Decoding XMP data read from StaffPhotographer-Example.xmp <-----
 Xmp.iptc.IntellectualGenre                   XmpText     7  Profile
 Xmp.iptc.Location                            XmpText    17  Moore family farm

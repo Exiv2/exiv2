@@ -15,7 +15,7 @@
  * GNU General Public License for more details.
  *
  * You should have received a copy of the GNU General Public License
- * along with this program; if not, write to the Free Software
+ * along with this f; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, 5th Floor, Boston, MA 02110-1301 USA.
  */
 /*
@@ -446,7 +446,8 @@ namespace Exiv2 {
 
         // pop trailing ':' on a namespace
         if ( bNS ) {
-            if ( out[out.length()-1] == ':' ) out.pop_back();
+	    std::size_t length = out.length();
+            if ( out[length-1] == ':' ) out = out.substr(0,length-1);
         }
 
         if ( bURI || bNS ) {
