@@ -13,7 +13,7 @@ count=${#from[@]}
 index=0
 (
 
-    echo   '<table class="ReportTable" cellspacing="0">'
+    echo   '<table class="table table-striped">'
     echo   '<tr><th>Between Exif tags or Iptc datasets</th><th>and XMP properties</th></tr>'
     while [ $index -lt $count ]; do
         printf '<tr><td>%s</td><td>%s</td></tr>\n' "${from[index]}" "${to[index]}"
