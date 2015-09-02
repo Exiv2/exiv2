@@ -1,23 +1,23 @@
 __doctype__
-<html>
-__header2__
+<html lang="en">
+__header4__
 <body>
-__sidebar1__
+__navbar__
 
-<div id="content">
-__maintitle__
-<h2>Exiv2 Conversion Table</h2>
-<div>
-<p>Exiv2 maps and will convert Exif tags and IPTC Datasets to and from XMP properties.<br>
-This function is available via the import/export command line options: <a title="exiv2 manpage" href="manpage.html">exiv2 -eX image.jpg; exiv2 -iX image.jpg</a><br>
+<div class="container">
+  <div class="page-header">
+    <h1>Exiv2 conversion table</h1>
+  </div>
+
+<p class="lead">Exiv2 maps and will convert Exif tags and IPTC datasets to and from XMP properties.</p>
+
+<p>This function is available via the import/export command line options: <code><a title="exiv2 manpage" href="manpage.html">exiv2 -eX image.jpg; exiv2 -iX image.jpg</a></code><br>
 and via the exiv2 API: <a title="convert.hpp File Reference" href="doc/convert_8hpp.html">convert.hpp File Reference</a></p>
-</div>
 
 __conversion__
 
 __footer__
-</div>
-<!-- closes content -->
-
+</div><!-- /.container -->
+__bootstrap__
 </body>
 </html>
