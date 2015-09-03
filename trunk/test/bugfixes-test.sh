@@ -398,6 +398,14 @@ source ./functions.source
 	copyTestFile              $filename
 	runTest exiv2 -pa -g zone $filename
 
+	num=1112
+	filename=exiv2-bug$num.xmp
+	printf "$num " >&3
+	echo '------>' Bug $num '<-------' >&2
+	copyTestFile                        $filename
+	runTest exiv2 -M 'del Xmp.dc.title' $filename
+	cat                                 $filename
+
 ) 3>&1 > $results 2>&1
 
 printf "\n"
