@@ -44,10 +44,9 @@ struct Token {
     int         i; // index (indexed from 1) eg History[1]/stEvt:action
 };
 typedef std::vector<Token>    Tokens;
-typedef std::set<std::string> Namespaces;
 
 // "XMP.xmp.MP.RegionInfo/MPRI:Regions[1]/MPReg:Rectangle"
-bool getToken(std::string& in,Token& token,Namespaces* pNS=NULL)
+bool getToken(std::string& in,Token& token,Exiv2::StringSet* pNS=NULL)
 {
     bool result = false;
     bool ns     = false;
@@ -102,7 +101,7 @@ Jzon::Node& recursivelyBuildTree(Jzon::Node& root,Tokens& tokens,size_t k)
 }
 
 // build the json tree for this key.  return location and discover the name
-Jzon::Node& objectForKey(const std::string Key,Jzon::Object& root,std::string& name,Namespaces* pNS=NULL)
+Jzon::Node& objectForKey(const std::string Key,Jzon::Object& root,std::string& name,Exiv2::StringSet* pNS=NULL)
 {
     // Parse the key
     Tokens      tokens ;
