@@ -724,7 +724,7 @@ namespace Exiv2 {
         { 137, "Sigma 18-125mm f/3.8-5.6 DC OS HSM"                         }, // 5
         { 137, "Sigma 17-70mm f/2.8-4 DC Macro OS HSM"                      }, // 6
         { 137, "Sigma 17-50mm f/2.8 OS HSM"                                 }, // 7
-        { 137, "Sigma 18-200mm f/3.5-6.3 II DC OS HSM"                      }, // 8
+        { 137, "Sigma 18-200mm f/3.5-6.3 DC OS HSM [II]"                    }, // 8
         { 137, "Tamron AF 18-270mm f/3.5-6.3 Di II VC PZD"                  }, // 9
         { 137, "Sigma 8-16mm f/4.5-5.6 DC HSM"                              }, // 10
         { 137, "Tamron SP 17-50mm f/2.8 XR Di II VC"                        }, // 11
@@ -904,6 +904,7 @@ namespace Exiv2 {
         { 507, "Canon EF 16-35mm f/4L IS USM"                               },
         { 508, "Canon EF 11-24mm f/4L USM"                                  },
         { 747, "Canon EF 100-400mm f/4.5-5.6L IS II USM"                    },
+        { 750, "Canon EF 35mm f/1.4L II USM"                                },
         { 4142,"Canon EF-S 18-135mm f/3.5-5.6 IS STM"                       },
         { 4143,"Canon EF-M 18-55mm f/3.5-5.6 IS STM"                        }, // 0
         { 4143,"Tamron 18-200mm F/3.5-6.3 Di III VC"                        }, // 1
