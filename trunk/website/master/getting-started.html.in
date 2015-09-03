@@ -17,6 +17,9 @@ __navbar__
 	  Exiv2 is available as <a href="download.html#license">free software</a> and with a 
 	  <a href="download.html#license">commercial license</a>, and is used in many projects.
         </p>
+        <a href="download.html" class="btn btn-lg btn-success">
+	  <span class="glyphicon glyphicon-download-alt" aria-hidden="true"></span>&nbsp; Download Exiv2
+	</a>
       </div>
     </div><!-- /.jumbotron -->
 
@@ -29,10 +32,11 @@ __navbar__
         <div class="col-sm-6">
 
 	  <h2 id="lib">Exiv2 library features</h2>
+
 	  <ul>
 	    <li>Fast read and write access to the Exif, IPTC, and XMP metadata of an image</li>
 	    <li>Easy to use and <a href="doc/index.html" title="Exiv2 API documentation">extensively documented</a> API</li>
-	    <li><a href="conversion.html" title="Exiv2 Conversions">conversions</a> of Exif and IPTC metadata to XMP and vice versa</li>
+	    <li><a href="conversion.html" title="Exiv2 Conversions">Conversions</a> of Exif and IPTC metadata to XMP and vice versa</li>
 	    <li>Smart IPTC implementation that does not affect data that programs like Photoshop store
 	      in the same image segment</li>
 	    <li>Exif <a href="makernote.html" title="Exif Makernote Formats and Specifications">Makernote</a> support:
@@ -45,19 +49,25 @@ __navbar__
 	    <li>Set and delete methods for Exif thumbnails</li>
 	  </ul>
 
-	  <h2>Library examples</h2>
-	  <p>
-	    <a title="Reading and printing the Exif metadata of an image" href="examples.html">read Exif</a>;
-	    <a title="Sample usage of high-level Exif metadata operations" href="examples.html#example2">add, modify, delete Exif</a>;
-	    <a title="Reading and printing the IPTC metadata of an image" href="examples.html#example3">read IPTC</a>;
-	    <a title="The quickest way to access, set or modify IPTC metadata" href="examples.html#example4">set IPTC</a>;
-	    <a title="Sample (test) usage of high level XMP classes" href="examples.html#example5">set XMP</a>
-	  </p>
+	  <div class="btn-group">
+	    <a class="btn btn-primary" href="examples.html" role="button">Library examples</a>
+	    <button type="button" class="btn btn-primary dropdown-toggle" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+	      <span class="caret"></span>
+	    </button>
+	    <ul class="dropdown-menu" aria-labelledby="dropdownMenu1">
+	      <li><a title="Reading and printing the Exif metadata of an image" href="examples.html#example1">Read Exif metadata</a></li>
+	      <li><a title="Sample usage of high-level Exif metadata operations" href="examples.html#example2">Add, modify, delete Exif</a></li>
+	      <li><a title="Reading and printing the IPTC metadata of an image" href="examples.html#example3">Read IPTC datasets</a></li>
+	      <li><a title="The quickest way to access, set or modify IPTC metadata" href="examples.html#example4">Set IPTC datasets</a></li>
+	      <li><a title="Sample (test) usage of high level XMP classes" href="examples.html#example5">Set XMP properties</a></li>
+	    </ul>
+	  </div>
+	  <p>&nbsp;</p>
 
 	  <h2 id="util">Exiv2 command line utility features</h2>
 	  <ul>
 	    <li>Print Exif, IPTC and XMP image metadata in different formats: Exif summary info, interpreted values,
-	      or the plain data for each tag (a <a title="Sample Exiv2 utility output" href="sample.html">sample</a> is here)</li>
+	      or the plain data for each tag</li>
 	    <li><a title="Modify" href="sample.html#modify">Set, add and delete</a> Exif, IPTC and XMP image metadata
 	      from command line modify commands or command scripts</li>
 	    <li>Adjust the Exif timestamp (that's how it all started...)</li>
@@ -69,6 +79,9 @@ __navbar__
 	    <li>Print, set and delete the JPEG comment of JPEG images</li>
 	    <li>Fix the Exif ISO setting of picture taken with Canon and Nikon cameras</li>
 	  </ul>
+
+	  <a class="btn btn-primary" href="sample.html" role="button">Utility samples</a>
+	  <p>&nbsp;</p>
 
 	  <h2>Future plans</h2>
 	  <ul>
