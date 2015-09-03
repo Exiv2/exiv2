@@ -465,7 +465,7 @@ namespace Exiv2 {
         return result;
     }
 
-    void XmpParser::getRegisteredNamespaces(std::map<std::string,std::string>& dict)
+    void XmpParser::getRegisteredNamespaces(Exiv2::Dictionary& dict)
     {
     	bool bInit = !initialized_;
         try {
