@@ -8,9 +8,8 @@ __navbar__
   <div class="container">
     <h1>Download Exiv2</h1>
     <p class="lead">Two packages are available for download: the source
-      distribution with the complete source code and a Windows package
-      with just the command line utility and manual page. The current version
-      is __version__.
+      distribution and a Windows package with just the command line utility
+      and manual page. The current version is __version__.
     </p>
   </div>
 </div><!-- /.jumbotron -->

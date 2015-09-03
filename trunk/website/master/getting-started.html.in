@@ -20,7 +20,7 @@ __navbar__
 	  <h2 id="lib">Exiv2 library features</h2>
 	  <ul>
 	    <li>Fast read and write access to the Exif, IPTC, and XMP metadata of an image</li>
-	    <li>Easy to use and <a href="doc/index.html" title="Exiv2 API documentation">extensively documented</a> API</li>
+	    <li>Easy to use and <a href="doc/index.html" title="Exiv2 API documentation">extensively documented</a> C++ API</li>
 	    <li><a href="conversion.html" title="Exiv2 Conversions">Conversions</a> of Exif and IPTC metadata to XMP and vice versa</li>
 	    <li>Smart IPTC implementation that does not affect data that programs like Photoshop store
 	      in the same image segment</li>
