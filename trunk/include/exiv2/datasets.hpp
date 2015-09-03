@@ -38,6 +38,9 @@
 #include <utility>                              // for std::pair
 #include <iosfwd>
 #include <memory>
+#include <set>
+#include <vector>
+#include <map>
 
 // *****************************************************************************
 // namespace extensions
@@ -359,6 +362,13 @@ namespace Exiv2 {
         std::string key_;              //!< Key
 
     }; // class IptcKey
+
+    typedef std::map<std::string,std::string>                 Dictionary    ,*Dictionary_p;
+    typedef std::map<std::string,std::string>::const_iterator Dictionary_i  ;
+    typedef std::set<std::string>                             StringSet     ,*StringSet_p;
+    typedef std::set<std::string>::const_iterator             StringSet_i   ;
+    typedef std::vector<std::string>                          StringVector  ,*StringVector_p;
+    typedef std::vector<std::string>::const_iterator          StringVector_i;
 
 // *****************************************************************************
 // free functions

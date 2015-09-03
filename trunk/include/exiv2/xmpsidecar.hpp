@@ -98,6 +98,8 @@ namespace Exiv2 {
         XmpSidecar& operator=(const XmpSidecar& rhs);
         //@}
 
+        Exiv2::Dictionary dates_;
+
     }; // class XmpSidecar
 
 // *****************************************************************************
