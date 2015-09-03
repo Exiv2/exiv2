@@ -309,7 +309,7 @@ try {
         Exiv2::XmpData  &xmpData  = image->xmpData();
         if ( !xmpData.empty() ) {
             // get the xmpData and recursively parse into a Jzon Object
-            Namespaces     namespaces;
+            Exiv2::StringSet     namespaces;
             for (Exiv2::XmpData::const_iterator i = xmpData.begin(); i != xmpData.end(); ++i) {
                 std::string name   ;
                 Jzon::Node& object = objectForKey(i->key(),root,name,&namespaces);
@@ -317,12 +317,12 @@ try {
             }
 
             // get the namespace dictionary from XMP
-            std::map<std::string,std::string>         nsDict;
+            Exiv2::Dictionary                         nsDict;
             Exiv2::XmpParser::getRegisteredNamespaces(nsDict);
 
             // create and populate a Jzon::Object for the namespaces
             Jzon::Object    xmlns;
-            for ( Namespaces::const_iterator it = namespaces.begin() ; it != namespaces.end() ; it++ ) {
+            for ( Exiv2::StringSet_i it = namespaces.begin() ; it != namespaces.end() ; it++ ) {
                 std::string ns  = *it       ;
                 std::string uri = nsDict[ns];
                 xmlns.Add(ns,uri);

@@ -35,6 +35,7 @@
 #include "properties.hpp"
 #include "value.hpp"
 #include "types.hpp"
+#include "datasets.hpp"
 
 // + standard includes
 #include <string>
@@ -375,11 +376,11 @@ namespace Exiv2 {
         static void terminate();
 
         /*!
-         @brief object a map of registered namespaces
+         @brief object a map of registered namespaces (prefix:URI)
 
          This will initialize the Parser if necessary
          */
-        static void getRegisteredNamespaces(std::map<std::string,std::string>& dict);
+        static void getRegisteredNamespaces(Exiv2::Dictionary& dict);
 
 
     private:
