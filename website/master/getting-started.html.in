@@ -6,33 +6,18 @@ __navbar__
 
     <div class="jumbotron">
       <div class="container">
-	__maintitle__
-	<p class="lead">Exiv2 is a <a href="#lib">C++ library</a> and a <a href="#util">command line utility</a>
-	  to manage image <a href="http://en.wikipedia.org/wiki/Metadata">metadata</a>.
-	  It provides fast and easy read and write access to the 
-	  <a href="http://en.wikipedia.org/wiki/Exif">Exif</a>, 
-	  <a href="http://en.wikipedia.org/wiki/IPTC">IPTC</a> and 
-	  <a href="http://en.wikipedia.org/wiki/Extensible_Metadata_Platform">XMP</a> metadata 
-	  of images in <a href="http://dev.exiv2.org/projects/exiv2/wiki/Supported_image_formats">various formats</a>.
-	  Exiv2 is available as <a href="download.html#license">free software</a> and with a 
-	  <a href="download.html#license">commercial license</a>, and is used in many projects.
+	<h1>Getting started</h1>
+	<p class="lead">An overview of the basic Exiv2 C++ library and command line utility features and the Exiv2 project,
+	  examples and more.
         </p>
-        <a href="download.html" class="btn btn-lg btn-success">
-	  <span class="glyphicon glyphicon-download-alt" aria-hidden="true"></span>&nbsp; Download Exiv2
-	</a>
       </div>
     </div><!-- /.jumbotron -->
 
     <div class="container">
-      <div class="page-header">
-	<h1>Getting started</h1>
-      </div>
-
       <div class="row">
         <div class="col-sm-6">
 
 	  <h2 id="lib">Exiv2 library features</h2>
-
 	  <ul>
 	    <li>Fast read and write access to the Exif, IPTC, and XMP metadata of an image</li>
 	    <li>Easy to use and <a href="doc/index.html" title="Exiv2 API documentation">extensively documented</a> API</li>
@@ -83,26 +68,27 @@ __navbar__
 	  <a class="btn btn-primary" href="sample.html" role="button">Utility samples</a>
 	  <p>&nbsp;</p>
 
-	  <h2>Future plans</h2>
-	  <ul>
-	    <li>a unified metadata container</li>
-	    <li>support for additional image formats</li>
-	    <li>more Makernotes</li>
-	    <li>to support CMake on all platforms</li>
-	  </ul>
-	  <p>The <a href="http://dev.exiv2.org/projects/exiv2/roadmap">roadmap</a> has details for the upcoming version.</p>
         </div><!-- /.col-sm-6 -->
 
         <div class="col-sm-6">
 
 	  __whatsnew-latest__
 
+	  <p>&nbsp;</p>
 	  <div id="openhub_factoids">
-            <h2>Open HUB factoids</h2>
-<!--
+            <h2>Project factoids</h2>
+	    <p>Analyzed by Open HUB</p>
 	    <script type="text/javascript" src="http://www.openhub.net/p/13985/widgets/project_factoids.js"></script>
--->
 	  </div>
+
+	  <h2>Future plans</h2>
+	  <ul>
+	    <li>A unified metadata container</li>
+	    <li>Support for additional image formats</li>
+	    <li>More Makernotes</li>
+	    <li>CMake support for all platforms</li>
+	  </ul>
+	  <p>The <a href="http://dev.exiv2.org/projects/exiv2/roadmap">roadmap</a> has details for the upcoming version.</p>
         </div><!-- /.col-sm-6 -->
       </div><!-- /.row -->
 

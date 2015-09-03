@@ -9,7 +9,8 @@ __navbar__
     <h1>Download Exiv2</h1>
     <p class="lead">Two packages are available for download: the source
       distribution with the complete source code and a Windows package
-      with just the command line utility and manual page.
+      with just the command line utility and manual page. The current version
+      is __version__.
     </p>
   </div>
 </div><!-- /.jumbotron -->
@@ -49,6 +50,7 @@ __navbar__
 	  <span class="glyphicon glyphicon-download-alt" aria-hidden="true"></span>&nbsp; Download source
 	</a>
       </p>
+      <p class="version text-center text-muted"><small>Currently v__version__</small></p>
     </div><!-- /.col-sm-6 -->
     <div class="col-sm-6">
       <p class="text-center">
@@ -56,6 +58,7 @@ __navbar__
 	  <span class="glyphicon glyphicon-download-alt" aria-hidden="true"></span>&nbsp; Download exiv2.exe
 	</a>
       </p>
+      <p class="text-center text-muted"><small>Currently v__version__</small></p>
     </div><!-- /.col-sm-6 -->
   </div><!-- /.row -->
   <p>&nbsp;</p>
