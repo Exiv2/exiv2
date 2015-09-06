@@ -4,19 +4,19 @@ __header4__
 <body>
 __navbar__
 
-<div class="container">
-  <div class="page-header">
-    <h1>Makernote formats and specifications</h1>
+<div class="jumbotron">
+  <div class="container">
+    <h1>The Exif Makernote</h1>
+    <p class="lead">
+      The Makernote is tag 0x927c in the Exif IFD, <code>Exif.Photo.MakerNote</code>. According to
+      the <a title="The Exif 2.2 standard (PDF)" href="Exif2-2.PDF">Exif 2.2 standard</a>, the makernote
+      is <i>"a tag for manufacturers of Exif writers to record any desired information. The contents are
+      up to the manufacturer, but this tag should not be used for any other than its intended purpose."</i>
+    </p> 
   </div>
+</div><!-- /.jumbotron -->
 
-<p class="lead">
-The Makernote is tag 0x927c in the Exif IFD, <code>Exif.Photo.MakerNote</code>. According to the 
-<a title="The Exif 2.2 standard (PDF)" href="Exif2-2.PDF">Exif 2.2 standard</a>, 
-the makernote is <i>"a tag for manufacturers of
-Exif writers to record any desired information. The contents are up to
-the manufacturer, but this tag should not be used for any other than
-its intended purpose."</i></p> 
-
+<div class="container">
 <p>Most vendors do not publish their makernote specifications. Most of the 
 <a href="#R0">specifications available on the Internet</a> 
 were reverse-engineered. Judging from the size of many makernote
