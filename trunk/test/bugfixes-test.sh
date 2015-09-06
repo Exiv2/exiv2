@@ -405,6 +405,14 @@ source ./functions.source
 	copyTestFile                        $filename
 	runTest exiv2 -M 'del Xmp.dc.title' $filename
 	cat                                 $filename
+	echo ''
+
+	num=1114
+	filename=exiv2-bug$num.jpg
+	printf "$num " >&3
+	echo '------>' Bug $num '<-------' >&2
+	copyTestFile                        $filename
+	runTest exiv2 -pv -g TuneAdj        $filename
 
 ) 3>&1 > $results 2>&1
 

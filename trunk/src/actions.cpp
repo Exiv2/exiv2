@@ -698,7 +698,15 @@ namespace Action {
                     done = true;
                 }
             }
-            if (!done) std::cout << std::dec << md.value();
+            if (!done) {
+                // #1114 - show negative values for SByte
+                if (md.typeId() != Exiv2::signedByte){
+                    std::cout << std::dec << md.value();
+                } else {
+                    int value = md.value().toLong();
+                    std::cout << std::dec << (value<128?value:value-255);
+                }
+            }
         }
         if (Params::instance().printItems_ & Params::prTrans) {
             if (!first) std::cout << "  ";
@@ -1122,20 +1130,20 @@ namespace Action {
         }
         Exiv2::Image::AutoPtr image = Exiv2::ImageFactory::open(path_);
         assert(image.get() != 0);
-		image->readMetadata();
+        image->readMetadata();
 
-		std::string    iccPath   = newFilePath(path_,".icc");
-		std::filebuf   iccBuffer ;
-		iccBuffer.open(iccPath.c_str(),std::ios::out);
-		std::ostream   iccStream(&iccBuffer);
+        std::string    iccPath   = newFilePath(path_,".icc");
+        std::filebuf   iccBuffer ;
+        iccBuffer.open(iccPath.c_str(),std::ios::out);
+        std::ostream   iccStream(&iccBuffer);
 
-		image->printStructure(iccStream,Exiv2::kpsIccProfile);
+        image->printStructure(iccStream,Exiv2::kpsIccProfile);
 
-		iccBuffer.close();
+        iccBuffer.close();
         if (Params::instance().verbose_) {
             std::cout << _("Writing iccProfile: ") << iccPath << std::endl;
         }
-		return 0;
+        return 0;
     } // Extract::writeIccProfile
 
 
