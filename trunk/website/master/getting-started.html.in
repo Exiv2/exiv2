@@ -17,7 +17,7 @@ __navbar__
       <div class="row">
         <div class="col-sm-6">
 
-	  <h2 id="lib">Exiv2 library features</h2>
+	  <h2 id="lib">Exiv2 C++ library features</h2>
 	  <ul>
 	    <li>Fast read and write access to the Exif, IPTC, and XMP metadata of an image</li>
 	    <li>Easy to use and <a href="doc/index.html" title="Exiv2 API documentation">extensively documented</a> C++ API</li>
@@ -47,9 +47,11 @@ __navbar__
 	      <li><a title="Sample (test) usage of high level XMP classes" href="examples.html#example5">Set XMP properties</a></li>
 	    </ul>
 	  </div>
-	  <p>&nbsp;</p>
 
-	  <h2 id="util">Exiv2 command line utility features</h2>
+        </div><!-- /.col-sm-6 -->
+        <div class="col-sm-6">
+
+	  <h2 id="util">Command line utility features</h2>
 	  <ul>
 	    <li>Print Exif, IPTC and XMP image metadata in different formats: Exif summary info, interpreted values,
 	      or the plain data for each tag</li>
@@ -66,20 +68,36 @@ __navbar__
 	  </ul>
 
 	  <a class="btn btn-primary" href="sample.html" role="button">Utility samples</a>
-	  <p>&nbsp;</p>
 
         </div><!-- /.col-sm-6 -->
+      </div><!-- /.row -->
 
+      <p>&nbsp;</p>
+
+      <div class="row">
+        <div class="col-sm-6">
+
+	  <div id="openhub_factoids">
+            <h2>Project summary information</h2>
+	    <p>The Exiv2 project is registered with 
+	      <a href="https://www.openhub.net/p/exiv2">Open Hub</a>, a service that helps track and compare Open Source projects. 
+	      Among other things, the good people at Open Hub provide tools for evaluating Open Source projects and communities.
+	      Their analysis is based on data gathered from the project's source code repositories. Below are the Open Hub "factoids"
+	      for Exiv2. Use these to explore what Open Hub has to say on the state of our project. 
+	    </p>
+	    <script type="text/javascript" src="http://www.openhub.net/p/13985/widgets/project_factoids.js"></script>
+	  </div>
+
+        </div><!-- /.col-sm-6 -->
         <div class="col-sm-6">
 
 	  __whatsnew-latest__
 
-	  <p>&nbsp;</p>
-	  <div id="openhub_factoids">
-            <h2>Project factoids</h2>
-	    <p>Analyzed by Open HUB</p>
-	    <script type="text/javascript" src="http://www.openhub.net/p/13985/widgets/project_factoids.js"></script>
-	  </div>
+        </div><!-- /.col-sm-6 -->
+      </div><!-- /.row -->
+
+      <div class="row">
+        <div class="col-sm-6">
 
 	  <h2>Future plans</h2>
 	  <ul>
@@ -89,6 +107,7 @@ __navbar__
 	    <li>CMake support for all platforms</li>
 	  </ul>
 	  <p>The <a href="http://dev.exiv2.org/projects/exiv2/roadmap">roadmap</a> has details for the upcoming version.</p>
+
         </div><!-- /.col-sm-6 -->
       </div><!-- /.row -->
 

@@ -5,7 +5,7 @@
 <!-- *********************************************************************** -->
 <xsl:template match="news">
  <div id="latest">
-  <h2>Latest News</h2>
+  <h2>Project news</h2>
   <div class="list-group">
    <xsl:apply-templates select="newsitem[position()&lt;5]" />
   </div>

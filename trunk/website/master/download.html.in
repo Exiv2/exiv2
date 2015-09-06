@@ -116,7 +116,7 @@ for NLS,
 
 <h2 id="devel">Repository</h2>
 
- <p>Exiv2 is maintained in a Subversion repository. You can
+ <p>The Exiv2 source code is maintained in a Subversion repository. You can
   <a href="http://dev.exiv2.org/projects/exiv2/repository" title="Exiv2 online source code repository" >browse the source code online</a>
   or get a copy of the latest development code from the repository.
   Once you have the source code, see the <em>README</em> file in the top
@@ -126,7 +126,7 @@ for NLS,
  <p>To check-out the current source code from the repository, you need a 
   <a title="Get Subversion!"
   href="http://en.wikipedia.org/wiki/Comparison_of_Subversion_clients">Subversion client</a>. 
-  If you use a command line client, change to the directory where you want to keep 
+  If you use the standard subversion <code>svn</code> command line client, change to the directory where you want to keep 
   the source code and type:</p>
 
 <pre>$ svn checkout svn://dev.exiv2.org/svn/trunk</pre>
