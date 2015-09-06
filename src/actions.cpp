@@ -704,7 +704,7 @@ namespace Action {
                     std::cout << std::dec << md.value();
                 } else {
                     int value = md.value().toLong();
-                    std::cout << std::dec << (value<128?value:value-255);
+                    std::cout << std::dec << (value<128?value:value-256);
                 }
             }
         }
