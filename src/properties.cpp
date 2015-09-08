@@ -104,7 +104,7 @@ namespace Exiv2 {
     extern const XmpPropertyInfo xmpDctermsInfo[];
     extern const XmpPropertyInfo xmpLrInfo[];
     extern const XmpPropertyInfo xmpAcdseeInfo[];
-    extern const XmpPropertyInfo xmpGPanoInfo[];    
+    extern const XmpPropertyInfo xmpGPanoInfo[];
 
     extern const XmpNsInfo xmpNsInfo[] = {
         // Schemas   -   NOTE: Schemas which the XMP-SDK doesn't know must be registered in XmpParser::initialize - Todo: Automate this
@@ -417,7 +417,7 @@ namespace Exiv2 {
         // End of list marker
         { 0, 0, 0, invalidTypeId, xmpInternal, 0 }
     };
-        
+
     extern const XmpPropertyInfo xmpPdfInfo[] = {
         { "Keywords",   N_("Keywords"),    "Text",      xmpText, xmpExternal, N_("Keywords.") },
         { "PDFVersion", N_("PDF Version"), "Text",      xmpText, xmpInternal, N_("The PDF file version (for example: 1.0, 1.3, and so on).") },
@@ -1446,7 +1446,7 @@ namespace Exiv2 {
         { "HandlerClass",       N_("Handler Class"),                "Text",                  xmpText, xmpExternal, N_("A four-character code that identifies the type of the handler. Only two values are valid for this field: 'mhlr' for media handlers and 'dhlr' for data handlers.")   },
         { "HandlerDescription", N_("Handler Description"),          "Text",                  xmpText, xmpExternal, N_("A (counted) string that specifies the name of the component-that is, the media handler used when this media was created..")   },
         { "HandlerType",        N_("Handler Type"),                 "Text",                  xmpText, xmpExternal, N_("A four-character code that identifies the type of the media handler or data handler.")   },
-        { "HandlerVendorID",    N_("Handler Vendor ID"),            "Text",                  xmpText, xmpExternal, N_("Component manufacturer.")   },                                        
+        { "HandlerVendorID",    N_("Handler Vendor ID"),            "Text",                  xmpText, xmpExternal, N_("Component manufacturer.")   },
         { "MediaCreateDate",    N_("Media Track Create Date"),      "Integer",               xmpText, xmpExternal, N_("A 32-bit integer that indicates (in seconds since midnight, January 1, 1904) when the media header was created.")   },
         { "MediaDuration",      N_("Media Track Duration"),         "Integer",               xmpText, xmpExternal, N_("A time value that indicates the duration of this media (in the movie's time coordinate system).")   },
         { "MediaHeaderVersion", N_("Media Header Version"),         "Text",                  xmpText, xmpExternal, N_("A 1-byte specification of the version of this media header")   },
@@ -1488,7 +1488,7 @@ namespace Exiv2 {
             { "bibliographicCitation",  N_("Bibliographic Citation"),   "Text",            xmpText,      xmpExternal, N_("A bibliographic reference for the resource.")              },
             { "references",             N_("References"),               "bag Text",        xmpBag,       xmpExternal, N_("A related resource that is referenced, cited, or otherwise pointed to by the described resource.")      },
         // Location Level Class
-        { "Location",               N_("Location"),                 "Location",        xmpText,      xmpInternal, 
+        { "Location",               N_("Location"),                 "Location",        xmpText,      xmpInternal,
                                     N_("*Main structure* containing Darwin Core location based information."),
         },
         // End of list marker
@@ -1498,632 +1498,632 @@ namespace Exiv2 {
    extern const XmpPropertyInfo xmpDwCInfo[] = {
 
         // Record Level Class
-        { "Record",                         N_("Record"),                               "Record",    xmpText,   xmpInternal, 
+        { "Record",                         N_("Record"),                               "Record",    xmpText,   xmpInternal,
                                             N_("*Main structure* containing record based information."),
         },
             // Record Level Terms
-            { "institutionID",                  N_("Institution ID"),                       "Text",      xmpText,   xmpExternal,      
+            { "institutionID",                  N_("Institution ID"),                       "Text",      xmpText,   xmpExternal,
                                                 N_("An identifier for the institution having custody of the object(s) or information referred to in the record.")
             },
-            { "collectionID",                   N_("Collection ID"),                        "Text",     xmpText,    xmpExternal, 
+            { "collectionID",                   N_("Collection ID"),                        "Text",     xmpText,    xmpExternal,
                                                 N_("An identifier for the collection or dataset from which the record was derived. For physical specimens, the recommended best practice is to use the identifier in a collections registry such as the Biodiversity Collections Index (http://www.biodiversitycollectionsindex.org/).")
             },
-            { "institutionCode",                N_("Institution Code"),                     "Text",      xmpText,   xmpExternal,      
+            { "institutionCode",                N_("Institution Code"),                     "Text",      xmpText,   xmpExternal,
                                                 N_("The name (or acronym) in use by the institution having custody of the object(s) or information referred to in the record.")
             },
-            { "datasetID",                      N_("Dataset ID"),                           "Text",     xmpText,    xmpExternal, 
+            { "datasetID",                      N_("Dataset ID"),                           "Text",     xmpText,    xmpExternal,
                                                 N_("An identifier for the set of data. May be a global unique identifier or an identifier specific to a collection or institution.")
             },
-            { "collectionCode",                 N_("Collection Code"),                      "Text",     xmpText,    xmpExternal, 
+            { "collectionCode",                 N_("Collection Code"),                      "Text",     xmpText,    xmpExternal,
                                                 N_("The name, acronym, coden, or initialism identifying the collection or data set from which the record was derived.")
             },
-            { "datasetName",                    N_("Dataset Name"),                         "Text",     xmpText,    xmpExternal, 
+            { "datasetName",                    N_("Dataset Name"),                         "Text",     xmpText,    xmpExternal,
                                                 N_("The name identifying the data set from which the record was derived.")
             },
-            { "ownerInstitutionCode",           N_("Owner Institution Code"),               "Text",      xmpText,   xmpExternal,      
+            { "ownerInstitutionCode",           N_("Owner Institution Code"),               "Text",      xmpText,   xmpExternal,
                                                 N_("The name (or acronym) in use by the institution having ownership of the object(s) or information referred to in the record.")
             },
-            { "basisOfRecord",                  N_("Basis Of Record"),                      "Text",     xmpText,    xmpExternal, 
+            { "basisOfRecord",                  N_("Basis Of Record"),                      "Text",     xmpText,    xmpExternal,
                                                 N_("The specific nature of the data record - a subtype of the type. Recommended best practice is to use a controlled vocabulary such as the Darwin Core Type Vocabulary (http://rs.tdwg.org/dwc/terms/type-vocabulary/index.htm).")
             },
-            { "informationWithheld",            N_("Information Withheld"),                 "Text",      xmpText,   xmpExternal,      
+            { "informationWithheld",            N_("Information Withheld"),                 "Text",      xmpText,   xmpExternal,
                                                 N_("Additional information that exists, but that has not been shared in the given record.")
             },
-            { "dataGeneralizations",            N_("Data Generalizations"),                 "Text",     xmpText,    xmpExternal, 
+            { "dataGeneralizations",            N_("Data Generalizations"),                 "Text",     xmpText,    xmpExternal,
                                                 N_("Actions taken to make the shared data less specific or complete than in its original form. Suggests that alternative data of higher quality may be available on request.")
             },
-            { "dynamicProperties",              N_("Dynamic Properties"),                   "bag Text",     xmpBag,    xmpExternal, 
+            { "dynamicProperties",              N_("Dynamic Properties"),                   "bag Text",     xmpBag,    xmpExternal,
                                                 N_("A list (concatenated and separated) of additional measurements, facts, characteristics, or assertions about the record. Meant to provide a mechanism for structured content such as key-value pairs.")
             },
 
         // Occurrence Level Class
-        { "Occurrence",                     N_("Occurrence"),                         "Occurrence",    xmpText,   xmpInternal, 
+        { "Occurrence",                     N_("Occurrence"),                         "Occurrence",    xmpText,   xmpInternal,
                                             N_("*Main structure* containing occurrence based information."),
         },
             // Occurrence Level Terms
-            { "occurrenceID",                   N_("Occurrence ID"),                        "Text",      xmpText,   xmpExternal,      
+            { "occurrenceID",                   N_("Occurrence ID"),                        "Text",      xmpText,   xmpExternal,
                                                 N_("An identifier for the Occurrence (as opposed to a particular digital record of the occurrence). In the absence of a persistent global unique identifier, construct one from a combination of identifiers in the record that will most closely make the occurrenceID globally unique.")
             },
-            { "catalogNumber",                  N_("Catalog Number"),                       "Text",     xmpText,    xmpExternal, 
+            { "catalogNumber",                  N_("Catalog Number"),                       "Text",     xmpText,    xmpExternal,
                                                 N_("An identifier (preferably unique) for the record within the data set or collection.")
             },
-            { "occurrenceDetails",              N_("Occurrence Details"),                   "Text",      xmpText,   xmpExternal,      
+            { "occurrenceDetails",              N_("Occurrence Details"),                   "Text",      xmpText,   xmpExternal,
                                                 N_("Depreciated. Details about the Occurrence.")
             },
-            { "occurrenceRemarks",              N_("Occurrence Remarks"),                   "Text",      xmpText,   xmpExternal,      
+            { "occurrenceRemarks",              N_("Occurrence Remarks"),                   "Text",      xmpText,   xmpExternal,
                                                 N_("Comments or notes about the Occurrence.")
             },
-            { "recordNumber",                   N_("Record Number"),                        "Text",      xmpText,   xmpExternal,      
+            { "recordNumber",                   N_("Record Number"),                        "Text",      xmpText,   xmpExternal,
                                                 N_("An identifier given to the Occurrence at the time it was recorded. Often serves as a link between field notes and an Occurrence record, such as a specimen collector's number.")
             },
-            { "recordedBy",                     N_("Recorded By"),                          "bag Text",     xmpBag,   xmpExternal,      
+            { "recordedBy",                     N_("Recorded By"),                          "bag Text",     xmpBag,   xmpExternal,
                                                 N_("A list (concatenated and separated) of names of people, groups, or organizations responsible for recording the original Occurrence. The primary collector or observer, especially one who applies a personal identifier (recordNumber), should be listed first.")
             },
-            { "individualID",                   N_("Individual ID"),                        "Text",      xmpText,   xmpExternal,      
+            { "individualID",                   N_("Individual ID"),                        "Text",      xmpText,   xmpExternal,
                                                 N_("Depreciated. An identifier for an individual or named group of individual organisms represented in the Occurrence. Meant to accommodate resampling of the same individual or group for monitoring purposes. May be a global unique identifier or an identifier specific to a data set.")
             },
-            { "individualCount",                N_("Individual Count"),                     "Integer",      xmpText,   xmpExternal,      
+            { "individualCount",                N_("Individual Count"),                     "Integer",      xmpText,   xmpExternal,
                                                 N_("The number of individuals represented present at the time of the Occurrence.")
             },
-            { "organismQuantity",               N_("Organism Quantity"),                    "Text",      xmpText,   xmpExternal,      
+            { "organismQuantity",               N_("Organism Quantity"),                    "Text",      xmpText,   xmpExternal,
                                                 N_("A number or enumeration value for the quantity of organisms.")
             },
-            { "organismQuantityType",           N_("Organism Quantity Type"),               "Text",      xmpText,   xmpExternal,      
+            { "organismQuantityType",           N_("Organism Quantity Type"),               "Text",      xmpText,   xmpExternal,
                                                 N_("The type of quantification system used for the quantity of organisms.")
             },
-            { "sex",                            N_("Sex"),                                  "Text",      xmpText,   xmpExternal,      
+            { "sex",                            N_("Sex"),                                  "Text",      xmpText,   xmpExternal,
                                                 N_("The sex of the biological individual(s) represented in the Occurrence. Recommended best practice is to use a controlled vocabulary.")
             },
-            { "lifeStage",                      N_("Life Stage"),                           "Text",      xmpText,   xmpExternal,      
+            { "lifeStage",                      N_("Life Stage"),                           "Text",      xmpText,   xmpExternal,
                                                 N_("The age class or life stage of the biological individual(s) at the time the Occurrence was recorded. Recommended best practice is to use a controlled vocabulary.")
             },
-            { "reproductiveCondition",          N_("Reproductive Condition"),               "Text",      xmpText,   xmpExternal,      
+            { "reproductiveCondition",          N_("Reproductive Condition"),               "Text",      xmpText,   xmpExternal,
                                                 N_("The reproductive condition of the biological individual(s) represented in the Occurrence. Recommended best practice is to use a controlled vocabulary.")
             },
-            { "behavior",                       N_("Behavior"),                             "Text",     xmpText,    xmpExternal, 
+            { "behavior",                       N_("Behavior"),                             "Text",     xmpText,    xmpExternal,
                                                 N_("A description of the behavior shown by the subject at the time the Occurrence was recorded. Recommended best practice is to use a controlled vocabulary.")
             },
-            { "establishmentMeans",             N_("Establishment Means"),                  "Text",      xmpText,    xmpExternal,      
+            { "establishmentMeans",             N_("Establishment Means"),                  "Text",      xmpText,    xmpExternal,
                                                 N_("The process by which the biological individual(s) represented in the Occurrence became established at the location. Recommended best practice is to use a controlled vocabulary.")
             },
-            { "occurrenceStatus",               N_("Occurrence Status"),                    "Text",      xmpText,   xmpExternal,     
+            { "occurrenceStatus",               N_("Occurrence Status"),                    "Text",      xmpText,   xmpExternal,
                                                 N_("A statement about the presence or absence of a Taxon at a Location. Recommended best practice is to use a controlled vocabulary.")
             },
-            { "preparations",                   N_("Preparations"),                         "bag Text",     xmpBag,   xmpExternal,      
+            { "preparations",                   N_("Preparations"),                         "bag Text",     xmpBag,   xmpExternal,
                                                 N_("A list (concatenated and separated) of preparations and preservation methods for a specimen.")
             },
-            { "disposition",                    N_("Disposition"),                          "Text",     xmpText,    xmpExternal, 
+            { "disposition",                    N_("Disposition"),                          "Text",     xmpText,    xmpExternal,
                                                 N_("The current state of a specimen with respect to the collection identified in collectionCode or collectionID. Recommended best practice is to use a controlled vocabulary.")
             },
-            { "otherCatalogNumbers",            N_("Other Catalog Numbers"),                "bag Text",     xmpBag,   xmpExternal,      
+            { "otherCatalogNumbers",            N_("Other Catalog Numbers"),                "bag Text",     xmpBag,   xmpExternal,
                                                 N_("A list (concatenated and separated) of previous or alternate fully qualified catalog numbers or other human-used identifiers for the same Occurrence, whether in the current or any other data set or collection.")
             },
-            { "previousIdentifications",        N_("Previous Identifications"),             "bag Text",     xmpBag,   xmpExternal,      
+            { "previousIdentifications",        N_("Previous Identifications"),             "bag Text",     xmpBag,   xmpExternal,
                                                 N_("Depreciated. A list (concatenated and separated) of previous assignments of names to the Occurrence.")
             },
-            { "associatedMedia",                N_("Associated Media"),                     "bag Text",     xmpBag,    xmpExternal, 
+            { "associatedMedia",                N_("Associated Media"),                     "bag Text",     xmpBag,    xmpExternal,
                                                 N_("A list (concatenated and separated) of identifiers (publication, global unique identifier, URI) of media associated with the Occurrence.")
             },
-            { "associatedReferences",           N_("Associated References"),                "bag Text",     xmpBag,    xmpExternal, 
+            { "associatedReferences",           N_("Associated References"),                "bag Text",     xmpBag,    xmpExternal,
                                                 N_("A list (concatenated and separated) of identifiers (publication, bibliographic reference, global unique identifier, URI) of literature associated with the Occurrence.")
             },
-            { "associatedOccurrences",          N_("Associated Occurrences"),               "bag Text",     xmpBag,    xmpExternal, 
+            { "associatedOccurrences",          N_("Associated Occurrences"),               "bag Text",     xmpBag,    xmpExternal,
                                                 N_("Depreciated. A list (concatenated and separated) of identifiers of other Occurrence records and their associations to this Occurrence.")
             },
-            { "associatedSequences",            N_("Associated Sequences"),                 "bag Text",     xmpBag,    xmpExternal, 
+            { "associatedSequences",            N_("Associated Sequences"),                 "bag Text",     xmpBag,    xmpExternal,
                                                 N_("A list (concatenated and separated) of identifiers (publication, global unique identifier, URI) of genetic sequence information associated with the Occurrence.")
             },
-            { "associatedTaxa",                 N_("Associated Taxa"),                      "bag Text",     xmpBag,    xmpExternal, 
+            { "associatedTaxa",                 N_("Associated Taxa"),                      "bag Text",     xmpBag,    xmpExternal,
                                                 N_("A list (concatenated and separated) of identifiers or names of taxa and their associations with the Occurrence.")
             },
 
         // Organism Level Class
-        { "Organism",                 N_("Organism"),                     "Organism",    xmpText,   xmpInternal, 
+        { "Organism",                 N_("Organism"),                     "Organism",    xmpText,   xmpInternal,
                                       N_("*Main structure* containing organism based information."),
         },
             // Organism Level Terms
-            { "organismID",               N_("Organism ID"),                    "Text",      xmpText,    xmpExternal,      
+            { "organismID",               N_("Organism ID"),                    "Text",      xmpText,    xmpExternal,
                                           N_("An identifier for the Organism instance (as opposed to a particular digital record of the Organism). May be a globally unique identifier or an identifier specific to the data set.")
             },
-            { "organismName",             N_("Organism Name"),                        "Text",      xmpText,   xmpExternal,      
+            { "organismName",             N_("Organism Name"),                        "Text",      xmpText,   xmpExternal,
                                           N_("A textual name or label assigned to an Organism instance.")
             },
-            { "organismScope",            N_("Organism Scope"),                      "Text",      xmpText,    xmpExternal, 
+            { "organismScope",            N_("Organism Scope"),                      "Text",      xmpText,    xmpExternal,
                                           N_("A description of the kind of Organism instance. Can be used to indicate whether the Organism instance represents a discrete organism or if it represents a particular type of aggregation. Recommended best practice is to use a controlled vocabulary.")
             },
-            { "associatedOccurrences",    N_("Organism Associated Occurrences"),      "bag Text",     xmpBag,    xmpExternal,      
+            { "associatedOccurrences",    N_("Organism Associated Occurrences"),      "bag Text",     xmpBag,    xmpExternal,
                                           N_("A list (concatenated and separated with a vertical bar ' | ') of identifiers of other Occurrence records and their associations to this Occurrence.")
             },
-            { "associatedOrganisms",      N_("Associated Organisms"),   "bag Text",     xmpBag,   xmpExternal,      
+            { "associatedOrganisms",      N_("Associated Organisms"),   "bag Text",     xmpBag,   xmpExternal,
                                           N_("A list (concatenated and separated with a vertical bar ' | ' ) of identifiers of other Organisms and their associations to this Organism.")
             },
-            { "previousIdentifications",  N_("Previous Identifications"),         "bag Text",     xmpBag,    xmpExternal,      
+            { "previousIdentifications",  N_("Previous Identifications"),         "bag Text",     xmpBag,    xmpExternal,
                                           N_("A list (concatenated and separated with a vertical bar ' | ' ) of previous assignments of names to the Organism.")
             },
-            { "organismRemarks",          N_("Organism Remarks"),                   "Text",      xmpText,    xmpExternal,      
+            { "organismRemarks",          N_("Organism Remarks"),                   "Text",      xmpText,    xmpExternal,
                                           N_("Comments or notes about the Organism instance.")
             },
 
         // Material Sample Level Class
-        { "MaterialSample",                 N_("Material Sample"),                         "MaterialSample",    xmpText,   xmpInternal, 
+        { "MaterialSample",                 N_("Material Sample"),                         "MaterialSample",    xmpText,   xmpInternal,
                                             N_("*Main structure* containing material sample based information."),
         },
-        { "LivingSpecimen",                 N_("Living Specimen"),                         "LivingSpecimen",    xmpText,   xmpInternal, 
+        { "LivingSpecimen",                 N_("Living Specimen"),                         "LivingSpecimen",    xmpText,   xmpInternal,
                                             N_("*Main structure* containing living specimen based information. A specimen that is alive."),
         },
-        { "PreservedSpecimen",              N_("Preserved Specimen"),                      "PreservedSpecimen",    xmpText,   xmpInternal, 
+        { "PreservedSpecimen",              N_("Preserved Specimen"),                      "PreservedSpecimen",    xmpText,   xmpInternal,
                                             N_("*Main structure* containing preserved specimen based information. A specimen that has been preserved."),
         },
-        { "FossilSpecimen",                 N_("Fossil Specimen"),                         "FossilSpecimen",    xmpText,   xmpInternal, 
+        { "FossilSpecimen",                 N_("Fossil Specimen"),                         "FossilSpecimen",    xmpText,   xmpInternal,
                                             N_("*Main structure* containing fossil specimen based information. A preserved specimen that is a fossil."),
         },
             // Material Sample Level Terms
-            { "materialSampleID",               N_("Material Sample ID"),                    "Text",      xmpText,    xmpExternal,      
+            { "materialSampleID",               N_("Material Sample ID"),                    "Text",      xmpText,    xmpExternal,
                                                 N_("An identifier for the MaterialSample (as opposed to a particular digital record of the material sample). In the absence of a persistent global unique identifier, construct one from a combination of identifiers in the record that will most closely make the materialSampleID globally unique.")
             },
 
         // Event Level Class
-        { "Event",                          N_("Event"),                            "Event",    xmpText,  xmpInternal, 
+        { "Event",                          N_("Event"),                            "Event",    xmpText,  xmpInternal,
                                             N_("*Main structure* containing event based information."),
         },
-        { "HumanObservation",               N_("Human Observation"),                "HumanObservation",    xmpText,  xmpInternal, 
+        { "HumanObservation",               N_("Human Observation"),                "HumanObservation",    xmpText,  xmpInternal,
                                             N_("*Main structure* containing human observation based information."),
         },
-        { "MachineObservation",             N_("Machine Observation"),              "MachineObservation",    xmpText,  xmpInternal, 
+        { "MachineObservation",             N_("Machine Observation"),              "MachineObservation",    xmpText,  xmpInternal,
                                             N_("*Main structure* containing machine observation based information."),
         },
             // Event Level Terms
-            { "eventID",                        N_("Event ID"),                             "Text",      xmpText,    xmpExternal,      
+            { "eventID",                        N_("Event ID"),                             "Text",      xmpText,    xmpExternal,
                                                 N_("An identifier for the set of information associated with an Event (something that occurs at a place and time). May be a global unique identifier or an identifier specific to the data set.")
             },
-            { "parentEventID",                  N_("Parent Event ID"),                             "Text",      xmpText,    xmpExternal,      
+            { "parentEventID",                  N_("Parent Event ID"),                             "Text",      xmpText,    xmpExternal,
                                                 N_("An identifier for the broader Event that groups this and potentially other Events.")
             },
-            { "eventDate",                      N_("Event Date"),                  "Date",      xmpText,    xmpExternal,      
+            { "eventDate",                      N_("Event Date"),                  "Date",      xmpText,    xmpExternal,
                                                 N_("The date-time or interval during which an Event occurred. For occurrences, this is the date-time when the event was recorded. Not suitable for a time in a geological context. Recommended best practice is to use an encoding scheme, such as ISO 8601:2004(E).")
             },
-            { "earliestDate",                   N_("Event Earliest Date"),                  "Date",      xmpText,    xmpExternal,      
+            { "earliestDate",                   N_("Event Earliest Date"),                  "Date",      xmpText,    xmpExternal,
                                                 N_("Depreciated. (Child of Xmp.dwc.Event) The date-time or interval during which an Event started. For occurrences, this is the date-time when the event was recorded. Not suitable for a time in a geological context. Recommended best practice is to use an encoding scheme, such as ISO 8601:2004(E).")
             },
-            { "latestDate",                     N_("Event Latest Date"),                    "Date",      xmpText,    xmpExternal,      
+            { "latestDate",                     N_("Event Latest Date"),                    "Date",      xmpText,    xmpExternal,
                                                 N_("Depreciated. (Child of Xmp.dwc.Event) The date-time or interval during which an Event ended. For occurrences, this is the date-time when the event was recorded. Not suitable for a time in a geological context. Recommended best practice is to use an encoding scheme, such as ISO 8601:2004(E).")
             },
-            { "eventTime",                      N_("Event Time"),                           "Date",      xmpText,    xmpExternal,      
+            { "eventTime",                      N_("Event Time"),                           "Date",      xmpText,    xmpExternal,
                                                 N_("The time or interval during which an Event occurred. Recommended best practice is to use an encoding scheme, such as ISO 8601:2004(E).")
             },
-            { "startDayOfYear",                 N_("Start Day Of Year"),                    "Integer",      xmpText,    xmpExternal,      
+            { "startDayOfYear",                 N_("Start Day Of Year"),                    "Integer",      xmpText,    xmpExternal,
                                                 N_("The earliest ordinal day of the year on which the Event occurred (1 for January 1, 365 for December 31, except in a leap year, in which case it is 366).")
             },
-            { "endDayOfYear",                   N_("End Day Of Year"),                      "Integer",      xmpText,    xmpExternal,      
+            { "endDayOfYear",                   N_("End Day Of Year"),                      "Integer",      xmpText,    xmpExternal,
                                                 N_("The latest ordinal day of the year on which the Event occurred (1 for January 1, 365 for December 31, except in a leap year, in which case it is 366).")
             },
-            { "year",                           N_("Year"),                                 "Integer",      xmpText,    xmpExternal,      
+            { "year",                           N_("Year"),                                 "Integer",      xmpText,    xmpExternal,
                                                 N_("The four-digit year in which the Event occurred, according to the Common Era Calendar.")
             },
-            { "month",                          N_("Month"),                                "Integer",      xmpText,    xmpExternal,      
+            { "month",                          N_("Month"),                                "Integer",      xmpText,    xmpExternal,
                                                 N_("The ordinal month in which the Event occurred.")
             },
-            { "day",                            N_("Day"),                                  "Integer",      xmpText,    xmpExternal, 
+            { "day",                            N_("Day"),                                  "Integer",      xmpText,    xmpExternal,
                                                 N_("The integer day of the month on which the Event occurred.")
             },
-            { "verbatimEventDate",              N_("Verbatim Event Date"),                  "Text",      xmpText,   xmpExternal,      
+            { "verbatimEventDate",              N_("Verbatim Event Date"),                  "Text",      xmpText,   xmpExternal,
                                                 N_("The verbatim original representation of the date and time information for an Event.")
             },
-            { "habitat",                        N_("Habitat"),                              "Text",      xmpText,    xmpExternal,      
+            { "habitat",                        N_("Habitat"),                              "Text",      xmpText,    xmpExternal,
                                                 N_("A category or description of the habitat in which the Event occurred.")
             },
-            { "samplingProtocol",               N_("Sampling Protocol"),                    "Text",      xmpText,   xmpExternal,      
+            { "samplingProtocol",               N_("Sampling Protocol"),                    "Text",      xmpText,   xmpExternal,
                                                 N_("The name of, reference to, or description of the method or protocol used during an Event.")
             },
-            { "samplingEffort",                 N_("Sampling Effort"),                      "Text",      xmpText,   xmpExternal,      
+            { "samplingEffort",                 N_("Sampling Effort"),                      "Text",      xmpText,   xmpExternal,
                                                 N_("The amount of effort expended during an Event.")
-            },               
-            { "sampleSizeValue",                N_("Sampling Size Value"),                      "Text",      xmpText,   xmpExternal,      
+            },
+            { "sampleSizeValue",                N_("Sampling Size Value"),                      "Text",      xmpText,   xmpExternal,
                                                 N_("A numeric value for a measurement of the size (time duration, length, area, or volume) of a sample in a sampling event.")
             },
-            { "sampleSizeUnit",                 N_("Sampling Size Unit"),                      "Text",      xmpText,   xmpExternal,      
+            { "sampleSizeUnit",                 N_("Sampling Size Unit"),                      "Text",      xmpText,   xmpExternal,
                                                 N_("The unit of measurement of the size (time duration, length, area, or volume) of a sample in a sampling event.")
             },
-            { "fieldNumber",                    N_("Field Number"),                         "Text",      xmpText,    xmpExternal,      
+            { "fieldNumber",                    N_("Field Number"),                         "Text",      xmpText,    xmpExternal,
                                                 N_("An identifier given to the event in the field. Often serves as a link between field notes and the Event.")
             },
-            { "fieldNotes",                     N_("Field Notes"),                          "Text",      xmpText,    xmpExternal,      
+            { "fieldNotes",                     N_("Field Notes"),                          "Text",      xmpText,    xmpExternal,
                                                 N_("One of (a) an indicator of the existence of, (b) a reference to (publication, URI), or (c) the text of notes taken in the field about the Event.")
             },
-            { "eventRemarks",                   N_("Event Remarks"),                        "Text",      xmpText,    xmpExternal,      
+            { "eventRemarks",                   N_("Event Remarks"),                        "Text",      xmpText,    xmpExternal,
                                                 N_("Comments or notes about the Event.")
             },
 
         //Location Level Class
-        { "dctermsLocation",                N_("Location Class"),                       "Location",    xmpText,   xmpInternal, 
+        { "dctermsLocation",                N_("Location Class"),                       "Location",    xmpText,   xmpInternal,
                                             N_("Depreciated. Use Xmp.dcterms.Location instead. *Main structure* containing location based information."),
         },
             //Location Level Terms
-            { "locationID",                     N_("Location ID"),                          "Text",      xmpText,   xmpExternal,      
+            { "locationID",                     N_("Location ID"),                          "Text",      xmpText,   xmpExternal,
                                                 N_("An identifier for the set of location information (data associated with Location). May be a global unique identifier or an identifier specific to the data set.")
             },
-            { "higherGeographyID",              N_("Higher Geography ID"),                   "Text",      xmpText,    xmpExternal,      
+            { "higherGeographyID",              N_("Higher Geography ID"),                   "Text",      xmpText,    xmpExternal,
                                                 N_("An identifier for the geographic region within which the Location occurred. Recommended best practice is to use an persistent identifier from a controlled vocabulary such as the Getty Thesaurus of Geographic Names.")
             },
-            { "higherGeography",                N_("Higher Geography"),                     "bag Text",     xmpBag,    xmpExternal,      
+            { "higherGeography",                N_("Higher Geography"),                     "bag Text",     xmpBag,    xmpExternal,
                                                 N_("A list (concatenated and separated) of geographic names less specific than the information captured in the locality term.")
             },
-            { "continent",                      N_("Continent"),                            "Text",     xmpText,    xmpExternal, 
+            { "continent",                      N_("Continent"),                            "Text",     xmpText,    xmpExternal,
                                                 N_("The name of the continent in which the Location occurs. Recommended best practice is to use a controlled vocabulary such as the Getty Thesaurus of Geographic Names or the ISO 3166 Continent code.")
             },
-            { "waterBody",                      N_("Water Body"),                           "Text",      xmpText,   xmpExternal,      
+            { "waterBody",                      N_("Water Body"),                           "Text",      xmpText,   xmpExternal,
                                                 N_("The name of the water body in which the Location occurs. Recommended best practice is to use a controlled vocabulary such as the Getty Thesaurus of Geographic Names.")
             },
-            { "islandGroup",                    N_("Island Group"),                         "Text",      xmpText,   xmpExternal,      
+            { "islandGroup",                    N_("Island Group"),                         "Text",      xmpText,   xmpExternal,
                                                 N_("The name of the island group in which the Location occurs. Recommended best practice is to use a controlled vocabulary such as the Getty Thesaurus of Geographic Names.")
             },
-            { "island",                         N_("Island"),                               "Text",      xmpText,   xmpExternal,      
+            { "island",                         N_("Island"),                               "Text",      xmpText,   xmpExternal,
                                                 N_("The name of the island on or near which the Location occurs. Recommended best practice is to use a controlled vocabulary such as the Getty Thesaurus of Geographic Names.")
             },
-            { "country",                        N_("Country"),                              "Text",     xmpText,    xmpExternal, 
+            { "country",                        N_("Country"),                              "Text",     xmpText,    xmpExternal,
                                                 N_("The name of the country or major administrative unit in which the Location occurs. Recommended best practice is to use a controlled vocabulary such as the Getty Thesaurus of Geographic Names.")
             },
-            { "countryCode",                    N_("Country Code"),                         "Text",     xmpText,    xmpExternal, 
+            { "countryCode",                    N_("Country Code"),                         "Text",     xmpText,    xmpExternal,
                                                 N_("The standard code for the country in which the Location occurs. Recommended best practice is to use ISO 3166-1-alpha-2 country codes.")
             },
-            { "stateProvince",                  N_("State Province"),                       "Text",      xmpText,   xmpExternal,      
+            { "stateProvince",                  N_("State Province"),                       "Text",      xmpText,   xmpExternal,
                                                 N_("The name of the next smaller administrative region than country (state, province, canton, department, region, etc.) in which the Location occurs.")
             },
-            { "county",                         N_("County"),                               "Text",     xmpText,    xmpExternal, 
+            { "county",                         N_("County"),                               "Text",     xmpText,    xmpExternal,
                                                 N_("The full, unabbreviated name of the next smaller administrative region than stateProvince (county, shire, department, etc.) in which the Location occurs.")
             },
-            { "municipality",                   N_("Municipality"),                         "Text",      xmpText,   xmpExternal,      
+            { "municipality",                   N_("Municipality"),                         "Text",      xmpText,   xmpExternal,
                                                 N_("The full, unabbreviated name of the next smaller administrative region than county (city, municipality, etc.) in which the Location occurs. Do not use this term for a nearby named place that does not contain the actual location.")
             },
-            { "locality",                       N_("Locality"),                             "Text",      xmpText,   xmpExternal,      
+            { "locality",                       N_("Locality"),                             "Text",      xmpText,   xmpExternal,
                                                 N_("The specific description of the place. Less specific geographic information can be provided in other geographic terms (higherGeography, continent, country, stateProvince, county, municipality, waterBody, island, islandGroup). This term may contain information modified from the original to correct perceived errors or standardize the description.")
             },
-            { "verbatimLocality",               N_("Verbatim Locality"),                    "Text",      xmpText,   xmpExternal,      
+            { "verbatimLocality",               N_("Verbatim Locality"),                    "Text",      xmpText,   xmpExternal,
                                                 N_("The original textual description of the place.")
             },
-            { "verbatimElevation",              N_("Verbatim Elevation"),                   "Text",      xmpText,   xmpExternal,      
+            { "verbatimElevation",              N_("Verbatim Elevation"),                   "Text",      xmpText,   xmpExternal,
                                                 N_("The original description of the elevation (altitude, usually above sea level) of the Location.")
             },
-            { "minimumElevationInMeters",       N_("Minimum Elevation In Meters"),          "Real",      xmpText,   xmpExternal,      
+            { "minimumElevationInMeters",       N_("Minimum Elevation In Meters"),          "Real",      xmpText,   xmpExternal,
                                                 N_("The lower limit of the range of elevation (altitude, usually above sea level), in meters.")
             },
-            { "maximumElevationInMeters",       N_("Maximum Elevation In Meters"),          "Real",      xmpText,   xmpExternal,      
+            { "maximumElevationInMeters",       N_("Maximum Elevation In Meters"),          "Real",      xmpText,   xmpExternal,
                                                 N_("The upper limit of the range of elevation (altitude, usually above sea level), in meters.")
             },
-            { "verbatimDepth",                  N_("Verbatim Depth"),                       "Text",      xmpText,   xmpExternal,      
+            { "verbatimDepth",                  N_("Verbatim Depth"),                       "Text",      xmpText,   xmpExternal,
                                                 N_("The original description of the depth below the local surface.")
             },
-            { "minimumDepthInMeters",           N_("Minimum Depth In Meters"),              "Real",      xmpText,   xmpExternal,      
+            { "minimumDepthInMeters",           N_("Minimum Depth In Meters"),              "Real",      xmpText,   xmpExternal,
                                                 N_("The lesser depth of a range of depth below the local surface, in meters.")
             },
-            { "maximumDepthInMeters",           N_("Maximum Depth In Meters"),              "Real",      xmpText,   xmpExternal,      
+            { "maximumDepthInMeters",           N_("Maximum Depth In Meters"),              "Real",      xmpText,   xmpExternal,
                                                 N_("The greater depth of a range of depth below the local surface, in meters.")
             },
-            { "minimumDistanceAboveSurfaceInMeters",      N_("Minimum Distance Above Surface In Meters"),   "Real", xmpText, xmpExternal,      
+            { "minimumDistanceAboveSurfaceInMeters",      N_("Minimum Distance Above Surface In Meters"),   "Real", xmpText, xmpExternal,
                                                 N_("The lesser distance in a range of distance from a reference surface in the vertical direction, in meters. Use positive values for locations above the surface, negative values for locations below. If depth measures are given, the reference surface is the location given by the depth, otherwise the reference surface is the location given by the elevation.")
             },
-            { "maximumDistanceAboveSurfaceInMeters",    N_("Maximum Distance Above Surface In Meters"), "Real", xmpText,    xmpExternal,      
+            { "maximumDistanceAboveSurfaceInMeters",    N_("Maximum Distance Above Surface In Meters"), "Real", xmpText,    xmpExternal,
                                                         N_("The greater distance in a range of distance from a reference surface in the vertical direction, in meters. Use positive values for locations above the surface, negative values for locations below. If depth measures are given, the reference surface is the location given by the depth, otherwise the reference surface is the location given by the elevation.")
             },
-            { "locationAccordingTo",            N_("Location According To"),                "Text",      xmpText,   xmpExternal,      
+            { "locationAccordingTo",            N_("Location According To"),                "Text",      xmpText,   xmpExternal,
                                                 N_("Information about the source of this Location information. Could be a publication (gazetteer), institution, or team of individuals.")
             },
-            { "locationRemarks",                N_("Location Remarks"),                     "Text",      xmpText,   xmpExternal,      
+            { "locationRemarks",                N_("Location Remarks"),                     "Text",      xmpText,   xmpExternal,
                                                 N_("Comments or notes about the Location.")
             },
-            { "verbatimCoordinates",            N_("Verbatim Coordinates"),                 "Text",      xmpText,   xmpExternal,      
+            { "verbatimCoordinates",            N_("Verbatim Coordinates"),                 "Text",      xmpText,   xmpExternal,
                                                 N_("The verbatim original spatial coordinates of the Location. The coordinate ellipsoid, geodeticDatum, or full Spatial Reference System (SRS) for these coordinates should be stored in verbatimSRS and the coordinate system should be stored in verbatimCoordinateSystem.")
             },
-            { "verbatimLatitude",               N_("Verbatim Latitude"),                    "Text",      xmpText,   xmpExternal,      
+            { "verbatimLatitude",               N_("Verbatim Latitude"),                    "Text",      xmpText,   xmpExternal,
                                                 N_("The verbatim original latitude of the Location. The coordinate ellipsoid, geodeticDatum, or full Spatial Reference System (SRS) for these coordinates should be stored in verbatimSRS and the coordinate system should be stored in verbatimCoordinateSystem.")
             },
-            { "verbatimLongitude",              N_("Verbatim Longitude"),                   "Text",      xmpText,   xmpExternal,      
+            { "verbatimLongitude",              N_("Verbatim Longitude"),                   "Text",      xmpText,   xmpExternal,
                                                 N_("The verbatim original longitude of the Location. The coordinate ellipsoid, geodeticDatum, or full Spatial Reference System (SRS) for these coordinates should be stored in verbatimSRS and the coordinate system should be stored in verbatimCoordinateSystem.")
             },
-            { "verbatimCoordinateSystem",       N_("Verbatim Coordinate System"),           "Text",      xmpText,   xmpExternal,      
+            { "verbatimCoordinateSystem",       N_("Verbatim Coordinate System"),           "Text",      xmpText,   xmpExternal,
                                                 N_("The spatial coordinate system for the verbatimLatitude and verbatimLongitude or the verbatimCoordinates of the Location. Recommended best practice is to use a controlled vocabulary.")
             },
-            { "verbatimSRS",                    N_("Verbatim SRS"),                         "Text",      xmpText,   xmpExternal,      
+            { "verbatimSRS",                    N_("Verbatim SRS"),                         "Text",      xmpText,   xmpExternal,
                                                 N_("The ellipsoid, geodetic datum, or spatial reference system (SRS) upon which coordinates given in verbatimLatitude and verbatimLongitude, or verbatimCoordinates are based. Recommended best practice is use the EPSG code as a controlled vocabulary to provide an SRS, if known. Otherwise use a controlled vocabulary for the name or code of the geodetic datum, if known. Otherwise use a controlled vocabulary for the name or code of the ellipsoid, if known. If none of these is known, use the value \"unknown\".")
             },
-            { "decimalLatitude",                N_("Decimal Latitude"),                     "Real",     xmpText,    xmpExternal, 
+            { "decimalLatitude",                N_("Decimal Latitude"),                     "Real",     xmpText,    xmpExternal,
                                                 N_("The geographic latitude (in decimal degrees, using the spatial reference system given in geodeticDatum) of the geographic center of a Location. Positive values are north of the Equator, negative values are south of it. Legal values lie between -90 and 90, inclusive.")
             },
-            { "decimalLongitude",               N_("Decimal Longitude"),                    "Real",     xmpText,    xmpExternal, 
+            { "decimalLongitude",               N_("Decimal Longitude"),                    "Real",     xmpText,    xmpExternal,
                                                 N_("The geographic longitude (in decimal degrees, using the spatial reference system given in geodeticDatum) of the geographic center of a Location. Positive values are east of the Greenwich Meridian, negative values are west of it. Legal values lie between -180 and 180, inclusive.")
             },
-            { "geodeticDatum",                  N_("Geodetic Datum"),                       "Text",      xmpText,    xmpExternal,      
+            { "geodeticDatum",                  N_("Geodetic Datum"),                       "Text",      xmpText,    xmpExternal,
                                                 N_("The ellipsoid, geodetic datum, or spatial reference system (SRS) upon which the geographic coordinates given in decimalLatitude and decimalLongitude as based. Recommended best practice is use the EPSG code as a controlled vocabulary to provide an SRS, if known. Otherwise use a controlled vocabulary for the name or code of the geodetic datum, if known. Otherwise use a controlled vocabulary for the name or code of the ellipsoid, if known. If none of these is known, use the value \"unknown\".")
             },
-            { "coordinateUncertaintyInMeters",  N_("Coordinate Uncertainty In Meters"),     "Real",     xmpText,    xmpExternal, 
+            { "coordinateUncertaintyInMeters",  N_("Coordinate Uncertainty In Meters"),     "Real",     xmpText,    xmpExternal,
                                                 N_("The horizontal distance (in meters) from the given decimalLatitude and decimalLongitude describing the smallest circle containing the whole of the Location. Leave the value empty if the uncertainty is unknown, cannot be estimated, or is not applicable (because there are no coordinates). Zero is not a valid value for this term.")
             },
-            { "coordinatePrecision",            N_("Coordinate Precision"),                 "Text",     xmpText,    xmpExternal, 
+            { "coordinatePrecision",            N_("Coordinate Precision"),                 "Text",     xmpText,    xmpExternal,
                                                 N_("A decimal representation of the precision of the coordinates given in the decimalLatitude and decimalLongitude.")
             },
-            { "pointRadiusSpatialFit",          N_("Point Radius Spatial Fit"),              "Real",      xmpText,   xmpExternal,      
+            { "pointRadiusSpatialFit",          N_("Point Radius Spatial Fit"),              "Real",      xmpText,   xmpExternal,
                                                 N_("The ratio of the area of the point-radius (decimalLatitude, decimalLongitude, coordinateUncertaintyInMeters) to the area of the true (original, or most specific) spatial representation of the Location. Legal values are 0, greater than or equal to 1, or undefined. A value of 1 is an exact match or 100% overlap. A value of 0 should be used if the given point-radius does not completely contain the original representation. The pointRadiusSpatialFit is undefined (and should be left blank) if the original representation is a point without uncertainty and the given georeference is not that same point (without uncertainty). If both the original and the given georeference are the same point, the pointRadiusSpatialFit is 1.")
             },
-            { "footprintWKT",                   N_("Footprint WKT"),                         "Text",      xmpText,    xmpExternal,      
+            { "footprintWKT",                   N_("Footprint WKT"),                         "Text",      xmpText,    xmpExternal,
                                                 N_("A Well-Known Text (WKT) representation of the shape (footprint, geometry) that defines the Location. A Location may have both a point-radius representation (see decimalLatitude) and a footprint representation, and they may differ from each other.")
             },
-            { "footprintSRS",                   N_("Footprint SRS"),                        "Text",      xmpText,    xmpExternal,      
+            { "footprintSRS",                   N_("Footprint SRS"),                        "Text",      xmpText,    xmpExternal,
                                                 N_("A Well-Known Text (WKT) representation of the Spatial Reference System (SRS) for the footprintWKT of the Location. Do not use this term to describe the SRS of the decimalLatitude and decimalLongitude, even if it is the same as for the footprintWKT - use the geodeticDatum instead.")
             },
-            { "footprintSpatialFit",            N_("Footprint Spatial Fit"),                "Real",      xmpText,    xmpExternal,      
+            { "footprintSpatialFit",            N_("Footprint Spatial Fit"),                "Real",      xmpText,    xmpExternal,
                                                 N_("The ratio of the area of the footprint (footprintWKT) to the area of the true (original, or most specific) spatial representation of the Location. Legal values are 0, greater than or equal to 1, or undefined. A value of 1 is an exact match or 100% overlap. A value of 0 should be used if the given footprint does not completely contain the original representation. The footprintSpatialFit is undefined (and should be left blank) if the original representation is a point and the given georeference is not that same point. If both the original and the given georeference are the same point, the footprintSpatialFit is 1.")
             },
-            { "georeferencedBy",                N_("Georeferenced By"),                     "bag Text",     xmpBag,   xmpExternal,      
+            { "georeferencedBy",                N_("Georeferenced By"),                     "bag Text",     xmpBag,   xmpExternal,
                                                 N_("A list (concatenated and separated) of names of people, groups, or organizations who determined the georeference (spatial representation) for the Location.")
             },
-            { "georeferencedDate",              N_("Georeferenced Date"),                   "Date",      xmpText,    xmpExternal,      
+            { "georeferencedDate",              N_("Georeferenced Date"),                   "Date",      xmpText,    xmpExternal,
                                                 N_("The date on which the Location was georeferenced. Recommended best practice is to use an encoding scheme, such as ISO 8601:2004(E).")
             },
-            { "georeferenceProtocol",           N_("Georeference Protocol"),                "Text",      xmpText,    xmpExternal,      
+            { "georeferenceProtocol",           N_("Georeference Protocol"),                "Text",      xmpText,    xmpExternal,
                                                 N_("A description or reference to the methods used to determine the spatial footprint, coordinates, and uncertainties.")
             },
-            { "georeferenceSources",            N_("Georeference Sources"),                 "bag Text",     xmpBag,    xmpExternal,      
+            { "georeferenceSources",            N_("Georeference Sources"),                 "bag Text",     xmpBag,    xmpExternal,
                                                 N_("A list (concatenated and separated) of maps, gazetteers, or other resources used to georeference the Location, described specifically enough to allow anyone in the future to use the same resources.")
             },
-            { "georeferenceVerificationStatus", N_("Georeference Verification Status"),     "Text",      xmpText,    xmpExternal,      
+            { "georeferenceVerificationStatus", N_("Georeference Verification Status"),     "Text",      xmpText,    xmpExternal,
                                                 N_("A categorical description of the extent to which the georeference has been verified to represent the best possible spatial description. Recommended best practice is to use a controlled vocabulary.")
             },
-            { "georeferenceRemarks",            N_("Georeference Remarks"),                 "Text",      xmpText,    xmpExternal,      
+            { "georeferenceRemarks",            N_("Georeference Remarks"),                 "Text",      xmpText,    xmpExternal,
                                                 N_("Notes or comments about the spatial description determination, explaining assumptions made in addition or opposition to the those formalized in the method referred to in georeferenceProtocol.")
             },
 
         // Geological Context Level Class
-        { "GeologicalContext",              N_("Geological Context"),                     "GeologicalContext",    xmpText,   xmpInternal, 
+        { "GeologicalContext",              N_("Geological Context"),                     "GeologicalContext",    xmpText,   xmpInternal,
                                             N_("*Main structure* containing geological context based information."),
         },
             // Geological Context Level Terms
-            { "geologicalContextID",            N_("Geological Context ID"),                "Text",      xmpText,    xmpExternal,      
+            { "geologicalContextID",            N_("Geological Context ID"),                "Text",      xmpText,    xmpExternal,
                                                 N_("An identifier for the set of information associated with a GeologicalContext (the location within a geological context, such as stratigraphy). May be a global unique identifier or an identifier specific to the data set.")
             },
-            { "earliestEonOrLowestEonothem",    N_("Earliest Eon Or Lowest Eonothem"),      "Text",     xmpText,    xmpExternal, 
+            { "earliestEonOrLowestEonothem",    N_("Earliest Eon Or Lowest Eonothem"),      "Text",     xmpText,    xmpExternal,
                                                 N_("The full name of the earliest possible geochronologic eon or lowest chrono-stratigraphic eonothem or the informal name (\"Precambrian\") attributable to the stratigraphic horizon from which the cataloged item was collected.")
             },
-            { "latestEonOrHighestEonothem",     N_("Latest Eon Or Highest Eonothem"),       "Text",      xmpText,   xmpExternal,      
+            { "latestEonOrHighestEonothem",     N_("Latest Eon Or Highest Eonothem"),       "Text",      xmpText,   xmpExternal,
                                                 N_("The full name of the latest possible geochronologic eon or highest chrono-stratigraphic eonothem or the informal name (\"Precambrian\") attributable to the stratigraphic horizon from which the cataloged item was collected.")
             },
-            { "earliestEraOrLowestErathem",     N_("Earliest Era Or Lowest Erathem"),       "Text",     xmpText,    xmpExternal, 
+            { "earliestEraOrLowestErathem",     N_("Earliest Era Or Lowest Erathem"),       "Text",     xmpText,    xmpExternal,
                                                 N_("The full name of the earliest possible geochronologic era or lowest chronostratigraphic erathem attributable to the stratigraphic horizon from which the cataloged item was collected.")
             },
-            { "latestEraOrHighestErathem",      N_("Latest Era Or Highest Erathem"),        "Text",      xmpText,   xmpExternal,      
+            { "latestEraOrHighestErathem",      N_("Latest Era Or Highest Erathem"),        "Text",      xmpText,   xmpExternal,
                                                 N_("The full name of the latest possible geochronologic era or highest chronostratigraphic erathem attributable to the stratigraphic horizon from which the cataloged item was collected.")
             },
-            { "earliestPeriodOrLowestSystem",   N_("Earliest Period Or Lowest System"),     "Text",     xmpText,    xmpExternal, 
+            { "earliestPeriodOrLowestSystem",   N_("Earliest Period Or Lowest System"),     "Text",     xmpText,    xmpExternal,
                                                 N_("The full name of the earliest possible geochronologic period or lowest chronostratigraphic system attributable to the stratigraphic horizon from which the cataloged item was collected.")
             },
-            { "latestPeriodOrHighestSystem",    N_("Latest Period Or Highest System"),      "Text",      xmpText,   xmpExternal,      
+            { "latestPeriodOrHighestSystem",    N_("Latest Period Or Highest System"),      "Text",      xmpText,   xmpExternal,
                                                 N_("The full name of the latest possible geochronologic period or highest chronostratigraphic system attributable to the stratigraphic horizon from which the cataloged item was collected.")
             },
-            { "earliestEpochOrLowestSeries",    N_("Earliest Epoch Or Lowest Series"),      "Text",     xmpText,    xmpExternal, 
+            { "earliestEpochOrLowestSeries",    N_("Earliest Epoch Or Lowest Series"),      "Text",     xmpText,    xmpExternal,
                                                 N_("The full name of the earliest possible geochronologic epoch or lowest chronostratigraphic series attributable to the stratigraphic horizon from which the cataloged item was collected.")
             },
-            { "latestEpochOrHighestSeries",     N_("Latest Epoch Or Highest Series"),       "Text",      xmpText,   xmpExternal,      
+            { "latestEpochOrHighestSeries",     N_("Latest Epoch Or Highest Series"),       "Text",      xmpText,   xmpExternal,
                                                 N_("The full name of the latest possible geochronologic epoch or highest chronostratigraphic series attributable to the stratigraphic horizon from which the cataloged item was collected.")
             },
-            { "earliestAgeOrLowestStage",       N_("Earliest Age Or Lowest Stage"),         "Text",     xmpText,    xmpExternal, 
+            { "earliestAgeOrLowestStage",       N_("Earliest Age Or Lowest Stage"),         "Text",     xmpText,    xmpExternal,
                                                 N_("The full name of the earliest possible geochronologic age or lowest chronostratigraphic stage attributable to the stratigraphic horizon from which the cataloged item was collected.")
             },
-            { "latestAgeOrHighestStage",        N_("Latest Age Or Highest Stage"),          "Text",      xmpText,   xmpExternal,      
+            { "latestAgeOrHighestStage",        N_("Latest Age Or Highest Stage"),          "Text",      xmpText,   xmpExternal,
                                                 N_("The full name of the latest possible geochronologic age or highest chronostratigraphic stage attributable to the stratigraphic horizon from which the cataloged item was collected.")
             },
-            { "lowestBiostratigraphicZone",     N_("Lowest Biostratigraphic Zone"),         "Text",      xmpText,   xmpExternal,      
+            { "lowestBiostratigraphicZone",     N_("Lowest Biostratigraphic Zone"),         "Text",      xmpText,   xmpExternal,
                                                 N_("The full name of the lowest possible geological biostratigraphic zone of the stratigraphic horizon from which the cataloged item was collected.")
             },
-            { "highestBiostratigraphicZone",    N_("Highest Biostratigraphic Zone"),        "Text",      xmpText,    xmpExternal,      
+            { "highestBiostratigraphicZone",    N_("Highest Biostratigraphic Zone"),        "Text",      xmpText,    xmpExternal,
                                                 N_("The full name of the highest possible geological biostratigraphic zone of the stratigraphic horizon from which the cataloged item was collected.")
             },
-            { "lithostratigraphicTerms",        N_("Lithostratigraphic Terms"),             "Text",      xmpText,   xmpExternal,      
+            { "lithostratigraphicTerms",        N_("Lithostratigraphic Terms"),             "Text",      xmpText,   xmpExternal,
                                                 N_("The combination of all litho-stratigraphic names for the rock from which the cataloged item was collected.")
             },
-            { "group",                          N_("Group"),                                "Text",      xmpText,    xmpExternal,      
+            { "group",                          N_("Group"),                                "Text",      xmpText,    xmpExternal,
                                                 N_("The full name of the lithostratigraphic group from which the cataloged item was collected.")
             },
-            { "formation",                      N_("Formation"),                            "Text",      xmpText,    xmpExternal,      
+            { "formation",                      N_("Formation"),                            "Text",      xmpText,    xmpExternal,
                                                 N_("The full name of the lithostratigraphic formation from which the cataloged item was collected.")
             },
-            { "member",                         N_("Member"),                               "Text",      xmpText,   xmpExternal,      
+            { "member",                         N_("Member"),                               "Text",      xmpText,   xmpExternal,
                                                 N_("The full name of the lithostratigraphic member from which the cataloged item was collected.")
             },
-            { "bed",                            N_("Bed"),                                  "Text",     xmpText,    xmpExternal, 
+            { "bed",                            N_("Bed"),                                  "Text",     xmpText,    xmpExternal,
                                                 N_("The full name of the lithostratigraphic bed from which the cataloged item was collected.")
             },
 
         // Identification Level Class
-        { "Identification",                 N_("Identification"),                     "Identification",    xmpText,   xmpInternal, 
+        { "Identification",                 N_("Identification"),                     "Identification",    xmpText,   xmpInternal,
                                             N_("*Main structure* containing identification based information."),
         },
             // Identification Level Terms
-            { "identificationID",               N_("Identification ID"),                    "Text",      xmpText,    xmpExternal,      
+            { "identificationID",               N_("Identification ID"),                    "Text",      xmpText,    xmpExternal,
                                                 N_("An identifier for the Identification (the body of information associated with the assignment of a scientific name). May be a global unique identifier or an identifier specific to the data set.")
             },
-            { "identifiedBy",                   N_("Identified By"),                        "bag Text",     xmpBag,   xmpExternal,      
+            { "identifiedBy",                   N_("Identified By"),                        "bag Text",     xmpBag,   xmpExternal,
                                                 N_("A list (concatenated and separated) of names of people, groups, or organizations who assigned the Taxon to the subject.")
             },
-            { "dateIdentified",                 N_("Date Identified"),                      "Date",      xmpText,    xmpExternal, 
+            { "dateIdentified",                 N_("Date Identified"),                      "Date",      xmpText,    xmpExternal,
                                                 N_("The date on which the subject was identified as representing the Taxon. Recommended best practice is to use an encoding scheme, such as ISO 8601:2004(E).")
             },
-            { "identificationReferences",       N_("Identification References"),            "bag Text",     xmpBag,    xmpExternal,      
+            { "identificationReferences",       N_("Identification References"),            "bag Text",     xmpBag,    xmpExternal,
                                                 N_("A list (concatenated and separated) of references (publication, global unique identifier, URI) used in the Identification.")
             },
-            { "identificationVerificationStatus",   N_("Identification Verification Status"),   "Text",  xmpText,   xmpExternal,      
+            { "identificationVerificationStatus",   N_("Identification Verification Status"),   "Text",  xmpText,   xmpExternal,
                                                     N_("A categorical indicator of the extent to which the taxonomic identification has been verified to be correct. Recommended best practice is to use a controlled vocabulary such as that used in HISPID/ABCD.")
             },
-            { "identificationRemarks",          N_("Identification Remarks"),               "Text",      xmpText,    xmpExternal,      
+            { "identificationRemarks",          N_("Identification Remarks"),               "Text",      xmpText,    xmpExternal,
                                                 N_("Comments or notes about the Identification.")
             },
-            { "identificationQualifier",        N_("Identification Qualifier"),             "Text",      xmpText,    xmpExternal,      
+            { "identificationQualifier",        N_("Identification Qualifier"),             "Text",      xmpText,    xmpExternal,
                                                 N_("A brief phrase or a standard term (\"cf.\" \"aff.\") to express the determiner's doubts about the Identification.")
             },
-            { "typeStatus",                     N_("Type Status"),                          "bag Text",     xmpBag,   xmpExternal,      
+            { "typeStatus",                     N_("Type Status"),                          "bag Text",     xmpBag,   xmpExternal,
                                                 N_("A list (concatenated and separated) of nomenclatural types (type status, typified scientific name, publication) applied to the subject.")
             },
 
         // Taxon Level Class
-        { "Taxon",                          N_("Taxon"),                                "Taxon",    xmpBag,   xmpInternal, 
+        { "Taxon",                          N_("Taxon"),                                "Taxon",    xmpBag,   xmpInternal,
                                             N_("*Main structure* containing taxonomic based information."),
         },
             // Taxon Level Terms
-            { "taxonID",                        N_("Taxon ID"),                             "Text",      xmpText,   xmpExternal,      
+            { "taxonID",                        N_("Taxon ID"),                             "Text",      xmpText,   xmpExternal,
                                                 N_("An identifier for the set of taxon information (data associated with the Taxon class). May be a global unique identifier or an identifier specific to the data set.")
             },
-            { "scientificNameID",               N_("Scientific Name ID"),                   "Text",      xmpText,   xmpExternal,      
+            { "scientificNameID",               N_("Scientific Name ID"),                   "Text",      xmpText,   xmpExternal,
                                                 N_("An identifier for the nomenclatural (not taxonomic) details of a scientific name.")
             },
-            { "acceptedNameUsageID",            N_("Accepted Name Usage ID"),               "Text",     xmpText,    xmpExternal, 
+            { "acceptedNameUsageID",            N_("Accepted Name Usage ID"),               "Text",     xmpText,    xmpExternal,
                                                 N_("An identifier for the name usage (documented meaning of the name according to a source) of the currently valid (zoological) or accepted (botanical) taxon.")
             },
-            { "parentNameUsageID",              N_("Parent Name Usage ID"),                 "Text",      xmpText,   xmpExternal,      
+            { "parentNameUsageID",              N_("Parent Name Usage ID"),                 "Text",      xmpText,   xmpExternal,
                                                 N_("An identifier for the name usage (documented meaning of the name according to a source) of the direct, most proximate higher-rank parent taxon (in a classification) of the most specific element of the scientificName.")
             },
-            { "originalNameUsageID",            N_("Original Name Usage ID"),               "Text",      xmpText,   xmpExternal,      
+            { "originalNameUsageID",            N_("Original Name Usage ID"),               "Text",      xmpText,   xmpExternal,
                                                 N_("An identifier for the name usage (documented meaning of the name according to a source) in which the terminal element of the scientificName was originally established under the rules of the associated nomenclaturalCode.")
             },
-            { "nameAccordingToID",              N_("Name According To ID"),                 "Text",      xmpText,   xmpExternal,      
+            { "nameAccordingToID",              N_("Name According To ID"),                 "Text",      xmpText,   xmpExternal,
                                                 N_("An identifier for the source in which the specific taxon concept circumscription is defined or implied. See nameAccordingTo.")
             },
-            { "namePublishedInID",              N_("Name Published In ID"),                 "Text",      xmpText,   xmpExternal,      
+            { "namePublishedInID",              N_("Name Published In ID"),                 "Text",      xmpText,   xmpExternal,
                                                 N_("An identifier for the publication in which the scientificName was originally established under the rules of the associated nomenclaturalCode.")
             },
-            { "taxonConceptID",                 N_("Taxon Concept ID"),                     "Text",      xmpText,   xmpExternal,      
+            { "taxonConceptID",                 N_("Taxon Concept ID"),                     "Text",      xmpText,   xmpExternal,
                                                 N_("An identifier for the taxonomic concept to which the record refers - not for the nomenclatural details of a taxon.")
             },
-            { "scientificName",                 N_("Scientific Name"),                      "Text",      xmpText,   xmpExternal,      
+            { "scientificName",                 N_("Scientific Name"),                      "Text",      xmpText,   xmpExternal,
                                                 N_("The full scientific name, with authorship and date information if known. When forming part of an Identification, this should be the name in lowest level taxonomic rank that can be determined. This term should not contain identification qualifications, which should instead be supplied in the IdentificationQualifier term.")
             },
             { "acceptedNameUsage",              N_("Accepted Name Usage"),                  "Text",     xmpText,    xmpExternal,
                                                 N_("The full name, with authorship and date information if known, of the currently valid (zoological) or accepted (botanical) taxon.")
             },
-            { "parentNameUsage",                N_("Parent Name Usage"),                    "Text",      xmpText,   xmpExternal,      
+            { "parentNameUsage",                N_("Parent Name Usage"),                    "Text",      xmpText,   xmpExternal,
                                                 N_("The full name, with authorship and date information if known, of the direct, most proximate higher-rank parent taxon (in a classification) of the most specific element of the scientificName.")
             },
-            { "originalNameUsage",              N_("Original Name Usage"),                  "Text",      xmpText,   xmpExternal,      
+            { "originalNameUsage",              N_("Original Name Usage"),                  "Text",      xmpText,   xmpExternal,
                                                 N_("The taxon name, with authorship and date information if known, as it originally appeared when first established under the rules of the associated nomenclaturalCode. The basionym (botany) or basonym (bacteriology) of the scientificName or the senior/earlier homonym for replaced names.")
             },
-            { "nameAccordingTo",                N_("Name According To"),                    "Text",      xmpText,   xmpExternal,      
+            { "nameAccordingTo",                N_("Name According To"),                    "Text",      xmpText,   xmpExternal,
                                                 N_("The reference to the source in which the specific taxon concept circumscription is defined or implied - traditionally signified by the Latin \"sensu\" or \"sec.\" (from secundum, meaning \"according to\"). For taxa that result from identifications, a reference to the keys, monographs, experts and other sources should be given.")
             },
-            { "namePublishedIn",                N_("Name Published In"),                    "Text",      xmpText,   xmpExternal,      
+            { "namePublishedIn",                N_("Name Published In"),                    "Text",      xmpText,   xmpExternal,
                                                 N_("A reference for the publication in which the scientificName was originally established under the rules of the associated nomenclaturalCode.")
             },
-            { "namePublishedInYear",            N_("Name Published In Year"),               "Text",      xmpText,   xmpExternal,      
+            { "namePublishedInYear",            N_("Name Published In Year"),               "Text",      xmpText,   xmpExternal,
                                                 N_("The four-digit year in which the scientificName was published.")
             },
-            { "higherClassification",           N_("Higher Classification"),                "bag Text",     xmpBag,    xmpExternal,      
+            { "higherClassification",           N_("Higher Classification"),                "bag Text",     xmpBag,    xmpExternal,
                                                 N_("A list (concatenated and separated) of taxa names terminating at the rank immediately superior to the taxon referenced in the taxon record. Recommended best practice is to order the list starting with the highest rank and separating the names for each rank with a semi-colon ;")
             },
-            { "kingdom",                        N_("Kingdom"),                              "Text",      xmpText,   xmpExternal,      
+            { "kingdom",                        N_("Kingdom"),                              "Text",      xmpText,   xmpExternal,
                                                 N_("The full scientific name of the kingdom in which the taxon is classified.")
             },
-            { "phylum",                         N_("Phylum"),                               "Text",      xmpText,   xmpExternal,      
+            { "phylum",                         N_("Phylum"),                               "Text",      xmpText,   xmpExternal,
                                                 N_("The full scientific name of the phylum or division in which the taxon is classified.")
             },
-            { "class",                          N_("Class"),                                "Text",     xmpText,    xmpExternal, 
+            { "class",                          N_("Class"),                                "Text",     xmpText,    xmpExternal,
                                                 N_("The full scientific name of the class in which the taxon is classified.")
             },
-            { "order",                          N_("Order"),                                "Text",      xmpText,   xmpExternal,      
+            { "order",                          N_("Order"),                                "Text",      xmpText,   xmpExternal,
                                                 N_("The full scientific name of the order in which the taxon is classified.")
             },
-            { "family",                         N_("Family"),                               "Text",      xmpText,    xmpExternal,      
+            { "family",                         N_("Family"),                               "Text",      xmpText,    xmpExternal,
                                                 N_("The full scientific name of the family in which the taxon is classified.")
             },
-            { "genus",                          N_("Genus"),                                "Text",      xmpText,    xmpExternal,      
+            { "genus",                          N_("Genus"),                                "Text",      xmpText,    xmpExternal,
                                                 N_("The full scientific name of the genus in which the taxon is classified.")
             },
-            { "subgenus",                       N_("Subgenus"),                             "Text",      xmpText,   xmpExternal,      
+            { "subgenus",                       N_("Subgenus"),                             "Text",      xmpText,   xmpExternal,
                                                 N_("The full scientific name of the subgenus in which the taxon is classified. Values should include the genus to avoid homonym confusion.")
             },
-            { "specificEpithet",                N_("Specific Epithet"),                     "Text",      xmpText,   xmpExternal,      
+            { "specificEpithet",                N_("Specific Epithet"),                     "Text",      xmpText,   xmpExternal,
                                                 N_("The name of the first or species epithet of the scientificName.")
             },
-            { "infraspecificEpithet",           N_("Infraspecific Epithet"),                "Text",      xmpText,   xmpExternal,      
+            { "infraspecificEpithet",           N_("Infraspecific Epithet"),                "Text",      xmpText,   xmpExternal,
                                                 N_("The name of the lowest or terminal infraspecific epithet of the scientificName, excluding any rank designation.")
             },
-            { "taxonRank",                      N_("Taxon Rank"),                           "Text",      xmpText,   xmpExternal,      
+            { "taxonRank",                      N_("Taxon Rank"),                           "Text",      xmpText,   xmpExternal,
                                                 N_("The taxonomic rank of the most specific name in the scientificName. Recommended best practice is to use a controlled vocabulary.")
             },
-            { "verbatimTaxonRank",              N_("Verbatim Taxon Rank"),                  "Text",      xmpText,   xmpExternal,      
+            { "verbatimTaxonRank",              N_("Verbatim Taxon Rank"),                  "Text",      xmpText,   xmpExternal,
                                                 N_("The taxonomic rank of the most specific name in the scientificName as it appears in the original record.")
             },
-            { "scientificNameAuthorship",       N_("Scientific Name Authorship"),           "Text",      xmpText,   xmpExternal,      
+            { "scientificNameAuthorship",       N_("Scientific Name Authorship"),           "Text",      xmpText,   xmpExternal,
                                                 N_("The authorship information for the scientificName formatted according to the conventions of the applicable nomenclaturalCode.")
             },
-            { "vernacularName",                 N_("Vernacular Name"),                      "Lang Alt", langAlt,   xmpExternal,      
+            { "vernacularName",                 N_("Vernacular Name"),                      "Lang Alt", langAlt,   xmpExternal,
                                                 N_("A common or vernacular name.")
             },
-            { "nomenclaturalCode",              N_("Nomenclatural Code"),                   "Text",      xmpText,   xmpExternal,      
+            { "nomenclaturalCode",              N_("Nomenclatural Code"),                   "Text",      xmpText,   xmpExternal,
                                                 N_("The nomenclatural code (or codes in the case of an ambiregnal name) under which the scientificName is constructed. Recommended best practice is to use a controlled vocabulary.")
             },
-            { "taxonomicStatus",                N_("Taxonomic Status"),                     "Text",      xmpText,   xmpExternal,      
+            { "taxonomicStatus",                N_("Taxonomic Status"),                     "Text",      xmpText,   xmpExternal,
                                                 N_("The status of the use of the scientificName as a label for a taxon. Requires taxonomic opinion to define the scope of a taxon. Rules of priority then are used to define the taxonomic status of the nomenclature contained in that scope, combined with the experts opinion. It must be linked to a specific taxonomic reference that defines the concept. Recommended best practice is to use a controlled vocabulary.")
             },
-            { "nomenclaturalStatus",            N_("Nomenclatural Status"),                 "Text",      xmpText,   xmpExternal,      
+            { "nomenclaturalStatus",            N_("Nomenclatural Status"),                 "Text",      xmpText,   xmpExternal,
                                                 N_("The status related to the original publication of the name and its conformance to the relevant rules of nomenclature. It is based essentially on an algorithm according to the business rules of the code. It requires no taxonomic opinion.")
             },
-            { "taxonRemarks",                   N_("Taxon Remarks"),                        "Text",      xmpText,   xmpExternal,      
+            { "taxonRemarks",                   N_("Taxon Remarks"),                        "Text",      xmpText,   xmpExternal,
                                                 N_("Comments or notes about the taxon or name.")
             },
 
         // Resource Relationship Level Class
-        { "ResourceRelationship",           N_("Resource Relationship"),                 "ResourceRelationship",    xmpText,   xmpInternal, 
+        { "ResourceRelationship",           N_("Resource Relationship"),                 "ResourceRelationship",    xmpText,   xmpInternal,
                                             N_("*Main structure* containing relationships between resources based information."),
         },
             // Resource Relationship Level Terms
-            { "resourceRelationshipID",         N_("Resource Relationship ID"),             "Text",      xmpText,   xmpExternal,      
+            { "resourceRelationshipID",         N_("Resource Relationship ID"),             "Text",      xmpText,   xmpExternal,
                                                 N_("An identifier for an instance of relationship between one resource (the subject) and another (relatedResource, the object).")
             },
-            { "resourceID",                     N_("Resource ID"),                          "Text",      xmpText,   xmpExternal,      
+            { "resourceID",                     N_("Resource ID"),                          "Text",      xmpText,   xmpExternal,
                                                 N_("An identifier for the resource that is the subject of the relationship.")
             },
-            { "relatedResourceID",              N_("Related Resource ID"),                  "Text",      xmpText,   xmpExternal,      
+            { "relatedResourceID",              N_("Related Resource ID"),                  "Text",      xmpText,   xmpExternal,
                                                 N_("An identifier for a related resource (the object, rather than the subject of the relationship).")
             },
-            { "relationshipOfResource",         N_("Relationship Of Resource"),             "Text",      xmpText,   xmpExternal,      
+            { "relationshipOfResource",         N_("Relationship Of Resource"),             "Text",      xmpText,   xmpExternal,
                                                 N_("The relationship of the resource identified by relatedResourceID to the subject (optionally identified by the resourceID). Recommended best practice is to use a controlled vocabulary.")
             },
-            { "relationshipAccordingTo",        N_("Relationship According To"),            "Text",      xmpText,   xmpExternal,      
+            { "relationshipAccordingTo",        N_("Relationship According To"),            "Text",      xmpText,   xmpExternal,
                                                 N_("The source (person, organization, publication, reference) establishing the relationship between the two resources.")
             },
-            { "relationshipEstablishedDate",    N_("Relationship Established Date"),        "Date",      xmpText,    xmpExternal,      
+            { "relationshipEstablishedDate",    N_("Relationship Established Date"),        "Date",      xmpText,    xmpExternal,
                                                 N_("The date-time on which the relationship between the two resources was established. Recommended best practice is to use an encoding scheme, such as ISO 8601:2004(E).")
             },
-            { "relationshipRemarks",            N_("Relationship Remarks"),                 "Text",      xmpText,   xmpExternal,      
+            { "relationshipRemarks",            N_("Relationship Remarks"),                 "Text",      xmpText,   xmpExternal,
                                                 N_("Comments or notes about the relationship between the two resources.")
             },
 
         // Measurement Or Fact Level Class
-        { "MeasurementOrFact",              N_("Measurement Or Fact"),                 "MeasurementOrFact",    xmpText,   xmpInternal, 
+        { "MeasurementOrFact",              N_("Measurement Or Fact"),                 "MeasurementOrFact",    xmpText,   xmpInternal,
                                             N_("*Main structure* containing measurement based information."),
         },
             // Measurement Or Fact Level Terms
-            { "measurementID",                  N_("Measurement ID"),                       "Text",      xmpText,   xmpExternal,      
+            { "measurementID",                  N_("Measurement ID"),                       "Text",      xmpText,   xmpExternal,
                                                 N_("An identifier for the MeasurementOrFact (information pertaining to measurements, facts, characteristics, or assertions). May be a global unique identifier or an identifier specific to the data set.")
             },
-            { "measurementType",                N_("Measurement Type"),                     "Text",      xmpText,   xmpExternal,      
+            { "measurementType",                N_("Measurement Type"),                     "Text",      xmpText,   xmpExternal,
                                                 N_("The nature of the measurement, fact, characteristic, or assertion. Recommended best practice is to use a controlled vocabulary.")
             },
-            { "measurementValue",               N_("Measurement Value"),                    "Text",      xmpText,   xmpExternal,      
+            { "measurementValue",               N_("Measurement Value"),                    "Text",      xmpText,   xmpExternal,
                                                 N_("The value of the measurement, fact, characteristic, or assertion.")
             },
-            { "measurementAccuracy",            N_("Measurement Accuracy"),                 "Text",      xmpText,   xmpExternal,      
+            { "measurementAccuracy",            N_("Measurement Accuracy"),                 "Text",      xmpText,   xmpExternal,
                                                 N_("The description of the potential error associated with the measurementValue.")
             },
-            { "measurementUnit",                N_("Measurement Unit"),                     "Text",      xmpText,   xmpExternal,      
+            { "measurementUnit",                N_("Measurement Unit"),                     "Text",      xmpText,   xmpExternal,
                                                 N_("The units associated with the measurementValue. Recommended best practice is to use the International System of Units (SI).")
             },
-            { "measurementDeterminedDate",      N_("Measurement Determined Date"),          "Date",      xmpText,    xmpExternal,      
+            { "measurementDeterminedDate",      N_("Measurement Determined Date"),          "Date",      xmpText,    xmpExternal,
                                                 N_("The date on which the MeasurementOrFact was made. Recommended best practice is to use an encoding scheme, such as ISO 8601:2004(E).")
             },
-            { "measurementDeterminedBy",        N_("Measurement Determined By"),            "bag Text",     xmpBag,   xmpExternal,      
+            { "measurementDeterminedBy",        N_("Measurement Determined By"),            "bag Text",     xmpBag,   xmpExternal,
                                                 N_("A list (concatenated and separated) of names of people, groups, or organizations who determined the value of the MeasurementOrFact.")
             },
-            { "measurementMethod",              N_("Measurement Method"),                   "Text",      xmpText,   xmpExternal,      
+            { "measurementMethod",              N_("Measurement Method"),                   "Text",      xmpText,   xmpExternal,
                                                 N_("A description of or reference to (publication, URI) the method or protocol used to determine the measurement, fact, characteristic, or assertion.")
             },
-            { "measurementRemarks",             N_("Measurement Remarks"),                  "Text",      xmpText,   xmpExternal,      
+            { "measurementRemarks",             N_("Measurement Remarks"),                  "Text",      xmpText,   xmpExternal,
                                                 N_("Comments or notes accompanying the MeasurementOrFact.")
             },
         // End of list marker
@@ -2389,6 +2389,14 @@ namespace Exiv2 {
         if (!xn) xn = find(xmpNsInfo, pf);
         if (!xn) throw Error(35, prefix);
         return xn;
+    }
+
+    void XmpProperties::registeredNamespaces(Exiv2::Dictionary& nsDict)
+    {
+        for (unsigned int i = 0; i < EXV_COUNTOF(xmpNsInfo); ++i) {
+             Exiv2::XmpParser::registerNs(xmpNsInfo[i].ns_,xmpNsInfo[i].prefix_);
+        }
+        Exiv2::XmpParser::registeredNamespaces(nsDict);
     }
 
     void XmpProperties::printProperties(std::ostream& os, const std::string& prefix)

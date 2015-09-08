@@ -36,6 +36,7 @@
 #include "value.hpp"
 #include "types.hpp"
 #include "datasets.hpp"
+#include "properties.hpp"
 
 // + standard includes
 #include <string>
@@ -375,14 +376,6 @@ namespace Exiv2 {
          */
         static void terminate();
 
-        /*!
-         @brief object a map of registered namespaces (prefix:URI)
-
-         This will initialize the Parser if necessary
-         */
-        static void getRegisteredNamespaces(Exiv2::Dictionary& dict);
-
-
     private:
         /*!
           @brief Register a namespace with the XMP Toolkit.
@@ -396,10 +389,17 @@ namespace Exiv2 {
         */
         static void unregisterNs(const std::string& ns);
 
+        /*!
+          @brief Get namespaces registered with XMPsdk
+         */
+        static void registeredNamespaces(Exiv2::Dictionary&);
+
         // DATA
         static bool initialized_; //! Indicates if the XMP Toolkit has been initialized
         static XmpLockFct xmpLockFct_;
         static void* pLockData_;
+
+    friend class XmpProperties; // permit XmpProperties -> registerNs() and registeredNamespaces()
 
     }; // class XmpParser
 

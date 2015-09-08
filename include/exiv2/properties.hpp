@@ -38,6 +38,7 @@
 #include "types.hpp"
 #include "metadatum.hpp"
 #include "tags.hpp"
+#include "datasets.hpp"
 
 // + standard includes
 #include <string>
@@ -223,6 +224,11 @@ namespace Exiv2 {
 
         // DATA
         static NsRegistry nsRegistry_;          //!< Namespace registry
+
+        /*!
+          @brief Get all registered namespaces (for both Exiv2 and XMPsdk)
+         */
+        static void registeredNamespaces(Exiv2::Dictionary& nsDict);
 
     }; // class XmpProperties
 
