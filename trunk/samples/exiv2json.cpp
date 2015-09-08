@@ -316,8 +316,8 @@ try {
             }
 
             // get the namespace dictionary from XMP
-            Exiv2::Dictionary                         nsDict;
-            Exiv2::XmpParser::getRegisteredNamespaces(nsDict);
+            Exiv2::Dictionary                          nsDict;
+            Exiv2::XmpProperties::registeredNamespaces(nsDict);
 
             // create and populate a Jzon::Object for the namespaces
             Jzon::Object    xmlns;
