@@ -138,8 +138,8 @@ namespace Exiv2 {
         { "http://ns.microsoft.com/photo/1.2/t/Region#",     "MPReg",       xmpMicrosoftPhotoRegionInfo,     N_("Microsoft Photo Region schema")     },
         { "http://www.metadataworkinggroup.com/schemas/regions/", "mwg-rs", xmpMWGRegionsInfo, N_("Metadata Working Group Regions schema")      },
         { "http://www.metadataworkinggroup.com/schemas/keywords/","mwg-kw", xmpMWGKeywordInfo, N_("Metadata Working Group Keywords schema")     },
-        { "http://www.video",                             "video",          xmpVideoInfo,     N_("XMP Extended Video schema")                   },
-        { "http://www.audio",                             "audio",          xmpAudioInfo,     N_("XMP Extended Audio schema")                   },
+        { "http://www.video/",                             "video",          xmpVideoInfo,     N_("XMP Extended Video schema")                   },
+        { "http://www.audio/",                             "audio",          xmpAudioInfo,     N_("XMP Extended Audio schema")                   },
         { "http://rs.tdwg.org/dwc/index.htm",             "dwc",            xmpDwCInfo,       N_("XMP Darwin Core schema")     		            },
         { "http://purl.org/dc/terms/",                    "dcterms",        xmpDctermsInfo,   N_("Qualified Dublin Core schema")                }, // Note: used as properties under dwc:record
         { "http://ns.acdsee.com/iptc/1.0/",               "acdsee",         xmpAcdseeInfo,    N_("ACDSee XMP schema")                           },
