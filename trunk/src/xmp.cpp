@@ -465,12 +465,14 @@ namespace Exiv2 {
         return result;
     }
 
-    void XmpParser::getRegisteredNamespaces(Exiv2::Dictionary& dict)
+    void XmpParser::registeredNamespaces(Exiv2::Dictionary& dict)
     {
     	bool bInit = !initialized_;
         try {
         	if (bInit) initialize();
+#ifdef EXV_HAVE_XMP_TOOLKIT
         	SXMPMeta::DumpNamespaces(nsDumper,&dict);
+#endif
         	if (bInit) terminate();
         } catch (const XMP_Error& e) {
             throw Error(40, e.GetID(), e.GetErrMsg());
@@ -484,8 +486,6 @@ namespace Exiv2 {
 #ifdef EXV_HAVE_XMP_TOOLKIT
             SXMPMeta::Terminate();
 #endif
-            xmpLockFct_ = 0;
-            pLockData_ = 0;
             initialized_ = false;
         }
     }

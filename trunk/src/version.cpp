@@ -532,12 +532,10 @@ void Exiv2::dumpLibraryInfo(std::ostream& os,const exv_grep_keys_t& keys)
 
 #ifdef EXV_HAVE_XMP_TOOLKIT
     const char* name = "xmlns";
-    typedef std::map<std::string,std::string> dict_t;
-    typedef dict_t::const_iterator            dict_i;
-    
-    dict_t ns;
-    Exiv2::XmpParser::getRegisteredNamespaces(ns);
-    for ( dict_i it = ns.begin(); it != ns.end() ; it++ ) {
+
+    Exiv2::Dictionary ns;
+    Exiv2::XmpProperties::registeredNamespaces(ns);
+    for ( Exiv2::Dictionary_i it = ns.begin(); it != ns.end() ; it++ ) {
         std::string xmlns = (*it).first;
         std::string uri   = (*it).second;
         output(os,keys,name,xmlns+":"+uri);
