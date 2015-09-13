@@ -13,7 +13,6 @@
 
   <!-- Doxygen styles -->
   <link href="doxygen.css" rel="stylesheet" type="text/css">
-  <link href="tabs.css" rel="stylesheet" type="text/css">
   <link href="customdoxygen.css" rel="stylesheet" type="text/css">
 
   <!-- Bootstrap core CSS -->

@@ -18,12 +18,12 @@
         <li class="dropdown active">
           <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">API doc <span class="caret"></span></a>
           <ul class="dropdown-menu">
-            <li><a href="index.html">Quick start</a></li>
-            <li><a href="namespaces.html">Namespace list</a></li>
-            <li><a href="classes.html">Class index</a></li>
-            <li><a href="hierarchy.html">Class hierarchy</a></li>
-            <li><a href="files.html">File list</a></li>
-            <li><a href="examples.html">Examples</a></li>
+            <li><a href="index.html"><span class="glyphicon glyphicon-home" aria-hidden="true"></span>&nbsp; Quick start</a></li>
+            <li><a href="namespaceExiv2.html"><span class="glyphicon glyphicon-list-alt" aria-hidden="true"></span>&nbsp; Namespace reference</a></li>
+            <li><a href="classes.html"><span class="glyphicon glyphicon-th" aria-hidden="true"></span>&nbsp; Class index</a></li>
+            <li><a href="hierarchy.html"><span class="glyphicon glyphicon-list" aria-hidden="true"></span>&nbsp; Class hierarchy</a></li>
+            <li><a href="files.html"><span class="glyphicon glyphicon-file" aria-hidden="true"></span>&nbsp; File list</a></li>
+            <li><a href="../examples.html"><span class="glyphicon glyphicon-star-empty" aria-hidden="true"></span>&nbsp; Examples</a></li>
           </ul>
         </li>
         <li><a href="../manpage.html">Manpage</a></li>

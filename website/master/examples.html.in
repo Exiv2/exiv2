@@ -1,6 +1,7 @@
 __doctype__
 <html lang="en">
 __header4__
+
 <body>
 __navbar__
 
@@ -218,5 +219,9 @@ Xmp.xmpBJ.JobRef[2]/stJob:role               XmpText     8  Best man
 </div><!-- /.container -->
 __footer__
 __bootstrap__
+
+<!-- Custom script to bootstrap (augment) Doxygen-generated HTML -->
+<script type="text/javascript" src="doc/doxy-boot.js"></script>
+
 </body>
 </html>
