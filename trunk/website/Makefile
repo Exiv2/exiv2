@@ -111,29 +111,20 @@ news: var/__whatsnew-latest__ var/__whatsnew-table__ html/rss.xml
 doc: html
 	@echo "Generating API documentation ... "
         # Preprocessing
-	@sed -e 's,="include/,="../include/,' \
-	    -e 's,="whatsnew.html#,="../whatsnew.html#,' \
-	    html/draft-exiv2-header.html > html/exiv2-header.html
-	@sed 's,="include/,="../include/,' \
-	    html/draft-exiv2-footer.html > html/exiv2-footer.html
-	@bin/gen.py doxygen/mainpage.hpp.in
+	@bin/gen.py doxygen/*.in
+	@sed -e 's,="dist/,="../dist/,' \
+             -e 's,="include/,="../include/,' \
+	    doxygen/exiv2-header.html > ttt
+	@mv -f ttt doxygen/exiv2-header.html
+	@sed -e 's,="dist/,="../dist/,' \
+             -e 's,="include/,="../include/,' \
+	    doxygen/exiv2-footer.html > ttt
+	@mv -f ttt doxygen/exiv2-footer.html
         # API doc generation
-	doxygen-1.5.4 doxygen/Doxyfile
+	doxygen doxygen/Doxyfile
         # Postprocessing
-	@sed 's,<h1>Exiv2 Class Index</h1>,<h1>Image metadata library and tools</h1><h2>Exiv2 Class index</h2>,' html/doc/classes.html > html/doc/ttt
-	@mv -f html/doc/ttt html/doc/classes.html
-	@sed 's,<h1>Exiv2 Namespace List</h1>,<h1>Image metadata library and tools</h1><h2>Exiv2 Namespaces</h2>,' html/doc/namespaces.html > html/doc/ttt
-	@mv -f html/doc/ttt html/doc/namespaces.html
-	@sed 's,<h1>Exiv2 File List</h1>,<h1>Image metadata library and tools</h1><h2>Exiv2 File list</h2>,' html/doc/files.html > html/doc/ttt
-	@mv -f html/doc/ttt html/doc/files.html
-	@sed 's,<h1>Exiv2 Examples</h1>,<h1>Image metadata library and tools</h1><h2>Exiv2 Examples</h2>,' html/doc/examples.html > html/doc/ttt
-	@mv -f html/doc/ttt html/doc/examples.html
-	-@cp -f doxygen/doxygen.css html/doc
+	-@cp -f doxygen/doxy-boot.js html/doc/
         # Cleanup
-	-@rm -f html/exiv2-header.html
-	-@rm -f html/exiv2-footer.html
-	-@rm -f html/draft-exiv2-header.html
-	-@rm -f html/draft-exiv2-footer.html
 	-@rm -f html/doc/namespacemembers*.html
 	-@rm -f html/doc/functions*.html
 
@@ -199,6 +190,8 @@ clean:
 	@rm -vf var/__whatsnew-latest__
 	@rm -vf var/__whatsnew-table__
 	@rm -vf doxygen/mainpage.hpp
+	@rm -vf doxygen/exiv2-header.html
+	@rm -vf doxygen/exiv2-footer.html
 
 publish:
 	rsync -vlDtrz --delete --exclude='.svn' --include="exiv2-`cat var/__version__`*" --exclude='exiv2-*tar.gz' --exclude='exiv2-*.zip' -e ssh html/ `whoami`@localhost:rs
