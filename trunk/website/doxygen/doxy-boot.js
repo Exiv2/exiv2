@@ -35,7 +35,12 @@ $( document ).ready(function() {
 
     $("table.directory").addClass("table table-striped");
     $("div.summary > a").addClass("btn btn-default btn-xs");
-    $("table.fieldtable").addClass("table");
+    $("table.fieldtable").removeClass("fieldtable").addClass("table table-striped table-condensed table-bordered");
+
+    $("td.fieldname > em").each(function(){
+	$(this).replaceWith("<code>"+$(this).text()+"</code>");
+    });
+
     $(".fragment").addClass("well");
     $(".memitem").addClass("panel panel-default");
     $(".memproto").addClass("panel-heading");
