@@ -11,6 +11,10 @@
 
   <title>Exiv2 - Image metadata library and tools</title>
 
+  <!-- Doxygen styles -->
+  <link href="doc/doxygen.css" rel="stylesheet" type="text/css">
+  <link href="doc/customdoxygen.css" rel="stylesheet" type="text/css">
+
   <!-- Bootstrap core CSS -->
   <link href="dist/css/bootstrap.min.css" rel="stylesheet">
   <!-- Bootstrap theme -->
