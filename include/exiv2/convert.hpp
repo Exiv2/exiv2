@@ -88,15 +88,15 @@ namespace Exiv2 {
       The conversions supported on Windows without iconv are:
 
       <TABLE>
-      <TR><TD class="indexkey"><B>from</B></TD><TD class="indexkey">to</TD></TR>
-      <TR><TD class="indexvalue">UTF-8</TD>     <TD class="indexvalue">UCS-2BE</TD></TR>
-      <TR><TD class="indexvalue">UTF-8</TD>     <TD class="indexvalue">UCS-2LE</TD></TR>
-      <TR><TD class="indexvalue">UCS-2BE</TD>   <TD class="indexvalue">UTF-8</TD></TR>
-      <TR><TD class="indexvalue">UCS-2BE</TD>   <TD class="indexvalue">UCS-2LE</TD></TR>
-      <TR><TD class="indexvalue">UCS-2LE</TD>   <TD class="indexvalue">UTF-8</TD></TR>
-      <TR><TD class="indexvalue">UCS-2LE</TD>   <TD class="indexvalue">UCS-2BE</TD></TR>
-      <TR><TD class="indexvalue">ISO-8859-1</TD><TD class="indexvalue">UTF-8</TD></TR>
-      <TR><TD class="indexvalue">ASCII</TD>     <TD class="indexvalue">UTF-8</TD></TR>
+      <TR><TD><B>from</B></TD><TD><B>to</B></TD></TR>
+      <TR><TD>UTF-8</TD>     <TD>UCS-2BE</TD></TR>
+      <TR><TD>UTF-8</TD>     <TD>UCS-2LE</TD></TR>
+      <TR><TD>UCS-2BE</TD>   <TD>UTF-8</TD></TR>
+      <TR><TD>UCS-2BE</TD>   <TD>UCS-2LE</TD></TR>
+      <TR><TD>UCS-2LE</TD>   <TD>UTF-8</TD></TR>
+      <TR><TD>UCS-2LE</TD>   <TD>UCS-2BE</TD></TR>
+      <TR><TD>ISO-8859-1</TD><TD>UTF-8</TD></TR>
+      <TR><TD>ASCII</TD>     <TD>UTF-8</TD></TR>
       </TABLE>
 
       @param str  The string to convert. It is updated to the converted string,
