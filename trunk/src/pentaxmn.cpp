@@ -911,6 +911,7 @@ namespace Exiv2 {
         { 0x081e, "Sigma 17-70mm F2.8-4 DC Macro HSM Contemporary" },
         { 0x081f, "Sigma 18-35mm F1.8 DC HSM" },
         { 0x0820, "Sigma 30mm F1.4 DC HSM | A" },
+        { 0x0822, "Sigma 18-300mm F3.5-6.3 DC Macro HSM" },
         { 0x083b, "HD PENTAX-D FA 150-450mm F4.5-5.6 ED DC AW" },
         { 0x083c, "HD PENTAX-D FA* 70-200mm F2.8 ED DC AW" },
         { 0x08c6, "smc PENTAX-DA L 18-50mm F4-5.6 DC WR RE" },
