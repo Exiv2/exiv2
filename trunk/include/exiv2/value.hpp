@@ -205,31 +205,31 @@ namespace Exiv2 {
 
           The following Value subclasses are created depending on typeId:<BR><BR>
           <TABLE>
-          <TR><TD class="indexkey"><B>typeId</B></TD><TD class="indexvalue"><B>%Value subclass</B></TD></TR>
-          <TR><TD class="indexkey">invalidTypeId</TD><TD class="indexvalue">%DataValue(invalidTypeId)</TD></TR>
-          <TR><TD class="indexkey">unsignedByte</TD><TD class="indexvalue">%DataValue(unsignedByte)</TD></TR>
-          <TR><TD class="indexkey">asciiString</TD><TD class="indexvalue">%AsciiValue</TD></TR>
-          <TR><TD class="indexkey">string</TD><TD class="indexvalue">%StringValue</TD></TR>
-          <TR><TD class="indexkey">unsignedShort</TD><TD class="indexvalue">%ValueType &lt; uint16_t &gt;</TD></TR>
-          <TR><TD class="indexkey">unsignedLong</TD><TD class="indexvalue">%ValueType &lt; uint32_t &gt;</TD></TR>
-          <TR><TD class="indexkey">unsignedRational</TD><TD class="indexvalue">%ValueType &lt; URational &gt;</TD></TR>
-          <TR><TD class="indexkey">invalid6</TD><TD class="indexvalue">%DataValue(invalid6)</TD></TR>
-          <TR><TD class="indexkey">undefined</TD><TD class="indexvalue">%DataValue</TD></TR>
-          <TR><TD class="indexkey">signedShort</TD><TD class="indexvalue">%ValueType &lt; int16_t &gt;</TD></TR>
-          <TR><TD class="indexkey">signedLong</TD><TD class="indexvalue">%ValueType &lt; int32_t &gt;</TD></TR>
-          <TR><TD class="indexkey">signedRational</TD><TD class="indexvalue">%ValueType &lt; Rational &gt;</TD></TR>
-          <TR><TD class="indexkey">tiffFloat</TD><TD class="indexvalue">%ValueType &lt; float &gt;</TD></TR>
-          <TR><TD class="indexkey">tiffDouble</TD><TD class="indexvalue">%ValueType &lt; double &gt;</TD></TR>
-          <TR><TD class="indexkey">tiffIfd</TD><TD class="indexvalue">%ValueType &lt; uint32_t &gt;</TD></TR>
-          <TR><TD class="indexkey">date</TD><TD class="indexvalue">%DateValue</TD></TR>
-          <TR><TD class="indexkey">time</TD><TD class="indexvalue">%TimeValue</TD></TR>
-          <TR><TD class="indexkey">comment</TD><TD class="indexvalue">%CommentValue</TD></TR>
-          <TR><TD class="indexkey">xmpText</TD><TD class="indexvalue">%XmpTextValue</TD></TR>
-          <TR><TD class="indexkey">xmpBag</TD><TD class="indexvalue">%XmpArrayValue</TD></TR>
-          <TR><TD class="indexkey">xmpSeq</TD><TD class="indexvalue">%XmpArrayValue</TD></TR>
-          <TR><TD class="indexkey">xmpAlt</TD><TD class="indexvalue">%XmpArrayValue</TD></TR>
-          <TR><TD class="indexkey">langAlt</TD><TD class="indexvalue">%LangAltValue</TD></TR>
-          <TR><TD class="indexkey"><EM>default:</EM></TD><TD class="indexvalue">%DataValue(typeId)</TD></TR>
+          <TR><TD><B>typeId</B></TD><TD><B>%Value subclass</B></TD></TR>
+          <TR><TD><CODE>invalidTypeId</CODE></TD><TD>%DataValue(invalidTypeId)</TD></TR>
+          <TR><TD><CODE>unsignedByte</CODE></TD><TD>%DataValue(unsignedByte)</TD></TR>
+          <TR><TD><CODE>asciiString</CODE></TD><TD>%AsciiValue</TD></TR>
+          <TR><TD><CODE>string</CODE></TD><TD>%StringValue</TD></TR>
+          <TR><TD><CODE>unsignedShort</CODE></TD><TD>%ValueType &lt; uint16_t &gt;</TD></TR>
+          <TR><TD><CODE>unsignedLong</CODE></TD><TD>%ValueType &lt; uint32_t &gt;</TD></TR>
+          <TR><TD><CODE>unsignedRational</CODE></TD><TD>%ValueType &lt; URational &gt;</TD></TR>
+          <TR><TD><CODE>invalid6</CODE></TD><TD>%DataValue(invalid6)</TD></TR>
+          <TR><TD><CODE>undefined</CODE></TD><TD>%DataValue</TD></TR>
+          <TR><TD><CODE>signedShort</CODE></TD><TD>%ValueType &lt; int16_t &gt;</TD></TR>
+          <TR><TD><CODE>signedLong</CODE></TD><TD>%ValueType &lt; int32_t &gt;</TD></TR>
+          <TR><TD><CODE>signedRational</CODE></TD><TD>%ValueType &lt; Rational &gt;</TD></TR>
+          <TR><TD><CODE>tiffFloat</CODE></TD><TD>%ValueType &lt; float &gt;</TD></TR>
+          <TR><TD><CODE>tiffDouble</CODE></TD><TD>%ValueType &lt; double &gt;</TD></TR>
+          <TR><TD><CODE>tiffIfd</CODE></TD><TD>%ValueType &lt; uint32_t &gt;</TD></TR>
+          <TR><TD><CODE>date</CODE></TD><TD>%DateValue</TD></TR>
+          <TR><TD><CODE>time</CODE></TD><TD>%TimeValue</TD></TR>
+          <TR><TD><CODE>comment</CODE></TD><TD>%CommentValue</TD></TR>
+          <TR><TD><CODE>xmpText</CODE></TD><TD>%XmpTextValue</TD></TR>
+          <TR><TD><CODE>xmpBag</CODE></TD><TD>%XmpArrayValue</TD></TR>
+          <TR><TD><CODE>xmpSeq</CODE></TD><TD>%XmpArrayValue</TD></TR>
+          <TR><TD><CODE>xmpAlt</CODE></TD><TD>%XmpArrayValue</TD></TR>
+          <TR><TD><CODE>langAlt</CODE></TD><TD>%LangAltValue</TD></TR>
+          <TR><TD><EM>default</EM></TD><TD>%DataValue(typeId)</TD></TR>
           </TABLE>
 
           @param typeId Type of the value.
