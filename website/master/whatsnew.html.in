@@ -10,9 +10,9 @@ __navbar__
   </div>
 
 __whatsnew-table__
+</div><!-- /.container -->
 
 __footer__
-</div><!-- /.container -->
 __bootstrap__
 </body>
 </html>

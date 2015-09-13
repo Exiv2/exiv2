@@ -113,12 +113,10 @@ __navbar__
 
         </div><!-- /.col-sm-6 -->
       </div><!-- /.row -->
-
-      __footer__
-
     </div><!-- /.container -->
 
-    __bootstrap__
+__footer__
+__bootstrap__
 
   </body>
 </html>
