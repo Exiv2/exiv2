@@ -1,35 +1,37 @@
 <div id="footer">
   <hr>
   <footer>
-    <div class="row">
-      <div class="col-sm-5">
-        <span class="visible-xs-block text-center"><p>Copyright &copy; 2004 - 2015 Andreas Huggel</p></span>
-        <span class="hidden-xs pull-left"><p>Copyright &copy; 2004 - 2015 Andreas Huggel</p></span>
-      </div><!-- /.col-sm-5 -->
-      <div class="col-sm-2">
-        <p class="text-center">
-          <script type="text/javascript">
-          <!-- 
-            var fn = "Andreas Huggel"
-            var us = "ahuggel";
-            var d1 = "gmx";
-            var d2 = "net";
-            var su = "Exiv2 feedback";
-            document.write('<a href=\"ma' + 'il' + 'to:' + fn + ' <' + us + '@' + d1 + '.' + d2 + '>?subject=' + su + '\">');
-          // -->
-          </script>
-          <img src="include/ahuggel.png" width="180" height="21" border="0" alt="Email address">
-          <script type="text/javascript">
-          <!-- 
-            document.write('<\/a>');
-          // -->
-          </script>
-        </p>
-      </div><!-- /.col-sm-2 -->
-      <div class="col-sm-5">
-        <span class="visible-xs-block text-center"><p>Last modified __last_modified__</p></span>
-        <span class="hidden-xs pull-right"><p>Last modified __last_modified__</p></span>
-      </div><!-- /.col-sm-5 -->
-    </div><!-- /.row -->
+    <div class="container">
+      <div class="row">
+        <div class="col-sm-5">
+          <span class="visible-xs-block text-center"><p>Copyright &copy; 2004 - 2015 Andreas Huggel</p></span>
+          <span class="hidden-xs pull-left"><p>Copyright &copy; 2004 - 2015 Andreas Huggel</p></span>
+        </div><!-- /.col-sm-5 -->
+        <div class="col-sm-2">
+          <p class="text-center">
+            <script type="text/javascript">
+            <!-- 
+              var fn = "Andreas Huggel"
+              var us = "ahuggel";
+              var d1 = "gmx";
+              var d2 = "net";
+              var su = "Exiv2 feedback";
+              document.write('<a href=\"ma' + 'il' + 'to:' + fn + ' <' + us + '@' + d1 + '.' + d2 + '>?subject=' + su + '\">');
+            // -->
+            </script>
+            <img src="include/ahuggel.png" width="180" height="21" border="0" alt="Email address">
+            <script type="text/javascript">
+            <!-- 
+              document.write('<\/a>');
+            // -->
+            </script>
+          </p>
+        </div><!-- /.col-sm-2 -->
+        <div class="col-sm-5">
+          <span class="visible-xs-block text-center"><p>Last modified __last_modified__</p></span>
+          <span class="hidden-xs pull-right"><p>Last modified __last_modified__</p></span>
+        </div><!-- /.col-sm-5 -->
+      </div><!-- /.row -->
+    </div><!-- /.container -->
   </footer>
 </div><!-- closes footer -->

@@ -4,8 +4,8 @@ __header4__
 <body>
 __navbar__
 
-    <div class="jumbotron">
-      <div class="container text-center">
+    <div class="container">
+      <div class="jumbotron text-center exiv2index">
 	<img src="include/exiv2.jpg" alt="Exiv2 home page">
 	__maintitle__
 	<p class="lead">Exiv2 is a <a href="getting-started.html#lib">C++ library</a> and a <a href="getting-started.html#util">command line utility</a>
@@ -23,16 +23,11 @@ __navbar__
         <a href="download.html" class="btn btn-lg btn-success">
 	  <span class="glyphicon glyphicon-download-alt" aria-hidden="true"></span>&nbsp; Download Exiv2
 	</a>
-      </div>
-    </div><!-- /.jumbotron -->
-
-    <div class="container">
-
-      __footer__
-
+      </div><!-- /.jumbotron -->
     </div><!-- /.container -->
 
-    __bootstrap__
+__footer__
+__bootstrap__
 
   </body>
 </html>

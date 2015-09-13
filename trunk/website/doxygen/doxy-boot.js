@@ -47,6 +47,7 @@ $( document ).ready(function() {
     $(".memdoc").addClass("panel-body");
     $("span.mlabel").addClass("label label-info");
 
+    $("table.memberdecls tr:last-child td.memSeparator").parent().remove();
     $("table.memberdecls").addClass("table table-condensed");
     $("[class^=memitem]").addClass("active");
 

@@ -6,6 +6,10 @@ body {
   margin-bottom: 0px;
 }
 
+.exiv2index {
+    margin-top: 30px;
+}
+
 /* -------------------------------------------------------------------------- */
 /* Examples (Code)                                                            */
 PRE.fragment {

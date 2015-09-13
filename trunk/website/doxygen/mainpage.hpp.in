@@ -3,7 +3,7 @@
   @mainpage notitle
   @htmlonly
   <div class="page-header">
-    <h1>Exiv2 v__version__ API documentation</h1>
+    <h1>Exiv2 v__version__ C++ API documentation</h1>
   </div>
   @endhtmlonly
   @htmlinclude intro.html
