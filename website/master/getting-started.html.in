@@ -10,6 +10,9 @@ __navbar__
 	<p class="lead">An overview of the basic Exiv2 C++ library and command line utility features and the Exiv2 project,
 	  examples and more.
         </p>
+        <a href="download.html" class="btn btn-lg btn-success">
+	  <span class="glyphicon glyphicon-download-alt" aria-hidden="true"></span>&nbsp; Download Exiv2
+	</a>
       </div>
     </div><!-- /.jumbotron -->
 

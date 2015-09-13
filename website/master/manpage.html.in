@@ -9,7 +9,7 @@ __navbar__
     <h1>Exiv2 utility manual page</h1>
     <p class="lead">A Unix-style "manpage" for the Exiv2 command line utility.
     </p>
-    <a href="exiv2-manpage.pdf" title="Exiv2 man page (PDF)" class="btn btn-danger">
+    <a href="exiv2-manpage.pdf" title="Exiv2 man page (PDF)" class="btn btn-lg btn-danger">
       <span class="glyphicon glyphicon-download-alt" aria-hidden="true"></span>&nbsp; Download PDF
     </a>
   </div>
