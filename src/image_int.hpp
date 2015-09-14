@@ -36,6 +36,10 @@
 // + standard includes
 #include <string>
 
+#if (defined(__GNUG__) || defined(__GNUC__)) && ! defined(__clang__)
+#define ATTRIBUTE_FORMAT_PRINTF __attribute__((format(printf, 1, 0)))
+#endif
+
 // *****************************************************************************
 // namespace extensions
 namespace Exiv2 {
@@ -47,7 +51,7 @@ namespace Exiv2 {
     /*!
       @brief format a string in the pattern of \em sprintf \em .
      */
-    std::string stringFormat(const char* format, ...);
+    std::string stringFormat(const char* format, ...) ATTRIBUTE_FORMAT_PRINTF;
 
     /*!
       @brief format binary for display in \em printStructure() \em .
