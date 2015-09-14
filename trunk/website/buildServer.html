@@ -1,0 +1,76 @@
+<html>
+<header></header>
+<body style="background:lightskyblue;">
+
+
+<table><tr><td><img style="padding:10px;" src="Exiv2Logo.png"></td><td><table><tr><td valign="baseline"><h1>Build Server</h1></td></tr><tr><td><a target="_blank" href="http://exiv2.dyndns.org:8080">http://exiv2.dyndns.org:8080</a></td></tr></table></td></tr></table>
+<style>
+th {
+	background	: blue;
+	color		: yellow;
+	text-align	: right;
+	border		: 2px solid white;
+	padding 	: 4px;
+	padding-left: 20px;
+}
+.go {
+	background	: lightgreen;
+	border		: 4px solid black;
+	color		: blue;
+	text-align	: center;
+}
+</style>
+
+<form action=""><table padding="12" border="0">
+<tr><td colspan=10><hr></td></tr><tr>
+
+  <th>Branch: </th><td><select>
+  <option value="saab">Conversions</option>
+  <option value="mercedes">Jenkins</option>
+  <option value="head" selected>Trunk</option>
+  <option value="audi">Videowrite</option>
+  <option value="audi2">Videow-refactoring</option>
+</select></td>
+  <th>Revision: </th><td><select>  <option value="volvo">HEAD</option>  <option value="revision">Revision...</option>  <option value="date">Date...</option></select></td>
+  <th>Email: </th><td colspan="2"><input type="text" size="30" name="email"></td>
+  <th colspan="2" class="go">Estimate: 8:00 minutes<br><button type="button" onclick="alert('no implemented yet');">Build</button><br>
+  <button type="button" onclick="alert('no implemented yet');">Reset</button></th>
+
+</tr><tr><td colspan=10><hr></td></tr><tr>
+
+<tr>
+  <th>Bits:              </th><td><input type="checkbox" name="bits" value="64" checked>64</input><br><input type="checkbox" name="bits" value="32">32</input></td>
+  <th>Library:           </th><td><input type="checkbox" name="library" value="shared" checked>Shared/DLL</input><br><input type="checkbox" name="library" value="shared">Static</input></td>
+  <th>Build<br>Environment: </th><td><input type="checkbox" name="env" value="native" checked>Native</input><br><input type="checkbox" name="env" value="cmake">CMake</input></td>
+  <th>Kind:              </th><td><input type="checkbox" name="kind" value="Release" checked>Release</input><br><input type="checkbox" name="kind" value="debug">debug</input></td>
+  <th>Compiler:          </th><td><input type="checkbox" name="compiler" value="native" checked>Native</input><br><input type="checkbox" name="compiler" value="clang">clang</input></td>
+</tr><tr><td colspan=10><hr></td></tr><tr>
+  <th>MSVC: </th>
+     <td><input type="checkbox" name="bits" value="2003">2003</input><br><input type="checkbox" name="msvc" value="2005" checked>2005</input>
+     <br><input type="checkbox" name="bits" value="2003">2008</input><br><input type="checkbox" name="msvc" value="2005">2010</input>
+     <br><input type="checkbox" name="bits" value="2003">2012</input><br><input type="checkbox" name="msvc" value="2005">2014</input>
+  </td>
+  <th>Platform: </th>
+     <td><input type="checkbox" name="platform"  value="linux"  checked>Linux</input><br><input type="checkbox" name="platform" value="macosx" checked>MacOS-X</input>
+     <br><input type="checkbox" name="platform"  value="cygwin" checked>Cygwin</input><br><input type="checkbox" name="platform" value="mingw" checked>MinGW</input>
+     <br><input type="checkbox" name="platform"  value="msvc"   checked>MSVC</input></input>
+  </td>
+  <th>Link: </th>
+     <td><input type="checkbox" name="link"  value="zlib" checked>zlib</input><br><input type="checkbox" name="link" value="expat" checked>expat</input>
+     <br><input type="checkbox" name="link"  value="curl" >curl</input><br><input type="checkbox" name="link" value="mingw">libssh</input>
+     <br><input type="checkbox" name="link"  value="openssl">openssl</input>
+  </td>
+  <th>Options: </th>
+     <td><input type="checkbox" name="platform"  value="xmp" checked>XMP</input><br><input type="checkbox" name="options" value="webready">webready</input>
+     <br><input type="checkbox" name="platform"  value="video">video</input><br><input type="checkbox" name="options" value="nls">localization</input>
+  </td>
+  <th>Tests: </th>
+     <td><input type="checkbox" name="platform"  value="tests" checked>tests (standard)</input><br><input type="checkbox" name="tests" value="teste">teste (eps)</input>
+     <br><input type="checkbox" name="platform"  value="cygwin">testx (remote)</input><br><input type="checkbox" name="platform" value="mingw">testv (video)</input>
+     <br><input type="checkbox" name="platform"  value="testvw">testvw (write)</input>
+  </td>
+</tr><tr><td colspan=10><hr></td></tr><tr>
+</table></form>
+
+</body>
+</html>
