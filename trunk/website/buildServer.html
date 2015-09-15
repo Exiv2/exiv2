@@ -1,10 +1,8 @@
 <html>
-<header></header>
-<body style="background:lightskyblue;">
-
-
-<table><tr><td><img style="padding:10px;" src="Exiv2Logo.png"></td><td><table><tr><td valign="baseline"><h1>Build Server</h1></td></tr><tr><td><a target="_blank" href="http://exiv2.dyndns.org:8080">http://exiv2.dyndns.org:8080</a></td></tr></table></td></tr></table>
 <style>
+body {
+	background	: skyblue ;
+}
 th {
 	background	: blue;
 	color		: yellow;
@@ -21,6 +19,90 @@ th {
 }
 </style>
 
+<script>
+
+	var	checks = { macosx:0 , linux:0  , cygwin:0    , mingw:0 , '2005':0 // platforms
+	             , shared:0 , native:0 , expat:0     , zlib:0  , xmp:0    // libraries
+	             , release:0, '64':0   , configure:0 , tests:0            // build and test
+	             };
+	var inputs = false;
+	function reset() {
+		// first time, initialize
+		if ( !inputs ) {
+			inputs = document.getElementsByTagName('body')[0].getElementsByTagName('input');
+		 	document.getElementById("build").onclick=build
+			document.getElementById("reset").onclick=reset
+		}
+		for ( var i = 0 ; i < inputs.length ; i++ ) {
+			var input = inputs[i];
+			input.checked=input.name in checks ;
+			// console.log(input.name);
+		}
+		e();
+	}
+
+	function build() {
+		var E = e();
+		var OK = E < 60 ;
+		if ( !OK ) OK = confirm("Build is longer that " + E + " minutes\nAre you sure?");
+		if (  OK ) {
+			alert("build not implemented yet");
+		}
+	}
+
+	function t(n) {
+		var result = 0 ;
+		for ( input in inputs ) {
+			input = inputs[input];
+			if ( input.name == n )
+				if ( input.checked ) result++;
+		}
+		return result;
+	}
+
+	function e() {
+		var  E = 0; // estimate
+		var  B = 1; // builds
+		var  m = t('2003') + t('2005') + t('2008') + t('2010') + t('2012') + t('2014'); // msvc builds
+
+		var  M        = 4; // msvc build time
+		if ( t('curl'   ) ) M += 1;
+		if ( t('libssh' ) ) M += 1;
+		if ( t('openssh') ) M += 1;
+		E += M * m;
+
+		if ( t('macosx') || t('linux') ) E += 2;
+		if ( t('mingw' )               ) E += 4;
+
+		if ( t('tests')  ) E *= 1.1;
+		if ( t('testx')  ) E *= 1.1;
+		if ( t('testv')  ) E *= 1.2;
+		if ( t('testvw') ) E *= 1.1;
+
+		B *= t('64')      + t('32');
+		B *= t('cmake')   + t('configure');
+		B *= t('shared')  + t('static');
+		B *= t('native')  + t('clang');
+		B *= t('release') + t('debug');
+
+		E *= B;
+
+		document.getElementsByName('estimate')[0].innerHTML = Math.round(E).toString();
+		document.getElementsByName('build'   )[0].disabled  = E == 0 ;
+
+		return E;
+	}
+
+</script>
+
+<header>
+	<title>Exiv2 Build Server</title>
+</header>
+<body onload="reset()">
+
+
+<table><tr><td><img style="padding:10px;" src="Exiv2Logo.png"></td><td><table><tr><td valign="baseline"><h1>Build Server</h1></td></tr><tr><td><a target="_blank" href="http://exiv2.dyndns.org:8080">http://exiv2.dyndns.org:8080</a></td></tr></table></td></tr></table>
+
 <form action=""><table padding="12" border="0">
 <tr><td colspan=10><hr></td></tr><tr>
 
@@ -31,43 +113,74 @@ th {
   <option value="audi">Videowrite</option>
   <option value="audi2">Videow-refactoring</option>
 </select></td>
-  <th>Revision: </th><td><select>  <option value="volvo">HEAD</option>  <option value="revision">Revision...</option>  <option value="date">Date...</option></select></td>
-  <th>Email: </th><td colspan="2"><input type="text" size="30" name="email"></td>
-  <th colspan="2" class="go">Estimate: 8:00 minutes<br><button type="button" onclick="alert('no implemented yet');">Build</button><br>
-  <button type="button" onclick="alert('no implemented yet');">Reset</button></th>
+  <th>Revision: </th>
+  <td><select><option value="volvo">HEAD</option><option value="revision">Revision...</option><option value="date">Date...</option></select></td>
+  <th>Email: </th>
+  <td colspan="3"><input name="email" type="text" size="40" name="email"></td>
+
+  <th colspan="2" class="go">
+    Estimate:&nbsp;<span name="estimate">8</span>&nbsp;minutes
+    <br><button type="button" id="build" name="build">Build</button>
+    <br><button type="button" id="reset" name="reset">Reset</button>
+  </th>
 
 </tr><tr><td colspan=10><hr></td></tr><tr>
 
 <tr>
-  <th>Bits:              </th><td><input type="checkbox" name="bits" value="64" checked>64</input><br><input type="checkbox" name="bits" value="32">32</input></td>
-  <th>Library:           </th><td><input type="checkbox" name="library" value="shared" checked>Shared/DLL</input><br><input type="checkbox" name="library" value="shared">Static</input></td>
-  <th>Build<br>Environment: </th><td><input type="checkbox" name="env" value="native" checked>Native</input><br><input type="checkbox" name="env" value="cmake">CMake</input></td>
-  <th>Kind:              </th><td><input type="checkbox" name="kind" value="Release" checked>Release</input><br><input type="checkbox" name="kind" value="debug">debug</input></td>
-  <th>Compiler:          </th><td><input type="checkbox" name="compiler" value="native" checked>Native</input><br><input type="checkbox" name="compiler" value="clang">clang</input></td>
+  <th>Bits:                 </th>
+     <td><input type="checkbox" onclick="e()" name="64"        >64</input>
+     <br><input type="checkbox" onclick="e()" name="32"        >32</input>
+  </td>
+  <th>Library:              </th>
+     <td><input type="checkbox" onclick="e()" name="shared"    >shared/dLL</input>
+     <br><input type="checkbox" onclick="e()" name="static"    >static</input>
+  </td>
+  <th>Build<br>Environment: </th>
+      <td><input type="checkbox" onclick="e()" name="configure">./configure</input>
+      <br><input type="checkbox" onclick="e()" name="cmake"    >cmake</input>
+  </td>
+  <th>Kind:                 </th>
+     <td><input type="checkbox" onclick="e()" name="release"   >release</input>
+     <br><input type="checkbox" onclick="e()" name="debug"     >debug</input>
+  </td>
+  <th>Compiler:             </th>
+      <td><input type="checkbox" onclick="e()" name="native"   >platform</input>
+      <br><input type="checkbox" onclick="e()" name="clang"    >clang </input>
+  </td>
 </tr><tr><td colspan=10><hr></td></tr><tr>
   <th>MSVC: </th>
-     <td><input type="checkbox" name="bits" value="2003">2003</input><br><input type="checkbox" name="msvc" value="2005" checked>2005</input>
-     <br><input type="checkbox" name="bits" value="2003">2008</input><br><input type="checkbox" name="msvc" value="2005">2010</input>
-     <br><input type="checkbox" name="bits" value="2003">2012</input><br><input type="checkbox" name="msvc" value="2005">2014</input>
+     <td><input type="checkbox" onclick="e()" name="2003"      >2003</input>
+     <br><input type="checkbox" onclick="e()" name="2005"      >2005</input>
+     <br><input type="checkbox" onclick="e()" name="2008"      >2008</input>
+     <br><input type="checkbox" onclick="e()" name="2010"      >2010</input>
+     <br><input type="checkbox" onclick="e()" name="2012"      >2012</input>
+     <br><input type="checkbox" onclick="e()" name="2014"      >2014</input>
   </td>
   <th>Platform: </th>
-     <td><input type="checkbox" name="platform"  value="linux"  checked>Linux</input><br><input type="checkbox" name="platform" value="macosx" checked>MacOS-X</input>
-     <br><input type="checkbox" name="platform"  value="cygwin" checked>Cygwin</input><br><input type="checkbox" name="platform" value="mingw" checked>MinGW</input>
-     <br><input type="checkbox" name="platform"  value="msvc"   checked>MSVC</input></input>
+     <td><input type="checkbox" onclick="e()" name="linux"     >linux</input>
+     <br><input type="checkbox" onclick="e()" name="macosx"    >macos-x</input>
+     <br><input type="checkbox" onclick="e()" name="cygwin"    >cygwin</input>
+     <br><input type="checkbox" onclick="e()" name="mingw"     >mingw</input>
   </td>
   <th>Link: </th>
-     <td><input type="checkbox" name="link"  value="zlib" checked>zlib</input><br><input type="checkbox" name="link" value="expat" checked>expat</input>
-     <br><input type="checkbox" name="link"  value="curl" >curl</input><br><input type="checkbox" name="link" value="mingw">libssh</input>
-     <br><input type="checkbox" name="link"  value="openssl">openssl</input>
+     <td><input type="checkbox" onclick="e()" name="zlib"      >zlib</input>
+     <br><input type="checkbox" onclick="e()" name="expat"     >expat</input>
+     <br><input type="checkbox" onclick="e()" name="curl"      >curl</input>
+     <br><input type="checkbox" onclick="e()" name="libssh"    >libssh</input>
+     <br><input type="checkbox" onclick="e()" name="openssl"   >openssl</input>
   </td>
   <th>Options: </th>
-     <td><input type="checkbox" name="platform"  value="xmp" checked>XMP</input><br><input type="checkbox" name="options" value="webready">webready</input>
-     <br><input type="checkbox" name="platform"  value="video">video</input><br><input type="checkbox" name="options" value="nls">localization</input>
+     <td><input type="checkbox" onclick="e()" name="xmp"       >xmp</input>
+     <br><input type="checkbox" onclick="e()" name="webready"  >webready</input>
+     <br><input type="checkbox" onclick="e()" name="video"     >video</input>
+     <br><input type="checkbox" onclick="e()" name="nls"       >localization</input>
   </td>
   <th>Tests: </th>
-     <td><input type="checkbox" name="platform"  value="tests" checked>tests (standard)</input><br><input type="checkbox" name="tests" value="teste">teste (eps)</input>
-     <br><input type="checkbox" name="platform"  value="cygwin">testx (remote)</input><br><input type="checkbox" name="platform" value="mingw">testv (video)</input>
-     <br><input type="checkbox" name="platform"  value="testvw">testvw (write)</input>
+     <td><input type="checkbox" onclick="e()" name="tests"     >tests</input>
+     <br><input type="checkbox" onclick="e()" name="teste"     >teste</input>
+     <br><input type="checkbox" onclick="e()" name="testx"     >testx</input>
+     <br><input type="checkbox" onclick="e()" name="testv"     >testv</input>
+     <br><input type="checkbox" onclick="e()" name="testvw"    >testvw</input>
   </td>
 </tr><tr><td colspan=10><hr></td></tr><tr>
 </table></form>
