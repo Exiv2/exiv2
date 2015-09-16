@@ -1,120 +1,173 @@
 <html>
 <style>
 body {
-	background	: skyblue ;
+    background  : skyblue ;
+}
+h1,h3 {
+    margin      : 3px;
+    margin-left : 0px;
+    color       : #ee4646;
 }
 th {
-	background	: blue;
-	color		: yellow;
-	text-align	: right;
-	border		: 2px solid white;
-	padding 	: 4px;
-	padding-left: 20px;
+    background  : blue;
+    color       : yellow;
+    text-align  : right;
+    border      : 2px solid white;
+    padding     : 4px;
+    padding-left: 20px;
 }
 .go {
-	background	: lightgreen;
-	border		: 4px solid black;
-	color		: blue;
-	text-align	: center;
+    background  : lightgreen;
+    border      : 4px solid black;
+    color       : blue;
+    text-align  : center;
 }
+
+a   {
+    color           : black;
+    line-height     : 0px ;
+    text-decoration : none;
+}
+a:hover     { background-color  : cyan ; }
 </style>
 
 <script>
+    // global variables
+    var checked  = { macosx:0 , linux:0  , cygwin:0    , mingw:0 , '2005':0 // platforms
+                   , shared:0 , native:0 , expat:0     , zlib:0  , xmp:0    // libraries
+                   , release:0, '64':0   , configure:0 , tests:0            // build and test
+                   };
+    var selected = { head: 0  , trunk:0  };
+    var inputs   = false;
+    var options  = false;
 
-	var	checks = { macosx:0 , linux:0  , cygwin:0    , mingw:0 , '2005':0 // platforms
-	             , shared:0 , native:0 , expat:0     , zlib:0  , xmp:0    // libraries
-	             , release:0, '64':0   , configure:0 , tests:0            // build and test
-	             };
-	var inputs = false;
-	function reset() {
-		// first time, initialize
-		if ( !inputs ) {
-			inputs = document.getElementsByTagName('body')[0].getElementsByTagName('input');
-		 	document.getElementById("build").onclick=build
-			document.getElementById("reset").onclick=reset
-		}
-		for ( var i = 0 ; i < inputs.length ; i++ ) {
-			var input = inputs[i];
-			input.checked=input.name in checks ;
-			// console.log(input.name);
-		}
-		e();
-	}
+    function reset() { // set defaults
+        // first time, initialize the globals
+        if ( !inputs ) {
+            inputs   = document.getElementsByTagName('input');
+            options  = document.getElementsByTagName('option');
+            document.getElementById("build").onclick=build
+            document.getElementById("reset").onclick=reset
+        }
+        for ( var i = 0 ; i < inputs.length ; i++ ) {
+            var input = inputs[i];
+            input.checked=input.name in checked ;
+        }
+        for ( var i = 0 ; i < options.length ; i++ ) {
+            var option = options[i];
+            option.selected=option.value in selected ;
+        }
+        e();
+    }
 
-	function build() {
-		var E = e();
-		var OK = E < 60 ;
-		if ( !OK ) OK = confirm("Build is longer that " + E + " minutes\nAre you sure?");
-		if (  OK ) {
-			alert("build not implemented yet");
-		}
-	}
+    function build() { // user pressed "build"
+        var E = e();
+        var OK = E < 60 ;
+        if ( !OK ) OK = confirm("Build is longer that 60 minutes\nAre you sure?");
+        if (  OK ) {
+            alert("build not implemented yet");
+        }
+    }
 
-	function t(n) {
-		var result = 0 ;
-		for ( input in inputs ) {
-			input = inputs[input];
-			if ( input.name == n )
-				if ( input.checked ) result++;
-		}
-		return result;
-	}
+    function t(n) { // test if an input name is checked
+        var result = 0 ;
+        for ( var i = 0 ; i < inputs.length ; i++ ) {
+            var input = inputs[i];
+            if ( input.name == n )
+                if ( input.checked ) result++;
+        }
+        return result;
+    }
 
-	function e() {
-		var  E = 0; // estimate
-		var  B = 1; // builds
-		var  m = t('2003') + t('2005') + t('2008') + t('2010') + t('2012') + t('2014'); // msvc builds
+    function s(n) { // set and input name to checked
+        for ( var i = 0 ; i < inputs.length ; i++ ) {
+            var input = inputs[i];
+            for ( var N = 0 ; N < n.length ; N++ )
+                if ( input.name == n[N] )
+                    input.checked = true;
+        }
+    }
 
-		var  M        = 4; // msvc build time
-		if ( t('curl'   ) ) M += 1;
-		if ( t('libssh' ) ) M += 1;
-		if ( t('openssh') ) M += 1;
-		E += M * m;
+    function e() { // estimate the build time in minutes
+        var  E = 0; // estimate of build time
+        var  B = 1; // number of builds
 
-		if ( t('macosx') || t('linux') ) E += 2;
-		if ( t('mingw' )               ) E += 4;
+        // set required libraries
+        if ( t('xmp'     ) ) s(['expat']);
+        if ( t('webready') ) s(['curl','libssh','openssl']);
 
-		if ( t('tests')  ) E *= 1.1;
-		if ( t('testx')  ) E *= 1.1;
-		if ( t('testv')  ) E *= 1.2;
-		if ( t('testvw') ) E *= 1.1;
+        // estimate MSVC
+        var  m = t('2003') + t('2005') + t('2008') + t('2010') + t('2012') + t('2014'); // msvc builds
+        var  M = 4; // msvc build time
+        if ( t('curl'   ) ) M += 5;
+        if ( t('libssh' ) ) M += 1;
+        if ( t('openssl') ) M += 15;
+        E += M * m;
 
-		B *= t('64')      + t('32');
-		B *= t('cmake')   + t('configure');
-		B *= t('shared')  + t('static');
-		B *= t('native')  + t('clang');
-		B *= t('release') + t('debug');
+        // platforms
+        if ( t('macosx') || t('linux') ) E += 2;
+        if ( t('mingw' )               ) E += 4;
+        if ( t('cygwin')               ) E += 3;
 
-		E *= B;
+        // tests
+        if ( t('tests')  ) E *= 1.1;
+        if ( t('teste')  ) E *= 1.1;
+        if ( t('testx')  ) E *= 1.2;
+        if ( t('testv')  ) E *= 1.1;
+        if ( t('testvw') ) E *= 1.1;
 
-		document.getElementsByName('estimate')[0].innerHTML = Math.round(E).toString();
-		document.getElementsByName('build'   )[0].disabled  = E == 0 ;
+        // types of build
+        B *= t('64')      + t('32');           // bits
+        B *= t('cmake')   + t('configure');    // build environment
+        B *= t('shared')  + t('static');       // type of build
+        B *= t('native')  + t('clang');        // compiler
+        B *= t('release') + t('debug');        // configuration
 
-		return E;
-	}
+		// overall estimate
+        E *= B;
+
+        document.getElementsByName('estimate')[0].innerHTML = Math.round(E).toString();
+        document.getElementsByName('build'   )[0].disabled  = E == 0 ;
+
+        return E;
+    }
 
 </script>
 
 <header>
-	<title>Exiv2 Build Server</title>
+    <title>Exiv2 Build Server</title>
 </header>
 <body onload="reset()">
 
 
-<table><tr><td><img style="padding:10px;" src="Exiv2Logo.png"></td><td><table><tr><td valign="baseline"><h1>Build Server</h1></td></tr><tr><td><a target="_blank" href="http://exiv2.dyndns.org:8080">http://exiv2.dyndns.org:8080</a></td></tr></table></td></tr></table>
+<table><tr>
+    <td><img style="padding:10px;" src="Exiv2Logo.png"></td>
+    <td><table>
+        <tr><td valign="baseline"><h1>Build Server</h1></td>
+        <tr><td><a target="_blank" href="http://exiv2.dyndns.org:8080">http://exiv2.dyndns.org:8080</a></td>
+        <tr><td valign="baseline"><h3>Website:</h3></td></tr>
+        <tr><td><a target="_blank" href="http://exiv2.org">http://exiv2.org</a></td>
+        <tr><td valign="baseline"><h3>Wiki:</h3></td></tr>
+        <tr><td><a target="_blank" href="http://dev.exiv2.org/projects/exiv2/wiki">http://dev.exiv2.org/projects/exiv2/wiki</a></td>
+    </tr></table>
+</td></tr></table>
 
 <form action=""><table padding="12" border="0">
 <tr><td colspan=10><hr></td></tr><tr>
 
   <th>Branch: </th><td><select>
-  <option value="saab">Conversions</option>
-  <option value="mercedes">Jenkins</option>
-  <option value="head" selected>Trunk</option>
-  <option value="audi">Videowrite</option>
-  <option value="audi2">Videow-refactoring</option>
+  <option value="conversions"     >Conversions</option>
+  <option value="jenkins"         >Jenkins</option>
+  <option value="trunk"           >Trunk</option>
+  <option value="videowrite"      >Videowrite</option>
+  <option value="videorefactoring">Videow-refactoring</option>
 </select></td>
   <th>Revision: </th>
-  <td><select><option value="volvo">HEAD</option><option value="revision">Revision...</option><option value="date">Date...</option></select></td>
+  <td><select>
+      <option value="head">HEAD</option>
+      <option value="revision">Revision...</option>
+      <option value="date">Date...</option>
+  </select></td>
   <th>Email: </th>
   <td colspan="3"><input name="email" type="text" size="40" name="email"></td>
 
@@ -127,28 +180,34 @@ th {
 </tr><tr><td colspan=10><hr></td></tr><tr>
 
 <tr>
-  <th>Bits:                 </th>
+  <th>Bits:</th>
      <td><input type="checkbox" onclick="e()" name="64"        >64</input>
      <br><input type="checkbox" onclick="e()" name="32"        >32</input>
   </td>
-  <th>Library:              </th>
-     <td><input type="checkbox" onclick="e()" name="shared"    >shared/dLL</input>
+  <th>Library:</th>
+     <td><input type="checkbox" onclick="e()" name="shared"    >shared/dll</input>
      <br><input type="checkbox" onclick="e()" name="static"    >static</input>
   </td>
-  <th>Build<br>Environment: </th>
-      <td><input type="checkbox" onclick="e()" name="configure">./configure</input>
+  <th>Build<br>Environment:</th>
+      <td><input type="checkbox" onclick="e()" name="configure">configure</input>
       <br><input type="checkbox" onclick="e()" name="cmake"    >cmake</input>
   </td>
-  <th>Kind:                 </th>
+  <th>Kind:</th>
      <td><input type="checkbox" onclick="e()" name="release"   >release</input>
      <br><input type="checkbox" onclick="e()" name="debug"     >debug</input>
   </td>
-  <th>Compiler:             </th>
+  <th>Compiler:</th>
       <td><input type="checkbox" onclick="e()" name="native"   >platform</input>
       <br><input type="checkbox" onclick="e()" name="clang"    >clang </input>
   </td>
 </tr><tr><td colspan=10><hr></td></tr><tr>
-  <th>MSVC: </th>
+  <th>Platform:</th>
+     <td><input type="checkbox" onclick="e()" name="linux"     >linux</input>
+     <br><input type="checkbox" onclick="e()" name="macosx"    >macos-x</input>
+     <br><input type="checkbox" onclick="e()" name="cygwin"    >cygwin</input>
+     <br><input type="checkbox" onclick="e()" name="mingw"     >mingw</input>
+  </td>
+  <th>MSVC:</th>
      <td><input type="checkbox" onclick="e()" name="2003"      >2003</input>
      <br><input type="checkbox" onclick="e()" name="2005"      >2005</input>
      <br><input type="checkbox" onclick="e()" name="2008"      >2008</input>
@@ -156,13 +215,7 @@ th {
      <br><input type="checkbox" onclick="e()" name="2012"      >2012</input>
      <br><input type="checkbox" onclick="e()" name="2014"      >2014</input>
   </td>
-  <th>Platform: </th>
-     <td><input type="checkbox" onclick="e()" name="linux"     >linux</input>
-     <br><input type="checkbox" onclick="e()" name="macosx"    >macos-x</input>
-     <br><input type="checkbox" onclick="e()" name="cygwin"    >cygwin</input>
-     <br><input type="checkbox" onclick="e()" name="mingw"     >mingw</input>
-  </td>
-  <th>Link: </th>
+  <th>Link:</th>
      <td><input type="checkbox" onclick="e()" name="zlib"      >zlib</input>
      <br><input type="checkbox" onclick="e()" name="expat"     >expat</input>
      <br><input type="checkbox" onclick="e()" name="curl"      >curl</input>
