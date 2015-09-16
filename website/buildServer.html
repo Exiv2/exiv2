@@ -123,11 +123,22 @@ a:hover     { background-color  : cyan ; }
         B *= t('native')  + t('clang');        // compiler
         B *= t('release') + t('debug');        // configuration
 
-		// overall estimate
+        // overall estimate
         E *= B;
 
+        // enable/disable "build"
         document.getElementsByName('estimate')[0].innerHTML = Math.round(E).toString();
         document.getElementsByName('build'   )[0].disabled  = E == 0 ;
+
+        // disable "reset"
+		var disabled = true ;
+        for ( var i = 0 ; disabled && i < inputs.length ; i++ )
+        	if ( inputs[i].checked )
+				disabled = inputs[i].name in checked;
+        for ( var i = 0 ; disabled && i < options.length ; i++ )
+        	if ( options[i].selected )
+				disabled = options[i].value in selected;
+        document.getElementsByName('reset'   )[0].disabled  = disabled;
 
         return E;
     }
@@ -155,7 +166,7 @@ a:hover     { background-color  : cyan ; }
 <form action=""><table padding="12" border="0">
 <tr><td colspan=10><hr></td></tr><tr>
 
-  <th>Branch: </th><td><select>
+  <th>Branch: </th><td><select onclick="e()">
   <option value="conversions"     >Conversions</option>
   <option value="jenkins"         >Jenkins</option>
   <option value="trunk"           >Trunk</option>
@@ -163,7 +174,7 @@ a:hover     { background-color  : cyan ; }
   <option value="videorefactoring">Videow-refactoring</option>
 </select></td>
   <th>Revision: </th>
-  <td><select>
+  <td><select onclick="e()">
       <option value="head">HEAD</option>
       <option value="revision">Revision...</option>
       <option value="date">Date...</option>
