@@ -22,7 +22,7 @@
 <div class="line"></div>
 <div class="line">    <a name="_a1"></a><a class="code" href="doc/classExiv2_1_1IptcData.html" title="A container for IPTC data. This is a top-level class of the Exiv2 library.">Exiv2::IptcData</a> &amp;iptcData = image-&gt;iptcData();</div>
 <div class="line">    <span class="keywordflow">if</span> (iptcData.<a name="a2"></a><a class="code" href="doc/classExiv2_1_1IptcData.html#afda626e27ebecd599005c68022db9c1c" title="Return true if there is no IPTC metadata.">empty</a>()) {</div>
-<div class="line">        <a name="a3"></a><a class="code" href="doc/namespaceExiv2.html#a5153319711f35fe81cbc13f4b852450ca2d79fb07c9ec891f281968dad43c1e25" title="IPTC string type.">std::string</a> error(argv[1]);</div>
+<div class="line">        std::string error(argv[1]);</div>
 <div class="line">        error += <span class="stringliteral">&quot;: No IPTC data found in the file&quot;</span>;</div>
 <div class="line">        <span class="keywordflow">throw</span> <a name="a4"></a><a class="code" href="doc/namespaceExiv2.html#accd3e49cafe9db52c1e0e6f648753cae" title="Error class used for exceptions (std::string based)">Exiv2::Error</a>(1, error);</div>
 <div class="line">    }</div>

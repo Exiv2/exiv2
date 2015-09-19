@@ -4,13 +4,9 @@
 
 <!-- *********************************************************************** -->
 <xsl:template match="news">
- <div id="latest">
-  <h2>Project news</h2>
   <div class="list-group">
-   <xsl:apply-templates select="newsitem[position()&lt;5]" />
+    <xsl:apply-templates select="newsitem[position()&lt;5]" />
   </div>
- </div>
- <xsl:comment> closes latest </xsl:comment>
 </xsl:template>
 
 <!-- *********************************************************************** -->
