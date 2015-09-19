@@ -151,10 +151,11 @@ update-manpage:
 	| sed -e's/ &lt;<A HREF="mailto.*&gt;//' -e'$$d' | sed -e's/<TABLE>/<TABLE class="table table-striped">/' -e's,<TR VALIGN=top><TD><HR></TD><TD><HR></TD><TD><HR></TD><TD><HR></TD><TD><HR></TD></TR>,,' -e's/<TR VALIGN=top>/<TR>/' -e's,<TR><TD>\([A-Z0-9]*\)</TD>,<TR><TH>\1</TH>,' -e's/<H2>/<H2 class="text-capitalize">/' > var/__manpage__
 
 update-intro:
-	@cp -f ../doc/templates/__intro__ doxygen/draft-intro.html
-	@sed -e 's,="makernote.html,="../makernote.html,' \
-	    doxygen/draft-intro.html > doxygen/intro.html
-	@rm -f doxygen/draft-intro.html
+# commented for now, until the doc/ intro is updated accordingly
+#	@cp -f ../doc/templates/__intro__ doxygen/draft-intro.html
+#	@sed -e 's,="makernote.html,="../makernote.html,' \
+#	    doxygen/draft-intro.html > doxygen/intro.html
+#	@rm -f doxygen/draft-intro.html
 
 update-sample:
 	@./bin/sample.sh

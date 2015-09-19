@@ -20,9 +20,9 @@ Subsequently, 'make clean; make' will remove and rebuild the web
 pages; 'make update' is only needed if something changed in the exiv2
 source or doc.
 
-To build the download page with correct links, dates and checksums (this
-is a step usually done only during the release process, but you can do it
-with the packages from exiv2.org to try):
+To build the pages with correct version info, download links, dates and
+checksums (this is a step usually done only during the release
+process, but you can do it with the packages from exiv2.org to try):
 
 - Copy the release tarball and windows package to website/html/
 - Run 'bin/release_info.sh <version>', <version> must correspond to the
@@ -33,7 +33,7 @@ Dependencies
 ------------
 
 - python
-- doxygen-1.5.4 must be available in the path with this name
+- doxygen
 - xsltproc
 - ps2pdf
 - man2html
