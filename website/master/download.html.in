@@ -17,33 +17,19 @@ __navbar__
 <div class="container">
   <div class="row">
     <div class="col-sm-6">
-      <h2>Source distribution</h2>
-      <p>The complete source code to build the Exiv2 library, command
-	line utility and several simple example and test applications.
-	The distribution includes standard build files for
-	UNIX-like systems (including GNU/Linux, Mac OS X, MinGW and Cygwin) as well
-	as Visual Studio project files for Visual C++ .NET 2003 (MSVC 7.1)
-	and later. After downloading and unpacking the distribution,
-	see the <em>README</em> file in the top directory for build and
-	installation notes and further information.</p>
-      <p>&nbsp;</p>
-    </div><!-- /.col-sm-6 -->
-    <div class="col-sm-6">
-      <h2>Windows executable</h2>
-      <p>Just the command line utility <code>exiv2.exe</code>, Expat DLL, Exiv2
-	manpage and two sample command files. To get started, run the executable
-	with the <em>-h</em> parameter from a cmd shell:
-	<code><a title="Exiv2 usage" href="sample.html#usage">exiv2 -h</a></code>.
-	For details, read the <a href="manpage.html" title="Exiv2 man page">manual page</a>.
-	The Windows executable was compiled with the 
-	<a title="MinGW homepage" href="http://www.mingw.org">MinGW</a> cross compiler
-	on an x86-64 machine running 
-	<a title="Ubuntu homepage" href="http://www.ubuntu.com">Ubuntu</a>.
-      </p>
-    </div><!-- /.col-sm-6 -->
-  </div><!-- /.row -->
-  <div class="row">
-    <div class="col-sm-6">
+      <div class="aligned">
+	<h2>Source distribution</h2>
+	<p>The complete source code to build the Exiv2 library, command
+	  line utility and several simple example and test applications.
+	  The distribution includes standard build files for
+	  UNIX-like systems (including GNU/Linux, Mac OS X, MinGW and Cygwin) as well
+	  as Visual Studio project files for Visual C++ .NET 2003 (MSVC 7.1)
+	  and later. After downloading and unpacking the distribution,
+	  see the <em><a title="README file" href="http://dev.exiv2.org/projects/exiv2/repository/entry/tags/__version__/README">README</a></em> file in the top directory for build and
+	  installation notes and further information.
+	</p>
+	<p>&nbsp;</p>
+      </div>
       <p class="text-center">
         <a href="exiv2-__version__.tar.gz" class="btn btn-lg btn-success">
 	  <span class="glyphicon glyphicon-download-alt" aria-hidden="true"></span>&nbsp; Download source
@@ -52,6 +38,20 @@ __navbar__
       <p class="version text-center text-muted"><small>Currently v__version__</small></p>
     </div><!-- /.col-sm-6 -->
     <div class="col-sm-6">
+      <div class="aligned">
+	<h2>Windows executable</h2>
+	<p>Just the command line utility <code>exiv2.exe</code>, Expat DLL, Exiv2
+	  manpage and two sample command files. To get started, run the executable
+	  with the <em>-h</em> parameter from a cmd shell:
+	  <code><a title="Exiv2 usage" href="sample.html#usage">exiv2 -h</a></code>.
+	  For details, read the <a href="manpage.html" title="Exiv2 man page">manual page</a>.
+	  The Windows executable was compiled with the 
+	  <a title="MinGW homepage" href="http://www.mingw.org">MinGW</a> cross compiler
+	  on an x86-64 machine running 
+	  <a title="Ubuntu homepage" href="http://www.ubuntu.com">Ubuntu</a>.
+	</p>
+	<p>&nbsp;</p>
+      </div>
       <p class="text-center">
         <a href="exiv2-__version__-win.zip" class="btn btn-lg btn-success">
 	  <span class="glyphicon glyphicon-download-alt" aria-hidden="true"></span>&nbsp; Download exiv2.exe
@@ -119,7 +119,7 @@ for NLS,
  <p>The Exiv2 source code is maintained in a Subversion repository. You can
   <a href="http://dev.exiv2.org/projects/exiv2/repository" title="Exiv2 online source code repository" >browse the source code online</a>
   or get a copy of the latest development code from the repository.
-  Once you have the source code, see the <em>README</em> file in the top
+  Once you have the source code, see the <em><a title="README file" href="http://dev.exiv2.org/projects/exiv2/repository/entry/tags/__version__/README">README</a></em> file in the top
   directory for build and installation notes.
  </p>
 
@@ -154,5 +154,23 @@ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.</p>
 </div><!-- /.container -->
 __footer__
 __bootstrap__
+<script type="text/javascript">
+  //<![CDATA[
+  $(document).ready(function() {
+    align();
+  });
+  $(window).resize(function() {
+    align();
+  });
+  function align() {
+    if ($(window).width() >= 768) {
+      $("div.aligned").css("height", $("div.aligned").height() + "px");
+    }
+    else {
+      $("div.aligned").css("height", "");
+    }
+  }
+  //]]>
+</script>
 </body>
 </html>

@@ -199,7 +199,7 @@
 <div class="line"></div>
 <div class="line">    <span class="comment">// -------------------------------------------------------------------------</span></div>
 <div class="line">    <span class="comment">// Serialize the XMP data and output the XMP packet</span></div>
-<div class="line">    <a name="a21"></a><a class="code" href="doc/namespaceExiv2.html#a5153319711f35fe81cbc13f4b852450ca2d79fb07c9ec891f281968dad43c1e25" title="IPTC string type.">std::string</a> xmpPacket;</div>
+<div class="line">    std::string xmpPacket;</div>
 <div class="line">    <span class="keywordflow">if</span> (0 != <a name="a22"></a><a class="code" href="doc/classExiv2_1_1XmpParser.html#afad88c80404f9f35b687b33fe9ea9c63" title="Encode (serialize) XMP metadata from xmpData into a string xmpPacket. The XMP packet returned in the ...">Exiv2::XmpParser::encode</a>(xmpPacket, xmpData)) {</div>
 <div class="line">        <span class="keywordflow">throw</span> <a name="a23"></a><a class="code" href="doc/namespaceExiv2.html#accd3e49cafe9db52c1e0e6f648753cae" title="Error class used for exceptions (std::string based)">Exiv2::Error</a>(1, <span class="stringliteral">&quot;Failed to serialize XMP data&quot;</span>);</div>
 <div class="line">    }</div>

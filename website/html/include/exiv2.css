@@ -10,6 +10,18 @@ body {
     margin-top: 30px;
 }
 
+.margin-top-l {
+    margin-top: 50px;
+}
+
+.margin-top-m {
+    margin-top: 30px;
+}
+
+.margin-top-s {
+    margin-top: 10px;
+}
+
 /* -------------------------------------------------------------------------- */
 /* Examples (Code)                                                            */
 PRE.fragment {

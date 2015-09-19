@@ -14,7 +14,7 @@
 <div class="line">        std::cout &lt;&lt; <span class="stringliteral">&quot;Usage: &quot;</span> &lt;&lt; argv[0] &lt;&lt; <span class="stringliteral">&quot; file\n&quot;</span>;</div>
 <div class="line">        <span class="keywordflow">return</span> 1;</div>
 <div class="line">    }</div>
-<div class="line">    <a name="a0"></a><a class="code" href="doc/namespaceExiv2.html#a5153319711f35fe81cbc13f4b852450ca2d79fb07c9ec891f281968dad43c1e25" title="IPTC string type.">std::string</a> file(argv[1]);</div>
+<div class="line">    std::string file(argv[1]);</div>
 <div class="line"></div>
 <div class="line">    <a name="_a1"></a><a class="code" href="doc/classExiv2_1_1IptcData.html" title="A container for IPTC data. This is a top-level class of the Exiv2 library.">Exiv2::IptcData</a> iptcData;</div>
 <div class="line"></div>
