@@ -45,7 +45,7 @@
 /* Begin PBXLegacyTarget section */
 		A105A09C1B8E36D100833CA3 /* exiv2 */ = {
 			isa = PBXLegacyTarget;
-			buildArgumentsString = "make -j CXXFLAGS=-ggdb $(ACTION)";
+			buildArgumentsString = "make -j $(ACTION)";
 			buildConfigurationList = A105A09D1B8E36D100833CA3 /* Build configuration list for PBXLegacyTarget "exiv2" */;
 			buildPhases = (
 			);
@@ -87,7 +87,7 @@
 		};
 		A14E159C1B8F0755006F2E61 /* configure */ = {
 			isa = PBXLegacyTarget;
-			buildArgumentsString = ./configure;
+			buildArgumentsString = "./configure CXXFLAGS=-ggdb";
 			buildConfigurationList = A14E159D1B8F0755006F2E61 /* Build configuration list for PBXLegacyTarget "configure" */;
 			buildPhases = (
 			);
@@ -115,7 +115,7 @@
 		};
 		A1CF5C7F1B8E3EA600B0D341 /* exiv2json */ = {
 			isa = PBXLegacyTarget;
-			buildArgumentsString = "make -j CXXFLAGS=-ggdb $(TARGET_NAME)";
+			buildArgumentsString = "make $(TARGET_NAME)";
 			buildConfigurationList = A1CF5C821B8E3EA600B0D341 /* Build configuration list for PBXLegacyTarget "exiv2json" */;
 			buildPhases = (
 			);
@@ -148,7 +148,7 @@
 		A10C3EB217DE224C008DC351 /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				LastUpgradeCheck = 0640;
+				LastUpgradeCheck = 0700;
 				ORGANIZATIONNAME = "Team Exiv2";
 				TargetAttributes = {
 					A105A09C1B8E36D100833CA3 = {
@@ -272,6 +272,7 @@
 				CLANG_WARN_INT_CONVERSION = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				COPY_PHASE_STRIP = NO;
+				ENABLE_TESTABILITY = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu99;
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_ENABLE_OBJC_EXCEPTIONS = YES;
