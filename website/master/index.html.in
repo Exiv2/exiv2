@@ -5,8 +5,8 @@ __header4__
 __navbar__
 
     <div class="container">
-      <div class="jumbotron text-center exiv2index">
-	<img src="include/exiv2.jpg" alt="Exiv2 home page">
+      <div class="jumbotron text-center margin-top-m">
+	<img src="include/exiv2-logo-big.png" alt="Exiv2 home page">
 	__maintitle__
 	<p class="lead">Exiv2 is a <a href="getting-started.html#lib">C++ library</a> and a <a href="getting-started.html#util">command line utility</a>
 	  to manage image <a href="http://en.wikipedia.org/wiki/Metadata">metadata</a>.
@@ -17,10 +17,8 @@ __navbar__
 	  of images in <a href="http://dev.exiv2.org/projects/exiv2/wiki/Supported_image_formats">various formats</a>.
 	  Exiv2 is available as <a href="download.html#license">free software</a> and with a 
 	  <a href="download.html#license">commercial license</a>, and is used in many projects.
-	  <br>
-	  &nbsp;
         </p>
-        <a href="download.html" class="btn btn-lg btn-success">
+        <a href="download.html" class="btn btn-lg btn-success margin-top-s">
 	  <span class="glyphicon glyphicon-download-alt" aria-hidden="true"></span>&nbsp; Download Exiv2
 	</a>
       </div><!-- /.jumbotron -->
