@@ -69,7 +69,7 @@ a:hover     { background-color  : cyan ; }
         }
     }
 
-    function t(n) { // test if an input name is checked
+    function t(n) { // test input name checked
         var result = 0 ;
         for ( var i = 0 ; i < inputs.length ; i++ ) {
             var input = inputs[i];
@@ -79,7 +79,7 @@ a:hover     { background-color  : cyan ; }
         return result;
     }
 
-    function s(n) { // set and input name to checked
+    function s(n) { // set input name to checked
         for ( var i = 0 ; i < inputs.length ; i++ ) {
             var input = inputs[i];
             for ( var N = 0 ; N < n.length ; N++ )
@@ -150,7 +150,6 @@ a:hover     { background-color  : cyan ; }
 </header>
 <body onload="reset()">
 
-
 <table><tr>
     <td><img style="padding:10px;" src="Exiv2Logo.png"></td>
     <td><table>
@@ -163,17 +162,17 @@ a:hover     { background-color  : cyan ; }
     </tr></table>
 </td></tr></table>
 
-<form action=""><table padding="12" border="0">
-<tr><td colspan=10><hr></td></tr><tr>
-
-  <th>Branch: </th><td><select onclick="e()">
+<table padding="12" border="0">
+<tr><td colspan=10><hr></td></tr>
+<tr>
+  <th>Branch:</th><td><select onclick="e()">
   <option value="conversions"     >Conversions</option>
   <option value="jenkins"         >Jenkins</option>
   <option value="trunk"           >Trunk</option>
   <option value="videowrite"      >Videowrite</option>
   <option value="videorefactoring">Videow-refactoring</option>
-</select></td>
-  <th>Revision: </th>
+  </select></td>
+  <th>Revision:</th>
   <td><select onclick="e()">
       <option value="head">HEAD</option>
       <option value="revision">Revision...</option>
@@ -181,23 +180,21 @@ a:hover     { background-color  : cyan ; }
   </select></td>
   <th>Email: </th>
   <td colspan="3"><input name="email" type="text" size="40" name="email"></td>
-
   <th colspan="2" class="go">
     Estimate:&nbsp;<span name="estimate">8</span>&nbsp;minutes
     <br><button type="button" id="build" name="build">Build</button>
     <br><button type="button" id="reset" name="reset">Reset</button>
   </th>
-
-</tr><tr><td colspan=10><hr></td></tr><tr>
-
+</tr>
+<tr><td colspan=10><hr></td></tr>
 <tr>
-  <th>Bits:</th>
-     <td><input type="checkbox" onclick="e()" name="64"        >64</input>
-     <br><input type="checkbox" onclick="e()" name="32"        >32</input>
-  </td>
   <th>Library:</th>
      <td><input type="checkbox" onclick="e()" name="shared"    >shared/dll</input>
      <br><input type="checkbox" onclick="e()" name="static"    >static</input>
+  </td>
+  <th>Bits:</th>
+     <td><input type="checkbox" onclick="e()" name="64"        >64</input>
+     <br><input type="checkbox" onclick="e()" name="32"        >32</input>
   </td>
   <th>Build<br>Environment:</th>
       <td><input type="checkbox" onclick="e()" name="configure">configure</input>
@@ -211,7 +208,9 @@ a:hover     { background-color  : cyan ; }
       <td><input type="checkbox" onclick="e()" name="native"   >platform</input>
       <br><input type="checkbox" onclick="e()" name="clang"    >clang </input>
   </td>
-</tr><tr><td colspan=10><hr></td></tr><tr>
+</tr>
+<tr><td colspan=10><hr></td></tr>
+<tr>
   <th>Platform:</th>
      <td><input type="checkbox" onclick="e()" name="linux"     >linux</input>
      <br><input type="checkbox" onclick="e()" name="macosx"    >macos-x</input>
@@ -246,8 +245,8 @@ a:hover     { background-color  : cyan ; }
      <br><input type="checkbox" onclick="e()" name="testv"     >testv</input>
      <br><input type="checkbox" onclick="e()" name="testvw"    >testvw</input>
   </td>
-</tr><tr><td colspan=10><hr></td></tr><tr>
-</table></form>
-
+</tr>
+<tr><td colspan=10><hr></td></tr>
+</table>
 </body>
 </html>
