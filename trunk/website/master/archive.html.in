@@ -4,16 +4,13 @@ __header4__
 <body>
 __navbar__
 
-<div class="jumbotron">
-  <div class="container">
-    <h1>Archive</h1>
-    <p class="lead">All previously released versions of Exiv2.
-      For the most current version, go to the <a title="Current version of Exiv2" href="download.html">download page</a>.
-    </p>
-  </div>
-</div><!-- /.jumbotron -->
-
 <div class="container">
+  <div class="page-header">
+    <h1>Archive</h1>
+  </div>
+  <p class="lead">All previously released versions of Exiv2.
+    For the most current version, go to the <a title="Current version of Exiv2" href="download.html">download page</a>.
+  </p>
 
 <table class="table table-striped">
  <colgroup>
