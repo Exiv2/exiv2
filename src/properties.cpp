@@ -1548,7 +1548,7 @@ namespace Exiv2 {
                                                 N_("An identifier (preferably unique) for the record within the data set or collection.")
             },
             { "occurrenceDetails",              N_("Occurrence Details"),                   "Text",      xmpText,   xmpExternal,
-                                                N_("Depreciated. Details about the Occurrence.")
+                                                N_("Deprecated. Details about the Occurrence.")
             },
             { "occurrenceRemarks",              N_("Occurrence Remarks"),                   "Text",      xmpText,   xmpExternal,
                                                 N_("Comments or notes about the Occurrence.")
@@ -1560,7 +1560,7 @@ namespace Exiv2 {
                                                 N_("A list (concatenated and separated) of names of people, groups, or organizations responsible for recording the original Occurrence. The primary collector or observer, especially one who applies a personal identifier (recordNumber), should be listed first.")
             },
             { "individualID",                   N_("Individual ID"),                        "Text",      xmpText,   xmpExternal,
-                                                N_("Depreciated. An identifier for an individual or named group of individual organisms represented in the Occurrence. Meant to accommodate resampling of the same individual or group for monitoring purposes. May be a global unique identifier or an identifier specific to a data set.")
+                                                N_("Deprecated. An identifier for an individual or named group of individual organisms represented in the Occurrence. Meant to accommodate resampling of the same individual or group for monitoring purposes. May be a global unique identifier or an identifier specific to a data set.")
             },
             { "individualCount",                N_("Individual Count"),                     "Integer",      xmpText,   xmpExternal,
                                                 N_("The number of individuals represented present at the time of the Occurrence.")
@@ -1599,7 +1599,7 @@ namespace Exiv2 {
                                                 N_("A list (concatenated and separated) of previous or alternate fully qualified catalog numbers or other human-used identifiers for the same Occurrence, whether in the current or any other data set or collection.")
             },
             { "previousIdentifications",        N_("Previous Identifications"),             "bag Text",     xmpBag,   xmpExternal,
-                                                N_("Depreciated. A list (concatenated and separated) of previous assignments of names to the Occurrence.")
+                                                N_("Deprecated. A list (concatenated and separated) of previous assignments of names to the Occurrence.")
             },
             { "associatedMedia",                N_("Associated Media"),                     "bag Text",     xmpBag,    xmpExternal,
                                                 N_("A list (concatenated and separated) of identifiers (publication, global unique identifier, URI) of media associated with the Occurrence.")
@@ -1608,7 +1608,7 @@ namespace Exiv2 {
                                                 N_("A list (concatenated and separated) of identifiers (publication, bibliographic reference, global unique identifier, URI) of literature associated with the Occurrence.")
             },
             { "associatedOccurrences",          N_("Associated Occurrences"),               "bag Text",     xmpBag,    xmpExternal,
-                                                N_("Depreciated. A list (concatenated and separated) of identifiers of other Occurrence records and their associations to this Occurrence.")
+                                                N_("Deprecated. A list (concatenated and separated) of identifiers of other Occurrence records and their associations to this Occurrence.")
             },
             { "associatedSequences",            N_("Associated Sequences"),                 "bag Text",     xmpBag,    xmpExternal,
                                                 N_("A list (concatenated and separated) of identifiers (publication, global unique identifier, URI) of genetic sequence information associated with the Occurrence.")
@@ -1683,10 +1683,10 @@ namespace Exiv2 {
                                                 N_("The date-time or interval during which an Event occurred. For occurrences, this is the date-time when the event was recorded. Not suitable for a time in a geological context. Recommended best practice is to use an encoding scheme, such as ISO 8601:2004(E).")
             },
             { "earliestDate",                   N_("Event Earliest Date"),                  "Date",      xmpText,    xmpExternal,
-                                                N_("Depreciated. (Child of Xmp.dwc.Event) The date-time or interval during which an Event started. For occurrences, this is the date-time when the event was recorded. Not suitable for a time in a geological context. Recommended best practice is to use an encoding scheme, such as ISO 8601:2004(E).")
+                                                N_("Deprecated. (Child of Xmp.dwc.Event) The date-time or interval during which an Event started. For occurrences, this is the date-time when the event was recorded. Not suitable for a time in a geological context. Recommended best practice is to use an encoding scheme, such as ISO 8601:2004(E).")
             },
             { "latestDate",                     N_("Event Latest Date"),                    "Date",      xmpText,    xmpExternal,
-                                                N_("Depreciated. (Child of Xmp.dwc.Event) The date-time or interval during which an Event ended. For occurrences, this is the date-time when the event was recorded. Not suitable for a time in a geological context. Recommended best practice is to use an encoding scheme, such as ISO 8601:2004(E).")
+                                                N_("Deprecated. (Child of Xmp.dwc.Event) The date-time or interval during which an Event ended. For occurrences, this is the date-time when the event was recorded. Not suitable for a time in a geological context. Recommended best practice is to use an encoding scheme, such as ISO 8601:2004(E).")
             },
             { "eventTime",                      N_("Event Time"),                           "Date",      xmpText,    xmpExternal,
                                                 N_("The time or interval during which an Event occurred. Recommended best practice is to use an encoding scheme, such as ISO 8601:2004(E).")
@@ -1736,7 +1736,7 @@ namespace Exiv2 {
 
         //Location Level Class
         { "dctermsLocation",                N_("Location Class"),                       "Location",    xmpText,   xmpInternal,
-                                            N_("Depreciated. Use Xmp.dcterms.Location instead. *Main structure* containing location based information."),
+                                            N_("Deprecated. Use Xmp.dcterms.Location instead. *Main structure* containing location based information."),
         },
             //Location Level Terms
             { "locationID",                     N_("Location ID"),                          "Text",      xmpText,   xmpExternal,
