@@ -198,8 +198,14 @@ void Exiv2::dumpLibraryInfo(std::ostream& os,const exv_grep_keys_t& keys)
     "MSVC"    ;
 
 #ifndef __VERSION__
-    char version[20];
+    char  version[40];
     sprintf(version,"%d.%02d",(_MSC_VER-600)/100,_MSC_VER%100);
+
+    // add edition in brackets
+    int   edition             = (_MSC_VER-600)/100; // 7.1 = 2003 ... 14 = 2015
+    const char* editions[]    = { "2003", "2005", "2008", "2010", "2012","2013","no version 13","2015"};
+    if  ( edition < 7 || edition > 14 ) edition = 0 ;
+    if  ( edition ) sprintf(version+::strlen(version)," (%s)",editions[edition-7] );
 #define __VERSION__ version
 #endif
 
