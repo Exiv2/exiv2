@@ -97,7 +97,7 @@ a:hover     { background-color  : cyan ; }
         if ( t('webready') ) s(['curl','libssh','openssl']);
 
         // estimate MSVC
-        var  m = t('2003') + t('2005') + t('2008') + t('2010') + t('2012') + t('2014'); // msvc builds
+        var  m = t('2003') + t('2005') + t('2008') + t('2010') + t('2012') + t('2013') + t('2015'); // msvc builds
         var  M = 4; // msvc build time
         if ( t('curl'   ) ) M += 5;
         if ( t('libssh' ) ) M += 1;
@@ -223,7 +223,8 @@ a:hover     { background-color  : cyan ; }
      <br><input type="checkbox" onclick="e()" name="2008"      >2008</input>
      <br><input type="checkbox" onclick="e()" name="2010"      >2010</input>
      <br><input type="checkbox" onclick="e()" name="2012"      >2012</input>
-     <br><input type="checkbox" onclick="e()" name="2014"      >2014</input>
+     <br><input type="checkbox" onclick="e()" name="2013"      >2013</input>
+     <br><input type="checkbox" onclick="e()" name="2015"      >2015</input>
   </td>
   <th>Link:</th>
      <td><input type="checkbox" onclick="e()" name="zlib"      >zlib</input>
