@@ -55,6 +55,7 @@ OPTION( EXIV2_ENABLE_VIDEO         "Build video support into library"           
 OPTION( EXIV2_ENABLE_WEBREADY      "Build webready support into library"                   OFF )
 OPTION( EXIV2_ENABLE_CURL          "USE Libcurl for HttpIo"                                ON  )
 OPTION( EXIV2_ENABLE_SSH           "USE Libssh for SshIo"                                  ON  )
+OPTION( EXIV2_ENABLE_WIN_UNICODE   "Use Unicode paths (wstring) on Windows"                OFF )
 
 IF( MINGW OR UNIX )
     IF ( CMAKE_CXX_COMPILER STREQUAL "g++" OR CMAKE_C_COMPILER STREQUAL "gcc" )
@@ -68,6 +69,13 @@ IF( MINGW OR UNIX )
                    )
     ENDIF()
 ENDIF( MINGW OR UNIX )
+
+# Force unicode support on windows
+IF (WIN32)
+    IF( EXIV2_ENABLE_WIN_UNICODE )
+        ADD_DEFINITIONS( -DEXV_UNICODE_PATH )
+    ENDIF()
+ENDIF()
 
 INCLUDE_DIRECTORIES( ${CMAKE_SOURCE_DIR}/src/ ${CMAKE_SOURCE_DIR}/include/  ${CMAKE_SOURCE_DIR}/include/exiv2/)
 
