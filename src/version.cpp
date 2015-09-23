@@ -105,10 +105,6 @@ namespace Exiv2 {
     }
 }                                       // namespace Exiv2
 
-using namespace std;
-typedef vector<string>      string_v;
-typedef string_v::iterator  string_i;
-
 #ifndef lengthof
 #define lengthof(x) sizeof(x)/sizeof(x[0])
 #endif
@@ -166,7 +162,7 @@ static bool shouldOutput(const exv_grep_keys_t& greps,const char* name,const std
 
 static void output(std::ostream& os,const exv_grep_keys_t& greps,const char* name,const std::string& value)
 {
-    if ( shouldOutput(greps,name,value) ) os << name << "=" << value << endl;
+    if ( shouldOutput(greps,name,value) ) os << name << "=" << value << std::endl;
 }
 
 static void output(std::ostream& os,const exv_grep_keys_t& greps,const char* name,int value)
@@ -178,7 +174,7 @@ static void output(std::ostream& os,const exv_grep_keys_t& greps,const char* nam
 
 void Exiv2::dumpLibraryInfo(std::ostream& os,const exv_grep_keys_t& keys)
 {
-    string_v libs; // libs[0] == executable
+    Exiv2::StringVector libs; // libs[0] == executable
 
     int      bits = 8*sizeof(void*);
 #if defined(_DEBUG) || defined(DEBUG)
@@ -202,7 +198,8 @@ void Exiv2::dumpLibraryInfo(std::ostream& os,const exv_grep_keys_t& keys)
     sprintf(version,"%d.%02d",(_MSC_VER-600)/100,_MSC_VER%100);
 
     // add edition in brackets
-    int   edition             = (_MSC_VER-600)/100; // 7.1 = 2003 ... 12 = 2013
+    // 7.10 = 2003 8.00 = 2005 etc 12.00 = 2013 13.00 = 2015 (yet the installer labels it as 14.0!)
+    size_t      edition       = (_MSC_VER-600)/100;
     const char* editions[]    = { "0","1","2","3","4","5","6","2003", "2005", "2008", "2010", "2012","2013","2015"};
     if  ( edition > lengthof(editions) ) edition = 0 ;
     if  ( edition ) sprintf(version+::strlen(version)," (%s)",editions[edition] );
@@ -497,7 +494,7 @@ void Exiv2::dumpLibraryInfo(std::ostream& os,const exv_grep_keys_t& keys)
     output(os,keys,"id"        , "$Id$");
     if ( libs.begin() != libs.end() ) {
         output(os,keys,"executable" ,*libs.begin());
-        for ( string_i lib = libs.begin()+1 ; lib != libs.end() ; lib++ )
+        for ( Exiv2::StringVector_i lib = libs.begin()+1 ; lib != libs.end() ; lib++ )
             output(os,keys,"library",*lib);
     }
 
