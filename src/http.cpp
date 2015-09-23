@@ -26,6 +26,7 @@
 // included header files
 #include "config.h"
 
+#include "datasets.hpp"
 #include "http.hpp"
 #include "futils.hpp"
 
@@ -171,9 +172,9 @@ static void flushBuffer(const char* buffer,size_t start,int& end,std::string& fi
     end = 0 ;
 }
 
-static Exiv2::dict_t stringToDict(const std::string& s)
+static Exiv2::Dictionary stringToDict(const std::string& s)
 {
-    Exiv2::dict_t result;
+    Exiv2::Dictionary result;
     std::string   token;
 
     size_t i = 0;
@@ -203,7 +204,7 @@ static int makeNonBlocking(int sockfd)
 #endif
 }
 
-int Exiv2::http(dict_t& request,dict_t& response,std::string& errors)
+int Exiv2::http(Exiv2::Dictionary& request,Exiv2::Dictionary& response,std::string& errors)
 {
     if ( !request.count("verb")   ) request["verb"   ] = "GET";
     if ( !request.count("header") ) request["header" ] = ""   ;
@@ -248,7 +249,7 @@ int Exiv2::http(dict_t& request,dict_t& response,std::string& errors)
     const char* no_proxy = getenv(no_proxi);
     bool        bNoProxy = NO_PROXY||no_proxy;
     std::string no_prox  = std::string(bNoProxy?(no_proxy?no_proxy:NO_PROXY):"");
-    Exiv2::dict_t noProxy= stringToDict(no_prox + ",localhost,127.0.0.1");
+    Exiv2::Dictionary noProxy= stringToDict(no_prox + ",localhost,127.0.0.1");
 
     // if the server is on the no_proxy list ... ignore the proxy!
     if ( noProxy.count(servername) ) bProx = false;

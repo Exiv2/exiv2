@@ -30,7 +30,7 @@ EXIV2_RCSID("@(#) $Id$")
 
 // included header files
 #include "config.h"
-
+#include "datasets.hpp"
 #include "basicio.hpp"
 #include "futils.hpp"
 #include "types.hpp"
@@ -2012,8 +2012,8 @@ namespace Exiv2 {
 
     long HttpIo::HttpImpl::getFileLength()
     {
-        dict_t response;
-        dict_t request;
+        Exiv2::Dictionary response;
+        Exiv2::Dictionary request;
         std::string errors;
         request["server"] = hostInfo_.Host;
         request["page"  ] = hostInfo_.Path;
@@ -2024,14 +2024,14 @@ namespace Exiv2 {
             throw Error(55, "Server", serverCode);
         }
 
-        dict_i lengthIter = response.find("Content-Length");
+        Exiv2::Dictionary_i lengthIter = response.find("Content-Length");
         return (lengthIter == response.end()) ? -1 : atol((lengthIter->second).c_str());
     }
 
     void HttpIo::HttpImpl::getDataByRange(long lowBlock, long highBlock, std::string& response)
     {
-        dict_t responseDic;
-        dict_t request;
+        Exiv2::Dictionary responseDic;
+        Exiv2::Dictionary request;
         request["server"] = hostInfo_.Host;
         request["page"  ] = hostInfo_.Path;
         if (hostInfo_.Port != "") request["port"] = hostInfo_.Port;
@@ -2063,8 +2063,8 @@ namespace Exiv2 {
             scriptPath = "/" + scriptPath;
         }
 
-        dict_t response;
-        dict_t request;
+        Exiv2::Dictionary response;
+        Exiv2::Dictionary request;
         std::string errors;
 
         Uri scriptUri = Exiv2::Uri::Parse(scriptPath);
