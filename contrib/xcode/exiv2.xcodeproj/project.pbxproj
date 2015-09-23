@@ -18,12 +18,12 @@
 
 /* Begin PBXFileReference section */
 		A1467F9B1B8F1B0400A2E7CD /* ReadMe.txt */ = {isa = PBXFileReference; lastKnownFileType = text; path = ReadMe.txt; sourceTree = "<group>"; };
-		A193A3D11B91DA7200455831 /* xmpsdk */ = {isa = PBXFileReference; lastKnownFileType = folder; name = xmpsdk; path = ../xmpsdk; sourceTree = "<group>"; };
-		A193A3D21B91DBC300455831 /* bin */ = {isa = PBXFileReference; lastKnownFileType = folder; name = bin; path = ../bin; sourceTree = "<group>"; };
-		A193A3D31B91DBC300455831 /* samples */ = {isa = PBXFileReference; lastKnownFileType = folder; name = samples; path = ../samples; sourceTree = "<group>"; };
-		A193A3D41B91DBC300455831 /* src */ = {isa = PBXFileReference; lastKnownFileType = folder; name = src; path = ../src; sourceTree = "<group>"; };
-		A193A3D51B91DBC300455831 /* test */ = {isa = PBXFileReference; lastKnownFileType = folder; name = test; path = ../test; sourceTree = "<group>"; };
-		A193A3D61B91DBC300455831 /* include */ = {isa = PBXFileReference; lastKnownFileType = folder; name = include; path = ../include; sourceTree = "<group>"; };
+		A193A3D11B91DA7200455831 /* xmpsdk */ = {isa = PBXFileReference; lastKnownFileType = folder; name = xmpsdk; path = ../../xmpsdk; sourceTree = "<group>"; };
+		A193A3D21B91DBC300455831 /* bin */ = {isa = PBXFileReference; lastKnownFileType = folder; name = bin; path = ../../bin; sourceTree = "<group>"; };
+		A193A3D31B91DBC300455831 /* samples */ = {isa = PBXFileReference; lastKnownFileType = folder; name = samples; path = ../../samples; sourceTree = "<group>"; };
+		A193A3D41B91DBC300455831 /* src */ = {isa = PBXFileReference; lastKnownFileType = folder; name = src; path = ../../src; sourceTree = "<group>"; };
+		A193A3D51B91DBC300455831 /* test */ = {isa = PBXFileReference; lastKnownFileType = folder; name = test; path = ../../test; sourceTree = "<group>"; };
+		A193A3D61B91DBC300455831 /* include */ = {isa = PBXFileReference; lastKnownFileType = folder; name = include; path = ../../include; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXGroup section */
@@ -50,7 +50,7 @@
 			buildPhases = (
 			);
 			buildToolPath = /usr/bin/env;
-			buildWorkingDirectory = "$(PROJECT_DIR)/..";
+			buildWorkingDirectory = "$(PROJECT_DIR)/../..";
 			dependencies = (
 			);
 			name = exiv2;
@@ -59,12 +59,12 @@
 		};
 		A13633F91B8EF5AD0046FC3F /* samples */ = {
 			isa = PBXLegacyTarget;
-			buildArgumentsString = "$(TARGET_NAME)";
+			buildArgumentsString = "";
 			buildConfigurationList = A13633FC1B8EF5AD0046FC3F /* Build configuration list for PBXLegacyTarget "samples" */;
 			buildPhases = (
 			);
 			buildToolPath = /usr/bin/make;
-			buildWorkingDirectory = "$(PROJECT_DIR)/..";
+			buildWorkingDirectory = "$(PROJECT_DIR)/../../samples";
 			dependencies = (
 			);
 			name = samples;
@@ -78,7 +78,7 @@
 			buildPhases = (
 			);
 			buildToolPath = /usr/bin/env;
-			buildWorkingDirectory = "$(PROJECT_DIR)/..";
+			buildWorkingDirectory = "$(PROJECT_DIR)/../..";
 			dependencies = (
 			);
 			name = config;
@@ -87,12 +87,12 @@
 		};
 		A14E159C1B8F0755006F2E61 /* configure */ = {
 			isa = PBXLegacyTarget;
-			buildArgumentsString = "./configure CXXFLAGS=-ggdb";
+			buildArgumentsString = "./configure --prefix=/usr/local CXXFLAGS=-ggdb";
 			buildConfigurationList = A14E159D1B8F0755006F2E61 /* Build configuration list for PBXLegacyTarget "configure" */;
 			buildPhases = (
 			);
 			buildToolPath = /usr/bin/env;
-			buildWorkingDirectory = "$(PROJECT_DIR)/..";
+			buildWorkingDirectory = "$(PROJECT_DIR)/../..";
 			dependencies = (
 			);
 			name = configure;
@@ -106,7 +106,7 @@
 			buildPhases = (
 			);
 			buildToolPath = /usr/bin/make;
-			buildWorkingDirectory = "$(PROJECT_DIR)/..";
+			buildWorkingDirectory = "$(PROJECT_DIR)/../..";
 			dependencies = (
 			);
 			name = tests;
@@ -120,7 +120,7 @@
 			buildPhases = (
 			);
 			buildToolPath = /usr/bin/env;
-			buildWorkingDirectory = "$(PROJECT_DIR)/..";
+			buildWorkingDirectory = "$(PROJECT_DIR)/../..";
 			dependencies = (
 				A1CF5C841B8E3EB400B0D341 /* PBXTargetDependency */,
 			);
@@ -135,7 +135,7 @@
 			buildPhases = (
 			);
 			buildToolPath = /usr/bin/sudo;
-			buildWorkingDirectory = "$(PROJECT_DIR)/..";
+			buildWorkingDirectory = "$(PROJECT_DIR)/../..";
 			dependencies = (
 			);
 			name = install;
