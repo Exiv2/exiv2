@@ -3,7 +3,9 @@
   @brief   This file is from the tz distribution at ftp://elsie.nci.nih.gov/pub/
   @version $Rev$
 */
-
+#ifdef  _MSC_VER
+#define tzname _tzname
+#endif
 
 #include "config.h"
 #include "timegm.h"
