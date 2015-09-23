@@ -8,7 +8,7 @@
 #include "config.h"
 
 #ifdef  _MSC_VER
-#if     _MSC_VER > _MSC_VER_2015
+#if     _MSC_VER >= _MSC_VER_2015
 #define tzname _tzname
 #endif
 #endif
