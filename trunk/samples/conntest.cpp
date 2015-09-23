@@ -6,12 +6,11 @@
 
 #include <iostream>
 #include <stdlib.h>
-using namespace std;
 
 void httpcon(const std::string& url, bool useHttp1_0 = false) {
-    Exiv2::dict_t response;
-    Exiv2::dict_t request;
-    string        errors;
+    Exiv2::Dictionary response;
+    Exiv2::Dictionary request;
+    std::string       errors;
 
     Exiv2::Uri uri = Exiv2::Uri::Parse(url);
     Exiv2::Uri::Decode(uri);
@@ -41,7 +40,7 @@ void curlcon(const std::string& url, bool useHttp1_0 = false) {
         throw Exiv2::Error(1, "Timeout Environmental Variable must be a positive integer.");
     }
 
-    string response;
+    std::string response;
     curl_easy_setopt(curl, CURLOPT_URL, url.c_str());
     curl_easy_setopt(curl, CURLOPT_WRITEFUNCTION, Exiv2::curlWriter);
     curl_easy_setopt(curl, CURLOPT_WRITEDATA, &response);
@@ -74,14 +73,14 @@ void sshcon(const std::string& url) {
     Exiv2::Uri uri = Exiv2::Uri::Parse(url);
     Exiv2::Uri::Decode(uri);
 
-    string page = uri.Path;
+    std::string page = uri.Path;
     // remove / at the beginning of the path
     if (page[0] == '/') {
         page = page.substr(1);
     }
     Exiv2::SSH ssh(uri.Host, uri.Username, uri.Password, uri.Port);
-    string response = "";
-    string cmd = "declare -a x=($(ls -alt " + page + ")); echo ${x[4]}";
+    std::string response = "";
+    std::string cmd = "declare -a x=($(ls -alt " + page + ")); echo ${x[4]}";
     if (ssh.runCommand(cmd, &response) != 0) {
         throw Exiv2::Error(1, "Unable to get file length.");
     } else {
@@ -96,7 +95,7 @@ void sftpcon(const std::string& url) {
     Exiv2::Uri uri = Exiv2::Uri::Parse(url);
     Exiv2::Uri::Decode(uri);
 
-    string page = uri.Path;
+    std::string page = uri.Path;
     // remove / at the beginning of the path
     if (page[0] == '/') {
         page = page.substr(1);
@@ -112,7 +111,7 @@ void sftpcon(const std::string& url) {
 int main(int argc,const char** argv)
 {
     if (argc < 2) {
-        cout << "Usage: " << argv[0] << " url {-http1_0}\n";
+        std::cout << "Usage: " << argv[0] << " url {-http1_0}" << std::endl;
         return 1;
     }
     std::string url(argv[1]);
@@ -146,12 +145,12 @@ int main(int argc,const char** argv)
             isOk = true;
         }
     } catch (Exiv2::AnyError& e) {
-        std::cout << "Error: '" << e << "'\n";
+        std::cout << "Error: '" << e << "'" << std::endl;
         return -1;
     }
 
-    if (!isOk)  cout << "The protocol is unsupported.\n";
-    else        cout << "OK.\n";
+    if (!isOk)  std::cout << "The protocol is unsupported." << std::endl;
+    else        std::cout << "OK." << std::endl;
     return 0;
 }
 

@@ -31,12 +31,12 @@
 
 // *****************************************************************************
 // included header files
+#include "datasets.hpp"
 #include "basicio.hpp"
 #include "bmpimage.hpp"
 #include "convert.hpp"
 #include "cr2image.hpp"
 #include "crwimage.hpp"
-#include "datasets.hpp"
 #include "easyaccess.hpp"
 #include "epsimage.hpp"
 #include "error.hpp"

@@ -3,7 +3,6 @@
 // Sample program to print metadata in JSON format
 
 #include <exiv2/exiv2.hpp>
-#include <exiv2/datasets.hpp>
 #include "Jzon.h"
 
 #include <iostream>
