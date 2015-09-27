@@ -15,9 +15,9 @@ __navbar__
 </div><!-- /.jumbotron -->
 
 <div class="container">
-  <div class="row">
-    <div class="col-sm-6">
-      <div class="aligned">
+  <div class="col-sm-pair">
+    <div class="row">
+      <div class="col-sm-6">
 	<h2>Source distribution</h2>
 	<p>The complete source code to build the Exiv2 library, command
 	  line utility and several simple example and test applications.
@@ -28,17 +28,8 @@ __navbar__
 	  see the <em><a title="README file" href="http://dev.exiv2.org/projects/exiv2/repository/entry/tags/__version__/README">README</a></em> file in the top directory for build and
 	  installation notes and further information.
 	</p>
-	<p>&nbsp;</p>
-      </div>
-      <p class="text-center">
-        <a href="exiv2-__version__.tar.gz" class="btn btn-lg btn-success">
-	  <span class="glyphicon glyphicon-download-alt" aria-hidden="true"></span>&nbsp; Download source
-	</a>
-      </p>
-      <p class="version text-center text-muted"><small>Currently v__version__</small></p>
-    </div><!-- /.col-sm-6 -->
-    <div class="col-sm-6">
-      <div class="aligned">
+      </div><!-- /.col-sm-6 -->
+      <div class="col-sm-6">
 	<h2>Windows executable</h2>
 	<p>Just the command line utility <code>exiv2.exe</code>, Expat DLL, Exiv2
 	  manpage and two sample command files. To get started, run the executable
@@ -50,18 +41,28 @@ __navbar__
 	  on an x86-64 machine running 
 	  <a title="Ubuntu homepage" href="http://www.ubuntu.com">Ubuntu</a>.
 	</p>
-	<p>&nbsp;</p>
-      </div>
-      <p class="text-center">
-        <a href="exiv2-__version__-win.zip" class="btn btn-lg btn-success">
-	  <span class="glyphicon glyphicon-download-alt" aria-hidden="true"></span>&nbsp; Download exiv2.exe
-	</a>
-      </p>
-      <p class="text-center text-muted"><small>Currently v__version__</small></p>
-    </div><!-- /.col-sm-6 -->
-  </div><!-- /.row -->
-  <p>&nbsp;</p>
-  <p>As an alternative to these packages, many Linux distributions,
+      </div><!-- /.col-sm-6 -->
+    </div><!-- /.row -->
+    <div class="row">
+      <div class="col-sm-6">
+	<p class="text-center margin-top-s">
+          <a href="exiv2-__version__.tar.gz" class="btn btn-lg btn-success">
+	    <span class="glyphicon glyphicon-download-alt" aria-hidden="true"></span>&nbsp; Download source
+	  </a>
+	</p>
+	<p class="version text-center text-muted"><small>Currently v__version__</small></p>
+      </div><!-- /.col-sm-6 -->
+      <div class="col-sm-6">
+	<p class="text-center margin-top-s">
+          <a href="exiv2-__version__-win.zip" class="btn btn-lg btn-success">
+	    <span class="glyphicon glyphicon-download-alt" aria-hidden="true"></span>&nbsp; Download exiv2.exe
+	  </a>
+	</p>
+	<p class="text-center text-muted"><small>Currently v__version__</small></p>
+      </div><!-- /.col-sm-6 -->
+    </div><!-- /.row -->
+  </div><!-- /.col-sm-pair -->
+  <p class="margin-top-s">As an alternative to these packages, many Linux distributions,
     BSD-based systems and Open Source package collections for Darwin and 
     Mac OS X have their own Exiv2 packages that can be installed via the
     package management system of the distribution.
@@ -157,17 +158,24 @@ __bootstrap__
 <script type="text/javascript">
   //<![CDATA[
   $(document).ready(function() {
-    align();
+    window.swapped = false;
+    swapcols();
   });
   $(window).resize(function() {
-    align();
+    swapcols();
   });
-  function align() {
-    if ($(window).width() >= 768) {
-      $("div.aligned").css("height", $("div.aligned").height() + "px");
+  function swapcols() {
+    if ($(window).width() < 768 && !window.swapped) {
+      $(".col-sm-pair").each( function() {
+        $(".col-sm-6", this).eq(0).after($(".col-sm-6", this).eq(2).remove());
+      });
+      window.swapped = true;
     }
-    else {
-      $("div.aligned").css("height", "");
+    if ($(window).width() >= 768 && window.swapped) {
+      $(".col-sm-pair").each( function() {
+        $(".col-sm-6", this).eq(3).before($(".col-sm-6", this).eq(1).remove());
+      });
+      window.swapped = false;
     }
   }
   //]]>
