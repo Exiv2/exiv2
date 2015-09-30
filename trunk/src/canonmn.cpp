@@ -66,6 +66,9 @@ namespace Exiv2 {
     std::ostream& printCsLensByFocalLength(std::ostream& os,
                                            const Value& value,
                                            const ExifData* metadata);
+    std::ostream& printCsLensByFocalLengthTC(std::ostream& os,
+                                           const Value& value,
+                                           const ExifData* metadata);
 
     //! ModelId, tag 0x0010
     extern const TagDetails canonModelId[] = {
@@ -803,6 +806,7 @@ namespace Exiv2 {
         { 173, "Canon EF 180mm Macro f/3.5L"                                }, // 0
         { 173, "Sigma 180mm EX HSM Macro f/3.5"                             }, // 1
         { 173, "Sigma APO Macro 150mm f/3.5 EX DG IF HSM"                   }, // 2
+        { 173, "Sigma 150-500mm f/5-6.3 APO DG OS HSM + 2x"                 }, // 3
         { 174, "Canon EF 135mm f/2L"                                        }, // 0
         { 174, "Sigma 70-200mm f/2.8 EX DG APO OS HSM"                      }, // 1
         { 174, "Sigma 50-500mm f/4.5-6.3 APO DG OS HSM"                     }, // 2
@@ -963,7 +967,7 @@ namespace Exiv2 {
         { 161, printCsLensByFocalLength },
         { 169, printCsLensByFocalLength },
         { 172, printCsLensByFocalLength }, // not tested
-        { 173, printCsLensByFocalLength }, // works partly
+        { 173, printCsLensByFocalLengthTC }, // works partly
         { 174, printCsLensByFocalLength }, // not tested
         { 180, printCsLensByFocalLength },
         { 183, printCsLensByFocalLength }, // not tested
@@ -1561,7 +1565,9 @@ namespace Exiv2 {
     //! Helper structure
     struct LensTypeAndFocalLengthAndMaxAperture {
         long        lensType_;                  //!< Lens type
-        std::string focalLength_;               //!< Focal length
+        float       focalLengthMin_;            //!< Mininum focal length
+        float       focalLengthMax_;            //!< Maximum focal length
+        std::string focalLength_;               //!< Focal length as a string
         std::string maxAperture_;               //!< Aperture
     };
 
@@ -1577,23 +1583,30 @@ namespace Exiv2 {
     {
         ExifKey key("Exif.CanonCs.Lens");
         ExifData::const_iterator pos = metadata->findKey(key);
+        ltfl.focalLengthMin_ = 0.0;
+        ltfl.focalLengthMax_ = 0.0;
         if (   pos != metadata->end()
             && pos->value().count() >= 3
             && pos->value().typeId() == unsignedShort) {
             float fu = pos->value().toFloat(2);
             if (fu != 0.0) {
-                float len1 = pos->value().toLong(0) / fu;
-                float len2 = pos->value().toLong(1) / fu;
-                std::ostringstream oss;
-                oss << std::fixed << std::setprecision(0);
-                if (len1 == len2) {
-                    oss << len1 << "mm";
-                } else {
-                    oss << len2 << "-" << len1 << "mm";
-                }
-                ltfl.focalLength_ = oss.str();
+                ltfl.focalLengthMin_ = pos->value().toLong(1) / fu;
+                ltfl.focalLengthMax_ = pos->value().toLong(0) / fu;
             }
         }
+    }
+
+    void convertFocalLength(LensTypeAndFocalLengthAndMaxAperture& ltfl,
+                            double divisor)
+    {
+        std::ostringstream oss;
+        oss << std::fixed << std::setprecision(0);
+        if (ltfl.focalLengthMin_ == ltfl.focalLengthMax_) {
+            oss << (ltfl.focalLengthMin_ / divisor) << "mm";
+        } else {
+            oss << (ltfl.focalLengthMin_ / divisor) << "-" << (ltfl.focalLengthMax_ / divisor) << "mm";
+        }
+        ltfl.focalLength_ = oss.str();
     }
 
     std::ostream& printCsLensByFocalLengthAndMaxAperture(std::ostream& os,
@@ -1607,7 +1620,8 @@ namespace Exiv2 {
         ltfl.lensType_ = value.toLong();
 
         extractLensFocalLength(ltfl, metadata);
-        if (ltfl.focalLength_.empty()) return os << value;
+        if (ltfl.focalLengthMax_ == 0.0) return os << value;
+        convertFocalLength(ltfl, 1.0);
 
         ExifKey key("Exif.CanonCs.MaxAperture");
         ExifData::const_iterator pos = metadata->findKey(key);
@@ -1642,10 +1656,39 @@ namespace Exiv2 {
         ltfl.lensType_ = value.toLong();
 
         extractLensFocalLength(ltfl, metadata);
+        if (ltfl.focalLengthMax_ == 0.0) return os << value;
+        convertFocalLength(ltfl, 1.0);
+
         if (ltfl.focalLength_.empty()) return os << value;
 
         const TagDetails* td = find(canonCsLensType, ltfl);
         if (!td) return os << value;
+        return os << td->label_;
+    }
+
+    std::ostream& printCsLensByFocalLengthTC(std::ostream& os,
+                                             const Value& value,
+                                             const ExifData* metadata)
+    {
+        if (   !metadata || value.typeId() != unsignedShort
+            || value.count() == 0) return os << value;
+
+        LensTypeAndFocalLengthAndMaxAperture ltfl;
+        ltfl.lensType_ = value.toLong();
+
+        extractLensFocalLength(ltfl, metadata);
+        if (ltfl.focalLengthMax_ == 0.0) return os << value;
+        convertFocalLength(ltfl, 1.0); // just lens
+        const TagDetails* td = find(canonCsLensType, ltfl);
+        if (!td) {
+            convertFocalLength(ltfl, 1.4); // lens + 1.4x TC
+            td = find(canonCsLensType, ltfl);
+            if (!td) {
+                convertFocalLength(ltfl, 2.0); // lens + 2x TC
+                td = find(canonCsLensType, ltfl);
+                if (!td) return os << value;
+            }
+        }
         return os << td->label_;
     }
 
