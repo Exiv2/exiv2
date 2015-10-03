@@ -6,6 +6,8 @@ TABLES = Exif \
          CanonPi \
          CanonFi \
          CanonPa \
+         Casio \
+         Casio2 \
          Fujifilm \
          Minolta \
          MinoltaCsNew \

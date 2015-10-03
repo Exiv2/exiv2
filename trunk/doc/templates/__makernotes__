@@ -20,7 +20,7 @@
    </tr>
   </thead>
   <tbody>
-   <tr> 
+   <tr>
     <td>Canon</td>
     <td>IFD</td>
     <td>None</td>
@@ -29,16 +29,25 @@
     <td><a href="#R2">[2]</a></td>
     <td>Some CR2 images have a non-zero next-IFD pointer</td>
    </tr>
-   <tr> 
-    <td>Casio</td>
+   <tr>
+    <td>CASIO</td>
     <td>IFD</td>
-    <td>-</td>
-    <td>-</td>
-    <td>-</td>
+    <td>None</td>
+    <td>&nbsp;</td>
+    <td>&nbsp;</td>
     <td><a href="#R4">[4]</a></td>
-    <td>Not supported by Exiv2 yet</td>
+    <td>&nbsp;</td>
    </tr>
-   <tr> 
+   <tr>
+    <td>CASIO</td>
+    <td>IFD, at offset 6</td>
+    <td>"QVC\0\0\0"</td>
+    <td>Big-endian (MM)</td>
+    <td>Relative to the beginning of the makernote</td>
+    <td><a href="#R4">[4]</a></td>
+    <td>&nbsp;</td>
+   </tr>
+   <tr>
     <td>FUJI</td>
     <td>IFD, usually at offset 12</td>
     <td>Starts with the string &quot;FUJI&quot; 

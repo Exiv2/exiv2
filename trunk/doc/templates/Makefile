@@ -54,6 +54,8 @@ TABLES = Exif \
          CanonFi \
          CanonPa \
          CanonPr \
+         Casio \
+         Casio2 \
          Fujifilm \
          Minolta \
          MinoltaCsNew \
