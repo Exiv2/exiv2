@@ -20,6 +20,14 @@ FOREACH(_currentfile ${XMPSRC})
     ENDIF(NOT MSVC AND NOT CYGWIN AND NOT MSYS)
 ENDFOREACH()
 
+if(NOT MSVC)
+  # http://stackoverflow.com/questions/10046114/in-cmake-how-can-i-test-if-the-compiler-is-clang
+  if ( NOT "${CMAKE_CXX_COMPILER_ID}" MATCHES "AppleClang")
+    # 1123 - hide xmpsdk symbols
+    add_definitions( -fvisibility=hidden -fvisibility-inlines-hidden )
+  endif()
+endif()
+
 IF( EXIV2_ENABLE_XMP AND EXIV2_ENABLE_LIBXMP )
     ADD_LIBRARY( xmp STATIC ${XMPSRC} )
     GET_TARGET_PROPERTY( XMPLIB xmp LOCATION )
