@@ -64,6 +64,7 @@ __navbar__
       <ul>
 	<li><a href="tags.html">Standard Exif tags</a></li>
 	<li><a href="tags-canon.html">Canon MakerNote tags</a></li>
+	<li><a href="tags-casio.html">Casio MakerNote tags</a></li>
 	<li><a href="tags-fujifilm.html">Fujifilm MakerNote tags</a></li>
 	<li><a href="tags-minolta.html">Minolta MakerNote tags</a></li>
 	<li><a href="tags-nikon.html">Nikon MakerNote tags</a></li>
