@@ -37,6 +37,8 @@ INCLUDE( CheckSymbolExists )
 INCLUDE( CheckCSourceCompiles )
 INCLUDE( CheckCXXSourceCompiles )
 
+INCLUDE( GNUInstallDirs )
+
 INCLUDE( FindIconv )
 
 SET( STDC_HEADERS ON )
@@ -291,9 +293,9 @@ ADD_CUSTOM_TARGET(uninstall "${CMAKE_COMMAND}" -P "${CMAKE_BINARY_DIR}/cmake_uni
 
 IF( NOT MSVC )
     CONFIGURE_FILE( config/exiv2.pc.cmake ${CMAKE_CURRENT_BINARY_DIR}/exiv2.pc @ONLY )
-    INSTALL( FILES ${CMAKE_CURRENT_BINARY_DIR}/exiv2.pc DESTINATION lib/pkgconfig )
+    INSTALL( FILES ${CMAKE_CURRENT_BINARY_DIR}/exiv2.pc DESTINATION ${CMAKE_INSTALL_LIBDIR}/pkgconfig )
     CONFIGURE_FILE( config/exiv2.lsm.cmake ${CMAKE_CURRENT_BINARY_DIR}/exiv2.lsm)
-    INSTALL(FILES ${CMAKE_CURRENT_BINARY_DIR}/exiv2.lsm DESTINATION lib/pkgconfig )
+    INSTALL(FILES ${CMAKE_CURRENT_BINARY_DIR}/exiv2.lsm DESTINATION ${CMAKE_INSTALL_LIBDIR}/pkgconfig )
 ENDIF( NOT MSVC )
 
 # ******************************************************************************
