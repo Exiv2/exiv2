@@ -321,7 +321,7 @@ INSTALL( FILES ${LIBEXIV2_HDR} DESTINATION include/exiv2 )
 
 # ******************************************************************************
 # Man page
-INSTALL( FILES exiv2.1 DESTINATION man/man1 )
+INSTALL( FILES exiv2.1 DESTINATION ${CMAKE_INSTALL_MANDIR}/man1 )
 
 # That's all Folks!
 ##
