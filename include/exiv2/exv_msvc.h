@@ -90,11 +90,13 @@ typedef int pid_t;
 #define HAVE_LIBZ 1
 
 #if HAVE_LIBZ
-  #define EXV_HAVE_LIBZ
+  #define EXV_HAVE_LIBZ 1
   // assist VC7.1 to compile vsnprintf
   #if (_MSC_VER < 1400) && !defined(vsnprintf)
   #define vsnprintf _vsnprintf
   #endif
+#else
+  #define EXV_HAVE_LIBZ 0
 #endif
 
 /* Define to 1 if you have the Adobe XMP Toolkit. */
