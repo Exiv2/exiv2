@@ -388,7 +388,7 @@ void Exiv2::dumpLibraryInfo(std::ostream& os,const exv_grep_keys_t& keys)
     have_sys_mman=1;
 #endif
 
-#if HAVE_LIBZ
+#if EXV_HAVE_LIBZ
     have_libz=1;
 #endif
 
