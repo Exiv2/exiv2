@@ -13,7 +13,7 @@ goto:afterSyntax
 rem -------------------------------
 rem Functions
 :Syntax
-echo useage: cm [ clean ^| unix ^| 2003 ^| 2005 ^| 2008 ^| 2010 [64]] "option"+
+echo useage: cm [ clean ^| unix ^| 2003 ^| 2005 ^| 2008 ^| 2010 ^| 2012 ^| 2013 ^| 2015 [64]] "option"+
 goto:eof
 :afterSyntax
 
@@ -49,7 +49,10 @@ if "%G%"=="10"    set G=2010
 if "%G%"=="2003"  set "G=Visual Studio 7 .NET 2003"
 if "%G%"=="2005"  set "G=Visual Studio 8 2005"
 if "%G%"=="2008"  set "G=Visual Studio 9 2008"
-if "%G%"=="2010"  set "G=Visual Studio 10"
+if "%G%"=="2010"  set "G=Visual Studio 10 2010"
+if "%G%"=="2012"  set "G=Visual Studio 11 2012"
+if "%G%"=="2013"  set "G=Visual Studio 12 2013"
+if "%G%"=="2015"  set "G=Visual Studio 14 2015"
 
 if (%Q%)==(64)    set "G=%G% Win64"
 
