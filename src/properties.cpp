@@ -147,10 +147,10 @@ namespace Exiv2 {
 
 
         // Structures
-        { "http://ns.adobe.com/xap/1.0/g/",                   "xapG",    0, N_("Colorant structure")           },
+        { "http://ns.adobe.com/xap/1.0/g/",                   "xmpG",    0, N_("Colorant structure")           },
+        { "http://ns.adobe.com/xap/1.0/g/img/",               "xmpGImg", 0, N_("Thumbnail structure")          },
         { "http://ns.adobe.com/xap/1.0/sType/Dimensions#",    "stDim",   0, N_("Dimensions structure")         },
         { "http://ns.adobe.com/xap/1.0/sType/Font#",          "stFnt",   0, N_("Font structure")               },
-        { "http://ns.adobe.com/xap/1.0/g/img/",               "xmpGImg", 0, N_("Thumbnail structure")          },
         { "http://ns.adobe.com/xap/1.0/sType/ResourceEvent#", "stEvt",   0, N_("Resource Event structure")     },
         { "http://ns.adobe.com/xap/1.0/sType/ResourceRef#",   "stRef",   0, N_("ResourceRef structure")        },
         { "http://ns.adobe.com/xap/1.0/sType/Version#",       "stVer",   0, N_("Version structure")            },
