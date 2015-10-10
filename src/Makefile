@@ -175,7 +175,6 @@ LOBJ   = $(CCLOBJ) $(CLOBJ)
 
 EXIV2OBJ  = $(EXIV2MAIN:.cpp=.o) $(EXIV2SRC:.cpp=.o)
 EXIV2COBJ = $(EXIVCSRC:.c=.o)
-EXIV2BIN  = $(EXIV2MAIN:.cpp=)
 EXIV2EXE  = $(EXIV2MAIN:.cpp=$(EXEEXT))
 
 ifdef DEP_TRACKING
@@ -241,7 +240,7 @@ version.hpp : svn_version.h
 $(LIBTOOL): $(LIBTOOL_DEPS)
 	$(SHELL) $(top_srcdir)/config.status --recheck
 
-bin: lib $(EXIV2BIN)
+bin: lib $(EXIV2EXE)
 
 lib: $(OBJ)
 	$(LIBTOOL) --mode=link $(LINK.cc) -o $(LIBRARY) $(LOBJ) -rpath $(libdir) -version-info $(EXIV2_LTVERSION) $(LIBS)
@@ -250,7 +249,7 @@ lib: $(OBJ)
 $(BINARY): %: %.o lib
 	@$(LIBTOOL) --mode=link $(LINK.cc) -o $@ $(LIBRARY) $@.o -rpath $(libdir)
 
-$(EXIV2BIN): lib $(EXIV2OBJ) $(EXIV2COBJ)
+$(EXIV2EXE): lib $(EXIV2OBJ) $(EXIV2COBJ)
 	mkdir -pv ../bin 2>&1 > /dev/null
 	@$(LIBTOOL) --mode=link $(LINK.cc) -o ../bin/$@ $(LIBRARY) $(EXIV2OBJ) $(EXIV2COBJ) -rpath $(libdir)
 
@@ -274,7 +273,7 @@ install-lib: lib install-header
 	$(INSTALL_DIRS) $(DESTDIR)$(libdir)/pkgconfig
 	$(INSTALL_DATA) $(top_srcdir)/config/exiv2.pc $(DESTDIR)$(libdir)/pkgconfig/exiv2.pc
 
-install: $(EXIV2BIN) install-lib
+install: $(EXIV2EXE) install-lib
 	$(INSTALL_DIRS) $(DESTDIR)$(bindir)
 	@$(LIBTOOL) --mode=install $(INSTALL_PROGRAM) ../bin/$(EXIV2EXE) $(DESTDIR)$(bindir)/$(EXIV2EXE)
 	$(INSTALL_DIRS) $(DESTDIR)$(mandir)
