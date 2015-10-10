@@ -130,6 +130,7 @@ CCSRC += asfvideo.cpp          \
 endif
 
 # Add library C source files to this list
+EXIVCSRC  =
 ifndef HAVE_TIMEGM
 CSRC =   localtime.c
 endif
@@ -140,9 +141,7 @@ EXIV2SRC  = actions.cpp \
             utils.cpp
 
 # C source files for the Exiv2 application
-ifndef HAVE_TIMEGM
-EXIVCSRC  = localtime.c
-endif
+EXIVCSRC  =
 
 # ******************************************************************************
 # Library
