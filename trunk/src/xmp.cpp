@@ -419,8 +419,9 @@ namespace Exiv2 {
             SXMPMeta::RegisterNamespace("http://www.metadataworkinggroup.com/schemas/regions/", "mwg-rs");
             SXMPMeta::RegisterNamespace("http://www.metadataworkinggroup.com/schemas/keywords/", "mwg-kw");
             SXMPMeta::RegisterNamespace("http://ns.adobe.com/xmp/sType/Area#", "stArea");
-        SXMPMeta::RegisterNamespace("http://cipa.jp/exif/1.0/", "exifEX");
-
+            SXMPMeta::RegisterNamespace("http://cipa.jp/exif/1.0/", "exifEX");
+            SXMPMeta::RegisterNamespace("http://www.audio/", "audio");
+            SXMPMeta::RegisterNamespace("http://www.video/", "video");
 #else
             initialized_ = true;
 #endif
