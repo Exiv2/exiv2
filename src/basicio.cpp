@@ -83,11 +83,6 @@ typedef short nlink_t;
 // class member definitions
 namespace Exiv2 {
 
-	BasicIo::BasicIo() {
-		Exiv2::Dictionary nsDict;
-		Exiv2::XmpProperties::registeredNamespaces(nsDict);
-	}
-
     BasicIo::~BasicIo()
     {
     }

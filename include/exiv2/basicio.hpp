@@ -273,7 +273,7 @@ namespace Exiv2 {
         //! @name Creators
         //@{
         //! Default Constructor
-        BasicIo();
+        BasicIo() {}
         //@}
     }; // class BasicIo
 
