@@ -1,6 +1,15 @@
 <?xml version = '1.0'?>
 <news>
  <newsitem>
+  <date>10-Oct-2015</date>
+  <title>Window dressing</title>
+  <abstract>New and more functional web pages.
+  </abstract>
+  <desc>We re-designed the website for improved useability and for use on various devices with
+  different screen sizes.
+  </desc>
+ </newsitem>
+ <newsitem>
   <date>21-Jun-2015</date>
   <title>Exiv2 0.25 released</title>
   <abstract>A large collection of new features, new lenses and bugfixes.
