@@ -1474,8 +1474,8 @@ namespace Exiv2 {
 
     //! FileSource, tag 0xa300
     extern const TagDetails exifFileSource[] = {
-        { 1, N_("Film scanner")            },	// Not defined to Exif 2.2 spec.
-        { 2, N_("Reflexion print scanner") },	// but used by some scanner device softwares.
+        { 1, N_("Film scanner")            },   // Not defined to Exif 2.2 spec.
+        { 2, N_("Reflexion print scanner") },   // but used by some scanner device softwares.
         { 3, N_("Digital still camera")    }
     };
 
@@ -2320,8 +2320,18 @@ namespace Exiv2 {
         if (value.typeId() == unsignedByte && value.size() > 0) {
             DataBuf buf(value.size());
             value.copy(buf.pData_, invalidByteOrder);
-            // Strip trailing UCS-2 0-character, if there is one
-            if (buf.pData_[buf.size_ - 1] == 0 && buf.pData_[buf.size_ - 2] == 0)  buf.size_ -= 2;
+            // Strip trailing odd byte due to failing UCS-2 conversion
+            if (buf.size_ % 2 == 1)  buf.size_ -=1;
+
+            // Strip trailing UCS-2 0-characters
+            while (buf.size_ >= 2) {
+                if (buf.pData_[buf.size_ - 1] == 0 && buf.pData_[buf.size_ - 2] == 0) {
+                    buf.size_ -= 2;
+                } else {
+                    break;
+                }
+            }
+
             std::string str((const char*)buf.pData_, buf.size_);
             cnv = convertStringCharset(str, "UCS-2LE", "UTF-8");
             if (cnv) os << str;
@@ -2866,7 +2876,7 @@ namespace Exiv2 {
 
     const char* ExifTags::ifdName(const std::string& groupName)
     {
-        IfdId ifdId = Internal::groupId(groupName);        
+        IfdId ifdId = Internal::groupId(groupName);
         return Internal::ifdName(ifdId);
     }
 
