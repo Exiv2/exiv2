@@ -73,6 +73,7 @@ __navbar__
 <p>These are the details for the current packages. <a title="Old packages" href="archive.html">Older releases</a> are 
  also still available. See the <a title="Changelog" href="changelog.html">ChangeLog</a> for a detailed list of changes between releases.</p>
 
+<div class="table-responsive">
 <table class="table table-striped">
   <thead>
     <tr>
@@ -100,6 +101,7 @@ __navbar__
     </tr>
   <tbody>
 </table>
+</div>
 
 <p>Exiv2 is developed on GNU/Linux with recent versions of
  <a title="The GNU Compiler Collection" href="http://gcc.gnu.org/">GCC</a>.
@@ -130,14 +132,14 @@ for NLS,
   If you use the standard subversion <code>svn</code> command line client, change to the directory where you want to keep 
   the source code and type:</p>
 
-<pre>$ svn checkout svn://dev.exiv2.org/svn/trunk</pre>
+<pre class="pre-x-scrollable">$ svn checkout svn://dev.exiv2.org/svn/trunk</pre>
 
  <p>Not included in the source distribution are test data and several
   test drivers.  To download these directly from the repository (about
   34 MB), change to your local exiv2-__version__/ directory and use the
   following command:</p>
 
-<pre>$ svn export svn://dev.exiv2.org/svn/tags/__version__/test</pre>
+<pre class="pre-x-scrollable">$ svn export svn://dev.exiv2.org/svn/tags/__version__/test</pre>
 
 <h2 id="license">License</h2>
 
