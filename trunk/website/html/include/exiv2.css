@@ -37,6 +37,10 @@ body {
     margin-bottom: 20px;
 }
 
+.margin-bottom-xs {
+    margin-bottom: 10px;
+}
+
 .pre-x-scrollable {
     overflow: auto;
     -ms-word-wrap: normal;
