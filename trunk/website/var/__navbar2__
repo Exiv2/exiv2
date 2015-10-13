@@ -13,7 +13,7 @@
     </div>
     <div id="navbar" class="collapse navbar-collapse">
       <ul class="nav navbar-nav">
-        <li><a href="../getting-started.html">Overview</a></li>
+        <li><a href="../getting-started.html">Getting started</a></li>
         <li><a href="../download.html">Download</a></li>
         <li><a href="../metadata.html">Metadata</a></li>
         <li><a href="../makernote.html">Makernote</a></li>
@@ -28,7 +28,7 @@
             <li><a href="../examples.html"><span class="glyphicon glyphicon-star-empty" aria-hidden="true"></span>&nbsp; Examples</a></li>
           </ul>
         </li>
-        <li><a href="../manpage.html">Manpage</a></li>
+        <li><a href="../manpage.html">Manual</a></li>
 	<li class="dropdown">
           <a href="#" title="Links to the Exiv2 community website" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Community <span class="caret"></span></a>
           <ul class="dropdown-menu">

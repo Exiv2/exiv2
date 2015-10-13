@@ -6,7 +6,7 @@ __navbar__
 
 <div class="container">
   <div class="page-header">
-    <h1>Exiv2 utility manual page</h1>
+    <h1>Exiv2 utility manual</h1>
   </div>
   <p class="lead">A Unix-style "manpage" for the Exiv2 command line utility.
   </p>
