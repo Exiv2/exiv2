@@ -23,7 +23,11 @@ __navbar__
       <div class="col-sm-6">
 	<h2 id="lib">Exiv2 C++ library</h2>
 	<ul>
-	  <li>Fast read and write access to the Exif, IPTC, and XMP metadata of an image</li>
+	  <li>Fast read and write access to the
+	    <a href="http://en.wikipedia.org/wiki/Exif">Exif</a>, 
+	    <a href="http://en.wikipedia.org/wiki/IPTC">IPTC</a> and 
+	    <a href="http://en.wikipedia.org/wiki/Extensible_Metadata_Platform">XMP</a>
+	    <a href="http://en.wikipedia.org/wiki/Metadata">metadata</a> of an image</li>
 	  <li>Easy to use and <a href="doc/index.html" title="Exiv2 API documentation">extensively documented</a> C++ API</li>
 	  <li><a href="conversion.html" title="Exiv2 Conversions">Conversions</a> of Exif and IPTC metadata to XMP and vice versa</li>
 	  <li>Smart IPTC implementation that does not affect data that programs like Photoshop store
@@ -41,8 +45,11 @@ __navbar__
       <div class="col-sm-6">
 	<h2 id="util">Command line utility</h2>
 	<ul>
-	  <li>Print Exif, IPTC and XMP image metadata in different formats: Exif summary info, interpreted values,
-	    or the plain data for each tag</li>
+	  <li>Print <a href="http://en.wikipedia.org/wiki/Exif">Exif</a>, 
+            <a href="http://en.wikipedia.org/wiki/IPTC">IPTC</a> and 
+            <a href="http://en.wikipedia.org/wiki/Extensible_Metadata_Platform">XMP</a> image
+            <a href="http://en.wikipedia.org/wiki/Metadata">metadata</a> in different formats: 
+	    Exif summary info, interpreted values, or the plain data for each tag</li>
 	  <li><a title="Modify" href="sample.html#modify">Set, add and delete</a> Exif, IPTC and XMP image metadata
 	    from command line modify commands or command scripts</li>
 	  <li>Adjust the Exif timestamp (that's how it all started...)</li>
