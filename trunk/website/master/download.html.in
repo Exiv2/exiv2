@@ -141,6 +141,9 @@ for NLS,
 
 <pre class="pre-x-scrollable">$ svn export svn://dev.exiv2.org/svn/tags/__version__/test</pre>
 
+<p>The <a href="http://dev.exiv2.org/projects/exiv2/wiki" title="Exiv2 community website">Exiv2 community website</a>
+ provides access to further project resources, including the issue tracker, wiki and forum.</p>
+
 <h2 id="license">License</h2>
 
 <p>Exiv2 is <a href="http://www.gnu.org/philosophy/free-sw.html">free software</a>; 
