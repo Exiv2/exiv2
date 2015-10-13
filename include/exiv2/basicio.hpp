@@ -229,7 +229,7 @@ namespace Exiv2 {
         virtual bool isopen() const = 0;
         //!Returns 0 if the IO source is in a valid state, otherwise nonzero.
         virtual int error() const = 0;
-        //!Returns true if the IO position has reach the end, otherwise false.
+        //!Returns true if the IO position has reached the end, otherwise false.
         virtual bool eof() const = 0;
         /*!
           @brief Return the path to the IO resource. Often used to form
@@ -512,7 +512,7 @@ namespace Exiv2 {
         virtual bool isopen() const;
         //! Returns 0 if the file is in a valid state, otherwise nonzero.
         virtual int error() const;
-        //! Returns true if the file position has reach the end, otherwise false.
+        //! Returns true if the file position has reached the end, otherwise false.
         virtual bool eof() const;
         //! Returns the path of the file
         virtual std::string path() const;
@@ -721,7 +721,7 @@ namespace Exiv2 {
         virtual bool isopen() const;
         //!Always returns 0
         virtual int error() const;
-        //!Returns true if the IO position has reach the end, otherwise false.
+        //!Returns true if the IO position has reached the end, otherwise false.
         virtual bool eof() const;
         //! Returns a dummy path, indicating that memory access is used
         virtual std::string path() const;
@@ -1065,7 +1065,7 @@ namespace Exiv2 {
        virtual bool isopen() const;
        //!Always returns 0
        virtual int error() const;
-       //!Returns true if the IO position has reach the end, otherwise false.
+       //!Returns true if the IO position has reached the end, otherwise false.
        virtual bool eof() const;
        //!Returns the URL of the file.
        virtual std::string path() const;

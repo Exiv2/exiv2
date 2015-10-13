@@ -23,7 +23,7 @@ try {
     Exiv2::DataBuf buf(io.size());
     std::cout << "Reading " << buf.size_ << " bytes from " << data << "\n";
     io.read(buf.pData_, buf.size_);
-    if (io.error() || io.eof()) throw Exiv2::Error(14);
+    if (io.error() || !io.eof()) throw Exiv2::Error(14);
 
     // Read metadata from file
     Exiv2::Image::AutoPtr image = Exiv2::ImageFactory::open(file);
