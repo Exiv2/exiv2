@@ -12,27 +12,35 @@
 #ifndef _EXV_MSVC_H_
 #define _EXV_MSVC_H_
 
-#if _MSC_VER >= 1600
-// stdint.h was introduced with DevStudio 2010
-#define EXV_HAVE_STDINT_H 1
-#endif
-#if    _MSC_VER >= 1900
-#define MSDEV_2014    1
-#elif  _MSC_VER >= 1800
+#define _MSC_VER_2015 1900
+#define _MSC_VER_2013 1800
+#define _MSC_VER_2012 1700
+#define _MSC_VER_2010 1600
+#define _MSC_VER_2008 1500
+#define _MSC_VER_2005 1400
+#define _MSC_VER_2003 1300
+
+#if    _MSC_VER >= _MSC_VER_2015
+#define MSDEV_2015    1
+#elif  _MSC_VER >= _MSC_VER_2013
 #define MSDEV_2013    1
-#elif  _MSC_VER >= 1700
+#elif  _MSC_VER >= _MSC_VER_2012
 #define MSDEV_2012    1
-#elif  _MSC_VER >= 1600
+#elif  _MSC_VER >= _MSC_VER_2010
 #define MSDEV_2010    1
-#elif  _MSC_VER >= 1500
+#elif  _MSC_VER >= _MSC_VER_2008
 #define MSDEV_2008    1
-#elif  _MSC_VER >= 1400
+#elif  _MSC_VER >= _MSC_VER_2005
 #define MSDEV_2005    1
 #else
 #define MSDEV_2003    1
 #endif
 
-#if MSDEV_2012
+#if _MSC_VER >= _MSC_VER_2010
+#define EXV_HAVE_STDINT_H 1
+#endif
+
+#if _MSC_VER_ == _MSC_VER_2012
 #define HAVE_NTOHLL 1
 #endif
 
@@ -82,11 +90,13 @@ typedef int pid_t;
 #define HAVE_LIBZ 1
 
 #if HAVE_LIBZ
-  #define EXV_HAVE_LIBZ
+  #define EXV_HAVE_LIBZ 1
   // assist VC7.1 to compile vsnprintf
   #if (_MSC_VER < 1400) && !defined(vsnprintf)
   #define vsnprintf _vsnprintf
   #endif
+#else
+  #define EXV_HAVE_LIBZ 0
 #endif
 
 /* Define to 1 if you have the Adobe XMP Toolkit. */
