@@ -276,11 +276,14 @@ namespace Exiv2 {
         { (long int)0x3800000, "PowerShot SX530 HS" },
         { (long int)0x3820000, "PowerShot SX710 HS" },
         { (long int)0x3830000, "PowerShot SX610 HS" },
+        { (long int)0x3840000, "EOS M10" },
         { (long int)0x3850000, "PowerShot G3 X" },
         { (long int)0x3860000, "PowerShot ELPH 165 HS / IXUS 165 / IXY 160" },
         { (long int)0x3870000, "PowerShot ELPH 160 / IXUS 160" },
         { (long int)0x3890000, "PowerShot ELPH 170 IS / IXUS 170" },
         { (long int)0x3910000, "PowerShot SX410 HS" },
+        { (long int)0x3930000, "PowerShot G9 X" },
+        { (long int)0x3950000, "PowerShot G5 X" },
         { (long int)0x4040000, "PowerShot G1" },
         { (long int)0x6040000, "PowerShot S100 / Digital IXUS / IXY Digital" },
         { (long int)0x4007d673, "DC19/DC21/DC22" },
@@ -822,8 +825,10 @@ namespace Exiv2 {
         { 180, "Sigma 24mm f/1.4 DG HSM | A"                                }, // 2
         { 180, "Zeiss Milvus 50mm f/1.4"                                    }, // 3
         { 180, "Zeiss Milvus 85mm f/1.4"                                    }, // 4
-        { 181, "Canon EF 100-400mm f/4.5-5.6L IS + 1.4x"                    },
-        { 182, "Canon EF 100-400mm f/4.5-5.6L IS + 2x"                      },
+        { 181, "Canon EF 100-400mm f/4.5-5.6L IS + 1.4x"                    }, // 0
+        { 181, "Sigma 150-600mm f/5-6.3 DG OS HSM | S + 1.4x"               }, // 1
+        { 182, "Canon EF 100-400mm f/4.5-5.6L IS + 2x"                      }, // 0
+        { 182, "Sigma 150-600mm f/5-6.3 DG OS HSM | S + 2x"                 }, // 1
         { 183, "Canon EF 100-400mm f/4.5-5.6L IS"                           }, // 0
         { 183, "Sigma 150mm f/2.8 EX DG OS HSM APO Macro"                   }, // 1
         { 183, "Sigma 105mm f/2.8 EX DG OS HSM Macro"                       }, // 2
@@ -858,7 +863,8 @@ namespace Exiv2 {
         { 213, "Tamron SP 150-600mm F/5-6.3 Di VC USD"                      }, // 1
         { 213, "Tamron 16-300mm f/3.5-6.3 Di II VC PZD Macro"               }, // 2
         { 213, "Tamron SP 35mm f/1.8 Di VC USD"                             }, // 3
-        { 213, "Tamron SP 70-300mm f/4-5.6 Di VC USD"                       }, // 4
+        { 213, "Tamron SP 45mm f/1.8 Di VC USD"                             }, // 4
+        { 213, "Tamron SP 70-300mm f/4-5.6 Di VC USD"                       }, // 5
         { 214, "Canon EF-S 18-55mm f/3.5-5.6 USM"                           },
         { 215, "Canon EF 55-200mm f/4.5-5.6 II USM"                         },
         { 217, "Tamron AF 18-270mm f/3.5-6.3 Di II VC PZD"                  },
@@ -928,6 +934,7 @@ namespace Exiv2 {
         { 4149,"Canon EF-M 55-200mm f/4.5-6.3 IS STM"                       },
         { 4150,"Canon EF-S 10-18mm f/4.5-5.6 IS STM"                        },
         { 4152,"Canon EF 24-105mm f/3.5-5.6 IS STM"                         },
+        { 4153,"Canon EF-M 15-45mm f/3.5-6.3 IS STM"                        },
         { 4154,"Canon EF-S 24mm f/2.8 STM"                                  },
         { 4156,"Canon EF 50mm f/1.8 STM"                                    }
     };
@@ -970,6 +977,8 @@ namespace Exiv2 {
         { 173, printCsLensByFocalLengthTC }, // works partly
         { 174, printCsLensByFocalLength }, // not tested
         { 180, printCsLensByFocalLength },
+        { 181, printCsLensByFocalLengthTC }, // not tested
+        { 182, printCsLensByFocalLengthTC }, // not tested
         { 183, printCsLensByFocalLength }, // not tested
         { 198, printCsLensByFocalLength }, // not tested
         { 213, printCsLensByFocalLength }, // not tested
