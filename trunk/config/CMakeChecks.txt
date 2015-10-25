@@ -1,4 +1,5 @@
 # CMake build system for exiv2 library and executables
+# Copyright 2015 by Daniel Kaneider      <danielkaneider@users.sf.net>
 # Copyright 2008 by Patrick Spendrin <ps_ml@gmx.de>
 # Copyright 2010 by Gilles Caulier <caulier dot gilles at gmail dot com>
 #
@@ -30,7 +31,6 @@
 #
 # ConfigureChecks for exiv2
 
-SET( CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} ${CMAKE_CURRENT_SOURCE_DIR}/config )
 INCLUDE( CheckIncludeFile )
 INCLUDE( CheckFunctionExists )
 INCLUDE( CheckSymbolExists )
@@ -64,29 +64,15 @@ ENDIF( EXIV2_ENABLE_VIDEO )
 IF( EXIV2_ENABLE_WEBREADY )
     SET( ENABLE_WEBREADY 1 )
     IF( EXIV2_ENABLE_CURL )
-        FIND_PACKAGE( CURL )
+        FIND_PACKAGE( CURL REQUIRED)
         INCLUDE_DIRECTORIES( ${CURL_INCLUDE_DIR} )
-        # FindCURL.cmake doesn't check for REQUIRED flags - so we need to check ourselves
-        IF( MINGW OR UNIX )
-            IF (NOT CURL_FOUND)
-                MESSAGE(FATAL_ERROR "missing library curl required for HttpIo")
-            ELSE (NOT CURL_FOUND)
-                SET ( USE_CURL 1 )
-            ENDIF( NOT CURL_FOUND )
-        ENDIF( MINGW OR UNIX )
-    ENDIF( EXIV2_ENABLE_CURL )
+        SET ( USE_CURL 1 )
+    ENDIF()
 
     IF( EXIV2_ENABLE_SSH )
-        FIND_PACKAGE( SSH )
+        FIND_PACKAGE( SSH REQUIRED)
         INCLUDE_DIRECTORIES( ${SSH_INCLUDE_DIR} )
-        # FindSSH.cmake doesn't check for REQUIRED flags - so we need to check ourselves
-        IF( MINGW OR UNIX )
-            IF (NOT SSH_FOUND)
-                MESSAGE(FATAL_ERROR "missing library libssh required for SshIo")
-            ELSE (NOT SSH_FOUND)
-                SET ( USE_SSH 1 )
-            ENDIF( NOT SSH_FOUND )
-        ENDIF( MINGW OR UNIX )
+        SET ( USE_SSH 1 )
     ENDIF( EXIV2_ENABLE_SSH )
 ENDIF( EXIV2_ENABLE_WEBREADY )
 
@@ -116,7 +102,13 @@ IF( EXIV2_ENABLE_NLS )
         ENDIF( WIN32 )
     ENDIF( NOT LOCALEDIR )
     ADD_DEFINITIONS( -DEXV_LOCALEDIR="${LOCALEDIR}" )
+    SET( ENABLE_NLS 1 )
 ENDIF( EXIV2_ENABLE_NLS )
+
+# Force unicode support on windows
+IF( EXIV2_ENABLE_WIN_UNICODE )
+    SET ( UNICODE_PATH 1 )
+ENDIF()
 
 IF( EXIV2_ENABLE_COMMERCIAL )
     ADD_DEFINITIONS( -DEXV_COMMERCIAL_VERSION )
@@ -265,6 +257,7 @@ SET( EXV_SYMBOLS ENABLE_NLS
                  HAVE_XMP_TOOLKIT
                  HAVE__BOOL
                  HAVE_REGEX
+                 UNICODE_PATH
                  USE_CURL
                  USE_SSH
                  PACKAGE
@@ -283,9 +276,16 @@ FOREACH( entry ${EXV_SYMBOLS} )
 ENDFOREACH( entry ${EXV_SYMBOLS} )
 
 CONFIGURE_FILE( config/config.h.cmake ${CMAKE_SOURCE_DIR}/include/exiv2/exv_conf.h )
-CONFIGURE_FILE( config/exv_msvc.h.cmake ${CMAKE_CURRENT_BINARY_DIR}/exv_msvc.h COPYONLY )
+
+# when removing support of VS solution files, get rid of this stuff
+#VSslnCompat 
+IF (MSVC)
+    CONFIGURE_FILE( config/config.h.cmake ${CMAKE_SOURCE_DIR}/include/exiv2/exv_msvc.h )
+    CONFIGURE_FILE( ${CMAKE_SOURCE_DIR}/include/exiv2/exv_msvc.h ${CMAKE_BINARY_DIR}/ignore/exv_msvc.h COPYONLY )
+ENDIF()
+
+INSTALL( FILES ${CMAKE_BINARY_DIR}/ignore/exv_msvc.h DESTINATION include/exiv2 )
 INSTALL( FILES ${CMAKE_SOURCE_DIR}/include/exiv2/exv_conf.h DESTINATION include/exiv2 )
-INSTALL( FILES ${CMAKE_SOURCE_DIR}/include/exiv2/exv_msvc.h DESTINATION include/exiv2 )
 INSTALL( FILES ${CMAKE_SOURCE_DIR}/src/svn_version.h        DESTINATION include/exiv2 )
 
 CONFIGURE_FILE(config/exiv2_uninstall.cmake ${CMAKE_BINARY_DIR}/cmake_uninstall.cmake COPYONLY)
@@ -328,5 +328,7 @@ if    ( EXIV2_ENABLE_WEBREADY )
 OptionOutput( "USE Libcurl for HttpIo:             " EXIV2_ENABLE_CURL               )
 OptionOutput( "USE Libssh for SshIo:               " EXIV2_ENABLE_SSH                )
 endif ( EXIV2_ENABLE_WEBREADY )
-
+IF (WIN32)
+OptionOutput( "Unicode paths (wstring):            " EXIV2_ENABLE_WIN_UNICODE        )
+ENDIF()
 MESSAGE( STATUS "------------------------------------------------------------------" )

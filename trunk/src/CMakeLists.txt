@@ -1,4 +1,5 @@
 # CMake build system for exiv2 library and executables
+# Copyright 2015-     Daniel Kaneider  <danielkaneider@users.sf.net>
 # Copyright 2012-     Robin Mills      <robin@clanmills.com>
 # Copyright 2010-2012 Gilles Caulier   <caulier dot gilles at gmail dot com>
 # Copyright 2008      Patrick Spendrin <ps_ml@gmx.de>
@@ -181,10 +182,6 @@ ENDIF( EXIV2_ENABLE_PNG )
 
 INCLUDE_DIRECTORIES(${CMAKE_CURRENT_BINARY_DIR})
 
-IF( MSVC ) # to support the old VS solution builds
-    ADD_DEFINITIONS("-DCMAKE_BUILD_SVN")
-ENDIF()
-
 ##
 # add xmp source if xmp is requested and xmp library not built
 IF( EXIV2_ENABLE_XMP )
@@ -268,11 +265,7 @@ ENDIF()
 IF( EXIV2_ENABLE_PNG )
     IF( ZLIB_FOUND )
         IF( MSVC )
-            if ( EXIV2_ENABLE_SHARED )
-                TARGET_LINK_LIBRARIES( exiv2lib PRIVATE optimized ${ZLIB_LIBRARIES}.lib debug ${ZLIB_LIBRARIES}d.lib )
-            else()
-                TARGET_LINK_LIBRARIES( exiv2lib PRIVATE optimized zlibstatic.lib debug zlibstaticd.lib )
-            endif()
+            TARGET_LINK_LIBRARIES( exiv2lib PRIVATE optimized ${ZLIB_LIBRARIES} debug ${ZLIB_LIBRARIES}d )
         ELSE()
             TARGET_LINK_LIBRARIES( exiv2lib PRIVATE ${ZLIB_LIBRARIES} )
         ENDIF()

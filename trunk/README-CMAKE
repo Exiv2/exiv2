@@ -1,8 +1,8 @@
 -------------------------------------------------------------------------------
 NOTE: 
 
-* CMake scripts are "work in progress".
-  Use them only if you're prepared to fix them.
+* CMake scripts are "mostly" functional.
+  Use them only if you're know how to use CMake (i.e. be prepared to fix them).
   See TODO-CMAKE for known pending tasks. 
 
 * The existing automake (./configure), msvc2003 and msvc2005 build files will continue
