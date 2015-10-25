@@ -1,5 +1,6 @@
 // config.h
-//
+
+// #VSslnCompat - get rid of exv_msvc*.h files
 #ifdef _MSC_VER
 # ifdef EXV_MSVC_CONFIGURE
 #  include "exv_msvc_configure.h"

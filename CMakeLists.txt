@@ -1,4 +1,5 @@
 # CMake build system for exiv2 library and executables
+# Copyright 2015-     Daniel Kaneider  <danielkaneider@users.sf.net>
 # Copyright 2012-     Robin Mills      <robin@clanmills.com>
 # Copyright 2010-2012 Gilles Caulier   <caulier dot gilles at gmail dot com>
 # Copyright 2008      Patrick Spendrin <ps_ml at gmx dot de>
@@ -55,7 +56,12 @@ OPTION( EXIV2_ENABLE_VIDEO         "Build video support into library"           
 OPTION( EXIV2_ENABLE_WEBREADY      "Build webready support into library"                   OFF )
 OPTION( EXIV2_ENABLE_CURL          "USE Libcurl for HttpIo"                                ON  )
 OPTION( EXIV2_ENABLE_SSH           "USE Libssh for SshIo"                                  ON  )
-OPTION( EXIV2_ENABLE_WIN_UNICODE   "Use Unicode paths (wstring) on Windows"                OFF )
+IF (WIN32)
+    OPTION( EXIV2_ENABLE_WIN_UNICODE   "Use Unicode paths (wstring) on Windows"            OFF )
+ENDIF()
+
+# set include path for FindXXX.cmake files
+set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} "${CMAKE_SOURCE_DIR}/config/")
 
 IF( MINGW OR UNIX )
     IF ( CMAKE_CXX_COMPILER STREQUAL "g++" OR CMAKE_C_COMPILER STREQUAL "gcc" )
@@ -70,13 +76,13 @@ IF( MINGW OR UNIX )
     ENDIF()
 ENDIF( MINGW OR UNIX )
 
-# Force unicode support on windows
-IF (WIN32)
-    IF( EXIV2_ENABLE_WIN_UNICODE )
-        ADD_DEFINITIONS( -DEXV_UNICODE_PATH )
-    ENDIF()
+IF( EXIV2_ENABLE_COMMERCIAL )
+    SET (EXIV2_ENABLE_LENSDATA OFF)
+    SET (EXIV2_ENABLE_NLS OFF)
 ENDIF()
 
+
+# binary as first, since it workarounds old VS solution compatibility problems
 INCLUDE_DIRECTORIES( ${CMAKE_SOURCE_DIR}/src/ ${CMAKE_SOURCE_DIR}/include/  ${CMAKE_SOURCE_DIR}/include/exiv2/)
 
 if( MSVC )
@@ -95,10 +101,6 @@ if( MSVC )
     set(C curl-7.39.0)
     set(C libssh-0.5.5)
 
-    if( NOT IS_DIRECTORY ./../${E} )
-        set(OUT_OF_SOURCE 1)
-    endif()
-
     # link dependent libraries
     FIND_PACKAGE(EXPAT QUIET)
     if ( NOT EXPAT_LIBRARY  )
@@ -112,13 +114,6 @@ if( MSVC )
         set(CURL_LIBRARY       ${CMAKE_SOURCE_DIR}/../${C}/$(ConfigurationName)/curl)
         set(CURL_INCLUDE_DIR   ${CMAKE_SOURCE_DIR}/../${C})
         include_directories( ${CURL_INCLUDE_DIR})
-    endif()
-
-    # FIND_PACKAGE(SSH)
-    if ( NOT SSH_FOUND )
-        set(SSH_LIBRARY       ${CMAKE_SOURCE_DIR}/../${C}/$(ConfigurationName)/ssh)
-        set(SSH_INCLUDE_DIR   ${CMAKE_SOURCE_DIR}/../${C})
-        include_directories( ${SSH_INCLUDE_DIR})
     endif()
 
     FIND_PACKAGE(ZLIB QUIET)
