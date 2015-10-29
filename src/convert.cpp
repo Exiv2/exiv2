@@ -1172,9 +1172,9 @@ namespace Exiv2 {
         if (erase_) xmpData_->erase(pos);
     }
 
+#ifdef EXV_HAVE_XMP_TOOLKIT
     std::string Converter::computeExifDigest(bool tiff)
     {
-#ifdef EXV_HAVE_XMP_TOOLKIT
         std::ostringstream res;
         MD5_CTX    context;
         unsigned char digest[16];
@@ -1203,10 +1203,14 @@ namespace Exiv2 {
             res << static_cast<int>(digest[i]);
         }
         return res.str();
-#else
-        return std::string("");
-#endif
     }
+#else
+    std::string Converter::computeExifDigest(bool)
+    {
+        return std::string("");
+    }
+#endif
+
 
     void Converter::writeExifDigest()
     {
@@ -1483,7 +1487,7 @@ namespace {
     }
 
     typedef bool (*ConvFct)(std::string& str);
-    
+
     struct ConvFctList {
         bool operator==(std::pair<const char*, const char*> fromTo) const
             { return 0 == strcmp(from_, fromTo.first) && 0 == strcmp(to_, fromTo.second); }

@@ -94,11 +94,11 @@ namespace {
                    const std::string& propPath,
                    const std::string& propValue,
                    const XMP_OptionBits& opt);
-#endif // EXV_HAVE_XMP_TOOLKIT
 
     //! Make an XMP key from a schema namespace and property path
     Exiv2::XmpKey::AutoPtr makeXmpKey(const std::string& schemaNs,
                                       const std::string& propPath);
+#endif // EXV_HAVE_XMP_TOOLKIT
 
     //! Helper class used to serialize critical sections
     class AutoLock
@@ -394,10 +394,10 @@ namespace Exiv2 {
     XmpParser::XmpLockFct XmpParser::xmpLockFct_ = 0;
     void* XmpParser::pLockData_ = 0;
 
+#ifdef EXV_HAVE_XMP_TOOLKIT
     bool XmpParser::initialize(XmpParser::XmpLockFct xmpLockFct, void* pLockData)
     {
         if (!initialized_) {
-#ifdef EXV_HAVE_XMP_TOOLKIT
             xmpLockFct_ = xmpLockFct;
             pLockData_ = pLockData;
             initialized_ = SXMPMeta::Initialize();
@@ -422,13 +422,17 @@ namespace Exiv2 {
             SXMPMeta::RegisterNamespace("http://cipa.jp/exif/1.0/", "exifEX");
             SXMPMeta::RegisterNamespace("http://www.audio/", "audio");
             SXMPMeta::RegisterNamespace("http://www.video/", "video");
-#else
-            initialized_ = true;
-#endif
         }
+    }
+#else
+    bool XmpParser::initialize(XmpParser::XmpLockFct, void* )
+    {
+    	initialized_ = true;
         return initialized_;
     }
+#endif
 
+#ifdef EXV_HAVE_XMP_TOOLKIT
     static XMP_Status nsDumper
     ( void*           refCon
     , XMP_StringPtr   buffer
@@ -465,20 +469,23 @@ namespace Exiv2 {
         }
         return result;
     }
+#endif
 
+#ifdef EXV_HAVE_XMP_TOOLKIT
     void XmpParser::registeredNamespaces(Exiv2::Dictionary& dict)
     {
     	bool bInit = !initialized_;
         try {
         	if (bInit) initialize();
-#ifdef EXV_HAVE_XMP_TOOLKIT
         	SXMPMeta::DumpNamespaces(nsDumper,&dict);
-#endif
         	if (bInit) terminate();
         } catch (const XMP_Error& e) {
             throw Error(40, e.GetID(), e.GetErrMsg());
         }
     }
+#else
+    void XmpParser::registeredNamespaces(Exiv2::Dictionary&){}
+#endif
 
     void XmpParser::terminate()
     {
@@ -908,7 +915,6 @@ namespace {
                    const XMP_OptionBits& )
     {}
 #endif // DEBUG
-#endif // EXV_HAVE_XMP_TOOLKIT
 
     Exiv2::XmpKey::AutoPtr makeXmpKey(const std::string& schemaNs,
                                       const std::string& propPath)
@@ -926,5 +932,6 @@ namespace {
         }
         return Exiv2::XmpKey::AutoPtr(new Exiv2::XmpKey(prefix, property));
     } // makeXmpKey
+#endif // EXV_HAVE_XMP_TOOLKIT
 
 }
