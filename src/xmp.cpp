@@ -423,6 +423,7 @@ namespace Exiv2 {
             SXMPMeta::RegisterNamespace("http://www.audio/", "audio");
             SXMPMeta::RegisterNamespace("http://www.video/", "video");
         }
+        return initialized_;
     }
 #else
     bool XmpParser::initialize(XmpParser::XmpLockFct, void* )
