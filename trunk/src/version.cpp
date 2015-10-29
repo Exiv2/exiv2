@@ -55,9 +55,43 @@ EXIV2_RCSID("@(#) $Id$")
 # endif
 #endif
 
+#ifndef EXV_HAVE_XMP_TOOLKIT
+#define EXV_HAVE_XMP_TOOLKIT 0
+#endif
+
+#ifndef EXV_HAVE_STRINGS
+#define EXV_HAVE_STRINGS 0
+#endif
+
+#ifndef  EXV_SYS_TYPES
+#define  EXV_SYS_TYPES 0
+#endif
+
+
+#ifndef  EXV_HAVE_UNISTD
+#define  EXV_HAVE_UNISTD 0
+#endif
+
+#ifndef  EXV_UNICODE_PATH
+#define  EXV_UNICODE_PATH 0
+#endif
+
+#ifndef  EXV_ENABLE_VIDEO
+#define  EXV_ENABLE_VIDEO 0
+#endif
+
+#ifndef  EXV_ENABLE_WEBREADY
+#define  EXV_ENABLE_WEBREADY 0
+#endif
+
 #include "http.hpp"
 #include "svn_version.h"
 #include "version.hpp"
+
+// Adobe XMP Toolkit
+#if EXV_HAVE_XMP_TOOLKIT
+#include "xmp.hpp"
+#endif
 
 // + standard includes
 #include <iomanip>
@@ -65,13 +99,8 @@ EXIV2_RCSID("@(#) $Id$")
 #include <string>
 #include <vector>
 #include <stdio.h>
-
 #include <iostream>
 
-// Adobe XMP Toolkit
-#ifdef EXV_HAVE_XMP_TOOLKIT
-#include "xmp.hpp"
-#endif
 
 namespace Exiv2 {
     int versionNumber()
@@ -533,7 +562,7 @@ void Exiv2::dumpLibraryInfo(std::ostream& os,const exv_grep_keys_t& keys)
     output(os,keys,"enable_video"      ,enable_video     );
     output(os,keys,"enable_webready"   ,enable_webready  );
 
-#ifdef EXV_HAVE_XMP_TOOLKIT
+#if EXV_HAVE_XMP_TOOLKIT
     const char* name = "xmlns";
 
     Exiv2::Dictionary ns;

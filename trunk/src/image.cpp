@@ -264,12 +264,14 @@ namespace Exiv2 {
         writeXmpFromPacket(false);
     }
 
+#ifdef EXV_HAVE_XMP_TOOLKIT
     void Image::writeXmpFromPacket(bool flag)
     {
-#ifdef EXV_HAVE_XMP_TOOLKIT
         writeXmpFromPacket_ = flag;
-#endif
     }
+#else
+    void Image::writeXmpFromPacket(bool) {}
+#endif
 
     void Image::clearComment()
     {
