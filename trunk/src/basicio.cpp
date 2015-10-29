@@ -281,7 +281,7 @@ namespace Exiv2 {
             // No extended attributes in source file
             return;
         }
-        char namebuf[namebufSize];
+        char* namebuf = new char[namebufSize];
         if (::listxattr(src.p_->path_.c_str(), namebuf, sizeof(namebuf), 0) != namebufSize) {
             throw Error(2, src.p_->path_, strError(), "listxattr");
         }
@@ -292,7 +292,7 @@ namespace Exiv2 {
             if (valueSize < 0) {
                 throw Error(2, src.p_->path_, strError(), "getxattr");
             }
-            char value[valueSize];
+            char* value = new char[valueSize];
             if (::getxattr(src.p_->path_.c_str(), name, value, sizeof(value), 0, 0) != valueSize) {
                 throw Error(2, src.p_->path_, strError(), "getxattr");
             }
@@ -304,8 +304,10 @@ namespace Exiv2 {
             if (::setxattr(path_.c_str(), name, value, valueSize, 0, 0) != 0) {
                 throw Error(2, path_, strError(), "setxattr");
             }
+            delete [] value;
 #endif
         }
+        delete [] namebuf;
 #else
         // No xattr support for this platform.
 #endif
