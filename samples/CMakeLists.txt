@@ -52,7 +52,7 @@ FOREACH(entry ${SAMPLES})
     STRING( REPLACE ".cpp" "" target ${entry})
     ADD_EXECUTABLE( ${target} ${target}.cpp )
     ADD_TEST( ${target}_test ${target} )
-    TARGET_LINK_LIBRARIES( ${target} PRIVATE exiv2lib ${EXPAT_LIBRARIES})
+    TARGET_LINK_LIBRARIES( ${target} ${PRIVATE_VAR} exiv2lib ${EXPAT_LIBRARIES})
     #INSTALL( TARGETS ${target} ${INSTALL_TARGET_STANDARD_ARGS} )
 ENDFOREACH(entry ${SAMPLES})
 

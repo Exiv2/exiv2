@@ -282,9 +282,9 @@ CONFIGURE_FILE( config/config.h.cmake ${CMAKE_SOURCE_DIR}/include/exiv2/exv_conf
 IF (MSVC)
     CONFIGURE_FILE( config/config.h.cmake ${CMAKE_SOURCE_DIR}/include/exiv2/exv_msvc.h )
     CONFIGURE_FILE( ${CMAKE_SOURCE_DIR}/include/exiv2/exv_msvc.h ${CMAKE_BINARY_DIR}/ignore/exv_msvc.h COPYONLY )
+	INSTALL( FILES ${CMAKE_BINARY_DIR}/ignore/exv_msvc.h DESTINATION include/exiv2 )
 ENDIF()
 
-INSTALL( FILES ${CMAKE_BINARY_DIR}/ignore/exv_msvc.h DESTINATION include/exiv2 )
 INSTALL( FILES ${CMAKE_SOURCE_DIR}/include/exiv2/exv_conf.h DESTINATION include/exiv2 )
 INSTALL( FILES ${CMAKE_SOURCE_DIR}/src/svn_version.h        DESTINATION include/exiv2 )
 
