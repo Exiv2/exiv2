@@ -7,24 +7,34 @@ addons:
       packages:
         - cmake
         - zlib1g-dev
+        - libssh-dev
+        - libssh
+        - libcurl4-openssl-dev
+        - gettext
       sources:
         - kalakris-cmake
         
 compiler:
   - gcc
-# - clang
+  - clang
 
 before_install:
   - echo $LANG
   - echo $LC_ALL
   - rvm use $RVM --install --binary --fuzzy
   - gem update --system
+  - if [ $TRAVIS_OS_NAME == osx ]; then brew update && brew install libssh curl; fi
   - gem --version
 
 script:
   - cmake -DCMAKE_INSTALL_PREFIX=..\dist -EXIV2_ENABLE_NLS=ON -DEXIV2_ENABLE_CURL=OFF -DEXIV2_ENABLE_SSH=OFF .
   - cmake --build . && cmake --build . --target install 
+  - cmake -DCMAKE_INSTALL_PREFIX=..\dist2 -EXIV2_ENABLE_NLS=ON -DEXIV2_ENABLE_CURL=ON -DEXIV2_ENABLE_SSH=ON -DEXIV2_ENABLE_WEBREADY=ON .
+  - cmake --build . && cmake --build . --target install 
 
+notifications:
+  email: false
+  
 os:
   - linux
-# - osx
+  - osx

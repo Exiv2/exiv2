@@ -107,6 +107,8 @@ ELSE( EXIV2_ENABLE_SHARED )
 ENDIF( EXIV2_ENABLE_SHARED )
 
 IF( EXIV2_ENABLE_NLS )
+    #FIND_PACKAGE(Intl REQUIRED)
+    #INCLUDE_DIRECTORIES(${Intl_INCLUDE_DIRS})
     IF( NOT LOCALEDIR )
         SET( LOCALEDIR "${CMAKE_INSTALL_PREFIX}/share/locale" )
         IF( WIN32 )
@@ -191,6 +193,10 @@ return 0;
 }" TM_IN_SYS_TIME )
 ENDIF( HAVE_SYS_TIME_H )
 
+IF (NOT HAVE_LIBINTL_H)
+    SET(ENABLE_NLS 0)
+    SET(EXIV2_ENABLE_NLS 0)
+ENDIF()
 #####################################################################################
 # strerror_r returns char*
 
