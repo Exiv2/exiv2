@@ -19,6 +19,14 @@ rem http://www.npcglib.org/~stathis/blog/precompiled-openssl/
 SET OPENSSL_VERSION=openssl-1.0.2d
 
 
+IF EXIST ..\msvc (
+	echo.
+	echo.ERROR: This file should NOT be executed within the exiv2 source directory,
+	echo.       but in a new empty folder!
+	echo.
+	goto error_end
+)
+
 ml64.exe > NUL
 IF ERRORLEVEL 1 (
 	set Platform=Win32
@@ -30,12 +38,7 @@ IF ERRORLEVEL 1 (
 	set CpuPlatform=intel64
 )
 
-IF EXIST ..\..\..\exiv2-trunk (
-	CD ..\..\..
-	call exiv2-trunk\build\msvc\setenv.cmd
-) ELSE (
-	call setenv.cmd
-)
+call setenv.cmd
 
 
 IF %Platform% EQU x64 (
@@ -250,19 +253,19 @@ IF NOT EXIST libssh-%SSH_VERSION%.build (
 
 
 
-IF NOT EXIST exiv2-trunk (
-    %CYGWIN_DIR%\bin\svn.exe co svn://dev.exiv2.org/svn/trunk exiv2-trunk
+IF NOT EXIST %EXIV_DIR% (
+    %CYGWIN_DIR%\bin\svn.exe co svn://dev.exiv2.org/svn/trunk %EXIV_DIR%
 ) ELSE (
-REM    %CYGWIN_DIR%\bin\svn.exe update exiv2-trunk
+REM    %CYGWIN_DIR%\bin\svn.exe update %EXIV_DIR%
 )
 
-IF NOT EXIST exiv2-trunk.build (
-    mkdir exiv2-trunk.build
+IF NOT EXIST %EXIV_DIR%.build (
+    mkdir %EXIV_DIR%.build
 )
     
-pushd exiv2-trunk.build
+pushd %EXIV_DIR%.build
 
-%CMAKE_DIR%\bin\cmake.exe -G "%VS_CMAKE%" -DCMAKE_INSTALL_PREFIX=..\%INSTALL_DIR% -DCMAKE_PROGRAM_PATH=%SVN_DIR% -DEXIV2_ENABLE_WEBREADY=ON -DEXIV2_ENABLE_BUILD_SAMPLES=ON -DEXIV2_ENABLE_CURL=ON -DEXIV2_ENABLE_SSH=ON -DEXIV2_ENABLE_NLS=OFF -DEXIV2_ENABLE_WIN_UNICODE=ON -DEXIV2_ENABLE_SHARED=ON ..\exiv2-trunk
+%CMAKE_DIR%\bin\cmake.exe -G "%VS_CMAKE%" -DCMAKE_INSTALL_PREFIX=..\%INSTALL_DIR% -DCMAKE_PROGRAM_PATH=%SVN_DIR% -DEXIV2_ENABLE_WEBREADY=ON -DEXIV2_ENABLE_BUILD_SAMPLES=ON -DEXIV2_ENABLE_CURL=ON -DEXIV2_ENABLE_SSH=ON -DEXIV2_ENABLE_NLS=ON -DEXIV2_ENABLE_WIN_UNICODE=ON -DEXIV2_ENABLE_SHARED=ON ..\%EXIV_DIR%
 
 IF errorlevel 1 goto error_end
 

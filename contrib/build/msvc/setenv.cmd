@@ -12,6 +12,8 @@ SET CMAKE_DIR=C:\Data\Programs\cmake-3.3.2-win32-x86
 
 SET SVN_DIR=C:\Data\Programs\Apache-Subversion-1.8.13\bin
 
+SET EXIV_DIR=exiv2-trunk
+
 REM Options:  -------------------------------------------
 
 REM enable another configuration (defaulting to Release)
