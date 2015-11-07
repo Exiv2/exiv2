@@ -107,9 +107,11 @@ IF( EXIV2_ENABLE_NLS )
     SET( ENABLE_NLS 1 )
 ENDIF( EXIV2_ENABLE_NLS )
 
-# Force unicode support on windows
+# unicode path support on windows
 IF( EXIV2_ENABLE_WIN_UNICODE )
-    SET ( UNICODE_PATH 1 )
+	IF (WIN32)
+    	SET ( UNICODE_PATH 1 )
+    ENDIF()
 ENDIF()
 
 IF( EXIV2_ENABLE_COMMERCIAL )
@@ -284,7 +286,7 @@ ENDFOREACH( entry ${EXV_SYMBOLS} )
 CONFIGURE_FILE( config/config.h.cmake ${CMAKE_SOURCE_DIR}/include/exiv2/exv_conf.h )
 
 # when removing support of VS solution files, get rid of this stuff
-#VSslnCompat 
+#VSslnCompat
 IF (MSVC)
     CONFIGURE_FILE( config/config.h.cmake ${CMAKE_SOURCE_DIR}/include/exiv2/exv_msvc.h )
     CONFIGURE_FILE( ${CMAKE_SOURCE_DIR}/include/exiv2/exv_msvc.h ${CMAKE_BINARY_DIR}/ignore/exv_msvc.h COPYONLY )
