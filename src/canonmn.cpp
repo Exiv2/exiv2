@@ -825,6 +825,7 @@ namespace Exiv2 {
         { 180, "Sigma 24mm f/1.4 DG HSM | A"                                }, // 2
         { 180, "Zeiss Milvus 50mm f/1.4"                                    }, // 3
         { 180, "Zeiss Milvus 85mm f/1.4"                                    }, // 4
+        { 180, "Zeiss Otus 28mm f/1.4"                                      }, // 5
         { 181, "Canon EF 100-400mm f/4.5-5.6L IS + 1.4x"                    }, // 0
         { 181, "Sigma 150-600mm f/5-6.3 DG OS HSM | S + 1.4x"               }, // 1
         { 182, "Canon EF 100-400mm f/4.5-5.6L IS + 2x"                      }, // 0
