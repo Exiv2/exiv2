@@ -8,7 +8,7 @@ REM ---------------------------------------------------
 SET CYGWIN_DIR=c:\cygwin64
 SET TEMP_DIR=.downloaddir
 
-SET CMAKE_DIR=C:\Data\Programs\cmake-3.3.2-win32-x86
+SET CMAKE_EXE=C:\Data\Programs\cmake-3.3.2-win32-x86\bin\cmake.exe
 
 SET SVN_DIR=C:\Data\Programs\Apache-Subversion-1.8.13\bin
 
@@ -19,8 +19,13 @@ REM Options:  -------------------------------------------
 REM enable another configuration (defaulting to Release)
 REM SET Configuration=Debug
 
-
-IF DEFINED VS120COMNTOOLS (
+IF DEFINED VS140COMNTOOLS (
+	REM Visual Studio 2015
+	set VS_SHORT=vc14
+	set VS_CMAKE=Visual Studio 14
+	set VS_PROG_FILES=Microsoft Visual Studio 14.0
+	set VS_OPENSSL=vs2015
+) ELSE IF DEFINED VS120COMNTOOLS (
 	REM Visual Studio 2013
 	set VS_SHORT=vc12
 	set VS_CMAKE=Visual Studio 12
