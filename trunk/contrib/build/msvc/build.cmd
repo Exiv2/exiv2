@@ -45,9 +45,9 @@ IF %Platform% EQU x64 (
 	set VS_CMAKE=%VS_CMAKE% Win64
 )
 
-IF NOT EXIST %CMAKE_DIR%\bin\cmake.exe (
+IF NOT EXIST %CMAKE_EXE% (
 	echo.
-	echo.ERROR: CMake not found: %CMAKE_DIR%\bin\cmake.exe
+	echo.ERROR: CMake not found: %CMAKE_EXE%
 	echo.
 	goto error_end
 )
@@ -129,11 +129,11 @@ IF NOT EXIST zlib-%ZLIB_COMMIT%.build (
     mkdir zlib-%ZLIB_COMMIT%.build
     
     pushd zlib-%ZLIB_COMMIT%.build
-	%CMAKE_DIR%\bin\cmake.exe -G "%VS_CMAKE%" -DCMAKE_INSTALL_PREFIX=..\%INSTALL_DIR% ..\zlib-%ZLIB_COMMIT%
+	%CMAKE_EXE% -G "%VS_CMAKE%" -DCMAKE_INSTALL_PREFIX=..\%INSTALL_DIR% ..\zlib-%ZLIB_COMMIT%
 	IF errorlevel 1 goto error_end
-	%CMAKE_DIR%\bin\cmake.exe --build . --config %Configuration%
+	%CMAKE_EXE% --build . --config %Configuration%
 	IF errorlevel 1 goto error_end
-	%CMAKE_DIR%\bin\cmake.exe --build . --config %Configuration% --target install
+	%CMAKE_EXE% --build . --config %Configuration% --target install
 	IF errorlevel 1 goto error_end
     
     popd
@@ -151,11 +151,11 @@ IF NOT EXIST expat-2.1.0.build (
     mkdir expat-2.1.0.build
     
     pushd expat-2.1.0.build
-	%CMAKE_DIR%\bin\cmake.exe -G "%VS_CMAKE%" -DCMAKE_INSTALL_PREFIX=..\%INSTALL_DIR% ..\expat-2.1.0
+	%CMAKE_EXE% -G "%VS_CMAKE%" -DCMAKE_INSTALL_PREFIX=..\%INSTALL_DIR% ..\expat-2.1.0
 	IF errorlevel 1 goto error_end
-	%CMAKE_DIR%\bin\cmake.exe --build . --config %Configuration%
+	%CMAKE_EXE% --build . --config %Configuration%
 	IF errorlevel 1 goto error_end
-	%CMAKE_DIR%\bin\cmake.exe --build . --config %Configuration% --target install
+	%CMAKE_EXE% --build . --config %Configuration% --target install
 	IF errorlevel 1 goto error_end
 	popd
 )
@@ -176,11 +176,11 @@ REM REM IF NOT EXIST OpenSSL-%SSL_COMMIT%.build (
 REM REM     mkdir OpenSSL-%SSL_COMMIT%.build
 REM     
 REM     pushd OpenSSL-%SSL_COMMIT%
-REM 	%CMAKE_DIR%\bin\cmake.exe -G "%VS_CMAKE%" -DCMAKE_INSTALL_PREFIX=..\%INSTALL_DIR% .
+REM 	%CMAKE_EXE% -G "%VS_CMAKE%" -DCMAKE_INSTALL_PREFIX=..\%INSTALL_DIR% .
 REM 	IF errorlevel 1 goto error_end
-REM 	%CMAKE_DIR%\bin\cmake.exe --build . --config %Configuration%
+REM 	%CMAKE_EXE% --build . --config %Configuration%
 REM 	IF errorlevel 1 goto error_end
-REM 	%CMAKE_DIR%\bin\cmake.exe --build . --config %Configuration% --target install
+REM 	%CMAKE_EXE% --build . --config %Configuration% --target install
 REM 	IF errorlevel 1 goto error_end
 REM     
 REM REM     popd
@@ -218,11 +218,11 @@ IF NOT EXIST curl-%CURL_COMMIT%.build (
     mkdir curl-%CURL_COMMIT%.build
     
     pushd curl-%CURL_COMMIT%.build
-	%CMAKE_DIR%\bin\cmake.exe -G "%VS_CMAKE%" -DCMAKE_INSTALL_PREFIX=..\%INSTALL_DIR% -DCMAKE_PREFIX_PATH=..\%OPENSSL_LONG% -DBUILD_CURL_TESTS=OFF -DCMAKE_USE_OPENSSL=ON -DCMAKE_USE_LIBSSH2=OFF ..\curl-%CURL_COMMIT%
+	%CMAKE_EXE% -G "%VS_CMAKE%" -DCMAKE_INSTALL_PREFIX=..\%INSTALL_DIR% -DCMAKE_PREFIX_PATH=..\%OPENSSL_LONG% -DBUILD_CURL_TESTS=OFF -DCMAKE_USE_OPENSSL=ON -DCMAKE_USE_LIBSSH2=OFF ..\curl-%CURL_COMMIT%
 	IF errorlevel 1 goto error_end
-	%CMAKE_DIR%\bin\cmake.exe --build . --config %Configuration%
+	%CMAKE_EXE% --build . --config %Configuration%
 	IF errorlevel 1 goto error_end
-	%CMAKE_DIR%\bin\cmake.exe --build . --config %Configuration% --target install
+	%CMAKE_EXE% --build . --config %Configuration% --target install
 	IF errorlevel 1 goto error_end
     
     popd
@@ -240,17 +240,16 @@ IF NOT EXIST libssh-%SSH_VERSION%.build (
     
     pushd libssh-%SSH_VERSION%.build
 	
-	%CMAKE_DIR%\bin\cmake.exe -G "%VS_CMAKE%" -DWITH_GSSAPI=OFF -DWITH_ZLIB=ON -DWITH_SFTP=ON -DWITH_SERVER=OFF -DWITH_EXAMPLES=OFF -DWITH_NACL=OFF -DCMAKE_PREFIX_PATH=..\%OPENSSL_LONG% -DWITH_PCAP=OFF -DCMAKE_INSTALL_PREFIX=..\%INSTALL_DIR%  ..\libssh-%SSH_VERSION%
+	%CMAKE_EXE% -G "%VS_CMAKE%" -DWITH_GSSAPI=OFF -DWITH_ZLIB=ON -DWITH_SFTP=ON -DWITH_SERVER=OFF -DWITH_EXAMPLES=OFF -DWITH_NACL=OFF -DCMAKE_PREFIX_PATH=..\%OPENSSL_LONG% -DWITH_PCAP=OFF -DCMAKE_INSTALL_PREFIX=..\%INSTALL_DIR%  ..\libssh-%SSH_VERSION%
 
 	IF errorlevel 1 goto error_end
-	%CMAKE_DIR%\bin\cmake.exe --build . --config %Configuration%
+	%CMAKE_EXE% --build . --config %Configuration%
 	IF errorlevel 1 goto error_end
-	%CMAKE_DIR%\bin\cmake.exe --build . --config %Configuration% --target install
+	%CMAKE_EXE% --build . --config %Configuration% --target install
 	IF errorlevel 1 goto error_end
     
     popd
 )
-
 
 
 IF NOT EXIST %EXIV_DIR% (
@@ -265,13 +264,13 @@ IF NOT EXIST %EXIV_DIR%.build (
     
 pushd %EXIV_DIR%.build
 
-%CMAKE_DIR%\bin\cmake.exe -G "%VS_CMAKE%" -DCMAKE_INSTALL_PREFIX=..\%INSTALL_DIR% -DCMAKE_PROGRAM_PATH=%SVN_DIR% -DEXIV2_ENABLE_WEBREADY=ON -DEXIV2_ENABLE_BUILD_SAMPLES=ON -DEXIV2_ENABLE_CURL=ON -DEXIV2_ENABLE_SSH=ON -DEXIV2_ENABLE_NLS=ON -DEXIV2_ENABLE_WIN_UNICODE=ON -DEXIV2_ENABLE_SHARED=ON ..\%EXIV_DIR%
+%CMAKE_EXE% -G "%VS_CMAKE%" -DCMAKE_INSTALL_PREFIX=..\%INSTALL_DIR% -DCMAKE_PROGRAM_PATH=%SVN_DIR% -DEXIV2_ENABLE_WEBREADY=ON -DEXIV2_ENABLE_BUILD_SAMPLES=ON -DEXIV2_ENABLE_CURL=ON -DEXIV2_ENABLE_SSH=ON -DEXIV2_ENABLE_NLS=ON -DEXIV2_ENABLE_WIN_UNICODE=ON -DEXIV2_ENABLE_SHARED=ON ..\%EXIV_DIR%
 
 IF errorlevel 1 goto error_end
 
-%CMAKE_DIR%\bin\cmake.exe --build . --config %Configuration%
+%CMAKE_EXE% --build . --config %Configuration%
 IF errorlevel 1 goto error_end
-%CMAKE_DIR%\bin\cmake.exe --build . --config %Configuration% --target install
+%CMAKE_EXE% --build . --config %Configuration% --target install
 IF errorlevel 1 goto error_end
 popd  
 goto end
