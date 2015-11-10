@@ -13,10 +13,6 @@ if (MSVC)
 	include(../CMake_msvc.txt)
 	msvc_runtime_configure(${EXIV2_ENABLE_SHARED})
 	# include_directories( ${CMAKE_CURRENT_SOURCE_DIR}/../include ${CMAKE_CURRENT_SOURCE_DIR}/../msvc64/include )
-
-	if ( NOT EXIV2_ENABLE_SHARED )
-	#	link_directories(${CMAKE_CURRENT_SOURCE_DIR}/../../zlib-1.2.7/$(ConfigurationName))
-	endif()
 endif()
 include_directories("${CMAKE_SOURCE_DIR}/include" "${CMAKE_SOURCE_DIR}/src")
 

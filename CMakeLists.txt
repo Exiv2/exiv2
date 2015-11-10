@@ -54,10 +54,14 @@ OPTION( EXIV2_ENABLE_BUILD_SAMPLES "Build the unit tests"                       
 OPTION( EXIV2_ENABLE_BUILD_PO      "Build translations files"                              OFF )
 OPTION( EXIV2_ENABLE_VIDEO         "Build video support into library"                      OFF )
 OPTION( EXIV2_ENABLE_WEBREADY      "Build webready support into library"                   OFF )
-OPTION( EXIV2_ENABLE_CURL          "USE Libcurl for HttpIo"                                OFF )
-OPTION( EXIV2_ENABLE_SSH           "USE Libssh for SshIo"                                  OFF )
 IF (WIN32)
     OPTION( EXIV2_ENABLE_WIN_UNICODE   "Use Unicode paths (wstring) on Windows"            OFF )
+    OPTION( EXIV2_ENABLE_CURL          "USE Libcurl for HttpIo"                            OFF )
+    OPTION( EXIV2_ENABLE_SSH           "USE Libssh for SshIo"                              OFF )
+ELSE()
+    OPTION( EXIV2_ENABLE_CURL          "USE Libcurl for HttpIo"                            ON  )
+    OPTION( EXIV2_ENABLE_SSH           "USE Libssh for SshIo"                              ON  )
+
 ENDIF()
 
 # set include path for FindXXX.cmake files
@@ -100,50 +104,26 @@ if( MSVC )
 
     ADD_DEFINITIONS(-DPSAPI_VERSION=1) # to be compatible with <= WinVista (#905)
 
-    set(E expat)
-    set(Z zlib)
-    set(C curl)
-    set(S libssh)
-
-    # link dependent libraries
-    FIND_PACKAGE(EXPAT QUIET)
-    if ( EXPAT_FOUND )
-    	include_directories( ${EXPAT_INCLUDE_DIR} )
-    endif()
-    
-    FIND_PACKAGE(CURL QUIET)
-    if ( CURL_FOUND )
-        include_directories( ${CURL_INCLUDE_DIR})
-    endif()
-
-    FIND_PACKAGE(ZLIB QUIET)
-    include_directories(${ZLIB_INCLUDE_DIR})
-
-    if ( EXIV2_ENABLE_SHARED )
-        add_library(${E} SHARED IMPORTED)
-        add_library(${Z} SHARED IMPORTED)
-    endif()
-
     ##
     # Set the output directory
     # x64/Win32
-    if( CMAKE_SIZEOF_VOID_P MATCHES 8 )
-        SET( P_DIR x64)
-    else()
-        set( P_DIR Win32 )
-    endif()
+    #if( CMAKE_SIZEOF_VOID_P MATCHES 8 )
+    #    SET( P_DIR x64)
+    #else()
+    #    set( P_DIR Win32 )
+    #endif()
 
     # DLL/static build
-    if( EXIV2_ENABLE_SHARED )
-        set( T_DIR Dynamic )
-    else()
-        set( T_DIR Static)
-    endif()
+    #if( EXIV2_ENABLE_SHARED )
+    #    set( T_DIR Dynamic )
+    #else()
+    #    set( T_DIR Static)
+    #endif()
 
-    set(B_DIR ${PROJECT_BINARY_DIR}/bin/${P_DIR}/${T_DIR})
-    set(CMAKE_CURRENT_BINARY_DIR ${B_DIR})
-    set(EXECUTABLE_OUTPUT_PATH   ${B_DIR})
-    set(LIBRARY_OUTPUT_PATH      ${B_DIR})
+    #set(B_DIR ${PROJECT_BINARY_DIR}/bin/${P_DIR}/${T_DIR})
+    #set(CMAKE_CURRENT_BINARY_DIR ${B_DIR})
+    #set(EXECUTABLE_OUTPUT_PATH   ${B_DIR})
+    #set(LIBRARY_OUTPUT_PATH      ${B_DIR})
 endif( MSVC )
 
 IF( EXIV2_ENABLE_XMP )
