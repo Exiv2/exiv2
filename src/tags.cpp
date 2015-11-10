@@ -814,10 +814,10 @@ namespace Exiv2 {
         TagInfo(0x8828, "OECF", N_("OECF"), N_("Indicates the Opto-Electric Conversion Function (OECF) specified in ISO 14524."), ifd0Id, tiffEp, undefined, 0, printValue), // TIFF/EP tag
         TagInfo(0x8829, "Interlace", N_("Interlace"), N_("Indicates the field number of multifield images."), ifd0Id, tiffEp, unsignedShort, 1, printValue), // TIFF/EP tag
         TagInfo(0x882a, "TimeZoneOffset", N_("Time Zone Offset"),
-                N_("This optional tag encodes the time zone of the camera clock (relative"
-                   "to Greenwich Mean Time) used to create the DataTimeOriginal tag-value"
-                   "when the picture was taken. It may also contain the time zone offset"
-                   "of the clock used to create the DateTime tag-value when the image was"
+                N_("This optional tag encodes the time zone of the camera clock (relative "
+                   "to Greenwich Mean Time) used to create the DataTimeOriginal tag-value "
+                   "when the picture was taken. It may also contain the time zone offset "
+                   "of the clock used to create the DateTime tag-value when the image was "
                    "modified."),
                 ifd0Id, tiffEp, signedShort, -1, printValue),
         TagInfo(0x882b, "SelfTimerMode", N_("Self Timer Mode"), N_("Number of seconds image capture was delayed from button press."), ifd0Id, tiffEp, unsignedShort, 1, printValue), // TIFF/EP tag
