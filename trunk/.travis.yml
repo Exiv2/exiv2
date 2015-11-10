@@ -21,10 +21,10 @@ compiler:
 before_install:
   - echo $LANG
   - echo $LC_ALL
+  - if [ $TRAVIS_OS_NAME == osx ]; then brew update && brew install libssh curl; fi
   - rvm use $RVM --install --binary --fuzzy
   - gem update --system
-  - if [ $TRAVIS_OS_NAME == osx ]; then brew update && brew install libssh curl; fi
-  - gem --version
+#  - gem --version
 
 script:
   - cmake -DCMAKE_INSTALL_PREFIX=..\dist -EXIV2_ENABLE_NLS=ON -DEXIV2_ENABLE_CURL=OFF -DEXIV2_ENABLE_SSH=OFF .
