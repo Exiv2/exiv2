@@ -1344,9 +1344,9 @@ sub PrintLensID($$@)
    std::ostream& printLensType(std::ostream& os, const Value& value,
                                                  const ExifData* metadata)
    {
-        size_t index = value.toLong(0)*256+value.toLong(1);
+        unsigned long index = value.toLong(0)*256+value.toLong(1);
    		// std::cout << std::endl << "printLensType value =" << value.toLong() << " index = " << index << std::endl;
-        const LensIdFct* lif = find(lensIdFct, index) ; // value.toLong());
+        const LensIdFct* lif = find(lensIdFct, index);
         if (!lif) {
            return EXV_PRINT_COMBITAG_MULTI(pentaxLensType, 2, 1, 2)(os, value, metadata);
         }
