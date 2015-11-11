@@ -1151,6 +1151,166 @@ namespace Exiv2 {
        bool operator==(long id) const { return id_ == id; }
    };
 
+#if 0
+// http://sourceforge.net/p/exiftool/code/ci/master/tree/lib/Image/ExifTool/Exif.pm#l3576
+#------------------------------------------------------------------------------
+# Attempt to identify the specific lens if multiple lenses have the same LensType
+# Inputs: 0) ExifTool object ref, 1) LensType print value, 2) PrintConv hash ref,
+#         3) LensSpec print value, 4) LensType numerical value, 5) FocalLength,
+#         6) MaxAperture, 7) MaxApertureValue, 8) MinFocalLength, 9) MaxFocalLength,
+#         10) LensModel, 11) LensFocalRange, 12) LensSpec
+sub PrintLensID($$@)
+{
+    my ($et, $lensTypePrt, $printConv, $lensSpecPrt, $lensType, $focalLength,
+        $maxAperture, $maxApertureValue, $shortFocal, $longFocal, $lensModel,
+        $lensFocalRange, $lensSpec) = @_;
+    # the rest of the logic relies on the LensType lookup:
+    return undef unless defined $lensType;
+    # get print conversion hash if necessary
+    $printConv or $printConv = $$et{TAG_INFO}{LensType}{PrintConv};
+    # just copy LensType PrintConv value if it was a lens name
+    # (Olympus or Panasonic -- just exclude things like Nikon and Leaf LensType)
+    unless (ref $printConv eq 'HASH') {
+        if (ref $printConv eq 'ARRAY' and ref $$printConv[0] eq 'HASH') {
+            $printConv = $$printConv[0];
+            $lensTypePrt =~ s/;.*//;
+            $lensType =~ s/ .*//;
+        } else {
+            return $lensTypePrt if $lensTypePrt =~ /mm/;
+            return $lensTypePrt if $lensTypePrt =~ s/(\d)\/F/$1mm F/;
+            return undef;
+        }
+    }
+    # get LensSpec information if available (Sony)
+    my ($sf0, $lf0, $sa0, $la0);
+    if ($lensSpecPrt) {
+        ($sf0, $lf0, $sa0, $la0) = GetLensInfo($lensSpecPrt);
+        undef $sf0 unless $sa0; # (make sure aperture isn't zero)
+    }
+    # use MaxApertureValue if MaxAperture is not available
+    $maxAperture = $maxApertureValue unless $maxAperture;
+    if ($lensFocalRange and $lensFocalRange =~ /^(\d+)(?: (?:to )?(\d+))?$/) {
+        ($shortFocal, $longFocal) = ($1, $2 || $1);
+    }
+    if ($$et{Make} eq 'SONY') {
+        # patch for Metabones Canon adapters on Sony cameras (ref Jos Roost)
+        # (the Metabones adapters add 0xef00 or 0x7700 to the high byte
+        # for 2-byte LensType values, so we need to adjust for these)
+        if ($lensType != 0xffff) {
+            require Image::ExifTool::Minolta;
+            if ($Image::ExifTool::Minolta::metabonesID{$lensType & 0xff00}) {
+                $lensType -= ($lensType >= 0xef00 ? 0xef00 : $lensType >= 0xbc00 ? 0xbc00 : 0x7700);
+                require Image::ExifTool::Canon;
+                $printConv = \%Image::ExifTool::Canon::canonLensTypes;
+                $lensTypePrt = $$printConv{$lensType} if $$printConv{$lensType};
+            }
+        }
+    } elsif ($shortFocal and $longFocal) {
+        # Canon (and some other makes) include makernote information
+        # which allows better lens identification
+        require Image::ExifTool::Canon;
+        return Image::ExifTool::Canon::PrintLensID($printConv, $lensType,
+                    $shortFocal, $longFocal, $maxAperture, $lensModel);
+    }
+    my $lens = $$printConv{$lensType};
+    return ($lensModel || $lensTypePrt) unless $lens;
+    return $lens unless $$printConv{"$lensType.1"};
+    $lens =~ s/ or .*//s;    # remove everything after "or"
+    # make list of all possible matching lenses
+    my @lenses = ( $lens );
+    my $i;
+    for ($i=1; $$printConv{"$lensType.$i"}; ++$i) {
+        push @lenses, $$printConv{"$lensType.$i"};
+    }
+    # attempt to determine actual lens
+    my (@matches, @best, @user, $diff);
+    foreach $lens (@lenses) {
+        push @user, $lens if $Image::ExifTool::userLens{$lens};
+        # sf = short focal
+        # lf = long focal
+        # sa = max aperture at short focal
+        # la = max aperture at long focal
+        my ($sf, $lf, $sa, $la) = GetLensInfo($lens);
+        next unless $sf;
+        # check against LensSpec parameters if available
+        if ($sf0) {
+            next if abs($sf - $sf0) > 0.5 or abs($sa - $sa0) > 0.15 or
+                    abs($lf - $lf0) > 0.5 or abs($la - $la0) > 0.15;
+            # the basic parameters match, but also check against additional lens features:
+            # for Sony A and E lenses, the full LensSpec string should match with end of LensType,
+            # excluding any part between () at the end, and preceded by a space.
+            # The preceding space ensures that e.g. Zeiss Loxia 21mm having LensSpec "E 21mm F2.8"
+            # will not be identified as "Sony FE 21mm F2.8 (SEL28F20 + SEL075UWC)".
+            $lensSpecPrt and $lens =~ / \Q$lensSpecPrt\E( \(|$)/ and @best = ( $lens ), last;
+            # exactly-matching Sony lens should have been found above, so skip
+            # any not-exactly-matching Sony lenses
+            next if $lens =~ /^Sony /;
+            push @best, $lens;
+            next;
+        }
+        # adjust focal length and aperture if teleconverter is attached (Minolta)
+        if ($lens =~ / \+ .*? (\d+(\.\d+)?)x( |$)/) {
+            $sf *= $1;  $lf *= $1;
+            $sa *= $1;  $la *= $1;
+        }
+        # see if we can rule out this lens using FocalLength and MaxAperture
+        if ($focalLength) {
+            next if $focalLength < $sf - 0.5;
+            next if $focalLength > $lf + 0.5;
+        }
+        if ($maxAperture) {
+            # it seems that most manufacturers set MaxAperture and MaxApertureValue
+            # to the maximum aperture (smallest F number) for the current focal length
+            # of the lens, so assume that MaxAperture varies with focal length and find
+            # the closest match (this is somewhat contrary to the EXIF specification which
+            # states "The smallest F number of the lens", without mention of focal length)
+            next if $maxAperture < $sa - 0.15;  # (0.15 is arbitrary)
+            next if $maxAperture > $la + 0.15;
+            # now determine the best match for this aperture
+            my $aa; # approximate maximum aperture at this focal length
+            if ($sf == $lf or $sa == $la or $focalLength <= $sf) {
+                # either 1) prime lens, 2) fixed-aperture zoom, or 3) zoom at min focal
+                $aa = $sa;
+            } elsif ($focalLength >= $lf) {
+                $aa = $la;
+            } else {
+                # assume a log-log variation of max aperture with focal length
+                # (see http://regex.info/blog/2006-10-05/263)
+                $aa = exp(log($sa) + (log($la)-log($sa)) / (log($lf)-log($sf)) *
+                                     (log($focalLength)-log($sf)));
+                # a linear relationship between 1/FocalLength and 1/MaxAperture fits Sony better (ref 27)
+                #$aa = 1 / (1/$sa + (1/$focalLength - 1/$sf) * (1/$la - 1/$sa) / (1/$lf - 1/$sf));
+            }
+            my $d = abs($maxAperture - $aa);
+            if (defined $diff) {
+                $d > $diff + 0.15 and next;     # (0.15 is arbitrary)
+                $d < $diff - 0.15 and undef @best;
+            }
+            $diff = $d;
+            push @best, $lens;
+        }
+        push @matches, $lens;
+    }
+    if (@user) {
+        # choose the best match if we have more than one
+        if (@user > 1) {
+            my ($try, @good);
+            foreach $try (\@best, \@matches) {
+                $Image::ExifTool::userLens{$_} and push @good, $_ foreach @$try;
+                return join(' or ', @good) if @good;
+            }
+        }
+        return join(' or ', @user);
+    }
+    return join(' or ', @best) if @best;
+    return join(' or ', @matches) if @matches;
+    $lens = $$printConv{$lensType};
+    return $lensModel if $lensModel and $lens =~ / or /; # (eg. Sony NEX-5N)
+    return $lens;
+}
+#endif
+
+
    std::ostream& resolveLensType(std::ostream& os, const Value& value,
                                                  const ExifData* metadata)
    {
