@@ -321,7 +321,7 @@ namespace Exiv2 {
         HANDLE hFd = (HANDLE)_get_osfhandle(fileno(fp_));
         if (hFd != INVALID_HANDLE_VALUE) {
             typedef BOOL (WINAPI * GetFileInformationByHandle_t)(HANDLE, LPBY_HANDLE_FILE_INFORMATION);
-            HMODULE hKernel = LoadLibraryA("kernel32.dll");
+            HMODULE hKernel = ::GetModuleHandleA("kernel32.dll");
             if (hKernel) {
                 GetFileInformationByHandle_t pfcn_GetFileInformationByHandle = (GetFileInformationByHandle_t)GetProcAddress(hKernel, "GetFileInformationByHandle");
                 if (pfcn_GetFileInformationByHandle) {
@@ -336,10 +336,9 @@ namespace Exiv2 {
 #ifdef DEBUG
                 else EXV_DEBUG << "GetProcAddress(hKernel, \"GetFileInformationByHandle\") failed\n";
 #endif
-                FreeLibrary(hKernel);
             }
 #ifdef DEBUG
-            else EXV_DEBUG << "LoadLibraryA(\"kernel32.dll\") failed\n";
+            else EXV_DEBUG << "GetModuleHandleA(\"kernel32.dll\") failed\n";
 #endif
         }
 #ifdef DEBUG
@@ -751,12 +750,11 @@ namespace Exiv2 {
                 // like a virus scanner or disk indexer
                 // (see also http://stackoverflow.com/a/11023068)
                 typedef BOOL (WINAPI * ReplaceFileW_t)(LPCWSTR, LPCWSTR, LPCWSTR, DWORD, LPVOID, LPVOID);
-                HMODULE hKernel = LoadLibraryA("kernel32.dll");
+                HMODULE hKernel = ::GetModuleHandleA("kernel32.dll");
                 if (hKernel) {
                     ReplaceFileW_t pfcn_ReplaceFileW = (ReplaceFileW_t)GetProcAddress(hKernel, "ReplaceFileW");
                     if (pfcn_ReplaceFileW) {
                         BOOL ret = pfcn_ReplaceFileW(wpf, fileIo->wpath().c_str(), NULL, REPLACEFILE_IGNORE_MERGE_ERRORS, NULL, NULL);
-                        FreeLibrary(hKernel);
                         if (ret == 0) {
                             if (GetLastError() == ERROR_FILE_NOT_FOUND) {
                                 if (::_wrename(fileIo->wpath().c_str(), wpf) == -1) {
@@ -770,7 +768,6 @@ namespace Exiv2 {
                         }
                     }
                     else {
-                        FreeLibrary(hKernel);
                         if (fileExists(wpf) && ::_wremove(wpf) != 0) {
                             throw WError(2, wpf, strError().c_str(), "::_wremove");
                         }
@@ -816,12 +813,11 @@ namespace Exiv2 {
                 // like a virus scanner or disk indexer
                 // (see also http://stackoverflow.com/a/11023068)
                 typedef BOOL (WINAPI * ReplaceFileA_t)(LPCSTR, LPCSTR, LPCSTR, DWORD, LPVOID, LPVOID);
-                HMODULE hKernel = LoadLibraryA("kernel32.dll");
+                HMODULE hKernel = ::GetModuleHandleA("kernel32.dll");
                 if (hKernel) {
                     ReplaceFileA_t pfcn_ReplaceFileA = (ReplaceFileA_t)GetProcAddress(hKernel, "ReplaceFileA");
                     if (pfcn_ReplaceFileA) {
                         BOOL ret = pfcn_ReplaceFileA(pf, fileIo->path().c_str(), NULL, REPLACEFILE_IGNORE_MERGE_ERRORS, NULL, NULL);
-                        FreeLibrary(hKernel);
                         if (ret == 0) {
                             if (GetLastError() == ERROR_FILE_NOT_FOUND) {
                                 if (::rename(fileIo->path().c_str(), pf) == -1) {
@@ -835,7 +831,6 @@ namespace Exiv2 {
                         }
                     }
                     else {
-                        FreeLibrary(hKernel);
                         if (fileExists(pf) && ::remove(pf) != 0) {
                             throw Error(2, pf, strError(), "::remove");
                         }
