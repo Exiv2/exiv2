@@ -1143,6 +1143,63 @@ namespace Exiv2 {
         return os;
     }
 
+   //! A lens id and a pretty-print function for special treatment of the id.
+   struct LensIdFct {
+       long     id_;                           //!< Lens id
+       PrintFct fct_;                          //!< Pretty-print function
+       //! Comparison operator for find template
+       bool operator==(long id) const { return id_ == id; }
+   };
+
+   std::ostream& resolveLensType(std::ostream& os, const Value& value,
+                                                 const ExifData* metadata)
+   {
+        return EXV_PRINT_COMBITAG_MULTI(pentaxLensType, 2, 1, 2)(os, value, metadata);
+   }
+
+   std::ostream& resolveLensTypeSigma(std::ostream& os, const Value& value,
+                                                 const ExifData* metadata)
+   {
+        return EXV_PRINT_COMBITAG_MULTI(pentaxLensType, 2, 1, 2)(os, value, metadata);
+   }
+
+   //! List of lens ids which require special treatment with the medicine
+   const LensIdFct lensIdFct[] = {
+       {   0x0317, resolveLensType },
+       {   0x0319, resolveLensType },
+       {   0x031b, resolveLensType },
+       {   0x031c, resolveLensType },
+       {   0x031d, resolveLensType },
+       {   0x031f, resolveLensType },
+       {   0x0329, resolveLensType },
+       {   0x032c, resolveLensType },
+       {   0x032e, resolveLensType },
+       {   0x0334, resolveLensType },
+       {   0x03ff, resolveLensTypeSigma },
+       {   0x041a, resolveLensType },
+       {   0x042d, resolveLensType },
+       {   0x08ff, resolveLensType },
+   };
+
+   std::ostream& printLensType(std::ostream& os, const Value& value,
+                                                 const ExifData* metadata)
+   {
+        size_t index = value.toLong(0)*256+value.toLong(1);
+   		// std::cout << std::endl << "printLensType value =" << value.toLong() << " index = " << index << std::endl;
+        const LensIdFct* lif = find(lensIdFct, index) ; // value.toLong());
+        if (!lif) {
+           return EXV_PRINT_COMBITAG_MULTI(pentaxLensType, 2, 1, 2)(os, value, metadata);
+        }
+        if (metadata && lif->fct_) {
+            return lif->fct_(os, value, metadata);
+        }
+
+        if (   value.typeId() != unsignedShort
+                   || value.count() == 0) return os << "(" << value << ")";
+
+        return os << value;
+   }
+
     // Pentax MakerNote Tag Info
     const TagInfo PentaxMakerNote::tagInfo_[] = {
         TagInfo(0x0000, "Version", N_("Version"),
@@ -1290,7 +1347,7 @@ namespace Exiv2 {
                 pentaxId, makerTags, unsignedByte, -1, printValue),
         TagInfo(0x003f, "LensType", N_("Lens type"),
                 N_("Lens type"),
-                pentaxId, makerTags, unsignedByte, -1, EXV_PRINT_COMBITAG_MULTI(pentaxLensType, 2, 1, 2)),
+                pentaxId, makerTags, unsignedByte, -1, printLensType),
         TagInfo(0x0040, "SensitivityAdjust", N_("Sensitivity adjust"),
                 N_("Sensitivity adjust"),
                 pentaxId, makerTags, unsignedLong, -1, printValue),
