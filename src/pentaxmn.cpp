@@ -37,6 +37,9 @@ EXIV2_RCSID("@(#) $Id$")
 #include "types.hpp"
 #include "pentaxmn_int.hpp"
 #include "value.hpp"
+#include "exif.hpp"
+#include "tags.hpp"
+#include "metadatum.hpp"
 #include "i18n.h"                // NLS support.
 
 // + standard includes
@@ -698,29 +701,29 @@ namespace Exiv2 {
         { 0x0314, "smc PENTAX-F 35-80mm F4-5.6" },
         { 0x0315, "smc PENTAX-F 80-200mm F4.7-5.6" },
         { 0x0316, "smc PENTAX-F FISH-EYE 17-28mm F3.5-4.5" },
-        { 0x0317, "smc PENTAX-F 100-300mm F4.5-5.6" },			//0
-        { 0x0317, "Sigma AF 28-300mm F3.5-6.3 DG IF Macro" },		//1
-        { 0x0317, "Tokina 80-200mm F2.8 ATX-Pro" },			//2
+        { 0x0317, "smc PENTAX-F 100-300mm F4.5-5.6" },                   //0
+        { 0x0317, "Sigma AF 28-300mm F3.5-6.3 DG IF Macro" },            //1
+        { 0x0317, "Tokina 80-200mm F2.8 ATX-Pro" },                      //2
         { 0x0318, "smc PENTAX-F 35-135mm F3.5-4.5" },
-        { 0x0319, "smc PENTAX-F 35-105mm F4-5.6" },			//0
-        { 0x0319, "Sigma AF 28-300mm F3.5-5.6 DL IF" },			//1
-        { 0x0319, "Sigma 55-200mm F4-5.6 DC" },				//2
-        { 0x0319, "Sigma AF 28-300mm F3.5-5.6 DL IF" },			//3
-        { 0x0319, "Sigma AF 28-300mm F3.5-6.3 DG IF Macro" },		//4
-        { 0x0319, "Tokina 80-200mm F2.8 ATX-Pro" },			//5
+        { 0x0319, "smc PENTAX-F 35-105mm F4-5.6" },                      //0
+        { 0x0319, "Sigma AF 28-300mm F3.5-5.6 DL IF" },                  //1
+        { 0x0319, "Sigma 55-200mm F4-5.6 DC" },                          //2
+        { 0x0319, "Sigma AF 28-300mm F3.5-5.6 DL IF" },                  //3
+        { 0x0319, "Sigma AF 28-300mm F3.5-6.3 DG IF Macro" },            //4
+        { 0x0319, "Tokina 80-200mm F2.8 ATX-Pro" },                      //5
         { 0x031a, "smc PENTAX-F* 250-600mm F5.6 ED[IF]" },
-        { 0x031b, "smc PENTAX-F 28-80mm F3.5-4.5" },			//0
-        { 0x031b, "Tokina AT-X Pro AF 28-70mm F2.6-2.8" },		//1
-        { 0x031c, "smc PENTAX-F 35-70mm F3.5-4.5" },			//0
-        { 0x031c, "Tokina 19-35mm F3.5-4.5 AF" },			//1
-        { 0x031c, "Tokina AT-X AF 400mm F5.6" },			//2
-        { 0x031d, "PENTAX-F 28-80mm F3.5-4.5" },			//0
-        { 0x031d, "Sigma AF 18-125mm F3.5-5.6 DC" },			//1
-        { 0x031d, "Tokina AT-X PRO 28-70mm F2.6-2.8" },			//2
+        { 0x031b, "smc PENTAX-F 28-80mm F3.5-4.5" },                     //0
+        { 0x031b, "Tokina AT-X Pro AF 28-70mm F2.6-2.8" },               //1
+        { 0x031c, "smc PENTAX-F 35-70mm F3.5-4.5" },                     //0
+        { 0x031c, "Tokina 19-35mm F3.5-4.5 AF" },                        //1
+        { 0x031c, "Tokina AT-X AF 400mm F5.6" },                         //2
+        { 0x031d, "PENTAX-F 28-80mm F3.5-4.5" },                         //0
+        { 0x031d, "Sigma AF 18-125mm F3.5-5.6 DC" },                     //1
+        { 0x031d, "Tokina AT-X PRO 28-70mm F2.6-2.8" },                  //2
         { 0x031e, "PENTAX-F 70-200mm F4-5.6" },
-        { 0x031f, "smc PENTAX-F 70-210mm F4-5.6" },			//0
-        { 0x031f, "Tokina AF 730 75-300mm F4.5-5.6" },			//1
-        { 0x031f, "Takumar-F 70-210mm F4-5.6" },			//2
+        { 0x031f, "smc PENTAX-F 70-210mm F4-5.6" },                      //0
+        { 0x031f, "Tokina AF 730 75-300mm F4.5-5.6" },                   //1
+        { 0x031f, "Takumar-F 70-210mm F4-5.6" },                         //2
         { 0x0320, "smc PENTAX-F 50mm F1.4" },
         { 0x0321, "smc PENTAX-F 50mm F1.7" },
         { 0x0322, "smc PENTAX-F 135mm F2.8 [IF]" },
@@ -729,21 +732,21 @@ namespace Exiv2 {
         { 0x0326, "smc PENTAX-F* 300mm F4.5 ED[IF]" },
         { 0x0327, "smc PENTAX-F* 600mm F4 ED[IF]" },
         { 0x0328, "smc PENTAX-F Macro 100mm F2.8" },
-        { 0x0329, "smc PENTAX-F Macro 50mm F2.8" },			//0
-        { 0x0329, "Sigma 50mm F2.8 Macro" },				//1
+        { 0x0329, "smc PENTAX-F Macro 50mm F2.8" },                      //0
+        { 0x0329, "Sigma 50mm F2.8 Macro" },                             //1
         { 0x032a, "Sigma 300mm F2.8 EX DG APO IF" },
-        { 0x032c, "Tamron 35-90mm F4 AF" },				//0
-        { 0x032c, "Sigma AF 10-20mm F4-5.6 EX DC" },			//1
-        { 0x032c, "Sigma 12-24mm F4.5-5.6 EX DG" },			//2
-        { 0x032c, "Sigma 17-70mm F2.8-4.5 DC Macro" },			//3
-        { 0x032c, "Sigma 18-50mm F3.5-5.6 DC" },			//4
-        { 0x032e, "Sigma or Samsung Lens" },				//0
-        { 0x032e, "Sigma APO 70-200mm F2.8 EX" },			//1
-        { 0x032e, "Sigma EX APO 100-300mm F4 IF" },			//2
-        { 0x032e, "Samsung/Schneider D-XENON 50-200mm F4-5.6 ED" },	//3
+        { 0x032c, "Tamron 35-90mm F4 AF" },                              //0
+        { 0x032c, "Sigma AF 10-20mm F4-5.6 EX DC" },                     //1
+        { 0x032c, "Sigma 12-24mm F4.5-5.6 EX DG" },                      //2
+        { 0x032c, "Sigma 17-70mm F2.8-4.5 DC Macro" },                   //3
+        { 0x032c, "Sigma 18-50mm F3.5-5.6 DC" },                         //4
+        { 0x032e, "Sigma or Samsung Lens" },                             //0
+        { 0x032e, "Sigma APO 70-200mm F2.8 EX" },                        //1
+        { 0x032e, "Sigma EX APO 100-300mm F4 IF" },                      //2
+        { 0x032e, "Samsung/Schneider D-XENON 50-200mm F4-5.6 ED" },      //3
         { 0x0332, "smc PENTAX-FA 28-70mm F4 AL" },
         { 0x0333, "Sigma 28mm F1.8 EX DG Aspherical Macro" },
-        { 0x0334, "smc PENTAX-FA 28-200mm F3.8-5.6 AL[IF]" },		//0
+        { 0x0334, "smc PENTAX-FA 28-200mm F3.8-5.6 AL[IF]" },            //0
         { 0x0334, "Tamron AF LD 28-200mm F3.8-5.6 [IF] Aspherical (171D)" },//1
         { 0x0335, "smc PENTAX-FA 28-80mm F3.5-5.6 AL" },
         { 0x03f7, "smc PENTAX-DA FISH-EYE 10-17mm F3.5-4.5 ED[IF]" },
@@ -753,17 +756,17 @@ namespace Exiv2 {
         { 0x03fc, "smc PENTAX-DA 18-55mm F3.5-5.6 AL" },
         { 0x03fd, "smc PENTAX-DA 14mm F2.8 ED[IF]" },
         { 0x03fe, "smc PENTAX-DA 16-45mm F4 ED AL" },
-        { 0x03ff, "Sigma Lens" },					//0
-        { 0x03ff, "Sigma 18-200mm F3.5-6.3 DC" },			//1
-        { 0x03ff, "Sigma DL-II 35-80mm F4-5.6" },			//2
-        { 0x03ff, "Sigma DL Zoom 75-300mm F4-5.6" },			//3
-        { 0x03ff, "Sigma DF EX Aspherical 28-70mm F2.8" },		//4
-        { 0x03ff, "Sigma AF Tele 400mm F5.6 Multi-coated" },		//5
-        { 0x03ff, "Sigma 24-60mm F2.8 EX DG" },				//6
-        { 0x03ff, "Sigma 70-300mm F4-5.6 Macro" },			//7
-        { 0x03ff, "Sigma 55-200mm F4-5.6 DC" },				//8
-        { 0x03ff, "Sigma 18-50mm F2.8 EX DC" },				//9
-        { 0x03ff, "Sigma 18-50mm F2.8 EX DC Macro" },			//10
+        { 0x03ff, "Sigma Lens" },                                        //0
+        { 0x03ff, "Sigma 18-200mm F3.5-6.3 DC" },                        //1
+        { 0x03ff, "Sigma DL-II 35-80mm F4-5.6" },                        //2
+        { 0x03ff, "Sigma DL Zoom 75-300mm F4-5.6" },                     //3
+        { 0x03ff, "Sigma DF EX Aspherical 28-70mm F2.8" },               //4
+        { 0x03ff, "Sigma AF Tele 400mm F5.6 Multi-coated" },             //5
+        { 0x03ff, "Sigma 24-60mm F2.8 EX DG" },                          //6
+        { 0x03ff, "Sigma 70-300mm F4-5.6 Macro" },                       //7
+        { 0x03ff, "Sigma 55-200mm F4-5.6 DC" },                          //8
+        { 0x03ff, "Sigma 18-50mm F2.8 EX DC" },                          //9
+        { 0x03ff, "Sigma 18-50mm F2.8 EX DC Macro" },                    //10
         { 0x0401, "smc PENTAX-FA SOFT 28mm F2.8" },
         { 0x0402, "smc PENTAX-FA 80-320mm F4.5-5.6" },
         { 0x0403, "smc PENTAX-FA 43mm F1.9 Limited" },
@@ -778,8 +781,8 @@ namespace Exiv2 {
         { 0x0417, "smc PENTAX-FA 20-35mm F4 AL" },
         { 0x0418, "smc PENTAX-FA 77mm F1.8 Limited" },
         { 0x0419, "Tamron SP AF 14mm F2.8" },
-        { 0x041a, "smc PENTAX-FA Macro 100mm F3.5" },			//0
-        { 0x041a, "Cosina 100mm F3.5 Macro" },				//1
+        { 0x041a, "smc PENTAX-FA Macro 100mm F3.5" },                    //0
+        { 0x041a, "Cosina 100mm F3.5 Macro" },                           //1
         { 0x041b, "Tamron AF28-300mm F/3.5-6.3 LD Aspherical[IF] Macro (185D/285D)" },
         { 0x041c, "smc PENTAX-FA 35mm F2 AL" },
         { 0x041d, "Tamron AF 28-200mm F/3.8-5.6 LD Super II Macro (371D)" },
@@ -792,8 +795,8 @@ namespace Exiv2 {
         { 0x0429, "Tamron AF 28-200mm Super Zoom F3.8-5.6 Aspherical XR [IF] Macro (A03)" },
         { 0x042b, "smc PENTAX-FA 28-90mm F3.5-5.6" },
         { 0x042c, "smc PENTAX-FA J 75-300mm F4.5-5.8 AL" },
-        { 0x042d, "Tamron Lens" },					//0
-        { 0x042d, "Tamron 28-300mm F3.5-6.3 Ultra zoom XR" },		//1
+        { 0x042d, "Tamron Lens" },                                       //0
+        { 0x042d, "Tamron 28-300mm F3.5-6.3 Ultra zoom XR" },            //1
         { 0x042d, "Tamron AF 28-300mm F3.5-6.3 XR Di LD Aspherical [IF] Macro" },//2
         { 0x042e, "smc PENTAX-FA J 28-80mm F3.5-5.6 AL" },
         { 0x042f, "smc PENTAX-FA J 18-35mm F4-5.6 AL" },
@@ -929,13 +932,13 @@ namespace Exiv2 {
         { 0x08eb, "smc PENTAX-DA* 200mm F2.8 ED [IF] SDM" },
         { 0x08f1, "smc PENTAX-DA* 50-135mm F2.8 ED [IF] SDM" },
         { 0x08f2, "smc PENTAX-DA* 16-50mm F2.8 ED AL [IF] SDM" },
-        { 0x08ff, "Sigma Lens" },					//0
-        { 0x08ff, "Sigma 70-200mm F2.8 EX DG Macro HSM II" },		//1
-        { 0x08ff, "Sigma 150-500mm F5-6.3 DG APO [OS] HSM" },		//2
-        { 0x08ff, "Sigma 50-150mm F2.8 II APO EX DC HSM" },		//3
-        { 0x08ff, "Sigma 4.5mm F2.8 EX DC HSM Circular Fisheye" },	//4
-        { 0x08ff, "Sigma 50-200mm F4-5.6 DC OS" },			//5
-        { 0x08ff, "Sigma 24-70mm F2.8 EX DG HSM" },			//6
+        { 0x08ff, "Sigma Lens" },                                        //0
+        { 0x08ff, "Sigma 70-200mm F2.8 EX DG Macro HSM II" },            //1
+        { 0x08ff, "Sigma 150-500mm F5-6.3 DG APO [OS] HSM" },            //2
+        { 0x08ff, "Sigma 50-150mm F2.8 II APO EX DC HSM" },              //3
+        { 0x08ff, "Sigma 4.5mm F2.8 EX DC HSM Circular Fisheye" },       //4
+        { 0x08ff, "Sigma 50-200mm F4-5.6 DC OS" },                       //5
+        { 0x08ff, "Sigma 24-70mm F2.8 EX DG HSM" },                      //6
         { 0x0900, "645 Manual Lens" },
         { 0x0a00, "645 A Series Lens" },
         { 0x0b01, "smc PENTAX-FA 645 75mm F2.8" },
@@ -1143,188 +1146,49 @@ namespace Exiv2 {
         return os;
     }
 
-   //! A lens id and a pretty-print function for special treatment of the id.
-   struct LensIdFct {
+    // ----------------------------------------------------------------------
+    // #816 begin
+    std::ostream& resolveLensType(std::ostream& os, const Value& value,
+                                                 const ExifData* metadata)
+    {
+        try {
+            unsigned long lensID = value.toLong(0)*256 + value.toLong(1);
+			unsigned long index  = 0;
+
+            if ( lensID == 0x3ff ) { // lensType Sigma
+				unsigned long base   = 1;
+
+				// http://www.sno.phy.queensu.ca/~phil/exiftool/TagNames/Pentax.html#LensData
+				const ExifData::const_iterator lensInfo = metadata->findKey(ExifKey("Exif.Pentax.LensInfo"));
+				if ( lensID == 0x3ff && lensInfo->count() > 5 ) {
+					unsigned int  autoAperture     = lensInfo->toLong(base+1) & 0x01 ;
+					unsigned int  minAperture      = lensInfo->toLong(base+2) & 0x06 ;
+					unsigned int  minFocusDistance = lensInfo->toLong(base+3) & 0xf8 ;
+
+					// os << "autoAperture = " << autoAperture << " minAperture = " << minAperture << " minFocusDistance = " << minFocusDistance << " " ;
+
+					if ( autoAperture == 0x0 && minAperture == 0x0 && minFocusDistance == 0x28 ) index = 8;
+				}
+			}
+
+            if ( index > 0 )  {
+                const TagDetails* td = find(pentaxLensType, lensID);
+                os << exvGettext(td[index].label_);
+                return os;
+            }
+        } catch (...) {}
+        return EXV_PRINT_COMBITAG_MULTI(pentaxLensType, 2, 1, 2)(os, value, metadata);
+    }
+
+    struct LensIdFct {
        long     id_;                           //!< Lens id
        PrintFct fct_;                          //!< Pretty-print function
        //! Comparison operator for find template
        bool operator==(long id) const { return id_ == id; }
-   };
+    };
 
-#if 0
-// http://sourceforge.net/p/exiftool/code/ci/master/tree/lib/Image/ExifTool/Exif.pm#l3576
-#------------------------------------------------------------------------------
-# Attempt to identify the specific lens if multiple lenses have the same LensType
-# Inputs: 0) ExifTool object ref, 1) LensType print value, 2) PrintConv hash ref,
-#         3) LensSpec print value, 4) LensType numerical value, 5) FocalLength,
-#         6) MaxAperture, 7) MaxApertureValue, 8) MinFocalLength, 9) MaxFocalLength,
-#         10) LensModel, 11) LensFocalRange, 12) LensSpec
-sub PrintLensID($$@)
-{
-    my ($et, $lensTypePrt, $printConv, $lensSpecPrt, $lensType, $focalLength,
-        $maxAperture, $maxApertureValue, $shortFocal, $longFocal, $lensModel,
-        $lensFocalRange, $lensSpec) = @_;
-    # the rest of the logic relies on the LensType lookup:
-    return undef unless defined $lensType;
-    # get print conversion hash if necessary
-    $printConv or $printConv = $$et{TAG_INFO}{LensType}{PrintConv};
-    # just copy LensType PrintConv value if it was a lens name
-    # (Olympus or Panasonic -- just exclude things like Nikon and Leaf LensType)
-    unless (ref $printConv eq 'HASH') {
-        if (ref $printConv eq 'ARRAY' and ref $$printConv[0] eq 'HASH') {
-            $printConv = $$printConv[0];
-            $lensTypePrt =~ s/;.*//;
-            $lensType =~ s/ .*//;
-        } else {
-            return $lensTypePrt if $lensTypePrt =~ /mm/;
-            return $lensTypePrt if $lensTypePrt =~ s/(\d)\/F/$1mm F/;
-            return undef;
-        }
-    }
-    # get LensSpec information if available (Sony)
-    my ($sf0, $lf0, $sa0, $la0);
-    if ($lensSpecPrt) {
-        ($sf0, $lf0, $sa0, $la0) = GetLensInfo($lensSpecPrt);
-        undef $sf0 unless $sa0; # (make sure aperture isn't zero)
-    }
-    # use MaxApertureValue if MaxAperture is not available
-    $maxAperture = $maxApertureValue unless $maxAperture;
-    if ($lensFocalRange and $lensFocalRange =~ /^(\d+)(?: (?:to )?(\d+))?$/) {
-        ($shortFocal, $longFocal) = ($1, $2 || $1);
-    }
-    if ($$et{Make} eq 'SONY') {
-        # patch for Metabones Canon adapters on Sony cameras (ref Jos Roost)
-        # (the Metabones adapters add 0xef00 or 0x7700 to the high byte
-        # for 2-byte LensType values, so we need to adjust for these)
-        if ($lensType != 0xffff) {
-            require Image::ExifTool::Minolta;
-            if ($Image::ExifTool::Minolta::metabonesID{$lensType & 0xff00}) {
-                $lensType -= ($lensType >= 0xef00 ? 0xef00 : $lensType >= 0xbc00 ? 0xbc00 : 0x7700);
-                require Image::ExifTool::Canon;
-                $printConv = \%Image::ExifTool::Canon::canonLensTypes;
-                $lensTypePrt = $$printConv{$lensType} if $$printConv{$lensType};
-            }
-        }
-    } elsif ($shortFocal and $longFocal) {
-        # Canon (and some other makes) include makernote information
-        # which allows better lens identification
-        require Image::ExifTool::Canon;
-        return Image::ExifTool::Canon::PrintLensID($printConv, $lensType,
-                    $shortFocal, $longFocal, $maxAperture, $lensModel);
-    }
-    my $lens = $$printConv{$lensType};
-    return ($lensModel || $lensTypePrt) unless $lens;
-    return $lens unless $$printConv{"$lensType.1"};
-    $lens =~ s/ or .*//s;    # remove everything after "or"
-    # make list of all possible matching lenses
-    my @lenses = ( $lens );
-    my $i;
-    for ($i=1; $$printConv{"$lensType.$i"}; ++$i) {
-        push @lenses, $$printConv{"$lensType.$i"};
-    }
-    # attempt to determine actual lens
-    my (@matches, @best, @user, $diff);
-    foreach $lens (@lenses) {
-        push @user, $lens if $Image::ExifTool::userLens{$lens};
-        # sf = short focal
-        # lf = long focal
-        # sa = max aperture at short focal
-        # la = max aperture at long focal
-        my ($sf, $lf, $sa, $la) = GetLensInfo($lens);
-        next unless $sf;
-        # check against LensSpec parameters if available
-        if ($sf0) {
-            next if abs($sf - $sf0) > 0.5 or abs($sa - $sa0) > 0.15 or
-                    abs($lf - $lf0) > 0.5 or abs($la - $la0) > 0.15;
-            # the basic parameters match, but also check against additional lens features:
-            # for Sony A and E lenses, the full LensSpec string should match with end of LensType,
-            # excluding any part between () at the end, and preceded by a space.
-            # The preceding space ensures that e.g. Zeiss Loxia 21mm having LensSpec "E 21mm F2.8"
-            # will not be identified as "Sony FE 21mm F2.8 (SEL28F20 + SEL075UWC)".
-            $lensSpecPrt and $lens =~ / \Q$lensSpecPrt\E( \(|$)/ and @best = ( $lens ), last;
-            # exactly-matching Sony lens should have been found above, so skip
-            # any not-exactly-matching Sony lenses
-            next if $lens =~ /^Sony /;
-            push @best, $lens;
-            next;
-        }
-        # adjust focal length and aperture if teleconverter is attached (Minolta)
-        if ($lens =~ / \+ .*? (\d+(\.\d+)?)x( |$)/) {
-            $sf *= $1;  $lf *= $1;
-            $sa *= $1;  $la *= $1;
-        }
-        # see if we can rule out this lens using FocalLength and MaxAperture
-        if ($focalLength) {
-            next if $focalLength < $sf - 0.5;
-            next if $focalLength > $lf + 0.5;
-        }
-        if ($maxAperture) {
-            # it seems that most manufacturers set MaxAperture and MaxApertureValue
-            # to the maximum aperture (smallest F number) for the current focal length
-            # of the lens, so assume that MaxAperture varies with focal length and find
-            # the closest match (this is somewhat contrary to the EXIF specification which
-            # states "The smallest F number of the lens", without mention of focal length)
-            next if $maxAperture < $sa - 0.15;  # (0.15 is arbitrary)
-            next if $maxAperture > $la + 0.15;
-            # now determine the best match for this aperture
-            my $aa; # approximate maximum aperture at this focal length
-            if ($sf == $lf or $sa == $la or $focalLength <= $sf) {
-                # either 1) prime lens, 2) fixed-aperture zoom, or 3) zoom at min focal
-                $aa = $sa;
-            } elsif ($focalLength >= $lf) {
-                $aa = $la;
-            } else {
-                # assume a log-log variation of max aperture with focal length
-                # (see http://regex.info/blog/2006-10-05/263)
-                $aa = exp(log($sa) + (log($la)-log($sa)) / (log($lf)-log($sf)) *
-                                     (log($focalLength)-log($sf)));
-                # a linear relationship between 1/FocalLength and 1/MaxAperture fits Sony better (ref 27)
-                #$aa = 1 / (1/$sa + (1/$focalLength - 1/$sf) * (1/$la - 1/$sa) / (1/$lf - 1/$sf));
-            }
-            my $d = abs($maxAperture - $aa);
-            if (defined $diff) {
-                $d > $diff + 0.15 and next;     # (0.15 is arbitrary)
-                $d < $diff - 0.15 and undef @best;
-            }
-            $diff = $d;
-            push @best, $lens;
-        }
-        push @matches, $lens;
-    }
-    if (@user) {
-        # choose the best match if we have more than one
-        if (@user > 1) {
-            my ($try, @good);
-            foreach $try (\@best, \@matches) {
-                $Image::ExifTool::userLens{$_} and push @good, $_ foreach @$try;
-                return join(' or ', @good) if @good;
-            }
-        }
-        return join(' or ', @user);
-    }
-    return join(' or ', @best) if @best;
-    return join(' or ', @matches) if @matches;
-    $lens = $$printConv{$lensType};
-    return $lensModel if $lensModel and $lens =~ / or /; # (eg. Sony NEX-5N)
-    return $lens;
-}
-#endif
-
-
-   std::ostream& resolveLensType(std::ostream& os, const Value& value,
-                                                 const ExifData* metadata)
-   {
-        return EXV_PRINT_COMBITAG_MULTI(pentaxLensType, 2, 1, 2)(os, value, metadata);
-   }
-
-   std::ostream& resolveLensTypeSigma(std::ostream& os, const Value& value,
-                                                 const ExifData* metadata)
-   {
-        return EXV_PRINT_COMBITAG_MULTI(pentaxLensType, 2, 1, 2)(os, value, metadata);
-   }
-
-   //! List of lens ids which require special treatment with the medicine
-   const LensIdFct lensIdFct[] = {
+    //! List of lens ids which require special treatment using resolveLensType
+    const LensIdFct lensIdFct[] = {
        {   0x0317, resolveLensType },
        {   0x0319, resolveLensType },
        {   0x031b, resolveLensType },
@@ -1335,17 +1199,18 @@ sub PrintLensID($$@)
        {   0x032c, resolveLensType },
        {   0x032e, resolveLensType },
        {   0x0334, resolveLensType },
-       {   0x03ff, resolveLensTypeSigma },
+       {   0x03ff, resolveLensType },
        {   0x041a, resolveLensType },
        {   0x042d, resolveLensType },
        {   0x08ff, resolveLensType },
-   };
+    };
 
-   std::ostream& printLensType(std::ostream& os, const Value& value,
+    //! A lens id and a pretty-print function for special treatment of the id.
+    std::ostream& printLensType(std::ostream& os, const Value& value,
                                                  const ExifData* metadata)
-   {
+    {
         unsigned long index = value.toLong(0)*256+value.toLong(1);
-   		// std::cout << std::endl << "printLensType value =" << value.toLong() << " index = " << index << std::endl;
+        // std::cout << std::endl << "printLensType value =" << value.toLong() << " index = " << index << std::endl;
         const LensIdFct* lif = find(lensIdFct, index);
         if (!lif) {
            return EXV_PRINT_COMBITAG_MULTI(pentaxLensType, 2, 1, 2)(os, value, metadata);
@@ -1358,7 +1223,10 @@ sub PrintLensID($$@)
                    || value.count() == 0) return os << "(" << value << ")";
 
         return os << value;
-   }
+    }
+
+    // #816 end
+    // ----------------------------------------------------------------------
 
     // Pentax MakerNote Tag Info
     const TagInfo PentaxMakerNote::tagInfo_[] = {
@@ -1507,7 +1375,7 @@ sub PrintLensID($$@)
                 pentaxId, makerTags, unsignedByte, -1, printValue),
         TagInfo(0x003f, "LensType", N_("Lens type"),
                 N_("Lens type"),
-                pentaxId, makerTags, unsignedByte, -1, printLensType),
+                pentaxId, makerTags, unsignedByte, -1, printLensType), // #816
         TagInfo(0x0040, "SensitivityAdjust", N_("Sensitivity adjust"),
                 N_("Sensitivity adjust"),
                 pentaxId, makerTags, unsignedLong, -1, printValue),
