@@ -1148,26 +1148,39 @@ namespace Exiv2 {
 
     // ----------------------------------------------------------------------
     // #816 begin
-    std::ostream& resolveLensType(std::ostream& os, const Value& value,
+    std::ostream& resolveLensTypeSigma(std::ostream& os, const Value& value,
                                                  const ExifData* metadata)
     {
         try {
             unsigned long lensID = value.toLong(0)*256 + value.toLong(1);
 			unsigned long index  = 0;
 
-            if ( lensID == 0x3ff ) { // lensType Sigma
+            if ( value.count() == 2 ) {
+			    // http://dev.exiv2.org/attachments/download/326/IMGP4432.PEF
+			    // exiv2 -pv --grep Lens ~/Downloads/IMGP4432.PEF
+                // 0x003f Pentax       LensType  Byte        2 3 255
+                // 0x0207 Pentax       LensInfo  Undefined  36 3 255 0 0 40 148 71 152 80 6 241 65 237 153 88 36 1 76 107 251 255 255 255 0 0 80 6 241 0 0 0 0 0 0 0 0
 				unsigned long base   = 1;
 
 				// http://www.sno.phy.queensu.ca/~phil/exiftool/TagNames/Pentax.html#LensData
 				const ExifData::const_iterator lensInfo = metadata->findKey(ExifKey("Exif.Pentax.LensInfo"));
-				if ( lensID == 0x3ff && lensInfo->count() > 5 ) {
+				if ( lensInfo->count() > 5 ) {
 					unsigned int  autoAperture     = lensInfo->toLong(base+1) & 0x01 ;
 					unsigned int  minAperture      = lensInfo->toLong(base+2) & 0x06 ;
 					unsigned int  minFocusDistance = lensInfo->toLong(base+3) & 0xf8 ;
+					unsigned int  dontKnow         = lensInfo->toLong(base+4);
 
-					// os << "autoAperture = " << autoAperture << " minAperture = " << minAperture << " minFocusDistance = " << minFocusDistance << " " ;
-
-					if ( autoAperture == 0x0 && minAperture == 0x0 && minFocusDistance == 0x28 ) index = 8;
+					if ( autoAperture == 0x0 && minAperture == 0x0 && minFocusDistance == 0x28 && dontKnow == 148) index = 8;
+				}
+			} else if ( value.count() == 3 ) {
+			    // http://dev.exiv2.org/attachments/download/858/_IGP9032.DNG
+                // $ exiv2 -pv --grep Lens ~/Downloads/_IGP9032.DNG
+                // 0x003f PentaxDng    LensType  Byte        3    3 255 0
+                // 0x0207 PentaxDng    LensInfo  Undefined  69  131   0 0 255 0 40 148 68 244 ...
+                //                                                0   1 2   3 4  5   6
+				const ExifData::const_iterator lensInfo = metadata->findKey(ExifKey("Exif.PentaxDng.LensInfo"));
+				if ( lensInfo->count() > 5 ) {
+					if ( lensInfo->toLong(4) == 0 && lensInfo->toLong(5) == 40 && lensInfo->toLong(6) == 148 ) index = 8;
 				}
 			}
 
@@ -1177,6 +1190,12 @@ namespace Exiv2 {
                 return os;
             }
         } catch (...) {}
+        return EXV_PRINT_COMBITAG_MULTI(pentaxLensType, 2, 1, 2)(os, value, metadata);
+    }
+
+    std::ostream& resolveLensType(std::ostream& os, const Value& value,
+                                                 const ExifData* metadata)
+    {
         return EXV_PRINT_COMBITAG_MULTI(pentaxLensType, 2, 1, 2)(os, value, metadata);
     }
 
@@ -1199,7 +1218,7 @@ namespace Exiv2 {
        {   0x032c, resolveLensType },
        {   0x032e, resolveLensType },
        {   0x0334, resolveLensType },
-       {   0x03ff, resolveLensType },
+       {   0x03ff, resolveLensTypeSigma },
        {   0x041a, resolveLensType },
        {   0x042d, resolveLensType },
        {   0x08ff, resolveLensType },
