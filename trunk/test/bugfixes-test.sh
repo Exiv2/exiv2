@@ -219,6 +219,15 @@ source ./functions.source
 	runTest exiv2 -u -v -M"set Exif.Photo.UserComment Test Bug $num modified" bug$num.jpg
 	runTest exiv2 -PE -g UserComment bug${num}*.jpg
 
+	num=816 # test Camera: Pentax + Lens:Sigma 55-200mm F4-5.6 DC is correctly reported
+	printf "$num " >&3
+	echo '------>' Bug $num '<-------' >&2
+	for X in a b; do
+		file=exiv2-bug${num}${X}.exv
+		copyTestFile $file
+		runTest exiv2 -pa --grep Lens $file
+	done
+
 	num=831
 	filename=exiv2-bug$num.tif
 	printf "$num " >&3
