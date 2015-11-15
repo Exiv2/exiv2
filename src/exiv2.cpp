@@ -355,7 +355,7 @@ int Params::option(int opt, const std::string& optarg, int optopt)
     case 'u': unknown_ = false; break;
     case 'f': force_ = true; fileExistsPolicy_ = overwritePolicy; break;
     case 'F': force_ = true; fileExistsPolicy_ = renamePolicy; break;
-    case 'g': rc = evalGrep(optarg); printMode_ = pmList; break;
+    case 'g': rc = evalGrep(optarg); break;
     case 'K': rc = evalKey(optarg); printMode_ = pmList; break;
     case 'n': charset_ = optarg; break;
     case 'r': rc = evalRename(opt, optarg); break;
