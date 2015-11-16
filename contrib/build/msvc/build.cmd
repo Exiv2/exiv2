@@ -2,8 +2,9 @@
 SETLOCAL
 
 REM ---------------------------------------------------
-REM -- Created by danielkaneider
+REM -- Created by danielkaneider for the exiv2 project
 REM ---------------------------------------------------
+
 
 rem  https://github.com/madler/zlib/commits
 SET ZLIB_COMMIT_LONG=50893291621658f355bc5b4d450a8d06a563053d
@@ -17,6 +18,7 @@ SET CURL_COMMIT_LONG=dd39a671019d713bd077be9eed511c2dc6013598
 rem http://www.npcglib.org/~stathis/blog/precompiled-openssl/
 SET OPENSSL_VERSION=openssl-1.0.2d
 
+
 IF EXIST ..\msvc (
 	echo.
 	echo.ERROR: This file should NOT be executed within the exiv2 source directory,
@@ -25,62 +27,31 @@ IF EXIST ..\msvc (
 	goto error_end
 )
 
-echo testing compiler
-cl > NUL
+ml64.exe > NUL
 IF ERRORLEVEL 1 (
-	echo "*** ensure cl is not on path.  Run vcvars32.bat or vcvarsall.bat ***"
-	GOTO error_end
-)
-
-echo testing VSINSTALLDIR
-IF NOT EXIST "%VSINSTALLDIR%" (
-	echo "VSINSTALLDIR %VSINSTALLDIR% does not exist.  Ruv vcvars32.bat or vcvarsall.bat ***"
-	GOTO error_end
-)
-
-echo testing architecture
-if "%PROCESSOR_ARCHITECTURE%" EQU "AMD64" ( 
-	set Platform=x64
-	set RawPlatform=x64
-	set CpuPlatform=intel64
-) ELSE (
 	set Platform=Win32
 	set RawPlatform=x86
 	set CpuPlatform=ia32
+) ELSE (
+	set Platform=x64
+	set RawPlatform=x64
+	set CpuPlatform=intel64
 )
 
-echo testing svn is on path
-svn --version > NUL
-IF ERRORLEVEL 1 (
-	echo "*** please ensure SVN.exe is on the PATH ***"
-	GOTO error_end
-)
-
-echo testing cmake is on path
-cmake --version > NUL
-IF ERRORLEVEL 1 (
-	echo "*** please ensure cmake.exe is on the PATH ***"
-	GOTO error_end
-)
-
-echo calling setenv
 call setenv.cmd
-IF ERRORLEVEL 1 (
-	echo "*** setenv.cmd has failed ***"
-	GOTO error_end
-)
 
-echo testing the cygwin_dir exists
-if NOT EXIST %CYGWIN_DIR% (
-	echo "*** CYGWIN_DIR %CYGWIN_DIR% does not exist ***"
-	GOTO error_end
-)
 
 IF %Platform% EQU x64 (
 	set VS_CMAKE=%VS_CMAKE% Win64
 )
 
-echo testing cygwin tools are available
+IF NOT EXIST %CMAKE_EXE% (
+	echo.
+	echo.ERROR: CMake not found: %CMAKE_EXE%
+	echo.
+	goto error_end
+)
+
 SET 7Z_PATH=%CYGWIN_DIR%\lib\p7zip\7z.exe
 IF NOT EXIST %CYGWIN_DIR%\lib\p7zip\7z.exe GOTO cygwin_error
 IF NOT EXIST %CYGWIN_DIR%\bin\cp.exe GOTO cygwin_error
@@ -109,11 +80,11 @@ GOTO error_end
 :cygwin_ok
 
 
-echo setting configuration and creating working directories
 IF NOT DEFINED Configuration (
 	set Configuration=Release
 )
 
+cls
 echo.
 echo.--- %VS_CMAKE% ---
 echo.Configuration = %Configuration%
@@ -124,6 +95,7 @@ IF NOT EXIST %TEMP_DIR% (
 	mkdir %TEMP_DIR%
 )
 
+
 IF NOT EXIST vcDlls (
 	mkdir vcDlls
 	robocopy "%vcinstalldir%redist\%RawPlatform%" vcDlls /MIR >nul
@@ -133,7 +105,7 @@ IF NOT EXIST vcDlls\selected (
 	mkdir vcDlls\selected
 
 	%CYGWIN_DIR%\bin\cp.exe vcDlls/**/vcomp* vcDlls/selected
-	%CYGWIN_DIR%\bin\cp.exe vcDlls/**/msv*   vcDlls/selected
+	%CYGWIN_DIR%\bin\cp.exe vcDlls/**/msv* vcDlls/selected
 )
 
 SET INSTALL_DIR=dist
@@ -142,7 +114,7 @@ IF NOT EXIST %INSTALL_DIR% (
 )
 
 
-echo. ---------- building ZLIB ------------------
+
 SET ZLIB_COMMIT=%ZLIB_COMMIT_LONG:~0,7%
 IF NOT EXIST %TEMP_DIR%\zlib-%ZLIB_COMMIT%.zip (
 	%CYGWIN_DIR%\bin\wget.exe -O %TEMP_DIR%/zlib-%ZLIB_COMMIT%.zip --no-check-certificate http://github.com/madler/zlib/zipball/%ZLIB_COMMIT_LONG%
@@ -157,20 +129,18 @@ IF NOT EXIST zlib-%ZLIB_COMMIT%.build (
     mkdir zlib-%ZLIB_COMMIT%.build
     
     pushd zlib-%ZLIB_COMMIT%.build
-	cmake -G "%VS_CMAKE%" -DCMAKE_INSTALL_PREFIX=..\%INSTALL_DIR% ..\zlib-%ZLIB_COMMIT%
+	%CMAKE_EXE% -G "%VS_CMAKE%" -DCMAKE_INSTALL_PREFIX=..\%INSTALL_DIR% ..\zlib-%ZLIB_COMMIT%
 	IF errorlevel 1 goto error_end
-	cmake --build . --config %Configuration%
+	%CMAKE_EXE% --build . --config %Configuration%
 	IF errorlevel 1 goto error_end
-	cmake --build . --config %Configuration% --target install
+	%CMAKE_EXE% --build . --config %Configuration% --target install
 	IF errorlevel 1 goto error_end
     
     popd
 )
 
 IF NOT EXIST %TEMP_DIR%\expat-2.1.0.tar (
-	if NOT EXIST %TEMP_DIR%\expat-2.1.0.tar.gz (
-		%CYGWIN_DIR%\bin\wget.exe -O %TEMP_DIR%/expat-2.1.0.tar.gz http://cforge.net/projects/expat/files/expat/2.1.0/expat-2.1.0.tar.gz/download
-	)
+	%CYGWIN_DIR%\bin\wget.exe -O %TEMP_DIR%/expat-2.1.0.tar.gz http://sourceforge.net/projects/expat/files/expat/2.1.0/expat-2.1.0.tar.gz/download
 	%CYGWIN_DIR%\bin\gzip.exe -d %TEMP_DIR%/expat-2.1.0.tar.gz
 )
 IF NOT EXIST expat-2.1.0 (
@@ -181,14 +151,16 @@ IF NOT EXIST expat-2.1.0.build (
     mkdir expat-2.1.0.build
     
     pushd expat-2.1.0.build
-	cmake -G "%VS_CMAKE%" -DCMAKE_INSTALL_PREFIX=..\%INSTALL_DIR% ..\expat-2.1.0
+	%CMAKE_EXE% -G "%VS_CMAKE%" -DCMAKE_INSTALL_PREFIX=..\%INSTALL_DIR% ..\expat-2.1.0
 	IF errorlevel 1 goto error_end
-	cmake --build . --config %Configuration%
+	%CMAKE_EXE% --build . --config %Configuration%
 	IF errorlevel 1 goto error_end
-	cmake --build . --config %Configuration% --target install
+	%CMAKE_EXE% --build . --config %Configuration% --target install
 	IF errorlevel 1 goto error_end
 	popd
 )
+
+
 
 REM SET SSL_COMMIT=%SSL_COMMIT_LONG:~0,7%
 REM IF NOT EXIST %TEMP_DIR%\OpenSSL-%SSL_COMMIT%.zip (
@@ -204,11 +176,11 @@ REM REM IF NOT EXIST OpenSSL-%SSL_COMMIT%.build (
 REM REM     mkdir OpenSSL-%SSL_COMMIT%.build
 REM     
 REM     pushd OpenSSL-%SSL_COMMIT%
-REM 	cmake -G "%VS_CMAKE%" -DCMAKE_INSTALL_PREFIX=..\%INSTALL_DIR% .
+REM 	%CMAKE_EXE% -G "%VS_CMAKE%" -DCMAKE_INSTALL_PREFIX=..\%INSTALL_DIR% .
 REM 	IF errorlevel 1 goto error_end
-REM 	cmake --build . --config %Configuration%
+REM 	%CMAKE_EXE% --build . --config %Configuration%
 REM 	IF errorlevel 1 goto error_end
-REM 	cmake --build . --config %Configuration% --target install
+REM 	%CMAKE_EXE% --build . --config %Configuration% --target install
 REM 	IF errorlevel 1 goto error_end
 REM     
 REM REM     popd
@@ -246,11 +218,11 @@ IF NOT EXIST curl-%CURL_COMMIT%.build (
     mkdir curl-%CURL_COMMIT%.build
     
     pushd curl-%CURL_COMMIT%.build
-	cmake -G "%VS_CMAKE%" -DCMAKE_INSTALL_PREFIX=..\%INSTALL_DIR% -DCMAKE_PREFIX_PATH=..\%OPENSSL_LONG% -DBUILD_CURL_TESTS=OFF -DCMAKE_USE_OPENSSL=ON -DCMAKE_USE_LIBSSH2=OFF ..\curl-%CURL_COMMIT%
+	%CMAKE_EXE% -G "%VS_CMAKE%" -DCMAKE_INSTALL_PREFIX=..\%INSTALL_DIR% -DCMAKE_PREFIX_PATH=..\%OPENSSL_LONG% -DBUILD_CURL_TESTS=OFF -DCMAKE_USE_OPENSSL=ON -DCMAKE_USE_LIBSSH2=OFF ..\curl-%CURL_COMMIT%
 	IF errorlevel 1 goto error_end
-	cmake --build . --config %Configuration%
+	%CMAKE_EXE% --build . --config %Configuration%
 	IF errorlevel 1 goto error_end
-	cmake --build . --config %Configuration% --target install
+	%CMAKE_EXE% --build . --config %Configuration% --target install
 	IF errorlevel 1 goto error_end
     
     popd
@@ -268,12 +240,12 @@ IF NOT EXIST libssh-%SSH_VERSION%.build (
     
     pushd libssh-%SSH_VERSION%.build
 	
-	cmake -G "%VS_CMAKE%" -DWITH_GSSAPI=OFF -DWITH_ZLIB=ON -DWITH_SFTP=ON -DWITH_SERVER=OFF -DWITH_EXAMPLES=OFF -DWITH_NACL=OFF -DCMAKE_PREFIX_PATH=..\%OPENSSL_LONG% -DWITH_PCAP=OFF -DCMAKE_INSTALL_PREFIX=..\%INSTALL_DIR%  ..\libssh-%SSH_VERSION%
+	%CMAKE_EXE% -G "%VS_CMAKE%" -DWITH_GSSAPI=OFF -DWITH_ZLIB=ON -DWITH_SFTP=ON -DWITH_SERVER=OFF -DWITH_EXAMPLES=OFF -DWITH_NACL=OFF -DCMAKE_PREFIX_PATH=..\%OPENSSL_LONG% -DWITH_PCAP=OFF -DCMAKE_INSTALL_PREFIX=..\%INSTALL_DIR%  ..\libssh-%SSH_VERSION%
 
 	IF errorlevel 1 goto error_end
-	cmake --build . --config %Configuration%
+	%CMAKE_EXE% --build . --config %Configuration%
 	IF errorlevel 1 goto error_end
-	cmake --build . --config %Configuration% --target install
+	%CMAKE_EXE% --build . --config %Configuration% --target install
 	IF errorlevel 1 goto error_end
     
     popd
@@ -292,13 +264,13 @@ IF NOT EXIST %EXIV_DIR%.build (
     
 pushd %EXIV_DIR%.build
 
-cmake -G "%VS_CMAKE%" -DCMAKE_INSTALL_PREFIX=..\%INSTALL_DIR% -DCMAKE_PROGRAM_PATH=%SVN_DIR% -DEXIV2_ENABLE_WEBREADY=ON -DEXIV2_ENABLE_BUILD_SAMPLES=ON -DEXIV2_ENABLE_CURL=ON -DEXIV2_ENABLE_SSH=ON -DEXIV2_ENABLE_NLS=ON -DEXIV2_ENABLE_WIN_UNICODE=ON -DEXIV2_ENABLE_SHARED=ON ..\%EXIV_DIR%
+%CMAKE_EXE% -G "%VS_CMAKE%" -DCMAKE_INSTALL_PREFIX=..\%INSTALL_DIR% -DCMAKE_PROGRAM_PATH=%SVN_DIR% -DEXIV2_ENABLE_WEBREADY=ON -DEXIV2_ENABLE_BUILD_SAMPLES=ON -DEXIV2_ENABLE_CURL=ON -DEXIV2_ENABLE_SSH=ON -DEXIV2_ENABLE_NLS=ON -DEXIV2_ENABLE_WIN_UNICODE=ON -DEXIV2_ENABLE_SHARED=ON ..\%EXIV_DIR%
 
 IF errorlevel 1 goto error_end
 
-cmake --build . --config %Configuration%
+%CMAKE_EXE% --build . --config %Configuration%
 IF errorlevel 1 goto error_end
-cmake --build . --config %Configuration% --target install
+%CMAKE_EXE% --build . --config %Configuration% --target install
 IF errorlevel 1 goto error_end
 popd  
 goto end
