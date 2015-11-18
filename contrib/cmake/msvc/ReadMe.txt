@@ -7,7 +7,7 @@ They are derived from Daniels contrib/build scripts.
 How to use this
 ---------------
 
-1 Ensure that build.cmd and setenv.cmd are on your path (eg the build directory)
+1 Ensure that build.cmd and setenv.cmd are on your path (eg your build directory)
 
 2 Your machine setup:
   You need cmake.exe and svn.exe on your PATH.
@@ -19,9 +19,6 @@ How to use this
   installed with Visual Studio. For example
   
   call "C:\Program Files (x86)\Microsoft Visual Studio 8\VC\bin\vcvars32.bat"
-  
-  The cmake option -G Generator should be chosen for the version of Visual Studio installed.
-  cmake --help for more information
   
 3 Always build "out of source".  I recommend:
   cd <exiv2dir>
@@ -54,25 +51,31 @@ How to use this
                              build\dist\include contains *.h and *.hpp files
 
 5 Building manually with CMake
+  The cmake option -G Generator should be chosen for the version of Visual Studio installed.
+  cmake --help for more information
+  
+  I personally always build/test with Visual Studio 2005 in 64 bits.
+  The generator is:  "Visual Studio 8 2005 Win64"
+
   cd <exiv2dir>
   mkdir ../build
   cd    ../build
   
   rem download support libraries
-  svn export svn:/dev.exiv2.org/team/libraries/zlib-1.2.8
-  svn export svn:/dev.exiv2.org/team/libraries/expat-2.1.0
+  svn export svn://dev.exiv2.org/svn/team/libraries/zlib-1.2.8
+  svn export svn://dev.exiv2.org/svn/team/libraries/expat-2.1.0
   ... for webready, you also need libssh-0.5.5 curl-7.39.0 openssl-1.0.1j ...
   
   rem create a temp directory and a dist (distribution) directory 
-  mkdir temp
-  mkdir dist
+  mkdir temp  # build, compile and link in this directory
+  mkdir dist  # the output artifacts are stored here
   
   rem  build zlib-1.2.8
   mkdir temp\zlib-1.2.8
   cd    temp\zlib-1.2.8
-  cmake -G "Visual Studio 8 2005 Win64" -DCMAKE_INSTALL_PREFIX=..\..dist ..\..\zlib-1.2.8
-  cmake --build   . --config Release  # TAKE CARE with expat-2.1.0 use: cmake --build . --config Release --target expat
-  cmake --build . --target install --config Release    
+  cmake -G "Visual Studio 8 2005 Win64" "-DCMAKE_INSTALL_PREFIX=..\..dist" ..\..\zlib-1.2.8
+  cmake --build .                  # TAKE CARE with expat-2.1.0 use: cmake --build . --target expat
+  cmake --build . --target install    
   cd ..\..
   
   rem  build expat-2.1.0 and other required libraries 
@@ -80,10 +83,10 @@ How to use this
   rem  build exiv2
   mkdir temp\exiv2
   cd    temp\exiv2
-  cmake -G "Visual Studio 8 2005 Win64" -DCMAKE_INSTALL_PREFIX=..\..\dist ^
-           -DCMAKE_LIBRARY_PATH=..\..\dist\lib -DCMAKE_INCLUDE_PATH=..\..\dist\include ^
-           -DEXIV2_ENABLE_SHARED=ON
-           ..\..\..\<exiv2dir>
+  cmake -G "Visual Studio 8 2005 Win64" "-DCMAKE_INSTALL_PREFIX=..\..\dist"                ^
+           "-DCMAKE_LIBRARY_PATH=..\..\dist\lib" "-DCMAKE_INCLUDE_PATH=..\..\dist\include" ^
+            -DEXIV2_ENABLE_SHARED=ON ^
+            ..\..\..\<exiv2dir>
   cmake --build . --config Release
   cmake --build . --config Release --target install
   
