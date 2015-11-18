@@ -74,18 +74,18 @@ call:echo VS_PROG_FILES = "%VS_PROG_FILES%"
 
 rem  ----
 call:echo setting CMake Generator
-if      /I "%VS_PROG_FILES%" == "Microsoft Visual Studio 14"   (
-        set "VS_CMAKE=Visual Studio 14 2015"
+if        /I "%VS_PROG_FILES%" == "Microsoft Visual Studio 14" (
+        set   "VS_CMAKE=Visual Studio 14 2015"
 ) else if /I "%VS_PROG_FILES%" == "Microsoft Visual Studio 12" (
-        set "VS_CMAKE=Visual Studio 12 2013"
+        set   "VS_CMAKE=Visual Studio 12 2013"
 ) else if /I "%VS_PROG_FILES%" == "Microsoft Visual Studio 11" (
-        set "VS_CMAKE=Visual Studio 11 2012"
+        set   "VS_CMAKE=Visual Studio 11 2012"
 ) else if /I "%VS_PROG_FILES%" == "Microsoft Visual Studio 10" (
-        set "VS_CMAKE=Visual Studio 10 2010"
+        set   "VS_CMAKE=Visual Studio 10 2010"
 ) else if /I "%VS_PROG_FILES%" == "Microsoft Visual Studio 9"  (
-        set "VS_CMAKE=Visual Studio 9 2008"
+        set   "VS_CMAKE=Visual Studio 9 2008"
 ) else if /I "%VS_PROG_FILES%" == "Microsoft Visual Studio 8"  (
-        set "VS_CMAKE=Visual Studio 8 2005"
+        set   "VS_CMAKE=Visual Studio 8 2005"
 ) else (
     echo "*** Unsupported version of Visual Studio in '%VSINSTALLDIR%' ***"
 	GOTO error_end
@@ -122,7 +122,7 @@ IF ERRORLEVEL 1 (
 	echo "*** ensure cl is on path.  Run vcvars32.bat or vcvarsall.bat ***"
 	GOTO error_end
 )
-if NOT DEFINED _SILENT_ cl>/NUL
+if NOT DEFINED _SILENT_ cl
 
 rem  ----
 call:echo testing svn is on path
@@ -181,19 +181,19 @@ set  TARGET=
 
 
 if DEFINED _WEBREADY_ (
-	echo ---------- building LIBSSH -----------------
-	set _SSH_=-DEXIV2_ENABLE_SSH=ON
-	call:buildLib "%_LIBSSH_%"
-	if errorlevel 1 set _SSH_=-DEXIV2_ENABLE_SSH=OFF
-
 	echo ---------- building OPENSSL -----------------
-	call:buildLib "%_OPENSSL_%"
+	call:buildLib %_OPENSSL_%
 
 	echo ---------- building CURL -----------------
 	set _CURL_=-DEXIV2_ENABLE_CURL=ON
 	call:buildLib %_CURL_%"
 	if errorlevel 1 set _CURL_=-DEXIV2_ENABLE_CURL=OFF
 	
+	echo ---------- building LIBSSH -----------------
+	set _SSH_=-DEXIV2_ENABLE_SSH=ON
+	call:buildLib %_LIBSSH_%
+	if errorlevel 1 set _SSH_=-DEXIV2_ENABLE_SSH=OFF
+
 	set _WEBREADY_=-DEXIV2_ENABLE_WEBREADY=ON
 ) else (
 	set _WEBREADY_=-DEXIV2_ENABLE_WEBREADY=OFF
@@ -208,8 +208,7 @@ if defined _REBUILD_        rmdir/s/q "%EXIV_BUILD%"
 IF NOT EXIST "%EXIV_BUILD%" mkdir     "%EXIV_BUILD%"
 pushd        "%EXIV_BUILD%"
 	call:run cmake -G "%_GENERATOR_%" ^
-	         "-DCMAKE_INSTALL_PREFIX=%_INSTALL_%"      "-DCMAKE_PROGRAM_PATH=%SVN_DIR%"           ^
-	         "-DCMAKE_LIBRARY_PATH=%_INSTALL_%\lib"    "-DCMAKE_INCLUDE_PATH=%_INSTALL_%\include" ^
+	         "-DCMAKE_INSTALL_PREFIX=%_INSTALL_%"  "-DCMAKE_LIBRARY_PATH=%_INSTALL_%\lib" "-DCMAKE_INCLUDE_PATH=%_INSTALL_%\include" ^
 	          -DEXIV2_ENABLE_NLS=OFF                    -DEXIV2_ENABLE_BUILD_SAMPLES=ON           ^
 	          -DEXIV2_ENABLE_WIN_UNICODE=OFF            -DEXIV2_ENABLE_SHARED=ON ^
 	          %_WEBREADY_%  %_CURL_%  %_SSH_% %_VIDEO_% ^
@@ -285,7 +284,11 @@ IF NOT EXIST "%LIB%"   svn export svn://dev.exiv2.org/svn/team/libraries/%LIB% >
 IF NOT EXIST "%LIB_B%" mkdir "%LIB_B%"  
 pushd "%LIB_B%"
 
-    call:run cmake -G "%_GENERATOR_%" -DCMAKE_INSTALL_PREFIX=%_INSTALL_% ..\..\%LIB%
+    call:run cmake -G "%_GENERATOR_%" 	                         ^
+                      "-DCMAKE_INSTALL_PREFIX=%_INSTALL_%"       ^
+                      "-DCMAKE_LIBRARY_PATH=%_INSTALL_%\lib"     ^
+                      "-DCMAKE_INCLUDE_PATH=%_INSTALL_%\include" ^
+                      ..\..\%LIB%
 	IF errorlevel 1 (
 		echo "*** cmake errors in %LIB% ***"
 	    popd

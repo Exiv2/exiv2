@@ -7,7 +7,7 @@ They are derived from Daniels contrib/build scripts.
 How to use this
 ---------------
 
-1 Your machine setup:
+1 Setting up your machine
   You need cmake.exe and svn.exe on your PATH.
   Please get "Windows" versions of cmake and svn (NOT Cygwin versions)
   You need a "Windows" version of perl.exe on the path to build openssl
@@ -17,6 +17,11 @@ How to use this
   installed with Visual Studio. For example
   
   call "C:\Program Files (x86)\Microsoft Visual Studio 8\VC\bin\vcvars32.bat"
+  
+  The batch file contrib\cmake\msvc\vcvars.bat is designed to take the pain
+  out of this - provided Visual Studio's installed in c:\Program Files (x86)
+  vcvars 2005        # sets 2005 x86
+  vcvars 2010 64     # sets 2010 x86_amd64
   
 2 Always build "out of source".  I recommend:
   cd <exiv2dir>
@@ -64,7 +69,7 @@ How to use this
   rem download support libraries
   svn export svn://dev.exiv2.org/svn/team/libraries/zlib-1.2.8
   svn export svn://dev.exiv2.org/svn/team/libraries/expat-2.1.0
-  ... for webready, you also need libssh-0.5.5 curl-7.39.0 openssl-1.0.1j ...
+  ... for webready, you also need openssl-1.0.1j curl-7.39.0 libssh-0.5.5 
   
   rem create a temp directory and a dist (distribution) directory 
   mkdir temp  # build, compile and link in this directory
@@ -111,8 +116,6 @@ How to use this
   OPTION( EXIV2_ENABLE_WIN_UNICODE   "Use Unicode paths (wstring) on Windows"                OFF )
   OPTION( EXIV2_ENABLE_CURL          "USE Libcurl for HttpIo"                                OFF )
   OPTION( EXIV2_ENABLE_SSH           "USE Libssh for SshIo"                                  OFF )
-  OPTION( EXIV2_ENABLE_CURL          "USE Libcurl for HttpIo"                                ON  )
-  OPTION( EXIV2_ENABLE_SSH           "USE Libssh for SshIo"                                  ON  )
 
   C:\cygwin64\home\rmills\gnu\exiv2\trunk>
   
