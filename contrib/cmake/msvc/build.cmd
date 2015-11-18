@@ -12,7 +12,6 @@ if /I "%1" == "--webready"        set "_WEBREADY_=1"
 if /I "%1" == "--config"          set "_CONFIG_=%2"& shift
 if /I "%1" == "--temp"            set "_TEMP_=%2"& shift
 if /I "%1" == "--generator"       set "_GENERATOR_=%2"& shift
-if /I "%1" == "--cygwin"          set "_CYGWIN_=%2"& shift
 if /I "%1" == "--exiv2"           set "_EXIV2_=%2"& shift
 if /I "%1" == "--verbose"         set "_VERBOSE_=1"
 if /I "%1" == "--dryrun"          set "_DRYRUN_=1"
@@ -20,6 +19,13 @@ if /I "%1" == "--rebuild"         set "_REBUILD_=1"
 if /I "%1" == "--silent"          set "_SILENT_=1"
 if /I "%1" == "--silent"          set "_QUIET_=1"
 if /I "%1" == "--quiet"           set "_QUIET_=1"
+if /I "%1" == "--video"           set "_VIDEO_=1"
+if /I "%1" == "--pause"           set "_PAUSE_=1"
+if /I "%1" == "--zlib"            set "_ZLIB_=%2"& shift
+if /I "%1" == "--expat"           set "_EXPAT_=%2"& shift
+if /I "%1" == "--libssh"          set "_LIBSSH_=%2"& shift
+if /I "%1" == "--curl"            set "_CURL_=%2"& shift
+if /I "%1" == "--openssl"         set "_OPENSSL_=%2"& shift
 
 shift
 if not (%1) EQU () goto GETOPTS
@@ -28,18 +34,14 @@ rem  ----
 call:echo calling setenv
 call setenv.cmd
 IF ERRORLEVEL 1 (
-	echo "*** setenv.cmd has failed ***"
+	echo "*** setenv.cmd has failed ***" >&2
 	GOTO error_end
 )
-
-rem if NOT DEFINED _DRYRUN_ if DEFINED _REBUILD_ (
-rem 	for /F "delims=" %%i in ('dir /b') do (rmdir "%%i" /s/q || del "%%i" /s/q)  	
-rem )
 
 rem  ----
 call:echo checking that %_EXIV2_% exists
 if NOT EXIST %_EXIV2_% (
-	echo "_EXIV2_ = %_EXIV2_% does not exist ***"
+	echo "_EXIV2_ = %_EXIV2_% does not exist ***" >&2
 	exit /b 1
 )
 pushd %_EXIV2_%
@@ -60,48 +62,30 @@ IF NOT EXIST "%VSINSTALLDIR%" (
 
 rem http://stackoverflow.com/questions/9252980/how-to-split-the-filename-from-a-full-path-in-batch
 for %%A in ("%VSINSTALLDIR%") do (
-    set "VSSTUDIO=%%~nA"
+    set "VS_PROG_FILES=%%~nA"
 )
-call:echo VSSTUDIO = "%VSSTUDIO%"
+call:echo VS_PROG_FILES = "%VS_PROG_FILES%"
 
 rem  ----
 call:echo setting CMake command options
-IF "%VSSTUDIO%" EQU "Microsoft Visual Studio 14" (
+IF "%VS_PROG_FILES%" EQU "Microsoft Visual Studio 14" (
 	rem Visual Studio 2015
-	set VS_SHORT=vc14
 	set VS_CMAKE=Visual Studio 14
-	set VS_PROG_FILES=Microsoft Visual Studio 14.0
-	set VS_OPENSSL=vs2015
-) ELSE IF "%VSSTUDIO%" EQU "Microsoft Visual Studio 12" (
+) ELSE IF "%VS_PROG_FILES%" EQU "Microsoft Visual Studio 12" (
 	rem Visual Studio 2013
-	set VS_SHORT=vc12
 	set VS_CMAKE=Visual Studio 12
-	set VS_PROG_FILES=Microsoft Visual Studio 12.0
-	set VS_OPENSSL=vs2013
-) ELSE IF "%VSSTUDIO%" EQU "Microsoft Visual Studio 11" (
+) ELSE IF "%VS_PROG_FILES%" EQU "Microsoft Visual Studio 11" (
 	rem Visual Studio 2012
-	set VS_SHORT=vc11
 	set VS_CMAKE=Visual Studio 11
-	set VS_PROG_FILES=Microsoft Visual Studio 11.0
-	set VS_OPENSSL=vs2012
-) ELSE IF "%VSSTUDIO%" EQU "Microsoft Visual Studio 10" (
+) ELSE IF "%VS_PROG_FILES%" EQU "Microsoft Visual Studio 10" (
 	rem Visual Studio 2010
-	set VS_SHORT=vc10
 	set VS_CMAKE=Visual Studio 10
-	set VS_PROG_FILES=Microsoft Visual Studio 10.0
-	set VS_OPENSSL=vs2010
-) ELSE IF "%VSSTUDIO%" EQU "Microsoft Visual Studio 9" (
+) ELSE IF "%VS_PROG_FILES%" EQU "Microsoft Visual Studio 9" (
 	rem Visual Studio 2008
-	set VS_SHORT=vc9
 	set VS_CMAKE=Visual Studio 9 2008
-	set VS_PROG_FILES=Microsoft Visual Studio 9.0
-	set VS_OPENSSL=vs2008
-) ELSE IF "%VSSTUDIO%" EQU "Microsoft Visual Studio 8" (
+) ELSE IF "%VS_PROG_FILES%" EQU "Microsoft Visual Studio 8" (
 	rem Visual Studio 2005
-	set VS_SHORT=vc8
 	set VS_CMAKE=Visual Studio 8 2005
-	set VS_PROG_FILES=Microsoft Visual Studio 8.0
-	set VS_OPENSSL=vs2005
 ) ELSE (
     echo "*** Unsupported version of Visual Studio in '%VSINSTALLDIR%' ***"
 	GOTO error_end
@@ -119,7 +103,7 @@ if "%PROCESSOR_ARCHITECTURE%" EQU "AMD64" (
 )
 
 IF %Platform% EQU x64 (
-	set VS_CMAKE=%VS_CMAKE% Win64
+	set "VS_CMAKE=%VS_CMAKE% Win64"
 )
 call:echo Platform = %Platform% (%RawPlatform%)
 
@@ -157,34 +141,12 @@ IF ERRORLEVEL 1 (
 )
 
 rem  ----
-call:echo testing that _CYGWIN_ exists
-if NOT EXIST %_CYGWIN_% (
-	echo "*** _CYGWIN_ %_CYGWIN_% does not exist ***"
-	GOTO error_end
-)
-
-rem  ----
-call:echo testing cygwin tools are available
-IF NOT EXIST %_CYGWIN_%\bin\cp.exe       GOTO cygwin_error
-IF NOT EXIST %_CYGWIN_%\bin\tar.exe      GOTO cygwin_error
-GOTO cygwin_ok
-
-:cygwin_error
-echo "*** Cygwin with bin/cp and bin/tar are required ***"
-GOTO error_end
-
-:cygwin_ok
-pushd %_CYGWIN_%
-set _CYGWIN_=%CD%
-popd
-
-rem  ----
 call:echo testing temporary directory
 IF NOT EXIST "%_TEMP_%" mkdir "%_TEMP_%"
 pushd        "%_TEMP_%"
-set    "_TEMP_=%CD%"
+set           "_TEMP_=%CD%"
 popd
-call:echo _TEMP_ = %_TEMP_% 
+call:echo      _TEMP_ = %_TEMP_% 
 
 rem ----
 call:echo testing INSTALL
@@ -198,32 +160,38 @@ call:echo     _INSTALL_ = %_INSTALL_%
 if NOT DEFINED _GENERATOR_       set "_GENERATOR_=%VS_CMAKE%"
 if /I "%_GENERATOR_%" == "NMake" set "_GENERATOR_=NMake Makefiles"
 
+if defined _VIDEO_ set _VIDEO_=-DEXIV2_ENABLE_VIDEO=ON
+
 rem  ----
 echo.
-echo config = %_CONFIG_% webready = %_WEBREADY_% _EXIV2_= %_EXIV2_%"
+echo.config   = %_CONFIG_%
+echo.video    = %_VIDEO_%
+echo.webready = %_WEBREADY_%
+echo.exiv2    = %_EXIV2_%"
 
 IF DEFINED _DRYRUN_ exit /b 1
 
 echo ---------- building ZLIB ------------------
-call:buildLib zlib-1.2.8
+call:buildLib %_ZLIB_%
 
 echo ---------- building EXPAT -----------------
 set "TARGET=--target expat"
-call:buildLib expat-2.1.0
+call:buildLib %_EXPAT_%
 set  TARGET=
+
 
 if DEFINED _WEBREADY_ (
 	echo ---------- building LIBSSH -----------------
 	set _SSH_=-DEXIV2_ENABLE_SSH=ON
-	call:buildLib libssh-0.5.5
+	call:buildLib "%_LIBSSH_%"
 	if errorlevel 1 set _SSH_=-DEXIV2_ENABLE_SSH=OFF
 
 	echo ---------- building OPENSSL -----------------
-	call:buildLib openssl-1.0.1j
+	call:buildLib "%_OPENSSL_%"
 
 	echo ---------- building CURL -----------------
 	set _CURL_=-DEXIV2_ENABLE_CURL=ON
-	call:buildLib curl-7.39.0
+	call:buildLib %_CURL_%"
 	if errorlevel 1 set _CURL_=-DEXIV2_ENABLE_CURL=OFF
 	
 	set _WEBREADY_=-DEXIV2_ENABLE_WEBREADY=ON
@@ -234,58 +202,58 @@ if DEFINED _WEBREADY_ (
 )
 
 echo ---------- building EXIV2 ------------------
+set          "EXIV_BUILD=%_TEMP_%\exiv2"
 
-set EXIV_BUILD="%_TEMP_%\exiv2"
-
-if defined _REBUILD_ "%EXIV_BUILD%"
-IF NOT EXIST         "%EXIV_BUILD%" mkdir "%EXIV_BUILD%"
-pushd "%EXIV_BUILD%"
+if defined _REBUILD_        rmdir/s/q "%EXIV_BUILD%"
+IF NOT EXIST "%EXIV_BUILD%" mkdir     "%EXIV_BUILD%"
+pushd        "%EXIV_BUILD%"
 	call:run cmake -G "%_GENERATOR_%" ^
-	         "-DCMAKE_INSTALL_PREFIX=%_INSTALL_%"      "-DCMAKE_PROGRAM_PATH=%SVN_DIR%" ^
-	         "-DCMAKE_LIBRARY_PATH=%INSTALL_PATH%\lib" "-DCMAKE_INCLUDE_PATH=%INSTALL_PATH%\include" ^
-	          -DEXIV2_ENABLE_NLS=OFF                    -DEXIV2_ENABLE_BUILD_SAMPLES=ON ^
+	         "-DCMAKE_INSTALL_PREFIX=%_INSTALL_%"      "-DCMAKE_PROGRAM_PATH=%SVN_DIR%"           ^
+	         "-DCMAKE_LIBRARY_PATH=%_INSTALL_%\lib"    "-DCMAKE_INCLUDE_PATH=%_INSTALL_%\include" ^
+	          -DEXIV2_ENABLE_NLS=OFF                    -DEXIV2_ENABLE_BUILD_SAMPLES=ON           ^
 	          -DEXIV2_ENABLE_WIN_UNICODE=OFF            -DEXIV2_ENABLE_SHARED=ON ^
-	          %_WEBREADY_%  %_CURL_%  %_SSH_% ^
+	          %_WEBREADY_%  %_CURL_%  %_SSH_% %_VIDEO_% ^
 	         "%_EXIV2_%"
 
 	IF errorlevel 1 (
-		echo "*** errors in EXIV2 build [1] ***"
+		echo "*** cmake errors in EXIV2 ***" >&2
 	    popd
 		goto error_end
 	)
 
 	call:run cmake --build . --config %_CONFIG_%
 	IF errorlevel 1 (
-		echo "*** errors in EXIV2 build [2] ***"
+		echo "*** build errors in EXIV2 ***" >&2
 	    popd
 		goto error_end
 	)
 
 	call:run cmake --build . --config %_CONFIG_% --target install
 	IF errorlevel 1 (
-		echo "*** errors in EXIV2 build [3] ***"
+		echo "*** install errors in EXIV2 ***" >&2
 	    popd
 		goto error_end
 	)
-	copy/y "samples\%_CONFIG_%\"*.exe "%_INSTALL_%\bin"
+	if     defined _SILENT_ copy/y "samples\%_CONFIG_%\"*.exe "%_INSTALL_%\bin" >nul
+	if NOT defined _SILENT_ copy/y "samples\%_CONFIG_%\"*.exe "%_INSTALL_%\bin"
 popd
 
 rem -----------------------------------------
 rem Exit
-:error_end
-endlocal
-REM pause
-exit /b 1
-
 :end
 endlocal
 exit /b 0
 
+:error_end
+endlocal
+exit /b 1
+
 rem -----------------------------------------
 rem Functions
 :help
-echo Options: --help ^| --webready ^| --dryrun ^| --verbose ^| --rebuild ^| --silent ^| --verbose
-echo.         --exiv2 directory ^| --cygwin directory ^| --temp directory ^| --config name ^| --generator generator
+echo Options: --help ^| --pause ^| --webready ^| --dryrun ^| --verbose ^| --rebuild ^| --silent ^| --verbose ^| --video
+echo.         --exiv2 directory ^| --temp directory ^| --config name ^| --generator generator
+echo.         --zlib zlib.1.2.8 ^| --expat expat-2.1.0 ^| --curl curl-7.39.0 ^| --libssh libssh-0.5.5 ^| --openssl openssl-1.0.1j
 exit /b 0
 
 :echo
@@ -301,55 +269,39 @@ if defined _VERBOSE_ (
 )	
 if     defined _SILENT_ %*% >nul 2>nul
 if NOT defined _SILENT_ %*%
-exit /b %ERRORLEVEL%
 
-
+set _RESULT_=%ERRORLEVEL%
+if DEFINED _PAUSE_ pause
+exit /b %_RESULT_%
 
 rem -------------------------------------------------------------
 :buildLib
-cd "%_BUILDDIR_%"
+cd  "%_BUILDDIR_%"
+set "LIB=%1%"
+set "LIB_B=%_TEMP_%\%LIB%"
 
-set LIB=%1%
-set LIB_T=%LIB%.tar
-set LIB_Z=%LIB%.tar.Z
-set LIB_B="%_TEMP_%\%LIB%"
-
-if defined _REBUILD_ del "%LIB_Z%"
-IF NOT EXIST             "%LIB_Z%" (
-	call:run svn export svn://dev.exiv2.org/svn/team/libraries/%LIB_Z%
-)
-
-if defined _REBUILD_ rmdir/s/q  "%LIB%"
-IF NOT EXIST                    "%LIB%" "%_CYGWIN_%\bin\tar.exe" xzf "%LIB_Z%"
-
-if defined _REBUILD_  rmdir/s/q "%LIB_B%"
-IF NOT EXIST %LIB_B%  mkdir     "%LIB_B%"
-
-    pushd "%LIB_B%"
+if defined _REBUILD_   rmdir/s/q "%LIB%" "%LIB_B%"
+IF NOT EXIST "%LIB%"   svn export svn://dev.exiv2.org/svn/team/libraries/%LIB% >NUL
+IF NOT EXIST "%LIB_B%" mkdir "%LIB_B%"  
+pushd "%LIB_B%"
 
     call:run cmake -G "%_GENERATOR_%" -DCMAKE_INSTALL_PREFIX=%_INSTALL_% ..\..\%LIB%
 	IF errorlevel 1 (
-		echo "*** errors in %LIB% build [1] ***"
+		echo "*** cmake errors in %LIB% ***"
 	    popd
 		exit /b 1
 	)
 
 	call:run cmake --build . --config %_CONFIG_% %TARGET%
 	IF errorlevel 1 (
-		echo "*** warning: errors in %LIB% build [2] ***"
-	    popd
-		exit /b 0
+		echo "*** warning: build errors in %LIB% ***"
 	)
 
 	call:run cmake --build . --config %_CONFIG_% --target install
 	IF errorlevel 1 (
-		echo "*** warning: errors in %LIB% build [3] ***"
-	    popd
-		exit /b 0
+		echo "*** warning: install errors in %LIB% ***"
 	)
-    
-    popd
-
+popd
 exit /b 0
 
 rem That's all Folks!
