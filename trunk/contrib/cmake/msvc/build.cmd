@@ -64,29 +64,29 @@ rem http://stackoverflow.com/questions/9252980/how-to-split-the-filename-from-a-
 for %%A in ("%VSINSTALLDIR%") do (
     set "VS_PROG_FILES=%%~nA"
 )
+if /I "%VSINSTALLDIR%" == "C:\Program Files (x86)\Microsoft Visual Studio 14.0\" set "VS_PROG_FILES=Microsoft Visual Studio 14"
+if /I "%VSINSTALLDIR%" == "C:\Program Files (x86)\Microsoft Visual Studio 12.0\" set "VS_PROG_FILES=Microsoft Visual Studio 12"
+if /I "%VSINSTALLDIR%" == "C:\Program Files (x86)\Microsoft Visual Studio 11.0\" set "VS_PROG_FILES=Microsoft Visual Studio 11"
+if /I "%VSINSTALLDIR%" == "C:\Program Files (x86)\Microsoft Visual Studio 10.0\" set "VS_PROG_FILES=Microsoft Visual Studio 10"
+if /I "%VSINSTALLDIR%" == "C:\Program Files (x86)\Microsoft Visual Studio 9.0\"  set "VS_PROG_FILES=Microsoft Visual Studio 9"
+if /I "%VSINSTALLDIR%" == "C:\Program Files (x86)\Microsoft Visual Studio 8.0\"  set "VS_PROG_FILES=Microsoft Visual Studio 8"
 call:echo VS_PROG_FILES = "%VS_PROG_FILES%"
 
 rem  ----
-call:echo setting CMake command options
-IF "%VS_PROG_FILES%" EQU "Microsoft Visual Studio 14" (
-	rem Visual Studio 2015
-	set VS_CMAKE=Visual Studio 14
-) ELSE IF "%VS_PROG_FILES%" EQU "Microsoft Visual Studio 12" (
-	rem Visual Studio 2013
-	set VS_CMAKE=Visual Studio 12
-) ELSE IF "%VS_PROG_FILES%" EQU "Microsoft Visual Studio 11" (
-	rem Visual Studio 2012
-	set VS_CMAKE=Visual Studio 11
-) ELSE IF "%VS_PROG_FILES%" EQU "Microsoft Visual Studio 10" (
-	rem Visual Studio 2010
-	set VS_CMAKE=Visual Studio 10
-) ELSE IF "%VS_PROG_FILES%" EQU "Microsoft Visual Studio 9" (
-	rem Visual Studio 2008
-	set VS_CMAKE=Visual Studio 9 2008
-) ELSE IF "%VS_PROG_FILES%" EQU "Microsoft Visual Studio 8" (
-	rem Visual Studio 2005
-	set VS_CMAKE=Visual Studio 8 2005
-) ELSE (
+call:echo setting CMake Generator
+if      /I "%VS_PROG_FILES%" == "Microsoft Visual Studio 14"   (
+        set "VS_CMAKE=Visual Studio 14 2015"
+) else if /I "%VS_PROG_FILES%" == "Microsoft Visual Studio 12" (
+        set "VS_CMAKE=Visual Studio 12 2013"
+) else if /I "%VS_PROG_FILES%" == "Microsoft Visual Studio 11" (
+        set "VS_CMAKE=Visual Studio 11 2012"
+) else if /I "%VS_PROG_FILES%" == "Microsoft Visual Studio 10" (
+        set "VS_CMAKE=Visual Studio 10 2010"
+) else if /I "%VS_PROG_FILES%" == "Microsoft Visual Studio 9"  (
+        set "VS_CMAKE=Visual Studio 9 2008"
+) else if /I "%VS_PROG_FILES%" == "Microsoft Visual Studio 8"  (
+        set "VS_CMAKE=Visual Studio 8 2005"
+) else (
     echo "*** Unsupported version of Visual Studio in '%VSINSTALLDIR%' ***"
 	GOTO error_end
 )
@@ -274,7 +274,7 @@ set _RESULT_=%ERRORLEVEL%
 if DEFINED _PAUSE_ pause
 exit /b %_RESULT_%
 
-rem -------------------------------------------------------------
+rem -----------------------------------------
 :buildLib
 cd  "%_BUILDDIR_%"
 set "LIB=%1%"
@@ -305,4 +305,4 @@ popd
 exit /b 0
 
 rem That's all Folks!
-rem -------------------------------------------------------------
+rem -----------------------------------------
