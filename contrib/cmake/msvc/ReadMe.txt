@@ -7,9 +7,7 @@ They are derived from Daniels contrib/build scripts.
 How to use this
 ---------------
 
-1 Ensure that build.cmd and setenv.cmd are on your path (eg your build directory)
-
-2 Your machine setup:
+1 Your machine setup:
   You need cmake.exe and svn.exe on your PATH.
   Please get "Windows" versions of cmake and svn (NOT Cygwin versions)
   You need a "Windows" version of perl.exe on the path to build openssl
@@ -20,9 +18,11 @@ How to use this
   
   call "C:\Program Files (x86)\Microsoft Visual Studio 8\VC\bin\vcvars32.bat"
   
-3 Always build "out of source".  I recommend:
+2 Always build "out of source".  I recommend:
   cd <exiv2dir>
   mkdir ..\build
+  
+  Ensure that build.cmd and setenv.cmd are on your path (eg your build directory)
   copy  contrib\cmake\msvc\* ..\build
   cd    ..\build
   build --help
@@ -43,14 +43,14 @@ How to use this
   When you are building happily, you may prefer:
   build --silent
   
-4 What gets built?
+3 What gets built?
   The build is performed in  build\temp
   The output is generated in build\dist
                              build\dist\bin contains *.exe and *.dll files
                              build\dist\lib contains *.lib files
                              build\dist\include contains *.h and *.hpp files
 
-5 Building manually with CMake
+4 Building manually with CMake
   The cmake option -G Generator should be chosen for the version of Visual Studio installed.
   cmake --help for more information
   
@@ -90,7 +90,7 @@ How to use this
   cmake --build . --config Release
   cmake --build . --config Release --target install
   
-6 Build options
+5 Build options
   You can inspect CMake options by running grep OPTION on CMakeLists.txt in <exiv2dir>
   C:\cygwin64\home\rmills\gnu\exiv2\build>cd ..\trunk
 
@@ -116,7 +116,7 @@ How to use this
 
   C:\cygwin64\home\rmills\gnu\exiv2\trunk>
   
-7 Running the test suite
+6 Running the test suite
   http://dev.exiv2.org/projects/exiv2/wiki/How_do_I_run_the_test_suite_for_Exiv2
   
 Status:
