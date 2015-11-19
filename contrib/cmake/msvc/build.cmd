@@ -76,19 +76,25 @@ rem  ----
 call:echo setting CMake Generator
 if        /I "%VS_PROG_FILES%" == "Microsoft Visual Studio 14" (
         set   "VS_CMAKE=Visual Studio 14 2015"
+        set   "VS_OPENSSL=vs2015"
 ) else if /I "%VS_PROG_FILES%" == "Microsoft Visual Studio 12" (
         set   "VS_CMAKE=Visual Studio 12 2013"
+        set   "VS_OPENSSL=vs2013"
 ) else if /I "%VS_PROG_FILES%" == "Microsoft Visual Studio 11" (
         set   "VS_CMAKE=Visual Studio 11 2012"
+        set   "VS_OPENSSL=vs2012"
 ) else if /I "%VS_PROG_FILES%" == "Microsoft Visual Studio 10" (
         set   "VS_CMAKE=Visual Studio 10 2010"
+        set   "VS_OPENSSL=vs2010"
 ) else if /I "%VS_PROG_FILES%" == "Microsoft Visual Studio 9"  (
         set   "VS_CMAKE=Visual Studio 9 2008"
+        set   "VS_OPENSSL=vs2008"
 ) else if /I "%VS_PROG_FILES%" == "Microsoft Visual Studio 8"  (
         set   "VS_CMAKE=Visual Studio 8 2005"
+        set   "VS_OPENSSL=vs2005"
 ) else (
-    echo "*** Unsupported version of Visual Studio in '%VSINSTALLDIR%' ***"
-	GOTO error_end
+        echo "*** Unsupported version of Visual Studio in '%VSINSTALLDIR%' ***"
+	    GOTO error_end
 )
 
 call:echo testing architecture
@@ -128,7 +134,15 @@ rem  ----
 call:echo testing svn is on path
 svn --version > NUL
 IF ERRORLEVEL 1 (
-	echo "*** please ensure SVN.exe is on the PATH ***"
+	echo "*** please ensure svn.exe is on the PATH ***"
+	GOTO error_end
+)
+
+rem  ----
+call:echo testing 7z is on path
+7z > NUL
+IF ERRORLEVEL 1 (
+	echo "*** please ensure 7z.exe is on the PATH ***"
 	GOTO error_end
 )
 
@@ -182,7 +196,7 @@ set  TARGET=
 
 if DEFINED _WEBREADY_ (
 	echo ---------- building OPENSSL -----------------
-	call:buildLib %_OPENSSL_%
+	call:getOPENSSL %_OPENSSL_%
 
 	echo ---------- building CURL -----------------
 	set _CURL_=-DEXIV2_ENABLE_CURL=ON
@@ -252,7 +266,7 @@ rem Functions
 :help
 echo Options: --help ^| --pause ^| --webready ^| --dryrun ^| --verbose ^| --rebuild ^| --silent ^| --verbose ^| --video
 echo.         --exiv2 directory ^| --temp directory ^| --config name ^| --generator generator
-echo.         --zlib zlib.1.2.8 ^| --expat expat-2.1.0 ^| --curl curl-7.39.0 ^| --libssh libssh-0.5.5 ^| --openssl openssl-1.0.1j
+echo.         --zlib zlib.1.2.8 ^| --expat expat-2.1.0 ^| --curl curl-7.45.0 ^| --libssh libssh-0.7.2 ^| --openssl openssl-1.0.1p
 exit /b 0
 
 :echo
@@ -278,10 +292,17 @@ rem -----------------------------------------
 cd  "%_BUILDDIR_%"
 set "LIB=%1%"
 set "LIB_B=%_TEMP_%\%LIB%"
+set "LIB_TAR=%LIB%.tar"
+set "LIB_TAR_GZ=%LIB_TAR%.gz"
 
-if defined _REBUILD_   rmdir/s/q "%LIB%" "%LIB_B%"
-IF NOT EXIST "%LIB%"   svn export svn://dev.exiv2.org/svn/team/libraries/%LIB% >NUL
-IF NOT EXIST "%LIB_B%" mkdir "%LIB_B%"  
+if defined _REBUILD_         rmdir/s/q "%LIB%"     "%LIB_B%"
+if defined _REBUILD_         del       "%LIB_TAR%" "%LIB_TAR_GZ%"
+
+IF NOT EXIST "%LIB_TAR_GZ%"  svn export svn://dev.exiv2.org/svn/team/libraries/%LIB_TAR_GZ% >NUL
+IF NOT EXIST "%LIB_TAR%"     7z x "%LIB_TAR_GZ%"
+IF NOT EXIST "%LIB%"         7z x "%LIB_TAR%"
+if NOT EXIST "%LIB_B%"       mkdir "%LIB_B%"
+
 pushd "%LIB_B%"
 
     call:run cmake -G "%_GENERATOR_%" 	                         ^
@@ -306,6 +327,39 @@ pushd "%LIB_B%"
 	)
 popd
 exit /b 0
+
+
+rem -----------------------------------------
+:getOPENSSL
+cd  "%_BUILDDIR_%"
+set "LIB=%1-%VS_OPENSSL%"
+set "LIB_7Z=%LIB%.7z"
+@echo on
+
+if defined _REBUILD_         rmdir/s/q "%LIB%"
+if defined _REBUILD_         del       "%LIB_7Z%"
+IF NOT EXIST "%LIB_7Z%"      svn export svn://dev.exiv2.org/svn/team/libraries/%LIB_7Z% >NUL
+IF NOT EXIST "%LIB%"         7z x      "%LIB_7Z%" >nul
+
+set BINARY=bin
+set LIBRARY=lib
+set INCLUDE=include
+if /I "%Platform%" == "x64" (
+	set "BINARY=%BINARY%64"
+	set "LIBRARY=%LIBRARY%64"
+	set "INCLUDE=%INCLUDE%64"
+)
+
+xcopy/yesihq "%LIB%\%BINARY%"  "%_INSTALL_%\bin"
+xcopy/yesihq "%LIB%\%LIBRARY%" "%_INSTALL_%\lib"
+xcopy/yesihq "%LIB%\%INCLUDE%" "%_INSTALL_%\include"
+
+pause
+@echo off
+
+exit /b 0
+	
+	
 
 rem That's all Folks!
 rem -----------------------------------------
