@@ -30,6 +30,8 @@ if /I "%1" == "--openssl"         set "_OPENSSL_=%2"& shift
 shift
 if not (%1) EQU () goto GETOPTS
 
+set _VERBOSE_=1
+
 rem  ----
 call:echo calling setenv
 call setenv.cmd
@@ -170,20 +172,39 @@ pushd        %_INSTALL_%
 set          "_INSTALL_=%CD%"
 popd
 call:echo     _INSTALL_ = %_INSTALL_%
+set "_LIBPATH_=%_INSTALL_%\bin"
+set "_INCPATH_=%_INSTALL_%\include"
+set "_BINPATH_=%_INSTALL_%\bin"
+set  _LIBPATH_=%_LIBPATH_:\=/%
+set  _INCPATH_=%_INCPATH_:\=/%
+set  _BINPATH_=%_BINPATH_:\=/%
+
 
 if NOT DEFINED _GENERATOR_       set "_GENERATOR_=%VS_CMAKE%"
 if /I "%_GENERATOR_%" == "NMake" set "_GENERATOR_=NMake Makefiles"
 
 if defined _VIDEO_ set _VIDEO_=-DEXIV2_ENABLE_VIDEO=ON
 
+
 rem  ----
 echo.
-echo.config   = %_CONFIG_%
-echo.video    = %_VIDEO_%
-echo.webready = %_WEBREADY_%
-echo.exiv2    = %_EXIV2_%"
+echo.config    = %_CONFIG_%
+echo.video     = %_VIDEO_%
+echo.webready  = %_WEBREADY_%
+echo.exiv2     = %_EXIV2_%"
+echo.generator = %_GENERATOR_%"
+echo.expat     = %_EXPAT_%
+echo.zlib      = %_ZLIB_%
+echo.libssh    = %_LIBSSH_%
+echo.curl      = %_CURL_%
+echo.openssh   = %_OPENSSL_%
+echo.libpat    = %_LIBPATH_%
+echo.incpat    = %_INCPATH_%
+echo.binpat    = %_BINPATH_%
+echo.
 
-IF DEFINED _DRYRUN_ exit /b 1
+IF DEFINED _DRYRUN_  exit /b 1
+IF DEFINED _REBUILD_ rmdir/s/q "%_TEMP_%"
 
 echo ---------- building ZLIB ------------------
 call:buildLib %_ZLIB_%
@@ -197,35 +218,44 @@ set  TARGET=
 if DEFINED _WEBREADY_ (
 	echo ---------- building OPENSSL -----------------
 	call:getOPENSSL %_OPENSSL_%
+	if errorlevel 1 set _OPENSSL_=
+
+	echo ---------- building LIBSSH -----------------
+	call:buildLib   %_LIBSSH_% -DWITH_GSSAPI=OFF -DWITH_ZLIB=ON -DWITH_SFTP=ON -DWITH_SERVER=OFF -DWITH_EXAMPLES=OFF -DWITH_NACL=OFF -DWITH_PCAP=OFF
+	if errorlevel 1 set _LIBSSH_=
 
 	echo ---------- building CURL -----------------
-	set _CURL_=-DEXIV2_ENABLE_CURL=ON
-	call:buildLib %_CURL_%"
-	if errorlevel 1 set _CURL_=-DEXIV2_ENABLE_CURL=OFF
+	call:buildLib   %_CURL_% -DBUILD_CURL_TESTS=OFF -DCMAKE_USE_OPENSSL=ON -DCMAKE_USE_LIBSSH2=OFF
+	if errorlevel 1 set _CURL_=
 	
-	echo ---------- building LIBSSH -----------------
-	set _SSH_=-DEXIV2_ENABLE_SSH=ON
-	call:buildLib %_LIBSSH_%
-	if errorlevel 1 set _SSH_=-DEXIV2_ENABLE_SSH=OFF
-
-	set _WEBREADY_=-DEXIV2_ENABLE_WEBREADY=ON
 ) else (
 	set _WEBREADY_=-DEXIV2_ENABLE_WEBREADY=OFF
 	set _CURL_=-DEXIV2_ENABLE_CURL=OFF
-	set _SSH_=-DEXIV2_ENABLE_SSH=OFF
+	set _LIBSSH_=-DEXIV2_ENABLE_SSH=OFF
 )
 
 echo ---------- building EXIV2 ------------------
-set          "EXIV_BUILD=%_TEMP_%\exiv2"
+set          "EXIV_B=%_TEMP_%\exiv2"
 
-if defined _REBUILD_        rmdir/s/q "%EXIV_BUILD%"
+rem if defined _REBUILD_    rmdir/s/q "%EXIV_BUILD%"
 IF NOT EXIST "%EXIV_BUILD%" mkdir     "%EXIV_BUILD%"
 pushd        "%EXIV_BUILD%"
+	set ENABLE_CURL=-DEXIV2_ENABLE_CURL=OFF
+	set ENABLE_LIBSSH=-DEXIV2_ENABLE_SSH=OFF
+	set ENABLE_OPENSSL=-DEXIV2_ENABLE_WEBREADY=OFF
+	set ENABLE_WEBREADY=-DEXIV2_ENABLE_VIDEO=OFF
+	
+	if defined %_CURL_%     set ENABLE_CURL=-DEXIV2_ENABLE_CURL=ON
+	if defined %_LIBSSH_%   set ENABLE_LIBSSH=-DEXIV2_ENABLE_LIBSSH=ON
+	if defined %_WEBREADY_% set ENABLE_WEBREADY=-DEXIV2_ENABLE_WEBREADY=ON
+	if defined %_VIDEO_%    set ENABLE_VIDEO=-DEXIV2_ENABLE_VIDEO=ON
+	
 	call:run cmake -G "%_GENERATOR_%" ^
-	         "-DCMAKE_INSTALL_PREFIX=%_INSTALL_%"  "-DCMAKE_LIBRARY_PATH=%_INSTALL_%\lib" "-DCMAKE_INCLUDE_PATH=%_INSTALL_%\include" ^
-	          -DEXIV2_ENABLE_NLS=OFF                    -DEXIV2_ENABLE_BUILD_SAMPLES=ON           ^
-	          -DEXIV2_ENABLE_WIN_UNICODE=OFF            -DEXIV2_ENABLE_SHARED=ON ^
-	          %_WEBREADY_%  %_CURL_%  %_SSH_% %_VIDEO_% ^
+	         "-DCMAKE_INSTALL_PREFIX=%_INSTALL_%"  "-DCMAKE_LIBRARY_PATH=%_LIBPATH_%" ^
+	         "-DCMAKE_INCLUDE_PATH=%_INCPATH_%" ^
+	          -DEXIV2_ENABLE_NLS=OFF                -DEXIV2_ENABLE_BUILD_SAMPLES=ON ^
+	          -DEXIV2_ENABLE_WIN_UNICODE=OFF        -DEXIV2_ENABLE_SHARED=ON ^
+	          %ENABLE_WEBREADY%  %ENABLE_CURL%  %ENABLE_LIBSSH% %ENABLE_VIDEO% ^
 	         "%_EXIV2_%"
 
 	IF errorlevel 1 (
@@ -290,13 +320,12 @@ exit /b %_RESULT_%
 rem -----------------------------------------
 :buildLib
 cd  "%_BUILDDIR_%"
-set "LIB=%1%"
+set "LIB=%1"
+shift
+
 set "LIB_B=%_TEMP_%\%LIB%"
 set "LIB_TAR=%LIB%.tar"
 set "LIB_TAR_GZ=%LIB_TAR%.gz"
-
-if defined _REBUILD_         rmdir/s/q "%LIB%"     "%LIB_B%"
-if defined _REBUILD_         del       "%LIB_TAR%" "%LIB_TAR_GZ%"
 
 IF NOT EXIST "%LIB_TAR_GZ%"  svn export svn://dev.exiv2.org/svn/team/libraries/%LIB_TAR_GZ% >NUL
 IF NOT EXIST "%LIB_TAR%"     7z x "%LIB_TAR_GZ%"
@@ -305,11 +334,11 @@ if NOT EXIST "%LIB_B%"       mkdir "%LIB_B%"
 
 pushd "%LIB_B%"
 
-    call:run cmake -G "%_GENERATOR_%" 	                         ^
-                      "-DCMAKE_INSTALL_PREFIX=%_INSTALL_%"       ^
-                      "-DCMAKE_LIBRARY_PATH=%_INSTALL_%\lib"     ^
-                      "-DCMAKE_INCLUDE_PATH=%_INSTALL_%\include" ^
-                      ..\..\%LIB%
+    call:run cmake -G "%_GENERATOR_%" 	                    ^
+                      "-DCMAKE_INSTALL_PREFIX=%_INSTALL_%"  ^
+                      "-DCMAKE_LIBRARY_PATH=%_LIBPATH_%"    ^
+                      "-DCMAKE_INCLUDE_PATH=%_INCPATH_%"    ^
+                      %* ..\..\%LIB%
 	IF errorlevel 1 (
 		echo "*** cmake errors in %LIB% ***"
 	    popd
@@ -328,16 +357,12 @@ pushd "%LIB_B%"
 popd
 exit /b 0
 
-
 rem -----------------------------------------
 :getOPENSSL
 cd  "%_BUILDDIR_%"
 set "LIB=%1-%VS_OPENSSL%"
 set "LIB_7Z=%LIB%.7z"
-@echo on
 
-if defined _REBUILD_         rmdir/s/q "%LIB%"
-if defined _REBUILD_         del       "%LIB_7Z%"
 IF NOT EXIST "%LIB_7Z%"      svn export svn://dev.exiv2.org/svn/team/libraries/%LIB_7Z% >NUL
 IF NOT EXIST "%LIB%"         7z x      "%LIB_7Z%" >nul
 
@@ -354,12 +379,7 @@ xcopy/yesihq "%LIB%\%BINARY%"  "%_INSTALL_%\bin"
 xcopy/yesihq "%LIB%\%LIBRARY%" "%_INSTALL_%\lib"
 xcopy/yesihq "%LIB%\%INCLUDE%" "%_INSTALL_%\include"
 
-pause
-@echo off
-
 exit /b 0
 	
-	
-
 rem That's all Folks!
 rem -----------------------------------------

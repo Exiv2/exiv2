@@ -21,7 +21,7 @@ How to use this
   The batch file contrib\cmake\msvc\vcvars.bat is designed to take the pain
   out of this - provided Visual Studio's installed in c:\Program Files (x86)
   vcvars 2005        # sets 2005 x86
-  vcvars 2010_64     # sets 2010 x86_amd64
+  vcvars 2010 64     # sets 2010 x86_amd64
   
 2 Always build "out of source".  I recommend:
   cd <exiv2dir>
@@ -148,7 +148,19 @@ How to use this
 7 Running the test suite
   http://dev.exiv2.org/projects/exiv2/wiki/How_do_I_run_the_test_suite_for_Exiv2
   
+8 Building with different libraries
+  You can change the standard libraries.  For example, to build with curl-7.39.0
+  1) set _CURL_=curl-7.39.0
+  2) put curl-7.39.0.tar.gz into your build directory
   
+  To change the version of openssl:
+  1) set _OPENSSL_=openssl-1.0.1j
+  2) put openssl-1.0.1j-vs2015.zip into your build directory
+  
+  To build a version of openssl-foo-vs2012:
+  Try to find it online
+  Building this with Visual Studio is to to be documented
+
 Status:
 2015-11-19 "Work in Progress"
            Added a dependency for 7z.exe to decompress archives.
