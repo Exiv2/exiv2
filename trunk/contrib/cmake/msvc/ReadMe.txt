@@ -8,12 +8,12 @@ How to use this
 ---------------
 
 1 Setting up your machine
-  You need cmake.exe and svn.exe on your PATH.
-  Please get "Windows" versions of cmake and svn (NOT Cygwin versions)
-  You need a "Windows" version of perl.exe on the path to build openssl
+  You need cmake.exe, svn.exe, 7z.exe and curl.exe on your PATH.
+  
+  Please get "Windows" versions of cmake etc (NOT Cygwin versions)
   
   You should initialize the Visual Studio environment
-  using the version vcvars32.bat or vcvarsall.bat
+  using the version of vcvars32.bat or vcvarsall.bat
   installed with Visual Studio. For example
   
   call "C:\Program Files (x86)\Microsoft Visual Studio 8\VC\bin\vcvars32.bat"
@@ -21,7 +21,7 @@ How to use this
   The batch file contrib\cmake\msvc\vcvars.bat is designed to take the pain
   out of this - provided Visual Studio's installed in c:\Program Files (x86)
   vcvars 2005        # sets 2005 x86
-  vcvars 2010 64     # sets 2010 x86_amd64
+  vcvars 2010_64     # sets 2010 x86_amd64
   
 2 Always build "out of source".  I recommend:
   cd <exiv2dir>
@@ -69,7 +69,13 @@ How to use this
   rem download support libraries
   svn export svn://dev.exiv2.org/svn/team/libraries/zlib-1.2.8
   svn export svn://dev.exiv2.org/svn/team/libraries/expat-2.1.0
-  ... for webready, you also need openssl-1.0.1j curl-7.39.0 libssh-0.5.5 
+
+  ...
+      for webready 
+      you also need curl-7.45.0 libssh-0.7.2 
+      you will have to install openssl for you compiler before building curl
+      see note below "About openssl"
+  ...
   
   rem create a temp directory and a dist (distribution) directory 
   mkdir temp  # build, compile and link in this directory
@@ -95,7 +101,27 @@ How to use this
   cmake --build . --config Release
   cmake --build . --config Release --target install
   
-5 Build options
+5 About openssl
+  You cannot build openssl with CMake.  However we have prebuilt binaries which
+  you can download and extract into your build tree.
+  
+  You will have to match the version to your compiler.
+  In this example: vs2015/64 bit
+  
+  svn export svn://dev.exiv2.org/svn/team/libraries/openssl-1.0.1p-vs2015.7z
+  7z x openssl-1.0.1p-vs2015.7z
+  xcopy/yesihq openssl-1.0.1p-vs2015\bin64      dist\bin"
+  xcopy/yesihq openssl-1.0.1p-vs2015\lib64      dist\bin"
+  xcopy/yesihq openssl-1.0.1p-vs2015\include64  dist\include"
+
+  In this example: vs2008/32 bit
+  svn export svn://dev.exiv2.org/svn/team/libraries/openssl-1.0.1p-vs2008.7z
+  7z x openssl-1.0.1p-vs2015.7z
+  xcopy/yesihq openssl-1.0.1p-vs2008\bin        dist\bin"
+  xcopy/yesihq openssl-1.0.1p-vs2008\lib        dist\bin"
+  xcopy/yesihq openssl-1.0.1p-vs2008\include    dist\include"
+
+6 Build options
   You can inspect CMake options by running grep OPTION on CMakeLists.txt in <exiv2dir>
   C:\cygwin64\home\rmills\gnu\exiv2\build>cd ..\trunk
 
@@ -119,10 +145,16 @@ How to use this
 
   C:\cygwin64\home\rmills\gnu\exiv2\trunk>
   
-6 Running the test suite
+7 Running the test suite
   http://dev.exiv2.org/projects/exiv2/wiki/How_do_I_run_the_test_suite_for_Exiv2
   
+  
 Status:
+2015-11-19 "Work in Progress"
+           Added a dependency for 7z.exe to decompress archives.
+           Added downloading openssl
+           Updated documentation
+
 2015-11-18 "Work in Progress"
            Lots of simplification.
            Removed need for cygwin.
