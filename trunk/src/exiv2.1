@@ -3,7 +3,7 @@
 .\" First parameter, NAME, should be all caps
 .\" Second parameter, SECTION, should be 1-8, maybe w/ subsection
 .\" other parameters are allowed: see man(7), man(1)
-.TH EXIV2 1 "Nov 12, 2015"
+.TH EXIV2 1 "Nov 23, 2015"
 .\" Please adjust this date whenever revising the manpage.
 .\"
 .\" Some roff macros, for reference:
@@ -345,6 +345,8 @@ s : size in bytes
 .br
 v : plain data value
 .br
+V : plain data value AND the word 'set ' at the start of line (for use with exiv2 -m-)
+.br
 t : interpreted (translated) data
 .br
 h : hexdump of the data
@@ -413,7 +415,7 @@ Default filename format is %Y%m%d_%H%M%S.
 .B \-c \fItxt\fP
 JPEG comment string to set in the image ('modify' action). This option
 can also be used with the 'extract' and 'insert' actions to modify
-metadata on-the-fly.
+metadata on-the-fly.  -m- represents standard-input.
 .TP
 .B \-m \fIfile\fP
 Command file for the 'modify' action. This option can also be used
