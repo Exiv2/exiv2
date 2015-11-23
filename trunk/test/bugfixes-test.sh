@@ -433,6 +433,8 @@ source ./functions.source
 	
 	num=1137
 	filename=exiv2-bug$num.jpg
+	printf "$num " >&3
+	echo '------>' Bug $num '<-------' >&2
 	copyTestFile                        $filename
 	exiv2 -PkV --grep GPSL http://dev.exiv2.org/attachments/download/805/DSC_7154.jpg
 	exiv2 -pa $filename
