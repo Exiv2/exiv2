@@ -430,6 +430,15 @@ source ./functions.source
 	copyTestFile                        $filename
 	runTest exiv2 -pv -g Lens           $filename
 	runTest exiv2 -pa -g Lens           $filename
+	
+	num=1137
+	filename=exiv2-bug$num.jpg
+	copyTestFile                        $filename
+	exiv2 -PkV --grep GPSL http://dev.exiv2.org/attachments/download/805/DSC_7154.jpg
+	exiv2 -pa $filename
+	exiv2 -PkV --grep GPSL http://dev.exiv2.org/attachments/download/805/DSC_7154.jpg | exiv2 -m- $filename
+	exiv2 -pa $filename
+	
 
 ) 3>&1 > $results 2>&1
 
