@@ -623,6 +623,11 @@ namespace Action {
                       << std::right << std::hex
                       << md.tag();
         }
+        if (Params::instance().printItems_ & Params::prSet) {
+            if (!first) std::cout << " ";
+            first = false;
+            std::cout << "set" ;
+        }
         if (Params::instance().printItems_ & Params::prGroup) {
             if (!first) std::cout << " ";
             first = false;

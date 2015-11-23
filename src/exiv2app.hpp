@@ -165,7 +165,8 @@ public:
         prSize  =  128,
         prValue =  256,
         prTrans =  512,
-        prHex   = 1024
+        prHex   = 1024,
+        prSet   = 2048
     };
 
     //! Enumerates common targets, bitmap

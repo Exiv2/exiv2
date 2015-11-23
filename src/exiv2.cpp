@@ -610,6 +610,7 @@ int Params::evalPrintFlags(const std::string& optarg)
             case 'v': printItems_ |= prValue; break;
             case 't': printItems_ |= prTrans; break;
             case 'h': printItems_ |= prHex;   break;
+            case 'V': printItems_ |= prSet|prValue;break;
             default:
                 std::cerr << progname() << ": " << _("Unrecognized print item") << " `"
                           << optarg[i] << "'\n";
@@ -1096,14 +1097,15 @@ namespace {
         for ( ; filename != end; ++filename) {
             try {
                 std::ifstream file(filename->c_str());
-                if (!file) {
+                bool bStdin = filename->compare("-")== 0;
+                if (!file && !bStdin) {
                     std::cerr << *filename << ": "
                               << _("Failed to open command file for reading\n");
                     return false;
                 }
                 int num = 0;
                 std::string line;
-                while (std::getline(file, line)) {
+                while (std::getline(bStdin? std::cin : file, line)) {
                     ModifyCmd modifyCmd;
                     if (parseLine(modifyCmd, line, ++num)) {
                         modifyCmds.push_back(modifyCmd);
