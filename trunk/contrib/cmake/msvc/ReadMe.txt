@@ -27,26 +27,26 @@ How to use this
   cd <exiv2dir>
   mkdir ..\build
   
-  Ensure that build.cmd and setenv.cmd are on your path (eg your build directory)
+  Ensure that cmakeBuild.cmd and cmakeDefaults.cmd are on your path (eg your build directory)
   copy  contrib\cmake\msvc\* ..\build
   cd    ..\build
   build --help
   
-  You should never have reason to modify the code in build.cmd
+  You should never have reason to modify the code in cmakeBuild.cmd
   You may wish to change the defaults in setenv.cmd
-  You can change the defaults on the command-line (or modify setenv.cmd)
+  You can change the defaults on the command-line (or modify cmakeDefaults.cmd)
   You can also change defaults using the dos set command.  For example:
   set _CONFIG_=Debug
   
   To unset an environment string, set _CONFIG_=
   
   For your first build, I recommend the command:
-  build --verbose --pause
+  cmakeBuild --pause
   
   This will print out a lot of information, and pause after each build step.
   
   When you are building happily, you may prefer:
-  build --silent
+  cmakeBuild --silent
   
 3 What gets built?
   The build is performed in  build\temp
