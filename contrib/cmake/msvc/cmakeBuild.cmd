@@ -33,8 +33,8 @@ if not (%1) EQU () goto GETOPTS
 set _VERBOSE_=1
 
 rem  ----
-call:echo calling setenv
-call setenv.cmd
+call:echo calling cmakeDefaults.cmd
+call cmakeDefaults
 IF ERRORLEVEL 1 (
 	echo "*** setenv.cmd has failed ***" >&2
 	GOTO error_end
@@ -206,49 +206,64 @@ echo.
 IF DEFINED _DRYRUN_  exit /b 1
 IF DEFINED _REBUILD_ rmdir/s/q "%_TEMP_%"
 
-echo ---------- building ZLIB ------------------
+echo ---------- ZLIB building with cmake ------------------
 call:buildLib %_ZLIB_%
 
-echo ---------- building EXPAT -----------------
+echo ---------- EXPAT building with cmake -----------------
 set "TARGET=--target expat"
 call:buildLib %_EXPAT_%
 set  TARGET=
 
 
 if DEFINED _WEBREADY_ (
-	echo ---------- building OPENSSL -----------------
+	echo ---------- OPENSSL installing pre-built binaries -----------------
 	call:getOPENSSL %_OPENSSL_%
 	if errorlevel 1 set _OPENSSL_=
 
-	echo ---------- building LIBSSH -----------------
+	echo ---------- LIBSSH building with cmake -----------------
 	call:buildLib   %_LIBSSH_% -DWITH_GSSAPI=OFF -DWITH_ZLIB=ON -DWITH_SFTP=ON -DWITH_SERVER=OFF -DWITH_EXAMPLES=OFF -DWITH_NACL=OFF -DWITH_PCAP=OFF
 	if errorlevel 1 set _LIBSSH_=
 
-	echo ---------- building CURL -----------------
+	echo ---------- CURL building with cmake -----------------
 	call:buildLib   %_CURL_% -DBUILD_CURL_TESTS=OFF -DCMAKE_USE_OPENSSL=ON -DCMAKE_USE_LIBSSH2=OFF
 	if errorlevel 1 set _CURL_=
+
+	rem echo ---------- CURL building with nmake -----------------
+	rem if     exist %_CURL_%         rmdir/s/q %_CURL_% 
+	rem IF NOT EXIST %_CURL_%.tar.gz  svn export svn://dev.exiv2.org/svn/team/libraries/%_CURL_%.tar.gz >NUL
+	rem IF NOT EXIST %_CURL_%.tar     7z x %_CURL_%.tar.gz
+    rem 7z x %_CURL_%.tar
+
+	rem cd %_CURL_%
+	rem cd winbuild
+	rem nmake /f Makefile.vc mode=dll VC=12 machine=x64
+	rem cd ..
+	rem xcopy/yesihq builds\libcurl-vc14-x64-release-dll-ipv6-sspi-winssl\lib "%_LIBPATH_%"  
+	rem xcopy/yesihq builds\libcurl-vc14-x64-release-dll-ipv6-sspi-winssl\bin "%_BINPATH_%"  
+	rem xcopy/yesihq builds\libcurl-vc14-x64-release-dll-ipv6-sspi-winssl\inc "%_INCPATH_%"
+	rem cd ..
 	
 ) else (
-	set _WEBREADY_=-DEXIV2_ENABLE_WEBREADY=OFF
-	set _CURL_=-DEXIV2_ENABLE_CURL=OFF
-	set _LIBSSH_=-DEXIV2_ENABLE_SSH=OFF
+	set _WEBREADY_=
+	set _CURL_=
+	set _LIBSSH_=
 )
 
-echo ---------- building EXIV2 ------------------
+echo ---------- EXIV2 building with cmake ------------------
 set          "EXIV_B=%_TEMP_%\exiv2"
 
-rem if defined _REBUILD_    rmdir/s/q "%EXIV_BUILD%"
-IF NOT EXIST "%EXIV_BUILD%" mkdir     "%EXIV_BUILD%"
-pushd        "%EXIV_BUILD%"
+rem if defined _REBUILD_    rmdir/s/q "%EXIV_B%"
+IF NOT EXIST "%EXIV_B%"     mkdir     "%EXIV_B%"
+pushd        "%EXIV_B%"
 	set ENABLE_CURL=-DEXIV2_ENABLE_CURL=OFF
 	set ENABLE_LIBSSH=-DEXIV2_ENABLE_SSH=OFF
 	set ENABLE_OPENSSL=-DEXIV2_ENABLE_WEBREADY=OFF
 	set ENABLE_WEBREADY=-DEXIV2_ENABLE_VIDEO=OFF
 	
-	if defined %_CURL_%     set ENABLE_CURL=-DEXIV2_ENABLE_CURL=ON
-	if defined %_LIBSSH_%   set ENABLE_LIBSSH=-DEXIV2_ENABLE_LIBSSH=ON
-	if defined %_WEBREADY_% set ENABLE_WEBREADY=-DEXIV2_ENABLE_WEBREADY=ON
-	if defined %_VIDEO_%    set ENABLE_VIDEO=-DEXIV2_ENABLE_VIDEO=ON
+	if defined _CURL_     set ENABLE_CURL=-DEXIV2_ENABLE_CURL=ON
+	if defined _LIBSSH_   set ENABLE_LIBSSH=-DEXIV2_ENABLE_LIBSSH=ON
+	if defined _WEBREADY_ set ENABLE_WEBREADY=-DEXIV2_ENABLE_WEBREADY=ON
+	if defined _VIDEO_    set ENABLE_VIDEO=-DEXIV2_ENABLE_VIDEO=ON
 	
 	call:run cmake -G "%_GENERATOR_%" ^
 	         "-DCMAKE_INSTALL_PREFIX=%_INSTALL_%"  "-DCMAKE_LIBRARY_PATH=%_LIBPATH_%" ^
