@@ -1,9 +1,6 @@
 contrib/cmake/msvc/ReadMe.txt
 -----------------------------
 
-These scripts are "in development".
-They are derived from Daniels contrib/build scripts.
-
 How to use this
 ---------------
 
@@ -148,6 +145,9 @@ How to use this
 7 Running the test suite
   http://dev.exiv2.org/projects/exiv2/wiki/How_do_I_run_the_test_suite_for_Exiv2
   
+  You can run the test-suite directly from cmakeBuild.cmd with the argument --test
+  You will need cygwin's bash.exe.  It may run with other versions of bash (such as MinGW)
+  
 8 Building with different libraries
   You can change the standard libraries.  For example, to build with curl-7.39.0
   1) set _CURL_=curl-7.39.0
@@ -160,8 +160,19 @@ How to use this
   To build a version of openssl-foo-vs2012:
   Try to find it online
   Building this with Visual Studio is to to be documented
+  
+9 Rebuilding with VS 2005/8/10/12/13/15 32/64
+  The script cmakeRebuildAll.cmd is provided for convenience:
+  cmakeRebuildAll.cmd | c:\cygwin64\bin\tee rebuildAll.txt
+  
+  A full rebuild and test
 
 Status:
+2015-11-26 Ready for use by others
+           Added options --test and --bash=c:\cygwin64\bin\bash.exe
+           Added script cmakeRebuildAll.cmd
+           Updated Documentation.
+           
 2015-11-19 "Work in Progress"
            Added a dependency for 7z.exe to decompress archives.
            Added downloading openssl

@@ -1,0 +1,13 @@
+cmd /c "vcvars 2005 32 && cmakeBuild --rebuild --test"
+cmd /c "vcvars 2005 64 && cmakeBuild --rebuild --test"
+cmd /c "vcvars 2013 64 && cmakeBuild --rebuild --test"
+cmd /c "vcvars 2013 32 && cmakeBuild --rebuild --test"
+cmd /c "vcvars 2012 64 && cmakeBuild --rebuild --test"
+cmd /c "vcvars 2012 32 && cmakeBuild --rebuild --test"
+cmd /c "vcvars 2010 64 && cmakeBuild --rebuild --test"
+cmd /c "vcvars 2010 32 && cmakeBuild --rebuild --test"
+cmd /c "vcvars 2008 64 && cmakeBuild --rebuild --test"
+cmd /c "vcvars 2008 32 && cmakeBuild --rebuild --test"
+cmd /c "vcvars 2015 64 && cmakeBuild --rebuild --test"
+cmd /c "vcvars 2015 32 && cmakeBuild --rebuild --test"
+
