@@ -38,7 +38,8 @@ if DEFINED _VC_ (
   if "%2" EQU "64" (
     vcvarsall.bat x86_amd64
   ) else (
-    vcvarsall.bat x86  
+    vcvarsall.bat x86
+    set PROCESSOR_ARCHITECTURE=x86
   )
   if errorlevel 1 (
   	echo.*** error - failed ***

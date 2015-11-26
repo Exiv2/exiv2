@@ -8,6 +8,7 @@ if NOT DEFINED _LIBSSH_      SET _LIBSSH_=libssh-0.7.2
 if NOT DEFINED _OPENSSL_     SET _OPENSSL_=openssl-1.0.1p
 if NOT DEFINED _ZLIB_        SET _ZLIB_=zlib-1.2.8
 if NOT DEFINED _EXPAT_       SET _EXPAT_=expat-2.1.0
+if NOT DEFINED _BASH_        SET _BASH_=c:\cygwin64\bin\bash.exe
 
 rem That's all Folks!
 rem
