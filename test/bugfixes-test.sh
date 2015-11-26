@@ -436,10 +436,10 @@ source ./functions.source
 	printf "$num " >&3
 	echo '------>' Bug $num '<-------' >&2
 	copyTestFile                        $filename
-	exiv2 -PkV --grep GPSL http://dev.exiv2.org/attachments/download/805/DSC_7154.jpg
-	exiv2 -pa $filename
-	exiv2 -PkV --grep GPSL http://dev.exiv2.org/attachments/download/805/DSC_7154.jpg | exiv2 -m- $filename
-	exiv2 -pa $filename
+	runTest exiv2 -PkV --grep GPSL http://dev.exiv2.org/attachments/download/805/DSC_7154.jpg
+	runTest exiv2 -pa $filename
+	runTest exiv2 -PkV --grep GPSL http://dev.exiv2.org/attachments/download/805/DSC_7154.jpg | runTest exiv2 -m- $filename
+	runTest exiv2 -pa $filename
 	
 
 ) 3>&1 > $results 2>&1
