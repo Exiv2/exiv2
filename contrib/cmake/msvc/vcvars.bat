@@ -16,8 +16,9 @@ if "%1" EQU "2005" (
     pushd "c:\Program Files (x86)\Microsoft Visual Studio 8\VC\bin\amd64\"
     call vcvarsamd64.bat
   ) else (
-    pushd "c:\Program Files (x86)\Microsoft Visual Studio 8\VC\bin\"
-    vcvar32.bat
+    pushd "C:\Program Files (x86)\Microsoft Visual Studio 8\VC\bin"
+    call vcvars32.bat
+    set PROCESSOR_ARCHITECTURE=x86
   )
   popd
   goto eof
