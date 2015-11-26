@@ -165,7 +165,14 @@ How to use this
   The script cmakeRebuildAll.cmd is provided for convenience:
   cmakeRebuildAll.cmd | c:\cygwin64\bin\tee rebuildAll.txt
   
-  A full rebuild and test
+  cmakeRebuildAll.cmd takes about a hour.
+  12 build+test cycles of about 5 minutes each.
+  
+TODO:
+Build static (currently we always build shared)
+Build other configs (eg --config Debug)
+--webready isn't working
+cmakeRebuildAll.cmd displays test output on the console, however tee.exe doesn't store it!
 
 Status:
 2015-11-26 Ready for use by others
