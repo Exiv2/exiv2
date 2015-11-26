@@ -26,6 +26,8 @@ if /I "%1" == "--expat"           set "_EXPAT_=%2"& shift
 if /I "%1" == "--libssh"          set "_LIBSSH_=%2"& shift
 if /I "%1" == "--curl"            set "_CURL_=%2"& shift
 if /I "%1" == "--openssl"         set "_OPENSSL_=%2"& shift
+if /I "%1" == "--test"            set "_TEST_=1"
+if /I "%1" == "--bash"            set "_BASH_=%2"& shift
 
 shift
 if not (%1) EQU () goto GETOPTS
@@ -179,12 +181,15 @@ set  _LIBPATH_=%_LIBPATH_:\=/%
 set  _INCPATH_=%_INCPATH_:\=/%
 set  _BINPATH_=%_BINPATH_:\=/%
 
+if defined _TEST_ if NOT EXIST "%_BASH_%" (
+	echo "*** bash does not exist %_BASH_% ***"
+	GOTO error_end
+)
 
 if NOT DEFINED _GENERATOR_       set "_GENERATOR_=%VS_CMAKE%"
 if /I "%_GENERATOR_%" == "NMake" set "_GENERATOR_=NMake Makefiles"
 
 if defined _VIDEO_ set _VIDEO_=-DEXIV2_ENABLE_VIDEO=ON
-
 
 rem  ----
 echo.
@@ -201,6 +206,8 @@ echo.openssh   = %_OPENSSL_%
 echo.libpat    = %_LIBPATH_%
 echo.incpat    = %_INCPATH_%
 echo.binpat    = %_BINPATH_%
+echo.test      = %_TEST_%
+echo.bash      = %_BASH_%
 echo.
 
 IF DEFINED _DRYRUN_  exit /b 1
@@ -296,6 +303,14 @@ pushd        "%EXIV_B%"
 	if NOT defined _SILENT_ copy/y "samples\%_CONFIG_%\"*.exe "%_INSTALL_%\bin"
 popd
 
+if defined _TEST_ (
+	for /f "tokens=*" %%a in ('cygpath -au .') do set BUILDDIR=%%a
+	pushd "%_EXIV2_%\test"
+	"%_BASH_%" -c "export 'PATH=/usr/bin:$PATH' ; ./testMSVC.sh ${BUILDDIR}/dist/bin"	
+	popd
+	exit /b 0
+)
+
 rem -----------------------------------------
 rem Exit
 :end
@@ -309,9 +324,9 @@ exit /b 1
 rem -----------------------------------------
 rem Functions
 :help
-echo Options: --help ^| --pause ^| --webready ^| --dryrun ^| --verbose ^| --rebuild ^| --silent ^| --verbose ^| --video
+echo Options: --help ^| --pause ^| --webready ^| --dryrun ^| --verbose ^| --rebuild ^| --silent ^| --verbose ^| --video ^| --test
 echo.         --exiv2 directory ^| --temp directory ^| --config name ^| --generator generator
-echo.         --zlib zlib.1.2.8 ^| --expat expat-2.1.0 ^| --curl curl-7.45.0 ^| --libssh libssh-0.7.2 ^| --openssl openssl-1.0.1p
+echo.         --zlib zlib.1.2.8 ^| --expat expat-2.1.0 ^| --curl curl-7.45.0 ^| --libssh libssh-0.7.2 ^| --openssl openssl-1.0.1p ^| --bash c:\cygwin64\bin\bash
 exit /b 0
 
 :echo
