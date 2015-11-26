@@ -318,6 +318,18 @@ case "$host_os" in
     LDFLAGS="$LDFLAGS -ldl" ;;
 esac
 
+# 1099
+for u in gettext msginit msgmerge msgfmt msgconv msgfilter ; do
+    if test "$USE_NLS" = "yes" ; then
+        which "$u" 2>/dev/null > /dev/null
+        if test "$?" != "0" ; then
+            echo "*** utility ${u} is not on the PATH     Disabling NLS support ***"
+            USE_NLS=no
+        fi
+    fi
+done
+
+
 # ---------------------------------------------------------------------------
 # Create output files.
 # ---------------------------------------------------------------------------
@@ -362,8 +374,8 @@ yes) echo "-- Native language support........ YES" ;;
 *)   echo "-- Native language support........ NO"
      echo ""
      echo "gettext is required for native language support. Make sure the"
-     echo "gettext header files are installed. You can get gettext from"
-     echo "http://www.gnu.org/software/gettext/"
+     echo "gettext header files and utilities are installed. "
+     echo "You can get gettext from http://www.gnu.org/software/gettext/"
      echo "" ;;
 esac
 
