@@ -24,8 +24,17 @@
  */
 
 #include <sys/types.h>
+
+#ifdef _MSC_VER
+# if _MSC_VER < 1600
+#  ifdef  EXV_HAVE_STDINT_H
+#   undef EXV_HAVE_STDINT_H
+#  endif
+# endif
+
 #ifdef EXV_HAVE_STDINT_H
 # include <stdint.h>
+#endif
 #endif
 
 /* MSVC doesn't provide C99 types, but it has MS specific variants */
