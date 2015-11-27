@@ -191,13 +191,13 @@ if /I "%_GENERATOR_%" == "NMake" set "_GENERATOR_=NMake Makefiles"
 
 if defined _VIDEO_ set _VIDEO_=-DEXIV2_ENABLE_VIDEO=ON
 
-rem  ----
+rem  ------
 echo.
 echo.config    = %_CONFIG_%
 echo.video     = %_VIDEO_%
 echo.webready  = %_WEBREADY_%
-echo.exiv2     = %_EXIV2_%"
-echo.generator = %_GENERATOR_%"
+echo.exiv2     = %_EXIV2_%
+echo.generator = %_GENERATOR_%
 echo.expat     = %_EXPAT_%
 echo.zlib      = %_ZLIB_%
 echo.libssh    = %_LIBSSH_%

@@ -19,7 +19,7 @@ How to use this
   out of this - provided Visual Studio's installed in c:\Program Files (x86)
   vcvars 2005        # sets 2005 x86
   vcvars 2010 64     # sets 2010 x86_amd64
-  
+
 2 Always build "out of source".  I recommend:
   cd <exiv2dir>
   mkdir ..\build
@@ -44,7 +44,7 @@ How to use this
   
   When you are building happily, you may prefer:
   cmakeBuild --silent
-  
+
 3 What gets built?
   The build is performed in  build\temp
   The output is generated in build\dist
@@ -97,7 +97,7 @@ How to use this
             ..\..\..\<exiv2dir>
   cmake --build . --config Release
   cmake --build . --config Release --target install
-  
+
 5 About openssl
   You cannot build openssl with CMake.  However we have prebuilt binaries which
   you can download and extract into your build tree.
@@ -141,13 +141,13 @@ How to use this
   OPTION( EXIV2_ENABLE_SSH           "USE Libssh for SshIo"                                  OFF )
 
   C:\cygwin64\home\rmills\gnu\exiv2\trunk>
-  
+
 7 Running the test suite
   http://dev.exiv2.org/projects/exiv2/wiki/How_do_I_run_the_test_suite_for_Exiv2
   
   You can run the test-suite directly from cmakeBuild.cmd with the argument --test
   You will need cygwin's bash.exe.  It may run with other versions of bash (such as MinGW)
-  
+
 8 Building with different libraries
   You can change the standard libraries.  For example, to build with curl-7.39.0
   1) set _CURL_=curl-7.39.0
@@ -160,26 +160,31 @@ How to use this
   To build a version of openssl-foo-vs2012:
   Try to find it online
   Building this with Visual Studio is to to be documented
-  
+
 9 Rebuilding with VS 2005/8/10/12/13/15 32/64
   The script cmakeRebuildAll.cmd is provided for convenience:
-  cmakeRebuildAll.cmd | c:\cygwin64\bin\tee rebuildAll.txt
+  cmakeRebuildAll.cmd > rebuildAll.txt
+  To view progress, open another shell: tail -f rebuildAll.txt 
   
   cmakeRebuildAll.cmd takes about a hour.
   12 build+test cycles of about 5 minutes each.
-  
+
 TODO:
 Build static (currently we always build shared)
 Build other configs (eg --config Debug)
 --webready isn't working
-cmakeRebuildAll.cmd displays test output on the console, however tee.exe doesn't store it!
 
 Status:
+2015-11-27 Ready for use by others
+           Minor changes.  Solved 'cygwin tee' issue (redirect and tail -f)
+           Reinstalled MSVC 2010 and 2012 on laptop and retested.
+           Documentation update.
+
 2015-11-26 Ready for use by others
            Added options --test and --bash=c:\cygwin64\bin\bash.exe
            Added script cmakeRebuildAll.cmd
            Updated Documentation.
-           
+
 2015-11-19 "Work in Progress"
            Added a dependency for 7z.exe to decompress archives.
            Added downloading openssl
@@ -190,12 +195,12 @@ Status:
            Removed need for cygwin.
            Added user documentation to ReadMe.txt
            More work required on webready support.
-           
+
 2015-11-17 "Work in Progress"
            Added command-line parser
            Building exiv2 with zlib and expat and exiv2
            -webready = curl etc broken
-           
+
 2015-11-16 "Work in Progress" = Not working yet.
            These script are not for public use at the moment by Daniel or anybody else.
 
