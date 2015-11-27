@@ -315,6 +315,7 @@ namespace Exiv2 {
         { (long int)0x4007da90, "HF S20/S21/S200" },
         { (long int)0x4007da92, "FS31/FS36/FS37/FS300/FS305/FS306/FS307" },
         { (long int)0x4007dda9, "HF G25" },
+        { (long int)0x4007dfb4, "XC10" },
         { (long int)0x80000001, "EOS-1D" },
         { (long int)0x80000167, "EOS-1DS" },
         { (long int)0x80000168, "EOS 10D" },
@@ -825,7 +826,7 @@ namespace Exiv2 {
         { 180, "Sigma 24mm f/1.4 DG HSM | A"                                }, // 2
         { 180, "Zeiss Milvus 50mm f/1.4"                                    }, // 3
         { 180, "Zeiss Milvus 85mm f/1.4"                                    }, // 4
-        { 180, "Zeiss Otus 28mm f/1.4"                                      }, // 5
+        { 180, "Zeiss Otus 28mm f/1.4 ZE"                                   }, // 5
         { 181, "Canon EF 100-400mm f/4.5-5.6L IS + 1.4x"                    }, // 0
         { 181, "Sigma 150-600mm f/5-6.3 DG OS HSM | S + 1.4x"               }, // 1
         { 182, "Canon EF 100-400mm f/4.5-5.6L IS + 2x"                      }, // 0
@@ -897,7 +898,8 @@ namespace Exiv2 {
         { 248, "Canon EF 200mm f/2L IS"                                     }, // 0
         { 248, "Sigma 24-35mm f/2 DG HSM | A"                               }, // 1
         { 249, "Canon EF 800mm f/5.6L IS"                                   },
-        { 250, "Canon EF 24 f/1.4L II"                                      },
+        { 250, "Canon EF 24 f/1.4L II"                                      }, // 0
+        { 250, "Sigma 20mm f/1.4 DG HSM | A"                                }, // 1
         { 251, "Canon EF 70-200mm f/2.8L IS II USM"                         },
         { 252, "Canon EF 70-200mm f/2.8L IS II USM + 1.4x"                  },
         { 253, "Canon EF 70-200mm f/2.8L IS II USM + 2x"                    },
@@ -985,6 +987,7 @@ namespace Exiv2 {
         { 213, printCsLensByFocalLength }, // not tested
         { 234, printCsLensByFocalLength }, // not tested
         { 248, printCsLensByFocalLength }, // not tested
+        { 250, printCsLensByFocalLength }, // not tested
         { 255, printCsLensByFocalLength }, // not tested
         { 493, printCsLensByFocalLength }, // not tested
         { 4143,printCsLensByFocalLength }  // not tested
