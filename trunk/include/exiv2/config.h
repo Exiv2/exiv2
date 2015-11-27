@@ -7,6 +7,11 @@
 # else
 #  include "exv_msvc.h"
 # endif
+# if _MSC_VER < _MSC_VER_2010
+#  ifdef  EXV_HAVE_STDINT_H
+#   undef EXV_HAVE_STDINT_H
+#  endif
+# endif
 #else
 # include "exv_conf.h"
 #endif
