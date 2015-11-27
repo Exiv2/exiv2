@@ -24,7 +24,6 @@
  */
 
 #include <sys/types.h>
-#include <exiv2/config.h>
 #ifdef EXV_HAVE_STDINT_H
 # include <stdint.h>
 #endif
