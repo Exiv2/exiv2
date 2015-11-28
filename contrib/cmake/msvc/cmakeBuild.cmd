@@ -259,7 +259,7 @@ if DEFINED _WEBREADY_ (
 echo ---------- EXIV2 building with cmake ------------------
 set          "EXIV_B=%_TEMP_%\exiv2"
 
-rem if defined _REBUILD_    rmdir/s/q "%EXIV_B%"
+if defined _REBUILD_        rmdir/s/q "%EXIV_B%"
 IF NOT EXIST "%EXIV_B%"     mkdir     "%EXIV_B%"
 pushd        "%EXIV_B%"
 	set ENABLE_CURL=-DEXIV2_ENABLE_CURL=OFF

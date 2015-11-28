@@ -44,6 +44,12 @@
 #include <algorithm>
 #include <sstream>
 
+#ifdef _MSC_VER
+#  ifdef  EXV_HAVE_STDINT_H
+#   undef EXV_HAVE_STDINT_H
+# endif
+#endif
+
 #ifdef EXV_HAVE_STDINT_H
 # include <stdint.h>
 #elif defined(_MSC_VER)
