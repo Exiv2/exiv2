@@ -13,7 +13,7 @@ if /I "%1" == "--config"          set "_CONFIG_=%2"& shift
 if /I "%1" == "--temp"            set "_TEMP_=%2"& shift
 if /I "%1" == "--generator"       set "_GENERATOR_=%2"& shift
 if /I "%1" == "--exiv2"           set "_EXIV2_=%2"& shift
-if /I "%1" == "--verbose"         set "_VERBOSE_=1"
+if /I "%1" == "--verbose"         set ("_VERBOSE_=1 && echo on)"
 if /I "%1" == "--dryrun"          set "_DRYRUN_=1"
 if /I "%1" == "--rebuild"         set "_REBUILD_=1"
 if /I "%1" == "--silent"          set "_SILENT_=1"
@@ -27,12 +27,13 @@ if /I "%1" == "--libssh"          set "_LIBSSH_=%2"& shift
 if /I "%1" == "--curl"            set "_CURL_=%2"& shift
 if /I "%1" == "--openssl"         set "_OPENSSL_=%2"& shift
 if /I "%1" == "--test"            set "_TEST_=1"
+if /I "%1" == "--static"          set "_TYPE_=1"
 if /I "%1" == "--bash"            set "_BASH_=%2"& shift
 
 shift
 if not (%1) EQU () goto GETOPTS
 
-set _VERBOSE_=1
+if NOT DEFINED _SILENT_ set _VERBOSE_=1
 
 rem  ----
 call:echo calling cmakeDefaults.cmd
@@ -81,21 +82,27 @@ call:echo setting CMake Generator
 if        /I "%VS_PROG_FILES%" == "Microsoft Visual Studio 14" (
         set   "VS_CMAKE=Visual Studio 14 2015"
         set   "VS_OPENSSL=vs2015"
+        set   "_VC_=2015"
 ) else if /I "%VS_PROG_FILES%" == "Microsoft Visual Studio 12" (
         set   "VS_CMAKE=Visual Studio 12 2013"
         set   "VS_OPENSSL=vs2013"
+        set   "_VC_=2013"
 ) else if /I "%VS_PROG_FILES%" == "Microsoft Visual Studio 11" (
         set   "VS_CMAKE=Visual Studio 11 2012"
         set   "VS_OPENSSL=vs2012"
+        set   "_VC_=2012"
 ) else if /I "%VS_PROG_FILES%" == "Microsoft Visual Studio 10" (
         set   "VS_CMAKE=Visual Studio 10 2010"
         set   "VS_OPENSSL=vs2010"
+        set   "_VC_=2010"
 ) else if /I "%VS_PROG_FILES%" == "Microsoft Visual Studio 9"  (
         set   "VS_CMAKE=Visual Studio 9 2008"
         set   "VS_OPENSSL=vs2008"
+        set   "_VC_=2008"
 ) else if /I "%VS_PROG_FILES%" == "Microsoft Visual Studio 8"  (
         set   "VS_CMAKE=Visual Studio 8 2005"
         set   "VS_OPENSSL=vs2005"
+        set   "_VC_=2005"
 ) else (
         echo "*** Unsupported version of Visual Studio in '%VSINSTALLDIR%' ***"
 	    GOTO error_end
@@ -159,16 +166,19 @@ IF ERRORLEVEL 1 (
 )
 
 rem  ----
-call:echo testing temporary directory
+call:echo testing temporary directory _TEMP_ = %_TEMP_%
+if defined _REBUILD_ if EXIST "%_TEMP_%" rmdir/s/q "%_TEMP_%"
 IF NOT EXIST "%_TEMP_%" mkdir "%_TEMP_%"
 pushd        "%_TEMP_%"
 set           "_TEMP_=%CD%"
 popd
-call:echo      _TEMP_ = %_TEMP_% 
+call:echo      _TEMP_ = %_TEMP_%
 
 rem ----
 call:echo testing INSTALL
-SET _INSTALL_=dist
+if     defined _TYPE_ SET _INSTALL_=dist\%_VC_%\%Platform%\static\%_CONFIG_%
+if NOT defined _TYPE_ SET _INSTALL_=dist\%_VC_%\%Platform%\dll\%_CONFIG_%
+if NOT EXIST %_INSTALL_% mkdir %_INSTALL_%
 IF NOT EXIST %_INSTALL_% mkdir %_INSTALL_%
 pushd        %_INSTALL_%
 set          "_INSTALL_=%CD%"
@@ -189,25 +199,28 @@ if defined _TEST_ if NOT EXIST "%_BASH_%" (
 if NOT DEFINED _GENERATOR_       set "_GENERATOR_=%VS_CMAKE%"
 if /I "%_GENERATOR_%" == "NMake" set "_GENERATOR_=NMake Makefiles"
 
-if defined _VIDEO_ set _VIDEO_=-DEXIV2_ENABLE_VIDEO=ON
+if defined _VIDEO_ set "_VIDEO_=-DEXIV2_ENABLE_VIDEO=ON"
+if defined _TYPE_  set "_TYPE_=-DCMAKE_LINK=static"
 
 rem  ------
 echo.
+echo.bash      = %_BASH_%
+echo.binpat    = %_BINPATH_%
 echo.config    = %_CONFIG_%
+echo.curl      = %_CURL_%
+echo.exiv2     = %_EXIV2_%
+echo.expat     = %_EXPAT_%
+echo.generator = %_GENERATOR_%
+echo.incpat    = %_INCPATH_%
+echo.libpat    = %_LIBPATH_%
+echo.libssh    = %_LIBSSH_%
+echo.openssh   = %_OPENSSL_%
+echo.temp      = %_TEMP_%
+echo.test      = %_TEST_%
+echo.type      = %_TYPE_%
 echo.video     = %_VIDEO_%
 echo.webready  = %_WEBREADY_%
-echo.exiv2     = %_EXIV2_%
-echo.generator = %_GENERATOR_%
-echo.expat     = %_EXPAT_%
 echo.zlib      = %_ZLIB_%
-echo.libssh    = %_LIBSSH_%
-echo.curl      = %_CURL_%
-echo.openssh   = %_OPENSSL_%
-echo.libpat    = %_LIBPATH_%
-echo.incpat    = %_INCPATH_%
-echo.binpat    = %_BINPATH_%
-echo.test      = %_TEST_%
-echo.bash      = %_BASH_%
 echo.
 
 IF DEFINED _DRYRUN_  exit /b 1
@@ -272,7 +285,7 @@ pushd        "%EXIV_B%"
 	if defined _WEBREADY_ set ENABLE_WEBREADY=-DEXIV2_ENABLE_WEBREADY=ON
 	if defined _VIDEO_    set ENABLE_VIDEO=-DEXIV2_ENABLE_VIDEO=ON
 	
-	call:run cmake -G "%_GENERATOR_%" ^
+	call:run cmake -G "%_GENERATOR_%" %_TYPE_% ^
 	         "-DCMAKE_INSTALL_PREFIX=%_INSTALL_%"  "-DCMAKE_LIBRARY_PATH=%_LIBPATH_%" ^
 	         "-DCMAKE_INCLUDE_PATH=%_INCPATH_%" ^
 	          -DEXIV2_ENABLE_NLS=OFF                -DEXIV2_ENABLE_BUILD_SAMPLES=ON ^
@@ -303,10 +316,10 @@ pushd        "%EXIV_B%"
 	if NOT defined _SILENT_ copy/y "samples\%_CONFIG_%\"*.exe "%_INSTALL_%\bin"
 popd
 
+
 if defined _TEST_ (
-	for /f "tokens=*" %%a in ('cygpath -au .') do set BUILDDIR=%%a
 	pushd "%_EXIV2_%\test"
-	"%_BASH_%" -c "export 'PATH=/usr/bin:$PATH' ; ./testMSVC.sh ${BUILDDIR}/dist/bin"	
+	"%_BASH_%" -c "export 'PATH=/usr/bin:$PATH' ; ./testMSVC.sh $(cygpath -au '%_BINPATH_%')"	
 	popd
 	exit /b 0
 )
@@ -364,7 +377,7 @@ if NOT EXIST "%LIB_B%"       mkdir "%LIB_B%"
 
 pushd "%LIB_B%"
 
-    call:run cmake -G "%_GENERATOR_%" 	                    ^
+    call:run cmake -G "%_GENERATOR_%" %_TYPE_%	            ^
                       "-DCMAKE_INSTALL_PREFIX=%_INSTALL_%"  ^
                       "-DCMAKE_LIBRARY_PATH=%_LIBPATH_%"    ^
                       "-DCMAKE_INCLUDE_PATH=%_INCPATH_%"    ^

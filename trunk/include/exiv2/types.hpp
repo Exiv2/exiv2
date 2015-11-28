@@ -45,8 +45,11 @@
 #include <sstream>
 
 #ifdef _MSC_VER
+// Allow him to use Microsoft's stdint.h for 2015 and up
+# if _MSC_VER >= 1900
 #  ifdef  EXV_HAVE_STDINT_H
 #   undef EXV_HAVE_STDINT_H
+#  endif
 # endif
 #endif
 
