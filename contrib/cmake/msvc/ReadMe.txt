@@ -170,13 +170,13 @@ How to use this
   12 build+test cycles of about 5 minutes each.
 
 TODO:
-Build static (currently we always build shared)
-Build other configs (eg --config Debug)
---webready isn't working
+--webready isn't working (Daniel to fix)
 
 Status:
-2015-11-27 Ready for use by others
-           Minor changes.  Solved 'cygwin tee' issue (redirect and tail -f)
+2015-11-28 Added option -static
+           Build into: dist/2005/x64/dll/Release/{lib|bin|include}
+
+2015-11-27 Minor changes.  Solved 'cygwin tee' issue (redirect and tail -f)
            Reinstalled MSVC 2010 and 2012 on laptop and retested.
            Documentation update.
 
@@ -204,8 +204,8 @@ Status:
 2015-11-16 "Work in Progress" = Not working yet.
            These script are not for public use at the moment by Daniel or anybody else.
 
-Rather than endlessly discuss these scripts with Daniel
-I'm going to do parallel development and see how that goes.
+           Rather than endlessly discuss these scripts with Daniel
+           I'm going to do parallel development and see how that goes.
 
 I'll discuss this with Daniel when I'm convinced my versions are working well.
 
