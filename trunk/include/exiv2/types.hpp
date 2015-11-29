@@ -33,7 +33,6 @@
 
 // included header files
 #include "config.h"
-
 #include "version.hpp"
 
 // + standard includes
@@ -45,26 +44,28 @@
 #include <sstream>
 
 #ifdef _MSC_VER
-// Allow him to use Microsoft's stdint.h for 2015 and up
-# if _MSC_VER >= 1900
-#  ifdef  EXV_HAVE_STDINT_H
-#   undef EXV_HAVE_STDINT_H
-#  endif
+// Don't assume the value of EXV_HAVE_STDINT_H in exv_msvc.h has been set correctly
+# ifdef  EXV_HAVE_STDINT_H
+#  undef EXV_HAVE_STDINT_H
+# endif
+// Visual Studio 2010 and later has stdint.h
+# if   _MSC_VER >= _MSC_VER_2010
+#  include <stdint.h>
+# else
+// Earlier compilers have MS C99 equivalents such as __int8
+   typedef unsigned __int8  uint8_t;
+   typedef unsigned __int16 uint16_t;
+   typedef unsigned __int32 uint32_t;
+   typedef unsigned __int64 uint64_t;
+   typedef          __int8  int8_t;
+   typedef          __int16 int16_t;
+   typedef          __int32 int32_t;
+   typedef          __int64 int64_t;
 # endif
 #endif
 
 #ifdef EXV_HAVE_STDINT_H
 # include <stdint.h>
-#elif defined(_MSC_VER)
-// MSVC (before 2010) doesn't provide C99 types, but it has MS specific variants
-typedef unsigned __int8  uint8_t;
-typedef unsigned __int16 uint16_t;
-typedef unsigned __int32 uint32_t;
-typedef unsigned __int64 uint64_t;
-typedef __int8           int8_t;
-typedef __int16          int16_t;
-typedef __int32          int32_t;
-typedef __int64          int64_t;
 #endif
 
 // MSVC macro to convert a string to a wide string
