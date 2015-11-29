@@ -10,12 +10,9 @@ NOTE:
   We will flag them as "deprecated" for at least one release cycle (about 12 months).
   Our plan is to only support CMake when our scripts are feature-complete, stable and documented.
   
-  All help is appreciated.  If you know and understand CMake (especially with Visual Studio)
-  please consider contributing your time and skill to help Exiv2 and CMake work well together.
-  
 Robin Mills
 robin@clanmills.com
-2015-02-23
+2015-11-30
 
 -------------------------------------------------------------------------------
 
@@ -120,25 +117,28 @@ The current architecture of CMake requires you to decide before running cmake:
 2)  32bit or 64 bit builds
 3)  Building static or shared libraries
 
-Code FileSystem Layout
-----------------------
-The simplest starting point for VS and CMake is to use the batch files in exiv-src/contrib/build/msvc. 
-For those script you will need:
-- Cygwin (in order to download all dependencies (zlib, expat, ssl, curl, ssh), including exiv2 trunk from svn)
-- CMake
-- SVN (optional)
+We have two contributed CMake Build Environments:
 
-Then
- - put the two scripts (build.cmd and setenv.cmd) into a completely empty directory
- - adapt the paths in setenv.cmd
- - open the VS command line shell
- - execute build.cmd (if there are any errors, the script should tell you)
- 
-Exiv2 should be then packaged in the dist directory with all the .lib, include and binary files you need.  
- 
-If you need to compile with different options (without webready for example), simply edit the build.cmd file 
-and adapt the options (somewhere at the end).
+1 contrib/cmake/msvc
+  Please read contrib/cmake/msvc/ReadMe.txt
+  
+2 contrib/build/msvc
 
+  For those script you will need:
+  - Cygwin (in order to download all dependencies (zlib, expat, ssl, curl, ssh), including exiv2 trunk from svn)
+  - CMake
+  - SVN (optional)
+
+  Then
+   - put the two scripts (build.cmd and setenv.cmd) into a completely empty directory
+   - adapt the paths in setenv.cmd
+   - open the VS command line shell
+   - execute build.cmd (if there are any errors, the script should tell you)
+ 
+  Exiv2 should be then packaged in the dist directory with all the .lib, include and binary files you need.  
+ 
+  If you need to compile with different options (without webready for example), simply edit the build.cmd file 
+  and adapt the options (somewhere at the end).
 
 4 Building and Installing for other users (Xcode, Eclipse, Qt)
 ==============================================================

@@ -1,15 +1,11 @@
 Current Status
 
-ToDo: * Fix out of source builds for NMake
-      * Find and link iconv library on Windows
-      * Test Cygwin, MinGW, Xcode, NMake and more versions of MSVC
-      * Revisit searching for zlib, expat and iconv
-      * Work on the "inherited from Gilles" list below
+ToDo: * option cmakeBuild --webready is broken (Daniel to fix)
+      * look at the items listed below which we inherited from Gilles
 
-Bugs: * 2005/32/debug won't run. "SideBySide" error (manifest trouble)
-	  * 2003/32 does not compile (1000's of template errors)
-
-Done: * Support for out of source builds (this is still suspect)
+Done: * working well on Unix systems (Linux, Mac, Cygwin, MinGW)
+      * Visual Studio (2005/8/10/12/13/15).  See contrib/cmake/msvc/ReadMe.txt
+      * Support for out of source builds
       * Add header files to MSVC UI for exiv2lib (and changed exiv2bin->exiv2 and exiv2->exiv2lib)
       * Searching better for expat, zlib and iconv
 	  * write FindLibexiv2.cmake (Thank you, Gilles)
@@ -18,7 +14,7 @@ Done: * Support for out of source builds (this is still suspect)
 
 Robin Mills
 robin@clanmills.com
-2012-06-09
+2015-11-29
 
 Inherited from Gilles Caulier <caulier dot gilles at gmail dot com>:
 
