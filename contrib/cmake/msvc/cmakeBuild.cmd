@@ -34,6 +34,7 @@ shift
 if not (%1) EQU () goto GETOPTS
 
 if NOT DEFINED _SILENT_ set _VERBOSE_=1
+set _UNSUPPORTED_=
 
 rem  ----
 call:echo calling cmakeDefaults.cmd
@@ -82,27 +83,33 @@ call:echo setting CMake Generator
 if        /I "%VS_PROG_FILES%" == "Microsoft Visual Studio 14" (
         set   "VS_CMAKE=Visual Studio 14 2015"
         set   "VS_OPENSSL=vs2015"
-        set   "_VC_=2015"
+        set   "_VS_=2015"
+        set   "_VC_=14"
 ) else if /I "%VS_PROG_FILES%" == "Microsoft Visual Studio 12" (
         set   "VS_CMAKE=Visual Studio 12 2013"
         set   "VS_OPENSSL=vs2013"
-        set   "_VC_=2013"
+        set   "_VS_=2013"
+        set   "_VC_=12"
 ) else if /I "%VS_PROG_FILES%" == "Microsoft Visual Studio 11" (
         set   "VS_CMAKE=Visual Studio 11 2012"
         set   "VS_OPENSSL=vs2012"
-        set   "_VC_=2012"
+        set   "_VS_=2012"
+        set   "_VC_=11"
 ) else if /I "%VS_PROG_FILES%" == "Microsoft Visual Studio 10" (
         set   "VS_CMAKE=Visual Studio 10 2010"
         set   "VS_OPENSSL=vs2010"
-        set   "_VC_=2010"
+        set   "_VS_=2010"
+        set   "_VC_=10"
 ) else if /I "%VS_PROG_FILES%" == "Microsoft Visual Studio 9"  (
         set   "VS_CMAKE=Visual Studio 9 2008"
         set   "VS_OPENSSL=vs2008"
-        set   "_VC_=2008"
+        set   "_VS_=2008"
+        set   "_VC_=9"
 ) else if /I "%VS_PROG_FILES%" == "Microsoft Visual Studio 8"  (
         set   "VS_CMAKE=Visual Studio 8 2005"
         set   "VS_OPENSSL=vs2005"
-        set   "_VC_=2005"
+        set   "_VS_=2005"
+        set   "_VC_=8"
 ) else (
         echo "*** Unsupported version of Visual Studio in '%VSINSTALLDIR%' ***"
 	    GOTO error_end
@@ -170,20 +177,21 @@ call:echo testing temporary directory _TEMP_ = %_TEMP_%
 if defined _REBUILD_ if EXIST "%_TEMP_%" rmdir/s/q "%_TEMP_%"
 IF NOT EXIST "%_TEMP_%" mkdir "%_TEMP_%"
 pushd        "%_TEMP_%"
-set           "_TEMP_=%CD%"
+set          "_TEMP_=%CD%"
 popd
-call:echo      _TEMP_ = %_TEMP_%
+call:echo     _TEMP_ = %_TEMP_%
 
 rem ----
 call:echo testing INSTALL
-if     defined _TYPE_ SET _INSTALL_=dist\%_VC_%\%Platform%\static\%_CONFIG_%
-if NOT defined _TYPE_ SET _INSTALL_=dist\%_VC_%\%Platform%\dll\%_CONFIG_%
+if     defined _TYPE_ SET _INSTALL_=dist\%_VS_%\%Platform%\static\%_CONFIG_%
+if NOT defined _TYPE_ SET _INSTALL_=dist\%_VS_%\%Platform%\dll\%_CONFIG_%
 if NOT EXIST %_INSTALL_% mkdir %_INSTALL_%
 IF NOT EXIST %_INSTALL_% mkdir %_INSTALL_%
 pushd        %_INSTALL_%
 set          "_INSTALL_=%CD%"
 popd
 call:echo     _INSTALL_ = %_INSTALL_%
+
 set "_LIBPATH_=%_INSTALL_%\bin"
 set "_INCPATH_=%_INSTALL_%\include"
 set "_BINPATH_=%_INSTALL_%\bin"
@@ -219,11 +227,23 @@ echo.temp      = %_TEMP_%
 echo.test      = %_TEST_%
 echo.type      = %_TYPE_%
 echo.video     = %_VIDEO_%
+echo.vc        = %_VC_%
+echo.vs        = %_VS_%
 echo.webready  = %_WEBREADY_%
 echo.zlib      = %_ZLIB_%
 echo.
 
-IF DEFINED _DRYRUN_  exit /b 1
+if defined _WEBREADY_ (
+	if /I "%_VS_%" == "2005" set "_UNSUPPORTED_=openssl not available for VS 2005"
+	if /I "%_VS_%" == "2015" set "_UNSUPPORTED_=libssh and libcurl do not build for VS2015"
+)
+
+if defined _UNSUPPORTED_ ( 
+    echo %_UNSUPPORTED_%
+    call:error_end
+)
+
+IF DEFINED _DRYRUN_  call:end
 IF DEFINED _REBUILD_ rmdir/s/q "%_TEMP_%"
 
 echo ---------- ZLIB building with cmake ------------------
@@ -234,7 +254,6 @@ set "TARGET=--target expat"
 call:buildLib %_EXPAT_%
 set  TARGET=
 
-
 if DEFINED _WEBREADY_ (
 	echo ---------- OPENSSL installing pre-built binaries -----------------
 	call:getOPENSSL %_OPENSSL_%
@@ -244,24 +263,22 @@ if DEFINED _WEBREADY_ (
 	call:buildLib   %_LIBSSH_% -DWITH_GSSAPI=OFF -DWITH_ZLIB=ON -DWITH_SFTP=ON -DWITH_SERVER=OFF -DWITH_EXAMPLES=OFF -DWITH_NACL=OFF -DWITH_PCAP=OFF
 	if errorlevel 1 set _LIBSSH_=
 
-	echo ---------- CURL building with cmake -----------------
-	call:buildLib   %_CURL_% -DBUILD_CURL_TESTS=OFF -DCMAKE_USE_OPENSSL=ON -DCMAKE_USE_LIBSSH2=OFF
-	if errorlevel 1 set _CURL_=
+	rem echo ---------- CURL building with cmake -----------------
+	rem call:buildLib   %_CURL_% -DBUILD_CURL_TESTS=OFF -DCMAKE_USE_OPENSSL=ON -DCMAKE_USE_LIBSSH2=OFF
+	rem if errorlevel 1 set _CURL_=
 
-	rem echo ---------- CURL building with nmake -----------------
-	rem if     exist %_CURL_%         rmdir/s/q %_CURL_% 
-	rem IF NOT EXIST %_CURL_%.tar.gz  svn export svn://dev.exiv2.org/svn/team/libraries/%_CURL_%.tar.gz >NUL
-	rem IF NOT EXIST %_CURL_%.tar     7z x %_CURL_%.tar.gz
-    rem 7z x %_CURL_%.tar
-
-	rem cd %_CURL_%
-	rem cd winbuild
-	rem nmake /f Makefile.vc mode=dll VC=12 machine=x64
-	rem cd ..
-	rem xcopy/yesihq builds\libcurl-vc14-x64-release-dll-ipv6-sspi-winssl\lib "%_LIBPATH_%"  
-	rem xcopy/yesihq builds\libcurl-vc14-x64-release-dll-ipv6-sspi-winssl\bin "%_BINPATH_%"  
-	rem xcopy/yesihq builds\libcurl-vc14-x64-release-dll-ipv6-sspi-winssl\inc "%_INCPATH_%"
-	rem cd ..
+	echo ---------- CURL building with nmake -----------------
+	cd    "%_TEMP_%"
+	IF     EXIST  %_CURL_%        rmdir/s/q  %_CURL_% 
+	IF NOT EXIST %_CURL_%.tar.gz  svn export svn://dev.exiv2.org/svn/team/libraries/%_CURL_%.tar.gz >NUL
+	IF NOT EXIST %_CURL_%.tar     7z x %_CURL_%.tar.gz
+    7z x %_CURL_%.tar
+    cd "%_CURL_%\winbuild"
+	call:run nmake /f Makefile.vc mode=dll vc=%_VC_% machine=%RawPlatform% "WITH_DEVEL=%_INSTALL_%" WITH_ZLIB=dll WITH_SSL=dll
+	cd ..
+	xcopy/yesihq builds\libcurl-vc%_VC_%-%RawPlatform%-release-dll-ipv6-sspi-winssl\lib "%_LIBPATH_%"  
+	xcopy/yesihq builds\libcurl-vc%_VC_%-%RawPlatform%-release-dll-ipv6-sspi-winssl\bin "%_BINPATH_%"  
+	xcopy/yesihq builds\libcurl-vc%_VC_%-%RawPlatform%-release-dll-ipv6-sspi-winssl\inc "%_INCPATH_%"
 	
 ) else (
 	set _WEBREADY_=
@@ -315,7 +332,6 @@ pushd        "%EXIV_B%"
 	if     defined _SILENT_ copy/y "samples\%_CONFIG_%\"*.exe "%_INSTALL_%\bin" >nul
 	if NOT defined _SILENT_ copy/y "samples\%_CONFIG_%\"*.exe "%_INSTALL_%\bin"
 popd
-
 
 if defined _TEST_ (
 	pushd "%_EXIV2_%\test"
