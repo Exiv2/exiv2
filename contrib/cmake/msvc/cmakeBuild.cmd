@@ -210,17 +210,19 @@ if /I "%_GENERATOR_%" == "NMake" set "_GENERATOR_=NMake Makefiles"
 if defined _VIDEO_ set "_VIDEO_=-DEXIV2_ENABLE_VIDEO=ON"
 if defined _TYPE_  set "_TYPE_=-DCMAKE_LINK=static"
 
-rem  ------
-echo.
+call:cltest
+
+echo.&&echo.&&echo.
+echo.------ cmakeBuild Settings ----------
 echo.bash      = %_BASH_%
-echo.binpat    = %_BINPATH_%
+echo.binpath   = %_BINPATH_%
 echo.config    = %_CONFIG_%
 echo.curl      = %_CURL_%
 echo.exiv2     = %_EXIV2_%
 echo.expat     = %_EXPAT_%
 echo.generator = %_GENERATOR_%
-echo.incpat    = %_INCPATH_%
-echo.libpat    = %_LIBPATH_%
+echo.incpath   = %_INCPATH_%
+echo.libpath   = %_LIBPATH_%
 echo.libssh    = %_LIBSSH_%
 echo.openssh   = %_OPENSSL_%
 echo.temp      = %_TEMP_%
@@ -231,7 +233,7 @@ echo.vc        = %_VC_%
 echo.vs        = %_VS_%
 echo.webready  = %_WEBREADY_%
 echo.zlib      = %_ZLIB_%
-echo.
+echo.&&echo.&&echo.
 
 if defined _WEBREADY_ (
 	if /I "%_VS_%" == "2005" set "_UNSUPPORTED_=openssl not available for VS 2005"
@@ -243,16 +245,17 @@ if defined _UNSUPPORTED_ (
     call:error_end
 )
 
-IF DEFINED _DRYRUN_  call:end
+IF DEFINED _DRYRUN_  goto end
 IF DEFINED _REBUILD_ rmdir/s/q "%_TEMP_%"
+IF DEFINED _PAUSE_   pause
 
 echo ---------- ZLIB building with cmake ------------------
-call:buildLib %_ZLIB_%
+call:buildLib %_ZLIB_% -DCMAKE_INSTALL_PREFIX=%_INSTALL_%
 
 echo ---------- EXPAT building with cmake -----------------
-set "TARGET=--target expat"
-call:buildLib %_EXPAT_%
-set  TARGET=
+set "_TARGET_=--target expat"
+call:buildLib %_EXPAT_% -DCMAKE_INSTALL_PREFIX=%_INSTALL_% 
+set  _TARGET_=
 
 if DEFINED _WEBREADY_ (
 	echo ---------- OPENSSL installing pre-built binaries -----------------
@@ -260,37 +263,39 @@ if DEFINED _WEBREADY_ (
 	if errorlevel 1 set _OPENSSL_=
 
 	echo ---------- LIBSSH building with cmake -----------------
-	call:buildLib   %_LIBSSH_% -DWITH_GSSAPI=OFF -DWITH_ZLIB=ON -DWITH_SFTP=ON -DWITH_SERVER=OFF -DWITH_EXAMPLES=OFF -DWITH_NACL=OFF -DWITH_PCAP=OFF
+	call:buildLib   %_LIBSSH_% -DCMAKE_INSTALL_PREFIX=%_INSTALL_% -DCMAKE_LIBRARY_PATH=%_LIBPATH_% -DCMAKE_INCLUDE_PATH=%_INCPATH_% -DWITH_GSSAPI=OFF -DWITH_ZLIB=ON -DWITH_SFTP=ON -DWITH_SERVER=OFF -DWITH_EXAMPLES=OFF -DWITH_NACL=OFF -DWITH_PCAP=OFF
 	if errorlevel 1 set _LIBSSH_=
 
-	rem echo ---------- CURL building with cmake -----------------
-	rem call:buildLib   %_CURL_% -DBUILD_CURL_TESTS=OFF -DCMAKE_USE_OPENSSL=ON -DCMAKE_USE_LIBSSH2=OFF
-	rem if errorlevel 1 set _CURL_=
-
-	echo ---------- CURL building with nmake -----------------
-	cd    "%_TEMP_%"
-	IF     EXIST  %_CURL_%        rmdir/s/q  %_CURL_% 
-	IF NOT EXIST %_CURL_%.tar.gz  svn export svn://dev.exiv2.org/svn/team/libraries/%_CURL_%.tar.gz >NUL
-	IF NOT EXIST %_CURL_%.tar     7z x %_CURL_%.tar.gz
-    7z x %_CURL_%.tar
-    cd "%_CURL_%\winbuild"
-	call:run nmake /f Makefile.vc mode=dll vc=%_VC_% machine=%RawPlatform% "WITH_DEVEL=%_INSTALL_%" WITH_ZLIB=dll WITH_SSL=dll
-	cd ..
-	xcopy/yesihq builds\libcurl-vc%_VC_%-%RawPlatform%-release-dll-ipv6-sspi-winssl\lib "%_LIBPATH_%"  
-	xcopy/yesihq builds\libcurl-vc%_VC_%-%RawPlatform%-release-dll-ipv6-sspi-winssl\bin "%_BINPATH_%"  
-	xcopy/yesihq builds\libcurl-vc%_VC_%-%RawPlatform%-release-dll-ipv6-sspi-winssl\inc "%_INCPATH_%"
-	
+	set        CURL_CMAKE=
+	if DEFINED CURL_CMAKE (
+	    echo ---------- CURL building with cmake -----------------
+	    call:buildLib   %_CURL_% -DCMAKE_INSTALL_PREFIX=%_INSTALL_% -DCMAKE_LIBRARY_PATH=%_LIBPATH_% -DCMAKE_INCLUDE_PATH=%_INCPATH_% -DWITH_GSSAPI=OFF -DWITH_ZLIB=OFF -DWITH_SFTP=OFF -DWITH_SERVER=OFF -DWITH_EXAMPLES=OFF -DWITH_NACL=OFF -DWITH_PCAP=OFF -DCMAKE_USE_LIBSSH2=OFF -DCMAKE_USE_LIBSSH=OFF
+	    if errorlevel 1 set _CURL_=
+	) ELSE (
+	    echo ---------- CURL building with nmake -----------------
+	    pushd  "%_TEMP_%"
+	    IF     EXIST  %_CURL_%        rmdir/s/q  %_CURL_% 
+	    IF NOT EXIST %_CURL_%.tar.gz  svn export svn://dev.exiv2.org/svn/team/libraries/%_CURL_%.tar.gz >NUL
+	    IF NOT EXIST %_CURL_%.tar     7z x %_CURL_%.tar.gz
+        7z x %_CURL_%.tar
+        cd "%_CURL_%\winbuild"
+	    call:run nmake /f Makefile.vc mode=dll vc=%_VC_% machine=%RawPlatform% "WITH_DEVEL=%_INSTALL_%" WITH_ZLIB=dll WITH_SSL=dll
+	    cd ..
+	    copy/y builds\libcurl-vc%_VC_%-%RawPlatform%-release-dll-ssl-dll-zlib-dll-ipv6-sspi\lib\*     "%_LIBPATH_%"  
+	    copy/y builds\libcurl-vc%_VC_%-%RawPlatform%-release-dll-ssl-dll-zlib-dll-ipv6-sspi\bin\*     "%_BINPATH_%"  
+	    xcopy/yesihq builds\libcurl-vc%_VC_%-%RawPlatform%-release-dll-ssl-dll-zlib-dll-ipv6-sspi\include\curl "%_INCPATH_%"\curl
+	    popd
+	)
 ) else (
-	set _WEBREADY_=
 	set _CURL_=
 	set _LIBSSH_=
 )
 
 echo ---------- EXIV2 building with cmake ------------------
 set          "EXIV_B=%_TEMP_%\exiv2"
+if defined _REBUILD_  IF EXIST "%EXIV_B%"  rmdir/s/q "%EXIV_B%"
+IF NOT EXIST "%EXIV_B%"                    mkdir     "%EXIV_B%"
 
-if defined _REBUILD_        rmdir/s/q "%EXIV_B%"
-IF NOT EXIST "%EXIV_B%"     mkdir     "%EXIV_B%"
 pushd        "%EXIV_B%"
 	set ENABLE_CURL=-DEXIV2_ENABLE_CURL=OFF
 	set ENABLE_LIBSSH=-DEXIV2_ENABLE_SSH=OFF
@@ -302,9 +307,7 @@ pushd        "%EXIV_B%"
 	if defined _WEBREADY_ set ENABLE_WEBREADY=-DEXIV2_ENABLE_WEBREADY=ON
 	if defined _VIDEO_    set ENABLE_VIDEO=-DEXIV2_ENABLE_VIDEO=ON
 	
-	call:run cmake -G "%_GENERATOR_%" %_TYPE_% ^
-	         "-DCMAKE_INSTALL_PREFIX=%_INSTALL_%"  "-DCMAKE_LIBRARY_PATH=%_LIBPATH_%" ^
-	         "-DCMAKE_INCLUDE_PATH=%_INCPATH_%" ^
+	call:run cmake -G "%_GENERATOR_%" %_TYPE_% -DCMAKE_INSTALL_PREFIX=%_INSTALL_% -DCMAKE_LIBRARY_PATH=%_LIBPATH_% -DCMAKE_INCLUDE_PATH=%_INCPATH_% ^
 	          -DEXIV2_ENABLE_NLS=OFF                -DEXIV2_ENABLE_BUILD_SAMPLES=ON ^
 	          -DEXIV2_ENABLE_WIN_UNICODE=OFF        -DEXIV2_ENABLE_SHARED=ON ^
 	          %ENABLE_WEBREADY%  %ENABLE_CURL%  %ENABLE_LIBSSH% %ENABLE_VIDEO% ^
@@ -379,39 +382,35 @@ exit /b %_RESULT_%
 rem -----------------------------------------
 :buildLib
 cd  "%_BUILDDIR_%"
-set "LIB=%1"
+set "LOB=%1"
 shift
 
-set "LIB_B=%_TEMP_%\%LIB%"
-set "LIB_TAR=%LIB%.tar"
-set "LIB_TAR_GZ=%LIB_TAR%.gz"
+set "LOB_B=%_TEMP_%\%LOB%"
+set "LOB_TAR=%LOB%.tar"
+set "LOB_TAR_GZ=%LOB_TAR%.gz"
 
-IF NOT EXIST "%LIB_TAR_GZ%"  svn export svn://dev.exiv2.org/svn/team/libraries/%LIB_TAR_GZ% >NUL
-IF NOT EXIST "%LIB_TAR%"     7z x "%LIB_TAR_GZ%"
-IF NOT EXIST "%LIB%"         7z x "%LIB_TAR%"
-if NOT EXIST "%LIB_B%"       mkdir "%LIB_B%"
+IF NOT EXIST "%LOB_TAR_GZ%"  svn export svn://dev.exiv2.org/svn/team/libraries/%LOB_TAR_GZ% >NUL
+IF NOT EXIST "%LOB_TAR%"     7z x "%LOB_TAR_GZ%"
+IF NOT EXIST "%LOB%"         7z x "%LOB_TAR%"
+if NOT EXIST "%LOB_B%"       mkdir "%LOB_B%"
 
-pushd "%LIB_B%"
+pushd "%LOB_B%"
 
-    call:run cmake -G "%_GENERATOR_%" %_TYPE_%	            ^
-                      "-DCMAKE_INSTALL_PREFIX=%_INSTALL_%"  ^
-                      "-DCMAKE_LIBRARY_PATH=%_LIBPATH_%"    ^
-                      "-DCMAKE_INCLUDE_PATH=%_INCPATH_%"    ^
-                      %* ..\..\%LIB%
+    call:run cmake -G "%_GENERATOR_%" %_TYPE_% %* ..\..\%LOB%
 	IF errorlevel 1 (
-		echo "*** cmake errors in %LIB% ***"
+		echo "*** cmake errors in %LOB% ***"
 	    popd
 		exit /b 1
 	)
 
-	call:run cmake --build . --config %_CONFIG_% %TARGET%
+	call:run cmake --build . --config %_CONFIG_% %_TARGET_%
 	IF errorlevel 1 (
-		echo "*** warning: build errors in %LIB% ***"
+		echo "*** warning: build errors in %LOB% ***"
 	)
 
 	call:run cmake --build . --config %_CONFIG_% --target install
 	IF errorlevel 1 (
-		echo "*** warning: install errors in %LIB% ***"
+		echo "*** warning: install errors in %LOB% ***"
 	)
 popd
 exit /b 0
@@ -419,26 +418,43 @@ exit /b 0
 rem -----------------------------------------
 :getOPENSSL
 cd  "%_BUILDDIR_%"
-set "LIB=%1-%VS_OPENSSL%"
-set "LIB_7Z=%LIB%.7z"
+set "LOB=%1-%VS_OPENSSL%"
+set "LOB_7Z=%LOB%.7z"
 
-IF NOT EXIST "%LIB_7Z%"      svn export svn://dev.exiv2.org/svn/team/libraries/%LIB_7Z% >NUL
-IF NOT EXIST "%LIB%"         7z x      "%LIB_7Z%" >nul
+IF NOT EXIST "%LOB_7Z%"      svn export svn://dev.exiv2.org/svn/team/libraries/%LOB_7Z% >NUL
+IF NOT EXIST "%LOB%"         7z x      "%LOB_7Z%" >nul
 
-set BINARY=bin
-set LIBRARY=lib
-set INCLUDE=include
+set _BINARY_=bin
+set _LIBRARY_=lib
+set _INCLUDE_=include
 if /I "%Platform%" == "x64" (
-	set "BINARY=%BINARY%64"
-	set "LIBRARY=%LIBRARY%64"
-	set "INCLUDE=%INCLUDE%64"
+	set "_BINARY_=bin64"
+	set "_LIBRARY_=lib64"
+	set "_INCLUDE_=include64"
 )
 
-xcopy/yesihq "%LIB%\%BINARY%"  "%_INSTALL_%\bin"
-xcopy/yesihq "%LIB%\%LIBRARY%" "%_INSTALL_%\lib"
-xcopy/yesihq "%LIB%\%INCLUDE%" "%_INSTALL_%\include"
+xcopy/yesihq "%LOB%\%_BINARY_%"  "%_INSTALL_%\bin"
+xcopy/yesihq "%LOB%\%_LIBRARY_%" "%_INSTALL_%\lib"
+xcopy/yesihq "%LOB%\%_INCLUDE_%" "%_INSTALL_%\include"
+rem curl requires libeay32 and ssleay32 (and not libeay32MD and ssleay32MD)
+pushd "%_INSTALL_%\lib"
+copy/y libeay32MD.lib  libeay32.lib
+copy/y ssleay32MD.lib  ssleay32.lib
+popd
+pushd "%_INSTALL_%\bin"
+copy/y libeay32MD.dll  libeay32.dll
+copy/y ssleay32MD.dll  ssleay32.dll
+popd
 
 exit /b 0
+
+rem -----------------------------------------
+:cltest
+pushd    "%_EXIV2_%\contrib\cmake\msvc"
+nmake -a cltest.exe
+cltest.exe
+popd
+exit /b %ERRORLEVEL%
 	
 rem That's all Folks!
 rem -----------------------------------------
