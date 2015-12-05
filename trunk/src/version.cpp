@@ -231,7 +231,7 @@ void Exiv2::dumpLibraryInfo(std::ostream& os,const exv_grep_keys_t& keys)
     size_t      edition       = (_MSC_VER-600)/100;
     const char* editions[]    = { "0","1","2","3","4","5","6","2003", "2005", "2008", "2010", "2012","2013","2015"};
     if  ( edition > lengthof(editions) ) edition = 0 ;
-    if  ( edition ) sprintf(version+::strlen(version)," (%s)",editions[edition] );
+    if  ( edition ) sprintf(version+::strlen(version)," (%s/%s)",editions[edition],bits==64?"x64":"x86");
 #define __VERSION__ version
 #endif
 
