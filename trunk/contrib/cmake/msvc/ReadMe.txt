@@ -30,7 +30,7 @@ How to use this
   build --help
   
   You should never have reason to modify the code in cmakeBuild.cmd
-  You may wish to change the defaults in setenv.cmd
+  You may wish to change the defaults in cmakeDefaults.cmd
   You can change the defaults on the command-line (or modify cmakeDefaults.cmd)
   You can also change defaults using the dos set command.  For example:
   set _CONFIG_=Debug
@@ -48,9 +48,16 @@ How to use this
 3 What gets built?
   The build is performed in  build\temp
   The output is generated in build\dist
-                             build\dist\bin contains *.exe and *.dll files
-                             build\dist\lib contains *.lib files
-                             build\dist\include contains *.h and *.hpp files
+                             build\dist\..mumble..\bin contains *.exe and *.dll files
+                             build\dist\..mumble..\lib contains *.lib files
+                             build\dist\..mumble..\include contains *.h and *.hpp files
+
+  mumble identifies the compiler and build.
+  Example C:\gnu\exiv2\build\dist\2013\x64\dll\Release\bin
+  2013    = Visual Studio      Choices: 2005/2008/2010/2012/2013/2015
+  x64     = 64 bit build                32/64
+  dll     = shared library              dll/static
+  Release = configuration               Release/Debug/RelWithDebInfo/MinSizeRel
 
 4 Building manually with CMake
   The cmake option -G Generator should be chosen for the version of Visual Studio installed.
@@ -98,7 +105,7 @@ How to use this
   cmake --build . --config Release
   cmake --build . --config Release --target install
 
-5 About openssl
+5 About openssl and curl
   You cannot build openssl with CMake.  However we have prebuilt binaries which
   you can download and extract into your build tree.
   
@@ -117,6 +124,12 @@ How to use this
   xcopy/yesihq openssl-1.0.1p-vs2008\bin        dist\bin"
   xcopy/yesihq openssl-1.0.1p-vs2008\lib        dist\bin"
   xcopy/yesihq openssl-1.0.1p-vs2008\include    dist\include"
+  
+  curl does not seem to build with CMake.
+  It announces itself "the curl cmake build system is poorly maintained. Be aware"
+  
+  I have given up trying to get this to work and used nmake in the winbuild directory.
+  For more information, read:  winbuild\BUILD.WINDOWS.txt
 
 6 Build options
   You can inspect CMake options by running grep OPTION on CMakeLists.txt in <exiv2dir>
@@ -151,7 +164,7 @@ How to use this
 8 Building with different libraries
   You can change the standard libraries.  For example, to build with curl-7.39.0
   1) set _CURL_=curl-7.39.0
-  2) put curl-7.39.0.tar.gz into your build directory
+  2) put (read-only) curl-7.39.0.tar.gz in your build directory
   
   To change the version of openssl:
   1) set _OPENSSL_=openssl-1.0.1j
@@ -162,17 +175,16 @@ How to use this
   Building this with Visual Studio is to to be documented
 
 9 Rebuilding with VS 2005/8/10/12/13/15 32/64
-  The script cmakeRebuildAll.cmd is provided for convenience:
-  cmakeRebuildAll.cmd > rebuildAll.txt
+  The script cmakeBuildAll.cmd is provided for convenience:
+  cmakeBuildAll.cmd --test > rebuildAll.txt
   To view progress, open another shell: tail -f rebuildAll.txt 
   
-  cmakeRebuildAll.cmd takes about a hour.
+  cmakeBuildAll.cmd takes about a hour if you don't specify --webready
   12 build+test cycles of about 5 minutes each.
-
-TODO:
---webready isn't working (Daniel to fix)
+  With webready, 12 build+test cycles of 12 minutes = 2.5 hours
 
 Status:
+2015-12-05 Fixed --webready
 2015-11-28 Added option -static
            Build into: dist/2005/x64/dll/Release/{lib|bin|include}
 

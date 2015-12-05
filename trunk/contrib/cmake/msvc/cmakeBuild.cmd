@@ -237,7 +237,6 @@ echo.&&echo.&&echo.
 
 if defined _WEBREADY_ (
 	if /I "%_VS_%" == "2005" set "_UNSUPPORTED_=openssl not available for VS 2005"
-	if /I "%_VS_%" == "2015" set "_UNSUPPORTED_=libssh and libcurl do not build for VS2015"
 )
 
 if defined _UNSUPPORTED_ ( 
@@ -260,12 +259,16 @@ set  _TARGET_=
 if DEFINED _WEBREADY_ (
 	echo ---------- OPENSSL installing pre-built binaries -----------------
 	call:getOPENSSL %_OPENSSL_%
-	if errorlevel 1 set _OPENSSL_=
+	if errorlevel 1 set _OPENSSL_= && set _WEBREADY_=
+)
 
+if DEFINED _WEBREADY_ (
 	echo ---------- LIBSSH building with cmake -----------------
 	call:buildLib   %_LIBSSH_% -DCMAKE_INSTALL_PREFIX=%_INSTALL_% -DCMAKE_LIBRARY_PATH=%_LIBPATH_% -DCMAKE_INCLUDE_PATH=%_INCPATH_% -DWITH_GSSAPI=OFF -DWITH_ZLIB=ON -DWITH_SFTP=ON -DWITH_SERVER=OFF -DWITH_EXAMPLES=OFF -DWITH_NACL=OFF -DWITH_PCAP=OFF
-	if errorlevel 1 set _LIBSSH_=
+	if errorlevel 1 set _LIBSSH_= && set _WEBREADY_=
+)
 
+if DEFINED _WEBREADY_ (
 	set        CURL_CMAKE=
 	if DEFINED CURL_CMAKE (
 	    echo ---------- CURL building with cmake -----------------
@@ -286,10 +289,9 @@ if DEFINED _WEBREADY_ (
 	    xcopy/yesihq builds\libcurl-vc%_VC_%-%RawPlatform%-release-dll-ssl-dll-zlib-dll-ipv6-sspi\include\curl "%_INCPATH_%"\curl
 	    popd
 	)
-) else (
-	set _CURL_=
-	set _LIBSSH_=
 )
+
+if NOT DEFINED _WEBREADY_ set _CURL_= && set _LIBSSH_=
 
 echo ---------- EXIV2 building with cmake ------------------
 set          "EXIV_B=%_TEMP_%\exiv2"
