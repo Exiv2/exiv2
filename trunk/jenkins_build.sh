@@ -176,12 +176,14 @@ case "$build" in
         else
 			if [ "$x64" == true ]; then
 				export RECURSIVE=1
-				/cygdrive/c/cygwin64/bin/bash.exe -c "cd $PWD ; ./$0"
+				# /cygdrive/c/cygwin64/bin/bash.exe -c "cd $PWD ; ./$0"
+				cd "$PWD" ; ./$0
 				result=$?
 			fi
 			if [ "$Win32" == true ]; then
 				export RECURSIVE=1
-				/cygdrive/c/cygwin/bin/bash.exe -c "cd $PWD ; ./$0"
+				# /cygdrive/c/cygwin/bin/bash.exe -c "cd $PWD ; ./$0"
+				cd "$PWD" ; ./$0
 				result=$?
 			fi
         fi
