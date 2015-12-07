@@ -16,7 +16,9 @@ How to use this
   call "C:\Program Files (x86)\Microsoft Visual Studio 8\VC\bin\vcvars32.bat"
   
   The batch file contrib\cmake\msvc\vcvars.bat is designed to take the pain
-  out of this - provided Visual Studio's installed in c:\Program Files (x86)
+  out of this - provided Visual Studio is installed in %ProgramFiles(x86)%
+  %ProgramFiles(x86)% is usually c:\Program Files (x86)
+  
   vcvars 2005        # sets 2005 x86
   vcvars 2010 64     # sets 2010 x86_amd64
 
@@ -24,10 +26,15 @@ How to use this
   cd <exiv2dir>
   mkdir ..\build
   
+  +-------------------------------------------------------+
+  | Never attempt to build in a directory with a space in |
+  | the path name.  Example c:\My Build Tree\exiv2\build  |
+  +-------------------------------------------------------+
+  
   Ensure that cmakeBuild.cmd and cmakeDefaults.cmd are on your path (eg your build directory)
   copy  contrib\cmake\msvc\* ..\build
   cd    ..\build
-  build --help
+  cmakeBuild --help
   
   You should never have reason to modify the code in cmakeBuild.cmd
   You may wish to change the defaults in cmakeDefaults.cmd
@@ -55,7 +62,7 @@ How to use this
   mumble identifies the compiler and build.
   Example C:\gnu\exiv2\build\dist\2013\x64\dll\Release\bin
   2013    = Visual Studio      Choices: 2005/2008/2010/2012/2013/2015
-  x64     = 64 bit build                32/64
+  x64     = 64 bit build                Win32/x64
   dll     = shared library              dll/static
   Release = configuration               Release/Debug/RelWithDebInfo/MinSizeRel
 
@@ -76,9 +83,8 @@ How to use this
 
   ...
       for webready 
-      you also need curl-7.45.0 libssh-0.7.2 
-      you will have to install openssl for you compiler before building curl
-      see note below "About openssl"
+      you need curl-7.45.0 libssh-0.7.2 and openssl-1.0.1p 
+      See below: "About webready support libraries (openssl, libssh and curl)
   ...
   
   rem create a temp directory and a dist (distribution) directory 
@@ -105,7 +111,9 @@ How to use this
   cmake --build . --config Release
   cmake --build . --config Release --target install
 
-5 About openssl and curl
+5 About webready support libraries (openssl, libssh and curl)
+
+  a) openssl
   You cannot build openssl with CMake.  However we have prebuilt binaries which
   you can download and extract into your build tree.
   
@@ -125,12 +133,25 @@ How to use this
   xcopy/yesihq openssl-1.0.1p-vs2008\lib        dist\bin"
   xcopy/yesihq openssl-1.0.1p-vs2008\include    dist\include"
   
+  The script contrib/cmake/msvc/cmakeOpenssl was used to create the vs2005.7z file
+  from a complete build performed by msvc2005/exiv2-webready.sln and openssl-1.0.1p source
+  
+  b) curl
   curl does not seem to build with CMake.
   It announces itself "the curl cmake build system is poorly maintained. Be aware"
   
   I have given up trying to get this to work and used nmake in the winbuild directory.
   For more information, read:  winbuild\BUILD.WINDOWS.txt
+  
+  c) libssh
+  Three changes have been made to libssh to build with VS2015, VS2008, VS2995
+  These have been reported (with fixes) 
+  VS2015: 	https://red.libssh.org/issues/214
+  VS2005/8: https://red.libssh.org/issues/2205
 
+  The fixes are included in svn://dev.exiv2.org/svn/team/libraries/libssh-0.7.2.tar.gz
+  A 'vanilla' version of libssh will may require those fixes to be applied.
+  
 6 Build options
   You can inspect CMake options by running grep OPTION on CMakeLists.txt in <exiv2dir>
   C:\cygwin64\home\rmills\gnu\exiv2\build>cd ..\trunk
@@ -159,21 +180,17 @@ How to use this
   http://dev.exiv2.org/projects/exiv2/wiki/How_do_I_run_the_test_suite_for_Exiv2
   
   You can run the test-suite directly from cmakeBuild.cmd with the argument --test
-  You will need cygwin's bash.exe.  It may run with other versions of bash (such as MinGW)
+  You need cygwin's bash.exe to run the test suite.
 
-8 Building with different libraries
+8 Building with different versions of the support libraries
   You can change the standard libraries.  For example, to build with curl-7.39.0
   1) set _CURL_=curl-7.39.0
-  2) put (read-only) curl-7.39.0.tar.gz in your build directory
+  2) add curl-7.39.0.tar.gz in your build directory
   
   To change the version of openssl:
   1) set _OPENSSL_=openssl-1.0.1j
-  2) put openssl-1.0.1j-vs2015.zip into your build directory
+  2) add openssl-1.0.1j-vs2015.zip into your build directory
   
-  To build a version of openssl-foo-vs2012:
-  Try to find it online
-  Building this with Visual Studio is to to be documented
-
 9 Rebuilding with VS 2005/8/10/12/13/15 32/64
   The script cmakeBuildAll.cmd is provided for convenience:
   cmakeBuildAll.cmd --test > rebuildAll.txt
@@ -184,6 +201,9 @@ How to use this
   With webready, 12 build+test cycles of 12 minutes = 2.5 hours
 
 Status:
+2015-12-07 Fixed libssh compiler issues for VS2005/8/15
+           Added openssl-1.0.1p-vs2005.7z
+           Polishing and documentation fixes
 2015-12-05 Fixed --webready
 2015-11-28 Added option -static
            Build into: dist/2005/x64/dll/Release/{lib|bin|include}
@@ -215,11 +235,6 @@ Status:
 
 2015-11-16 "Work in Progress" = Not working yet.
            These script are not for public use at the moment by Daniel or anybody else.
-
-           Rather than endlessly discuss these scripts with Daniel
-           I'm going to do parallel development and see how that goes.
-
-I'll discuss this with Daniel when I'm convinced my versions are working well.
 
 Robin Mills
 robin@clanmills.com
