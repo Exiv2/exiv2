@@ -174,18 +174,12 @@ case "$build" in
 			/usr/local/bin/exiv2 -v -V
 			result=$?
         else
-			if [ "$x64" == true ]; then
-				export RECURSIVE=1
-				# /cygdrive/c/cygwin64/bin/bash.exe -c "cd $PWD ; ./$0"
-				cd "$PWD" ; ./$0
-				result=$?
-			fi
-			if [ "$Win32" == true ]; then
-				export RECURSIVE=1
-				# /cygdrive/c/cygwin/bin/bash.exe -c "cd $PWD ; ./$0"
-				cd "$PWD" ; ./$0
-				result=$?
-			fi
+			export RECURSIVE=1
+			# don't recursively invoke bash as this dies on Windows 10.
+			# simply call the script again in the same bash session
+			# /cygdrive/c/cygwin64/bin/bash.exe -c "cd $PWD ; ./$0"
+			./$0
+			result=$?
         fi
   ;;
 
