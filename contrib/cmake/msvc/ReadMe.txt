@@ -5,13 +5,13 @@ How to use this
 ---------------
 
 1 Setting up your machine
-  You need cmake.exe, svn.exe, 7z.exe and curl.exe on your PATH.
+  You need cmake.exe, svn.exe and 7z.exe on your PATH.
   
-  Please get "Windows" versions of cmake etc (NOT Cygwin versions)
+  Please get "Windows" versions of cmake/svn/7z etc (NOT Cygwin or MinGW versions)
   
   You should initialize the Visual Studio environment
   using the version of vcvars32.bat or vcvarsall.bat
-  installed with Visual Studio. For example
+  installed with Visual Studio. For example:
   
   call "C:\Program Files (x86)\Microsoft Visual Studio 8\VC\bin\vcvars32.bat"
   
@@ -71,8 +71,8 @@ How to use this
   cd    ../build
   
   rem download support libraries
-  svn export svn://dev.exiv2.org/svn/team/libraries/zlib-1.2.8
-  svn export svn://dev.exiv2.org/svn/team/libraries/expat-2.1.0
+  svn export svn://dev.exiv2.org/svn/team/libraries/zlib-1.2.8.tar.gz
+  svn export svn://dev.exiv2.org/svn/team/libraries/expat-2.1.0.tar.gz
 
   ...
       for webready 
