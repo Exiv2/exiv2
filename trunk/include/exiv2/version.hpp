@@ -37,11 +37,25 @@
 // + standard includes
 #include <string>
 #include <vector>
-#if EXV_HAVE_REGEX
-#include <regex.h>
-typedef std::vector<regex_t> exv_grep_keys_t ;
+
+#define CPLUSPLUS11 201103L
+
+#if __cplusplus >= CPLUSPLUS11
+# include <regex>
+  typedef std::vector<std::regex> exv_grep_keys_t ;
 #else
-typedef std::vector<std::string> exv_grep_keys_t ;
+# if EXV_HAVE_REGEX
+#  include <regex.h>
+   typedef std::vector<regex_t> exv_grep_keys_t ;
+# else
+   struct Exiv2_grep_key_t {
+     Exiv2_grep_key_t(std::string pattern,bool bIgnoreCase)
+       :pattern_(pattern),bIgnoreCase_(bIgnoreCase) {}
+     std::string pattern_;
+     bool        bIgnoreCase_;
+   };
+   typedef std::vector<Exiv2_grep_key_t> exv_grep_keys_t ;
+# endif
 #endif
 
 /*!

@@ -332,6 +332,13 @@ source ./functions.source
 	diff $diffargs $num-before.txt $num-after.txt    > $num.txt
 	diff $diffargs $num.txt        $diffname
 
+	num=1024
+	filename=exiv2-bug$num.exv
+	printf "$num " >&3
+	echo '------>' Bug $num '<-------' >&2
+	copyTestFile  $filename
+	runTest exiv2 -pa --grep gpsl/i $filename
+
 	num=1026
 	filename=exiv2-bug$num.jpg
 	printf "$num " >&3
@@ -430,7 +437,7 @@ source ./functions.source
 	copyTestFile                        $filename
 	runTest exiv2 -pv -g Lens           $filename
 	runTest exiv2 -pa -g Lens           $filename
-	
+
 	num=1137
 	filename=exiv2-bug$num.jpg
 	printf "$num " >&3
@@ -440,7 +447,7 @@ source ./functions.source
 	runTest exiv2 -pa $filename
 	runTest exiv2 -PkV --grep GPSL http://dev.exiv2.org/attachments/download/805/DSC_7154.jpg | runTest exiv2 -m- $filename
 	runTest exiv2 -pa $filename
-	
+
 
 ) 3>&1 > $results 2>&1
 

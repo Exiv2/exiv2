@@ -3,7 +3,7 @@
 .\" First parameter, NAME, should be all caps
 .\" Second parameter, SECTION, should be 1-8, maybe w/ subsection
 .\" other parameters are allowed: see man(7), man(1)
-.TH EXIV2 1 "Nov 23, 2015"
+.TH EXIV2 1 "Dec 8, 2015"
 .\" Please adjust this date whenever revising the manpage.
 .\"
 .\" Some roff macros, for reference:
@@ -222,10 +222,11 @@ Show unknown tags (default is to suppress tags which don't have a name).
 Only keys which match the given key (grep).
 .br
 Multiple \fB\-g\fP options
-can be used to grep info for several keys.  This option uses the system
-regular expression engine:  see man 3 regex.  Platforms which do not support
+can be used to grep info for several keys.  When the library is build with C++11,
+keys are matched using std::regex::extended.  When build without C++11, keys are
+processed with the system regular expression engine:  see man 3 regex.  Platforms which do not support
 regex use key for a substring match.  You can determine the availability of regex
-using the command: exiv2 -v -V -g have_regex
+using the command: exiv2 -v -V -g have_regex -g cplusplus.  
 
 .nf
 exiv2 \-g Date \-pt R.jpg
@@ -235,6 +236,8 @@ Exif.Photo.DateTimeDigitized  Ascii      20  2011:09:18 16:25:48
 
 .fi
 -g (--grep) is only applied to keys.  It is not generally applied to all output such as the default -ps report.
+
+The key may finish with the optional modifier /i to indicated case insensitive.
 .TP
 .B \-K \fIkey\fP
 Only report data for given key.
