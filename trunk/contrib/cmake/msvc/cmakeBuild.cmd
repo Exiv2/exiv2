@@ -277,7 +277,7 @@ pushd        "%EXIV_B%"
     if defined _WEBREADY_ set ENABLE_WEBREADY=-DEXIV2_ENABLE_WEBREADY=ON
     if defined _VIDEO_    set ENABLE_VIDEO=-DEXIV2_ENABLE_VIDEO=ON
 
-    call:run cmake -G "%_GENERATOR_%" %_LINK_% -DCMAKE_INSTALL_PREFIX=%_INSTALL_% -DCMAKE_LIBRARY_PATH=%_LIBPATH_% -DCMAKE_INCLUDE_PATH=%_INCPATH_% ^
+    call:run cmake -G "%_GENERATOR_%" -DCMAKE_BUILD_TYPE=%_CONFIG_% %_LINK_% -DCMAKE_INSTALL_PREFIX=%_INSTALL_% -DCMAKE_LIBRARY_PATH=%_LIBPATH_% -DCMAKE_INCLUDE_PATH=%_INCPATH_% ^
               -DEXIV2_ENABLE_NLS=OFF                -DEXIV2_ENABLE_BUILD_SAMPLES=ON ^
               -DEXIV2_ENABLE_WIN_UNICODE=OFF        -DEXIV2_ENABLE_SHARED=ON ^
               %ENABLE_WEBREADY%  %ENABLE_CURL%  %ENABLE_LIBSSH% %ENABLE_VIDEO% ^
@@ -360,7 +360,7 @@ IF NOT EXIST "%LOB%"         7z x "%LOB_TAR%"
 if NOT EXIST "%LOB_B%"       mkdir "%LOB_B%"
 
 pushd "%LOB_B%"
-    call:run cmake -G "%_GENERATOR_%" %_LINK_% %* ..\..\%LOB%
+    call:run cmake -G "%_GENERATOR_%" -DCMAKE_BUILD_TYPE=%_CONFIG_% %_LINK_% %* ..\..\%LOB%
     IF errorlevel 1 (
         echo "*** cmake errors in %LOB% ***"
         popd
