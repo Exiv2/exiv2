@@ -415,15 +415,30 @@ int Params::setLogLevel(const std::string& optarg)
     return rc;
 } // Params::setLogLevel
 
+// http://stackoverflow.com/questions/874134/find-if-string-ends-with-another-string-in-c
+static inline bool ends_with(std::string const & value, std::string const & ending,std::string& stub)
+{
+    if (ending.size() > value.size()) return false;
+    bool bResult = std::equal(ending.rbegin(), ending.rend(), value.rbegin());
+    stub         = bResult ? value.substr(0,value.length() - ending.length()) : value;
+    return bResult ;
+}
+
 int Params::evalGrep( const std::string& optarg)
 {
     int result=0;
+    std::string pattern;
+    std::string ignoreCase("/i");
+    bool bIgnoreCase = ends_with(optarg,ignoreCase,pattern);
+#if __cplusplus >= CPLUSPLUS11
+    greps_.push_back( std::regex(pattern, bIgnoreCase ? std::regex::icase|std::regex::extended : std::regex::extended) );
+#else
 #if EXV_HAVE_REGEX
     // try to compile a reg-exp from the input argument and store it in the vector
     const size_t i = greps_.size();
     greps_.resize(i + 1);
     regex_t *pRegex = &greps_[i];
-    int errcode = regcomp( pRegex, optarg.c_str(), REG_NOSUB);
+    int errcode = regcomp( pRegex, pattern.c_str(), bIgnoreCase ? REG_NOSUB|REG_ICASE : REG_NOSUB);
 
     // there was an error compiling the regexp
     if( errcode ) {
@@ -441,7 +456,8 @@ int Params::evalGrep( const std::string& optarg)
         result=1;
     }
 #else
-    greps_.push_back(optarg);
+    greps_.push_back(Exiv2_grep_key_t(pattern,bIgnoreCase));
+#endif
 #endif
     return result;
 } // Params::evalGrep
@@ -846,50 +862,50 @@ typedef std::map<std::string,std::string> long_t;
 
 int Params::getopt(int argc, char* const Argv[])
 {
-	char** argv = new char* [argc+1];
-	argv[argc] = NULL;
-	long_t longs;
+    char** argv = new char* [argc+1];
+    argv[argc] = NULL;
+    long_t longs;
 
-	longs["--adjust"   ] = "-a";
-	longs["--binary"   ] = "-b";
-	longs["--comment"  ] = "-c";
-	longs["--delete"   ] = "-d";
-	longs["--days"     ] = "-D";
-	longs["--force"    ] = "-f";
-	longs["--Force"    ] = "-F";
-	longs["--grep"     ] = "-g";
-	longs["--help"     ] = "-h";
-	longs["--insert"   ] = "-i";
-	longs["--keep"     ] = "-k";
-	longs["--key"      ] = "-K";
-	longs["--location" ] = "-l";
-	longs["--modify"   ] = "-m";
-	longs["--Modify"   ] = "-M";
-	longs["--encode"   ] = "-n";
-	longs["--months"   ] = "-O";
-	longs["--print"    ] = "-p";
-	longs["--Print"    ] = "-P";
-	longs["--quiet"    ] = "-q";
-	longs["--log"      ] = "-Q";
-	longs["--rename"   ] = "-r";
-	longs["--suffix"   ] = "-S";
-	longs["--timestamp"] = "-t";
-	longs["--Timestamp"] = "-T";
-	longs["--unknown"  ] = "-u";
-	longs["--verbose"  ] = "-v";
-	longs["--Version"  ] = "-V";
-	longs["--version"  ] = "-V";
-	longs["--years"    ] = "-Y";
+    longs["--adjust"   ] = "-a";
+    longs["--binary"   ] = "-b";
+    longs["--comment"  ] = "-c";
+    longs["--delete"   ] = "-d";
+    longs["--days"     ] = "-D";
+    longs["--force"    ] = "-f";
+    longs["--Force"    ] = "-F";
+    longs["--grep"     ] = "-g";
+    longs["--help"     ] = "-h";
+    longs["--insert"   ] = "-i";
+    longs["--keep"     ] = "-k";
+    longs["--key"      ] = "-K";
+    longs["--location" ] = "-l";
+    longs["--modify"   ] = "-m";
+    longs["--Modify"   ] = "-M";
+    longs["--encode"   ] = "-n";
+    longs["--months"   ] = "-O";
+    longs["--print"    ] = "-p";
+    longs["--Print"    ] = "-P";
+    longs["--quiet"    ] = "-q";
+    longs["--log"      ] = "-Q";
+    longs["--rename"   ] = "-r";
+    longs["--suffix"   ] = "-S";
+    longs["--timestamp"] = "-t";
+    longs["--Timestamp"] = "-T";
+    longs["--unknown"  ] = "-u";
+    longs["--verbose"  ] = "-v";
+    longs["--Version"  ] = "-V";
+    longs["--version"  ] = "-V";
+    longs["--years"    ] = "-Y";
 
-	for ( int i = 0 ; i < argc ; i++ ) {
-		std::string* arg = new std::string(Argv[i]);
-		if (longs.find(*arg) != longs.end() ) {
-			argv[i] = ::strdup(longs[*arg].c_str());
-		} else {
-			argv[i] = ::strdup(Argv[i]);
-		}
-		delete arg;
-	}
+    for ( int i = 0 ; i < argc ; i++ ) {
+        std::string* arg = new std::string(Argv[i]);
+        if (longs.find(*arg) != longs.end() ) {
+            argv[i] = ::strdup(longs[*arg].c_str());
+        } else {
+            argv[i] = ::strdup(Argv[i]);
+        }
+        delete arg;
+    }
 
     int rc = Util::Getopt::getopt(argc, argv, optstring_);
     // Further consistency checks
@@ -958,8 +974,8 @@ int Params::getopt(int argc, char* const Argv[])
         rc = 1;
     }
 
-	// cleanup the argument vector
-	for ( int i = 0 ; i < argc ; i++ ) ::free((void*)argv[i]);
+    // cleanup the argument vector
+    for ( int i = 0 ; i < argc ; i++ ) ::free((void*)argv[i]);
     delete [] argv;
 
     return rc;

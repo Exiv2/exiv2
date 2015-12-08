@@ -172,18 +172,32 @@ namespace Exiv2 {
   };
 #endif
 
-static bool shouldOutput(const exv_grep_keys_t& greps,const char* name,const std::string& value)
+static bool shouldOutput(const exv_grep_keys_t& greps,const char* key,const std::string& value)
 {
     bool bPrint = greps.empty();
     for( exv_grep_keys_t::const_iterator g = greps.begin();
       !bPrint && g != greps.end() ; ++g
     ) {
+#if __cplusplus >= CPLUSPLUS11
+        std::smatch m;
+        bPrint = std::regex_search(std::string(key),m,*g) || std::regex_search(value,m,*g);
+#else
 #if EXV_HAVE_REGEX
-        bPrint = (  0 == regexec( &(*g), name         , 0, NULL, 0)
+        bPrint = (  0 == regexec( &(*g), key          , 0, NULL, 0)
                  || 0 == regexec( &(*g), value.c_str(), 0, NULL, 0)
                  );
 #else
-        bPrint = std::string(name).find(*g) != std::string::npos || value.find(*g) != std::string::npos;
+            std::string Pattern(g->pattern_);
+            std::string Key(key);
+            std::string Value(value);
+            if ( g->bIgnoreCase_ ) {
+                // https://notfaq.wordpress.com/2007/08/04/cc-convert-string-to-upperlower-case/
+                std::transform(Pattern.begin(), Pattern.end(),Pattern.begin(), ::tolower);
+                std::transform(Key.begin()    , Key.end()    ,Key.begin()    , ::tolower);
+                std::transform(Value.begin()  , Value.end()  ,Value.begin()    , ::tolower);
+            }
+            bPrint = Key.find(Pattern) != std::string::npos || Value.find(Pattern) != std::string::npos;
+#endif
 #endif
     }
     return bPrint;
@@ -504,6 +518,8 @@ void Exiv2::dumpLibraryInfo(std::ostream& os,const exv_grep_keys_t& keys)
     output(os,keys,"bits"           , bits       );
     output(os,keys,"dll"            , dll        );
     output(os,keys,"debug"          , debug      );
+    output(os,keys,"cplusplus"      , __cplusplus);
+    output(os,keys,"cplusplus11"    , __cplusplus >= CPLUSPLUS11 );
     output(os,keys,"version"        , __VERSION__);
     output(os,keys,"date"           , __DATE__   );
     output(os,keys,"time"           , __TIME__   );

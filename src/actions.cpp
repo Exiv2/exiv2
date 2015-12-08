@@ -49,6 +49,7 @@ EXIV2_RCSID("@(#) $Id$")
 #include "preview.hpp"
 #include "futils.hpp"
 #include "i18n.h"                // NLS support.
+#include "version.hpp"
 
 // + standard includes
 #include <string>
@@ -581,10 +582,22 @@ namespace Action {
         for (Params::Greps::const_iterator g = Params::instance().greps_.begin();
                 !result && g != Params::instance().greps_.end(); ++g)
         {
+#if __cplusplus >= CPLUSPLUS11
+            std::smatch m;
+            result = std::regex_search(key,m, *g);
+#else
 #if EXV_HAVE_REGEX
             result = regexec( &(*g), key.c_str(), 0, NULL, 0) == 0 ;
 #else
-            result = key.find(*g) != std::string::npos;
+            std::string Pattern(g->pattern_);
+            std::string Key(key);
+            if ( g->bIgnoreCase_ ) {
+                // https://notfaq.wordpress.com/2007/08/04/cc-convert-string-to-upperlower-case/
+                std::transform(Pattern.begin(), Pattern.end(),Pattern.begin(), ::tolower);
+                std::transform(Key.begin()    , Key.end()    ,Key.begin()    , ::tolower);
+            }
+            result = Key.find(Pattern) != std::string::npos;
+#endif
 #endif
         }
         return result ;
