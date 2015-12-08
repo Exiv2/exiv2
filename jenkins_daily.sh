@@ -8,28 +8,27 @@
 ##
 #  environment
 #  JENKINS   : URL of jenkins server. Default http://exiv2.dyndns.org:8080
-##
 if [ -z "$JENKINS" ]; then export JENKINS=http://exiv2.dyndns.org:8080; fi
-
 
 ##
 # determine location of the build and source directories
 exiv2=$(cygpath -aw .)
-build=$(cygpath -aw c:\\temp\\build)
- dist=$(cygpath -au  c:\\temp\\build\\dist)
+build=$(cygpath -aw .\\build)
+ dist=$(cygpath -au .\\build\\dist)
+ msvc=$(cygpath -aw ./contrib/cmake/msvc)
 
 ##
-# create a clean directory for the out-of-source build
+# create a clean directory for an out-of-source build
 rm    -rf $build
 mkdir -p  $build
 
 ##
-# get the windows cmd to perform the build
-# set the path to find svn/7z/cmake and cmd.exe
+# get windows cmd.exe to perform the build
+# use a sub-shell to temporarily set path for svn/7z/cmake/cmd
 (
-  	PATH="c:\\gnu\\exiv2\\trunk\\contrib\\cmake\\msvc;c:\\Program files\\csvn\\bin;c:\\program files\\7-zip;c:\\program files (x86)\\cmake\\bin;$PATH:/cygdrive/c/Windows/System32;"
+  	PATH="$msvc:c:\\Program Files\\csvn\\bin:c:\\Program Files\\7-zip:c:\\Program Files (x86)\\cmake\\bin:$PATH:/cygdrive/c/Windows/System32"
   	result=0
-  	/cygdrive/c/Windows/System32/cmd.exe /c "cd $build && vcvars 2015 64 && cmakeBuild --rebuild --exiv2=$exiv2"
+  	cmd.exe /c "cd $build && vcvars 2013 64 && cmakeBuild --rebuild --exiv2=$exiv2 --webready"
   	result=$?
 )
 
@@ -39,6 +38,6 @@ pushd test
 	./testMSVC.sh "$dist"
 popd
 
+exit $result
 # That's all Folks!
 ##
-exit "$result"
