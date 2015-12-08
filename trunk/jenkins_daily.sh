@@ -35,7 +35,7 @@ mkdir -p  $build
 ##
 # test the build
 pushd test
-	./testMSVC.sh "$dist"
+	source testMSVC.sh "$dist"
 popd
 
 exit $result
