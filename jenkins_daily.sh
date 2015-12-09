@@ -20,8 +20,8 @@ vs=2013
 ##
 # determine location of the build and source directories
 exiv2=$(cygpath -aw .)
-build=$(cygpath -aw .\\build)
- dist=$(cygpath -au .\\build\\dist\\$vs\\$arch\\$mode\\$config\\bin)
+build=$(cygpath -aw ..\\build)
+ dist=$(cygpath -au ..\\build\\dist\\$vs\\$arch\\$mode\\$config\\bin)
  msvc=$(cygpath -aw ./contrib/cmake/msvc)
 
 ##
