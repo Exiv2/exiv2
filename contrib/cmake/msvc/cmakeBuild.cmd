@@ -104,14 +104,14 @@ if NOT DEFINED _VS_ (
 )
 
 call:echo testing architecture
-if "%PROCESSOR_ARCHITECTURE%" EQU "AMD64" (
-    set Platform=x64
-    set RawPlatform=x64
-    set CpuPlatform=intel64
-) ELSE (
+if "%PROCESSOR_ARCHITECTURE%" EQU "x86" (
     set Platform=Win32
     set RawPlatform=x86
     set CpuPlatform=ia32
+) ELSE (
+    set Platform=x64
+    set RawPlatform=x64
+    set CpuPlatform=intel64
 )
 call:echo Platform = %Platform% (%RawPlatform%)
 
@@ -315,21 +315,25 @@ if defined _TEST_ (
 
 rem -----------------------------------------
 rem Exit
-:end             ::rem end  syntax: goto end
+rem end  syntax: goto end
+:end
 endlocal
 exit /b 0
 
-:error_end       ::rem end with an error syntax: call:error_end
+rem end with an error syntax: call:error_end
+:error_end
 endlocal
 exit /b 1
 
 rem -----------------------------------------
 rem Functions
-:echo            ::rem echo (or don't if --silent).  syntax: call:echo args ...
+rem echo (or don't if --silent).  syntax: call:echo args ...
+:echo
 if NOT DEFINED _SILENT_ echo %*%
 exit /b 0
 
-:run             ::rem run a command. syntax call:run args ...
+rem run a command. syntax call:run args 
+:run
 if defined _VERBOSE_ (
     echo.
     echo ++++++++++++++++++++++++++++++++++++++++++++++++++++++++
@@ -345,7 +349,8 @@ if     DEFINED _PAUSE_ pause
 exit /b %_RESULT_%
 
 rem -----------------------------------------
-:buildLib        ::rem build a library with CMake.  syntax: call:buildLib name cmake-args ...
+rem build a library with CMake.  syntax: call:buildLib name cmake-args ...
+:buildLib
 cd  "%_BUILDDIR_%"
 set "LOB=%1"
 shift
@@ -380,7 +385,8 @@ popd
 exit /b 0
 
 rem -----------------------------------------
-:getOPENSSL      ::rem get pre-built openssl binaries syntax: call:getOPENSSL version
+rem get pre-built openssl binaries syntax: call:getOPENSSL version
+:getOPENSSL
 cd  "%_BUILDDIR_%"
 
 set "LOB=%1-vs%_VS_%"
@@ -415,7 +421,8 @@ popd
 exit /b 0
 
 rem -----------------------------------------
-:cltest          ::rem this runs the compiler and reports _MSC_VER and sizeof(void*)
+rem this runs the compiler and reports _MSC_VER and sizeof(void*)
+:cltest          
 pushd    "%_EXIV2_%\contrib\cmake\msvc"
 nmake -a cltest.exe
 cltest.exe

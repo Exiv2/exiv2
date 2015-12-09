@@ -15,7 +15,6 @@ if "%_ARG_%" EQU "" (
 set "_OPT_=%2"
 if "%_OPT_%" EQU "x64" set "_OPT_=64"
 
-
 if "%_ARG_%" EQU "2005" (
   if "%_OPT_%" EQU "64" (
     pushd "%ProgramFiles(x86)%\Microsoft Visual Studio 8\VC\bin\amd64\"
