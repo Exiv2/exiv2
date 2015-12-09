@@ -4,7 +4,7 @@ rem set up some defaults to be used by cmakeBuild.cmd and related scripts
 rem use environment strings to set defaults which will not be clobbered by this script
 
 if not defined _CONFIG_      SET _CONFIG_=Release
-if NOT DEFINED _TEMP_        SET _TEMP_=temp
+if NOT DEFINED _WORK_        SET _WORK_=work
 if NOT DEFINED _EXIV2_       SET _EXIV2_=..\trunk
 if NOT DEFINED _CURL_        SET _CURL_=curl-7.45.0
 if NOT DEFINED _LIBSSH_      SET _LIBSSH_=libssh-0.7.2

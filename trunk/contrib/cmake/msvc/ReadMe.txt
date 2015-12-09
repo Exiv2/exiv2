@@ -24,7 +24,7 @@ How to use this
 
 2 Always build "out of source".  I recommend:
   cd <exiv2dir>
-  mkdir ..\build
+  mkdir build
   
   +-------------------------------------------------------+
   | Never attempt to build in a directory with a space in |
@@ -32,8 +32,8 @@ How to use this
   +-------------------------------------------------------+
   
   Ensure that cmakeBuild.cmd and cmakeDefaults.cmd are on your path (eg your build directory)
-  copy  contrib\cmake\msvc\* ..\build
-  cd    ..\build
+  copy  contrib\cmake\msvc\* build
+  cd    build
   cmakeBuild --help
   
   You should never have reason to modify the code in cmakeBuild.cmd
@@ -45,7 +45,7 @@ How to use this
   To unset an environment string, set _CONFIG_=
   
   For your first build, I recommend the command:
-  cmakeBuild --pause
+  cmakeBuild --pause --verbose
   
   This will print out a lot of information, and pause after each build step.
   

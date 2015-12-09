@@ -12,7 +12,7 @@ if /I "%1" == "--expat"           set "_EXPAT_=%2"& shift
 if /I "%1" == "--generator"       set "_GENERATOR_=%2"& shift
 if /I "%1" == "--openssl"         set "_OPENSSL_=%2"& shift
 if /I "%1" == "--libssh"          set "_LIBSSH_=%2"& shift
-if /I "%1" == "--temp"            set "_TEMP_=%2"& shift
+if /I "%1" == "--work"            set "_WORK_=%2"& shift
 if /I "%1" == "--zlib"            set "_ZLIB_=%2"& shift
 
 if /I "%1" == "--help"            call:Help && goto end
@@ -35,7 +35,7 @@ goto main
 call cmakeDefaults >NUL 2>NUL
 echo Options: --help   ^| --webready ^| --rebuild ^| --video  ^| --static
 echo.         --silent ^| --verbose  ^| --pause   ^| --dryrun ^| --test  ^| --trace
-echo.         --exiv2 %_EXIV2_% ^| --temp %_TEMP_% ^| --config %_CONFIG_% ^| --generator generator
+echo.         --exiv2 %_EXIV2_% ^| --work %_WORK_% ^| --config %_CONFIG_% ^| --generator generator
 echo.         --zlib %_ZLIB_% ^| --expat %_EXPAT_% ^| --curl %_CURL_% ^| --libssh %_LIBSSH_%
 echo.         --bash %_BASH_%
 exit /b 0
@@ -56,7 +56,7 @@ echo.libpath   = %_LIBPATH_%
 echo.libssh    = %_LIBSSH_%
 echo.mode      = %_MODE_%
 echo.openssl   = %_OPENSSL_%
-echo.temp      = %_TEMP_%
+echo.work      = %_WORK_%
 echo.test      = %_TEST_%
 echo.video     = %_VIDEO_%
 echo.vc        = %_VC_%
@@ -164,14 +164,14 @@ IF ERRORLEVEL 1 (
 )
 
 rem  ----
-call:echo testing temporary directory _TEMP_ = %_TEMP_%
-if defined _REBUILD_ if EXIST "%_TEMP_%" rmdir/s/q "%_TEMP_%"
+call:echo testing work directory _WORK_ = %_WORK_%
+if defined _REBUILD_ if EXIST "%_WORK_%" rmdir/s/q "%_WORK_%"
 if defined _REBUILD_ del/s CMakeCache.txt >NUL 2>NUL
-IF NOT EXIST "%_TEMP_%" mkdir "%_TEMP_%"
-pushd        "%_TEMP_%"
-set          "_TEMP_=%CD%"
+IF NOT EXIST "%_WORK_%" mkdir "%_WORK_%"
+pushd        "%_WORK_%"
+set          "_WORK_=%CD%"
 popd
-call:echo     _TEMP_ = %_TEMP_%
+call:echo     _WORK_ = %_WORK_%
 
 rem ----
 call:echo testing INSTALL
@@ -238,7 +238,7 @@ if DEFINED _WEBREADY_ (
         if NOT EXIST "%_ONCPATH_%"\curl (
             echo ---------- CURL building with nmake -----------------
             IF NOT EXIST %_CURL_%.tar.gz  svn export svn://dev.exiv2.org/svn/team/libraries/%_CURL_%.tar.gz >NUL
-            pushd  "%_TEMP_%"
+            pushd  "%_WORK_%"
 
             IF     EXIST %_CURL_%         rmdir/s/q  %_CURL_%
             IF NOT EXIST %_CURL_%.tar.gz  copy "%_BUILDDIR_%\%_CURL_%.tar.gz" >NUL
@@ -262,7 +262,7 @@ if DEFINED _WEBREADY_ (
 if NOT DEFINED _WEBREADY_ set _CURL_= && set _LIBSSH_=
 
 echo ---------- EXIV2 building with cmake ------------------
-set          "EXIV_B=%_TEMP_%\exiv2"
+set          "EXIV_B=%_WORK_%\exiv2"
 if defined _REBUILD_  IF EXIST "%EXIV_B%"  rmdir/s/q "%EXIV_B%"
 IF NOT EXIST "%EXIV_B%"                    mkdir     "%EXIV_B%"
 
@@ -350,7 +350,7 @@ cd  "%_BUILDDIR_%"
 set "LOB=%1"
 shift
 
-set "LOB_B=%_TEMP_%\%LOB%"
+set "LOB_B=%_WORK_%\%LOB%"
 set "LOB_TAR=%LOB%.tar"
 set "LOB_TAR_GZ=%LOB_TAR%.gz"
 
