@@ -43,9 +43,31 @@ mkdir -p  $build
 # test the build
 export EXIV2_BINDIR=$dist/$vs/$arch/$mode/$config/bin
 pushd  test
-    for t in $(ls *.sh|sort); do ./$i ; done
+    for test in addmoddel.sh \
+        bugfixes-test.sh     \
+        exifdata-test.sh     \
+        exiv2-test.sh        \
+        imagetest.sh         \
+        iotest.sh            \
+        iptctest.sh          \
+        modify-test.sh       \
+        path-test.sh         \
+        preview-test.sh      \
+        stringto-test.sh     \
+        tiff-test.sh         \
+        write-test.sh        \
+        write2-test.sh       \
+        xmpparser-test.sh    \
+        conversions.sh
+    do
+      echo '++' $test '++' ; ./$test
+    done
 popd
+
 $EXIV2_BINDIR/exiv2 -vV
+ls -alt $EXIV2_BINDIR
+$EXIV2_BINDIR/exiv2 -vV -g date -g time -g version
+ls -alt $EXIV2_BINDIR/exiv2.exe
 
 exit $result
 # That's all Folks!
