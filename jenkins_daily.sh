@@ -21,13 +21,13 @@ vs=2013
 # determine location of the build and source directories
 exiv2=$(cygpath -aw .)
 build=$(cygpath -aw .\\build)
- dist=$(cygpath -au .\\build\\dist)
+ dist=$(cygpath -au .\\build\\dist\\$vs\\$arch\\$mode\\$config\\bin)
  msvc=$(cygpath -aw ./contrib/cmake/msvc)
 
 ##
 # create a clean directory for an out-of-source build
-rm    -rf $build
-mkdir -p  $build
+rm    -rf $dist
+mkdir -p  $dist
 
 ##
 # get windows cmd.exe to perform the build
@@ -41,7 +41,7 @@ mkdir -p  $build
 
 ##
 # test the build
-export EXIV2_BINDIR=$dist/$vs/$arch/$mode/$config/bin
+export EXIV2_BINDIR=$dist
 pushd  test
     for test in addmoddel.sh \
         bugfixes-test.sh     \
