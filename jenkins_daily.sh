@@ -11,6 +11,13 @@
 if [ -z "$JENKINS" ]; then export JENKINS=http://exiv2.dyndns.org:8080; fi
 
 ##
+# configure the build
+arch=x64
+mode=dll
+config=Release
+vs=2013
+
+##
 # determine location of the build and source directories
 exiv2=$(cygpath -aw .)
 build=$(cygpath -aw .\\build)
@@ -28,15 +35,14 @@ mkdir -p  $build
 (
   	PATH="$msvc:c:\\Program Files\\csvn\\bin:c:\\Program Files\\7-zip:c:\\Program Files (x86)\\cmake\\bin:$PATH:/cygdrive/c/Windows/System32"
   	result=0
-  	cmd.exe /c "cd $build && vcvars 2013 64 && cmakeBuild --rebuild --exiv2=$exiv2 --webready"
+  	cmd.exe /c "cd $build && vcvars $vs $arch && cmakeBuild --rebuild --exiv2=$exiv2"
   	result=$?
 )
 
 ##
 # test the build
-pushd test
-	source testMSVC.sh "$dist"
-popd
+export EXIV2_BINDIR=$dist/$vs/$arch/$mode/$config/bin
+make   tests
 
 exit $result
 # That's all Folks!
