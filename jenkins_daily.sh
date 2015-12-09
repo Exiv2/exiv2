@@ -42,7 +42,10 @@ mkdir -p  $build
 ##
 # test the build
 export EXIV2_BINDIR=$dist/$vs/$arch/$mode/$config/bin
-make   tests
+pushd  test
+    for t in $(ls *.sh|sort); do $i ; done
+popd
+$EXIV_BINDIR/exiv2 -vV
 
 exit $result
 # That's all Folks!
