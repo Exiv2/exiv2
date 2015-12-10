@@ -26,8 +26,6 @@ if( POLICY CMP0042 )
 else()
     SET(CMAKE_MACOSX_RPATH 1)
 endif()
-#SET(CMAKE_INSTALL_RPATH "${CMAKE_INSTALL_PREFIX}/${CMAKE_INSTALL_LIBDIR}")
-
 
 SET( PACKAGE_COPYRIGHT      "Andreas Huggel" )
 SET( PACKAGE_BUGREPORT      "ahuggel@gmx.net" )
@@ -94,16 +92,8 @@ endif()
 INCLUDE_DIRECTORIES( ${CMAKE_SOURCE_DIR}/src/ ${CMAKE_SOURCE_DIR}/include/  ${CMAKE_SOURCE_DIR}/include/exiv2/)
 
 if( MSVC )
-
     # cmake_policy(SET CMP0008)
-
-    include(CMake_msvc.txt)
-    msvc_runtime_report()
-    msvc_runtime_configure(${EXIV2_ENABLE_SHARED})
-    msvc_runtime_report()
-
     ADD_DEFINITIONS(-DPSAPI_VERSION=1) # to be compatible with <= WinVista (#905)
-
 endif( MSVC )
 
 IF( EXIV2_ENABLE_XMP )
@@ -118,7 +108,6 @@ SET( INSTALL_TARGET_STANDARD_ARGS
      LIBRARY DESTINATION ${CMAKE_INSTALL_LIBDIR}
      ARCHIVE DESTINATION ${CMAKE_INSTALL_LIBDIR}
 )
-#SET(CMAKE_INSTALL_RPATH "${CMAKE_INSTALL_PREFIX}/${CMAKE_INSTALL_LIBDIR}")
 
 ##
 # add sources from XMPSDK directory
