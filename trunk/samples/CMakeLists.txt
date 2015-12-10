@@ -9,11 +9,6 @@ if ( NOT MSVC )
 	set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin)
 endif()
 
-if (MSVC)
-	include(../CMake_msvc.txt)
-	msvc_runtime_configure(${EXIV2_ENABLE_SHARED})
-	# include_directories( ${CMAKE_CURRENT_SOURCE_DIR}/../include ${CMAKE_CURRENT_SOURCE_DIR}/../msvc64/include )
-endif()
 include_directories("${CMAKE_SOURCE_DIR}/include" "${CMAKE_SOURCE_DIR}/src")
 
 SET( SAMPLES addmoddel.cpp

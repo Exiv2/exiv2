@@ -1,3 +1,7 @@
+#if (MSVC) 
+#	set_property(TARGET tgt PROPERTY CXX_STANDARD 11)
+#endif()
+
 ##
 # msvc tuning macros
 macro(msvc_runtime_set_static_ignores bDynamic)
