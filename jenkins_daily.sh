@@ -55,8 +55,8 @@ if [ ! -e $dist/exiv2.exe ]; then
     fi
 fi
 
-if [ -e $dist/exiv2.exe ]; then
-  pushd  test
+if [ -e $EXIV2_BINDIR/exiv2.exe ]; then
+    pushd  test
     for test in addmoddel.sh \
         bugfixes-test.sh     \
         exifdata-test.sh     \
@@ -76,16 +76,16 @@ if [ -e $dist/exiv2.exe ]; then
     do
       echo '++' $test '++' ; ./$test
     done
-  popd
+    popd
 
-  $EXIV2_BINDIR/exiv2 -vV
-  ls -alt $EXIV2_BINDIR
-  $EXIV2_BINDIR/exiv2 -vV -g date -g time -g version
-  ls -alt $EXIV2_BINDIR/exiv2.exe
+    $EXIV2_BINDIR/exiv2 -vV
+    ls -alt $EXIV2_BINDIR
+    $EXIV2_BINDIR/exiv2 -vV -g date -g time -g version
+    ls -alt $EXIV2_BINDIR/exiv2.exe
 else
-  echo ""
-  echo "**** no build created ****"
-  echo ""
+    echo ""
+    echo "**** no build created ****"
+    echo ""
 fi
 
 exit $result
