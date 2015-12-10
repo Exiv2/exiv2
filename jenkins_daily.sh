@@ -43,20 +43,9 @@ mkdir -p  $dist
 
 ##
 # test the build
-# For an unknown reason, we sometimes build the wrong architecture
-# I suspect this is due to a rogue version of vcvars.bat which does not understand x64
-export EXIV2_BINDIR=$dist
-if [ ! -e $dist/exiv2.exe ]; then
-    if [ "$arch" == "x64" -a -e $di32/exiv2.exe  ]; then
-        export EXIV2_BINDIR=$di32
-    fi 
-    if [ "$arch" == "Win32" -a -e $di64/exiv2.exe  ]; then
-        export EXIV2_BINDIR=$di64
-    fi
-fi
-
-if [ -e $EXIV2_BINDIR/exiv2.exe ]; then
+if [ -e $dist/exiv2.exe ]; then
     pushd  test
+    export EXIV2_BINDIR=$dist
     for test in addmoddel.sh \
         bugfixes-test.sh     \
         exifdata-test.sh     \
