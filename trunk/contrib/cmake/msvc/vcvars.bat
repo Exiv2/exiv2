@@ -1,10 +1,5 @@
 @echo off
 
-echo -------- start of vcvars.bat -------------
-echo args = %*
-set
-echo ------------------------------------------
-
 if defined VSINSTALLDIR (
 	echo already installed
     goto eof
@@ -65,8 +60,6 @@ if DEFINED _VC_ (
   call:help
 )
 
-echo ---------- end of vcvars.bat -------------
-set
-echo ------------------------------------------
-
+rem
+rem That's all Folks!
 :eof
