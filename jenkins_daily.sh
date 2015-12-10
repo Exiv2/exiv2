@@ -20,8 +20,9 @@ vs=2013
 ##
 # determine location of the build and source directories
 exiv2=$(cygpath -aw .)
-build=$(cygpath -aw ..\\build)
- dist=$(cygpath -au ..\\build\\dist\\$vs\\$arch\\$mode\\$config\\bin)
+build=$(cygpath -aw .\\build)
+ dist=$(cygpath -au .\\build\\dist\\$vs\\$arch\\$mode\\$config\\bin)
+ di32=$(cygpath -au .\\build\\dist\\$vs\\Win32\\$mode\\$config\\bin)
  msvc=$(cygpath -aw ./contrib/cmake/msvc)
 
 ##
@@ -42,6 +43,9 @@ mkdir -p  $dist
 ##
 # test the build
 export EXIV2_BINDIR=$dist
+if [ ! -e $dist/exiv2.exe -a -e $di32/exiv2.exe ]; then
+    export EXIV2_BINDIR=$di32
+fi 
 pushd  test
     for test in addmoddel.sh \
         bugfixes-test.sh     \
