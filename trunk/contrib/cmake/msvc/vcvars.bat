@@ -1,5 +1,10 @@
 @echo off
 
+echo -------- start of vcvars.bat -------------
+echo args = %*
+set
+echo ------------------------------------------
+
 if defined VSINSTALLDIR (
 	echo already installed
     goto eof
@@ -20,6 +25,7 @@ if "%_ARG_%" EQU "2005" (
   if "%_OPT_%" EQU "64" (
     pushd "%ProgramFiles(x86)%\Microsoft Visual Studio 8\VC\bin\amd64\"
     call vcvarsamd64.bat
+    set PROCESSOR_ARCHITECTURE=AMD64
   ) else (
     pushd "%ProgramFiles(x86)%\Microsoft Visual Studio 8\VC\bin"
     call vcvars32.bat
@@ -39,10 +45,10 @@ if "%_ARG_%" EQU "2013" set "_VC_=12.0"
 if "%_ARG_%" EQU "2015" set "_VC_=14.0"
 
 if DEFINED _VC_ (
-  @echo on
   pushd "%ProgramFiles(x86)%\Microsoft Visual Studio %_VC_%\VC\"
   if "%_OPT_%" EQU "64" (
     vcvarsall.bat x86_amd64
+    set PROCESSOR_ARCHITECTURE=AMD64
   ) else (
     vcvarsall.bat x86
     set PROCESSOR_ARCHITECTURE=x86
@@ -58,5 +64,9 @@ if DEFINED _VC_ (
   set _ARG_=
   call:help
 )
+
+echo ---------- end of vcvars.bat -------------
+set
+echo ------------------------------------------
 
 :eof
