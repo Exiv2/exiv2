@@ -16,7 +16,7 @@ if NOT DEFINED _MODE_        SET _MODE_=dll
 if NOT DEFINED  COPYCMD      SET COPYCMD=/Y
 
 rem ---------- check that EXIV2   exists
-call:echo checking that %_EXIV2_% exists
+echo checking that %_EXIV2_% exists
 if NOT EXIST %_EXIV2_% (
     echo "_EXIV2_ = %_EXIV2_% does not exist ***" >&2
     exit /b 1

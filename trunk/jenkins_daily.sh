@@ -23,6 +23,7 @@ exiv2=$(cygpath -aw .)
 build=$(cygpath -aw .\\build)
  dist=$(cygpath -au .\\build\\dist\\$vs\\$arch\\$mode\\$config\\bin)
  di32=$(cygpath -au .\\build\\dist\\$vs\\Win32\\$mode\\$config\\bin)
+ di64=$(cygpath -au .\\build\\dist\\$vs\\x64\\$mode\\$config\\bin)
  msvc=$(cygpath -aw ./contrib/cmake/msvc)
 
 ##
@@ -42,9 +43,13 @@ mkdir -p  $dist
 
 ##
 # test the build
+# For an unknown reason, we sometimes build the wrong architecture
 export EXIV2_BINDIR=$dist
-if [ ! -e $dist/exiv2.exe -a -e $di32/exiv2.exe ]; then
+if [ "$arch" == "x64" -a !-e $dist/exiv2.exe -a -e $di32/exiv2.exe  ]; then
     export EXIV2_BINDIR=$di32
+fi 
+if [ "$arch" == "Win32" -a !-e $dist/exiv2.exe -a -e $di64/exiv2.exe  ]; then
+    export EXIV2_BINDIR=$di64
 fi 
 pushd  test
     for test in addmoddel.sh \
