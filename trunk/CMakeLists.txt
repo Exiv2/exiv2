@@ -104,26 +104,6 @@ if( MSVC )
 
     ADD_DEFINITIONS(-DPSAPI_VERSION=1) # to be compatible with <= WinVista (#905)
 
-    ##
-    # Set the output directory
-    # x64/Win32
-    #if( CMAKE_SIZEOF_VOID_P MATCHES 8 )
-    #    SET( P_DIR x64)
-    #else()
-    #    set( P_DIR Win32 )
-    #endif()
-
-    # DLL/static build
-    #if( EXIV2_ENABLE_SHARED )
-    #    set( T_DIR Dynamic )
-    #else()
-    #    set( T_DIR Static)
-    #endif()
-
-    #set(B_DIR ${PROJECT_BINARY_DIR}/bin/${P_DIR}/${T_DIR})
-    #set(CMAKE_CURRENT_BINARY_DIR ${B_DIR})
-    #set(EXECUTABLE_OUTPUT_PATH   ${B_DIR})
-    #set(LIBRARY_OUTPUT_PATH      ${B_DIR})
 endif( MSVC )
 
 IF( EXIV2_ENABLE_XMP )
@@ -224,12 +204,6 @@ IF( MINGW OR UNIX OR APPLE)
     COMMAND ./cmake_doc.sh "${CMAKE_BINARY_DIR}"
   )
 ENDIF()
-
-##
-# support for test suite TODO: fixup for MSVC and think a bit more before deploying this
-# ENABLE_TESTING()
-# INCLUDE(Dart)
-# ADD_TEST(tests bash -c "cd ${CMAKE_SOURCE_DIR}/test/ ; make EXIV2_BINDIR=${CMAKE_BINARY_DIR}/bin" )
 
 # That's all Folks!
 ##

@@ -302,8 +302,6 @@ pushd        "%EXIV_B%"
         popd
         goto error_end
     )
-    if     defined _SILENT_ copy "samples\%_CONFIG_%\"*.exe "%_INSTALL_%\bin" >nul
-    if NOT defined _SILENT_ copy "samples\%_CONFIG_%\"*.exe "%_INSTALL_%\bin"
 popd
 
 if defined _TEST_ (
