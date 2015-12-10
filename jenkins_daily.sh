@@ -51,7 +51,7 @@ if [ "$PLATFORM" == "msvc" ]; then
     )
 else
     pushd $build
-    cmake -DCMAKE_INSTALL_PREFIX=$dist $exiv2
+    cmake -DCMAKE_INSTALL_PREFIX=$dist -DEXIV2_ENABLE_NLS=OFF $exiv2
     make
     cmake --build . --target install 
     popd
@@ -91,7 +91,7 @@ if [ -e $dist/$bin/exiv2$exe ]; then
     ##
     # store the build for users to collect
     mmHD=""
-    if [ $PLATFORM == "linux" ]; then mmHD=/media/psf/mmHD ; fi
+    if [ $PLATFORM == "linux" ]; then mmHD=/media/psf/Host ; fi
     if [ $PLATFORM == "msvc" -o $PLATFORM == 'cygwin' ]; then
         mmHD="/cygdrive/z"
     fi 
