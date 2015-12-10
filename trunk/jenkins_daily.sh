@@ -37,21 +37,26 @@ mkdir -p  $dist
 (
   	PATH="$msvc:c:\\Program Files\\csvn\\bin:c:\\Program Files\\7-zip:c:\\Program Files (x86)\\cmake\\bin:$PATH:/cygdrive/c/Windows/System32"
   	result=0
-  	cmd.exe /c "cd $build && vcvars $vs $arch && cmakeBuild --rebuild --exiv2=$exiv2"
+  	cmd.exe /c "cd $build && vcvars $vs $arch && cmakeBuild --rebuild --exiv2=$exiv2 $*"
   	result=$?
 )
 
 ##
 # test the build
 # For an unknown reason, we sometimes build the wrong architecture
+# I suspect this is due to a rogue version of vcvars.bat which does not understand x64
 export EXIV2_BINDIR=$dist
-if [ "$arch" == "x64" -a !-e $dist/exiv2.exe -a -e $di32/exiv2.exe  ]; then
-    export EXIV2_BINDIR=$di32
-fi 
-if [ "$arch" == "Win32" -a !-e $dist/exiv2.exe -a -e $di64/exiv2.exe  ]; then
-    export EXIV2_BINDIR=$di64
-fi 
-pushd  test
+if [ ! -e $dist/exiv2.exe ]; then
+    if [ "$arch" == "x64" -a -e $di32/exiv2.exe  ]; then
+        export EXIV2_BINDIR=$di32
+    fi 
+    if [ "$arch" == "Win32" -a -e $di64/exiv2.exe  ]; then
+        export EXIV2_BINDIR=$di64
+    fi
+fi
+
+if [ -e $dist/exiv2.exe ]; then
+  pushd  test
     for test in addmoddel.sh \
         bugfixes-test.sh     \
         exifdata-test.sh     \
@@ -71,12 +76,17 @@ pushd  test
     do
       echo '++' $test '++' ; ./$test
     done
-popd
+  popd
 
-$EXIV2_BINDIR/exiv2 -vV
-ls -alt $EXIV2_BINDIR
-$EXIV2_BINDIR/exiv2 -vV -g date -g time -g version
-ls -alt $EXIV2_BINDIR/exiv2.exe
+  $EXIV2_BINDIR/exiv2 -vV
+  ls -alt $EXIV2_BINDIR
+  $EXIV2_BINDIR/exiv2 -vV -g date -g time -g version
+  ls -alt $EXIV2_BINDIR/exiv2.exe
+else
+  echo ""
+  echo "**** no build created ****"
+  echo ""
+fi
 
 exit $result
 # That's all Folks!
