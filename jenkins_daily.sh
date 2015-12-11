@@ -12,9 +12,23 @@ vs=2013
 
 result=0
 
-uname=$(uname)
-if [ "$uname"    == "Linux"  ]; then PLATFORM=linux  ; fi
-if [ "$uname"    == "Darwin" ]; then PLATFORM=macosx ; fi
+##
+# which PLATFORM
+if [ "$PLATFORM" == "" ]; then 
+    export PLATFORM=''
+    if [ `uname` == Darwin  ]; then
+        PLATFORM=macosx
+    elif [ `uname -o` == Cygwin ]; then
+        PLATFORM=cygwin
+        # tweak path to ensure the correct version of perl and expr for autotools
+        export "PATH=/bin:$PATH"
+    elif [ `uname -o` == Msys ]; then
+        PLATFORM=mingw
+    else
+        PLATFORM=linux
+    fi
+fi
+
 ##
 # determine location of the build and source directories
 if [ "$PLATFORM" == "msvc" ]; then
