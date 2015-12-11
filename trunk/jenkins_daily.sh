@@ -87,13 +87,16 @@ if [ -e $dist/$bin/exiv2$exe ]; then
     $EXIV2_BINDIR/exiv2 -vV
     ls -alt $EXIV2_BINDIR
     $EXIV2_BINDIR/exiv2 -vV -g date -g time -g version
-    ls -alt $EXIV2_BINDIR/exiv2.exe
+    ls -alt $EXIV2_BINDIR/exiv2$exe
 
     ##
     # store the build for users to collect
     mmHD=""
-    if [ $PLATFORM == "linux" ]; then mmHD=/media/psf/Host ; fi
-    if [ "$PLATFORM" == "msvc" -o "$PLATFORM" == "cygwin" ]; then
+    uname=$(uname)
+    if [ "$PLATFORM" == "linux" -o "$uname"    == "Linux" ]; then
+    	mmHD=/media/psf/Host
+    fi
+    if [ "$PLATFORM" == "msvc" -o  "$PLATFORM" == "cygwin" ]; then
         mmHD="//psf/Host/"
     fi 
     jpubl=$mmHD/Users/Shared/Jenkins/Home/userContent/builds
@@ -128,7 +131,7 @@ if [ -e $dist/$bin/exiv2$exe ]; then
         # daily > 50 days; weekly more than 1 year;   monthly more than 5 years
         if [ -e $daily ]; then find $daily -type f -ctime +50          -exec rm -rf {} \; ; fi
         if [ -e $weely ]; then find $weely -type f -ctime +365         -exec rm -rf {} \; ; fi
-        if [ -e $monly ]; then find $monty -type f -ctime $((366 * 5)) -exec rm -rf {} \; ; fi
+        if [ -e $monly ]; then find $monly -type f -ctime $((366 * 5)) -exec rm -rf {} \; ; fi
 
         # store the build
         cp $b $daily
@@ -137,7 +140,7 @@ if [ -e $dist/$bin/exiv2$exe ]; then
 
         echo '***' build = $b '***'
     else
-    	echo '***' jenkins publish directory does not exist ${jpubl} '***"
+    	echo '***' jenkins builds directory does not exist ${jpubl} '***'
     	result=2
     fi
 else
