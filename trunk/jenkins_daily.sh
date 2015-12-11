@@ -92,8 +92,8 @@ if [ -e $dist/$bin/exiv2$exe ]; then
     # store the build for users to collect
     mmHD=""
     if [ $PLATFORM == "linux" ]; then mmHD=/media/psf/Host ; fi
-    if [ $PLATFORM == "msvc" -o $PLATFORM == 'cygwin' ]; then
-        mmHD="/cygdrive/z"
+    if [ "$PLATFORM" == "msvc" -o "$PLATFORM" == "cygwin" ]; then
+        mmHD="//psf/Host/"
     fi 
     jpubl=$mmHD/Users/Shared/Jenkins/Home/userContent/builds
     
