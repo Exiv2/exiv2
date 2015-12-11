@@ -22,6 +22,7 @@ if [ "$PLATFORM" == "msvc" ]; then
      exe=.exe
      bin=''
 else
+	PATH="/usr/local/bin:$PATH"
     exiv2=$PWD
     build=$PWD/build
     dist=$PWD/build/dist/$PLATFORM
@@ -79,7 +80,7 @@ if [ -e $dist/$bin/exiv2$exe ]; then
         xmpparser-test.sh    \
         conversions.sh
     do
-      echo '++' $test '++' ; ./$test
+        echo '++' $test '++' ; ./$test
     done
     popd
 
@@ -135,6 +136,9 @@ if [ -e $dist/$bin/exiv2$exe ]; then
         if [ "$dom" == "1"   ]; then cp $b $monly; fi
 
         echo '***' build = $b '***'
+    else
+    	echo '***' jenkins publish directory does not exist ${jpubl} '***"
+    	result=2
     fi
 else
     echo ""
