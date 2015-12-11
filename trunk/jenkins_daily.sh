@@ -12,6 +12,9 @@ vs=2013
 
 result=0
 
+uname=$(uname)
+if [ "$uname"    == "Linux"  ]; then PLATFORM=linux  ; fi
+if [ "$uname"    == "Darwin" ]; then PLATFORM=macosx ; fi
 ##
 # determine location of the build and source directories
 if [ "$PLATFORM" == "msvc" ]; then
@@ -92,8 +95,7 @@ if [ -e $dist/$bin/exiv2$exe ]; then
     ##
     # store the build for users to collect
     mmHD=""
-    uname=$(uname)
-    if [ "$PLATFORM" == "linux" -o "$uname"    == "Linux" ]; then
+    if [ "$PLATFORM" == "linux" ]; then
     	mmHD=/media/psf/Host
     fi
     if [ "$PLATFORM" == "msvc" -o  "$PLATFORM" == "cygwin" ]; then
@@ -114,7 +116,7 @@ if [ -e $dist/$bin/exiv2$exe ]; then
         dow=$(date|cut -d' ' -f 1) # Thu   day of the week
         dom=$(date|cut -d' ' -f 2) # 10    day of the month
         mon=$(date|cut -d' ' -f 2) # Dec   month
-        svn=$($dist/exiv2.exe -vVg|grep -e ^svn | cut -d= -f 2)
+        svn=$($EXIV2_BINDIR/exiv2$exe -vVg|grep -e ^svn | cut -d= -f 2)
         date=$(date +'%Y-%m-%d+%H-%M-%S')
         b="${PLATFORM}-svn-${svn}-date-${date}.tar.gz"
         echo build = "$b"
