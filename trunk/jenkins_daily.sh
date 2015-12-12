@@ -137,14 +137,12 @@ if [ -e $dist/$bin/exiv2$exe ]; then
     if [ ! -e $monly ]; then mkdir -p $monly ; fi
 
     if [ -e $jpubl ]; then
-        # parse output of date: Thu 10 Dec 2015 14:02:51 GMT
-        dow=$(date|cut -d' ' -f 1) # Thu   day of the week
-        dom=$(date|cut -d' ' -f 2) # 10    day of the month
-        mon=$(date|cut -d' ' -f 2) # Dec   month
+        dow=$(date  '+%w') # 0..6   day of the week
+        dom=$(date  '+%d') # 1..31  day of the month
+        mon=$(date  '+%m') # 1..12  month
+        date=$(date '+%Y-%m-%d+%H-%M-%S')
         svn=$($EXIV2_BINDIR/exiv2$exe -vVg|grep -e ^svn | cut -d= -f 2)
-        date=$(date +'%Y-%m-%d+%H-%M-%S')
         b="${PLATFORM}-svn-${svn}-date-${date}.tar.gz"
-        echo build = "$b"
 
         # create the bundle
         pushd build
@@ -162,8 +160,8 @@ if [ -e $dist/$bin/exiv2$exe ]; then
 
         # store the build
         cp $b $daily
-        if [ "$dow" == "Mon" ]; then cp $b $weely; fi
-        if [ "$dom" == "1"   ]; then cp $b $monly; fi
+        if [ "$dow" == "1" ]; then cp $b $weely; fi # Monday
+        if [ "$dom" == "1" ]; then cp $b $monly; fi
 
         echo '***' build = $b '***'
     else
