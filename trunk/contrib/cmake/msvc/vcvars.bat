@@ -12,6 +12,8 @@ if "%_ARG_%" EQU "" (
 	goto eof
 )
 
+if NOT DEFINED ProgramFiles(x86) set ProgramFiles(x86)=C:\Program Files (x86)
+
 set "_OPT_=%2"
 if NOT DEFINED _OPT_ set _OPT_=64
 if "%_OPT_%" EQU "x64" set "_OPT_=64"

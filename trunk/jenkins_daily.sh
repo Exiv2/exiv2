@@ -33,9 +33,9 @@ fi
 # determine location of the build and source directories
 if [ "$PLATFORM" == "msvc" ]; then
     exiv2=$(cygpath -aw .)
-    build=$(cygpath -aw .\\build)
-     dist=$(cygpath -au .\\build\\dist\\$vs\\$arch\\$mode\\$config\\bin)
-     msvc=$(cygpath -aw ./contrib/cmake/msvc)
+    build=$(cygpath -aw ./build)
+     dist=$(cygpath -au ./build/dist/$vs/$arch/$mode/$config/bin)
+     msvc=$(cygpath -au ./contrib/cmake/msvc)
      exe=.exe
      bin=''
 else
@@ -56,29 +56,33 @@ mkdir -p  $dist
 echo "---- dist = $dist ------"
 echo "---- build = $build ------"
 
+echo ++++++++++++++++++++++++++++++++++
+export | sort
+echo ++++++++++++++++++++++++++++++++++
+
 ##
 # perform the build
 if [ "$PLATFORM" == "msvc" ]; then
     ##
     # get windows cmd.exe to perform the build
-    # use a sub-shell to temporarily set path for svn/7z/cmake/cmd
+    # use a subshell to restore the path
     (
-        PATH="$msvc:c:\\Program Files\\csvn\\bin:c:\\Program Files (x86)\\WANdisco\\Subversion:\\csvn\\bin:c:\\Program Files\\7-zip:c:\\Program Files (x86)\\cmake\\bin:$PATH:/cygdrive/c/Windows/System32"
+        PATH="$msvc:/cygdrive/c/Program Files/csvn/bin:/cygdrive/c/Program Files (x86)/WANdisco/Subversion/csvn/bin:/cygdrive/c/Program Files/7-zip:/cygdrive/c/Program Files (x86)/cmake/bin:$PATH:/cygdrive/c/Windows/System32"
         cmd.exe /c "cd $build && vcvars $vs $arch && cmakeBuild --rebuild --exiv2=$exiv2 $*"
         result=$?
     )
 else
-    pushd $build
+    pushd $build > /dev/null
     cmake -DCMAKE_INSTALL_PREFIX=$dist -DEXIV2_ENABLE_NLS=OFF $exiv2
     make
     cmake --build . --target install 
-    popd
+    popd > /dev/null
 fi
 
 ##
 # test the build
 if [ -e $dist/$bin/exiv2$exe ]; then
-    pushd  test
+    pushd  test > /dev/null
     export EXIV2_BINDIR=$dist/$bin
     for test in addmoddel.sh \
         bugfixes-test.sh     \
@@ -99,7 +103,7 @@ if [ -e $dist/$bin/exiv2$exe ]; then
     do
         echo '++' $test '++' ; ./$test
     done
-    popd
+    popd > /dev/null
 
     $EXIV2_BINDIR/exiv2 -vV
     ls -alt $EXIV2_BINDIR
@@ -144,7 +148,7 @@ if [ -e $dist/$bin/exiv2$exe ]; then
         popd
 
         # clean userContent/build directories
-        # daily > 50 days; weekly more than 1 year;   monthly more than 5 years
+        # daily > 50 days; weekly > 1 year;   monthly > 5 years
         if [ -e $daily ]; then find $daily -type f -ctime +50          -exec rm -rf {} \; ; fi
         if [ -e $weely ]; then find $weely -type f -ctime +365         -exec rm -rf {} \; ; fi
         if [ -e $monly ]; then find $monly -type f -ctime $((366 * 5)) -exec rm -rf {} \; ; fi
@@ -160,10 +164,10 @@ if [ -e $dist/$bin/exiv2$exe ]; then
     	result=2
     fi
 else
-    echo ""
-    echo "**** no build created ****"
+    echo ''
+    echo '**** no build created ****'
+    echo ''
     result=1
-    echo ""
 fi
 
 exit $result
