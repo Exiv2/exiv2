@@ -17,10 +17,10 @@ result=0
 # JOB_NAME is defined when script is called by Jenkins
 # example: JOB_NAME=trunk-cmake-daily/label=msvc
 # PLATFORM must be defined as msvc when called from ssh
-if [ ! -z "$JOB_NAME" ];then 
+if [ ! -z "$JOB_NAME" ];then
     PLATFORM=$(echo $JOB_NAME | cut -d= -f 2)
 fi
-if [ "$PLATFORM" == "" ]; then 
+if [ "$PLATFORM" == "" ]; then
     export PLATFORM=''
     if [ `uname` == Darwin  ]; then
         PLATFORM=macosx
@@ -51,36 +51,38 @@ else
     dist=$PWD/build/dist/$PLATFORM
     exe=''
     bin=bin
-    if [ -e $exiv2/CMakeCache.txt ]; then rm -rf $exiv2/CMakeCache.txt ; fi 
+    if [ -e $exiv2/CMakeCache.txt ]; then rm -rf $exiv2/CMakeCache.txt ; fi
 fi
 
 ##
 # create a clean directory for an out-of-source build
 rm    -rf $dist
 mkdir -p  $dist
+mkdir -p  $build/dist/logs
 
 echo "---- dist = $dist ------"
 echo "---- build = $build ------"
 
 ##
 # perform the build
-if [ "$PLATFORM" == "msvc" ]; then
+(
+  if [ "$PLATFORM" == "msvc" ]; then
     ##
     # get windows cmd.exe to perform the build
     # use a subshell to restore the path
     (
-        PATH="$msvc:/cygdrive/c/Program Files/csvn/bin:/cygdrive/c/Program Files (x86)/WANdisco/Subversion/csvn/bin:/cygdrive/c/Program Files/7-zip:/cygdrive/c/Program Files (x86)/cmake/bin:$PATH:/cygdrive/c/Windows/System32"
-        cmd.exe /c "cd $build && vcvars $vs $arch && cmakeBuild --rebuild --exiv2=$exiv2 $*"
-        result=$?
+      PATH="$msvc:/cygdrive/c/Program Files/csvn/bin:/cygdrive/c/Program Files (x86)/WANdisco/Subversion/csvn/bin:/cygdrive/c/Program Files/7-zip:/cygdrive/c/Program Files (x86)/cmake/bin:$PATH:/cygdrive/c/Windows/System32"
+      cmd.exe /c "cd $build && vcvars $vs $arch && cmakeBuild --rebuild --exiv2=$exiv2 $*"
+      result=$?
     )
-else
+  else
     pushd $build > /dev/null
     cmake -DCMAKE_INSTALL_PREFIX=$dist -DEXIV2_ENABLE_NLS=OFF $exiv2
     make
-    cmake --build . --target install 
+    cmake --build . --target install
     popd > /dev/null
-fi
-
+  fi
+) | tee "$build/dist/logs/build.log"
 ##
 # test the build
 if [ -e $dist/$bin/exiv2$exe ]; then
@@ -91,25 +93,28 @@ if [ -e $dist/$bin/exiv2$exe ]; then
     # to be sure we run the tests with the newly built library
 	export DYLD_LIBRARY_PATH=$dist/lib
 	export LD_LIBRARY_PATH=$dist/lib
-    for test in addmoddel.sh \
-        bugfixes-test.sh     \
-        exifdata-test.sh     \
-        exiv2-test.sh        \
-        imagetest.sh         \
-        iotest.sh            \
-        iptctest.sh          \
-        modify-test.sh       \
-        path-test.sh         \
-        preview-test.sh      \
-        stringto-test.sh     \
-        tiff-test.sh         \
-        write-test.sh        \
-        write2-test.sh       \
-        xmpparser-test.sh    \
-        conversions.sh
-    do
+	(
+      for test in addmoddel.sh \
+          bugfixes-test.sh     \
+          exifdata-test.sh     \
+          exiv2-test.sh        \
+          imagetest.sh         \
+          iotest.sh            \
+          iptctest.sh          \
+          modify-test.sh       \
+          path-test.sh         \
+          preview-test.sh      \
+          stringto-test.sh     \
+          tiff-test.sh         \
+          write-test.sh        \
+          write2-test.sh       \
+          xmpparser-test.sh    \
+          conversions.sh
+      do
         echo '++' $test '++' ; ./$test
-    done
+      done
+    ) | tee "$build/dist/logs/test.log"
+
     popd > /dev/null
 
     $EXIV2_BINDIR/exiv2 -vV
@@ -141,16 +146,21 @@ if [ -e $dist/$bin/exiv2$exe ]; then
         dom=$(date  '+%d') # 1..31  day of the month
         mon=$(date  '+%m') # 1..12  month
         date=$(date '+%Y-%m-%d+%H-%M-%S')
-        svn=$($EXIV2_BINDIR/exiv2$exe -vVg|grep -e ^svn | cut -d= -f 2)
+        svn=$($EXIV2_BINDIR/exiv2$exe -vV | grep -e ^svn | cut -d= -f 2)
         b="${PLATFORM}-svn-${svn}-date-${date}.tar.gz"
 
+        # add documentation and samples to dist
+        cat contrib/buildserver/dailyReadMe.txt | sed -E -e "s/__BUILD__/$b/"  > "$build/dist/ReadMe.txt"
+        mkdir -p                    "$build/dist/samples/"
+        cp    samples/exifprint.cpp "$build/dist/samples/"
+
         # create the bundle
-        pushd build
-        if [ -e "$b" ]; then rm -rf "$b"; fi
-        tar czf "$b" dist/
-        ls -alt
-        mv   $b ..
-        popd
+        pushd "$build" > /dev/null
+            rm -rf   *.tar.gz
+            tar czf "$b" dist/
+            ls -alt
+            mv   $b ..
+        popd > /dev/null
 
         # clean userContent/build directories
         # daily > 50 days; weekly > 1 year;   monthly > 5 years
@@ -161,7 +171,7 @@ if [ -e $dist/$bin/exiv2$exe ]; then
         # store the build
         cp $b $daily
         if [ "$dow" == "1" ]; then cp $b $weely; fi # Monday
-        if [ "$dom" == "1" ]; then cp $b $monly; fi
+        if [ "$dom" == "1" ]; then cp $b $monly; fi # First day of the month
 
         echo '***' build = $b '***'
     else

@@ -16,6 +16,12 @@ try {
         return 1;
     }
 
+    if ( strcmp(argv[1],"--version") == 0 ) {
+    	exv_grep_keys_t keys;
+    	Exiv2::dumpLibraryInfo(std::cout,keys);
+    	return 0;
+    }
+
     Exiv2::Image::AutoPtr image = Exiv2::ImageFactory::open(argv[1]);
     assert(image.get() != 0);
     image->readMetadata();
