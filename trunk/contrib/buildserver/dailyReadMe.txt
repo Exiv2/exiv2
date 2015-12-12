@@ -1,0 +1,123 @@
+ReadMe.txt
+----------
+
+Build: __BUILD__
+
+platform = linux
+----------------
+
+Structure of the bundle:
+
+dist/linux/bin/exiv2.exe                              exiv2 and sample applications
+dist/linux/lib/libexiv2.so.14.0.0                     shared library
+       .../lib/exiv2.lib                              libraries for exiv2 and expat and zlib)
+          /include/exiv2/                             include files
+          /share/                                     man pages
+dist/samples/exifprint.cpp                            sample code
+dist/logs/                                            log files
+
+To run exiv2:
+$ cd dist
+$ export LD_LIBRARY_PATH=$PWD/lib
+$ linux/bin/exiv2
+
+To compile and link your own code:
+$ cd dist
+$ export PKG_CONFIG_PATH=$PWD/linux/lib/pkgconfig
+$ g++ -Ilinux/include -Llinux/lib samples/exifprint.cpp -lexiv2 -o exifprint
+$ ./exifprint --version
+exiv2=0.25.0
+...
+xmlns=xmpidq:http://ns.adobe.com/xmp/Identifier/qual/1.0/
+$
+
+platform = macosx
+-----------------
+
+Structure of the bundle:
+
+dist/macosx/bin/exiv2.exe                             exiv2 and sample applications
+         .../lib/libexiv2.so.14.0.0.dylib             shared library
+            /lib/exiv2.lib                            libraries for exiv2/expat/zlib
+            /include/exiv2/                           include files
+            /share/                                   man pages
+dist/logs/                                            log files
+dist/samples/exifprint.cpp                            sample code
+
+To run exiv2:
+$ cd dist
+$ export DYLD_LIBRARY_PATH=$PWD/lib
+$ macosx/bin/exiv2
+
+To compile and link your own code:
+  Caution:
+  You may need to install pkg-config with Mac Ports
+  To install Mac Ports: https://www.macports.org
+  To install pkg-config: $ sudo port install pkgconfig
+
+$ cd dist
+$ export PKG_CONFIG_PATH="$PKG_CONFIG_PATH:$PWD/macosx/lib/pkgconfig"
+$ g++ -Imacosx/include -Lmacosx/lib samples/exifprint.cpp -lexiv2 -o exifprint
+$ ./exifprint --version
+exiv2=0.25.0
+...
+xmlns=xmpidq:http://ns.adobe.com/xmp/Identifier/qual/1.0/
+$
+
+platform = cygwin
+-----------------
+
+dist/cygwin/bin/exiv2.exe                             exiv2.exe and sample applications
+        .../bin/cygexiv2-14.dll                       shared library
+           /lib/exiv2.dll.a                           libraries for exiv2/expat/zlib
+           /include/exiv2/                            include files
+           /share/                                    man pages
+dist/samples/exifprint.cpp                            sample code
+dist/logs/                                            log files
+
+To run exiv2.exe:
+$ cd dist
+$ cygwin/bin/exiv2
+
+To compile and link your own code:
+$ cd dist
+$ export PKG_CONFIG_PATH=cygwin/lib/pkgconfig
+$ g++ -Icygwin/include -Lcygwin/lib samples/exifprint.cpp -lexiv2 -o exifprint
+$ ./exifprint --version
+exiv2=0.25.0
+...
+xmlns=xmpidq:http://ns.adobe.com/xmp/Identifier/qual/1.0/
+$
+
+platform = msvc
+---------------
+
+dist\2013\x64\dll\Release\bin\exiv2.exe               exiv2.exe and sample applications
+                      ...\bin\exiv2.dll               dlls for exiv2/expat/zlib
+                         \lib\exiv2.lib               libraries for exiv2/expat/zlib
+                         \include\exiv2/              include files
+                         \share\                      man pages
+samples\exifprint.cpp                                 sample code
+logs\                                                 log files
+
+To run exiv2.exe:
+c:\temp> cd dist
+c:\temp\dist> set PATH=%PATH%;%CD%\2013\x64\dll\Release\bin
+c:\temp\dist> exiv2
+
+To compile and link your own code:
+  Caution: You will need the same version of Visual Studio as the build
+           You will need to use "Visual Studio Command Prompt"
+           or initialize the DOS environment by calling vcvarsall.bat
+
+c:\temp> cd dist
+c:\temp\dist> cl /EHsc -I2013\x64\dll\Release\include /MD samples\exifprint.cpp /link 2013\x64\dll\Release\lib\exiv2.lib
+c:\temp\dist> exifprint --version
+exiv2=0.25.0
+...
+xmlns=xmpidq:http://ns.adobe.com/xmp/Identifier/qual/1.0/
+c:\temp\dist>
+
+Robin Mills
+robin@clanmills.com
+2015-12-12
