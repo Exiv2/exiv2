@@ -85,7 +85,12 @@ fi
 # test the build
 if [ -e $dist/$bin/exiv2$exe ]; then
     pushd  test > /dev/null
+    # EXIV2_BINDIR is used by the test suite to locate executables
     export EXIV2_BINDIR=$dist/$bin
+    # set LD_LIBRARY_PATH (and DYLD_LIBRARY_PATH for macosx)
+    # to be sure we run the tests with the newly built library
+	export DYLD_LIBRARY_PATH=$dist/lib
+	export LD_LIBRARY_PATH=$dist/lib
     for test in addmoddel.sh \
         bugfixes-test.sh     \
         exifdata-test.sh     \
@@ -120,9 +125,9 @@ if [ -e $dist/$bin/exiv2$exe ]; then
     fi
     if [ "$PLATFORM" == "msvc" -o  "$PLATFORM" == "cygwin" ]; then
         mmHD="//psf/Host/"
-    fi 
+    fi
     jpubl=$mmHD/Users/Shared/Jenkins/Home/userContent/builds
-    
+
     daily=$jpubl/daily
     weely=$jpubl/weekly
     monly=$jpubl/monthly
