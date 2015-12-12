@@ -15,6 +15,7 @@ result=0
 ##
 # which PLATFORM
 # JOB_NAME is defined when script is called by Jenkins
+# example: JOB_NAME=trunk-cmake-daily/label=msvc
 # PLATFORM must be defined as msvc when called from ssh
 if [ ! -z "$JOB_NAME" ];then 
     PLATFORM=$(echo $JOB_NAME | cut -d= -f 2)
