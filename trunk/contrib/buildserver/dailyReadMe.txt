@@ -18,13 +18,13 @@ dist/logs/                                            log files
 
 To run exiv2:
 $ cd dist
-$ export LD_LIBRARY_PATH=$PWD/lib
+$ export LD_LIBRARY_PATH="$PWD/linux/lib:$LD_LIBRARY_PATH"
 $ linux/bin/exiv2
 
 To compile and link your own code:
 $ cd dist
-$ export PKG_CONFIG_PATH=$PWD/linux/lib/pkgconfig
-$ g++ -Ilinux/include -Llinux/lib samples/exifprint.cpp -lexiv2 -o exifprint
+$ sudo cp -R linux/* /usr/local/
+$ g++ samples/exifprint.cpp -lexiv2 -o exifprint
 $ ./exifprint --version
 exiv2=0.25.0
 ...
@@ -46,7 +46,7 @@ dist/samples/exifprint.cpp                            sample code
 
 To run exiv2:
 $ cd dist
-$ export DYLD_LIBRARY_PATH=$PWD/lib
+$ export export DYLD_LIBRARY_PATH="$PWD/macosx/lib:$DYLD_LIBRARY_PATH"
 $ macosx/bin/exiv2
 
 To compile and link your own code:
@@ -56,8 +56,8 @@ To compile and link your own code:
   To install pkg-config: $ sudo port install pkgconfig
 
 $ cd dist
-$ export PKG_CONFIG_PATH="$PKG_CONFIG_PATH:$PWD/macosx/lib/pkgconfig"
-$ g++ -Imacosx/include -Lmacosx/lib samples/exifprint.cpp -lexiv2 -o exifprint
+$ sudo cp -R macosx/* /usr/local
+$ g++ samples/exifprint.cpp -lexiv2 -o exifprint
 $ ./exifprint --version
 exiv2=0.25.0
 ...
@@ -77,12 +77,16 @@ dist/logs/                                            log files
 
 To run exiv2.exe:
 $ cd dist
+$ PATH="$PWD/cygwin/bin:$PATH"
 $ cygwin/bin/exiv2
 
 To compile and link your own code:
+  Caution: the cygwin build is a 32 bit build
+           and should be used by cygwin/32
+           An error such as "incorrect architecture" is a symptom of using cygwin/64
 $ cd dist
-$ export PKG_CONFIG_PATH=cygwin/lib/pkgconfig
-$ g++ -Icygwin/include -Lcygwin/lib samples/exifprint.cpp -lexiv2 -o exifprint
+$ cp -R cygwin/* /usr/local
+$ g++ -L/usr/local/lib -lexiv2 samples/exifprint.cpp -o exifprint
 $ ./exifprint --version
 exiv2=0.25.0
 ...
