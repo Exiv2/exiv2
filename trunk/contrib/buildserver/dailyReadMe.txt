@@ -46,7 +46,7 @@ dist/samples/exifprint.cpp                            sample code
 
 To run exiv2:
 $ cd dist
-$ export export DYLD_LIBRARY_PATH="$PWD/macosx/lib:$DYLD_LIBRARY_PATH"
+$ export DYLD_LIBRARY_PATH="$PWD/macosx/lib:$DYLD_LIBRARY_PATH"
 $ macosx/bin/exiv2
 
 To compile and link your own code:
@@ -81,9 +81,8 @@ $ PATH="$PWD/cygwin/bin:$PATH"
 $ cygwin/bin/exiv2
 
 To compile and link your own code:
-  Caution: the cygwin build is a 32 bit build
-           and should be used by cygwin/32
-           An error such as "incorrect architecture" is a symptom of using cygwin/64
+  Caution: This is a 64 bit build
+           An error such as "incorrect architecture" is a symptom of using cygwin32
 $ cd dist
 $ cp -R cygwin/* /usr/local
 $ g++ -L/usr/local/lib -lexiv2 samples/exifprint.cpp -o exifprint
@@ -106,7 +105,7 @@ logs\                                                 log files
 
 To run exiv2.exe:
 c:\temp> cd dist
-c:\temp\dist> set PATH=%PATH%;%CD%\2013\x64\dll\Release\bin
+c:\temp\dist> set "PATH=%CD%\2013\x64\dll\Release\bin;%PATH%"
 c:\temp\dist> exiv2
 
 To compile and link your own code:
@@ -124,4 +123,4 @@ c:\temp\dist>
 
 Robin Mills
 robin@clanmills.com
-2015-12-12
+2015-12-13
