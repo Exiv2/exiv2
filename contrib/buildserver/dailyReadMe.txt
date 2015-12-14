@@ -100,8 +100,9 @@ dist\2013\x64\dll\Release\bin\exiv2.exe               exiv2.exe and sample appli
                          \lib\exiv2.lib               libraries for exiv2/expat/zlib
                          \include\exiv2/              include files
                          \share\                      man pages
-samples\exifprint.cpp                                 sample code
-logs\                                                 log files
+dist\samples\exifprint.cpp                            sample code
+dist\logs\                                            log files
+dist\vcvars.bat                                       script used by test_daily.sh
 
 To run exiv2.exe:
 c:\temp> cd dist

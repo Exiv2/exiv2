@@ -45,7 +45,7 @@ if [ "$PLATFORM" == "msvc" ]; then
      exe=.exe
      bin=''
 else
-    PATH="/usr/local/bin:$PATH"
+    PATH="/usr/local/bin:/bin:$PATH"
     exiv2=$PWD
     build=$PWD/build
     dist=$PWD/build/dist/$PLATFORM
@@ -74,6 +74,7 @@ echo "---- build = $build ------"
       PATH="$msvc:/cygdrive/c/Program Files/csvn/bin:/cygdrive/c/Program Files (x86)/WANdisco/Subversion/csvn/bin:/cygdrive/c/Program Files/7-zip:/cygdrive/c/Program Files (x86)/cmake/bin:$PATH:/cygdrive/c/Windows/System32"
       cmd.exe /c "cd $build && vcvars $vs $arch && cmakeBuild --rebuild --exiv2=$exiv2 $*"
       result=$?
+      cp     $msvc/vcvars.bat $build/dist # required by test_daily.sh
     )
   else
     pushd $build > /dev/null
