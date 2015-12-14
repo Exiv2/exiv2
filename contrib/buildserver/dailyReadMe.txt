@@ -37,10 +37,10 @@ platform = macosx
 Structure of the bundle:
 
 dist/macosx/bin/exiv2.exe                             exiv2 and sample applications
-         .../lib/libexiv2.so.14.0.0.dylib             shared library
-            /lib/exiv2.lib                            libraries for exiv2/expat/zlib
-            /include/exiv2/                           include files
-            /share/                                   man pages
+        .../lib/libexiv2.so.14.0.0.dylib              shared library
+           /lib/exiv2.lib                             libraries for exiv2/expat/zlib
+           /include/exiv2/                            include files
+           /share/                                    man pages
 dist/logs/                                            log files
 dist/samples/exifprint.cpp                            sample code
 
@@ -109,9 +109,9 @@ c:\temp\dist> set "PATH=%CD%\2013\x64\dll\Release\bin;%PATH%"
 c:\temp\dist> exiv2
 
 To compile and link your own code:
-  Caution: You will need the same version of Visual Studio as the build
-           You will need to use "Visual Studio Command Prompt"
-           or initialize the DOS environment by calling vcvarsall.bat
+  Caution: You must use the same version of Visual Studio as the build
+           You will need to use the "Visual Studio Command Prompt"
+           or initialise the DOS environment by calling vcvarsall.bat
 
 c:\temp> cd dist
 c:\temp\dist> cl /EHsc -I2013\x64\dll\Release\include /MD samples\exifprint.cpp /link 2013\x64\dll\Release\lib\exiv2.lib
