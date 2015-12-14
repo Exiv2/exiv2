@@ -42,15 +42,14 @@ if [ "$PLATFORM" == "msvc" ]; then
     build=$(cygpath -aw ./build)
      dist=$(cygpath -au ./build/dist/$vs/$arch/$mode/$config/bin)
      msvc=$(cygpath -au ./contrib/cmake/msvc)
-     exe=.exe
-     bin=''
+      exe=.exe
+      bin=''
 else
-    PATH="/usr/local/bin:/bin:$PATH"
     exiv2=$PWD
     build=$PWD/build
-    dist=$PWD/build/dist/$PLATFORM
-    exe=''
-    bin=bin
+     dist=$PWD/build/dist/$PLATFORM
+      exe=''
+      bin=bin
     if [ -e $exiv2/CMakeCache.txt ]; then rm -rf $exiv2/CMakeCache.txt ; fi
 fi
 
@@ -79,12 +78,16 @@ echo "---- build = $build ------"
   else
     pushd $build > /dev/null
     (
+      # build 64 bit library
       export CFLAGS=-m64
       export CXXFLAGS=-m64
       export LDFLAGS=-m64
-      cmake -DCMAKE_INSTALL_PREFIX=$dist -DEXIV2_ENABLE_NLS=OFF $exiv2
+      # Always use /usr/local/bin/cmake 
+      # I can guarantee it to be at least 3.4.1
+      # because I built it from source and installed it
+      /usr/local/bin/cmake -DCMAKE_INSTALL_PREFIX=$dist -DEXIV2_ENABLE_NLS=OFF $exiv2
       make
-      cmake --build . --target install
+      /usr/local/bin/cmake --build . --target install
     )
     popd > /dev/null
   fi

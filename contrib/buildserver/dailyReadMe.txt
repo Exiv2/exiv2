@@ -50,11 +50,6 @@ $ export DYLD_LIBRARY_PATH="$PWD/macosx/lib:$DYLD_LIBRARY_PATH"
 $ macosx/bin/exiv2
 
 To compile and link your own code:
-  Caution:
-  You may need to install pkg-config with Mac Ports
-  To install Mac Ports: https://www.macports.org
-  To install pkg-config: $ sudo port install pkgconfig
-
 $ cd dist
 $ sudo cp -R macosx/* /usr/local
 $ g++ samples/exifprint.cpp -lexiv2 -o exifprint
