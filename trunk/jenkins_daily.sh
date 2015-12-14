@@ -77,9 +77,14 @@ echo "---- build = $build ------"
     )
   else
     pushd $build > /dev/null
-    cmake -DCMAKE_INSTALL_PREFIX=$dist -DEXIV2_ENABLE_NLS=OFF $exiv2
-    make
-    cmake --build . --target install
+    (
+      export CFLAGS=-m64
+      export CXXFLAGS=-m64
+      export LDFLAGS=-m64
+      cmake -DCMAKE_INSTALL_PREFIX=$dist -DEXIV2_ENABLE_NLS=OFF $exiv2
+      make
+      cmake --build . --target install
+    )
     popd > /dev/null
   fi
 ) | tee "$build/dist/logs/build.log"
