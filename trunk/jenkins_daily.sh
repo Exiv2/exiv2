@@ -45,7 +45,7 @@ if [ "$PLATFORM" == "msvc" ]; then
      exe=.exe
      bin=''
 else
-	PATH="/usr/local/bin:$PATH"
+    PATH="/usr/local/bin:$PATH"
     exiv2=$PWD
     build=$PWD/build
     dist=$PWD/build/dist/$PLATFORM
@@ -91,9 +91,9 @@ if [ -e $dist/$bin/exiv2$exe ]; then
     export EXIV2_BINDIR=$dist/$bin
     # set LD_LIBRARY_PATH (and DYLD_LIBRARY_PATH for macosx)
     # to be sure we run the tests with the newly built library
-	export DYLD_LIBRARY_PATH=$dist/lib
-	export LD_LIBRARY_PATH=$dist/lib
-	(
+    export DYLD_LIBRARY_PATH=$dist/lib
+    export LD_LIBRARY_PATH=$dist/lib
+    (
       for test in addmoddel.sh \
           bugfixes-test.sh     \
           exifdata-test.sh     \
@@ -126,7 +126,7 @@ if [ -e $dist/$bin/exiv2$exe ]; then
     # store the build for users to collect
     mmHD=""
     if [ "$PLATFORM" == "linux" ]; then
-    	mmHD=/media/psf/Host
+        mmHD=/media/psf/Host
     fi
     if [ "$PLATFORM" == "msvc" -o  "$PLATFORM" == "cygwin" ]; then
         mmHD="//psf/Host/"
@@ -175,8 +175,8 @@ if [ -e $dist/$bin/exiv2$exe ]; then
 
         echo '***' build = $b '***'
     else
-    	echo '***' jenkins builds directory does not exist ${jpubl} '***'
-    	result=2
+        echo '***' jenkins builds directory does not exist ${jpubl} '***'
+        result=2
     fi
 else
     echo ''
