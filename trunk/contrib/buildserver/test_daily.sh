@@ -28,6 +28,7 @@ fi
 
 ##
 # figure out today's build
+# http://exiv2.dyndns.org:8080/userContent/builds/Daily
 date=$(date '+%Y-%m-%d')
 build=$(curl --silent $JENKINS/$DAILY/                 \
        |xmllint --pretty 1 - | grep $PLATFORM          \
@@ -59,7 +60,7 @@ grep_args="-e libexiv2 -e ^date -e ^bits -e ^version -e ^time"
 case $PLATFORM in
     macosx)
         # test the delivered exiv2
-        DYLD_LIBRARY_PATH="$PWD/$PLATFORM/lib:$DYLD_LIBRARY_PATH"
+        export DYLD_LIBRARY_PATH="$PWD/$PLATFORM/lib:$DYLD_LIBRARY_PATH"
         $PLATFORM/bin/exiv2 -vV | grep $grep_args
 
         # compile, link and test the sample code
@@ -68,12 +69,12 @@ case $PLATFORM in
         ls -alt exifprint
         echo ''
 
-        exifprint --version     | grep $grep_args
+        ./exifprint --version     | grep $grep_args
     ;;
     
     linux)
         # test the delivered exiv2
-        LD_LIBRARY_PATH="$PWD/$PLATFORM/lib:$LD_LIBRARY_PATH"
+        export LD_LIBRARY_PATH="$PWD/$PLATFORM/lib:$LD_LIBRARY_PATH"
         $PLATFORM/bin/exiv2 -vV | grep $grep_args
 
         # compile, link and test the sample code
@@ -82,7 +83,7 @@ case $PLATFORM in
         ls -alt exifprint
         echo ''
 
-        exifprint --version     | grep $grep_args
+        ./exifprint --version     | grep $grep_args
     ;;    
     
     cygwin)
@@ -92,24 +93,27 @@ case $PLATFORM in
 
         # compile, link and test the sample code
         echo ''
-        # cmd /c "vcvars 2013 64 && cl something"
-        # ls -alt exifprint.exe
-        # echo ''
+        g++ -I$PLATFORM/include -L$PLATFORM/lib samples/exifprint.cpp -lexiv2 -o exifprint
+        ls  -alt exifprint.exe
+        echo ''
 
-        exifprint --version     | grep $grep_args
+        ./exifprint --version     | grep $grep_args
     ;;    
 
     msvc)
         # test the delivered exiv2
-        PATH="$PWD/$PLATFORM/bin:$PATH"
-        $PLATFORM/bin/exiv2 -vV | grep $grep_args
+        PATH="$PWD/2013/x64/dll/Release/bin:$PATH"
+        exiv2 -vV | grep $grep_args
 
         # compile, link and test the sample code
-        echo ''
-        # cp -R $PLATFORM/* /usr/local/
-        # g++ -I$PLATFORM/include -L$PLATFORM/lib samples/exifprint.cpp -lexiv2 -o exifprint
-        # ls -alt exifprint.exe
-        echo ''
+        (
+            export PATH="/cygdrive/c/Windows/System32:$PATH"
+            echo ''
+		    cmd /c 'vcvars.bat 2013 64 && cl /EHsc -I2013\x64\dll\Release\include /MD samples\exifprint.cpp /link 2013\x64\dll\Release\lib\exiv2.lib'
+            ls -alt exifprint.exe
+            echo ''
+        )
+        
         ./exifprint.exe --version     | grep $grep_args
     ;;
 
