@@ -30,7 +30,7 @@ fi
 # figure out today's build
 # http://exiv2.dyndns.org:8080/userContent/builds/Daily
 date=$(date '+%Y-%m-%d')
-build=$(curl --silent $JENKINS/$DAILY/                 \
+build=$(/usr/local/bin/curl --silent $JENKINS/$DAILY/  \
        |xmllint --pretty 1 - | grep $PLATFORM          \
        |grep $date | grep -v -e view | cut -d'"' -f 2  ) 2>/dev/null
 
@@ -43,7 +43,7 @@ echo build = $build
 if [ -e /tmp/jenkins ]; then rm -rf /tmp/jenkins ; fi
 mkdir /tmp/jenkins
 cd /tmp/jenkins
-curl -O --silent $JENKINS/$DAILY/$build
+/usr/local/bin/curl -O --silent $JENKINS/$DAILY/$build
 ls -alt $build
 if [ ! -e $build ]; then echo '*** $build has not been downloaded ***' ; exit 1; fi
 
