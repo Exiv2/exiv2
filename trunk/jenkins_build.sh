@@ -163,8 +163,12 @@ case "$build" in
 
 			# deal with 32bit and 64bit build requests
 			# Jenkins invokes the 32 bit cygwin, so recursively build 64 bits.
+			echo make clean
 			make clean
+			echo rm config.log config.status
 			rm   -rf config.log config.status
+			echo make config
+			make config
 			echo ./configure ${withcurl} ${withssh} --disable-nls
 				 ./configure ${withcurl} ${withssh} --disable-nls
 			make -j
@@ -176,14 +180,14 @@ case "$build" in
         else
 			if [ "$x64" == true ]; then
 				export RECURSIVE=1
-				# /cygdrive/c/cygwin64/bin/bash.exe -c "cd $PWD ; ./$0"
-				cd "$PWD" ; ./$0
+				/cygdrive/c/cygwin64/bin/bash.exe -c "cd $PWD ; ./$0"
+				# cd "$PWD" ; ./$0
 				result=$?
 			fi
 			if [ "$Win32" == true ]; then
 				export RECURSIVE=1
-				# /cygdrive/c/cygwin/bin/bash.exe -c "cd $PWD ; ./$0"
-				cd "$PWD" ; ./$0
+				/cygdrive/c/cygwin/bin/bash.exe -c "cd $PWD ; ./$0"
+				# cd "$PWD" ; ./$0
 				result=$?
 			fi
         fi
