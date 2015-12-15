@@ -155,42 +155,22 @@ case "$build" in
   ;;
 
   CYGW)
-        if [ ! -z "$RECURSIVE" ]; then
-			# export LIBS=-lintl
-			# I've given up:
-			# 1 trying to get Cygwin to build with gettext and friends
-			# 2 trying to get Cygwin to install into a local directory
-
-			# deal with 32bit and 64bit build requests
-			# Jenkins invokes the 32 bit cygwin, so recursively build 64 bits.
-			echo make clean
-			make clean
-			echo rm config.log config.status
-			rm   -rf config.log config.status
-			echo make config
-			make config
-			echo ./configure ${withcurl} ${withssh} --disable-nls
-				 ./configure ${withcurl} ${withssh} --disable-nls
-			make -j
-			make install
-			make -j samples
-			run_tests
-			/usr/local/bin/exiv2 -v -V
-			result=$?
-        else
-			if [ "$x64" == true ]; then
-				export RECURSIVE=1
-				/cygdrive/c/cygwin64/bin/bash.exe -c "cd $PWD ; ./$0"
-				# cd "$PWD" ; ./$0
-				result=$?
-			fi
-			if [ "$Win32" == true ]; then
-				export RECURSIVE=1
-				/cygdrive/c/cygwin/bin/bash.exe -c "cd $PWD ; ./$0"
-				# cd "$PWD" ; ./$0
-				result=$?
-			fi
+        if [ "$x64" == true ]; then
+            export CFLAGS=-m64
+            export CXXFLAGS=-m64
+            export LDFLAGS=-m64
         fi
+        echo make config
+             make config
+        # I've given up trying to get Cygwin to install into a local directory
+        echo ./configure ${withcurl} ${withssh}
+             ./configure ${withcurl} ${withssh}
+        make -j
+        result=$?
+        make install
+        make -j samples
+        run_tests
+        /usr/local/bin/exiv2 -v -V
   ;;
 
   MING)
