@@ -30,9 +30,9 @@ fi
 # figure out today's build
 # http://exiv2.dyndns.org:8080/userContent/builds/Daily
 date=$(date '+%Y-%m-%d')
-build=$(/usr/local/bin/curl --silent $JENKINS/$DAILY/  \
-       |xmllint --pretty 1 - | grep $PLATFORM          \
-       |grep $date | grep -v -e view | cut -d'"' -f 2  ) 2>/dev/null
+build=$(/usr/local/bin/curl --silent $JENKINS/$DAILY/             \
+       |xmllint --html --pretty 1 - 2>/dev/null | grep $PLATFORM  \
+       |grep $date | grep -v -e view | cut -d'"' -f 2  )
 
 echo date  = $date
 echo url   = $JENKINS/$DAILY
