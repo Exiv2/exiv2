@@ -32,7 +32,7 @@ fi
 date=$(date '+%Y-%m-%d')
 build=$(/usr/local/bin/curl --silent $JENKINS/$DAILY/             \
        |xmllint --html --pretty 1 - 2>/dev/null | grep $PLATFORM  \
-       |grep $date | grep -v -e view | cut -d'"' -f 2  )
+       |grep $date | grep -v -e view | cut -d'"' -f 2 | tail -1   )
 
 echo date  = $date
 echo url   = $JENKINS/$DAILY
