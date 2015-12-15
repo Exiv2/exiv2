@@ -285,10 +285,10 @@ case "$build" in
 
   MSVC)
         rm -rf $PWD/bin
-        mkdir $PWD/bin
+        mkdir  $PWD/bin
 
         PATH=$PATH:/cygdrive/c/Windows/System32
-        cmd.exe /c "cd $(cygpath -aw .) && call jenkins_build.bat"
+        cmd.exe /c "cd $(cygpath -aw .) && call contrib\\buildserver\\jenkins_build.bat"
         result=$?
   ;;
 
