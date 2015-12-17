@@ -66,7 +66,15 @@ Buildserver Scripts
 			older branches have jenkins_build.sh and jenkins_build.bat
 			in the <exiv2dir> root directory
 
-	Work in progress scripts:
+		Comment:
+			This script builds when code is submitted.
+			All platforms are automatically triggered by Jenkins and run jenkins_build.sh
+			(Windows runs the 64 bit cygwin SSHD which uses 64 bit bash)
+			Linux, MacOSX, Cygwin execute their builds directly from jenkins_build.sh
+			MSVC builds are executed by jenkins_build.bat which is called via cmd.exe from jenkins_build.sh
+			MinGW builds are executed by jenkins_build.sh calling jenkins_build.sh via MinGW{32|64}bash.exe
+
+	Work in progress script:
 		Job: trunk-cmake-daily:
 		Trigger: 2am every day
 		Script:
@@ -78,6 +86,7 @@ Buildserver Scripts
 			  echo 'no build needed svn = ' $a
 			  echo ==================================
 			else
+			  b=$(/usr/local/bin/svn info .   | grep ^Revision | cut '-d:' -f 2                | tr -d ' ')
 			  echo ==================================
 			  echo 'updated from svn:' $a 'to svn:' $b
 			  echo ==================================
@@ -90,15 +99,38 @@ Buildserver Scripts
 			  date=$(date '+%Y-%m-%d+%H-%M-%S')
 			  svn=$(/usr/local/bin/svn info . | grep ^Revision | cut -d: -f 2 | tr -d ' ')
 			  (
-				ssh rmills@rmillsmm         'PLATFORM=macosx ~/gnu/exiv2/buildserver/contrib/buildserver/test_daily.sh'
-				ssh rmills@rmillsmm-kubuntu 'PLATFORM=linux  ~/gnu/exiv2/buildserver/contrib/buildserver/test_daily.sh'
-				ssh rmills@rmillsmm-w7      'PLATFORM=cygwin ~/gnu/exiv2/buildserver/contrib/buildserver/test_daily.sh'
-				ssh rmills@rmillsmm-w7      'PLATFORM=msvc   ~/gnu/exiv2/buildserver/contrib/buildserver/test_daily.sh'
+				ssh rmills@rmillsmm                         '~/gnu/exiv2/buildserver/contrib/buildserver/test_daily.sh'
+				ssh rmills@rmillsmm-kubuntu                 '~/gnu/exiv2/buildserver/contrib/buildserver/test_daily.sh'
+				ssh rmills@rmillsmm-w7                      '~/gnu/exiv2/buildserver/contrib/buildserver/test_daily.sh'
+				ssh rmills@rmillsmm-w7 'export PLATFORM=msvc;~/gnu/exiv2/buildserver/contrib/buildserver/test_daily.sh'
 			  ) | tee "/mmHD/Users/Shared/Jenkins/Home/userContent/builds/Daily/test-svn-${svn}-date-${date}.txt"
 			  ##
 			  # categorize the builds
-			  ssh rmills@rmillsmm         '~/gnu/exiv2/buildserver/contrib/buildserver/categorize /mmHD/Users/Shared/Jenkins/Home/userContent/builds'
+			  ssh rmills@rmillsmm         '~/gnu/exiv2/buildserver/contrib/buildserver/categorize.sh /mmHD/Users/Shared/Jenkins/Home/userContent/builds'
 			fi
+
+		Comment:
+			This script builds once a day and ultimately publishes the build.
+
+			For the moment, it's intended to run on trunk.  However the design
+			can be "tweaked" to publish to builds/$JOBNAME/Daily etc
+
+			I don't want to run this on code submission as I think we're going to
+			get it to build all 12 Visual Studio builds (2005/2008/2010/2012/2013/2015) 32/64
+			This will take about 1 hour on the build server.  Not something to be done frequently.
+
+			We could modify this to build on MSVC 2013 when triggered by SVN, else MSVC=all for time triggered
+			And we could offer a UI for user selection of MSVC builds
+
+			Currently MinGW has not been implemented.
+
+			There are three quite different parts of the script:
+			1) Use CMake to build on each platform using cmake_daily.sh
+			2) Validate each platform using test_daily.sh
+			3) Categorize the build (create links for Platform/SVN/Date/Latest)
+
+			At the moment, the "pruning" of the builds is performed by cmake_daily.sh
+			The "pruning" code will probably move to categorize.sh
 
 Theme.css
 ---------
