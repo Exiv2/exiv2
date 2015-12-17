@@ -68,6 +68,7 @@ for platform in ${platforms[*]}; do
 done
 
 echo ---------- SVN -----------
+latest=0
 for svn in ${svns[*]}; do
 	dir="$C/SVN/$svn"
 	mkdir -p "$dir"
@@ -81,7 +82,24 @@ for svn in ${svns[*]}; do
 			fi
 		fi
 	done
+	if [ $svn -gt $latest ]; then latest="$svn"; fi
 done
+
+echo ---------- Latest -----------
+if [ "$latest" != "0" ]; then
+	dir="$C/Latest"
+	mkdir -p "$dir"
+	for file in ${files[*]}; do
+		file=$(basename $file)
+		SVN=$(echo $file | cut -d- -f 3)
+		if [ "$latest" == "$SVN" ]; then
+			if   [ -e Daily/$file   ]; then ln -s $PWD/Daily/$file    $dir/$file
+			elif [ -e Weekly/$file  ]; then ln -s $PWD/Weekly/$file   $dir/$file
+			elif [ -e Monthly/$file ]; then ln -s $PWD/Monthly/$file  $dir/$file
+			fi
+		fi
+	done
+fi
 
 echo ---------- Date -----------
 for date in ${dates[*]}; do
@@ -98,6 +116,7 @@ for date in ${dates[*]}; do
 		fi
 	done
 done
+
 
 # That's all Folks!
 ##
