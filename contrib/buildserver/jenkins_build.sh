@@ -101,8 +101,8 @@ build=NONE
 if [ $PLATFORM == "linux"  -a "$target" == "linux"  -a "$linux"  == "true"  ]; then build=UNIX ; fi
 if [ $PLATFORM == "macosx" -a "$target" == "macosx" -a "$macosx" == "true"  ]; then build=UNIX ; fi
 if [ $PLATFORM == "cygwin" -a "$target" == "cygwin" -a "$cygwin" == "true"  ]; then build=CYGW ; fi
-if [ $PLATFORM == "cygwin" -a "$target" == "mingw"  -a "$mingw"  == "true"  ]; then build=MING ; fi
-if [ $PLATFORM == "cygwin" -a "$target" == "msvc"   -a "$msvc"   == "true"  ]; then build=MSVC ; fi
+if [                          "$target" == "mingw"  -a "$mingw"  == "true"  ]; then build=MING ; fi
+if [                          "$target" == "msvc"   -a "$msvc"   == "true"  ]; then build=MSVC ; fi
 if [ $PLATFORM == "mingw"  -a "$target" == "mingw"                          ]; then build=MING ; fi
 
 echo "3 target = $target platform = $PLATFORM build = $build"
