@@ -10,36 +10,15 @@
 #  arguments:
 #    status    : filter last build with grep
 #
-#  environment variables (all optional)
-#    JENKINS   : URL of jenkins server. Default http://exiv2.dyndns.org:8080
 ##
-if [ -z "$JENKINS" ]; then export JENKINS=http://exiv2.dyndns.org:8080; fi
-result=0
+source functions.so
+
 base=$(basename $0)
 if [ -z "$base" ]; then base=jenkins_build ; fi
 tmp=/tmp/$base.tmp
 start=$(date)
 starts=$(date +%s)
 
-##
-# functions
-run_tests() {
-    if [ "$result" == "0" ]; then
-        if [ "$tests" == true ]; then
-            make tests
-        fi
-    fi
-}
-
-thepath () {
-    if [ -d $1 ]; then
-        ( cd $1;
-        pwd );
-    else
-        ( cd $(dirname $1);
-        echo $(pwd)/$(basename $1) );
-    fi
-}
 
 ##
 # arg: status [grep-args]
@@ -64,20 +43,13 @@ if [ "$1" == "status" ]; then
     exit $result
 fi
 
-##
-# where are we?
-export PLATFORM=''
-if [ `uname` == Darwin  ]; then
-    PLATFORM=macosx
-elif [ `uname -o` == Cygwin ]; then
-    PLATFORM=cygwin
-    # tweak path to ensure the correct version of perl and expr for autotools
-    export "PATH=/bin:$PATH"
-elif [ `uname -o` == Msys ]; then
-    PLATFORM=mingw
-else
-    PLATFORM=linux
-fi
+run_tests() {
+    if [ "$result" == "0" ]; then
+        if [ "$tests" == true ]; then
+            make tests
+        fi
+    fi
+}
 
 ##
 # set up some defaults (used when running this script from the terminal)
@@ -222,64 +194,6 @@ case "$build" in
                     result=$?
                 fi
             )
-#########################################
-##          #!/bin/bash
-##          # mingw32.sh
-##          # invoke 32bit MinGW bash
-##          #
-##          export "PATH=c:\\MinGW\\bin;c:\\MinGW\\msys\\1.0\\bin;C:\\MinGW\\msys\\1.0\\local\\bin;"
-##          /cygdrive/c/MinGW/msys/1.0/bin/bash.exe $*
-##
-##          # That's all Folks
-##          ##
-#########################################
-
-#########################################
-##          : mingw32.bat
-##          : invoke MinGW bash
-##          :
-##          setlocal
-##          set "PATH=c:\MinGW\bin;c:\MinGW\msys\1.0\bin;C:\MinGW\msys\1.0\local\bin;"
-##          set "PS1=\! ${PWD}> "
-##          c:\MinGW\msys\1.0\bin\bash.exe %*%
-##
-##          : That's all Folks
-#########################################
-
-#########################################
-##          see http://clanmills.com/exiv2/mingw.shtml about 64bit build
-##          Install a fresh (32 bit) mingw/msys into c:\MinGW64
-##          install the 64 bit compiler from: http://tdm-gcc.tdragon.net
-##          I used the "on-demand" installer and "Create" put the tools in c:\TDM-GCC-64. The main change is to add the 64 bit compilers to the path BEFORE the 32 bit compilers.
-##          set PATH=c:\TDM-GCC-64\bin;c:\MinGW\bin;c:\MinGW\msys\1.0\bin;C:\MinGW\msys\1.0\local\bin;
-##
-##          keep MinGW64 for 64 bit builds and /usr/lib has 64bit libraries
-##          keep MinGW   for 32 bit builds and /usr/lib has 32bit libraries
-##
-##          install msys-coreutils, binutils, autotools
-##
-##          For pkg-config see http://clanmills.com/exiv2/mingw.shtml
-#########################################
-
-#########################################
-##          zlib and expat
-##          mkdir -p ~/gnu/zlib ~/gnu/expat
-##          get the tar.gz files and tar zxf them
-##          build (see http://clanmills.com/exiv2/mingw.shtml about zlib)
-##          DO THIS IN BOTH c:\MinGW and c:\MinGW64
-#########################################
-
-#########################################
-##          The keith bug
-##          rm -rf /c/MinGW/lib/libintl.la
-#########################################
-
-#########################################
-##          to build dlfcn-win32
-##          git clone https://github.com/dlfcn-win32/dlfcn-win32
-##          cd dlfcn-win32 ; ./configure --prefix=/usr --enable-shared ; make ; make install
-#########################################
-
         fi
   ;;
 

@@ -2,6 +2,7 @@
 
 ##
 # jenkins_daily.sh
+##
 
 ##
 # configure the build (only used for msvc builds)
@@ -11,29 +12,7 @@ config=Release
 vs=2013
 
 result=0
-
-##
-# which PLATFORM
-# JOB_NAME is defined when script is called by Jenkins
-# example: JOB_NAME=trunk-cmake-daily/label=msvc
-# PLATFORM must be defined as msvc when called from ssh
-if [ ! -z "$JOB_NAME" ];then
-    PLATFORM=$(echo $JOB_NAME | cut -d= -f 2)
-fi
-if [ "$PLATFORM" == "" ]; then
-    export PLATFORM=''
-    if [ `uname` == Darwin  ]; then
-        PLATFORM=macosx
-    elif [ `uname -o` == Cygwin ]; then
-        PLATFORM=cygwin
-        # tweak path to ensure the correct version of perl and expr for autotools
-        export "PATH=/bin:$PATH"
-    elif [ `uname -o` == Msys ]; then
-        PLATFORM=mingw
-    else
-        PLATFORM=linux
-    fi
-fi
+source functions.so
 
 ##
 # determine location of the build and source directories
@@ -82,7 +61,7 @@ echo "---- build = $build ------"
       export CFLAGS=-m64
       export CXXFLAGS=-m64
       export LDFLAGS=-m64
-      # Always use /usr/local/bin/cmake 
+      # Always use /usr/local/bin/cmake
       # I can guarantee it to be at least 3.4.1
       # because I built it from source and installed it
       /usr/local/bin/cmake -DCMAKE_INSTALL_PREFIX=$dist -DEXIV2_ENABLE_NLS=OFF $exiv2
@@ -92,6 +71,7 @@ echo "---- build = $build ------"
     popd > /dev/null
   fi
 ) | tee "$build/dist/logs/build.log"
+
 ##
 # test the build
 if [ -e $dist/$bin/exiv2$exe ]; then

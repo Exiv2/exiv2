@@ -6,6 +6,7 @@ User Documentation and Scripts
 -rw-r--r--@ 1 rmills  staff    63B 15 Dec 22:26 ReadMe.txt                <---- This file
 -rwxr-xr-x@ 1 rmills  staff   440B 15 Dec 23:07 cmakeDailyAll.sh*         <---- run cmake_daily.sh on all platforms
 -rwxr-xr-x@ 1 rmills  staff   424B 14 Dec 23:12 testDailyAll.sh*          <---- run test_daily.sh on all platform
+-rw-r--r--@ 1 rmills  staff   655B 19 Dec 21:06 functions.so              <---- library for the scripts
 
 Documentation and Scripts used by Jenkins
 -rwxr-xr-x+ 1 rmills  staff    11K 15 Dec 22:17 jenkins_build.sh*         <---- Primary build script (called by Jenkins)
@@ -153,6 +154,68 @@ body {
   position		: absolute;
   z-index		: -1;
 }
+
+Notes concerning MinGW
+----------------------
+
+#########################################
+##          #!/bin/bash
+##          # mingw32.sh
+##          # invoke 32bit MinGW bash
+##          #
+##          export "PATH=c:\\MinGW\\bin;c:\\MinGW\\msys\\1.0\\bin;C:\\MinGW\\msys\\1.0\\local\\bin;"
+##          /cygdrive/c/MinGW/msys/1.0/bin/bash.exe $*
+##
+##          # That's all Folks
+##          ##
+#########################################
+
+#########################################
+##          : mingw32.bat
+##          : invoke MinGW bash
+##          :
+##          setlocal
+##          set "PATH=c:\MinGW\bin;c:\MinGW\msys\1.0\bin;C:\MinGW\msys\1.0\local\bin;"
+##          set "PS1=\! ${PWD}> "
+##          c:\MinGW\msys\1.0\bin\bash.exe %*%
+##
+##          : That's all Folks
+#########################################
+
+#########################################
+##          see http://clanmills.com/exiv2/mingw.shtml about 64bit build
+##          Install a fresh (32 bit) mingw/msys into c:\MinGW64
+##          install the 64 bit compiler from: http://tdm-gcc.tdragon.net
+##          I used the "on-demand" installer and "Create" put the tools in c:\TDM-GCC-64. The main change is to add the 64 bit compilers to the path BEFORE the 32 bit compilers.
+##          set PATH=c:\TDM-GCC-64\bin;c:\MinGW\bin;c:\MinGW\msys\1.0\bin;C:\MinGW\msys\1.0\local\bin;
+##
+##          keep MinGW64 for 64 bit builds and /usr/lib has 64bit libraries
+##          keep MinGW   for 32 bit builds and /usr/lib has 32bit libraries
+##
+##          install msys-coreutils, binutils, autotools
+##
+##          For pkg-config see http://clanmills.com/exiv2/mingw.shtml
+#########################################
+
+#########################################
+##          zlib and expat
+##          mkdir -p ~/gnu/zlib ~/gnu/expat
+##          get the tar.gz files and tar zxf them
+##          build (see http://clanmills.com/exiv2/mingw.shtml about zlib)
+##          DO THIS IN BOTH c:\MinGW and c:\MinGW64
+#########################################
+
+#########################################
+##          The keith bug
+##          rm -rf /c/MinGW/lib/libintl.la
+#########################################
+
+#########################################
+##          to build dlfcn-win32
+##          git clone https://github.com/dlfcn-win32/dlfcn-win32
+##          cd dlfcn-win32 ; ./configure --prefix=/usr --enable-shared ; make ; make install
+#########################################
+
 
 
 Robin Mills
