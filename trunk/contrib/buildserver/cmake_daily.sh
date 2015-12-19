@@ -12,7 +12,7 @@ config=Release
 vs=2013
 
 result=0
-source functions.so
+source $(find . -name functions.so)
 
 ##
 # determine location of the build and source directories
