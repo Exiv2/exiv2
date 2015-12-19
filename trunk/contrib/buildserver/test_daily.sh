@@ -1,30 +1,6 @@
 #!/bin/bash
 
-if [ -z "$JENKINS" ]; then export JENKINS=http://exiv2.dyndns.org:8080 ; fi
-if [ -z "$DAILY"   ]; then export DAILY=userContent/builds/Daily       ; fi
-
-##
-# which PLATFORM
-# JOB_NAME is defined when script is called by Jenkins
-# example: JOB_NAME=trunk-cmake-daily/label=msvc
-# PLATFORM must be defined as msvc when called from ssh
-if [ ! -z "$JOB_NAME" ];then
-    PLATFORM=$(echo $JOB_NAME | cut -d= -f 2)
-fi
-if [ "$PLATFORM" == "" ]; then
-    export PLATFORM=''
-    if [ `uname` == Darwin  ]; then
-        PLATFORM=macosx
-    elif [ `uname -o` == Cygwin ]; then
-        PLATFORM=cygwin
-        # tweak path to ensure the correct version of perl and expr for autotools
-        export "PATH=/bin:$PATH"
-    elif [ `uname -o` == Msys ]; then
-        PLATFORM=mingw
-    else
-        PLATFORM=linux
-    fi
-fi
+source functions.source
 
 ##
 # figure out today's build
@@ -71,7 +47,7 @@ case $PLATFORM in
 
         ./exifprint --version     | grep $grep_args
     ;;
-    
+
     linux)
         # test the delivered exiv2
         export LD_LIBRARY_PATH="$PWD/$PLATFORM/lib:$LD_LIBRARY_PATH"
@@ -84,8 +60,8 @@ case $PLATFORM in
         echo ''
 
         ./exifprint --version     | grep $grep_args
-    ;;    
-    
+    ;;
+
     cygwin)
         # test the delivered exiv2
         PATH="$PWD/$PLATFORM/bin:$PATH"
@@ -98,7 +74,7 @@ case $PLATFORM in
         echo ''
 
         ./exifprint --version     | grep $grep_args
-    ;;    
+    ;;
 
     msvc)
         # test the delivered exiv2
@@ -113,7 +89,7 @@ case $PLATFORM in
             ls -alt exifprint.exe
             echo ''
         )
-        
+
         ./exifprint.exe --version     | grep $grep_args
     ;;
 

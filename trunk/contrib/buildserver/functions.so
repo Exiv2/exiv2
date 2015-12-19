@@ -1,0 +1,47 @@
+##
+# functions.so - source this from scripts
+##
+
+result=0
+if [ -z "$JENKINS" ]; then export JENKINS=http://exiv2.dyndns.org:8080; fi
+if [ -z "$DAILY"   ]; then export DAILY=userContent/builds/Daily       ; fi
+
+##
+# which PLATFORM
+# JOB_NAME is defined when script is called by Jenkins
+# example: JOB_NAME=trunk-cmake-daily/label=msvc
+# PLATFORM must be defined as msvc when called from ssh
+if [ ! -z "$JOB_NAME" ];then
+    PLATFORM=$(echo $JOB_NAME | cut -d= -f 2)
+fi
+if [ "$PLATFORM" == "" ]; then
+    export PLATFORM=''
+    if [ `uname` == Darwin  ]; then
+        PLATFORM=macosx
+    elif [ `uname -o` == Cygwin ]; then
+        PLATFORM=cygwin
+        # tweak path to ensure the correct version of perl and expr for autotools
+        export "PATH=/bin:$PATH"
+    elif [ `uname -o` == Msys ]; then
+        PLATFORM=mingw
+    else
+        PLATFORM=linux
+    fi
+fi
+
+##
+# functions
+thepath () {
+    if [ -d $1 ]; then
+        ( cd $1;
+        pwd );
+    else
+        ( cd $(dirname $1);
+        echo $(pwd)/$(basename $1) );
+    fi
+}
+
+# That's all Folks!
+##
+
+
