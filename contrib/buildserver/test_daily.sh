@@ -1,6 +1,6 @@
 #!/bin/bash
 
-source functions.source
+source $(find . -name functions.so)
 
 ##
 # figure out today's build

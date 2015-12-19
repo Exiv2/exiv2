@@ -11,7 +11,7 @@
 #    status    : filter last build with grep
 #
 ##
-source functions.so
+source $(find . -name functions.so)
 
 base=$(basename $0)
 if [ -z "$base" ]; then base=jenkins_build ; fi
