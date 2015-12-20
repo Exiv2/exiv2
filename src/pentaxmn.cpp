@@ -1181,10 +1181,16 @@ namespace Exiv2 {
             } else if ( value.count() == 3 ) {
                 // http://dev.exiv2.org/attachments/download/858/_IGP9032.DNG
                 // $ exiv2 -pv --grep Lens ~/Downloads/_IGP9032.DNG
-                // 0x003f PentaxDng    LensType  Byte        3    3 255 0
-                // 0x0207 PentaxDng    LensInfo  Undefined  69  131   0 0 255 0 40 148 68 244 ...
-                //                                                0   1 2   3 4  5   6
+                // 0x003f PentaxDng    LensType  Byte        3    3 255   0
+                // 0x0207 PentaxDng    LensInfo  Undefined  69  131   0   0 255 0  40 148  68 244 ...
+                //                                                0   1   2   3 4   5   6
                 if ( lensInfo->toLong(4) == 0 && lensInfo->toLong(5) == 40 && lensInfo->toLong(6) == 148 ) index = 8;
+
+            } else if ( value.count() == 4 ) {
+				// http://dev.exiv2.org/attachments/download/868/IMGP2221.JPG
+                // 0x0207 PentaxDng    LensInfo  Undefined 128    0 131 128   0 0 255   1 184   0 0 0 0 0
+                //                                                    0   1   2   3 4   5   6
+                if ( lensInfo->count() == 128 && lensInfo->toLong(1) == 131 && lensInfo->toLong(2) == 128 ) index = 8;
             }
 
             if ( index > 0 )  {

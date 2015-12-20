@@ -222,7 +222,7 @@ source ./functions.source
 	num=816 # test Camera: Pentax + Lens:Sigma 55-200mm F4-5.6 DC is correctly reported
 	printf "$num " >&3
 	echo '------>' Bug $num '<-------' >&2
-	for X in a b c d; do
+	for X in a b c d e; do
 		filename=exiv2-bug${num}${X}.exv
 		copyTestFile $filename
 		runTest exiv2 -pa --grep Lens $filename
