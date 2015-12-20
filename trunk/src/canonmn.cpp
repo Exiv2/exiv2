@@ -69,6 +69,9 @@ namespace Exiv2 {
     std::ostream& printCsLensByFocalLengthTC(std::ostream& os,
                                            const Value& value,
                                            const ExifData* metadata);
+    std::ostream& printCsLensFFFF(std::ostream& os,
+                                  const Value& value,
+                                  const ExifData* metadata);
 
     //! ModelId, tag 0x0010
     extern const TagDetails canonModelId[] = {
@@ -990,7 +993,9 @@ namespace Exiv2 {
         { 250, printCsLensByFocalLength }, // not tested
         { 255, printCsLensByFocalLength }, // not tested
         { 493, printCsLensByFocalLength }, // not tested
-        { 4143,printCsLensByFocalLength }  // not tested
+        { 4143,printCsLensByFocalLength }, // not tested
+        { 4154,printCsLensByFocalLength }, // not tested
+       {0xffff,printCsLensFFFF          }
     };
 
     //! FlashActivity, tag 0x001c
@@ -1391,8 +1396,8 @@ namespace Exiv2 {
     //! Tone Curve Values
     extern const TagDetails canonToneCurve[] = {
         { 0, N_("Standard") },
-	{ 1, N_("Manual")   },
-	{ 2, N_("Custom")   }
+        { 1, N_("Manual")   },
+        { 2, N_("Custom")   }
     };
 
     //! Sharpness Frequency Values
@@ -1573,6 +1578,23 @@ namespace Exiv2 {
             os << l / 10.0 << " s";
         }
         return os;
+    }
+
+    std::ostream& printCsLensFFFF(std::ostream& os,
+                                const Value& value,
+                                const ExifData* metadata)
+    {
+        try {
+            # 1140
+            if( metadata->findKey(ExifKey("Exif.Image.Model"          ))->value().toString() == "Canon EOS 30D"
+            &&  metadata->findKey(ExifKey("Exif.CanonCs.Lens"         ))->value().toString() == "24 24 1"
+            &&  metadata->findKey(ExifKey("Exif.Photo.FocalLength"    ))->value().toString() == "24/1"
+            ){
+                return os << "Canon EF-S 24mm f/2.8 STM" ;
+            }
+        } catch (std::exception& e) {};
+
+        return EXV_PRINT_TAG(canonCsLensType)(os, value, metadata);
     }
 
     //! Helper structure
