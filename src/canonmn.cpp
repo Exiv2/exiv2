@@ -1586,9 +1586,9 @@ namespace Exiv2 {
     {
         try {
             # 1140
-            if( metadata->findKey(ExifKey("Exif.Image.Model"          ))->value().toString() == "Canon EOS 30D"
-            &&  metadata->findKey(ExifKey("Exif.CanonCs.Lens"         ))->value().toString() == "24 24 1"
-            &&  metadata->findKey(ExifKey("Exif.Photo.FocalLength"    ))->value().toString() == "24/1"
+            if( metadata->findKey(ExifKey("Exif.Image.Model"        ))->value().toString() == "Canon EOS 30D"
+            &&  metadata->findKey(ExifKey("Exif.CanonCs.Lens"       ))->value().toString() == "24 24 1"
+            &&  metadata->findKey(ExifKey("Exif.CanonCs.MaxAperture"))->value().toString() == "95" // F2.8
             ){
                 return os << "Canon EF-S 24mm f/2.8 STM" ;
             }
