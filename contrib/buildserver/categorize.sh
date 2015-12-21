@@ -1,18 +1,18 @@
 #!/bin/bash
 
 if [ "$#" != "1" ]; then
-	echo "syntax: $0 directory"
-	exit 1
+    echo "syntax: $0 directory"
+    exit 1
 fi
 
 if [ ! -e $1 ]; then
-	echo "directory $1 does not exist"
-	exit 2
+    echo "directory $1 does not exist"
+    exit 2
 fi
 
 if [ ! -e $1/Daily ]; then
-	echo "directory $1/Daily does not exist"
-	exit 3
+    echo "directory $1/Daily does not exist"
+    exit 3
 fi
 
 cd $1
@@ -27,94 +27,124 @@ declare -a platforms
 declare -a dates
 declare -a files
 
+##
+# belongs element array : echo yes ? 1 : 0
+belongs () {
+    local result=0
+    local e
+    for e in "${@:2}"; do 
+        if [ "$e" == "$1" ]; then
+            result=1
+        fi
+    done
+    echo $result;
+}
+
+##
+# symlink - safely: ln -s $1 $2
+symlink()
+{
+    if [ -e $1 ]; then
+        if [ ! -e $2 ]; then
+            ln -s $1 $2
+        fi
+    fi
+}
+
 for i in Daily Weekly Monthly; do
-	if [ -e $i ]; then
-		pushd $i >/dev/null
-			for platform in $(ls -1 | cut -d- -f 1 | sort | uniq) ; do
-				platforms+=($platform)
-			done
-			for svn in $(ls -1 | cut -d- -f 3 | sort | uniq) ; do
-				svns+=($svn)
-			done
-			for date in $(ls -1 | cut -d- -f 5- | cut -d+ -f 1 | sort | uniq) ; do
-				dates+=($date)
-			done
-			for file in $(ls -1); do
-				files+=($i/$file)
-			done;
-		popd > /dev/null
-	fi
+    if [ -e $i ]; then
+        pushd $i >/dev/null
+            for platform in $(ls -1 | cut -d- -f 1 | sort | uniq) ; do
+                if [ $(belongs $platform "${platforms[@]}") == 0 ]; then
+                    platforms+=($platform)
+                fi
+            done
+            for svn in $(ls -1 | cut -d- -f 3 | sort | uniq) ; do
+                if [ $(belongs $svn "${svns[@]}") == 0 ]; then
+                    svns+=($svn)
+                fi
+            done
+            for date in $(ls -1 | cut -d- -f 5- | cut -d+ -f 1 | sort | uniq) ; do
+                if [ $(belongs $date "${dates[@]}") == 0 ]; then
+                    dates+=($date)
+                fi
+            done
+            for file in $(ls -1); do
+                if [ $(belongs $file "${files[@]}") == 0 ]; then
+                    files+=($i/$file)
+                fi
+            done;
+        popd > /dev/null
+    fi
 done
 
-echo svns      ${svns[*]}
-echo platforms ${platforms[*]}
-echo dates     ${dates[*]}
-# echo files     ${files[*]}
 
-echo ---------- Platform -----------
+# echo platform: ${platforms[*]}
+# echo svn:      ${svns[*]}
+# echo date:     ${dates[*]}
+# echo files:     ${files[*]}
+
+
+echo ---------- Platform: ${platforms[*]} -----------
 for platform in ${platforms[*]}; do
-	dir="$C/Platform/$platform"
-	mkdir -p "$dir"
-	for file in ${files[*]}; do
-		file=$(basename $file)
-		PLATFORM=$(echo $file | cut -d- -f 1)
-		if [ "$platform" == "$PLATFORM" ]; then
-			if   [ -e Daily/$file   ]; then ln -s $PWD/Daily/$file    $dir/$file
-			elif [ -e Weekly/$file  ]; then ln -s $PWD/Weekly/$file   $dir/$file
-			elif [ -e Monthly/$file ]; then ln -s $PWD/Monthly/$file  $dir/$file
-			fi
-		fi
-	done
+    dir="$C/Platform/$platform"
+    mkdir -p "$dir"
+    for file in ${files[*]}; do
+        file=$(basename $file)
+        PLATFORM=$(echo $file | cut -d- -f 1)
+        if [ "$platform" == "$PLATFORM" ]; then
+            symlink $PWD/Daily/$file    $dir/$file
+            symlink $PWD/Weekly/$file   $dir/$file
+            symlink $PWD/Monthly/$file  $dir/$file
+        fi
+    done
 done
 
-echo ---------- SVN -----------
+echo ---------- SVN: ${svns[*]} -----------
 latest=0
 for svn in ${svns[*]}; do
-	dir="$C/SVN/$svn"
-	mkdir -p "$dir"
-	for file in ${files[*]}; do
-		file=$(basename $file)
-		SVN=$(echo $file | cut -d- -f 3)
-		if [ "$svn" == "$SVN" ]; then
-			if   [ -e Daily/$file   ]; then ln -s $PWD/Daily/$file    $dir/$file
-			elif [ -e Weekly/$file  ]; then ln -s $PWD/Weekly/$file   $dir/$file
-			elif [ -e Monthly/$file ]; then ln -s $PWD/Monthly/$file  $dir/$file
-			fi
-		fi
-	done
-	if [ $svn -gt $latest ]; then latest="$svn"; fi
+    dir="$C/SVN/$svn"
+    mkdir -p "$dir"
+    for file in ${files[*]}; do
+        file=$(basename $file)
+        SVN=$(echo $file | cut -d- -f 3)
+        if [ "$svn" == "$SVN" ]; then
+            symlink $PWD/Daily/$file    $dir/$file
+            symlink $PWD/Weekly/$file   $dir/$file
+            symlink $PWD/Monthly/$file  $dir/$file
+        fi
+    done
+    if [ $svn -gt $latest ]; then latest="$svn"; fi
 done
 
-echo ---------- Latest -----------
+echo ---------- Latest: $latest -----------
 if [ "$latest" != "0" ]; then
-	dir="$C/Latest"
-	mkdir -p "$dir"
-	for file in ${files[*]}; do
-		file=$(basename $file)
-		SVN=$(echo $file | cut -d- -f 3)
-		if [ "$latest" == "$SVN" ]; then
-			if   [ -e Daily/$file   ]; then ln -s $PWD/Daily/$file    $dir/$file
-			elif [ -e Weekly/$file  ]; then ln -s $PWD/Weekly/$file   $dir/$file
-			elif [ -e Monthly/$file ]; then ln -s $PWD/Monthly/$file  $dir/$file
-			fi
-		fi
-	done
+    dir="$C/Latest"
+    mkdir -p "$dir"
+    for file in ${files[*]}; do
+        file=$(basename $file)
+        SVN=$(echo $file | cut -d- -f 3)
+        if [ "$latest" == "$SVN" ]; then
+            symlink $PWD/Daily/$file    $dir/$file
+            symlink $PWD/Weekly/$file   $dir/$file
+            symlink $PWD/Monthly/$file  $dir/$file
+        fi
+    done
 fi
 
-echo ---------- Date -----------
+echo ---------- Date: ${dates[*]} -----------
 for date in ${dates[*]}; do
-	dir="$C/Date/$date"
-	mkdir -p "$dir"
-	for file in ${files[*]}; do
-		file=$(basename $file)
-		DATE=$(echo $file | cut -d- -f 5- | cut -d+ -f 1)
-		if [ "$date" == "$DATE" ]; then
-			if   [ -e Daily/$file   ]; then ln -s $PWD/Daily/$file    $dir/$file
-			elif [ -e Weekly/$file  ]; then ln -s $PWD/Weekly/$file   $dir/$file
-			elif [ -e Monthly/$file ]; then ln -s $PWD/Monthly/$file  $dir/$file
-			fi
-		fi
-	done
+    dir="$C/Date/$date"
+    mkdir -p "$dir"
+    for file in ${files[*]}; do
+        file=$(basename $file)
+        DATE=$(echo $file | cut -d- -f 5- | cut -d+ -f 1)
+        if [ "$date" == "$DATE" ]; then
+            symlink $PWD/Daily/$file    $dir/$file
+            symlink $PWD/Weekly/$file   $dir/$file
+            symlink $PWD/Monthly/$file  $dir/$file
+        fi
+    done
 done
 
 
