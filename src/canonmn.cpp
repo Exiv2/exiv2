@@ -1585,14 +1585,14 @@ namespace Exiv2 {
                                 const ExifData* metadata)
     {
         try {
-            # 1140
+            // 1140
             if( metadata->findKey(ExifKey("Exif.Image.Model"        ))->value().toString() == "Canon EOS 30D"
             &&  metadata->findKey(ExifKey("Exif.CanonCs.Lens"       ))->value().toString() == "24 24 1"
             &&  metadata->findKey(ExifKey("Exif.CanonCs.MaxAperture"))->value().toString() == "95" // F2.8
             ){
                 return os << "Canon EF-S 24mm f/2.8 STM" ;
             }
-        } catch (std::exception& e) {};
+        } catch (std::exception&) {};
 
         return EXV_PRINT_TAG(canonCsLensType)(os, value, metadata);
     }
