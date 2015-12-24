@@ -1,6 +1,6 @@
 #!/bin/bash
 
-source $(find . -name functions.so)
+source $(find . -name buildserver.library)
 
 ##
 # figure out today's build

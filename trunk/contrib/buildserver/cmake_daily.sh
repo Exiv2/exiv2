@@ -3,6 +3,7 @@
 ##
 # jenkins_daily.sh
 ##
+source $(find . -name buildserver.library)
 
 ##
 # configure the build (only used for msvc builds)
@@ -12,7 +13,6 @@ config=Release
 vs=2013
 
 result=0
-source $(find . -name functions.so)
 
 ##
 # determine location of the build and source directories
@@ -34,7 +34,7 @@ fi
 
 ##
 # create a clean directory for an out-of-source build
-rm    -rf $dist
+rm    -rf  dist
 mkdir -p  $dist
 mkdir -p  $build/dist/logs
 
@@ -44,32 +44,61 @@ echo "---- build = $build ------"
 ##
 # perform the build
 (
-  if [ "$PLATFORM" == "msvc" ]; then
-    ##
-    # get windows cmd.exe to perform the build
-    # use a subshell to restore the path
-    (
-      PATH="$msvc:/cygdrive/c/Program Files/csvn/bin:/cygdrive/c/Program Files (x86)/WANdisco/Subversion/csvn/bin:/cygdrive/c/Program Files/7-zip:/cygdrive/c/Program Files (x86)/cmake/bin:$PATH:/cygdrive/c/Windows/System32"
-      cmd.exe /c "cd $build && vcvars $vs $arch && cmakeBuild --rebuild --exiv2=$exiv2 $*"
-      result=$?
-      cp     $msvc/vcvars.bat $build/dist # required by test_daily.sh
-    )
-  else
-    pushd $build > /dev/null
-    (
-      # build 64 bit library
-      export CFLAGS=-m64
-      export CXXFLAGS=-m64
-      export LDFLAGS=-m64
-      # Always use /usr/local/bin/cmake
-      # I can guarantee it to be at least 3.4.1
-      # because I built it from source and installed it
-      /usr/local/bin/cmake -DCMAKE_INSTALL_PREFIX=$dist -DEXIV2_ENABLE_NLS=OFF $exiv2
-      make
-      /usr/local/bin/cmake --build . --target install
-    )
-    popd > /dev/null
-  fi
+   case $PLATFORM in
+     msvc)
+        ##
+        # get windows cmd.exe to perform the build
+        # use a subshell to restore the path
+        (
+          PATH="$msvc:/cygdrive/c/Program Files/csvn/bin:/cygdrive/c/Program Files (x86)/WANdisco/Subversion/csvn/bin:/cygdrive/c/Program Files/7-zip:/cygdrive/c/Program Files (x86)/cmake/bin:$PATH:/cygdrive/c/Windows/System32"
+          # cmd.exe /c "cd $build && vcvars $vs $arch && cmakeBuild --rebuild --exiv2=$exiv2 $*"
+          for ARCH in x64 win32; do #always build x64 (used by test suite)
+          	for VS in 2005 2013; do #always build 2013 (used by test suite)
+              cmd.exe /c "cd $build && vcvars $VS $ARCH && cmakeBuild --rebuild --exiv2=$exiv2 $*"
+            done
+          done
+          result=$?
+          cp     $msvc/vcvars.bat $build/dist # required by test_daily.sh
+        )
+    ;;
+
+    mingw)
+        if [ ! -z "$RECURSIVE" ]; then
+            # we are already in MinGW/bash, so build
+            /usr/local/bin/cmake -DCMAKE_INSTALL_PREFIX=$dist -DEXIV2_ENABLE_NLS=OFF $exiv2
+        else
+            # recursively invoke MinGW/bash with appropriate tool chain
+        	export RECURSIVE=1
+            export CFLAGS=-m64
+            export CXXFLAGS=-m64
+            export LDFLAGS=-m64
+
+            export TMP=/tmp
+            export TEMP=$TMP
+            if [ "$x64" == true ]; then
+                /cygdrive/c/MinGW64/msys/1.0/bin/bash.exe -c "export PATH=/c/TDM-GCC-64/bin:/c/MinGW64/bin:/c/MinGW64/msys/1.0/bin:/c/MinGW64/msys/1.0/local/bin; $0"
+                result=$?
+            fi
+        fi
+    ;;
+
+    *)
+      pushd $build > /dev/null
+      (
+        # build 64 bit library
+        export CFLAGS=-m64
+        export CXXFLAGS=-m64
+        export LDFLAGS=-m64
+        # Always use /usr/local/bin/cmake
+        # I can guarantee it to be at least 3.4.1
+        # because I built it from source and installed it
+        /usr/local/bin/cmake -DCMAKE_INSTALL_PREFIX=$dist -DEXIV2_ENABLE_NLS=OFF $exiv2
+        make
+        /usr/local/bin/cmake --build . --target install
+      )
+      popd > /dev/null
+    ;;
+
 ) | tee "$build/dist/logs/build.log"
 
 ##
