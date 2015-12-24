@@ -7,10 +7,10 @@ source $(find . -name buildserver.library)
 
 ##
 # configure the build (only used for msvc builds)
-arch=x64
-mode=dll
-config=Release
-vs=2013
+#arch=x64
+#mode=dll
+#config=Release
+#vs=2013
 
 result=0
 
@@ -52,13 +52,14 @@ echo "---- build = $build ------"
         (
           PATH="$msvc:/cygdrive/c/Program Files/csvn/bin:/cygdrive/c/Program Files (x86)/WANdisco/Subversion/csvn/bin:/cygdrive/c/Program Files/7-zip:/cygdrive/c/Program Files (x86)/cmake/bin:$PATH:/cygdrive/c/Windows/System32"
           # cmd.exe /c "cd $build && vcvars $vs $arch && cmakeBuild --rebuild --exiv2=$exiv2 $*"
-          for ARCH in x64 win32; do #always build x64 (used by test suite)
-          	for VS in 2005 2013; do #always build 2013 (used by test suite)
-              cmd.exe /c "cd $build && vcvars $VS $ARCH && cmakeBuild --rebuild --exiv2=$exiv2 $*"
+          for ARCH in x64 Win32; do
+          	for VS in 2005 2008 2010 2012 2013 2015; do
+              cmd.exe /c "cd $build && vcvars $VS $ARCH && cmakeBuild --rebuild --exiv2=$exiv2 --test $*"
             done
           done
           result=$?
           cp     $msvc/vcvars.bat $build/dist # required by test_daily.sh
+          if [ -e $build/dist/cygwin ]; then rm -rf $build/dist/cygwin ; fi
         )
     ;;
 
