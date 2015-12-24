@@ -19,7 +19,7 @@ result=0
 if [ "$PLATFORM" == "msvc" ]; then
     exiv2=$(cygpath -aw .)
     build=$(cygpath -aw ./build)
-     dist=$(cygpath -au ./build/dist/$vs/$arch/$mode/$config/bin)
+     dist=$(cygpath -au ./build/dist/)
      msvc=$(cygpath -au ./contrib/cmake/msvc)
       exe=.exe
       bin=''
@@ -44,112 +44,119 @@ echo "---- build = $build ------"
 ##
 # perform the build
 (
-  case $PLATFORM in
-    msvc)
-        ##
-        # get windows cmd.exe to perform the build
-        # use a subshell to restore the path
-        (
-          PATH="$msvc:/cygdrive/c/Program Files/csvn/bin:/cygdrive/c/Program Files (x86)/WANdisco/Subversion/csvn/bin:/cygdrive/c/Program Files/7-zip:/cygdrive/c/Program Files (x86)/cmake/bin:$PATH:/cygdrive/c/Windows/System32"
-          # cmd.exe /c "cd $build && vcvars $vs $arch && cmakeBuild --rebuild --exiv2=$exiv2 $*"
-          for ARCH in x64 Win32; do
-          	for VS in 2005 2008 2010 2012 2013 2015; do
-              cmd.exe /c "cd $build && vcvars $VS $ARCH && cmakeBuild --rebuild --exiv2=$exiv2 --test $*"
-            done
-          done
-          result=$?
-          cp     $msvc/vcvars.bat $build/dist # required by test_daily.sh
-          if [ -e $build/dist/cygwin ]; then rm -rf $build/dist/cygwin ; fi
-        )
-    ;;
-
-    mingw)
-        if [ ! -z "$RECURSIVE" ]; then
-            # we are already in MinGW/bash, so build
-            /usr/local/bin/cmake -DCMAKE_INSTALL_PREFIX=$dist -DEXIV2_ENABLE_NLS=OFF $exiv2
-        else
-            # recursively invoke MinGW/bash with appropriate tool chain
-        	export RECURSIVE=1
-            export CFLAGS=-m64
-            export CXXFLAGS=-m64
-            export LDFLAGS=-m64
-
-            export TMP=/tmp
-            export TEMP=$TMP
-            if [ "$x64" == true ]; then
-                /cygdrive/c/MinGW64/msys/1.0/bin/bash.exe -c "export PATH=/c/TDM-GCC-64/bin:/c/MinGW64/bin:/c/MinGW64/msys/1.0/bin:/c/MinGW64/msys/1.0/local/bin; $0"
+    case $PLATFORM in
+        msvc)
+            ##
+            # get windows cmd.exe to perform the build
+            # use a subshell to restore the path
+            (
+                PATH="$msvc:/cygdrive/c/Program Files/csvn/bin:/cygdrive/c/Program Files (x86)/WANdisco/Subversion/csvn/bin:/cygdrive/c/Program Files/7-zip:/cygdrive/c/Program Files (x86)/cmake/bin:$PATH:/cygdrive/c/Windows/System32"
+                # cmd.exe /c "cd $build && vcvars $vs $arch && cmakeBuild --rebuild --exiv2=$exiv2 $*"
+                for ARCH in x64 Win32; do
+                    for VS in 2005 ; do # 2008 2010 2012 2013 2015; do
+                        cmd.exe /c "cd $build && vcvars $VS $ARCH && cmakeBuild --rebuild --exiv2=$exiv2 --test $*"
+                    done
+                done
                 result=$?
-            fi
-        fi
-    ;;
+                cp     $msvc/vcvars.bat $build/dist # required by test_daily.sh
+            )
+        ;;
 
-    *)
-      pushd $build > /dev/null
-      (
-        # build 64 bit library
-        export CFLAGS=-m64
-        export CXXFLAGS=-m64
-        export LDFLAGS=-m64
-        # Always use /usr/local/bin/cmake
-        # I can guarantee it to be at least 3.4.1
-        # because I built it from source and installed it
-        /usr/local/bin/cmake -DCMAKE_INSTALL_PREFIX=$dist -DEXIV2_ENABLE_NLS=OFF $exiv2
-        make
-        /usr/local/bin/cmake --build . --target install
-      )
-      popd > /dev/null
-    ;;
-  esac
+        mingw)
+            if [ ! -z "$RECURSIVE" ]; then
+                # we are already in MinGW/bash, so build
+                /usr/local/bin/cmake -DCMAKE_INSTALL_PREFIX=$dist -DEXIV2_ENABLE_NLS=OFF $exiv2
+            else
+                # recursively invoke MinGW/bash with appropriate tool chain
+                export RECURSIVE=1
+                export CFLAGS=-m64
+                export CXXFLAGS=-m64
+                export LDFLAGS=-m64
+
+                export TMP=/tmp
+                export TEMP=$TMP
+                if [ "$x64" == true ]; then
+                    /cygdrive/c/MinGW64/msys/1.0/bin/bash.exe -c "export PATH=/c/TDM-GCC-64/bin:/c/MinGW64/bin:/c/MinGW64/msys/1.0/bin:/c/MinGW64/msys/1.0/local/bin; $0"
+                    result=$?
+                fi
+            fi
+        ;;
+
+        *)  pushd $build > /dev/null
+            (
+                # build 64 bit library
+                export CFLAGS=-m64
+                export CXXFLAGS=-m64
+                export LDFLAGS=-m64
+                # Always use /usr/local/bin/cmake
+                # I can guarantee it to be at least 3.4.1
+                # because I built it from source and installed it
+                /usr/local/bin/cmake -DCMAKE_INSTALL_PREFIX=$dist -DEXIV2_ENABLE_NLS=OFF $exiv2
+                make
+                result=$?
+                /usr/local/bin/cmake --build . --target install
+            )
+            popd > /dev/null
+        ;;
+    esac
 ) | tee "$build/dist/logs/build.log"
 
 ##
-# test the build
-if [ -e $dist/$bin/exiv2$exe ]; then
-    pushd  test > /dev/null
-    # EXIV2_BINDIR is used by the test suite to locate executables
-    export EXIV2_BINDIR=$dist/$bin
-    # set LD_LIBRARY_PATH (and DYLD_LIBRARY_PATH for macosx)
-    # to be sure we run the tests with the newly built library
-    export DYLD_LIBRARY_PATH=$dist/lib
-    export LD_LIBRARY_PATH=$dist/lib
-    (
-      for test in addmoddel.sh \
-          bugfixes-test.sh     \
-          exifdata-test.sh     \
-          exiv2-test.sh        \
-          imagetest.sh         \
-          iotest.sh            \
-          iptctest.sh          \
-          modify-test.sh       \
-          path-test.sh         \
-          preview-test.sh      \
-          stringto-test.sh     \
-          tiff-test.sh         \
-          write-test.sh        \
-          write2-test.sh       \
-          xmpparser-test.sh    \
-          conversions.sh
-      do
-        echo '++' $test '++' ; ./$test
-      done
-    ) | tee "$build/dist/logs/test.log"
+# test the build (don't test msvc because it was tested by cmakeBuild)
+if [ "$PLATFORM" != "msvc" ]; then
+    if [ -e $dist/$bin/exiv2$exe ]; then
+        pushd  test > /dev/null
+        # EXIV2_BINDIR is used by the test suite to locate executables
+        export EXIV2_BINDIR=$dist/$bin
+        # set LD_LIBRARY_PATH (and DYLD_LIBRARY_PATH for macosx)
+        # to be sure we run the tests with the newly built library
+        export DYLD_LIBRARY_PATH=$dist/lib
+        export LD_LIBRARY_PATH=$dist/lib
+        (
+          for test in addmoddel.sh \
+              bugfixes-test.sh     \
+              exifdata-test.sh     \
+              exiv2-test.sh        \
+              imagetest.sh         \
+              iotest.sh            \
+              iptctest.sh          \
+              modify-test.sh       \
+              path-test.sh         \
+              preview-test.sh      \
+              stringto-test.sh     \
+              tiff-test.sh         \
+              write-test.sh        \
+              write2-test.sh       \
+              xmpparser-test.sh    \
+              conversions.sh
+          do
+            echo '++' $test '++' ; ./$test
+          done
+        ) | tee "$build/dist/logs/test.log"
 
-    popd > /dev/null
+        popd > /dev/null
 
-    $EXIV2_BINDIR/exiv2 -vV
-    ls -alt $EXIV2_BINDIR
-    $EXIV2_BINDIR/exiv2 -vV -g date -g time -g version
-    ls -alt $EXIV2_BINDIR/exiv2$exe
-
-    ##
-    # store the build for users to collect
-    mmHD=""
-    if [ "$PLATFORM" == "linux" ]; then
-        mmHD=/media/psf/Host
+        $EXIV2_BINDIR/exiv2 -vV
+        ls -alt $EXIV2_BINDIR
+        $EXIV2_BINDIR/exiv2 -vV -g date -g time -g version
+        ls -alt $EXIV2_BINDIR/exiv2$exe
+    else
+        echo ''
+        echo '**** no build created ****'
+        echo ''
+        result=1
     fi
-    if [ "$PLATFORM" == "msvc" -o  "$PLATFORM" == "cygwin" ]; then
-        mmHD="//psf/Host/"
-    fi
+fi
+
+##
+# store the build for users to collect
+if [ $result == "0" ]; then
+    case $PLATFORM in
+        linux)              mmHD=/media/psf/Host ;;
+        msvc|cygwin|mingw)  mmHD="//psf/Host/"   ;;
+        *)                  mmHD=""              ;;
+    esac
+
     jpubl=$mmHD/Users/Shared/Jenkins/Home/userContent/builds
 
     daily=$jpubl/daily
@@ -197,12 +204,7 @@ if [ -e $dist/$bin/exiv2$exe ]; then
         echo '***' jenkins builds directory does not exist ${jpubl} '***'
         result=2
     fi
-else
-    echo ''
-    echo '**** no build created ****'
-    echo ''
-    result=1
-fi
+if
 
 exit $result
 # That's all Folks!
