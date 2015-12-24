@@ -44,8 +44,8 @@ echo "---- build = $build ------"
 ##
 # perform the build
 (
-   case $PLATFORM in
-     msvc)
+  case $PLATFORM in
+    msvc)
         ##
         # get windows cmd.exe to perform the build
         # use a subshell to restore the path
@@ -98,7 +98,7 @@ echo "---- build = $build ------"
       )
       popd > /dev/null
     ;;
-
+  esac
 ) | tee "$build/dist/logs/build.log"
 
 ##
