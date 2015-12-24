@@ -204,7 +204,7 @@ if [ $result == "0" ]; then
         echo '***' jenkins builds directory does not exist ${jpubl} '***'
         result=2
     fi
-if
+fi
 
 exit $result
 # That's all Folks!
