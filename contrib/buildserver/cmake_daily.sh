@@ -145,16 +145,17 @@ testBuild()
 # store the build for users to collect
 if [ "$result" == "0" ]; then
     case $PLATFORM in
-        linux)              mmHD=/media/psf/Host ;;
-        msvc|cygwin|mingw)  mmHD="//psf/Host/"   ;;
-        *)                  mmHD=""              ;;
+        linux)              mmHD="/media/psf/Home/Jenkins" ;;
+        msvc|cygwin|mingw)  mmHD="//psf/Home/Jenkins"      ;;
+        *)                  mmHD="/Users/rmills/Jenkins"   ;;
     esac
 
-    jpubl=$mmHD/Users/Shared/Jenkins/Home/userContent/builds
+    jpubl="$mmHD/builds"
+    echo jpubl = $jpubl
 
-    daily=$jpubl/daily
-    weely=$jpubl/weekly
-    monly=$jpubl/monthly
+    daily="$jpubl/Daily"
+    weely="$jpubl/Weekly"
+    monly="$jpubl/Monthly"
     if [ ! -e $jpubl ]; then mkdir -p $jpubl ; fi
     if [ ! -e $daily ]; then mkdir -p $daily ; fi
     if [ ! -e $weely ]; then mkdir -p $weely ; fi
