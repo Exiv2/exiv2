@@ -91,10 +91,10 @@ Buildserver Scripts
 			  echo ==================================
 			  echo 'updated from svn:' $a 'to svn:' $b
 			  echo ==================================
-			  ssh rmills@rmillsmm                         'cd ~/gnu/exiv2/buildserver ; /usr/local/bin/svn update . ; contrib/buildserver/cmake_daily.sh'
-			  ssh rmills@rmillsmm-kubuntu                 'cd ~/gnu/exiv2/buildserver ; /usr/local/bin/svn update . ; contrib/buildserver/cmake_daily.sh'
-			  ssh rmills@rmillsmm-w7                      'cd ~/gnu/exiv2/buildserver ; /usr/local/bin/svn update . ; contrib/buildserver/cmake_daily.sh'
-			  ssh rmills@rmillsmm-w7 'export PLATFORM=msvc;cd ~/gnu/exiv2/buildserver ; /usr/local/bin/svn update . ; contrib/buildserver/cmake_daily.sh'
+			  ssh rmills@rmillsmm                         'cd ~/gnu/exiv2/buildserver ; /usr/local/bin/svn update . ; rm -rf build ; contrib/buildserver/cmake_daily.sh'
+			  ssh rmills@rmillsmm-kubuntu                 'cd ~/gnu/exiv2/buildserver ; /usr/local/bin/svn update . ; rm -rf build ; contrib/buildserver/cmake_daily.sh'
+			  ssh rmills@rmillsmm-w7                      'cd ~/gnu/exiv2/buildserver ; /usr/local/bin/svn update . ; rm -rf build ; contrib/buildserver/cmake_daily.sh'
+			  ssh rmills@rmillsmm-w7 'export PLATFORM=msvc;cd ~/gnu/exiv2/buildserver ; /usr/local/bin/svn update . ; rm -rf build ; contrib/buildserver/cmake_daily.sh'
 			  ##
 			  # test the delivery
 			  date=$(date '+%Y-%m-%d+%H-%M-%S')
@@ -110,18 +110,15 @@ Buildserver Scripts
 			  ssh rmills@rmillsmm         '~/gnu/exiv2/buildserver/contrib/buildserver/categorize.sh /mmHD/Users/Shared/Jenkins/Home/userContent/builds'
 			fi
 
+
 		Comment:
 			This script builds once a day and ultimately publishes the build.
 
 			For the moment, it's intended to run on trunk.  However the design
 			can be "tweaked" to publish to builds/$JOBNAME/Daily etc
 
-			I don't want to run this on code submission as I think we're going to
-			get it to build all 12 Visual Studio builds (2005/2008/2010/2012/2013/2015) 32/64
-			This will take about 1 hour on the build server.  Not something to be done frequently.
-
-			We could modify this to build on MSVC 2013 when triggered by SVN, else MSVC=all for time triggered
-			And we could offer a UI for user selection of MSVC builds
+			I don't want to run this on code submission as the build takes about 1.5 hours
+			to build all 12 Visual Studio builds (2005/2008/2010/2012/2013/2015) 32/64
 
 			Currently MinGW has not been implemented.
 
@@ -131,7 +128,6 @@ Buildserver Scripts
 			3) Categorize the build (create links for Platform/SVN/Date/Latest)
 
 			At the moment, the "pruning" of the builds is performed by cmake_daily.sh
-			The "pruning" code will probably move to categorize.sh
 
 Theme.css
 ---------
