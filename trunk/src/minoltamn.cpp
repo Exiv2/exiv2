@@ -36,6 +36,7 @@ EXIV2_RCSID("@(#) $Id$")
 #include "minoltamn_int.hpp"
 #include "tags_int.hpp"
 #include "value.hpp"
+#include "exif.hpp"
 #include "i18n.h"                // NLS support.
 
 #include <string>
@@ -1925,8 +1926,58 @@ namespace Exiv2 {
         { 65535, "Manual lens" }
     };
 
+    // ----------------------------------------------------------------------
+    // #1145 begin - respect lenses with shared LensID
+    static std::string getKey(const std::string& key,const ExifData* metadata)
+    {
+		return metadata->findKey(ExifKey(key)) != metadata->end()
+			 ? metadata->findKey(ExifKey(key))->toString()
+			 : ""
+			 ;
+    }
+
+    static std::ostream& resolveLensTypeTamron(std::ostream& os, const Value& value,
+                                                 const ExifData* metadata)
+    {
+        try {
+            long lensID = value.toLong();
+
+            if ( lensID == 0xff ) {
+				std::string modelID     = getKey("Exif.Sony1.SonyModelID"      ,metadata);
+				std::string maxAperture = getKey("Exif.Photo.MaxApertureValue" ,metadata);
+
+				if ( modelID == "287" && maxAperture == "760/256" ) {  // "SLT-A77 / SLT-A77V" && F2.8
+					return os << "Tamron SP AF 17-50mm F2.8 XR Di II LD Aspherical";
+				}
+			}
+        } catch (...) {}
+        return EXV_PRINT_TAG(minoltaSonyLensID)(os, value, metadata);
+    }
+
+    struct LensIdFct {
+       long     id_;                           //!< Lens id
+       PrintFct fct_;                          //!< Pretty-print function
+       //! Comparison operator for find template
+       bool operator==(long id) const { return id_ == id; }
+    };
+
+    //! List of lens ids which require special treatment from printMinoltaSonyLensID
+    const LensIdFct lensIdFct[] = {
+       {   0x00ff, resolveLensTypeTamron },
+    };
+    // #1145 end - respect lenses with shared LensID
+    // ----------------------------------------------------------------------
+
     std::ostream& printMinoltaSonyLensID(std::ostream& os, const Value& value, const ExifData* metadata)
     {
+        // #1145 - respect lenses with shared LensID
+        unsigned long    index = value.toLong();
+        const LensIdFct* lif   = find(lensIdFct,index);
+        if ( lif && metadata ) {
+        	if ( lif->fct_ )
+        	    return lif->fct_(os, value, metadata);
+        }
+
         return EXV_PRINT_TAG(minoltaSonyLensID)(os, value, metadata);
     }
 
