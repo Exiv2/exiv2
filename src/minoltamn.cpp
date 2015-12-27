@@ -1944,16 +1944,13 @@ namespace Exiv2 {
 	// 2 can't work for a remote file as exiftool doesn't handle remote IO
 	// 3 almost certainly throws an ugly ugly dos box on the screen in Windows
 	// 4 I haven't asked Phil's permission to do this
-	//
     static std::ostream& resolveLensTypeUsingExiftool(std::ostream& os, const Value& value,
                                                  const ExifData* metadata)
     {
-    	bool bFixed = false;
 // #if ! defined(WIN32) && ! defined(__CYGWIN__) && ! defined(__MINGW__)
 #ifndef _MSC_VER
     	FILE* f = ::popen("/bin/bash -c \"exiftool ~/temp/screen.jpg | grep 'Lens ID' | cut -d: -f 2 | sed -E -e 's/^ //g'\"","r");
     	if ( f ) {
-    		bFixed = true;
     		char buffer[200];
     		int  n=::fread(buffer,1,sizeof buffer-1,f);
     		::pclose(f);
@@ -1966,9 +1963,8 @@ namespace Exiv2 {
     				*::strchr(buffer,c)=0;
     		return os << buffer;
     	}
-    	return os;
 #endif
-		if ( !bFixed ) return EXV_PRINT_TAG(minoltaSonyLensID)(os, value, metadata);
+    	return EXV_PRINT_TAG(minoltaSonyLensID)(os, value, metadata);
     }
 
     static std::ostream& resolveLensTypeTamron(std::ostream& os, const Value& value,
