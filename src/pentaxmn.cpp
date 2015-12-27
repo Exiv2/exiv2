@@ -1148,11 +1148,6 @@ namespace Exiv2 {
     }
 
     // #1144 begin
-    static ExifData::const_iterator getKey(const std::string& key,const ExifData* metadata)
-    {
-		return metadata->findKey(ExifKey(key));
-    }
-
     static std::string getKeyString(const std::string& key,const ExifData* metadata)
     {
 		std::string result;
@@ -1162,7 +1157,7 @@ namespace Exiv2 {
 		return result;
     }
 
-    std::ostream& resolveLensType0x32c(std::ostream& os, const Value& value,
+    std::ostream& resolveLens0x32c(std::ostream& os, const Value& value,
                                                  const ExifData* metadata)
     {
         try {
@@ -1187,15 +1182,18 @@ namespace Exiv2 {
     // #1144 end
 
     // #816 begin
-    std::ostream& resolveLensTypeSigma(std::ostream& os, const Value& value,
+    std::ostream& resolveLens0x3ff(std::ostream& os, const Value& value,
                                                  const ExifData* metadata)
     // ----------------------------------------------------------------------
     {
         try {
-            unsigned long lensID = value.toLong(0)*256 + value.toLong(1); // 0x3ff
+            unsigned long lensID = 0x3ff;
             unsigned long index  = 0;
 
-            const ExifData::const_iterator lensInfo = getKey("Exif.PentaxDng.LensInfo",metadata);
+            const ExifData::const_iterator lensInfo = metadata->findKey(ExifKey("Exif.PentaxDng.LensInfo")) != metadata->end()
+                                                    ? metadata->findKey(ExifKey("Exif.PentaxDng.LensInfo"))
+                                                    : metadata->findKey(ExifKey("Exif.Pentax.LensInfo"))
+                                                    ;
             if ( lensInfo == metadata->end() ) return EXV_PRINT_COMBITAG_MULTI(pentaxLensType, 2, 1, 2)(os, value, metadata);
             if ( lensInfo->count() < 5       ) return EXV_PRINT_COMBITAG_MULTI(pentaxLensType, 2, 1, 2)(os, value, metadata);
 
@@ -1260,10 +1258,10 @@ namespace Exiv2 {
        {   0x031d, resolveLensType },
        {   0x031f, resolveLensType },
        {   0x0329, resolveLensType },
-       {   0x032c, resolveLensType0x32c },
+       {   0x032c, resolveLens0x32c},
        {   0x032e, resolveLensType },
        {   0x0334, resolveLensType },
-       {   0x03ff, resolveLensTypeSigma },
+       {   0x03ff, resolveLens0x3ff},
        {   0x041a, resolveLensType },
        {   0x042d, resolveLensType },
        {   0x08ff, resolveLensType },
