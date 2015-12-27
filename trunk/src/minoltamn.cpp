@@ -45,6 +45,9 @@ EXIV2_RCSID("@(#) $Id$")
 #include <cassert>
 #include <cstring>
 
+#include <stdio.h> // popen to call exiftool
+#include <string.h>
+
 // *****************************************************************************
 // class member definitions
 namespace Exiv2 {
@@ -1936,6 +1939,38 @@ namespace Exiv2 {
 			 ;
     }
 
+	// this code has been debugged on the Mac, however it's not in service because:
+	// 1 we don't know the path to the file being processed
+	// 2 can't work for a remote file as exiftool doesn't handle remote IO
+	// 3 almost certainly throws an ugly ugly dos box on the screen in Windows
+	// 4 I haven't asked Phil's permission to do this
+	//
+    static std::ostream& resolveLensTypeUsingExiftool(std::ostream& os, const Value& value,
+                                                 const ExifData* metadata)
+    {
+    	bool bFixed = false;
+// #if ! defined(WIN32) && ! defined(__CYGWIN__) && ! defined(__MINGW__)
+#ifndef _MSC_VER
+    	FILE* f = ::popen("/bin/bash -c \"exiftool ~/temp/screen.jpg | grep 'Lens ID' | cut -d: -f 2 | sed -E -e 's/^ //g'\"","r");
+    	if ( f ) {
+    		bFixed = true;
+    		char buffer[200];
+    		int  n=::fread(buffer,1,sizeof buffer-1,f);
+    		::pclose(f);
+    		// just to be sure, add a null byte
+    		if ( 0 <= n && n < (int) sizeof(buffer) ) buffer[n] = 0 ;
+
+    		// and stop at any non-printing character such as line-feed
+    		for (int c = 0 ; c < 32 ; c++)
+    			if ( ::strchr(buffer,c) )
+    				*::strchr(buffer,c)=0;
+    		return os << buffer;
+    	}
+    	return os;
+#endif
+		if ( !bFixed ) return EXV_PRINT_TAG(minoltaSonyLensID)(os, value, metadata);
+    }
+
     static std::ostream& resolveLensTypeTamron(std::ostream& os, const Value& value,
                                                  const ExifData* metadata)
     {
@@ -1964,6 +1999,7 @@ namespace Exiv2 {
     //! List of lens ids which require special treatment from printMinoltaSonyLensID
     const LensIdFct lensIdFct[] = {
        {   0x00ff, resolveLensTypeTamron },
+       {   0xf0ff, resolveLensTypeUsingExiftool }, // was used for debugging
     };
     // #1145 end - respect lenses with shared LensID
     // ----------------------------------------------------------------------
@@ -1973,7 +2009,7 @@ namespace Exiv2 {
         // #1145 - respect lenses with shared LensID
         unsigned long    index = value.toLong();
         const LensIdFct* lif   = find(lensIdFct,index);
-        if ( lif && metadata ) {
+        if ( lif && metadata && index != 0xf0ff ) {
         	if ( lif->fct_ )
         	    return lif->fct_(os, value, metadata);
         }
