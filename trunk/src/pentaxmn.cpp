@@ -1157,6 +1157,15 @@ namespace Exiv2 {
 		return result;
     }
 
+    static long getKeyLong(const std::string& key,const ExifData* metadata)
+    {
+		long result = -1;
+		if ( metadata->findKey(ExifKey(key)) != metadata->end() ) {
+			result = (long) metadata->findKey(ExifKey(key))->toFloat(0);
+		}
+		return result;
+    }
+
     std::ostream& resolveLens0x32c(std::ostream& os, const Value& value,
                                                  const ExifData* metadata)
     {
@@ -1165,11 +1174,14 @@ namespace Exiv2 {
             unsigned long index     = 0;
 
             std::string model       = getKeyString("Exif.Image.Model"      ,metadata);
-            std::string focalLength = getKeyString("Exif.Photo.FocalLength",metadata);
+            long        focalLength = getKeyLong  ("Exif.Photo.FocalLength",metadata);
+            bool        bFL10_20    = 10 <= focalLength && focalLength <= 20;
+            bool        bK10D_K3    = model.find("PENTAX K10D") != std::string::npos
+                                   || model.find("PENTAX K-3")  != std::string::npos
+                                    ;
 
             // std::cout << "model,focalLength = " << model << "," << focalLength << std::endl;
-
-            if ( model.find("PENTAX K10D") != std::string::npos && focalLength == "1700/100" ) index = 1;
+            if ( bFL10_20 && bK10D_K3 ) index = 1;
 
             if ( index > 0 )  {
                 const TagDetails* td = find(pentaxLensType, lensID);

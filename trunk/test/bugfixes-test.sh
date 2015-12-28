@@ -448,12 +448,12 @@ source ./functions.source
 	runTest exiv2 -PkV --grep GPSL http://dev.exiv2.org/attachments/download/805/DSC_7154.jpg | runTest exiv2 -m- $filename
 	runTest exiv2 -pa $filename
 
-	for num in 1140 1144; do
+	for num in 1140 1144a 1144b 1144c 1144d 1144e 1144f 1144g  ; do
 	  filename=exiv2-bug$num.exv
 	  printf "$num " >&3
 	  echo '------>' Bug $num '<-------' >&2
 	  copyTestFile                        $filename
-	  runTest exiv2 -pv -g Lens           $filename
+	  runTest exiv2 -pa -g Lens           $filename
 	done
 
 
