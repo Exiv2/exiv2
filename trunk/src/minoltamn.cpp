@@ -1654,9 +1654,9 @@ namespace Exiv2 {
                  "Sigma 30mm F1.4 DG EX | "
                  "Sigma 24mm F1.8 EX DG ASP Macro" },
         { 27,    "Minolta AF 85mm F1.4 G (D)" },
-        { 28,    "Minolta/Sony AF 100mm F2.8 Macro (D) | "
-                 "Tamron SP AF 90mm F2.8 Di Macro | "
-                 "Tamron SP AF 180mm F3.5 SP Di LD [IF] Macro" },
+        {0x1c,   "Minolta/Sony AF 100mm F2.8 Macro (D) | "                               // 1
+                 "Tamron SP AF 90mm F2.8 Di Macro | "                                    // 2
+                 "Tamron SP AF 180mm F3.5 SP Di LD [IF] Macro" },                        // 3
         { 29,    "Minolta/Sony AF 75-300mm F4.5-5.6 (D) " },
         { 30,    "Minolta AF 28-80mm F3.5-5.6 (D) | "
                  "Sigma AF 10-20mm F4-5.6 EX DC | "
@@ -1674,8 +1674,8 @@ namespace Exiv2 {
         { 39,    "Minolta AF 28-75mm F2.8 (D)" },
         { 40,    "Minolta/Sony AF DT 18-70mm F3.5-5.6 (D) | "
                  "Sony AF DT 18-200mm F3.5-6.3" },
-        { 41,    "Minolta/Sony AF DT 11-18mm F4.5-5.6 (D) | "
-                 "Tamron SP AF 11-18mm F4.5-5.6 Di II LD Aspherical IF" },
+        {0x29,   "Minolta/Sony AF DT 11-18mm F4.5-5.6 (D) | "                            // 1
+                 "Tamron SP AF 11-18mm F4.5-5.6 Di II LD Aspherical IF" },               // 2
         { 42,    "Minolta/Sony AF DT 18-200mm F3.5-6.3 (D)" },
         { 43,    "Sony 35mm F1.4 G (SAL35F14G)" },
         { 44,    "Sony 50mm F1.4 (SAL50F14)" },
@@ -1688,9 +1688,10 @@ namespace Exiv2 {
         { 50,    "Sony AF DT 18-250mm F3.5-6.3 (SAL18250)" },
         { 51,    "Sony AF DT 16-105mm F3.5-5.6 (SAL16105)" },
 //      { 51,    "Sony AF DT 55-200mm F4-5.5" }, // Anomaly? - unconfirmed.
-        { 52,    "Sony 70-300mm F4.5-5.6 G SSM (SAL70300G) | "
-                 "Sony 70-300mm F4.5-5.6 G SSM II (SAL70300G2) | "
-                 "Tamron SP 70-300mm F4-5.6 Di USD" },
+        {0x34,   "Sony 70-300mm F4.5-5.6 G SSM (SAL70300G) | "                           // 1
+                 "Sony 70-300mm F4.5-5.6 G SSM II (SAL70300G2) | "                       // 2
+                 "Tamron SP 70-300mm F4-5.6 Di USD | "                                   // 3
+                 "Tamron SP AF 17-50mm F2.8 XR Di II LD Aspherical"},                    // 4
         { 53,    "Sony AF 70-400mm F4.5-5.6 G SSM (SAL70400G)" },
         { 54,    "Carl Zeiss Vario-Sonnar T* 16-35mm F2.8 ZA SSM (SAL1635Z) | "
                  "Carl Zeiss Vario-Sonnar T* 16-35mm F2.8 ZA SSM II (SAL1635Z2)" },
@@ -1713,27 +1714,27 @@ namespace Exiv2 {
         { 68,    "Sony DT 55-300mm F4.5-5.6 SAM (SAL55300)" },
         { 69,    "Sony 70-400mm F4-5.6 G SSM II (SAL70400G2)" },
         { 70,    "Sony Carl Zeiss Planar T* 50mm F1.4 ZA SSM (SALF0F14Z)" },
-        { 128,   "Sigma 70-200mm F2.8 APO EX DG MACRO | "
-                 "Tamron AF 18-200mm F3.5-6.3 XR Di II LD Aspherical [IF] Macro | "
-                 "Tamron AF 28-300mm F3.5-6.3 XR Di LD Aspherical [IF] Macro | "
-                 "Tamron 80-300mm F3.5-6.3 | "
-                 "Tamron AF 28-200mm F3.8-5.6 XR Di Aspherical [IF] MACRO | "
-                 "Tamron SP AF 17-35mm F2.8-4 Di LD Aspherical IF | "
-                 "Sigma AF 50-150mm F2.8 EX DC APO HSM II | "
-                 "Sigma 10-20mm F3.5 EX DC HSM | "
-                 "Sigma 70-200mm F2.8 II EX DG APO MACRO HSM | "
-                 "Sigma 10mm F2.8 EX DC HSM Fisheye | "
-                 "Sigma 50mm F1.4 EX DG HSM | "
-                 "Sigma 85mm F1.4 EX DG HSM | "
-                 "Sigma 24-70mm F2.8 IF EX DG HSM | "
-                 "Sigma 18-250mm F3.5-6.3 DC OS HSM | "
-                 "Sigma 17-50mm F2.8 EX DC HSM | "
-                 "Sigma 17-70mm F2.8-4 DC Macro HSM | "
-                 "Sigma 150mm F2.8 EX DG OS HSM APO Macro | "
-                 "Sigma 150-500mm F5-6.3 APO DG OS HSM | "
-                 "Tamron AF 28-105mm F4-5.6 [IF] | "
-                 "Sigma 35mm F1.4 DG HSM | "
-                 "Sigma 18-35mm F1.8 DC HSM" },
+        {0x80,   "Sigma 70-200mm F2.8 APO EX DG MACRO | "                                // 1
+                 "Tamron AF 18-200mm F3.5-6.3 XR Di II LD Aspherical [IF] Macro | "      // 2
+                 "Tamron AF 28-300mm F3.5-6.3 XR Di LD Aspherical [IF] Macro | "         // 3
+                 "Tamron 80-300mm F3.5-6.3 | "                                           // 4
+                 "Tamron AF 28-200mm F3.8-5.6 XR Di Aspherical [IF] MACRO | "            // 5
+                 "Tamron SP AF 17-35mm F2.8-4 Di LD Aspherical IF | "                    // 6
+                 "Sigma AF 50-150mm F2.8 EX DC APO HSM II | "                            // 7
+                 "Sigma 10-20mm F3.5 EX DC HSM | "                                       // 8
+                 "Sigma 70-200mm F2.8 II EX DG APO MACRO HSM | "                         // 9
+                 "Sigma 10mm F2.8 EX DC HSM Fisheye | "                                  // 10
+                 "Sigma 50mm F1.4 EX DG HSM | "                                          // 11
+                 "Sigma 85mm F1.4 EX DG HSM | "                                          // 12
+                 "Sigma 24-70mm F2.8 IF EX DG HSM | "                                    // 13
+                 "Sigma 18-250mm F3.5-6.3 DC OS HSM | "                                  // 14
+                 "Sigma 17-50mm F2.8 EX DC HSM | "                                       // 15
+                 "Sigma 17-70mm F2.8-4 DC Macro HSM | "                                  // 16
+                 "Sigma 150mm F2.8 EX DG OS HSM APO Macro | "                            // 17
+                 "Sigma 150-500mm F5-6.3 APO DG OS HSM | "                               // 18
+                 "Tamron AF 28-105mm F4-5.6 [IF] | "                                     // 19
+                 "Sigma 35mm F1.4 DG HSM | "                                             // 20
+                 "Sigma 18-35mm F1.8 DC HSM" },                                          // 21
         { 129,   "Tamron 200-400mm F5.6 LD | "
                  "Tamron 70-300mm F4-5.6 LD" },
         { 131,   "Tamron 20-40mm F2.7-3.5 SP Aspherical IF" },
@@ -1751,15 +1752,15 @@ namespace Exiv2 {
         { 213,   "Tamron 16-300mm F3.5-6.3 Di II PZD" },
         { 214,   "Tamron Tamron SP 150-600mm F5-6.3 Di USD" },
         { 224,   "Tamron SP 90mm F2.8 Di Macro 1:1 USD" },
-        { 255,   "Tamron SP AF 17-50mm F2.8 XR Di II LD Aspherical | "
-                 "Tamron AF 18-250mm F3.5-6.3 XR Di II LD | "
-                 "Tamron AF 55-200mm F4-5.6 Di II LD Macro | "
-                 "Tamron AF 70-300mm F4-5.6 Di LD Macro 1:2 | "
-                 "Tamron SP AF 200-500mm F5.0-6.3 Di LD IF | "
-                 "Tamron SP AF 10-24mm F3.5-4.5 Di II LD Aspherical IF | "
-                 "Tamron SP AF 70-200mm F2.8 Di LD IF Macro | "
-                 "Tamron SP AF 28-75mm F2.8 XR Di LD Aspherical IF | "
-                 "Tamron AF 90-300mm F4.5-5.6 Telemacro" },
+        {0xff,   "Tamron SP AF 17-50mm F2.8 XR Di II LD Aspherical | "                   // 1
+                 "Tamron AF 18-250mm F3.5-6.3 XR Di II LD | "                            // 2
+                 "Tamron AF 55-200mm F4-5.6 Di II LD Macro | "                           // 3
+                 "Tamron AF 70-300mm F4-5.6 Di LD Macro 1:2 | "                          // 4
+                 "Tamron SP AF 200-500mm F5.0-6.3 Di LD IF | "                           // 5
+                 "Tamron SP AF 10-24mm F3.5-4.5 Di II LD Aspherical IF | "               // 6
+                 "Tamron SP AF 70-200mm F2.8 Di LD IF Macro | "                          // 7
+                 "Tamron SP AF 28-75mm F2.8 XR Di LD Aspherical IF | "                   // 8
+                 "Tamron AF 90-300mm F4.5-5.6 Telemacro"},                               // 9
         { 25500, "Minolta AF 50mm F1.7" },
         { 25501, "Minolta AF 50mm F1.7" },
         { 25510, "Minolta AF 35-70mm F4" },
@@ -1931,15 +1932,10 @@ namespace Exiv2 {
 
     // ----------------------------------------------------------------------
     // #1145 begin - respect lenses with shared LensID
-    static std::string getKey(const std::string& key,const ExifData* metadata)
-    {
-		return metadata->findKey(ExifKey(key)) != metadata->end()
-			 ? metadata->findKey(ExifKey(key))->toString()
-			 : ""
-			 ;
-    }
 
-	// this code has been debugged on the Mac, however it's not in service because:
+#if 0
+	// resolveLensTypeUsingExiftool has been debugged on the Mac
+	// It's not in service because:
 	// 1 we don't know the path to the file being processed
 	// 2 can't work for a remote file as exiftool doesn't handle remote IO
 	// 3 almost certainly throws an ugly ugly dos box on the screen in Windows
@@ -1966,21 +1962,170 @@ namespace Exiv2 {
 #endif
     	return EXV_PRINT_TAG(minoltaSonyLensID)(os, value, metadata);
     }
+#endif
 
-    static std::ostream& resolveLensTypeTamron(std::ostream& os, const Value& value,
+    static std::string getKeyString(const std::string& key,const ExifData* metadata)
+    {
+		std::string result;
+		if ( metadata->findKey(ExifKey(key)) != metadata->end() ) {
+			result = metadata->findKey(ExifKey(key))->toString();
+		}
+		return result;
+    }
+
+    static long getKeyLong(const std::string& key,const ExifData* metadata,int which=0);
+    static long getKeyLong(const std::string& key,const ExifData* metadata,int which)
+    {
+		long result = -1;
+		if ( metadata->findKey(ExifKey(key)) != metadata->end() ) {
+			result = (long) metadata->findKey(ExifKey(key))->toFloat(which);
+		}
+		return result;
+    }
+
+    // http://stackoverflow.com/questions/1798112/removing-leading-and-trailing-spaces-from-a-string
+	// trim from left
+	inline std::string& ltrim(std::string& s, const char* t = " \t\n\r\f\v")
+	{
+		s.erase(0, s.find_first_not_of(t));
+		return s;
+	}
+
+	// trim from right
+	inline std::string& rtrim(std::string& s, const char* t = " \t\n\r\f\v")
+	{
+		s.erase(s.find_last_not_of(t) + 1);
+		return s;
+	}
+
+	// trim from left & right
+	inline std::string& trim(std::string& s, const char* t = " \t\n\r\f\v")
+	{
+		return ltrim(rtrim(s, t), t);
+	}
+
+	// http://www.sbin.org/doc/HOWTO/C++Programming-HOWTO-7.html
+	static void tokenize(const std::string& str,
+						  std::vector<std::string>& tokens,
+						  const std::string& delimiters = " ")
+	{
+		// Skip delimiters at beginning.
+		std::string::size_type lastPos = str.find_first_not_of(delimiters, 0);
+		// Find first "non-delimiter".
+		std::string::size_type pos     = str.find_first_of(delimiters, lastPos);
+
+		while (std::string::npos != pos || std::string::npos != lastPos)
+		{
+			// Found a token, add it to the vector.
+			tokens.push_back(str.substr(lastPos, pos - lastPos));
+			// Skip delimiters.  Note the "not_of"
+			lastPos = str.find_first_not_of(delimiters, pos);
+			// Find next "non-delimiter"
+			pos = str.find_first_of(delimiters, lastPos);
+		}
+	}
+
+    static bool inRange(long value,long min,long max)
+    {
+    	return min <= value && value <= max;
+    }
+
+	static std::ostream& resolvedLens(std::ostream& os,long lensID,long index)
+	{
+	    const TagDetails* td = find(minoltaSonyLensID, lensID);
+        std::vector<std::string> tokens;
+        tokenize(td[0].label_,tokens,"|");
+        return os << exvGettext(trim(tokens[index-1]).c_str());
+    }
+
+    static std::ostream& resolveLens0x1c(std::ostream& os, const Value& value,
                                                  const ExifData* metadata)
     {
         try {
-            long lensID = value.toLong();
+			long lensID = 0x1c;
+			long index  = 0;
 
-            if ( lensID == 0xff ) {
-				std::string modelID     = getKey("Exif.Sony1.SonyModelID"      ,metadata);
-				std::string maxAperture = getKey("Exif.Photo.MaxApertureValue" ,metadata);
+			std::string model   = getKeyString("Exif.Image.Model"    ,metadata);
+			std::string lens    = getKeyString("Exif.Photo.LensModel",metadata);
 
-				if ( modelID == "287" && maxAperture == "760/256" ) {  // "SLT-A77 / SLT-A77V" && F2.8
-					return os << "Tamron SP AF 17-50mm F2.8 XR Di II LD Aspherical";
-				}
-			}
+			if ( model == "SLT-A77V" && lens == "100mm F2.8 Macro" ) index=2;
+
+            if ( index > 0 ) return resolvedLens(os,lensID,index);
+        } catch (...) {}
+        return EXV_PRINT_TAG(minoltaSonyLensID)(os, value, metadata);
+    }
+
+    static std::ostream& resolveLens0x29(std::ostream& os, const Value& value,
+                                                 const ExifData* metadata)
+    {
+        try {
+			long lensID = 0x29;
+			long index  = 0;
+
+			std::string model   = getKeyString("Exif.Image.Model"    ,metadata);
+			std::string lens    = getKeyString("Exif.Photo.LensModel",metadata);
+
+			if ( model == "SLT-A77V" && lens == "DT 11-18mm F4.5-5.6" ) index=2;
+
+            if ( index > 0 ) return resolvedLens(os,lensID,index);
+        } catch (...) {}
+        return EXV_PRINT_TAG(minoltaSonyLensID)(os, value, metadata);
+    }
+
+    static std::ostream& resolveLens0x34(std::ostream& os, const Value& value,
+                                                 const ExifData* metadata)
+    {
+        try {
+			long lensID = 0x34;
+			long index  = 0;
+
+			std::string model       = getKeyString("Exif.Image.Model"            ,metadata);
+			std::string maxAperture = getKeyString("Exif.Photo.MaxApertureValue" ,metadata);
+			long        focalLength = getKeyLong  ("Exif.Photo.FocalLength"      ,metadata);
+			std::string F2_8        = "760/256" ;
+
+			if ( model == "SLT-A77V" && maxAperture == F2_8           ) index=4;
+			if ( model == "SLT-A77V" && inRange(focalLength,70,300)   ) index=3;
+
+            if ( index > 0 ) return resolvedLens(os,lensID,index);
+        } catch (...) {}
+        return EXV_PRINT_TAG(minoltaSonyLensID)(os, value, metadata);
+    }
+
+    static std::ostream& resolveLens0x80(std::ostream& os, const Value& value,
+                                                 const ExifData* metadata)
+    {
+        try {
+			long lensID = 0x80;
+			long index  = 0;
+
+			std::string model       = getKeyString("Exif.Image.Model"    ,metadata);
+			std::string maxAperture = getKeyString("Exif.Photo.MaxApertureValue" ,metadata);
+			long        focalLength = getKeyLong  ("Exif.Photo.FocalLength"      ,metadata);
+			std::string F4          = "1024/256";
+
+			if ( model == "SLT-A77V" && maxAperture == F4  && inRange(focalLength,18,200) ) index=2;
+
+            if ( index > 0 ) return resolvedLens(os,lensID,index);
+        } catch (...) {}
+        return EXV_PRINT_TAG(minoltaSonyLensID)(os, value, metadata);
+    }
+
+    static std::ostream& resolveLens0xff(std::ostream& os, const Value& value,
+                                                 const ExifData* metadata)
+    {
+        try {
+            long lensID = 0xff;
+            long index  = 0   ;
+
+			std::string model       = getKeyString("Exif.Image.Model"            ,metadata);
+			long        focalLength = getKeyLong  ("Exif.Photo.FocalLength"      ,metadata);
+			std::string maxAperture = getKeyString("Exif.Photo.MaxApertureValue" ,metadata);
+			std::string F2_8        = "760/256" ;
+
+			if ( model == "SLT-A77V" && maxAperture == F2_8 && inRange(focalLength,17,50) ) index = 1 ;
+
+            if ( index > 0 ) return resolvedLens(os,lensID,index);
         } catch (...) {}
         return EXV_PRINT_TAG(minoltaSonyLensID)(os, value, metadata);
     }
@@ -1994,8 +2139,12 @@ namespace Exiv2 {
 
     //! List of lens ids which require special treatment from printMinoltaSonyLensID
     const LensIdFct lensIdFct[] = {
-       {   0x00ff, resolveLensTypeTamron },
-       {   0xf0ff, resolveLensTypeUsingExiftool }, // was used for debugging
+       {   0x001c, resolveLens0x1c },
+       {   0x0029, resolveLens0x29 },
+       {   0x0034, resolveLens0x34 },
+       {   0x0080, resolveLens0x80 },
+       {   0x00ff, resolveLens0xff },
+//     {   0x00ff, resolveLensTypeUsingExiftool }, // was used for debugging
     };
     // #1145 end - respect lenses with shared LensID
     // ----------------------------------------------------------------------
@@ -2005,7 +2154,7 @@ namespace Exiv2 {
         // #1145 - respect lenses with shared LensID
         unsigned long    index = value.toLong();
         const LensIdFct* lif   = find(lensIdFct,index);
-        if ( lif && metadata && index != 0xf0ff ) {
+        if ( lif && metadata ) {
         	if ( lif->fct_ )
         	    return lif->fct_(os, value, metadata);
         }
