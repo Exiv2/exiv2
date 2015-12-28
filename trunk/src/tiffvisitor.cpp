@@ -1489,12 +1489,17 @@ namespace Exiv2 {
             return;
         }
         p += 4;
+        uint32_t isize= 0; // size of Exif.Sony1.PreviewImage
         uint32_t size = typeSize * count;
         int32_t offset = getLong(p, byteOrder());
         byte* pData = p;
         if (   size > 4
             && (   baseOffset() + offset >= size_
                 || static_cast<int32_t>(baseOffset()) + offset <= 0)) {
+                // #1143
+                if ( object->tag() == 0x2001 && std::string(groupName(object->group())) == "Sony1" ) {
+                	isize=size;
+                } else {
 #ifndef SUPPRESS_WARNINGS
             EXV_ERROR << "Offset of directory " << groupName(object->group())
                       << ", entry 0x" << std::setw(4)
@@ -1504,6 +1509,7 @@ namespace Exiv2 {
                       << std::setfill('0') << std::hex << offset
                       << "; truncating the entry\n";
 #endif
+				}
                 size = 0;
         }
         if (size > 4) {
@@ -1528,7 +1534,17 @@ namespace Exiv2 {
         }
         Value::AutoPtr v = Value::create(typeId);
         assert(v.get());
-        v->read(pData, size, byteOrder());
+        if ( !isize ) {
+        	v->read(pData, size, byteOrder());
+        } else {
+        	// #1143 Write a "hollow" buffer for the preview image
+        	//       Sadly: we don't know the exact location of the image in the source (it's near offset)
+        	//       And neither TiffReader nor TiffEntryBase have access to the BasicIo object being processed
+        	byte* buffer = (byte*) ::malloc(isize);
+        	::memset(buffer,isize,0);
+        	v->read(buffer,isize, byteOrder());
+        	::free(buffer);
+        }
 
         object->setValue(v);
         object->setData(pData, size);
