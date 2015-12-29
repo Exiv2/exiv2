@@ -71,6 +71,10 @@ SET_TARGET_PROPERTIES( exiv2json PROPERTIES OUTPUT_NAME exiv2json )
 TARGET_LINK_LIBRARIES( exiv2json exiv2lib )
 INSTALL( TARGETS exiv2json ${INSTALL_TARGET_STANDARD_ARGS} )
 
+# ******************************************************************************
+# Man page
+INSTALL( FILES exiv2samples.1 DESTINATION ${CMAKE_INSTALL_MANDIR}/man1 )
+
 # That's all Folks!
 ##
 

@@ -1,9 +1,9 @@
 .\"                                      Hey, EMACS: -*- nroff -*-
-.\" @(#) $Id$
+.\" @(#) $Id: exiv2.1 4075 2015-12-08 09:27:38Z robinwmills $
 .\" First parameter, NAME, should be all caps
 .\" Second parameter, SECTION, should be 1-8, maybe w/ subsection
 .\" other parameters are allowed: see man(7), man(1)
-.TH EXIV2 1 "Dec 29, 2015"
+.TH EXIV2SAMPLES 1 "Dec 29, 2015"
 .\" Please adjust this date whenever revising the manpage.
 .\"
 .\" Some roff macros, for reference:
@@ -17,7 +17,7 @@
 .\" .sp <n>    insert n+1 empty lines
 .\" for manpage-specific macros, see man(7)
 .SH NAME
-exiv2 \- Image metadata manipulation tool
+exiv2 sample applications\- Image metadata manipulation tool
 .SH SYNOPSIS
 .B exiv2
 [\fIoptions\fP] [\fIaction\fP] \fIfile\fP ...
@@ -29,10 +29,15 @@ exiv2 \- Image metadata manipulation tool
 .\" respectively.
 .B exiv2
 is a program to read and write Exif, IPTC, XMP metadata and
-image comments and can read many vendor makernote tags. The program
-optionally converts between Exif tags, XMP properties and IPTC
-datasets as recommended by the Exif Standard, the IPTC Standard,
-the XMP specification and Metadata Working Group guidelines.
+image comments and can read many vendor makernote tags.  Users
+who build exiv2 and its library also build some sample and test applications.
+.br
+The samples are:
+.br
+.nf
+exiv2json	Format metadata in json
+exifprint	Print the metadata in one or more images
+.fi
 .br
 The following image formats are supported:
 .TS
@@ -645,9 +650,6 @@ copies metadata as is, without any modifications to adapt it to the
 requirements of the target format. Some tags copied like this may not
 make sense in the target image.
 .SH SEE ALSO
-.TP
-.I man exiv2samples
-Information about the sample applications included in the exiv2 code distribution
 .TP
 .I http://www.exiv2.org/sample.html#modify
 Sample command files.
