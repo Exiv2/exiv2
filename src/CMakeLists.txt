@@ -287,6 +287,9 @@ ENDIF(CYGWIN OR MINGW)
 
 INSTALL( TARGETS exiv2lib ${INSTALL_TARGET_STANDARD_ARGS} )
 
+include(../CMake_msvc.txt)
+msvc_runtime_configure(${EXIV2_ENABLE_SHARED})
+
 # ******************************************************************************
 # exiv2 application
 ADD_EXECUTABLE( exiv2 ${EXIV2_SRC} )

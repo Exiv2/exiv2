@@ -39,6 +39,11 @@ SET( SAMPLES addmoddel.cpp
              xmpsample.cpp
    )
 
+##
+# msvn tuning
+include(../CMake_msvc.txt)
+msvc_runtime_configure(${EXIV2_ENABLE_SHARED})
+
 FOREACH(entry ${SAMPLES})
     STRING( REPLACE ".cpp" "" target ${entry})
     ADD_EXECUTABLE( ${target} ${target}.cpp )
