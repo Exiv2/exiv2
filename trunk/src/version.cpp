@@ -579,7 +579,7 @@ void Exiv2::dumpLibraryInfo(std::ostream& os,const exv_grep_keys_t& keys)
     output(os,keys,"enable_webready"   ,enable_webready  );
 
 // #1147
-#ifndef _WIN32
+#ifndef WIN32
     uid_t uid  = getuid()  ; output(os,keys,"uid" ,  uid  );
     uid_t euid = geteuid() ; output(os,keys,"euid", euid  );
     uid_t gid  = getgid()  ; output(os,keys,"gid" ,  gid  );
