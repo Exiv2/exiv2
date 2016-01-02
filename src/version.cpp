@@ -33,6 +33,11 @@ EXIV2_RCSID("@(#) $Id$")
 
 #include "config.h"
 
+// #1147
+#ifndef _MSC_VER
+#include <uuid/uuid.h>
+#endif
+
 #ifndef EXV_USE_SSH
 #define EXV_USE_SSH 0
 #endif
@@ -542,6 +547,18 @@ void Exiv2::dumpLibraryInfo(std::ostream& os,const exv_grep_keys_t& keys)
         for ( Exiv2::StringVector_i lib = libs.begin()+1 ; lib != libs.end() ; lib++ )
             output(os,keys,"library",*lib);
     }
+
+// #1147
+#ifndef _MSC_VER
+    uuid_t* p_uid ;
+	uid_t uid = getuid()   ; uuid_string_t s_uid ; p_uid= (uuid_t*) &uid ; uuid_unparse(*p_uid,s_uid);
+    uid_t eid = geteuid()  ; uuid_string_t s_eid ; p_uid= (uuid_t*) &eid ; uuid_unparse(*p_uid,s_eid);
+    uid_t gid = getgid()   ; uuid_string_t s_gid ; p_uid= (uuid_t*) &gid ; uuid_unparse(*p_uid,s_gid);
+
+    output(os,keys,"uid"               , s_uid           );
+    output(os,keys,"euid"              , s_eid           );
+    output(os,keys,"gid"               , s_gid           );
+#endif
 
     output(os,keys,"have_regex"        ,have_regex       );
     output(os,keys,"have_strerror_r"   ,have_strerror_r  );
