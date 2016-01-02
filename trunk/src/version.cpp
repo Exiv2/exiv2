@@ -543,17 +543,6 @@ void Exiv2::dumpLibraryInfo(std::ostream& os,const exv_grep_keys_t& keys)
             output(os,keys,"library",*lib);
     }
 
-// #1147
-#ifndef _MSC_VER
-    uid_t uid  = getuid()  ;
-    uid_t euid = geteuid() ;
-    uid_t gid  = getgid()  ;
-
-    output(os,keys,"uid"               , uid           );
-    output(os,keys,"euid"              , euid          );
-    output(os,keys,"gid"               , gid           );
-#endif
-
     output(os,keys,"have_regex"        ,have_regex       );
     output(os,keys,"have_strerror_r"   ,have_strerror_r  );
     output(os,keys,"have_gmtime_r"     ,have_gmtime_r    );
@@ -588,6 +577,13 @@ void Exiv2::dumpLibraryInfo(std::ostream& os,const exv_grep_keys_t& keys)
     output(os,keys,"have_unicode_path" ,have_unicode_path);
     output(os,keys,"enable_video"      ,enable_video     );
     output(os,keys,"enable_webready"   ,enable_webready  );
+
+// #1147
+#ifndef _WIN32
+    uid_t uid  = getuid()  ; output(os,keys,"uid" ,  uid  );
+    uid_t euid = geteuid() ; output(os,keys,"euid", euid  );
+    uid_t gid  = getgid()  ; output(os,keys,"gid" ,  gid  );
+#endif
 
 #if EXV_HAVE_XMP_TOOLKIT
     const char* name = "xmlns";
