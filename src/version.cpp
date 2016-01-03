@@ -67,7 +67,6 @@ EXIV2_RCSID("@(#) $Id$")
 #define  EXV_SYS_TYPES 0
 #endif
 
-
 #ifndef  EXV_HAVE_UNISTD
 #define  EXV_HAVE_UNISTD 0
 #endif
@@ -100,7 +99,8 @@ EXIV2_RCSID("@(#) $Id$")
 #include <vector>
 #include <stdio.h>
 #include <iostream>
-
+#include <unistd.h>
+#include <sys/types.h>
 
 namespace Exiv2 {
     int versionNumber()
@@ -155,7 +155,6 @@ namespace Exiv2 {
 # include <mach-o/dyld.h>
 
 #elif defined(__linux__)
-# include <unistd.h>
 // http://syprog.blogspot.com/2011/12/listing-loaded-shared-objects-in-linux.html
 # include <dlfcn.h>
   struct something
