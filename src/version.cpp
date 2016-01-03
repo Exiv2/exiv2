@@ -99,8 +99,12 @@ EXIV2_RCSID("@(#) $Id$")
 #include <vector>
 #include <stdio.h>
 #include <iostream>
+
+// #1147
+#ifndef WIN32
 #include <unistd.h>
 #include <sys/types.h>
+#endif
 
 namespace Exiv2 {
     int versionNumber()
@@ -155,6 +159,7 @@ namespace Exiv2 {
 # include <mach-o/dyld.h>
 
 #elif defined(__linux__)
+# include <unistd.h>
 // http://syprog.blogspot.com/2011/12/listing-loaded-shared-objects-in-linux.html
 # include <dlfcn.h>
   struct something
