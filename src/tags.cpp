@@ -85,6 +85,7 @@ namespace Exiv2 {
         { exifId,          "Exif",      "Photo",        exifTagList                    },
         { gpsId,           "GPSInfo",   "GPSInfo",      gpsTagList                     },
         { iopId,           "Iop",       "Iop",          iopTagList                     },
+        { mpfId,           "MPF",       "MPF",          mpfTagList                     },
         { subImage1Id,     "SubImage1", "SubImage1",    ifdTagList                     },
         { subImage2Id,     "SubImage2", "SubImage2",    ifdTagList                     },
         { subImage3Id,     "SubImage3", "SubImage3",    ifdTagList                     },
@@ -2118,9 +2119,79 @@ namespace Exiv2 {
                 iopId, iopTags, asciiString, -1, printValue)
     };
 
+    // MPF Tags http://www.sno.phy.queensu.ca/~phil/exiftool/TagNames/MPF.html
+    static const TagInfo mpfTagInfo[] = {
+        TagInfo(0xb000, "MPFVersion", N_("MPFVersion"),
+                N_("MPF Version"),
+                mpfId, iopTags, asciiString, 0, printValue),
+        TagInfo(0xb001, "MPFNumberOfImages", N_("MPFNumberOfImages"),
+                N_("MPF Number of Images"),
+                mpfId, iopTags, undefined, -1, printExifVersion),
+        TagInfo(0xb002, "MPFImageList", N_("MPFImageList"),
+                N_("MPF Image List"),
+                mpfId, iopTags, asciiString, 0, printValue),
+        TagInfo(0xb003, "MPFImageUIDList", N_("MPFImageUIDList	"),
+                N_("MPF Image UID List"),
+            	mpfId, iopTags, unsignedLong, 1, printValue),
+        TagInfo(0xb004, "MPFTotalFrames", N_("MPFTotalFrames"),
+                N_("MPF Total Frames"),
+                mpfId, iopTags, unsignedLong, 1, printValue),
+        TagInfo(0xb101, "MPFIndividualNum", N_("MPFIndividualNum"),
+                N_("MPF Individual Num"),
+                mpfId, iopTags, unsignedLong, 1, printValue),
+        TagInfo(0xb201, "MPFPanOrientation", N_("MPFPanOrientation"),
+                N_("MPFPanOrientation"),
+                mpfId, iopTags, unsignedLong, 1, printValue),
+        TagInfo(0xb202, "MPFPanOverlapH", N_("MPFPanOverlapH"),
+                N_("MPF Pan Overlap Horizonal"),
+                mpfId, iopTags, unsignedLong, 1, printValue),
+        TagInfo(0xb203, "MPFPanOverlapV", N_("MPFPanOverlapV"),
+                N_("MPF Pan Overlap Vertical"),
+                mpfId, iopTags, unsignedLong, 1, printValue),
+        TagInfo(0xb204, "MPFBaseViewpointNum", N_("MPFBaseViewpointNum"),
+                N_("MPF Base Viewpoint Number"),
+                mpfId, iopTags, unsignedLong, 1, printValue),
+        TagInfo(0xb205, "MPFConvergenceAngle", N_("MPFConvergenceAngle"),
+                N_("MPF Convergence Angle"),
+                mpfId, iopTags, unsignedLong, 1, printValue),
+        TagInfo(0xb206, "MPFBaselineLength", N_("MPFBaselineLength"),
+                N_("MPF Baseline Length"),
+                mpfId, iopTags, unsignedLong, 1, printValue),
+        TagInfo(0xb207, "MPFVerticalDivergence", N_("MPFVerticalDivergence"),
+                N_("MPF Vertical Divergence"),
+                mpfId, iopTags, unsignedLong, 1, printValue),
+        TagInfo(0xb208, "MPFAxisDistanceX", N_("MPFAxisDistanceX"),
+                N_("MPF Axis Distance X"),
+                mpfId, iopTags, unsignedLong, 1, printValue),
+        TagInfo(0xb209, "MPFAxisDistanceY", N_("MPFAxisDistanceY"),
+                N_("MPF Axis Distance Y"),
+                mpfId, iopTags, unsignedLong, 1, printValue),
+        TagInfo(0xb20a, "MPFAxisDistanceZ", N_("MPFAxisDistanceZ"),
+                N_("MPF Axis Distance Z"),
+                mpfId, iopTags, unsignedLong, 1, printValue),
+        TagInfo(0xb20b, "MPFYawAngle", N_("MPFYawAngle"),
+                N_("MPF Yaw Angle"),
+                mpfId, iopTags, unsignedLong, 1, printValue),
+        TagInfo(0xb20c, "MPFPitchAngle", N_("MPFPitchAngle"),
+                N_("MPF Pitch Angle"),
+                mpfId, iopTags, unsignedLong, 1, printValue),
+        TagInfo(0xb20d, "MPFRollAngle", N_("MPFRollAngle"),
+                N_("MPF Roll Angle"),
+                mpfId, iopTags, unsignedLong, 1, printValue),
+        // End of list marker
+        TagInfo(0xffff, "(UnknownIopTag)", N_("Unknown MPF tag"),
+                N_("Unknown MPF tag"),
+                mpfId, iopTags, asciiString, -1, printValue)
+    };
+
     const TagInfo* iopTagList()
     {
         return iopTagInfo;
+    }
+
+    const TagInfo* mpfTagList()
+    {
+        return mpfTagInfo;
     }
 
     // Synthesized Exiv2 Makernote info Tags (read-only)

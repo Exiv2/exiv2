@@ -91,9 +91,23 @@ namespace Exiv2 {
           @brief Print out the structure of image file.
           @throw Error if reading of the file fails or the image data is
                 not valid (does not look like data of the specific image type).
-          @caution This function is not thread safe and intended for exiv2 -pS for debugging.
+          @caution This function is not thread safe and intended for exiv2 -p{S|R} as a file debugging aid
          */
-        void printStructure(std::ostream& out, PrintStructureOption option);
+        void printStructure(std::ostream& out, PrintStructureOption option,int depth=-1);
+
+        /*!
+          @brief Print out the structure of image file.
+          @throw Error if reading of the file fails or the image data is
+                not valid (does not look like data of the specific image type).
+          @caution This function is not thread safe.  See TiffImage::printStructure for more details
+         */
+        static void printTiffStructure(BasicIo& io,std::ostream& out, PrintStructureOption option,int depth);
+
+        /*!
+          @brief Print out the structure of a TIFF IFD
+          @caution This function is not thread safe.  See TiffImage::printStructure for more details
+         */
+        static void printIFDStructure(BasicIo& io, std::ostream& out, Exiv2::PrintStructureOption option,size_t start,bool bSwap,char c,int depth);
 
         /*!
           @brief Not supported. TIFF format does not contain a comment.

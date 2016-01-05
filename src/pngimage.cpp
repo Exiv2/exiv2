@@ -48,6 +48,8 @@ EXIV2_RCSID("@(#) $Id$")
 #include <iostream>
 #include <cassert>
 
+#include <zlib.h>     // To uncompress IccProfiles
+
 // Signature from front of PNG file
 const unsigned char pngSignature[8] = { 0x89, 0x50, 0x4E, 0x47, 0x0D, 0x0A, 0x1A, 0x0A };
 
@@ -92,7 +94,47 @@ namespace Exiv2 {
         return "image/png";
     }
 
-    void PngImage::printStructure(std::ostream& out, PrintStructureOption option)
+    static void zlibUncompress(const byte*  compressedText,
+                                  unsigned int compressedTextSize,
+                                  DataBuf&     arr)
+    {
+        uLongf uncompressedLen = compressedTextSize * 2; // just a starting point
+        int zlibResult;
+        int dos = 0;
+
+        do {
+            arr.alloc(uncompressedLen);
+            zlibResult = uncompress((Bytef*)arr.pData_,
+                                    &uncompressedLen,
+                                    compressedText,
+                                    compressedTextSize);
+            if (zlibResult == Z_OK) {
+                assert((uLongf)arr.size_ >= uncompressedLen);
+                arr.size_ = uncompressedLen;
+            }
+            else if (zlibResult == Z_BUF_ERROR) {
+                // the uncompressedArray needs to be larger
+                uncompressedLen *= 2;
+                // DoS protection. can't be bigger than 64k
+                if (uncompressedLen > 131072) {
+                    if (++dos > 1) break;
+                    uncompressedLen = 131072;
+                }
+            }
+            else {
+                // something bad happened
+                throw Error(14);
+            }
+        }
+        while (zlibResult == Z_BUF_ERROR);
+
+        if (zlibResult != Z_OK) {
+            throw Error(14);
+        }
+    }
+
+
+    void PngImage::printStructure(std::ostream& out, PrintStructureOption option, int /*depth*/)
     {
         if (io_->open() != 0) {
             throw Error(9, io_->path(), strError());
@@ -104,7 +146,7 @@ namespace Exiv2 {
             throw Error(3, "PNG");
         }
 
-        if ( option == kpsIccProfile || option == kpsRecursive ) {
+        if ( option == kpsRecursive || option == kpsIccProfile ) { // disable kpsIccProfile because decompress isn't working!
         	throw Error(13, io_->path());
         }
 
@@ -112,7 +154,7 @@ namespace Exiv2 {
         chType[0]=0;
         chType[4]=0;
 
-        if ( option == kpsBasic || option == kpsXMP ) {
+        if ( option == kpsBasic || option == kpsXMP || option == kpsIccProfile ) {
 
             if ( option == kpsBasic ) {
                 out << "STRUCTURE OF PNG FILE: " << io_->path() << std::endl;
@@ -154,24 +196,38 @@ namespace Exiv2 {
                 }
 
                 if ( option == kpsBasic ) out << Internal::stringFormat("%8d | %5d | %10s |%8d | ",(uint32_t)address, index++,chType,dOff) << dataString << std::endl;
-                // for XMP, back up and read the whole block
+
+                // for XMP and ICC, back up and read the whole block
                 const char* key = "XML:com.adobe.xmp" ;
                 size_t      start = ::strlen(key);
 
-                if ( option == kpsXMP && dataString.find(key)==0 ) {
+                if( (option == kpsXMP && dataString.find(key)==0)
+                ||  (option == kpsIccProfile && std::strcmp(chType,"iCCP")==0)
+                ){
 #if defined(_MSC_VER)
                     io_->seek(-static_cast<int64_t>(blen) , BasicIo::cur);
 #else
                     io_->seek(-static_cast<long>(blen) , BasicIo::cur);
 #endif
                     dataOffset = dOff ;
-                    byte* xmp  = new byte[dataOffset+5];
-                    io_->read(xmp,dataOffset+4);
-                    xmp[dataOffset]=0;
-                    while ( xmp[start] == 0 ) start++; // crawl over the '\0' bytes between XML:....\0\0<xml stuff
-                    out << xmp+start;                  // output the xml
-                    delete [] xmp;
-                    dataOffset = 0;
+                    if ( option == kpsXMP ) {
+                        byte* xmp  = new byte[dataOffset+5];
+                        io_->read(xmp,dataOffset+4);
+                        xmp[dataOffset]=0;
+                        while ( xmp[start] == 0 ) start++; // crawl over the '\0' bytes between XML:....\0\0<xml stuff
+                        out << xmp+start;                  // output the xml
+                        delete [] xmp;
+                        dataOffset = 0; // we've read the data, so don't seek past the block
+                    } else if ( option == kpsIccProfile ) {
+                        byte* icc  = new byte[dataOffset];
+                        io_->read(icc,dataOffset);
+                        DataBuf decompressed;
+                        size_t name_l = std::strlen((const char*)icc)+1; // length of profile name
+                        zlibUncompress(icc+name_l,dataOffset-name_l,decompressed);
+                        out.write((const char*)decompressed.pData_,decompressed.size_);
+                        delete [] icc;
+                        dataOffset = 0;
+                    }
                 }
 
                 if ( dataOffset ) io_->seek(dataOffset + 4 , BasicIo::cur);
