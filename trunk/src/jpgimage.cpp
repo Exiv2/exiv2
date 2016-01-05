@@ -652,13 +652,13 @@ namespace Exiv2 {
                             out << std::endl;
 
                             // allocate storage and current file position
-                            byte*  exif        = new byte[size];
-                            size_t restore     = io_->tell();
+                            byte*    exif      = new byte[size];
+                            uint32_t restore   = io_->tell();
 
                             // copy the data to memory
                             io_->seek(-bufRead , BasicIo::cur);
                             io_->read(exif,size);
-                            std::size_t start  = std::strcmp(http,"Exif")==0 ? 8 : 6;
+                            uint32_t start     = std::strcmp(http,"Exif")==0 ? 8 : 6;
 
                             // create a copy on write memio object with the data, then print the structure
                             BasicIo::AutoPtr p = BasicIo::AutoPtr(new MemIo(exif+start,size-start));
