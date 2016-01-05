@@ -35,6 +35,7 @@ EXIV2_RCSID("@(#) $Id$")
 #include "config.h"
 
 #include "jpgimage.hpp"
+#include "tiffimage.hpp"
 #include "image_int.hpp"
 #include "error.hpp"
 #include "futils.hpp"
@@ -516,9 +517,9 @@ namespace Exiv2 {
         return true ;
     }
 
-#define REPORT_MARKER if ( option == kpsBasic ) out << Internal::stringFormat("%8ld | %#02x %-5s",io_->tell(), marker,nm[marker].c_str())
+#define REPORT_MARKER if ( (option == kpsBasic||option == kpsRecursive) ) out << Internal::stringFormat("%8ld | %#02x %-5s",io_->tell(), marker,nm[marker].c_str())
 
-    void JpegBase::printStructure(std::ostream& out, PrintStructureOption option)
+    void JpegBase::printStructure(std::ostream& out, PrintStructureOption option,int depth)
     {
         if (io_->open() != 0) throw Error(9, io_->path(), strError());
         // Ensure that this is the correct image type
@@ -570,7 +571,8 @@ namespace Exiv2 {
                     out << " address | marker     | length  | data" << std::endl ;
                     REPORT_MARKER;
                 }
-                first = false;
+                first    = false;
+                bool bLF = option == kpsBasic||option == kpsRecursive;
 
                 // Read size and signature
                 std::memset(buf.pData_, 0x0, buf.size_);
@@ -590,7 +592,7 @@ namespace Exiv2 {
                 ){
                     size = getUShort(buf.pData_, bigEndian);
                 }
-                if ( option == kpsBasic ) out << Internal::stringFormat(" | %7d ", size);
+                if ( option == kpsBasic||option==kpsRecursive ) out << Internal::stringFormat(" | %7d ", size);
 
                 // only print the signature for appn
                 if (marker >= app0_ && marker <= (app0_ | 0x0F)) {
@@ -637,15 +639,43 @@ namespace Exiv2 {
                             bufRead = size;
                             delete [] icc;
                         }
-                    } else if ( option == kpsBasic ) {
-                        out << "| " << Internal::binaryToString(buf,32,size>0?2:0);
+                    } else if ( option == kpsBasic||option==kpsRecursive ) {
+                        out << "| " << Internal::binaryToString(buf,size>32?32:size,size>0?2:0);
+                    }
+
+                    // for MPF: http://www.sno.phy.queensu.ca/~phil/exiftool/TagNames/MPF.html
+                    if( (option == kpsRecursive && marker == (app0_+1) && std::strcmp(http,"Exif")==0 )
+                    ||  (option == kpsRecursive && marker == (app0_+2) && std::strcmp(http,"MPF" )==0 )
+                    ) {
+                        // extract Exif data block which is tiff formatted
+                        if ( size > 0 ) {
+                            out << std::endl;
+
+                            // allocate storage and current file position
+                            byte*  exif        = new byte[size];
+                            size_t restore     = io_->tell();
+
+                            // copy the data to memory
+                            io_->seek(-bufRead , BasicIo::cur);
+                            io_->read(exif,size);
+                            std::size_t start  = std::strcmp(http,"Exif")==0 ? 8 : 6;
+
+                            // create a copy on write memio object with the data, then print the structure
+                            BasicIo::AutoPtr p = BasicIo::AutoPtr(new MemIo(exif+start,size-start));
+                            TiffImage::printTiffStructure(*p,out,option,depth);
+
+                            // restore and clean up
+                            io_->seek(restore,Exiv2::BasicIo::beg);
+                            delete [] exif;
+                            bLF    = false;
+                        }
                     }
                 }
 
                 // Skip the segment if the size is known
                 if (io_->seek(size - bufRead, BasicIo::cur)) throw Error(14);
 
-                if ( option == kpsBasic ) out << std::endl;
+                if ( bLF ) out << std::endl;
 
                 if (marker == sos_)
                     // sos_ is immediately followed by entropy-coded data & eoi_

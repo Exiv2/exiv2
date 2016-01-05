@@ -113,7 +113,7 @@ namespace Exiv2 {
                 not valid (does not look like data of the specific image type).
           @caution This function is not thread safe and intended for exiv2 -pS for debugging.
          */
-        virtual void printStructure(std::ostream& out, PrintStructureOption option =kpsNone);
+        virtual void printStructure(std::ostream& out, PrintStructureOption option =kpsNone, int depth=0);
         /*!
           @brief Read all metadata supported by a specific image format from the
               image. Before this method is called, the image metadata will be

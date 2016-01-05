@@ -3,7 +3,7 @@
 .\" First parameter, NAME, should be all caps
 .\" Second parameter, SECTION, should be 1-8, maybe w/ subsection
 .\" other parameters are allowed: see man(7), man(1)
-.TH EXIV2 1 "Dec 29, 2015"
+.TH EXIV2 1 "Jan 5, 2016"
 .\" Please adjust this date whenever revising the manpage.
 .\"
 .\" Some roff macros, for reference:
@@ -175,9 +175,9 @@ fmt		Default format is %Y%m%d_%H%M%S.
 lvl		d | i | i | w | e
 		debug, info, warning, error
 
-mod		s | a | t | v | h | i | x | c | p | i | S | X :
+mod		s | a | t | v | h | i | x | c | p | i | C | R | S | X :
 		summary, add, translated, vanilla, hex ...
-		iptc ,xmp, comment, preview, Structure,XMP raw
+		iptc ,xmp, comment, preview, ICC, Recursive, Structure, raw XMP
 
 tgt		a | c | e | i | t | x
 		all, comment, exif, iptc, thumb, xmp
@@ -315,9 +315,13 @@ c : JPEG comment
 .br
 p : list available image previews, sorted by preview image size in pixels
 .br
-S : print image structure information (jpg, png and tiff only)
+C : print image ICC Profile (jpg only)
 .br
-X : print "raw" XMP (jpg, png and tiff only)
+R : print image structure recursively (jpg, tiff only)
+.br
+S : print image structure information (jpg, png, tiff only)
+.br
+X : print "raw" XMP (jpg, png, tiff only)
 .TP
 .B \-P \fIflgs\fP
 Print flags for fine control of the tag list ('print' action). Allows

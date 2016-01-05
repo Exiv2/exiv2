@@ -62,6 +62,7 @@ namespace Exiv2 {
         exifId,
         gpsId,
         iopId,
+        mpfId,
         subImage1Id,
         subImage2Id,
         subImage3Id,
@@ -304,6 +305,8 @@ namespace Exiv2 {
     const TagInfo* gpsTagList();
     //! Return read-only list of built-in Exiv2 Makernote info tags
     const TagInfo* mnTagList();
+    //! Return read-only list of built-in mfp Tags http://www.sno.phy.queensu.ca/~phil/exiftool/TagNames/MPF.html
+    const TagInfo* mpfTagList();
 
     //! Return the group id for a group name
     IfdId groupId(const std::string& groupName);

@@ -393,6 +393,7 @@ namespace Exiv2 {
             for (ti = Exiv2:: gpsTagList(), idx = 0; ti[idx].tag_ != 0xffff; ++idx) tags[ti[idx].tag_] = ti[idx].name_;
             for (ti = Exiv2:: ifdTagList(), idx = 0; ti[idx].tag_ != 0xffff; ++idx) tags[ti[idx].tag_] = ti[idx].name_;
             for (ti = Exiv2::exifTagList(), idx = 0; ti[idx].tag_ != 0xffff; ++idx) tags[ti[idx].tag_] = ti[idx].name_;
+            for (ti = Exiv2:: mpfTagList(), idx = 0; ti[idx].tag_ != 0xffff; ++idx) tags[ti[idx].tag_] = ti[idx].name_;
         }
         init = false;
 
@@ -446,7 +447,14 @@ namespace Exiv2 {
 
 #define MIN(a,b) ((a)<(b))?(b):(a)
 
-    void TiffImage::printStructure(std::ostream& out, Exiv2::PrintStructureOption option)
+    static std::string indent(int depth)
+    {
+        std::string result;
+        while ( depth -- ) result += "  ";
+        return result;
+    }
+
+    void TiffImage::printStructure(std::ostream& out, Exiv2::PrintStructureOption option,int depth)
     {
         if (io_->open() != 0) throw Error(9, io_->path(), strError());
         // Ensure that this is the correct image type
@@ -455,113 +463,138 @@ namespace Exiv2 {
             throw Error(15);
         }
 
-        if ( option == kpsIccProfile || option == kpsRecursive ) {
-        	throw Error(13, io_->path());
+        if ( option == kpsIccProfile ) {
+            throw Error(13, io_->path());
+        }
+        io_->seek(0,BasicIo::beg);
+
+        printTiffStructure(io(),out,option,depth-1);
+    }
+
+    void TiffImage::printIFDStructure(BasicIo& io, std::ostream& out, Exiv2::PrintStructureOption option,size_t start,bool bSwap,char c,int depth)
+    {
+        depth++;
+        if ( option == kpsBasic || option == kpsRecursive ) {
+            out << indent(depth) << Internal::stringFormat("STRUCTURE OF TIFF FILE (%c%c): ",c,c) << io.path() << std::endl;
+            out << indent(depth) << " address |    tag                           |      type |    count |   offset | value\n";
         }
 
+        // buffer
+        const size_t dirSize = 32;
+        DataBuf  dir(dirSize);
+        while  ( start ) {
+            // if ( option == kpsBasic ) out << Internal::stringFormat("bSwap, start = %d %u\n",bSwap,offset);
 
-        if ( option == kpsBasic || option == kpsXMP ) {
-            io_->seek(0,BasicIo::beg);
+            // Read top of directory
+            io.seek(start,BasicIo::beg);
+            io.read(dir.pData_, 2);
+            uint16_t   dirLength = byteSwap2(dir,0,bSwap);
+
+            // Read the dictionary
+            for ( int i = 0 ; i < dirLength ; i ++ ) {
+                io.read(dir.pData_, 12);
+                uint16_t tag    = byteSwap2(dir,0,bSwap);
+                uint16_t type   = byteSwap2(dir,2,bSwap);
+                uint32_t count  = byteSwap4(dir,4,bSwap);
+                uint32_t offset = byteSwap4(dir,8,bSwap);
+
+                std::string sp = "" ; // output spacer
+
+                //prepare to print the value
+                uint16_t kount = isPrintXMP(tag,option) ? count // restrict long arrays
+                               : isStringType(type)     ? (count > 32 ? 32 : count)
+                               : count > 5              ? 5
+                               : count
+                               ;
+                uint32_t pad   = isStringType(type) ? 1 : 0;
+                uint32_t size  = isStringType(type) ? 1
+                               : is2ByteType(type)  ? 2
+                               : is4ByteType(type)  ? 4
+                               : 1
+                               ;
+                uint32_t Offset = 0 ; // used by ExifTag == 0x8769 && MakerNote == 0x927c to locate an FID
+
+                // if ( offset > io.size() ) offset = 0;
+                DataBuf  buf(MIN(size*kount + pad,48));  // allocate a buffer
+                if ( isStringType(type) || count*size > 4 ) {          // data is in the directory => read into buffer
+                    size_t   restore = io.tell();  // save
+                    io.seek(offset,BasicIo::beg);  // position
+                    io.read(buf.pData_,kount*size);// read
+                    io.seek(restore,BasicIo::beg); // restore
+                } else {                     // move data from directory to the buffer
+                    std::memcpy(buf.pData_,dir.pData_+8,12);
+                }
+
+                if ( option == kpsBasic || option == kpsRecursive ) {
+                    uint32_t address = start + 2 + i*12 ;
+                    out << indent(depth) << Internal::stringFormat("%8u | %#06x %-25s |%10s |%9u |%9u | ",address,tag,tagName(tag,25),typeName(type),count,offset);
+
+                    if ( isShortType(type) ){
+                        for ( uint16_t k = 0 ; k < kount ; k++ ) {
+                            out << sp << byteSwap2(buf,k*size,bSwap);
+                            sp = " ";
+                        }
+                    } else if ( isLongType(type) ){
+                        for ( uint16_t k = 0 ; k < kount ; k++ ) {
+                            out << sp << byteSwap4(buf,k*size,bSwap);
+                            if ( k == 0 ) Offset = byteSwap4(buf,k*size,bSwap) ;
+                            sp = " ";
+                        }
+                    } else if ( isRationalType(type) ){
+                        for ( uint16_t k = 0 ; k < kount ; k++ ) {
+                            uint16_t a = byteSwap2(buf,k*size+0,bSwap);
+                            uint16_t b = byteSwap2(buf,k*size+2,bSwap);
+                            if ( isLittleEndian() ) {
+                                if ( bSwap ) out << sp << b << "/" << a;
+                                else         out << sp << a << "/" << b;
+                            } else {
+                                if ( bSwap ) out << sp << a << "/" << b;
+                                else         out << sp << b << "/" << a;
+                            }
+                            sp = " ";
+                        }
+                    } else if ( isStringType(type) ) {
+                        out << sp << Internal::binaryToString(buf, kount);
+                    }
+                    sp = kount == count ? "" : " ...";
+                    out << sp << std::endl;
+                    if ( option == kpsRecursive
+                    && (tag == 0x8769 /* ExifTag */ || tag == 0x927c /* MakerNote */)
+                    ){
+                        size_t restore = io.tell();
+                        printIFDStructure(io,out,option,Offset,bSwap,c,depth);
+                        io.seek(restore,BasicIo::beg);
+                    }
+                }
+
+                if ( isPrintXMP(tag,option) ) {
+                    buf.pData_[count]=0;
+                    out << (char*) buf.pData_;
+                }
+            }
+            io.read(dir.pData_, 4);
+            start = byteSwap4(dir,0,bSwap);
+            out.flush();
+        } // while start
+        depth--;
+    }
+
+    void TiffImage::printTiffStructure(BasicIo& io, std::ostream& out, Exiv2::PrintStructureOption option,int depth)
+    {
+        if ( option == kpsBasic || option == kpsXMP || option == kpsRecursive ) {
             // buffer
             const size_t dirSize = 32;
             DataBuf  dir(dirSize);
 
             // read header (we already know for certain that we have a Tiff file)
-            io_->read(dir.pData_,  8);
+            io.read(dir.pData_,  8);
             char c = (char) dir.pData_[0] ;
             bool bSwap   = ( c == 'M' && isLittleEndian() )
                         || ( c == 'I' && isBigEndian()    )
                         ;
 
-            if ( option == kpsBasic ) {
-                out << Internal::stringFormat("STRUCTURE OF TIFF FILE (%c%c): ",c,c) << io_->path() << std::endl;
-                out << " address |    tag                           |      type |    count |   offset | value\n";
-            }
-
             uint32_t start = byteSwap4(dir,4,bSwap);
-            while  ( start ) {
-                // if ( option == kpsBasic ) out << Internal::stringFormat("bSwap, start = %d %u\n",bSwap,offset);
-
-                // Read top of directory
-                io_->seek(start,BasicIo::beg);
-                io_->read(dir.pData_, 2);
-                uint16_t   dirLength = byteSwap2(dir,0,bSwap);
-
-                // Read the dictionary
-                for ( int i = 0 ; i < dirLength ; i ++ ) {
-                    io_->read(dir.pData_, 12);
-                    uint16_t tag    = byteSwap2(dir,0,bSwap);
-                    uint16_t type   = byteSwap2(dir,2,bSwap);
-                    uint32_t count  = byteSwap4(dir,4,bSwap);
-                    uint32_t offset = byteSwap4(dir,8,bSwap);
-
-                    std::string sp = "" ; // output spacer
-
-                    //prepare to print the value
-                    uint16_t kount = isPrintXMP(tag,option) ? count // restrict long arrays
-                                   : isStringType(type)     ? (count > 32 ? 32 : count)
-                                   : count > 5              ? 5
-                                   : count
-                                   ;
-                    uint32_t pad   = isStringType(type) ? 1 : 0;
-                    uint32_t size  = isStringType(type) ? 1
-                                   : is2ByteType(type)  ? 2
-                                   : is4ByteType(type)  ? 4
-                                   : 1
-                                   ;
-
-                    DataBuf  buf(MIN(size*kount + pad,48));  // allocate a buffer
-                    if ( isStringType(type) || count*size > 4 ) {          // data is in the directory => read into buffer
-                        size_t   restore = io_->tell();  // save
-                        io_->seek(offset,BasicIo::beg);  // position
-                        io_->read(buf.pData_,kount*size);// read
-                        io_->seek(restore,BasicIo::beg); // restore
-                    } else {                         // move data from directory to the buffer
-                        std::memcpy(buf.pData_,dir.pData_+8,12);
-                    }
-
-                    if ( option == kpsBasic ) {
-                        uint32_t address = start + 2 + i*12 ;
-                        out << Internal::stringFormat("%8u | %#06x %-25s |%10s |%9u |%9u | ",address,tag,tagName(tag,25),typeName(type),count,offset);
-
-                        if ( isShortType(type) ){
-                            for ( uint16_t k = 0 ; k < kount ; k++ ) {
-                                out << sp << byteSwap2(buf,k*size,bSwap);
-                                sp = " ";
-                            }
-                        } else if ( isLongType(type) ){
-                            for ( uint16_t k = 0 ; k < kount ; k++ ) {
-                                out << sp << byteSwap4(buf,k*size,bSwap);
-                                sp = " ";
-                            }
-                        } else if ( isRationalType(type) ){
-                            for ( uint16_t k = 0 ; k < kount ; k++ ) {
-                            	uint16_t a = byteSwap2(buf,k*size+0,bSwap);
-                            	uint16_t b = byteSwap2(buf,k*size+2,bSwap);
-                            	if ( isLittleEndian() ) {
-                                	if ( bSwap ) out << sp << b << "/" << a;
-                                	else         out << sp << a << "/" << b;
-                                } else {
-                                	if ( bSwap ) out << sp << a << "/" << b;
-                                	else         out << sp << b << "/" << a;
-                                }
-                                sp = " ";
-                            }
-                        } else if ( isStringType(type) ) {
-                            out << sp << Internal::binaryToString(buf, kount);
-                        }
-                        sp = kount == count ? "" : " ...";
-                        out << sp << std::endl;
-                    }
-
-                    if ( isPrintXMP(tag,option) ) {
-                        buf.pData_[count]=0;
-                        out << (char*) buf.pData_;
-                    }
-                }
-                io_->read(dir.pData_, 4);
-                start = byteSwap4(dir,0,bSwap);
-            } // while offset
+            printIFDStructure(io,out,option,start,bSwap,c,depth);
         }
     }
 
