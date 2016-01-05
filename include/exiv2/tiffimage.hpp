@@ -107,7 +107,7 @@ namespace Exiv2 {
           @brief Print out the structure of a TIFF IFD
           @caution This function is not thread safe.  See TiffImage::printStructure for more details
          */
-        static void printIFDStructure(BasicIo& io, std::ostream& out, Exiv2::PrintStructureOption option,size_t start,bool bSwap,char c,int depth);
+        static void printIFDStructure(BasicIo& io, std::ostream& out, Exiv2::PrintStructureOption option,uint32_t start,bool bSwap,char c,int depth);
 
         /*!
           @brief Not supported. TIFF format does not contain a comment.

@@ -175,12 +175,12 @@ fmt		Default format is %Y%m%d_%H%M%S.
 lvl		d | i | i | w | e
 		debug, info, warning, error
 
-mod		s | a | t | v | h | i | x | c | p | i | C | R | S | X :
-		summary, add, translated, vanilla, hex ...
-		iptc ,xmp, comment, preview, ICC, Recursive, Structure, raw XMP
+mod		s | a | t | v | h | i | x | c | p | i | C | R | S | X
+		summary, all, translated, vanilla, hex iptc ,xmp, comment, preview,
+		ICC Profile, Recursive Structure, Simple Structure, raw XMP
 
-tgt		a | c | e | i | t | x
-		all, comment, exif, iptc, thumb, xmp
+tgt		a | c | e | i | t | x | C
+		all, comment, exif, iptc, thumb, xmp, ICC Profile
 
 .br
 .fi
@@ -399,6 +399,8 @@ p[<n>[,<m> ...]] : Extract preview images. The optional comma separated
 list of preview image numbers is used to determine which preview images
 to extract. The available preview images and their numbers are displayed
 with the 'print' option \fB\-pp\fP.
+.sp 1
+C : Extract embedded ICC profile to <file>.icc
 .sp 1
 X : Extract metadata to an XMP sidecar file <file>.xmp. The remaining
 extract targets determine what metadata to extract to the sidecar

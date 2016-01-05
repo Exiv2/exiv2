@@ -471,7 +471,7 @@ namespace Exiv2 {
         printTiffStructure(io(),out,option,depth-1);
     }
 
-    void TiffImage::printIFDStructure(BasicIo& io, std::ostream& out, Exiv2::PrintStructureOption option,size_t start,bool bSwap,char c,int depth)
+    void TiffImage::printIFDStructure(BasicIo& io, std::ostream& out, Exiv2::PrintStructureOption option,uint32_t start,bool bSwap,char c,int depth)
     {
         depth++;
         if ( option == kpsBasic || option == kpsRecursive ) {
@@ -527,7 +527,8 @@ namespace Exiv2 {
 
                 if ( option == kpsBasic || option == kpsRecursive ) {
                     uint32_t address = start + 2 + i*12 ;
-                    out << indent(depth) << Internal::stringFormat("%8u | %#06x %-25s |%10s |%9u |%9u | ",address,tag,tagName(tag,25),typeName(type),count,offset);
+                    out << indent(depth) << Internal::stringFormat("%8u | %#06x %-25s |%10s |%9u |%9u | "
+						                     ,address,tag,tagName(tag,25),typeName(type),count,offset);
 
                     if ( isShortType(type) ){
                         for ( uint16_t k = 0 ; k < kount ; k++ ) {

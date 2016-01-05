@@ -198,8 +198,8 @@ namespace Exiv2 {
                 if ( option == kpsBasic ) out << Internal::stringFormat("%8d | %5d | %10s |%8d | ",(uint32_t)address, index++,chType,dOff) << dataString << std::endl;
 
                 // for XMP and ICC, back up and read the whole block
-                const char* key = "XML:com.adobe.xmp" ;
-                size_t      start = ::strlen(key);
+                const char* key   = "XML:com.adobe.xmp" ;
+                uint32_t    start = (uint32_t) ::strlen(key);
 
                 if( (option == kpsXMP && dataString.find(key)==0)
                 ||  (option == kpsIccProfile && std::strcmp(chType,"iCCP")==0)
@@ -222,7 +222,7 @@ namespace Exiv2 {
                         byte* icc  = new byte[dataOffset];
                         io_->read(icc,dataOffset);
                         DataBuf decompressed;
-                        size_t name_l = std::strlen((const char*)icc)+1; // length of profile name
+                        uint32_t name_l = (uint32_t) std::strlen((const char*)icc)+1; // length of profile name
                         zlibUncompress(icc+name_l,dataOffset-name_l,decompressed);
                         out.write((const char*)decompressed.pData_,decompressed.size_);
                         delete [] icc;
