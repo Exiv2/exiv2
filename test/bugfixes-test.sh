@@ -414,6 +414,15 @@ source ./functions.source
 	copyTestFile              $filename
 	runTest exiv2 -pa -g zone $filename
 
+	num=1074
+	filename=exiv2-bug$num.jpg
+	printf "$num " >&3
+	echo '------>' Bug $num '<-------' >&2
+	copyTestFile   imagemagick.png   $filename
+	runTest exiv2 -pC $filename                                                 | wc
+	runTest exiv2 -pC http://dev.exiv2.org/attachments/download/821/Reagan.tiff | wc
+	runTest exiv2 -pC http://dev.exiv2.org/attachments/download/820/Reagan.jpg  | wc
+
 	num=1112
 	filename=exiv2-bug$num.xmp
 	printf "$num " >&3
