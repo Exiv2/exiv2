@@ -250,11 +250,11 @@ namespace Exiv2 {
 
                 if( bDump ) {
                     DataBuf   dataBuf;
-                    byte*     data   = new byte[dataOffset];
+                    byte*     data     = new byte[dataOffset];
                     io_->read(data,dataOffset);
                     io_->seek(restore, BasicIo::beg);
-                    size_t     name_l = std::strlen((const char*)data)+1; // leading string length
-                    size_t     start  = name_l;
+                    uint32_t    name_l = (uint32_t) std::strlen((const char*)data)+1; // leading string length
+                    uint32_t     start = name_l;
 
                     // decode the chunk
                     bool bGood = false;
@@ -278,7 +278,7 @@ namespace Exiv2 {
                         }
                         if ( bExif ) {
                             const char* bytes = (const char*) dataBuf.pData_;
-                            long        l     = std::strlen(bytes)+2;
+                            uint32_t    l     = (uint32_t) std::strlen(bytes)+2;
                             // create a copy on write memio object with the data, then print the structure
                             BasicIo::AutoPtr p = BasicIo::AutoPtr(new MemIo(dataBuf.pData_+l,dataBuf.size_-l));
                             TiffImage::printTiffStructure(*p,out,option,depth);
@@ -286,7 +286,7 @@ namespace Exiv2 {
 
                         if ( bSoft ) {
                             const char* bytes = (const char*) dataBuf.pData_;
-                            long        l     = std::strlen(bytes)+2;
+                            uint32_t    l     = (uint32_t) std::strlen(bytes)+2;
                             // create a copy on write memio object with the data, then print the structure
                             BasicIo::AutoPtr p = BasicIo::AutoPtr(new MemIo(dataBuf.pData_+l,dataBuf.size_-l));
                             out << indent(depth) << (const char*) buff.pData_ << ": " << (const char*) dataBuf.pData_ << std::endl;
@@ -298,7 +298,7 @@ namespace Exiv2 {
 
                         if ( bIptc && bSoft ) { // we require a photoshop parser to recover IPTC data
                             const char* bytes = (const char*) dataBuf.pData_;
-                            long        l     = std::strlen(bytes)+2;
+                            uint32_t    l     = (uint32_t) std::strlen(bytes)+2;
                             // create a copy on write memio object with the data, then print the structure
                             BasicIo::AutoPtr p = BasicIo::AutoPtr(new MemIo(dataBuf.pData_+l,dataBuf.size_-l));
                             TiffImage::printTiffStructure(*p,out,option,depth);
