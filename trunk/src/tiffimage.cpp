@@ -474,24 +474,30 @@ namespace Exiv2 {
     void TiffImage::printIFDStructure(BasicIo& io, std::ostream& out, Exiv2::PrintStructureOption option,uint32_t start,bool bSwap,char c,int depth)
     {
         depth++;
-        if ( option == kpsBasic || option == kpsRecursive ) {
-            out << indent(depth) << Internal::stringFormat("STRUCTURE OF TIFF FILE (%c%c): ",c,c) << io.path() << std::endl;
-            out << indent(depth) << " address |    tag                           |      type |    count |   offset | value\n";
-        }
+        bool bFirst  = true  ;
 
         // buffer
         const size_t dirSize = 32;
         DataBuf  dir(dirSize);
-        while  ( start ) {
-            // if ( option == kpsBasic ) out << Internal::stringFormat("bSwap, start = %d %u\n",bSwap,offset);
-
+        do {
             // Read top of directory
             io.seek(start,BasicIo::beg);
             io.read(dir.pData_, 2);
             uint16_t   dirLength = byteSwap2(dir,0,bSwap);
 
+            bool tooBig = dirLength > 200 ;
+
+            if ( bFirst && (option == kpsBasic || option == kpsRecursive) ) {
+                out << indent(depth) << Internal::stringFormat("STRUCTURE OF TIFF FILE (%c%c): ",c,c) << io.path() << std::endl;
+                if ( tooBig ) out << indent(depth) << "dirLength = " << dirLength << std::endl;
+            }
+
             // Read the dictionary
-            for ( int i = 0 ; i < dirLength ; i ++ ) {
+            for ( int i = 0 ; !tooBig && i < dirLength ; i ++ ) {
+                if ( bFirst )
+                    out << indent(depth) << " address |    tag                           |      type |    count |   offset | value\n";
+                bFirst = false;
+
                 io.read(dir.pData_, 12);
                 uint16_t tag    = byteSwap2(dir,0,bSwap);
                 uint16_t type   = byteSwap2(dir,2,bSwap);
@@ -527,8 +533,9 @@ namespace Exiv2 {
 
                 if ( option == kpsBasic || option == kpsRecursive ) {
                     uint32_t address = start + 2 + i*12 ;
-                    out << indent(depth) << Internal::stringFormat("%8u | %#06x %-25s |%10s |%9u |%9u | "
-						                     ,address,tag,tagName(tag,25),typeName(type),count,offset);
+                    out << indent(depth)
+                            << Internal::stringFormat("%8u | %#06x %-25s |%10s |%9u |%9u | "
+                                ,address,tag,tagName(tag,25),typeName(type),count,offset);
 
                     if ( isShortType(type) ){
                         for ( uint16_t k = 0 ; k < kount ; k++ ) {
@@ -560,7 +567,7 @@ namespace Exiv2 {
                     sp = kount == count ? "" : " ...";
                     out << sp << std::endl;
                     if ( option == kpsRecursive
-                    && (tag == 0x8769 /* ExifTag */ || tag == 0x927c /* MakerNote */)
+                    && (tag == 0x8769 /* ExifTag */ /* || tag == 0x927c MakerNote */)
                     ){
                         size_t restore = io.tell();
                         printIFDStructure(io,out,option,Offset,bSwap,c,depth);
@@ -574,9 +581,13 @@ namespace Exiv2 {
                 }
             }
             io.read(dir.pData_, 4);
-            start = byteSwap4(dir,0,bSwap);
+            start = tooBig ? 0 : byteSwap4(dir,0,bSwap);
             out.flush();
-        } // while start
+        } while (start) ;
+
+        if ( option == kpsBasic || option == kpsRecursive ) {
+            out << indent(depth) << "END " << io.path() << std::endl;
+        }
         depth--;
     }
 
