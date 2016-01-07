@@ -36,6 +36,7 @@ EXIV2_RCSID("@(#) $Id$")
 #include "pngchunk_int.hpp"
 #include "pngimage.hpp"
 #include "jpgimage.hpp"
+#include "tiffimage.hpp"
 #include "image.hpp"
 #include "image_int.hpp"
 #include "basicio.hpp"
@@ -94,47 +95,76 @@ namespace Exiv2 {
         return "image/png";
     }
 
-    static void zlibUncompress(const byte*  compressedText,
-                                  unsigned int compressedTextSize,
-                                  DataBuf&     arr)
+    static bool zlibToDataBuf(const byte* bytes,long length, DataBuf& result)
     {
-        uLongf uncompressedLen = compressedTextSize * 2; // just a starting point
-        int zlibResult;
-        int dos = 0;
+        uLongf uncompressedLen = length * 2; // just a starting point
+        int    zlibResult;
 
         do {
-            arr.alloc(uncompressedLen);
-            zlibResult = uncompress((Bytef*)arr.pData_,
-                                    &uncompressedLen,
-                                    compressedText,
-                                    compressedTextSize);
-            if (zlibResult == Z_OK) {
-                assert((uLongf)arr.size_ >= uncompressedLen);
-                arr.size_ = uncompressedLen;
-            }
-            else if (zlibResult == Z_BUF_ERROR) {
+            result.alloc(uncompressedLen);
+            zlibResult = uncompress((Bytef*)result.pData_,&uncompressedLen,bytes,length);
+            if (zlibResult == Z_BUF_ERROR) {
                 // the uncompressedArray needs to be larger
-                uncompressedLen *= 2;
-                // DoS protection. can't be bigger than 64k
-                if (uncompressedLen > 131072) {
-                    if (++dos > 1) break;
-                    uncompressedLen = 131072;
-                }
-            }
-            else {
-                // something bad happened
-                throw Error(14);
-            }
-        }
-        while (zlibResult == Z_BUF_ERROR);
+                result.release();
 
-        if (zlibResult != Z_OK) {
-            throw Error(14);
-        }
+                // never bigger than 64k
+                if  (uncompressedLen > 64*1024) zlibResult = Z_DATA_ERROR;
+                uncompressedLen *= 2;
+            }
+        } while (zlibResult == Z_BUF_ERROR);
+
+        return zlibResult == Z_OK ;
     }
 
+    static bool tEXtToDataBuf(const byte* bytes,long length,DataBuf& result)
+    {
+        static const char* hexdigits = "0123456789ABCDEF";
+        static int         value   [256] ;
+        static bool        bFirst = true ;
+        if ( bFirst ) {
+            for ( int i = 0 ; i < 256 ; i++ )
+                value[i] = 0;
+            for ( int i = 0 ; i < 16 ; i++ ) {
+                value[tolower(hexdigits[i])]=i+1;
+                value[toupper(hexdigits[i])]=i+1;
+            }
+            bFirst = false;
+        }
 
-    void PngImage::printStructure(std::ostream& out, PrintStructureOption option, int /*depth*/)
+        // calculate length and allocate result;
+        long        count=0;
+        const byte* p = bytes ;
+        // header is \nsomething\n number\n hex
+        while ( count < 3 )
+            if ( *p++ == '\n' )
+                count++;
+        for ( long i = 0 ; i < length ; i++ )
+            if ( value[p[i]] )
+                ++count;
+        result.alloc((count+1)/2) ;
+
+        // hex to binary
+        count   = 0 ;
+        byte* r = result.pData_;
+        int   n = 0 ; // nibble
+        for ( long i = 0 ; i < length ; i++ ) {
+            if ( value[p[i]] ) {
+                int v = value[p[i]]-1 ;
+                if ( ++count % 2 ) n = v*16 ; // leading digit
+                else *r++ =        n + v    ; // trailing
+            }
+        }
+        return true;
+    }
+
+    static std::string indent(int depth)
+    {
+        std::string result;
+        while ( depth -- ) result += "  ";
+        return result;
+    }
+
+    void PngImage::printStructure(std::ostream& out, PrintStructureOption option, int depth)
     {
         if (io_->open() != 0) {
             throw Error(9, io_->path(), strError());
@@ -146,17 +176,19 @@ namespace Exiv2 {
             throw Error(3, "PNG");
         }
 
-        if ( option == kpsRecursive || option == kpsIccProfile ) { // disable kpsIccProfile because decompress isn't working!
-        	throw Error(13, io_->path());
-        }
-
         char    chType[5];
         chType[0]=0;
         chType[4]=0;
 
-        if ( option == kpsBasic || option == kpsXMP || option == kpsIccProfile ) {
+        if ( option == kpsBasic || option == kpsXMP || option == kpsIccProfile || option == kpsRecursive ) {
 
-            if ( option == kpsBasic ) {
+            const std::string xmpKey  = "XML:com.adobe.xmp";
+            const std::string exifKey = "Raw profile type exif";
+            const std::string iptcKey = "Raw profile type iptc";
+            const std::string iccKey  = "icc";
+            const std::string softKey = "Software";
+
+            if ( option == kpsBasic || option == kpsRecursive ) {
                 out << "STRUCTURE OF PNG FILE: " << io_->path() << std::endl;
                 out << " address | index | chunk_type |  length | data" << std::endl;
             }
@@ -175,62 +207,106 @@ namespace Exiv2 {
 
                 // Decode chunk data length.
                 uint32_t dataOffset = Exiv2::getULong(cheaderBuf.pData_, Exiv2::bigEndian);
-                long pos = io_->tell();
-                if (   pos == -1
-                    || dataOffset > uint32_t(0x7FFFFFFF)
-                    || static_cast<long>(dataOffset) > imgSize - pos) throw Exiv2::Error(14);
-
                 for (int i = 4; i < 8; i++) {
                     chType[i-4]=cheaderBuf.pData_[i];
                 }
 
-                uint32_t    blen = 32   ;
-                uint32_t    dOff = dataOffset;
-                std::string dataString ;
-
-                if ( dataOffset > blen ) {
-                    DataBuf buff(blen+1);
-                    io_->read(buff.pData_,blen);
-                    dataOffset -=  blen ;
-                    dataString  = Internal::binaryToString(buff, blen);
-                }
-
-                if ( option == kpsBasic ) out << Internal::stringFormat("%8d | %5d | %10s |%8d | ",(uint32_t)address, index++,chType,dOff) << dataString << std::endl;
-
-                // for XMP and ICC, back up and read the whole block
-                const char* key   = "XML:com.adobe.xmp" ;
-                uint32_t    start = (uint32_t) ::strlen(key);
-
-                if( (option == kpsXMP && dataString.find(key)==0)
-                ||  (option == kpsIccProfile && std::strcmp(chType,"iCCP")==0)
+                // test that we haven't hit EOF, or wanting to read excessive data
+                long restore = io_->tell();
+                if(  restore == -1
+                ||  dataOffset > uint32_t(0x7FFFFFFF)
+                ||  static_cast<long>(dataOffset) > imgSize - restore
                 ){
-#if defined(_MSC_VER)
-                    io_->seek(-static_cast<int64_t>(blen) , BasicIo::cur);
-#else
-                    io_->seek(-static_cast<long>(blen) , BasicIo::cur);
-#endif
-                    dataOffset = dOff ;
-                    if ( option == kpsXMP ) {
-                        byte* xmp  = new byte[dataOffset+5];
-                        io_->read(xmp,dataOffset+4);
-                        xmp[dataOffset]=0;
-                        while ( xmp[start] == 0 ) start++; // crawl over the '\0' bytes between XML:....\0\0<xml stuff
-                        out << xmp+start;                  // output the xml
-                        delete [] xmp;
-                        dataOffset = 0; // we've read the data, so don't seek past the block
-                    } else if ( option == kpsIccProfile ) {
-                        byte* icc  = new byte[dataOffset];
-                        io_->read(icc,dataOffset);
-                        DataBuf decompressed;
-                        uint32_t name_l = (uint32_t) std::strlen((const char*)icc)+1; // length of profile name
-                        zlibUncompress(icc+name_l,dataOffset-name_l,decompressed);
-                        out.write((const char*)decompressed.pData_,decompressed.size_);
-                        delete [] icc;
-                        dataOffset = 0;
-                    }
+                    throw Exiv2::Error(14);
                 }
 
-                if ( dataOffset ) io_->seek(dataOffset + 4 , BasicIo::cur);
+                // format output
+                uint32_t    blen = dataOffset > 32 ? 32 : dataOffset ;
+                std::string dataString ;
+                DataBuf buff(blen);
+                io_->read(buff.pData_,blen);
+                io_->seek(restore, BasicIo::beg);
+                dataString  = Internal::binaryToString(buff, blen);
+
+                if ( option == kpsBasic || option == kpsRecursive )
+                    out << Internal::stringFormat("%8d | %5d | %10s |%8d | "
+                              ,(uint32_t)address, index++,chType,dataOffset)
+                                    << dataString << std::endl;
+
+
+                // chunk type
+                bool tEXt  = std::strcmp(chType,"tEXt")== 0;
+                bool zTXt  = std::strcmp(chType,"zTXt")== 0;
+                bool iCCP  = std::strcmp(chType,"iCCP")== 0;
+                bool iTXt  = std::strcmp(chType,"iTXt")== 0;
+
+                // for XMP, ICC etc: read and format data
+                bool bXMP  = option == kpsXMP        && dataString.find(xmpKey)==0;
+                bool bICC  = option == kpsIccProfile && dataString.find(iccKey)==0;
+                bool bExif = option == kpsRecursive  && dataString.find(exifKey)==0;
+                bool bIptc = option == kpsRecursive  && dataString.find(iptcKey)==0;
+                bool bSoft = option == kpsRecursive  && dataString.find(softKey)==0;
+                bool bDump = bXMP || bICC || bExif || bIptc || bSoft ;
+
+                if( bDump ) {
+                    DataBuf   dataBuf;
+                    byte*     data   = new byte[dataOffset];
+                    io_->read(data,dataOffset);
+                    io_->seek(restore, BasicIo::beg);
+                    size_t     name_l = std::strlen((const char*)data)+1; // leading string length
+                    size_t     start  = name_l;
+
+                    // decode the chunk
+                    bool bGood = false;
+                    if ( tEXt ) {
+                        bGood = tEXtToDataBuf(data+name_l,dataOffset-name_l,dataBuf);
+                    }
+                    if ( zTXt || iCCP ) {
+                        name_l++ ; // +1 = 'compressed' flag
+                        bGood = zlibToDataBuf(data+name_l,dataOffset-name_l,dataBuf);
+                    }
+                    if ( iTXt ) {
+                        while ( data[start] == 0 && start < dataOffset ) start++; // crawl over the '\0' bytes between XML:....\0\0<xml stuff
+                        data[dataOffset]=0;                 // ensure the XML is nul terminated
+                        bGood = (start+3) < dataOffset ;    // good if not a nul chunk
+                    }
+
+                    // format is content dependent
+                    if ( bGood ) {
+                        if ( bXMP ) {
+                            out <<  data+start;             // output the xml
+                        }
+                        if ( bExif ) {
+                            const char* bytes = (const char*) dataBuf.pData_;
+                            long        l     = std::strlen(bytes)+2;
+                            // create a copy on write memio object with the data, then print the structure
+                            BasicIo::AutoPtr p = BasicIo::AutoPtr(new MemIo(dataBuf.pData_+l,dataBuf.size_-l));
+                            TiffImage::printTiffStructure(*p,out,option,depth);
+                        }
+
+                        if ( bSoft ) {
+                            const char* bytes = (const char*) dataBuf.pData_;
+                            long        l     = std::strlen(bytes)+2;
+                            // create a copy on write memio object with the data, then print the structure
+                            BasicIo::AutoPtr p = BasicIo::AutoPtr(new MemIo(dataBuf.pData_+l,dataBuf.size_-l));
+                            out << indent(depth) << (const char*) buff.pData_ << ": " << (const char*) dataBuf.pData_ << std::endl;
+                        }
+
+                        if ( bICC ) {
+                            out.write((const char*) dataBuf.pData_,dataBuf.size_);
+                        }
+
+                        if ( bIptc && bSoft ) { // we require a photoshop parser to recover IPTC data
+                            const char* bytes = (const char*) dataBuf.pData_;
+                            long        l     = std::strlen(bytes)+2;
+                            // create a copy on write memio object with the data, then print the structure
+                            BasicIo::AutoPtr p = BasicIo::AutoPtr(new MemIo(dataBuf.pData_+l,dataBuf.size_-l));
+                            TiffImage::printTiffStructure(*p,out,option,depth);
+                        }
+                    }
+                    delete [] data;
+                }
+                io_->seek(dataOffset + 4 , BasicIo::cur);
                 if (io_->error()) throw Error(14);
             }
         }

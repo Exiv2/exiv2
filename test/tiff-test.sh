@@ -57,7 +57,7 @@ exifprobe()
             OFF=$(echo $line| cut -d'|' -f 5  | sed -E -e's/ +//g'); OFFS+=($OFF)
             VAL=$(echo $line| cut -d'|' -f 6- | sed -e's/^ //'    ); VALS+=($"$VAL")
         fi
-    done < <( runTest exiv2 -pS $f 2>/dev/null )
+    done < <( runTest exiv2 -pS $f | grep -v -e '^END' 2>/dev/null )
     COUNT=${#TAGS[@]}
 
     echo ''
