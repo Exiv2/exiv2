@@ -419,9 +419,9 @@ source ./functions.source
 	printf "$num " >&3
 	echo '------>' Bug $num '<-------' >&2
 	copyTestFile   imagemagick.png   $filename
-	runTest exiv2 -pC $filename                                                 | wc | sed -E 's/ +/ /g'
-	runTest exiv2 -pC http://dev.exiv2.org/attachments/download/821/Reagan.tiff | wc | sed -E 's/ +/ /g'
-	runTest exiv2 -pC http://dev.exiv2.org/attachments/download/820/Reagan.jpg  | wc | sed -E 's/ +/ /g'
+	runTest exiv2 -pC $filename                                                 | cksum
+	runTest exiv2 -pC http://dev.exiv2.org/attachments/download/821/Reagan.tiff | cksum
+	runTest exiv2 -pC http://dev.exiv2.org/attachments/download/820/Reagan.jpg  | cksum
 
 	num=1112
 	filename=exiv2-bug$num.xmp
