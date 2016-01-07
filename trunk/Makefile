@@ -67,18 +67,33 @@ uninstall: config/config.mk
 doc: config/config.mk
 	cd doc && $(MAKE) $(MAKECMDGOALS)
 
-samples: config/config.mk
-	cd samples && $(MAKE) $(MAKECMDGOALS)
-
-tests:
-	cd test && $(MAKE) test
-
-teste testx testv:
-	cd test && $(MAKE) $@
-
+# exiv2 application and programs required by test suite
 exiv2 conntest exifprint remotetest:
 	cd src && $(MAKE) $0
 
+samples: config/config.mk
+	cd samples && $(MAKE) $(MAKECMDGOALS)
+
+# test suite
+tests:
+	cd test && $(MAKE) test
+
+# test suite sub groups
+teste testx testv:
+	cd test && $(MAKE) $@
+
+# convenience for running individual tests
+bugfixes-test.sh   crw-test.sh     curliotest.sh    eps-preview-test.sh    eps-test.sh      exifdata-test.sh \
+exiv2-test.sh      httpiotest.sh   imagetest.sh     iotest.sh              iptctest.sh      modify-test.sh \
+path-test.sh       preview-test.sh sshiotest.sh     stringto-test.sh       tiff-test.sh     video-test.sh \
+write-test.sh      write-video-test.sh              write2-test.sh         xmpparser-test.sh :
+	cd test && ./$@
+
+# convenience target for running bugfixes-test.sh
+bugtest bugstest testbugs bugfixes:
+	cd test && ./bugfixes-test.sh
+
+# convenience target for building individual sample programs
 addmoddel		exifcomment		exifvalue	httptest	iptctest		mmap-test	stringto-test \
 exifdata		iotest			key-test	path-test	taglist			write2-test write-test	\
 convert-test	exifdata-test	exiv2json	iptceasy	largeiptc-test	prevtest	tiff-test	\

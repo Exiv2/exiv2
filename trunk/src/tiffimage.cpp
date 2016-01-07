@@ -444,6 +444,10 @@ namespace Exiv2 {
     {
         return type == 700 && option == kpsXMP;
     }
+    static bool isPrintICC(uint16_t type, Exiv2::PrintStructureOption option)
+    {
+        return type == 0x8773 && option == kpsIccProfile;
+    }
 
 #define MIN(a,b) ((a)<(b))?(b):(a)
 
@@ -463,9 +467,6 @@ namespace Exiv2 {
             throw Error(15);
         }
 
-        if ( option == kpsIccProfile ) {
-            throw Error(13, io_->path());
-        }
         io_->seek(0,BasicIo::beg);
 
         printTiffStructure(io(),out,option,depth-1);
@@ -486,16 +487,20 @@ namespace Exiv2 {
             uint16_t   dirLength = byteSwap2(dir,0,bSwap);
 
             bool tooBig = dirLength > 200 ;
+            bool bPrint = option == kpsBasic || option == kpsRecursive;
 
-            if ( bFirst && (option == kpsBasic || option == kpsRecursive) ) {
+            if ( bFirst && bPrint ) {
                 out << indent(depth) << Internal::stringFormat("STRUCTURE OF TIFF FILE (%c%c): ",c,c) << io.path() << std::endl;
                 if ( tooBig ) out << indent(depth) << "dirLength = " << dirLength << std::endl;
             }
 
             // Read the dictionary
             for ( int i = 0 ; !tooBig && i < dirLength ; i ++ ) {
-                if ( bFirst )
-                    out << indent(depth) << " address |    tag                           |      type |    count |   offset | value\n";
+                if ( bFirst && bPrint ) {
+                    out << indent(depth)
+                        << " address |    tag                           |     "
+                        << " type |    count |   offset | value\n";
+                }
                 bFirst = false;
 
                 io.read(dir.pData_, 12);
@@ -504,23 +509,23 @@ namespace Exiv2 {
                 uint32_t count  = byteSwap4(dir,4,bSwap);
                 uint32_t offset = byteSwap4(dir,8,bSwap);
 
-                std::string sp = "" ; // output spacer
+                std::string sp  = "" ; // output spacer
 
                 //prepare to print the value
-                uint16_t kount = isPrintXMP(tag,option) ? count // restrict long arrays
-                               : isStringType(type)     ? (count > 32 ? 32 : count)
-                               : count > 5              ? 5
-                               : count
-                               ;
-                uint32_t pad   = isStringType(type) ? 1 : 0;
-                uint32_t size  = isStringType(type) ? 1
-                               : is2ByteType(type)  ? 2
-                               : is4ByteType(type)  ? 4
-                               : 1
-                               ;
-                uint32_t Offset = 0 ; // used by ExifTag == 0x8769 && MakerNote == 0x927c to locate an FID
+                uint16_t kount  = isPrintXMP(tag,option) ? count // restrict long arrays
+                                : isPrintICC(tag,option) ? count //
+                                : isStringType(type)     ? (count > 32 ? 32 : count)
+                                : count > 5              ? 5
+                                : count
+                                ;
+                uint32_t pad    = isStringType(type) ? 1 : 0;
+                uint32_t size   = isStringType(type) ? 1
+                                : is2ByteType(type)  ? 2
+                                : is4ByteType(type)  ? 4
+                                : 1
+                                ;
 
-                // if ( offset > io.size() ) offset = 0;
+                // if ( offset > io.size() ) offset = 0;  // Denial of service?
                 DataBuf  buf(MIN(size*kount + pad,48));  // allocate a buffer
                 if ( isStringType(type) || count*size > 4 ) {          // data is in the directory => read into buffer
                     size_t   restore = io.tell();  // save
@@ -531,12 +536,13 @@ namespace Exiv2 {
                     std::memcpy(buf.pData_,dir.pData_+8,12);
                 }
 
-                if ( option == kpsBasic || option == kpsRecursive ) {
+                uint32_t Offset = isLongType(type) ? byteSwap4(buf,0,bSwap) : 0 ;
+
+                if ( bPrint ) {
                     uint32_t address = start + 2 + i*12 ;
                     out << indent(depth)
                             << Internal::stringFormat("%8u | %#06x %-25s |%10s |%9u |%9u | "
                                 ,address,tag,tagName(tag,25),typeName(type),count,offset);
-
                     if ( isShortType(type) ){
                         for ( uint16_t k = 0 ; k < kount ; k++ ) {
                             out << sp << byteSwap2(buf,k*size,bSwap);
@@ -545,7 +551,6 @@ namespace Exiv2 {
                     } else if ( isLongType(type) ){
                         for ( uint16_t k = 0 ; k < kount ; k++ ) {
                             out << sp << byteSwap4(buf,k*size,bSwap);
-                            if ( k == 0 ) Offset = byteSwap4(buf,k*size,bSwap) ;
                             sp = " ";
                         }
                     } else if ( isRationalType(type) ){
@@ -564,6 +569,7 @@ namespace Exiv2 {
                     } else if ( isStringType(type) ) {
                         out << sp << Internal::binaryToString(buf, kount);
                     }
+
                     sp = kount == count ? "" : " ...";
                     out << sp << std::endl;
                     if ( option == kpsRecursive
@@ -579,6 +585,9 @@ namespace Exiv2 {
                     buf.pData_[count]=0;
                     out << (char*) buf.pData_;
                 }
+                if ( isPrintICC(tag,option) ) {
+                    out.write((const char*)buf.pData_,buf.size_);
+                }
             }
             io.read(dir.pData_, 4);
             start = tooBig ? 0 : byteSwap4(dir,0,bSwap);
@@ -593,7 +602,7 @@ namespace Exiv2 {
 
     void TiffImage::printTiffStructure(BasicIo& io, std::ostream& out, Exiv2::PrintStructureOption option,int depth)
     {
-        if ( option == kpsBasic || option == kpsXMP || option == kpsRecursive ) {
+        if ( option == kpsBasic || option == kpsXMP || option == kpsRecursive || option == kpsIccProfile ) {
             // buffer
             const size_t dirSize = 32;
             DataBuf  dir(dirSize);
