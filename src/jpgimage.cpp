@@ -517,7 +517,7 @@ namespace Exiv2 {
         return true ;
     }
 
-#define REPORT_MARKER if ( (option == kpsBasic||option == kpsRecursive) ) out << Internal::stringFormat("%8ld | %#02x %-5s",io_->tell(), marker,nm[marker].c_str())
+#define REPORT_MARKER if ( (option == kpsBasic||option == kpsRecursive) ) out << Internal::stringFormat("%8ld | %#04x %-5s",io_->tell(), marker,nm[marker].c_str())
 
     void JpegBase::printStructure(std::ostream& out, PrintStructureOption option,int depth)
     {
