@@ -1963,8 +1963,11 @@ namespace {
                 std::cout << _("Writing XMP data from") << " " << source
                           << " " << _("to") << " " << target << std::endl;
             }
+
             // #1148 use XMP packet if there are no XMP modification commands
-            if ( Params::instance().modifyCmds_.size() == 0 ) {
+            if ( Params::instance().modifyCmds_.size() == 0
+            &&   Params::instance().target_ == (Params::ctXmp | Params::ctXmpSidecar) // option -eXx
+            ) {
                 // http://www.cplusplus.com/reference/ostream/ostream/ostream/
                 std::filebuf fb;
                 fb.open (target,std::ios::out);
