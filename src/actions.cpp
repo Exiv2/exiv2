@@ -1963,8 +1963,18 @@ namespace {
                 std::cout << _("Writing XMP data from") << " " << source
                           << " " << _("to") << " " << target << std::endl;
             }
-            // Todo: Should use XMP packet if there are no XMP modification commands
-            targetImage->setXmpData(sourceImage->xmpData());
+            // #1148 use XMP packet if there are no XMP modification commands
+            if ( Params::instance().modifyCmds_.size() == 0 ) {
+                // http://www.cplusplus.com/reference/ostream/ostream/ostream/
+                std::filebuf fb;
+                fb.open (target,std::ios::out);
+                std::ostream os(&fb);
+                sourceImage->printStructure(os,Exiv2::kpsXMP);
+                fb.close();
+                return 0;
+            } else {
+                targetImage->setXmpData(sourceImage->xmpData());
+            }
         }
         if (   Params::instance().target_ & Params::ctComment
             && !sourceImage->comment().empty()) {
