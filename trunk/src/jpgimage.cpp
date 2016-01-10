@@ -40,6 +40,14 @@ EXIV2_RCSID("@(#) $Id$")
 #include "error.hpp"
 #include "futils.hpp"
 
+#ifndef WIN32
+#define BYTE   char
+#define USHORT uint16_t
+#define ULONG  uint32_t
+#endif
+
+#include "fff.h"
+
 // + standard includes
 #include <cstdio>                               // for EOF
 #include <cstring>
@@ -662,19 +670,35 @@ namespace Exiv2 {
                             io_->read(exif,size);
                             uint32_t start     = std::strcmp(http,"Exif")==0 ? 8 : 6;
 
-                            // there is a header in FLIR, followed by a tiff block
-                            // Hunt down the tiff using brute force
+                            // is this an fff block?
                             if ( bFlir ) {
                                 start = 0 ;
+                                bFlir = false;
                                 while ( start < size-1 ) {
-                                    if ( exif[start] == 'I' && exif[start+1] == 'I' ) break;
+                                    if ( std::strcmp((const char*)(exif+start),"FFF")==0 ) {
+                                        bFlir = true ;
+                                        break;
+                                    }
                                     start++;
                                 }
                             }
 
+                            // there is a header in FLIR, followed by a tiff block
+                            // Hunt down the tiff using brute force
+                            if ( bFlir ) {
+                                // FLIRFILEHEAD* pFFF = (FLIRFILEHEAD*) (exif+start) ;
+                                while ( start < size-1 ) {
+                                    if ( exif[start] == 'I' && exif[start+1] == 'I' ) break;
+                                    if ( exif[start] == 'M' && exif[start+1] == 'M' ) break;
+                                    start++;
+                                }
+                                if ( start < (size-10) ) std::cout << "  FFF start = " << start << std::endl ;
+                                // << " index = " << pFFF->dwIndexOff << std::endl;
+                            }
+
                             // create a copy on write memio object with the data, then print the structure
                             BasicIo::AutoPtr p = BasicIo::AutoPtr(new MemIo(exif+start,size-start));
-                            TiffImage::printTiffStructure(*p,out,option,depth);
+                            if ( start < (size-10) ) TiffImage::printTiffStructure(*p,out,option,depth);
 
                             // restore and clean up
                             io_->seek(restore,Exiv2::BasicIo::beg);
