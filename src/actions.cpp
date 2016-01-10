@@ -1968,12 +1968,11 @@ namespace {
             if ( Params::instance().modifyCmds_.size() == 0
             &&   Params::instance().target_ == (Params::ctXmp | Params::ctXmpSidecar) // option -eXx
             ) {
-                // http://www.cplusplus.com/reference/ostream/ostream/ostream/
-                std::filebuf fb;
-                fb.open (target,std::ios::out);
-                std::ostream os(&fb);
+                // http://www.cplusplus.com/doc/tutorial/files/
+                std::ofstream os;
+                os.open(target.c_str());
                 sourceImage->printStructure(os,Exiv2::kpsXMP);
-                fb.close();
+                os.close();
                 return 0;
             } else {
                 targetImage->setXmpData(sourceImage->xmpData());
