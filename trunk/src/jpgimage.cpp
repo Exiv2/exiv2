@@ -644,9 +644,11 @@ namespace Exiv2 {
                     }
 
                     // for MPF: http://www.sno.phy.queensu.ca/~phil/exiftool/TagNames/MPF.html
-                    if( (option == kpsRecursive && marker == (app0_+1) && std::strcmp(http,"Exif")==0 )
-                    ||  (option == kpsRecursive && marker == (app0_+2) && std::strcmp(http,"MPF" )==0 )
-                    ) {
+                    // for FLIR: http://owl.phy.queensu.ca/~phil/exiftool/TagNames/FLIR.html
+                    bool bFlir = option == kpsRecursive && marker == (app0_+1) && std::strcmp(http,"FLIR")==0;
+                    bool bExif = option == kpsRecursive && marker == (app0_+1) && std::strcmp(http,"Exif")==0;
+                    bool bMPF  = option == kpsRecursive && marker == (app0_+2) && std::strcmp(http,"MPF")==0;
+                    if( bFlir || bExif || bMPF ) {
                         // extract Exif data block which is tiff formatted
                         if ( size > 0 ) {
                             out << std::endl;
@@ -659,6 +661,16 @@ namespace Exiv2 {
                             io_->seek(-bufRead , BasicIo::cur);
                             io_->read(exif,size);
                             uint32_t start     = std::strcmp(http,"Exif")==0 ? 8 : 6;
+
+                            // there is a header in FLIR, followed by a tiff block
+                            // Hunt down the tiff using brute force
+                            if ( bFlir ) {
+                                start = 0 ;
+                                while ( start < size-1 ) {
+                                    if ( exif[start] == 'I' && exif[start+1] == 'I' ) break;
+                                    start++;
+                                }
+                            }
 
                             // create a copy on write memio object with the data, then print the structure
                             BasicIo::AutoPtr p = BasicIo::AutoPtr(new MemIo(exif+start,size-start));
