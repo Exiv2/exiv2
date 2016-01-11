@@ -544,6 +544,11 @@ namespace Exiv2 {
         virtual void populateFakeData();
         //@}
 
+        /*!
+          @brief Returns the path to a temporary data storage location.
+         */
+        static std::string temporaryPath();
+
     private:
         // NOT IMPLEMENTED
         //! Copy constructor

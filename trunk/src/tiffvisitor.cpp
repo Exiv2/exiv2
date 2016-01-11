@@ -1541,7 +1541,7 @@ namespace Exiv2 {
         	//       Sadly: we don't know the exact location of the image in the source (it's near offset)
         	//       And neither TiffReader nor TiffEntryBase have access to the BasicIo object being processed
         	byte* buffer = (byte*) ::malloc(isize);
-        	::memset(buffer,isize,0);
+        	::memset(buffer,0,isize);
         	v->read(buffer,isize, byteOrder());
         	::free(buffer);
         }
