@@ -273,7 +273,7 @@ namespace Exiv2 {
 # if defined(EXV_UNICODE_PATH)
 #  error No xattr API for MacOS X with unicode support
 # endif
-        const ssize_t namebufSize = ::listxattr(src.p_->path_.c_str(), 0, 0, 0);
+        ssize_t namebufSize = ::listxattr(src.p_->path_.c_str(), 0, 0, 0);
         if (namebufSize < 0) {
             throw Error(2, src.p_->path_, strError(), "listxattr");
         }
@@ -282,7 +282,7 @@ namespace Exiv2 {
             return;
         }
         char* namebuf = new char[namebufSize];
-        if (::listxattr(src.p_->path_.c_str(), namebuf, sizeof(namebuf), 0) != namebufSize) {
+        if (::listxattr(src.p_->path_.c_str(), namebuf, namebufSize, 0) != namebufSize) {
             throw Error(2, src.p_->path_, strError(), "listxattr");
         }
         for (ssize_t namebufPos = 0; namebufPos < namebufSize;) {
@@ -293,7 +293,7 @@ namespace Exiv2 {
                 throw Error(2, src.p_->path_, strError(), "getxattr");
             }
             char* value = new char[valueSize];
-            if (::getxattr(src.p_->path_.c_str(), name, value, sizeof(value), 0, 0) != valueSize) {
+            if (::getxattr(src.p_->path_.c_str(), name, value, valueSize, 0, 0) != valueSize) {
                 throw Error(2, src.p_->path_, strError(), "getxattr");
             }
 // #906.  Mountain Lion 'sandbox' terminates the app when we call setxattr
@@ -618,6 +618,28 @@ namespace Exiv2 {
 
         return basicIo;
     }
+
+    std::string FileIo::temporaryPath()
+    {
+    	static int  count = 0 ;
+    	char       sCount[12];
+    	sprintf(sCount,"_%d",count++);
+
+#ifdef _MSC_VER
+        char lpTempPathBuffer[MAX_PATH];
+		GetTempPath(MAX_PATH,lpTempPathBuffer);
+		std::string tmp(lpTempPathBuffer);
+		tmp += "\\";
+#else
+    	std::string tmp = "/tmp/";
+#endif
+
+		pid_t  pid = ::getpid();
+		std::string result = tmp + toString(pid) + sCount ;
+		if ( Exiv2::fileExists(result) ) std::remove(result.c_str());
+
+		return result;
+	}
 
     long FileIo::write(const byte* data, long wcount)
     {
