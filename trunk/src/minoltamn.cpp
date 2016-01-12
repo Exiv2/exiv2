@@ -1927,7 +1927,8 @@ namespace Exiv2 {
         { 45851, "Tamron SP AF 300mm F2.8 LD IF" },
         { 45861, "Tamron SP AF 35-105mm F2.8 LD Aspherical IF" },
         { 45871, "Tamron AF 70-210mm F2.8 SP LD" },
-        { 65535, "Manual lens" }
+        {0xffff, "Manual lens | "                        // 1
+                 "Sony E 50mm F1.8 OSS" },               // 2
     };
 
     // ----------------------------------------------------------------------
@@ -2130,6 +2131,31 @@ namespace Exiv2 {
         return EXV_PRINT_TAG(minoltaSonyLensID)(os, value, metadata);
     }
 
+    static std::ostream& resolveLens0xffff(std::ostream& os, const Value& value,
+                                                 const ExifData* metadata)
+    {
+        try {
+            long lensID = 0xffff;
+            long index  = 0   ;
+
+            std::string model       = getKeyString("Exif.Image.Model"            ,metadata);
+            std::string maxAperture = getKeyString("Exif.Photo.MaxApertureValue" ,metadata);
+            std::string F1_8        = "434/256" ;
+
+			// #1153
+			if ( model == "ILCE-6000" && maxAperture == F1_8 ) try {
+				long    focalLength = getKeyLong  ("Exif.Photo.FocalLength"      ,metadata);
+				long    focalL35mm  = getKeyLong  ("Exif.Photo.FocalLengthIn35mmFilm",metadata);
+				long    focalRatio  = (focalL35mm*100)/focalLength;
+			    if ( inRange(focalRatio,145,155) ) index = 2 ;
+			} catch (...) {}
+
+            if ( index > 0 ) return resolvedLens(os,lensID,index);
+        } catch (...) {}
+
+        return EXV_PRINT_TAG(minoltaSonyLensID)(os, value, metadata);
+    }
+
     struct LensIdFct {
        long     id_;                           //!< Lens id
        PrintFct fct_;                          //!< Pretty-print function
@@ -2144,6 +2170,7 @@ namespace Exiv2 {
        {   0x0034, resolveLens0x34 },
        {   0x0080, resolveLens0x80 },
        {   0x00ff, resolveLens0xff },
+       {   0xffff, resolveLens0xffff },
 //     {   0x00ff, resolveLensTypeUsingExiftool }, // was used for debugging
     };
     // #1145 end - respect lenses with shared LensID
