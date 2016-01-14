@@ -3,7 +3,7 @@
 .\" First parameter, NAME, should be all caps
 .\" Second parameter, SECTION, should be 1-8, maybe w/ subsection
 .\" other parameters are allowed: see man(7), man(1)
-.TH EXIV2 1 "Jan 7, 2016"
+.TH EXIV2 1 "Jan 14, 2016"
 .\" Please adjust this date whenever revising the manpage.
 .\"
 .\" Some roff macros, for reference:
@@ -139,10 +139,10 @@ option [arg]	long option	description
 -e	tgt	--extract	Extract target(s) for the 'extract' action.
 -f		--force	Do not prompt before overwriting existing  files ...
 -F		--Force	Do not prompt before renaming files (Force rename) ...
--g	key	--grep	Only output info for this Exiv2 key (grep).
+-g	key	--grep	Only output info for this Exiv2 key
 -h		--help	Display help and exit.
 -i	tgt	--insert	Insert target(s) for the 'insert' action. ...
--k		--keep	Preserve file timestamps when updating files (keep)
+-k		--keep	Preserve file timestamps when updating files
 -K	Key	--key	Report key.  Similar to -g (grep) however key must match exactly.
 -l	dir	--location	Location (directory) for files to be inserted or extracted.
 -m	file	--modify	read commands from cmd-file
@@ -179,8 +179,8 @@ mod		s | a | t | v | h | i | x | c | p | i | C | R | S | X
 		summary, all, translated, vanilla, hex iptc ,xmp, comment, preview,
 		ICC Profile, Recursive Structure, Simple Structure, raw XMP
 
-tgt		a | c | e | i | t | x | C
-		all, comment, exif, iptc, thumb, xmp, ICC Profile
+tgt		a | c | e | i | p | t | x | C | X | X | -
+		all, comment, exif, iptc, preview, thumb, xmp, ICC Profile, SideCar, RawXMP, stdin/out
 
 .br
 .fi
@@ -315,13 +315,13 @@ c : JPEG comment
 .br
 p : list available image previews, sorted by preview image size in pixels
 .br
-C : print image ICC Profile (jpg, png, tiff only)
+C : print image ICC Profile (jpg, png, tiff, cr2 only)
 .br
-R : print image structure recursively (jpg, png, tiff only)
+R : print image structure recursively (jpg, png, tiff, cr2 only)
 .br
-S : print image structure information (jpg, png, tiff only)
+S : print image structure information (jpg, png, tiff, cr2 only)
 .br
-X : print "raw" XMP (jpg, png, tiff only)
+X : print "raw" XMP (jpg, png, tiff, cr2 only)
 .TP
 .B \-P \fIflgs\fP
 Print flags for fine control of the tag list ('print' action). Allows
@@ -372,6 +372,8 @@ i : IPTC data
 x : XMP packet
 .br
 c : JPEG comment
+.br
+C : ICC Profile
 .TP
 .B \-i \fItgt\fP
 Insert target(s) for the 'insert' action. Possible targets are the
@@ -382,13 +384,12 @@ insert targets determine what metadata to insert from the sidecar
 file. Possible are Exif, IPTC and XMP and the default is all of
 these. Note that the inserted XMP properties include those converted
 to Exif and IPTC.
-.br
-This is option is intended for "filter" operations on the XMP such as:
+.sp 1
+- : Read from stdin (not implemented yet).  This is option is intended for "filter" operations such as:
 .br
 $ exiv2 -e{tgt}- \fIfilename\fP | xmllint .... | exiv2 -i{tgt}- \fIfilename\fP
 .sp 1
-Only JPEG thumbnails can be inserted (not TIFF thumbnails), they need to
-be named \fIfile\fP\-thumb.jpg.
+Only JPEG thumbnails can be inserted (not TIFF thumbnails), and must be named \fIfile\fP\-thumb.jpg.
 .TP
 .B \-e \fItgt\fP
 Extract target(s) for the 'extract' action. Possible targets are the same
@@ -405,8 +406,12 @@ C : Extract embedded ICC profile to <file>.icc
 X : Extract metadata to an XMP sidecar file <file>.xmp. The remaining
 extract targets determine what metadata to extract to the sidecar
 file. Possible are Exif, IPTC and XMP and the default is all of these.
+.sp
+XX: Extract the "raw" XMP metadata to a sidecar (see option -pX)
+.br
+    You may not use modify commands with the -eXX option and only XMP is written to the sidecar.
 .sp 1
-- : Output sidecar file to stdout (see -i tgt for example)
+- : Output to stdout (see -i tgt for example)
 .sp 1
 .TP
 .B \-r \fIfmt\fP
@@ -424,11 +429,12 @@ Default filename format is %Y%m%d_%H%M%S.
 .B \-c \fItxt\fP
 JPEG comment string to set in the image ('modify' action). This option
 can also be used with the 'extract' and 'insert' actions to modify
-metadata on-the-fly.  -m- represents standard-input.
+metadata on-the-fly.
 .TP
 .B \-m \fIfile\fP
 Command file for the 'modify' action. This option can also be used
 with the 'extract' and 'insert' actions to modify metadata on-the-fly.
+-m- represents standard-input.
 .TP
 .B \-M \fIcmd\fP
 Command line for the 'modify' action. This option can also be used

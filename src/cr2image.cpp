@@ -33,6 +33,7 @@ EXIV2_RCSID("@(#) $Id$")
 #include "config.h"
 
 #include "cr2image.hpp"
+#include "tiffimage.hpp"
 #include "cr2image_int.hpp"
 #include "tiffcomposite_int.hpp"
 #include "tiffimage_int.hpp"
@@ -80,6 +81,14 @@ namespace Exiv2 {
         }
         return 0;
     }
+
+    void Cr2Image::printStructure(std::ostream& out, Exiv2::PrintStructureOption option,int depth)
+    {
+        if (io_->open() != 0) throw Error(9, io_->path(), strError());
+        io_->seek(0,BasicIo::beg);
+        TiffImage::printTiffStructure(io(),out,option,depth-1);
+    }
+
 
     void Cr2Image::setComment(const std::string& /*comment*/)
     {
