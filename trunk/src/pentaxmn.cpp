@@ -711,6 +711,7 @@ namespace Exiv2 {
         { 0x0319, "Sigma AF 28-300mm F3.5-5.6 DL IF" },                  //3
         { 0x0319, "Sigma AF 28-300mm F3.5-6.3 DG IF Macro" },            //4
         { 0x0319, "Tokina 80-200mm F2.8 ATX-Pro" },                      //5
+        { 0x0319, "Sigma Zoom 70-210mm F4-5.6 UC-II" },                  //6
         { 0x031a, "smc PENTAX-F* 250-600mm F5.6 ED[IF]" },
         { 0x031b, "smc PENTAX-F 28-80mm F3.5-4.5" },                     //0
         { 0x031b, "Tokina AT-X Pro AF 28-70mm F2.6-2.8" },               //1
@@ -939,6 +940,7 @@ namespace Exiv2 {
         { 0x08ff, "Sigma 4.5mm F2.8 EX DC HSM Circular Fisheye" },       //4
         { 0x08ff, "Sigma 50-200mm F4-5.6 DC OS" },                       //5
         { 0x08ff, "Sigma 24-70mm F2.8 EX DG HSM" },                      //6
+        { 0x08ff, "Sigma 18-50mm F2.8-4.5 HSM OS" },                     //7
         { 0x0900, "645 Manual Lens" },
         { 0x0a00, "645 A Series Lens" },
         { 0x0b01, "smc PENTAX-FA 645 75mm F2.8" },
@@ -1235,8 +1237,64 @@ namespace Exiv2 {
             } else if ( value.count() == 4 ) {
 				// http://dev.exiv2.org/attachments/download/868/IMGP2221.JPG
                 // 0x0207 PentaxDng    LensInfo  Undefined 128    0 131 128   0 0 255   1 184   0 0 0 0 0
-                //                                                    0   1   2   3 4   5   6
+                //                                                0   1   2   3 4   5   6
                 if ( lensInfo->count() == 128 && lensInfo->toLong(1) == 131 && lensInfo->toLong(2) == 128 ) index = 8;
+                // #1155
+                if ( lensInfo->toLong(6) == 5 )  index = 7;
+            }
+
+            if ( index > 0 )  {
+                const TagDetails* td = find(pentaxLensType, lensID);
+                os << exvGettext(td[index].label_);
+                return os;
+            }
+        } catch (...) {}
+        return EXV_PRINT_COMBITAG_MULTI(pentaxLensType, 2, 1, 2)(os, value, metadata);
+    }
+
+    // #1155
+    std::ostream& resolveLens0x8ff(std::ostream& os, const Value& value,
+                                                 const ExifData* metadata)
+    // ----------------------------------------------------------------------
+    {
+        try {
+            unsigned long lensID = 0x8ff;
+            unsigned long index  = 0;
+
+            const ExifData::const_iterator lensInfo = metadata->findKey(ExifKey("Exif.PentaxDng.LensInfo")) != metadata->end()
+                                                    ? metadata->findKey(ExifKey("Exif.PentaxDng.LensInfo"))
+                                                    : metadata->findKey(ExifKey("Exif.Pentax.LensInfo"))
+                                                    ;
+        	if ( value.count() == 4 ) {
+            	std::string model       = getKeyString("Exif.Image.Model"      ,metadata);
+                if ( model.find("PENTAX K-3")==0 && lensInfo->count() == 128 && lensInfo->toLong(1) == 168 && lensInfo->toLong(2) == 144 ) index = 7;
+            }
+
+            if ( index > 0 )  {
+                const TagDetails* td = find(pentaxLensType, lensID);
+                os << exvGettext(td[index].label_);
+                return os;
+            }
+        } catch (...) {}
+        return EXV_PRINT_COMBITAG_MULTI(pentaxLensType, 2, 1, 2)(os, value, metadata);
+    }
+
+    // #1155
+    std::ostream& resolveLens0x319(std::ostream& os, const Value& value,
+                                                 const ExifData* metadata)
+    // ----------------------------------------------------------------------
+    {
+        try {
+            unsigned long lensID = 0x319;
+            unsigned long index  = 0;
+
+            const ExifData::const_iterator lensInfo = metadata->findKey(ExifKey("Exif.PentaxDng.LensInfo")) != metadata->end()
+                                                    ? metadata->findKey(ExifKey("Exif.PentaxDng.LensInfo"))
+                                                    : metadata->findKey(ExifKey("Exif.Pentax.LensInfo"))
+                                                    ;
+        	if ( value.count() == 4 ) {
+            	std::string model       = getKeyString("Exif.Image.Model"      ,metadata);
+                if ( model.find("PENTAX K-3")==0 && lensInfo->count() == 128 && lensInfo->toLong(1) == 131 && lensInfo->toLong(2) == 128 ) index = 6;
             }
 
             if ( index > 0 )  {
@@ -1264,7 +1322,7 @@ namespace Exiv2 {
     //! List of lens ids which require special treatment using resolveLensType
     const LensIdFct lensIdFct[] = {
        {   0x0317, resolveLensType },
-       {   0x0319, resolveLensType },
+       {   0x0319, resolveLens0x319},
        {   0x031b, resolveLensType },
        {   0x031c, resolveLensType },
        {   0x031d, resolveLensType },
@@ -1276,7 +1334,7 @@ namespace Exiv2 {
        {   0x03ff, resolveLens0x3ff},
        {   0x041a, resolveLensType },
        {   0x042d, resolveLensType },
-       {   0x08ff, resolveLensType },
+       {   0x08ff, resolveLens0x8ff},
     };
 
     //! A lens id and a pretty-print function for special treatment of the id.
