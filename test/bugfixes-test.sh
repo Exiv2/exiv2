@@ -457,10 +457,27 @@ source ./functions.source
 	runTest exiv2 -PkV --grep GPSL http://dev.exiv2.org/attachments/download/805/DSC_7154.jpg | runTest exiv2 -m- $filename
 	runTest exiv2 -pa $filename
 
-	for num in 1140 1144a 1144b 1144c 1144d 1144e 1144f 1144g 1145a 1145b 1145c 1145d 1145e; do
-	  filename=exiv2-bug$num.exv
-	  printf "$num " >&3
-	  echo '------>' Bug $num '<-------' >&2
+	num=1140
+	printf "$num " >&3
+	filename=exiv2-bug$num.exv
+	echo '------>' Bug $num '<-------' >&2
+	copyTestFile                        $filename
+	runTest exiv2 -pa -g Lens           $filename
+
+	num=1144
+	printf "$num " >&3
+	for i in a b c d e f g; do
+	  filename=exiv2-bug$num$i.exv
+	  echo '------>' Bug $num$i '<-------' >&2
+	  copyTestFile                        $filename
+	  runTest exiv2 -pa -g Lens           $filename
+	done
+
+	num=1145
+	printf "$num " >&3
+	for i in a b c d e; do
+	  filename=exiv2-bug$num$i.exv
+	  echo '------>' Bug $num$i '<-------' >&2
 	  copyTestFile                        $filename
 	  runTest exiv2 -pa -g Lens           $filename
 	done
@@ -473,6 +490,15 @@ source ./functions.source
 	  copyTestFile                        $filename
 	  runTest exiv2 -pa -g Lens           $filename
 	done;done
+
+	num=1155
+	printf "$num " >&3
+	for i in a b c; do
+	  filename=exiv2-bug$num${i}.exv
+	  echo '------>' Bug $num${i} '<-------' >&2
+	  copyTestFile                        $filename
+	  runTest exiv2 -pa -g Lens           $filename
+	done
 
 ) 3>&1 > $results 2>&1
 
