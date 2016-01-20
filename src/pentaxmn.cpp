@@ -1175,15 +1175,11 @@ namespace Exiv2 {
             unsigned long lensID    = 0x32c;
             unsigned long index     = 0;
 
-            std::string model       = getKeyString("Exif.Image.Model"      ,metadata);
             long        focalLength = getKeyLong  ("Exif.Photo.FocalLength",metadata);
             bool        bFL10_20    = 10 <= focalLength && focalLength <= 20;
-            bool        bK10D_K3    = model.find("PENTAX K10D") != std::string::npos
-                                   || model.find("PENTAX K-3")  != std::string::npos
-                                    ;
 
             // std::cout << "model,focalLength = " << model << "," << focalLength << std::endl;
-            if ( bFL10_20 && bK10D_K3 ) index = 1;
+            if ( bFL10_20 ) index = 1;
 
             if ( index > 0 )  {
                 const TagDetails* td = find(pentaxLensType, lensID);
@@ -1223,9 +1219,11 @@ namespace Exiv2 {
                 unsigned int  autoAperture     = lensInfo->toLong(base+1) & 0x01 ;
                 unsigned int  minAperture      = lensInfo->toLong(base+2) & 0x06 ;
                 unsigned int  minFocusDistance = lensInfo->toLong(base+3) & 0xf8 ;
-                unsigned int  dontKnow         = lensInfo->toLong(base+4);
 
-                if ( autoAperture == 0x0 && minAperture == 0x0 && minFocusDistance == 0x28 && dontKnow == 148) index = 8;
+                if ( autoAperture == 0x0 && minAperture == 0x0 && minFocusDistance == 0x28 && lensInfo->toLong(base+4) == 148) index = 8;
+                if ( autoAperture == 0x0 && minAperture == 0x0 && minFocusDistance == 0x28 && lensInfo->toLong(base+5) == 110) index = 7;
+                if ( autoAperture == 0x0 && minAperture == 0x0 && minFocusDistance == 0x28 && lensInfo->toLong(base+4) == 110) index = 7;
+
             } else if ( value.count() == 3 ) {
                 // http://dev.exiv2.org/attachments/download/858/_IGP9032.DNG
                 // $ exiv2 -pv --grep Lens ~/Downloads/_IGP9032.DNG
@@ -1294,7 +1292,15 @@ namespace Exiv2 {
                                                     ;
         	if ( value.count() == 4 ) {
             	std::string model       = getKeyString("Exif.Image.Model"      ,metadata);
-                if ( model.find("PENTAX K-3")==0 && lensInfo->count() == 128 && lensInfo->toLong(1) == 131 && lensInfo->toLong(2) == 128 ) index = 6;
+                if ( model.find("PENTAX K-3")==0 && lensInfo->count() == 128 && lensInfo->toLong(1) == 131 && lensInfo->toLong(2) == 128 )
+                    index = 6;
+            }
+        	if ( value.count() == 2 ) {
+            	std::string model       = getKeyString("Exif.Image.Model"      ,metadata);
+                if ( model.find("PENTAX K100D")==0 && lensInfo->count() == 44 )
+                    index = 6;
+                if ( model.find("PENTAX *ist DL")==0 && lensInfo->count() == 36 )
+                    index = 6;
             }
 
             if ( index > 0 )  {
