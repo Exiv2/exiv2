@@ -469,8 +469,8 @@ source ./functions.source
 	for i in a b c d e f g; do
 	  filename=exiv2-bug$num$i.exv
 	  echo '------>' Bug $num$i '<-------' >&2
-	  copyTestFile                        $filename
-	  runTest exiv2 -pa -g Lens           $filename
+	  copyTestFile                      $filename
+	  runTest exiv2 -pa -g Lens         $filename
 	done
 
 	num=1145
@@ -478,8 +478,8 @@ source ./functions.source
 	for i in a b c d e; do
 	  filename=exiv2-bug$num$i.exv
 	  echo '------>' Bug $num$i '<-------' >&2
-	  copyTestFile                        $filename
-	  runTest exiv2 -pa -g Lens           $filename
+	  copyTestFile                      $filename
+	  runTest exiv2 -pa -g Lens         $filename
 	done
 
 	num=1153
@@ -487,17 +487,17 @@ source ./functions.source
 	for E in A J; do for i in a b c d e f g h i j k; do
 	  filename=exiv2-bug$num${E}${i}.exv
 	  echo '------>' Bug $num${E}${i} '<-------' >&2
-	  copyTestFile                        $filename
-	  runTest exiv2 -pa -g Lens           $filename
+	  copyTestFile                      $filename
+	  runTest exiv2 -pa -g Lens         $filename
 	done;done
 
 	num=1155
 	printf "$num " >&3
-	for i in a b c; do
+	for i in a b c d e f g h i; do
 	  filename=exiv2-bug$num${i}.exv
 	  echo '------>' Bug $num${i} '<-------' >&2
-	  copyTestFile                        $filename
-	  runTest exiv2 -pa -g Lens           $filename
+	  copyTestFile                      $filename
+	  runTest exiv2 -pa -g Lens         $filename
 	done
 
 ) 3>&1 > $results 2>&1
