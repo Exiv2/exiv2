@@ -738,7 +738,9 @@ namespace Exiv2 {
         { 5, "FL-36"    },
         { 6, "FL-50R"   },
         { 7, "FL-36R"   },
-        { 7, "FL-36R"   }                       // To silence compiler warning
+        { 9, "FL-14"    },
+        {11, "FL-600R"  },
+        {11, "FL-600R"  }                       // To silence compiler warning
     };
 
     const TagInfo OlympusMakerNote::tagInfoEq_[] = {
