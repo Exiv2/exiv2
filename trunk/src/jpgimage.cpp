@@ -40,7 +40,9 @@ EXIV2_RCSID("@(#) $Id$")
 #include "error.hpp"
 #include "futils.hpp"
 
-#ifndef WIN32
+#ifdef WIN32
+#include <windef.h>
+#else
 #define BYTE   char
 #define USHORT uint16_t
 #define ULONG  uint32_t
