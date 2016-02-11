@@ -71,6 +71,10 @@ doc: config/config.mk
 exiv2 conntest exifprint remotetest:
 	cd src && $(MAKE) $0
 
+# sample programs required by test suite
+conntest exifprint remotetest:
+	cd samples && $(MAKE) $@
+
 samples: config/config.mk
 	cd samples && $(MAKE) $(MAKECMDGOALS)
 
