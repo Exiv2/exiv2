@@ -68,7 +68,7 @@ doc: config/config.mk
 	cd doc && $(MAKE) $(MAKECMDGOALS)
 
 # exiv2 application and programs required by test suite
-exiv2 conntest exifprint remotetest:
+exiv2:
 	cd src && $(MAKE) $0
 
 # sample programs required by test suite
