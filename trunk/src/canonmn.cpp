@@ -361,6 +361,7 @@ namespace Exiv2 {
         { (long int)0x80000325, "EOS 70D" },
         { (long int)0x80000326, "EOS Rebel T5i / 700D / Kiss X7i" },
         { (long int)0x80000327, "EOS Rebel T5 / 1200D / Kiss X70" },
+        { (long int)0x80000328, "EOS-1D X MARK II" },
         { (long int)0x80000331, "EOS M" },
         { (long int)0x80000355, "EOS M2" },
         { (long int)0x80000346, "EOS Rebel SL1 / 100D / Kiss X7" },
