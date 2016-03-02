@@ -3,7 +3,7 @@
 .\" First parameter, NAME, should be all caps
 .\" Second parameter, SECTION, should be 1-8, maybe w/ subsection
 .\" other parameters are allowed: see man(7), man(1)
-.TH EXIV2 1 "Jan 14, 2016"
+.TH EXIV2 1 "Mar 2, 2016"
 .\" Please adjust this date whenever revising the manpage.
 .\"
 .\" Some roff macros, for reference:
@@ -417,13 +417,12 @@ XX: Extract the "raw" XMP metadata to a sidecar (see option -pX)
 .B \-r \fIfmt\fP
 Filename format for the 'rename' action. The format string follows
 \fBstrftime\fP(3) and supports the following keywords:
-.br
-:basename:   - original filename without extension
-.br
-:dirname:    - name of the directory holding the original file
-.br
-:parentname: - name of parent directory
-.br
+.TS
+l l.
+:basename:	original filename without extension
+:dirname:	name of the directory holding the original file
+:parentname:	name of parent directory
+.TE
 Default filename format is %Y%m%d_%H%M%S.
 .TP
 .B \-c \fItxt\fP
@@ -529,70 +528,85 @@ is used by default if the value doesn't start with a charset
 definition.
 .sp 1
 The format for an IPTC \fBDate\fP value is:
-.br
+.RS
     YYYY\-MM\-DD (year, month, day)
-.sp 1
+.RE
 The format for an IPTC \fBTime\fP value is:
-.br
+.RS
     HH:MM:SS (hours, minutes, seconds)
-.br
+.RE
 and may optionally be followed by:
-.br
+.RS
    \-HH:MM or +HH:MM (hours, minutes ahead/behind UTC)
-.sp 1
+.RE
 The format of \fBRational\fP (and \fBSRational\fP) is one of:
-.br
-    integer
-.br
-    integer-numerator/integer-denominator
-.br
-    Fnumber
-.br
-    fnumber
-.sp 1
+.RS
+.IP
+integer
+.IP
+integer-numerator/integer-denominator
+.IP
+Fnumber
+.IP
+fnumber
+.RE
 Rational Examples:
-.br
-    exiv2 "-Mset Exif.Photo.MaxApertureValue 557429/62500" X.jpg
-.br
-    exiv2 "-Mset Exif.Photo.MaxApertureValue F5.6" X.jpg
+.RS
+.nf
+exiv2 "-Mset Exif.Photo.MaxApertureValue 557429/62500" X.jpg
+exiv2 "-Mset Exif.Photo.MaxApertureValue F5.6" X.jpg
+.fi
+.RE
 .sp 1
 The Rational format Fnumber (or fnumber) is for the convenience of setting aperture values.  Aperture values
 are stored in Exif is an \fBAPEX\fP value which can be evaluated by the expression:
 .sp 1
-    apex-value  =    log(Fnumber) * 2.0 / log(2.0)
-.br
-    Fnumber     = exp(apex-value * log(2.0) / 2.0)
+.RS
+.nf
+apex-value  =    log(Fnumber) * 2.0 / log(2.0)
+Fnumber     = exp(apex-value * log(2.0) / 2.0)
+.fi
+.RE
 .sp 1
 The Rational format Fnumber is valid for any \fBRational\fP, even when the key is not an Aperture.
 More information about \fBAPEX\fP value is available from: http://en.wikipedia.org/wiki/APEX_system
 .sp 1
 The format of XMP \fBLangAlt\fP values includes an optional language qualifier:
-.br
-.B  lang="\fIlanguage-code\fP\fI" text\fP
+.RS
+.nf
+.B lang="\fIlanguage-code\fP\fI" text\fP
+.fi
+.RE
 .sp
 lang="x-default" is used if the value doesn't start with a language qualifier.
 .sp 1
+.RS
+.nf
     exiv2 -M'set Xmp.dc.title lang="de-DE" Euros' X.jpg
-.br
     exiv2 -M'set Xmp.dc.title lang="en-GB" Pounds' X.jpg
-.br
     exiv2 -M'set Xmp.dc.title lang="en-US" In God We Trust' X.jpg
-.br
     exiv2 -M'set Xmp.dc.title All others pay cash' X.jpg
+.fi
+.RE
 .sp 1
 To remove a language specification, set the value to '' (empty string)
-.br
-    exiv2 -M'set Xmp.dc.title lang="en-US"' X.jpg
-.sp 1
+.RS
+.nf
+exiv2 -M'set Xmp.dc.title lang="en-US"' X.jpg
+.fi
+.RE
 To remove all language specifications, delete the key:
-.br
-    exiv2 -M'del Xmp.dc.title' X.jpg
-.TP
+.RS
+.nf
+exiv2 -M'del Xmp.dc.title' X.jpg
+.fi
+.RE
 To register additional XMP namespaces, combine the command with:
-.TP
+.RS
 .nf
 \fBreg\fP \fIprefix\fP \fInamespace\fP
 .fi
+.RE
 .SS Command file format
 Empty lines and lines starting with \fB#\fP in a command file are
 ignored (comments). Remaining lines are commands as described above.
@@ -633,24 +647,17 @@ Core" XMP schema properties in the sidecar file to the older IPTC IIM4
 format. The inserted XMP properties include those in the "IPTC Core"
 XMP schema.
 .TP
-.nf
 exiv2 \-M"set Exif.Photo.UserComment charset=Ascii New Exif comment" image.jpg
-.fi
 Sets the Exif comment to an ASCII string.
 .TP
-.nf
-exiv2 \-M"set Exif.GPSInfo.GPSLatitude 4/1 15/1 33/1" \\
-\-M"set Exif.GPSInfo.GPSLatitudeRef N" image.jpg
-.fi
+exiv2 \-M"set Exif.GPSInfo.GPSLatitude 4/1 15/1 33/1" \\ \-M"set Exif.GPSInfo.GPSLatitudeRef N" image.jpg
 Sets the latitude to 4 degrees, 15 minutes and 33 seconds north. The
 Exif standard stipulates that the GPSLatitude tag consists of three
 Rational numbers for the degrees, minutes and seconds of the latitude
 and GPSLatitudeRef contains either 'N' or 'S' for north or south
 latitude respectively.
 .TP
-.nf
 exiv2 insert \-l/tmp -S.CRW /data/*.JPG
-.fi
 Copy all metadata from CRW files in the /tmp directory to JPG files
 with corresponding basenames in the /data directory. Note that this
 copies metadata as is, without any modifications to adapt it to the
