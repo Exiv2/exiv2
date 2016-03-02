@@ -448,7 +448,7 @@ namespace Exiv2 {
                                       ByteOrder   byteOrder)
     {
         uint32_t o = getULong(pData + size - 4, byteOrder);
-        if (o + 2 > size) throw Error(33);
+        if (size < 2 || o > size-2) throw Error(33);
         uint16_t count = getUShort(pData + o, byteOrder);
 #ifdef DEBUG
         std::cout << "Directory at offset " << std::dec << o
