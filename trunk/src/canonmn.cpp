@@ -785,6 +785,7 @@ namespace Exiv2 {
         { 160, "Tokina AT-X 124 AF 12-24mm f/4 DX"                          }, // 2
         { 160, "Tokina AT-X 107 AF DX Fish-eye 10-17mm f/3.5-4.5"           }, // 3
         { 160, "Tokina AT-X 116 PRO DX AF 11-16mm f/2.8"                    }, // 4
+        { 160, "Tokina AT-X 11 PRO DX Aspherical 11-20mm f/2.8"             }, // 5
         { 161, "Canon EF 28-70mm f/2.8L"                                    }, // 0
         { 161, "Sigma 24-70mm EX f/2.8"                                     }, // 1
         { 161, "Sigma 28-70mm f/2.8 EX"                                     }, // 2
