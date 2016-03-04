@@ -287,7 +287,14 @@ namespace Exiv2 {
         { (long int)0x3910000, "PowerShot SX410 HS" },
         { (long int)0x3930000, "PowerShot G9 X" },
         { (long int)0x3950000, "PowerShot G5 X" },
+        { (long int)0x3970000, "PowerShot G7 X Mark II" },
+        { (long int)0x3990000, "PowerShot ELPH 360 HS / IXUS 285 HS / IXY 650" },
+        { (long int)0x4010000, "PowerShot SX540 HS" },
+        { (long int)0x4020000, "PowerShot SX420 IS" },
+        { (long int)0x4030000, "PowerShot ELPH 190 IS / IXUS 180 / IXY 190" },
         { (long int)0x4040000, "PowerShot G1" },
+        { (long int)0x4040001, "IXY 180" },
+        { (long int)0x4050000, "PowerShot SX720 HS" },
         { (long int)0x6040000, "PowerShot S100 / Digital IXUS / IXY Digital" },
         { (long int)0x4007d673, "DC19/DC21/DC22" },
         { (long int)0x4007d674, "XH A1" },
@@ -363,6 +370,7 @@ namespace Exiv2 {
         { (long int)0x80000327, "EOS Rebel T5 / 1200D / Kiss X70" },
         { (long int)0x80000328, "EOS-1D X MARK II" },
         { (long int)0x80000331, "EOS M" },
+        { (long int)0x80000350, "EOS 80D" },
         { (long int)0x80000355, "EOS M2" },
         { (long int)0x80000346, "EOS Rebel SL1 / 100D / Kiss X7" },
         { (long int)0x80000347, "EOS Rebel T6s / 760D / 8000D" },
@@ -945,7 +953,9 @@ namespace Exiv2 {
         { 4152,"Canon EF 24-105mm f/3.5-5.6 IS STM"                         },
         { 4153,"Canon EF-M 15-45mm f/3.5-6.3 IS STM"                        },
         { 4154,"Canon EF-S 24mm f/2.8 STM"                                  },
-        { 4156,"Canon EF 50mm f/1.8 STM"                                    }
+        { 4156,"Canon EF 50mm f/1.8 STM"                                    },
+        {36912,"Canon EF-S 18-135mm f/3.5-5.6 IS USM"                       },
+        {65535,"n/a"                                                        }
     };
 
     //! A lens id and a pretty-print function for special treatment of the id.
