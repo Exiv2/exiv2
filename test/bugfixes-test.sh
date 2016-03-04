@@ -500,6 +500,13 @@ source ./functions.source
 	  runTest exiv2 -pa -g Lens         $filename
 	done
 
+	num=1166
+	printf "$num " >&3
+	filename=exiv2-bug$num.exv
+	echo '------>' Bug $num '<-------' >&2
+	copyTestFile                        $filename
+	runTest exiv2 -pa --grep lens/i     $filename
+
 ) 3>&1 > $results 2>&1
 
 printf "\n"
