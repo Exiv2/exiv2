@@ -752,6 +752,7 @@ namespace Exiv2 {
         { 141, "Canon EF 500mm f/4.5L"                                      },
         { 142, "Canon EF 300mm f/2.8L IS"                                   },
         { 143, "Canon EF 500mm f/4L IS"                                     },
+        { 143, "Sigma 17-70mm f/2.8-4 DC Macro OS HSM"                      }, // 1
         { 144, "Canon EF 35-135mm f/4-5.6 USM"                              },
         { 145, "Canon EF 100-300mm f/4.5-5.6 USM"                           },
         { 146, "Canon EF 70-210mm f/3.5-4.5 USM"                            },
@@ -972,6 +973,7 @@ namespace Exiv2 {
         {  47, printCsLensByFocalLength }, // not tested
         { 131, printCsLensByFocalLength },
         { 137, printCsLensByFocalLength }, // not tested
+        { 143, printCsLensByFocalLength },
         { 150, printCsLensByFocalLength },
         { 152, printCsLensByFocalLength },
         { 153, printCsLensByFocalLength },
