@@ -499,7 +499,7 @@ namespace Exiv2 {
                 if ( bFirst && bPrint ) {
                     out << indent(depth)
                         << " address |    tag                           |     "
-                        << " type |    count |   offset | value\n";
+                        << " type |    count |    offset | value\n";
                 }
                 bFirst = false;
 
@@ -541,7 +541,7 @@ namespace Exiv2 {
                 if ( bPrint ) {
                     uint32_t address = start + 2 + i*12 ;
                     out << indent(depth)
-                            << Internal::stringFormat("%8u | %#06x %-25s |%10s |%9u |%9u | "
+                            << Internal::stringFormat("%8u | %#06x %-25s |%10s |%9u |%10u | "
                                 ,address,tag,tagName(tag,25),typeName(type),count,offset);
                     if ( isShortType(type) ){
                         for ( uint16_t k = 0 ; k < kount ; k++ ) {
