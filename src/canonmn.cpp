@@ -759,7 +759,7 @@ namespace Exiv2 {
         { 140, "Canon EF 500mm f/4.5L"                                      },
         { 141, "Canon EF 500mm f/4.5L"                                      },
         { 142, "Canon EF 300mm f/2.8L IS"                                   },
-        { 143, "Canon EF 500mm f/4L IS"                                     },
+        { 143, "Canon EF 500mm f/4L IS"                                     }, // 0
         { 143, "Sigma 17-70mm f/2.8-4 DC Macro OS HSM"                      }, // 1
         { 144, "Canon EF 35-135mm f/4-5.6 USM"                              },
         { 145, "Canon EF 100-300mm f/4.5-5.6 USM"                           },
