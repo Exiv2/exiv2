@@ -274,6 +274,11 @@ namespace Action {
           @brief Erase XMP packet from the file.
          */
         int eraseXmpData(Exiv2::Image* image) const;
+        /*!
+          @brief Print image Structure information (used by ctIptcRaw/kpsIptcErase)
+         */
+        int printStructure(std::ostream& out, Exiv2::PrintStructureOption option);
+
 
     private:
         virtual Erase* clone_() const;

@@ -369,6 +369,11 @@ namespace Exiv2 {
     typedef std::set<std::string>::const_iterator             StringSet_i   ;
     typedef std::vector<std::string>                          StringVector  ,*StringVector_p;
     typedef std::vector<std::string>::const_iterator          StringVector_i;
+    typedef std::vector<uint32_t>                             Uint32Vector  ,*Uint32Vector_p;
+    typedef std::vector<uint32_t>::const_iterator             Uint32Vector_i;
+    typedef std::vector<uint32_t>                             Uint32Vector  ,*Uint32Vector_p;
+    typedef std::vector<uint32_t>::const_iterator             Uint32Vector_i;
+
 
 // *****************************************************************************
 // free functions

@@ -949,6 +949,10 @@ namespace Action {
         if (0 == rc && Params::instance().target_ & Params::ctXmp) {
             rc = eraseXmpData(image.get());
         }
+        if (0 == rc && Params::instance().target_ & Params::ctIptcRaw) {
+            rc = printStructure(std::cout,Exiv2::kpsIptcErase);
+        }
+
         if (0 == rc) {
             image->writeMetadata();
         }
@@ -964,6 +968,19 @@ namespace Action {
                   << ":\n" << e << "\n";
         return 1;
     } // Erase::run
+
+    int Erase::printStructure(std::ostream& out, Exiv2::PrintStructureOption option)
+    {
+        if (!Exiv2::fileExists(path_, true)) {
+            std::cerr << path_ << ": "
+                      << _("Failed to open the file\n");
+            return -1;
+        }
+        Exiv2::Image::AutoPtr image = Exiv2::ImageFactory::open(path_);
+        assert(image.get() != 0);
+        image->printStructure(out,option);
+        return 0;
+    }
 
     int Erase::eraseThumbnail(Exiv2::Image* image) const
     {
@@ -1033,25 +1050,29 @@ namespace Action {
     int Extract::run(const std::string& path)
     try {
         path_ = path;
-        int rc = 0;
-        if (Params::instance().target_ & Params::ctThumb) {
+        int  rc = 0;
+
+        if (!rc && Params::instance().target_ & Params::ctThumb) {
             rc = writeThumbnail();
         }
-        if (Params::instance().target_ & Params::ctXmpSidecar) {
-            std::string xmpPath = newFilePath(path_, ".xmp");
+        if (!rc && Params::instance().target_ & Params::ctXmpSidecar) {
+            std::string xmpPath = Params::instance().target_ & Params::ctStdInOut
+                                ? "-" : newFilePath(path_, ".xmp");
             if (dontOverwrite(xmpPath)) return 0;
             rc = metacopy(path_, xmpPath, Exiv2::ImageType::xmp, false);
         }
-        if (Params::instance().target_ & Params::ctPreview) {
+        if (!rc && Params::instance().target_ & Params::ctPreview) {
             rc = writePreviews();
         }
-        if (Params::instance().target_ & Params::ctIccProfile) {
+        if (!rc && Params::instance().target_ & Params::ctIccProfile) {
             rc = writeIccProfile();
         }
-        if (   !(Params::instance().target_ & Params::ctXmpSidecar)
+        if (!rc
+            && !(Params::instance().target_ & Params::ctXmpSidecar)
             && !(Params::instance().target_ & Params::ctThumb)
             && !(Params::instance().target_ & Params::ctPreview)) {
-            std::string exvPath = newFilePath(path_, ".exv");
+            std::string exvPath = Params::instance().target_ & Params::ctStdInOut
+                                ? "-" : newFilePath(path_, ".exv");
             if (dontOverwrite(exvPath)) return 0;
             rc = metacopy(path_, exvPath, Exiv2::ImageType::exv, false);
         }
@@ -1220,7 +1241,8 @@ namespace Action {
             && (   Params::instance().target_ & Params::ctExif
                 || Params::instance().target_ & Params::ctIptc
                 || Params::instance().target_ & Params::ctComment
-                || Params::instance().target_ & Params::ctXmp)) {
+                || Params::instance().target_ & Params::ctXmp
+                || Params::instance().target_ & Params::ctXmpRaw)) {
             std::string suffix = Params::instance().suffix_;
             if (suffix.empty()) suffix = ".exv";
             if (Params::instance().target_ & Params::ctXmpSidecar) suffix = ".xmp";
@@ -1915,15 +1937,18 @@ namespace {
     } // tm2Str
 
     int metacopy(const std::string& source,
-                 const std::string& target,
+                 const std::string& tgt,
                  int targetType,
                  bool preserve)
     {
+        // read the source metadata
+        int  rc    = -1   ;
         if (!Exiv2::fileExists(source, true)) {
             std::cerr << source
                       << ": " << _("Failed to open the file\n");
-            return -1;
+            return rc;
         }
+
         Exiv2::Image::AutoPtr sourceImage = Exiv2::ImageFactory::open(source);
         assert(sourceImage.get() != 0);
         sourceImage->readMetadata();
@@ -1931,6 +1956,12 @@ namespace {
         // Apply any modification commands to the source image on-the-fly
         Action::Modify::applyCommands(sourceImage.get());
 
+        // Open or create the target file
+        std::string target = tgt;
+        bool bTemporary = target == "-";
+        if ( bTemporary ) {
+            target = Exiv2::FileIo::temporaryPath();
+        }
         Exiv2::Image::AutoPtr targetImage;
         if (Exiv2::fileExists(target)) {
             targetImage = Exiv2::ImageFactory::open(target);
@@ -1941,6 +1972,8 @@ namespace {
             targetImage = Exiv2::ImageFactory::create(targetType, target);
             assert(targetImage.get() != 0);
         }
+
+        // Copy each type of metadata
         if (   Params::instance().target_ & Params::ctExif
             && !sourceImage->exifData().empty()) {
             if (Params::instance().verbose_) {
@@ -1957,24 +1990,28 @@ namespace {
             }
             targetImage->setIptcData(sourceImage->iptcData());
         }
-        if (   Params::instance().target_ & Params::ctXmp
+        if (    Params::instance().target_ & (Params::ctXmp|Params::ctXmpRaw)
             && !sourceImage->xmpData().empty()) {
             if (Params::instance().verbose_) {
                 std::cout << _("Writing XMP data from") << " " << source
                           << " " << _("to") << " " << target << std::endl;
             }
 
-            // #1148 use XMP packet if there are no XMP modification commands
-            if ( Params::instance().modifyCmds_.size() == 0
-            &&   Params::instance().target_ == (Params::ctXmp | Params::ctXmpSidecar) // option -eXx
-            ) {
+            // #1148 use Raw XMP packet if there are no XMP modification commands
+            int tRawSidecar = Params::ctXmpSidecar | Params::ctXmpRaw; // option -eXX
+            // printTarget("in metacopy",Params::instance().target_,true);
+            if( Params::instance().modifyCmds_.size() == 0
+            && (Params::instance().target_ & tRawSidecar) == tRawSidecar
+            ){
+                // std::cout << "short cut" << std::endl;
                 // http://www.cplusplus.com/doc/tutorial/files/
                 std::ofstream os;
                 os.open(target.c_str());
                 sourceImage->printStructure(os,Exiv2::kpsXMP);
                 os.close();
-                return 0;
+                rc = 0;
             } else {
+                // std::cout << "long cut" << std::endl;
                 targetImage->setXmpData(sourceImage->xmpData());
             }
         }
@@ -1986,16 +2023,35 @@ namespace {
             }
             targetImage->setComment(sourceImage->comment());
         }
-        try {
+        if ( rc < 0 ) try {
             targetImage->writeMetadata();
+            rc=0;
         }
         catch (const Exiv2::AnyError& e) {
             std::cerr << target <<
                 ": " << _("Could not write metadata to file") << ": " << e << "\n";
-            return 1;
+            rc=1;
         }
 
-        return 0;
+        // if we used a temporary target, copy it to stdout
+        if ( rc == 0 && bTemporary ) {
+            FILE* f = ::fopen(target.c_str(),"rb") ;
+            if (  f ) {
+                char buffer[8*1024];
+                int n = 1 ;
+                while ( !feof(f) && n > 0) {
+                    n=fread(buffer,1,sizeof buffer,f);
+                    fwrite(buffer,1,n,stdout);
+                }
+                fclose(f);
+            }
+            std::cout << std::endl;
+        }
+
+        // delete temporary target
+        if ( bTemporary ) std::remove(target.c_str());
+
+        return rc;
     } // metacopy
 
     // Defined outside of the function so that Exiv2::find() can see it
@@ -2113,6 +2169,8 @@ namespace {
 
     int dontOverwrite(const std::string& path)
     {
+        if ( path == "-" ) return 0;
+
         if (!Params::instance().force_ && Exiv2::fileExists(path)) {
             std::cout << Params::instance().progname()
                       << ": " << _("Overwrite") << " `" << path << "'? ";

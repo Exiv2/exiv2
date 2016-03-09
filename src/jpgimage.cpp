@@ -538,7 +538,10 @@ namespace Exiv2 {
             throw Error(15);
         }
 
-        if ( option == kpsBasic || option == kpsXMP || option == kpsIccProfile || option == kpsRecursive) {
+        bool bPrint = option==kpsBasic || option==kpsRecursive;
+        Exiv2::Uint32Vector iptcDataSegs;
+
+        if ( bPrint || option == kpsXMP || option == kpsIccProfile || option == kpsIptcErase ) {
 
             // nmonic for markers
             std::string nm[256] ;
@@ -576,13 +579,13 @@ namespace Exiv2 {
             bool    first= true;
             while (!done) {
                 // print marker bytes
-                if ( first && (option == kpsBasic||option==kpsRecursive) ) {
+                if ( first && bPrint ) {
                     out << "STRUCTURE OF JPEG FILE: " << io_->path() << std::endl;
                     out << " address | marker     | length  | data" << std::endl ;
                     REPORT_MARKER;
                 }
                 first    = false;
-                bool bLF = option == kpsBasic||option == kpsRecursive;
+                bool bLF = bPrint;
 
                 // Read size and signature
                 std::memset(buf.pData_, 0x0, buf.size_);
@@ -602,17 +605,22 @@ namespace Exiv2 {
                 ){
                     size = getUShort(buf.pData_, bigEndian);
                 }
-                if ( option == kpsBasic||option==kpsRecursive ) out << Internal::stringFormat(" | %7d ", size);
+                if ( bPrint ) out << Internal::stringFormat(" | %7d ", size);
 
                 // only print the signature for appn
                 if (marker >= app0_ && marker <= (app0_ | 0x0F)) {
-                    char http[5];
-                    http[4]=0;
-                    memcpy(http,buf.pData_+2,4);
+                    // http://www.adobe.com/content/dam/Adobe/en/devnet/xmp/pdfs/XMPSpecificationPart3.pdf p75
+                    const char* signature = (const char*) buf.pData_+2;
 
-                    if ( option == kpsXMP && std::strcmp(http,"http") == 0 ) {
+					// 728 rmills@rmillsmbp:~/gnu/exiv2/ttt $ exiv2 -pS test/data/exiv2-bug922.jpg
+					// STRUCTURE OF JPEG FILE: test/data/exiv2-bug922.jpg
+					// address | marker     | length  | data
+					//       2 | 0xd8 SOI   |       0
+					//       4 | 0xe1 APP1  |     911 | Exif..MM.*.......%.........#....
+					//     917 | 0xe1 APP1  |     870 | http://ns.adobe.com/xap/1.0/.<x:
+					//    1789 | 0xe1 APP1  |   65460 | http://ns.adobe.com/xmp/extensio
+                    if ( option == kpsXMP && std::string(signature).find("http://ns.adobe.com/x")== 0 ) {
                         // extract XMP
-                        // http://ns.adobe.com/xap/1.0/
                         if ( size > 0 ) {
                             io_->seek(-bufRead , BasicIo::cur);
                             byte* xmp  = new byte[size+1];
@@ -622,7 +630,10 @@ namespace Exiv2 {
                             // http://wwwimages.adobe.com/content/dam/Adobe/en/devnet/xmp/pdfs/XMPSpecificationPart3.pdf
                             // if we find HasExtendedXMP, set the flag and ignore this block
                             // the first extended block is a copy of the Standard block.
-                            // a robust implementation enables extended blocks to be out of sequence
+                            // a robust implementation allows extended blocks to be out of sequence
+                            // we could implement out of sequence with a dictionary of sequence/offset
+                            // and dumping the XMP in a post read operation similar to kpsIptcErase
+                            // for the moment, dumping 'on the fly' is working fine
                             if ( ! bExtXMP ) {
                                 while (xmp[start]) start++; start++;
                                 if ( ::strstr((char*)xmp+start,"HasExtendedXMP") ) {
@@ -634,11 +645,11 @@ namespace Exiv2 {
                             }
                             xmp[size]=0;
 
-                            out << xmp + start; // this is all we need to output without the blank line dance.
+                            out << xmp + start;
                             delete [] xmp;
                             bufRead = size;
                         }
-                    } else if ( option == kpsIccProfile && std::strcmp(http,"ICC_") == 0 ) {
+                    } else if ( option == kpsIccProfile && std::strcmp(signature,"ICC_PROFILE") == 0 ) {
                         // extract ICCProfile
                         if ( size > 0 ) {
                             io_->seek(-bufRead , BasicIo::cur);
@@ -649,15 +660,22 @@ namespace Exiv2 {
                             bufRead = size;
                             delete [] icc;
                         }
-                    } else if ( option == kpsBasic||option==kpsRecursive ) {
+                    } else if ( option == kpsIptcErase && std::strcmp(signature,"Photoshop 3.0") == 0 ) {
+                        // delete IPTC data segment from JPEG
+                        if ( size > 0 ) {
+                            io_->seek(-bufRead , BasicIo::cur);
+                            iptcDataSegs.push_back(io_->tell());
+                            iptcDataSegs.push_back(size);
+                        }
+                    } else if ( bPrint ) {
                         out << "| " << Internal::binaryToString(buf,size>32?32:size,size>0?2:0);
                     }
 
                     // for MPF: http://www.sno.phy.queensu.ca/~phil/exiftool/TagNames/MPF.html
                     // for FLIR: http://owl.phy.queensu.ca/~phil/exiftool/TagNames/FLIR.html
-                    bool bFlir = option == kpsRecursive && marker == (app0_+1) && std::strcmp(http,"FLIR")==0;
-                    bool bExif = option == kpsRecursive && marker == (app0_+1) && std::strcmp(http,"Exif")==0;
-                    bool bMPF  = option == kpsRecursive && marker == (app0_+2) && std::strcmp(http,"MPF")==0;
+                    bool bFlir = option == kpsRecursive && marker == (app0_+1) && std::strcmp(signature,"FLIR")==0;
+                    bool bExif = option == kpsRecursive && marker == (app0_+1) && std::strcmp(signature,"Exif")==0;
+                    bool bMPF  = option == kpsRecursive && marker == (app0_+2) && std::strcmp(signature,"MPF")==0;
                     if( bFlir || bExif || bMPF ) {
                         // extract Exif data block which is tiff formatted
                         if ( size > 0 ) {
@@ -670,7 +688,7 @@ namespace Exiv2 {
                             // copy the data to memory
                             io_->seek(-bufRead , BasicIo::cur);
                             io_->read(exif,size);
-                            uint32_t start     = std::strcmp(http,"Exif")==0 ? 8 : 6;
+                            uint32_t start     = std::strcmp(signature,"Exif")==0 ? 8 : 6;
                             uint32_t max       = (uint32_t) size -1;
 
                             // is this an fff block?
@@ -729,6 +747,14 @@ namespace Exiv2 {
                     }
                 }
             }
+        }
+        if ( option == kpsIptcErase ) {
+        	std::cout << "iptc data blocks: " << (iptcDataSegs.size() ? "FOUND" : "none") << std::endl;
+        	uint32_t toggle = 0 ;
+        	for ( Uint32Vector_i it = iptcDataSegs.begin(); it != iptcDataSegs.end() ; it++ ) {
+        		std::cout << *it ;
+        		if ( toggle++ % 2 ) std::cout << std::endl; else std::cout << ' ' ;
+        	}
         }
     }
 
