@@ -480,22 +480,24 @@ namespace Exiv2 {
         // buffer
         const size_t dirSize = 32;
         DataBuf  dir(dirSize);
+        bool bPrint = option == kpsBasic || option == kpsRecursive;
+
         do {
             // Read top of directory
             io.seek(start,BasicIo::beg);
             io.read(dir.pData_, 2);
             uint16_t   dirLength = byteSwap2(dir,0,bSwap);
 
-            bool tooBig = dirLength > 200 ;
-            bool bPrint = option == kpsBasic || option == kpsRecursive;
+            bool tooBig = dirLength > 500;
 
             if ( bFirst && bPrint ) {
                 out << indent(depth) << Internal::stringFormat("STRUCTURE OF TIFF FILE (%c%c): ",c,c) << io.path() << std::endl;
                 if ( tooBig ) out << indent(depth) << "dirLength = " << dirLength << std::endl;
             }
+            if  (tooBig) break;
 
             // Read the dictionary
-            for ( int i = 0 ; !tooBig && i < dirLength ; i ++ ) {
+            for ( int i = 0 ; i < dirLength ; i ++ ) {
                 if ( bFirst && bPrint ) {
                     out << indent(depth)
                         << " address |    tag                           |     "
@@ -594,7 +596,7 @@ namespace Exiv2 {
             out.flush();
         } while (start) ;
 
-        if ( option == kpsBasic || option == kpsRecursive ) {
+        if ( bPrint ) {
             out << indent(depth) << "END " << io.path() << std::endl;
         }
         depth--;

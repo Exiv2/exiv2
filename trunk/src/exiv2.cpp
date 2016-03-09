@@ -238,6 +238,25 @@ void Params::usage(std::ostream& os) const
        << _("Manipulate the Exif metadata of images.\n");
 }
 
+std::string Params::printTarget(std::string before,int target,bool bPrint,std::ostream& out)
+{
+	std::string t;
+	if ( target & Params::ctExif       ) t+= 'e';
+	if ( target & Params::ctXmpSidecar ) t+= 'X';
+	if ( target & Params::ctXmpRaw     ) t+= target & Params::ctXmpSidecar ? 'X' : 'R' ;
+	if ( target & Params::ctIptc       ) t+= 'i';
+	if ( target & Params::ctIccProfile ) t+= 'C';
+	if ( target & Params::ctIptcRaw    ) t+= 'I';
+	if ( target & Params::ctXmp        ) t+= 'x';
+	if ( target & Params::ctComment    ) t+= 'c';
+	if ( target & Params::ctThumb      ) t+= 't';
+	if ( target & Params::ctPreview    ) t+= 'p';
+	if ( target & Params::ctStdInOut   ) t+= '-';
+
+	if ( bPrint ) out << before << " :" << t << std::endl;
+	return t;
+}
+
 void Params::help(std::ostream& os) const
 {
     usage(os);
@@ -1028,7 +1047,7 @@ namespace {
     int parseCommonTargets(const std::string& optarg,
                            const std::string& action)
     {
-        int rc = 0;
+        int rc     = 0;
         int target = 0;
         for (size_t i = 0; rc == 0 && i < optarg.size(); ++i) {
             switch (optarg[i]) {
@@ -1038,14 +1057,25 @@ namespace {
             case 'c': target |= Params::ctComment; break;
             case 't': target |= Params::ctThumb; break;
             case 'C': target |= Params::ctIccProfile; break;
+            case 'I': target |= Params::ctIptcRaw;break;
+            case '-': target |= Params::ctStdInOut;break;
             case 'a': target |=   Params::ctExif
                                 | Params::ctIptc
                                 | Params::ctComment
                                 | Params::ctXmp; break;
             case 'X':
-                target |= Params::ctXmpSidecar;
-                if (optarg == "X") target |= Params::ctExif | Params::ctIptc | Params::ctXmp;
-                break;
+            	Params::printTarget("X before",target);
+                target |= Params::ctXmpSidecar|Params::ctExif  |  Params::ctIptc | Params::ctXmp ; // -eX
+                Params::printTarget("X after1",target);
+
+                if ( i ) { // -eXX
+                    target |= Params::ctXmpRaw ;
+                	Params::printTarget("X after2",target);
+                    target ^= Params::ctExif|Params::ctIptc|Params::ctXmp ; // turn off those bits
+                }
+                Params::printTarget("X ending",target,false);
+            break;
+
             case 'p':
             {
                 if (strcmp(action.c_str(), "extract") == 0) {

@@ -171,14 +171,17 @@ public:
 
     //! Enumerates common targets, bitmap
     enum CommonTarget {
-        ctExif       =  1,
-        ctIptc       =  2,
-        ctComment    =  4,
-        ctThumb      =  8,
-        ctXmp        = 16,
-        ctXmpSidecar = 32,
-        ctPreview    = 64,
-        ctIccProfile =128
+        ctExif       =   1,
+        ctIptc       =   2,
+        ctComment    =   4,
+        ctThumb      =   8,
+        ctXmp        =  16,
+        ctXmpSidecar =  32,
+        ctPreview    =  64,
+        ctIccProfile = 128,
+        ctXmpRaw     = 256,
+        ctStdInOut   = 512,
+        ctIptcRaw    =1024
     };
 
     //! Enumerates the policies to handle existing files in rename action
@@ -314,6 +317,10 @@ public:
 
     //! Print version information to an output stream.
     void version(bool verbose =false, std::ostream& os =std::cout) const;
+
+    //! Print target_
+    static std::string printTarget(std::string before,int target,bool bPrint=false,std::ostream& os=std::cout);
+
 }; // class Params
 
 #endif                                  // #ifndef EXIV2APP_HPP_
