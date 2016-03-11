@@ -743,7 +743,7 @@ namespace Exiv2 {
         { 137, "Sigma 18-250mm f/3.5-6.3 DC OS HSM"                         }, // 3
         { 137, "Sigma 24-70mm f/2.8 IF EX DG HSM"                           }, // 4
         { 137, "Sigma 18-125mm f/3.8-5.6 DC OS HSM"                         }, // 5
-        { 137, "Sigma 17-70mm f/2.8-4 DC Macro OS HSM"                      }, // 6
+        { 137, "Sigma 17-70mm f/2.8-4 DC Macro OS HSM Contemporary"         }, // 6
         { 137, "Sigma 17-50mm f/2.8 OS HSM"                                 }, // 7
         { 137, "Sigma 18-200mm f/3.5-6.3 DC OS HSM [II]"                    }, // 8
         { 137, "Tamron AF 18-270mm f/3.5-6.3 Di II VC PZD"                  }, // 9
