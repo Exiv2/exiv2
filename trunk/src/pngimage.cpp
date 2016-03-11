@@ -34,6 +34,7 @@ EXIV2_RCSID("@(#) $Id$")
 
 #ifdef   EXV_HAVE_LIBZ
 #include "pngchunk_int.hpp"
+#include "image_int.hpp"
 #include "pngimage.hpp"
 #include "jpgimage.hpp"
 #include "tiffimage.hpp"
@@ -42,6 +43,7 @@ EXIV2_RCSID("@(#) $Id$")
 #include "basicio.hpp"
 #include "error.hpp"
 #include "futils.hpp"
+#include "types.hpp"
 
 // + standard includes
 #include <string>
@@ -296,12 +298,23 @@ namespace Exiv2 {
                             out.write((const char*) dataBuf.pData_,dataBuf.size_);
                         }
 
-                        if ( bIptc && bSoft ) { // we require a photoshop parser to recover IPTC data
-                            const char* bytes = (const char*) dataBuf.pData_;
-                            uint32_t    l     = (uint32_t) std::strlen(bytes)+2;
-                            // create a copy on write memio object with the data, then print the structure
-                            BasicIo::AutoPtr p = BasicIo::AutoPtr(new MemIo(dataBuf.pData_+l,dataBuf.size_-l));
-                            TiffImage::printTiffStructure(*p,out,option,depth);
+                        if ( bIptc ) {
+                            const byte* bytes = dataBuf.pData_;
+                            uint32_t    l     = (uint32_t) dataBuf.size_ ; // std::strlen(bytes)+2;
+                            uint32_t    i     = 0 ;
+                            depth++;
+                            out << indent(depth) << "Record | DataSet | Name                     | Length | Data" << std::endl;
+                            while ( bytes[i] == 0x1c && i < l-3 ) {
+                            	char buff[100];
+                            	uint16_t record  = bytes[i+1];
+                            	uint16_t dataset = bytes[i+2];
+                            	uint16_t len     = getUShort(bytes+i+3,bigEndian);
+                            	sprintf(buff,"%6d | %7d | %-24s | %6d | ",record,dataset, Exiv2::IptcDataSets::dataSetName(dataset,record).c_str(), len);
+
+                            	out << indent(depth) << buff << Internal::binaryToString(dataBuf,len,i+5) << std::endl;
+                            	i += 5 + len;
+                            }
+                            depth--;
                         }
                     }
                     delete [] data;
