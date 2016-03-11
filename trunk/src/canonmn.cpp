@@ -808,7 +808,8 @@ namespace Exiv2 {
         { 165, "Canon EF 70-200mm f/2.8 L"                                  },
         { 166, "Canon EF 70-200mm f/2.8 L + 1.4x"                           },
         { 167, "Canon EF 70-200mm f/2.8 L + 2x"                             },
-        { 168, "Canon EF 28mm f/1.8 USM"                                    },
+        { 168, "Canon EF 28mm f/1.8 USM"                                    }, // 0
+        { 168, "Sigma 50-100mm F1.8 DC HSM Art"                             }, // 1
         { 169, "Canon EF 17-35mm f/2.8L"                                    }, // 0
         { 169, "Sigma 18-200mm f/3.5-6.3 DC OS"                             }, // 1
         { 169, "Sigma 15-30mm f/3.5-4.5 EX DG Aspherical"                   }, // 2
@@ -992,6 +993,7 @@ namespace Exiv2 {
         { 156, printCsLensByFocalLength },
         { 160, printCsLensByFocalLength },
         { 161, printCsLensByFocalLength },
+        { 168, printCsLensByFocalLength },
         { 169, printCsLensByFocalLength },
         { 172, printCsLensByFocalLength }, // not tested
         { 173, printCsLensByFocalLengthTC }, // works partly
