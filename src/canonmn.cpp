@@ -376,7 +376,8 @@ namespace Exiv2 {
         { (long int)0x80000347, "EOS Rebel T6s / 760D / 8000D" },
         { (long int)0x80000382, "EOS 5DS" },
         { (long int)0x80000393, "EOS Rebel T6i / 750D / Kiss X8i" },
-        { (long int)0x80000401, "EOS 5DS R" }
+        { (long int)0x80000401, "EOS 5DS R" },
+        { (long int)0x80000404, "EOS Rebel T6 / 1300D / Kiss X80" }
     };
 
     //! SerialNumberFormat, tag 0x0015
