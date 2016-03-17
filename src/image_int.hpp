@@ -60,6 +60,11 @@ namespace Exiv2 {
      */
     std::string binaryToString(DataBuf& buf, size_t size, size_t start =0);
 
+    /*!
+      @brief format binary for display in \em printStructure() \em .
+     */
+    std::string binaryToString(const byte* buff, size_t size, size_t start /*=0*/);
+
 }}                                      // namespace Internal, Exiv2
 
 #endif                                  // #ifndef IMAGE_INT_HPP_
