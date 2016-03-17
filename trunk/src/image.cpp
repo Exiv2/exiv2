@@ -609,11 +609,9 @@ namespace Exiv2 {
         return result;
     }
 
-    std::string binaryToString(DataBuf& buf, size_t size, size_t start /*=0*/)
+    std::string binaryToString(const byte* buff, size_t size, size_t start /*=0*/)
     {
         std::string result = "";
-        byte* buff = buf.pData_;
-
         size += start;
 
         while (start < size) {
@@ -625,6 +623,11 @@ namespace Exiv2 {
             }
         }
         return result;
+    }
+
+    std::string binaryToString(DataBuf& buf, size_t size, size_t start /*=0*/)
+    {
+        return binaryToString(buf.pData_,size,start);
     }
 
 }}                                      // namespace Internal, Exiv2
