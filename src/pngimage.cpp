@@ -166,6 +166,18 @@ namespace Exiv2 {
         return result;
     }
 
+    std::string upper(const std::string& str)
+    {
+        std::string result;
+        transform(str.begin(), str.end(), std::back_inserter(result), toupper);
+        return result;
+    }
+
+    std::string::size_type findi(const std::string& str, const std::string& substr)
+    {
+        return upper(str).find(upper(substr) );
+    }
+
     void PngImage::printStructure(std::ostream& out, PrintStructureOption option, int depth)
     {
         if (io_->open() != 0) {
@@ -243,11 +255,11 @@ namespace Exiv2 {
                 bool iTXt  = std::strcmp(chType,"iTXt")== 0;
 
                 // for XMP, ICC etc: read and format data
-                bool bXMP  = option == kpsXMP        && dataString.find(xmpKey)==0;
-                bool bICC  = option == kpsIccProfile && dataString.find(iccKey)==0;
-                bool bExif = option == kpsRecursive  && dataString.find(exifKey)==0;
-                bool bIptc = option == kpsRecursive  && dataString.find(iptcKey)==0;
-                bool bSoft = option == kpsRecursive  && dataString.find(softKey)==0;
+                bool bXMP  = option == kpsXMP        && findi(dataString,xmpKey)==0;
+                bool bICC  = option == kpsIccProfile && findi(dataString,iccKey)==0;
+                bool bExif = option == kpsRecursive  && findi(dataString,exifKey)==0;
+                bool bIptc = option == kpsRecursive  && findi(dataString,iptcKey)==0;
+                bool bSoft = option == kpsRecursive  && findi(dataString,softKey)==0;
                 bool bDump = bXMP || bICC || bExif || bIptc || bSoft ;
 
                 if( bDump ) {
