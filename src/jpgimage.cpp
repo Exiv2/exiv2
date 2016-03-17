@@ -719,25 +719,8 @@ namespace Exiv2 {
                             }
 
                             if ( bPS ) {
-                                uint32_t i     = 0 ;
-                                byte*    bytes = exif;
-                                DataBuf  dataBuf(bytes,size);
-                                while ( i < size-3 && exif[i] != 0x1c ) i++;
-                            	depth++;
-                            	out << "  Record | DataSet | Name                     | Length | Data" << std::endl;
-                            	while ( bytes[i] == 0x1c && i < size-3 ) {
-                            		char buff[100];
-                            		uint16_t record  = bytes[i+1];
-                            		uint16_t dataset = bytes[i+2];
-                            		uint16_t len     = getUShort(bytes+i+3,bigEndian);
-                            		sprintf(buff,"  %6d | %7d | %-24s | %6d | ",record,dataset, Exiv2::IptcDataSets::dataSetName(dataset,record).c_str(), len);
-
-                            		out << buff << Internal::binaryToString(dataBuf,len,i+5) << std::endl;
-                            		i += 5 + len;
-                            	}
-                            	depth--;
+                                IptcData::printStructure(out,exif,size,depth);
                             } else {
-
 	                            // create a copy on write memio object with the data, then print the structure
     	                        BasicIo::AutoPtr p = BasicIo::AutoPtr(new MemIo(exif+start,size-start));
         	                    if ( start < max ) TiffImage::printTiffStructure(*p,out,option,depth);

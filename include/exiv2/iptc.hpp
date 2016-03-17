@@ -273,6 +273,10 @@ namespace Exiv2 {
           @brief Return the metadata charset name or 0
          */
         const char *detectCharset() const;
+        /*!
+          @brief dump iptc formatted binary data (used by printStructure kpsRecursive)
+        */
+        static void printStructure(std::ostream& out, const byte* bytes,const size_t size,uint32_t depth);
         //@}
 
     private:

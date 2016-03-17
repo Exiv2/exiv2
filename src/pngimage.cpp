@@ -311,22 +311,7 @@ namespace Exiv2 {
                         }
 
                         if ( bIptc ) {
-                            const byte* bytes = dataBuf.pData_;
-                            uint32_t    l     = (uint32_t) dataBuf.size_ ; // std::strlen(bytes)+2;
-                            uint32_t    i     = 0 ;
-                            depth++;
-                            out << indent(depth) << "Record | DataSet | Name                     | Length | Data" << std::endl;
-                            while ( bytes[i] == 0x1c && i < l-3 ) {
-                            	char buff[100];
-                            	uint16_t record  = bytes[i+1];
-                            	uint16_t dataset = bytes[i+2];
-                            	uint16_t len     = getUShort(bytes+i+3,bigEndian);
-                            	sprintf(buff,"%6d | %7d | %-24s | %6d | ",record,dataset, Exiv2::IptcDataSets::dataSetName(dataset,record).c_str(), len);
-
-                            	out << indent(depth) << buff << Internal::binaryToString(dataBuf,len,i+5) << std::endl;
-                            	i += 5 + len;
-                            }
-                            depth--;
+                            IptcData::printStructure(out,dataBuf.pData_,dataBuf.size_,depth);
                         }
                     }
                     delete [] data;
