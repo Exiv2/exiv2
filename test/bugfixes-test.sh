@@ -422,6 +422,9 @@ source ./functions.source
 	runTest exiv2 -pC $filename                                                 | cksum
 	runTest exiv2 -pC http://dev.exiv2.org/attachments/download/821/Reagan.tiff | cksum
 	runTest exiv2 -pC http://dev.exiv2.org/attachments/download/820/Reagan.jpg  | cksum
+	filename=exiv2-bug$num.png
+	copyTestFile      $filename
+	runTest exiv2 -pC $filename                                                 | cksum
 
 	num=1108
 	filename=exiv2-bug$num.xmp
