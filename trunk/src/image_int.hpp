@@ -65,6 +65,11 @@ namespace Exiv2 {
      */
     std::string binaryToString(const byte* buff, size_t size, size_t start /*=0*/);
 
+    /*!
+      @brief indent output for kpsRecursive in \em printStructure() \em .
+     */
+    std::string indent(int32_t depth);
+
 }}                                      // namespace Internal, Exiv2
 
 #endif                                  // #ifndef IMAGE_INT_HPP_

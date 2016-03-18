@@ -451,13 +451,6 @@ namespace Exiv2 {
 
 #define MIN(a,b) ((a)<(b))?(b):(a)
 
-    static std::string indent(int depth)
-    {
-        std::string result;
-        while ( depth -- ) result += "  ";
-        return result;
-    }
-
     void TiffImage::printStructure(std::ostream& out, Exiv2::PrintStructureOption option,int depth)
     {
         if (io_->open() != 0) throw Error(9, io_->path(), strError());
@@ -491,15 +484,15 @@ namespace Exiv2 {
             bool tooBig = dirLength > 500;
 
             if ( bFirst && bPrint ) {
-                out << indent(depth) << Internal::stringFormat("STRUCTURE OF TIFF FILE (%c%c): ",c,c) << io.path() << std::endl;
-                if ( tooBig ) out << indent(depth) << "dirLength = " << dirLength << std::endl;
+                out << Internal::indent(depth) << Internal::stringFormat("STRUCTURE OF TIFF FILE (%c%c): ",c,c) << io.path() << std::endl;
+                if ( tooBig ) out << Internal::indent(depth) << "dirLength = " << dirLength << std::endl;
             }
             if  (tooBig) break;
 
             // Read the dictionary
             for ( int i = 0 ; i < dirLength ; i ++ ) {
                 if ( bFirst && bPrint ) {
-                    out << indent(depth)
+                    out << Internal::indent(depth)
                         << " address |    tag                           |     "
                         << " type |    count |    offset | value\n";
                 }
@@ -542,7 +535,7 @@ namespace Exiv2 {
 
                 if ( bPrint ) {
                     uint32_t address = start + 2 + i*12 ;
-                    out << indent(depth)
+                    out << Internal::indent(depth)
                             << Internal::stringFormat("%8u | %#06x %-25s |%10s |%9u |%10u | "
                                 ,address,tag,tagName(tag,25),typeName(type),count,offset);
                     if ( isShortType(type) ){
@@ -603,7 +596,7 @@ namespace Exiv2 {
         } while (start) ;
 
         if ( bPrint ) {
-            out << indent(depth) << "END " << io.path() << std::endl;
+            out << Internal::indent(depth) << "END " << io.path() << std::endl;
         }
         depth--;
     }
