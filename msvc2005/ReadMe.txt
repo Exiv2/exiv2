@@ -3,7 +3,7 @@ exiv2\msvc2005\ReadMe.txt
 
 +-----------------------------------------------------------+
 | msvc2005 builds 32bit and 64bit binaries                  |
-|          with Visual Studio 2005/8/10/12/13/14            |
+|          with Visual Studio 2005/8/10/12/13/15            |
 | msvc2003 builds 32bit binaries                            |
 |          with Visual Studio 2003/5/8                      |
 +-----------------------------------------------------------+
@@ -24,7 +24,7 @@ T A B L E  o f  C O N T E N T S
 1.4  Configuring build options (such as video and webready)
 1.5  Building with exiv2-webready.sln
 1.6  What is build
-1.7  Express editions of DevStudio (or 32 bit only builds, or 64 bit only builds)
+1.7  Express editions of Visual Studio (or 32 bit only builds, or 64 bit only builds)
 
 2    Design
 2.1  Architecture
@@ -53,7 +53,7 @@ T A B L E  o f  C O N T E N T S
      This has been tested with the "Pro" versions of VS 2005/08/10/12
      Some Express editions don't support 64 bit builds
      however it is  possible to build 32 bit libraries with "Express".
-     See notes below about DevStudio Express and building only Win32 or x64 builds
+     See notes below about Visual Studio Express and building only Win32 or x64 builds
 
      You need a DOS version of perl to build openssl.  Not the cygwin version.
      I use ActiveState Perl.
@@ -111,7 +111,7 @@ T A B L E  o f  C O N T E N T S
 
      If you haven't installed the x64 compiler, don't select the 64 bit configurations!
      You may have to hand-edit the vcproj and sln files to hide the 64 bit information.
-     See the notes about DevStudio Express for more information about this.
+     See the notes about Visual Studio Express for more information about this.
 
      Build time is 20 minutes on a 2.2GHz Duo Core and consumes 3.0 gBytes of disk space.
      Build time with webready is of the order of one hour as we add 5 libraries.
@@ -176,9 +176,9 @@ T A B L E  o f  C O N T E N T S
      The Debug|Release builds use static C runtime libraries
      This is discussed in exiv2\msvc2003\ReadMe.txt
 
-1.7  Express editions of DevStudio (or 32 bit only builds, or 64 bit only builds)
+1.7  Express editions of Visual Studio (or 32 bit only builds, or 64 bit only builds)
      Some Express Editions do not provide a 64 bit compiler.
-     You can build 32 bit libraries with DevStudio Express (with a little effort)
+     You can build 32 bit libraries with Visual Studio Express (with a little effort)
 
      Before loading the project, use the python script setbuild.py to select Win32:
 
@@ -200,7 +200,7 @@ T A B L E  o f  C O N T E N T S
      I personally don't recommend notepad for any purpose at all.
      I use TextPad http://www.textpad.com/  Notepad++ is also good.
 
-     DevStudio Express 2010 does not have the "Batch Build" feature.
+     Visual Studio Express 2010 does not have the "Batch Build" feature.
      Select "exiv2" right-click "Set as Startup Project" and
      Select Platform="Win32" Configuration="Debug|DebugDLL|Release|ReleaseDLL"  Build.
      Build the Configurations you need.  Build time is about 2 minutes/Configuration.
@@ -210,7 +210,7 @@ T A B L E  o f  C O N T E N T S
 
 2    Design
 
-     expat and zlib1.2.5 (and earlier) do not provide 64 bit builds for DevStudio.
+     expat and zlib1.2.5 (and earlier) do not provide 64 bit builds for Visual Studio.
 
      The projects provided for zlib1.2.7 support 64 bit builds, however it didn't
      work cleanly for me.  They use different projects for VC9 and VC10.
@@ -227,10 +227,10 @@ T A B L E  o f  C O N T E N T S
      The names expat-2.1.0 and zlib-1.2.7 are fixed (and used by the .vcproj files)
 
      zlib and expat
-     exiv2\msvc2005\zlib\zlib.vcproj                          DevStudio files
+     exiv2\msvc2005\zlib\zlib.vcproj                          Visual Studio files
      ..\..\..\zlib                                            Source code
 
-     exiv2\msvc2005\expat\expat.vcproj                        DevStudio files
+     exiv2\msvc2005\expat\expat.vcproj                        Visual Studio files
      ..\..\..\expat                                           Source code
 
 2.1  Architecture
@@ -253,13 +253,13 @@ T A B L E  o f  C O N T E N T S
      1) msvc2005 supports 64 bit and 32 bit builds
      2) msvc2005 provides projects to build expat, zlib, curl, libssh and openssl
      3) msvc2005 is designed to accomodate new versions of expat and zlib when they become available.
-     4) msvc2005 supports DevStudio 2005 and later (no support for 2003)
+     4) msvc2005 supports Visual Studio 2005 and later (no support for 2003)
      5) msvc2005 does not require you to build 'vanilla' expat and zlib projects in advance
      6) msvc2005 does not support the organize application
      7) msvc2005 supports building with zlib1.2.7 or 1.2.8
      8) msvc2005 supports building with expat2.1.0 or expat2.0.1
 
-     msvc2003 will continue to be supported for 32 bit builds using DevStudio 2003/05/08,
+     msvc2003 will continue to be supported for 32 bit builds using Visual Studio 2003/05/08,
      however there is no plan to enhance or develop msvc2003 going forward.
 
 3    Batch builds and tests
