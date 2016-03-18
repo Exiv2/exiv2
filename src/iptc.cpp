@@ -353,21 +353,12 @@ namespace Exiv2 {
         return iptcMetadata_.erase(pos);
     }
 
-    static std::string indent(int d)
-    {
-    	std::string result ;
-    	if ( d > 0 )
-    		while ( d--)
-    			result += "  ";
-    	return result;
-    }
-
 	void IptcData::printStructure(std::ostream& out, const byte* bytes,const size_t size,uint32_t depth)
 	{
 		uint32_t i     = 0 ;
 		while  ( i < size-3 && bytes[i] != 0x1c ) i++;
 		depth++;
-		out << indent(depth) << "Record | DataSet | Name                     | Length | Data" << std::endl;
+		out << Internal::indent(depth) << "Record | DataSet | Name                     | Length | Data" << std::endl;
 		while ( bytes[i] == 0x1c && i < size-3 ) {
 			char buff[100];
 			uint16_t record  = bytes[i+1];

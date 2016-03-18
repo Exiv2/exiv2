@@ -159,13 +159,6 @@ namespace Exiv2 {
         return true;
     }
 
-    static std::string indent(int depth)
-    {
-        std::string result;
-        while ( depth -- ) result += "  ";
-        return result;
-    }
-
     std::string upper(const std::string& str)
     {
         std::string result;
@@ -303,7 +296,7 @@ namespace Exiv2 {
                             uint32_t    l     = (uint32_t) std::strlen(bytes)+2;
                             // create a copy on write memio object with the data, then print the structure
                             BasicIo::AutoPtr p = BasicIo::AutoPtr(new MemIo(dataBuf.pData_+l,dataBuf.size_-l));
-                            out << indent(depth) << (const char*) buff.pData_ << ": " << (const char*) dataBuf.pData_ << std::endl;
+                            out << Internal::indent(depth) << (const char*) buff.pData_ << ": " << (const char*) dataBuf.pData_ << std::endl;
                         }
 
                         if ( bICC ) {
