@@ -25,6 +25,7 @@ T A B L E  o f  C O N T E N T S
 1.5  Building with exiv2-webready.sln
 1.6  What is build
 1.7  Express editions of Visual Studio (or 32 bit only builds, or 64 bit only builds)
+1.8  UNICODE Path support
 
 2    Design
 2.1  Architecture
@@ -207,6 +208,11 @@ T A B L E  o f  C O N T E N T S
 
      To remove the "memory" of old configurations:
      setbuild.py reset
+     
+1.8  UNICODE PATH Support
+     Edit the file include/exiv2/exv_msvc.h to set the appropriate flag.
+     
+     #define EXV_UNICODE_PATH 1
 
 2    Design
 

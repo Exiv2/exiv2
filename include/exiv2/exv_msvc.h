@@ -131,7 +131,7 @@ typedef int pid_t;
 #define EXV_SEPARATOR_CHR '\\'
 
 /* Windows unicode path support */
-// #define EXV_UNICODE_PATH
+// #define EXV_UNICODE_PATH 1
 
 /* Define to 1 if you have the `mmap' function. */
 /* #undef EXV_HAVE_MMAP */
