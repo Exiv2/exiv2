@@ -2040,7 +2040,7 @@ namespace {
             FILE* f = ::fopen(target.c_str(),"rb") ;
             if (  f ) {
                 char buffer[8*1024];
-                int n = 1 ;
+                size_t n = 1 ;
                 while ( !feof(f) && n > 0) {
                     n=fread(buffer,1,sizeof buffer,f);
                     fwrite(buffer,1,n,stdout);
