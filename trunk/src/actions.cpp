@@ -1070,7 +1070,9 @@ namespace Action {
         if (!rc
             && !(Params::instance().target_ & Params::ctXmpSidecar)
             && !(Params::instance().target_ & Params::ctThumb)
-            && !(Params::instance().target_ & Params::ctPreview)) {
+            && !(Params::instance().target_ & Params::ctPreview)
+            && !(Params::instance().target_ & Params::ctIccProfile)
+            ) {
             std::string exvPath = Params::instance().target_ & Params::ctStdInOut
                                 ? "-" : newFilePath(path_, ".exv");
             if (dontOverwrite(exvPath)) return 0;
