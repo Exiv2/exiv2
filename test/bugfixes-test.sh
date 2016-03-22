@@ -427,13 +427,15 @@ source ./functions.source
 	runTest exiv2 -pC $filename                                                 | cksum
 
 	num=1108
-	filename=exiv2-bug$num.xmp
+	filename=exiv2-bug$num.exv
 	printf "$num " >&3
 	echo '------>' Bug $num '<-------' >&2
-	copyTestFile    imagemagick.png     $filename
-	runTest exiv2 -pR                   $filename
 	copyTestFile                        $filename
 	runTest exiv2 -pR                   $filename
+	copyTestFile       imagemagick.png
+	runTest exiv2 -pR  imagemagick.png
+	runTest exiv2 -pR  http://dev.exiv2.org/attachments/download/821/Reagan.tiff
+	runTest exiv2 -pR  http://dev.exiv2.org/attachments/download/820/Reagan.jpg
 	echo ''
 
 	num=1112
