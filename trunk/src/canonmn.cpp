@@ -995,7 +995,7 @@ namespace Exiv2 {
         { 160, printCsLensByFocalLength },
         { 161, printCsLensByFocalLength },
         { 168, printCsLensByFocalLength },
-        { 169, printCsLensByFocalLength },
+        { 169, printCsLensByFocalLengthAndMaxAperture },
         { 172, printCsLensByFocalLength }, // not tested
         { 173, printCsLensByFocalLengthTC }, // works partly
         { 174, printCsLensByFocalLength }, // not tested
