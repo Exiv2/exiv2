@@ -258,7 +258,8 @@ namespace Exiv2 {
 
                 if( bDump ) {
                     DataBuf   dataBuf;
-                    byte*     data     = new byte[dataOffset];
+                    byte*     data     = new byte[dataOffset+1];
+                    data[dataOffset]=0;
                     io_->read(data,dataOffset);
                     io_->seek(restore, BasicIo::beg);
                     uint32_t    name_l = (uint32_t) std::strlen((const char*)data)+1; // leading string length
@@ -308,7 +309,7 @@ namespace Exiv2 {
                             IptcData::printStructure(out,dataBuf.pData_,dataBuf.size_,depth);
                         }
                     }
-                    delete [] data;
+                    delete[] data;
                 }
                 io_->seek(dataOffset + 4 , BasicIo::cur);
                 if (io_->error()) throw Error(14);

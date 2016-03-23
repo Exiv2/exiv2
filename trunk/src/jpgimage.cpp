@@ -67,6 +67,7 @@ namespace Exiv2 {
     const byte     JpegBase::eoi_      = 0xd9;
     const byte     JpegBase::app0_     = 0xe0;
     const byte     JpegBase::app1_     = 0xe1;
+    const byte     JpegBase::app2_     = 0xe2;
     const byte     JpegBase::app13_    = 0xed;
     const byte     JpegBase::com_      = 0xfe;
 
@@ -351,6 +352,7 @@ namespace Exiv2 {
         bool foundCompletePsData = false;
         bool foundExifData = false;
         bool foundXmpData = false;
+        bool foundIccProfile = false;
 
         // Read section marker
         int marker = advanceToMarker();
@@ -448,6 +450,15 @@ namespace Exiv2 {
                     comment_.erase(comment_.length()-1);
                 }
                 --search;
+            }
+            else if (   !foundIccProfile && marker == app2_ ) {
+                // Seek to beginning and read the iccProfile 
+                io_->seek(31 - bufRead, BasicIo::cur);
+                DataBuf iccProfile(size);
+                io_->read(iccProfile.pData_, iccProfile.size_);
+                if (io_->error() || io_->eof()) throw Error(14);
+                this->setIccProfile(iccProfile);
+                foundXmpData = true;
             }
             else if (   pixelHeight_ == 0
                      && (   marker == sof0_  || marker == sof1_  || marker == sof2_
@@ -799,6 +810,7 @@ namespace Exiv2 {
         int comPos = 0;
         int skipApp1Exif = -1;
         int skipApp1Xmp = -1;
+        int skipApp2IccProfile = -1;
         bool foundCompletePsData = false;
         std::vector<int> skipApp13Ps3;
         int skipCom = -1;
@@ -841,6 +853,12 @@ namespace Exiv2 {
                      && marker == app1_ && memcmp(buf.pData_ + 2, xmpId_, 29) == 0) {
                 if (size < 31) throw Error(22);
                 skipApp1Xmp = count;
+                ++search;
+                if (io_->seek(size-bufRead, BasicIo::cur)) throw Error(22);
+            }
+            else if (   skipApp2IccProfile == -1 && marker == app2_) {
+                if (size < 31) throw Error(22);
+                skipApp2IccProfile = count;
                 ++search;
                 if (io_->seek(size-bufRead, BasicIo::cur)) throw Error(22);
             }
@@ -993,6 +1011,20 @@ namespace Exiv2 {
                     if (   outIo.write(reinterpret_cast<const byte*>(xmpPacket_.data()), static_cast<long>(xmpPacket_.size()))
                         != static_cast<long>(xmpPacket_.size())) throw Error(21);
                     if (outIo.error()) throw Error(21);
+                    --search;
+                }
+                if (iccProfile_.size_ > 0) {
+                    // Write APP2 marker, size of APP2 field, and IccProfile
+                    tmpBuf[0] = 0xff;
+                    tmpBuf[1] = app2_;
+
+                    if (iccProfile_.size_ > 0xffff) throw Error(37, "IccProfile");
+                    us2Data(tmpBuf + 2, static_cast<uint16_t>(iccProfile_.size_), bigEndian);
+                    if (outIo.write(tmpBuf, 4) != 4) throw Error(21);
+
+                    // Write new iccProfile 
+                    if ( outIo.write(iccProfile_.pData_,iccProfile_.size_) != static_cast<long>(iccProfile_.size_) ) throw Error(21);
+                    if ( outIo.error() ) throw Error(21);
                     --search;
                 }
                 if (foundCompletePsData || iptcData_.count() > 0) {

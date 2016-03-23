@@ -229,6 +229,17 @@ namespace Exiv2 {
          */
         virtual void clearComment();
         /*!
+          @brief Set the image iccProfile. The new profile is not written
+              to the image until the writeMetadata() method is called.
+          @param iccProfile DataBuf containing profile (binary)
+         */
+        virtual void setIccProfile(DataBuf& iccProfile);
+        /*!
+          @brief Erase iccProfile. the profile isnot not removed from
+              the actual image until the writeMetadata() method is called.
+         */
+        virtual void clearIccProfile();
+        /*!
           @brief Copy all existing metadata from source Image. The data is
               copied into internal buffers and is not written to the image
               until the writeMetadata() method is called.
@@ -422,6 +433,7 @@ namespace Exiv2 {
         ExifData          exifData_;          //!< Exif data container
         IptcData          iptcData_;          //!< IPTC data container
         XmpData           xmpData_;           //!< XMP data container
+        DataBuf           iccProfile_;        //!< ICC buffer (binary data)
         std::string       comment_;           //!< User comment
         std::string       xmpPacket_;         //!< XMP packet
         int               pixelWidth_;        //!< image pixel width
