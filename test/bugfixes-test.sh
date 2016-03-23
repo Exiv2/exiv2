@@ -415,16 +415,17 @@ source ./functions.source
 	runTest exiv2 -pa -g zone $filename
 
 	num=1074
-	filename=exiv2-bug$num.jpg
+	filename=exiv2-bug$num.png
 	printf "$num " >&3
 	echo '------>' Bug $num '<-------' >&2
-	copyTestFile   imagemagick.png   $filename
-	runTest exiv2 -pC $filename                                                 | cksum
-	runTest exiv2 -pC http://dev.exiv2.org/attachments/download/821/Reagan.tiff | cksum
-	runTest exiv2 -pC http://dev.exiv2.org/attachments/download/820/Reagan.jpg  | cksum
-	filename=exiv2-bug$num.png
 	copyTestFile      $filename
-	runTest exiv2 -pC $filename                                                 | cksum
+	runTest exiv2 -pC $filename       | cksum
+	copyTestFile      imagemagick.png
+	runTest exiv2 -pC imagemagick.png | cksum
+	copyTestFile      Reagan.tiff
+	runTest exiv2 -pC Reagan.tiff     | cksum
+	copyTestFile      Reagan.jpg
+	runTest exiv2 -pC Reagan.jpg      | cksum
 
 	num=1108
 	filename=exiv2-bug$num.exv
@@ -432,10 +433,12 @@ source ./functions.source
 	echo '------>' Bug $num '<-------' >&2
 	copyTestFile                        $filename
 	runTest exiv2 -pR                   $filename
-	copyTestFile       imagemagick.png
-	runTest exiv2 -pR  imagemagick.png
-	runTest exiv2 -pR  http://dev.exiv2.org/attachments/download/821/Reagan.tiff
-	runTest exiv2 -pR  http://dev.exiv2.org/attachments/download/820/Reagan.jpg
+	copyTestFile      imagemagick.png
+	runTest exiv2 -pR imagemagick.png
+	copyTestFile      Reagan.tiff
+	runTest exiv2 -pR Reagan.tiff
+	copyTestFile      Reagan.tiff
+	runTest exiv2 -pR Reagan.jpg
 	echo ''
 
 	num=1112
