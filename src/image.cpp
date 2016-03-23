@@ -181,6 +181,7 @@ namespace Exiv2 {
         clearXmpPacket();
         clearXmpData();
         clearComment();
+        clearIccProfile();
     }
 
     ExifData& Image::exifData()
@@ -281,6 +282,16 @@ namespace Exiv2 {
     void Image::setComment(const std::string& comment)
     {
         comment_ = comment;
+    }
+
+    void Image::setIccProfile(Exiv2::DataBuf& iccProfile)
+    {
+        iccProfile_ = iccProfile;
+    }
+
+    void Image::clearIccProfile()
+    {
+        iccProfile_.release();
     }
 
     void Image::setByteOrder(ByteOrder byteOrder)

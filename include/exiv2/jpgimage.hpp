@@ -233,6 +233,7 @@ namespace Exiv2 {
         static const byte eoi_;                 //!< JPEG EOI marker
         static const byte app0_;                //!< JPEG APP0 marker
         static const byte app1_;                //!< JPEG APP1 marker
+        static const byte app2_;                //!< JPEG APP2 marker
         static const byte app13_;               //!< JPEG APP13 marker
         static const byte com_;                 //!< JPEG Comment marker
         static const byte sof0_;                //!< JPEG Start-Of-Frame marker
