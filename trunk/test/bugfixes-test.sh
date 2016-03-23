@@ -466,14 +466,14 @@ source ./functions.source
 	runTest exiv2 -pa -g Lens           $filename
 
 	num=1137
-	filename=exiv2-bug$num.jpg
+	filename=exiv2-bug$num.exv
 	printf "$num " >&3
 	echo '------>' Bug $num '<-------' >&2
-	copyTestFile                        $filename
-	runTest exiv2 -PkV --grep GPSL http://dev.exiv2.org/attachments/download/805/DSC_7154.jpg
-	runTest exiv2 -pa $filename
-	runTest exiv2 -PkV --grep GPSL http://dev.exiv2.org/attachments/download/805/DSC_7154.jpg | runTest exiv2 -m- $filename
-	runTest exiv2 -pa $filename
+	copyTestFile       Stonehenge.exv   $filename
+	copyTestFile       Stonehenge.exv
+	runTest exiv2 -PkV --grep GPSL      $filename
+	runTest exiv2 -PkV --grep GPSL      Stonehenge.exv | runTest exiv2 -m- $filename
+	runTest exiv2 -pa  --grep GPSL      $filename
 
 	num=1140
 	printf "$num " >&3
