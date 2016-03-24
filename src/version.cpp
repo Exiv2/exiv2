@@ -100,7 +100,7 @@ EXIV2_RCSID("@(#) $Id$")
 #include <stdio.h>
 #include <iostream>
 
-// #1147
+//  #1147
 #ifndef WIN32
 #include <unistd.h>
 #include <sys/types.h>
