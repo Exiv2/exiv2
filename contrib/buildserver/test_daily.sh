@@ -31,6 +31,9 @@ if [ ! -e dist ]; then echo '*** no dist directory ***' ; exit 1; fi
 
 ##
 # enter the dist and test it
+echo -------------------------------
+echo PLATFORM = $PLATFORM
+echo -------------------------------
 cd dist
 grep_args="-e libexiv2 -e ^date -e ^bits -e ^version -e ^time"
 case $PLATFORM in
