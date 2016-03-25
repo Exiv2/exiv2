@@ -109,7 +109,7 @@ namespace Exiv2 {
 
     	std::string readExiv2Config(const std::string& section,const std::string& value,const std::string& def)
     	{
-   			std::string result;
+   			std::string result = def;
 	    	Exiv2::INIReader reader(Exiv2::Internal::getExiv2ConfigPath());
 
 			if (reader.ParseError() == 0) {
