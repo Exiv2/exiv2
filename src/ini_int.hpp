@@ -10,6 +10,7 @@
 
 #include <map>
 #include <string>
+#include <stdio.h>
 
 namespace Exiv2 {
 
@@ -31,7 +32,6 @@ https://github.com/benhoyt/inih
 extern "C" {
 #endif
 
-#include <stdio.h>
 
 /* Typedef for prototype of handler function. */
 typedef int (*ini_handler)(void* user, const char* section,

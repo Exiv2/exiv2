@@ -5,15 +5,14 @@
 //
 // https://github.com/benhoyt/inih
 
+#include "ini_int.hpp"
+
 #include <algorithm>
 #include <cctype>
 #include <cstdlib>
 
-#include "ini_int.hpp"
-
 using std::string;
 using namespace Exiv2;
-
 
 /* inih -- simple .INI file parser
 

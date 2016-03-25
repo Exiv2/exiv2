@@ -42,9 +42,11 @@ EXIV2_RCSID("@(#) $Id$")
 #include <string>
 #include <cstring>
 
+#ifndef _MSC_VER
 #include <unistd.h>
 #include <sys/types.h>
 #include <pwd.h>
+#endif
 
 // *****************************************************************************
 namespace {
@@ -85,9 +87,7 @@ namespace Exiv2 {
 	    	Exiv2::INIReader reader(Exiv2::Internal::getExiv2ConfigPath());
 
 			if (reader.ParseError() == 0) {
-				if ( reader.Get(section,value,def) != def ) {
-					result = reader.Get(section,value,def);
-				}
+				result = reader.Get(section,value,def);
 			}
 			return result;
 		}

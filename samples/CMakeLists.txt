@@ -20,6 +20,7 @@ SET( SAMPLES addmoddel.cpp
              exifprint.cpp
              exifvalue.cpp
              geotag.cpp
+             ini-test.cpp
              iotest.cpp
              iptceasy.cpp
              iptcprint.cpp
