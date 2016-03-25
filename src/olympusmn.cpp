@@ -1359,6 +1359,7 @@ namespace Exiv2 {
             { { 2, 36, 16 }, "Lumix G Macro 30mm F2.8 Asph. Mega OIS"                  },
             { { 2, 37, 16 }, "Lumix G 42.5mm F1.7 Asph. Power OIS"                     },
             { { 2, 39, 16 }, "Leica DG Vario-Elmar 100-400mm F4.0-6.3 Asph. Power OIS" },
+            { { 2, 40, 16 }, "Lumix G Vario 12-60mm F3.5-5.6 Asph. Power OIS"          },
             { { 3,  1,  0 }, "Leica D Vario Elmarit 14-50mm F2.8-3.5 Asph."            },
             { { 3,  2,  0 }, "Leica D Summilux 25mm F1.4 Asph."                        },
             { { 5,  1, 16 }, "Tamron 14-150mm F3.5-5.8 Di III"                         },
