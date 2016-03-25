@@ -32,6 +32,7 @@ EXIV2_RCSID("@(#) $Id$")
 // *****************************************************************************
 // included header files
 #include "types.hpp"
+#include "makernote_int.hpp"
 #include "canonmn_int.hpp"
 #include "tags_int.hpp"
 #include "value.hpp"
@@ -1750,6 +1751,13 @@ namespace Exiv2 {
     {
         if (   value.typeId() != unsignedShort
             || value.count() == 0) return os << "(" << value << ")";
+
+		// #1034
+		const std::string undefined("undefined") ;
+		const std::string section  ("canon");
+		if ( Internal::readExiv2Config(section,value.toString(),undefined) != undefined ) {
+			return os << Internal::readExiv2Config(section,value.toString(),undefined);
+		}
 
         const LensIdFct* lif = find(lensIdFct, value.toLong());
         if (!lif) {

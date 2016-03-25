@@ -36,6 +36,7 @@
 // included header files
 #include "tifffwd_int.hpp"
 #include "tags_int.hpp"
+#include "ini_int.hpp"
 #include "types.hpp"
 
 // + standard includes
@@ -45,6 +46,18 @@
 // namespace extensions
 namespace Exiv2 {
     namespace Internal {
+// *****************************************************************************
+// function prototypes
+        /*!
+          @brief Determine the path to the Exiv2 configuration file
+         */
+		std::string getExiv2ConfigPath();
+
+        /*!
+          @brief Read value from Exiv2 configuration file
+         */
+    	std::string readExiv2Config(const std::string& section,const std::string& value,const std::string& def);
+
 
 // *****************************************************************************
 // class definitions

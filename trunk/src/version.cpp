@@ -86,6 +86,7 @@ EXIV2_RCSID("@(#) $Id$")
 #include "http.hpp"
 #include "svn_version.h"
 #include "version.hpp"
+#include "makernote_int.hpp"
 
 // Adobe XMP Toolkit
 #if EXV_HAVE_XMP_TOOLKIT
@@ -581,6 +582,7 @@ void Exiv2::dumpLibraryInfo(std::ostream& os,const exv_grep_keys_t& keys)
     output(os,keys,"have_unicode_path" ,have_unicode_path);
     output(os,keys,"enable_video"      ,enable_video     );
     output(os,keys,"enable_webready"   ,enable_webready  );
+    output(os,keys,"config_path"       ,Exiv2::Internal::getExiv2ConfigPath());
 
 // #1147
 #ifndef WIN32

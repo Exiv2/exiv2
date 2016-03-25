@@ -83,6 +83,7 @@ CCSRC =  basicio.cpp           \
 	 gifimage.cpp          \
 	 http.cpp              \
 	 image.cpp             \
+	 ini.cpp               \
 	 iptc.cpp              \
 	 jp2image.cpp          \
 	 jpgimage.cpp          \
@@ -97,10 +98,10 @@ CCSRC =  basicio.cpp           \
 	 pentaxmn.cpp          \
 	 pgfimage.cpp
 ifdef HAVE_LIBZ
-CCSRC += pngimage.cpp          \
+CCSRC += pngimage.cpp      \
 	 pngchunk.cpp
 endif
-CCSRC += preview.cpp           \
+CCSRC += preview.cpp       \
 	 properties.cpp        \
 	 psdimage.cpp          \
 	 rafimage.cpp          \
@@ -109,7 +110,7 @@ CCSRC += preview.cpp           \
 ifdef USE_SSH
 CCSRC += ssh.cpp
 endif
-CCSRC += sigmamn.cpp           \
+CCSRC += sigmamn.cpp       \
 	 sonymn.cpp            \
 	 tags.cpp              \
 	 tgaimage.cpp          \
