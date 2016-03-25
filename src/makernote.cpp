@@ -32,6 +32,7 @@ EXIV2_RCSID("@(#) $Id$")
 #include "config.h"
 
 #include "makernote_int.hpp"
+#include "ini_int.hpp"
 #include "tiffcomposite_int.hpp"
 #include "tiffvisitor_int.hpp"
 #include "tiffimage.hpp"
@@ -40,6 +41,10 @@ EXIV2_RCSID("@(#) $Id$")
 // + standard includes
 #include <string>
 #include <cstring>
+
+#include <unistd.h>
+#include <sys/types.h>
+#include <pwd.h>
 
 // *****************************************************************************
 namespace {
@@ -54,6 +59,39 @@ namespace {
 // class member definitions
 namespace Exiv2 {
     namespace Internal {
+
+		std::string getExiv2ConfigPath()
+		{
+    		std::string homedir;
+    		std::string inifile;
+#ifdef _MSC_VER
+			WCHAR path[MAX_PATH];
+			if (SUCCEEDED(SHGetFolderPathW(NULL, CSIDL_PROFILE, NULL, 0, path))) {
+  				homedir = std::string(path)
+  				inifile = "exiv2.ini"
+			}
+#else
+	    	struct passwd* pw = getpwuid(getuid());
+			homedir = std::string(pw?pw->pw_dir:"");
+    		inifile = std::string(".exiv2");
+#endif
+	    	return homedir + EXV_SEPARATOR_CHR + inifile;
+		}
+
+
+    	std::string readExiv2Config(const std::string& section,const std::string& value,const std::string& def)
+    	{
+   			std::string result;
+	    	Exiv2::INIReader reader(Exiv2::Internal::getExiv2ConfigPath());
+
+			if (reader.ParseError() == 0) {
+				if ( reader.Get(section,value,def) != def ) {
+					result = reader.Get(section,value,def);
+				}
+			}
+			return result;
+		}
+
 
     const TiffMnRegistry TiffMnCreator::registry_[] = {
         { "Canon",          canonId,     newIfdMn,       newIfdMn2       },
