@@ -93,10 +93,10 @@ namespace Exiv2 {
     		std::string homedir;
     		std::string inifile;
 #ifdef _MSC_VER
-			WCHAR path[MAX_PATH];
-			if (SUCCEEDED(SHGetFolderPathW(NULL, CSIDL_PROFILE, NULL, 0, path))) {
-  				homedir = std::string(path)
-  				inifile = "exiv2.ini"
+			char path[MAX_PATH];
+			if (SUCCEEDED(SHGetFolderPathA(NULL, CSIDL_PROFILE, NULL, 0, path))) {
+  				homedir = std::string(path);
+  				inifile = "exiv2.ini"      ;
 			}
 #else
 	    	struct passwd* pw = getpwuid(getuid());
