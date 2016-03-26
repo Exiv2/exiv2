@@ -1318,6 +1318,7 @@ namespace Exiv2 {
             { { 1,  5,  0 }, "Sigma 30mm F1.4"                                         },
             { { 1,  5, 16 }, "Sigma 60mm F2.8 DN | A"                                  },
             { { 1,  6,  0 }, "Sigma 50-500mm F4.0-6.3 EX DG APO HSM RF"                },
+            { { 1,  6, 16 }, "Sigma 30mm F1.4 DC DN | C"                               },
             { { 1,  7,  0 }, "Sigma 105mm F2.8 DG"                                     },
             { { 1,  8,  0 }, "Sigma 150mm F2.8 DG HSM"                                 },
             { { 1,  9,  0 }, "Sigma 18-50mm F2.8 EX DC Macro"                          },
