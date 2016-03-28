@@ -111,7 +111,7 @@ int ini_parse_stream(ini_reader reader, void* stream, ini_handler handler,
 
 // Read an INI file into easy-to-access name/value pairs. (Note that I've gone
 // for simplicity here rather than speed, but it should be pretty decent.)
-class INIReader
+class EXIV2API INIReader
 {
 public:
     // Construct INIReader and parse given filename. See ini.h for more info
