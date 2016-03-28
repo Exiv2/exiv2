@@ -5,6 +5,7 @@
 //
 // https://github.com/benhoyt/inih
 
+#include "config.h"
 #include "ini_int.hpp"
 
 #include <algorithm>
