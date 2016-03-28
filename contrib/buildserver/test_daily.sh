@@ -84,14 +84,16 @@ case $PLATFORM in
           for arch in x64 Win32; do
             if [ -e "$PWD/$vs/$arch/dll/Release/bin/exiv2.exe" ] ; then (
               # test the delivered exiv2
-              PATH="$PWD/2013/x64/dll/Release/bin:$PATH"
+              PATH="$PWD/$vs/$arch/dll/Release/bin:$PATH"
               exiv2 -vV | grep $grep_args
 
               # compile, link and test the sample code
               (
                 export PATH="/cygdrive/c/Windows/System32:$PATH"
                 echo ''
-		        cmd /c 'vcvars.bat 2013 64 && cl /EHsc -I2013\x64\dll\Release\include /MD samples\exifprint.cpp /link 2013\x64\dll\Release\lib\exiv2.lib'
+                a=''
+                if [ $arch == x64 ]; then a=64 ; fi
+		        cmd /c 'vcvars.bat $vs $a && cl /EHsc -I$vs\$arch\dll\Release\include /MD samples\exifprint.cpp /link 2013\x64\dll\Release\lib\exiv2.lib'
                 ls -alt exifprint.exe
                 echo ''
               )
