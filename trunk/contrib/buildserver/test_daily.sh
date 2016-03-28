@@ -93,7 +93,7 @@ case $PLATFORM in
                 echo ''
                 a=''
                 if [ $arch == x64 ]; then a=64 ; fi
-		        cmd /c 'vcvars.bat $vs $a && cl /EHsc -I$vs\$arch\dll\Release\include /MD samples\exifprint.cpp /link 2013\x64\dll\Release\lib\exiv2.lib'
+		        cmd /c "vcvars.bat $vs $a && cl /EHsc -I$vs\$arch\dll\Release\include /MD samples\exifprint.cpp /link $vs\$arch\dll\Release\lib\exiv2.lib"
                 ls -alt exifprint.exe
                 echo ''
               )
