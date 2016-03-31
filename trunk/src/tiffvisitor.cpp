@@ -1344,7 +1344,7 @@ namespace Exiv2 {
             uint32_t maxi = 9;
             if (object->group() == ifd1Id) maxi = 1;
             for (uint32_t i = 0; i < object->count(); ++i) {
-                int32_t offset = getLong(object->pData() + 4*i, byteOrder());
+                uint32_t offset = getLong(object->pData() + 4*i, byteOrder());
                 if (   baseOffset() + offset > size_
                     || static_cast<int32_t>(baseOffset()) + offset < 0) {
 #ifndef SUPPRESS_WARNINGS
@@ -1491,7 +1491,7 @@ namespace Exiv2 {
         p += 4;
         uint32_t isize= 0; // size of Exif.Sony1.PreviewImage
         uint32_t size = typeSize * count;
-        int32_t offset = getLong(p, byteOrder());
+        uint32_t offset = getLong(p, byteOrder());
         byte* pData = p;
         if (   size > 4
             && (   baseOffset() + offset >= size_
