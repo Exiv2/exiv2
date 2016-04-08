@@ -93,7 +93,7 @@ testBuild()
                         echo -=-=-=-=-=-=-=-=-=-=-=-
                         echo cmd.exe /c "cd $build && vcvars $VS $ARCH && cmakeBuild --rebuild --exiv2=$exiv2 $*"
                         echo -=-=-=-=-=-=-=-=-=-=-=-
-                             cmd.exe /c "cd $build && vcvars $VS $ARCH && cmakeBuild --rebuild --exiv2=$exiv2 $*"
+                             cmd.exe /c "set && cd $build && vcvars $VS $ARCH && cmakeBuild --rebuild --exiv2=$exiv2 $*"
                     done
                 done
                 # cmd.exe /c "cd $build && cmakeBuildAll --rebuild --exiv2=$exiv2 $*"
