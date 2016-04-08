@@ -95,8 +95,8 @@ testBuild()
                 done
                 # cmd.exe /c "cd $build && cmakeBuildAll --rebuild --exiv2=$exiv2 $*"
                 result=$?
-                cp     $msvc/vcvars.bat $build/dist # required by test_daily.sh
             )
+            cp     $msvc/vcvars.bat $build/dist # required by test_daily.sh
         ;;
 
         mingw)
