@@ -91,7 +91,7 @@ case $PLATFORM in
               (
                 export PATH="/cygdrive/c/Windows/System32:$PATH"
                 echo ''
-                a=''
+                a='32'
                 if [ $arch == x64 ]; then a=64 ; fi
 		        echo cmd /c "vcvars.bat $vs $a && cd && cl /EHsc -I$vs\\$arch\\dll\Release\include /MD samples\exifprint.cpp /link $vs\\$arch\dll\\Release\lib\exiv2.lib"
 		             cmd /c "vcvars.bat $vs $a && cd && cl /EHsc -I$vs\\$arch\\dll\Release\include /MD samples\exifprint.cpp /link $vs\\$arch\dll\\Release\lib\exiv2.lib"
