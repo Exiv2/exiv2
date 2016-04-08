@@ -13,6 +13,15 @@ if "%_ARG_%" EQU "" (
 )
 
 if NOT DEFINED ProgramFiles(x86) set ProgramFiles(x86)=C:\Program Files (x86)
+if NOT DEFINED VS80COMNTOOLS set VS80COMNTOOLS=C:\Program Files (x86)\Microsoft Visual Studio 8\Common7\Tools\
+if NOT DEFINED VS90COMNTOOLS set VS90COMNTOOLS=c:\Program Files (x86)\Microsoft Visual Studio 9.0\Common7\Tools\
+rem VS100COMNTOOLS=C:\Program Files (x86)\Microsoft Visual Studio 10.0\Common7\Tools\
+rem VS110COMNTOOLS=C:\Program Files (x86)\Microsoft Visual Studio 11.0\Common7\Tools\
+rem VS120COMNTOOLS=C:\Program Files (x86)\Microsoft Visual Studio 12.0\Common7\Tools\
+rem VS140COMNTOOLS=C:\Program Files (x86)\Microsoft Visual Studio 14.0\Common7\Tools\
+rem VS71COMNTOOLS=c:\Program Files (x86)\Microsoft Visual Studio .NET 2003\Common7\Tools\
+rem VS80COMNTOOLS=C:\Program Files (x86)\Microsoft Visual Studio 8\Common7\Tools\
+rem VS90COMNTOOLS=c:\Program Files (x86)\Microsoft Visual Studio 9.0\Common7\Tools\
 
 set "_OPT_=%2"
 if NOT DEFINED _OPT_ set _OPT_=64
