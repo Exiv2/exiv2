@@ -255,10 +255,10 @@ namespace Exiv2 {
     {
         if (size < 16) return false;
 
-        if (pData[0] == 0x49 && pData[1] == 0x49) {
+        if (pData[0] == 'I' && pData[0] == pData[1]) {
             setByteOrder(littleEndian);
         }
-        else if (pData[0] == 0x4d && pData[1] == 0x4d) {
+        else if (pData[0] == 'M' && pData[0] == pData[1]) {
             setByteOrder(bigEndian);
         }
         else {
@@ -277,17 +277,17 @@ namespace Exiv2 {
         DataBuf buf(16);
         switch (byteOrder()) {
         case littleEndian:
-            buf.pData_[0] = 0x49;
-            buf.pData_[1] = 0x49;
+            buf.pData_[0] = 'I';
             break;
         case bigEndian:
-            buf.pData_[0] = 0x4d;
-            buf.pData_[1] = 0x4d;
+            buf.pData_[0] = 'M';
             break;
         case invalidByteOrder:
             assert(false);
             break;
         }
+        buf.pData_[1] = buf.pData_[0];
+
         us2Data(buf.pData_ + 2, tag(), byteOrder());
         ul2Data(buf.pData_ + 4, 0x00000010, byteOrder());
         memcpy(buf.pData_ + 8, cr2sig_, 4);
