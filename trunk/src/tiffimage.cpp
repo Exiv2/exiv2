@@ -36,6 +36,7 @@ EXIV2_RCSID("@(#) $Id$")
 #include "tiffimage_int.hpp"
 #include "tiffcomposite_int.hpp"
 #include "tiffvisitor_int.hpp"
+#include "orfimage.hpp"
 #include "makernote_int.hpp"
 #include "image.hpp"
 #include "image_int.hpp"
@@ -455,6 +456,7 @@ namespace Exiv2 {
     {
         if (io_->open() != 0) throw Error(9, io_->path(), strError());
         // Ensure that this is the correct image type
+        if ( imageType() == ImageType::none )
         if (!isTiffType(*io_, false)) {
             if (io_->error() || io_->eof()) throw Error(14);
             throw Error(15);
@@ -2326,10 +2328,10 @@ namespace Exiv2 {
     {
         if (!pData || size < 8) return false;
 
-        if (pData[0] == 0x49 && pData[1] == 0x49) {
+        if (pData[0] == 'I' && pData[0] == pData[1]) {
             byteOrder_ = littleEndian;
         }
-        else if (pData[0] == 0x4d && pData[1] == 0x4d) {
+        else if (pData[0] == 'M' && pData[0] == pData[1]) {
             byteOrder_ = bigEndian;
         }
         else {
@@ -2346,17 +2348,16 @@ namespace Exiv2 {
         DataBuf buf(8);
         switch (byteOrder_) {
         case littleEndian:
-            buf.pData_[0] = 0x49;
-            buf.pData_[1] = 0x49;
+            buf.pData_[0] = 'I';
             break;
         case bigEndian:
-            buf.pData_[0] = 0x4d;
-            buf.pData_[1] = 0x4d;
+            buf.pData_[0] = 'M';
             break;
         case invalidByteOrder:
             assert(false);
             break;
         }
+        buf.pData_[1]=buf.pData_[0];
         us2Data(buf.pData_ + 2, tag_, byteOrder_);
         ul2Data(buf.pData_ + 4, 0x00000008, byteOrder_);
         return buf;

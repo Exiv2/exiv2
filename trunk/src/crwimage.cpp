@@ -367,10 +367,10 @@ namespace Exiv2 {
     {
         if (size < 14) throw Error(33);
 
-        if (pData[0] == 0x49 && pData[1] == 0x49) {
+        if (pData[0] == 'I' && pData[0] == pData[1]) {
             byteOrder_ = littleEndian;
         }
-        else if (pData[0] == 0x4d && pData[1] == 0x4d) {
+        else if (pData[0] == 'M' && pData[0] == pData[1]) {
             byteOrder_ = bigEndian;
         }
         else {
@@ -500,12 +500,12 @@ namespace Exiv2 {
         assert(   byteOrder_ == littleEndian
                || byteOrder_ == bigEndian);
         if (byteOrder_ == littleEndian) {
-            blob.push_back(0x49);
-            blob.push_back(0x49);
+            blob.push_back('I');
+            blob.push_back('I');
         }
         else {
-            blob.push_back(0x4d);
-            blob.push_back(0x4d);
+            blob.push_back('M');
+            blob.push_back('M');
         }
         uint32_t o = 2;
         byte buf[4];

@@ -427,6 +427,16 @@ namespace Exiv2 {
         const NativePreviewList& nativePreviews() const;
         //@}
 
+        void setTypeSupported(
+        	int              imageType,
+            uint16_t         supportedMetadata
+        ) {
+        	imageType_         = imageType;
+        	supportedMetadata_ = supportedMetadata;
+        }
+
+        int imageType() const { return imageType_; }
+
     protected:
         // DATA
         BasicIo::AutoPtr  io_;                //!< Image data IO pointer
@@ -450,8 +460,8 @@ namespace Exiv2 {
         //@}
 
         // DATA
-        const int         imageType_;         //!< Image type
-        const uint16_t    supportedMetadata_; //!< Bitmap with all supported metadata types
+        int               imageType_;         //!< Image type
+        uint16_t          supportedMetadata_; //!< Bitmap with all supported metadata types
         bool              writeXmpFromPacket_;//!< Determines the source when writing XMP
         ByteOrder         byteOrder_;         //!< Byte order
 

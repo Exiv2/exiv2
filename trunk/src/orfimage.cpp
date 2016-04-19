@@ -34,6 +34,7 @@ EXIV2_RCSID("@(#) $Id$")
 
 #include "orfimage.hpp"
 #include "orfimage_int.hpp"
+#include "tiffimage.hpp"
 #include "tiffcomposite_int.hpp"
 #include "tiffimage_int.hpp"
 #include "image.hpp"
@@ -53,9 +54,10 @@ namespace Exiv2 {
 
     using namespace Internal;
 
-    OrfImage::OrfImage(BasicIo::AutoPtr io, bool /*create*/)
-        : Image(ImageType::orf, mdExif | mdIptc | mdXmp, io)
+    OrfImage::OrfImage(BasicIo::AutoPtr io, bool create)
+        : TiffImage(/*ImageType::orf, mdExif | mdIptc | mdXmp,*/ io,create)
     {
+    	setTypeSupported(ImageType::orf, mdExif | mdIptc | mdXmp);
     } // OrfImage::OrfImage
 
     std::string OrfImage::mimeType() const
@@ -242,21 +244,20 @@ namespace Exiv2 {
     {
         if (size < 8) return false;
 
-        if (pData[0] == 0x49 && pData[1] == 0x49) {
+        if (pData[0] == 'I' && pData[0] == pData[1]) {
             setByteOrder(littleEndian);
         }
-        else if (pData[0] == 0x4d && pData[1] == 0x4d) {
+        else if (pData[0] == 'M' && pData[0] == pData[1]) {
             setByteOrder(bigEndian);
         }
         else {
             return false;
         }
+
         uint16_t sig = getUShort(pData + 2, byteOrder());
-        if (tag() != sig && 0x5352 != sig) return false; // #658: Added 0x5352 for SP-560UZ
+        if (tag() != sig && 0x5352 != sig) return false; // #658: Added 0x5352 "SR" for SP-560UZ
         sig_ = sig;
         setOffset(getULong(pData + 4, byteOrder()));
-        if (offset() != 0x00000008) return false;
-
         return true;
     } // OrfHeader::read
 
@@ -265,17 +266,17 @@ namespace Exiv2 {
         DataBuf buf(8);
         switch (byteOrder()) {
         case littleEndian:
-            buf.pData_[0] = 0x49;
-            buf.pData_[1] = 0x49;
+            buf.pData_[0] = 'I';
             break;
         case bigEndian:
-            buf.pData_[0] = 0x4d;
-            buf.pData_[1] = 0x4d;
+            buf.pData_[0] = 'M';
             break;
         case invalidByteOrder:
             assert(false);
             break;
         }
+        buf.pData_[1] = buf.pData_[0];
+
         us2Data(buf.pData_ + 2, sig_, byteOrder());
         ul2Data(buf.pData_ + 4, 0x00000008, byteOrder());
         return buf;

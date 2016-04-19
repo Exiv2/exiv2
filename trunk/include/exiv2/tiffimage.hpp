@@ -93,7 +93,7 @@ namespace Exiv2 {
                 not valid (does not look like data of the specific image type).
           @caution This function is not thread safe and intended for exiv2 -p{S|R} as a file debugging aid
          */
-        void printStructure(std::ostream& out, PrintStructureOption option,int depth=-1);
+        virtual void printStructure(std::ostream& out, PrintStructureOption option,int depth=-1);
 
         /*!
           @brief Print out the structure of image file.
