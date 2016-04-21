@@ -85,7 +85,6 @@
 
 /* Define Windows unicode path support. */
 /* #undef EXV_UNICODE_PATH */
-#define EXV_UNICODE_PATH 1 
 
 
 /* Define to `const' or to empty, depending on the second argument of `iconv'. */
@@ -117,7 +116,7 @@
 #define EXV_HAVE_REALLOC 1
 
 /* Define to 1 if stdbool.h conforms to C99. */
-#define EXV_HAVE_STDBOOL_H 1
+/* #undef EXV_HAVE_STDBOOL_H */
 
 /* Define to 1 if you have the <stdint.h> header file. */
 /* #undef EXV_HAVE_STDINT_H */
@@ -165,7 +164,7 @@
 /* #undef EXV_HAVE_UNISTD_H */
 
 /* Define to 1 if you have the `vprintf' function. */
-/* #undef EXV_HAVE_VPRINTF */
+#define EXV_HAVE_VPRINTF 1
 
 /* Define to 1 if you have the <wchar.h> header file. */
 /* #undef EXV_HAVE_WCHAR_H */
