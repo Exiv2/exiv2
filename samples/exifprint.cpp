@@ -8,28 +8,40 @@
 #include <iomanip>
 #include <cassert>
 
-int main(int argc, char* const argv[])
+#ifdef EXV_UNICODE_PATH
+#define  TCHAR    wchar_t
+#define  _tstrcmp wcscmp
+#define  _T(s)    L ##s
+#else
+#define TCHAR    char
+#define _tstrcmp strcmp
+#define _T(s)    s
+#define wcout    cout
+#define wmain main
+#endif
+int wmain(int argc, TCHAR* const argv[])
 try {
+    TCHAR* prog = argv[0];
+    TCHAR* file = argv[1];
 
     if (argc != 2) {
-        std::cout << "Usage: " << argv[0] << " file\n";
+        std::wcout << _T("Usage: ") << prog << _T(" file") << std::endl;
         return 1;
     }
 
-    if ( strcmp(argv[1],"--version") == 0 ) {
+    if ( _tstrcmp(file,_T("--version")) == 0 ) {
     	exv_grep_keys_t keys;
     	Exiv2::dumpLibraryInfo(std::cout,keys);
     	return 0;
     }
 
-    Exiv2::Image::AutoPtr image = Exiv2::ImageFactory::open(argv[1]);
+    Exiv2::Image::AutoPtr image = Exiv2::ImageFactory::open(file);
     assert(image.get() != 0);
     image->readMetadata();
 
     Exiv2::ExifData &exifData = image->exifData();
     if (exifData.empty()) {
-        std::string error(argv[1]);
-        error += ": No Exif data found in the file";
+        std::string error("No Exif data found in the file");
         throw Exiv2::Error(1, error);
     }
     Exiv2::ExifData::const_iterator end = exifData.end();
