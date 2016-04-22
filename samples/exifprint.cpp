@@ -8,28 +8,31 @@
 #include <iomanip>
 #include <cassert>
 
-#ifdef EXV_UNICODE_PATH
-#define  TCHAR    wchar_t
-#define  _tstrcmp wcscmp
-#define  _T(s)    L ##s
+#ifdef  EXV_UNICODE_PATH
+#define _tchar      wchar_t
+#define _tstrcmp    wcscmp
+#define _t(s)       L##s
+#define _tcout      wcout
+#define _tmain      wmain
 #else
-#define TCHAR    char
-#define _tstrcmp strcmp
-#define _T(s)    s
-#define wcout    cout
-#define wmain main
+#define _tchar      char
+#define _tstrcmp    strcmp
+#define _t(s)       s
+#define _tcout      cout
+#define _tmain      main
 #endif
-int wmain(int argc, TCHAR* const argv[])
+
+int _tmain(int argc, _tchar* const argv[])
 try {
-    TCHAR* prog = argv[0];
-    TCHAR* file = argv[1];
+    const _tchar* prog = argv[0];
+    const _tchar* file = argv[1];
 
     if (argc != 2) {
-        std::wcout << _T("Usage: ") << prog << _T(" file") << std::endl;
+        std::_tcout << _t("Usage: ") << prog << _t(" [ file | --version ]") << std::endl;
         return 1;
     }
 
-    if ( _tstrcmp(file,_T("--version")) == 0 ) {
+    if ( _tstrcmp(file,_t("--version")) == 0 ) {
     	exv_grep_keys_t keys;
     	Exiv2::dumpLibraryInfo(std::cout,keys);
     	return 0;
@@ -41,9 +44,10 @@ try {
 
     Exiv2::ExifData &exifData = image->exifData();
     if (exifData.empty()) {
-        std::string error("No Exif data found in the file");
+        std::string error("No Exif data found in file");
         throw Exiv2::Error(1, error);
     }
+
     Exiv2::ExifData::const_iterator end = exifData.end();
     for (Exiv2::ExifData::const_iterator i = exifData.begin(); i != end; ++i) {
         const char* tn = i->typeName();
