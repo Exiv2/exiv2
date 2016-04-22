@@ -414,6 +414,7 @@ namespace Exiv2 {
         return type == Exiv2::asciiString
             || type == Exiv2::unsignedByte
             || type == Exiv2::signedByte
+            || type == Exiv2::undefined
             ;
     }
     static bool isShortType(uint16_t type) {
@@ -524,13 +525,13 @@ namespace Exiv2 {
 
                 // if ( offset > io.size() ) offset = 0;  // Denial of service?
                 DataBuf  buf(MIN(size*kount + pad,48));  // allocate a buffer
-                if ( isStringType(type) || count*size > 4 ) {          // data is in the directory => read into buffer
+                if ( (isStringType(type) && count*size > 4) || count*size > 4 ) { // read into buffer
                     size_t   restore = io.tell();  // save
                     io.seek(offset,BasicIo::beg);  // position
                     io.read(buf.pData_,kount*size);// read
                     io.seek(restore,BasicIo::beg); // restore
-                } else {                     // move data from directory to the buffer
-                    std::memcpy(buf.pData_,dir.pData_+8,12);
+                } else {                     // move data from directory into buffer
+                    std::memcpy(buf.pData_,dir.pData_+8,4);
                 }
 
                 uint32_t Offset = isLongType(type) ? byteSwap4(buf,0,bSwap) : 0 ;
