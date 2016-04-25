@@ -1393,6 +1393,12 @@ namespace Exiv2 {
                 "independent, ignoring fixed pattern effects and other sources of noise (e.g., "
                 "pixel response non-uniformity, spatially-dependent thermal effects, etc.)."),
                 ifd0Id, dngTags, tiffDouble, -1, printValue), // DNG tag
+        TagInfo(0xc763, "TimeCodes", N_("TimeCodes"),
+                N_("TimeCodes."),
+                ifd0Id, dngTags, unsignedByte, 8, printValue), // DNG tag
+        TagInfo(0xc764, "FrameRate", N_("FrameRate"),
+                N_("FrameRate"),
+                ifd0Id, dngTags, signedRational, 1, printValue), // DNG tag
         // End of list marker
         TagInfo(0xffff, "(UnknownIfdTag)", N_("Unknown IFD tag"),
                 N_("Unknown IFD tag"),
