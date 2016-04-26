@@ -1428,12 +1428,12 @@ namespace Exiv2 {
                 "sequence of images, where each image in the sequence has "
                 "a unique image identifier (including but not limited to file "
                 "name, frame number, date time, time code)."),
-                ifd0Id, dngTags, signedRational, 1, printValue), // DNG tag
+                ifd0Id, dngTags, asciiString, -1, printValue), // DNG tag
         TagInfo(0xc7a1, "CameraLabel", N_("CameraLabel"),
                 N_("The optional CameraLabel tag shall specify a text label "
                 "for how the camera is used or assigned in this clip. "
                 "This tag is similar to CameraLabel in XMP."),
-                ifd0Id, dngTags, asciiString,-1, printValue), // DNG tag
+                ifd0Id, dngTags, asciiString, -1, printValue), // DNG tag
 
         ////////////////////////////////////////
         // End of list marker
