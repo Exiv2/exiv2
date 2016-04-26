@@ -1393,12 +1393,49 @@ namespace Exiv2 {
                 "independent, ignoring fixed pattern effects and other sources of noise (e.g., "
                 "pixel response non-uniformity, spatially-dependent thermal effects, etc.)."),
                 ifd0Id, dngTags, tiffDouble, -1, printValue), // DNG tag
+
+        ////////////////////////////////////////
+        // http://wwwimages.adobe.com/content/dam/Adobe/en/devnet/cinemadng/pdfs/CinemaDNG_Format_Specification_v1_1.pdf
         TagInfo(0xc763, "TimeCodes", N_("TimeCodes"),
-                N_("TimeCodes."),
+                N_("The optional TimeCodes tag shall contain an ordered array of time codes. "
+                "All time codes shall be 8 bytes long and in binary format. The tag may "
+                "contain from 1 to 10 time codes. When the tag contains more than one time "
+                "code, the first one shall be the default time code. This specification "
+                "does not prescribe how to use multiple time codes.\n\n"
+                "Each time code shall be as defined for the 8-byte time code structure in "
+                "SMPTE 331M-2004, Section 8.3. See also SMPTE 12-1-2008 and SMPTE 309-1999."),
                 ifd0Id, dngTags, unsignedByte, 8, printValue), // DNG tag
         TagInfo(0xc764, "FrameRate", N_("FrameRate"),
-                N_("FrameRate"),
+                N_("The optional FrameRate tag shall specify the video frame "
+                   "rate in number of image frames per second, expressed as a "
+                   "signed rational number. The numerator shall be non-negative "
+                   "and the denominator shall be positive. This field value is "
+                   "identical to the sample rate field in SMPTE 377-1-2009."),
                 ifd0Id, dngTags, signedRational, 1, printValue), // DNG tag
+        TagInfo(0xc772, "TStop", N_("TStop"),
+                N_("The optional TStop tag shall specify the T-stop of the "
+                "actual lens, expressed as an unsigned rational number. "
+                "T-stop is also known as T-number or the photometric "
+                "aperture of the lens. (F-number is the geometric aperture "
+                "of the lens.) When the exact value is known, the T-stop "
+                "shall be specified using a single number. Alternately, "
+                "two numbers shall be used to indicate a T-stop range, "
+                "in which case the first number shall be the minimum "
+                "T-stop and the second number shall be the maximum T-stop."),
+                ifd0Id, dngTags, signedRational, 1, printValue), // DNG tag
+        TagInfo(0xc789, "ReelName", N_("ReelName"),
+                N_("The optional ReelName tag shall specify a name for a "
+                "sequence of images, where each image in the sequence has "
+                "a unique image identifier (including but not limited to file "
+                "name, frame number, date time, time code)."),
+                ifd0Id, dngTags, signedRational, 1, printValue), // DNG tag
+        TagInfo(0xc7a1, "CameraLabel", N_("CameraLabel"),
+                N_("The optional CameraLabel tag shall specify a text label "
+                "for how the camera is used or assigned in this clip. "
+                "This tag is similar to CameraLabel in XMP."),
+                ifd0Id, dngTags, asciiString,-1, printValue), // DNG tag
+
+        ////////////////////////////////////////
         // End of list marker
         TagInfo(0xffff, "(UnknownIfdTag)", N_("Unknown IFD tag"),
                 N_("Unknown IFD tag"),
