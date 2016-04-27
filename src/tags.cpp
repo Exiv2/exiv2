@@ -1395,16 +1395,6 @@ namespace Exiv2 {
                 ifd0Id, dngTags, tiffDouble, -1, printValue), // DNG tag
 
         ////////////////////////////////////////
-        // CDNG #1180
-        TagInfo(0xc61e, "DefaultScale", N_("Default Scale"),
-                N_("DefaultScale is required for cameras with non-square pixels. It "
-                   "specifies the default scale factors for each direction to convert "
-                   "the image to square pixels. Typically these factors are selected "
-                   "to approximately preserve total pixel count. For CFA images that "
-                   "use CFALayout equal to 2, 3, 4, or 5, such as the Fujifilm SuperCCD, "
-                   "these two values should usually differ by a factor of 2.0."),
-                ifd0Id, dngTags, unsignedRational, 2, printValue), // DNG tag
-
         // http://wwwimages.adobe.com/content/dam/Adobe/en/devnet/cinemadng/pdfs/CinemaDNG_Format_Specification_v1_1.pdf
         TagInfo(0xc763, "TimeCodes", N_("TimeCodes"),
                 N_("The optional TimeCodes tag shall contain an ordered array of time codes. "
