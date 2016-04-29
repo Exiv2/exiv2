@@ -87,7 +87,8 @@ BINSRC = addmoddel.cpp        \
 OTHERSRC = exiv2json.cpp      \
            geotag.cpp         \
            metacopy.cpp       \
-           path-test.cpp
+           path-test.cpp      \
+           toexv.cpp
 
 # ******************************************************************************
 # Initialisations
@@ -167,7 +168,7 @@ geotag: %: %.cpp
 	$(LIBTOOL) --mode=link $(LINK.cc) -lexpat $@.o -o ../bin/$@
 
 # link applications which require utils.cpp support
-metacopy path-test: %: %.cpp ../src/utils.o
+metacopy path-test toexv: %: %.cpp ../src/utils.o
 	$(COMPILE.cc) -I../src -I../include -I../include/exiv2 -o $@.o $<
 	@$(MAKEDEPEND)
 	@$(POSTDEPEND)

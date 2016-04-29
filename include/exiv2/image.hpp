@@ -235,10 +235,15 @@ namespace Exiv2 {
          */
         virtual void setIccProfile(DataBuf& iccProfile);
         /*!
-          @brief Erase iccProfile. the profile isnot not removed from
+          @brief Erase iccProfile. the profile is not removed from
               the actual image until the writeMetadata() method is called.
          */
         virtual void clearIccProfile();
+
+        /*!
+          @brief return iccProfile
+         */
+        virtual DataBuf* iccProfile() { return &iccProfile_; }
         /*!
           @brief Copy all existing metadata from source Image. The data is
               copied into internal buffers and is not written to the image
