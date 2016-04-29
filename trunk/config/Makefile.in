@@ -101,7 +101,8 @@ bugtest bugstest testbugs bugfixes:
 addmoddel		exifcomment		exifvalue	httptest	iptctest		mmap-test	stringto-test \
 exifdata		iotest			key-test	path-test	taglist			write2-test write-test	\
 convert-test	exifdata-test	exiv2json	iptceasy	largeiptc-test	prevtest	tiff-test	\
-easyaccess-test	geotag			iptcprint	metacopy	werror-test	xmpparser-test 	xmpsample xmpparse :
+easyaccess-test	geotag			iptcprint	metacopy	toexv           werror-test	\
+xmpparser-test 	xmpsample 		xmpparse :
 	cd samples && $(MAKE) $(MAKECMDGOALS)
 
 MAJOR=$(shell grep "define.*EXIV2_.*_VERSION .*\\d*" src/version.hpp | grep MAJOR | sed -e 's/EXIV2//g' | tr -dC [:digit:])

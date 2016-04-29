@@ -212,6 +212,9 @@ namespace Exiv2 {
         if (checkMode(mdIptc) & amWrite) {
             setIptcData(image.iptcData());
         }
+        if (checkMode(mdIccProfile) & amWrite && iccProfile()) {
+            setIccProfile(*iccProfile());
+        }
         if (checkMode(mdXmp) & amWrite) {
             setXmpPacket(image.xmpPacket());
             setXmpData(image.xmpData());
@@ -391,6 +394,8 @@ namespace Exiv2 {
         case mdComment:
             am = r->commentSupport_;
             break;
+        case mdIccProfile: break;
+
         // no default: let the compiler complain
         }
         return am;
