@@ -569,7 +569,7 @@ namespace Exiv2 {
 
                     sp = kount == count ? "" : " ...";
                     out << sp << std::endl;
-                    if ( option == kpsRecursive && tag == 0x8769 /* ExifTag */ ) {
+                    if ( option == kpsRecursive && (tag == 0x8769 /* ExifTag */ || tag == 0x014a/*SubIFDs*/ ) ) {
                         size_t restore = io.tell();
                         printIFDStructure(io,out,option,Offset,bSwap,c,depth);
                         io.seek(restore,BasicIo::beg);
