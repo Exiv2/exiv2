@@ -1345,8 +1345,7 @@ namespace Exiv2 {
             if (object->group() == ifd1Id) maxi = 1;
             for (uint32_t i = 0; i < object->count(); ++i) {
                 uint32_t offset = getLong(object->pData() + 4*i, byteOrder());
-                if (   baseOffset() + offset > size_
-                    || static_cast<int32_t>(baseOffset()) + offset < 0) {
+                if (   baseOffset() + offset > size_ ) {
 #ifndef SUPPRESS_WARNINGS
                     EXV_ERROR << "Directory " << groupName(object->group())
                               << ", entry 0x" << std::setw(4)
