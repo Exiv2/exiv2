@@ -1735,7 +1735,8 @@ namespace Exiv2 {
                  "Sigma 150-500mm F5-6.3 APO DG OS HSM | "                               // 18
                  "Tamron AF 28-105mm F4-5.6 [IF] | "                                     // 19
                  "Sigma 35mm F1.4 DG HSM | "                                             // 20
-                 "Sigma 18-35mm F1.8 DC HSM" },                                          // 21
+                 "Sigma 18-35mm F1.8 DC HSM | "                                          // 21
+                 "Sigma 50-500mm F4.5-6.3 APO DG OS HSM" },                              // 22
         { 129,   "Tamron 200-400mm F5.6 LD | "
                  "Tamron 70-300mm F4-5.6 LD" },
         { 131,   "Tamron 20-40mm F2.7-3.5 SP Aspherical IF" },
