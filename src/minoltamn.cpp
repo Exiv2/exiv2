@@ -35,6 +35,7 @@ EXIV2_RCSID("@(#) $Id$")
 // included header files
 #include "minoltamn_int.hpp"
 #include "tags_int.hpp"
+#include "makernote_int.hpp"
 #include "value.hpp"
 #include "exif.hpp"
 #include "i18n.h"                // NLS support.
@@ -2196,6 +2197,17 @@ namespace Exiv2 {
 
     std::ostream& printMinoltaSonyLensID(std::ostream& os, const Value& value, const ExifData* metadata)
     {
+		// #1034
+		const std::string undefined("undefined") ;
+		const std::string minolta  ("minolta");
+		const std::string sony     ("sony");
+		if ( Internal::readExiv2Config(minolta,value.toString(),undefined) != undefined ) {
+			return os << Internal::readExiv2Config(minolta,value.toString(),undefined);
+		}
+		if ( Internal::readExiv2Config(sony,value.toString(),undefined) != undefined ) {
+			return os << Internal::readExiv2Config(sony,value.toString(),undefined);
+		}
+
         // #1145 - respect lenses with shared LensID
         unsigned long    index = value.toLong();
         const LensIdFct* lif   = find(lensIdFct,index);
