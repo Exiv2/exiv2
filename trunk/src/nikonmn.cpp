@@ -41,6 +41,7 @@ EXIV2_RCSID("@(#) $Id$")
 #include "value.hpp"
 #include "image.hpp"
 #include "tags_int.hpp"
+#include "makernote_int.hpp"
 #include "error.hpp"
 #include "i18n.h"                // NLS support.
 
@@ -2461,6 +2462,17 @@ fmountlens[] = {
         raw[7] = static_cast<byte>(md->toLong());
 
         for (int i = 0; fmountlens[i].lensname != NULL; ++i) {
+            if (   raw[0] == fmountlens[i].lid ) {
+                // #1034
+                const std::string  undefined("undefined") ;
+                const std::string  section  ("nikon");
+                std::ostringstream lensIDStream;
+                lensIDStream  << (int) raw[7];
+                if ( Internal::readExiv2Config(section,lensIDStream.str(),undefined) != undefined ) {
+                    return os << Internal::readExiv2Config(section,lensIDStream.str(),undefined);
+                }
+            }
+            
             if (   raw[0] == fmountlens[i].lid
                 // stps varies with focal length for some Sigma zoom lenses.
                 &&(raw[1] == fmountlens[i].stps || strcmp(fmountlens[i].manuf, "Sigma") == 0)
