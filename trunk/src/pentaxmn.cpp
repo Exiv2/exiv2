@@ -36,6 +36,7 @@ EXIV2_RCSID("@(#) $Id$")
 // included header files
 #include "types.hpp"
 #include "pentaxmn_int.hpp"
+#include "makernote_int.hpp"
 #include "value.hpp"
 #include "exif.hpp"
 #include "tags.hpp"
@@ -1156,20 +1157,20 @@ namespace Exiv2 {
     // #1144 begin
     static std::string getKeyString(const std::string& key,const ExifData* metadata)
     {
-		std::string result;
-		if ( metadata->findKey(ExifKey(key)) != metadata->end() ) {
-			result = metadata->findKey(ExifKey(key))->toString();
-		}
-		return result;
+        std::string result;
+        if ( metadata->findKey(ExifKey(key)) != metadata->end() ) {
+            result = metadata->findKey(ExifKey(key))->toString();
+        }
+        return result;
     }
 
     static long getKeyLong(const std::string& key,const ExifData* metadata)
     {
-		long result = -1;
-		if ( metadata->findKey(ExifKey(key)) != metadata->end() ) {
-			result = (long) metadata->findKey(ExifKey(key))->toFloat(0);
-		}
-		return result;
+        long result = -1;
+        if ( metadata->findKey(ExifKey(key)) != metadata->end() ) {
+            result = (long) metadata->findKey(ExifKey(key))->toFloat(0);
+        }
+        return result;
     }
 
     std::ostream& resolveLens0x32c(std::ostream& os, const Value& value,
@@ -1237,7 +1238,7 @@ namespace Exiv2 {
                 if ( lensInfo->toLong(4) == 0 && lensInfo->toLong(5) == 40 && lensInfo->toLong(6) == 148 ) index = 8;
 
             } else if ( value.count() == 4 ) {
-				// http://dev.exiv2.org/attachments/download/868/IMGP2221.JPG
+                // http://dev.exiv2.org/attachments/download/868/IMGP2221.JPG
                 // 0x0207 PentaxDng    LensInfo  Undefined 128    0 131 128   0 0 255   1 184   0 0 0 0 0
                 //                                                0   1   2   3 4   5   6
                 if ( lensInfo->count() == 128 && lensInfo->toLong(1) == 131 && lensInfo->toLong(2) == 128 ) index = 8;
@@ -1267,8 +1268,8 @@ namespace Exiv2 {
                                                     ? metadata->findKey(ExifKey("Exif.PentaxDng.LensInfo"))
                                                     : metadata->findKey(ExifKey("Exif.Pentax.LensInfo"))
                                                     ;
-        	if ( value.count() == 4 ) {
-            	std::string model       = getKeyString("Exif.Image.Model"      ,metadata);
+            if ( value.count() == 4 ) {
+                std::string model       = getKeyString("Exif.Image.Model"      ,metadata);
                 if ( model.find("PENTAX K-3")==0 && lensInfo->count() == 128 && lensInfo->toLong(1) == 168 && lensInfo->toLong(2) == 144 ) index = 7;
             }
 
@@ -1294,13 +1295,13 @@ namespace Exiv2 {
                                                     ? metadata->findKey(ExifKey("Exif.PentaxDng.LensInfo"))
                                                     : metadata->findKey(ExifKey("Exif.Pentax.LensInfo"))
                                                     ;
-        	if ( value.count() == 4 ) {
-            	std::string model       = getKeyString("Exif.Image.Model"      ,metadata);
+            if ( value.count() == 4 ) {
+                std::string model       = getKeyString("Exif.Image.Model"      ,metadata);
                 if ( model.find("PENTAX K-3")==0 && lensInfo->count() == 128 && lensInfo->toLong(1) == 131 && lensInfo->toLong(2) == 128 )
                     index = 6;
             }
-        	if ( value.count() == 2 ) {
-            	std::string model       = getKeyString("Exif.Image.Model"      ,metadata);
+            if ( value.count() == 2 ) {
+                std::string model       = getKeyString("Exif.Image.Model"      ,metadata);
                 if ( model.find("PENTAX K100D")==0 && lensInfo->count() == 44 )
                     index = 6;
                 if ( model.find("PENTAX *ist DL")==0 && lensInfo->count() == 36 )
@@ -1351,7 +1352,15 @@ namespace Exiv2 {
     std::ostream& printLensType(std::ostream& os, const Value& value,
                                                  const ExifData* metadata)
     {
+        // #1034
+        const std::string  undefined("undefined") ;
+        const std::string  section  ("pentax");
+        if ( Internal::readExiv2Config(section,value.toString(),undefined) != undefined ) {
+            return os << Internal::readExiv2Config(section,value.toString(),undefined);
+        }
+
         unsigned long index = value.toLong(0)*256+value.toLong(1);
+
         // std::cout << std::endl << "printLensType value =" << value.toLong() << " index = " << index << std::endl;
         const LensIdFct* lif = find(lensIdFct, index);
         if (!lif) {
