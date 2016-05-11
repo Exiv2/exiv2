@@ -37,7 +37,8 @@ public:
     bool all_ ;                    //!< All option flag
     bool comment_;                 //!< JPEG comment option flag.
     bool xmp_;                     //!< XMP option flag.
-    bool size_    ;                //!< Size option flag.
+    bool size_;                    //!< Size option flag.
+    bool usage_;                   //!< Usage option flag.
     std::string read_;             //!< Source file
     std::string write_;            //!< Destination file
 
@@ -70,6 +71,9 @@ public:
 
     //! Print further usage explanations to an output stream.
     int help(std::ostream& os =std::cout) const;
+
+    //! copy metadata from one image to another.
+	void copyMetadata(Exiv2::Image::AutoPtr& readImage,Exiv2::Image::AutoPtr& writeImage);
 
 }; // class Params
 
