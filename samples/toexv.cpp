@@ -33,6 +33,15 @@
 #include "utils.hpp"
 #include "toexv.hpp"
 
+static size_t exifMetadataCount(Exiv2::Image::AutoPtr& image)
+{
+	size_t result = 0 ;
+	Exiv2::ExifData&                  exif = image->exifData();
+	Exiv2::ExifData::const_iterator    end = exif.end();
+	for (Exiv2::ExifData::const_iterator i = exif.begin(); i != end; ++i) result++;
+	return result;
+}
+
 // *****************************************************************************
 // Main
 int main(int argc, char* const argv[])
@@ -47,39 +56,59 @@ int main(int argc, char* const argv[])
 		assert(readImage.get() != 0);
 		readImage->readMetadata();
 
-		Exiv2::Image::AutoPtr writeImage = Exiv2::ImageFactory::create(Exiv2::ImageType::exv,params.write_);
-		assert(writeImage.get() != 0);
+		if ( params.write_ == "+" ) {
+			std::cout << "exifMetadataCount = " << exifMetadataCount(readImage) << std::endl;
 
-		if (params.all_    ) writeImage->setMetadata  (*readImage);
-		if (params.iptc_   ) writeImage->setIptcData  (readImage->iptcData());
-		if (params.exif_   ) writeImage->setExifData  (readImage->exifData());
-		if (params.ICC_    ) writeImage->setIccProfile(*readImage->iccProfile());
-		if (params.comment_) writeImage->setComment   (readImage->comment());
-		if (params.xmp_    ) writeImage->setXmpData   (readImage->xmpData());
+			// create an in-memory file and write the metadata
+			Exiv2::BasicIo::AutoPtr memIo   (new Exiv2::MemIo());
+			Exiv2::Image::AutoPtr   memImage(new Exiv2::ExvImage(memIo,true));
+			memImage->setMetadata  (*readImage);
+			memImage->writeMetadata();
 
-		writeImage->writeMetadata();
+            // serialize the in-memory file into buff
+            size_t       size = memImage->io().size();
+			Exiv2::byte  buff[size];
+			memImage->io().seek(0,Exiv2::BasicIo::beg);
+			memImage->io().read(buff,size);
 
-		if ( params.size_ ) std::cout << params.write_ << " " << writeImage->io().size() << std::endl;
-		return 0;
+			std::cout << "size = " << size << std::endl;
 
-#if 0
-		// This is prototype code for working on writing metadata to memory
-		// This has been discussed with Andrea Ferrora (PhotoFlow)
-		// And useful for sending the exv to a webservice.
-		uint32_t     size = 54321;
-		Exiv2::byte  data[size];
-		Exiv2::BasicIo::AutoPtr memIo   (new Exiv2::MemIo(data,size));
-		Exiv2::Image::AutoPtr   memImage(new Exiv2::ExvImage(memIo,true));
-		memImage->setMetadata(*image);
-		std::cout << "wrote " << memImage->writeMetadata() << std::endl;
+			// create an in-memory file with buff and read the metadata into buffImage
+			Exiv2::BasicIo::AutoPtr buffIo   (new Exiv2::MemIo(buff,size));
+			Exiv2::Image::AutoPtr   buffImage(new Exiv2::ExvImage(buffIo,false));
+			assert(buffImage.get() != 0);
+			buffImage->readMetadata();
 
-		for ( size_t i = 0 ; i < 20 ; i++ ) {
-			char c = (char) data[i] ;
-			if ( c < 32 || c > 127 ) c = '.' ;
-			std::cout <<  c;
+			std::cout << "exifMetadataCount = " << exifMetadataCount(buffImage) << std::endl;
+
+		} else if ( params.write_ != "-" ) {
+			// create a file and write the metadata
+			Exiv2::Image::AutoPtr writeImage = Exiv2::ImageFactory::create(Exiv2::ImageType::exv,params.write_);
+			params.copyMetadata(readImage,writeImage);
+		} else {
+			// create an in-memory file
+			Exiv2::BasicIo::AutoPtr memIo   (new Exiv2::MemIo());
+			Exiv2::Image::AutoPtr   memImage(new Exiv2::ExvImage(memIo,true));
+			params.copyMetadata(readImage,memImage);
+
+			// read a few bytes from the in-memory file
+            size_t       size = memImage->io().size();
+            if (size>32) size = 32;
+			Exiv2::byte  data[size];
+
+			memImage->io().seek(0,Exiv2::BasicIo::beg);
+			memImage->io().read(data,size);
+
+			// dump the bytes
+			for ( size_t i = 0 ; i < size ; i++ ) {
+				char c = (char) data[i] ;
+				if ( !isascii(c) ) c = '.' ;
+				std::cout << c ;
+			}
+			std::cout << std::endl;
 		}
-		std::cout << std::endl;
-#endif
+
+		return 0;
 
 	} catch (Exiv2::AnyError& e) {
 		std::cerr << "Caught Exiv2 exception '" << e << "'\n";
@@ -98,8 +127,21 @@ Params::Params( const char* opts)
 , comment_(false)
 , xmp_(false)
 , size_(false)
+, usage_(false)
 {}
 
+void Params::copyMetadata(Exiv2::Image::AutoPtr& readImage,Exiv2::Image::AutoPtr& writeImage)
+{
+	if (all_    ) writeImage->setMetadata  (*readImage);
+	if (iptc_   ) writeImage->setIptcData  ( readImage->iptcData());
+	if (exif_   ) writeImage->setExifData  ( readImage->exifData());
+	if (ICC_    ) writeImage->setIccProfile(*readImage->iccProfile());
+	if (comment_) writeImage->setComment   ( readImage->comment());
+	if (xmp_    ) writeImage->setXmpData   ( readImage->xmpData());
+
+	writeImage->writeMetadata();
+	if ( size_ ) std::cout << write_ << " " << writeImage->io().size() << std::endl;
+}
 
 int Params::option(int opt, const std::string& /*optarg*/, int optopt)
 {
@@ -150,8 +192,9 @@ int Params::nonoption(const std::string& argv)
 int Params::getopt(int argc, char* const argv[])
 {
     int rc = Util::Getopt::getopt(argc, argv, optstring_);
+    if ( argc == 1 ) usage_ = true;
     // Further consistency checks
-    if (help_==false) {
+    if ( !help_ && !usage_ ) {
         if (rc==0 && read_.empty() ) {
             std::cerr << progname() << ": Read and write files must be specified\n";
             rc = 1;
@@ -162,15 +205,16 @@ int Params::getopt(int argc, char* const argv[])
         }
     }
     if ( argc == 3 ) { all_ = true; size_ = true; }
+    if ( usage_ ) return 2 ;
     return rc;
 }
 
 int Params::usage(std::ostream& os) const
 {
-    os << "\nReads and writes raw metadata. Use -h option for help.\n"
+    os << "Reads and writes raw metadata. Use -h option for help.\n"
        << "Usage: " << progname()
        << " [-" << optstring_ << "]"
-       << " readfile writefile\n";
+       << " readfile {-|+|writefile}\n";
     return 2;
 }
 
