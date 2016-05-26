@@ -743,6 +743,7 @@ namespace Exiv2 {
         { 0x032c, "Sigma 12-24mm F4.5-5.6 EX DG" },                      //2
         { 0x032c, "Sigma 17-70mm F2.8-4.5 DC Macro" },                   //3
         { 0x032c, "Sigma 18-50mm F3.5-5.6 DC" },                         //4
+        { 0x032c, "Sigma 17-35mm F2.8-4 EX DG" },                        //5
         { 0x032e, "Sigma or Samsung Lens" },                             //0
         { 0x032e, "Sigma APO 70-200mm F2.8 EX" },                        //1
         { 0x032e, "Sigma EX APO 100-300mm F4 IF" },                      //2
