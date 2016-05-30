@@ -47,6 +47,7 @@ EXIV2_RCSID("@(#) $Id$")
 namespace {
 
     using namespace Exiv2;
+    using Exiv2::byte;
 
     /*!
       @brief Compare two preview images by number of pixels, if width and height

@@ -51,6 +51,7 @@ EXIV2_RCSID("@(#) $Id: epsimage.cpp $")
 namespace {
 
     using namespace Exiv2;
+    using Exiv2::byte;
 
     // signature of DOS EPS
     const std::string dosEpsSignature = "\xC5\xD0\xD3\xC6";
