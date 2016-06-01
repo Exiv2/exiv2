@@ -1,15 +1,41 @@
+// ***************************************************************** -*- C++ -*-
+/*
+ * Copyright (C) 2004-2015 Andreas Huggel <ahuggel@gmx.net>
+ *
+ * This program is part of the Exiv2 distribution.
+ *
+ * This program is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU General Public License
+ * as published by the Free Software Foundation; either version 2
+ * of the License, or (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program; if not, write to the Free Software
+ * Foundation, Inc., 51 Franklin Street, 5th Floor, Boston, MA 02110-1301 USA.
+ */
+
 #ifndef RW_LOCK_HPP
 #define RW_LOCK_HPP
 
-#ifdef _WIN32
-#include <windows.h>
+#ifdef  _MSC_VER
+# ifndef _WIN32_WINNT
+#  define _WIN32_WINNT 0x0400
+# endif
+# include <windows.h>
 #else
-#include <pthread.h>
+# include <pthread.h>
 #endif
 
 namespace Exiv2 {
     namespace Internal {
-#ifdef _WIN32
+#ifdef _MSC_VER
+// Visual Studio 2013 and later use SRWLOCK
+#if _MSC_VER >= 1800
         class RWLock
         {
         public:
@@ -30,7 +56,7 @@ namespace Exiv2 {
 
             bool trywrlock()
             {
-                return TryAcquireSRWLockExclusive(&rwlock_);
+                return 0 != TryAcquireSRWLockExclusive(&rwlock_);
             }
 
             void rdlock()
@@ -40,7 +66,7 @@ namespace Exiv2 {
 
             bool tryrdlock()
             {
-                return TryAcquireSRWLockShared(&rwlock_);
+                return 0 != TryAcquireSRWLockShared(&rwlock_);
             }
 
             void rdunlock()
@@ -57,6 +83,55 @@ namespace Exiv2 {
             SRWLOCK rwlock_;
         };
 #else
+        // Visual Studio 2005,8,10,12 use CRITICAL_SECTION
+        class RWLock
+        {
+        public:
+            RWLock()
+            {
+                InitializeCriticalSection(&lock_);
+            }
+
+            ~RWLock()
+            {
+                DeleteCriticalSection(&lock_);
+            }
+
+            void wrlock() { enter(); }
+
+            bool trywrlock() { return tryenter(); }
+
+            void rdlock() { enter(); }
+
+            bool tryrdlock() { return tryenter(); }
+
+            void rdunlock() { leave(); }
+
+            void wrunlock() { leave(); }
+
+        private:
+            void enter()
+            {
+                EnterCriticalSection(&lock_);
+            }
+
+            void leave()
+            {
+                LeaveCriticalSection(&lock_);
+            }
+
+            bool tryenter()
+            {
+                return 0 != TryEnterCriticalSection(&lock_);
+            }
+
+        private:
+            CRITICAL_SECTION lock_;
+        };
+#endif
+
+#else
+        // UNIX systems (including MinGW and Cygwin)
         class RWLock
         {
         public:
@@ -70,29 +145,29 @@ namespace Exiv2 {
                 pthread_rwlock_destroy(&rwlock_);
             }
 
-            int wrlock()
+            void wrlock()
             {
-                return pthread_rwlock_wrlock(&rwlock_);
+                pthread_rwlock_wrlock(&rwlock_);
             }
 
-            int trywrlock()
+            bool trywrlock()
             {
-                return pthread_rwlock_trywrlock(&rwlock_);
+                return 0 == pthread_rwlock_trywrlock(&rwlock_);
             }
 
-            int rdlock()
+            void rdlock()
             {
-                return pthread_rwlock_rdlock(&rwlock_);
+                pthread_rwlock_rdlock(&rwlock_);
             }
 
-            int tryrdlock()
+            bool tryrdlock()
             {
-                return pthread_rwlock_tryrdlock(&rwlock_);
+                return 0 == pthread_rwlock_tryrdlock(&rwlock_);
             }
 
-            int unlock()
+            void unlock()
             {
-                return pthread_rwlock_unlock(&rwlock_);
+                pthread_rwlock_unlock(&rwlock_);
             }
 
             void rdunlock() { unlock(); }
