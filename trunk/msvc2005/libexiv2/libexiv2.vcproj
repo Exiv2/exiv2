@@ -1059,6 +1059,10 @@
 				>
 			</File>
 			<File
+				RelativePath="..\..\include\exiv2\rwlock.hpp"
+				>
+			</File>
+			<File
 				RelativePath="..\..\include\exiv2\ssh.hpp"
 				>
 			</File>
