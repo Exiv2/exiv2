@@ -790,6 +790,7 @@ namespace Exiv2 {
         { 155, "Canon EF 85mm f/1.8 USM"                                    },
         { 156, "Canon EF 28-105mm f/3.5-4.5 USM"                            }, // 0
         { 156, "Tamron SP 70-300mm f/4-5.6 Di VC USD"                       }, // 1
+        { 156, "Tamron SP AF 28-105mm f/2.8 LD Aspherical IF"               }, // 2
         { 160, "Canon EF 20-35mm f/3.5-4.5 USM"                             }, // 0
         { 160, "Tamron AF 19-35mm f/3.5-4.5"                                }, // 1
         { 160, "Tokina AT-X 124 AF 12-24mm f/4 DX"                          }, // 2
@@ -993,7 +994,7 @@ namespace Exiv2 {
         { 152, printCsLensByFocalLength },
         { 153, printCsLensByFocalLength },
         { 154, printCsLensByFocalLength }, // not tested
-        { 156, printCsLensByFocalLength },
+        { 156, printCsLensByFocalLengthAndMaxAperture },
         { 160, printCsLensByFocalLength },
         { 161, printCsLensByFocalLength },
         { 168, printCsLensByFocalLength },
