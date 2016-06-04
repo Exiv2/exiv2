@@ -326,7 +326,12 @@ typedef int pid_t;
 // Constants required by Microsoft SDKs to define SHGetFolderPathA and others
 #ifdef  _MSC_VER
 # ifndef _WIN32_WINNT
-#  define _WIN32_WINNT 0x0501
+// Visual Studio 2012 and earlier
+#  if _MSC_VER < 1800
+#   define _WIN32_WINNT 0x0501
+#  else
+#   define _WIN32_WINNT 0x0600
+#  endif
 # endif
 # include <windows.h>
 # include <shlobj.h>
