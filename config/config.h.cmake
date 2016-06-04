@@ -37,7 +37,6 @@
 #define HAVE_NTOHLL 1
 #endif
 
-
 /* Define to 1 if you want to use `libssh' for SshIO. */
 #cmakedefine EXV_USE_SSH 1
 
@@ -322,6 +321,15 @@ typedef int pid_t;
 */
 #if defined(_MSC_VER) && (_MSC_VER >= 1400)
 # pragma warning(disable : 4996)
+#endif
+
+// Constants required by Microsoft SDKs to define SHGetFolderPathA and others
+#ifdef  _MSC_VER
+# ifndef _WIN32_WINNT
+#  define _WIN32_WINNT 0x0501
+# endif
+# include <windows.h>
+# include <shlobj.h>
 #endif
 
 /*
