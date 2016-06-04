@@ -22,13 +22,8 @@
 #ifndef RW_LOCK_HPP
 #define RW_LOCK_HPP
 
-#ifdef  _MSC_VER
-# ifndef _WIN32_WINNT
-#  define _WIN32_WINNT 0x0400
-# endif
-# include <windows.h>
-#else
-# include <pthread.h>
+#ifndef _MSC_VER
+#include <pthread.h>
 #endif
 
 namespace Exiv2 {

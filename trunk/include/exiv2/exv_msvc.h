@@ -323,6 +323,15 @@ typedef int pid_t;
 # pragma warning(disable : 4996)
 #endif
 
+// Constants required by Microsoft SDKs to define SHGetFolderPathA and others
+#ifdef  _MSC_VER
+# ifndef _WIN32_WINNT
+#  define _WIN32_WINNT 0x0400
+# endif
+# include <windows.h>
+# include <shlobj.h>
+#endif
+
 /*
   If you're using Solaris and the Solaris Studio compiler
   you must -library=stdcxx4 along with these inclusions below
