@@ -18,7 +18,7 @@ if( EXISTS "${CMAKE_SOURCE_DIR}/include/exiv2/exv_conf.h"  )
 endif()
 ##
 
-CMAKE_MINIMUM_REQUIRED( VERSION 2.8.11 )
+CMAKE_MINIMUM_REQUIRED( VERSION 3.1.0 )
 PROJECT( exiv2 )
 
 if( POLICY CMP0042 )
@@ -99,6 +99,8 @@ endif( MSVC )
 IF( EXIV2_ENABLE_XMP )
     SET( HAVE_XMP_TOOLKIT ON )
     SET( XMPLIB "do" )
+    set(THREADS_PREFER_PTHREAD_FLAG ON)
+    find_package(Threads REQUIRED)
 ENDIF( EXIV2_ENABLE_XMP )
 
 INCLUDE( config/CMakeChecks.txt )
