@@ -49,7 +49,7 @@ FOREACH(entry ${SAMPLES})
     STRING( REPLACE ".cpp" "" target ${entry})
     ADD_EXECUTABLE( ${target} ${target}.cpp )
     ADD_TEST( ${target}_test ${target} )
-    TARGET_LINK_LIBRARIES( ${target} ${PRIVATE_VAR} exiv2lib ${EXPAT_LIBRARIES})
+    TARGET_LINK_LIBRARIES( ${target} ${PRIVATE_VAR} exiv2lib Threads::Threads ${EXPAT_LIBRARIES})
     INSTALL( TARGETS ${target} ${INSTALL_TARGET_STANDARD_ARGS} )
 ENDFOREACH(entry ${SAMPLES})
 
@@ -62,19 +62,19 @@ ENDIF( MSVC )
 
 SET( MC_SRC ${MC_SRC} metacopy.cpp ../src/utils.cpp )
 ADD_EXECUTABLE( metacopy ${MC_SRC} )
-TARGET_LINK_LIBRARIES( metacopy exiv2lib )
+TARGET_LINK_LIBRARIES( metacopy exiv2lib Threads::Threads)
 INSTALL( TARGETS metacopy ${INSTALL_TARGET_STANDARD_ARGS} )
 
 SET( PATHTEST_SRC ${PATHTEST_SRC}  path-test.cpp ../src/utils.cpp )
 ADD_EXECUTABLE( pathtest ${PATHTEST_SRC} )
 SET_TARGET_PROPERTIES( pathtest PROPERTIES OUTPUT_NAME path-test )
-TARGET_LINK_LIBRARIES( pathtest exiv2lib )
+TARGET_LINK_LIBRARIES( pathtest exiv2lib Threads::Threads )
 INSTALL( TARGETS pathtest ${INSTALL_TARGET_STANDARD_ARGS} )
 
 SET( EXIV2JSON_SRC exiv2json.cpp Jzon.cpp )
 ADD_EXECUTABLE( exiv2json ${EXIV2JSON_SRC} )
 SET_TARGET_PROPERTIES( exiv2json PROPERTIES OUTPUT_NAME exiv2json )
-TARGET_LINK_LIBRARIES( exiv2json exiv2lib )
+TARGET_LINK_LIBRARIES( exiv2json exiv2lib Threads::Threads)
 INSTALL( TARGETS exiv2json ${INSTALL_TARGET_STANDARD_ARGS} )
 
 # ******************************************************************************
