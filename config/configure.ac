@@ -273,15 +273,17 @@ if test "$USE_XMP_TOOLKIT" = "yes"; then
     EXPAT_CPPFLAGS=
     EXPAT_LDFLAGS=
     EXPAT_LIBS=
+    PTHREAD_LIBS=
     if test "$with_expat" != "no"; then
         AC_CHECK_HEADERS(expat.h,
-            AC_CHECK_LIB(expat, XML_ParserCreate,[
+            AC_CHECK_LIB(expat, XML_ParserCreate,[f
                 AC_DEFINE([HAVE_EXPAT], [], [Have Expat XML parser library])
                 EXPAT_LIBS="-lexpat"
                 if test "x${EXPAT_DIR}" != "x"; then
                     EXPAT_CPPFLAGS="-I${EXPAT_DIR}/include"
                     EXPAT_LDFLAGS="-L${EXPAT_DIR}/lib"
                 fi],[found_expat=no]),[found_expat=no])
+        PTHREAD="-lpthread"
     fi
     if test "$with_expat" = "no" -o "$found_expat" = "no"; then
         AC_MSG_ERROR(either specify a valid expat installation with --with-expat=DIR or disable XMP support with --disable-xmp)
@@ -291,6 +293,8 @@ if test "$USE_XMP_TOOLKIT" = "yes"; then
     AC_SUBST(EXPAT_CPPFLAGS)
     AC_SUBST(EXPAT_LDFLAGS)
     AC_SUBST(EXPAT_LIBS)
+    AC_CHECK_LIB(pthread, pthread_create, [PTHREAD_LIBS+=-lpthread])    
+    AC_SUBST(PTHREAD_LIBS)
 fi
 AC_SUBST(ENABLE_XMP)
 
@@ -315,7 +319,7 @@ case "$host_os" in
 *mingw* | *cygwin*)
     LDFLAGS="$LDFLAGS -no-undefined -lpsapi -lwldap32 -lws2_32" ;;
 *)
-    LDFLAGS="$LDFLAGS -ldl" ;;
+    LDFLAGS="$LDFLAGS -ldl -lpthread" ;;
 esac
 
 # 1099
