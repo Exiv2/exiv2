@@ -34,7 +34,7 @@ echo "---- build = $build ------"
 testBuild()
 {
     if [ -e $dist/bin/exiv2 ]; then
-        pushd  test > /dev/null
+        pushd  ../test > /dev/null
         # EXIV2_BINDIR is used by the test suite to locate executables
         export EXIV2_BINDIR=$dist/bin
         # set LD_LIBRARY_PATH (and DYLD_LIBRARY_PATH for macosx)
