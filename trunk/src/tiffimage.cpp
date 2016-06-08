@@ -38,6 +38,7 @@ EXIV2_RCSID("@(#) $Id$")
 #include "tiffvisitor_int.hpp"
 #include "orfimage.hpp"
 #include "makernote_int.hpp"
+#include "nikonmn_int.hpp"
 #include "image.hpp"
 #include "image_int.hpp"
 #include "error.hpp"
@@ -395,6 +396,8 @@ namespace Exiv2 {
             for (ti = Exiv2:: ifdTagList(), idx = 0; ti[idx].tag_ != 0xffff; ++idx) tags[ti[idx].tag_] = ti[idx].name_;
             for (ti = Exiv2::exifTagList(), idx = 0; ti[idx].tag_ != 0xffff; ++idx) tags[ti[idx].tag_] = ti[idx].name_;
             for (ti = Exiv2:: mpfTagList(), idx = 0; ti[idx].tag_ != 0xffff; ++idx) tags[ti[idx].tag_] = ti[idx].name_;
+            for (ti = Nikon1MakerNote::tagList(), idx = 0
+                                                   ; ti[idx].tag_ != 0xffff; ++idx) tags[ti[idx].tag_] = ti[idx].name_;
         }
         init = false;
 
@@ -581,7 +584,20 @@ namespace Exiv2 {
                         io.seek(restore,BasicIo::beg); // restore
                         IptcData::printStructure(out,bytes,count,depth);
                         delete[] bytes;                // free
+                    }  else if ( option == kpsRecursive && tag == 0x927c /* MakerNote */ && count > 10) {
+                        size_t   jump=10;
+                        size_t   restore = io.tell();  // save
+                        io.seek(offset,BasicIo::beg);  // position
+                        byte     bytes[jump+1]      ;
+                        const char* chars = (const char*) &bytes ;
+                        io.read(bytes,jump    )     ;  // read
+                        bytes[jump]=0;
+                        if ( ::strcmp("Nikon",chars) == 0 ) {
+                            printTiffStructure(io,out,option,depth,offset+jump);
+                        }
+                        io.seek(restore,BasicIo::beg); // restore
                     }
+
                 }
 
                 if ( isPrintXMP(tag,option) ) {
@@ -603,7 +619,7 @@ namespace Exiv2 {
         depth--;
     }
 
-    void TiffImage::printTiffStructure(BasicIo& io, std::ostream& out, Exiv2::PrintStructureOption option,int depth)
+    void TiffImage::printTiffStructure(BasicIo& io, std::ostream& out, Exiv2::PrintStructureOption option,int depth,size_t offset /*=0*/)
     {
         if ( option == kpsBasic || option == kpsXMP || option == kpsRecursive || option == kpsIccProfile ) {
             // buffer
@@ -617,7 +633,7 @@ namespace Exiv2 {
                         || ( c == 'I' && isBigEndian()    )
                         ;
 
-            uint32_t start = byteSwap4(dir,4,bSwap);
+            uint32_t start = byteSwap4(dir,4,bSwap)+offset;
             printIFDStructure(io,out,option,start,bSwap,c,depth);
         }
     }

@@ -101,7 +101,7 @@ namespace Exiv2 {
                 not valid (does not look like data of the specific image type).
           @caution This function is not thread safe.  See TiffImage::printStructure for more details
          */
-        static void printTiffStructure(BasicIo& io,std::ostream& out, PrintStructureOption option,int depth);
+        static void printTiffStructure(BasicIo& io,std::ostream& out, PrintStructureOption option,int depth,size_t offset=0);
 
         /*!
           @brief Print out the structure of a TIFF IFD
