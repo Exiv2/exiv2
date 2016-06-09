@@ -585,13 +585,13 @@ namespace Exiv2 {
                         IptcData::printStructure(out,bytes,count,depth);
                         delete[] bytes;                // free
                     }  else if ( option == kpsRecursive && tag == 0x927c /* MakerNote */ && count > 10) {
-                        size_t   jump=10;
+                        size_t   jump= 10           ;
+                        byte     bytes[20]          ;
+                        const char* chars = (const char*) &bytes[0] ;
                         size_t   restore = io.tell();  // save
                         io.seek(offset,BasicIo::beg);  // position
-                        byte     bytes[jump+1]      ;
-                        const char* chars = (const char*) &bytes ;
                         io.read(bytes,jump    )     ;  // read
-                        bytes[jump]=0;
+                        bytes[jump]=0               ;
                         if ( ::strcmp("Nikon",chars) == 0 ) {
                             printTiffStructure(io,out,option,depth,offset+jump);
                         }
