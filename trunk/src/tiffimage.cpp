@@ -593,7 +593,7 @@ namespace Exiv2 {
                         io.read(bytes,jump    )     ;  // read
                         bytes[jump]=0               ;
                         if ( ::strcmp("Nikon",chars) == 0 ) {
-                            printTiffStructure(io,out,option,depth,offset+jump);
+                            printTiffStructure(io,out,option,depth,(size_t)offset+jump);
                         }
                         io.seek(restore,BasicIo::beg); // restore
                     }
@@ -633,7 +633,7 @@ namespace Exiv2 {
                         || ( c == 'I' && isBigEndian()    )
                         ;
 
-            uint32_t start = byteSwap4(dir,4,bSwap)+offset;
+            uint32_t start = byteSwap4(dir,4,bSwap)+(uint32_t)offset;
             printIFDStructure(io,out,option,start,bSwap,c,depth);
         }
     }
