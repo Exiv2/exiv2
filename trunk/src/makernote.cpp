@@ -42,7 +42,7 @@ EXIV2_RCSID("@(#) $Id$")
 #include <string>
 #include <cstring>
 
-#ifdef _MSC_VER
+#if defined(_MSC_VER) || defined(__MINGW__)
 # include <windows.h>
 # include <shlobj.h>
   /* older SDKs not have these */
@@ -92,7 +92,7 @@ namespace Exiv2 {
 		{
     		std::string homedir;
     		std::string inifile;
-#ifdef _MSC_VER
+#if defined(_MSC_VER) || defined(__MINGW__)
 			char path[MAX_PATH];
 			if (SUCCEEDED(SHGetFolderPathA(NULL, CSIDL_PROFILE, NULL, 0, path))) {
   				homedir = std::string(path);
