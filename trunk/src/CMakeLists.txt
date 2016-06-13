@@ -70,6 +70,7 @@ SET( LIBEXIV2_HDR         ${CMAKE_CURRENT_LIST_DIR}/../include/exiv2/asfvideo.hp
                           ${CMAKE_CURRENT_LIST_DIR}/../include/exiv2/quicktimevideo.hpp
                           ${CMAKE_CURRENT_LIST_DIR}/../include/exiv2/rafimage.hpp
                           ${CMAKE_CURRENT_LIST_DIR}/../include/exiv2/riffvideo.hpp
+                          ${CMAKE_CURRENT_LIST_DIR}/../include/exiv2/rwlock.hpp
                           ${CMAKE_CURRENT_LIST_DIR}/../include/exiv2/rw2image.hpp
                           ${CMAKE_CURRENT_LIST_DIR}/../include/exiv2/tags.hpp
                           ${CMAKE_CURRENT_LIST_DIR}/../include/exiv2/tgaimage.hpp
