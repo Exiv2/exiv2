@@ -170,7 +170,7 @@ COBJ   = $(CSRC:.c=.o)
 CLOBJ  = $(CSRC:.c=.lo)
 
 SRC    = $(CCSRC) $(CSRC)
-HDR    = $(CCHDR)
+HDR    = $(CCHDR) rwlock.hpp
 OBJ    = $(CCOBJ) $(COBJ)
 LOBJ   = $(CCLOBJ) $(CLOBJ)
 
