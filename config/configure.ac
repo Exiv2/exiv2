@@ -318,8 +318,10 @@ AC_SUBST(EXV_LIB_STATIC)
 case "$host_os" in
 *mingw* | *cygwin*)
     LDFLAGS="$LDFLAGS -no-undefined -lpsapi -lwldap32 -lws2_32" ;;
-*)
+*linux-gnu*)
     LDFLAGS="$LDFLAGS -ldl -lpthread" ;;
+*)
+    LDFLAGS="$LDFLAGS -lpthread" ;;
 esac
 
 # 1099
