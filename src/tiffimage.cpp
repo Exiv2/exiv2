@@ -593,7 +593,12 @@ namespace Exiv2 {
                         io.read(bytes,jump    )     ;  // read
                         bytes[jump]=0               ;
                         if ( ::strcmp("Nikon",chars) == 0 ) {
-                            printTiffStructure(io,out,option,depth,(size_t)(offset+jump));
+                        	// tag is an embedded tiff
+                            byte* bytes=new byte[count-jump] ;  // allocate memory
+                            io.read(bytes,count-jump)        ;  // read
+                            MemIo memIo(bytes,count-jump)    ;  // create a file
+                            printTiffStructure(memIo,out,option,depth);
+                            delete[] bytes                   ;  // free
                         }
                         io.seek(restore,BasicIo::beg); // restore
                     }
