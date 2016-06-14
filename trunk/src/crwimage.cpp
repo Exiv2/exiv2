@@ -414,6 +414,7 @@ namespace Exiv2 {
             size_   = getULong(pData + start + 2, byteOrder);
             offset_ = getULong(pData + start + 6, byteOrder);
         }
+        if ( size_ > size || offset_ > size ) throw Error(26); // #889
         if (dl == directoryData) {
             size_ = 8;
             offset_ = start + 2;
