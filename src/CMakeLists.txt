@@ -238,6 +238,12 @@ SET_TARGET_PROPERTIES( exiv2lib PROPERTIES
     OUTPUT_NAME   exiv2
 )
 
+IF ( UNIX ) 
+  IF ( NOT CYGWIN AND NOT MINGW )
+    SET (LINUX 1)
+  ENDIF()
+ENDIF()
+
 if ( MSVC )
     source_group("Header Files" FILES ${LIBEXIV2_HDR} )
     TARGET_LINK_LIBRARIES( exiv2lib ${PRIVATE_VAR} ${EXPAT_LIBRARIES} )
