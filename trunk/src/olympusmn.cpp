@@ -40,6 +40,7 @@ EXIV2_RCSID("@(#) $Id$")
 #include "value.hpp"
 #include "image.hpp"
 #include "tags_int.hpp"
+#include "makernote_int.hpp"
 #include "i18n.h"                // NLS support.
 
 // + standard includes
@@ -1251,6 +1252,13 @@ namespace Exiv2 {
     //! OlympusEq LensType, tag 0x201
     std::ostream& OlympusMakerNote::print0x0201(std::ostream& os, const Value& value, const ExifData*)
     {
+    	// #1034
+		const std::string undefined("undefined") ;
+		const std::string section  ("olympus");
+		if ( Internal::readExiv2Config(section,value.toString(),undefined) != undefined ) {
+			return os << Internal::readExiv2Config(section,value.toString(),undefined);
+		}
+
         // 6 numbers: 0. Make, 1. Unknown, 2. Model, 3. Sub-model, 4-5. Unknown.
         // Only the Make, Model and Sub-model are used to determine the lens model
         static struct {
@@ -1589,7 +1597,7 @@ namespace Exiv2 {
             os.flags(f);
             return os << value;
         }
-        
+
         Rational distance = value.toRational();
         if(static_cast<uint32_t>(distance.first) == 0xffffffff) {
             os << _("Infinity");
@@ -1599,12 +1607,12 @@ namespace Exiv2 {
             oss.copyfmt(os);
             os << std::fixed << std::setprecision(2);
             os << (float)distance.first/1000 << " m";
-            os.copyfmt(oss); 
+            os.copyfmt(oss);
         }
         os.flags(f);
         return os;
     }
-    
+
     // Olympus FocusInfo tag 0x0308 AFPoint
     std::ostream& OlympusMakerNote::print0x0308(std::ostream& os, const Value&
 value, const ExifData* metadata)
