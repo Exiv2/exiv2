@@ -268,12 +268,14 @@ typedef int pid_t;
 #endif
 
 /* File path separator */
+#ifndef EXV_SEPARATOR_STR
 #if defined(WIN32) && !defined(__CYGWIN__)
 #define EXV_SEPARATOR_STR "\\"
 #define EXV_SEPARATOR_CHR '\\'
 #else
 #define EXV_SEPARATOR_STR "/"
 #define EXV_SEPARATOR_CHR '/'
+#endif
 #endif
 
 /* Shared library support, see http://gcc.gnu.org/wiki/Visibility */
