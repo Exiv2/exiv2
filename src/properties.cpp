@@ -85,6 +85,7 @@ namespace Exiv2 {
     extern const XmpPropertyInfo xmpPdfInfo[];
     extern const XmpPropertyInfo xmpPhotoshopInfo[];
     extern const XmpPropertyInfo xmpCrsInfo[];
+    extern const XmpPropertyInfo xmpCrssInfo[];
     extern const XmpPropertyInfo xmpTiffInfo[];
     extern const XmpPropertyInfo xmpExifInfo[];
     extern const XmpPropertyInfo xmpExifEXInfo[];
@@ -123,6 +124,7 @@ namespace Exiv2 {
         { "http://ns.adobe.com/pdf/1.3/",                 "pdf",            xmpPdfInfo,       N_("Adobe PDF schema")                          },
         { "http://ns.adobe.com/photoshop/1.0/",           "photoshop",      xmpPhotoshopInfo, N_("Adobe photoshop schema")                    },
         { "http://ns.adobe.com/camera-raw-settings/1.0/", "crs",            xmpCrsInfo,       N_("Camera Raw schema")                         },
+        { "http://ns.adobe.com/camera-raw-saved-settings/1.0/", "crss",     xmpCrssInfo,      N_("Camera Raw Saved Settings")                         },
         { "http://ns.adobe.com/tiff/1.0/",                "tiff",           xmpTiffInfo,      N_("Exif Schema for TIFF Properties")           },
         { "http://ns.adobe.com/exif/1.0/",                "exif",           xmpExifInfo,      N_("Exif schema for Exif-specific Properties")  },
         { "http://cipa.jp/exif/1.0/",                     "exifEX",         xmpExifEXInfo,    N_("Exif 2.3 metadata for XMP")  },
@@ -500,6 +502,15 @@ namespace Exiv2 {
         { 0, N_("pixels") },
         { 1, N_("inches") },
         { 2, N_("cm")     }
+    };
+
+    extern const XmpPropertyInfo xmpCrssInfo[] = {
+        { "SavedSettings", 	N_("Saved Settings"), 	"SavedSettings", 	xmpText, 	xmpInternal, N_("*Main structure* Camera Raw Saved Settings.") },
+        { "Name",  			N_("Name"),   			"Text",            	xmpText,    xmpExternal, N_("Camera Raw Saved Settings Name.")              },
+        { "Type",  			N_("Type"),   			"Text",            	xmpText,    xmpExternal, N_("Camera Raw Saved Settings Type.")              },
+        { "Parameters", 	N_("Parameters"), 		"Parameters", 		xmpText, 	xmpInternal, N_("*Main structure* Camera Raw Saved Settings Parameters.") },
+        // End of list marker
+        { 0, 0, 0, invalidTypeId, xmpInternal, 0 }
     };
 
     extern const XmpPropertyInfo xmpCrsInfo[] = {

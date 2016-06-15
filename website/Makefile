@@ -74,6 +74,7 @@ SCHEMA = dc \
          pdf \
          photoshop \
          crs \
+         crss \
          tiff \
          exif \
          exifEX \
