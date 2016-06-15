@@ -224,7 +224,7 @@ namespace Exiv2 {
                                                                                                              "This property provides a standard way for embedded relative URLs to be interpreted "
                                                                                                              "by tools. Web authoring tools should set the value based on their notion of where "
                                                                                                              "URLs will be interpreted.") },
-        { "CreateDate",       N_("Create Date"),      "Date",                     xmpText,   xmpInternal, N_("The date and time the resource was originally created.") },
+        { "CreateDate",       N_("Create Date"),      "Date",                     xmpText,   xmpExternal, N_("The date and time the resource was originally created.") },
         { "CreatorTool",      N_("Creator Tool"),     "AgentName",                xmpText,   xmpInternal, N_("The name of the first known tool used to create the resource. If history is "
                                                                                                              "present in the metadata, this value should be equivalent to that of "
                                                                                                              "xmpMM:History's softwareAgent property.") },
@@ -268,10 +268,11 @@ namespace Exiv2 {
                                                                                                         "rendition class of the original.") },
         { "DocumentID",       N_("Document ID"),       "URI",               xmpText,    xmpInternal, N_("The common identifier for all versions and renditions of a document. It should be "
                                                                                                         "based on a UUID; see Document and Instance IDs below.") },
-        { "History",          N_("History"),           "seq ResourceEvent", xmpText,    xmpInternal, N_("An ordered array of high-level user actions that resulted in this resource. It is "
+        { "History",          N_("History"),           "seq ResourceEvent", xmpSeq,     xmpInternal, N_("An ordered array of high-level user actions that resulted in this resource. It is "
                                                                                                         "intended to give human readers a general indication of the steps taken to make the "
                                                                                                         "changes from the previous version to this one. The list should be at an abstract "
                                                                                                         "level; it is not intended to be an exhaustive keystroke or other detailed history.") },
+        { "Ingredients",      N_("Ingredients"),       "bag ResourceRef",   xmpBag,     xmpInternal, N_("References to resources that were incorporated, byinclusion or reference, into this resource.") },
         { "InstanceID",       N_("Instance ID"),       "URI",               xmpText,    xmpInternal, N_("An identifier for a specific incarnation of a document, updated each time a file "
                                                                                                         "is saved. It should be based on a UUID; see Document and Instance IDs below.") },
         { "ManagedFrom",      N_("Managed From"),      "ResourceRef",       xmpText,    xmpInternal, N_("A reference to the document as it was prior to becoming managed. It is set when a "
@@ -287,8 +288,20 @@ namespace Exiv2 {
                                                                                                         "web browser. It might require a custom browser plug-in.") },
         { "ManagerVariant",   N_("Manager Variant"),   "Text",              xmpText,    xmpInternal, N_("Specifies a particular variant of the asset management system. The format of this "
                                                                                                         "property is private to the specific asset management system.") },
+        { "OriginalDocumentID", N_("Original Document ID"), "URI",          xmpText,    xmpInternal, N_("Refer to Part 1, Data Model, Serialization, and Core "
+                                                                                                        "Properties, for definition.") },
+        { "Pantry",           N_("Pantry"),            "bag struct",        xmpText,    xmpInternal, N_("Each array item has a structure value with a potentially "
+																										"unique set of fields, containing extracted XMP from a "
+																										"component. Each field is a property from the XMP of a "
+																										"contained resource component, with all substructure "
+																										"preserved. "
+																										"Each pantry entry shall contain an xmpMM:InstanceID. "
+																										"Only one copy of the pantry entry for any given "
+																										"xmpMM:InstanceID shall be retained in the pantry. "
+																										"Nested pantry items shall be removed from the individual "
+																										"pantry item and promoted to the top level of the pantry.") },
         { "RenditionClass",   N_("Rendition Class"),   "RenditionClass",    xmpText,    xmpInternal, N_("The rendition class name for this resource. This property should be absent or set "
-                                                                                                        "to default for a document version that is not a derived rendition.") },
+		                                                                                                "to default for a document version that is not a derived rendition.") },
         { "RenditionParams",  N_("Rendition Params"),  "Text",              xmpText,    xmpInternal, N_("Can be used to provide additional rendition parameters that are too complex or "
                                                                                                         "verbose to encode in xmpMM: RenditionClass.") },
         { "VersionID",        N_("Version ID"),        "Text",              xmpText,    xmpInternal, N_("The document version identifier for this resource. Each version of a document gets "
@@ -329,71 +342,91 @@ namespace Exiv2 {
     };
 
     extern const XmpPropertyInfo xmpXmpDMInfo[] = {
+        { "absPeakAudioFilePath",         N_("Absolute Peak Audio File Path"),    "URI",                   xmpText, xmpInternal, N_("The absolute path to the file's peak audio file. If empty, no peak file exists.") },
+        { "album",                        N_("Album"),                            "Text",                  xmpText, xmpExternal, N_("The name of the album.") },
+        { "altTapeName",                  N_("Alternative Tape Name"),            "Text",                  xmpText, xmpExternal, N_("An alternative tape name, set via the project window or timecode dialog in Premiere. "
+                                                                                                                                    "If an alternative name has been set and has not been reverted, that name is displayed.") },
+        { "altTimecode",                  N_("Alternative Time code"),            "Timecode",              xmpText, xmpExternal, N_("A timecode set by the user. When specified, it is used instead of the startTimecode.") },
+        { "artist",                       N_("Artist"),                   		  "Text",                  xmpText, xmpExternal, N_("The name of the artist or artists.") },
+        { "audioModDate",                 N_("Audio Modified Date"),              "Date",                  xmpText, xmpInternal, N_("(deprecated) The date and time when the audio was last modified.") },
+		{ "audioChannelType",             N_("Audio Channel Type"),               "closed Choice of Text", xmpText, xmpInternal, N_("The audio channel type. One of: Mono, Stereo, 5.1, 7.1, 16 Channel, Other.") },
+		{ "audioCompressor",              N_("Audio Compressor"),                 "Text",                  xmpText, xmpInternal, N_("The audio compression used. For example, MP3.") },
+		{ "audioSampleRate",              N_("Audio Sample Rate"),                "Integer",               xmpText, xmpInternal, N_("The audio sample rate. Can be any value, but commonly 32000, 44100, or 48000.") },
+		{ "audioSampleType",              N_("Audio Sample Type"),                "closed Choice of Text", xmpText, xmpInternal, N_("The audio sample type. One of: 8Int, 16Int, 24Int, 32Int, 32Float, Compressed, Packed, Other.") },
+        { "beatSpliceParams",             N_("Beat Splice Parameters"),           "beatSpliceStretch",     xmpText, xmpInternal, N_("Additional parameters for Beat Splice stretch mode.") },
+        { "cameraAngle",                  N_("Camera Angle"),                     "open Choice of Text",   xmpText, xmpExternal, N_("The orientation of the camera to the subject in a static shot, from a fixed set of industry standard terminology. Predefined values include:Low Angle, Eye Level, High Angle, Overhead Shot, Birds Eye Shot, Dutch Angle, POV, Over the Shoulder, Reaction Shot.") },
+        { "cameraLabel",                  N_("Camera Label"),                     "Text",                  xmpText, xmpExternal, N_("A description of the camera used for a shoot. Can be any string, but is usually simply a number, for example \"1\", \"2\", or more explicitly \"Camera 1\".") },
+        { "cameraModel",                  N_("Camera Model"),                     "Text",                  xmpText, xmpExternal, N_("The make and model of the camera used for a shoot.") },
+        { "cameraMove",                   N_("Camera Move"),                      "open Choice of Text",   xmpText, xmpExternal, N_("The movement of the camera during the shot, from a fixed set of industry standard terminology. Predefined values include: Aerial, Boom Up, Boom Down, Crane Up, Crane Down, Dolly In, Dolly Out, Pan Left, Pan Right, Pedestal Up, Pedestal Down, Tilt Up, Tilt Down, Tracking, Truck Left, Truck Right, Zoom In, Zoom Out.") },
+        { "client",                       N_("Client"),                           "Text",                  xmpText, xmpExternal, N_("The client for the job of which this shot or take is a part.") },
+        { "comment",                      N_("Comment"),                          "Text",                  xmpText, xmpExternal, N_("A user’s comments.") },
+        { "composer",                     N_("Composer"),                         "Text",                  xmpText, xmpExternal, N_("The composer's name.") },
+        { "contributedMedia",             N_("Contributed Media"),                "bag Media",             xmpBag,  xmpInternal, N_("An unordered list of all media used to create this media.") },
+        { "copyright",                    N_("Copyright"),                        "Text",                  xmpText, xmpExternal, N_("(Deprecated in favour of dc:rights.) The copyright information.") },
+        { "director",                     N_("Director"),                         "Text",                  xmpText, xmpExternal, N_("The director of the scene.") },
+        { "directorPhotography",          N_("Director Photography"),             "Text",                  xmpText, xmpExternal, N_("The director of photography for the scene.") },
+        { "duration",                     N_("Duration"),                         "Time",                  xmpText, xmpInternal, N_("The duration of the media file.") },
+        { "engineer",                     N_("Engineer"),                         "Text",                  xmpText, xmpExternal, N_("The engineer's name.") },
+        { "fileDataRate",                 N_("File Data Rate"),                   "Rational",              xmpText, xmpInternal, N_("The file data rate in megabytes per second. For example: \"36/10\" = 3.6 MB/sec") },
+        { "genre",                        N_("Genre"),                            "Text",                  xmpText, xmpExternal, N_("The name of the genre.") },
+        { "good",                         N_("Good"),                             "Boolean",               xmpText, xmpExternal, N_("A checkbox for tracking whether a shot is a keeper.") },
+        { "instrument",                   N_("Instrument"),                       "Text",                  xmpText, xmpExternal, N_("The musical instrument.") },
+        { "introTime",                    N_("Intro Time"),                       "Time",                  xmpText, xmpInternal, N_("The duration of lead time for queuing music.") },
+        { "key",                          N_("Key"),                              "closed Choice of Text", xmpText, xmpInternal, N_("The audio's musical key. One of: C, C#, D, D#, E, F, F#, G, G#, A, A#, B.") },
+        { "logComment",                   N_("Log Comment"),                      "Text",                  xmpText, xmpExternal, N_("User's log comments.") },
+        { "loop",                         N_("Loop"),                             "Boolean",               xmpText, xmpInternal, N_("When true, the clip can be looped seamlessly.") },
+        { "numberOfBeats",                N_("Number Of Beats"),                  "Real",                  xmpText, xmpInternal, N_("The number of beats.") },
+        { "markers",                      N_("Markers"),                          "seq Marker",            xmpSeq,  xmpInternal, N_("An ordered list of markers") },
+        { "metadataModDate",              N_("Metadata Modified Date"),           "Date",                  xmpText, xmpInternal, N_("(deprecated) The date and time when the metadata was last modified.") },
+        { "outCue",                       N_("Out Cue"),                          "Time",                  xmpText, xmpInternal, N_("The time at which to fade out.") },
+        { "projectName",                  N_("Project Name"),                     "Text",                  xmpText, xmpExternal, N_("The name of the project of which this file is a part.") },
         { "projectRef",                   N_("Project Reference"),                "ProjectLink",           xmpText, xmpInternal, N_("A reference to the project that created this file.") },
-        { "videoFrameRate",               N_("Video Frame Rate"),                 "open Choice of Text",   xmpText, xmpInternal, N_("The video frame rate. One of: 24, NTSC, PAL.") },
-        { "videoFrameSize",               N_("Video Frame Size"),                 "Dimensions",            xmpText, xmpInternal, N_("The frame size. For example: w:720, h: 480, unit:pixels") },
-        { "videoPixelAspectRatio",        N_("Video Pixel Aspect Ratio"),         "Rational",              xmpText, xmpInternal, N_("The aspect ratio, expressed as ht/wd. For example: \"648/720\" = 0.9") },
-        { "videoPixelDepth",              N_("Video Pixel Depth"),                "closed Choice of Text", xmpText, xmpInternal, N_("The size in bits of each color component of a pixel. Standard Windows 32-bit "
-                                                                                                                                    "pixels have 8 bits per component. One of: 8Int, 16Int, 32Int, 32Float.") },
-        { "videoColorSpace",              N_("Video Color Space"),                "closed Choice of Text", xmpText, xmpInternal, N_("The color space. One of: sRGB (used by Photoshop), CCIR-601 (used for NTSC), "
-                                                                                                                                    "CCIR-709 (used for HD).") },
+        { "pullDown",                     N_("Pull Down"),                        "closed Choice of Text", xmpText, xmpInternal, N_("The sampling phase of film to be converted to video (pull-down). One of: "
+                                                                                                                                    "WSSWW, SSWWW, SWWWS, WWWSS, WWSSW, WSSWW_24p, SSWWW_24p, SWWWS_24p, WWWSS_24p, WWSSW_24p.") },
+        { "relativePeakAudioFilePath",    N_("Relative Peak Audio File Path"),    "URI",                   xmpText, xmpInternal, N_("The relative path to the file's peak audio file. If empty, no peak file exists.") },
+        { "relativeTimestamp",            N_("Relative Timestamp"),               "Time",                  xmpText, xmpInternal, N_("The start time of the media inside the audio project.") },
+        { "releaseDate",                  N_("Release Date"),                     "Date",                  xmpText, xmpExternal, N_("The date the title was released.") },
+        { "resampleParams",               N_("Resample Parameters"),              "resampleStretch",       xmpText, xmpInternal, N_("Additional parameters for Resample stretch mode.") },
+        { "scaleType",                    N_("Scale Type"),                       "closed Choice of Text", xmpText, xmpInternal, N_("The musical scale used in the music. One of: Major, Minor, Both, Neither.") },
+        { "scene",                        N_("Scene"),                            "Text",                  xmpText, xmpExternal, N_("The name of the scene.") },
+        { "shotDate",                     N_("Shot Date"),                        "Date",                  xmpText, xmpExternal, N_("The date and time when the video was shot.") },
+        { "shotDay",                      N_("Shot Day"),                         "Text",                  xmpText, xmpExternal, N_("The day in a multiday shoot. For example: \"Day 2\", \"Friday\".") },
+        { "shotLocation",                 N_("Shot Location"),                    "Text",                  xmpText, xmpExternal, N_("The name of the location where the video was shot. For example: \"Oktoberfest, Munich Germany\" "
+                                                                                                                                    "For more accurate positioning, use the EXIF GPS values.") },
+        { "shotName",                     N_("Shot Name"),                        "Text",                  xmpText, xmpExternal, N_("The name of the shot or take.") },
+        { "shotNumber",                   N_("Shot Number"),                      "Text",                  xmpText, xmpExternal, N_("The position of the shot in a script or production, relative to other shots. For example: 1, 2, 1a, 1b, 1.1, 1.2.") },
+        { "shotSize",                     N_("Shot Size"),                        "open Choice of Text",   xmpText, xmpExternal, N_("The size or scale of the shot framing, from a fixed set of industry standard terminology. Predefined values include: "
+																																	"ECU --extreme close-up, MCU -- medium close-up. CU -- close-up, MS -- medium shot, "
+																																	"WS -- wide shot, MWS -- medium wide shot, EWS -- extreme wide shot.") },
+        { "speakerPlacement",             N_("Speaker Placement"),                "Text",                  xmpText, xmpExternal, N_("A description of the speaker angles from center front in degrees. For example: "
+                                                                                                                                    "\"Left = -30, Right = 30, Center = 0, LFE = 45, Left Surround = -110, Right Surround = 110\"") },
+        { "startTimecode",                N_("Start Time Code"),                  "Timecode",              xmpText, xmpInternal, N_("The timecode of the first frame of video in the file, as obtained from the device control.") },
+        { "stretchMode",                  N_("Stretch Mode"),                     "closed Choice of Text", xmpText, xmpInternal, N_("The audio stretch mode. One of: Fixed length, Time-Scale, Resample, Beat Splice, Hybrid.") },
+        { "takeNumber",                   N_("Take Number"),                      "Integer",               xmpText, xmpExternal, N_("A numeric value indicating the absolute number of a take.") },
+        { "tapeName",                     N_("Tape Name"),                        "Text",                  xmpText, xmpExternal, N_("The name of the tape from which the clip was captured, as set during the capture process.") },
+        { "tempo",                        N_("Tempo"),                            "Real",                  xmpText, xmpInternal, N_("The audio's tempo.") },
+        { "timeScaleParams",              N_("Time Scale Parameters"),            "timeScaleStretch",      xmpText, xmpInternal, N_("Additional parameters for Time-Scale stretch mode.") },
+        { "timeSignature",                N_("Time Signature"),                   "closed Choice of Text", xmpText, xmpInternal, N_("The time signature of the music. One of: 2/4, 3/4, 4/4, 5/4, 7/4, 6/8, 9/8, 12/8, other.") },
+        { "trackNumber",                  N_("Track Number"),                     "Integer",               xmpText, xmpExternal, N_("A numeric value indicating the order of the audio file within its original recording.") },
+        { "tracks",                       N_("Tracks"),                           "bag Track",             xmpBag,  xmpInternal, N_("An unordered list of tracks. A track is a named set of markers, which can specify a frame rate for all markers in the set. See also xmpDM:markers.") },
         { "videoAlphaMode",               N_("Video Alpha Mode"),                 "closed Choice of Text", xmpText, xmpExternal, N_("The alpha mode. One of: straight, pre-multiplied.") },
         { "videoAlphaPremultipleColor",   N_("Video Alpha Premultiple Color"),    "Colorant",              xmpText, xmpExternal, N_("A color in CMYK or RGB to be used as the pre-multiple color when "
                                                                                                                                     "alpha mode is pre-multiplied.") },
         { "videoAlphaUnityIsTransparent", N_("Video Alpha Unity Is Transparent"), "Boolean",               xmpText, xmpInternal, N_("When true, unity is clear, when false, it is opaque.") },
+        { "videoColorSpace",              N_("Video Color Space"),                "closed Choice of Text", xmpText, xmpInternal, N_("The color space. One of: sRGB (used by Photoshop), CCIR-601 (used for NTSC), "
+                                                                                                                                    "CCIR-709 (used for HD).") },
         { "videoCompressor",              N_("Video Compressor"),                 "Text",                  xmpText, xmpInternal, N_("Video compression used. For example, jpeg.") },
         { "videoFieldOrder",              N_("Video Field Order"),                "closed Choice of Text", xmpText, xmpInternal, N_("The field order for video. One of: Upper, Lower, Progressive.") },
-        { "pullDown",                     N_("Pull Down"),                        "closed Choice of Text", xmpText, xmpInternal, N_("The sampling phase of film to be converted to video (pull-down). One of: "
-                                                                                                                                    "WSSWW, SSWWW, SWWWS, WWWSS, WWSSW, WSSWW_24p, SSWWW_24p, SWWWS_24p, WWWSS_24p, WWSSW_24p.") },
-        { "audioSampleRate",              N_("Audio Sample Rate"),                "Integer",               xmpText, xmpInternal, N_("The audio sample rate. Can be any value, but commonly 32000, 41100, or 48000.") },
-        { "audioSampleType",              N_("Audio Sample Type"),                "closed Choice of Text", xmpText, xmpInternal, N_("The audio sample type. One of: 8Int, 16Int, 32Int, 32Float.") },
-        { "audioChannelType",             N_("Audio Channel Type"),               "closed Choice of Text", xmpText, xmpInternal, N_("The audio channel type. One of: Mono, Stereo, 5.1, 7.1.") },
-        { "audioCompressor",              N_("Audio Compressor"),                 "Text",                  xmpText, xmpInternal, N_("The audio compression used. For example, MP3.") },
-        { "speakerPlacement",             N_("Speaker Placement"),                "Text",                  xmpText, xmpExternal, N_("A description of the speaker angles from center front in degrees. For example: "
-                                                                                                                                    "\"Left = -30, Right = 30, Center = 0, LFE = 45, Left Surround = -110, Right Surround = 110\"") },
-        { "fileDataRate",                 N_("File Data Rate"),                   "Rational",              xmpText, xmpInternal, N_("The file data rate in megabytes per second. For example: \"36/10\" = 3.6 MB/sec") },
-        { "tapeName",                     N_("Tape Name"),                        "Text",                  xmpText, xmpExternal, N_("The name of the tape from which the clip was captured, as set during the capture process.") },
-        { "altTapeName",                  N_("Alternative Tape Name"),            "Text",                  xmpText, xmpExternal, N_("An alternative tape name, set via the project window or timecode dialog in Premiere. "
-                                                                                                                                    "If an alternative name has been set and has not been reverted, that name is displayed.") },
-        { "startTimecode",                N_("Start Time Code"),                  "Timecode",              xmpText, xmpInternal, N_("The timecode of the first frame of video in the file, as obtained from the device control.") },
-        { "altTimecode",                  N_("Alternative Time code"),            "Timecode",              xmpText, xmpExternal, N_("A timecode set by the user. When specified, it is used instead of the startTimecode.") },
-        { "duration",                     N_("Duration"),                         "Time",                  xmpText, xmpInternal, N_("The duration of the media file.") },
-        { "scene",                        N_("Scene"),                            "Text",                  xmpText, xmpExternal, N_("The name of the scene.") },
-        { "shotName",                     N_("Shot Name"),                        "Text",                  xmpText, xmpExternal, N_("The name of the shot or take.") },
-        { "shotDate",                     N_("Shot Date"),                        "Date",                  xmpText, xmpExternal, N_("The date and time when the video was shot.") },
-        { "shotLocation",                 N_("Shot Location"),                    "Text",                  xmpText, xmpExternal, N_("The name of the location where the video was shot. For example: \"Oktoberfest, Munich Germany\" "
-                                                                                                                                    "For more accurate positioning, use the EXIF GPS values.") },
-        { "logComment",                   N_("Log Comment"),                      "Text",                  xmpText, xmpExternal, N_("User's log comments.") },
-        { "markers",                      N_("Markers"),                          "seq Marker",            xmpText, xmpInternal, N_("An ordered list of markers") },
-        { "contributedMedia",             N_("Contributed Media"),                "bag Media",             xmpText, xmpInternal, N_("An unordered list of all media used to create this media.") },
-        { "absPeakAudioFilePath",         N_("Absolute Peak Audio File Path"),    "URI",                   xmpText, xmpInternal, N_("The absolute path to the file's peak audio file. If empty, no peak file exists.") },
-        { "relativePeakAudioFilePath",    N_("Relative Peak Audio File Path"),    "URI",                   xmpText, xmpInternal, N_("The relative path to the file's peak audio file. If empty, no peak file exists.") },
-        { "videoModDate",                 N_("Video Modified Date"),              "Date",                  xmpText, xmpInternal, N_("The date and time when the video was last modified.") },
-        { "audioModDate",                 N_("Audio Modified Date"),              "Date",                  xmpText, xmpInternal, N_("The date and time when the audio was last modified.") },
-        { "metadataModDate",              N_("Metadata Modified Date"),           "Date",                  xmpText, xmpInternal, N_("The date and time when the metadata was last modified.") },
-        { "artist",                       N_("Artist"),                           "Text",                  xmpText, xmpExternal, N_("The name of the artist or artists.") },
-        { "album",                        N_("Album"),                            "Text",                  xmpText, xmpExternal, N_("The name of the album.") },
-        { "trackNumber",                  N_("Track Number"),                     "Integer",               xmpText, xmpExternal, N_("A numeric value indicating the order of the audio file within its original recording.") },
-        { "genre",                        N_("Genre"),                            "Text",                  xmpText, xmpExternal, N_("The name of the genre.") },
-        { "copyright",                    N_("Copyright"),                        "Text",                  xmpText, xmpExternal, N_("The copyright information.") },
-        { "releaseDate",                  N_("Release Date"),                     "Date",                  xmpText, xmpExternal, N_("The date the title was released.") },
-        { "composer",                     N_("Composer"),                         "Text",                  xmpText, xmpExternal, N_("The composer's name.") },
-        { "engineer",                     N_("Engineer"),                         "Text",                  xmpText, xmpExternal, N_("The engineer's name.") },
-        { "tempo",                        N_("Tempo"),                            "Real",                  xmpText, xmpInternal, N_("The audio's tempo.") },
-        { "instrument",                   N_("Instrument"),                       "Text",                  xmpText, xmpExternal, N_("The musical instrument.") },
-        { "introTime",                    N_("Intro Time"),                       "Time",                  xmpText, xmpInternal, N_("The duration of lead time for queuing music.") },
-        { "outCue",                       N_("Out Cue"),                          "Time",                  xmpText, xmpInternal, N_("The time at which to fade out.") },
-        { "relativeTimestamp",            N_("Relative Timestamp"),               "Time",                  xmpText, xmpInternal, N_("The start time of the media inside the audio project.") },
-        { "loop",                         N_("Loop"),                             "Boolean",               xmpText, xmpInternal, N_("When true, the clip can be looped seamlessly.") },
-        { "numberOfBeats",                N_("Number Of Beats"),                  "Real",                  xmpText, xmpInternal, N_("The number of beats.") },
-        { "key",                          N_("Key"),                              "closed Choice of Text", xmpText, xmpInternal, N_("The audio's musical key. One of: C, C#, D, D#, E, F, F#, G, G#, A, A#, B.") },
-        { "stretchMode",                  N_("Stretch Mode"),                     "closed Choice of Text", xmpText, xmpInternal, N_("The audio stretch mode. One of: Fixed length, Time-Scale, Resample, Beat Splice, Hybrid.") },
-        { "timeScaleParams",              N_("Time Scale Parameters"),            "timeScaleStretch",      xmpText, xmpInternal, N_("Additional parameters for Time-Scale stretch mode.") },
-        { "resampleParams",               N_("Resample Parameters"),              "resampleStretch",       xmpText, xmpInternal, N_("Additional parameters for Resample stretch mode.") },
-        { "beatSpliceParams",             N_("Beat Splice Parameters"),           "beatSpliceStretch",     xmpText, xmpInternal, N_("Additional parameters for Beat Splice stretch mode.") },
-        { "timeSignature",                N_("Time Signature"),                   "closed Choice of Text", xmpText, xmpInternal, N_("The time signature of the music. One of: 2/4, 3/4, 4/4, 5/4, 7/4, 6/8, 9/8, 12/8, other.") },
-        { "scaleType",                    N_("Scale Type"),                       "closed Choice of Text", xmpText, xmpInternal, N_("The musical scale used in the music. One of: Major, Minor, Both, Neither. "
-                                                                                                                                    "Neither is most often used for instruments with no associated scale, such as drums.") },
+        { "videoFrameRate",               N_("Video Frame Rate"),                 "open Choice of Text",   xmpText, xmpInternal, N_("The video frame rate. One of: 24, NTSC, PAL.") },
+        { "videoFrameSize",               N_("Video Frame Size"),                 "Dimensions",            xmpText, xmpInternal, N_("The frame size. For example: w:720, h: 480, unit:pixels") },
+        { "videoModDate",                 N_("Video Modified Date"),              "Date",                  xmpText, xmpInternal, N_("(deprecated)The date and time when the video was last modified.") },
+        { "videoPixelDepth",              N_("Video Pixel Depth"),                "closed Choice of Text", xmpText, xmpInternal, N_("The size in bits of each color component of a pixel. Standard Windows 32-bit "
+                                                                                                                                    "pixels have 8 bits per component. One of: 8Int, 16Int, 32Int, 32Float.") },
+        { "videoPixelAspectRatio",        N_("Video Pixel Aspect Ratio"),         "Rational",              xmpText, xmpInternal, N_("The aspect ratio, expressed as ht/wd. For example: \"648/720\" = 0.9") },
+        { "partOfCompilation",            N_("Part Of Compilation"),              "Boolean",               xmpText, xmpExternal, N_("Part of compilation.") },
+        { "lyrics",                       N_("Lyrics"),                           "Text",                  xmpText, xmpExternal, N_("Lyrics text. No association with timecode.") },
+        { "discNumber",                   N_("Disc Number"),                      "Text",                  xmpText, xmpExternal, N_("If in a multi-disc set, might contain total number of discs. For example: 2/3.") },
+
         // End of list marker
         { 0, 0, 0, invalidTypeId, xmpInternal, 0 }
     };
@@ -423,28 +456,41 @@ namespace Exiv2 {
         { "Keywords",   N_("Keywords"),    "Text",      xmpText, xmpExternal, N_("Keywords.") },
         { "PDFVersion", N_("PDF Version"), "Text",      xmpText, xmpInternal, N_("The PDF file version (for example: 1.0, 1.3, and so on).") },
         { "Producer",   N_("Producer"),    "AgentName", xmpText, xmpInternal, N_("The name of the tool that created the PDF document.") },
+        { "Trapped",    N_("Trapped"),     "Boolean",   xmpText, xmpExternal, N_("True when the document has been trapped.") },
         // End of list marker
         { 0, 0, 0, invalidTypeId, xmpInternal, 0 }
     };
 
     extern const XmpPropertyInfo xmpPhotoshopInfo[] = {
-        { "AuthorsPosition",        N_("Authors Position"),        "Text",       xmpText, xmpExternal, N_("By-line title.") },
-        { "CaptionWriter",          N_("Caption Writer"),          "ProperName", xmpText, xmpExternal, N_("Writer/editor.") },
-        { "Category",               N_("Category"),                "Text",       xmpText, xmpExternal, N_("Category. Limited to 3 7-bit ASCII characters.") },
-        { "City",                   N_("City"),                    "Text",       xmpText, xmpExternal, N_("City.") },
-        { "Country",                N_("Country"),                 "Text",       xmpText, xmpExternal, N_("Country/primary location.") },
-        { "Credit",                 N_("Credit"),                  "Text",       xmpText, xmpExternal, N_("Credit.") },
         { "DateCreated",            N_("Date Created"),            "Date",       xmpText, xmpExternal, N_("The date the intellectual content of the document was created (rather than the creation "
                                                                                                           "date of the physical representation), following IIM conventions. For example, a photo "
                                                                                                           "taken during the American Civil War would have a creation date during that epoch "
                                                                                                           "(1861-1865) rather than the date the photo was digitized for archiving.") },
         { "Headline",               N_("Headline"),                "Text",       xmpText, xmpExternal, N_("Headline.") },
+        { "Country",                N_("Country"),                 "Text",       xmpText, xmpExternal, N_("Country/primary location.") },
+        { "State",                  N_("State"),                   "Text",       xmpText, xmpExternal, N_("Province/state.") },
+        { "City",                   N_("City"),                    "Text",       xmpText, xmpExternal, N_("City.") },
+        { "Credit",                 N_("Credit"),                  "Text",       xmpText, xmpExternal, N_("Credit.") },
+        { "AuthorsPosition",        N_("Authors Position"),        "Text",       xmpText, xmpExternal, N_("By-line title.") },
+        { "CaptionWriter",          N_("Caption Writer"),          "ProperName", xmpText, xmpExternal, N_("Writer/editor.") },
+        { "Category",               N_("Category"),                "Text",       xmpText, xmpExternal, N_("Category. Limited to 3 7-bit ASCII characters.") },
         { "Instructions",           N_("Instructions"),            "Text",       xmpText, xmpExternal, N_("Special instructions.") },
         { "Source",                 N_("Source"),                  "Text",       xmpText, xmpExternal, N_("Source.") },
-        { "State",                  N_("State"),                   "Text",       xmpText, xmpExternal, N_("Province/state.") },
         { "SupplementalCategories", N_("Supplemental Categories"), "bag Text",   xmpBag,  xmpExternal, N_("Supplemental category.") },
         { "TransmissionReference",  N_("Transmission Reference"),  "Text",       xmpText, xmpExternal, N_("Original transmission reference.") },
         { "Urgency",                N_("Urgency"),                 "Integer",    xmpText, xmpExternal, N_("Urgency. Valid range is 1-8.") },
+        { "ICCProfile",             N_("ICC Profile"),             "Text",       xmpText, xmpInternal, N_("The colour profile, such as AppleRGB, AdobeRGB1998.") },
+        { "ColorMode",              N_("Color Mode"),              "Closed Choice of Integer", xmpText, xmpInternal, N_("The colour mode. One of: 0 = Bitmap, 1 = Grayscale, 2 = Indexed, 3 = RGB, 4 = CMYK, 7 = Multichannel, 8 = Duotone, 9 = Lab.") },
+        { "AncestorID",             N_("Ancestor ID"),             "URI",        xmpText, xmpExternal, N_("The unique identifier of a document.") },
+        { "DocumentAncestors", 		N_("Document Ancestors"), 	   "bag Ancestor", xmpBag, xmpExternal, N_("If the source document for a copy-and-paste or place operation has a document ID, that ID is added to this list in the destination document's XMP.") },
+		{ "History",                N_("History"),                 "Text",       xmpText, xmpExternal, N_("The history that appears in the FileInfo panel, if activated in the application preferences.") },
+        { "TextLayers", 			N_("Text Layers"), 			   "seq Layer",  xmpSeq,  xmpExternal, N_("If a document has text layers, this property caches the text for each layer. ") },
+        { "LayerName",       		N_("Layer Name"),      		   "Text",       xmpText, xmpExternal, N_("The identifying name of the text layer.") },
+        { "LayerText",       		N_("Layer Text"),      		   "Text",       xmpText, xmpExternal, N_("The text content of the text layer.") },
+        { "EmbeddedXMPDigest",      N_("Embedded XMP Digest"),     "Text",       xmpText, xmpExternal, N_("Embedded XMP Digest.") },
+        { "LegacyIPTCDigest",       N_("Legacy IPTC Digest"),      "Text",       xmpText, xmpExternal, N_("Legacy IPTC Digest.") },
+        { "SidecarForExtension",    N_("Sidecar F or Extension"),  "Text",       xmpText, xmpExternal, N_("Filename extension of associated image file.") },
+
         // End of list marker
         { 0, 0, 0, invalidTypeId, xmpInternal, 0 }
     };
@@ -457,48 +503,48 @@ namespace Exiv2 {
     };
 
     extern const XmpPropertyInfo xmpCrsInfo[] = {
-        { "AutoBrightness",       N_("Auto Brightness"),           "Boolean",                          xmpText, xmpExternal, N_("When true, \"Brightness\" is automatically adjusted.") },
-        { "AutoContrast",         N_("Auto Contrast"),             "Boolean",                          xmpText, xmpExternal, N_("When true, \"Contrast\" is automatically adjusted.") },
-        { "AutoExposure",         N_("Auto Exposure"),             "Boolean",                          xmpText, xmpExternal, N_("When true, \"Exposure\" is automatically adjusted.") },
-        { "AutoShadows",          N_("Auto Shadows"),              "Boolean",                          xmpText, xmpExternal, N_("When true,\"Shadows\" is automatically adjusted.") },
-        { "BlueHue",              N_("Blue Hue"),                  "Integer",                          xmpText, xmpExternal, N_("\"Blue Hue\" setting. Range -100 to 100.") },
-        { "BlueSaturation",       N_("Blue Saturation"),           "Integer",                          xmpText, xmpExternal, N_("\"Blue Saturation\" setting. Range -100 to +100.") },
-        { "Brightness",           N_("Brightness"),                "Integer",                          xmpText, xmpExternal, N_("\"Brightness\" setting. Range 0 to +150.") },
-        { "CameraProfile",        N_("Camera Profile"),            "Text",                             xmpText, xmpExternal, N_("\"Camera Profile\" setting.") },
-        { "ChromaticAberrationB", N_("Chromatic Aberration Blue"), "Integer",                          xmpText, xmpExternal, N_("\"Chromatic Aberration, Fix Blue/Yellow Fringe\" setting. Range -100 to +100.") },
-        { "ChromaticAberrationR", N_("Chromatic Aberration Red"),  "Integer",                          xmpText, xmpExternal, N_("\"Chromatic Aberration, Fix Red/Cyan Fringe\" setting. Range -100 to +100.") },
-        { "ColorNoiseReduction",  N_("Color Noise Reduction"),     "Integer",                          xmpText, xmpExternal, N_("\"Color Noise Reduction\" setting. Range 0 to +100.") },
-        { "Contrast",             N_("Contrast"),                  "Integer",                          xmpText, xmpExternal, N_("\"Contrast\" setting. Range -50 to +100.") },
-        { "CropTop",              N_("Crop Top"),                  "Real",                             xmpText, xmpExternal, N_("When \"Has Crop\" is true, top of crop rectangle") },
-        { "CropLeft",             N_("Crop Left"),                 "Real",                             xmpText, xmpExternal, N_("When \"Has Crop\" is true, left of crop rectangle.") },
-        { "CropBottom",           N_("Crop Bottom"),               "Real",                             xmpText, xmpExternal, N_("When \"Has Crop\" is true, bottom of crop rectangle.") },
-        { "CropRight",            N_("Crop Right"),                "Real",                             xmpText, xmpExternal, N_("When \"Has Crop\" is true, right of crop rectangle.") },
-        { "CropAngle",            N_("Crop Angle"),                "Real",                             xmpText, xmpExternal, N_("When \"Has Crop\" is true, angle of crop rectangle.") },
-        { "CropWidth",            N_("Crop Width"),                "Real",                             xmpText, xmpExternal, N_("Width of resulting cropped image in CropUnits units.") },
-        { "CropHeight",           N_("Crop Height"),               "Real",                             xmpText, xmpExternal, N_("Height of resulting cropped image in CropUnits units.") },
-        { "CropUnits",            N_("Crop Units"),                "Integer",                          xmpText, xmpExternal, N_("Units for CropWidth and CropHeight. 0=pixels, 1=inches, 2=cm") },
-        { "Exposure",             N_("Exposure"),                  "Real",                             xmpText, xmpExternal, N_("\"Exposure\" setting. Range -4.0 to +4.0.") },
-        { "GreenHue",             N_("Green Hue"),                 "Integer",                          xmpText, xmpExternal, N_("\"Green Hue\" setting. Range -100 to +100.") },
-        { "GreenSaturation",      N_("Green Saturation"),          "Integer",                          xmpText, xmpExternal, N_("\"Green Saturation\" setting. Range -100 to +100.") },
-        { "HasCrop",              N_("Has Crop"),                  "Boolean",                          xmpText, xmpExternal, N_("When true, image has a cropping rectangle.") },
-        { "HasSettings",          N_("Has Settings"),              "Boolean",                          xmpText, xmpExternal, N_("When true, non-default camera raw settings.") },
-        { "LuminanceSmoothing",   N_("Luminance Smoothing"),       "Integer",                          xmpText, xmpExternal, N_("\"Luminance Smoothing\" setting. Range 0 to +100.") },
+        { "AutoBrightness",       N_("Auto Brightness"),           "Boolean",                          xmpText, xmpInternal, N_("When true, \"Brightness\" is automatically adjusted.") },
+        { "AutoContrast",         N_("Auto Contrast"),             "Boolean",                          xmpText, xmpInternal, N_("When true, \"Contrast\" is automatically adjusted.") },
+        { "AutoExposure",         N_("Auto Exposure"),             "Boolean",                          xmpText, xmpInternal, N_("When true, \"Exposure\" is automatically adjusted.") },
+        { "AutoShadows",          N_("Auto Shadows"),              "Boolean",                          xmpText, xmpInternal, N_("When true,\"Shadows\" is automatically adjusted.") },
+        { "BlueHue",              N_("Blue Hue"),                  "Integer",                          xmpText, xmpInternal, N_("\"Blue Hue\" setting. Range -100 to 100.") },
+        { "BlueSaturation",       N_("Blue Saturation"),           "Integer",                          xmpText, xmpInternal, N_("\"Blue Saturation\" setting. Range -100 to +100.") },
+        { "Brightness",           N_("Brightness"),                "Integer",                          xmpText, xmpInternal, N_("\"Brightness\" setting. Range 0 to +150.") },
+        { "CameraProfile",        N_("Camera Profile"),            "Text",                             xmpText, xmpInternal, N_("\"Camera Profile\" setting.") },
+        { "ChromaticAberrationB", N_("Chromatic Aberration Blue"), "Integer",                          xmpText, xmpInternal, N_("\"Chromatic Aberration, Fix Blue/Yellow Fringe\" setting. Range -100 to +100.") },
+        { "ChromaticAberrationR", N_("Chromatic Aberration Red"),  "Integer",                          xmpText, xmpInternal, N_("\"Chromatic Aberration, Fix Red/Cyan Fringe\" setting. Range -100 to +100.") },
+        { "ColorNoiseReduction",  N_("Color Noise Reduction"),     "Integer",                          xmpText, xmpInternal, N_("\"Color Noise Reduction\" setting. Range 0 to +100.") },
+        { "Contrast",             N_("Contrast"),                  "Integer",                          xmpText, xmpInternal, N_("\"Contrast\" setting. Range -50 to +100.") },
+        { "CropTop",              N_("Crop Top"),                  "Real",                             xmpText, xmpInternal, N_("When \"Has Crop\" is true, top of crop rectangle") },
+        { "CropLeft",             N_("Crop Left"),                 "Real",                             xmpText, xmpInternal, N_("When \"Has Crop\" is true, left of crop rectangle.") },
+        { "CropBottom",           N_("Crop Bottom"),               "Real",                             xmpText, xmpInternal, N_("When \"Has Crop\" is true, bottom of crop rectangle.") },
+        { "CropRight",            N_("Crop Right"),                "Real",                             xmpText, xmpInternal, N_("When \"Has Crop\" is true, right of crop rectangle.") },
+        { "CropAngle",            N_("Crop Angle"),                "Real",                             xmpText, xmpInternal, N_("When \"Has Crop\" is true, angle of crop rectangle.") },
+        { "CropWidth",            N_("Crop Width"),                "Real",                             xmpText, xmpInternal, N_("Width of resulting cropped image in CropUnits units.") },
+        { "CropHeight",           N_("Crop Height"),               "Real",                             xmpText, xmpInternal, N_("Height of resulting cropped image in CropUnits units.") },
+        { "CropUnits",            N_("Crop Units"),                "Integer",                          xmpText, xmpInternal, N_("Units for CropWidth and CropHeight. 0=pixels, 1=inches, 2=cm") },
+        { "Exposure",             N_("Exposure"),                  "Real",                             xmpText, xmpInternal, N_("\"Exposure\" setting. Range -4.0 to +4.0.") },
+        { "GreenHue",             N_("Green Hue"),                 "Integer",                          xmpText, xmpInternal, N_("\"Green Hue\" setting. Range -100 to +100.") },
+        { "GreenSaturation",      N_("Green Saturation"),          "Integer",                          xmpText, xmpInternal, N_("\"Green Saturation\" setting. Range -100 to +100.") },
+        { "HasCrop",              N_("Has Crop"),                  "Boolean",                          xmpText, xmpInternal, N_("When true, image has a cropping rectangle.") },
+        { "HasSettings",          N_("Has Settings"),              "Boolean",                          xmpText, xmpInternal, N_("When true, non-default camera raw settings.") },
+        { "LuminanceSmoothing",   N_("Luminance Smoothing"),       "Integer",                          xmpText, xmpInternal, N_("\"Luminance Smoothing\" setting. Range 0 to +100.") },
         { "RawFileName",          N_("Raw File Name"),             "Text",                             xmpText, xmpInternal, N_("File name of raw file (not a complete path).") },
-        { "RedHue",               N_("Red Hue"),                   "Integer",                          xmpText, xmpExternal, N_("\"Red Hue\" setting. Range -100 to +100.") },
-        { "RedSaturation",        N_("Red Saturation"),            "Integer",                          xmpText, xmpExternal, N_("\"Red Saturation\" setting. Range -100 to +100.") },
-        { "Saturation",           N_("Saturation"),                "Integer",                          xmpText, xmpExternal, N_("\"Saturation\" setting. Range -100 to +100.") },
-        { "Shadows",              N_("Shadows"),                   "Integer",                          xmpText, xmpExternal, N_("\"Shadows\" setting. Range 0 to +100.") },
-        { "ShadowTint",           N_("Shadow Tint"),               "Integer",                          xmpText, xmpExternal, N_("\"Shadow Tint\" setting. Range -100 to +100.") },
-        { "Sharpness",            N_("Sharpness"),                 "Integer",                          xmpText, xmpExternal, N_("\"Sharpness\" setting. Range 0 to +100.") },
-        { "Temperature",          N_("Temperature"),               "Integer",                          xmpText, xmpExternal, N_("\"Temperature\" setting. Range 2000 to 50000.") },
-        { "Tint",                 N_("Tint"),                      "Integer",                          xmpText, xmpExternal, N_("\"Tint\" setting. Range -150 to +150.") },
-        { "ToneCurve",            N_("Tone Curve"),                "Seq of points (Integer, Integer)", xmpText, xmpExternal, N_("Array of points (Integer, Integer) defining a \"Tone Curve\".") },
+        { "RedHue",               N_("Red Hue"),                   "Integer",                          xmpText, xmpInternal, N_("\"Red Hue\" setting. Range -100 to +100.") },
+        { "RedSaturation",        N_("Red Saturation"),            "Integer",                          xmpText, xmpInternal, N_("\"Red Saturation\" setting. Range -100 to +100.") },
+        { "Saturation",           N_("Saturation"),                "Integer",                          xmpText, xmpInternal, N_("\"Saturation\" setting. Range -100 to +100.") },
+        { "Shadows",              N_("Shadows"),                   "Integer",                          xmpText, xmpInternal, N_("\"Shadows\" setting. Range 0 to +100.") },
+        { "ShadowTint",           N_("Shadow Tint"),               "Integer",                          xmpText, xmpInternal, N_("\"Shadow Tint\" setting. Range -100 to +100.") },
+        { "Sharpness",            N_("Sharpness"),                 "Integer",                          xmpText, xmpInternal, N_("\"Sharpness\" setting. Range 0 to +100.") },
+        { "Temperature",          N_("Temperature"),               "Integer",                          xmpText, xmpInternal, N_("\"Temperature\" setting. Range 2000 to 50000.") },
+        { "Tint",                 N_("Tint"),                      "Integer",                          xmpText, xmpInternal, N_("\"Tint\" setting. Range -150 to +150.") },
+        { "ToneCurve",            N_("Tone Curve"),                "Seq of points (Integer, Integer)", xmpText, xmpInternal, N_("Array of points (Integer, Integer) defining a \"Tone Curve\".") },
         { "ToneCurveName",        N_("Tone Curve Name"),           "Choice Text",                      xmpText, xmpInternal, N_("The name of the Tone Curve described by ToneCurve. One of: Linear, Medium Contrast, "
                                                                                                                                 "Strong Contrast, Custom or a user-defined preset name.") },
         { "Version",              N_("Version"),                   "Text",                             xmpText, xmpInternal, N_("Version of Camera Raw plugin.") },
-        { "VignetteAmount",       N_("Vignette Amount"),           "Integer",                          xmpText, xmpExternal, N_("\"Vignetting Amount\" setting. Range -100 to +100.") },
-        { "VignetteMidpoint",     N_("Vignette Midpoint"),         "Integer",                          xmpText, xmpExternal, N_("\"Vignetting Midpoint\" setting. Range 0 to +100.") },
-        { "WhiteBalance",         N_("White Balance"),             "Closed Choice Text",               xmpText, xmpExternal, N_("\"White Balance\" setting. One of: As Shot, Auto, Daylight, Cloudy, Shade, Tungsten, "
+        { "VignetteAmount",       N_("Vignette Amount"),           "Integer",                          xmpText, xmpInternal, N_("\"Vignetting Amount\" setting. Range -100 to +100.") },
+        { "VignetteMidpoint",     N_("Vignette Midpoint"),         "Integer",                          xmpText, xmpInternal, N_("\"Vignetting Midpoint\" setting. Range 0 to +100.") },
+        { "WhiteBalance",         N_("White Balance"),             "Closed Choice Text",               xmpText, xmpInternal, N_("\"White Balance\" setting. One of: As Shot, Auto, Daylight, Cloudy, Shade, Tungsten, "
                                                                                                                                 "Fluorescent, Flash, Custom") },
         // End of list marker
         { 0, 0, 0, invalidTypeId, xmpInternal, 0 }
@@ -1964,7 +2010,7 @@ namespace Exiv2 {
             },
 
         // Taxon Level Class
-        { "Taxon",                          N_("Taxon"),                                "Taxon",    xmpBag,   xmpInternal,
+        { "Taxon",                          N_("Taxon"),                                "Taxon",    xmpText,   xmpInternal,
                                             N_("*Main structure* containing taxonomic based information."),
         },
             // Taxon Level Terms
