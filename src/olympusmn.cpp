@@ -614,12 +614,20 @@ namespace Exiv2 {
 
     //! PictureMode, tag 0x0520
     extern const TagDetails olympusPictureMode[] = {
-        {   1, N_("Vivid")    },
-        {   2, N_("Natural")  },
-        {   3, N_("Muted")    },
-        {   4, N_("Portrait") },
-        { 256, N_("Monotone") },
-        { 512, N_("Sepia")    }
+        {   1, N_("Vivid")                },
+        {   2, N_("Natural")              },
+        {   3, N_("Muted")                },
+        {   4, N_("Portrait")             },
+        {   5, N_("i-Enhance")            },
+        {   7, N_("Color Creator")        },
+        {   9, N_("Color Profile 1")      },
+        {  10, N_("Color Profile 2")      },
+        {  11, N_("Color Profile 3")      },
+        {  12, N_("Monochrome Profile 1") },
+        {  13, N_("Monochrome Profile 2") },
+        {  14, N_("Monochrome Profile 3") },
+        { 256, N_("Monotone")             },
+        { 512, N_("Sepia")                }
     };
 
     //! PictureModeBWFilter, tag 0x0525

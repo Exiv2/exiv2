@@ -944,6 +944,7 @@ namespace Exiv2 {
         { 507, "Canon EF 16-35mm f/4L IS USM"                               },
         { 508, "Canon EF 11-24mm f/4L USM"                                  },
         { 747, "Canon EF 100-400mm f/4.5-5.6L IS II USM"                    },
+        { 748, "Canon EF 100-400mm f/4.5-5.6L IS II USM + 1.4x"             },
         { 750, "Canon EF 35mm f/1.4L II USM"                                },
         { 4142,"Canon EF-S 18-135mm f/3.5-5.6 IS STM"                       },
         { 4143,"Canon EF-M 18-55mm f/3.5-5.6 IS STM"                        }, // 0
@@ -958,6 +959,7 @@ namespace Exiv2 {
         { 4152,"Canon EF 24-105mm f/3.5-5.6 IS STM"                         },
         { 4153,"Canon EF-M 15-45mm f/3.5-6.3 IS STM"                        },
         { 4154,"Canon EF-S 24mm f/2.8 STM"                                  },
+        { 4155,"Canon EF-M 28mm f/3.5 Macro IS STM"                         },
         { 4156,"Canon EF 50mm f/1.8 STM"                                    },
         {36912,"Canon EF-S 18-135mm f/3.5-5.6 IS USM"                       },
         {65535,"n/a"                                                        }
