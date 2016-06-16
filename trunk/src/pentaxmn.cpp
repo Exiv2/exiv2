@@ -198,6 +198,8 @@ namespace Exiv2 {
         {    0x13088, "WG-5 GPS" },
         {    0x13092, "K-1" },
         {    0x1309c, "K-3 II" },
+        {    0x131f0, "WG-M2" },
+        {    0x13222, "K-70" },
     };
 
     //! Quality, tag 0x0008
@@ -925,6 +927,7 @@ namespace Exiv2 {
         { 0x083d, "HD PENTAX-D FA 28-105mm F3.5-5.6 ED DC WR" },
         { 0x083e, "HD PENTAX-D FA 24-70mm F2.8 ED SDM WR" },
         { 0x083f, "HD PENTAX-D FA 15-30mm F2.8 ED SDM WR" },
+        { 0x08c5, "HD PENTAX-DA 55-300mm F4.5-6.3 ED PLM WR RE" },
         { 0x08c6, "smc PENTAX-DA L 18-50mm F4-5.6 DC WR RE" },
         { 0x08c7, "HD PENTAX-DA 18-50mm F4-5.6 DC WR RE" },
         { 0x08c8, "HD PENTAX-DA 16-85mm F3.5-5.6 ED DC WR" },
