@@ -223,8 +223,10 @@ ENDIF( MSVC )
 
 ##
 # msvn tuning
-include(../CMake_msvc.txt)
-msvc_runtime_configure(${EXIV2_ENABLE_SHARED})
+IF( MSVC )
+    include(../CMake_msvc.txt)
+    msvc_runtime_configure(${EXIV2_ENABLE_SHARED})
+ENDIF( MSVC )
 
 # ******************************************************************************
 # exiv2lib library
@@ -238,7 +240,7 @@ SET_TARGET_PROPERTIES( exiv2lib PROPERTIES
     OUTPUT_NAME   exiv2
 )
 
-IF ( UNIX ) 
+IF ( UNIX )
   IF ( NOT CYGWIN AND NOT MINGW )
     SET (LINUX 1)
   ENDIF()
