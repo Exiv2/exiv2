@@ -31,6 +31,7 @@
 #endif
 
 // Constants required by Microsoft SDKs to define SHGetFolderPathA and others
+
 #ifndef _WIN32_WINNT
 // Visual Studio 2012 and earlier
 # if _MSC_VER < 1800
@@ -42,7 +43,6 @@
 
 #include <windows.h>
 #include <shlobj.h>
-
 
 #pragma comment(lib, "ws2_32.lib")
 #pragma comment(lib, "wldap32.lib")
@@ -74,31 +74,6 @@
 typedef int pid_t;
 #endif
 
-/* Shared library support */
-#ifdef  EXV_HAVE_DLL
-#define EXV_IMPORT __declspec(dllimport)
-#define EXV_EXPORT __declspec(dllexport)
-#define EXV_DLLLOCAL
-#define EXV_DLLPUBLIC
-#else
-#define EXV_IMPORT
-#define EXV_EXPORT
-#define EXV_DLLLOCAL
-#define EXV_DLLPUBLIC
-#define EXIV2API
-#endif
-
-/* Define EXIV2API for DLL builds */
-#ifdef   EXV_HAVE_DLL
-# ifdef EXV_BUILDING_LIB
-#  define EXIV2API EXV_EXPORT
-# else
-#  define EXIV2API EXV_IMPORT
-# endif /* ! EXV_BUILDING_LIB */
-#else
-# define EXIV2API
-#endif /* ! EXV_HAVE_DLL */
-
 /* Help out our buddy curl */
 #if !defined(EXV_HAVE_DLL)
 # define CURL_STATICLIB
@@ -118,6 +93,58 @@ typedef int pid_t;
 # include "exv_conf.h"
 #endif
 ////////////////////////////////////////
+
+///// End symbol visibility /////////
+#if defined(__CYGWIN32__) && !defined(__CYGWIN__)
+   /* For backwards compatibility with Cygwin b19 and
+      earlier, we define __CYGWIN__ here, so that
+      we can rely on checking just for that macro. */
+# define __CYGWIN__  __CYGWIN32__
+# define EXV_HAVE_GXXCLASSVISIBILITY
+#endif
+#ifdef WIN32
+# define EXV_IMPORT __declspec(dllimport)
+# define EXV_EXPORT __declspec(dllexport)
+# define EXV_DLLLOCAL
+# define EXV_DLLPUBLIC
+#else
+# ifdef EXV_WANT_VISIBILITY_SUPPORT
+#  if defined(__GNUC__) && (__GNUC__ >= 4)
+#   define EXV_IMPORT __attribute__ ((visibility("default")))
+#   define EXV_EXPORT __attribute__ ((visibility("default")))
+#   define EXV_DLLLOCAL __attribute__ ((visibility("hidden")))
+#   define EXV_DLLPUBLIC __attribute__ ((visibility("default")))
+#  elif defined(__SUNPRO_C) && (__SUNPRO_C >= 0x550)
+#   define EXV_IMPORT __global
+#   define EXV_EXPORT __global
+#   define EXV_DLLLOCAL __hidden
+#   define EXV_DLLPUBLIC __global
+#  else
+#   define EXV_IMPORT
+#   define EXV_EXPORT
+#   define EXV_DLLLOCAL
+#   define EXV_DLLPUBLIC
+#  endif
+# else /* ! EXV_WANT_VISIBILITY_SUPPORT */
+#  define EXV_IMPORT
+#  define EXV_EXPORT
+#  define EXV_DLLLOCAL
+#  define EXV_DLLPUBLIC
+# endif /* ! EXV_WANT_VISIBILITY_SUPPORT */
+#endif /* ! WIN32 */
+
+/* Define EXIV2API for DLL builds */
+#ifdef EXV_HAVE_DLL
+# ifdef EXV_BUILDING_LIB
+#  define EXIV2API EXV_EXPORT
+# else
+#  define EXIV2API EXV_IMPORT
+# endif /* ! EXV_BUILDING_LIB */
+#else
+# define EXIV2API
+#endif /* ! EXV_HAVE_DLL */
+
+///// End symbol visibility /////////
 
 ///// Start of platform marcos /////////
 // Linux GCC 4.8 appears to be confused about strerror_r
@@ -155,14 +182,6 @@ typedef int pid_t;
 # if defined(_MSC_VER) || defined(__CYGWIN__) || defined(__MINGW__)
 #  define __LITTLE_ENDIAN__ 1
 # endif
-#endif
-
-#if defined(__CYGWIN32__) && !defined(__CYGWIN__)
-   /* For backwards compatibility with Cygwin b19 and
-      earlier, we define __CYGWIN__ here, so that
-      we can rely on checking just for that macro. */
-# define __CYGWIN__  __CYGWIN32__
-# define EXV_HAVE_GXXCLASSVISIBILITY
 #endif
 
 /*
