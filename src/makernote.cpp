@@ -42,9 +42,19 @@ EXIV2_RCSID("@(#) $Id$")
 #include <string>
 #include <cstring>
 
-#if defined(_MSC_VER) || defined(__MINGW__)
-# include <windows.h>
-# include <shlobj.h>
+#if defined(__MINGW32__) || defined(__MINGW64__)
+#ifndef __MINGW__
+#define __MINGW__ 1
+#endif
+#endif
+
+#if !defined(_MSC_VER) && !defined(__MINGW__)
+#include <unistd.h>
+#include <sys/types.h>
+#include <pwd.h>
+#else
+#include <windows.h>
+#include <shlobj.h>
   /* older SDKs not have these */
 # ifndef CSIDL_MYMUSIC
 #    define CSIDL_MYMUSIC 13
@@ -68,11 +78,9 @@ EXIV2_RCSID("@(#) $Id$")
 #    define CSIDL_PROFILE 40
 # endif
 # include <process.h>
-#else
-# include <unistd.h>
-# include <sys/types.h>
-# include <pwd.h>
+
 #endif
+
 
 // *****************************************************************************
 namespace {

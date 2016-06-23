@@ -46,6 +46,9 @@
 
 #if defined(__MINGW32__) || defined(__MINGW64__)
 #define  fopen_S(f,n,a)  f=fopen(n,a)
+#ifndef __MINGW__
+#define __MINGW__ 1
+#endif
 #endif
 
 ////////////////////////////////////////
