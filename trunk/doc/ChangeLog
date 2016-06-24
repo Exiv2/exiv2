@@ -13,10 +13,10 @@ Changes from version 0.24 to 0.25
 				(Robin Mills)
 	- 0000945:	TIFF parser,Binary array elements should be decoded using the Makernote's endianness, not that of the image 
 				(Andreas Huggel)
-	- 0000970:	Coverity scan : Issue CID 981992 , 981993
+	- 0000970:	Coverity scan : Issue CID 981992, 981993
 				(Mahesh Hegde, Phil Harvey, Niels Kristian Bech Jensen)
 	- 0000984:	Fix 'failed to rename file' problem caused by virus scanner in windows
-				(Axel Waggershauser, Thomas Beutlich,Robin Mills)
+				(Axel Waggershauser, Thomas Beutlich, Robin Mills)
 	- 0000989:	Wrong key name in output of addmodel sample
 				(Thomas Beutlich, Robin Mills)
 	- 0001019:	Cppcheck: Suspicious usage of 'sizeof' with a numeric constant as parameter.
@@ -162,7 +162,7 @@ Changes from version 0.24 to 0.25
 	- 0000974:	svn_version.h not installed, but included in installed version.hpp
 				(Jehan Pagès, Robin Mills)
 	- 0000976:	Include Run-Time Search Path for Cmake Builds in exiv2 binary
-				( Gilles Caulier, Nehal J Wani)
+				(Gilles Caulier, Nehal J Wani)
 	- 0000979:	Temporary File Rename Issue on Windows/MSVC
 				(Robin Mills)
 	- 0000983:	Fix Compiler Warnings when using GCC 4.8.1-4
@@ -199,10 +199,10 @@ Changes from version 0.24 to 0.25
 				(Andreas Huggel, Robin Mills)
 	- 0000956:	Support for  .MTS movie format
 				(Abhinav Badola, Robin Mills)
-	- 0000960:	Problem With Exiv2 ( Video files)
+	- 0000960:	Problem With Exiv2 (Video files)
 				(Henrique Fernandes, Abhinav Badola)
 	- 0000961:	Crash in digikam while reading metadata from a .MTS movie file
-				( Gilles Caulier, Robin Mills)
+				(Gilles Caulier, Robin Mills)
 	- 0000999:	Arithmetic exception in QuickTimeVideo::mediaHeaderDecoder
 				(Luca Carlon, Abhinav Badola)
 	- 0001017:	Arithmetic exception in QuickTimeVideo::mediaHeaderDecoder
