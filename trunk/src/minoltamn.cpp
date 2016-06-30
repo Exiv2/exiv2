@@ -1930,6 +1930,7 @@ namespace Exiv2 {
         { 45851, "Tamron SP AF 300mm F2.8 LD IF" },
         { 45861, "Tamron SP AF 35-105mm F2.8 LD Aspherical IF" },
         { 45871, "Tamron AF 70-210mm F2.8 SP LD" },
+        { 65280, "Sigma 16mm F2.8 Filtermatic Fisheye" },
         {0xffff, "Manual lens | "                        // 1
                  "Sony E 50mm F1.8 OSS | "               // 2
                  "E PZ 16-50mm F3.5-5.6 OSS"             // 3

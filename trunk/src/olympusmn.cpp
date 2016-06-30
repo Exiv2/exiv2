@@ -619,6 +619,7 @@ namespace Exiv2 {
         {   3, N_("Muted")                },
         {   4, N_("Portrait")             },
         {   5, N_("i-Enhance")            },
+        {   6, N_("e-Portrait")           },
         {   7, N_("Color Creator")        },
         {   9, N_("Color Profile 1")      },
         {  10, N_("Color Profile 2")      },
