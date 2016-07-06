@@ -1,7 +1,10 @@
 #!/bin/bash
 
-source $(find . -name buildserver.library)
+source $(find . -name buildserver.library 2>/dev/null)
 
+echo -------------------------------
+echo PLATFORM = $PLATFORM
+echo -------------------------------
 ##
 # figure out today's build
 # http://exiv2.dyndns.org:8080/userContent/builds/Daily
@@ -11,7 +14,7 @@ build=$(/usr/local/bin/curl --silent $JENKINS/$DAILY/             \
        |grep $date | grep -v -e view | cut -d'"' -f 2 | tail -1   )
 
 echo date  = $date
-echo url   = $JENKINS/$DAILY
+echo url   = $JENKINS/$DAILY/
 echo build = $build
 
 ##
@@ -31,9 +34,6 @@ if [ ! -e dist ]; then echo '*** no dist directory ***' ; exit 1; fi
 
 ##
 # enter the dist and test it
-echo -------------------------------
-echo PLATFORM = $PLATFORM
-echo -------------------------------
 cd dist
 grep_args="-e libexiv2 -e ^date -e ^bits -e ^version -e ^time"
 case $PLATFORM in
