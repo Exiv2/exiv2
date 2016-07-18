@@ -960,7 +960,7 @@ Changes from version 0.16 to 0.17
 	           class Image. (Marco Piovanelli - Ovolab)
 	         - [exif] Updated Nikon lens info to v3.18 of Robert Rottmerhusen's
 	           lens database.
-	         - [exif] Updated Pentax makernote tags. (Michal Cihar)
+	         - [exif] Updated Pentax makernote tags. (Michal Čihař)
 	         - [xmp] Added support for XMP sidecar files.
 	         - [xmp] Improved XMP value toLong, toFloat and toRational using new
 	           functions parseLong, parseFloat and parseRational.
@@ -1003,7 +1003,7 @@ Changes from version 0.16-pre1 to 0.16
 	- 0000534: [exif] Integer overflow when reading thumbnail.
 	           (Reported by Meder Kydyraliev, Google Security Team)
 	- 0000533: [iptc] Read IPTC data from multiple APP13 Photoshop 3.0 segments.
-	- 0000531: [exif] Pentax lens info decoding. (Patch by Michal Cihar)
+	- 0000531: [exif] Pentax lens info decoding. (Patch by Michal Čihař)
 	         - [exif] Updated Nikon lens info to v2.99 of Robert Rottmerhusen's
 	           lens database.
 	         - [doc] Added reference tables for XMP properties to documentation.
@@ -1028,7 +1028,7 @@ Changes from version 0.15 to 0.16-pre1
 	- 0000463: [design] Add support for XMP metadata.
 
 * Exiv2 library
-	- 0000529: [exif] Add support for Pentax maker note. (Michal Cihar)
+	- 0000529: [exif] Add support for Pentax maker note. (Michal Čihař)
 	- 0000522: [exif] Lightzone-created JPEG causes exiv2 to segfault.
 	           (Reported by Markus Spring)
 	- 0000463: [design] Add support for XMP metadata.
