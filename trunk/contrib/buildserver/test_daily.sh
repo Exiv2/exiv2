@@ -19,18 +19,22 @@ echo build = $build
 
 ##
 # collect build from server
-if [ -e /tmp/jenkins ]; then rm -rf /tmp/jenkins ; fi
-mkdir /tmp/jenkins
-cd /tmp/jenkins
-/usr/local/bin/curl -O --silent $JENKINS/$DAILY/$build
+if [  -e /tmp/jenkins ]; then
+  rm -rf /tmp/jenkins
+fi
+mkdir    /tmp/jenkins
+cd       /tmp/jenkins
+echo /usr/local/bin/curl -O $JENKINS/$DAILY/$build
+     /usr/local/bin/curl -O $JENKINS/$DAILY/$build
 ls -alt $build
-if [ ! -e $build ]; then echo '*** $build has not been downloaded ***' ; exit 1; fi
+if [ ! -e $build ]; then echo '*** $build has not been downloaded ***' ; exit 0; fi
 
 ##
 # expand the bundle
 if [ -e dist ]; then rm -rf dist ;fi
 tar xzf $build
-if [ ! -e dist ]; then echo '*** no dist directory ***' ; exit 1; fi
+if [ ! -e dist ]; then echo '*** no dist directory ***' ; exit 0; fi
+
 
 ##
 # enter the dist and test it
