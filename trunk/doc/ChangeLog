@@ -2,7 +2,7 @@ Changes from version 0.24 to 0.25
 ---------------------------------
 
 * Exiv2 library
-	- 0000442:	exivsimple has array index errors when stripping quotes form trivial input strings
+	- 0000442:	exivsimple has array index errors when stripping quotes from trivial input strings
 				(Thomas Beutlich)
 	- 0000707:	Use SVN eol-style LF on all files
 				(Andreas Huggel, Robin Mills)
