@@ -11,7 +11,8 @@ echo -------------------------------
 date=$(date '+%Y-%m-%d')
 count=4
 curl='/usr/local/bin/curl --silent --connect-timeout 30 --max-time 40'
-while [ count != 0 ]; do
+while [ "$count" != "0" ]; do
+  if  [ "$count" != "4" ]; then echo "*** count = $count ***" ; fi
   build=$($curl $JENKINS/$DAILY/             \
          |xmllint --html --pretty 1 - 2>/dev/null | grep $PLATFORM  \
          |grep $date | grep -v -e view | cut -d'"' -f 2 | tail -1   )
