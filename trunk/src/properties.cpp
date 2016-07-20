@@ -2509,7 +2509,7 @@ namespace Exiv2 {
                                    const std::string& prefix)
     {
         Internal::ScopedWriteLock swl(rwLock_);
-        
+
         std::string ns2 = ns;
         if (   ns2.substr(ns2.size() - 1, 1) != "/"
             && ns2.substr(ns2.size() - 1, 1) != "#") ns2 += "/";
@@ -2558,7 +2558,7 @@ namespace Exiv2 {
     void XmpProperties::unregisterNs()
     {
         Internal::ScopedWriteLock swl(rwLock_);
-        
+
         NsRegistry::iterator i = nsRegistry_.begin();
         while (i != nsRegistry_.end()) {
             NsRegistry::iterator kill = i++;
@@ -2659,7 +2659,6 @@ namespace Exiv2 {
 
     const XmpNsInfo* XmpProperties::nsInfoUnsafe(const std::string& prefix)
     {
-        Internal::ScopedReadLock srl(rwLock_);
         const XmpNsInfo::Prefix pf(prefix);
         const XmpNsInfo* xn = lookupNsRegistryUnsafe(pf);
         if (!xn) xn = find(xmpNsInfo, pf);
