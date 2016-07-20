@@ -9,14 +9,14 @@ echo -------------------------------
 # figure out today's build
 # http://exiv2.dyndns.org:8080/userContent/builds/Daily
 date=$(date '+%Y-%m-%d')
-count=4
+count=0
 curl='/usr/local/bin/curl --silent --connect-timeout 30 --max-time 40'
 while [ "$count" != "0" ]; do
-  if  [ "$count" != "4" ]; then echo "*** count = $count ***" ; fi
-  build=$($curl $JENKINS/$DAILY/             \
+  if  [ "$count" != "0" ]; then echo "*** count = $count ***" ; fi
+  build=$($curl "$JENKINS/$DAILY/"             \
          |xmllint --html --pretty 1 - 2>/dev/null | grep $PLATFORM  \
          |grep $date | grep -v -e view | cut -d'"' -f 2 | tail -1   )
-  if [ build != "" ]; then
+  if [ "$build" != "" ]; then
   	count=0;
   fi
   if [ "$count" != "0" ]; then
@@ -24,15 +24,15 @@ while [ "$count" != "0" ]; do
   fi
   if [ "$count" == "1" ]; then
      echo --------
-     echo $curl $JENKINS/$DAILY/ | xmllint --html --pretty 1
-          $curl $JENKINS/$DAILY/ | xmllint --html --pretty 1
+     echo $curl "$JENKINS/$DAILY/" | xmllint --html --pretty 1
+          $curl "$JENKINS/$DAILY/" | xmllint --html --pretty 1
      echo --------
   fi
 done
 
-echo date  = $date
-echo url   = $JENKINS/$DAILY/
-echo build = $build
+echo date  =  $date
+echo url   = "$JENKINS/$DAILY/"
+echo build =  $build
 
 ##
 # collect build from server
@@ -41,8 +41,8 @@ if [  -e /tmp/jenkins ]; then
 fi
 mkdir    /tmp/jenkins
 cd       /tmp/jenkins
-echo /usr/local/bin/curl -O --connect-timeout 30 $JENKINS/$DAILY/$build
-     /usr/local/bin/curl -O --connect-timeout 30 $JENKINS/$DAILY/$build
+echo $curl -O "$JENKINS/$DAILY/$build"
+     $curl -O "$JENKINS/$DAILY/$build"
 ls -alt $build
 if [ ! -e $build ]; then echo '*** $build has not been downloaded ***' ; exit 0; fi
 
@@ -51,7 +51,6 @@ if [ ! -e $build ]; then echo '*** $build has not been downloaded ***' ; exit 0;
 if [ -e dist ]; then rm -rf dist ;fi
 tar xzf $build
 if [ ! -e dist ]; then echo '*** no dist directory ***' ; exit 0; fi
-
 
 ##
 # enter the dist and test it
