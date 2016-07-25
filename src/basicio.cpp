@@ -1890,9 +1890,11 @@ namespace Exiv2 {
             case BasicIo::end: newIdx = p_->size_ + offset; break;
         }
 
-        if (newIdx < 0 || newIdx > (long) p_->size_) return 1;
+        // #1198.  Don't return 1 when asked to seek past EOF.  Stay calm and set eof_
+        // if (newIdx < 0 || newIdx > (long) p_->size_) return 1;
         p_->idx_ = newIdx;
-        p_->eof_ = false;
+        p_->eof_ = newIdx > (long) p_->size_;
+        if ( p_->idx_ > (long) p_->size_ ) p_->idx_= (long) p_->size_;
         return 0;
     }
 #endif
