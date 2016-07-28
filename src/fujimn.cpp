@@ -97,11 +97,13 @@ namespace Exiv2 {
 
     //! FlashMode, tag 0x1010
     extern const TagDetails fujiFlashMode[] = {
-        { 0, N_("Auto")              },
-        { 1, N_("On")                },
-        { 2, N_("Off")               },
-        { 3, N_("Red-eye reduction") },
-        { 3, N_("Red-eye reduction") }          // To silence compiler warning
+        {  0, N_("Auto")              },
+        {  1, N_("On")                },
+        {  2, N_("Off")               },
+        {  3, N_("Red-eye reduction") },
+        {  4, N_("External")          },
+        { 16, N_("Commander")         },
+        { 16, N_("Commander")         }         // To silence compiler warning
     };
 
     //! FocusMode, tag 0x1021
