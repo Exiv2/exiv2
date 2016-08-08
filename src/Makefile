@@ -120,10 +120,11 @@ CCSRC += sigmamn.cpp       \
 	 types.cpp             \
 	 value.cpp             \
 	 version.cpp           \
+	 webpimage.cpp         \
 	 xmp.cpp               \
 	 xmpsidecar.cpp
 ifdef ENABLE_VIDEO
-CCSRC += asfvideo.cpp          \
+CCSRC += asfvideo.cpp      \
 	 matroskavideo.cpp     \
 	 quicktimevideo.cpp    \
 	 riffvideo.cpp         \
