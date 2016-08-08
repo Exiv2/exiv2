@@ -79,6 +79,7 @@ SET( LIBEXIV2_HDR         ${CMAKE_CURRENT_LIST_DIR}/../include/exiv2/asfvideo.hp
                           ${CMAKE_CURRENT_LIST_DIR}/../include/exiv2/utilsvideo.hpp
                           ${CMAKE_CURRENT_LIST_DIR}/../include/exiv2/value.hpp
                           ${CMAKE_CURRENT_LIST_DIR}/../include/exiv2/version.hpp
+                          ${CMAKE_CURRENT_LIST_DIR}/../include/exiv2/webpimage.hpp
                           ${CMAKE_CURRENT_LIST_DIR}/../include/exiv2/xmp.hpp
                           ${CMAKE_CURRENT_LIST_DIR}/../include/exiv2/xmpsidecar.hpp
                           ${CMAKE_CURRENT_LIST_DIR}/../include/exiv2/utilsvideo.hpp
@@ -138,6 +139,7 @@ SET( LIBEXIV2_SRC         asfvideo.cpp
                           utilsvideo.cpp
                           value.cpp
                           version.cpp
+                          webpimage.cpp
                           xmp.cpp
                           xmpsidecar.cpp
                           utilsvideo.cpp

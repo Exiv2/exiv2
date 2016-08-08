@@ -909,6 +909,10 @@
 				>
 			</File>
 			<File
+				RelativePath="..\..\src\webpimage.cpp"
+				>
+			</File>
+			<File
 				RelativePath="..\..\src\xmp.cpp"
 				>
 			</File>
@@ -1096,6 +1100,10 @@
 			</File>
 			<File
 				RelativePath="..\..\include\exiv2\version.hpp"
+				>
+			</File>
+			<File
+				RelativePath="..\..\include\exiv2\webpimage.hpp"
 				>
 			</File>
 			<File

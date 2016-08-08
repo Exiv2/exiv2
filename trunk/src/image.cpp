@@ -50,6 +50,7 @@ EXIV2_RCSID("@(#) $Id$")
 #endif // EXV_HAVE_LIBZ
 #include "rafimage.hpp"
 #include "tiffimage.hpp"
+#include "webpimage.hpp"
 #include "orfimage.hpp"
 #include "gifimage.hpp"
 #include "psdimage.hpp"
@@ -112,6 +113,7 @@ namespace {
         { ImageType::crw,  newCrwInstance,  isCrwType,  amReadWrite, amNone,      amNone,      amReadWrite },
         { ImageType::mrw,  newMrwInstance,  isMrwType,  amRead,      amRead,      amRead,      amNone      },
         { ImageType::tiff, newTiffInstance, isTiffType, amReadWrite, amReadWrite, amReadWrite, amNone      },
+        { ImageType::webp, newWebPInstance, isWebPType, amReadWrite, amReadWrite, amReadWrite, amNone      },
         { ImageType::dng,  newTiffInstance, isTiffType, amReadWrite, amReadWrite, amReadWrite, amNone      },
         { ImageType::nef,  newTiffInstance, isTiffType, amReadWrite, amReadWrite, amReadWrite, amNone      },
         { ImageType::pef,  newTiffInstance, isTiffType, amReadWrite, amReadWrite, amReadWrite, amNone      },
