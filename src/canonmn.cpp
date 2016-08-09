@@ -825,6 +825,7 @@ namespace Exiv2 {
         { 171, "Canon EF 300mm f/4L"                                        },
         { 172, "Canon EF 400mm f/5.6L"                                      }, // 0
         { 172, "Sigma 150-600mm f/5-6.3 DG OS HSM | S"                      }, // 1
+        { 172, "Sigma 150-500mm f/5-6.3 APO DG OS HSM + 1.4x"               }, // 2
         { 173, "Canon EF 180mm Macro f/3.5L"                                }, // 0
         { 173, "Sigma 180mm EX HSM Macro f/3.5"                             }, // 1
         { 173, "Sigma APO Macro 150mm f/3.5 EX DG IF HSM"                   }, // 2
@@ -1001,7 +1002,7 @@ namespace Exiv2 {
         { 161, printCsLensByFocalLength },
         { 168, printCsLensByFocalLength },
         { 169, printCsLensByFocalLengthAndMaxAperture },
-        { 172, printCsLensByFocalLength }, // not tested
+        { 172, printCsLensByFocalLengthTC }, // not tested
         { 173, printCsLensByFocalLengthTC }, // works partly
         { 174, printCsLensByFocalLength }, // not tested
         { 180, printCsLensByFocalLength },
