@@ -1705,25 +1705,38 @@ namespace Exiv2 {
         return os << a * b / c;
     }
 
+    static bool testConfigFile(std::ostream& os,const Value& value);
+    static bool testConfigFile(std::ostream& os,const Value& value)
+    {
+    	bool result = false;
+		const std::string undefined("undefined") ;
+		const std::string section  ("nikon");
+		if ( Internal::readExiv2Config(section,value.toString(),undefined) != undefined ) {
+			os << Internal::readExiv2Config(section,value.toString(),undefined);
+			result = true;
+		}
+		return result;
+	}
+
     std::ostream& Nikon3MakerNote::printLensId1(std::ostream& os,
                                                 const Value& value,
                                                 const ExifData* metadata)
     {
-        return printLensId(os, value, metadata, "NikonLd1");
+        return testConfigFile(os,value) ? os : printLensId(os, value, metadata, "NikonLd1");
     }
 
     std::ostream& Nikon3MakerNote::printLensId2(std::ostream& os,
                                                 const Value& value,
                                                 const ExifData* metadata)
     {
-        return printLensId(os, value, metadata, "NikonLd2");
+        return testConfigFile(os,value) ? os : printLensId(os, value, metadata, "NikonLd2");
     }
 
     std::ostream& Nikon3MakerNote::printLensId3(std::ostream& os,
                                                 const Value& value,
                                                 const ExifData* metadata)
     {
-        return printLensId(os, value, metadata, "NikonLd3");
+        return testConfigFile(os,value) ? os : printLensId(os, value, metadata, "NikonLd3");
     }
 
     std::ostream& Nikon3MakerNote::printLensId(std::ostream& os,
