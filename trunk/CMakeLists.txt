@@ -137,6 +137,14 @@ IF( ${EXV_HAVE_STDINT_H} )
     ADD_DEFINITIONS( -DEXV_HAVE_STDINT_H )
 ENDIF( ${EXV_HAVE_STDINT_H} )
 
+##
+# MacOS-X default svn is /usr/bin/svn which is protected with System Integrity Protection
+# Apple reset it to version 1.7.22 when the OS is upgraded
+# http://osxdaily.com/2015/10/05/disable-rootless-system-integrity-protection-mac-os-x/
+IF(EXISTS "/usr/local/bin/svn")
+	SET(Subversion_SVN_EXECUTABLE /usr/local/bin/svn)
+ENDIF()
+
 SET(SVN_REVISION "0")
 IF(EXISTS "${CMAKE_SOURCE_DIR}/.svn")
     FIND_PACKAGE(Subversion QUIET)
