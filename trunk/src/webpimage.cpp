@@ -33,6 +33,7 @@
 #include "config.h"
 
 #include "webpimage.hpp"
+#include "image_int.hpp"
 #include "futils.hpp"
 #include "basicio.hpp"
 #include "tags.hpp"
@@ -345,100 +346,56 @@ namespace Exiv2 {
 
     void WebPImage::printStructure(std::ostream& out, PrintStructureOption option,int depth)
     {
-        if (io_->open() != 0) {
-            throw Error(9, io_->path(), strError());
-        }
+        if (io_->open() != 0) throw Error(9, io_->path(), strError());
         IoCloser closer(*io_);
-        // Ensure that this is the correct image type
+        // Ensure this is the correct image type
         if (!isWebPType(*io_, true)) {
             if (io_->error() || io_->eof()) throw Error(14);
             throw Error(3, "WEBP");
         }
 
-        if ( option == kpsBasic || option == kpsXMP ) {
+        bool bPrint  = option==kpsBasic || option==kpsRecursive;
+        if ( bPrint || option == kpsXMP || option == kpsIccProfile || option == kpsIptcErase ) {
+            const int       TAG_SIZE = 4;
+            byte      data [TAG_SIZE * 2];
+            io_->read(data, TAG_SIZE * 2);
+            uint64_t filesize = Exiv2::getULong(data + 4, littleEndian);
+            DataBuf  chunkId(5)      ;
+            chunkId.pData_[4] = '\0' ;
 
-            char output[255];
-            char showdata[16];
-            byte header[12];
-            byte size_buff[4];
-            DataBuf chunkId(5);
-            uint64_t offset = 0;
-            int length = 0;
-            const int TAG_SIZE = 4;
-            chunkId.pData_[4] = '\0';
-
-            if ( option == kpsBasic ) {
-                std::cout << "STRUCTURE OF WEBP FILE: " << io_->path() << std::endl;
-                std::cout << "    offset  | chunk_type |   length   | data" << std::endl;
+            if ( bPrint ) {
+                out << Internal::indent(depth)
+                    << "STRUCTURE OF WEBP FILE: "
+                    << io().path()
+                    << std::endl;
+                out << Internal::indent(depth)
+                    << Internal::stringFormat(" Chunk |   Length |   Offset | Payload")
+                    << std::endl;
             }
 
-            /* Get up header */
-            length = TAG_SIZE * 3;
-            io_->read(header, length);
-
-            for (int clean = 0; clean < 16; clean++)
-                showdata[clean] = 0;
-
-            for (int loop = 0; loop < length; loop++) {
-                if (header[loop] >= 0x20 && header[loop] <= 0x7F) {
-                    showdata[loop] = header[loop];
-                } else {
-                    showdata[loop] = '.';
-                }
-            }
-            showdata[length] = 0;
-            sprintf((char*)&output, " %10u |    WEBP    | %10u | %s ",
-                    offset, length, showdata);
-            std::cout << output << std::endl;
-
-            /* Loop through chunks */
-            while( !io_->eof() ) {
-                offset = io_->tell();
-                if ((offset + 2) >= io_->size()){
-                    break;
-                }
+            io_->seek(0,BasicIo::beg); // rewind
+            while (!io_->eof() && (uint64_t)io_->tell() < filesize ) {
+                uint64_t offset = io_->tell();
+                byte     size_buff[4];
                 io_->read(chunkId.pData_, 4);
                 io_->read(size_buff, 4);
-                length = Exiv2::getULong(size_buff, littleEndian);
-
-                DataBuf payload(length);
+                uint64_t size = Exiv2::getULong(size_buff, littleEndian);
+                DataBuf payload(offset?size:4); // header is a bit of a dummy! (different from other chunks)
                 io_->read(payload.pData_, payload.size_);
 
-                for (int clean = 0; clean < 16; clean++)
-                    showdata[clean] = 0;
+                out << Internal::indent(depth)
+                    << Internal::stringFormat("  %s | %8u | %8u | ", (const char*)chunkId.pData_,size,offset)
+                    << Internal::binaryToString(payload,payload.size_>32?32:payload.size_)
+                    << std::endl;
 
-                int max = length;
-                if (max > 15) max = 15;
-                for (int loop = 0; loop < max; loop++) {
-                    if (payload.pData_[loop] >= 0x20 && payload.pData_[loop] <= 0x7F) {
-                        showdata[loop] = payload.pData_[loop];
-                    } else {
-                        showdata[loop] = '.';
-                    }
-                }
-                showdata[max] = 0;
-                sprintf((char*)&output, " %10d |    %s    | %10d | %s ",
-                        offset, chunkId.pData_, length, showdata);
-                std::cout << output << std::endl;
-
-                if (length == 0) {
-                    std::cout << "length to short aborting\n";
-                    break;
+                if ( equalsWebPTag(chunkId, "EXIF") && option==kpsRecursive ) {
+                    size_t   restore = io_->tell();    // save
+                    io_->seek(offset+8,BasicIo::beg);  // position
+                    TiffImage::printTiffStructure(io(),out,option,depth);
+                    io_->seek(restore,BasicIo::beg);   // restore
                 }
 
-                // Check for extra \0 padding
-                byte one_character[1];
-                int count = 0;
-                while (1) {
-                    io_->read(one_character, 1);
-                    if (one_character[0] != 0 || io_->eof()) {
-                        if (count > 0)
-                          std::cout << "offset output null [" << count << "]\n";
-                        io_->seek(-1, BasicIo::cur);
-                        break;
-                    }
-                    count++;
-                }
+                if ( size % 2) io_->read(size_buff,1); // skip padding byte
             }
         }
     }
@@ -480,7 +437,7 @@ namespace Exiv2 {
 
         while (!io_->eof()) {
             offset = io_->tell();
-            if ((offset + 2) >= io_->size()){
+            if ((offset + 2) >= (uint64_t) io_->size()){
                 break;
             }
             io_->read(chunkId.pData_, 4);
