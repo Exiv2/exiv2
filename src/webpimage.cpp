@@ -22,7 +22,7 @@
   File:      webpimage.cpp
   Version:   $Rev: 3845 $
   Author(s): Ben Touchette <draekko.software+exiv2@gmail.com>
-  History:   29-Jul-16
+  History:   10-Aug-16
   Credits:   See header file
  */
 // *****************************************************************************
@@ -53,6 +53,7 @@
 #include <zlib.h>     // To uncompress or compress text chunk
 
 #define CHECK_BIT(var,pos) ((var) & (1<<(pos)))
+
 
 // *****************************************************************************
 // class member definitions
@@ -114,11 +115,11 @@ namespace Exiv2 {
         byte data[12];
         DataBuf chunkId(5);
         const int TAG_SIZE = 4;
-        chunkId.pData_[4] = '\0' ;
+        chunkId.pData_[4] = '\0';
 
         io_->read(data, TAG_SIZE * 3);
         uint64_t filesize = Exiv2::getULong(data + 4, littleEndian);
-        uint64_t endoffile = 12;
+        // uint64_t endoffile = 12;
 
         /* Set up header */
         if (outIo.write(data, TAG_SIZE * 3) != TAG_SIZE * 3)
@@ -127,12 +128,22 @@ namespace Exiv2 {
         /* Parse Chunks */
         bool has_xmp = false;
         bool has_exif = false;
+        bool has_vp8x = false;
+        bool has_alpha = false;
+        bool has_icc = false;
+
         byte size_buff[4];
         std::string xmpData;
         Blob blob;
 
+#ifdef SVN_VERSION
+        if (iccProfile_.count() > 0) {
+            has_icc = true;
+        }
+#endif
+
         if (iptcData_.count() > 0) {
-            std::cout << "Found iptc data\n";
+            // do nothing for now
         }
 
         if (exifData_.count() > 0) {
@@ -154,51 +165,134 @@ namespace Exiv2 {
             }
         }
 
-        while (!io_->eof()) {
-            io_->read(chunkId.pData_, 4);
-            io_->read(size_buff, 4);
+        /* Verify for a VP8X Chunk First before writing in
+           case we have any exif or xmp data, also check
+           for any chunks with alpha frame/layer set */
+        if (has_xmp || has_exif) {
+            while (!io_->eof()) {
+                io_->read(chunkId.pData_, 4);
+                io_->read(size_buff, 4);
+                uint64_t size = Exiv2::getULong(size_buff, littleEndian);
+                DataBuf payload(size);
+                io_->read(payload.pData_, payload.size_);
+                if (equalsWebPTag(chunkId, "ICCP") && !has_alpha) {
+                    has_icc = true;
+                }
+                if (equalsWebPTag(chunkId, "VP8X")) {
+                    has_vp8x = true;
+                }
+#if 0 // May need to verify for alpha for these chunks in the future
+                if (equalsWebPTag(chunkId, "VP8 ") && !has_alpha) {
+                    has_alpha = true;
+                }
+                if (equalsWebPTag(chunkId, "ANIM") && !has_alpha) {
+                    has_alpha = true;
+                }
+#endif
+                if (equalsWebPTag(chunkId, "VP8L") && !has_alpha) {
+                    if ((payload.pData_[5] & 0x10) == 0x10) {
+                      has_alpha = true;
+                    }
+                }
+                if (equalsWebPTag(chunkId, "ANMF") && !has_alpha) {
+                    if ((payload.pData_[5] & 0x2) == 0x2) {
+                      has_alpha = true;
+                    }
+                }
+                if (equalsWebPTag(chunkId, "ALPH") && !has_alpha) {
+                    has_alpha = true;
+                }
+            }
 
-            if (endoffile >= filesize) {
+            if (!has_vp8x) {
+                inject_VP8X(outIo, has_xmp, has_exif, has_alpha, has_icc);
+            }
+        }
+
+        io_->seek(12, BasicIo::beg);
+
+        while (!io_->eof()) {
+            uint64_t offset = io_->tell();
+            if (offset >= filesize) {
                 break;
             }
+
+            io_->read(chunkId.pData_, 4);
+            io_->read(size_buff, 4);
 
             uint64_t size = Exiv2::getULong(size_buff, littleEndian);
 
             DataBuf payload(size);
-            io_->read(payload.pData_, payload.size_);
+            io_->read(payload.pData_, size);
 
             if (equalsWebPTag(chunkId, "VP8X")) {
-              if (has_xmp){
-                payload.pData_[0] |= 0x4;
-              } else {
-                payload.pData_[0] &= ~0x4;
-              }
-              if (has_exif) {
-                payload.pData_[0] |= 0x8;
-              } else {
-                payload.pData_[0] &= ~0x8;
-              }
-              if (outIo.write(chunkId.pData_, TAG_SIZE) != TAG_SIZE)
-                  throw Error(21);
-              if (outIo.write(size_buff, 4) != 4)
-                  throw Error(21);
-              if (outIo.write(payload.pData_, payload.size_) != payload.size_)
-                  throw Error(21);
+
+                if (has_icc){
+                    payload.pData_[0] |= 0x20;
+                }
+
+                if (has_xmp){
+                    payload.pData_[0] |= 0x4;
+                }
+
+                if (has_exif) {
+                    payload.pData_[0] |= 0x8;
+                }
+
+                if (outIo.write(chunkId.pData_, TAG_SIZE) != TAG_SIZE)
+                    throw Error(21);
+                if (outIo.write(size_buff, 4) != 4)
+                    throw Error(21);
+                if (outIo.write(payload.pData_, payload.size_) != payload.size_)
+                    throw Error(21);
+#ifdef SVN_VERSION
+            } else if (equalsWebPTag(chunkId, "ICCP") && has_icc) {
+                ul2Data(size_buff, iptcData_.size(), littleEndian);
+                if (outIo.write(chunkId.pData_, TAG_SIZE) != TAG_SIZE)
+                    throw Error(21);
+                if (outIo.write(size_buff, 4) != 4)
+                    throw Error(21);
+                if (outIo.write(iccProfile_, iccProfile_.size_) != iccProfile_.size_)
+                    throw Error(21);
+#endif
             } else if (equalsWebPTag(chunkId, "EXIF")) {
-              // Skip and add new data afterwards
+                // Skip and add new data afterwards
             } else if (equalsWebPTag(chunkId, "XMP ")) {
-              // Skip and add new data afterwards
+                // Skip and add new data afterwards
             } else {
-              if (outIo.write(chunkId.pData_, TAG_SIZE) != TAG_SIZE)
-                  throw Error(21);
-              if (outIo.write(size_buff, 4) != 4)
-                  throw Error(21);
-              if (outIo.write(payload.pData_, payload.size_) != payload.size_)
+                if (outIo.write(chunkId.pData_, TAG_SIZE) != TAG_SIZE)
+                    throw Error(21);
+                if (outIo.write(size_buff, 4) != 4)
+                    throw Error(21);
+                if (outIo.write(payload.pData_, payload.size_) != payload.size_)
+                    throw Error(21);
+            }
+
+            offset = io_->tell();
+
+            // Check for extra \0 padding
+            byte one_character[1];
+            bool has_zero = false;
+            while (!io_->eof() && !has_zero && offset < filesize) {
+                io_->read(one_character, 1);
+                if (one_character[0] != 0) {
+                    io_->seek(-1, BasicIo::cur);
+                    break;
+                } else {
+                    has_zero = true;
+                    if (outIo.write(one_character, 1) != 1)
+                        throw Error(21);
+                }
+            }
+
+            // Encoder seems to pad on odd sized data.
+            one_character[0] = 0x0;
+            if (size % 2 != 0 && !has_zero) {
+              if (outIo.write(one_character, 1) != 1)
                   throw Error(21);
             }
 
-            endoffile = io_->tell();
-            if (endoffile >= filesize) {
+            if (offset >= filesize) {
                 break;
             }
         }
@@ -218,6 +312,9 @@ namespace Exiv2 {
             {
                 throw Error(21);
             }
+            //for (int lp=0; lp<12; lp++)
+            //    data[0] = 0;
+            //if (outIo.write(data, 1) != 1) throw Error(21);
         }
 
         if (has_xmp) {
@@ -228,9 +325,9 @@ namespace Exiv2 {
             if (outIo.write((const byte*)xmpData.data(), static_cast<long>(xmpData.size())) != (long)xmpData.size()) {
                 throw Error(21);
             }
-            for (int lp=0; lp<12; lp++)
-                data[0] = 0;
-            if (outIo.write(data, 1) != 1) throw Error(21);
+            //for (int lp=0; lp<12; lp++)
+            //    data[0] = 0;
+            //if (outIo.write(data, 1) != 1) throw Error(21);
         }
 
         // Fix File Size Payload Data
@@ -246,9 +343,110 @@ namespace Exiv2 {
 
     /* =========================================== */
 
+    void WebPImage::printStructure(std::ostream& out, PrintStructureOption option,int depth)
+    {
+        if (io_->open() != 0) {
+            throw Error(9, io_->path(), strError());
+        }
+        IoCloser closer(*io_);
+        // Ensure that this is the correct image type
+        if (!isWebPType(*io_, true)) {
+            if (io_->error() || io_->eof()) throw Error(14);
+            throw Error(3, "WEBP");
+        }
+
+        if ( option == kpsBasic || option == kpsXMP ) {
+
+            char output[255];
+            char showdata[16];
+            byte header[12];
+            byte size_buff[4];
+            DataBuf chunkId(5);
+            uint64_t offset = 0;
+            int length = 0;
+            const int TAG_SIZE = 4;
+            chunkId.pData_[4] = '\0';
+
+            if ( option == kpsBasic ) {
+                std::cout << "STRUCTURE OF WEBP FILE: " << io_->path() << std::endl;
+                std::cout << "    offset  | chunk_type |   length   | data" << std::endl;
+            }
+
+            /* Get up header */
+            length = TAG_SIZE * 3;
+            io_->read(header, length);
+
+            for (int clean = 0; clean < 16; clean++)
+                showdata[clean] = 0;
+
+            for (int loop = 0; loop < length; loop++) {
+                if (header[loop] >= 0x20 && header[loop] <= 0x7F) {
+                    showdata[loop] = header[loop];
+                } else {
+                    showdata[loop] = '.';
+                }
+            }
+            showdata[length] = 0;
+            sprintf((char*)&output, " %10u |    WEBP    | %10u | %s ",
+                    offset, length, showdata);
+            std::cout << output << std::endl;
+
+            /* Loop through chunks */
+            while( !io_->eof() ) {
+                offset = io_->tell();
+                if ((offset + 2) >= io_->size()){
+                    break;
+                }
+                io_->read(chunkId.pData_, 4);
+                io_->read(size_buff, 4);
+                length = Exiv2::getULong(size_buff, littleEndian);
+
+                DataBuf payload(length);
+                io_->read(payload.pData_, payload.size_);
+
+                for (int clean = 0; clean < 16; clean++)
+                    showdata[clean] = 0;
+
+                int max = length;
+                if (max > 15) max = 15;
+                for (int loop = 0; loop < max; loop++) {
+                    if (payload.pData_[loop] >= 0x20 && payload.pData_[loop] <= 0x7F) {
+                        showdata[loop] = payload.pData_[loop];
+                    } else {
+                        showdata[loop] = '.';
+                    }
+                }
+                showdata[max] = 0;
+                sprintf((char*)&output, " %10d |    %s    | %10d | %s ",
+                        offset, chunkId.pData_, length, showdata);
+                std::cout << output << std::endl;
+
+                if (length == 0) {
+                    std::cout << "length to short aborting\n";
+                    break;
+                }
+
+                // Check for extra \0 padding
+                byte one_character[1];
+                int count = 0;
+                while (1) {
+                    io_->read(one_character, 1);
+                    if (one_character[0] != 0 || io_->eof()) {
+                        if (count > 0)
+                          std::cout << "offset output null [" << count << "]\n";
+                        io_->seek(-1, BasicIo::cur);
+                        break;
+                    }
+                    count++;
+                }
+            }
+        }
+    }
+
+    /* =========================================== */
+
     void WebPImage::readMetadata()
     {
-    	std::cout << "1\n";
         if (io_->open() != 0) throw Error(9, io_->path(), strError());
         IoCloser closer(*io_);
         // Ensure that this is the correct image type
@@ -271,22 +469,28 @@ namespace Exiv2 {
 
     void WebPImage::decodeChunks(uint64_t filesize)
     {
-    	std::cout << "2\n";
-        DataBuf  chunkId(5);
-        byte     size_buff[4];
-        uint64_t size;
-        uint64_t endoffile = 12;
+        DataBuf   chunkId(5);
+        byte      size_buff[4];
+        uint64_t  offset;
+        uint64_t  size;
+        uint64_t  endoffile = 12;
+        bool       has_canvas_data = false;
 
         chunkId.pData_[4] = '\0' ;
 
         while (!io_->eof()) {
+            offset = io_->tell();
+            if ((offset + 2) >= io_->size()){
+                break;
+            }
             io_->read(chunkId.pData_, 4);
             io_->read(size_buff, 4);
             size = Exiv2::getULong(size_buff, littleEndian);
 
             DataBuf payload(size);
 
-            if (equalsWebPTag(chunkId, "VP8X")) {
+            if (equalsWebPTag(chunkId, "VP8X") && !has_canvas_data) {
+                has_canvas_data = true;
                 io_->read(payload.pData_, payload.size_);
                 byte size_buf[4];
                 memcpy(&size_buf, &payload.pData_[4], 3);
@@ -295,8 +499,42 @@ namespace Exiv2 {
                 memcpy(&size_buf, &payload.pData_[7], 3);
                 size_buf[3] = 0;
                 pixelHeight_ = Exiv2::getULong(size_buf, littleEndian) + 1;
+            } else if (equalsWebPTag(chunkId, "VP8 ") && !has_canvas_data) {
+                has_canvas_data = true;
+                io_->read(payload.pData_, payload.size_);
+                byte size_buf[4];
+                memcpy(&size_buf, &payload.pData_[6], 2);
+                size_buf[2] = 0;
+                size_buf[3] = 0;
+                pixelWidth_ = Exiv2::getULong(size_buf, littleEndian) & 0x3fff;
+                memcpy(&size_buf, &payload.pData_[8], 2);
+                size_buf[2] = 0;
+                size_buf[3] = 0;
+                pixelHeight_ = Exiv2::getULong(size_buf, littleEndian) & 0x3fff;
+            } else if (equalsWebPTag(chunkId, "VP8L") && !has_canvas_data) {
+                has_canvas_data = true;
+                io_->read(payload.pData_, payload.size_);
+                byte size_buf_w[2];
+                memcpy(&size_buf_w, &payload.pData_[1], 2);
+                size_buf_w[1] &= 0x3F;
+                pixelWidth_ = Exiv2::getUShort(size_buf_w, littleEndian) + 1;
+                byte size_buf_h[3];
+                memcpy(&size_buf_h, &payload.pData_[2], 3);
+                size_buf_h[0] = ((size_buf_h[0] >> 6) & 0x3) | ((size_buf_h[1] & 0x3F) << 0x2);
+                size_buf_h[1] = ((size_buf_h[1] >> 6) & 0x3) | ((size_buf_h[2] & 0x3F) << 0x2);
+                pixelHeight_ = Exiv2::getUShort(size_buf_h, littleEndian) + 1;
+            } else if (equalsWebPTag(chunkId, "ANMF") && !has_canvas_data) {
+                has_canvas_data = true;
+                io_->read(payload.pData_, payload.size_);
+                byte size_buf[4];
+                memcpy(&size_buf, &payload.pData_[6], 3);
+                size_buf[3] = 0;
+                pixelWidth_ = Exiv2::getULong(size_buf, littleEndian) + 1;
+                memcpy(&size_buf, &payload.pData_[9], 3);
+                size_buf[3] = 0;
+                pixelHeight_ = Exiv2::getULong(size_buf, littleEndian) + 1;
             } else if (equalsWebPTag(chunkId, "ICCP")) {
-#ifdef __SVN__ /* COULD BE ENABLED FOR SVN VERSION */
+#ifdef SVN_VERSION
                 io_->read(payload.pData_, payload.size_);
                 this->setIccProfile(payload);
 #else
@@ -349,6 +587,18 @@ namespace Exiv2 {
                 io_->seek(size, BasicIo::cur);
             }
 
+            // Check for extra \0 padding
+            byte one_character[1];
+            int count = 0;
+            while (1) {
+                io_->read(one_character, 1);
+                if (one_character[0] != 0 || io_->eof()) {
+                    io_->seek(-1, BasicIo::cur);
+                    break;
+                }
+                count++;
+            }
+
             endoffile = io_->tell();
             if (endoffile >= filesize) {
                 break;
@@ -367,7 +617,7 @@ namespace Exiv2 {
         return image;
     }
 
-    bool isWebPType(BasicIo& iIo, bool /*advance*/)
+    bool isWebPType(BasicIo& iIo, bool  /*advance*/)
     {
         const int32_t len = 4;
         const unsigned char RiffImageId[4] = { 'R', 'I', 'F' ,'F'};
@@ -381,8 +631,7 @@ namespace Exiv2 {
         bool matched_riff = (memcmp(riff, RiffImageId, len) == 0);
         bool matched_webp = (memcmp(webp, WebPImageId, len) == 0);
         iIo.seek(-12, BasicIo::cur);
-        bool result = matched_riff && matched_webp;
-    	return result;
+        return matched_riff && matched_webp;
     }
 
     /*!
@@ -397,6 +646,57 @@ namespace Exiv2 {
             if(toupper(buf.pData_[i]) != str[i])
                 return false;
         return true;
+    }
+
+
+    /*!
+      @brief Function used to add missing EXIF & XMP flags
+          to the feature section.
+      @param  iIo get BasicIo pointer to inject data
+      @param has_xmp Verify if we have xmp data and set required flag
+      @param has_exif Verify if we have exif data and set required flag
+      @return Returns void
+     */
+    void WebPImage::inject_VP8X(BasicIo& iIo, bool has_xmp,
+                                bool has_exif, bool has_alpha,
+                                bool has_icc) {
+        byte header[4];
+        byte size[4] = { 0x0A, 0x00, 0x00, 0x00 };
+        byte data[10] = { 0x00, 0x00, 0x00, 0x00, 0x00,
+                          0x00, 0x00, 0x00, 0x00, 0x00 };
+        strncpy((char*)&header, "VP8X", 4);
+        iIo.write(header, 4);
+        iIo.write(size, 4);
+
+        if (has_alpha) {
+            data[0] |= 0x10;
+        }
+
+        if (has_icc) {
+            data[0] |= 0x20;
+        }
+
+        if (has_xmp) {
+            data[0] |= 0x4;
+        }
+
+        if (has_exif) {
+            data[0] |= 0x8;
+        }
+
+        /* set width */
+        int w = pixelWidth_- 1;
+        data[4] = w & 0xFF;
+        data[5] = (w >> 8) & 0xFF;
+        data[6] = (w >> 16) & 0xFF;
+
+        /* set width */
+        int h = pixelHeight_- 1;
+        data[7] = h & 0xFF;
+        data[8] = (h >> 8) & 0xFF;
+        data[9] = (h >> 16) & 0xFF;
+
+        iIo.write(data, 10);
     }
 
 } // namespace Exiv2

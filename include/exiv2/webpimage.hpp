@@ -73,6 +73,7 @@ namespace Exiv2 {
         //@{
         void readMetadata();
         void writeMetadata();
+        void printStructure(std::ostream& out, PrintStructureOption option,int depth);
         //@}
 
         /*!
@@ -92,6 +93,9 @@ namespace Exiv2 {
         //@{
         bool equalsWebPTag(Exiv2::DataBuf& buf ,const char* str);
         void decodeChunks(uint64_t filesize);
+        void inject_VP8X(BasicIo& iIo, bool has_xmp, bool has_exif,
+                         bool has_alpha, bool has_icc);
+
         //! Copy constructor
         WebPImage(const WebPImage& rhs);
         //! Assignment operator
