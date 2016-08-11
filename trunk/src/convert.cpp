@@ -415,7 +415,6 @@ namespace Exiv2 {
         { mdExif, "Exif.GPSInfo.GPSAreaInformation",      "Xmp.exif.GPSAreaInformation",        &Converter::cnvExifValue, &Converter::cnvXmpValue }, // FIXME ?
         { mdExif, "Exif.GPSInfo.GPSDifferential",         "Xmp.exif.GPSDifferential",           &Converter::cnvExifValue, &Converter::cnvXmpValue },
 
-        { mdIptc, "Iptc.Application2.RecordVersion",      "Xmp.xmp.Rating",                     &Converter::cnvIptcValue, &Converter::cnvXmpValueToIptc },
         { mdIptc, "Iptc.Application2.ObjectName",         "Xmp.dc.title",                       &Converter::cnvIptcValue, &Converter::cnvXmpValueToIptc },
         { mdIptc, "Iptc.Application2.Urgency",            "Xmp.photoshop.Urgency",              &Converter::cnvIptcValue, &Converter::cnvXmpValueToIptc },
         { mdIptc, "Iptc.Application2.Category",           "Xmp.photoshop.Category",             &Converter::cnvIptcValue, &Converter::cnvXmpValueToIptc },
