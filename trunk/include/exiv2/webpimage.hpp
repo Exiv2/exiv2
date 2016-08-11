@@ -91,7 +91,10 @@ namespace Exiv2 {
         EXV_DLLLOCAL void doWriteMetadata(BasicIo& outIo);
         //! @name NOT Implemented
         //@{
+        long getHeaderOffset(byte *data, long data_size,
+                             byte *header, long header_size);
         bool equalsWebPTag(Exiv2::DataBuf& buf ,const char* str);
+        void debugPrintHex(byte *data, long size);
         void decodeChunks(uint64_t filesize);
         void inject_VP8X(BasicIo& iIo, bool has_xmp, bool has_exif,
                          bool has_alpha, bool has_icc, int width,
