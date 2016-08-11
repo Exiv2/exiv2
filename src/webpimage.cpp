@@ -357,7 +357,7 @@ namespace Exiv2 {
             // Check for extra \0 padding
             bool has_zero = false;
             while (!io_->eof() && !has_zero && offset < filesize) {
-            	byte c = 0;
+                byte c = 0;
                 io_->read(&c, 1);
                 if ( c ) {
                     io_->seek(-1, BasicIo::cur);
@@ -457,8 +457,8 @@ namespace Exiv2 {
             }
 
             io_->seek(0,BasicIo::beg); // rewind
-            while (!io_->eof() && (uint64_t)io_->tell() < filesize ) {
-                uint64_t offset = io_->tell();
+            uint64_t offset = (uint64_t) io_->tell();
+            while (!io_->eof() && offset < filesize ) {
                 byte     size_buff[4];
                 io_->read(chunkId.pData_, 4);
                 io_->read(size_buff, 4);
@@ -466,19 +466,28 @@ namespace Exiv2 {
                 DataBuf payload(offset?size:4); // header is a bit of a dummy! (different from other chunks)
                 io_->read(payload.pData_, payload.size_);
 
-                out << Internal::indent(depth)
-                    << Internal::stringFormat("  %s | %8u | %8u | ", (const char*)chunkId.pData_,size,offset)
-                    << Internal::binaryToString(payload,payload.size_>32?32:payload.size_)
-                    << std::endl;
+                if ( bPrint ) {
+                    out << Internal::indent(depth)
+                        << Internal::stringFormat("  %s | %8u | %8u | ", (const char*)chunkId.pData_,size,offset)
+                        << Internal::binaryToString(payload,payload.size_>32?32:payload.size_)
+                        << std::endl;
+                }
 
                 if ( equalsWebPTag(chunkId, "EXIF") && option==kpsRecursive ) {
-                    size_t   restore = io_->tell();    // save
-                    io_->seek(offset+8,BasicIo::beg);  // position
-                    TiffImage::printTiffStructure(io(),out,option,depth);
-                    io_->seek(restore,BasicIo::beg);   // restore
+                    // create memio object with the payload, then print the structure
+                    BasicIo::AutoPtr p = BasicIo::AutoPtr(new MemIo(payload.pData_,payload.size_));
+                    TiffImage::printTiffStructure(*p,out,option,depth);
+                }
+
+                bool bPrintPayload = (equalsWebPTag(chunkId, "XMP ") && option==kpsXMP)
+                                  || (equalsWebPTag(chunkId, "ICC ") && option==kpsIccProfile)
+                                  ;
+                if ( bPrintPayload ) {
+                    out.write((const char*) payload.pData_,payload.size_);
                 }
 
                 if ( size % 2) io_->read(size_buff,1); // skip padding byte
+                offset = (uint64_t) io_->tell();
             }
         }
     }
