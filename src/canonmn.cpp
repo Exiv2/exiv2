@@ -1043,7 +1043,8 @@ namespace Exiv2 {
     //! FocusContinuous, tag 0x0020
     extern const TagDetails canonCsFocusContinuous[] = {
         { 0, N_("Single")     },
-        { 1, N_("Continuous") }
+        { 1, N_("Continuous") },
+        { 8, N_("Manual")     }
     };
 
     //! AESetting, tag 0x0021
@@ -1143,7 +1144,7 @@ namespace Exiv2 {
         TagInfo(0x002a, "ColorTone", N_("Color Tone"), N_("Color tone"), canonCsId, makerTags, signedShort, 1, printValue),
         TagInfo(0x002e, "SRAWQuality", N_("SRAW Quality Tone"), N_("SRAW quality"), canonCsId, makerTags, signedShort, 1, EXV_PRINT_TAG(canonCsSRAWQuality)),
         // End of list marker
-        TagInfo(0xffff, "(UnknownCanonCsTag)", "(UnknownCanonCsTag)", N_("Unknown Canon Camera Settings 1 tag"), canonCsId, makerTags, unsignedShort, 1, printValue)
+        TagInfo(0xffff, "(UnknownCanonCsTag)", "(UnknownCanonCsTag)", N_("Unknown Canon Camera Settings 1 tag"), canonCsId, makerTags, signedShort, 1, printValue)
     };
 
     const TagInfo* CanonMakerNote::tagListCs()
