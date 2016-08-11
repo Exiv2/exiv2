@@ -94,7 +94,8 @@ namespace Exiv2 {
         bool equalsWebPTag(Exiv2::DataBuf& buf ,const char* str);
         void decodeChunks(uint64_t filesize);
         void inject_VP8X(BasicIo& iIo, bool has_xmp, bool has_exif,
-                         bool has_alpha, bool has_icc);
+                         bool has_alpha, bool has_icc, int width,
+                         int height);
 
         //! Copy constructor
         WebPImage(const WebPImage& rhs);
