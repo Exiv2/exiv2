@@ -66,6 +66,11 @@ namespace Exiv2 {
     std::string binaryToString(const byte* buff, size_t size, size_t start /*=0*/);
 
     /*!
+      @brief format binary for display of raw data .
+     */
+    std::string binaryToHex(const byte *data, size_t size);
+
+    /*!
       @brief indent output for kpsRecursive in \em printStructure() \em .
      */
     std::string indent(int32_t depth);
