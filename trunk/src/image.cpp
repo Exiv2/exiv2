@@ -648,6 +648,56 @@ namespace Exiv2 {
         return binaryToString(buf.pData_,size,start);
     }
 
+    std::string binaryToHex(const byte *data, size_t size)
+    {
+        std::stringstream hexOutput;
+
+        unsigned long tl = (unsigned long)(size / 16) * 16;
+        unsigned long tl_offset = size - tl;
+
+        hexOutput << "Display Hex Dump [size:" << (unsigned long)size << "]" << std::endl;
+
+        for (unsigned long loop = 0; loop < (unsigned long)size; loop++) {
+            if (data[loop] < 16) {
+                hexOutput << "0";
+            }
+            hexOutput << std::hex << (int)data[loop];
+            if ((loop % 8) == 7) {
+                hexOutput << "  ";
+            }
+            if ((loop % 16) == 15 || loop == (tl + tl_offset - 1)) {
+                int max = 15;
+                if (loop >= tl) {
+                    max = tl_offset - 1;
+                    hexOutput << "  ";
+                    for (long offset = 0; offset < (16 - tl_offset); offset++) {
+                        if ((offset % 8) == 7) {
+                            hexOutput << "  ";
+                        }
+                        hexOutput << "   ";
+                    }
+                }
+                hexOutput << " ";
+                for (unsigned long  offset = max; offset >= 0; offset--) {
+                    if (offset == (max - 8)) {
+                        hexOutput << "  ";
+                    }
+                    if ((data[loop - offset]) >= 0x20 &&
+                        (data[loop - offset]) <= 0x7E) {
+                        hexOutput << data[loop - offset];
+                    } else {
+                        hexOutput << ".";
+                    }
+                }
+                hexOutput << std::endl;
+            }
+        }
+
+        hexOutput << std::endl << std::endl << std::endl;
+
+        return hexOutput.str();
+    }
+
 	std::string indent(int32_t d)
     {
     	std::string result ;

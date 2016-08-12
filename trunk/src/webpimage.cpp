@@ -43,15 +43,13 @@
 #include "tiffimage_int.hpp"
 #include "exiv2/convert.hpp"
 #include <cmath>
-#include <sstream>
 #include <iomanip>
 #include <string>
 #include <cstring>
 #include <iostream>
+#include <sstream>
 #include <cassert>
 #include <cstdio>
-
-#include <zlib.h>     // To uncompress or compress text chunk
 
 #define CHECK_BIT(var,pos) ((var) & (1<<(pos)))
 
@@ -59,7 +57,6 @@
 // class member definitions
 namespace Exiv2 {
     namespace Internal {
-
 
 }}                                      // namespace Internal, Exiv2
 
@@ -668,8 +665,9 @@ namespace Exiv2 {
                 memcpy(rawExifData + offset, payload.pData_, (long)payload.size_);
 
 #ifdef DEBUG
-                debugPrintHex(rawExifData, size);
+                std::cout << Internal::binaryToHex(rawExifData, size);
 #endif
+
                 if (pos != -1) {
                     XmpData  xmpData;
                     ByteOrder bo = ExifParser::decode(exifData_,
@@ -696,7 +694,7 @@ namespace Exiv2 {
 #endif
                 } else {
 #ifdef DEBUG
-                    debugPrintHex(xmpData_, xmpData_.size());
+                    std::cout << Internal::binaryToHex(xmpData_, xmpData_.size());
 #endif
 #ifdef __USE_IPTC__
                     copyXmpToIptc(xmpData_, iptcData_);
@@ -829,40 +827,6 @@ namespace Exiv2 {
             }
         }
         return pos;
-    }
-
-    void WebPImage::debugPrintHex(byte *data, long size) {
-        std::cout << "Display Hex Dump [size:" << size << "]" << std::endl;
-        long tl = (long)(size / 16) * 16;
-        long tl_offset = size - tl;
-        for (long loop = 0; loop < size; loop++) {
-            if (data[loop] < 16) std::cout << "0";
-            std::cout << std::hex << (int)data[loop] << " ";
-            if ((loop % 8) == 7) std::cout << "  ";
-            if ((loop % 16) == 15 || loop == (tl + tl_offset - 1)) {
-                int max = 15;
-                if (loop >= tl) {
-                    max = tl_offset - 1;
-                    std::cout << "  ";
-                    for (long offset = 0; offset < (16 - tl_offset); offset++) {
-                        if ((offset % 8) == 7) std::cout << "  ";
-                        std::cout << "   ";
-                    }
-                }
-                std::cout << " ";
-                for (long offset = max; offset >= 0; offset--) {
-                    if (offset == (max - 8)) std::cout << "  ";
-                    if ((data[loop - offset]) >= 0x20 &&
-                        (data[loop - offset]) <= 0x7E) {
-                        std::cout << data[loop - offset];
-                    } else {
-                        std::cout << ".";
-                    }
-                }
-                std::cout << std::endl;
-            }
-        }
-        std::cout << std::dec << std::endl << std::endl;
     }
 
 } // namespace Exiv2
