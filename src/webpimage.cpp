@@ -75,12 +75,6 @@ namespace Exiv2 {
 
     /* =========================================== */
 
-    void WebPImage::setIptcData(const IptcData& /*iptcData*/)
-    {
-        // not supported
-        throw(Error(32, "IPTC metadata", "WebP"));
-    }
-
     void WebPImage::setComment(const std::string& /*comment*/)
     {
         // not supported
@@ -144,11 +138,9 @@ namespace Exiv2 {
             has_icc = true;
         }
 
-#ifdef __USE_IPTC__
         if (iptcData_.count() > 0) {
-            // do nothing for now
+            copyIptcToXmp(iptcData_, xmpData_);
         }
-#endif
 
         if (exifData_.count() > 0) {
             ExifParser::encode(blob, littleEndian, exifData_);
@@ -158,10 +150,6 @@ namespace Exiv2 {
         }
 
         if (xmpData_.count() > 0) {
-#ifdef __USE_IPTC__
-            copyIptcToXmp(iptcData_, xmpData_);
-            copyExifToXmp(exifData_, xmpData_);
-#endif
             XmpParser::encode(xmpPacket_, xmpData_,
                               XmpParser::useCompactFormat |
                               XmpParser::omitAllFormatting);
@@ -696,10 +684,7 @@ namespace Exiv2 {
 #ifdef DEBUG
                     std::cout << Internal::binaryToHex(xmpData_, xmpData_.size());
 #endif
-#ifdef __USE_IPTC__
                     copyXmpToIptc(xmpData_, iptcData_);
-                    copyXmpToExif(xmpData_, exifData_);
-#endif
                 }
             } else {
                 io_->seek(size, BasicIo::cur);
