@@ -166,7 +166,7 @@ namespace Exiv2 {
             while (!io_->eof()) {
                 io_->read(chunkId.pData_, 4);
                 io_->read(size_buff, 4);
-                uint64_t size = Exiv2::getULong(size_buff, littleEndian);
+                long size = Exiv2::getULong(size_buff, littleEndian);
                 DataBuf payload(size);
                 io_->read(payload.pData_, payload.size_);
 
@@ -293,7 +293,7 @@ namespace Exiv2 {
             io_->read(chunkId.pData_, 4);
             io_->read(size_buff, 4);
 
-            uint64_t size = Exiv2::getULong(size_buff, littleEndian);
+            long size = Exiv2::getULong(size_buff, littleEndian);
 
             DataBuf payload(size);
             io_->read(payload.pData_, size);
@@ -344,7 +344,7 @@ namespace Exiv2 {
             // Check for extra \0 padding
             bool has_zero = false;
             while (!io_->eof() && !has_zero && offset < filesize) {
-            	byte c = 0;
+                byte c = 0;
                 io_->read(&c, 1);
                 if ( c ) {
                     io_->seek(-1, BasicIo::cur);
@@ -403,7 +403,7 @@ namespace Exiv2 {
           outIo.seek(0, BasicIo::beg);
           filesize = outIo.size() - 8;
           outIo.seek(4, BasicIo::beg);
-          ul2Data(data, filesize, littleEndian);
+          ul2Data(data, (uint32_t) filesize, littleEndian);
           if (outIo.write(data, 4) != 4) throw Error(21);
         }
 
@@ -446,7 +446,7 @@ namespace Exiv2 {
                 byte     size_buff[4];
                 io_->read(chunkId.pData_, 4);
                 io_->read(size_buff, 4);
-                uint64_t size = Exiv2::getULong(size_buff, littleEndian);
+                long size = Exiv2::getULong(size_buff, littleEndian);
                 DataBuf payload(offset?size:4); // header is a bit of a dummy! (different from other chunks)
                 io_->read(payload.pData_, payload.size_);
 
@@ -505,7 +505,6 @@ namespace Exiv2 {
         DataBuf   chunkId(5);
         byte      size_buff[4];
         uint64_t  offset;
-        uint64_t  size;
         uint64_t  endoffile = 12;
         bool       has_canvas_data = false;
 
@@ -522,7 +521,7 @@ namespace Exiv2 {
             }
             io_->read(chunkId.pData_, 4);
             io_->read(size_buff, 4);
-            size = Exiv2::getULong(size_buff, littleEndian);
+            long size = Exiv2::getULong(size_buff, littleEndian);
 
             DataBuf payload(size);
 
@@ -596,10 +595,10 @@ namespace Exiv2 {
                 io_->read(payload.pData_, payload.size_);
 
                 byte size_buff[2];
-                byte exifLongHeader[] = { 0xFF, 0x01, 0xFF, 0xE1 };
-                byte exifShortHeader[] = { 0x45, 0x78, 0x69, 0x66, 0x00, 0x00 };
-                byte exifTiffLEHeader[] = { 0x49, 0x49, 0x2A };
-                byte exifTiffBEHeader[] = { 0x4D, 0x4D, 0x00, 0x2A };
+                byte exifLongHeader[]   = { 0xFF, 0x01, 0xFF, 0xE1 };
+                byte exifShortHeader[]  = { 0x45, 0x78, 0x69, 0x66, 0x00, 0x00 };
+                byte exifTiffLEHeader[] = { 0x49, 0x49, 0x2A };       // "MM*"
+                byte exifTiffBEHeader[] = { 0x4D, 0x4D, 0x00, 0x2A }; // "II\0*"
                 byte *rawExifData = NULL;
                 long  offset = 0;
                 bool  s_header = false;
@@ -638,13 +637,13 @@ namespace Exiv2 {
                 rawExifData = (byte*)malloc(size);
 
                 if (s_header) {
-                    us2Data(size_buff, size - 6, bigEndian);
+                    us2Data(size_buff, (uint16_t) (size - 6), bigEndian);
                     memcpy(rawExifData, (char*)&exifLongHeader, 4);
                     memcpy(rawExifData + 4, (char*)&size_buff, 2);
                 }
 
                 if (be_header || le_header) {
-                    us2Data(size_buff, size - 6, bigEndian);
+                    us2Data(size_buff, (uint16_t) (size - 6), bigEndian);
                     memcpy(rawExifData, (char*)&exifLongHeader, 4);
                     memcpy(rawExifData + 4, (char*)&size_buff, 2);
                     memcpy(rawExifData + 6, (char*)&exifShortHeader, 6);
@@ -653,6 +652,7 @@ namespace Exiv2 {
                 memcpy(rawExifData + offset, payload.pData_, (long)payload.size_);
 
 #ifdef DEBUG
+                std::cout << "Display Hex Dump [size:" << (unsigned long)size << "]" << std::endl;
                 std::cout << Internal::binaryToHex(rawExifData, size);
 #endif
 
@@ -682,7 +682,8 @@ namespace Exiv2 {
 #endif
                 } else {
 #ifdef DEBUG
-                    std::cout << Internal::binaryToHex(xmpData_, xmpData_.size());
+                    std::cout << "Display Hex Dump [size:" << (unsigned long)size << "]" << std::endl;
+                    std::cout << Internal::binaryToHex(rawExifData, size);
 #endif
                     copyXmpToIptc(xmpData_, iptcData_);
                 }
