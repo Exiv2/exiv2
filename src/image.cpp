@@ -655,8 +655,6 @@ namespace Exiv2 {
         unsigned long tl = (unsigned long)((size / 16) * 16);
         unsigned long tl_offset = (unsigned long)(size - tl);
 
-        hexOutput << "Display Hex Dump [size:" << (unsigned long)size << "]" << std::endl;
-
         for (unsigned long loop = 0; loop < (unsigned long)size; loop++) {
             if (data[loop] < 16) {
                 hexOutput << "0";
@@ -685,7 +683,7 @@ namespace Exiv2 {
                     if (data[loop - offset] >= 0x20 && data[loop - offset] <= 0x7E) {
                         c = data[loop - offset] ;
                     }
-                    hexOutput << c ;
+                    hexOutput << (char) c ;
                 }
                 hexOutput << std::endl;
             }
@@ -696,13 +694,13 @@ namespace Exiv2 {
         return hexOutput.str();
     }
 
-	std::string indent(int32_t d)
+    std::string indent(int32_t d)
     {
-    	std::string result ;
-    	if ( d > 0 )
-    		while ( d--)
-    			result += "  ";
-    	return result;
+        std::string result ;
+        if ( d > 0 )
+            while ( d--)
+                result += "  ";
+        return result;
     }
 
 }}                                      // namespace Internal, Exiv2
