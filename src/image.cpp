@@ -670,7 +670,7 @@ namespace Exiv2 {
                 if (loop >= tl) {
                     max = tl_offset - 1;
                     hexOutput << "  ";
-                    for (long offset = 0; offset < (16 - tl_offset); offset++) {
+                    for (int offset = 0; offset < (int)(16 - tl_offset); offset++) {
                         if ((offset % 8) == 7) {
                             hexOutput << "  ";
                         }
@@ -678,67 +678,15 @@ namespace Exiv2 {
                     }
                 }
                 hexOutput << " ";
-                for (unsigned long  offset = max; offset >= 0; offset--) {
+                for (int  offset = max; offset >= 0; offset--) {
                     if (offset == (max - 8)) {
                         hexOutput << "  ";
                     }
-                    if ((data[loop - offset]) >= 0x20 &&
-                        (data[loop - offset]) <= 0x7E) {
-                        hexOutput << data[loop - offset];
-                    } else {
-                        hexOutput << ".";
+                    byte c = '.';
+                    if (data[loop - offset] >= 0x20 && data[loop - offset] <= 0x7E) {
+                        c = data[loop - offset] ;
                     }
-                }
-                hexOutput << std::endl;
-            }
-        }
-
-        hexOutput << std::endl << std::endl << std::endl;
-
-        return hexOutput.str();
-    }
-
-    std::string binaryToHex(const byte *data, size_t size)
-    {
-        std::stringstream hexOutput;
-
-        unsigned long tl = (unsigned long)(size / 16) * 16;
-        unsigned long tl_offset = size - tl;
-
-        hexOutput << "Display Hex Dump [size:" << (unsigned long)size << "]" << std::endl;
-
-        for (unsigned long loop = 0; loop < (unsigned long)size; loop++) {
-            if (data[loop] < 16) {
-                hexOutput << "0";
-            }
-            hexOutput << std::hex << (int)data[loop];
-            if ((loop % 8) == 7) {
-                hexOutput << "  ";
-            }
-            if ((loop % 16) == 15 || loop == (tl + tl_offset - 1)) {
-                int max = 15;
-                if (loop >= tl) {
-                    max = tl_offset - 1;
-                    hexOutput << "  ";
-                    for (unsigned long offset = 0; offset < (unsigned long)(16 - tl_offset); offset++) {
-                        if ((offset % 8) == 7) {
-                            hexOutput << "  ";
-                        }
-                        hexOutput << "   ";
-                    }
-                }
-                hexOutput << " ";
-                unsigned long cutoff = 0;
-                for (unsigned long offset = max; offset >= cutoff; offset--) {
-                    if (offset == (unsigned long)(max - 8)) {
-                        hexOutput << "  ";
-                    }
-                    if ((data[loop - offset]) >= 0x20 &&
-                        (data[loop - offset]) <= 0x7E) {
-                        hexOutput << data[loop - offset];
-                    } else {
-                        hexOutput << ".";
-                    }
+                    hexOutput << c ;
                 }
                 hexOutput << std::endl;
             }
