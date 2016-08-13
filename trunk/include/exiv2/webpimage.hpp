@@ -80,7 +80,6 @@ namespace Exiv2 {
           @brief Not supported. Calling this function will throw an Error(32).
          */
         void setComment(const std::string& comment);
-        void setIptcData(const IptcData& iptcData);
 
         //! @name Accessors
         //@{
