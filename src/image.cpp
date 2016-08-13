@@ -652,8 +652,8 @@ namespace Exiv2 {
     {
         std::stringstream hexOutput;
 
-        unsigned long tl = (unsigned long)(size / 16) * 16;
-        unsigned long tl_offset = size - tl;
+        unsigned long tl = (unsigned long)((size / 16) * 16);
+        unsigned long tl_offset = (unsigned long)(size - tl);
 
         hexOutput << "Display Hex Dump [size:" << (unsigned long)size << "]" << std::endl;
 
@@ -669,7 +669,6 @@ namespace Exiv2 {
                 int max = 15;
                 if (loop >= tl) {
                     max = tl_offset - 1;
-                    hexOutput << "  ";
                     for (int offset = 0; offset < (int)(16 - tl_offset); offset++) {
                         if ((offset % 8) == 7) {
                             hexOutput << "  ";
