@@ -544,14 +544,24 @@ source ./functions.source
     for X in a b c d e f g h i j; do
       filename=exiv2-bug$num$X.exv
       echo '------>' Bug $filename '<-------' >&2
-      copyTestFile                        $filename
-      runTest exiv2 -pa --grep fuji/i $filename
+      copyTestFile                      $filename
+      runTest exiv2 -pa --grep fuji/i   $filename
     done
+
+    num=1199
+    printf "$num " >&3
+    filename=exiv2-bug$num.jpg # http://dev.exiv2.org/attachments/download/1033/Stonehenge-with-icc.webp
+    copyTestFile                        $filename
+    runTest exiv2 -pS                   $filename
+    runTest exiv2 -pR                   $filename
+    runTest exiv2 -pX                   $filename | xmllint --pretty 2 -
+    # TODO: test ICC profiles
+    # TODO: deleting and inserting metadata
 
     num=1202
     printf "$num " >&3
-    filename=exiv2-bug$num.jpg
-    copyTestFile                        $filename # test/tmp/20030925_201850.jpg
+    filename=exiv2-bug$num.jpg # test/tmp/20030925_201850.jpg
+    copyTestFile                        $filename
     for value in 0 1 8 9 -1; do
       runTest exiv2 -M"set Exif.CanonCs.FocusContinuous SShort $value" $filename
       runTest exiv2 -K Exif.CanonCs.FocusContinuous $filename
