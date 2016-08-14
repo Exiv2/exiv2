@@ -150,6 +150,11 @@ namespace Exiv2 {
         }
 
         if (xmpData_.count() > 0) {
+            if (iptcData_.count() == 0) {
+                moveXmpToIptc(xmpData_, iptcData_);
+                iptcData_.clear();
+            }
+
             XmpParser::encode(xmpPacket_, xmpData_,
                               XmpParser::useCompactFormat |
                               XmpParser::omitAllFormatting);
@@ -299,17 +304,22 @@ namespace Exiv2 {
             io_->read(payload.pData_, size);
 
             if (equalsWebPTag(chunkId, "VP8X")) {
-
                 if (has_icc){
                     payload.pData_[0] |= 0x20;
+                } else {
+                    payload.pData_[0] &= ~0x20;
                 }
 
                 if (has_xmp){
                     payload.pData_[0] |= 0x4;
+                } else {
+                    payload.pData_[0] &= ~0x4;
                 }
 
                 if (has_exif) {
                     payload.pData_[0] |= 0x8;
+                } else {
+                    payload.pData_[0] &= ~0x8;
                 }
 
                 if (outIo.write(chunkId.pData_, TAG_SIZE) != TAG_SIZE)
@@ -399,13 +409,11 @@ namespace Exiv2 {
         }
 
         // Fix File Size Payload Data
-        if (has_xmp || has_exif) {
-          outIo.seek(0, BasicIo::beg);
-          filesize = outIo.size() - 8;
-          outIo.seek(4, BasicIo::beg);
-          ul2Data(data, (uint32_t) filesize, littleEndian);
-          if (outIo.write(data, 4) != 4) throw Error(21);
-        }
+        outIo.seek(0, BasicIo::beg);
+        filesize = outIo.size() - 8;
+        outIo.seek(4, BasicIo::beg);
+        ul2Data(data, (uint32_t) filesize, littleEndian);
+        if (outIo.write(data, 4) != 4) throw Error(21);
 
     } // WebPImage::writeMetadata
 
@@ -685,7 +693,7 @@ namespace Exiv2 {
                     std::cout << "Display Hex Dump [size:" << (unsigned long)size << "]" << std::endl;
                     std::cout << Internal::binaryToHex(rawExifData, size);
 #endif
-                    copyXmpToIptc(xmpData_, iptcData_);
+                    moveXmpToIptc(xmpData_, iptcData_);
                 }
             } else {
                 io_->seek(size, BasicIo::cur);
@@ -801,6 +809,21 @@ namespace Exiv2 {
         data[9] = (h >> 16) & 0xFF;
 
         iIo.write(data, 10);
+
+        /* Handle inject an icc profile right after VP8X chunk */
+        if (has_icc) {
+            byte header[4];
+            byte size_buff[4];
+            ul2Data(size_buff, iccProfile_.size_, littleEndian);
+            strncpy((char*)&header, "ICCP", 4);
+            if (iIo.write(header, 4) != 4)
+                throw Error(21);
+            if (iIo.write(size_buff, 4) != 4)
+                throw Error(21);
+            if (iIo.write(iccProfile_.pData_, iccProfile_.size_) != iccProfile_.size_)
+                throw Error(21);
+            has_icc = false;
+        }
     }
 
     long WebPImage::getHeaderOffset(byte *data, long data_size,
