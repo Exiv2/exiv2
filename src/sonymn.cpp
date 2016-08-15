@@ -505,15 +505,20 @@ namespace Exiv2 {
 
     //! Lookup table to translate Sony camera settings drive mode values to readable labels
     extern const TagDetails sonyDriveModeStd[] = {
-        { 1,  N_("Single Frame")                     },
-        { 2,  N_("Continuous High")                  },
-        { 4,  N_("Self-timer 10 sec")                },
-        { 5,  N_("Self-timer 2 sec")                 },
-        { 7,  N_("Continuous Bracketing")            },
-        { 12, N_("Continuous Low")                   },
-        { 18, N_("White Balance Bracketing Low")     },
-        { 19, N_("D-Range Optimizer Bracketing Low") },
-        { 19, N_("D-Range Optimizer Bracketing Low") } // To silence compiler warning
+        { 0x01, N_("Single Frame")                      },
+        { 0x02, N_("Continuous High")                   },
+        { 0x04, N_("Self-timer 10 sec")                 },
+        { 0x05, N_("Self-timer 2 sec, Mirror Lock-up")  },
+        { 0x06, N_("Single-frame Bracketing")           },
+        { 0x07, N_("Continuous Bracketing")             },
+        { 0x0a, N_("Remote Commander")                  },
+        { 0x0b, N_("Mirror Lock-up")                    },
+        { 0x12, N_("Continuous Low")                    },
+        { 0x18, N_("White Balance Bracketing Low")      },
+        { 0x19, N_("D-Range Optimizer Bracketing Low")  },
+        { 0x28, N_("White Balance Bracketing High")     },
+        { 0x29, N_("D-Range Optimizer Bracketing High") },
+        { 0x29, N_("D-Range Optimizer Bracketing High") } // To silence compiler warning
     };
 
     //! Lookup table to translate Sony camera settings focus mode values to readable labels
