@@ -224,7 +224,7 @@ namespace Exiv2 {
         { 8,  N_("Cool White Fluorescent")     },
         { 9,  N_("Day White Fluorescent")      },
         { 10, N_("Incandescent2")              },
-        { 11, N_("Warm White Fluorescent")     }, 
+        { 11, N_("Warm White Fluorescent")     },
         { 14, N_("Incandescent")               },
         { 15, N_("Flash")                      },
         { 17, N_("Underwater 1 (Blue Water)")  },
@@ -312,6 +312,9 @@ namespace Exiv2 {
             else if (val == "3000") os << "ARW 2.0";
             else if (val == "3100") os << "ARW 2.1";
             else if (val == "3200") os << "ARW 2.2";
+            else if (val == "3300") os << "ARW 2.3";
+            else if (val == "3310") os << "ARW 2.3.1";
+            else if (val == "3320") os << "ARW 2.3.2";
             else                    os << "(" << value << ")";
         }
         return os;
