@@ -41,7 +41,7 @@
 #include "types.hpp"
 #include "tiffimage.hpp"
 #include "tiffimage_int.hpp"
-#include "exiv2/convert.hpp"
+#include "convert.hpp"
 #include <cmath>
 #include <iomanip>
 #include <string>
