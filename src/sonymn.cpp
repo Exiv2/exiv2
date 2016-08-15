@@ -563,13 +563,21 @@ namespace Exiv2 {
 
     //! Lookup table to translate Sony camera settings image style values to readable labels
     extern const TagDetails sonyImageStyle[] = {
-        { 1,    N_("Standard")      },
-        { 2,    N_("Vivid")         },
-        { 9,    N_("Adobe RGB")     },
-        { 11,   N_("Neutral")       },
-        { 129,  N_("StyleBox1")     },
-        { 130,  N_("StyleBox1")     },
-        { 131,  N_("StyleBox1")     }
+        { 1,    N_("Standard")            },
+        { 2,    N_("Vivid")               },
+        { 3,    N_("Portrait")            },
+        { 4,    N_("Landscape")           },
+        { 5,    N_("Sunset")              },
+        { 7,    N_("Night View/Portrait") },
+        { 8,    N_("B&W")                 },
+        { 9,    N_("Adobe RGB")           },
+        { 11,   N_("Neutral")             },
+        { 129,  N_("StyleBox1")           },
+        { 130,  N_("StyleBox2")           },
+        { 131,  N_("StyleBox3")           },
+        { 132,  N_("StyleBox4")           },
+        { 133,  N_("StyleBox5")           },
+        { 134,  N_("StyleBox6")           }
     };
 
     //! Lookup table to translate Sony camera settings exposure program values to readable labels
