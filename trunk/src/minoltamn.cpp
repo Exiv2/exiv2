@@ -2416,11 +2416,15 @@ namespace Exiv2 {
 
     //! Lookup table to translate Sony/Minolta teleconverter model values to readable labels
     extern const TagDetails minoltaSonyTeleconverterModel[] = {
-        { 0x00, N_("None")                     },
-        { 0x48, N_("Minolta AF 2x APO (D)")    },
-        { 0x50, N_("Minolta AF 2x APO II")     },
-        { 0x88, N_("Minolta AF 1.4x APO (D)")  },
-        { 0x90, N_("Minolta AF 1.4x APO II")   }
+        { 0x00, N_("None")                                },
+        { 0x04, N_("Minolta/Sony AF 1.4x APO (D) (0x04)") },
+        { 0x05, N_("Minolta/Sony AF 2x APO (D) (0x05)")   },
+        { 0x48, N_("Minolta/Sony AF 2x APO (D)")          },
+        { 0x50, N_("Minolta AF 2x APO II")                },
+        { 0x60, N_("Minolta AF 2x APO")                   },
+        { 0x88, N_("Minolta/Sony AF 1.4x APO (D)")        },
+        { 0x90, N_("Minolta AF 1.4x APO II")              },
+        { 0xa0, N_("Minolta AF 1.4x APO")                 }
     };
 
     std::ostream& printMinoltaSonyTeleconverterModel(std::ostream& os, const Value& value, const ExifData* metadata)
