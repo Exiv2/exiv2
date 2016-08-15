@@ -1091,8 +1091,8 @@ namespace Exiv2 {
      @brief %Value for simple ISO 8601 times.
 
      This class is limited to handling simple time strings in the ISO 8601
-     format HHMMSS�HHMM where HHMMSS refers to local hour, minute and
-     seconds and �HHMM refers to hours and minutes ahead or behind
+     format HHMMSS±HHMM where HHMMSS refers to local hour, minute and
+     seconds and ±HHMM refers to hours and minutes ahead or behind
      Universal Coordinated Time.
      */
     class EXIV2API TimeValue : public Value {
