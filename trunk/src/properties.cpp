@@ -361,7 +361,7 @@ namespace Exiv2 {
         { "cameraModel",                  N_("Camera Model"),                     "Text",                  xmpText, xmpExternal, N_("The make and model of the camera used for a shoot.") },
         { "cameraMove",                   N_("Camera Move"),                      "open Choice of Text",   xmpText, xmpExternal, N_("The movement of the camera during the shot, from a fixed set of industry standard terminology. Predefined values include: Aerial, Boom Up, Boom Down, Crane Up, Crane Down, Dolly In, Dolly Out, Pan Left, Pan Right, Pedestal Up, Pedestal Down, Tilt Up, Tilt Down, Tracking, Truck Left, Truck Right, Zoom In, Zoom Out.") },
         { "client",                       N_("Client"),                           "Text",                  xmpText, xmpExternal, N_("The client for the job of which this shot or take is a part.") },
-        { "comment",                      N_("Comment"),                          "Text",                  xmpText, xmpExternal, N_("A user’s comments.") },
+        { "comment",                      N_("Comment"),                          "Text",                  xmpText, xmpExternal, N_("A user's comments.") },
         { "composer",                     N_("Composer"),                         "Text",                  xmpText, xmpExternal, N_("The composer's name.") },
         { "contributedMedia",             N_("Contributed Media"),                "bag Media",             xmpBag,  xmpInternal, N_("An unordered list of all media used to create this media.") },
         { "copyright",                    N_("Copyright"),                        "Text",                  xmpText, xmpExternal, N_("(Deprecated in favour of dc:rights.) The copyright information.") },
@@ -926,7 +926,7 @@ namespace Exiv2 {
         { "BodySerialNumber",           N_("Body Serial Number"),           "Text",                 xmpText, xmpInternal, N_("EXIF tag 42033, 0xA431. The serial number of the camera or camera body used to take the photograph.") },
         { "LensSpecification",          N_("Lens Specification"),           "Ordered array of Rational",    xmpText, xmpInternal, N_("EXIF tag 42034, 0xA432. notes minimum focal length, maximum focal length, minimum F number in the minimum focal length, and minimum F number in the maximum focal length, which are specification information for the lens that was used in photography.") },
         { "LensMake",                   N_("Lens Make"),                    "Proper-Name",          xmpText, xmpInternal, N_("EXIF tag 42035, 0xA433. Records the lens manufacturer as an ASCII string.") },
-        { "LensModel",                  N_("Lens Model"),                   "Text",                 xmpText, xmpInternal, N_("EXIF tag 42036, 0xA434. Records the lens’s model name and model number as an ASCII string.") },
+        { "LensModel",                  N_("Lens Model"),                   "Text",                 xmpText, xmpInternal, N_("EXIF tag 42036, 0xA434. Records the lens's model name and model number as an ASCII string.") },
         { "LensSerialNumber",           N_("Lens Serial Number"),           "Text",                 xmpText, xmpInternal, N_("EXIF tag 42037, 0xA435. This tag records the serial number of the interchangeable lens that was used in photography as an ASCII string.") },
 
         { "InteroperabilityIndex",    N_("Interoperability Index"),         "Closed Choice of Text",    xmpText, xmpInternal, N_("EXIF tag 1, 0x0001. Indicates the identification of the Interoperability rule.  "
