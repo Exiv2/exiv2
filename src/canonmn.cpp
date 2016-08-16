@@ -491,15 +491,18 @@ namespace Exiv2 {
 
     //! FocusMode, tag 0x0007
     extern const TagDetails canonCsFocusMode[] = {
-        {  0, N_("One shot AF")  },
-        {  1, N_("AI servo AF")  },
-        {  2, N_("AI focus AF")  },
-        {  3, N_("Manual focus") },
-        {  4, N_("Single")       },
-        {  5, N_("Continuous")   },
-        {  6, N_("Manual focus") },
-        { 16, N_("Pan focus")    },
-        { 16, N_("Pan focus")    }    // To silence compiler warning
+        {   0, N_("One shot AF")      },
+        {   1, N_("AI servo AF")      },
+        {   2, N_("AI focus AF")      },
+        {   3, N_("Manual focus (3)") },
+        {   4, N_("Single")           },
+        {   5, N_("Continuous")       },
+        {   6, N_("Manual focus (6)") },
+        {  16, N_("Pan focus")        },
+        { 256, N_("AF + MF")          },
+        { 512, N_("Movie Snap Focus") },
+        { 519, N_("Movie Servo AF")   },
+        { 519, N_("Movie Servo AF")   }    // To silence compiler warning
     };
 
     //! ImageSize, tag 0x000a
