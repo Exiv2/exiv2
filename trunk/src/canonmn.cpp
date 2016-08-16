@@ -478,12 +478,15 @@ namespace Exiv2 {
 
     //! DriveMode, tag 0x0005
     extern const TagDetails canonCsDriveMode[] = {
-        { 0, N_("Single / timer")             },
-        { 1, N_("Continuous")                 },
-        { 2, N_("Movie")                      },
-        { 3, N_("Continuous, speed priority") },
-        { 4, N_("Continuous, low")            },
-        { 5, N_("Continuous, high")           }
+        {  0, N_("Single / timer")             },
+        {  1, N_("Continuous")                 },
+        {  2, N_("Movie")                      },
+        {  3, N_("Continuous, speed priority") },
+        {  4, N_("Continuous, low")            },
+        {  5, N_("Continuous, high")           },
+        {  6, N_("Silent Single")              },
+        {  9, N_("Single, Silent")             },
+        { 10, N_("Continuous, Silent")         }
     };
 
     //! FocusMode, tag 0x0007
