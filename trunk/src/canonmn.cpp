@@ -1412,16 +1412,23 @@ namespace Exiv2 {
 
     //! RawJpgSize, tag 0x0007
     extern const TagDetails canonRawJpgSize[] = {
-        { 0,   N_("Large")        },
-        { 1,   N_("Medium")       },
-        { 2,   N_("Small")        },
-        { 5,   N_("Medium 1")     },
-        { 6,   N_("Medium 2")     },
-        { 7,   N_("Medium 3")     },
-        { 8,   N_("Postcard")     },
-        { 9,   N_("Widescreen")   },
-        { 129, N_("Medium Movie") },
-        { 130, N_("Small Movie")  }
+        {   0, N_("Large")             },
+        {   1, N_("Medium")            },
+        {   2, N_("Small")             },
+        {   5, N_("Medium 1")          },
+        {   6, N_("Medium 2")          },
+        {   7, N_("Medium 3")          },
+        {   8, N_("Postcard")          },
+        {   9, N_("Widescreen")        },
+        {  10, N_("Medium Widescreen") },
+        {  14, N_("Small 1")           },
+        {  15, N_("Small 2")           },
+        {  16, N_("Small 3")           },
+        { 128, N_("640x480 Movie")     },
+        { 129, N_("Medium Movie")      },
+        { 130, N_("Small Movie")       },
+        { 137, N_("1280x720 Movie")    },
+        { 142, N_("1920x1080 Movie")   }
     };
 
     //! NoiseReduction, tag 0x0008
