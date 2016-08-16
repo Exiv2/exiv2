@@ -669,7 +669,8 @@ namespace Exiv2 {
         { 0x3002, N_("Right")                     },
         { 0x3003, N_("Center")                    },
         { 0x3004, N_("Left")                      },
-        { 0x4001, N_("Auto AF point selection")   }
+        { 0x4001, N_("Auto AF point selection")   },
+        { 0x4006, N_("Face Detect")               }
     };
 
     //! ExposureProgram, tag 0x0014
