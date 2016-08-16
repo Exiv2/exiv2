@@ -1120,9 +1120,16 @@ namespace Exiv2 {
 
     //! ImageStabilization, tag 0x0022
     extern const TagDetails canonCsImageStabilization[] = {
-        { 0, N_("Off")           },
-        { 1, N_("On")            },
-        { 2, N_("On, shot only") }
+        {   0, N_("Off")            },
+        {   1, N_("On")             },
+        {   2, N_("Shoot Only")     },
+        {   3, N_("Panning")        },
+        {   4, N_("Dynamic")        },
+        { 256, N_("Off (2)")        },
+        { 257, N_("On (2)")         },
+        { 258, N_("Shoot Only (2)") },
+        { 259, N_("Panning (2)")    },
+        { 260, N_("Dynamic (2)")    }
     };
 
     //! SpotMeteringMode, tag 0x0027
