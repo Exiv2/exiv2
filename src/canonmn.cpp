@@ -681,7 +681,8 @@ namespace Exiv2 {
         { 3, N_("Aperture priority (Av)") },
         { 4, N_("Manual (M)")             },
         { 5, N_("A-DEP")                  },
-        { 6, N_("M-DEP")                  }
+        { 6, N_("M-DEP")                  },
+        { 7, N_("Bulb")                   }
     };
 
     //! LensType, tag 0x0016
