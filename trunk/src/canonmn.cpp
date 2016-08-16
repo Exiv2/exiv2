@@ -638,12 +638,12 @@ namespace Exiv2 {
 
     //! MeteringMode, tag 0x0011
     extern const TagDetails canonCsMeteringMode[] = {
-        { 0, N_("Default")         },
-        { 1, N_("Spot")            },
-        { 2, N_("Average")         },
-        { 3, N_("Evaluative")      },
-        { 4, N_("Partial")         },
-        { 5, N_("Center weighted") }
+        { 0, N_("Default")                 },
+        { 1, N_("Spot")                    },
+        { 2, N_("Average")                 },
+        { 3, N_("Evaluative")              },
+        { 4, N_("Partial")                 },
+        { 5, N_("Center-weighted average") }
     };
 
     //! FocusType, tag 0x0012
