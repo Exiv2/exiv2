@@ -20,3 +20,4 @@ src/sonymn.cpp
 src/tags.cpp
 src/tiffimage.cpp
 src/tiffvisitor.cpp
+src/webpimage.cpp
