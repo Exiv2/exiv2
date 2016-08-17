@@ -650,7 +650,7 @@ File  2/15: 20031214_000043.jpg
 20031214_000043.jpg   Exif.CanonCs.Saturation                      Short       1  Normal
 20031214_000043.jpg   Exif.CanonCs.Sharpness                       Short       1  Normal
 20031214_000043.jpg   Exif.CanonCs.ISOSpeed                        Short       1  100
-20031214_000043.jpg   Exif.CanonCs.MeteringMode                    Short       1  Center weighted
+20031214_000043.jpg   Exif.CanonCs.MeteringMode                    Short       1  Center-weighted average
 20031214_000043.jpg   Exif.CanonCs.FocusType                       Short       1  Auto
 20031214_000043.jpg   Exif.CanonCs.AFPoint                         Short       1  Center
 20031214_000043.jpg   Exif.CanonCs.ExposureProgram                 Short       1  Program (P)
@@ -2263,7 +2263,7 @@ Compare image data and extracted data ------------------------------------
 < 20031214_000043.jpg   Exif.CanonCs.Saturation                      Short       1  Normal
 < 20031214_000043.jpg   Exif.CanonCs.Sharpness                       Short       1  Normal
 < 20031214_000043.jpg   Exif.CanonCs.ISOSpeed                        Short       1  100
-< 20031214_000043.jpg   Exif.CanonCs.MeteringMode                    Short       1  Center weighted
+< 20031214_000043.jpg   Exif.CanonCs.MeteringMode                    Short       1  Center-weighted average
 < 20031214_000043.jpg   Exif.CanonCs.FocusType                       Short       1  Auto
 < 20031214_000043.jpg   Exif.CanonCs.AFPoint                         Short       1  Center
 < 20031214_000043.jpg   Exif.CanonCs.ExposureProgram                 Short       1  Program (P)
@@ -3804,7 +3804,7 @@ Compare image data and extracted data ------------------------------------
 > 20031214_000043.exv   Exif.CanonCs.Saturation                      Short       1  Normal
 > 20031214_000043.exv   Exif.CanonCs.Sharpness                       Short       1  Normal
 > 20031214_000043.exv   Exif.CanonCs.ISOSpeed                        Short       1  100
-> 20031214_000043.exv   Exif.CanonCs.MeteringMode                    Short       1  Center weighted
+> 20031214_000043.exv   Exif.CanonCs.MeteringMode                    Short       1  Center-weighted average
 > 20031214_000043.exv   Exif.CanonCs.FocusType                       Short       1  Auto
 > 20031214_000043.exv   Exif.CanonCs.AFPoint                         Short       1  Center
 > 20031214_000043.exv   Exif.CanonCs.ExposureProgram                 Short       1  Program (P)
@@ -5565,7 +5565,7 @@ Compare original and inserted image data ---------------------------------
 < 20031214_000043.jpg   Exif.CanonCs.Saturation                      Short       1  Normal
 < 20031214_000043.jpg   Exif.CanonCs.Sharpness                       Short       1  Normal
 < 20031214_000043.jpg   Exif.CanonCs.ISOSpeed                        Short       1  100
-< 20031214_000043.jpg   Exif.CanonCs.MeteringMode                    Short       1  Center weighted
+< 20031214_000043.jpg   Exif.CanonCs.MeteringMode                    Short       1  Center-weighted average
 < 20031214_000043.jpg   Exif.CanonCs.FocusType                       Short       1  Auto
 < 20031214_000043.jpg   Exif.CanonCs.AFPoint                         Short       1  Center
 < 20031214_000043.jpg   Exif.CanonCs.ExposureProgram                 Short       1  Program (P)
@@ -7106,7 +7106,7 @@ Compare original and inserted image data ---------------------------------
 > 20031214_000043.exv   Exif.CanonCs.Saturation                      Short       1  Normal
 > 20031214_000043.exv   Exif.CanonCs.Sharpness                       Short       1  Normal
 > 20031214_000043.exv   Exif.CanonCs.ISOSpeed                        Short       1  100
-> 20031214_000043.exv   Exif.CanonCs.MeteringMode                    Short       1  Center weighted
+> 20031214_000043.exv   Exif.CanonCs.MeteringMode                    Short       1  Center-weighted average
 > 20031214_000043.exv   Exif.CanonCs.FocusType                       Short       1  Auto
 > 20031214_000043.exv   Exif.CanonCs.AFPoint                         Short       1  Center
 > 20031214_000043.exv   Exif.CanonCs.ExposureProgram                 Short       1  Program (P)
