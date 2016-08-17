@@ -550,7 +550,7 @@ source ./functions.source
 
     num=1199
     printf "$num " >&3
-    filename=exiv2-bug$num.jpg # http://dev.exiv2.org/attachments/download/1033/Stonehenge-with-icc.webp
+    filename=exiv2-bug$num.webp # http://dev.exiv2.org/attachments/download/1033/Stonehenge-with-icc.webp
     copyTestFile                        $filename
     runTest exiv2 -pS                   $filename
     runTest exiv2 -pR                   $filename
