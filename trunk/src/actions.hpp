@@ -275,6 +275,10 @@ namespace Action {
          */
         int eraseXmpData(Exiv2::Image* image) const;
         /*!
+          @brief Erase ICCProfile from the file.
+         */
+        int eraseIccProfile(Exiv2::Image* image) const;
+        /*!
           @brief Print image Structure information (used by ctIptcRaw/kpsIptcErase)
          */
         int printStructure(std::ostream& out, Exiv2::PrintStructureOption option);

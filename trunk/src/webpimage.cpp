@@ -131,7 +131,7 @@ namespace Exiv2 {
         bool has_exif = false;
         bool has_vp8x = false;
         bool has_alpha = false;
-        bool has_icc = false;
+        bool has_icc = iccProfileDefined();
 
         int width = 0;
         int height = 0;
@@ -139,10 +139,6 @@ namespace Exiv2 {
         byte size_buff[4];
         std::string xmpData;
         Blob blob;
-
-        if (iccProfile_.size_ > 0) {
-            has_icc = true;
-        }
 
         if (exifData_.count() > 0) {
             ExifParser::encode(blob, littleEndian, exifData_);
@@ -174,7 +170,7 @@ namespace Exiv2 {
 
                 /* Chunk with color profile. */
                 if (equalsWebPTag(chunkId, "ICCP") && !has_alpha) {
-                    has_icc = true;
+                    has_icc &= true;
                 }
 
                 /* Chunk with information about features
@@ -299,6 +295,7 @@ namespace Exiv2 {
 
             DataBuf payload(size);
             io_->read(payload.pData_, size);
+            has_icc = iccProfileDefined();
 
             if (equalsWebPTag(chunkId, "VP8X")) {
                 if (has_icc){
@@ -325,14 +322,8 @@ namespace Exiv2 {
                     throw Error(21);
                 if (outIo.write(payload.pData_, payload.size_) != payload.size_)
                     throw Error(21);
-            } else if (equalsWebPTag(chunkId, "ICCP") && has_icc) {
-                ul2Data(size_buff, iccProfile_.size_, littleEndian);
-                if (outIo.write(chunkId.pData_, TAG_SIZE) != TAG_SIZE)
-                    throw Error(21);
-                if (outIo.write(size_buff, 4) != 4)
-                    throw Error(21);
-                if (outIo.write(iccProfile_.pData_, iccProfile_.size_) != iccProfile_.size_)
-                    throw Error(21);
+            } else if (equalsWebPTag(chunkId, "ICCP")) {
+                // Skip and add new data afterwards
             } else if (equalsWebPTag(chunkId, "EXIF")) {
                 // Skip and add new data afterwards
             } else if (equalsWebPTag(chunkId, "XMP ")) {
@@ -394,6 +385,15 @@ namespace Exiv2 {
             ul2Data(data, (uint32_t) xmpData.size(), littleEndian);
             if (outIo.write(data, 4) != 4) throw Error(21);
             if (outIo.write((const byte*)xmpData.data(), static_cast<long>(xmpData.size())) != (long)xmpData.size()) {
+                throw Error(21);
+            }
+        }
+        if (has_icc) {
+            std::string header = "ICCP";
+            if (outIo.write((const byte*)header.data(), TAG_SIZE) != TAG_SIZE) throw Error(21);
+            ul2Data(data, (uint32_t) iccProfile_.size_, littleEndian);
+            if (outIo.write(data, 4) != 4) throw Error(21);
+            if (outIo.write((const byte*)iccProfile_.pData_, static_cast<long>(iccProfile_.size_) != (long)iccProfile_.size_)) {
                 throw Error(21);
             }
         }

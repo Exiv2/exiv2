@@ -239,6 +239,11 @@ namespace Exiv2 {
               the actual image until the writeMetadata() method is called.
          */
         virtual void clearIccProfile();
+        /*!
+          @brief Erase iccProfile. the profile is not removed from
+              the actual image until the writeMetadata() method is called.
+         */
+        virtual bool iccProfileDefined() { return iccProfile_.size_?true:false;}
 
         /*!
           @brief return iccProfile
@@ -433,11 +438,11 @@ namespace Exiv2 {
         //@}
 
         void setTypeSupported(
-        	int              imageType,
+            int              imageType,
             uint16_t         supportedMetadata
         ) {
-        	imageType_         = imageType;
-        	supportedMetadata_ = supportedMetadata;
+            imageType_         = imageType;
+            supportedMetadata_ = supportedMetadata;
         }
 
         int imageType() const { return imageType_; }
