@@ -379,17 +379,10 @@ namespace Exiv2 {
             std::string header = "EXIF";
             if (outIo.write((const byte*)header.data(), 4) != 4)
                 throw Error(21);
-
             us2Data(data, (uint16_t) blob.size()+8, bigEndian);
-            byte exifHeader[] = { 0xFF, 0xE1, 0x00, 0x00,
-                                  0x45, 0x78, 0x69, 0x66, 0x00, 0x00 };
-            exifHeader[2] = data[0];
-            exifHeader[3] = data[1];
-            std::string rawExif =   std::string((char*)exifHeader, 10)
-                                  + std::string((const char*)&blob[0], blob.size());
-            ul2Data(data, (uint32_t) rawExif.size(), littleEndian);
+            ul2Data(data, (uint32_t) blob.size(), littleEndian);
             if (outIo.write(data, 4) != 4) throw Error(21);
-            if (outIo.write((const byte*)rawExif.data(), static_cast<long>(rawExif.size())) != (long)rawExif.size())
+            if (outIo.write((const byte*)&blob[0], static_cast<long>(blob.size())) != (long)blob.size())
             {
                 throw Error(21);
             }
