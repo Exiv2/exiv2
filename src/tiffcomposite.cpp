@@ -172,8 +172,12 @@ namespace Exiv2 {
     }
 
     TiffBinaryElement::TiffBinaryElement(uint16_t tag, IfdId group)
-        : TiffEntryBase(tag, group)
+        : TiffEntryBase(tag, group),
+        elByteOrder_(invalidByteOrder)
     {
+        elDef_.idx_ = 0;
+        elDef_.tiffType_ = ttUndefined;
+        elDef_.count_ = 0;
     }
 
     TiffComponent::~TiffComponent()
@@ -1843,10 +1847,10 @@ namespace Exiv2 {
         }
         // http://dev.exiv2.org/boards/3/topics/1337 change unsignedByte to signedByte
         // Exif.NikonAFT.AFFineTuneAdj || Exif.Pentax.Temperature
-		if ( ti == Exiv2::unsignedByte ) {
-		    if ( (tag == 0x0002 && group == nikonAFTId ) || (tag == 0x0047 && group == pentaxId) ) {
-				ti = Exiv2::signedByte;
-			}
+        if ( ti == Exiv2::unsignedByte ) {
+            if ( (tag == 0x0002 && group == nikonAFTId ) || (tag == 0x0047 && group == pentaxId) ) {
+                ti = Exiv2::signedByte;
+            }
         }
         return ti;
     }
