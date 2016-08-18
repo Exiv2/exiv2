@@ -417,9 +417,11 @@ namespace Exiv2 {
         case mdXmp:
             chunk = makeUtf8TxtChunk("XML:com.adobe.xmp", metadata, false);
             break;
+        case mdIccProfile:
+            break;
         case mdNone:
             assert(false);
-	}
+    }
 
         return chunk;
 
