@@ -949,6 +949,9 @@ namespace Action {
         if (0 == rc && Params::instance().target_ & Params::ctXmp) {
             rc = eraseXmpData(image.get());
         }
+        if (0 == rc && Params::instance().target_ & Params::ctIccProfile) {
+            rc = eraseIccProfile(image.get());
+        }
         if (0 == rc && Params::instance().target_ & Params::ctIptcRaw) {
             rc = printStructure(std::cout,Exiv2::kpsIptcErase);
         }
@@ -1030,6 +1033,14 @@ namespace Action {
         }
         image->clearXmpData();                  // Quick fix for bug #612
         image->clearXmpPacket();
+        return 0;
+    }
+    int Erase::eraseIccProfile(Exiv2::Image* image) const
+    {
+        if (Params::instance().verbose_ && image->iccProfileDefined() ) {
+            std::cout << _("Erasing ICC Profile data from the file") << std::endl;
+        }
+        image->clearIccProfile();
         return 0;
     }
 
