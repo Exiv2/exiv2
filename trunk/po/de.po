@@ -181,14 +181,12 @@ msgid "Exif comment"
 msgstr "Exif-Kommentar"
 
 #: src/actions.cpp:568
-#, fuzzy
 msgid "No IPTC data found in the file\n"
-msgstr "Es wurden keine Exif-Daten in der Datei gefunden\n"
+msgstr "Es wurden keine IPTC-Daten in der Datei gefunden\n"
 
 #: src/actions.cpp:569
-#, fuzzy
 msgid "No XMP data found in the file\n"
-msgstr "Es wurden keine Exif-Daten in der Datei gefunden\n"
+msgstr "Es wurden keine XMP-Daten in der Datei gefunden\n"
 
 #: src/actions.cpp:704 src/actions.cpp:737 src/actions.cpp:758
 msgid "(Binary value suppressed)"
@@ -199,9 +197,8 @@ msgid "JPEG comment"
 msgstr "JPEG-Kommentar"
 
 #: src/actions.cpp:805
-#, fuzzy
 msgid "Preview"
-msgstr "Vorschaudaten"
+msgstr "Vorschau"
 
 #: src/actions.cpp:809 src/actions.cpp:1201 src/properties.cpp:502
 msgid "pixels"
@@ -278,19 +275,19 @@ msgstr "Die Exif-Daten enthalten keine Vorschau.\n"
 
 #: src/actions.cpp:1156 src/actions.cpp:1208
 msgid "Image does not have preview"
-msgstr ""
+msgstr "Das Bild enthält keine Vorschau."
 
 #: src/actions.cpp:1185
 msgid "Writing iccProfile: "
-msgstr ""
+msgstr "Schreibe iccProfile: "
 
 #: src/actions.cpp:1197
 msgid "Writing preview"
-msgstr ""
+msgstr "Schreibe Vorschau"
 
 #: src/actions.cpp:1369
 msgid "Setting JPEG comment"
-msgstr "Der JPEG-Kommentar wird gesetzt."
+msgstr "Setze JPEG-Kommentar"
 
 #: src/actions.cpp:1410
 msgid "Add"
@@ -494,24 +491,20 @@ msgid "On"
 msgstr "An"
 
 #: src/canonmn.cpp:387
-#, fuzzy
 msgid "Format 1"
-msgstr "Format"
+msgstr "Format 1"
 
 #: src/canonmn.cpp:388
-#, fuzzy
 msgid "Format 2"
-msgstr "Format"
+msgstr "Format 2"
 
 #: src/canonmn.cpp:394 src/nikonmn.cpp:1238
-#, fuzzy
 msgid "On (1)"
-msgstr "An"
+msgstr "An (1)"
 
 #: src/canonmn.cpp:395 src/canonmn.cpp:1129 src/nikonmn.cpp:1239
-#, fuzzy
 msgid "On (2)"
-msgstr "An"
+msgstr "An (2)"
 
 #: src/canonmn.cpp:400 src/minoltamn.cpp:1152 src/nikonmn.cpp:137
 #: src/olympusmn.cpp:602 src/olympusmn.cpp:793 src/olympusmn.cpp:858
@@ -602,12 +595,10 @@ msgid "Firmware version"
 msgstr "Firmware Version"
 
 #: src/canonmn.cpp:414 src/canonmn.cpp:1470 src/nikonmn.cpp:894
-#, fuzzy
 msgid "File Number"
-msgstr "Blende"
+msgstr "Dateiname"
 
 #: src/canonmn.cpp:414 src/nikonmn.cpp:894
-#, fuzzy
 msgid "File number"
 msgstr "Dateiname"
 
@@ -626,12 +617,10 @@ msgid "Camera serial number"
 msgstr "Kamera-Seriennummer"
 
 #: src/canonmn.cpp:417
-#, fuzzy
 msgid "Camera Info"
 msgstr "Kamerainformation"
 
 #: src/canonmn.cpp:417
-#, fuzzy
 msgid "Camera info"
 msgstr "Kamerainformation"
 
@@ -656,24 +645,20 @@ msgid "Picture info"
 msgstr "Bild-Info"
 
 #: src/canonmn.cpp:421
-#, fuzzy
 msgid "Thumbnail Image Valid Area"
 msgstr "Vorschaubild"
 
 #: src/canonmn.cpp:421
-#, fuzzy
 msgid "Thumbnail image valid area"
 msgstr "Vorschaubild"
 
 #: src/canonmn.cpp:422
-#, fuzzy
 msgid "Serial Number Format"
-msgstr "Seriennummer 2"
+msgstr "Seriennummerformat"
 
 #: src/canonmn.cpp:422
-#, fuzzy
 msgid "Serial number format"
-msgstr "Seriennummer 2"
+msgstr "Seriennummerformat"
 
 #: src/canonmn.cpp:423 src/canonmn.cpp:548 src/minoltamn.cpp:2385
 #: src/olympusmn.cpp:111 src/olympusmn.cpp:504 src/pentaxmn.cpp:279
@@ -685,12 +670,10 @@ msgid "Super macro"
 msgstr "Supermakro"
 
 #: src/canonmn.cpp:424 src/nikonmn.cpp:576
-#, fuzzy
 msgid "AF Info"
 msgstr "Autofokus-Information"
 
 #: src/canonmn.cpp:424 src/nikonmn.cpp:576
-#, fuzzy
 msgid "AF info"
 msgstr "Autofokus-Information"
 
@@ -716,7 +699,6 @@ msgid "Lens Model"
 msgstr "Linsenmodell"
 
 #: src/canonmn.cpp:427 src/olympusmn.cpp:765
-#, fuzzy
 msgid "Lens model"
 msgstr "Linsenmodell"
 
@@ -737,17 +719,14 @@ msgid "Dust removal data"
 msgstr ""
 
 #: src/canonmn.cpp:430
-#, fuzzy
 msgid "Custom functions"
 msgstr "Angepasste Funktionen"
 
 #: src/canonmn.cpp:431
-#, fuzzy
 msgid "Processing Info"
 msgstr "Verarbeitungssoftware"
 
 #: src/canonmn.cpp:431
-#, fuzzy
 msgid "Processing info"
 msgstr "Verarbeitungssoftware"
 
@@ -762,7 +741,6 @@ msgid "Measured color"
 msgstr "Natürliche Farben"
 
 #: src/canonmn.cpp:433
-#, fuzzy
 msgid "ColorSpace"
 msgstr "Farbraum"
 
@@ -1011,19 +989,16 @@ msgid "Medium Widescreen"
 msgstr "Mittel 1"
 
 #: src/canonmn.cpp:519 src/canonmn.cpp:1424
-#, fuzzy
 msgid "Small 1"
-msgstr "Klein"
+msgstr "Klein 1"
 
 #: src/canonmn.cpp:520 src/canonmn.cpp:1425
-#, fuzzy
 msgid "Small 2"
-msgstr "Klein"
+msgstr "Klein 2"
 
 #: src/canonmn.cpp:521 src/canonmn.cpp:1426
-#, fuzzy
 msgid "Small 3"
-msgstr "Klein"
+msgstr "Klein 3"
 
 #: src/canonmn.cpp:522 src/canonmn.cpp:1427
 #, fuzzy
@@ -1084,14 +1059,12 @@ msgid "Slow shutter"
 msgstr "Langsamer Verschluss"
 
 #: src/canonmn.cpp:536
-#, fuzzy
 msgid "Night"
-msgstr "Rechts"
+msgstr "Nacht"
 
 #: src/canonmn.cpp:537
-#, fuzzy
 msgid "Gray Scale"
-msgstr "Grauskalierung"
+msgstr "Graustufen"
 
 #: src/canonmn.cpp:538 src/canonmn.cpp:1147 src/canonmn.cpp:1462
 #: src/minoltamn.cpp:67 src/nikonmn.cpp:193 src/nikonmn.cpp:686
@@ -1145,12 +1118,10 @@ msgid "Neutral"
 msgstr "Neutral"
 
 #: src/canonmn.cpp:546
-#, fuzzy
 msgid "Flash Off"
 msgstr "Blitz aus"
 
 #: src/canonmn.cpp:547
-#, fuzzy
 msgid "Long Shutter"
 msgstr "Langsamer Verschluss"
 
@@ -1183,17 +1154,14 @@ msgid "Snow"
 msgstr "Schnee"
 
 #: src/canonmn.cpp:555
-#, fuzzy
 msgid "Kids & Pets"
 msgstr "Kinder & Tiere"
 
 #: src/canonmn.cpp:556
-#, fuzzy
 msgid "Night Snapshot"
 msgstr "Nachtaufnahme"
 
 #: src/canonmn.cpp:557
-#, fuzzy
 msgid "Digital Macro"
 msgstr "Digitales Makro"
 
@@ -1286,7 +1254,7 @@ msgstr "Selbstauslöser"
 
 #: src/canonmn.cpp:576
 msgid "Smile"
-msgstr ""
+msgstr "Lächeln"
 
 #: src/canonmn.cpp:577
 #, fuzzy
@@ -1294,14 +1262,12 @@ msgid "Wink Self-timer"
 msgstr "Selbstauslöser"
 
 #: src/canonmn.cpp:578
-#, fuzzy
 msgid "Fisheye Effect"
-msgstr "Farbeffekt"
+msgstr "Fischaugeneffekt"
 
 #: src/canonmn.cpp:579
-#, fuzzy
 msgid "Miniature Effect"
-msgstr "Minimale Blende"
+msgstr "Miniatureffekt"
 
 #: src/canonmn.cpp:580
 #, fuzzy
@@ -1314,14 +1280,12 @@ msgid "Best Image Selection"
 msgstr "ISO-Auswahl"
 
 #: src/canonmn.cpp:582
-#, fuzzy
 msgid "High Dynamic Range"
-msgstr "Dynamischer Bereich"
+msgstr "HDR"
 
 #: src/canonmn.cpp:583
-#, fuzzy
 msgid "Handheld Night Scene"
-msgstr "Kerzenlicht"
+msgstr "Handgehalten bei Nacht"
 
 #: src/canonmn.cpp:584
 #, fuzzy
