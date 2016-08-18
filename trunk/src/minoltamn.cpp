@@ -2341,8 +2341,8 @@ namespace Exiv2 {
 
     //! Lookup table to translate Sony camera settings quality values to readable labels
     extern const TagDetails minoltaSonyQualityCs[] = {
-        { 0,   N_("RAW ")       },
-        { 2,   N_("CRAW ")      },
+        { 0,   N_("RAW")        },
+        { 2,   N_("CRAW")       },
         { 16,  N_("Extra Fine") },
         { 32,  N_("Fine")       },
         { 34,  N_("RAW+JPEG")   },
