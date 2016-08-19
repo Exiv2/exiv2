@@ -460,7 +460,7 @@ namespace Exiv2 {
                 }
 
                 bool bPrintPayload = (equalsWebPTag(chunkId, "XMP ") && option==kpsXMP)
-                                  || (equalsWebPTag(chunkId, "ICC ") && option==kpsIccProfile)
+                                  || (equalsWebPTag(chunkId, "ICCP") && option==kpsIccProfile)
                                   ;
                 if ( bPrintPayload ) {
                     out.write((const char*) payload.pData_,payload.size_);
