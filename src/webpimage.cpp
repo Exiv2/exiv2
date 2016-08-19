@@ -160,124 +160,117 @@ namespace Exiv2 {
         /* Verify for a VP8X Chunk First before writing in
            case we have any exif or xmp data, also check
            for any chunks with alpha frame/layer set */
-        if (has_xmp || has_exif) {
-            while (!io_->eof()) {
-                io_->read(chunkId.pData_, 4);
-                io_->read(size_buff, 4);
-                long size = Exiv2::getULong(size_buff, littleEndian);
-                DataBuf payload(size);
-                io_->read(payload.pData_, payload.size_);
+        while (!io_->eof()) {
+            io_->read(chunkId.pData_, 4);
+            io_->read(size_buff, 4);
+            long size = Exiv2::getULong(size_buff, littleEndian);
+            DataBuf payload(size);
+            io_->read(payload.pData_, payload.size_);
 
-                /* Chunk with color profile. */
-                if (equalsWebPTag(chunkId, "ICCP") && !has_alpha) {
-                    has_icc &= true;
-                }
+            /* Chunk with information about features
+               used in the file. */
+            if (equalsWebPTag(chunkId, "VP8X") && !has_vp8x) {
+                has_vp8x = true;
+            }
+            if (equalsWebPTag(chunkId, "VP8X") && !has_size) {
+                has_size = true;
+                byte size_buf[4];
 
-                /* Chunk with information about features
-                   used in the file. */
-                if (equalsWebPTag(chunkId, "VP8X") && !has_vp8x) {
-                    has_vp8x = true;
-                }
-                if (equalsWebPTag(chunkId, "VP8X") && !has_size) {
-                    has_size = true;
-                    byte size_buf[4];
+                // Fetch width
+                memcpy(&size_buf, &payload.pData_[4], 3);
+                size_buf[3] = 0;
+                width = Exiv2::getULong(size_buf, littleEndian) + 1;
 
-                    // Fetch width
-                    memcpy(&size_buf, &payload.pData_[4], 3);
-                    size_buf[3] = 0;
-                    width = Exiv2::getULong(size_buf, littleEndian) + 1;
+                // Fetch height
+                memcpy(&size_buf, &payload.pData_[7], 3);
+                size_buf[3] = 0;
+                height = Exiv2::getULong(size_buf, littleEndian) + 1;
+            }
 
-                    // Fetch height
-                    memcpy(&size_buf, &payload.pData_[7], 3);
-                    size_buf[3] = 0;
-                    height = Exiv2::getULong(size_buf, littleEndian) + 1;
-                }
-
-                /* Chunk with with animation control data. */
+            /* Chunk with with animation control data. */
 #ifdef __CHECK_FOR_ALPHA__  // Maybe in the future
-                if (equalsWebPTag(chunkId, "ANIM") && !has_alpha) {
-                    has_alpha = true;
-                }
+            if (equalsWebPTag(chunkId, "ANIM") && !has_alpha) {
+                has_alpha = true;
+            }
 #endif
 
-                /* Chunk with with lossy image data. */
+            /* Chunk with with lossy image data. */
 #ifdef __CHECK_FOR_ALPHA__ // Maybe in the future
-                if (equalsWebPTag(chunkId, "VP8 ") && !has_alpha) {
+            if (equalsWebPTag(chunkId, "VP8 ") && !has_alpha) {
+                has_alpha = true;
+            }
+#endif
+            if (equalsWebPTag(chunkId, "VP8 ") && !has_size) {
+                has_size = true;
+                byte size_buf[4];
+
+                // Fetch width
+                memcpy(&size_buf, &payload.pData_[6], 2);
+                size_buf[2] = 0;
+                size_buf[3] = 0;
+                width = Exiv2::getULong(size_buf, littleEndian) & 0x3fff;
+
+                // Fetch height
+                memcpy(&size_buf, &payload.pData_[8], 2);
+                size_buf[2] = 0;
+                size_buf[3] = 0;
+                height = Exiv2::getULong(size_buf, littleEndian) & 0x3fff;
+            }
+
+            /* Chunk with with lossless image data. */
+            if (equalsWebPTag(chunkId, "VP8L") && !has_alpha) {
+                if ((payload.pData_[5] & 0x10) == 0x10) {
                     has_alpha = true;
                 }
-#endif
-                if (equalsWebPTag(chunkId, "VP8 ") && !has_size) {
-                    has_size = true;
-                    byte size_buf[4];
+            }
+            if (equalsWebPTag(chunkId, "VP8L") && !has_size) {
+                has_size = true;
+                byte size_buf_w[2];
+                byte size_buf_h[3];
 
-                    // Fetch width
-                    memcpy(&size_buf, &payload.pData_[6], 2);
-                    size_buf[2] = 0;
-                    size_buf[3] = 0;
-                    width = Exiv2::getULong(size_buf, littleEndian) & 0x3fff;
+                // Fetch width
+                memcpy(&size_buf_w, &payload.pData_[1], 2);
+                size_buf_w[1] &= 0x3F;
+                width = Exiv2::getUShort(size_buf_w, littleEndian) + 1;
 
-                    // Fetch height
-                    memcpy(&size_buf, &payload.pData_[8], 2);
-                    size_buf[2] = 0;
-                    size_buf[3] = 0;
-                    height = Exiv2::getULong(size_buf, littleEndian) & 0x3fff;
+                // Fetch height
+                memcpy(&size_buf_h, &payload.pData_[2], 3);
+                size_buf_h[0] = ((size_buf_h[0] >> 6) & 0x3) | ((size_buf_h[1] & 0x3F) << 0x2);
+                size_buf_h[1] = ((size_buf_h[1] >> 6) & 0x3) | ((size_buf_h[2] & 0xF) << 0x2);
+                height = Exiv2::getUShort(size_buf_h, littleEndian) + 1;
+            }
+
+            /* Chunk with animation frame. */
+            if (equalsWebPTag(chunkId, "ANMF") && !has_alpha) {
+                if ((payload.pData_[5] & 0x2) == 0x2) {
+                    has_alpha = true;
                 }
+            }
+            if (equalsWebPTag(chunkId, "ANMF") && !has_size) {
+                has_size = true;
+                byte size_buf[4];
 
-                /* Chunk with with lossless image data. */
-                if (equalsWebPTag(chunkId, "VP8L") && !has_alpha) {
-                    if ((payload.pData_[5] & 0x10) == 0x10) {
-                      has_alpha = true;
-                    }
-                }
-                if (equalsWebPTag(chunkId, "VP8L") && !has_size) {
-                    has_size = true;
-                    byte size_buf_w[2];
-                    byte size_buf_h[3];
+                // Fetch width
+                memcpy(&size_buf, &payload.pData_[6], 3);
+                size_buf[3] = 0;
+                width = Exiv2::getULong(size_buf, littleEndian) + 1;
 
-                    // Fetch width
-                    memcpy(&size_buf_w, &payload.pData_[1], 2);
-                    size_buf_w[1] &= 0x3F;
-                    width = Exiv2::getUShort(size_buf_w, littleEndian) + 1;
-
-                    // Fetch height
-                    memcpy(&size_buf_h, &payload.pData_[2], 3);
-                    size_buf_h[0] = ((size_buf_h[0] >> 6) & 0x3) | ((size_buf_h[1] & 0x3F) << 0x2);
-                    size_buf_h[1] = ((size_buf_h[1] >> 6) & 0x3) | ((size_buf_h[2] & 0xF) << 0x2);
-                    height = Exiv2::getUShort(size_buf_h, littleEndian) + 1;
-                }
-
-                /* Chunk with animation frame. */
-                if (equalsWebPTag(chunkId, "ANMF") && !has_alpha) {
-                    if ((payload.pData_[5] & 0x2) == 0x2) {
-                      has_alpha = true;
-                    }
-                }
-                if (equalsWebPTag(chunkId, "ANMF") && !has_size) {
-                    has_size = true;
-                    byte size_buf[4];
-
-                    // Fetch width
-                    memcpy(&size_buf, &payload.pData_[6], 3);
-                    size_buf[3] = 0;
-                    width = Exiv2::getULong(size_buf, littleEndian) + 1;
-
-                    // Fetch height
-                    memcpy(&size_buf, &payload.pData_[9], 3);
-                    size_buf[3] = 0;
-                    height = Exiv2::getULong(size_buf, littleEndian) + 1;
-                }
+                // Fetch height
+                memcpy(&size_buf, &payload.pData_[9], 3);
+                size_buf[3] = 0;
+                height = Exiv2::getULong(size_buf, littleEndian) + 1;
+            }
 
                 /* Chunk with alpha data. */
-                if (equalsWebPTag(chunkId, "ALPH") && !has_alpha) {
-                    has_alpha = true;
-                }
+            if (equalsWebPTag(chunkId, "ALPH") && !has_alpha) {
+                has_alpha = true;
             }
+        }
 
-            /* Inject a VP8X chunk if one isn't available. */
-            if (!has_vp8x) {
-                inject_VP8X(outIo, has_xmp, has_exif, has_alpha,
-                            has_icc, width, height);
-            }
+        /* Inject a VP8X chunk if one isn't available. */
+        if (!has_vp8x) {
+            inject_VP8X(outIo, has_xmp, has_exif, has_alpha,
+                        has_icc, width, height);
         }
 
         io_->seek(12, BasicIo::beg);
@@ -295,8 +288,8 @@ namespace Exiv2 {
 
             DataBuf payload(size);
             io_->read(payload.pData_, size);
-            has_icc = iccProfileDefined();
 
+            bool has_zero = false;
             if (equalsWebPTag(chunkId, "VP8X")) {
                 if (has_icc){
                     payload.pData_[0] |= 0x20;
@@ -322,8 +315,23 @@ namespace Exiv2 {
                     throw Error(21);
                 if (outIo.write(payload.pData_, payload.size_) != payload.size_)
                     throw Error(21);
+                if (has_icc) {
+                    std::string header = "ICCP";
+                    if (outIo.write((const byte*)header.data(), TAG_SIZE) != TAG_SIZE) throw Error(21);
+                    ul2Data(data, (uint32_t) iccProfile_.size_, littleEndian);
+                    if (outIo.write(data, 4) != 4) throw Error(21);
+                    if (outIo.write(iccProfile_.pData_, iccProfile_.size_) != iccProfile_.size_) {
+                        throw Error(21);
+                    }
+                    if (iccProfile_.size_ % 2) {
+                      byte c = 0;
+                      has_zero = true;
+                      if (outIo.write(&c, 1) != 1)
+                        throw Error(21);
+                    }
+                }
             } else if (equalsWebPTag(chunkId, "ICCP")) {
-                // Skip and add new data afterwards
+                // Skip it altogether handle it prior to here :)
             } else if (equalsWebPTag(chunkId, "EXIF")) {
                 // Skip and add new data afterwards
             } else if (equalsWebPTag(chunkId, "XMP ")) {
@@ -340,7 +348,6 @@ namespace Exiv2 {
             offset = io_->tell();
 
             // Check for extra \0 padding
-            bool has_zero = false;
             while (!io_->eof() && !has_zero && offset < filesize) {
                 byte c = 0;
                 io_->read(&c, 1);
@@ -385,15 +392,6 @@ namespace Exiv2 {
             ul2Data(data, (uint32_t) xmpData.size(), littleEndian);
             if (outIo.write(data, 4) != 4) throw Error(21);
             if (outIo.write((const byte*)xmpData.data(), static_cast<long>(xmpData.size())) != (long)xmpData.size()) {
-                throw Error(21);
-            }
-        }
-        if (has_icc) {
-            std::string header = "ICCP";
-            if (outIo.write((const byte*)header.data(), TAG_SIZE) != TAG_SIZE) throw Error(21);
-            ul2Data(data, (uint32_t) iccProfile_.size_, littleEndian);
-            if (outIo.write(data, 4) != 4) throw Error(21);
-            if (outIo.write((const byte*)iccProfile_.pData_, static_cast<long>(iccProfile_.size_) != (long)iccProfile_.size_)) {
                 throw Error(21);
             }
         }
