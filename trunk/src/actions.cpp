@@ -1265,6 +1265,9 @@ namespace Action {
         if (0 == rc && Params::instance().target_ & Params::ctXmpSidecar) {
             rc = insertXmpPacket(path);
         }
+        if (0 == rc && Params::instance().target_ & Params::ctIccProfile) {
+            rc = insertIccProfile(path);
+        }
         if (Params::instance().preserve_) {
             ts.touch(path);
         }
@@ -1301,6 +1304,29 @@ namespace Action {
 
         return 0;
     }
+
+    int Insert::insertIccProfile(const std::string& path) const
+    {
+        std::string iccProfilePath = newFilePath(path, ".icc");
+        if (!Exiv2::fileExists(iccProfilePath, true)) {
+            std::cerr << iccProfilePath
+                      << ": " << _("Failed to open the file\n");
+            return -1;
+        }
+        if (!Exiv2::fileExists(path, true)) {
+            std::cerr << path
+                      << ": " << _("Failed to open the file\n");
+            return -1;
+        }
+        Exiv2::DataBuf iccProfileBlob = Exiv2::readFile(iccProfilePath);
+        Exiv2::Image::AutoPtr image = Exiv2::ImageFactory::open(path);
+        assert(image.get() != 0);
+        image->readMetadata();
+        image->setIccProfile(iccProfileBlob);
+        image->writeMetadata();
+
+        return 0;
+    } // Insert::insertIccProfile
 
     int Insert::insertThumbnail(const std::string& path) const
     {

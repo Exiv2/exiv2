@@ -351,6 +351,12 @@ namespace Action {
                  filename (\em path) minus its suffix plus ".xmp".
          */
         int insertXmpPacket(const std::string& path) const;
+        /*!
+          @brief Insert an ICC profile from a file into file \em path.
+                 The filename of the ICC profile is expected to be the image
+                 filename (\em path) minus its suffix plus ".icc".
+         */
+        int insertIccProfile(const std::string& path) const;
 
     private:
         virtual Insert* clone_() const;
