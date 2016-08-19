@@ -555,8 +555,14 @@ source ./functions.source
     runTest exiv2 -pS                   $filename
     runTest exiv2 -pR                   $filename
     runTest exiv2 -pX                   $filename | xmllint --pretty 2 -
-    # TODO: test ICC profiles
-    # TODO: deleting and inserting metadata
+    # test deleting metadata
+    for arg in -dC -de -dx -dCe -dCx -dCxe; do
+      copyTestFile                      $filename
+      runTest exiv2 -pS                 $filename
+      runTest exiv2 $arg                $filename
+      runTest exiv2 -pS                 $filename
+    done
+    # TODO: inserting metadata
 
     num=1202
     printf "$num " >&3
