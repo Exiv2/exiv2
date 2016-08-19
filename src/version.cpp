@@ -183,9 +183,10 @@ static bool shouldOutput(const exv_grep_keys_t& greps,const char* key,const std:
     for( exv_grep_keys_t::const_iterator g = greps.begin();
       !bPrint && g != greps.end() ; ++g
     ) {
+        std::string Key(key);
 #if __cplusplus >= CPLUSPLUS11
         std::smatch m;
-        bPrint = std::regex_search(std::string(key),m,*g) || std::regex_search(value,m,*g);
+        bPrint = std::regex_search(Key,m,*g) || std::regex_search(value,m,*g);
 #else
 #if EXV_HAVE_REGEX
         bPrint = (  0 == regexec( &(*g), key          , 0, NULL, 0)
@@ -193,7 +194,6 @@ static bool shouldOutput(const exv_grep_keys_t& greps,const char* key,const std:
                  );
 #else
             std::string Pattern(g->pattern_);
-            std::string Key(key);
             std::string Value(value);
             if ( g->bIgnoreCase_ ) {
                 // https://notfaq.wordpress.com/2007/08/04/cc-convert-string-to-upperlower-case/
