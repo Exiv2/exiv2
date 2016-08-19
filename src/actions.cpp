@@ -1258,12 +1258,18 @@ namespace Action {
                 || Params::instance().target_ & Params::ctXmpRaw)) {
             std::string suffix = Params::instance().suffix_;
             if (suffix.empty()) suffix = ".exv";
-            if (Params::instance().target_ & Params::ctXmpSidecar) suffix = ".xmp";
+            if ((Params::instance().target_ & Params::ctXmpSidecar)
+            ||  (Params::instance().target_ & Params::ctXmpRaw    )) suffix = ".xmp";
+
             std::string exvPath = newFilePath(path, suffix);
-            rc = metacopy(exvPath, path, Exiv2::ImageType::none, true);
+            std::string xmpPath = newFilePath(path, suffix);
+            rc = suffix == ".exv" ? metacopy(exvPath, path, Exiv2::ImageType::xmp, true)
+                                  : insertXmpPacket(xmpPath,path)
+                                  ;
         }
         if (0 == rc && Params::instance().target_ & Params::ctXmpSidecar) {
-            rc = insertXmpPacket(path);
+        	std::string xmpPath = newFilePath(path,".xmp");
+            rc = insertXmpPacket(xmpPath,path);
         }
         if (0 == rc && Params::instance().target_ & Params::ctIccProfile) {
             rc = insertIccProfile(path);
@@ -1280,9 +1286,8 @@ namespace Action {
         return 1;
     } // Insert::run
 
-    int Insert::insertXmpPacket(const std::string& path) const
+    int Insert::insertXmpPacket(const std::string& xmpPath,const std::string& path) const
     {
-        std::string xmpPath = newFilePath(path, ".xmp");
         if (!Exiv2::fileExists(xmpPath, true)) {
             std::cerr << xmpPath
                       << ": " << _("Failed to open the file\n");
@@ -1295,7 +1300,9 @@ namespace Action {
         }
         Exiv2::DataBuf buf = Exiv2::readFile(xmpPath);
         std::string xmpPacket;
-        xmpPacket.assign(reinterpret_cast<char*>(buf.pData_), buf.size_);
+        for ( long i = 0 ; i < buf.size_ ; i++ ) {
+            xmpPacket += (char) buf.pData_[i];
+        }
         Exiv2::Image::AutoPtr image = Exiv2::ImageFactory::open(path);
         assert(image.get() != 0);
         image->readMetadata();
@@ -1307,25 +1314,37 @@ namespace Action {
 
     int Insert::insertIccProfile(const std::string& path) const
     {
+    	int rc = 0;
+    	// for path "foo.XXX", do a binary copy of "foo.icc"
         std::string iccProfilePath = newFilePath(path, ".icc");
         if (!Exiv2::fileExists(iccProfilePath, true)) {
-            std::cerr << iccProfilePath
-                      << ": " << _("Failed to open the file\n");
-            return -1;
-        }
-        if (!Exiv2::fileExists(path, true)) {
-            std::cerr << path
-                      << ": " << _("Failed to open the file\n");
-            return -1;
+			std::cerr << iccProfilePath
+					  << ": " << _("Failed to open the file\n");
+			rc = -1;
         }
         Exiv2::DataBuf iccProfileBlob = Exiv2::readFile(iccProfilePath);
-        Exiv2::Image::AutoPtr image = Exiv2::ImageFactory::open(path);
-        assert(image.get() != 0);
-        image->readMetadata();
-        image->setIccProfile(iccProfileBlob);
-        image->writeMetadata();
 
-        return 0;
+        // test path exists
+        if (rc==0 && !Exiv2::fileExists(path, true)) {
+			std::cerr << path
+					  << ": " << _("Failed to open the file\n");
+			rc=-1;
+        }
+
+        // read in the metadata
+		if ( rc == 0 ) {
+            Exiv2::Image::AutoPtr image = Exiv2::ImageFactory::open(path);
+            assert(image.get() != 0);
+            image->readMetadata();
+			// clear existing profile, assign the blob and rewrite image
+			image->clearIccProfile();
+			if ( iccProfileBlob.size_ ) {
+				image->setIccProfile(iccProfileBlob);
+			}
+			image->writeMetadata();
+        }
+
+        return rc;
     } // Insert::insertIccProfile
 
     int Insert::insertThumbnail(const std::string& path) const

@@ -74,13 +74,14 @@ TESTS  = addmoddel.sh         \
          preview-test.sh      \
          stringto-test.sh     \
          tiff-test.sh         \
+         webp-test.sh         \
          write-test.sh        \
          write2-test.sh       \
          xmpparser-test.sh    \
          conversions.sh
 
 # video tests
-TESTV  = video-test.sh         
+TESTV  = video-test.sh
 TESTVW = write-video-test.sh
 
 # EPS tests
@@ -149,7 +150,7 @@ testx:
 	done
 
 mostlyclean clean:
-	rm -rf $(top_srcdir)/test/tmp/* 
+	rm -rf $(top_srcdir)/test/tmp/*
 
 distclean: clean
 	$(RM) *~ *.bak *#

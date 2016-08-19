@@ -350,7 +350,7 @@ namespace Action {
                  The filename of the XMP packet is expected to be the image
                  filename (\em path) minus its suffix plus ".xmp".
          */
-        int insertXmpPacket(const std::string& path) const;
+        int insertXmpPacket(const std::string& xmpPath,const std::string& path) const;
         /*!
           @brief Insert an ICC profile from a file into file \em path.
                  The filename of the ICC profile is expected to be the image
