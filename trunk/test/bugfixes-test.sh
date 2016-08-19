@@ -567,33 +567,33 @@ source ./functions.source
     # test print/insert metadata
     if [ 1 == 1 ]; then
       # ICC Profile
-      copyTestFile                        $filename
-      copyTestFile                        Reagan.tiff
-      exiv2 -pS                           $filename
-      exiv2 -pC                           Reagan.tiff > $icc_name
-      exiv2 -iC                           $filename
-      exiv2 -pS                           $filename
+      copyTestFile                      $filename
+      copyTestFile                      Reagan.tiff
+      exiv2 -pS                         $filename
+      exiv2 -pC                         Reagan.tiff > $icc_name
+      exiv2 -iC                         $filename
+      exiv2 -pS                         $filename
     fi
 
-    if [ 1 == 0 ]; then
+    if [ 1 == 0 ]; then # TODO: Fix this
       # XMP
-      copyTestFile                        $filename
-      copyTestFile                        Reagan.tiff
-      exiv2 -pS                           $filename
-      exiv2 --force -ex                   Reagan.tiff
-      mv   Reagan.exv                     $exv_name
-      exiv2 -ix                           $filename
-      exiv2 -pS                           $filename
+      copyTestFile                      $filename
+      copyTestFile                      Reagan.tiff
+      exiv2 -pS                         $filename
+      exiv2 --force -ex                 Reagan.tiff
+      mv   Reagan.exv                   $exv_name
+      exiv2 -ix                         $filename
+      exiv2 -pS                         $filename
     fi
 
-    if [ 1 == 0 ]; then
+    if [ 1 == 0 ]; then # TODO: Fix this
       # EXIF
-      copyTestFile                        exiv2-bug937.jpg $filename
-      exiv2 --force -ea                   $filename
-      copyTestFile                        $filename
-      exiv2 -pS                           $filename
-      exiv2 -ie                           $filename
-      exiv2 -pS                           $filename
+      copyTestFile                      exiv2-bug937.jpg $filename
+      exiv2 --force -ea                 $filename
+      copyTestFile                      $filename
+      exiv2 -pS                         $filename
+      exiv2 -ie                         $filename
+      exiv2 -pS                         $filename
     fi
 
     num=1202
