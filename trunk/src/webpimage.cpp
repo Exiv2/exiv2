@@ -137,7 +137,6 @@ namespace Exiv2 {
         int height = 0;
 
         byte size_buff[4];
-        std::string xmpData;
         Blob blob;
 
         if (exifData_.count() > 0) {
@@ -147,15 +146,12 @@ namespace Exiv2 {
             }
         }
 
-        if (xmpData_.count() > 0) {
+        if (xmpData_.count() > 0 && !writeXmpFromPacket()) {
             XmpParser::encode(xmpPacket_, xmpData_,
                               XmpParser::useCompactFormat |
                               XmpParser::omitAllFormatting);
-            if (xmpPacket_.size() > 0) {
-                has_xmp = true;
-                xmpData = xmpPacket_.data();
-            }
         }
+        has_xmp = xmpPacket_.size() > 0;
 
         /* Verify for a VP8X Chunk First before writing in
            case we have any exif or xmp data, also check
@@ -389,9 +385,9 @@ namespace Exiv2 {
         if (has_xmp) {
             std::string header = "XMP ";
             if (outIo.write((const byte*)header.data(), TAG_SIZE) != TAG_SIZE) throw Error(21);
-            ul2Data(data, (uint32_t) xmpData.size(), littleEndian);
+            ul2Data(data, (uint32_t) xmpPacket().size(), littleEndian);
             if (outIo.write(data, 4) != 4) throw Error(21);
-            if (outIo.write((const byte*)xmpData.data(), static_cast<long>(xmpData.size())) != (long)xmpData.size()) {
+            if (outIo.write((const byte*)xmpPacket().data(), static_cast<long>(xmpPacket().size())) != (long)xmpPacket().size()) {
                 throw Error(21);
             }
         }

@@ -548,54 +548,6 @@ source ./functions.source
       runTest exiv2 -pa --grep fuji/i   $filename
     done
 
-    num=1199                    # WebPImage
-    printf "$num " >&3
-    filename=exiv2-bug$num.webp # http://dev.exiv2.org/attachments/download/1033/Stonehenge-with-icc.webp
-    icc_name=exiv2-bug$num.icc
-    exv_name=exiv2-bug$num.exv
-    copyTestFile                        $filename
-    runTest exiv2 -pS                   $filename
-    runTest exiv2 -pR                   $filename
-    runTest exiv2 -pX                   $filename | xmllint --pretty 2 -
-    # test deleting metadata
-    for option in -dC -de -dx -dCe -dCx -dCxe; do
-      copyTestFile                      $filename
-      runTest exiv2 -pS                 $filename
-      runTest exiv2 $option             $filename
-      runTest exiv2 -pS                 $filename
-    done
-    # test print/insert metadata
-    if [ 1 == 1 ]; then
-      # ICC Profile
-      copyTestFile                      $filename
-      copyTestFile                      Reagan.tiff
-      exiv2 -pS                         $filename
-      exiv2 -pC                         Reagan.tiff > $icc_name
-      exiv2 -iC                         $filename
-      exiv2 -pS                         $filename
-    fi
-
-    if [ 1 == 0 ]; then # TODO: Fix this
-      # XMP
-      copyTestFile                      $filename
-      copyTestFile                      Reagan.tiff
-      exiv2 -pS                         $filename
-      exiv2 --force -ex                 Reagan.tiff
-      mv   Reagan.exv                   $exv_name
-      exiv2 -ix                         $filename
-      exiv2 -pS                         $filename
-    fi
-
-    if [ 1 == 0 ]; then # TODO: Fix this
-      # EXIF
-      copyTestFile                      exiv2-bug937.jpg $filename
-      exiv2 --force -ea                 $filename
-      copyTestFile                      $filename
-      exiv2 -pS                         $filename
-      exiv2 -ie                         $filename
-      exiv2 -pS                         $filename
-    fi
-
     num=1202
     printf "$num " >&3
     filename=exiv2-bug$num.jpg # test/tmp/20030925_201850.jpg
