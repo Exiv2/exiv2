@@ -35,6 +35,17 @@ source ./functions.source
     exiv2 -pS                           $filename
 
     printf "XMP " >&3
+    # copy the XMP from the test file
+    copyTestFile                        $filename
+    exiv2 -pX                           $filename   > $xmp_name;
+    exiv2 -ea --force                   $filename
+
+    copyTestFile                        $filename
+    exiv2 -pS                           $filename
+    exiv2 -iX                           $filename
+    exiv2 -pS                           $filename
+    exiv2 -ix                           $filename
+
     # copy the XMP from Reagan.tiff to test file
     copyTestFile                        Reagan.tiff
     exiv2 -pX                           Reagan.tiff > $xmp_name;
@@ -61,12 +72,12 @@ source ./functions.source
     exiv2 -pS                           $filename
 
     printf "EXIF " >&3
-    copyTestFile                      exiv2-bug937.jpg $filename
-    exiv2 --force -ea                 $filename
-    copyTestFile                      $filename
-    exiv2 -pS                         $filename
-    exiv2 -ie                         $filename
-    exiv2 -pS                         $filename
+    copyTestFile                        exiv2-bug937.jpg $filename
+    exiv2 --force -ea                   $filename
+    copyTestFile                        $filename
+    exiv2 -pS                           $filename
+    exiv2 -ie                           $filename
+    exiv2 -pS                           $filename
 
 ) 3>&1 > $results 2>&1
 

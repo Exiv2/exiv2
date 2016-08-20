@@ -182,7 +182,7 @@ namespace Exiv2 {
         /* Verify for a VP8X Chunk First before writing in
          case we have any exif or xmp data, also check
          for any chunks with alpha frame/layer set */
-        while (!io_->eof()) {
+        while ( !io_->eof() && (uint64_t) io_->tell() < filesize) {
             io_->read(chunkId.pData_, WEBP_TAG_SIZE);
             io_->read(size_buff, WEBP_TAG_SIZE);
             long size = Exiv2::getULong(size_buff, littleEndian);
@@ -306,13 +306,7 @@ namespace Exiv2 {
         }
 
         io_->seek(12, BasicIo::beg);
-
-        while (!io_->eof()) {
-            uint64_t offset = io_->tell();
-            if (offset >= filesize) {
-                break;
-            }
-
+        while ( !io_->eof() && (uint64_t) io_->tell() < filesize) {
             io_->read(chunkId.pData_, 4);
             io_->read(size_buff, 4);
 
@@ -375,18 +369,9 @@ namespace Exiv2 {
                     throw Error(21);
             }
 
-            if (outIo.tell() % 2) { // pad
-                if (outIo.write(&WEBP_PAD_ODD, 1) != 1) throw Error(21);
-            }
-            offset = io_->tell();
-
             // Encoder required to pad odd sized data with a null byte
             if (outIo.tell() % 2) {
                 if (outIo.write(&WEBP_PAD_ODD, 1) != 1) throw Error(21);
-            }
-
-            if (offset >= filesize) {
-                break;
             }
         }
 
@@ -456,13 +441,13 @@ namespace Exiv2 {
             }
 
             io_->seek(0,BasicIo::beg); // rewind
-            uint64_t offset = (uint64_t) io_->tell();
-            while (!io_->eof() && offset < filesize ) {
+            while ( !io_->eof() && (uint64_t) io_->tell() < filesize) {
+                uint64_t offset = (uint64_t) io_->tell();
                 byte     size_buff[WEBP_TAG_SIZE];
                 io_->read(chunkId.pData_, WEBP_TAG_SIZE);
                 io_->read(size_buff, WEBP_TAG_SIZE);
                 long size = Exiv2::getULong(size_buff, littleEndian);
-                DataBuf payload(offset?size:WEBP_TAG_SIZE); // header is a bit of a dummy! (different from other chunks)
+                DataBuf payload(offset?size:WEBP_TAG_SIZE); // header is different from chunks
                 io_->read(payload.pData_, payload.size_);
 
                 if ( bPrint ) {
@@ -485,8 +470,7 @@ namespace Exiv2 {
                     out.write((const char*) payload.pData_,payload.size_);
                 }
 
-                if ( offset && (payload.size_ % 2)) io_->read(size_buff,1); // skip padding byte on sub-chunks
-                offset = (uint64_t) io_->tell();
+                if ( offset && io_->tell() % 2 ) io_->seek(+1, BasicIo::cur); // skip padding byte on sub-chunks
             }
         }
     }
@@ -518,18 +502,14 @@ namespace Exiv2 {
     {
         DataBuf   chunkId(5);
         byte      size_buff[WEBP_TAG_SIZE];
-        bool       has_canvas_data = false;
+        bool      has_canvas_data = false;
 
 #ifdef DEBUG
         std::cout << "Reading metadata" << std::endl;
 #endif
 
         chunkId.pData_[4] = '\0' ;
-
-        while ((uint64_t)io_->tell() < filesize) {
-            if ((uint64_t)(io_->tell() + 2) >= (uint64_t) io_->size()){
-                break;
-            }
+        while ( !io_->eof() && (uint64_t) io_->tell() < filesize) {
             io_->read(chunkId.pData_, WEBP_TAG_SIZE);
             io_->read(size_buff, WEBP_TAG_SIZE);
             long size = Exiv2::getULong(size_buff, littleEndian);
