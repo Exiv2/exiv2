@@ -380,6 +380,11 @@ namespace Exiv2 {
             {
                 throw Error(21);
             }
+            if ((long)blob.size() % 2) {
+              byte c = 0;
+              if (outIo.write(&c, 1) != 1)
+                  throw Error(21);
+            }
         }
 
         if (has_xmp) {
@@ -390,11 +395,17 @@ namespace Exiv2 {
             if (outIo.write((const byte*)xmpPacket().data(), static_cast<long>(xmpPacket().size())) != (long)xmpPacket().size()) {
                 throw Error(21);
             }
+            if ((long)xmpPacket().size() % 2) {
+              byte c = 0;
+              if (outIo.write(&c, 1) != 1)
+                  throw Error(21);
+            }
         }
 
         // Fix File Size Payload Data
         outIo.seek(0, BasicIo::beg);
         filesize = outIo.size() - 8;
+        std::cout << "size " << filesize << std::endl;
         outIo.seek(4, BasicIo::beg);
         ul2Data(data, (uint32_t) filesize, littleEndian);
         if (outIo.write(data, 4) != 4) throw Error(21);
