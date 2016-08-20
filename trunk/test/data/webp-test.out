@@ -299,6 +299,22 @@ STRUCTURE OF WEBP FILE: exiv2-bug1199.webp
   XMP  |     2864 |   184662 | <?xpacket begin="..." id="W5M0Mp
 STRUCTURE OF WEBP FILE: exiv2-bug1199.webp
  Chunk |   Length |   Offset | Payload
+  RIFF |   187526 |        0 | WEBP
+  VP8X |       10 |       12 | ,........
+  ICCP |      560 |       30 | ...0ADBE....mntrRGB XYZ ........
+  VP8  |   172008 |      598 | .G...*.. .>1..B.!..o.. ......]..
+  EXIF |    12040 |   172614 | II*........................... .
+  XMP  |     2864 |   184662 | <?xpacket begin="..." id="W5M0Mp
+STRUCTURE OF WEBP FILE: exiv2-bug1199.webp
+ Chunk |   Length |   Offset | Payload
+  RIFF |   187526 |        0 | WEBP
+  VP8X |       10 |       12 | ,........
+  ICCP |      560 |       30 | ...0ADBE....mntrRGB XYZ ........
+  VP8  |   172008 |      598 | .G...*.. .>1..B.!..o.. ......]..
+  EXIF |    12040 |   172614 | II*........................... .
+  XMP  |     2864 |   184662 | <?xpacket begin="..." id="W5M0Mp
+STRUCTURE OF WEBP FILE: exiv2-bug1199.webp
+ Chunk |   Length |   Offset | Payload
   RIFF |   189580 |        0 | WEBP
   VP8X |       10 |       12 | ,........
   ICCP |      560 |       30 | ...0ADBE....mntrRGB XYZ ........
