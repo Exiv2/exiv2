@@ -336,9 +336,9 @@ namespace Exiv2 {
                 }
 
                 if (has_exif) {
-                    payload.pData_[0] |= WEBP_VP8X_XMP_BIT;
+                    payload.pData_[0] |= WEBP_VP8X_EXIF_BIT;
                 } else {
-                    payload.pData_[0] &= ~WEBP_VP8X_XMP_BIT;
+                    payload.pData_[0] &= ~WEBP_VP8X_EXIF_BIT;
                 }
 
                 if (outIo.write(chunkId.pData_, WEBP_TAG_SIZE) != WEBP_TAG_SIZE)
@@ -355,7 +355,7 @@ namespace Exiv2 {
                     if (outIo.write((const byte*)WEBP_CHUNK_HEADER_ICCP, WEBP_TAG_SIZE) != WEBP_TAG_SIZE) throw Error(21);
                     ul2Data(data, (uint32_t) iccProfile_.size_, littleEndian);
                     if (outIo.write(data, WEBP_TAG_SIZE) != WEBP_TAG_SIZE) throw Error(21);
-                    if (outIo.write(iccProfile_.pData_, iccProfile_.size_) != iccProfile_.size_) {
+                    if (outIo.write(iccProfile_.pData_, (long)iccProfile_.size_) != (long)iccProfile_.size_) {
                         throw Error(21);
                     }
                     has_icc = false;
@@ -778,7 +778,7 @@ namespace Exiv2 {
         }
 
         if (has_exif) {
-            data[0] |= WEBP_VP8X_XMP_BIT;
+            data[0] |= WEBP_VP8X_EXIF_BIT;
         }
 
         /* set width - stored in 24bits*/
