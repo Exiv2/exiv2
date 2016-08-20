@@ -108,6 +108,8 @@ namespace Exiv2 {
 
     private:
         int streamType_;
+        const int TAG_SIZE;
+
 
     }; //Class WebPImage
 

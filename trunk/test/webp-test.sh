@@ -34,37 +34,32 @@ source ./functions.source
     exiv2 -iC                           $filename
     exiv2 -pS                           $filename
 
-if [ 1 == 0 ]; then
-    printf "XMP -iX " >&3
+    printf "XMP " >&3
     # copy the XMP from Reagan.tiff to test file
     copyTestFile                        Reagan.tiff
     exiv2 -pX                           Reagan.tiff > $xmp_name;
+    exiv2 -ea --force                   Reagan.tiff
+    mv                                  Reagan.exv    $exv_name
+
     copyTestFile                        $filename
     exiv2 -pS                           $filename
     exiv2 -iX                           $filename
     exiv2 -pS                           $filename
+    exiv2 -ix                           $filename
 
     # copy the XMP from exiv2-bug937.jpg to test file
     copyTestFile                        exiv2-bug937.jpg
-    exiv2 -pX                           exiv2-bug937.jpg > $xmp_name 2>/dev/null
-    exiv2 -ix                           $filename
-    exiv2 -pS                           $filename
-fi
-
-if [ 1 == 0 ]; then
-    printf "XMP -ix " >&3
-    # copy the metadata from Reagan.tiff to test exv file
-    copyTestFile                        Reagan.tiff
-    exiv2 -ea                           Reagan.tiff
-    mv                                  Reagan.exf $exv_file
+    exiv2 -pX                           exiv2-bug937.jpg > $xmp_name
+    exiv2 -ea --force                   exiv2-bug937.jpg 2>/dev/null
+    mv                                  exiv2-bug937.exv   $exv_name
 
     copyTestFile                        $filename
     exiv2 -pS                           $filename
     exiv2 -ix                           $filename
     exiv2 -pS                           $filename
-fi
+    exiv2 -iX                           $filename
+    exiv2 -pS                           $filename
 
-if [ 1 == 0 ]; then
     printf "EXIF " >&3
     copyTestFile                      exiv2-bug937.jpg $filename
     exiv2 --force -ea                 $filename
@@ -72,7 +67,6 @@ if [ 1 == 0 ]; then
     exiv2 -pS                         $filename
     exiv2 -ie                         $filename
     exiv2 -pS                         $filename
-fi
 
 ) 3>&1 > $results 2>&1
 
