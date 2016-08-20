@@ -107,8 +107,20 @@ namespace Exiv2 {
         //@}
 
     private:
-        int streamType_;
-        const int TAG_SIZE;
+        const static byte WEBP_PAD_ODD;
+        const static int WEBP_TAG_SIZE;
+        const static int WEBP_VP8X_ICC_BIT;
+        const static int WEBP_VP8X_ALPHA_BIT;
+        const static int WEBP_VP8X_EXIF_BIT;
+        const static int WEBP_VP8X_XMP_BIT;
+        const static char* WEBP_CHUNK_HEADER_VP8X;
+        const static char* WEBP_CHUNK_HEADER_VP8L;
+        const static char* WEBP_CHUNK_HEADER_VP8;
+        const static char* WEBP_CHUNK_HEADER_ANMF;
+        const static char* WEBP_CHUNK_HEADER_ANIM;
+        const static char* WEBP_CHUNK_HEADER_ICCP;
+        const static char* WEBP_CHUNK_HEADER_EXIF;
+        const static char* WEBP_CHUNK_HEADER_XMP;
 
 
     }; //Class WebPImage
