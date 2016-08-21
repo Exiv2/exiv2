@@ -64,20 +64,19 @@ int main(int argc,const char* argv[])
 		Exiv2::XmpParser::initialize();
 
 		// bucket of threads
-		const int           TMAX=1000;
-		std::thread threads[TMAX];
-		int           argm = argc > TMAX ? TMAX : argc;
+		std::thread* threads = new std::thread[argc+1];
 
 		// spin up the treads
-		for ( int arg = 1 ; arg < argm ; arg++ ) {
+		for ( int arg = 1 ; arg < argc ; arg++ ) {
 			threads[arg] = std::thread(reportExifMetadataCount,arg,argv);
 		}
 
 		// wait for them to finish
-		for ( int arg = 1 ; arg < argm ; arg++ ) {
+		for ( int arg = 1 ; arg < argc ; arg++ ) {
 			if ( threads[arg].joinable() )
 				threads[arg].join();
 		}
+		delete [] threads;
 	}
 
 	return result;
