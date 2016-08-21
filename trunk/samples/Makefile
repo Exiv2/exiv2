@@ -87,6 +87,7 @@ BINSRC = addmoddel.cpp        \
 OTHERSRC = exiv2json.cpp      \
            geotag.cpp         \
            metacopy.cpp       \
+           mt-test.cpp        \
            path-test.cpp      \
            toexv.cpp
 
@@ -180,6 +181,13 @@ exiv2json: %: %.cpp Jzon.o
 	@$(MAKEDEPEND)
 	@$(POSTDEPEND)
 	$(LIBTOOL) --mode=link $(LINK.cc) Jzon.o $@.o -o ../bin/$@
+
+# mt-test requires C++11
+mt-test: %: %.cpp
+	$(COMPILE.cc) -std=c++11 -stdlib=libc++  -o $@.o $<
+	@$(MAKEDEPEND)
+	@$(POSTDEPEND)
+	$(LIBTOOL) --mode=link $(LINK.cc) $@.o -o ../bin/$@
 
 # Remove binaries, e.g., to relink them
 binclean:

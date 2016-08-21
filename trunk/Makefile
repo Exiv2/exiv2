@@ -105,7 +105,7 @@ webp-test webptest:
 addmoddel		exifcomment		exifvalue	httptest	iptctest		mmap-test	stringto-test \
 exifdata		iotest			key-test	path-test	taglist			write2-test write-test	\
 convert-test	exifdata-test	exiv2json	iptceasy	largeiptc-test	prevtest	tiff-test	\
-easyaccess-test	geotag			iptcprint	metacopy	toexv           werror-test	\
+easyaccess-test	geotag			iptcprint	metacopy	mt-test         toexv       werror-test	\
 xmpparser-test 	xmpsample 		xmpparse :
 	cd samples && $(MAKE) $(MAKECMDGOALS)
 
