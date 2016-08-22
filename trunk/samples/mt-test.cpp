@@ -1,13 +1,21 @@
 // ***************************************************************** -*- C++ -*-
-// mt-test.cpp $Rev: 3090 $
+// mt-test.cpp $Rev: 4415 $
 // Sample multi-threading program
 
+// Discussion:          http://dev.exiv2.org/issues/1207
+// Caution:             This code isn't currently exercised by any bash script in the test suite
+// This code is here for use in development when multi-threading issues
+// are being discussed.  For example #1207 and #1187
+// It may be brought into use when Exiv2 support C++11 (#1188)
+//
+
+// WARNING:             Only builds with clang and gcc < 4.9.  I've never tried to build with Visual Studio
 // requires C++11
 // On Mac               #define  __cplusplus 201103L
 // Older compilers      #define __cplusplus  199711
-// Compiler switches:   -std=c++11 -stdlib=libc++ (set in samples/Makefile)
-// Discussion:          http://dev.exiv2.org/issues/1207
-// Caution:             This code isn't currently exercised any bash script in the test suite
+// Compiler switches:   -std=c++11 (set in samples/Makefile)
+
+// WARNING:             auto_ptr is not supported in C++11 implemented by gcc 4.9/C++11 and later
 
 #include <exiv2/exiv2.hpp>
 #include <iostream>
