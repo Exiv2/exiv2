@@ -105,7 +105,8 @@ namespace Exiv2 {
     void WebPImage::setIptcData(const IptcData& /*iptcData*/)
     {
         // not supported
-        throw(Error(32, "IPTC metadata", "WebP"));
+        // just quietly ignore the request
+        // throw(Error(32, "IPTC metadata", "WebP"));
     }
 
     void WebPImage::setComment(const std::string& /*comment*/)

@@ -1250,24 +1250,20 @@ namespace Action {
         if (Params::instance().target_ & Params::ctThumb) {
             rc = insertThumbnail(path);
         }
-        if (   rc == 0
-            && (   Params::instance().target_ & Params::ctExif
-                || Params::instance().target_ & Params::ctIptc
-                || Params::instance().target_ & Params::ctComment
-                || Params::instance().target_ & Params::ctXmp
-                || Params::instance().target_ & Params::ctXmpRaw)) {
+        if (  rc == 0 && !(Params::instance().target_ & Params::ctXmpRaw)
+        && (  Params::instance().target_ & Params::ctExif
+           || Params::instance().target_ & Params::ctIptc
+           || Params::instance().target_ & Params::ctComment
+           || Params::instance().target_ & Params::ctXmp
+           )
+        ) {
             std::string suffix = Params::instance().suffix_;
             if (suffix.empty()) suffix = ".exv";
-            if ((Params::instance().target_ & Params::ctXmpSidecar)
-            ||  (Params::instance().target_ & Params::ctXmpRaw    )) suffix = ".xmp";
-
+            if (Params::instance().target_ & Params::ctXmpSidecar) suffix = ".xmp";
             std::string exvPath = newFilePath(path, suffix);
-            std::string xmpPath = newFilePath(path, suffix);
-            rc = suffix == ".exv" ? metacopy(exvPath, path, Exiv2::ImageType::xmp, true)
-                                  : insertXmpPacket(xmpPath,path)
-                                  ;
+            rc = metacopy(exvPath, path, Exiv2::ImageType::none, true);
         }
-        if (0 == rc && Params::instance().target_ & Params::ctXmpSidecar) {
+        if (0 == rc && (Params::instance().target_ & (Params::ctXmpSidecar|Params::ctXmpRaw)) ) {
         	std::string xmpPath = newFilePath(path,".xmp");
             rc = insertXmpPacket(xmpPath,path);
         }

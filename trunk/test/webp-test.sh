@@ -42,7 +42,7 @@ source ./functions.source
 
     copyTestFile                        $filename
     exiv2 -pS                           $filename
-    exiv2 -iX                           $filename
+    exiv2 -iXX                          $filename
     exiv2 -pS                           $filename
     exiv2 -ix                           $filename
 
@@ -54,7 +54,7 @@ source ./functions.source
 
     copyTestFile                        $filename
     exiv2 -pS                           $filename
-    exiv2 -iX                           $filename
+    exiv2 -iXX                          $filename
     exiv2 -pS                           $filename
     exiv2 -ix                           $filename
 
@@ -68,7 +68,7 @@ source ./functions.source
     exiv2 -pS                           $filename
     exiv2 -ix                           $filename
     exiv2 -pS                           $filename
-    exiv2 -iX                           $filename
+    exiv2 -iXX                          $filename
     exiv2 -pS                           $filename
 
     printf "EXIF " >&3
