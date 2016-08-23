@@ -1264,7 +1264,7 @@ namespace Action {
             rc = metacopy(exvPath, path, Exiv2::ImageType::none, true);
         }
         if (0 == rc && (Params::instance().target_ & (Params::ctXmpSidecar|Params::ctXmpRaw)) ) {
-        	std::string xmpPath = newFilePath(path,".xmp");
+            std::string xmpPath = newFilePath(path,".xmp");
             rc = insertXmpPacket(xmpPath,path);
         }
         if (0 == rc && Params::instance().target_ & Params::ctIccProfile) {
@@ -1310,34 +1310,34 @@ namespace Action {
 
     int Insert::insertIccProfile(const std::string& path) const
     {
-    	int rc = 0;
-    	// for path "foo.XXX", do a binary copy of "foo.icc"
+        int rc = 0;
+        // for path "foo.XXX", do a binary copy of "foo.icc"
         std::string iccProfilePath = newFilePath(path, ".icc");
         if (!Exiv2::fileExists(iccProfilePath, true)) {
-			std::cerr << iccProfilePath
-					  << ": " << _("Failed to open the file\n");
-			rc = -1;
+            std::cerr << iccProfilePath
+                      << ": " << _("Failed to open the file\n");
+            rc = -1;
         }
         Exiv2::DataBuf iccProfileBlob = Exiv2::readFile(iccProfilePath);
 
         // test path exists
         if (rc==0 && !Exiv2::fileExists(path, true)) {
-			std::cerr << path
-					  << ": " << _("Failed to open the file\n");
-			rc=-1;
+            std::cerr << path
+                      << ": " << _("Failed to open the file\n");
+            rc=-1;
         }
 
         // read in the metadata
-		if ( rc == 0 ) {
+        if ( rc == 0 ) {
             Exiv2::Image::AutoPtr image = Exiv2::ImageFactory::open(path);
             assert(image.get() != 0);
             image->readMetadata();
-			// clear existing profile, assign the blob and rewrite image
-			image->clearIccProfile();
-			if ( iccProfileBlob.size_ ) {
-				image->setIccProfile(iccProfileBlob);
-			}
-			image->writeMetadata();
+            // clear existing profile, assign the blob and rewrite image
+            image->clearIccProfile();
+            if ( iccProfileBlob.size_ ) {
+                image->setIccProfile(iccProfileBlob);
+            }
+            image->writeMetadata();
         }
 
         return rc;
@@ -2020,7 +2020,7 @@ namespace {
         if (Exiv2::fileExists(target)) {
             targetImage = Exiv2::ImageFactory::open(target);
             assert(targetImage.get() != 0);
-            if (preserve) targetImage->readMetadata();
+            targetImage->readMetadata();
         }
         else {
             targetImage = Exiv2::ImageFactory::create(targetType, target);
@@ -2034,7 +2034,14 @@ namespace {
                 std::cout << _("Writing Exif data from") << " " << source
                           << " " << _("to") << " " << target << std::endl;
             }
-            targetImage->setExifData(sourceImage->exifData());
+            if ( preserve ) {
+                Exiv2::ExifData::const_iterator end = sourceImage->exifData().end();
+                for (Exiv2::ExifData::const_iterator i = sourceImage->exifData().begin(); i != end; ++i) {
+                    targetImage->exifData()[i->key()] = i->value();
+                }
+            } else {
+                targetImage->setExifData(sourceImage->exifData());
+            }
         }
         if (   Params::instance().target_ & Params::ctIptc
             && !sourceImage->iptcData().empty()) {
@@ -2042,7 +2049,14 @@ namespace {
                 std::cout << _("Writing IPTC data from") << " " << source
                           << " " << _("to") << " " << target << std::endl;
             }
-            targetImage->setIptcData(sourceImage->iptcData());
+            if ( preserve ) {
+                Exiv2::IptcData::const_iterator end = sourceImage->iptcData().end();
+                for (Exiv2::IptcData::const_iterator i = sourceImage->iptcData().begin(); i != end; ++i) {
+                    targetImage->iptcData()[i->key()] = i->value();
+                }
+            } else {
+                targetImage->setIptcData(sourceImage->iptcData());
+            }
         }
         if (    Params::instance().target_ & (Params::ctXmp|Params::ctXmpRaw)
             && !sourceImage->xmpData().empty()) {
@@ -2064,6 +2078,11 @@ namespace {
                 sourceImage->printStructure(os,Exiv2::kpsXMP);
                 os.close();
                 rc = 0;
+            } else if ( preserve ) {
+                Exiv2::XmpData::const_iterator end = sourceImage->xmpData().end();
+                for (Exiv2::XmpData::const_iterator i = sourceImage->xmpData().begin(); i != end; ++i) {
+                    targetImage->xmpData()[i->key()] = i->value();
+                }
             } else {
                 // std::cout << "long cut" << std::endl;
                 targetImage->setXmpData(sourceImage->xmpData());
