@@ -1111,7 +1111,7 @@ Changes from version 0.13 to 0.14
 	           system.
 	         - [build environment] By default, do not use the -g compiler option.
 	         - [build environment] Added --disable-printucs2 configuration option
-	           to disable Windows tag character convertion using libiconv.
+	           to disable Windows tag character conversion using libiconv.
 	         - [build environment] Changes to make Exiv2 cross-compile smoothly
 	           for win32 (Udi Fuchs)
 	         - [build environment] Removed deprecated exiv2-config script and
