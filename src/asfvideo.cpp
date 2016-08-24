@@ -234,7 +234,7 @@ namespace Exiv2 {
     }
 
     /*!
-      @brief Function used to calulate GUID, Tags comprises of 16 bytes.
+      @brief Function used to calculate GUID, Tags comprises of 16 bytes.
           The Buffer contains the Tag in Binary Form. The information is then
           parsed into a character array GUID.
      */
