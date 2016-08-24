@@ -59,7 +59,7 @@ namespace Exiv2 {
 
     /*!
       @brief Abstract base class defining the interface for TIFF composite
-             vistors (Visitor pattern)
+             visitors (Visitor pattern)
 
       A concrete visitor class is used as shown in the example below. Accept()
       will invoke the member function corresponding to the concrete type of each

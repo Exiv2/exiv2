@@ -1582,7 +1582,7 @@ namespace Exiv2 {
             if (focusmetering == 0 && focuspoint == 0 && focusused == 0) {
                 // Special case, in Manual focus and with Nikon compacts
                 // this indicates that the field has no meaning.
-                // But when acually in "Single area, Center" this can mean
+                // But when actually in "Single area, Center" this can mean
                 // that focus was not found (try this in AF-C mode)
                 // TODO: handle the meaningful case (interacts with other fields)
                 os << "N/A";
