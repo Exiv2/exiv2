@@ -78,7 +78,7 @@ __sample-h__
 #    for IPTC Time values it is HH:MM:SS&plusmn;HH:MM where HH:MM:SS refers to local 
 #    hour, minute and seconds and &plusmn;HH:MM refers to hours and minutes ahead or 
 #    behind Universal Coordinated Time.
-#    A default type is used if none is explicitely given. The default type
+#    A default type is used if none is explicitly given. The default type
 #    is determined based on the key.
 # value 
 #    The remaining text on the line is the value. It can optionally be enclosed in 
