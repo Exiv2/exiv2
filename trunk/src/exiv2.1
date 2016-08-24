@@ -3,7 +3,7 @@
 .\" First parameter, NAME, should be all caps
 .\" Second parameter, SECTION, should be 1-8, maybe w/ subsection
 .\" other parameters are allowed: see man(7), man(1)
-.TH EXIV2 1 "Aug 22, 2016"
+.TH EXIV2 1 "Aug 24, 2016"
 .\" Please adjust this date whenever revising the manpage.
 .\"
 .\" Some roff macros, for reference:
@@ -46,7 +46,7 @@ CR2	Read/Write	Read/Write	Read/Write	-
 CRW	Read/Write	-	-	Read/Write
 MRW	Read	Read	Read	-
 TIFF	Read/Write	Read/Write	Read/Write	-
-WEBP	Read/Write	-	-	Read/Write	-
+WEBP	Read/Write	-	Read/Write	-
 DNG	Read/Write	Read/Write	Read/Write	-
 NEF	Read/Write	Read/Write	Read/Write	-
 PEF	Read/Write	Read/Write	Read/Write	-
@@ -180,7 +180,7 @@ mod		s | a | t | v | h | i | x | c | p | i | C | R | S | X
 		summary, all, translated, vanilla, hex iptc ,xmp, comment, preview,
 		ICC Profile, Recursive Structure, Simple Structure, raw XMP
 
-tgt		a | c | e | i | p | t | x | C | X | X | -
+tgt		a | c | e | i | p | t | x | C | X | XX | -
 		all, comment, exif, iptc, preview, thumb, xmp, ICC Profile, SideCar, RawXMP, stdin/out
 
 .br
@@ -388,7 +388,7 @@ to Exif and IPTC.
 .sp 1
 XX: Insert "raw" XMP metadata from a sidecar (see option -pX)
 .sp 1
-- : Read from stdin (not implemented yet).  This is option is intended for "filter" operations such as:
+- : Read from stdin.  This is option is intended for "filter" operations such as:
 .br
 $ exiv2 -e{tgt}- \fIfilename\fP | xmllint .... | exiv2 -i{tgt}- \fIfilename\fP
 .sp 1
@@ -414,7 +414,7 @@ XX: Extract "raw" XMP metadata to a sidecar (see -pX)
 .br
     You may not use modify commands with the -eXX option and only XMP is written to the sidecar.
 .sp 1
-- : Output to stdout (see -i tgt for example)
+- : Output to stdout (see -i tgt for an example of this feature)
 .sp 1
 .TP
 .B \-r \fIfmt\fP
