@@ -164,12 +164,12 @@ option [arg]	long option	description
 -Y	+-n	--years	Time adjustment by a positive or negative number of years ...
 .sp 1
 act		pr | ex | in | rm | ad | mo | mv | fi | fc
-		print, extract, insert, delete, adjust, modify, rename, fixiso,fixcom
+		print, extract, insert, delete, adjust, modify, rename, fixiso, fixcom
 
 cmd		See "Commands" below.
 
 flg		E | I | X | x | g | k | l | n | y | c | s | v | t | h
-		Exif , IPTC, XMP, num, grp, key, label, name , type, count, size, vanilla, translated, hex
+		Exif, IPTC, XMP, num, grp, key, label, name, type, count, size, vanilla, translated, hex
 
 fmt		Default format is %Y%m%d_%H%M%S.
 
@@ -177,7 +177,7 @@ lvl		d | i | i | w | e
 		debug, info, warning, error
 
 mod		s | a | t | v | h | i | x | c | p | i | C | R | S | X
-		summary, all, translated, vanilla, hex iptc ,xmp, comment, preview,
+		summary, all, translated, vanilla, hex iptc, xmp, comment, preview,
 		ICC Profile, Recursive Structure, Simple Structure, raw XMP
 
 tgt		a | c | e | i | p | t | x | C | X | XX | -
@@ -388,7 +388,7 @@ to Exif and IPTC.
 .sp 1
 XX: Insert "raw" XMP metadata from a sidecar (see option -pX)
 .sp 1
-- : Read from stdin.  This is option is intended for "filter" operations such as:
+- : Read from stdin.  This option is intended for "filter" operations such as:
 .br
 $ exiv2 -e{tgt}- \fIfilename\fP | xmllint .... | exiv2 -i{tgt}- \fIfilename\fP
 .sp 1
