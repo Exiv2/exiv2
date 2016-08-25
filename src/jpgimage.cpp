@@ -769,12 +769,12 @@ namespace Exiv2 {
 #ifdef DEBUG
             std::cout << "iptc data blocks: " << iptcDataSegs.size() << std::endl;
             uint32_t toggle = 0 ;
-            for ( Uint32Vector_i it = iptcDataSegs.begin(); it != iptcDataSegs.end() ; it++ ) {
-                std::cout << *it ;
+            for ( Uint32Vector_i i = iptcDataSegs.begin(); i != iptcDataSegs.end() ; i++ ) {
+                std::cout << *i ;
                 if ( toggle++ % 2 ) std::cout << std::endl; else std::cout << ' ' ;
             }
 #endif
-            uint64_t count  = iptcDataSegs.size();
+            uint32_t count  = iptcDataSegs.size();
 
             // figure out which blocks to copy
             uint64_t* pos = new uint64_t[count+2];
@@ -782,7 +782,7 @@ namespace Exiv2 {
             // copy the data that is not iptc
             Uint32Vector_i it = iptcDataSegs.begin();
             for ( uint64_t  i = 0 ; i < count ; i++ ) {
-                bool  bOdd  = i%2;
+                bool  bOdd  = (i%2)!=0;
                 bool  bEven = !bOdd;
                 pos[i+1]    = bEven ? *it : pos[i] + *it;
                 it++;
@@ -804,7 +804,7 @@ namespace Exiv2 {
             for ( uint64_t i = 0 ; i < (count/2)+1 ; i++ ) {
                 uint64_t start  = pos[2*i]+2 ; // step JPG 2 byte marker
                 if ( start == 2 ) start = 0  ; // read the file 2 byte SOI
-                uint64_t length = pos[2*i+1] - start;
+                long length = (long) (pos[2*i+1] - start) ;
                 if ( length ) {
 #ifdef DEBUG
                     std::cout << start <<":"<< length << std::endl;
