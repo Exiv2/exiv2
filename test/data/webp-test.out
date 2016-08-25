@@ -289,7 +289,6 @@ STRUCTURE OF WEBP FILE: exiv2-bug1199.webp
   VP8  |   172008 |     3184 | .G...*.. .>1..B.!..o.. ......]..
   EXIF |    12040 |   175200 | II*........................... .
   XMP  |     2864 |   187248 | <?xpacket begin="..." id="W5M0Mp
-Warning: Unsupported time format
 STRUCTURE OF WEBP FILE: exiv2-bug1199.webp
  Chunk |   Length |   Offset | Payload
   RIFF |   187526 |        0 | WEBP
@@ -306,7 +305,6 @@ STRUCTURE OF WEBP FILE: exiv2-bug1199.webp
   VP8  |   172008 |      598 | .G...*.. .>1..B.!..o.. ......]..
   EXIF |    12040 |   172614 | II*........................... .
   XMP  |     2864 |   184662 | <?xpacket begin="..." id="W5M0Mp
-Warning: Unsupported time format
 STRUCTURE OF WEBP FILE: exiv2-bug1199.webp
  Chunk |   Length |   Offset | Payload
   RIFF |   187526 |        0 | WEBP
