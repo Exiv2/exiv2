@@ -452,7 +452,7 @@ namespace Exiv2 {
                 --search;
             }
             else if (   !foundIccProfile && marker == app2_ ) {
-                // Seek to beginning and read the iccProfile 
+                // Seek to beginning and read the iccProfile
                 io_->seek(31 - bufRead, BasicIo::cur);
                 DataBuf iccProfile(size);
                 io_->read(iccProfile.pData_, iccProfile.size_);
@@ -623,13 +623,13 @@ namespace Exiv2 {
                     // http://www.adobe.com/content/dam/Adobe/en/devnet/xmp/pdfs/XMPSpecificationPart3.pdf p75
                     const char* signature = (const char*) buf.pData_+2;
 
-					// 728 rmills@rmillsmbp:~/gnu/exiv2/ttt $ exiv2 -pS test/data/exiv2-bug922.jpg
-					// STRUCTURE OF JPEG FILE: test/data/exiv2-bug922.jpg
-					// address | marker     | length  | data
-					//       2 | 0xd8 SOI   |       0
-					//       4 | 0xe1 APP1  |     911 | Exif..MM.*.......%.........#....
-					//     917 | 0xe1 APP1  |     870 | http://ns.adobe.com/xap/1.0/.<x:
-					//    1789 | 0xe1 APP1  |   65460 | http://ns.adobe.com/xmp/extensio
+                    // 728 rmills@rmillsmbp:~/gnu/exiv2/ttt $ exiv2 -pS test/data/exiv2-bug922.jpg
+                    // STRUCTURE OF JPEG FILE: test/data/exiv2-bug922.jpg
+                    // address | marker     | length  | data
+                    //       2 | 0xd8 SOI   |       0
+                    //       4 | 0xe1 APP1  |     911 | Exif..MM.*.......%.........#....
+                    //     917 | 0xe1 APP1  |     870 | http://ns.adobe.com/xap/1.0/.<x:
+                    //    1789 | 0xe1 APP1  |   65460 | http://ns.adobe.com/xmp/extensio
                     if ( option == kpsXMP && std::string(signature).find("http://ns.adobe.com/x")== 0 ) {
                         // extract XMP
                         if ( size > 0 ) {
@@ -732,10 +732,10 @@ namespace Exiv2 {
                             if ( bPS ) {
                                 IptcData::printStructure(out,exif,size,depth);
                             } else {
-	                            // create a copy on write memio object with the data, then print the structure
-    	                        BasicIo::AutoPtr p = BasicIo::AutoPtr(new MemIo(exif+start,size-start));
-        	                    if ( start < max ) TiffImage::printTiffStructure(*p,out,option,depth);
-        	                }
+                                // create a copy on write memio object with the data, then print the structure
+                                BasicIo::AutoPtr p = BasicIo::AutoPtr(new MemIo(exif+start,size-start));
+                                if ( start < max ) TiffImage::printTiffStructure(*p,out,option,depth);
+                            }
 
                             // restore and clean up
                             io_->seek(restore,Exiv2::BasicIo::beg);
@@ -765,13 +765,62 @@ namespace Exiv2 {
                 }
             }
         }
-        if ( option == kpsIptcErase ) {
-        	std::cout << "iptc data blocks: " << (iptcDataSegs.size() ? "FOUND" : "none") << std::endl;
-        	uint32_t toggle = 0 ;
-        	for ( Uint32Vector_i it = iptcDataSegs.begin(); it != iptcDataSegs.end() ; it++ ) {
-        		std::cout << *it ;
-        		if ( toggle++ % 2 ) std::cout << std::endl; else std::cout << ' ' ;
-        	}
+        if ( option == kpsIptcErase && iptcDataSegs.size() ) {
+#ifdef DEBUG
+            std::cout << "iptc data blocks: " << iptcDataSegs.size() << std::endl;
+            uint32_t toggle = 0 ;
+            for ( Uint32Vector_i it = iptcDataSegs.begin(); it != iptcDataSegs.end() ; it++ ) {
+                std::cout << *it ;
+                if ( toggle++ % 2 ) std::cout << std::endl; else std::cout << ' ' ;
+            }
+#endif
+            uint64_t count  = iptcDataSegs.size();
+
+            // figure out which blocks to copy
+            uint64_t* pos = new uint64_t[count+2];
+            pos[0]        = 0 ;
+            // copy the data that is not iptc
+            Uint32Vector_i it = iptcDataSegs.begin();
+            for ( uint64_t  i = 0 ; i < count ; i++ ) {
+                bool  bOdd  = i%2;
+                bool  bEven = !bOdd;
+                pos[i+1]    = bEven ? *it : pos[i] + *it;
+                it++;
+            }
+            pos[count+1] = io_->size() - pos[count];
+#ifdef DEBUG
+            for ( uint64_t i = 0 ; i < count+2 ; i++ ) std::cout << pos[i] << " " ;
+            std::cout << std::endl;
+#endif
+            // $ dd bs=1 skip=$((0)) count=$((13164)) if=ETH0138028.jpg of=E1.jpg
+            // $ dd bs=1 skip=$((49304)) count=2000000  if=ETH0138028.jpg of=E2.jpg
+            // cat E1.jpg E2.jpg > E.jpg
+            // exiv2 -pS E.jpg
+
+            // binary copy io_ to a temporary file
+            BasicIo::AutoPtr tempIo(io_->temporary()); // may throw
+
+            assert (tempIo.get() != 0);
+            for ( uint64_t i = 0 ; i < (count/2)+1 ; i++ ) {
+                uint64_t start  = pos[2*i]+2 ; // step JPG 2 byte marker
+                if ( start == 2 ) start = 0  ; // read the file 2 byte SOI
+                uint64_t length = pos[2*i+1] - start;
+                if ( length ) {
+#ifdef DEBUG
+                    std::cout << start <<":"<< length << std::endl;
+#endif
+                    io_->seek(start,BasicIo::beg);
+                    DataBuf buf(length);
+                    io_->read(buf.pData_,buf.size_);
+                    tempIo->write(buf.pData_,buf.size_);
+                }
+            }
+            delete [] pos;
+
+            io_->seek(0, BasicIo::beg);
+            io_->transfer(*tempIo); // may throw
+            io_->seek(0, BasicIo::beg);
+            readMetadata();
         }
     }
 
@@ -1022,7 +1071,7 @@ namespace Exiv2 {
                     us2Data(tmpBuf + 2, static_cast<uint16_t>(iccProfile_.size_), bigEndian);
                     if (outIo.write(tmpBuf, 4) != 4) throw Error(21);
 
-                    // Write new iccProfile 
+                    // Write new iccProfile
                     if ( outIo.write(iccProfile_.pData_,iccProfile_.size_) != static_cast<long>(iccProfile_.size_) ) throw Error(21);
                     if ( outIo.error() ) throw Error(21);
                     --search;
