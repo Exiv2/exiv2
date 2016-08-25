@@ -774,7 +774,7 @@ namespace Exiv2 {
                 if ( toggle++ % 2 ) std::cout << std::endl; else std::cout << ' ' ;
             }
 #endif
-            uint32_t count  = iptcDataSegs.size();
+            uint32_t count  = (uint32_t) iptcDataSegs.size();
 
             // figure out which blocks to copy
             uint64_t* pos = new uint64_t[count+2];
