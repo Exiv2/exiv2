@@ -2405,8 +2405,8 @@ namespace Exiv2 {
                 if (value.toRational(n).first != 0) break;
             }
             for (int i = 0; i < n + 1; ++i) {
-                const int32_t z = value.toRational(i).first;
-                const int32_t d = value.toRational(i).second;
+                const uint32_t z = (uint32_t) value.toRational(i).first;
+                const uint32_t d = (uint32_t) value.toRational(i).second;
                 if (d == 0)
                 {
                     os << "(" << value << ")";
