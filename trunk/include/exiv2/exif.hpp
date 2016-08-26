@@ -35,7 +35,6 @@
 #include "tags.hpp"
 #include "value.hpp"
 #include "types.hpp"
-#include "tags_int.hpp"
 
 // + standard includes
 #include <string>
@@ -249,47 +248,7 @@ namespace Exiv2 {
 
 			@return true if it can be ignored, false otherwise.
 		*/
-		bool ignore(void) const
-		{
-			bool bRet = false;
-
-			const Value &v = value();
-			if (v.count() > 0)
-			{
-				const TagInfo* ti = Internal::tagInfo(tag(), static_cast<Internal::IfdId>(ifdId()));
-				if (ti && ti->hasUndefined_)
-				{
-					const Value &udv = ti->undefValue_;
-					if ((udv.count() != 0))
-					{
-						switch (ti->compT_)
-						{
-							case TagInfo::String:
-							{
-								bRet = compare<std::string>(v.toString(), udv.toString(), ti->compO_);
-								break;
-							}
-							case TagInfo::Long:
-							{
-								bRet = compare<long>(v.toLong(), udv.toLong(), ti->compO_);
-								break;
-							}
-							case TagInfo::Float:
-							{
-								bRet = compare<float>(v.toFloat(), udv.toFloat(), ti->compO_);
-								break;
-							}
-							case TagInfo::Rational:
-							{
-								bRet = compare<Rational>(v.toRational(), udv.toRational(), ti->compO_);
-								break;
-							}
-						}
-					}
-				}
-			}
-			return bRet;
-		}
+		bool ignore(void) const;
         //! Return the size of the data area.
         long sizeDataArea() const;
         /*!
