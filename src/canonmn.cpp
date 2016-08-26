@@ -510,10 +510,10 @@ namespace Exiv2 {
 		{ 0, N_("One shot AF") },
 		{ 1, N_("AI servo AF") },
 		{ 2, N_("AI focus AF") },
-		{ 3, N_("Manual focus") },
+        {   3, N_("Manual focus (3)") },
 		{ 4, N_("Single") },
 		{ 5, N_("Continuous") },
-		{ 6, N_("Manual focus") },
+        {   6, N_("Manual focus (6)") },
 		{ 16, N_("Pan focus") },
 		{ 256, N_("AF + MF")			}, // #PH (NC, EOS M)
 		{ 512, N_("Movie Snap Focus")	}, // #48
@@ -580,53 +580,53 @@ namespace Exiv2 {
         { 21, N_("Beach")            },
         { 22, N_("Underwater")       },
         { 23, N_("Snow")             },
-        { 24, N_("Kids & pets")      },
-        { 25, N_("Night SnapShot")   },
-        { 26, N_("Digital macro")    },
+        {  24, N_("Kids & Pets")            },
+        {  25, N_("Night Snapshot")         },
+        {  26, N_("Digital Macro")          },
         { 27, N_("My Colors")        },
-        { 28, N_("Still image")      },
-		{ 29, N_("Super Macro 2")			}, // #PH
-		{ 30, N_("Color Accent")			}, // #18
-		{ 31, N_("Color Swap")				}, // #18
-		{ 32, N_("Aquarium")				}, // #18
-		{ 33, N_("ISO 3200")				}, // #18
-		{ 34, N_("ISO 6400")				}, // #PH
-		{ 35, N_("Creative Light Effect")	}, // #PH
-		{ 36, N_("Easy")					}, // #PH
-		{ 37, N_("Quick Shot")				}, // #PH
-		{ 38, N_("Creative Auto")			}, // #39
-		{ 39, N_("Zoom Blur")				}, // #PH
-		{ 40, N_("Low Light")				}, // #PH
-		{ 41, N_("Nostalgic")				}, // #PH
-		{ 42, N_("Super Vivid")				}, // #PH (SD4500)
-		{ 43, N_("Poster Effect")			}, // #PH (SD4500)
-		{ 44, N_("Face Self-timer")			}, // #PH
-		{ 45, N_("Smile")					}, // #PH
-		{ 46, N_("Wink Self-timer")			}, // #PH
-		{ 47, N_("Fisheye Effect")			}, // #PH (SX30IS,IXUS240)
-		{ 48, N_("Miniature Effect")		}, // #PH (SD4500)
-		{ 49, N_("High-speed Burst")		}, // #PH
-		{ 50, N_("Best Image Selection")	}, // #PH
-		{ 51, N_("High Dynamic Range")		}, // #PH (S95)
-		{ 52, N_("Handheld Night Scene")	}, // #PH
-		{ 53, N_("Movie Digest")			}, // #PH
-		{ 54, N_("Live View Control")		}, // #PH
-		{ 55, N_("Discreet")				}, // #PH
-		{ 56, N_("Blur Reduction")			}, // #PH
-		{ 57, N_("Monochrome")				}, // #PH (SX260 B&W,Sepia,Blue tone)
-		{ 58, N_("Toy Camera Effect")		}, // #51
-		{ 59, N_("Scene Intelligent Auto")	}, // #PH (T3i) (C='High-speed Burst HQ' !!)
-		{ 60, N_("High-speed Burst HQ")		}, // #PH (C='High-speed Burst HQ', same as 59)
-		{ 61, N_("Smooth Skin")				}, // #51
-		{ 62, N_("Soft Focus")				}, // #PH (SX260,IXUS240)
-		{ 257, N_("Spotlight")				}, // #PH
-		{ 258, N_("Night 2")				}, // #PH
+        {  28, N_("Movie Snap")             },
+        {  29, N_("Super Macro 2")          },
+        {  30, N_("Color Accent")           },
+        {  31, N_("Color Swap")             },
+        {  32, N_("Aquarium")               },
+        {  33, N_("ISO 3200")               },
+        {  34, N_("ISO 6400")               },
+        {  35, N_("Creative Light Effect")  },
+        {  36, N_("Easy")                   },
+        {  37, N_("Quick Shot")             },
+        {  38, N_("Creative Auto")          },
+        {  39, N_("Zoom Blur")              },
+        {  40, N_("Low Light")              },
+        {  41, N_("Nostalgic")              },
+        {  42, N_("Super Vivid")            },
+        {  43, N_("Poster Effect")          },
+        {  44, N_("Face Self-timer")        },
+        {  45, N_("Smile")                  },
+        {  46, N_("Wink Self-timer")        },
+        {  47, N_("Fisheye Effect")         },
+        {  48, N_("Miniature Effect")       },
+        {  49, N_("High-speed Burst")       },
+        {  50, N_("Best Image Selection")   },
+        {  51, N_("High Dynamic Range")     },
+        {  52, N_("Handheld Night Scene")   },
+        {  53, N_("Movie Digest")           },
+        {  54, N_("Live View Control")      },
+        {  55, N_("Discreet")               },
+        {  56, N_("Blur Reduction")         },
+        {  57, N_("Monochrome")             },
+        {  58, N_("Toy Camera Effect")      },
+        {  59, N_("Scene Intelligent Auto") },
+        {  60, N_("High-speed Burst HQ")    },
+        {  61, N_("Smooth Skin")            },
+        {  62, N_("Soft Focus")             },
+        { 257, N_("Spotlight")              },
+        { 258, N_("Night 2")                },
 		{ 259, N_("Night+")					},
-		{ 260, N_("Super Night")			}, // #PH
-		{ 261, N_("Sunset")					}, // #PH (SX10IS)
-		{ 263, N_("Night Scene")			}, // #PH
-		{ 264, N_("Surface")				}, // #PH
-		{ 265, N_("Low Light 2")			}  // #PH
+        { 260, N_("Super Night")            },
+        { 261, N_("Sunset")                 },
+        { 263, N_("Night Scene")            },
+        { 264, N_("Surface")                },
+        { 265, N_("Low Light 2")            }
 	};
 
     //! DigitalZoom, tag 0x000c
@@ -698,7 +698,7 @@ namespace Exiv2 {
         { 0x3003, N_("Center")                    },
         { 0x3004, N_("Left")                      },
         { 0x4001, N_("Auto AF point selection")   },
-		{ 0x4006, N_("Face Detect")				  } // #PH (A570IS)
+        { 0x4006, N_("Face Detect")               }
 	};
 
     //! ExposureProgram, tag 0x0014
@@ -710,7 +710,7 @@ namespace Exiv2 {
         { 4, N_("Manual (M)")             },
         { 5, N_("A-DEP")                  },
         { 6, N_("M-DEP")                  },
-		{ 7, N_("Bulb")					  } // #30
+        { 7, N_("Bulb")                   }
 	};
 
     //! LensType, tag 0x0016
@@ -1150,14 +1150,14 @@ namespace Exiv2 {
     extern const TagDetails canonCsImageStabilization[] = {
         { 0, N_("Off")           },
         { 1, N_("On")            },
-        { 2, N_("On, shot only") },
-		{ 3, N_("Panning")			}, // # (A570IS)
-		{ 4, N_("Dynamic")			}, // # (SX30IS) (was 'On, Video')
-		{ 256, N_("Off (2)")		}, //
-		{ 257, N_("On (2)")			}, //
-		{ 258, N_("Shoot Only (2)") }, //
-		{ 259, N_("Panning (2)")	}, //
-		{ 260, N_("Dynamic (2)")	}  //
+        {   2, N_("Shoot Only")     },
+        {   3, N_("Panning")        },
+        {   4, N_("Dynamic")        },
+        { 256, N_("Off (2)")        },
+        { 257, N_("On (2)")         },
+        { 258, N_("Shoot Only (2)") },
+        { 259, N_("Panning (2)")    },
+        { 260, N_("Dynamic (2)")    }
 	};
 
     //! SpotMeteringMode, tag 0x0027
