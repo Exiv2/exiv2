@@ -35,6 +35,7 @@
 #include "tags.hpp"
 #include "value.hpp"
 #include "types.hpp"
+#include "tags_int.hpp"
 
 // + standard includes
 #include <string>
@@ -198,6 +199,97 @@ namespace Exiv2 {
         Rational toRational(long n =0) const;
         Value::AutoPtr getValue() const;
         const Value& value() const;
+		/*!
+			@brief Compare the two parameters according to the comparator
+				   function given and return the result.
+
+			@param lhs		Parameter to compare from.
+			@param rhs		Parameter to compare to.
+			@param compO	Type of comparison to be done. @see TagInfo::compOperator.
+			@return Result of the comparison.
+		*/
+		template <typename T>
+		bool compare(const T &lhs, const T &rhs, const TagInfo::compOperator &compO) const
+		{
+			switch (compO)
+			{
+				case TagInfo::equal_to:
+				{
+					return (lhs == rhs);
+				}
+				case TagInfo::not_equal_to:
+				{
+					return lhs != rhs;
+				}
+				case TagInfo::less:
+				{
+					return lhs < rhs;
+				}
+				case TagInfo::less_equal:
+				{
+					return (lhs <= rhs);
+				}
+				case TagInfo::greater:
+				{
+					return (lhs > rhs);
+				}
+				case TagInfo::greater_equal:
+				{
+					return lhs >= rhs;
+				}
+				default:
+					return false;
+			}
+		}
+		/*!
+			@brief Determine whether this Exif tag has ignorable default values 
+				   If so, examine whether current value should be ignored.
+				   Depending upon the underlying type the default and current values
+				   are converted to the same type and then compared.
+
+			@return true if it can be ignored, false otherwise.
+		*/
+		bool ignore(void) const
+		{
+			bool bRet = false;
+
+			const Value &v = value();
+			if (v.count() > 0)
+			{
+				const TagInfo* ti = Internal::tagInfo(tag(), static_cast<Internal::IfdId>(ifdId()));
+				if (ti && ti->hasUndefined_)
+				{
+					const Value &udv = ti->undefValue_;
+					if ((udv.count() != 0))
+					{
+						switch (ti->compT_)
+						{
+							case TagInfo::String:
+							{
+								bRet = compare<std::string>(v.toString(), udv.toString(), ti->compO_);
+								break;
+							}
+							case TagInfo::Long:
+							{
+								bRet = compare<long>(v.toLong(), udv.toLong(), ti->compO_);
+								break;
+							}
+							case TagInfo::Float:
+							{
+								bRet = compare<float>(v.toFloat(), udv.toFloat(), ti->compO_);
+								break;
+							}
+							case TagInfo::Rational:
+							{
+								bRet = compare<Rational>(v.toRational(), udv.toRational(), ti->compO_);
+								break;
+							}
+						}
+					}
+				}
+			}
+			return bRet;
+		}
         //! Return the size of the data area.
         long sizeDataArea() const;
         /*!

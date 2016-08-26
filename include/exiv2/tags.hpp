@@ -79,20 +79,36 @@ namespace Exiv2 {
         std::string g_;                          //!< Group name
     };
 
-    //! Tag information
+	//! Tag information
     struct EXIV2API TagInfo {
-        //! Constructor
-        TagInfo(
-            uint16_t tag,
-            const char* name,
-            const char* title,
-            const char* desc,
-            int ifdId,
-            int sectionId,
-            TypeId typeId,
-            int16_t count,
-            PrintFct printFct
-        );
+		enum compType
+		{
+			String, Long, Float, Rational
+		};
+		enum compOperator
+		{
+			equal_to, not_equal_to, less, less_equal, greater, greater_equal
+		};
+		static const bool & b_(void);
+		static const LongValue & lv_(void);
+		static const compType & ct_(void);
+		static const compOperator & co_(void);
+		//! Constructor
+		TagInfo(
+			uint16_t tag,
+			const char* name,
+			const char* title,
+			const char* desc,
+			int ifdId,
+			int sectionId,
+			TypeId typeId,
+			int16_t count,
+			PrintFct printFct,
+			const bool &hasUndefined = b_(),
+			const Value &undefValue = lv_(),
+			const compOperator &compO = co_(),
+			const compType &compT = ct_()
+		);
         uint16_t tag_;                          //!< Tag
         const char* name_;                      //!< One word tag label
         const char* title_;                     //!< Tag title
@@ -102,7 +118,11 @@ namespace Exiv2 {
         TypeId typeId_;                         //!< Type id
         int16_t count_;                         //!< The number of values (not bytes!), 0=any, -1=count not known.
         PrintFct printFct_;                     //!< Pointer to tag print function
-    }; // struct TagInfo
+		const bool &hasUndefined_;				//!< true means that it has undefined values that are to be ignored, default false
+		const Value &undefValue_;				//!< Value that needs to be ignored, default 0
+		const compOperator &compO_;				//!< Comparator function that needs to be applied, default equal_to
+		const compType &compT_;					//!< Type to be converted to before comparison, default long
+	}; // struct TagInfo
 
     //! Access to Exif group and tag lists and misc. tag reference methods, implemented as a static class.
     class EXIV2API ExifTags {

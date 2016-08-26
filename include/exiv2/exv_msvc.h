@@ -32,6 +32,10 @@
 /* Define to 1 if you require webready support. */
 /* #undef EXV_ENABLE_WEBREADY */
 
+/* Define to 1 if you do not want to ignore undefined values in Exif. */
+/* Default is to ignore undefined values in Exif. See canonmn.cpp for more details */
+/* #undef EXV_DONT_IGNORE_UNDEFINED */
+
 #ifndef EXV_COMMERCIAL_VERSION
 
 /* Define to 1 to enable translation of Nikon lens names. */
