@@ -2946,7 +2946,31 @@ namespace Exiv2 {
         return 0 == strcmp(groupName.g_.c_str(), groupName_);
     }
 
-    TagInfo::TagInfo(
+	const bool & TagInfo::b_(void)
+	{
+		static const bool b(false);
+		return b;
+	}
+
+	const LongValue & TagInfo::lv_(void)
+	{
+		static const LongValue lv(0, signedLong);
+		return lv;
+	}
+
+	const TagInfo::compType & TagInfo::ct_(void)
+	{
+		static const compType ct(Long);
+		return ct;
+	}
+
+	const TagInfo::compOperator & TagInfo::co_(void)
+	{
+		static const compOperator co(equal_to);
+		return co;
+	}
+
+	TagInfo::TagInfo(
         uint16_t tag,
         const char* name,
         const char* title,
@@ -2955,10 +2979,15 @@ namespace Exiv2 {
         int sectionId,
         TypeId typeId,
         int16_t count,
-        PrintFct printFct
-    )
+        PrintFct printFct,
+		const bool &hasUndefined,
+		const Value &undefValue,
+		const compOperator &compO,
+		const compType &compT
+	)
         : tag_(tag), name_(name), title_(title), desc_(desc), ifdId_(ifdId),
-          sectionId_(sectionId), typeId_(typeId), count_(count), printFct_(printFct)
+          sectionId_(sectionId), typeId_(typeId), count_(count), printFct_(printFct),
+		  hasUndefined_(hasUndefined), undefValue_(undefValue), compO_(compO), compT_(compT)
     {
     }
 

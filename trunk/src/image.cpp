@@ -158,6 +158,7 @@ namespace Exiv2 {
           pixelHeight_(0),
           imageType_(imageType),
           supportedMetadata_(supportedMetadata),
+		  cleanedExifData_(false),
 #ifdef EXV_HAVE_XMP_TOOLKIT
           writeXmpFromPacket_(false),
 #else
@@ -186,8 +187,32 @@ namespace Exiv2 {
         clearIccProfile();
     }
 
+#ifndef  EXV_DONT_IGNORE_UNDEFINED
+#define  EXV_DONT_IGNORE_UNDEFINED 0
+#endif
+	/*!
+		@brief Go through all data items and delete them from the list 
+			   if ignorable.
+	*/
+
     ExifData& Image::exifData()
     {
+#if  EXV_DONT_IGNORE_UNDEFINED == 0
+		if (!cleanedExifData_)
+		{
+			ExifData::iterator itb = exifData_.begin(), ite = exifData_.end(), itc = itb;
+			while(itc != ite)
+			{
+				if (itc->ignore())
+				{
+					itc = exifData_.erase(itc);
+				}
+				else
+					itc++;
+			}
+			cleanedExifData_ = true;
+		}
+#endif
         return exifData_;
     }
 
@@ -229,11 +254,13 @@ namespace Exiv2 {
     void Image::clearExifData()
     {
         exifData_.clear();
+		cleanedExifData_ = false;
     }
 
     void Image::setExifData(const ExifData& exifData)
     {
         exifData_ = exifData;
+		cleanedExifData_ = false; // Just got new data, possibly needs cleaning
     }
 
     void Image::clearIptcData()
