@@ -586,12 +586,12 @@ namespace Exiv2 {
             } else if (equalsWebPTag(chunkId, WEBP_CHUNK_HEADER_EXIF)) {
                 io_->read(payload.pData_, payload.size_);
 
-                byte size_buff[2];
-                byte exifLongHeader[]   = { 0xFF, 0x01, 0xFF, 0xE1 };
-                byte exifShortHeader[]  = { 0x45, 0x78, 0x69, 0x66, 0x00, 0x00 };
-                byte exifTiffLEHeader[] = { 0x49, 0x49, 0x2A };       // "MM*"
-                byte exifTiffBEHeader[] = { 0x4D, 0x4D, 0x00, 0x2A }; // "II\0*"
-                byte *rawExifData = NULL;
+                byte  size_buff[2];
+                byte  exifLongHeader[]   = { 0xFF, 0x01, 0xFF, 0xE1 };
+                byte  exifShortHeader[]  = { 0x45, 0x78, 0x69, 0x66, 0x00, 0x00 };
+                byte  exifTiffLEHeader[] = { 0x49, 0x49, 0x2A };       // "MM*"
+                byte  exifTiffBEHeader[] = { 0x4D, 0x4D, 0x00, 0x2A }; // "II\0*"
+                byte* rawExifData = NULL;
                 long  offset = 0;
                 bool  s_header = false;
                 bool  le_header = false;
@@ -663,8 +663,7 @@ namespace Exiv2 {
                     exifData_.clear();
                 }
 
-                if (rawExifData)
-                    free(rawExifData);
+                if (rawExifData) free(rawExifData);
             } else if (equalsWebPTag(chunkId, WEBP_CHUNK_HEADER_XMP)) {
                 io_->read(payload.pData_, payload.size_);
                 xmpPacket_.assign(reinterpret_cast<char*>(payload.pData_), payload.size_);
@@ -674,8 +673,8 @@ namespace Exiv2 {
 #endif
                 } else {
 #ifdef DEBUG
-                    std::cout << "Display Hex Dump [size:" << (unsigned long)size << "]" << std::endl;
-                    std::cout << Internal::binaryToHex(rawExifData, size);
+                    std::cout << "Display Hex Dump [size:" << (unsigned long)payload.size_ << "]" << std::endl;
+                    std::cout << Internal::binaryToHex(payload.pData_, payload.size_);
 #endif
                 }
             } else {
