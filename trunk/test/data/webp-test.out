@@ -329,25 +329,22 @@ STRUCTURE OF WEBP FILE: exiv2-bug1199.webp
   VP8  |   172008 |      598 | .G...*.. .>1..B.!..o.. ......]..
   EXIF |    12040 |   172614 | II*........................... .
   XMP  |     2864 |   184662 | <?xpacket begin="..." id="W5M0Mp
-Warning: Unsupported time format
 STRUCTURE OF WEBP FILE: exiv2-bug1199.webp
  Chunk |   Length |   Offset | Payload
-  RIFF |   197870 |        0 | WEBP
+  RIFF |   188070 |        0 | WEBP
   VP8X |       10 |       12 | ,........
   ICCP |      560 |       30 | ...0ADBE....mntrRGB XYZ ........
   VP8  |   172008 |      598 | .G...*.. .>1..B.!..o.. ......]..
   EXIF |    12040 |   172614 | II*........................... .
-  XMP  |    13207 |   184662 | <?xpacket begin="..." id="W5M0Mp
+  XMP  |     3407 |   184662 | <?xpacket begin="..." id="W5M0Mp
 STRUCTURE OF WEBP FILE: exiv2-bug1199.webp
  Chunk |   Length |   Offset | Payload
-  RIFF |   200568 |        0 | WEBP
+  RIFF |  1862068 |        0 | WEBP
   VP8X |       10 |       12 | ,........
   ICCP |      560 |       30 | ...0ADBE....mntrRGB XYZ ........
   VP8  |   172008 |      598 | .G...*.. .>1..B.!..o.. ......]..
   EXIF |    12040 |   172614 | II*........................... .
-  XMP  |    15905 |   184662 | <?xpacket begin="..." id="W5M0Mp
-Warning: Unsupported time format
-Warning: Unsupported time format
+  XMP  |  1677405 |   184662 | <x:xmpmeta xmlns:x="adobe:ns:met
 STRUCTURE OF WEBP FILE: exiv2-bug1199.webp
  Chunk |   Length |   Offset | Payload
   RIFF |   187526 |        0 | WEBP
@@ -356,12 +353,11 @@ STRUCTURE OF WEBP FILE: exiv2-bug1199.webp
   VP8  |   172008 |      598 | .G...*.. .>1..B.!..o.. ......]..
   EXIF |    12040 |   172614 | II*........................... .
   XMP  |     2864 |   184662 | <?xpacket begin="..." id="W5M0Mp
-Warning: Unsupported time format
 STRUCTURE OF WEBP FILE: exiv2-bug1199.webp
  Chunk |   Length |   Offset | Payload
-  RIFF |   182354 |        0 | WEBP
+  RIFF |   187684 |        0 | WEBP
   VP8X |       10 |       12 | ,........
   ICCP |      560 |       30 | ...0ADBE....mntrRGB XYZ ........
   VP8  |   172008 |      598 | .G...*.. .>1..B.!..o.. ......]..
-  EXIF |     6868 |   172614 | II*........................... .
-  XMP  |     2864 |   179490 | <?xpacket begin="..." id="W5M0Mp
+  EXIF |    12198 |   172614 | II*.............................
+  XMP  |     2864 |   184820 | <?xpacket begin="..." id="W5M0Mp
