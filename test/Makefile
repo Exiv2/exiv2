@@ -64,11 +64,13 @@ SVN    = svn://dev.exiv2.org/svn/testdata/trunk
 # Add test drivers to this list
 TESTS  = addmoddel.sh         \
          bugfixes-test.sh     \
+         conversions.sh       \
          exifdata-test.sh     \
          exiv2-test.sh        \
          imagetest.sh         \
          iotest.sh            \
          iptctest.sh          \
+         iso65k-test.sh       \
          modify-test.sh       \
          path-test.sh         \
          preview-test.sh      \
@@ -77,9 +79,7 @@ TESTS  = addmoddel.sh         \
          webp-test.sh         \
          write-test.sh        \
          write2-test.sh       \
-         xmpparser-test.sh    \
-         conversions.sh       \
-         iso65k-test.sh
+         xmpparser-test.sh
 
 # video tests
 TESTV  = video-test.sh
