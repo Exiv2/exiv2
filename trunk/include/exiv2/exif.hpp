@@ -198,57 +198,6 @@ namespace Exiv2 {
         Rational toRational(long n =0) const;
         Value::AutoPtr getValue() const;
         const Value& value() const;
-		/*!
-			@brief Compare the two parameters according to the comparator
-				   function given and return the result.
-
-			@param lhs		Parameter to compare from.
-			@param rhs		Parameter to compare to.
-			@param compO	Type of comparison to be done. @see TagInfo::compOperator.
-			@return Result of the comparison.
-		*/
-		template <typename T>
-		bool compare(const T &lhs, const T &rhs, const TagInfo::compOperator &compO) const
-		{
-			switch (compO)
-			{
-				case TagInfo::equal_to:
-				{
-					return (lhs == rhs);
-				}
-				case TagInfo::not_equal_to:
-				{
-					return lhs != rhs;
-				}
-				case TagInfo::less:
-				{
-					return lhs < rhs;
-				}
-				case TagInfo::less_equal:
-				{
-					return (lhs <= rhs);
-				}
-				case TagInfo::greater:
-				{
-					return (lhs > rhs);
-				}
-				case TagInfo::greater_equal:
-				{
-					return lhs >= rhs;
-				}
-				default:
-					return false;
-			}
-		}
-		/*!
-			@brief Determine whether this Exif tag has ignorable default values 
-				   If so, examine whether current value should be ignored.
-				   Depending upon the underlying type the default and current values
-				   are converted to the same type and then compared.
-
-			@return true if it can be ignored, false otherwise.
-		*/
-		bool ignore(void) const;
         //! Return the size of the data area.
         long sizeDataArea() const;
         /*!

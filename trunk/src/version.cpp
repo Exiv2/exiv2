@@ -83,10 +83,6 @@ EXIV2_RCSID("@(#) $Id$")
 #define  EXV_ENABLE_WEBREADY 0
 #endif
 
-#ifndef  EXV_DONT_IGNORE_UNDEFINED
-#define  EXV_DONT_IGNORE_UNDEFINED 0
-#endif
-
 #include "http.hpp"
 #include "svn_version.h"
 #include "version.hpp"
@@ -335,7 +331,6 @@ void Exiv2::dumpLibraryInfo(std::ostream& os,const exv_grep_keys_t& keys)
 
     int enable_video     =0;
     int enable_webready  =0;
-	int dont_ignore_undef =0;
 
 #if EXV_HAVE_DECL_STRERROR_R
     have_strerror_r=1;
@@ -477,10 +472,6 @@ void Exiv2::dumpLibraryInfo(std::ostream& os,const exv_grep_keys_t& keys)
      enable_webready=1;
 #endif
 
-#if  EXV_DONT_IGNORE_UNDEFINED
-	 dont_ignore_undef=1;
-#endif
-
 #if defined(WIN32) || defined(__CYGWIN__) || defined(__MINGW__)
     // enumerate loaded libraries and determine path to executable
     HMODULE handles[200];
@@ -591,8 +582,7 @@ void Exiv2::dumpLibraryInfo(std::ostream& os,const exv_grep_keys_t& keys)
     output(os,keys,"have_unicode_path" ,have_unicode_path);
     output(os,keys,"enable_video"      ,enable_video     );
     output(os,keys,"enable_webready"   ,enable_webready  );
-	output(os,keys,"dont_ignore_undef" ,dont_ignore_undef);
-	output(os,keys,"config_path"       ,Exiv2::Internal::getExiv2ConfigPath());
+    output(os,keys,"config_path"       ,Exiv2::Internal::getExiv2ConfigPath());
 
 // #1147
 #ifndef WIN32

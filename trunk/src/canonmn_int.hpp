@@ -112,9 +112,6 @@ namespace Exiv2 {
 
     private:
         // DATA
-		static const UShortValue usFFFF_, us7FFF_, us0_, us40_;
-		static const UShortValue s_1_;
-		static const AsciiValue s0x16_;
 
         //! Tag information
         static const TagInfo tagInfo_[];
