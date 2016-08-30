@@ -78,7 +78,8 @@ TESTS  = addmoddel.sh         \
          write-test.sh        \
          write2-test.sh       \
          xmpparser-test.sh    \
-         conversions.sh
+         conversions.sh       \
+         iso65k-test.sh
 
 # video tests
 TESTV  = video-test.sh
