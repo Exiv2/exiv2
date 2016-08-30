@@ -474,7 +474,6 @@ namespace Exiv2 {
         uint16_t          supportedMetadata_; //!< Bitmap with all supported metadata types
         bool              writeXmpFromPacket_;//!< Determines the source when writing XMP
         ByteOrder         byteOrder_;         //!< Byte order
-		bool			  cleanedExifData_;	  //!< Whether Exif tags having values that need to be ignored (undefined) have been removed from the list
 
     }; // class Image
 
