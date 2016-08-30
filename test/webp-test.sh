@@ -58,11 +58,11 @@ source ./functions.source
     exiv2 -pS                           $filename
     exiv2 -ix                           $filename
 
-    # copy the XMP from exiv2-bug937.jpg to test file
-    copyTestFile                        exiv2-bug937.jpg
-    exiv2 -pX                           exiv2-bug937.jpg > $xmp_name
-    exiv2 -ea --force                   exiv2-bug937.jpg 2>/dev/null
-    mv                                  exiv2-bug937.exv   $exv_name
+    # copy the XMP from exiv2-bug922.jpg to test file
+    copyTestFile                        exiv2-bug922.jpg
+    exiv2 -pX                           exiv2-bug922.jpg > $xmp_name
+    exiv2 -ea --force                   exiv2-bug922.jpg 2>/dev/null
+    mv                                  exiv2-bug922.exv   $exv_name
 
     copyTestFile                        $filename
     exiv2 -pS                           $filename
@@ -72,7 +72,7 @@ source ./functions.source
     exiv2 -pS                           $filename
 
     printf "EXIF " >&3
-    copyTestFile                        exiv2-bug937.jpg $filename
+    copyTestFile                        exiv2-bug922.jpg $filename
     exiv2 --force -ea                   $filename
     copyTestFile                        $filename
     exiv2 -pS                           $filename
