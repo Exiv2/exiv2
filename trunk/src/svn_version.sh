@@ -1,6 +1,6 @@
 #!/bin/bash
 
-## 
+##
 # update svn_version_h when revision changes
 ##
 
@@ -12,7 +12,7 @@ s=$?
 # from Jenkins, svn is almost always a disaster because
 # Jenkins SVN Plugin is 1.7 and the build machine is normally at least 1.8
 if [ "$s" == "0" ]; then
-	svn_version=$(svn info .. | grep ^Revision | cut -f 2 -d' ')
+	svn_version=$(svn info .. | grep '^Last Changed Rev' | cut -f 2 -d':' | tr -d ' ')
     if [ -z "$svn_version"   ]; then svn_version=0 ; fi
 else
 	svn_version=0
