@@ -1110,7 +1110,7 @@ namespace Exiv2 {
                         pad[1] = chunks;
                         pad[2] = 0;
                         pad[3] = 0;
-                        outIo.write((const byte *) iccId_, ::strlen(iccId_) + 1);
+                        outIo.write((const byte *) iccId_,(long) ::strlen(iccId_) + 1);
                         outIo.write((const byte *) pad, sizeof(pad));
                         if (outIo.write(iccProfile_.pData_+ (chunk*chunk_size), bytes) != bytes)
                             throw Error(21);
