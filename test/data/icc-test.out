@@ -1,0 +1,72 @@
+STRUCTURE OF JPEG FILE: Reagan.jpg
+ address | marker     | length  | data
+       2 | 0xd8 SOI   |       0 
+       4 | 0xe0 APP0  |      16 | JFIF.....,.,....
+      22 | 0xe1 APP1  |    5671 | Exif..MM.*......................
+    5695 | 0xed APP13 |    9594 | Photoshop 3.0.8BIM..........Z...
+   15291 | 0xe1 APP1  |    7062 | http://ns.adobe.com/xap/1.0/.<?x
+   22355 | 0xe2 APP2  |    3160 | ICC_PROFILE......HLino....mntrRG chunk 1/1
+   25517 | 0xee APP14 |      14 | Adobe.d@......
+   25533 | 0xdb DQT   |     132 
+   25667 | 0xc0 SOF0  |      17 
+   25686 | 0xdd DRI   |       4 
+   25692 | 0xc4 DHT   |     418 
+   26112 | 0xda SOS   |      12 
+STRUCTURE OF JPEG FILE: Reagan.jpg
+ address | marker     | length  | data
+       2 | 0xd8 SOI   |       0 
+       4 | 0xe0 APP0  |      16 | JFIF.....,.,....
+      22 | 0xe1 APP1  |    5658 | Exif..MM.*......................
+    5682 | 0xe1 APP1  |    7024 | http://ns.adobe.com/xap/1.0/.<?x
+   12708 | 0xe2 APP2  |   65534 | ICC_PROFILE........ APPL....prtr chunk 1/25
+   78246 | 0xe2 APP2  |   65534 | ICC_PROFILE.....o.S...r.R...t.RT chunk 2/25
+  143784 | 0xe2 APP2  |   65534 | ICC_PROFILE.........o..b.tn..Q.K chunk 3/25
+  209322 | 0xe2 APP2  |   65534 | ICC_PROFILE.......n.....l>...... chunk 4/25
+  274860 | 0xe2 APP2  |   65534 | ICC_PROFILE.....W8w;.QY2w$.gZ.wY chunk 5/25
+  340398 | 0xe2 APP2  |   65534 | ICC_PROFILE.....Y1...]W.j....QlT chunk 6/25
+  405936 | 0xe2 APP2  |   65534 | ICC_PROFILE......ik.....j;....h. chunk 7/25
+  471474 | 0xe2 APP2  |   65534 | ICC_PROFILE.....a.r2GRW.M...Y.MX chunk 8/25
+  537012 | 0xe2 APP2  |   65534 | ICC_PROFILE.....`...bs]...dDZ7.b chunk 9/25
+  602550 | 0xe2 APP2  |   65534 | ICC_PROFILE.....d.}...f.z...hRv. chunk 10/25
+  668088 | 0xe2 APP2  |   65534 | ICC_PROFILE.......y+...^yy....y. chunk 11/25
+  733626 | 0xe2 APP2  |   65534 | ICC_PROFILE......v.-i.....kN...< chunk 12/25
+  799164 | 0xe2 APP2  |   65534 | ICC_PROFILE......'Z.....M.....>. chunk 13/25
+  864702 | 0xe2 APP2  |   65534 | ICC_PROFILE..................... chunk 14/25
+  930240 | 0xe2 APP2  |   65534 | ICC_PROFILE........D..........". chunk 15/25
+  995778 | 0xe2 APP2  |   65534 | ICC_PROFILE.......V[*+..7.,G..'. chunk 16/25
+ 1061316 | 0xe2 APP2  |   65534 | ICC_PROFILE......Z...G.....C.... chunk 17/25
+ 1126854 | 0xe2 APP2  |   65534 | ICC_PROFILE......2yg.Te....VG... chunk 18/25
+ 1192392 | 0xe2 APP2  |   65534 | ICC_PROFILE..................... chunk 19/25
+ 1257930 | 0xe2 APP2  |   65534 | ICC_PROFILE.....1.0.285.0.373.0. chunk 20/25
+ 1323468 | 0xe2 APP2  |   65534 | ICC_PROFILE.....0.260.0.271.0.27 chunk 21/25
+ 1389006 | 0xe2 APP2  |   65534 | ICC_PROFILE.....39.0.145.0.150.0 chunk 22/25
+ 1454544 | 0xe2 APP2  |   65534 | ICC_PROFILE......0.051.0.060.0.0 chunk 23/25
+ 1520082 | 0xe2 APP2  |   65534 | ICC_PROFILE......0.743.0.788.0.8 chunk 24/25
+ 1585620 | 0xe2 APP2  |   41184 | ICC_PROFILE......452.0.452.0.464 chunk 25/25
+ 1626808 | 0xed APP13 |    9594 | Photoshop 3.0.8BIM..........Z...
+ 1636404 | 0xee APP14 |      14 | Adobe.d@......
+ 1636420 | 0xdb DQT   |     132 
+ 1636554 | 0xc0 SOF0  |      17 
+ 1636573 | 0xdd DRI   |       4 
+ 1636579 | 0xc4 DHT   |     418 
+ 1636999 | 0xda SOS   |      12 
+STRUCTURE OF JPEG FILE: Reagan.jpg
+ address | marker     | length  | data
+       2 | 0xd8 SOI   |       0 
+       4 | 0xe0 APP0  |      16 | JFIF.....,.,....
+      22 | 0xe1 APP1  |    5658 | Exif..MM.*......................
+    5682 | 0xe1 APP1  |    7024 | http://ns.adobe.com/xap/1.0/.<?x
+   12708 | 0xe2 APP2  |    3160 | ICC_PROFILE........HLino....mntr chunk 1/1
+   15872 | 0xed APP13 |    9594 | Photoshop 3.0.8BIM..........Z...
+   25468 | 0xee APP14 |      14 | Adobe.d@......
+   25484 | 0xdb DQT   |     132 
+   25618 | 0xc0 SOF0  |      17 
+   25637 | 0xdd DRI   |       4 
+   25643 | 0xc4 DHT   |     418 
+   26063 | 0xda SOS   |      12 
+md5: reagan1_.icc: No such file or directory
+md5: reagan2_.icc: No such file or directory
+md5: small1_.icc: No such file or directory
+md5: small2_.icc: No such file or directory
+md5: big1_.icc: No such file or directory
+md5: big2_.icc: No such file or directory

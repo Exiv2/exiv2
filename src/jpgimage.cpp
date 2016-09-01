@@ -103,6 +103,16 @@ namespace Exiv2 {
     const uint16_t Photoshop::iptc_    = 0x0404;
     const uint16_t Photoshop::preview_ = 0x040c;
 
+    static inline bool inRange(int lo,int value, int hi)
+    {
+    	return lo<=value && value <= hi;
+    }
+
+    static inline bool inRange2(int value,int lo1,int hi1, int lo2,int hi2)
+    {
+    	return inRange(lo1,value,hi1) || inRange(lo2,value,hi2);
+    }
+
     bool Photoshop::isIrb(const byte* pPsData,
                           long        sizePsData)
     {
@@ -345,7 +355,7 @@ namespace Exiv2 {
             throw Error(15);
         }
         clearMetadata();
-        int search = 6;
+        int search = 6 ; // Exif, ICC, XMP, Comment, IPTC, SOF
         const long bufMinSize = 36;
         long bufRead = 0;
         DataBuf buf(bufMinSize);
@@ -453,19 +463,19 @@ namespace Exiv2 {
                 --search;
             }
             else if ( marker == app2_ && memcmp(buf.pData_ + 2, iccId_,11)==0) {
-                // Seek to beginning and read the iccProfile
-                io_->seek(31 - bufRead, BasicIo::cur);
-                DataBuf iccProfile(size);
-                io_->read(iccProfile.pData_, iccProfile.size_);
-                if (io_->error() || io_->eof()) throw Error(14);
-                foundIccData = true; // set a flag, we'll collect the profile later
+            	// skip the profile, we'll recover it later.
+            	if ( ! foundIccData  ) {
+            		foundIccData = true ;
+            		--search ;
+            	}
+                if (io_->seek(size - bufRead, BasicIo::cur)) throw Error(14);
+#ifdef DEBUG
+				int chunk  = (int) buf.pData_[2+12];
+				int chunks = (int) buf.pData_[2+13];
+                std::cerr << "Found ICC Profile chunk " << chunk <<" of "<<  chunks << "\n";
+#endif
             }
-            else if (   pixelHeight_ == 0
-                     && (   marker == sof0_  || marker == sof1_  || marker == sof2_
-                         || marker == sof3_  || marker == sof5_  || marker == sof6_
-                         || marker == sof7_  || marker == sof9_  || marker == sof10_
-                         || marker == sof11_ || marker == sof13_ || marker == sof14_
-                         || marker == sof15_)) {
+            else if (  pixelHeight_ == 0 && inRange2(marker,sof0_,sof3_,sof5_,sof15_) ) {
                 // We hit a SOFn (start-of-frame) marker
                 if (size < 8) {
                     rc = 7;
@@ -526,6 +536,7 @@ namespace Exiv2 {
         if ( rc==0 && foundIccData ) {
         	long restore = io_->tell();
         	std::stringstream binary( std::ios_base::out | std::ios_base::in | std::ios_base::binary );
+            io_->seek(0,Exiv2::BasicIo::beg);
         	printStructure(binary,kpsIccProfile,0);
         	long length = (long) binary.rdbuf()->pubseekoff(0, binary.end, binary.out);
         	DataBuf iccProfile(length);
@@ -881,9 +892,10 @@ namespace Exiv2 {
         int comPos = 0;
         int skipApp1Exif = -1;
         int skipApp1Xmp = -1;
-        int skipApp2IccProfile = -1;
         bool foundCompletePsData = false;
+        bool foundIccData        = false;
         std::vector<int> skipApp13Ps3;
+        std::vector<int> skipApp2Icc;
         int skipCom = -1;
         Blob psBlob;
         DataBuf rawExif;
@@ -898,7 +910,7 @@ namespace Exiv2 {
         // First find segments of interest. Normally app0 is first and we want
         // to insert after it. But if app0 comes after com, app1 and app13 then
         // don't bother.
-        while (marker != sos_ && marker != eoi_ && search < 5) {
+        while (marker != sos_ && marker != eoi_ && search < 6) {
             // Read size and signature (ok if this hits EOF)
             bufRead = io_->read(buf.pData_, bufMinSize);
             if (io_->error()) throw Error(20);
@@ -927,10 +939,13 @@ namespace Exiv2 {
                 ++search;
                 if (io_->seek(size-bufRead, BasicIo::cur)) throw Error(22);
             }
-            else if (   skipApp2IccProfile == -1 && marker == app2_) {
+            else if ( marker == app2_ && memcmp(buf.pData_ + 2, iccId_, 11)== 0 ) {
                 if (size < 31) throw Error(22);
-                skipApp2IccProfile = count;
-                ++search;
+                skipApp2Icc.push_back(count);
+                if ( !foundIccData ) {
+                	++search;
+                	foundIccData = true ;
+                }
                 if (io_->seek(size-bufRead, BasicIo::cur)) throw Error(22);
             }
             else if (   !foundCompletePsData
@@ -969,20 +984,7 @@ namespace Exiv2 {
             // This (a) causes the new comment to appear after, rather than before,
             // existing comments; and (b) ensures that comments come after any JFIF
             // or JFXX markers, as required by the JFIF specification.
-            if (   comPos == 0
-                && (   marker == sof0_
-                    || marker == sof1_
-                    || marker == sof2_
-                    || marker == sof3_
-                    || marker == sof5_
-                    || marker == sof6_
-                    || marker == sof7_
-                    || marker == sof9_
-                    || marker == sof10_
-                    || marker == sof11_
-                    || marker == sof13_
-                    || marker == sof14_
-                    || marker == sof15_)) {
+            if (   comPos == 0 && inRange2(marker,sof0_,sof3_,sof5_,sof15_) ) {
                 comPos = count;
                 ++search;
             }
@@ -992,7 +994,7 @@ namespace Exiv2 {
         }
 
         if (!foundCompletePsData && psBlob.size() > 0) throw Error(22);
-        search += (int) skipApp13Ps3.size();
+        search += (int) skipApp13Ps3.size() + (int) skipApp2Icc.size();
 
         if (comPos == 0) {
             if (marker == eoi_) comPos = count;
@@ -1084,20 +1086,39 @@ namespace Exiv2 {
                     if (outIo.error()) throw Error(21);
                     --search;
                 }
+
                 if (iccProfile_.size_ > 0) {
                     // Write APP2 marker, size of APP2 field, and IccProfile
                     tmpBuf[0] = 0xff;
                     tmpBuf[1] = app2_;
 
-                    if (iccProfile_.size_ > 0xffff) throw Error(37, "IccProfile");
-                    us2Data(tmpBuf + 2, static_cast<uint16_t>(iccProfile_.size_), bigEndian);
-                    if (outIo.write(tmpBuf, 4) != 4) throw Error(21);
+                    int       chunk_size = 256*256-18 ; // leave bytes for marker and header
+                    int       size       = (int) iccProfile_.size_   ;
+                    int       chunks     = 1 + (size-1) / chunk_size ;
+                    if (iccProfile_.size_ > 256*chunk_size) throw Error(37, "IccProfile");
+                    for ( int chunk = 0 ; chunk < chunks ; chunk ++ ) {
+                        int bytes   = size > chunk_size ? chunk_size : size  ; // bytes to write
+                        size       -= bytes ;
 
-                    // Write new iccProfile
-                    if ( outIo.write(iccProfile_.pData_,iccProfile_.size_) != static_cast<long>(iccProfile_.size_) ) throw Error(21);
-                    if ( outIo.error() ) throw Error(21);
+                        // write JPEG marker (2 bytes)
+                        us2Data(tmpBuf + 2, 16 + bytes, bigEndian);
+                        if (outIo.write(tmpBuf, 4) != 4) throw Error(21); // JPEG Marker
+
+                        // write the ICC_PROFILE header (16 bytes)
+                        char pad[4];
+                        pad[0] = chunk+1;
+                        pad[1] = chunks;
+                        pad[2] = 0;
+                        pad[3] = 0;
+                        outIo.write((const byte *) iccId_, ::strlen(iccId_) + 1);
+                        outIo.write((const byte *) pad, sizeof(pad));
+                        if (outIo.write(iccProfile_.pData_+ (chunk*chunk_size), bytes) != bytes)
+                            throw Error(21);
+                        if (outIo.error()) throw Error(21);
+                    }
                     --search;
                 }
+
                 if (foundCompletePsData || iptcData_.count() > 0) {
                     // Set the new IPTC IRB, keeps existing IRBs but removes the
                     // IPTC block if there is no new IPTC data to write
@@ -1163,6 +1184,7 @@ namespace Exiv2 {
             else if (   skipApp1Exif == count
                      || skipApp1Xmp  == count
                      || std::find(skipApp13Ps3.begin(), skipApp13Ps3.end(), count) != skipApp13Ps3.end()
+                     || std::find(skipApp2Icc.begin() , skipApp2Icc.end(),  count) != skipApp2Icc.end()
                      || skipCom      == count) {
                 --search;
                 io_->seek(size-bufRead, BasicIo::cur);
