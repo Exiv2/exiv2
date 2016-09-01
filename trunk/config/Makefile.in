@@ -87,13 +87,13 @@ teste testx testv:
 	cd test && $(MAKE) $@
 
 # convenience for running individual tests
-bugfixes-test.sh   crw-test.sh     curliotest.sh    eps-preview-test.sh    eps-test.sh       exifdata-test.sh \
-exiv2-test.sh      httpiotest.sh   imagetest.sh     iotest.sh              iptctest.sh       modify-test.sh \
-path-test.sh       preview-test.sh sshiotest.sh     stringto-test.sh       tiff-test.sh      video-test.sh \
-write-test.sh      write-video-test.sh              write2-test.sh         xmpparser-test.sh webp-test.sh:
+bugfixes-test.sh   crw-test.sh     curliotest.sh       eps-preview-test.sh    eps-test.sh       exifdata-test.sh \
+exiv2-test.sh      httpiotest.sh   icc-test.sh         imagetest.sh           iotest.sh         iptctest.sh      \
+modify-test.sh     path-test.sh    preview-test.sh     sshiotest.sh           stringto-test.sh  tiff-test.sh     \
+video-test.sh      write-test.sh   write-video-test.sh write2-test.sh         xmpparser-test.sh webp-test.sh:
 	cd test && ./$@
 
-# convenience targets for running bugfixes-test.sh webp-test.sh and preview-test.sh
+# convenience targets for running selected test scripts
 bugtest bugstest testbugs bugfixes:
 	cd test && ./bugfixes-test.sh
 
@@ -102,6 +102,9 @@ webp-test webptest:
 
 preview-test preview:
 	cd test && ./preview-test.sh
+
+icc-test icc:
+	cd test && ./icc-test.sh
 
 # convenience target for building individual sample programs
 addmoddel		exifcomment		exifvalue	httptest	iptctest		mmap-test	stringto-test \
