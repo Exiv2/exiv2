@@ -95,6 +95,7 @@ namespace Exiv2 {
     const char     JpegBase::exifId_[] = "Exif\0\0";
     const char     JpegBase::jfifId_[] = "JFIF\0";
     const char     JpegBase::xmpId_[]  = "http://ns.adobe.com/xap/1.0/\0";
+    const char     JpegBase::iccId_[]  = "ICC_PROFILE\0";
 
     const char     Photoshop::ps3Id_[] = "Photoshop 3.0\0";
     const char*    Photoshop::irbId_[] = {"8BIM", "AgHg", "DCSR", "PHUT"};
@@ -344,7 +345,7 @@ namespace Exiv2 {
             throw Error(15);
         }
         clearMetadata();
-        int search = 5;
+        int search = 6;
         const long bufMinSize = 36;
         long bufRead = 0;
         DataBuf buf(bufMinSize);
@@ -352,7 +353,7 @@ namespace Exiv2 {
         bool foundCompletePsData = false;
         bool foundExifData = false;
         bool foundXmpData = false;
-        bool foundIccProfile = false;
+        bool foundIccData = false;
 
         // Read section marker
         int marker = advanceToMarker();
@@ -451,14 +452,13 @@ namespace Exiv2 {
                 }
                 --search;
             }
-            else if (   !foundIccProfile && marker == app2_ ) {
+            else if ( marker == app2_ && memcmp(buf.pData_ + 2, iccId_,11)==0) {
                 // Seek to beginning and read the iccProfile
                 io_->seek(31 - bufRead, BasicIo::cur);
                 DataBuf iccProfile(size);
                 io_->read(iccProfile.pData_, iccProfile.size_);
                 if (io_->error() || io_->eof()) throw Error(14);
-                this->setIccProfile(iccProfile);
-                foundXmpData = true;
+                foundIccData = true; // set a flag, we'll collect the profile later
             }
             else if (   pixelHeight_ == 0
                      && (   marker == sof0_  || marker == sof1_  || marker == sof2_
@@ -523,6 +523,21 @@ namespace Exiv2 {
             }
         } // psBlob.size() > 0
 
+        if ( rc==0 && foundIccData ) {
+        	long restore = io_->tell();
+        	std::stringstream binary( std::ios_base::out | std::ios_base::in | std::ios_base::binary );
+        	printStructure(binary,kpsIccProfile,0);
+        	long length = (long) binary.rdbuf()->pubseekoff(0, binary.end, binary.out);
+        	DataBuf iccProfile(length);
+            binary.rdbuf()->pubseekoff(0, binary.beg, binary.out); // rewind
+            binary.read((char*)iccProfile.pData_,iccProfile.size_);
+#if DEBUG
+            std::cerr << "iccProfile length:" << length <<" data:"<< Internal::binaryToString(iccProfile.pData_, length > 24?24:length,0) << std::endl;
+#endif
+            setIccProfile(iccProfile);
+            io_->seek(restore,Exiv2::BasicIo::beg);
+        }
+
         if (rc != 0) {
 #ifndef SUPPRESS_WARNINGS
             EXV_WARNING << "JPEG format error, rc = " << rc << "\n";
@@ -538,7 +553,9 @@ namespace Exiv2 {
         return true ;
     }
 
-#define REPORT_MARKER if ( (option == kpsBasic||option == kpsRecursive) ) out << Internal::stringFormat("%8ld | %#04x %-5s",io_->tell(), marker,nm[marker].c_str())
+#define REPORT_MARKER if ( (option == kpsBasic||option == kpsRecursive) ) \
+     out << Internal::stringFormat("%8ld | %#04x %-5s", \
+                             io_->tell(),marker,nm[marker].c_str())
 
     void JpegBase::printStructure(std::ostream& out, PrintStructureOption option,int depth)
     {
@@ -660,7 +677,7 @@ namespace Exiv2 {
                             delete [] xmp;
                             bufRead = size;
                         }
-                    } else if ( option == kpsIccProfile && std::strcmp(signature,"ICC_PROFILE") == 0 ) {
+                    } else if ( option == kpsIccProfile && std::strcmp(signature,iccId_) == 0 ) {
                         // extract ICCProfile
                         if ( size > 0 ) {
                             io_->seek(-bufRead , BasicIo::cur);
@@ -680,6 +697,11 @@ namespace Exiv2 {
                         }
                     } else if ( bPrint ) {
                         out << "| " << Internal::binaryToString(buf,size>32?32:size,size>0?2:0);
+                        if ( std::strcmp(signature,iccId_) == 0 ) {
+                            int chunk  = (int) signature[12];
+                            int chunks = (int) signature[13];
+                            out << Internal::stringFormat(" chunk %d/%d",chunk,chunks);
+                        }
                     }
 
                     // for MPF: http://www.sno.phy.queensu.ca/~phil/exiftool/TagNames/MPF.html
@@ -822,7 +844,7 @@ namespace Exiv2 {
             io_->seek(0, BasicIo::beg);
             readMetadata();
         }
-    }
+    } // JpegBase::printStructure
 
     void JpegBase::writeMetadata()
     {

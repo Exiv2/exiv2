@@ -93,13 +93,15 @@ path-test.sh       preview-test.sh sshiotest.sh     stringto-test.sh       tiff-
 write-test.sh      write-video-test.sh              write2-test.sh         xmpparser-test.sh webp-test.sh:
 	cd test && ./$@
 
-# convenience target for running bugfixes-test.sh
+# convenience targets for running bugfixes-test.sh webp-test.sh and preview-test.sh
 bugtest bugstest testbugs bugfixes:
 	cd test && ./bugfixes-test.sh
 
-# convenience target for running webp-test.sh
 webp-test webptest:
 	cd test && ./webp-test.sh
+
+preview-test preview:
+	cd test && ./preview-test.sh
 
 # convenience target for building individual sample programs
 addmoddel		exifcomment		exifvalue	httptest	iptctest		mmap-test	stringto-test \

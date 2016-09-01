@@ -252,6 +252,7 @@ namespace Exiv2 {
         static const char exifId_[];            //!< Exif identifier
         static const char jfifId_[];            //!< JFIF identifier
         static const char xmpId_[];             //!< XMP packet identifier
+        static const char iccId_[];             //!< ICC profile identifier
 
     private:
         //! @name NOT implemented
