@@ -73,6 +73,8 @@ namespace Exiv2 {
         static std::ostream& print0x0036(std::ostream& os, const Value& value, const ExifData*);
         //! Print ISO
         static std::ostream& print0x003c(std::ostream& os, const Value& value, const ExifData*);
+        //! Print Manometer Pressure
+        static std::ostream& printPressure(std::ostream& os, const Value& value, const ExifData*);
         //! Print special text values: title, landmark, county and so on
         static std::ostream& printPanasonicText(std::ostream& os, const Value& value, const ExifData*);
         //! Print accerometer readings

@@ -511,7 +511,7 @@ namespace Exiv2 {
         TagInfo(0x0079, "IntelligentDRange", N_("Intelligent Dynamic Range"), N_("Intelligent Dynamic Range"), panasonicId, makerTags, unsignedShort, -1, EXV_PRINT_TAG(panasonicIntelligentDRange)),
         TagInfo(0x007c, "ClearRetouch", N_("Clear Retouch"), N_("Clear Retouch"), panasonicId, makerTags, unsignedShort, -1, EXV_PRINT_TAG(panasonicClearRetouch)),
         TagInfo(0x0080, "City2", N_("City2"), N_("City2"), panasonicId, makerTags, undefined, -1, printPanasonicText),
-        TagInfo(0x0086, "ManometerPressure", N_("Manometer Pressure"), N_("Manometer pressure"), panasonicId, makerTags, unsignedShort, -1, printValue),
+        TagInfo(0x0086, "ManometerPressure", N_("Manometer Pressure"), N_("Manometer pressure"), panasonicId, makerTags, unsignedShort, -1, printPressure),
         TagInfo(0x0089, "PhotoStyle", N_("Photo style"), N_("Photo style"), panasonicId, makerTags, unsignedShort, -1, EXV_PRINT_TAG(panasonicPhotoStyle)),
         TagInfo(0x008a, "ShadingCompensation", N_("Shading Compensation"), N_("Shading Compensation"), panasonicId, makerTags, unsignedShort, -1, EXV_PRINT_TAG(panasonicShadingCompensation)),
         TagInfo(0x008c, "AccelerometerZ", N_("Accelerometer Z"), N_("positive is acceleration upwards"), panasonicId, makerTags, unsignedShort, -1, printAccelerometer),
@@ -684,6 +684,21 @@ namespace Exiv2 {
             return os << value;
         };
     } // PanasonicMakerNote::printPanasonicText
+
+    // Manometer Pressure
+    std::ostream& PanasonicMakerNote::printPressure(std::ostream& os, const Value& value, const ExifData*)
+    {
+        switch(value.toLong())
+        {
+            case 65535:
+                os << N_("infinite");
+                break;
+            default:
+                os << value << N_(" hPa");
+                break;
+          };
+          return os;
+    } // PanasonicMakerNote::printPressure
 
     std::ostream& PanasonicMakerNote::printAccelerometer(std::ostream& os, const Value& value, const ExifData*)
     {
