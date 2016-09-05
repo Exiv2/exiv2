@@ -1268,7 +1268,14 @@ namespace Action {
             rc = insertXmpPacket(xmpPath,path);
         }
         if (0 == rc && Params::instance().target_ & Params::ctIccProfile) {
-            rc = insertIccProfile(path);
+            Exiv2::DataBuf profile;
+            if ( Params::instance().target_ | Params::ctStdInOut ) {
+                Exiv2::DataBuf profile;
+                Params::instance().getStdin(profile);
+                rc = insertIccProfile(path,profile) ;
+            } else {
+                rc = insertIccProfile(path) ;
+            }
         }
         if (Params::instance().preserve_) {
             ts.touch(path);
@@ -1319,7 +1326,14 @@ namespace Action {
             rc = -1;
         }
         Exiv2::DataBuf iccProfileBlob = Exiv2::readFile(iccProfilePath);
+        return insertIccProfile(path,iccProfileBlob);
 
+    } // Insert::insertIccProfile
+
+
+    int Insert::insertIccProfile(const std::string& path,Exiv2::DataBuf& iccProfileBlob) const
+    {
+        int rc = 0;
         // test path exists
         if (rc==0 && !Exiv2::fileExists(path, true)) {
             std::cerr << path
