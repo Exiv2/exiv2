@@ -565,8 +565,8 @@ namespace Exiv2 {
     }
 
 #define REPORT_MARKER if ( (option == kpsBasic||option == kpsRecursive) ) \
-     out << Internal::stringFormat("%8ld | %#04x %-5s", \
-                             io_->tell(),marker,nm[marker].c_str())
+     out << Internal::stringFormat("%8ld | 0xff%02x %-5s", \
+                             io_->tell()-2,marker,nm[marker].c_str())
 
     void JpegBase::printStructure(std::ostream& out, PrintStructureOption option,int depth)
     {
@@ -620,7 +620,7 @@ namespace Exiv2 {
                 // print marker bytes
                 if ( first && bPrint ) {
                     out << "STRUCTURE OF JPEG FILE: " << io_->path() << std::endl;
-                    out << " address | marker     | length  | data" << std::endl ;
+                    out << " address | marker       |  length | data" << std::endl ;
                     REPORT_MARKER;
                 }
                 first    = false;
@@ -645,6 +645,11 @@ namespace Exiv2 {
                     size = getUShort(buf.pData_, bigEndian);
                 }
                 if ( bPrint ) out << Internal::stringFormat(" | %7d ", size);
+                if ( bPrint && marker == com_ ) {
+                	int n = size>32?32:size;
+                	if (n>3) n-=3; // three trailing bytes in a com
+                	out << "| " << Internal::binaryToString(buf,n,2);
+                }
 
                 // only print the signature for appn
                 if (marker >= app0_ && marker <= (app0_ | 0x0F)) {
@@ -654,10 +659,10 @@ namespace Exiv2 {
                     // 728 rmills@rmillsmbp:~/gnu/exiv2/ttt $ exiv2 -pS test/data/exiv2-bug922.jpg
                     // STRUCTURE OF JPEG FILE: test/data/exiv2-bug922.jpg
                     // address | marker     | length  | data
-                    //       2 | 0xd8 SOI   |       0
-                    //       4 | 0xe1 APP1  |     911 | Exif..MM.*.......%.........#....
-                    //     917 | 0xe1 APP1  |     870 | http://ns.adobe.com/xap/1.0/.<x:
-                    //    1789 | 0xe1 APP1  |   65460 | http://ns.adobe.com/xmp/extensio
+                    //       0 | 0xd8 SOI   |       0
+                    //       2 | 0xe1 APP1  |     911 | Exif..MM.*.......%.........#....
+                    //     915 | 0xe1 APP1  |     870 | http://ns.adobe.com/xap/1.0/.<x:
+                    //    1787 | 0xe1 APP1  |   65460 | http://ns.adobe.com/xmp/extensio
                     if ( option == kpsXMP && std::string(signature).find("http://ns.adobe.com/x")== 0 ) {
                         // extract XMP
                         if ( size > 0 ) {
