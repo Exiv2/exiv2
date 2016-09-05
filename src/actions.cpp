@@ -1324,9 +1324,11 @@ namespace Action {
             std::cerr << iccProfilePath
                       << ": " << _("Failed to open the file\n");
             rc = -1;
-        }
-        Exiv2::DataBuf iccProfileBlob = Exiv2::readFile(iccProfilePath);
-        return insertIccProfile(path,iccProfileBlob);
+        } else {
+        	Exiv2::DataBuf iccProfileBlob = Exiv2::readFile(iccProfilePath);
+        	rc = insertIccProfile(path,iccProfileBlob);
+		}
+        return rc;
 
     } // Insert::insertIccProfile
 
