@@ -228,6 +228,16 @@ source ./functions.source
         runTest exiv2 -pa --grep Lens $filename
     done
 
+    num=825 # Panasonic Manometer Tag
+    printf "$num " >&3
+    echo '------>' Bug $num '<-------' >&2
+    for X in a b; do
+        filename=exiv2-bug${num}${X}.exv
+        copyTestFile $filename
+        runTest exiv2 -pv --grep mano/i $filename
+        runTest exiv2 -pa --grep mano/i $filename
+    done
+
     num=831
     filename=exiv2-bug$num.tif
     printf "$num " >&3
