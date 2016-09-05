@@ -44,9 +44,16 @@
 #include <regex.h>
 #endif
 
+#if EXV_HAVE_STDINT_H
 #include <unistd.h>
+#endif
+
+#ifndef  _MSC_VER
 #include <stdlib.h>
 #include <stdio.h>
+#include <string.h>
+#include <sys/select.h>
+#endif
 
 // *****************************************************************************
 // class definitions
@@ -289,6 +296,16 @@ private:
         // copy stdin to stdinBuf
         SET_BINARY_MODE(stdin);
 
+#if 0
+#ifdef _MSC_VER
+        // http://stackoverflow.com/questions/19955617/win32-read-from-stdin-with-timeout
+        INPUT_RECORD record;
+        DWORD        numRead;
+        if ( ReadConsoleInput(GetStdHandle(STD_INPUT_HANDLE), &record, 1, &numRead)) {
+#endif
+#endif
+
+#if defined(__APPLE__) || defined(__LINUX__)
         // http://stackoverflow.com/questions/34479795/make-c-not-wait-for-user-input/34479916#34479916
         fd_set                readfds;
         FD_ZERO             (&readfds);
@@ -303,7 +320,7 @@ private:
             bool      more      = bytes != NULL;
             while   ( more ) {
                 char buff[buff_size];
-                int  n     = fread(buff,1,buff_size,stdin);
+                int  n     = (int) fread(buff,1,buff_size,stdin);
                 more       = n > 0 ;
                 if ( more ) {
                     bytes      = (Exiv2::byte*) realloc(bytes,nBytes+n);
@@ -318,6 +335,7 @@ private:
             }
             if ( bytes != NULL ) ::free(bytes) ;
         }
+#endif
     }
 
     //! Prevent copy-construction: not implemented.

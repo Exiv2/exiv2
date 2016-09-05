@@ -606,15 +606,11 @@ namespace Exiv2 {
 
             // which markers have a length field?
             bool mHasLength[256];
-            for ( int marker = 0 ; marker < 256 ; marker ++ )
-                mHasLength[marker]
-                  =   ( marker >= sof0_ && marker <= sof15_)
-                  ||  ( marker >= app0_ && marker <= (app0_ | 0x0F))
-                  ||    marker == dht_
-                  ||    marker == dqt_
-                  ||    marker == dri_
-                  ||    marker == com_
-                  ||    marker == sos_
+            for ( int i = 0 ; i < 256 ; i ++ )
+                mHasLength[i]
+                  =   ( i >= sof0_ && i <= sof15_)
+                  ||  ( i >= app0_ && i <= (app0_ | 0x0F))
+                  ||  ( i == dht_  || i == dqt_ || i == dri_ || i == com_ || i == sos_ )
                   ;
 
             // Container for the signature
