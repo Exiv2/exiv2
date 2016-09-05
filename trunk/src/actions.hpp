@@ -358,6 +358,11 @@ namespace Action {
          */
         int insertIccProfile(const std::string& path) const;
 
+        /*!
+          @brief Insert an ICC profile from binary DataBuf into file \em path.
+         */
+        int insertIccProfile(const std::string& path,Exiv2::DataBuf& iccProfileBlob) const;
+
     private:
         virtual Insert* clone_() const;
 

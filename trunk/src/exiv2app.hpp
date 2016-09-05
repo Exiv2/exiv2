@@ -44,6 +44,10 @@
 #include <regex.h>
 #endif
 
+#include <unistd.h>
+#include <stdlib.h>
+#include <stdio.h>
+
 // *****************************************************************************
 // class definitions
 
@@ -115,6 +119,16 @@ struct CmdIdAndString {
   }
   @endcode
  */
+// zlib-1.2.8/contrib/iostream2/zstream.h:
+#if defined(_WIN32)
+#   include <fcntl.h>
+#   include <io.h>
+#   define SET_BINARY_MODE(file) setmode(fileno(file), O_BINARY)
+#else
+#   define SET_BINARY_MODE(file)
+#endif
+// zlib-1.2.8/test/minigzip.c:        SET_BINARY_MODE(stdin);
+
 class Params : public Util::Getopt {
 private:
     std::string optstring_;
@@ -147,10 +161,10 @@ public:
         pmList,
         pmComment,
         pmPreview,
-		pmStructure,
-		pmXMP,
-		pmIccProfile,
-		pmRecursive
+        pmStructure,
+        pmXMP,
+        pmIccProfile,
+        pmRecursive
     };
 
     //! Individual items to print, bitmap
@@ -231,6 +245,8 @@ public:
     Keys  keys_;                        //!< List of keys to match from the metadata
     std::string charset_;               //!< Charset to use for UNICODE Exif user comment
 
+    Exiv2::DataBuf  stdinBuf;           //! < DataBuf with the binary bytes from stdin
+
 private:
     //! Pointer to the global Params object.
     static Params* instance_;
@@ -269,6 +285,39 @@ private:
         yodAdjust_[yodYear]  = emptyYodAdjust_[yodYear];
         yodAdjust_[yodMonth] = emptyYodAdjust_[yodMonth];
         yodAdjust_[yodDay]   = emptyYodAdjust_[yodDay];
+
+        // copy stdin to stdinBuf
+        SET_BINARY_MODE(stdin);
+
+        // http://stackoverflow.com/questions/34479795/make-c-not-wait-for-user-input/34479916#34479916
+        fd_set                readfds;
+        FD_ZERO             (&readfds);
+        FD_SET(STDIN_FILENO, &readfds);
+        struct timeval timeout = { 0,0 };
+
+        // if we have something in the pipe, read it
+        if (select(1, &readfds, NULL, NULL, &timeout)) {
+            const int buff_size = 4*1028;
+            Exiv2::byte* bytes  = (Exiv2::byte*)::malloc(buff_size);
+            int       nBytes    = 0 ;
+            bool      more      = bytes != NULL;
+            while   ( more ) {
+                char buff[buff_size];
+                int  n     = fread(buff,1,buff_size,stdin);
+                more       = n > 0 ;
+                if ( more ) {
+                    bytes      = (Exiv2::byte*) realloc(bytes,nBytes+n);
+                    memcpy(bytes+nBytes,buff,n);
+                    nBytes    += n ;
+                }
+            }
+
+            if ( nBytes ) {
+                stdinBuf.alloc(nBytes);
+                memcpy(stdinBuf.pData_,(const void*)bytes,nBytes);
+            }
+            if ( bytes != NULL ) ::free(bytes) ;
+        }
     }
 
     //! Prevent copy-construction: not implemented.
@@ -320,6 +369,20 @@ public:
 
     //! Print target_
     static std::string printTarget(std::string before,int target,bool bPrint=false,std::ostream& os=std::cout);
+
+    //! getStdin copy binary data read from stdin by constructor to a DataBuf
+    /*
+        There is a quite deliberate strategy to read stdin by the constructor
+        and this is not deferred until it is known if stdin data is required.
+
+        stdin can be used by multiple images in the exiv2 command line:
+        For example: $ cat foo.icc | exiv2 -iC- a.jpg b.jpg c.jpg will modify the ICC profile in several images.
+    */
+    void getStdin(Exiv2::DataBuf& buf)
+    {
+        buf.alloc(stdinBuf.size_);
+        memcpy(buf.pData_,stdinBuf.pData_,buf.size_);
+    };
 
 }; // class Params
 
