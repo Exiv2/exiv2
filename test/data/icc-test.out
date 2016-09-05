@@ -1,6 +1,6 @@
 STRUCTURE OF JPEG FILE: Reagan.jpg
  address | marker       |  length | data
-       0 | 0xffd8 SOI   |       0 
+       0 | 0xffd8 SOI  
        2 | 0xffe0 APP0  |      16 | JFIF.....,.,....
       20 | 0xffe1 APP1  |    5671 | Exif..MM.*......................
     5693 | 0xffed APP13 |    9594 | Photoshop 3.0.8BIM..........Z...
@@ -11,62 +11,200 @@ STRUCTURE OF JPEG FILE: Reagan.jpg
    25665 | 0xffc0 SOF0  |      17 
    25684 | 0xffdd DRI   |       4 
    25690 | 0xffc4 DHT   |     418 
-   26110 | 0xffda SOS   |      12 
+   26110 | 0xffda SOS  
 STRUCTURE OF JPEG FILE: Reagan.jpg
  address | marker       |  length | data
-       0 | 0xffd8 SOI   |       0 
+       0 | 0xffd8 SOI  
        2 | 0xffe0 APP0  |      16 | JFIF.....,.,....
       20 | 0xffe1 APP1  |    5658 | Exif..MM.*......................
     5680 | 0xffe1 APP1  |    7024 | http://ns.adobe.com/xap/1.0/.<?x
-   12706 | 0xffe2 APP2  |   65534 | ICC_PROFILE........ APPL....prtr chunk 1/25
-   78244 | 0xffe2 APP2  |   65534 | ICC_PROFILE.....o.S...r.R...t.RT chunk 2/25
-  143782 | 0xffe2 APP2  |   65534 | ICC_PROFILE.........o..b.tn..Q.K chunk 3/25
-  209320 | 0xffe2 APP2  |   65534 | ICC_PROFILE.......n.....l>...... chunk 4/25
-  274858 | 0xffe2 APP2  |   65534 | ICC_PROFILE.....W8w;.QY2w$.gZ.wY chunk 5/25
-  340396 | 0xffe2 APP2  |   65534 | ICC_PROFILE.....Y1...]W.j....QlT chunk 6/25
-  405934 | 0xffe2 APP2  |   65534 | ICC_PROFILE......ik.....j;....h. chunk 7/25
-  471472 | 0xffe2 APP2  |   65534 | ICC_PROFILE.....a.r2GRW.M...Y.MX chunk 8/25
-  537010 | 0xffe2 APP2  |   65534 | ICC_PROFILE.....`...bs]...dDZ7.b chunk 9/25
-  602548 | 0xffe2 APP2  |   65534 | ICC_PROFILE.....d.}...f.z...hRv. chunk 10/25
-  668086 | 0xffe2 APP2  |   65534 | ICC_PROFILE.......y+...^yy....y. chunk 11/25
-  733624 | 0xffe2 APP2  |   65534 | ICC_PROFILE......v.-i.....kN...< chunk 12/25
-  799162 | 0xffe2 APP2  |   65534 | ICC_PROFILE......'Z.....M.....>. chunk 13/25
-  864700 | 0xffe2 APP2  |   65534 | ICC_PROFILE..................... chunk 14/25
-  930238 | 0xffe2 APP2  |   65534 | ICC_PROFILE........D..........". chunk 15/25
-  995776 | 0xffe2 APP2  |   65534 | ICC_PROFILE.......V[*+..7.,G..'. chunk 16/25
- 1061314 | 0xffe2 APP2  |   65534 | ICC_PROFILE......Z...G.....C.... chunk 17/25
- 1126852 | 0xffe2 APP2  |   65534 | ICC_PROFILE......2yg.Te....VG... chunk 18/25
- 1192390 | 0xffe2 APP2  |   65534 | ICC_PROFILE..................... chunk 19/25
- 1257928 | 0xffe2 APP2  |   65534 | ICC_PROFILE.....1.0.285.0.373.0. chunk 20/25
- 1323466 | 0xffe2 APP2  |   65534 | ICC_PROFILE.....0.260.0.271.0.27 chunk 21/25
- 1389004 | 0xffe2 APP2  |   65534 | ICC_PROFILE.....39.0.145.0.150.0 chunk 22/25
- 1454542 | 0xffe2 APP2  |   65534 | ICC_PROFILE......0.051.0.060.0.0 chunk 23/25
- 1520080 | 0xffe2 APP2  |   65534 | ICC_PROFILE......0.743.0.788.0.8 chunk 24/25
- 1585618 | 0xffe2 APP2  |   41184 | ICC_PROFILE......452.0.452.0.464 chunk 25/25
- 1626806 | 0xffed APP13 |    9594 | Photoshop 3.0.8BIM..........Z...
- 1636402 | 0xffee APP14 |      14 | Adobe.d@......
- 1636418 | 0xffdb DQT   |     132 
- 1636552 | 0xffc0 SOF0  |      17 
- 1636571 | 0xffdd DRI   |       4 
- 1636577 | 0xffc4 DHT   |     418 
- 1636997 | 0xffda SOS   |      12 
+   12706 | 0xffe2 APP2  |    3161 | ICC_PROFILE........HLino....mntr chunk 1/1
+   15869 | 0xffed APP13 |    9594 | Photoshop 3.0.8BIM..........Z...
+   25465 | 0xffee APP14 |      14 | Adobe.d@......
+   25481 | 0xffdb DQT   |     132 
+   25615 | 0xfffe COM   |      10 | abcdefg
+   25627 | 0xffc0 SOF0  |      17 
+   25646 | 0xffdd DRI   |       4 
+   25652 | 0xffc4 DHT   |     418 
+   26072 | 0xffda SOS  
+abcdefg
 STRUCTURE OF JPEG FILE: Reagan.jpg
  address | marker       |  length | data
-       0 | 0xffd8 SOI   |       0 
+       0 | 0xffd8 SOI  
        2 | 0xffe0 APP0  |      16 | JFIF.....,.,....
       20 | 0xffe1 APP1  |    5658 | Exif..MM.*......................
     5680 | 0xffe1 APP1  |    7024 | http://ns.adobe.com/xap/1.0/.<?x
-   12706 | 0xffe2 APP2  |    3160 | ICC_PROFILE........HLino....mntr chunk 1/1
+   12706 | 0xffe2 APP2  |    3162 | ICC_PROFILE..........HLino....mn chunk 1/1
    15870 | 0xffed APP13 |    9594 | Photoshop 3.0.8BIM..........Z...
    25466 | 0xffee APP14 |      14 | Adobe.d@......
    25482 | 0xffdb DQT   |     132 
    25616 | 0xffc0 SOF0  |      17 
    25635 | 0xffdd DRI   |       4 
    25641 | 0xffc4 DHT   |     418 
-   26061 | 0xffda SOS   |      12 
-md5: reagan1_.icc: No such file or directory
-md5: reagan2_.icc: No such file or directory
-md5: small1_.icc: No such file or directory
-md5: small2_.icc: No such file or directory
-md5: big1_.icc: No such file or directory
-md5: big2_.icc: No such file or directory
+   26061 | 0xffda SOS  
+STRUCTURE OF JPEG FILE: Reagan.jpg
+ address | marker       |  length | data
+       0 | 0xffd8 SOI  
+       2 | 0xffe0 APP0  |      16 | JFIF.....,.,....
+      20 | 0xffe1 APP1  |    5658 | Exif..MM.*......................
+    5680 | 0xffe1 APP1  |    7024 | http://ns.adobe.com/xap/1.0/.<?x
+   12706 | 0xffe2 APP2  |   65514 | ICC_PROFILE........ APPL....prtr chunk 1/25
+   78222 | 0xffe2 APP2  |   65514 | ICC_PROFILE.....X..Ih.V...j.U..4 chunk 2/25
+  143738 | 0xffe2 APP2  |   65514 | ICC_PROFILE.....}.f...~mcx...`. chunk 3/25
+  209254 | 0xffe2 APP2  |   65514 | ICC_PROFILE......|...S...^...v.. chunk 4/25
+  274770 | 0xffe2 APP2  |   65514 | ICC_PROFILE.......bXf2..`Og...^0 chunk 5/25
+  340286 | 0xffe2 APP2  |   65514 | ICC_PROFILE.......~.|...{.}P..y. chunk 6/25
+  405802 | 0xffe2 APP2  |   65514 | ICC_PROFILE........b.....:...?.. chunk 7/25
+  471318 | 0xffe2 APP2  |   65514 | ICC_PROFILE.....Q8yq].R.wW].S.uJ chunk 8/25
+  536834 | 0xffe2 APP2  |   65514 | ICC_PROFILE.....i.T'..RA.Y..P,.. chunk 9/25
+  602350 | 0xffe2 APP2  |   65514 | ICC_PROFILE.....i.}/..key...l.v. chunk 10/25
+  667866 | 0xffe2 APP2  |   65514 | ICC_PROFILE.....{....O{.....|..c chunk 11/25
+  733382 | 0xffe2 APP2  |   65514 | ICC_PROFILE.....E.;.O-F.-.R>J... chunk 12/25
+  798898 | 0xffe2 APP2  |   65514 | ICC_PROFILE......X..up.......... chunk 13/25
+  864414 | 0xffe2 APP2  |   65514 | ICC_PROFILE..........<.......... chunk 14/25
+  929930 | 0xffe2 APP2  |   65514 | ICC_PROFILE................,...' chunk 15/25
+  995446 | 0xffe2 APP2  |   65514 | ICC_PROFILE.........g.....m%... chunk 16/25
+ 1060962 | 0xffe2 APP2  |   65514 | ICC_PROFILE........s....xX.M..n. chunk 17/25
+ 1126478 | 0xffe2 APP2  |   65514 | ICC_PROFILE..............0...... chunk 18/25
+ 1191994 | 0xffe2 APP2  |   65514 | ICC_PROFILE..........(.n.B...... chunk 19/25
+ 1257510 | 0xffe2 APP2  |   65514 | ICC_PROFILE.....0.0.282.0.282.0. chunk 20/25
+ 1323026 | 0xffe2 APP2  |   65514 | ICC_PROFILE.....175.0.176.0.175. chunk 21/25
+ 1388542 | 0xffe2 APP2  |   65514 | ICC_PROFILE.....103.0.114.0.126. chunk 22/25
+ 1454058 | 0xffe2 APP2  |   65514 | ICC_PROFILE.....6.0.049.0.053.0. chunk 23/25
+ 1519574 | 0xffe2 APP2  |   65514 | ICC_PROFILE......0.670.0.653.0.6 chunk 24/25
+ 1585090 | 0xffe2 APP2  |   41714 | ICC_PROFILE.....09.0.584.0.555.0 chunk 25/25
+ 1626806 | 0xffed APP13 |    9594 | Photoshop 3.0.8BIM..........Z...
+ 1636402 | 0xffee APP14 |      14 | Adobe.d@......
+ 1636418 | 0xffdb DQT   |     132 
+ 1636552 | 0xffc0 SOF0  |      17 
+ 1636571 | 0xffdd DRI   |       4 
+ 1636577 | 0xffc4 DHT   |     418 
+ 1636997 | 0xffda SOS  
+STRUCTURE OF JPEG FILE: Reagan.jpg
+ address | marker       |  length | data
+       0 | 0xffd8 SOI  
+       2 | 0xffe0 APP0  |      16 | JFIF.....,.,....
+      20 | 0xffe1 APP1  |    5658 | Exif..MM.*......................
+    5680 | 0xffe1 APP1  |    7024 | http://ns.adobe.com/xap/1.0/.<?x
+   12706 | 0xffe2 APP2  |   65514 | ICC_PROFILE.......... APPL....pr chunk 1/25
+   78222 | 0xffe2 APP2  |   65514 | ICC_PROFILE.......X..Ih.V...j.U. chunk 2/25
+  143738 | 0xffe2 APP2  |   65514 | ICC_PROFILE.......}.f...~mcx... chunk 3/25
+  209254 | 0xffe2 APP2  |   65514 | ICC_PROFILE........|...S...^...v chunk 4/25
+  274770 | 0xffe2 APP2  |   65514 | ICC_PROFILE.........bXf2..`Og... chunk 5/25
+  340286 | 0xffe2 APP2  |   65514 | ICC_PROFILE.........~.|...{.}P.. chunk 6/25
+  405802 | 0xffe2 APP2  |   65514 | ICC_PROFILE..........b.....:...? chunk 7/25
+  471318 | 0xffe2 APP2  |   65514 | ICC_PROFILE.......Q8yq].R.wW].S. chunk 8/25
+  536834 | 0xffe2 APP2  |   65514 | ICC_PROFILE.......i.T'..RA.Y..P, chunk 9/25
+  602350 | 0xffe2 APP2  |   65514 | ICC_PROFILE.......i.}/..key...l. chunk 10/25
+  667866 | 0xffe2 APP2  |   65514 | ICC_PROFILE.......{....O{.....|. chunk 11/25
+  733382 | 0xffe2 APP2  |   65514 | ICC_PROFILE.......E.;.O-F.-.R>J. chunk 12/25
+  798898 | 0xffe2 APP2  |   65514 | ICC_PROFILE........X..up........ chunk 13/25
+  864414 | 0xffe2 APP2  |   65514 | ICC_PROFILE............<........ chunk 14/25
+  929930 | 0xffe2 APP2  |   65514 | ICC_PROFILE..................,.. chunk 15/25
+  995446 | 0xffe2 APP2  |   65514 | ICC_PROFILE...........g.....m%.. chunk 16/25
+ 1060962 | 0xffe2 APP2  |   65514 | ICC_PROFILE..........s....xX.M.. chunk 17/25
+ 1126478 | 0xffe2 APP2  |   65514 | ICC_PROFILE................0.... chunk 18/25
+ 1191994 | 0xffe2 APP2  |   65514 | ICC_PROFILE............(.n.B.... chunk 19/25
+ 1257510 | 0xffe2 APP2  |   65514 | ICC_PROFILE.......0.0.282.0.282. chunk 20/25
+ 1323026 | 0xffe2 APP2  |   65514 | ICC_PROFILE.......175.0.176.0.17 chunk 21/25
+ 1388542 | 0xffe2 APP2  |   65514 | ICC_PROFILE.......103.0.114.0.12 chunk 22/25
+ 1454058 | 0xffe2 APP2  |   65514 | ICC_PROFILE.......6.0.049.0.053. chunk 23/25
+ 1519574 | 0xffe2 APP2  |   65514 | ICC_PROFILE........0.670.0.653.0 chunk 24/25
+ 1585090 | 0xffe2 APP2  |   41715 | ICC_PROFILE.......09.0.584.0.555 chunk 25/25
+ 1626807 | 0xffed APP13 |    9594 | Photoshop 3.0.8BIM..........Z...
+ 1636403 | 0xffee APP14 |      14 | Adobe.d@......
+ 1636419 | 0xffdb DQT   |     132 
+ 1636553 | 0xfffe COM   |      10 | abcdefg
+ 1636565 | 0xffc0 SOF0  |      17 
+ 1636584 | 0xffdd DRI   |       4 
+ 1636590 | 0xffc4 DHT   |     418 
+ 1637010 | 0xffda SOS  
+abcdefg
+STRUCTURE OF JPEG FILE: Reagan.jpg
+ address | marker       |  length | data
+       0 | 0xffd8 SOI  
+       2 | 0xffe0 APP0  |      16 | JFIF.....,.,....
+      20 | 0xffe1 APP1  |    5658 | Exif..MM.*......................
+    5680 | 0xffe1 APP1  |    7024 | http://ns.adobe.com/xap/1.0/.<?x
+   12706 | 0xffe2 APP2  |   65514 | ICC_PROFILE............ APPL... chunk 1/25
+   78222 | 0xffe2 APP2  |   65514 | ICC_PROFILE.........X..Ih.V...j. chunk 2/25
+  143738 | 0xffe2 APP2  |   65514 | ICC_PROFILE.........}.f...~mcx.. chunk 3/25
+  209254 | 0xffe2 APP2  |   65514 | ICC_PROFILE..........|...S...^.. chunk 4/25
+  274770 | 0xffe2 APP2  |   65514 | ICC_PROFILE...........bXf2..`Og. chunk 5/25
+  340286 | 0xffe2 APP2  |   65514 | ICC_PROFILE...........~.|...{.}P chunk 6/25
+  405802 | 0xffe2 APP2  |   65514 | ICC_PROFILE............b.....:.. chunk 7/25
+  471318 | 0xffe2 APP2  |   65514 | ICC_PROFILE.........Q8yq].R.wW]. chunk 8/25
+  536834 | 0xffe2 APP2  |   65514 | ICC_PROFILE.........i.T'..RA.Y.. chunk 9/25
+  602350 | 0xffe2 APP2  |   65514 | ICC_PROFILE.........i.}/..key... chunk 10/25
+  667866 | 0xffe2 APP2  |   65514 | ICC_PROFILE.........{....O{..... chunk 11/25
+  733382 | 0xffe2 APP2  |   65514 | ICC_PROFILE.........E.;.O-F.-.R> chunk 12/25
+  798898 | 0xffe2 APP2  |   65514 | ICC_PROFILE..........X..up...... chunk 13/25
+  864414 | 0xffe2 APP2  |   65514 | ICC_PROFILE..............<...... chunk 14/25
+  929930 | 0xffe2 APP2  |   65514 | ICC_PROFILE...................., chunk 15/25
+  995446 | 0xffe2 APP2  |   65514 | ICC_PROFILE.............g.....m% chunk 16/25
+ 1060962 | 0xffe2 APP2  |   65514 | ICC_PROFILE............s....xX.M chunk 17/25
+ 1126478 | 0xffe2 APP2  |   65514 | ICC_PROFILE..................0.. chunk 18/25
+ 1191994 | 0xffe2 APP2  |   65514 | ICC_PROFILE..............(.n.B.. chunk 19/25
+ 1257510 | 0xffe2 APP2  |   65514 | ICC_PROFILE.........0.0.282.0.28 chunk 20/25
+ 1323026 | 0xffe2 APP2  |   65514 | ICC_PROFILE.........175.0.176.0. chunk 21/25
+ 1388542 | 0xffe2 APP2  |   65514 | ICC_PROFILE.........103.0.114.0. chunk 22/25
+ 1454058 | 0xffe2 APP2  |   65514 | ICC_PROFILE.........6.0.049.0.05 chunk 23/25
+ 1519574 | 0xffe2 APP2  |   65514 | ICC_PROFILE..........0.670.0.653 chunk 24/25
+ 1585090 | 0xffe2 APP2  |   41716 | ICC_PROFILE.........09.0.584.0.5 chunk 25/25
+ 1626808 | 0xffed APP13 |    9594 | Photoshop 3.0.8BIM..........Z...
+ 1636404 | 0xffee APP14 |      14 | Adobe.d@......
+ 1636420 | 0xffdb DQT   |     132 
+ 1636554 | 0xffc0 SOF0  |      17 
+ 1636573 | 0xffdd DRI   |       4 
+ 1636579 | 0xffc4 DHT   |     418 
+ 1636999 | 0xffda SOS  
+STRUCTURE OF JPEG FILE: Reagan.jpg
+ address | marker       |  length | data
+       0 | 0xffd8 SOI  
+       2 | 0xffe0 APP0  |      16 | JFIF.....,.,....
+      20 | 0xffe1 APP1  |    5658 | Exif..MM.*......................
+    5680 | 0xffe1 APP1  |    7024 | http://ns.adobe.com/xap/1.0/.<?x
+   12706 | 0xffe2 APP2  |    3160 | ICC_PROFILE........HLino....mntr chunk 1/1
+   15868 | 0xffed APP13 |    9594 | Photoshop 3.0.8BIM..........Z...
+   25464 | 0xffee APP14 |      14 | Adobe.d@......
+   25480 | 0xffdb DQT   |     132 
+   25614 | 0xffc0 SOF0  |      17 
+   25633 | 0xffdd DRI   |       4 
+   25639 | 0xffc4 DHT   |     418 
+   26059 | 0xffda SOS  
+STRUCTURE OF JPEG FILE: Reagan.jpg
+ address | marker       |  length | data
+       0 | 0xffd8 SOI  
+       2 | 0xffe0 APP0  |      16 | JFIF.....,.,....
+      20 | 0xffe1 APP1  |    5658 | Exif..MM.*......................
+    5680 | 0xffe1 APP1  |    7024 | http://ns.adobe.com/xap/1.0/.<?x
+   12706 | 0xffe2 APP2  |    3161 | ICC_PROFILE..........HLino....mn chunk 1/1
+   15869 | 0xffed APP13 |    9594 | Photoshop 3.0.8BIM..........Z...
+   25465 | 0xffee APP14 |      14 | Adobe.d@......
+   25481 | 0xffdb DQT   |     132 
+   25615 | 0xfffe COM   |      10 | abcdefg
+   25627 | 0xffc0 SOF0  |      17 
+   25646 | 0xffdd DRI   |       4 
+   25652 | 0xffc4 DHT   |     418 
+   26072 | 0xffda SOS  
+abcdefg
+STRUCTURE OF JPEG FILE: Reagan.jpg
+ address | marker       |  length | data
+       0 | 0xffd8 SOI  
+       2 | 0xffe0 APP0  |      16 | JFIF.....,.,....
+      20 | 0xffe1 APP1  |    5658 | Exif..MM.*......................
+    5680 | 0xffe1 APP1  |    7024 | http://ns.adobe.com/xap/1.0/.<?x
+   12706 | 0xffe2 APP2  |    3162 | ICC_PROFILE............HLino... chunk 1/1
+   15870 | 0xffed APP13 |    9594 | Photoshop 3.0.8BIM..........Z...
+   25466 | 0xffee APP14 |      14 | Adobe.d@......
+   25482 | 0xffdb DQT   |     132 
+   25616 | 0xffc0 SOF0  |      17 
+   25635 | 0xffdd DRI   |       4 
+   25641 | 0xffc4 DHT   |     418 
+   26061 | 0xffda SOS  
+MD5 (reagan_1.icc) = 264d91010fb585eeae33a8eeeaa0495f
+MD5 (reagan_2.icc) = 264d91010fb585eeae33a8eeeaa0495f
+MD5 (small_1.icc) = 75e766757c564c6c4305be96914ea923
+MD5 (small_2.icc) = 75e766757c564c6c4305be96914ea923
+MD5 (big_1.icc) = 1cb491b91a36649ef694c20f493e5d55
+MD5 (big_2.icc) = 1cb491b91a36649ef694c20f493e5d55

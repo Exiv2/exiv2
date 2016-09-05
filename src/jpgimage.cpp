@@ -604,6 +604,19 @@ namespace Exiv2 {
                 }
             }
 
+            // which markers have a length field?
+            bool mHasLength[256];
+            for ( int marker = 0 ; marker < 256 ; marker ++ )
+                mHasLength[marker]
+                  =   ( marker >= sof0_ && marker <= sof15_)
+                  ||  ( marker >= app0_ && marker <= (app0_ | 0x0F))
+                  ||    marker == dht_
+                  ||    marker == dqt_
+                  ||    marker == dri_
+                  ||    marker == com_
+                  ||    marker == sos_
+                  ;
+
             // Container for the signature
             bool        bExtXMP    = false;
             long        bufRead    =  0;
@@ -631,27 +644,10 @@ namespace Exiv2 {
                 bufRead = io_->read(buf.pData_, bufMinSize);
                 if (io_->error()) throw Error(14);
                 if (bufRead < 2) throw Error(15);
-                uint16_t size = 0;
+                uint16_t size = mHasLength[marker] ? getUShort(buf.pData_, bigEndian) : 0 ;
+                if ( bPrint &&  mHasLength[marker] ) out << Internal::stringFormat(" | %7d ", size);
 
-                // not all markers have size field.
-                if( ( marker >= sof0_ && marker <= sof15_)
-                ||  ( marker >= app0_ && marker <= (app0_ | 0x0F))
-                ||    marker == dht_
-                ||    marker == dqt_
-                ||    marker == dri_
-                ||    marker == com_
-                ||    marker == sos_
-                ){
-                    size = getUShort(buf.pData_, bigEndian);
-                }
-                if ( bPrint ) out << Internal::stringFormat(" | %7d ", size);
-                if ( bPrint && marker == com_ ) {
-                	int n = size>32?32:size;
-                	if (n>3) n-=3; // three trailing bytes in a com
-                	out << "| " << Internal::binaryToString(buf,n,2);
-                }
-
-                // only print the signature for appn
+                // print signature for APPn
                 if (marker >= app0_ && marker <= (app0_ | 0x0F)) {
                     // http://www.adobe.com/content/dam/Adobe/en/devnet/xmp/pdfs/XMPSpecificationPart3.pdf p75
                     const char* signature = (const char*) buf.pData_+2;
@@ -696,13 +692,12 @@ namespace Exiv2 {
                     } else if ( option == kpsIccProfile && std::strcmp(signature,iccId_) == 0 ) {
                         // extract ICCProfile
                         if ( size > 0 ) {
-                            io_->seek(-bufRead , BasicIo::cur);
-                            byte* icc  = new byte[size];
-                            io_->read(icc,size);
-                            std::size_t start=16;
-                            out.write( ((const char*)icc)+start,size-start);
+                            io_->seek(-bufRead , BasicIo::cur); // back to buffer (after marker+size)
+                            io_->seek(      16 , BasicIo::cur); // step over header
+                            DataBuf   icc(size-2-16);
+                            io_->read(             icc.pData_,icc.size_);
+                            out.write((const char*)icc.pData_,icc.size_);
                             bufRead = size;
-                            delete [] icc;
                         }
                     } else if ( option == kpsIptcErase && std::strcmp(signature,"Photoshop 3.0") == 0 ) {
                         // delete IPTC data segment from JPEG
@@ -779,9 +774,14 @@ namespace Exiv2 {
                             io_->seek(restore,Exiv2::BasicIo::beg);
                             delete [] exif;
                             bLF    = false;
-
                         }
                     }
+                }
+
+                // print COM marker
+                if ( bPrint && marker == com_ ) {
+                	int n = (size-2)>32?32:size-2; // size includes 2 for the two bytes for size!
+                	out << "| " << Internal::binaryToString(buf,n,2); // start after the two bytes
                 }
 
                 // Skip the segment if the size is known
@@ -789,18 +789,13 @@ namespace Exiv2 {
 
                 if ( bLF ) out << std::endl;
 
-                if (marker == sos_)
-                    // sos_ is immediately followed by entropy-coded data & eoi_
-                    done = true;
-                else {
+                if (marker != sos_) {
                     // Read the beginning of the next segment
                     marker = advanceToMarker();
                     REPORT_MARKER;
-                    if ( marker == eoi_ ) {
-                        if ( option == kpsBasic ) out << std::endl;
-                        done = true;
-                    }
                 }
+                done = marker == eoi_ || marker == sos_;
+                if ( done ) out << std::endl;
             }
         }
         if ( option == kpsIptcErase && iptcDataSegs.size() ) {
@@ -1097,7 +1092,7 @@ namespace Exiv2 {
                     tmpBuf[0] = 0xff;
                     tmpBuf[1] = app2_;
 
-                    int       chunk_size = 256*256-18 ; // leave bytes for marker and header
+                    int       chunk_size = 256*256-40 ; // leave bytes for marker and header
                     int       size       = (int) iccProfile_.size_   ;
                     int       chunks     = 1 + (size-1) / chunk_size ;
                     if (iccProfile_.size_ > 256*chunk_size) throw Error(37, "IccProfile");
@@ -1106,8 +1101,10 @@ namespace Exiv2 {
                         size       -= bytes ;
 
                         // write JPEG marker (2 bytes)
-                        us2Data(tmpBuf + 2, 16 + bytes, bigEndian);
-                        if (outIo.write(tmpBuf, 4) != 4) throw Error(21); // JPEG Marker
+                        if (outIo.write(tmpBuf, 2) != 2) throw Error(21); // JPEG Marker
+                        // write length (2 bytes).  length includes the 2 bytes for the length
+                        us2Data(tmpBuf + 2, 2+16+bytes, bigEndian);
+                        if (outIo.write(tmpBuf+2, 2) != 2) throw Error(21); // JPEG Length
 
                         // write the ICC_PROFILE header (16 bytes)
                         char pad[4];
@@ -1115,8 +1112,8 @@ namespace Exiv2 {
                         pad[1] = chunks;
                         pad[2] = 0;
                         pad[3] = 0;
-                        outIo.write((const byte *) iccId_,(long) ::strlen(iccId_) + 1);
-                        outIo.write((const byte *) pad, sizeof(pad));
+                        outIo.write((const byte *) iccId_,12);
+                        outIo.write((const byte *)    pad, 4);
                         if (outIo.write(iccProfile_.pData_+ (chunk*chunk_size), bytes) != bytes)
                             throw Error(21);
                         if (outIo.error()) throw Error(21);
