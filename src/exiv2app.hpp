@@ -292,50 +292,6 @@ private:
         yodAdjust_[yodYear]  = emptyYodAdjust_[yodYear];
         yodAdjust_[yodMonth] = emptyYodAdjust_[yodMonth];
         yodAdjust_[yodDay]   = emptyYodAdjust_[yodDay];
-
-        // copy stdin to stdinBuf
-        SET_BINARY_MODE(stdin);
-
-#if 0
-#ifdef _MSC_VER
-        // http://stackoverflow.com/questions/19955617/win32-read-from-stdin-with-timeout
-        INPUT_RECORD record;
-        DWORD        numRead;
-        if ( ReadConsoleInput(GetStdHandle(STD_INPUT_HANDLE), &record, 1, &numRead)) {
-#endif
-#endif
-
-#if defined(__APPLE__) || defined(__LINUX__)
-        // http://stackoverflow.com/questions/34479795/make-c-not-wait-for-user-input/34479916#34479916
-        fd_set                readfds;
-        FD_ZERO             (&readfds);
-        FD_SET(STDIN_FILENO, &readfds);
-        struct timeval timeout = { 0,0 };
-
-        // if we have something in the pipe, read it
-        if (select(1, &readfds, NULL, NULL, &timeout)) {
-            const int buff_size = 4*1028;
-            Exiv2::byte* bytes  = (Exiv2::byte*)::malloc(buff_size);
-            int       nBytes    = 0 ;
-            bool      more      = bytes != NULL;
-            while   ( more ) {
-                char buff[buff_size];
-                int  n     = (int) fread(buff,1,buff_size,stdin);
-                more       = n > 0 ;
-                if ( more ) {
-                    bytes      = (Exiv2::byte*) realloc(bytes,nBytes+n);
-                    memcpy(bytes+nBytes,buff,n);
-                    nBytes    += n ;
-                }
-            }
-
-            if ( nBytes ) {
-                stdinBuf.alloc(nBytes);
-                memcpy(stdinBuf.pData_,(const void*)bytes,nBytes);
-            }
-            if ( bytes != NULL ) ::free(bytes) ;
-        }
-#endif
     }
 
     //! Prevent copy-construction: not implemented.
@@ -398,8 +354,54 @@ public:
     */
     void getStdin(Exiv2::DataBuf& buf)
     {
-        buf.alloc(stdinBuf.size_);
-        memcpy(buf.pData_,stdinBuf.pData_,buf.size_);
+    if ( stdinBuf.size_ == 0 ) {
+        // copy stdin to stdinBuf
+        SET_BINARY_MODE(stdin);
+
+#if defined(_MSC_VER)
+        // http://stackoverflow.com/questions/19955617/win32-read-from-stdin-with-timeout
+        INPUT_RECORD record;
+        DWORD        numRead;
+        if ( PeekConsoleInput(GetStdHandle(STD_INPUT_HANDLE), &record, 1, &numRead)) {
+
+#elif defined(__APPLE__) || defined(__LINUX__) // || defined(__CYGWIN__)
+        // http://stackoverflow.com/questions/34479795/make-c-not-wait-for-user-input/34479916#34479916
+        fd_set                readfds;
+        FD_ZERO             (&readfds);
+        FD_SET(STDIN_FILENO, &readfds);
+        struct timeval timeout = { 0,0 };
+
+        // if we have something in the pipe, read it
+        if (select(1, &readfds, NULL, NULL, &timeout)) {
+#endif
+#if defined(__APPLE__) || defined(__LINUX__) || defined(_MSC_VER) //|| defined(__CYGWIN__)
+            const int buff_size = 4*1028;
+            Exiv2::byte* bytes  = (Exiv2::byte*)::malloc(buff_size);
+            int       nBytes    = 0 ;
+            bool      more      = bytes != NULL;
+            while   ( more ) {
+                char buff[buff_size];
+                int  n     = (int) fread(buff,1,buff_size,stdin);
+                more       = n > 0 ;
+                if ( more ) {
+                    bytes      = (Exiv2::byte*) realloc(bytes,nBytes+n);
+                    memcpy(bytes+nBytes,buff,n);
+                    nBytes    += n ;
+                }
+            }
+
+            if ( nBytes ) {
+                stdinBuf.alloc(nBytes);
+                memcpy(stdinBuf.pData_,(const void*)bytes,nBytes);
+            }
+            if ( bytes != NULL ) ::free(bytes) ;
+        }
+#endif
+    }
+        if ( stdinBuf.size_ ) {
+            buf.alloc(stdinBuf.size_);
+            memcpy(buf.pData_,stdinBuf.pData_,buf.size_);
+        }
     };
 
 }; // class Params
