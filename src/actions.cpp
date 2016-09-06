@@ -1250,6 +1250,12 @@ namespace Action {
         if (Params::instance().target_ & Params::ctThumb) {
             rc = insertThumbnail(path);
         }
+
+        // -i{tgt}-  reading from stdin?
+        Exiv2::DataBuf stdIn;
+        bool          bStdin = Params::instance().target_ | Params::ctStdInOut;
+        if ( bStdin ) Params::instance().getStdin(stdIn);
+
         if (  rc == 0 && !(Params::instance().target_ & Params::ctXmpRaw)
         && (  Params::instance().target_ & Params::ctExif
            || Params::instance().target_ & Params::ctIptc
@@ -1263,20 +1269,16 @@ namespace Action {
             std::string exvPath = newFilePath(path, suffix);
             rc = metacopy(exvPath, path, Exiv2::ImageType::none, true);
         }
+
         if (0 == rc && (Params::instance().target_ & (Params::ctXmpSidecar|Params::ctXmpRaw)) ) {
             std::string xmpPath = newFilePath(path,".xmp");
-            rc = insertXmpPacket(xmpPath,path);
+            rc = bStdin ? insertXmpPacket(path,stdIn) : insertXmpPacket(path,xmpPath);
         }
+
         if (0 == rc && Params::instance().target_ & Params::ctIccProfile) {
-            Exiv2::DataBuf profile;
-            if ( Params::instance().target_ | Params::ctStdInOut ) {
-                Exiv2::DataBuf profile;
-                Params::instance().getStdin(profile);
-                rc = insertIccProfile(path,profile) ;
-            } else {
-                rc = insertIccProfile(path) ;
-            }
+            rc = bStdin ? insertIccProfile(path,stdIn): insertIccProfile(path);
         }
+
         if (Params::instance().preserve_) {
             ts.touch(path);
         }
@@ -1289,7 +1291,7 @@ namespace Action {
         return 1;
     } // Insert::run
 
-    int Insert::insertXmpPacket(const std::string& xmpPath,const std::string& path) const
+    int Insert::insertXmpPacket(const std::string& path,const std::string& xmpPath) const
     {
         if (!Exiv2::fileExists(xmpPath, true)) {
             std::cerr << xmpPath
@@ -1301,10 +1303,15 @@ namespace Action {
                       << ": " << _("Failed to open the file\n");
             return -1;
         }
-        Exiv2::DataBuf buf = Exiv2::readFile(xmpPath);
+        Exiv2::DataBuf xmpBlob = Exiv2::readFile(xmpPath);
+        return insertXmpPacket(path,xmpBlob);
+    }
+
+    int Insert::insertXmpPacket(const std::string& path,const Exiv2::DataBuf& xmpBlob) const
+    {
         std::string xmpPacket;
-        for ( long i = 0 ; i < buf.size_ ; i++ ) {
-            xmpPacket += (char) buf.pData_[i];
+        for ( long i = 0 ; i < xmpBlob.size_ ; i++ ) {
+            xmpPacket += (char) xmpBlob.pData_[i];
         }
         Exiv2::Image::AutoPtr image = Exiv2::ImageFactory::open(path);
         assert(image.get() != 0);

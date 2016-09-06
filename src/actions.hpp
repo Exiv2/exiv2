@@ -345,19 +345,22 @@ namespace Action {
                  filename (\em path) minus its suffix plus "-thumb.jpg".
          */
         int insertThumbnail(const std::string& path) const;
+
         /*!
-          @brief Insert an XMP packet from a file into file \em path.
-                 The filename of the XMP packet is expected to be the image
-                 filename (\em path) minus its suffix plus ".xmp".
+          @brief Insert an XMP packet from a xmpPath into file \em path.
          */
-        int insertXmpPacket(const std::string& xmpPath,const std::string& path) const;
+        int insertXmpPacket(const std::string& path,const std::string& xmpPath) const;
+        /*!
+          @brief Insert xmp from a DataBuf into file \em path.
+         */
+        int insertXmpPacket(const std::string& path,const Exiv2::DataBuf& xmpBlob) const;
+
         /*!
           @brief Insert an ICC profile from a file into file \em path.
                  The filename of the ICC profile is expected to be the image
                  filename (\em path) minus its suffix plus ".icc".
          */
         int insertIccProfile(const std::string& path) const;
-
         /*!
           @brief Insert an ICC profile from binary DataBuf into file \em path.
          */
