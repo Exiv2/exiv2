@@ -31,6 +31,8 @@
 
 // *****************************************************************************
 // included header files
+#include <exiv2/exiv2.hpp>
+
 #include "utils.hpp"
 #include "types.hpp"
 
@@ -53,9 +55,10 @@
 #include <stdlib.h>
 #include <stdio.h>
 #include <string.h>
-#include <sys/select.h>
 #if defined(__CYGWIN__) || defined(__MINGW__)
 #include <windows.h>
+#else
+#include <sys/select.h>
 #endif
 #endif
 
@@ -354,8 +357,8 @@ public:
     {
         // copy stdin to stdinBuf
         if ( stdinBuf.size_ == 0 ) {
-#if defined(_WIN32) || defined(__CYGWIN__) || defined(__MINGW__) || defined(_MSC_VER) 
-            DWORD fdwMode; 
+#if defined(_WIN32) || defined(__CYGWIN__) || defined(__MINGW__) || defined(_MSC_VER)
+            DWORD fdwMode;
             _setmode(_fileno(stdin), O_BINARY);
             if ( !GetConsoleMode(GetStdHandle(STD_INPUT_HANDLE), &fdwMode) ) { // failed: stdin has bytes!
 #else
