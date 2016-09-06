@@ -60,11 +60,8 @@
 #endif
 
 #if defined(_WIN32) || defined(__CYGWIN__) || defined(__MINGW__) || defined(_MSC_VER)
-#   include <fcntl.h>
-#   include <io.h>
-#   define SET_BINARY_MODE(file) setmode(fileno(file), O_BINARY)
-#else
-#   define SET_BINARY_MODE(file)
+#include <fcntl.h>
+#include <io.h>
 #endif
 
 
@@ -355,12 +352,11 @@ public:
     */
     void getStdin(Exiv2::DataBuf& buf)
     {
+        // copy stdin to stdinBuf
         if ( stdinBuf.size_ == 0 ) {
-            // copy stdin to stdinBuf
-            SET_BINARY_MODE(stdin);
-
 #if defined(_WIN32) || defined(__CYGWIN__) || defined(__MINGW__) || defined(_MSC_VER) 
             DWORD fdwMode; 
+            _setmode(_fileno(stdin), O_BINARY);
             if ( !GetConsoleMode(GetStdHandle(STD_INPUT_HANDLE), &fdwMode) ) { // failed: stdin has bytes!
 #else
             // http://stackoverflow.com/questions/34479795/make-c-not-wait-for-user-input/34479916#34479916
