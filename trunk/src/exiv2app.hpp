@@ -48,12 +48,25 @@
 #include <unistd.h>
 #endif
 
+// stdin handler includes
 #ifndef  _MSC_VER
 #include <stdlib.h>
 #include <stdio.h>
 #include <string.h>
 #include <sys/select.h>
+#if defined(__CYGWIN__) || defined(__MINGW__)
+#include <windows.h>
 #endif
+#endif
+
+#if defined(_WIN32) || defined(__CYGWIN__) || defined(__MINGW__) || defined(_MSC_VER)
+#   include <fcntl.h>
+#   include <io.h>
+#   define SET_BINARY_MODE(file) setmode(fileno(file), O_BINARY)
+#else
+#   define SET_BINARY_MODE(file)
+#endif
+
 
 // *****************************************************************************
 // class definitions
@@ -126,15 +139,6 @@ struct CmdIdAndString {
   }
   @endcode
  */
-// zlib-1.2.8/contrib/iostream2/zstream.h:
-#if defined(_WIN32)
-#   include <fcntl.h>
-#   include <io.h>
-#   define SET_BINARY_MODE(file) setmode(fileno(file), O_BINARY)
-#else
-#   define SET_BINARY_MODE(file)
-#endif
-// zlib-1.2.8/test/minigzip.c:        SET_BINARY_MODE(stdin);
 
 class Params : public Util::Getopt {
 private:
@@ -344,60 +348,54 @@ public:
     //! Print target_
     static std::string printTarget(std::string before,int target,bool bPrint=false,std::ostream& os=std::cout);
 
-    //! getStdin copy binary data read from stdin by constructor to a DataBuf
+    //! getStdin binary data read from stdin to DataBuf
     /*
-        There is a quite deliberate strategy to read stdin by the constructor
-        and this is not deferred until it is known if stdin data is required.
-
         stdin can be used by multiple images in the exiv2 command line:
         For example: $ cat foo.icc | exiv2 -iC- a.jpg b.jpg c.jpg will modify the ICC profile in several images.
     */
     void getStdin(Exiv2::DataBuf& buf)
     {
-    if ( stdinBuf.size_ == 0 ) {
-        // copy stdin to stdinBuf
-        SET_BINARY_MODE(stdin);
+        if ( stdinBuf.size_ == 0 ) {
+            // copy stdin to stdinBuf
+            SET_BINARY_MODE(stdin);
 
-#if defined(_MSC_VER)
-        // http://stackoverflow.com/questions/19955617/win32-read-from-stdin-with-timeout
-        INPUT_RECORD record;
-        DWORD        numRead;
-        if ( PeekConsoleInput(GetStdHandle(STD_INPUT_HANDLE), &record, 1, &numRead)) {
+#if defined(_WIN32) || defined(__CYGWIN__) || defined(__MINGW__) || defined(_MSC_VER) 
+            DWORD fdwMode; 
+            if ( !GetConsoleMode(GetStdHandle(STD_INPUT_HANDLE), &fdwMode) ) { // failed: stdin has bytes!
+#else
+            // http://stackoverflow.com/questions/34479795/make-c-not-wait-for-user-input/34479916#34479916
+            fd_set                readfds;
+            FD_ZERO             (&readfds);
+            FD_SET(STDIN_FILENO, &readfds);
+            struct timeval timeout = { 0,0 };
 
-#elif defined(__APPLE__) || defined(__LINUX__) // || defined(__CYGWIN__)
-        // http://stackoverflow.com/questions/34479795/make-c-not-wait-for-user-input/34479916#34479916
-        fd_set                readfds;
-        FD_ZERO             (&readfds);
-        FD_SET(STDIN_FILENO, &readfds);
-        struct timeval timeout = { 0,0 };
-
-        // if we have something in the pipe, read it
-        if (select(1, &readfds, NULL, NULL, &timeout)) {
+            // if we have something in the pipe, read it
+            if (select(1, &readfds, NULL, NULL, &timeout)) {
 #endif
-#if defined(__APPLE__) || defined(__LINUX__) || defined(_MSC_VER) //|| defined(__CYGWIN__)
-            const int buff_size = 4*1028;
-            Exiv2::byte* bytes  = (Exiv2::byte*)::malloc(buff_size);
-            int       nBytes    = 0 ;
-            bool      more      = bytes != NULL;
-            while   ( more ) {
-                char buff[buff_size];
-                int  n     = (int) fread(buff,1,buff_size,stdin);
-                more       = n > 0 ;
-                if ( more ) {
-                    bytes      = (Exiv2::byte*) realloc(bytes,nBytes+n);
-                    memcpy(bytes+nBytes,buff,n);
-                    nBytes    += n ;
+                const int buff_size = 4*1028;
+                Exiv2::byte* bytes  = (Exiv2::byte*)::malloc(buff_size);
+                int       nBytes    = 0 ;
+                bool      more      = bytes != NULL;
+                while   ( more ) {
+                    char buff[buff_size];
+                    int  n     = (int) fread(buff,1,buff_size,stdin);
+                    more       = n > 0 ;
+                    if ( more ) {
+                        bytes      = (Exiv2::byte*) realloc(bytes,nBytes+n);
+                        memcpy(bytes+nBytes,buff,n);
+                        nBytes    += n ;
+                    }
                 }
-            }
 
-            if ( nBytes ) {
-                stdinBuf.alloc(nBytes);
-                memcpy(stdinBuf.pData_,(const void*)bytes,nBytes);
+                if ( nBytes ) {
+                    stdinBuf.alloc(nBytes);
+                    memcpy(stdinBuf.pData_,(const void*)bytes,nBytes);
+                }
+                if ( bytes != NULL ) ::free(bytes) ;
             }
-            if ( bytes != NULL ) ::free(bytes) ;
         }
-#endif
-    }
+
+        // copy stdinBuf to buf
         if ( stdinBuf.size_ ) {
             buf.alloc(stdinBuf.size_);
             memcpy(buf.pData_,stdinBuf.pData_,buf.size_);
