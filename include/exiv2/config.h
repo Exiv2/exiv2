@@ -155,11 +155,14 @@ typedef int pid_t;
 #endif
 
 #if defined(__MINGW32__) || defined(__MINGW64__)
-# ifndef __MING__
-#  define __MING__ 1
+# ifndef  __MING__
+#  define __MING__  1
+# endif
+# ifndef  __MINGW__
+#  define __MINGW__ 1
 # endif
 // Don't know why MinGW refuses to link libregex
-# ifdef EXV_HAVE_REGEX
+# ifdef  EXV_HAVE_REGEX
 #  undef EXV_HAVE_REGEX
 # endif
 #endif
