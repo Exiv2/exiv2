@@ -44,16 +44,13 @@
 #define SLEEP       1000
 #define SNOOZE         0
 
-#if defined(__MINGW32__) || defined(__MINGW64__)
+#ifdef  __MINGW__
 #define  fopen_S(f,n,a)  f=fopen(n,a)
-#ifndef __MINGW__
-#define __MINGW__ 1
-#endif
 #endif
 
 ////////////////////////////////////////
 // platform specific code
-#if defined(WIN32) || defined(_MSC_VER)
+#if defined(WIN32) || defined(_MSC_VER) || defined(__MINGW__)
 #include <string.h>
 #include <windows.h>
 #include <io.h>
