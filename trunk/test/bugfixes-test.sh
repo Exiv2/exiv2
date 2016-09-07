@@ -429,13 +429,13 @@ source ./functions.source
     printf "$num " >&3
     echo '------>' Bug $num '<-------' >&2
     copyTestFile      $filename
-    runTest exiv2 -pC $filename       | cksum
+    runTest exiv2 -pC $filename       > ${num}_1.icc ; checkSum ${num}_1.icc
     copyTestFile      imagemagick.png
-    runTest exiv2 -pC imagemagick.png | cksum
+    runTest exiv2 -pC imagemagick.png > ${num}_2.icc ; checkSum ${num}_2.icc
     copyTestFile      Reagan.tiff
-    runTest exiv2 -pC Reagan.tiff     | cksum
+    runTest exiv2 -pC Reagan.tiff     > ${num}_3.icc ; checkSum ${num}_3.icc
     copyTestFile      Reagan.jpg
-    runTest exiv2 -pC Reagan.jpg      | cksum
+    runTest exiv2 -pC Reagan.jpg      > ${num}_4.icc ; checkSum ${num}_4.icc
 
     num=1108
     filename=exiv2-bug$num.exv
