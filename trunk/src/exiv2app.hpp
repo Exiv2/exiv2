@@ -359,7 +359,7 @@ public:
         if ( stdinBuf.size_ == 0 ) {
 #if defined(_WIN32) || defined(__CYGWIN__) || defined(__MINGW__) || defined(_MSC_VER)
             DWORD fdwMode;
-            _setmode(_fileno(stdin), O_BINARY);
+            _setmode(fileno(stdin), O_BINARY);
             if ( !GetConsoleMode(GetStdHandle(STD_INPUT_HANDLE), &fdwMode) ) { // failed: stdin has bytes!
 #else
             // http://stackoverflow.com/questions/34479795/make-c-not-wait-for-user-input/34479916#34479916

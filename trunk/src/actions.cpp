@@ -1253,7 +1253,7 @@ namespace Action {
 
         // -i{tgt}-  reading from stdin?
         Exiv2::DataBuf stdIn;
-        bool          bStdin = Params::instance().target_ | Params::ctStdInOut;
+        bool          bStdin = (Params::instance().target_ & Params::ctStdInOut)?true:false;
         if ( bStdin ) Params::instance().getStdin(stdIn);
 
         if (  rc == 0 && !(Params::instance().target_ & Params::ctXmpRaw)
