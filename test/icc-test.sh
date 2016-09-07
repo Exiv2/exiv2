@@ -42,13 +42,12 @@ test2120() # --comment and -dc clobbered by writing ICC/JPG
     runTest exiv2 -eC --force           $filename
             mv                          $iccname_   small_2.icc
     test2120
-
-
+    
+    printf "md5 " >&3
 
 	for f in reagan small big; do for i in 1 2; do
-        md5 ${f}_${i}.icc
+        checkSum ${f}_${i}.icc
     done ; done
-
 
 
 ) 3>&1 > $results 2>&1

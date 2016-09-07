@@ -325,7 +325,7 @@ namespace Exiv2 {
             if (hKernel) {
                 GetFileInformationByHandle_t pfcn_GetFileInformationByHandle = (GetFileInformationByHandle_t)GetProcAddress(hKernel, "GetFileInformationByHandle");
                 if (pfcn_GetFileInformationByHandle) {
-                    BY_HANDLE_FILE_INFORMATION fi = {0};
+                    BY_HANDLE_FILE_INFORMATION fi = {0,0,0,0,0,0,0,0,0,0,0,0,0};
                     if (pfcn_GetFileInformationByHandle(hFd, &fi)) {
                         nlink = fi.nNumberOfLinks;
                     }
