@@ -105,18 +105,34 @@ testBuild()
         mingw)
             if [ ! -z "$RECURSIVE" ]; then
                 # we are already in MinGW/bash, so build
-                /usr/local/bin/cmake -DCMAKE_INSTALL_PREFIX=$dist -DEXIV2_ENABLE_NLS=OFF $exiv2
+                # cmake -G "Unix Makefiles" -DCMAKE_INSTALL_PREFIX=$dist -DEXIV2_ENABLE_NLS=OFF -DCMAKE_C_COMPILER=$(which gcc) -DCMAKE_CXX_COMPILER=$(which g++) $exiv2
+                make distclean 
+                make config
+                ./configure
+                make
+                make install
+                make samples
             else
                 # recursively invoke MinGW/bash with appropriate tool chain
                 export RECURSIVE=1
-                export CFLAGS=-m64
-                export CXXFLAGS=-m64
-                export LDFLAGS=-m64
 
                 export TMP=/tmp
                 export TEMP=$TMP
                 if [ "$x64" == true ]; then
+                    export CFLAGS=-m64
+                    export CXXFLAGS=-m64
+                    export LDFLAGS=-m64
                     /cygdrive/c/MinGW64/msys/1.0/bin/bash.exe -c "export PATH=/c/TDM-GCC-64/bin:/c/MinGW64/bin:/c/MinGW64/msys/1.0/bin:/c/MinGW64/msys/1.0/local/bin; $0"
+                    result=$?
+                    if [ "$result" == "0" ]; then
+                        testBuild
+                    fi
+                fi
+                if [ "$win32" == true ]; then
+                    export CFLAGS=-m32
+                    export CXXFLAGS=-m32
+                    export LDFLAGS=-m32
+                    /cygdrive/c/MinGW/msys/1.0/bin/bash.exe -c "/c/Qt/Qt5.6.0/5.6/mingw49_32/bin:/c/Qt/Qt5.6.0/Tools/mingw492_32/bin:/c/MinGW/bin:/usr/bin:/usr/local/bin:/c/cygwin64/bin:/c/Users/rmills/com:.; $0"
                     result=$?
                     if [ "$result" == "0" ]; then
                         testBuild
