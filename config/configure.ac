@@ -276,7 +276,7 @@ if test "$USE_XMP_TOOLKIT" = "yes"; then
     PTHREAD_LIBS=
     if test "$with_expat" != "no"; then
         AC_CHECK_HEADERS(expat.h,
-            AC_CHECK_LIB(expat, XML_ParserCreate,[f
+            AC_CHECK_LIB(expat, XML_ParserCreate,[
                 AC_DEFINE([HAVE_EXPAT], [], [Have Expat XML parser library])
                 EXPAT_LIBS="-lexpat"
                 if test "x${EXPAT_DIR}" != "x"; then
