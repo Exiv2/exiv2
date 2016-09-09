@@ -38,8 +38,6 @@ EXIV2_RCSID("@(#) $Id$")
 #include "i18n.h"                // NLS support.
 
 // + standard includes
-#include <cstdint>
-#include <iomanip>
 #include <string>
 
 // *****************************************************************************
