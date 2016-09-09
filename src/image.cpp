@@ -370,6 +370,25 @@ namespace Exiv2 {
     {
         return (supportedMetadata_ & metadataId) != 0;
     }
+    
+    void Image::findIccProfile()
+    {
+        if (io().open() != 0) return;
+
+        long restore = io().tell();
+        std::stringstream binary( std::ios_base::out | std::ios_base::in | std::ios_base::binary );
+        io().seek(0,Exiv2::BasicIo::beg);
+        printStructure(binary,kpsIccProfile,0);
+        long length = (long) binary.rdbuf()->pubseekoff(0, binary.end, binary.out);
+        DataBuf iccProfile(length);
+        binary.rdbuf()->pubseekoff(0, binary.beg, binary.out); // rewind
+        binary.read((char*)iccProfile.pData_,iccProfile.size_);
+#if 1
+        std::cerr << "findIccProfile length:" << length <<" data:"<< Internal::binaryToString(iccProfile.pData_, length > 24?24:length,0) << std::endl;
+#endif
+        setIccProfile(iccProfile);
+        io().seek(restore,Exiv2::BasicIo::beg);
+    } // findIccProfile
 
     AccessMode Image::checkMode(MetadataId metadataId) const
     {
@@ -579,7 +598,7 @@ namespace Exiv2 {
         }
         return Image::AutoPtr();
     } // ImageFactory::create
-
+    
 // *****************************************************************************
 // template, inline and free functions
 

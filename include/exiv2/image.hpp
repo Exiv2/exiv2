@@ -234,6 +234,11 @@ namespace Exiv2 {
           @param iccProfile DataBuf containing profile (binary)
          */
         virtual void setIccProfile(DataBuf& iccProfile);
+
+        /*!
+          @brief find the iccProfile using printStructure() and call setIccProfile()
+         */
+    	virtual void findIccProfile();
         /*!
           @brief Erase iccProfile. the profile is not removed from
               the actual image until the writeMetadata() method is called.
