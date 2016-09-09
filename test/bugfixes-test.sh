@@ -567,6 +567,14 @@ source ./functions.source
       runTest exiv2 -K Exif.CanonCs.FocusContinuous $filename
     done
 
+    num=1223
+    printf "$num " >&3
+    filename=exiv2-bug$num.jpg
+    copyTestFile   RAW_PENTAX_K30.exv
+    copyTestFile   RAW_PENTAX_K100.exv  
+    runTest exiv2 -pa --grep Shutter    RAW_PENTAX_K30.exv
+    runTest exiv2 -pa --grep Shutter    RAW_PENTAX_K100.exv
+
 ) 3>&1 > $results 2>&1
 
 printf "\n"

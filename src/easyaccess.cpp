@@ -21,9 +21,6 @@
 /*
   File:      easyaccess.cpp
   Version:   $Rev$
-  Author(s): Carsten Pfeiffer <pfeiffer@kde.org>
-             Andreas Huggel (ahu) <ahuggel@gmx.net>
-  History:   28-Feb-09, gis: created
  */
 // *****************************************************************************
 #include "rcsid_int.hpp"
@@ -161,7 +158,6 @@ namespace Exiv2 {
             if (md_st == ed.end())
                 break;
             // otherwise pick up actual value and grab value accordingly
-            const char *st_key = 0; // nullptr
             std::ostringstream os;
             md_st->write(os, &ed);
             bool ok = false;

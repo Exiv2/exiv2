@@ -25,9 +25,6 @@
            based on ExifTool implementation and
            <a href="http://www.sno.phy.queensu.ca/~phil/exiftool/TagNames/Pentax.html">Pentax Makernote list</a> by Phil Harvey<br>
   @version $Rev$
-  @author  Michal Cihar
-           <a href="mailto:michal@cihar.com">michal@cihar.com</a>
-  @date    27-Sep-07
  */
 #ifndef PENTAXMN_INT_HPP_
 #define PENTAXMN_INT_HPP_
@@ -39,10 +36,8 @@
 #include "types.hpp"
 
 // + standard includes
-#include <string>
 #include <iostream>
 #include <iomanip>
-#include <memory>
 
 // *****************************************************************************
 // namespace extensions
@@ -59,27 +54,29 @@ namespace Exiv2 {
         static const TagInfo* tagList();
 
         //! Print Pentax version
-        static std::ostream& printPentaxVersion(std::ostream& os, const Value& value, const ExifData*);
+        static std::ostream& printVersion(std::ostream& os, const Value& value, const ExifData*);
         //! Print Pentax resolution
-        static std::ostream& printPentaxResolution(std::ostream& os, const Value& value, const ExifData*);
+        static std::ostream& printResolution(std::ostream& os, const Value& value, const ExifData*);
         //! Print Pentax date
-        static std::ostream& printPentaxDate(std::ostream& os, const Value& value, const ExifData*);
+        static std::ostream& printDate(std::ostream& os, const Value& value, const ExifData*);
         //! Print Pentax time
-        static std::ostream& printPentaxTime(std::ostream& os, const Value& value, const ExifData*);
+        static std::ostream& printTime(std::ostream& os, const Value& value, const ExifData*);
         //! Print Pentax exposure
-        static std::ostream& printPentaxExposure(std::ostream& os, const Value& value, const ExifData*);
+        static std::ostream& printExposure(std::ostream& os, const Value& value, const ExifData*);
         //! Print Pentax F value
-        static std::ostream& printPentaxFValue(std::ostream& os, const Value& value, const ExifData*);
+        static std::ostream& printFValue(std::ostream& os, const Value& value, const ExifData*);
         //! Print Pentax focal length
-        static std::ostream& printPentaxFocalLength(std::ostream& os, const Value& value, const ExifData*);
+        static std::ostream& printFocalLength(std::ostream& os, const Value& value, const ExifData*);
         //! Print Pentax compensation
-        static std::ostream& printPentaxCompensation(std::ostream& os, const Value& value, const ExifData*);
+        static std::ostream& printCompensation(std::ostream& os, const Value& value, const ExifData*);
         //! Print Pentax temperature
-        static std::ostream& printPentaxTemperature(std::ostream& os, const Value& value, const ExifData*);
+        static std::ostream& printTemperature(std::ostream& os, const Value& value, const ExifData*);
         //! Print Pentax flash compensation
-        static std::ostream& printPentaxFlashCompensation(std::ostream& os, const Value& value, const ExifData*);
+        static std::ostream& printFlashCompensation(std::ostream& os, const Value& value, const ExifData*);
         //! Print Pentax bracketing
-        static std::ostream& printPentaxBracketing(std::ostream& os, const Value& value, const ExifData*);
+        static std::ostream& printBracketing(std::ostream& os, const Value& value, const ExifData*);
+        //! Print Pentax shutter count
+        static std::ostream& printShutterCount(std::ostream& os, const Value& value, const ExifData*);
 
     private:
         //! Tag information
@@ -123,6 +120,8 @@ namespace Exiv2 {
 //! Shortcut for the printCombiTag template which requires typing the array name only once.
 #define EXV_PRINT_COMBITAG_MULTI(array, count, ignoredcount, ignoredcountmax) printCombiTag<EXV_COUNTOF(array), array, count, ignoredcount, ignoredcountmax>
 
-}}                                      // namespace Internal, Exiv2
+    } // namespace Internal
+} // namespace Exiv2
+    
 
 #endif                                  // #ifndef PENTAXMN_INT_HPP_
