@@ -21,12 +21,6 @@
 /*
   File:      pentaxmn.cpp
   Version:   $Rev$
-  Author(s): Michal Cihar <michal@cihar.com>
-  Based on fujimn.cpp by:
-             Andreas Huggel (ahu) <ahuggel@gmx.net>
-             Gilles Caulier (gc) <caulier dot gilles at gmail dot com>
-  History:   27-Sep-07 created
-  Credits:   See header file.
  */
 // *****************************************************************************
 #include "rcsid_int.hpp"
@@ -44,11 +38,9 @@ EXIV2_RCSID("@(#) $Id$")
 #include "i18n.h"                // NLS support.
 
 // + standard includes
-#include <string>
-#include <sstream>
+#include <cstdint>
 #include <iomanip>
-#include <cassert>
-#include <cstring>
+#include <string>
 
 // *****************************************************************************
 // class member definitions
@@ -1013,7 +1005,7 @@ namespace Exiv2 {
         {   4, N_("Custom") },
     };
 
-    std::ostream& PentaxMakerNote::printPentaxVersion(std::ostream& os, const Value& value, const ExifData*)
+    std::ostream& PentaxMakerNote::printVersion(std::ostream& os, const Value& value, const ExifData*)
     {
         std::string val = value.toString();
         size_t i;
@@ -1024,7 +1016,7 @@ namespace Exiv2 {
         return os;
     }
 
-    std::ostream& PentaxMakerNote::printPentaxResolution(std::ostream& os, const Value& value, const ExifData*)
+    std::ostream& PentaxMakerNote::printResolution(std::ostream& os, const Value& value, const ExifData*)
     {
         std::string val = value.toString();
         size_t i;
@@ -1035,7 +1027,7 @@ namespace Exiv2 {
         return os;
     }
 
-    std::ostream& PentaxMakerNote::printPentaxDate(std::ostream& os, const Value& value, const ExifData*)
+    std::ostream& PentaxMakerNote::printDate(std::ostream& os, const Value& value, const ExifData*)
     {
         /* I choose same format as is used inside EXIF itself */
         os << ((value.toLong(0) << 8) + value.toLong(1));
@@ -1046,7 +1038,7 @@ namespace Exiv2 {
         return os;
     }
 
-    std::ostream& PentaxMakerNote::printPentaxTime(std::ostream& os, const Value& value, const ExifData*)
+    std::ostream& PentaxMakerNote::printTime(std::ostream& os, const Value& value, const ExifData*)
     {
         std::ios::fmtflags f( os.flags() );
         os << std::setw(2) << std::setfill('0') << value.toLong(0);
@@ -1058,13 +1050,13 @@ namespace Exiv2 {
         return os;
     }
 
-    std::ostream& PentaxMakerNote::printPentaxExposure(std::ostream& os, const Value& value, const ExifData*)
+    std::ostream& PentaxMakerNote::printExposure(std::ostream& os, const Value& value, const ExifData*)
     {
         os << static_cast<float>(value.toLong()) / 100 << " ms";
         return os;
     }
 
-    std::ostream& PentaxMakerNote::printPentaxFValue(std::ostream& os, const Value& value, const ExifData*)
+    std::ostream& PentaxMakerNote::printFValue(std::ostream& os, const Value& value, const ExifData*)
     {
         std::ios::fmtflags f( os.flags() );
         os << "F" << std::setprecision(2)
@@ -1073,7 +1065,7 @@ namespace Exiv2 {
         return os;
     }
 
-    std::ostream& PentaxMakerNote::printPentaxFocalLength(std::ostream& os, const Value& value, const ExifData*)
+    std::ostream& PentaxMakerNote::printFocalLength(std::ostream& os, const Value& value, const ExifData*)
     {
         std::ios::fmtflags f( os.flags() );
         os << std::fixed << std::setprecision(1)
@@ -1083,7 +1075,7 @@ namespace Exiv2 {
         return os;
     }
 
-    std::ostream& PentaxMakerNote::printPentaxCompensation(std::ostream& os, const Value& value, const ExifData*)
+    std::ostream& PentaxMakerNote::printCompensation(std::ostream& os, const Value& value, const ExifData*)
     {
         std::ios::fmtflags f( os.flags() );
         os << std::setprecision(2)
@@ -1093,13 +1085,13 @@ namespace Exiv2 {
         return os;
     }
 
-    std::ostream& PentaxMakerNote::printPentaxTemperature(std::ostream& os, const Value& value, const ExifData*)
+    std::ostream& PentaxMakerNote::printTemperature(std::ostream& os, const Value& value, const ExifData*)
     {
         os << value.toLong() << " C";
         return os;
     }
 
-    std::ostream& PentaxMakerNote::printPentaxFlashCompensation(std::ostream& os, const Value& value, const ExifData*)
+    std::ostream& PentaxMakerNote::printFlashCompensation(std::ostream& os, const Value& value, const ExifData*)
     {
         std::ios::fmtflags f( os.flags() );
         os << std::setprecision(2)
@@ -1109,7 +1101,7 @@ namespace Exiv2 {
         return os;
     }
 
-    std::ostream& PentaxMakerNote::printPentaxBracketing(std::ostream& os, const Value& value, const ExifData*)
+    std::ostream& PentaxMakerNote::printBracketing(std::ostream& os, const Value& value, const ExifData*)
     {
         long l0 = value.toLong(0);
 
@@ -1157,6 +1149,42 @@ namespace Exiv2 {
             }
             os << ")";
         }
+        return os;
+    }
+
+    std::ostream& PentaxMakerNote::printShutterCount(std::ostream& os, const Value& value, const ExifData* metadata)
+    {
+        ExifData::const_iterator dateIt = metadata->findKey(
+                ExifKey("Exif.PentaxDng.Date"));
+        if (dateIt == metadata->end()) {
+            dateIt = metadata->findKey(ExifKey("Exif.Pentax.Date"));
+        }
+        ExifData::const_iterator timeIt = metadata->findKey(
+                ExifKey("Exif.PentaxDng.Time"));
+        if (timeIt == metadata->end()) {
+            timeIt = metadata->findKey(ExifKey("Exif.Pentax.Time"));
+        }
+        if (    dateIt == metadata->end() || dateIt->size() != 4 ||
+                timeIt == metadata->end() || timeIt->size() != 3 ||
+                value.size() != 4) {
+            os << "undefined";
+            return os;
+        }
+        const uint32_t date =
+            (dateIt->toLong(0) << 24) + (dateIt->toLong(1) << 16) +
+            (dateIt->toLong(2) <<  8) + (dateIt->toLong(3) <<  0);
+        const uint32_t time =
+            (timeIt->toLong(0) << 24) + (timeIt->toLong(1) << 16) +
+            (timeIt->toLong(2) <<  8);
+        const uint32_t countEnc =
+            (value.toLong(0) << 24) + (value.toLong(1) << 16) +
+            (value.toLong(2) <<  8) + (value.toLong(3) <<  0);
+        // The shutter count is encoded using date and time values stored
+        // in Pentax-specific tags.  The prototype for the encoding/decoding
+        // function is taken from Phil Harvey's ExifTool: Pentax.pm file,
+        // CryptShutterCount() routine.
+        const uint32_t count = countEnc ^ date ^ (~time);
+        os << count;
         return os;
     }
 
@@ -1389,13 +1417,13 @@ namespace Exiv2 {
     const TagInfo PentaxMakerNote::tagInfo_[] = {
         TagInfo(0x0000, "Version", N_("Version"),
                 N_("Pentax Makernote version"),
-                pentaxId, makerTags, undefined, -1, printPentaxVersion),
+                pentaxId, makerTags, undefined, -1, printVersion),
         TagInfo(0x0001, "Mode", N_("Shooting mode"),
                 N_("Camera shooting mode"),
                 pentaxId, makerTags, unsignedShort, -1, EXV_PRINT_TAG(pentaxShootingMode)),
         TagInfo(0x0002, "PreviewResolution", N_("Resolution of a preview image"),
                 N_("Resolution of a preview image"),
-                pentaxId, makerTags, undefined, -1, printPentaxResolution),
+                pentaxId, makerTags, undefined, -1, printResolution),
         TagInfo(0x0003, "PreviewLength", N_("Length of a preview image"),
                 N_("Size of an IFD containing a preview image"),
                 pentaxId, makerTags, undefined, -1, printValue),
@@ -1407,10 +1435,10 @@ namespace Exiv2 {
                 pentaxId, makerTags, unsignedShort, -1, EXV_PRINT_TAG(pentaxModel)),
         TagInfo(0x0006, "Date", N_("Date"),
                 N_("Date"),
-                pentaxId, makerTags, undefined, -1, printPentaxDate),
+                pentaxId, makerTags, undefined, -1, printDate),
         TagInfo(0x0007, "Time", N_("Time"),
                 N_("Time"),
-                pentaxId, makerTags, undefined, -1, printPentaxTime),
+                pentaxId, makerTags, undefined, -1, printTime),
         TagInfo(0x0008, "Quality", N_("Image quality"),
                 N_("Image quality settings"),
                 pentaxId, makerTags, unsignedShort, -1, EXV_PRINT_TAG(pentaxQuality)),
@@ -1433,24 +1461,24 @@ namespace Exiv2 {
         /* Some missing ! */
         TagInfo(0x0012, "ExposureTime", N_("Exposure time"),
                 N_("Exposure time"),
-                pentaxId, makerTags, unsignedLong, -1, printPentaxExposure),
+                pentaxId, makerTags, unsignedLong, -1, printExposure),
         TagInfo(0x0013, "FNumber", N_("F-Number"),
                 N_("F-Number"),
-                pentaxId, makerTags, unsignedLong, -1, printPentaxFValue),
+                pentaxId, makerTags, unsignedLong, -1, printFValue),
         TagInfo(0x0014, "ISO", N_("ISO sensitivity"),
                 N_("ISO sensitivity settings"),
                 pentaxId, makerTags, unsignedLong, -1, EXV_PRINT_TAG(pentaxISO)),
         /* Some missing ! */
         TagInfo(0x0016, "ExposureCompensation", N_("Exposure compensation"),
                 N_("Exposure compensation"),
-                pentaxId, makerTags, unsignedLong, -1, printPentaxCompensation),
+                pentaxId, makerTags, unsignedLong, -1, printCompensation),
         /* Some missing ! */
         TagInfo(0x0017, "MeteringMode", N_("MeteringMode"),
                 N_("MeteringMode"),
                 pentaxId, makerTags, undefined, -1, EXV_PRINT_TAG(pentaxMeteringMode)),
         TagInfo(0x0018, "AutoBracketing", N_("AutoBracketing"),
                 N_("AutoBracketing"),
-                pentaxId, makerTags, undefined, -1, printPentaxBracketing),
+                pentaxId, makerTags, undefined, -1, printBracketing),
         TagInfo(0x0019, "WhiteBalance", N_("White balance"),
                 N_("White balance"),
                 pentaxId, makerTags, undefined, -1, EXV_PRINT_TAG(pentaxWhiteBalance)),
@@ -1465,7 +1493,7 @@ namespace Exiv2 {
                 pentaxId, makerTags, unsignedLong, -1, printValue),
         TagInfo(0x001d, "FocalLength", N_("FocalLength"),
                 N_("FocalLength"),
-                pentaxId, makerTags, undefined, -1, printPentaxFocalLength),
+                pentaxId, makerTags, undefined, -1, printFocalLength),
         TagInfo(0x001e, "DigitalZoom", N_("Digital zoom"),
                 N_("Digital zoom"),
                 pentaxId, makerTags, unsignedLong, -1, printValue),
@@ -1542,7 +1570,7 @@ namespace Exiv2 {
         /* Some missing ! */
         TagInfo(0x0047, "Temperature", N_("Temperature"),
                 N_("Camera temperature"),
-                pentaxId, makerTags, signedByte, -1, printPentaxTemperature),
+                pentaxId, makerTags, signedByte, -1, printTemperature),
         TagInfo(0x0048, "AELock", N_("AE lock"),
                 N_("AE lock"),
                 pentaxId, makerTags, unsignedShort, -1, EXV_PRINT_TAG(pentaxOffOn)),
@@ -1552,7 +1580,7 @@ namespace Exiv2 {
         /* Some missing ! */
         TagInfo(0x004d, "FlashExposureCompensation", N_("Flash exposure compensation"),
                 N_("Flash exposure compensation"),
-                pentaxId, makerTags, signedLong, -1, printPentaxFlashCompensation),
+                pentaxId, makerTags, signedLong, -1, printFlashCompensation),
         /* Some missing ! */
         TagInfo(0x004f, "ImageTone", N_("Image tone"),
                 N_("Image tone"),
@@ -1566,7 +1594,7 @@ namespace Exiv2 {
                 pentaxId, makerTags, undefined, -1, printValue),
         TagInfo(0x005d, "ShutterCount", N_("Shutter count"),
                 N_("Shutter count"),
-                pentaxId, makerTags, undefined, -1, printValue), /* TODO: This has some encryption by date (see exiftool) */
+                pentaxId, makerTags, undefined, -1, printShutterCount),
         TagInfo(0x0069, "DynamicRangeExpansion", N_("Dynamic range expansion"),
                 N_("Dynamic range expansion"),
                 pentaxId, makerTags, undefined, -1, EXV_PRINT_COMBITAG(pentaxDynamicRangeExpansion, 4, 0)),
