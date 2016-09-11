@@ -285,6 +285,16 @@ namespace Exiv2 {
         return os;
     }
 
+    std::ostream& Nikon1MakerNote::printBarValue(std::ostream& os,
+                                               const Value& value,
+                                               const ExifData*)
+    {
+        if (value.count() > 1) {
+            os << value.toLong(6)+value.toLong(7)*256;
+        }
+        return os;
+    }
+
     std::ostream& Nikon1MakerNote::print0x0007(std::ostream& os,
                                                const Value& value,
                                                const ExifData*)
@@ -613,6 +623,7 @@ namespace Exiv2 {
         TagInfo(0x00b7, "AFInfo2", "AF Info 2", N_("AF info 2"), nikon3Id, makerTags, undefined, -1, printValue),
         TagInfo(0x00b8, "FileInfo", "File Info", N_("File info"), nikon3Id, makerTags, undefined, -1, printValue),
         TagInfo(0x00b9, "AFTune", "AF Tune", N_("AF tune"), nikon3Id, makerTags, undefined, -1, printValue),
+        TagInfo(0x00c3, "BarometerInfo", "BarometerInfo", N_("Barometer Info"), nikon3Id, makerTags, signedLong, -1, Nikon1MakerNote::printBarValue),
         TagInfo(0x0e00, "PrintIM", N_("Print IM"), N_("PrintIM information"), nikon3Id, makerTags, undefined, -1, printValue),
         // TODO: Add Capture Data decoding implementation.
         TagInfo(0x0e01, "CaptureData", N_("Capture Data"), N_("Capture data"), nikon3Id, makerTags, undefined, -1, printValue),
@@ -1765,7 +1776,7 @@ namespace Exiv2 {
 //
 //
 // Seven misidentified lenses due to double LensIDs:
-// 
+//
 // 2F 48 30 44 24 24 29 02.1: Nikon AF Zoom-Nikkor 20-35mm f/2.8D IF
 // 2F 48 30 44 24 24 29 02.2: Tokina AT-X 235 AF PRO (AF 20-35mm f/2.8)
 //
@@ -1969,11 +1980,11 @@ fmountlens[] = {
 {0x81,0x54,0x80,0x80,0x18,0x18,0x86,0x0E,0x03,0x00,0x00, "Nikon", "JAA336DA", "AF-S VR Nikkor 200mm f/2G IF-ED"},
 {0x82,0x48,0x8E,0x8E,0x24,0x24,0x87,0x0E,0x13,0x00,0x00, "Nikon", "JAA337DA", "AF-S VR Nikkor 300mm f/2.8G IF-ED"},
 {0x83,0x00,0xB0,0xB0,0x5A,0x5A,0x88,0x04,0x00,0x00,0x00, "Nikon", "", "FSA-L2, EDG 65, 800mm F13 G"},
-//84                
-//85                 
+//84
+//85
 //86
 //87
-//88                
+//88
 {0x89,0x3C,0x53,0x80,0x30,0x3C,0x8B,0x06,0x01,0x00,0x00, "Nikon", "JAA793DA", "AF-S DX Zoom-Nikkor 55-200mm f/4-5.6G ED"},
 {0x8A,0x54,0x6A,0x6A,0x24,0x24,0x8C,0x0E,0x53,0x00,0x00, "Nikon", "JAA630DA", "AF-S VR Micro-Nikkor 105mm f/2.8G IF-ED"},
 {0x8B,0x40,0x2D,0x80,0x2C,0x3C,0x8D,0x0E,0x01,0x00,0x00, "Nikon", "JAA794DA", "AF-S DX VR Zoom-Nikkor 18-200mm f/3.5-5.6G IF-ED"},
@@ -2375,10 +2386,10 @@ fmountlens[] = {
 {0x06,0x3F,0x68,0x68,0x2C,0x2C,0x06,0x00,0x00,0x00,0x00, "Cosina", "", "AF 100mm F3.5 Macro"},
 {0x07,0x36,0x3D,0x5F,0x2C,0x3C,0x03,0x00,0x00,0x00,0x00, "Cosina", "", "AF Zoom 28-80mm F3.5-5.6 MC Macro"},
 {0x07,0x46,0x3D,0x6A,0x25,0x2F,0x03,0x00,0x00,0x00,0x00, "Cosina", "", "AF Zoom 28-105mm F2.8-3.8 MC"},
-//M                                         "Cosina" "" "AF Zoom 28-210mm F3.5-5.6"; 
+//M                                         "Cosina" "" "AF Zoom 28-210mm F3.5-5.6";
 //M                                         "Cosina" "" "AF Zoom 28-210mm F4.2-6.5 Aspherical IF";
-//M                                         "Cosina" "" "AF Zoom 28-300mm F4.0-6.3"; 
-//M                                         "Cosina" "" "AF Zoom 70-210mm F2.8-4.0"; 
+//M                                         "Cosina" "" "AF Zoom 28-300mm F4.0-6.3";
+//M                                         "Cosina" "" "AF Zoom 70-210mm F2.8-4.0";
 {0x12,0x36,0x5C,0x81,0x35,0x3D,0x09,0x00,0x00,0x00,0x00, "Cosina", "", "AF Zoom 70-210mm F4.5-5.6 MC Macro"},
 {0x12,0x39,0x5C,0x8E,0x34,0x3D,0x08,0x02,0x00,0x00,0x00, "Cosina", "", "AF Zoom 70-300mm F4.5-5.6 MC Macro"},
 {0x12,0x3B,0x68,0x8D,0x3D,0x43,0x09,0x02,0x00,0x00,0x00, "Cosina", "", "AF Zoom 100-300mm F5.6-6.7 MC Macro"},
