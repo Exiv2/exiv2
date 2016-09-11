@@ -1,75 +1,50 @@
 #! /bin/sh
 # Test driver for CRW file operations
 
-# ----------------------------------------------------------------------
-# Setup
-results="./tmp/crw-test.out"
-good="./data/crw-test.out"
-diffargs="--strip-trailing-cr"
-tmpfile=tmp/ttt
-touch $tmpfile
-diff -q $diffargs $tmpfile $tmpfile 2>/dev/null
-if [ $? -ne 0 ] ; then
-    diffargs=""
-fi
+source ./functions.source
 
-# ----------------------------------------------------------------------
-# Main routine
-(
-if [ -z "$EXIV2_BINDIR" ] ; then
-    bin="$VALGRIND ../../bin"
-else
-    bin="$VALGRIND $EXIV2_BINDIR"
-fi
-cmdfile=cmdfile
-crwfile=exiv2-canon-powershot-s40.crw
+(   cd "$testdir"
 
-cd ./tmp
+	crwfile=exiv2-canon-powershot-s40.crw
 
-# ----------------------------------------------------------------------
-# Testcases: Add and modify tags
+	# ----------------------------------------------------------------------
+	# Testcases: Add and modify tags
+	cmdfile=cmdfile1
+	(   echo  set Exif.Photo.ColorSpace      65535
+		echo  set Exif.Canon.OwnerName       Different owner
+		echo  set Exif.Canon.FirmwareVersion Whatever version
+		echo  set Exif.Canon.SerialNumber    1
+		echo  add Exif.Canon.SerialNumber    2
+		echo  set Exif.Photo.ISOSpeedRatings 155
+		echo  set Exif.Photo.DateTimeOriginal 2007:11:11 09:10:11
+	)                            > $cmdfile
 
-cat > $cmdfile <<EOF
-set Exif.Photo.ColorSpace 65535
-set Exif.Canon.OwnerName Somebody else's Camera
-set Exif.Canon.FirmwareVersion Whatever version
-set Exif.Canon.SerialNumber 1
-add Exif.Canon.SerialNumber 2
-set Exif.Photo.ISOSpeedRatings 155
-set Exif.Photo.DateTimeOriginal 2007:11:11 09:10:11
-EOF
+	copyTestFile                   $crwfile 
+	runTest exiv2 -v -pt           $crwfile
+	runTest exiv2 -v -m $cmdfile   $crwfile
+	# runTest crwparse             $crwfile
+	runTest exiv2 -v -pt           $crwfile
 
-cp -f ../data/$crwfile .
-$bin/exiv2 -v -pt $crwfile
+	# ----------------------------------------------------------------------
+	# Testcases: Delete tags
+	cmdfile=cmdfile2
+	(   echo del Exif.Canon.OwnerName 
+	)                            > $cmdfile2
 
-$bin/exiv2 -v -m $cmdfile $crwfile
-$bin/crwparse $crwfile
+	copyTestFile                   $crwfile 
+	runTest exiv2 -v -pt           $crwfile
+	runTest exiv2 -v -m $cmdfile   $crwfile
+	# runTest crwparse             $crwfile
+	runTest exiv2 -v -pt           $crwfile
+	
+) 3>&1 > $results 2>&1
 
-$bin/exiv2 -v -pt $crwfile
-
-# ----------------------------------------------------------------------
-# Testcases: Delete tags
-
-cat > $cmdfile <<EOF
-del Exif.Canon.OwnerName
-EOF
-
-cp -f ../data/$crwfile .
-$bin/exiv2 -v -pt $crwfile
-
-$bin/exiv2 -v -m $cmdfile $crwfile
-$bin/crwparse $crwfile
-
-$bin/exiv2 -v -pt $crwfile
-
-) > $results 2>&1
+printf "\n"
 
 # ----------------------------------------------------------------------
 # Evaluate results
-diff -q $diffargs $results $good
-rc=$?
-if [ $rc -eq 0 ] ; then
-    echo "All testcases passed."
-else
-    diff $diffargs $results $good
-fi
+cat $results | sed 's/\x0d$//' > $results-stripped
+reportTest $results-stripped $good
+
+# That's all Folks!
+##
