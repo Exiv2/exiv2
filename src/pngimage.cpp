@@ -334,18 +334,7 @@ namespace Exiv2 {
             throw Error(3, "PNG");
         }
         clearMetadata();
-        /*
-        // Add icc profile to the metadata (see comments in writeMetadata())
-        if ( iccProfile_.size_ == 0 ) {
-            findIccProfile();
-            Exiv2::ExifKey   key("Exif.Image.InterColorProfile");
-            if ( iccProfile_.size_ > 0 && exifData_.findKey(key) == exifData_.end() ) {
-                Exiv2::DataValue value(iccProfile_.pData_,iccProfile_.size_);
-                exifData_.add(key,&value);
-            }
-        }
-        */
-        
+
         const long imgSize = io_->size();
         DataBuf cheaderBuf(8);       // Chunk header size : 4 bytes (data size) + 4 bytes (chunk type).
 
@@ -431,7 +420,7 @@ namespace Exiv2 {
             io_->seek(dataOffset + 4 , BasicIo::cur);
             if (io_->error() || io_->eof()) throw Error(14);
         }
-    	
+
     } // PngImage::readMetadata
 
     void PngImage::writeMetadata()
@@ -466,14 +455,6 @@ namespace Exiv2 {
             if (io_->error() || io_->eof()) throw Error(20);
             throw Error(22);
         }
-        
-        // remove the ICC profile from the exifData because it's only "parked"
-        // we should not store ICC profiles in the ExifData
-        // PNG use an ICCP segment.
-        Exiv2::ExifKey            key("Exif.Image.InterColorProfile");
-    	Exiv2::ExifData::iterator pos   = exifData_.findKey(key);
-    	if ( pos != exifData_.end() ) exifData_.erase(pos);
-        
 
         // Write PNG Signature.
         if (outIo.write(pngSignature, 8) != 8) throw Error(21);
@@ -527,17 +508,6 @@ namespace Exiv2 {
                     {
                         throw Error(21);
                     }
-                }
-
-                if ( iccProfile_.size_ > 0 )
-                {
-                    // Update Comment data to a new PNG chunk
-                    //std::string chunk = PngChunk::makeMetadataChunk(comment_, mdComment);
-                    //if (outIo.write((const byte*)chunk.data(), static_cast<long>(chunk.size())) != (long)chunk.size())
-                    //{
-                    //    throw Error(21);
-                    //}
-                    std::cout << "found an ICC profile" << std::endl;
                 }
 
                 if (exifData_.count() > 0)

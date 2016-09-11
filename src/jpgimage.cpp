@@ -533,7 +533,21 @@ namespace Exiv2 {
             }
         } // psBlob.size() > 0
 
-        if ( rc==0 && foundIccData ) findIccProfile();
+        if ( rc==0 && foundIccData ) {
+        	long restore = io_->tell();
+        	std::stringstream binary( std::ios_base::out | std::ios_base::in | std::ios_base::binary );
+            io_->seek(0,Exiv2::BasicIo::beg);
+        	printStructure(binary,kpsIccProfile,0);
+        	long length = (long) binary.rdbuf()->pubseekoff(0, binary.end, binary.out);
+        	DataBuf iccProfile(length);
+            binary.rdbuf()->pubseekoff(0, binary.beg, binary.out); // rewind
+            binary.read((char*)iccProfile.pData_,iccProfile.size_);
+#if DEBUG
+            std::cerr << "iccProfile length:" << length <<" data:"<< Internal::binaryToString(iccProfile.pData_, length > 24?24:length,0) << std::endl;
+#endif
+            setIccProfile(iccProfile);
+            io_->seek(restore,Exiv2::BasicIo::beg);
+        }
 
         if (rc != 0) {
 #ifndef SUPPRESS_WARNINGS
