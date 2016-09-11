@@ -79,6 +79,8 @@ namespace Exiv2 {
         static std::ostream& print0x0086(std::ostream& os, const Value& value, const ExifData*);
         //! Print AF focus position
         static std::ostream& print0x0088(std::ostream& os, const Value& value, const ExifData*);
+        //! Print BarometerInfo
+        static std::ostream& printBarValue(std::ostream& os, const Value& value, const ExifData*);
         //@}
 
     private:

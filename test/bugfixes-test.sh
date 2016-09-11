@@ -571,9 +571,15 @@ source ./functions.source
     printf "$num " >&3
     filename=exiv2-bug$num.jpg
     copyTestFile   RAW_PENTAX_K30.exv
-    copyTestFile   RAW_PENTAX_K100.exv  
+    copyTestFile   RAW_PENTAX_K100.exv
     runTest exiv2 -pa --grep Shutter    RAW_PENTAX_K30.exv
     runTest exiv2 -pa --grep Shutter    RAW_PENTAX_K100.exv
+
+    num=1225
+    printf "$num " >&3
+    filename=exiv2-bug$num.exv
+    copyTestFile                        $filename
+    runTest exiv2 -pa --grep Bar        $filename
 
 ) 3>&1 > $results 2>&1
 
