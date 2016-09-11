@@ -407,9 +407,9 @@ copyVideoFiles ()
 	fi
 
 	# http://stackoverflow.com/questions/7442417/how-to-sort-an-array-in-bash
-	readarray -t sorted < <(printf '%s\0' "${videos[@]}" | sort -z | xargs -0n1)
-	echo ${videos[*]}
-	unset  videos
+	# readarray -t sorted < <(printf '%s\0' "${videos[@]}" | sort -z | xargs -0n1)
+	# echo ${videos[*]}
+	# unset  videos
 
 	popd 2>/dev/null >/dev/null
 }
