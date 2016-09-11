@@ -623,7 +623,7 @@ namespace Exiv2 {
         TagInfo(0x00b7, "AFInfo2", "AF Info 2", N_("AF info 2"), nikon3Id, makerTags, undefined, -1, printValue),
         TagInfo(0x00b8, "FileInfo", "File Info", N_("File info"), nikon3Id, makerTags, undefined, -1, printValue),
         TagInfo(0x00b9, "AFTune", "AF Tune", N_("AF tune"), nikon3Id, makerTags, undefined, -1, printValue),
-        TagInfo(0x00c3, "BarometerInfo", "BarometerInfo", N_("Barometer Info"), nikon3Id, makerTags, signedLong, -1, Nikon1MakerNote::printBarValue),
+        TagInfo(0x00c3, "BarometerInfo", "Barometer Info", N_("Barometer Info"), nikon3Id, makerTags, signedLong, -1, Nikon1MakerNote::printBarValue),
         TagInfo(0x0e00, "PrintIM", N_("Print IM"), N_("PrintIM information"), nikon3Id, makerTags, undefined, -1, printValue),
         // TODO: Add Capture Data decoding implementation.
         TagInfo(0x0e01, "CaptureData", N_("Capture Data"), N_("Capture data"), nikon3Id, makerTags, undefined, -1, printValue),
