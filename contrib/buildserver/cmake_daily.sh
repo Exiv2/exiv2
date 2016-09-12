@@ -1,7 +1,7 @@
 #!/bin/bash
 
 ##
-# jenkins_daily.sh
+# cmake_daily.sh
 ##
 source $(find . -name buildserver.library)
 
@@ -106,12 +106,21 @@ testBuild()
             if [ ! -z "$RECURSIVE" ]; then
                 # we are already in MinGW/bash, so build
                 # cmake -G "Unix Makefiles" -DCMAKE_INSTALL_PREFIX=$dist -DEXIV2_ENABLE_NLS=OFF -DCMAKE_C_COMPILER=$(which gcc) -DCMAKE_CXX_COMPILER=$(which g++) $exiv2
-                make distclean 
+                make distclean
                 make config
                 ./configure
                 make
+                bin/.libs/exiv2 --verbose --version
                 make install
                 make samples
+                make tests
+                for d in bin include; do
+                	mkdir -p                 "$dist/$PLATFORM/$d"
+                	cp    -R /usr/local/$d/* "$dist/$PLATFORM/$d"
+                done
+                mkdir -p                                   "$dist/$PLATFORM/share/man/man1/"
+                cp    -R /usr/local/share/man/man1/*exiv2* "$dist/$PLATFORM/share/man/man1/"
+                mkdir -p                                   "$dist/$PLATFORM/samples"
             else
                 # recursively invoke MinGW/bash with appropriate tool chain
                 export RECURSIVE=1
