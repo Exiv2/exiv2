@@ -285,13 +285,27 @@ namespace Exiv2 {
         return os;
     }
 
+    static std::string getKeyString(const std::string& key,const ExifData* metadata)
+    {
+        std::string result;
+        if ( metadata->findKey(ExifKey(key)) != metadata->end() ) {
+            result = metadata->findKey(ExifKey(key))->toString();
+        }
+        return result;
+    }
+
+
     std::ostream& Nikon1MakerNote::printBarValue(std::ostream& os,
                                                const Value& value,
-                                               const ExifData*)
+                                               const ExifData* exifData)
     {
-        if (value.count() > 1) {
-            os << value.toLong(6)+value.toLong(7)*256;
+        if ( value.count() >= 9 ) {
+            ByteOrder bo = getKeyString("Exif.MakerNote.ByteOrder",exifData) == "MM" ? bigEndian : littleEndian;
+            byte      p[4];
+            for ( int n = 0 ; n < 4 ; n++ ) p[n] = (byte)value.toLong(6+n);
+            os << getLong(p, bo);
         }
+
         return os;
     }
 
@@ -1719,15 +1733,15 @@ namespace Exiv2 {
     static bool testConfigFile(std::ostream& os,const Value& value);
     static bool testConfigFile(std::ostream& os,const Value& value)
     {
-    	bool result = false;
-		const std::string undefined("undefined") ;
-		const std::string section  ("nikon");
-		if ( Internal::readExiv2Config(section,value.toString(),undefined) != undefined ) {
-			os << Internal::readExiv2Config(section,value.toString(),undefined);
-			result = true;
-		}
-		return result;
-	}
+        bool result = false;
+        const std::string undefined("undefined") ;
+        const std::string section  ("nikon");
+        if ( Internal::readExiv2Config(section,value.toString(),undefined) != undefined ) {
+            os << Internal::readExiv2Config(section,value.toString(),undefined);
+            result = true;
+        }
+        return result;
+    }
 
     std::ostream& Nikon3MakerNote::printLensId1(std::ostream& os,
                                                 const Value& value,
