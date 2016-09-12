@@ -192,6 +192,15 @@ namespace Exiv2 {
                                           io_->mmap(),
                                           io_->size());
         setByteOrder(bo);
+
+        // read profile from the metadata
+    	Exiv2::ExifKey            key("Exif.Image.InterColorProfile");
+    	Exiv2::ExifData::iterator pos   = exifData_.findKey(key);
+    	if ( pos != exifData_.end()  ) {
+    		iccProfile_.alloc(pos->count());
+    		pos->copy(iccProfile_.pData_,bo);
+    	}
+
     } // TiffImage::readMetadata
 
     void TiffImage::writeMetadata()
@@ -218,6 +227,19 @@ namespace Exiv2 {
             bo = littleEndian;
         }
         setByteOrder(bo);
+
+        // fixup ICC profile
+    	Exiv2::ExifKey            key("Exif.Image.InterColorProfile");
+    	Exiv2::ExifData::iterator pos   = exifData_.findKey(key);
+    	bool                      found = pos != exifData_.end();
+    	if ( iccProfile_.size_ > 0 ) {
+    		Exiv2::DataValue      value(iccProfile_.pData_,iccProfile_.size_);
+    		if ( found )      pos->setValue(&value);
+    		else         exifData_.add(key,&value);
+    	} else {
+    		if ( found ) exifData_.erase(pos);
+    	}
+
         TiffParser::encode(*io_, pData, size, bo, exifData_, iptcData_, xmpData_); // may throw
     } // TiffImage::writeMetadata
 
@@ -2503,7 +2525,7 @@ namespace Exiv2 {
             { 0x0214, ifd0Id }, // Exif.Image.ReferenceBlackWhite
             { 0x828d, ifd0Id }, // Exif.Image.CFARepeatPatternDim
             { 0x828e, ifd0Id }, // Exif.Image.CFAPattern
-            { 0x8773, ifd0Id }, // Exif.Image.InterColorProfile
+        //	{ 0x8773, ifd0Id }, // Exif.Image.InterColorProfile
             { 0x8824, ifd0Id }, // Exif.Image.SpectralSensitivity
             { 0x8828, ifd0Id }, // Exif.Image.OECF
             { 0x9102, ifd0Id }, // Exif.Image.CompressedBitsPerPixel

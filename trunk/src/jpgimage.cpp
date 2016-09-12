@@ -463,17 +463,34 @@ namespace Exiv2 {
                 --search;
             }
             else if ( marker == app2_ && memcmp(buf.pData_ + 2, iccId_,11)==0) {
-            	// skip the profile, we'll recover it later.
+            	// ICC profile
             	if ( ! foundIccData  ) {
             		foundIccData = true ;
             		--search ;
             	}
-                if (io_->seek(size - bufRead, BasicIo::cur)) throw Error(14);
+
 #ifdef DEBUG
 				int chunk  = (int) buf.pData_[2+12];
 				int chunks = (int) buf.pData_[2+13];
                 std::cerr << "Found ICC Profile chunk " << chunk <<" of "<<  chunks << "\n";
 #endif
+
+				io_->seek(-bufRead , BasicIo::cur); // back up to start of buffer (after marker+size)
+				io_->seek(      16 , BasicIo::cur); // step over header
+				// read in profile
+				DataBuf    icc(size-2-16) ;
+				io_->read( icc.pData_,icc.size_);
+
+				if ( iccProfile_.size_ > 0 ) { // first block of profile
+					setIccProfile(icc);
+				} else {                       // extend existing profile
+					DataBuf profile(iccProfile_.size_+icc.size_);
+					if ( iccProfile_.size_ ) {
+						::memcpy(profile.pData_,iccProfile_.pData_,iccProfile_.size_);
+					}
+					::memcpy(profile.pData_+iccProfile_.size_,icc.pData_,icc.size_);
+					setIccProfile(profile);
+				}
             }
             else if (  pixelHeight_ == 0 && inRange2(marker,sof0_,sof3_,sof5_,sof15_) ) {
                 // We hit a SOFn (start-of-frame) marker
@@ -532,22 +549,6 @@ namespace Exiv2 {
                 iptcData_.clear();
             }
         } // psBlob.size() > 0
-
-        if ( rc==0 && foundIccData ) {
-        	long restore = io_->tell();
-        	std::stringstream binary( std::ios_base::out | std::ios_base::in | std::ios_base::binary );
-            io_->seek(0,Exiv2::BasicIo::beg);
-        	printStructure(binary,kpsIccProfile,0);
-        	long length = (long) binary.rdbuf()->pubseekoff(0, binary.end, binary.out);
-        	DataBuf iccProfile(length);
-            binary.rdbuf()->pubseekoff(0, binary.beg, binary.out); // rewind
-            binary.read((char*)iccProfile.pData_,iccProfile.size_);
-#if DEBUG
-            std::cerr << "iccProfile length:" << length <<" data:"<< Internal::binaryToString(iccProfile.pData_, length > 24?24:length,0) << std::endl;
-#endif
-            setIccProfile(iccProfile);
-            io_->seek(restore,Exiv2::BasicIo::beg);
-        }
 
         if (rc != 0) {
 #ifndef SUPPRESS_WARNINGS

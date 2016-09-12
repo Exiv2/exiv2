@@ -177,7 +177,6 @@ namespace Exiv2 {
         if (io_->open() != 0) {
             throw Error(9, io_->path(), strError());
         }
-        IoCloser closer(*io_);
         // Ensure that this is the correct image type
         if (!isPngType(*io_, true)) {
             if (io_->error() || io_->eof()) throw Error(14);
@@ -363,7 +362,8 @@ namespace Exiv2 {
                 !memcmp(cheaderBuf.pData_ + 4, "IHDR", 4) ||
                 !memcmp(cheaderBuf.pData_ + 4, "tEXt", 4) ||
                 !memcmp(cheaderBuf.pData_ + 4, "zTXt", 4) ||
-                !memcmp(cheaderBuf.pData_ + 4, "iTXt", 4))
+                !memcmp(cheaderBuf.pData_ + 4, "iTXt", 4) ||
+                !memcmp(cheaderBuf.pData_ + 4, "iCCP", 4))
             {
                 // Extract chunk data.
 
@@ -407,6 +407,14 @@ namespace Exiv2 {
                     std::cout << "Exiv2::PngImage::readMetadata: Found iTXt chunk (length: " << dataOffset << ")\n";
 #endif
                     PngChunk::decodeTXTChunk(this, cdataBuf, PngChunk::iTXt_Chunk);
+                }
+                else if (!memcmp(cheaderBuf.pData_ + 4, "iCCP", 4))
+                {
+#if 1
+                    std::cout << "Exiv2::PngImage::readMetadata: Found iCCP chunk (length: " << dataOffset << ")\n";
+#endif
+                    zlibToDataBuf(cdataBuf.pData_ +12+1,dataOffset-13,iccProfile_); // +1 = 'compressed' flag
+                    std::cout << "Exiv2::PngImage::readMetadata: size : " << iccProfile_.size_ << "\n";
                 }
 
                 // Set dataOffset to null like chunk data have been extracted previously.

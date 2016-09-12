@@ -1185,16 +1185,14 @@ namespace Action {
         image->readMetadata();
 
         std::string    iccPath   = newFilePath(path_,".icc");
-        std::filebuf   iccBuffer ;
-        iccBuffer.open(iccPath.c_str(),std::ios::out);
-        std::ostream   iccStream(&iccBuffer);
-
-        image->printStructure(iccStream,Exiv2::kpsIccProfile);
-
-        iccBuffer.close();
         if (Params::instance().verbose_) {
             std::cout << _("Writing iccProfile: ") << iccPath << std::endl;
         }
+        Exiv2::FileIo  iccFile(iccPath);
+        iccFile.open("wb") ;
+        iccFile.write(image->iccProfile()->pData_,image->iccProfile()->size_);
+        iccFile.close();
+
         return 0;
     } // Extract::writeIccProfile
 
