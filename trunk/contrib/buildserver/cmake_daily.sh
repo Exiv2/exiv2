@@ -110,21 +110,31 @@ testBuild()
                 make config
                 ./configure --prefix=/usr/local
                 make
-                make   install
+                # run exiv2 to check the build is sane
                 bin/.libs/exiv2 --verbose --version
-                export "PATH=/usr/local/bin:$PATH"
-                export PKG_CONFIG_PATH=/usr/local/lib/pkgconfig
-                make samples
-                make tests
+
+                # install and copy the build in the dist
+                make   install
+                # run exiv2 to check the build is sane
                 for d in bin lib include; do
                 	mkdir -p                               "$dist/$d"
                 	cp    -R /usr/local/$d/*expat* /usr/local/$d/*exiv* /usr/local/$d/z* /usr/local/$d/libz* /usr/local/$d/libdl*  "$dist/$d"
                 done
+
+                # fix up minor stuff
+                rm     -rf                                 "$dist/lib/libexiv2-13.dll"
+                cp     bin/*.exe                           "$dist/bin/"
                 mkdir -p                                   "$dist/lib/pkgconfig"
-                cp    -R /usr/local/$d/pkgconfig/*         "$dist/lib/pkgconfig"
+                cp    -R /usr/local/lib/pkgconfig/*        "$dist/lib/pkgconfig"
                 mkdir -p                                   "$dist/share/man/man1/"
                 cp    -R /usr/local/share/man/man1/*exiv2* "$dist/share/man/man1/"
                 mkdir -p                                   "$dist/samples"
+                export "PATH=$dist/bin/:$PATH"
+
+                # run the test suite
+                export PKG_CONFIG_PATH=/usr/local/lib/pkgconfig
+                make samples
+                make tests
             else
                 # recursively invoke MinGW/bash with appropriate tool chain
                 export RECURSIVE=1
