@@ -108,19 +108,23 @@ testBuild()
                 # cmake -G "Unix Makefiles" -DCMAKE_INSTALL_PREFIX=$dist -DEXIV2_ENABLE_NLS=OFF -DCMAKE_C_COMPILER=$(which gcc) -DCMAKE_CXX_COMPILER=$(which g++) $exiv2
                 make distclean
                 make config
-                ./configure
+                ./configure --prefix=/usr/local
                 make
+                make   install
                 bin/.libs/exiv2 --verbose --version
-                make install
+                export "PATH=/usr/local/bin:$PATH"
+                export PKG_CONFIG_PATH=/usr/local/lib/pkgconfig
                 make samples
                 make tests
-                for d in bin include; do
-                	mkdir -p                 "$dist/$PLATFORM/$d"
-                	cp    -R /usr/local/$d/* "$dist/$PLATFORM/$d"
+                for d in bin lib include; do
+                	mkdir -p                               "$dist/$d"
+                	cp    -R /usr/local/$d/*expat* /usr/local/$d/*exiv* /usr/local/$d/z* /usr/local/$d/libz* /usr/local/$d/libdl*  "$dist/$d"
                 done
-                mkdir -p                                   "$dist/$PLATFORM/share/man/man1/"
-                cp    -R /usr/local/share/man/man1/*exiv2* "$dist/$PLATFORM/share/man/man1/"
-                mkdir -p                                   "$dist/$PLATFORM/samples"
+                mkdir -p                                   "$dist/lib/pkgconfig"
+                cp    -R /usr/local/$d/pkgconfig/*         "$dist/lib/pkgconfig"
+                mkdir -p                                   "$dist/share/man/man1/"
+                cp    -R /usr/local/share/man/man1/*exiv2* "$dist/share/man/man1/"
+                mkdir -p                                   "$dist/samples"
             else
                 # recursively invoke MinGW/bash with appropriate tool chain
                 export RECURSIVE=1
