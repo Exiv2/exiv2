@@ -475,8 +475,8 @@ namespace Exiv2 {
                 std::cerr << "Found ICC Profile chunk " << chunk <<" of "<<  chunks << "\n";
 #endif
 
-				io_->seek(-bufRead , BasicIo::cur); // back up to start of buffer (after marker+size)
-				io_->seek(      16 , BasicIo::cur); // step over header
+				io_->seek(-bufRead , BasicIo::cur); // back up to start of buffer (after marker)
+				io_->seek(    16+2 , BasicIo::cur); // step size + header
 				// read in profile
 				DataBuf    icc(size-2-16) ;
 				io_->read( icc.pData_,icc.size_);
