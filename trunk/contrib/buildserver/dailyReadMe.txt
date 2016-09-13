@@ -87,6 +87,34 @@ exiv2=0.25.0
 xmlns=xmpidq:http://ns.adobe.com/xmp/Identifier/qual/1.0/
 $
 
+platform = mingw
+-----------------
+
+dist/mingw/bin/exiv2.exe                             exiv2.exe and sample applications
+       .../bin/libexiv2-14.dll                       shared library
+          /lib/exiv2.dll.a                           libraries for exiv2/expat/zlib
+          /include/exiv2/                            include files
+          /share/                                    man pages
+dist/samples/exifprint.cpp                           sample code
+dist/logs/                                           log files
+
+To run exiv2.exe:
+$ cd dist
+$ PATH="$PWD/mingw/bin:$PATH"
+$ mingw/bin/exiv2
+
+To compile and link your own code:
+  Caution: This is a 32 bit build intended for use with MinGW32/Qt 5.6
+           An error such as "incorrect architecture" is a symptom of using mingw64
+$ cd dist
+$ cp -R mingw/*  /usr/local
+$ g++ --std=c++98 -L/usr/local/lib -lexiv2.dll samples/exifprint.cpp -o exifprint
+$ ./exifprint --version
+exiv2=0.25.0
+...
+xmlns=xmpidq:http://ns.adobe.com/xmp/Identifier/qual/1.0/
+$
+
 platform = msvc
 ---------------
 
@@ -119,4 +147,4 @@ c:\temp\dist>
 
 Robin Mills
 robin@clanmills.com
-2015-12-13
+2016-09-13
