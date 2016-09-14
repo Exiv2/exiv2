@@ -225,7 +225,7 @@ namespace Exiv2 {
     {
         // We look if an ImageMagick EXIF raw profile exist.
 
-        if (   keySize >= 21 
+        if (   keySize >= 21
             && (   memcmp("Raw profile type exif", key, 21) == 0
                 || memcmp("Raw profile type APP1", key, 21) == 0)
             && pImage->exifData().empty())
@@ -329,7 +329,7 @@ namespace Exiv2 {
 
         if (   keySize >= 20
             && memcmp("Raw profile type xmp", key, 20) == 0
-            && pImage->xmpData().empty()) 
+            && pImage->xmpData().empty())
         {
             DataBuf xmpBuf = readRawProfile(arr);
             long length    = xmpBuf.size_;
@@ -540,6 +540,21 @@ namespace Exiv2 {
         return std::string((const char*)length, 4) + chunkType + chunkData + std::string((const char*)crc, 4);
 
     } // PngChunk::makeAsciiTxtChunk
+
+    std::string PngChunk::makeICCPChunkHeader(const std::string& keyword,long compressedLength)
+    {
+        // Chunk structure: length (4 bytes) + chunk type
+        std::string chunkData = keyword + '\0';
+        std::string chunkType;
+        chunkData += '\0' ;// byte 0 = standard compression
+        chunkType = "iCCP";
+        // Determine length of the chunk data
+        byte length[4];
+        ul2Data(length, static_cast<uint32_t>(chunkData.size()+compressedLength), bigEndian);
+
+        // Assemble chunk
+        return std::string((const char*)length, 4) + chunkType + chunkData;
+    } // PngChunk::makeICCPChunkHeader
 
     std::string PngChunk::makeUtf8TxtChunk(const std::string& keyword,
                                            const std::string& text,

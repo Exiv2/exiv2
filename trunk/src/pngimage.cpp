@@ -107,12 +107,33 @@ namespace Exiv2 {
             result.alloc(uncompressedLen);
             zlibResult = uncompress((Bytef*)result.pData_,&uncompressedLen,bytes,length);
             if (zlibResult == Z_BUF_ERROR) {
-                // the uncompressedArray needs to be larger
+                // the uncompressed buffer needs to be larger
                 result.release();
 
-                // never bigger than 64k
-                if  (uncompressedLen > 64*1024) zlibResult = Z_DATA_ERROR;
-                uncompressedLen *= 2;
+                // Sanity - never bigger than 16mb
+                if  (uncompressedLen > 16*1024*1024) zlibResult = Z_DATA_ERROR;
+                else uncompressedLen *= 2;
+            }
+        } while (zlibResult == Z_BUF_ERROR);
+
+        return zlibResult == Z_OK ;
+    }
+
+    static bool zlibToCompressed(const byte* bytes,long length, DataBuf& result)
+    {
+        uLongf compressedLen = length; // just a starting point
+        int    zlibResult;
+
+        do {
+            result.alloc(compressedLen);
+            zlibResult = compress((Bytef*)result.pData_,&compressedLen,bytes,length);
+            if (zlibResult == Z_BUF_ERROR) {
+                // the compressedArray needs to be larger
+                result.release();
+                compressedLen *= 2;
+            } else {
+                result.alloc(compressedLen);
+                zlibResult = compress((Bytef*)result.pData_,&compressedLen,bytes,length);
             }
         } while (zlibResult == Z_BUF_ERROR);
 
@@ -410,11 +431,11 @@ namespace Exiv2 {
                 }
                 else if (!memcmp(cheaderBuf.pData_ + 4, "iCCP", 4))
                 {
-#if 1
-                    std::cout << "Exiv2::PngImage::readMetadata: Found iCCP chunk (length: " << dataOffset << ")\n";
-#endif
                     zlibToDataBuf(cdataBuf.pData_ +12+1,dataOffset-13,iccProfile_); // +1 = 'compressed' flag
-                    std::cout << "Exiv2::PngImage::readMetadata: size : " << iccProfile_.size_ << "\n";
+#ifdef DEBUG
+                    std::cout << "Exiv2::PngImage::readMetadata: Found iCCP chunk length: " << dataOffset  << std::endl;
+                    std::cout << "Exiv2::PngImage::readMetadata: iccProfile.size_ : " << iccProfile_.size_ << std::endl;
+#endif
                 }
 
                 // Set dataOffset to null like chunk data have been extracted previously.
@@ -551,6 +572,18 @@ namespace Exiv2 {
                     }
                 }
 
+                if ( iccProfileDefined() ) {
+                    DataBuf compressed;
+                    if ( zlibToCompressed(iccProfile_.pData_,iccProfile_.size_,compressed) ) {
+                        std::string chunk = PngChunk::makeICCPChunkHeader("ICC Profile",compressed.size_);
+                        if( outIo.write((const byte*)chunk.data(), static_cast<long>(chunk.size())) != (long)chunk.size()
+                        ||  outIo.write (compressed.pData_,compressed.size_)                        != compressed.size_
+                        ){
+                            throw Error(21);
+                        }
+                    }
+                }
+
                 if (writeXmpFromPacket() == false) {
                     if (XmpParser::encode(xmpPacket_, xmpData_) > 1) {
 #ifndef SUPPRESS_WARNINGS
@@ -568,7 +601,8 @@ namespace Exiv2 {
             }
             else if (!memcmp(cheaderBuf.pData_ + 4, "tEXt", 4) ||
                      !memcmp(cheaderBuf.pData_ + 4, "zTXt", 4) ||
-                     !memcmp(cheaderBuf.pData_ + 4, "iTXt", 4))
+                     !memcmp(cheaderBuf.pData_ + 4, "iTXt", 4) ||
+                     !memcmp(cheaderBuf.pData_ + 4, "iCCP", 4))
             {
                 DataBuf key = PngChunk::keyTXTChunk(chunkBuf, true);
                 if (memcmp("Raw profile type exif", key.pData_, 21) == 0 ||
@@ -576,6 +610,7 @@ namespace Exiv2 {
                     memcmp("Raw profile type iptc", key.pData_, 21) == 0 ||
                     memcmp("Raw profile type xmp",  key.pData_, 20) == 0 ||
                     memcmp("XML:com.adobe.xmp",     key.pData_, 17) == 0 ||
+                    memcmp("icc",                   key.pData_,  3) == 0 ||
                     memcmp("Description",           key.pData_, 11) == 0)
                 {
 #ifdef DEBUG

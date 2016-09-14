@@ -1187,14 +1187,19 @@ namespace Action {
                 std::cerr << _("No embedded iccProfile: ") << path_ << std::endl;
                 rc = -2;
             } else {
-                std::string    iccPath   = newFilePath(path_,".icc");
-                if (Params::instance().verbose_) {
-                    std::cout << _("Writing iccProfile: ") << iccPath << std::endl;
+                
+                if ( Params::instance().target_ & Params::ctStdInOut ) { // -eC-
+                    std::cout.write((const char*)image->iccProfile()->pData_,image->iccProfile()->size_);
+                } else {
+                    std::string    iccPath   = newFilePath(path_,".icc");
+                    if (Params::instance().verbose_) {
+                        std::cout << _("Writing iccProfile: ") << iccPath << std::endl;
+                    }
+                    Exiv2::FileIo  iccFile(iccPath);
+                    iccFile.open("wb") ;
+                    iccFile.write(image->iccProfile()->pData_,image->iccProfile()->size_);
+                    iccFile.close();
                 }
-                Exiv2::FileIo  iccFile(iccPath);
-                iccFile.open("wb") ;
-                iccFile.write(image->iccProfile()->pData_,image->iccProfile()->size_);
-                iccFile.close();
             }
         }
         return rc;
