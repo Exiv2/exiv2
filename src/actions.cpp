@@ -21,9 +21,6 @@
 /*
   File:      actions.cpp
   Version:   $Rev$
-  Author(s): Andreas Huggel (ahu) <ahuggel@gmx.net>
-  History:   08-Dec-03, ahu: created
-             30-Apr-06, Roger Larsson: Print filename if processing multiple files
  */
 // *****************************************************************************
 #include "rcsid_int.hpp"
@@ -1175,25 +1172,32 @@ namespace Action {
 
     int Extract::writeIccProfile() const
     {
+        int rc = 0;
         if (!Exiv2::fileExists(path_, true)) {
             std::cerr << path_
                       << ": " << _("Failed to open the file\n");
-            return -1;
+            rc = -1;
         }
-        Exiv2::Image::AutoPtr image = Exiv2::ImageFactory::open(path_);
-        assert(image.get() != 0);
-        image->readMetadata();
 
-        std::string    iccPath   = newFilePath(path_,".icc");
-        if (Params::instance().verbose_) {
-            std::cout << _("Writing iccProfile: ") << iccPath << std::endl;
+        if ( rc == 0 ) {
+            Exiv2::Image::AutoPtr image = Exiv2::ImageFactory::open(path_);
+            assert(image.get() != 0);
+            image->readMetadata();
+            if ( !image->iccProfileDefined() ) {
+                std::cerr << _("No embedded iccProfile: ") << path_ << std::endl;
+                rc = -2;
+            } else {
+                std::string    iccPath   = newFilePath(path_,".icc");
+                if (Params::instance().verbose_) {
+                    std::cout << _("Writing iccProfile: ") << iccPath << std::endl;
+                }
+                Exiv2::FileIo  iccFile(iccPath);
+                iccFile.open("wb") ;
+                iccFile.write(image->iccProfile()->pData_,image->iccProfile()->size_);
+                iccFile.close();
+            }
         }
-        Exiv2::FileIo  iccFile(iccPath);
-        iccFile.open("wb") ;
-        iccFile.write(image->iccProfile()->pData_,image->iccProfile()->size_);
-        iccFile.close();
-
-        return 0;
+        return rc;
     } // Extract::writeIccProfile
 
 
@@ -1330,9 +1334,9 @@ namespace Action {
                       << ": " << _("Failed to open the file\n");
             rc = -1;
         } else {
-        	Exiv2::DataBuf iccProfileBlob = Exiv2::readFile(iccProfilePath);
-        	rc = insertIccProfile(path,iccProfileBlob);
-		}
+            Exiv2::DataBuf iccProfileBlob = Exiv2::readFile(iccProfilePath);
+            rc = insertIccProfile(path,iccProfileBlob);
+        }
         return rc;
 
     } // Insert::insertIccProfile

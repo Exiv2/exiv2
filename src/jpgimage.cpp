@@ -21,11 +21,6 @@
 /*
   File:      jpgimage.cpp
   Version:   $Rev$
-  Author(s): Andreas Huggel (ahu) <ahuggel@gmx.net>
-             Brad Schick (brad) <brad@robotbattle.com>
-             Volker Grabsch (vog) <vog@notjusthosting.com>
-             Michael Ulbrich (mul) <mul@rentapacs.de>
-  History:   15-Jan-05, brad: split out from image.cpp
  */
 // *****************************************************************************
 #include "rcsid_int.hpp"
@@ -105,12 +100,12 @@ namespace Exiv2 {
 
     static inline bool inRange(int lo,int value, int hi)
     {
-    	return lo<=value && value <= hi;
+        return lo<=value && value <= hi;
     }
 
     static inline bool inRange2(int value,int lo1,int hi1, int lo2,int hi2)
     {
-    	return inRange(lo1,value,hi1) || inRange(lo2,value,hi2);
+        return inRange(lo1,value,hi1) || inRange(lo2,value,hi2);
     }
 
     bool Photoshop::isIrb(const byte* pPsData,
@@ -463,34 +458,41 @@ namespace Exiv2 {
                 --search;
             }
             else if ( marker == app2_ && memcmp(buf.pData_ + 2, iccId_,11)==0) {
-            	// ICC profile
-            	if ( ! foundIccData  ) {
-            		foundIccData = true ;
-            		--search ;
-            	}
-
+                // ICC profile
+                if ( ! foundIccData  ) {
+                    foundIccData = true ;
+                    --search ;
+                }
+                int chunk  = (int)    buf.pData_[2+12];
+                int chunks = (int)    buf.pData_[2+13];
 #ifdef DEBUG
-				int chunk  = (int) buf.pData_[2+12];
-				int chunks = (int) buf.pData_[2+13];
-                std::cerr << "Found ICC Profile chunk " << chunk <<" of "<<  chunks << "\n";
+                // ICC1v43_2010-12.pdf header is 14 bytes
+                // header = "ICC_PROFILE\0" (12 bytes)
+                // chunk/chunks are a single byte
+                // Spec 7.2 Profile bytes 0-3 size
+                uint32_t s = getULong(buf.pData_ + (2+14) , bigEndian);
+                std::cerr << "Found ICC Profile chunk " << chunk
+                          << " of "    << chunks
+                          << (chunk==1 ? " size: " : "" ) << (chunk==1 ? s : 0)
+                          << std::endl  ;
 #endif
 
-				io_->seek(-bufRead , BasicIo::cur); // back up to start of buffer (after marker)
-				io_->seek(    16+2 , BasicIo::cur); // step size + header
-				// read in profile
-				DataBuf    icc(size-2-16) ;
-				io_->read( icc.pData_,icc.size_);
+                io_->seek(-bufRead, BasicIo::cur); // back up to start of buffer (after marker)
+                io_->seek(    14+2, BasicIo::cur); // step header
+                // read in profile
+                DataBuf    icc(size-2-14) ;
+                io_->read( icc.pData_,icc.size_);
 
-				if ( iccProfile_.size_ > 0 ) { // first block of profile
-					setIccProfile(icc);
-				} else {                       // extend existing profile
-					DataBuf profile(iccProfile_.size_+icc.size_);
-					if ( iccProfile_.size_ ) {
-						::memcpy(profile.pData_,iccProfile_.pData_,iccProfile_.size_);
-					}
-					::memcpy(profile.pData_+iccProfile_.size_,icc.pData_,icc.size_);
-					setIccProfile(profile);
-				}
+                if ( !iccProfileDefined() ) { // first block of profile
+                    setIccProfile(icc,chunk==chunks);
+                } else {                       // extend existing profile
+                    DataBuf profile(iccProfile_.size_+icc.size_);
+                    if ( iccProfile_.size_ ) {
+                        ::memcpy(profile.pData_,iccProfile_.pData_,iccProfile_.size_);
+                    }
+                    ::memcpy(profile.pData_+iccProfile_.size_,icc.pData_,icc.size_);
+                    setIccProfile(profile,chunk==chunks);
+                }
             }
             else if (  pixelHeight_ == 0 && inRange2(marker,sof0_,sof3_,sof5_,sof15_) ) {
                 // We hit a SOFn (start-of-frame) marker
@@ -689,11 +691,14 @@ namespace Exiv2 {
                     } else if ( option == kpsIccProfile && std::strcmp(signature,iccId_) == 0 ) {
                         // extract ICCProfile
                         if ( size > 0 ) {
-                            io_->seek(-bufRead , BasicIo::cur); // back to buffer (after marker+size)
-                            io_->seek(      16 , BasicIo::cur); // step over header
-                            DataBuf   icc(size-2-16);
+                            io_->seek(-bufRead, BasicIo::cur); // back to buffer (after marker)
+                            io_->seek(    14+2, BasicIo::cur); // step over header
+                            DataBuf   icc(size-(14+2));
                             io_->read(             icc.pData_,icc.size_);
                             out.write((const char*)icc.pData_,icc.size_);
+#ifdef DEBUG
+                            std::cout << "iccProfile size = " << icc.size_ << std::endl;
+#endif
                             bufRead = size;
                         }
                     } else if ( option == kpsIptcErase && std::strcmp(signature,"Photoshop 3.0") == 0 ) {
@@ -777,8 +782,8 @@ namespace Exiv2 {
 
                 // print COM marker
                 if ( bPrint && marker == com_ ) {
-                	int n = (size-2)>32?32:size-2; // size includes 2 for the two bytes for size!
-                	out << "| " << Internal::binaryToString(buf,n,2); // start after the two bytes
+                    int n = (size-2)>32?32:size-2; // size includes 2 for the two bytes for size!
+                    out << "| " << Internal::binaryToString(buf,n,2); // start after the two bytes
                 }
 
                 // Skip the segment if the size is known
@@ -792,7 +797,7 @@ namespace Exiv2 {
                     REPORT_MARKER;
                 }
                 done = marker == eoi_ || marker == sos_;
-                if ( done ) out << std::endl;
+                if ( done && bPrint ) out << std::endl;
             }
         }
         if ( option == kpsIptcErase && iptcDataSegs.size() ) {
@@ -940,8 +945,8 @@ namespace Exiv2 {
                 if (size < 31) throw Error(22);
                 skipApp2Icc.push_back(count);
                 if ( !foundIccData ) {
-                	++search;
-                	foundIccData = true ;
+                    ++search;
+                    foundIccData = true ;
                 }
                 if (io_->seek(size-bufRead, BasicIo::cur)) throw Error(22);
             }
@@ -1084,12 +1089,13 @@ namespace Exiv2 {
                     --search;
                 }
 
-                if (iccProfile_.size_ > 0) {
+                if (iccProfileDefined()) {
                     // Write APP2 marker, size of APP2 field, and IccProfile
+                    // See comments in readMetadata() about the ICC embedding specification
                     tmpBuf[0] = 0xff;
                     tmpBuf[1] = app2_;
 
-                    int       chunk_size = 256*256-40 ; // leave bytes for marker and header
+                    int       chunk_size = 256*256-40 ; // leave bytes for marker, header and padding
                     int       size       = (int) iccProfile_.size_   ;
                     int       chunks     = 1 + (size-1) / chunk_size ;
                     if (iccProfile_.size_ > 256*chunk_size) throw Error(37, "IccProfile");
@@ -1100,20 +1106,19 @@ namespace Exiv2 {
                         // write JPEG marker (2 bytes)
                         if (outIo.write(tmpBuf, 2) != 2) throw Error(21); // JPEG Marker
                         // write length (2 bytes).  length includes the 2 bytes for the length
-                        us2Data(tmpBuf + 2, 2+16+bytes, bigEndian);
+                        us2Data(tmpBuf + 2, 2+14+bytes, bigEndian);
                         if (outIo.write(tmpBuf+2, 2) != 2) throw Error(21); // JPEG Length
 
-                        // write the ICC_PROFILE header (16 bytes)
-                        char pad[4];
+                        // write the ICC_PROFILE header (14 bytes)
+                        char pad[2];
                         pad[0] = chunk+1;
                         pad[1] = chunks;
-                        pad[2] = 0;
-                        pad[3] = 0;
                         outIo.write((const byte *) iccId_,12);
-                        outIo.write((const byte *)    pad, 4);
+                        outIo.write((const byte *)    pad, 1);
                         if (outIo.write(iccProfile_.pData_+ (chunk*chunk_size), bytes) != bytes)
                             throw Error(21);
                         if (outIo.error()) throw Error(21);
+                        outIo.write((const byte *)pad+2,2); // couple of padding bytes
                     }
                     --search;
                 }
