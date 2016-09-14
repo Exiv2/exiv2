@@ -629,7 +629,7 @@ namespace Exiv2 {
                     out << (char*) buf.pData_;
                 }
                 if ( isPrintICC(tag,option) ) {
-                    out.write((const char*)buf.pData_,kount);
+                    out.write((const char*)buf.pData_,count);
                 }
             }
             io.read(dir.pData_, 4);
