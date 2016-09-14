@@ -20,16 +20,7 @@
  */
 /*!
   @file    image.hpp
-  @brief   Class Image, defining the interface for all Image subclasses.
   @version $Rev: 3091 $
-  @author  Andreas Huggel (ahu)
-           <a href="mailto:ahuggel@gmx.net">ahuggel@gmx.net</a>
-  @author  Brad Schick (brad)
-           <a href="mailto:brad@robotbattle.com">brad@robotbattle.com</a>
-  @date    09-Jan-04, ahu: created<BR>
-           11-Feb-04, ahu: isolated as a component<BR>
-           19-Jul-04, brad: revamped to be more flexible and support IPTC<BR>
-           15-Jan-05, brad: inside-out design changes
  */
 #ifndef IMAGE_HPP_
 #define IMAGE_HPP_
@@ -233,7 +224,7 @@ namespace Exiv2 {
               to the image until the writeMetadata() method is called.
           @param iccProfile DataBuf containing profile (binary)
          */
-        virtual void setIccProfile(DataBuf& iccProfile);
+        virtual void setIccProfile(DataBuf& iccProfile,bool bTestValid=true);
         /*!
           @brief Erase iccProfile. the profile is not removed from
               the actual image until the writeMetadata() method is called.

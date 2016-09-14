@@ -21,12 +21,6 @@
 /*
   File:      image.cpp
   Version:   $Rev$
-  Author(s): Andreas Huggel (ahu) <ahuggel@gmx.net>
-             Brad Schick (brad) <brad@robotbattle.com>
-  History:   26-Jan-04, ahu: created
-             11-Feb-04, ahu: isolated as a component
-             19-Jul-04, brad: revamped to be more flexible and support Iptc
-             15-Jan-05, brad: inside-out design changes
  */
 // *****************************************************************************
 #include "rcsid_int.hpp"
@@ -289,8 +283,12 @@ namespace Exiv2 {
         comment_ = comment;
     }
 
-    void Image::setIccProfile(Exiv2::DataBuf& iccProfile)
+    void Image::setIccProfile(Exiv2::DataBuf& iccProfile,bool bTestValid)
     {
+        if ( bTestValid ) {
+            long size = iccProfile.pData_ ? getULong(iccProfile.pData_, bigEndian): -1;
+            if ( size!= iccProfile.size_ ) throw Error(53);
+        }
         iccProfile_ = iccProfile;
     }
 
