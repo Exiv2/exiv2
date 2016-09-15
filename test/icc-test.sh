@@ -16,39 +16,44 @@ test2120() # --comment and -dc clobbered by writing ICC/JPG
 
     num=1074                    # ICC Profile Support
     printf "ICC " >&3
-    printf "jpg " >&3
-    filename=Reagan.jpg
-    iccname_=Reagan.icc
+    for filename in Reagan.jpg exiv2-bug1199.webp ReaganLargePng.png ReaganLargeTiff.tiff ReaganLargeJpg.jpg
+    do
+    	format=$(echo $filename|cut -d. -f 2)
+    	stub=$(  echo $filename|cut -d. -f 1)
+    	printf $format >&3
+        iccname_=$stub.icc
 
-    copyTestFiles big.icc small.icc     $filename
-    runTest exiv2 -pS                   $filename
-    runTest exiv2 -pC                   $filename > reagan_1.icc
-    runTest exiv2 -eC --force           $filename
-            mv                          $iccname_   reagan_2.icc
-    test2120
+		copyTestFiles  large.icc small.icc  $filename
+		runTest exiv2 -pS                   $filename
+		runTest exiv2 -pC                   $filename > ${stub}_1.icc
+		runTest exiv2 -eC --force           $filename
+				mv                          $iccname_   ${stub}_2.icc
+		test2120
 
-    copyTestFile          big.icc       $iccname_
-    runTest exiv2 -iC                   $filename
-    runTest exiv2 -pC                   $filename > big_1.icc
-    runTest exiv2 -pS                   $filename
-    runTest exiv2 -eC --force           $filename
-            mv                          $iccname_   big_2.icc
-    test2120
+		copyTestFile          large.icc     $iccname_
+		runTest exiv2 -iC                   $filename
+		runTest exiv2 -pC                   $filename > ${stub}_large_1.icc
+		runTest exiv2 -pS                   $filename
+		runTest exiv2 -eC --force           $filename
+				mv                          $iccname_   ${stub}_large_2.icc
+		test2120
 
-    copyTestFile          small.icc     $iccname_
-    runTest exiv2 -iC                   $filename
-    runTest exiv2 -pC                   $filename > small_1.icc
-    runTest exiv2 -pS                   $filename
-    runTest exiv2 -eC --force           $filename
-            mv                          $iccname_   small_2.icc
-    test2120
-    
-    printf "md5 " >&3
+		copyTestFile          small.icc     $iccname_
+		runTest exiv2 -iC                   $filename
+		runTest exiv2 -pC                   $filename > ${stub}_small_1.icc
+		runTest exiv2 -pS                   $filename
+		runTest exiv2 -eC --force           $filename
+				mv                          $iccname_   ${stub}_small_2.icc
+		test2120
 
-	for f in reagan small big; do for i in 1 2; do
-        checkSum ${f}_${i}.icc
-    done ; done
+	    printf " md5 " >&3
 
+		for f in ${stub} ${stub}_small ${stub}_large; do
+			for i in 1 2; do
+        		checkSum ${f}_${i}.icc
+    		done
+    	done
+    done
 
 ) 3>&1 > $results 2>&1
 
