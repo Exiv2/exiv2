@@ -220,14 +220,16 @@ namespace Exiv2 {
             const std::string iccKey  = "icc";
             const std::string softKey = "Software";
 
-            if ( option == kpsBasic || option == kpsRecursive ) {
+            bool bPrint = option == kpsBasic || option == kpsRecursive ;
+            if ( bPrint ) {
                 out << "STRUCTURE OF PNG FILE: " << io_->path() << std::endl;
-                out << " address | index | chunk_type |  length | data" << std::endl;
+                out << " address | index | chunk_type |  length | data                           | checksum" << std::endl;
             }
 
             long       index   = 0;
             const long imgSize = io_->size();
             DataBuf    cheaderBuf(8);
+
 
             while( !io_->eof() && ::strcmp(chType,"IEND") ) {
                 size_t address = io_->tell();
@@ -259,11 +261,8 @@ namespace Exiv2 {
                 io_->read(buff.pData_,blen);
                 io_->seek(restore, BasicIo::beg);
                 dataString  = Internal::binaryToString(buff, blen);
-
-                if ( option == kpsBasic || option == kpsRecursive )
-                    out << Internal::stringFormat("%8d | %5d | %10s |%8d | "
-                              ,(uint32_t)address, index++,chType,dataOffset)
-                                    << dataString << std::endl;
+                while ( dataString.size() < 32 ) dataString += ' ';
+                dataString  = dataString.substr(0,30);
 
 
                 // chunk type
@@ -335,7 +334,18 @@ namespace Exiv2 {
                     }
                     delete[] data;
                 }
-                io_->seek(dataOffset + 4 , BasicIo::cur);
+                io_->seek(dataOffset, BasicIo::cur);
+
+                byte checksum[4];
+                io_->read(checksum,4);
+                if ( bPrint ) {
+                    out << Internal::stringFormat("%8d | %5d | %10s |%8d | "
+                              ,(uint32_t)address, index++,chType,dataOffset)
+                        << dataString
+                        << Internal::stringFormat(" | 0x%02x%02x%02x%02x"
+                              ,checksum[0],checksum[1],checksum[2],checksum[3])
+                        << std::endl;
+                }
                 if (io_->error()) throw Error(14);
             }
         }
