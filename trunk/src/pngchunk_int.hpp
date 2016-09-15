@@ -116,17 +116,6 @@ namespace Exiv2 {
         static std::string makeMetadataChunk(const std::string& metadata,
                                                    MetadataId   type);
 
-        /*!
-          @brief Return PNG iCCP chunk header
-                 (length + chunk type) as a string.
-
-          @param keyword         Keyword for the PNG iCCP chunk
-          @param compressLength  length of compress data to follow chunk header
-
-          @return string containing the PNG chunk header
-        */
-        static std::string makeICCPChunkHeader(const std::string& keyword,long compressedLength);
-
     private:
         /*!
           @brief Parse PNG Text chunk to determine type and extract content.
