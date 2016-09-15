@@ -199,3 +199,845 @@ a78f7a71f1ea79f2f6708be6394e1305
 a78f7a71f1ea79f2f6708be6394e1305
 d890d988d312ae8d497d21e936628ecc
 d890d988d312ae8d497d21e936628ecc
+STRUCTURE OF WEBP FILE: exiv2-bug1199.webp
+ Chunk |   Length |   Offset | Payload
+  RIFF |   187526 |        0 | WEBP
+  VP8X |       10 |       12 | ,........
+  ICCP |      560 |       30 | ...0ADBE....mntrRGB XYZ ........
+  VP8  |   172008 |      598 | .G...*.. .>1..B.!..o.. ......]..
+  EXIF |    12040 |   172614 | II*........................... .
+  XMP  |     2864 |   184662 | <?xpacket begin="..." id="W5M0Mp
+Exiv2 exception in modify action for file exiv2-bug1199.webp:
+Setting Image comment in WebP images is not supported
+STRUCTURE OF WEBP FILE: exiv2-bug1199.webp
+ Chunk |   Length |   Offset | Payload
+  RIFF |   187526 |        0 | WEBP
+  VP8X |       10 |       12 | ,........
+  ICCP |      560 |       30 | ...0ADBE....mntrRGB XYZ ........
+  VP8  |   172008 |      598 | .G...*.. .>1..B.!..o.. ......]..
+  EXIF |    12040 |   172614 | II*........................... .
+  XMP  |     2864 |   184662 | <?xpacket begin="..." id="W5M0Mp
+
+STRUCTURE OF WEBP FILE: exiv2-bug1199.webp
+ Chunk |   Length |   Offset | Payload
+  RIFF |   187526 |        0 | WEBP
+  VP8X |       10 |       12 | ,........
+  ICCP |      560 |       30 | ...0ADBE....mntrRGB XYZ ........
+  VP8  |   172008 |      598 | .G...*.. .>1..B.!..o.. ......]..
+  EXIF |    12040 |   172614 | II*........................... .
+  XMP  |     2864 |   184662 | <?xpacket begin="..." id="W5M0Mp
+STRUCTURE OF WEBP FILE: exiv2-bug1199.webp
+ Chunk |   Length |   Offset | Payload
+  RIFF |  1800566 |        0 | WEBP
+  VP8X |       10 |       12 | ,........
+  ICCP |  1613600 |       30 | ... APPL....prtrRGB Lab ........
+  VP8  |   172008 |  1613638 | .G...*.. .>1..B.!..o.. ......]..
+  EXIF |    12040 |  1785654 | II*........................... .
+  XMP  |     2864 |  1797702 | <?xpacket begin="..." id="W5M0Mp
+Exiv2 exception in modify action for file exiv2-bug1199.webp:
+Setting Image comment in WebP images is not supported
+STRUCTURE OF WEBP FILE: exiv2-bug1199.webp
+ Chunk |   Length |   Offset | Payload
+  RIFF |  1800566 |        0 | WEBP
+  VP8X |       10 |       12 | ,........
+  ICCP |  1613600 |       30 | ... APPL....prtrRGB Lab ........
+  VP8  |   172008 |  1613638 | .G...*.. .>1..B.!..o.. ......]..
+  EXIF |    12040 |  1785654 | II*........................... .
+  XMP  |     2864 |  1797702 | <?xpacket begin="..." id="W5M0Mp
+
+STRUCTURE OF WEBP FILE: exiv2-bug1199.webp
+ Chunk |   Length |   Offset | Payload
+  RIFF |  1800566 |        0 | WEBP
+  VP8X |       10 |       12 | ,........
+  ICCP |  1613600 |       30 | ... APPL....prtrRGB Lab ........
+  VP8  |   172008 |  1613638 | .G...*.. .>1..B.!..o.. ......]..
+  EXIF |    12040 |  1785654 | II*........................... .
+  XMP  |     2864 |  1797702 | <?xpacket begin="..." id="W5M0Mp
+STRUCTURE OF WEBP FILE: exiv2-bug1199.webp
+ Chunk |   Length |   Offset | Payload
+  RIFF |   187526 |        0 | WEBP
+  VP8X |       10 |       12 | ,........
+  ICCP |      560 |       30 | ...0ADBE....mntrRGB XYZ .......
+  VP8  |   172008 |      598 | .G...*.. .>1..B.!..o.. ......]..
+  EXIF |    12040 |   172614 | II*........................... .
+  XMP  |     2864 |   184662 | <?xpacket begin="..." id="W5M0Mp
+Exiv2 exception in modify action for file exiv2-bug1199.webp:
+Setting Image comment in WebP images is not supported
+STRUCTURE OF WEBP FILE: exiv2-bug1199.webp
+ Chunk |   Length |   Offset | Payload
+  RIFF |   187526 |        0 | WEBP
+  VP8X |       10 |       12 | ,........
+  ICCP |      560 |       30 | ...0ADBE....mntrRGB XYZ .......
+  VP8  |   172008 |      598 | .G...*.. .>1..B.!..o.. ......]..
+  EXIF |    12040 |   172614 | II*........................... .
+  XMP  |     2864 |   184662 | <?xpacket begin="..." id="W5M0Mp
+
+STRUCTURE OF WEBP FILE: exiv2-bug1199.webp
+ Chunk |   Length |   Offset | Payload
+  RIFF |   187526 |        0 | WEBP
+  VP8X |       10 |       12 | ,........
+  ICCP |      560 |       30 | ...0ADBE....mntrRGB XYZ .......
+  VP8  |   172008 |      598 | .G...*.. .>1..B.!..o.. ......]..
+  EXIF |    12040 |   172614 | II*........................... .
+  XMP  |     2864 |   184662 | <?xpacket begin="..." id="W5M0Mp
+dea88382d899d5f6e573b432473ae138
+dea88382d899d5f6e573b432473ae138
+50b9125494306a6fc1b7c4f2a1a8d49d
+50b9125494306a6fc1b7c4f2a1a8d49d
+45ed3c125cc6041b37b44ee4cb881cd8
+45ed3c125cc6041b37b44ee4cb881cd8
+STRUCTURE OF PNG FILE: ReaganLargePng.png
+ address | chunk |  length | data                           | checksum
+       8 | IHDR  |      13 | ............                   | 0x8cf910c3
+      33 | zTXt  |    8461 | Raw profile type exif..x...iv. | 0x91fbf6a0
+    8506 | zTXt  |     636 | Raw profile type iptc..x..TKn. | 0x4e5178d3
+    9154 | iTXt  |    7156 | XML:com.adobe.xmp.....<?xpacke | 0x8d6d70ba
+   16322 | gAMA  |       4 | ....                           | 0x0bfc6105
+   16338 | iCCP  | 1151535 | ICC profile..x...UP.........!! | 0x11f49e31
+ 1167885 | bKGD  |       6 | ......                         | 0xa0bda793
+ 1167903 | pHYs  |       9 | ...#...#.                      | 0x78a53f76
+ 1167924 | tIME  |       7 | ......2                        | 0x582d32e4
+ 1167943 | zTXt  |     278 | Comment..x.}..n.@....O..5..h.. | 0xdb1dfff5
+ 1168233 | IDAT  |    8192 | x...k.%.u%....D......GWW...ER. | 0x929ed75c
+ 1176437 | IDAT  |    8192 | .F('.T)\....D"]..."2 '(...D%.. | 0x52c572c0
+ 1184641 | IDAT  |    8192 | y-.....>....3..p.....$....E.Bj | 0x65a90ffb
+ 1192845 | IDAT  |    8192 | ....S....?..G.....G........... | 0xf44da161
+ 1201049 | IDAT  |    7173 | .evl...3K..j.S.....x......Z .D | 0xbe6d3574
+ 1208234 | IEND  |       0 |                                | 0xae426082
+STRUCTURE OF PNG FILE: ReaganLargePng.png
+ address | chunk |  length | data                           | checksum
+       8 | IHDR  |      13 | ............                   | 0x8cf910c3
+      33 | iTXt  |      31 | Description.....x.KLJNIMK..... | 0xc1fefec8
+      76 | zTXt  |    8461 | Raw profile type exif..x...iv. | 0x91fbf6a0
+    8549 | zTXt  |     636 | Raw profile type iptc..x..TKn. | 0x4e5178d3
+    9197 | iCCP  | 1159185 | ICC PROFILE..x...uP.[..9@.HB.D | 0x4a90a7d7
+ 1168394 | iTXt  |    7156 | XML:com.adobe.xmp.....<?xpacke | 0x8d6d70ba
+ 1175562 | gAMA  |       4 | ....                           | 0x0bfc6105
+ 1175578 | bKGD  |       6 | ......                         | 0xa0bda793
+ 1175596 | pHYs  |       9 | ...#...#.                      | 0x78a53f76
+ 1175617 | tIME  |       7 | ......2                        | 0x582d32e4
+ 1175636 | zTXt  |     278 | Comment..x.}..n.@....O..5..h.. | 0xdb1dfff5
+ 1175926 | IDAT  |    8192 | x...k.%.u%....D......GWW...ER. | 0x929ed75c
+ 1184130 | IDAT  |    8192 | .F('.T)\....D"]..."2 '(...D%.. | 0x52c572c0
+ 1192334 | IDAT  |    8192 | y-.....>....3..p.....$....E.Bj | 0x65a90ffb
+ 1200538 | IDAT  |    8192 | ....S....?..G.....G........... | 0xf44da161
+ 1208742 | IDAT  |    7173 | .evl...3K..j.S.....x......Z .D | 0xbe6d3574
+ 1215927 | IEND  |       0 |                                | 0xae426082
+abcdefg
+STRUCTURE OF PNG FILE: ReaganLargePng.png
+ address | chunk |  length | data                           | checksum
+       8 | IHDR  |      13 | ............                   | 0x8cf910c3
+      33 | zTXt  |    8461 | Raw profile type exif..x...iv. | 0x91fbf6a0
+    8506 | zTXt  |     636 | Raw profile type iptc..x..TKn. | 0x4e5178d3
+    9154 | iCCP  | 1159185 | ICC PROFILE..x...uP.[..9@.HB.D | 0x4a90a7d7
+ 1168351 | iTXt  |    7156 | XML:com.adobe.xmp.....<?xpacke | 0x8d6d70ba
+ 1175519 | gAMA  |       4 | ....                           | 0x0bfc6105
+ 1175535 | bKGD  |       6 | ......                         | 0xa0bda793
+ 1175553 | pHYs  |       9 | ...#...#.                      | 0x78a53f76
+ 1175574 | tIME  |       7 | ......2                        | 0x582d32e4
+ 1175593 | zTXt  |     278 | Comment..x.}..n.@....O..5..h.. | 0xdb1dfff5
+ 1175883 | IDAT  |    8192 | x...k.%.u%....D......GWW...ER. | 0x929ed75c
+ 1184087 | IDAT  |    8192 | .F('.T)\....D"]..."2 '(...D%.. | 0x52c572c0
+ 1192291 | IDAT  |    8192 | y-.....>....3..p.....$....E.Bj | 0x65a90ffb
+ 1200495 | IDAT  |    8192 | ....S....?..G.....G........... | 0xf44da161
+ 1208699 | IDAT  |    7173 | .evl...3K..j.S.....x......Z .D | 0xbe6d3574
+ 1215884 | IEND  |       0 |                                | 0xae426082
+STRUCTURE OF PNG FILE: ReaganLargePng.png
+ address | chunk |  length | data                           | checksum
+       8 | IHDR  |      13 | ............                   | 0x8cf910c3
+      33 | zTXt  |    8461 | Raw profile type exif..x...iv. | 0x91fbf6a0
+    8506 | zTXt  |     636 | Raw profile type iptc..x..TKn. | 0x4e5178d3
+    9154 | iCCP  | 1159185 | ICC PROFILE..x...uP.[..9@.HB.D | 0x4a90a7d7
+ 1168351 | iTXt  |    7156 | XML:com.adobe.xmp.....<?xpacke | 0x8d6d70ba
+ 1175519 | gAMA  |       4 | ....                           | 0x0bfc6105
+ 1175535 | bKGD  |       6 | ......                         | 0xa0bda793
+ 1175553 | pHYs  |       9 | ...#...#.                      | 0x78a53f76
+ 1175574 | tIME  |       7 | ......2                        | 0x582d32e4
+ 1175593 | zTXt  |     278 | Comment..x.}..n.@....O..5..h.. | 0xdb1dfff5
+ 1175883 | IDAT  |    8192 | x...k.%.u%....D......GWW...ER. | 0x929ed75c
+ 1184087 | IDAT  |    8192 | .F('.T)\....D"]..."2 '(...D%.. | 0x52c572c0
+ 1192291 | IDAT  |    8192 | y-.....>....3..p.....$....E.Bj | 0x65a90ffb
+ 1200495 | IDAT  |    8192 | ....S....?..G.....G........... | 0xf44da161
+ 1208699 | IDAT  |    7173 | .evl...3K..j.S.....x......Z .D | 0xbe6d3574
+ 1215884 | IEND  |       0 |                                | 0xae426082
+STRUCTURE OF PNG FILE: ReaganLargePng.png
+ address | chunk |  length | data                           | checksum
+       8 | IHDR  |      13 | ............                   | 0x8cf910c3
+      33 | iTXt  |      31 | Description.....x.KLJNIMK..... | 0xc1fefec8
+      76 | zTXt  |    8461 | Raw profile type exif..x...iv. | 0x91fbf6a0
+    8549 | zTXt  |     636 | Raw profile type iptc..x..TKn. | 0x4e5178d3
+    9197 | iCCP  | 1159185 | ICC PROFILE..x...uP.[..9@.HB.D | 0x4a90a7d7
+ 1168394 | iTXt  |    7156 | XML:com.adobe.xmp.....<?xpacke | 0x8d6d70ba
+ 1175562 | gAMA  |       4 | ....                           | 0x0bfc6105
+ 1175578 | bKGD  |       6 | ......                         | 0xa0bda793
+ 1175596 | pHYs  |       9 | ...#...#.                      | 0x78a53f76
+ 1175617 | tIME  |       7 | ......2                        | 0x582d32e4
+ 1175636 | zTXt  |     278 | Comment..x.}..n.@....O..5..h.. | 0xdb1dfff5
+ 1175926 | IDAT  |    8192 | x...k.%.u%....D......GWW...ER. | 0x929ed75c
+ 1184130 | IDAT  |    8192 | .F('.T)\....D"]..."2 '(...D%.. | 0x52c572c0
+ 1192334 | IDAT  |    8192 | y-.....>....3..p.....$....E.Bj | 0x65a90ffb
+ 1200538 | IDAT  |    8192 | ....S....?..G.....G........... | 0xf44da161
+ 1208742 | IDAT  |    7173 | .evl...3K..j.S.....x......Z .D | 0xbe6d3574
+ 1215927 | IEND  |       0 |                                | 0xae426082
+abcdefg
+STRUCTURE OF PNG FILE: ReaganLargePng.png
+ address | chunk |  length | data                           | checksum
+       8 | IHDR  |      13 | ............                   | 0x8cf910c3
+      33 | zTXt  |    8461 | Raw profile type exif..x...iv. | 0x91fbf6a0
+    8506 | zTXt  |     636 | Raw profile type iptc..x..TKn. | 0x4e5178d3
+    9154 | iCCP  | 1159185 | ICC PROFILE..x...uP.[..9@.HB.D | 0x4a90a7d7
+ 1168351 | iTXt  |    7156 | XML:com.adobe.xmp.....<?xpacke | 0x8d6d70ba
+ 1175519 | gAMA  |       4 | ....                           | 0x0bfc6105
+ 1175535 | bKGD  |       6 | ......                         | 0xa0bda793
+ 1175553 | pHYs  |       9 | ...#...#.                      | 0x78a53f76
+ 1175574 | tIME  |       7 | ......2                        | 0x582d32e4
+ 1175593 | zTXt  |     278 | Comment..x.}..n.@....O..5..h.. | 0xdb1dfff5
+ 1175883 | IDAT  |    8192 | x...k.%.u%....D......GWW...ER. | 0x929ed75c
+ 1184087 | IDAT  |    8192 | .F('.T)\....D"]..."2 '(...D%.. | 0x52c572c0
+ 1192291 | IDAT  |    8192 | y-.....>....3..p.....$....E.Bj | 0x65a90ffb
+ 1200495 | IDAT  |    8192 | ....S....?..G.....G........... | 0xf44da161
+ 1208699 | IDAT  |    7173 | .evl...3K..j.S.....x......Z .D | 0xbe6d3574
+ 1215884 | IEND  |       0 |                                | 0xae426082
+STRUCTURE OF PNG FILE: ReaganLargePng.png
+ address | chunk |  length | data                           | checksum
+       8 | IHDR  |      13 | ............                   | 0x8cf910c3
+      33 | zTXt  |    8461 | Raw profile type exif..x...iv. | 0x91fbf6a0
+    8506 | zTXt  |     636 | Raw profile type iptc..x..TKn. | 0x4e5178d3
+    9154 | iCCP  |     293 | ICC PROFILE..x.c``2ptqre.``..+ | 0x5116d227
+    9459 | iTXt  |    7156 | XML:com.adobe.xmp.....<?xpacke | 0x8d6d70ba
+   16627 | gAMA  |       4 | ....                           | 0x0bfc6105
+   16643 | bKGD  |       6 | ......                         | 0xa0bda793
+   16661 | pHYs  |       9 | ...#...#.                      | 0x78a53f76
+   16682 | tIME  |       7 | ......2                        | 0x582d32e4
+   16701 | zTXt  |     278 | Comment..x.}..n.@....O..5..h.. | 0xdb1dfff5
+   16991 | IDAT  |    8192 | x...k.%.u%....D......GWW...ER. | 0x929ed75c
+   25195 | IDAT  |    8192 | .F('.T)\....D"]..."2 '(...D%.. | 0x52c572c0
+   33399 | IDAT  |    8192 | y-.....>....3..p.....$....E.Bj | 0x65a90ffb
+   41603 | IDAT  |    8192 | ....S....?..G.....G........... | 0xf44da161
+   49807 | IDAT  |    7173 | .evl...3K..j.S.....x......Z .D | 0xbe6d3574
+   56992 | IEND  |       0 |                                | 0xae426082
+STRUCTURE OF PNG FILE: ReaganLargePng.png
+ address | chunk |  length | data                           | checksum
+       8 | IHDR  |      13 | ............                   | 0x8cf910c3
+      33 | iTXt  |      31 | Description.....x.KLJNIMK..... | 0xc1fefec8
+      76 | zTXt  |    8461 | Raw profile type exif..x...iv. | 0x91fbf6a0
+    8549 | zTXt  |     636 | Raw profile type iptc..x..TKn. | 0x4e5178d3
+    9197 | iCCP  |     293 | ICC PROFILE..x.c``2ptqre.``..+ | 0x5116d227
+    9502 | iTXt  |    7156 | XML:com.adobe.xmp.....<?xpacke | 0x8d6d70ba
+   16670 | gAMA  |       4 | ....                           | 0x0bfc6105
+   16686 | bKGD  |       6 | ......                         | 0xa0bda793
+   16704 | pHYs  |       9 | ...#...#.                      | 0x78a53f76
+   16725 | tIME  |       7 | ......2                        | 0x582d32e4
+   16744 | zTXt  |     278 | Comment..x.}..n.@....O..5..h.. | 0xdb1dfff5
+   17034 | IDAT  |    8192 | x...k.%.u%....D......GWW...ER. | 0x929ed75c
+   25238 | IDAT  |    8192 | .F('.T)\....D"]..."2 '(...D%.. | 0x52c572c0
+   33442 | IDAT  |    8192 | y-.....>....3..p.....$....E.Bj | 0x65a90ffb
+   41646 | IDAT  |    8192 | ....S....?..G.....G........... | 0xf44da161
+   49850 | IDAT  |    7173 | .evl...3K..j.S.....x......Z .D | 0xbe6d3574
+   57035 | IEND  |       0 |                                | 0xae426082
+abcdefg
+STRUCTURE OF PNG FILE: ReaganLargePng.png
+ address | chunk |  length | data                           | checksum
+       8 | IHDR  |      13 | ............                   | 0x8cf910c3
+      33 | zTXt  |    8461 | Raw profile type exif..x...iv. | 0x91fbf6a0
+    8506 | zTXt  |     636 | Raw profile type iptc..x..TKn. | 0x4e5178d3
+    9154 | iCCP  |     293 | ICC PROFILE..x.c``2ptqre.``..+ | 0x5116d227
+    9459 | iTXt  |    7156 | XML:com.adobe.xmp.....<?xpacke | 0x8d6d70ba
+   16627 | gAMA  |       4 | ....                           | 0x0bfc6105
+   16643 | bKGD  |       6 | ......                         | 0xa0bda793
+   16661 | pHYs  |       9 | ...#...#.                      | 0x78a53f76
+   16682 | tIME  |       7 | ......2                        | 0x582d32e4
+   16701 | zTXt  |     278 | Comment..x.}..n.@....O..5..h.. | 0xdb1dfff5
+   16991 | IDAT  |    8192 | x...k.%.u%....D......GWW...ER. | 0x929ed75c
+   25195 | IDAT  |    8192 | .F('.T)\....D"]..."2 '(...D%.. | 0x52c572c0
+   33399 | IDAT  |    8192 | y-.....>....3..p.....$....E.Bj | 0x65a90ffb
+   41603 | IDAT  |    8192 | ....S....?..G.....G........... | 0xf44da161
+   49807 | IDAT  |    7173 | .evl...3K..j.S.....x......Z .D | 0xbe6d3574
+   56992 | IEND  |       0 |                                | 0xae426082
+45ed3c125cc6041b37b44ee4cb881cd8
+45ed3c125cc6041b37b44ee4cb881cd8
+50b9125494306a6fc1b7c4f2a1a8d49d
+50b9125494306a6fc1b7c4f2a1a8d49d
+45ed3c125cc6041b37b44ee4cb881cd8
+45ed3c125cc6041b37b44ee4cb881cd8
+STRUCTURE OF TIFF FILE (II): ReaganLargeTiff.tiff
+ address |    tag                           |      type |    count |    offset | value
+      10 | 0x00fe NewSubfileType            |      LONG |        1 |         0 | 0
+      22 | 0x0100 ImageWidth                |     SHORT |        1 |       200 | 200
+      34 | 0x0101 ImageLength               |     SHORT |        1 |       130 | 130
+      46 | 0x0102 BitsPerSample             |     SHORT |        3 |       374 | 8 8 8
+      58 | 0x0103 Compression               |     SHORT |        1 |         5 | 5
+      70 | 0x0106 PhotometricInterpretation |     SHORT |        1 |         2 | 2
+      82 | 0x010d DocumentName              |     ASCII |       59 |       380 | /media/trekstor/exiv2/exiv2-svn/ ...
+      94 | 0x010e ImageDescription          |     ASCII |      403 |       440 | 040621-N-6536T-062.USS Ronald Re ...
+     106 | 0x010f Make                      |     ASCII |       18 |       844 | NIKON CORPORATION
+     118 | 0x0110 Model                     |     ASCII |       10 |       862 | NIKON D1X
+     130 | 0x0111 StripOffsets              |      LONG |        2 |       872 | 1623650 1667534
+     142 | 0x0112 Orientation               |     SHORT |        1 |         1 | 1
+     154 | 0x0115 SamplesPerPixel           |     SHORT |        1 |         3 | 3
+     166 | 0x0116 RowsPerStrip              |     SHORT |        1 |       128 | 128
+     178 | 0x0117 StripByteCounts           |      LONG |        2 |       880 | 43883 931
+     190 | 0x011a XResolution               |  RATIONAL |        1 |       888 | 888/0
+     202 | 0x011b YResolution               |  RATIONAL |        1 |       896 | 896/0
+     214 | 0x011c PlanarConfiguration       |     SHORT |        1 |         1 | 1
+     226 | 0x0128 ResolutionUnit            |     SHORT |        1 |         2 | 2
+     238 | 0x0131 Software                  |     ASCII |       11 |       904 | GIMP 2.9.5
+     250 | 0x0132 DateTime                  |     ASCII |       20 |       916 | 2016:09:13 12:23:27
+     262 | 0x013b Artist                    |     ASCII |       34 |       936 | Photographer..s Mate 3rd Class ( ...
+     274 | 0x013d Predictor                 |     SHORT |        1 |         2 | 2
+     286 | 0x014a SubIFDs                   |      LONG |        1 |   1622480 | 1622480
+     298 | 0x0153 SampleFormat              |     SHORT |        3 |       970 | 1 1 1
+     310 | 0x02bc XMLPacket                 |      BYTE |     7135 |       976 | <?xpacket begin="..." id="W5M0Mp ...
+     322 | 0x83bb IPTCNAA                   |      LONG |      192 |      8112 | 5898524 1193614083 5243420 1869107232 1919381364 ...
+     334 | 0x8769 ExifTag                   |      LONG |        1 |   1622642 | 1622642
+     346 | 0x8773 InterColorProfile         | UNDEFINED |  1613600 |      8880 | ... APPL....prtrRGB Lab ........ ...
+     358 | 0x8825 GPSTag                    |      LONG |        1 |   1623632 | 1623632
+END ReaganLargeTiff.tiff
+Exiv2 exception in modify action for file ReaganLargeTiff.tiff:
+Setting Image comment in TIFF images is not supported
+STRUCTURE OF TIFF FILE (II): ReaganLargeTiff.tiff
+ address |    tag                           |      type |    count |    offset | value
+      10 | 0x00fe NewSubfileType            |      LONG |        1 |         0 | 0
+      22 | 0x0100 ImageWidth                |     SHORT |        1 |       200 | 200
+      34 | 0x0101 ImageLength               |     SHORT |        1 |       130 | 130
+      46 | 0x0102 BitsPerSample             |     SHORT |        3 |       374 | 8 8 8
+      58 | 0x0103 Compression               |     SHORT |        1 |         5 | 5
+      70 | 0x0106 PhotometricInterpretation |     SHORT |        1 |         2 | 2
+      82 | 0x010d DocumentName              |     ASCII |       59 |       380 | /media/trekstor/exiv2/exiv2-svn/ ...
+      94 | 0x010e ImageDescription          |     ASCII |      403 |       440 | 040621-N-6536T-062.USS Ronald Re ...
+     106 | 0x010f Make                      |     ASCII |       18 |       844 | NIKON CORPORATION
+     118 | 0x0110 Model                     |     ASCII |       10 |       862 | NIKON D1X
+     130 | 0x0111 StripOffsets              |      LONG |        2 |       872 | 1623650 1667534
+     142 | 0x0112 Orientation               |     SHORT |        1 |         1 | 1
+     154 | 0x0115 SamplesPerPixel           |     SHORT |        1 |         3 | 3
+     166 | 0x0116 RowsPerStrip              |     SHORT |        1 |       128 | 128
+     178 | 0x0117 StripByteCounts           |      LONG |        2 |       880 | 43883 931
+     190 | 0x011a XResolution               |  RATIONAL |        1 |       888 | 888/0
+     202 | 0x011b YResolution               |  RATIONAL |        1 |       896 | 896/0
+     214 | 0x011c PlanarConfiguration       |     SHORT |        1 |         1 | 1
+     226 | 0x0128 ResolutionUnit            |     SHORT |        1 |         2 | 2
+     238 | 0x0131 Software                  |     ASCII |       11 |       904 | GIMP 2.9.5
+     250 | 0x0132 DateTime                  |     ASCII |       20 |       916 | 2016:09:13 12:23:27
+     262 | 0x013b Artist                    |     ASCII |       34 |       936 | Photographer..s Mate 3rd Class ( ...
+     274 | 0x013d Predictor                 |     SHORT |        1 |         2 | 2
+     286 | 0x014a SubIFDs                   |      LONG |        1 |   1622480 | 1622480
+     298 | 0x0153 SampleFormat              |     SHORT |        3 |       970 | 1 1 1
+     310 | 0x02bc XMLPacket                 |      BYTE |     7135 |       976 | <?xpacket begin="..." id="W5M0Mp ...
+     322 | 0x83bb IPTCNAA                   |      LONG |      192 |      8112 | 5898524 1193614083 5243420 1869107232 1919381364 ...
+     334 | 0x8769 ExifTag                   |      LONG |        1 |   1622642 | 1622642
+     346 | 0x8773 InterColorProfile         | UNDEFINED |  1613600 |      8880 | ... APPL....prtrRGB Lab ........ ...
+     358 | 0x8825 GPSTag                    |      LONG |        1 |   1623632 | 1623632
+END ReaganLargeTiff.tiff
+
+STRUCTURE OF TIFF FILE (II): ReaganLargeTiff.tiff
+ address |    tag                           |      type |    count |    offset | value
+      10 | 0x00fe NewSubfileType            |      LONG |        1 |         0 | 0
+      22 | 0x0100 ImageWidth                |     SHORT |        1 |       200 | 200
+      34 | 0x0101 ImageLength               |     SHORT |        1 |       130 | 130
+      46 | 0x0102 BitsPerSample             |     SHORT |        3 |       374 | 8 8 8
+      58 | 0x0103 Compression               |     SHORT |        1 |         5 | 5
+      70 | 0x0106 PhotometricInterpretation |     SHORT |        1 |         2 | 2
+      82 | 0x010d DocumentName              |     ASCII |       59 |       380 | /media/trekstor/exiv2/exiv2-svn/ ...
+      94 | 0x010e ImageDescription          |     ASCII |      403 |       440 | 040621-N-6536T-062.USS Ronald Re ...
+     106 | 0x010f Make                      |     ASCII |       18 |       844 | NIKON CORPORATION
+     118 | 0x0110 Model                     |     ASCII |       10 |       862 | NIKON D1X
+     130 | 0x0111 StripOffsets              |      LONG |        2 |       872 | 1623650 1667534
+     142 | 0x0112 Orientation               |     SHORT |        1 |         1 | 1
+     154 | 0x0115 SamplesPerPixel           |     SHORT |        1 |         3 | 3
+     166 | 0x0116 RowsPerStrip              |     SHORT |        1 |       128 | 128
+     178 | 0x0117 StripByteCounts           |      LONG |        2 |       880 | 43883 931
+     190 | 0x011a XResolution               |  RATIONAL |        1 |       888 | 888/0
+     202 | 0x011b YResolution               |  RATIONAL |        1 |       896 | 896/0
+     214 | 0x011c PlanarConfiguration       |     SHORT |        1 |         1 | 1
+     226 | 0x0128 ResolutionUnit            |     SHORT |        1 |         2 | 2
+     238 | 0x0131 Software                  |     ASCII |       11 |       904 | GIMP 2.9.5
+     250 | 0x0132 DateTime                  |     ASCII |       20 |       916 | 2016:09:13 12:23:27
+     262 | 0x013b Artist                    |     ASCII |       34 |       936 | Photographer..s Mate 3rd Class ( ...
+     274 | 0x013d Predictor                 |     SHORT |        1 |         2 | 2
+     286 | 0x014a SubIFDs                   |      LONG |        1 |   1622480 | 1622480
+     298 | 0x0153 SampleFormat              |     SHORT |        3 |       970 | 1 1 1
+     310 | 0x02bc XMLPacket                 |      BYTE |     7135 |       976 | <?xpacket begin="..." id="W5M0Mp ...
+     322 | 0x83bb IPTCNAA                   |      LONG |      192 |      8112 | 5898524 1193614083 5243420 1869107232 1919381364 ...
+     334 | 0x8769 ExifTag                   |      LONG |        1 |   1622642 | 1622642
+     346 | 0x8773 InterColorProfile         | UNDEFINED |  1613600 |      8880 | ... APPL....prtrRGB Lab ........ ...
+     358 | 0x8825 GPSTag                    |      LONG |        1 |   1623632 | 1623632
+END ReaganLargeTiff.tiff
+STRUCTURE OF TIFF FILE (II): ReaganLargeTiff.tiff
+ address |    tag                           |      type |    count |    offset | value
+      10 | 0x00fe NewSubfileType            |      LONG |        1 |         0 | 0
+      22 | 0x0100 ImageWidth                |     SHORT |        1 |       200 | 200
+      34 | 0x0101 ImageLength               |     SHORT |        1 |       130 | 130
+      46 | 0x0102 BitsPerSample             |     SHORT |        3 |       374 | 8 8 8
+      58 | 0x0103 Compression               |     SHORT |        1 |         5 | 5
+      70 | 0x0106 PhotometricInterpretation |     SHORT |        1 |         2 | 2
+      82 | 0x010d DocumentName              |     ASCII |       59 |       380 | /media/trekstor/exiv2/exiv2-svn/ ...
+      94 | 0x010e ImageDescription          |     ASCII |      403 |       440 | 040621-N-6536T-062.USS Ronald Re ...
+     106 | 0x010f Make                      |     ASCII |       18 |       844 | NIKON CORPORATION
+     118 | 0x0110 Model                     |     ASCII |       10 |       862 | NIKON D1X
+     130 | 0x0111 StripOffsets              |      LONG |        2 |       872 | 1623650 1667534
+     142 | 0x0112 Orientation               |     SHORT |        1 |         1 | 1
+     154 | 0x0115 SamplesPerPixel           |     SHORT |        1 |         3 | 3
+     166 | 0x0116 RowsPerStrip              |     SHORT |        1 |       128 | 128
+     178 | 0x0117 StripByteCounts           |      LONG |        2 |       880 | 43883 931
+     190 | 0x011a XResolution               |  RATIONAL |        1 |       888 | 888/0
+     202 | 0x011b YResolution               |  RATIONAL |        1 |       896 | 896/0
+     214 | 0x011c PlanarConfiguration       |     SHORT |        1 |         1 | 1
+     226 | 0x0128 ResolutionUnit            |     SHORT |        1 |         2 | 2
+     238 | 0x0131 Software                  |     ASCII |       11 |       904 | GIMP 2.9.5
+     250 | 0x0132 DateTime                  |     ASCII |       20 |       916 | 2016:09:13 12:23:27
+     262 | 0x013b Artist                    |     ASCII |       34 |       936 | Photographer..s Mate 3rd Class ( ...
+     274 | 0x013d Predictor                 |     SHORT |        1 |         2 | 2
+     286 | 0x014a SubIFDs                   |      LONG |        1 |   1622480 | 1622480
+     298 | 0x0153 SampleFormat              |     SHORT |        3 |       970 | 1 1 1
+     310 | 0x02bc XMLPacket                 |      BYTE |     7135 |       976 | <?xpacket begin="..." id="W5M0Mp ...
+     322 | 0x83bb IPTCNAA                   |      LONG |      192 |      8112 | 5898524 1193614083 5243420 1869107232 1919381364 ...
+     334 | 0x8769 ExifTag                   |      LONG |        1 |   1622642 | 1622642
+     346 | 0x8773 InterColorProfile         | UNDEFINED |  1613600 |      8880 | ... APPL....prtrRGB Lab ........ ...
+     358 | 0x8825 GPSTag                    |      LONG |        1 |   1623632 | 1623632
+END ReaganLargeTiff.tiff
+Exiv2 exception in modify action for file ReaganLargeTiff.tiff:
+Setting Image comment in TIFF images is not supported
+STRUCTURE OF TIFF FILE (II): ReaganLargeTiff.tiff
+ address |    tag                           |      type |    count |    offset | value
+      10 | 0x00fe NewSubfileType            |      LONG |        1 |         0 | 0
+      22 | 0x0100 ImageWidth                |     SHORT |        1 |       200 | 200
+      34 | 0x0101 ImageLength               |     SHORT |        1 |       130 | 130
+      46 | 0x0102 BitsPerSample             |     SHORT |        3 |       374 | 8 8 8
+      58 | 0x0103 Compression               |     SHORT |        1 |         5 | 5
+      70 | 0x0106 PhotometricInterpretation |     SHORT |        1 |         2 | 2
+      82 | 0x010d DocumentName              |     ASCII |       59 |       380 | /media/trekstor/exiv2/exiv2-svn/ ...
+      94 | 0x010e ImageDescription          |     ASCII |      403 |       440 | 040621-N-6536T-062.USS Ronald Re ...
+     106 | 0x010f Make                      |     ASCII |       18 |       844 | NIKON CORPORATION
+     118 | 0x0110 Model                     |     ASCII |       10 |       862 | NIKON D1X
+     130 | 0x0111 StripOffsets              |      LONG |        2 |       872 | 1623650 1667534
+     142 | 0x0112 Orientation               |     SHORT |        1 |         1 | 1
+     154 | 0x0115 SamplesPerPixel           |     SHORT |        1 |         3 | 3
+     166 | 0x0116 RowsPerStrip              |     SHORT |        1 |       128 | 128
+     178 | 0x0117 StripByteCounts           |      LONG |        2 |       880 | 43883 931
+     190 | 0x011a XResolution               |  RATIONAL |        1 |       888 | 888/0
+     202 | 0x011b YResolution               |  RATIONAL |        1 |       896 | 896/0
+     214 | 0x011c PlanarConfiguration       |     SHORT |        1 |         1 | 1
+     226 | 0x0128 ResolutionUnit            |     SHORT |        1 |         2 | 2
+     238 | 0x0131 Software                  |     ASCII |       11 |       904 | GIMP 2.9.5
+     250 | 0x0132 DateTime                  |     ASCII |       20 |       916 | 2016:09:13 12:23:27
+     262 | 0x013b Artist                    |     ASCII |       34 |       936 | Photographer..s Mate 3rd Class ( ...
+     274 | 0x013d Predictor                 |     SHORT |        1 |         2 | 2
+     286 | 0x014a SubIFDs                   |      LONG |        1 |   1622480 | 1622480
+     298 | 0x0153 SampleFormat              |     SHORT |        3 |       970 | 1 1 1
+     310 | 0x02bc XMLPacket                 |      BYTE |     7135 |       976 | <?xpacket begin="..." id="W5M0Mp ...
+     322 | 0x83bb IPTCNAA                   |      LONG |      192 |      8112 | 5898524 1193614083 5243420 1869107232 1919381364 ...
+     334 | 0x8769 ExifTag                   |      LONG |        1 |   1622642 | 1622642
+     346 | 0x8773 InterColorProfile         | UNDEFINED |  1613600 |      8880 | ... APPL....prtrRGB Lab ........ ...
+     358 | 0x8825 GPSTag                    |      LONG |        1 |   1623632 | 1623632
+END ReaganLargeTiff.tiff
+
+STRUCTURE OF TIFF FILE (II): ReaganLargeTiff.tiff
+ address |    tag                           |      type |    count |    offset | value
+      10 | 0x00fe NewSubfileType            |      LONG |        1 |         0 | 0
+      22 | 0x0100 ImageWidth                |     SHORT |        1 |       200 | 200
+      34 | 0x0101 ImageLength               |     SHORT |        1 |       130 | 130
+      46 | 0x0102 BitsPerSample             |     SHORT |        3 |       374 | 8 8 8
+      58 | 0x0103 Compression               |     SHORT |        1 |         5 | 5
+      70 | 0x0106 PhotometricInterpretation |     SHORT |        1 |         2 | 2
+      82 | 0x010d DocumentName              |     ASCII |       59 |       380 | /media/trekstor/exiv2/exiv2-svn/ ...
+      94 | 0x010e ImageDescription          |     ASCII |      403 |       440 | 040621-N-6536T-062.USS Ronald Re ...
+     106 | 0x010f Make                      |     ASCII |       18 |       844 | NIKON CORPORATION
+     118 | 0x0110 Model                     |     ASCII |       10 |       862 | NIKON D1X
+     130 | 0x0111 StripOffsets              |      LONG |        2 |       872 | 1623650 1667534
+     142 | 0x0112 Orientation               |     SHORT |        1 |         1 | 1
+     154 | 0x0115 SamplesPerPixel           |     SHORT |        1 |         3 | 3
+     166 | 0x0116 RowsPerStrip              |     SHORT |        1 |       128 | 128
+     178 | 0x0117 StripByteCounts           |      LONG |        2 |       880 | 43883 931
+     190 | 0x011a XResolution               |  RATIONAL |        1 |       888 | 888/0
+     202 | 0x011b YResolution               |  RATIONAL |        1 |       896 | 896/0
+     214 | 0x011c PlanarConfiguration       |     SHORT |        1 |         1 | 1
+     226 | 0x0128 ResolutionUnit            |     SHORT |        1 |         2 | 2
+     238 | 0x0131 Software                  |     ASCII |       11 |       904 | GIMP 2.9.5
+     250 | 0x0132 DateTime                  |     ASCII |       20 |       916 | 2016:09:13 12:23:27
+     262 | 0x013b Artist                    |     ASCII |       34 |       936 | Photographer..s Mate 3rd Class ( ...
+     274 | 0x013d Predictor                 |     SHORT |        1 |         2 | 2
+     286 | 0x014a SubIFDs                   |      LONG |        1 |   1622480 | 1622480
+     298 | 0x0153 SampleFormat              |     SHORT |        3 |       970 | 1 1 1
+     310 | 0x02bc XMLPacket                 |      BYTE |     7135 |       976 | <?xpacket begin="..." id="W5M0Mp ...
+     322 | 0x83bb IPTCNAA                   |      LONG |      192 |      8112 | 5898524 1193614083 5243420 1869107232 1919381364 ...
+     334 | 0x8769 ExifTag                   |      LONG |        1 |   1622642 | 1622642
+     346 | 0x8773 InterColorProfile         | UNDEFINED |  1613600 |      8880 | ... APPL....prtrRGB Lab ........ ...
+     358 | 0x8825 GPSTag                    |      LONG |        1 |   1623632 | 1623632
+END ReaganLargeTiff.tiff
+STRUCTURE OF TIFF FILE (II): ReaganLargeTiff.tiff
+ address |    tag                           |      type |    count |    offset | value
+      10 | 0x00fe NewSubfileType            |      LONG |        1 |         0 | 0
+      22 | 0x0100 ImageWidth                |     SHORT |        1 |       200 | 200
+      34 | 0x0101 ImageLength               |     SHORT |        1 |       130 | 130
+      46 | 0x0102 BitsPerSample             |     SHORT |        3 |       374 | 8 8 8
+      58 | 0x0103 Compression               |     SHORT |        1 |         5 | 5
+      70 | 0x0106 PhotometricInterpretation |     SHORT |        1 |         2 | 2
+      82 | 0x010d DocumentName              |     ASCII |       59 |       380 | /media/trekstor/exiv2/exiv2-svn/ ...
+      94 | 0x010e ImageDescription          |     ASCII |      403 |       440 | 040621-N-6536T-062.USS Ronald Re ...
+     106 | 0x010f Make                      |     ASCII |       18 |       844 | NIKON CORPORATION
+     118 | 0x0110 Model                     |     ASCII |       10 |       862 | NIKON D1X
+     130 | 0x0111 StripOffsets              |      LONG |        2 |       872 | 1623650 1667534
+     142 | 0x0112 Orientation               |     SHORT |        1 |         1 | 1
+     154 | 0x0115 SamplesPerPixel           |     SHORT |        1 |         3 | 3
+     166 | 0x0116 RowsPerStrip              |     SHORT |        1 |       128 | 128
+     178 | 0x0117 StripByteCounts           |      LONG |        2 |       880 | 43883 931
+     190 | 0x011a XResolution               |  RATIONAL |        1 |       888 | 888/0
+     202 | 0x011b YResolution               |  RATIONAL |        1 |       896 | 896/0
+     214 | 0x011c PlanarConfiguration       |     SHORT |        1 |         1 | 1
+     226 | 0x0128 ResolutionUnit            |     SHORT |        1 |         2 | 2
+     238 | 0x0131 Software                  |     ASCII |       11 |       904 | GIMP 2.9.5
+     250 | 0x0132 DateTime                  |     ASCII |       20 |       916 | 2016:09:13 12:23:27
+     262 | 0x013b Artist                    |     ASCII |       34 |       936 | Photographer..s Mate 3rd Class ( ...
+     274 | 0x013d Predictor                 |     SHORT |        1 |         2 | 2
+     286 | 0x014a SubIFDs                   |      LONG |        1 |   1622480 | 1622480
+     298 | 0x0153 SampleFormat              |     SHORT |        3 |       970 | 1 1 1
+     310 | 0x02bc XMLPacket                 |      BYTE |     7135 |       976 | <?xpacket begin="..." id="W5M0Mp ...
+     322 | 0x83bb IPTCNAA                   |      LONG |      192 |      8112 | 5898524 1193614083 5243420 1869107232 1919381364 ...
+     334 | 0x8769 ExifTag                   |      LONG |        1 |   1622642 | 1622642
+     346 | 0x8773 InterColorProfile         | UNDEFINED |      560 |      8880 | ...0ADBE....mntrRGB XYZ ....... ...
+     358 | 0x8825 GPSTag                    |      LONG |        1 |   1623632 | 1623632
+END ReaganLargeTiff.tiff
+Exiv2 exception in modify action for file ReaganLargeTiff.tiff:
+Setting Image comment in TIFF images is not supported
+STRUCTURE OF TIFF FILE (II): ReaganLargeTiff.tiff
+ address |    tag                           |      type |    count |    offset | value
+      10 | 0x00fe NewSubfileType            |      LONG |        1 |         0 | 0
+      22 | 0x0100 ImageWidth                |     SHORT |        1 |       200 | 200
+      34 | 0x0101 ImageLength               |     SHORT |        1 |       130 | 130
+      46 | 0x0102 BitsPerSample             |     SHORT |        3 |       374 | 8 8 8
+      58 | 0x0103 Compression               |     SHORT |        1 |         5 | 5
+      70 | 0x0106 PhotometricInterpretation |     SHORT |        1 |         2 | 2
+      82 | 0x010d DocumentName              |     ASCII |       59 |       380 | /media/trekstor/exiv2/exiv2-svn/ ...
+      94 | 0x010e ImageDescription          |     ASCII |      403 |       440 | 040621-N-6536T-062.USS Ronald Re ...
+     106 | 0x010f Make                      |     ASCII |       18 |       844 | NIKON CORPORATION
+     118 | 0x0110 Model                     |     ASCII |       10 |       862 | NIKON D1X
+     130 | 0x0111 StripOffsets              |      LONG |        2 |       872 | 1623650 1667534
+     142 | 0x0112 Orientation               |     SHORT |        1 |         1 | 1
+     154 | 0x0115 SamplesPerPixel           |     SHORT |        1 |         3 | 3
+     166 | 0x0116 RowsPerStrip              |     SHORT |        1 |       128 | 128
+     178 | 0x0117 StripByteCounts           |      LONG |        2 |       880 | 43883 931
+     190 | 0x011a XResolution               |  RATIONAL |        1 |       888 | 888/0
+     202 | 0x011b YResolution               |  RATIONAL |        1 |       896 | 896/0
+     214 | 0x011c PlanarConfiguration       |     SHORT |        1 |         1 | 1
+     226 | 0x0128 ResolutionUnit            |     SHORT |        1 |         2 | 2
+     238 | 0x0131 Software                  |     ASCII |       11 |       904 | GIMP 2.9.5
+     250 | 0x0132 DateTime                  |     ASCII |       20 |       916 | 2016:09:13 12:23:27
+     262 | 0x013b Artist                    |     ASCII |       34 |       936 | Photographer..s Mate 3rd Class ( ...
+     274 | 0x013d Predictor                 |     SHORT |        1 |         2 | 2
+     286 | 0x014a SubIFDs                   |      LONG |        1 |   1622480 | 1622480
+     298 | 0x0153 SampleFormat              |     SHORT |        3 |       970 | 1 1 1
+     310 | 0x02bc XMLPacket                 |      BYTE |     7135 |       976 | <?xpacket begin="..." id="W5M0Mp ...
+     322 | 0x83bb IPTCNAA                   |      LONG |      192 |      8112 | 5898524 1193614083 5243420 1869107232 1919381364 ...
+     334 | 0x8769 ExifTag                   |      LONG |        1 |   1622642 | 1622642
+     346 | 0x8773 InterColorProfile         | UNDEFINED |      560 |      8880 | ...0ADBE....mntrRGB XYZ ....... ...
+     358 | 0x8825 GPSTag                    |      LONG |        1 |   1623632 | 1623632
+END ReaganLargeTiff.tiff
+
+STRUCTURE OF TIFF FILE (II): ReaganLargeTiff.tiff
+ address |    tag                           |      type |    count |    offset | value
+      10 | 0x00fe NewSubfileType            |      LONG |        1 |         0 | 0
+      22 | 0x0100 ImageWidth                |     SHORT |        1 |       200 | 200
+      34 | 0x0101 ImageLength               |     SHORT |        1 |       130 | 130
+      46 | 0x0102 BitsPerSample             |     SHORT |        3 |       374 | 8 8 8
+      58 | 0x0103 Compression               |     SHORT |        1 |         5 | 5
+      70 | 0x0106 PhotometricInterpretation |     SHORT |        1 |         2 | 2
+      82 | 0x010d DocumentName              |     ASCII |       59 |       380 | /media/trekstor/exiv2/exiv2-svn/ ...
+      94 | 0x010e ImageDescription          |     ASCII |      403 |       440 | 040621-N-6536T-062.USS Ronald Re ...
+     106 | 0x010f Make                      |     ASCII |       18 |       844 | NIKON CORPORATION
+     118 | 0x0110 Model                     |     ASCII |       10 |       862 | NIKON D1X
+     130 | 0x0111 StripOffsets              |      LONG |        2 |       872 | 1623650 1667534
+     142 | 0x0112 Orientation               |     SHORT |        1 |         1 | 1
+     154 | 0x0115 SamplesPerPixel           |     SHORT |        1 |         3 | 3
+     166 | 0x0116 RowsPerStrip              |     SHORT |        1 |       128 | 128
+     178 | 0x0117 StripByteCounts           |      LONG |        2 |       880 | 43883 931
+     190 | 0x011a XResolution               |  RATIONAL |        1 |       888 | 888/0
+     202 | 0x011b YResolution               |  RATIONAL |        1 |       896 | 896/0
+     214 | 0x011c PlanarConfiguration       |     SHORT |        1 |         1 | 1
+     226 | 0x0128 ResolutionUnit            |     SHORT |        1 |         2 | 2
+     238 | 0x0131 Software                  |     ASCII |       11 |       904 | GIMP 2.9.5
+     250 | 0x0132 DateTime                  |     ASCII |       20 |       916 | 2016:09:13 12:23:27
+     262 | 0x013b Artist                    |     ASCII |       34 |       936 | Photographer..s Mate 3rd Class ( ...
+     274 | 0x013d Predictor                 |     SHORT |        1 |         2 | 2
+     286 | 0x014a SubIFDs                   |      LONG |        1 |   1622480 | 1622480
+     298 | 0x0153 SampleFormat              |     SHORT |        3 |       970 | 1 1 1
+     310 | 0x02bc XMLPacket                 |      BYTE |     7135 |       976 | <?xpacket begin="..." id="W5M0Mp ...
+     322 | 0x83bb IPTCNAA                   |      LONG |      192 |      8112 | 5898524 1193614083 5243420 1869107232 1919381364 ...
+     334 | 0x8769 ExifTag                   |      LONG |        1 |   1622642 | 1622642
+     346 | 0x8773 InterColorProfile         | UNDEFINED |      560 |      8880 | ...0ADBE....mntrRGB XYZ ....... ...
+     358 | 0x8825 GPSTag                    |      LONG |        1 |   1623632 | 1623632
+END ReaganLargeTiff.tiff
+963add0d8be3d702528ac77902fbe738
+45ed3c125cc6041b37b44ee4cb881cd8
+50b9125494306a6fc1b7c4f2a1a8d49d
+50b9125494306a6fc1b7c4f2a1a8d49d
+963add0d8be3d702528ac77902fbe738
+45ed3c125cc6041b37b44ee4cb881cd8
+STRUCTURE OF JPEG FILE: ReaganLargeJpg.jpg
+ address | marker       |  length | data
+       0 | 0xffd8 SOI  
+       2 | 0xffe0 APP0  |      16 | JFIF.....,.,....
+      20 | 0xffe1 APP1  |    4073 | Exif..MM.*......................
+    4095 | 0xffe1 APP1  |    6191 | http://ns.adobe.com/xap/1.0/.<?x
+   10288 | 0xffe2 APP2  |   65535 | ICC_PROFILE...... APPL....prtrRG chunk 1/25
+   75825 | 0xffe2 APP2  |   65535 | ICC_PROFILE....S...r.R...t.RT..w chunk 2/25
+  141362 | 0xffe2 APP2  |   65535 | ICC_PROFILE.....o..b.tn..Q.Km... chunk 3/25
+  206899 | 0xffe2 APP2  |   65535 | ICC_PROFILE........l>.........-. chunk 4/25
+  272436 | 0xffe2 APP2  |   65535 | ICC_PROFILE....QY2w$.gZ.wY..Z.w. chunk 5/25
+  337973 | 0xffe2 APP2  |   65535 | ICC_PROFILE...]W.j....QlT....m.. chunk 6/25
+  403510 | 0xffe2 APP2  |   65535 | ICC_PROFILE.....j;....h..~.Kg8.C chunk 7/25
+  469047 | 0xffe2 APP2  |   65535 | ICC_PROFILE....M...Y.MX..[qM..B\ chunk 8/25
+  534584 | 0xffe2 APP2  |   65535 | ICC_PROFILE.....dDZ7.be.W...gcS. chunk 9/25
+  600121 | 0xffe2 APP2  |   65535 | ICC_PROFILE......hRv...i.s1.|k.o chunk 10/25
+  665658 | 0xffe2 APP2  |   65535 | ICC_PROFILE.......y.....z%.L.jz. chunk 11/25
+  731195 | 0xffe2 APP2  |   65535 | ICC_PROFILE...N...<m....Js}.s..v chunk 12/25
+  796732 | 0xffe2 APP2  |   65535 | ICC_PROFILE.....>.....,..N.....m chunk 13/25
+  862269 | 0xffe2 APP2  |   65535 | ICC_PROFILE...........{......... chunk 14/25
+  927806 | 0xffe2 APP2  |   65535 | ICC_PROFILE...".....,.....0..<. chunk 15/25
+  993343 | 0xffe2 APP2  |   65535 | ICC_PROFILE..........1.....7.... chunk 16/25
+ 1058880 | 0xffe2 APP2  |   65535 | ICC_PROFILE....<.A.............. chunk 17/25
+ 1124417 | 0xffe2 APP2  |   65535 | ICC_PROFILE....$........t....... chunk 18/25
+ 1189954 | 0xffe2 APP2  |   65535 | ICC_PROFILE......V.b...........$ chunk 19/25
+ 1255491 | 0xffe2 APP2  |   65535 | ICC_PROFILE....0.446.0.456.0.462 chunk 20/25
+ 1321028 | 0xffe2 APP2  |   65535 | ICC_PROFILE...286.0.297.0.309.0. chunk 21/25
+ 1386565 | 0xffe2 APP2  |   65535 | ICC_PROFILE...0.171.0.184.0.194. chunk 22/25
+ 1452102 | 0xffe2 APP2  |   65535 | ICC_PROFILE...74.0.073.0.076.0.0 chunk 23/25
+ 1517639 | 0xffe2 APP2  |   65535 | ICC_PROFILE...9.0.894.0.901.0.90 chunk 24/25
+ 1583176 | 0xffe2 APP2  |   41160 | ICC_PROFILE....463.0.465.0.469.0 chunk 25/25
+ 1624338 | 0xffdb DQT   |      67 
+ 1624407 | 0xffdb DQT   |      67 
+ 1624476 | 0xffc2 SOF2  |      17 
+ 1624495 | 0xffc4 DHT   |      30 
+ 1624527 | 0xffc4 DHT   |      27 
+ 1624556 | 0xffda SOS  
+Error: XMP Toolkit error 203: Duplicate property or field node
+Warning: Failed to decode XMP metadata.
+Error: XMP Toolkit error 203: Duplicate property or field node
+Warning: Failed to decode XMP metadata.
+STRUCTURE OF JPEG FILE: ReaganLargeJpg.jpg
+ address | marker       |  length | data
+       0 | 0xffd8 SOI  
+       2 | 0xffe0 APP0  |      16 | JFIF.....,.,....
+      20 | 0xffe1 APP1  |    4073 | Exif..MM.*......................
+    4095 | 0xffe2 APP2  |   65512 | ICC_PROFILE..... APPL....prtrRGB chunk 1/0
+   69610 | 0xffe2 APP2  |   65512 | ICC_PROFILE..X..Ih.V...j.U..4mVT chunk 2/88
+  135125 | 0xffe2 APP2  |   65512 | ICC_PROFILE..}.f...~mcx....`.... chunk 3/125
+  200640 | 0xffe2 APP2  |   65512 | ICC_PROFILE...|...S...^...v..... chunk 4/-119
+  266155 | 0xffe2 APP2  |   65512 | ICC_PROFILE....bXf2..`Og...^0g.. chunk 5/-117
+  331670 | 0xffe2 APP2  |   65512 | ICC_PROFILE....~.|...{.}P..y.}.. chunk 6/-119
+  397185 | 0xffe2 APP2  |   65512 | ICC_PROFILE.....b.....:...?..... chunk 7/-96
+  462700 | 0xffe2 APP2  |   65512 | ICC_PROFILE..Q8yq].R.wW].S.uJ]eT chunk 8/81
+  528215 | 0xffe2 APP2  |   65512 | ICC_PROFILE..i.T'..RA.Y..P,....N chunk 9/105
+  593730 | 0xffe2 APP2  |   65512 | ICC_PROFILE..i.}/..key...l.v..cn chunk 10/105
+  659245 | 0xffe2 APP2  |   65512 | ICC_PROFILE..{....O{.....|..c..| chunk 11/123
+  724760 | 0xffe2 APP2  |   65512 | ICC_PROFILE..E.;.O-F.-.R>J...a.` chunk 12/69
+  790275 | 0xffe2 APP2  |   65512 | ICC_PROFILE...X..up............. chunk 13/-84
+  855790 | 0xffe2 APP2  |   65512 | ICC_PROFILE.......<............. chunk 14/-32
+  921305 | 0xffe2 APP2  |   65512 | ICC_PROFILE.............,...'... chunk 15/-1
+  986820 | 0xffe2 APP2  |   65512 | ICC_PROFILE......g.....m%....qw. chunk 16/-1
+ 1052335 | 0xffe2 APP2  |   65512 | ICC_PROFILE.....s....xX.M..n.... chunk 17/-1
+ 1117850 | 0xffe2 APP2  |   65512 | ICC_PROFILE...........0......E.. chunk 18/-1
+ 1183365 | 0xffe2 APP2  |   65512 | ICC_PROFILE.......(.n.B......... chunk 19/-1
+ 1248880 | 0xffe2 APP2  |   65512 | ICC_PROFILE..0.0.282.0.282.0.281 chunk 20/48
+ 1314395 | 0xffe2 APP2  |   65512 | ICC_PROFILE..175.0.176.0.175.0.1 chunk 21/49
+ 1379910 | 0xffe2 APP2  |   65512 | ICC_PROFILE..103.0.114.0.126.0.1 chunk 22/49
+ 1445425 | 0xffe2 APP2  |   65512 | ICC_PROFILE..6.0.049.0.053.0.059 chunk 23/54
+ 1510940 | 0xffe2 APP2  |   65512 | ICC_PROFILE...0.670.0.653.0.634. chunk 24/9
+ 1576455 | 0xffe2 APP2  |   41712 | ICC_PROFILE..09.0.584.0.555.0.50 chunk 25/48
+ 1618170 | 0xffdb DQT   |      67 
+ 1618239 | 0xffdb DQT   |      67 
+ 1618308 | 0xfffe COM   |      10 | abcdefg
+ 1618320 | 0xffc2 SOF2  |      17 
+ 1618339 | 0xffc4 DHT   |      30 
+ 1618371 | 0xffc4 DHT   |      27 
+ 1618400 | 0xffda SOS  
+abcdefg
+STRUCTURE OF JPEG FILE: ReaganLargeJpg.jpg
+ address | marker       |  length | data
+       0 | 0xffd8 SOI  
+       2 | 0xffe0 APP0  |      16 | JFIF.....,.,....
+      20 | 0xffe1 APP1  |    4073 | Exif..MM.*......................
+    4095 | 0xffe2 APP2  |   65512 | ICC_PROFILE.... APPL....prtrRGB  chunk 1/24
+   69610 | 0xffe2 APP2  |   65512 | ICC_PROFILE....Ih.V...j.U..4mVT< chunk 2/-79
+  135125 | 0xffe2 APP2  |   65512 | ICC_PROFILE...f...~mcx....`..... chunk 3/27
+  200640 | 0xffe2 APP2  |   65512 | ICC_PROFILE..|...S...^...v...... chunk 4/124
+  266155 | 0xffe2 APP2  |   65512 | ICC_PROFILE...bXf2..`Og...^0g..I chunk 5/-98
+  331670 | 0xffe2 APP2  |   65512 | ICC_PROFILE...~.|...{.}P..y.}..V chunk 6/-116
+  397185 | 0xffe2 APP2  |   65512 | ICC_PROFILE....b.....:...?.....E chunk 7/-44
+  462700 | 0xffe2 APP2  |   65512 | ICC_PROFILE..8yq].R.wW].S.uJ]eT6 chunk 8/56
+  528215 | 0xffe2 APP2  |   65512 | ICC_PROFILE...T'..RA.Y..P,....N% chunk 9/-105
+  593730 | 0xffe2 APP2  |   65512 | ICC_PROFILE...}/..key...l.v..cn- chunk 10/-120
+  659245 | 0xffe2 APP2  |   65512 | ICC_PROFILE......O{.....|..c..|S chunk 11/-18
+  724760 | 0xffe2 APP2  |   65512 | ICC_PROFILE...;.O-F.-.R>J...a.`1 chunk 12/-81
+  790275 | 0xffe2 APP2  |   65512 | ICC_PROFILE..X..up.............. chunk 13/88
+  855790 | 0xffe2 APP2  |   65512 | ICC_PROFILE......<.............. chunk 14/-76
+  921305 | 0xffe2 APP2  |   65512 | ICC_PROFILE............,...'.... chunk 15/-1
+  986820 | 0xffe2 APP2  |   65512 | ICC_PROFILE.....g.....m%....qw.. chunk 16/-1
+ 1052335 | 0xffe2 APP2  |   65512 | ICC_PROFILE....s....xX.M..n..... chunk 17/-1
+ 1117850 | 0xffe2 APP2  |   65512 | ICC_PROFILE..........0......E... chunk 18/-1
+ 1183365 | 0xffe2 APP2  |   65512 | ICC_PROFILE......(.n.B.........J chunk 19/-1
+ 1248880 | 0xffe2 APP2  |   65512 | ICC_PROFILE...0.282.0.282.0.281. chunk 20/9
+ 1314395 | 0xffe2 APP2  |   65512 | ICC_PROFILE..75.0.176.0.175.0.17 chunk 21/55
+ 1379910 | 0xffe2 APP2  |   65512 | ICC_PROFILE..03.0.114.0.126.0.13 chunk 22/48
+ 1445425 | 0xffe2 APP2  |   65512 | ICC_PROFILE...0.049.0.053.0.059. chunk 23/9
+ 1510940 | 0xffe2 APP2  |   65512 | ICC_PROFILE..0.670.0.653.0.634.0 chunk 24/48
+ 1576455 | 0xffe2 APP2  |   41712 | ICC_PROFILE..9.0.584.0.555.0.509 chunk 25/57
+ 1618170 | 0xffdb DQT   |      67 
+ 1618239 | 0xffdb DQT   |      67 
+ 1618308 | 0xffc2 SOF2  |      17 
+ 1618327 | 0xffc4 DHT   |      30 
+ 1618359 | 0xffc4 DHT   |      27 
+ 1618388 | 0xffda SOS  
+STRUCTURE OF JPEG FILE: ReaganLargeJpg.jpg
+ address | marker       |  length | data
+       0 | 0xffd8 SOI  
+       2 | 0xffe0 APP0  |      16 | JFIF.....,.,....
+      20 | 0xffe1 APP1  |    4073 | Exif..MM.*......................
+    4095 | 0xffe2 APP2  |   65512 | ICC_PROFILE..... APPL....prtrRGB chunk 1/0
+   69610 | 0xffe2 APP2  |   65512 | ICC_PROFILE..X..Ih.V...j.U..4mVT chunk 2/88
+  135125 | 0xffe2 APP2  |   65512 | ICC_PROFILE..}.f...~mcx....`.... chunk 3/125
+  200640 | 0xffe2 APP2  |   65512 | ICC_PROFILE...|...S...^...v..... chunk 4/-119
+  266155 | 0xffe2 APP2  |   65512 | ICC_PROFILE....bXf2..`Og...^0g.. chunk 5/-117
+  331670 | 0xffe2 APP2  |   65512 | ICC_PROFILE....~.|...{.}P..y.}.. chunk 6/-119
+  397185 | 0xffe2 APP2  |   65512 | ICC_PROFILE.....b.....:...?..... chunk 7/-96
+  462700 | 0xffe2 APP2  |   65512 | ICC_PROFILE..Q8yq].R.wW].S.uJ]eT chunk 8/81
+  528215 | 0xffe2 APP2  |   65512 | ICC_PROFILE..i.T'..RA.Y..P,....N chunk 9/105
+  593730 | 0xffe2 APP2  |   65512 | ICC_PROFILE..i.}/..key...l.v..cn chunk 10/105
+  659245 | 0xffe2 APP2  |   65512 | ICC_PROFILE..{....O{.....|..c..| chunk 11/123
+  724760 | 0xffe2 APP2  |   65512 | ICC_PROFILE..E.;.O-F.-.R>J...a.` chunk 12/69
+  790275 | 0xffe2 APP2  |   65512 | ICC_PROFILE...X..up............. chunk 13/-84
+  855790 | 0xffe2 APP2  |   65512 | ICC_PROFILE.......<............. chunk 14/-32
+  921305 | 0xffe2 APP2  |   65512 | ICC_PROFILE.............,...'... chunk 15/-1
+  986820 | 0xffe2 APP2  |   65512 | ICC_PROFILE......g.....m%....qw. chunk 16/-1
+ 1052335 | 0xffe2 APP2  |   65512 | ICC_PROFILE.....s....xX.M..n.... chunk 17/-1
+ 1117850 | 0xffe2 APP2  |   65512 | ICC_PROFILE...........0......E.. chunk 18/-1
+ 1183365 | 0xffe2 APP2  |   65512 | ICC_PROFILE.......(.n.B......... chunk 19/-1
+ 1248880 | 0xffe2 APP2  |   65512 | ICC_PROFILE..0.0.282.0.282.0.281 chunk 20/48
+ 1314395 | 0xffe2 APP2  |   65512 | ICC_PROFILE..175.0.176.0.175.0.1 chunk 21/49
+ 1379910 | 0xffe2 APP2  |   65512 | ICC_PROFILE..103.0.114.0.126.0.1 chunk 22/49
+ 1445425 | 0xffe2 APP2  |   65512 | ICC_PROFILE..6.0.049.0.053.0.059 chunk 23/54
+ 1510940 | 0xffe2 APP2  |   65512 | ICC_PROFILE...0.670.0.653.0.634. chunk 24/9
+ 1576455 | 0xffe2 APP2  |   41712 | ICC_PROFILE..09.0.584.0.555.0.50 chunk 25/48
+ 1618170 | 0xffdb DQT   |      67 
+ 1618239 | 0xffdb DQT   |      67 
+ 1618308 | 0xffc2 SOF2  |      17 
+ 1618327 | 0xffc4 DHT   |      30 
+ 1618359 | 0xffc4 DHT   |      27 
+ 1618388 | 0xffda SOS  
+STRUCTURE OF JPEG FILE: ReaganLargeJpg.jpg
+ address | marker       |  length | data
+       0 | 0xffd8 SOI  
+       2 | 0xffe0 APP0  |      16 | JFIF.....,.,....
+      20 | 0xffe1 APP1  |    4073 | Exif..MM.*......................
+    4095 | 0xffe2 APP2  |   65512 | ICC_PROFILE.... APPL....prtrRGB  chunk 1/24
+   69610 | 0xffe2 APP2  |   65512 | ICC_PROFILE....Ih.V...j.U..4mVT< chunk 2/-79
+  135125 | 0xffe2 APP2  |   65512 | ICC_PROFILE...f...~mcx....`..... chunk 3/27
+  200640 | 0xffe2 APP2  |   65512 | ICC_PROFILE..|...S...^...v...... chunk 4/124
+  266155 | 0xffe2 APP2  |   65512 | ICC_PROFILE...bXf2..`Og...^0g..I chunk 5/-98
+  331670 | 0xffe2 APP2  |   65512 | ICC_PROFILE...~.|...{.}P..y.}..V chunk 6/-116
+  397185 | 0xffe2 APP2  |   65512 | ICC_PROFILE....b.....:...?.....E chunk 7/-44
+  462700 | 0xffe2 APP2  |   65512 | ICC_PROFILE..8yq].R.wW].S.uJ]eT6 chunk 8/56
+  528215 | 0xffe2 APP2  |   65512 | ICC_PROFILE...T'..RA.Y..P,....N% chunk 9/-105
+  593730 | 0xffe2 APP2  |   65512 | ICC_PROFILE...}/..key...l.v..cn- chunk 10/-120
+  659245 | 0xffe2 APP2  |   65512 | ICC_PROFILE......O{.....|..c..|S chunk 11/-18
+  724760 | 0xffe2 APP2  |   65512 | ICC_PROFILE...;.O-F.-.R>J...a.`1 chunk 12/-81
+  790275 | 0xffe2 APP2  |   65512 | ICC_PROFILE..X..up.............. chunk 13/88
+  855790 | 0xffe2 APP2  |   65512 | ICC_PROFILE......<.............. chunk 14/-76
+  921305 | 0xffe2 APP2  |   65512 | ICC_PROFILE............,...'.... chunk 15/-1
+  986820 | 0xffe2 APP2  |   65512 | ICC_PROFILE.....g.....m%....qw.. chunk 16/-1
+ 1052335 | 0xffe2 APP2  |   65512 | ICC_PROFILE....s....xX.M..n..... chunk 17/-1
+ 1117850 | 0xffe2 APP2  |   65512 | ICC_PROFILE..........0......E... chunk 18/-1
+ 1183365 | 0xffe2 APP2  |   65512 | ICC_PROFILE......(.n.B.........J chunk 19/-1
+ 1248880 | 0xffe2 APP2  |   65512 | ICC_PROFILE...0.282.0.282.0.281. chunk 20/9
+ 1314395 | 0xffe2 APP2  |   65512 | ICC_PROFILE..75.0.176.0.175.0.17 chunk 21/55
+ 1379910 | 0xffe2 APP2  |   65512 | ICC_PROFILE..03.0.114.0.126.0.13 chunk 22/48
+ 1445425 | 0xffe2 APP2  |   65512 | ICC_PROFILE...0.049.0.053.0.059. chunk 23/9
+ 1510940 | 0xffe2 APP2  |   65512 | ICC_PROFILE..0.670.0.653.0.634.0 chunk 24/48
+ 1576455 | 0xffe2 APP2  |   41712 | ICC_PROFILE..9.0.584.0.555.0.509 chunk 25/57
+ 1618170 | 0xffdb DQT   |      67 
+ 1618239 | 0xffdb DQT   |      67 
+ 1618308 | 0xfffe COM   |      10 | abcdefg
+ 1618320 | 0xffc2 SOF2  |      17 
+ 1618339 | 0xffc4 DHT   |      30 
+ 1618371 | 0xffc4 DHT   |      27 
+ 1618400 | 0xffda SOS  
+abcdefg
+STRUCTURE OF JPEG FILE: ReaganLargeJpg.jpg
+ address | marker       |  length | data
+       0 | 0xffd8 SOI  
+       2 | 0xffe0 APP0  |      16 | JFIF.....,.,....
+      20 | 0xffe1 APP1  |    4073 | Exif..MM.*......................
+    4095 | 0xffe2 APP2  |   65512 | ICC_PROFILE... APPL....prtrRGB L chunk 1/-97
+   69610 | 0xffe2 APP2  |   65512 | ICC_PROFILE...Ih.V...j.U..4mVT<. chunk 2/-99
+  135125 | 0xffe2 APP2  |   65512 | ICC_PROFILE..f...~mcx....`.....] chunk 3/102
+  200640 | 0xffe2 APP2  |   65512 | ICC_PROFILE.....S...^...v....... chunk 4/-99
+  266155 | 0xffe2 APP2  |   65512 | ICC_PROFILE..bXf2..`Og...^0g..I\ chunk 5/98
+  331670 | 0xffe2 APP2  |   65512 | ICC_PROFILE..~.|...{.}P..y.}..Vv chunk 6/126
+  397185 | 0xffe2 APP2  |   65512 | ICC_PROFILE...b.....:...?.....E. chunk 7/-94
+  462700 | 0xffe2 APP2  |   65512 | ICC_PROFILE..yq].R.wW].S.uJ]eT6s chunk 8/121
+  528215 | 0xffe2 APP2  |   65512 | ICC_PROFILE..T'..RA.Y..P,....N%. chunk 9/84
+  593730 | 0xffe2 APP2  |   65512 | ICC_PROFILE..}/..key...l.v..cn-r chunk 10/125
+  659245 | 0xffe2 APP2  |   65512 | ICC_PROFILE.....O{.....|..c..|S. chunk 11/-67
+  724760 | 0xffe2 APP2  |   65512 | ICC_PROFILE..;.O-F.-.R>J...a.`1 chunk 12/59
+  790275 | 0xffe2 APP2  |   65512 | ICC_PROFILE....up............... chunk 13/-1
+  855790 | 0xffe2 APP2  |   65512 | ICC_PROFILE.....<............... chunk 14/-1
+  921305 | 0xffe2 APP2  |   65512 | ICC_PROFILE...........,...'..... chunk 15/-96
+  986820 | 0xffe2 APP2  |   65512 | ICC_PROFILE....g.....m%....qw.. chunk 16/0
+ 1052335 | 0xffe2 APP2  |   65512 | ICC_PROFILE...s....xX.M..n.....g chunk 17/-126
+ 1117850 | 0xffe2 APP2  |   65512 | ICC_PROFILE.........0......E.... chunk 18/22
+ 1183365 | 0xffe2 APP2  |   65512 | ICC_PROFILE.....(.n.B.........J} chunk 19/-1
+ 1248880 | 0xffe2 APP2  |   65512 | ICC_PROFILE..0.282.0.282.0.281.0 chunk 20/48
+ 1314395 | 0xffe2 APP2  |   65512 | ICC_PROFILE..5.0.176.0.175.0.174 chunk 21/53
+ 1379910 | 0xffe2 APP2  |   65512 | ICC_PROFILE..3.0.114.0.126.0.136 chunk 22/51
+ 1445425 | 0xffe2 APP2  |   65512 | ICC_PROFILE..0.049.0.053.0.059.0 chunk 23/48
+ 1510940 | 0xffe2 APP2  |   65512 | ICC_PROFILE...670.0.653.0.634.0. chunk 24/46
+ 1576455 | 0xffe2 APP2  |   41712 | ICC_PROFILE...0.584.0.555.0.509. chunk 25/9
+ 1618170 | 0xffdb DQT   |      67 
+ 1618239 | 0xffdb DQT   |      67 
+ 1618308 | 0xffc2 SOF2  |      17 
+ 1618327 | 0xffc4 DHT   |      30 
+ 1618359 | 0xffc4 DHT   |      27 
+ 1618388 | 0xffda SOS  
+STRUCTURE OF JPEG FILE: ReaganLargeJpg.jpg
+ address | marker       |  length | data
+       0 | 0xffd8 SOI  
+       2 | 0xffe0 APP0  |      16 | JFIF.....,.,....
+      20 | 0xffe1 APP1  |    4073 | Exif..MM.*......................
+    4095 | 0xffe2 APP2  |     576 | ICC_PROFILE.....0ADBE....mntrRGB chunk 1/0
+    4674 | 0xffdb DQT   |      67 
+    4743 | 0xffdb DQT   |      67 
+    4812 | 0xffc2 SOF2  |      17 
+    4831 | 0xffc4 DHT   |      30 
+    4863 | 0xffc4 DHT   |      27 
+    4892 | 0xffda SOS  
+STRUCTURE OF JPEG FILE: ReaganLargeJpg.jpg
+ address | marker       |  length | data
+       0 | 0xffd8 SOI  
+       2 | 0xffe0 APP0  |      16 | JFIF.....,.,....
+      20 | 0xffe1 APP1  |    4073 | Exif..MM.*......................
+    4095 | 0xffe2 APP2  |     576 | ICC_PROFILE....0ADBE....mntrRGB  chunk 1/0
+    4674 | 0xffdb DQT   |      67 
+    4743 | 0xffdb DQT   |      67 
+    4812 | 0xfffe COM   |      10 | abcdefg
+    4824 | 0xffc2 SOF2  |      17 
+    4843 | 0xffc4 DHT   |      30 
+    4875 | 0xffc4 DHT   |      27 
+    4904 | 0xffda SOS  
+abcdefg
+STRUCTURE OF JPEG FILE: ReaganLargeJpg.jpg
+ address | marker       |  length | data
+       0 | 0xffd8 SOI  
+       2 | 0xffe0 APP0  |      16 | JFIF.....,.,....
+      20 | 0xffe1 APP1  |    4073 | Exif..MM.*......................
+    4095 | 0xffe2 APP2  |     576 | ICC_PROFILE...0ADBE....mntrRGB X chunk 1/2
+    4674 | 0xffdb DQT   |      67 
+    4743 | 0xffdb DQT   |      67 
+    4812 | 0xffc2 SOF2  |      17 
+    4831 | 0xffc4 DHT   |      30 
+    4863 | 0xffc4 DHT   |      27 
+    4892 | 0xffda SOS  
+45ed3c125cc6041b37b44ee4cb881cd8
+45ed3c125cc6041b37b44ee4cb881cd8
+a78f7a71f1ea79f2f6708be6394e1305
+a78f7a71f1ea79f2f6708be6394e1305
+d890d988d312ae8d497d21e936628ecc
+d890d988d312ae8d497d21e936628ecc
