@@ -1187,7 +1187,7 @@ namespace Action {
                 std::cerr << _("No embedded iccProfile: ") << path_ << std::endl;
                 rc = -2;
             } else {
-                
+
                 if ( Params::instance().target_ & Params::ctStdInOut ) { // -eC-
                     std::cout.write((const char*)image->iccProfile()->pData_,image->iccProfile()->size_);
                 } else {

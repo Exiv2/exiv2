@@ -21,11 +21,9 @@
 /*
   File:    pngimage.cpp
   Version: $Rev$
-  Author(s): Gilles Caulier (cgilles) <caulier dot gilles at gmail dot com>
-  History: 12-Jun-06, gc: submitted
-  Credits: See header file
  */
 // *****************************************************************************
+
 #include "rcsid_int.hpp"
 EXIV2_RCSID("@(#) $Id$")
 
@@ -53,7 +51,6 @@ EXIV2_RCSID("@(#) $Id$")
 #include <cassert>
 
 #include <zlib.h>     // To uncompress IccProfiles
-
 // Signature from front of PNG file
 const unsigned char pngSignature[8] = { 0x89, 0x50, 0x4E, 0x47, 0x0D, 0x0A, 0x1A, 0x0A };
 
@@ -106,6 +103,12 @@ namespace Exiv2 {
         do {
             result.alloc(uncompressedLen);
             zlibResult = uncompress((Bytef*)result.pData_,&uncompressedLen,bytes,length);
+            // if result buffer is large than necessary, redo to fit perfectly.
+            if (zlibResult == Z_OK && (long) uncompressedLen < result.size_ ) {
+                result.release();
+                result.alloc(uncompressedLen);
+                zlibResult = uncompress((Bytef*)result.pData_,&uncompressedLen,bytes,length);
+            }
             if (zlibResult == Z_BUF_ERROR) {
                 // the uncompressed buffer needs to be larger
                 result.release();
@@ -132,6 +135,7 @@ namespace Exiv2 {
                 result.release();
                 compressedLen *= 2;
             } else {
+                result.release();
                 result.alloc(compressedLen);
                 zlibResult = compress((Bytef*)result.pData_,&compressedLen,bytes,length);
             }
@@ -512,6 +516,10 @@ namespace Exiv2 {
             if (io_->error()) throw Error(14);
             if (bufRead != (long)(dataOffset + 4)) throw Error(20);
 
+            char szChunk[5];
+            memcpy(szChunk,cheaderBuf.pData_ + 4,4);
+            szChunk[4]  = 0;
+
             if (!memcmp(cheaderBuf.pData_ + 4, "IEND", 4))
             {
                 // Last chunk found: we write it and done.
@@ -575,12 +583,34 @@ namespace Exiv2 {
                 if ( iccProfileDefined() ) {
                     DataBuf compressed;
                     if ( zlibToCompressed(iccProfile_.pData_,iccProfile_.size_,compressed) ) {
-                        std::string chunk = PngChunk::makeICCPChunkHeader("ICC Profile",compressed.size_);
-                        if( outIo.write((const byte*)chunk.data(), static_cast<long>(chunk.size())) != (long)chunk.size()
-                        ||  outIo.write (compressed.pData_,compressed.size_)                        != compressed.size_
+
+                        const byte* header   = (const byte*) "ICC PROFILE\0\0" ; // \0 = default compression
+                        const byte*  type    = (const byte*) "iCCP";
+                        uint32_t headerLen   = 13 ;
+                        uint32_t typeLen     = 4;
+                        uint32_t chunkLength = headerLen + compressed.size_ ;
+                        byte     length[4];
+                        ul2Data (length,chunkLength,bigEndian);
+
+                        // calculate CRC
+                        uLong   tmp = crc32(0L, Z_NULL, 0);
+                        tmp         = crc32(tmp, (const Bytef*)header           ,headerLen);
+                        tmp         = crc32(tmp, (const Bytef*)compressed.pData_,compressed.size_);
+                        byte    crc[4];
+                        ul2Data(crc, tmp, bigEndian);
+
+                        if( outIo.write(length,4)         != 4
+                        ||  outIo.write(type  ,typeLen)   != typeLen
+                        ||  outIo.write(header,headerLen) != headerLen
+                        ||  outIo.write (compressed.pData_,compressed.size_) != compressed.size_
+                        ||  outIo.write(crc,4)            != 4
                         ){
                             throw Error(21);
                         }
+#ifdef DEBUG
+                        std::cout << "Exiv2::PngImage::doWriteMetadata: build iCCP"
+                        << " chunk (length: " << compressed.size_ + headerLen << ")" << std::endl;
+#endif
                     }
                 }
 
@@ -610,19 +640,20 @@ namespace Exiv2 {
                     memcmp("Raw profile type iptc", key.pData_, 21) == 0 ||
                     memcmp("Raw profile type xmp",  key.pData_, 20) == 0 ||
                     memcmp("XML:com.adobe.xmp",     key.pData_, 17) == 0 ||
-                    memcmp("icc",                   key.pData_,  3) == 0 ||
+                    memcmp("icc",                   key.pData_,  3) == 0 || // see test/data/imagemagick.png
+                    memcmp("ICC",                   key.pData_,  3) == 0 ||
                     memcmp("Description",           key.pData_, 11) == 0)
                 {
 #ifdef DEBUG
-                    std::cout << "Exiv2::PngImage::doWriteMetadata: strip " << cheaderBuf.pData_ + 4
-                              << " chunk (key: " << key.pData_ << ")\n";
+                    std::cout << "Exiv2::PngImage::doWriteMetadata: strip " << szChunk
+                              << " chunk (length: " << dataOffset << ")" << std::endl;
 #endif
                 }
                 else
                 {
 #ifdef DEBUG
-                    std::cout << "Exiv2::PngImage::doWriteMetadata: write " << cheaderBuf.pData_ + 4
-                              << " chunk (length: " << dataOffset << ")\n";
+                    std::cout << "Exiv2::PngImage::doWriteMetadata: write " << szChunk
+                              << " chunk (length: " << dataOffset << ")" << std::endl;
 #endif
                     if (outIo.write(chunkBuf.pData_, chunkBuf.size_) != chunkBuf.size_) throw Error(21);
                 }
@@ -631,8 +662,8 @@ namespace Exiv2 {
             {
                 // Write all others chunk as well.
 #ifdef DEBUG
-                std::cout << "Exiv2::PngImage::doWriteMetadata: write " << cheaderBuf.pData_ + 4
-                          << " chunk (length: " << dataOffset << ")\n";
+                std::cout << "Exiv2::PngImage::doWriteMetadata:  copy " << szChunk
+                          << " chunk (length: " << dataOffset << ")" << std::endl;
 #endif
                 if (outIo.write(chunkBuf.pData_, chunkBuf.size_) != chunkBuf.size_) throw Error(21);
 

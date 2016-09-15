@@ -541,21 +541,6 @@ namespace Exiv2 {
 
     } // PngChunk::makeAsciiTxtChunk
 
-    std::string PngChunk::makeICCPChunkHeader(const std::string& keyword,long compressedLength)
-    {
-        // Chunk structure: length (4 bytes) + chunk type
-        std::string chunkData = keyword + '\0';
-        std::string chunkType;
-        chunkData += '\0' ;// byte 0 = standard compression
-        chunkType = "iCCP";
-        // Determine length of the chunk data
-        byte length[4];
-        ul2Data(length, static_cast<uint32_t>(chunkData.size()+compressedLength), bigEndian);
-
-        // Assemble chunk
-        return std::string((const char*)length, 4) + chunkType + chunkData;
-    } // PngChunk::makeICCPChunkHeader
-
     std::string PngChunk::makeUtf8TxtChunk(const std::string& keyword,
                                            const std::string& text,
                                            bool               compress)
