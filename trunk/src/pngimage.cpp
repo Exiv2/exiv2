@@ -221,15 +221,10 @@ namespace Exiv2 {
             const std::string softKey = "Software";
 
             bool bPrint = option == kpsBasic || option == kpsRecursive ;
-            if ( bPrint ) {
-                out << "STRUCTURE OF PNG FILE: " << io_->path() << std::endl;
-                out << " address | index | chunk_type |  length | data                           | checksum" << std::endl;
-            }
+            bool bFirst = true ;
 
-            long       index   = 0;
             const long imgSize = io_->size();
             DataBuf    cheaderBuf(8);
-
 
             while( !io_->eof() && ::strcmp(chType,"IEND") ) {
                 size_t address = io_->tell();
@@ -263,7 +258,6 @@ namespace Exiv2 {
                 dataString  = Internal::binaryToString(buff, blen);
                 while ( dataString.size() < 32 ) dataString += ' ';
                 dataString  = dataString.substr(0,30);
-
 
                 // chunk type
                 bool tEXt  = std::strcmp(chType,"tEXt")== 0;
@@ -339,8 +333,13 @@ namespace Exiv2 {
                 byte checksum[4];
                 io_->read(checksum,4);
                 if ( bPrint ) {
-                    out << Internal::stringFormat("%8d | %5d | %10s |%8d | "
-                              ,(uint32_t)address, index++,chType,dataOffset)
+                    if ( bFirst ) {
+                        out << "STRUCTURE OF PNG FILE: " << io_->path() << std::endl;
+                        out << " address | chunk |  length | data                           | checksum" << std::endl;
+                        bFirst = false;
+                    }
+                    out << Internal::stringFormat("%8d | %-5s |%8d | "
+                              ,(uint32_t)address, chType,dataOffset)
                         << dataString
                         << Internal::stringFormat(" | 0x%02x%02x%02x%02x"
                               ,checksum[0],checksum[1],checksum[2],checksum[3])

@@ -634,7 +634,7 @@ namespace Exiv2 {
             int   c             = (int) buff[start++] ;
             bool  bTrailingNull = c == 0 && start == size;
             if ( !bTrailingNull ) {
-                if (c < ' ' || c > 127) c = '.' ;
+                if (c < ' ' || c >= 127) c = '.' ;
                 result +=  (char) c ;
             }
         }
