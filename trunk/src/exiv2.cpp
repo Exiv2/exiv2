@@ -240,21 +240,21 @@ void Params::usage(std::ostream& os) const
 
 std::string Params::printTarget(std::string before,int target,bool bPrint,std::ostream& out)
 {
-	std::string t;
-	if ( target & Params::ctExif       ) t+= 'e';
-	if ( target & Params::ctXmpSidecar ) t+= 'X';
-	if ( target & Params::ctXmpRaw     ) t+= target & Params::ctXmpSidecar ? 'X' : 'R' ;
-	if ( target & Params::ctIptc       ) t+= 'i';
-	if ( target & Params::ctIccProfile ) t+= 'C';
-	if ( target & Params::ctIptcRaw    ) t+= 'I';
-	if ( target & Params::ctXmp        ) t+= 'x';
-	if ( target & Params::ctComment    ) t+= 'c';
-	if ( target & Params::ctThumb      ) t+= 't';
-	if ( target & Params::ctPreview    ) t+= 'p';
-	if ( target & Params::ctStdInOut   ) t+= '-';
+    std::string t;
+    if ( target & Params::ctExif       ) t+= 'e';
+    if ( target & Params::ctXmpSidecar ) t+= 'X';
+    if ( target & Params::ctXmpRaw     ) t+= target & Params::ctXmpSidecar ? 'X' : 'R' ;
+    if ( target & Params::ctIptc       ) t+= 'i';
+    if ( target & Params::ctIccProfile ) t+= 'C';
+    if ( target & Params::ctIptcRaw    ) t+= 'I';
+    if ( target & Params::ctXmp        ) t+= 'x';
+    if ( target & Params::ctComment    ) t+= 'c';
+    if ( target & Params::ctThumb      ) t+= 't';
+    if ( target & Params::ctPreview    ) t+= 'p';
+    if ( target & Params::ctStdInOut   ) t+= '-';
 
-	if ( bPrint ) out << before << " :" << t << std::endl;
-	return t;
+    if ( bPrint ) out << before << " :" << t << std::endl;
+    return t;
 }
 
 void Params::help(std::ostream& os) const
@@ -1064,13 +1064,13 @@ namespace {
                                 | Params::ctComment
                                 | Params::ctXmp; break;
             case 'X':
-            	Params::printTarget("X before",target);
+                Params::printTarget("X before",target);
                 target |= Params::ctXmpSidecar|Params::ctExif  |  Params::ctIptc | Params::ctXmp ; // -eX
                 Params::printTarget("X after1",target);
 
                 if ( i ) { // -eXX
                     target |= Params::ctXmpRaw ;
-                	Params::printTarget("X after2",target);
+                    Params::printTarget("X after2",target);
                     target ^= Params::ctExif|Params::ctIptc|Params::ctXmp ; // turn off those bits
                 }
                 Params::printTarget("X ending",target,false);
@@ -1151,7 +1151,7 @@ namespace {
                 }
                 int num = 0;
                 std::string line;
-                while (std::getline(bStdin? std::cin : file, line)) {
+                while (bStdin?std::getline(std::cin, line):std::getline(file, line)) {
                     ModifyCmd modifyCmd;
                     if (parseLine(modifyCmd, line, ++num)) {
                         modifyCmds.push_back(modifyCmd);

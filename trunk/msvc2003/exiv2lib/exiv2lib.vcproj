@@ -292,6 +292,9 @@ copy/y ..\..\..\zlib-1.2.3\projects\visualc6\Win32_DLL_Release\zlib1.dll $(OutDi
 				RelativePath="..\..\src\image.cpp">
 			</File>
 			<File
+				RelativePath="..\..\src\ini.cpp">
+			</File>
+			<File
 				RelativePath="..\..\src\iptc.cpp">
 			</File>
 			<File
@@ -403,6 +406,9 @@ copy/y ..\..\..\zlib-1.2.3\projects\visualc6\Win32_DLL_Release\zlib1.dll $(OutDi
 				RelativePath="..\..\src\version.cpp">
 			</File>
 			<File
+				RelativePath="..\..\src\webpimage.cpp">
+			</File>
+			<File
 				RelativePath="..\..\src\xmp.cpp">
 			</File>
 			<File
@@ -457,6 +463,9 @@ copy/y ..\..\..\zlib-1.2.3\projects\visualc6\Win32_DLL_Release\zlib1.dll $(OutDi
 			</File>
 			<File
 				RelativePath="..\..\include\exiv2\image.hpp">
+			</File>
+			<File
+				RelativePath="..\..\src\ini_int.hpp">
 			</File>
 			<File
 				RelativePath="..\..\include\exiv2\iptc.hpp">

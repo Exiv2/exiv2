@@ -1,6 +1,7 @@
 /**/
 /* exv_msvc.h */
 
+#pragma once
 #ifndef _EXV_MSVC_H_
 #define _EXV_MSVC_H_
 
@@ -50,7 +51,8 @@
 #endif /* !EXV_COMMERCIAL_VERSION */
 
 /* Define Windows unicode path support. */
-/* #define EXV_UNICODE_PATH 1 */
+/* #undef EXV_UNICODE_PATH */
+
 
 /* Define to `const' or to empty, depending on the second argument of `iconv'. */
 /* #undef ICONV_ACCEPTS_CONST_INPUT */
@@ -141,7 +143,7 @@
 #define EXV_HAVE_LIBZ 1
 
 #if defined(_MSC_VER) && HAVE_LIBZ
-  #if (_MSC_VER < 1400) && !defined(vsnprintf)
+  #if (_MSC_VER < 1400)// && !defined(vsnprintf)
   #define vsnprintf _vsnprintf
   #endif
 #endif
@@ -201,9 +203,6 @@
 /* Define to rpl_malloc if the replacement function should be used. */
 /* #undef malloc */
 
-/* Define to `int' if <sys/types.h> does not define. */
-/* #undef HAVE_PID_T */
-
 /* On Microsoft compilers pid_t has to be set to int. */
 #ifndef HAVE_PID_T
 typedef int pid_t;
@@ -215,5 +214,4 @@ typedef int pid_t;
 /* Define to `unsigned' if <sys/types.h> does not define. */
 /* #undef size_t */
 
-
-#endif
+#endif // _EXV_CONF_H_
