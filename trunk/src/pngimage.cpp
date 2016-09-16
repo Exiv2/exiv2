@@ -221,7 +221,10 @@ namespace Exiv2 {
             const std::string softKey = "Software";
 
             bool bPrint = option == kpsBasic || option == kpsRecursive ;
-            bool bFirst = true ;
+            if ( bPrint ) {
+                out << "STRUCTURE OF PNG FILE: " << io_->path() << std::endl;
+                out << " address | chunk |  length | data                           | checksum" << std::endl;
+            }
 
             const long imgSize = io_->size();
             DataBuf    cheaderBuf(8);
@@ -258,6 +261,20 @@ namespace Exiv2 {
                 dataString  = Internal::binaryToString(buff, blen);
                 while ( dataString.size() < 32 ) dataString += ' ';
                 dataString  = dataString.substr(0,30);
+
+                if ( bPrint ) {
+                    io_->seek(dataOffset, BasicIo::cur);// jump to checksum
+                    byte checksum[4];
+                    io_->read(checksum,4);
+                    io_->seek(restore, BasicIo::beg)   ;// restore file pointer
+
+                    out << Internal::stringFormat("%8d | %-5s |%8d | "
+                                                  ,(uint32_t)address, chType,dataOffset)
+                        << dataString
+                        << Internal::stringFormat(" | 0x%02x%02x%02x%02x"
+                                                   ,checksum[0],checksum[1],checksum[2],checksum[3])
+                        << std::endl;
+                }
 
                 // chunk type
                 bool tEXt  = std::strcmp(chType,"tEXt")== 0;
@@ -310,12 +327,12 @@ namespace Exiv2 {
                             TiffImage::printTiffStructure(*p,out,option,depth);
                         }
 
-                        if ( bSoft ) {
-                            const char* bytes = (const char*) dataBuf.pData_;
-                            uint32_t    l     = (uint32_t) std::strlen(bytes)+2;
-                            // create a copy on write memio object with the data, then print the structure
-                            BasicIo::AutoPtr p = BasicIo::AutoPtr(new MemIo(dataBuf.pData_+l,dataBuf.size_-l));
-                            out << Internal::indent(depth) << (const char*) buff.pData_ << ": " << (const char*) dataBuf.pData_ << std::endl;
+                        if ( bSoft && dataBuf.size_ > 0) {
+                            DataBuf     s(dataBuf.size_+1);               // allocate buffer with an extra byte
+                            memcpy(s.pData_,dataBuf.pData_,dataBuf.size_);// copy in the dataBuf
+                            s.pData_[dataBuf.size_] = 0 ;                 // nul terminate it
+                            const char* str = (const char*) s.pData_;     // give it name
+                            out << Internal::indent(depth) << (const char*) buff.pData_ << ": " << str << std::endl;
                         }
 
                         if ( bICC ) {
@@ -328,23 +345,7 @@ namespace Exiv2 {
                     }
                     delete[] data;
                 }
-                io_->seek(dataOffset, BasicIo::cur);
-
-                byte checksum[4];
-                io_->read(checksum,4);
-                if ( bPrint ) {
-                    if ( bFirst ) {
-                        out << "STRUCTURE OF PNG FILE: " << io_->path() << std::endl;
-                        out << " address | chunk |  length | data                           | checksum" << std::endl;
-                        bFirst = false;
-                    }
-                    out << Internal::stringFormat("%8d | %-5s |%8d | "
-                              ,(uint32_t)address, chType,dataOffset)
-                        << dataString
-                        << Internal::stringFormat(" | 0x%02x%02x%02x%02x"
-                              ,checksum[0],checksum[1],checksum[2],checksum[3])
-                        << std::endl;
-                }
+                io_->seek(dataOffset+4, BasicIo::cur);// jump past checksum
                 if (io_->error()) throw Error(14);
             }
         }
