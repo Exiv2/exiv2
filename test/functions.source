@@ -419,7 +419,7 @@ copyVideoFiles ()
 checkSum()
 {
     # cygwin checksum: http://esrg.sourceforge.net/utils_win_up/md5sum/
-    md5 $1 | cut -d= -f 2 | sed -E -e 's/ //g' | cut '-d(' -f 1
+    md5sum $1 | cut -d' ' -f 1
 }
 
 ##
