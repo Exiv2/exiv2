@@ -419,6 +419,7 @@ copyVideoFiles ()
 checkSum()
 {
     # cygwin checksum: http://esrg.sourceforge.net/utils_win_up/md5sum/
+    # macosx - built/installed coreutils 8.25 http://ftp.gnu.org/gnu/coreutils/
     md5sum $1 | cut -d' ' -f 1
 }
 
