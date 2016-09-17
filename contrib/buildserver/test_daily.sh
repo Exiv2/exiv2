@@ -37,9 +37,9 @@ echo build =  $build
 ##
 # collect build from server
 if [  -e /tmp/jenkins ]; then
-  rm -rf /tmp/jenkins
+  rm -rf /tmp/jenkins 2>/dev/null
 fi
-mkdir    /tmp/jenkins
+mkdir    /tmp/jenkins 2>/dev/null
 cd       /tmp/jenkins
 echo $curl -O "$JENKINS/$DAILY/$build"
      $curl -O "$JENKINS/$DAILY/$build"
@@ -48,7 +48,7 @@ if [ ! -e $build ]; then echo '*** $build has not been downloaded ***' ; exit 0;
 
 ##
 # expand the bundle
-if [ -e dist ]; then rm -rf dist ;fi
+if [ -e dist ]; then rm -rf dist 2>/dev/null ;fi
 tar xzf $build
 if [ ! -e dist ]; then echo '*** no dist directory ***' ; exit 0; fi
 
@@ -122,6 +122,49 @@ case $PLATFORM in
             ) fi
           done
         done
+    ;;
+    
+    mingw)
+        if [ ! -z "$RECURSIVE" ]; then
+        	# test the delivered exiv2
+        	PATH="$PWD/$PLATFORM/bin:$PATH"
+        	echo ''
+        	echo "ls -alt $PWD/$PLATFORM/bin/libexiv2-14.dll"
+        	      ls -alt $PWD/$PLATFORM/bin/libexiv2-14.dll
+        	echo ''
+        	echo "$PWD/$PLATFORM/bin/exiv2.exe -vV | grep $grep_args"
+        	      $PWD/$PLATFORM/bin/exiv2.exe -vV | grep $grep_args
+
+        	# compile, link and test the sample code
+        	echo ''
+        	echo g++ -I$PLATFORM/include -L$PLATFORM/lib -std=c++98 samples/exifprint.cpp -lexiv2 -o exifprint
+        	     g++ -I$PLATFORM/include -L$PLATFORM/lib -std=c++98 samples/exifprint.cpp -lexiv2 -o exifprint
+        	echo "ls -alt exifprint.exe"
+        	      ls  -alt exifprint.exe
+        	echo ''
+            echo "./exifprint --version     | grep $grep_args"
+        	      ./exifprint --version     | grep $grep_args
+        else
+           # recursively invoke MinGW/bash with appropriate tool chain
+           export RECURSIVE=1
+
+           export TMP=/tmp
+           export TEMP=$TMP
+           if [ "$x64" == true ]; then
+               export CFLAGS=-m64
+               export CXXFLAGS=-m64
+               export LDFLAGS=-m64
+               /c/MinGW64/msys/1.0/bin/bash.exe -c "export PATH=/c/TDM-GCC-64/bin:/c/MinGW64/bin:/c/MinGW64/msys/1.0/bin:/c/MinGW64/msys/1.0/local/bin; $0"
+               result=$?
+           fi
+           if [ "$win32" == true ]; then
+               export CFLAGS=-m32
+               export CXXFLAGS=-m32
+               export LDFLAGS=-m32
+               /c/MinGW/msys/1.0/bin/bash.exe -c "export PATH=/c/Qt/Qt5.6.0/5.6/mingw49_32/bin:/c/Qt/Qt5.6.0/Tools/mingw492_32/bin:/c/MinGW/bin:/usr/bin:/usr/local/bin:/c/cygwin64/bin:/c/Users/rmills/com:.; /c/cygwin64/home/rmills/gnu/exiv2/buildserver/$0"
+               result=$?
+           fi
+        fi
     ;;
 
     *) echo unknown platform $platform
