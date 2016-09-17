@@ -297,6 +297,7 @@ namespace Exiv2 {
         { (long int)0x4040000, "PowerShot G1" },
         { (long int)0x4040001, "IXY 180" },
         { (long int)0x4050000, "PowerShot SX720 HS" },
+        { (long int)0x4060000, "PowerShot SX620 HS" },
         { (long int)0x6040000, "PowerShot S100 / Digital IXUS / IXY Digital" },
         { (long int)0x4007d673, "DC19/DC21/DC22" },
         { (long int)0x4007d674, "XH A1" },
@@ -376,6 +377,7 @@ namespace Exiv2 {
         { (long int)0x80000355, "EOS M2" },
         { (long int)0x80000346, "EOS Rebel SL1 / 100D / Kiss X7" },
         { (long int)0x80000347, "EOS Rebel T6s / 760D / 8000D" },
+        { (long int)0x80000349, "EOS 5D Mark IV" },
         { (long int)0x80000382, "EOS 5DS" },
         { (long int)0x80000393, "EOS Rebel T6i / 750D / Kiss X8i" },
         { (long int)0x80000401, "EOS 5DS R" },
@@ -1009,6 +1011,8 @@ namespace Exiv2 {
         { 747, "Canon EF 100-400mm f/4.5-5.6L IS II USM"                    },
         { 748, "Canon EF 100-400mm f/4.5-5.6L IS II USM + 1.4x"             },
         { 750, "Canon EF 35mm f/1.4L II USM"                                },
+        { 751, "Canon EF 16-35mm f/2.8L III USM"                            },
+        { 752, "Canon EF 24-105mm f/4L IS II USM"                           },
         { 4142,"Canon EF-S 18-135mm f/3.5-5.6 IS STM"                       },
         { 4143,"Canon EF-M 18-55mm f/3.5-5.6 IS STM"                        }, // 0
         { 4143,"Tamron 18-200mm F/3.5-6.3 Di III VC"                        }, // 1
