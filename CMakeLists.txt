@@ -1,4 +1,5 @@
 # CMake build system for exiv2 library and executables
+# Copyright 2015-     Daniel Kaneider  <danielkaneider@users.sf.net>
 # Copyright 2012-     Robin Mills      <robin@clanmills.com>
 # Copyright 2010-2012 Gilles Caulier   <caulier dot gilles at gmail dot com>
 # Copyright 2008      Patrick Spendrin <ps_ml at gmx dot de>
@@ -17,7 +18,7 @@ if( EXISTS "${CMAKE_SOURCE_DIR}/include/exiv2/exv_conf.h"  )
 endif()
 ##
 
-CMAKE_MINIMUM_REQUIRED( VERSION 2.8.12 )
+CMAKE_MINIMUM_REQUIRED( VERSION 3.1.0 )
 PROJECT( exiv2 )
 
 if( POLICY CMP0042 )
@@ -25,19 +26,17 @@ if( POLICY CMP0042 )
 else()
     SET(CMAKE_MACOSX_RPATH 1)
 endif()
-SET(CMAKE_INSTALL_RPATH "${CMAKE_INSTALL_PREFIX}/lib")
-
 
 SET( PACKAGE_COPYRIGHT      "Andreas Huggel" )
 SET( PACKAGE_BUGREPORT      "ahuggel@gmx.net" )
 SET( PACKAGE                "exiv2" )
 SET( PACKAGE_NAME           "exiv2" )
-SET( PACKAGE_STRING         "exiv2 0.24" )
+SET( PACKAGE_STRING         "exiv2 0.25" )
 SET( PACKAGE_TARNAME        "exiv2" )
-SET( PACKAGE_VERSION        "0.24" )
+SET( PACKAGE_VERSION        "0.25" )
 SET( PACKAGE_URL            "http://www.exiv2.org" )
-SET( GENERIC_LIB_VERSION    "13.0.0" )
-SET( GENERIC_LIB_SOVERSION  "13" )
+SET( GENERIC_LIB_VERSION    "14.0.0" )
+SET( GENERIC_LIB_SOVERSION  "14" )
 
 # options and their default values
 OPTION( EXIV2_ENABLE_SHARED        "Build exiv2 as a shared library (dll)"                 ON  )
@@ -53,8 +52,18 @@ OPTION( EXIV2_ENABLE_BUILD_SAMPLES "Build the unit tests"                       
 OPTION( EXIV2_ENABLE_BUILD_PO      "Build translations files"                              OFF )
 OPTION( EXIV2_ENABLE_VIDEO         "Build video support into library"                      OFF )
 OPTION( EXIV2_ENABLE_WEBREADY      "Build webready support into library"                   OFF )
-OPTION( EXIV2_ENABLE_CURL          "USE Libcurl for HttpIo"                                ON  )
-OPTION( EXIV2_ENABLE_SSH           "USE Libssh for SshIo"                                  ON  )
+IF (WIN32)
+    OPTION( EXIV2_ENABLE_WIN_UNICODE   "Use Unicode paths (wstring) on Windows"            OFF )
+    OPTION( EXIV2_ENABLE_CURL          "USE Libcurl for HttpIo"                            OFF )
+    OPTION( EXIV2_ENABLE_SSH           "USE Libssh for SshIo"                              OFF )
+ELSE()
+    OPTION( EXIV2_ENABLE_CURL          "USE Libcurl for HttpIo"                            ON  )
+    OPTION( EXIV2_ENABLE_SSH           "USE Libssh for SshIo"                              ON  )
+
+ENDIF()
+
+# set include path for FindXXX.cmake files
+set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} "${CMAKE_SOURCE_DIR}/config/")
 
 IF( MINGW OR UNIX )
     IF ( CMAKE_CXX_COMPILER STREQUAL "g++" OR CMAKE_C_COMPILER STREQUAL "gcc" )
@@ -69,97 +78,38 @@ IF( MINGW OR UNIX )
     ENDIF()
 ENDIF( MINGW OR UNIX )
 
+IF( EXIV2_ENABLE_COMMERCIAL )
+    SET (EXIV2_ENABLE_LENSDATA OFF)
+    SET (EXIV2_ENABLE_NLS OFF)
+ENDIF()
+
+set (PRIVATE_VAR)
+if(${CMAKE_MAJOR_VERSION}.${CMAKE_MINOR_VERSION} GREATER 2.8)
+    set (PRIVATE_VAR PRIVATE)
+endif()
+
+# binary as first, since it workarounds old VS solution compatibility problems
 INCLUDE_DIRECTORIES( ${CMAKE_SOURCE_DIR}/src/ ${CMAKE_SOURCE_DIR}/include/  ${CMAKE_SOURCE_DIR}/include/exiv2/)
 
 if( MSVC )
-
     # cmake_policy(SET CMP0008)
-
-    include(CMake_msvc.txt)
-    msvc_runtime_report()
-    msvc_runtime_configure(${EXIV2_ENABLE_SHARED})
-    msvc_runtime_report()
-
     ADD_DEFINITIONS(-DPSAPI_VERSION=1) # to be compatible with <= WinVista (#905)
-
-    set(E expat-2.1.0)
-    set(Z zlib-1.2.7)
-    set(C curl-7.39.0)
-    set(C libssh-0.5.5)
-
-    if( NOT IS_DIRECTORY ./../${E} )
-        set(OUT_OF_SOURCE 1)
-    endif()
-
-    # link dependent libraries
-    FIND_PACKAGE(EXPAT QUIET)
-    if ( NOT EXPAT_LIBRARY  )
-        set(EXPAT_LIBRARY      ${CMAKE_SOURCE_DIR}/../${E}/$(ConfigurationName)/expat)
-        set(EXPAT_INCLUDE_DIR  ${CMAKE_SOURCE_DIR}/../${E}/lib)
-        include_directories( ${EXPAT_INCLUDE_DIR} msvc64\\include src\\include)
-    endif()
-
-    # FIND_PACKAGE(CURL)
-    if ( NOT CURL_FOUND )
-        set(CURL_LIBRARY       ${CMAKE_SOURCE_DIR}/../${C}/$(ConfigurationName)/curl)
-        set(CURL_INCLUDE_DIR   ${CMAKE_SOURCE_DIR}/../${C})
-        include_directories( ${CURL_INCLUDE_DIR})
-    endif()
-
-    # FIND_PACKAGE(SSH)
-    if ( NOT SSH_FOUND )
-        set(SSH_LIBRARY       ${CMAKE_SOURCE_DIR}/../${C}/$(ConfigurationName)/ssh)
-        set(SSH_INCLUDE_DIR   ${CMAKE_SOURCE_DIR}/../${C})
-        include_directories( ${SSH_INCLUDE_DIR})
-    endif()
-
-    FIND_PACKAGE(ZLIB QUIET)
-    if ( NOT ZLIB_FOUND )
-        set(ZLIB_LIBRARY       ${CMAKE_SOURCE_DIR}/../${Z}/$(ConfigurationName)/zlib)
-        set(ZLIB_INCLUDE_DIR   ${CMAKE_SOURCE_DIR}/../${Z})
-    endif()
-    include_directories(${ZLIB_INCLUDE_DIR})
-
-    if ( EXIV2_ENABLE_SHARED )
-        add_library(${E} SHARED IMPORTED)
-        add_library(${Z} SHARED IMPORTED)
-    endif()
-
-    ##
-    # Set the output directory
-    # x64/Win32
-    if( CMAKE_SIZEOF_VOID_P MATCHES 8 )
-        SET( P_DIR x64)
-    else()
-        set( P_DIR Win32 )
-    endif()
-
-    # DLL/static build
-    if( EXIV2_ENABLE_SHARED )
-        set( T_DIR Dynamic )
-    else()
-        set( T_DIR Static)
-    endif()
-
-    set(B_DIR ${PROJECT_BINARY_DIR}/bin/${P_DIR}/${T_DIR})
-    set(CMAKE_CURRENT_BINARY_DIR ${B_DIR})
-    set(EXECUTABLE_OUTPUT_PATH   ${B_DIR})
-    set(LIBRARY_OUTPUT_PATH      ${B_DIR})
 endif( MSVC )
 
 IF( EXIV2_ENABLE_XMP )
     SET( HAVE_XMP_TOOLKIT ON )
     SET( XMPLIB "do" )
+    set(THREADS_PREFER_PTHREAD_FLAG ON)
+    find_package(Threads REQUIRED)
 ENDIF( EXIV2_ENABLE_XMP )
 
 INCLUDE( config/CMakeChecks.txt )
 
 SET( INSTALL_TARGET_STANDARD_ARGS
      RUNTIME DESTINATION bin
-     LIBRARY DESTINATION lib
-     ARCHIVE DESTINATION lib
+     LIBRARY DESTINATION ${CMAKE_INSTALL_LIBDIR}
+     ARCHIVE DESTINATION ${CMAKE_INSTALL_LIBDIR}
 )
-SET(CMAKE_INSTALL_RPATH "${CMAKE_INSTALL_PREFIX}/lib")
 
 ##
 # add sources from XMPSDK directory
@@ -187,21 +137,28 @@ IF( ${EXV_HAVE_STDINT_H} )
     ADD_DEFINITIONS( -DEXV_HAVE_STDINT_H )
 ENDIF( ${EXV_HAVE_STDINT_H} )
 
+##
+# MacOS-X default svn is /usr/bin/svn which is protected with System Integrity Protection
+# Apple reset it to version 1.7.22 when the OS is upgraded
+# http://osxdaily.com/2015/10/05/disable-rootless-system-integrity-protection-mac-os-x/
+IF(EXISTS "/usr/local/bin/svn")
+	SET(Subversion_SVN_EXECUTABLE /usr/local/bin/svn)
+ENDIF()
+
 SET(SVN_REVISION "0")
-if ( NOT MINGW )
-	FIND_PACKAGE(Subversion QUIET)
-	IF(SUBVERSION_FOUND)
-	    IF(EXISTS "${CMAKE_SOURCE_DIR}/.svn")
-	        Subversion_WC_INFO(${PROJECT_SOURCE_DIR} svnExiv2)
-	        SET(SVN_REVISION "${svnExiv2_WC_REVISION}")
-	    ENDIF()
-	ENDIF()
-endif()
+IF(EXISTS "${CMAKE_SOURCE_DIR}/.svn")
+    FIND_PACKAGE(Subversion QUIET)
+    IF(SUBVERSION_FOUND)
+        Subversion_WC_INFO(${PROJECT_SOURCE_DIR} svnExiv2)
+        SET(SVN_REVISION "${svnExiv2_WC_REVISION}")
+    ENDIF()
+ENDIF()
+
 CONFIGURE_FILE( ${CMAKE_CURRENT_SOURCE_DIR}/src/svn_version.h.in
                 ${CMAKE_CURRENT_SOURCE_DIR}/src/svn_version.h @ONLY)
 MESSAGE(STATUS  "SVN version:  ${SVN_REVISION}")
 
-IF( NOT MSVC AND NOT MINGW)
+IF( NOT MSVC )
   # Issue #722: out of source builds compiled against standard include files such as /usr/local/lib/include/exiv2
   # do not use CREATE_SYMLINK or CMAKE_CAN_SYMLINK as they don't work on CYGWIN
   EXECUTE_PROCESS( WORKING_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}           COMMAND ln -sf ${CMAKE_CURRENT_SOURCE_DIR}/src exiv2)
@@ -246,12 +203,6 @@ IF( MINGW OR UNIX OR APPLE)
     COMMAND ./cmake_doc.sh "${CMAKE_BINARY_DIR}"
   )
 ENDIF()
-
-##
-# support for test suite TODO: fixup for MSVC and think a bit more before deploying this
-# ENABLE_TESTING()
-# INCLUDE(Dart)
-# ADD_TEST(tests bash -c "cd ${CMAKE_SOURCE_DIR}/test/ ; make EXIV2_BINDIR=${CMAKE_BINARY_DIR}/bin" )
 
 # That's all Folks!
 ##
