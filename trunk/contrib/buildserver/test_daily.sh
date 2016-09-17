@@ -17,7 +17,7 @@ while [ "$count" != "0" ]; do
          |xmllint --html --pretty 1 - 2>/dev/null | grep $PLATFORM  \
          |grep $date | grep -v -e view | cut -d'"' -f 2 | tail -1   )
   if [ "$build" != "" ]; then
-  	count=0;
+    count=0;
   fi
   if [ "$count" != "0" ]; then
       count=$(expr $count - 1)
@@ -113,8 +113,8 @@ case $PLATFORM in
                 echo ''
                 a='32'
                 if [ $arch == x64 ]; then a=64 ; fi
-		        echo cmd /c "vcvars.bat $vs $a && cd && cl /EHsc -I$vs\\$arch\\dll\Release\include /MD samples\exifprint.cpp /link $vs\\$arch\dll\\Release\lib\exiv2.lib"
-		             cmd /c "vcvars.bat $vs $a && cd && cl /EHsc -I$vs\\$arch\\dll\Release\include /MD samples\exifprint.cpp /link $vs\\$arch\dll\\Release\lib\exiv2.lib"
+                echo cmd /c "vcvars.bat $vs $a && cd && cl /EHsc -I$vs\\$arch\\dll\Release\include /MD samples\exifprint.cpp /link $vs\\$arch\dll\\Release\lib\exiv2.lib"
+                     cmd /c "vcvars.bat $vs $a && cd && cl /EHsc -I$vs\\$arch\\dll\Release\include /MD samples\exifprint.cpp /link $vs\\$arch\dll\\Release\lib\exiv2.lib"
                 ls -alt exifprint.exe
                 echo ''
               )
@@ -126,24 +126,24 @@ case $PLATFORM in
     
     mingw)
         if [ ! -z "$RECURSIVE" ]; then
-        	# test the delivered exiv2
-        	PATH="$PWD/$PLATFORM/bin:$PATH"
-        	echo ''
-        	echo "ls -alt $PWD/$PLATFORM/bin/libexiv2-14.dll"
-        	      ls -alt $PWD/$PLATFORM/bin/libexiv2-14.dll
-        	echo ''
-        	echo "$PWD/$PLATFORM/bin/exiv2.exe -vV | grep $grep_args"
-        	      $PWD/$PLATFORM/bin/exiv2.exe -vV | grep $grep_args
+            # test the delivered exiv2
+            PATH="$PWD/$PLATFORM/bin:$PATH"
+            echo ''
+            echo "ls -alt $PWD/$PLATFORM/bin/libexiv2-14.dll"
+                  ls -alt $PWD/$PLATFORM/bin/libexiv2-14.dll
+            echo ''
+            echo "$PWD/$PLATFORM/bin/exiv2.exe -vV | grep $grep_args"
+                  $PWD/$PLATFORM/bin/exiv2.exe -vV | grep $grep_args
 
-        	# compile, link and test the sample code
-        	echo ''
-        	echo g++ -I$PLATFORM/include -L$PLATFORM/lib -std=c++98 samples/exifprint.cpp -lexiv2 -o exifprint
-        	     g++ -I$PLATFORM/include -L$PLATFORM/lib -std=c++98 samples/exifprint.cpp -lexiv2 -o exifprint
-        	echo "ls -alt exifprint.exe"
-        	      ls  -alt exifprint.exe
-        	echo ''
+            # compile, link and test the sample code
+            echo ''
+            echo g++ -I$PLATFORM/include -L$PLATFORM/lib -std=c++98 samples/exifprint.cpp -lexiv2 -o exifprint
+                 g++ -I$PLATFORM/include -L$PLATFORM/lib -std=c++98 samples/exifprint.cpp -lexiv2 -o exifprint
+            echo "ls -alt exifprint.exe"
+                  ls  -alt exifprint.exe
+            echo ''
             echo "./exifprint --version     | grep $grep_args"
-        	      ./exifprint --version     | grep $grep_args
+                  ./exifprint --version     | grep $grep_args
         else
            # recursively invoke MinGW/bash with appropriate tool chain
            export RECURSIVE=1

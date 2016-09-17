@@ -30,7 +30,9 @@ echo "---- dist = $dist ------"
 echo "---- build = $build ------"
 
 ##
-# test the build (don't test msvc because it was tested by cmakeBuild)
+# test the build
+# - don't test msvc because it was tested by cmakeBuild
+# - don't test mingw because it's build with autotools and tested in line
 testBuild()
 {
     if [ -e $dist/bin/exiv2 ]; then
@@ -89,7 +91,7 @@ testBuild()
                 PATH="$msvc:/cygdrive/c/Windows/System32:/cygdrive/c/Program Files/csvn/bin:/cygdrive/c/Program Files (x86)/WANdisco/Subversion/csvn/bin:/cygdrive/c/Program Files/7-zip:/cygdrive/c/Program Files (x86)/cmake/bin"
                 # cmd.exe /c "cd $build && vcvars $vs $arch && cmakeBuild --rebuild --exiv2=$exiv2 $*"
                 for ARCH in 64 32; do
-                	for VS in 2005 2008 2010 2012 2013 2015; do
+                    for VS in 2005 2008 2010 2012 2013 2015; do
                         echo -=-=-=-=-=-=-=-=-=-=-=-
                         echo cmd.exe /c "cd $build && vcvars $VS $ARCH && cmakeBuild --rebuild --exiv2=$exiv2 $*"
                         echo -=-=-=-=-=-=-=-=-=-=-=-
@@ -105,20 +107,23 @@ testBuild()
         mingw)
             if [ ! -z "$RECURSIVE" ]; then
                 # we are already in MinGW/bash, so build
+                ##
+                # dont use cmake as I can't get it to work
                 # cmake -G "Unix Makefiles" -DCMAKE_INSTALL_PREFIX=$dist -DEXIV2_ENABLE_NLS=OFF -DCMAKE_C_COMPILER=$(which gcc) -DCMAKE_CXX_COMPILER=$(which g++) $exiv2
-                make distclean
+
+                ##
+                # build with autotools
+                make clean
                 make config
                 ./configure --prefix=/usr/local
                 make
-                # run exiv2 to check the build is sane
-                bin/.libs/exiv2 --verbose --version
 
                 # install and copy the build to the dist
                 make   install
                 # copy   bin lib include to dist
                 for d in bin lib include; do
-                	mkdir -p                                "$dist/$d"
-                	cp    -R /usr/local/$d/*expat* /usr/local/$d/*exiv* /usr/local/$d/z* /usr/local/$d/libz* /usr/local/$d/libdl*  "$dist/$d"
+                    mkdir -p                                "$dist/$d"
+                    cp    -R /usr/local/$d/*expat* /usr/local/$d/*exiv* /usr/local/$d/z* /usr/local/$d/libz* /usr/local/$d/libdl*  "$dist/$d"
                 done
 
                 # fix up minor stuff
@@ -147,9 +152,6 @@ testBuild()
                     export LDFLAGS=-m64
                     /c/MinGW64/msys/1.0/bin/bash.exe -c "export PATH=/c/TDM-GCC-64/bin:/c/MinGW64/bin:/c/MinGW64/msys/1.0/bin:/c/MinGW64/msys/1.0/local/bin; $0"
                     result=$?
-                    if [ "$result" == "0" ]; then
-                        testBuild
-                    fi
                 fi
                 if [ "$win32" == true ]; then
                     export CFLAGS=-m32
@@ -157,9 +159,6 @@ testBuild()
                     export LDFLAGS=-m32
                     /c/MinGW/msys/1.0/bin/bash.exe -c "export PATH=/c/Qt/Qt5.6.0/5.6/mingw49_32/bin:/c/Qt/Qt5.6.0/Tools/mingw492_32/bin:/c/MinGW/bin:/usr/bin:/usr/local/bin:/c/cygwin64/bin:/c/Users/rmills/com:.; $0"
                     result=$?
-                    if [ "$result" == "0" ]; then
-                        testBuild
-                    fi
                 fi
             fi
         ;;
@@ -208,7 +207,7 @@ if [ "$result" == "0" ]; then
         svn=0
         /usr/local/bin/svn info . 2>/dev/null >/dev/null
         if [ "$?" == "0" ]; then
-        	svn=$(/usr/local/bin/svn info . | grep Revision | cut -d' ' -f 2)
+            svn=$(/usr/local/bin/svn info . | grep Revision | cut -d' ' -f 2)
           # svn=$($EXIV2_BINDIR/exiv2$exe -vV | grep -e ^svn | cut -d= -f 2)
         fi
         dow=$(date  '+%w') # 0..6   day of the week
