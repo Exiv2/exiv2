@@ -253,8 +253,8 @@ if [ "$result" == "0" ]; then
 
         # add documentation and samples to dist
         cat contrib/buildserver/dailyReadMe.txt | sed -E -e "s/__BUILD__/$zip/"  > "$build/dist/ReadMe.txt"
-        mkdir -p                    "$dist/samples/"
-        cp    samples/*             "$dist/samples/"
+        mkdir -p                    "$build/dist/samples/"
+        cp    samples/*             "$build/dist/samples/"
 
         # create the bundle
         pushd "$build" > /dev/null
@@ -265,10 +265,10 @@ if [ "$result" == "0" ]; then
         popd > /dev/null
 
         # clean userContent/build directories
-        # daily > 50 days; weekly > 1 year;   monthly > 5 years
-        if [ -e $daily ]; then find $daily -type f -ctime +50          -exec rm -rf {} \; ; fi
-        if [ -e $weely ]; then find $weely -type f -ctime +365         -exec rm -rf {} \; ; fi
-        if [ -e $monly ]; then find $monly -type f -ctime $((366 * 5)) -exec rm -rf {} \; ; fi
+        # daily > 60 days; weekly > 1 year;   monthly > 5 years
+        if [ -e $daily ]; then find $daily -type f -ctime +60           -exec rm -rf {} \; ; fi
+        if [ -e $weely ]; then find $weely -type f -ctime +365          -exec rm -rf {} \; ; fi
+        if [ -e $monly ]; then find $monly -type f -ctime +$((366 * 5)) -exec rm -rf {} \; ; fi
 
         # store the build
         cp $zip $daily
