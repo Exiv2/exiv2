@@ -3,6 +3,8 @@
 ##
 # cmake_daily.sh
 ##
+PATH="$PATH:/usr/local/bin/"
+
 source $(find . -name buildserver.library)
 
 ##
@@ -153,10 +155,8 @@ testBuild()
                 export PKG_CONFIG_PATH=/usr/local/lib/pkgconfig
 
                 make   samples
-                mkdir  -p                                  "$dist/samples"
-                cp     samples/*                           "$dist/samples"
-                mkdir  -p                                  "$dist/bin"
-                cp     bin/*.exe                           "$dist/bin"
+                mkdir  -p                                   "$dist/bin"
+                cp     bin/*.exe                            "$dist/bin"
 
                 # copy   bin lib include to dist
                 for d in bin lib include; do
@@ -253,6 +253,8 @@ if [ "$result" == "0" ]; then
 
         # add documentation and samples to dist
         cat contrib/buildserver/dailyReadMe.txt | sed -E -e "s/__BUILD__/$zip/"  > "$build/dist/ReadMe.txt"
+        mkdir -p                    "$dist/samples/"
+        cp    samples/*             "$dist/samples/"
 
         # create the bundle
         pushd "$build" > /dev/null
