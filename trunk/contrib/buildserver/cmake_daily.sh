@@ -183,6 +183,7 @@ testBuild()
                     /c/MinGW/msys/1.0/bin/bash.exe -c "export PATH=/c/Qt/Qt5.6.0/5.6/mingw49_32/bin:/c/Qt/Qt5.6.0/Tools/mingw492_32/bin:/c/MinGW/bin:/usr/bin:/usr/local/bin:/c/cygwin64/bin:/c/Users/rmills/com:.; $0"
                     result=$?
                 fi
+                exit 0 ; # stop now. RECURSIVE will do the packaging
             fi
         ;;
 
