@@ -170,7 +170,6 @@ testBuild()
                 cp     -R /usr/local/lib/pkgconfig/*        "$dist/lib/pkgconfig"
                 mkdir  -p                                   "$dist/share/man/man1/"
                 cp     -R /usr/local/share/man/man1/*exiv2* "$dist/share/man/man1/"
-                mkdir  -p                                   "$dist/samples"
 
                 # run the test suite
                 make   tests | tee                          "$dist/logs/test.log"
@@ -253,8 +252,8 @@ if [ "$result" == "0" ]; then
 
         # add documentation and samples to dist
         cat contrib/buildserver/dailyReadMe.txt | sed -E -e "s/__BUILD__/$zip/"  > "$build/dist/ReadMe.txt"
-        mkdir -p                    "$build/dist/samples/"
-        cp    samples/*             "$build/dist/samples/"
+        mkdir -p                           "$build/dist/samples/"
+        cp    samples/*.cpp samples/*.hpp  "$build/dist/samples/"
 
         # create the bundle
         pushd "$build" > /dev/null
