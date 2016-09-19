@@ -172,7 +172,7 @@ testBuild()
                 cp     -R /usr/local/share/man/man1/*exiv2* "$dist/share/man/man1/"
 
                 # run the test suite
-                make   tests | tee                          "$dist/logs/test.log"
+                make   tests | tee                          "$build/dist/logs/test.log"
             else
                 # recursively invoke MinGW/bash with appropriate tool chain
                 export RECURSIVE=1
@@ -254,6 +254,8 @@ if [ "$result" == "0" ]; then
         cat contrib/buildserver/dailyReadMe.txt | sed -E -e "s/__BUILD__/$zip/"  > "$build/dist/ReadMe.txt"
         mkdir -p                           "$build/dist/samples/"
         cp    samples/*.cpp samples/*.hpp  "$build/dist/samples/"
+        mkdir -p                           "$build/dist/contrib/Qt"
+        cp    contrib/Qt/*                 "$build/dist/contrib/Qt"
 
         # create the bundle
         pushd "$build" > /dev/null
