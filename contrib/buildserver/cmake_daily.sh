@@ -110,15 +110,6 @@ testBuild()
             if [ ! -z "$RECURSIVE" ]; then
                 # we are already in MinGW/bash, so build
 
-                # we arrive in MinGW from Cygwin
-                # Physical directory MinGW  ~/home/etc... != Cygwin ~/home/etc....
-                # update the code in the MinGW directory
-                # If we ever wish to sync to a particular revision:
-                # a) cygwin should export REVISION=$(svn something)
-                # b) svn update . --revision $REVISION
-
-                svn update .
-
                 ##
                 # dont use cmake as I can't get it to work
                 # cmake -G "Unix Makefiles" -DCMAKE_INSTALL_PREFIX=$dist -DEXIV2_ENABLE_NLS=OFF -DCMAKE_C_COMPILER=$(which gcc) -DCMAKE_CXX_COMPILER=$(which g++) $exiv2
