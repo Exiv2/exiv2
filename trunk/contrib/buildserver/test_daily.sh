@@ -4,7 +4,14 @@ source $(find . -name buildserver.library 2>/dev/null)
 
 echo -------------------------------
 echo PLATFORM = $PLATFORM PWD = $PWD
+if [ "$PLATFORM" == "mingw" ]; then
+    echo "Windows directory = " $(pwd -W)
+fi
+if [ "$PLATFORM" == "cygwin" -o "$PLATFORM" == "msvc" ]; then
+    echo "Windows directory = " $(cygpath -aw .)
+fi
 echo -------------------------------
+
 ##
 # figure out today's build
 # http://exiv2.dyndns.org:8080/userContent/builds/Daily
@@ -34,31 +41,32 @@ echo date  =  $date
 echo url   = "$JENKINS/$DAILY/"
 echo build =  $build
 
-##
-# collect build from server
-if [  -e /tmp/jenkins ]; then
-  rm -rf /tmp/jenkins 2>/dev/null
+if [ -z "$RECURSIVE" ]; then
+    ##
+    # collect build from server
+    if [  -e /tmp/jenkins ]; then
+      rm -rf /tmp/jenkins
+    fi
+    
+    mkdir    /tmp/jenkins
+    pushd    /tmp/jenkins 2>/dev/null
+        echo $curl -O "$JENKINS/$DAILY/$build"
+             $curl -O "$JENKINS/$DAILY/$build"
+        ls -alt $build
+        ##
+        # expand the bundle
+        if [ -e dist ]; then rm -rf dist ;fi
+        tar xzf $build
+        if [ ! -e dist ]; then echo '*** no dist directory ***' ; exit 0; fi
+    popd 2>/dev/null
 fi
-mkdir    /tmp/jenkins 2>/dev/null
-cd       /tmp/jenkins
-echo $curl -O "$JENKINS/$DAILY/$build"
-     $curl -O "$JENKINS/$DAILY/$build"
-ls -alt $build
-if [ ! -e $build ]; then echo '*** $build has not been downloaded ***' ; exit 0; fi
+if [ ! -e /tmp/jenkins/dist ]; then echo '*** $build has not been opened in /tmp/jenkins/dist ***' ; exit 0; fi
 
-##
-# expand the bundle
-if [ -e dist ]; then rm -rf dist 2>/dev/null ;fi
-tar xzf $build
-if [ ! -e dist ]; then echo '*** no dist directory ***' ; exit 0; fi
-
-##
-# enter the dist and test it
-cd dist
-grep_args="-e libexiv2 -e ^date -e ^bits -e ^version -e ^time"
+grep_args="-e libexiv2 -e ^date -e ^bits -e ^version -e ^time -e ^platform"
 case $PLATFORM in
     macosx)
         # test the delivered exiv2
+        cd /tmp/jenkins/dist
         export DYLD_LIBRARY_PATH="$PWD/$PLATFORM/lib:$DYLD_LIBRARY_PATH"
         $PLATFORM/bin/exiv2 -vV | grep $grep_args
 
@@ -73,6 +81,7 @@ case $PLATFORM in
 
     linux)
         # test the delivered exiv2
+        cd /tmp/jenkins/dist
         export LD_LIBRARY_PATH="$PWD/$PLATFORM/lib:$LD_LIBRARY_PATH"
         $PLATFORM/bin/exiv2 -vV | grep $grep_args
 
@@ -87,6 +96,7 @@ case $PLATFORM in
 
     cygwin)
         # test the delivered exiv2
+        cd /tmp/jenkins/dist
         PATH="$PWD/$PLATFORM/bin:$PATH"
         $PLATFORM/bin/exiv2 -vV | grep $grep_args
 
@@ -100,6 +110,7 @@ case $PLATFORM in
     ;;
 
     msvc)
+        cd /tmp/jenkins/dist
         for vs in 2005 2008 2010 2012 2013 2015; do
           for arch in x64 Win32; do
             if [ -e "$PWD/$vs/$arch/dll/Release/bin/exiv2.exe" ] ; then (
@@ -127,6 +138,8 @@ case $PLATFORM in
     mingw)
         if [ ! -z "$RECURSIVE" ]; then
             # test the delivered exiv2
+            CD=$PWD # build exifprint from the dist into the current directory
+            cd /tmp/jenkins/dist
             PATH="$PWD/$PLATFORM/bin:$PATH"
             echo ''
             echo "ls -alt $PWD/$PLATFORM/bin/libexiv2-14.dll"
@@ -137,13 +150,13 @@ case $PLATFORM in
 
             # compile, link and test the sample code
             echo ''
-            echo g++ -I$PLATFORM/include -L$PLATFORM/lib -std=c++98 samples/exifprint.cpp -lexiv2 -o exifprint
-                 g++ -I$PLATFORM/include -L$PLATFORM/lib -std=c++98 samples/exifprint.cpp -lexiv2 -o exifprint
-            echo "ls -alt exifprint.exe"
-                  ls  -alt exifprint.exe
+            echo g++ -I$PLATFORM/include -L$PLATFORM/lib -std=c++98 samples/exifprint.cpp -lexiv2 -o $CD/exifprint
+                 g++ -I$PLATFORM/include -L$PLATFORM/lib -std=c++98 samples/exifprint.cpp -lexiv2 -o $CD/exifprint
+            echo "ls -alt $CD/exifprint.exe"
+                  ls  -alt $CD/exifprint.exe
             echo ''
-            echo "./exifprint --version     | grep $grep_args"
-                  ./exifprint --version     | grep $grep_args
+            echo "$CD/exifprint.exe --version     | grep $grep_args"
+                  $CD/exifprint.exe --version     | grep $grep_args
         else
            # recursively invoke MinGW/bash with appropriate tool chain
            export RECURSIVE=1
@@ -155,14 +168,12 @@ case $PLATFORM in
                export CXXFLAGS=-m64
                export LDFLAGS=-m64
                /c/MinGW64/msys/1.0/bin/bash.exe -c "export PATH=/c/TDM-GCC-64/bin:/c/MinGW64/bin:/c/MinGW64/msys/1.0/bin:/c/MinGW64/msys/1.0/local/bin ; $0"
-               result=$?
            fi
            if [ "$win32" == true ]; then
                export CFLAGS=-m32
                export CXXFLAGS=-m32
                export LDFLAGS=-m32
                /c/MinGW/msys/1.0/bin/bash.exe -c "export PATH=/c/Qt/Qt5.6.0/5.6/mingw49_32/bin:/c/Qt/Qt5.6.0/Tools/mingw492_32/bin:/c/MinGW/bin:/usr/bin:/usr/local/bin:/c/cygwin64/bin:/c/Users/rmills/com:. ; $0"
-               result=$?
            fi
         fi
     ;;
