@@ -3,7 +3,7 @@
 source $(find . -name buildserver.library 2>/dev/null)
 
 echo -------------------------------
-echo PLATFORM = $PLATFORM
+echo PLATFORM = $PLATFORM PWD = $PWD
 echo -------------------------------
 ##
 # figure out today's build
@@ -126,6 +126,7 @@ case $PLATFORM in
     
     mingw)
         if [ ! -z "$RECURSIVE" ]; then
+        	svn update .
             # test the delivered exiv2
             PATH="$PWD/$PLATFORM/bin:$PATH"
             echo ''
