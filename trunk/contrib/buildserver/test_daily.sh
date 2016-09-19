@@ -126,7 +126,6 @@ case $PLATFORM in
     
     mingw)
         if [ ! -z "$RECURSIVE" ]; then
-        	svn update .
             # test the delivered exiv2
             PATH="$PWD/$PLATFORM/bin:$PATH"
             echo ''
