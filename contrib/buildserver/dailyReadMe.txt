@@ -90,13 +90,16 @@ $
 platform = mingw
 -----------------
 
-dist/mingw/bin/exiv2.exe                             exiv2.exe and sample applications
-       .../bin/libexiv2-14.dll                       shared library
-          /lib/exiv2.dll.a                           libraries for exiv2/expat/zlib
-          /include/exiv2/                            include files
-          /share/                                    man pages
-dist/samples/exifprint.cpp                           sample code
-dist/logs/                                           log files
+This a 32bit build of Exiv2 aimed at Qt/MinGW users.
+
+dist/mingw/bin/exiv2.exe                              exiv2.exe and sample applications
+       .../bin/libexiv2-14.dll                        shared library
+          /lib/exiv2.dll.a                            libraries for exiv2/expat/zlib
+          /include/exiv2/                             include files
+          /share/                                     man pages
+dist/samples/                                         sample code
+dist/logs/                                            log files
+dist/contrib/Qt                                       Qt code and notes
 
 To run exiv2.exe:
 $ cd dist
@@ -125,6 +128,7 @@ dist\2013\x64\dll\Release\bin\exiv2.exe               exiv2.exe and sample appli
                          \share\                      man pages
 dist\samples\exifprint.cpp                            sample code
 dist\logs\                                            log files
+dist/contrib/Qt                                       Qt code and notes
 dist\vcvars.bat                                       script used by test_daily.sh
 
 To run exiv2.exe:
