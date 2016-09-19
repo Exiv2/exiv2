@@ -21,10 +21,8 @@
 /*
   File:      version.cpp
   Version:   $Rev$
-  Author(s): Andreas Huggel (ahu) <ahuggel@gmx.net>
-  History:   06-Mar-07, ahu: created
-
  */
+ 
 // *****************************************************************************
 #include "rcsid_int.hpp"
 EXIV2_RCSID("@(#) $Id$")
