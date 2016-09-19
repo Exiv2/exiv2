@@ -145,30 +145,31 @@ testBuild()
 
                 ##
                 # build with autotools
-                make clean
-                make config
-                ./configure --prefix=/usr/local
-                make
+                make   clean
+                make   config
+                ./configure --prefix=/usr/local CXXFLAGS=-std=c++98
+                make 
 
                 # install and make the samples
                 make   install
                 export PKG_CONFIG_PATH=/usr/local/lib/pkgconfig
-
                 make   samples
-                mkdir  -p                                   "$dist/bin"
-                cp     bin/*.exe                            "$dist/bin"
 
-                # copy   bin lib include to dist
+                # copy the executable binaries (not libtool script wrappers)
+                mkdir  -p                                   "$dist/bin"
+                cp     bin/.libs/*.exe  src/.libs/*.exe     "$dist/bin"
+
+                # copy installed stuff from /usr/local/bin to dist/bin (and lib and include)
                 for d in bin lib include; do
                     mkdir -p                                "$dist/$d"
                     cp    -R /usr/local/$d/*expat* /usr/local/$d/*exiv* /usr/local/$d/z* /usr/local/$d/libz* /usr/local/$d/libdl*  "$dist/$d"
                 done
 
                 # fix up minor stuff
-                rm     -rf                                  "$dist/lib/libexiv2-13.dll"
-                mkdir  -p                                   "$dist/lib/pkgconfig"
+                rm     -rf                                  "$dist/lib/libexiv2-13.dll"  # this is a relic sitting on the buildserver
+                mkdir  -p                                   "$dist/lib/pkgconfig"        # pkgconfig magic
                 cp     -R /usr/local/lib/pkgconfig/*        "$dist/lib/pkgconfig"
-                mkdir  -p                                   "$dist/share/man/man1/"
+                mkdir  -p                                   "$dist/share/man/man1/"      # man pages
                 cp     -R /usr/local/share/man/man1/*exiv2* "$dist/share/man/man1/"
 
                 # run the test suite
@@ -197,7 +198,7 @@ testBuild()
             fi
         ;;
 
-        *)  pushd $build > /dev/null
+        *)  pushd $build > /dev/null    # macosx and linux for sure
             (
                 # build 64 bit library
                 export CFLAGS=-m64
@@ -205,9 +206,9 @@ testBuild()
                 export LDFLAGS=-m64
                 # Always use /usr/local/bin/cmake
                 # I can guarantee it to be at least 3.4.1
-                # because I built it from source and installed it
+                # because I built it from source and installed it on the buildserver
                 /usr/local/bin/cmake -DCMAKE_INSTALL_PREFIX=$dist -DEXIV2_ENABLE_NLS=OFF $exiv2
-                make
+                make CXXFLAGS=-std=cxx98
                 result=$?
                 /usr/local/bin/cmake --build . --target install
                 testBuild
@@ -241,8 +242,7 @@ if [ "$result" == "0" ]; then
         svn=0
         /usr/local/bin/svn info . 2>/dev/null >/dev/null
         if [ "$?" == "0" ]; then
-            svn=$(/usr/local/bin/svn info . | grep Revision | cut -d' ' -f 2)
-          # svn=$($EXIV2_BINDIR/exiv2$exe -vV | grep -e ^svn | cut -d= -f 2)
+            svn=$(/usr/local/bin/svn info . | grep '^Last Changed Rev' | cut -f 2 -d':' | tr -d ' ')
         fi
         dow=$(date  '+%w') # 0..6   day of the week
         dom=$(date  '+%d') # 1..31  day of the month
