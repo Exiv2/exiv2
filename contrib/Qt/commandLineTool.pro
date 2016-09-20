@@ -1,20 +1,14 @@
-QT += core
-QT -= gui
+QT              += core
+QT              -= gui
 
-CONFIG += c++11
+TARGET           = commandLineTool
+CONFIG          += console
+CONFIG          -= app_bundle
 
-TARGET = commandLineTool
-CONFIG += console
-CONFIG -= app_bundle
-
-TEMPLATE = app
-
-SOURCES += main.cpp
-
-QMAKE_CXXFLAGS = -std=c++98
+TEMPLATE         = app
+SOURCES         += main.cpp
 
 win32 {
-    INCLUDEPATH  +=    $$quote(c:/temp/dist/mingw/include)
-    INCLUDEPATH  +=    $$quote(c:/temp/dist/mingw/include)
-    LIBS         += -L $$quote(c:/temp/dist/mingw/include) -lexiv2.dll
+  INCLUDEPATH   +=   $$quote(c:/MinGW/msys/1.0/local/include)
+  LIBS          += -L$$quote(c:/MinGW/msys/1.0/local/include) -lexiv2.dll
 }
