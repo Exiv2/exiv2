@@ -610,8 +610,8 @@ namespace Exiv2 {
                         ul2Data(crc, tmp, bigEndian);
 
                         if( outIo.write(length,4)         != 4
-                        ||  outIo.write(type  ,typeLen)   != typeLen
-                        ||  outIo.write(header,headerLen) != headerLen
+                        ||  outIo.write(type  ,typeLen)   != (long) typeLen
+                        ||  outIo.write(header,headerLen) != (long) headerLen
                         ||  outIo.write (compressed.pData_,compressed.size_) != compressed.size_
                         ||  outIo.write(crc,4)            != 4
                         ){
