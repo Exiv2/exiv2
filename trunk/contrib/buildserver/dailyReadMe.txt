@@ -13,8 +13,9 @@ dist/linux/lib/libexiv2.so.14.0.0                     shared library
        .../lib/exiv2.lib                              libraries for exiv2 and expat and zlib)
           /include/exiv2/                             include files
           /share/                                     man pages
-dist/samples/exifprint.cpp                            sample code
+dist/samples/                                         sample code
 dist/logs/                                            log files
+dist/contrib/Qt                                       Qt code and notes
 
 To run exiv2:
 $ cd dist
@@ -41,7 +42,9 @@ dist/macosx/bin/exiv2.exe                             exiv2 and sample applicati
            /lib/exiv2.lib                             libraries for exiv2/expat/zlib
            /include/exiv2/                            include files
            /share/                                    man pages
+dist/samples/                                         sample code
 dist/logs/                                            log files
+dist/contrib/Qt                                       Qt code and notes
 dist/samples/exifprint.cpp                            sample code
 
 To run exiv2:
@@ -67,8 +70,9 @@ dist/cygwin/bin/exiv2.exe                             exiv2.exe and sample appli
            /lib/exiv2.dll.a                           libraries for exiv2/expat/zlib
            /include/exiv2/                            include files
            /share/                                    man pages
-dist/samples/exifprint.cpp                            sample code
+dist/samples/                                         sample code
 dist/logs/                                            log files
+dist/contrib/Qt                                       Qt code and notes
 
 To run exiv2.exe:
 $ cd dist
@@ -126,7 +130,7 @@ dist\2013\x64\dll\Release\bin\exiv2.exe               exiv2.exe and sample appli
                          \lib\exiv2.lib               libraries for exiv2/expat/zlib
                          \include\exiv2/              include files
                          \share\                      man pages
-dist\samples\exifprint.cpp                            sample code
+dist\samples\                                         sample code
 dist\logs\                                            log files
 dist/contrib/Qt                                       Qt code and notes
 dist\vcvars.bat                                       script used by test_daily.sh
