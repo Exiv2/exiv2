@@ -17,8 +17,8 @@ OR
    /c/Users/rmills/gnu/exiv2/trunk/contrib/Qt > qmake commandLinePro.pro
 
 3) Build commandLineTool.cpp
-   /c/Users/rmills/gnu/exiv2/trunk/contrib/Qt > make -B CXXFLAGS=-std=c++98 LDFLAGS=-L/usr/local/lib
-    
+   /c/Users/rmills/gnu/exiv2/trunk/contrib/Qt > make -B LDFLAGS=-L/usr/local/lib
+
 4) Run commandLineTool.exe
    /c/Users/rmills/gnu/exiv2/trunk/contrib/Qt > release/commandLineTool.exe
 
@@ -33,15 +33,15 @@ Gotchas (that I know about)
 3  You may need to copy libstdc++-6.dll to /usr/local/bin
    cp $(which libstdc++-6.dll) /usr/local/bin
 
-4  You may have to edit commandLineTool.pro to match environment
+4  You may have to edit commandLineTool.pro to match your environment
 
 5  DO NOT USE Cygwin Builds
 
 6  Do not give up.
    This stuff works.  You may have to work quite hard to get it working.
-   Don't give up.  It will work.
+   Don't give up.     It will work.
 
-7  If you give up with MinGW, use Visual Studio
+7  If you give up with MinGW, use Visual Studio.
 
 Running MinGW bash and setting Qt tools in the path
 ---------------------------------------------------
@@ -70,7 +70,7 @@ rem ------------------
 UNICODE_PATH
 ------------
 
-Qt users may prefer to build Exiv2 to support UNICODE_PATH.  The sample application samples/exifprint.cpp works with UNICODE_PATH.  
+Qt users may prefer to build Exiv2 to support UNICODE_PATH.  The sample application samples/exifprint.cpp works with UNICODE_PATH.
 
 Searching for more information about Qt, MinGW and UNICODE_PATH
 ---------------------------------------------------------------
