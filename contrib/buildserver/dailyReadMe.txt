@@ -25,7 +25,7 @@ $ linux/bin/exiv2
 To compile and link your own code:
 $ cd dist
 $ sudo cp -R linux/* /usr/local/
-$ g++ samples/exifprint.cpp -lexiv2 -o exifprint
+$ g++ -std=c++98 samples/exifprint.cpp -L/usr/local/lib -lexiv2 -o exifprint
 $ ./exifprint --version
 exiv2=0.25.0
 ...
@@ -55,7 +55,7 @@ $ macosx/bin/exiv2
 To compile and link your own code:
 $ cd dist
 $ sudo cp -R macosx/* /usr/local
-$ g++ samples/exifprint.cpp -lexiv2 -o exifprint
+$ g++ -std=c++98 samples/exifprint.cpp -L/usr/local/lib -lexiv2 -o exifprint
 $ ./exifprint --version
 exiv2=0.25.0
 ...
@@ -84,7 +84,7 @@ To compile and link your own code:
            An error such as "incorrect architecture" is a symptom of using cygwin32
 $ cd dist
 $ cp -R cygwin/* /usr/local
-$ g++ -L/usr/local/lib -lexiv2 samples/exifprint.cpp -o exifprint
+$ g++ -std=c++98 samples/exifprint.cpp -L/usr/local/lib -lexiv2 -o exifprint
 $ ./exifprint --version
 exiv2=0.25.0
 ...
@@ -115,7 +115,7 @@ To compile and link your own code:
            An error such as "incorrect architecture" is a symptom of using mingw64
 $ cd dist
 $ cp -R mingw/*  /usr/local
-$ g++ --std=c++98 -L/usr/local/lib -lexiv2.dll samples/exifprint.cpp -o exifprint
+$ g++ -std=c++98 samples/exifprint.cpp -L/usr/local/lib -lexiv2.dll -o exifprint
 $ ./exifprint --version
 exiv2=0.25.0
 ...
