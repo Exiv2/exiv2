@@ -116,14 +116,14 @@ testBuild()
                 ##
 
                 ##################
-                # 
+                #
                 # Reasons why I can't get cmake to work:
                 #
                 # 1) Even although gcc is on the path, we must tell cmake not to use /c/MinGW/bin/gcc)
                 # 2) It's using the wrong headers.  Needs /c/Qt/Qt5.6.0/Tools/mingw492_32/i686-w64-mingw32/include
                 #    cmake -G "Unix Makefiles" -DCMAKE_INSTALL_PREFIX=$dist -DEXIV2_ENABLE_NLS=OFF \
                 #                              -DCMAKE_C_COMPILER=$(which gcc) -DCMAKE_CXX_COMPILER=$(which g++) \
-                #                             "-DCMAKE_CXX_FLAGS=-std=c++98 -I/c/Qt/Qt5.6.0/Tools/mingw492_32/i686-w64-mingw32/include"
+                #                             "-DCMAKE_CXX_FLAGS=-I/c/Qt/Qt5.6.0/Tools/mingw492_32/i686-w64-mingw32/include"
                 #                              $exiv2
                 # 3) even so, it errors instantly on:
                 #    In file included from c:/Qt/Qt5.6.0/Tools/mingw492_32/i686-w64-mingw32/include/stddef.h:7:0,
@@ -140,15 +140,15 @@ testBuild()
                 #      from c:/Users/rmills/gnu/cmake/cmake-3.6.2/Utilities/cmlibarchive/libarchive/archive_platform.h:60,
                 #      from c:/Users/rmills/gnu/cmake/cmake-3.6.2/Utilities/cmlibarchive/libarchive/xxhash.c:35:
                 #      c:/Qt/Qt5.6.0/Tools/mingw492_32/i686-w64-mingw32/include/sdkddkver.h:186:2: error: #error NTDDI_VERSION and _WIN32_WINNT mismatch!
-                #    My work-around was to comment off the #error statement! 
+                #    My work-around was to comment off the #error statement!
                 ##################
 
                 ##
                 # build with autotools
                 make   clean
                 make   config
-                ./configure --prefix=/usr/local CXXFLAGS=-std=c++98
-                make 
+                ./configure --prefix=/usr/local
+                make
 
                 # install and make the samples
                 make   install
@@ -208,7 +208,7 @@ testBuild()
                 # I can guarantee it to be at least 3.4.1
                 # because I built it from source and installed it on the buildserver
                 /usr/local/bin/cmake -DCMAKE_INSTALL_PREFIX=$dist -DEXIV2_ENABLE_NLS=OFF $exiv2
-                make CXXFLAGS=-std=cxx98
+                make
                 result=$?
                 /usr/local/bin/cmake --build . --target install
                 testBuild

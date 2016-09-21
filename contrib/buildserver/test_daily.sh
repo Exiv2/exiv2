@@ -47,7 +47,7 @@ if [ -z "$RECURSIVE" ]; then
     if [  -e /tmp/jenkins ]; then
       rm -rf /tmp/jenkins
     fi
-    
+
     mkdir    /tmp/jenkins
     pushd    /tmp/jenkins 2>/dev/null
         echo $curl -O "$JENKINS/$DAILY/$build"
@@ -134,7 +134,7 @@ case $PLATFORM in
           done
         done
     ;;
-    
+
     mingw)
         if [ ! -z "$RECURSIVE" ]; then
             # test the delivered exiv2
@@ -150,8 +150,8 @@ case $PLATFORM in
 
             # compile, link and test the sample code
             echo ''
-            echo g++ -I$PLATFORM/include -L$PLATFORM/lib -std=c++98 samples/exifprint.cpp -lexiv2 -o $CD/exifprint
-                 g++ -I$PLATFORM/include -L$PLATFORM/lib -std=c++98 samples/exifprint.cpp -lexiv2 -o $CD/exifprint
+            echo g++ -I$PLATFORM/include -L$PLATFORM/lib samples/exifprint.cpp -lexiv2 -o $CD/exifprint
+                 g++ -I$PLATFORM/include -L$PLATFORM/lib samples/exifprint.cpp -lexiv2 -o $CD/exifprint
             echo "ls -alt $CD/exifprint.exe"
                   ls  -alt $CD/exifprint.exe
             echo ''
