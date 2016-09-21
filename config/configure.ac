@@ -335,9 +335,16 @@ for u in gettext msginit msgmerge msgfmt msgconv msgfilter ; do
     fi
 done
 
-# 1188      v0.26 use c++98
-# 1188      v0.27 should have an option to specify versions such as c++11
-CPPFLAGS="$CPPFLAGS -std=c++98"
+# 1188 v0.26 uses c++98
+# 1188 v0.27 should have an option to specify versions such as c++11
+case "$host_os" in
+    *cygwin*)
+        CPPFLAGS="$CPPFLAGS -std=gnu++98"  # cygwin requires gnu++98 to support snprintf
+    ;;
+    *)
+        CPPFLAGS="$CPPFLAGS -std=c++98"    # // all others use c++98
+    ;;
+esac
 
 # ---------------------------------------------------------------------------
 # Create output files.

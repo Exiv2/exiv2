@@ -75,7 +75,13 @@ IF( MINGW OR UNIX )
                     -W
                    )
     ENDIF()
-    ADD_DEFINITIONS( -std=c++98 )
+
+    IF ( CYGWIN )
+        ADD_DEFINITIONS( -std=gnu++98 ) # to support snprintf
+    ELSE()
+        ADD_DEFINITIONS( -std=c++98 )
+    ENDIF()
+
 ENDIF( MINGW OR UNIX )
 
 IF( EXIV2_ENABLE_COMMERCIAL )
