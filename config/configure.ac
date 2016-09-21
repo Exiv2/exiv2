@@ -293,7 +293,7 @@ if test "$USE_XMP_TOOLKIT" = "yes"; then
     AC_SUBST(EXPAT_CPPFLAGS)
     AC_SUBST(EXPAT_LDFLAGS)
     AC_SUBST(EXPAT_LIBS)
-    AC_CHECK_LIB(pthread, pthread_create, [PTHREAD_LIBS+=-lpthread])    
+    AC_CHECK_LIB(pthread, pthread_create, [PTHREAD_LIBS+=-lpthread])
     AC_SUBST(PTHREAD_LIBS)
 fi
 AC_SUBST(ENABLE_XMP)
@@ -335,6 +335,9 @@ for u in gettext msginit msgmerge msgfmt msgconv msgfilter ; do
     fi
 done
 
+# 1188      v0.26 use c++98
+# 1188      v0.27 should have an option to specify versions such as c++11
+CPPFLAGS="$CPPFLAGS -std=c++98"
 
 # ---------------------------------------------------------------------------
 # Create output files.
