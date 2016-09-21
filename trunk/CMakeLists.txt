@@ -1,6 +1,5 @@
 # CMake build system for exiv2 library and executables
 # Copyright 2015-     Daniel Kaneider  <danielkaneider@users.sf.net>
-# Copyright 2012-     Robin Mills      <robin@clanmills.com>
 # Copyright 2010-2012 Gilles Caulier   <caulier dot gilles at gmail dot com>
 # Copyright 2008      Patrick Spendrin <ps_ml at gmx dot de>
 
@@ -76,6 +75,7 @@ IF( MINGW OR UNIX )
                     -W
                    )
     ENDIF()
+    ADD_DEFINITIONS( -std=c++98 )
 ENDIF( MINGW OR UNIX )
 
 IF( EXIV2_ENABLE_COMMERCIAL )
@@ -147,11 +147,13 @@ ENDIF()
 
 SET(SVN_REVISION "0")
 IF(EXISTS "${CMAKE_SOURCE_DIR}/.svn")
+  IF(NOT MINGW)
     FIND_PACKAGE(Subversion QUIET)
     IF(SUBVERSION_FOUND)
         Subversion_WC_INFO(${PROJECT_SOURCE_DIR} svnExiv2)
         SET(SVN_REVISION "${svnExiv2_WC_REVISION}")
     ENDIF()
+  ENDIF()
 ENDIF()
 
 CONFIGURE_FILE( ${CMAKE_CURRENT_SOURCE_DIR}/src/svn_version.h.in
@@ -159,17 +161,19 @@ CONFIGURE_FILE( ${CMAKE_CURRENT_SOURCE_DIR}/src/svn_version.h.in
 MESSAGE(STATUS  "SVN version:  ${SVN_REVISION}")
 
 IF( NOT MSVC )
-  # Issue #722: out of source builds compiled against standard include files such as /usr/local/lib/include/exiv2
-  # do not use CREATE_SYMLINK or CMAKE_CAN_SYMLINK as they don't work on CYGWIN
-  EXECUTE_PROCESS( WORKING_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}           COMMAND ln -sf ${CMAKE_CURRENT_SOURCE_DIR}/src exiv2)
+  IF ( NOT MINGW )
+    # Issue #722: out of source builds compiled against standard include files such as /usr/local/lib/include/exiv2
+    # do not use CREATE_SYMLINK or CMAKE_CAN_SYMLINK as they don't work on CYGWIN
+    EXECUTE_PROCESS( WORKING_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}           COMMAND ln -sf ${CMAKE_CURRENT_SOURCE_DIR}/src exiv2)
 
-  IF( EXIV2_ENABLE_BUILD_SAMPLES )
-    EXECUTE_PROCESS( WORKING_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}/samples COMMAND ln -sf ${CMAKE_CURRENT_SOURCE_DIR}/src exiv2)
-  ENDIF( EXIV2_ENABLE_BUILD_SAMPLES )
+    IF( EXIV2_ENABLE_BUILD_SAMPLES )
+      EXECUTE_PROCESS( WORKING_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}/samples COMMAND ln -sf ${CMAKE_CURRENT_SOURCE_DIR}/src exiv2)
+    ENDIF( EXIV2_ENABLE_BUILD_SAMPLES )
 
-  IF( EXIV2_ENABLE_BUILD_PO )
-    EXECUTE_PROCESS( WORKING_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}/po      COMMAND ln -sf ${CMAKE_CURRENT_SOURCE_DIR}/src exiv2)
-  ENDIF( EXIV2_ENABLE_BUILD_PO )
+    IF( EXIV2_ENABLE_BUILD_PO )
+      EXECUTE_PROCESS( WORKING_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}/po      COMMAND ln -sf ${CMAKE_CURRENT_SOURCE_DIR}/src exiv2)
+    ENDIF( EXIV2_ENABLE_BUILD_PO )
+  ENDIF()
 ENDIF()
 
 ADD_SUBDIRECTORY( xmpsdk )
