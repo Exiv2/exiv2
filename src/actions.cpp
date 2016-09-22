@@ -70,6 +70,11 @@ EXIV2_RCSID("@(#) $Id$")
 # include <utime.h>
 #endif
 
+#if !defined(__MINGW__) && !defined(_MSC_VER)
+#define _fileno(a)
+#define _setmod(a,b)
+#endif
+
 // *****************************************************************************
 // local declarations
 namespace {
@@ -247,9 +252,7 @@ namespace Action {
         	     option = option == Exiv2::kpsNone ? Exiv2::kpsXMP        : option;  // drop
             case Params::pmIccProfile:{
 			     option = option == Exiv2::kpsNone ? Exiv2::kpsIccProfile : option;
-#ifdef __MINGW__
                  _setmode(_fileno(stdout),O_BINARY);
-#endif
         	     rc = printStructure(std::cout,option);
             } break;
         }
@@ -1069,11 +1072,9 @@ namespace Action {
         path_ = path;
         int  rc = 0;
 
-#ifdef __MINGW__
         if ( Params::instance().target_ & Params::ctStdInOut ) {
             _setmode(_fileno(stdout),O_BINARY);
 	    }
-#endif
 
         if (!rc && Params::instance().target_ & Params::ctThumb) {
             rc = writeThumbnail();
@@ -1265,11 +1266,9 @@ namespace Action {
             return -1;
         }
 
-#ifdef __MINGW__
         if ( Params::instance().target_ & Params::ctStdInOut ) {
             _setmode(_fileno(stdin),O_BINARY);
 	    }
-#endif
 
         int rc = 0;
         Timestamp ts;
