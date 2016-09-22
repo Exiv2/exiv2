@@ -145,48 +145,29 @@ STRUCTURE OF WEBP FILE: exiv2-bug1199.webp
   END MemIo
   XMP  |     2864 |   184662 | <?xpacket begin="..." id="W5M0Mp
 <?xml version="1.0"?>
-<?xpacket
-begin="﻿" id="W5M0MpCehiHzreSzNTczkc9d"?>
-<x:xmpmeta
-    xmlns:x="adobe:ns:meta/"
-    x:xmptk="XMP Core 4.4.0-Exiv2"
-  > <rdf:RDF
-      xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
-    > <rdf:Description
-        xmlns:dc="http://purl.org/dc/elements/1.1/"
-        xmlns:xmp="http://ns.adobe.com/xap/1.0/"
-        xmlns:photoshop="http://ns.adobe.com/photoshop/1.0/"
-        rdf:about=""
-        dc:Format="image/webp"
-        xmp:ModifyDate="2015-07-16T20:25:28+01:00"
-        xmp:Rating="0"
-        photoshop:AuthorsPosition="Stonehenge"
-      > <dc:description
-        > <rdf:Alt
-          > <rdf:li
-              xml:lang="x-default"
-            >Classic View</rdf:li
-          > </rdf:Alt
-        > </dc:description
-      > <dc:title
-        > <rdf:Alt
-          > <rdf:li
-              xml:lang="x-default"
-            >Stonehenge</rdf:li
-          > </rdf:Alt
-        > </dc:title
-      > <dc:creator
-        > <rdf:Seq
-          > <rdf:li
-            >Robin Mills</rdf:li
-          > </rdf:Seq
-        > </dc:creator
-      > </rdf:Description
-    > </rdf:RDF
-  > </x:xmpmeta
->
-<?xpacket
-end="w"?>
+<?xpacket begin="﻿" id="W5M0MpCehiHzreSzNTczkc9d"?>
+<x:xmpmeta xmlns:x="adobe:ns:meta/" x:xmptk="XMP Core 4.4.0-Exiv2">
+  <rdf:RDF xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#">
+    <rdf:Description xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:xmp="http://ns.adobe.com/xap/1.0/" xmlns:photoshop="http://ns.adobe.com/photoshop/1.0/" rdf:about="" dc:Format="image/webp" xmp:ModifyDate="2015-07-16T20:25:28+01:00" xmp:Rating="0" photoshop:AuthorsPosition="Stonehenge">
+      <dc:description>
+        <rdf:Alt>
+          <rdf:li xml:lang="x-default">Classic View</rdf:li>
+        </rdf:Alt>
+      </dc:description>
+      <dc:title>
+        <rdf:Alt>
+          <rdf:li xml:lang="x-default">Stonehenge</rdf:li>
+        </rdf:Alt>
+      </dc:title>
+      <dc:creator>
+        <rdf:Seq>
+          <rdf:li>Robin Mills</rdf:li>
+        </rdf:Seq>
+      </dc:creator>
+    </rdf:Description>
+  </rdf:RDF>
+</x:xmpmeta>
+<?xpacket end="w"?>
 STRUCTURE OF WEBP FILE: exiv2-bug1199.webp
  Chunk |   Length |   Offset | Payload
   RIFF |   187526 |        0 | WEBP

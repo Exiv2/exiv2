@@ -15,7 +15,7 @@ source ./functions.source
     copyTestFile                        $filename
     runTest exiv2 -pS                   $filename
     runTest exiv2 -pR                   $filename
-    runTest exiv2 -pX                   $filename | xmllint --pretty 2 -
+    runTest exiv2 -pX                   $filename | xmllint --format -
     printf "delete " >&3
     # test deleting metadata
     for option in -dC -de -dx -dCe -dCx -dCxe; do
