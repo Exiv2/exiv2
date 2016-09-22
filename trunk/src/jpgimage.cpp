@@ -682,11 +682,11 @@ namespace Exiv2 {
                             } else {
                                 start = 2+35+32+4+4; // Adobe Spec, p19
                             }
-                            xmp[size]=0;
 
-                            out << xmp + start;
+                            out.write((const char*)(xmp+start),size-start);
                             delete [] xmp;
                             bufRead = size;
+                            done = !bExtXMP;
                         }
                     } else if ( option == kpsIccProfile && std::strcmp(signature,iccId_) == 0 ) {
                         // extract ICCProfile
@@ -796,7 +796,7 @@ namespace Exiv2 {
                     marker = advanceToMarker();
                     REPORT_MARKER;
                 }
-                done = marker == eoi_ || marker == sos_;
+                done |= marker == eoi_ || marker == sos_;
                 if ( done && bPrint ) out << std::endl;
             }
         }
@@ -1114,7 +1114,7 @@ namespace Exiv2 {
                         pad[0] = chunk+1;
                         pad[1] = chunks;
                         outIo.write((const byte *) iccId_,12);
-                        outIo.write((const byte *)    pad, 1);
+                        outIo.write((const byte *)    pad, 2);
                         if (outIo.write(iccProfile_.pData_+ (chunk*chunk_size), bytes) != bytes)
                             throw Error(21);
                         if (outIo.error()) throw Error(21);
