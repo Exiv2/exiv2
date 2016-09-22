@@ -813,8 +813,6 @@ Error: XMP Toolkit error 203: Duplicate property or field node
 Warning: Failed to decode XMP metadata.
 Error: XMP Toolkit error 203: Duplicate property or field node
 Warning: Failed to decode XMP metadata.
-Error: XMP Toolkit error 203: Duplicate property or field node
-Warning: Failed to decode XMP metadata.
 STRUCTURE OF JPEG FILE: ReaganLargeJpg.jpg
  address | marker       |  length | data
        0 | 0xffd8 SOI  
