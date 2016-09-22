@@ -234,15 +234,24 @@ namespace Action {
     try {
         path_ = path;
         int rc = 0;
+        Exiv2::PrintStructureOption option = Exiv2::kpsNone ;
         switch (Params::instance().printMode_) {
-        case Params::pmSummary:   rc = printSummary();     break;
-        case Params::pmList:      rc = printList();        break;
-        case Params::pmComment:   rc = printComment();     break;
-        case Params::pmPreview:   rc = printPreviewList(); break;
-        case Params::pmStructure: rc = printStructure(std::cout,Exiv2::kpsBasic)     ; break;
-        case Params::pmXMP:       rc = printStructure(std::cout,Exiv2::kpsXMP)       ; break;
-        case Params::pmIccProfile:rc = printStructure(std::cout,Exiv2::kpsIccProfile); break;
-        case Params::pmRecursive: rc = printStructure(std::cout,Exiv2::kpsRecursive) ; break;
+            case Params::pmSummary:   rc = printSummary();     break;
+            case Params::pmList:      rc = printList();        break;
+            case Params::pmComment:   rc = printComment();     break;
+            case Params::pmPreview:   rc = printPreviewList(); break;
+            case Params::pmStructure: rc = printStructure(std::cout,Exiv2::kpsBasic)     ; break;
+            case Params::pmRecursive: rc = printStructure(std::cout,Exiv2::kpsRecursive) ; break;
+
+            case Params::pmXMP:
+        	     option = option == Exiv2::kpsNone ? Exiv2::kpsXMP        : option;  // drop
+            case Params::pmIccProfile:{
+			     option = option == Exiv2::kpsNone ? Exiv2::kpsIccProfile : option;
+#ifdef __MINGW__
+                 _setmode(_fileno(stdout),O_BINARY);
+#endif
+        	     rc = printStructure(std::cout,option);
+            } break;
         }
         return rc;
     }
@@ -1060,6 +1069,12 @@ namespace Action {
         path_ = path;
         int  rc = 0;
 
+#ifdef __MINGW__
+        if ( Params::instance().target_ & Params::ctStdInOut ) {
+            _setmode(_fileno(stdout),O_BINARY);
+	    }
+#endif
+
         if (!rc && Params::instance().target_ & Params::ctThumb) {
             rc = writeThumbnail();
         }
@@ -1249,6 +1264,13 @@ namespace Action {
                       << ": " << _("Failed to open the file\n");
             return -1;
         }
+
+#ifdef __MINGW__
+        if ( Params::instance().target_ & Params::ctStdInOut ) {
+            _setmode(_fileno(stdin),O_BINARY);
+	    }
+#endif
+
         int rc = 0;
         Timestamp ts;
         if (Params::instance().preserve_) {

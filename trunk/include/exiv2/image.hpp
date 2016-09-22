@@ -105,6 +105,7 @@ namespace Exiv2 {
           @throw Error if reading of the file fails or the image data is
                 not valid (does not look like data of the specific image type).
           @caution This function is not thread safe and intended for exiv2 -pS for debugging.
+          @caution You may need to put the stream into binary mode (see src/actions.cpp)
          */
         virtual void printStructure(std::ostream& out, PrintStructureOption option =kpsNone, int depth=0);
         /*!
