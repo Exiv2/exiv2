@@ -72,7 +72,7 @@ EXIV2_RCSID("@(#) $Id$")
 
 #if !defined(__MINGW__) && !defined(_MSC_VER)
 #define _fileno(a) a
-#define _setmod(a,b)
+#define _setmode(a,b)
 #endif
 
 // *****************************************************************************
