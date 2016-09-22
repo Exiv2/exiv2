@@ -1493,7 +1493,7 @@ namespace Exiv2 {
         if (prot == pStdin) {
             if (isatty(fileno(stdin)))
                 throw Error(53);
-#ifdef _MSC_VER
+#if defined(_MSC_VER) || defined(__MINGW__)
             // convert stdin to binary
             if (_setmode(_fileno(stdin), _O_BINARY) == -1)
                 throw Error(54);
