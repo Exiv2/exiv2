@@ -532,9 +532,9 @@ namespace Exiv2 {
                 std::string sp  = "" ; // output spacer
 
                 //prepare to print the value
-                uint16_t kount  = isPrintXMP(tag,option) ? count // restrict long arrays
-                                : isPrintICC(tag,option) ? count //
-                                : isStringType(type)     ? (count > 32 ? 32 : count)
+                uint32_t kount  = isPrintXMP(tag,option) ? count // haul in all the data
+                                : isPrintICC(tag,option) ? count // ditto
+                                : isStringType(type)     ? (count > 32 ? 32 : count) // restrict long arrays
                                 : count > 5              ? 5
                                 : count
                                 ;
