@@ -581,6 +581,12 @@ source ./functions.source
     copyTestFile                        $filename
     runTest exiv2 -pa --grep Bar        $filename
 
+    num=1229
+    printf "$num " >&3
+    filename=exiv2-bug$num.jpg
+    copyTestFile                        $filename
+    runTest exiv2 -pX                   $filename | xmllint --format -
+
 ) 3>&1 > $results 2>&1
 
 printf "\n"
