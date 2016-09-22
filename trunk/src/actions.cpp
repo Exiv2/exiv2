@@ -270,7 +270,14 @@ namespace Action {
         }
         Exiv2::Image::AutoPtr image = Exiv2::ImageFactory::open(path_);
         assert(image.get() != 0);
-        image->printStructure(out,option);
+        if ( option == Exiv2::kpsIccProfile ) {
+            image->readMetadata();
+            if ( image->iccProfileDefined() ) {
+                out.write((const char*)image->iccProfile()->pData_,image->iccProfile()->size_);
+            }
+        } else {
+            image->printStructure(out,option);
+        }
         return 0;
     }
 

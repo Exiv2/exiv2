@@ -766,11 +766,11 @@ STRUCTURE OF TIFF FILE (II): ReaganLargeTiff.tiff
      346 | 0x8773 InterColorProfile         | UNDEFINED |      560 |      8880 | ...0ADBE....mntrRGB XYZ ....... ...
      358 | 0x8825 GPSTag                    |      LONG |        1 |   1623632 | 1623632
 END ReaganLargeTiff.tiff
-963add0d8be3d702528ac77902fbe738
+45ed3c125cc6041b37b44ee4cb881cd8
 45ed3c125cc6041b37b44ee4cb881cd8
 50b9125494306a6fc1b7c4f2a1a8d49d
 50b9125494306a6fc1b7c4f2a1a8d49d
-963add0d8be3d702528ac77902fbe738
+45ed3c125cc6041b37b44ee4cb881cd8
 45ed3c125cc6041b37b44ee4cb881cd8
 STRUCTURE OF JPEG FILE: ReaganLargeJpg.jpg
  address | marker       |  length | data
@@ -809,6 +809,8 @@ STRUCTURE OF JPEG FILE: ReaganLargeJpg.jpg
  1624495 | 0xffc4 DHT   |      30 
  1624527 | 0xffc4 DHT   |      27 
  1624556 | 0xffda SOS  
+Error: XMP Toolkit error 203: Duplicate property or field node
+Warning: Failed to decode XMP metadata.
 Error: XMP Toolkit error 203: Duplicate property or field node
 Warning: Failed to decode XMP metadata.
 Error: XMP Toolkit error 203: Duplicate property or field node
