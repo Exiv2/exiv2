@@ -4,11 +4,11 @@ source $(find . -name buildserver.library 2>/dev/null)
 
 echo -------------------------------
 echo PLATFORM = $PLATFORM PWD = $PWD
-if [ "$PLATFORM" == "mingw" ]; then
-    echo "Windows directory = " $(pwd -W)
+if [ $(uname -o) == Msys ]; then
+    echo "Windows directory (mingw) = " $(pwd -W)
 fi
-if [ "$PLATFORM" == "cygwin" -o "$PLATFORM" == "msvc" ]; then
-    echo "Windows directory = " $(cygpath -aw .)
+if [ $(uname -o) == Cygwin ]; then
+    echo "Windows directory (cygwin) = " $(cygpath -aw .)
 fi
 echo -------------------------------
 
@@ -21,7 +21,7 @@ curl='/usr/local/bin/curl --silent --connect-timeout 30 --max-time 40'
 while [ "$count" != "0" ]; do
   if  [ "$count" != "0" ]; then echo "*** count = $count ***" ; fi
   build=$($curl "$JENKINS/$DAILY/"             \
-         |xmllint --html --pretty 1 - 2>/dev/null | grep $PLATFORM  \
+         |xmllint --html --format - 2>/dev/null | grep $PLATFORM  \
          |grep $date | grep -v -e view | cut -d'"' -f 2 | tail -1   )
   if [ "$build" != "" ]; then
     count=0;
@@ -31,8 +31,8 @@ while [ "$count" != "0" ]; do
   fi
   if [ "$count" == "1" ]; then
      echo --------
-     echo $curl "$JENKINS/$DAILY/" | xmllint --html --pretty 1
-          $curl "$JENKINS/$DAILY/" | xmllint --html --pretty 1
+     echo $curl "$JENKINS/$DAILY/" | xmllint --html --format
+          $curl "$JENKINS/$DAILY/" | xmllint --html --format
      echo --------
   fi
 done
