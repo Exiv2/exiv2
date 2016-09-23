@@ -341,6 +341,9 @@ case "$host_os" in
     *cygwin*)
         CPPFLAGS="$CPPFLAGS -std=gnu++98"  # cygwin requires gnu++98 to support snprintf
     ;;
+    *ming*)
+        CPPFLAGS="$CPPFLAGS"               # mingw doesn't link pthreads if you specify -std !!
+    ;;
     *)
         CPPFLAGS="$CPPFLAGS -std=c++98"    # // all others use c++98
     ;;
