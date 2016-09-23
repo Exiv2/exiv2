@@ -3,7 +3,7 @@
 .\" First parameter, NAME, should be all caps
 .\" Second parameter, SECTION, should be 1-8, maybe w/ subsection
 .\" other parameters are allowed: see man(7), man(1)
-.TH EXIV2 1 "Aug 24, 2016"
+.TH EXIV2 1 "Sep 23, 2016"
 .\" Please adjust this date whenever revising the manpage.
 .\"
 .\" Some roff macros, for reference:
@@ -177,7 +177,7 @@ lvl		d | i | i | w | e
 		debug, info, warning, error
 
 mod		s | a | t | v | h | i | x | c | p | i | C | R | S | X
-		summary, all, translated, vanilla, hex iptc, xmp, comment, preview,
+		summary, all, translated, vanilla, hex, iptc, xmp, comment, preview,
 		ICC Profile, Recursive Structure, Simple Structure, raw XMP
 
 tgt		a | c | e | i | p | t | x | C | X | XX | -
@@ -316,11 +316,11 @@ c : JPEG comment
 .br
 p : list available image previews, sorted by preview image size in pixels
 .br
-C : print image ICC Profile (jpg, png, tiff, cr2 only)
+C : print image ICC Profile (jpg, png, tiff, webp, cr2 only)
 .br
-R : print image structure recursively (jpg, png, tiff, cr2 only)
+R : print image structure recursively (jpg, png, tiff, webp, cr2 only)
 .br
-S : print image structure information (jpg, png, tiff, cr2 only)
+S : print image structure information (jpg, png, tiff, webp, cr2 only)
 .br
 X : print "raw" XMP (jpg, png, tiff, cr2, webp only)
 .TP
@@ -351,11 +351,11 @@ c : number of components (count)
 .br
 s : size in bytes
 .br
-v : plain data value
+v : plain data value (vanilla values)
 .br
-V : plain data value AND the word 'set ' at the start of line (for use with exiv2 -m-)
+V : plain data value AND the word 'set ' (for use with exiv2 -m-)
 .br
-t : interpreted (translated) data
+t : interpreted (translated) human readable data
 .br
 h : hexdump of the data
 .TP
@@ -375,6 +375,8 @@ x : XMP packet
 c : JPEG comment
 .br
 C : ICC Profile
+.br
+I : All IPTC data
 .TP
 .B \-i \fItgt\fP
 Insert target(s) for the 'insert' action. Possible targets are the
@@ -531,85 +533,65 @@ is used by default if the value doesn't start with a charset
 definition.
 .sp 1
 The format for an IPTC \fBDate\fP value is:
-.RS
-    YYYY\-MM\-DD (year, month, day)
-.RE
-The format for an IPTC \fBTime\fP value is:
-.RS
-    HH:MM:SS (hours, minutes, seconds)
-.RE
-and may optionally be followed by:
-.RS
-   \-HH:MM or +HH:MM (hours, minutes ahead/behind UTC)
-.RE
-The format of \fBRational\fP (and \fBSRational\fP) is one of:
-.RS
-.IP
-integer
-.IP
-integer-numerator/integer-denominator
-.IP
-Fnumber
-.IP
-fnumber
-.RE
-Rational Examples:
-.RS
-.nf
-exiv2 "-Mset Exif.Photo.MaxApertureValue 557429/62500" X.jpg
-exiv2 "-Mset Exif.Photo.MaxApertureValue F5.6" X.jpg
-.fi
-.RE
 .sp 1
-The Rational format Fnumber (or fnumber) is for the convenience of setting aperture values.  Aperture values
+    YYYY\-MM\-DD (year, month, day)
+.sp 1
+The format for an IPTC \fBTime\fP value is:
+.sp 1
+    HH:MM:SS (hours, minutes, seconds)
+.sp
+and may optionally be followed by:
+.sp 1
+   \-HH:MM or +HH:MM (hours, minutes ahead/behind UTC)
+.sp 1
+The format of \fBRational\fP (and \fBSRational\fP) is one of:
+.sp 1
+   integer | integer/integer | Fnumber | number
+.sp 1
+Rational Examples:
+.sp 1
+.nf
+$ exiv2 "-Mset Exif.Photo.MaxApertureValue 557429/62500" X.jpg
+$ exiv2 "-Mset Exif.Photo.MaxApertureValue F5.6" X.jpg
+.fi
+.sp 1
+The Rational format Fnumber is for the convenience of setting aperture values.  Aperture values
 are stored in Exif is an \fBAPEX\fP value which can be evaluated by the expression:
 .sp 1
-.RS
 .nf
 apex-value  =    log(Fnumber) * 2.0 / log(2.0)
-Fnumber     = exp(apex-value * log(2.0) / 2.0)
+number      = exp(apex-value * log(2.0) / 2.0)
 .fi
-.RE
 .sp 1
 The Rational format Fnumber is valid for any \fBRational\fP, even when the key is not an Aperture.
 More information about \fBAPEX\fP value is available from: http://en.wikipedia.org/wiki/APEX_system
 .sp 1
 The format of XMP \fBLangAlt\fP values includes an optional language qualifier:
-.RS
 .nf
 .B lang="\fIlanguage-code\fP\fI" text\fP
 .fi
-.RE
 .sp
 lang="x-default" is used if the value doesn't start with a language qualifier.
 .sp 1
-.RS
 .nf
-    exiv2 -M'set Xmp.dc.title lang="de-DE" Euros' X.jpg
-    exiv2 -M'set Xmp.dc.title lang="en-GB" Pounds' X.jpg
-    exiv2 -M'set Xmp.dc.title lang="en-US" In God We Trust' X.jpg
-    exiv2 -M'set Xmp.dc.title All others pay cash' X.jpg
+$ exiv2 -M'set Xmp.dc.title lang="de-DE" Euros' X.jpg
+$ exiv2 -M'set Xmp.dc.title lang="en-GB" Pounds' X.jpg
+$ exiv2 -M'set Xmp.dc.title lang="en-US" In God We Trust' X.jpg
+$ exiv2 -M'set Xmp.dc.title All others pay cash' X.jpg
 .fi
-.RE
 .sp 1
 To remove a language specification, set the value to '' (empty string)
-.RS
 .nf
 exiv2 -M'set Xmp.dc.title lang="en-US"' X.jpg
 .fi
-.RE
 To remove all language specifications, delete the key:
-.RS
 .nf
-exiv2 -M'del Xmp.dc.title' X.jpg
+$ exiv2 -M'del Xmp.dc.title' X.jpg
 .fi
-.RE
 To register additional XMP namespaces, combine the command with:
-.RS
 .nf
 \fBreg\fP \fIprefix\fP \fInamespace\fP
 .fi
-.RE
 .SS Command file format
 Empty lines and lines starting with \fB#\fP in a command file are
 ignored (comments). Remaining lines are commands as described above.
@@ -667,9 +649,6 @@ copies metadata as is, without any modifications to adapt it to the
 requirements of the target format. Some tags copied like this may not
 make sense in the target image.
 .SH SEE ALSO
-.TP
-.I man exiv2samples
-Information about the sample applications included in the exiv2 code distribution
 .TP
 .I http://www.exiv2.org/sample.html#modify
 Sample command files.
