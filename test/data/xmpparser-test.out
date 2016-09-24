@@ -322,7 +322,7 @@ Xmp.ns1.NestedStructProp/ns2:Outer/ns2:Middle/ns2:Inner/ns2:Field2 XmpText    12
 >                                                                                                     
 >                            
 > <?xpacket end="w"?>
-\ No newline at end of file
+/ No newline at end of file
 Xmp.dc.source                                XmpText    13  xmpsample.cpp
 Xmp.dc.subject                               XmpBag      2  Palmtree, Rubbertree
 Xmp.dc.title                                 LangAlt     2  lang="en-US" Sunset on the beach, lang="de-DE" Sonnenuntergang am Strand

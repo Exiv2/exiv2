@@ -10,37 +10,38 @@ if [ $(existsTest xmpparser-test) != 1 ] ; then
     exit 0
 fi
 
-(	cd "$testdir"
+(   cd "$testdir"
 
-	files=(BlueSquare.xmp StaffPhotographer-Example.xmp xmpsdk.xmp)
-	copyTestFiles ${files[@]}
+    files=(BlueSquare.xmp StaffPhotographer-Example.xmp xmpsdk.xmp)
+    copyTestFiles ${files[@]}
 
-	for f in ${files[@]} ; do
-		runTest xmpparser-test $f
-		diff $f ${f}-new
-	done
+    for f in ${files[@]} ; do
+        runTest xmpparser-test $f
+        diff $f ${f}-new
+    done
 
-	testfile=xmpsdk.xmp
-	runTest xmpparse ${testfile} > t1 2>&1
-	runTest xmpparse ${testfile}-new > t2 2>&1
-	diff t1 t2
+    testfile=xmpsdk.xmp
+    runTest xmpparse ${testfile} > t1 2>&1
+    runTest xmpparse ${testfile}-new > t2 2>&1
+    diff t1 t2
 
-	# ----------------------------------------------------------------------
-	# xmpsample
-	runTest xmpsample
+    # ----------------------------------------------------------------------
+    # xmpsample
+    runTest xmpsample
 
-	# ----------------------------------------------------------------------
-	# XMP sample commands
-	copyTestFiles exiv2-empty.jpg cmdxmp.txt 
-	runTest exiv2 -v -m cmdxmp.txt exiv2-empty.jpg
-	runTest exiv2 -v -px exiv2-empty.jpg
+    # ----------------------------------------------------------------------
+    # XMP sample commands
+    copyTestFiles exiv2-empty.jpg cmdxmp.txt
+    runTest exiv2 -v -m cmdxmp.txt exiv2-empty.jpg
+    runTest exiv2 -v -px exiv2-empty.jpg
 
 ) > $results 2>&1
 
 # ----------------------------------------------------------------------
 # Evaluate results
-cat $results | sed 's/\x0d$//' > $results-stripped
-reportTest $results-stripped $good
+cat $results | tr -d $'\r' > $results-stripped
+mv                           $results-stripped $results
+reportTest                                     $results $good
 
 # That's all Folks!
 ##

@@ -8,29 +8,29 @@
 
 source ./functions.source
 
-(	cd "$testdir"
+(   cd "$testdir"
 
     for file in ../data/video/video-*; do
         video="`basename "$file"`"
-		if [ $video != "video-test.out" ] ; then
+        if [ $video != "video-test.out" ] ; then
 
-	        printf "." >&3
+            printf "." >&3
 
-    	    echo
-        	echo "-----> $video <-----"
+            echo
+            echo "-----> $video <-----"
 
-	        copyTestFile "video/$video" "$video"
+            copyTestFile "video/$video" "$video"
 
-    	    echo
-        	echo "Command: exiv2 -u -pa $video"
-	        runTest exiv2 -u -pa "$video"
-    	    exitcode="$?"
-        	echo "Exit code: $exitcode"
+            echo
+            echo "Command: exiv2 -u -pa $video"
+            runTest exiv2 -u -pa "$video"
+            exitcode="$?"
+            echo "Exit code: $exitcode"
 
-	        if [ "$exitcode" -ne 0 -a "$exitcode" -ne 253 ] ; then
-    	        continue
-        	fi
-		fi
+            if [ "$exitcode" -ne 0 -a "$exitcode" -ne 253 ] ; then
+                continue
+            fi
+        fi
     done
 
 ) 3>&1 > "$testdir/video-test.out" 2>&1

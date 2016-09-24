@@ -3,9 +3,9 @@
 
 source ./functions.source
 
-(	cd "$testdir"
+(   cd "$testdir"
 
-	images="eps/eps-flat_coreldraw-x3-lev2.eps \
+    images="eps/eps-flat_coreldraw-x3-lev2.eps \
         eps/eps-flat_coreldraw-x5-lev2.eps \
         eps/eps-flat_inkscape-epsi.eps \
         eps/eps-flat_oodraw_ai-10-lev2.eps \
