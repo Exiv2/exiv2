@@ -593,8 +593,9 @@ printf "\n"
 
 # ----------------------------------------------------------------------
 # Evaluate results
-cat $results | sed 's/\x0d$//' > $results-stripped
-reportTest $results-stripped $good
+cat $results | tr -d $'\r' > $results-stripped
+mv                           $results-stripped $results
+reportTest                                     $results $good
 
 # That's all Folks!
 ##

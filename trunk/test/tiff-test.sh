@@ -2,8 +2,8 @@
 # TIFF parser test driver
 
 if [ "${BASH_VERSION:0:1}" -lt "4" ]; then
-	echo "$0 requires bash v4 or greater.  Running $BASH_VERSION.  $0 skipped."
-	exit 0
+    echo "$0 requires bash v4 or greater.  Running $BASH_VERSION.  $0 skipped."
+    exit 0
 fi
 
 exifprobe()
@@ -117,8 +117,9 @@ source ./functions.source
 
 # ----------------------------------------------------------------------
 # Evaluate results
-cat $results | sed 's/\x0d$//' > $results-stripped
-reportTest $results-stripped $good
+cat $results | tr -d $'\r' > $results-stripped
+mv                           $results-stripped $results
+reportTest                                     $results $good
 
 # That's all Folks!
 ##

@@ -4,31 +4,31 @@
 source ./functions.source
 
 
-(	cd "$testdir"
+(   cd "$testdir"
 
-	##
-	# what version of exiv2 are we using?
-	exiv2version="`$bin/exiv2 -V | sed -n '1 s,^exiv2 [^ ]* \([^ ]*\).*,\1,p'`"
-	if [ -z "$exiv2version" ]; then
-		echo "Error: Unable to determine Exiv2 version"
-		exit 1
-	fi
-	if [ ! -d $datadir/eps/ ]; then
-		echo "Error: $datadir/eps/ does not exist"
-		exit 1
-	fi		
+    ##
+    # what version of exiv2 are we using?
+    exiv2version="`$bin/exiv2 -V | sed -n '1 s,^exiv2 [^ ]* \([^ ]*\).*,\1,p'`"
+    if [ -z "$exiv2version" ]; then
+        echo "Error: Unable to determine Exiv2 version"
+        exit 1
+    fi
+    if [ ! -d $datadir/eps/ ]; then
+        echo "Error: $datadir/eps/ does not exist"
+        exit 1
+    fi
 
-	##
-	# ensure that no data file is already stamped with the current version
-	for file in $datadir/eps/eps-*.eps.*; do
-		if ! grep "_Exiv2Version_" "$file" >/dev/null ; then
-			echo "Error: $file contains hard-coded Exiv2 version"
-			exit 1
-		fi
-	done
-	
-	##
-	# get down to work!
+    ##
+    # ensure that no data file is already stamped with the current version
+    for file in $datadir/eps/eps-*.eps.*; do
+        if ! grep "_Exiv2Version_" "$file" >/dev/null ; then
+            echo "Error: $file contains hard-coded Exiv2 version"
+            exit 1
+        fi
+    done
+
+    ##
+    # get down to work!
     for file in $datadir/eps/eps-*.eps; do
         image="`basename "$file" .eps`"
 
@@ -128,7 +128,7 @@ source ./functions.source
 
         diff -q $diffargs "$datadir/eps/eps-test-newxmp.exv" "$image.exv"
     done
-    
+
 ) 3>&1 > "$testdir/eps-test.out" 2>&1
 
 echo "."

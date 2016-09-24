@@ -9,23 +9,23 @@
 ##
 
 if [ $# != 1 ]; then
-	echo usage: $0 \<path-to-results\>
-	exit
+    echo usage: $0 \<path-to-results\>
+    exit
 fi
 
 filename="$1"
 if [ ! -e "$filename" ]; then
-	echo filename "$filename" does not exist
-	exit
-fi	
+    echo filename "$filename" does not exist
+    exit
+fi
 
 nl "$filename" | grep "\-\-\-\-\ " | while read i ; do
-	let x=$(echo $i | cut -d' ' -f 1)
-	let d=x-o
-	if [ $d != 1 ]; then
-		echo $d $i
-	fi
-	let o=x
+    let x=$(echo $i | cut -d' ' -f 1)
+    let d=x-o
+    if [ $d != 1 ]; then
+        echo $d $i
+    fi
+    let o=x
 done
 
 # That's all Folks

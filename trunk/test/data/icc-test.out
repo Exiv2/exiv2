@@ -299,7 +299,7 @@ STRUCTURE OF PNG FILE: ReaganLargePng.png
  1167924 | tIME  |       7 | ......2                        | 0x582d32e4
  1167943 | zTXt  |     278 | Comment..x.}..n.@....O..5..h.. | 0xdb1dfff5
  1168233 | IDAT  |    8192 | x...k.%.u%....D......GWW...ER. | 0x929ed75c
- 1176437 | IDAT  |    8192 | .F('.T)\....D"]..."2 '(...D%.. | 0x52c572c0
+ 1176437 | IDAT  |    8192 | .F('.T)/....D"]..."2 '(...D%.. | 0x52c572c0
  1184641 | IDAT  |    8192 | y-.....>....3..p.....$....E.Bj | 0x65a90ffb
  1192845 | IDAT  |    8192 | ....S....?..G.....G........... | 0xf44da161
  1201049 | IDAT  |    7173 | .evl...3K..j.S.....x......Z .D | 0xbe6d3574
@@ -318,7 +318,7 @@ STRUCTURE OF PNG FILE: ReaganLargePng.png
  1175617 | tIME  |       7 | ......2                        | 0x582d32e4
  1175636 | zTXt  |     278 | Comment..x.}..n.@....O..5..h.. | 0xdb1dfff5
  1175926 | IDAT  |    8192 | x...k.%.u%....D......GWW...ER. | 0x929ed75c
- 1184130 | IDAT  |    8192 | .F('.T)\....D"]..."2 '(...D%.. | 0x52c572c0
+ 1184130 | IDAT  |    8192 | .F('.T)/....D"]..."2 '(...D%.. | 0x52c572c0
  1192334 | IDAT  |    8192 | y-.....>....3..p.....$....E.Bj | 0x65a90ffb
  1200538 | IDAT  |    8192 | ....S....?..G.....G........... | 0xf44da161
  1208742 | IDAT  |    7173 | .evl...3K..j.S.....x......Z .D | 0xbe6d3574
@@ -337,7 +337,7 @@ STRUCTURE OF PNG FILE: ReaganLargePng.png
  1175574 | tIME  |       7 | ......2                        | 0x582d32e4
  1175593 | zTXt  |     278 | Comment..x.}..n.@....O..5..h.. | 0xdb1dfff5
  1175883 | IDAT  |    8192 | x...k.%.u%....D......GWW...ER. | 0x929ed75c
- 1184087 | IDAT  |    8192 | .F('.T)\....D"]..."2 '(...D%.. | 0x52c572c0
+ 1184087 | IDAT  |    8192 | .F('.T)/....D"]..."2 '(...D%.. | 0x52c572c0
  1192291 | IDAT  |    8192 | y-.....>....3..p.....$....E.Bj | 0x65a90ffb
  1200495 | IDAT  |    8192 | ....S....?..G.....G........... | 0xf44da161
  1208699 | IDAT  |    7173 | .evl...3K..j.S.....x......Z .D | 0xbe6d3574
@@ -355,7 +355,7 @@ STRUCTURE OF PNG FILE: ReaganLargePng.png
  1175574 | tIME  |       7 | ......2                        | 0x582d32e4
  1175593 | zTXt  |     278 | Comment..x.}..n.@....O..5..h.. | 0xdb1dfff5
  1175883 | IDAT  |    8192 | x...k.%.u%....D......GWW...ER. | 0x929ed75c
- 1184087 | IDAT  |    8192 | .F('.T)\....D"]..."2 '(...D%.. | 0x52c572c0
+ 1184087 | IDAT  |    8192 | .F('.T)/....D"]..."2 '(...D%.. | 0x52c572c0
  1192291 | IDAT  |    8192 | y-.....>....3..p.....$....E.Bj | 0x65a90ffb
  1200495 | IDAT  |    8192 | ....S....?..G.....G........... | 0xf44da161
  1208699 | IDAT  |    7173 | .evl...3K..j.S.....x......Z .D | 0xbe6d3574
@@ -374,7 +374,7 @@ STRUCTURE OF PNG FILE: ReaganLargePng.png
  1175617 | tIME  |       7 | ......2                        | 0x582d32e4
  1175636 | zTXt  |     278 | Comment..x.}..n.@....O..5..h.. | 0xdb1dfff5
  1175926 | IDAT  |    8192 | x...k.%.u%....D......GWW...ER. | 0x929ed75c
- 1184130 | IDAT  |    8192 | .F('.T)\....D"]..."2 '(...D%.. | 0x52c572c0
+ 1184130 | IDAT  |    8192 | .F('.T)/....D"]..."2 '(...D%.. | 0x52c572c0
  1192334 | IDAT  |    8192 | y-.....>....3..p.....$....E.Bj | 0x65a90ffb
  1200538 | IDAT  |    8192 | ....S....?..G.....G........... | 0xf44da161
  1208742 | IDAT  |    7173 | .evl...3K..j.S.....x......Z .D | 0xbe6d3574
@@ -393,7 +393,7 @@ STRUCTURE OF PNG FILE: ReaganLargePng.png
  1175574 | tIME  |       7 | ......2                        | 0x582d32e4
  1175593 | zTXt  |     278 | Comment..x.}..n.@....O..5..h.. | 0xdb1dfff5
  1175883 | IDAT  |    8192 | x...k.%.u%....D......GWW...ER. | 0x929ed75c
- 1184087 | IDAT  |    8192 | .F('.T)\....D"]..."2 '(...D%.. | 0x52c572c0
+ 1184087 | IDAT  |    8192 | .F('.T)/....D"]..."2 '(...D%.. | 0x52c572c0
  1192291 | IDAT  |    8192 | y-.....>....3..p.....$....E.Bj | 0x65a90ffb
  1200495 | IDAT  |    8192 | ....S....?..G.....G........... | 0xf44da161
  1208699 | IDAT  |    7173 | .evl...3K..j.S.....x......Z .D | 0xbe6d3574
@@ -411,7 +411,7 @@ STRUCTURE OF PNG FILE: ReaganLargePng.png
    16682 | tIME  |       7 | ......2                        | 0x582d32e4
    16701 | zTXt  |     278 | Comment..x.}..n.@....O..5..h.. | 0xdb1dfff5
    16991 | IDAT  |    8192 | x...k.%.u%....D......GWW...ER. | 0x929ed75c
-   25195 | IDAT  |    8192 | .F('.T)\....D"]..."2 '(...D%.. | 0x52c572c0
+   25195 | IDAT  |    8192 | .F('.T)/....D"]..."2 '(...D%.. | 0x52c572c0
    33399 | IDAT  |    8192 | y-.....>....3..p.....$....E.Bj | 0x65a90ffb
    41603 | IDAT  |    8192 | ....S....?..G.....G........... | 0xf44da161
    49807 | IDAT  |    7173 | .evl...3K..j.S.....x......Z .D | 0xbe6d3574
@@ -430,7 +430,7 @@ STRUCTURE OF PNG FILE: ReaganLargePng.png
    16725 | tIME  |       7 | ......2                        | 0x582d32e4
    16744 | zTXt  |     278 | Comment..x.}..n.@....O..5..h.. | 0xdb1dfff5
    17034 | IDAT  |    8192 | x...k.%.u%....D......GWW...ER. | 0x929ed75c
-   25238 | IDAT  |    8192 | .F('.T)\....D"]..."2 '(...D%.. | 0x52c572c0
+   25238 | IDAT  |    8192 | .F('.T)/....D"]..."2 '(...D%.. | 0x52c572c0
    33442 | IDAT  |    8192 | y-.....>....3..p.....$....E.Bj | 0x65a90ffb
    41646 | IDAT  |    8192 | ....S....?..G.....G........... | 0xf44da161
    49850 | IDAT  |    7173 | .evl...3K..j.S.....x......Z .D | 0xbe6d3574
@@ -449,7 +449,7 @@ STRUCTURE OF PNG FILE: ReaganLargePng.png
    16682 | tIME  |       7 | ......2                        | 0x582d32e4
    16701 | zTXt  |     278 | Comment..x.}..n.@....O..5..h.. | 0xdb1dfff5
    16991 | IDAT  |    8192 | x...k.%.u%....D......GWW...ER. | 0x929ed75c
-   25195 | IDAT  |    8192 | .F('.T)\....D"]..."2 '(...D%.. | 0x52c572c0
+   25195 | IDAT  |    8192 | .F('.T)/....D"]..."2 '(...D%.. | 0x52c572c0
    33399 | IDAT  |    8192 | y-.....>....3..p.....$....E.Bj | 0x65a90ffb
    41603 | IDAT  |    8192 | ....S....?..G.....G........... | 0xf44da161
    49807 | IDAT  |    7173 | .evl...3K..j.S.....x......Z .D | 0xbe6d3574
@@ -785,7 +785,7 @@ STRUCTURE OF JPEG FILE: ReaganLargeJpg.jpg
   272436 | 0xffe2 APP2  |   65535 | ICC_PROFILE....QY2w$.gZ.wY..Z.w. chunk 5/25
   337973 | 0xffe2 APP2  |   65535 | ICC_PROFILE...]W.j....QlT....m.. chunk 6/25
   403510 | 0xffe2 APP2  |   65535 | ICC_PROFILE.....j;....h..~.Kg8.C chunk 7/25
-  469047 | 0xffe2 APP2  |   65535 | ICC_PROFILE....M...Y.MX..[qM..B\ chunk 8/25
+  469047 | 0xffe2 APP2  |   65535 | ICC_PROFILE....M...Y.MX..[qM..B/ chunk 8/25
   534584 | 0xffe2 APP2  |   65535 | ICC_PROFILE.....dDZ7.be.W...gcS. chunk 9/25
   600121 | 0xffe2 APP2  |   65535 | ICC_PROFILE......hRv...i.s1.|k.o chunk 10/25
   665658 | 0xffe2 APP2  |   65535 | ICC_PROFILE.......y.....z%.L.jz. chunk 11/25

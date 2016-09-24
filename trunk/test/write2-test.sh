@@ -3,10 +3,10 @@
 
 source ./functions.source
 
-(	cd "$testdir"
+(   cd "$testdir"
 
-	copyTestFile        exiv2-empty.jpg
-	runTest write2-test exiv2-empty.jpg
+    copyTestFile        exiv2-empty.jpg
+    runTest write2-test exiv2-empty.jpg
 
 ) > $results
 

@@ -3,9 +3,9 @@
 
 source ./functions.source
 
-(	cd "$testdir"
+(   cd "$testdir"
 
-	images="exiv2-bug443.jpg \
+    images="exiv2-bug443.jpg \
         exiv2-bug444.jpg \
         exiv2-bug445.jpg \
         exiv2-bug447.jpg \
