@@ -1,5 +1,9 @@
 #!/bin/bash
 
+##
+# This script is rather slow and takes about 10 minutes
+# One day I'll rewrite it in Python and it will run in seconds
+
 if [ "$#" != "1" ]; then
     echo "syntax: $0 directory"
     exit 1
@@ -82,7 +86,7 @@ done
 # echo platform: ${platforms[*]}
 # echo svn:      ${svns[*]}
 # echo date:     ${dates[*]}
-# echo files:     ${files[*]}
+# echo files:    ${files[*]}
 
 
 echo ---------- Platform: ${platforms[*]} -----------
@@ -146,7 +150,6 @@ for date in ${dates[*]}; do
         fi
     done
 done
-
 
 # That's all Folks!
 ##
