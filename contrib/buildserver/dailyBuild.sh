@@ -19,11 +19,12 @@ ssh rmills@rmillsmm-w7      'cd ~/gnu/exiv2/buildserver ; /usr/local/bin/svn upd
 # test the delivery
 date=$(date '+%Y-%m-%d+%H-%M-%S')
 svn=$(/usr/local/bin/svn info . | grep '^Last Changed Rev' | cut -f 2 -d':' | tr -d ' ')
-ssh rmills@rmillsmm          'cd ~/gnu/exiv2/buildserver ;                               contrib/buildserver/dailyTest.sh' | tr -d $'\r' | tee --append "/mmHD/Users/Shared/Jenkins/Home/userContent/builds/Daily/test-svn-${svn}-date-${date}.txt" 
-ssh rmills@rmillsmm-kubuntu  'cd ~/gnu/exiv2/buildserver ;                               contrib/buildserver/dailyTest.sh' | tr -d $'\r' | tee --append "/mmHD/Users/Shared/Jenkins/Home/userContent/builds/Daily/test-svn-${svn}-date-${date}.txt" 
-ssh rmills@rmillsmm-w7       'cd ~/gnu/exiv2/buildserver ;                               contrib/buildserver/dailyTest.sh' | tr -d $'\r' | tee --append "/mmHD/Users/Shared/Jenkins/Home/userContent/builds/Daily/test-svn-${svn}-date-${date}.txt" 
-ssh rmills@rmillsmm-w7       'cd ~/gnu/exiv2/buildserver ; env PLATFORM=msvc             contrib/buildserver/dailyTest.sh' | tr -d $'\r' | tee --append "/mmHD/Users/Shared/Jenkins/Home/userContent/builds/Daily/test-svn-${svn}-date-${date}.txt" 
-ssh rmills@rmillsmm-w7       'cd ~/gnu/exiv2/buildserver ; env PLATFORM=mingw win32=true contrib/buildserver/dailyTest.sh' | tr -d $'\r' | tee --append "/mmHD/Users/Shared/Jenkins/Home/userContent/builds/Daily/test-svn-${svn}-date-${date}.txt" 
+putput="/mmHD/Users/Shared/Jenkins/Home/userContent/builds/Daily/test-svn-${svn}-date-${date}.txt" 
+ssh rmills@rmillsmm          'cd ~/gnu/exiv2/buildserver ;                               contrib/buildserver/dailyTest.sh' | tr -d $'\r' | tee -a $output
+ssh rmills@rmillsmm-kubuntu  'cd ~/gnu/exiv2/buildserver ;                               contrib/buildserver/dailyTest.sh' | tr -d $'\r' | tee -a $output
+ssh rmills@rmillsmm-w7       'cd ~/gnu/exiv2/buildserver ;                               contrib/buildserver/dailyTest.sh' | tr -d $'\r' | tee -a $output
+ssh rmills@rmillsmm-w7       'cd ~/gnu/exiv2/buildserver ; env PLATFORM=msvc             contrib/buildserver/dailyTest.sh' | tr -d $'\r' | tee -a $output
+ssh rmills@rmillsmm-w7       'cd ~/gnu/exiv2/buildserver ; env PLATFORM=mingw win32=true contrib/buildserver/dailyTest.sh' | tr -d $'\r' | tee -a $output
 
 ##
 # categorize the builds
