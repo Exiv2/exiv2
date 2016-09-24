@@ -1,0 +1,5 @@
+ssh rmills@rmillsmm                                             'cd ~/gnu/exiv2/buildserver;contrib/buildserver/dailyCMake.sh'
+ssh rmills@rmillsmm-kubuntu                                     'cd ~/gnu/exiv2/buildserver;contrib/buildserver/dailyCMake.sh'
+ssh rmills@rmillsmm-w7                                          'cd ~/gnu/exiv2/buildserver;contrib/buildserver/dailyCMake.sh'
+ssh rmills@rmillsmm-w7 'export PLATFORM=msvc                    ;cd ~/gnu/exiv2/buildserver;contrib/buildserver/dailyCMake.sh'
+ssh rmills@rmillsmm-w7 'export PLATFORM=mingw; export win32=true; cd ~/gnu/exiv2/buildserver;contrib/buildserver/dailyCMake.sh'
