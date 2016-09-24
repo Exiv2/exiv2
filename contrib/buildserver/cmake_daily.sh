@@ -65,7 +65,7 @@ testBuild()
           do
             echo '++' $test '++' ; ./$test
           done
-        ) | tee "$build/dist/logs/test.log"
+        ) | td -d $'\r' | tee "$build/dist/logs/test.log"
 
         popd > /dev/null
 
@@ -215,7 +215,7 @@ testBuild()
             popd > /dev/null
         ;;
     esac
-) | tee "$build/dist/logs/build.log"
+) | tr -d $'\r' | tee "$build/dist/logs/build.log"
 
 # exit if are in mingw and leave cygwin to package the build
 if [ $(uname -o) == "Msys" ]; then echo "goodbye from mingw" ; exit 0; fi
@@ -246,7 +246,7 @@ if [ "$result" == "0" ]; then
         if [ "$?" == "0" ]; then
             svn=$(/usr/local/bin/svn info . | grep '^Last Changed Rev' | cut -f 2 -d':' | tr -d ' ')
         fi
-        
+
         dow=$(date  '+%w') # 0..6   day of the week
         dom=$(date  '+%d') # 1..31  day of the month
         mon=$(date  '+%m') # 1..12  month
