@@ -1318,6 +1318,7 @@ namespace Exiv2 {
             { { 0, 36,  0 }, "Olympus Zuiko Digital ED 40-150mm F4.0-5.6"              },
             { { 0, 36, 16 }, "Olympus M.Zuiko Digital ED 300mm F4.0 IS Pro"            },
             { { 0, 37, 16 }, "Olympus M.Zuiko Digital ED 8mm F1.8 Fisheye Pro"         },
+            { { 0, 38, 16 }, "Olympus M.Zuiko Digital ED 12-100mm F4.0 IS Pro"         },
             { { 0, 39, 16 }, "Olympus M.Zuiko Digital ED 30mm F3.5 Macro"              },
             { { 0, 40, 16 }, "Olympus M.Zuiko Digital ED 25mm F1.2 Pro"                },
             { { 0, 48,  0 }, "Olympus Zuiko Digital ED 50-200mm F2.8-3.5 SWD"          },
