@@ -24,7 +24,7 @@ osName () {
 # which PLATFORM
 # PLATFORM must be defined as msvc or ming when called from ssh
 if [ "$PLATFORM" == "" ]; then
-    export PLATFORM="$(echo osName)"
+    export PLATFORM=$(echo osName)
     if [ "$PLATFORM" == "cygwin" ]; then
         # tweak path to ensure the correct version of perl and expr for autotools
         export "PATH=/bin:$PATH"
