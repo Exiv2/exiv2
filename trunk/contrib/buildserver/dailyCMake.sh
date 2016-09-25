@@ -218,7 +218,7 @@ testBuild()
 ) | tr -d $'\r' | tee "$build/dist/logs/build.log"
 
 # exit if are in mingw and leave cygwin to package the build
-if [ $(osName) == "mingw" ]; then echo "goodbye from mingw" ; exit 0; fi
+if [ "$(osName)" == "mingw" ]; then echo "goodbye from mingw" ; exit 0; fi
 
 ##
 # store the build for users to collect
