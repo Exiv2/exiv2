@@ -1,5 +1,5 @@
 ##
-# functions.so - source this from scripts
+# buildserver.library - source this from scripts
 ##
 
 result=0
@@ -9,14 +9,14 @@ if [ -z "$DAILY"   ]; then export DAILY=userContent/builds/Daily       ; fi
 ##
 # osName - print 'macosx' or 'cygwin' or 'mingw' or 'linux'
 osName () {
-    if   [ $(uname)   == Darwin  ]; then
-        echo macosx
-    elif [ $(uname -o) == Cygwin ]; then
-        echo cygwin
-    elif [ $(uname -o) == Msys   ]; then
-        echo mingw
+    if   [ "$(uname)"    == Darwin ]; then
+      echo macosx
+    elif [ "$(uname -o)" == Cygwin ]; then
+      echo cygwin
+    elif [ "$(uname -o)" == Msys   ]; then
+      echo mingw
     else
-        echo linux
+      echo linux
     fi
 }
 
@@ -24,15 +24,15 @@ osName () {
 # which PLATFORM
 # PLATFORM must be defined as msvc or ming when called from ssh
 if [ "$PLATFORM" == "" ]; then
-    export PLATFORM=$(echo osName)
-    if ( "$PLATFORM" == "cygwin" ]; then
+    export PLATFORM="$(echo osName)"
+    if [ "$PLATFORM" == "cygwin" ]; then
         # tweak path to ensure the correct version of perl and expr for autotools
         export "PATH=/bin:$PATH"
     fi
 fi
 
 ##
-# functions
+# thePath - echo full path to file
 thepath () {
     if [ -d $1 ]; then
         ( cd $1;
@@ -43,8 +43,5 @@ thepath () {
     fi
 }
 
-
 # That's all Folks!
 ##
-
-
