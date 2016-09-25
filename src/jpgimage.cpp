@@ -901,6 +901,7 @@ namespace Exiv2 {
         int skipCom = -1;
         Blob psBlob;
         DataBuf rawExif;
+        xmpData().usePacket(writeXmpFromPacket());
 
         // Write image header
         if (writeHeader(outIo)) throw Error(21);

@@ -353,7 +353,7 @@ namespace Action {
         /*!
           @brief Insert xmp from a DataBuf into file \em path.
          */
-        int insertXmpPacket(const std::string& path,const Exiv2::DataBuf& xmpBlob) const;
+        int insertXmpPacket(const std::string& path,const Exiv2::DataBuf& xmpBlob,bool usePacket=false) const;
 
         /*!
           @brief Insert an ICC profile from a file into file \em path.

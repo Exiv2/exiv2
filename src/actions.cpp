@@ -1300,7 +1300,7 @@ namespace Action {
 
         if (0 == rc && (Params::instance().target_ & (Params::ctXmpSidecar|Params::ctXmpRaw)) ) {
             std::string xmpPath = newFilePath(path,".xmp");
-            rc = bStdin ? insertXmpPacket(path,stdIn) : insertXmpPacket(path,xmpPath);
+            rc = bStdin ? insertXmpPacket(path,stdIn,bStdin) : insertXmpPacket(path,xmpPath);
         }
 
         if (0 == rc && Params::instance().target_ & Params::ctIccProfile) {
@@ -1335,7 +1335,7 @@ namespace Action {
         return insertXmpPacket(path,xmpBlob);
     }
 
-    int Insert::insertXmpPacket(const std::string& path,const Exiv2::DataBuf& xmpBlob) const
+    int Insert::insertXmpPacket(const std::string& path,const Exiv2::DataBuf& xmpBlob,bool usePacket) const
     {
         std::string xmpPacket;
         for ( long i = 0 ; i < xmpBlob.size_ ; i++ ) {
@@ -1344,7 +1344,9 @@ namespace Action {
         Exiv2::Image::AutoPtr image = Exiv2::ImageFactory::open(path);
         assert(image.get() != 0);
         image->readMetadata();
+        image->clearXmpData();
         image->setXmpPacket(xmpPacket);
+        image->writeXmpFromPacket(usePacket);
         image->writeMetadata();
 
         return 0;

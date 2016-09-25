@@ -105,6 +105,7 @@ namespace {
         { 51, N_("TIFF array element tag %1 has wrong type") }, // %1=tag number
         { 52, N_("%1 has invalid XMP value type `%2'") }, // %1=key, %2=value type
         { 53, N_("Not a valid ICC Profile") },
+        { 54, N_("Not valid XMP") },
     };
 
 }

@@ -229,13 +229,16 @@ namespace Exiv2 {
         Exiv2::ExifKey            key("Exif.Image.InterColorProfile");
         Exiv2::ExifData::iterator pos   = exifData_.findKey(key);
         bool                      found = pos != exifData_.end();
-        if ( iccProfile_.size_ > 0 ) {
-            Exiv2::DataValue      value(iccProfile_.pData_,iccProfile_.size_);
-            if ( found )      pos->setValue(&value);
-            else         exifData_.add(key,&value);
+        if ( iccProfileDefined() ) {
+            Exiv2::DataValue value(iccProfile_.pData_,iccProfile_.size_);
+            if ( found ) pos->setValue(&value);
+            else     exifData_.add(key,&value);
         } else {
             if ( found ) exifData_.erase(pos);
         }
+
+        // set usePacket to influence TiffEncoder::encodeXmp() called by TiffVisitor.encode()
+        xmpData().usePacket(writeXmpFromPacket());
 
         TiffParser::encode(*io_, pData, size, bo, exifData_, iptcData_, xmpData_); // may throw
     } // TiffImage::writeMetadata

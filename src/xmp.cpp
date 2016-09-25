@@ -540,6 +540,7 @@ namespace Exiv2 {
                           const std::string& xmpPacket)
     { try {
         xmpData.clear();
+        xmpData.setPacket(xmpPacket);
         if (xmpPacket.empty()) return 0;
 
         if (!initialize()) {
