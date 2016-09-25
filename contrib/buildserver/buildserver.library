@@ -10,13 +10,13 @@ if [ -z "$DAILY"   ]; then export DAILY=userContent/builds/Daily       ; fi
 # osName - print 'macosx' or 'cygwin' or 'mingw' or 'linux'
 osName () {
     if   [ "$(uname)"    == Darwin ]; then
-      echo macosx
+         echo macosx
     elif [ "$(uname -o)" == Cygwin ]; then
-      echo cygwin
+         echo cygwin
     elif [ "$(uname -o)" == Msys   ]; then
-      echo mingw
+         echo mingw
     else
-      echo linux
+         echo linux
     fi
 }
 
@@ -24,7 +24,15 @@ osName () {
 # which PLATFORM
 # PLATFORM must be defined as msvc or ming when called from ssh
 if [ "$PLATFORM" == "" ]; then
-    export PLATFORM=$(echo osName)
+    if   [ "$(uname)"    == Darwin ]; then
+         export PLATFORM=macosx
+    elif [ "$(uname -o)" == Cygwin ]; then
+         export PLATFORM=cygwin
+    elif [ "$(uname -o)" == Msys   ]; then
+         export PLATFORM=mingw
+    else
+         export PLATFORM=linux
+    fi
     if [ "$PLATFORM" == "cygwin" ]; then
         # tweak path to ensure the correct version of perl and expr for autotools
         export "PATH=/bin:$PATH"
