@@ -7,25 +7,27 @@ if [ -z "$JENKINS" ]; then export JENKINS=http://exiv2.dyndns.org:8080; fi
 if [ -z "$DAILY"   ]; then export DAILY=userContent/builds/Daily       ; fi
 
 ##
+# osName - print 'macosx' or 'cygwin' or 'mingw' or 'linux'
+osName () {
+    if   [ $(uname)   == Darwin  ]; then
+        echo macosx
+    elif [ $(uname -o) == Cygwin ]; then
+        echo cygwin
+    elif [ $(uname -o) == Msys   ]; then
+        echo mingw
+    else
+        echo linux
+    fi
+}
+
+##
 # which PLATFORM
-# JOB_NAME is defined when script is called by Jenkins
-# example: JOB_NAME=trunk-cmake-daily/label=msvc
-# PLATFORM must be defined as msvc when called from ssh
-if [ ! -z "$JOB_NAME" ];then
-    PLATFORM=$(echo $JOB_NAME | cut -d= -f 2)
-fi
+# PLATFORM must be defined as msvc or ming when called from ssh
 if [ "$PLATFORM" == "" ]; then
-    export PLATFORM=''
-    if [ `uname` == Darwin  ]; then
-        PLATFORM=macosx
-    elif [ `uname -o` == Cygwin ]; then
-        PLATFORM=cygwin
+    export PLATFORM=$(echo osName)
+    if ( "$PLATFORM" == "cygwin" ]; then
         # tweak path to ensure the correct version of perl and expr for autotools
         export "PATH=/bin:$PATH"
-    elif [ `uname -o` == Msys ]; then
-        PLATFORM=mingw
-    else
-        PLATFORM=linux
     fi
 fi
 
@@ -40,6 +42,7 @@ thepath () {
         echo $(pwd)/$(basename $1) );
     fi
 }
+
 
 # That's all Folks!
 ##
