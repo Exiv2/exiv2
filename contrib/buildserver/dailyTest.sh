@@ -4,10 +4,10 @@ source $(find . -name buildserver.library 2>/dev/null)
 
 echo -------------------------------
 echo PLATFORM = $PLATFORM PWD = $PWD
-if [ $(uname -o) == Msys ]; then
+if [ $(osName) == "mingw" ]; then
     echo "Windows directory (mingw) = " $(pwd -W)
 fi
-if [ $(uname -o) == Cygwin ]; then
+if [ $(osName) == "cygwin" ]; then
     echo "Windows directory (cygwin) = " $(cygpath -aw .)
 fi
 echo -------------------------------
