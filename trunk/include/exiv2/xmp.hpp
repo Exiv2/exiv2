@@ -245,11 +245,24 @@ namespace Exiv2 {
         bool empty() const;
         //! Get the number of metadata entries
         long count() const;
+
+        //! are we to use the packet?
+        bool usePacket() const { return usePacket_; } ;
+
+        //! set usePacket_
+        bool usePacket(bool b) { bool r = usePacket_; usePacket_=b ; return r; };
+        //! setPacket
+        void setPacket(const std::string& xmpPacket) { xmpPacket_ = xmpPacket ; usePacket(false); };
+        // ! getPacket
+        const std::string& xmpPacket() const { return xmpPacket_ ; };
+
         //@}
 
     private:
         // DATA
         XmpMetadata xmpMetadata_;
+        std::string xmpPacket_  ;
+        bool        usePacket_  ;
     }; // class XmpData
 
     /*!

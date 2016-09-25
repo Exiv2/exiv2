@@ -106,6 +106,9 @@ preview-test preview:
 icc-test icc:
 	cd test && ./icc-test.sh
 
+stdin-test:
+	cd test && ./stdin-test.sh
+
 # convenience target for building individual sample programs
 addmoddel		exifcomment		exifvalue	httptest	iptctest		mmap-test	stringto-test \
 exifdata		iotest			key-test	path-test	taglist			write2-test write-test	\

@@ -353,53 +353,7 @@ public:
         stdin can be used by multiple images in the exiv2 command line:
         For example: $ cat foo.icc | exiv2 -iC- a.jpg b.jpg c.jpg will modify the ICC profile in several images.
     */
-    void getStdin(Exiv2::DataBuf& buf)
-    {
-        // copy stdin to stdinBuf
-        if ( stdinBuf.size_ == 0 ) {
-#if defined(_WIN32) || defined(__CYGWIN__) || defined(__MINGW__) || defined(_MSC_VER)
-            DWORD fdwMode;
-            _setmode(fileno(stdin), O_BINARY);
-            if ( !GetConsoleMode(GetStdHandle(STD_INPUT_HANDLE), &fdwMode) ) { // failed: stdin has bytes!
-#else
-            // http://stackoverflow.com/questions/34479795/make-c-not-wait-for-user-input/34479916#34479916
-            fd_set                readfds;
-            FD_ZERO             (&readfds);
-            FD_SET(STDIN_FILENO, &readfds);
-            struct timeval timeout = { 0,0 };
-
-            // if we have something in the pipe, read it
-            if (select(1, &readfds, NULL, NULL, &timeout)) {
-#endif
-                const int buff_size = 4*1028;
-                Exiv2::byte* bytes  = (Exiv2::byte*)::malloc(buff_size);
-                int       nBytes    = 0 ;
-                bool      more      = bytes != NULL;
-                while   ( more ) {
-                    char buff[buff_size];
-                    int  n     = (int) fread(buff,1,buff_size,stdin);
-                    more       = n > 0 ;
-                    if ( more ) {
-                        bytes      = (Exiv2::byte*) realloc(bytes,nBytes+n);
-                        memcpy(bytes+nBytes,buff,n);
-                        nBytes    += n ;
-                    }
-                }
-
-                if ( nBytes ) {
-                    stdinBuf.alloc(nBytes);
-                    memcpy(stdinBuf.pData_,(const void*)bytes,nBytes);
-                }
-                if ( bytes != NULL ) ::free(bytes) ;
-            }
-        }
-
-        // copy stdinBuf to buf
-        if ( stdinBuf.size_ ) {
-            buf.alloc(stdinBuf.size_);
-            memcpy(buf.pData_,stdinBuf.pData_,buf.size_);
-        }
-    };
+    void getStdin(Exiv2::DataBuf& buf);
 
 }; // class Params
 

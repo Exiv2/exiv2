@@ -1,0 +1,107 @@
+STRUCTURE OF JPEG FILE: girl.jpg
+ address | marker       |  length | data
+       0 | 0xffd8 SOI  
+       2 | 0xffe0 APP0  |      16 | JFIF............
+      20 | 0xffdb DQT   |      67 
+      89 | 0xffdb DQT   |      67 
+     158 | 0xffc0 SOF0  |      17 
+     177 | 0xffc4 DHT   |      28 
+     207 | 0xffc4 DHT   |      74 
+     283 | 0xffc4 DHT   |      28 
+     313 | 0xffc4 DHT   |      57 
+     372 | 0xffe1 APP1  |    4613 | http://ns.adobe.com/xap/1.0/.<?x
+    4987 | 0xffe1 APP1  |    4602 | http://ns.adobe.com/xap/1.0/.<?x
+    9591 | 0xffda SOS  
+STRUCTURE OF JPEG FILE: girl.jpg
+ address | marker       |  length | data
+       0 | 0xffd8 SOI  
+       2 | 0xffe0 APP0  |      16 | JFIF............
+      20 | 0xffdb DQT   |      67 
+      89 | 0xffdb DQT   |      67 
+     158 | 0xffc0 SOF0  |      17 
+     177 | 0xffc4 DHT   |      28 
+     207 | 0xffc4 DHT   |      74 
+     283 | 0xffc4 DHT   |      28 
+     313 | 0xffc4 DHT   |      57 
+     372 | 0xffe1 APP1  |    4602 | http://ns.adobe.com/xap/1.0/.<?x
+    4976 | 0xffda SOS  
+STRUCTURE OF JPEG FILE: girl.jpg
+ address | marker       |  length | data
+       0 | 0xffd8 SOI  
+       2 | 0xffe0 APP0  |      16 | JFIF............
+      20 | 0xffe1 APP1  |    4613 | http://ns.adobe.com/xap/1.0/.<?x
+    4635 | 0xffdb DQT   |      67 
+    4704 | 0xffdb DQT   |      67 
+    4773 | 0xffc0 SOF0  |      17 
+    4792 | 0xffc4 DHT   |      28 
+    4822 | 0xffc4 DHT   |      74 
+    4898 | 0xffc4 DHT   |      28 
+    4928 | 0xffc4 DHT   |      57 
+    4987 | 0xffda SOS  
+STRUCTURE OF JPEG FILE: girl.jpg
+ address | marker       |  length | data
+       0 | 0xffd8 SOI  
+       2 | 0xffe0 APP0  |      16 | JFIF............
+      20 | 0xffdb DQT   |      67 
+      89 | 0xffdb DQT   |      67 
+     158 | 0xffc0 SOF0  |      17 
+     177 | 0xffc4 DHT   |      28 
+     207 | 0xffc4 DHT   |      74 
+     283 | 0xffc4 DHT   |      28 
+     313 | 0xffc4 DHT   |      57 
+     372 | 0xffda SOS  
+STRUCTURE OF JPEG FILE: girl.jpg
+ address | marker       |  length | data
+       0 | 0xffd8 SOI  
+       2 | 0xffe0 APP0  |      16 | JFIF............
+      20 | 0xffe1 APP1  |    4613 | http://ns.adobe.com/xap/1.0/.<?x
+    4635 | 0xffdb DQT   |      67 
+    4704 | 0xffdb DQT   |      67 
+    4773 | 0xffc0 SOF0  |      17 
+    4792 | 0xffc4 DHT   |      28 
+    4822 | 0xffc4 DHT   |      74 
+    4898 | 0xffc4 DHT   |      28 
+    4928 | 0xffc4 DHT   |      57 
+    4987 | 0xffda SOS  
+<?xml version="1.0"?>
+<?xpacket begin='﻿' id='W5M0MpCehiHzreSzNTczkc9d'?>
+<x:xmpmeta xmlns:x="adobe:ns:meta/">
+  <rdf:RDF xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#">
+    <rdf:Description xmlns:dc="http://purl.org/dc/elements/1.1/" rdf:about="uuid:e61b1e9d-b8e4-6a17-a443-74b51849baaf">
+      <dc:subject>
+        <rdf:Bag>
+          <rdf:li>Celebs: JEnna Marbles</rdf:li>
+        </rdf:Bag>
+      </dc:subject>
+    </rdf:Description>
+  </rdf:RDF>
+</x:xmpmeta>
+<?xpacket end='w'?>
+<?xml version="1.0"?>
+<?xpacket begin='﻿' id='W5M0MpCehiHzreSzNTczkc9d'?>
+<x:xmpmeta xmlns:x="adobe:ns:meta/">
+  <rdf:RDF xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#">
+    <rdf:Description xmlns:dc="http://purl.org/dc/elements/1.1/" rdf:about="uuid:e61b1e9d-b8e4-6a17-a443-74b51849baaf">
+      <dc:subject>
+        <rdf:Bag>
+          <rdf:li>Celebs: JEnna Marbles</rdf:li>
+        </rdf:Bag>
+      </dc:subject>
+    </rdf:Description>
+  </rdf:RDF>
+</x:xmpmeta>
+<?xpacket end='w'?>
+<?xml version="1.0"?>
+<?xpacket begin='﻿' id='W5M0MpCehiHzreSzNTczkc9d'?>
+<x:xmpmeta xmlns:x="adobe:ns:meta/">
+  <rdf:RDF xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#">
+    <rdf:Description xmlns:dc="http://purl.org/dc/elements/1.1/" rdf:about="uuid:e61b1e9d-b8e4-6a17-a443-74b51849baaf">
+      <dc:subject>
+        <rdf:Bag>
+          <rdf:li>Celebs: JEnna Marbles</rdf:li>
+        </rdf:Bag>
+      </dc:subject>
+    </rdf:Description>
+  </rdf:RDF>
+</x:xmpmeta>
+<?xpacket end='w'?>

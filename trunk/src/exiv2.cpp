@@ -877,6 +877,85 @@ int Params::nonoption(const std::string& argv)
     return rc;
 } // Params::nonoption
 
+static int readFileToBuf(FILE* f,Exiv2::DataBuf& buf)
+{
+    const int buff_size = 4*1028;
+    Exiv2::byte* bytes  = (Exiv2::byte*)::malloc(buff_size);
+    int       nBytes    = 0 ;
+    bool      more      = bytes != NULL;
+    while   ( more ) {
+        char buff[buff_size];
+        int  n     = (int) fread(buff,1,buff_size,f);
+        more       = n > 0 ;
+        if ( more ) {
+            bytes      = (Exiv2::byte*) realloc(bytes,nBytes+n);
+            memcpy(bytes+nBytes,buff,n);
+            nBytes    += n ;
+        }
+    }
+
+    if ( nBytes ) {
+        buf.alloc(nBytes);
+        memcpy(buf.pData_,(const void*)bytes,nBytes);
+    }
+    if ( bytes != NULL ) ::free(bytes) ;
+    return nBytes;
+}
+
+void Params::getStdin(Exiv2::DataBuf& buf)
+{
+    // copy stdin to stdinBuf
+    if ( stdinBuf.size_ == 0 ) {
+#if defined(_WIN32) || defined(__CYGWIN__) || defined(__MINGW__) || defined(_MSC_VER)
+        DWORD fdwMode;
+        _setmode(fileno(stdin), O_BINARY);
+        Sleep(300);
+        if ( !GetConsoleMode(GetStdHandle(STD_INPUT_HANDLE), &fdwMode) ) { // failed: stdin has bytes!
+#else
+        // http://stackoverflow.com/questions/34479795/make-c-not-wait-for-user-input/34479916#34479916
+        fd_set                readfds;
+        FD_ZERO             (&readfds);
+        FD_SET(STDIN_FILENO, &readfds);
+        struct timeval timeout =  {1,0}; // yes: set timeout seconds,microseconds
+
+        // if we have something in the pipe, read it
+        if (select(1, &readfds, NULL, NULL, &timeout)) {
+#endif
+#ifdef DEBUG
+            std::cerr << "stdin has data" << std::endl;
+#endif
+            readFileToBuf(stdin,stdinBuf);
+        }
+#ifdef DEBUG
+        // this is only used to simulate reading from stdin when debugging
+        // to simulate exiv2 -pX foo.jpg                | exiv2 -iXX- bar.jpg
+        //             exiv2 -pX foo.jpg > ~/temp/stdin ; exiv2 -iXX- bar.jpg
+        if ( stdinBuf.size_ == 0 ) {
+            const char* path = "/Users/rmills/temp/stdin";
+            FILE* f = fopen(path,"rb");
+            if  ( f ) {
+                readFileToBuf(f,stdinBuf);
+                fclose(f);
+                std::cerr << "read stdin from " << path << std::endl;
+            }
+        }
+#endif
+#ifdef DEBUG
+            std::cerr << "getStdin stdinBuf.size_ = " << stdinBuf.size_ << std::endl;
+#endif
+    }
+
+    // copy stdinBuf to buf
+    if ( stdinBuf.size_ ) {
+        buf.alloc(stdinBuf.size_);
+        memcpy(buf.pData_,stdinBuf.pData_,buf.size_);
+    }
+#ifdef DEBUG
+    std::cerr << "getStdin stdinBuf.size_ = " << stdinBuf.size_ << std::endl;
+#endif
+
+} // Params::getStdin()
+
 typedef std::map<std::string,std::string> long_t;
 
 int Params::getopt(int argc, char* const Argv[])
@@ -1049,6 +1128,8 @@ namespace {
     {
         int rc     = 0;
         int target = 0;
+        int all    = Params::ctExif | Params::ctIptc | Params::ctComment | Params::ctXmp;
+        int extra  = Params::ctXmpSidecar|Params::ctExif|Params::ctIptc|Params::ctXmp;
         for (size_t i = 0; rc == 0 && i < optarg.size(); ++i) {
             switch (optarg[i]) {
             case 'e': target |= Params::ctExif; break;
@@ -1059,21 +1140,12 @@ namespace {
             case 'C': target |= Params::ctIccProfile; break;
             case 'I': target |= Params::ctIptcRaw;break;
             case '-': target |= Params::ctStdInOut;break;
-            case 'a': target |=   Params::ctExif
-                                | Params::ctIptc
-                                | Params::ctComment
-                                | Params::ctXmp; break;
-            case 'X':
-                Params::printTarget("X before",target);
-                target |= Params::ctXmpSidecar|Params::ctExif  |  Params::ctIptc | Params::ctXmp ; // -eX
-                Params::printTarget("X after1",target);
-
-                if ( i ) { // -eXX
-                    target |= Params::ctXmpRaw ;
-                    Params::printTarget("X after2",target);
-                    target ^= Params::ctExif|Params::ctIptc|Params::ctXmp ; // turn off those bits
-                }
-                Params::printTarget("X ending",target,false);
+            case 'a': target |= all ; break;
+            case 'X': target |= extra ; // -eX
+                 if ( i > 0 ) { // -eXX or -iXX
+                    target |=  Params::ctXmpRaw ;
+                    target &= ~extra; // turn off those bits
+                 }
             break;
 
             case 'p':

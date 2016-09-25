@@ -618,10 +618,14 @@ namespace Exiv2 {
             exifData_.erase(pos);
         }
         std::string xmpPacket;
-        if (XmpParser::encode(xmpPacket, xmpData_) > 1) {
+        if ( xmpData_.usePacket() ) {
+        	xmpPacket = xmpData_.xmpPacket();
+        } else {
+            if (XmpParser::encode(xmpPacket, xmpData_) > 1) {
 #ifndef SUPPRESS_WARNINGS
-            EXV_ERROR << "Failed to encode XMP metadata.\n";
+                EXV_ERROR << "Failed to encode XMP metadata.\n";
 #endif
+            }
         }
         if (!xmpPacket.empty()) {
             // Set the XMP Exif tag to the new value
