@@ -902,6 +902,7 @@ static int readFileToBuf(FILE* f,Exiv2::DataBuf& buf)
     return nBytes;
 }
 
+//#define DEBUG
 void Params::getStdin(Exiv2::DataBuf& buf)
 {
     // copy stdin to stdinBuf

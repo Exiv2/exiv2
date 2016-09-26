@@ -105,3 +105,217 @@ STRUCTURE OF JPEG FILE: girl.jpg
   </rdf:RDF>
 </x:xmpmeta>
 <?xpacket end='w'?>
+STRUCTURE OF JPEG FILE: girl.jpg
+ address | marker       |  length | data
+       0 | 0xffd8 SOI  
+       2 | 0xffe0 APP0  |      16 | JFIF............
+      20 | 0xffdb DQT   |      67 
+      89 | 0xffdb DQT   |      67 
+     158 | 0xffc0 SOF0  |      17 
+     177 | 0xffc4 DHT   |      28 
+     207 | 0xffc4 DHT   |      74 
+     283 | 0xffc4 DHT   |      28 
+     313 | 0xffc4 DHT   |      57 
+     372 | 0xffe1 APP1  |    4613 | http://ns.adobe.com/xap/1.0/.<?x
+    4987 | 0xffe1 APP1  |    4602 | http://ns.adobe.com/xap/1.0/.<?x
+    9591 | 0xffda SOS  
+STRUCTURE OF JPEG FILE: girl.jpg
+ address | marker       |  length | data
+       0 | 0xffd8 SOI  
+       2 | 0xffe0 APP0  |      16 | JFIF............
+      20 | 0xffe1 APP1  |    5704 | Exif..II*......................
+    5726 | 0xffe1 APP1  |    5287 | http://ns.adobe.com/xap/1.0/.<?x
+   11015 | 0xffed APP13 |     788 | Photoshop 3.0.8BIM..........Z...
+   11805 | 0xffdb DQT   |      67 
+   11874 | 0xffdb DQT   |      67 
+   11943 | 0xffc0 SOF0  |      17 
+   11962 | 0xffc4 DHT   |      28 
+   11992 | 0xffc4 DHT   |      74 
+   12068 | 0xffc4 DHT   |      28 
+   12098 | 0xffc4 DHT   |      57 
+   12157 | 0xffe1 APP1  |    4602 | http://ns.adobe.com/xap/1.0/.<?x
+   16761 | 0xffda SOS  
+STRUCTURE OF JPEG FILE: girl.jpg
+ address | marker       |  length | data
+       0 | 0xffd8 SOI  
+       2 | 0xffe0 APP0  |      16 | JFIF............
+      20 | 0xffdb DQT   |      67 
+      89 | 0xffdb DQT   |      67 
+     158 | 0xffc0 SOF0  |      17 
+     177 | 0xffc4 DHT   |      28 
+     207 | 0xffc4 DHT   |      74 
+     283 | 0xffc4 DHT   |      28 
+     313 | 0xffc4 DHT   |      57 
+     372 | 0xffe1 APP1  |    4613 | http://ns.adobe.com/xap/1.0/.<?x
+    4987 | 0xffe1 APP1  |    4602 | http://ns.adobe.com/xap/1.0/.<?x
+    9591 | 0xffda SOS  
+STRUCTURE OF JPEG FILE: girl.jpg
+ address | marker       |  length | data
+       0 | 0xffd8 SOI  
+       2 | 0xffe0 APP0  |      16 | JFIF............
+      20 | 0xffe1 APP1  |    4552 | Exif..II*......................
+    4574 | 0xffe1 APP1  |    4692 | http://ns.adobe.com/xap/1.0/.<?x
+    9268 | 0xffed APP13 |     788 | Photoshop 3.0.8BIM..........Z...
+   10058 | 0xffdb DQT   |      67 
+   10127 | 0xffdb DQT   |      67 
+   10196 | 0xffc0 SOF0  |      17 
+   10215 | 0xffc4 DHT   |      28 
+   10245 | 0xffc4 DHT   |      74 
+   10321 | 0xffc4 DHT   |      28 
+   10351 | 0xffc4 DHT   |      57 
+   10410 | 0xffe1 APP1  |    4602 | http://ns.adobe.com/xap/1.0/.<?x
+   15014 | 0xffda SOS  
+STRUCTURE OF JPEG FILE: girl.jpg
+ address | marker       |  length | data
+       0 | 0xffd8 SOI  
+       2 | 0xffe0 APP0  |      16 | JFIF............
+      20 | 0xffdb DQT   |      67 
+      89 | 0xffdb DQT   |      67 
+     158 | 0xffc0 SOF0  |      17 
+     177 | 0xffc4 DHT   |      28 
+     207 | 0xffc4 DHT   |      74 
+     283 | 0xffc4 DHT   |      28 
+     313 | 0xffc4 DHT   |      57 
+     372 | 0xffe1 APP1  |    4613 | http://ns.adobe.com/xap/1.0/.<?x
+    4987 | 0xffe1 APP1  |    4602 | http://ns.adobe.com/xap/1.0/.<?x
+    9591 | 0xffda SOS  
+Warning: Exif tag Exif.Image.InterColorProfile not encoded
+STRUCTURE OF JPEG FILE: girl.jpg
+ address | marker       |  length | data
+       0 | 0xffd8 SOI  
+       2 | 0xffe0 APP0  |      16 | JFIF............
+      20 | 0xffe1 APP1  |    1880 | Exif..II*......................
+    1902 | 0xffe1 APP1  |    6767 | http://ns.adobe.com/xap/1.0/.<?x
+    8671 | 0xffed APP13 |     794 | Photoshop 3.0.8BIM..........Z...
+    9467 | 0xffdb DQT   |      67 
+    9536 | 0xffdb DQT   |      67 
+    9605 | 0xffc0 SOF0  |      17 
+    9624 | 0xffc4 DHT   |      28 
+    9654 | 0xffc4 DHT   |      74 
+    9730 | 0xffc4 DHT   |      28 
+    9760 | 0xffc4 DHT   |      57 
+    9819 | 0xffe1 APP1  |    4602 | http://ns.adobe.com/xap/1.0/.<?x
+   14423 | 0xffda SOS  
+STRUCTURE OF JPEG FILE: girl.jpg
+ address | marker       |  length | data
+       0 | 0xffd8 SOI  
+       2 | 0xffe0 APP0  |      16 | JFIF............
+      20 | 0xffdb DQT   |      67 
+      89 | 0xffdb DQT   |      67 
+     158 | 0xffc0 SOF0  |      17 
+     177 | 0xffc4 DHT   |      28 
+     207 | 0xffc4 DHT   |      74 
+     283 | 0xffc4 DHT   |      28 
+     313 | 0xffc4 DHT   |      57 
+     372 | 0xffe1 APP1  |    4613 | http://ns.adobe.com/xap/1.0/.<?x
+    4987 | 0xffe1 APP1  |    4602 | http://ns.adobe.com/xap/1.0/.<?x
+    9591 | 0xffda SOS  
+STRUCTURE OF JPEG FILE: girl.jpg
+ address | marker       |  length | data
+       0 | 0xffd8 SOI  
+       2 | 0xffe0 APP0  |      16 | JFIF............
+      20 | 0xffe1 APP1  |    8528 | Exif..II*......................
+    8550 | 0xffe1 APP1  |    6730 | http://ns.adobe.com/xap/1.0/.<?x
+   15282 | 0xffed APP13 |     794 | Photoshop 3.0.8BIM..........Z...
+   16078 | 0xffdb DQT   |      67 
+   16147 | 0xffdb DQT   |      67 
+   16216 | 0xffc0 SOF0  |      17 
+   16235 | 0xffc4 DHT   |      28 
+   16265 | 0xffc4 DHT   |      74 
+   16341 | 0xffc4 DHT   |      28 
+   16371 | 0xffc4 DHT   |      57 
+   16430 | 0xffe1 APP1  |    4602 | http://ns.adobe.com/xap/1.0/.<?x
+   21034 | 0xffda SOS  
+STRUCTURE OF JPEG FILE: Reagan.jpg
+ address | marker       |  length | data
+       0 | 0xffd8 SOI  
+       2 | 0xffe1 APP1  |    5704 | Exif..MM.*......................
+    5708 | 0xffe1 APP1  |    5287 | http://ns.adobe.com/xap/1.0/.<?x
+   10997 | 0xffe2 APP2  |   65512 | ICC_PROFILE...... APPL....prtrRG chunk 1/25
+   76513 | 0xffe2 APP2  |   65512 | ICC_PROFILE...X..Ih.V...j.U..4mV chunk 2/25
+  142029 | 0xffe2 APP2  |   65512 | ICC_PROFILE...}.f...~mcx....`... chunk 3/25
+  207545 | 0xffe2 APP2  |   65512 | ICC_PROFILE....|...S...^...v.... chunk 4/25
+  273061 | 0xffe2 APP2  |   65512 | ICC_PROFILE.....bXf2..`Og...^0g. chunk 5/25
+  338577 | 0xffe2 APP2  |   65512 | ICC_PROFILE.....~.|...{.}P..y.}. chunk 6/25
+  404093 | 0xffe2 APP2  |   65512 | ICC_PROFILE......b.....:...?.... chunk 7/25
+  469609 | 0xffe2 APP2  |   65512 | ICC_PROFILE...Q8yq].R.wW].S.uJ]e chunk 8/25
+  535125 | 0xffe2 APP2  |   65512 | ICC_PROFILE...i.T'..RA.Y..P,.... chunk 9/25
+  600641 | 0xffe2 APP2  |   65512 | ICC_PROFILE...i.}/..key...l.v..c chunk 10/25
+  666157 | 0xffe2 APP2  |   65512 | ICC_PROFILE...{....O{.....|..c.. chunk 11/25
+  731673 | 0xffe2 APP2  |   65512 | ICC_PROFILE...E.;.O-F.-.R>J...a. chunk 12/25
+  797189 | 0xffe2 APP2  |   65512 | ICC_PROFILE....X..up............ chunk 13/25
+  862705 | 0xffe2 APP2  |   65512 | ICC_PROFILE........<............ chunk 14/25
+  928221 | 0xffe2 APP2  |   65512 | ICC_PROFILE..............,...'.. chunk 15/25
+  993737 | 0xffe2 APP2  |   65512 | ICC_PROFILE.......g.....m%....qw chunk 16/25
+ 1059253 | 0xffe2 APP2  |   65512 | ICC_PROFILE......s....xX.M..n... chunk 17/25
+ 1124769 | 0xffe2 APP2  |   65512 | ICC_PROFILE............0......E. chunk 18/25
+ 1190285 | 0xffe2 APP2  |   65512 | ICC_PROFILE........(.n.B........ chunk 19/25
+ 1255801 | 0xffe2 APP2  |   65512 | ICC_PROFILE...0.0.282.0.282.0.28 chunk 20/25
+ 1321317 | 0xffe2 APP2  |   65512 | ICC_PROFILE...175.0.176.0.175.0. chunk 21/25
+ 1386833 | 0xffe2 APP2  |   65512 | ICC_PROFILE...103.0.114.0.126.0. chunk 22/25
+ 1452349 | 0xffe2 APP2  |   65512 | ICC_PROFILE...6.0.049.0.053.0.05 chunk 23/25
+ 1517865 | 0xffe2 APP2  |   65512 | ICC_PROFILE....0.670.0.653.0.634 chunk 24/25
+ 1583381 | 0xffe2 APP2  |   41712 | ICC_PROFILE...09.0.584.0.555.0.5 chunk 25/25
+ 1625097 | 0xffed APP13 |    3030 | Photoshop 3.0.8BIM..........Z...
+ 1628129 | 0xffee APP14 |      14 | Adobe.d@......
+ 1628145 | 0xffdb DQT   |     132 
+ 1628279 | 0xffc0 SOF0  |      17 
+ 1628298 | 0xffdd DRI   |       4 
+ 1628304 | 0xffc4 DHT   |     418 
+ 1628724 | 0xffda SOS  
+STRUCTURE OF TIFF FILE (MM): Reagan.tiff
+ address |    tag                           |      type |    count |    offset | value
+      10 | 0x0100 ImageWidth                |     SHORT |        1 |  13107200 | 200
+      22 | 0x0101 ImageLength               |     SHORT |        1 |   8519680 | 130
+      34 | 0x0102 BitsPerSample             |     SHORT |        4 |       338 | 8 8 8 8
+      46 | 0x0103 Compression               |     SHORT |        1 |     65536 | 1
+      58 | 0x0106 PhotometricInterpretation |     SHORT |        1 |    131072 | 2
+      70 | 0x010e ImageDescription          |     ASCII |      403 |       346 | 040621-N-6536T-062.USS Ronald Re ...
+      82 | 0x010f Make                      |     ASCII |       18 |       750 | NIKON CORPORATION
+      94 | 0x0110 Model                     |     ASCII |       10 |       768 | NIKON D1X
+     106 | 0x0111 StripOffsets              |      LONG |        1 |   1620922 | 1620922
+     118 | 0x0112 Orientation               |     SHORT |        1 |     65536 | 1
+     130 | 0x0115 SamplesPerPixel           |     SHORT |        1 |    262144 | 4
+     142 | 0x0116 RowsPerStrip              |     SHORT |        1 |   8519680 | 130
+     154 | 0x0117 StripByteCounts           |      LONG |        1 |    104000 | 104000
+     166 | 0x011a XResolution               |  RATIONAL |        1 |       778 | 778/0
+     178 | 0x011b YResolution               |  RATIONAL |        1 |       786 | 786/0
+     190 | 0x011c PlanarConfiguration       |     SHORT |        1 |     65536 | 1
+     202 | 0x0128 ResolutionUnit            |     SHORT |        1 |    131072 | 2
+     214 | 0x0131 Software                  |     ASCII |       29 |       794 | Adobe Photoshop CS Macintosh
+     226 | 0x0132 DateTime                  |     ASCII |       20 |       824 | 2012:04:07 16:11:27
+     238 | 0x013b Artist                    |     ASCII |       34 |       844 | Photographer..s Mate 3rd Class ( ...
+     250 | 0x0152 ExtraSamples              |     SHORT |        1 |     65536 | 1
+     262 | 0x0153 SampleFormat              |     SHORT |        4 |       878 | 1 1 1 1
+     274 | 0x02bc XMLPacket                 |      BYTE |     4917 |       886 | <?xpacket begin="..." id="W5M0Mp ...
+     286 | 0x83bb IPTCNAA                   |      LONG |      233 |      5804 | 469850624 52110663 469893120 33554972 39125013 ...
+     298 | 0x8769 ExifTag                   |      LONG |        1 |   1620336 | 1620336
+     310 | 0x8773 InterColorProfile         | UNDEFINED |  1613600 |      6736 | ... APPL....prtrRGB Lab ........ ...
+     322 | 0x8825 GPSTag                    |      LONG |        1 |   1620904 | 1620904
+END Reagan.tiff
+STRUCTURE OF PNG FILE: ReaganSmallPng.png
+ address | chunk |  length | data                           | checksum
+       8 | IHDR  |      13 | ............                   | 0x8cf910c3
+      33 | zTXt  |    8648 | Raw profile type exif..x...Wv$ | 0xca41f34d
+    8693 | zTXt  |     632 | Raw profile type iptc..x..T[.. | 0xa2860459
+    9337 | iCCP  | 1159185 | ICC PROFILE..x...uP.[..9@.HB.D | 0x4a90a7d7
+ 1168534 | iTXt  |    7117 | XML:com.adobe.xmp.....<?xpacke | 0x2ff025b8
+ 1175663 | gAMA  |       4 | ....                           | 0x0bfc6105
+ 1175679 | bKGD  |       6 | ......                         | 0xa0bda793
+ 1175697 | pHYs  |       9 | ...#...#.                      | 0x78a53f76
+ 1175718 | tIME  |       7 | ......#                        | 0xdf7f5bbd
+ 1175737 | zTXt  |     278 | Comment..x.}..n.@....O..5..h.. | 0xdb1dfff5
+ 1176027 | IDAT  |    8192 | x...i.$.u%v....Gdd...U..X.`0.9 | 0x96dc2ed9
+ 1184231 | IDAT  |    8192 | df.."..1L...0...j....`F.&.yf.. | 0xbfeb3575
+ 1192435 | IDAT  |    8192 | K-N.t.ENL.R..q](jm...sN..U.+.. | 0xe249a922
+ 1200639 | IDAT  |    8192 | >..?.Nw..iN......xE....z..[..} | 0x054b9d1e
+ 1208843 | IDAT  |    7066 | ...q.B...2*@..#....T....h..v.. | 0x327f1e3e
+ 1215921 | IEND  |       0 |                                | 0xae426082
+STRUCTURE OF WEBP FILE: exiv2-bug1199.webp
+ Chunk |   Length |   Offset | Payload
+  RIFF |  1800566 |        0 | WEBP
+  VP8X |       10 |       12 | ,........
+  ICCP |  1613600 |       30 | ... APPL....prtrRGB Lab ........
+  VP8  |   172008 |  1613638 | .G...*.. .>1..B.!..o.. ......]..
+  EXIF |    12040 |  1785654 | II*........................... .
+  XMP  |     2864 |  1797702 | <?xpacket begin="..." id="W5M0Mp
