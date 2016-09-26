@@ -1068,7 +1068,7 @@ namespace Action {
         path_ = path;
         int  rc = 0;
 
-        bool bStdout = Params::instance().target_ & Params::ctStdInOut;
+        bool bStdout = Params::instance().target_ & Params::ctStdInOut?true:false;
         if  (bStdout) _setmode(_fileno(stdout), _O_BINARY) ;
 
         if (!rc && Params::instance().target_ & Params::ctThumb) {
@@ -2148,7 +2148,7 @@ namespace {
             && !sourceImage->comment().empty()) {
             if (Params::instance().verbose_) {
                 std::cout << _("Writing JPEG comment from") << " " << source
-                          << " " << _("to") << " " << target << std::endl;
+                          << " " << _("to") << " " << tgt << std::endl;
             }
             targetImage->setComment(sourceImage->comment());
         }
@@ -2157,7 +2157,7 @@ namespace {
             rc=0;
         }
         catch (const Exiv2::AnyError& e) {
-            std::cerr << target <<
+            std::cerr << tgt <<
                 ": " << _("Could not write metadata to file") << ": " << e << "\n";
             rc=1;
         }
