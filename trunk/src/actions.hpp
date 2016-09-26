@@ -321,7 +321,7 @@ namespace Action {
         /*!
           @brief Write embedded iccProfile files.
          */
-        int writeIccProfile() const;
+        int writeIccProfile(const std::string& path) const;
 
     private:
         virtual Extract* clone_() const;
@@ -356,11 +356,9 @@ namespace Action {
         int insertXmpPacket(const std::string& path,const Exiv2::DataBuf& xmpBlob,bool usePacket=false) const;
 
         /*!
-          @brief Insert an ICC profile from a file into file \em path.
-                 The filename of the ICC profile is expected to be the image
-                 filename (\em path) minus its suffix plus ".icc".
+          @brief Insert an ICC profile from iccPath into file \em path.
          */
-        int insertIccProfile(const std::string& path) const;
+        int insertIccProfile(const std::string& path,const std::string& iccPath) const;
         /*!
           @brief Insert an ICC profile from binary DataBuf into file \em path.
          */

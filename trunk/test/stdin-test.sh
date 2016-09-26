@@ -22,10 +22,27 @@ source ./functions.source
     runTest exiv2 -pX exiv2-bug1229.jpg | runTest exiv2 -iXX- girl.jpg
     runTest exiv2 -pS girl.jpg
 
-    for f in Reagan.tiff Reagan.tiff ReaganSmallPng.png; do
+    for f in Reagan.jpg Reagan.tiff ReaganSmallPng.png; do
         copyTestFile   $f
         runTest exiv2 -pX exiv2-bug1229.jpg | runTest exiv2 -iXX- $f
-        exiv2 -pX $f | xmllint --format -
+        runTest exiv2 -pX $f | xmllint --format -
+    done
+
+    printf "a (exiv2, xmp, iptc) " >&3
+    for f in Reagan.jpg Reagan.tiff ReaganLargeTiff.tiff ReaganSmallPng.png; do
+        copyTestFile          $f
+        copyTestFile  exiv2-bug1229.jpg            girl.jpg
+        runTest exiv2 -pS                          girl.jpg
+        runTest exiv2 -ea- $f | runTest exiv2 -ia- girl.jpg
+        runTest exiv2 -pS                          girl.jpg
+    done
+
+    printf "ICC " >&3
+    copyTestFile          ReaganLargeTiff.tiff
+    for f in Reagan.jpg Reagan.tiff ReaganSmallPng.png exiv2-bug1199.webp ; do
+        copyTestFile                                                 $f
+        runTest exiv2 -eC- ReaganLargeTiff.tiff | runTest exiv2 -iC- $f
+        runTest exiv2 -pS                                            $f
     done
 
 ) 3>&1 > $results 2>&1
