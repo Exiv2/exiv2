@@ -349,7 +349,7 @@ void charHandler(void* userData,const char* s,int len)
             }
             me->bTime=false;
         }
-        if ( me->bEle && len > 5 ) {
+        if ( me->bEle && len > 2 ) {
             if ( len < l_max ) {
                 memcpy(buffer,s,len);
                 buffer[len]=0;
@@ -403,6 +403,7 @@ time_t parseTime(const char* arg,bool bAdjust)
             T.tm_year = YY -1900 ;
             T.tm_mon  = MM -1    ;
             T.tm_mday = DD  ;
+            T.tm_isdst = -1 ; // determine value automatically (otherwise hour may shift)
             result = mktime(&T);
         }
     } catch ( ... ) {};
@@ -852,7 +853,7 @@ int main(int argc,const char* argv[])
                 s = abs(s);
             int m = s/60  ;
                 s-= m*60  ;
-            printf("tz,dsl,adjust = %d,%d,%d total = %dsecs (= %d:%d:%d)\n",t,d,a,A,h,m,s);
+            printf("tz,dst,adjust = %d,%d,%d total = %dsecs (= %d:%d:%d)\n",t,d,a,A,h,m,s);
         }
         for ( size_t p = 0 ; !options.dryrun && p < gFiles.size() ; p++ ) {
             std::string arg = gFiles[p] ;

@@ -67,6 +67,7 @@ TESTS  = addmoddel.sh         \
          conversions.sh       \
          exifdata-test.sh     \
          exiv2-test.sh        \
+         geotag-test.sh       \
          imagetest.sh         \
          icc-test.sh          \
          iotest.sh            \
