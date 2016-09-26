@@ -675,15 +675,7 @@
 			UniqueIdentifier="{4FC737F1-C7A5-4376-A066-2A32D752A2FF}"
 			>
 			<File
-				RelativePath="..\..\src\getopt_win32.c"
-				>
-			</File>
-			<File
 				RelativePath="..\..\samples\ini-test.cpp"
-				>
-			</File>
-			<File
-				RelativePath="..\..\src\utils.cpp"
 				>
 			</File>
 		</Filter>
@@ -693,27 +685,11 @@
 			UniqueIdentifier="{93995380-89BD-4b04-88EB-625FBE52EBFB}"
 			>
 			<File
-				RelativePath="..\..\include\exiv2\actions.hpp"
+				RelativePath="..\..\include\exiv2\config.h"
 				>
 			</File>
 			<File
-				RelativePath="..\..\include\exiv2\getopt_win32.h"
-				>
-			</File>
-			<File
-				RelativePath="..\..\include\exiv2\private.h"
-				>
-			</File>
-			<File
-				RelativePath="..\..\include\exiv2\timegm.h"
-				>
-			</File>
-			<File
-				RelativePath="..\..\include\exiv2\tzfile.h"
-				>
-			</File>
-			<File
-				RelativePath="..\..\include\exiv2\utils.hpp"
+				RelativePath="..\..\src\ini_int.hpp"
 				>
 			</File>
 		</Filter>
