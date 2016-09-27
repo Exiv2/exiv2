@@ -4,7 +4,7 @@ msvc=$1
 test=$2
 home=$(dirname $(readlink -f $0))
 
-if [ -z $msvc ]; then
+if [ -z "$msvc" ]; then
     echo usage: $0 \<path-to-msvc-bin\> [test]
     exit
 fi
@@ -33,7 +33,9 @@ for d in $(find "$msvc" -name exiv2.exe -exec dirname {} ";"); do
     (
       cd "$home/.."
       make $test
-      $d/exiv2.exe -v -V
+      if [ -z "$2" ]; then
+          $d/exiv2.exe -v -V
+      fi
     )
 done
 
