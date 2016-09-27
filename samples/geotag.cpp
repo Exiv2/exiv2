@@ -223,7 +223,7 @@ std::string Position::toExifString(double d,bool bRational,bool bLat)
         d  *= 60;
     int sec = (int)d;
     char result[200];
-    sprintf(result,bRational ? "%d/1 %d/1 %d/1%s" : "%03d.%02d'%02d\"%s" ,deg,min,sec,bRational?"":NSEW);
+    sprintf(result,bRational ? "%d/1 %d/1 %d/1%s" : "%03d°%02d'%02d\"%s" ,deg,min,sec,bRational?"":NSEW);
     return std::string(result);
 }
 
@@ -310,16 +310,6 @@ static void endElement(void* userData, const char* name)
             printf("trkseg %s begin ",me->now.getTimeString().c_str());
         }
 
-        // printf("lat,lon = %f,%f ele = %f xml = %s exif = %s\n",me->lat,me->lon,me->ele,me->xmlt.c_str(),me->exift.c_str());
-
-        // if we have a good previous position
-        // add missed entries to timedict
-        //if ( me->prev.good() && (me->now.getTime() - me->prev.getTime()) < Position::timeDiffMax ) {
-        //  time_t missed = me->prev.getTime() ;
-        //  while ( ++missed < me->now.getTime() )
-        //      gTimeDict[missed] = me->prev ; // Position(missed,me->lat,me->lon,me->ele) ;
-        //}
-
         // remember our location and put it in gTimeDict
         gTimeDict[me->time] = me->now ;
         me->prev = me->now ;
@@ -382,19 +372,6 @@ time_t parseTime(const char* arg,bool bAdjust)
             sscanf(arg,"%d%c%d%c%d%c%d%c%d%c%d",&YY,&a,&MM,&b,&DD,&c,&HH,&d,&mm,&e,&SS);
 
             struct tm T;
-    #if 0
-            int tm_sec;     /* seconds (0 - 60) */
-            int tm_min;     /* minutes (0 - 59) */
-            int tm_hour;    /* hours (0 - 23) */
-            int tm_mday;    /* day of month (1 - 31) */
-            int tm_mon;     /* month of year (0 - 11) */
-            int tm_year;    /* year - 1900 */
-            int tm_wday;    /* day of week (Sunday = 0) */
-            int tm_yday;    /* day of year (0 - 365) */
-            int tm_isdst;   /* is summer time in effect? */
-            char *tm_zone;  /* abbreviation of timezone name */
-            long tm_gmtoff; /* offset from UTC in seconds */
-    #endif
             memset(&T,0,sizeof(T));
             T.tm_min  = mm  ;
             T.tm_hour = HH  ;
@@ -435,8 +412,7 @@ int timeZoneAdjust()
     offset          = local.tm_gmtoff ;
 #endif
 
-#if 0
-    // debugging code
+#if DEBUG
     struct tm utc = *gmtime(&now);
     printf("utc  :  offset = %6d dst = %d time = %s", 0     ,utc  .tm_isdst, asctime(&utc  ));
     printf("local:  offset = %6d dst = %d time = %s", offset,local.tm_isdst, asctime(&local));
@@ -865,69 +841,7 @@ int main(int argc,const char* argv[])
                 if ( image.get() ) {
                     image->readMetadata();
                     Exiv2::ExifData& exifData = image->exifData();
-#if 0
-                    /*
-					char* keys[]={ "Exif.Image.GPSTag"
-						         , "Exif.GPSInfo.GPSProcessingMethod"
-					             , "Exif.GPSInfo.GPSAltitudeRef"
-							     , "Exif.GPSInfo.GPSVersionID"
-                                 , "Exif.GPSInfo.GPSProcessingMethod"
-                                 , "Exif.GPSInfo.GPSVersionID"
-                                 , "Exif.GPSInfo.GPSMapDatum"
-                                 , "Exif.GPSInfo.GPSLatitude"
-                                 , "Exif.GPSInfo.GPSLongitude"
-                                 , "Exif.GPSInfo.GPSAltitude"
-                                 , "Exif.GPSInfo.GPSAltitudeRef"
-                                 , "Exif.GPSInfo.GPSLatitudeRef"
-                                 , "Exif.GPSInfo.GPSLongitudeRef"
-                                 , "Exif.GPSInfo.GPSDateStamp"
-                                 , "Exif.GPSInfo.GPSTimeStamp"
-					};
-					static int bPrint = true ;
-					for ( int k = 0 ; k < 15 ;   k++ ) {
-						try {
-							if ( bPrint ) printf("erasing %s\n",keys[k]);
-							Exiv2::ExifKey  key = Exiv2::ExifKey(keys[k]);
-							Exiv2::ExifData::iterator kk = exifData.findKey(key);
-							if ( kk != exifData.end() ) exifData.erase(kk);
-						} catch (...) {};
-					}
-					bPrint = false;
-                    */
-#endif
-#if 0
-					Exiv2::ExifData::const_iterator end = exifData.end();
-					for (Exiv2::ExifData::iterator i = exifData.begin(); i != end; ++i) {
-						char name[100];
-						strcpy(name,i->key().c_str());
-						// std::cout << "sniff " << i->key() << std::endl;
-						if ( strstr(name,"GPS") )  {
-							Exiv2::ExifData::iterator pos;
-							Exiv2::ExifKey exifKey = Exiv2::ExifKey(name);
-							pos = exifData.findKey(exifKey);
-							while( pos != exifData.end()) {
-								exifData.erase(pos);
-							}
-						}
-					}
-#endif
 					if ( pPos ) {
-						/*
-						   struct _stat buf;
-   int result;
-   char timebuf[26];
-   char* filename = "crt_stat.c";
-   errno_t err;
-
-   // Get data associated with "crt_stat.c":
-   result = _stat( filename, &buf );
-
-   int _utime(
-   const char *filename,
-   struct _utimbuf *times
-);
-   */
-
                         exifData["Exif.GPSInfo.GPSProcessingMethod" ] = "65 83 67 73 73 0 0 0 72 89 66 82 73 68 45 70 73 88"; // ASCII HYBRID-FIX
                         exifData["Exif.GPSInfo.GPSVersionID"        ] = "2 2 0 0";
                         exifData["Exif.GPSInfo.GPSMapDatum"         ] = "WGS-84";
