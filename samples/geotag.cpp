@@ -807,12 +807,13 @@ int main(int argc,const char* argv[])
                 if ( options.verbose ) printf("%s %s ",arg,types[type]) ;
                 if ( type == typeImage ) {
                     time_t t    = readImageTime(std::string(arg)) ;
+                    char   buffer[1024];
                     char*  path = realpath(arg,NULL);
                     if  ( t && path ) {
                         if ( options.verbose) printf("%s %ld %s",path,(long int)t,asctime(localtime(&t)));
                         gFiles.push_back(path);
                     }
-                    if ( path ) :: free((void*) path);
+                    if ( path && path != buffer ) :: free((void*) path);
                 }
                 if ( type == typeUnknown ) {
                     fprintf(stderr,"error: illegal syntax %s\n",arg);
