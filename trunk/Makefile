@@ -97,17 +97,8 @@ video-test.sh      write-test.sh   write-video-test.sh write2-test.sh         xm
 bugtest bugstest testbugs bugfixes:
 	cd test && ./bugfixes-test.sh
 
-webp-test webptest:
-	cd test && ./webp-test.sh
-
-preview-test preview:
-	cd test && ./preview-test.sh
-
-icc-test icc:
-	cd test && ./icc-test.sh
-
-stdin-test:
-	cd test && ./stdin-test.sh
+bugfixes-test icc-test preview-test webp-test stdin-test geotag-test:
+	cd test && ./$@.sh
 
 # convenience target for building individual sample programs
 addmoddel		exifcomment		exifvalue	httptest	iptctest		mmap-test	stringto-test \
