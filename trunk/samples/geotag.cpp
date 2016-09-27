@@ -80,6 +80,8 @@ char* realpath(const char* file,char* path)
 }
 #endif
 
+char gDeg[10];
+
 // Command-line parser
 class Options  {
 public:
@@ -88,6 +90,7 @@ public:
     bool        version;
     bool        dst;
     bool        dryrun;
+    bool        ascii;
 
     Options()
     {
@@ -96,6 +99,7 @@ public:
         version     = false;
         dst         = false;
         dryrun      = false;
+        ascii       = false;
     }
 
     virtual ~Options() {} ;
@@ -112,6 +116,7 @@ enum                        // keyword indices
 ,   kwVERSION
 ,   kwDST
 ,   kwDRYRUN
+,   kwASCII
 ,   kwVERBOSE
 ,   kwADJUST
 ,   kwTZ
@@ -213,7 +218,7 @@ std::string Position::toExifString(double d,bool bRational,bool bLat)
 {
     const char* NS   = d>=0.0?"N":"S";
     const char* EW   = d>=0.0?"E":"W";
-	const char* NSEW = bLat  ? NS: EW;
+    const char* NSEW = bLat  ? NS: EW;
     if ( d < 0 ) d = -d;
     int deg = (int) d;
         d  -= deg;
@@ -223,7 +228,10 @@ std::string Position::toExifString(double d,bool bRational,bool bLat)
         d  *= 60;
     int sec = (int)d;
     char result[200];
-    sprintf(result,bRational ? "%d/1 %d/1 %d/1%s" : "%03d°%02d'%02d\"%s" ,deg,min,sec,bRational?"":NSEW);
+    if ( bRational )
+        sprintf(result,"%d/1 %d/1 %d/1" ,deg,min,sec);
+    else
+        sprintf(result,"%03d%s%02d'%02d\"%s" ,deg,gDeg,min,sec,NSEW);
     return std::string(result);
 }
 
@@ -573,8 +581,8 @@ time_t readImageTime(std::string path,std::string* pS=NULL)
     using namespace Exiv2;
 
     time_t       result       = 0 ;
-	static std::map<std::string,time_t> cache;
-	if ( cache.count(path) == 1 ) return cache[path];
+    static std::map<std::string,time_t> cache;
+    if ( cache.count(path) == 1 ) return cache[path];
 
     const char* dateStrings[] =
     { "Exif.Photo.DateTimeOriginal"
@@ -596,7 +604,7 @@ time_t readImageTime(std::string path,std::string* pS=NULL)
             }
         } catch ( ... ) {};
     }
-	if ( result ) cache[path] = result;
+    if ( result ) cache[path] = result;
     return result ;
 }
 
@@ -670,7 +678,7 @@ int help(const char* program,char const* words[],int nWords,bool /*bVerbose*/)
         if ( words[i] )
             printf("%c-%s%s",i?'|':'{',words[i],i>(-kwNOVALUE)?" value":"");
     }
-    printf("} path+\n");
+    printf("}+ path+\n");
     return 0;
 }
 
@@ -743,6 +751,7 @@ int main(int argc,const char* argv[])
     keywords[kwVERSION ] = "version";
     keywords[kwVERBOSE ] = "verbose";
     keywords[kwDRYRUN  ] = "dryrun";
+    keywords[kwASCII   ] = "ascii";
     keywords[kwDST     ] = "dst";
     keywords[kwADJUST  ] = "adjust";
     keywords[kwTZ      ] = "tz";
@@ -759,6 +768,7 @@ int main(int argc,const char* argv[])
     shorts["-D"] = "-delta";
     shorts["-s"] = "-delta";
     shorts["-X"] = "-dryrun";
+    shorts["-a"] = "-ascii";
 
     Options options ;
     options.help    = sina(keywords[kwHELP   ],argv) || argc < 2;
@@ -766,7 +776,7 @@ int main(int argc,const char* argv[])
     options.dryrun  = sina(keywords[kwDRYRUN ],argv);
     options.version = sina(keywords[kwVERSION],argv);
     options.dst     = sina(keywords[kwDST    ],argv);
-    options.dryrun  = sina(keywords[kwDRYRUN ],argv);
+    options.ascii   = sina(keywords[kwASCII  ],argv);
 
     for ( int i = 1 ; !result && i < argc ; i++ ) {
         const char* arg   = argv[i++];
@@ -786,6 +796,7 @@ int main(int argc,const char* argv[])
             case kwVERSION  : options.version = true ; break;
             case kwDRYRUN   : options.dryrun  = true ; break;
             case kwVERBOSE  : options.verbose = true ; break;
+            case kwASCII    : options.ascii   = true ; break;
             case kwTZ       : Position::tz_      = parseTZ(value);break;
             case kwADJUST   : Position::adjust_  = ivalue;break;
             case kwDELTA    : Position::deltaMax_= ivalue;break;
@@ -814,6 +825,7 @@ int main(int argc,const char* argv[])
 
     if ( options.help    ) ::help(program,keywords,kwMAX,options.verbose);
     if ( options.version ) ::version(program);
+    strcpy(gDeg,options.ascii?"deg":"°");
 
     if ( !result ) {
         sort(gFiles.begin(),gFiles.end(),mySort);
@@ -841,7 +853,7 @@ int main(int argc,const char* argv[])
                 if ( image.get() ) {
                     image->readMetadata();
                     Exiv2::ExifData& exifData = image->exifData();
-					if ( pPos ) {
+                    if ( pPos ) {
                         exifData["Exif.GPSInfo.GPSProcessingMethod" ] = "65 83 67 73 73 0 0 0 72 89 66 82 73 68 45 70 73 88"; // ASCII HYBRID-FIX
                         exifData["Exif.GPSInfo.GPSVersionID"        ] = "2 2 0 0";
                         exifData["Exif.GPSInfo.GPSMapDatum"         ] = "WGS-84";
@@ -851,19 +863,19 @@ int main(int argc,const char* argv[])
                         exifData["Exif.GPSInfo.GPSAltitude"         ] = Position::toExifString(pPos->ele());
 
                         exifData["Exif.GPSInfo.GPSAltitudeRef"      ] = pPos->ele()<0.0?"1":"0";
-						exifData["Exif.GPSInfo.GPSLatitudeRef"      ] = pPos->lat()>0?"N":"S";
-						exifData["Exif.GPSInfo.GPSLongitudeRef"     ] = pPos->lon()>0?"E":"W";
+                        exifData["Exif.GPSInfo.GPSLatitudeRef"      ] = pPos->lat()>0?"N":"S";
+                        exifData["Exif.GPSInfo.GPSLongitudeRef"     ] = pPos->lon()>0?"E":"W";
 
                         exifData["Exif.GPSInfo.GPSDateStamp"        ] = stamp;
                         exifData["Exif.GPSInfo.GPSTimeStamp"        ] = Position::toExifTimeStamp(stamp);
-						exifData["Exif.Image.GPSTag"                ] = 4908;
+                        exifData["Exif.Image.GPSTag"                ] = 4908;
 
-						printf("%s %s % 2d\n",arg.c_str(),pPos->toString().c_str(),pPos->delta());
+                        printf("%s %s % 2d\n",arg.c_str(),pPos->toString().c_str(),pPos->delta());
                     } else {
                         printf("%s *** not in time dict ***\n",arg.c_str());
                     }
                     image->writeMetadata();
-				}
+                }
             } catch ( ... ) {};
         }
     }
