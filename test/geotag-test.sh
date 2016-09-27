@@ -18,7 +18,7 @@ source ./functions.source
     for tag in $tags; do runTest exiv2 -M"del $tag" $jpg; done
     runTest                      exiv2 -pa --grep GPS     $jpg
     echo --- run geotag ---
-    runTest                      geotag -tz -8:00   $jpg $gpx | cut -d' ' -f 2-
+    runTest                      geotag -ascii -tz -8:00 $jpg $gpx | cut -d' ' -f 2- | sed -E -e 's/\xb0/___/g'
     echo --- show GPSInfo tags ---
     runTest                      exiv2 -pa --grep GPSInfo $jpg
 
