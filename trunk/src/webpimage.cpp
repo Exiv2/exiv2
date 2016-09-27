@@ -442,8 +442,8 @@ namespace Exiv2 {
             }
 
             io_->seek(0,BasicIo::beg); // rewind
-            uint64_t offset = (uint64_t) io_->tell();
             while ( !io_->eof() && (uint64_t) io_->tell() < filesize) {
+                uint64_t offset = (uint64_t) io_->tell();
                 byte     size_buff[WEBP_TAG_SIZE];
                 io_->read(chunkId.pData_, WEBP_TAG_SIZE);
                 io_->read(size_buff, WEBP_TAG_SIZE);
@@ -453,7 +453,7 @@ namespace Exiv2 {
 
                 if ( bPrint ) {
                     out << Internal::indent(depth)
-                    << Internal::stringFormat("  %s | %8u | %8u | ", (const char*)chunkId.pData_,size,offset)
+                    << Internal::stringFormat("  %s | %8u | %8u | ", (const char*)chunkId.pData_,size,(uint32_t)offset)
                     << Internal::binaryToString(payload,payload.size_>32?32:payload.size_)
                     << std::endl;
                 }
@@ -472,7 +472,6 @@ namespace Exiv2 {
                 }
 
                 if ( offset && io_->tell() % 2 ) io_->seek(+1, BasicIo::cur); // skip padding byte on sub-chunks
-                offset = io_->tell();
             }
         }
     }
