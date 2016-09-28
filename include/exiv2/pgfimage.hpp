@@ -93,6 +93,7 @@ namespace Exiv2
         //@}
 
     private:
+        bool bSwap_; // true for bigEndian hardware, else false
         //! @name NOT implemented
         //@{
         //! Copy constructor
@@ -112,7 +113,7 @@ namespace Exiv2
         //! Read PGF Header size encoded in 32 bits integer.
         uint32_t readPgfHeaderSize(BasicIo& iIo);
         //! Read header structure.
-        DataBuf readPgfHeaderStructure(BasicIo& iIo, int* width, int* height);
+        DataBuf readPgfHeaderStructure(BasicIo& iIo, int& width,int & height);
         //@}
 
     }; // class PgfImage
