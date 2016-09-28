@@ -58,12 +58,65 @@ const unsigned char pgfBlank[] = { 0x50,0x47,0x46,0x36,0x10,0x00,0x00,0x00,0x01,
                                    0x00,0x78,0x00,0x00,0x00,0x00,0x01,0x00,0x00,0x00
                                  };
 
+
 // *****************************************************************************
 // class member definitions
+
 namespace Exiv2 {
+
+	// http://en.wikipedia.org/wiki/Endianness
+	static bool isBigEndian()
+	{
+		union {
+			uint32_t i;
+			char c[4];
+		} e = { 0x01000000 };
+
+		return e.c[0]?true:false;
+	}
+	// static bool isLittleEndian() { return !isBigEndian(); }
+
+	static uint32_t byteSwap(uint32_t value,bool bSwap)
+	{
+		uint32_t result = 0;
+		result |= (value & 0x000000FF) << 24;
+		result |= (value & 0x0000FF00) << 8;
+		result |= (value & 0x00FF0000) >> 8;
+		result |= (value & 0xFF000000) >> 24;
+		return bSwap ? result : value;
+	}
+/*
+	static uint16_t byteSwap(uint16_t value,bool bSwap)
+	{
+		uint16_t result = 0;
+		result |= (value & 0x00FF) << 8;
+		result |= (value & 0xFF00) >> 8;
+		return bSwap ? result : value;
+	}
+
+	static uint16_t byteSwap2(Exiv2::DataBuf& buf,size_t offset,bool bSwap)
+	{
+		uint16_t v;
+		char*    p = (char*) &v;
+		p[0] = buf.pData_[offset];
+		p[1] = buf.pData_[offset+1];
+		return byteSwap(v,bSwap);
+	}
+*/
+	static uint32_t byteSwap(Exiv2::DataBuf& buf,size_t offset,bool bSwap)
+	{
+		uint32_t v;
+		char*    p = (char*) &v;
+		p[0] = buf.pData_[offset];
+		p[1] = buf.pData_[offset+1];
+		p[2] = buf.pData_[offset+2];
+		p[3] = buf.pData_[offset+3];
+		return byteSwap(v,bSwap);
+	}
 
     PgfImage::PgfImage(BasicIo::AutoPtr io, bool create)
             : Image(ImageType::pgf, mdExif | mdIptc| mdXmp | mdComment, io)
+            , bSwap_(isBigEndian())
     {
         if (create)
         {
@@ -104,8 +157,9 @@ namespace Exiv2 {
         readPgfMagicNumber(*io_);
 
         uint32_t headerSize = readPgfHeaderSize(*io_);
+        headerSize = byteSwap(headerSize,bSwap_);
 
-        readPgfHeaderStructure(*io_, &pixelWidth_, &pixelHeight_);
+        readPgfHeaderStructure(*io_, pixelWidth_, pixelHeight_);
 
         // And now, the most interresting, the user data byte array where metadata are stored as small image.
 
@@ -171,7 +225,7 @@ namespace Exiv2 {
         readPgfHeaderSize(*io_);
 
         int w, h;
-        DataBuf header      = readPgfHeaderStructure(*io_, &w, &h);
+        DataBuf header      = readPgfHeaderStructure(*io_, w, h);
 
         Image::AutoPtr img  = ImageFactory::create(ImageType::png);
 
@@ -179,8 +233,8 @@ namespace Exiv2 {
         img->setIptcData(iptcData_);
         img->setXmpData(xmpData_);
         img->writeMetadata();
-        int imgSize    = img->io().size();
-        DataBuf imgBuf = img->io().read(imgSize);
+        int     imgSize  = img->io().size();
+        DataBuf imgBuf   = img->io().read(imgSize);
 
 #ifdef DEBUG
         std::cout << "Exiv2::PgfImage::doWriteMetadata: Creating image to host metadata (" << imgSize << " bytes)\n";
@@ -198,6 +252,7 @@ namespace Exiv2 {
         uint32_t newHeaderSize = header.size_ + imgSize;
         DataBuf buffer(4);
         memcpy (buffer.pData_, &newHeaderSize, 4);
+        byteSwap(buffer,0,bSwap_);
         if (outIo.write(buffer.pData_, 4) != 4) throw Error(21);
 
 #ifdef DEBUG
@@ -250,8 +305,7 @@ namespace Exiv2 {
         if (iIo.error()) throw Error(14);
         if (bufRead != buffer.size_) throw Error(20);
 
-        uint32_t headerSize = 0;
-        memcpy (&headerSize, buffer.pData_, 4);      // TODO : check endianness.
+        int headerSize = (int) byteSwap(buffer,0,bSwap_);
         if (headerSize <= 0 ) throw Error(22);
 
 #ifdef DEBUG
@@ -261,15 +315,15 @@ namespace Exiv2 {
         return headerSize;
     } // PgfImage::readPgfHeaderSize
 
-    DataBuf PgfImage::readPgfHeaderStructure(BasicIo& iIo, int* width, int* height)
+    DataBuf PgfImage::readPgfHeaderStructure(BasicIo& iIo, int& width, int& height)
     {
         DataBuf header(16);
         long bufRead = iIo.read(header.pData_, header.size_);
         if (iIo.error()) throw Error(14);
         if (bufRead != header.size_) throw Error(20);
 
-        memcpy(width,  &header.pData_[0], 4);      // TODO : check endianness.
-        memcpy(height, &header.pData_[4], 4);      // TODO : check endianness.
+        width  = byteSwap(header,0,bSwap_);
+        height = byteSwap(header,4,bSwap_);
 
         /* NOTE: properties not yet used
         byte nLevels  = buffer.pData_[8];
