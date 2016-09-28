@@ -107,11 +107,12 @@ namespace Exiv2 {
     {
         uint32_t v;
         char*    p = (char*) &v;
-        p[0] = buf.pData_[offset];
-        p[1] = buf.pData_[offset+1];
-        p[2] = buf.pData_[offset+2];
-        p[3] = buf.pData_[offset+3];
-        return byteSwap(v,bSwap);
+        int      i;
+        for ( i = 0 ; i < 4 ; i++ ) p[i] = buf.pData_[offset+i];
+        uint32_t result = byteSwap(v,bSwap);
+        p               = (char*) &result;
+        for ( i = 0 ; i < 4 ; i++ ) buf.pData_[offset+i] = p[i];
+        return result;
     }
 
     PgfImage::PgfImage(BasicIo::AutoPtr io, bool create)
@@ -323,7 +324,7 @@ namespace Exiv2 {
         DataBuf work(8);  // don't disturb the binary data - doWriteMetadata reuses it
         memcpy (work.pData_,header.pData_,8);
         width   = byteSwap(work,0,bSwap_);
-        height  = byteSwap(header,4,bSwap_);
+        height  = byteSwap(work,4,bSwap_);
 
         /* NOTE: properties not yet used
         byte nLevels  = buffer.pData_[8];
