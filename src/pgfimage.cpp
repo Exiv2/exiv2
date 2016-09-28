@@ -64,55 +64,55 @@ const unsigned char pgfBlank[] = { 0x50,0x47,0x46,0x36,0x10,0x00,0x00,0x00,0x01,
 
 namespace Exiv2 {
 
-	// http://en.wikipedia.org/wiki/Endianness
-	static bool isBigEndian()
-	{
-		union {
-			uint32_t i;
-			char c[4];
-		} e = { 0x01000000 };
+    // http://en.wikipedia.org/wiki/Endianness
+    static bool isBigEndian()
+    {
+        union {
+            uint32_t i;
+            char c[4];
+        } e = { 0x01000000 };
 
-		return e.c[0]?true:false;
-	}
-	// static bool isLittleEndian() { return !isBigEndian(); }
+        return e.c[0]?true:false;
+    }
+    // static bool isLittleEndian() { return !isBigEndian(); }
 
-	static uint32_t byteSwap(uint32_t value,bool bSwap)
-	{
-		uint32_t result = 0;
-		result |= (value & 0x000000FF) << 24;
-		result |= (value & 0x0000FF00) << 8;
-		result |= (value & 0x00FF0000) >> 8;
-		result |= (value & 0xFF000000) >> 24;
-		return bSwap ? result : value;
-	}
+    static uint32_t byteSwap(uint32_t value,bool bSwap)
+    {
+        uint32_t result = 0;
+        result |= (value & 0x000000FF) << 24;
+        result |= (value & 0x0000FF00) << 8;
+        result |= (value & 0x00FF0000) >> 8;
+        result |= (value & 0xFF000000) >> 24;
+        return bSwap ? result : value;
+    }
 /*
-	static uint16_t byteSwap(uint16_t value,bool bSwap)
-	{
-		uint16_t result = 0;
-		result |= (value & 0x00FF) << 8;
-		result |= (value & 0xFF00) >> 8;
-		return bSwap ? result : value;
-	}
+    static uint16_t byteSwap(uint16_t value,bool bSwap)
+    {
+        uint16_t result = 0;
+        result |= (value & 0x00FF) << 8;
+        result |= (value & 0xFF00) >> 8;
+        return bSwap ? result : value;
+    }
 
-	static uint16_t byteSwap2(Exiv2::DataBuf& buf,size_t offset,bool bSwap)
-	{
-		uint16_t v;
-		char*    p = (char*) &v;
-		p[0] = buf.pData_[offset];
-		p[1] = buf.pData_[offset+1];
-		return byteSwap(v,bSwap);
-	}
+    static uint16_t byteSwap2(Exiv2::DataBuf& buf,size_t offset,bool bSwap)
+    {
+        uint16_t v;
+        char*    p = (char*) &v;
+        p[0] = buf.pData_[offset];
+        p[1] = buf.pData_[offset+1];
+        return byteSwap(v,bSwap);
+    }
 */
-	static uint32_t byteSwap(Exiv2::DataBuf& buf,size_t offset,bool bSwap)
-	{
-		uint32_t v;
-		char*    p = (char*) &v;
-		p[0] = buf.pData_[offset];
-		p[1] = buf.pData_[offset+1];
-		p[2] = buf.pData_[offset+2];
-		p[3] = buf.pData_[offset+3];
-		return byteSwap(v,bSwap);
-	}
+    static uint32_t byteSwap(Exiv2::DataBuf& buf,size_t offset,bool bSwap)
+    {
+        uint32_t v;
+        char*    p = (char*) &v;
+        p[0] = buf.pData_[offset];
+        p[1] = buf.pData_[offset+1];
+        p[2] = buf.pData_[offset+2];
+        p[3] = buf.pData_[offset+3];
+        return byteSwap(v,bSwap);
+    }
 
     PgfImage::PgfImage(BasicIo::AutoPtr io, bool create)
             : Image(ImageType::pgf, mdExif | mdIptc| mdXmp | mdComment, io)
@@ -157,8 +157,6 @@ namespace Exiv2 {
         readPgfMagicNumber(*io_);
 
         uint32_t headerSize = readPgfHeaderSize(*io_);
-        headerSize = byteSwap(headerSize,bSwap_);
-
         readPgfHeaderStructure(*io_, pixelWidth_, pixelHeight_);
 
         // And now, the most interresting, the user data byte array where metadata are stored as small image.
@@ -322,8 +320,10 @@ namespace Exiv2 {
         if (iIo.error()) throw Error(14);
         if (bufRead != header.size_) throw Error(20);
 
-        width  = byteSwap(header,0,bSwap_);
-        height = byteSwap(header,4,bSwap_);
+        DataBuf work(8);  // don't disturb the binary data - doWriteMetadata reuses it
+        memcpy (work.pData_,header.pData_,8);
+        width   = byteSwap(work,0,bSwap_);
+        height  = byteSwap(header,4,bSwap_);
 
         /* NOTE: properties not yet used
         byte nLevels  = buffer.pData_[8];
