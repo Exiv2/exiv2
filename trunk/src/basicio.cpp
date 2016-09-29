@@ -2263,6 +2263,8 @@ namespace Exiv2 {
         curl_easy_setopt(curl_, CURLOPT_WRITEDATA, &response);
         curl_easy_setopt(curl_, CURLOPT_SSL_VERIFYPEER, 0L);
         curl_easy_setopt(curl_, CURLOPT_CONNECTTIMEOUT, timeout_);
+        curl_easy_setopt(curl_, CURLOPT_SSL_VERIFYHOST, 0L);
+
         //curl_easy_setopt(curl_, CURLOPT_VERBOSE, 1); // debugging mode
 
         if (lowBlock > -1 && highBlock> -1) {
