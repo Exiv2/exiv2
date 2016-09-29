@@ -6,9 +6,9 @@ source ./functions.source
 
 (   cd "$testdir"
 
-    host=http://exiv2.dyndns.org:8080/
-    dir=userContent/testfiles/webready/
-    for host in http://exiv2.dyndns.org:8080 https://exiv2.dyndns.org:8443
+    server=exiv2.dyndns.org
+    dir=userContent/testfiles/webready
+    for host in http://$server:8080 https://$server:8443
     do
     	printf "$host " >&3
 		for filename in Reagan.jpg ReaganLargePng.png ReaganLargeTiff.tiff ReaganLargeJpg.jpg
@@ -18,7 +18,7 @@ source ./functions.source
 		done
 	done
 
-) 3>&1 > $results 2>&1
+) 3>&1 2>&1 > $results
 
 printf "\n"
 
