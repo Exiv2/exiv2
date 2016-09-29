@@ -1069,7 +1069,7 @@ namespace Action {
         int  rc = 0;
 
         bool bStdout = Params::instance().target_ & Params::ctStdInOut?true:false;
-        if  (bStdout) _setmode(_fileno(stdout), _O_BINARY) ;
+        if  (bStdout) { _setmode(_fileno(stdout), _O_BINARY) ; }
 
         if (!rc && Params::instance().target_ & Params::ctThumb) {
             rc = writeThumbnail();
