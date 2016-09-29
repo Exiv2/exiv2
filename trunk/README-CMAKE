@@ -1,18 +1,25 @@
+      +--- +     +  -+-  +     +    ++
+      |     \   /    |   |     |   /  \
+      |      \ /     |   \     /  +    |
+      +---    X      |    |   |       /
+      |      / \     |     \ /       /
+      |     /   \    |      |       /
+      +--- +     +  -+-     +      +----+
+           C++   Metadata   Library
+
 -------------------------------------------------------------------------------
 NOTE: 
 
-* CMake scripts are "mostly" functional.
-  Use them only if you're know how to use CMake (i.e. be prepared to fix them).
-  See TODO-CMAKE for known pending tasks. 
+* CMake scripts are functional and used to perform the daily build on the buildserver.
 
-* The existing automake (./configure), msvc2003 and msvc2005 build files will continue
-  to be supported by exiv2 until at least v0.26.
-  We will flag them as "deprecated" for at least one release cycle (about 12 months).
-  Our plan is to only support CMake when our scripts are feature-complete, stable and documented.
+* The existing automake (./configure), and msvc2005 build files will continue
+  to be supported by exiv2 for at least v0.27 (and probably longer)
+  
+  The msvc-2003 build files are deprecated and will not be supported after v0.26.
   
 Robin Mills
 robin@clanmills.com
-2015-11-30
+2016-09-23
 
 -------------------------------------------------------------------------------
 
@@ -98,13 +105,13 @@ b) Using the cmake GUI
    ccmake
 
 3 Building and installing for Visual Studio Users
-=============================================
+=================================================
 
 exiv2 provides three build environment for users of Visual Studio:
 
-msvc2003: 32 bit build environment for MSVC 2003
+cmake:    This environment
 msvc2005: 32 bit AND 64 bit build environment for MSVC 2005 and later (2008/10/12/13)
-cmake:  This environment
+msvc2003: 32 bit build environment for MSVC 2003 (deprecated after v0.26)
 
 CMake doesn't build code.  It generates build environments.
 CMake is a language for describing builds and the CMake interpreter generates
@@ -124,7 +131,7 @@ We have two contributed CMake Build Environments:
   
 2 contrib/build/msvc
 
-  For those script you will need:
+  The scripts require:
   - Cygwin (in order to download all dependencies (zlib, expat, ssl, curl, ssh), including exiv2 trunk from svn)
   - CMake
   - SVN (optional)
@@ -135,15 +142,7 @@ We have two contributed CMake Build Environments:
    - open the VS command line shell
    - execute build.cmd (if there are any errors, the script should tell you)
  
-  Exiv2 should be then packaged in the dist directory with all the .lib, include and binary files you need.  
- 
-  If you need to compile with different options (without webready for example), simply edit the build.cmd file 
-  and adapt the options (somewhere at the end).
-
-4 Building and Installing for other users (Xcode, Eclipse, Qt)
-==============================================================
-
-To be written
+  Exiv2 should be packaged in the dist directory with all the .lib, include and binary files you need.  
 
 # That's all Folks
 ##
