@@ -97,7 +97,7 @@ video-test.sh      write-test.sh   write-video-test.sh write2-test.sh         xm
 bugtest bugstest testbugs bugfixes:
 	cd test && ./bugfixes-test.sh
 
-bugfixes-test icc-test preview-test webp-test stdin-test geotag-test:
+bugfixes-test icc-test preview-test webp-test stdin-test geotag-test http-test:
 	cd test && ./$@.sh
 
 # convenience target for building individual sample programs
