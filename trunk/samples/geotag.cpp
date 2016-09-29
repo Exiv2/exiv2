@@ -808,7 +808,11 @@ int main(int argc,const char* argv[])
                 if ( type == typeImage ) {
                     time_t t    = readImageTime(std::string(arg)) ;
                     char   buffer[1024];
+#ifdef __APPLE__
                     char*  path = realpath(arg,buffer);
+#else
+                    char*  path = realpath(arg,NULL);
+#endif
                     if  ( t && path ) {
                         if ( options.verbose) printf("%s %ld %s",path,(long int)t,asctime(localtime(&t)));
                         gFiles.push_back(path);
