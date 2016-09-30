@@ -15,9 +15,9 @@ endif()
 
 FOREACH(_currentfile ${XMPSRC})
     # http://www.openguru.com/2009/04/cmake-detecting-platformoperating.html
-    IF(NOT MSVC AND NOT CYGWIN AND NOT MSYS)
+    IF(NOT MSVC AND NOT CYGWIN AND NOT MSYS AND NOT MINGW)
         SET_SOURCE_FILES_PROPERTIES(${_currentfile} PROPERTIES COMPILE_FLAGS "-fPIC")
-    ENDIF(NOT MSVC AND NOT CYGWIN AND NOT MSYS)
+    ENDIF()
 ENDFOREACH()
 
 if(NOT MSVC)

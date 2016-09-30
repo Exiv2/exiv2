@@ -22,7 +22,7 @@
   File:      version.cpp
   Version:   $Rev$
  */
- 
+
 // *****************************************************************************
 #include "rcsid_int.hpp"
 EXIV2_RCSID("@(#) $Id$")
@@ -330,143 +330,143 @@ void Exiv2::dumpLibraryInfo(std::ostream& os,const exv_grep_keys_t& keys)
     int enable_video     =0;
     int enable_webready  =0;
 
-#if EXV_HAVE_DECL_STRERROR_R
+#ifdef EXV_HAVE_DECL_STRERROR_R
     have_strerror_r=1;
 #endif
 
-#if EXV_HAVE_GMTIME_R
+#ifdef EXV_HAVE_GMTIME_R
     have_gmtime_r=1;
 #endif
 
-#if EXV_HAVE_INTTYPES_H
+#ifdef EXV_HAVE_INTTYPES_H
     have_inttypes=1;
 #endif
 
-#if EXV_HAVE_LIBINTL_H
+#ifdef EXV_HAVE_LIBINTL_H
     have_libintl=1;
 #endif
 
-#if EXV_HAVE_LENSDATA
+#ifdef EXV_HAVE_LENSDATA
     have_lensdata=1;
 #endif
 
-#if EXV_HAVE_ICONV
+#ifdef EXV_HAVE_ICONV
     have_iconv=1;
 #endif
 
-#if EXV_HAVE_LIBINTL_H
+#ifdef EXV_HAVE_LIBINTL_H
     have_libintl=1;
 #endif
 
-#if EXV_HAVE_REGEX
+#ifdef EXV_HAVE_REGEX
     have_regex=1;
 #endif
 
-#if EXV_HAVE_MEMORY_H
+#ifdef EXV_HAVE_MEMORY_H
     have_memory=1;
 #endif
 
-#if EXV_HAVE_MEMSET
+#ifdef EXV_HAVE_MEMSET
     have_memset=1;
 #endif
 
-#if EXV_HAVE_LSTAT
+#ifdef EXV_HAVE_LSTAT
     have_lstat=1;
 #endif
 
-#if EXV_HAVE_STDBOOL_H
+#ifdef EXV_HAVE_STDBOOL_H
     have_stdbool=1;
 #endif
 
-#if EXV_HAVE_STDINT_H
+#ifdef EXV_HAVE_STDINT_H
     have_stdint=1;
 #endif
 
-#if EXV_HAVE_STDLIB_H
+#ifdef EXV_HAVE_STDLIB_H
     have_stdlib=1;
 #endif
 
-#if EXV_HAVE_STRCHR
+#ifdef EXV_HAVE_STRCHR
     have_strchr=1;
 #endif
 
-#if EXV_HAVE_STRERROR
+#ifdef EXV_HAVE_STRERROR
     have_strerror=1;
 #endif
 
-#if EXV_HAVE_STRERROR_R
+#ifdef EXV_HAVE_STRERROR_R
     have_strerror_r=1;
 #endif
 
-#if EXV_HAVE_STRINGS_H
+#ifdef EXV_HAVE_STRINGS_H
     have_strings=1;
 #endif
 
-#if EXV_HAVE_STRTOL
+#ifdef EXV_HAVE_STRTOL
     have_strtol=1;
 #endif
 
-#if EXV_HAVE_MMAP
+#ifdef EXV_HAVE_MMAP
     have_mmap=1;
 #endif
 
-#if EXV_HAVE_MUNMAP
+#ifdef EXV_HAVE_MUNMAP
     have_munmap=1;
 #endif
 
-#if EXV_HAVE_SYS_STAT_H
+#ifdef EXV_HAVE_SYS_STAT_H
     have_sys_stat=1;
 #endif
 
-#if EXV_HAVE_SYS_TYPES_H
+#ifdef EXV_HAVE_SYS_TYPES_H
     have_sys_types=1;
 #endif
 
-#if EXV_HAVE_TIMEGM
+#ifdef EXV_HAVE_TIMEGM
     have_timegm=1;
 #endif
 
-#if EXV_HAVE_UNISTD_H
+#ifdef EXV_HAVE_UNISTD_H
     have_unistd=1;
 #endif
 
-#if EXV_HAVE_SYS_MMAN_H
+#ifdef EXV_HAVE_SYS_MMAN_H
     have_sys_mman=1;
 #endif
 
-#if EXV_HAVE_LIBZ
+#ifdef EXV_HAVE_LIBZ
     have_libz=1;
 #endif
 
-#if EXV_HAVE_XMP_TOOLKIT
+#ifdef EXV_HAVE_XMP_TOOLKIT
     have_xmptoolkit=1;
 #endif
 
-#if EXV_HAVE__BOOL
+#ifdef EXV_HAVE_BOOL
     have_bool=1;
 #endif
 
-#if  EXV_HAVE_STRINGS
+#ifdef EXV_HAVE_STRINGS
      have_strings=1;
 #endif
 
-#if  EXV_SYS_TYPES
+#ifdef EXV_SYS_TYPES
      have_sys_types=1;
 #endif
 
-#if  EXV_HAVE_UNISTD
+#ifdef EXV_HAVE_UNISTD
      have_unistd=1;
 #endif
 
-#if  EXV_UNICODE_PATH
+#ifdef EXV_UNICODE_PATH
      have_unicode_path=1;
 #endif
 
-#if  EXV_ENABLE_VIDEO
+#ifdef EXV_ENABLE_VIDEO
      enable_video=1;
 #endif
 
-#if  EXV_ENABLE_WEBREADY
+#ifdef EXV_ENABLE_WEBREADY
      enable_webready=1;
 #endif
 

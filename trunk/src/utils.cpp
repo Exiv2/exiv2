@@ -34,8 +34,11 @@ EXIV2_RCSID("@(#) $Id$")
 #include "utils.hpp"
 
 // + standard includes
-#if defined(_MSC_VER)
+#if defined(_MSC_VER) || defined(__MINGW__)
 # include "getopt_win32.h"
+#endif
+
+#if defined(_MSC_VER)
 # define S_ISREG(m)      (((m) & S_IFMT) == S_IFREG)
 #endif
 

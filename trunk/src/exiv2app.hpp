@@ -42,11 +42,11 @@
 #include <set>
 #include <iostream>
 
-#if EXV_HAVE_REGEX
+#ifdef EXV_HAVE_REGEX
 #include <regex.h>
 #endif
 
-#if EXV_HAVE_STDINT_H
+#ifdef EXV_HAVE_STDINT_H
 #include <unistd.h>
 #endif
 

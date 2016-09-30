@@ -34,7 +34,7 @@
 # endif
 #endif
 
-#ifdef EXV_HAVE_STDINT_H
+#if defined(EXV_HAVE_STDINT_H) || defined(__MINGW32__) || defined(__MING64__)
 # include <stdint.h>
 #endif
 
