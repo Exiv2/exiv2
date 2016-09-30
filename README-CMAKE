@@ -35,7 +35,7 @@ TABLE OF CONTENTS
 1 CMake resources
 2 Building and Installing for Unix type systems
 3 Building and Installing for Visual Studio Users
-4 Building and Installing for other users (Xcode, Eclipse, Qt)
+4 Building and installing for MinGW Users
 
 1 CMake resources
 =================
@@ -146,6 +146,71 @@ We have two contributed CMake Build Environments:
    - execute build.cmd (if there are any errors, the script should tell you)
  
   Exiv2 should be packaged in the dist directory with all the .lib, include and binary files you need.  
+  
+4 Building and installing for MinGW Users
+=========================================
+
+  1 Running a MinGW bash shell 
+  
+    To be written (it's already in the web notes)
+
+  2 Building and installing CMake
+  
+    Do not use a Windows binary install version of CMake
+    This generates commands which assume you are in the DOS shell.
+  
+    Build and Use CMake in a "Unix" Way from a MinGW/bash shell.
+  
+    I will make those notes pretty before we ship v0.26.
+
+    # Reasons why I can't get cmake to work:
+    #
+    # 1) Even although gcc is on the path, we must tell cmake not to use /c/MinGW/bin/gcc)
+    # 2) It's using the wrong headers.  Needs /c/Qt/Qt5.6.0/Tools/mingw492_32/i686-w64-mingw32/include
+    #    cmake -G "Unix Makefiles" -DCMAKE_INSTALL_PREFIX=$dist -DEXIV2_ENABLE_NLS=OFF \
+    #                              -DCMAKE_C_COMPILER=$(which gcc) -DCMAKE_CXX_COMPILER=$(which g++) \
+    #                             "-DCMAKE_CXX_FLAGS=-I/c/Qt/Qt5.6.0/Tools/mingw492_32/i686-w64-mingw32/include"
+    #                              $exiv2
+    # 3) even so, it errors instantly on:
+    #    In file included from c:/Qt/Qt5.6.0/Tools/mingw492_32/i686-w64-mingw32/include/stddef.h:7:0,
+    #      from c:/Qt/Qt5.6.0/Tools/mingw492_32/lib/gcc/i686-w64-mingw32/4.9.2/include/stddef.h:1,
+    #      from C:/MinGW/msys/1.0/home/rmills/gnu/exiv2/trunk/xmpsdk/include/XMP_Const.h:14,
+    #      from C:/MinGW/msys/1.0/home/rmills/gnu/exiv2/trunk/xmpsdk/src/XMPCore_Impl.hpp:13,
+    #      from C:/MinGW/msys/1.0/home/rmills/gnu/exiv2/trunk/xmpsdk/src/ExpatAdapter.cpp:10:
+    #      c:/Qt/Qt5.6.0/Tools/mingw492_32/i686-w64-mingw32/include/crtdefs.h:26:9: error: 'size_t' does not name a type
+    #        typedef size_t rsize_t;
+    # 4) Building cmake itself required setting CC CXX CXXFLAGS and LDFLAGS
+    #    AND editing a system file in Qt with an erroneous #pragma error NTDDI_VERSION and _WIN32_WINNT
+    #    In file included from c:/Qt/Qt5.6.0/Tools/mingw492_32/i686-w64-mingw32/include/windows.h:10:0,
+    #      from c:/Users/rmills/gnu/cmake/cmake-3.6.2/Utilities/cmlibarchive/libarchive/archive_windows.h:74,
+    #      from c:/Users/rmills/gnu/cmake/cmake-3.6.2/Utilities/cmlibarchive/libarchive/archive_platform.h:60,
+    #      from c:/Users/rmills/gnu/cmake/cmake-3.6.2/Utilities/cmlibarchive/libarchive/xxhash.c:35:
+    #      c:/Qt/Qt5.6.0/Tools/mingw492_32/i686-w64-mingw32/include/sdkddkver.h:186:2: error: #error NTDDI_VERSION and _WIN32_WINNT mismatch!
+    #    My work-around was to comment off the #error statement!
+        
+  2 Building with CMake
+    $ cd ~/gnu/exiv2/trunk
+    $ rm -rf build ; mkdir build ; cd build
+    $ cmake .. -G "Unix Makefiles" -DCMAKE_C_COMPILER=$(which gcc) -DCMAKE_CXX_COMPILER=$(which g++) -DEXIV2_ENABLE_NLS=OFF
+      .... cmake will rattle and roll ....
+
+    CMake generates the wrong include response files.
+    I put the correct include code in contrib/cmake/mingw/includes.rsp 
+    Propagate the correct includes to the generated files.         
+
+    $ find . -name "includes_*.rsp" -exec cp ../contrib/cmake/mingw/includes.rsp {} \;
+    $ make
+        
+      On my system, these the include response file have the code:
+      -IC:/MinGW/msys/1.0/home/rmills/gnu/exiv2/trunk/src
+      -IC:/MinGW/msys/1.0/home/rmills/gnu/exiv2/trunk/include
+      -IC:/MinGW/msys/1.0/home/rmills/gnu/exiv2/trunk/include/exiv2
+      -IC:/MinGW/msys/1.0/home/rmills/gnu/exiv2/trunk/build
+      -IC:/MinGW/msys/1.0/home/rmills/gnu/exiv2/trunk/xmpsdk/include
+      -IC:/MinGW/msys/1.0/home/rmills/gnu/exiv2/trunk/xmpsdk/src
+      -IC:/Qt/Qt5.6.0/Tools/mingw492_32/i686-w64-mingw32/include
+      -IC:/Qt/Qt5.6.0/Tools/mingw492_32/lib/gcc/i686-w64-mingw32/4.9.2/include
+      -IC:/MinGW/msys/1.0/local/include 
 
 # That's all Folks
 ##
