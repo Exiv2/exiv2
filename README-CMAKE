@@ -17,6 +17,9 @@ NOTE:
   
   The msvc-2003 build files are deprecated and will not be supported after v0.26.
   
+  Exiv2 will not build on MinGW (neither 32bit nor 64bit)
+  This is discussed in TODO-CMAKE
+  
 Robin Mills
 robin@clanmills.com
 2016-09-23
