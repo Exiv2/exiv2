@@ -9,10 +9,11 @@
 
 Current Status
 
-ToDo: * CMake/MinGW is not completely working for v0.26
-        Known issues:  Test suite is crashing here and there.
-        
-        
+ToDo: * CMake/MinGW builds executables that do not work properly for v0.26
+        Known issues:
+        	sample apps crash in XML_ParserCreate()
+        	in c:\MinGW\msys\1.0\bin\msys-expat-1.dll
+        	
 Robin Mills
 robin@clanmills.com
 2016-09-30
