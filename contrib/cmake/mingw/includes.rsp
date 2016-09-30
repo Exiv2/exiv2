@@ -1,0 +1,8 @@
+-IC:/MinGW/msys/1.0/home/rmills/gnu/exiv2/trunk/src
+-IC:/MinGW/msys/1.0/home/rmills/gnu/exiv2/trunk/include
+-IC:/MinGW/msys/1.0/home/rmills/gnu/exiv2/trunk/include/exiv2
+-IC:/MinGW/msys/1.0/home/rmills/gnu/exiv2/trunk/build
+-IC:/MinGW/msys/1.0/home/rmills/gnu/exiv2/trunk/xmpsdk/include
+-IC:/MinGW/msys/1.0/home/rmills/gnu/exiv2/trunk/xmpsdk/src
+-IC:/Qt/Qt5.6.0/Tools/mingw492_32/i686-w64-mingw32/include
+-IC:/MinGW/msys/1.0/local/include 

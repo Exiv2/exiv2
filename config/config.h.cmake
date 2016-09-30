@@ -88,6 +88,12 @@
 /* Define to 1 if you have the <stdint.h> header file. */
 #cmakedefine EXV_HAVE_STDINT_H 1
 
+#ifndef      EXV_HAVE_STDINT_H
+#if defined(__MINGW32__) || defined(__MINGW64__)
+#define      EXV_HAVE_STDINT_H
+#endif
+#endif
+
 /* Define to 1 if you have the <stdlib.h> header file. */
 #cmakedefine EXV_HAVE_STDLIB_H 1
 
