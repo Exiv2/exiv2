@@ -65,7 +65,7 @@ testBuild()
           do
             echo '++' $test '++' ; ./$test
           done
-        ) | td -d $'\r' | tee "$build/dist/logs/test.log"
+        ) | tr -d $'\r' | tee "$build/dist/logs/test.log"
 
         popd > /dev/null
 
@@ -114,34 +114,6 @@ testBuild()
                 # dont use cmake as I can't get it to work
                 # cmake -G "Unix Makefiles" -DCMAKE_INSTALL_PREFIX=$dist -DEXIV2_ENABLE_NLS=OFF -DCMAKE_C_COMPILER=$(which gcc) -DCMAKE_CXX_COMPILER=$(which g++) $exiv2
                 ##
-
-                ##################
-                #
-                # Reasons why I can't get cmake to work:
-                #
-                # 1) Even although gcc is on the path, we must tell cmake not to use /c/MinGW/bin/gcc)
-                # 2) It's using the wrong headers.  Needs /c/Qt/Qt5.6.0/Tools/mingw492_32/i686-w64-mingw32/include
-                #    cmake -G "Unix Makefiles" -DCMAKE_INSTALL_PREFIX=$dist -DEXIV2_ENABLE_NLS=OFF \
-                #                              -DCMAKE_C_COMPILER=$(which gcc) -DCMAKE_CXX_COMPILER=$(which g++) \
-                #                             "-DCMAKE_CXX_FLAGS=-I/c/Qt/Qt5.6.0/Tools/mingw492_32/i686-w64-mingw32/include"
-                #                              $exiv2
-                # 3) even so, it errors instantly on:
-                #    In file included from c:/Qt/Qt5.6.0/Tools/mingw492_32/i686-w64-mingw32/include/stddef.h:7:0,
-                #      from c:/Qt/Qt5.6.0/Tools/mingw492_32/lib/gcc/i686-w64-mingw32/4.9.2/include/stddef.h:1,
-                #      from C:/MinGW/msys/1.0/home/rmills/gnu/exiv2/trunk/xmpsdk/include/XMP_Const.h:14,
-                #      from C:/MinGW/msys/1.0/home/rmills/gnu/exiv2/trunk/xmpsdk/src/XMPCore_Impl.hpp:13,
-                #      from C:/MinGW/msys/1.0/home/rmills/gnu/exiv2/trunk/xmpsdk/src/ExpatAdapter.cpp:10:
-                #      c:/Qt/Qt5.6.0/Tools/mingw492_32/i686-w64-mingw32/include/crtdefs.h:26:9: error: 'size_t' does not name a type
-                #        typedef size_t rsize_t;
-                # 4) Building cmake itself required setting CC CXX CXXFLAGS and LDFLAGS
-                #    AND editing a system file in Qt with an erroneous #pragma error NTDDI_VERSION and _WIN32_WINNT
-                #    In file included from c:/Qt/Qt5.6.0/Tools/mingw492_32/i686-w64-mingw32/include/windows.h:10:0,
-                #      from c:/Users/rmills/gnu/cmake/cmake-3.6.2/Utilities/cmlibarchive/libarchive/archive_windows.h:74,
-                #      from c:/Users/rmills/gnu/cmake/cmake-3.6.2/Utilities/cmlibarchive/libarchive/archive_platform.h:60,
-                #      from c:/Users/rmills/gnu/cmake/cmake-3.6.2/Utilities/cmlibarchive/libarchive/xxhash.c:35:
-                #      c:/Qt/Qt5.6.0/Tools/mingw492_32/i686-w64-mingw32/include/sdkddkver.h:186:2: error: #error NTDDI_VERSION and _WIN32_WINNT mismatch!
-                #    My work-around was to comment off the #error statement!
-                ##################
 
                 ##
                 # build with autotools
@@ -276,8 +248,8 @@ if [ "$result" == "0" ]; then
 
         # store the build
         cp $zip $daily
-        if [ "$dow" == "1" ]; then cp $zip $weely; fi # Monday
-        if [ "$dom" == "1" ]; then cp $zip $monly; fi # First day of the month
+        if [ "$dow" ==  "1" ]; then cp $zip $weely; fi # Monday
+        if [ "$dom" == "01" ]; then cp $zip $monly; fi # First day of the month
 
         echo '***' build = $zip '***'
     else
