@@ -117,6 +117,7 @@ testBuild()
 
                 ##
                 # build with autotools
+                if [ -z "$dist" ]; then dist=dist ; fi
                 make   clean
                 make   config
                 ./configure --prefix=/usr/local
