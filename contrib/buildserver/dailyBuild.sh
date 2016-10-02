@@ -31,7 +31,7 @@ ssh rmills@rmillsmm-w7       'cd ~/gnu/exiv2/buildserver ; env PLATFORM=mingw wi
 
 ##
 # categorize the builds
-ssh rmills@rmillsmm         'cd ~/gnu/exiv2/buildserver ; contrib/buildserver/categorize.sh /mmHD/Users/Shared/Jenkins/Home/userContent/builds'
+ssh rmills@rmillsmm         'cd ~/gnu/exiv2/buildserver ; contrib/buildserver/categorize.py /mmHD/Users/Shared/Jenkins/Home/userContent/builds'
 
 # That's all Folks!
 ##
