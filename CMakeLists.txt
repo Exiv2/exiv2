@@ -195,7 +195,7 @@ ENDIF( EXIV2_ENABLE_BUILD_PO )
 
 ##
 # tests
-ADD_CUSTOM_TARGET(tests COMMAND make tests WORKING_DIRECTORY "${CMAKE_SOURCE_DIR}" )
+ADD_CUSTOM_TARGET(tests COMMAND env EXIV2_BINDIR="${CMAKE_BINARY_DIR}"/bin make tests WORKING_DIRECTORY "${CMAKE_SOURCE_DIR}" )
 
 ##
 # http://dev.exiv2.org/boards/3/topics/1364

@@ -1,1 +1,1 @@
-See <exiv2dir>/README.CMAKE for an explanation
+See <exiv2dir>/README-CMAKE and <exiv2dir>/TODO-CMAKE for an explanation
