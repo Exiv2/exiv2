@@ -44,8 +44,7 @@ Here are notes concerning CMake/MinGW
         set "INCLUDE_PATH=/usr/local/inc"
         set "LIBRARY_PATH=/usr/local/lib"
         set "BINARY_PATH=/usr/local/bin"
-        rem set "PATH=c:\MinGW\bin;c:\MinGW\msys\1.0\bin;c:\MinGW\msys\1.0\local\bin;c:\Users\rmills\com;."
-        set "PATH=c:\Qt\Qt5.6.0\5.6\mingw49_32\bin;c:\Qt\Qt5.6.0\Tools\mingw492_32\bin;c:\MinGW\bin;\usr\bin:\usr\local\bin;c:\cygwin64\bin;c:\Users\rmills\com;."
+        set "PATH=c:\Qt\Qt5.6.0\5.6\mingw49_32\bin;c:\Qt\Qt5.6.0\Tools\mingw492_32\bin;\usr\local\bin:\usr\bin;c:\MinGW\bin;c:\cygwin64\bin;c:\Users\rmills\com;."
         set "PS1=\! -32- ${PWD}> "
         c:\MinGW\msys\1.0\bin\bash.exe %*%
 
@@ -61,7 +60,7 @@ Here are notes concerning CMake/MinGW
         export "LIBRARY_PATH=/usr/local/lib"
         export "BINARY_PATH=/usr/local/bin"
 
-        # PATH=c:/Qt/Qt5.6.0/5.6/mingw49_32/bin;c:/Qt/Qt5.6.0/Tools/mingw492_32/bin;c:/MinGW/bin;/usr/bin:/usr/local/bin;c:/cygwin64/bin;c:/Users/rmills/com;.
+        # PATH=c:/Qt/Qt5.6.0/5.6/mingw49_32/bin;c:/Qt/Qt5.6.0/Tools/mingw492_32/bin;/usr/local/bin:/usr/bin;c:/MinGW/bin;c:/cygwin64/bin;c:/Users/rmills/com;.
         PS1='\! -32- ${PWD}> '
 
         # echo hello world from .bashrc
