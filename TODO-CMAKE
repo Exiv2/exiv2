@@ -33,87 +33,61 @@ Here are notes concerning CMake/MinGW
     I installed the Qt 5.6.0 Environement for use from MinGW
 
     I start mingw from DOS with this batch-file (mingw32.bat)
-        C:\>type c:\Users\rmills\com\mingw32.bat
-        @echo off
-        rem ------------------
-        : mingw32.bat
-        : invoke MinGW bash
-        :
-        setlocal
-        set "PKG_CONFIG_PATH=/usr/local/lib/pkgconfig:/usr/lib/pkgconfig"
-        set "INCLUDE_PATH=/usr/local/inc"
-        set "LIBRARY_PATH=/usr/local/lib"
-        set "BINARY_PATH=/usr/local/bin"
-        set "PATH=c:\Qt\Qt5.6.0\5.6\mingw49_32\bin;c:\Qt\Qt5.6.0\Tools\mingw492_32\bin;\usr\local\bin:\usr\bin;c:\MinGW\bin;c:\cygwin64\bin;c:\Users\rmills\com;."
-        set "PS1=\! -32- ${PWD}> "
-        c:\MinGW\msys\1.0\bin\bash.exe %*%
+		@echo off
+		rem ------------------
+		: mingw32.bat
+		: invoke MinGW bash
+		:
+		setlocal
+		set "PKG_CONFIG_PATH=/usr/local/lib/pkgconfig:/usr/lib/pkgconfig"
+		set "INCLUDE_PATH=/usr/local/inc"
+		set "LIBRARY_PATH=/usr/local/lib"
+		set "BINARY_PATH=/usr/local/bin"
+		set "PATH=c:\Qt\Qt5.6.0\5.6\mingw49_32\bin;c:\Qt\Qt5.6.0\Tools\mingw492_32\bin;\usr\local\bin;\usr\bin:c:\MinGW\bin:c:\cygwin64\bin;c:\Users\rmills\com;."
+		set "PS1=\! -32- ${PWD}> "
+		c:\MinGW\msys\1.0\bin\bash.exe %*%
 
-        : That's all Folks
-        rem ------------------  
+		: That's all Folks
+		rem ------------------
 
     In ~/.bashrc
         502 -32- /home/rmills> cat .bashrc
-        #!/bin/bash
+		#!/bin/bash
 
-        export "PKG_CONFIG_PATH=/usr/local/lib/pkgconfig:/usr/lib/pkgconfig"
-        export "INCLUDE_PATH=/usr/local/inc"
-        export "LIBRARY_PATH=/usr/local/lib"
-        export "BINARY_PATH=/usr/local/bin"
+		export "PKG_CONFIG_PATH=/usr/local/lib/pkgconfig:/usr/lib/pkgconfig"
+		export "INCLUDE_PATH=/usr/local/inc"
+		export "LIBRARY_PATH=/usr/local/lib"
+		export "BINARY_PATH=/usr/local/bin"
 
-        # PATH=c:/Qt/Qt5.6.0/5.6/mingw49_32/bin;c:/Qt/Qt5.6.0/Tools/mingw492_32/bin;/usr/local/bin:/usr/bin;c:/MinGW/bin;c:/cygwin64/bin;c:/Users/rmills/com;.
-        PS1='\! -32- ${PWD}> '
+		PATH=/c/Qt/Qt5.6.0/5.6/mingw49_32/bin:/c/Qt/Qt5.6.0/Tools/mingw492_32/bin:/usr/local/bin:/usr/bin:/bin:/c/cygwin64/bin:/c/Users/rmills/com:.
+		PS1='\! -32- ${PWD}> '
 
-        # echo hello world from .bashrc
-        alias dir='ls -alt'
-        alias del='rm -rf'
-        alias finder='find . -depth -iname'
-        alias path='(IFS=:;for i in $PATH; do echo $i; done)'
+		# echo hello world from .bashrc
+		alias dir='ls -alt'
+		alias del='rm -rf'
+		alias finder='find . -depth -iname'
+		alias path='(IFS=:;for i in $PATH; do echo $i; done)'
 
-        ##
-        # finder helpers
-        export L="-exec ls -dalt {} ;"
-        export X="-exec rm -rf {} ;"
-        export C="-exec ce {} ;"
-        export I="-exec lipo -info {} ;"
-        export O="-exec otool -L {} ;"
-        export Z="-exec open {} ;"
-        export P="-exec p4 edit {} ;"
-        export R="-exec p4 revert {} ;"
-        export G="-exec grep"
-        export __=";"
-        export ___="{} ;"
+		##
+		# finder helpers
+		export L="-exec ls -dalt {} ;"
+		export X="-exec rm -rf {} ;"
+		export C="-exec ce {} ;"
+		export I="-exec lipo -info {} ;"
+		export O="-exec otool -L {} ;"
+		export Z="-exec open {} ;"
+		export P="-exec p4 edit {} ;"
+		export R="-exec p4 revert {} ;"
+		export G="-exec grep"
+		export __=";"
+		export ___="{} ;"
 
-        # That's all Folks!
-        ##503 -32- /home/rmills>    
+		# That's all Folks!
+		##
+		503 -32- /home/rmills>
 
-    MinGW64 has very similar code.  Putting the TDM compiler on the path is the major difference
-
-        C:\Users\rmills\com>diff mingw32.bat mingw64.bat
-        3c3
-        < : mingw32.bat
-        ---
-        > : mingw64.bat
-        11,14c11,25
-        < rem set "PATH=c:\MinGW\bin;c:\MinGW\msys\1.0\bin;c:\MinGW\msys\1.0\local\bin;c:\Users\rmills\com;."
-        < set "PATH=c:\Qt\Qt5.6.0\5.6\mingw49_32\bin;c:\Qt\Qt5.6.0\Tools\mingw492_32\bin;c:\MinGW\bin;\usr\bin:\usr\local\bin;c:\cygwin64\bin;c:\Users\rmills\com;."
-        < set "PS1=\! -32- ${PWD}> "
-        < c:\MinGW\msys\1.0\bin\bash.exe %*%
-        ---
-        > : TDM 4.9.2
-        > set "PATH=c:\TDM-GCC-64\bin;c:\MinGW64\bin;c:\MinGW64\msys\1.0\bin;C:\MinGW64\msys\1.0\local\bin;c:\cygwin64\bin;c:\Users\rmills\com;."
-        >
-        > : 4.9.2 compiler
-        > : set "PATH=c:\mingw-w64\mingw64\bin;c:\mingw-w64\mingw64\opt\bin;;c:\MinGW64\bin;c:\MinGW64\msys\1.0\bin;C:\MinGW64\msys\1.0\local\bin;c:\cygwin64\bin;c:\Users\rmills\com;."
-        >
-        > : TDM 5.1 compiler
-        > : set "PATH=c:\TDM-GCC-51-64\bin;c:\TDM-GCC-51-64\x86_64-w64-mingw32\bin;c:\MinGW64\bin;c:\MinGW64\msys\1.0\bin;C:\MinGW64\msys\1.0\local\bin;c:\cygwin64\bin;c:\Users\rmills\com;."
-        >
-        > set "PS1=\! -64- ${PWD}> "
-        > : 32 bit MinGW/bash
-        > c:\MinGW64\msys\1.0\bin\bash.exe %*%
-        >
-        > : 64 bit Cygwin shell
-        > : c:\cygwin64\bin\bash.exe    
+    MinGW64 has very similar code.  Putting the TDM compiler on the path is the major difference.
+    The file ~/.bashrc for MinGW64 is in c:\MinGW64\msys\1.0\home\<username>\.bashrc
 
   2 Building and installing CMake
     $ ./bookstrap --prefix=/usr/local
@@ -151,7 +125,7 @@ Here are notes concerning CMake/MinGW
            c:/Qt/Qt5.6.0/Tools/mingw492_32/i686-w64-mingw32/include/sdkddkver.h:186:2: error: #error NTDDI_VERSION and _WIN32_WINNT mismatch!
        My work-around was to comment off the #error statement!
 
-  3 Building with CMake
+  3 Building Exiv2 with CMake
     $ cd ~/gnu/exiv2/trunk
     $ rm -rf build ; mkdir build ; cd build
     $ cmake .. -G "Unix Makefiles" -DCMAKE_C_COMPILER=$(which gcc) -DCMAKE_CXX_COMPILER=$(which g++) -DEXIV2_ENABLE_NLS=OFF
@@ -174,9 +148,19 @@ Here are notes concerning CMake/MinGW
               -IC:/Qt/Qt5.6.0/Tools/mingw492_32/i686-w64-mingw32/include
               -IC:/Qt/Qt5.6.0/Tools/mingw492_32/lib/gcc/i686-w64-mingw32/4.9.2/include
               -IC:/MinGW/msys/1.0/local/include 
-
+              
+    Gotcha
+    ------
+    Even have done all of this, some of the sample applications are not correctly linked.
+    Samples affected are path-test, geotag, metacopy, exiv2json (possibly others).
+    
+    The exiv2dll (libexiv2-14.dll) is linked to /bin/msys-expat.dll
+    and foo.exe is linked to /usr/local/bin/libexpat-1.dll
+    
+    I have been able to get this fixed.  I'll deal with it in v0.27.
+    two copies of the expat dlls.   /usr/local/bin/libexpat-1.dll and /bin/msys-expat.dll
 
 Robin Mills
 robin@clanmills.com
-2016-10-02
+2016-10-03
 
