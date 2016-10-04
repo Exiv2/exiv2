@@ -1,6 +1,5 @@
 # CMake build system for exiv2 library and executables
 # Copyright 2015-     Daniel Kaneider  <danielkaneider@users.sf.net>
-# Copyright 2012-     Robin Mills      <robin@clanmills.com>
 # Copyright 2010-2012 Gilles Caulier   <caulier dot gilles at gmail dot com>
 # Copyright 2008      Patrick Spendrin <ps_ml@gmx.de>
 
@@ -202,6 +201,11 @@ SET( EXIV2_SRC            exiv2.cpp
                           actions.cpp
                           utils.cpp
 )
+SET( EXIV2_HDR            exiv2app.hpp
+                          actions.hpp
+                          utils.hpp
+)
+
 
 # connection test application
 SET( CONNTEST             ../samples/conntest.cpp)
@@ -233,7 +237,7 @@ ENDIF( MSVC )
 # ******************************************************************************
 # exiv2lib library
 
-ADD_LIBRARY( exiv2lib ${STATIC_FLAG} ${LIBEXIV2_SRC} ${LIBEXIV2_HDR} )
+ADD_LIBRARY( exiv2lib ${STATIC_FLAG} ${LIBEXIV2_SRC} ${LIBEXIV2_HDR} ${LIBEXIV2_PRIVATE_HDR} )
 
 SET_TARGET_PROPERTIES( exiv2lib PROPERTIES
     VERSION       ${GENERIC_LIB_VERSION}
@@ -308,7 +312,7 @@ msvc_runtime_configure(${EXIV2_ENABLE_SHARED})
 
 # ******************************************************************************
 # exiv2 application
-ADD_EXECUTABLE( exiv2 ${EXIV2_SRC} )
+ADD_EXECUTABLE( exiv2 ${EXIV2_SRC}  ${EXIV2_HDR} )
 TARGET_LINK_LIBRARIES( exiv2 exiv2lib )
 INSTALL( TARGETS exiv2 ${INSTALL_TARGET_STANDARD_ARGS} )
 
