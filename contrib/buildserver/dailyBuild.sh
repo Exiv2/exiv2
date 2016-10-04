@@ -32,7 +32,7 @@ ssh rmills@rmillsmm-w7       'cd ~/gnu/exiv2/buildserver ; env PLATFORM=mingw wi
 
 ##
 # categorize the builds
-ssh rmills@rmillsmm         "cd ~/gnu/exiv2/buildserver ; contrib/buildserver/categorize.py $builds"
+ssh rmills@rmillsmm         "cd ~/gnu/exiv2/buildserver ; PATH="$PATH:/usr/local/bin"; contrib/buildserver/categorize.py $builds"
 
 # That's all Folks!
 ##
