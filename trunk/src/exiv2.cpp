@@ -138,9 +138,6 @@ int main(int argc, char* const argv[])
 
     // Handle command line arguments
     Params& params = Params::instance();
-    params.argc_=argc;
-    params.argv_=argv;
-
     if (params.getopt(argc, argv)) {
         params.usage();
         return 1;
@@ -606,9 +603,8 @@ int Params::evalPrint(const std::string& optarg)
         case 'S': action_ = Action::print; printMode_ = pmStructure  ; break;
         case 'X': action_ = Action::print; printMode_ = pmXMP        ; break;
         default:
-            std::cerr << progname() << ": " << _("Unrecognized print mode ")
-                     << "'"<< optarg<<"'"  << std::endl;
-            verboseDump();
+            std::cerr << progname() << ": " << _("Unrecognized print mode") << " `"
+                      << optarg << "'\n";
             rc = 1;
             break;
         }
@@ -881,17 +877,6 @@ int Params::nonoption(const std::string& argv)
     return rc;
 } // Params::nonoption
 
-void Params::verboseDump()
-{
-    //if ( verbose_ ) {
-        std::cerr << "argc = " << argc_ << std::endl;
-        if ( argv_ )
-            for ( int a = 0 ; a < argc_ ; a++)
-                std::cerr << "argv[" <<a<< "] =" << argv_[a] << std::endl;
-    //    Exiv2::dumpLibraryInfo(std::cerr,greps_);
-    //}
-}
-
 static int readFileToBuf(FILE* f,Exiv2::DataBuf& buf)
 {
     const int buff_size = 4*1028;
@@ -921,7 +906,7 @@ static int readFileToBuf(FILE* f,Exiv2::DataBuf& buf)
 void Params::getStdin(Exiv2::DataBuf& buf)
 {
     // copy stdin to stdinBuf
-    if ( stdinBuf_.size_ == 0 ) {
+    if ( stdinBuf.size_ == 0 ) {
 #if defined(_WIN32) || defined(__CYGWIN__) || defined(__MINGW__) || defined(_MSC_VER)
         DWORD fdwMode;
         _setmode(fileno(stdin), O_BINARY);
@@ -940,7 +925,7 @@ void Params::getStdin(Exiv2::DataBuf& buf)
 #ifdef DEBUG
             std::cerr << "stdin has data" << std::endl;
 #endif
-            readFileToBuf(stdin,stdinBuf_);
+            readFileToBuf(stdin,stdinBuf);
         }
 #ifdef DEBUG
         // this is only used to simulate reading from stdin when debugging
@@ -962,9 +947,9 @@ void Params::getStdin(Exiv2::DataBuf& buf)
     }
 
     // copy stdinBuf to buf
-    if ( stdinBuf_.size_ ) {
-        buf.alloc(stdinBuf_.size_);
-        memcpy(buf.pData_,stdinBuf_.pData_,buf.size_);
+    if ( stdinBuf.size_ ) {
+        buf.alloc(stdinBuf.size_);
+        memcpy(buf.pData_,stdinBuf.pData_,buf.size_);
     }
 #ifdef DEBUG
     std::cerr << "getStdin stdinBuf.size_ = " << stdinBuf.size_ << std::endl;
