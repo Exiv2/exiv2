@@ -256,7 +256,9 @@ public:
     Keys  keys_;                        //!< List of keys to match from the metadata
     std::string charset_;               //!< Charset to use for UNICODE Exif user comment
 
-    Exiv2::DataBuf  stdinBuf;           //! < DataBuf with the binary bytes from stdin
+    Exiv2::DataBuf  stdinBuf_;         //! < DataBuf with the binary bytes from stdin
+    int             argc_;             //! < command-line arg count
+    char* const*    argv_;             //! < command-line arg vector
 
 private:
     //! Pointer to the global Params object.
@@ -293,6 +295,8 @@ private:
                formatSet_(false),
                first_(true)
     {
+        argc_=0;
+        argv_=NULL;
         yodAdjust_[yodYear]  = emptyYodAdjust_[yodYear];
         yodAdjust_[yodMonth] = emptyYodAdjust_[yodMonth];
         yodAdjust_[yodDay]   = emptyYodAdjust_[yodDay];
@@ -354,6 +358,9 @@ public:
         For example: $ cat foo.icc | exiv2 -iC- a.jpg b.jpg c.jpg will modify the ICC profile in several images.
     */
     void getStdin(Exiv2::DataBuf& buf);
+
+    //! verboseDump is used to debug the command line
+    void verboseDump();
 
 }; // class Params
 
