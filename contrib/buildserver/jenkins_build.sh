@@ -103,7 +103,7 @@ if [ $PLATFORM == "macosx" -a "$target" == "macosx" -a "$macosx" == "true"  ]; t
 if [ $PLATFORM == "cygwin" -a "$target" == "cygwin" -a "$cygwin" == "true"  ]; then build=CYGW ; fi
 if [                          "$target" == "mingw"  -a "$mingw"  == "true"  ]; then build=MING ; fi
 if [                          "$target" == "msvc"   -a "$msvc"   == "true"  ]; then build=MSVC ; fi
-if [ $PLATFORM == "mingw"  -a "$target" == "mingw"                          ]; then build=MING ; fi
+if [ $PLATFORM == "mingw"  -o "$target" == "mingw"                          ]; then build=MING ; fi
 
 echo "3 target = $target platform = $PLATFORM build = $build"
 echo ---- path and perl -----
