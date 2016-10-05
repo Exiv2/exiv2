@@ -161,28 +161,28 @@ relink: binclean samples
 
 # link expat directly to geotag
 geotag: %: %.cpp
-	$(COMPILE.cc) -o $@.o $<
+	$(COMPILE.cc) -I../src -I../include -I../include/exiv2 -I/usr/local/include -I/usr/include -o $@.o $<
 	@$(MAKEDEPEND)
 	@$(POSTDEPEND)
 	$(LIBTOOL) --mode=link $(LINK.cc) -lexpat $@.o -o ../bin/$@
 
 # link applications which require utils.cpp support
 metacopy path-test toexv: %: %.cpp ../src/utils.o
-	$(COMPILE.cc) -I../src -I../include -I../include/exiv2 -o $@.o $<
+	$(COMPILE.cc) -I../src -I../include -I../include/exiv2 -I/usr/local/include -I/usr/include -o $@.o $<
 	@$(MAKEDEPEND)
 	@$(POSTDEPEND)
 	$(LIBTOOL) --mode=link $(LINK.cc) $@.o ../src/utils.o -o ../bin/$@
 
 # exiv2json sample requires Jzon
 exiv2json: %: %.cpp Jzon.o
-	$(COMPILE.cc) -o $@.o $<
+	$(COMPILE.cc) -I../src -I../include -I../include/exiv2 -I/usr/local/include -I/usr/include -o $@.o $<
 	@$(MAKEDEPEND)
 	@$(POSTDEPEND)
 	$(LIBTOOL) --mode=link $(LINK.cc) Jzon.o $@.o -o ../bin/$@
 
 # mt-test requires C++11
 mt-test: %: %.cpp
-	$(COMPILE.cc) -std=c++11  -o $@.o $<
+	$(COMPILE.cc) -std=c++11 -I../src -I../include -I../include/exiv2 -I/usr/local/include -I/usr/include -o $@.o $<
 	@$(MAKEDEPEND)
 	@$(POSTDEPEND)
 	$(LIBTOOL) --mode=link $(LINK.cc) $@.o -o ../bin/$@
