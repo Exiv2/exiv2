@@ -192,10 +192,8 @@ typedef int pid_t;
   you must -library=stdcxx4 along with these inclusions below
 */
 #if defined(OS_SOLARIS)
-# include <stdio.h>
 # include <string.h>
 # include <strings.h>
-# include <stdlib.h>
 # include <math.h>
 # if defined(__cplusplus)
 #  include <ios>
@@ -215,6 +213,16 @@ typedef int pid_t;
 # endif
 #endif
 //////////////////////////////////////
+
+
+# include <stdio.h>
+#ifdef   EXV_HAVE_UNISTD_H
+#include <unistd.h>
+#endif
+#ifdef __cplusplus
+#include <string>
+#include <iostream>
+#endif
 
 //
 // That's all Folks!
