@@ -1359,6 +1359,7 @@ namespace Exiv2 {
 # endif
 #endif
         return ret;
+        UNUSED(str);
     }
 }                                       // namespace Exiv2
 
