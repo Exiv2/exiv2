@@ -35,7 +35,6 @@
 // *****************************************************************************
 // included header files
 // + standard includes
-#include <string>
 #include <vector>
 
 #define CPLUSPLUS11 201103L
