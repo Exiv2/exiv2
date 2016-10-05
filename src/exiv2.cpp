@@ -40,7 +40,6 @@ EXIV2_RCSID("@(#) $Id$")
 #include "i18n.h"      // NLS support.
 #include "xmp.hpp"
 
-#include <string>
 #include <iostream>
 #include <fstream>
 #include <iomanip>
