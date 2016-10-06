@@ -216,9 +216,12 @@ namespace Exiv2 {
 
             const std::string xmpKey  = "XML:com.adobe.xmp";
             const std::string exifKey = "Raw profile type exif";
+            const std::string app1Key = "Raw profile type APP1";
             const std::string iptcKey = "Raw profile type iptc";
             const std::string iccKey  = "icc";
             const std::string softKey = "Software";
+            const std::string commKey = "Comment";
+            const std::string descKey = "Description";
 
             bool bPrint = option == kpsBasic || option == kpsRecursive ;
             if ( bPrint ) {
@@ -252,15 +255,16 @@ namespace Exiv2 {
                     throw Exiv2::Error(14);
                 }
 
-                // format output
-                uint32_t    blen = dataOffset > 32 ? 32 : dataOffset ;
-                std::string dataString ;
-                DataBuf buff(blen);
-                io_->read(buff.pData_,blen);
+                DataBuf   buff(dataOffset);
+                io_->read(buff.pData_,dataOffset);
                 io_->seek(restore, BasicIo::beg);
-                dataString  = Internal::binaryToString(buff, blen);
-                while ( dataString.size() < 32 ) dataString += ' ';
-                dataString  = dataString.substr(0,30);
+
+                // format output
+                const int    iMax = 30 ;
+                uint32_t     blen = dataOffset > iMax ? iMax : dataOffset ;
+                std::string  dataString = Internal::binaryToString(buff, blen);
+                while (      dataString.size() < iMax ) dataString += ' ';
+                dataString = dataString.substr(0,iMax);
 
                 if ( bPrint ) {
                     io_->seek(dataOffset, BasicIo::cur);// jump to checksum
@@ -285,19 +289,22 @@ namespace Exiv2 {
                 // for XMP, ICC etc: read and format data
                 bool bXMP  = option == kpsXMP        && findi(dataString,xmpKey)==0;
                 bool bICC  = option == kpsIccProfile && findi(dataString,iccKey)==0;
-                bool bExif = option == kpsRecursive  && findi(dataString,exifKey)==0;
+                bool bExif = option == kpsRecursive  &&(findi(dataString,exifKey)==0 || findi(dataString,app1Key)==0);
                 bool bIptc = option == kpsRecursive  && findi(dataString,iptcKey)==0;
                 bool bSoft = option == kpsRecursive  && findi(dataString,softKey)==0;
-                bool bDump = bXMP || bICC || bExif || bIptc || bSoft ;
+                bool bComm = option == kpsRecursive  && findi(dataString,commKey)==0;
+                bool bDesc = option == kpsRecursive  && findi(dataString,descKey)==0;
+                bool bDump = bXMP || bICC || bExif || bIptc || bSoft || bComm || bDesc ;
 
                 if( bDump ) {
                     DataBuf   dataBuf;
-                    byte*     data     = new byte[dataOffset+1];
-                    data[dataOffset]=0;
+                    byte*     data   = new byte[dataOffset+1];
+                    data[dataOffset] = 0;
                     io_->read(data,dataOffset);
                     io_->seek(restore, BasicIo::beg);
-                    uint32_t    name_l = (uint32_t) std::strlen((const char*)data)+1; // leading string length
-                    uint32_t     start = name_l;
+                    uint32_t  name_l = (uint32_t) std::strlen((const char*)data)+1; // leading string length
+                    uint32_t  start  = name_l;
+                    bool      bLF    = false;
 
                     // decode the chunk
                     bool bGood = false;
@@ -305,26 +312,34 @@ namespace Exiv2 {
                         bGood = tEXtToDataBuf(data+name_l,dataOffset-name_l,dataBuf);
                     }
                     if ( zTXt || iCCP ) {
-                        name_l++ ; // +1 = 'compressed' flag
-                        bGood = zlibToDataBuf(data+name_l,dataOffset-name_l,dataBuf);
+                        bGood = zlibToDataBuf(data+name_l+1,dataOffset-name_l-1,dataBuf); // +1 = 'compressed' flag
                     }
                     if ( iTXt ) {
-                        while ( data[start] == 0 && start < dataOffset ) start++; // crawl over the '\0' bytes between XML:....\0\0<xml stuff
-                        data[dataOffset]=0;                 // ensure the XML is nul terminated
                         bGood = (start+3) < dataOffset ;    // good if not a nul chunk
                     }
 
                     // format is content dependent
                     if ( bGood ) {
                         if ( bXMP ) {
-                            out <<  data+start;             // output the xml
+                            while ( !data[start] && start < dataOffset) start++; // skip leading nul bytes
+                            out <<  data+start;             // output the xmp
                         }
-                        if ( bExif ) {
-                            const char* bytes = (const char*) dataBuf.pData_;
-                            uint32_t    l     = (uint32_t) std::strlen(bytes)+2;
-                            // create a copy on write memio object with the data, then print the structure
-                            BasicIo::AutoPtr p = BasicIo::AutoPtr(new MemIo(dataBuf.pData_+l,dataBuf.size_-l));
-                            TiffImage::printTiffStructure(*p,out,option,depth);
+
+                        if ( bExif || bIptc ) {
+                            DataBuf parsedBuf = PngChunk::readRawProfile(dataBuf,tEXt);
+#if DEBUG
+                            std::cerr << Exiv2::Internal::binaryToString(parsedBuf.pData_, parsedBuf.size_>50?50:parsedBuf.size_,0) << std::endl;
+#endif
+                            if ( parsedBuf.size_ ) {
+                                if ( bExif ) {
+                                    // create memio object with the data, then print the structure
+                                    BasicIo::AutoPtr p = BasicIo::AutoPtr(new MemIo(parsedBuf.pData_+6,parsedBuf.size_-6));
+                                    TiffImage::printTiffStructure(*p,out,option,depth);
+                                }
+                                if ( bIptc ) {
+                                    IptcData::printStructure(out,parsedBuf.pData_,parsedBuf.size_,depth);
+                                }
+                            }
                         }
 
                         if ( bSoft && dataBuf.size_ > 0) {
@@ -332,16 +347,22 @@ namespace Exiv2 {
                             memcpy(s.pData_,dataBuf.pData_,dataBuf.size_);// copy in the dataBuf
                             s.pData_[dataBuf.size_] = 0 ;                 // nul terminate it
                             const char* str = (const char*) s.pData_;     // give it name
-                            out << Internal::indent(depth) << (const char*) buff.pData_ << ": " << str << std::endl;
+                            out << Internal::indent(depth) << (const char*) buff.pData_ << ": " << str ;
+                            bLF=true;
                         }
 
-                        if ( bICC ) {
+                        if ( bICC || bComm ) {
                             out.write((const char*) dataBuf.pData_,dataBuf.size_);
+                            bLF = bComm ;
                         }
 
-                        if ( bIptc ) {
-                            IptcData::printStructure(out,dataBuf.pData_,dataBuf.size_,depth);
+                        if ( bDesc && iTXt ) {
+                            DataBuf decoded = PngChunk::decodeTXTChunk(buff,PngChunk::iTXt_Chunk );
+                            out.write((const char*)decoded.pData_,decoded.size_);
+                            bLF = true;
                         }
+
+                        if ( bLF ) out << std::endl;
                     }
                     delete[] data;
                 }

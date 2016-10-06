@@ -25,19 +25,20 @@
            <a href="http://www.vias.org/pngguide/chapter11_04.html">PNG tTXt and zTXt chunks structures</a> from PNG definitive guide,<br>
            <a href="http://www.sno.phy.queensu.ca/~phil/exiftool/TagNames/PNG.html">PNG tags list</a> by Phil Harvey<br>
            Email communication with <a href="mailto:caulier dot gilles at gmail dot com">caulier dot gilles at gmail dot com</a><br>
-  @version $Rev$
-  @author  Andreas Huggel (ahu)
-           <a href="mailto:ahuggel@gmx.net">ahuggel@gmx.net</a>
-  @author  Gilles Caulier (cgilles)
-           <a href="mailto:caulier dot gilles at gmail dot com">caulier dot gilles at gmail dot com</a>
-  @date    12-Jun-06, gc: submitted
  */
+
+ /*
+  File:    pngchunk.cpp
+  Version: $Rev$
+ */
+
 #ifndef PNGCHUNK_INT_HPP_
 #define PNGCHUNK_INT_HPP_
 
 // *****************************************************************************
 // included header files
 #include "types.hpp"
+#include "pngimage.hpp"
 
 // + standard includes
 #include <iosfwd>
@@ -96,6 +97,17 @@ namespace Exiv2 {
         static void decodeTXTChunk(Image*         pImage,
                                    const DataBuf& data,
                                    TxtChunkType   type);
+
+        /*!
+         @brief Decode PNG tEXt, zTXt, or iTXt chunk data from \em pImage passed by data buffer
+         \em data and extract Comment, Exif, Iptc, Xmp to DataBuf
+
+         @param data      PNG Chunk data buffer.
+         @param type      PNG Chunk TXT type.
+         */
+        static DataBuf decodeTXTChunk(const DataBuf& data,
+                                     TxtChunkType   type);
+
 
         /*!
           @brief Return PNG TXT chunk key as data buffer.
@@ -180,7 +192,7 @@ namespace Exiv2 {
         /*!
           @brief Decode from ImageMagick raw text profile which host encoded Exif/Iptc/Xmp metadata byte array.
          */
-        static DataBuf readRawProfile(const DataBuf& text);
+        static DataBuf readRawProfile(const DataBuf& text,bool iTXt);
 
         /*!
           @brief Encode to ImageMagick raw text profile, which host encoded
@@ -188,6 +200,8 @@ namespace Exiv2 {
          */
         static std::string writeRawProfile(const std::string& profileData,
                                            const char*        profileType);
+
+        friend class Exiv2::PngImage;
 
     }; // class PngChunk
 
