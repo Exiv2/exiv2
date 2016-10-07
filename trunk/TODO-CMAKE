@@ -1,11 +1,15 @@
-      +--- +     +  -+-  +     +    ++
-      |     \   /    |   |     |   /  \
-      |      \ /     |   \     /  +    |
-      +---    X      |    |   |       /
-      |      / \     |     \ /       /
-      |     /   \    |      |       /
-      +--- +     +  -+-     +      +----+
-           C++   Metadata   Library
+    @@@@@@@@@@@@@b                   ;mm                        ;#@@@@@@m,
+    j@@@#"777%@@"                   ]@@@@                     ]@@@#%*%@@@@Q
+     @@@#                            %##\                     @@@b     |@@@b
+     @@@#          .;;;;,     ,;;;, ,;;;;  ,;;;p      .;;;    7@@      ]@@@C
+     @@@#           j@@@@,   ]@@#\  '@@@#  j@@@#      ]@@^            ;@@@"
+     @@@@@@@@@@@C     "@@@p @@@"     @@@b   j@@@p     @@b            @@@#\
+     @@@#^7"7%#\       ^@@@@@#~      @@@b    1@@@    {@#           s@@@#
+     @@@#                @@@@o       @@@b     @@@Q  ]@#          ;@@@#\
+     @@@#              ,@@##@@m      @@@b      @@@p @@C         #@@#C
+     @@@#       ,s#   s@@#` @@@@     @@@b      j@@@@@b        s@@@#
+    ]@@@@@@@@@@@@#b ,@@@L    \@@@Q   @@@Q       %@@@#       ;@@@@@@@@@@@@@@#
+    7777777777777> 77777      77777 ^7777        777`      ^777777777777777^
 
 Current Status
 
@@ -21,9 +25,9 @@ ToDo: * CMake/MinGW builds executables that do not work properly for v0.26
         The known issues with CMake/MinGW will be reported to Kitware.
         We hope CMake/MinGW will be in a working state for Exiv2 v0.27
 
-Here are notes concerning CMake/MinGW  
+Here are notes concerning CMake/MinGW
 
-  1 Running a MinGW bash shell 
+  1 Running a MinGW bash shell
 
     I installed MinGW using the installer on the web site.
     I installed two copies c:\MinGW and c:\MinGW64
@@ -132,8 +136,8 @@ Here are notes concerning CMake/MinGW
       .... cmake will rattle and roll ....
 
     CMake generates the wrong include response files.
-    I put the correct include code in contrib/cmake/mingw/includes.rsp 
-    Propagate the correct includes to the generated files.         
+    I put the correct include code in contrib/cmake/mingw/includes.rsp
+    Propagate the correct includes to the generated files.
 
     $ find . -name "includes_*.rsp" -exec cp ../contrib/cmake/mingw/includes.rsp {} \;
     $ make
@@ -147,16 +151,16 @@ Here are notes concerning CMake/MinGW
               -IC:/MinGW/msys/1.0/home/rmills/gnu/exiv2/trunk/xmpsdk/src
               -IC:/Qt/Qt5.6.0/Tools/mingw492_32/i686-w64-mingw32/include
               -IC:/Qt/Qt5.6.0/Tools/mingw492_32/lib/gcc/i686-w64-mingw32/4.9.2/include
-              -IC:/MinGW/msys/1.0/local/include 
-              
+              -IC:/MinGW/msys/1.0/local/include
+
     Gotcha
     ------
     Even have done all of this, some of the sample applications are not correctly linked.
     Samples affected are path-test, geotag, metacopy, exiv2json (possibly others).
-    
+
     The exiv2dll (libexiv2-14.dll) is linked to /bin/msys-expat.dll
     and foo.exe is linked to /usr/local/bin/libexpat-1.dll
-    
+
     I have been able to get this fixed.  I'll deal with it in v0.27.
     two copies of the expat dlls.   /usr/local/bin/libexpat-1.dll and /bin/msys-expat.dll
 

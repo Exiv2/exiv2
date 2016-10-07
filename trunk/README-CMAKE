@@ -1,14 +1,18 @@
-      +--- +     +  -+-  +     +    ++
-      |     \   /    |   |     |   /  \
-      |      \ /     |   \     /  +    |
-      +---    X      |    |   |       /
-      |      / \     |     \ /       /
-      |     /   \    |      |       /
-      +--- +     +  -+-     +      +----+
-           C++   Metadata   Library
+    @@@@@@@@@@@@@b                   ;mm                        ;#@@@@@@m,
+    j@@@#"777%@@"                   ]@@@@                     ]@@@#%*%@@@@Q
+     @@@#                            %##\                     @@@b     |@@@b
+     @@@#          .;;;;,     ,;;;, ,;;;;  ,;;;p      .;;;    7@@      ]@@@C
+     @@@#           j@@@@,   ]@@#\  '@@@#  j@@@#      ]@@^            ;@@@"
+     @@@@@@@@@@@C     "@@@p @@@"     @@@b   j@@@p     @@b            @@@#\
+     @@@#^7"7%#\       ^@@@@@#~      @@@b    1@@@    {@#           s@@@#
+     @@@#                @@@@o       @@@b     @@@Q  ]@#          ;@@@#\
+     @@@#              ,@@##@@m      @@@b      @@@p @@C         #@@#C
+     @@@#       ,s#   s@@#` @@@@     @@@b      j@@@@@b        s@@@#
+    ]@@@@@@@@@@@@#b ,@@@L    \@@@Q   @@@Q       %@@@#       ;@@@@@@@@@@@@@@#
+    7777777777777> 77777      77777 ^7777        777`      ^777777777777777^
 
 -------------------------------------------------------------------------------
-NOTE: 
+NOTE:
 
 * CMake scripts are functional and used to perform the daily build on the buildserver.
 
@@ -53,7 +57,7 @@ FAQ:  http://www.cmake.org/Wiki/CMake_FAQ
 
 This process also covers MacOS-X Terminal, Cygwin and MinGW users.
 
-a) From the command line 
+a) From the command line
 
 Run the following commands from the top directory (containing this
 file) to configure, build and install the library and utility:
@@ -145,7 +149,7 @@ We have two contributed CMake Build Environments:
    - open the VS command line shell
    - execute build.cmd (if there are any errors, the script should tell you)
 
-  Exiv2 should be packaged in the dist directory with all the .lib, include and binary files you need.  
+  Exiv2 should be packaged in the dist directory with all the .lib, include and binary files you need.
 
 4 Building and installing for MinGW Users
 =========================================
