@@ -624,7 +624,7 @@ namespace Exiv2 {
     	char       sCount[12];
     	sprintf(sCount,"_%d",count++);
 
-#ifdef _MSC_VER
+#if defined(_MSC_VER) || defined(__MINGW__)
         char lpTempPathBuffer[MAX_PATH];
 		GetTempPath(MAX_PATH,lpTempPathBuffer);
 		std::string tmp(lpTempPathBuffer);
