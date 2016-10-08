@@ -364,7 +364,7 @@ hardLinkFiles()
 # real_path - report the absolute path to a file
 real_path ()
 {
-	if [ "$PLATFORM" == "Darwin" ]; then
+	if [ "$PLATFORM" == "Darwin" -o "$PLATFORM" == "mingw" ]; then
 		if [ -d "$1" ]; then
 			cd "$1"
 			echo $PWD
