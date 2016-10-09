@@ -1,3 +1,18 @@
+    @@@@@@@@@@@@@b                   ;mm                       /##Gilles###\
+    j@@@#Robin",                     Brad                     /@@@Thomas@@@@Q
+     @@@#       \                     ##                     @@@b     |@@@b
+     @@@#          .;;;;,     ,;;;, ,;;;;  ,;;;p      .;;;   7@@      ]Alan
+     @@@#           j@@@@,   ]@@#/  '@@@#  j@@@#      ]@@^           ;@@@"
+     @@@Andreas@C     "@@@p @@@"     @@@b   j@@@p     @@b           @@@#/
+     @@@#^7"7%#\       ^@@@@@#~      Benb    1@@@    {@#          s@@@#
+     @@@#                Niels       @@@b     @@@Q  ]@#         ;@@@#/
+     @@@#              ,@@##@@m      @@@b      @@@p @@C        #@@#C
+     @@@#       ,/    s@@#  @@@@     @@@b       Volker       @Tuan@
+    ]@@@Abhinav@@\   /@@@\    \@@@Q  @@@Q       %@@@#      /@@@@Mahesh@@#
+   /@@@@@@@@@@@@@@\ /@@@@@\    C++  Metadata   Library   /@Sridhar@@@v0.26\
+
+
+
 exiv2\msvc2005\ReadMe.txt
 -------------------------
 
@@ -8,7 +23,7 @@ exiv2\msvc2005\ReadMe.txt
 |          with Visual Studio 2003/5/8                      |
 +-----------------------------------------------------------+
 
-Updated: 2015-05-08
+Updated: 2015-10-09
 
 Robin Mills
 http://clanmills.com
