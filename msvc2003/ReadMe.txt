@@ -1,5 +1,16 @@
-Notes about msvc2003 32 bit build of exiv2
-------------------------------------------
+    @@@@@@@@@@@@@b                   ;mm                       /##Gilles###\
+    j@@@#Robin",                     Brad                     /@@@Thomas@@@@Q
+     @@@#       \                     ##                     @@@b     |@@@b
+     @@@#          .;;;;,     ,;;;, ,;;;;  ,;;;p      .;;;   7@@      ]Alan
+     @@@#           j@@@@,   ]@@#/  '@@@#  j@@@#      ]@@^           ;@@@"
+     @@@Andreas@C     "@@@p @@@"     @@@b   j@@@p     @@b           @@@#/
+     @@@#^7"7%#\       ^@@@@@#~      Benb    1@@@    {@#          s@@@#
+     @@@#                Niels       @@@b     @@@Q  ]@#         ;@@@#/
+     @@@#              ,@@##@@m      @@@b      @@@p @@C        #@@#C
+     @@@#       ,/    s@@#  @@@@     @@@b       Volker       @Tuan@
+    ]@@@Abhinav@@\   /@@@\    \@@@Q  @@@Q       %@@@#      /@@@@Mahesh@@#
+   /@@@@@@@@@@@@@@\ /@@@@@\    C++  Metadata   Library   /@Sridhar@@@v0.26\
+
 
 +-----------------------------------------------------------+
 | msvc2003 builds 32bit binaries                            |
@@ -9,7 +20,16 @@ Notes about msvc2003 32 bit build of exiv2
 |          with Visual Studio 2005/8/10/12/13/14            |
 +-----------------------------------------------------------+
 
-Updated: 2015-01-12
+Notes about msvc2003 32 bit build of exiv2
+------------------------------------------
+Updated: 2016-10-09
+
+
++-----------------------------------------------------------+
+| CAUTION:                                 TO BE DEPRECATED |
+|   msvc2003 v0.26 is the final release to support VS2003   |
+| CAUTION:                                 TO BE DEPRECATED |
++-----------------------------------------------------------+
 
 Tools
 -----
@@ -23,7 +43,6 @@ All builds in msvc2003 are 32bit.
                           and the utility and test programs (exiv2.exe, exifprint.exe)
 
                           DEPENDS on zlib-1.2.3 and expat-2.0.1
-
 
 How to build and test exiv2
 ----------------------------
