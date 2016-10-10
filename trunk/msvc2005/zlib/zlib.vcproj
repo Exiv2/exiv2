@@ -1,10 +1,8 @@
-<?xml version="1.0" encoding="Windows-1252"?>
 <VisualStudioProject ProjectType="Visual C++" Version="8.00" Name="zlib1" ProjectGUID="{8308C68D-E12B-4C71-96F4-7137F6BEB654}" RootNamespace="zlib">
   <Platforms>
     <Platform Name="x64"/>
     <Platform Name="Win32"/>
   </Platforms>
-  <ToolFiles>    </ToolFiles>
   <Configurations>
     <Configuration Name="ReleaseDLL|x64" OutputDirectory="$(SolutionDir)bin\$(PlatformName)\$(ConfigurationName)" IntermediateDirectory="build\$(PlatformName)\$(ConfigurationName)" ConfigurationType="2" UseOfMFC="0" ATLMinimizesCRunTimeLibraryUsage="false">
       <Tool Name="VCPreBuildEventTool"/>
@@ -155,41 +153,39 @@
       <Tool Name="VCPostBuildEventTool"/>
     </Configuration>
   </Configurations>
-  <References>    </References>
   <Files>
     <Filter Name="Source Files" Filter="cpp;c;cxx;rc;def;r;odl;idl;hpj;bat">
-      <File RelativePath="..\..\..\zlib\adler32.c">            </File>
-      <File RelativePath="..\..\..\zlib\compress.c">            </File>
-      <File RelativePath="..\..\..\zlib\crc32.c">            </File>
-      <File RelativePath="..\..\..\zlib\deflate.c">            </File>
-      <File RelativePath="..\..\..\zlib\gzclose.c">            </File>
-      <File RelativePath="..\..\..\zlib\gzlib.c">            </File>
-      <File RelativePath="..\..\..\zlib\gzread.c">            </File>
-      <File RelativePath="..\..\..\zlib\gzwrite.c">            </File>
-      <File RelativePath="..\..\..\zlib\infback.c">            </File>
-      <File RelativePath="..\..\..\zlib\inffast.c">            </File>
-      <File RelativePath="..\..\..\zlib\inflate.c">            </File>
-      <File RelativePath="..\..\..\zlib\inftrees.c">            </File>
-      <File RelativePath="..\..\..\zlib\trees.c">            </File>
-      <File RelativePath="..\..\..\zlib\uncompr.c">            </File>
-      <File RelativePath="..\..\..\zlib\win32\zlib.def">            </File>
-      <File RelativePath="..\..\..\zlib\zutil.c">            </File>
+      <File RelativePath="..\..\..\zlib\adler32.c"/>
+      <File RelativePath="..\..\..\zlib\compress.c"/>
+      <File RelativePath="..\..\..\zlib\crc32.c"/>
+      <File RelativePath="..\..\..\zlib\deflate.c"/>
+      <File RelativePath="..\..\..\zlib\gzclose.c"/>
+      <File RelativePath="..\..\..\zlib\gzlib.c"/>
+      <File RelativePath="..\..\..\zlib\gzread.c"/>
+      <File RelativePath="..\..\..\zlib\gzwrite.c"/>
+      <File RelativePath="..\..\..\zlib\infback.c"/>
+      <File RelativePath="..\..\..\zlib\inffast.c"/>
+      <File RelativePath="..\..\..\zlib\inflate.c"/>
+      <File RelativePath="..\..\..\zlib\inftrees.c"/>
+      <File RelativePath="..\..\..\zlib\trees.c"/>
+      <File RelativePath="..\..\..\zlib\uncompr.c"/>
+      <File RelativePath="..\..\..\zlib\win32\zlib.def"/>
+      <File RelativePath="..\..\..\zlib\zutil.c"/>
     </Filter>
     <Filter Name="Header Files" Filter="h;hpp;hxx;hm;inl">
-      <File RelativePath="..\..\..\zlib\crc32.h">            </File>
-      <File RelativePath="..\..\..\zlib\deflate.h">            </File>
-      <File RelativePath="..\..\..\zlib\inffast.h">            </File>
-      <File RelativePath="..\..\..\zlib\inffixed.h">            </File>
-      <File RelativePath="..\..\..\zlib\inflate.h">            </File>
-      <File RelativePath="..\..\..\zlib\inftrees.h">            </File>
-      <File RelativePath="..\..\..\zlib\trees.h">            </File>
-      <File RelativePath="..\..\..\zlib\zconf.h">            </File>
-      <File RelativePath="..\..\..\zlib\zlib.h">            </File>
-      <File RelativePath="..\..\..\zlib\zutil.h">            </File>
+      <File RelativePath="..\..\..\zlib\crc32.h"/>
+      <File RelativePath="..\..\..\zlib\deflate.h"/>
+      <File RelativePath="..\..\..\zlib\inffast.h"/>
+      <File RelativePath="..\..\..\zlib\inffixed.h"/>
+      <File RelativePath="..\..\..\zlib\inflate.h"/>
+      <File RelativePath="..\..\..\zlib\inftrees.h"/>
+      <File RelativePath="..\..\..\zlib\trees.h"/>
+      <File RelativePath="..\..\..\zlib\zconf.h"/>
+      <File RelativePath="..\..\..\zlib\zlib.h"/>
+      <File RelativePath="..\..\..\zlib\zutil.h"/>
     </Filter>
     <Filter Name="Resource Files" Filter="ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe">
-      <File RelativePath="..\..\..\zlib\win32\zlib1.rc">            </File>
+      <File RelativePath="..\..\..\zlib\win32\zlib1.rc"/>
     </Filter>
   </Files>
-  <Globals>    </Globals>
 </VisualStudioProject>

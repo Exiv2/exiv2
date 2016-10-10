@@ -1,10 +1,8 @@
-<?xml version="1.0" encoding="Windows-1252"?>
 <VisualStudioProject ProjectType="Visual C++" Version="9.00" Name="depends" ProjectGUID="{E24D66E3-65A9-4BEB-8579-039AD77C2EFF}" RootNamespace="depends" Keyword="Win32Proj" TargetFrameworkVersion="196613">
   <Platforms>
     <Platform Name="Win32"/>
     <Platform Name="x64"/>
   </Platforms>
-  <ToolFiles>   </ToolFiles>
   <Configurations>
     <Configuration Name="Debug|Win32" OutputDirectory="$(SolutionDir)$(ConfigurationName)\" IntermediateDirectory="$(ConfigurationName)" ConfigurationType="1" CharacterSet="0">
       <Tool Name="VCPreBuildEventTool"/>
@@ -83,29 +81,26 @@
       <Tool Name="VCPostBuildEventTool"/>
     </Configuration>
   </Configurations>
-  <References>  </References>
   <Files>
     <Filter Name="Source Files" Filter="cpp;c;cc;cxx;def;odl;idl;hpj;bat;asm;asmx" UniqueIdentifier="{4FC737F1-C7A5-4376-A066-2A32D752A2FF}">
-      <File RelativePath="src\DEPENDENCYLIST.CPP">          </File>
-      <File RelativePath="src\depends.cpp">         </File>
-      <File RelativePath="src\EXEFILE.CPP">         </File>
-      <File RelativePath="src\MEMORYMAPPEDFILE.CPP">            </File>
-      <File RelativePath="src\modulefileinfo.cpp">          </File>
-      <File RelativePath="src\PEEXE.CPP">           </File>
-      <File RelativePath=".\stdafx.cpp">            </File>
+      <File RelativePath="src\DEPENDENCYLIST.CPP"/>
+      <File RelativePath="src\depends.cpp"/>
+      <File RelativePath="src\EXEFILE.CPP"/>
+      <File RelativePath="src\MEMORYMAPPEDFILE.CPP"/>
+      <File RelativePath="src\modulefileinfo.cpp"/>
+      <File RelativePath="src\PEEXE.CPP"/>
+      <File RelativePath=".\stdafx.cpp"/>
     </Filter>
     <Filter Name="Header Files" Filter="h;hpp;hxx;hm;inl;inc;xsd" UniqueIdentifier="{93995380-89BD-4b04-88EB-625FBE52EBFB}">
-      <File RelativePath="include\DEPENDENCYLIST.H">            </File>
-      <File RelativePath="include\EXEFILE.H">           </File>
-      <File RelativePath="include\MEMORYMAPPEDFILE.H">          </File>
-      <File RelativePath="include\modulefileinfo.h">            </File>
-      <File RelativePath="include\PEEXE.H">         </File>
-      <File RelativePath=".\stdafx.h">          </File>
-      <File RelativePath=".\targetver.h">           </File>
+      <File RelativePath="include\DEPENDENCYLIST.H"/>
+      <File RelativePath="include\EXEFILE.H"/>
+      <File RelativePath="include\MEMORYMAPPEDFILE.H"/>
+      <File RelativePath="include\modulefileinfo.h"/>
+      <File RelativePath="include\PEEXE.H"/>
+      <File RelativePath=".\stdafx.h"/>
+      <File RelativePath=".\targetver.h"/>
     </Filter>
-    <Filter Name="Resource Files" Filter="rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav" UniqueIdentifier="{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}">     </Filter>
-    <File RelativePath=".\ReadMe.txt">      </File>
+    <Filter Name="Resource Files" Filter="rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav" UniqueIdentifier="{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}"/>
+    <File RelativePath=".\ReadMe.txt"/>
   </Files>
-  <Globals> </Globals>
-</VisualStudioProject>
-<!-- use perl script exiv2/msvc64/ppxml to pretty print this file -->
+</VisualStudioProject><!-- use perl script exiv2/msvc64/ppxml to pretty print this file -->
