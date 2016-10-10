@@ -1,4 +1,4 @@
-#!/usr/bin/python3
+#!/usr/bin/env python3
 
 import os
 import sys
@@ -69,6 +69,7 @@ project['exiv2'				] = set(['libeay32', 'ssleay32', 'libcurl', 'zlib', 'libexpat
 project['exiv2json'			] = set(['libcurl', 'zlib', 'libexpat', 'xmpsdk', 'libexiv2', 'libssh'])
 project['geotag'			] = set(['zlib', 'libexpat', 'libexiv2', 'libcurl', 'xmpsdk'])
 project['httptest'			] = set(['zlib', 'libexpat', 'libexiv2', 'libcurl', 'xmpsdk'])
+project['ini-test'			] = set(['libexiv2'])
 project['iotest'			] = set(['zlib', 'libexpat', 'libexiv2', 'libcurl', 'xmpsdk'])
 project['iptceasy'			] = set(['zlib', 'libexpat', 'libexiv2', 'libcurl', 'xmpsdk'])
 project['iptcprint'			] = set(['zlib', 'libexpat', 'libexiv2', 'libcurl', 'xmpsdk'])
@@ -225,8 +226,8 @@ def writeVCproj(project,projects):
 		if line.find( ppold ) > 0:
 			line=line.replace(ppold,ppnew)
 
-		if len(line)>0:
-			out = out + line + '\n'
+		if line.strip():
+			out = out + line
 
 	open(vcnew,'w').write(out)
 

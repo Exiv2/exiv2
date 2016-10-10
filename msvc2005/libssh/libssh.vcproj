@@ -1,10 +1,8 @@
-<?xml version="1.0" encoding="Windows-1252"?>
 <VisualStudioProject ProjectType="Visual C++" Version="8.00" Name="libssh" ProjectGUID="{729E4E11-3BBA-4306-B53C-8AEC45E70E10}" RootNamespace="libssh">
   <Platforms>
     <Platform Name="x64"/>
     <Platform Name="Win32"/>
   </Platforms>
-  <ToolFiles>	</ToolFiles>
   <Configurations>
     <Configuration Name="ReleaseDLL|x64" OutputDirectory="$(SolutionDir)bin/$(PlatformName)/$(ConfigurationName)" IntermediateDirectory="./build/$(PlatformName)/$(ConfigurationName)" ConfigurationType="2" UseOfMFC="0" ATLMinimizesCRunTimeLibraryUsage="false">
       <Tool Name="VCPreBuildEventTool"/>
@@ -155,92 +153,90 @@
       <Tool Name="VCPostBuildEventTool"/>
     </Configuration>
   </Configurations>
-  <References>	</References>
   <Files>
     <Filter Name="Source Files" Filter="cpp;c;cxx;rc;def;r;odl;idl;hpj;bat">
-      <File RelativePath="..\..\..\libssh\src\agent.c">			</File>
-      <File RelativePath="..\..\..\libssh\src\auth.c">			</File>
-      <File RelativePath="..\..\..\libssh\src\auth1.c">			</File>
-      <File RelativePath="..\..\..\libssh\src\base64.c">			</File>
-      <File RelativePath="..\..\..\libssh\src\bind.c">			</File>
-      <File RelativePath="..\..\..\libssh\src\buffer.c">			</File>
-      <File RelativePath="..\..\..\libssh\src\callbacks.c">			</File>
-      <File RelativePath="..\..\..\libssh\src\channels.c">			</File>
-      <File RelativePath="..\..\..\libssh\src\channels1.c">			</File>
-      <File RelativePath="..\..\..\libssh\src\client.c">			</File>
-      <File RelativePath="..\..\..\libssh\src\config.c">			</File>
-      <File RelativePath="..\..\..\libssh\src\connect.c">			</File>
-      <File RelativePath="..\..\..\libssh\src\crc32.c">			</File>
-      <File RelativePath="..\..\..\libssh\src\crypt.c">			</File>
-      <File RelativePath="..\..\..\libssh\src\dh.c">			</File>
-      <File RelativePath="..\..\..\libssh\src\error.c">			</File>
-      <File RelativePath="..\..\..\libssh\src\gcrypt_missing.c">			</File>
-      <File RelativePath="..\..\..\libssh\src\getpass.c">			</File>
-      <File RelativePath="..\..\..\libssh\src\gzip.c">			</File>
-      <File RelativePath="..\..\..\libssh\src\init.c">			</File>
-      <File RelativePath="..\..\..\libssh\src\kex.c">			</File>
-      <File RelativePath="..\..\..\libssh\src\keyfiles.c">			</File>
-      <File RelativePath="..\..\..\libssh\src\keys.c">			</File>
-      <File RelativePath="..\..\..\libssh\src\known_hosts.c">			</File>
-      <File RelativePath="..\..\..\libssh\src\legacy.c">			</File>
-      <File RelativePath="..\..\..\libssh\src\libcrypto.c">			</File>
-      <File RelativePath="..\..\..\libssh\src\libgcrypt.c">			</File>
-      <File RelativePath="..\..\..\libssh\src\log.c">			</File>
-      <File RelativePath="..\..\..\libssh\src\match.c">			</File>
-      <File RelativePath="..\..\..\libssh\src\messages.c">			</File>
-      <File RelativePath="..\..\..\libssh\src\misc.c">			</File>
-      <File RelativePath="..\..\..\libssh\src\options.c">			</File>
-      <File RelativePath="..\..\..\libssh\src\packet.c">			</File>
-      <File RelativePath="..\..\..\libssh\src\packet1.c">			</File>
-      <File RelativePath="..\..\..\libssh\src\pcap.c">			</File>
-      <File RelativePath="..\..\..\libssh\src\pki.c">			</File>
-      <File RelativePath="..\..\..\libssh\src\poll.c">			</File>
-      <File RelativePath="..\..\..\libssh\src\scp.c">			</File>
-      <File RelativePath="..\..\..\libssh\src\server.c">			</File>
-      <File RelativePath="..\..\..\libssh\src\session.c">			</File>
-      <File RelativePath="..\..\..\libssh\src\sftp.c">			</File>
-      <File RelativePath="..\..\..\libssh\src\sftpserver.c">			</File>
-      <File RelativePath="..\..\..\libssh\src\socket.c">			</File>
-      <File RelativePath="..\..\..\libssh\src\string.c">			</File>
-      <File RelativePath="..\..\..\libssh\src\threads.c">			</File>
-      <File RelativePath="..\..\..\libssh\src\wrapper.c">			</File>
+      <File RelativePath="..\..\..\libssh\src\agent.c"/>
+      <File RelativePath="..\..\..\libssh\src\auth.c"/>
+      <File RelativePath="..\..\..\libssh\src\auth1.c"/>
+      <File RelativePath="..\..\..\libssh\src\base64.c"/>
+      <File RelativePath="..\..\..\libssh\src\bind.c"/>
+      <File RelativePath="..\..\..\libssh\src\buffer.c"/>
+      <File RelativePath="..\..\..\libssh\src\callbacks.c"/>
+      <File RelativePath="..\..\..\libssh\src\channels.c"/>
+      <File RelativePath="..\..\..\libssh\src\channels1.c"/>
+      <File RelativePath="..\..\..\libssh\src\client.c"/>
+      <File RelativePath="..\..\..\libssh\src\config.c"/>
+      <File RelativePath="..\..\..\libssh\src\connect.c"/>
+      <File RelativePath="..\..\..\libssh\src\crc32.c"/>
+      <File RelativePath="..\..\..\libssh\src\crypt.c"/>
+      <File RelativePath="..\..\..\libssh\src\dh.c"/>
+      <File RelativePath="..\..\..\libssh\src\error.c"/>
+      <File RelativePath="..\..\..\libssh\src\gcrypt_missing.c"/>
+      <File RelativePath="..\..\..\libssh\src\getpass.c"/>
+      <File RelativePath="..\..\..\libssh\src\gzip.c"/>
+      <File RelativePath="..\..\..\libssh\src\init.c"/>
+      <File RelativePath="..\..\..\libssh\src\kex.c"/>
+      <File RelativePath="..\..\..\libssh\src\keyfiles.c"/>
+      <File RelativePath="..\..\..\libssh\src\keys.c"/>
+      <File RelativePath="..\..\..\libssh\src\known_hosts.c"/>
+      <File RelativePath="..\..\..\libssh\src\legacy.c"/>
+      <File RelativePath="..\..\..\libssh\src\libcrypto.c"/>
+      <File RelativePath="..\..\..\libssh\src\libgcrypt.c"/>
+      <File RelativePath="..\..\..\libssh\src\log.c"/>
+      <File RelativePath="..\..\..\libssh\src\match.c"/>
+      <File RelativePath="..\..\..\libssh\src\messages.c"/>
+      <File RelativePath="..\..\..\libssh\src\misc.c"/>
+      <File RelativePath="..\..\..\libssh\src\options.c"/>
+      <File RelativePath="..\..\..\libssh\src\packet.c"/>
+      <File RelativePath="..\..\..\libssh\src\packet1.c"/>
+      <File RelativePath="..\..\..\libssh\src\pcap.c"/>
+      <File RelativePath="..\..\..\libssh\src\pki.c"/>
+      <File RelativePath="..\..\..\libssh\src\poll.c"/>
+      <File RelativePath="..\..\..\libssh\src\scp.c"/>
+      <File RelativePath="..\..\..\libssh\src\server.c"/>
+      <File RelativePath="..\..\..\libssh\src\session.c"/>
+      <File RelativePath="..\..\..\libssh\src\sftp.c"/>
+      <File RelativePath="..\..\..\libssh\src\sftpserver.c"/>
+      <File RelativePath="..\..\..\libssh\src\socket.c"/>
+      <File RelativePath="..\..\..\libssh\src\string.c"/>
+      <File RelativePath="..\..\..\libssh\src\threads.c"/>
+      <File RelativePath="..\..\..\libssh\src\wrapper.c"/>
     </Filter>
     <Filter Name="Header Files" Filter="h;hpp;hxx;hm;inl">
-      <File RelativePath="..\..\..\libssh\include\libssh\agent.h">			</File>
-      <File RelativePath="..\..\..\libssh\include\libssh\auth.h">			</File>
-      <File RelativePath="..\..\..\libssh\include\libssh\bind.h">			</File>
-      <File RelativePath="..\..\..\libssh\include\libssh\buffer.h">			</File>
-      <File RelativePath="..\..\..\libssh\include\libssh\callbacks.h">			</File>
-      <File RelativePath="..\..\..\libssh\include\libssh\channels.h">			</File>
-      <File RelativePath="..\..\..\libssh\include\libssh\CMakeLists.txt">			</File>
-      <File RelativePath="..\..\..\libssh\include\libssh\crypto.h">			</File>
-      <File RelativePath="..\..\..\libssh\include\libssh\dh.h">			</File>
-      <File RelativePath="..\..\..\libssh\include\libssh\kex.h">			</File>
-      <File RelativePath="..\..\..\libssh\include\libssh\keyfiles.h">			</File>
-      <File RelativePath="..\..\..\libssh\include\libssh\keys.h">			</File>
-      <File RelativePath="..\..\..\libssh\include\libssh\legacy.h">			</File>
-      <File RelativePath="..\..\..\libssh\include\libssh\libcrypto.h">			</File>
-      <File RelativePath="..\..\..\libssh\include\libssh\libgcrypt.h">			</File>
-      <File RelativePath="..\..\..\libssh\include\libssh\libssh.h">			</File>
-      <File RelativePath="..\..\..\libssh\include\libssh\libsshpp.hpp">			</File>
-      <File RelativePath="..\..\..\libssh\include\libssh\messages.h">			</File>
-      <File RelativePath="..\..\..\libssh\include\libssh\misc.h">			</File>
-      <File RelativePath="..\..\..\libssh\include\libssh\packet.h">			</File>
-      <File RelativePath="..\..\..\libssh\include\libssh\pcap.h">			</File>
-      <File RelativePath="..\..\..\libssh\include\libssh\pki.h">			</File>
-      <File RelativePath="..\..\..\libssh\include\libssh\poll.h">			</File>
-      <File RelativePath="..\..\..\libssh\include\libssh\priv.h">			</File>
-      <File RelativePath="..\..\..\libssh\include\libssh\scp.h">			</File>
-      <File RelativePath="..\..\..\libssh\include\libssh\server.h">			</File>
-      <File RelativePath="..\..\..\libssh\include\libssh\session.h">			</File>
-      <File RelativePath="..\..\..\libssh\include\libssh\sftp.h">			</File>
-      <File RelativePath="..\..\..\libssh\include\libssh\socket.h">			</File>
-      <File RelativePath="..\..\..\libssh\include\libssh\ssh1.h">			</File>
-      <File RelativePath="..\..\..\libssh\include\libssh\ssh2.h">			</File>
-      <File RelativePath="..\..\..\libssh\include\libssh\string.h">			</File>
-      <File RelativePath="..\..\..\libssh\include\libssh\threads.h">			</File>
-      <File RelativePath="..\..\..\libssh\include\libssh\wrapper.h">			</File>
+      <File RelativePath="..\..\..\libssh\include\libssh\agent.h"/>
+      <File RelativePath="..\..\..\libssh\include\libssh\auth.h"/>
+      <File RelativePath="..\..\..\libssh\include\libssh\bind.h"/>
+      <File RelativePath="..\..\..\libssh\include\libssh\buffer.h"/>
+      <File RelativePath="..\..\..\libssh\include\libssh\callbacks.h"/>
+      <File RelativePath="..\..\..\libssh\include\libssh\channels.h"/>
+      <File RelativePath="..\..\..\libssh\include\libssh\CMakeLists.txt"/>
+      <File RelativePath="..\..\..\libssh\include\libssh\crypto.h"/>
+      <File RelativePath="..\..\..\libssh\include\libssh\dh.h"/>
+      <File RelativePath="..\..\..\libssh\include\libssh\kex.h"/>
+      <File RelativePath="..\..\..\libssh\include\libssh\keyfiles.h"/>
+      <File RelativePath="..\..\..\libssh\include\libssh\keys.h"/>
+      <File RelativePath="..\..\..\libssh\include\libssh\legacy.h"/>
+      <File RelativePath="..\..\..\libssh\include\libssh\libcrypto.h"/>
+      <File RelativePath="..\..\..\libssh\include\libssh\libgcrypt.h"/>
+      <File RelativePath="..\..\..\libssh\include\libssh\libssh.h"/>
+      <File RelativePath="..\..\..\libssh\include\libssh\libsshpp.hpp"/>
+      <File RelativePath="..\..\..\libssh\include\libssh\messages.h"/>
+      <File RelativePath="..\..\..\libssh\include\libssh\misc.h"/>
+      <File RelativePath="..\..\..\libssh\include\libssh\packet.h"/>
+      <File RelativePath="..\..\..\libssh\include\libssh\pcap.h"/>
+      <File RelativePath="..\..\..\libssh\include\libssh\pki.h"/>
+      <File RelativePath="..\..\..\libssh\include\libssh\poll.h"/>
+      <File RelativePath="..\..\..\libssh\include\libssh\priv.h"/>
+      <File RelativePath="..\..\..\libssh\include\libssh\scp.h"/>
+      <File RelativePath="..\..\..\libssh\include\libssh\server.h"/>
+      <File RelativePath="..\..\..\libssh\include\libssh\session.h"/>
+      <File RelativePath="..\..\..\libssh\include\libssh\sftp.h"/>
+      <File RelativePath="..\..\..\libssh\include\libssh\socket.h"/>
+      <File RelativePath="..\..\..\libssh\include\libssh\ssh1.h"/>
+      <File RelativePath="..\..\..\libssh\include\libssh\ssh2.h"/>
+      <File RelativePath="..\..\..\libssh\include\libssh\string.h"/>
+      <File RelativePath="..\..\..\libssh\include\libssh\threads.h"/>
+      <File RelativePath="..\..\..\libssh\include\libssh\wrapper.h"/>
     </Filter>
   </Files>
-  <Globals>	</Globals>
 </VisualStudioProject>
