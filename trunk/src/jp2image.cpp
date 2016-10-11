@@ -21,9 +21,6 @@
 /*
   File:      jp2image.cpp
   Version:   $Rev$
-  Author(s): Marco Piovanelli, Ovolab (marco)
-  Author(s): Gilles Caulier (cgilles) <caulier dot gilles at gmail dot com>
-  History:   12-Mar-2007, marco: created
  */
 // *****************************************************************************
 #include "rcsid_int.hpp"
@@ -230,14 +227,15 @@ namespace Exiv2
                     {
                         DataBuf rawData;
                         long    bufRead;
+                        bool    bExif = memcmp(uuid.uuid, kJp2UuidExif, sizeof(uuid))==0;
+                        bool    bIptc = memcmp(uuid.uuid, kJp2UuidIptc, sizeof(uuid))==0;
+                        bool    bXMP  = memcmp(uuid.uuid, kJp2UuidXmp , sizeof(uuid))==0;
 
-                        if(memcmp(uuid.uuid, kJp2UuidExif, sizeof(uuid)) == 0)
+                        if(bExif)
                         {
 #ifdef DEBUG
                            std::cout << "Exiv2::Jp2Image::readMetadata: Exif data found\n";
 #endif
-
-                            // we've hit an embedded Exif block
                             rawData.alloc(box.boxLength - (sizeof(box) + sizeof(uuid)));
                             bufRead = io_->read(rawData.pData_, rawData.size_);
                             if (io_->error()) throw Error(14);
@@ -246,27 +244,26 @@ namespace Exiv2
                             if (rawData.size_ > 0)
                             {
                                 // Find the position of Exif header in bytes array.
+                                long pos = (     (rawData.pData_[0]      == rawData.pData_[1])
+                                           &&    (rawData.pData_[0]=='I' || rawData.pData_[0]=='M')
+                                           )  ? 0 : -1;
 
+                                // #1242  Forgive having Exif\0\0 in rawData.pData_
                                 const byte exifHeader[] = { 0x45, 0x78, 0x69, 0x66, 0x00, 0x00 };
-                                long pos = -1;
-
-                                for (long i=0 ; i < rawData.size_-(long)sizeof(exifHeader) ; i++)
+                                for (long i=0 ; pos < 0 && i < rawData.size_-(long)sizeof(exifHeader) ; i++)
                                 {
                                     if (memcmp(exifHeader, &rawData.pData_[i], sizeof(exifHeader)) == 0)
                                     {
-                                        pos = i;
-                                        break;
+                                        pos = i+sizeof(exifHeader);
                                     }
                                 }
 
                                 // If found it, store only these data at from this place.
-
-                                if (pos !=-1)
+                                if (pos >= 0 )
                                 {
 #ifdef DEBUG
-                                    std::cout << "Exiv2::Jp2Image::readMetadata: Exif header found at position " << pos << "\n";
+                                    std::cout << "Exiv2::Jp2Image::readMetadata: Exif header found at position " << pos << std::endl;
 #endif
-                                    pos = pos + sizeof(exifHeader);
                                     ByteOrder bo = TiffParser::decode(exifData(),
                                                                       iptcData(),
                                                                       xmpData(),
@@ -283,9 +280,9 @@ namespace Exiv2
                                 exifData_.clear();
                             }
                         }
-                        else if(memcmp(uuid.uuid, kJp2UuidIptc, sizeof(uuid)) == 0)
+
+                        if(bIptc)
                         {
-                            // we've hit an embedded IPTC block
 #ifdef DEBUG
                            std::cout << "Exiv2::Jp2Image::readMetadata: Iptc data found\n";
 #endif
@@ -302,13 +299,12 @@ namespace Exiv2
                                 iptcData_.clear();
                             }
                         }
-                        else if(memcmp(uuid.uuid, kJp2UuidXmp, sizeof(uuid)) == 0)
+
+                        if(bXMP)
                         {
-                            // we've hit an embedded XMP block
 #ifdef DEBUG
                            std::cout << "Exiv2::Jp2Image::readMetadata: Xmp data found\n";
 #endif
-
                             rawData.alloc(box.boxLength - (uint32_t)(sizeof(box) + sizeof(uuid)));
                             bufRead = io_->read(rawData.pData_, rawData.size_);
                             if (io_->error()) throw Error(14);
@@ -345,7 +341,7 @@ namespace Exiv2
             // Move to the next box.
 
             io_->seek(static_cast<long>(position - sizeof(box) + box.boxLength), BasicIo::beg);
-            if (io_->error() || io_->eof()) throw Error(14);
+            if (io_->error()/* || io_->eof()*/) throw Error(14);
         }
 
     } // Jp2Image::readMetadata
@@ -473,11 +469,8 @@ namespace Exiv2
                         ExifParser::encode(blob, littleEndian, exifData_);
                         if (blob.size())
                         {
-                            const unsigned char ExifHeader[] = {0x45, 0x78, 0x69, 0x66, 0x00, 0x00};
-
-                            DataBuf rawExif(static_cast<long>(sizeof(ExifHeader) + blob.size()));
-                            memcpy(rawExif.pData_, ExifHeader, sizeof(ExifHeader));
-                            memcpy(rawExif.pData_ + sizeof(ExifHeader), &blob[0], blob.size());
+                            DataBuf rawExif(static_cast<long>(blob.size()));
+                            memcpy(rawExif.pData_, &blob[0], blob.size());
 
                             DataBuf boxData(8 + 16 + rawExif.size_);
                             ul2Data(boxDataSize, boxData.size_, Exiv2::bigEndian);
