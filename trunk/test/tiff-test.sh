@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 # TIFF parser test driver
 
 if [ "${BASH_VERSION:0:1}" -lt "4" ]; then
