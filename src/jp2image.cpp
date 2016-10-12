@@ -478,7 +478,7 @@ namespace Exiv2
                             }
 
                             DataBuf rawData;
-                                    rawData.alloc(box.length);
+                                    rawData.alloc(box.length-sizeof(uuid)-sizeof(box));
                             long    bufRead = io_->read(rawData.pData_, rawData.size_);
                             if (io_->error()) throw Error(14);
                             if (bufRead != rawData.size_) throw Error(20);
