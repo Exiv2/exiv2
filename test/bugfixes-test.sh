@@ -587,6 +587,12 @@ source ./functions.source
     copyTestFile                        $filename
     runTest exiv2 -pX                   $filename | xmllint --format -
 
+    num=1242
+    printf "$num " >&3
+    filename=Reagan.jp2
+    copyTestFile                        $filename
+    runTest exiv2 -pa                   $filename
+
 ) 3>&1 > $results 2>&1
 
 printf "\n"
