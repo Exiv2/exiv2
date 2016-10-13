@@ -51,6 +51,31 @@ const uint32_t kJp2BoxTypeImageHeader = 0x69686472; // 'ihdr'
 const uint32_t kJp2BoxTypeColorHeader = 0x636f6c72; // 'colr'
 const uint32_t kJp2BoxTypeUuid        = 0x75756964; // 'uuid'
 
+// from openjpeg-2.1.2/src/lib/openjp2/jp2.h
+/*#define JPIP_JPIP 0x6a706970*/
+
+#define     JP2_JP   0x6a502020    /**< JPEG 2000 signature box */
+#define     JP2_FTYP 0x66747970    /**< File type box */
+#define     JP2_JP2H 0x6a703268    /**< JP2 header box (super-box) */
+#define     JP2_IHDR 0x69686472    /**< Image header box */
+#define     JP2_COLR 0x636f6c72    /**< Colour specification box */
+#define     JP2_JP2C 0x6a703263    /**< Contiguous codestream box */
+#define     JP2_URL  0x75726c20    /**< Data entry URL box */
+#define     JP2_PCLR 0x70636c72    /**< Palette box */
+#define     JP2_CMAP 0x636d6170    /**< Component Mapping box */
+#define     JP2_CDEF 0x63646566    /**< Channel Definition box */
+#define     JP2_DTBL 0x6474626c    /**< Data Reference box */
+#define     JP2_BPCC 0x62706363    /**< Bits per component box */
+#define     JP2_JP2  0x6a703220    /**< File type fields */
+
+/* For the future */
+/* #define JP2_RES 0x72657320 */  /**< Resolution box (super-box) */
+/* #define JP2_JP2I 0x6a703269 */  /**< Intellectual property box */
+/* #define JP2_XML  0x786d6c20 */  /**< XML box */
+/* #define JP2_UUID 0x75756994 */  /**< UUID box */
+/* #define JP2_UINF 0x75696e66 */  /**< UUID info box (super-box) */
+/* #define JP2_ULST 0x756c7374 */  /**< UUID list box */
+
 // JPEG-2000 UUIDs for embedded metadata
 //
 // See http://www.jpeg.org/public/wg1n2600.doc for information about embedding IPTC-NAA data in JPEG-2000 files
@@ -225,7 +250,7 @@ namespace Exiv2
                             DataBuf icc(iccLength);
                             ::memcpy(icc.pData_,data.pData_+pad,icc.size_);
 #ifdef DEBUG
-                            const char* iccPath = "/tmp/jp2.icc";
+                            const char* iccPath = "/tmp/libexiv2_jp2.icc";
                             FILE* f = fopen(iccPath,"wb");
                             if ( f ) {
                                 fwrite(icc.pData_,icc.size_,1,f);
@@ -269,11 +294,11 @@ namespace Exiv2
                     {
                         DataBuf rawData;
                         long    bufRead;
-                        bool    bExif = memcmp(uuid.uuid, kJp2UuidExif, sizeof(uuid))==0;
-                        bool    bIptc = memcmp(uuid.uuid, kJp2UuidIptc, sizeof(uuid))==0;
-                        bool    bXMP  = memcmp(uuid.uuid, kJp2UuidXmp , sizeof(uuid))==0;
+                        bool    bIsExif = memcmp(uuid.uuid, kJp2UuidExif, sizeof(uuid))==0;
+                        bool    bIsIPTC = memcmp(uuid.uuid, kJp2UuidIptc, sizeof(uuid))==0;
+                        bool    bIsXMP  = memcmp(uuid.uuid, kJp2UuidXmp , sizeof(uuid))==0;
 
-                        if(bExif)
+                        if(bIsExif)
                         {
 #ifdef DEBUG
                            std::cout << "Exiv2::Jp2Image::readMetadata: Exif data found\n";
@@ -323,7 +348,7 @@ namespace Exiv2
                             }
                         }
 
-                        if(bIptc)
+                        if(bIsIPTC)
                         {
 #ifdef DEBUG
                            std::cout << "Exiv2::Jp2Image::readMetadata: Iptc data found\n";
@@ -342,7 +367,7 @@ namespace Exiv2
                             }
                         }
 
-                        if(bXMP)
+                        if(bIsXMP)
                         {
 #ifdef DEBUG
                            std::cout << "Exiv2::Jp2Image::readMetadata: Xmp data found\n";
@@ -394,7 +419,24 @@ namespace Exiv2
             bLF = false ;
         }
     }
-
+  /*
+    static std::string printGUID(const uuid& guid)
+    {
+        long* data1 = (long*) &guid.uuid[0];
+        return Internal::stringFormat("{%08X,%04X,%04X,%02X%02X%02X%02X%02X%02X%02X%02X}",
+                +             *data1,*data2,*data3,*data4,
+                +             id->Data2,
+                +             id->Data3,
+                +             id->Data4[0],
+                +             id->Data4[1],
+                +             id->Data4[2],
+                +             id->Data4[3],
+                +             id->Data4[4],
+                +             id->Data4[5],
+                +             id->Data4[6],
+                +             id->Data4[7]);
+    }
+*/
     void Jp2Image::printStructure(std::ostream& out, PrintStructureOption option,int depth)
     {
         if (io_->open() != 0) throw Error(9, io_->path(), strError());
@@ -408,10 +450,12 @@ namespace Exiv2
         out << "STRUCTURE OF JPEG2000 FILE: " << io_->path() << std::endl;
         out << " address |   length | box       | data" << std::endl ;
 
-        bool bPrint     =  option==kpsBasic || option==kpsRecursive;
-        bool bRecursive =  option == kpsRecursive;
-        bool bICC       =  option == kpsIccProfile;
-        if ( bPrint || option == kpsXMP || option == kpsIccProfile || option == kpsIptcErase ) {
+        bool bPrint     = option == kpsBasic || option==kpsRecursive;
+        bool bRecursive = option == kpsRecursive;
+        bool bICC       = option == kpsIccProfile;
+        bool bXMP       = option == kpsXMP;
+        bool bIPTCErase = option == kpsIptcErase;
+        if ( bPrint || bXMP || bICC || bIPTCErase ) {
 
             long              position  = 0;
             Jp2BoxHeader      box       = {1,1};
@@ -445,7 +489,8 @@ namespace Exiv2
 
                             DataBuf data(subBox.length+8);
                             io_->read(data.pData_,data.size_);
-                            if ( bPrint ) out << Internal::stringFormat("%8ld | %8ld |  sub:",restore,subBox.length) << toAscii(subBox.type) <<" | " << "yyyyyy" << std::endl;
+                            if ( bPrint ) out << Internal::stringFormat("%8ld | %8ld |  sub:",restore,subBox.length) << toAscii(subBox.type)
+                                              <<" | " << Internal::binaryToString(data.pData_,data.size_< 40 ? data.size_:40,sizeof(uuid)) << std::endl;
 
                             if(subBox.type == kJp2BoxTypeColorHeader)
                             {
@@ -467,14 +512,16 @@ namespace Exiv2
 
                         if (io_->read((byte*)&uuid, sizeof(uuid)) == sizeof(uuid))
                         {
-                            bool    bExif = memcmp(uuid.uuid, kJp2UuidExif, sizeof(uuid))==0;
-                            bool    bIptc = memcmp(uuid.uuid, kJp2UuidIptc, sizeof(uuid))==0;
-                            bool    bXMP  = memcmp(uuid.uuid, kJp2UuidXmp , sizeof(uuid))==0;
+                            bool    bIsExif = memcmp(uuid.uuid, kJp2UuidExif, sizeof(uuid))==0;
+                            bool    bIsIPTC = memcmp(uuid.uuid, kJp2UuidIptc, sizeof(uuid))==0;
+                            bool    bIsXMP  = memcmp(uuid.uuid, kJp2UuidXmp , sizeof(uuid))==0;
+                            bool    bUnknown= ! (bIsExif || bIsIPTC || bIsXMP);
 
                             if ( bPrint ) {
-                                if ( bExif ) out << "Exif" ;
-                                if ( bIptc ) out << "IPTC" ;
-                                if ( bXMP  ) out << "XMP"  ;
+                                if ( bIsExif ) out << "Exif: " ;
+                                if ( bIsIPTC ) out << "IPTC: " ;
+                                if ( bIsXMP  ) out << "XMP : " ;
+                                if ( bUnknown) out << "????: " ;
                             }
 
                             DataBuf rawData;
@@ -483,23 +530,25 @@ namespace Exiv2
                             if (io_->error()) throw Error(14);
                             if (bufRead != rawData.size_) throw Error(20);
 
-                            if(bExif && bRecursive && rawData.size_ > 0)
+                            if ( bPrint )out << Internal::binaryToString(rawData.pData_,rawData.size_< 40 ? rawData.size_:40,0);
+                            lf(out,bLF);
+
+                            if(bIsExif && bRecursive && rawData.size_ > 0)
                             {
                                 if ( (rawData.pData_[0]      == rawData.pData_[1])
                                 &&   (rawData.pData_[0]=='I' || rawData.pData_[0]=='M' )
                                 ) {
-                                    lf(out,bLF);
                                     BasicIo::AutoPtr p = BasicIo::AutoPtr(new MemIo(rawData.pData_,rawData.size_));
                                     TiffImage::printTiffStructure(*p,out,option,depth);
                                 }
                             }
 
-                            if(bIptc && bRecursive)
+                            if(bIsIPTC && bRecursive)
                             {
                                 IptcData::printStructure(out,rawData.pData_,rawData.size_,depth);
                             }
 
-                            if(bXMP && option & kpsXMP )
+                            if(bIsXMP && bXMP )
                             {
                                 out.write((const char*)rawData.pData_,rawData.size_);
                             }
