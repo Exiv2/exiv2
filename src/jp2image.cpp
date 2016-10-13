@@ -26,6 +26,8 @@
 #include "rcsid_int.hpp"
 EXIV2_RCSID("@(#) $Id$")
 
+// #define DEBUG
+
 // included header files
 #include "config.h"
 
@@ -50,6 +52,7 @@ const uint32_t kJp2BoxTypeJp2Header   = 0x6a703268; // 'jp2h'
 const uint32_t kJp2BoxTypeImageHeader = 0x69686472; // 'ihdr'
 const uint32_t kJp2BoxTypeColorHeader = 0x636f6c72; // 'colr'
 const uint32_t kJp2BoxTypeUuid        = 0x75756964; // 'uuid'
+const uint32_t kJp2BoxTypeClose       = 0x6a703263; // 'jp2c'
 
 // from openjpeg-2.1.2/src/lib/openjp2/jp2.h
 /*#define JPIP_JPIP 0x6a706970*/
@@ -143,13 +146,13 @@ namespace Exiv2
             if (io_->open() == 0)
             {
 #ifdef DEBUG
-                std::cerr << "Exiv2::Jp2Image:: Creating JPEG2000 image to memory\n";
+                std::cerr << "Exiv2::Jp2Image:: Creating JPEG2000 image to memory" << std::endl;
 #endif
                 IoCloser closer(*io_);
                 if (io_->write(Jp2Blank, sizeof(Jp2Blank)) != sizeof(Jp2Blank))
                 {
 #ifdef DEBUG
-                    std::cerr << "Exiv2::Jp2Image:: Failed to create JPEG2000 image on memory\n";
+                    std::cerr << "Exiv2::Jp2Image:: Failed to create JPEG2000 image on memory" << std::endl;
 #endif
                 }
             }
@@ -178,7 +181,7 @@ namespace Exiv2
     void Jp2Image::readMetadata()
     {
 #ifdef DEBUG
-        std::cerr << "Exiv2::Jp2Image::readMetadata: Reading JPEG-2000 file " << io_->path() << "\n";
+        std::cerr << "Exiv2::Jp2Image::readMetadata: Reading JPEG-2000 file " << io_->path() << std::endl;
 #endif
         if (io_->open() != 0)
         {
@@ -204,19 +207,15 @@ namespace Exiv2
             box.length = getLong((byte*)&box.length, bigEndian);
             box.type   = getLong((byte*)&box.type, bigEndian);
 #ifdef DEBUG
-            std::cout << "Exiv2::Jp2Image::readMetadata: Position: " << position << "\n";
-            std::cout << "Exiv2::Jp2Image::readMetadata: Find box type: " << toAscii(box.type)
-                      << " length: " << box.length << "\n";
+            std::cout << "Exiv2::Jp2Image::readMetadata: "
+                      << "Position: " << position
+                      << " box type: " << toAscii(box.type)
+                      << " length: " << box.length
+                      << std::endl;
 #endif
 
-            if (box.length == 0)
-            {
-#ifdef DEBUG
-                std::cout << "Exiv2::Jp2Image::readMetadata: Null Box size has been found. "
-                             "This is the last box of file.\n";
-#endif
-                return;
-            }
+            if (box.length == 0) return ;
+
             if (box.length == 1)
             {
                 // FIXME. Special case. the real box size is given in another place.
@@ -227,7 +226,7 @@ namespace Exiv2
                 case kJp2BoxTypeJp2Header:
                 {
 #ifdef DEBUG
-                    std::cout << "Exiv2::Jp2Image::readMetadata: JP2Header box found\n";
+                    std::cout << "Exiv2::Jp2Image::readMetadata: JP2Header box found" << std::endl;
 #endif
                     long restore = io_->tell();
 
@@ -236,12 +235,14 @@ namespace Exiv2
                         subBox.length = getLong((byte*)&subBox.length, bigEndian);
                         subBox.type   = getLong((byte*)&subBox.type, bigEndian);
 #ifdef DEBUG
-                        std::cout << "subBox = " << toAscii(subBox.type) << " length = " << subBox.length << std::endl;
+                        std::cout << "Exiv2::Jp2Image::readMetadata: "
+                        << "subBox = " << toAscii(subBox.type) << " length = " << subBox.length << std::endl;
 #endif
                         if(subBox.type == kJp2BoxTypeColorHeader)
                         {
 #ifdef DEBUG
-                            std::cout << "Exiv2::Jp2Image::readMetadata: Color data found\n";
+                            std::cout << "Exiv2::Jp2Image::readMetadata: "
+                                     << "Color data found" << std::endl;
 #endif
                             long pad = 3 ; // don't know why there are 3 padding bytes
                             DataBuf data(subBox.length+8);
@@ -256,8 +257,7 @@ namespace Exiv2
                                 fwrite(icc.pData_,icc.size_,1,f);
                                 fclose(f);
                             }
-                            std::cout << "Exiv2::Jp2Image::readMetadata: wrote iccProfile to " << iccPath << std::endl ;
-
+                            std::cout << "Exiv2::Jp2Image::readMetadata: wrote iccProfile " << icc.size_<< " bytes to " << iccPath << std::endl ;
 #endif
                             setIccProfile(icc);
                         }
@@ -266,9 +266,8 @@ namespace Exiv2
                         {
                             io_->read((byte*)&ihdr, sizeof(ihdr));
 #ifdef DEBUG
-                           std::cout << "Exiv2::Jp2Image::readMetadata: Ihdr data found\n";
+                            std::cout << "Exiv2::Jp2Image::readMetadata: Ihdr data found" << std::endl;
 #endif
-
                             ihdr.imageHeight            = getLong((byte*)&ihdr.imageHeight, bigEndian);
                             ihdr.imageWidth             = getLong((byte*)&ihdr.imageWidth, bigEndian);
                             ihdr.componentCount         = getShort((byte*)&ihdr.componentCount, bigEndian);
@@ -284,10 +283,11 @@ namespace Exiv2
                     }
                     break;
                 }
+
                 case kJp2BoxTypeUuid:
                 {
 #ifdef DEBUG
-                    std::cout << "Exiv2::Jp2Image::readMetadata: UUID box found\n";
+                    std::cout << "Exiv2::Jp2Image::readMetadata: UUID box found" << std::endl;
 #endif
 
                     if (io_->read((byte*)&uuid, sizeof(uuid)) == sizeof(uuid))
@@ -301,7 +301,7 @@ namespace Exiv2
                         if(bIsExif)
                         {
 #ifdef DEBUG
-                           std::cout << "Exiv2::Jp2Image::readMetadata: Exif data found\n";
+                           std::cout << "Exiv2::Jp2Image::readMetadata: Exif data found" << std::endl ;
 #endif
                             rawData.alloc(box.length - (sizeof(box) + sizeof(uuid)));
                             bufRead = io_->read(rawData.pData_, rawData.size_);
@@ -342,7 +342,7 @@ namespace Exiv2
                             else
                             {
 #ifndef SUPPRESS_WARNINGS
-                                EXV_WARNING << "Failed to decode Exif metadata.\n";
+                                EXV_WARNING << "Failed to decode Exif metadata." << std::endl;
 #endif
                                 exifData_.clear();
                             }
@@ -351,7 +351,7 @@ namespace Exiv2
                         if(bIsIPTC)
                         {
 #ifdef DEBUG
-                           std::cout << "Exiv2::Jp2Image::readMetadata: Iptc data found\n";
+                           std::cout << "Exiv2::Jp2Image::readMetadata: Iptc data found" << std::endl;
 #endif
                             rawData.alloc(box.length - (sizeof(box) + sizeof(uuid)));
                             bufRead = io_->read(rawData.pData_, rawData.size_);
@@ -361,7 +361,7 @@ namespace Exiv2
                             if (IptcParser::decode(iptcData_, rawData.pData_, rawData.size_))
                             {
 #ifndef SUPPRESS_WARNINGS
-                                EXV_WARNING << "Failed to decode IPTC metadata.\n";
+                                EXV_WARNING << "Failed to decode IPTC metadata." << std::endl;
 #endif
                                 iptcData_.clear();
                             }
@@ -370,7 +370,7 @@ namespace Exiv2
                         if(bIsXMP)
                         {
 #ifdef DEBUG
-                           std::cout << "Exiv2::Jp2Image::readMetadata: Xmp data found\n";
+                           std::cout << "Exiv2::Jp2Image::readMetadata: Xmp data found" << std::endl;
 #endif
                             rawData.alloc(box.length - (uint32_t)(sizeof(box) + sizeof(uuid)));
                             bufRead = io_->read(rawData.pData_, rawData.size_);
@@ -383,7 +383,7 @@ namespace Exiv2
                             {
 #ifndef SUPPRESS_WARNINGS
                                 EXV_WARNING << "Removing " << static_cast<uint32_t>(idx)
-                                            << " characters from the beginning of the XMP packet\n";
+                                            << " characters from the beginning of the XMP packet" << std::endl;
 #endif
                                 xmpPacket_ = xmpPacket_.substr(idx);
                             }
@@ -391,7 +391,7 @@ namespace Exiv2
                             if (xmpPacket_.size() > 0 && XmpParser::decode(xmpData_, xmpPacket_))
                             {
 #ifndef SUPPRESS_WARNINGS
-                                EXV_WARNING << "Failed to decode XMP metadata.\n";
+                                EXV_WARNING << "Failed to decode XMP metadata." << std::endl;
 #endif
                             }
                         }
@@ -407,7 +407,7 @@ namespace Exiv2
 
             // Move to the next box.
             io_->seek(static_cast<long>(position - sizeof(box) + box.length), BasicIo::beg);
-            if (io_->error()/* || io_->eof()*/) throw Error(14);
+            if (io_->error()) throw Error(14);
         }
 
     } // Jp2Image::readMetadata
@@ -475,22 +475,24 @@ namespace Exiv2
                     bLF = true ;
                 }
 
-                if (box.length) switch(box.type)
+                if (box.length && box.type != kJp2BoxTypeClose) switch(box.type)
                 {
                     case kJp2BoxTypeJp2Header:
                     {
                         long restore = io_->tell();
                         lf(out,bLF);
 
-                        while (io_->read((byte*)&subBox, sizeof(subBox)) == sizeof(subBox) && subBox.length )
+                        while (io_->read((byte*)&subBox, sizeof(subBox)) == sizeof(subBox))
                         {
                             subBox.length = getLong((byte*)&subBox.length, bigEndian);
                             subBox.type   = getLong((byte*)&subBox.type, bigEndian);
 
-                            DataBuf data(subBox.length+8);
+                            if (subBox.type == kJp2BoxTypeClose || subBox.length < sizeof(box)) break;
+
+                            DataBuf data(subBox.length-sizeof(box));
                             io_->read(data.pData_,data.size_);
                             if ( bPrint ) out << Internal::stringFormat("%8ld | %8ld |  sub:",restore,subBox.length) << toAscii(subBox.type)
-                                              <<" | " << Internal::binaryToString(data.pData_,data.size_< 40 ? data.size_:40,sizeof(uuid)) << std::endl;
+                                <<" | " << Internal::binaryToString(data,40,0) << std::endl;
 
                             if(subBox.type == kJp2BoxTypeColorHeader)
                             {
@@ -525,19 +527,19 @@ namespace Exiv2
                             }
 
                             DataBuf rawData;
-                                    rawData.alloc(box.length-sizeof(uuid)-sizeof(box));
+                            rawData.alloc(box.length-sizeof(uuid)-sizeof(box));
                             long    bufRead = io_->read(rawData.pData_, rawData.size_);
                             if (io_->error()) throw Error(14);
                             if (bufRead != rawData.size_) throw Error(20);
 
-                            if ( bPrint )out << Internal::binaryToString(rawData.pData_,rawData.size_< 40 ? rawData.size_:40,0);
+                            if ( bPrint )out << Internal::binaryToString(rawData,40,0);
                             lf(out,bLF);
 
                             if(bIsExif && bRecursive && rawData.size_ > 0)
                             {
                                 if ( (rawData.pData_[0]      == rawData.pData_[1])
-                                &&   (rawData.pData_[0]=='I' || rawData.pData_[0]=='M' )
-                                ) {
+                                    &&   (rawData.pData_[0]=='I' || rawData.pData_[0]=='M' )
+                                    ) {
                                     BasicIo::AutoPtr p = BasicIo::AutoPtr(new MemIo(rawData.pData_,rawData.size_));
                                     TiffImage::printTiffStructure(*p,out,option,depth);
                                 }
@@ -593,8 +595,8 @@ namespace Exiv2
         if (!outIo.isopen()) throw Error(21);
 
 #ifdef DEBUG
-        std::cout << "Exiv2::Jp2Image::doWriteMetadata: Writing JPEG-2000 file " << io_->path() << "\n";
-        std::cout << "Exiv2::Jp2Image::doWriteMetadata: tmp file created " << outIo.path() << "\n";
+        std::cout << "Exiv2::Jp2Image::doWriteMetadata: Writing JPEG-2000 file " << io_->path() << std::endl;
+        std::cout << "Exiv2::Jp2Image::doWriteMetadata: tmp file created " << outIo.path() << std::endl;
 #endif
 
         // Ensure that this is the correct image type
@@ -619,7 +621,7 @@ namespace Exiv2
         while(io_->tell() < io_->size())
         {
 #ifdef DEBUG
-            std::cout << "Exiv2::Jp2Image::doWriteMetadata: Position: " << io_->tell() << " / " << io_->size() << "\n";
+            std::cout << "Exiv2::Jp2Image::doWriteMetadata: Position: " << io_->tell() << " / " << io_->size() << std::endl;
 #endif
 
             // Read chunk header.
@@ -636,14 +638,14 @@ namespace Exiv2
 
 #ifdef DEBUG
             std::cout << "Exiv2::Jp2Image::doWriteMetadata: Find box type: " << bheaderBuf.pData_ + 4
-                      << " length: " << box.length << "\n";
+                      << " length: " << box.length << std::endl;
 #endif
 
             if (box.length == 0)
             {
 #ifdef DEBUG
                 std::cout << "Exiv2::Jp2Image::doWriteMetadata: Null Box size has been found. "
-                             "This is the last box of file.\n";
+                             "This is the last box of file." << std::endl;
 #endif
                 box.length = io_->size() - io_->tell() + 8;
             }
@@ -660,7 +662,7 @@ namespace Exiv2
             if (io_->error())
             {
 #ifdef DEBUG
-                std::cout << "Exiv2::Jp2Image::doWriteMetadata: Error reading source file\n";
+                std::cout << "Exiv2::Jp2Image::doWriteMetadata: Error reading source file" << std::endl;
 #endif
 
                 throw Error(14);
@@ -669,7 +671,7 @@ namespace Exiv2
             if (bufRead != (long)(box.length - 8))
             {
 #ifdef DEBUG
-                std::cout << "Exiv2::Jp2Image::doWriteMetadata: Cannot read source file data\n";
+                std::cout << "Exiv2::Jp2Image::doWriteMetadata: Cannot read source file data" << std::endl;
 #endif
                 throw Error(20);
             }
@@ -680,7 +682,7 @@ namespace Exiv2
                 {
 
 #ifdef DEBUG
-                    std::cout << "Exiv2::Jp2Image::doWriteMetadata: Write JP2Header box (length: " << box.length << ")\n";
+                    std::cout << "Exiv2::Jp2Image::doWriteMetadata: Write JP2Header box (length: " << box.length << ")" << std::endl;
 #endif
                     if (outIo.write(boxBuf.pData_, boxBuf.size_) != boxBuf.size_) throw Error(21);
 
@@ -707,7 +709,7 @@ namespace Exiv2
 
 #ifdef DEBUG
                             std::cout << "Exiv2::Jp2Image::doWriteMetadata: Write box with Exif metadata (length: "
-                                      << boxData.size_ << ")\n";
+                                      << boxData.size_ << std::endl;
 #endif
                             if (outIo.write(boxData.pData_, boxData.size_) != boxData.size_) throw Error(21);
                         }
@@ -730,7 +732,7 @@ namespace Exiv2
 
 #ifdef DEBUG
                             std::cout << "Exiv2::Jp2Image::doWriteMetadata: Write box with Iptc metadata (length: "
-                                      << boxData.size_ << ")\n";
+                                      << boxData.size_ << std::endl;
 #endif
                             if (outIo.write(boxData.pData_, boxData.size_) != boxData.size_) throw Error(21);
                         }
@@ -741,7 +743,7 @@ namespace Exiv2
                         if (XmpParser::encode(xmpPacket_, xmpData_) > 1)
                         {
 #ifndef SUPPRESS_WARNINGS
-                            EXV_ERROR << "Failed to encode XMP metadata.\n";
+                            EXV_ERROR << "Failed to encode XMP metadata." << std::endl;
 #endif
                         }
                     }
@@ -760,7 +762,7 @@ namespace Exiv2
 
 #ifdef DEBUG
                         std::cout << "Exiv2::Jp2Image::doWriteMetadata: Write box with XMP metadata (length: "
-                                  << boxData.size_ << ")\n";
+                                  << boxData.size_ << ")" << std::endl;
 #endif
                         if (outIo.write(boxData.pData_, boxData.size_) != boxData.size_) throw Error(21);
                     }
@@ -773,25 +775,25 @@ namespace Exiv2
                     if(memcmp(boxBuf.pData_ + 8, kJp2UuidExif, 16) == 0)
                     {
 #ifdef DEBUG
-                        std::cout << "Exiv2::Jp2Image::doWriteMetadata: strip Exif Uuid box\n";
+                        std::cout << "Exiv2::Jp2Image::doWriteMetadata: strip Exif Uuid box" << std::endl;
 #endif
                     }
                     else if(memcmp(boxBuf.pData_ + 8, kJp2UuidIptc, 16) == 0)
                     {
 #ifdef DEBUG
-                        std::cout << "Exiv2::Jp2Image::doWriteMetadata: strip Iptc Uuid box\n";
+                        std::cout << "Exiv2::Jp2Image::doWriteMetadata: strip Iptc Uuid box" << std::endl;
 #endif
                     }
                     else if(memcmp(boxBuf.pData_ + 8, kJp2UuidXmp,  16) == 0)
                     {
 #ifdef DEBUG
-                        std::cout << "Exiv2::Jp2Image::doWriteMetadata: strip Xmp Uuid box\n";
+                        std::cout << "Exiv2::Jp2Image::doWriteMetadata: strip Xmp Uuid box" << std::endl;
 #endif
                     }
                     else
                     {
 #ifdef DEBUG
-                        std::cout << "Exiv2::Jp2Image::doWriteMetadata: write Uuid box (length: " << box.length << ")\n";
+                        std::cout << "Exiv2::Jp2Image::doWriteMetadata: write Uuid box (length: " << box.length << ")" << std::endl;
 #endif
                         if (outIo.write(boxBuf.pData_, boxBuf.size_) != boxBuf.size_) throw Error(21);
                     }
@@ -801,7 +803,7 @@ namespace Exiv2
                 default:
                 {
 #ifdef DEBUG
-                    std::cout << "Exiv2::Jp2Image::doWriteMetadata: write box (length: " << box.length << ")\n";
+                    std::cout << "Exiv2::Jp2Image::doWriteMetadata: write box (length: " << box.length << ")" << std::endl;
 #endif
                     if (outIo.write(boxBuf.pData_, boxBuf.size_) != boxBuf.size_) throw Error(21);
 
@@ -811,7 +813,7 @@ namespace Exiv2
         }
 
 #ifdef DEBUG
-        std::cout << "Exiv2::Jp2Image::doWriteMetadata: EOF\n";
+        std::cout << "Exiv2::Jp2Image::doWriteMetadata: EOF" << std::endl;
 #endif
 
     } // Jp2Image::doWriteMetadata
