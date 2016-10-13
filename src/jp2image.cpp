@@ -461,25 +461,25 @@ namespace Exiv2
             Jp2BoxHeader      box       = {1,1};
             Jp2BoxHeader      subBox    = {1,1};
             Jp2UuidBox        uuid      = {{0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0}};
-            long              address   = io_->tell();
             bool              bLF       = false;
 
-            while (box.length && io_->read((byte*)&box, sizeof(box)) == sizeof(box))
+            while (box.length && box.type != kJp2BoxTypeClose && io_->read((byte*)&box, sizeof(box)) == sizeof(box))
             {
                 position   = io_->tell();
                 box.length = getLong((byte*)&box.length, bigEndian);
                 box.type   = getLong((byte*)&box.type, bigEndian);
 
                 if ( bPrint ) {
-                    out << Internal::stringFormat("%8ld | %8ld | ",address,box.length) << toAscii(box.type) << "      | " ;
+                    out << Internal::stringFormat("%8ld | %8ld | ",position-sizeof(box),box.length) << toAscii(box.type) << "      | " ;
                     bLF = true ;
+                    out.flush();
                 }
+                if ( box.type == kJp2BoxTypeClose ) break;
 
-                if (box.length && box.type != kJp2BoxTypeClose) switch(box.type)
+                switch(box.type)
                 {
                     case kJp2BoxTypeJp2Header:
                     {
-                        long restore = io_->tell();
                         lf(out,bLF);
 
                         while (io_->read((byte*)&subBox, sizeof(subBox)) == sizeof(subBox))
@@ -487,12 +487,15 @@ namespace Exiv2
                             subBox.length = getLong((byte*)&subBox.length, bigEndian);
                             subBox.type   = getLong((byte*)&subBox.type, bigEndian);
 
-                            if (subBox.type == kJp2BoxTypeClose || subBox.length < sizeof(box)) break;
+                            if (subBox.type == kJp2BoxTypeClose || subBox.length < sizeof(box)) break ;
 
                             DataBuf data(subBox.length-sizeof(box));
                             io_->read(data.pData_,data.size_);
-                            if ( bPrint ) out << Internal::stringFormat("%8ld | %8ld |  sub:",restore,subBox.length) << toAscii(subBox.type)
-                                <<" | " << Internal::binaryToString(data,40,0) << std::endl;
+                            if ( bPrint ) {
+                                out << Internal::stringFormat("%8ld | %8ld |  sub:",io_->tell()-sizeof(box),subBox.length) << toAscii(subBox.type)
+                                    <<" | " << Internal::binaryToString(data,40,0) << std::endl;
+                                out.flush();
+                            }
 
                             if(subBox.type == kJp2BoxTypeColorHeader)
                             {
@@ -501,13 +504,8 @@ namespace Exiv2
                                 DataBuf icc(iccLength);
                                 if ( bICC ) out.write((const char*)icc.pData_,icc.size_);
                             }
-
-                            io_->seek(restore,BasicIo::beg);
-                            io_->seek(subBox.length, Exiv2::BasicIo::cur);
-                            restore = io_->tell();
                         }
-                        break;
-                    }
+                    } break;
 
                     case kJp2BoxTypeUuid:
                     {
@@ -532,7 +530,10 @@ namespace Exiv2
                             if (io_->error()) throw Error(14);
                             if (bufRead != rawData.size_) throw Error(20);
 
-                            if ( bPrint )out << Internal::binaryToString(rawData,40,0);
+                            if ( bPrint ){
+                                out << Internal::binaryToString(rawData,40,0);
+                                out.flush();
+                            }
                             lf(out,bLF);
 
                             if(bIsExif && bRecursive && rawData.size_ > 0)
@@ -555,15 +556,10 @@ namespace Exiv2
                                 out.write((const char*)rawData.pData_,rawData.size_);
                             }
                         }
-                        break;
-                    }
+                    } break;
 
-                    default:
-                    {
-                        break;
-                    }
+                    default: break;
                 }
-                address   = io_->tell();
 
                 // Move to the next box.
                 io_->seek(static_cast<long>(position - sizeof(box) + box.length), BasicIo::beg);
