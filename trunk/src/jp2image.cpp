@@ -170,11 +170,33 @@ namespace Exiv2
         throw(Error(32, "Image comment", "JP2"));
     } // Jp2Image::setComment
 
+    static void lf(std::ostream& out,bool& bLF)
+    {
+        if ( bLF ) {
+            out << std::endl;
+            out.flush();
+            bLF = false ;
+        }
+    }
+
+    static bool isBigEndian()
+    {
+        union {
+            uint32_t i;
+            char c[4];
+        } e = { 0x01000000 };
+
+        return e.c[0]?true:false;
+    }
+
     static std::string toAscii(long n)
     {
         const char* p = (const char*) &n;
         std::string result;
-        for ( int i = 0 ; i < 4 ; i++) result += p[3-i];
+        bool bBigEndian = isBigEndian();
+        for ( int i = 0 ; i < 4 ; i++) {
+            result += p[ bBigEndian ? i : (3-i) ];
+        }
         return result;
     }
 
@@ -412,31 +434,6 @@ namespace Exiv2
 
     } // Jp2Image::readMetadata
 
-    static void lf(std::ostream& out,bool& bLF)
-    {
-        if ( bLF ) {
-            out << std::endl;
-            bLF = false ;
-        }
-    }
-  /*
-    static std::string printGUID(const uuid& guid)
-    {
-        long* data1 = (long*) &guid.uuid[0];
-        return Internal::stringFormat("{%08X,%04X,%04X,%02X%02X%02X%02X%02X%02X%02X%02X}",
-                +             *data1,*data2,*data3,*data4,
-                +             id->Data2,
-                +             id->Data3,
-                +             id->Data4[0],
-                +             id->Data4[1],
-                +             id->Data4[2],
-                +             id->Data4[3],
-                +             id->Data4[4],
-                +             id->Data4[5],
-                +             id->Data4[6],
-                +             id->Data4[7]);
-    }
-*/
     void Jp2Image::printStructure(std::ostream& out, PrintStructureOption option,int depth)
     {
         if (io_->open() != 0) throw Error(9, io_->path(), strError());
@@ -472,7 +469,7 @@ namespace Exiv2
                 if ( bPrint ) {
                     out << Internal::stringFormat("%8ld | %8ld | ",position-sizeof(box),box.length) << toAscii(box.type) << "      | " ;
                     bLF = true ;
-                    out.flush();
+                    if ( box.type == kJp2BoxTypeClose ) lf(out,bLF);
                 }
                 if ( box.type == kJp2BoxTypeClose ) break;
 
@@ -493,8 +490,8 @@ namespace Exiv2
                             io_->read(data.pData_,data.size_);
                             if ( bPrint ) {
                                 out << Internal::stringFormat("%8ld | %8ld |  sub:",io_->tell()-sizeof(box),subBox.length) << toAscii(subBox.type)
-                                    <<" | " << Internal::binaryToString(data,40,0) << std::endl;
-                                out.flush();
+                                    <<" | " << Internal::binaryToString(data,40,0);
+                                bLF = true;
                             }
 
                             if(subBox.type == kJp2BoxTypeColorHeader)
@@ -504,6 +501,7 @@ namespace Exiv2
                                 DataBuf icc(iccLength);
                                 if ( bICC ) out.write((const char*)icc.pData_,icc.size_);
                             }
+                            lf(out,bLF);
                         }
                     } break;
 
