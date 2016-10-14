@@ -18,17 +18,12 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, 5th Floor, Boston, MA 02110-1301 USA.
  */
-/*!
-  @file    jp2image.hpp
-  @brief   JPEG-2000 image, implemented using the following references:
-           <a href="http://jpeg.org/public/fcd15444-6.pdf">ISO/IEC JTC 1/SC 29/WG1 N2401: JPEG 2000 Part 6 FCD 15444-6</a><br>
-  @version $Rev: 3091 $
-  @author  Gilles Caulier (cgilles)
-           <a href="mailto:caulier dot gilles at gmail dot com">caulier dot gilles at gmail dot com</a>
-  @author  Marco Piovanelli, Ovolab (marco)
-           <a href="mailto:marco.piovanelli@pobox.com">marco.piovanelli@pobox.com</a>
-  @date    12-Mar-2007, marco: created
- */
+
+/*
+  File:      jp2image.cpp
+  Version:   $Rev: 4629 $
+*/
+
 #ifndef JP2IMAGE_HPP_
 #define JP2IMAGE_HPP_
 
