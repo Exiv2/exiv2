@@ -18,10 +18,12 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, 5th Floor, Boston, MA 02110-1301 USA.
  */
+
 /*
   File:      jp2image.cpp
   Version:   $Rev$
- */
+*/
+
 // *****************************************************************************
 #include "rcsid_int.hpp"
 EXIV2_RCSID("@(#) $Id$")
@@ -344,6 +346,10 @@ namespace Exiv2
                                     if (memcmp(exifHeader, &rawData.pData_[i], sizeof(exifHeader)) == 0)
                                     {
                                         pos = i+sizeof(exifHeader);
+#ifndef SUPPRESS_WARNINGS
+                                        EXV_WARNING << "Reading non-standard UUID-EXIF_bad box in " << io_->path() << std::endl;
+#endif
+
                                     }
                                 }
 
@@ -631,7 +637,7 @@ namespace Exiv2
             box.type   = getLong(bheaderBuf.pData_ + 4, bigEndian);
 
 #ifdef DEBUG
-            std::cout << "Exiv2::Jp2Image::doWriteMetadata: Find box type: " << bheaderBuf.pData_ + 4
+            std::cout << "Exiv2::Jp2Image::doWriteMetadata: box type: " << toAscii(box.type)
                       << " length: " << box.length << std::endl;
 #endif
 
