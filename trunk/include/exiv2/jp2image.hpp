@@ -120,9 +120,8 @@ namespace Exiv2
          @brief reformats the Jp2Header to store iccProfile
          @param oldData DataBufRef to data in the file.
          @param newData DataBufRef with updated data
-         @return length of box (including the 8 bytes of the box)
          */
-        uint32_t encodeJp2Header(const DataBuf& oldData,DataBuf& newData);
+        void encodeJp2Header(const DataBuf& oldData,DataBuf& newData);
         //@}
 
     }; // class Jp2Image
