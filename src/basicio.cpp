@@ -524,7 +524,7 @@ namespace Exiv2 {
                 throw Error(2, path(), strError(), "FileIo::read");
             }
         }
-        if (error() || eof()) {
+        if (error()) {
 #ifdef EXV_UNICODE_PATH
             if (p_->wpMode_ == Impl::wpUnicode) {
                 throw WError(2, wpath(), strError().c_str(), "FileIo::mmap");
