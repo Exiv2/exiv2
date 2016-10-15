@@ -596,33 +596,25 @@ namespace Exiv2
 
     } // Jp2Image::writeMetadata
 
-    uint32_t Jp2Image::encodeJp2Header(const DataBuf& boxBuf,DataBuf& newBuf)
+    void Jp2Image::encodeJp2Header(const DataBuf& boxBuf,DataBuf& newBuf)
     {
-        long result = boxBuf.size_;
         newBuf.alloc(boxBuf.size_);
         ::memcpy(newBuf.pData_,boxBuf.pData_,boxBuf.size_);
+
 #ifdef DEBUG
-        Jp2BoxHeader& box= (Jp2BoxHeader&) *(Jp2BoxHeader*) boxBuf.pData_;
-        int32_t length = getLong((byte*)&box.length, bigEndian);
+        Jp2BoxHeader* pBox   = (Jp2BoxHeader*) boxBuf.pData_;
+        int32_t       length = getLong((byte*)&pBox->length, bigEndian);
+        uint32_t      count  = sizeof (Jp2BoxHeader);
+        char*         p      = (char*) boxBuf.pData_;
+        while ( count < length ) {
+            Jp2BoxHeader* pSubBox = (Jp2BoxHeader*) (p+count) ;
 
-        uint32_t count = sizeof (Jp2BoxHeader);
-        char* p = (char*) boxBuf.pData_+sizeof(Jp2BoxHeader);
-
-        bool     done = false;
-        while ( !done ) {
-            Jp2BoxHeader& subBox = (Jp2BoxHeader&) *((Jp2BoxHeader*)p) ;
-
-            subBox.length = getLong((byte*)&subBox.length, bigEndian);
-            subBox.type   = getLong((byte*)&subBox.type, bigEndian);
-            done = subBox.length < sizeof(subBox) || subBox.type == kJp2BoxTypeClose || count >= length;
-            if ( !done  ) {
-                std::cout << "subbox: "<< toAscii(subBox.type) << " length = " << subBox.length << std::endl;
-                p += subBox.length ;
-                count += subBox.length;
-            }
+            pSubBox->length = getLong((byte*)&pSubBox->length, bigEndian);
+            pSubBox->type   = getLong((byte*)&pSubBox->type, bigEndian);
+            std::cout << "subbox: "<< toAscii(pSubBox->type) << " length = " << pSubBox->length << std::endl;
+            count += pSubBox->length;
         }
 #endif
-        return (uint32_t) result ;
     }
 
     void Jp2Image::doWriteMetadata(BasicIo& outIo)
@@ -716,7 +708,7 @@ namespace Exiv2
             {
                 case kJp2BoxTypeJp2Header:
                 {
-                    DataBuf newBuf ;
+                    DataBuf newBuf;
                     encodeJp2Header(boxBuf,newBuf);
 #ifdef DEBUG
                     std::cout << "Exiv2::Jp2Image::doWriteMetadata: Write JP2Header box (length: " << box.length << ")" << std::endl;
