@@ -84,10 +84,6 @@ namespace Exiv2 {
     {
     }
 
-    void BasicIo::markRead(long /*offset*/,long /*count*/) { return ; }
-
-    void BasicIo::readUnmarked() { return ; }
-
     //! Internal Pimpl structure of class FileIo.
     class FileIo::Impl {
     public:
@@ -1697,59 +1693,6 @@ namespace Exiv2 {
         return 0; // means OK
     }
 
-    void RemoteIo::markRead(long offset,long count)
-    {
-         // std::cout << "RemoteIo::markRead offset = " << offset << " count = " << count << std::endl;
-        int blockLow  = (offset            )/p_->blockSize_ ;
-        int blockHigh = (offset + count    )/p_->blockSize_ ;
-        for ( int block = blockLow+1 ; block < blockHigh-1 ; block++ ) {
-            p_->blocksMap_[block].markKnown(p_->blockSize_);
-        }
-    }
-
-    void RemoteIo::readUnmarked()
-    {
-        long blockSize  = p_->blockSize_;
-        int  nBlocks    = (p_->size_ + blockSize -1) / blockSize ;
-#ifdef DEBUG
-        int  nRead      = 0;
-        int  nHigh      = 0;
-        int  nGulp      = 0;
-        int  nBytes     = 0;
-        for ( int block = 0 ; block < nBlocks ; block++ ) {
-            if ( p_->blocksMap_[block].isNone() ) {
-                nRead++ ;
-                nHigh = block;
-            }
-        }
-        std::cerr << "RemoteIo::readUnmarked nBlocks = " << nBlocks << " nRead = " << nRead << " nHigh = " << nHigh << std::endl;
-        for ( int block = 0 ; block < nBlocks ; block ++ ) {
-            char x = 'X';
-            if ( p_->blocksMap_[block].isNone()  ) x='.';
-            if ( p_->blocksMap_[block].isInMem() ) x='R';
-            if ( p_->blocksMap_[block].isKnown() ) x='-';
-            std::cerr << x ;
-        }
-        std::cerr << std::endl;
-#endif
-        for ( int block = 0 ; block < nBlocks ; block ++ ) {
-            if ( p_->blocksMap_[block].isNone() ) {
-                int  b =   block;
-                if ( b < (nBlocks -1)) while ( p_->blocksMap_[b+1].isNone() && b < nBlocks ) b++;
-                seek(block*blockSize,BasicIo::beg);
-                read(blockSize);
-#ifdef DEBUG
-                nBytes += blockSize*(b-block+1);
-                nGulp  ++ ;
-#endif
-                block = b ;
-            }
-        }
-#ifdef DEBUG
-        std::cerr << "RemoteIo::readUnmarked nGulp = " << nGulp << " nBytes = " << nBytes << std::endl;
-#endif
-    }
-
     int RemoteIo::close()
     {
         if (p_->isMalloced_) {
@@ -1759,6 +1702,10 @@ namespace Exiv2 {
 #ifdef DEBUG
         std::cerr << "RemoteIo::close totalRead_ = " << p_->totalRead_ << std::endl;
 #endif
+		if ( bigBlock_ ) {
+			delete [] bigBlock_;
+			bigBlock_=NULL;
+		}
         return 0;
     }
 

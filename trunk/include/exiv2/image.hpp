@@ -488,9 +488,6 @@ namespace Exiv2 {
         int               pixelHeight_;       //!< image pixel height
         NativePreviewList nativePreviews_;    //!< list of native previews
 
-        std::vector<long> stripOffsets;       //!< StripOffset data
-        std::vector<long> stripByteCounts ;   //!< StripByteCount data
-
     private:
         //! @name NOT implemented
         //@{
