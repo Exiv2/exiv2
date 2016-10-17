@@ -189,20 +189,6 @@ namespace Exiv2 {
         // must be recursive to handle NEFs which stores the raw image in a subIFDs
         std::ofstream devnull;
         printStructure(devnull,kpsRecursive,0);
-#ifdef DEBUG
-        assert(stripOffsets.size() == stripByteCounts.size());
-        int ignored =0 ;
-        for ( int strip = 0 ; strip < stripOffsets.size() ; strip ++ )
-            ignored += stripByteCounts[strip];
-        std::cout << "TiffImage::readMetadata ignored = " << ignored << " size = " << io().size() << std::endl;
-#endif
-#if 0
-        assert(stripOffsets.size() == stripByteCounts.size());
-        // tell io_ to ignore the strips and read everything else into memory
-        for ( size_t strip = 0 ; strip < stripOffsets.size() ; strip ++ )
-            io_->markRead(stripOffsets[strip],stripByteCounts[strip]);
-        io_->readUnmarked();
-#endif
         ByteOrder bo = TiffParser::decode(exifData_,
                                           iptcData_,
                                           xmpData_,

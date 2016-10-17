@@ -402,15 +402,6 @@ namespace Exiv2 {
                             out << sp << byteSwap4(buf,k*size,bSwap);
                             sp = " ";
                         }
-                        // populate strips and bytes
-                        if ( tag == 0x0111 ) {
-                            for ( size_t k = 0 ; k < count ; k++ ) // stripOffsets
-                                stripOffsets.push_back(byteSwap4(buf,k*size,bSwap));
-                        }
-                        if ( tag == 0x0117 ) {
-                            for ( size_t k = 0 ; k < count ; k++ ) // stripByteCounts
-                                stripByteCounts.push_back(byteSwap4(buf,k*size,bSwap));
-                        }
 
                     } else if ( isRationalType(type) ){
                         for ( size_t k = 0 ; k < kount ; k++ ) {

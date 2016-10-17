@@ -206,6 +206,7 @@ namespace Exiv2 {
                   Nonzero if failure;
          */
         virtual int munmap() =0;
+
         //@}
 
         //! @name Accessors
@@ -257,18 +258,6 @@ namespace Exiv2 {
         virtual BasicIo::AutoPtr temporary() const = 0;
 
         /*!
-         @brief markBlocks that we know for certain are not metadata
-         @note This method is designed to enable TIFF files to mark StripOffsets/StringByteCounts
-         */
-        virtual void markRead(long offset,long count);
-
-        /*!
-         @brief read all blocks that are not marked
-         @note This method is designed to enable TIFF file to read everything except the markRead blocks!
-         */
-        virtual void readUnmarked();
-
-        /*!
           @brief Mark all the bNone blocks to bKnow. This avoids allocating memory
             for parts of the file that contain image-date (non-metadata/pixel data)
 
@@ -276,6 +265,12 @@ namespace Exiv2 {
                 are all downloaded from the remote file to memory.
          */
         virtual void populateFakeData() {}
+
+        /*!
+          @brief this is allocated and populated by mmap()
+         */
+        byte* bigBlock_;
+
         //@}
 
     protected:
@@ -954,12 +949,6 @@ namespace Exiv2 {
               Nonzero if failure.
          */
         virtual int open();
-
-        virtual void markRead(long offset,long count);
-
-        virtual void readUnmarked();
-
-        byte* bigBlock_;
 
         /*!
           @brief Reset the IO position to the start. It does not release the data.
