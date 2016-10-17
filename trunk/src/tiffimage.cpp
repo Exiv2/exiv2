@@ -41,6 +41,7 @@ EXIV2_RCSID("@(#) $Id$")
 #include "error.hpp"
 #include "futils.hpp"
 #include "types.hpp"
+#include "basicio.hpp"
 #include "i18n.h"                // NLS support.
 
 // + standard includes
@@ -183,6 +184,25 @@ namespace Exiv2 {
             throw Error(3, "TIFF");
         }
         clearMetadata();
+
+        // recursively print the structure to /dev/null to ensure all metadata is in memory
+        // must be recursive to handle NEFs which stores the raw image in a subIFDs
+        std::ofstream devnull;
+        printStructure(devnull,kpsRecursive,0);
+#ifdef DEBUG
+        assert(stripOffsets.size() == stripByteCounts.size());
+        int ignored =0 ;
+        for ( int strip = 0 ; strip < stripOffsets.size() ; strip ++ )
+            ignored += stripByteCounts[strip];
+        std::cout << "TiffImage::readMetadata ignored = " << ignored << " size = " << io().size() << std::endl;
+#endif
+#if 0
+        assert(stripOffsets.size() == stripByteCounts.size());
+        // tell io_ to ignore the strips and read everything else into memory
+        for ( size_t strip = 0 ; strip < stripOffsets.size() ; strip ++ )
+            io_->markRead(stripOffsets[strip],stripByteCounts[strip]);
+        io_->readUnmarked();
+#endif
         ByteOrder bo = TiffParser::decode(exifData_,
                                           iptcData_,
                                           xmpData_,
@@ -327,157 +347,6 @@ namespace Exiv2 {
         return rc;
     }
 
-    bool isBigEndian()
-    {
-        union {
-            uint32_t i;
-            char c[4];
-        } e = { 0x01000000 };
-
-        return e.c[0]?true:false;
-    }
-    bool isLittleEndian() { return !isBigEndian(); }
-
-
-    // http://en.wikipedia.org/wiki/Endianness
-    static uint32_t byteSwap(uint32_t value,bool bSwap)
-    {
-        uint32_t result = 0;
-        result |= (value & 0x000000FF) << 24;
-        result |= (value & 0x0000FF00) << 8;
-        result |= (value & 0x00FF0000) >> 8;
-        result |= (value & 0xFF000000) >> 24;
-        return bSwap ? result : value;
-    }
-
-    static uint16_t byteSwap(uint16_t value,bool bSwap)
-    {
-        uint16_t result = 0;
-        result |= (value & 0x00FF) << 8;
-        result |= (value & 0xFF00) >> 8;
-        return bSwap ? result : value;
-    }
-
-    static uint16_t byteSwap2(DataBuf& buf,size_t offset,bool bSwap)
-    {
-        uint16_t v;
-        char*    p = (char*) &v;
-        p[0] = buf.pData_[offset];
-        p[1] = buf.pData_[offset+1];
-        return byteSwap(v,bSwap);
-    }
-
-    static uint32_t byteSwap4(DataBuf& buf,size_t offset,bool bSwap)
-    {
-        uint32_t v;
-        char*    p = (char*) &v;
-        p[0] = buf.pData_[offset];
-        p[1] = buf.pData_[offset+1];
-        p[2] = buf.pData_[offset+2];
-        p[3] = buf.pData_[offset+3];
-        return byteSwap(v,bSwap);
-    }
-
-    static const char* typeName(uint16_t tag)
-    {
-        //! List of TIFF image tags
-        const char* result = NULL;
-        switch (tag ) {
-            case Exiv2::unsignedByte     : result = "BYTE"      ; break;
-            case Exiv2::asciiString      : result = "ASCII"     ; break;
-            case Exiv2::unsignedShort    : result = "SHORT"     ; break;
-            case Exiv2::unsignedLong     : result = "LONG"      ; break;
-            case Exiv2::unsignedRational : result = "RATIONAL"  ; break;
-            case Exiv2::signedByte       : result = "SBYTE"     ; break;
-            case Exiv2::undefined        : result = "UNDEFINED" ; break;
-            case Exiv2::signedShort      : result = "SSHORT"    ; break;
-            case Exiv2::signedLong       : result = "SLONG"     ; break;
-            case Exiv2::signedRational   : result = "SRATIONAL" ; break;
-            case Exiv2::tiffFloat        : result = "FLOAT"     ; break;
-            case Exiv2::tiffDouble       : result = "DOUBLE"    ; break;
-            default                      : result = "unknown"   ; break;
-        }
-        return result;
-    }
-
-    static const char* tagName(uint16_t tag,size_t nMaxLength)
-    {
-        const char* result = NULL;
-
-        // build a static map of tags for fast search
-        static std::map<int,std::string> tags;
-        static bool init  = true;
-        static char buffer[80];
-
-        if ( init ) {
-            int idx;
-            const TagInfo* ti ;
-            for (ti = Exiv2::  mnTagList(), idx = 0; ti[idx].tag_ != 0xffff; ++idx) tags[ti[idx].tag_] = ti[idx].name_;
-            for (ti = Exiv2:: iopTagList(), idx = 0; ti[idx].tag_ != 0xffff; ++idx) tags[ti[idx].tag_] = ti[idx].name_;
-            for (ti = Exiv2:: gpsTagList(), idx = 0; ti[idx].tag_ != 0xffff; ++idx) tags[ti[idx].tag_] = ti[idx].name_;
-            for (ti = Exiv2:: ifdTagList(), idx = 0; ti[idx].tag_ != 0xffff; ++idx) tags[ti[idx].tag_] = ti[idx].name_;
-            for (ti = Exiv2::exifTagList(), idx = 0; ti[idx].tag_ != 0xffff; ++idx) tags[ti[idx].tag_] = ti[idx].name_;
-            for (ti = Exiv2:: mpfTagList(), idx = 0; ti[idx].tag_ != 0xffff; ++idx) tags[ti[idx].tag_] = ti[idx].name_;
-            for (ti = Nikon1MakerNote::tagList(), idx = 0
-                                                   ; ti[idx].tag_ != 0xffff; ++idx) tags[ti[idx].tag_] = ti[idx].name_;
-        }
-        init = false;
-
-        try {
-            result = tags[tag].c_str();
-            if ( nMaxLength > sizeof(buffer) -2 )
-                 nMaxLength = sizeof(buffer) -2;
-            strncpy(buffer,result,nMaxLength);
-            result = buffer;
-        } catch ( ... ) {}
-
-        return result ;
-    }
-
-    static bool isStringType(uint16_t type)
-    {
-        return type == Exiv2::asciiString
-            || type == Exiv2::unsignedByte
-            || type == Exiv2::signedByte
-            || type == Exiv2::undefined
-            ;
-    }
-    static bool isShortType(uint16_t type) {
-         return type == Exiv2::unsignedShort
-             || type == Exiv2::signedShort
-             ;
-    }
-    static bool isLongType(uint16_t type) {
-         return type == Exiv2::unsignedLong
-             || type == Exiv2::signedLong
-             ;
-    }
-    static bool isRationalType(uint16_t type) {
-         return type == Exiv2::unsignedRational
-             || type == Exiv2::signedRational
-             ;
-    }
-    static bool is2ByteType(uint16_t type)
-    {
-        return isShortType(type);
-    }
-    static bool is4ByteType(uint16_t type)
-    {
-        return isLongType(type)
-            || isRationalType(type)
-            ;
-    }
-    static bool isPrintXMP(uint16_t type, Exiv2::PrintStructureOption option)
-    {
-        return type == 700 && option == kpsXMP;
-    }
-    static bool isPrintICC(uint16_t type, Exiv2::PrintStructureOption option)
-    {
-        return type == 0x8773 && option == kpsIccProfile;
-    }
-
-#define MIN(a,b) ((a)<(b))?(b):(a)
-
     void TiffImage::printStructure(std::ostream& out, Exiv2::PrintStructureOption option,int depth)
     {
         if (io_->open() != 0) throw Error(9, io_->path(), strError());
@@ -491,178 +360,6 @@ namespace Exiv2 {
         io_->seek(0,BasicIo::beg);
 
         printTiffStructure(io(),out,option,depth-1);
-    }
-
-    void TiffImage::printIFDStructure(BasicIo& io, std::ostream& out, Exiv2::PrintStructureOption option,uint32_t start,bool bSwap,char c,int depth)
-    {
-        depth++;
-        bool bFirst  = true  ;
-
-        // buffer
-        const size_t dirSize = 32;
-        DataBuf  dir(dirSize);
-        bool bPrint = option == kpsBasic || option == kpsRecursive;
-
-        do {
-            // Read top of directory
-            io.seek(start,BasicIo::beg);
-            io.read(dir.pData_, 2);
-            uint16_t   dirLength = byteSwap2(dir,0,bSwap);
-
-            bool tooBig = dirLength > 500;
-
-            if ( bFirst && bPrint ) {
-                out << Internal::indent(depth) << Internal::stringFormat("STRUCTURE OF TIFF FILE (%c%c): ",c,c) << io.path() << std::endl;
-                if ( tooBig ) out << Internal::indent(depth) << "dirLength = " << dirLength << std::endl;
-            }
-            if  (tooBig) break;
-
-            // Read the dictionary
-            for ( int i = 0 ; i < dirLength ; i ++ ) {
-                if ( bFirst && bPrint ) {
-                    out << Internal::indent(depth)
-                        << " address |    tag                           |     "
-                        << " type |    count |    offset | value\n";
-                }
-                bFirst = false;
-
-                io.read(dir.pData_, 12);
-                uint16_t tag    = byteSwap2(dir,0,bSwap);
-                uint16_t type   = byteSwap2(dir,2,bSwap);
-                uint32_t count  = byteSwap4(dir,4,bSwap);
-                uint32_t offset = byteSwap4(dir,8,bSwap);
-
-                std::string sp  = "" ; // output spacer
-
-                //prepare to print the value
-                uint32_t kount  = isPrintXMP(tag,option) ? count // haul in all the data
-                                : isPrintICC(tag,option) ? count // ditto
-                                : isStringType(type)     ? (count > 32 ? 32 : count) // restrict long arrays
-                                : count > 5              ? 5
-                                : count
-                                ;
-                uint32_t pad    = isStringType(type) ? 1 : 0;
-                uint32_t size   = isStringType(type) ? 1
-                                : is2ByteType(type)  ? 2
-                                : is4ByteType(type)  ? 4
-                                : 1
-                                ;
-
-                // if ( offset > io.size() ) offset = 0; // Denial of service?
-                DataBuf  buf(MIN(size*kount + pad,48));  // allocate a buffer
-                std::memcpy(buf.pData_,dir.pData_+8,4);  // copy dir[8:11] into buffer (short strings)
-                if ( count*size > 4 ) {            // read into buffer
-                    size_t   restore = io.tell();  // save
-                    io.seek(offset,BasicIo::beg);  // position
-                    io.read(buf.pData_,kount*size);// read
-                    io.seek(restore,BasicIo::beg); // restore
-                }
-
-                uint32_t Offset = isLongType(type) ? byteSwap4(buf,0,bSwap) : 0 ;
-
-                if ( bPrint ) {
-                    uint32_t address = start + 2 + i*12 ;
-                    out << Internal::indent(depth)
-                            << Internal::stringFormat("%8u | %#06x %-25s |%10s |%9u |%10u | "
-                                ,address,tag,tagName(tag,25),typeName(type),count,offset);
-                    if ( isShortType(type) ){
-                        for ( uint16_t k = 0 ; k < kount ; k++ ) {
-                            out << sp << byteSwap2(buf,k*size,bSwap);
-                            sp = " ";
-                        }
-                    } else if ( isLongType(type) ){
-                        for ( uint16_t k = 0 ; k < kount ; k++ ) {
-                            out << sp << byteSwap4(buf,k*size,bSwap);
-                            sp = " ";
-                        }
-                    } else if ( isRationalType(type) ){
-                        for ( uint16_t k = 0 ; k < kount ; k++ ) {
-                            uint16_t a = byteSwap2(buf,k*size+0,bSwap);
-                            uint16_t b = byteSwap2(buf,k*size+2,bSwap);
-                            if ( isLittleEndian() ) {
-                                if ( bSwap ) out << sp << b << "/" << a;
-                                else         out << sp << a << "/" << b;
-                            } else {
-                                if ( bSwap ) out << sp << a << "/" << b;
-                                else         out << sp << b << "/" << a;
-                            }
-                            sp = " ";
-                        }
-                    } else if ( isStringType(type) ) {
-                        out << sp << Internal::binaryToString(buf, kount);
-                    }
-
-                    sp = kount == count ? "" : " ...";
-                    out << sp << std::endl;
-                    if ( option == kpsRecursive && (tag == 0x8769 /* ExifTag */ || tag == 0x014a/*SubIFDs*/ ) ) {
-                        size_t restore = io.tell();
-                        printIFDStructure(io,out,option,Offset,bSwap,c,depth);
-                        io.seek(restore,BasicIo::beg);
-                    } else if ( option == kpsRecursive && tag == 0x83bb /* IPTCNAA */ ) {
-                        size_t   restore = io.tell();  // save
-                        io.seek(offset,BasicIo::beg);  // position
-                        byte* bytes=new byte[count] ;  // allocate memory
-                        io.read(bytes,count)        ;  // read
-                        io.seek(restore,BasicIo::beg); // restore
-                        IptcData::printStructure(out,bytes,count,depth);
-                        delete[] bytes;                // free
-                    }  else if ( option == kpsRecursive && tag == 0x927c /* MakerNote */ && count > 10) {
-                        uint32_t jump= 10           ;
-                        byte     bytes[20]          ;
-                        const char* chars = (const char*) &bytes[0] ;
-                        size_t   restore = io.tell();  // save
-                        io.seek(offset,BasicIo::beg);  // position
-                        io.read(bytes,jump    )     ;  // read
-                        bytes[jump]=0               ;
-                        if ( ::strcmp("Nikon",chars) == 0 ) {
-                            // tag is an embedded tiff
-                            byte* bytes=new byte[count-jump] ;  // allocate memory
-                            io.read(bytes,count-jump)        ;  // read
-                            MemIo memIo(bytes,count-jump)    ;  // create a file
-                            printTiffStructure(memIo,out,option,depth);
-                            delete[] bytes                   ;  // free
-                        }
-                        io.seek(restore,BasicIo::beg); // restore
-                    }
-
-                }
-
-                if ( isPrintXMP(tag,option) ) {
-                    buf.pData_[count]=0;
-                    out << (char*) buf.pData_;
-                }
-                if ( isPrintICC(tag,option) ) {
-                    out.write((const char*)buf.pData_,count);
-                }
-            }
-            io.read(dir.pData_, 4);
-            start = tooBig ? 0 : byteSwap4(dir,0,bSwap);
-            out.flush();
-        } while (start) ;
-
-        if ( bPrint ) {
-            out << Internal::indent(depth) << "END " << io.path() << std::endl;
-        }
-        depth--;
-    }
-
-    void TiffImage::printTiffStructure(BasicIo& io, std::ostream& out, Exiv2::PrintStructureOption option,int depth,size_t offset /*=0*/)
-    {
-        if ( option == kpsBasic || option == kpsXMP || option == kpsRecursive || option == kpsIccProfile ) {
-            // buffer
-            const size_t dirSize = 32;
-            DataBuf  dir(dirSize);
-
-            // read header (we already know for certain that we have a Tiff file)
-            io.read(dir.pData_,  8);
-            char c = (char) dir.pData_[0] ;
-            bool bSwap   = ( c == 'M' && isLittleEndian() )
-                        || ( c == 'I' && isBigEndian()    )
-                        ;
-
-            uint32_t start = byteSwap4(dir,4,bSwap)+(uint32_t)offset;
-            printIFDStructure(io,out,option,start,bSwap,c,depth);
-        }
     }
 
 }                                       // namespace Exiv2

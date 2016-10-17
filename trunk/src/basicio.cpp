@@ -21,8 +21,6 @@
 /*
   File:      basicio.cpp
   Version:   $Rev$
-  Author(s): Brad Schick (brad) <brad@robotbattle.com>
-  History:   04-Dec-04, brad: created
  */
 // *****************************************************************************
 #include "rcsid_int.hpp"
@@ -85,6 +83,10 @@ namespace Exiv2 {
     BasicIo::~BasicIo()
     {
     }
+
+    void BasicIo::markRead(long /*offset*/,long /*count*/) { return ; }
+
+    void BasicIo::readUnmarked() { return ; }
 
     //! Internal Pimpl structure of class FileIo.
     class FileIo::Impl {
@@ -620,25 +622,25 @@ namespace Exiv2 {
 
     std::string FileIo::temporaryPath()
     {
-    	static int  count = 0 ;
-    	char       sCount[12];
-    	sprintf(sCount,"_%d",count++);
+        static int  count = 0 ;
+        char       sCount[12];
+        sprintf(sCount,"_%d",count++);
 
 #if defined(_MSC_VER) || defined(__MINGW__)
         char lpTempPathBuffer[MAX_PATH];
-		GetTempPath(MAX_PATH,lpTempPathBuffer);
-		std::string tmp(lpTempPathBuffer);
-		tmp += "\\";
+        GetTempPath(MAX_PATH,lpTempPathBuffer);
+        std::string tmp(lpTempPathBuffer);
+        tmp += "\\";
 #else
-    	std::string tmp = "/tmp/";
+        std::string tmp = "/tmp/";
 #endif
 
-		pid_t  pid = ::getpid();
-		std::string result = tmp + toString(pid) + sCount ;
-		if ( Exiv2::fileExists(result) ) std::remove(result.c_str());
+        pid_t  pid = ::getpid();
+        std::string result = tmp + toString(pid) + sCount ;
+        if ( Exiv2::fileExists(result) ) std::remove(result.c_str());
 
-		return result;
-	}
+        return result;
+    }
 
     long FileIo::write(const byte* data, long wcount)
     {
@@ -1562,6 +1564,7 @@ namespace Exiv2 {
         bool            isMalloced_;    //!< Was the blocksMap_ allocated?
         bool            eof_;           //!< EOF indicator
         Protocol        protocol_;      //!< the protocol of url
+        uint32_t       totalRead_;
 
         // METHODS
         /*!
@@ -1604,7 +1607,7 @@ namespace Exiv2 {
 
     RemoteIo::Impl::Impl(const std::string& url, size_t blockSize)
         : path_(url), blockSize_(blockSize), blocksMap_(0), size_(0),
-          idx_(0), isMalloced_(false), eof_(false), protocol_(fileProtocol(url))
+          idx_(0), isMalloced_(false), eof_(false), protocol_(fileProtocol(url)),totalRead_(0)
     {
     }
 #ifdef EXV_UNICODE_PATH
@@ -1663,6 +1666,7 @@ namespace Exiv2 {
     int RemoteIo::open()
     {
         close(); // reset the IO position
+        bigBlock_ = NULL;
         if (p_->isMalloced_ == false) {
             long length = p_->getFileLength();
             if (length < 0) { // unable to get the length of remote file, get the whole file content.
@@ -1693,12 +1697,68 @@ namespace Exiv2 {
         return 0; // means OK
     }
 
+    void RemoteIo::markRead(long offset,long count)
+    {
+         // std::cout << "RemoteIo::markRead offset = " << offset << " count = " << count << std::endl;
+        int blockLow  = (offset            )/p_->blockSize_ ;
+        int blockHigh = (offset + count    )/p_->blockSize_ ;
+        for ( int block = blockLow+1 ; block < blockHigh-1 ; block++ ) {
+            p_->blocksMap_[block].markKnown(p_->blockSize_);
+        }
+    }
+
+    void RemoteIo::readUnmarked()
+    {
+        long blockSize  = p_->blockSize_;
+        int  nBlocks    = (p_->size_ + blockSize -1) / blockSize ;
+#ifdef DEBUG
+        int  nRead      = 0;
+        int  nHigh      = 0;
+        int  nGulp      = 0;
+        int  nBytes     = 0;
+        for ( int block = 0 ; block < nBlocks ; block++ ) {
+            if ( p_->blocksMap_[block].isNone() ) {
+                nRead++ ;
+                nHigh = block;
+            }
+        }
+        std::cerr << "RemoteIo::readUnmarked nBlocks = " << nBlocks << " nRead = " << nRead << " nHigh = " << nHigh << std::endl;
+        for ( int block = 0 ; block < nBlocks ; block ++ ) {
+            char x = 'X';
+            if ( p_->blocksMap_[block].isNone()  ) x='.';
+            if ( p_->blocksMap_[block].isInMem() ) x='R';
+            if ( p_->blocksMap_[block].isKnown() ) x='-';
+            std::cerr << x ;
+        }
+        std::cerr << std::endl;
+#endif
+        for ( int block = 0 ; block < nBlocks ; block ++ ) {
+            if ( p_->blocksMap_[block].isNone() ) {
+                int  b =   block;
+                if ( b < (nBlocks -1)) while ( p_->blocksMap_[b+1].isNone() && b < nBlocks ) b++;
+                seek(block*blockSize,BasicIo::beg);
+                read(blockSize);
+#ifdef DEBUG
+                nBytes += blockSize*(b-block+1);
+                nGulp  ++ ;
+#endif
+                block = b ;
+            }
+        }
+#ifdef DEBUG
+        std::cerr << "RemoteIo::readUnmarked nGulp = " << nGulp << " nBytes = " << nBytes << std::endl;
+#endif
+    }
+
     int RemoteIo::close()
     {
         if (p_->isMalloced_) {
             p_->eof_ = false;
             p_->idx_ = 0;
         }
+#ifdef DEBUG
+        std::cerr << "RemoteIo::close totalRead_ = " << p_->totalRead_ << std::endl;
+#endif
         return 0;
     }
 
@@ -1745,7 +1805,6 @@ namespace Exiv2 {
             }
             blockIndex++;
         }
-
 
         // find $right
         findDiff    = false;
@@ -1802,6 +1861,7 @@ namespace Exiv2 {
     {
         assert(p_->isMalloced_);
         if (p_->eof_) return 0;
+        p_->totalRead_ += rcount;
 
         size_t allow     = EXV_MIN(rcount, (long)( p_->size_ - p_->idx_));
         size_t lowBlock  =  p_->idx_         /p_->blockSize_;
@@ -1900,7 +1960,23 @@ namespace Exiv2 {
 
     byte* RemoteIo::mmap(bool /*isWriteable*/)
     {
-        return NULL;
+        long nRealData = 0 ;
+        if ( !bigBlock_ ) {
+            int blockSize = p_->blockSize_;
+            int blocks = (p_->size_ + blockSize -1)/blockSize ;
+            bigBlock_   = new byte[blocks*blockSize] ;
+            for ( int block = 0 ; block < blocks ; block ++ ) {
+                void* p = p_->blocksMap_[block].getData();
+                if  ( p ) {
+                    nRealData += blockSize ;
+                    memcpy(bigBlock_+(block*blockSize),p,blockSize);
+                }
+            }
+        }
+#ifdef DEBUG
+        std::cerr << "RemoteIo::mmap nRealData = " << nRealData << std::endl;
+#endif
+        return bigBlock_;
     }
 
     int RemoteIo::munmap()

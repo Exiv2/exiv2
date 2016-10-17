@@ -318,6 +318,42 @@ namespace Exiv2 {
           little-endian byte order (II) is used by default.
          */
         void setByteOrder(ByteOrder byteOrder);
+
+        /*!
+          @brief Print out the structure of image file.
+          @throw Error if reading of the file fails or the image data is
+                not valid (does not look like data of the specific image type).
+         */
+        void printTiffStructure(BasicIo& io,std::ostream& out, PrintStructureOption option,int depth,size_t offset=0);
+
+        /*!
+          @brief Print out the structure of a TIFF IFD
+         */
+        void printIFDStructure(BasicIo& io, std::ostream& out, Exiv2::PrintStructureOption option,uint32_t start,bool bSwap,char c,int depth);
+
+        /*!
+          @brief is the host platform bigEndian
+         */
+        bool isBigEndianPlatform();
+
+        /*!
+          @brief is the host platform littleEndian
+         */
+        bool isLittleEndianPlatform();
+        bool isStringType(uint16_t type);
+        bool isShortType(uint16_t type);
+        bool isLongType(uint16_t type);
+        bool isRationalType(uint16_t type);
+        bool is2ByteType(uint16_t type);
+        bool is4ByteType(uint16_t type);
+        bool isPrintXMP(uint16_t type, Exiv2::PrintStructureOption option);
+        bool isPrintICC(uint16_t type, Exiv2::PrintStructureOption option);
+
+        uint32_t byteSwap(uint32_t value,bool bSwap);
+        uint16_t byteSwap(uint16_t value,bool bSwap);
+        uint16_t byteSwap2(DataBuf& buf,size_t offset,bool bSwap);
+        uint32_t byteSwap4(DataBuf& buf,size_t offset,bool bSwap);
+
         //@}
 
         //! @name Accessors
@@ -451,6 +487,9 @@ namespace Exiv2 {
         int               pixelWidth_;        //!< image pixel width
         int               pixelHeight_;       //!< image pixel height
         NativePreviewList nativePreviews_;    //!< list of native previews
+
+        std::vector<long> stripOffsets;       //!< StripOffset data
+        std::vector<long> stripByteCounts ;   //!< StripByteCount data
 
     private:
         //! @name NOT implemented

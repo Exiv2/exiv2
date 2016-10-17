@@ -769,7 +769,7 @@ namespace Exiv2 {
                             } else {
                                 // create a copy on write memio object with the data, then print the structure
                                 BasicIo::AutoPtr p = BasicIo::AutoPtr(new MemIo(exif+start,size-start));
-                                if ( start < max ) TiffImage::printTiffStructure(*p,out,option,depth);
+                                if ( start < max ) printTiffStructure(*p,out,option,depth);
                             }
 
                             // restore and clean up
