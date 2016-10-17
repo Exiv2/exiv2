@@ -277,7 +277,7 @@ namespace Exiv2 {
         //! @name Creators
         //@{
         //! Default Constructor
-        BasicIo() {}
+        BasicIo() : bigBlock_(NULL) {};
         //@}
     }; // class BasicIo
 
