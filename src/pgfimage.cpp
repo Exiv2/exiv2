@@ -64,19 +64,7 @@ const unsigned char pgfBlank[] = { 0x50,0x47,0x46,0x36,0x10,0x00,0x00,0x00,0x01,
 
 namespace Exiv2 {
 
-    // http://en.wikipedia.org/wiki/Endianness
-    static bool isBigEndian()
-    {
-        union {
-            uint32_t i;
-            char c[4];
-        } e = { 0x01000000 };
-
-        return e.c[0]?true:false;
-    }
-    // static bool isLittleEndian() { return !isBigEndian(); }
-
-    static uint32_t byteSwap(uint32_t value,bool bSwap)
+    static uint32_t byteSwap_(uint32_t value,bool bSwap)
     {
         uint32_t result = 0;
         result |= (value & 0x000000FF) << 24;
@@ -85,31 +73,14 @@ namespace Exiv2 {
         result |= (value & 0xFF000000) >> 24;
         return bSwap ? result : value;
     }
-/*
-    static uint16_t byteSwap(uint16_t value,bool bSwap)
-    {
-        uint16_t result = 0;
-        result |= (value & 0x00FF) << 8;
-        result |= (value & 0xFF00) >> 8;
-        return bSwap ? result : value;
-    }
 
-    static uint16_t byteSwap2(Exiv2::DataBuf& buf,size_t offset,bool bSwap)
-    {
-        uint16_t v;
-        char*    p = (char*) &v;
-        p[0] = buf.pData_[offset];
-        p[1] = buf.pData_[offset+1];
-        return byteSwap(v,bSwap);
-    }
-*/
-    static uint32_t byteSwap(Exiv2::DataBuf& buf,size_t offset,bool bSwap)
+    static uint32_t byteSwap_(Exiv2::DataBuf& buf,size_t offset,bool bSwap)
     {
         uint32_t v;
         char*    p = (char*) &v;
         int      i;
         for ( i = 0 ; i < 4 ; i++ ) p[i] = buf.pData_[offset+i];
-        uint32_t result = byteSwap(v,bSwap);
+        uint32_t result = byteSwap_(v,bSwap);
         p               = (char*) &result;
         for ( i = 0 ; i < 4 ; i++ ) buf.pData_[offset+i] = p[i];
         return result;
@@ -117,7 +88,7 @@ namespace Exiv2 {
 
     PgfImage::PgfImage(BasicIo::AutoPtr io, bool create)
             : Image(ImageType::pgf, mdExif | mdIptc| mdXmp | mdComment, io)
-            , bSwap_(isBigEndian())
+            , bSwap_(isBigEndianPlatform())
     {
         if (create)
         {
@@ -251,7 +222,7 @@ namespace Exiv2 {
         uint32_t newHeaderSize = header.size_ + imgSize;
         DataBuf buffer(4);
         memcpy (buffer.pData_, &newHeaderSize, 4);
-        byteSwap(buffer,0,bSwap_);
+        byteSwap_(buffer,0,bSwap_);
         if (outIo.write(buffer.pData_, 4) != 4) throw Error(21);
 
 #ifdef DEBUG
@@ -304,7 +275,7 @@ namespace Exiv2 {
         if (iIo.error()) throw Error(14);
         if (bufRead != buffer.size_) throw Error(20);
 
-        int headerSize = (int) byteSwap(buffer,0,bSwap_);
+        int headerSize = (int) byteSwap_(buffer,0,bSwap_);
         if (headerSize <= 0 ) throw Error(22);
 
 #ifdef DEBUG
@@ -323,8 +294,8 @@ namespace Exiv2 {
 
         DataBuf work(8);  // don't disturb the binary data - doWriteMetadata reuses it
         memcpy (work.pData_,header.pData_,8);
-        width   = byteSwap(work,0,bSwap_);
-        height  = byteSwap(work,4,bSwap_);
+        width   = byteSwap_(work,0,bSwap_);
+        height  = byteSwap_(work,4,bSwap_);
 
         /* NOTE: properties not yet used
         byte nLevels  = buffer.pData_[8];

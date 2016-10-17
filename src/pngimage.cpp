@@ -334,7 +334,7 @@ namespace Exiv2 {
                                 if ( bExif ) {
                                     // create memio object with the data, then print the structure
                                     BasicIo::AutoPtr p = BasicIo::AutoPtr(new MemIo(parsedBuf.pData_+6,parsedBuf.size_-6));
-                                    TiffImage::printTiffStructure(*p,out,option,depth);
+                                    printTiffStructure(*p,out,option,depth);
                                 }
                                 if ( bIptc ) {
                                     IptcData::printStructure(out,parsedBuf.pData_,parsedBuf.size_,depth);

@@ -21,9 +21,6 @@
 /*
   File:      cr2image.cpp
   Version:   $Rev$
-  Author(s): Andreas Huggel (ahu) <ahuggel@gmx.net>
-  History:   22-Apr-06, ahu: created
-
  */
 // *****************************************************************************
 #include "rcsid_int.hpp"
@@ -86,9 +83,8 @@ namespace Exiv2 {
     {
         if (io_->open() != 0) throw Error(9, io_->path(), strError());
         io_->seek(0,BasicIo::beg);
-        TiffImage::printTiffStructure(io(),out,option,depth-1);
+        printTiffStructure(io(),out,option,depth-1);
     }
-
 
     void Cr2Image::setComment(const std::string& /*comment*/)
     {

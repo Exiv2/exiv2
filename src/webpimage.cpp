@@ -19,11 +19,8 @@
  * Foundation, Inc., 51 Franklin Street, 5th Floor, Boston, MA 02110-1301 USA.
  */
 /*
- File:      webpimage.cpp
- Version:   $Rev: 3845 $
- Author(s): Ben Touchette <draekko.software+exiv2@gmail.com>
- History:   10-Aug-16
- Credits:   See header file
+  File:      webpimage.cpp
+  Version:   $Rev: 4633 $
  */
 /*
   Google's WEBP container spec can be found at the link below:
@@ -461,7 +458,7 @@ namespace Exiv2 {
                 if ( equalsWebPTag(chunkId, WEBP_CHUNK_HEADER_EXIF) && option==kpsRecursive ) {
                     // create memio object with the payload, then print the structure
                     BasicIo::AutoPtr p = BasicIo::AutoPtr(new MemIo(payload.pData_,payload.size_));
-                    TiffImage::printTiffStructure(*p,out,option,depth);
+                    printTiffStructure(*p,out,option,depth);
                 }
 
                 bool bPrintPayload = (equalsWebPTag(chunkId, WEBP_CHUNK_HEADER_XMP) && option==kpsXMP)

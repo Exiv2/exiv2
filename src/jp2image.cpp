@@ -553,7 +553,7 @@ namespace Exiv2
                                     &&   (rawData.pData_[0]=='I' || rawData.pData_[0]=='M' )
                                     ) {
                                     BasicIo::AutoPtr p = BasicIo::AutoPtr(new MemIo(rawData.pData_,rawData.size_));
-                                    TiffImage::printTiffStructure(*p,out,option,depth);
+                                    printTiffStructure(*p,out,option,depth);
                                 }
                             }
 

@@ -18,13 +18,9 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, 5th Floor, Boston, MA 02110-1301 USA.
  */
-/*!
-  @file    basicio.hpp
-  @brief   Simple binary IO abstraction
-  @version $Rev: 3091 $
-  @author  Brad Schick (brad)
-           <a href="mailto:brad@robotbattle.com">brad@robotbattle.com</a>
-  @date    04-Dec-04, brad: created
+/*
+  File:      basicio.hpp
+  Version:   $Rev: 4633 $
  */
 #ifndef BASICIO_HPP_
 #define BASICIO_HPP_
@@ -97,6 +93,7 @@ namespace Exiv2 {
               Nonzero if failure.
          */
         virtual int open() = 0;
+
         /*!
           @brief Close the IO source. After closing a BasicIo instance can not
               be read or written. Closing flushes any unwritten data. It is
@@ -258,6 +255,18 @@ namespace Exiv2 {
           @throw Error In case of failure
          */
         virtual BasicIo::AutoPtr temporary() const = 0;
+
+        /*!
+         @brief markBlocks that we know for certain are not metadata
+         @note This method is designed to enable TIFF files to mark StripOffsets/StringByteCounts
+         */
+        virtual void markRead(long offset,long count);
+
+        /*!
+         @brief read all blocks that are not marked
+         @note This method is designed to enable TIFF file to read everything except the markRead blocks!
+         */
+        virtual void readUnmarked();
 
         /*!
           @brief Mark all the bNone blocks to bKnow. This avoids allocating memory
@@ -945,6 +954,13 @@ namespace Exiv2 {
               Nonzero if failure.
          */
         virtual int open();
+
+        virtual void markRead(long offset,long count);
+
+        virtual void readUnmarked();
+
+        byte* bigBlock_;
+
         /*!
           @brief Reset the IO position to the start. It does not release the data.
           @return 0 if successful;<BR>
@@ -1097,6 +1113,7 @@ namespace Exiv2 {
                 are all downloaded from the remote file to memory.
          */
        virtual void populateFakeData();
+
        //@}
 
     protected:

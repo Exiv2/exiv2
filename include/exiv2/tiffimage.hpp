@@ -18,14 +18,11 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, 5th Floor, Boston, MA 02110-1301 USA.
  */
-/*!
-  @file    tiffimage.hpp
-  @brief   Class TiffImage
-  @version $Rev: 3090 $
-  @author  Andreas Huggel (ahu)
-           <a href="mailto:ahuggel@gmx.net">ahuggel@gmx.net</a>
-  @date    15-Mar-06, ahu: created
+/*
+  File:      tiffimage.hpp
+  Version:   $Rev: 4633 $
  */
+
 #ifndef TIFFIMAGE_HPP_
 #define TIFFIMAGE_HPP_
 
@@ -94,20 +91,6 @@ namespace Exiv2 {
           @caution This function is not thread safe and intended for exiv2 -p{S|R} as a file debugging aid
          */
         virtual void printStructure(std::ostream& out, PrintStructureOption option,int depth=-1);
-
-        /*!
-          @brief Print out the structure of image file.
-          @throw Error if reading of the file fails or the image data is
-                not valid (does not look like data of the specific image type).
-          @caution This function is not thread safe.  See TiffImage::printStructure for more details
-         */
-        static void printTiffStructure(BasicIo& io,std::ostream& out, PrintStructureOption option,int depth,size_t offset=0);
-
-        /*!
-          @brief Print out the structure of a TIFF IFD
-          @caution This function is not thread safe.  See TiffImage::printStructure for more details
-         */
-        static void printIFDStructure(BasicIo& io, std::ostream& out, Exiv2::PrintStructureOption option,uint32_t start,bool bSwap,char c,int depth);
 
         /*!
           @brief Not supported. TIFF format does not contain a comment.
