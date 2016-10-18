@@ -136,7 +136,7 @@ namespace Exiv2 {
         try {
             std::ofstream devnull;
             printStructure(devnull,kpsRecursive,0);
-        } catch (Exiv2::Error& e) {
+        } catch (Exiv2::Error& /* e */) {
             DataBuf file(io().size());
             io_->read(file.pData_,file.size_);
         }

@@ -486,7 +486,7 @@ namespace Exiv2
                         lf(out,bLF);
 
                         while (io_->read((byte*)&subBox, sizeof(subBox)) == sizeof(subBox)
-                               && io_->tell() < position + box.length) // don't read beyond the box!
+                               && io_->tell() < position + (long) box.length) // don't read beyond the box!
                         {
                             subBox.length = getLong((byte*)&subBox.length, bigEndian);
                             subBox.type   = getLong((byte*)&subBox.type, bigEndian);
