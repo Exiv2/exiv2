@@ -445,9 +445,9 @@ source ./functions.source
     runTest exiv2 -pR                   $filename
     copyTestFile      imagemagick.png
     runTest exiv2 -pR imagemagick.png
-    copyTestFile      Reagan.tiff
-    runTest exiv2 -pR Reagan.tiff
-    copyTestFile      Reagan.tiff
+    copyTestFile      ReaganLargeTiff.tiff
+    runTest exiv2 -pR ReaganLargeTiff.tiff
+    copyTestFile      Reagan.jpg
     runTest exiv2 -pR Reagan.jpg
     echo ''
 

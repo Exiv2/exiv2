@@ -29,7 +29,7 @@ source ./functions.source
     done
 
     printf "a (exiv2, xmp, iptc) " >&3
-    for f in Reagan.jpg Reagan.tiff ReaganLargeTiff.tiff ReaganSmallPng.png; do
+    for f in Reagan.jpg ReaganLargeTiff.tiff ReaganSmallPng.png; do
         copyTestFile          $f
         copyTestFile  exiv2-bug1229.jpg            girl.jpg
         runTest exiv2 -pS                          girl.jpg
