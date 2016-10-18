@@ -149,36 +149,6 @@ STRUCTURE OF JPEG FILE: girl.jpg
      372 | 0xffe1 APP1  |    4613 | http://ns.adobe.com/xap/1.0/.<?x
     4987 | 0xffe1 APP1  |    4602 | http://ns.adobe.com/xap/1.0/.<?x
     9591 | 0xffda SOS  
-STRUCTURE OF JPEG FILE: girl.jpg
- address | marker       |  length | data
-       0 | 0xffd8 SOI  
-       2 | 0xffe0 APP0  |      16 | JFIF............
-      20 | 0xffe1 APP1  |    4552 | Exif..II*......................
-    4574 | 0xffe1 APP1  |    4692 | http://ns.adobe.com/xap/1.0/.<?x
-    9268 | 0xffed APP13 |     788 | Photoshop 3.0.8BIM..........Z...
-   10058 | 0xffdb DQT   |      67 
-   10127 | 0xffdb DQT   |      67 
-   10196 | 0xffc0 SOF0  |      17 
-   10215 | 0xffc4 DHT   |      28 
-   10245 | 0xffc4 DHT   |      74 
-   10321 | 0xffc4 DHT   |      28 
-   10351 | 0xffc4 DHT   |      57 
-   10410 | 0xffe1 APP1  |    4602 | http://ns.adobe.com/xap/1.0/.<?x
-   15014 | 0xffda SOS  
-STRUCTURE OF JPEG FILE: girl.jpg
- address | marker       |  length | data
-       0 | 0xffd8 SOI  
-       2 | 0xffe0 APP0  |      16 | JFIF............
-      20 | 0xffdb DQT   |      67 
-      89 | 0xffdb DQT   |      67 
-     158 | 0xffc0 SOF0  |      17 
-     177 | 0xffc4 DHT   |      28 
-     207 | 0xffc4 DHT   |      74 
-     283 | 0xffc4 DHT   |      28 
-     313 | 0xffc4 DHT   |      57 
-     372 | 0xffe1 APP1  |    4613 | http://ns.adobe.com/xap/1.0/.<?x
-    4987 | 0xffe1 APP1  |    4602 | http://ns.adobe.com/xap/1.0/.<?x
-    9591 | 0xffda SOS  
 Warning: Exif tag Exif.Image.InterColorProfile not encoded
 STRUCTURE OF JPEG FILE: girl.jpg
  address | marker       |  length | data
