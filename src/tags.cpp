@@ -2560,13 +2560,12 @@ namespace Exiv2 {
     std::ostream& print0x9204(std::ostream& os, const Value& value, const ExifData*)
     {
         Rational bias = value.toRational();
-        if (bias.second <= 0) {
-            os << "(" << bias.first << "/" << bias.second << ")";
-        }
-        else if (bias.first == 0) {
+
+        if (bias.first == 0 || bias.first == 0x80000000 ) {
             os << "0 EV";
-        }
-        else {
+        } else if (bias.second <= 0) {
+            os << "(" << bias.first << "/" << bias.second << ")";
+        } else {
             int32_t d = gcd(bias.first, bias.second);
             int32_t num = std::abs(bias.first) / d;
             int32_t den = bias.second / d;
