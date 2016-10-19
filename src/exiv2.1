@@ -3,7 +3,7 @@
 .\" First parameter, NAME, should be all caps
 .\" Second parameter, SECTION, should be 1-8, maybe w/ subsection
 .\" other parameters are allowed: see man(7), man(1)
-.TH EXIV2 1 "Sep 23, 2016"
+.TH EXIV2 1 "Oct 19, 2016"
 .\" Please adjust this date whenever revising the manpage.
 .\"
 .\" Some roff macros, for reference:
@@ -36,35 +36,35 @@ the XMP specification and Metadata Working Group guidelines.
 .br
 The following image formats are supported:
 .TS
-lB lB lB lB lB
-_	_	_	_	_
-l l l l l.
-Type	Exif	IPTC	XMP	Image comments
-JPEG	Read/Write	Read/Write	Read/Write	Read/Write
-EXV	Read/Write	Read/Write	Read/Write	Read/Write
-CR2	Read/Write	Read/Write	Read/Write	-
-CRW	Read/Write	-	-	Read/Write
-MRW	Read	Read	Read	-
-TIFF	Read/Write	Read/Write	Read/Write	-
-WEBP	Read/Write	-	Read/Write	-
-DNG	Read/Write	Read/Write	Read/Write	-
-NEF	Read/Write	Read/Write	Read/Write	-
-PEF	Read/Write	Read/Write	Read/Write	-
-ARW	Read	Read	Read	-
-RW2	Read	Read	Read	-
-SR2	Read	Read	Read	-
-SRW	Read/Write	Read/Write	Read/Write	-
-ORF	Read/Write	Read/Write	Read/Write	-
-PNG	Read/Write	Read/Write	Read/Write	Read/Write
-PGF	Read/Write	Read/Write	Read/Write	Read/Write
-RAF	Read	Read	Read	-
-EPS	-	-	Read/Write	-
-XMP	-	-	Read/Write	-
-GIF	-	-	-	-
-PSD	Read/Write	Read/Write	Read/Write	-
-TGA	-	-	-	-
-BMP	-	-	-	-
-JP2	Read/Write	Read/Write	Read/Write	-
+lB lB lB lB lB lB
+_	_	_	_	_	_
+l l l l l l.
+Type	Exif	IPTC	XMP	Image Comments	ICC Profile
+JPEG	Read/Write	Read/Write	Read/Write	Read/Write	Read/Write
+EXV	Read/Write	Read/Write	Read/Write	Read/Write Read/Write
+CR2	Read/Write	Read/Write	Read/Write	-	Read/Write
+CRW	Read/Write	-	-	Read/Write	-
+MRW	Read	Read	Read	-	-
+TIFF	Read/Write	Read/Write	Read/Write	-	Read/Write
+WEBP	Read/Write	-	Read/Write	-	Read/Write
+DNG	Read/Write	Read/Write	Read/Write	-	Read/Write
+NEF	Read/Write	Read/Write	Read/Write	-	Read/Write
+PEF	Read/Write	Read/Write	Read/Write	-	Read/Write
+ARW	Read	Read	Read	-	-
+RW2	Read	Read	Read	-	-
+SR2	Read	Read	Read	-	-
+SRW	Read/Write	Read/Write	Read/Write	-	-
+ORF	Read/Write	Read/Write	Read/Write	-	-
+PNG	Read/Write	Read/Write	Read/Write	Read/Write	Read/Write
+PGF	Read/Write	Read/Write	Read/Write	Read/Write	Read/Write
+RAF	Read	Read	Read	-	-
+EPS	-	-	Read/Write	-	-
+XMP	-	-	Read/Write	-	-
+GIF	-	-	-	-	-
+PSD	Read/Write	Read/Write	Read/Write	-	-
+TGA	-	-	-	-	-
+BMP	-	-	-	-	-
+JP2	Read/Write	Read/Write	Read/Write	-	Read/Write
 .TE
 .IP \(bu 2
 Support for GIF, TGA and BMP images is minimal: the image format is
@@ -144,7 +144,7 @@ option [arg]	long option	description
 -h		--help	Display help and exit.
 -i	tgt	--insert	Insert target(s) for the 'insert' action. ...
 -k		--keep	Preserve file timestamps when updating files
--K	Key	--key	Report key.  Similar to -g (grep) however key must match exactly.
+-K	key	--key	Report key.  Similar to -g (grep) however key must match exactly.
 -l	dir	--location	Location (directory) for files to be inserted or extracted.
 -m	file	--modify	read commands from cmd-file
 -M	cmd	--Modify	Command line for the 'modify' action. ...
@@ -176,8 +176,8 @@ fmt		Default format is %Y%m%d_%H%M%S.
 lvl		d | i | i | w | e
 		debug, info, warning, error
 
-mod		s | a | t | v | h | i | x | c | p | i | C | R | S | X
-		summary, all, translated, vanilla, hex, iptc, xmp, comment, preview,
+mod		s | a | e | t | v | h | i | x | c | p | i | C | R | S | X
+		summary, all, exif, translated, vanilla, hex, iptc, xmp, comment, preview,
 		ICC Profile, Recursive Structure, Simple Structure, raw XMP
 
 tgt		a | c | e | i | p | t | x | C | X | XX | -
@@ -302,6 +302,8 @@ s : print a summary of the Exif metadata (the default)
 .br
 a : print Exif, IPTC and XMP metadata (shortcut for \-Pkyct)
 .br
+e : print Exif metadata (shortcut for \-PEkycv)
+.br
 t : interpreted (translated) Exif tags (\-PEkyct)
 .br
 v : plain Exif tag values (\-PExgnycv)
@@ -316,13 +318,13 @@ c : JPEG comment
 .br
 p : list available image previews, sorted by preview image size in pixels
 .br
-C : print image ICC Profile (jpg, png, tiff, webp, cr2 only)
+C : print image ICC Profile (jpg, png, tiff, webp, cr2, jp2 only)
 .br
-R : print image structure recursively (jpg, png, tiff, webp, cr2 only)
+R : print image structure recursively (jpg, png, tiff, webp, cr2, jp2 only)
 .br
-S : print image structure information (jpg, png, tiff, webp, cr2 only)
+S : print image structure information (jpg, png, tiff, webp, cr2, jp2 only)
 .br
-X : print "raw" XMP (jpg, png, tiff, cr2, webp only)
+X : print "raw" XMP (jpg, png, tiff, webp, cr2, jp2 only)
 .TP
 .B \-P \fIflgs\fP
 Print flags for fine control of the tag list ('print' action). Allows

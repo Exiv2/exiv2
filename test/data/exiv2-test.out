@@ -69,6 +69,7 @@ Options:
    -p mode Print mode for the 'print' action. Possible modes are:
              s : print a summary of the Exif metadata (the default)
              a : print Exif, IPTC and XMP metadata (shortcut for -Pkyct)
+             e : print Exif metadata (shortcut for -PEkycv)
              t : interpreted (translated) Exif data (-PEkyct)
              v : plain Exif data values (-PExgnycv)
              h : hexdump of the Exif data (-PExgnycsh)
@@ -76,6 +77,8 @@ Options:
              x : XMP properties (-PXkyct)
              c : JPEG comment
              p : list available previews
+             C : print ICC profile embedded in image
+             R : recursive print structure of image
              S : print structure of image
              X : extract XMP from image
    -P flgs Print flags for fine control of tag lists ('print' action):

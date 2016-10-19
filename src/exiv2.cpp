@@ -302,6 +302,7 @@ void Params::help(std::ostream& os) const
        << _("   -p mode Print mode for the 'print' action. Possible modes are:\n")
        << _("             s : print a summary of the Exif metadata (the default)\n")
        << _("             a : print Exif, IPTC and XMP metadata (shortcut for -Pkyct)\n")
+       << _("             e : print Exif metadata (shortcut for -PEkycv)\n")
        << _("             t : interpreted (translated) Exif data (-PEkyct)\n")
        << _("             v : plain Exif data values (-PExgnycv)\n")
        << _("             h : hexdump of the Exif data (-PExgnycsh)\n")
@@ -309,6 +310,8 @@ void Params::help(std::ostream& os) const
        << _("             x : XMP properties (-PXkyct)\n")
        << _("             c : JPEG comment\n")
        << _("             p : list available previews\n")
+       << _("             C : print ICC profile embedded in image\n")
+       << _("             R : recursive print structure of image\n")
        << _("             S : print structure of image\n")
        << _("             X : extract XMP from image\n")
        << _("   -P flgs Print flags for fine control of tag lists ('print' action):\n")
@@ -590,6 +593,7 @@ int Params::evalPrint(const std::string& optarg)
         switch (optarg[0]) {
         case 's': action_ = Action::print; printMode_ = pmSummary; break;
         case 'a': rc = evalPrintFlags("kyct"); break;
+        case 'e': rc = evalPrintFlags("Ekycv"); break;
         case 't': rc = evalPrintFlags("Ekyct"); break;
         case 'v': rc = evalPrintFlags("Exgnycv"); break;
         case 'h': rc = evalPrintFlags("Exgnycsh"); break;
