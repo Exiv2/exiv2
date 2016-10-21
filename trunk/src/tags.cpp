@@ -2686,7 +2686,7 @@ namespace Exiv2 {
     {
         Rational bias = value.toRational();
 
-        if (bias.first == 0 || bias.first == 0x80000000 ) {
+        if (bias.first == 0 || bias.first == (int32_t)0x80000000 ) {
             os << "0 EV";
         } else if (bias.second <= 0) {
             os << "(" << bias.first << "/" << bias.second << ")";
