@@ -606,7 +606,7 @@ namespace Exiv2
 
         Jp2BoxHeader* pBox   = (Jp2BoxHeader*) boxBuf.pData_;
         int32_t       length = getLong((byte*)&pBox->length, bigEndian);
-        uint32_t      count  = sizeof (Jp2BoxHeader);
+        int32_t       count  = sizeof (Jp2BoxHeader);
         char*         p      = (char*) boxBuf.pData_;
         bool          bWroteColor = false ;
 
@@ -635,16 +635,16 @@ namespace Exiv2
             if ( newBox.type == kJp2BoxTypeColorHeader ) {
                 bWroteColor = true ;
                 if ( ! iccProfileDefined() ) {
-                    const char* pad = "\x01\x00\x00\x00\x00\x00\x10\x00\x00\x05\x1cuuid";
-                    size_t     psize = 15;
+                    const char* pad   = "\x01\x00\x00\x00\x00\x00\x10\x00\x00\x05\x1cuuid";
+                    uint32_t    psize = 15;
                     ul2Data((byte*)&newBox.length,psize      ,bigEndian);
                     ul2Data((byte*)&newBox.type  ,newBox.type,bigEndian);
                     ::memcpy(output.pData_+outlen                     ,&newBox            ,sizeof(newBox));
                     ::memcpy(output.pData_+outlen+sizeof(newBox)      ,pad                ,psize         );
                     newlen = psize ;
                 } else {
-                    const char* pad  = "\0x02\x00\x00";
-                    size_t     psize = 3;
+                    const char* pad   = "\0x02\x00\x00";
+                    uint32_t    psize = 3;
                     ul2Data((byte*)&newBox.length,psize+iccProfile_.size_,bigEndian);
                     ul2Data((byte*)&newBox.type,newBox.type,bigEndian);
                     ::memcpy(output.pData_+outlen                     ,&newBox            ,sizeof(newBox)  );
@@ -653,7 +653,7 @@ namespace Exiv2
                     newlen = psize + iccProfile_.size_;
                 }
             } else {
-                ::memcpy(output.pData_+outlen,boxBuf.pData_+inlen,subBox.length);
+                ::memcpy(output.pData_s+outlen,boxBuf.pData_+inlen,subBox.length);
             }
 
             outlen += newlen;
