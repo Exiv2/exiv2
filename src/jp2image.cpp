@@ -653,7 +653,7 @@ namespace Exiv2
                     newlen = psize + iccProfile_.size_;
                 }
             } else {
-                ::memcpy(output.pData_s+outlen,boxBuf.pData_+inlen,subBox.length);
+                ::memcpy(output.pData_+outlen,boxBuf.pData_+inlen,subBox.length);
             }
 
             outlen += newlen;
