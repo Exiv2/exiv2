@@ -607,6 +607,12 @@ source ./functions.source
     copyTestFile                        $filename
     runTest exiv2 -pa                   $filename
 
+    num=1247
+    printf "$num " >&3
+    filename=exiv2-bug$num.jpg
+    copyTestFile                        $filename
+    runTest exiv2 -pa                   $filename
+
 ) 3>&1 > $results 2>&1
 
 printf "\n"
