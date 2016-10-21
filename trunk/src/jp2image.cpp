@@ -40,6 +40,7 @@ EXIV2_RCSID("@(#) $Id$")
 #include "basicio.hpp"
 #include "error.hpp"
 #include "futils.hpp"
+#include "types.hpp"
 
 // + standard includes
 #include <string>
@@ -262,13 +263,13 @@ namespace Exiv2
                         std::cout << "Exiv2::Jp2Image::readMetadata: "
                         << "subBox = " << toAscii(subBox.type) << " length = " << subBox.length << std::endl;
 #endif
-                        if(subBox.type == kJp2BoxTypeColorHeader)
+                        if(subBox.type == kJp2BoxTypeColorHeader && subBox.length != 15)
                         {
 #ifdef DEBUG
                             std::cout << "Exiv2::Jp2Image::readMetadata: "
                                      << "Color data found" << std::endl;
 #endif
-                            long pad = 3 ; // don't know why there are 3 padding bytes
+                            long pad = 3 ; // 3 padding bytes 2 0 0
                             DataBuf data(subBox.length+8);
                             io_->read(data.pData_,data.size_);
                             long    iccLength = getULong(data.pData_+pad, bigEndian);
@@ -488,13 +489,14 @@ namespace Exiv2
                         while (io_->read((byte*)&subBox, sizeof(subBox)) == sizeof(subBox)
                                && io_->tell() < position + (long) box.length) // don't read beyond the box!
                         {
+                            int address = io_->tell() - sizeof(subBox);
                             subBox.length = getLong((byte*)&subBox.length, bigEndian);
                             subBox.type   = getLong((byte*)&subBox.type, bigEndian);
 
                             DataBuf data(subBox.length-sizeof(box));
                             io_->read(data.pData_,data.size_);
                             if ( bPrint ) {
-                                out << Internal::stringFormat("%8ld | %8ld |  sub:",io_->tell()-sizeof(box),subBox.length) << toAscii(subBox.type)
+                                out << Internal::stringFormat("%8ld | %8ld |  sub:",address,subBox.length) << toAscii(subBox.type)
                                     <<" | " << Internal::binaryToString(data,30,0);
                                 bLF = true;
                             }
@@ -596,26 +598,75 @@ namespace Exiv2
 
     } // Jp2Image::writeMetadata
 
-    void Jp2Image::encodeJp2Header(const DataBuf& boxBuf,DataBuf& newBuf)
+    void Jp2Image::encodeJp2Header(const DataBuf& boxBuf,DataBuf& outBuf)
     {
-        newBuf.alloc(boxBuf.size_);
-        ::memcpy(newBuf.pData_,boxBuf.pData_,boxBuf.size_);
+        DataBuf output(boxBuf.size_ + iccProfile_.size_ + 100); // allocate sufficient space
+        int     outlen = sizeof(Jp2BoxHeader) ; // now many bytes have we written to output?
+        int      inlen = sizeof(Jp2BoxHeader) ; // how many bytes have we read from boxBuf?
 
-#ifdef DEBUG
         Jp2BoxHeader* pBox   = (Jp2BoxHeader*) boxBuf.pData_;
         int32_t       length = getLong((byte*)&pBox->length, bigEndian);
         uint32_t      count  = sizeof (Jp2BoxHeader);
         char*         p      = (char*) boxBuf.pData_;
-        while ( count < length ) {
+        bool          bWroteColor = false ;
+
+        while ( count < length || !bWroteColor ) {
             Jp2BoxHeader* pSubBox = (Jp2BoxHeader*) (p+count) ;
 
-            pSubBox->length = getLong((byte*)&pSubBox->length, bigEndian);
-            pSubBox->type   = getLong((byte*)&pSubBox->type, bigEndian);
-            std::cout << "subbox: "<< toAscii(pSubBox->type) << " length = " << pSubBox->length << std::endl;
-            count += pSubBox->length;
-        }
+            // copy data.  pointer could be into a memory mapped file which we will decode!
+            Jp2BoxHeader   subBox = *pSubBox ;
+            Jp2BoxHeader   newBox =  subBox;
+
+            if ( count < length ) {
+                subBox.length = getLong((byte*)&subBox.length, bigEndian);
+                subBox.type   = getLong((byte*)&subBox.type  , bigEndian);
+#ifdef DEBUG
+                std::cout << "Jp2Image::encodeJp2Header subbox: "<< toAscii(subBox.type) << " length = " << subBox.length << std::endl;
 #endif
-    }
+                count        += subBox.length;
+                newBox.type   = subBox.type;
+            } else {
+                subBox.length=0;
+                newBox.type = kJp2BoxTypeColorHeader;
+                count = length;
+            }
+
+            int32_t newlen = subBox.length;
+            if ( newBox.type == kJp2BoxTypeColorHeader ) {
+                bWroteColor = true ;
+                if ( ! iccProfileDefined() ) {
+                    const char* pad = "\x01\x00\x00\x00\x00\x00\x10\x00\x00\x05\x1cuuid";
+                    size_t     psize = 15;
+                    ul2Data((byte*)&newBox.length,psize      ,bigEndian);
+                    ul2Data((byte*)&newBox.type  ,newBox.type,bigEndian);
+                    ::memcpy(output.pData_+outlen                     ,&newBox            ,sizeof(newBox));
+                    ::memcpy(output.pData_+outlen+sizeof(newBox)      ,pad                ,psize         );
+                    newlen = psize ;
+                } else {
+                    const char* pad  = "\0x02\x00\x00";
+                    size_t     psize = 3;
+                    ul2Data((byte*)&newBox.length,psize+iccProfile_.size_,bigEndian);
+                    ul2Data((byte*)&newBox.type,newBox.type,bigEndian);
+                    ::memcpy(output.pData_+outlen                     ,&newBox            ,sizeof(newBox)  );
+                    ::memcpy(output.pData_+outlen+sizeof(newBox)      , pad               ,psize           );
+                    ::memcpy(output.pData_+outlen+sizeof(newBox)+psize,iccProfile_.pData_,iccProfile_.size_);
+                    newlen = psize + iccProfile_.size_;
+                }
+            } else {
+                ::memcpy(output.pData_+outlen,boxBuf.pData_+inlen,subBox.length);
+            }
+
+            outlen += newlen;
+            inlen  += subBox.length;
+        }
+
+        // allocate the correct number of bytes, copy the data and update the box header
+        outBuf.alloc(outlen);
+        ::memcpy(outBuf.pData_,output.pData_,outlen);
+        pBox   = (Jp2BoxHeader*) outBuf.pData_;
+        ul2Data((byte*)&pBox->type,kJp2BoxTypeJp2Header,bigEndian);
+        ul2Data((byte*)&pBox->length,outlen,bigEndian);
+    } // Jp2Image::encodeJp2Header
 
     void Jp2Image::doWriteMetadata(BasicIo& outIo)
     {
