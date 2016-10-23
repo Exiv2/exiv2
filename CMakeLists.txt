@@ -75,8 +75,19 @@ IF( MINGW OR UNIX )
                     -W
                    )
     ENDIF()
+    
+    if (CMAKE_COMPILER_IS_GNUCC)
+        execute_process(COMMAND ${CMAKE_C_COMPILER} -dumpversion
+                        OUTPUT_VARIABLE GCC_VERSION)
+        string(REGEX MATCHALL "[0-9]+" GCC_VERSION_COMPONENTS ${GCC_VERSION})
+        list(GET GCC_VERSION_COMPONENTS 0 GCC_MAJOR)
+        list(GET GCC_VERSION_COMPONENTS 1 GCC_MINOR)
 
-    IF ( CYGWIN )
+        message(STATUS Compiler major ${GCC_MAJOR})
+        message(STATUS ${GCC_MINOR})
+    endif()
+
+    IF ( CYGWIN OR ( ${GCC_MAJOR} GREATER 5 ))
         ADD_DEFINITIONS( -std=gnu++98 ) # to support snprintf
     ELSE()
         ADD_DEFINITIONS( -std=c++98 )
