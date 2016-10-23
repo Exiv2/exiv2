@@ -335,6 +335,26 @@ for u in gettext msginit msgmerge msgfmt msgconv msgfilter ; do
     fi
 done
 
+AC_DEFUN([AX_GCC_VERSION], [
+  GCC_VERSION=""
+  AX_CHECK_COMPILE_FLAG([-dumpversion],
+     [ax_gcc_version_option=yes],
+     [ax_gcc_version_option=no])
+
+  AS_IF([test "x$GCC" = "xyes"],[
+    AS_IF([test "x$ax_gcc_version_option" != "xno"],[
+      AC_CACHE_CHECK([gcc version],[ax_cv_gcc_version],[
+        ax_cv_gcc_version="`$CC -dumpversion`"
+        AS_IF([test "x$ax_cv_gcc_version" = "x"],[
+          ax_cv_gcc_version=""
+        ])
+      ])
+      GCC_VERSION=$ax_cv_gcc_version
+    ])
+  ])
+  AC_SUBST([GCC_VERSION])
+])
+
 # 1188 v0.26 uses c++98
 # 1188 v0.27 should have an option to specify versions such as c++11
 case "$host_os" in
@@ -345,7 +365,9 @@ case "$host_os" in
         CPPFLAGS="$CPPFLAGS"               # mingw doesn't link pthreads if you specify -std !!
     ;;
     *)
-        CPPFLAGS="$CPPFLAGS -std=c++98"    # // all others use c++98
+        if [ $GCC_VERSION -le 5 ]; then CPPFLAGS="$CPPFLAGS -std=c++98"    # // most others use c++98
+        else                            CPPFLAGS="$CPPFLAGS -std=gnu++98"  # // but not GCC 6
+        fi
     ;;
 esac
 

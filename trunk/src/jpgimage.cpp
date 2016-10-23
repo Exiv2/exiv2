@@ -674,7 +674,8 @@ namespace Exiv2 {
                             // and dumping the XMP in a post read operation similar to kpsIptcErase
                             // for the moment, dumping 'on the fly' is working fine
                             if ( ! bExtXMP ) {
-                                while (xmp[start]) start++; start++;
+                                while (xmp[start]) start++;
+                                start++;
                                 if ( ::strstr((char*)xmp+start,"HasExtendedXMP") ) {
                                     start  = size ; // ignore this packet, we'll get on the next time around
                                     bExtXMP = true;

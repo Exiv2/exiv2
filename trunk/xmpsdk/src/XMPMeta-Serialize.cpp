@@ -1,5 +1,4 @@
-// =================================================================================================
-// Copyright 2002-2008 Adobe Systems Incorporated
+// ================================================================================================= // Copyright 2002-2008 Adobe Systems Incorporated
 // All Rights Reserved.
 //
 // NOTICE:  Adobe permits you to use, modify, and distribute this file in accordance with the terms
@@ -284,7 +283,7 @@ AppendNodeValue ( XMP_VarString & outputStr, const XMP_VarString & value, bool f
 	unsigned char * runStart = (unsigned char *) value.c_str();
 	unsigned char * runLimit  = runStart + value.size();
 	unsigned char * runEnd;
-	unsigned char   ch;
+	unsigned char   ch=0;
 	
 	while ( runStart < runLimit ) {
 	
