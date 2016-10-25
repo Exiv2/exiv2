@@ -42,7 +42,7 @@ rem adding additional MSVC compilers (2008, 2010, 2012, etc) should be simple
 rem and has not been done for expediency
 rem should only require:
 rem 1    Invoke the appropriate vsvars32.bat script
-rem 2    Run devenv/upgrade 
+rem 2    Run devenv/upgrade
 rem 3    set Builder=2005
 rem and all should be good
 set BGOOD=0
@@ -59,7 +59,7 @@ if %Builder%==2003 (
 
 if %Builder%==2005 (
   call "C:\Program Files (x86)\Microsoft Visual Studio 8\Common7\Tools\vsvars32.bat"
-  pushd msvc2005
+  pushd msvc
   set   BGOOD=1
 )
 
@@ -88,7 +88,7 @@ if %curl% == true if %libssh% == true if %openssl% == true set webready=true
 if %webready% == true (
   copy/y exiv2-webready.sln e.sln
   copy/y ..\include\exiv2\exv_msvc-webready.h ..\include\exiv2\exv_msvc.h
-) 
+)
 
 rem --
 rem let the user know what's going on!
@@ -104,12 +104,12 @@ if %Win32%==true (
   if %debug%==true (
     if %static%==true (
       if %Builder%==2003 (
-        devenv e.sln %ACTION% "Debug"     
+        devenv e.sln %ACTION% "Debug"
         if NOT ERRORLEVEL 1 if %tests%==true call bash -c 'cd %FOO%;cd test;./testMSVC.sh ../msvc2003/bin/Debug'
       )
       if %Builder%==2005 (
-        devenv e.sln %ACTION% "Debug|Win32"     
-        if NOT ERRORLEVEL 1 if %tests%==true call bash -c 'cd %FOO%;cd test;./testMSVC.sh ../msvc2005/bin/win32/Debug'
+        devenv e.sln %ACTION% "Debug|Win32"
+        if NOT ERRORLEVEL 1 if %tests%==true call bash -c 'cd %FOO%;cd test;./testMSVC.sh ../msvc/bin/win32/Debug'
       )
 ) ) )
 
@@ -117,12 +117,12 @@ if %Win32%==true (
   if %release%==true (
     if %static%==true  (
       if %Builder%==2003 (
-        devenv e.sln %ACTION% "Release"     
+        devenv e.sln %ACTION% "Release"
         if NOT ERRORLEVEL 1 if %tests%==true call bash -c 'cd %FOO%;cd test;./testMSVC.sh ../msvc2003/bin/Release'
       )
       if %Builder%==2005 (
-        devenv e.sln %ACTION% "Release|Win32"     
-        if NOT ERRORLEVEL 1 if %tests%==true call bash -c 'cd %FOO%;cd test;./testMSVC.sh ../msvc2005/bin/win32/Release'
+        devenv e.sln %ACTION% "Release|Win32"
+        if NOT ERRORLEVEL 1 if %tests%==true call bash -c 'cd %FOO%;cd test;./testMSVC.sh ../msvc/bin/win32/Release'
       )
 ) ) )
 
@@ -130,12 +130,12 @@ if %Win32%==true (
   if %debug%==true (
     if %dll%==true   (
       if %Builder%==2003 (
-        devenv e.sln %ACTION% "DebugDLL"     
+        devenv e.sln %ACTION% "DebugDLL"
         if NOT ERRORLEVEL 1 if %tests%==true call bash -c 'cd %FOO%;cd test;./testMSVC.sh ../msvc2003/bin/DebugDLL'
       )
       if %Builder%==2005 (
-        devenv e.sln %ACTION% "DebugDLL|Win32"     
-        if NOT ERRORLEVEL 1 if %tests%==true call bash -c 'cd %FOO%;cd test;./testMSVC.sh ../msvc2005/bin/win32/DebugDLL'
+        devenv e.sln %ACTION% "DebugDLL|Win32"
+        if NOT ERRORLEVEL 1 if %tests%==true call bash -c 'cd %FOO%;cd test;./testMSVC.sh ../msvc/bin/win32/DebugDLL'
       )
 ) ) )
 
@@ -143,41 +143,41 @@ if %Win32%==true (
   if %release%==true (
     if %dll%==true     (
       if %Builder%==2003 (
-        devenv e.sln %ACTION% "ReleaseDLL"     
+        devenv e.sln %ACTION% "ReleaseDLL"
         if NOT ERRORLEVEL 1 if %tests%==true call bash -c 'cd %FOO%;cd test;./testMSVC.sh ../msvc2003/bin/ReleaseDLL'
       )
       if %Builder%==2005 (
-        devenv e.sln %ACTION% "ReleaseDLL|Win32"     
-        if NOT ERRORLEVEL 1 if %tests%==true call bash -c 'cd %FOO%;cd test;./testMSVC.sh ../msvc2005/bin/win32/ReleaseDLL'
+        devenv e.sln %ACTION% "ReleaseDLL|Win32"
+        if NOT ERRORLEVEL 1 if %tests%==true call bash -c 'cd %FOO%;cd test;./testMSVC.sh ../msvc/bin/win32/ReleaseDLL'
       )
 ) ) )
 
 if %x64%==true (
   if %debug%==true (
     if %static%==true (
-      devenv e.sln %ACTION% "Debug|x64"        
-      if NOT ERRORLEVEL 1 if %tests%==true call bash -c 'cd %FOO%;cd test;./testMSVC.sh ../msvc2005/bin/x64/Debug'
+      devenv e.sln %ACTION% "Debug|x64"
+      if NOT ERRORLEVEL 1 if %tests%==true call bash -c 'cd %FOO%;cd test;./testMSVC.sh ../msvc/bin/x64/Debug'
 ) ) )
 
 if %x64%==true (
   if %release%==true (
     if %static%==true  (
-      devenv e.sln %ACTION% "Release|x64"      
-      if NOT ERRORLEVEL 1 if %tests%==true call bash -c 'cd %FOO%;cd test;./testMSVC.sh ../msvc2005/bin/x64/Release'
+      devenv e.sln %ACTION% "Release|x64"
+      if NOT ERRORLEVEL 1 if %tests%==true call bash -c 'cd %FOO%;cd test;./testMSVC.sh ../msvc/bin/x64/Release'
 ) ) )
 
 if %x64%==true (
   if %debug%==true (
     if %dll%==true   (
-      devenv e.sln %ACTION% "DebugDLL|x64"     
-      if NOT ERRORLEVEL 1 if %tests%==true call bash -c 'cd %FOO%;cd test;./testMSVC.sh ../msvc2005/bin/x64/DebugDLL'
+      devenv e.sln %ACTION% "DebugDLL|x64"
+      if NOT ERRORLEVEL 1 if %tests%==true call bash -c 'cd %FOO%;cd test;./testMSVC.sh ../msvc/bin/x64/DebugDLL'
 ) ) )
 
 if %x64%==true   (
   if %release%==true (
     if %dll%==true     (
-      devenv e.sln %ACTION% "ReleaseDLL|x64"   
-      if NOT ERRORLEVEL 1 if %tests%==true call bash -c 'cd %FOO%;cd test;./testMSVC.sh ../msvc2005/bin/x64/ReleaseDLL'
+      devenv e.sln %ACTION% "ReleaseDLL|x64"
+      if NOT ERRORLEVEL 1 if %tests%==true call bash -c 'cd %FOO%;cd test;./testMSVC.sh ../msvc/bin/x64/ReleaseDLL'
 ) ) )
 
 rem --
@@ -187,12 +187,12 @@ popd
 
 rem --
 rem delete support libraries (with mozilla's native rm utility)
-if %Builder%==2003 msvc2005\tools\bin\rm.exe -rf ..\expat-2.0.1 ..\zlib-1.2.3
-if %Builder%==2005 msvc2005\tools\bin\rm.exe -rf ..\expat ..\zlib ..\openssl ..\libssh ..\curl
+if %Builder%==2003 msvc\tools\bin\rm.exe -rf ..\expat-2.0.1 ..\zlib-1.2.3
+if %Builder%==2005 msvc\tools\bin\rm.exe -rf ..\expat ..\zlib ..\openssl ..\libssh ..\curl
 if %Builder%==2005 if EXIST openssl (
   cd ..
   cygwin64\bin\rm.exe -rf openssl
-  cd msvc2005
+  cd msvc
 )
 
 rem That's all Folks!

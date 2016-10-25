@@ -1,4 +1,4 @@
-    @@@@@@@@@@@@@b                   ;mm                       /##Gilles###\
+    @@@Marco@@@@@b                   ;mm                       /##Gilles###\
     j@@@#Robin",                     Brad                     /@@@Thomas@@@@Q
      @@@#       \                     ##                     @@@b     |@@@b
      @@@#          .;;;;,     ,;;;, ,;;;;  ,;;;p      .;;;   7@@      ]Alan
@@ -9,7 +9,7 @@
      @@@#              ,@@##@@m      @@@b      @@@p @@C        #@@#C
      @@@#       ,/    s@@#  @@@@     @@@b       Volker       @Tuan@
     ]@@@Abhinav@@\   /@@@\    \@@@Q  @@@Q       %@@@#      /@@@@Mahesh@@#
-   /@@@@@@@@@@@@@@\ /@@@@@\    C++  Metadata   Library   /@Sridhar@@@v0.26\
+   /@@Raphael@@@@@\ /@@@@@\     C++  Metadata  Library    /@Sridhar@@@v0.26\
 
 Exiv2
 *****
@@ -31,17 +31,17 @@ Building and Installing
 
 You can build the libraries in the following ways:
 
-1 UNIX-like systems (including GNU/Linux, Mac OS X, Cygwin, MinGW)
+1 UNIX-like systems (including GNU/Linux, MacOS-X, Cygwin (32 and 64), MinGW (32 and 64)
   - general notes follow
   - FAQ concerning Cygwin/MSYS and Mac OS X:
     http://dev.exiv2.org/projects/exiv2/wiki/FAQ
 
 2 Microsoft Visual C++
-  - see msvc2005/ReadMe.txt      (32bit and 64bit build VC8/2005,  2008,2010,2012)
-  - see msvc2003/ReadMe.txt      (32bit build           VC7.1/2003 2005,2008)
-  Caution msvc2003 is deprecated with v0.26 and will be removed
+  - see msvc/ReadMe.txt      (32bit and 64bit builds Visual Studio 2005,08,10,12,13,15)
+  - see msvc2003/ReadMe.txt  (32bit build on Visual Studio 2003, 2005, 2008)
+  Caution msvc2003 is deprecated with v0.26 and will be removed.
 
-3 CMake (experimental support for cmake on all platforms)
+3 CMake (support for cmake on all platforms except MinGW)
   - see README-CMAKE for more information
 
 To build a commercial version of the Exiv2 library, see also section
@@ -53,10 +53,7 @@ build and install the library and utility:
 
     $ ./configure
     $ make
-    $ sudo make install
-
-Users of Cygwin and MinGW can omit the 'sudo' to install:
-    $ make install
+    $ sudo make install  (Cygwin/MinGW $ make install)
 
 Caution:
     If you downloaded the source code from the subversion repository,
@@ -65,7 +62,7 @@ Caution:
     $ make config
     $ ./configure
     $ make
-    $ sudo make install
+    $ sudo make install  (Cygwin/MinGW $ make install)
 
 To build the sample applications:
 
@@ -130,7 +127,6 @@ If you have problems building Exiv2 on UNIX-like systems, check the
 generated config/config.mk and config/config.h files. You should *not*
 need to modify any Makefile directly, in particular not src/Makefile!
 
-
 Support
 =======
 
@@ -140,7 +136,6 @@ All project resources are accessible from the project website at
 
 Please send feedback or queries to the Exiv2 forum. For new bug reports
 and feature requests, please open an issue.
-
 
 Linking your own code with Exiv2
 ================================
@@ -199,7 +194,7 @@ commercial version of the Exiv2 library.
 To do this on Windows, compile the library with the preprocessor
 symbol EXV_COMMERCIAL_VERSION defined in:
    msvc2003\include\exv_msvc.h
-or msvc2005\include\exv_msvc.h
+or msvc\include\exv_msvc.h
 
 On UNIX-like systems, run the configure
 script with the options --enable-commercial --disable-nls

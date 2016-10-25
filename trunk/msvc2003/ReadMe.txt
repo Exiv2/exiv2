@@ -1,4 +1,4 @@
-    @@@@@@@@@@@@@b                   ;mm                       /##Gilles###\
+    @@@Marco@@@@@b                   ;mm                       /##Gilles###\
     j@@@#Robin",                     Brad                     /@@@Thomas@@@@Q
      @@@#       \                     ##                     @@@b     |@@@b
      @@@#          .;;;;,     ,;;;, ,;;;;  ,;;;p      .;;;   7@@      ]Alan
@@ -9,21 +9,20 @@
      @@@#              ,@@##@@m      @@@b      @@@p @@C        #@@#C
      @@@#       ,/    s@@#  @@@@     @@@b       Volker       @Tuan@
     ]@@@Abhinav@@\   /@@@\    \@@@Q  @@@Q       %@@@#      /@@@@Mahesh@@#
-   /@@@@@@@@@@@@@@\ /@@@@@\    C++  Metadata   Library   /@Sridhar@@@v0.26\
+   /@@Raphael@@@@@\ /@@@@@\     C++  Metadata  Library    /@Sridhar@@@v0.26\
 
 
 +-----------------------------------------------------------+
 | msvc2003 builds 32bit binaries                            |
 |          with Visual Studio 2003 .Net                     |
 |                                                           |
-| msvc2005 builds 32bit and 64bit binaries                  |
-|          with Visual Studio 2005/8/10/12/13/14            |
+| msvc     builds 32bit and 64bit binaries                  |
+|          with Visual Studio 2005/8/10/12/13/15            |
 +-----------------------------------------------------------+
 
 Notes about msvc2003 32 bit build of exiv2
 ------------------------------------------
-Updated: 2016-10-09
-
+Updated: 2016-10-25
 
 +-----------------------------------------------------------+
 | CAUTION:                                 TO BE DEPRECATED |
@@ -60,7 +59,7 @@ How to build and test exiv2
     c:\gnu\exiv2          <---- this directory
 
     You can download the libraries from http://clanmills.com/files/exiv2libs.zip (20mb)
-    This archive includes libraries for use by msvc2003 and msvc2005.
+    This archive includes libraries for use by msvc2003 and msvc.
 
     If you unzip exiv2libs.zip into c:\exiv2libs, the batch file msvc2003/copylibs.zip
     will copy the files from c:\exiv2libs to the correct location.
@@ -71,7 +70,7 @@ How to build and test exiv2
 
     This is what I do:
     a) Open expat-2.0.1\expat.dsw with Visual Studio
-       This converts the expat-2.0.1 VC6 work space to DevStudio project files
+       This converts the expat-2.0.1 VC6 work space to Visual Studio project files
        Say "Yes" to everything.
 
     b) Build/Batch Build/Select
@@ -86,8 +85,8 @@ How to build and test exiv2
     If you have copied zlib-1.2.3 from the archive, you can skip this step.
 
     This is what I do:
-    a) Open zlib\zlib-1.2.3\projects\visualc6\zlib.dsw with DevStudio
-       This converts the zlib-1.2.3 VC6 workspace to DevStudio project files
+    a) Open zlib\zlib-1.2.3\projects\visualc6\zlib.dsw with Visual Studio
+       This converts the zlib-1.2.3 VC6 workspace to Visual Studio project files
        Say "Yes" to everything.
 
     b) Build/Batch Build/Select
@@ -128,7 +127,7 @@ How to build and test exiv2
 6)  Test from the Command Line (cmd.exe):
 
     Use the bash/Cygwin (or msys) script test/testMSVC.sh to run the test suite.
-    Please see msvc2005/ReadMe.txt for more information.
+    Please see msvc/ReadMe.txt for more information.
 
 Where are the libraries and executables?
 ----------------------------------------
@@ -219,18 +218,18 @@ The following warning and message are part of the build:
 B) Partial Build errors
 -----------------------
 
-Andreas assures me that if you cannot build some targets, eg exifprint/ReleaseDLL on a clean VC71 machine.  I havne't been able to reproduced this.  Please drop me an email if you find any of those.  I'm cross-eyed building different flavors of this on different version of DevStudio.
+Andreas assures me that if you cannot build some targets, eg exifprint/ReleaseDLL on a clean VC71 machine.  I havne't been able to reproduced this.  Please drop me an email if you find any of those.  I'm cross-eyed building different flavors of this on different version of Visual Studio.
 
 C) Debugging exiv2 library code
 -------------------------------
 
-You may wish to debug the exiv2 library code using one of the test utilities.  Examples: exiv2.exe and exifprint.exe.  You'll find this a little frustrating because the exiv2.sln file contains all the test programs.  When you change the library code, DevStudio will relink all 20 test programs.  To avoid this frustration, unload the project files which you are no using.  For example, if you are debugging exiv2.exe, you only require the following projects to be loaded:
+You may wish to debug the exiv2 library code using one of the test utilities.  Examples: exiv2.exe and exifprint.exe.  You'll find this a little frustrating because the exiv2.sln file contains all the test programs.  When you change the library code, Visual Studio will relink all 20 test programs.  To avoid this frustration, unload the project files which you are no using.  For example, if you are debugging exiv2.exe, you only require the following projects to be loaded:
 
 xmpsdk
 exiv2lib
 exiv2
 
-(when exiting DevStudio, say "No" when it asks you if you wish to save changes to exiv2.sln)
+(when exiting Visual Studio, say "No" when it asks you if you wish to save changes to exiv2.sln)
 
 # That's all Folks
 ##

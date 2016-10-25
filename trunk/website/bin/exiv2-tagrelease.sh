@@ -9,8 +9,7 @@
 # Manual: Update release number. The files that need changes are:
 # - config/configure.ac
 # - msvc2003/include/exv_msvc.h
-# - msvc2005/include/exv_msvc.h
-# - msvc2012/include/exv_msvc.h
+# - msvc/include/exv_msvc.h
 # - src/version.hpp
 # - test/data/exiv2-test.out
 # - CMakeLists.txt
@@ -37,7 +36,7 @@ echo "svn copy svn://dev.exiv2.org/svn/$bra svn://dev.exiv2.org/svn/tags/$rel -m
 echo -n "Continue? [n] : "
 read var
 
-if [ x$var = xy ] ; then 
+if [ x$var = xy ] ; then
    # Tag the release
    echo Tagging $bra as release $rel, this may take a while...
    svn copy svn://dev.exiv2.org/svn/$bra svn://dev.exiv2.org/svn/tags/$rel -m"${pre}Tagged release $rel"
