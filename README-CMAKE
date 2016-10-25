@@ -1,4 +1,4 @@
-    @@@@@@@@@@@@@b                   ;mm                       /##Gilles###\
+    @@@Marco@@@@@b                   ;mm                       /##Gilles###\
     j@@@#Robin",                     Brad                     /@@@Thomas@@@@Q
      @@@#       \                     ##                     @@@b     |@@@b
      @@@#          .;;;;,     ,;;;, ,;;;;  ,;;;p      .;;;   7@@      ]Alan
@@ -9,29 +9,34 @@
      @@@#              ,@@##@@m      @@@b      @@@p @@C        #@@#C
      @@@#       ,/    s@@#  @@@@     @@@b       Volker       @Tuan@
     ]@@@Abhinav@@\   /@@@\    \@@@Q  @@@Q       %@@@#      /@@@@Mahesh@@#
-   /@@@@@@@@@@@@@@\ /@@@@@\    C++  Metadata   Library   /@Sridhar@@@v0.26\
+   /@@Raphael@@@@@\ /@@@@@\     C++  Metadata  Library    /@Sridhar@@@v0.26\
 
 -------------------------------------------------------------------------------
-NOTE:
+CMake is a cross-platform build system, to control the
+compilation process using platform/compiler independent configuration files.
 
-* CMake scripts are functional and used to perform the daily build on the buildserver.
+STATUS:
 
-* The existing automake (./configure), and msvc2005 build files will continue
-  to be supported by exiv2 for at least v0.27 (and probably longer)
+* CMake scripts are functional and used to perform the daily build on the buildserver
+  for MacOS-X, Cygwin, Linux and Visual Studio (2005, 8, 10, 12, 13 and 15)
+  The daily build on MinGW/32 is performed using autotools for Qt/Windows Users.
 
-  The msvc-2003 build files are deprecated and will not be supported after v0.26.
+* The existing automake (./configure) will continue to be supported by exiv2
+  for at least v0.27 (and probably longer)
 
-  Exiv2 will not build on MinGW (neither 32bit nor 64bit)
+  The msvc2003 project/solutions files are deprecated and will not be supported after v0.26.
+  The msvc project/solutions files will continue to be supported by exiv2
+  for at least v0.27 (and probably longer)
+
+  Exiv2 is very difficult to build on MinGW with CMake.
   This is discussed in TODO-CMAKE
 
 Robin Mills
 robin@clanmills.com
-2016-09-23
+2016-10-25
 
 -------------------------------------------------------------------------------
 
-Exiv2 uses cmake, a cross-platform build system, to control the
-compilation process using platform/compiler independent configuration files.
 
 TABLE OF CONTENTS
 -----------------
@@ -55,7 +60,7 @@ FAQ:  http://www.cmake.org/Wiki/CMake_FAQ
 2 Building and Installing on Linux
 ==================================
 
-This process also covers MacOS-X Terminal, Cygwin and MinGW users.
+This process overs MacOS-X, Linux and Cygwin.
 
 a) From the command line
 
@@ -64,7 +69,7 @@ file) to configure, build and install the library and utility:
 
     $ mkdir build
     $ cd build
-    $ cmake ..
+    $ cmake .. -G "Unix Makefiles"
     $ make
     $ make install
 
@@ -117,7 +122,7 @@ b) Using the cmake GUI
 exiv2 provides three build environment for users of Visual Studio:
 
 cmake:    This environment
-msvc2005: 32 bit AND 64 bit build environment for MSVC 2005 and later (2008/10/12/13)
+msvc:     32 bit AND 64 bit build environment for MSVC 2005 and later (2005/2008/10/12/13/15)
 msvc2003: 32 bit build environment for MSVC 2003 (deprecated after v0.26)
 
 CMake doesn't build code.  It generates build environments.
@@ -154,10 +159,9 @@ We have two contributed CMake Build Environments:
 4 Building and installing for MinGW Users
 =========================================
 
-    CMake/MinGW has a number of serious issues.  This will be reported to Kitware.
+  CMake/MinGW has a number of serious issues.  This will be reported to Kitware.
 
-    It is possible to use CMake/MinGW if you put in some effort.  This is documented in TODO-CMAKE.
-
+  It is possible to use CMake/MinGW if you put in some effort.  This is documented in TODO-CMAKE.
 
 # That's all Folks
 ##

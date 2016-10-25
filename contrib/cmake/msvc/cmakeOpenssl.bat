@@ -1,5 +1,5 @@
 @echo off
-rem  I have been unable to find public builds of openssl for VS2005 
+rem  I have been unable to find public builds of openssl for VS2005
 rem  this script is used to export openssl builds from VS
 rem  I am keeping this in our code base for future use, although I hope never to need it again!
 rem  this is a throw away script and not intended for public use
@@ -12,8 +12,8 @@ set dst=\gnu\exiv2\team\libraries\%trg%\
 call cmakeDefaults >NUL 2>NUL
 if ERRORLEVEL 1 echo *** cmakeDefaults failed *** && exit /b 1
 
-rem src=pre-built.  Use msvc2005/exiv2-webready.sln openssl.vcproj to build 32/64 openssl Release and ReleaseDLL
-set src=%_EXIV2_%\msvc2005\openssl\
+rem src=pre-built.  Use msvc/exiv2-webready.sln openssl.vcproj to build 32/64 openssl Release and ReleaseDLL
+set src=%_EXIV2_%\msvc\openssl\
 
 if NOT EXIST %src%\x64\ReleaseDLL\ssl\openssl.cnf echo *** file %src%\x64\ReleaseDLL\ssl\openssl.cnf does not exist *** && exit /b 1
 if NOT EXIST %dst% echo "*** destination %dst% does not exist && exit /b 1

@@ -1,4 +1,4 @@
-    @@@@@@@@@@@@@b                   ;mm                       /##Gilles###\
+    @@@Marco@@@@@b                   ;mm                       /##Gilles###\
     j@@@#Robin",                     Brad                     /@@@Thomas@@@@Q
      @@@#       \                     ##                     @@@b     |@@@b
      @@@#          .;;;;,     ,;;;, ,;;;;  ,;;;p      .;;;   7@@      ]Alan
@@ -9,21 +9,19 @@
      @@@#              ,@@##@@m      @@@b      @@@p @@C        #@@#C
      @@@#       ,/    s@@#  @@@@     @@@b       Volker       @Tuan@
     ]@@@Abhinav@@\   /@@@\    \@@@Q  @@@Q       %@@@#      /@@@@Mahesh@@#
-   /@@@@@@@@@@@@@@\ /@@@@@\    C++  Metadata   Library   /@Sridhar@@@v0.26\
+   /@@Raphael@@@@@\ /@@@@@\     C++  Metadata  Library    /@Sridhar@@@v0.26\
 
-
-
-exiv2\msvc2005\ReadMe.txt
--------------------------
+exiv2\msvc\ReadMe.txt
+---------------------
 
 +-----------------------------------------------------------+
-| msvc2005 builds 32bit and 64bit binaries                  |
+| msvc     builds 32bit and 64bit binaries                  |
 |          with Visual Studio 2005/8/10/12/13/15            |
 | msvc2003 builds 32bit binaries                            |
 |          with Visual Studio 2003/5/8                      |
 +-----------------------------------------------------------+
 
-Updated: 2015-10-09
+Updated: 2015-10-25
 
 Robin Mills
 http://clanmills.com
@@ -35,7 +33,7 @@ T A B L E  o f  C O N T E N T S
 1    Build Instructions
 1.1  Tools
 1.2  Install zlib and expat sources.
-1.3  Open exiv2\msvc2005\exiv2.sln
+1.3  Open exiv2\msvc\exiv2.sln
 1.4  Configuring build options (such as video and webready)
 1.5  Building with exiv2-webready.sln
 1.6  What is build
@@ -96,7 +94,7 @@ T A B L E  o f  C O N T E N T S
 
      You can obtain the libraries from http://clanmills.com/files/exiv2libs.zip (20mb)
      I copy those to the directory c:\exiv2libs
-     The script msvc2005/copylibs.bat will copy them from c:\exiv2libs to the correct location
+     The script msvc/copylibs.bat will copy them from c:\exiv2libs to the correct location
 
      11/05/2014  07:26 AM  <DIR>  curl-7.39.0
      12/07/2014  09:18 AM  <DIR>  expat-2.1.0
@@ -115,7 +113,7 @@ T A B L E  o f  C O N T E N T S
      openssh     is available from https://www.openssl.org/source/
      libssh      is available from https://www.libssh.org/get-it/
 
-1.3  Open exiv2\msvc2005\exiv2.sln
+1.3  Open exiv2\msvc\exiv2.sln
      Projects are zlib, expat, xmpsdk, exiv2lib, exiv2, addmoddel etc...
      Build/Batch build...  Select All, Build
      - 36 projects      (zlib, expat, xmpsdk, exiv2lib, exiv2, addmoddel etc)
@@ -138,7 +136,7 @@ T A B L E  o f  C O N T E N T S
      The batch file configure.bat is used to reconfigure for various options.
      You will need a python3 interpreter.  I personally use ActivePython 3.4.1
 
-	 C:\cygwin64\home\rmills\gnu\exiv2\trunk\msvc2005>configure -h
+	 C:\cygwin64\home\rmills\gnu\exiv2\trunk\msvc>configure -h
 	 Usage: configure.py [options]
 
 	 Options:
@@ -185,7 +183,7 @@ T A B L E  o f  C O N T E N T S
 
      To build with webready:
      1 copy include\exiv2\exv_msvc-webready.h include\exiv2\exv_msvc.h
-     2 open msvc2005\exiv2-webready.vcproj
+     2 open msvc\exiv2-webready.vcproj
 
 1.6  What is built
      The DLL builds use the DLL version of the C runtime libraries
@@ -198,7 +196,7 @@ T A B L E  o f  C O N T E N T S
 
      Before loading the project, use the python script setbuild.py to select Win32:
 
-        c:\gnu\exiv2\msvc2005>setbuild.py Win32
+        c:\gnu\exiv2\msvc>setbuild.py Win32
 
      setbuild.py is none destructive.  If you have a 64 bit compiler, you can:
      1) Restore the build environment with:   setbuild.py all
@@ -208,7 +206,7 @@ T A B L E  o f  C O N T E N T S
      you can "doctor" to project files manually to remove mentiosn of X64 using an editor:
 
      Cleanup your tree and edit the files.
-     cd exiv2\msvc2005
+     cd exiv2\msvc
      call cleaner.bat
      for /r %f in (*.vcproj) do notepad %f
      for /r %f in (*.sln)    do notepad %f
@@ -223,10 +221,10 @@ T A B L E  o f  C O N T E N T S
 
      To remove the "memory" of old configurations:
      setbuild.py reset
-     
+
 1.8  UNICODE PATH Support
      Edit the file include/exiv2/exv_msvc.h to set the appropriate flag.
-     
+
      #define EXV_UNICODE_PATH 1
 
 2    Design
@@ -237,7 +235,7 @@ T A B L E  o f  C O N T E N T S
      work cleanly for me.  They use different projects for VC9 and VC10.
      They don't provide support for VC8 or 11beta.
 
-     I have created build environments for zlib and expat within exiv2/msvc2005.
+     I have created build environments for zlib and expat within exiv2/msvc.
      I don't include the source code for zlib or expat - only the build environment.
 
      You are expected to install the "vanilla" expat and zlib libraries
@@ -248,10 +246,10 @@ T A B L E  o f  C O N T E N T S
      The names expat-2.1.0 and zlib-1.2.7 are fixed (and used by the .vcproj files)
 
      zlib and expat
-     exiv2\msvc2005\zlib\zlib.vcproj                          Visual Studio files
+     exiv2\msvc\zlib\zlib.vcproj                          Visual Studio files
      ..\..\..\zlib                                            Source code
 
-     exiv2\msvc2005\expat\expat.vcproj                        Visual Studio files
+     exiv2\msvc\expat\expat.vcproj                        Visual Studio files
      ..\..\..\expat                                           Source code
 
 2.1  Architecture
@@ -269,16 +267,16 @@ T A B L E  o f  C O N T E N T S
      bin\{win32|x64}\Win32\{Debug|Release|DebugDLL|ReleaseDLL}
 
 2.2  Relationship with msvc2003 build environment
-     msvc2005 is similar to msvc2003.
+     msvc is similar to msvc2003.
      However there are significant differences:
-     1) msvc2005 supports 64 bit and 32 bit builds
-     2) msvc2005 provides projects to build expat, zlib, curl, libssh and openssl
-     3) msvc2005 is designed to accomodate new versions of expat and zlib when they become available.
-     4) msvc2005 supports Visual Studio 2005 and later (no support for 2003)
-     5) msvc2005 does not require you to build 'vanilla' expat and zlib projects in advance
-     6) msvc2005 does not support the organize application
-     7) msvc2005 supports building with zlib1.2.7 or 1.2.8
-     8) msvc2005 supports building with expat2.1.0 or expat2.0.1
+     1) msvc supports 64 bit and 32 bit builds
+     2) msvc provides projects to build expat, zlib, curl, libssh and openssl
+     3) msvc is designed to accomodate new versions of expat and zlib when they become available.
+     4) msvc supports Visual Studio 2005 and later (no support for 2003)
+     5) msvc does not require you to build 'vanilla' expat and zlib projects in advance
+     6) msvc does not support the organize application
+     7) msvc supports building with zlib1.2.7 or 1.2.8
+     8) msvc supports building with expat2.1.0 or expat2.0.1
 
      msvc2003 will continue to be supported for 32 bit builds using Visual Studio 2003/05/08,
      however there is no plan to enhance or develop msvc2003 going forward.
@@ -308,8 +306,8 @@ T A B L E  o f  C O N T E N T S
              export EXIV2_BINDIR=<path-to-directory-with-exiv2.exe>
 
              I find the following little bash loop very useful.  You should test
-             against all the directories in the msvc2005/bin directory:
-             for d in $(find /c/gnu.2005/exiv2/msvc2005/bin \
+             against all the directories in the msvc/bin directory:
+             for d in $(find /c/gnu.2005/exiv2/msvc/bin \
                         -name exiv2.exe -exec dirname {} ";"); do
                 export EXIV2_BINDIR=$d
                 echo ---------------------------------
@@ -348,16 +346,16 @@ T A B L E  o f  C O N T E N T S
         our program will be called exifprint.exe
         you will be very confident that your code works!
 
-     b) copy <exiv2dir>/msvc2005/exifprint to <exiv2dir>/msvc2005/yourprojectname
+     b) copy <exiv2dir>/msvc/exifprint to <exiv2dir>/msvc/yourprojectname
         get yourprojectname.exe to build and run.
-        By using <exiv2dir>/msvc2005/exifprint as a template,:
+        By using <exiv2dir>/msvc/exifprint as a template,:
             i) you can build 32/64 dll/static debug/release "out of the box".
            ii) your include path, dependent libraries and link order are already set.
-        Revert your changes to <exiv2dir>/msvc2005/exifprint
+        Revert your changes to <exiv2dir>/msvc/exifprint
 
-     c) move <exiv2dir>/msvc2005/yourprojectname in your buildtree.
+     c) move <exiv2dir>/msvc/yourprojectname in your buildtree.
 
-     d) It's a good idea for your buildtree to reference <exiv2dir>/msvc2005
+     d) It's a good idea for your buildtree to reference <exiv2dir>/msvc
         When you reference <exiv2dir>, you can update <exiv2dir> occasionally
         and rebuild with little effort.
 
@@ -372,14 +370,14 @@ T A B L E  o f  C O N T E N T S
      by examining exifprint/Properties/C++/Command Line:
 
      /Od
-     /I "C:\cygwin64\home\rmills\gnu\exiv2\video-write\msvc2005\../include"
-     /I "C:\cygwin64\home\rmills\gnu\exiv2\video-write\msvc2005\../include/exiv2"
-     /I "C:\cygwin64\home\rmills\gnu\exiv2\video-write\msvc2005\../xmpsdk/include"
-     /I "C:\cygwin64\home\rmills\gnu\exiv2\video-write\msvc2005\../../expat/lib"
-     /I "C:\cygwin64\home\rmills\gnu\exiv2\video-write\msvc2005\../../zlib"
-     /I "C:\cygwin64\home\rmills\gnu\exiv2\video-write\msvc2005\/../../curl/include"
-     /I "C:\cygwin64\home\rmills\gnu\exiv2\video-write\msvc2005\/../../libssh/include"
-     /I "C:\cygwin64\home\rmills\gnu\exiv2\video-write\msvc2005\xssl/Win32/Release/include"
+     /I "C:\cygwin64\home\rmills\gnu\exiv2\video-write\msvc\../include"
+     /I "C:\cygwin64\home\rmills\gnu\exiv2\video-write\msvc\../include/exiv2"
+     /I "C:\cygwin64\home\rmills\gnu\exiv2\video-write\msvc\../xmpsdk/include"
+     /I "C:\cygwin64\home\rmills\gnu\exiv2\video-write\msvc\../../expat/lib"
+     /I "C:\cygwin64\home\rmills\gnu\exiv2\video-write\msvc\../../zlib"
+     /I "C:\cygwin64\home\rmills\gnu\exiv2\video-write\msvc\/../../curl/include"
+     /I "C:\cygwin64\home\rmills\gnu\exiv2\video-write\msvc\/../../libssh/include"
+     /I "C:\cygwin64\home\rmills\gnu\exiv2\video-write\msvc\xssl/Win32/Release/include"
      /D "WIN32" /D "_NDEBUG" /D "_CONSOLE" /D "BUILD_GETOPT" /D "EXV_HAVE_DLL" /D "_MBCS"
      /Gm /EHsc /MD /Fo"build/x64/ReleaseDLL\\" /Fd"build/x64/ReleaseDLL\vc80.pdb"
      /FR"build/x64/ReleaseDLL\\" /W3 /nologo /c /Zi /TP /errorReport:prompt</pre>The correct library link order
@@ -389,7 +387,7 @@ T A B L E  o f  C O N T E N T S
      The correct order is revealed in Visual Studio,
      by examining exifprint/Properties/Linker/Command-Line:
 
-     /OUT:"C:\cygwin64\home\rmills\gnu\exiv2\video-write\msvc2005\bin/x64/ReleaseDLL\exifprint.exe"
+     /OUT:"C:\cygwin64\home\rmills\gnu\exiv2\video-write\msvc\bin/x64/ReleaseDLL\exifprint.exe"
      /INCREMENTAL:NO /NOLOGO /MANIFEST /MANIFESTFILE:"build/x64/ReleaseDLL\exifprint.exe.intermediate.manifest"
      /SUBSYSTEM:CONSOLE /MACHINE:X64 /ERRORREPORT:PROMPT kernel32.lib user32.lib
      gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib
@@ -401,7 +399,7 @@ T A B L E  o f  C O N T E N T S
 
 4.4  tools/bin/depends32.exe and depends64.exe
 
-     C:\cygwin64\home\rmills\gnu\exiv2\video-write\msvc2005\bin\x64\releasedll>depends64 exiv2.exe
+     C:\cygwin64\home\rmills\gnu\exiv2\video-write\msvc\bin\x64\releasedll>depends64 exiv2.exe
      libexpat.dll
      PSAPI.DLL
      NSI.dll
@@ -444,13 +442,13 @@ T A B L E  o f  C O N T E N T S
        Not found: MSVCR80.dll
        Not found: MSVCP80.dll
 
-     C:\cygwin64\home\rmills\gnu\exiv2\video-write\msvc2005\bin\x64\releasedll>
+     C:\cygwin64\home\rmills\gnu\exiv2\video-write\msvc\bin\x64\releasedll>
 
 4.5  exiv2.exe --verbose --version
 
      You can inspect build information using exiv2 -v -V (verbose version):
 
-     C:\cygwin64\home\rmills\gnu\exiv2\video-write\msvc2005\bin\x64\releasedll>exiv2 -v -V
+     C:\cygwin64\home\rmills\gnu\exiv2\video-write\msvc\bin\x64\releasedll>exiv2 -v -V
      exiv2 0.25 001900 (64 bit build)
      Copyright (C) 2004-2015 Andreas Huggel.
 
@@ -481,12 +479,12 @@ T A B L E  o f  C O N T E N T S
      ssh=0
      curl==0
      id=$Id: version.cpp 3564 2015-01-11 21:38:40Z robinwmills $
-     executable=C:\cygwin64\home\rmills\gnu\exiv2\video-write\msvc2005\bin\x64\releasedll\exiv2.exe
+     executable=C:\cygwin64\home\rmills\gnu\exiv2\video-write\msvc\bin\x64\releasedll\exiv2.exe
      library=C:\Windows\SYSTEM32\ntdll.dll
      library=C:\Windows\system32\kernel32.dll
      library=C:\Windows\system32\KERNELBASE.dll
-     library=C:\cygwin64\home\rmills\gnu\exiv2\video-write\msvc2005\bin\x64\releasedll\libexiv2.dll
-     library=C:\cygwin64\home\rmills\gnu\exiv2\video-write\msvc2005\bin\x64\releasedll\zlib1.dll
+     library=C:\cygwin64\home\rmills\gnu\exiv2\video-write\msvc\bin\x64\releasedll\libexiv2.dll
+     library=C:\cygwin64\home\rmills\gnu\exiv2\video-write\msvc\bin\x64\releasedll\zlib1.dll
      library=C:\Windows\WinSxS\amd64_microsoft.vc80.crt_1fc8b3b9a1e18e3b_8.0.50727.6195_none_88e41e092fab0294\MSVCR80.dl
      library=C:\Windows\system32\msvcrt.dll
      library=C:\Windows\system32\WS2_32.dll
@@ -494,7 +492,7 @@ T A B L E  o f  C O N T E N T S
      library=C:\Windows\system32\NSI.dll
      library=C:\Windows\WinSxS\amd64_microsoft.vc80.crt_1fc8b3b9a1e18e3b_8.0.50727.6195_none_88e41e092fab0294\MSVCP80.dl
      library=C:\Windows\system32\PSAPI.DLL
-     library=C:\cygwin64\home\rmills\gnu\exiv2\video-write\msvc2005\bin\x64\releasedll\libexpat.dll
+     library=C:\cygwin64\home\rmills\gnu\exiv2\video-write\msvc\bin\x64\releasedll\libexpat.dll
      have_regex=0
      have_strerror_r=0
      have_gmtime_r=0
