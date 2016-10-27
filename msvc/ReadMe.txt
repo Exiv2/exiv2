@@ -80,17 +80,17 @@ T A B L E  o f  C O N T E N T S
      You need Cygwin to run the test suite because it is written in bash.
 
 1.2  Install zlib and expat sources.
-     I use the directory c:\gnu for this purpose, however the name isn't important.
+     I use the directory c:\gnu\exiv2 for this purpose, however the name isn't important.
 
-     c:\gnu>dir
-     Directory of c:\gnu
-     2010-12-05  10:05     <DIR>    exiv2     <--- this tree
+     c:\gnu\exiv2>dir
+     Directory of c:\gnu\exiv2
+     2010-12-05  10:05     <DIR>    trunk     <--- this tree
      2012-05-04  23:35     <DIR>    expat     <--- "vanilla" expat   2.1.0  source tree
      2012-05-04  23:35     <DIR>    zlib      <--- "vanilla" zlib    1.2.7  source tree
      2012-05-04  23:35     <DIR>    curl      <--- "vanilla" curl    7.39.0 source tree
      2012-05-04  23:35     <DIR>    openssl   <--- "vanilla" openssl 1.0.1j source tree
      2012-05-04  23:35     <DIR>    libssh    <--- "vanilla" libssh  0.5.5  source tree
-     c:\gnu>
+     c:\gnu\exiv2>
 
      You can obtain the libraries from http://clanmills.com/files/exiv2libs.zip (20mb)
      I copy those to the directory c:\exiv2libs
