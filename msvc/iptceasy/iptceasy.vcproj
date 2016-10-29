@@ -4,7 +4,7 @@
     <Platform Name="x64"/>
   </Platforms>
   <Configurations>
-    <Configuration Name="Debug|Win32" OutputDirectory="$(SolutionDir)bin/$(PlatformName)/$(ConfigurationName)" IntermediateDirectory="build/$(PlatformName)/$(ConfigurationName)" ConfigurationType="1" InheritedPropertySheets="$(SolutionDir)exiv2.vsprops" CharacterSet="2">
+    <Configuration Name="Debug|Win32" OutputDirectory="$(SolutionDir)bin/$(PlatformName)/$(ConfigurationName)" IntermediateDirectory="build/$(PlatformName)/$(ConfigurationName)" ConfigurationType="1" CharacterSet="2">
       <Tool Name="VCPreBuildEventTool"/>
       <Tool Name="VCCustomBuildTool"/>
       <Tool Name="VCXMLDataGeneratorTool"/>
@@ -24,7 +24,7 @@
       <Tool Name="VCWebDeploymentTool"/>
       <Tool Name="VCPostBuildEventTool"/>
     </Configuration>
-    <Configuration Name="Debug|x64" OutputDirectory="$(SolutionDir)bin/$(PlatformName)/$(ConfigurationName)" IntermediateDirectory="build/$(PlatformName)/$(ConfigurationName)" ConfigurationType="1" InheritedPropertySheets="$(SolutionDir)exiv2.vsprops" CharacterSet="2">
+    <Configuration Name="Debug|x64" OutputDirectory="$(SolutionDir)bin/$(PlatformName)/$(ConfigurationName)" IntermediateDirectory="build/$(PlatformName)/$(ConfigurationName)" ConfigurationType="1" CharacterSet="2">
       <Tool Name="VCPreBuildEventTool"/>
       <Tool Name="VCCustomBuildTool"/>
       <Tool Name="VCXMLDataGeneratorTool"/>
@@ -44,7 +44,7 @@
       <Tool Name="VCWebDeploymentTool"/>
       <Tool Name="VCPostBuildEventTool"/>
     </Configuration>
-    <Configuration Name="Release|Win32" OutputDirectory="$(SolutionDir)bin/$(PlatformName)/$(ConfigurationName)" IntermediateDirectory="build/$(PlatformName)/$(ConfigurationName)" ConfigurationType="1" InheritedPropertySheets="$(SolutionDir)exiv2.vsprops" CharacterSet="2">
+    <Configuration Name="Release|Win32" OutputDirectory="$(SolutionDir)bin/$(PlatformName)/$(ConfigurationName)" IntermediateDirectory="build/$(PlatformName)/$(ConfigurationName)" ConfigurationType="1" CharacterSet="2">
       <Tool Name="VCPreBuildEventTool"/>
       <Tool Name="VCCustomBuildTool"/>
       <Tool Name="VCXMLDataGeneratorTool"/>
@@ -64,7 +64,7 @@
       <Tool Name="VCWebDeploymentTool"/>
       <Tool Name="VCPostBuildEventTool"/>
     </Configuration>
-    <Configuration Name="Release|x64" OutputDirectory="$(SolutionDir)bin/$(PlatformName)/$(ConfigurationName)" IntermediateDirectory="build/$(PlatformName)/$(ConfigurationName)" ConfigurationType="1" InheritedPropertySheets="$(SolutionDir)exiv2.vsprops" CharacterSet="2">
+    <Configuration Name="Release|x64" OutputDirectory="$(SolutionDir)bin/$(PlatformName)/$(ConfigurationName)" IntermediateDirectory="build/$(PlatformName)/$(ConfigurationName)" ConfigurationType="1" CharacterSet="2">
       <Tool Name="VCPreBuildEventTool"/>
       <Tool Name="VCCustomBuildTool"/>
       <Tool Name="VCXMLDataGeneratorTool"/>
@@ -84,7 +84,7 @@
       <Tool Name="VCWebDeploymentTool"/>
       <Tool Name="VCPostBuildEventTool"/>
     </Configuration>
-    <Configuration Name="DebugDLL|Win32" OutputDirectory="$(SolutionDir)bin/$(PlatformName)/$(ConfigurationName)" IntermediateDirectory="build/$(PlatformName)/$(ConfigurationName)" ConfigurationType="1" InheritedPropertySheets="$(SolutionDir)exiv2.vsprops" CharacterSet="2">
+    <Configuration Name="DebugDLL|Win32" OutputDirectory="$(SolutionDir)bin/$(PlatformName)/$(ConfigurationName)" IntermediateDirectory="build/$(PlatformName)/$(ConfigurationName)" ConfigurationType="1" CharacterSet="2">
       <Tool Name="VCPreBuildEventTool"/>
       <Tool Name="VCCustomBuildTool"/>
       <Tool Name="VCXMLDataGeneratorTool"/>
@@ -104,7 +104,7 @@
       <Tool Name="VCWebDeploymentTool"/>
       <Tool Name="VCPostBuildEventTool"/>
     </Configuration>
-    <Configuration Name="DebugDLL|x64" OutputDirectory="$(SolutionDir)bin/$(PlatformName)/$(ConfigurationName)" IntermediateDirectory="build/$(PlatformName)/$(ConfigurationName)" ConfigurationType="1" InheritedPropertySheets="$(SolutionDir)exiv2.vsprops" CharacterSet="2">
+    <Configuration Name="DebugDLL|x64" OutputDirectory="$(SolutionDir)bin/$(PlatformName)/$(ConfigurationName)" IntermediateDirectory="build/$(PlatformName)/$(ConfigurationName)" ConfigurationType="1" CharacterSet="2">
       <Tool Name="VCPreBuildEventTool"/>
       <Tool Name="VCCustomBuildTool"/>
       <Tool Name="VCXMLDataGeneratorTool"/>
@@ -124,7 +124,7 @@
       <Tool Name="VCWebDeploymentTool"/>
       <Tool Name="VCPostBuildEventTool"/>
     </Configuration>
-    <Configuration Name="ReleaseDLL|Win32" OutputDirectory="$(SolutionDir)bin/$(PlatformName)/$(ConfigurationName)" IntermediateDirectory="build/$(PlatformName)/$(ConfigurationName)" ConfigurationType="1" InheritedPropertySheets="$(SolutionDir)exiv2.vsprops" CharacterSet="2">
+    <Configuration Name="ReleaseDLL|Win32" OutputDirectory="$(SolutionDir)bin/$(PlatformName)/$(ConfigurationName)" IntermediateDirectory="build/$(PlatformName)/$(ConfigurationName)" ConfigurationType="1" CharacterSet="2">
       <Tool Name="VCPreBuildEventTool"/>
       <Tool Name="VCCustomBuildTool"/>
       <Tool Name="VCXMLDataGeneratorTool"/>
@@ -144,7 +144,7 @@
       <Tool Name="VCWebDeploymentTool"/>
       <Tool Name="VCPostBuildEventTool"/>
     </Configuration>
-    <Configuration Name="ReleaseDLL|x64" OutputDirectory="$(SolutionDir)bin/$(PlatformName)/$(ConfigurationName)" IntermediateDirectory="build/$(PlatformName)/$(ConfigurationName)" ConfigurationType="1" InheritedPropertySheets="$(SolutionDir)exiv2.vsprops" CharacterSet="2">
+    <Configuration Name="ReleaseDLL|x64" OutputDirectory="$(SolutionDir)bin/$(PlatformName)/$(ConfigurationName)" IntermediateDirectory="build/$(PlatformName)/$(ConfigurationName)" ConfigurationType="1" CharacterSet="2">
       <Tool Name="VCPreBuildEventTool"/>
       <Tool Name="VCCustomBuildTool"/>
       <Tool Name="VCXMLDataGeneratorTool"/>
