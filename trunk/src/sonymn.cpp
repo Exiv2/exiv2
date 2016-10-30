@@ -129,6 +129,7 @@ namespace Exiv2 {
         { 353, "ICLA-68"                },
         { 354, "ILCA-99M2"              },
         { 355, "DSC-RX10M3"             },
+        { 356, "DSC-RX100M5"            },
         { 357, "ILCE-6300"              }
     };
 
