@@ -598,7 +598,7 @@ namespace Exiv2
 
     } // Jp2Image::writeMetadata
 
-#ifdef __APPLE__
+#ifdef __clang__
 // ignore cast align errors.  dataBuf.pData_ is allocated by malloc() and 4 (or 8 byte aligned).
 #pragma clang diagnostic push
 #pragma clang diagnostic ignored "-Wcast-align"
