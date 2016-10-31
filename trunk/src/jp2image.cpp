@@ -673,7 +673,7 @@ namespace Exiv2
         ul2Data((byte*)&pBox->length,outlen,bigEndian);
     } // Jp2Image::encodeJp2Header
 
-#ifdef __APPLE__
+#ifdef __clang__
 #pragma clang diagnostic pop
 #endif
 
