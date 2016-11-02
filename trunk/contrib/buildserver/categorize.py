@@ -2,7 +2,7 @@
 
 ##
 # categorize.py directory
-# Rebuild directories Latest, SVN, Date, Platform in builds directory
+# Rebuild the following directories: Latest, SVN, Date, Platform in builds directory 
 ##
 
 import os
