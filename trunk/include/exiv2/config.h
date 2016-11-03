@@ -6,6 +6,8 @@
 
 ///// Start of Visual Studio Support /////
 #ifdef  _MSC_VER
+#include <winsock2.h>
+
 #define _MSC_VER_2015 1900
 #define _MSC_VER_2013 1800
 #define _MSC_VER_2012 1700
