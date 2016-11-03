@@ -51,7 +51,7 @@ for d in os.listdir('.'):
 
 ##
 # define project dependances
-# This table is generated with the command 'tools/python/depends.py exiv2-webready.sln format'
+# This table is generated with the command 'tools/python/depend.py exiv2-webready.sln format'
 project = {}
 for p in uid:
 	project[p]=empty()
