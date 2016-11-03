@@ -117,7 +117,7 @@ namespace Exiv2 {
 
             bool tryenter()
             {
-#ifdef  MSDEV_2003
+#if defined(MSDEV_2003) || defined(MSDEV_2005)
                 EnterCriticalSection(&lock_);
                 return true;
 #else
