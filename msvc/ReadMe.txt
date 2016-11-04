@@ -14,14 +14,15 @@
 exiv2\msvc\ReadMe.txt
 ---------------------
 
-+-----------------------------------------------------------+
-| msvc     builds 32bit and 64bit binaries                  |
-|          with Visual Studio 2005/8/10/12/13/15            |
-| msvc2003 builds 32bit binaries                            |
-|          with Visual Studio 2003/5/8                      |
-+-----------------------------------------------------------+
++---------------------------------------------------------------+
+| msvc     builds 32bit and 64bit binaries                      |
+|          with Visual Studio 2005/8/10/12/13/15                |
+| msvc2003 builds 32bit binaries                                |
+|          with Visual Studio 2003/5/8                          |
+| caution  msvc2003 is deprecated and will be removed for v0.27 |
++---------------------------------------------------------------+
 
-Updated: 2015-10-25
+Updated: 2016-11-04
 
 Robin Mills
 http://clanmills.com
@@ -39,6 +40,7 @@ T A B L E  o f  C O N T E N T S
 1.6  What is build
 1.7  Express editions of Visual Studio (or 32 bit only builds, or 64 bit only builds)
 1.8  UNICODE Path support
+1.9  Build and Test Performance by Platform
 
 2    Design
 2.1  Architecture
@@ -64,8 +66,8 @@ T A B L E  o f  C O N T E N T S
 1    Build Instructions
 
 1.1  Tools
-     This has been tested with the "Pro" versions of VS 2005/08/10/12
-     Some Express editions don't support 64 bit builds
+     This has been tested with the "Pro" versions of VS 2005/08/10/12/13 and 2015 Express
+     Some older Express editions don't support 64 bit builds
      however it is  possible to build 32 bit libraries with "Express".
      See notes below about Visual Studio Express and building only Win32 or x64 builds
 
@@ -185,7 +187,7 @@ T A B L E  o f  C O N T E N T S
      1 copy include\exiv2\exv_msvc-webready.h include\exiv2\exv_msvc.h
      2 open msvc\exiv2-webready.vcproj
 
-1.6  What is built
+1.6  What is built?
      The DLL builds use the DLL version of the C runtime libraries
      The Debug|Release builds use static C runtime libraries
      This is discussed in exiv2\msvc2003\ReadMe.txt
@@ -227,13 +229,29 @@ T A B L E  o f  C O N T E N T S
 
      #define EXV_UNICODE_PATH 1
 
+1.9  Build and Test Performance by Platform
+     The following times were obtained with v0.26 RC1 svn=4673
+     Hardware: MacBook-Pro 13" (2013/Retina).
+     Ubuntu and Windows on VMs hosts by Parallels
+
+     + ------------- + ------------------------- + ------ + ------ +
+     | Platform      | Tools                     |  Build |   Test |
+     + ------------- + ------------------------- + ------ + ------ +
+     | MacOS-X 10.12 | Clang 8/autotools         | 1' 28" | 0' 32" |
+     | Ubuntu 16.10  | GCC/autotools             | 1' 38" | 0' 23" |
+     | Windows 10/64 | MSVC 2005                 | 2' 42" | 3' 17" |
+     |               | Ubuntu/bash/GCC/autotools | 2' 30" | 2' 48" |
+     |               | Cygwin/64/GCC/autotools   | 3' 49" | 2' 30" |
+     |               | MinGW/32/GCC/autotools    | 3' 57" | 2' 57" |
+     + ------------- + ------------------------- + ------ + ------ +
+
 2    Design
 
-     expat and zlib1.2.5 (and earlier) do not provide 64 bit builds for Visual Studio.
+     expat-2.0.1 and zlib-1.2.5 (and earlier) do not provide 64 bit builds for Visual Studio.
 
      The projects provided for zlib1.2.7 support 64 bit builds, however it didn't
      work cleanly for me.  They use different projects for VC9 and VC10.
-     They don't provide support for VC8 or 11beta.
+     They don't provide support for VS2005 or VS2012beta
 
      I have created build environments for zlib and expat within exiv2/msvc.
      I don't include the source code for zlib or expat - only the build environment.
@@ -247,10 +265,10 @@ T A B L E  o f  C O N T E N T S
 
      zlib and expat
      exiv2\msvc\zlib\zlib.vcproj                          Visual Studio files
-     ..\..\..\zlib                                            Source code
+     ..\..\..\zlib                                        Source code
 
      exiv2\msvc\expat\expat.vcproj                        Visual Studio files
-     ..\..\..\expat                                           Source code
+     ..\..\..\expat                                       Source code
 
 2.1  Architecture
      There are directories for every component:
