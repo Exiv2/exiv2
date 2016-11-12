@@ -205,7 +205,14 @@ namespace Exiv2 {
     bool Image::is4ByteType(uint16_t type)
     {
         return isLongType(type)
-            || isRationalType(type)
+            || type == Exiv2::tiffFloat
+            || type == Exiv2::tiffIfd
+            ;
+    }
+    bool Image::is8ByteType(uint16_t type)
+    {
+        return isRationalType(type)
+             || type == Exiv2::tiffDouble
             ;
     }
     bool Image::isPrintXMP(uint16_t type, Exiv2::PrintStructureOption option)
@@ -317,6 +324,7 @@ namespace Exiv2 {
             case Exiv2::signedRational   : result = "SRATIONAL" ; break;
             case Exiv2::tiffFloat        : result = "FLOAT"     ; break;
             case Exiv2::tiffDouble       : result = "DOUBLE"    ; break;
+            case Exiv2::tiffIfd          : result = "IFD"       ; break;
             default                      : result = "unknown"   ; break;
         }
         return result;
@@ -374,6 +382,7 @@ namespace Exiv2 {
                 uint32_t size   = isStringType(type) ? 1
                                 : is2ByteType(type)  ? 2
                                 : is4ByteType(type)  ? 4
+                                : is8ByteType(type)  ? 8
                                 : 1
                                 ;
 
@@ -405,15 +414,9 @@ namespace Exiv2 {
 
                     } else if ( isRationalType(type) ){
                         for ( size_t k = 0 ; k < kount ; k++ ) {
-                            uint16_t a = byteSwap2(buf,k*size+0,bSwap);
-                            uint16_t b = byteSwap2(buf,k*size+2,bSwap);
-                            if ( isLittleEndianPlatform() ) {
-                                if ( bSwap ) out << sp << b << "/" << a;
-                                else         out << sp << a << "/" << b;
-                            } else {
-                                if ( bSwap ) out << sp << a << "/" << b;
-                                else         out << sp << b << "/" << a;
-                            }
+                            uint32_t a = byteSwap4(buf,k*size+0,bSwap);
+                            uint32_t b = byteSwap4(buf,k*size+4,bSwap);
+                            out << sp << a << "/" << b;
                             sp = " ";
                         }
                     } else if ( isStringType(type) ) {
