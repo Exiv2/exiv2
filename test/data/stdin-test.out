@@ -248,8 +248,8 @@ STRUCTURE OF TIFF FILE (MM): Reagan.tiff
      130 | 0x0115 SamplesPerPixel           |     SHORT |        1 |    262144 | 4
      142 | 0x0116 RowsPerStrip              |     SHORT |        1 |   8519680 | 130
      154 | 0x0117 StripByteCounts           |      LONG |        1 |    104000 | 104000
-     166 | 0x011a XResolution               |  RATIONAL |        1 |       778 | 778/0
-     178 | 0x011b YResolution               |  RATIONAL |        1 |       786 | 786/0
+     166 | 0x011a XResolution               |  RATIONAL |        1 |       778 | 300/1
+     178 | 0x011b YResolution               |  RATIONAL |        1 |       786 | 300/1
      190 | 0x011c PlanarConfiguration       |     SHORT |        1 |     65536 | 1
      202 | 0x0128 ResolutionUnit            |     SHORT |        1 |    131072 | 2
      214 | 0x0131 Software                  |     ASCII |       29 |       794 | Adobe Photoshop CS Macintosh

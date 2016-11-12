@@ -346,6 +346,7 @@ namespace Exiv2 {
         bool isRationalType(uint16_t type);
         bool is2ByteType(uint16_t type);
         bool is4ByteType(uint16_t type);
+        bool is8ByteType(uint16_t type);
         bool isPrintXMP(uint16_t type, Exiv2::PrintStructureOption option);
         bool isPrintICC(uint16_t type, Exiv2::PrintStructureOption option);
 
