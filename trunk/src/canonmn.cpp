@@ -917,6 +917,7 @@ namespace Exiv2 {
         { 174, "Sigma 50-500mm f/4.5-6.3 APO DG OS HSM"                     }, // 2
         { 174, "Sigma 150-500mm f/5-6.3 APO DG OS HSM"                      }, // 3
         { 174, "Zeiss Milvus 100mm f/2 Makro"                               }, // 4
+        { 174, "Sigma 120-300mm f/2.8 EX APO DG OS HSM"                     }, // 5
         { 175, "Canon EF 400mm f/2.8L"                                      },
         { 176, "Canon EF 24-85mm f/3.5-4.5 USM"                             },
         { 177, "Canon EF 300mm f/4L IS"                                     },

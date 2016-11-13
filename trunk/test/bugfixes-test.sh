@@ -613,6 +613,14 @@ source ./functions.source
     copyTestFile                        $filename
     runTest exiv2 -pa                   $filename
 
+    num=1252
+    for X in a b; do
+      filename=exiv2-bug$num$X.exv
+      echo '------>' Bug $filename '<-------' >&2
+      copyTestFile                      $filename
+      runTest exiv2 -pa --grep lens/i   $filename
+    done
+
 ) 3>&1 > $results 2>&1
 
 printf "\n"
