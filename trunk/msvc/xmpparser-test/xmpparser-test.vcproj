@@ -172,12 +172,12 @@
       <File RelativePath="..\..\samples\xmpparser-test.cpp"/>
     </Filter>
     <Filter Name="Header Files" Filter="h;hpp;hxx;hm;inl;inc;xsd" UniqueIdentifier="{93995380-89BD-4b04-88EB-625FBE52EBFB}">
-      <File RelativePath="..\..\include\exiv2\actions.hpp"/>
-      <File RelativePath="..\..\include\exiv2\getopt_win32.h"/>
-      <File RelativePath="..\..\include\exiv2\private.h"/>
-      <File RelativePath="..\..\include\exiv2\timegm.h"/>
-      <File RelativePath="..\..\include\exiv2\tzfile.h"/>
-      <File RelativePath="..\..\include\exiv2\utils.hpp"/>
+      <File RelativePath="..\..\src\actions.hpp"/>
+      <File RelativePath="..\..\src\getopt_win32.h"/>
+      <File RelativePath="..\..\src\private.h"/>
+      <File RelativePath="..\..\src\timegm.h"/>
+      <File RelativePath="..\..\src\tzfile.h"/>
+      <File RelativePath="..\..\src\utils.hpp"/>
     </Filter>
     <Filter Name="Resource Files" Filter="rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx" UniqueIdentifier="{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}"/>
   </Files>
