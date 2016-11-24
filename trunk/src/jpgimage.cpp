@@ -1120,7 +1120,6 @@ namespace Exiv2 {
                         if (outIo.write(iccProfile_.pData_+ (chunk*chunk_size), bytes) != bytes)
                             throw Error(21);
                         if (outIo.error()) throw Error(21);
-                        outIo.write((const byte *)pad+2,2); // couple of padding bytes
                     }
                     --search;
                 }
