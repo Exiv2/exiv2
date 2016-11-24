@@ -17,14 +17,14 @@ STRUCTURE OF JPEG FILE: Reagan.jpg
        2 | 0xffe1 APP1  |    5704 | Exif..MM.*......................
     5708 | 0xffe1 APP1  |    5287 | http://ns.adobe.com/xap/1.0/.<?x
    10997 | 0xffe2 APP2  |     576 | ICC_PROFILE......0ADBE....mntrRG chunk 1/1
-   11577 | 0xffed APP13 |    3030 | Photoshop 3.0.8BIM..........Z...
-   14609 | 0xffee APP14 |      14 | Adobe.d@......
-   14625 | 0xffdb DQT   |     132 
-   14759 | 0xfffe COM   |      10 | abcdefg
-   14771 | 0xffc0 SOF0  |      17 
-   14790 | 0xffdd DRI   |       4 
-   14796 | 0xffc4 DHT   |     418 
-   15216 | 0xffda SOS  
+   11575 | 0xffed APP13 |    3030 | Photoshop 3.0.8BIM..........Z...
+   14607 | 0xffee APP14 |      14 | Adobe.d@......
+   14623 | 0xffdb DQT   |     132 
+   14757 | 0xfffe COM   |      10 | abcdefg
+   14769 | 0xffc0 SOF0  |      17 
+   14788 | 0xffdd DRI   |       4 
+   14794 | 0xffc4 DHT   |     418 
+   15214 | 0xffda SOS  
 abcdefg
 STRUCTURE OF JPEG FILE: Reagan.jpg
  address | marker       |  length | data
@@ -32,88 +32,88 @@ STRUCTURE OF JPEG FILE: Reagan.jpg
        2 | 0xffe1 APP1  |    5704 | Exif..MM.*......................
     5708 | 0xffe1 APP1  |    5287 | http://ns.adobe.com/xap/1.0/.<?x
    10997 | 0xffe2 APP2  |     576 | ICC_PROFILE......0ADBE....mntrRG chunk 1/1
-   11577 | 0xffed APP13 |    3030 | Photoshop 3.0.8BIM..........Z...
-   14609 | 0xffee APP14 |      14 | Adobe.d@......
-   14625 | 0xffdb DQT   |     132 
-   14759 | 0xffc0 SOF0  |      17 
-   14778 | 0xffdd DRI   |       4 
-   14784 | 0xffc4 DHT   |     418 
-   15204 | 0xffda SOS  
+   11575 | 0xffed APP13 |    3030 | Photoshop 3.0.8BIM..........Z...
+   14607 | 0xffee APP14 |      14 | Adobe.d@......
+   14623 | 0xffdb DQT   |     132 
+   14757 | 0xffc0 SOF0  |      17 
+   14776 | 0xffdd DRI   |       4 
+   14782 | 0xffc4 DHT   |     418 
+   15202 | 0xffda SOS  
 STRUCTURE OF JPEG FILE: Reagan.jpg
  address | marker       |  length | data
        0 | 0xffd8 SOI  
        2 | 0xffe1 APP1  |    5704 | Exif..MM.*......................
     5708 | 0xffe1 APP1  |    5287 | http://ns.adobe.com/xap/1.0/.<?x
    10997 | 0xffe2 APP2  |   65512 | ICC_PROFILE...... APPL....prtrRG chunk 1/25
-   76513 | 0xffe2 APP2  |   65512 | ICC_PROFILE...X..Ih.V...j.U..4mV chunk 2/25
-  142029 | 0xffe2 APP2  |   65512 | ICC_PROFILE...}.f...~mcx....`... chunk 3/25
-  207545 | 0xffe2 APP2  |   65512 | ICC_PROFILE....|...S...^...v.... chunk 4/25
-  273061 | 0xffe2 APP2  |   65512 | ICC_PROFILE.....bXf2..`Og...^0g. chunk 5/25
-  338577 | 0xffe2 APP2  |   65512 | ICC_PROFILE.....~.|...{.}P..y.}. chunk 6/25
-  404093 | 0xffe2 APP2  |   65512 | ICC_PROFILE......b.....:...?.... chunk 7/25
-  469609 | 0xffe2 APP2  |   65512 | ICC_PROFILE...Q8yq].R.wW].S.uJ]e chunk 8/25
-  535125 | 0xffe2 APP2  |   65512 | ICC_PROFILE...i.T'..RA.Y..P,.... chunk 9/25
-  600641 | 0xffe2 APP2  |   65512 | ICC_PROFILE...i.}/..key...l.v..c chunk 10/25
-  666157 | 0xffe2 APP2  |   65512 | ICC_PROFILE...{....O{.....|..c.. chunk 11/25
-  731673 | 0xffe2 APP2  |   65512 | ICC_PROFILE...E.;.O-F.-.R>J...a. chunk 12/25
-  797189 | 0xffe2 APP2  |   65512 | ICC_PROFILE....X..up............ chunk 13/25
-  862705 | 0xffe2 APP2  |   65512 | ICC_PROFILE........<............ chunk 14/25
-  928221 | 0xffe2 APP2  |   65512 | ICC_PROFILE..............,...'.. chunk 15/25
-  993737 | 0xffe2 APP2  |   65512 | ICC_PROFILE.......g.....m%....qw chunk 16/25
- 1059253 | 0xffe2 APP2  |   65512 | ICC_PROFILE......s....xX.M..n... chunk 17/25
- 1124769 | 0xffe2 APP2  |   65512 | ICC_PROFILE............0......E. chunk 18/25
- 1190285 | 0xffe2 APP2  |   65512 | ICC_PROFILE........(.n.B........ chunk 19/25
- 1255801 | 0xffe2 APP2  |   65512 | ICC_PROFILE...0.0.282.0.282.0.28 chunk 20/25
- 1321317 | 0xffe2 APP2  |   65512 | ICC_PROFILE...175.0.176.0.175.0. chunk 21/25
- 1386833 | 0xffe2 APP2  |   65512 | ICC_PROFILE...103.0.114.0.126.0. chunk 22/25
- 1452349 | 0xffe2 APP2  |   65512 | ICC_PROFILE...6.0.049.0.053.0.05 chunk 23/25
- 1517865 | 0xffe2 APP2  |   65512 | ICC_PROFILE....0.670.0.653.0.634 chunk 24/25
- 1583381 | 0xffe2 APP2  |   41712 | ICC_PROFILE...09.0.584.0.555.0.5 chunk 25/25
- 1625097 | 0xffed APP13 |    3030 | Photoshop 3.0.8BIM..........Z...
- 1628129 | 0xffee APP14 |      14 | Adobe.d@......
- 1628145 | 0xffdb DQT   |     132 
- 1628279 | 0xffc0 SOF0  |      17 
- 1628298 | 0xffdd DRI   |       4 
- 1628304 | 0xffc4 DHT   |     418 
- 1628724 | 0xffda SOS  
+   76511 | 0xffe2 APP2  |   65512 | ICC_PROFILE...X..Ih.V...j.U..4mV chunk 2/25
+  142025 | 0xffe2 APP2  |   65512 | ICC_PROFILE...}.f...~mcx....`... chunk 3/25
+  207539 | 0xffe2 APP2  |   65512 | ICC_PROFILE....|...S...^...v.... chunk 4/25
+  273053 | 0xffe2 APP2  |   65512 | ICC_PROFILE.....bXf2..`Og...^0g. chunk 5/25
+  338567 | 0xffe2 APP2  |   65512 | ICC_PROFILE.....~.|...{.}P..y.}. chunk 6/25
+  404081 | 0xffe2 APP2  |   65512 | ICC_PROFILE......b.....:...?.... chunk 7/25
+  469595 | 0xffe2 APP2  |   65512 | ICC_PROFILE...Q8yq].R.wW].S.uJ]e chunk 8/25
+  535109 | 0xffe2 APP2  |   65512 | ICC_PROFILE...i.T'..RA.Y..P,.... chunk 9/25
+  600623 | 0xffe2 APP2  |   65512 | ICC_PROFILE...i.}/..key...l.v..c chunk 10/25
+  666137 | 0xffe2 APP2  |   65512 | ICC_PROFILE...{....O{.....|..c.. chunk 11/25
+  731651 | 0xffe2 APP2  |   65512 | ICC_PROFILE...E.;.O-F.-.R>J...a. chunk 12/25
+  797165 | 0xffe2 APP2  |   65512 | ICC_PROFILE....X..up............ chunk 13/25
+  862679 | 0xffe2 APP2  |   65512 | ICC_PROFILE........<............ chunk 14/25
+  928193 | 0xffe2 APP2  |   65512 | ICC_PROFILE..............,...'.. chunk 15/25
+  993707 | 0xffe2 APP2  |   65512 | ICC_PROFILE.......g.....m%....qw chunk 16/25
+ 1059221 | 0xffe2 APP2  |   65512 | ICC_PROFILE......s....xX.M..n... chunk 17/25
+ 1124735 | 0xffe2 APP2  |   65512 | ICC_PROFILE............0......E. chunk 18/25
+ 1190249 | 0xffe2 APP2  |   65512 | ICC_PROFILE........(.n.B........ chunk 19/25
+ 1255763 | 0xffe2 APP2  |   65512 | ICC_PROFILE...0.0.282.0.282.0.28 chunk 20/25
+ 1321277 | 0xffe2 APP2  |   65512 | ICC_PROFILE...175.0.176.0.175.0. chunk 21/25
+ 1386791 | 0xffe2 APP2  |   65512 | ICC_PROFILE...103.0.114.0.126.0. chunk 22/25
+ 1452305 | 0xffe2 APP2  |   65512 | ICC_PROFILE...6.0.049.0.053.0.05 chunk 23/25
+ 1517819 | 0xffe2 APP2  |   65512 | ICC_PROFILE....0.670.0.653.0.634 chunk 24/25
+ 1583333 | 0xffe2 APP2  |   41712 | ICC_PROFILE...09.0.584.0.555.0.5 chunk 25/25
+ 1625047 | 0xffed APP13 |    3030 | Photoshop 3.0.8BIM..........Z...
+ 1628079 | 0xffee APP14 |      14 | Adobe.d@......
+ 1628095 | 0xffdb DQT   |     132 
+ 1628229 | 0xffc0 SOF0  |      17 
+ 1628248 | 0xffdd DRI   |       4 
+ 1628254 | 0xffc4 DHT   |     418 
+ 1628674 | 0xffda SOS  
 STRUCTURE OF JPEG FILE: Reagan.jpg
  address | marker       |  length | data
        0 | 0xffd8 SOI  
        2 | 0xffe1 APP1  |    5704 | Exif..MM.*......................
     5708 | 0xffe1 APP1  |    5287 | http://ns.adobe.com/xap/1.0/.<?x
    10997 | 0xffe2 APP2  |   65512 | ICC_PROFILE...... APPL....prtrRG chunk 1/25
-   76513 | 0xffe2 APP2  |   65512 | ICC_PROFILE...X..Ih.V...j.U..4mV chunk 2/25
-  142029 | 0xffe2 APP2  |   65512 | ICC_PROFILE...}.f...~mcx....`... chunk 3/25
-  207545 | 0xffe2 APP2  |   65512 | ICC_PROFILE....|...S...^...v.... chunk 4/25
-  273061 | 0xffe2 APP2  |   65512 | ICC_PROFILE.....bXf2..`Og...^0g. chunk 5/25
-  338577 | 0xffe2 APP2  |   65512 | ICC_PROFILE.....~.|...{.}P..y.}. chunk 6/25
-  404093 | 0xffe2 APP2  |   65512 | ICC_PROFILE......b.....:...?.... chunk 7/25
-  469609 | 0xffe2 APP2  |   65512 | ICC_PROFILE...Q8yq].R.wW].S.uJ]e chunk 8/25
-  535125 | 0xffe2 APP2  |   65512 | ICC_PROFILE...i.T'..RA.Y..P,.... chunk 9/25
-  600641 | 0xffe2 APP2  |   65512 | ICC_PROFILE...i.}/..key...l.v..c chunk 10/25
-  666157 | 0xffe2 APP2  |   65512 | ICC_PROFILE...{....O{.....|..c.. chunk 11/25
-  731673 | 0xffe2 APP2  |   65512 | ICC_PROFILE...E.;.O-F.-.R>J...a. chunk 12/25
-  797189 | 0xffe2 APP2  |   65512 | ICC_PROFILE....X..up............ chunk 13/25
-  862705 | 0xffe2 APP2  |   65512 | ICC_PROFILE........<............ chunk 14/25
-  928221 | 0xffe2 APP2  |   65512 | ICC_PROFILE..............,...'.. chunk 15/25
-  993737 | 0xffe2 APP2  |   65512 | ICC_PROFILE.......g.....m%....qw chunk 16/25
- 1059253 | 0xffe2 APP2  |   65512 | ICC_PROFILE......s....xX.M..n... chunk 17/25
- 1124769 | 0xffe2 APP2  |   65512 | ICC_PROFILE............0......E. chunk 18/25
- 1190285 | 0xffe2 APP2  |   65512 | ICC_PROFILE........(.n.B........ chunk 19/25
- 1255801 | 0xffe2 APP2  |   65512 | ICC_PROFILE...0.0.282.0.282.0.28 chunk 20/25
- 1321317 | 0xffe2 APP2  |   65512 | ICC_PROFILE...175.0.176.0.175.0. chunk 21/25
- 1386833 | 0xffe2 APP2  |   65512 | ICC_PROFILE...103.0.114.0.126.0. chunk 22/25
- 1452349 | 0xffe2 APP2  |   65512 | ICC_PROFILE...6.0.049.0.053.0.05 chunk 23/25
- 1517865 | 0xffe2 APP2  |   65512 | ICC_PROFILE....0.670.0.653.0.634 chunk 24/25
- 1583381 | 0xffe2 APP2  |   41712 | ICC_PROFILE...09.0.584.0.555.0.5 chunk 25/25
- 1625097 | 0xffed APP13 |    3030 | Photoshop 3.0.8BIM..........Z...
- 1628129 | 0xffee APP14 |      14 | Adobe.d@......
- 1628145 | 0xffdb DQT   |     132 
- 1628279 | 0xfffe COM   |      10 | abcdefg
- 1628291 | 0xffc0 SOF0  |      17 
- 1628310 | 0xffdd DRI   |       4 
- 1628316 | 0xffc4 DHT   |     418 
- 1628736 | 0xffda SOS  
+   76511 | 0xffe2 APP2  |   65512 | ICC_PROFILE...X..Ih.V...j.U..4mV chunk 2/25
+  142025 | 0xffe2 APP2  |   65512 | ICC_PROFILE...}.f...~mcx....`... chunk 3/25
+  207539 | 0xffe2 APP2  |   65512 | ICC_PROFILE....|...S...^...v.... chunk 4/25
+  273053 | 0xffe2 APP2  |   65512 | ICC_PROFILE.....bXf2..`Og...^0g. chunk 5/25
+  338567 | 0xffe2 APP2  |   65512 | ICC_PROFILE.....~.|...{.}P..y.}. chunk 6/25
+  404081 | 0xffe2 APP2  |   65512 | ICC_PROFILE......b.....:...?.... chunk 7/25
+  469595 | 0xffe2 APP2  |   65512 | ICC_PROFILE...Q8yq].R.wW].S.uJ]e chunk 8/25
+  535109 | 0xffe2 APP2  |   65512 | ICC_PROFILE...i.T'..RA.Y..P,.... chunk 9/25
+  600623 | 0xffe2 APP2  |   65512 | ICC_PROFILE...i.}/..key...l.v..c chunk 10/25
+  666137 | 0xffe2 APP2  |   65512 | ICC_PROFILE...{....O{.....|..c.. chunk 11/25
+  731651 | 0xffe2 APP2  |   65512 | ICC_PROFILE...E.;.O-F.-.R>J...a. chunk 12/25
+  797165 | 0xffe2 APP2  |   65512 | ICC_PROFILE....X..up............ chunk 13/25
+  862679 | 0xffe2 APP2  |   65512 | ICC_PROFILE........<............ chunk 14/25
+  928193 | 0xffe2 APP2  |   65512 | ICC_PROFILE..............,...'.. chunk 15/25
+  993707 | 0xffe2 APP2  |   65512 | ICC_PROFILE.......g.....m%....qw chunk 16/25
+ 1059221 | 0xffe2 APP2  |   65512 | ICC_PROFILE......s....xX.M..n... chunk 17/25
+ 1124735 | 0xffe2 APP2  |   65512 | ICC_PROFILE............0......E. chunk 18/25
+ 1190249 | 0xffe2 APP2  |   65512 | ICC_PROFILE........(.n.B........ chunk 19/25
+ 1255763 | 0xffe2 APP2  |   65512 | ICC_PROFILE...0.0.282.0.282.0.28 chunk 20/25
+ 1321277 | 0xffe2 APP2  |   65512 | ICC_PROFILE...175.0.176.0.175.0. chunk 21/25
+ 1386791 | 0xffe2 APP2  |   65512 | ICC_PROFILE...103.0.114.0.126.0. chunk 22/25
+ 1452305 | 0xffe2 APP2  |   65512 | ICC_PROFILE...6.0.049.0.053.0.05 chunk 23/25
+ 1517819 | 0xffe2 APP2  |   65512 | ICC_PROFILE....0.670.0.653.0.634 chunk 24/25
+ 1583333 | 0xffe2 APP2  |   41712 | ICC_PROFILE...09.0.584.0.555.0.5 chunk 25/25
+ 1625047 | 0xffed APP13 |    3030 | Photoshop 3.0.8BIM..........Z...
+ 1628079 | 0xffee APP14 |      14 | Adobe.d@......
+ 1628095 | 0xffdb DQT   |     132 
+ 1628229 | 0xfffe COM   |      10 | abcdefg
+ 1628241 | 0xffc0 SOF0  |      17 
+ 1628260 | 0xffdd DRI   |       4 
+ 1628266 | 0xffc4 DHT   |     418 
+ 1628686 | 0xffda SOS  
 abcdefg
 STRUCTURE OF JPEG FILE: Reagan.jpg
  address | marker       |  length | data
@@ -121,64 +121,64 @@ STRUCTURE OF JPEG FILE: Reagan.jpg
        2 | 0xffe1 APP1  |    5704 | Exif..MM.*......................
     5708 | 0xffe1 APP1  |    5287 | http://ns.adobe.com/xap/1.0/.<?x
    10997 | 0xffe2 APP2  |   65512 | ICC_PROFILE...... APPL....prtrRG chunk 1/25
-   76513 | 0xffe2 APP2  |   65512 | ICC_PROFILE...X..Ih.V...j.U..4mV chunk 2/25
-  142029 | 0xffe2 APP2  |   65512 | ICC_PROFILE...}.f...~mcx....`... chunk 3/25
-  207545 | 0xffe2 APP2  |   65512 | ICC_PROFILE....|...S...^...v.... chunk 4/25
-  273061 | 0xffe2 APP2  |   65512 | ICC_PROFILE.....bXf2..`Og...^0g. chunk 5/25
-  338577 | 0xffe2 APP2  |   65512 | ICC_PROFILE.....~.|...{.}P..y.}. chunk 6/25
-  404093 | 0xffe2 APP2  |   65512 | ICC_PROFILE......b.....:...?.... chunk 7/25
-  469609 | 0xffe2 APP2  |   65512 | ICC_PROFILE...Q8yq].R.wW].S.uJ]e chunk 8/25
-  535125 | 0xffe2 APP2  |   65512 | ICC_PROFILE...i.T'..RA.Y..P,.... chunk 9/25
-  600641 | 0xffe2 APP2  |   65512 | ICC_PROFILE...i.}/..key...l.v..c chunk 10/25
-  666157 | 0xffe2 APP2  |   65512 | ICC_PROFILE...{....O{.....|..c.. chunk 11/25
-  731673 | 0xffe2 APP2  |   65512 | ICC_PROFILE...E.;.O-F.-.R>J...a. chunk 12/25
-  797189 | 0xffe2 APP2  |   65512 | ICC_PROFILE....X..up............ chunk 13/25
-  862705 | 0xffe2 APP2  |   65512 | ICC_PROFILE........<............ chunk 14/25
-  928221 | 0xffe2 APP2  |   65512 | ICC_PROFILE..............,...'.. chunk 15/25
-  993737 | 0xffe2 APP2  |   65512 | ICC_PROFILE.......g.....m%....qw chunk 16/25
- 1059253 | 0xffe2 APP2  |   65512 | ICC_PROFILE......s....xX.M..n... chunk 17/25
- 1124769 | 0xffe2 APP2  |   65512 | ICC_PROFILE............0......E. chunk 18/25
- 1190285 | 0xffe2 APP2  |   65512 | ICC_PROFILE........(.n.B........ chunk 19/25
- 1255801 | 0xffe2 APP2  |   65512 | ICC_PROFILE...0.0.282.0.282.0.28 chunk 20/25
- 1321317 | 0xffe2 APP2  |   65512 | ICC_PROFILE...175.0.176.0.175.0. chunk 21/25
- 1386833 | 0xffe2 APP2  |   65512 | ICC_PROFILE...103.0.114.0.126.0. chunk 22/25
- 1452349 | 0xffe2 APP2  |   65512 | ICC_PROFILE...6.0.049.0.053.0.05 chunk 23/25
- 1517865 | 0xffe2 APP2  |   65512 | ICC_PROFILE....0.670.0.653.0.634 chunk 24/25
- 1583381 | 0xffe2 APP2  |   41712 | ICC_PROFILE...09.0.584.0.555.0.5 chunk 25/25
- 1625097 | 0xffed APP13 |    3030 | Photoshop 3.0.8BIM..........Z...
- 1628129 | 0xffee APP14 |      14 | Adobe.d@......
- 1628145 | 0xffdb DQT   |     132 
- 1628279 | 0xffc0 SOF0  |      17 
- 1628298 | 0xffdd DRI   |       4 
- 1628304 | 0xffc4 DHT   |     418 
- 1628724 | 0xffda SOS  
+   76511 | 0xffe2 APP2  |   65512 | ICC_PROFILE...X..Ih.V...j.U..4mV chunk 2/25
+  142025 | 0xffe2 APP2  |   65512 | ICC_PROFILE...}.f...~mcx....`... chunk 3/25
+  207539 | 0xffe2 APP2  |   65512 | ICC_PROFILE....|...S...^...v.... chunk 4/25
+  273053 | 0xffe2 APP2  |   65512 | ICC_PROFILE.....bXf2..`Og...^0g. chunk 5/25
+  338567 | 0xffe2 APP2  |   65512 | ICC_PROFILE.....~.|...{.}P..y.}. chunk 6/25
+  404081 | 0xffe2 APP2  |   65512 | ICC_PROFILE......b.....:...?.... chunk 7/25
+  469595 | 0xffe2 APP2  |   65512 | ICC_PROFILE...Q8yq].R.wW].S.uJ]e chunk 8/25
+  535109 | 0xffe2 APP2  |   65512 | ICC_PROFILE...i.T'..RA.Y..P,.... chunk 9/25
+  600623 | 0xffe2 APP2  |   65512 | ICC_PROFILE...i.}/..key...l.v..c chunk 10/25
+  666137 | 0xffe2 APP2  |   65512 | ICC_PROFILE...{....O{.....|..c.. chunk 11/25
+  731651 | 0xffe2 APP2  |   65512 | ICC_PROFILE...E.;.O-F.-.R>J...a. chunk 12/25
+  797165 | 0xffe2 APP2  |   65512 | ICC_PROFILE....X..up............ chunk 13/25
+  862679 | 0xffe2 APP2  |   65512 | ICC_PROFILE........<............ chunk 14/25
+  928193 | 0xffe2 APP2  |   65512 | ICC_PROFILE..............,...'.. chunk 15/25
+  993707 | 0xffe2 APP2  |   65512 | ICC_PROFILE.......g.....m%....qw chunk 16/25
+ 1059221 | 0xffe2 APP2  |   65512 | ICC_PROFILE......s....xX.M..n... chunk 17/25
+ 1124735 | 0xffe2 APP2  |   65512 | ICC_PROFILE............0......E. chunk 18/25
+ 1190249 | 0xffe2 APP2  |   65512 | ICC_PROFILE........(.n.B........ chunk 19/25
+ 1255763 | 0xffe2 APP2  |   65512 | ICC_PROFILE...0.0.282.0.282.0.28 chunk 20/25
+ 1321277 | 0xffe2 APP2  |   65512 | ICC_PROFILE...175.0.176.0.175.0. chunk 21/25
+ 1386791 | 0xffe2 APP2  |   65512 | ICC_PROFILE...103.0.114.0.126.0. chunk 22/25
+ 1452305 | 0xffe2 APP2  |   65512 | ICC_PROFILE...6.0.049.0.053.0.05 chunk 23/25
+ 1517819 | 0xffe2 APP2  |   65512 | ICC_PROFILE....0.670.0.653.0.634 chunk 24/25
+ 1583333 | 0xffe2 APP2  |   41712 | ICC_PROFILE...09.0.584.0.555.0.5 chunk 25/25
+ 1625047 | 0xffed APP13 |    3030 | Photoshop 3.0.8BIM..........Z...
+ 1628079 | 0xffee APP14 |      14 | Adobe.d@......
+ 1628095 | 0xffdb DQT   |     132 
+ 1628229 | 0xffc0 SOF0  |      17 
+ 1628248 | 0xffdd DRI   |       4 
+ 1628254 | 0xffc4 DHT   |     418 
+ 1628674 | 0xffda SOS  
 STRUCTURE OF JPEG FILE: Reagan.jpg
  address | marker       |  length | data
        0 | 0xffd8 SOI  
        2 | 0xffe1 APP1  |    5704 | Exif..MM.*......................
     5708 | 0xffe1 APP1  |    5287 | http://ns.adobe.com/xap/1.0/.<?x
    10997 | 0xffe2 APP2  |     576 | ICC_PROFILE......0ADBE....mntrRG chunk 1/1
-   11577 | 0xffed APP13 |    3030 | Photoshop 3.0.8BIM..........Z...
-   14609 | 0xffee APP14 |      14 | Adobe.d@......
-   14625 | 0xffdb DQT   |     132 
-   14759 | 0xffc0 SOF0  |      17 
-   14778 | 0xffdd DRI   |       4 
-   14784 | 0xffc4 DHT   |     418 
-   15204 | 0xffda SOS  
+   11575 | 0xffed APP13 |    3030 | Photoshop 3.0.8BIM..........Z...
+   14607 | 0xffee APP14 |      14 | Adobe.d@......
+   14623 | 0xffdb DQT   |     132 
+   14757 | 0xffc0 SOF0  |      17 
+   14776 | 0xffdd DRI   |       4 
+   14782 | 0xffc4 DHT   |     418 
+   15202 | 0xffda SOS  
 STRUCTURE OF JPEG FILE: Reagan.jpg
  address | marker       |  length | data
        0 | 0xffd8 SOI  
        2 | 0xffe1 APP1  |    5704 | Exif..MM.*......................
     5708 | 0xffe1 APP1  |    5287 | http://ns.adobe.com/xap/1.0/.<?x
    10997 | 0xffe2 APP2  |     576 | ICC_PROFILE......0ADBE....mntrRG chunk 1/1
-   11577 | 0xffed APP13 |    3030 | Photoshop 3.0.8BIM..........Z...
-   14609 | 0xffee APP14 |      14 | Adobe.d@......
-   14625 | 0xffdb DQT   |     132 
-   14759 | 0xfffe COM   |      10 | abcdefg
-   14771 | 0xffc0 SOF0  |      17 
-   14790 | 0xffdd DRI   |       4 
-   14796 | 0xffc4 DHT   |     418 
-   15216 | 0xffda SOS  
+   11575 | 0xffed APP13 |    3030 | Photoshop 3.0.8BIM..........Z...
+   14607 | 0xffee APP14 |      14 | Adobe.d@......
+   14623 | 0xffdb DQT   |     132 
+   14757 | 0xfffe COM   |      10 | abcdefg
+   14769 | 0xffc0 SOF0  |      17 
+   14788 | 0xffdd DRI   |       4 
+   14794 | 0xffc4 DHT   |     418 
+   15214 | 0xffda SOS  
 abcdefg
 STRUCTURE OF JPEG FILE: Reagan.jpg
  address | marker       |  length | data
@@ -186,13 +186,13 @@ STRUCTURE OF JPEG FILE: Reagan.jpg
        2 | 0xffe1 APP1  |    5704 | Exif..MM.*......................
     5708 | 0xffe1 APP1  |    5287 | http://ns.adobe.com/xap/1.0/.<?x
    10997 | 0xffe2 APP2  |     576 | ICC_PROFILE......0ADBE....mntrRG chunk 1/1
-   11577 | 0xffed APP13 |    3030 | Photoshop 3.0.8BIM..........Z...
-   14609 | 0xffee APP14 |      14 | Adobe.d@......
-   14625 | 0xffdb DQT   |     132 
-   14759 | 0xffc0 SOF0  |      17 
-   14778 | 0xffdd DRI   |       4 
-   14784 | 0xffc4 DHT   |     418 
-   15204 | 0xffda SOS  
+   11575 | 0xffed APP13 |    3030 | Photoshop 3.0.8BIM..........Z...
+   14607 | 0xffee APP14 |      14 | Adobe.d@......
+   14623 | 0xffdb DQT   |     132 
+   14757 | 0xffc0 SOF0  |      17 
+   14776 | 0xffdd DRI   |       4 
+   14782 | 0xffc4 DHT   |     418 
+   15202 | 0xffda SOS  
 50b9125494306a6fc1b7c4f2a1a8d49d
 50b9125494306a6fc1b7c4f2a1a8d49d
 50b9125494306a6fc1b7c4f2a1a8d49d
@@ -819,37 +819,37 @@ STRUCTURE OF JPEG FILE: ReaganLargeJpg.jpg
        2 | 0xffe0 APP0  |      16 | JFIF.....,.,....
       20 | 0xffe1 APP1  |    4073 | Exif..MM.*......................
     4095 | 0xffe2 APP2  |   65512 | ICC_PROFILE...... APPL....prtrRG chunk 1/25
-   69611 | 0xffe2 APP2  |   65512 | ICC_PROFILE...X..Ih.V...j.U..4mV chunk 2/25
-  135127 | 0xffe2 APP2  |   65512 | ICC_PROFILE...}.f...~mcx....`... chunk 3/25
-  200643 | 0xffe2 APP2  |   65512 | ICC_PROFILE....|...S...^...v.... chunk 4/25
-  266159 | 0xffe2 APP2  |   65512 | ICC_PROFILE.....bXf2..`Og...^0g. chunk 5/25
-  331675 | 0xffe2 APP2  |   65512 | ICC_PROFILE.....~.|...{.}P..y.}. chunk 6/25
-  397191 | 0xffe2 APP2  |   65512 | ICC_PROFILE......b.....:...?.... chunk 7/25
-  462707 | 0xffe2 APP2  |   65512 | ICC_PROFILE...Q8yq].R.wW].S.uJ]e chunk 8/25
-  528223 | 0xffe2 APP2  |   65512 | ICC_PROFILE...i.T'..RA.Y..P,.... chunk 9/25
-  593739 | 0xffe2 APP2  |   65512 | ICC_PROFILE...i.}/..key...l.v..c chunk 10/25
-  659255 | 0xffe2 APP2  |   65512 | ICC_PROFILE...{....O{.....|..c.. chunk 11/25
-  724771 | 0xffe2 APP2  |   65512 | ICC_PROFILE...E.;.O-F.-.R>J...a. chunk 12/25
-  790287 | 0xffe2 APP2  |   65512 | ICC_PROFILE....X..up............ chunk 13/25
-  855803 | 0xffe2 APP2  |   65512 | ICC_PROFILE........<............ chunk 14/25
-  921319 | 0xffe2 APP2  |   65512 | ICC_PROFILE..............,...'.. chunk 15/25
-  986835 | 0xffe2 APP2  |   65512 | ICC_PROFILE.......g.....m%....qw chunk 16/25
- 1052351 | 0xffe2 APP2  |   65512 | ICC_PROFILE......s....xX.M..n... chunk 17/25
- 1117867 | 0xffe2 APP2  |   65512 | ICC_PROFILE............0......E. chunk 18/25
- 1183383 | 0xffe2 APP2  |   65512 | ICC_PROFILE........(.n.B........ chunk 19/25
- 1248899 | 0xffe2 APP2  |   65512 | ICC_PROFILE...0.0.282.0.282.0.28 chunk 20/25
- 1314415 | 0xffe2 APP2  |   65512 | ICC_PROFILE...175.0.176.0.175.0. chunk 21/25
- 1379931 | 0xffe2 APP2  |   65512 | ICC_PROFILE...103.0.114.0.126.0. chunk 22/25
- 1445447 | 0xffe2 APP2  |   65512 | ICC_PROFILE...6.0.049.0.053.0.05 chunk 23/25
- 1510963 | 0xffe2 APP2  |   65512 | ICC_PROFILE....0.670.0.653.0.634 chunk 24/25
- 1576479 | 0xffe2 APP2  |   41712 | ICC_PROFILE...09.0.584.0.555.0.5 chunk 25/25
- 1618195 | 0xffdb DQT   |      67 
- 1618264 | 0xffdb DQT   |      67 
- 1618333 | 0xfffe COM   |      10 | abcdefg
- 1618345 | 0xffc2 SOF2  |      17 
- 1618364 | 0xffc4 DHT   |      30 
- 1618396 | 0xffc4 DHT   |      27 
- 1618425 | 0xffda SOS  
+   69609 | 0xffe2 APP2  |   65512 | ICC_PROFILE...X..Ih.V...j.U..4mV chunk 2/25
+  135123 | 0xffe2 APP2  |   65512 | ICC_PROFILE...}.f...~mcx....`... chunk 3/25
+  200637 | 0xffe2 APP2  |   65512 | ICC_PROFILE....|...S...^...v.... chunk 4/25
+  266151 | 0xffe2 APP2  |   65512 | ICC_PROFILE.....bXf2..`Og...^0g. chunk 5/25
+  331665 | 0xffe2 APP2  |   65512 | ICC_PROFILE.....~.|...{.}P..y.}. chunk 6/25
+  397179 | 0xffe2 APP2  |   65512 | ICC_PROFILE......b.....:...?.... chunk 7/25
+  462693 | 0xffe2 APP2  |   65512 | ICC_PROFILE...Q8yq].R.wW].S.uJ]e chunk 8/25
+  528207 | 0xffe2 APP2  |   65512 | ICC_PROFILE...i.T'..RA.Y..P,.... chunk 9/25
+  593721 | 0xffe2 APP2  |   65512 | ICC_PROFILE...i.}/..key...l.v..c chunk 10/25
+  659235 | 0xffe2 APP2  |   65512 | ICC_PROFILE...{....O{.....|..c.. chunk 11/25
+  724749 | 0xffe2 APP2  |   65512 | ICC_PROFILE...E.;.O-F.-.R>J...a. chunk 12/25
+  790263 | 0xffe2 APP2  |   65512 | ICC_PROFILE....X..up............ chunk 13/25
+  855777 | 0xffe2 APP2  |   65512 | ICC_PROFILE........<............ chunk 14/25
+  921291 | 0xffe2 APP2  |   65512 | ICC_PROFILE..............,...'.. chunk 15/25
+  986805 | 0xffe2 APP2  |   65512 | ICC_PROFILE.......g.....m%....qw chunk 16/25
+ 1052319 | 0xffe2 APP2  |   65512 | ICC_PROFILE......s....xX.M..n... chunk 17/25
+ 1117833 | 0xffe2 APP2  |   65512 | ICC_PROFILE............0......E. chunk 18/25
+ 1183347 | 0xffe2 APP2  |   65512 | ICC_PROFILE........(.n.B........ chunk 19/25
+ 1248861 | 0xffe2 APP2  |   65512 | ICC_PROFILE...0.0.282.0.282.0.28 chunk 20/25
+ 1314375 | 0xffe2 APP2  |   65512 | ICC_PROFILE...175.0.176.0.175.0. chunk 21/25
+ 1379889 | 0xffe2 APP2  |   65512 | ICC_PROFILE...103.0.114.0.126.0. chunk 22/25
+ 1445403 | 0xffe2 APP2  |   65512 | ICC_PROFILE...6.0.049.0.053.0.05 chunk 23/25
+ 1510917 | 0xffe2 APP2  |   65512 | ICC_PROFILE....0.670.0.653.0.634 chunk 24/25
+ 1576431 | 0xffe2 APP2  |   41712 | ICC_PROFILE...09.0.584.0.555.0.5 chunk 25/25
+ 1618145 | 0xffdb DQT   |      67 
+ 1618214 | 0xffdb DQT   |      67 
+ 1618283 | 0xfffe COM   |      10 | abcdefg
+ 1618295 | 0xffc2 SOF2  |      17 
+ 1618314 | 0xffc4 DHT   |      30 
+ 1618346 | 0xffc4 DHT   |      27 
+ 1618375 | 0xffda SOS  
 abcdefg
 STRUCTURE OF JPEG FILE: ReaganLargeJpg.jpg
  address | marker       |  length | data
@@ -857,109 +857,109 @@ STRUCTURE OF JPEG FILE: ReaganLargeJpg.jpg
        2 | 0xffe0 APP0  |      16 | JFIF.....,.,....
       20 | 0xffe1 APP1  |    4073 | Exif..MM.*......................
     4095 | 0xffe2 APP2  |   65512 | ICC_PROFILE...... APPL....prtrRG chunk 1/25
-   69611 | 0xffe2 APP2  |   65512 | ICC_PROFILE...X..Ih.V...j.U..4mV chunk 2/25
-  135127 | 0xffe2 APP2  |   65512 | ICC_PROFILE...}.f...~mcx....`... chunk 3/25
-  200643 | 0xffe2 APP2  |   65512 | ICC_PROFILE....|...S...^...v.... chunk 4/25
-  266159 | 0xffe2 APP2  |   65512 | ICC_PROFILE.....bXf2..`Og...^0g. chunk 5/25
-  331675 | 0xffe2 APP2  |   65512 | ICC_PROFILE.....~.|...{.}P..y.}. chunk 6/25
-  397191 | 0xffe2 APP2  |   65512 | ICC_PROFILE......b.....:...?.... chunk 7/25
-  462707 | 0xffe2 APP2  |   65512 | ICC_PROFILE...Q8yq].R.wW].S.uJ]e chunk 8/25
-  528223 | 0xffe2 APP2  |   65512 | ICC_PROFILE...i.T'..RA.Y..P,.... chunk 9/25
-  593739 | 0xffe2 APP2  |   65512 | ICC_PROFILE...i.}/..key...l.v..c chunk 10/25
-  659255 | 0xffe2 APP2  |   65512 | ICC_PROFILE...{....O{.....|..c.. chunk 11/25
-  724771 | 0xffe2 APP2  |   65512 | ICC_PROFILE...E.;.O-F.-.R>J...a. chunk 12/25
-  790287 | 0xffe2 APP2  |   65512 | ICC_PROFILE....X..up............ chunk 13/25
-  855803 | 0xffe2 APP2  |   65512 | ICC_PROFILE........<............ chunk 14/25
-  921319 | 0xffe2 APP2  |   65512 | ICC_PROFILE..............,...'.. chunk 15/25
-  986835 | 0xffe2 APP2  |   65512 | ICC_PROFILE.......g.....m%....qw chunk 16/25
- 1052351 | 0xffe2 APP2  |   65512 | ICC_PROFILE......s....xX.M..n... chunk 17/25
- 1117867 | 0xffe2 APP2  |   65512 | ICC_PROFILE............0......E. chunk 18/25
- 1183383 | 0xffe2 APP2  |   65512 | ICC_PROFILE........(.n.B........ chunk 19/25
- 1248899 | 0xffe2 APP2  |   65512 | ICC_PROFILE...0.0.282.0.282.0.28 chunk 20/25
- 1314415 | 0xffe2 APP2  |   65512 | ICC_PROFILE...175.0.176.0.175.0. chunk 21/25
- 1379931 | 0xffe2 APP2  |   65512 | ICC_PROFILE...103.0.114.0.126.0. chunk 22/25
- 1445447 | 0xffe2 APP2  |   65512 | ICC_PROFILE...6.0.049.0.053.0.05 chunk 23/25
- 1510963 | 0xffe2 APP2  |   65512 | ICC_PROFILE....0.670.0.653.0.634 chunk 24/25
- 1576479 | 0xffe2 APP2  |   41712 | ICC_PROFILE...09.0.584.0.555.0.5 chunk 25/25
- 1618195 | 0xffdb DQT   |      67 
- 1618264 | 0xffdb DQT   |      67 
- 1618333 | 0xffc2 SOF2  |      17 
- 1618352 | 0xffc4 DHT   |      30 
- 1618384 | 0xffc4 DHT   |      27 
- 1618413 | 0xffda SOS  
+   69609 | 0xffe2 APP2  |   65512 | ICC_PROFILE...X..Ih.V...j.U..4mV chunk 2/25
+  135123 | 0xffe2 APP2  |   65512 | ICC_PROFILE...}.f...~mcx....`... chunk 3/25
+  200637 | 0xffe2 APP2  |   65512 | ICC_PROFILE....|...S...^...v.... chunk 4/25
+  266151 | 0xffe2 APP2  |   65512 | ICC_PROFILE.....bXf2..`Og...^0g. chunk 5/25
+  331665 | 0xffe2 APP2  |   65512 | ICC_PROFILE.....~.|...{.}P..y.}. chunk 6/25
+  397179 | 0xffe2 APP2  |   65512 | ICC_PROFILE......b.....:...?.... chunk 7/25
+  462693 | 0xffe2 APP2  |   65512 | ICC_PROFILE...Q8yq].R.wW].S.uJ]e chunk 8/25
+  528207 | 0xffe2 APP2  |   65512 | ICC_PROFILE...i.T'..RA.Y..P,.... chunk 9/25
+  593721 | 0xffe2 APP2  |   65512 | ICC_PROFILE...i.}/..key...l.v..c chunk 10/25
+  659235 | 0xffe2 APP2  |   65512 | ICC_PROFILE...{....O{.....|..c.. chunk 11/25
+  724749 | 0xffe2 APP2  |   65512 | ICC_PROFILE...E.;.O-F.-.R>J...a. chunk 12/25
+  790263 | 0xffe2 APP2  |   65512 | ICC_PROFILE....X..up............ chunk 13/25
+  855777 | 0xffe2 APP2  |   65512 | ICC_PROFILE........<............ chunk 14/25
+  921291 | 0xffe2 APP2  |   65512 | ICC_PROFILE..............,...'.. chunk 15/25
+  986805 | 0xffe2 APP2  |   65512 | ICC_PROFILE.......g.....m%....qw chunk 16/25
+ 1052319 | 0xffe2 APP2  |   65512 | ICC_PROFILE......s....xX.M..n... chunk 17/25
+ 1117833 | 0xffe2 APP2  |   65512 | ICC_PROFILE............0......E. chunk 18/25
+ 1183347 | 0xffe2 APP2  |   65512 | ICC_PROFILE........(.n.B........ chunk 19/25
+ 1248861 | 0xffe2 APP2  |   65512 | ICC_PROFILE...0.0.282.0.282.0.28 chunk 20/25
+ 1314375 | 0xffe2 APP2  |   65512 | ICC_PROFILE...175.0.176.0.175.0. chunk 21/25
+ 1379889 | 0xffe2 APP2  |   65512 | ICC_PROFILE...103.0.114.0.126.0. chunk 22/25
+ 1445403 | 0xffe2 APP2  |   65512 | ICC_PROFILE...6.0.049.0.053.0.05 chunk 23/25
+ 1510917 | 0xffe2 APP2  |   65512 | ICC_PROFILE....0.670.0.653.0.634 chunk 24/25
+ 1576431 | 0xffe2 APP2  |   41712 | ICC_PROFILE...09.0.584.0.555.0.5 chunk 25/25
+ 1618145 | 0xffdb DQT   |      67 
+ 1618214 | 0xffdb DQT   |      67 
+ 1618283 | 0xffc2 SOF2  |      17 
+ 1618302 | 0xffc4 DHT   |      30 
+ 1618334 | 0xffc4 DHT   |      27 
+ 1618363 | 0xffda SOS  
 STRUCTURE OF JPEG FILE: ReaganLargeJpg.jpg
  address | marker       |  length | data
        0 | 0xffd8 SOI  
        2 | 0xffe0 APP0  |      16 | JFIF.....,.,....
       20 | 0xffe1 APP1  |    4073 | Exif..MM.*......................
     4095 | 0xffe2 APP2  |   65512 | ICC_PROFILE...... APPL....prtrRG chunk 1/25
-   69611 | 0xffe2 APP2  |   65512 | ICC_PROFILE...X..Ih.V...j.U..4mV chunk 2/25
-  135127 | 0xffe2 APP2  |   65512 | ICC_PROFILE...}.f...~mcx....`... chunk 3/25
-  200643 | 0xffe2 APP2  |   65512 | ICC_PROFILE....|...S...^...v.... chunk 4/25
-  266159 | 0xffe2 APP2  |   65512 | ICC_PROFILE.....bXf2..`Og...^0g. chunk 5/25
-  331675 | 0xffe2 APP2  |   65512 | ICC_PROFILE.....~.|...{.}P..y.}. chunk 6/25
-  397191 | 0xffe2 APP2  |   65512 | ICC_PROFILE......b.....:...?.... chunk 7/25
-  462707 | 0xffe2 APP2  |   65512 | ICC_PROFILE...Q8yq].R.wW].S.uJ]e chunk 8/25
-  528223 | 0xffe2 APP2  |   65512 | ICC_PROFILE...i.T'..RA.Y..P,.... chunk 9/25
-  593739 | 0xffe2 APP2  |   65512 | ICC_PROFILE...i.}/..key...l.v..c chunk 10/25
-  659255 | 0xffe2 APP2  |   65512 | ICC_PROFILE...{....O{.....|..c.. chunk 11/25
-  724771 | 0xffe2 APP2  |   65512 | ICC_PROFILE...E.;.O-F.-.R>J...a. chunk 12/25
-  790287 | 0xffe2 APP2  |   65512 | ICC_PROFILE....X..up............ chunk 13/25
-  855803 | 0xffe2 APP2  |   65512 | ICC_PROFILE........<............ chunk 14/25
-  921319 | 0xffe2 APP2  |   65512 | ICC_PROFILE..............,...'.. chunk 15/25
-  986835 | 0xffe2 APP2  |   65512 | ICC_PROFILE.......g.....m%....qw chunk 16/25
- 1052351 | 0xffe2 APP2  |   65512 | ICC_PROFILE......s....xX.M..n... chunk 17/25
- 1117867 | 0xffe2 APP2  |   65512 | ICC_PROFILE............0......E. chunk 18/25
- 1183383 | 0xffe2 APP2  |   65512 | ICC_PROFILE........(.n.B........ chunk 19/25
- 1248899 | 0xffe2 APP2  |   65512 | ICC_PROFILE...0.0.282.0.282.0.28 chunk 20/25
- 1314415 | 0xffe2 APP2  |   65512 | ICC_PROFILE...175.0.176.0.175.0. chunk 21/25
- 1379931 | 0xffe2 APP2  |   65512 | ICC_PROFILE...103.0.114.0.126.0. chunk 22/25
- 1445447 | 0xffe2 APP2  |   65512 | ICC_PROFILE...6.0.049.0.053.0.05 chunk 23/25
- 1510963 | 0xffe2 APP2  |   65512 | ICC_PROFILE....0.670.0.653.0.634 chunk 24/25
- 1576479 | 0xffe2 APP2  |   41712 | ICC_PROFILE...09.0.584.0.555.0.5 chunk 25/25
- 1618195 | 0xffdb DQT   |      67 
- 1618264 | 0xffdb DQT   |      67 
- 1618333 | 0xffc2 SOF2  |      17 
- 1618352 | 0xffc4 DHT   |      30 
- 1618384 | 0xffc4 DHT   |      27 
- 1618413 | 0xffda SOS  
+   69609 | 0xffe2 APP2  |   65512 | ICC_PROFILE...X..Ih.V...j.U..4mV chunk 2/25
+  135123 | 0xffe2 APP2  |   65512 | ICC_PROFILE...}.f...~mcx....`... chunk 3/25
+  200637 | 0xffe2 APP2  |   65512 | ICC_PROFILE....|...S...^...v.... chunk 4/25
+  266151 | 0xffe2 APP2  |   65512 | ICC_PROFILE.....bXf2..`Og...^0g. chunk 5/25
+  331665 | 0xffe2 APP2  |   65512 | ICC_PROFILE.....~.|...{.}P..y.}. chunk 6/25
+  397179 | 0xffe2 APP2  |   65512 | ICC_PROFILE......b.....:...?.... chunk 7/25
+  462693 | 0xffe2 APP2  |   65512 | ICC_PROFILE...Q8yq].R.wW].S.uJ]e chunk 8/25
+  528207 | 0xffe2 APP2  |   65512 | ICC_PROFILE...i.T'..RA.Y..P,.... chunk 9/25
+  593721 | 0xffe2 APP2  |   65512 | ICC_PROFILE...i.}/..key...l.v..c chunk 10/25
+  659235 | 0xffe2 APP2  |   65512 | ICC_PROFILE...{....O{.....|..c.. chunk 11/25
+  724749 | 0xffe2 APP2  |   65512 | ICC_PROFILE...E.;.O-F.-.R>J...a. chunk 12/25
+  790263 | 0xffe2 APP2  |   65512 | ICC_PROFILE....X..up............ chunk 13/25
+  855777 | 0xffe2 APP2  |   65512 | ICC_PROFILE........<............ chunk 14/25
+  921291 | 0xffe2 APP2  |   65512 | ICC_PROFILE..............,...'.. chunk 15/25
+  986805 | 0xffe2 APP2  |   65512 | ICC_PROFILE.......g.....m%....qw chunk 16/25
+ 1052319 | 0xffe2 APP2  |   65512 | ICC_PROFILE......s....xX.M..n... chunk 17/25
+ 1117833 | 0xffe2 APP2  |   65512 | ICC_PROFILE............0......E. chunk 18/25
+ 1183347 | 0xffe2 APP2  |   65512 | ICC_PROFILE........(.n.B........ chunk 19/25
+ 1248861 | 0xffe2 APP2  |   65512 | ICC_PROFILE...0.0.282.0.282.0.28 chunk 20/25
+ 1314375 | 0xffe2 APP2  |   65512 | ICC_PROFILE...175.0.176.0.175.0. chunk 21/25
+ 1379889 | 0xffe2 APP2  |   65512 | ICC_PROFILE...103.0.114.0.126.0. chunk 22/25
+ 1445403 | 0xffe2 APP2  |   65512 | ICC_PROFILE...6.0.049.0.053.0.05 chunk 23/25
+ 1510917 | 0xffe2 APP2  |   65512 | ICC_PROFILE....0.670.0.653.0.634 chunk 24/25
+ 1576431 | 0xffe2 APP2  |   41712 | ICC_PROFILE...09.0.584.0.555.0.5 chunk 25/25
+ 1618145 | 0xffdb DQT   |      67 
+ 1618214 | 0xffdb DQT   |      67 
+ 1618283 | 0xffc2 SOF2  |      17 
+ 1618302 | 0xffc4 DHT   |      30 
+ 1618334 | 0xffc4 DHT   |      27 
+ 1618363 | 0xffda SOS  
 STRUCTURE OF JPEG FILE: ReaganLargeJpg.jpg
  address | marker       |  length | data
        0 | 0xffd8 SOI  
        2 | 0xffe0 APP0  |      16 | JFIF.....,.,....
       20 | 0xffe1 APP1  |    4073 | Exif..MM.*......................
     4095 | 0xffe2 APP2  |   65512 | ICC_PROFILE...... APPL....prtrRG chunk 1/25
-   69611 | 0xffe2 APP2  |   65512 | ICC_PROFILE...X..Ih.V...j.U..4mV chunk 2/25
-  135127 | 0xffe2 APP2  |   65512 | ICC_PROFILE...}.f...~mcx....`... chunk 3/25
-  200643 | 0xffe2 APP2  |   65512 | ICC_PROFILE....|...S...^...v.... chunk 4/25
-  266159 | 0xffe2 APP2  |   65512 | ICC_PROFILE.....bXf2..`Og...^0g. chunk 5/25
-  331675 | 0xffe2 APP2  |   65512 | ICC_PROFILE.....~.|...{.}P..y.}. chunk 6/25
-  397191 | 0xffe2 APP2  |   65512 | ICC_PROFILE......b.....:...?.... chunk 7/25
-  462707 | 0xffe2 APP2  |   65512 | ICC_PROFILE...Q8yq].R.wW].S.uJ]e chunk 8/25
-  528223 | 0xffe2 APP2  |   65512 | ICC_PROFILE...i.T'..RA.Y..P,.... chunk 9/25
-  593739 | 0xffe2 APP2  |   65512 | ICC_PROFILE...i.}/..key...l.v..c chunk 10/25
-  659255 | 0xffe2 APP2  |   65512 | ICC_PROFILE...{....O{.....|..c.. chunk 11/25
-  724771 | 0xffe2 APP2  |   65512 | ICC_PROFILE...E.;.O-F.-.R>J...a. chunk 12/25
-  790287 | 0xffe2 APP2  |   65512 | ICC_PROFILE....X..up............ chunk 13/25
-  855803 | 0xffe2 APP2  |   65512 | ICC_PROFILE........<............ chunk 14/25
-  921319 | 0xffe2 APP2  |   65512 | ICC_PROFILE..............,...'.. chunk 15/25
-  986835 | 0xffe2 APP2  |   65512 | ICC_PROFILE.......g.....m%....qw chunk 16/25
- 1052351 | 0xffe2 APP2  |   65512 | ICC_PROFILE......s....xX.M..n... chunk 17/25
- 1117867 | 0xffe2 APP2  |   65512 | ICC_PROFILE............0......E. chunk 18/25
- 1183383 | 0xffe2 APP2  |   65512 | ICC_PROFILE........(.n.B........ chunk 19/25
- 1248899 | 0xffe2 APP2  |   65512 | ICC_PROFILE...0.0.282.0.282.0.28 chunk 20/25
- 1314415 | 0xffe2 APP2  |   65512 | ICC_PROFILE...175.0.176.0.175.0. chunk 21/25
- 1379931 | 0xffe2 APP2  |   65512 | ICC_PROFILE...103.0.114.0.126.0. chunk 22/25
- 1445447 | 0xffe2 APP2  |   65512 | ICC_PROFILE...6.0.049.0.053.0.05 chunk 23/25
- 1510963 | 0xffe2 APP2  |   65512 | ICC_PROFILE....0.670.0.653.0.634 chunk 24/25
- 1576479 | 0xffe2 APP2  |   41712 | ICC_PROFILE...09.0.584.0.555.0.5 chunk 25/25
- 1618195 | 0xffdb DQT   |      67 
- 1618264 | 0xffdb DQT   |      67 
- 1618333 | 0xfffe COM   |      10 | abcdefg
- 1618345 | 0xffc2 SOF2  |      17 
- 1618364 | 0xffc4 DHT   |      30 
- 1618396 | 0xffc4 DHT   |      27 
- 1618425 | 0xffda SOS  
+   69609 | 0xffe2 APP2  |   65512 | ICC_PROFILE...X..Ih.V...j.U..4mV chunk 2/25
+  135123 | 0xffe2 APP2  |   65512 | ICC_PROFILE...}.f...~mcx....`... chunk 3/25
+  200637 | 0xffe2 APP2  |   65512 | ICC_PROFILE....|...S...^...v.... chunk 4/25
+  266151 | 0xffe2 APP2  |   65512 | ICC_PROFILE.....bXf2..`Og...^0g. chunk 5/25
+  331665 | 0xffe2 APP2  |   65512 | ICC_PROFILE.....~.|...{.}P..y.}. chunk 6/25
+  397179 | 0xffe2 APP2  |   65512 | ICC_PROFILE......b.....:...?.... chunk 7/25
+  462693 | 0xffe2 APP2  |   65512 | ICC_PROFILE...Q8yq].R.wW].S.uJ]e chunk 8/25
+  528207 | 0xffe2 APP2  |   65512 | ICC_PROFILE...i.T'..RA.Y..P,.... chunk 9/25
+  593721 | 0xffe2 APP2  |   65512 | ICC_PROFILE...i.}/..key...l.v..c chunk 10/25
+  659235 | 0xffe2 APP2  |   65512 | ICC_PROFILE...{....O{.....|..c.. chunk 11/25
+  724749 | 0xffe2 APP2  |   65512 | ICC_PROFILE...E.;.O-F.-.R>J...a. chunk 12/25
+  790263 | 0xffe2 APP2  |   65512 | ICC_PROFILE....X..up............ chunk 13/25
+  855777 | 0xffe2 APP2  |   65512 | ICC_PROFILE........<............ chunk 14/25
+  921291 | 0xffe2 APP2  |   65512 | ICC_PROFILE..............,...'.. chunk 15/25
+  986805 | 0xffe2 APP2  |   65512 | ICC_PROFILE.......g.....m%....qw chunk 16/25
+ 1052319 | 0xffe2 APP2  |   65512 | ICC_PROFILE......s....xX.M..n... chunk 17/25
+ 1117833 | 0xffe2 APP2  |   65512 | ICC_PROFILE............0......E. chunk 18/25
+ 1183347 | 0xffe2 APP2  |   65512 | ICC_PROFILE........(.n.B........ chunk 19/25
+ 1248861 | 0xffe2 APP2  |   65512 | ICC_PROFILE...0.0.282.0.282.0.28 chunk 20/25
+ 1314375 | 0xffe2 APP2  |   65512 | ICC_PROFILE...175.0.176.0.175.0. chunk 21/25
+ 1379889 | 0xffe2 APP2  |   65512 | ICC_PROFILE...103.0.114.0.126.0. chunk 22/25
+ 1445403 | 0xffe2 APP2  |   65512 | ICC_PROFILE...6.0.049.0.053.0.05 chunk 23/25
+ 1510917 | 0xffe2 APP2  |   65512 | ICC_PROFILE....0.670.0.653.0.634 chunk 24/25
+ 1576431 | 0xffe2 APP2  |   41712 | ICC_PROFILE...09.0.584.0.555.0.5 chunk 25/25
+ 1618145 | 0xffdb DQT   |      67 
+ 1618214 | 0xffdb DQT   |      67 
+ 1618283 | 0xfffe COM   |      10 | abcdefg
+ 1618295 | 0xffc2 SOF2  |      17 
+ 1618314 | 0xffc4 DHT   |      30 
+ 1618346 | 0xffc4 DHT   |      27 
+ 1618375 | 0xffda SOS  
 abcdefg
 STRUCTURE OF JPEG FILE: ReaganLargeJpg.jpg
  address | marker       |  length | data
@@ -967,61 +967,61 @@ STRUCTURE OF JPEG FILE: ReaganLargeJpg.jpg
        2 | 0xffe0 APP0  |      16 | JFIF.....,.,....
       20 | 0xffe1 APP1  |    4073 | Exif..MM.*......................
     4095 | 0xffe2 APP2  |   65512 | ICC_PROFILE...... APPL....prtrRG chunk 1/25
-   69611 | 0xffe2 APP2  |   65512 | ICC_PROFILE...X..Ih.V...j.U..4mV chunk 2/25
-  135127 | 0xffe2 APP2  |   65512 | ICC_PROFILE...}.f...~mcx....`... chunk 3/25
-  200643 | 0xffe2 APP2  |   65512 | ICC_PROFILE....|...S...^...v.... chunk 4/25
-  266159 | 0xffe2 APP2  |   65512 | ICC_PROFILE.....bXf2..`Og...^0g. chunk 5/25
-  331675 | 0xffe2 APP2  |   65512 | ICC_PROFILE.....~.|...{.}P..y.}. chunk 6/25
-  397191 | 0xffe2 APP2  |   65512 | ICC_PROFILE......b.....:...?.... chunk 7/25
-  462707 | 0xffe2 APP2  |   65512 | ICC_PROFILE...Q8yq].R.wW].S.uJ]e chunk 8/25
-  528223 | 0xffe2 APP2  |   65512 | ICC_PROFILE...i.T'..RA.Y..P,.... chunk 9/25
-  593739 | 0xffe2 APP2  |   65512 | ICC_PROFILE...i.}/..key...l.v..c chunk 10/25
-  659255 | 0xffe2 APP2  |   65512 | ICC_PROFILE...{....O{.....|..c.. chunk 11/25
-  724771 | 0xffe2 APP2  |   65512 | ICC_PROFILE...E.;.O-F.-.R>J...a. chunk 12/25
-  790287 | 0xffe2 APP2  |   65512 | ICC_PROFILE....X..up............ chunk 13/25
-  855803 | 0xffe2 APP2  |   65512 | ICC_PROFILE........<............ chunk 14/25
-  921319 | 0xffe2 APP2  |   65512 | ICC_PROFILE..............,...'.. chunk 15/25
-  986835 | 0xffe2 APP2  |   65512 | ICC_PROFILE.......g.....m%....qw chunk 16/25
- 1052351 | 0xffe2 APP2  |   65512 | ICC_PROFILE......s....xX.M..n... chunk 17/25
- 1117867 | 0xffe2 APP2  |   65512 | ICC_PROFILE............0......E. chunk 18/25
- 1183383 | 0xffe2 APP2  |   65512 | ICC_PROFILE........(.n.B........ chunk 19/25
- 1248899 | 0xffe2 APP2  |   65512 | ICC_PROFILE...0.0.282.0.282.0.28 chunk 20/25
- 1314415 | 0xffe2 APP2  |   65512 | ICC_PROFILE...175.0.176.0.175.0. chunk 21/25
- 1379931 | 0xffe2 APP2  |   65512 | ICC_PROFILE...103.0.114.0.126.0. chunk 22/25
- 1445447 | 0xffe2 APP2  |   65512 | ICC_PROFILE...6.0.049.0.053.0.05 chunk 23/25
- 1510963 | 0xffe2 APP2  |   65512 | ICC_PROFILE....0.670.0.653.0.634 chunk 24/25
- 1576479 | 0xffe2 APP2  |   41712 | ICC_PROFILE...09.0.584.0.555.0.5 chunk 25/25
- 1618195 | 0xffdb DQT   |      67 
- 1618264 | 0xffdb DQT   |      67 
- 1618333 | 0xffc2 SOF2  |      17 
- 1618352 | 0xffc4 DHT   |      30 
- 1618384 | 0xffc4 DHT   |      27 
- 1618413 | 0xffda SOS  
+   69609 | 0xffe2 APP2  |   65512 | ICC_PROFILE...X..Ih.V...j.U..4mV chunk 2/25
+  135123 | 0xffe2 APP2  |   65512 | ICC_PROFILE...}.f...~mcx....`... chunk 3/25
+  200637 | 0xffe2 APP2  |   65512 | ICC_PROFILE....|...S...^...v.... chunk 4/25
+  266151 | 0xffe2 APP2  |   65512 | ICC_PROFILE.....bXf2..`Og...^0g. chunk 5/25
+  331665 | 0xffe2 APP2  |   65512 | ICC_PROFILE.....~.|...{.}P..y.}. chunk 6/25
+  397179 | 0xffe2 APP2  |   65512 | ICC_PROFILE......b.....:...?.... chunk 7/25
+  462693 | 0xffe2 APP2  |   65512 | ICC_PROFILE...Q8yq].R.wW].S.uJ]e chunk 8/25
+  528207 | 0xffe2 APP2  |   65512 | ICC_PROFILE...i.T'..RA.Y..P,.... chunk 9/25
+  593721 | 0xffe2 APP2  |   65512 | ICC_PROFILE...i.}/..key...l.v..c chunk 10/25
+  659235 | 0xffe2 APP2  |   65512 | ICC_PROFILE...{....O{.....|..c.. chunk 11/25
+  724749 | 0xffe2 APP2  |   65512 | ICC_PROFILE...E.;.O-F.-.R>J...a. chunk 12/25
+  790263 | 0xffe2 APP2  |   65512 | ICC_PROFILE....X..up............ chunk 13/25
+  855777 | 0xffe2 APP2  |   65512 | ICC_PROFILE........<............ chunk 14/25
+  921291 | 0xffe2 APP2  |   65512 | ICC_PROFILE..............,...'.. chunk 15/25
+  986805 | 0xffe2 APP2  |   65512 | ICC_PROFILE.......g.....m%....qw chunk 16/25
+ 1052319 | 0xffe2 APP2  |   65512 | ICC_PROFILE......s....xX.M..n... chunk 17/25
+ 1117833 | 0xffe2 APP2  |   65512 | ICC_PROFILE............0......E. chunk 18/25
+ 1183347 | 0xffe2 APP2  |   65512 | ICC_PROFILE........(.n.B........ chunk 19/25
+ 1248861 | 0xffe2 APP2  |   65512 | ICC_PROFILE...0.0.282.0.282.0.28 chunk 20/25
+ 1314375 | 0xffe2 APP2  |   65512 | ICC_PROFILE...175.0.176.0.175.0. chunk 21/25
+ 1379889 | 0xffe2 APP2  |   65512 | ICC_PROFILE...103.0.114.0.126.0. chunk 22/25
+ 1445403 | 0xffe2 APP2  |   65512 | ICC_PROFILE...6.0.049.0.053.0.05 chunk 23/25
+ 1510917 | 0xffe2 APP2  |   65512 | ICC_PROFILE....0.670.0.653.0.634 chunk 24/25
+ 1576431 | 0xffe2 APP2  |   41712 | ICC_PROFILE...09.0.584.0.555.0.5 chunk 25/25
+ 1618145 | 0xffdb DQT   |      67 
+ 1618214 | 0xffdb DQT   |      67 
+ 1618283 | 0xffc2 SOF2  |      17 
+ 1618302 | 0xffc4 DHT   |      30 
+ 1618334 | 0xffc4 DHT   |      27 
+ 1618363 | 0xffda SOS  
 STRUCTURE OF JPEG FILE: ReaganLargeJpg.jpg
  address | marker       |  length | data
        0 | 0xffd8 SOI  
        2 | 0xffe0 APP0  |      16 | JFIF.....,.,....
       20 | 0xffe1 APP1  |    4073 | Exif..MM.*......................
     4095 | 0xffe2 APP2  |     576 | ICC_PROFILE......0ADBE....mntrRG chunk 1/1
-    4675 | 0xffdb DQT   |      67 
-    4744 | 0xffdb DQT   |      67 
-    4813 | 0xffc2 SOF2  |      17 
-    4832 | 0xffc4 DHT   |      30 
-    4864 | 0xffc4 DHT   |      27 
-    4893 | 0xffda SOS  
+    4673 | 0xffdb DQT   |      67 
+    4742 | 0xffdb DQT   |      67 
+    4811 | 0xffc2 SOF2  |      17 
+    4830 | 0xffc4 DHT   |      30 
+    4862 | 0xffc4 DHT   |      27 
+    4891 | 0xffda SOS  
 STRUCTURE OF JPEG FILE: ReaganLargeJpg.jpg
  address | marker       |  length | data
        0 | 0xffd8 SOI  
        2 | 0xffe0 APP0  |      16 | JFIF.....,.,....
       20 | 0xffe1 APP1  |    4073 | Exif..MM.*......................
     4095 | 0xffe2 APP2  |     576 | ICC_PROFILE......0ADBE....mntrRG chunk 1/1
-    4675 | 0xffdb DQT   |      67 
-    4744 | 0xffdb DQT   |      67 
-    4813 | 0xfffe COM   |      10 | abcdefg
-    4825 | 0xffc2 SOF2  |      17 
-    4844 | 0xffc4 DHT   |      30 
-    4876 | 0xffc4 DHT   |      27 
-    4905 | 0xffda SOS  
+    4673 | 0xffdb DQT   |      67 
+    4742 | 0xffdb DQT   |      67 
+    4811 | 0xfffe COM   |      10 | abcdefg
+    4823 | 0xffc2 SOF2  |      17 
+    4842 | 0xffc4 DHT   |      30 
+    4874 | 0xffc4 DHT   |      27 
+    4903 | 0xffda SOS  
 abcdefg
 STRUCTURE OF JPEG FILE: ReaganLargeJpg.jpg
  address | marker       |  length | data
@@ -1029,12 +1029,12 @@ STRUCTURE OF JPEG FILE: ReaganLargeJpg.jpg
        2 | 0xffe0 APP0  |      16 | JFIF.....,.,....
       20 | 0xffe1 APP1  |    4073 | Exif..MM.*......................
     4095 | 0xffe2 APP2  |     576 | ICC_PROFILE......0ADBE....mntrRG chunk 1/1
-    4675 | 0xffdb DQT   |      67 
-    4744 | 0xffdb DQT   |      67 
-    4813 | 0xffc2 SOF2  |      17 
-    4832 | 0xffc4 DHT   |      30 
-    4864 | 0xffc4 DHT   |      27 
-    4893 | 0xffda SOS  
+    4673 | 0xffdb DQT   |      67 
+    4742 | 0xffdb DQT   |      67 
+    4811 | 0xffc2 SOF2  |      17 
+    4830 | 0xffc4 DHT   |      30 
+    4862 | 0xffc4 DHT   |      27 
+    4891 | 0xffda SOS  
 45ed3c125cc6041b37b44ee4cb881cd8
 45ed3c125cc6041b37b44ee4cb881cd8
 50b9125494306a6fc1b7c4f2a1a8d49d
