@@ -1,0 +1,67 @@
+#!/bin/bash
+
+# Copyright (c) 2008-2016, Gilles Caulier, <caulier dot gilles at gmail dot com>
+#
+# Redistribution and use is allowed according to the terms of the BSD license.
+# For details see the accompanying COPYING-CMAKE-SCRIPTS file.
+#
+# Arguments : $1 : MXE build root path to MXE bundle dir (dir must be suffixed by .win32 or .win64 depending of MXE target).
+#             $2 : build type : 'debugfull' to hack (default), 'release' for production, relwithdebinfo for packaging.
+#             $3 : Cmake extra configure options.
+
+MXE_BUILDROOT=$1
+
+if [[ $MXE_BUILDROOT == *.win32 ]]; then
+
+    echo "MXE target : 32 bits shared"
+    MXE_BUILD_TARGETS="i686-w64-mingw32.shared"
+
+elif [[ $MXE_BUILDROOT == *.win64 ]]; then
+
+    echo "MXE target : 64 bits shared"
+    MXE_BUILD_TARGETS="x86_64-w64-mingw32.shared"
+
+else
+
+    echo "Invalid MXE target!"
+    exit -1
+
+fi
+
+BUILD_TYPE=$2
+
+if [ "$BUILD_TYPE" = "" ]; then
+    BUILD_TYPE=relwithdebinfo
+fi
+
+MXE_INSTALL_PREFIX=${MXE_BUILDROOT}/usr/${MXE_BUILD_TARGETS}/
+MXE_TOOLCHAIN=${MXE_INSTALL_PREFIX}/share/cmake/mxe-conf.cmake
+
+OPTIONS=$3
+
+echo "Installing to $MXE_BUILDROOT for target $MXE_BUILD_TARGETS with build mode $BUILD_TYPE and configure options $OPTIONS"
+
+# Pathes rules
+ORIG_PATH="$PATH"
+export PATH=$MXE_BUILDROOT/usr/bin:$MXE_INSTALL_PREFIX/qt5/bin:$PATH
+
+if [ ! -d "build" ]; then
+    mkdir build
+fi
+
+cd build
+
+${MXE_BUILD_TARGETS}-cmake -G "Unix Makefiles" . \
+                           -DCMAKE_BUILD_TYPE=${BUILD_TYPE} \
+                           -DCMAKE_COLOR_MAKEFILE=ON \
+                           -DCMAKE_INSTALL_PREFIX=${MXE_INSTALL_PREFIX} \
+                           -DCMAKE_BUILD_WITH_INSTALL_RPATH=ON \
+                           -DCMAKE_TOOLCHAIN_FILE=${MXE_TOOLCHAIN} \
+                           ${OPTIONS} \
+                           ..
+
+CMAKE_VAL_RET=$?
+
+export PATH=$ORIG_PATH
+
+exit $CMAKE_VAL_RET
