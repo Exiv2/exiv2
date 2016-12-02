@@ -425,6 +425,18 @@ namespace Exiv2 {
         { 0, ttUnsignedShort, 1 }
     };
 
+    //! Canon Time Info binary array - configuration
+    extern const ArrayCfg canonTiCfg = {
+        canonTiId,        // Group for the elements
+        invalidByteOrder, // Use byte order from parent
+        ttSignedLong,     // Type for array entry and size element
+        notEncrypted,     // Not encrypted
+        true,             // With size element
+        false,            // No fillers
+        false,            // Don't concatenate gaps
+        { 0, ttSignedLong, 1 }
+    };
+
     //! Canon File Info binary array - configuration
     extern const ArrayCfg canonFiCfg = {
         canonFiId,        // Group for the elements
@@ -1237,6 +1249,7 @@ namespace Exiv2 {
         { Tag::root, canonPaId,        canonId,          0x0005    },
         { Tag::root, canonCfId,        canonId,          0x000f    },
         { Tag::root, canonPiId,        canonId,          0x0012    },
+        { Tag::root, canonTiId,        canonId,          0x0035    },
         { Tag::root, canonFiId,        canonId,          0x0093    },
         { Tag::root, canonPrId,        canonId,          0x00a0    },
         { Tag::root, nikon1Id,         exifId,           0x927c    },
@@ -1569,6 +1582,7 @@ namespace Exiv2 {
         {    0x0005, canonId,          EXV_SIMPLE_BINARY_ARRAY(canonPaCfg)       },
         {    0x000f, canonId,          EXV_SIMPLE_BINARY_ARRAY(canonCfCfg)       },
         {    0x0012, canonId,          EXV_SIMPLE_BINARY_ARRAY(canonPiCfg)       },
+        {    0x0035, canonId,          EXV_SIMPLE_BINARY_ARRAY(canonTiCfg)       },
         {    0x0093, canonId,          EXV_BINARY_ARRAY(canonFiCfg, canonFiDef)  },
         {    0x00a0, canonId,          EXV_SIMPLE_BINARY_ARRAY(canonPrCfg)  },
         { Tag::next, canonId,          ignoreTiffComponent                       },
@@ -1580,6 +1594,7 @@ namespace Exiv2 {
         {  Tag::all, canonPaId,        newTiffBinaryElement                      },
         {  Tag::all, canonCfId,        newTiffBinaryElement                      },
         {  Tag::all, canonPiId,        newTiffBinaryElement                      },
+        {  Tag::all, canonTiId,        newTiffBinaryElement                      },
         {  Tag::all, canonFiId,        newTiffBinaryElement                      },
         {  Tag::all, canonPrId,        newTiffBinaryElement                      },
 

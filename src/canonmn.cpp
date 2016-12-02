@@ -425,6 +425,7 @@ namespace Exiv2 {
         TagInfo(0x0015, "SerialNumberFormat", N_("Serial Number Format"), N_("Serial number format"), canonId, makerTags, unsignedLong, -1, EXV_PRINT_TAG(canonSerialNumberFormat)),
         TagInfo(0x001a, "SuperMacro", N_("Super Macro"), N_("Super macro"), canonId, makerTags, signedShort, -1, EXV_PRINT_TAG(canonSuperMacro)),
         TagInfo(0x0026, "AFInfo", N_("AF Info"), N_("AF info"), canonId, makerTags, unsignedShort, -1, printValue),
+        TagInfo(0x0035, "TimeInfo", N_("Time Info"), N_("Time zone information"), canonId, makerTags, signedLong, -1, printValue),
         TagInfo(0x0083, "OriginalDecisionDataOffset", N_("Original Decision Data Offset"), N_("Original decision data offset"), canonId, makerTags, signedLong, -1, printValue),
         TagInfo(0x00a4, "WhiteBalanceTable", N_("White Balance Table"), N_("White balance table"), canonId, makerTags, unsignedShort, -1, printValue),
         TagInfo(0x0095, "LensModel", N_("Lens Model"), N_("Lens model"), canonId, makerTags, asciiString, -1, printValue),
@@ -1583,6 +1584,57 @@ namespace Exiv2 {
     const TagInfo* CanonMakerNote::tagListPr()
     {
         return tagInfoPr_;
+    }
+
+    extern const TagDetails canonTimeZoneCity[] = {
+        { 0x0000, N_("n/a")                 },
+        { 0x0001, N_("Chatham Islands")     },
+        { 0x0002, N_("Wellington")          },
+        { 0x0003, N_("Solomon Islands")     },
+        { 0x0004, N_("Sydney")              },
+        { 0x0005, N_("Adelaide")            },
+        { 0x0006, N_("Tokyo")               },
+        { 0x0007, N_("Hong Kong")           },
+        { 0x0008, N_("Bangkok")             },
+        { 0x0009, N_("Yangon")              },
+        { 0x000a, N_("Dhaka")               },
+        { 0x000b, N_("Kathmandu")           },
+        { 0x000c, N_("Delhi")               },
+        { 0x000d, N_("Karachi")             },
+        { 0x000e, N_("Kabul")               },
+        { 0x000f, N_("Dubai")               },
+        { 0x0010, N_("Tehran")              },
+        { 0x0011, N_("Moscow")              },
+        { 0x0012, N_("Cairo")               },
+        { 0x0013, N_("Paris")               },
+        { 0x0014, N_("London")              },
+        { 0x0015, N_("Azores")              },
+        { 0x0016, N_("Fernando de Noronha") },
+        { 0x0017, N_("Sao Paulo")           },
+        { 0x0018, N_("Newfoundland")        },
+        { 0x0019, N_("Santiago")            },
+        { 0x001a, N_("Caracas")             },
+        { 0x001b, N_("New York")            },
+        { 0x001c, N_("Chicago")             },
+        { 0x001d, N_("Denver")              },
+        { 0x001e, N_("Los Angeles")         },
+        { 0x001f, N_("Anchorage")           },
+        { 0x0020, N_("Honolulu")            },
+        { 0x0021, N_("Samoa")               },
+        { 0x7ffe, N_("(not set)")           },
+    };
+
+    // Canon Time Info Tag
+    const TagInfo CanonMakerNote::tagInfoTi_[] = {
+        TagInfo(0x0001, "TimeZone", N_("Time zone offset"), N_("Time zone offset in minutes"), canonTiId, makerTags, signedLong, 1, printValue),
+        TagInfo(0x0002, "TimeZoneCity", N_("Time zone city"), N_("Time zone city"), canonTiId, makerTags, signedLong, 1, EXV_PRINT_TAG(canonTimeZoneCity)),
+        TagInfo(0x0003, "DaylightSavings", N_("Daylight Savings"), N_("Daylight Saving Time"), canonTiId, makerTags, signedLong, 1, printValue),
+        TagInfo(0xffff, "(UnknownCanonTiTag)", "(UnknownCanonTiTag)", N_("Unknown Canon Time Info tag"), canonTiId, makerTags, signedLong, 1, printValue)
+    };
+
+    const TagInfo* CanonMakerNote::tagListTi()
+    {
+        return tagInfoTi_;
     }
 
     std::ostream& CanonMakerNote::printFiFileNumber(std::ostream& os,

@@ -69,6 +69,8 @@ namespace Exiv2 {
         static const TagInfo* tagListCf();
         //! Return read-only list of built-in Canon Picture Info tags
         static const TagInfo* tagListPi();
+        //! Return read-only list of built-in Canon Time Info tags
+        static const TagInfo* tagListTi();
         //! Return read-only list of built-in Canon File Info tags
         static const TagInfo* tagListFi();
         //! Return read-only list of built-in Canon Processing Info tags
@@ -119,6 +121,7 @@ namespace Exiv2 {
         static const TagInfo tagInfoSi_[];
         static const TagInfo tagInfoCf_[];
         static const TagInfo tagInfoPi_[];
+        static const TagInfo tagInfoTi_[];
         static const TagInfo tagInfoFi_[];
         static const TagInfo tagInfoPa_[];
         static const TagInfo tagInfoPr_[];
