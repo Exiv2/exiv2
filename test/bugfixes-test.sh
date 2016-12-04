@@ -601,6 +601,14 @@ source ./functions.source
     copyTestFile                        $filename
     runTest exiv2 -pX                   $filename | xmllint --format -
 
+    num=1231
+    for X in a b; do
+      filename=exiv2-bug$num$X.jpg
+      echo '------>' Bug $filename '<-------' >&2
+      copyTestFile                      $filename
+      runTest exiv2 -pa --grep CanonTi/i   $filename
+    done
+
     num=1242
     printf "$num " >&3
     filename=Reagan.jp2
