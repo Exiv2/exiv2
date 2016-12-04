@@ -442,10 +442,11 @@ namespace Exiv2 {
                         IptcData::printStructure(out,bytes,count,depth);
                         delete[] bytes;                // free
                     }  else if ( option == kpsRecursive && tag == 0x927c /* MakerNote */ && count > 10) {
+                        size_t   restore = io.tell();  // save
+
                         uint32_t jump= 10           ;
                         byte     bytes[20]          ;
                         const char* chars = (const char*) &bytes[0] ;
-                        size_t   restore = io.tell();  // save
                         io.seek(offset,BasicIo::beg);  // position
                         io.read(bytes,jump    )     ;  // read
                         bytes[jump]=0               ;
@@ -456,7 +457,12 @@ namespace Exiv2 {
                             MemIo memIo(bytes,count-jump)    ;  // create a file
                             printTiffStructure(memIo,out,option,depth);
                             delete[] bytes                   ;  // free
+                        } else {
+                            // tag is an IFD
+                            io.seek(0,BasicIo::beg);  // position
+                            printIFDStructure(io,out,option,offset,bSwap,c,depth);
                         }
+
                         io.seek(restore,BasicIo::beg); // restore
                     }
                 }
