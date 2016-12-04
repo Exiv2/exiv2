@@ -426,7 +426,7 @@ namespace Exiv2 {
                     sp = kount == count ? "" : " ...";
                     out << sp << std::endl;
 
-                    if ( option == kpsRecursive && (tag == 0x8769 /* ExifTag */ || tag == 0x014a/*SubIFDs*/ ) ) {
+                    if ( option == kpsRecursive && (tag == 0x8769 /* ExifTag */ || tag == 0x014a/*SubIFDs*/  || type == tiffIfd) ) {
                         for ( size_t k = 0 ; k < count ; k++ ) {
                             size_t   restore = io.tell();
                             uint32_t offset = byteSwap4(buf,k*size,bSwap);
