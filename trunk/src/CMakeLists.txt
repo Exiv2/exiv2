@@ -254,6 +254,7 @@ ENDIF()
 
 if ( MSVC )
     source_group("Header Files" FILES ${LIBEXIV2_HDR} )
+    TARGET_LINK_LIBRARIES( exiv2lib ${PRIVATE_VAR} ${ZLIB_LIBRARIES} )
     TARGET_LINK_LIBRARIES( exiv2lib ${PRIVATE_VAR} ${EXPAT_LIBRARIES} )
     source_group("Header Files" FILES ${LIBCURL_HDR} )
     TARGET_LINK_LIBRARIES( exiv2lib ${PRIVATE_VAR} ${CURL_LIBRARIES} )
