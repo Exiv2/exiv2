@@ -150,10 +150,8 @@ typedef int pid_t;
 
 ///// Start of platform marcos /////////
 // Linux GCC 4.8 appears to be confused about strerror_r
-#ifndef EXV_STRERROR_R_CHAR_P
-#ifdef  __gnu_linux__
+#if !defined(EXV_STRERROR_R_CHAR_P) &&  defined( __gnu_linux__) && defined(__GLIBC__)
 #define EXV_STRERROR_R_CHAR_P
-#endif
 #endif
 
 #if defined(__MINGW32__) || defined(__MINGW64__)
