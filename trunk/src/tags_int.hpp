@@ -170,7 +170,7 @@ namespace Exiv2 {
     enum SectionId { sectionIdNotSet,
                      imgStruct, recOffset, imgCharacter, otherTags, exifFormat,
                      exifVersion, imgConfig, userInfo, relatedFile, dateTime,
-                     captureCond, gpsTags, iopTags, makerTags, dngTags, panaRaw,
+                     captureCond, gpsTags, iopTags, mpfTags, makerTags, dngTags, panaRaw,
                      tiffEp, tiffPm6, adobeOpi,
                      lastSectionId };
 
