@@ -85,7 +85,7 @@ namespace Exiv2 {
         { exifId,          "Exif",      "Photo",        exifTagList                    },
         { gpsId,           "GPSInfo",   "GPSInfo",      gpsTagList                     },
         { iopId,           "Iop",       "Iop",          iopTagList                     },
-        { mpfId,           "MPF",       "MPF",          mpfTagList                     },
+        { mpfId,           "MPF",       "MpfInfo",      mpfTagList                     },
         { subImage1Id,     "SubImage1", "SubImage1",    ifdTagList                     },
         { subImage2Id,     "SubImage2", "SubImage2",    ifdTagList                     },
         { subImage3Id,     "SubImage3", "SubImage3",    ifdTagList                     },
@@ -2311,6 +2311,7 @@ namespace Exiv2 {
         case ifd1Id:
         case ifd2Id:
         case ifd3Id:
+        case mpfId:
         case subImage1Id:
         case subImage2Id:
         case subImage3Id:
