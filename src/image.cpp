@@ -330,6 +330,11 @@ namespace Exiv2 {
         return result;
     }
 
+    static bool typeValid(uint16_t type)
+    {
+    	return type >= 1 && type <= 13 ;
+    }
+
     void Image::printIFDStructure(BasicIo& io, std::ostream& out, Exiv2::PrintStructureOption option,uint32_t start,bool bSwap,char c,int depth)
     {
         depth++;
@@ -385,6 +390,12 @@ namespace Exiv2 {
                                 : is8ByteType(type)  ? 8
                                 : 1
                                 ;
+
+                // Break for unknown tag types else we may get segfault.
+                if ( !typeValid(type) ) {
+                    std::cerr << "invalid type value detected in Image::printIFDStructure:  " << type << std::endl;
+                    break;
+                }
 
                 // if ( offset > io.size() ) offset = 0; // Denial of service?
                 DataBuf  buf(size*count + pad);  // allocate a buffer
