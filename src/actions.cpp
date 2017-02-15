@@ -2071,7 +2071,11 @@ namespace {
         Action::Modify::applyCommands(sourceImage.get());
 
         // Open or create the target file
-        std::string target = bStdout ? Exiv2::FileIo::temporaryPath() : tgt;
+#ifdef EXV_UNICODE_PATH
+        std::string target = bStdout ? Exiv2::ws2s(Exiv2::FileIo::temporaryPath()) : tgt;
+#else
+        std::string target = bStdout ?             Exiv2::FileIo::temporaryPath()  : tgt;
+#endif
 
         Exiv2::Image::AutoPtr targetImage;
         if (Exiv2::fileExists(target)) {
