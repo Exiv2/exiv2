@@ -551,7 +551,11 @@ namespace Exiv2 {
         /*!
           @brief Returns the path to a temporary data storage location.
          */
-        static std::string temporaryPath();
+#ifdef EXV_UNICODE_PATH
+        static std::wstring temporaryPath();
+#else
+        static std::string  temporaryPath();
+#endif
 
     private:
         // NOT IMPLEMENTED

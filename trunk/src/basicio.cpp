@@ -577,46 +577,56 @@ namespace Exiv2 {
 #else
         nlink_t nlink = buf.st_nlink;
 #endif
-
+#ifdef EXV_UNICODE_PATH
+        std::wstring tmpname;
+#else
+        std::string tmpname;
+#endif
         // If file is > 1MB and doesn't have hard links then use a file, otherwise
         // use a memory buffer. I.e., files with hard links always use a memory
         // buffer, which is a workaround to ensure that the links don't get broken.
-        if (ret != 0 || (buf.st_size > 1048576 && nlink == 1)) {
+        if (ret != 0 || (buf.st_size > 1048576 && nlink == 1))
+		{
             pid_t pid = ::getpid();
             std::auto_ptr<FileIo> fileIo;
 #ifdef EXV_UNICODE_PATH
-            if (p_->wpMode_ == Impl::wpUnicode) {
-                std::wstring tmpname = wpath() + s2ws(toString(pid));
-                fileIo = std::auto_ptr<FileIo>(new FileIo(tmpname));
-            }
-            else
+            tmpname = temporaryPath() + s2ws(toString(pid));
+            fileIo = std::auto_ptr<FileIo>(new FileIo(tmpname));
+#else
+            tmpname = temporaryPath() + toString(pid);
+            fileIo = std::auto_ptr<FileIo>(new FileIo(tmpname));
 #endif
-            {
-                std::string tmpname = path() + toString(pid);
-                fileIo = std::auto_ptr<FileIo>(new FileIo(tmpname));
-            }
             if (fileIo->open("w+b") != 0) {
 #ifdef EXV_UNICODE_PATH
-                if (p_->wpMode_ == Impl::wpUnicode) {
-                    throw WError(10, wpath(), "w+b", strError().c_str());
+#if    defined(_MSC_VER)
+                if( !DeleteFileW( tmpname.c_str()) )
+                {
+                    perror("Error deleting file");
+                    throw WError(10, ws2s(tmpname).c_str(), "w+b", strError().c_str());
                 }
-                else
+#endif
+#else
+#if defined(_MSC_VER) || defined(__MINGW__)
+                if( !DeleteFile( tmpname.c_str() ) )
+#else
+                if( remove( tmpname.c_str() ) != 0 )
+#endif
 #endif
                 {
-                    throw Error(10, path(), "w+b", strError());
+                        perror("Error deleting file");
                 }
+                throw Error(10, tmpname.c_str(), "w+b", strError());
             }
             fileIo->p_->copyXattrFrom(*this);
             basicIo = fileIo;
-        }
-        else {
+        } else {
             basicIo.reset(new MemIo);
         }
 
         return basicIo;
     }
 
-    std::string FileIo::temporaryPath()
+    static std::string tempPath()
     {
         static int  count = 0 ;
         char       sCount[12];
@@ -637,6 +647,18 @@ namespace Exiv2 {
 
         return result;
     }
+
+#ifdef EXV_UNICODE_PATH
+    std::wstring FileIo::temporaryPath()
+    {
+		return s2ws(tempPath());
+    }
+#else
+    std::string FileIo::temporaryPath()
+    {
+		return tempPath();
+    }
+#endif
 
     long FileIo::write(const byte* data, long wcount)
     {

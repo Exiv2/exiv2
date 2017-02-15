@@ -51,7 +51,7 @@
 #endif /* !EXV_COMMERCIAL_VERSION */
 
 /* Define Windows unicode path support. */
-/* #undef EXV_UNICODE_PATH */
+/* #define EXV_UNICODE_PATH */
 
 
 /* Define to `const' or to empty, depending on the second argument of `iconv'. */

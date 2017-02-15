@@ -165,6 +165,9 @@ typedef int pid_t;
 # ifdef  EXV_HAVE_REGEX
 #  undef EXV_HAVE_REGEX
 # endif
+#ifdef EXV_UNICODE_PATH
+#error EXV_UNICODE_PATH is not supported for MinGW builds
+#endif
 #endif
 
 #ifndef __CYGWIN__

@@ -363,7 +363,6 @@ namespace Exiv2 {
     EXIV2API std::wstring s2ws(const std::string& s);
     //! Convert a unicode std::wstring s to an std::string.
     EXIV2API std::string ws2s(const std::wstring& s);
-
 #endif
     /*!
       @brief Return a \em long set to the value represented by \em s.
