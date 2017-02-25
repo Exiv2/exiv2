@@ -1757,6 +1757,7 @@ namespace Exiv2 {
         { 213,   "Tamron 16-300mm F3.5-6.3 Di II PZD Macro" },
         { 214,   "Tamron Tamron SP 150-600mm F5-6.3 Di USD" },
         { 215,   "Tamron SP 15-30mm F2.8 Di USD" },
+        { 218,   "Tamron SP 90mm F2.8 Di Macro 1:1 USD" },
         { 224,   "Tamron SP 90mm F2.8 Di Macro 1:1 USD" },
         {0xff,   "Tamron SP AF 17-50mm F2.8 XR Di II LD Aspherical | "                   // 1
                  "Tamron AF 18-250mm F3.5-6.3 XR Di II LD | "                            // 2
