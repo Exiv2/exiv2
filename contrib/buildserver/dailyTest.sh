@@ -29,6 +29,12 @@ while [ "$count" != "0" ]; do
   if [ "$count" != "0" ]; then
       count=$(expr $count - 1)
   fi
+  
+  # 2017-03-01 Linux and Cygwin have taken a dislike to http://exiv2.dyndns.org:8080
+  if [ "$count" == "2" ]; then
+	JENKINS=http://rmillsmm:8080
+  fi;
+  
   if [ "$count" == "1" ]; then
      echo --------
      echo $curl "$JENKINS/$DAILY/" | xmllint --html --format
