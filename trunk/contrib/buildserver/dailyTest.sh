@@ -12,16 +12,12 @@ if [ "$(osName)" == "cygwin" ]; then
 fi
 echo -------------------------------
 
-# 2017-03-01 Linux and Cygwin have taken a dislike to http://exiv2.dyndns.org:8080
-JENKINS=http://rmillsmm:8080
-
 ##
 # figure out today's build
 # http://exiv2.dyndns.org:8080/userContent/builds/Daily
 date=$(date '+%Y-%m-%d')
 count=4
-# curl='/usr/local/bin/curl --silent  --connect-timeout 30 --max-time 40'
-  curl='/usr/local/bin/curl'
+curl='/usr/local/bin/curl --silent --connect-timeout 30 --max-time 40'
 while [ "$count" != "0" ]; do
   if  [ "$count" != "0" ]; then echo "*** count = $count ***" ; fi
   build=$($curl "$JENKINS/$DAILY/"             \
@@ -33,7 +29,6 @@ while [ "$count" != "0" ]; do
   if [ "$count" != "0" ]; then
       count=$(expr $count - 1)
   fi
-  
   if [ "$count" == "1" ]; then
      echo --------
      echo $curl "$JENKINS/$DAILY/" | xmllint --html --format
