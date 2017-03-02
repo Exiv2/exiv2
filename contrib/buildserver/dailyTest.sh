@@ -13,8 +13,8 @@ fi
 echo -------------------------------
 
 ##
-# figure out today's build
-# http://exiv2.dyndns.org:8080/userContent/builds/Daily
+#  figure out today's build
+#  http://exiv2.dyndns.org:8080/userContent/builds/Daily
 date=$(date '+%Y-%m-%d')
 count=4
 curl='/usr/local/bin/curl --silent --connect-timeout 30 --max-time 40'
