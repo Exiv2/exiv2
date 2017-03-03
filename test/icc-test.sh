@@ -1,9 +1,9 @@
 #!/bin/bash
-# Test driver for webp
+# Test driver for exiv2.exe ICC support (-pS, -pC, -eC, -iC)
 
 source ./functions.source
 
-test2120() # --comment and -dc clobbered by writing ICC/JPG
+test1120() # --comment and -dc clobbered by writing ICC/JPG
 {
     runTest exiv2 --comment abcdefg     $filename
     runTest exiv2 -pS                   $filename
@@ -16,7 +16,7 @@ test2120() # --comment and -dc clobbered by writing ICC/JPG
 
     num=1074                    # ICC Profile Support
     printf "ICC " >&3
-    for filename in Reagan.jpg exiv2-bug1199.webp ReaganLargePng.png ReaganLargeTiff.tiff ReaganLargeJpg.jpg
+    for filename in Reagan.jpg exiv2-bug1199.webp ReaganLargePng.png ReaganLargeJpg.jpg # 1272 ReaganLargeTiff.tiff
     do
         format=$(echo $filename|cut -d. -f 2)
         stub=$(  echo $filename|cut -d. -f 1)
@@ -28,7 +28,7 @@ test2120() # --comment and -dc clobbered by writing ICC/JPG
         runTest exiv2 -pC                   $filename > ${stub}_1.icc
         runTest exiv2 -eC --force           $filename
                 mv                          $iccname_   ${stub}_2.icc
-        test2120
+        test1120
 
         copyTestFile          large.icc     $iccname_
         runTest exiv2 -iC                   $filename
@@ -36,7 +36,7 @@ test2120() # --comment and -dc clobbered by writing ICC/JPG
         runTest exiv2 -pS                   $filename
         runTest exiv2 -eC --force           $filename
                 mv                          $iccname_   ${stub}_large_2.icc
-        test2120
+        test1120
 
         copyTestFile          small.icc     $iccname_
         runTest exiv2 -iC                   $filename
@@ -44,7 +44,7 @@ test2120() # --comment and -dc clobbered by writing ICC/JPG
         runTest exiv2 -pS                   $filename
         runTest exiv2 -eC --force           $filename
                 mv                          $iccname_   ${stub}_small_2.icc
-        test2120
+        test1120
 
         printf " md5 " >&3
 
