@@ -29,7 +29,7 @@ source ./functions.source
     done
 
     printf "a (exiv2, xmp, iptc) " >&3
-    for f in Reagan.jpg ReaganLargeTiff.tiff ReaganSmallPng.png; do
+    for f in Reagan.jpg ReaganSmallPng.png; do
         copyTestFile          $f
         copyTestFile  exiv2-bug1229.jpg            girl.jpg
         runTest exiv2 -pS                          girl.jpg
@@ -38,11 +38,11 @@ source ./functions.source
     done
 
     printf "ICC " >&3
-    copyTestFile          ReaganLargeTiff.tiff
-    for f in Reagan.jpg Reagan.tiff ReaganSmallPng.png exiv2-bug1199.webp ; do
-        copyTestFile                                                 $f
-        runTest exiv2 -eC- ReaganLargeTiff.tiff | runTest exiv2 -iC- $f
-        runTest exiv2 -pS                                            $f
+    copyTestFile        Reagan.tiff # 1272 ReaganLargeTiff.tiff
+    for f in Reagan.jpg ReaganSmallPng.png exiv2-bug1199.webp ; do
+        copyTestFile                                        $f
+        runTest exiv2 -eC- Reagan.tiff | runTest exiv2 -iC- $f
+        runTest exiv2 -pS                                   $f
     done
 
 ) 3>&1 > $results 2>&1
