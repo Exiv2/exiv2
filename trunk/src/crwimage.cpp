@@ -169,7 +169,7 @@ namespace Exiv2 {
         CrwParser::encode(blob, buf.pData_, buf.size_, this);
 
         // Write new buffer to file
-        BasicIo::AutoPtr tempIo(io_->temporary()); // may throw
+        MemIo::AutoPtr tempIo(new MemIo);
         assert(tempIo.get() != 0);
         tempIo->write((blob.size() > 0 ? &blob[0] : 0), static_cast<long>(blob.size()));
         io_->close();

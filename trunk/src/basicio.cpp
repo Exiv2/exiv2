@@ -566,100 +566,6 @@ namespace Exiv2 {
     }
 #endif
 
-    BasicIo::AutoPtr FileIo::temporary() const
-    {
-        BasicIo::AutoPtr basicIo;
-
-        Impl::StructStat buf;
-        int ret = p_->stat(buf);
-#if defined WIN32 && !defined __CYGWIN__
-        DWORD nlink = p_->winNumberOfLinks();
-#else
-        nlink_t nlink = buf.st_nlink;
-#endif
-#ifdef EXV_UNICODE_PATH
-        std::wstring tmpname;
-#else
-        std::string tmpname;
-#endif
-        // If file is > 1MB and doesn't have hard links then use a file, otherwise
-        // use a memory buffer. I.e., files with hard links always use a memory
-        // buffer, which is a workaround to ensure that the links don't get broken.
-        if (ret != 0 || (buf.st_size > 1048576 && nlink == 1))
-		{
-            pid_t pid = ::getpid();
-            std::auto_ptr<FileIo> fileIo;
-#ifdef EXV_UNICODE_PATH
-            tmpname = temporaryPath() + s2ws(toString(pid));
-            fileIo = std::auto_ptr<FileIo>(new FileIo(tmpname));
-#else
-            tmpname = temporaryPath() + toString(pid);
-            fileIo = std::auto_ptr<FileIo>(new FileIo(tmpname));
-#endif
-            if (fileIo->open("w+b") != 0) {
-#ifdef EXV_UNICODE_PATH
-#if    defined(_MSC_VER)
-                if( !DeleteFileW( tmpname.c_str()) )
-                {
-                    perror("Error deleting file");
-                    throw WError(10, ws2s(tmpname).c_str(), "w+b", strError().c_str());
-                }
-#endif
-#else
-#if defined(_MSC_VER) || defined(__MINGW__)
-                if( !DeleteFile( tmpname.c_str() ) )
-#else
-                if( remove( tmpname.c_str() ) != 0 )
-#endif
-#endif
-                {
-                        perror("Error deleting file");
-                }
-                throw Error(10, tmpname.c_str(), "w+b", strError());
-            }
-            fileIo->p_->copyXattrFrom(*this);
-            basicIo = fileIo;
-        } else {
-            basicIo.reset(new MemIo);
-        }
-
-        return basicIo;
-    }
-
-    static std::string tempPath()
-    {
-        static int  count = 0 ;
-        char       sCount[12];
-        sprintf(sCount,"_%d",count++);
-
-#if defined(_MSC_VER) || defined(__MINGW__)
-        char lpTempPathBuffer[MAX_PATH];
-        GetTempPath(MAX_PATH,lpTempPathBuffer);
-        std::string tmp(lpTempPathBuffer);
-        tmp += "\\";
-#else
-        std::string tmp = "/tmp/";
-#endif
-
-        pid_t  pid = ::getpid();
-        std::string result = tmp + toString(pid) + sCount ;
-        if ( Exiv2::fileExists(result) ) std::remove(result.c_str());
-
-        return result;
-    }
-
-#ifdef EXV_UNICODE_PATH
-    std::wstring FileIo::temporaryPath()
-    {
-		return s2ws(tempPath());
-    }
-#else
-    std::string FileIo::temporaryPath()
-    {
-		return tempPath();
-    }
-#endif
-
     long FileIo::write(const byte* data, long wcount)
     {
         assert(p_->fp_ != 0);
@@ -1216,11 +1122,6 @@ namespace Exiv2 {
             std::free(p_->data_);
         }
         delete p_;
-    }
-
-    BasicIo::AutoPtr MemIo::temporary() const
-    {
-        return BasicIo::AutoPtr(new MemIo);
     }
 
     long MemIo::write(const byte* data, long wcount)
@@ -1990,11 +1891,6 @@ namespace Exiv2 {
         return p_->wpath_;
     }
 #endif
-
-    BasicIo::AutoPtr RemoteIo::temporary() const
-    {
-        return BasicIo::AutoPtr(new MemIo);
-    }
 
     void RemoteIo::populateFakeData()
     {

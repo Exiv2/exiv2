@@ -834,7 +834,7 @@ namespace Exiv2 {
             // exiv2 -pS E.jpg
 
             // binary copy io_ to a temporary file
-            BasicIo::AutoPtr tempIo(io_->temporary()); // may throw
+            BasicIo::AutoPtr tempIo(new MemIo);
 
             assert (tempIo.get() != 0);
             for ( uint64_t i = 0 ; i < (count/2)+1 ; i++ ) {
@@ -866,7 +866,7 @@ namespace Exiv2 {
             throw Error(9, io_->path(), strError());
         }
         IoCloser closer(*io_);
-        BasicIo::AutoPtr tempIo(io_->temporary()); // may throw
+        BasicIo::AutoPtr tempIo(new MemIo);
         assert (tempIo.get() != 0);
 
         doWriteMetadata(*tempIo); // may throw

@@ -2039,6 +2039,52 @@ namespace {
         return os.str();
     } // tm2Str
 
+// use static CS/MUTEX to make temporaryPath() thread safe
+#if defined(_MSC_VER) || defined(__MINGW__)
+ static CRITICAL_SECTION cs;
+#else
+ /* Unix/Linux/Cygwin/MacOSX */
+ #include <pthread.h>
+ #if defined(__APPLE__)
+  /* This is the critical section object (statically allocated). */
+  static pthread_mutex_t cs =  PTHREAD_RECURSIVE_MUTEX_INITIALIZER;
+ #else
+  static pthread_mutex_t cs =  PTHREAD_RECURSIVE_MUTEX_INITIALIZER_NP;
+ #endif
+#endif
+
+    static std::string temporaryPath()
+    {
+        static int  count = 0 ;
+
+#if defined(_MSC_VER) || defined(__MINGW__)
+        EnterCriticalSection(&cs);
+        char lpTempPathBuffer[MAX_PATH];
+        GetTempPath(MAX_PATH,lpTempPathBuffer);
+        std::string tmp(lpTempPathBuffer);
+        tmp += "\\";
+        HANDLE process=0;
+        DWORD  pid = ::GetProcessId(process);
+#else
+        pid_t  pid = ::getpid();
+        pthread_mutex_lock( &cs );
+        std::string tmp = "/tmp/";
+#endif
+        char        sCount[12];
+        sprintf(sCount,"_%d",++count);
+
+        std::string result = tmp + Exiv2::toString(pid) + sCount ;
+        if ( Exiv2::fileExists(result) ) std::remove(result.c_str());
+
+#if defined(_MSC_VER) || defined(__MINGW__)
+        LeaveCriticalSection(&cs);
+#else
+        pthread_mutex_unlock( &cs );
+#endif
+
+        return result;
+    }
+
     int metacopy(const std::string& source,
                  const std::string& tgt,
                  int targetType,
@@ -2072,9 +2118,9 @@ namespace {
 
         // Open or create the target file
 #ifdef EXV_UNICODE_PATH
-        std::string target = bStdout ? Exiv2::ws2s(Exiv2::FileIo::temporaryPath()) : tgt;
+        std::string target = bStdout ? Exiv2::ws2s(temporaryPath()) : tgt;
 #else
-        std::string target = bStdout ?             Exiv2::FileIo::temporaryPath()  : tgt;
+        std::string target = bStdout ?             temporaryPath()  : tgt;
 #endif
 
         Exiv2::Image::AutoPtr targetImage;
