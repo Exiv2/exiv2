@@ -242,20 +242,6 @@ namespace Exiv2 {
          */
         virtual std::wstring wpath() const =0;
 #endif
-        /*!
-          @brief Returns a temporary data storage location. This is often
-              needed to rewrite an IO source.
-
-          For example, data may be read from the original IO source, modified
-          in some way, and then saved to the temporary instance. After the
-          operation is complete, the BasicIo::transfer method can be used to
-          replace the original IO source with the modified version. Subclasses
-          are free to return any class that derives from BasicIo.
-
-          @return An instance of BasicIo on success
-          @throw Error In case of failure
-         */
-        virtual BasicIo::AutoPtr temporary() const = 0;
 
         /*!
           @brief Mark all the bNone blocks to bKnow. This avoids allocating memory
@@ -527,16 +513,6 @@ namespace Exiv2 {
          */
         virtual std::wstring wpath() const;
 #endif
-        /*!
-          @brief Returns a temporary data storage location. The actual type
-              returned depends upon the size of the file represented a FileIo
-              object. For small files, a MemIo is returned while for large files
-              a FileIo is returned. Callers should not rely on this behavior,
-              however, since it may change.
-          @return An instance of BasicIo on success
-          @throw Error If opening the temporary file fails
-         */
-        virtual BasicIo::AutoPtr temporary() const;
 
         /*!
           @brief Mark all the bNone blocks to bKnow. This avoids allocating memory
@@ -547,15 +523,6 @@ namespace Exiv2 {
          */
         virtual void populateFakeData();
         //@}
-
-        /*!
-          @brief Returns the path to a temporary data storage location.
-         */
-#ifdef EXV_UNICODE_PATH
-        static std::wstring temporaryPath();
-#else
-        static std::string  temporaryPath();
-#endif
 
     private:
         // NOT IMPLEMENTED
@@ -745,13 +712,6 @@ namespace Exiv2 {
          */
         virtual std::wstring wpath() const;
 #endif
-        /*!
-          @brief Returns a temporary data storage location. Currently returns
-              an empty MemIo object, but callers should not rely on this
-              behavior since it may change.
-          @return An instance of BasicIo
-         */
-        virtual BasicIo::AutoPtr temporary() const;
 
         /*!
           @brief Mark all the bNone blocks to bKnow. This avoids allocating memory
@@ -1090,13 +1050,6 @@ namespace Exiv2 {
         */
        virtual std::wstring wpath() const;
 #endif
-       /*!
-         @brief Returns a temporary data storage location. Currently returns
-             an empty MemIo object, but callers should not rely on this
-             behavior since it may change.
-         @return An instance of BasicIo
-        */
-       virtual BasicIo::AutoPtr temporary() const;
 
         /*!
           @brief Mark all the bNone blocks to bKnow. This avoids allocating memory

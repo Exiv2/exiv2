@@ -159,7 +159,7 @@ namespace Exiv2 {
             if (xmpPacket_.substr(0, 5)  != "<?xml") {
                 xmpPacket_ = xmlHeader + xmpPacket_ + xmlFooter;
             }
-            BasicIo::AutoPtr tempIo(io_->temporary()); // may throw
+            BasicIo::AutoPtr tempIo(new MemIo);
             assert(tempIo.get() != 0);
             // Write XMP packet
             if (   tempIo->write(reinterpret_cast<const byte*>(xmpPacket_.data()),

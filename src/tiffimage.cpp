@@ -1968,7 +1968,7 @@ namespace Exiv2 {
             encoder.add(createdTree.get(), parsedTree.get(), root);
             // Write binary representation from the composite tree
             DataBuf header = pHeader->write();
-            BasicIo::AutoPtr tempIo(io.temporary()); // may throw
+            BasicIo::AutoPtr tempIo(new MemIo);
             assert(tempIo.get() != 0);
             IoWrapper ioWrapper(*tempIo, header.pData_, header.size_, pOffsetWriter);
             uint32_t imageIdx(uint32_t(-1));

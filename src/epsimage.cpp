@@ -809,7 +809,7 @@ namespace {
             }
 
             // create temporary output file
-            BasicIo::AutoPtr tempIo(io.temporary());
+            BasicIo::AutoPtr tempIo(new MemIo);
             assert (tempIo.get() != 0);
             if (!tempIo->isopen()) {
                 #ifndef SUPPRESS_WARNINGS

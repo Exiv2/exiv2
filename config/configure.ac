@@ -365,8 +365,9 @@ case "$host_os" in
         CPPFLAGS="$CPPFLAGS"               # mingw doesn't link pthreads if you specify -std !!
     ;;
     *)
-        if [ $GCC_VERSION -le 5 ]; then CPPFLAGS="$CPPFLAGS -std=c++98"    # // most others use c++98
-        else                            CPPFLAGS="$CPPFLAGS -std=gnu++98"  # // but not GCC 6
+        CPPFLAGS="$CPPFLAGS -std=c++98"
+        if [[ ! -z "$GCC_VERSION" ]]; then
+            if [[ "$GCC_VERSION" -ge 6 ]]; then CPPFLAGS="$CPPFLAGS -std=gnu++98" ; fi  # // not GCC 6
         fi
     ;;
 esac
