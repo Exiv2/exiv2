@@ -27,7 +27,6 @@
 #endif
 
 namespace Exiv2 {
-    namespace Internal {
 #ifdef _MSC_VER
 // Visual Studio 2013 and later use SRWLOCK
 #if _MSC_VER >= 1800
@@ -207,7 +206,6 @@ namespace Exiv2 {
         private:
             RWLock &rwlock_;
         };
-    }
 }
 
 #endif // RW_LOCK_HPP

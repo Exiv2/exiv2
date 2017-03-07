@@ -2488,11 +2488,11 @@ namespace Exiv2 {
     }
 
     XmpProperties::NsRegistry XmpProperties::nsRegistry_;
-    Internal::RWLock XmpProperties::rwLock_;
+    Exiv2::RWLock XmpProperties::rwLock_;
 
     const XmpNsInfo* XmpProperties::lookupNsRegistry(const XmpNsInfo::Prefix& prefix)
     {
-        Internal::ScopedReadLock srl(rwLock_);
+        ScopedReadLock srl(rwLock_);
         return lookupNsRegistryUnsafe(prefix);
     }
 
@@ -2508,7 +2508,7 @@ namespace Exiv2 {
     void XmpProperties::registerNs(const std::string& ns,
                                    const std::string& prefix)
     {
-        Internal::ScopedWriteLock swl(rwLock_);
+        ScopedWriteLock swl(rwLock_);
 
         std::string ns2 = ns;
         if (   ns2.substr(ns2.size() - 1, 1) != "/"
@@ -2541,7 +2541,7 @@ namespace Exiv2 {
 
     void XmpProperties::unregisterNs(const std::string& ns)
     {
-        Internal::ScopedWriteLock swl(rwLock_);
+        ScopedWriteLock swl(rwLock_);
         unregisterNsUnsafe(ns);
     }
 
@@ -2557,7 +2557,7 @@ namespace Exiv2 {
 
     void XmpProperties::unregisterNs()
     {
-        Internal::ScopedWriteLock swl(rwLock_);
+        ScopedWriteLock swl(rwLock_);
 
         NsRegistry::iterator i = nsRegistry_.begin();
         while (i != nsRegistry_.end()) {
@@ -2568,7 +2568,7 @@ namespace Exiv2 {
 
     std::string XmpProperties::prefix(const std::string& ns)
     {
-        Internal::ScopedReadLock srl(rwLock_);
+        ScopedReadLock srl(rwLock_);
         std::string ns2 = ns;
         if (   ns2.substr(ns2.size() - 1, 1) != "/"
             && ns2.substr(ns2.size() - 1, 1) != "#") ns2 += "/";
@@ -2586,7 +2586,7 @@ namespace Exiv2 {
 
     std::string XmpProperties::ns(const std::string& prefix)
     {
-        Internal::ScopedReadLock srl(rwLock_);
+        ScopedReadLock srl(rwLock_);
         const XmpNsInfo* xn = lookupNsRegistryUnsafe(XmpNsInfo::Prefix(prefix));
         if (xn != 0) return xn->ns_;
         return nsInfoUnsafe(prefix)->ns_;
@@ -2653,7 +2653,7 @@ namespace Exiv2 {
 
     const XmpNsInfo* XmpProperties::nsInfo(const std::string& prefix)
     {
-        Internal::ScopedReadLock srl(rwLock_);
+        ScopedReadLock srl(rwLock_);
         return nsInfoUnsafe(prefix);
     }
 
