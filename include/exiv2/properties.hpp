@@ -109,11 +109,11 @@ namespace Exiv2 {
         //! Prevent assignment: not implemented.
         XmpProperties& operator=(const XmpProperties& rhs);
 
-      private:  
+      private:
         static const XmpNsInfo* nsInfoUnsafe(const std::string& prefix);
         static void unregisterNsUnsafe(const std::string& ns);
         static const XmpNsInfo* lookupNsRegistryUnsafe(const XmpNsInfo::Prefix& prefix);
-        
+
     public:
         /*!
           @brief Return the title (label) of the property.
@@ -213,7 +213,7 @@ namespace Exiv2 {
           @note This invalidates XMP keys generated in this namespace.
          */
         static void unregisterNs(const std::string& ns);
-        static Internal::RWLock rwLock_;
+        static Exiv2::RWLock rwLock_;
 
         /*!
           @brief Unregister all custom namespaces.
