@@ -6,11 +6,8 @@ __navbar__
 
 <div class="jumbotron">
   <div class="container">
-    <h1>Download Exiv2</h1>
-    <p class="lead">Two packages are available for download: the source
-      distribution and a Windows package with just the command line utility
-      and manual page. The current version is __version__.
-    </p>
+    <h1>Download Exiv2  v__version__</h1>
+    <p class="lead">Two types of packages are available for download, Source Distribution and Builds.</p>
   </div>
 </div><!-- /.jumbotron -->
 
@@ -20,53 +17,103 @@ __navbar__
       <div class="col-sm-6">
 	<h2>Source distribution</h2>
 	<p>The complete source code to build the Exiv2 library, command
-	  line utility and several simple example and test applications.
-	  The distribution includes standard build files for
-	  UNIX-like systems (including GNU/Linux, Mac OS X, MinGW and Cygwin) as well
-	  as Visual Studio project files for Visual C++ .NET 2003 (MSVC 7.1)
-	  and later. After downloading and unpacking the distribution,
+	  line utility and several example and test applications.
+	  <br>The distribution includes build support for:</ol>
+	  <li><b>./configure</b> script for Unix systems including:
+      <br>&nbsp;&nbsp;&nbsp;&nbsp;Unix, GNU/Linux, Mac OS X, MinGW and Cygwin</li>
+      <li><b>Visual Studio</b> project/solutions files for Visual C++
+      <br>&nbsp;&nbsp;&nbsp;&nbsp;msvc/ for use with Visual Studio 2005/8/10/12/13/15
+      <br>&nbsp;&nbsp;&nbsp;&nbsp;msvc2003/ for Visual Studio .NET 2003 (MSVC 7.1).</li>
+      <li><b>CMakeList.txt</b> scripts for <b>CMake</b> builds on many platforms.</li>
+      </ol></p>
+	  <p>After downloading and unpacking the distribution,
 	  see the <em><a title="README file" href="http://dev.exiv2.org/projects/exiv2/repository/entry/tags/__version__/README">README</a></em> file in the top directory for build and
 	  installation notes and further information.
 	</p>
-      </div><!-- /.col-sm-6 -->
-      <div class="col-sm-6">
-	<h2>Windows executable</h2>
-	<p>Just the command line utility <code>exiv2.exe</code>, Expat DLL, Exiv2
-	  manpage and two sample command files. To get started, run the executable
-	  with the <em>-h</em> parameter from a cmd shell:
-	  <code><a title="Exiv2 usage" href="sample.html#usage">exiv2 -h</a></code>.
-	  For details, read the <a href="manpage.html" title="Exiv2 man page">manual page</a>.
-	  The Windows executable was compiled with the 
-	  <a title="MinGW homepage" href="http://www.mingw.org">MinGW</a> cross compiler
-	  on an x86-64 machine running 
-	  <a title="Ubuntu homepage" href="http://www.ubuntu.com">Ubuntu</a>.
-	</p>
-      </div><!-- /.col-sm-6 -->
-    </div><!-- /.row -->
-    <div class="row">
-      <div class="col-sm-6">
 	<p class="text-center margin-top-s">
           <a href="exiv2-__version__.tar.gz" class="btn btn-lg btn-success">
 	    <span class="glyphicon glyphicon-download-alt" aria-hidden="true"></span>&nbsp; Download source
 	  </a>
 	</p>
 	<p class="version text-center text-muted"><small>Currently v__version__</small></p>
+	
+	<h2>Build Server</h2>
+	<p>The project has a build server which builds (and tests the code) on 17 platforms every night.
+	Additionally, the build server builds (and tests) selected branches of our repository
+	to assist Team Exiv2 Contributors when the submit code.</p>
+	<p>The buildserver is located at:  <a href="http://exiv2.dyndns.org:8080">http://exiv2.dyndns.org:8080</a></p>
+	<p>You can access builds here:<a href="http://exiv2.dyndns.org:8080/userContent/builds/">http://exiv2.dyndns.org:8080/userContent/builds/</a></p>
       </div><!-- /.col-sm-6 -->
       <div class="col-sm-6">
-	<p class="text-center margin-top-s">
-          <a href="exiv2-__version__-win.zip" class="btn btn-lg btn-success">
-	    <span class="glyphicon glyphicon-download-alt" aria-hidden="true"></span>&nbsp; Download exiv2.exe
-	  </a>
+	<h2>Builds</h2>
+	<p>The project buildserver builds the following every night.  Each build bundle includes
+	builds of libexiv2 and expat and zlib and the exiv2 and sample applications.
+	The header files and sample application source are included
+	in the bundle and basic documentation to enable applications to be built.
 	</p>
-	<p class="text-center text-muted"><small>Currently v__version__</small></p>
+    <p>The builds are generated for any platform are likely to be of immediate use.
+    If you require a 32 bit build or static libraries, you will have to build from source.</p>
+    <p>Exiv2 has many options to compile a subset of the code.  Please see the ReadMe file in the source
+    package for more information.</p>
+    </p>
+	
+<div class="table-responsive">
+<table class="table table-striped">
+<tbody>
+	<tr><td>MacOSX<h3></td><td>64 bit shared libraries</td>
+	<td>
+	<p3 class="text-center">
+          <a href="exiv2-__version__-win.zip" class="btn btn-sm btn-success">
+	    <span class="glyphicon glyphicon-download-alt" aria-hidden="true"></span>&nbsp; Download macosx.tar.gz
+	  </a>
+	</p3>
+</td></tr>
+
+	<tr><td>Linux<h3></td><td>64 bit shared libraries.</td>
+	<td>
+	<p3 class="text-center">
+          <a href="exiv2-__version__-win.zip" class="btn btn-sm btn-success">
+	    <span class="glyphicon glyphicon-download-alt" aria-hidden="true"></span>&nbsp; Download linux.tar.gz
+	  </a>
+	</p3>
+</td></tr>
+	
+	<tr><td>Cygwin<h3></td><td>64 bit shared libraries.</td>
+	<td>
+	<p3 class="text-center">
+          <a href="exiv2-__version__-win.zip" class="btn btn-sm btn-success">
+	    <span class="glyphicon glyphicon-download-alt" aria-hidden="true"></span>&nbsp; Download cygwin.tar.gz
+	  </a>
+	</p3>
+</td></tr>
+
+	<tr><td>MinGW<h3></td><td>32 bit shared libraries.</td>
+	<td>
+	<p3 class="text-center">
+          <a href="exiv2-__version__-win.zip" class="btn btn-sm btn-success">
+	    <span class="glyphicon glyphicon-download-alt" aria-hidden="true"></span>&nbsp; Download mingw.tar.gz
+	  </a>
+	</p3>
+</td></tr>
+
+	<tr><td>MSVC<h3></td><td>64 and 32 bit shared libraries.<br>Editions: 2005/8/10/12/13/15</td>
+	<td>
+	<p3 class="text-center">
+          <a href="exiv2-__version__-win.zip" class="btn btn-sm btn-success">
+	    <span class="glyphicon glyphicon-download-alt" aria-hidden="true"></span>&nbsp; Download msvc.tar.gz
+	  </a>
+	</p3>
+</td></tr>
+</tbody></table>
+
+  <p class="margin-top-s">As an alternative to these packages, most Linux distributions,
+    BSD-based systems and Open Source package collections for Darwin and 
+    Mac OS X have a package management system such as <i>yum, apt, port, or mingw-get</i> which will
+    install binary builds and header files.</p>
+</div>
       </div><!-- /.col-sm-6 -->
     </div><!-- /.row -->
   </div><!-- /.col-sm-pair -->
-  <p class="margin-top-s">As an alternative to these packages, many Linux distributions,
-    BSD-based systems and Open Source package collections for Darwin and 
-    Mac OS X have their own Exiv2 packages that can be installed via the
-    package management system of the distribution.
-  </p>
 
 <h2>Package details</h2>
 
