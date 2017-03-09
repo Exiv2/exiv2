@@ -6,9 +6,8 @@ __navbar__
 
 <div class="container">
   <div class="page-header">
-    <h1>What's new</h1>
+    <h1>What's New in Exiv2</h1>
   </div>
-
 __whatsnew-table__
 </div><!-- /.container -->
 

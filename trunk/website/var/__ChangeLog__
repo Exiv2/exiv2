@@ -1,3 +1,4 @@
+<a name="v0.26">&nbsp;</a>
 Changes from version 0.25 to 0.26
 ---------------------------------
 
@@ -316,7 +317,7 @@ Changes from version 0.25 to 0.26
 	- <a href="http://dev.exiv2.org/issues/0000599">0000599</a>:	XMP packets split across multiple APP1 segments
 				(Andreas Huggel)
 
-
+<a name="v0.25">&nbsp;</a>
 Changes from version 0.24 to 0.25
 ---------------------------------
 

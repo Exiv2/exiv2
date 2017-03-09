@@ -9,9 +9,7 @@ __doctype__
 	<h1>Changelog</h1>
       </div>
 
-      <pre>
-__ChangeLog__
-      </pre>
+      <pre>__ChangeLog__</pre>
 
     </div><!-- /.container -->
 __footer__
