@@ -15,6 +15,7 @@
       <ul class="nav navbar-nav">
         <li><a href="getting-started.html">Getting started</a></li>
         <li><a href="download.html">Download</a></li>
+        <li><a href="whatsnew.html">What's New</a></li>
         <li><a href="metadata.html">Metadata</a></li>
         <li><a href="makernote.html">Makernote</a></li>
         <li><a href="doc/index.html">API</a></li>
