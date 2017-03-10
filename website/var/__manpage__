@@ -1,0 +1,18 @@
+  -seealso         : Link to other manpages only in the SEE ALSO section
+  -solaris         : Process keyword search result in Solaris format
+  -sun             : Section heads are not overstriked in input
+  -title <string>  : Title of manpage (def: Not defined)
+  -topm <#>        : Number of lines for top margin (def: 7)
+  -uelem <elem>    : HTML Element for underlined text (def: "I")
+
+Description:
+  man2html takes formatted manpages from STDIN and converts it to HTML sent
+  to STDOUT.  The -topm and -botm arguments are the number of lines to the
+  main body text and NOT to the running headers/footers.
+
+Version:
+  3.0.1
+  Copyright (C) 1995-1997  Earl Hood, ehood@medusa.acs.uci.edu
+  man2html comes with ABSOLUTELY NO WARRANTY and man2html may be copied only
+  under the terms of the GNU General Public License, which may be found in
+  the man2html distribution.
