@@ -19,6 +19,7 @@ Review and update documentation
   Taglists
   READMEs
   
+Get the release ready by inspecting the logs from the buildserver.
 v0.26 and Later (must do this on the buildserver)
 	Get the "release builds" from the buildserver:
 	701 rmills@rmillsmm:~/gnu/exiv2/trunk/website $ mkdir html/builds
@@ -37,37 +38,27 @@ v0.26 and Later (must do this on the buildserver)
 	-rw-r--r--+ 1 rmills staff 2.3M Mar  8 18:19 html/builds/linux-svn-4718-date-2017-03-08+02-18-55.tar.gz
 	-rw-r--r--+ 1 rmills staff 2.7M Mar  8 18:19 html/builds/macosx-svn-4718-date-2017-03-08+02-17-33.tar.gz
 	-rw-r--r--+ 1 rmills staff 5.9M Mar  8 18:19 html/builds/mingw-svn-4718-date-2017-03-08+03-27-53.tar.gz
-	705 rmills@rmillsmm:~/gnu/exiv2/trunk/website $ pushd html/builds ; mv msvc....... msvc.tar.gz etc... ; popd
+	705 rmills@rmillsmm:~/gnu/exiv2/trunk/website $ pushd html/builds ; mv msvc....... exiv2-0.26-msvc.tar.gz etc... ; popd
 	715 rmills@rmillsmm:~/gnu/exiv2/trunk/website $
 
-v0.25 and earlier
-Linux
-  Compile organize
-  Compile and run tests on Intel 32
-  Compile and run tests on AMD 64
-Mac
-  Compile and run tests on Mac OSX
-MinGW
-  Compile and run tests
-MSVC
-  Compile with 7.1 msvc2003
-  Run tests with 7.1 executables
-  Compile with 8   msvc2005
-  Run tests with 8 executables
-  Compile with 9   msvc2005
-  Run tests with 9 executables
-  Compile with 10  msvc2005
-  Run tests with 10 executables
-  Compile with 11  msvc2012
-  Run tests with 11 executables
-#end
-
+Get the Website ready:
+	
+Run the script to get revision history:
+	$ cd exiv2/team/contrib/redmine
+	$ getdata.sh release 
+	
+	Modify/paste output to html/var/__ChangeLog__
+	Finalize webpage download information (echo -e '0.27' > var/__version__ ; bin/download.sh)
+	
+	make
+	open html/index.html
+	
 Tag release (bin/exiv2-tagrelease.sh)
-Create packages (bin/exiv2-buildrelease.sh, bin/exiv2-buildwinexe.sh)
-Finalize webpages with package information (bin/release_info.sh)
+Create packages (bin/exiv2-buildrelease.sh # bin/exiv2-buildwinexe.sh)
+
 Publish webpages and packages locally (make publish)
 Download and test packages
-Test Windows binary on Windows
+# Test Windows binary on Windows
 Really publish webpages and packages (make really-publish)
 Validate uploaded webpages with W3C HTML checker
 Exiv2 forum announcement
