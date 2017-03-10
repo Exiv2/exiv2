@@ -63,7 +63,7 @@ __navbar__
 	<tr><td>MacOSX<h3></td><td>64 bit shared libraries</td>
 	<td>
 	<p3 class="text-center">
-          <a href="exiv2-__version__-win.zip" class="btn btn-sm btn-success">
+          <a href="builds/macosx.tar.gz" class="btn btn-sm btn-success">
 	    <span class="glyphicon glyphicon-download-alt" aria-hidden="true"></span>&nbsp; Download macosx.tar.gz
 	  </a>
 	</p3>
@@ -72,7 +72,7 @@ __navbar__
 	<tr><td>Linux<h3></td><td>64 bit shared libraries.</td>
 	<td>
 	<p3 class="text-center">
-          <a href="exiv2-__version__-win.zip" class="btn btn-sm btn-success">
+          <a href="builds/linux.tar.gz" class="btn btn-sm btn-success">
 	    <span class="glyphicon glyphicon-download-alt" aria-hidden="true"></span>&nbsp; Download linux.tar.gz
 	  </a>
 	</p3>
@@ -81,7 +81,7 @@ __navbar__
 	<tr><td>Cygwin<h3></td><td>64 bit shared libraries.</td>
 	<td>
 	<p3 class="text-center">
-          <a href="exiv2-__version__-win.zip" class="btn btn-sm btn-success">
+          <a href="builds/cygwin.tar.gz" class="btn btn-sm btn-success">
 	    <span class="glyphicon glyphicon-download-alt" aria-hidden="true"></span>&nbsp; Download cygwin.tar.gz
 	  </a>
 	</p3>
@@ -90,16 +90,16 @@ __navbar__
 	<tr><td>MinGW<h3></td><td>32 bit shared libraries.</td>
 	<td>
 	<p3 class="text-center">
-          <a href="exiv2-__version__-win.zip" class="btn btn-sm btn-success">
+          <a href="builds/mingw.tar.gz" class="btn btn-sm btn-success">
 	    <span class="glyphicon glyphicon-download-alt" aria-hidden="true"></span>&nbsp; Download mingw.tar.gz
 	  </a>
 	</p3>
 </td></tr>
 
-	<tr><td>MSVC<h3></td><td>64 and 32 bit shared libraries.<br>Editions: 2005/8/10/12/13/15</td>
+	<tr><td>MSVC<h3></td><td>64 and 32 bit shared libraries for Visual Studio 2005/8/10/12/13/15</td>
 	<td>
 	<p3 class="text-center">
-          <a href="exiv2-__version__-win.zip" class="btn btn-sm btn-success">
+          <a href="builds/mingw.tar.gz" class="btn btn-sm btn-success">
 	    <span class="glyphicon glyphicon-download-alt" aria-hidden="true"></span>&nbsp; Download msvc.tar.gz
 	  </a>
 	</p3>
@@ -164,15 +164,27 @@ for NLS,
  (Note that modern Linux distributions usually have gettext and iconv in libc 
   and these features can be disabled individually.)</p>
 
-<h2 id="devel">Repository</h2>
+<h2 id="devel">Exiv2 Source on GitHUB (v0.26 and later)</h2>
+<p>git@github.com/exiv2.git</p>
+<p>Documentation concerning git: TBD</p>
 
- <p>The Exiv2 source code is maintained in a Subversion repository. You can
+<h2 id="svndevel">SVN Repository (before and including v0.26)</h2>
+
+ <p>The Exiv2 source code was maintained in a Subversion repository until v0.26 shipped.  You can
   <a href="http://dev.exiv2.org/projects/exiv2/repository" title="Exiv2 online source code repository" >browse the source code online</a>
   or get a copy of the latest development code from the repository.
   Once you have the source code, see the <em><a title="README file" href="http://dev.exiv2.org/projects/exiv2/repository/entry/tags/__version__/README">README</a></em> file in the top
   directory for build and installation notes.
  </p>
-
+ 
+  <p>There are four SVN repositories in use:<ul>
+    <li>Source: svn://dev.exiv2.org/svn/trunk</li>
+    <li>Source: svn://dev.exiv2.org/svn/branches</li>
+    <li>Team Resources: svn://dev.exiv2.org/svn/team</li>
+    <li>Test Resources: svn://dev.exiv2.org/svn/test</li>
+    </ul>
+  </p>
+ 
  <p>To check-out the current source code from the repository, you need a 
   <a title="Get Subversion!"
   href="http://en.wikipedia.org/wiki/Comparison_of_Subversion_clients">Subversion client</a>. 
@@ -185,7 +197,7 @@ for NLS,
   test drivers.  To download these directly from the repository (about
   34 MB), change to your local exiv2-__version__/ directory and use the
   following command:</p>
-
+  
 <pre class="pre-x-scrollable">$ svn export svn://dev.exiv2.org/svn/tags/__version__/test</pre>
 
 <p>The <a href="http://dev.exiv2.org/projects/exiv2/wiki" title="Exiv2 community website">Exiv2 community website</a>

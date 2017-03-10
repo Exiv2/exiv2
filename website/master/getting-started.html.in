@@ -21,46 +21,49 @@ __navbar__
     <div class="row">
       <div class="col-sm-6">
       
-	<h2 id="lib">Exiv2 C++ library</h2>
-	<ul>
-	  <li>Fast read and write access to the
-	    <a href="http://en.wikipedia.org/wiki/Exif">Exif</a>, 
-	    <a href="http://en.wikipedia.org/wiki/IPTC">IPTC</a> and 
-	    <a href="http://en.wikipedia.org/wiki/Extensible_Metadata_Platform">XMP</a>
-	    <a href="http://en.wikipedia.org/wiki/Metadata">metadata</a> of an image</li>
-	  <li>Easy to use and <a href="doc/index.html" title="Exiv2 API documentation">extensively documented</a> C++ API</li>
-	  <li><a href="conversion.html" title="Exiv2 Conversions">Conversions</a> of Exif and IPTC metadata to XMP and vice versa</li>
-	  <li>Smart IPTC implementation that does not affect data that programs like Photoshop store
-	    in the same image segment</li>
-	  <li>Exif <a href="makernote.html" title="Exif Makernote Formats and Specifications">Makernote</a> support:
+	    <h2 id="lib">Exiv2 C++ library</h2>
 	    <ul>
-	      <li>Makernote tags can be read and written just like any other metadata</li>
-	      <li>Sophisticated write algorithm avoids corrupting the Makernote</li>
+	      <li>Fast read and write access to the
+	        <a href="http://en.wikipedia.org/wiki/Exif">Exif</a>, 
+	        <a href="http://en.wikipedia.org/wiki/IPTC">IPTC</a> and 
+	        <a href="http://en.wikipedia.org/wiki/Extensible_Metadata_Platform">XMP</a>
+	        <a href="http://en.wikipedia.org/wiki/Metadata">metadata</a> of an image
+	      </li>
+	      <li>Easy to use and <a href="doc/index.html" title="Exiv2 API documentation">extensively documented</a> C++ API</li>
+	      <li><a href="conversion.html" title="Exiv2 Conversions">Conversions</a> of Exif and IPTC metadata to XMP and vice versa</li>
+	      <li>Smart IPTC implementation that does not affect data that programs like Photoshop store
+	        in the same image segment
+	      </li>
+	      <li>Exif <a href="makernote.html" title="Exif Makernote Formats and Specifications">Makernote</a> support:
+	       <ul>
+	        <li>Makernote tags can be read and written just like any other metadata</li>
+	        <li>Sophisticated write algorithm avoids corrupting the Makernote</li>
+	       </ul>
+	      </li>
+	      <li>Simple interface to extract previews embedded in RAW images and Exif thumbnails</li>
+	      <li>Set and delete methods for Exif thumbnails</li>
 	    </ul>
-	  </li>
-	  <li>Simple interface to extract previews embedded in RAW images and Exif thumbnails</li>
-	  <li>Set and delete methods for Exif thumbnails</li>
-	</ul>
 
-  <h4 class="margin-top-m">Future plans</h4>
-      <p>These are high-level goals for the Exiv2 library, see the
-	<a href="http://dev.exiv2.org/projects/exiv2/roadmap">roadmap</a>
-	for details for the upcoming version.</p>
-      <ul>
-	<li>A stable API</li>
-	<li>A unified metadata container</li>
-	<li>Additional image formats and more Makernote support</li>
-      </ul>
+        <h4 class="margin-top-m">Future plans</h4>
+        <p>These are high-level goals for the Exiv2 library, see the
+	      <a href="http://dev.exiv2.org/projects/exiv2/roadmap">roadmap</a>
+	      for details for the upcoming version.
+	    </p>
+        <ul>
+	     <li>A stable API</li>
+	     <li>A unified metadata container</li>
+	     <li>Additional image formats and more Makernote support</li>
+        </ul>
 
-	<div class="panel panel-primary margin-top-s">
-	  <div class="panel-body">
-		<p>
-		To learn how to use the Exiv2 library in your own programs, start by reading the 
-		short <a href="doc/index.html">API documentation intro</a> and study some of the examples here.
-		Refer to the <a href="metadata.html">metadata taglists</a> for supported tags and default types
-		and the <a href="doc/namespaceExiv2.html">API documentation</a> for the interface.
-		</p>
-	  <div class="btn-group">
+	    <div class="panel panel-primary margin-top-s">
+	      <div class="panel-body">
+		    <p>
+		    To learn how to use the Exiv2 library in your own programs, start by reading the 
+		    short <a href="doc/index.html">API documentation intro</a> and study some of the examples here.
+		    Refer to the <a href="metadata.html">metadata taglists</a> for supported tags and default types
+		    and the <a href="doc/namespaceExiv2.html">API documentation</a> for the interface.
+		    </p>
+	        <div class="btn-group">
 		<a class="btn btn-primary" href="examples.html" role="button">Library examples</a>
 		<button type="button" class="btn btn-primary dropdown-toggle" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
 		  <span class="caret"></span>
@@ -91,9 +94,6 @@ __navbar__
 	 </div>
    </div>
    
-  <h3>Release History</h3>
-       __whatsnew-latest__
-
   </div><!-- /.col-sm-6 -->
   
   <div class="col-sm-6">
