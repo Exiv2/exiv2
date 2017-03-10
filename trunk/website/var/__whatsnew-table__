@@ -7,35 +7,36 @@
   <br>See the <a title="ChangeLog" href="changelog.html#v0.26">ChangeLog</a> for the complete
   list of changes and new features.
   <h3>Highlights of this release</h3>
-  <p><a href="Exiv2v0-26.pdf">Slide Presentation</a>
+  <p>Slide Presentation: <a href="Exiv2v0-26.pdf">Exiv2v0-26.pdf</a>
+  <br>Project history: <a href="http://dev.exiv2.org/news/2">http://dev.exiv2.org/news/2</a>
   <ul>
   <li>CMake support for Visual Studio</li>
-  <li>Buildserver Daily Builds</li>
+  <li>Buildserver Builds Every Day (and retains weekly/monthly)</li>
   <li>Website Makeover</li>
-  <li>ICC Profile Support</li>
-  <li>Lens File for user lens definitions</li>
   <li>Recursive File Dump</li>
-  <li>WebP Support</li>
+  <li>ICC Profile Support</li>
   <li>Piping of metadata using exiv2 command</li>
+  <li>Lens File for user lens definitions</li>
+  <li>User defined lens types</li>
+  <li>Website Makeover</li>
+  <li>WebP Support</li>
   <li>200+ bug fixes and enhancements</li>
   <li>Regular project progress reports on Redmine</li>
   <li>Fast turnaround of new issues and forum queries</li>
   </ul>
-  <h3>Important Project Changes being introduced for v0.27</h3>
+  <h3>Important Project Changes following v0.26</h3>
   <ul>
-  <li>We are moving to <b>git</b>.</li>
-  <li>Visual Studio 2003 .Net will no longer be supported.</li>
-  <li>MinGW msys/1.0 will no longer be supported.</li>
-  <li>Robin will retire from the project at the end of 2017.</li>
+  <li>We are moving to GitHUB: <b>git@github.com/exiv2.git</b></li>
+  <li>Visual Studio 2003 .Net support is being discontinued</li>
+  <li>MinGW msys/1.0 support is being discontinued</li>
+  <li>Robin will retire from the project at the end of 2017</li>
   </ul>
   <h3>Goals and Project Plans for v0.27</h3>
   <p>We welcome Ben, Raphael, Shridar and Troy to Team Exiv2. We hope Alan, Andreas, Alan, Thomas, Mahesh, Gilles and Niels will continue to contribute.</p>
   <p>It is intended to update the specification for Exiv2 v0.27 in consultation with Team Exiv2.
-  <br>Specification and progress reports:<br><a href="http://dev.exiv2.org/news/3">Available on Redmine</a>
-  </p><p>
-  Robin intends to continue to provide rapid response to user questions during 2017.  Typical response time for new requests is hours.
+     <br>Specification and progress reports: <a href="http://dev.exiv2.org/news/3">http://dev.exiv2.org/news/3</a>
   </p>
-
+  <p>Robin intends to continue to provide rapid response to user questions during 2017.  Typical response time for new requests is hours.</p>
 </td>
 <tr><td class="text-nowrap">10-Oct-2015</td>
 <td>
