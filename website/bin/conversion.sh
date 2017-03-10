@@ -12,7 +12,6 @@ count=${#from[@]}
 
 index=0
 (
-
     echo   '<table class="table table-striped">'
     echo   '<tr><th>Between Exif tags or Iptc datasets</th><th>and XMP properties</th></tr>'
     while [ $index -lt $count ]; do

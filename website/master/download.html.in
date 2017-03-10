@@ -31,7 +31,7 @@ __navbar__
 	  installation notes and further information.
 	</p>
 	<p class="text-center margin-top-s">
-          <a href="exiv2-__version__.tar.gz" class="btn btn-lg btn-success">
+          <a href="exiv2-__version__-trunk.tar.gz" class="btn btn-lg btn-success">
 	    <span class="glyphicon glyphicon-download-alt" aria-hidden="true"></span>&nbsp; Download source
 	  </a>
 	</p>
@@ -60,50 +60,7 @@ __navbar__
 <div class="table-responsive">
 <table class="table table-striped">
 <tbody>
-	<tr><td>MacOSX<h3></td><td>64 bit shared libraries</td>
-	<td>
-	<p3 class="text-center">
-          <a href="builds/macosx.tar.gz" class="btn btn-sm btn-success">
-	    <span class="glyphicon glyphicon-download-alt" aria-hidden="true"></span>&nbsp; Download macosx.tar.gz
-	  </a>
-	</p3>
-</td></tr>
-
-	<tr><td>Linux<h3></td><td>64 bit shared libraries.</td>
-	<td>
-	<p3 class="text-center">
-          <a href="builds/linux.tar.gz" class="btn btn-sm btn-success">
-	    <span class="glyphicon glyphicon-download-alt" aria-hidden="true"></span>&nbsp; Download linux.tar.gz
-	  </a>
-	</p3>
-</td></tr>
-	
-	<tr><td>Cygwin<h3></td><td>64 bit shared libraries.</td>
-	<td>
-	<p3 class="text-center">
-          <a href="builds/cygwin.tar.gz" class="btn btn-sm btn-success">
-	    <span class="glyphicon glyphicon-download-alt" aria-hidden="true"></span>&nbsp; Download cygwin.tar.gz
-	  </a>
-	</p3>
-</td></tr>
-
-	<tr><td>MinGW<h3></td><td>32 bit shared libraries.</td>
-	<td>
-	<p3 class="text-center">
-          <a href="builds/mingw.tar.gz" class="btn btn-sm btn-success">
-	    <span class="glyphicon glyphicon-download-alt" aria-hidden="true"></span>&nbsp; Download mingw.tar.gz
-	  </a>
-	</p3>
-</td></tr>
-
-	<tr><td>MSVC<h3></td><td>64 and 32 bit shared libraries for Visual Studio 2005/8/10/12/13/15</td>
-	<td>
-	<p3 class="text-center">
-          <a href="builds/mingw.tar.gz" class="btn btn-sm btn-success">
-	    <span class="glyphicon glyphicon-download-alt" aria-hidden="true"></span>&nbsp; Download msvc.tar.gz
-	  </a>
-	</p3>
-</td></tr>
+	__download_buttons__
 </tbody></table>
 
   <p class="margin-top-s">As an alternative to these packages, most Linux distributions,
@@ -132,20 +89,7 @@ __navbar__
     </tr>
   </thead>
   <tbody>
-    <tr>
-      <td>Exiv2 v__version__ Source</td>
-      <td><a title="Download the v__version__ source package" href="exiv2-__version__.tar.gz" >exiv2-__version__.tar.gz</a></td>
-      <td>__size_src_pkg__</td>
-      <td class="text-nowrap">__rel_date_src_pkg__</td>
-      <td>__md5sum_src_pkg__</td>
-    </tr>
-    <tr>
-      <td>Exiv2 v__version__ Windows executable</td>
-      <td><a title="Download the v__version__ Windows executable" href="exiv2-__version__-win.zip" >exiv2-__version__-win.zip</a></td>
-      <td>__size_win_pkg__</td>
-      <td class="text-nowrap">__rel_date_win_pkg__</td>
-      <td>__md5sum_win_pkg__</td>
-    </tr>
+__download_table__
   <tbody>
 </table>
 </div>
@@ -170,7 +114,7 @@ for NLS,
 
 <h2 id="svndevel">SVN Repository (before and including v0.26)</h2>
 
- <p>The Exiv2 source code was maintained in a Subversion repository until v0.26 shipped.  You can
+ <p>The Exiv2 source code has maintained in a Subversion repository.  Future changes to Exiv2 will not be managed by SVN.  You can
   <a href="http://dev.exiv2.org/projects/exiv2/repository" title="Exiv2 online source code repository" >browse the source code online</a>
   or get a copy of the latest development code from the repository.
   Once you have the source code, see the <em><a title="README file" href="http://dev.exiv2.org/projects/exiv2/repository/entry/tags/__version__/README">README</a></em> file in the top
@@ -181,24 +125,17 @@ for NLS,
     <li>Source: svn://dev.exiv2.org/svn/trunk</li>
     <li>Source: svn://dev.exiv2.org/svn/branches</li>
     <li>Team Resources: svn://dev.exiv2.org/svn/team</li>
-    <li>Test Resources: svn://dev.exiv2.org/svn/test</li>
+    <li>Test Resources: svn://dev.exiv2.org/svn/testdata</li>
     </ul>
   </p>
  
- <p>To check-out the current source code from the repository, you need a 
+ <p>To check-out code from the repository, you need a 
   <a title="Get Subversion!"
   href="http://en.wikipedia.org/wiki/Comparison_of_Subversion_clients">Subversion client</a>. 
   If you use the standard subversion <code>svn</code> command line client, change to the directory where you want to keep 
   the source code and type:</p>
 
 <pre class="pre-x-scrollable">$ svn checkout svn://dev.exiv2.org/svn/trunk</pre>
-
- <p>Not included in the source distribution are test data and several
-  test drivers.  To download these directly from the repository (about
-  34 MB), change to your local exiv2-__version__/ directory and use the
-  following command:</p>
-  
-<pre class="pre-x-scrollable">$ svn export svn://dev.exiv2.org/svn/tags/__version__/test</pre>
 
 <p>The <a href="http://dev.exiv2.org/projects/exiv2/wiki" title="Exiv2 community website">Exiv2 community website</a>
  provides access to further project resources, including the issue tracker, wiki and forum.</p>
