@@ -453,6 +453,8 @@ Location (directory) for files to be inserted or extracted.
 .TP
 .B \-S \fI.suf\fP
 Use suffix \fI.suf\fP for source files in 'insert' action.
+.br
+.ne 40
 .SH COMMANDS
 Commands for the 'modify' action can be read from a command file, e.g.,
 .sp 1
@@ -593,10 +595,14 @@ $ exiv2 -M'del Xmp.dc.title' X.jpg
 To register additional XMP namespaces, combine the command with:
 .nf
 \fBreg\fP \fIprefix\fP \fInamespace\fP
+.br
+.ne 4
 .fi
 .SS Command file format
 Empty lines and lines starting with \fB#\fP in a command file are
 ignored (comments). Remaining lines are commands as described above.
+.br
+.ne 40
 .SH EXAMPLES
 .TP
 exiv2 *.jpg
