@@ -1,5 +1,5 @@
 <table class="table table-striped">
-<tr><td class="text-nowrap">10-Mar-2017</td>
+<tr><td class="text-nowrap">19-Mar-2017</td>
 <td>
   <b><a name="item1" href="changelog.html#v0.26">Exiv2 0.26 Released</a></b>
   <br>This release contains a large collection of new features, new lenses and bugfixes
@@ -8,11 +8,12 @@
   list of changes and new features.
   <h3>Highlights of this release</h3>
   <p>Slide Presentation: <a href="Exiv2v0-26.pdf">Exiv2v0-26.pdf</a>
-  <br>Project history: <a href="http://dev.exiv2.org/news/2">http://dev.exiv2.org/news/2</a>
+  <br>Project history: <a href="http://dev.exiv2.org/news/2">http://dev.exiv2.org/news/2</a><br>
+  The primary goal of Exiv2 v0.26 was to clear the back-log of issues, some of which were 10 years old!
+  We added support for CMake with Visual Studio, a buildserver and ability for users to provide their own lens definition.  Numerous features were added including ICC Profile Support.
   <ul>
   <li>CMake support for Visual Studio</li>
   <li>Buildserver Builds Every Day (and retains weekly/monthly)</li>
-  <li>Website Makeover</li>
   <li>Recursive File Dump</li>
   <li>ICC Profile Support</li>
   <li>Piping of metadata using exiv2 command</li>
@@ -26,7 +27,7 @@
   </ul>
   <h3>Important Project Changes following v0.26</h3>
   <ul>
-  <li>We are moving to GitHUB: <b>git@github.com/exiv2.git</b></li>
+  <li>We are moving to GitHUB:<br><pre>$ git clone https://github.com/Exiv2/exiv2.git</pre></li>
   <li>Visual Studio 2003 .Net support is being discontinued</li>
   <li>MinGW msys/1.0 support is being discontinued</li>
   <li>Robin will retire from the project at the end of 2017</li>

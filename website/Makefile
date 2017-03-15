@@ -105,6 +105,7 @@ all: html doc
         publish really-publish
 
 html: news
+	@bin/download.sh
 	@bin/gen.py master/*.in
 	@echo "Moving files to html/ ..."
 	-@mv -f master/*.html master/*.php html/
@@ -167,8 +168,9 @@ update-conversion:
 	@./bin/conversion.sh
 
 update-changelog:
-	@cp -f ../doc/ChangeLog var/__ChangeLog__
-	@bin/buglinks.sh var/__ChangeLog__
+	echo changelog should be updated using team/contrib/redmine/progress.py
+	# @cp -f ../doc/ChangeLog var/__ChangeLog__
+	# @bin/buglinks.sh var/__ChangeLog__
 
 update-makernotes:
 	@cp -f ../doc/templates/__makernotes__ var/__makernotes__

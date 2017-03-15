@@ -37,7 +37,7 @@
 #
 # Description:
 #  Simple Makefile to create html documentation from templates. Requires
-#  some special tools (awk, python, xsltproc) but really only needs to 
+#  some special tools (awk, python, xsltproc) but really only needs to
 #  be used to update the documentation after changing Exiv2 tags in the
 #  source code.
 #
@@ -166,7 +166,7 @@ all: tags
 tags: $(TABLES) Iptc $(SCHEMA)
 	@./gen.py *.html.in
 
-$(TABLES): $(TAGLIST)
+$(TABLES):
 	@echo Generating $@ table...
 	@$(TAGLIST) $@ | sed -e"s/</\&lt;/g" -e"s/>/\&gt;/g" | awk -f tags.awk > $@.xml
 	@xsltproc tags.xsl $@.xml > $@.tmp
@@ -174,7 +174,7 @@ $(TABLES): $(TAGLIST)
 	@touch $@
 	@rm -f $@.tmp
 
-Iptc: $(TAGLIST)
+Iptc:
 	@echo Generating $@ table...
 	@$(TAGLIST) $@ | sed -e"s/</\&lt;/g" -e"s/>/\&gt;/g" -e"s/�/\&#177;/g" \
 	               | awk -f iptc.awk > $@.xml
@@ -183,7 +183,7 @@ Iptc: $(TAGLIST)
 	@touch $@
 	@rm -f $@.tmp
 
-$(SCHEMA): $(TAGLIST)
+$(SCHEMA):
 	@echo Generating $@ table...
 	@echo $@ | sed "s/xmp_//" | xargs $(TAGLIST) | sed -e"s/</\&lt;/g" -e"s/>/\&gt;/g" | awk -f xmp.awk > $@.xml
 	@xsltproc xmp.xsl $@.xml > $@.tmp
@@ -191,7 +191,7 @@ $(SCHEMA): $(TAGLIST)
 	@touch $@
 	@rm -f $@.tmp
 
-$(TAGLIST): 
+$(TAGLIST):
 	$(error File $(TAGLIST) does not exist. Did you build the library and programs in the src/ directory?)
 
 mostlyclean:
