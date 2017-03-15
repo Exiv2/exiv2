@@ -34,6 +34,7 @@ EXIV2_RCSID("@(#) $Id$")
 
 #include "rafimage.hpp"
 #include "tiffimage.hpp"
+#include "image_int.hpp"
 #include "image.hpp"
 #include "basicio.hpp"
 #include "error.hpp"
@@ -95,6 +96,189 @@ namespace Exiv2 {
         throw(Error(32, "Image comment", "RAF"));
     }
 
+    void RafImage::printStructure(std::ostream& out, PrintStructureOption option, int depth) {
+        if (io_->open() != 0) {
+            throw Error(9, io_->path(), strError());
+        }
+        // Ensure this is the correct image type
+        if (!isRafType(*io_, true)) {
+            if (io_->error() || io_->eof()) throw Error(14);
+            throw Error(3, "RAF");
+        }
+        bool bPrint = option==kpsBasic || option==kpsRecursive;
+        if ( bPrint ) {
+            io_->seek(0,BasicIo::beg); // rewind
+
+            if ( bPrint ) {
+                out << Internal::indent(depth)
+                    << "STRUCTURE OF RAF FILE: "
+                    << io().path()
+                    << std::endl;
+                out << Internal::indent(depth)
+                    << Internal::stringFormat("    Length |   Offset | Payload")
+                    << std::endl;
+            }
+
+            byte magicdata [17];
+            io_->read(magicdata, 16);
+            magicdata[16] = 0;
+            if ( bPrint ) {
+                out << Internal::indent(depth)
+                    << Internal::stringFormat("  %8u | %8u | ", 16, 0)
+                    << "Magic number : "
+                    << std::string((char*)&magicdata)
+                    << std::endl;
+            }
+
+            byte data1 [5];
+            io_->read(data1, 4);
+            data1[4] = 0;
+            if ( bPrint ) {
+                out << Internal::indent(depth)
+                    << Internal::stringFormat("  %8u | %8u | ", 4, 16)
+                    << "data 1 : "
+                    << std::string((char*)&data1)
+                    << std::endl;
+            }
+
+            byte data2 [9];
+            io_->read(data2, 8);
+            data2[8] = 0;
+            if ( bPrint ) {
+                out << Internal::indent(depth)
+                    << Internal::stringFormat("  %8u | %8u | ", 8, 20)
+                    << "data 2 : "
+                    << std::string((char*)&data2)
+                    << std::endl;
+            }
+
+            byte camdata [33];
+            io_->read(camdata, 32);
+            camdata[32] = 0;
+            if ( bPrint ) {
+                out << Internal::indent(depth)
+                    << Internal::stringFormat("  %8u | %8u | ", 32, 28)
+                    << "camera : "
+                    << std::string((char*)&camdata)
+                    << std::endl;
+            }
+
+            byte dir_version [5];
+            io_->read(dir_version, 4);
+            dir_version[4] = 0;
+            if ( bPrint ) {
+                out << Internal::indent(depth)
+                    << Internal::stringFormat("  %8u | %8u | ", 4, 60)
+                    << "dir version : "
+                    << std::string((char*)&dir_version)
+                    << std::endl;
+            }
+
+            byte unknown [20];
+            io_->read(unknown, 20);
+
+            byte jpg_img_offset [4];
+            io_->read(jpg_img_offset, 4);
+            byte jpg_img_length [4];
+            io_->read(jpg_img_length, 4);
+            long jpg_img_off = Exiv2::getULong((const byte *) jpg_img_offset, bigEndian);
+            long jpg_img_len = Exiv2::getULong((const byte *) jpg_img_length, bigEndian);
+            std::stringstream j_off;
+            std::stringstream j_len;
+            j_off << jpg_img_off;
+            j_len << jpg_img_len;
+            if ( bPrint ) {
+                out << Internal::indent(depth)
+                    << Internal::stringFormat("  %8u | %8u | ", 4, 84)
+                    << "JPEG Image Offset : "
+                    << j_off.str()
+                    << std::endl;
+                out << Internal::indent(depth)
+                    << Internal::stringFormat("  %8u | %8u | ", 4, 88)
+                    << "JPEG Image Length : "
+                    << j_len.str()
+                    << std::endl;
+            }
+
+            byte cfa_header_offset [4];
+            io_->read(cfa_header_offset, 4);
+            byte cfa_header_length [4];
+            io_->read(cfa_header_length, 4);
+            long cfa_hdr_off = Exiv2::getULong((const byte *) cfa_header_offset, bigEndian);
+            long cfa_hdr_len = Exiv2::getULong((const byte *) cfa_header_length, bigEndian);
+            std::stringstream ch_off;
+            std::stringstream ch_len;
+            ch_off << cfa_hdr_off;
+            ch_len << cfa_hdr_len;
+            if ( bPrint ) {
+                out << Internal::indent(depth)
+                    << Internal::stringFormat("  %8u | %8u | ", 4, 92)
+                    << "CFA Header Offset : "
+                    << ch_off.str()
+                    << std::endl;
+                out << Internal::indent(depth)
+                    << Internal::stringFormat("  %8u | %8u | ", 4, 96)
+                    << "CFA Header Length : "
+                    << ch_len.str()
+                    << std::endl;
+            }
+
+            byte cfa_offset [4];
+            io_->read(cfa_offset, 4);
+            byte cfa_length [4];
+            io_->read(cfa_length, 4);
+            long cfa_off = Exiv2::getULong((const byte *) cfa_offset, bigEndian);
+            long cfa_len = Exiv2::getULong((const byte *) cfa_length, bigEndian);
+            std::stringstream c_off;
+            std::stringstream c_len;
+            c_off << cfa_off;
+            c_len << cfa_len;
+            if ( bPrint ) {
+                out << Internal::indent(depth)
+                    << Internal::stringFormat("  %8u | %8u | ", 4, 100)
+                    << "CFA Offset : "
+                    << c_off.str()
+                    << std::endl;
+                out << Internal::indent(depth)
+                    << Internal::stringFormat("  %8u | %8u | ", 4, 104)
+                    << "CFA Length : "
+                    << c_len.str()
+                    << std::endl;
+            }
+
+            io_->seek(jpg_img_off, BasicIo::beg); // rewind
+            DataBuf payload(16); // header is different from chunks
+            io_->read(payload.pData_, payload.size_);
+            if ( bPrint ) {
+                out << Internal::indent(depth)
+                    << Internal::stringFormat("  %8u | %8u | ", jpg_img_len, jpg_img_off)
+                    << "jpg image / exif : "
+                    << Internal::binaryToString(payload, payload.size_)
+                    << std::endl;
+            }
+
+            io_->seek(cfa_hdr_off, BasicIo::beg); // rewind
+            io_->read(payload.pData_, payload.size_);
+            if ( bPrint ) {
+                out << Internal::indent(depth)
+                    << Internal::stringFormat("  %8u | %8u | ", cfa_hdr_len, cfa_hdr_off)
+                    << "CFA Header: "
+                    << Internal::binaryToString(payload, payload.size_)
+                    << std::endl;
+            }
+
+            io_->seek(cfa_off, BasicIo::beg); // rewind
+            io_->read(payload.pData_, payload.size_);
+            if ( bPrint ) {
+                out << Internal::indent(depth)
+                    << Internal::stringFormat("  %8u | %8u | ", cfa_len, cfa_off)
+                    << "CFA : "
+                    << Internal::binaryToString(payload, payload.size_)
+                    << std::endl;
+            }
+        }
+    } // RafImage::printStructure
+
     void RafImage::readMetadata()
     {
 #ifdef DEBUG
@@ -107,20 +291,32 @@ namespace Exiv2 {
             if (io_->error() || io_->eof()) throw Error(14);
             throw Error(3, "RAF");
         }
-        byte const* pData = io_->mmap();
-        long size = io_->size();
-        if (size < 88 + 4) throw Error(14); // includes the test for -1
-        uint32_t const start = getULong(pData + 84, bigEndian) + 12;
-        if (static_cast<uint32_t>(size) < start) throw Error(14);
+
         clearMetadata();
+
+        io_->seek(84,BasicIo::beg);
+        byte jpg_img_offset [4];
+        io_->read(jpg_img_offset, 4);
+        byte jpg_img_length [4];
+        io_->read(jpg_img_length, 4);
+        long jpg_img_off = Exiv2::getULong((const byte *) jpg_img_offset, bigEndian);
+        long jpg_img_len = Exiv2::getULong((const byte *) jpg_img_length, bigEndian);
+
+        DataBuf buf(jpg_img_len - 12);
+        io_->seek(jpg_img_off + 12,BasicIo::beg);
+        io_->read(buf.pData_, buf.size_ - 12);
+        if (io_->error() || io_->eof()) throw Error(14);
+
+        io_->seek(0,BasicIo::beg); // rewind
+
         ByteOrder bo = TiffParser::decode(exifData_,
                                           iptcData_,
                                           xmpData_,
-                                          pData + start,
-                                          size - start);
+                                          buf.pData_,
+                                          buf.size_);
 
-        exifData_["Exif.Image2.JPEGInterchangeFormat"] = getULong(pData + 84, bigEndian);
-        exifData_["Exif.Image2.JPEGInterchangeFormatLength"] = getULong(pData + 88, bigEndian);
+        exifData_["Exif.Image2.JPEGInterchangeFormat"] = getULong(jpg_img_offset, bigEndian);
+        exifData_["Exif.Image2.JPEGInterchangeFormatLength"] = getULong(jpg_img_length, bigEndian);
 
         setByteOrder(bo);
     } // RafImage::readMetadata

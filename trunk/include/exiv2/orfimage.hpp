@@ -79,6 +79,7 @@ namespace Exiv2 {
 
         //! @name Manipulators
         //@{
+        void printStructure(std::ostream& out, PrintStructureOption option,int depth);
         void readMetadata();
         void writeMetadata();
         /*!
