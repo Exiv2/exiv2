@@ -8,9 +8,9 @@ platform = linux
 
 Structure of the bundle:
 
-dist/linux/bin/exiv2.exe                              exiv2 and sample applications
-dist/linux/lib/libexiv2.so.14.0.0                     shared library
-       .../lib/exiv2.lib                              libraries for exiv2 and expat and zlib)
+dist/linux/bin/exiv2                                  exiv2 and sample applications
+dist/linux/lib/libexiv2.so.15.0.0                     shared library
+       .../lib/exiv2.lib                              libraries for exiv2/expat/zlib
           /include/exiv2/                             include files
           /share/                                     man pages
 dist/samples/                                         sample code
@@ -27,7 +27,7 @@ $ cd dist
 $ sudo cp -R linux/* /usr/local/
 $ g++ -std=c++98 samples/exifprint.cpp -L/usr/local/lib -lexiv2 -o exifprint
 $ ./exifprint --version
-exiv2=0.25.0
+exiv2=0.26.0
 ...
 xmlns=xmpidq:http://ns.adobe.com/xmp/Identifier/qual/1.0/
 $
@@ -37,8 +37,8 @@ platform = macosx
 
 Structure of the bundle:
 
-dist/macosx/bin/exiv2.exe                             exiv2 and sample applications
-        .../lib/libexiv2.so.14.0.0.dylib              shared library
+dist/macosx/bin/exiv2                                 exiv2 and sample applications
+        .../lib/libexiv2.so.15.0.0.dylib              shared library
            /lib/exiv2.lib                             libraries for exiv2/expat/zlib
            /include/exiv2/                            include files
            /share/                                    man pages
@@ -57,7 +57,7 @@ $ cd dist
 $ sudo cp -R macosx/* /usr/local
 $ g++ -std=c++98 samples/exifprint.cpp -L/usr/local/lib -lexiv2 -o exifprint
 $ ./exifprint --version
-exiv2=0.25.0
+exiv2=0.26.0
 ...
 xmlns=xmpidq:http://ns.adobe.com/xmp/Identifier/qual/1.0/
 $
@@ -86,7 +86,7 @@ $ cd dist
 $ cp -R cygwin/* /usr/local
 $ g++ -std=c++98 samples/exifprint.cpp -L/usr/local/lib -lexiv2 -o exifprint
 $ ./exifprint --version
-exiv2=0.25.0
+exiv2=0.26.0
 ...
 xmlns=xmpidq:http://ns.adobe.com/xmp/Identifier/qual/1.0/
 $
@@ -117,7 +117,7 @@ $ cd dist
 $ cp -R mingw/*  /usr/local
 $ g++ -std=c++98 samples/exifprint.cpp -L/usr/local/lib -lexiv2.dll -o exifprint
 $ ./exifprint --version
-exiv2=0.25.0
+exiv2=0.26.0
 ...
 xmlns=xmpidq:http://ns.adobe.com/xmp/Identifier/qual/1.0/
 $
@@ -148,11 +148,11 @@ To compile and link your own code:
 c:\temp> cd dist
 c:\temp\dist> cl /EHsc -I2013\x64\dll\Release\include /MD samples\exifprint.cpp /link 2013\x64\dll\Release\lib\exiv2.lib
 c:\temp\dist> exifprint --version
-exiv2=0.25.0
+exiv2=0.26.0
 ...
 xmlns=xmpidq:http://ns.adobe.com/xmp/Identifier/qual/1.0/
 c:\temp\dist>
 
 Robin Mills
 robin@clanmills.com
-2016-09-13
+2017-03-15
