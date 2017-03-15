@@ -41,6 +41,7 @@ EXIV2_RCSID("@(#) $Id$")
 #include "tags_int.hpp"
 #include "types.hpp"
 #include "tiffimage_int.hpp"
+#include "image_int.hpp"
 // + standard includes
 #include <cmath>
 
@@ -515,6 +516,88 @@ namespace Exiv2 {
     {
         return "video/riff";
     }
+
+    const int RiffVideo::RIFF_TAG_SIZE = 0x4;
+    const char* RiffVideo::RIFF_CHUNK_HEADER_ICCP = "ICCP";
+    const char* RiffVideo::RIFF_CHUNK_HEADER_EXIF = "EXIF";
+    const char* RiffVideo::RIFF_CHUNK_HEADER_XMP  = "XMP ";
+
+    /*!
+     @brief Function used to check equality of a Tags with a
+     particular string (ignores case while comparing).
+     @param buf Data buffer that will contain Tag to compare
+     @param str char* Pointer to string
+     @return Returns true if the buffer value is equal to string.
+     */
+    bool RiffVideo::equalsRiffTag(Exiv2::DataBuf& buf, const char* str) {
+        for(int i = 0; i < 4; i++ )
+            if(toupper(buf.pData_[i]) != str[i])
+                return false;
+        return true;
+    }
+
+    void RiffVideo::printStructure(std::ostream& out, PrintStructureOption option, int depth) {
+        if (io_->open() != 0) {
+            throw Error(9, io_->path(), strError());
+        }
+        // Ensure this is the correct image type
+        if (!isRiffType(*io_, true)) {
+            if (io_->error() || io_->eof()) throw Error(14);
+            throw Error(3, "RIFF");
+        }
+
+        bool bPrint  = option==kpsBasic || option==kpsRecursive;
+        if ( bPrint || option == kpsXMP || option == kpsIccProfile || option == kpsIptcErase ) {
+            byte      data [RIFF_TAG_SIZE * 2];
+            io_->read(data, RIFF_TAG_SIZE * 2);
+            uint64_t filesize = Exiv2::getULong(data + RIFF_TAG_SIZE, littleEndian);
+            DataBuf  chunkId(5)      ;
+            chunkId.pData_[4] = '\0' ;
+
+            if ( bPrint ) {
+                out << Internal::indent(depth)
+                    << "STRUCTURE OF RIFF FILE: "
+                    << io().path()
+                    << std::endl;
+                out << Internal::indent(depth)
+                    << Internal::stringFormat(" Chunk |       Length |       Offset | Payload")
+                    << std::endl;
+            }
+
+            io_->seek(0,BasicIo::beg); // rewind
+            while ( !io_->eof() && (uint64_t) io_->tell() < filesize) {
+                uint64_t offset = (uint64_t) io_->tell();
+                byte     size_buff[RIFF_TAG_SIZE];
+                io_->read(chunkId.pData_, RIFF_TAG_SIZE);
+                io_->read(size_buff, RIFF_TAG_SIZE);
+                long size = Exiv2::getULong(size_buff, littleEndian);
+                DataBuf payload(offset?size:RIFF_TAG_SIZE); // header is different from chunks
+                io_->read(payload.pData_, payload.size_);
+
+                if ( bPrint ) {
+                    out << Internal::indent(depth)
+                        << Internal::stringFormat("  %s | %12u | %12u | ", (const char*)chunkId.pData_,size,(uint32_t)offset)
+                        << Internal::binaryToString(payload,payload.size_>32?32:payload.size_)
+                        << std::endl;
+                }
+
+                if ( equalsRiffTag(chunkId, RIFF_CHUNK_HEADER_EXIF) && option==kpsRecursive ) {
+                    // create memio object with the payload, then print the structure
+                    BasicIo::AutoPtr p = BasicIo::AutoPtr(new MemIo(payload.pData_,payload.size_));
+                    printTiffStructure(*p,out,option,depth);
+                }
+
+                bool bPrintPayload = (equalsRiffTag(chunkId, RIFF_CHUNK_HEADER_XMP) && option==kpsXMP)
+                                     || (equalsRiffTag(chunkId, RIFF_CHUNK_HEADER_ICCP) && option==kpsIccProfile)
+                ;
+                if ( bPrintPayload ) {
+                    out.write((const char*) payload.pData_,payload.size_);
+                }
+
+                if ( offset && io_->tell() % 2 ) io_->seek(+1, BasicIo::cur); // skip padding byte on sub-chunks
+            }
+        }
+    } // RiffVideo::printStructure
 
     void RiffVideo::writeMetadata()
     {

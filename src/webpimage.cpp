@@ -412,8 +412,9 @@ namespace Exiv2 {
 
     void WebPImage::printStructure(std::ostream& out, PrintStructureOption option,int depth)
     {
-        if (io_->open() != 0) throw Error(9, io_->path(), strError());
-        IoCloser closer(*io_);
+        if (io_->open() != 0) {
+            throw Error(9, io_->path(), strError());
+        }
         // Ensure this is the correct image type
         if (!isWebPType(*io_, true)) {
             if (io_->error() || io_->eof()) throw Error(14);

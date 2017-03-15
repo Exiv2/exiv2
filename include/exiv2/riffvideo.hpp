@@ -71,6 +71,7 @@ namespace Exiv2 {
 
         //! @name Manipulators
         //@{
+        void printStructure(std::ostream& out, PrintStructureOption option,int depth);
         void readMetadata();
         void writeMetadata();
         //@}
@@ -185,9 +186,14 @@ namespace Exiv2 {
         RiffVideo(const RiffVideo& rhs);
         //! Assignment operator
         RiffVideo& operator=(const RiffVideo& rhs);
+        bool equalsRiffTag(Exiv2::DataBuf& buf ,const char* str);
         //@}
 
     private:
+        const static int RIFF_TAG_SIZE;
+        const static char* RIFF_CHUNK_HEADER_ICCP;
+        const static char* RIFF_CHUNK_HEADER_EXIF;
+        const static char* RIFF_CHUNK_HEADER_XMP;
         //! Variable to check the end of metadata traversing.
         bool continueTraversing_;
         //! Variable which stores current stream being processsed.

@@ -89,6 +89,21 @@ namespace Exiv2 {
         throw(Error(32, "Image comment", "ORF"));
     }
 
+    void OrfImage::printStructure(std::ostream& out, PrintStructureOption option, int depth) {
+        std::cout << "ORF IMAGE" << std::endl;
+        if (io_->open() != 0) throw Error(9, io_->path(), strError());
+        // Ensure that this is the correct image type
+        if ( imageType() == ImageType::none )
+            if (!isOrfType(*io_, false)) {
+            if (io_->error() || io_->eof()) throw Error(14);
+                throw Error(15);
+        }
+
+        io_->seek(0,BasicIo::beg);
+
+        printTiffStructure(io(),out,option,depth-1);
+    } // OrfImage::printStructure
+
     void OrfImage::readMetadata()
     {
 #ifdef DEBUG
@@ -104,6 +119,8 @@ namespace Exiv2 {
             throw Error(3, "ORF");
         }
         clearMetadata();
+        std::ofstream devnull;
+        printStructure(devnull, kpsRecursive, 0);
         ByteOrder bo = OrfParser::decode(exifData_,
                                          iptcData_,
                                          xmpData_,
