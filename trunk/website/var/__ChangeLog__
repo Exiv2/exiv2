@@ -4,18 +4,40 @@ Changes from version 0.25 to 0.26
 
 * Api: (4)
 	- <a href="http://dev.exiv2.org/issues/0001275">0001275</a>:	Exiv2 0.26-svn issue with ExifTags class MPF tags UPSTREAM
-				(Gilles Caulier)
+				(Wil Cowb / Gilles Caulier)
 	- <a href="http://dev.exiv2.org/issues/0001240">0001240</a>:	Review API changes from v0.25 to v0.26
 				(Andreas Huggel)
 	- <a href="http://dev.exiv2.org/issues/0001157">0001157</a>:	Out of memory error with user defined to_string template
 	- <a href="http://dev.exiv2.org/issues/0001120">0001120</a>:	Deprecating outdated and/or undesired API's
-				(Andreas Huggel)
+				(Alan Pater / Andreas Huggel)
+
+* Basicio: (9)
+	- <a href="http://dev.exiv2.org/issues/0001272">0001272</a>:	Possible issue with temp files being left behind.
+				(Ben Touchette)
+	- <a href="http://dev.exiv2.org/issues/0001183">0001183</a>:	Guidance about serialising metadata using MemIo and ExvImage Classes
+	- <a href="http://dev.exiv2.org/issues/0001151">0001151</a>:	Small raw images size
+				(Wil Hermes)
+	- <a href="http://dev.exiv2.org/issues/0001147">0001147</a>:	writeMetadata overwrites files without the +w bit
+				(Dan Fandrich)
+	- <a href="http://dev.exiv2.org/issues/0001113">0001113</a>:	Crash in Exiv2 0.25
+				(Harry McKame)
+	- <a href="http://dev.exiv2.org/issues/0001100">0001100</a>:	Unable to extract preview for a remote image
+	- <a href="http://dev.exiv2.org/issues/0001098">0001098</a>:	digikam suddenly stops searching for new entries
+				(Andy Burger / Alan Pater)
+	- <a href="http://dev.exiv2.org/issues/0001077">0001077</a>:	MemIo calls msync but FileIo does not
+				(Thomas Beutlich / Andreas Huggel)
+	- <a href="http://dev.exiv2.org/issues/0000747">0000747</a>:	Direct FILE* access from FileIo interface
+				(Adam Hooper)
 
 * Build: (34)
 	- <a href="http://dev.exiv2.org/issues/0001273">0001273</a>:	exiv2 0.25 fails to compile correctly on musl libc due to improper check of strerror_r return type
+				(A. Wilcox)
 	- <a href="http://dev.exiv2.org/issues/0001270">0001270</a>:	Using libexiv2.a/.lib  in multhreaded app segfaults.
+				(Ben Touchette)
 	- <a href="http://dev.exiv2.org/issues/0001269">0001269</a>:	Enable using dynamic runtime libs with when disabling shared libs for Windows
+				(Ben Touchette)
 	- <a href="http://dev.exiv2.org/issues/0001268">0001268</a>:	Building for debug in windows causes heap corruption error.
+				(Ben Touchette)
 	- <a href="http://dev.exiv2.org/issues/0001266">0001266</a>:	CMake fails to link zlib with debug config using msvc 2015.
 				(Ben Touchette)
 	- <a href="http://dev.exiv2.org/issues/0001250">0001250</a>:	Eliminate Visual Studio project convertor errors
@@ -25,42 +47,46 @@ Changes from version 0.25 to 0.26
 	- <a href="http://dev.exiv2.org/issues/0001213">0001213</a>:	Using $(SolutionDir)../ as the prefix for include directories interfere with using projects in external solutions
 				(Sridhar Boovaraghavan)
 	- <a href="http://dev.exiv2.org/issues/0001210">0001210</a>:	C++11 compile fails "error: use of deleted function bool std::regex_search"
+				(Zulan Zulan)
 	- <a href="http://dev.exiv2.org/issues/0001192">0001192</a>:	Only link with libdl on gnu/linux
+				(Matthieu Volat)
 	- <a href="http://dev.exiv2.org/issues/0001173">0001173</a>:	Shared library on Mac OS X has incorrect name
+				(Ilya Kulakov)
 	- <a href="http://dev.exiv2.org/issues/0001171">0001171</a>:	localtime.c causes problems in MSVC 2015 & is not needed
 	- <a href="http://dev.exiv2.org/issues/0001169">0001169</a>:	Validate flag EXV_UNICODE_PATH/msvc2005 builds and passes the test suite
 	- <a href="http://dev.exiv2.org/issues/0001159">0001159</a>:	fff.h:33:2: error: 'BYTE' does not name a type
+				(Jakub Wilk)
 	- <a href="http://dev.exiv2.org/issues/0001150">0001150</a>:	Unable to build for Mac OSX 10.6
+				(Max Pozdeev)
 	- <a href="http://dev.exiv2.org/issues/0001132">0001132</a>:	New warnings from basicio.cpp from Xcode 7.1/clang-700.1.76
 	- <a href="http://dev.exiv2.org/issues/0001127">0001127</a>:	exiv2 --verbose --version --grep libz incorrectly reports have_libz=0
 	- <a href="http://dev.exiv2.org/issues/0001125">0001125</a>:	CMake: does not support overriding/selecting correct libdir (lib64)
+				(Michał Górny)
 	- <a href="http://dev.exiv2.org/issues/0001123">0001123</a>:	libexiv2 should hide XMP-SDK symbols
 	- <a href="http://dev.exiv2.org/issues/0001119">0001119</a>:	libxmp missing from the install folder when building statically libexiv2
+				(Emmanuel d'Angelo)
 	- <a href="http://dev.exiv2.org/issues/0001110">0001110</a>:	Provide Xcode Build Environment
 	- <a href="http://dev.exiv2.org/issues/0001109">0001109</a>:	User ability to request a build from Jenkins
 	- <a href="http://dev.exiv2.org/issues/0001103">0001103</a>:	exiv2.hpp:55:24: fatal error: pngimage.hpp: No such file or directory
+				(Jakub Wilk)
 	- <a href="http://dev.exiv2.org/issues/0001102">0001102</a>:	install: cannot stat '../bin/.libs/exiv2.exe': No such file or directory
+				(Jakub Wilk)
 	- <a href="http://dev.exiv2.org/issues/0001101">0001101</a>:	i686-w64-mingw32-g++: error: localtime.o: No such file or directory
+				(Jakub Wilk)
 	- <a href="http://dev.exiv2.org/issues/0001099">0001099</a>:	mv: cannot stat 't-bs.gmo': No such file or directory
+				(Jakub Wilk)
 	- <a href="http://dev.exiv2.org/issues/0001041">0001041</a>:	CMake toolchain for windows
+				(Daniel Kaneider)
 	- <a href="http://dev.exiv2.org/issues/0001031">0001031</a>:	CMake build broken when using zlib/expat in clean way
+				(Daniel Kaneider)
 	- <a href="http://dev.exiv2.org/issues/0000851">0000851</a>:	Please support std::wstring in exiv2 path access
+				(Philipp Simmler)
 	- <a href="http://dev.exiv2.org/issues/0000733">0000733</a>:	Improve compile-time control over size and functionality of the library
-	- <a href="http://dev.exiv2.org/issues/0000710">0000710</a>:	Problems Compiling Exiv2 Under SGI IRIX
-	- <a href="http://dev.exiv2.org/issues/0000536">0000536</a>:	Switch to a unified build system based on cmake
-
-* Basicio: (9)
-	- <a href="http://dev.exiv2.org/issues/0001272">0001272</a>:	Possible issue with temp files being left behind.
-	- <a href="http://dev.exiv2.org/issues/0001183">0001183</a>:	Guidance about serialising metadata using MemIo and ExvImage Classes
-	- <a href="http://dev.exiv2.org/issues/0001151">0001151</a>:	Small raw images size
-	- <a href="http://dev.exiv2.org/issues/0001147">0001147</a>:	writeMetadata overwrites files without the +w bit
-	- <a href="http://dev.exiv2.org/issues/0001113">0001113</a>:	Crash in Exiv2 0.25
-	- <a href="http://dev.exiv2.org/issues/0001100">0001100</a>:	Unable to extract preview for a remote image
-	- <a href="http://dev.exiv2.org/issues/0001098">0001098</a>:	digikam suddenly stops searching for new entries
-				(Alan Pater)
-	- <a href="http://dev.exiv2.org/issues/0001077">0001077</a>:	MemIo calls msync but FileIo does not
 				(Andreas Huggel)
-	- <a href="http://dev.exiv2.org/issues/0000747">0000747</a>:	Direct FILE* access from FileIo interface
+	- <a href="http://dev.exiv2.org/issues/0000710">0000710</a>:	Problems Compiling Exiv2 Under SGI IRIX
+				(Brent L. Bates)
+	- <a href="http://dev.exiv2.org/issues/0000536">0000536</a>:	Switch to a unified build system based on cmake
+				(Nikolai Saoukh)
 
 * Coverity: (1)
 	- <a href="http://dev.exiv2.org/issues/0000971">0000971</a>:	Coverity scan : Not restoring ostream format (STREAM_FORMAT_STATE) CID : 982002 through 982054 (53 similar defects)
@@ -69,15 +95,19 @@ Changes from version 0.25 to 0.26
 * Design: (4)
 	- <a href="http://dev.exiv2.org/issues/0001137">0001137</a>:	Enable piping of selective copy of metadata between images
 	- <a href="http://dev.exiv2.org/issues/0001034">0001034</a>:	Camera accessory overflow file
+				(Tobias Jakobs)
 	- <a href="http://dev.exiv2.org/issues/0000917">0000917</a>:	Modify exiv2/actions.cpp return -3/253 when no metadata has been found.
 				(Andreas Huggel)
 	- <a href="http://dev.exiv2.org/issues/0000481">0000481</a>:	Incorporate information from ExifTool
-				(Niels Kristian Bech Jensen)
+				(Stefan Bruens / Niels Kristian Bech Jensen)
 
 * Duplicate: (3)
 	- <a href="http://dev.exiv2.org/issues/0001239">0001239</a>:	exiv2 0.25 crashes with casio ex-z50 files
+				(Rainer Kliese)
 	- <a href="http://dev.exiv2.org/issues/0001235">0001235</a>:	./configure doesn't exists.. in last version of Exiv2.
+				(Rodrigo Barbano)
 	- <a href="http://dev.exiv2.org/issues/0001181">0001181</a>:	Casio.jpg exports crash darktable - suse leap 42.1
+				(Anonymous)
 
 * Documentation: (2)
 	- <a href="http://dev.exiv2.org/issues/0001209">0001209</a>:	Build instructions in README
@@ -86,234 +116,350 @@ Changes from version 0.25 to 0.26
 
 * Exif: (7)
 	- <a href="http://dev.exiv2.org/issues/0001242">0001242</a>:	jp2 metadata: Unrecognized UUID EXIF box
+				(Herbert Kauer)
 	- <a href="http://dev.exiv2.org/issues/0001214">0001214</a>:	Human readable GPS values could be bad
+				(Ondřej Tůma)
 	- <a href="http://dev.exiv2.org/issues/0001089">0001089</a>:	single 0-byte exif comment leads to SIGABRT (134)
+				(Felix Bolte)
 	- <a href="http://dev.exiv2.org/issues/0000935">0000935</a>:	Different values for some metadata with exiftool
-				(Andreas Huggel)
+				(Jehan Pagès / Andreas Huggel)
 	- <a href="http://dev.exiv2.org/issues/0000825">0000825</a>:	Panasonic Manometer Tag
-				(Ben Touchette)
+				(Christoph Anton Mitterer / Ben Touchette)
 	- <a href="http://dev.exiv2.org/issues/0000613">0000613</a>:	TiffImage does not honor the writeXmpFromPacket flag
+				(Andreas Huggel)
 	- <a href="http://dev.exiv2.org/issues/0000492">0000492</a>:	Color temperature information from RAW files...
+				(Bastardo -)
 
 * Insufficient information: (1)
 	- <a href="http://dev.exiv2.org/issues/0001274">0001274</a>:	crash in Exiv2 shared library when preview from image is extracted
+				(Wil Cowb)
 
 * Image format: (11)
 	- <a href="http://dev.exiv2.org/issues/0001277">0001277</a>:	Crash with Canon CR2 file
+				(Ben Touchette)
 	- <a href="http://dev.exiv2.org/issues/0001271">0001271</a>:	Update printStructure
+				(Ben Touchette)
 	- <a href="http://dev.exiv2.org/issues/0001247">0001247</a>:	out of bounds read access in Exiv2::Image::setIccProfile
+				(Hanno Böck)
 	- <a href="http://dev.exiv2.org/issues/0001243">0001243</a>:	Improved JPEG 2000 Support
 	- <a href="http://dev.exiv2.org/issues/0001234">0001234</a>:	Class pgfimage does not work on big endian hardware.
 	- <a href="http://dev.exiv2.org/issues/0001211">0001211</a>:	Support Development of WebP
 	- <a href="http://dev.exiv2.org/issues/0001199">0001199</a>:	WebP file support
 				(Ben Touchette)
 	- <a href="http://dev.exiv2.org/issues/0001178">0001178</a>:	Olympus E-M5 Mark II raw file not recognized
+				(Terence Tay)
 	- <a href="http://dev.exiv2.org/issues/0001143">0001143</a>:	Unable to extract embedded preview from jpg for Sony a77
+				(Michael Waldor)
 	- <a href="http://dev.exiv2.org/issues/0000889">0000889</a>:	CRW: crashes when passed invalid data
+				(Alyssa Milburn)
 	- <a href="http://dev.exiv2.org/issues/0000548">0000548</a>:	recognize pdf as image format
+				(mikolaj -)
 
-* Jpeg parser: (3)
+* Jpeg parser: (4)
+	- <a href="http://dev.exiv2.org/issues/0001282">0001282</a>:	crash in Exiv2 shared library when JPEG parser is processing the file
+				(Wil Cowb)
 	- <a href="http://dev.exiv2.org/issues/0001220">0001220</a>:	Bug in exiv2 --comment on trunk
 	- <a href="http://dev.exiv2.org/issues/0001196">0001196</a>:	Crash in OS X when writing metadata
+				(Taras Kushnir)
 	- <a href="http://dev.exiv2.org/issues/0001156">0001156</a>:	Extracting "User Comment" from JPEG can cause hang
 
 * Lens: (23)
 	- <a href="http://dev.exiv2.org/issues/0001254">0001254</a>:	Cannot recognize Canon 16-35 f/4 IS L
+				(Niccolò Belli)
 	- <a href="http://dev.exiv2.org/issues/0001252">0001252</a>:	Detect Sigma 120-300 EX on Canon
+				(Markus Durzinsky)
 	- <a href="http://dev.exiv2.org/issues/0001241">0001241</a>:	Support for Samyang 14mm f/2.8 AE ED AS IF UMC on Canon EF
+				(Tobias E.)
 	- <a href="http://dev.exiv2.org/issues/0001216">0001216</a>:	Detection of lens: AF-P DX Nikkor 18-55mm f/3.5-5.6G VR
+				(Chris Benedict)
 	- <a href="http://dev.exiv2.org/issues/0001212">0001212</a>:	Sigma 18-35mm f/1.8 not recognized
-				(Thomas Beutlich)
+				(Martin Ramshaw / Thomas Beutlich)
 	- <a href="http://dev.exiv2.org/issues/0001200">0001200</a>:	Support for Sigma 17-70mm F2.8-4 DC Macro OS HSM | C
+				(Mathieu MD)
 	- <a href="http://dev.exiv2.org/issues/0001191">0001191</a>:	New lens request
+				(Yvi San)
 	- <a href="http://dev.exiv2.org/issues/0001170">0001170</a>:	Sigma 35mm F1.4 DG HSM on Canon 6D
 	- <a href="http://dev.exiv2.org/issues/0001167">0001167</a>:	Issue with Sigma 17-70 lens mounted on a canon
 	- <a href="http://dev.exiv2.org/issues/0001166">0001166</a>:	Tokina 11-20mm f/2.8
 	- <a href="http://dev.exiv2.org/issues/0001163">0001163</a>:	Nikon Lens "Nikkor 16-80mm f/2.8-4G AF-S ED VR DX" not supported
+				(dreas b)
 	- <a href="http://dev.exiv2.org/issues/0001162">0001162</a>:	New Lens: Tamron 28-300mm F/3.5-6.3 Di VC PZD A010
+				(Tomasz Ciolek)
 	- <a href="http://dev.exiv2.org/issues/0001161">0001161</a>:	Feature request: 1 NIKKOR 10mm f/2.8
+				(Jacob Nederend)
 	- <a href="http://dev.exiv2.org/issues/0001160">0001160</a>:	Feature Request - New Lens
+				(Mark Mangano)
 	- <a href="http://dev.exiv2.org/issues/0001155">0001155</a>:	Wrong or just Sigma lens lens info with Pentax K-3
+				(Hannu Vuolasaho)
 	- <a href="http://dev.exiv2.org/issues/0001153">0001153</a>:	Sony ILCE-6000 + Sony E 50mm F1.8 OSS .JPG files without lens model.
+				(Tim Sinthofen)
 	- <a href="http://dev.exiv2.org/issues/0001145">0001145</a>:	Respect Sony/Minolta lenses with shared LensID such as Tamron SP AF 17-50mm F2.8 XR Di II LD
 	- <a href="http://dev.exiv2.org/issues/0001144">0001144</a>:	Sigma 10-20mm f/4-5.6 EX DC is detected as Tamaron
+				(Simon Harhues)
 	- <a href="http://dev.exiv2.org/issues/0001142">0001142</a>:	Manual lens does not get recogniced: Beroflex zoom 500mm
-				(Niels Kristian Bech Jensen)
+				(Simon Harhues / Niels Kristian Bech Jensen)
 	- <a href="http://dev.exiv2.org/issues/0001141">0001141</a>:	Manual lens does not get recogniced: Pentax macro 100mm
-				(Niels Kristian Bech Jensen)
+				(Simon Harhues / Niels Kristian Bech Jensen)
 	- <a href="http://dev.exiv2.org/issues/0001118">0001118</a>:	Add support for ZEISS Loxia 2/50 lens
+				(Eugen Neu)
 	- <a href="http://dev.exiv2.org/issues/0000834">0000834</a>:	detection of Pentax DA 35/2.4 lens
+				(Guillaume Chauvat)
 	- <a href="http://dev.exiv2.org/issues/0000816">0000816</a>:	Enable detection of Sigma 55-200mm lens
-
-* Makernote: (13)
-	- <a href="http://dev.exiv2.org/issues/0001253">0001253</a>:	After setting LensModel, Lightroom no longer recognizes image
-	- <a href="http://dev.exiv2.org/issues/0001231">0001231</a>:	Support for Canon TimeInfo makernote section
-	- <a href="http://dev.exiv2.org/issues/0001225">0001225</a>:	Nikon BarometerInfo
-	- <a href="http://dev.exiv2.org/issues/0001223">0001223</a>:	Decoding ShutterCount for Pentax images
-	- <a href="http://dev.exiv2.org/issues/0001217">0001217</a>:	Missing values for Exif.CanonCs.ISOSpeed tag 0x0010
-				(Niels Kristian Bech Jensen)
-	- <a href="http://dev.exiv2.org/issues/0001215">0001215</a>:	Exif.CanonSi.SubjectDistance seems to be in centimeters
-				(Niels Kristian Bech Jensen)
-	- <a href="http://dev.exiv2.org/issues/0001208">0001208</a>:	New values for Sony File Format
-				(Thomas Beutlich)
-	- <a href="http://dev.exiv2.org/issues/0001202">0001202</a>:	Exif.CanonCs.FocusContinuous = 8 = Manual
-	- <a href="http://dev.exiv2.org/issues/0001189">0001189</a>:	Updating time changes Makernote
-	- <a href="http://dev.exiv2.org/issues/0001179">0001179</a>:	Update Fujifilm Filmmode tag
-	- <a href="http://dev.exiv2.org/issues/0001140">0001140</a>:	Canon EF-S 24mm f/2.8 STM
-	- <a href="http://dev.exiv2.org/issues/0001122">0001122</a>:	Lens Detection with Teleconverter - Sigma 150-500mm f/5-6.3 APO DG OS HSM again
-	- <a href="http://dev.exiv2.org/issues/0001117">0001117</a>:	Problems with Sigma 18-300 F3.5-6.3 DC MACRO HSM Lens
-				(Niels Kristian Bech Jensen)
+				(Simon Harhues)
 
 * Miscellaneous: (7)
 	- <a href="http://dev.exiv2.org/issues/0001177">0001177</a>:	Resolve issues in target "Review"
 	- <a href="http://dev.exiv2.org/issues/0001168">0001168</a>:	User support during v0.26 development
 	- <a href="http://dev.exiv2.org/issues/0001152">0001152</a>:	MacOS-X Throws listxattr exception frequently
 	- <a href="http://dev.exiv2.org/issues/0001131">0001131</a>:	Please explain the RCSID macro at the start of every .cpp file.
-				(Andreas Huggel)
+				(Daniel Kaneider / Andreas Huggel)
 	- <a href="http://dev.exiv2.org/issues/0001115">0001115</a>:	Clarification for the Exiv2 license
-				(Alan Pater)
+				(Harry McKame / Alan Pater)
 	- <a href="http://dev.exiv2.org/issues/0001107">0001107</a>:	DigiKam hangs during search for new items
+				(Sveinn Felli)
 	- <a href="http://dev.exiv2.org/issues/0000506">0000506</a>:	Problem setting localedir on Windows
+				(Andreas Huggel)
+
+* Makernote: (14)
+	- <a href="http://dev.exiv2.org/issues/0001283">0001283</a>:	Exiv2 crash when Pentax makernote tags parser being used
+				(Wil Cowb)
+	- <a href="http://dev.exiv2.org/issues/0001253">0001253</a>:	After setting LensModel, Lightroom no longer recognizes image
+				(Martin Stolle)
+	- <a href="http://dev.exiv2.org/issues/0001231">0001231</a>:	Support for Canon TimeInfo makernote section
+				(Tobias E.)
+	- <a href="http://dev.exiv2.org/issues/0001225">0001225</a>:	Nikon BarometerInfo
+				(Juergen Rose)
+	- <a href="http://dev.exiv2.org/issues/0001223">0001223</a>:	Decoding ShutterCount for Pentax images
+	- <a href="http://dev.exiv2.org/issues/0001217">0001217</a>:	Missing values for Exif.CanonCs.ISOSpeed tag 0x0010
+				(Niccolo Rigacci / Niels Kristian Bech Jensen)
+	- <a href="http://dev.exiv2.org/issues/0001215">0001215</a>:	Exif.CanonSi.SubjectDistance seems to be in centimeters
+				(Niccolo Rigacci / Niels Kristian Bech Jensen)
+	- <a href="http://dev.exiv2.org/issues/0001208">0001208</a>:	New values for Sony File Format
+				(Mihail Zenkov / Thomas Beutlich)
+	- <a href="http://dev.exiv2.org/issues/0001202">0001202</a>:	Exif.CanonCs.FocusContinuous = 8 = Manual
+				(Sridhar Boovaraghavan)
+	- <a href="http://dev.exiv2.org/issues/0001189">0001189</a>:	Updating time changes Makernote
+				(Stan Kaminski)
+	- <a href="http://dev.exiv2.org/issues/0001179">0001179</a>:	Update Fujifilm Filmmode tag
+				(Pascal de Bruijn)
+	- <a href="http://dev.exiv2.org/issues/0001140">0001140</a>:	Canon EF-S 24mm f/2.8 STM
+				(Anonymous Poster)
+	- <a href="http://dev.exiv2.org/issues/0001122">0001122</a>:	Lens Detection with Teleconverter - Sigma 150-500mm f/5-6.3 APO DG OS HSM again
+				(Steve Fosdick)
+	- <a href="http://dev.exiv2.org/issues/0001117">0001117</a>:	Problems with Sigma 18-300 F3.5-6.3 DC MACRO HSM Lens
+				(Terence Duell / Niels Kristian Bech Jensen)
 
 * Metadata: (21)
 	- <a href="http://dev.exiv2.org/issues/0001246">0001246</a>:	Add option -pe to exiv2(.exe) command-line arguments
 	- <a href="http://dev.exiv2.org/issues/0001201">0001201</a>:	Rating=4 automatically added when writing sidecar
-				(Alan Pater)
+				(Elfie Groslin / Alan Pater)
 	- <a href="http://dev.exiv2.org/issues/0001198">0001198</a>:	Cannot read XMP metadata from (darktable) JPEG images
+				(Matthieu Volat)
 	- <a href="http://dev.exiv2.org/issues/0001197">0001197</a>:	Add support for Sigma 150-500 on Canon with 1.4X TC
-				(Niels Kristian Bech Jensen)
+				(Steve Fosdick / Niels Kristian Bech Jensen)
 	- <a href="http://dev.exiv2.org/issues/0001180">0001180</a>:	Add tags defined by Adobe in the Cinema DNG Specification
+				(D Anderson)
 	- <a href="http://dev.exiv2.org/issues/0001164">0001164</a>:	exiv2 tool crash with bad canon raw file
+				(Nicolas THOMASSON)
 	- <a href="http://dev.exiv2.org/issues/0001158">0001158</a>:	GPSVersionID is allowed to store more than 4 bytes.
 	- <a href="http://dev.exiv2.org/issues/0001128">0001128</a>:	New lens: TAMRON SP 70-200mm F/2.8 Di VC USD A009
+				(David Ramonet)
 	- <a href="http://dev.exiv2.org/issues/0001126">0001126</a>:	Extracting Exif from PNG in Exiv2-0.25
+				(Mikayel Egibyan)
 	- <a href="http://dev.exiv2.org/issues/0001114">0001114</a>:	negative values of type SByte displayed as positive numbers
+				(Norbert Wagner)
 	- <a href="http://dev.exiv2.org/issues/0001112">0001112</a>:	lost timezone information in XMP dates
+				(Jakub Wilk)
 	- <a href="http://dev.exiv2.org/issues/0001108">0001108</a>:	Recursively dump sub-files of an image
 	- <a href="http://dev.exiv2.org/issues/0001106">0001106</a>:	Crash in exiv2 due to assertion when setting rating on jpg with a Casio makernote
-				(Andreas Huggel)
+				(Luca Carlon / Andreas Huggel)
 	- <a href="http://dev.exiv2.org/issues/0001080">0001080</a>:	Division by zero / crash on malformed input file
+				(Hanno Böck)
 	- <a href="http://dev.exiv2.org/issues/0001074">0001074</a>:	ICC Profile in APP2 segment.
+				(Tim Zaman)
 	- <a href="http://dev.exiv2.org/issues/0001060">0001060</a>:	ISO speed readout & low-light cameras
 				(Thomas Beutlich)
 	- <a href="http://dev.exiv2.org/issues/0001035">0001035</a>:	Lens model not detected ( exiv2 -> LensFun -> darktable )
+				(Rodrigo De Leon)
 	- <a href="http://dev.exiv2.org/issues/0000922">0000922</a>:	Add options -pS and -dI to application exiv2
 	- <a href="http://dev.exiv2.org/issues/0000855">0000855</a>:	Segfault when accessing focalLength with 0.23
+				(Tobias E.)
 	- <a href="http://dev.exiv2.org/issues/0000756">0000756</a>:	Access to ICC Profile (TAG: 0x8773) data in Exif as uninterpretted binary
+				(Ray NA)
 	- <a href="http://dev.exiv2.org/issues/0000676">0000676</a>:	Patch for reading ICC color profiles
+				(Andreas Huggel)
 
 * Not-a-bug: (17)
 	- <a href="http://dev.exiv2.org/issues/0001251">0001251</a>:	Support for Canon PowerShot G7 X Mark II
+				(Wolfgang Ederer)
 	- <a href="http://dev.exiv2.org/issues/0001248">0001248</a>:	floating point exception / crash on malformed input
+				(Hanno Böck)
 	- <a href="http://dev.exiv2.org/issues/0001221">0001221</a>:	Export DNG to JPEG issues - missing metadata
+				(Wil Cowb)
 	- <a href="http://dev.exiv2.org/issues/0001185">0001185</a>:	Crash in Exiv2::Exifdatum::Exifdatum(Exiv2::Exifdatum const&)
+				(Mykola Krachkovsky)
 	- <a href="http://dev.exiv2.org/issues/0001135">0001135</a>:	Read Makernotes
-				(Alan Pater)
+				(Schnitzel Foo / Alan Pater)
 	- <a href="http://dev.exiv2.org/issues/0001105">0001105</a>:	exiv2 output is inconsistent and seemingly random 1% of the time
+				(Daniel Lu)
 	- <a href="http://dev.exiv2.org/issues/0001097">0001097</a>:	Cannot write GPS coordinates to Canon CR2 files
-				(Alan Pater)
+				(Meisam FS / Alan Pater)
 	- <a href="http://dev.exiv2.org/issues/0001092">0001092</a>:	Samsung EX1 (TL500): Focal length wrong in RAW (correct for JPG)
+				(Marcel Müller)
 	- <a href="http://dev.exiv2.org/issues/0001083">0001083</a>:	Exiv2::focalLength returns multiple values for CRW files
+				(Pedro Côrte-Real)
 	- <a href="http://dev.exiv2.org/issues/0001082">0001082</a>:	Crash when removing property of unregistered XMP namespace
-				(Alan Pater)
+				(Johannes Kapune / Alan Pater)
 	- <a href="http://dev.exiv2.org/issues/0000828">0000828</a>:	Method like ExifTags::taglist or IptcDataSets::dataSetList to get all XMP-tags
+				(Norbert Wagner)
 	- <a href="http://dev.exiv2.org/issues/0000740">0000740</a>:	Error: Offset of directory Sony1, entry 0x2001 is out of bounds: Offset = 0x004a805e; truncating the entry
+				(Ward V)
 	- <a href="http://dev.exiv2.org/issues/0000715">0000715</a>:	-funsigned-char breaks build with Sun Studio
+				(Pavel Heimlich)
 	- <a href="http://dev.exiv2.org/issues/0000714">0000714</a>:	problem compiling with Sun Studio - visibility
+				(Pavel Heimlich)
 	- <a href="http://dev.exiv2.org/issues/0000538">0000538</a>:	Run-time features must be separated from build-time features
+				(Nikolai Saoukh)
 	- <a href="http://dev.exiv2.org/issues/0000527">0000527</a>:	Thumbnail extract fails when location ends in directory separator
+				(Jeff Woehler)
 	- <a href="http://dev.exiv2.org/issues/0000465">0000465</a>:	Support standalone JPEG APP1 segments as an Image format
+				(Andreas Huggel)
 
 * Samples: (3)
 	- <a href="http://dev.exiv2.org/issues/0001233">0001233</a>:	Bugfixes in samples/geotag.cpp
+				(Anton Keks)
 	- <a href="http://dev.exiv2.org/issues/0001024">0001024</a>:	Provide regular expression support for the exiv2 -g feature
 	- <a href="http://dev.exiv2.org/issues/0000918">0000918</a>:	non-zero exit code when extracting thumbnails
+				(Romain D.)
 
 * Testing: (6)
 	- <a href="http://dev.exiv2.org/issues/0001230">0001230</a>:	Bug Hunt for v0.26
 	- <a href="http://dev.exiv2.org/issues/0001207">0001207</a>:	digiKam maintenance tool to synchronize files metadata and database crash in Exiv2 (re-entrancy issue ?)
+				(Uwe Haider)
 	- <a href="http://dev.exiv2.org/issues/0001057">0001057</a>:	Implement target/modifier - (stdin/stdout) for exiv2 options -i (insert) and -e (extract)
 	- <a href="http://dev.exiv2.org/issues/0001045">0001045</a>:	Add COPYRIGHT file to test/data/
 				(Alan Pater)
 	- <a href="http://dev.exiv2.org/issues/0001042">0001042</a>:	Exiv2 nulls file on CIFS share when modifying Exif.Photo.UserComment
+				(Calvin Browne)
 	- <a href="http://dev.exiv2.org/issues/0001023">0001023</a>:	Fix make testx on trunk
 
 * Tiff parser: (9)
 	- <a href="http://dev.exiv2.org/issues/0001244">0001244</a>:	exiv2 without EXV_HAVE_MMAP throws an exception
 	- <a href="http://dev.exiv2.org/issues/0001224">0001224</a>:	Crash when setting data in CRW
 	- <a href="http://dev.exiv2.org/issues/0001184">0001184</a>:	digikam crash when importing Casio jpeg
+				(Roland Roberts)
 	- <a href="http://dev.exiv2.org/issues/0001182">0001182</a>:	Exiv2 is unable to update any Exif.SubImageN.xxx tag such as Exif.SubImage1.DefaultScale in a DNG
 	- <a href="http://dev.exiv2.org/issues/0001175">0001175</a>:	Exiv2 corrupts files larger than 2GB with Exif IFD at the end of the file
+				(LaserSoft Imaging)
 	- <a href="http://dev.exiv2.org/issues/0001146">0001146</a>:	Crash when saving a rotated JPG image
+				(Uwe Klotz)
 	- <a href="http://dev.exiv2.org/issues/0001129">0001129</a>:	Different behaviour of exiv2 between remote and local file.
 	- <a href="http://dev.exiv2.org/issues/0001095">0001095</a>:	Unexpected Exif IFD next pointers should be ignored
 				(Andreas Huggel)
 	- <a href="http://dev.exiv2.org/issues/0000900">0000900</a>:	TIFF images lose XMP packet on write if exiv2 was compiled without XMP support
+				(Andreas Huggel)
 
-* Video: (1)
+* Video: (2)
+	- <a href="http://dev.exiv2.org/issues/0001280">0001280</a>:	crash in Exiv2 shared library when a video file is under construction
+				(Wil Cowb)
 	- <a href="http://dev.exiv2.org/issues/0001139">0001139</a>:	LibExiv2 0.25 crashes with digiKam version 4.14.0
-
-* Withdrawn: (26)
-	- <a href="http://dev.exiv2.org/issues/0000949">0000949</a>:	exiv2 cannot read WB RGGB values in ARW files?
-	- <a href="http://dev.exiv2.org/issues/0000827">0000827</a>:	Bug with Nikon D300 NEF - Exiv v.025 / 64 bits
-				(Alan Pater)
-	- <a href="http://dev.exiv2.org/issues/0000801">0000801</a>:	Add Lens "Sigma 18-200mm f/3.5-6.3 DC OS HSM" for Canon
-	- <a href="http://dev.exiv2.org/issues/0000786">0000786</a>:	thread safety of xmp toolkit
-	- <a href="http://dev.exiv2.org/issues/0000780">0000780</a>:	save thumbnail
-	- <a href="http://dev.exiv2.org/issues/0000779">0000779</a>:	Crash with unknown lens tags in DNG
-	- <a href="http://dev.exiv2.org/issues/0000768">0000768</a>:	Reading focal length in 35mm equivalent from Canon's EXIF
-	- <a href="http://dev.exiv2.org/issues/0000766">0000766</a>:	exiv2 seem to decode less metadata from Olympus images than possible
-	- <a href="http://dev.exiv2.org/issues/0000763">0000763</a>:	Olympus E-510 RAW file (ORF) corrupted after geotagging
-	- <a href="http://dev.exiv2.org/issues/0000762">0000762</a>:	Fail to set metadata to a tif file
-	- <a href="http://dev.exiv2.org/issues/0000744">0000744</a>:	Regression: can’t get a section’s description in 0.21
-	- <a href="http://dev.exiv2.org/issues/0000682">0000682</a>:	Olympus (E-1 and E-300) makernote flavour not supported: libexiv2 destroy some exif data on write
-	- <a href="http://dev.exiv2.org/issues/0000681">0000681</a>:	Copy exif data when export preview
-	- <a href="http://dev.exiv2.org/issues/0000680">0000680</a>:	Provide the organize binary for download in the Windows package
-	- <a href="http://dev.exiv2.org/issues/0000667">0000667</a>:	Update Canon makernote
-	- <a href="http://dev.exiv2.org/issues/0000648">0000648</a>:	backup files
-	- <a href="http://dev.exiv2.org/issues/0000608">0000608</a>:	list of supported formats
-	- <a href="http://dev.exiv2.org/issues/0000605">0000605</a>:	Bitmask output should show set bits for which there is no lookup value
-	- <a href="http://dev.exiv2.org/issues/0000576">0000576</a>:	24x36 equivalent focal length
-	- <a href="http://dev.exiv2.org/issues/0000557">0000557</a>:	Debian Bug report logs - #438224libexiv2-0: Wrong values on exposure time
-	- <a href="http://dev.exiv2.org/issues/0000545">0000545</a>:	rotation of sony a700 raw files (*.arw) not deduced correctly
-	- <a href="http://dev.exiv2.org/issues/0000544">0000544</a>:	Sony camera makernote tags should be read as Minolta does
-	- <a href="http://dev.exiv2.org/issues/0000543">0000543</a>:	make exiv2 respect makernote offset that Microsoft WIC tools introduce when it edits photos
-	- <a href="http://dev.exiv2.org/issues/0000515">0000515</a>:	exiv2 0.14 installs msg catalog as exiv2.mo instead of exiv2-<so_major>.mo
-	- <a href="http://dev.exiv2.org/issues/0000494">0000494</a>:	Some EXIF data not retrieved from Canon RAW files
-	- <a href="http://dev.exiv2.org/issues/0000470">0000470</a>:	Provide a means for apps to probe the library which tags can be written to for a given format
+				(valerie venet)
 
 * Website: (4)
 	- <a href="http://dev.exiv2.org/issues/0001279">0001279</a>:	Release v0.26
 	- <a href="http://dev.exiv2.org/issues/0001111">0001111</a>:	The web pages could use an overhaul
 				(Andreas Huggel)
 	- <a href="http://dev.exiv2.org/issues/0001087">0001087</a>:	Web site: Broken link for "GIMP has adopted gexiv2"
-				(Andreas Huggel)
+				(Thomas Beutlich / Andreas Huggel)
 	- <a href="http://dev.exiv2.org/issues/0000679">0000679</a>:	Provide 64bit exiv2 Windows Executable for download
+				(Andreas Huggel)
 
-* Xmp: (16)
+* Withdrawn: (26)
+	- <a href="http://dev.exiv2.org/issues/0000949">0000949</a>:	exiv2 cannot read WB RGGB values in ARW files?
+				(Derek Cordeiro)
+	- <a href="http://dev.exiv2.org/issues/0000827">0000827</a>:	Bug with Nikon D300 NEF - Exiv v.025 / 64 bits
+				(Vv Pz / Alan Pater)
+	- <a href="http://dev.exiv2.org/issues/0000801">0000801</a>:	Add Lens "Sigma 18-200mm f/3.5-6.3 DC OS HSM" for Canon
+				(Markus Schwarzenberg)
+	- <a href="http://dev.exiv2.org/issues/0000786">0000786</a>:	thread safety of xmp toolkit
+				(Jens Mueller)
+	- <a href="http://dev.exiv2.org/issues/0000780">0000780</a>:	save thumbnail
+				(Florian Kleber)
+	- <a href="http://dev.exiv2.org/issues/0000779">0000779</a>:	Crash with unknown lens tags in DNG
+				(Moritz Moeller)
+	- <a href="http://dev.exiv2.org/issues/0000768">0000768</a>:	Reading focal length in 35mm equivalent from Canon's EXIF
+				(Sergey Salnikov)
+	- <a href="http://dev.exiv2.org/issues/0000766">0000766</a>:	exiv2 seem to decode less metadata from Olympus images than possible
+				(Christoph Anton Mitterer)
+	- <a href="http://dev.exiv2.org/issues/0000763">0000763</a>:	Olympus E-510 RAW file (ORF) corrupted after geotagging
+				(Spica Han)
+	- <a href="http://dev.exiv2.org/issues/0000762">0000762</a>:	Fail to set metadata to a tif file
+				(Kent Fu)
+	- <a href="http://dev.exiv2.org/issues/0000744">0000744</a>:	Regression: can’t get a section’s description in 0.21
+				(Olivier Tilloy)
+	- <a href="http://dev.exiv2.org/issues/0000682">0000682</a>:	Olympus (E-1 and E-300) makernote flavour not supported: libexiv2 destroy some exif data on write
+				(Johann-Nikolaus Andreae)
+	- <a href="http://dev.exiv2.org/issues/0000681">0000681</a>:	Copy exif data when export preview
+				(FV P)
+	- <a href="http://dev.exiv2.org/issues/0000680">0000680</a>:	Provide the organize binary for download in the Windows package
+				(Andreas Huggel)
+	- <a href="http://dev.exiv2.org/issues/0000667">0000667</a>:	Update Canon makernote
+				(Andreas Huggel)
+	- <a href="http://dev.exiv2.org/issues/0000648">0000648</a>:	backup files
+				(Vladimir Nadvornik)
+	- <a href="http://dev.exiv2.org/issues/0000608">0000608</a>:	list of supported formats
+				(Vladimir Nadvornik)
+	- <a href="http://dev.exiv2.org/issues/0000605">0000605</a>:	Bitmask output should show set bits for which there is no lookup value
+				(Andreas Huggel)
+	- <a href="http://dev.exiv2.org/issues/0000576">0000576</a>:	24x36 equivalent focal length
+				(Andreas Huggel)
+	- <a href="http://dev.exiv2.org/issues/0000557">0000557</a>:	Debian Bug report logs - #438224libexiv2-0: Wrong values on exposure time
+				(Mark Purcell)
+	- <a href="http://dev.exiv2.org/issues/0000545">0000545</a>:	rotation of sony a700 raw files (*.arw) not deduced correctly
+				(Markus Spring)
+	- <a href="http://dev.exiv2.org/issues/0000544">0000544</a>:	Sony camera makernote tags should be read as Minolta does
+				(Stefano -)
+	- <a href="http://dev.exiv2.org/issues/0000543">0000543</a>:	make exiv2 respect makernote offset that Microsoft WIC tools introduce when it edits photos
+				(Andreas Huggel)
+	- <a href="http://dev.exiv2.org/issues/0000515">0000515</a>:	exiv2 0.14 installs msg catalog as exiv2.mo instead of exiv2-<so_major>.mo
+				(Achim Bohnet)
+	- <a href="http://dev.exiv2.org/issues/0000494">0000494</a>:	Some EXIF data not retrieved from Canon RAW files
+				(Paul Waldo)
+	- <a href="http://dev.exiv2.org/issues/0000470">0000470</a>:	Provide a means for apps to probe the library which tags can be written to for a given format
+				(Andreas Huggel)
+
+* Xmp: (17)
+	- <a href="http://dev.exiv2.org/issues/0001281">0001281</a>:	crash in Exiv2, XMP parser class and in Adobe XMP SDK
+				(Wil Cowb)
 	- <a href="http://dev.exiv2.org/issues/0001276">0001276</a>:	fails to read any XMP metadata when duplicates present
+				(Aerilius .)
 	- <a href="http://dev.exiv2.org/issues/0001229">0001229</a>:	exiv2 -pX for image with multiple APP1/xap segments prints every APP1/xap segment.
 	- <a href="http://dev.exiv2.org/issues/0001193">0001193</a>:	XMP Specification November 2014 updates
 				(Alan Pater)
 	- <a href="http://dev.exiv2.org/issues/0001190">0001190</a>:	Support for CRS and CRSS XMP namespace and properties
 				(Alan Pater)
 	- <a href="http://dev.exiv2.org/issues/0001187">0001187</a>:	Crash while reading in parallel threads
+				(Taras Kushnir)
 	- <a href="http://dev.exiv2.org/issues/0001148">0001148</a>:	XMP Rights field padded with spaces
+				(John Huggins)
 	- <a href="http://dev.exiv2.org/issues/0001133">0001133</a>:	" **(process:29414): WARNING: No namespace info available for xmp prefix 'lr'"
-				(Alan Pater)
+				(Vey Zimba / Alan Pater)
 	- <a href="http://dev.exiv2.org/issues/0001116">0001116</a>:	Issues with namespace 'video'
 				(Andreas Huggel)
 	- <a href="http://dev.exiv2.org/issues/0001093">0001093</a>:	ExifEX XMP namespace and properties
 				(Alan Pater)
 	- <a href="http://dev.exiv2.org/issues/0001081">0001081</a>:	Read XMP values from CR2 raw file when stored in XMLPacket
-				(Alan Pater)
+				(Eric Mesa / Alan Pater)
 	- <a href="http://dev.exiv2.org/issues/0001064">0001064</a>:	exiv2 -iX <file.jpg> deletes Makernote
-	- <a href="http://dev.exiv2.org/issues/0000751">0000751</a>:	adobe xmp namespace
-	- <a href="http://dev.exiv2.org/issues/0000742">0000742</a>:	External XMPSDK and/or XMPSDK 2014.12
-				(Andreas Huggel)
-	- <a href="http://dev.exiv2.org/issues/0000640">0000640</a>:	method is missing in Exiv2 to get list of known XMP namespaces
-	- <a href="http://dev.exiv2.org/issues/0000601">0000601</a>:	Metadata conversion enhancements
 				(Alan Pater)
+	- <a href="http://dev.exiv2.org/issues/0000751">0000751</a>:	adobe xmp namespace
+				(Adrian F)
+	- <a href="http://dev.exiv2.org/issues/0000742">0000742</a>:	External XMPSDK and/or XMPSDK 2014.12
+				(Nikolai Saoukh / Andreas Huggel)
+	- <a href="http://dev.exiv2.org/issues/0000640">0000640</a>:	method is missing in Exiv2 to get list of known XMP namespaces
+				(mikolaj -)
+	- <a href="http://dev.exiv2.org/issues/0000601">0000601</a>:	Metadata conversion enhancements
+				(Andreas Huggel / Alan Pater)
 	- <a href="http://dev.exiv2.org/issues/0000599">0000599</a>:	XMP packets split across multiple APP1 segments
 				(Andreas Huggel)
 

@@ -36,7 +36,7 @@ __navbar__
 	  </a>
 	</p>
 	<p class="version text-center text-muted"><small>Currently v__version__</small></p>
-	
+
 	<h2>Build Server</h2>
 	<p>The project has a build server which builds (and tests the code) on 17 platforms every night.
 	Additionally, the build server builds (and tests) selected branches of our repository
@@ -56,7 +56,7 @@ __navbar__
     <p>Exiv2 has many options to compile a subset of the code.  Please see the ReadMe file in the source
     package for more information.</p>
     </p>
-	
+
 <div class="table-responsive">
 <table class="table table-striped">
 <tbody>
@@ -64,7 +64,7 @@ __navbar__
 </tbody></table>
 
   <p class="margin-top-s">As an alternative to these packages, most Linux distributions,
-    BSD-based systems and Open Source package collections for Darwin and 
+    BSD-based systems and Open Source package collections for Darwin and
     Mac OS X have a package management system such as <i>yum, apt, port, or mingw-get</i> which will
     install binary builds and header files.</p>
 </div>
@@ -74,7 +74,7 @@ __navbar__
 
 <h2>Package details</h2>
 
-<p>These are the details for the current packages. <a title="Old packages" href="archive.html">Older releases</a> are 
+<p>These are the details for the current packages. <a title="Old packages" href="archive.html">Older releases</a> are
  also still available. See the <a title="Changelog" href="changelog.html">ChangeLog</a> for a detailed list of changes between releases.</p>
 
 <div class="table-responsive">
@@ -96,59 +96,61 @@ __download_table__
 
 <p>Exiv2 is developed on GNU/Linux with recent versions of
  <a title="The GNU Compiler Collection" href="http://gcc.gnu.org/">GCC</a>.
- Written in C++, it uses the standard C++ library, a few POSIX
- and C functions and is fairly portable. Dependencies are on 
+ Written in C++, it uses the standard C++ library, some POSIX
+ and C functions, and is portable.  Dependencies are on
 <a title="zlib homepage" href="http://www.zlib.net">zlib</a> for PNG
- support, 
-<a title="gettext homepage" href="http://www.gnu.org/software/gettext/">gettext</a> 
-for NLS, 
-<a title="libiconv homepage" href="http://www.gnu.org/software/libiconv/">libiconv</a> 
+ support,
+<a title="gettext homepage" href="http://www.gnu.org/software/gettext/">gettext</a>
+for NLS,
+<a title="libiconv homepage" href="http://www.gnu.org/software/libiconv/">libiconv</a>
  for characterset conversions and
 <a title="Expat homepage" href="http://expat.sourceforge.net/">Expat</a> for XMP support.
- (Note that modern Linux distributions usually have gettext and iconv in libc 
+ (Note: current Linux distributions usually have gettext and iconv in libc
   and these features can be disabled individually.)</p>
 
-<h2 id="devel">Exiv2 Source on GitHUB (v0.26 and later)</h2>
-<p>git@github.com/exiv2.git</p>
-<p>Documentation concerning git: TBD</p>
+<h2 id="devel">Exiv2 Source on GitHUB</h2>
+<p><pre>$ git clone https://github.com/Exiv2/exiv2.git</pre></p>
+<p>The Git Repository was created by importing the SVN repository.  The history of the
+project has been retained.  The repository contains source code, build environments, documentation, test suite and test files.
+</p><p>
+The Repository contains collaboration branches for:<ul>
+<li>team: This contains miscellaneous team resources</li>
+<li>testdata: Additional test resources</li>
+</ul>See <a href="https://github.com/Exiv2/exiv2/settings/collaboration">https://github.com/Exiv2/exiv2/settings/collaboration.</a>
+</p>
 
-<h2 id="svndevel">SVN Repository (before and including v0.26)</h2>
+<h2 id="svndevel">SVN Repository <i><span style="font-size:-4pt;">(before and including v0.26)</span></i></h2>
 
- <p>The Exiv2 source code has maintained in a Subversion repository.  Future changes to Exiv2 will not be managed by SVN.  You can
+ <p>The Exiv2 source code was maintained in a Subversion repository.  Future changes to Exiv2 will not be managed by SVN.  You can
   <a href="http://dev.exiv2.org/projects/exiv2/repository" title="Exiv2 online source code repository" >browse the source code online</a>
   or get a copy of the latest development code from the repository.
   Once you have the source code, see the <em><a title="README file" href="http://dev.exiv2.org/projects/exiv2/repository/entry/tags/__version__/README">README</a></em> file in the top
   directory for build and installation notes.
  </p>
- 
+
   <p>There are four SVN repositories in use:<ul>
-    <li>Source: svn://dev.exiv2.org/svn/trunk</li>
-    <li>Source: svn://dev.exiv2.org/svn/branches</li>
+    <li>Source (including test and documentation): svn://dev.exiv2.org/svn/trunk</li>
+    <li>Development Branches: svn://dev.exiv2.org/svn/branches</li>
     <li>Team Resources: svn://dev.exiv2.org/svn/team</li>
     <li>Test Resources: svn://dev.exiv2.org/svn/testdata</li>
-    </ul>
-  </p>
- 
- <p>To check-out code from the repository, you need a 
-  <a title="Get Subversion!"
-  href="http://en.wikipedia.org/wiki/Comparison_of_Subversion_clients">Subversion client</a>. 
-  If you use the standard subversion <code>svn</code> command line client, change to the directory where you want to keep 
-  the source code and type:</p>
+  </ul></p>
 
-<pre class="pre-x-scrollable">$ svn checkout svn://dev.exiv2.org/svn/trunk</pre>
-
-<p>The <a href="http://dev.exiv2.org/projects/exiv2/wiki" title="Exiv2 community website">Exiv2 community website</a>
- provides access to further project resources, including the issue tracker, wiki and forum.</p>
+<h2>Exiv2 Community</h2>
+<p>The <a href="http://dev.exiv2.org/projects/exiv2/wiki" title="Exiv2 community website">Exiv2 community website <i>(Redmine)</i></a>
+ provides access to further project resources, including the issue tracker, wiki and forum.  You may communicate on Redmine with members of Team Exiv2 and other users.
+</p><p>
+Team Meetings are held about once a year.  They are held in public on Google Hangouts.  Team Meetings are announced on the Community Forum.  Users are welcome to attend.
+</p>
 
 <h2 id="license">License</h2>
 
-<p>Exiv2 is <a href="http://www.gnu.org/philosophy/free-sw.html">free software</a>; 
-you can redistribute it and/or modify it under the terms of the 
+<p>Exiv2 is <a href="http://www.gnu.org/philosophy/free-sw.html">free software</a>;
+you can redistribute it and/or modify it under the terms of the
 <a href="http://www.gnu.org/licenses/old-licenses/gpl-2.0.html">GNU General Public
 License</a> as published by the Free Software Foundation; either
 version 2 of the License, or (at your option) any later version.</p>
-<p>Alternatively, Exiv2 is also available with a commercial license, which allows it to be 
-used in closed-source projects. Contact me for more information.</p> 
+<p>Alternatively, Exiv2 is also available with a commercial license, which allows it to be
+used in closed-source projects. Contact me for more information.</p>
 <p>Exiv2 is distributed in the hope that it will be useful, but
 WITHOUT ANY WARRANTY; without even the implied warranty of
 MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.</p>
