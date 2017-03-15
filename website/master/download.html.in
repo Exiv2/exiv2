@@ -7,7 +7,8 @@ __navbar__
 <div class="jumbotron">
   <div class="container">
     <h1>Download Exiv2  v__version__</h1>
-    <p class="lead">Two types of packages are available for download, Source Distribution and Builds.</p>
+    <p class="lead">Two types of packages are available for download: Source and Builds.</p>
+    <p>Source code for every revision of Exiv2 is available from GitHUB.</p>
   </div>
 </div><!-- /.jumbotron -->
 
@@ -15,9 +16,9 @@ __navbar__
   <div class="col-sm-pair">
     <div class="row">
       <div class="col-sm-6">
-	<h2>Source distribution</h2>
+	<h2>Source</h2>
 	<p>The complete source code to build the Exiv2 library, command
-	  line utility and several example and test applications.
+	  line utility and several example and test applications, test scripts and test files.
 	  <br>The distribution includes build support for:</ol>
 	  <li><b>./configure</b> script for Unix systems including:
       <br>&nbsp;&nbsp;&nbsp;&nbsp;Unix, GNU/Linux, Mac OS X, MinGW and Cygwin</li>
@@ -38,7 +39,7 @@ __navbar__
 	<p class="version text-center text-muted"><small>Currently v__version__</small></p>
 
 	<h2>Build Server</h2>
-	<p>The project has a build server which builds (and tests the code) on 17 platforms every night.
+	<p>The project has a build server which builds (and tests the code) on 16 platforms every night.
 	Additionally, the build server builds (and tests) selected branches of our repository
 	to assist Team Exiv2 Contributors when the submit code.</p>
 	<p>The buildserver is located at:  <a href="http://exiv2.dyndns.org:8080">http://exiv2.dyndns.org:8080</a></p>
@@ -46,13 +47,13 @@ __navbar__
       </div><!-- /.col-sm-6 -->
       <div class="col-sm-6">
 	<h2>Builds</h2>
-	<p>The project buildserver builds the following every night.  Each build bundle includes
+	<p>The project buildserver builds every night.  Each build includes
 	builds of libexiv2 and expat and zlib and the exiv2 and sample applications.
 	The header files and sample application source are included
 	in the bundle and basic documentation to enable applications to be built.
 	</p>
-    <p>The builds are generated for any platform are likely to be of immediate use.
-    If you require a 32 bit build or static libraries, you will have to build from source.</p>
+    <p>The builds provided are the most likely to be of immediate use on any platform.
+    If you require a 32 bit build or static libraries, or a special configuration of build, you have to build from source.</p>
     <p>Exiv2 has many options to compile a subset of the code.  Please see the ReadMe file in the source
     package for more information.</p>
     </p>
@@ -108,32 +109,11 @@ for NLS,
  (Note: current Linux distributions usually have gettext and iconv in libc
   and these features can be disabled individually.)</p>
 
-<h2 id="devel">Exiv2 Source on GitHUB</h2>
+<h2 id="devel">Exiv2 Source Code</h2>
 <p><pre>$ git clone https://github.com/Exiv2/exiv2.git</pre></p>
-<p>The Git Repository was created by importing the SVN repository.  The history of the
-project has been retained.  The repository contains source code, build environments, documentation, test suite and test files.
-</p><p>
-The Repository contains collaboration branches for:<ul>
-<li>team: This contains miscellaneous team resources</li>
-<li>testdata: Additional test resources</li>
-</ul>See <a href="https://github.com/Exiv2/exiv2/settings/collaboration">https://github.com/Exiv2/exiv2/settings/collaboration.</a>
-</p>
-
-<h2 id="svndevel">SVN Repository <i><span style="font-size:-4pt;">(before and including v0.26)</span></i></h2>
-
- <p>The Exiv2 source code was maintained in a Subversion repository.  Future changes to Exiv2 will not be managed by SVN.  You can
-  <a href="http://dev.exiv2.org/projects/exiv2/repository" title="Exiv2 online source code repository" >browse the source code online</a>
-  or get a copy of the latest development code from the repository.
-  Once you have the source code, see the <em><a title="README file" href="http://dev.exiv2.org/projects/exiv2/repository/entry/tags/__version__/README">README</a></em> file in the top
-  directory for build and installation notes.
- </p>
-
-  <p>There are four SVN repositories in use:<ul>
-    <li>Source (including test and documentation): svn://dev.exiv2.org/svn/trunk</li>
-    <li>Development Branches: svn://dev.exiv2.org/svn/branches</li>
-    <li>Team Resources: svn://dev.exiv2.org/svn/team</li>
-    <li>Test Resources: svn://dev.exiv2.org/svn/testdata</li>
-  </ul></p>
+<p>Discussion: <a href="http://dev.exiv2.org/projects/exiv2/wiki/Exiv2_on_GitHub">http://dev.exiv2.org/projects/exiv2/wiki/Exiv2_on_GitHub</a></p>
+<h4 id="svndevel">Deprecated SVN Repository</h4>
+<p>Discussion: <a href="http://dev.exiv2.org/projects/exiv2/wiki/Exiv2_on_SVN_(deprecated)">http://dev.exiv2.org/projects/exiv2/wiki/Exiv2_on_SVN_(deprecated)</a></p>
 
 <h2>Exiv2 Community</h2>
 <p>The <a href="http://dev.exiv2.org/projects/exiv2/wiki" title="Exiv2 community website">Exiv2 community website <i>(Redmine)</i></a>
