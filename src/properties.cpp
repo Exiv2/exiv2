@@ -2697,9 +2697,7 @@ namespace Exiv2 {
         return fct(os, value, 0);
     }
 
-    //! @cond IGNORE
-
-    //! Internal Pimpl structure with private members and data of class XmpKey.
+    //! @brief Internal Pimpl structure with private members and data of class XmpKey.
     struct XmpKey::Impl {
         Impl() {}                       //!< Default constructor
         Impl(const std::string& prefix, const std::string& property); //!< Constructor
@@ -2711,7 +2709,7 @@ namespace Exiv2 {
 
           @throw Error if the key cannot be decomposed.
         */
-        void decomposeKey(const std::string& key);
+        void decomposeKey(const std::string& key); //!< Misterious magic
 
         // DATA
         static const char* familyName_; //!< "Xmp"
@@ -2719,8 +2717,8 @@ namespace Exiv2 {
         std::string prefix_;            //!< Prefix
         std::string property_;          //!< Property name
     };
-    //! @endcond
 
+    //! @brief Constructor for Internal Pimpl structure XmpKey::Impl::Impl
     XmpKey::Impl::Impl(const std::string& prefix, const std::string& property)
     {
         // Validate prefix
@@ -2808,6 +2806,7 @@ namespace Exiv2 {
         return XmpProperties::ns(p_->prefix_);
     }
 
+    //! @cond IGNORE
     void XmpKey::Impl::decomposeKey(const std::string& key)
     {
         // Get the family name, prefix and property name parts of the key

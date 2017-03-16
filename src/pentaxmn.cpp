@@ -1207,6 +1207,7 @@ namespace Exiv2 {
         return result;
     }
 
+    //! resolveLens0x32c print lens in human format
     std::ostream& resolveLens0x32c(std::ostream& os, const Value& value,
                                                  const ExifData* metadata)
     {
@@ -1231,6 +1232,7 @@ namespace Exiv2 {
     // #1144 end
 
     // #816 begin
+    //! resolveLens0x3ff print lens in human format
     std::ostream& resolveLens0x3ff(std::ostream& os, const Value& value,
                                                  const ExifData* metadata)
     // ----------------------------------------------------------------------
@@ -1290,6 +1292,7 @@ namespace Exiv2 {
     }
 
     // #1155
+    //! resolveLens0x8ff print lens in human format
     std::ostream& resolveLens0x8ff(std::ostream& os, const Value& value,
                                                  const ExifData* metadata)
     // ----------------------------------------------------------------------
@@ -1317,6 +1320,7 @@ namespace Exiv2 {
     }
 
     // #1155
+    //! resolveLens0x319 print lens in human format
     std::ostream& resolveLens0x319(std::ostream& os, const Value& value,
                                                  const ExifData* metadata)
     // ----------------------------------------------------------------------
@@ -1351,6 +1355,7 @@ namespace Exiv2 {
         return EXV_PRINT_COMBITAG_MULTI(pentaxLensType, 2, 1, 2)(os, value, metadata);
     }
 
+    //! resolveLensType print lens in human format
     std::ostream& resolveLensType(std::ostream& os, const Value& value,
                                                  const ExifData* metadata)
     {

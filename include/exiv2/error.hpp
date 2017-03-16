@@ -142,13 +142,13 @@ namespace Exiv2 {
 
 // Macros for simple access
 //! Shorthand to create a temp debug log message object and return its ostringstream
-#define EXV_DEBUG   if (LogMsg::debug >= LogMsg::level() && LogMsg::handler()) LogMsg(LogMsg::debug).os() 
+#define EXV_DEBUG   if (LogMsg::debug >= LogMsg::level() && LogMsg::handler()) LogMsg(LogMsg::debug).os()
 //! Shorthand for a temp info log message object and return its ostringstream
-#define EXV_INFO    if (LogMsg::info  >= LogMsg::level() && LogMsg::handler()) LogMsg(LogMsg::info).os() 
+#define EXV_INFO    if (LogMsg::info  >= LogMsg::level() && LogMsg::handler()) LogMsg(LogMsg::info).os()
 //! Shorthand for a temp warning log message object and return its ostringstream
-#define EXV_WARNING if (LogMsg::warn  >= LogMsg::level() && LogMsg::handler()) LogMsg(LogMsg::warn).os() 
+#define EXV_WARNING if (LogMsg::warn  >= LogMsg::level() && LogMsg::handler()) LogMsg(LogMsg::warn).os()
 //! Shorthand for a temp error log message object and return its ostringstream
-#define EXV_ERROR   if (LogMsg::error >= LogMsg::level() && LogMsg::handler()) LogMsg(LogMsg::error).os() 
+#define EXV_ERROR   if (LogMsg::error >= LogMsg::level() && LogMsg::handler()) LogMsg(LogMsg::error).os()
 
 #ifdef _MSC_VER
 // Disable MSVC warnings "non - DLL-interface classkey 'identifier' used as base
@@ -267,6 +267,7 @@ namespace Exiv2 {
     EXIV2API const char* errMsg(int code);
 
     template<typename charT>
+    //! BasicError constructor
     BasicError<charT>::BasicError(int code)
         : code_(code), count_(0)
     {
@@ -274,6 +275,7 @@ namespace Exiv2 {
     }
 
     template<typename charT> template<typename A>
+    //! BasicError constructor
     BasicError<charT>::BasicError(int code, const A& arg1)
         : code_(code), count_(1), arg1_(toBasicString<charT>(arg1))
     {
@@ -281,6 +283,7 @@ namespace Exiv2 {
     }
 
     template<typename charT> template<typename A, typename B>
+    //! BasicError constructor
     BasicError<charT>::BasicError(int code, const A& arg1, const B& arg2)
         : code_(code), count_(2),
           arg1_(toBasicString<charT>(arg1)),
@@ -290,6 +293,7 @@ namespace Exiv2 {
     }
 
     template<typename charT> template<typename A, typename B, typename C>
+    //! BasicError constructor
     BasicError<charT>::BasicError(int code, const A& arg1, const B& arg2, const C& arg3)
         : code_(code), count_(3),
           arg1_(toBasicString<charT>(arg1)),

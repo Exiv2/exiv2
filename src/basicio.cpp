@@ -1483,7 +1483,7 @@ namespace Exiv2 {
         bool            isMalloced_;    //!< Was the blocksMap_ allocated?
         bool            eof_;           //!< EOF indicator
         Protocol        protocol_;      //!< the protocol of url
-        uint32_t       totalRead_;
+        uint32_t        totalRead_;     //!< bytes requested from host
 
         // METHODS
         /*!

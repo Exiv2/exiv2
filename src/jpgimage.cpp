@@ -559,7 +559,7 @@ namespace Exiv2 {
         }
     } // JpegBase::readMetadata
 
-    bool isBlank(std::string& s)
+    static bool isBlank(std::string& s) //!< predicate
     {
         for ( std::size_t i = 0 ; i < s.length() ; i++ )
             if ( s[i] != ' ' )

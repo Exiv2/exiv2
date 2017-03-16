@@ -1071,6 +1071,7 @@ namespace Exiv2 {
 
         // Pimpl idiom
         class Impl;
+        //! Pointer to implementation
         Impl* p_;
     }; // class RemoteIo
 
