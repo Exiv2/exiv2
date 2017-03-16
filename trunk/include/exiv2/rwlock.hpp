@@ -30,6 +30,9 @@ namespace Exiv2 {
 #ifdef _MSC_VER
 // Visual Studio 2013 and later use SRWLOCK
 #if _MSC_VER >= 1800
+        /*!
+         @brief Class to provide a Read-Write Lock
+        */
         class RWLock
         {
         public:
@@ -77,6 +80,9 @@ namespace Exiv2 {
             SRWLOCK rwlock_;
         };
 #else
+        /*!
+         @brief Class to provide a Read-Write Lock
+        */
         // Visual Studio 2005,8,10,12 use CRITICAL_SECTION
         class RWLock
         {
@@ -130,6 +136,9 @@ namespace Exiv2 {
 #endif
 
 #else
+        /*!
+         @brief Class to provide a Read-Write Lock
+        */
         // UNIX systems (including MinGW and Cygwin)
         class RWLock
         {
@@ -177,6 +186,10 @@ namespace Exiv2 {
         };
 #endif
 
+        /*!
+         @brief Class to provide a ScopedReadLock.
+         The lock is applied by the constructor and released by the destructor.
+        */
         class ScopedReadLock
         {
         public:
@@ -192,6 +205,10 @@ namespace Exiv2 {
             RWLock &rwlock_;
         };
 
+        /*!
+         @brief Class to provide a ScopedWriteLock.
+         The lock is applied by the constructor and released by the destructor.
+        */
         class ScopedWriteLock
         {
         public:

@@ -363,16 +363,57 @@ namespace Exiv2 {
 
     }; // class IptcKey
 
-    typedef std::map<std::string,std::string>                 Dictionary    ,*Dictionary_p;
-    typedef std::map<std::string,std::string>::const_iterator Dictionary_i  ;
-    typedef std::set<std::string>                             StringSet     ,*StringSet_p;
-    typedef std::set<std::string>::const_iterator             StringSet_i   ;
-    typedef std::vector<std::string>                          StringVector  ,*StringVector_p;
-    typedef std::vector<std::string>::const_iterator          StringVector_i;
-    typedef std::vector<uint32_t>                             Uint32Vector  ,*Uint32Vector_p;
-    typedef std::vector<uint32_t>::const_iterator             Uint32Vector_i;
-    typedef std::vector<uint32_t>                             Uint32Vector  ,*Uint32Vector_p;
-    typedef std::vector<uint32_t>::const_iterator             Uint32Vector_i;
+    /*!
+      @brief typedef for string:string map
+     */
+    typedef std::map<std::string,std::string>                 Dictionary;
+    /*!
+      @brief typedef for Dictionary*
+     */
+    typedef Dictionary*                                       Dictionary_p;
+    /*!
+      @brief typedef for Dictionary iterator
+     */
+    typedef Dictionary::const_iterator                        Dictionary_i;
+
+    /*!
+      @brief typedef for string set (unique strings)
+     */
+    typedef std::set<std::string>                             StringSet;
+    /*!
+      @brief typedef for StringSet*
+     */
+    typedef StringSet*                                        StringSet_p;
+    /*!
+      @brief Class to provide a StringSet iterator
+     */
+    typedef std::set<std::string>::const_iterator             StringSet_i;
+
+    /*!
+      @brief typedef for string vector
+     */
+    typedef std::vector<std::string>                          StringVector;
+    /*!
+      @brief typedef for StringVector pointer
+     */
+    typedef StringVector*                                     StringVector_p;
+    /*!
+      @brief Class to provide a StringVector iterator
+     */
+    typedef StringVector::const_iterator                      StringVector_i;
+
+    /*!
+      @brief typedef for uint32_t vector
+     */
+    typedef std::vector<uint32_t>                             Uint32Vector  ;
+    /*!
+      @brief typedef for Uint32Vector pointer
+     */
+    typedef Uint32Vector*                                     Uint32Vector_p;
+    /*!
+      @brief typedef for Uint32Vector iterator
+     */
+    typedef Uint32Vector::const_iterator                      Uint32Vector_i;
 
 
 // *****************************************************************************
