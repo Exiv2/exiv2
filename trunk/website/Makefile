@@ -108,7 +108,7 @@ html: news
 	@bin/download.sh
 	@bin/gen.py master/*.in
 	@echo "Moving files to html/ ..."
-	-@mv -f master/*.html master/*.php html/
+	-@mv -f master/*.html html/
 
 news: var/__whatsnew-latest__ var/__whatsnew-table__ html/rss.xml
 

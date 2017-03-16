@@ -104,8 +104,8 @@ namespace Exiv2 {
           @brief Print out the structure of image file.
           @throw Error if reading of the file fails or the image data is
                 not valid (does not look like data of the specific image type).
-          @caution This function is not thread safe and intended for exiv2 -pS for debugging.
-          @caution You may need to put the stream into binary mode (see src/actions.cpp)
+          @warning This function is not thread safe and intended for exiv2 -pS for debugging.
+          @warning You may need to put the stream into binary mode (see src/actions.cpp)
          */
         virtual void printStructure(std::ostream& out, PrintStructureOption option =kpsNone, int depth=0);
         /*!
@@ -224,6 +224,7 @@ namespace Exiv2 {
           @brief Set the image iccProfile. The new profile is not written
               to the image until the writeMetadata() method is called.
           @param iccProfile DataBuf containing profile (binary)
+          @param bTestValid - tests that iccProfile contains credible data
          */
         virtual void setIccProfile(DataBuf& iccProfile,bool bTestValid=true);
         /*!
@@ -340,6 +341,7 @@ namespace Exiv2 {
           @brief is the host platform littleEndian
          */
         bool isLittleEndianPlatform();
+
         bool isStringType(uint16_t type);
         bool isShortType(uint16_t type);
         bool isLongType(uint16_t type);
@@ -466,6 +468,7 @@ namespace Exiv2 {
         const NativePreviewList& nativePreviews() const;
         //@}
 
+        //! set type support for this image format
         void setTypeSupported(
             int              imageType,
             uint16_t         supportedMetadata
@@ -474,6 +477,7 @@ namespace Exiv2 {
             supportedMetadata_ = supportedMetadata;
         }
 
+        //! set type support for this image format
         int imageType() const { return imageType_; }
 
     protected:

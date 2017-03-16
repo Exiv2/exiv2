@@ -64,12 +64,15 @@ namespace Exiv2 {
     std::ostream& printCsLensByFocalLengthAndMaxAperture(std::ostream& os,
                                            const Value& value,
                                            const ExifData* metadata);
+    //! Special treatment pretty-print function for non-unique lens ids.
     std::ostream& printCsLensByFocalLength(std::ostream& os,
                                            const Value& value,
                                            const ExifData* metadata);
+    //! Special treatment pretty-print function for non-unique lens ids.
     std::ostream& printCsLensByFocalLengthTC(std::ostream& os,
                                            const Value& value,
                                            const ExifData* metadata);
+    //! Special treatment pretty-print function for non-unique lens ids.
     std::ostream& printCsLensFFFF(std::ostream& os,
                                   const Value& value,
                                   const ExifData* metadata);
@@ -1592,6 +1595,7 @@ namespace Exiv2 {
         return tagInfoPr_;
     }
 
+    //! canonTimeZoneCity - array of cityID/cityName used by Canon
     extern const TagDetails canonTimeZoneCity[] = {
         { 0x0000, N_("n/a")                 },
         { 0x0001, N_("Chatham Islands")     },
@@ -1797,6 +1801,7 @@ namespace Exiv2 {
                 && std::string(td.label_).find(ltfl.maxAperture_) != std::string::npos);
     }
 
+    //! extractLensFocalLength from metadata
     void extractLensFocalLength(LensTypeAndFocalLengthAndMaxAperture& ltfl,
                                 const ExifData* metadata)
     {
@@ -1815,6 +1820,7 @@ namespace Exiv2 {
         }
     }
 
+    //! convertFocalLength to a human readable string
     void convertFocalLength(LensTypeAndFocalLengthAndMaxAperture& ltfl,
                             double divisor)
     {
@@ -1828,6 +1834,7 @@ namespace Exiv2 {
         ltfl.focalLength_ = oss.str();
     }
 
+    //! printCsLensByFocalLengthAndMaxAperture to human readable string
     std::ostream& printCsLensByFocalLengthAndMaxAperture(std::ostream& os,
                                            const Value& value,
                                            const ExifData* metadata)
@@ -1864,6 +1871,7 @@ namespace Exiv2 {
         return os << td->label_;
     }
 
+    //! printCsLensByFocalLength to human readable string
     std::ostream& printCsLensByFocalLength(std::ostream& os,
                                            const Value& value,
                                            const ExifData* metadata)
@@ -1885,6 +1893,7 @@ namespace Exiv2 {
         return os << td->label_;
     }
 
+    //! printCsLensByFocalLengthTC to human readable string
     std::ostream& printCsLensByFocalLengthTC(std::ostream& os,
                                              const Value& value,
                                              const ExifData* metadata)
@@ -1911,6 +1920,7 @@ namespace Exiv2 {
         return os << td->label_;
     }
 
+    //! printCsLensType by searching the config file if necessary
     std::ostream& CanonMakerNote::printCsLensType(std::ostream& os,
                                                   const Value& value,
                                                   const ExifData* metadata)

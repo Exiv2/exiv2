@@ -256,7 +256,7 @@ public:
     Keys  keys_;                        //!< List of keys to match from the metadata
     std::string charset_;               //!< Charset to use for UNICODE Exif user comment
 
-    Exiv2::DataBuf  stdinBuf;           //! < DataBuf with the binary bytes from stdin
+    Exiv2::DataBuf  stdinBuf;           //!< DataBuf with the binary bytes from stdin
 
 private:
     //! Pointer to the global Params object.

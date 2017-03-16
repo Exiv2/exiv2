@@ -879,6 +879,7 @@ namespace Exiv2 {
 	  XMP spec chapter B.4 (page 42) the xml:lang qualifier is to be compared case insensitive.
       */
 	struct LangAltValueComparator {
+		//! LangAltValueComparator comparison case insensitive function
 		bool operator() (const std::string& str1, const std::string& str2) const
 		{
     		int result = str1.size() < str2.size() ?  1

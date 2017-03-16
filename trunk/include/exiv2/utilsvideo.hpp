@@ -30,8 +30,30 @@ namespace Exiv2
 	class UtilsVideo
 	{
 	public:
+		/*!
+		 @brief compare a buffer and string
+		 @param buf - binary buffer
+		 @param str - nul terminated C string
+		 @return true if match
+		 */
 		static bool compareTagValue(Exiv2::DataBuf &buf, const char *str);
+
+		/*!
+		 @brief compare a buffer and an array of strings
+		 @param buf - binary buffer
+		 @param arr - array of C strings C
+		 @param arraysize - length of arr
+		 @return true if match
+		 */
 		static bool compareTagValue(Exiv2::DataBuf& buf,const char arr[][5],int32_t arraysize);
+
+		/*!
+		 @brief compare a buffer and string
+		 @param buf - binary buffer
+		 @param str - C string (not guaranteed nul terminated)
+		 @param size - number of bytes to compare
+		 @return true if match
+		 */
 		static bool simpleBytesComparison(Exiv2::DataBuf& buf ,const char* str,int32_t size);
 	}; // class UtilsVideo
 

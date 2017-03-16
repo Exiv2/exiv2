@@ -213,6 +213,8 @@ namespace Exiv2 {
           @note This invalidates XMP keys generated in this namespace.
          */
         static void unregisterNs(const std::string& ns);
+
+        //! lock to be used while modifying properties
         static Exiv2::RWLock rwLock_;
 
         /*!

@@ -37,6 +37,9 @@
 // + standard includes
 #include <vector>
 
+/*!
+ @brief CPLUSPLUS11 is the value of macro --cplusplus for C++11
+*/
 #define CPLUSPLUS11 201103L
 
 #if __cplusplus >= CPLUSPLUS11
@@ -57,9 +60,16 @@
    @brief exv_grep_key_t is a simple string and the ignore flag
   */
    struct Exiv2_grep_key_t {
+    /*!
+    @brief Exiv2_grep_key_t constructor
+    */
      Exiv2_grep_key_t(std::string pattern,bool bIgnoreCase)
        :pattern_(pattern),bIgnoreCase_(bIgnoreCase) {}
+
+     //! simple string to match
      std::string pattern_;
+
+     //! should we ignore cast in the match?
      bool        bIgnoreCase_;
    };
   /*!
