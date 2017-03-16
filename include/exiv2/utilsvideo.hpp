@@ -18,25 +18,21 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, 5th Floor, Boston, MA 02110-1301 USA.
  */
-/*!
-  @file    utilsvideo.hpp
-  @brief   An Image subclass to support RIFF video files
-  @version $Rev$
-           Mahesh Hegde 2014
-           <b href="mailto:maheshmhegade@gmail.com">maheshmhegade@gmail.com</b>
-  @date    16-Aug-14, AB: created
- */
+
 #include "tags_int.hpp"
 
 namespace Exiv2
 {
 
-class UtilsVideo
-{
-public:
-    static bool compareTagValue(Exiv2::DataBuf &buf, const char *str);
-    static bool compareTagValue(Exiv2::DataBuf& buf,const char arr[][5],int32_t arraysize);
-    static bool simpleBytesComparison(Exiv2::DataBuf& buf ,const char* str,int32_t size);
-}; // class UtilsVideo
+    /*!
+      @brief Class of utility functions used by the video code.
+     */
+	class UtilsVideo
+	{
+	public:
+		static bool compareTagValue(Exiv2::DataBuf &buf, const char *str);
+		static bool compareTagValue(Exiv2::DataBuf& buf,const char arr[][5],int32_t arraysize);
+		static bool simpleBytesComparison(Exiv2::DataBuf& buf ,const char* str,int32_t size);
+	}; // class UtilsVideo
 
 } // namespace Exiv2
