@@ -1,66 +1,57 @@
 Release checklist
 -----------------
+
+Caution: Updating the website can be 1 week's work!
+         You might get lucky and do it quicker
+         You should assume it'll take time to find and fix everything
+         You should publish the website (on another server) and ask the team to review
+         Many scripts are provided, however this is not a "push button" operation.
+
 1 month before the release: Update po/ directory, notify translators
 2 weeks before the release: Update po/ directory, remind translators
-
 Update po/ directory
-Update issues
-Update ChangeLog
+
+Update issues on Redmine
+Update var/__version__
+	$ echo -e '0.27' > var/__version__
+Update var/__ChangeLog__
+v0.26+	Run the script to get revision history:
+		$ cd exiv2/team/contrib/redmine
+		$ ./progress.py getdata.sh release
+		Modify/paste output to html/var/__ChangeLog__
 Update versions (see tagging script)
 Review and update webpages
-  News page
-  Download page
-  Archive page
-  Index page
-  Other pages as needed, external links
+	News page
+	Download page
+	Archive page
+	Index page
+	Other pages as needed, external links
 Review and update documentation
-  API doc intro
-  Man page
-  Taglists
-  READMEs
-  
-Get the release ready by inspecting the logs from the buildserver.
-v0.26 and Later (must do this on the buildserver)
-	Get the "release builds" from the buildserver:
-	701 rmills@rmillsmm:~/gnu/exiv2/trunk/website $ mkdir html/builds
-	702 rmills@rmillsmm:~/gnu/exiv2/trunk/website $ ls -l ~Jenkins/Home/userContent/builds/Latest/ | grep -v -e total | cut -d'>' -f 2
-	 /mmHD/Users/Shared/Jenkins/Home/userContent/builds/Daily/cygwin-svn-4718-date-2017-03-08+02-24-00.tar.gz
-	 /mmHD/Users/Shared/Jenkins/Home/userContent/builds/Daily/linux-svn-4718-date-2017-03-08+02-18-55.tar.gz
-	 /mmHD/Users/Shared/Jenkins/Home/userContent/builds/Daily/macosx-svn-4718-date-2017-03-08+02-17-33.tar.gz
-	 /mmHD/Users/Shared/Jenkins/Home/userContent/builds/Daily/mingw-svn-4718-date-2017-03-08+03-27-53.tar.gz
-	 /mmHD/Users/Shared/Jenkins/Home/userContent/builds/Daily/msvc-svn-4718-date-2017-03-08+03-17-45.tar.gz
-	 /mmHD/Users/Shared/Jenkins/Home/userContent/builds/Daily/test-svn-4718-date-2017-03-08+03-27-56.txt
-	703 rmills@rmillsmm:~/gnu/exiv2/trunk/website $ for b in $(ls -l ~Jenkins/Home/userContent/builds/Latest/ | grep -v -e total | cut -d'>' -f 2); do cp $b html/builds; done
-	704 rmills@rmillsmm:~/gnu/exiv2/trunk/website $ dir html/builds
-	-rw-r--r--+ 1 rmills staff  23M Mar  8 18:19 html/builds/msvc-svn-4718-date-2017-03-08+03-17-45.tar.gz
-	-rw-r--r--+ 1 rmills staff  14K Mar  8 18:19 html/builds/test-svn-4718-date-2017-03-08+03-27-56.txt
-	-rw-r--r--+ 1 rmills staff 3.2M Mar  8 18:19 html/builds/cygwin-svn-4718-date-2017-03-08+02-24-00.tar.gz
-	-rw-r--r--+ 1 rmills staff 2.3M Mar  8 18:19 html/builds/linux-svn-4718-date-2017-03-08+02-18-55.tar.gz
-	-rw-r--r--+ 1 rmills staff 2.7M Mar  8 18:19 html/builds/macosx-svn-4718-date-2017-03-08+02-17-33.tar.gz
-	-rw-r--r--+ 1 rmills staff 5.9M Mar  8 18:19 html/builds/mingw-svn-4718-date-2017-03-08+03-27-53.tar.gz
-	705 rmills@rmillsmm:~/gnu/exiv2/trunk/website $ pushd html/builds ; mv msvc....... exiv2-0.26-msvc.tar.gz etc... ; popd
-	715 rmills@rmillsmm:~/gnu/exiv2/trunk/website $
+	API doc intro
+	Man page
+	Taglists
+	READMEs
+	Update var/__version__
 
-Get the Website ready:
-	
-Run the script to get revision history:
-	$ cd exiv2/team/contrib/redmine
-	$ getdata.sh release 
-	
-	Modify/paste output to html/var/__ChangeLog__
-	Finalize webpage download information (echo -e '0.27' > var/__version__ ; bin/download.sh)
-	
-	make
-	open html/index.html
-	
-Tag release (bin/exiv2-tagrelease.sh)
-Create packages (bin/exiv2-buildrelease.sh # bin/exiv2-buildwinexe.sh)
+v0.26+: Get the release ready by inspecting the logs from the buildserver.
+ 	copy builds from buildserver to html/builds
+	bin/getbuilds.sh
 
+	Get the Website ready:
+	$ make  # This does NOT run bin/getbuilds.sh
+	$ open html/index.html
+
+#v0.25 Create packages (bin/exiv2-buildrelease.sh # bin/exiv2-buildwinexe.sh)
+
+Tag release     (bin/exiv2-tagrelease.sh)
 Publish webpages and packages locally (make publish)
 Download and test packages
-# Test Windows binary on Windows
+#v0.25 Test Windows binary on Windows
 Really publish webpages and packages (make really-publish)
 Validate uploaded webpages with W3C HTML checker
 Exiv2 forum announcement
 Facebook fan page update
 Freshmeat.net announcement
+
+# That's all Folks!
+##
