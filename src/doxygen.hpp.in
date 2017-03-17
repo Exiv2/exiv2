@@ -81,7 +81,7 @@
   - <a href="tags-xmp-digiKam.html">digiKam schema</a>
   - <a href="tags-xmp-kipi.html">KDE Image Program Interface schema</a>
   - <a href="tags-xmp-GPano.html">GPano schema</a>
-  - <a href="tags-xmp-lr.html"><span>lightroom schema</a>
+  - <a href="tags-xmp-lr.html">lightroom schema</a>
   - <a href="tags-xmp-MP.html">Microsoft Photo 1.2 schema</a>
   - <a href="tags-xmp-MPRI.html">Microsoft Photo RegionInfo schema</a>
   - <a href="tags-xmp-MPReg.html">Microsoft Photo Region schema</a>
@@ -108,7 +108,7 @@
 
   @section license License
 
-  <P>Copyright (C) 2004-2015 Andreas Huggel <ahuggel@gmx.net></P>
+  <P>Copyright (C) 2004-2017 Andreas Huggel <ahuggel@gmx.net></P>
 
   <P>%Exiv2 is free software; you can redistribute it and/or modify it under the
   terms of the <a href="gpl-license.html">GNU General Public License</a> as
