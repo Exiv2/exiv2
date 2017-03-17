@@ -101,7 +101,7 @@ SCHEMA = dc \
 all: html doc
 
 .PHONY: html doc news clean update \
-        update-manpage update-intro update-sample update-conversion update-changelog update-tags update-makernotes \
+        update-intro update-sample update-conversion update-changelog update-tags update-makernotes \
         publish really-publish
 
 html: news

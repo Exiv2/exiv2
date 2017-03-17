@@ -21,9 +21,10 @@ for build in $builds; do
 done
 
 plat=trunk
+orig=exiv2-trunk.tar.gz
 plat="exiv2-$version-$plat.tar.gz"
-if [ -e $plat ]; then
-	cp $plat $dest
+if [ -e $orig ]; then
+	cp $orig $dest/$plat
 fi
 
 echo ---- $dest ----
