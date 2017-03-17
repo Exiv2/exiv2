@@ -7,7 +7,7 @@
 # For details see the accompanying COPYING-CMAKE-SCRIPTS file.
 
 include(../CMake_msvc.txt)
-msvc_runtime_configure(${EXIV2_ENABLE_SHARED})
+msvc_runtime_configure(${EXIV2_ENABLE_SHARED} ${EXIV2_ENABLE_DYNAMIC_RUNTIME})
 
 if( POLICY CMP0026 )
     cmake_policy(SET CMP0026 OLD) # Something to do with location
