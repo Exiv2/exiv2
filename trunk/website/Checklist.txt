@@ -33,15 +33,26 @@ Review and update documentation
 	READMEs
 	Update var/__version__
 
-v0.26+: Get the release ready by inspecting the logs from the buildserver.
+v0.26+:
+	make the tags:
+	$ cd doc
+	$ make tags
+	$ make
+    create trunk bundle:
+    $ cd website
+    $ rm -rf *trunk*
+    $ bin/exiv2-buildrelease.sh trunk
+    inspect the logs from the buildserver
  	copy builds from buildserver to html/builds
-	bin/getbuilds.sh
+    $ cd website
+	$ bin/getbuilds.sh
 
 	Get the Website ready:
-	$ make  # This does NOT run bin/getbuilds.sh
+	$ cd website
+	$ make # This does NOT run bin/getbuilds.sh NOR bin/exiv2-buildrelease.sh NOR make tags
 	$ open html/index.html
 
-#v0.25 Create packages (bin/exiv2-buildrelease.sh # bin/exiv2-buildwinexe.sh)
+#v0.25 Create packages (bin/exiv2-buildrelease.sh ; bin/exiv2-buildwinexe.sh)
 
 Tag release     (bin/exiv2-tagrelease.sh)
 Publish webpages and packages locally (make publish)
