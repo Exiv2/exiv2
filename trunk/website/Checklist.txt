@@ -32,6 +32,7 @@ Review and update documentation
 	Taglists
 	READMEs
 	Update var/__version__
+	Update var/__manpage__
 
 v0.26+:
 	make the tags:
