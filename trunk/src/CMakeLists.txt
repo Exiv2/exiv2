@@ -231,7 +231,7 @@ ENDIF( MSVC )
 # msvn tuning
 IF( MSVC )
     include(../CMake_msvc.txt)
-    msvc_runtime_configure(${EXIV2_ENABLE_SHARED})
+    msvc_runtime_configure(${EXIV2_ENABLE_SHARED} ${EXIV2_ENABLE_DYNAMIC_RUNTIME})
 ENDIF( MSVC )
 
 # ******************************************************************************
@@ -311,7 +311,7 @@ ENDIF(CYGWIN OR MINGW)
 INSTALL( TARGETS exiv2lib ${INSTALL_TARGET_STANDARD_ARGS} )
 
 include(../CMake_msvc.txt)
-msvc_runtime_configure(${EXIV2_ENABLE_SHARED})
+msvc_runtime_configure(${EXIV2_ENABLE_SHARED} ${EXIV2_ENABLE_DYNAMIC_RUNTIME})
 
 # ******************************************************************************
 # exiv2 application

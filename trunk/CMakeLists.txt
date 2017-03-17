@@ -51,13 +51,14 @@ OPTION( EXIV2_ENABLE_BUILD_PO      "Build translations files"                   
 OPTION( EXIV2_ENABLE_VIDEO         "Build video support into library"                      OFF )
 OPTION( EXIV2_ENABLE_WEBREADY      "Build webready support into library"                   OFF )
 IF (WIN32)
+    OPTION( EXIV2_ENABLE_DYNAMIC_RUNTIME  "Use dynamic runtime (used for static libs)"     OFF )
     OPTION( EXIV2_ENABLE_WIN_UNICODE   "Use Unicode paths (wstring) on Windows"            OFF )
     OPTION( EXIV2_ENABLE_CURL          "USE Libcurl for HttpIo"                            OFF )
     OPTION( EXIV2_ENABLE_SSH           "USE Libssh for SshIo"                              OFF )
 ELSE()
     OPTION( EXIV2_ENABLE_CURL          "USE Libcurl for HttpIo"                            ON  )
     OPTION( EXIV2_ENABLE_SSH           "USE Libssh for SshIo"                              ON  )
-
+    SET ( EXIV2_ENABLE_DYNAMIC_RUNTIME OFF )
 ENDIF()
 
 # set include path for FindXXX.cmake files
@@ -110,6 +111,7 @@ INCLUDE_DIRECTORIES( ${CMAKE_SOURCE_DIR}/src/ ${CMAKE_SOURCE_DIR}/include/  ${CM
 if( MSVC )
     # cmake_policy(SET CMP0008)
     ADD_DEFINITIONS(-DPSAPI_VERSION=1) # to be compatible with <= WinVista (#905)
+    set(CMAKE_DEBUG_POSTFIX "d")
 endif( MSVC )
 
 IF( EXIV2_ENABLE_XMP )

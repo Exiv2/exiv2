@@ -42,7 +42,7 @@ SET( SAMPLES addmoddel.cpp
 ##
 # msvn tuning
 include(../CMake_msvc.txt)
-msvc_runtime_configure(${EXIV2_ENABLE_SHARED})
+msvc_runtime_configure(${EXIV2_ENABLE_SHARED} ${EXIV2_ENABLE_DYNAMIC_RUNTIME})
 
 FOREACH(entry ${SAMPLES})
     STRING( REPLACE ".cpp" "" target ${entry})
