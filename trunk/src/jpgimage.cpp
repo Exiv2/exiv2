@@ -559,14 +559,6 @@ namespace Exiv2 {
         }
     } // JpegBase::readMetadata
 
-    static bool isBlank(std::string& s) //!< predicate
-    {
-        for ( std::size_t i = 0 ; i < s.length() ; i++ )
-            if ( s[i] != ' ' )
-                return false ;
-        return true ;
-    }
-
 #define REPORT_MARKER if ( (option == kpsBasic||option == kpsRecursive) ) \
      out << Internal::stringFormat("%8ld | 0xff%02x %-5s", \
                              io_->tell()-2,marker,nm[marker].c_str())
