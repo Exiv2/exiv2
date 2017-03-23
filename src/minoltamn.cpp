@@ -1751,14 +1751,15 @@ namespace Exiv2 {
         { 146,   "Voigtlander Macro APO-Lanthar 125mm F2.5 SL" },
         { 193,   "Minolta AF 1.4x APO II" },
         { 194,   "Tamron SP AF 17-50mm F2.8 XR Di II LD Aspherical [IF]" },
+        { 202,   "Tamron SP AF 70-200mm F2.8 Di LD [IF] Macro" },
         { 203,   "Tamron SP 70-200mm F2.8 Di USD" },
         { 204,   "Tamron SP 24-70mm F2.8 Di USD" },
         { 212,   "Tamron 28-300mm F3.5-6.3 Di PZD" },
         { 213,   "Tamron 16-300mm F3.5-6.3 Di II PZD Macro" },
         { 214,   "Tamron Tamron SP 150-600mm F5-6.3 Di USD" },
         { 215,   "Tamron SP 15-30mm F2.8 Di USD" },
-        { 218,   "Tamron SP 90mm F2.8 Di Macro 1:1 USD" },
-        { 224,   "Tamron SP 90mm F2.8 Di Macro 1:1 USD" },
+        { 218,   "Tamron SP 90mm F2.8 Di Macro 1:1 USD (F017)" },
+        { 224,   "Tamron SP 90mm F2.8 Di Macro 1:1 USD (F004)" },
         {0xff,   "Tamron SP AF 17-50mm F2.8 XR Di II LD Aspherical | "                   // 1
                  "Tamron AF 18-250mm F3.5-6.3 XR Di II LD | "                            // 2
                  "Tamron AF 55-200mm F4-5.6 Di II LD Macro | "                           // 3
