@@ -32,7 +32,7 @@ EXIV2_RCSID("@(#) $Id$")
 #include "config.h"
 
 #include "makernote_int.hpp"
-#include "ini_int.hpp"
+#include "ini.hpp"
 #include "tiffcomposite_int.hpp"
 #include "tiffvisitor_int.hpp"
 #include "tiffimage.hpp"
