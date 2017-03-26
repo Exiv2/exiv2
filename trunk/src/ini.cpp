@@ -6,7 +6,7 @@
 // https://github.com/benhoyt/inih
 
 #include "config.h"
-#include "ini_int.hpp"
+#include "ini.hpp"
 
 #include <algorithm>
 #include <cctype>
