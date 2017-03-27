@@ -45,6 +45,7 @@
 #include "gifimage.hpp"
 #include "http.hpp"
 #include "image.hpp"
+#include "ini.hpp"
 #include "iptc.hpp"
 #include "jp2image.hpp"
 #include "jpgimage.hpp"

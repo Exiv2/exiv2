@@ -16,7 +16,6 @@ SET( LIBEXIV2_PRIVATE_HDR canonmn_int.hpp
                           cr2image_int.hpp
                           crwimage_int.hpp
                           fujimn_int.hpp
-                          ini_int.hpp
                           makernote_int.hpp
                           minoltamn_int.hpp
                           nikonmn_int.hpp
@@ -55,6 +54,7 @@ SET( LIBEXIV2_HDR         ${CMAKE_CURRENT_LIST_DIR}/../include/exiv2/asfvideo.hp
                           ${CMAKE_CURRENT_LIST_DIR}/../include/exiv2/gifimage.hpp
                           ${CMAKE_CURRENT_LIST_DIR}/../include/exiv2/http.hpp
                           ${CMAKE_CURRENT_LIST_DIR}/../include/exiv2/image.hpp
+                          ${CMAKE_CURRENT_LIST_DIR}/../include/exiv2/ini.hpp
                           ${CMAKE_CURRENT_LIST_DIR}/../include/exiv2/iptc.hpp
                           ${CMAKE_CURRENT_LIST_DIR}/../include/exiv2/jp2image.hpp
                           ${CMAKE_CURRENT_LIST_DIR}/../include/exiv2/jpgimage.hpp

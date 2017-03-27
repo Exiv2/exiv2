@@ -13,7 +13,7 @@ Config loaded from : 'initest.ini' version=6, name=Bob Smith, email=bob@smith.co
 
 // #include <exiv2/exiv2.h>
 #include "config.h"
-#include "../src/ini_int.hpp"
+#include "ini.hpp"
 
 int main()
 {
