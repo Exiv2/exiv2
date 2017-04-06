@@ -470,13 +470,12 @@ namespace Exiv2 {
                 // chunk/chunks are a single byte
                 // Spec 7.2 Profile bytes 0-3 size
                 uint32_t s = getULong(buf.pData_ + (2+14) , bigEndian);
-//#ifdef DEBUG
+#ifdef DEBUG
                 std::cerr << "Found ICC Profile chunk " << chunk
                           << " of "    << chunks
                           << (chunk==1 ? " size: " : "" ) << (chunk==1 ? s : 0)
                           << std::endl  ;
-//#endif
-
+#endif
                 io_->seek(-bufRead, BasicIo::cur); // back up to start of buffer (after marker)
                 io_->seek(    14+2, BasicIo::cur); // step header
                 // read in profile
