@@ -374,6 +374,13 @@ namespace Exiv2 {
                 uint32_t count  = byteSwap4(dir,4,bSwap);
                 uint32_t offset = byteSwap4(dir,8,bSwap);
 
+                // Break for unknown tag types else we may get segfault.
+                if ( !typeValid(type) ) {
+                    std::cerr << "invalid type value detected in Image::printIFDStructure:  " << type << std::endl;
+                    start = 0; // break from do loop
+                    break; // break from for loop
+                }
+
                 std::string sp  = "" ; // output spacer
 
                 //prepare to print the value
@@ -390,12 +397,6 @@ namespace Exiv2 {
                                 : is8ByteType(type)  ? 8
                                 : 1
                                 ;
-
-                // Break for unknown tag types else we may get segfault.
-                if ( !typeValid(type) ) {
-                    std::cerr << "invalid type value detected in Image::printIFDStructure:  " << type << std::endl;
-                    break;
-                }
 
                 // if ( offset > io.size() ) offset = 0; // Denial of service?
                 DataBuf  buf(size*count + pad+20);  // allocate a buffer
@@ -486,14 +487,16 @@ namespace Exiv2 {
                     out.write((const char*)buf.pData_,count);
                 }
             }
-            io.read(dir.pData_, 4);
-            start = tooBig ? 0 : byteSwap4(dir,0,bSwap);
-            out.flush();
+            if ( start ) {
+                io.read(dir.pData_, 4);
+                start = tooBig ? 0 : byteSwap4(dir,0,bSwap);
+            }
         } while (start) ;
 
         if ( bPrint ) {
             out << Internal::indent(depth) << "END " << io.path() << std::endl;
         }
+        out.flush();
         depth--;
     }
 
