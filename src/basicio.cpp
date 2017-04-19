@@ -929,7 +929,7 @@ namespace Exiv2 {
         return std::ftell(p_->fp_);
     }
 
-    long FileIo::size() const
+    size_t FileIo::size() const
     {
         // Flush and commit only if the file is open for writing
         if (p_->fp_ != 0 && (p_->openMode_[0] != 'r' || p_->openMode_[1] == '+')) {
@@ -1018,7 +1018,7 @@ namespace Exiv2 {
     bool FileIo::eof() const
     {
         assert(p_->fp_ != 0);
-        return feof(p_->fp_) != 0 || tell() >= size() ;
+        return feof(p_->fp_) != 0 || tell() >= (long) size() ;
     }
 
     std::string FileIo::path() const
@@ -1244,7 +1244,7 @@ namespace Exiv2 {
         return p_->idx_;
     }
 
-    long MemIo::size() const
+    size_t MemIo::size() const
     {
         return p_->size_;
     }
@@ -1659,20 +1659,20 @@ namespace Exiv2 {
          *      + goes from the right, find the first different position -> $right
          * The different bytes are [$left-$right] part.
          */
-        long  left       = 0;
-        long  right      = 0;
-        long  blockIndex = 0;
-        long  i          = 0;
-        long  readCount  = 0;
-        long  blockSize  = 0;
-        byte* buf        = (byte*) std::malloc(p_->blockSize_);
-        long  nBlocks    = (long)((p_->size_ + p_->blockSize_ - 1) / p_->blockSize_);
+        size_t left       = 0;
+        size_t right      = 0;
+        size_t blockIndex = 0;
+        size_t i          = 0;
+        size_t readCount  = 0;
+        size_t blockSize  = 0;
+        byte*  buf        = (byte*) std::malloc(p_->blockSize_);
+        size_t nBlocks    = (p_->size_ + p_->blockSize_ - 1) / p_->blockSize_;
 
         // find $left
         src.seek(0, BasicIo::beg);
         bool findDiff = false;
         while (blockIndex < nBlocks && !src.eof() && !findDiff) {
-            blockSize = (long)p_->blocksMap_[blockIndex].getSize();
+            blockSize = p_->blocksMap_[blockIndex].getSize();
             bool isFakeData = p_->blocksMap_[blockIndex].isKnown(); // fake data
             readCount = src.read(buf, blockSize);
             byte* blockData = p_->blocksMap_[blockIndex].getData();
@@ -1689,7 +1689,7 @@ namespace Exiv2 {
         // find $right
         findDiff    = false;
         blockIndex  = nBlocks - 1;
-        blockSize   = (long)p_->blocksMap_[blockIndex].getSize();
+        blockSize   = p_->blocksMap_[blockIndex].getSize();
         while ((blockIndex + 1 > 0) && right < src.size() && !findDiff) {
             if(src.seek(-1 * (blockSize + right), BasicIo::end)) {
                 findDiff = true;
@@ -1870,7 +1870,7 @@ namespace Exiv2 {
         return p_->idx_;
     }
 
-    long RemoteIo::size() const
+    size_t RemoteIo::size() const
     {
         return (long) p_->size_;
     }

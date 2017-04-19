@@ -222,7 +222,7 @@ namespace Exiv2 {
           @return Size of the IO source in bytes;<BR>
                  -1 if failure;
          */
-        virtual long size() const = 0;
+        virtual size_t size() const = 0;
         //!Returns true if the IO source is open, otherwise false.
         virtual bool isopen() const = 0;
         //!Returns 0 if the IO source is in a valid state, otherwise nonzero.
@@ -497,7 +497,7 @@ namespace Exiv2 {
           @return Size of the file in bytes;<BR>
                  -1 if failure;
          */
-        virtual long size() const;
+        virtual size_t size() const;
         //! Returns true if the file is open, otherwise false.
         virtual bool isopen() const;
         //! Returns 0 if the file is in a valid state, otherwise nonzero.
@@ -696,7 +696,7 @@ namespace Exiv2 {
           @return Size of the in memory data in bytes;<BR>
                  -1 if failure;
          */
-        virtual long size() const;
+        virtual size_t size() const;
         //!Always returns true
         virtual bool isopen() const;
         //!Always returns 0
@@ -1034,7 +1034,7 @@ namespace Exiv2 {
          @return Size of the in memory data in bytes;<BR>
                 -1 if failure;
         */
-       virtual long size() const;
+       virtual size_t size() const;
        //!Returns true if the memory area is allocated.
        virtual bool isopen() const;
        //!Always returns 0
