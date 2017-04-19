@@ -131,28 +131,28 @@ catch (Exiv2::AnyError& e) {
 int WriteReadSeek(BasicIo &io)
 {
     byte buf[4096];
-    const char tester1[] = "this is a little test of MemIo";
-    const char tester2[] = "Appending this on the end";
-    const char expect[] = "this is a little teAppending this on the end";
-    const long insert = 19;
-    const long len1 = (long)std::strlen(tester1) + 1;
-    const long len2 = (long)std::strlen(tester2) + 1;
+    const char   tester1[] = "this is a little test of MemIo";
+    const char   tester2[] = "Appending this on the end";
+    const char   expect[]  = "this is a little teAppending this on the end";
+    const size_t insert = 19;
+    const size_t size1  = std::strlen(tester1) + 1;
+    const size_t size2  = std::strlen(tester2) + 1;
 
     if (io.open() != 0) {
         throw Error(9, io.path(), strError());
     }
     IoCloser closer(io);
-    if (io.write((byte*)tester1, len1) != len1) {
+    if (io.write((byte*)tester1, size1) != size1) {
         std::cerr << ": WRS initial write failed\n";
         return 2;
     }
 
-    if (io.size() != len1) {
-        std::cerr << ": WRS size is not " << len1 << "\n";
+    if (io.size() != size1) {
+        std::cerr << ": WRS size is not " << size1 << "\n";
         return 2;
     }
 
-    io.seek(-len1, BasicIo::cur);
+    io.seek(-size1, BasicIo::cur);
 
     int c = EOF;
     std::memset(buf, -1, sizeof(buf));
@@ -161,7 +161,7 @@ int WriteReadSeek(BasicIo &io)
     }
 
     // Make sure we got the null back
-    if(buf[len1-1] != 0) {
+    if(buf[size1-1] != 0) {
         std::cerr << ": WRS missing null terminator 1\n";
         return 3;
     }
@@ -195,7 +195,7 @@ int WriteReadSeek(BasicIo &io)
     }
 
     io.seek(insert, BasicIo::beg);
-    if(io.write((byte*)tester2, len2) != len2) {
+    if(io.write((byte*)tester2, size2) != size2) {
         std::cerr << ": WRS bad write 1\n";
         return 9;
     }
@@ -205,13 +205,13 @@ int WriteReadSeek(BasicIo &io)
         throw Error(9, io.path(), strError());
     }
     std::memset(buf, -1, sizeof(buf));
-    if (io.read(buf, sizeof(buf)) != insert + len2) {
+    if (io.read(buf, sizeof(buf)) != insert + size2) {
         std::cerr << ": WRS something went wrong\n";
         return 10;
     }
 
     // Make sure we got the null back
-    if(buf[insert + len2 - 1] != 0) {
+    if(buf[insert + size2 - 1] != 0) {
         std::cerr << ": WRS missing null terminator 2\n";
         return 11;
     }
