@@ -51,10 +51,6 @@ EXIV2_RCSID("@(#) $Id$")
 #endif
 #include <cstring>
 
-#if defined WIN32 && !defined __CYGWIN__
-# include <windows.h>
-#endif
-
 #ifdef EXV_HAVE_ICONV
 # include <iconv.h>
 # include <errno.h>

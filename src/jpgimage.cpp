@@ -35,9 +35,7 @@ EXIV2_RCSID("@(#) $Id$")
 #include "error.hpp"
 #include "futils.hpp"
 
-#ifdef WIN32
-#include <windows.h>
-#else
+#ifndef WIN32
 #define BYTE   char
 #define USHORT uint16_t
 #define ULONG  uint32_t

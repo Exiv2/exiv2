@@ -53,7 +53,6 @@ EXIV2_RCSID("@(#) $Id$")
 #include <sys/types.h>
 #include <pwd.h>
 #else
-#include <windows.h>
 #include <shlobj.h>
   /* older SDKs not have these */
 # ifndef CSIDL_MYMUSIC
