@@ -146,6 +146,7 @@ namespace Exiv2 {
 
 // platform specific support for dumpLibraryInfo
 #if defined(WIN32)
+# include <windows.h>
 # include <psapi.h>
 
 // tell MSVC to link psapi.

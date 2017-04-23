@@ -22,11 +22,9 @@
 #ifndef RW_LOCK_HPP
 #define RW_LOCK_HPP
 
-#if defined(_MSC_VER) || defined(__CYGWIN__) || defined(__MINGW__)
+#ifdef _MSC_VER
 #include <windows.h>
-#endif
-
-#ifndef  _MSC_VER
+#else
 #include <pthread.h>
 #endif
 

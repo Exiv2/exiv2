@@ -34,6 +34,7 @@
 #include <exiv2/exiv2.hpp>
 
 #include "utils.hpp"
+#include "types.hpp"
 
 // + standard includes
 #include <string>
@@ -54,7 +55,9 @@
 #include <stdlib.h>
 #include <stdio.h>
 #include <string.h>
-#if !defined(__CYGWIN__) && !defined(__MINGW__)
+#if defined(__CYGWIN__) || defined(__MINGW__)
+#include <windows.h>
+#else
 #include <sys/select.h>
 #endif
 #endif
