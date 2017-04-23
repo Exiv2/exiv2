@@ -142,7 +142,7 @@ int WriteReadSeek(BasicIo &io)
         throw Error(9, io.path(), strError());
     }
     IoCloser closer(io);
-    if (io.write((byte*)tester1, size1) != size1) {
+    if ((size_t) io.write((byte*)tester1, size1) != size1) {
         std::cerr << ": WRS initial write failed\n";
         return 2;
     }
@@ -195,7 +195,7 @@ int WriteReadSeek(BasicIo &io)
     }
 
     io.seek(insert, BasicIo::beg);
-    if(io.write((byte*)tester2, size2) != size2) {
+    if((size_t)io.write((byte*)tester2, size2) != size2) {
         std::cerr << ": WRS bad write 1\n";
         return 9;
     }
@@ -205,7 +205,7 @@ int WriteReadSeek(BasicIo &io)
         throw Error(9, io.path(), strError());
     }
     std::memset(buf, -1, sizeof(buf));
-    if (io.read(buf, sizeof(buf)) != insert + size2) {
+    if ((size_t) io.read(buf, sizeof(buf)) != insert + size2) {
         std::cerr << ": WRS something went wrong\n";
         return 10;
     }
