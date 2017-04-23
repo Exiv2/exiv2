@@ -35,6 +35,9 @@ EXIV2_RCSID("@(#) $Id$")
 #include "i18n.h"                               // for _exvGettext
 
 // + standard includes
+#ifdef EXV_UNICODE_PATH
+# include <windows.h> // for MultiByteToWideChar etc
+#endif
 #include <string>
 #include <iostream>
 #include <iomanip>

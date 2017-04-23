@@ -57,6 +57,7 @@
 // platform specific code
 #if defined(WIN32) || defined(_MSC_VER) || defined(__MINGW__)
 #include <string.h>
+#include <windows.h>
 #include <io.h>
 #ifndef  __MINGW__
 #define  snprintf sprintf_s
