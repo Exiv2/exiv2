@@ -23,6 +23,11 @@
  * http.cpp
  */
 
+#ifdef _MSC_VER
+#include <winsock2.h>
+#pragma comment(lib, "ws2_32.lib")
+#endif
+
 // included header files
 #include "config.h"
 

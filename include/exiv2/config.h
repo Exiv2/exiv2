@@ -6,7 +6,7 @@
 
 ///// Start of Visual Studio Support /////
 #ifdef  _MSC_VER
-#include <winsock2.h>
+#include <windows.h>
 
 #define _MSC_VER_2015 1900
 #define _MSC_VER_2013 1800
@@ -42,12 +42,6 @@
 #  define _WIN32_WINNT 0x0600
 # endif
 #endif
-
-#include <windows.h>
-#include <shlobj.h>
-
-#pragma comment(lib, "ws2_32.lib")
-#pragma comment(lib, "wldap32.lib")
 
 #if _MSC_VER >= _MSC_VER_2010
 # define EXV_HAVE_STDINT_H 1
