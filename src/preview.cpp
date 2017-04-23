@@ -470,7 +470,7 @@ namespace {
         }
         IoCloser closer(io);
         const byte* data = io.mmap();
-        if (io.size() < nativePreview_.position_ + static_cast<long>(nativePreview_.size_)) {
+        if ((long)io.size() < nativePreview_.position_ + static_cast<long>(nativePreview_.size_)) {
 #ifndef SUPPRESS_WARNINGS
             EXV_WARNING << "Invalid native preview position or size.\n";
 #endif
