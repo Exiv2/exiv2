@@ -22,7 +22,9 @@
 #ifndef RW_LOCK_HPP
 #define RW_LOCK_HPP
 
-#ifndef _MSC_VER
+#ifdef _MSC_VER
+#include <windows.h>
+#else
 #include <pthread.h>
 #endif
 
