@@ -151,8 +151,8 @@ int WriteReadSeek(BasicIo &io)
         std::cerr << ": WRS size is not " << size1 << "\n";
         return 2;
     }
-
-    io.seek(-size1, BasicIo::cur);
+    long     backup = (long)size1;
+    io.seek(-backup, BasicIo::cur);
 
     int c = EOF;
     std::memset(buf, -1, sizeof(buf));
