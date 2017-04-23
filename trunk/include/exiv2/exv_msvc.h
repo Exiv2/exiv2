@@ -171,13 +171,13 @@
 #define EXV_PACKAGE_NAME "exiv2"
 
 /* Define to the full name and version of this package. */
-#define EXV_PACKAGE_STRING "exiv2 0.25"
+#define EXV_PACKAGE_STRING "exiv2 0.26"
 
 /* Define to the one symbol short name of this package. */
 #define EXV_PACKAGE_TARNAME "exiv2"
 
 /* Define to the version of this package. */
-#define EXV_PACKAGE_VERSION "0.25"
+#define EXV_PACKAGE_VERSION "0.26"
 
 /* Define to 1 if you have the ANSI C header files. */
 #define STDC_HEADERS 1

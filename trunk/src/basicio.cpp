@@ -72,7 +72,6 @@ EXIV2_RCSID("@(#) $Id$")
 #if defined(__MINGW__) || (defined(WIN32) && !defined(__CYGWIN))
 // Windows doesn't provide nlink_t
 typedef short nlink_t;
-# include <windows.h>
 # include <io.h>
 #endif
 
