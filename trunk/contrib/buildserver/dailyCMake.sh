@@ -140,6 +140,7 @@ testBuild()
 
                 # fix up minor stuff
                 rm     -rf                                  "$dist/lib/libexiv2-13.dll"  # this is a relic sitting on the buildserver
+                rm     -rf                                  "$dist/lib/libexiv2-14.dll"  # this is a relic sitting on the buildserver
                 mkdir  -p                                   "$dist/lib/pkgconfig"        # pkgconfig magic
                 cp     -R /usr/local/lib/pkgconfig/*        "$dist/lib/pkgconfig"
                 mkdir  -p                                   "$dist/share/man/man1/"      # man pages
