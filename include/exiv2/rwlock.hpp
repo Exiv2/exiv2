@@ -30,8 +30,18 @@
 
 namespace Exiv2 {
 #ifdef _MSC_VER
-// Visual Studio 2013 and later use SRWLOCK
-#if _MSC_VER >= 1800
+/*
+Visual Studio 2013 and later use SRWLOCK, however don't use Vista/7+ features
+when targeting XP.
+
+_USING_V110_SDK71_ is defined when Platform Toolset is set to target XP (and
+thus uses Windows 7.1 SDK).
+
+_ATL_XP_TARGETING can be used if you want to target XP but also want to use
+a newer SDK, such as 8.
+*/
+#if _MSC_VER >= 1800 \
+    && !(defined(_USING_V110_SDK71_) || defined(_ATL_XP_TARGETING))
         /*!
          @brief Class to provide a Read-Write Lock
         */
@@ -85,7 +95,7 @@ namespace Exiv2 {
         /*!
          @brief Class to provide a Read-Write Lock
         */
-        // Visual Studio 2005,8,10,12 use CRITICAL_SECTION
+        // Visual Studio 2005,8,10,12 and XP targets use CRITICAL_SECTION
         class RWLock
         {
         public:
