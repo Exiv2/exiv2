@@ -9,10 +9,9 @@ platform = linux
 Structure of the bundle:
 
 dist/linux/bin/exiv2                                  exiv2 and sample applications
-dist/linux/lib/libexiv2.so.15.0.0                     shared library
-       .../lib/exiv2.lib                              libraries for exiv2/expat/zlib
-          /include/exiv2/                             include files
-          /share/                                     man pages
+dist/linux/lib/libexiv2.so.26.0.0                     shared library
+dist/linux/include/exiv2/                             include files
+dist/linux/share/                                     man pages
 dist/samples/                                         sample code
 dist/logs/                                            log files
 dist/contrib/Qt                                       Qt code and notes
@@ -38,10 +37,9 @@ platform = macosx
 Structure of the bundle:
 
 dist/macosx/bin/exiv2                                 exiv2 and sample applications
-        .../lib/libexiv2.so.15.0.0.dylib              shared library
-           /lib/exiv2.lib                             libraries for exiv2/expat/zlib
-           /include/exiv2/                            include files
-           /share/                                    man pages
+dist/macosx/lib/libexiv2.26.0.0.dylib                 shared library
+dist/macosx/include/exiv2/                            include files
+dist/macosx/share/                                    man pages
 dist/samples/                                         sample code
 dist/logs/                                            log files
 dist/contrib/Qt                                       Qt code and notes
@@ -66,10 +64,10 @@ platform = cygwin
 -----------------
 
 dist/cygwin/bin/exiv2.exe                             exiv2.exe and sample applications
-        .../bin/cygexiv2-14.dll                       shared library
-           /lib/exiv2.dll.a                           libraries for exiv2/expat/zlib
-           /include/exiv2/                            include files
-           /share/                                    man pages
+        .../bin/cygexiv2-26.dll                       shared library
+        .../lib/exiv2.dll.a                           link library
+        .../include/exiv2/                            include files
+        .../share/                                    man pages
 dist/samples/                                         sample code
 dist/logs/                                            log files
 dist/contrib/Qt                                       Qt code and notes
@@ -97,10 +95,10 @@ platform = mingw
 This a 32bit build of Exiv2 aimed at Qt/MinGW users.
 
 dist/mingw/bin/exiv2.exe                              exiv2.exe and sample applications
-       .../bin/libexiv2-14.dll                        shared library
-          /lib/exiv2.dll.a                            libraries for exiv2/expat/zlib
-          /include/exiv2/                             include files
-          /share/                                     man pages
+       .../bin/libexiv2-26.dll (+zlib+expat)          shared libraries
+       .../lib/exiv2.dll.a     (+zlib+expat)          link libraries
+       .../include/exiv2/      (+zlib+expat)          include files
+       .../share/                                     man pages
 dist/samples/                                         sample code
 dist/logs/                                            log files
 dist/contrib/Qt                                       Qt code and notes
@@ -127,12 +125,12 @@ platform = msvc
 
 dist\2013\x64\dll\Release\bin\exiv2.exe               exiv2.exe and sample applications
                       ...\bin\exiv2.dll               dlls for exiv2/expat/zlib
-                         \lib\exiv2.lib               libraries for exiv2/expat/zlib
-                         \include\exiv2/              include files
-                         \share\                      man pages
+                      ...\lib\exiv2.lib               link library
+                      ...\include\exiv2\              include files
+                      ...\share\                      man pages
 dist\samples\                                         sample code
 dist\logs\                                            log files
-dist/contrib/Qt                                       Qt code and notes
+dist\contrib\Qt                                       Qt code and notes
 dist\vcvars.bat                                       script used by test_daily.sh
 
 To run exiv2.exe:
@@ -155,4 +153,4 @@ c:\temp\dist>
 
 Robin Mills
 robin@clanmills.com
-2017-03-15
+2017-04-26

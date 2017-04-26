@@ -4,7 +4,7 @@
 AC_PREREQ(2.61)
 AC_INIT(exiv2, 0.26, ahuggel@gmx.net)
 # See http://www.gnu.org/software/libtool/manual/html_node/Updating-version-info.html
-EXIV2_LTVERSION=15:0:0
+EXIV2_LTVERSION=26:0:0
 PACKAGE=$PACKAGE_NAME
 VERSION=$PACKAGE_VERSION
 AC_DEFINE_UNQUOTED(PACKAGE, "$PACKAGE")

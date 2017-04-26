@@ -34,8 +34,8 @@ SET( PACKAGE_STRING         "exiv2 0.26" )
 SET( PACKAGE_TARNAME        "exiv2" )
 SET( PACKAGE_VERSION        "0.26" )
 SET( PACKAGE_URL            "http://www.exiv2.org" )
-SET( GENERIC_LIB_VERSION    "15.0.0" )
-SET( GENERIC_LIB_SOVERSION  "15" )
+SET( GENERIC_LIB_VERSION    "26.0.0" )
+SET( GENERIC_LIB_SOVERSION  "26" )
 
 # options and their default values
 OPTION( EXIV2_ENABLE_SHARED        "Build exiv2 as a shared library (dll)"                 ON  )
@@ -75,7 +75,7 @@ IF( MINGW OR UNIX )
                     -W
                    )
     ENDIF()
-    
+
     execute_process(COMMAND ${CMAKE_CXX_COMPILER} --version OUTPUT_VARIABLE COMPILER_VERSION)
     string(REGEX MATCHALL "[a-z\+]+" GCC_COMPILER_COMPONENTS ${COMPILER_VERSION})
     list(GET GCC_COMPILER_COMPONENTS 0 COMPILER)

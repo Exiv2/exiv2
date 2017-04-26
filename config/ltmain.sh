@@ -6266,7 +6266,7 @@ func_mode_link ()
 	  major=.$func_arith_result
 	  versuffix="$major.$age.$revision"
 	  # Darwin ld doesn't like 0 for these options...
-	  func_arith $current + 1
+	  func_arith $current + 0 #1293 do not bump current because it makes CMake/automake builds incompatible
 	  minor_current=$func_arith_result
 	  xlcverstring="${wl}-compatibility_version ${wl}$minor_current ${wl}-current_version ${wl}$minor_current.$revision"
 	  verstring="-compatibility_version $minor_current -current_version $minor_current.$revision"
