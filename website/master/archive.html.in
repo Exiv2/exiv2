@@ -21,7 +21,7 @@ __navbar__
   <col>
  </colgroup>
  <thead>
-  <tr> 
+  <tr>
    <th>Package</th>
    <th>Filename</th>
    <th>Size (Bytes)</th>
@@ -30,6 +30,20 @@ __navbar__
   </tr>
  </thead>
  <tbody>
+  <tr>
+   <td>Exiv2 v0.25 Source</td>
+   <td><a title="Download the v0.25 source package" href="exiv2-0.25.tar.gz" >exiv2-0.25.tar.gz</a></td>
+   <td>5434325</td>
+   <td class="text-nowrap">21-Jun-2015</td>
+   <td>258d4831b30f75a01e0234065c6c2806</td>
+  </tr>
+  <tr>
+   <td>Exiv2 v0.25 Windows executable</td>
+   <td><a title="Download the v0.25 Windows executable" href="exiv2-0.25-win.zip" >exiv2-0.25-win.zip</a></td>
+   <td>1864291</td>
+   <td class="text-nowrap">21-Jun-2015</td>
+   <td>2a56b70e0ccc70e5fca308b7e34e4e52</td>
+  </tr>
   <tr>
    <td>Exiv2 v0.24 Source</td>
    <td><a title="Download the v0.24 source package" href="exiv2-0.24.tar.gz" >exiv2-0.24.tar.gz</a></td>

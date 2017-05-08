@@ -1,6 +1,6 @@
 #! /bin/sh
 
-# Copy the tag tables from the documentation. 
+# Copy the tag tables from the documentation.
 # The documentation must be built.
 tabs="__Canon__ \
       __CanonCs__ \
@@ -23,6 +23,6 @@ tabs="__Canon__ \
       __Sigma__ \
       __Sony__"
 
-exv_base=./exiv2
+exv_base=../
 
 for i in $tabs; do cp -f $exv_base/doc/templates/$i var/; done

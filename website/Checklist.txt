@@ -47,6 +47,10 @@ v0.26+:
  	copy builds from buildserver to html/builds
     $ cd website
 	$ bin/getbuilds.sh
+    build the tag tables
+    $ cd website
+    $ bin/tagtables.sh
+    (Caution: cp: cannot stat ‘..//doc/templates/__Sony__’: No such file or directory)
 
 	Get the Website ready:
 	$ cd website
@@ -59,7 +63,14 @@ Tag release     (bin/exiv2-tagrelease.sh)
 Publish webpages and packages locally (make publish)
 Download and test packages
 #v0.25 Test Windows binary on Windows
-Really publish webpages and packages (make really-publish)
+#v0.25 Really publish webpages and packages (make really-publish)
+
+v0.26+
+   $ cd website
+   copy releases to html
+   $ svn export svn://dev.exiv2.org/svn/team/releases html
+   $ rsync -varz html root@exiv2.org:/var/www/exiv2/
+
 Validate uploaded webpages with W3C HTML checker
 Exiv2 forum announcement
 Facebook fan page update

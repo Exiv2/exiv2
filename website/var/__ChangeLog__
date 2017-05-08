@@ -4,7 +4,7 @@ Changes from version 0.25 to 0.26
 
 * Api: (4)
 	- <a href="http://dev.exiv2.org/issues/0001275">0001275</a>:	Exiv2 0.26-svn issue with ExifTags class MPF tags UPSTREAM
-				(Wil Cowb / Gilles Caulier)
+				(Wil Cowb)
 	- <a href="http://dev.exiv2.org/issues/0001240">0001240</a>:	Review API changes from v0.25 to v0.26
 				(Andreas Huggel)
 	- <a href="http://dev.exiv2.org/issues/0001157">0001157</a>:	Out of memory error with user defined to_string template
@@ -29,11 +29,14 @@ Changes from version 0.25 to 0.26
 	- <a href="http://dev.exiv2.org/issues/0000747">0000747</a>:	Direct FILE* access from FileIo interface
 				(Adam Hooper)
 
-* Build: (34)
+* Build: (36)
+	- <a href="http://dev.exiv2.org/issues/0001293">0001293</a>:	MacOS-X CMake/autotools incompatibility handling of -compatibility_version
+	- <a href="http://dev.exiv2.org/issues/0001292">0001292</a>:	Fix targeting Windows XP (regression)
+				(Dimitri Schoolwerth)
+	- <a href="http://dev.exiv2.org/issues/0001291">0001291</a>:	MSVC: Public header pulls ins unnecessary headers and libraries
+				(T Modes)
 	- <a href="http://dev.exiv2.org/issues/0001273">0001273</a>:	exiv2 0.25 fails to compile correctly on musl libc due to improper check of strerror_r return type
 				(A. Wilcox)
-	- <a href="http://dev.exiv2.org/issues/0001270">0001270</a>:	Using libexiv2.a/.lib  in multhreaded app segfaults.
-				(Ben Touchette)
 	- <a href="http://dev.exiv2.org/issues/0001269">0001269</a>:	Enable using dynamic runtime libs with when disabling shared libs for Windows
 				(Ben Touchette)
 	- <a href="http://dev.exiv2.org/issues/0001268">0001268</a>:	Building for debug in windows causes heap corruption error.
@@ -92,15 +95,6 @@ Changes from version 0.25 to 0.26
 	- <a href="http://dev.exiv2.org/issues/0000971">0000971</a>:	Coverity scan : Not restoring ostream format (STREAM_FORMAT_STATE) CID : 982002 through 982054 (53 similar defects)
 				(Mahesh Hegde)
 
-* Design: (4)
-	- <a href="http://dev.exiv2.org/issues/0001137">0001137</a>:	Enable piping of selective copy of metadata between images
-	- <a href="http://dev.exiv2.org/issues/0001034">0001034</a>:	Camera accessory overflow file
-				(Tobias Jakobs)
-	- <a href="http://dev.exiv2.org/issues/0000917">0000917</a>:	Modify exiv2/actions.cpp return -3/253 when no metadata has been found.
-				(Andreas Huggel)
-	- <a href="http://dev.exiv2.org/issues/0000481">0000481</a>:	Incorporate information from ExifTool
-				(Stefan Bruens / Niels Kristian Bech Jensen)
-
 * Duplicate: (3)
 	- <a href="http://dev.exiv2.org/issues/0001239">0001239</a>:	exiv2 0.25 crashes with casio ex-z50 files
 				(Rainer Kliese)
@@ -113,6 +107,15 @@ Changes from version 0.25 to 0.26
 	- <a href="http://dev.exiv2.org/issues/0001209">0001209</a>:	Build instructions in README
 				(Thomas Beutlich)
 	- <a href="http://dev.exiv2.org/issues/0001136">0001136</a>:	exiv2 -ps (default) output does not respect the -g (--grep) option
+
+* Design: (4)
+	- <a href="http://dev.exiv2.org/issues/0001137">0001137</a>:	Enable piping of selective copy of metadata between images
+	- <a href="http://dev.exiv2.org/issues/0001034">0001034</a>:	Camera accessory overflow file
+				(Tobias Jakobs)
+	- <a href="http://dev.exiv2.org/issues/0000917">0000917</a>:	Modify exiv2/actions.cpp return -3/253 when no metadata has been found.
+				(Andreas Huggel)
+	- <a href="http://dev.exiv2.org/issues/0000481">0000481</a>:	Incorporate information from ExifTool
+				(Stefan Bruens / Niels Kristian Bech Jensen)
 
 * Exif: (7)
 	- <a href="http://dev.exiv2.org/issues/0001242">0001242</a>:	jp2 metadata: Unrecognized UUID EXIF box
@@ -130,11 +133,9 @@ Changes from version 0.25 to 0.26
 	- <a href="http://dev.exiv2.org/issues/0000492">0000492</a>:	Color temperature information from RAW files...
 				(Bastardo -)
 
-* Insufficient information: (1)
-	- <a href="http://dev.exiv2.org/issues/0001274">0001274</a>:	crash in Exiv2 shared library when preview from image is extracted
-				(Wil Cowb)
-
-* Image format: (11)
+* Image format: (12)
+	- <a href="http://dev.exiv2.org/issues/0001289">0001289</a>:	Infinite loop on command exiv2 -pR on a .CR2 file
+				(Ben Touchette)
 	- <a href="http://dev.exiv2.org/issues/0001277">0001277</a>:	Crash with Canon CR2 file
 				(Ben Touchette)
 	- <a href="http://dev.exiv2.org/issues/0001271">0001271</a>:	Update printStructure
@@ -155,7 +156,12 @@ Changes from version 0.25 to 0.26
 	- <a href="http://dev.exiv2.org/issues/0000548">0000548</a>:	recognize pdf as image format
 				(mikolaj -)
 
-* Jpeg parser: (4)
+* Insufficient information: (1)
+	- <a href="http://dev.exiv2.org/issues/0001274">0001274</a>:	crash in Exiv2 shared library when preview from image is extracted
+				(Wil Cowb)
+
+* Jpeg parser: (5)
+	- <a href="http://dev.exiv2.org/issues/0001286">0001286</a>:	Unable to extract ICC profile from Leica Image
 	- <a href="http://dev.exiv2.org/issues/0001282">0001282</a>:	crash in Exiv2 shared library when JPEG parser is processing the file
 				(Wil Cowb)
 	- <a href="http://dev.exiv2.org/issues/0001220">0001220</a>:	Bug in exiv2 --comment on trunk
@@ -220,35 +226,6 @@ Changes from version 0.25 to 0.26
 	- <a href="http://dev.exiv2.org/issues/0000506">0000506</a>:	Problem setting localedir on Windows
 				(Andreas Huggel)
 
-* Makernote: (14)
-	- <a href="http://dev.exiv2.org/issues/0001283">0001283</a>:	Exiv2 crash when Pentax makernote tags parser being used
-				(Wil Cowb)
-	- <a href="http://dev.exiv2.org/issues/0001253">0001253</a>:	After setting LensModel, Lightroom no longer recognizes image
-				(Martin Stolle)
-	- <a href="http://dev.exiv2.org/issues/0001231">0001231</a>:	Support for Canon TimeInfo makernote section
-				(Tobias E.)
-	- <a href="http://dev.exiv2.org/issues/0001225">0001225</a>:	Nikon BarometerInfo
-				(Juergen Rose)
-	- <a href="http://dev.exiv2.org/issues/0001223">0001223</a>:	Decoding ShutterCount for Pentax images
-	- <a href="http://dev.exiv2.org/issues/0001217">0001217</a>:	Missing values for Exif.CanonCs.ISOSpeed tag 0x0010
-				(Niccolo Rigacci / Niels Kristian Bech Jensen)
-	- <a href="http://dev.exiv2.org/issues/0001215">0001215</a>:	Exif.CanonSi.SubjectDistance seems to be in centimeters
-				(Niccolo Rigacci / Niels Kristian Bech Jensen)
-	- <a href="http://dev.exiv2.org/issues/0001208">0001208</a>:	New values for Sony File Format
-				(Mihail Zenkov / Thomas Beutlich)
-	- <a href="http://dev.exiv2.org/issues/0001202">0001202</a>:	Exif.CanonCs.FocusContinuous = 8 = Manual
-				(Sridhar Boovaraghavan)
-	- <a href="http://dev.exiv2.org/issues/0001189">0001189</a>:	Updating time changes Makernote
-				(Stan Kaminski)
-	- <a href="http://dev.exiv2.org/issues/0001179">0001179</a>:	Update Fujifilm Filmmode tag
-				(Pascal de Bruijn)
-	- <a href="http://dev.exiv2.org/issues/0001140">0001140</a>:	Canon EF-S 24mm f/2.8 STM
-				(Anonymous Poster)
-	- <a href="http://dev.exiv2.org/issues/0001122">0001122</a>:	Lens Detection with Teleconverter - Sigma 150-500mm f/5-6.3 APO DG OS HSM again
-				(Steve Fosdick)
-	- <a href="http://dev.exiv2.org/issues/0001117">0001117</a>:	Problems with Sigma 18-300 F3.5-6.3 DC MACRO HSM Lens
-				(Terence Duell / Niels Kristian Bech Jensen)
-
 * Metadata: (21)
 	- <a href="http://dev.exiv2.org/issues/0001246">0001246</a>:	Add option -pe to exiv2(.exe) command-line arguments
 	- <a href="http://dev.exiv2.org/issues/0001201">0001201</a>:	Rating=4 automatically added when writing sidecar
@@ -289,7 +266,38 @@ Changes from version 0.25 to 0.26
 	- <a href="http://dev.exiv2.org/issues/0000676">0000676</a>:	Patch for reading ICC color profiles
 				(Andreas Huggel)
 
-* Not-a-bug: (17)
+* Makernote: (14)
+	- <a href="http://dev.exiv2.org/issues/0001283">0001283</a>:	Exiv2 crash when Pentax makernote tags parser being used
+				(Wil Cowb)
+	- <a href="http://dev.exiv2.org/issues/0001253">0001253</a>:	After setting LensModel, Lightroom no longer recognizes image
+				(Martin Stolle)
+	- <a href="http://dev.exiv2.org/issues/0001231">0001231</a>:	Support for Canon TimeInfo makernote section
+				(Tobias E.)
+	- <a href="http://dev.exiv2.org/issues/0001225">0001225</a>:	Nikon BarometerInfo
+				(Juergen Rose)
+	- <a href="http://dev.exiv2.org/issues/0001223">0001223</a>:	Decoding ShutterCount for Pentax images
+	- <a href="http://dev.exiv2.org/issues/0001217">0001217</a>:	Missing values for Exif.CanonCs.ISOSpeed tag 0x0010
+				(Niccolo Rigacci / Niels Kristian Bech Jensen)
+	- <a href="http://dev.exiv2.org/issues/0001215">0001215</a>:	Exif.CanonSi.SubjectDistance seems to be in centimeters
+				(Niccolo Rigacci / Niels Kristian Bech Jensen)
+	- <a href="http://dev.exiv2.org/issues/0001208">0001208</a>:	New values for Sony File Format
+				(Mihail Zenkov / Thomas Beutlich)
+	- <a href="http://dev.exiv2.org/issues/0001202">0001202</a>:	Exif.CanonCs.FocusContinuous = 8 = Manual
+				(Sridhar Boovaraghavan)
+	- <a href="http://dev.exiv2.org/issues/0001189">0001189</a>:	Updating time changes Makernote
+				(Stan Kaminski)
+	- <a href="http://dev.exiv2.org/issues/0001179">0001179</a>:	Update Fujifilm Filmmode tag
+				(Pascal de Bruijn)
+	- <a href="http://dev.exiv2.org/issues/0001140">0001140</a>:	Canon EF-S 24mm f/2.8 STM
+				(Anonymous Poster)
+	- <a href="http://dev.exiv2.org/issues/0001122">0001122</a>:	Lens Detection with Teleconverter - Sigma 150-500mm f/5-6.3 APO DG OS HSM again
+				(Steve Fosdick)
+	- <a href="http://dev.exiv2.org/issues/0001117">0001117</a>:	Problems with Sigma 18-300 F3.5-6.3 DC MACRO HSM Lens
+				(Terence Duell / Niels Kristian Bech Jensen)
+
+* Not-a-bug: (18)
+	- <a href="http://dev.exiv2.org/issues/0001290">0001290</a>:	write exif to a libgphoto2 buffer image
+				(Nacho Sánchez Moreno)
 	- <a href="http://dev.exiv2.org/issues/0001251">0001251</a>:	Support for Canon PowerShot G7 X Mark II
 				(Wolfgang Ederer)
 	- <a href="http://dev.exiv2.org/issues/0001248">0001248</a>:	floating point exception / crash on malformed input
@@ -332,17 +340,6 @@ Changes from version 0.25 to 0.26
 	- <a href="http://dev.exiv2.org/issues/0000918">0000918</a>:	non-zero exit code when extracting thumbnails
 				(Romain D.)
 
-* Testing: (6)
-	- <a href="http://dev.exiv2.org/issues/0001230">0001230</a>:	Bug Hunt for v0.26
-	- <a href="http://dev.exiv2.org/issues/0001207">0001207</a>:	digiKam maintenance tool to synchronize files metadata and database crash in Exiv2 (re-entrancy issue ?)
-				(Uwe Haider)
-	- <a href="http://dev.exiv2.org/issues/0001057">0001057</a>:	Implement target/modifier - (stdin/stdout) for exiv2 options -i (insert) and -e (extract)
-	- <a href="http://dev.exiv2.org/issues/0001045">0001045</a>:	Add COPYRIGHT file to test/data/
-				(Alan Pater)
-	- <a href="http://dev.exiv2.org/issues/0001042">0001042</a>:	Exiv2 nulls file on CIFS share when modifying Exif.Photo.UserComment
-				(Calvin Browne)
-	- <a href="http://dev.exiv2.org/issues/0001023">0001023</a>:	Fix make testx on trunk
-
 * Tiff parser: (9)
 	- <a href="http://dev.exiv2.org/issues/0001244">0001244</a>:	exiv2 without EXV_HAVE_MMAP throws an exception
 	- <a href="http://dev.exiv2.org/issues/0001224">0001224</a>:	Crash when setting data in CRW
@@ -358,6 +355,17 @@ Changes from version 0.25 to 0.26
 				(Andreas Huggel)
 	- <a href="http://dev.exiv2.org/issues/0000900">0000900</a>:	TIFF images lose XMP packet on write if exiv2 was compiled without XMP support
 				(Andreas Huggel)
+
+* Testing: (6)
+	- <a href="http://dev.exiv2.org/issues/0001230">0001230</a>:	Bug Hunt for v0.26
+	- <a href="http://dev.exiv2.org/issues/0001207">0001207</a>:	digiKam maintenance tool to synchronize files metadata and database crash in Exiv2 (re-entrancy issue ?)
+				(Uwe Haider)
+	- <a href="http://dev.exiv2.org/issues/0001057">0001057</a>:	Implement target/modifier - (stdin/stdout) for exiv2 options -i (insert) and -e (extract)
+	- <a href="http://dev.exiv2.org/issues/0001045">0001045</a>:	Add COPYRIGHT file to test/data/
+				(Alan Pater)
+	- <a href="http://dev.exiv2.org/issues/0001042">0001042</a>:	Exiv2 nulls file on CIFS share when modifying Exif.Photo.UserComment
+				(Calvin Browne)
+	- <a href="http://dev.exiv2.org/issues/0001023">0001023</a>:	Fix make testx on trunk
 
 * Video: (2)
 	- <a href="http://dev.exiv2.org/issues/0001280">0001280</a>:	crash in Exiv2 shared library when a video file is under construction
@@ -428,7 +436,9 @@ Changes from version 0.25 to 0.26
 	- <a href="http://dev.exiv2.org/issues/0000470">0000470</a>:	Provide a means for apps to probe the library which tags can be written to for a given format
 				(Andreas Huggel)
 
-* Xmp: (17)
+* Xmp: (18)
+	- <a href="http://dev.exiv2.org/issues/0001284">0001284</a>:	Possible exiv2 0.26-svn bug
+				(Wil Cowb)
 	- <a href="http://dev.exiv2.org/issues/0001281">0001281</a>:	crash in Exiv2, XMP parser class and in Adobe XMP SDK
 				(Wil Cowb)
 	- <a href="http://dev.exiv2.org/issues/0001276">0001276</a>:	fails to read any XMP metadata when duplicates present
