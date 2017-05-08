@@ -1403,7 +1403,7 @@ namespace Exiv2 {
                 "All time codes shall be 8 bytes long and in binary format. The tag may "
                 "contain from 1 to 10 time codes. When the tag contains more than one time "
                 "code, the first one shall be the default time code. This specification "
-                "does not prescribe how to use multiple time codes.\n\n"
+                "does not prescribe how to use multiple time codes. "
                 "Each time code shall be as defined for the 8-byte time code structure in "
                 "SMPTE 331M-2004, Section 8.3. See also SMPTE 12-1-2008 and SMPTE 309-1999."),
                 ifd0Id, dngTags, unsignedByte, 8, printValue), // DNG tag
