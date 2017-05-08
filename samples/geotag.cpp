@@ -2,6 +2,8 @@
 // geotag.cpp, $Rev: 2286 $
 // Sample program to read gpx files and update images with GPS tags
 
+// g++ geotag.cpp -o geotag -lexiv2 -lexpat
+
 #include <exiv2/exiv2.hpp>
 
 #include <iostream>
@@ -31,9 +33,6 @@ using namespace std;
 
 #ifndef  lengthof
 #define  lengthof(x) (sizeof(*x)/sizeof(x))
-#endif
-#ifndef nil
-#define nil NULL
 #endif
 
 #if defined(_MSC_VER) || defined(__MINGW__)
@@ -79,8 +78,6 @@ char* realpath(const char* file,char* path)
     UNUSED(path);
 }
 #endif
-
-char gDeg[10];
 
 // Command-line parser
 class Options  {
@@ -138,6 +135,17 @@ enum
 ,   typeCode      = 6
 ,   typeMax       = 7
 };
+
+// forward declaration
+class Position;
+
+// globals
+typedef std::map<time_t,Position>           TimeDict_t;
+typedef std::map<time_t,Position>::iterator TimeDict_i;
+typedef std::vector<std::string>            strings_t;
+const char*  gDeg = NULL ; // string "°" or "deg"
+TimeDict_t   gTimeDict   ;
+strings_t    gFiles;
 
 // Position (from gpx file)
 class Position
@@ -244,17 +252,11 @@ std::string Position::toString()
     return std::string(result);
 }
 
+// defaults
 int    Position::adjust_   = 0;
 int    Position::tz_       = timeZoneAdjust();
 int    Position::dst_      = 0;
 time_t Position::deltaMax_ = 60 ;
-
-// globals
-typedef std::map<time_t,Position>           TimeDict_t;
-typedef std::map<time_t,Position>::iterator TimeDict_i;
-typedef std::vector<std::string>            strings_t;
-TimeDict_t   gTimeDict ;
-strings_t    gFiles;
 
 ///////////////////////////////////////////////////////////
 // UserData - used by XML Parser
@@ -581,8 +583,6 @@ time_t readImageTime(std::string path,std::string* pS=NULL)
     using namespace Exiv2;
 
     time_t       result       = 0 ;
-    static std::map<std::string,time_t> cache;
-    if ( cache.count(path) == 1 ) return cache[path];
 
     const char* dateStrings[] =
     { "Exif.Photo.DateTimeOriginal"
@@ -590,21 +590,21 @@ time_t readImageTime(std::string path,std::string* pS=NULL)
     , "Exif.Image.DateTime"
     , NULL
     };
-    const char* ds            = dateStrings[0] ;
+    const char* dateString = dateStrings[0] ;
 
-    while ( !result && ds++  ) {
+    do {
         try {
             Image::AutoPtr image = ImageFactory::open(path);
             if ( image.get() ) {
                 image->readMetadata();
                 ExifData &exifData = image->exifData();
-            //  printf("%s => %s\n",(ds-1), exifData[ds-1].toString().c_str());
-                result = parseTime(exifData[ds-1].toString().c_str(),true);
-                if ( result && pS ) *pS = exifData[ds-1].toString();
+            //  printf("%s => %s\n",dateString, exifData[dateString].toString().c_str());
+                result = parseTime(exifData[dateString].toString().c_str(),true);
+                if ( result && pS ) *pS = exifData[dateString].toString();
             }
         } catch ( ... ) {};
-    }
-    if ( result ) cache[path] = result;
+    } while ( !result && ++dateString );
+
     return result ;
 }
 
@@ -627,8 +627,8 @@ int readFile(const char* path,Options /* options */)
     FILE* f     = fopen(path,"r");
     int nResult = f ? typeFile : typeUnknown;
     if (  f ) {
-        const char* docs[] = { ".doc",".txt", nil };
-        const char* code[] = { ".cpp",".h"  ,".pl" ,".py" ,".pyc", nil };
+        const char* docs[] = { ".doc",".txt", NULL };
+        const char* code[] = { ".cpp",".h"  ,".pl" ,".py" ,".pyc", NULL };
         const char*  ext   = strstr(path,".");
         if  ( ext ) {
             if ( sina(ext,docs) ) nResult = typeDoc;
@@ -791,15 +791,15 @@ int main(int argc,const char* argv[])
         if ( needv && !value) key = kwNEEDVALUE;
 
         switch ( key ) {
-            case kwDST      : options.dst     = true ; break;
-            case kwHELP     : options.help    = true ; break;
-            case kwVERSION  : options.version = true ; break;
-            case kwDRYRUN   : options.dryrun  = true ; break;
-            case kwVERBOSE  : options.verbose = true ; break;
-            case kwASCII    : options.ascii   = true ; break;
-            case kwTZ       : Position::tz_      = parseTZ(value);break;
-            case kwADJUST   : Position::adjust_  = ivalue;break;
-            case kwDELTA    : Position::deltaMax_= ivalue;break;
+            case kwDST      : options.dst         = true ; break;
+            case kwHELP     : options.help        = true ; break;
+            case kwVERSION  : options.version     = true ; break;
+            case kwDRYRUN   : options.dryrun      = true ; break;
+            case kwVERBOSE  : options.verbose     = true ; break;
+            case kwASCII    : options.ascii       = true ; break;
+            case kwTZ       : Position::tz_       = parseTZ(value);break;
+            case kwADJUST   : Position::adjust_   = ivalue;break;
+            case kwDELTA    : Position::deltaMax_ = ivalue;break;
             case kwNEEDVALUE: fprintf(stderr,"error: %s requires a value\n",arg); result = resultSyntaxError ; break ;
             case kwSYNTAX   : default:
             {
@@ -807,30 +807,29 @@ int main(int argc,const char* argv[])
                 if ( options.verbose ) printf("%s %s ",arg,types[type]) ;
                 if ( type == typeImage ) {
                     time_t t    = readImageTime(std::string(arg)) ;
-                    char   buffer[1024];
 #ifdef __APPLE__
-                    char*  path = realpath(arg,buffer);
+                    char   buffer[1024];
 #else
-                    char*  path = realpath(arg,NULL);
+                    char*  buffer = NULL;
 #endif
+                    char*  path = realpath(arg,buffer);
                     if  ( t && path ) {
                         if ( options.verbose) printf("%s %ld %s",path,(long int)t,asctime(localtime(&t)));
                         gFiles.push_back(path);
                     }
-                    if ( path && path != buffer ) :: free((void*) path);
+                    if ( path && path != buffer ) ::free((void*) path);
                 }
                 if ( type == typeUnknown ) {
                     fprintf(stderr,"error: illegal syntax %s\n",arg);
                     result = resultSyntaxError ;
                 }
-                if ( options.verbose ) printf("\n") ;
-            }break;
+            } break;
         }
     }
 
     if ( options.help    ) ::help(program,keywords,kwMAX,options.verbose);
     if ( options.version ) ::version(program);
-    strcpy(gDeg,options.ascii?"deg":"°");
+    gDeg = options.ascii ? "deg" : "°";
 
     if ( !result ) {
         sort(gFiles.begin(),gFiles.end(),mySort);
@@ -848,13 +847,27 @@ int main(int argc,const char* argv[])
                 s-= m*60  ;
             printf("tz,dst,adjust = %d,%d,%d total = %dsecs (= %d:%d:%d)\n",t,d,a,A,h,m,s);
         }
-        for ( size_t p = 0 ; !options.dryrun && p < gFiles.size() ; p++ ) {
-            std::string arg = gFiles[p] ;
+/*
+        if ( options.verbose ) {
+        	printf("Time Dictionary\n");
+        	for ( TimeDict_i it = gTimeDict.begin() ;  it != gTimeDict.end() ; it++ ) {
+        		std::string sTime = getExifTime(it->first);
+        	    Position*   pPos  = &it->second;
+        		std::string sPos  = Position::toExifString(pPos->lat(),false,true)
+        		                  + " "
+        		                  + Position::toExifString(pPos->lon(),false,true)
+        		                  ;
+        		printf("%s %s\n",sTime.c_str(), sPos.c_str());
+        	}
+        }
+*/
+        for ( size_t p = 0 ; p < gFiles.size() ; p++ ) {
+            std::string path  = gFiles[p] ;
             std::string stamp ;
             try {
-                time_t t       = readImageTime(arg,&stamp) ;
+                time_t t       = readImageTime(path,&stamp) ;
                 Position* pPos = searchTimeDict(gTimeDict,t,Position::deltaMax_);
-                Exiv2::Image::AutoPtr image = Exiv2::ImageFactory::open(gFiles[p]);
+                Exiv2::Image::AutoPtr image = Exiv2::ImageFactory::open(path);
                 if ( image.get() ) {
                     image->readMetadata();
                     Exiv2::ExifData& exifData = image->exifData();
@@ -875,11 +888,11 @@ int main(int argc,const char* argv[])
                         exifData["Exif.GPSInfo.GPSTimeStamp"        ] = Position::toExifTimeStamp(stamp);
                         exifData["Exif.Image.GPSTag"                ] = 4908;
 
-                        printf("%s %s % 2d\n",arg.c_str(),pPos->toString().c_str(),pPos->delta());
+                        printf("%s %s % 2d\n",path.c_str(),pPos->toString().c_str(),pPos->delta());
                     } else {
-                        printf("%s *** not in time dict ***\n",arg.c_str());
+                        printf("%s *** not in time dict ***\n",path.c_str());
                     }
-                    image->writeMetadata();
+                    if ( !options.dryrun ) image->writeMetadata();
                 }
             } catch ( ... ) {};
         }
