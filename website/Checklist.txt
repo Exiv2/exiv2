@@ -35,19 +35,19 @@ Review and update documentation
 	Update var/__manpage__
 
 v0.26+:
-	make the tags:
+	Make tags:
 	$ cd doc
 	$ make tags
 	$ make
-    create trunk bundle:
+    Create trunk bundle:
     $ cd website
     $ rm -rf *trunk*
     $ bin/exiv2-buildrelease.sh trunk
-    inspect the logs from the buildserver
- 	copy builds from buildserver to html/builds
+    Inspect the logs from the buildserver
+ 	Copy builds from buildserver to html/builds
     $ cd website
 	$ bin/getbuilds.sh
-    build the tag tables
+    Build the tag tables
     $ cd website
     $ bin/tagtables.sh
     (Caution: cp: cannot stat ‘..//doc/templates/__Sony__’: No such file or directory)
@@ -67,8 +67,9 @@ Download and test packages
 
 v0.26+
    $ cd website
-   copy releases to html
-   $ svn export svn://dev.exiv2.org/svn/team/releases html
+   Copy releases to html
+   $ svn export svn://dev.exiv2.org/svn/team/releases html/releases
+   Copy the release to Exiv2.org
    $ rsync -varz html root@exiv2.org:/var/www/exiv2/
 
 Validate uploaded webpages with W3C HTML checker

@@ -32,7 +32,7 @@ __navbar__
 	  installation notes and further information.
 	</p>
 	<p class="text-center margin-top-s">
-          <a href="exiv2-__version__-trunk.tar.gz" class="btn btn-lg btn-success">
+          <a href="builds/exiv2-__version__-trunk.tar.gz" class="btn btn-lg btn-success">
 	    <span class="glyphicon glyphicon-download-alt" aria-hidden="true"></span>&nbsp; Download source
 	  </a>
 	</p>
@@ -129,8 +129,6 @@ you can redistribute it and/or modify it under the terms of the
 <a href="http://www.gnu.org/licenses/old-licenses/gpl-2.0.html">GNU General Public
 License</a> as published by the Free Software Foundation; either
 version 2 of the License, or (at your option) any later version.</p>
-<p>Alternatively, Exiv2 is also available with a commercial license, which allows it to be
-used in closed-source projects. Contact me for more information.</p>
 <p>Exiv2 is distributed in the hope that it will be useful, but
 WITHOUT ANY WARRANTY; without even the implied warranty of
 MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.</p>

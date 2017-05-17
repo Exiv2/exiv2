@@ -11,6 +11,7 @@ EOF
 fi
 
 rel=$1
+here=$PWD
 (
 if [ -e $rel ] ; then
     echo File $rel already exists, exiting...
@@ -44,25 +45,19 @@ make -j4
 sudo make install
 make -j4 samples
 make doc
-cd test
-make
-cd .. 
-rm -f ABOUT-NLS
+make tests
+rm -f  ABOUT-NLS
 rm -f .gitignore
 rm -rf kdevelop/
 sudo make uninstall
-make distclean
+make   distclean
 rm -rf test/tmp
-rm -f Makefile
-rm -f bootstrap.linux
-rm -f msvc64\\runner.txt
-# 01-Dec-2013, ahu: Include CMake files in the distribution
-#find . -type f -name '*[Cc][Mm][Aa][Kk][Ee]*' | xargs rm -f
+rm -f  Makefile
+rm -f  bootstrap.linux
 rm -rf xmpsdk/src/.libs
-rm -f config.log
+rm -f  config.log
 rm -rf website
-rm -f jenkins_build.bat jenkins_build.sh
-rm -f fixxml.sh
+rm -f  fixxml.sh
 echo
 echo ==========================================================================
 echo Creating source and doc packages
@@ -83,18 +78,16 @@ make -j4
 sudo make install
 make -j4 samples
 echo Exporting tests, this may take a while...
-svn export svn://dev.exiv2.org/svn/tags/$rel/test
+svn  export svn://dev.exiv2.org/svn/$rel/test
 du -sk test/
-cd test
-make
-cd ../..
+make  tests
 echo
 echo ==========================================================================
 echo Error-summary
 echo
-grep 'Error ' exiv2-buildrelease-$rel.out | grep -v -e'BasicError ' -e'Error 1 (ignored)'
+grep 'Error ' $here/exiv2-buildrelease-$rel.out | grep -v -e'BasicError ' -e'Error 1 (ignored)'
 
-) 2>&1 | tee exiv2-buildrelease-$rel.out 2>&1
+) 2>&1 | tee $here/exiv2-buildrelease-$rel.out 2>&1
 
 if [ -e exiv2-$rel.tar.gz ]; then
 	ls -alt exiv2-$rel.tar.gz
