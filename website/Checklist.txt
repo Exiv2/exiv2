@@ -47,7 +47,7 @@ v0.26+:
  	Copy builds from buildserver to html/builds
     $ cd website
 	$ bin/getbuilds.sh
-    Build the tag tables
+    Build the tag tables (I haven't got this to work)
     $ cd website
     $ bin/tagtables.sh
     (Caution: cp: cannot stat ‘..//doc/templates/__Sony__’: No such file or directory)
@@ -70,7 +70,9 @@ v0.26+
    Copy releases to html
    $ svn export svn://dev.exiv2.org/svn/team/releases html/releases
    Copy the release to Exiv2.org
-   $ rsync -varz html root@exiv2.org:/var/www/exiv2/
+   $ mv          html   exiv2
+   $ rsync -varz exiv2/ root@exiv2.org:/var/www/exiv2/
+   $ mv          exiv2  html
 
 Validate uploaded webpages with W3C HTML checker
 Exiv2 forum announcement
