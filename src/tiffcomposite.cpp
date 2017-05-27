@@ -1611,6 +1611,8 @@ namespace Exiv2 {
     uint32_t TiffImageEntry::doWriteImage(IoWrapper& ioWrapper,
                                           ByteOrder  /*byteOrder*/) const
     {
+        if ( !pValue() ) throw Error(21); // #1296
+        
         uint32_t len = pValue()->sizeDataArea();
         if (len > 0) {
 #ifdef DEBUG
