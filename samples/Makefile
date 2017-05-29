@@ -80,6 +80,7 @@ BINSRC = addmoddel.cpp        \
          write2-test.cpp      \
          xmpparse.cpp         \
          xmpparser-test.cpp   \
+         xmpprint.cpp         \
          xmpsample.cpp
 
 # Samples that need special treatment during compilation or linking

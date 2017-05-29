@@ -36,6 +36,7 @@ SET( SAMPLES addmoddel.cpp
              write2-test.cpp
              xmpparse.cpp
              xmpparser-test.cpp
+             xmpprint.cpp
              xmpsample.cpp
    )
 
