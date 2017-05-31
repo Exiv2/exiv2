@@ -14,11 +14,14 @@ Update po/ directory
 Update issues on Redmine
 Update var/__version__
 	$ echo -e '0.27' > var/__version__
-Update var/__ChangeLog__
+Update var/__ChangeLog__ and doc/ChangeLog
 v0.26+	Run the script to get revision history:
 		$ cd exiv2/team/contrib/redmine
 		$ ./progress.py getdata.sh release
 		Modify/paste output to html/var/__ChangeLog__
+		$ ./progress.py getdata.sh release console
+		Modify/paste output to doc/ChangeLog
+
 Update versions (see tagging script)
 Review and update webpages
 	News page
