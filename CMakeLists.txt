@@ -120,7 +120,6 @@ IF( EXIV2_ENABLE_XMP )
     IF (NOT MINGW)
         set(THREADS_PREFER_PTHREAD_FLAG ON)
     ENDIF()
-    find_package(Threads REQUIRED)
 ENDIF( EXIV2_ENABLE_XMP )
 
 INCLUDE( config/CMakeChecks.txt )
