@@ -100,6 +100,7 @@ tests:
 	cd .. ; make tests
 
 test:
+	mkdir -p tmp
 	@list='$(TESTS)'; for p in $$list; do \
 	    echo Running $$p ...; \
 	    ./$$p;  \
