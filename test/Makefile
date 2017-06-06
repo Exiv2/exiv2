@@ -81,7 +81,8 @@ TESTS  = addmoddel.sh         \
          webp-test.sh         \
          write-test.sh        \
          write2-test.sh       \
-         xmpparser-test.sh
+         xmpparser-test.sh    \
+         version-test.sh
 
 # video tests
 TESTV  = video-test.sh

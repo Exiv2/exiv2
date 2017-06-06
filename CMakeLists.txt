@@ -27,7 +27,7 @@ else()
 endif()
 
 SET( PACKAGE_COPYRIGHT      "Andreas Huggel" )
-SET( PACKAGE_BUGREPORT      "ahuggel@gmx.net" )
+SET( PACKAGE_BUGREPORT      "http://github.com/exiv2/exiv2" )
 SET( PACKAGE                "exiv2" )
 SET( PACKAGE_NAME           "exiv2" )
 SET( PACKAGE_STRING         "exiv2 0.26" )
@@ -155,45 +155,6 @@ SET( XMPSRC ${CMAKE_CURRENT_SOURCE_DIR}/xmpsdk/src/ExpatAdapter.cpp
 IF( ${EXV_HAVE_STDINT_H} )
     ADD_DEFINITIONS( -DEXV_HAVE_STDINT_H )
 ENDIF( ${EXV_HAVE_STDINT_H} )
-
-##
-# MacOS-X default svn is /usr/bin/svn which is protected with System Integrity Protection
-# Apple reset it to version 1.7.22 when the OS is upgraded
-# http://osxdaily.com/2015/10/05/disable-rootless-system-integrity-protection-mac-os-x/
-IF(EXISTS "/usr/local/bin/svn")
-	SET(Subversion_SVN_EXECUTABLE /usr/local/bin/svn)
-ENDIF()
-
-SET(SVN_REVISION "0")
-IF(EXISTS "${CMAKE_SOURCE_DIR}/.svn")
-  IF(NOT MINGW)
-    FIND_PACKAGE(Subversion QUIET)
-    IF(SUBVERSION_FOUND)
-        Subversion_WC_INFO(${PROJECT_SOURCE_DIR} svnExiv2)
-        SET(SVN_REVISION "${svnExiv2_WC_REVISION}")
-    ENDIF()
-  ENDIF()
-ENDIF()
-
-CONFIGURE_FILE( ${CMAKE_CURRENT_SOURCE_DIR}/src/svn_version.h.in
-                ${CMAKE_CURRENT_SOURCE_DIR}/src/svn_version.h @ONLY)
-MESSAGE(STATUS  "SVN version:  ${SVN_REVISION}")
-
-IF( NOT MSVC )
-  IF ( NOT MINGW )
-    # Issue #722: out of source builds compiled against standard include files such as /usr/local/lib/include/exiv2
-    # do not use CREATE_SYMLINK or CMAKE_CAN_SYMLINK as they don't work on CYGWIN
-    EXECUTE_PROCESS( WORKING_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}           COMMAND ln -sf ${CMAKE_CURRENT_SOURCE_DIR}/src exiv2)
-
-    IF( EXIV2_ENABLE_BUILD_SAMPLES )
-      EXECUTE_PROCESS( WORKING_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}/samples COMMAND ln -sf ${CMAKE_CURRENT_SOURCE_DIR}/src exiv2)
-    ENDIF( EXIV2_ENABLE_BUILD_SAMPLES )
-
-    IF( EXIV2_ENABLE_BUILD_PO )
-      EXECUTE_PROCESS( WORKING_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}/po      COMMAND ln -sf ${CMAKE_CURRENT_SOURCE_DIR}/src exiv2)
-    ENDIF( EXIV2_ENABLE_BUILD_PO )
-  ENDIF()
-ENDIF()
 
 ADD_SUBDIRECTORY( xmpsdk )
 ADD_SUBDIRECTORY( src )
