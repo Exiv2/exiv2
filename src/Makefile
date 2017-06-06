@@ -227,17 +227,11 @@ ifdef DEP_TRACKING
 -include $(DEP)
 endif
 
-# Be sure to rewrite exv_conf.h and svn_version.h before compiling anything
-$(SRC): ../include/exiv2/exv_conf.h svn_version.h
+# Be sure to rewrite exv_conf.h before compiling anything
+$(SRC): ../include/exiv2/exv_conf.h
 
 ../include/exiv2/exv_conf.h: $(top_srcdir)/config/config.h
 	LC_ALL=C sed 's/#define \([A-Z]\)/#define EXV_\1/; s/#undef \([A-Z]\)/#undef EXV_\1/' < $< > $@
-
-# svn_version.h is only rewritten when the svn info | grep Revision has changed
-svn_version.h:
-	./svn_version.sh
-
-version.hpp : svn_version.h
 
 $(LIBTOOL): $(LIBTOOL_DEPS)
 	$(SHELL) $(top_srcdir)/config.status --recheck
@@ -263,10 +257,6 @@ install-header:
 	              $(INSTALL_DATA) ../include/exiv2/$$p $(DESTDIR)$(incdir)/$$p; \
 	    else :; fi; \
 	done ; \
-	if test -e svn_version.h; then \
-	    echo "$(INSTALL_DATA) svn_version.h $(DESTDIR)$(incdir)/svn_version.h"; \
-	          $(INSTALL_DATA) svn_version.h $(DESTDIR)$(incdir)/svn_version.h; \
-    fi
 
 install-lib: lib install-header
 	$(INSTALL_DIRS) $(DESTDIR)$(libdir)
@@ -288,7 +278,6 @@ uninstall-header:
 	    echo "$(RM) $(DESTDIR)$(incdir)/$$p"; \
 	    $(RM) $(DESTDIR)$(incdir)/$$p; \
 	done
-	$(RM) $(DESTDIR)$(incdir)/svn_version.h
 	-rmdir $(DESTDIR)$(incdir)
 
 uninstall-lib: uninstall-header

@@ -82,7 +82,6 @@ EXIV2_RCSID("@(#) $Id$")
 #endif
 
 #include "http.hpp"
-#include "svn_version.h"
 #include "version.hpp"
 #include "makernote_int.hpp"
 
@@ -526,7 +525,6 @@ void Exiv2::dumpLibraryInfo(std::ostream& os,const exv_grep_keys_t& keys)
     output(os,keys,"version"        , __VERSION__);
     output(os,keys,"date"           , __DATE__   );
     output(os,keys,"time"           , __TIME__   );
-    output(os,keys,"svn"            , SVN_VERSION);
     output(os,keys,"ssh"            , EXV_USE_SSH);
 #if EXV_USE_CURL == 1
     std::string curl_protocols;

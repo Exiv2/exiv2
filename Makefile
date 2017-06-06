@@ -1,6 +1,6 @@
 # ***************************************************** -*- Makefile -*-
 #
-# Copyright (C) 2004-2015 Andreas Huggel <ahuggel@gmx.net>
+# Copyright (C) 2004-2017 Andreas Huggel <ahuggel@gmx.net>
 #
 # This Makefile is part of the Exiv2 distribution.
 #
@@ -133,11 +133,8 @@ configure:
 config:
 	cd config && $(MAKE) -f config.make $(MAKECMDGOALS)
 
-xmpsdk: src/svn_version.h config/config.mk
+xmpsdk: config/config.mk
 	if test "x$(ENABLE_XMP)" = "x1"; then cd xmpsdk/src && $(MAKE) $@; fi;
-
-src/svn_version.h:
-	cd src && $(MAKE) svn_version.h
 
 mostlyclean clean: config/config.mk
 	cd src && $(MAKE) $(MAKECMDGOALS)
@@ -147,7 +144,7 @@ mostlyclean clean: config/config.mk
 	cd xmpsdk/src && $(MAKE) $(MAKECMDGOALS)
 	cd config && $(MAKE) -f config.make $(MAKECMDGOALS)
 	cd po && $(MAKE) $(MAKECMDGOALS)
-	rm -f include/exiv2/exv_conf.h src/svn_version.h
+	rm -f include/exiv2/exv_conf.h
 
 # `make distclean' also removes files created by configuring
 # the program. Running `make all distclean' prepares the project
