@@ -20,10 +20,7 @@ ToDo: * CMake/MinGW builds executables that do not work properly for v0.26
 
         This is because MinGW links the wrong DLLs.
 
-        Team Exiv2 will not provide support for CMake/MinGW
-
-        The known issues with CMake/MinGW will be reported to Kitware.
-        We hope CMake/MinGW will be in a working state for Exiv2 v0.27
+        Team Exiv2 will no longer provide support for MinGW
 
 Here are notes concerning CMake/MinGW
 
@@ -166,5 +163,5 @@ Here are notes concerning CMake/MinGW
 
 Robin Mills
 robin@clanmills.com
-2016-10-03
+2017-06-06
 
