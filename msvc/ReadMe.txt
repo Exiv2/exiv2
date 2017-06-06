@@ -14,15 +14,7 @@
 exiv2\msvc\ReadMe.txt
 ---------------------
 
-+---------------------------------------------------------------+
-| msvc     builds 32bit and 64bit binaries                      |
-|          with Visual Studio 2005/8/10/12/13/15                |
-| msvc2003 builds 32bit binaries                                |
-|          with Visual Studio 2003/5/8                          |
-| caution  msvc2003 is deprecated and will be removed for v0.27 |
-+---------------------------------------------------------------+
-
-Updated: 2016-11-04
+Updated: 2017-06-06
 
 Robin Mills
 http://clanmills.com
@@ -104,11 +96,6 @@ T A B L E  o f  C O N T E N T S
      12/17/2014  09:38 AM  <DIR>  openssl-1.0.1j
      12/07/2014  09:18 AM  <DIR>  zlib-1.2.7
 
-     The following directories are also in the archive for use by msvc2003
-     01/07/2015  11:11 AM  <DIR>  expat-2.0.1
-     01/07/2015  11:10 AM  <DIR>  zlib-1.2.3
-
-     The URLs from which to obtain zlib and expat are documented in exiv2\msvc2003\ReadMe.txt
      expat-2.1.0 is available from http://voxel.dl.sourceforge.net/sourceforge/expat/expat-2.1.0.tar.gz
      zlib-1.2.7  is available from http://zlib.net/zlib-1.2.7.tar.gz
      curl        is available from http://curl.haxx.se/download.html
@@ -190,7 +177,6 @@ T A B L E  o f  C O N T E N T S
 1.6  What is built?
      The DLL builds use the DLL version of the C runtime libraries
      The Debug|Release builds use static C runtime libraries
-     This is discussed in exiv2\msvc2003\ReadMe.txt
 
 1.7  Express editions of Visual Studio (or 32 bit only builds, or 64 bit only builds)
      Some Express Editions do not provide a 64 bit compiler.
@@ -284,21 +270,6 @@ T A B L E  o f  C O N T E N T S
      Final builds and include directories (for export to "foreign" projects)
      bin\{win32|x64}\Win32\{Debug|Release|DebugDLL|ReleaseDLL}
 
-2.2  Relationship with msvc2003 build environment
-     msvc is similar to msvc2003.
-     However there are significant differences:
-     1) msvc supports 64 bit and 32 bit builds
-     2) msvc provides projects to build expat, zlib, curl, libssh and openssl
-     3) msvc is designed to accomodate new versions of expat and zlib when they become available.
-     4) msvc supports Visual Studio 2005 and later (no support for 2003)
-     5) msvc does not require you to build 'vanilla' expat and zlib projects in advance
-     6) msvc does not support the organize application
-     7) msvc supports building with zlib1.2.7 or 1.2.8
-     8) msvc supports building with expat2.1.0 or expat2.0.1
-
-     msvc2003 will continue to be supported for 32 bit builds using Visual Studio 2003/05/08,
-     however there is no plan to enhance or develop msvc2003 going forward.
-
 3    Batch builds and tests
 
 3.1  buildall.bat
@@ -351,7 +322,7 @@ T A B L E  o f  C O N T E N T S
 
      Note: Cygwin currently ships diff-utils 2.9.2 which treats binary files differently
      from 2.8.7 (on Mac) and 3.2 (on Ubuntu 12.04).  For this reason, the executable (and
-     support dlls) for GNU diff.exe 2.8.7 is provided in msvc2003/diff.exe.
+     support dlls) for GNU diff.exe 2.8.7 is provided in msvc/tools/bin.diff.exe.
      The test suite has been "doctored" on cygwin to modify the path appropriately to
      use this preferred version of diff.exe.
 

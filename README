@@ -38,8 +38,6 @@ You can build the libraries in the following ways:
 
 2 Microsoft Visual C++
   - see msvc/ReadMe.txt      (32bit and 64bit builds Visual Studio 2005,08,10,12,13,15)
-  - see msvc2003/ReadMe.txt  (32bit build on Visual Studio 2003, 2005, 2008)
-  Caution msvc2003 is deprecated with v0.26 and will be removed.
 
 3 CMake (support for cmake on all platforms except MinGW)
   - see README-CMAKE for more information
@@ -163,16 +161,12 @@ of shared libraries can be turned off by specifying the
 License
 =======
 
-Copyright (C) 2004-2015 Andreas Huggel <ahuggel@gmx.net>
+Copyright (C) 2004-2017 Andreas Huggel <ahuggel@gmx.net>
 
 Exiv2 is free software; you can redistribute it and/or modify it under
 the terms of the GNU General Public License as published by the Free
 Software Foundation; either version 2 of the License, or (at your
 option) any later version.
-
-Alternatively, Exiv2 is also available with a commercial license,
-which allows it to be used in closed-source projects. Contact me for
-more information.
 
 Exiv2 is distributed in the hope that it will be useful, but WITHOUT
 ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
@@ -192,9 +186,7 @@ the conversion of Nikon lens data to readable lens names to build a
 commercial version of the Exiv2 library.
 
 To do this on Windows, compile the library with the preprocessor
-symbol EXV_COMMERCIAL_VERSION defined in:
-   msvc2003\include\exv_msvc.h
-or msvc\include\exv_msvc.h
+symbol EXV_COMMERCIAL_VERSION defined in msvc\include\exv_msvc.h
 
 On UNIX-like systems, run the configure
 script with the options --enable-commercial --disable-nls
