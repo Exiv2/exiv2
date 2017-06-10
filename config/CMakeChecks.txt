@@ -302,7 +302,6 @@ IF (MSVC)
 ENDIF()
 
 INSTALL( FILES ${CMAKE_SOURCE_DIR}/include/exiv2/exv_conf.h DESTINATION include/exiv2 )
-INSTALL( FILES ${CMAKE_SOURCE_DIR}/src/svn_version.h        DESTINATION include/exiv2 )
 
 CONFIGURE_FILE(config/exiv2_uninstall.cmake ${CMAKE_BINARY_DIR}/cmake_uninstall.cmake COPYONLY)
 ADD_CUSTOM_TARGET(uninstall "${CMAKE_COMMAND}" -P "${CMAKE_BINARY_DIR}/cmake_uninstall.cmake")
