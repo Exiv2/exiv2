@@ -332,7 +332,7 @@ namespace Exiv2 {
 
     static bool typeValid(uint16_t type)
     {
-    	return type >= 1 && type <= 13 ;
+        return type >= 1 && type <= 13 ;
     }
 
     void Image::printIFDStructure(BasicIo& io, std::ostream& out, Exiv2::PrintStructureOption option,uint32_t start,bool bSwap,char c,int depth)
@@ -352,12 +352,12 @@ namespace Exiv2 {
             uint16_t   dirLength = byteSwap2(dir,0,bSwap);
 
             bool tooBig = dirLength > 500;
+            if ( tooBig ) throw Error(55);
 
             if ( bFirst && bPrint ) {
                 out << Internal::indent(depth) << Internal::stringFormat("STRUCTURE OF TIFF FILE (%c%c): ",c,c) << io.path() << std::endl;
                 if ( tooBig ) out << Internal::indent(depth) << "dirLength = " << dirLength << std::endl;
             }
-            if  (tooBig) break;
 
             // Read the dictionary
             for ( int i = 0 ; i < dirLength ; i ++ ) {
@@ -374,10 +374,11 @@ namespace Exiv2 {
                 uint32_t count  = byteSwap4(dir,4,bSwap);
                 uint32_t offset = byteSwap4(dir,8,bSwap);
 
-                // Break for unknown tag types else we may get segfault.
+                // Break for unknown tag types else we may segfault.
                 if ( !typeValid(type) ) {
                     std::cerr << "invalid type value detected in Image::printIFDStructure:  " << type << std::endl;
                     start = 0; // break from do loop
+                    throw Error(56);
                     break; // break from for loop
                 }
 
@@ -411,8 +412,8 @@ namespace Exiv2 {
                 if ( bPrint ) {
                     uint32_t address = start + 2 + i*12 ;
                     out << Internal::indent(depth)
-                            << Internal::stringFormat("%8u | %#06x %-25s |%10s |%9u |%10u | "
-                                ,address,tag,tagName(tag,25),typeName(type),count,offset);
+                    << Internal::stringFormat("%8u | %#06x %-25s |%10s |%9u |%10u | "
+                                              ,address,tag,tagName(tag,25),typeName(type),count,offset);
                     if ( isShortType(type) ){
                         for ( size_t k = 0 ; k < kount ; k++ ) {
                             out << sp << byteSwap2(buf,k*size,bSwap);
