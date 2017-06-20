@@ -11,6 +11,14 @@ Caution: Updating the website can be 1 week's work!
 2 weeks before the release: Update po/ directory, remind translators
 Update po/ directory
 
+Testing
+-------
+Build and test on PowerBook BigEndian/Tiger machine
+Build and test using msvc/configure.py with Visual Studio
+Build and test default and webready with both autotools and CMake on Visual Studio, MacOSX, Linux and Cygwin
+
+Updating the website
+--------------------
 Update issues on Redmine
 Update var/__version__
 	$ echo -e '0.27' > var/__version__

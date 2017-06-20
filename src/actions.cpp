@@ -20,11 +20,11 @@
  */
 /*
   File:      actions.cpp
-  Version:   $Rev$
+  Version:   $Rev: 4719 $
  */
 // *****************************************************************************
 #include "rcsid_int.hpp"
-EXIV2_RCSID("@(#) $Id$")
+EXIV2_RCSID("@(#) $Id: actions.cpp 4719 2017-03-08 20:42:28Z robinwmills $")
 
 // included header files
 #include "config.h"
@@ -2045,9 +2045,13 @@ namespace {
 #else
  /* Unix/Linux/Cygwin/MacOSX */
  #include <pthread.h>
+ /* This is the critical section object (statically allocated). */
  #if defined(__APPLE__)
-  /* This is the critical section object (statically allocated). */
-  static pthread_mutex_t cs =  PTHREAD_RECURSIVE_MUTEX_INITIALIZER;
+  #if defined(PTHREAD_RECURSIVE_MUTEX_INITIALIZER)
+    static pthread_mutex_t cs =  PTHREAD_RECURSIVE_MUTEX_INITIALIZER;
+   #else
+    static pthread_mutex_t cs =  PTHREAD_MUTEX_INITIALIZER;
+  #endif
  #else
   static pthread_mutex_t cs =  PTHREAD_RECURSIVE_MUTEX_INITIALIZER_NP;
  #endif
