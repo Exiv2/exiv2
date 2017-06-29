@@ -2121,11 +2121,7 @@ namespace {
         Action::Modify::applyCommands(sourceImage.get());
 
         // Open or create the target file
-#ifdef EXV_UNICODE_PATH
-        std::string target = bStdout ? Exiv2::ws2s(temporaryPath()) : tgt;
-#else
-        std::string target = bStdout ?             temporaryPath()  : tgt;
-#endif
+        const char* target = (bStdout ?              temporaryPath()  : tgt).c_str();
 
         Exiv2::Image::AutoPtr targetImage;
         if (Exiv2::fileExists(target)) {
@@ -2184,7 +2180,7 @@ namespace {
                 // std::cout << "short cut" << std::endl;
                 // http://www.cplusplus.com/doc/tutorial/files/
                 std::ofstream os;
-                os.open(target.c_str());
+                os.open(target);
                 sourceImage->printStructure(os,Exiv2::kpsXMP);
                 os.close();
                 rc = 0;
@@ -2218,7 +2214,7 @@ namespace {
 
         // if we used a temporary target, copy it to stdout
         if ( rc == 0 && bStdout ) {
-            FILE* f = ::fopen(target.c_str(),"rb") ;
+            FILE* f = ::fopen(target,"rb") ;
             _setmode(_fileno(stdout),O_BINARY);
 
             if (  f ) {
@@ -2233,7 +2229,7 @@ namespace {
         }
 
         // delete temporary target
-        if ( bStdout ) std::remove(target.c_str());
+        if ( bStdout ) std::remove(target);
 
         return rc;
     } // metacopy
