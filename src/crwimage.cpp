@@ -137,11 +137,11 @@ namespace Exiv2 {
             std::ofstream devnull;
             printStructure(devnull,kpsRecursive,0);
         } catch (Exiv2::Error& /* e */) {
-            DataBuf file(io().size());
+            DataBuf file( (long) io().size());
             io_->read(file.pData_,file.size_);
         }
 
-        CrwParser::decode(this, io_->mmap(), io_->size());
+        CrwParser::decode(this, io_->mmap(), (uint32_t) io_->size());
 
     } // CrwImage::readMetadata
 
@@ -157,7 +157,7 @@ namespace Exiv2 {
             // Ensure that this is the correct image type
             if (isCrwType(*io_, false)) {
                 // Read the image into a memory buffer
-                buf.alloc(io_->size());
+                buf.alloc((long) io_->size());
                 io_->read(buf.pData_, buf.size_);
                 if (io_->error() || io_->eof()) {
                     buf.reset();

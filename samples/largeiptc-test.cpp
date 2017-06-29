@@ -20,7 +20,7 @@ try {
     if (io.open() != 0) {
       throw Exiv2::Error(9, io.path(), Exiv2::strError());
     }
-    Exiv2::DataBuf buf(io.size());
+    Exiv2::DataBuf buf((long)io.size());
     std::cout << "Reading " << buf.size_ << " bytes from " << data << "\n";
     io.read(buf.pData_, buf.size_);
     if (io.error() || !io.eof()) throw Exiv2::Error(14);

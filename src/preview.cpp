@@ -830,7 +830,7 @@ namespace {
         IptcData emptyIptc;
         XmpData  emptyXmp;
         TiffParser::encode(mio, 0, 0, Exiv2::littleEndian, preview, emptyIptc, emptyXmp);
-        return DataBuf(mio.mmap(), mio.size());
+        return DataBuf(mio.mmap(), (long) mio.size());
     }
 
     LoaderXmpJpeg::LoaderXmpJpeg(PreviewId id, const Image &image, int parIdx)

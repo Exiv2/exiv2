@@ -229,7 +229,7 @@ namespace Exiv2 {
                 out << " address | chunk |  length | data                           | checksum" << std::endl;
             }
 
-            const long imgSize = io_->size();
+            const long imgSize = (long) io_->size();
             DataBuf    cheaderBuf(8);
 
             while( !io_->eof() && ::strcmp(chType,"IEND") ) {
@@ -390,7 +390,7 @@ namespace Exiv2 {
         }
         clearMetadata();
 
-        const long imgSize = io_->size();
+        const long imgSize = (long) io_->size();
         DataBuf cheaderBuf(8);       // Chunk header size : 4 bytes (data size) + 4 bytes (chunk type).
 
         while(!io_->eof())

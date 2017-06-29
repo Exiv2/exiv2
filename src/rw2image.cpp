@@ -136,7 +136,7 @@ namespace Exiv2 {
                                          iptcData_,
                                          xmpData_,
                                          io_->mmap(),
-                                         io_->size());
+                                         (uint32_t) io_->size());
         setByteOrder(bo);
 
         // A lot more metadata is hidden in the embedded preview image

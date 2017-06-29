@@ -125,7 +125,7 @@ namespace Exiv2 {
                                          iptcData_,
                                          xmpData_,
                                          io_->mmap(),
-                                         io_->size());
+                                         (uint32_t) io_->size());
         setByteOrder(bo);
     } // OrfImage::readMetadata
 
@@ -142,7 +142,7 @@ namespace Exiv2 {
             // Ensure that this is the correct image type
             if (isOrfType(*io_, false)) {
                 pData = io_->mmap(true);
-                size = io_->size();
+                size = (long) io_->size();
                 OrfHeader orfHeader;
                 if (0 == orfHeader.read(pData, 8)) {
                     bo = orfHeader.byteOrder();

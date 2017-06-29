@@ -1674,7 +1674,7 @@ namespace Exiv2 {
         while (blockIndex < nBlocks && !src.eof() && !findDiff) {
             blockSize = p_->blocksMap_[blockIndex].getSize();
             bool isFakeData = p_->blocksMap_[blockIndex].isKnown(); // fake data
-            readCount = src.read(buf, blockSize);
+            readCount = (size_t) src.read(buf, (long) blockSize);
             byte* blockData = p_->blocksMap_[blockIndex].getData();
             for (i = 0; (i < readCount) && (i < blockSize) && !findDiff; i++) {
                 if ((!isFakeData && buf[i] != blockData[i]) || (isFakeData && buf[i] != 0)) {
@@ -1695,7 +1695,7 @@ namespace Exiv2 {
                 findDiff = true;
             } else {
                 bool isFakeData = p_->blocksMap_[blockIndex].isKnown(); // fake data
-                readCount = src.read(buf, blockSize);
+                readCount = src.read(buf, (long) blockSize);
                 byte* blockData = p_->blocksMap_[blockIndex].getData();
                 for (i = 0; (i < readCount) && (i < blockSize) && !findDiff; i++) {
                     if ((!isFakeData && buf[readCount - i - 1] != blockData[blockSize - i - 1]) || (isFakeData && buf[readCount - i - 1] != 0)) {
@@ -1713,15 +1713,15 @@ namespace Exiv2 {
         if (buf) std::free(buf);
 
         // submit to the remote machine.
-        long dataSize = src.size() - left - right;
+        long dataSize = (long) (src.size() - left - right);
         if (dataSize > 0) {
             byte* data = (byte*) std::malloc(dataSize);
             src.seek(left, BasicIo::beg);
             src.read(data, dataSize);
-            p_->writeRemote(data, (size_t)dataSize, left, (long) p_->size_ - right);
+            p_->writeRemote(data, (size_t)dataSize, (long)left, (long) (p_->size_ - right));
             if (data) std::free(data);
         }
-        return src.size();
+        return (long) src.size();
     }
 
     int RemoteIo::putb(byte /*unused data*/)

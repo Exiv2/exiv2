@@ -203,7 +203,7 @@ namespace Exiv2 {
         img->setIptcData(iptcData_);
         img->setXmpData(xmpData_);
         img->writeMetadata();
-        int     imgSize  = img->io().size();
+        long    imgSize  = (long) img->io().size();
         DataBuf imgBuf   = img->io().read(imgSize);
 
 #ifdef DEBUG

@@ -735,7 +735,7 @@ namespace Exiv2
                 std::cout << "Exiv2::Jp2Image::doWriteMetadata: Null Box size has been found. "
                              "This is the last box of file." << std::endl;
 #endif
-                box.length = io_->size() - io_->tell() + 8;
+                box.length = (uint32_t) (io_->size() - io_->tell() + 8);
             }
             if (box.length == 1)
             {
