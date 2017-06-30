@@ -214,10 +214,10 @@ if [ "$result" == "0" ]; then
 
     if [ -e $jpubl ]; then
         svn=0
-        /usr/local/bin/svn info . 2>/dev/null >/dev/null
-        if [ "$?" == "0" ]; then
-            svn=$(/usr/local/bin/svn info . | grep '^Last Changed Rev' | cut -f 2 -d':' | tr -d ' ')
-        fi
+        # /usr/local/bin/svn info . 2>/dev/null >/dev/null
+        # if [ "$?" == "0" ]; then
+        #     svn=$(/usr/local/bin/svn info . | grep '^Last Changed Rev' | cut -f 2 -d':' | tr -d ' ')
+        # fi
 
         dow=$(date  '+%w') # 0..6   day of the week
         dom=$(date  '+%d') # 1..31  day of the month
