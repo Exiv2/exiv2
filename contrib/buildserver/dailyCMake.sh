@@ -213,7 +213,7 @@ if [ "$result" == "0" ]; then
     if [ ! -e $monly ]; then mkdir -p $monly ; fi
 
     if [ -e $jpubl ]; then
-        svn=0
+        svn=0000
         # /usr/local/bin/svn info . 2>/dev/null >/dev/null
         # if [ "$?" == "0" ]; then
         #     svn=$(/usr/local/bin/svn info . | grep '^Last Changed Rev' | cut -f 2 -d':' | tr -d ' ')
