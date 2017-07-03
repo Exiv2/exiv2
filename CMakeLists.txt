@@ -83,9 +83,8 @@ IF( MINGW OR UNIX )
     execute_process(COMMAND ${CMAKE_CXX_COMPILER} -dumpversion OUTPUT_VARIABLE GCC_VERSION)
     string(REGEX MATCHALL "[0-9]+" GCC_VERSION_COMPONENTS ${GCC_VERSION})
     list(GET GCC_VERSION_COMPONENTS 0 GCC_MAJOR)
-    list(GET GCC_VERSION_COMPONENTS 1 GCC_MINOR)
 
-    message(STATUS Compiler: ${COMPILER} " Major:" ${GCC_MAJOR} " Minor:" ${GCC_MINOR})
+    message(STATUS Compiler: ${COMPILER} " Major:" ${GCC_MAJOR})
 
     IF ( CYGWIN OR ( ${GCC_MAJOR} GREATER 5 ))
         ADD_DEFINITIONS( -std=gnu++98 ) # to support snprintf
