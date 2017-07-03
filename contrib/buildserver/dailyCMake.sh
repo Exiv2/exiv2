@@ -235,7 +235,7 @@ if [ "$result" == "0" ]; then
         # create the bundle
         pushd "$build" > /dev/null
             rm -rf   *.tar.gz
-            tar czf "$zip" dist/
+            COPYFILE_DISABLE=1 tar czf "$zip" dist/
             ls -alt
             mv   $zip ..
         popd > /dev/null
