@@ -1143,7 +1143,10 @@ namespace Exiv2 {
         for (PreviewId id = 0; id < Loader::getNumLoaders(); ++id) {
             Loader::AutoPtr loader = Loader::create(id, image_);
             if (loader.get() && loader->readDimensions()) {
-                list.push_back(loader->getProperties());
+                PreviewProperties props = loader->getProperties();
+                DataBuf buf             = loader->getData(); // #16 getPreviewImage()
+                props.size_             = buf.size_;         //     update the size
+                list.push_back(props) ;
             }
         }
         std::sort(list.begin(), list.end(), cmpPreviewProperties);
