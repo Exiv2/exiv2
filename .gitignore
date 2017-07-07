@@ -3,6 +3,7 @@
 *.la
 *.lo
 *.o
+*.swp
 .DS_Store
 config.log
 config.status

@@ -84,8 +84,6 @@ IF( MINGW OR UNIX )
     string(REGEX MATCHALL "[0-9]+" GCC_VERSION_COMPONENTS ${GCC_VERSION})
     list(GET GCC_VERSION_COMPONENTS 0 GCC_MAJOR)
 
-    message(STATUS Compiler: ${COMPILER} " Major:" ${GCC_MAJOR})
-
     IF ( CYGWIN OR ( ${GCC_MAJOR} GREATER 5 ))
         ADD_DEFINITIONS( -std=gnu++98 ) # to support snprintf
     ELSE()
@@ -184,5 +182,6 @@ IF( MINGW OR UNIX OR APPLE)
   )
 ENDIF()
 
+INCLUDE( config/printSummary.cmake )
 # That's all Folks!
 ##

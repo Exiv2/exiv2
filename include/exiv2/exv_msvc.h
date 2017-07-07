@@ -11,9 +11,6 @@
 /* Define to 1 if you want to use `libcurl' in httpIO. */
 /* #undef EXV_USE_CURL */
 
-/* Define to 1 if you have the `alarm' function. */
-/* #undef EXV_HAVE_ALARM */
-
 /* Define to 1 if you have the declaration of `strerror_r', and to 0 if you
    don't. */
 /* #undef EXV_HAVE_DECL_STRERROR_R */
