@@ -63,9 +63,9 @@ echo ==========================================================================
 echo Creating source and doc packages
 echo
 cd ..
-tar zcvf exiv2-$rel-doc.tar.gz exiv2-$rel/doc/index.html exiv2-$rel/doc/html exiv2-$rel/doc/include
+COPYFILE_DISABLE=1 tar zcvf exiv2-$rel-doc.tar.gz exiv2-$rel/doc/index.html exiv2-$rel/doc/html exiv2-$rel/doc/include
 rm -rf exiv2-$rel/doc/html
-tar zcvf exiv2-$rel.tar.gz exiv2-$rel
+COPYFILE_DISABLE=1 tar zcvf exiv2-$rel.tar.gz exiv2-$rel
 echo
 echo ==========================================================================
 echo Testing the tarball: unpack, build and run tests
