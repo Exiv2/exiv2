@@ -37,7 +37,7 @@ try {
     }
 
     // Read the image into a memory buffer
-    long len = io.size();
+    long len = (long)io.size();
     Exiv2::DataBuf buf(len);
     io.read(buf.pData_, len);
     if (io.error() || io.eof()) throw Exiv2::Error(14);
