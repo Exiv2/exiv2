@@ -61,8 +61,7 @@ ELSE()
     SET ( EXIV2_ENABLE_DYNAMIC_RUNTIME OFF )
 ENDIF()
 
-# set include path for FindXXX.cmake files
-set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} "${CMAKE_SOURCE_DIR}/config/")
+include(config/findDependencies.cmake)
 
 IF( MINGW OR UNIX )
     IF ( CMAKE_CXX_COMPILER STREQUAL "g++" OR CMAKE_C_COMPILER STREQUAL "gcc" )
