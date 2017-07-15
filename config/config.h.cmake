@@ -4,7 +4,7 @@
 #pragma once
 
 /* Define to 1 if you want to use `libssh' for SshIO. */
-#cmakedefine EXV_USE_SSH 1
+#cmakedefine @EXV_USE_SSH@
 
 /* Define to 1 if you want to use `libcurl' in httpIO. */
 #cmakedefine EXV_USE_CURL 1

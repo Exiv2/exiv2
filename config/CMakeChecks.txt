@@ -221,7 +221,10 @@ FOREACH( entry ${EXV_SYMBOLS} )
     # MESSAGE( EXV_${entry} " : " ${${entry}} )
 ENDFOREACH( entry ${EXV_SYMBOLS} )
 
-CONFIGURE_FILE( config/config.h.cmake ${CMAKE_SOURCE_DIR}/include/exiv2/exv_conf.h )
+if (EXIV2_ENABLE_SSH)
+    set(EXV_USE_SSH ON)
+endif()
+CONFIGURE_FILE( config/config.h.cmake ${CMAKE_SOURCE_DIR}/include/exiv2/exv_conf.h @ONLY)
 
 # when removing support of VS solution files, get rid of this stuff
 #VSslnCompat
