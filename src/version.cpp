@@ -329,10 +329,6 @@ void Exiv2::dumpLibraryInfo(std::ostream& os,const exv_grep_keys_t& keys)
     int enable_video     =0;
     int enable_webready  =0;
 
-#ifdef EXV_HAVE_DECL_STRERROR_R
-    have_strerror_r=1;
-#endif
-
 #ifdef EXV_HAVE_GMTIME_R
     have_gmtime_r=1;
 #endif
