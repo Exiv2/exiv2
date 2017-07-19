@@ -20,7 +20,6 @@ if( EXIV2_ENABLE_WEBREADY )
     if( EXIV2_ENABLE_SSH )
         find_package( SSH REQUIRED)
         include_directories( ${SSH_INCLUDE_DIR} )
-        set ( USE_SSH 1 )
     endif( EXIV2_ENABLE_SSH )
 endif( EXIV2_ENABLE_WEBREADY )
 
