@@ -14,7 +14,6 @@ if( EXIV2_ENABLE_WEBREADY )
     if( EXIV2_ENABLE_CURL )
         find_package( CURL REQUIRED)
         include_directories( ${CURL_INCLUDE_DIR} )
-        set ( USE_CURL 1 )
     endif()
 
     if( EXIV2_ENABLE_SSH )

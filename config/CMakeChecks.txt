@@ -204,7 +204,6 @@ SET( EXV_SYMBOLS ENABLE_NLS
                  HAVE__BOOL
                  HAVE_REGEX
                  UNICODE_PATH
-                 USE_CURL
                  PACKAGE
                  PACKAGE_BUGREPORT
                  PACKAGE_NAME
