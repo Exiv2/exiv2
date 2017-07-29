@@ -5,11 +5,11 @@
 // Defined to 1 if when using `libssh' for SshIO.
 #cmakedefine01 EXV_USE_SSH
 
-// Define to 1 if you want to use `libcurl' in httpIO
+// Define to 1 if you want to use `libcurl' in httpIO.
 #cmakedefine01 EXV_USE_CURL
 
-/* Define to 1 if you have the `gmtime_r' function. */
-#cmakedefine EXV_HAVE_GMTIME_R 1
+// Define to 1 if you have the `gmtime_r' function.
+#cmakedefine01 EXV_HAVE_GMTIME_R
 
 /* Define to 1 if you have the <inttypes.h> header file. */
 #cmakedefine EXV_HAVE_INTTYPES_H 1

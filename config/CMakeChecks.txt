@@ -100,7 +100,6 @@ check_include_file( "sys/mman.h" HAVE_SYS_MMAN_H )
 check_include_file( "process.h" HAVE_PROCESS_H )
 check_include_file( "regex.h" HAVE_REGEX )
 
-check_function_exists( gmtime_r HAVE_GMTIME_R )
 check_function_exists( malloc HAVE_MALLOC )
 check_function_exists( memset HAVE_MEMSET )
 check_function_exists( mmap HAVE_MMAP )
@@ -167,7 +166,6 @@ SET( EXV_SYMBOLS ENABLE_NLS
                  ENABLE_VIDEO
                  ENABLE_WEBREADY
                  HAVE_DECL_STRERROR_R
-                 HAVE_GMTIME_R
                  HAVE_ICONV
                  HAVE_ICONV_H
                  HAVE_INTTYPES_H
