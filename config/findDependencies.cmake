@@ -43,6 +43,8 @@ if( EXIV2_ENABLE_NLS )
     endif( NOT LOCALEDIR )
     add_definitions( -DEXV_LOCALEDIR="${LOCALEDIR}" )
     set( ENABLE_NLS 1 )
+    # TODO : This is assuming that Intl is always found. This check should be improved and remove
+    # the manual check in config/generateConfigFile.cmake
 endif( EXIV2_ENABLE_NLS )
 
 find_package(Iconv)

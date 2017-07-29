@@ -118,8 +118,8 @@ IF( EXIV2_ENABLE_XMP )
     ENDIF()
 ENDIF( EXIV2_ENABLE_XMP )
 
-INCLUDE( config/generateConfigFile.cmake )
-INCLUDE( config/CMakeChecks.txt )
+include( config/generateConfigFile.cmake )
+include( config/CMakeChecks.txt )
 
 SET( INSTALL_TARGET_STANDARD_ARGS
      RUNTIME DESTINATION bin

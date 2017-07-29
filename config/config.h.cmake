@@ -11,8 +11,11 @@
 // Define to 1 if you have the `gmtime_r' function.
 #cmakedefine01 EXV_HAVE_GMTIME_R
 
-/* Define to 1 if you have the <libintl.h> header file. */
-#cmakedefine EXV_HAVE_LIBINTL_H 1
+// Define to 1 if you have the <libintl.h> header file.
+#cmakedefine01 EXV_HAVE_LIBINTL_H
+
+// Define to 1 if translation of program messages to the user's native language is requested.
+#cmakedefine01 EXV_ENABLE_NLS
 
 /* Define to 1 if you require video support. */
 #cmakedefine EXV_ENABLE_VIDEO 1
@@ -25,9 +28,6 @@
 /* Define to 1 to enable translation of Nikon lens names. */
 #cmakedefine EXV_HAVE_LENSDATA 1
 
-/* Define to 1 if translation of program messages to the user's
-   native language is requested. */
-#cmakedefine EXV_ENABLE_NLS 1
 
 /* Define to 1 if you have the `iconv' function. */
 #cmakedefine EXV_HAVE_ICONV 1

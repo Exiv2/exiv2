@@ -82,7 +82,6 @@ ENDIF( ICONV_ACCEPTS_CONST_INPUT )
 
 # checking for Header files
 check_include_file( "inttypes.h" have_inttypes_h )
-check_include_file( "libintl.h" HAVE_LIBINTL_H )
 check_include_file( "malloc.h" HAVE_MALLOC_H )
 check_include_file( "memory.h" HAVE_MEMORY_H )
 check_include_file( "iconv.h" HAVE_ICONV_H )
@@ -127,10 +126,6 @@ return 0;
 }" TM_IN_SYS_TIME )
 ENDIF( HAVE_SYS_TIME_H )
 
-IF (NOT HAVE_LIBINTL_H)
-    SET(ENABLE_NLS 0)
-    SET(EXIV2_ENABLE_NLS 0)
-ENDIF()
 #####################################################################################
 # strerror_r returns char*
 
@@ -162,8 +157,7 @@ IF( NOT MSVC )
     SET( HAVE_PID_T TRUE )
 ENDIF( NOT MSVC )
 
-SET( EXV_SYMBOLS ENABLE_NLS
-                 ENABLE_VIDEO
+SET( EXV_SYMBOLS ENABLE_VIDEO
                  ENABLE_WEBREADY
                  HAVE_DECL_STRERROR_R
                  HAVE_ICONV
