@@ -168,7 +168,6 @@ SET( EXV_SYMBOLS ENABLE_NLS
                  HAVE_DECL_STRERROR_R
                  HAVE_ICONV
                  HAVE_ICONV_H
-                 HAVE_INTTYPES_H
                  HAVE_LENSDATA
                  HAVE_LIBINTL_H
                  HAVE_LIBZ

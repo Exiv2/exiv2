@@ -11,9 +11,6 @@
 // Define to 1 if you have the `gmtime_r' function.
 #cmakedefine01 EXV_HAVE_GMTIME_R
 
-/* Define to 1 if you have the <inttypes.h> header file. */
-#cmakedefine EXV_HAVE_INTTYPES_H 1
-
 /* Define to 1 if you have the <libintl.h> header file. */
 #cmakedefine EXV_HAVE_LIBINTL_H 1
 
