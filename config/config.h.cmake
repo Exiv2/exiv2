@@ -17,8 +17,8 @@
 // Define to 1 if translation of program messages to the user's native language is requested.
 #cmakedefine01 EXV_ENABLE_NLS
 
-/* Define to 1 if you require video support. */
-#cmakedefine EXV_ENABLE_VIDEO 1
+// Define to 1 if you require video support.
+#cmakedefine EXV_ENABLE_VIDEO
 
 /* Define to 1 if you require webready support. */
 #cmakedefine EXV_ENABLE_WEBREADY 1

@@ -73,10 +73,6 @@ EXIV2_RCSID("@(#) $Id$")
 #define  EXV_UNICODE_PATH 0
 #endif
 
-#ifndef  EXV_ENABLE_VIDEO
-#define  EXV_ENABLE_VIDEO 0
-#endif
-
 #ifndef  EXV_ENABLE_WEBREADY
 #define  EXV_ENABLE_WEBREADY 0
 #endif
