@@ -9,13 +9,13 @@
 #cmakedefine01 EXV_USE_CURL
 
 // Define to 1 if you have the `gmtime_r' function.
-#cmakedefine01 EXV_HAVE_GMTIME_R
+#cmakedefine EXV_HAVE_GMTIME_R
 
 // Define to 1 if you have the <libintl.h> header file.
-#cmakedefine01 EXV_HAVE_LIBINTL_H
+#cmakedefine EXV_HAVE_LIBINTL_H
 
 // Define to 1 if translation of program messages to the user's native language is requested.
-#cmakedefine01 EXV_ENABLE_NLS
+#cmakedefine EXV_ENABLE_NLS
 
 // Define to 1 if you require video support.
 #cmakedefine EXV_ENABLE_VIDEO
