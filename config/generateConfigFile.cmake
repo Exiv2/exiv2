@@ -4,6 +4,10 @@ if (${EXIV2_ENABLE_WEBREADY})
     set(EXV_USE_CURL  ${EXIV2_ENABLE_CURL})
 endif()
 set(EXV_ENABLE_VIDEO     ${EXIV2_ENABLE_VIDEO})
+set(EXV_PACKAGE          ${PACKAGE})
+set(EXV_PACKAGE_VERSION  ${PACKAGE_VERSION})
+set(EXV_PACKAGE_STRING   ${PACKAGE_STRING})
+set(EXV_HAVE_XMP_TOOLKIT ${HAVE_XMP_TOOLKIT})
 
 # TODO: Try to use the cmake function check_symbol_exists which is more robust
 check_function_exists( gmtime_r EXV_HAVE_GMTIME_R )

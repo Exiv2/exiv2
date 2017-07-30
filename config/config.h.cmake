@@ -154,20 +154,14 @@
    slash. */
 #cmakedefine EXV_LSTAT_FOLLOWS_SLASHED_SYMLINK 1
 
-/* Define to the address where bug reports for this package should be sent. */
-#cmakedefine EXV_PACKAGE_BUGREPORT "@PACKAGE_BUGREPORT@"
-
 /* Define to the name of this package. */
-#cmakedefine EXV_PACKAGE "@PACKAGE@"
+#cmakedefine EXV_PACKAGE "@EXV_PACKAGE@"
 
 /* Define to the full name of this package. */
-#cmakedefine EXV_PACKAGE_NAME "@PACKAGE_NAME@"
+#cmakedefine EXV_PACKAGE_NAME "@EXV_PACKAGE_NAME@"
 
 /* Define to the full name and version of this package. */
-#cmakedefine EXV_PACKAGE_STRING "@PACKAGE_STRING@"
-
-/* Define to the one symbol short name of this package. */
-#cmakedefine EXV_PACKAGE_TARNAME "@PACKAGE_TARNAME@"
+#cmakedefine EXV_PACKAGE_STRING "@EXV_PACKAGE_STRING@"
 
 /* Define to the version of this package. */
 #cmakedefine EXV_PACKAGE_VERSION "@PACKAGE_VERSION@"

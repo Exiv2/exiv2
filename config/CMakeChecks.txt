@@ -190,12 +190,6 @@ SET( EXV_SYMBOLS ENABLE_WEBREADY
                  HAVE__BOOL
                  HAVE_REGEX
                  UNICODE_PATH
-                 PACKAGE
-                 PACKAGE_BUGREPORT
-                 PACKAGE_NAME
-                 PACKAGE_STRING
-                 PACKAGE_TARNAME
-                 PACKAGE_VERSION
                  STRERROR_R_CHAR_P
    )
 
