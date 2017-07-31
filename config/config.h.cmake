@@ -23,6 +23,8 @@
 // Define to 1 if you require video support.
 #cmakedefine EXV_ENABLE_VIDEO
 
+#cmakedefine EXV_HAVE_DECL_STRERROR_R
+
 #ifndef EXV_COMMERCIAL_VERSION
 
 /* Define to 1 to enable translation of Nikon lens names. */

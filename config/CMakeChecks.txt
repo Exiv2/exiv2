@@ -42,7 +42,6 @@ INCLUDE( GNUInstallDirs )
 INCLUDE( FindIconv )
 
 SET( STDC_HEADERS ON )
-SET( HAVE_DECL_STRERROR_R 0 )
 
 SET( HAVE_PRINTUCS2 ${EXIV2_ENABLE_PRINTUCS2} )
 SET( HAVE_LENSDATA ${EXIV2_ENABLE_LENSDATA} )
@@ -123,24 +122,6 @@ return 0;
 }" TM_IN_SYS_TIME )
 ENDIF( HAVE_SYS_TIME_H )
 
-#####################################################################################
-# strerror_r returns char*
-
-# NOTE : reverting commit #2041, which break compilation under linux and windows
-
-CHECK_C_SOURCE_COMPILES( "#include <string.h>
-int main() {
-char * c;
-c = strerror_r(0,c,0);
-return 0;
-}" STRERROR_R_CHAR_P )
-
-# function is declared with the above
-IF( STRERROR_R_CHAR_P )
-    SET( HAVE_DECL_STRERROR_R 1 )
-ENDIF( STRERROR_R_CHAR_P )
-
-#####################################################################################
 
 # time.h and sys/time.h can be included in the same file
 CHECK_C_SOURCE_COMPILES( "#include <time.h>
@@ -154,8 +135,7 @@ IF( NOT MSVC )
     SET( HAVE_PID_T TRUE )
 ENDIF( NOT MSVC )
 
-SET( EXV_SYMBOLS HAVE_DECL_STRERROR_R
-                 HAVE_ICONV
+SET( EXV_SYMBOLS HAVE_ICONV
                  HAVE_ICONV_H
                  HAVE_LENSDATA
                  HAVE_LIBINTL_H

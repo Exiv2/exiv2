@@ -22,5 +22,21 @@ if (NOT EXV_HAVE_LIBINTL_H)
     set(EXV_ENABLE_NLS 0)
 endif()
 
+
+include(CheckCSourceCompiles)
+#####################################################################################
+# strerror_r returns char*
+
+# NOTE : reverting commit #2041, which break compilation under linux and windows
+
+CHECK_C_SOURCE_COMPILES( "#include <string.h>
+int main() {
+char * c;
+c = strerror_r(0,c,0);
+return 0;
+}" EXV_HAVE_DECL_STRERROR_R )
+
+#####################################################################################
+
 configure_file( config/config.h.cmake ${CMAKE_SOURCE_DIR}/include/exiv2/exv_conf.h @ONLY)
 #configure_file( config/config.h.cmake ${CMAKE_SOURCE_DIR}/include/exiv2/exv_conf.h)
