@@ -89,8 +89,8 @@
 // Definition to indicate if you have the <strings.h> header file.
 #cmakedefine EXV_HAVE_STRINGS_H
 
-/* Define to 1 if you have the `strtol' function. */
-#cmakedefine EXV_HAVE_STRTOL 1
+// Definition to indicate if you have the `strtol' function.
+#cmakedefine EXV_HAVE_STRTOL
 
 // Definition to indicate if you have the `mmap' function.
 #cmakedefine EXV_HAVE_MMAP
