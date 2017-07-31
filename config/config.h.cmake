@@ -119,8 +119,8 @@
 /* Define to 1 if you have the <wchar.h> header file. */
 #cmakedefine EXV_HAVE_WCHAR_H 1
 
-/* Define to 1 if you have the <sys/mman.h> header file. */
-#cmakedefine EXV_HAVE_SYS_MMAN_H 1
+// Definition to indicate if you have the <sys/mman.h> header file.
+#cmakedefine EXV_HAVE_SYS_MMAN_H
 
 // Definition to indicate if the `zlib' library will be used
 #cmakedefine EXV_HAVE_LIBZ

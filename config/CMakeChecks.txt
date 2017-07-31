@@ -74,7 +74,6 @@ check_include_file( "wchar.h" HAVE_WCHAR_H )
 check_include_file( "sys/stat.h" HAVE_SYS_STAT_H )
 check_include_file( "sys/time.h" HAVE_SYS_TIME_H )
 check_include_file( "sys/types.h" HAVE_SYS_TYPES_H )
-check_include_file( "sys/mman.h" HAVE_SYS_MMAN_H )
 check_include_file( "regex.h" HAVE_REGEX )
 
 check_function_exists( timegm HAVE_TIMEGM )
@@ -102,8 +101,7 @@ IF( NOT MSVC )
     SET( HAVE_PID_T TRUE )
 ENDIF( NOT MSVC )
 
-SET( EXV_SYMBOLS HAVE_SYS_MMAN_H
-                 HAVE_SYS_STAT_H
+SET( EXV_SYMBOLS HAVE_SYS_STAT_H
                  HAVE_SYS_TIME_H
                  HAVE_SYS_TYPES_H
                  HAVE_TIMEGM
