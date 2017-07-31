@@ -4,6 +4,8 @@ if (${EXIV2_ENABLE_WEBREADY})
     set(EXV_USE_CURL  ${EXIV2_ENABLE_CURL})
 endif()
 set(EXV_ENABLE_VIDEO     ${EXIV2_ENABLE_VIDEO})
+set(EXV_ENABLE_WEBREADY  ${EXIV2_ENABLE_WEBREADY})
+
 set(EXV_PACKAGE          ${PACKAGE})
 set(EXV_PACKAGE_VERSION  ${PACKAGE_VERSION})
 set(EXV_PACKAGE_STRING   ${PACKAGE_STRING})
@@ -21,3 +23,4 @@ if (NOT EXV_HAVE_LIBINTL_H)
 endif()
 
 configure_file( config/config.h.cmake ${CMAKE_SOURCE_DIR}/include/exiv2/exv_conf.h @ONLY)
+#configure_file( config/config.h.cmake ${CMAKE_SOURCE_DIR}/include/exiv2/exv_conf.h)

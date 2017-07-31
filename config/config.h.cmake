@@ -8,6 +8,9 @@
 // Define to 1 if you want to use `libcurl' in httpIO.
 #cmakedefine01 EXV_USE_CURL
 
+// Define if you require webready support.
+#cmakedefine EXV_ENABLE_WEBREADY
+
 // Define to 1 if you have the `gmtime_r' function.
 #cmakedefine EXV_HAVE_GMTIME_R
 
@@ -19,9 +22,6 @@
 
 // Define to 1 if you require video support.
 #cmakedefine EXV_ENABLE_VIDEO
-
-/* Define to 1 if you require webready support. */
-#cmakedefine EXV_ENABLE_WEBREADY 1
 
 #ifndef EXV_COMMERCIAL_VERSION
 
