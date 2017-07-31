@@ -20,6 +20,7 @@ check_function_exists( gmtime_r EXV_HAVE_GMTIME_R )
 # TODO: This check should be removed and rely on the check done in findDependencies.cmake
 check_include_file( "libintl.h" EXV_HAVE_LIBINTL_H )
 check_include_file( "unistd.h"  EXV_HAVE_UNISTD_H )
+check_include_file( "memory.h"  EXV_HAVE_MEMORY_H )
 
 if (NOT EXV_HAVE_LIBINTL_H)
     set(EXV_ENABLE_NLS 0)

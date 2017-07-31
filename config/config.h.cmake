@@ -53,8 +53,8 @@
 /* Define to 1 if you have the <regex.h> header file. */
 #cmakedefine EXV_HAVE_REGEX 1
 
-/* Define to 1 if you have the <memory.h> header file. */
-#cmakedefine EXV_HAVE_MEMORY_H 1
+// Definition to indicate you have the <memory.h> header file.
+#cmakedefine EXV_HAVE_MEMORY_H
 
 /* Define to 1 if you have the `memset' function. */
 #cmakedefine EXV_HAVE_MEMSET 1
