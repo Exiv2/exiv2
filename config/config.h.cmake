@@ -30,9 +30,8 @@
 /* Define to 1 to enable translation of Nikon lens names. */
 #cmakedefine EXV_HAVE_LENSDATA 1
 
-
-/* Define to 1 if you have the `iconv' function. */
-#cmakedefine EXV_HAVE_ICONV 1
+// Define to 1 if you have the `iconv' function.
+#cmakedefine EXV_HAVE_ICONV
 
 /* Define to 1 to enable conversion of UCS2 encoded Windows tags to UTF-8. */
 #cmakedefine EXV_HAVE_PRINTUCS2 1
@@ -44,7 +43,7 @@
 
 
 /* Define to `const' or to empty, depending on the second argument of `iconv'. */
-#cmakedefine ICONV_ACCEPTS_CONST_INPUT 1
+#cmakedefine ICONV_ACCEPTS_CONST_INPUT
 #if defined ICONV_ACCEPTS_CONST_INPUT
 #define EXV_ICONV_CONST const
 #else

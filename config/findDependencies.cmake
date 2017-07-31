@@ -49,9 +49,10 @@ endif( EXIV2_ENABLE_NLS )
 
 find_package(Iconv)
 if( ICONV_FOUND )
-    set( HAVE_ICONV 1 )
     include_directories(${ICONV_INCLUDE_DIR})
+    message ( "-- ICONV_INCLUDE_DIR : " ${ICONV_INCLUDE_DIR} )
     message ( "-- ICONV_LIBRARIES : " ${ICONV_LIBRARIES} )
+    message ( "-- ICONV_ACCEPTS_CONST_INPUT : ${ICONV_ACCEPTS_CONST_INPUT}" )
 endif( ICONV_FOUND )
 
 if( EXIV2_ENABLE_BUILD_PO )

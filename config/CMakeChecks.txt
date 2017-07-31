@@ -71,17 +71,10 @@ IF( EXIV2_ENABLE_COMMERCIAL )
     ADD_DEFINITIONS( -DEXV_COMMERCIAL_VERSION )
 ENDIF( EXIV2_ENABLE_COMMERCIAL )
 
-
-IF( ICONV_ACCEPTS_CONST_INPUT )
-    MESSAGE ( "ICONV_ACCEPTS_CONST_INPUT : yes" )
-ENDIF( ICONV_ACCEPTS_CONST_INPUT )
-
-
 # checking for Header files
 check_include_file( "inttypes.h" have_inttypes_h )
 check_include_file( "malloc.h" HAVE_MALLOC_H )
 check_include_file( "memory.h" HAVE_MEMORY_H )
-check_include_file( "iconv.h" HAVE_ICONV_H )
 check_include_file( "stdbool.h" HAVE_STDBOOL_H )
 check_include_file( "stdint.h" HAVE_STDINT_H )
 check_include_file( "stdlib.h" HAVE_STDLIB_H )
@@ -135,9 +128,7 @@ IF( NOT MSVC )
     SET( HAVE_PID_T TRUE )
 ENDIF( NOT MSVC )
 
-SET( EXV_SYMBOLS HAVE_ICONV
-                 HAVE_ICONV_H
-                 HAVE_LENSDATA
+SET( EXV_SYMBOLS HAVE_LENSDATA
                  HAVE_LIBINTL_H
                  HAVE_LIBZ
                  HAVE_MALLOC_H
