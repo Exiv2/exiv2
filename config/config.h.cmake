@@ -56,8 +56,8 @@
 // Definition to indicate you have the <memory.h> header file.
 #cmakedefine EXV_HAVE_MEMORY_H
 
-/* Define to 1 if you have the `memset' function. */
-#cmakedefine EXV_HAVE_MEMSET 1
+// Definition to indicate if you have the `memset' function.
+#cmakedefine EXV_HAVE_MEMSET
 
 /* Define to 1 if your system has a GNU libc compatible `realloc' function,
    and to 0 otherwise. */

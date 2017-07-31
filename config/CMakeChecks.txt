@@ -85,7 +85,6 @@ check_include_file( "sys/mman.h" HAVE_SYS_MMAN_H )
 check_include_file( "process.h" HAVE_PROCESS_H )
 check_include_file( "regex.h" HAVE_REGEX )
 
-check_function_exists( memset HAVE_MEMSET )
 check_function_exists( mmap HAVE_MMAP )
 check_function_exists( munmap HAVE_MUNMAP )
 check_function_exists( realloc HAVE_REALLOC )
@@ -124,8 +123,7 @@ IF( NOT MSVC )
     SET( HAVE_PID_T TRUE )
 ENDIF( NOT MSVC )
 
-SET( EXV_SYMBOLS HAVE_MEMSET
-                 HAVE_MMAP
+SET( EXV_SYMBOLS HAVE_MMAP
                  HAVE_MUNMAP
                  HAVE_PRINTUCS2
                  HAVE_PROCESS_H
