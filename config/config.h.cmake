@@ -96,8 +96,8 @@
 /* Define to 1 if you have the `strtol' function. */
 #cmakedefine EXV_HAVE_STRTOL 1
 
-/* Define to 1 if you have the `mmap' function. */
-#cmakedefine EXV_HAVE_MMAP 1
+// Definition to indicate if you have the `mmap' function.
+#cmakedefine EXV_HAVE_MMAP
 
 /* Define to 1 if you have the `munmap' function. */
 #cmakedefine EXV_HAVE_MUNMAP 1
