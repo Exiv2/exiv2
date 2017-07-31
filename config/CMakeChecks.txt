@@ -82,7 +82,6 @@ check_include_file( "sys/types.h" HAVE_SYS_TYPES_H )
 check_include_file( "sys/mman.h" HAVE_SYS_MMAN_H )
 check_include_file( "regex.h" HAVE_REGEX )
 
-check_function_exists( realloc HAVE_REALLOC )
 check_function_exists( strchr HAVE_STRCHR )
 check_function_exists( strchr_r HAVE_STRCHR_R )
 check_function_exists( strerror HAVE_STRERROR )
@@ -118,8 +117,7 @@ IF( NOT MSVC )
     SET( HAVE_PID_T TRUE )
 ENDIF( NOT MSVC )
 
-SET( EXV_SYMBOLS HAVE_REALLOC
-                 HAVE_STDBOOL_H
+SET( EXV_SYMBOLS HAVE_STDBOOL_H
                  HAVE_STDINT_H
                  HAVE_STDLIB_H
                  HAVE_STRCHR

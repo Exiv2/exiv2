@@ -68,10 +68,6 @@
 /* Define to 1 if you have the `memset' function. */
 #define EXV_HAVE_MEMSET 1
 
-/* Define to 1 if your system has a GNU libc compatible `realloc' function,
-   and to 0 otherwise. */
-#define EXV_HAVE_REALLOC 1
-
 /* Define to 1 if stdbool.h conforms to C99. */
 /* #undef EXV_HAVE_STDBOOL_H */
 
