@@ -53,13 +53,6 @@
 /* Define to 1 if you have the <regex.h> header file. */
 #cmakedefine EXV_HAVE_REGEX 1
 
-/* Define to 1 if your system has a GNU libc compatible `malloc' function, and
-   to 0 otherwise. */
-#cmakedefine EXV_HAVE_MALLOC 1
-
-/* Define to 1 if you have the <malloc.h> header file. */
-#cmakedefine EXV_HAVE_MALLOC_H 1
-
 /* Define to 1 if you have the <memory.h> header file. */
 #cmakedefine EXV_HAVE_MEMORY_H 1
 

@@ -72,7 +72,6 @@ ENDIF( EXIV2_ENABLE_COMMERCIAL )
 
 # checking for Header files
 check_include_file( "inttypes.h" have_inttypes_h )
-check_include_file( "malloc.h" HAVE_MALLOC_H )
 check_include_file( "memory.h" HAVE_MEMORY_H )
 check_include_file( "stdbool.h" HAVE_STDBOOL_H )
 check_include_file( "stdint.h" HAVE_STDINT_H )
@@ -87,7 +86,6 @@ check_include_file( "sys/mman.h" HAVE_SYS_MMAN_H )
 check_include_file( "process.h" HAVE_PROCESS_H )
 check_include_file( "regex.h" HAVE_REGEX )
 
-check_function_exists( malloc HAVE_MALLOC )
 check_function_exists( memset HAVE_MEMSET )
 check_function_exists( mmap HAVE_MMAP )
 check_function_exists( munmap HAVE_MUNMAP )
@@ -127,8 +125,7 @@ IF( NOT MSVC )
     SET( HAVE_PID_T TRUE )
 ENDIF( NOT MSVC )
 
-SET( EXV_SYMBOLS HAVE_MALLOC_H
-                 HAVE_MEMORY_H
+SET( EXV_SYMBOLS HAVE_MEMORY_H
                  HAVE_MEMSET
                  HAVE_MMAP
                  HAVE_MUNMAP

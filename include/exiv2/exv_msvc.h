@@ -62,13 +62,6 @@
 /* Define to 1 if you have the <regex.h> header file. */
 /* #undef EXV_HAVE_REGEX */
 
-/* Define to 1 if your system has a GNU libc compatible `malloc' function, and
-   to 0 otherwise. */
-/* #undef EXV_HAVE_MALLOC */
-
-/* Define to 1 if you have the <malloc.h> header file. */
-/* #undef EXV_HAVE_MALLOC_H */
-
 /* Define to 1 if you have the <memory.h> header file. */
 /* #undef EXV_HAVE_MEMORY_H */
 
