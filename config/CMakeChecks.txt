@@ -71,22 +71,11 @@ ENDIF( EXIV2_ENABLE_COMMERCIAL )
 # checking for Header files
 check_include_file( "inttypes.h" have_inttypes_h )
 check_include_file( "wchar.h" HAVE_WCHAR_H )
-check_include_file( "sys/time.h" HAVE_SYS_TIME_H )
 check_include_file( "sys/types.h" HAVE_SYS_TYPES_H )
 check_include_file( "regex.h" HAVE_REGEX )
 
 check_function_exists( timegm HAVE_TIMEGM )
 check_function_exists( vprintf HAVE_VPRINTF )
-
-# struct tm in sys/time.h
-IF( HAVE_SYS_TIME_H )
-    CHECK_C_SOURCE_COMPILES( "#include <sys/time.h>
-int main() {
-struct tm t;
-return 0;
-}" TM_IN_SYS_TIME )
-ENDIF( HAVE_SYS_TIME_H )
-
 
 # time.h and sys/time.h can be included in the same file
 CHECK_C_SOURCE_COMPILES( "#include <time.h>
@@ -100,8 +89,7 @@ IF( NOT MSVC )
     SET( HAVE_PID_T TRUE )
 ENDIF( NOT MSVC )
 
-SET( EXV_SYMBOLS HAVE_SYS_TIME_H
-                 HAVE_SYS_TYPES_H
+SET( EXV_SYMBOLS HAVE_SYS_TYPES_H
                  HAVE_TIMEGM
                  HAVE_VPRINTF
                  HAVE_WCHAR_H

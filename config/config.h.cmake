@@ -101,9 +101,6 @@
 // Definition to indicate if you have the <sys/stat.h> header file.
 #cmakedefine EXV_HAVE_SYS_STAT_H
 
-/* Define to 1 if you have the <sys/time.h> header file. */
-#cmakedefine EXV_HAVE_SYS_TIME_H 1
-
 /* Define to 1 if you have the <sys/types.h> header file. */
 #cmakedefine EXV_HAVE_SYS_TYPES_H 1
 
@@ -159,9 +156,6 @@
 
 /* Define to 1 if you can safely include both <sys/time.h> and <time.h>. */
 #define TIME_WITH_SYS_TIME 1
-
-/* Define to 1 if your <sys/time.h> declares `struct tm'. */
-#cmakedefine TM_IN_SYS_TIME 1
 
 /* Define to empty if `const' does not conform to ANSI C. */
 #cmakedefine const

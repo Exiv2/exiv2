@@ -101,9 +101,6 @@
 /* Define to 1 if you have the <sys/stat.h> header file. */
 /* #undef EXV_HAVE_SYS_STAT_H */
 
-/* Define to 1 if you have the <sys/time.h> header file. */
-/* #undef EXV_HAVE_SYS_TIME_H */
-
 /* Define to 1 if you have the <sys/types.h> header file. */
 /* #undef EXV_HAVE_SYS_TYPES_H */
 
@@ -158,9 +155,6 @@
 
 /* Define to 1 if you can safely include both <sys/time.h> and <time.h>. */
 #define TIME_WITH_SYS_TIME 1
-
-/* Define to 1 if your <sys/time.h> declares `struct tm'. */
-/* #undef TM_IN_SYS_TIME */
 
 /* Define to empty if `const' does not conform to ANSI C. */
 /* #undef const */
