@@ -77,11 +77,14 @@
 // Definition to indicate if you have the `strchr' function.
 #cmakedefine EXV_HAVE_STRCHR
 
-/* Define to 1 if you have the `strerror' function. */
-#cmakedefine EXV_HAVE_STRERROR 1
+// Definition to indicate if you have the `strerror' function.
+#cmakedefine EXV_HAVE_STRERROR
 
-/* Define to 1 if you have the `strerror_r' function. */
-#cmakedefine EXV_HAVE_STRERROR_R 1
+// Definition to indicate if you have the `strerror_r' function.
+#cmakedefine EXV_HAVE_STRERROR_R
+
+// Definition to indicate if strerror_r returns char *.
+#cmakedefine STRERROR_R_CHAR_P
 
 /* Define to 1 if you have the <strings.h> header file. */
 #cmakedefine EXV_HAVE_STRINGS_H 1
@@ -156,8 +159,6 @@
 /* Define to 1 if you have the ANSI C header files. */
 #cmakedefine STDC_HEADERS 1
 
-/* Define to 1 if strerror_r returns char *. */
-#cmakedefine STRERROR_R_CHAR_P 1
 
 /* Define to 1 if you can safely include both <sys/time.h> and <time.h>. */
 #define TIME_WITH_SYS_TIME 1
