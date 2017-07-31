@@ -73,7 +73,6 @@ check_include_file( "inttypes.h" have_inttypes_h )
 check_include_file( "wchar.h" HAVE_WCHAR_H )
 check_include_file( "regex.h" HAVE_REGEX )
 
-check_function_exists( timegm HAVE_TIMEGM )
 check_function_exists( vprintf HAVE_VPRINTF )
 
 # time.h and sys/time.h can be included in the same file
@@ -88,8 +87,7 @@ IF( NOT MSVC )
     SET( HAVE_PID_T TRUE )
 ENDIF( NOT MSVC )
 
-SET( EXV_SYMBOLS HAVE_TIMEGM
-                 HAVE_VPRINTF
+SET( EXV_SYMBOLS HAVE_VPRINTF
                  HAVE_WCHAR_H
                  HAVE_XMP_TOOLKIT
                  HAVE_REGEX
