@@ -101,8 +101,8 @@
 // Definition to indicate if you have the <sys/stat.h> header file.
 #cmakedefine EXV_HAVE_SYS_STAT_H
 
-/* Define to 1 if you have the <sys/types.h> header file. */
-#cmakedefine EXV_HAVE_SYS_TYPES_H 1
+// Definition to indicate if you have the <sys/types.h> header file.
+#cmakedefine EXV_HAVE_SYS_TYPES_H
 
 /* Define to 1 if you have the `timegm' function. */
 #cmakedefine EXV_HAVE_TIMEGM 1
