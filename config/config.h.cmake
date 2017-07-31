@@ -135,8 +135,8 @@
   #endif
 #endif
 
-/* Define to 1 if you have the <process.h> header file. */
-#cmakedefine EXV_HAVE_PROCESS_H 1
+// Definition to indicate if you have the <process.h> header file.
+#cmakedefine EXV_HAVE_PROCESS_H
 
 /* Define to 1 if you have the Adobe XMP Toolkit. */
 #cmakedefine EXV_HAVE_XMP_TOOLKIT 1
