@@ -62,8 +62,8 @@
 // Definition to indicate if stdbool.h conforms to C99.
 #cmakedefine EXV_HAVE_STDBOOL_H
 
-/* Define to 1 if you have the <stdint.h> header file. */
-#cmakedefine EXV_HAVE_STDINT_H 1
+// Definition to indicate if you have the <stdint.h> header file.
+#cmakedefine EXV_HAVE_STDINT_H
 
 #ifndef      EXV_HAVE_STDINT_H
 #if defined(__MINGW32__) || defined(__MINGW64__)

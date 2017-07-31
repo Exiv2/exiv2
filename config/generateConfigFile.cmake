@@ -27,6 +27,7 @@ check_include_file( "unistd.h"  EXV_HAVE_UNISTD_H )
 check_include_file( "memory.h"  EXV_HAVE_MEMORY_H )
 check_include_file( "process.h" EXV_HAVE_PROCESS_H )
 check_include_file( "stdbool.h" EXV_HAVE_STDBOOL_H )
+check_include_file( "stdint.h"  EXV_HAVE_STDINT_H )
 
 if (NOT EXV_HAVE_LIBINTL_H)
     set(EXV_ENABLE_NLS 0)
