@@ -86,11 +86,8 @@
 // Definition to indicate if strerror_r returns char *.
 #cmakedefine STRERROR_R_CHAR_P
 
-/* Define to 1 if you have the <strings.h> header file. */
-#cmakedefine EXV_HAVE_STRINGS_H 1
-
-/* Define to 1 if you have the <string.h> header file. */
-#cmakedefine EXV_HAVE_STRING_H 1
+// Definition to indicate if you have the <strings.h> header file.
+#cmakedefine EXV_HAVE_STRINGS_H
 
 /* Define to 1 if you have the `strtol' function. */
 #cmakedefine EXV_HAVE_STRTOL 1

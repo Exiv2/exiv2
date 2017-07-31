@@ -70,8 +70,6 @@ ENDIF( EXIV2_ENABLE_COMMERCIAL )
 
 # checking for Header files
 check_include_file( "inttypes.h" have_inttypes_h )
-check_include_file( "string.h" HAVE_STRING_H )
-check_include_file( "strings.h" HAVE_STRINGS_H )
 check_include_file( "wchar.h" HAVE_WCHAR_H )
 check_include_file( "sys/stat.h" HAVE_SYS_STAT_H )
 check_include_file( "sys/time.h" HAVE_SYS_TIME_H )
@@ -105,9 +103,7 @@ IF( NOT MSVC )
     SET( HAVE_PID_T TRUE )
 ENDIF( NOT MSVC )
 
-SET( EXV_SYMBOLS HAVE_STRINGS_H
-                 HAVE_STRING_H
-                 HAVE_STRTOL
+SET( EXV_SYMBOLS HAVE_STRTOL
                  HAVE_SYS_MMAN_H
                  HAVE_SYS_STAT_H
                  HAVE_SYS_TIME_H
