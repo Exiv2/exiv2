@@ -99,8 +99,8 @@
 // Definition to indicate if you have the `mmap' function.
 #cmakedefine EXV_HAVE_MMAP
 
-/* Define to 1 if you have the `munmap' function. */
-#cmakedefine EXV_HAVE_MUNMAP 1
+// Definition to indicate if you have the `munmap' function.
+#cmakedefine EXV_HAVE_MUNMAP
 
 /* Define to 1 if you have the <sys/stat.h> header file. */
 #cmakedefine EXV_HAVE_SYS_STAT_H 1
