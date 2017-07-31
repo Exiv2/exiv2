@@ -27,8 +27,8 @@
 
 #ifndef EXV_COMMERCIAL_VERSION
 
-/* Define to 1 to enable translation of Nikon lens names. */
-#cmakedefine EXV_HAVE_LENSDATA 1
+// Definition to enable translation of Nikon lens names.
+#cmakedefine EXV_HAVE_LENSDATA
 
 // Define to 1 if you have the `iconv' function.
 #cmakedefine EXV_HAVE_ICONV
