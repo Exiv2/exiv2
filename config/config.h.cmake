@@ -74,8 +74,8 @@
 // Definition to indicate if you have the <stdlib.h> header file.
 #cmakedefine EXV_HAVE_STDLIB_H
 
-/* Define to 1 if you have the `strchr' function. */
-#cmakedefine EXV_HAVE_STRCHR 1
+// Definition to indicate if you have the `strchr' function.
+#cmakedefine EXV_HAVE_STRCHR
 
 /* Define to 1 if you have the `strerror' function. */
 #cmakedefine EXV_HAVE_STRERROR 1
