@@ -140,9 +140,6 @@
 /* Define to 1 if you have the Adobe XMP Toolkit. */
 #define EXV_HAVE_XMP_TOOLKIT 1
 
-/* Define to 1 if the system has the type `_Bool'. */
-/* #undef EXV_HAVE__BOOL */
-
 /* Define to 1 if `lstat' dereferences a symlink specified with a trailing
    slash. */
 /* #undef EXV_LSTAT_FOLLOWS_SLASHED_SYMLINK */

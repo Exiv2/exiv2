@@ -90,11 +90,6 @@ check_function_exists( strtol HAVE_STRTOL )
 check_function_exists( timegm HAVE_TIMEGM )
 check_function_exists( vprintf HAVE_VPRINTF )
 
-
-IF( HAVE_STDBOOL_H )
-    CHECK_SYMBOL_EXISTS( "_Bool" stdbool.h HAVE__BOOL )
-ENDIF( HAVE_STDBOOL_H )
-
 # struct tm in sys/time.h
 IF( HAVE_SYS_TIME_H )
     CHECK_C_SOURCE_COMPILES( "#include <sys/time.h>
@@ -135,7 +130,6 @@ SET( EXV_SYMBOLS HAVE_STDBOOL_H
                  HAVE_VPRINTF
                  HAVE_WCHAR_H
                  HAVE_XMP_TOOLKIT
-                 HAVE__BOOL
                  HAVE_REGEX
                  UNICODE_PATH
                  STRERROR_R_CHAR_P

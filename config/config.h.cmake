@@ -137,9 +137,6 @@
 /* Define to 1 if you have the Adobe XMP Toolkit. */
 #cmakedefine EXV_HAVE_XMP_TOOLKIT 1
 
-/* Define to 1 if the system has the type `_Bool'. */
-#cmakedefine EXV_HAVE__BOOL 1
-
 /* Define to 1 if `lstat' dereferences a symlink specified with a trailing
    slash. */
 #cmakedefine EXV_LSTAT_FOLLOWS_SLASHED_SYMLINK 1
