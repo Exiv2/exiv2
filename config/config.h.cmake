@@ -59,8 +59,8 @@
 // Definition to indicate if you have the `memset' function.
 #cmakedefine EXV_HAVE_MEMSET
 
-/* Define to 1 if stdbool.h conforms to C99. */
-#cmakedefine EXV_HAVE_STDBOOL_H 1
+// Definition to indicate if stdbool.h conforms to C99.
+#cmakedefine EXV_HAVE_STDBOOL_H
 
 /* Define to 1 if you have the <stdint.h> header file. */
 #cmakedefine EXV_HAVE_STDINT_H 1
