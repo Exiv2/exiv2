@@ -37,6 +37,7 @@ check_include_file( "stdint.h"  EXV_HAVE_STDINT_H )
 check_include_file( "stdlib.h"  EXV_HAVE_STDLIB_H )
 check_include_file( "strings.h" EXV_HAVE_STRINGS_H )
 check_include_file( "sys/mman.h"    EXV_HAVE_SYS_MMAN_H )
+check_include_file( "sys/stat.h"    EXV_HAVE_SYS_STAT_H )
 
 if (NOT EXV_HAVE_LIBINTL_H)
     set(EXV_ENABLE_NLS 0)
