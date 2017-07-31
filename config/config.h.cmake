@@ -133,8 +133,8 @@
 /* Define to 1 if you have the <sys/mman.h> header file. */
 #cmakedefine EXV_HAVE_SYS_MMAN_H 1
 
-/* Define to 1 if you have the `zlib' library. */
-#cmakedefine EXV_HAVE_LIBZ 1
+// Definition to indicate if the `zlib' library will be used
+#cmakedefine EXV_HAVE_LIBZ
 
 #if defined(_MSC_VER) && HAVE_LIBZ
   #if (_MSC_VER < 1400) && !defined(vsnprintf)

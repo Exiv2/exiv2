@@ -12,6 +12,7 @@ set(EXV_PACKAGE_VERSION  ${PACKAGE_VERSION})
 set(EXV_PACKAGE_STRING   ${PACKAGE_STRING})
 set(EXV_HAVE_XMP_TOOLKIT ${HAVE_XMP_TOOLKIT})
 set(EXV_HAVE_ICONV       ${ICONV_FOUND})
+set(EXV_HAVE_LIBZ        ${ZLIB_FOUND})
 
 # TODO: Try to use the cmake function check_symbol_exists which is more robust
 check_function_exists( gmtime_r EXV_HAVE_GMTIME_R )
