@@ -41,8 +41,6 @@ INCLUDE( GNUInstallDirs )
 
 INCLUDE( FindIconv )
 
-SET( STDC_HEADERS ON )
-
 INCLUDE_DIRECTORIES( ${CMAKE_INCLUDE_PATH} ${CMAKE_CURRENT_BINARY_DIR} ${CMAKE_CURRENT_SOURCE_DIR}/xmpsdk/include )
 LINK_DIRECTORIES( ${CMAKE_LIBRARY_PATH} )
 
@@ -61,26 +59,6 @@ ENDIF( EXIV2_ENABLE_COMMERCIAL )
 
 # checking for Header files
 check_include_file( "inttypes.h" have_inttypes_h )
-
-# time.h and sys/time.h can be included in the same file
-CHECK_C_SOURCE_COMPILES( "#include <time.h>
-#include <sys/time.h>
-int main() {
-return 0;
-}" TIME_WITH_SYS_TIME )
-
-# for msvc define to int in exv_conf.h
-IF( NOT MSVC )
-    SET( HAVE_PID_T TRUE )
-ENDIF( NOT MSVC )
-
-SET( EXV_SYMBOLS )
-
-FOREACH( entry ${EXV_SYMBOLS} )
-    SET( EXV_${entry} ${${entry}} )
-    # NOTE: to hack...
-    # MESSAGE( EXV_${entry} " : " ${${entry}} )
-ENDFOREACH( entry ${EXV_SYMBOLS} )
 
 # when removing support of VS solution files, get rid of this stuff
 #VSslnCompat

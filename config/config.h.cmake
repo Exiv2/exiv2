@@ -144,13 +144,6 @@
 /* Define to the version of this package. */
 #cmakedefine EXV_PACKAGE_VERSION "@PACKAGE_VERSION@"
 
-/* Define to 1 if you have the ANSI C header files. */
-#cmakedefine STDC_HEADERS 1
-
-
-/* Define to 1 if you can safely include both <sys/time.h> and <time.h>. */
-#define TIME_WITH_SYS_TIME 1
-
 /* Define to empty if `const' does not conform to ANSI C. */
 #cmakedefine const
 
@@ -162,9 +155,6 @@
 
 /* Define to rpl_malloc if the replacement function should be used. */
 #cmakedefine malloc
-
-/* Define to `int' if <sys/types.h> does not define. */
-#cmakedefine HAVE_PID_T 1
 
 /* Define to rpl_realloc if the replacement function should be used. */
 #cmakedefine realloc

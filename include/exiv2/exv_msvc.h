@@ -141,14 +141,8 @@
 /* Define to the version of this package. */
 #define EXV_PACKAGE_VERSION "0.26"
 
-/* Define to 1 if you have the ANSI C header files. */
-#define STDC_HEADERS 1
-
 /* Define to 1 if strerror_r returns char *. */
 /* #undef STRERROR_R_CHAR_P */
-
-/* Define to 1 if you can safely include both <sys/time.h> and <time.h>. */
-#define TIME_WITH_SYS_TIME 1
 
 /* Define to empty if `const' does not conform to ANSI C. */
 /* #undef const */
@@ -163,7 +157,7 @@
 /* #undef malloc */
 
 /* On Microsoft compilers pid_t has to be set to int. */
-#ifndef HAVE_PID_T
+#ifdef _MSC_VER
 typedef int pid_t;
 #endif
 
