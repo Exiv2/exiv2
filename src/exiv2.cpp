@@ -47,7 +47,7 @@ EXIV2_RCSID("@(#) $Id$")
 #include <cassert>
 #include <cctype>
 
-#if EXV_HAVE_REGEX
+#ifdef EXV_HAVE_REGEX
 #include <regex.h>
 #endif
 
