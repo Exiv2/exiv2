@@ -110,9 +110,6 @@
 /* Define to 1 if you have the <unistd.h> header file. */
 #cmakedefine EXV_HAVE_UNISTD_H 1
 
-/* Define to 1 if you have the <wchar.h> header file. */
-#cmakedefine EXV_HAVE_WCHAR_H 1
-
 // Definition to indicate if you have the <sys/mman.h> header file.
 #cmakedefine EXV_HAVE_SYS_MMAN_H
 

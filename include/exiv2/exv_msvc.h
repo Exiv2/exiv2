@@ -110,9 +110,6 @@
 /* Define to 1 if you have the <unistd.h> header file. */
 /* #undef EXV_HAVE_UNISTD_H */
 
-/* Define to 1 if you have the <wchar.h> header file. */
-/* #undef EXV_HAVE_WCHAR_H */
-
 /* Define to 1 if you have the <sys/mman.h> header file. */
 /* #undef EXV_HAVE_SYS_MMAN_H */
 
