@@ -50,8 +50,8 @@
 #define EXV_ICONV_CONST
 #endif
 
-/* Define to 1 if you have the <regex.h> header file. */
-#cmakedefine EXV_HAVE_REGEX 1
+// Definition to indicate if you have the <regex.h> header file.
+#cmakedefine EXV_HAVE_REGEX
 
 // Definition to indicate you have the <memory.h> header file.
 #cmakedefine EXV_HAVE_MEMORY_H

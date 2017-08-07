@@ -40,6 +40,7 @@ check_include_file( "strings.h" EXV_HAVE_STRINGS_H )
 check_include_file( "sys/mman.h"    EXV_HAVE_SYS_MMAN_H )
 check_include_file( "sys/stat.h"    EXV_HAVE_SYS_STAT_H )
 check_include_file( "sys/types.h"   EXV_HAVE_SYS_TYPES_H )
+check_include_file( "regex.h"       EXV_HAVE_REGEX )
 
 if (NOT EXV_HAVE_LIBINTL_H)
     set(EXV_ENABLE_NLS 0)

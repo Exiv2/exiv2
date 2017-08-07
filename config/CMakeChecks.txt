@@ -70,7 +70,6 @@ ENDIF( EXIV2_ENABLE_COMMERCIAL )
 
 # checking for Header files
 check_include_file( "inttypes.h" have_inttypes_h )
-check_include_file( "regex.h" HAVE_REGEX )
 
 # time.h and sys/time.h can be included in the same file
 CHECK_C_SOURCE_COMPILES( "#include <time.h>
@@ -84,9 +83,7 @@ IF( NOT MSVC )
     SET( HAVE_PID_T TRUE )
 ENDIF( NOT MSVC )
 
-SET( EXV_SYMBOLS HAVE_XMP_TOOLKIT
-                 HAVE_REGEX
-                 UNICODE_PATH
+SET( EXV_SYMBOLS UNICODE_PATH
    )
 
 FOREACH( entry ${EXV_SYMBOLS} )
