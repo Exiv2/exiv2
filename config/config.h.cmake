@@ -38,8 +38,8 @@
 
 #endif /* !EXV_COMMERCIAL_VERSION */
 
-/* Define Windows unicode path support. */
-#cmakedefine EXV_UNICODE_PATH 1
+// Definition to enable the Windows unicode path support.
+#cmakedefine EXV_UNICODE_PATH
 
 
 /* Define to `const' or to empty, depending on the second argument of `iconv'. */
