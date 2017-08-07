@@ -147,11 +147,6 @@ SET( XMPSRC ${CMAKE_CURRENT_SOURCE_DIR}/xmpsdk/src/ExpatAdapter.cpp
             ${CMAKE_CURRENT_SOURCE_DIR}/xmpsdk/src/XMPUtils.cpp
 )
 
-# the following lines need to be added to circumvent the error in xmpsdk\src\MD5.h
-IF( ${EXV_HAVE_STDINT_H} )
-    ADD_DEFINITIONS( -DEXV_HAVE_STDINT_H )
-ENDIF( ${EXV_HAVE_STDINT_H} )
-
 ADD_SUBDIRECTORY( xmpsdk )
 ADD_SUBDIRECTORY( src )
 
