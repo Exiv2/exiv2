@@ -259,6 +259,8 @@ IF ( UNIX )
   ENDIF()
 ENDIF()
 
+target_include_directories(exiv2lib PRIVATE ${CMAKE_SOURCE_DIR}/xmpsdk/include)
+
 if ( MSVC )
     source_group("Header Files" FILES ${LIBEXIV2_HDR} )
     TARGET_LINK_LIBRARIES( exiv2lib ${PRIVATE_VAR} ${ZLIB_LIBRARIES} )
