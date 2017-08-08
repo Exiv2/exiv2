@@ -32,10 +32,6 @@
 # ConfigureChecks for exiv2
 
 INCLUDE( CheckIncludeFile )
-INCLUDE( CheckFunctionExists )
-INCLUDE( CheckSymbolExists )
-INCLUDE( CheckCSourceCompiles )
-INCLUDE( CheckCXXSourceCompiles )
 
 INCLUDE( GNUInstallDirs )
 
@@ -43,8 +39,6 @@ INCLUDE( FindIconv )
 
 INCLUDE_DIRECTORIES( ${CMAKE_INCLUDE_PATH} ${CMAKE_CURRENT_BINARY_DIR} ${CMAKE_CURRENT_SOURCE_DIR}/xmpsdk/include )
 LINK_DIRECTORIES( ${CMAKE_LIBRARY_PATH} )
-
-find_package(Threads REQUIRED)
 
 IF( EXIV2_ENABLE_SHARED )
     ADD_DEFINITIONS( -DEXV_HAVE_DLL )
