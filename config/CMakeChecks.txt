@@ -31,8 +31,6 @@
 #
 # ConfigureChecks for exiv2
 
-INCLUDE( CheckIncludeFile )
-
 INCLUDE( GNUInstallDirs )
 
 INCLUDE_DIRECTORIES( ${CMAKE_INCLUDE_PATH} ${CMAKE_CURRENT_BINARY_DIR} ${CMAKE_CURRENT_SOURCE_DIR}/xmpsdk/include )
@@ -48,9 +46,6 @@ ENDIF( EXIV2_ENABLE_SHARED )
 IF( EXIV2_ENABLE_COMMERCIAL )
     ADD_DEFINITIONS( -DEXV_COMMERCIAL_VERSION )
 ENDIF( EXIV2_ENABLE_COMMERCIAL )
-
-# checking for Header files
-check_include_file( "inttypes.h" have_inttypes_h )
 
 # when removing support of VS solution files, get rid of this stuff
 #VSslnCompat
