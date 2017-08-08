@@ -2,6 +2,7 @@
 set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} "${CMAKE_SOURCE_DIR}/config/")
 
 find_package(Threads REQUIRED)
+include( FindIconv )
 
 if( EXIV2_ENABLE_PNG )
     find_package( ZLIB REQUIRED )
