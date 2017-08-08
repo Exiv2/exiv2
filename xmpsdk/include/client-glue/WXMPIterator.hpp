@@ -2,7 +2,7 @@
 #define __WXMPIterator_hpp__ 1
 
 // =================================================================================================
-// Copyright 2002 Adobe Systems Incorporated
+// Copyright 2002-2007 Adobe Systems Incorporated
 // All Rights Reserved.
 //
 // NOTICE:  Adobe permits you to use, modify, and distribute this file in accordance with the terms
@@ -24,8 +24,8 @@ extern "C" {
     WXMPIterator_TableCTor_1 ( schemaNS, propName, options, &wResult );
     
 
-#define zXMPIterator_Next_1(schemaNS,propPath,propValue,options,SetClientString) \
-    WXMPIterator_Next_1 ( this->iterRef, schemaNS, propPath, propValue, options, SetClientString, &wResult );
+#define zXMPIterator_Next_1(schemaNS,nsSize,propPath,pathSize,propValue,valueSize,options) \
+    WXMPIterator_Next_1 ( this->iterRef, schemaNS, nsSize, propPath, pathSize, propValue, valueSize, options, &wResult );
 
 #define zXMPIterator_Skip_1(options) \
     WXMPIterator_Skip_1 ( this->iterRef, options, &wResult );
@@ -33,37 +33,46 @@ extern "C" {
 // -------------------------------------------------------------------------------------------------
 
 extern void
-XMP_PUBLIC WXMPIterator_PropCTor_1 ( XMPMetaRef     xmpRef,
+WXMPIterator_PropCTor_1 ( XMPMetaRef     xmpRef,
                           XMP_StringPtr  schemaNS,
                           XMP_StringPtr  propName,
                           XMP_OptionBits options,
                           WXMP_Result *  wResult );
 
 extern void
-XMP_PUBLIC WXMPIterator_TableCTor_1 ( XMP_StringPtr  schemaNS,
+WXMPIterator_TableCTor_1 ( XMP_StringPtr  schemaNS,
                            XMP_StringPtr  propName,
                            XMP_OptionBits options,
                            WXMP_Result *  wResult );
 
 extern void
-XMP_PUBLIC WXMPIterator_IncrementRefCount_1 ( XMPIteratorRef iterRef );
+WXMPIterator_IncrementRefCount_1 ( XMPIteratorRef iterRef );
 
 extern void
-XMP_PUBLIC WXMPIterator_DecrementRefCount_1 ( XMPIteratorRef iterRef );
+WXMPIterator_DecrementRefCount_1 ( XMPIteratorRef iterRef );
 
 extern void
-XMP_PUBLIC WXMPIterator_Next_1 ( XMPIteratorRef   iterRef,
-                      void *           schemaNS,
-                      void *           propPath,
-                      void *           propValue,
+WXMPIterator_Unlock_1 ( XMP_OptionBits options );
+
+extern void
+WXMPIterator_Next_1 ( XMPIteratorRef   iterRef,
+                      XMP_StringPtr *  schemaNS,
+                      XMP_StringLen *  nsSize,
+                      XMP_StringPtr *  propPath,
+                      XMP_StringLen *  pathSize,
+                      XMP_StringPtr *  propValue,
+                      XMP_StringLen *  valueSize,
                       XMP_OptionBits * options,
-                      SetClientStringProc SetClientString,
                       WXMP_Result *    wResult );
 
 extern void
-XMP_PUBLIC WXMPIterator_Skip_1 ( XMPIteratorRef iterRef,
+WXMPIterator_Skip_1 ( XMPIteratorRef iterRef,
                       XMP_OptionBits options,
                       WXMP_Result *  wResult );
+
+extern void
+WXMPUtils_UnlockIter_1 ( XMPIteratorRef iterRef,
+                         XMP_OptionBits options );
 
 // =================================================================================================
 

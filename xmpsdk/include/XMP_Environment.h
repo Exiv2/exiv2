@@ -11,7 +11,7 @@
 // =================================================================================================
 
 // =================================================================================================
-// Copyright 2002 Adobe Systems Incorporated
+// Copyright 2002-2007 Adobe Systems Incorporated
 // All Rights Reserved.
 //
 // NOTICE:  Adobe permits you to use, modify, and distribute this file in accordance with the terms
@@ -22,9 +22,30 @@
 // Determine the Platform
 // ======================
 
-// One of MAC_ENV, WIN_ENV, UNIX_ENV or IOS_ENV must be defined by the client. Since some other code
+// One of MAC_ENV, WIN_ENV, or UNIX_ENV must be defined by the client. Since some other code
 // requires these to be defined without values, they are only used here to define XMP-specific
 // macros with 0 or 1 values.
+
+/* 20-Oct-07, ahu: Determine the platform, set the above defines accordingly.                     */
+
+#if !defined(_FILE_OFFSET_BITS)
+#define _FILE_OFFSET_BITS 64
+#endif
+
+#if defined __CYGWIN32__ && !defined __CYGWIN__
+   /* For backwards compatibility with Cygwin b19 and
+      earlier, we define __CYGWIN__ here, so that
+      we can rely on checking just for that macro. */
+# define __CYGWIN__  __CYGWIN32__
+#endif
+#if defined WIN32 && !defined __CYGWIN__
+# define WIN_ENV 1
+/* Todo: How to correctly recognize a Mac platform? */
+#elif defined macintosh || defined MACOS_CLASSIC || defined MACOS_X_UNIX || defined MACOS_X || defined MACOS
+# define MAC_ENV 1
+#else 
+# define UNIX_ENV 1
+#endif
 
 // ! Tempting though it might be to have a standard macro for big or little endian, there seems to
 // ! be no decent way to do that on our own in UNIX. Forcing it on the client isn't acceptable.
@@ -35,14 +56,13 @@
 		#error "MAC_ENV must be defined so that \"#if MAC_ENV\" is true"
 	#endif
 	
-    #if defined ( WIN_ENV ) || defined ( UNIX_ENV ) || defined ( IOS_ENV )
-        #error "XMP environment error - must define only one of MAC_ENV, WIN_ENV, UNIX_ENV or IOS_ENV"
+    #if defined ( WIN_ENV ) || defined ( UNIX_ENV )
+        #error "XMP environment error - must define only one of MAC_ENV, WIN_ENV, or UNIX_ENV"
     #endif
 
     #define XMP_MacBuild  1
     #define XMP_WinBuild  0
     #define XMP_UNIXBuild 0
-	#define XMP_iOSBuild  0
 
 #elif defined ( WIN_ENV )
 
@@ -50,14 +70,13 @@
 		#error "WIN_ENV must be defined so that \"#if WIN_ENV\" is true"
 	#endif
 	
-    #if defined ( MAC_ENV ) || defined ( UNIX_ENV ) || defined ( IOS_ENV )
-		#error "XMP environment error - must define only one of MAC_ENV, WIN_ENV, UNIX_ENV or IOS_ENV"
+    #if defined ( UNIX_ENV )
+        #error "XMP environment error - must define only one of MAC_ENV, WIN_ENV, or UNIX_ENV"
     #endif
 
     #define XMP_MacBuild  0
     #define XMP_WinBuild  1
     #define XMP_UNIXBuild 0
-	#define XMP_iOSBuild  0
 
 #elif defined ( UNIX_ENV )
 
@@ -65,33 +84,13 @@
 		#error "UNIX_ENV must be defined so that \"#if UNIX_ENV\" is true"
 	#endif
 	
-	#if defined ( MAC_ENV ) || defined ( WIN_ENV ) || defined ( IOS_ENV )
-		#error "XMP environment error - must define only one of MAC_ENV, WIN_ENV, UNIX_ENV or IOS_ENV"
-	#endif
-
     #define XMP_MacBuild  0
     #define XMP_WinBuild  0
     #define XMP_UNIXBuild 1
-	#define XMP_iOSBuild  0
-
-#elif defined ( IOS_ENV )
-
-	#if 0	// ! maybe someday - ! IOS_ENV
-		#error "IOS_ENV must be defined so that \"#if IOS_ENV\" is true"
-	#endif
-
-	#if defined ( MAC_ENV ) || defined ( WIN_ENV ) || defined ( UNIX_ENV )
-		#error "XMP environment error - must define only one of MAC_ENV, WIN_ENV, UNIX_ENV or IOS_ENV"
-	#endif
-
-	#define XMP_MacBuild  0
-	#define XMP_WinBuild  0
-	#define XMP_UNIXBuild 0
-	#define XMP_iOSBuild  1
 
 #else
 
-    #error "XMP environment error - must define one of MAC_ENV, WIN_ENV, UNIX_ENV or IOS_ENV"
+    #error "XMP environment error - must define one of MAC_ENV, WIN_ENV, or UNIX_ENV"
 
 #endif
 
@@ -101,7 +100,10 @@
 
 #if defined ( DEBUG )
     #if defined ( NDEBUG )
-        #error "XMP environment error - both DEBUG and NDEBUG are defined"
+		#undef NDEBUG
+		#warning
+		#warning "XMP environment - DEBUG and NDEBUG defined.  NDEBUG has been undefined"
+		#warning
     #endif
     #define XMP_DebugBuild 1
 #endif
@@ -118,75 +120,45 @@
     #include <stdio.h>  // The assert macro needs printf.
 #endif
 
-#ifndef DISABLE_SERIALIZED_IMPORT_EXPORT 
-	#define DISABLE_SERIALIZED_IMPORT_EXPORT 0
-#endif
-
 #ifndef XMP_64
-	#if _WIN64 || defined(_LP64)
+	#if _WIN64
 		#define XMP_64 1
 	#else
 		#define XMP_64 0
 	#endif
 #endif
 
+#define UNUSED(x) (void)(x)
+
 // =================================================================================================
 // Macintosh Specific Settings
 // ===========================
-#if (XMP_MacBuild)
-	#define XMP_HELPER_DLL_IMPORT __attribute__((visibility("default")))
-	#define XMP_HELPER_DLL_EXPORT __attribute__((visibility("default")))
-	#define XMP_HELPER_DLL_PRIVATE __attribute__((visibility("hidden")))
-	#define APICALL 
-#endif
 
 // =================================================================================================
 // Windows Specific Settings
 // =========================
-#if (XMP_WinBuild)
-	#define XMP_HELPER_DLL_IMPORT
-	#define XMP_HELPER_DLL_EXPORT
-	#define XMP_HELPER_DLL_PRIVATE
-	#define APICALL __stdcall
-#endif
 
 // =================================================================================================
 // UNIX Specific Settings
 // ======================
-#if (XMP_UNIXBuild)
-	#define XMP_HELPER_DLL_IMPORT
-	#define XMP_HELPER_DLL_EXPORT __attribute__ ((visibility ("default")))
-	#define XMP_HELPER_DLL_PRIVATE __attribute__ ((visibility ("hidden")))
-	#define APICALL 
-#endif
 
 // =================================================================================================
-// IOS Specific Settings
-// ===========================
-#if (XMP_iOSBuild)
-	#include <TargetConditionals.h>
-	#if (TARGET_CPU_ARM)
-		#define XMP_IOS_ARM 1
-	#else
-		#define XMP_IOS_ARM 0
-	#endif
-	#define XMP_HELPER_DLL_IMPORT __attribute__((visibility("default")))
-	#define XMP_HELPER_DLL_EXPORT __attribute__((visibility("default")))
-	#define XMP_HELPER_DLL_PRIVATE __attribute__((visibility("hidden")))
-	#define APICALL 
-#endif
-
-// =================================================================================================
-
-#if (XMP_DynamicBuild)
-	#define XMP_PUBLIC XMP_HELPER_DLL_EXPORT
-	#define XMP_PRIVATE XMP_HELPER_DLL_PRIVATE
-#elif (XMP_StaticBuild)
-	#define XMP_PUBLIC
-	#define XMP_PRIVATE
-#else
-	#define XMP_PUBLIC XMP_HELPER_DLL_IMPORT
-	#define XMP_PRIVATE XMP_HELPER_DLL_PRIVATE
-#endif
 
 #endif  // __XMP_Environment_h__
+
+/*
+  If you're using Solaris and the Solaris Studio compiler, then you really
+  do need to use -library=stdcxx4 along with these inclusions below
+*/
+#if defined(OS_SOLARIS)
+#include <stdio.h>
+#include <string.h>
+#include <strings.h>
+#include <stdlib.h>
+#include <math.h>
+#if defined(__cplusplus)
+#include <ios>
+#include <fstream>
+#endif
+#endif
+

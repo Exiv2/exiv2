@@ -2,7 +2,7 @@
 #define __WXMPMeta_hpp__ 1
 
 // =================================================================================================
-// Copyright 2002 Adobe Systems Incorporated
+// Copyright 2002-2008 Adobe Systems Incorporated
 // All Rights Reserved.
 //
 // NOTICE:  Adobe permits you to use, modify, and distribute this file in accordance with the terms
@@ -16,21 +16,6 @@ extern "C" {
 #endif
 
 // =================================================================================================
-
-static XMP_Bool WrapErrorNotify ( XMPMeta_ErrorCallbackProc proc, void * context,
-							  XMP_ErrorSeverity severity, XMP_Int32 cause, XMP_StringPtr message )
-{
-	bool ok;
-	try {
-		ok = (*proc) ( context, severity, cause, message );
-	} catch ( ... ) {
-		ok = false;
-	}
-	return ConvertBoolToXMP_Bool( ok );
-}
-
-// =================================================================================================
-
 #define zXMPMeta_GetVersionInfo_1(info) \
     WXMPMeta_GetVersionInfo_1 ( info /* no wResult */ )
 
@@ -51,34 +36,44 @@ static XMP_Bool WrapErrorNotify ( XMPMeta_ErrorCallbackProc proc, void * context
 #define zXMPMeta_DumpNamespaces_1(outProc,refCon) \
     WXMPMeta_DumpNamespaces_1 ( outProc, refCon, &wResult )
 
-#define zXMPMeta_Use_CPP_DOM_APIs_1(useNewCoreAPIs) \
-	WXMPMeta_Use_CPP_DOM_APIs_1( useNewCoreAPIs, &wResult )
-#define zXMPMeta_RegisterNamespace_1(namespaceURI,suggestedPrefix,actualPrefix,SetClientString) \
-    WXMPMeta_RegisterNamespace_1 ( namespaceURI, suggestedPrefix, actualPrefix, SetClientString, &wResult )
+#define zXMPMeta_DumpAliases_1(outProc,refCon) \
+    WXMPMeta_DumpAliases_1 ( outProc, refCon, &wResult )
 
-#define zXMPMeta_GetNamespacePrefix_1(namespaceURI,namespacePrefix,SetClientString) \
-    WXMPMeta_GetNamespacePrefix_1 ( namespaceURI, namespacePrefix, SetClientString, &wResult )
+#define zXMPMeta_RegisterNamespace_1(namespaceURI,prefix) \
+    WXMPMeta_RegisterNamespace_1 ( namespaceURI, prefix, &wResult )
 
-#define zXMPMeta_GetNamespaceURI_1(namespacePrefix,namespaceURI,SetClientString) \
-    WXMPMeta_GetNamespaceURI_1 ( namespacePrefix, namespaceURI, SetClientString, &wResult )
+#define zXMPMeta_GetNamespacePrefix_1(namespaceURI,namespacePrefix,prefixSize) \
+    WXMPMeta_GetNamespacePrefix_1 ( namespaceURI, namespacePrefix, prefixSize, &wResult )
+
+#define zXMPMeta_GetNamespaceURI_1(namespacePrefix,namespaceURI,uriSize) \
+    WXMPMeta_GetNamespaceURI_1 ( namespacePrefix, namespaceURI, uriSize, &wResult )
 
 #define zXMPMeta_DeleteNamespace_1(namespaceURI) \
     WXMPMeta_DeleteNamespace_1 ( namespaceURI, &wResult )
 
-#define zXMPMeta_GetIXMPMetadata_1() \
-	WXMPMeta_GetIXMPMetadata_1( this->xmpRef, &wResult )
+#define zXMPMeta_RegisterAlias_1(aliasNS,aliasProp,actualNS,actualProp,arrayForm) \
+    WXMPMeta_RegisterAlias_1 ( aliasNS, aliasProp, actualNS, actualProp, arrayForm, &wResult )
 
-#define zXMPMeta_GetProperty_1(schemaNS,propName,propValue,options,SetClientString) \
-    WXMPMeta_GetProperty_1 ( this->xmpRef, schemaNS, propName, propValue, options, SetClientString, &wResult )
+#define zXMPMeta_ResolveAlias_1(aliasNS,aliasProp,actualNS,nsSize,actualProp,propSize,arrayForm) \
+    WXMPMeta_ResolveAlias_1 ( aliasNS, aliasProp, actualNS, nsSize, actualProp, propSize, arrayForm, &wResult )
 
-#define zXMPMeta_GetArrayItem_1(schemaNS,arrayName,itemIndex,itemValue,options,SetClientString) \
-    WXMPMeta_GetArrayItem_1 ( this->xmpRef, schemaNS, arrayName, itemIndex, itemValue, options, SetClientString, &wResult )
+#define zXMPMeta_DeleteAlias_1(aliasNS,aliasProp) \
+    WXMPMeta_DeleteAlias_1 ( aliasNS, aliasProp, &wResult )
 
-#define zXMPMeta_GetStructField_1(schemaNS,structName,fieldNS,fieldName,fieldValue,options,SetClientString) \
-    WXMPMeta_GetStructField_1 ( this->xmpRef, schemaNS, structName, fieldNS, fieldName, fieldValue, options, SetClientString, &wResult )
+#define zXMPMeta_RegisterStandardAliases_1(schemaNS) \
+    WXMPMeta_RegisterStandardAliases_1 ( schemaNS, &wResult )
 
-#define zXMPMeta_GetQualifier_1(schemaNS,propName,qualNS,qualName,qualValue,options,SetClientString) \
-    WXMPMeta_GetQualifier_1 ( this->xmpRef, schemaNS, propName, qualNS, qualName, qualValue, options, SetClientString, &wResult )
+#define zXMPMeta_GetProperty_1(schemaNS,propName,propValue,valueSize,options) \
+    WXMPMeta_GetProperty_1 ( this->xmpRef, schemaNS, propName, propValue, valueSize, options, &wResult )
+
+#define zXMPMeta_GetArrayItem_1(schemaNS,arrayName,itemIndex,itemValue,valueSize,options) \
+    WXMPMeta_GetArrayItem_1 ( this->xmpRef, schemaNS, arrayName, itemIndex, itemValue, valueSize, options, &wResult )
+
+#define zXMPMeta_GetStructField_1(schemaNS,structName,fieldNS,fieldName,fieldValue,valueSize,options) \
+    WXMPMeta_GetStructField_1 ( this->xmpRef, schemaNS, structName, fieldNS, fieldName, fieldValue, valueSize, options, &wResult )
+
+#define zXMPMeta_GetQualifier_1(schemaNS,propName,qualNS,qualName,qualValue,valueSize,options) \
+    WXMPMeta_GetQualifier_1 ( this->xmpRef, schemaNS, propName, qualNS, qualName, qualValue, valueSize, options, &wResult )
 
 #define zXMPMeta_SetProperty_1(schemaNS,propName,propValue,options) \
     WXMPMeta_SetProperty_1 ( this->xmpRef, schemaNS, propName, propValue, options, &wResult )
@@ -119,14 +114,12 @@ static XMP_Bool WrapErrorNotify ( XMPMeta_ErrorCallbackProc proc, void * context
 #define zXMPMeta_DoesQualifierExist_1(schemaNS,propName,qualNS,qualName) \
     WXMPMeta_DoesQualifierExist_1 ( this->xmpRef, schemaNS, propName, qualNS, qualName, &wResult )
 
-#define zXMPMeta_GetLocalizedText_1(schemaNS,altTextName,genericLang,specificLang,clientLang,clientValue,options,SetClientString) \
-    WXMPMeta_GetLocalizedText_1 ( this->xmpRef, schemaNS, altTextName, genericLang, specificLang, clientLang, clientValue, options, SetClientString, &wResult )
+#define zXMPMeta_GetLocalizedText_1(schemaNS,altTextName,genericLang,specificLang,actualLang,langSize,itemValue,valueSize,options) \
+    WXMPMeta_GetLocalizedText_1 ( this->xmpRef, schemaNS, altTextName, genericLang, specificLang, actualLang, langSize, itemValue, valueSize, options, &wResult )
 
 #define zXMPMeta_SetLocalizedText_1(schemaNS,altTextName,genericLang,specificLang,itemValue,options) \
     WXMPMeta_SetLocalizedText_1 ( this->xmpRef, schemaNS, altTextName, genericLang, specificLang, itemValue, options, &wResult )
 
-#define zXMPMeta_DeleteLocalizedText_1(schemaNS,altTextName,genericLang,specificLang) \
-    WXMPMeta_DeleteLocalizedText_1 ( this->xmpRef, schemaNS, altTextName, genericLang, specificLang, &wResult )
 #define zXMPMeta_GetProperty_Bool_1(schemaNS,propName,propValue,options) \
     WXMPMeta_GetProperty_Bool_1 ( this->xmpRef, schemaNS, propName, propValue, options, &wResult )
 
@@ -157,8 +150,8 @@ static XMP_Bool WrapErrorNotify ( XMPMeta_ErrorCallbackProc proc, void * context
 #define zXMPMeta_SetProperty_Date_1(schemaNS,propName,propValue,options) \
     WXMPMeta_SetProperty_Date_1 ( this->xmpRef, schemaNS, propName, propValue, options, &wResult )
 
-#define zXMPMeta_GetObjectName_1(objName,SetClientString) \
-    WXMPMeta_GetObjectName_1 ( this->xmpRef, objName, SetClientString, &wResult )
+#define zXMPMeta_GetObjectName_1(namePtr,nameLen) \
+    WXMPMeta_GetObjectName_1 ( this->xmpRef, namePtr, nameLen, &wResult )
 
 #define zXMPMeta_SetObjectName_1(name) \
     WXMPMeta_SetObjectName_1 ( this->xmpRef, name, &wResult )
@@ -187,136 +180,159 @@ static XMP_Bool WrapErrorNotify ( XMPMeta_ErrorCallbackProc proc, void * context
 #define zXMPMeta_ParseFromBuffer_1(buffer,bufferSize,options) \
     WXMPMeta_ParseFromBuffer_1 ( this->xmpRef, buffer, bufferSize, options, &wResult )
 
-#define zXMPMeta_SerializeToBuffer_1(pktString,options,padding,newline,indent,baseIndent,SetClientString) \
-    WXMPMeta_SerializeToBuffer_1 ( this->xmpRef, pktString, options, padding, newline, indent, baseIndent, SetClientString, &wResult )
-
-#define zXMPMeta_SetDefaultErrorCallback_1(proc,context,limit) \
-	WXMPMeta_SetDefaultErrorCallback_1 ( WrapErrorNotify, proc, context, limit, &wResult )
-	
-#define zXMPMeta_SetErrorCallback_1(proc,context,limit) \
-	WXMPMeta_SetErrorCallback_1 ( this->xmpRef, WrapErrorNotify, proc, context, limit, &wResult )
-
-#define zXMPMeta_ResetErrorCallbackLimit_1(limit) \
-	WXMPMeta_ResetErrorCallbackLimit_1 ( this->xmpRef, limit, &wResult )
+#define zXMPMeta_SerializeToBuffer_1(pktString,pktSize,options,padding,newline,indent,baseIndent) \
+    WXMPMeta_SerializeToBuffer_1 ( this->xmpRef, pktString, pktSize, options, padding, newline, indent, baseIndent, &wResult )
 
 // =================================================================================================
 
 extern void
-XMP_PUBLIC WXMPMeta_GetVersionInfo_1 ( XMP_VersionInfo * info );
+WXMPMeta_GetVersionInfo_1 ( XMP_VersionInfo * info );
 
 extern void
-XMP_PUBLIC WXMPMeta_Initialize_1 ( WXMP_Result * wResult );
+WXMPMeta_Initialize_1 ( WXMP_Result * wResult );
 extern void
-XMP_PUBLIC WXMPMeta_Terminate_1();
+WXMPMeta_Terminate_1();
+
+extern void
+WXMPMeta_Unlock_1 ( XMP_OptionBits options );
 
 // -------------------------------------------------------------------------------------------------
 
 extern void
-XMP_PUBLIC WXMPMeta_CTor_1 ( WXMP_Result * wResult );
+WXMPMeta_CTor_1 ( WXMP_Result * wResult );
 
 extern void
-XMP_PUBLIC WXMPMeta_IncrementRefCount_1 ( XMPMetaRef xmpRef );
+WXMPMeta_IncrementRefCount_1 ( XMPMetaRef xmpRef );
 
 extern void
-XMP_PUBLIC WXMPMeta_DecrementRefCount_1 ( XMPMetaRef xmpRef );
+WXMPMeta_DecrementRefCount_1 ( XMPMetaRef xmpRef );
 
 // -------------------------------------------------------------------------------------------------
 
 extern void
-XMP_PUBLIC WXMPMeta_GetGlobalOptions_1 ( WXMP_Result * wResult );
+WXMPMeta_GetGlobalOptions_1 ( WXMP_Result * wResult );
 
 extern void
-XMP_PUBLIC WXMPMeta_SetGlobalOptions_1 ( XMP_OptionBits options,
+WXMPMeta_SetGlobalOptions_1 ( XMP_OptionBits options,
                               WXMP_Result *  wResult );
 
 // -------------------------------------------------------------------------------------------------
 
 extern void
-XMP_PUBLIC WXMPMeta_DumpNamespaces_1 ( XMP_TextOutputProc outProc,
+WXMPMeta_DumpNamespaces_1 ( XMP_TextOutputProc outProc,
                             void *             refCon,
                             WXMP_Result *      wResult );
 
 extern void
-XMP_PUBLIC WXMPMeta_Use_CPP_DOM_APIs_1( XMP_Bool useNewCoreAPIs,
-										WXMP_Result * wResult );
+WXMPMeta_DumpAliases_1 ( XMP_TextOutputProc outProc,
+                         void *             refCon,
+                         WXMP_Result *      wResult );
 
 // -------------------------------------------------------------------------------------------------
 
 extern void
-XMP_PUBLIC WXMPMeta_RegisterNamespace_1 ( XMP_StringPtr namespaceURI,
-                               XMP_StringPtr suggestedPrefix,
-                               void *        actualPrefix,
-                               SetClientStringProc SetClientString,
-                               WXMP_Result * wResult );
+WXMPMeta_RegisterNamespace_1 ( XMP_StringPtr   namespaceURI,
+                               XMP_StringPtr   prefix,
+                               WXMP_Result *   wResult );
 
 extern void
-XMP_PUBLIC WXMPMeta_GetNamespacePrefix_1 ( XMP_StringPtr namespaceURI,
-                                void *        namespacePrefix,
-                                SetClientStringProc SetClientString,
-                                WXMP_Result * wResult );
+WXMPMeta_GetNamespacePrefix_1 ( XMP_StringPtr   namespaceURI,
+                                XMP_StringPtr * namespacePrefix,
+                                XMP_StringLen * prefixSize,
+                                WXMP_Result *   wResult );
 
 extern void
-XMP_PUBLIC WXMPMeta_GetNamespaceURI_1 ( XMP_StringPtr namespacePrefix,
-                             void *        namespaceURI,
-                             SetClientStringProc SetClientString,
-                             WXMP_Result * wResult );
+WXMPMeta_GetNamespaceURI_1 ( XMP_StringPtr   namespacePrefix,
+                             XMP_StringPtr * namespaceURI,
+                             XMP_StringLen * uriSize,
+                             WXMP_Result *   wResult );
 
 extern void
-XMP_PUBLIC WXMPMeta_DeleteNamespace_1 ( XMP_StringPtr namespaceURI,
+WXMPMeta_DeleteNamespace_1 ( XMP_StringPtr namespaceURI,
                              WXMP_Result * wResult );
 
 // -------------------------------------------------------------------------------------------------
 
 extern void
-XMP_PUBLIC WXMPMeta_GetIXMPMetadata_1(XMPMetaRef	  xmpObjRef,
-WXMP_Result *  wResult );
-
+WXMPMeta_RegisterAlias_1 ( XMP_StringPtr  aliasNS,
+                           XMP_StringPtr  aliasProp,
+                           XMP_StringPtr  actualNS,
+                           XMP_StringPtr  actualProp,
+                           XMP_OptionBits arrayForm,
+                           WXMP_Result *  wResult );
 
 extern void
-XMP_PUBLIC WXMPMeta_GetProperty_1 ( XMPMetaRef       xmpRef,
+WXMPMeta_ResolveAlias_1 ( XMP_StringPtr    aliasNS,
+                          XMP_StringPtr    aliasProp,
+                          XMP_StringPtr *  actualNS,
+                          XMP_StringLen *  nsSize,
+                          XMP_StringPtr *  actualProp,
+                          XMP_StringLen *  propSize,
+                          XMP_OptionBits * arrayForm,
+                          WXMP_Result *    wResult );
+
+extern void
+WXMPMeta_DeleteAlias_1 ( XMP_StringPtr aliasNS,
+                         XMP_StringPtr aliasProp,
+                         WXMP_Result * wResult );
+
+extern void
+WXMPMeta_RegisterStandardAliases_1 ( XMP_StringPtr schemaNS,
+                                     WXMP_Result * wResult );
+
+// -------------------------------------------------------------------------------------------------
+
+extern void
+WXMPMeta_UnlockObject_1 ( XMPMetaRef     xmpRef,
+                          XMP_OptionBits options );
+
+// -------------------------------------------------------------------------------------------------
+
+extern void
+WXMPMeta_GetProperty_1 ( XMPMetaRef       xmpRef,
                          XMP_StringPtr    schemaNS,
                          XMP_StringPtr    propName,
-                         void *           propValue,
+                         XMP_StringPtr *  propValue,
+                         XMP_StringLen *  valueSize,
                          XMP_OptionBits * options,
-                         SetClientStringProc SetClientString,
                          WXMP_Result *    wResult ) /* const */ ;
 
 extern void
-XMP_PUBLIC WXMPMeta_GetArrayItem_1 ( XMPMetaRef       xmpRef,
+WXMPMeta_GetArrayItem_1 ( XMPMetaRef       xmpRef,
                           XMP_StringPtr    schemaNS,
                           XMP_StringPtr    arrayName,
                           XMP_Index        itemIndex,
-                          void *           itemValue,
+                          XMP_StringPtr *  itemValue,
+                          XMP_StringLen *  valueSize,
                           XMP_OptionBits * options,
-                          SetClientStringProc SetClientString,
                           WXMP_Result *    wResult ) /* const */ ;
 
 extern void
-XMP_PUBLIC WXMPMeta_GetStructField_1 ( XMPMetaRef       xmpRef,
+WXMPMeta_GetStructField_1 ( XMPMetaRef       xmpRef,
                             XMP_StringPtr    schemaNS,
                             XMP_StringPtr    structName,
                             XMP_StringPtr    fieldNS,
                             XMP_StringPtr    fieldName,
-                            void *           fieldValue,
+                            XMP_StringPtr *  fieldValue,
+                            XMP_StringLen *  valueSize,
                             XMP_OptionBits * options,
-                            SetClientStringProc SetClientString,
                             WXMP_Result *    wResult ) /* const */ ;
 
 extern void
-XMP_PUBLIC WXMPMeta_GetQualifier_1 ( XMPMetaRef       xmpRef,
+WXMPMeta_GetQualifier_1 ( XMPMetaRef       xmpRef,
                           XMP_StringPtr    schemaNS,
                           XMP_StringPtr    propName,
                           XMP_StringPtr    qualNS,
                           XMP_StringPtr    qualName,
-                          void *           qualValue,
+                          XMP_StringPtr *  qualValue,
+                          XMP_StringLen *  valueSize,
                           XMP_OptionBits * options,
-                          SetClientStringProc SetClientString,
                           WXMP_Result *    wResult ) /* const */ ;
 
 // -------------------------------------------------------------------------------------------------
 
 extern void
-XMP_PUBLIC WXMPMeta_SetProperty_1 ( XMPMetaRef     xmpRef,
+WXMPMeta_SetProperty_1 ( XMPMetaRef     xmpRef,
                          XMP_StringPtr  schemaNS,
                          XMP_StringPtr  propName,
                          XMP_StringPtr  propValue,
@@ -324,7 +340,7 @@ XMP_PUBLIC WXMPMeta_SetProperty_1 ( XMPMetaRef     xmpRef,
                          WXMP_Result *  wResult );
 
 extern void
-XMP_PUBLIC WXMPMeta_SetArrayItem_1 ( XMPMetaRef     xmpRef,
+WXMPMeta_SetArrayItem_1 ( XMPMetaRef     xmpRef,
                           XMP_StringPtr  schemaNS,
                           XMP_StringPtr  arrayName,
                           XMP_Index      itemIndex,
@@ -333,7 +349,7 @@ XMP_PUBLIC WXMPMeta_SetArrayItem_1 ( XMPMetaRef     xmpRef,
                           WXMP_Result *  wResult );
 
 extern void
-XMP_PUBLIC WXMPMeta_AppendArrayItem_1 ( XMPMetaRef     xmpRef,
+WXMPMeta_AppendArrayItem_1 ( XMPMetaRef     xmpRef,
                              XMP_StringPtr  schemaNS,
                              XMP_StringPtr  arrayName,
                              XMP_OptionBits arrayOptions,
@@ -342,7 +358,7 @@ XMP_PUBLIC WXMPMeta_AppendArrayItem_1 ( XMPMetaRef     xmpRef,
                              WXMP_Result *  wResult );
 
 extern void
-XMP_PUBLIC WXMPMeta_SetStructField_1 ( XMPMetaRef     xmpRef,
+WXMPMeta_SetStructField_1 ( XMPMetaRef     xmpRef,
                             XMP_StringPtr  schemaNS,
                             XMP_StringPtr  structName,
                             XMP_StringPtr  fieldNS,
@@ -352,7 +368,7 @@ XMP_PUBLIC WXMPMeta_SetStructField_1 ( XMPMetaRef     xmpRef,
                             WXMP_Result *  wResult );
 
 extern void
-XMP_PUBLIC WXMPMeta_SetQualifier_1 ( XMPMetaRef     xmpRef,
+WXMPMeta_SetQualifier_1 ( XMPMetaRef     xmpRef,
                           XMP_StringPtr  schemaNS,
                           XMP_StringPtr  propName,
                           XMP_StringPtr  qualNS,
@@ -364,20 +380,20 @@ XMP_PUBLIC WXMPMeta_SetQualifier_1 ( XMPMetaRef     xmpRef,
 // -------------------------------------------------------------------------------------------------
 
 extern void
-XMP_PUBLIC WXMPMeta_DeleteProperty_1 ( XMPMetaRef    xmpRef,
+WXMPMeta_DeleteProperty_1 ( XMPMetaRef    xmpRef,
                             XMP_StringPtr schemaNS,
                             XMP_StringPtr propName,
                             WXMP_Result * wResult );
 
 extern void
-XMP_PUBLIC WXMPMeta_DeleteArrayItem_1 ( XMPMetaRef    xmpRef,
+WXMPMeta_DeleteArrayItem_1 ( XMPMetaRef    xmpRef,
                              XMP_StringPtr schemaNS,
                              XMP_StringPtr arrayName,
                              XMP_Index     itemIndex,
                              WXMP_Result * wResult );
 
 extern void
-XMP_PUBLIC WXMPMeta_DeleteStructField_1 ( XMPMetaRef    xmpRef,
+WXMPMeta_DeleteStructField_1 ( XMPMetaRef    xmpRef,
                                XMP_StringPtr schemaNS,
                                XMP_StringPtr structName,
                                XMP_StringPtr fieldNS,
@@ -385,7 +401,7 @@ XMP_PUBLIC WXMPMeta_DeleteStructField_1 ( XMPMetaRef    xmpRef,
                                WXMP_Result * wResult );
 
 extern void
-XMP_PUBLIC WXMPMeta_DeleteQualifier_1 ( XMPMetaRef    xmpRef,
+WXMPMeta_DeleteQualifier_1 ( XMPMetaRef    xmpRef,
                              XMP_StringPtr schemaNS,
                              XMP_StringPtr propName,
                              XMP_StringPtr qualNS,
@@ -395,20 +411,20 @@ XMP_PUBLIC WXMPMeta_DeleteQualifier_1 ( XMPMetaRef    xmpRef,
 // -------------------------------------------------------------------------------------------------
 
 extern void
-XMP_PUBLIC WXMPMeta_DoesPropertyExist_1 ( XMPMetaRef    xmpRef,
+WXMPMeta_DoesPropertyExist_1 ( XMPMetaRef    xmpRef,
                                XMP_StringPtr schemaNS,
                                XMP_StringPtr propName,
                                WXMP_Result * wResult ) /* const */ ;
 
 extern void
-XMP_PUBLIC WXMPMeta_DoesArrayItemExist_1 ( XMPMetaRef    xmpRef,
+WXMPMeta_DoesArrayItemExist_1 ( XMPMetaRef    xmpRef,
                                 XMP_StringPtr schemaNS,
                                 XMP_StringPtr arrayName,
                                 XMP_Index     itemIndex,
                                 WXMP_Result * wResult ) /* const */ ;
 
 extern void
-XMP_PUBLIC WXMPMeta_DoesStructFieldExist_1 ( XMPMetaRef    xmpRef,
+WXMPMeta_DoesStructFieldExist_1 ( XMPMetaRef    xmpRef,
                                   XMP_StringPtr schemaNS,
                                   XMP_StringPtr structName,
                                   XMP_StringPtr fieldNS,
@@ -416,7 +432,7 @@ XMP_PUBLIC WXMPMeta_DoesStructFieldExist_1 ( XMPMetaRef    xmpRef,
                                   WXMP_Result * wResult ) /* const */ ;
 
 extern void
-XMP_PUBLIC WXMPMeta_DoesQualifierExist_1 ( XMPMetaRef    xmpRef,
+WXMPMeta_DoesQualifierExist_1 ( XMPMetaRef    xmpRef,
                                 XMP_StringPtr schemaNS,
                                 XMP_StringPtr propName,
                                 XMP_StringPtr qualNS,
@@ -426,19 +442,20 @@ XMP_PUBLIC WXMPMeta_DoesQualifierExist_1 ( XMPMetaRef    xmpRef,
 // -------------------------------------------------------------------------------------------------
 
 extern void
-XMP_PUBLIC WXMPMeta_GetLocalizedText_1 ( XMPMetaRef       xmpRef,
+WXMPMeta_GetLocalizedText_1 ( XMPMetaRef       xmpRef,
                               XMP_StringPtr    schemaNS,
                               XMP_StringPtr    altTextName,
                               XMP_StringPtr    genericLang,
                               XMP_StringPtr    specificLang,
-                              void *           clientLang,
-                              void *           clientValue,
+                              XMP_StringPtr *  actualLang,
+                              XMP_StringLen *  langSize,
+                              XMP_StringPtr *  itemValue,
+                              XMP_StringLen *  valueSize,
                               XMP_OptionBits * options,
-                              SetClientStringProc SetClientString,
                               WXMP_Result *    wResult ) /* const */ ;
 
 extern void
-XMP_PUBLIC WXMPMeta_SetLocalizedText_1 ( XMPMetaRef     xmpRef,
+WXMPMeta_SetLocalizedText_1 ( XMPMetaRef     xmpRef,
                               XMP_StringPtr  schemaNS,
                               XMP_StringPtr  altTextName,
                               XMP_StringPtr  genericLang,
@@ -447,18 +464,10 @@ XMP_PUBLIC WXMPMeta_SetLocalizedText_1 ( XMPMetaRef     xmpRef,
                               XMP_OptionBits options,
                               WXMP_Result *  wResult );
 
-extern void
-XMP_PUBLIC WXMPMeta_DeleteLocalizedText_1 ( XMPMetaRef       xmpRef,
-                              XMP_StringPtr    schemaNS,
-                              XMP_StringPtr    altTextName,
-                              XMP_StringPtr    genericLang,
-                              XMP_StringPtr    specificLang,
-                              WXMP_Result *    wResult );
-
 // -------------------------------------------------------------------------------------------------
 
 extern void
-XMP_PUBLIC WXMPMeta_GetProperty_Bool_1 ( XMPMetaRef       xmpRef,
+WXMPMeta_GetProperty_Bool_1 ( XMPMetaRef       xmpRef,
                               XMP_StringPtr    schemaNS,
                               XMP_StringPtr    propName,
                               XMP_Bool *       propValue,
@@ -466,7 +475,7 @@ XMP_PUBLIC WXMPMeta_GetProperty_Bool_1 ( XMPMetaRef       xmpRef,
                               WXMP_Result *    wResult ) /* const */ ;
 
 extern void
-XMP_PUBLIC WXMPMeta_GetProperty_Int_1 ( XMPMetaRef       xmpRef,
+WXMPMeta_GetProperty_Int_1 ( XMPMetaRef       xmpRef,
                              XMP_StringPtr    schemaNS,
                              XMP_StringPtr    propName,
                              XMP_Int32 *      propValue,
@@ -474,7 +483,7 @@ XMP_PUBLIC WXMPMeta_GetProperty_Int_1 ( XMPMetaRef       xmpRef,
                              WXMP_Result *    wResult ) /* const */ ;
 
 extern void
-XMP_PUBLIC WXMPMeta_GetProperty_Int64_1 ( XMPMetaRef       xmpRef,
+WXMPMeta_GetProperty_Int64_1 ( XMPMetaRef       xmpRef,
                                XMP_StringPtr    schemaNS,
                                XMP_StringPtr    propName,
                                XMP_Int64 *      propValue,
@@ -482,7 +491,7 @@ XMP_PUBLIC WXMPMeta_GetProperty_Int64_1 ( XMPMetaRef       xmpRef,
                                WXMP_Result *    wResult ) /* const */ ;
 
 extern void
-XMP_PUBLIC WXMPMeta_GetProperty_Float_1 ( XMPMetaRef       xmpRef,
+WXMPMeta_GetProperty_Float_1 ( XMPMetaRef       xmpRef,
                                XMP_StringPtr    schemaNS,
                                XMP_StringPtr    propName,
                                double *         propValue,
@@ -490,7 +499,7 @@ XMP_PUBLIC WXMPMeta_GetProperty_Float_1 ( XMPMetaRef       xmpRef,
                                WXMP_Result *    wResult ) /* const */ ;
 
 extern void
-XMP_PUBLIC WXMPMeta_GetProperty_Date_1 ( XMPMetaRef       xmpRef,
+WXMPMeta_GetProperty_Date_1 ( XMPMetaRef       xmpRef,
                               XMP_StringPtr    schemaNS,
                               XMP_StringPtr    propName,
                               XMP_DateTime *   propValue,
@@ -498,7 +507,7 @@ XMP_PUBLIC WXMPMeta_GetProperty_Date_1 ( XMPMetaRef       xmpRef,
                               WXMP_Result *    wResult ) /* const */ ;
 
 extern void
-XMP_PUBLIC WXMPMeta_SetProperty_Bool_1 ( XMPMetaRef     xmpRef,
+WXMPMeta_SetProperty_Bool_1 ( XMPMetaRef     xmpRef,
                               XMP_StringPtr  schemaNS,
                               XMP_StringPtr  propName,
                               XMP_Bool       propValue,
@@ -506,7 +515,7 @@ XMP_PUBLIC WXMPMeta_SetProperty_Bool_1 ( XMPMetaRef     xmpRef,
                               WXMP_Result *  wResult );
 
 extern void
-XMP_PUBLIC WXMPMeta_SetProperty_Int_1 ( XMPMetaRef     xmpRef,
+WXMPMeta_SetProperty_Int_1 ( XMPMetaRef     xmpRef,
                              XMP_StringPtr  schemaNS,
                              XMP_StringPtr  propName,
                              XMP_Int32      propValue,
@@ -514,7 +523,7 @@ XMP_PUBLIC WXMPMeta_SetProperty_Int_1 ( XMPMetaRef     xmpRef,
                              WXMP_Result *  wResult );
 
 extern void
-XMP_PUBLIC WXMPMeta_SetProperty_Int64_1 ( XMPMetaRef     xmpRef,
+WXMPMeta_SetProperty_Int64_1 ( XMPMetaRef     xmpRef,
                                XMP_StringPtr  schemaNS,
                                XMP_StringPtr  propName,
                                XMP_Int64      propValue,
@@ -522,7 +531,7 @@ XMP_PUBLIC WXMPMeta_SetProperty_Int64_1 ( XMPMetaRef     xmpRef,
                                WXMP_Result *  wResult );
 
 extern void
-XMP_PUBLIC WXMPMeta_SetProperty_Float_1 ( XMPMetaRef     xmpRef,
+WXMPMeta_SetProperty_Float_1 ( XMPMetaRef     xmpRef,
                                XMP_StringPtr  schemaNS,
                                XMP_StringPtr  propName,
                                double         propValue,
@@ -530,7 +539,7 @@ XMP_PUBLIC WXMPMeta_SetProperty_Float_1 ( XMPMetaRef     xmpRef,
                                WXMP_Result *  wResult );
 
 extern void
-XMP_PUBLIC WXMPMeta_SetProperty_Date_1 ( XMPMetaRef           xmpRef,
+WXMPMeta_SetProperty_Date_1 ( XMPMetaRef           xmpRef,
                               XMP_StringPtr        schemaNS,
                               XMP_StringPtr        propName,
                               const XMP_DateTime & propValue,
@@ -540,46 +549,46 @@ XMP_PUBLIC WXMPMeta_SetProperty_Date_1 ( XMPMetaRef           xmpRef,
 // -------------------------------------------------------------------------------------------------
 
 extern void
-XMP_PUBLIC WXMPMeta_GetObjectName_1 ( XMPMetaRef    xmpRef,
-                           void *        objName,
-                           SetClientStringProc SetClientString,
-                           WXMP_Result * wResult ) /* const */ ;
+WXMPMeta_GetObjectName_1 ( XMPMetaRef      xmpRef,
+                           XMP_StringPtr * namePtr,
+                           XMP_StringLen * nameLen,
+                           WXMP_Result *   wResult ) /* const */ ;
 
 extern void
-XMP_PUBLIC WXMPMeta_SetObjectName_1 ( XMPMetaRef    xmpRef,
+WXMPMeta_SetObjectName_1 ( XMPMetaRef    xmpRef,
                            XMP_StringPtr name,
                            WXMP_Result * wResult );
 
 extern void
-XMP_PUBLIC WXMPMeta_GetObjectOptions_1 ( XMPMetaRef    xmpRef,
+WXMPMeta_GetObjectOptions_1 ( XMPMetaRef    xmpRef,
                               WXMP_Result * wResult ) /* const */ ;
 
 extern void
-XMP_PUBLIC WXMPMeta_SetObjectOptions_1 ( XMPMetaRef     xmpRef,
+WXMPMeta_SetObjectOptions_1 ( XMPMetaRef     xmpRef,
                               XMP_OptionBits options,
                               WXMP_Result *  wResult );
 
 extern void
-XMP_PUBLIC WXMPMeta_Sort_1 ( XMPMetaRef    xmpRef,
+WXMPMeta_Sort_1 ( XMPMetaRef    xmpRef,
                   WXMP_Result * wResult );
 
 extern void
-XMP_PUBLIC WXMPMeta_Erase_1 ( XMPMetaRef    xmpRef,
+WXMPMeta_Erase_1 ( XMPMetaRef    xmpRef,
                    WXMP_Result * wResult );
 
 extern void
-XMP_PUBLIC WXMPMeta_Clone_1 ( XMPMetaRef     xmpRef,
+WXMPMeta_Clone_1 ( XMPMetaRef     xmpRef,
                    XMP_OptionBits options,
                    WXMP_Result *  wResult ) /* const */ ;
 
 extern void
-XMP_PUBLIC WXMPMeta_CountArrayItems_1 ( XMPMetaRef    xmpRef,
+WXMPMeta_CountArrayItems_1 ( XMPMetaRef    xmpRef,
                              XMP_StringPtr schemaNS,
                              XMP_StringPtr arrayName,
                              WXMP_Result * wResult ) /* const */ ;
 
 extern void
-XMP_PUBLIC WXMPMeta_DumpObject_1 ( XMPMetaRef         xmpRef,
+WXMPMeta_DumpObject_1 ( XMPMetaRef         xmpRef,
                         XMP_TextOutputProc outProc,
                         void *             refCon,
                         WXMP_Result *      wResult ) /* const */ ;
@@ -587,44 +596,22 @@ XMP_PUBLIC WXMPMeta_DumpObject_1 ( XMPMetaRef         xmpRef,
 // -------------------------------------------------------------------------------------------------
 
 extern void
-XMP_PUBLIC WXMPMeta_ParseFromBuffer_1 ( XMPMetaRef     xmpRef,
+WXMPMeta_ParseFromBuffer_1 ( XMPMetaRef     xmpRef,
                              XMP_StringPtr  buffer,
                              XMP_StringLen  bufferSize,
                              XMP_OptionBits options,
                              WXMP_Result *  wResult );
 
 extern void
-XMP_PUBLIC WXMPMeta_SerializeToBuffer_1 ( XMPMetaRef     xmpRef,
-                               void *         pktString,
-                               XMP_OptionBits options,
-                               XMP_StringLen  padding,
-                               XMP_StringPtr  newline,
-                               XMP_StringPtr  indent,
-                               XMP_Index      baseIndent,
-                               SetClientStringProc SetClientString,
-                               WXMP_Result *  wResult ) /* const */ ;
-
-// -------------------------------------------------------------------------------------------------
-
-extern void
-XMP_PUBLIC WXMPMeta_SetDefaultErrorCallback_1 ( XMPMeta_ErrorCallbackWrapper wrapperProc,
-									 XMPMeta_ErrorCallbackProc    clientProc,
-									 void *        context,
-									 XMP_Uns32     limit,
-                   					 WXMP_Result * wResult );
-
-extern void
-XMP_PUBLIC WXMPMeta_SetErrorCallback_1 ( XMPMetaRef    xmpRef,
-                              XMPMeta_ErrorCallbackWrapper wrapperProc,
-							  XMPMeta_ErrorCallbackProc    clientProc,
-							  void *        context,
-							  XMP_Uns32     limit,
-							  WXMP_Result * wResult );
-
-extern void
-XMP_PUBLIC WXMPMeta_ResetErrorCallbackLimit_1 ( XMPMetaRef    xmpRef,
-							  		 XMP_Uns32     limit,
-							  		 WXMP_Result * wResult );
+WXMPMeta_SerializeToBuffer_1 ( XMPMetaRef      xmpRef,
+                               XMP_StringPtr * pktString,
+                               XMP_StringLen * pktSize,
+                               XMP_OptionBits  options,
+                               XMP_StringLen   padding,
+                               XMP_StringPtr   newline,
+                               XMP_StringPtr   indent,
+                               XMP_Index       baseIndent,
+                               WXMP_Result *   wResult ) /* const */ ;
 
 // =================================================================================================
 

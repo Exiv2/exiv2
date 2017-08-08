@@ -3,7 +3,7 @@
 
 // =================================================================================================
 // ADOBE SYSTEMS INCORPORATED
-// Copyright 2002 Adobe Systems Incorporated
+// Copyright 2002-2007 Adobe Systems Incorporated
 // All Rights Reserved
 //
 // NOTICE: Adobe permits you to use, modify, and distribute this file in accordance with the terms
@@ -28,18 +28,16 @@
 /// \endcode
 
 
-#include "XMP.hpp" // ! This must be the first include!
+#include "XMPSDK.hpp" // ! This must be the first include!
 
 #define XMP_ClientBuild 1
 
-#if XMP_WinBuild
+#ifdef _MSC_VER
     #if XMP_DebugBuild
         #pragma warning ( push, 4 )
     #else
         #pragma warning ( push, 3 )
     #endif
-
-   	#pragma warning ( disable : 4127 ) // conditional expression is constant
     #pragma warning ( disable : 4189 ) // local variable is initialized but not referenced
     #pragma warning ( disable : 4702 ) // unreachable code
     #pragma warning ( disable : 4800 ) // forcing value to bool 'true' or 'false' (performance warning)
@@ -55,14 +53,10 @@
     template class TXMPMeta <TXMP_STRING_TYPE>;
     template class TXMPIterator <TXMP_STRING_TYPE>;
     template class TXMPUtils <TXMP_STRING_TYPE>;
-	#if XMP_INCLUDE_XMPFILES
-	    #include "client-glue/TXMPFiles.incl_cpp"
-	    template class TXMPFiles <TXMP_STRING_TYPE>;
-   #endif
 
 #endif
 
-#if XMP_WinBuild
+#ifdef _MSC_VER
     #pragma warning ( pop )
 #endif
 

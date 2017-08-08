@@ -2,12 +2,12 @@
 #define __TXMPIterator_hpp__ 1
 
 #if ( ! __XMP_hpp__ )
-    #error "Do not directly include, use XMP.hpp"
+    #error "Do not directly include, use XMPSDK.hpp"
 #endif
 
 // =================================================================================================
 // ADOBE SYSTEMS INCORPORATED
-// Copyright 2002 Adobe Systems Incorporated
+// Copyright 2002-2007 Adobe Systems Incorporated
 // All Rights Reserved
 //
 // NOTICE: Adobe permits you to use, modify, and distribute this file in accordance with the terms
@@ -19,7 +19,7 @@
 /// \brief API for access to the XMP Toolkit iteration services.
 ///
 /// \c TXMPIterator is the template class providing iteration services for the XMP Toolkit. It must
-/// be instantiated with a string class such as \c std::string. See the instructions in XMP.hpp, and
+/// be instantiated with a string class such as \c std::string. See the instructions in XMPSDK.hpp, and
 /// the Overview for a discussion of the overall architecture of the XMP API.
 // =================================================================================================
 
@@ -29,7 +29,7 @@
 ///
 /// \c TXMPIterator provides a uniform means to iterate over the schema and properties within an XMP
 /// object. \c TXMPIterator is a template class which must be instantiated with a string class such
-/// as \c std::string. See the instructions in XMP.hpp, and the Overview for a discussion of the
+/// as \c std::string. See the instructions in XMPSDK.hpp, and the Overview for a discussion of the
 /// overall architecture of the XMP API. Access these functions through the concrete class,
 /// \c SXMPIterator.
 ///
@@ -62,7 +62,7 @@
 /// are visited next. The fields of a struct or items of an array are visited after the qualifiers
 /// of the parent.
 ///
-/// You can specify options when contructing the iteration object to control how the iteration is
+/// You can specify options when constructing the iteration object to control how the iteration is
 /// performed.
 ///
 ///   \li \c #kXMP_IterJustChildren - Visit just the immediate children of the root. Skip the root
@@ -71,6 +71,8 @@
 ///   \li \c #kXMP_IterJustLeafNodes - Visit just the leaf property nodes and their qualifiers.
 ///   \li \c #kXMP_IterJustLeafName - Return just the leaf component of the node names. The default
 ///   is to return the full path name.
+///   \li \c #kXMP_IterIncludeAliases - Include aliases as part of the iteration. Since aliases are
+///   not actual nodes the default iteration does not visit them.
 ///   \li \c #kXMP_IterOmitQualifiers - Do not visit the qualifiers of a node.
 // =================================================================================================
 
@@ -225,8 +227,6 @@ private:
     XMPIteratorRef  iterRef;
 
     TXMPIterator();	// ! Hidden, must choose property or table iteration.
-
-	static void SetClientString ( void * clientPtr, XMP_StringPtr valuePtr, XMP_StringLen valueLen );
 
 };  // class TXMPIterator
 
