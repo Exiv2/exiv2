@@ -2,12 +2,12 @@
 #define __TXMPUtils_hpp__ 1
 
 #if ( ! __XMP_hpp__ )
-    #error "Do not directly include, use XMPSDK.hpp"
+    #error "Do not directly include, use XMP.hpp"
 #endif
 
 // =================================================================================================
 // ADOBE SYSTEMS INCORPORATED
-// Copyright 2002-2008 Adobe Systems Incorporated
+// Copyright 2002 Adobe Systems Incorporated
 // All Rights Reserved
 //
 // NOTICE: Adobe permits you to use, modify, and distribute this file in accordance with the terms
@@ -19,7 +19,7 @@
 /// \brief API for access to the XMP Toolkit utility services.
 ///
 /// \c TXMPUtils is the template class providing utility services for the XMP Toolkit. It must be
-/// instantiated with a string class such as \c std::string. See the instructions in XMPSDK.hpp, and
+/// instantiated with a string class such as \c std::string. See the instructions in XMP.hpp, and
 /// the Overview for a discussion of the overall architecture of the XMP API.
 // =================================================================================================
 
@@ -28,7 +28,7 @@
 /// @brief API for access to the XMP Toolkit utility services.
 ///
 /// \c TXMPUtils is a template class which must be instantiated with a string class such as
-/// \c std::string. See the instructions in XMPSDK.hpp, and the Overview for a discussion of the overall
+/// \c std::string. See the instructions in XMP.hpp, and the Overview for a discussion of the overall
 /// architecture of the XMP API.
 ///
 /// This class defines helper functions that support the basic metadata manipulation provided by
@@ -320,7 +320,7 @@ public:
 	///
 	///	Strings can be specified as null-terminated UTF-8 (\c #XMP_StringPtr), or as string
 	///	objects (\c tStringObj) of the type declared when instantiating the XMP classes; see
-	///	\c XMPSDK.hpp. Alternate forms of each conversion function allow either type of string.
+	///	\c XMP.hpp. Alternate forms of each conversion function allow either type of string.
 
     // ---------------------------------------------------------------------------------------------
     /// @brief \c ConvertFromBool() converts a Boolean value to a string.
@@ -399,7 +399,9 @@ public:
     /// "0000-00-00...".
     ///
     /// @note ISO 8601 does not allow years less than 1000 or greater than 9999. This API allows
-    /// any year, even negative ones.
+    /// any year, even negative ones. The W3C profile also requires a time zone designator if a time
+    /// is present, this API treats the time zone designator as optional. The XMP_DateTime type has
+    /// an explicit notion of zone-less time.
     ///
     /// @param binValue The date/time value to be converted.
     ///
@@ -523,7 +525,9 @@ public:
     /// A missing TZD is assumed to be UTC.
     ///
     /// @note ISO 8601 does not allow years less than 1000 or greater than 9999. This API allows
-    /// any year, even negative ones.
+    /// any year, even negative ones. The W3C profile also requires a time zone designator if a time
+    /// is present, this API treats the time zone designator as optional. The XMP_DateTime type has
+    /// an explicit notion of zone-less time.
     ///
     /// @param strValue The ISO 8601 string representation of the date/time, specified as a
     /// null-terminated UTF-8 string.
@@ -581,8 +585,8 @@ public:
     // ---------------------------------------------------------------------------------------------
     /// @brief \c ConvertToUTCTime() ensures that a time is UTC.
     ///
-    /// If the time zone is not UTC, the time is adjusted and the time zone set to be UTC. If the
-    /// time zone is already UTC, the value is not modified.
+    /// If the time zone is not UTC, the time is adjusted and the time zone set to be UTC. The value
+    /// is not modified if the time zone is already UTC or if the value has no time zone.
     ///
     /// @param time	A pointer to the date-time value, which is modified in place.
 
@@ -592,7 +596,8 @@ public:
     /// @brief \c ConvertToLocalTime() ensures that a time is local.
     ///
     /// If the time zone is not the local zone, the time is adjusted and the time zone set to be local.
-    /// If the time zone is already the local zone, the value is not modified.
+    /// The value is not modified if the time zone is already the local zone or if the value has no
+    /// time zone.
     ///
     /// @param time	A pointer to the date-time value, which is modified in place.
 
@@ -600,6 +605,8 @@ public:
 
     // ---------------------------------------------------------------------------------------------
     /// @brief \c CompareDateTime() compares the order of two date/time values.
+    ///
+    /// Both values are treated as in the same time zone if either has no time zone.
     ///
     /// @param left The left-side date/time value.
     ///
@@ -809,6 +816,75 @@ public:
 									 XMP_OptionBits         options,
 									 const tStringObj &     catedStr );
 
+    /// @brief \c ApplyTemplate() modifies a working XMP object according to a template object.
+    ///
+    /// The XMP template can be used to add, replace or delete properties from the working XMP object.
+	/// This function replaces the previous \c AppendProperties() function, which is no longer available.
+    ///	The actions that you specify determine how the template is applied. Each action can be applied
+    ///	individually or combined; if you do not specify any actions, the properties and values in the working
+    ///	XMP object do not change.
+    ///
+    /// These actions are available:
+    ///   \li Clear (\c #kXMPTemplate_ClearUnnamedProperties): Deletes top-level properties. 
+    ///	        Any top-level property that is present in the template (even with empty value)
+    ///	        is retained. All other top-level properties in the working object are deleted.
+    ///
+    ///   \li Add (\c #kXMPTemplate_AddNewProperties): Adds new properties to the working object if the
+    ///	        template properties have values. See additional detail below.
+    ///
+    ///   \li Replace (\c #kXMPTemplate_ReplaceExistingProperties): Replaces the values of existing top-level
+    ///		properties in the working XMP if the value forms match those in the template. Properties
+    ///		with empty values in the template are ignored. If combined with Clear or Add actions, 
+    ///		those take precedence; values are cleared or added, rather than replaced.
+    ///
+    ///   \li Replace/Delete empty (\c #kXMPTemplate_ReplaceWithDeleteEmpty): Replaces values in the same way
+    ///		as the simple Replace action, and also deletes properties if the value in the template is empty.
+    ///		If combined with Clear or Add actions, those take precedence; values are cleared or added,
+    ///		rather than replaced. 
+    ///
+    ///   \li Include internal (\c #kXMPTemplate_IncludeInternalProperties): Performs specified action  
+    ///		on internal properties as well as external properties. By default, internal properties 
+    ///	        are ignored for all actions.
+    ///
+    ///	The Add behavior depends on the type of property:
+    ///	<ul>
+    ///	<li> If a top-level property is not in the working XMP, and has a value in the template,
+	///      the property and value are added. Empty properties are not added. </li>
+    ///	<li> If a property is in both the working XMP and template, the value forms must match, otherwise 
+    ///	     the template is ignored for that property.</li>
+    ///	<li> If a struct is present in both the working XMP and template, the individual fields of the 
+    ///	     template struct are added as appropriate; that is, the logic is recursively applied to the fields.
+    ///	     Struct values are equivalent if they have the same fields with equivalent values. </li>
+    ///	<li> If an array is present in both the working XMP and template, items from the template are 
+    ///	     added if the value forms match. Array values match if they have sets of equivalent items, 
+    ///	     regardless of order.</li>
+    ///	<li> Alt-text arrays use the \c xml:lang qualifier as a key, adding languages that are missing. </li>
+    /// 	 </ul>
+    /// 	Array item checking is n-squared; this can be time-intensive if the Replace option is
+    /// 	not specified. Each source item is checked to see if it already exists in the destination,
+    /// 	without regard to order or duplicates. Simple items are compared by value and \c xml:lang
+    /// 	qualifier; other qualifiers are ignored. Structs are recursively compared by field names,
+    /// 	without regard to field order. Arrays are compared by recursively comparing all items. 
+
+    /// @param workingXMP The destination XMP object.
+    ///
+    /// @param templateXMP The template to apply to the destination XMP object.
+    ///
+    /// @param actions Option flags to control the copying. If none are specified, the properties and values 
+    ///		in the working XMP do not change. A logical OR of these bit-flag constants:
+    ///   \li \c #kXMPTemplate_ClearUnnamedProperties -- Delete anything that is not in the template 
+    ///   \li \c #kXMPTemplate_AddNewProperties -- Add properties; see detailed description.
+    ///   \li \c #kXMPTemplate_ReplaceExistingProperties -- Replace the values of existing properties.
+    ///   \li \c #kXMPTemplate_ReplaceWithDeleteEmpty -- Replace the values of existing properties 
+    ///	     and delete properties if the new value is empty.
+    ///   \li \c #kXMPTemplate_IncludeInternalProperties -- Operate on internal properties as well as
+    ///	     external properties.
+    ///
+
+    static void ApplyTemplate ( TXMPMeta<tStringObj> *       workingXMP,
+								const TXMPMeta<tStringObj> & templateXMP,
+                                XMP_OptionBits               actions );
+
     // ---------------------------------------------------------------------------------------------
     /// @brief \c  RemoveProperties() removes multiple properties from an XMP object.
     ///
@@ -847,82 +923,6 @@ public:
 								   XMP_OptionBits         options = 0 );
 
     // ---------------------------------------------------------------------------------------------
-    /// @brief \c AppendProperties() adds or moves properties from one XMP object to another.
-    ///
-    /// The default operation is to append only external properties that do not already exist in the
-    /// destination. Option flags allow you to	add internal properties, and to merge values of
-    /// properties that exist in both the source and destination.
-    ///
-    ///   \li \c #kXMPUtil_DoAllProperties: Operate on all top-level properties, external and
-    ///   internal. You can use this flag together with \c #kXMPUtil_ReplaceOldValues to replace the
-    ///   values of existing top-level properties.
-    ///
-    ///   \li \c #kXMPUtil_ReplaceOldValues: Propagate all top-level properties from the source to
-    ///   the destination, replacing any existing values. The values of properties in the
-    ///   destination that are not in the source are not modified.<br>
-    ///   The keep-or-replace-old notion also applies within structs and arrays. Top-level
-    ///   properties are added to the destination if they do not already exist. If they do exist but
-    ///   differ in form (simple/struct/array) then the destination is not modified. If the forms
-    ///   match, simple properties are left unchanged, while structs and arrays are merged.<br>
-    ///   Do not use this option when the processing is more complicated. <<than what??>>
-    ///
-    ///   \li \c #kXMPUtil_DeleteEmptyValues: An empty value in the source XMP causes the
-    ///   corresponding destination property to be deleted. By default, empty values are treated in
-    ///   the same way as non-empty values. An empty value is a simple empty string, an array with
-    ///   no items,or a struct with no fields. Qualifiers are ignored.
-    ///
-    /// The detailed behavior is defined by the following pseudo-code:
-    ///
-    /// <pre>
-    /// AppendProperties ( sourceXMP, destXMP, options ):
-    ///    doAll = options & kXMPUtil_DoAllProperties
-    ///    replaceOld = options & kXMPUtil_ReplaceOldValues
-    ///    deleteEmpty = options & kXMPUtil_DeleteEmptyValues
-    ///    for all source schema (top level namespaces):
-    ///    for all top level properties in sourceSchema:
-    ///    if doAll or prop is external:
-    ///       AppendSubtree ( sourceNode, destSchema, replaceOld, deleteEmpty )
-    ///
-    /// AppendSubtree ( sourceNode, destParent, replaceOld, deleteEmpty ):
-    ///    if deleteEmpty and source value is empty:
-    ///       delete the corresponding child from destParent
-    ///    else if sourceNode not in destParent (by name):
-    ///       copy sourceNode's subtree to destParent
-    ///    else if replaceOld:
-    ///       delete subtree from destParent
-    ///       copy sourceNode's subtree to destParent
-    ///    else: // (Already exists in dest and not replacing, merge structs and arrays)
-    ///       if sourceNode and destNode forms differ:
-    ///          return, leave the destNode alone
-    ///       else if form is a struct:
-    ///          for each field in sourceNode:
-    ///             AppendSubtree ( sourceNode.field, destNode, replaceOld )
-    ///       else if form is an alt-text array:
-    ///          copy new items by xml:lang value into the destination
-    ///       else if form is an array:
-    ///          copy new items by value into the destination, ignoring order and duplicates
-    /// </pre>
-    ///
-    /// Array item checking is n-squared; this can be time-intensive if the replace-old options is
-    /// not specified. Each source item is checked to see if it already exists in the destination,
-    /// without regard to order or duplicates. Simple items are compared by value and \c xml:lang
-    /// qualifier; other qualifiers are ignored. Structs are recursively compared by field names,
-    /// without regard to field order. Arrays are compared by recursively comparing all items.
-    ///
-    /// @param source The source XMP object.
-    ///
-    /// @param dest The destination XMP object.
-    ///
-    /// @param options Option flags to control the copying.	A logical OR of these bit-flag constants:
-    ///   \li \c kXMPUtil_DoAllProperties - Operate on internal properties in addition to external properties.
-    ///   \li \c kXMPUtil_ReplaceOldValues - Replace the values of existing properties.
-    ///   \li \c kXMPUtil_DeleteEmptyValues - Delete properties if the new value is empty.
-
-    static void AppendProperties ( const TXMPMeta<tStringObj> & source,
-								   TXMPMeta<tStringObj> *       dest,
-								   XMP_OptionBits               options = 0 );
-
-    // ---------------------------------------------------------------------------------------------
     /// @brief \c DuplicateSubtree() replicates a subtree from one XMP object into another.
     ///
     /// The destination can be a different namespace and root location in the same object, or the
@@ -956,7 +956,9 @@ public:
 
     // =============================================================================================
 
-    // =============================================================================================
+private:
+
+	static void SetClientString ( void * clientPtr, XMP_StringPtr valuePtr, XMP_StringLen valueLen );
 
 };  // class TXMPUtils
 

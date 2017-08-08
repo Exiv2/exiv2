@@ -82,7 +82,7 @@ if [ ! -e Adobe ]; then (
 
 ##
 # copy headers and build libraries
-if [ "$result" == "0" ]; then (
+if [ -z "$result" ]; then (
     rm -rf include
     cp -R  Adobe/XMP-Toolkit-SDK-CC201607/public/include include
 

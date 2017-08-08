@@ -1,6 +1,6 @@
 // =================================================================================================
 // ADOBE SYSTEMS INCORPORATED
-// Copyright 2002-2007 Adobe Systems Incorporated
+// Copyright 2002 Adobe Systems Incorporated
 // All Rights Reserved
 //
 // NOTICE:	Adobe permits you to use, modify, and distribute this file in accordance with the terms
@@ -11,7 +11,7 @@
 /// \file TXMPIterator.incl_cpp
 /// \brief The implementation of the TXMPIterator template class.
 
-#include "XMPSDK.hpp"
+#include "XMP.hpp"
 #include "client-glue/WXMP_Common.hpp"
 #include "client-glue/WXMPIterator.hpp"
 
@@ -76,6 +76,15 @@
 #define TableIterCTor(schemaNS,propName,options)													\
 	WrapCheckIterRef ( newRef, zXMPIterator_TableCTor_1 ( schemaNS, propName, options ) );	\
 	this->iterRef = newRef
+
+// -------------------------------------------------------------------------------------------------
+
+XMP_MethodIntro(TXMPIterator,void)::
+SetClientString ( void * clientPtr, XMP_StringPtr valuePtr, XMP_StringLen valueLen )
+{
+	tStringObj * clientStr = (tStringObj*) clientPtr;
+	clientStr->assign ( valuePtr, valueLen );
+}
 
 // -------------------------------------------------------------------------------------------------
 
@@ -199,19 +208,7 @@ Next ( tStringObj *		schemaNS /* = 0 */,
 	   tStringObj *		propValue /* = 0 */,
 	   XMP_OptionBits * options /* = 0 */ )
 {
-	XMP_StringPtr schemaPtr = 0;
-	XMP_StringLen schemaLen = 0;
-	XMP_StringPtr pathPtr = 0;
-	XMP_StringLen pathLen = 0;
-	XMP_StringPtr valuePtr = 0;
-	XMP_StringLen valueLen = 0;
-	WrapCheckBool ( found, zXMPIterator_Next_1 ( &schemaPtr, &schemaLen, &pathPtr, &pathLen, &valuePtr, &valueLen, options ) );
-	if ( found ) {
-		if ( schemaNS != 0 ) schemaNS->assign ( schemaPtr, schemaLen );
-		if ( propPath != 0 ) propPath->assign ( pathPtr, pathLen );
-		if ( propValue != 0 ) propValue->assign ( valuePtr, valueLen );
-		WXMPUtils_UnlockIter_1 ( this->iterRef, 0 );
-	}
+	WrapCheckBool ( found, zXMPIterator_Next_1 ( schemaNS, propPath, propValue, options, SetClientString ) );
 	return found;
 }
 

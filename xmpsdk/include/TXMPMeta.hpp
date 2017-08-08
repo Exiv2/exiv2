@@ -2,12 +2,17 @@
 #define __TXMPMeta_hpp__    1
 
 #if ( ! __XMP_hpp__ )
-    #error "Do not directly include, use XMPSDK.hpp"
+    #error "Do not directly include, use XMP.hpp"
+#endif
+
+#include "XMPCore/XMPCoreDefines.h"
+#if ENABLE_CPP_DOM_MODEL
+	#include "XMPCore/XMPCoreFwdDeclarations.h"
 #endif
 
 // =================================================================================================
 // ADOBE SYSTEMS INCORPORATED
-// Copyright 2002-2008 Adobe Systems Incorporated
+// Copyright 2002 Adobe Systems Incorporated
 // All Rights Reserved
 //
 // NOTICE:  Adobe permits you to use, modify, and distribute this file in accordance with the terms
@@ -20,8 +25,9 @@
 ///
 /// \c TXMPMeta is the template class providing the core services of the XMP Toolkit. It must be
 /// instantiated with a string class such as \c std::string. Read the Toolkit Overview for
-/// information about the overall architecture of the XMP API, and the documentation for \c XMPSDK.hpp
-/// for specific instantiation instructions.
+/// information about the overall architecture of the XMP API, and the documentation for \c XMP.hpp
+/// for specific instantiation instructions. Please that you MUST NOT derive a class from this class,
+/// consider this class FINAL, use it directly. [1279031]
 ///
 /// Access these functions through the concrete class, \c SXMPMeta.
 // =================================================================================================
@@ -32,7 +38,7 @@
 ///
 /// \c TXMPMeta is the template class providing the core services of the XMP Toolkit. It should be
 /// instantiated with a string class such as \c std::string. Read the Toolkit Overview for
-/// information about the overall architecture of the XMP API, and the documentation for \c XMPSDK.hpp
+/// information about the overall architecture of the XMP API, and the documentation for \c XMP.hpp
 /// for specific instantiation instructions.
 ///
 /// Access these functions through the concrete class, \c SXMPMeta.
@@ -99,7 +105,7 @@ public:
 
     // =============================================================================================
     // Constuctors and destructor
-    // =========================
+    // ==========================
 
     // ---------------------------------------------------------------------------------------------
     /// \name Constructors and destructor
@@ -235,23 +241,6 @@ public:
     static XMP_Status DumpNamespaces ( XMP_TextOutputProc outProc,
                      				   void *             clientData );
 
-    // ---------------------------------------------------------------------------------------------
-    /// @brief \c DumpAliases() sends the list of registered aliases and corresponding actuals to a handler.
-    ///
-    /// For debugging. Invokes a client-defined callback for each line of output.
-    ///
-    /// This function is static; make the call directly from the concrete class (\c SXMPMeta).
-    ///
-    /// @param outProc The client-defined procedure to handle each line of output.
-    ///
-    /// @param clientData A pointer to client-defined data to pass to the handler.
-    ///
-    /// @return	A success-fail status value, returned from the handler. Zero is success, failure
-    /// values are client-defined.
-
-    static XMP_Status DumpAliases ( XMP_TextOutputProc outProc,
-                  					void *             clientData );
-
     /// @}
 
     // ---------------------------------------------------------------------------------------------
@@ -267,20 +256,30 @@ public:
     /// new URI.
 
     // ---------------------------------------------------------------------------------------------
-    /// @brief \c RegisterNamespace() registers a namespace URI with a prefix.
+    /// @brief \c RegisterNamespace() registers a namespace URI with a suggested prefix.
     ///
-    /// If the the prefix is in use, the URI of the existing prefix is overwritten.
+    /// If the URI is not registered but the suggested prefix is in use, a unique prefix is created
+    /// from the suggested one. The actual registered prefix is returned. The function result tells
+    /// if the registered prefix is the suggested one. It is not an error if the URI is already
+    /// registered, regardless of the prefix.
     ///
     /// This function is static; make the call directly from the concrete class (\c SXMPMeta).
     ///
     /// @param namespaceURI The URI for the namespace. Must be a valid XML URI.
     ///
-    /// @param prefix The prefix to be used. Must be a valid XML name.
+    /// @param suggestedPrefix The suggested prefix to be used if the URI is not yet registered.
+    /// Must be a valid XML name.
+    ///
+    /// @param registeredPrefix [out] A string object in which to return the prefix actually
+    /// registered for this URI.
+    ///
+    /// @return True if the registered prefix matches the suggested prefix.
     ///
     /// @note No checking is done on either the URI or the prefix.  */
 
-    static void RegisterNamespace ( XMP_StringPtr namespaceURI,
-                                    XMP_StringPtr prefix );
+    static bool RegisterNamespace ( XMP_StringPtr namespaceURI,
+                        			XMP_StringPtr suggestedPrefix,
+                       				tStringObj *  registeredPrefix );
 
     // ---------------------------------------------------------------------------------------------
     /// @brief \c GetNamespacePrefix() obtains the prefix for a registered namespace URI, and
@@ -331,132 +330,6 @@ public:
 
     /// @}
 
-    // ---------------------------------------------------------------------------------------------
-    /// \name Alias functions
-    /// @{
-    ///
-    /// Aliases in XMP serve the same purpose as Windows file shortcuts, Mac OS file aliases, or
-    /// UNIX file symbolic links. The aliases are multiple names for the same property. One
-    /// distinction of XMP aliases is that they are ordered. An alias name points to an actual name;
-    /// the primary significance of the actual name is that it is the preferred name for output,
-    /// generally the most widely recognized name.
-    ///
-    /// XMP restricts the names that can be aliased. The alias must be a top-level property name,
-    /// not a field within a structure or an element within an array. The actual can be a top-level
-    /// property name, the first element within a top-level array, or the default element in an
-    /// alt-text array. This does not mean the alias can only be a simple property; you can alias a
-    /// top-level structure or array to an identical top-level structure or array, or to the first
-    /// item of an array of structures.
-
-    // ---------------------------------------------------------------------------------------------
-    /// @brief \c RegisterAlias() associates an alias name with an actual name.
-    ///
-    /// Defines an alias mapping from one namespace/property to another. Both property names must be
-    /// simple names. An alias can be a direct mapping, where the alias and actual have the same
-    /// data type. It is also possible to map a simple alias to an item in an array. This can either
-    /// be to the first item in the array, or to the 'x-default' item in an alt-text array. Multiple
-    /// alias names can map to the same actual, as long as the forms match. It is a no-op to
-    /// reregister an alias in an identical fashion.
-    ///
-    /// This function is static; make the call directly from the concrete class (\c SXMPMeta).
-    ///
-    /// @param aliasNS The namespace URI for the alias. Must not be null or the empty string.
-    ///
-    /// @param aliasProp The name of the alias. Must be a simple name, not null or the empty string
-    /// and not a general path expression.
-    ///
-    /// @param actualNS The namespace URI for the actual. Must not be null or the empty string.
-    ///
-    /// @param actualProp The name of the actual. Must be a simple name, not null or the empty string
-    /// and not a general path expression.
-    ///
-    /// @param arrayForm Provides the array form for simple aliases to an array item. This is needed
-    /// to know what kind of array to create if set for the first time via the simple alias. Pass
-    /// \c #kXMP_NoOptions, the default value, for all direct aliases regardless of whether the actual
-    /// data type is an array or not. One of these constants:
-    ///
-    ///   \li \c #kXMP_NoOptions - This is a direct mapping. The actual data type does not matter.
-    ///   \li \c #kXMP_PropValueIsArray - The actual is an unordered array, the alias is to the
-    ///   first element of the array.
-    ///   \li \c #kXMP_PropArrayIsOrdered - The actual is an ordered array, the alias is to the
-    ///   first element of the array.
-    ///   \li \c #kXMP_PropArrayIsAlternate - The actual is an alternate array, the alias is to the
-    ///   first element of the array.
-    ///   \li \c #kXMP_PropArrayIsAltText - The actual is an alternate text array, the alias is to
-    ///   the 'x-default' element of the array.  */
-
-    static void RegisterAlias ( XMP_StringPtr  aliasNS,
-                    			XMP_StringPtr  aliasProp,
-                    			XMP_StringPtr  actualNS,
-                    			XMP_StringPtr  actualProp,
-                    			XMP_OptionBits arrayForm = kXMP_NoOptions );
-
-    // ---------------------------------------------------------------------------------------------
-    /// @brief \c ResolveAlias() reports whether a name is an alias, and what it is aliased to.
-    ///
-    /// Output strings are not written until return, so you can use this to
-    /// "reduce" a path to the base form as follows:
-    /// <pre>
-    ///   isAlias = SXMPMeta::ResolveAlias ( ns.c_str(), path.c_str(), &ns, &path, 0 );
-    /// </pre>
-    /// This function is static; make the call directly from the concrete class (\c SXMPMeta).
-    ///
-    /// @param aliasNS The namespace URI for the alias. Must not be null or the empty string.
-    ///
-    /// @param aliasProp The name of the alias. Can be an arbitrary path expression path, must not
-    /// null or the empty string.
-    ///
-    /// @param actualNS  [out] A string object in which to return the namespace URI for the actual.
-    /// Not modified if the given name is not an alias. Can be null if the namespace URI is not wanted.
-    ///
-    /// @param actualProp  [out] A string object in which to return the path of the actual.
-    /// Not modified if the given name is not an alias. Can be null if the actual's path is not wanted.
-    ///
-    /// @param arrayForm [out] A string object in which to return the array form of the actual. This
-    /// is 0 (\c #kXMP_NoOptions) if the alias and actual forms match, otherwise it is the options
-    /// passed to \c TXMPMeta::RegisterAlias(). Not modified if the given name is not an alias. Can
-    /// be null if the actual's array form is not wanted.
-    ///
-    /// @return True if the provided name is an alias.
-
-    static bool ResolveAlias ( XMP_StringPtr    aliasNS,
-                   			   XMP_StringPtr    aliasProp,
-                  			   tStringObj *     actualNS,
-                 			   tStringObj *     actualProp,
-                 			   XMP_OptionBits * arrayForm );
-
-    // ---------------------------------------------------------------------------------------------
-    /// @brief \c DeleteAlias() deletes an alias.
-    ///
-    /// This deletes only the registration of the alias, it does not delete the actual property.
-    /// It deletes any view of the property through the alias name.
-    ///
-    /// This function is static; make the call directly from the concrete class (\c SXMPMeta).
-    ///
-    /// @param aliasNS The namespace URI for the alias. Must not be null or the empty string.
-    ///
-    /// @param aliasProp The name of the alias. Must be a simple name, not null or the empty string
-    /// and not a general path expression. It is not an error to provide
-    /// a name that has not been registered as an alias.
-
-    static void DeleteAlias ( XMP_StringPtr aliasNS,
-                  			  XMP_StringPtr aliasProp );
-
-    // ---------------------------------------------------------------------------------------------
-    /// @brief \c RegisterStandardAliases() registers all of the built-in aliases for a standard namespace.
-    ///
-    /// The built-in aliases are documented in the XMP Specification. This function registers the
-    /// aliases in the given namespace; that is, it creates the aliases from this namespace to
-    /// actuals in other namespaces.
-    ///
-    /// This function is static; make the call directly from the concrete class (\c SXMPMeta).
-    ///
-    /// @param schemaNS The namespace URI for the aliases. Must not be null or the empty string.
-
-    static void RegisterStandardAliases ( XMP_StringPtr schemaNS );
-
-    /// @}
-
     // =============================================================================================
     // Basic property manipulation functions
     // =====================================
@@ -493,8 +366,7 @@ public:
     /// parts of a registered namespace.
     ///
     /// @param schemaNS The namespace URI for the property. The URI must be for a registered
-    /// namespace. Can be null or the empty string if the first component of the \c propName path
-    /// contains a namespace prefix.
+    /// namespace. Must not be null or the empty string.
     ///
     /// @param propName The name of the property. Can be a general path expression, must not be null
     /// or the empty string. The first component can be a namespace prefix; if present without a
@@ -1085,7 +957,7 @@ public:
 
     bool GetProperty_Int ( XMP_StringPtr    schemaNS,
 						   XMP_StringPtr    propName,
-						   long *           propValue,
+						   XMP_Int32 *           propValue,
 						   XMP_OptionBits * options ) const;
 
     // ---------------------------------------------------------------------------------------------
@@ -1110,7 +982,7 @@ public:
 
     bool GetProperty_Int64 ( XMP_StringPtr    schemaNS,
 							 XMP_StringPtr    propName,
-							 long long *      propValue,
+							 XMP_Int64 *      propValue,
 							 XMP_OptionBits * options ) const;
 
     // ---------------------------------------------------------------------------------------------
@@ -1204,7 +1076,7 @@ public:
 
     void SetProperty_Int ( XMP_StringPtr  schemaNS,
 						   XMP_StringPtr  propName,
-						   long           propValue,
+						   XMP_Int32      propValue,
 						   XMP_OptionBits options = 0 );
 
     // ---------------------------------------------------------------------------------------------
@@ -1226,7 +1098,7 @@ public:
 
     void SetProperty_Int64 ( XMP_StringPtr  schemaNS,
 							 XMP_StringPtr  propName,
-							 long long      propValue,
+							 XMP_Int64     propValue,
 							 XMP_OptionBits options = 0 );
 
     // ---------------------------------------------------------------------------------------------
@@ -1494,8 +1366,30 @@ public:
 						    XMP_StringPtr      specificLang,
 						    const tStringObj & itemValue,
 						    XMP_OptionBits     options = 0 );
+	
+    // ---------------------------------------------------------------------------------------------
+	/// @brief \c DeleteLocalizedText() deletes specific language alternatives from an alt-text array.
+	///
+	///	The rules for finding the language value to delete are similar to those for \c #SetLocalizedText().
+	///
+	/// @param schemaNS The namespace URI for the alt-text array; see \c #GetProperty().
+	///
+	/// @param altTextName The name of the alt-text array. Can be a general path expression, must
+	/// not be null or the empty string; see \c #GetProperty() for namespace prefix usage.
+	///
+	/// @param genericLang The name of the generic language as an RFC 3066 primary subtag. Can be
+	/// null or the empty string if no generic language is wanted.
+	///
+	/// @param specificLang The name of the specific language as an RFC 3066 tag, or "x-default".
+	/// Must not be null or the empty string.
+    ///
+	void
+	DeleteLocalizedText ( XMP_StringPtr    schemaNS,
+							XMP_StringPtr    altTextName,
+							XMP_StringPtr    genericLang,
+							XMP_StringPtr    specificLang );
 
-    /// @}
+	/// @}
 
    	// =============================================================================================
     /// \name Creating and reading serialized RDF.
@@ -1555,7 +1449,6 @@ public:
     ///   \li \c kXMP_ReadOnlyPacket - Create a read-only XML packet wapper. Cannot be specified
     ///   together with \c kXMP_OmitPacketWrapper.
     ///   \li \c kXMP_UseCompactFormat - Use a highly compact RDF syntax and layout.
-    ///   \li \c kXMP_WriteAliasComments - Include XML comments for aliases.
     ///   \li \c kXMP_IncludeThumbnailPad - Include typical space for a JPEG thumbnail in the
     ///   padding if no \c xmp:Thumbnails property is present. Cannot be specified together with
     ///   \c kXMP_OmitPacketWrapper.
@@ -1607,7 +1500,6 @@ public:
     ///   \li \c kXMP_ReadOnlyPacket - Create a read-only XML packet wapper. Cannot be specified
     ///   together with \c kXMP_OmitPacketWrapper.
     ///   \li \c kXMP_UseCompactFormat - Use a highly compact RDF syntax and layout.
-    ///   \li \c kXMP_WriteAliasComments - Include XML comments for aliases.
     ///   \li \c kXMP_IncludeThumbnailPad - Include typical space for a JPEG thumbnail in the
     ///   padding if no \c xmp:Thumbnails property is present. Cannot be specified together with
     ///   \c kXMP_OmitPacketWrapper.
@@ -1772,7 +1664,7 @@ public:
     /// @return	A success-fail status value, returned from the handler. Zero is success, failure
     /// values are client-defined.
     ///
-    /// @see Static functions \c DumpNamespaces() and \c DumpAliases()
+    /// @see Static function \c DumpNamespaces()
 
     XMP_Status DumpObject ( XMP_TextOutputProc outProc,
                  			void *	           clientData ) const;
@@ -1788,6 +1680,65 @@ public:
     /// @}
 
     // =============================================================================================
+    // Error notifications
+    // ===================
+
+    // ---------------------------------------------------------------------------------------------
+    /// \name Error notifications
+    /// @{
+	///
+	/// From the beginning through version 5.5, XMP Tookit errors result in throwing an \c XMP_Error
+	/// exception. For the most part exceptions were thrown early and thus API calls aborted as soon
+	/// as an error was detected. Starting in version 5.5, support has been added for notifications
+	/// of errors arising in calls to \c TXMPMeta functions.
+	///
+	/// A client can register an error notification callback function for a \c TXMPMeta object. This
+	/// can be done as a global default or individually to each object. The global default applies
+	/// to all objects created after it is registered. Within the object there is no difference
+	/// between the global default or explicitly registered callback. The callback function returns
+	/// a \c bool value indicating if recovery should be attempted (true) or an exception thrown
+	/// (false). If no callback is registered, a best effort at recovery and continuation will be
+	/// made with an exception thrown if recovery is not possible.
+	///
+	/// The number of notifications delivered for a given TXMPMeta object can be limited. This is
+	/// intended to reduce chatter from multiple or cascading errors. The limit is set when the
+	/// callback function is registered. This limits the number of notifications of the highest
+	/// severity delivered or less. If a higher severity error occurs, the counting starts again.
+	/// The limit and counting can be reset at any time, see \c ResetErrorCallbackLimit.
+	
+	//  --------------------------------------------------------------------------------------------
+	/// @brief SetDefaultErrorCallback() registers a global default error notification callback.
+	///
+	/// @param proc The client's callback function.
+	///
+	/// @param context Client-provided context for the callback.
+	///
+	/// @param limit A limit on the number of notifications to be delivered.
+	
+	static void SetDefaultErrorCallback ( XMPMeta_ErrorCallbackProc proc, void* context = 0, XMP_Uns32 limit = 1 );
+	
+	//  --------------------------------------------------------------------------------------------
+	/// @brief SetErrorCallback() registers an error notification callback.
+	///
+	/// @param proc The client's callback function.
+	///
+	/// @param context Client-provided context for the callback.
+	///
+	/// @param limit A limit on the number of notifications to be delivered.
+	
+	void SetErrorCallback ( XMPMeta_ErrorCallbackProc proc, void* context = 0, XMP_Uns32 limit = 1 );
+	
+	//  --------------------------------------------------------------------------------------------
+	/// @brief ResetErrorCallbackLimit() resets the error notification limit and counting. It has no
+	///        effect if an error notification callback function is not registered. 
+	///
+	/// @param limit A limit on the number of notifications to be delivered.
+	
+	void ResetErrorCallbackLimit ( XMP_Uns32 limit = 1 );
+
+    /// @}
+
+    // =============================================================================================
 
     XMPMetaRef xmpRef;  // *** Should be private, see below.
 
@@ -1797,6 +1748,8 @@ private:
     friend class TXMPIterator <class tStringObj>;
     friend class TXMPUtils <class tStringObj>;
 #endif
+
+	static void SetClientString ( void * clientPtr, XMP_StringPtr valuePtr, XMP_StringLen valueLen );
 
 };  // class TXMPMeta
 
