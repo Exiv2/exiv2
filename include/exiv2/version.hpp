@@ -49,7 +49,7 @@
   */
   typedef std::vector<std::regex> exv_grep_keys_t ;
 #else
-# if EXV_HAVE_REGEX
+# ifdef EXV_HAVE_REGEX
 #  include <regex.h>
   /*!
    @brief exv_grep_keys_t is a vector of keys to match to strings

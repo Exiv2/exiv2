@@ -454,7 +454,7 @@ int Params::evalGrep( const std::string& optarg)
 #if __cplusplus >= CPLUSPLUS11
     greps_.push_back( std::regex(pattern, bIgnoreCase ? std::regex::icase|std::regex::extended : std::regex::extended) );
 #else
-#if EXV_HAVE_REGEX
+#ifdef EXV_HAVE_REGEX
     // try to compile a reg-exp from the input argument and store it in the vector
     const size_t i = greps_.size();
     greps_.resize(i + 1);
