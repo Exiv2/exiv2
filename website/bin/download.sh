@@ -14,14 +14,14 @@ for P in trunk macosx linux cygwin mingw msvc; do
 	p=exiv2-$version-$P.tar.gz
 	size=$(ls -la html/builds/$p | cut -d' ' -f 5)
 	date=$(stat -c "%y" html/builds/$p | cut -d' ' -f 1)
-	md5=$(md5sum html/builds/$p  | cut -d' ' -f 1)
+	checkSum=$(sha256sum html/builds/$p  | cut -d' ' -f 1)
 
 	echo "<tr>  \
             <td>Exiv2 v$version $P</td> \
             <td><a href=\"builds/${p}\">${p}</a></td> \
             <td>$size</td> \
             <td class=\"text-nowrap\">$date</td> \
-            <td>$md5</td> \
+            <td>$checkSum</td> \
           </tr>"  >> $basedir/var/$table
 
 	platform=$P

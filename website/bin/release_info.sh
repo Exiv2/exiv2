@@ -20,6 +20,9 @@ ls -la html/exiv2-${version}.tar.gz | awk '{printf "%s", $5}' > $basedir/var/__s
 #ls -la html/exiv2-${version}-doc.tar.gz | awk '{printf "%s", $5}' > $basedir/var/__size_doc_pkg__
 ls -la html/exiv2-${version}-win.zip | awk '{printf "%s", $5}' > $basedir/var/__size_win_pkg__
 
-md5sum html/exiv2-${version}.tar.gz | awk '{printf "%s", $1}' > $basedir/var/__md5sum_src_pkg__
+sha256sum html/exiv2-${version}.tar.gz | awk '{printf "%s", $1}' > $basedir/var/__md5sum_src_pkg__
 #md5sum html/exiv2-${version}-doc.tar.gz | awk '{printf "%s", $1}' > $basedir/var/__md5sum_doc_pkg__
-md5sum html/exiv2-${version}-win.zip | awk '{printf "%s", $1}' > $basedir/var/__md5sum_win_pkg__
+sha256sum html/exiv2-${version}-win.zip | awk '{printf "%s", $1}' > $basedir/var/__md5sum_win_pkg__
+
+# That's all Folks!
+##

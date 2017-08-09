@@ -86,7 +86,7 @@ __navbar__
       <th>Filename</th>
       <th>Size (Bytes)</th>
       <th>Date</th>
-      <th>MD5</th>
+      <th>SHA256</th>
     </tr>
   </thead>
   <tbody>
