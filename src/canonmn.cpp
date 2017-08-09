@@ -864,6 +864,7 @@ namespace Exiv2 {
         { 150, "Sigma 30mm f/1.4 DC HSM"                                    }, // 2
         { 150, "Sigma 24mm f/1.8 DG Macro EX"                               }, // 3
         { 150, "Sigma 28mm f/1.8 DG Macro EX"                               }, // 4
+        { 150, "Sigma 18-35mm f/1.8 DC HSM | A"                             }, // 5
         { 151, "Canon EF 200mm f/2.8L"                                      },
         { 152, "Canon EF 300mm f/4L IS"                                     }, // 0
         { 152, "Sigma 12-24mm f/4.5-5.6 EX DG ASPHERICAL HSM"               }, // 1
@@ -1058,6 +1059,7 @@ namespace Exiv2 {
         { 4156,"Canon EF 50mm f/1.8 STM"                                    },
         { 4157,"Canon EF-M 18-150mm 1:3.5-6.3 IS STM"                       },
         { 4158,"Canon EF-S 18-55mm f/4-5.6 IS STM"                          },
+        { 4160,"Canon EF-S 35mm f/2.8 Macro IS STM"                         },
         {36910,"Canon EF 70-300mm f/4-5.6 IS II USM"                        },
         {36912,"Canon EF-S 18-135mm f/3.5-5.6 IS USM"                       },
         {65535,"n/a"                                                        }
