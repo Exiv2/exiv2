@@ -218,16 +218,12 @@ SET( REMOTETEST           ../samples/remotetest.cpp)
 # modify source lists to suit environment
 IF(NOT EXV_HAVE_TIMEGM )
     SET( LIBEXIV2_SRC     ${LIBEXIV2_SRC} localtime.c    )
-    IF ( EXV_HAS_XMP_SDK_LIBS )
-        SET( EXIV2_SRC    ${EXIV2_SRC}    localtime.c    )
-    ENDIF()
+    SET( EXIV2_SRC    ${EXIV2_SRC}    localtime.c    )
     SET( PATHTEST_SRC     ${PATHTEST_SRC} localtime.c    )
 ENDIF()
 
 IF( MSVC )
-    IF ( EXV_HAS_XMP_SDK_LIBS )
-        SET( EXIV2_SRC    ${EXIV2_SRC}    getopt_win32.c )
-    ENDIF()
+    SET( EXIV2_SRC    ${EXIV2_SRC}    getopt_win32.c )
     SET( LIBEXIV2_SRC     ${LIBEXIV2_SRC} getopt_win32.c )
 ENDIF( MSVC )
 
