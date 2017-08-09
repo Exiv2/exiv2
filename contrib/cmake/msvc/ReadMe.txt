@@ -20,7 +20,7 @@ How to use this
 1 Setting up your machine
   You need cmake.exe, svn.exe and 7z.exe on your PATH.
 
-  Please get "Windows" versions of cmake/svn/7z etc (NOT Cygwin or MinGW versions)
+  Please get "Windows" versions of cmake/svn/7z (NOT Cygwin or MinGW versions)
 
   You should initialize the Visual Studio environment
   using the version of vcvars32.bat or vcvarsall.bat
@@ -36,18 +36,18 @@ How to use this
   vcvars 2010 64     # sets 2010 x86_amd64
 
 2 Always build "out of source".  I recommend:
-  cd <exiv2dir>
-  mkdir build
+  cd <exiv2dir>\contrib\cmake\cmake
+  cmd.exe
+  vcvars 2015 64
+  cmakeBuild --help           # display syntax and options 
+  cmakeBuild --rebuild
+  ....
+  exit
 
   +-------------------------------------------------------+
   | Never attempt to build in a directory with a space in |
   | the path name.  Example c:\My Build Tree\exiv2\build  |
   +-------------------------------------------------------+
-
-  Ensure that cmakeBuild.cmd and cmakeDefaults.cmd are on your path (eg your build directory)
-  copy  contrib\cmake\msvc\* build
-  cd    build
-  cmakeBuild --help
 
   You should never have reason to modify the code in cmakeBuild.cmd
   You may wish to change the defaults in cmakeDefaults.cmd
@@ -66,14 +66,14 @@ How to use this
   cmakeBuild --silent
 
 3 What gets built?
-  The build is performed in  build\temp
-  The output is generated in build\dist
-                             build\dist\..mumble..\bin contains *.exe and *.dll files
-                             build\dist\..mumble..\lib contains *.lib files
-                             build\dist\..mumble..\include contains *.h and *.hpp files
+  The build is performed in  work
+  The output is generated in dist
+                             dist\..mumble..\bin contains *.exe and *.dll files
+                             dist\..mumble..\lib contains *.lib files
+                             dist\..mumble..\include contains *.h and *.hpp files
 
   mumble identifies the compiler and build.
-  Example C:\gnu\exiv2\build\dist\2013\x64\dll\Release\bin
+  Example C:\gnu\github\exiv2\contrib\cmake\msvc\dist\2013\x64\dll\Release\bin
   2013    = Visual Studio      Choices: 2005/2008/2010/2012/2013/2015
   x64     = 64 bit build                Win32/x64
   dll     = shared library              dll/static

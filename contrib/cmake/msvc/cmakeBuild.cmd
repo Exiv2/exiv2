@@ -17,6 +17,7 @@ if /I "%1" == "--zlib"            set "_ZLIB_=%2"& shift
 
 if /I "%1" == "--help"            call:Help && goto end
 if /I "%1" == "--dryrun"          set "_DRYRUN_=1"
+if /I "%1" == "--nosamples"       set "_NOSAMPLES_=1"
 if /I "%1" == "--pause"           set "_PAUSE_=1"
 if /I "%1" == "--rebuild"         set "_REBUILD_=1"
 if /I "%1" == "--silent"          set "_SILENT_=1"
@@ -212,7 +213,11 @@ call:buildLib %_ZLIB_% -DCMAKE_INSTALL_PREFIX=%_INSTALL_%
 
 echo ---------- EXPAT building with cmake -----------------
 set "_TARGET_=--target expat"
-call:buildLib %_EXPAT_% -DCMAKE_INSTALL_PREFIX=%_INSTALL_%
+if /I "%_MODE_%" == "static" (
+  call:buildLib %_EXPAT_% -DCMAKE_INSTALL_PREFIX=%_INSTALL_% -DBUILD_shared=0 -DCMAKE_C_FLAGS_RELEASE=/MT -DBUILD_examples=0 -DBUILD_tests=0
+) else (
+  call:buildLib %_EXPAT_% -DCMAKE_INSTALL_PREFIX=%_INSTALL_% 
+)
 set  _TARGET_=
 
 if DEFINED _WEBREADY_ (
@@ -282,11 +287,13 @@ pushd        "%EXIV_B%"
 	    set ENABLE_SHARED=OFF
 	    set ENABLE_DYNAMIC=OFF
 	)
+	                        set BUILD_SAMPLES=ON
+	if DEFINED _NOSAMPLES_  set BUILD_SAMPLES=OFF
 
     call:run cmake -G "%_GENERATOR_%" -DCMAKE_BUILD_TYPE=%_CONFIG_% %_LINK_% -DCMAKE_INSTALL_PREFIX=%_INSTALL_% -DCMAKE_LIBRARY_PATH=%_LIBPATH_% -DCMAKE_INCLUDE_PATH=%_INCPATH_% ^
-              -DEXIV2_ENABLE_NLS=OFF                -DEXIV2_ENABLE_BUILD_SAMPLES=ON ^
+              -DEXIV2_ENABLE_NLS=OFF                -DEXIV2_ENABLE_BUILD_SAMPLES=%BUILD_SAMPLES% ^
               -DEXIV2_ENABLE_WIN_UNICODE=OFF        -DEXIV2_ENABLE_SHARED=%ENABLE_SHARED% ^
-              -DEXIV2_ENABLE_DYNAMIC_RUNTIME=%ENABLE_DYNAMIC%                  ^
+              -DEXIV2_ENABLE_DYNAMIC_RUNTIME=%ENABLE_DYNAMIC% ^
               %ENABLE_WEBREADY%  %ENABLE_CURL%  %ENABLE_LIBSSH% %ENABLE_VIDEO% ^
              "%_EXIV2_%"
 
