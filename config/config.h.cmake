@@ -110,6 +110,10 @@
 /* Define to 1 if you have the <unistd.h> header file. */
 #cmakedefine EXV_HAVE_UNISTD_H 1
 
+#if !defined( EXV_HAVE_UNISTD_H) && defined(__CYGWIN__)
+#define EXV_HAVE_UNISTD_H 1
+#endif
+
 // Definition to indicate if you have the <sys/mman.h> header file.
 #cmakedefine EXV_HAVE_SYS_MMAN_H
 

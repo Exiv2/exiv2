@@ -206,7 +206,6 @@ SET( EXIV2_HDR            exiv2app.hpp
                           utils.hpp
 )
 
-
 # connection test application
 SET( CONNTEST             ../samples/conntest.cpp)
 # exifprint application
@@ -217,13 +216,13 @@ SET( REMOTETEST           ../samples/remotetest.cpp)
 ##
 # modify source lists to suit environment
 IF(NOT EXV_HAVE_TIMEGM )
-    SET( LIBEXIV2_SRC     ${LIBEXIV2_SRC} localtime.c    )
-    SET( EXIV2_SRC    ${EXIV2_SRC}    localtime.c    )
-    SET( PATHTEST_SRC     ${PATHTEST_SRC} localtime.c    )
+    SET( LIBEXIV2_SRC     ${LIBEXIV2_SRC} localtime.c )
+    SET(    EXIV2_SRC        ${EXIV2_SRC} localtime.c )
+    SET( PATHTEST_SRC     ${PATHTEST_SRC} localtime.c )
 ENDIF()
 
 IF( MSVC )
-    SET( EXIV2_SRC    ${EXIV2_SRC}    getopt_win32.c )
+    SET(    EXIV2_SRC        ${EXIV2_SRC} getopt_win32.c )
     SET( LIBEXIV2_SRC     ${LIBEXIV2_SRC} getopt_win32.c )
 ENDIF( MSVC )
 
