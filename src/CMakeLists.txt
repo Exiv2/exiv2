@@ -216,14 +216,14 @@ SET( REMOTETEST           ../samples/remotetest.cpp)
 
 ##
 # modify source lists to suit environment
-IF(NOT HAVE_TIMEGM )
+IF(NOT EXV_HAVE_TIMEGM )
     SET( LIBEXIV2_SRC     ${LIBEXIV2_SRC} localtime.c    )
-    SET( EXIV2_SRC        ${EXIV2_SRC}    localtime.c    )
+    SET( EXIV2_SRC    ${EXIV2_SRC}    localtime.c    )
     SET( PATHTEST_SRC     ${PATHTEST_SRC} localtime.c    )
-ENDIF( NOT HAVE_TIMEGM )
+ENDIF()
 
 IF( MSVC )
-    SET( EXIV2_SRC        ${EXIV2_SRC}    getopt_win32.c )
+    SET( EXIV2_SRC    ${EXIV2_SRC}    getopt_win32.c )
     SET( LIBEXIV2_SRC     ${LIBEXIV2_SRC} getopt_win32.c )
 ENDIF( MSVC )
 
@@ -254,6 +254,8 @@ IF ( UNIX )
     SET (FREEBSD 1)
   ENDIF()
 ENDIF()
+
+target_include_directories(exiv2lib PRIVATE ${CMAKE_SOURCE_DIR}/xmpsdk/include)
 
 if ( MSVC )
     source_group("Header Files" FILES ${LIBEXIV2_HDR} )

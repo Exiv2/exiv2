@@ -30,10 +30,9 @@ SET( PACKAGE_COPYRIGHT      "Andreas Huggel" )
 SET( PACKAGE_BUGREPORT      "http://github.com/exiv2/exiv2" )
 SET( PACKAGE                "exiv2" )
 SET( PACKAGE_NAME           "exiv2" )
-SET( PACKAGE_STRING         "exiv2 0.26" )
-SET( PACKAGE_TARNAME        "exiv2" )
 SET( PACKAGE_VERSION        "0.26" )
 SET( PACKAGE_URL            "http://www.exiv2.org" )
+SET( PACKAGE_STRING         "${PACKAGE_NAME} ${PACKAGE_VERSION}" )
 SET( GENERIC_LIB_VERSION    "26.0.0" )
 SET( GENERIC_LIB_SOVERSION  "26" )
 
@@ -118,7 +117,8 @@ IF( EXIV2_ENABLE_XMP )
     ENDIF()
 ENDIF( EXIV2_ENABLE_XMP )
 
-INCLUDE( config/CMakeChecks.txt )
+include( config/generateConfigFile.cmake )
+include( config/CMakeChecks.txt )
 
 SET( INSTALL_TARGET_STANDARD_ARGS
      RUNTIME DESTINATION bin
@@ -146,11 +146,6 @@ SET( XMPSRC ${CMAKE_CURRENT_SOURCE_DIR}/xmpsdk/src/ExpatAdapter.cpp
             ${CMAKE_CURRENT_SOURCE_DIR}/xmpsdk/src/XMPUtils-FileInfo.cpp
             ${CMAKE_CURRENT_SOURCE_DIR}/xmpsdk/src/XMPUtils.cpp
 )
-
-# the following lines need to be added to circumvent the error in xmpsdk\src\MD5.h
-IF( ${EXV_HAVE_STDINT_H} )
-    ADD_DEFINITIONS( -DEXV_HAVE_STDINT_H )
-ENDIF( ${EXV_HAVE_STDINT_H} )
 
 ADD_SUBDIRECTORY( xmpsdk )
 ADD_SUBDIRECTORY( src )

@@ -595,7 +595,7 @@ namespace Action {
             std::smatch m;
             result = std::regex_search(key,m, *g);
 #else
-#if EXV_HAVE_REGEX
+#ifdef EXV_HAVE_REGEX
             result = regexec( &(*g), key.c_str(), 0, NULL, 0) == 0 ;
 #else
             std::string Pattern(g->pattern_);

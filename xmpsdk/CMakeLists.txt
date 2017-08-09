@@ -29,7 +29,15 @@ if(NOT MSVC)
 endif()
 
 IF( EXIV2_ENABLE_XMP AND EXIV2_ENABLE_LIBXMP )
+    check_include_file( "stdint.h"  EXV_HAVE_STDINT_H )
+
     ADD_LIBRARY( xmp STATIC ${XMPSRC} )
+
+    target_include_directories(xmp PRIVATE ${CMAKE_SOURCE_DIR}/xmpsdk/include)
+    if (EXV_HAVE_STDINT_H)
+        target_compile_definitions(xmp PRIVATE EXV_HAVE_STDINT_H)
+    endif()
+
     GET_TARGET_PROPERTY( XMPLIB xmp LOCATION )
     if ( NOT MSVC )
         TARGET_LINK_LIBRARIES(xmp ${EXPAT_LIBRARIES})

@@ -2,11 +2,11 @@
 set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} "${CMAKE_SOURCE_DIR}/config/")
 
 find_package(Threads REQUIRED)
+include( FindIconv )
 
 if( EXIV2_ENABLE_PNG )
     find_package( ZLIB REQUIRED )
     include_directories( ${ZLIB_INCLUDE_DIR} )
-    set (HAVE_LIBZ ${ZLIB_FOUND})
 endif( EXIV2_ENABLE_PNG )
 
 if( EXIV2_ENABLE_WEBREADY )
@@ -14,13 +14,11 @@ if( EXIV2_ENABLE_WEBREADY )
     if( EXIV2_ENABLE_CURL )
         find_package( CURL REQUIRED)
         include_directories( ${CURL_INCLUDE_DIR} )
-        set ( USE_CURL 1 )
     endif()
 
     if( EXIV2_ENABLE_SSH )
         find_package( SSH REQUIRED)
         include_directories( ${SSH_INCLUDE_DIR} )
-        set ( USE_SSH 1 )
     endif( EXIV2_ENABLE_SSH )
 endif( EXIV2_ENABLE_WEBREADY )
 
@@ -45,13 +43,16 @@ if( EXIV2_ENABLE_NLS )
     endif( NOT LOCALEDIR )
     add_definitions( -DEXV_LOCALEDIR="${LOCALEDIR}" )
     set( ENABLE_NLS 1 )
+    # TODO : This is assuming that Intl is always found. This check should be improved and remove
+    # the manual check in config/generateConfigFile.cmake
 endif( EXIV2_ENABLE_NLS )
 
 find_package(Iconv)
 if( ICONV_FOUND )
-    set( HAVE_ICONV 1 )
     include_directories(${ICONV_INCLUDE_DIR})
+    message ( "-- ICONV_INCLUDE_DIR : " ${ICONV_INCLUDE_DIR} )
     message ( "-- ICONV_LIBRARIES : " ${ICONV_LIBRARIES} )
+    message ( "-- ICONV_ACCEPTS_CONST_INPUT : ${ICONV_ACCEPTS_CONST_INPUT}" )
 endif( ICONV_FOUND )
 
 if( EXIV2_ENABLE_BUILD_PO )

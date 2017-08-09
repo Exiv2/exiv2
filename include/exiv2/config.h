@@ -42,14 +42,6 @@
 # endif
 #endif
 
-#if _MSC_VER >= _MSC_VER_2010
-# define EXV_HAVE_STDINT_H 1
-#else
-# ifdef  EXV_HAVE_STDINT_H
-#  undef EXV_HAVE_STDINT_H
-# endif
-#endif
-
 #if _MSC_VER_ == _MSC_VER_2012
 #define HAVE_NTOHLL 1
 #endif
@@ -77,16 +69,7 @@ typedef int pid_t;
 #endif // _MSC_VER
 ///// End of Visual Studio Support /////
 
-///// Include exv_platform.h file  /////
-#ifdef _MSC_VER
-# ifdef EXV_MSVC_CONFIGURE
-#  include "exv_msvc_configure.h"
-# else
-#  include "exv_msvc.h"
-# endif
-#else
-# include "exv_conf.h"
-#endif
+#include "exv_conf.h"
 ////////////////////////////////////////
 
 ///// End symbol visibility /////////

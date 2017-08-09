@@ -73,14 +73,6 @@ EXIV2_RCSID("@(#) $Id$")
 #define  EXV_UNICODE_PATH 0
 #endif
 
-#ifndef  EXV_ENABLE_VIDEO
-#define  EXV_ENABLE_VIDEO 0
-#endif
-
-#ifndef  EXV_ENABLE_WEBREADY
-#define  EXV_ENABLE_WEBREADY 0
-#endif
-
 #include "http.hpp"
 #include "version.hpp"
 #include "makernote_int.hpp"
@@ -185,7 +177,7 @@ static bool shouldOutput(const exv_grep_keys_t& greps,const char* key,const std:
         std::smatch m;
         bPrint = std::regex_search(Key,m,*g) || std::regex_search(value,m,*g);
 #else
-#if EXV_HAVE_REGEX
+#ifdef EXV_HAVE_REGEX
         bPrint = (  0 == regexec( &(*g), key          , 0, NULL, 0)
                  || 0 == regexec( &(*g), value.c_str(), 0, NULL, 0)
                  );
@@ -328,10 +320,6 @@ void Exiv2::dumpLibraryInfo(std::ostream& os,const exv_grep_keys_t& keys)
 
     int enable_video     =0;
     int enable_webready  =0;
-
-#ifdef EXV_HAVE_DECL_STRERROR_R
-    have_strerror_r=1;
-#endif
 
 #ifdef EXV_HAVE_GMTIME_R
     have_gmtime_r=1;
