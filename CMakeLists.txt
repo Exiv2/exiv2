@@ -6,17 +6,6 @@
 # Redistribution and use is allowed according to the terms of the BSD license.
 # For details see the accompanying COPYING-CMAKE-SCRIPTS file.
 
-##
-# Running cmake in a tree in which we have run ./configure ; make
-# creates include/exiv2/exv_conf.h which conflicts with cmake's own exv_conf.h
-# This causes incorrect compilation and linking errors.
-#
-# It's OK to delete this as it will be recreated on demand by <exiv2-dir>/Makefile
-if( EXISTS "${CMAKE_SOURCE_DIR}/include/exiv2/exv_conf.h"  )
-    file(REMOVE "${CMAKE_SOURCE_DIR}/include/exiv2/exv_conf.h")
-endif()
-##
-
 CMAKE_MINIMUM_REQUIRED( VERSION 3.1.0 )
 PROJECT( exiv2 )
 
@@ -118,6 +107,8 @@ IF( EXIV2_ENABLE_XMP )
 ENDIF( EXIV2_ENABLE_XMP )
 
 include( config/generateConfigFile.cmake )
+include_directories(${CMAKE_BINARY_DIR})  # Make the exv_conf.h file visible for the full project
+
 include( config/CMakeChecks.txt )
 
 SET( INSTALL_TARGET_STANDARD_ARGS
