@@ -84,11 +84,6 @@ IF( EXIV2_ENABLE_COMMERCIAL )
     SET (EXIV2_ENABLE_NLS OFF)
 ENDIF()
 
-set (PRIVATE_VAR)
-if(${CMAKE_MAJOR_VERSION}.${CMAKE_MINOR_VERSION} GREATER 2.8)
-    set (PRIVATE_VAR PRIVATE)
-endif()
-
 # binary as first, since it workarounds old VS solution compatibility problems
 INCLUDE_DIRECTORIES( ${CMAKE_SOURCE_DIR}/src/ ${CMAKE_SOURCE_DIR}/include/  ${CMAKE_SOURCE_DIR}/include/exiv2/)
 
