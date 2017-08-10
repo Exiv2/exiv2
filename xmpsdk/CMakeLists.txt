@@ -32,13 +32,14 @@ IF( EXIV2_ENABLE_XMP AND EXIV2_ENABLE_LIBXMP )
 
     ADD_LIBRARY( xmp STATIC ${XMPSRC} )
     target_compile_definitions(xmp PUBLIC XML_STATIC)
+    target_include_directories(xmp PUBLIC ${EXPAT_INCLUDE_DIR})
 
     target_include_directories(xmp PRIVATE ${CMAKE_SOURCE_DIR}/xmpsdk/include)
     if (EXV_HAVE_STDINT_H)
         target_compile_definitions(xmp PRIVATE EXV_HAVE_STDINT_H)
     endif()
 
-    TARGET_LINK_LIBRARIES(xmp ${EXPAT_LIBRARIES})
+    target_link_libraries(xmp PUBLIC ${EXPAT_LIBRARIES})
     # 1119  Install libxmp.a for use by third party applications (Thanks, Emmanuel)
     INSTALL(TARGETS xmp ${INSTALL_TARGET_STANDARD_ARGS} )
 ENDIF()
