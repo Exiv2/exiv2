@@ -133,7 +133,9 @@ SET( XMPSRC ${CMAKE_CURRENT_SOURCE_DIR}/xmpsdk/src/ExpatAdapter.cpp
             ${CMAKE_CURRENT_SOURCE_DIR}/xmpsdk/src/XMPUtils.cpp
 )
 
-ADD_SUBDIRECTORY( xmpsdk )
+if( EXIV2_ENABLE_LIBXMP )
+    ADD_SUBDIRECTORY( xmpsdk )
+endif()
 ADD_SUBDIRECTORY( src )
 
 IF( EXIV2_ENABLE_BUILD_SAMPLES )
