@@ -76,11 +76,13 @@ SET_TARGET_PROPERTIES( exiv2json PROPERTIES OUTPUT_NAME exiv2json )
 TARGET_LINK_LIBRARIES( exiv2json PRIVATE exiv2lib ${CMAKE_THREAD_LIBS_INIT} ${EXPAT_LIBRARIES} ${ZLIB_LIBRARIES})
 INSTALL( TARGETS       exiv2json ${INSTALL_TARGET_STANDARD_ARGS} )
 
-SET( GEOTAG_SRC        geotag.cpp )
-ADD_EXECUTABLE(        geotag    ${GEOTAG_SRC} )
-SET_TARGET_PROPERTIES( geotag    PROPERTIES OUTPUT_NAME geotag )
-TARGET_LINK_LIBRARIES( geotag    PRIVATE exiv2lib ${EXPAT_LIBRARIES} ${ZLIB_LIBRARIES})
-INSTALL( TARGETS       geotag    ${INSTALL_TARGET_STANDARD_ARGS} )
+if( EXIV2_ENABLE_LIBXMP )
+    SET( GEOTAG_SRC        geotag.cpp )
+    ADD_EXECUTABLE(        geotag    ${GEOTAG_SRC} )
+    SET_TARGET_PROPERTIES( geotag    PROPERTIES OUTPUT_NAME geotag )
+    TARGET_LINK_LIBRARIES( geotag    PRIVATE exiv2lib ${EXPAT_LIBRARIES} ${ZLIB_LIBRARIES})
+    INSTALL( TARGETS       geotag    ${INSTALL_TARGET_STANDARD_ARGS} )
+endif()
 
 # ******************************************************************************
 # Man page
