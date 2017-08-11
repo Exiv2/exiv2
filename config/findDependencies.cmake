@@ -24,7 +24,6 @@ endif( EXIV2_ENABLE_WEBREADY )
 
 if (EXIV2_ENABLE_XMP)
     find_package(EXPAT REQUIRED)
-    include_directories(${EXPAT_INCLUDE_DIR})
 endif (EXIV2_ENABLE_XMP)
 
 if( EXIV2_ENABLE_NLS )

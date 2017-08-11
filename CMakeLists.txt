@@ -6,17 +6,6 @@
 # Redistribution and use is allowed according to the terms of the BSD license.
 # For details see the accompanying COPYING-CMAKE-SCRIPTS file.
 
-##
-# Running cmake in a tree in which we have run ./configure ; make
-# creates include/exiv2/exv_conf.h which conflicts with cmake's own exv_conf.h
-# This causes incorrect compilation and linking errors.
-#
-# It's OK to delete this as it will be recreated on demand by <exiv2-dir>/Makefile
-if( EXISTS "${CMAKE_SOURCE_DIR}/include/exiv2/exv_conf.h"  )
-    file(REMOVE "${CMAKE_SOURCE_DIR}/include/exiv2/exv_conf.h")
-endif()
-##
-
 CMAKE_MINIMUM_REQUIRED( VERSION 3.1.0 )
 PROJECT( exiv2 )
 
@@ -95,11 +84,6 @@ IF( EXIV2_ENABLE_COMMERCIAL )
     SET (EXIV2_ENABLE_NLS OFF)
 ENDIF()
 
-set (PRIVATE_VAR)
-if(${CMAKE_MAJOR_VERSION}.${CMAKE_MINOR_VERSION} GREATER 2.8)
-    set (PRIVATE_VAR PRIVATE)
-endif()
-
 # binary as first, since it workarounds old VS solution compatibility problems
 INCLUDE_DIRECTORIES( ${CMAKE_SOURCE_DIR}/src/ ${CMAKE_SOURCE_DIR}/include/  ${CMAKE_SOURCE_DIR}/include/exiv2/)
 
@@ -118,6 +102,8 @@ IF( EXIV2_ENABLE_XMP )
 ENDIF( EXIV2_ENABLE_XMP )
 
 include( config/generateConfigFile.cmake )
+include_directories(${CMAKE_BINARY_DIR})  # Make the exv_conf.h file visible for the full project
+
 include( config/CMakeChecks.txt )
 
 SET( INSTALL_TARGET_STANDARD_ARGS
@@ -147,7 +133,9 @@ SET( XMPSRC ${CMAKE_CURRENT_SOURCE_DIR}/xmpsdk/src/ExpatAdapter.cpp
             ${CMAKE_CURRENT_SOURCE_DIR}/xmpsdk/src/XMPUtils.cpp
 )
 
-ADD_SUBDIRECTORY( xmpsdk )
+if( EXIV2_ENABLE_LIBXMP )
+    ADD_SUBDIRECTORY( xmpsdk )
+endif()
 ADD_SUBDIRECTORY( src )
 
 IF( EXIV2_ENABLE_BUILD_SAMPLES )
