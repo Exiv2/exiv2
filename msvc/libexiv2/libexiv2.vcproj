@@ -27,7 +27,7 @@
 			>
 			<Tool
 				Name="VCPreBuildEventTool"
-				CommandLine=""
+				CommandLine="copy/y $(SolutionDir)\..\include\exiv2\exv_msvc.h $(SolutionDir)\..\include\exiv2\exv_conf.h"
 			/>
 			<Tool
 				Name="VCCustomBuildTool"
@@ -96,7 +96,7 @@
 			>
 			<Tool
 				Name="VCPreBuildEventTool"
-				CommandLine=""
+				CommandLine="copy/y $(SolutionDir)\..\include\exiv2\exv_msvc.h $(SolutionDir)\..\include\exiv2\exv_conf.h"
 			/>
 			<Tool
 				Name="VCCustomBuildTool"
@@ -167,7 +167,7 @@
 			<Tool
 				Name="VCPreBuildEventTool"
 				Description="copy expat and zlib binaries"
-				CommandLine=""
+				CommandLine="copy/y $(SolutionDir)\..\include\exiv2\exv_msvc.h $(SolutionDir)\..\include\exiv2\exv_conf.h"
 			/>
 			<Tool
 				Name="VCCustomBuildTool"
@@ -233,7 +233,7 @@
 			<Tool
 				Name="VCPreBuildEventTool"
 				Description="copy expat and zlib binaries"
-				CommandLine=""
+				CommandLine="copy/y $(SolutionDir)\..\include\exiv2\exv_msvc.h $(SolutionDir)\..\include\exiv2\exv_conf.h"
 			/>
 			<Tool
 				Name="VCCustomBuildTool"
@@ -299,6 +299,7 @@
 			>
 			<Tool
 				Name="VCPreBuildEventTool"
+				CommandLine="copy/y $(SolutionDir)\..\include\exiv2\exv_msvc.h $(SolutionDir)\..\include\exiv2\exv_conf.h"
 			/>
 			<Tool
 				Name="VCCustomBuildTool"
@@ -378,6 +379,7 @@
 			>
 			<Tool
 				Name="VCPreBuildEventTool"
+				CommandLine="copy/y $(SolutionDir)\..\include\exiv2\exv_msvc.h $(SolutionDir)\..\include\exiv2\exv_conf.h"
 			/>
 			<Tool
 				Name="VCCustomBuildTool"
@@ -458,6 +460,7 @@
 			>
 			<Tool
 				Name="VCPreBuildEventTool"
+				CommandLine="copy/y $(SolutionDir)\..\include\exiv2\exv_msvc.h $(SolutionDir)\..\include\exiv2\exv_conf.h"
 			/>
 			<Tool
 				Name="VCCustomBuildTool"
@@ -536,6 +539,7 @@
 			>
 			<Tool
 				Name="VCPreBuildEventTool"
+				CommandLine="copy/y $(SolutionDir)\..\include\exiv2\exv_msvc.h $(SolutionDir)\..\include\exiv2\exv_conf.h"
 			/>
 			<Tool
 				Name="VCCustomBuildTool"
