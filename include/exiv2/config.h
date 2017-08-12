@@ -4,15 +4,16 @@
 #ifndef _CONFIG_H_
 #define _CONFIG_H_
 
-#ifndef CPLUSPLUS11
-#define CPLUSPLUS11 201103L
-#endif
 
 #ifdef  __cplusplus
-#if     __cplusplus >= CPLUSPLUS11
-#ifndef EXV_USING_CPP_ELEVEN
-#define EXV_USING_CPP_ELEVEN
-#endif
+# ifndef CPLUSPLUS11
+#  define CPLUSPLUS11 201103L
+# endif
+# if     __cplusplus >= CPLUSPLUS11
+#  ifndef  EXV_USING_CPP_ELEVEN
+#   define EXV_USING_CPP_ELEVEN
+#  endif
+# endif
 #endif
 
 ///// Start of Visual Studio Support /////
