@@ -237,7 +237,7 @@ void Exiv2::dumpLibraryInfo(std::ostream& os,const exv_grep_keys_t& keys)
     // add edition in brackets
     // 7.10 = 2003 8.00 = 2005 etc 12.00 = 2013 13.00 = 2015 (yet the installer labels it as 14.0!)
     size_t      edition       = (_MSC_VER-600)/100;
-    const char* editions[]    = { "0","1","2","3","4","5","6","2003", "2005", "2008", "2010", "2012","2013","2015"};
+    const char* editions[]    = { "0","1","2","3","4","5","6","2003", "2005", "2008", "2010", "2012","2013","2015","2017"};
     if  ( edition > lengthof(editions) ) edition = 0 ;
     if  ( edition ) sprintf(version+::strlen(version)," (%s/%s)",editions[edition],bits==64?"x64":"x86");
 #define __VERSION__ version

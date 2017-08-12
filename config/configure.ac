@@ -355,22 +355,36 @@ AC_DEFUN([AX_GCC_VERSION], [
   AC_SUBST([GCC_VERSION])
 ])
 
-# 1188 v0.26 uses c++98
-# 1188 v0.27 should have an option to specify versions such as c++11
-case "$host_os" in
-    *cygwin*)
-        CPPFLAGS="$CPPFLAGS -std=gnu++98"  # cygwin requires gnu++98 to support snprintf
-    ;;
-    *ming*)
-        CPPFLAGS="$CPPFLAGS"               # mingw doesn't link pthreads if you specify -std !!
-    ;;
-    *)
-        CPPFLAGS="$CPPFLAGS -std=c++98"
-        if [[ ! -z "$GCC_VERSION" ]]; then
-            if [[ "$GCC_VERSION" -ge 6 ]]; then CPPFLAGS="$CPPFLAGS -std=gnu++98" ; fi  # // not GCC 6
-        fi
-    ;;
-esac
+AC_ARG_WITH(std,
+    [--with-std  use --with-std for c++11. options: --with-std=11|14|c++11|c++14 default/--without-std is c++98],
+    STD=$withval,
+    STD=default)
+
+if test "$STD" = "11"; then
+    CPPFLAGS="${CPPFLAGS} -std=c++11"
+elif test "$STD" = "yes"; then
+    CPPFLAGS="${CPPFLAGS} -std=c++11"
+elif test "$STD" = "14"; then
+    CPPFLAGS="${CPPFLAGS} -std=c++14"
+elif test "$STD" = "default" -o "$STD" = "no" ; then
+	# 1188 v0.26 uses c++98
+	case "$host_os" in
+		*cygwin*)
+			CPPFLAGS="$CPPFLAGS -std=gnu++98"  # cygwin requires gnu++98 to support snprintf
+		;;
+		*ming*)
+			CPPFLAGS="$CPPFLAGS"               # mingw doesn't link pthreads if you specify -std !!
+		;;
+		*)
+			CPPFLAGS="$CPPFLAGS -std=c++98"
+			if [[ ! -z "$GCC_VERSION" ]]; then
+				if [[ "$GCC_VERSION" -ge 6 ]]; then CPPFLAGS="$CPPFLAGS -std=gnu++98" ; fi  # // not GCC 6
+			fi
+		;;
+	esac
+else
+    CPPFLAGS="${CPPFLAGS} -std=$STD"
+fi
 
 # ---------------------------------------------------------------------------
 # Create output files.
@@ -472,6 +486,7 @@ x1)  echo "-- Using Lib SSH.................. YES" ;;
 esac
 fi
 
+echo "CPPFLAGS= " "$CPPFLAGS"
 echo "------------------------------------------------------------------"
 echo ""
 
