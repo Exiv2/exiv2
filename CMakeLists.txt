@@ -106,12 +106,6 @@ include_directories(${CMAKE_BINARY_DIR})  # Make the exv_conf.h file visible for
 
 include( config/CMakeChecks.txt )
 
-SET( INSTALL_TARGET_STANDARD_ARGS
-     RUNTIME DESTINATION bin
-     LIBRARY DESTINATION ${CMAKE_INSTALL_LIBDIR}
-     ARCHIVE DESTINATION ${CMAKE_INSTALL_LIBDIR}
-)
-
 ##
 # add sources from XMPSDK directory
 # this needs to be done here to be visible to xmpsdk, src and sample sub directories

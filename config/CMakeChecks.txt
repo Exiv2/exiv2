@@ -44,8 +44,6 @@ IF( EXIV2_ENABLE_COMMERCIAL )
     ADD_DEFINITIONS( -DEXV_COMMERCIAL_VERSION )
 ENDIF( EXIV2_ENABLE_COMMERCIAL )
 
-INSTALL( FILES ${CMAKE_SOURCE_DIR}/include/exiv2/exv_conf.h DESTINATION include/exiv2 )
-
 CONFIGURE_FILE(config/exiv2_uninstall.cmake ${CMAKE_BINARY_DIR}/cmake_uninstall.cmake COPYONLY)
 ADD_CUSTOM_TARGET(uninstall "${CMAKE_COMMAND}" -P "${CMAKE_BINARY_DIR}/cmake_uninstall.cmake")
 
