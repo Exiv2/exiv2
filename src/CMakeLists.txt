@@ -37,51 +37,52 @@ SET( LIBEXIV2_PRIVATE_HDR canonmn_int.hpp
    )
 
 # Add standalone C++ header files to this list
-SET( LIBEXIV2_HDR         ${CMAKE_CURRENT_LIST_DIR}/../include/exiv2/asfvideo.hpp
-                          ${CMAKE_CURRENT_LIST_DIR}/../include/exiv2/basicio.hpp
-                          ${CMAKE_CURRENT_LIST_DIR}/../include/exiv2/bmpimage.hpp
-                          ${CMAKE_CURRENT_LIST_DIR}/../include/exiv2/config.h
-                          ${CMAKE_CURRENT_LIST_DIR}/../include/exiv2/convert.hpp
-                          ${CMAKE_CURRENT_LIST_DIR}/../include/exiv2/cr2image.hpp
-                          ${CMAKE_CURRENT_LIST_DIR}/../include/exiv2/crwimage.hpp
-                          ${CMAKE_CURRENT_LIST_DIR}/../include/exiv2/datasets.hpp
-                          ${CMAKE_CURRENT_LIST_DIR}/../include/exiv2/easyaccess.hpp
-                          ${CMAKE_CURRENT_LIST_DIR}/../include/exiv2/epsimage.hpp
-                          ${CMAKE_CURRENT_LIST_DIR}/../include/exiv2/error.hpp
-                          ${CMAKE_CURRENT_LIST_DIR}/../include/exiv2/exif.hpp
-                          ${CMAKE_CURRENT_LIST_DIR}/../include/exiv2/exiv2.hpp
-                          ${CMAKE_CURRENT_LIST_DIR}/../include/exiv2/futils.hpp
-                          ${CMAKE_CURRENT_LIST_DIR}/../include/exiv2/gifimage.hpp
-                          ${CMAKE_CURRENT_LIST_DIR}/../include/exiv2/http.hpp
-                          ${CMAKE_CURRENT_LIST_DIR}/../include/exiv2/image.hpp
-                          ${CMAKE_CURRENT_LIST_DIR}/../include/exiv2/ini.hpp
-                          ${CMAKE_CURRENT_LIST_DIR}/../include/exiv2/iptc.hpp
-                          ${CMAKE_CURRENT_LIST_DIR}/../include/exiv2/jp2image.hpp
-                          ${CMAKE_CURRENT_LIST_DIR}/../include/exiv2/jpgimage.hpp
-                          ${CMAKE_CURRENT_LIST_DIR}/../include/exiv2/matroskavideo.hpp
-                          ${CMAKE_CURRENT_LIST_DIR}/../include/exiv2/metadatum.hpp
-                          ${CMAKE_CURRENT_LIST_DIR}/../include/exiv2/mrwimage.hpp
-                          ${CMAKE_CURRENT_LIST_DIR}/../include/exiv2/orfimage.hpp
-                          ${CMAKE_CURRENT_LIST_DIR}/../include/exiv2/pgfimage.hpp
-                          ${CMAKE_CURRENT_LIST_DIR}/../include/exiv2/preview.hpp
-                          ${CMAKE_CURRENT_LIST_DIR}/../include/exiv2/properties.hpp
-                          ${CMAKE_CURRENT_LIST_DIR}/../include/exiv2/psdimage.hpp
-                          ${CMAKE_CURRENT_LIST_DIR}/../include/exiv2/quicktimevideo.hpp
-                          ${CMAKE_CURRENT_LIST_DIR}/../include/exiv2/rafimage.hpp
-                          ${CMAKE_CURRENT_LIST_DIR}/../include/exiv2/riffvideo.hpp
-                          ${CMAKE_CURRENT_LIST_DIR}/../include/exiv2/rwlock.hpp
-                          ${CMAKE_CURRENT_LIST_DIR}/../include/exiv2/rw2image.hpp
-                          ${CMAKE_CURRENT_LIST_DIR}/../include/exiv2/tags.hpp
-                          ${CMAKE_CURRENT_LIST_DIR}/../include/exiv2/tgaimage.hpp
-                          ${CMAKE_CURRENT_LIST_DIR}/../include/exiv2/tiffimage.hpp
-                          ${CMAKE_CURRENT_LIST_DIR}/../include/exiv2/types.hpp
-                          ${CMAKE_CURRENT_LIST_DIR}/../include/exiv2/utilsvideo.hpp
-                          ${CMAKE_CURRENT_LIST_DIR}/../include/exiv2/value.hpp
-                          ${CMAKE_CURRENT_LIST_DIR}/../include/exiv2/version.hpp
-                          ${CMAKE_CURRENT_LIST_DIR}/../include/exiv2/webpimage.hpp
-                          ${CMAKE_CURRENT_LIST_DIR}/../include/exiv2/xmp.hpp
-                          ${CMAKE_CURRENT_LIST_DIR}/../include/exiv2/xmpsidecar.hpp
-                          ${CMAKE_CURRENT_LIST_DIR}/../include/exiv2/utilsvideo.hpp
+SET( LIBEXIV2_HDR         ../include/exiv2/asfvideo.hpp
+                          ../include/exiv2/basicio.hpp
+                          ../include/exiv2/bmpimage.hpp
+                          ../include/exiv2/config.h
+                          ../include/exiv2/convert.hpp
+                          ../include/exiv2/cr2image.hpp
+                          ../include/exiv2/crwimage.hpp
+                          ../include/exiv2/datasets.hpp
+                          ../include/exiv2/easyaccess.hpp
+                          ../include/exiv2/epsimage.hpp
+                          ../include/exiv2/error.hpp
+                          ../include/exiv2/exif.hpp
+                          ../include/exiv2/exiv2.hpp
+                          ../include/exiv2/futils.hpp
+                          ../include/exiv2/gifimage.hpp
+                          ../include/exiv2/http.hpp
+                          ../include/exiv2/image.hpp
+                          ../include/exiv2/ini.hpp
+                          ../include/exiv2/iptc.hpp
+                          ../include/exiv2/jp2image.hpp
+                          ../include/exiv2/jpgimage.hpp
+                          ../include/exiv2/matroskavideo.hpp
+                          ../include/exiv2/metadatum.hpp
+                          ../include/exiv2/mrwimage.hpp
+                          ../include/exiv2/orfimage.hpp
+                          ../include/exiv2/pgfimage.hpp
+                          ../include/exiv2/preview.hpp
+                          ../include/exiv2/properties.hpp
+                          ../include/exiv2/psdimage.hpp
+                          ../include/exiv2/quicktimevideo.hpp
+                          ../include/exiv2/rafimage.hpp
+                          ../include/exiv2/riffvideo.hpp
+                          ../include/exiv2/rwlock.hpp
+                          ../include/exiv2/rw2image.hpp
+                          ../include/exiv2/tags.hpp
+                          ../include/exiv2/tgaimage.hpp
+                          ../include/exiv2/tiffimage.hpp
+                          ../include/exiv2/types.hpp
+                          ../include/exiv2/utilsvideo.hpp
+                          ../include/exiv2/value.hpp
+                          ../include/exiv2/version.hpp
+                          ../include/exiv2/webpimage.hpp
+                          ../include/exiv2/xmp.hpp
+                          ../include/exiv2/xmpsidecar.hpp
+                          ../include/exiv2/utilsvideo.hpp
+                          ${CMAKE_BINARY_DIR}/exv_conf.h
    )
 
 # Add library C++ source files to this list
