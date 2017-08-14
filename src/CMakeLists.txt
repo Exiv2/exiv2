@@ -307,7 +307,14 @@ IF (CYGWIN OR MINGW)
     TARGET_LINK_LIBRARIES( exiv2lib PRIVATE  psapi ws2_32 )
 ENDIF(CYGWIN OR MINGW)
 
-INSTALL( TARGETS exiv2lib ${INSTALL_TARGET_STANDARD_ARGS} )
+install(TARGETS exiv2lib
+     RUNTIME DESTINATION bin
+     LIBRARY DESTINATION lib
+     ARCHIVE DESTINATION lib
+)
+install(FILES ${LIBEXIV2_HDR} 
+    DESTINATION include/exiv2 
+)
 
 include(../CMake_msvc.txt)
 msvc_runtime_configure(${EXIV2_ENABLE_SHARED} ${EXIV2_ENABLE_DYNAMIC_RUNTIME})
@@ -316,7 +323,9 @@ msvc_runtime_configure(${EXIV2_ENABLE_SHARED} ${EXIV2_ENABLE_DYNAMIC_RUNTIME})
 # exiv2 application
 ADD_EXECUTABLE( exiv2 ${EXIV2_SRC}  ${EXIV2_HDR} )
 TARGET_LINK_LIBRARIES( exiv2 exiv2lib ${LIBINTL_LIBRARIES} )
-INSTALL( TARGETS exiv2 ${INSTALL_TARGET_STANDARD_ARGS} )
+install(TARGETS exiv2 
+     RUNTIME DESTINATION bin
+ )
 
 # ******************************************************************************
 # connection test application
@@ -333,9 +342,6 @@ TARGET_LINK_LIBRARIES( conntest PRIVATE  exiv2lib ${CURL_LIBRARIES} ${SSH_LIBRAR
 ADD_EXECUTABLE( remotetest ${REMOTETEST} )
 TARGET_LINK_LIBRARIES( remotetest exiv2lib ${LIBINTL_LIBRARIES} )
 
-# ******************************************************************************
-# Headers
-INSTALL( FILES ${LIBEXIV2_HDR} DESTINATION include/exiv2 )
 
 # ******************************************************************************
 # Man page
