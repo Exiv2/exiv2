@@ -31,7 +31,7 @@
 #include "basicio.hpp"
 #include "exif.hpp"
 #include "iptc.hpp"
-#include "xmp.hpp"
+#include "xmp_exiv2.hpp"
 
 // + standard includes
 #include <string>

@@ -35,7 +35,7 @@
 # Author(s): Andreas Huggel (ahu) <ahuggel@gmx.net>
 # History:   10-Dec-03, ahu: created
 #
-# Description: 
+# Description:
 #  Exiv2 system configuration file.
 #
 
@@ -90,19 +90,44 @@ endif
 # **********************************************************************
 # XMP support
 ENABLE_XMP = @ENABLE_XMP@
+CPPFLAGS_MORE=-Wundef -pedantic
 
-ifdef ENABLE_XMP
-        XMPSDK_LIBRARY = xmpsdk
-        XMPSDK_DIR = $(top_srcdir)/xmpsdk
-        XMPSDK_CPPFLAGS = -I$(XMPSDK_DIR)/include
-        XMPSDK_LDFLAGS = -L$(XMPSDK_DIR)/src
-        XMPSDK_LIBS = -l$(XMPSDK_LIBRARY)
-else
-        # Enable additional warnings. XMP Toolkit doesn't compile
-        # with these.
-        ifeq ($(GXX),yes)
-                CXXFLAGS += -Wundef -pedantic
-        endif
+ifeq ($(ENABLE_XMP),1)
+        XMPSDK_LIBRARY  = xmpsdk
+        XMPSDK_DIR      = $(top_srcdir)/xmpsdk
+        XMPSDK_CPPFLAGS = -I$(XMPSDK_DIR)/include -DMAC_ENV=1
+        XMPSDK_LDFLAGS  = -L$(XMPSDK_DIR)/src
+        XMPSDK_LIBS     = -l$(XMPSDK_LIBRARY)
+        CPPFLAGS_MORE   = X
+endif
+
+ifeq ($(ENABLE_XMP),2016)
+        XMPSDK_LIBRARY  = xmpsdk
+        XMPSDK_DIR      = $(top_srcdir)/xmpsdk
+        XMPSDK_CPPFLAGS = -I$(XMPSDK_DIR)/Adobe/XMP-Toolkit-SDK-CC201607 \
+-I$(XMPSDK_DIR)/Adobe/XMP-Toolkit-SDK-CC201607/public/include \
+-DEXV_ADOBE_XMPSDK=2016
+        XMPSDK_LDFLAGS  = -L$(XMPSDK_DIR)/Adobe/
+#        XMPSDK_LIBS     = -lXMPCore.a -lXMPFiles.a
+#       XMPSDK_LIBS     = $(XMPSDK_DIR)/Adobe/libXMPCore.a $(XMPSDK_DIR)/Adobe/libXMPFiles.a
+        CPPFLAGS_MORE   = X
+endif
+
+ifeq ($(ENABLE_XMP),2014)
+        XMPSDK_LIBRARY  = xmpsdk
+        XMPSDK_DIR      = $(top_srcdir)/xmpsdk
+        XMPSDK_CPPFLAGS = -I$(XMPSDK_DIR)/Adobe/XMP-Toolkit-SDK-CC201412 \
+-I$(XMPSDK_DIR)/Adobe/XMP-Toolkit-SDK-CC201412/public/include \
+-DEXV_ADOBE_XMPSDK=2014
+        XMPSDK_LDFLAGS  = -L$(XMPSDK_DIR)/Adobe/
+        CPPFLAGS_MORE   = X
+endif
+
+# Enable additional warnings. XMP Toolkit doesn't compile with these.
+ifeq ($(GXX),yes)
+  ifneq ($(CPPFLAGS_MORE),X)
+        CXXFLAGS += $(CPPFLAGS_MORE)
+  endif
 endif
 
 # Libcurl need for httpIO if it's selected
@@ -140,7 +165,7 @@ ifdef DEP_TRACKING
         # Directory for dependency files
 	DEPDIR = .deps
 
-        # Command to run the compiler or preprocessor to produce 
+        # Command to run the compiler or preprocessor to produce
         # dependencies. If you're not using gcc, you may need to change
         # this to something suitable for your compiler or simply unset
         # the variable. See the link above for suggestions.
@@ -153,7 +178,7 @@ ifdef DEP_TRACKING
                     -e '/^$$/ d' -e 's/$$/ :/' < $*.d >> $(DEPDIR)/$*.d; \
                 $(RM) $*.d; fi
 
-        # Compiler flags to generate dependency files at the same time 
+        # Compiler flags to generate dependency files at the same time
         # as object files (for gcc)
         ifeq ($(GXX),yes)
 		CXXFLAGS += -MMD

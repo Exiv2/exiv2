@@ -30,7 +30,7 @@ EXIV2_RCSID("@(#) $Id$")
 
 // *****************************************************************************
 // included header files
-#include "xmp.hpp"
+#include "xmp_exiv2.hpp"
 #include "types.hpp"
 #include "error.hpp"
 #include "value.hpp"
@@ -43,9 +43,13 @@ EXIV2_RCSID("@(#) $Id$")
 #include <string>
 
 // Adobe XMP Toolkit
-#ifdef EXV_HAVE_XMP_TOOLKIT
+#ifdef   EXV_HAVE_XMP_TOOLKIT
 # define TXMP_STRING_TYPE std::string
+# ifdef  EXV_ADOBE_XMPSDK
+# include <XMP.hpp>
+# else
 # include <XMPSDK.hpp>
+# endif
 # include <XMP.incl_cpp>
 #endif // EXV_HAVE_XMP_TOOLKIT
 
@@ -401,6 +405,30 @@ namespace Exiv2 {
             xmpLockFct_ = xmpLockFct;
             pLockData_ = pLockData;
             initialized_ = SXMPMeta::Initialize();
+#ifdef EXV_ADOBE_XMPSDK
+            SXMPMeta::RegisterNamespace("http://ns.adobe.com/lightroom/1.0/", "lr",NULL);
+            SXMPMeta::RegisterNamespace("http://rs.tdwg.org/dwc/index.htm", "dwc",NULL);
+            SXMPMeta::RegisterNamespace("http://purl.org/dc/terms/", "dcterms",NULL);
+            SXMPMeta::RegisterNamespace("http://www.digikam.org/ns/1.0/", "digiKam",NULL);
+            SXMPMeta::RegisterNamespace("http://www.digikam.org/ns/kipi/1.0/", "kipi",NULL);
+            SXMPMeta::RegisterNamespace("http://ns.microsoft.com/photo/1.0/", "MicrosoftPhoto",NULL);
+            SXMPMeta::RegisterNamespace("http://ns.acdsee.com/iptc/1.0/", "acdsee",NULL);
+            SXMPMeta::RegisterNamespace("http://iptc.org/std/Iptc4xmpExt/2008-02-29/", "iptcExt",NULL);
+            SXMPMeta::RegisterNamespace("http://ns.useplus.org/ldf/xmp/1.0/", "plus",NULL);
+            SXMPMeta::RegisterNamespace("http://ns.iview-multimedia.com/mediapro/1.0/", "mediapro",NULL);
+            SXMPMeta::RegisterNamespace("http://ns.microsoft.com/expressionmedia/1.0/", "expressionmedia",NULL);
+            SXMPMeta::RegisterNamespace("http://ns.microsoft.com/photo/1.2/", "MP",NULL);
+            SXMPMeta::RegisterNamespace("http://ns.microsoft.com/photo/1.2/t/RegionInfo#", "MPRI",NULL);
+            SXMPMeta::RegisterNamespace("http://ns.microsoft.com/photo/1.2/t/Region#", "MPReg",NULL);
+            SXMPMeta::RegisterNamespace("http://ns.google.com/photos/1.0/panorama/", "GPano",NULL);
+            SXMPMeta::RegisterNamespace("http://www.metadataworkinggroup.com/schemas/regions/", "mwg-rs",NULL);
+            SXMPMeta::RegisterNamespace("http://www.metadataworkinggroup.com/schemas/keywords/", "mwg-kw",NULL);
+            SXMPMeta::RegisterNamespace("http://ns.adobe.com/xmp/sType/Area#", "stArea",NULL);
+            SXMPMeta::RegisterNamespace("http://cipa.jp/exif/1.0/", "exifEX",NULL);
+		    SXMPMeta::RegisterNamespace("http://ns.adobe.com/camera-raw-saved-settings/1.0/", "crss",NULL);
+            SXMPMeta::RegisterNamespace("http://www.audio/", "audio",NULL);
+            SXMPMeta::RegisterNamespace("http://www.video/", "video",NULL);
+#else
             SXMPMeta::RegisterNamespace("http://ns.adobe.com/lightroom/1.0/", "lr");
             SXMPMeta::RegisterNamespace("http://rs.tdwg.org/dwc/index.htm", "dwc");
             SXMPMeta::RegisterNamespace("http://purl.org/dc/terms/", "dcterms");
@@ -423,6 +451,7 @@ namespace Exiv2 {
 		    SXMPMeta::RegisterNamespace("http://ns.adobe.com/camera-raw-saved-settings/1.0/", "crss");
             SXMPMeta::RegisterNamespace("http://www.audio/", "audio");
             SXMPMeta::RegisterNamespace("http://www.video/", "video");
+#endif
         }
         return initialized_;
     }
@@ -508,7 +537,11 @@ namespace Exiv2 {
             initialize();
             AutoLock autoLock(xmpLockFct_, pLockData_);
             SXMPMeta::DeleteNamespace(ns.c_str());
+#ifdef EXV_ADOBE_XMPSDK
+            SXMPMeta::RegisterNamespace(ns.c_str(), prefix.c_str(),NULL);
+#else
             SXMPMeta::RegisterNamespace(ns.c_str(), prefix.c_str());
+#endif
         }
         catch (const XMP_Error& e) {
             throw Error(40, e.GetID(), e.GetErrMsg());
@@ -860,6 +893,10 @@ namespace {
         }
         return var;
     }
+
+#ifdef  EXV_ADOBE_XMPSDK
+#define kXMP_WriteAliasComments  0x0400UL
+#endif
 
     XMP_OptionBits xmpFormatOptionBits(Exiv2::XmpParser::XmpFormatFlags flags)
     {

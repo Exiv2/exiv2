@@ -32,10 +32,11 @@ EXIV2_RCSID("@(#) $Id$")
 
 // *****************************************************************************
 // included header files
+#include "config.h"
 #include "types.hpp"
 #include "exif.hpp"
 #include "iptc.hpp"
-#include "xmp.hpp"
+#include "xmp_exiv2.hpp"
 #include "futils.hpp"
 #include "convert.hpp"
 
@@ -63,7 +64,11 @@ EXIV2_RCSID("@(#) $Id$")
 // Adobe XMP Toolkit
 #ifdef EXV_HAVE_XMP_TOOLKIT
 # define TXMP_STRING_TYPE std::string
+# if EXV_ADOBE_XMPSDK
+# include <XMP.hpp>
+# else
 # include <XMPSDK.hpp>
+# endif
 # include <MD5.h>
 #endif // EXV_HAVE_XMP_TOOLKIT
 

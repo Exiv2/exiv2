@@ -134,7 +134,8 @@ config:
 	cd config && $(MAKE) -f config.make $(MAKECMDGOALS)
 
 xmpsdk: config/config.mk
-	if test "x$(ENABLE_XMP)" = "x1"; then cd xmpsdk/src && $(MAKE) $@; fi;
+	if test "x$(ENABLE_XMP)" =    "x1"; then cd xmpsdk/src && $(MAKE) $@; fi;
+	if test "x$(ENABLE_XMP)" = "x2016" -o "x$(ENABLE_XMP)" = "x2014"; then xmpsdk/buildXMPsdk.sh $(ENABLE_XMP) $(MAKECMDGOALS); fi;
 
 mostlyclean clean: config/config.mk
 	cd src && $(MAKE) $(MAKECMDGOALS)
@@ -145,6 +146,8 @@ mostlyclean clean: config/config.mk
 	cd config && $(MAKE) -f config.make $(MAKECMDGOALS)
 	cd po && $(MAKE) $(MAKECMDGOALS)
 	rm -f include/exiv2/exv_conf.h
+	if [ -e xmpsdk/Adobe ]; then rm -rf xmpsdk/Adobe ; fi
+
 
 # `make distclean' also removes files created by configuring
 # the program. Running `make all distclean' prepares the project

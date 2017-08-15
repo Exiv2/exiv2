@@ -79,7 +79,7 @@ EXIV2_RCSID("@(#) $Id$")
 
 // Adobe XMP Toolkit
 #if EXV_HAVE_XMP_TOOLKIT
-#include "xmp.hpp"
+#include "xmp_exiv2.hpp"
 #endif
 
 // + standard includes

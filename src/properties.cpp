@@ -38,7 +38,7 @@ EXIV2_RCSID("@(#) $Id$")
 #include "value.hpp"
 #include "metadatum.hpp"
 #include "i18n.h"                // NLS support.
-#include "xmp.hpp"
+#include "xmp_exiv2.hpp"
 #include "rwlock.hpp"
 
 #include <iostream>

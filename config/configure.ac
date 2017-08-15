@@ -356,7 +356,7 @@ AC_DEFUN([AX_GCC_VERSION], [
 ])
 
 AC_ARG_WITH(std,
-    [--with-std  use --with-std for c++11. options: --with-std=11|14|c++11|c++14 default/--without-std is c++98],
+    [  --with-std  use --with-std for c++11. options: --with-std=11|14|c++11|c++14 default/--without-std is c++98],
     STD=$withval,
     STD=default)
 
@@ -384,6 +384,22 @@ elif test "$STD" = "default" -o "$STD" = "no" ; then
 	esac
 else
     CPPFLAGS="${CPPFLAGS} -std=$STD"
+fi
+
+AC_ARG_WITH(adobe,
+    [  --with-adobe[[=OPT]]  use --with-adobe for Adobe XMPsdk. OPT: 2016|2014 default/--without-adobe is xmpsdk/src],
+    ADOBE=$withval,
+    ADOBE=xmpsdk/src)
+if test "$ADOBE" == "yes"; then ADOBE=2016; fi
+
+if test "$ADOBE" = "2016" -o "$ADOBE" = "2014" ; then
+	ADOBE_SDK=XMP-Toolkit-SDK-CC201607
+	if test "$ADOBE" == "2014" ; then ADOBE_SDK=XMP-Toolkit-SDK-CC2014.12; fi
+    ENABLE_XMP=$ADOBE
+    XMPSDK_CPPFLAGS='-Ixmpsdk/Adobe/$ADOBE_SDK/public/include'
+    XMPSDK_LDFLAGS='-Lxmpsdk/Adobe/'
+    XMPSDK_LIBS=''
+    # '-lXMPCore.a -lXMPFiles.a'
 fi
 
 # ---------------------------------------------------------------------------
@@ -441,7 +457,7 @@ yes) echo "-- Nikon lens database............ YES" ;;
 esac
 
 case "$USE_XMP_TOOLKIT" in
-yes) echo "-- XMP metadata support........... YES" ;;
+yes) echo "-- XMP metadata support........... YES (ADOBE_SDK = $ADOBE)" ;;
 *)   echo "-- XMP metadata support........... NO"
      echo ""
      echo "Expat is required for XMP support. Make sure the Expat header"
@@ -486,7 +502,11 @@ x1)  echo "-- Using Lib SSH.................. YES" ;;
 esac
 fi
 
-echo "CPPFLAGS= " "$CPPFLAGS"
+echo "CPPFLAGS   =" "$CPPFLAGS $SSH_CPPFLAGS $CURL_CPPFLAGS $XMPSDK_CPPFLAGS"
+echo "LDFLAGS    =" "$LDFLAGS $SSH_LDFLAGS $CURL_LDFLAGS $EXPAT_LDFLAGS $XMPSDK_LDFLAGS"
+echo "LIBS       =" "$LIBS $SSH_LIBS $CURL_LIBS $EXPAT_LIBS $XMPSDK_LIBS"
+echo "ENABLE_XMP =" "$ENABLE_XMP"
+echo "CXX        =" "$CXX"
 echo "------------------------------------------------------------------"
 echo ""
 

@@ -79,7 +79,7 @@ SET( LIBEXIV2_HDR         ../include/exiv2/asfvideo.hpp
                           ../include/exiv2/value.hpp
                           ../include/exiv2/version.hpp
                           ../include/exiv2/webpimage.hpp
-                          ../include/exiv2/xmp.hpp
+                          ../include/exiv2/xmp_exiv2.hpp
                           ../include/exiv2/xmpsidecar.hpp
                           ../include/exiv2/utilsvideo.hpp
                           ${CMAKE_BINARY_DIR}/exv_conf.h
@@ -313,8 +313,8 @@ install(TARGETS exiv2lib
      LIBRARY DESTINATION lib
      ARCHIVE DESTINATION lib
 )
-install(FILES ${LIBEXIV2_HDR} 
-    DESTINATION include/exiv2 
+install(FILES ${LIBEXIV2_HDR}
+    DESTINATION include/exiv2
 )
 
 include(../CMake_msvc.txt)
@@ -324,7 +324,7 @@ msvc_runtime_configure(${EXIV2_ENABLE_SHARED} ${EXIV2_ENABLE_DYNAMIC_RUNTIME})
 # exiv2 application
 ADD_EXECUTABLE( exiv2 ${EXIV2_SRC}  ${EXIV2_HDR} )
 TARGET_LINK_LIBRARIES( exiv2 exiv2lib ${LIBINTL_LIBRARIES} )
-install(TARGETS exiv2 
+install(TARGETS exiv2
      RUNTIME DESTINATION bin
  )
 

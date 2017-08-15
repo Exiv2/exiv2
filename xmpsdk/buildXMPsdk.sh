@@ -19,25 +19,36 @@ case "$uname" in
     ;;
 esac
 
+cd $(dirname "$0")  # always run this script in exiv2-dir/xmpsdk
+SDK=XMP-Toolkit-SDK-CC201607
+if [ "$1" == "2014" ]; then
+	SDK=XMP-Toolkit-SDK-CC201412
+fi
+
 ##
 # Download the code from Adobe
-if [ ! -e Adobe ]; then (
+if [ ! -e Adobe/$SDK ]; then (
     mkdir Adobe
     cd    Adobe
-    curl  -O http://download.macromedia.com/pub/developer/xmp/sdk/XMP-Toolkit-SDK-CC201607.zip
-    unzip XMP-Toolkit-SDK-CC201607.zip
+    if curl -O http://download.macromedia.com/pub/developer/xmp/sdk/$SDK.zip ; then
+    	unzip $SDK.zip
+    fi
 ) fi
+
+if [ ! -d Adobe/$SDK ]; then
+	echo "*** ERROR SDK = Adobe/$SDK not found" >2
+	exit 1
+fi
 
 ##
 # copy third-party code into SDK
 (
-    find third-party -type d -maxdepth 1 -exec cp -R '{}' Adobe/XMP-Toolkit-SDK-CC201607/third-party ';'
+    find third-party -type d -maxdepth 1 -exec cp -R '{}' Adobe/$SDK/third-party ';'
 )
 
 ##
-# generate Makefile and build
-(   cd Adobe/XMP-Toolkit-SDK-CC201607/build
-    result=1  # assume the build will fail
+# generate Makefile and build libraries
+(   cd Adobe/$SDK/build
     ##
     # Tweak the code (depends on platform)
     case "$uname" in
@@ -66,43 +77,51 @@ if [ ! -e Adobe ]; then (
             if [ -e $f.orig ]; then mv $f.orig $f ; fi ; cp $f $f.orig
 
             sed -E -e $'s?// Writeable?// Writeable~#include <windows.h>~#ifndef PATH_MAX~#define PATH_MAX 512~#endif?' $f.orig | tr "~" "\n" > $f
+            result=1 # build failed.  Can't build Cygwin yet!
         ;;
 
         Darwin)
-            cmake . -G "Unix Makefiles"              \
+            if [ ! -e ../../$SDK/public/libraries/macintosh/intel_64/release/libXMPCoreStatic.a ]; then
+            	cmake . -G "Unix Makefiles"          \
                     -DXMP_ENABLE_SECURE_SETTINGS=OFF \
                     -DXMP_BUILD_STATIC=1             \
                     -DCMAKE_CL_64=ON                 \
                     -DCMAKE_BUILD_TYPE=Release
-            make
-            result=$?
+            	make
+            	result=$?
+            fi
+        ;;
+        *)
+        	result=1  # build failed
         ;;
     esac
 )
 
 ##
-# copy headers and build libraries
+# copy headers and built libraries
 if [ -z "$result" ]; then (
-    rm -rf include
-    cp -R  Adobe/XMP-Toolkit-SDK-CC201607/public/include include
+
+    cp Adobe/$SDK/third-party/zuid/interfaces/MD5.h  Adobe/$SDK/public/include/MD5.h
 
     # report archives we can see
-    cd Adobe/XMP-Toolkit-SDK-CC201607
+    cd   Adobe/$SDK
     find public -name "*.a" -o -name "*.ar" | xargs ls -alt
-    cd ../..
+    cd   ../
 
     # move the library/archives into xmpsdk
     case "$uname" in
       Linux)
-          find Adobe/XMP-Toolkit-SDK-CC201607/public -name "*.ar" -exec cp {} . ';'
-          mv staticXMPCore.ar  libXMPCore.a
-          mv staticXMPFiles.ar libXMPFiles.a
+      	  rm -rf *.a *.ar
+          find $SDK/public -name "*.ar" -exec cp {} . ';'
+          mv   staticXMPCore.ar  libXMPCore.a
+          mv   staticXMPFiles.ar libXMPFiles.a
       ;;
 
       Darwin)
-          find Adobe/XMP-Toolkit-SDK-CC201607/public -name "*.a" -exec cp {} . ';'
-          mv libXMPCoreStatic.a  libXMPCore.a
-          mv libXMPFilesStatic.a libXMPFiles.a
+      	  rm -rf *.a *.ar
+          find $SDK/public -name "*.a" -exec cp {} . ';'
+          mv   libXMPCoreStatic.a  libXMPCore.a
+          mv   libXMPFilesStatic.a libXMPFiles.a
       ;;
     esac
     ls -alt *.a

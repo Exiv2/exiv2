@@ -42,7 +42,7 @@ EXIV2_RCSID("@(#) $Id: actions.cpp 4719 2017-03-08 20:42:28Z robinwmills $")
 #include "exif.hpp"
 #include "easyaccess.hpp"
 #include "iptc.hpp"
-#include "xmp.hpp"
+#include "xmp_exiv2.hpp"
 #include "preview.hpp"
 #include "futils.hpp"
 #include "i18n.h"                // NLS support.

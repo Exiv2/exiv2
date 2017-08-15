@@ -36,7 +36,7 @@ EXIV2_RCSID("@(#) $Id$")
 #include "image.hpp"
 #include "basicio.hpp"
 #include "error.hpp"
-#include "xmp.hpp"
+#include "xmp_exiv2.hpp"
 #include "futils.hpp"
 #include "convert.hpp"
 

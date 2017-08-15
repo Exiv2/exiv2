@@ -205,7 +205,6 @@ typedef int pid_t;
 #endif
 //////////////////////////////////////
 
-
 # include <stdio.h>
 #ifdef   EXV_HAVE_UNISTD_H
 #include <unistd.h>
@@ -213,6 +212,23 @@ typedef int pid_t;
 #ifdef __cplusplus
 #include <string>
 #include <iostream>
+#endif
+
+// Define build-env for Adobe XMPsdk
+#ifdef  EXV_ADOBE_XMPSDK
+# if     defined(__APPLE__)
+#  ifndef MAC_ENV
+#   define MAC_ENV 1
+#  endif
+# elif   defined(_MSC_VER) || defined(__CYGWIN__) || defined(__MINGW__)
+#  ifndef WIN_ENV
+#   define WIN_ENV 1
+#  endif
+# else
+#  ifndef UNIX_ENV
+#   define UNIX_ENV 1
+#  endif
+# endif
 #endif
 
 //
