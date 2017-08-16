@@ -8,9 +8,32 @@
 include(../CMake_msvc.txt)
 msvc_runtime_configure(${EXIV2_ENABLE_SHARED} ${EXIV2_ENABLE_DYNAMIC_RUNTIME})
 
-if( POLICY CMP0026 )
-    cmake_policy(SET CMP0026 OLD) # Something to do with location
-endif()
+set(XMPSRC src/ExpatAdapter.cpp
+           src/MD5.cpp
+           src/ParseRDF.cpp
+           src/UnicodeConversions.cpp
+           src/WXMPIterator.cpp
+           src/WXMPMeta.cpp
+           src/WXMPUtils.cpp
+           src/XML_Node.cpp
+           src/XMPCore_Impl.cpp
+           src/XMPIterator.cpp
+           src/XMPMeta-GetSet.cpp
+           src/XMPMeta-Parse.cpp
+           src/XMPMeta-Serialize.cpp
+           src/XMPMeta.cpp
+           src/XMPUtils-FileInfo.cpp
+           src/XMPUtils.cpp
+           include/MD5.h  
+           include/TXMPIterator.hpp  
+           include/TXMPMeta.hpp  
+           include/TXMPUtils.hpp  
+           include/XMP_Const.h  
+           include/XMP_Environment.h  
+           include/XMP.incl_cpp  
+           include/XMPSDK.hpp  
+           include/XMP_Version.h
+)
 
 FOREACH(_currentfile ${XMPSRC})
     # http://www.openguru.com/2009/04/cmake-detecting-platformoperating.html
@@ -27,26 +50,27 @@ if(NOT MSVC)
   endif()
 endif()
 
-IF( EXIV2_ENABLE_XMP AND EXIV2_ENABLE_LIBXMP )
-    check_include_file( "stdint.h"  EXV_HAVE_STDINT_H )
+# We generate a CMake OBJECT LIBRARY (a bunch of object files)
+add_library( xmp_object OBJECT ${XMPSRC} )
 
-    ADD_LIBRARY( xmp STATIC ${XMPSRC} )
-    target_compile_definitions(xmp PUBLIC XML_STATIC)
-    target_include_directories(xmp PUBLIC ${EXPAT_INCLUDE_DIR})
+#target_compile_definitions(xmp_object PRIVATE XML_STATIC)
+#target_include_directories(xmp_object PRIVATE ${EXPAT_INCLUDE_DIR})
+target_include_directories(xmp_object PRIVATE ${CMAKE_SOURCE_DIR}/xmpsdk/include)
 
-    target_include_directories(xmp PRIVATE ${CMAKE_SOURCE_DIR}/xmpsdk/include)
-    if (EXV_HAVE_STDINT_H)
-        target_compile_definitions(xmp PRIVATE EXV_HAVE_STDINT_H)
-    endif()
+check_include_file( "stdint.h"  EXV_HAVE_STDINT_H )
+if (EXV_HAVE_STDINT_H)
+    target_compile_definitions(xmp_object PUBLIC EXV_HAVE_STDINT_H)
+endif()
 
+if( EXIV2_ENABLE_LIBXMP )
+    add_library(xmp STATIC $<TARGET_OBJECTS:xmp_object>)
     target_link_libraries(xmp PUBLIC ${EXPAT_LIBRARIES})
+    target_include_directories(xmp PUBLIC ${EXPAT_INCLUDE_DIR})
+    target_include_directories(xmp PUBLIC ${CMAKE_SOURCE_DIR}/xmpsdk/include)
 
     # 1119  Install libxmp.a for use by third party applications (Thanks, Emmanuel)
-    INSTALL(TARGETS xmp
+    install(TARGETS xmp
         LIBRARY DESTINATION lib
         ARCHIVE DESTINATION lib
     )
-ENDIF()
-
-# That's all Folks!
-##
+endif()
