@@ -53,8 +53,7 @@ endif()
 # We generate a CMake OBJECT LIBRARY (a bunch of object files)
 add_library( xmp_object OBJECT ${XMPSRC} )
 
-#target_compile_definitions(xmp_object PRIVATE XML_STATIC)
-#target_include_directories(xmp_object PRIVATE ${EXPAT_INCLUDE_DIR})
+target_include_directories(xmp_object PRIVATE ${EXPAT_INCLUDE_DIR})
 target_include_directories(xmp_object PRIVATE ${CMAKE_SOURCE_DIR}/xmpsdk/include)
 
 check_include_file( "stdint.h"  EXV_HAVE_STDINT_H )

@@ -188,14 +188,6 @@ ENDIF( EXIV2_ENABLE_PNG )
 INCLUDE_DIRECTORIES(${CMAKE_CURRENT_BINARY_DIR})
 
 ##
-# add xmp source if xmp is requested and xmp library not built
-IF( EXIV2_ENABLE_XMP )
-    IF( NOT EXIV2_ENABLE_LIBXMP )
-        SET( LIBEXIV2_SRC ${XMPSRC} ${LIBEXIV2_SRC} )
-    ENDIF( NOT EXIV2_ENABLE_LIBXMP )
-ENDIF( EXIV2_ENABLE_XMP )
-
-##
 # Create source file lists for applications
 # exiv2 application
 SET( EXIV2_SRC            exiv2.cpp
@@ -237,7 +229,12 @@ ENDIF( MSVC )
 # ******************************************************************************
 # exiv2lib library
 
-ADD_LIBRARY( exiv2lib ${STATIC_FLAG} ${LIBEXIV2_SRC} ${LIBEXIV2_HDR} ${LIBEXIV2_PRIVATE_HDR} )
+if( EXIV2_ENABLE_XMP AND NOT EXIV2_ENABLE_LIBXMP )
+    add_library( exiv2lib ${STATIC_FLAG} ${LIBEXIV2_SRC} ${LIBEXIV2_HDR} ${LIBEXIV2_PRIVATE_HDR} $<TARGET_OBJECTS:xmp_object>)
+    target_link_libraries(exiv2lib PUBLIC ${EXPAT_LIBRARIES})
+else()
+    add_library( exiv2lib ${STATIC_FLAG} ${LIBEXIV2_SRC} ${LIBEXIV2_HDR} ${LIBEXIV2_PRIVATE_HDR})
+endif()
 
 SET_TARGET_PROPERTIES( exiv2lib PROPERTIES
     VERSION       ${GENERIC_LIB_VERSION}
