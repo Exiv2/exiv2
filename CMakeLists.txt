@@ -73,17 +73,12 @@ IF( EXIV2_ENABLE_COMMERCIAL )
 ENDIF()
 
 if( MSVC )
-    # cmake_policy(SET CMP0008)
     ADD_DEFINITIONS(-DPSAPI_VERSION=1) # to be compatible with <= WinVista (#905)
     set(CMAKE_DEBUG_POSTFIX "d")
 endif( MSVC )
 
 IF( EXIV2_ENABLE_XMP )
     SET( HAVE_XMP_TOOLKIT ON )
-    SET( XMPLIB "do" )
-    IF (NOT MINGW)
-        set(THREADS_PREFER_PTHREAD_FLAG ON)
-    ENDIF()
 ENDIF( EXIV2_ENABLE_XMP )
 
 include( config/generateConfigFile.cmake )
@@ -123,5 +118,3 @@ IF( MINGW OR UNIX OR APPLE)
 ENDIF()
 
 INCLUDE( config/printSummary.cmake )
-# That's all Folks!
-##
