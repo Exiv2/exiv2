@@ -275,32 +275,26 @@ msvc_runtime_configure(${EXIV2_ENABLE_SHARED} ${EXIV2_ENABLE_DYNAMIC_RUNTIME})
 # ******************************************************************************
 # exiv2 application
 
-##
-# Create source file lists for applications
-# exiv2 application
-SET( EXIV2_SRC            exiv2.cpp
-                          actions.cpp
-                          utils.cpp
-)
-SET( EXIV2_HDR            exiv2app.hpp
-                          actions.hpp
-                          utils.hpp
+set( EXIV2_SRC  exiv2.cpp
+                exiv2app.hpp
+                actions.cpp
+                actions.hpp
+                utils.cpp
+                utils.hpp
 )
 
-##
 # modify source lists to suit environment
-IF(NOT EXV_HAVE_TIMEGM )
-    SET( LIBEXIV2_SRC     ${LIBEXIV2_SRC} localtime.c )
-    SET(    EXIV2_SRC        ${EXIV2_SRC} localtime.c )
-    SET( PATHTEST_SRC     ${PATHTEST_SRC} localtime.c )
-ENDIF()
+if(NOT EXV_HAVE_TIMEGM )
+    target_sources(exiv2lib PRIVATE localtime.c)
+    target_sources(exiv2    PRIVATE localtime.c)
+endif()
 
-IF( MSVC )
-    SET(    EXIV2_SRC        ${EXIV2_SRC} getopt_win32.c )
-    SET( LIBEXIV2_SRC     ${LIBEXIV2_SRC} getopt_win32.c )
-ENDIF( MSVC )
+if (MSVC)
+    target_sources(exiv2lib PRIVATE getopt_win32.c)
+    target_sources(exiv2    PRIVATE getopt_win32.c)
+endif()
 
-add_executable( exiv2 ${EXIV2_SRC}  ${EXIV2_HDR} )
+add_executable( exiv2 ${EXIV2_SRC} )
 target_link_libraries( exiv2 PRIVATE exiv2lib )
 install(TARGETS exiv2 RUNTIME DESTINATION bin)
 

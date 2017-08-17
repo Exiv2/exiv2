@@ -61,6 +61,10 @@ add_executable       ( pathtest  path-test.cpp ../src/utils.cpp)
 set_target_properties( pathtest  PROPERTIES OUTPUT_NAME path-test )
 target_link_libraries( pathtest  PRIVATE exiv2lib)
 
+if(NOT EXV_HAVE_TIMEGM )
+    target_sources(pathtest PRIVATE ../src/localtime.c)
+endif()
+
 add_executable(        exiv2json exiv2json.cpp Jzon.cpp)
 target_link_libraries( exiv2json PRIVATE exiv2lib)
 
