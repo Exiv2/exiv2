@@ -201,7 +201,10 @@ endif()
 
 target_include_directories(exiv2lib PRIVATE ${CMAKE_SOURCE_DIR}/xmpsdk/include)
 # TODO : We should not include include/exiv2 but only include !!!
-target_include_directories(exiv2lib PUBLIC  ${CMAKE_SOURCE_DIR}/include/exiv2)
+target_include_directories(exiv2lib PUBLIC
+    $<BUILD_INTERFACE:${CMAKE_SOURCE_DIR}/include/exiv2>
+    $<BUILD_INTERFACE:${CMAKE_SOURCE_DIR}/include>
+)
 
 if (EXIV2_ENABLE_WEBREADY AND EXIV2_ENABLE_CURL)
     target_include_directories(exiv2lib SYSTEM PUBLIC ${CURL_INCLUDE_DIR} )

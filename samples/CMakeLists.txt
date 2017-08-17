@@ -8,8 +8,6 @@ if ( NOT MSVC )
 	set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin)
 endif()
 
-include_directories("${CMAKE_SOURCE_DIR}/include" "${CMAKE_SOURCE_DIR}/src")
-
 SET( SAMPLES addmoddel.cpp
              convert-test.cpp
              easyaccess-test.cpp
@@ -56,10 +54,12 @@ endforeach()
 
 add_executable( metacopy metacopy.cpp ../src/utils.cpp)
 target_link_libraries( metacopy PRIVATE exiv2lib)
+target_include_directories(metacopy PRIVATE ${CMAKE_SOURCE_DIR}/src) # To find utils.hpp
 
 add_executable       ( pathtest  path-test.cpp ../src/utils.cpp)
 set_target_properties( pathtest  PROPERTIES OUTPUT_NAME path-test )
 target_link_libraries( pathtest  PRIVATE exiv2lib)
+target_include_directories(pathtest PRIVATE ${CMAKE_SOURCE_DIR}/src) # To find utils.hpp
 
 if(NOT EXV_HAVE_TIMEGM )
     target_sources(pathtest PRIVATE ../src/localtime.c)
