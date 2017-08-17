@@ -246,6 +246,8 @@ IF ( UNIX )
 ENDIF()
 
 target_include_directories(exiv2lib PRIVATE ${CMAKE_SOURCE_DIR}/xmpsdk/include)
+# TODO : We should not include include/exiv2 but only include !!!
+target_include_directories(exiv2lib PUBLIC  ${CMAKE_SOURCE_DIR}/include/exiv2)
 
 if ( MSVC )
     if ( EXIV2_ENABLE_STATIC )

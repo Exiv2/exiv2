@@ -84,9 +84,6 @@ IF( EXIV2_ENABLE_COMMERCIAL )
     SET (EXIV2_ENABLE_NLS OFF)
 ENDIF()
 
-# binary as first, since it workarounds old VS solution compatibility problems
-INCLUDE_DIRECTORIES( ${CMAKE_SOURCE_DIR}/src/ ${CMAKE_SOURCE_DIR}/include/  ${CMAKE_SOURCE_DIR}/include/exiv2/)
-
 if( MSVC )
     # cmake_policy(SET CMP0008)
     ADD_DEFINITIONS(-DPSAPI_VERSION=1) # to be compatible with <= WinVista (#905)
