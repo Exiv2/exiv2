@@ -226,6 +226,7 @@ else()
     if ( UNIX AND NOT FREEBSD )
         target_link_libraries( exiv2lib PRIVATE dl)
     endif()
+    target_link_libraries( exiv2lib PRIVATE Threads::Threads)
     target_link_libraries( exiv2lib PUBLIC ${CURL_LIBRARIES} ${SSH_LIBRARIES})
 endif()
 
