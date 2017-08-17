@@ -195,14 +195,9 @@ SET_TARGET_PROPERTIES( exiv2lib PROPERTIES
     OUTPUT_NAME   exiv2
 )
 
-IF ( UNIX )
-  IF ( NOT CYGWIN AND NOT MINGW )
-    SET (LINUX 1)
-  ENDIF()
-  IF ( CMAKE_SYSTEM_NAME STREQUAL "FreeBSD" )
-    SET (FREEBSD 1)
-  ENDIF()
-ENDIF()
+if ( UNIX AND CMAKE_SYSTEM_NAME STREQUAL "FreeBSD" )
+    set (FREEBSD 1)
+endif()
 
 target_include_directories(exiv2lib PRIVATE ${CMAKE_SOURCE_DIR}/xmpsdk/include)
 # TODO : We should not include include/exiv2 but only include !!!
