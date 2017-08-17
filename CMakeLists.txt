@@ -67,8 +67,8 @@ ENDIF()
 # set include path for FindXXX.cmake files
 set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} "${CMAKE_SOURCE_DIR}/config/")
 
-IF( MINGW OR UNIX )
-    IF ( CMAKE_CXX_COMPILER STREQUAL "g++" OR CMAKE_C_COMPILER STREQUAL "gcc" )
+if( MINGW OR UNIX )
+    if (${CMAKE_CXX_COMPILER_ID} STREQUAL GNU)
         ADD_DEFINITIONS(-Wall
                     -Wcast-align
                     -Wpointer-arith
@@ -79,18 +79,8 @@ IF( MINGW OR UNIX )
                    )
     ENDIF()
 
-    execute_process(COMMAND ${CMAKE_CXX_COMPILER} --version OUTPUT_VARIABLE COMPILER_VERSION)
-    string(REGEX MATCHALL "[a-z\+]+" GCC_COMPILER_COMPONENTS ${COMPILER_VERSION})
-    list(GET GCC_COMPILER_COMPONENTS 0 COMPILER)
-
-    execute_process(COMMAND ${CMAKE_CXX_COMPILER} -dumpversion OUTPUT_VARIABLE GCC_VERSION)
-    string(REGEX MATCHALL "[0-9]+" GCC_VERSION_COMPONENTS ${GCC_VERSION})
-    list(GET GCC_VERSION_COMPONENTS 0 GCC_MAJOR)
-    list(GET GCC_VERSION_COMPONENTS 1 GCC_MINOR)
-
-    message(STATUS Compiler: ${COMPILER} " Major:" ${GCC_MAJOR} " Minor:" ${GCC_MINOR})
-
-    IF ( CYGWIN OR ( ${GCC_MAJOR} GREATER 5 ))
+    message(STATUS "Compiler info: ${CMAKE_CXX_COMPILER_ID} (${CMAKE_CXX_COMPILER}) ; version: ${CMAKE_CXX_COMPILER_VERSION}")
+    IF ( CYGWIN OR (CMAKE_CXX_COMPILER_VERSION VERSION_GREATER 5.0))
         ADD_DEFINITIONS( -std=gnu++98 ) # to support snprintf
     ELSE()
         ADD_DEFINITIONS( -std=c++98 )
