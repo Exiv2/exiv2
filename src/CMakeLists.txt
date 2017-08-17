@@ -199,13 +199,6 @@ SET( EXIV2_HDR            exiv2app.hpp
                           utils.hpp
 )
 
-# connection test application
-SET( CONNTEST             ../samples/conntest.cpp)
-# exifprint application
-SET( EXIFPRINT            ../samples/exifprint.cpp)
-# cmdfiletest application
-SET( REMOTETEST           ../samples/remotetest.cpp)
-
 ##
 # modify source lists to suit environment
 IF(NOT EXV_HAVE_TIMEGM )
@@ -323,24 +316,5 @@ install(TARGETS exiv2
  )
 
 # ******************************************************************************
-# connection test application
-ADD_EXECUTABLE( conntest ${CONNTEST} )
-TARGET_LINK_LIBRARIES( conntest PRIVATE  exiv2lib ${CURL_LIBRARIES} ${SSH_LIBRARIES} ${LIBINTL_LIBRARIES} )
-
-# ******************************************************************************
-# exifprint application
-# ADD_EXECUTABLE( exifprint ${EXIFPRINT} )
-# TARGET_LINK_LIBRARIES( exifprint exiv2lib )
-
-# ******************************************************************************
-# remotetest application
-ADD_EXECUTABLE( remotetest ${REMOTETEST} )
-TARGET_LINK_LIBRARIES( remotetest exiv2lib ${LIBINTL_LIBRARIES} )
-
-
-# ******************************************************************************
 # Man page
 INSTALL( FILES exiv2.1 DESTINATION ${CMAKE_INSTALL_MANDIR}/man1 )
-
-# That's all Folks!
-##

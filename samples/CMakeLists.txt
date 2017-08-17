@@ -48,7 +48,7 @@ FOREACH(entry ${SAMPLES})
     STRING( REPLACE ".cpp" "" target ${entry})
     ADD_EXECUTABLE( ${target} ${target}.cpp )
     ADD_TEST( ${target}_test ${target} )
-    TARGET_LINK_LIBRARIES( ${target} PRIVATE exiv2lib ${CMAKE_THREAD_LIBS_INIT})
+    TARGET_LINK_LIBRARIES( ${target} PRIVATE exiv2lib)
     INSTALL( TARGETS ${target} RUNTIME DESTINATION bin)
 ENDFOREACH(entry ${SAMPLES})
 
@@ -61,19 +61,19 @@ ENDIF( MSVC )
 
 SET( MC_SRC ${MC_SRC} metacopy.cpp ../src/utils.cpp )
 ADD_EXECUTABLE( metacopy ${MC_SRC} )
-TARGET_LINK_LIBRARIES( metacopy PRIVATE exiv2lib ${CMAKE_THREAD_LIBS_INIT} ${ZLIB_LIBRARIES})
+TARGET_LINK_LIBRARIES( metacopy PRIVATE exiv2lib)
 INSTALL( TARGETS metacopy RUNTIME DESTINATION bin)
 
 SET   ( PATHTEST_SRC             ${PATHTEST_SRC}  path-test.cpp ../src/utils.cpp )
 ADD_EXECUTABLE       ( pathtest  ${PATHTEST_SRC} )
 SET_TARGET_PROPERTIES( pathtest  PROPERTIES OUTPUT_NAME path-test )
-TARGET_LINK_LIBRARIES( pathtest  PRIVATE exiv2lib ${CMAKE_THREAD_LIBS_INIT} ${ZLIB_LIBRARIES})
+TARGET_LINK_LIBRARIES( pathtest  PRIVATE exiv2lib)
 INSTALL      ( TARGETS pathtest  RUNTIME DESTINATION bin)
 
 SET( EXIV2JSON_SRC     exiv2json.cpp Jzon.cpp )
 ADD_EXECUTABLE(        exiv2json ${EXIV2JSON_SRC} )
 SET_TARGET_PROPERTIES( exiv2json PROPERTIES OUTPUT_NAME exiv2json )
-TARGET_LINK_LIBRARIES( exiv2json PRIVATE exiv2lib ${CMAKE_THREAD_LIBS_INIT} ${ZLIB_LIBRARIES})
+TARGET_LINK_LIBRARIES( exiv2json PRIVATE exiv2lib)
 INSTALL( TARGETS       exiv2json RUNTIME DESTINATION bin)
 
 if( EXIV2_ENABLE_LIBXMP )
@@ -84,11 +84,24 @@ if( EXIV2_ENABLE_LIBXMP )
     INSTALL( TARGETS       geotag    RUNTIME DESTINATION bin)
 endif()
 
+# cmdfiletest application
+SET( REMOTETEST           ../samples/remotetest.cpp)
+
+# ******************************************************************************
+# connection test application
+add_executable(conntest conntest.cpp)
+target_link_libraries(conntest PRIVATE  exiv2lib)
+
+# ******************************************************************************
+# exifprint application
+# ADD_EXECUTABLE( exifprint exifprint.cpp )
+# TARGET_LINK_LIBRARIES( exifprint exiv2lib )
+
+# ******************************************************************************
+# remotetest application
+add_executable(remotetest remotetest.cpp)
+target_link_libraries(remotetest exiv2lib)
+
 # ******************************************************************************
 # Man page
 INSTALL( FILES exiv2samples.1 DESTINATION ${CMAKE_INSTALL_MANDIR}/man1 )
-
-# That's all Folks!
-##
-
-
