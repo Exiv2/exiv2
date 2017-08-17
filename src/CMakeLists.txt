@@ -145,33 +145,17 @@ SET( LIBEXIV2_SRC         asfvideo.cpp
                           utilsvideo.cpp
    )
 
-IF( EXIV2_ENABLE_WEBREADY )
-    ##
-    # add curl support
-    IF( EXIV2_ENABLE_CURL )
-        IF( CURL_FOUND )
-            SET( LIBEXIV2_SRC ${LIBEXIV2_SRC}
-                              easyaccess.cpp
-               )
-            set( LIBEXIV2_HDR ${LIBEXIV2_HDR}
-               ${CMAKE_CURRENT_LIST_DIR}/../include/exiv2/easyaccess.hpp
-            )
-        ENDIF()
-    ENDIF()
+if( EXIV2_ENABLE_WEBREADY )
+    if( EXIV2_ENABLE_CURL)
+        set( LIBEXIV2_SRC ${LIBEXIV2_SRC} easyaccess.cpp)
+        set( LIBEXIV2_HDR ${LIBEXIV2_HDR} ${CMAKE_CURRENT_LIST_DIR}/../include/exiv2/easyaccess.hpp)
+    endif()
 
-    ##
-    # add ssh support
-    IF( EXIV2_ENABLE_SSH )
-        IF( SSH_FOUND )
-            SET( LIBEXIV2_SRC ${LIBEXIV2_SRC}
-                              ssh.cpp
-               )
-            set( LIBEXIV2_HDR ${LIBEXIV2_HDR}
-            ${CMAKE_CURRENT_LIST_DIR}/../include/exiv2/ssh.hpp
-            )
-        ENDIF()
-    ENDIF()
-ENDIF( EXIV2_ENABLE_WEBREADY )
+    if( EXIV2_ENABLE_SSH )
+        set( LIBEXIV2_SRC ${LIBEXIV2_SRC} ssh.cpp)
+        set( LIBEXIV2_HDR ${LIBEXIV2_HDR} ${CMAKE_CURRENT_LIST_DIR}/../include/exiv2/ssh.hpp)
+    endif()
+endif( EXIV2_ENABLE_WEBREADY )
 
 ##
 # add png*.cpp files if PNG support requested
