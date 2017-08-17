@@ -70,7 +70,7 @@
 #include "exiv2/types.hpp"
 #include "exiv2/value.hpp"
 #include "exiv2/version.hpp"
-#include "exiv2/xmp.hpp"
+#include "exiv2/xmp_exiv2.hpp"
 #include "exiv2/xmpsidecar.hpp"
 
 #endif                                  // #ifndef EXIV2_HPP_
