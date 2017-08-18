@@ -33,7 +33,6 @@
 // included header files
 #include "exif.hpp"
 #include "image.hpp"
-#include "tags_int.hpp"
 
 // *****************************************************************************
 // namespace extensions

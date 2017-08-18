@@ -14,7 +14,8 @@ macro( OptionOutput _outputstring )
     message( STATUS "${_outputstring}${_var}" )
 endmacro( OptionOutput _outputstring )
 
-message(STATUS Compiler: ${COMPILER} " Major:" ${GCC_MAJOR})
+message( STATUS "Compiler info: ${CMAKE_CXX_COMPILER_ID} (${CMAKE_CXX_COMPILER}) ; version: ${CMAKE_CXX_COMPILER_VERSION}")
+
 message( STATUS "------------------------------------------------------------------" )
 message( STATUS "${PACKAGE_STRING} configure results        <${PACKAGE_URL}>"        )
 OptionOutput( "Building PNG support:               " EXIV2_ENABLE_PNG AND ZLIB_FOUND )

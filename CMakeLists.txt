@@ -9,11 +9,7 @@
 CMAKE_MINIMUM_REQUIRED( VERSION 3.1.0 )
 PROJECT( exiv2 )
 
-if( POLICY CMP0042 )
-    cmake_policy(SET CMP0042 NEW) # enable MACOSX_RPATH support
-else()
-    SET(CMAKE_MACOSX_RPATH 1)
-endif()
+set(CMAKE_MACOSX_RPATH 1)
 
 SET( PACKAGE_COPYRIGHT      "Andreas Huggel" )
 SET( PACKAGE_BUGREPORT      "http://github.com/exiv2/exiv2" )
@@ -51,8 +47,8 @@ ENDIF()
 
 include(config/findDependencies.cmake)
 
-IF( MINGW OR UNIX )
-    IF ( CMAKE_CXX_COMPILER STREQUAL "g++" OR CMAKE_C_COMPILER STREQUAL "gcc" )
+if( MINGW OR UNIX )
+    if (${CMAKE_CXX_COMPILER_ID} STREQUAL GNU)
         ADD_DEFINITIONS(-Wall
                     -Wcast-align
                     -Wpointer-arith
@@ -63,15 +59,7 @@ IF( MINGW OR UNIX )
                    )
     ENDIF()
 
-    execute_process(COMMAND ${CMAKE_CXX_COMPILER} --version OUTPUT_VARIABLE COMPILER_VERSION)
-    string(REGEX MATCHALL "[A-Z|a-z\+]+" GCC_COMPILER_COMPONENTS ${COMPILER_VERSION})
-    list(GET GCC_COMPILER_COMPONENTS 0 COMPILER)
-
-    execute_process(COMMAND ${CMAKE_CXX_COMPILER} -dumpversion OUTPUT_VARIABLE GCC_VERSION)
-    string(REGEX MATCHALL "[0-9]+" GCC_VERSION_COMPONENTS ${GCC_VERSION})
-    list(GET GCC_VERSION_COMPONENTS 0 GCC_MAJOR)
-
-    IF ( CYGWIN OR ( ${GCC_MAJOR} GREATER 5 ))
+    IF ( CYGWIN OR (CMAKE_CXX_COMPILER_VERSION VERSION_GREATER 5.0))
         ADD_DEFINITIONS( -std=gnu++98 ) # to support snprintf
     ELSE()
         ADD_DEFINITIONS( -std=c++98 )
@@ -84,21 +72,13 @@ IF( EXIV2_ENABLE_COMMERCIAL )
     SET (EXIV2_ENABLE_NLS OFF)
 ENDIF()
 
-# binary as first, since it workarounds old VS solution compatibility problems
-INCLUDE_DIRECTORIES( ${CMAKE_SOURCE_DIR}/src/ ${CMAKE_SOURCE_DIR}/include/  ${CMAKE_SOURCE_DIR}/include/exiv2/)
-
 if( MSVC )
-    # cmake_policy(SET CMP0008)
     ADD_DEFINITIONS(-DPSAPI_VERSION=1) # to be compatible with <= WinVista (#905)
     set(CMAKE_DEBUG_POSTFIX "d")
 endif( MSVC )
 
 IF( EXIV2_ENABLE_XMP )
     SET( HAVE_XMP_TOOLKIT ON )
-    SET( XMPLIB "do" )
-    IF (NOT MINGW)
-        set(THREADS_PREFER_PTHREAD_FLAG ON)
-    ENDIF()
 ENDIF( EXIV2_ENABLE_XMP )
 
 include( config/generateConfigFile.cmake )
@@ -138,5 +118,3 @@ IF( MINGW OR UNIX OR APPLE)
 ENDIF()
 
 INCLUDE( config/printSummary.cmake )
-# That's all Folks!
-##

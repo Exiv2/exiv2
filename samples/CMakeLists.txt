@@ -8,8 +8,6 @@ if ( NOT MSVC )
 	set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin)
 endif()
 
-include_directories("${CMAKE_SOURCE_DIR}/include" "${CMAKE_SOURCE_DIR}/src")
-
 SET( SAMPLES addmoddel.cpp
              convert-test.cpp
              easyaccess-test.cpp
@@ -44,51 +42,60 @@ SET( SAMPLES addmoddel.cpp
 include(../CMake_msvc.txt)
 msvc_runtime_configure(${EXIV2_ENABLE_SHARED} ${EXIV2_ENABLE_DYNAMIC_RUNTIME})
 
-FOREACH(entry ${SAMPLES})
-    STRING( REPLACE ".cpp" "" target ${entry})
-    ADD_EXECUTABLE( ${target} ${target}.cpp )
-    ADD_TEST( ${target}_test ${target} )
-    TARGET_LINK_LIBRARIES( ${target} PRIVATE exiv2lib ${CMAKE_THREAD_LIBS_INIT})
-    INSTALL( TARGETS ${target} RUNTIME DESTINATION bin)
-ENDFOREACH(entry ${SAMPLES})
+foreach(entry ${SAMPLES})
+    string( REPLACE ".cpp" "" target ${entry})
+    add_executable( ${target} ${target}.cpp )
+    add_test( ${target}_test ${target} )
+    target_link_libraries( ${target} PRIVATE exiv2lib)
+    install( TARGETS ${target} RUNTIME DESTINATION bin)
+endforeach()
 
 ###################################
-# metacopy/path-test sample applications require utils.cpp support
-IF( MSVC )
-    SET( PATHTEST_SRC      ${PATHTEST_SRC} ../src/getopt_win32.c )
-    SET( MC_SRC            ${MC_SRC}       ../src/getopt_win32.c )
-ENDIF( MSVC )
 
-SET( MC_SRC ${MC_SRC} metacopy.cpp ../src/utils.cpp )
-ADD_EXECUTABLE( metacopy ${MC_SRC} )
-TARGET_LINK_LIBRARIES( metacopy PRIVATE exiv2lib ${CMAKE_THREAD_LIBS_INIT} ${ZLIB_LIBRARIES})
-INSTALL( TARGETS metacopy RUNTIME DESTINATION bin)
+add_executable( metacopy metacopy.cpp ../src/utils.cpp)
+target_link_libraries( metacopy PRIVATE exiv2lib)
+target_include_directories(metacopy PRIVATE ${CMAKE_SOURCE_DIR}/src) # To find utils.hpp
 
-SET   ( PATHTEST_SRC             ${PATHTEST_SRC}  path-test.cpp ../src/utils.cpp )
-ADD_EXECUTABLE       ( pathtest  ${PATHTEST_SRC} )
-SET_TARGET_PROPERTIES( pathtest  PROPERTIES OUTPUT_NAME path-test )
-TARGET_LINK_LIBRARIES( pathtest  PRIVATE exiv2lib ${CMAKE_THREAD_LIBS_INIT} ${ZLIB_LIBRARIES})
-INSTALL      ( TARGETS pathtest  RUNTIME DESTINATION bin)
+add_executable       ( pathtest  path-test.cpp ../src/utils.cpp)
+set_target_properties( pathtest  PROPERTIES OUTPUT_NAME path-test )
+target_link_libraries( pathtest  PRIVATE exiv2lib)
+target_include_directories(pathtest PRIVATE ${CMAKE_SOURCE_DIR}/src) # To find utils.hpp
 
-SET( EXIV2JSON_SRC     exiv2json.cpp Jzon.cpp )
-ADD_EXECUTABLE(        exiv2json ${EXIV2JSON_SRC} )
-SET_TARGET_PROPERTIES( exiv2json PROPERTIES OUTPUT_NAME exiv2json )
-TARGET_LINK_LIBRARIES( exiv2json PRIVATE exiv2lib ${CMAKE_THREAD_LIBS_INIT} ${ZLIB_LIBRARIES})
-INSTALL( TARGETS       exiv2json RUNTIME DESTINATION bin)
+if(NOT EXV_HAVE_TIMEGM )
+    target_sources(pathtest PRIVATE ../src/localtime.c)
+endif()
+
+add_executable(        exiv2json exiv2json.cpp Jzon.cpp)
+target_link_libraries( exiv2json PRIVATE exiv2lib)
+
+install( TARGETS metacopy pathtest exiv2json RUNTIME DESTINATION bin)
+
+if (MSVC)
+    target_sources(pathtest PRIVATE ../src/getopt_win32.c)
+    target_sources(metacopy PRIVATE ../src/getopt_win32.c)
+endif()
 
 if( EXIV2_ENABLE_LIBXMP )
-    SET( GEOTAG_SRC        geotag.cpp )
-    ADD_EXECUTABLE(        geotag    ${GEOTAG_SRC} )
-    SET_TARGET_PROPERTIES( geotag    PROPERTIES OUTPUT_NAME geotag )
-    TARGET_LINK_LIBRARIES( geotag    PRIVATE exiv2lib ${ZLIB_LIBRARIES})
-    INSTALL( TARGETS       geotag    RUNTIME DESTINATION bin)
+    add_executable(        geotag    geotag.cpp)
+    target_link_libraries( geotag    PRIVATE exiv2lib ${ZLIB_LIBRARIES})
+    install( TARGETS       geotag    RUNTIME DESTINATION bin)
 endif()
+
+# ******************************************************************************
+# connection test application
+add_executable(conntest conntest.cpp)
+target_link_libraries(conntest PRIVATE  exiv2lib)
+
+# ******************************************************************************
+# exifprint application
+# ADD_EXECUTABLE( exifprint exifprint.cpp )
+# TARGET_LINK_LIBRARIES( exifprint exiv2lib )
+
+# ******************************************************************************
+# remotetest application
+add_executable(remotetest remotetest.cpp)
+target_link_libraries(remotetest exiv2lib)
 
 # ******************************************************************************
 # Man page
 INSTALL( FILES exiv2samples.1 DESTINATION ${CMAKE_INSTALL_MANDIR}/man1 )
-
-# That's all Folks!
-##
-
-

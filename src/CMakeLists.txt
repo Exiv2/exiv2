@@ -145,33 +145,17 @@ SET( LIBEXIV2_SRC         asfvideo.cpp
                           utilsvideo.cpp
    )
 
-IF( EXIV2_ENABLE_WEBREADY )
-    ##
-    # add curl support
-    IF( EXIV2_ENABLE_CURL )
-        IF( CURL_FOUND )
-            SET( LIBEXIV2_SRC ${LIBEXIV2_SRC}
-                              easyaccess.cpp
-               )
-            set( LIBEXIV2_HDR ${LIBEXIV2_HDR}
-               ${CMAKE_CURRENT_LIST_DIR}/../include/exiv2/easyaccess.hpp
-            )
-        ENDIF()
-    ENDIF()
+if( EXIV2_ENABLE_WEBREADY )
+    if( EXIV2_ENABLE_CURL)
+        set( LIBEXIV2_SRC ${LIBEXIV2_SRC} easyaccess.cpp)
+        set( LIBEXIV2_HDR ${LIBEXIV2_HDR} ${CMAKE_CURRENT_LIST_DIR}/../include/exiv2/easyaccess.hpp)
+    endif()
 
-    ##
-    # add ssh support
-    IF( EXIV2_ENABLE_SSH )
-        IF( SSH_FOUND )
-            SET( LIBEXIV2_SRC ${LIBEXIV2_SRC}
-                              ssh.cpp
-               )
-            set( LIBEXIV2_HDR ${LIBEXIV2_HDR}
-            ${CMAKE_CURRENT_LIST_DIR}/../include/exiv2/ssh.hpp
-            )
-        ENDIF()
-    ENDIF()
-ENDIF( EXIV2_ENABLE_WEBREADY )
+    if( EXIV2_ENABLE_SSH )
+        set( LIBEXIV2_SRC ${LIBEXIV2_SRC} ssh.cpp)
+        set( LIBEXIV2_HDR ${LIBEXIV2_HDR} ${CMAKE_CURRENT_LIST_DIR}/../include/exiv2/ssh.hpp)
+    endif()
+endif( EXIV2_ENABLE_WEBREADY )
 
 ##
 # add png*.cpp files if PNG support requested
@@ -186,38 +170,6 @@ IF( EXIV2_ENABLE_PNG )
 ENDIF( EXIV2_ENABLE_PNG )
 
 INCLUDE_DIRECTORIES(${CMAKE_CURRENT_BINARY_DIR})
-
-##
-# Create source file lists for applications
-# exiv2 application
-SET( EXIV2_SRC            exiv2.cpp
-                          actions.cpp
-                          utils.cpp
-)
-SET( EXIV2_HDR            exiv2app.hpp
-                          actions.hpp
-                          utils.hpp
-)
-
-# connection test application
-SET( CONNTEST             ../samples/conntest.cpp)
-# exifprint application
-SET( EXIFPRINT            ../samples/exifprint.cpp)
-# cmdfiletest application
-SET( REMOTETEST           ../samples/remotetest.cpp)
-
-##
-# modify source lists to suit environment
-IF(NOT EXV_HAVE_TIMEGM )
-    SET( LIBEXIV2_SRC     ${LIBEXIV2_SRC} localtime.c )
-    SET(    EXIV2_SRC        ${EXIV2_SRC} localtime.c )
-    SET( PATHTEST_SRC     ${PATHTEST_SRC} localtime.c )
-ENDIF()
-
-IF( MSVC )
-    SET(    EXIV2_SRC        ${EXIV2_SRC} getopt_win32.c )
-    SET( LIBEXIV2_SRC     ${LIBEXIV2_SRC} getopt_win32.c )
-ENDIF( MSVC )
 
 ##
 # msvn tuning
@@ -243,16 +195,24 @@ SET_TARGET_PROPERTIES( exiv2lib PROPERTIES
     OUTPUT_NAME   exiv2
 )
 
-IF ( UNIX )
-  IF ( NOT CYGWIN AND NOT MINGW )
-    SET (LINUX 1)
-  ENDIF()
-  IF ( CMAKE_SYSTEM_NAME STREQUAL "FreeBSD" )
-    SET (FREEBSD 1)
-  ENDIF()
-ENDIF()
+if ( UNIX AND CMAKE_SYSTEM_NAME STREQUAL "FreeBSD" )
+    set (FREEBSD 1)
+endif()
 
 target_include_directories(exiv2lib PRIVATE ${CMAKE_SOURCE_DIR}/xmpsdk/include)
+# TODO : We should not include include/exiv2 but only include !!!
+target_include_directories(exiv2lib PUBLIC
+    $<BUILD_INTERFACE:${CMAKE_SOURCE_DIR}/include/exiv2>
+    $<BUILD_INTERFACE:${CMAKE_SOURCE_DIR}/include>
+)
+
+if (EXIV2_ENABLE_WEBREADY AND EXIV2_ENABLE_CURL)
+    target_include_directories(exiv2lib SYSTEM PUBLIC ${CURL_INCLUDE_DIR} )
+endif()
+
+if (EXIV2_ENABLE_WEBREADY AND EXIV2_ENABLE_SSH)
+    target_include_directories(exiv2lib SYSTEM PUBLIC ${SSH_INCLUDE_DIR} )
+endif()
 
 if ( MSVC )
     if ( EXIV2_ENABLE_STATIC )
@@ -263,17 +223,14 @@ if ( MSVC )
     source_group("Header Files" FILES ${LIBEXIV2_HDR} )
     source_group("Header Files" FILES ${LIBCURL_HDR} )
     source_group("Header Files" FILES ${SSH_HDR} )
-    TARGET_LINK_LIBRARIES( exiv2lib PRIVATE ${ZLIB_LIBRARIES} ${CURL_LIBRARIES} ${SSH_LIBRARIES})
+    target_link_libraries( exiv2lib PRIVATE ${ZLIB_LIBRARIES} ${CURL_LIBRARIES} ${SSH_LIBRARIES})
 else()
+    # TODO: Check if this is really needed.
     if ( UNIX AND NOT FREEBSD )
-        TARGET_LINK_LIBRARIES( exiv2lib PRIVATE dl ${CURL_LIBRARIES} )
-        TARGET_LINK_LIBRARIES( exiv2lib PRIVATE dl ${SSH_LIBRARIES} )
-        TARGET_LINK_LIBRARIES( exiv2lib PRIVATE dl ${CMAKE_THREAD_LIBS_INIT} )
-    else()
-        TARGET_LINK_LIBRARIES( exiv2lib PRIVATE ${CURL_LIBRARIES} )
-        TARGET_LINK_LIBRARIES( exiv2lib PRIVATE ${SSH_LIBRARIES} )
-        TARGET_LINK_LIBRARIES( exiv2lib PRIVATE ${CMAKE_THREAD_LIBS_INIT} )
+        target_link_libraries( exiv2lib PRIVATE dl)
     endif()
+    target_link_libraries( exiv2lib PRIVATE Threads::Threads)
+    target_link_libraries( exiv2lib PUBLIC ${CURL_LIBRARIES} ${SSH_LIBRARIES})
 endif()
 
 if( EXIV2_ENABLE_LIBXMP )
@@ -316,31 +273,33 @@ msvc_runtime_configure(${EXIV2_ENABLE_SHARED} ${EXIV2_ENABLE_DYNAMIC_RUNTIME})
 
 # ******************************************************************************
 # exiv2 application
-ADD_EXECUTABLE( exiv2 ${EXIV2_SRC}  ${EXIV2_HDR} )
-TARGET_LINK_LIBRARIES( exiv2 exiv2lib ${LIBINTL_LIBRARIES} )
-install(TARGETS exiv2
-     RUNTIME DESTINATION bin
- )
 
-# ******************************************************************************
-# connection test application
-ADD_EXECUTABLE( conntest ${CONNTEST} )
-TARGET_LINK_LIBRARIES( conntest PRIVATE  exiv2lib ${CURL_LIBRARIES} ${SSH_LIBRARIES} ${LIBINTL_LIBRARIES} )
+set( EXIV2_SRC  exiv2.cpp
+                exiv2app.hpp
+                actions.cpp
+                actions.hpp
+                utils.cpp
+                utils.hpp
+)
 
-# ******************************************************************************
-# exifprint application
-# ADD_EXECUTABLE( exifprint ${EXIFPRINT} )
-# TARGET_LINK_LIBRARIES( exifprint exiv2lib )
+add_executable( exiv2 ${EXIV2_SRC} )
+target_link_libraries( exiv2 PRIVATE exiv2lib )
+install(TARGETS exiv2 RUNTIME DESTINATION bin)
 
-# ******************************************************************************
-# remotetest application
-ADD_EXECUTABLE( remotetest ${REMOTETEST} )
-TARGET_LINK_LIBRARIES( remotetest exiv2lib ${LIBINTL_LIBRARIES} )
+# TODO This should not be needed here! we need to fix the previous TODO
+target_include_directories(exiv2 PRIVATE ${CMAKE_SOURCE_DIR}/include/)
 
+# modify source lists to suit environment
+if(NOT EXV_HAVE_TIMEGM )
+    target_sources(exiv2lib PRIVATE localtime.c)
+    target_sources(exiv2    PRIVATE localtime.c)
+endif()
+
+if (MSVC)
+    target_sources(exiv2lib PRIVATE getopt_win32.c)
+    target_sources(exiv2    PRIVATE getopt_win32.c)
+endif()
 
 # ******************************************************************************
 # Man page
 INSTALL( FILES exiv2.1 DESTINATION ${CMAKE_INSTALL_MANDIR}/man1 )
-
-# That's all Folks!
-##
