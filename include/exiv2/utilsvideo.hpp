@@ -19,7 +19,6 @@
  * Foundation, Inc., 51 Franklin Street, 5th Floor, Boston, MA 02110-1301 USA.
  */
 
-#include "tags_int.hpp"
 
 namespace Exiv2
 {

@@ -34,10 +34,11 @@ EXIV2_RCSID("@(#) $Id$")
 #include "config.h"
 
 #ifdef EXV_ENABLE_VIDEO
+#include "tags.hpp"
+#include "tags_int.hpp"
 #include "quicktimevideo.hpp"
 #include "futils.hpp"
 #include "basicio.hpp"
-#include "tags.hpp"
 // + standard includes
 #include <cmath>
 
