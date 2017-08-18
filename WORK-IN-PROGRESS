@@ -15,10 +15,19 @@ T A B L E   o f   C O N T E N T S
 
 3   Features to Add to the CMake code
 
+4   Build design for v0.26.1
+4.1 Backwards compatibility
+4.2 New Options for ./configure
+4.3 New Options for msvc
+4.4 New Options for CMake
+4.5 New Options for contrib/cmake/msvc
+4.6 Scripts xmpsdk/buildXMPsdk.sh and xmpsdk/buildXMPsdk.cmd
+4.7 Support for 32/64 bit builds, Release/Debug, Shared/Static
+4.8 Support for MinGW
+
 ==========================================================================
 
 1   Building XMPsdk and Samples in Terminal with the ./Generate_XXX_mac.sh scripts
---------------------------------------------------------------------------------
 
 Added   : 2017-08-18
 Modified: 2017-08-18
@@ -68,10 +77,10 @@ XMPIterations
 
 XMP-Toolkit-SDK-CC201607/samples $ otool -L target/macintosh/intel_64/Release/DumpFile 
 target/macintosh/intel_64/Release/DumpFile:
-	/System/Library/Frameworks/Cocoa.framework/Versions/A/Cocoa (compatibility version 1.0.0, current version 22.0.0)
-	/usr/lib/libstdc++.6.dylib (compatibility version 7.0.0, current version 104.1.0)
-	/usr/lib/libSystem.B.dylib (compatibility version 1.0.0, current version 1225.1.1)
-	/System/Library/Frameworks/CoreServices.framework/Versions/A/CoreServices (compatibility version 1.0.0, current version 728.4.0)
+    /System/Library/Frameworks/Cocoa.framework/Versions/A/Cocoa (compatibility version 1.0.0, current version 22.0.0)
+    /usr/lib/libstdc++.6.dylib (compatibility version 7.0.0, current version 104.1.0)
+    /usr/lib/libSystem.B.dylib (compatibility version 1.0.0, current version 1225.1.1)
+    /System/Library/Frameworks/CoreServices.framework/Versions/A/CoreServices (compatibility version 1.0.0, current version 728.4.0)
 XMP-Toolkit-SDK-CC201607/samples $ 
 
 Conclusion:  We should not link -lXMPCore with libexiv2.26.dylib
@@ -89,7 +98,6 @@ $ env VERBOSE=1 xcodebuild -project xcode/intel_64/XMP_Samples_64.xcodeproj -con
 ==========================================================================
 
 2   Puzzle with autotools/--with-adobe MacOS-X Only
--------------------------------------------------
 Added   : 2017-08-17
 Modified: 2017-08-18
 
@@ -157,9 +165,9 @@ ls -alt src/.libs/libexiv2.26.dylib
 ---------------------------------------------
 
 Edit src/Makefile#242 and change:
-	@$(LIBTOOL) --mode=link $(LINK.cc) -o ../bin/$@ $(LIBRARY) $(EXIV2OBJ) $(EXIV2COBJ) -rpath $(libdir)
+    @$(LIBTOOL) --mode=link $(LINK.cc) -o ../bin/$@ $(LIBRARY) $(EXIV2OBJ) $(EXIV2COBJ) -rpath $(libdir)
 to:
-	@$(LIBTOOL) --mode=link $(LINK.cc) -lXMPCore -o ../bin/$@ $(LIBRARY) $(EXIV2OBJ) $(EXIV2COBJ) -rpath $(libdir)
+    @$(LIBTOOL) --mode=link $(LINK.cc) -lXMPCore -o ../bin/$@ $(LIBRARY) $(EXIV2OBJ) $(EXIV2COBJ) -rpath $(libdir)
 
 $ touch src/version.cpp src/exiv2.cpp ; make
 $ ls -alt src/.libs/libexiv2.26.dylib
@@ -375,11 +383,102 @@ clang -x c++
 ==========================================================================
 
 3   Features to Add to the CMake code
------------------------------------
+
   * Auto usage of ccache on Linux and Mac.
   * Remove the trick to compile the documentation using the configure script. Native documentation generation on CMake.
 
 ==========================================================================
+
+4   Build design for v0.26.1
+
+Added   : 2017-08-18
+Modified: 2017-08-18
+
+    The purpose of the v0.26.1 is to release bug fixes and
+    experimental new features which may become defaults with v0.27
+
+4.1 Backwards compatibility
+    This feature is being added to v0.26.1 DOT release and therefore existing
+    behaviour of ./configure, CMake and msvc does not change. 
+    
+    ./configure --enable-xmp (default is true) will build a library libxmpsdk.a
+    using the code in xmpsdk/src.  This library is linked into libexiv2.26.dylib
+    
+4.2 New Options for ./configure
+    
+    ./configure --with-std=c++11
+        The default behaviour is the same as v0.26.0 --with-std=-std=c++98
+        If the user requests --with-adobe, --with-std=c++11 is the default
+        
+    ./configure --with-adobe[=2016|2014]
+        This causes the Adobe XMPsdk to be downloaded and built
+        into the directory xmpsdk/Adobe/XMP-Toolkit-SDK-CC201607/libXMPCore.a
+        
+        The dynamic library libexiv2.26.dylib will not have libXMPCore.a linked
+        All applications (such as exiv2, exifprint etc) will require:
+          -Lxmpsdk/Adobe/XMP-Toolkit-SDK-CC201607 -lXMPCore
+          
+        This is an important architectural change in libexiv2.26.dylib
+        However this is the way to achieve architecture independence between
+        exiv2 and Adobe XMPsdk.  A longer term goal is to totally remove
+        all Adobe code from the exiv2 tarball.
+        
+        Although --with-adobe causes the default compiler to be --with-std=c++11,
+        the code will with --with-std=c++98  The Adobe XMPsdk is built using the script
+        xmpsdk/buildXMPsdk which downloads and builds libXMPCore.a using Adobe provided
+        CMake code.  For the 2016 SDK, libXMPCore.a is built with -std=c++11 
+        
+4.3 New Options for msvc
+    This work has not been started.  There are at least two possibilities:
+     
+    1) To provide a new solution msvc/exiv2-adobe.sln
+       This is the model used by msvc/exiv2-webready.sln
+    2) To update msvc/configure.py to support options similar to
+       ./configure --with-std= and ./config --with-adobe
+
+4.4 New Options for CMake
+    Luis is adopting a two stage approach:
+     
+    1) Cleaning up and refactoring the existing CMake scripts (*.cmake and CMakeLists.txt files)
+       This work is proceeding well.
+    2) Adding new EXIV2_ENABLE_XXXXs equivalent  to ./configure --with-std and --with-adobe
+       This work is waiting for Robin to complete the ./configure modifications.
+        
+    It is expected that the CMake files will execute the script xmpsdk/buildXMPsdk.{sh|cmd}
+    to perform the build of libXMPCore.a
+
+4.5 New Options for contrib/cmake/msvc
+    To be written.  Luis' great new work may make this obsolete.
+        
+4.6 Scripts xmpsdk/buildXMPsdk.sh and xmpsdk/buildXMPsdk.cmd
+
+    These scripts download and build the Adobe XMPsdk.  Minor modification of the SDK
+    is necessary to enable the code to build.  For example, Adobe does not support Cygwin
+    and minor change are necessary to build on that platform.
+     
+    Changes to Adobe code will be minimal and documented in xmpsdk/buildXMPsdk.{sh|cmd}
+     
+4.7 Support for 32/64 bit builds, Release/Debug, Shared/Static
+    
+    1) v0.26.1 will build exactly as v0.26 and support link static libxmpsdk
+       32/64 static/shared debug/release are supported on all platforms
+    
+    2) The new features (--with-std and --with-adobe) will only be supported for
+       a static/release build of libCore.a
+       msvc will continue to supports 32/64 ReleaseDLL/Release/DebugDLL/Debug
+        
+4.8 Support for MinGW
+    MinGW msys/1.0 was deprecated when v0.26 was released.
+    No support for MinGW msys/1.0 will be provided.
+    It's very likely that the MinGW msys/1.0 will build.
+    I will not provide any user support for MinGW msys/1.0 in future.
+    
+    MinGW msys/2.0 might be supported as "experimental" in Exiv2 v0.26.2
+     
+==========================================================================
+    
+
+
 
 # That's all Folks!
 ==========================================================================
