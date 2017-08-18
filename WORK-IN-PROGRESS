@@ -237,7 +237,6 @@ For sure, Adobe's code is being built with MacOSX10.8.sdk and -std=c++11
 -o CMakeFiles/XMPCoreStatic.dir/Users/rmills/gnu/github/exiv2/xmpsdk/Adobe/XMP-Toolkit-SDK-CC201607/XMPCore/source/XMPMeta-GetSet.cpp.o
 -c /Users/rmills/gnu/github/exiv2/xmpsdk/Adobe/XMP-Toolkit-SDK-CC201607/XMPCore/source/XMPMeta-GetSet.cpp
 
-
 Compiler options used to build DumpFile sample Application
 -----------------------------------------------------------
 
@@ -352,3 +351,7 @@ Linker Options used to link DumpFile
 /Users/rmills/gnu/github/exiv2/xmpsdk/Adobe/XMP-Toolkit-SDK-CC201607/samples/build/cmake/DumpFile/build_x64/XMP_Samples_64.build/Release/DumpFile.build/Objects-normal/x86_64/DumpFile_dependency_info.dat
 -o /Users/rmills/gnu/github/exiv2/xmpsdk/Adobe/XMP-Toolkit-SDK-CC201607/samples/target/macintosh/intel_64/Release/DumpFile
 
+Features to Add to the CMake code
+-----------------------------------------------------------------------------------
+ * Auto usage of ccache on Linux and Mac.
+ * Remove the trick to compile the documentation using the configure script. Native documentation generation on CMake.
