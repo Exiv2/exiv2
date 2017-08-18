@@ -282,6 +282,13 @@ set( EXIV2_SRC  exiv2.cpp
                 utils.hpp
 )
 
+add_executable( exiv2 ${EXIV2_SRC} )
+target_link_libraries( exiv2 PRIVATE exiv2lib )
+install(TARGETS exiv2 RUNTIME DESTINATION bin)
+
+# TODO This should not be needed here! we need to fix the previous TODO
+target_include_directories(exiv2 PRIVATE ${CMAKE_SOURCE_DIR}/include/)
+
 # modify source lists to suit environment
 if(NOT EXV_HAVE_TIMEGM )
     target_sources(exiv2lib PRIVATE localtime.c)
@@ -292,13 +299,6 @@ if (MSVC)
     target_sources(exiv2lib PRIVATE getopt_win32.c)
     target_sources(exiv2    PRIVATE getopt_win32.c)
 endif()
-
-add_executable( exiv2 ${EXIV2_SRC} )
-target_link_libraries( exiv2 PRIVATE exiv2lib )
-install(TARGETS exiv2 RUNTIME DESTINATION bin)
-
-# TODO This should not be needed here! we need to fix the previous TODO
-target_include_directories(exiv2 PRIVATE ${CMAKE_SOURCE_DIR}/include/)
 
 # ******************************************************************************
 # Man page

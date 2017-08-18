@@ -71,8 +71,8 @@ target_link_libraries( exiv2json PRIVATE exiv2lib)
 install( TARGETS metacopy pathtest exiv2json RUNTIME DESTINATION bin)
 
 if (MSVC)
-    target_sources(pathtest PRIVATE ../getopt_win32.c)
-    target_sources(metacopy PRIVATE ../getopt_win32.c)
+    target_sources(pathtest PRIVATE ../src/getopt_win32.c)
+    target_sources(metacopy PRIVATE ../src/getopt_win32.c)
 endif()
 
 if( EXIV2_ENABLE_LIBXMP )
