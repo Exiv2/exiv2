@@ -1,4 +1,71 @@
+Manually building XMPsdk and Samples with the ./Generate_XXX_mac.sh scripts
+---------------------------------------------------------------------------
 
+Added   : 2017-08-18
+Modified: 2017-08-18
+
+$ cd <exiv2dir>/xmpsdk
+# XMP-Toolkit-SDK-CC201607 or XMP-Toolkit-SDK-CC201407
+$ mkdir Adobe
+$ curl -O http://download.macromedia.com/pub/developer/xmp/sdk/XMP-Toolkit-SDK-CC201607.zip
+
+$ find third-party -type d -maxdepth 1 -exec cp -R '{}' Adobe/XMP-Toolkit-SDK-CC201607/third-party ';'
+
+$ cd XMP-Toolkit-SDK-CC201607/build
+$ echo '3' | ./GenerateXMPToolkitSDK_mac.sh
+
+xcodebuild -project xcode/static/intel_64/XMPToolkitSDK64.xcodeproj/ -target XMPCoreStatic  -configuration Release
+xcodebuild -project xcode/static/intel_64/XMPToolkitSDK64.xcodeproj/ -target XMPFilesStatic -configuration Release
+
+Building Samples:
+$ cd Adobe
+$ curl --insecure -O https://cmake.org/files/v3.5/cmake-3.5.2-Darwin-x86_64.tar.gz
+$ tar xzf cmake-3.5.2-Darwin-x86_64.tar.gz
+$ mkdir                                      XMP-Toolkit-SDK-CC201607/tools/cmake/bin
+$ ditto cmake-3.5.2-Darwin-x86_64/CMake.app/ XMP-Toolkit-SDK-CC201607/tools/cmake/bin/cmake.app
+$ cd XMP-Toolkit-SDK-CC201607/samples/build
+$ echo '2' | ./GenerateSamples_mac.sh
+$ xcodebuild -project xcode/intel_64/XMP_Samples_64.xcodeproj -configuration Release   [-target Sample]
+$ cd XMP-Toolkit-SDK-CC201607
+$ samples/target/macintosh/intel_64/Release/DumpFile ~/Stonehenge.jpg
+
+Samples:
+CustomSchema
+CustomSchemaNewDOM
+DumpFile
+DumpMainXMP
+DumpScannedXMP
+ModifyingXMP
+ModifyingXMPNewDOM
+ReadingXMP
+ReadingXMPNewDOM
+XMPCommand
+XMPCoreCoverage
+XMPFilesCoverage
+XMPIterations
+
+Amazing Discovery 1  DumpFile is linked to libstdc++.6.dylib
+------------------------------------------------------------
+
+XMP-Toolkit-SDK-CC201607/samples $ otool -L target/macintosh/intel_64/Release/DumpFile 
+target/macintosh/intel_64/Release/DumpFile:
+	/System/Library/Frameworks/Cocoa.framework/Versions/A/Cocoa (compatibility version 1.0.0, current version 22.0.0)
+	/usr/lib/libstdc++.6.dylib (compatibility version 7.0.0, current version 104.1.0)
+	/usr/lib/libSystem.B.dylib (compatibility version 1.0.0, current version 1225.1.1)
+	/System/Library/Frameworks/CoreServices.framework/Versions/A/CoreServices (compatibility version 1.0.0, current version 728.4.0)
+XMP-Toolkit-SDK-CC201607/samples $ 
+
+Conclusion:  We should not link -lXMPCore with libexiv2.26.dylib
+             We should     link -lXMPCore with applications such as exiv2(.exe)
+             We should build exiv2 code with visibility disabled "CXXFLAGS=-fvisibility=hidden -fvisibility-inlines-hidden" 
+             We must compile/link apps with "CXXFLAGS=-stdlib=libstdc++ -Wno-deprecated"
+
+Amazing Discovery 2 millions of "weak symbol/visibility" messages
+-----------------------------------------------------------------
+
+$ cd     samples/build
+$ rm -rf cmake/DumpFile/build_x64  # remove the build of DumpFile
+$ env VERBOSE=1 xcodebuild -project xcode/intel_64/XMP_Samples_64.xcodeproj -configuration Release -target DumpFile
 
 Puzzle with autotools/--with-adobe MacOS-X Only
 -----------------------------------------------
@@ -170,4 +237,118 @@ For sure, Adobe's code is being built with MacOSX10.8.sdk and -std=c++11
 -o CMakeFiles/XMPCoreStatic.dir/Users/rmills/gnu/github/exiv2/xmpsdk/Adobe/XMP-Toolkit-SDK-CC201607/XMPCore/source/XMPMeta-GetSet.cpp.o
 -c /Users/rmills/gnu/github/exiv2/xmpsdk/Adobe/XMP-Toolkit-SDK-CC201607/XMPCore/source/XMPMeta-GetSet.cpp
 
+
+Compiler options used to build DumpFile sample Application
+-----------------------------------------------------------
+
+clang -x c++
+-arch x86_64
+-fmessage-length=0
+-fdiagnostics-show-note-include-stack
+-fmacro-backtrace-limit=0
+-stdlib=libstdc++
+-Wno-trigraphs
+-fpascal-strings
+-O3
+-Wno-missing-field-initializers
+-Wno-missing-prototypes
+-Wno-return-type
+-Wno-non-virtual-dtor
+-Wno-overloaded-virtual
+-Wno-exit-time-destructors
+-Wno-missing-braces
+-Wparentheses
+-Wswitch
+-Wno-unused-function
+-Wno-unused-label
+-Wno-unused-parameter
+-Wno-unused-variable
+-Wunused-value
+-Wno-empty-body
+-Wno-uninitialized
+-Wno-unknown-pragmas
+-Wno-shadow
+-Wno-four-char-constants
+-Wno-conversion
+-Wno-constant-conversion
+-Wno-int-conversion
+-Wno-bool-conversion
+-Wno-enum-conversion
+-Wno-shorten-64-to-32
+-Wno-newline-eof
+-Wno-c++11-extensions
+-DCMAKE_INTDIR=\"Release\"
+-DMAC_ENV=1
+-DXMP_64=1
+-DXMP_StaticBuild=1
+-isysroot /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.11.sdk
+-fasm-blocks
+-fstrict-aliasing
+-Wdeprecated-declarations
+-Winvalid-offsetof
+-mmacosx-version-min=10.9
+-g
+-Wno-sign-conversion
+-Wno-infinite-recursion
+-Wno-move
+-I/Users/rmills/gnu/github/exiv2/xmpsdk/Adobe/XMP-Toolkit-SDK-CC201607/samples/target/macintosh/intel_64/Release/include
+-I/Users/rmills/gnu/github/exiv2/xmpsdk/Adobe/XMP-Toolkit-SDK-CC201607/samples/build/cmake/../../..
+-I/Users/rmills/gnu/github/exiv2/xmpsdk/Adobe/XMP-Toolkit-SDK-CC201607/samples/build/cmake/../../../public/include
+-I/Users/rmills/gnu/github/exiv2/xmpsdk/Adobe/XMP-Toolkit-SDK-CC201607/samples/build/cmake/DumpFile/build_x64/XMP_Samples_64.build/Release/DumpFile.build/DerivedSources/x86_64
+-I/Users/rmills/gnu/github/exiv2/xmpsdk/Adobe/XMP-Toolkit-SDK-CC201607/samples/build/cmake/DumpFile/build_x64/XMP_Samples_64.build/Release/DumpFile.build/DerivedSources
+-Wmost
+-Wno-four-char-constants
+-Wno-unknown-pragmas
+-F/Users/rmills/gnu/github/exiv2/xmpsdk/Adobe/XMP-Toolkit-SDK-CC201607/samples/target/macintosh/intel_64/Release
+-F/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.11.sdk/System/Library/Frameworks
+-funsigned-char
+-fshort-enums
+-fno-common
+-Wall
+-Wextra
+-Wno-missing-field-initializers
+-Wno-shadow
+-Wno-reorder
+-std=c++11
+-Wnon-virtual-dtor
+-Woverloaded-virtual
+-Wno-unused-variable
+-Wno-unused-function
+-Wno-unused-parameter
+-fstack-protector
+-DNDEBUG=1
+-D_NDEBUG=1
+-MMD
+-MT dependencies
+-MF /Users/rmills/gnu/github/exiv2/xmpsdk/Adobe/XMP-Toolkit-SDK-CC201607/samples/build/cmake/DumpFile/build_x64/XMP_Samples_64.build/Release/DumpFile.build/Objects-normal/x86_64/DumpFile.d
+--serialize-diagnostics /Users/rmills/gnu/github/exiv2/xmpsdk/Adobe/XMP-Toolkit-SDK-CC201607/samples/build/cmake/DumpFile/build_x64/XMP_Samples_64.build/Release/DumpFile.build/Objects-normal/x86_64/DumpFile.dia
+-c /Users/rmills/gnu/github/exiv2/xmpsdk/Adobe/XMP-Toolkit-SDK-CC201607/samples/source/common/DumpFile.cpp
+-o /Users/rmills/gnu/github/exiv2/xmpsdk/Adobe/XMP-Toolkit-SDK-CC201607/samples/build/cmake/DumpFile/build_x64/XMP_Samples_64.build/Release/DumpFile.build/Objects-normal/x86_64/DumpFile.o
+
+Linker Options used to link DumpFile
+------------------------------------
+
+/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/clang++
+-arch x86_64
+-isysroot /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.11.sdk
+-L/Users/rmills/gnu/github/exiv2/xmpsdk/Adobe/XMP-Toolkit-SDK-CC201607/samples/target/macintosh/intel_64/Release
+-F/Users/rmills/gnu/github/exiv2/xmpsdk/Adobe/XMP-Toolkit-SDK-CC201607/samples/target/macintosh/intel_64/Release
+-F/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.11.sdk/System/Library/Frameworks
+-filelist /Users/rmills/gnu/github/exiv2/xmpsdk/Adobe/XMP-Toolkit-SDK-CC201607/samples/build/cmake/DumpFile/build_x64/XMP_Samples_64.build/Release/DumpFile.build/Objects-normal/x86_64/DumpFile.LinkFileList
+-mmacosx-version-min=10.9
+-Xlinker
+-object_path_lto
+-Xlinker
+/Users/rmills/gnu/github/exiv2/xmpsdk/Adobe/XMP-Toolkit-SDK-CC201607/samples/build/cmake/DumpFile/build_x64/XMP_Samples_64.build/Release/DumpFile.build/Objects-normal/x86_64/DumpFile_lto.o
+-stdlib=libstdc++
+-Wl,-search_paths_first
+-Wl,-headerpad_max_install_names
+/Users/rmills/gnu/github/exiv2/xmpsdk/Adobe/XMP-Toolkit-SDK-CC201607/samples/build/cmake/../../../public/libraries/macintosh/intel_64/Release/libXMPCoreStatic.a
+/Users/rmills/gnu/github/exiv2/xmpsdk/Adobe/XMP-Toolkit-SDK-CC201607/samples/build/cmake/../../../public/libraries/macintosh/intel_64/Release/libXMPFilesStatic.a
+-framework Cocoa
+-Xlinker
+-dependency_info
+-Xlinker
+/Users/rmills/gnu/github/exiv2/xmpsdk/Adobe/XMP-Toolkit-SDK-CC201607/samples/build/cmake/DumpFile/build_x64/XMP_Samples_64.build/Release/DumpFile.build/Objects-normal/x86_64/DumpFile_dependency_info.dat
+-o /Users/rmills/gnu/github/exiv2/xmpsdk/Adobe/XMP-Toolkit-SDK-CC201607/samples/target/macintosh/intel_64/Release/DumpFile
 
