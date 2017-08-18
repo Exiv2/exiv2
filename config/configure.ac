@@ -394,12 +394,11 @@ if test "$ADOBE" == "yes"; then ADOBE=2016; fi
 
 if test "$ADOBE" = "2016" -o "$ADOBE" = "2014" ; then
 	ADOBE_SDK=XMP-Toolkit-SDK-CC201607
-	if test "$ADOBE" == "2014" ; then ADOBE_SDK=XMP-Toolkit-SDK-CC2014.12; fi
+	if test "$ADOBE" == "2014" ; then ADOBE_SDK=XMP-Toolkit-SDK-CC201412; fi
     ENABLE_XMP=$ADOBE
-    XMPSDK_CPPFLAGS='-Ixmpsdk/Adobe/$ADOBE_SDK/public/include'
-    XMPSDK_LDFLAGS='-Lxmpsdk/Adobe/'
-    XMPSDK_LIBS=''
-    # '-lXMPCore.a -lXMPFiles.a'
+    XMPSDK_CPPFLAGS="-Ixmpsdk/Adobe/$ADOBE_SDK/public/include"
+    XMPSDK_LDFLAGS="-Lxmpsdk/Adobe/$ADOBE_SDK"
+#   XMPSDK_LIBS='-lXMPCore'
 fi
 
 # ---------------------------------------------------------------------------
@@ -457,7 +456,7 @@ yes) echo "-- Nikon lens database............ YES" ;;
 esac
 
 case "$USE_XMP_TOOLKIT" in
-yes) echo "-- XMP metadata support........... YES (ADOBE_SDK = $ADOBE)" ;;
+yes) echo "-- XMP metadata support........... YES" ;;
 *)   echo "-- XMP metadata support........... NO"
      echo ""
      echo "Expat is required for XMP support. Make sure the Expat header"
@@ -505,7 +504,6 @@ fi
 echo "CPPFLAGS   =" "$CPPFLAGS $SSH_CPPFLAGS $CURL_CPPFLAGS $XMPSDK_CPPFLAGS"
 echo "LDFLAGS    =" "$LDFLAGS $SSH_LDFLAGS $CURL_LDFLAGS $EXPAT_LDFLAGS $XMPSDK_LDFLAGS"
 echo "LIBS       =" "$LIBS $SSH_LIBS $CURL_LIBS $EXPAT_LIBS $XMPSDK_LIBS"
-echo "ENABLE_XMP =" "$ENABLE_XMP"
 echo "CXX        =" "$CXX"
 echo "------------------------------------------------------------------"
 echo ""

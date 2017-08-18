@@ -50,7 +50,7 @@
 ########################################################################
 
 SHELL = /bin/sh
-ENABLE_XMP = 1
+ENABLE_XMP = 2016
 
 .PHONY: all doc config samples xmpsdk                \
         mostlyclean clean distclean maintainer-clean \
@@ -146,7 +146,6 @@ mostlyclean clean: config/config.mk
 	cd config && $(MAKE) -f config.make $(MAKECMDGOALS)
 	cd po && $(MAKE) $(MAKECMDGOALS)
 	rm -f include/exiv2/exv_conf.h
-	if [ -e xmpsdk/Adobe ]; then rm -rf xmpsdk/Adobe ; fi
 
 
 # `make distclean' also removes files created by configuring
@@ -156,6 +155,7 @@ distclean: clean
 	rm -f config.log config.status libtool
 	rm -f *~ *.bak
 	if [ -e bin ]; then rm -rf bin ; fi
+	if [ -e xmpsdk/Adobe ]; then rm -rf xmpsdk/Adobe ; fi
 
 # This removes almost everything, including the configure script!
 maintainer-clean: distclean

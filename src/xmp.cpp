@@ -544,7 +544,7 @@ namespace Exiv2 {
 #endif
         }
         catch (const XMP_Error& e) {
-            throw Error(40, e.GetID(), e.GetErrMsg());
+            // throw Error(40, e.GetID(), e.GetErrMsg());
         }
     } // XmpParser::registerNs
 #else

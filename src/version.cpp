@@ -312,6 +312,7 @@ void Exiv2::dumpLibraryInfo(std::ostream& os,const exv_grep_keys_t& keys)
     int have_sys_mman    =0;
     int have_libz        =0;
     int have_xmptoolkit  =0;
+    int adobe_xmpsdk     =0;
     int have_bool        =0;
     int have_strings     =0;
     int have_sys_types   =0;
@@ -427,6 +428,10 @@ void Exiv2::dumpLibraryInfo(std::ostream& os,const exv_grep_keys_t& keys)
 
 #ifdef EXV_HAVE_XMP_TOOLKIT
     have_xmptoolkit=1;
+#endif
+
+#ifdef EXV_ADOBE_XMPSDK
+    adobe_xmpsdk=EXV_ADOBE_XMPSDK;
 #endif
 
 #ifdef EXV_HAVE_BOOL
@@ -559,6 +564,7 @@ void Exiv2::dumpLibraryInfo(std::ostream& os,const exv_grep_keys_t& keys)
     output(os,keys,"have_sys_mman"     ,have_sys_mman    );
     output(os,keys,"have_libz"         ,have_libz        );
     output(os,keys,"have_xmptoolkit"   ,have_xmptoolkit  );
+    output(os,keys,"adobe_xmpsdk"      ,adobe_xmpsdk     );
     output(os,keys,"have_bool"         ,have_bool        );
     output(os,keys,"have_strings"      ,have_strings     );
     output(os,keys,"have_sys_types"    ,have_sys_types   );

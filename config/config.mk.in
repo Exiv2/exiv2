@@ -107,7 +107,7 @@ ifeq ($(ENABLE_XMP),2016)
         XMPSDK_CPPFLAGS = -I$(XMPSDK_DIR)/Adobe/XMP-Toolkit-SDK-CC201607 \
 -I$(XMPSDK_DIR)/Adobe/XMP-Toolkit-SDK-CC201607/public/include \
 -DEXV_ADOBE_XMPSDK=2016
-        XMPSDK_LDFLAGS  = -L$(XMPSDK_DIR)/Adobe/
+        XMPSDK_LDFLAGS  = -L$(XMPSDK_DIR)/Adobe/XMP-Toolkit-SDK-CC201607
         XMPSDK_LIBS     = -lXMPCore
         CPPFLAGS_MORE   = X
 endif
@@ -118,7 +118,7 @@ ifeq ($(ENABLE_XMP),2014)
         XMPSDK_CPPFLAGS = -I$(XMPSDK_DIR)/Adobe/XMP-Toolkit-SDK-CC201412 \
 -I$(XMPSDK_DIR)/Adobe/XMP-Toolkit-SDK-CC201412/public/include \
 -DEXV_ADOBE_XMPSDK=2014
-        XMPSDK_LDFLAGS  = -L$(XMPSDK_DIR)/Adobe/
+        XMPSDK_LDFLAGS  = -L$(XMPSDK_DIR)/Adobe/XMP-Toolkit-SDK-CC201412
         XMPSDK_LIBS     = -lXMPCore
         CPPFLAGS_MORE   = X
 endif

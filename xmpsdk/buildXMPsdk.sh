@@ -25,6 +25,9 @@ if [ "$1" == "2014" ]; then
 	SDK=XMP-Toolkit-SDK-CC201412
 fi
 
+# if it's already built, we're done
+if [ -e Adobe/$SDK/libXMPCore.a ]; then exit 0 ; fi
+
 ##
 # Download the code from Adobe
 if [ ! -e Adobe/$SDK ]; then (
@@ -105,21 +108,19 @@ if [ -z "$result" ]; then (
 
     # report archives we can see
     cd   Adobe/$SDK
+    rm -rf *.a *.ar
     find public -name "*.a" -o -name "*.ar" | xargs ls -alt
-    cd   ../
 
     # move the library/archives into xmpsdk
     case "$uname" in
       Linux)
-      	  rm -rf *.a *.ar
-          find $SDK/public -name "*.ar" -exec cp {} . ';'
+          find public -name "*.ar" -exec cp {} . ';'
           mv   staticXMPCore.ar  libXMPCore.a
           mv   staticXMPFiles.ar libXMPFiles.a
       ;;
 
       Darwin)
-      	  rm -rf *.a *.ar
-          find $SDK/public -name "*.a" -exec cp {} . ';'
+          find public -name "*.a" -exec cp {} . ';'
           mv   libXMPCoreStatic.a  libXMPCore.a
           mv   libXMPFilesStatic.a libXMPFiles.a
       ;;
