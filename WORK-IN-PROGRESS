@@ -1,5 +1,24 @@
-Manually building XMPsdk and Samples with the ./Generate_XXX_mac.sh scripts
----------------------------------------------------------------------------
+T A B L E   o f   C O N T E N T S
+---------------------------------
+
+1   Building Adobe XMPsdk and Samples in Terminal with the ./Generate_XXX_mac.sh scripts
+1.1 Amazing Discovery 1    DumpFile is linked to libstdc++.6.dylib
+1.2 Amazing Discovery 2    Millions of "weak symbol/visibility" messages
+
+2   Puzzle with autotools/--with-adobe MacOS-X Only
+2.1 To build without the external Adobe SDK:
+2.2 To add the external Adobe SDK to the mix:
+2.3 Notes (mostly to remind me of painful discoveries)
+2.4 Compiler options used to build Adobe XMPsdk
+2.5 Compiler options used to build DumpFile sample Application
+2.6 Linker Options used to link DumpFile
+
+3   Features to Add to the CMake code
+
+==========================================================================
+
+1   Building XMPsdk and Samples in Terminal with the ./Generate_XXX_mac.sh scripts
+--------------------------------------------------------------------------------
 
 Added   : 2017-08-18
 Modified: 2017-08-18
@@ -14,8 +33,8 @@ $ find third-party -type d -maxdepth 1 -exec cp -R '{}' Adobe/XMP-Toolkit-SDK-CC
 $ cd XMP-Toolkit-SDK-CC201607/build
 $ echo '3' | ./GenerateXMPToolkitSDK_mac.sh
 
-xcodebuild -project xcode/static/intel_64/XMPToolkitSDK64.xcodeproj/ -target XMPCoreStatic  -configuration Release
-xcodebuild -project xcode/static/intel_64/XMPToolkitSDK64.xcodeproj/ -target XMPFilesStatic -configuration Release
+$ xcodebuild -project xcode/static/intel_64/XMPToolkitSDK64.xcodeproj/ -target XMPCoreStatic  -configuration Release
+$ xcodebuild -project xcode/static/intel_64/XMPToolkitSDK64.xcodeproj/ -target XMPFilesStatic -configuration Release
 
 Building Samples:
 $ cd Adobe
@@ -44,8 +63,8 @@ XMPCoreCoverage
 XMPFilesCoverage
 XMPIterations
 
-Amazing Discovery 1  DumpFile is linked to libstdc++.6.dylib
-------------------------------------------------------------
+1.1 Amazing Discovery 1    DumpFile is linked to libstdc++.6.dylib
+------------------------------------------------------------------
 
 XMP-Toolkit-SDK-CC201607/samples $ otool -L target/macintosh/intel_64/Release/DumpFile 
 target/macintosh/intel_64/Release/DumpFile:
@@ -60,15 +79,17 @@ Conclusion:  We should not link -lXMPCore with libexiv2.26.dylib
              We should build exiv2 code with visibility disabled "CXXFLAGS=-fvisibility=hidden -fvisibility-inlines-hidden" 
              We must compile/link apps with "CXXFLAGS=-stdlib=libstdc++ -Wno-deprecated"
 
-Amazing Discovery 2 millions of "weak symbol/visibility" messages
------------------------------------------------------------------
+1.2 Amazing Discovery 2    Millions of "weak symbol/visibility" messages
+------------------------------------------------------------------------
 
 $ cd     samples/build
 $ rm -rf cmake/DumpFile/build_x64  # remove the build of DumpFile
 $ env VERBOSE=1 xcodebuild -project xcode/intel_64/XMP_Samples_64.xcodeproj -configuration Release -target DumpFile
 
-Puzzle with autotools/--with-adobe MacOS-X Only
------------------------------------------------
+==========================================================================
+
+2   Puzzle with autotools/--with-adobe MacOS-X Only
+-------------------------------------------------
 Added   : 2017-08-17
 Modified: 2017-08-18
 
@@ -96,8 +117,9 @@ There's something mixed up concerning the libraries used by Adobe's XMPSDK and l
 -stdlib=libstdc++ will link /usr/lib/libstdc++.6.dylib, however the compiler warns:
 clang: warning: libstdc++ is deprecated; move to libc++ [-Wdeprecated]
 
-To build without the external Adobe SDK:
-- - - - - - - - - - - - - - - - - - - -
+2.1 To build without the external Adobe SDK:
+--------------------------------------------
+
 Edit config/config.mk.in and modify:
    XMPSDK_LIBS= -lXMPCore
 to
@@ -131,8 +153,8 @@ This is correct. libXMPCore.a is not in the mix.
 ls -alt src/.libs/libexiv2.26.dylib
 -rwxr-xr-x+ 1 rmills staff 2238124 Aug 17 11:07 src/.libs/libexiv2.26.dylib
                            -------
-To add the external Adobe SDK to the mix:
-- - - - - - - - - - - - - - - - - - - - -
+2.2 To add the external Adobe SDK to the mix:
+---------------------------------------------
 
 Edit src/Makefile#242 and change:
 	@$(LIBTOOL) --mode=link $(LINK.cc) -o ../bin/$@ $(LIBRARY) $(EXIV2OBJ) $(EXIV2COBJ) -rpath $(libdir)
@@ -168,8 +190,8 @@ $ c++filt __ZNSs4_Rep11_S_terminalE
 std::string::_Rep::_S_terminal
 
 
-Notes (mostly to remind me of painful discoveries)
---------------------------------------------------
+2.3 Notes (mostly to remind me of painful discoveries)
+------------------------------------------------------
 
 How does the build get generated?
 $ make config
@@ -193,9 +215,8 @@ To get -lXMPCore into the mix, set XMPSDK_LIBS in config/config.mk.in
 ./xmpsdk/src/Makefile:include $(top_srcdir)/config/config.mk
 509 rmills@rmillsmbp:~/gnu/github/exiv2 $
 
-
-Compiler options used to build Adobe XMPsdk
--------------------------------------------
+2.4 Compiler options used to build Adobe XMPsdk
+-----------------------------------------------
 
 For sure, Adobe's code is being built with MacOSX10.8.sdk and -std=c++11
 
@@ -237,7 +258,7 @@ For sure, Adobe's code is being built with MacOSX10.8.sdk and -std=c++11
 -o CMakeFiles/XMPCoreStatic.dir/Users/rmills/gnu/github/exiv2/xmpsdk/Adobe/XMP-Toolkit-SDK-CC201607/XMPCore/source/XMPMeta-GetSet.cpp.o
 -c /Users/rmills/gnu/github/exiv2/xmpsdk/Adobe/XMP-Toolkit-SDK-CC201607/XMPCore/source/XMPMeta-GetSet.cpp
 
-Compiler options used to build DumpFile sample Application
+2.5 Compiler options used to build DumpFile sample Application
 -----------------------------------------------------------
 
 clang -x c++
@@ -324,8 +345,8 @@ clang -x c++
 -c /Users/rmills/gnu/github/exiv2/xmpsdk/Adobe/XMP-Toolkit-SDK-CC201607/samples/source/common/DumpFile.cpp
 -o /Users/rmills/gnu/github/exiv2/xmpsdk/Adobe/XMP-Toolkit-SDK-CC201607/samples/build/cmake/DumpFile/build_x64/XMP_Samples_64.build/Release/DumpFile.build/Objects-normal/x86_64/DumpFile.o
 
-Linker Options used to link DumpFile
-------------------------------------
+2.6 Linker Options used to link DumpFile
+----------------------------------------
 
 /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/clang++
 -arch x86_64
@@ -351,7 +372,14 @@ Linker Options used to link DumpFile
 /Users/rmills/gnu/github/exiv2/xmpsdk/Adobe/XMP-Toolkit-SDK-CC201607/samples/build/cmake/DumpFile/build_x64/XMP_Samples_64.build/Release/DumpFile.build/Objects-normal/x86_64/DumpFile_dependency_info.dat
 -o /Users/rmills/gnu/github/exiv2/xmpsdk/Adobe/XMP-Toolkit-SDK-CC201607/samples/target/macintosh/intel_64/Release/DumpFile
 
-Features to Add to the CMake code
------------------------------------------------------------------------------------
- * Auto usage of ccache on Linux and Mac.
- * Remove the trick to compile the documentation using the configure script. Native documentation generation on CMake.
+==========================================================================
+
+3   Features to Add to the CMake code
+-----------------------------------
+  * Auto usage of ccache on Linux and Mac.
+  * Remove the trick to compile the documentation using the configure script. Native documentation generation on CMake.
+
+==========================================================================
+
+# That's all Folks!
+==========================================================================
