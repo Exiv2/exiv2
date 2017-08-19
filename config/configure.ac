@@ -105,6 +105,7 @@ visibility=yes
 case "$host_os" in
     *mingw* | *cygwin*) visibility=no  ;;
 esac
+
 AC_ARG_ENABLE(visibility,
     [  --disable-visibility    do not use symbol visibility support ],
     VISIBILITY_SUPPORT=$enableval, VISIBILITY_SUPPORT=$visibility)
@@ -398,7 +399,13 @@ if test "$ADOBE" = "2016" -o "$ADOBE" = "2014" ; then
     ENABLE_XMP=$ADOBE
     XMPSDK_CPPFLAGS="-Ixmpsdk/Adobe/$ADOBE_SDK/public/include"
     XMPSDK_LDFLAGS="-Lxmpsdk/Adobe/$ADOBE_SDK"
-#   XMPSDK_LIBS='-lXMPCore'
+	case "$host_os" in
+		*arwin*)
+    		CPPFLAGS="${CPPFLAGS} -stdlib=libstdc++ -Wno-deprecated -fvisibility=hidden -fvisibility-inlines-hidden"
+    	    LDFLAGS="${LDFLAGS} -stdlib=libstdc++ -Wno-deprecated"
+    	    EXV_LIB_STATIC="-stdlib=libstdc++ -Wno-deprecated"
+		;;
+	esac
 fi
 
 # ---------------------------------------------------------------------------
