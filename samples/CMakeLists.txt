@@ -75,7 +75,7 @@ if (MSVC)
     target_sources(metacopy PRIVATE ../src/getopt_win32.c)
 endif()
 
-if( EXIV2_ENABLE_LIBXMP )
+if( EXIV2_ENABLE_XMP )
     add_executable(        geotag    geotag.cpp)
     target_link_libraries( geotag    PRIVATE exiv2lib ${ZLIB_LIBRARIES})
     install( TARGETS       geotag    RUNTIME DESTINATION bin)
