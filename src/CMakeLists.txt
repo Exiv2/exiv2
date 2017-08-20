@@ -218,6 +218,8 @@ if (EXIV2_ENABLE_WEBREADY AND EXIV2_ENABLE_SSH)
 endif()
 
 if ( MSVC )
+    target_compile_definitions(exiv2lib PRIVATE PSAPI_VERSION=1) # to be compatible with <= WinVista (#905)
+
     if ( EXIV2_ENABLE_STATIC )
         TARGET_LINK_LIBRARIES( exiv2lib zlibstatic ${ZLIB_LIBRARIES} )
     else()
