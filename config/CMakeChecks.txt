@@ -31,8 +31,6 @@
 #
 # ConfigureChecks for exiv2
 
-INCLUDE( GNUInstallDirs )
-
 IF( EXIV2_ENABLE_SHARED )
     ADD_DEFINITIONS( -DEXV_HAVE_DLL )
     SET( STATIC_FLAG SHARED )

@@ -263,12 +263,12 @@ IF (CYGWIN OR MINGW)
 ENDIF(CYGWIN OR MINGW)
 
 install(TARGETS exiv2lib
-     RUNTIME DESTINATION bin
-     LIBRARY DESTINATION lib
-     ARCHIVE DESTINATION lib
+    RUNTIME DESTINATION ${CMAKE_INSTALL_BINDIR}
+    LIBRARY DESTINATION ${CMAKE_INSTALL_LIBDIR}
+    ARCHIVE DESTINATION ${CMAKE_INSTALL_LIBDIR}
 )
 install(FILES ${LIBEXIV2_HDR}
-    DESTINATION include/exiv2
+    DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}/exiv2
 )
 
 include(../CMake_msvc.txt)
@@ -287,7 +287,7 @@ set( EXIV2_SRC  exiv2.cpp
 
 add_executable( exiv2 ${EXIV2_SRC} )
 target_link_libraries( exiv2 PRIVATE exiv2lib )
-install(TARGETS exiv2 RUNTIME DESTINATION bin)
+install(TARGETS exiv2 RUNTIME DESTINATION ${CMAKE_INSTALL_BINDIR})
 
 # TODO This should not be needed here! we need to fix the previous TODO
 target_include_directories(exiv2 PRIVATE ${CMAKE_SOURCE_DIR}/include/)
