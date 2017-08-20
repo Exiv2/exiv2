@@ -1,7 +1,3 @@
-#if (MSVC) 
-#	set_property(TARGET tgt PROPERTY CXX_STANDARD 11)
-#endif()
-
 ##
 # msvc tuning macros
 macro(msvc_runtime_set_static_ignores bDynamic bDynamicRuntime)
@@ -58,27 +54,3 @@ macro(msvc_runtime_configure bDynamic bDynamicRuntime)
     msvc_runtime_set_static_ignores(${bDynamic} ${bDynamicRuntime})
   endif()
 endmacro()
-
-macro(msvc_runtime_report)
-  if(MSVC)
-	set(variables
-	  CMAKE_C_FLAGS_DEBUG
-	  CMAKE_C_FLAGS_MINSIZEREL
-	  CMAKE_C_FLAGS_RELEASE
-	  CMAKE_C_FLAGS_RELWITHDEBINFO
-	  CMAKE_CXX_FLAGS_DEBUG
-	  CMAKE_CXX_FLAGS_MINSIZEREL
-	  CMAKE_CXX_FLAGS_RELEASE
-	  CMAKE_CXX_FLAGS_RELWITHDEBINFO
-	# CMAKE_C_LINK_EXECUTABLE
-	)
-	message(STATUS "Build flags:")
-	foreach(variable ${variables})
-	  message(STATUS "  '${variable}': ${${variable}}")
-	endforeach()
-	message(STATUS "")
-  endif()
-endmacro()
-
-# That's all Folks!
-##
