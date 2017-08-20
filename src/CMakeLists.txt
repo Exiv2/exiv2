@@ -7,7 +7,7 @@
 # For details see the accompanying COPYING-CMAKE-SCRIPTS file.
 
 # Private headers which are only needed for the library itself
-SET( LIBEXIV2_PRIVATE_HDR canonmn_int.hpp
+set( LIBEXIV2_PRIVATE_HDR canonmn_int.hpp
                           casiomn_int.hpp
                           cr2image_int.hpp
                           crwimage_int.hpp
@@ -33,7 +33,7 @@ SET( LIBEXIV2_PRIVATE_HDR canonmn_int.hpp
    )
 
 # Add standalone C++ header files to this list
-SET( LIBEXIV2_HDR         ../include/exiv2/asfvideo.hpp
+set( LIBEXIV2_HDR         ../include/exiv2/asfvideo.hpp
                           ../include/exiv2/basicio.hpp
                           ../include/exiv2/bmpimage.hpp
                           ../include/exiv2/config.h
@@ -82,7 +82,7 @@ SET( LIBEXIV2_HDR         ../include/exiv2/asfvideo.hpp
    )
 
 # Add library C++ source files to this list
-SET( LIBEXIV2_SRC         asfvideo.cpp
+set( LIBEXIV2_SRC         asfvideo.cpp
                           basicio.cpp
                           bmpimage.cpp
                           canonmn.cpp
@@ -172,7 +172,7 @@ else()
     add_library( exiv2lib ${STATIC_FLAG} ${LIBEXIV2_SRC} ${LIBEXIV2_HDR} ${LIBEXIV2_PRIVATE_HDR})
 endif()
 
-SET_TARGET_PROPERTIES( exiv2lib PROPERTIES
+set_target_properties( exiv2lib PROPERTIES
     VERSION       ${GENERIC_LIB_VERSION}
     SOVERSION     ${GENERIC_LIB_SOVERSION}
     DEFINE_SYMBOL EXV_BUILDING_LIB

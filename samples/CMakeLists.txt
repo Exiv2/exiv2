@@ -4,7 +4,7 @@
 # Redistribution and use is allowed according to the terms of the BSD license.
 # For details see the accompanying COPYING-CMAKE-SCRIPTS file.
 
-SET( SAMPLES addmoddel.cpp
+set( SAMPLES addmoddel.cpp
              convert-test.cpp
              easyaccess-test.cpp
              exifcomment.cpp

@@ -32,14 +32,14 @@
 # ConfigureChecks for exiv2
 
 if( EXIV2_ENABLE_SHARED )
-    ADD_DEFINITIONS( -DEXV_HAVE_DLL )
-    SET( STATIC_FLAG SHARED )
+    add_definitions( -DEXV_HAVE_DLL )
+    set( STATIC_FLAG SHARED )
 else()
-    SET( STATIC_FLAG STATIC )
+    set( STATIC_FLAG STATIC )
 endif()
 
 if( EXIV2_ENABLE_COMMERCIAL )
-    ADD_DEFINITIONS( -DEXV_COMMERCIAL_VERSION )
+    add_definitions( -DEXV_COMMERCIAL_VERSION )
 endif()
 
 CONFIGURE_FILE(config/exiv2_uninstall.cmake ${CMAKE_BINARY_DIR}/cmake_uninstall.cmake COPYONLY)
