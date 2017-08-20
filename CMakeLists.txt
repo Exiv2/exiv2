@@ -105,4 +105,4 @@ if( MINGW OR UNIX OR APPLE)
   )
 endif()
 
-INCLUDE( config/printSummary.cmake )
+include( config/printSummary.cmake )

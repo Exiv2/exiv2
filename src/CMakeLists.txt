@@ -160,7 +160,7 @@ if( EXIV2_ENABLE_PNG )
     set( LIBEXIV2_HDR ${LIBEXIV2_HDR} ../include/exiv2/pngimage.hpp )
 endif()
 
-INCLUDE_DIRECTORIES(${CMAKE_CURRENT_BINARY_DIR})
+include_directories(${CMAKE_CURRENT_BINARY_DIR})
 
 # ******************************************************************************
 # exiv2lib library
