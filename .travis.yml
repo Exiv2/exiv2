@@ -1,11 +1,14 @@
 language: cpp
 
 sudo: required
-dist: trusty
 
 compiler:
   - gcc
   - clang
+
+os:
+  - linux
+  - osx
 
 env:
   - CMAKE_OPTIONS="" # Default 
@@ -13,8 +16,6 @@ env:
   - CMAKE_OPTIONS="-DEXIV2_ENABLE_XMP=OFF -DEXIV2_ENABLE_NLS=OFF -DEXIV2_ENABLE_LENSDATA=OFF" # All disabled
   - CMAKE_OPTIONS="-DEXIV2_ENABLE_WEBREADY=ON -DEXIV2_ENABLE_CURL=OFF -DEXIV2_ENABLE_SSH=OFF" # WebReady without SSH nor CURL
     
-os:
-  - linux
 
 install: ./.travis/install.sh
 script:  ./.travis/run.sh
