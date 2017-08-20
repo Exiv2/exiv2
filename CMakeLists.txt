@@ -46,6 +46,7 @@ ELSE()
     OPTION( EXIV2_ENABLE_SSH           "USE Libssh for SshIo"                              ON  )
     SET ( EXIV2_ENABLE_DYNAMIC_RUNTIME OFF )
 ENDIF()
+OPTION( EXIV2_ENABLE_TOOLS         "Build exiv2 executable"                                ON  )
 
 include(config/findDependencies.cmake)
 
