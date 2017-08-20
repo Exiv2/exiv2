@@ -1,3 +1,6 @@
+[![Build Status](https://travis-ci.org/Exiv2/exiv2.svg?branch=master)](https://travis-ci.org/Exiv2/exiv2)
+
+<pre><code>
     @@@Marco@@@@@b                   ;mm                       /##Gilles###\
     j@@@#Robin",                     Brad                     /@@@Thomas@@@@Q
      @@@#       \                     ##                     @@@b     |@@@b
@@ -10,9 +13,10 @@
      @@@#       ,/    s@@#  @@@@     @@@b       Volker       @Tuan@
     ]@@@Abhinav@@\   /@@@\    \@@@Q  @@@Q       %@@@#      /@@@@Mahesh@@#
    /@@Raphael@@@@@\ /@@@@@\     C++  Metadata  Library    /@Sridhar@@@v0.26\
+</code></pre>
 
 Exiv2
-*****
+======================
 
 Welcome to Exiv2, a C++ library and a command line utility to read and
 write Exif, IPTC and XMP image metadata. The homepage of Exiv2 is:
