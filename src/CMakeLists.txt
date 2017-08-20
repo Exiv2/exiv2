@@ -199,7 +199,10 @@ if ( UNIX AND CMAKE_SYSTEM_NAME STREQUAL "FreeBSD" )
     set (FREEBSD 1)
 endif()
 
-target_include_directories(exiv2lib PRIVATE ${CMAKE_SOURCE_DIR}/xmpsdk/include)
+if ( EXIV2_ENABLE_XMP )
+    target_include_directories(exiv2lib PRIVATE ${CMAKE_SOURCE_DIR}/xmpsdk/include)
+endif ()
+
 # TODO : We should not include include/exiv2 but only include !!!
 target_include_directories(exiv2lib PUBLIC
     $<BUILD_INTERFACE:${CMAKE_SOURCE_DIR}/include/exiv2>
@@ -233,7 +236,7 @@ else()
     target_link_libraries( exiv2lib PUBLIC ${CURL_LIBRARIES} ${SSH_LIBRARIES})
 endif()
 
-if( EXIV2_ENABLE_LIBXMP )
+if( EXIV2_ENABLE_XMP AND EXIV2_ENABLE_LIBXMP )
     TARGET_LINK_LIBRARIES( exiv2lib PUBLIC xmp )
 ENDIF()
 
