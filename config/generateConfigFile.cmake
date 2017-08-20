@@ -1,3 +1,5 @@
+include(CheckIncludeFile)
+
 # Note that the scope of the EXV_ variables in local
 if (${EXIV2_ENABLE_WEBREADY})
     set(EXV_USE_SSH   ${EXIV2_ENABLE_SSH})
