@@ -32,13 +32,6 @@ if( EXIV2_ENABLE_NLS )
     else()
         set(LIBINTL_LIBRARIES)
     endif()
-    if( NOT LOCALEDIR )
-        set( LOCALEDIR "${CMAKE_INSTALL_LOCALEDIR}" )
-        if( WIN32 )
-            STRING( REPLACE "/" "\\\\" LOCALEDIR ${LOCALEDIR} )
-        endif( WIN32 )
-    endif( NOT LOCALEDIR )
-    add_definitions( -DEXV_LOCALEDIR="${LOCALEDIR}" )
     set( ENABLE_NLS 1 )
     # TODO : This is assuming that Intl is always found. This check should be improved and remove
     # the manual check in config/generateConfigFile.cmake
