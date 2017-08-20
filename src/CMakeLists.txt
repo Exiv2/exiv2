@@ -287,4 +287,4 @@ endif()
 
 # ******************************************************************************
 # Man page
-INSTALL( FILES exiv2.1 DESTINATION ${CMAKE_INSTALL_MANDIR}/man1 )
+install( FILES exiv2.1 DESTINATION ${CMAKE_INSTALL_MANDIR}/man1 )

@@ -89,8 +89,8 @@ endif()
 
 ##
 # tests
-ADD_CUSTOM_TARGET(tests       COMMAND env EXIV2_BINDIR="${CMAKE_BINARY_DIR}"/bin make tests       WORKING_DIRECTORY "${CMAKE_SOURCE_DIR}" )
-ADD_CUSTOM_TARGET(geotag-test COMMAND env EXIV2_BINDIR="${CMAKE_BINARY_DIR}"/bin make geotag-test WORKING_DIRECTORY "${CMAKE_SOURCE_DIR}" )
+add_custom_target(tests       COMMAND env EXIV2_BINDIR="${CMAKE_BINARY_DIR}"/bin make tests       WORKING_DIRECTORY "${CMAKE_SOURCE_DIR}" )
+add_custom_target(geotag-test COMMAND env EXIV2_BINDIR="${CMAKE_BINARY_DIR}"/bin make geotag-test WORKING_DIRECTORY "${CMAKE_SOURCE_DIR}" )
 
 ##
 # http://dev.exiv2.org/boards/3/topics/1364
@@ -98,7 +98,7 @@ ADD_CUSTOM_TARGET(geotag-test COMMAND env EXIV2_BINDIR="${CMAKE_BINARY_DIR}"/bin
 # has to run 'make config' and './configure'
 # and copy bin/taglist to <exiv2dir>/bin/taglist for use by 'make doc'
 if( MINGW OR UNIX OR APPLE)
-  ADD_CUSTOM_TARGET(doc
+  add_custom_target(doc
     WORKING_DIRECTORY "${CMAKE_SOURCE_DIR}/doc"
     COMMAND chmod +x ./cmake_doc.sh
     COMMAND ./cmake_doc.sh "${CMAKE_BINARY_DIR}"

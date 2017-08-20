@@ -12,7 +12,7 @@ UPDATE_TRANSLATIONS(exiv2 ${PO_FILES})
 
 ADD_TRANSLATIONS(exiv2 ${PO_FILES})
 
-ADD_CUSTOM_TARGET( pot-update
+add_custom_target( pot-update
                    COMMAND xgettext -d ${PACKAGE_NAME}
                                     -s
                                     -D ${CMAKE_CURRENT_SOURCE_DIR}/..

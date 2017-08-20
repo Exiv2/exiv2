@@ -89,4 +89,4 @@ target_link_libraries(remotetest exiv2lib)
 
 # ******************************************************************************
 # Man page
-INSTALL( FILES exiv2samples.1 DESTINATION ${CMAKE_INSTALL_MANDIR}/man1 )
+install( FILES exiv2samples.1 DESTINATION ${CMAKE_INSTALL_MANDIR}/man1 )
