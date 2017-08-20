@@ -20,11 +20,14 @@ endif()
 CMAKE_MINIMUM_REQUIRED( VERSION 3.1.0 )
 PROJECT( exiv2 )
 
+INCLUDE( GNUInstallDirs )
+
 if( POLICY CMP0042 )
     cmake_policy(SET CMP0042 NEW) # enable MACOSX_RPATH support
 else()
     SET(CMAKE_MACOSX_RPATH 1)
 endif()
+
 
 SET( PACKAGE_COPYRIGHT      "Andreas Huggel" )
 SET( PACKAGE_BUGREPORT      "ahuggel@gmx.net" )

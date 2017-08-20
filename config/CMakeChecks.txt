@@ -37,8 +37,6 @@ INCLUDE( CheckSymbolExists )
 INCLUDE( CheckCSourceCompiles )
 INCLUDE( CheckCXXSourceCompiles )
 
-INCLUDE( GNUInstallDirs )
-
 INCLUDE( FindIconv )
 
 SET( STDC_HEADERS ON )
