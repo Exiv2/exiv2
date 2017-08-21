@@ -171,13 +171,6 @@ ENDIF( EXIV2_ENABLE_PNG )
 
 INCLUDE_DIRECTORIES(${CMAKE_CURRENT_BINARY_DIR})
 
-##
-# msvn tuning
-IF( MSVC )
-    include(../CMake_msvc.txt)
-    msvc_runtime_configure(${EXIV2_ENABLE_SHARED} ${EXIV2_ENABLE_DYNAMIC_RUNTIME})
-ENDIF( MSVC )
-
 # ******************************************************************************
 # exiv2lib library
 
@@ -272,9 +265,6 @@ install(TARGETS exiv2lib
 install(FILES ${LIBEXIV2_HDR}
     DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}/exiv2
 )
-
-include(../CMake_msvc.txt)
-msvc_runtime_configure(${EXIV2_ENABLE_SHARED} ${EXIV2_ENABLE_DYNAMIC_RUNTIME})
 
 # ******************************************************************************
 # exiv2 application
