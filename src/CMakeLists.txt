@@ -159,15 +159,10 @@ endif( EXIV2_ENABLE_WEBREADY )
 
 ##
 # add png*.cpp files if PNG support requested
-IF( EXIV2_ENABLE_PNG )
-    IF( ZLIB_FOUND )
-        SET( LIBEXIV2_SRC ${LIBEXIV2_SRC}
-                          pngchunk.cpp
-                          pngimage.cpp
-           )
-        set( LIBEXIV2_HDR ${LIBEXIV2_HDR} ../include/exiv2/pngimage.hpp )
-    ENDIF( ZLIB_FOUND )
-ENDIF( EXIV2_ENABLE_PNG )
+if( EXIV2_ENABLE_PNG )
+    set( LIBEXIV2_SRC ${LIBEXIV2_SRC} pngchunk.cpp pngimage.cpp)
+    set( LIBEXIV2_HDR ${LIBEXIV2_HDR} ../include/exiv2/pngimage.hpp )
+endif()
 
 INCLUDE_DIRECTORIES(${CMAKE_CURRENT_BINARY_DIR})
 
@@ -236,13 +231,7 @@ if( EXIV2_ENABLE_XMP AND EXIV2_ENABLE_LIBXMP )
 ENDIF()
 
 IF( EXIV2_ENABLE_PNG )
-    IF( ZLIB_FOUND )
-        IF( MSVC )
-            TARGET_LINK_LIBRARIES( exiv2lib PRIVATE optimized ${ZLIB_LIBRARIES} )
-        ELSE()
-            TARGET_LINK_LIBRARIES( exiv2lib PRIVATE ${ZLIB_LIBRARIES} )
-        ENDIF()
-    ENDIF()
+    TARGET_LINK_LIBRARIES( exiv2lib PRIVATE ${ZLIB_LIBRARIES} )
 ENDIF()
 
 IF( EXIV2_ENABLE_NLS )
