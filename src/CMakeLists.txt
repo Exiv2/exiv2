@@ -148,12 +148,12 @@ SET( LIBEXIV2_SRC         asfvideo.cpp
 if( EXIV2_ENABLE_WEBREADY )
     if( EXIV2_ENABLE_CURL)
         set( LIBEXIV2_SRC ${LIBEXIV2_SRC} easyaccess.cpp)
-        set( LIBEXIV2_HDR ${LIBEXIV2_HDR} ${CMAKE_CURRENT_LIST_DIR}/../include/exiv2/easyaccess.hpp)
+        set( LIBEXIV2_HDR ${LIBEXIV2_HDR} ../include/exiv2/easyaccess.hpp)
     endif()
 
     if( EXIV2_ENABLE_SSH )
         set( LIBEXIV2_SRC ${LIBEXIV2_SRC} ssh.cpp)
-        set( LIBEXIV2_HDR ${LIBEXIV2_HDR} ${CMAKE_CURRENT_LIST_DIR}/../include/exiv2/ssh.hpp)
+        set( LIBEXIV2_HDR ${LIBEXIV2_HDR} ../include/exiv2/ssh.hpp)
     endif()
 endif( EXIV2_ENABLE_WEBREADY )
 
@@ -165,7 +165,7 @@ IF( EXIV2_ENABLE_PNG )
                           pngchunk.cpp
                           pngimage.cpp
            )
-        set( LIBEXIV2_HDR ${LIBEXIV2_HDR} ${CMAKE_CURRENT_LIST_DIR}/../include/exiv2/pngimage.hpp )
+        set( LIBEXIV2_HDR ${LIBEXIV2_HDR} ../include/exiv2/pngimage.hpp )
     ENDIF( ZLIB_FOUND )
 ENDIF( EXIV2_ENABLE_PNG )
 
