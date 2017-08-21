@@ -11,6 +11,10 @@ PROJECT( exiv2 )
 
 INCLUDE( GNUInstallDirs )
 
+if ( NOT MSVC )
+	set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_BINDIR})
+endif()
+
 set(CMAKE_MACOSX_RPATH 1)
 
 SET( PACKAGE_COPYRIGHT      "Andreas Huggel" )
@@ -36,39 +40,20 @@ OPTION( EXIV2_ENABLE_BUILD_SAMPLES "Build the unit tests"                       
 OPTION( EXIV2_ENABLE_BUILD_PO      "Build translations files"                              OFF )
 OPTION( EXIV2_ENABLE_VIDEO         "Build video support into library"                      OFF )
 OPTION( EXIV2_ENABLE_WEBREADY      "Build webready support into library"                   OFF )
+OPTION( EXIV2_ENABLE_DYNAMIC_RUNTIME  "Use dynamic runtime (used for static libs)"         OFF )
 IF (WIN32)
-    OPTION( EXIV2_ENABLE_DYNAMIC_RUNTIME  "Use dynamic runtime (used for static libs)"     OFF )
     OPTION( EXIV2_ENABLE_WIN_UNICODE   "Use Unicode paths (wstring) on Windows"            OFF )
     OPTION( EXIV2_ENABLE_CURL          "USE Libcurl for HttpIo"                            OFF )
     OPTION( EXIV2_ENABLE_SSH           "USE Libssh for SshIo"                              OFF )
 ELSE()
     OPTION( EXIV2_ENABLE_CURL          "USE Libcurl for HttpIo"                            ON  )
     OPTION( EXIV2_ENABLE_SSH           "USE Libssh for SshIo"                              ON  )
-    SET ( EXIV2_ENABLE_DYNAMIC_RUNTIME OFF )
 ENDIF()
 OPTION( EXIV2_ENABLE_TOOLS         "Build exiv2 executable"                                ON  )
 
 include(config/findDependencies.cmake)
+include(config/compilerFlags.cmake)
 
-if( MINGW OR UNIX )
-    if (${CMAKE_CXX_COMPILER_ID} STREQUAL GNU)
-        ADD_DEFINITIONS(-Wall
-                    -Wcast-align
-                    -Wpointer-arith
-                    -Wformat-security
-                    -Wmissing-format-attribute
-                    -Woverloaded-virtual
-                    -W
-                   )
-    ENDIF()
-
-    IF ( CYGWIN OR (CMAKE_CXX_COMPILER_VERSION VERSION_GREATER 5.0))
-        ADD_DEFINITIONS( -std=gnu++98 ) # to support snprintf
-    ELSE()
-        ADD_DEFINITIONS( -std=c++98 )
-    ENDIF()
-
-ENDIF( MINGW OR UNIX )
 
 IF( EXIV2_ENABLE_COMMERCIAL )
     SET (EXIV2_ENABLE_LENSDATA OFF)
@@ -76,7 +61,6 @@ IF( EXIV2_ENABLE_COMMERCIAL )
 ENDIF()
 
 if( MSVC )
-    ADD_DEFINITIONS(-DPSAPI_VERSION=1) # to be compatible with <= WinVista (#905)
     set(CMAKE_DEBUG_POSTFIX "d")
 endif( MSVC )
 

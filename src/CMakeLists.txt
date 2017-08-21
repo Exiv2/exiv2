@@ -6,10 +6,6 @@
 # Redistribution and use is allowed according to the terms of the BSD license.
 # For details see the accompanying COPYING-CMAKE-SCRIPTS file.
 
-if ( NOT MSVC )
-    set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin)
-endif()
-
 # Private headers which are only needed for the library itself
 SET( LIBEXIV2_PRIVATE_HDR canonmn_int.hpp
                           casiomn_int.hpp
@@ -148,35 +144,23 @@ SET( LIBEXIV2_SRC         asfvideo.cpp
 if( EXIV2_ENABLE_WEBREADY )
     if( EXIV2_ENABLE_CURL)
         set( LIBEXIV2_SRC ${LIBEXIV2_SRC} easyaccess.cpp)
-        set( LIBEXIV2_HDR ${LIBEXIV2_HDR} ${CMAKE_CURRENT_LIST_DIR}/../include/exiv2/easyaccess.hpp)
+        set( LIBEXIV2_HDR ${LIBEXIV2_HDR} ../include/exiv2/easyaccess.hpp)
     endif()
 
     if( EXIV2_ENABLE_SSH )
         set( LIBEXIV2_SRC ${LIBEXIV2_SRC} ssh.cpp)
-        set( LIBEXIV2_HDR ${LIBEXIV2_HDR} ${CMAKE_CURRENT_LIST_DIR}/../include/exiv2/ssh.hpp)
+        set( LIBEXIV2_HDR ${LIBEXIV2_HDR} ../include/exiv2/ssh.hpp)
     endif()
 endif( EXIV2_ENABLE_WEBREADY )
 
 ##
 # add png*.cpp files if PNG support requested
-IF( EXIV2_ENABLE_PNG )
-    IF( ZLIB_FOUND )
-        SET( LIBEXIV2_SRC ${LIBEXIV2_SRC}
-                          pngchunk.cpp
-                          pngimage.cpp
-           )
-        set( LIBEXIV2_HDR ${LIBEXIV2_HDR} ${CMAKE_CURRENT_LIST_DIR}/../include/exiv2/pngimage.hpp )
-    ENDIF( ZLIB_FOUND )
-ENDIF( EXIV2_ENABLE_PNG )
+if( EXIV2_ENABLE_PNG )
+    set( LIBEXIV2_SRC ${LIBEXIV2_SRC} pngchunk.cpp pngimage.cpp)
+    set( LIBEXIV2_HDR ${LIBEXIV2_HDR} ../include/exiv2/pngimage.hpp )
+endif()
 
 INCLUDE_DIRECTORIES(${CMAKE_CURRENT_BINARY_DIR})
-
-##
-# msvn tuning
-IF( MSVC )
-    include(../CMake_msvc.txt)
-    msvc_runtime_configure(${EXIV2_ENABLE_SHARED} ${EXIV2_ENABLE_DYNAMIC_RUNTIME})
-ENDIF( MSVC )
 
 # ******************************************************************************
 # exiv2lib library
@@ -218,6 +202,8 @@ if (EXIV2_ENABLE_WEBREADY AND EXIV2_ENABLE_SSH)
 endif()
 
 if ( MSVC )
+    target_compile_definitions(exiv2lib PRIVATE PSAPI_VERSION=1) # to be compatible with <= WinVista (#905)
+
     if ( EXIV2_ENABLE_STATIC )
         TARGET_LINK_LIBRARIES( exiv2lib zlibstatic ${ZLIB_LIBRARIES} )
     else()
@@ -241,13 +227,7 @@ if( EXIV2_ENABLE_XMP AND EXIV2_ENABLE_LIBXMP )
 ENDIF()
 
 IF( EXIV2_ENABLE_PNG )
-    IF( ZLIB_FOUND )
-        IF( MSVC )
-            TARGET_LINK_LIBRARIES( exiv2lib PRIVATE optimized ${ZLIB_LIBRARIES} )
-        ELSE()
-            TARGET_LINK_LIBRARIES( exiv2lib PRIVATE ${ZLIB_LIBRARIES} )
-        ENDIF()
-    ENDIF()
+    TARGET_LINK_LIBRARIES( exiv2lib PRIVATE ${ZLIB_LIBRARIES} )
 ENDIF()
 
 IF( EXIV2_ENABLE_NLS )
@@ -270,9 +250,6 @@ install(TARGETS exiv2lib
 install(FILES ${LIBEXIV2_HDR}
     DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}/exiv2
 )
-
-include(../CMake_msvc.txt)
-msvc_runtime_configure(${EXIV2_ENABLE_SHARED} ${EXIV2_ENABLE_DYNAMIC_RUNTIME})
 
 # ******************************************************************************
 # exiv2 application

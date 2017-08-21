@@ -5,9 +5,6 @@
 # Redistribution and use is allowed according to the terms of the BSD license.
 # For details see the accompanying COPYING-CMAKE-SCRIPTS file.
 
-include(../CMake_msvc.txt)
-msvc_runtime_configure(${EXIV2_ENABLE_SHARED} ${EXIV2_ENABLE_DYNAMIC_RUNTIME})
-
 set(XMPSRC src/ExpatAdapter.cpp
            src/MD5.cpp
            src/ParseRDF.cpp
@@ -35,20 +32,11 @@ set(XMPSRC src/ExpatAdapter.cpp
            include/XMP_Version.h
 )
 
-FOREACH(_currentfile ${XMPSRC})
-    # http://www.openguru.com/2009/04/cmake-detecting-platformoperating.html
-    IF(NOT MSVC AND NOT CYGWIN AND NOT MSYS AND NOT MINGW)
-        SET_SOURCE_FILES_PROPERTIES(${_currentfile} PROPERTIES COMPILE_FLAGS "-fPIC")
-    ENDIF()
-ENDFOREACH()
-
-if(NOT MSVC)
-  # http://stackoverflow.com/questions/10046114/in-cmake-how-can-i-test-if-the-compiler-is-clang
-  if ( NOT "${CMAKE_CXX_COMPILER_ID}" MATCHES "AppleClang")
-    # 1123 - hide xmpsdk symbols
-    add_definitions( -fvisibility=hidden -fvisibility-inlines-hidden )
-  endif()
-endif()
+foreach(_currentfile ${XMPSRC})
+    if(UNIX AND NOT CYGWIN)
+        set_source_files_properties(${_currentfile} PROPERTIES COMPILE_FLAGS "-fPIC")
+    endif()
+endforeach()
 
 # We generate a CMake OBJECT LIBRARY (a bunch of object files)
 add_library( xmp_object OBJECT ${XMPSRC} )
@@ -66,6 +54,12 @@ if( EXIV2_ENABLE_LIBXMP )
     target_link_libraries(xmp PUBLIC ${EXPAT_LIBRARIES})
     target_include_directories(xmp PUBLIC ${EXPAT_INCLUDE_DIR})
     target_include_directories(xmp PUBLIC ${CMAKE_SOURCE_DIR}/xmpsdk/include)
+
+    # http://stackoverflow.com/questions/10046114/in-cmake-how-can-i-test-if-the-compiler-is-clang
+    if ( NOT "${CMAKE_CXX_COMPILER_ID}" MATCHES "AppleClang")
+        # 1123 - hide xmpsdk symbols
+        target_compile_definitions(xmp PRIVATE -fvisibility=hidden -fvisibility-inlines-hidden )
+    endif()
 
     # 1119  Install libxmp.a for use by third party applications (Thanks, Emmanuel)
     install(TARGETS xmp
