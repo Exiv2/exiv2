@@ -80,7 +80,7 @@ target_link_libraries(conntest PRIVATE  exiv2lib)
 # ******************************************************************************
 # exifprint application
 # ADD_EXECUTABLE( exifprint exifprint.cpp )
-# TARGET_LINK_LIBRARIES( exifprint exiv2lib )
+# target_link_libraries( exifprint exiv2lib )
 
 # ******************************************************************************
 # remotetest application

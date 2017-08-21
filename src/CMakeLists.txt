@@ -207,9 +207,9 @@ if ( MSVC )
     target_compile_definitions(exiv2lib PRIVATE PSAPI_VERSION=1) # to be compatible with <= WinVista (#905)
 
     if ( EXIV2_ENABLE_STATIC )
-        TARGET_LINK_LIBRARIES( exiv2lib zlibstatic ${ZLIB_LIBRARIES} )
+        target_link_libraries( exiv2lib zlibstatic ${ZLIB_LIBRARIES} )
     else()
-        TARGET_LINK_LIBRARIES( exiv2lib PRIVATE ${ZLIB_LIBRARIES} )
+        target_link_libraries( exiv2lib PRIVATE ${ZLIB_LIBRARIES} )
     endif()
     source_group("Header Files" FILES ${LIBEXIV2_HDR} )
     source_group("Header Files" FILES ${LIBCURL_HDR} )
@@ -225,23 +225,23 @@ else()
 endif()
 
 if( EXIV2_ENABLE_XMP AND EXIV2_ENABLE_LIBXMP )
-    TARGET_LINK_LIBRARIES( exiv2lib PUBLIC xmp )
+    target_link_libraries( exiv2lib PUBLIC xmp )
 endif()
 
 if( EXIV2_ENABLE_PNG )
-    TARGET_LINK_LIBRARIES( exiv2lib PRIVATE ${ZLIB_LIBRARIES} )
+    target_link_libraries( exiv2lib PRIVATE ${ZLIB_LIBRARIES} )
 endif()
 
 if( EXIV2_ENABLE_NLS )
-    TARGET_LINK_LIBRARIES( exiv2lib PRIVATE  ${LIBINTL_LIBRARIES} )
+    target_link_libraries( exiv2lib PRIVATE  ${LIBINTL_LIBRARIES} )
 endif()
 
 if( ICONV_FOUND )
-    TARGET_LINK_LIBRARIES( exiv2lib PRIVATE  ${ICONV_LIBRARIES} )
+    target_link_libraries( exiv2lib PRIVATE  ${ICONV_LIBRARIES} )
 endif()
 
 if (CYGWIN OR MINGW)
-    TARGET_LINK_LIBRARIES( exiv2lib PRIVATE  psapi ws2_32 )
+    target_link_libraries( exiv2lib PRIVATE  psapi ws2_32 )
 endif()
 
 install(TARGETS exiv2lib
