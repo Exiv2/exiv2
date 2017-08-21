@@ -287,10 +287,12 @@ set( EXIV2_SRC  exiv2.cpp
                 utils.hpp
 )
 
-add_executable( exiv2 ${EXIV2_SRC} )
-target_compile_definitions(exiv2 PRIVATE EXV_LOCALEDIR="${CMAKE_INSTALL_LOCALEDIR}" )
-target_link_libraries( exiv2 PRIVATE exiv2lib )
-install(TARGETS exiv2 RUNTIME DESTINATION ${CMAKE_INSTALL_BINDIR})
+if(EXIV2_ENABLE_TOOLS)
+    add_executable( exiv2 ${EXIV2_SRC} )
+    target_compile_definitions(exiv2 PRIVATE EXV_LOCALEDIR="${CMAKE_INSTALL_LOCALEDIR}" )
+    target_link_libraries( exiv2 PRIVATE exiv2lib )
+    install(TARGETS exiv2 RUNTIME DESTINATION ${CMAKE_INSTALL_BINDIR})
+endif()
 
 # TODO This should not be needed here! we need to fix the previous TODO
 target_include_directories(exiv2 PRIVATE ${CMAKE_SOURCE_DIR}/include/)
