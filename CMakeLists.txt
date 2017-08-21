@@ -28,6 +28,9 @@ else()
     SET(CMAKE_MACOSX_RPATH 1)
 endif()
 
+if ( NOT MSVC )
+	set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_BINDIR})
+endif()
 
 SET( PACKAGE_COPYRIGHT      "Andreas Huggel" )
 SET( PACKAGE_BUGREPORT      "ahuggel@gmx.net" )
