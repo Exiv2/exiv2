@@ -5,7 +5,7 @@
 # For details see the accompanying COPYING-CMAKE-SCRIPTS file.
 
 if ( NOT MSVC )
-	set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin)
+	set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_BINDIR})
 endif()
 
 SET( SAMPLES addmoddel.cpp
@@ -47,7 +47,7 @@ foreach(entry ${SAMPLES})
     add_executable( ${target} ${target}.cpp )
     add_test( ${target}_test ${target} )
     target_link_libraries( ${target} PRIVATE exiv2lib)
-    install( TARGETS ${target} RUNTIME DESTINATION bin)
+    install( TARGETS ${target} RUNTIME DESTINATION ${CMAKE_INSTALL_BINDIR})
 endforeach()
 
 ###################################
@@ -68,7 +68,7 @@ endif()
 add_executable(        exiv2json exiv2json.cpp Jzon.cpp)
 target_link_libraries( exiv2json PRIVATE exiv2lib)
 
-install( TARGETS metacopy pathtest exiv2json RUNTIME DESTINATION bin)
+install( TARGETS metacopy pathtest exiv2json RUNTIME DESTINATION ${CMAKE_INSTALL_BINDIR})
 
 if (MSVC)
     target_sources(pathtest PRIVATE ../src/getopt_win32.c)
@@ -78,7 +78,7 @@ endif()
 if( EXIV2_ENABLE_XMP )
     add_executable(        geotag    geotag.cpp)
     target_link_libraries( geotag    PRIVATE exiv2lib ${ZLIB_LIBRARIES})
-    install( TARGETS       geotag    RUNTIME DESTINATION bin)
+    install( TARGETS       geotag    RUNTIME DESTINATION ${CMAKE_INSTALL_BINDIR})
 endif()
 
 # ******************************************************************************

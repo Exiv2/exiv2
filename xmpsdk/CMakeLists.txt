@@ -69,7 +69,7 @@ if( EXIV2_ENABLE_LIBXMP )
 
     # 1119  Install libxmp.a for use by third party applications (Thanks, Emmanuel)
     install(TARGETS xmp
-        LIBRARY DESTINATION lib
-        ARCHIVE DESTINATION lib
+        LIBRARY DESTINATION ${CMAKE_INSTALL_LIBDIR}
+        ARCHIVE DESTINATION ${CMAKE_INSTALL_LIBDIR}
     )
 endif()
