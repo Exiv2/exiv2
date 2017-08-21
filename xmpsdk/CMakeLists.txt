@@ -5,9 +5,6 @@
 # Redistribution and use is allowed according to the terms of the BSD license.
 # For details see the accompanying COPYING-CMAKE-SCRIPTS file.
 
-include(../CMake_msvc.txt)
-msvc_runtime_configure(${EXIV2_ENABLE_SHARED} ${EXIV2_ENABLE_DYNAMIC_RUNTIME})
-
 set(XMPSRC src/ExpatAdapter.cpp
            src/MD5.cpp
            src/ParseRDF.cpp
