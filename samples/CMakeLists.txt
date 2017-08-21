@@ -4,10 +4,6 @@
 # Redistribution and use is allowed according to the terms of the BSD license.
 # For details see the accompanying COPYING-CMAKE-SCRIPTS file.
 
-if ( NOT MSVC )
-	set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_BINDIR})
-endif()
-
 SET( SAMPLES addmoddel.cpp
              convert-test.cpp
              easyaccess-test.cpp

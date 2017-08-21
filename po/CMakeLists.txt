@@ -8,10 +8,6 @@
 # automatically include all po files in the directory
 FILE(GLOB PO_FILES *.po)
 
-if ( NOT MSVC )
-	set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_BINDIR})
-endif()
-
 UPDATE_TRANSLATIONS(exiv2 ${PO_FILES})
 
 ADD_TRANSLATIONS(exiv2 ${PO_FILES})

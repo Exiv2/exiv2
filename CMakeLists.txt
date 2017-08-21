@@ -11,6 +11,10 @@ PROJECT( exiv2 )
 
 INCLUDE( GNUInstallDirs )
 
+if ( NOT MSVC )
+	set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_BINDIR})
+endif()
+
 set(CMAKE_MACOSX_RPATH 1)
 
 SET( PACKAGE_COPYRIGHT      "Andreas Huggel" )
