@@ -6,13 +6,15 @@
 # Redistribution and use is allowed according to the terms of the BSD license.
 # For details see the accompanying COPYING-CMAKE-SCRIPTS file.
 
-CMAKE_MINIMUM_REQUIRED( VERSION 3.1.0 )
-PROJECT( exiv2 )
+cmake_minimum_required( VERSION 3.1.0 )
+project( exiv2 )
 
-INCLUDE( GNUInstallDirs )
+include( GNUInstallDirs )
 
-if ( NOT MSVC )
-	set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_BINDIR})
+if (NOT MSVC)
+    set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/lib)
+    set(CMAKE_LIBRARY_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/lib)
+    set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin)
 endif()
 
 set(CMAKE_MACOSX_RPATH 1)
