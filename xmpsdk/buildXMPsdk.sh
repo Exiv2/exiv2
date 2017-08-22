@@ -95,12 +95,11 @@ fi
 
         Darwin)
             if [ ! -e ../../$SDK/public/libraries/macintosh/intel_64/release/libXMPCoreStatic.a ]; then
-                target=3
-                if [ "$SDK" == "XMP-Toolkit-SDK-CC201306" ]; then target=5; fi
+                target=5 # (5=64 bit build for 2013 and 2014, 3 = 64 bit build for 2016)
+                if [ "$SDK" == "XMP-Toolkit-SDK-CC201607" ]; then target=3; fi
                 echo $target | ./GenerateXMPToolkitSDK_mac.sh
 
                 project=XMPToolkitSDK64.xcodeproj
-                if [ "$SDK" == "XMP-Toolkit-SDK-CC201412" ]; then project=XMPToolkitSDK.xcodeproj ; fi
                 find . -name "$project" -execdir xcodebuild -project {} -target XMPCoreStatic  -configuration Release \;
                 result=$?
             fi
