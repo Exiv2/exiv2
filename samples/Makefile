@@ -36,8 +36,8 @@
 # History:   08-Oct-07, ahu: created
 #
 # Description:
-#  Simple Makefile to build sample programs. Requires installed exiv2 library
-#  and headers. Adapted from the main Exiv2 src/Makefile.
+#  Makefile to build sample programs.
+#  Requires installed exiv2 library
 #
 # Restrictions:
 #  Requires GNU make.
@@ -45,10 +45,6 @@
 
 # Default make target
 all: samples
-
-# Include system configuration
-top_srcdir = ..
-include $(top_srcdir)/config/config.mk
 
 # ******************************************************************************
 # Source files
@@ -120,12 +116,6 @@ endif
 PREFIX = /usr/local/lib
 LINK.cc += -rpath $(PREFIX) -L$(PREFIX)
 
-# TODO: This should really not be here. We should use the installed headers
-# to build the samples. Some errors only show up in this scenario, e.g., errors
-# due to missing headers which are not installed (depending on compile-time
-# settings) but may be wrongly included from other headers.
-COMPILE.cc += -I$(top_srcdir)/include -I$(top_srcdir)/include/exiv2 # -std=gnu++98
-
 # ******************************************************************************
 # Rules
 samples: $(BINARY) $(OTHERBIN)
@@ -167,7 +157,7 @@ geotag: %: %.cpp
 	@$(POSTDEPEND)
 	$(LIBTOOL) --mode=link $(LINK.cc) -lexpat $@.o -o ../bin/$@
 
-# link applications which require utils.cpp support
+# link applications which require src/utils.cpp support
 metacopy path-test toexv: %: %.cpp ../src/utils.o
 	$(COMPILE.cc) -I../src -o $@.o $<
 	@$(MAKEDEPEND)

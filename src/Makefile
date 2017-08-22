@@ -62,7 +62,7 @@ include $(top_srcdir)/config/config.mk
 CCHDR =  exiv2.hpp         \
          config.h          \
          exv_conf.h        \
-         exv_msvc.h        \
+         xmp_exiv2.hpp     \
          version.hpp
 
 # Add library C++ source files to this list

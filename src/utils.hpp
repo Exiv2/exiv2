@@ -31,7 +31,6 @@
 
 // *********************************************************************
 // included header files
-#include "futils.hpp"
 
 // + standard includes
 #include <string>

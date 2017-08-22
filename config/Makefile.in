@@ -135,7 +135,7 @@ config:
 
 xmpsdk: config/config.mk
 	if test "x$(ENABLE_XMP)" =    "x1"; then cd xmpsdk/src && $(MAKE) $@; fi;
-	if test "x$(ENABLE_XMP)" = "x2016" -o "x$(ENABLE_XMP)" = "x2014" -o "x$(ENABLE_XMP)" = "x2014"; then xmpsdk/buildXMPsdk.sh $(ENABLE_XMP) $(MAKECMDGOALS); fi;
+	if test "x$(ENABLE_XMP)" = "x2016" -o "x$(ENABLE_XMP)" = "x2014" -o "x$(ENABLE_XMP)" = "x2013"; then xmpsdk/buildXMPsdk.sh $(ENABLE_XMP) $(MAKECMDGOALS); fi;
 
 mostlyclean clean: config/config.mk
 	cd src && $(MAKE) $(MAKECMDGOALS)
@@ -156,6 +156,7 @@ distclean: clean
 	rm -f *~ *.bak
 	if [ -e bin ]; then rm -rf bin ; fi
 	if [ -e xmpsdk/Adobe ]; then rm -rf xmpsdk/Adobe ; fi
+	if [ -e /usr/local/include/exiv2 ]; then rm -rf /usr/local/include/exiv2 ; fi
 
 # This removes almost everything, including the configure script!
 maintainer-clean: distclean

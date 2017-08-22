@@ -54,6 +54,7 @@ LIBTOOL_DEPS = $(top_srcdir)/@LIBTOOL_DEPS@
 # C++ Compiler and precompiler
 CXX = @CXX@
 GXX = @GXX@
+PREFIX = @PREFIX@
 
 # Common compiler flags (warnings, symbols [-ggdb], optimization [-O2], etc)
 CXXFLAGS = @CXXFLAGS@
