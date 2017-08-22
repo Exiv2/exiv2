@@ -179,6 +179,8 @@ SET_TARGET_PROPERTIES( exiv2lib PROPERTIES
     OUTPUT_NAME   exiv2
 )
 
+target_compile_definitions(exiv2lib PRIVATE EXV_LOCALEDIR="${CMAKE_INSTALL_LOCALEDIR}" )
+
 if ( UNIX AND CMAKE_SYSTEM_NAME STREQUAL "FreeBSD" )
     set (FREEBSD 1)
 endif()
@@ -264,6 +266,7 @@ set( EXIV2_SRC  exiv2.cpp
 
 if(EXIV2_ENABLE_TOOLS)
     add_executable( exiv2 ${EXIV2_SRC} )
+    target_compile_definitions(exiv2 PRIVATE EXV_LOCALEDIR="${CMAKE_INSTALL_LOCALEDIR}" )
     target_link_libraries( exiv2 PRIVATE exiv2lib )
     install(TARGETS exiv2 RUNTIME DESTINATION ${CMAKE_INSTALL_BINDIR})
 endif()
