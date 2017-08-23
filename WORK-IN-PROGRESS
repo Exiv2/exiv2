@@ -24,6 +24,7 @@ T A B L E   o f   C O N T E N T S
 4.6 Scripts xmpsdk/buildXMPsdk.sh and xmpsdk/buildXMPsdk.cmd
 4.7 Support for 32/64 bit builds, Release/Debug, Shared/Static
 4.8 Support for MinGW
+4.9 Linking XMPsdk with libexiv2
 
 ==========================================================================
 
@@ -83,10 +84,10 @@ target/macintosh/intel_64/Release/DumpFile:
     /System/Library/Frameworks/CoreServices.framework/Versions/A/CoreServices (compatibility version 1.0.0, current version 728.4.0)
 XMP-Toolkit-SDK-CC201607/samples $ 
 
-Conclusion:  We should not link -lXMPCore with libexiv2.26.dylib
-             We should     link -lXMPCore with applications such as exiv2(.exe)
+Conclusion:  We should link -lXMPCore with libexiv2.26.dylib
+             We should not   link -lXMPCore with applications such as exiv2(.exe)
              We should build exiv2 code with visibility disabled "CXXFLAGS=-fvisibility=hidden -fvisibility-inlines-hidden" 
-             We must compile/link apps with "CXXFLAGS=-stdlib=libstdc++ -Wno-deprecated"
+             We must compile and link everything with "CXXFLAGS=-stdlib=libstdc++ -Wno-deprecated"
 
 1.2 Amazing Discovery 2    Millions of "weak symbol/visibility" messages
 ------------------------------------------------------------------------
@@ -392,7 +393,7 @@ clang -x c++
 4   Build design for v0.26.1
 
 Added   : 2017-08-18
-Modified: 2017-08-18
+Modified: 2017-08-23
 
     The purpose of the v0.26.1 is to release bug fixes and
     experimental new features which may become defaults with v0.27
@@ -460,12 +461,13 @@ Modified: 2017-08-18
      
 4.7 Support for 32/64 bit builds, Release/Debug, Shared/Static
     
-    1) v0.26.1 will build exactly as v0.26 and support link static libxmpsdk
+    1) v0.26.1 will build exactly as v0.26 and support linking static libxmpsdk.a
        32/64 static/shared debug/release are supported on all platforms
     
     2) The new features (--with-std and --with-adobe) will only be supported for
-       a static/release build of libCore.a
-       msvc will continue to supports 32/64 ReleaseDLL/Release/DebugDLL/Debug
+       a static/release build of libXMPCore.a
+       msvc will continue to supports 32/64 ReleaseDLL/Release/DebugDLL/Debug of libexiv2
+       which will include the static libXMPCore.a or libxmpsdk.a
         
 4.8 Support for MinGW
     MinGW msys/1.0 was deprecated when v0.26 was released.
@@ -474,9 +476,71 @@ Modified: 2017-08-18
     I will not provide any user support for MinGW msys/1.0 in future.
     
     MinGW msys/2.0 might be supported as "experimental" in Exiv2 v0.26.2
-     
+    
+4.9 Building and linking XMPsdk with libexiv2
+
+    Exiv2 v0.26 (and many earlier editions) contain Adobe XMPsdk code.
+    The precise version of this code is unknown.
+    The xmpsdk/ directory has files in src/*.cpp and include/*.hpp 
+    The xmpsdk/ has its own Makefile, CMakeLists.txt and msvc/xmpsdk/project files.
+    
+    Exiv2 v0.26 builds a static library libxmpsdk.a which is linked into libexiv2.a
+    
+    None of this will change in Exiv2 v0.26.1
+    
+    Exiv2 v0.26.1 will support a new option to download and build "pure Adobe" XMPsdk.
+    Three flavours will be supported:
+        2013  http://download.macromedia.com/pub/developer/xmp/sdk/XMP-Toolkit-SDK-CC-201306.zip
+        2014  http://download.macromedia.com/pub/developer/xmp/sdk/XMP-Toolkit-SDK-CC201412.zip
+        2016  http://download.macromedia.com/pub/developer/xmp/sdk/XMP-Toolkit-SDK-CC201607.zip
+    As Adobe appear to release new editions every 18 months, I guess that Adobe will release
+    a new version in Spring 2018.
+    
+    The autotools build supports new ./configure options:
+        --with-adobe        builds and links 4089256 Aug 23 11:19 ./xmpsdk/Adobe/XMP-Toolkit-SDK-CC201306/libXMPCore.a
+        --with-adobe=2016   as --with-adobe
+        --with-adobe=2014                    4108792 Aug 23 11:18 ./xmpsdk/Adobe/XMP-Toolkit-SDK-CC201412/libXMPCore.a
+        --with-adobe=2013                   22242448 Aug 23 10:25 ./xmpsdk/Adobe/XMP-Toolkit-SDK-CC201607/libXMPCore.a
+        
+    The build of the Adobe XMPsdk is "pure Adobe".  We download the code and build it without modification.
+    
+    The scripts to download and build the Adobe code is:
+        xmpsdk/buildXMPsdk.sh
+        xmpsdk/buildXMPsdk.cmd
+        
+    Adobe build the 2016 SDK with -std=c++11.  This links successfully with the libexiv2 -std=c++98 build. 
+    I haven't investigated which compiler Adobe use to build the 2013 and 2014 editions.
+        
+    Mac Build
+    Following the analysis of Adobe's build (Topics 1 and 2 in this report), it has been realised that:
+    1 Adobe build the SDK with (both linker and compiler) -stdlib=libstdc++
+    2 Visibility should be disabled in the compiler
+        
+    CPPFLAGS   = -I/usr/local/include -I/usr/local/include -std=c++98 -fvisibility=hidden -fvisibility-inlines-hidden \
+                 -stdlib=libstdc++ -Wno-deprecated    -Ixmpsdk/Adobe/XMP-Toolkit-SDK-CC201607/public/include
+    LDFLAGS    = -L/usr/local/lib -lpthread -stdlib=libstdc++ -Wno-deprecated  -Lxmpsdk/Adobe/XMP-Toolkit-SDK-CC201607
+    LIBS       = -lz -lXMPCore  
+    CXX        = g++
+    
+    Linux Build
+    CPPFLAGS   = -I/usr/local/include -std=c++98   -Ixmpsdk/Adobe/XMP-Toolkit-SDK-CC201607/public/include
+    LDFLAGS    = -L/usr/local/lib -ldl -lpthread   -Lxmpsdk/Adobe/XMP-Toolkit-SDK-CC201607
+    LIBS       = -lz  -lm -lXMPCore
+    CXX        = g++
+
+    When 2013 or 2014 are selected, the appropriate -Ipath and -Lpath should be set.
+    
+    CMake Build
+    A new option -DEXIV2_ENABLE_ADOBE[=2016|=2014|=2013] should be added.
+    The build of XMPsdk should be performed with xmpsdk/buildXMPsdk.sh (or xmpsdk/buildXMPsdk.cmd for Visual Studio)
+    The build should set same LDFLAGS and CPPFLAGS as the autotools build.
+    
+    When the options -DEXIV2_ENABLE_ADOBE is not used, we should compile the code in xmpsdk/src
+    to create and link libxmpsdk.a
+             
 ==========================================================================
     
+
 
 
 

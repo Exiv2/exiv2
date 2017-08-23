@@ -53,9 +53,9 @@ if [ -e Adobe/$SDK/libXMPCore.a ]; then ls -alt Adobe/$SDK/libXMPCore.a ; exit 0
 
 ##
 # Download the code from Adobe
-if [ ! -e Adobe/$SDK ]; then (
-    mkdir Adobe
-    cd    Adobe
+if [ ! -e    Adobe/$SDK ]; then (
+    mkdir -p Adobe
+    cd       Adobe
     if curl -O http://download.macromedia.com/pub/developer/xmp/sdk/$ZIP.zip ; then
         unzip $ZIP.zip
     fi

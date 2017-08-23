@@ -51,6 +51,8 @@ src/lib
 test/tmp/*
 doc/html
 
+include/exiv2/exv_conf.h
+
 doc/templates/Exif
 doc/templates/Iptc
 doc/templates/xmp_*

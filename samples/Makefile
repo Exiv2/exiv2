@@ -86,6 +86,9 @@ OTHERSRC = exiv2json.cpp      \
            path-test.cpp      \
            toexv.cpp
 
+top_srcdir = ..
+include $(top_srcdir)/config/config.mk
+
 # ******************************************************************************
 # Initialisations
 SHELL = /bin/sh
