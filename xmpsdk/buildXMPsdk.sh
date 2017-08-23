@@ -3,13 +3,14 @@
 ##
 # buildXMPsdk.sh
 # TODO:
-#     1) Command-line parser for options such as:
-#        version of xmpsdk (2014, 2016)
-#        build options     (64/32 static/dynamic debug/release)
-#        help
-#     2) Cygwin support (in progress)
-#     3) Write buildXMPsdk.cmd (for MSVC)
+#     1) Cygwin support (in progress)
+#     2) Write buildXMPsdk.cmd (for MSVC)
 ##
+
+syntaxError() {
+    echo "usage: $0 [--help|-?|--2013|--2014|--2016|--32|--64]"
+    exit 1
+}
 
 uname=$(uname -a | cut -d' ' -f 1 | cut -d_ -f 1)
 case "$uname" in
@@ -19,28 +20,50 @@ case "$uname" in
     ;;
 esac
 
-cd $(dirname "$0")  # always run this script in exiv2-dir/xmpsdk
-SDK=XMP-Toolkit-SDK-CC201607
-if [ "$1" == "2014" ]; then
-	SDK=XMP-Toolkit-SDK-CC201412
-fi
+##
+# always run this script in <exiv2dir>/xmpsdk
+cd $(dirname "$0")
 
+##
+# parse command-line
+bits=64
+SDK=2016
+
+while [ $# -ne 0 ]; do
+    case "$1" in
+      -h|--help|-\?) syntaxError; exit 0;;
+      --64|64)       bits=64    ; shift ;;
+      --32|32)       bits=32    ; shift ;;
+      --2013|2013)   SDK=2013   ; shift ;;
+      --2014|2014)   SDK=2014   ; shift ;;
+      --2016|2016)   SDK=2016   ; shift ;;
+        install)     exit 0             ;; # argument passed by make
+
+      *)             syntaxError; exit 1;;
+    esac
+done
+
+if [ "$SDK" == "2013" ] ; then SDK=XMP-Toolkit-SDK-CC201306 ; ZIP=XMP-Toolkit-SDK-CC-201306 ;fi
+if [ "$SDK" == "2014" ] ; then SDK=XMP-Toolkit-SDK-CC201412 ; ZIP=$SDK; fi
+if [ "$SDK" == "2016" ] ; then SDK=XMP-Toolkit-SDK-CC201607 ; ZIP=$SDK; fi
+
+##
 # if it's already built, we're done
-if [ -e Adobe/$SDK/libXMPCore.a ]; then exit 0 ; fi
+if [ -e Adobe/$SDK/libXMPCore.a ]; then ls -alt Adobe/$SDK/libXMPCore.a ; exit 0 ; fi
 
 ##
 # Download the code from Adobe
 if [ ! -e Adobe/$SDK ]; then (
     mkdir Adobe
     cd    Adobe
-    if curl -O http://download.macromedia.com/pub/developer/xmp/sdk/$SDK.zip ; then
-    	unzip $SDK.zip
+    if curl -O http://download.macromedia.com/pub/developer/xmp/sdk/$ZIP.zip ; then
+        unzip $ZIP.zip
     fi
 ) fi
 
 if [ ! -d Adobe/$SDK ]; then
-	echo "*** ERROR SDK = Adobe/$SDK not found" >2
-	exit 1
+    echo "*** ERROR SDK = Adobe/$SDK not found" >2
+    exit 1
 fi
 
 ##
@@ -53,25 +76,12 @@ fi
 # generate Makefile and build libraries
 (   cd Adobe/$SDK/build
     ##
-    # Tweak the code (depends on platform)
+    # Tweak the code (depends on platform) and build using adobe tools
     case "$uname" in
         Linux)
-            # modify ProductConfig.cmake (don't link libssp.a)
-            f=ProductConfig.cmake
-            if [ -e $f.orig ]; then mv $f.orig $f ; fi ; cp $f $f.orig
-            sed -E -e 's? \$\{XMP_GCC_LIBPATH\}/libssp.a??g' $f.orig > $f
-
-            # copy resources
-            for f in XMPFiles XMPCore; do
-                cp ../$f/resource/linux/* ../$f/resource
-            done
-
-            cmake . -G "Unix Makefiles"              \
-                    -DXMP_ENABLE_SECURE_SETTINGS=OFF \
-                    -DXMP_BUILD_STATIC=1             \
-                    -DCMAKE_CL_64=ON                 \
-                    -DCMAKE_BUILD_TYPE=Release
-            make
+            target=StaticRelease64
+            if [ "$BITS" == "32" ]; then target=StaticRelease32 ; fi
+            make "$target"
             result=$?
         ;;
 
@@ -85,17 +95,17 @@ fi
 
         Darwin)
             if [ ! -e ../../$SDK/public/libraries/macintosh/intel_64/release/libXMPCoreStatic.a ]; then
-            	cmake . -G "Unix Makefiles"          \
-                    -DXMP_ENABLE_SECURE_SETTINGS=OFF \
-                    -DXMP_BUILD_STATIC=1             \
-                    -DCMAKE_CL_64=ON                 \
-                    -DCMAKE_BUILD_TYPE=Release
-            	make
-            	result=$?
+                target=5 # (5=64 bit build for 2013 and 2014, 3 = 64 bit build for 2016)
+                if [ "$SDK" == "XMP-Toolkit-SDK-CC201607" ]; then target=3; fi
+                echo $target | ./GenerateXMPToolkitSDK_mac.sh
+
+                project=XMPToolkitSDK64.xcodeproj
+                find . -name "$project" -execdir xcodebuild -project {} -target XMPCoreStatic  -configuration Release \;
+                result=$?
             fi
         ;;
         *)
-        	result=1  # build failed
+            result=1  # build failed
         ;;
     esac
 )
@@ -108,21 +118,18 @@ if [ -z "$result" ]; then (
 
     # report archives we can see
     cd   Adobe/$SDK
-    rm -rf *.a *.ar
+    rm -rf *.a *.ar  # clean up from previous build
     find public -name "*.a" -o -name "*.ar" | xargs ls -alt
 
-    # move the library/archives into xmpsdk
+    # move the library/archives into xmpsdk/Adobe/$SDK
     case "$uname" in
       Linux)
           find public -name "*.ar" -exec cp {} . ';'
           mv   staticXMPCore.ar  libXMPCore.a
-          mv   staticXMPFiles.ar libXMPFiles.a
       ;;
 
       Darwin)
-          find public -name "*.a" -exec cp {} . ';'
-          mv   libXMPCoreStatic.a  libXMPCore.a
-          mv   libXMPFilesStatic.a libXMPFiles.a
+          find public -name "libXMPCoreStatic.a" -exec cp {} libXMPCore.a ';'
       ;;
     esac
     ls -alt *.a

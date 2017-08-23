@@ -173,6 +173,8 @@ if test "$enable_webready" = "yes"; then
     AC_DEFINE(ENABLE_WEBREADY)
 fi
 
+echo "CPPFLAGS = $CPPFLAGS"
+
 if test "$enable_webready" = "yes"; then
     # libcurl option might change flags, so we save them initially
     _cppflags="${CPPFLAGS}"
@@ -388,22 +390,24 @@ else
 fi
 
 AC_ARG_WITH(adobe,
-    [  --with-adobe[[=OPT]]  use --with-adobe for Adobe XMPsdk. OPT: 2016|2014 default/--without-adobe is xmpsdk/src],
+    [  --with-adobe[[=OPT]]  use --with-adobe for Adobe XMPsdk. OPT: 2016|2014|2013 default/--without-adobe is xmpsdk/src],
     ADOBE=$withval,
     ADOBE=xmpsdk/src)
 if test "$ADOBE" == "yes"; then ADOBE=2016; fi
 
-if test "$ADOBE" = "2016" -o "$ADOBE" = "2014" ; then
+if test "$ADOBE" = "2016" -o "$ADOBE" = "2014" -o "$ADOBE" = "2013" ; then
 	ADOBE_SDK=XMP-Toolkit-SDK-CC201607
 	if test "$ADOBE" == "2014" ; then ADOBE_SDK=XMP-Toolkit-SDK-CC201412; fi
+	if test "$ADOBE" == "2013" ; then ADOBE_SDK=XMP-Toolkit-SDK-CC201306; fi
     ENABLE_XMP=$ADOBE
     XMPSDK_CPPFLAGS="-Ixmpsdk/Adobe/$ADOBE_SDK/public/include"
     XMPSDK_LDFLAGS="-Lxmpsdk/Adobe/$ADOBE_SDK"
 	case "$host_os" in
 		*arwin*)
-    		CPPFLAGS="${CPPFLAGS} -stdlib=libstdc++ -Wno-deprecated -fvisibility=hidden -fvisibility-inlines-hidden"
-    	    LDFLAGS="${LDFLAGS} -stdlib=libstdc++ -Wno-deprecated"
-    	    EXV_LIB_STATIC="-stdlib=libstdc++ -Wno-deprecated"
+			EXV_DARWIN_FLAGS="-stdlib=libstdc++ -Wno-deprecated"
+    		CPPFLAGS="${CPPFLAGS} -fvisibility=hidden -fvisibility-inlines-hidden ${EXV_DARWIN_FLAGS} "
+    	    LDFLAGS="${LDFLAGS} ${EXV_DARWIN_FLAGS}"
+			AC_SUBST(EXV_DARWIN_FLAGS)
 		;;
 	esac
 fi
@@ -509,8 +513,8 @@ esac
 fi
 
 echo "CPPFLAGS   =" "$CPPFLAGS $SSH_CPPFLAGS $CURL_CPPFLAGS $XMPSDK_CPPFLAGS"
-echo "LDFLAGS    =" "$LDFLAGS $SSH_LDFLAGS $CURL_LDFLAGS $EXPAT_LDFLAGS $XMPSDK_LDFLAGS"
-echo "LIBS       =" "$LIBS $SSH_LIBS $CURL_LIBS $EXPAT_LIBS $XMPSDK_LIBS"
+echo "LDFLAGS    =" "$LDFLAGS $SSH_LDFLAGS $CURL_LDFLAGS $XMPSDK_LDFLAGS"
+echo "LIBS       =" "$LIBS $SSH_LIBS $CURL_LIBS $XMPSDK_LIBS"
 echo "CXX        =" "$CXX"
 echo "------------------------------------------------------------------"
 echo ""
