@@ -7,7 +7,7 @@
 # For details see the accompanying COPYING-CMAKE-SCRIPTS file.
 
 # Private headers which are only needed for the library itself
-SET( LIBEXIV2_PRIVATE_HDR canonmn_int.hpp
+set( LIBEXIV2_PRIVATE_HDR canonmn_int.hpp
                           casiomn_int.hpp
                           cr2image_int.hpp
                           crwimage_int.hpp
@@ -33,7 +33,7 @@ SET( LIBEXIV2_PRIVATE_HDR canonmn_int.hpp
    )
 
 # Add standalone C++ header files to this list
-SET( LIBEXIV2_HDR         ../include/exiv2/asfvideo.hpp
+set( LIBEXIV2_HDR         ../include/exiv2/asfvideo.hpp
                           ../include/exiv2/basicio.hpp
                           ../include/exiv2/bmpimage.hpp
                           ../include/exiv2/config.h
@@ -82,7 +82,7 @@ SET( LIBEXIV2_HDR         ../include/exiv2/asfvideo.hpp
    )
 
 # Add library C++ source files to this list
-SET( LIBEXIV2_SRC         asfvideo.cpp
+set( LIBEXIV2_SRC         asfvideo.cpp
                           basicio.cpp
                           bmpimage.cpp
                           canonmn.cpp
@@ -151,7 +151,7 @@ if( EXIV2_ENABLE_WEBREADY )
         set( LIBEXIV2_SRC ${LIBEXIV2_SRC} ssh.cpp)
         set( LIBEXIV2_HDR ${LIBEXIV2_HDR} ../include/exiv2/ssh.hpp)
     endif()
-endif( EXIV2_ENABLE_WEBREADY )
+endif()
 
 ##
 # add png*.cpp files if PNG support requested
@@ -160,7 +160,7 @@ if( EXIV2_ENABLE_PNG )
     set( LIBEXIV2_HDR ${LIBEXIV2_HDR} ../include/exiv2/pngimage.hpp )
 endif()
 
-INCLUDE_DIRECTORIES(${CMAKE_CURRENT_BINARY_DIR})
+include_directories(${CMAKE_CURRENT_BINARY_DIR})
 
 # ******************************************************************************
 # exiv2lib library
@@ -172,7 +172,7 @@ else()
     add_library( exiv2lib ${STATIC_FLAG} ${LIBEXIV2_SRC} ${LIBEXIV2_HDR} ${LIBEXIV2_PRIVATE_HDR})
 endif()
 
-SET_TARGET_PROPERTIES( exiv2lib PROPERTIES
+set_target_properties( exiv2lib PROPERTIES
     VERSION       ${GENERIC_LIB_VERSION}
     SOVERSION     ${GENERIC_LIB_SOVERSION}
     DEFINE_SYMBOL EXV_BUILDING_LIB
@@ -187,7 +187,7 @@ endif()
 
 if ( EXIV2_ENABLE_XMP )
     target_include_directories(exiv2lib PRIVATE ${CMAKE_SOURCE_DIR}/xmpsdk/include)
-endif ()
+endif()
 
 # TODO : We should not include include/exiv2 but only include !!!
 target_include_directories(exiv2lib PUBLIC
@@ -207,9 +207,9 @@ if ( MSVC )
     target_compile_definitions(exiv2lib PRIVATE PSAPI_VERSION=1) # to be compatible with <= WinVista (#905)
 
     if ( EXIV2_ENABLE_STATIC )
-        TARGET_LINK_LIBRARIES( exiv2lib zlibstatic ${ZLIB_LIBRARIES} )
+        target_link_libraries( exiv2lib zlibstatic ${ZLIB_LIBRARIES} )
     else()
-        TARGET_LINK_LIBRARIES( exiv2lib PRIVATE ${ZLIB_LIBRARIES} )
+        target_link_libraries( exiv2lib PRIVATE ${ZLIB_LIBRARIES} )
     endif()
     source_group("Header Files" FILES ${LIBEXIV2_HDR} )
     source_group("Header Files" FILES ${LIBCURL_HDR} )
@@ -225,24 +225,24 @@ else()
 endif()
 
 if( EXIV2_ENABLE_XMP AND EXIV2_ENABLE_LIBXMP )
-    TARGET_LINK_LIBRARIES( exiv2lib PUBLIC xmp )
-ENDIF()
+    target_link_libraries( exiv2lib PUBLIC xmp )
+endif()
 
-IF( EXIV2_ENABLE_PNG )
-    TARGET_LINK_LIBRARIES( exiv2lib PRIVATE ${ZLIB_LIBRARIES} )
-ENDIF()
+if( EXIV2_ENABLE_PNG )
+    target_link_libraries( exiv2lib PRIVATE ${ZLIB_LIBRARIES} )
+endif()
 
-IF( EXIV2_ENABLE_NLS )
-    TARGET_LINK_LIBRARIES( exiv2lib PRIVATE  ${LIBINTL_LIBRARIES} )
-ENDIF( EXIV2_ENABLE_NLS )
+if( EXIV2_ENABLE_NLS )
+    target_link_libraries( exiv2lib PRIVATE  ${LIBINTL_LIBRARIES} )
+endif()
 
-IF( ICONV_FOUND )
-    TARGET_LINK_LIBRARIES( exiv2lib PRIVATE  ${ICONV_LIBRARIES} )
-ENDIF( ICONV_FOUND )
+if( ICONV_FOUND )
+    target_link_libraries( exiv2lib PRIVATE  ${ICONV_LIBRARIES} )
+endif()
 
-IF (CYGWIN OR MINGW)
-    TARGET_LINK_LIBRARIES( exiv2lib PRIVATE  psapi ws2_32 )
-ENDIF(CYGWIN OR MINGW)
+if (CYGWIN OR MINGW)
+    target_link_libraries( exiv2lib PRIVATE  psapi ws2_32 )
+endif()
 
 install(TARGETS exiv2lib
     RUNTIME DESTINATION ${CMAKE_INSTALL_BINDIR}
@@ -287,4 +287,4 @@ endif()
 
 # ******************************************************************************
 # Man page
-INSTALL( FILES exiv2.1 DESTINATION ${CMAKE_INSTALL_MANDIR}/man1 )
+install( FILES exiv2.1 DESTINATION ${CMAKE_INSTALL_MANDIR}/man1 )

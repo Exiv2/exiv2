@@ -19,56 +19,55 @@ endif()
 
 set(CMAKE_MACOSX_RPATH 1)
 
-SET( PACKAGE_COPYRIGHT      "Andreas Huggel" )
-SET( PACKAGE_BUGREPORT      "http://github.com/exiv2/exiv2" )
-SET( PACKAGE                "exiv2" )
-SET( PACKAGE_NAME           "exiv2" )
-SET( PACKAGE_VERSION        "0.26" )
-SET( PACKAGE_URL            "http://www.exiv2.org" )
-SET( PACKAGE_STRING         "${PACKAGE_NAME} ${PACKAGE_VERSION}" )
-SET( GENERIC_LIB_VERSION    "26.0.0" )
-SET( GENERIC_LIB_SOVERSION  "26" )
+set( PACKAGE_COPYRIGHT      "Andreas Huggel" )
+set( PACKAGE_BUGREPORT      "http://github.com/exiv2/exiv2" )
+set( PACKAGE                "exiv2" )
+set( PACKAGE_NAME           "exiv2" )
+set( PACKAGE_VERSION        "0.26" )
+set( PACKAGE_URL            "http://www.exiv2.org" )
+set( PACKAGE_STRING         "${PACKAGE_NAME} ${PACKAGE_VERSION}" )
+set( GENERIC_LIB_VERSION    "26.0.0" )
+set( GENERIC_LIB_SOVERSION  "26" )
 
 # options and their default values
-OPTION( EXIV2_ENABLE_SHARED        "Build exiv2 as a shared library (dll)"                 ON  )
-OPTION( EXIV2_ENABLE_XMP           "Build with XMP metadata support"                       ON  )
-OPTION( EXIV2_ENABLE_LIBXMP        "Build a static convenience Library for XMP"            ON  )
-OPTION( EXIV2_ENABLE_PNG           "Build with png support (requires libz)"                ON  )
-OPTION( EXIV2_ENABLE_NLS           "Build native language support (requires gettext)"      ON  )
-OPTION( EXIV2_ENABLE_PRINTUCS2     "Build with Printucs2"                                  ON  )
-OPTION( EXIV2_ENABLE_LENSDATA      "Build including lens data"                             ON  )
-OPTION( EXIV2_ENABLE_COMMERCIAL    "Build with the EXV_COMMERCIAL_VERSION symbol set"      OFF )
-OPTION( EXIV2_ENABLE_BUILD_SAMPLES "Build the unit tests"                                  ON  )
-OPTION( EXIV2_ENABLE_BUILD_PO      "Build translations files"                              OFF )
-OPTION( EXIV2_ENABLE_VIDEO         "Build video support into library"                      OFF )
-OPTION( EXIV2_ENABLE_WEBREADY      "Build webready support into library"                   OFF )
-OPTION( EXIV2_ENABLE_DYNAMIC_RUNTIME  "Use dynamic runtime (used for static libs)"         OFF )
-IF (WIN32)
-    OPTION( EXIV2_ENABLE_WIN_UNICODE   "Use Unicode paths (wstring) on Windows"            OFF )
-    OPTION( EXIV2_ENABLE_CURL          "USE Libcurl for HttpIo"                            OFF )
-    OPTION( EXIV2_ENABLE_SSH           "USE Libssh for SshIo"                              OFF )
-ELSE()
-    OPTION( EXIV2_ENABLE_CURL          "USE Libcurl for HttpIo"                            ON  )
-    OPTION( EXIV2_ENABLE_SSH           "USE Libssh for SshIo"                              ON  )
-ENDIF()
-OPTION( EXIV2_ENABLE_TOOLS         "Build exiv2 executable"                                ON  )
+option( EXIV2_ENABLE_SHARED        "Build exiv2 as a shared library (dll)"                 ON  )
+option( EXIV2_ENABLE_XMP           "Build with XMP metadata support"                       ON  )
+option( EXIV2_ENABLE_LIBXMP        "Build a static convenience Library for XMP"            ON  )
+option( EXIV2_ENABLE_PNG           "Build with png support (requires libz)"                ON  )
+option( EXIV2_ENABLE_NLS           "Build native language support (requires gettext)"      ON  )
+option( EXIV2_ENABLE_PRINTUCS2     "Build with Printucs2"                                  ON  )
+option( EXIV2_ENABLE_LENSDATA      "Build including lens data"                             ON  )
+option( EXIV2_ENABLE_COMMERCIAL    "Build with the EXV_COMMERCIAL_VERSION symbol set"      OFF )
+option( EXIV2_ENABLE_BUILD_SAMPLES "Build the unit tests"                                  ON  )
+option( EXIV2_ENABLE_BUILD_PO      "Build translations files"                              OFF )
+option( EXIV2_ENABLE_VIDEO         "Build video support into library"                      OFF )
+option( EXIV2_ENABLE_WEBREADY      "Build webready support into library"                   OFF )
+option( EXIV2_ENABLE_DYNAMIC_RUNTIME  "Use dynamic runtime (used for static libs)"         OFF )
+if (WIN32)
+    option( EXIV2_ENABLE_WIN_UNICODE   "Use Unicode paths (wstring) on Windows"            OFF )
+    option( EXIV2_ENABLE_CURL          "USE Libcurl for HttpIo"                            OFF )
+    option( EXIV2_ENABLE_SSH           "USE Libssh for SshIo"                              OFF )
+else()
+    option( EXIV2_ENABLE_CURL          "USE Libcurl for HttpIo"                            ON  )
+    option( EXIV2_ENABLE_SSH           "USE Libssh for SshIo"                              ON  )
+endif()
+option( EXIV2_ENABLE_TOOLS         "Build exiv2 executable"                                ON  )
 
 include(config/findDependencies.cmake)
 include(config/compilerFlags.cmake)
 
-
-IF( EXIV2_ENABLE_COMMERCIAL )
-    SET (EXIV2_ENABLE_LENSDATA OFF)
-    SET (EXIV2_ENABLE_NLS OFF)
-ENDIF()
+if( EXIV2_ENABLE_COMMERCIAL )
+    set (EXIV2_ENABLE_LENSDATA OFF)
+    set (EXIV2_ENABLE_NLS OFF)
+endif()
 
 if( MSVC )
     set(CMAKE_DEBUG_POSTFIX "d")
-endif( MSVC )
+endif()
 
-IF( EXIV2_ENABLE_XMP )
-    SET( HAVE_XMP_TOOLKIT ON )
-ENDIF( EXIV2_ENABLE_XMP )
+if( EXIV2_ENABLE_XMP )
+    set( HAVE_XMP_TOOLKIT ON )
+endif()
 
 include( config/generateConfigFile.cmake )
 include_directories(${CMAKE_BINARY_DIR})  # Make the exv_conf.h file visible for the full project
@@ -76,34 +75,34 @@ include_directories(${CMAKE_BINARY_DIR})  # Make the exv_conf.h file visible for
 include( config/CMakeChecks.txt )
 
 if( EXIV2_ENABLE_XMP )
-    ADD_SUBDIRECTORY( xmpsdk )
+    add_subdirectory( xmpsdk )
 endif()
-ADD_SUBDIRECTORY( src )
+add_subdirectory( src )
 
-IF( EXIV2_ENABLE_BUILD_SAMPLES )
-    ADD_SUBDIRECTORY( samples )
-ENDIF( EXIV2_ENABLE_BUILD_SAMPLES )
+if( EXIV2_ENABLE_BUILD_SAMPLES )
+    add_subdirectory( samples )
+endif()
 
-IF( EXIV2_ENABLE_BUILD_PO )
-    ADD_SUBDIRECTORY( po )
-ENDIF( EXIV2_ENABLE_BUILD_PO )
+if( EXIV2_ENABLE_BUILD_PO )
+    add_subdirectory( po )
+endif()
 
 ##
 # tests
-ADD_CUSTOM_TARGET(tests       COMMAND env EXIV2_BINDIR="${CMAKE_BINARY_DIR}"/bin make tests       WORKING_DIRECTORY "${CMAKE_SOURCE_DIR}" )
-ADD_CUSTOM_TARGET(geotag-test COMMAND env EXIV2_BINDIR="${CMAKE_BINARY_DIR}"/bin make geotag-test WORKING_DIRECTORY "${CMAKE_SOURCE_DIR}" )
+add_custom_target(tests       COMMAND env EXIV2_BINDIR="${CMAKE_BINARY_DIR}"/bin make tests       WORKING_DIRECTORY "${CMAKE_SOURCE_DIR}" )
+add_custom_target(geotag-test COMMAND env EXIV2_BINDIR="${CMAKE_BINARY_DIR}"/bin make geotag-test WORKING_DIRECTORY "${CMAKE_SOURCE_DIR}" )
 
 ##
 # http://dev.exiv2.org/boards/3/topics/1364
 # effectively does a make doc on the root directory
 # has to run 'make config' and './configure'
 # and copy bin/taglist to <exiv2dir>/bin/taglist for use by 'make doc'
-IF( MINGW OR UNIX OR APPLE)
-  ADD_CUSTOM_TARGET(doc
+if( MINGW OR UNIX OR APPLE)
+  add_custom_target(doc
     WORKING_DIRECTORY "${CMAKE_SOURCE_DIR}/doc"
     COMMAND chmod +x ./cmake_doc.sh
     COMMAND ./cmake_doc.sh "${CMAKE_BINARY_DIR}"
   )
-ENDIF()
+endif()
 
-INCLUDE( config/printSummary.cmake )
+include( config/printSummary.cmake )

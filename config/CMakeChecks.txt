@@ -31,24 +31,24 @@
 #
 # ConfigureChecks for exiv2
 
-IF( EXIV2_ENABLE_SHARED )
-    ADD_DEFINITIONS( -DEXV_HAVE_DLL )
-    SET( STATIC_FLAG SHARED )
-ELSE( EXIV2_ENABLE_SHARED )
-    SET( STATIC_FLAG STATIC )
-ENDIF( EXIV2_ENABLE_SHARED )
+if( EXIV2_ENABLE_SHARED )
+    add_definitions( -DEXV_HAVE_DLL )
+    set( STATIC_FLAG SHARED )
+else()
+    set( STATIC_FLAG STATIC )
+endif()
 
-IF( EXIV2_ENABLE_COMMERCIAL )
-    ADD_DEFINITIONS( -DEXV_COMMERCIAL_VERSION )
-ENDIF( EXIV2_ENABLE_COMMERCIAL )
+if( EXIV2_ENABLE_COMMERCIAL )
+    add_definitions( -DEXV_COMMERCIAL_VERSION )
+endif()
 
-CONFIGURE_FILE(config/exiv2_uninstall.cmake ${CMAKE_BINARY_DIR}/cmake_uninstall.cmake COPYONLY)
-ADD_CUSTOM_TARGET(uninstall "${CMAKE_COMMAND}" -P "${CMAKE_BINARY_DIR}/cmake_uninstall.cmake")
+configure_file(config/exiv2_uninstall.cmake ${CMAKE_BINARY_DIR}/cmake_uninstall.cmake COPYONLY)
+add_custom_target(uninstall "${CMAKE_COMMAND}" -P "${CMAKE_BINARY_DIR}/cmake_uninstall.cmake")
 
-IF( NOT MSVC )
-    CONFIGURE_FILE( config/exiv2.pc.cmake ${CMAKE_CURRENT_BINARY_DIR}/exiv2.pc @ONLY )
-    INSTALL( FILES ${CMAKE_CURRENT_BINARY_DIR}/exiv2.pc DESTINATION ${CMAKE_INSTALL_LIBDIR}/pkgconfig )
-    CONFIGURE_FILE( config/exiv2.lsm.cmake ${CMAKE_CURRENT_BINARY_DIR}/exiv2.lsm)
-    INSTALL(FILES ${CMAKE_CURRENT_BINARY_DIR}/exiv2.lsm DESTINATION ${CMAKE_INSTALL_LIBDIR}/pkgconfig )
-ENDIF( NOT MSVC )
+if( NOT MSVC )
+    configure_file( config/exiv2.pc.cmake ${CMAKE_CURRENT_BINARY_DIR}/exiv2.pc @ONLY )
+    install( FILES ${CMAKE_CURRENT_BINARY_DIR}/exiv2.pc DESTINATION ${CMAKE_INSTALL_LIBDIR}/pkgconfig )
+    configure_file( config/exiv2.lsm.cmake ${CMAKE_CURRENT_BINARY_DIR}/exiv2.lsm)
+    install(FILES ${CMAKE_CURRENT_BINARY_DIR}/exiv2.lsm DESTINATION ${CMAKE_INSTALL_LIBDIR}/pkgconfig )
+endif()
 

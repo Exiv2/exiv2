@@ -4,7 +4,7 @@
 # Redistribution and use is allowed according to the terms of the BSD license.
 # For details see the accompanying COPYING-CMAKE-SCRIPTS file.
 
-SET( SAMPLES addmoddel.cpp
+set( SAMPLES addmoddel.cpp
              convert-test.cpp
              easyaccess-test.cpp
              exifcomment.cpp
@@ -80,7 +80,7 @@ target_link_libraries(conntest PRIVATE  exiv2lib)
 # ******************************************************************************
 # exifprint application
 # ADD_EXECUTABLE( exifprint exifprint.cpp )
-# TARGET_LINK_LIBRARIES( exifprint exiv2lib )
+# target_link_libraries( exifprint exiv2lib )
 
 # ******************************************************************************
 # remotetest application
@@ -89,4 +89,4 @@ target_link_libraries(remotetest exiv2lib)
 
 # ******************************************************************************
 # Man page
-INSTALL( FILES exiv2samples.1 DESTINATION ${CMAKE_INSTALL_MANDIR}/man1 )
+install( FILES exiv2samples.1 DESTINATION ${CMAKE_INSTALL_MANDIR}/man1 )
