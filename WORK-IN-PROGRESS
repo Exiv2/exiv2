@@ -481,15 +481,15 @@ Modified: 2017-08-23
 
     Exiv2 v0.26 (and many earlier editions) contain Adobe XMPsdk code.
     The precise version of this code is unknown.
-    The code is stored in the xmpsdk/ directory which contains src/ and include/ directories.
-    The xmpsdk has it's own Makefile, CMakeLists.txt and msvc/xmpsdk/project files.
+    The xmpsdk/ directory has files in src/*.cpp and include/*.hpp 
+    The xmpsdk/ has its own Makefile, CMakeLists.txt and msvc/xmpsdk/project files.
     
     Exiv2 v0.26 builds a static library libxmpsdk.a which is linked into libexiv2.a
     
-    None of this is the change in Exiv2 v0.26.1
+    None of this will change in Exiv2 v0.26.1
     
     Exiv2 v0.26.1 will support a new option to download and build "pure Adobe" XMPsdk.
-    Three flavours will be offered:
+    Three flavours will be supported:
         2013  http://download.macromedia.com/pub/developer/xmp/sdk/XMP-Toolkit-SDK-CC-201306.zip
         2014  http://download.macromedia.com/pub/developer/xmp/sdk/XMP-Toolkit-SDK-CC201412.zip
         2016  http://download.macromedia.com/pub/developer/xmp/sdk/XMP-Toolkit-SDK-CC201607.zip
@@ -508,7 +508,7 @@ Modified: 2017-08-23
         xmpsdk/buildXMPsdk.sh
         xmpsdk/buildXMPsdk.cmd
         
-    Adobe build the 2016 SDK with -std=c++11.  This links successfully with libexiv2 build with -std=c++98
+    Adobe build the 2016 SDK with -std=c++11.  This links successfully with the libexiv2 -std=c++98 build. 
     I haven't investigated which compiler Adobe use to build the 2013 and 2014 editions.
         
     Mac Build
@@ -518,24 +518,22 @@ Modified: 2017-08-23
         
     CPPFLAGS   = -I/usr/local/include -I/usr/local/include -std=c++98 -fvisibility=hidden -fvisibility-inlines-hidden \
                  -stdlib=libstdc++ -Wno-deprecated    -Ixmpsdk/Adobe/XMP-Toolkit-SDK-CC201607/public/include
-    LDFLAGS    =  -L/usr/local/lib -lpthread -stdlib=libstdc++ -Wno-deprecated   -Lxmpsdk/Adobe/XMP-Toolkit-SDK-CC201607
-    LIBS       = -lz     
+    LDFLAGS    = -L/usr/local/lib -lpthread -stdlib=libstdc++ -Wno-deprecated  -Lxmpsdk/Adobe/XMP-Toolkit-SDK-CC201607
+    LIBS       = -lz -lXMPCore  
     CXX        = g++
-    
-    If 2013 or 2014 are selected, the appropriate -Ipath and -Lpath should be set.
     
     Linux Build
-    CPPFLAGS   =  -I/usr/local/include -std=c++98   -Ixmpsdk/Adobe/XMP-Toolkit-SDK-CC201607/public/include
-    LDFLAGS    =  -L/usr/local/lib -ldl -lpthread   -Lxmpsdk/Adobe/XMP-Toolkit-SDK-CC201607
-    LIBS       = -lz  -lm   
+    CPPFLAGS   = -I/usr/local/include -std=c++98   -Ixmpsdk/Adobe/XMP-Toolkit-SDK-CC201607/public/include
+    LDFLAGS    = -L/usr/local/lib -ldl -lpthread   -Lxmpsdk/Adobe/XMP-Toolkit-SDK-CC201607
+    LIBS       = -lz  -lm -lXMPCore
     CXX        = g++
 
-    If 2013 or 2014 are selected, the appropriate -Ipath and -Lpath should be set.
+    When 2013 or 2014 are selected, the appropriate -Ipath and -Lpath should be set.
     
     CMake Build
     A new option -DEXIV2_ENABLE_ADOBE[=2016|=2014|=2013] should be added.
-    The build should be performed with xmpsdk/buildXMPsdk.sh (or xmpsdk/buildXMPsdk.cmd for Visual Studio)
-    The build should ensure that the same LDFLAGS and CPPFLAGS should be set to match the autotools build.
+    The build of XMPsdk should be performed with xmpsdk/buildXMPsdk.sh (or xmpsdk/buildXMPsdk.cmd for Visual Studio)
+    The build should set same LDFLAGS and CPPFLAGS as the autotools build.
     
     When the options -DEXIV2_ENABLE_ADOBE is not used, we should compile the code in xmpsdk/src
     to create and link libxmpsdk.a
