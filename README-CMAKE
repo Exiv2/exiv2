@@ -86,7 +86,7 @@ Usual CMake options :
 
 Specific Exiv2 options :
 
--DEXIV2_ENABLE_SHARED        : Build exiv2 as a shared library (dll).            [default=on ]
+-DBUILD_SHARED_LIBS          : CMake variable controlling whether exiv2lib is build as a shared library (dll). [default=on]
 -DEXIV2_ENABLE_XMP           : Build with XMP metadata support.                  [default=on ]
 -DEXIV2_ENABLE_LIBXMP        : Build a static convenience Library for XMP.       [default=on ]
 -DEXIV2_ENABLE_PNG           : Build with png support (requires libz).           [default=on ]

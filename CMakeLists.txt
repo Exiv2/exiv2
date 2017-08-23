@@ -30,7 +30,7 @@ set( GENERIC_LIB_VERSION    "26.0.0" )
 set( GENERIC_LIB_SOVERSION  "26" )
 
 # options and their default values
-option( EXIV2_ENABLE_SHARED        "Build exiv2 as a shared library (dll)"                 ON  )
+option( BUILD_SHARED_LIBS          "Build exiv2lib as a shared library"                    ON  )
 option( EXIV2_ENABLE_XMP           "Build with XMP metadata support"                       ON  )
 option( EXIV2_ENABLE_LIBXMP        "Build a static convenience Library for XMP"            ON  )
 option( EXIV2_ENABLE_PNG           "Build with png support (requires libz)"                ON  )

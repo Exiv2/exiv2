@@ -17,7 +17,7 @@ cd build.cmake
 cmake -G "$MAKEFILES_TYPE" . \
       -DCMAKE_BUILD_TYPE=debugfull \
       -DCMAKE_INSTALL_PREFIX=/usr \
-      -DEXIV2_ENABLE_SHARED=ON \
+      -DBUILD_SHARED_LIBS=ON \
       -DEXIV2_ENABLE_XMP=ON \
       -DEXIV2_ENABLE_LIBXMP=ON \
       -DEXIV2_ENABLE_PNG=ON \
