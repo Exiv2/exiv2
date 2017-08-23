@@ -1,4 +1,5 @@
 [![Build Status](https://travis-ci.org/Exiv2/exiv2.svg?branch=master)](https://travis-ci.org/Exiv2/exiv2)
+[![Build status](https://ci.appveyor.com/api/projects/status/yqtbcfb60588ogsa?svg=true)](https://ci.appveyor.com/project/piponazo/exiv2)
 
 <pre><code>
     @@@Marco@@@@@b                   ;mm                       /##Gilles###\

@@ -1,0 +1,10 @@
+image:
+- Visual Studio 2017
+
+build_script:
+  - md build
+  - cd build
+  - cmake -DEXIV2_ENABLE_XMP=OFF -DEXIV2_ENABLE_NLS=OFF -DEXIV2_ENABLE_PNG=OFF -DCMAKE_INSTALL_PREFIX=install ..
+  - cmake --build . --config Release
+  - cmake --build . --config Debug
+  - cmake --build . --target install
