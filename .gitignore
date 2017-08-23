@@ -12,6 +12,7 @@ libtool
 .deps/
 .libs/
 bin/
+build/
 config/autom4te.cache/
 config/config.h
 config/config.mk
