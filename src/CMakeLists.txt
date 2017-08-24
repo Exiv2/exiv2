@@ -166,10 +166,10 @@ include_directories(${CMAKE_CURRENT_BINARY_DIR})
 # exiv2lib library
 
 if( EXIV2_ENABLE_XMP AND NOT EXIV2_ENABLE_LIBXMP )
-    add_library( exiv2lib ${STATIC_FLAG} ${LIBEXIV2_SRC} ${LIBEXIV2_HDR} ${LIBEXIV2_PRIVATE_HDR} $<TARGET_OBJECTS:xmp_object>)
+    add_library( exiv2lib ${LIBEXIV2_SRC} ${LIBEXIV2_HDR} ${LIBEXIV2_PRIVATE_HDR} $<TARGET_OBJECTS:xmp_object>)
     target_link_libraries(exiv2lib PUBLIC ${EXPAT_LIBRARIES})
 else()
-    add_library( exiv2lib ${STATIC_FLAG} ${LIBEXIV2_SRC} ${LIBEXIV2_HDR} ${LIBEXIV2_PRIVATE_HDR})
+    add_library( exiv2lib ${LIBEXIV2_SRC} ${LIBEXIV2_HDR} ${LIBEXIV2_PRIVATE_HDR})
 endif()
 
 set_target_properties( exiv2lib PROPERTIES
@@ -180,6 +180,10 @@ set_target_properties( exiv2lib PROPERTIES
 )
 
 target_compile_definitions(exiv2lib PRIVATE EXV_LOCALEDIR="${CMAKE_INSTALL_LOCALEDIR}" )
+
+if ( ${BUILD_SHARED_LIBS} )
+    target_compile_definitions(exiv2lib PUBLIC EXV_HAVE_DLL)
+endif()
 
 if ( UNIX AND CMAKE_SYSTEM_NAME STREQUAL "FreeBSD" )
     set (FREEBSD 1)

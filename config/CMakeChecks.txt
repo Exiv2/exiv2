@@ -31,13 +31,6 @@
 #
 # ConfigureChecks for exiv2
 
-if( EXIV2_ENABLE_SHARED )
-    add_definitions( -DEXV_HAVE_DLL )
-    set( STATIC_FLAG SHARED )
-else()
-    set( STATIC_FLAG STATIC )
-endif()
-
 if( EXIV2_ENABLE_COMMERCIAL )
     add_definitions( -DEXV_COMMERCIAL_VERSION )
 endif()

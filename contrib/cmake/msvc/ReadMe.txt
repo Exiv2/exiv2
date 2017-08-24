@@ -119,7 +119,7 @@ How to use this
   cd    temp\exiv2
   cmake -G "Visual Studio 8 2005 Win64" "-DCMAKE_INSTALL_PREFIX=..\..\dist"                ^
            "-DCMAKE_LIBRARY_PATH=..\..\dist\lib" "-DCMAKE_INCLUDE_PATH=..\..\dist\include" ^
-            -DEXIV2_ENABLE_SHARED=ON ^
+            -DBUILD_SHARED_LIBS=ON ^
             ..\..\..\<exiv2dir>
   cmake --build . --config Release
   cmake --build . --config Release --target install
@@ -170,7 +170,7 @@ How to use this
   C:\cygwin64\home\rmills\gnu\exiv2\build>cd ..\trunk
 
   C:\cygwin64\home\rmills\gnu\exiv2\trunk>grep OPTION CMakeLists.txt
-  OPTION( EXIV2_ENABLE_SHARED        "Build exiv2 as a shared library (dll)"                 ON  )
+  OPTION( BUILD_SHARED_LIBS          "Build exiv2 as a shared library (dll)"                 ON  )
   OPTION( EXIV2_ENABLE_XMP           "Build with XMP metadata support"                       ON  )
   OPTION( EXIV2_ENABLE_LIBXMP        "Build a static convenience Library for XMP"            ON  )
   OPTION( EXIV2_ENABLE_VIDEO         "Build with video support"                              OFF )
