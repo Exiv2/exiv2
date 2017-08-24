@@ -1,139 +1,141 @@
-#!/bin/bash
+@echo off
+REM buildXMPsdk.cmd
+setlocal enableextensions
 
-##
-# buildXMPsdk.sh
-# TODO:
-#     1) Cygwin support (in progress)
-#     2) Write buildXMPsdk.cmd (for MSVC)
-##
+GOTO main
+:help
+echo Options: --help   ^| --2016 ^| --2014 ^| --2013  ^| --64 ^| --32
+exit /b 0
 
-syntaxError() {
-    echo "usage: $0 [--help|-?|--2013|--2014|--2016|--32|--64]"
-    exit 1
-}
+:main
+REM
+rem always run this script in <exiv2dir>/xmpsdk
+cd %~dp0
 
-uname=$(uname -a | cut -d' ' -f 1 | cut -d_ -f 1)
-case "$uname" in
-    Darwin|Linux|CYGWIN) ;;
-    *)  echo "*** unsupported platform $uname ***"
-        exit 1
-    ;;
-esac
+set "_BUILDDIR_=%CD%"
+set  _SDK_=2016
+set  _BIT_=64
 
-##
-# always run this script in <exiv2dir>/xmpsdk
-cd $(dirname "$0")
+:GETOPTS
+if /I "%1" == "--2013"            set "_SDK_=2013"
+if /I "%1" == "--2014"            set "_SDK_=2014"
+if /I "%1" == "--2016"            set "_SDK_=2016"
+if /I "%1" ==   "2013"            set "_SDK_=2013"
+if /I "%1" ==   "2014"            set "_SDK_=2014"
+if /I "%1" ==   "2016"            set "_SDK_=2016"
 
-##
-# parse command-line
-bits=64
-SDK=2016
+if /I "%1" == "--32"              set "_BIT_=32"
+if /I "%1" == "--64"              set "_BIT_=64"
+if /I "%1" ==   "32"              set "_BIT_=32"
+if /I "%1" ==   "64"              set "_BIT_=64"
 
-while [ $# -ne 0 ]; do
-    case "$1" in
-      -h|--help|-\?) syntaxError; exit 0;;
-      --64|64)       bits=64    ; shift ;;
-      --32|32)       bits=32    ; shift ;;
-      --2013|2013)   SDK=2013   ; shift ;;
-      --2014|2014)   SDK=2014   ; shift ;;
-      --2016|2016)   SDK=2016   ; shift ;;
-        install)     exit 0             ;; # argument passed by make
+if /I "%1" == "--verbose"         echo on
 
-      *)             syntaxError; exit 1;;
-    esac
-done
+if /I "%1" == "--help"            call:help && goto end
 
-if [ "$SDK" == "2013" ] ; then SDK=XMP-Toolkit-SDK-CC201306 ; ZIP=XMP-Toolkit-SDK-CC-201306 ;fi
-if [ "$SDK" == "2014" ] ; then SDK=XMP-Toolkit-SDK-CC201412 ; ZIP=$SDK; fi
-if [ "$SDK" == "2016" ] ; then SDK=XMP-Toolkit-SDK-CC201607 ; ZIP=$SDK; fi
+shift
+if not (%1) EQU () goto GETOPTS
 
-##
-# if it's already built, we're done
-if [ -e Adobe/$SDK/libXMPCore.a ]; then ls -alt Adobe/$SDK/libXMPCore.a ; exit 0 ; fi
-
-##
-# Download the code from Adobe
-if [ ! -e    Adobe/$SDK ]; then (
-    mkdir -p Adobe
-    cd       Adobe
-    if curl -O http://download.macromedia.com/pub/developer/xmp/sdk/$ZIP.zip ; then
-        unzip $ZIP.zip
-    fi
-) fi
-
-if [ ! -d Adobe/$SDK ]; then
-    echo "*** ERROR SDK = Adobe/$SDK not found" >2
-    exit 1
-fi
-
-##
-# copy third-party code into SDK
-(
-    find third-party -type d -maxdepth 1 -exec cp -R '{}' Adobe/$SDK/third-party ';'
+if /I "%_SDK_%" == "2013" (
+  set "_SDK_=XMP-Toolkit-SDK-CC201306"
+  set "_ZIP_=XMP-Toolkit-SDK-CC-201306"
+)
+if /I "%_SDK_%" == "2014" (
+  set "_SDK_=XMP-Toolkit-SDK-CC201412" 
+  set "_ZIP_=XMP-Toolkit-SDK-CC201412"
+)
+if /I "%_SDK_%" == "2016" (
+  set "_SDK_=XMP-Toolkit-SDK-CC201607"
+  set "_ZIP_=XMP-Toolkit-SDK-CC201607"
 )
 
-##
-# generate Makefile and build libraries
-(   cd Adobe/$SDK/build
-    ##
-    # Tweak the code (depends on platform) and build using adobe tools
-    case "$uname" in
-        Linux)
-            target=StaticRelease64
-            if [ "$BITS" == "32" ]; then target=StaticRelease32 ; fi
-            make "$target"
-            result=$?
-        ;;
-
-        CYGWIN)
-            f=../source/Host_IO-POSIX.cpp
-            if [ -e $f.orig ]; then mv $f.orig $f ; fi ; cp $f $f.orig
-
-            sed -E -e $'s?// Writeable?// Writeable~#include <windows.h>~#ifndef PATH_MAX~#define PATH_MAX 512~#endif?' $f.orig | tr "~" "\n" > $f
-            result=1 # build failed.  Can't build Cygwin yet!
-        ;;
-
-        Darwin)
-            if [ ! -e ../../$SDK/public/libraries/macintosh/intel_64/release/libXMPCoreStatic.a ]; then
-                target=5 # (5=64 bit build for 2013 and 2014, 3 = 64 bit build for 2016)
-                if [ "$SDK" == "XMP-Toolkit-SDK-CC201607" ]; then target=3; fi
-                echo $target | ./GenerateXMPToolkitSDK_mac.sh
-
-                project=XMPToolkitSDK64.xcodeproj
-                find . -name "$project" -execdir xcodebuild -project {} -target XMPCoreStatic  -configuration Release \;
-                result=$?
-            fi
-        ;;
-        *)
-            result=1  # build failed
-        ;;
-    esac
+REM
+rem if it's already built, we're done
+if EXIST Adobe\%_SDK_%\libXMPCore.lib (
+  dir    Adobe\%_SDK_%\libXMPCore.lib
+  exit /b 0
 )
 
-##
-# copy headers and built libraries
-if [ -z "$result" ]; then (
+REM
+rem Test the VC Environment
+IF NOT DEFINED VSINSTALLDIR (
+    echo "VSINSTALLDIR not set.  Run vcvars32.bat or vcvarsall.bat or vcvars.bat ***"
+    GOTO error_end
+)
+IF NOT EXIST "%VSINSTALLDIR%" (
+    echo "VSINSTALLDIR %VSINSTALLDIR% does not exist.  Run vcvars32.bat or vcvarsall.bat ***"
+    GOTO error_end
+)
 
-    cp Adobe/$SDK/third-party/zuid/interfaces/MD5.h  Adobe/$SDK/public/include/MD5.h
+call:report
 
-    # report archives we can see
-    cd   Adobe/$SDK
-    rm -rf *.a *.ar  # clean up from previous build
-    find public -name "*.a" -o -name "*.ar" | xargs ls -alt
+REM
+rem Download the code from Adobe
+if NOT EXIST     Adobe\%_SDK_% (
+    if NOT EXIST Adobe mkdir Adobe
+    cd           Adobe
+    if NOT EXIST %_ZIP_%.zip  copy/y y:\temp\XMP-Toolkit-SDK-CC201607.zip
+    if NOT EXIST %_ZIP_%.zip  curl -O http://download.macromedia.com/pub/developer/xmp/sdk/%_ZIP_%.zip
+    IF NOT ERRORLEVEL 1       7z x %_ZIP_%.zip 2>nul
+    cd ..
+)
 
-    # move the library/archives into xmpsdk/Adobe/$SDK
-    case "$uname" in
-      Linux)
-          find public -name "*.ar" -exec cp {} . ';'
-          mv   staticXMPCore.ar  libXMPCore.a
-      ;;
+if NOT EXIST Adobe\%_SDK_%  (
+    echo *** ERROR SDK = Adobe\%_SDK_% not found" >2
+    GOTO error_end
+)
 
-      Darwin)
-          find public -name "libXMPCoreStatic.a" -exec cp {} libXMPCore.a ';'
-      ;;
-    esac
-    ls -alt *.a
-) ; fi
+REM
+rem Copy in the third-party files
+xcopy/yesihq third-party\zlib                            Adobe\%_SDK_%\third-party\zlib
+xcopy/yesihq third-party\expat\lib                       Adobe\%_SDK_%\third-party\expat\lib
+xcopy/yesihq third-party\zuid\interfaces                 Adobe\%_SDK_%\third-party\zuid\interfaces
 
-# That's all Folks!
-##
+REM
+rem  generate the build the SDK
+cd   Adobe\%_SDK_%\build
+dir
+c:\cygwin64\bin\echo -n 5 | call GenerateXMPToolkitSDK_win.bat
+cd ..
+REM
+rem build it!
+echo --------------------------------------- 
+echo devenv XMPCore\build\vc14\static\windows_x64\XMPCore64.sln /Build "Release|x64"
+echo --------------------------------------- 
+     devenv XMPCore\build\vc14\static\windows_x64\XMPCore64.sln /Build "Release|x64"
+dir/s *.lib
+
+
+REM
+rem normal end
+:end
+endlocal
+exit /b 0
+
+REM -----------------------------------------
+rem Functions
+REM
+rem echo (or don't if --silent).  syntax: call:echo args ...
+:echo
+if NOT DEFINED _SILENT_ echo %*%
+exit /b 0
+
+REM
+rem end with an error syntax: call:error_end
+:error_end
+endlocal
+exit /b 1
+
+REM
+rem report settings
+:report
+echo.sdk          = %_SDK_%
+echo.bit          = %_BIT_%
+echo.zip          = %_ZIP_%
+echo.builddir     = %_BUILDDIR_%
+echo.vsinstalldir = %VSINSTALLDIR%
+echo ----------------------------------
+exit /b 0
+
+rem That's all Folks!
+REM
