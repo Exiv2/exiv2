@@ -1,6 +1,12 @@
 # set include path for FindXXX.cmake files
 set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} "${CMAKE_SOURCE_DIR}/config/")
 
+# Check if the conan file exist to find the dependencies
+if (EXISTS ${CMAKE_BINARY_DIR}/conanbuildinfo.cmake)
+    include(${CMAKE_BINARY_DIR}/conanbuildinfo.cmake)
+    conan_set_find_paths()
+endif()
+
 find_package(Threads REQUIRED)
 
 if( EXIV2_ENABLE_PNG )
