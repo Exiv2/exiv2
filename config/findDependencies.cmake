@@ -2,7 +2,6 @@
 set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} "${CMAKE_SOURCE_DIR}/config/")
 
 find_package(Threads REQUIRED)
-include( FindIconv )
 
 if( EXIV2_ENABLE_PNG )
     find_package( ZLIB REQUIRED )
@@ -38,12 +37,12 @@ if( EXIV2_ENABLE_NLS )
 endif( EXIV2_ENABLE_NLS )
 
 find_package(Iconv)
+include( FindIconv )
 if( ICONV_FOUND )
-    include_directories(${ICONV_INCLUDE_DIR})
     message ( "-- ICONV_INCLUDE_DIR : " ${ICONV_INCLUDE_DIR} )
     message ( "-- ICONV_LIBRARIES : " ${ICONV_LIBRARIES} )
     message ( "-- ICONV_ACCEPTS_CONST_INPUT : ${ICONV_ACCEPTS_CONST_INPUT}" )
-endif( ICONV_FOUND )
+endif()
 
 if( EXIV2_ENABLE_BUILD_PO )
     find_package(MSGFMT)
