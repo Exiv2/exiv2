@@ -36,7 +36,6 @@ if( EXIV2_ENABLE_NLS )
     # the manual check in config/generateConfigFile.cmake
 endif( EXIV2_ENABLE_NLS )
 
-find_package(Iconv)
 include( FindIconv )
 if( ICONV_FOUND )
     message ( "-- ICONV_INCLUDE_DIR : " ${ICONV_INCLUDE_DIR} )
