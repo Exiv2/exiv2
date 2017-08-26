@@ -224,7 +224,6 @@ if (EXIV2_ENABLE_WEBREADY)
             target_link_libraries( exiv2lib PUBLIC ${CURL_LIBRARIES})
         endif()
 
-        target_compile_definitions (exiv2lib PUBLIC ${CONAN_COMPILE_DEFINITIONS_LIBCURL})
     endif()
 
 endif()
