@@ -65,10 +65,6 @@ if( MSVC )
     set(CMAKE_DEBUG_POSTFIX "d")
 endif()
 
-if( EXIV2_ENABLE_XMP )
-    set( HAVE_XMP_TOOLKIT ON )
-endif()
-
 include( config/generateConfigFile.cmake )
 include_directories(${CMAKE_BINARY_DIR})  # Make the exv_conf.h file visible for the full project
 
