@@ -207,24 +207,26 @@ target_include_directories(exiv2lib PUBLIC
 )
 
 if (EXIV2_ENABLE_WEBREADY)
-    target_include_directories(exiv2lib SYSTEM 
-        PUBLIC 
-            ${CURL_INCLUDE_DIR} 
-            ${SSH_INCLUDE_DIR} 
-    )
 
-    # TODO : There should not be needed to make this difference. Improve LIBCURL conan recipe
-    if (EXISTS ${CMAKE_BINARY_DIR}/conanbuildinfo.cmake)
-        target_link_libraries( exiv2lib PUBLIC ${CONAN_LIBS_LIBCURL})
-    else()
-        target_link_libraries( exiv2lib PUBLIC ${CURL_LIBRARIES})
+    if( EXIV2_ENABLE_SSH )
+        target_include_directories(exiv2lib SYSTEM PUBLIC ${SSH_INCLUDE_DIR} )
+        target_link_libraries( exiv2lib PUBLIC ${SSH_LIBRARIES})
     endif()
 
-    target_link_libraries( exiv2lib PUBLIC ${SSH_LIBRARIES})
-    target_compile_definitions (exiv2lib 
-        PUBLIC 
-            ${CONAN_COMPILE_DEFINITIONS_LIBCURL}
-    )
+    if( EXIV2_ENABLE_CURL )
+        target_include_directories(exiv2lib SYSTEM PUBLIC ${CURL_INCLUDE_DIR} )
+        # TODO : There should not be needed to make this difference. Improve LIBCURL conan recipe
+        if (EXISTS ${CMAKE_BINARY_DIR}/conanbuildinfo.cmake)
+            target_link_libraries( exiv2lib PUBLIC ${CURL_LIBRARY})
+            #target_link_libraries( exiv2lib PUBLIC ${CONAN_LIBS_LIBCURL})
+            target_compile_definitions(exiv2lib PUBLIC ${CONAN_COMPILE_DEFINITIONS_LIBCURL})
+        else()
+            target_link_libraries( exiv2lib PUBLIC ${CURL_LIBRARIES})
+        endif()
+
+        target_compile_definitions (exiv2lib PUBLIC ${CONAN_COMPILE_DEFINITIONS_LIBCURL})
+    endif()
+
 endif()
 
 if ( MSVC )
