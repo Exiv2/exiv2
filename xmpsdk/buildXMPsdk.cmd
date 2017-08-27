@@ -7,7 +7,7 @@ set "_THIS_=%0%"
 GOTO main
 :help
 echo %_THIS_% [Options]
-echo.Options: --help   ^| --2016 ^| --2014 ^| --2013  ^| --64 ^| --32 ^| --rebuild ^| --dryrun
+echo.Options: --help   ^| --2016 ^| --2014 ^| --2013  ^| --64 ^| --32 ^| --rebuild ^| --dryrun ^| --distclean
 echo          --sdk [2013^|2014^|2016] ^| --bit [32^|64] ^| --vs [2005^|2008^|2010^|2012^|2013^|2015^|2017] 
 exit /b 0
 
@@ -61,6 +61,7 @@ if /I "%_SDK_%" == "2016" (
   set "_ZIP_=XMP-Toolkit-SDK-CC201607"
 )
 
+if /I "%_VS_%" == "2017" set "_VC_=15"
 if /I "%_VS_%" == "2015" set "_VC_=14"
 if /I "%_VS_%" == "2013" set "_VC_=12"
 if /I "%_VS_%" == "2012" set "_VC_=11"
@@ -138,7 +139,8 @@ xcopy/yesihq third-party\zuid\interfaces                 Adobe\%_SDK_%\third-par
 rem  ----
 rem  generate and build the SDK
 cd   Adobe\%_SDK_%\build
-set  
+del CMakeCache.txt
+if EXIST CMakeFiles rmdir/s/q CMakeFiles
 
 rem ------------------------------------------------------------------------------
 rem The Adobe script GeneratXMPToolkitSDK_win.bat
@@ -154,38 +156,38 @@ rem             -DXMP_BUILD_STATIC=ON
 rem             -DCMAKE_BUILD_TYPE=Release
 rem ------------------------------------------------------------------------------
 rem Building with the Adobe batch file GenerateXMPToolkitSDK_win.bat
-TODO: Test the CMake.exe code and decide how to proceed
-      It's possible SDK=2016 demands VS=2015 (SDK=2014 & VS=2012) (SDK 2013 & VS=2010)
-if /I %_BIT_% == 64 ( 
-    echo 5|GenerateXMPToolkitSDK_win.bat
-    call "%_BUILDDIR_%\..\contrib\cmake\msvc\vcvars.bat" %_VS_% %_BIT_%
-    devenv vc%_VC_%\static\windows_x64\XMPToolkitSDK64.sln /Build "Release|x64" /ProjectConfig XMPCoreStatic
-)
- 
-if /I %_BIT_% == 32 (
-    echo 3|GenerateXMPToolkitSDK_win.bat
-    call "%_BUILDDIR_%\..\contrib\cmake\msvc\vcvars.bat" %_VS_% %_BIT_%
-    devenv vc%_VC_%\static\windows\XMPToolkitSDK.sln /Build "Release|Win32" /ProjectConfig XMPCoreStatic
-)
-
-rem     set "_CL64_=-DCMAKE_CL_64=ON"
-rem     set "_ARCH_=-DCMAKE_ARCH=x64"
-rem     set "_OUT_=%_VS_%/static/windows_x64"
-rem     set "_BUILD_=Release|x64"
-rem     set "_SLN_=XMPToolkitSDK64.sln"
-rem if /I "%_BIT_%" == "32" (
-rem     set "_CL64_=-DCMAKE_CL_64=OFF"
-rem     set "_ARCH_=-DCMAKE_ARCH=x86"
-rem     set "_OUT_=%_VS_%/static/windows"
-rem     set "_BUILD_="Release|Win32"
-rem     set "_SLN_=XMPToolkitSDK.sln"
+rem TODO: Test the CMake.exe code and decide how to proceed
+rem       It's possible SDK=2016 demands VS=2015 (SDK=2014 & VS=2012) (SDK 2013 & VS=2010)
+rem if /I %_BIT_% == 64 ( 
+rem     echo 5|GenerateXMPToolkitSDK_win.bat
+rem     call "%_BUILDDIR_%\..\contrib\cmake\msvc\vcvars.bat" %_VS_% %_BIT_%
+rem     devenv vc%_VC_%\static\windows_x64\XMPToolkitSDK64.sln /Build "Release|x64" /ProjectConfig XMPCoreStatic
 rem )
-rem @echo on
-rem cmake.exe   --version
-rem call      "%_BUILDDIR_%\..\contrib\cmake\msvc\vcvars.bat" %_VS_% %_BIT_%
-rem cmake.exe . "-G%_GENERATOR_%" "%_CL64_%" "%_ARCH_%" -DXMP_BUILD_STATIC=ON -DCMAKE_BUILD_TYPE=Release "-DXMP_CMAKEFOLDER_NAME=%_OUT_%"
-rem rem cmake.exe . --build
-rem devenv    "%_SLN_%"     /Build "%_BUILD_%"    /ProjectConfig XMPCoreStatic
+rem  
+rem if /I %_BIT_% == 32 (
+rem     echo 3|GenerateXMPToolkitSDK_win.bat
+rem     call "%_BUILDDIR_%\..\contrib\cmake\msvc\vcvars.bat" %_VS_% %_BIT_%
+rem     devenv vc%_VC_%\static\windows\XMPToolkitSDK.sln /Build "Release|Win32" /ProjectConfig XMPCoreStatic
+rem )
+
+    set "_CL64_=-DCMAKE_CL_64=ON"
+    set "_ARCH_=-DCMAKE_ARCH=x64"
+    set "_OUT_=%_VS_%/static/windows_x64"
+    set "_BUILD_=Release|x64"
+    set "_SLN_=XMPToolkitSDK64.sln"
+if /I "%_BIT_%" == "32" (
+    set "_CL64_=-DCMAKE_CL_64=OFF"
+    set "_ARCH_=-DCMAKE_ARCH=x86"
+    set "_OUT_=%_VS_%/static/windows"
+    set "_BUILD_=Release|Win32"
+    set "_SLN_=XMPToolkitSDK.sln"
+)
+@echo on
+cmake.exe   --version
+call      "%_BUILDDIR_%\..\contrib\cmake\msvc\vcvars.bat" %_VS_% %_BIT_%
+cmake.exe . "-G%_GENERATOR_%" "%_CL64_%" "%_ARCH_%" -DXMP_BUILD_STATIC=ON -DCMAKE_BUILD_TYPE=Release "-DXMP_CMAKEFOLDER_NAME=%_OUT_%"
+rem cmake.exe . --build
+devenv    "%_SLN_%"     /Build "%_BUILD_%"    /ProjectConfig XMPCoreStatic
 
 cd   ..\..\..
 @echo off
