@@ -4,6 +4,7 @@
 *.lo
 *.o
 *.swp
+*.pyc
 .DS_Store
 config.log
 config.status
