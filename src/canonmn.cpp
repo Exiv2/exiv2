@@ -857,7 +857,6 @@ namespace Exiv2 {
         { 144, "Canon EF 35-135mm f/4-5.6 USM"                              },
         { 145, "Canon EF 100-300mm f/4.5-5.6 USM"                           },
         { 146, "Canon EF 70-210mm f/3.5-4.5 USM"                            },
-
         { 147, "Canon EF 35-135mm f/4-5.6 USM"                              },
         { 148, "Canon EF 28-80mm f/3.5-5.6 USM"                             },
         { 149, "Canon EF 100mm f/2 USM"                                     },
