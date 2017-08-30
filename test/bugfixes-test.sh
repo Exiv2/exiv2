@@ -629,6 +629,12 @@ source ./functions.source
       runTest exiv2 -pa --grep lens/i   $filename
     done
 
+    num=g45
+    filename=exiv2-$num.exv
+    echo '------>' Bug $filename '<-------' >&2
+    copyTestFile                      $filename
+    runTest exiv2 -pa --grep lens/i   $filename
+
 ) 3>&1 > $results 2>&1
 
 printf "\n"
