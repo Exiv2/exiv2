@@ -33,7 +33,7 @@ Robin Mills
 robin@clanmills.com
 Luis Díaz Más
 piponazo@gmail.com
-2017-17-08
+2017-01-09
 
 -------------------------------------------------------------------------------
 
@@ -52,10 +52,6 @@ TABLE OF CONTENTS
 You have to install cmake on your target system. The minimum version required is 3.1.0
 
 Home: http://www.cmake.org/
-Help: http://www.cmake.org/cmake/help/help.html
-Doc:  http://www.cmake.org/cmake/help/documentation.html
-Wiki: http://www.cmake.org/Wiki/CMake
-FAQ:  http://www.cmake.org/Wiki/CMake_FAQ
 
 2 Building and Installing on UNIX-like systems
 ==================================
