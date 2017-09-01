@@ -502,11 +502,17 @@ namespace Exiv2 {
         Image& operator=(const Image& rhs);
         //@}
 
+        const char* tagName(uint16_t tag,size_t nMaxLength);
+
         // DATA
         int               imageType_;         //!< Image type
         uint16_t          supportedMetadata_; //!< Bitmap with all supported metadata types
         bool              writeXmpFromPacket_;//!< Determines the source when writing XMP
         ByteOrder         byteOrder_;         //!< Byte order
+
+        std::map<int,std::string> tags;       //!< Map of tags
+        bool                      init;       //!< Flag marking if map of tags needs to be initialized
+        char                      buffer[80];
 
     }; // class Image
 
