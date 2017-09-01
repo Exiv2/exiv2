@@ -1,3 +1,4 @@
+message( STATUS "Install prefix:    ${CMAKE_INSTALL_PREFIX}")
 message( STATUS "None:              ${CMAKE_CXX_FLAGS}" )
 message( STATUS "Debug:             ${CMAKE_CXX_FLAGS_DEBUG}" )
 message( STATUS "Release:           ${CMAKE_CXX_FLAGS_RELEASE}" )
