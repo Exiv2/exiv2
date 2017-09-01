@@ -53,6 +53,18 @@ You have to install cmake on your target system. The minimum version required is
 
 Home: http://www.cmake.org/
 
+There are some global CMake options that you can use in Exiv2 :
+
+-DCMAKE_INSTALL_PREFIX : decide where the program will be install on your computer.
+-DCMAKE_BUILD_TYPE     : decide which type of build you want. You can chose between:
+                         "debugfull".     : for hacking. Include all debug information.
+                         "Debug".
+                         "profile".
+                         "relwithdebinfo" : default. use gcc -O2 -g options.
+                         "Release"        : generate stripped and optimized bin files. For packaging.
+
+For knowing more about the specific Exiv2 CMake options, look into the main CMakeLists.txt file.
+
 2 Building and Installing on UNIX-like systems
 ==================================
 
@@ -69,16 +81,6 @@ file) to configure, build and install the library and utilities:
     $ make -j
     $ make install
 
-Usual CMake options :
-
--DCMAKE_INSTALL_PREFIX : decide where the program will be install on your computer.
--DCMAKE_BUILD_TYPE     : decide which type of build you want. You can chose between:
-                         "debugfull".     : for hacking. Include all debug information.
-                         "debug".
-                         "profile".
-                         "relwithdebinfo" : default. use gcc -O2 -g options.
-                         "release"        : generate stripped and optimized bin files. For packaging.
-
 Specific Exiv2 options :
 
 -DBUILD_SHARED_LIBS          : CMake variable controlling whether exiv2lib is build as a shared library (dll). [default=on]
@@ -93,12 +95,6 @@ Specific Exiv2 options :
 -DEXIV2_ENABLE_BUILD_PO      : Build translations files.                         [default=off]
 -DEXIV2_ENABLE_CURL          : USE Libcurl for HttpIo                            [default=off]
 -DEXIV2_ENABLE_SSH           : USE Libssh for SshIo                              [default=off]
-
-Default install locations
-
-Use -DCMAKE_INSTALL_PREFIX like this :
-
-"cmake . -DCMAKE_INSTALL_PREFIX=/usr"  is equivalent to "./configure --prefix=/usr" with automake/configure.
 
 To uninstall Exiv2, run:
 
