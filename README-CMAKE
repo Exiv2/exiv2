@@ -70,8 +70,6 @@ For knowing more about the specific Exiv2 CMake options, look into the main CMak
 
 This process covers MacOS-X, Linux and Cygwin.
 
-a) From the command line
-
 Run the following commands from the top directory (containing this
 file) to configure, build and install the library and utilities:
 
@@ -79,6 +77,8 @@ file) to configure, build and install the library and utilities:
     $ cmake .. or cmake-gui ..
     $ make -j
     $ make install
+
+Note that the CMake generator used by default on Unix is : 'Makefiles'. However you can chose others like 'Ninja'
 
 To uninstall Exiv2, run:
 
