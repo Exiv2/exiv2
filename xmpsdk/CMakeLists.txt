@@ -58,7 +58,8 @@ target_compile_definitions(xmp_object PRIVATE XML_STATIC)
 # http://stackoverflow.com/questions/10046114/in-cmake-how-can-i-test-if-the-compiler-is-clang
 if ( NOT "${CMAKE_CXX_COMPILER_ID}" MATCHES "AppleClang")
     # 1123 - hide xmpsdk symbols
-    target_compile_definitions(xmp_object PRIVATE -fvisibility=hidden -fvisibility-inlines-hidden )
+    set_property(SOURCE ${XMPSRC} PROPERTY
+        COMPILE_FLAGS "-fvisibility=hidden -fvisibility-inlines-hidden")
 endif()
 
 if( EXIV2_ENABLE_LIBXMP )
@@ -68,6 +69,10 @@ if( EXIV2_ENABLE_LIBXMP )
     # This is also needed for the xmp static library
     target_include_directories(xmp PUBLIC ${EXPAT_INCLUDE_DIR})
     target_compile_definitions(xmp PUBLIC XML_STATIC)
+
+    if (BUILD_SHARED_LIBS)
+        set_property(TARGET xmp_object PROPERTY COMPILE_FLAGS "-fPIC")
+    endif()
 
     # 1119  Install libxmp.a for use by third party applications (Thanks, Emmanuel)
     install(TARGETS xmp
