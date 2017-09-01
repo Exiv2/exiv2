@@ -502,6 +502,7 @@ namespace Exiv2 {
         Image& operator=(const Image& rhs);
         //@}
 
+        //! Return tag name for given tag id.
         const char* tagName(uint16_t tag,size_t nMaxLength);
 
         // DATA
