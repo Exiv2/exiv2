@@ -75,26 +75,10 @@ a) From the command line
 Run the following commands from the top directory (containing this
 file) to configure, build and install the library and utilities:
 
-    $ mkdir build
-    $ cd build
+    $ mkdir build && cd build
     $ cmake .. or cmake-gui ..
     $ make -j
     $ make install
-
-Specific Exiv2 options :
-
--DBUILD_SHARED_LIBS          : CMake variable controlling whether exiv2lib is build as a shared library (dll). [default=on]
--DEXIV2_ENABLE_XMP           : Build with XMP metadata support.                  [default=on ]
--DEXIV2_ENABLE_LIBXMP        : Build a static convenience Library for XMP.       [default=on ]
--DEXIV2_ENABLE_PNG           : Build with png support (requires libz).           [default=on ]
--DEXIV2_ENABLE_NLS           : Build native language support (requires gettext). [default=on ]
--DEXIV2_ENABLE_PRINTUCS2     : Build with Printucs2.                             [default=on ]
--DEXIV2_ENABLE_LENSDATA      : Build including lens data.                        [default=on ]
--DEXIV2_ENABLE_COMMERCIAL    : Build with the EXV_COMMERCIAL_VERSION symbol set. [default=off]
--DEXIV2_ENABLE_BUILD_SAMPLES : Build the unit tests.                             [default=off]
--DEXIV2_ENABLE_BUILD_PO      : Build translations files.                         [default=off]
--DEXIV2_ENABLE_CURL          : USE Libcurl for HttpIo                            [default=off]
--DEXIV2_ENABLE_SSH           : USE Libssh for SshIo                              [default=off]
 
 To uninstall Exiv2, run:
 
