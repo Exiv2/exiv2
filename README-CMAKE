@@ -124,38 +124,53 @@ We have two contributed CMake Build Environments:
 
   Exiv2 should be packaged in the dist directory with all the .lib, include and binary files you need.
 
-3 Running CMake commands manually from command line
+ 3 Running CMake commands manually from command line (new)
 
-As in the UNIX case, we can run the following commands from the top directory to configure, 
-build and install the library and utilities:
+  From Exiv2 0.26.0 to 0.26.1 the CMake code of the project was cleaned and now it is possible to configure
+  project from the command line as we do in the Unix sytems. As in the UNIX case, we can run the following
+  commands from the top directory to configure, build and install the library and utilities:
 
-    $ mkdir build
-    $ cd build
+    $ mkdir build && cd build
     $ cmake .. or cmake-gui ..
     $ make -j
     $ make install
 
-The only pre-requisite is to have called before the vcvarsall.bat Visual Studio configuration
-script. For example, with Visual Studio 2017 installed on your system, you will need to run
+  However there are some particularities on Windows that might cause the CMake command does not find
+  the compiler correctly.
 
-    $ call "C:\Program Files (x86)\Microsoft Visual Studio\2017\Community\VC\Auxiliary\Build\vcvars64.bat"
+  Previous versions of Visual Studio were creating an environment variable (VSCOMNTOOLS140, for example) that
+  points at the compiler and other resources relevant to that version of the compiler. However in Visual Studio
+  2017, they do not do that anymore.
 
-Before running CMake. If you do not do it, CMake will not be able to determine your compiler.
+  What we recommend is to call the vcvarsall.bat Visual Studio configuration script before running CMake.
+  For example, with Visual Studio 2017 installed on your system, you will need to run
 
-It is also important to note that the default CMake configuration for Windows enable some features
-making use of libraries that probably will not be available in your system. It is possible to
-disable some features, or provide the paths to the INCLUDE folders, or libraries, at the moment of
-calling CMake. In this example, we disable the NLS and PNG support, and we specify the path where we
-have the EXPAT library:
+  $ call "C:\Program Files (x86)\Microsoft Visual Studio\2017\Community\VC\Auxiliary\Build\vcvars64.bat"
+
+  Afterwards, CMake will identify correctly your Build Tools.
+
+  It is also important to note that the default CMake configuration assume the existence of some libraries
+  in your system. If they are not available, the configuration will fail. It is possible to disable some
+  features, or provide the paths to the INCLUDE folders, or libraries, at the moment of calling CMake the
+  first time.
+
+  In this example, we disable the NLS and PNG support, and we specify the path where we have the EXPAT library:
 
     $ cmake -DEXIV2_ENABLE_NLS=OFF -DEXIV2_ENABLE_PNG=OFF -DCMAKE_PREFIX_PATH="C:\pathToExpat\ ../
 
-    or
+  CMake Generators
+  ----------------
 
-    $ cmake -GNinja -DEXIV2_ENABLE_NLS=OFF -DEXIV2_ENABLE_PNG=OFF -DCMAKE_PREFIX_PATH="C:\pathToExpat\ ../
+  It is also important to note that the default CMake generator is 'Visual Studio' (The version will depend
+  on the vcvarsall.bat script called before running CMake).
 
-Note: For using the Ninja generator you will need to have the ninja build system executable in your
-$PATH. More info at https://ninja-build.org/.
+  If you are not a big fan of Visual Studio you can use other generators like: 'Ninja'. In order to use them
+  you just need to pass the option -GNinja at the moment of calling CMake for the first time:
+
+  $ cmake -GNinja -DEXIV2_ENABLE_NLS=OFF -DEXIV2_ENABLE_PNG=OFF -DCMAKE_PREFIX_PATH="C:\pathToExpat\ ../
+
+  Note: For using the Ninja generator you will need to have the ninja build system executable in your
+  $PATH. More info at https://ninja-build.org/.
 
 4 Building and installing for MinGW Users
 =========================================
