@@ -3,6 +3,7 @@ set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} "${CMAKE_SOURCE_DIR}/config/")
 
 # Check if the conan file exist to find the dependencies
 if (EXISTS ${CMAKE_BINARY_DIR}/conanbuildinfo.cmake)
+    set(USING_CONAN ON)
     include(${CMAKE_BINARY_DIR}/conanbuildinfo.cmake)
     conan_set_find_paths()
 endif()

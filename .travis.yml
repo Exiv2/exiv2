@@ -10,6 +10,11 @@ os:
   - linux
   - osx
 
+matrix:
+  exclude:
+    - os: osx
+      compiler: gcc
+
 env:
     #- CMAKE_OPTIONS="-DCMAKE_BUILD_TYPE=Release" # Default
     #- CMAKE_OPTIONS="-DCMAKE_BUILD_TYPE=Debug -DBUILD_SHARED_LIBS=OFF"   # Default (Debug mode + static libs)
