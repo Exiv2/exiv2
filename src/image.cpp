@@ -164,8 +164,7 @@ namespace Exiv2 {
 #endif
           byteOrder_(invalidByteOrder),
           tags(),
-          init(true),
-          buffer()
+          init(true)
     {
     }
 
@@ -382,7 +381,7 @@ namespace Exiv2 {
                     uint32_t address = start + 2 + i*12 ;
                     out << Internal::indent(depth)
                     << Internal::stringFormat("%8u | %#06x %-25s |%10s |%9u |%10u | "
-                                              ,address,tag,tagName(tag,25),typeName(type),count,offset);
+                                              ,address,tag,tagName(tag).c_str(),typeName(type),count,offset);
                     if ( isShortType(type) ){
                         for ( size_t k = 0 ; k < kount ; k++ ) {
                             out << sp << byteSwap2(buf,k*size,bSwap);
@@ -696,10 +695,8 @@ namespace Exiv2 {
         return ImageFactory::checkMode(imageType_, metadataId);
     }
 
-    const char* Image::tagName(uint16_t tag,size_t nMaxLength)
+    const std::string& Image::tagName(uint16_t tag)
     {
-        const char* result = NULL;
-
         if ( init ) {
             int idx;
             const TagInfo* ti ;
@@ -714,15 +711,7 @@ namespace Exiv2 {
         }
         init = false;
 
-        try {
-            result = tags[tag].c_str();
-            if ( nMaxLength > sizeof(buffer) -2 )
-                nMaxLength = sizeof(buffer) -2;
-            strncpy(buffer,result,nMaxLength);
-            result = buffer;
-        } catch ( ... ) {}
-
-        return result ;
+        return tags[tag] ;
     }
 
     AccessMode ImageFactory::checkMode(int type, MetadataId metadataId)

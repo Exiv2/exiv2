@@ -503,7 +503,7 @@ namespace Exiv2 {
         //@}
 
         //! Return tag name for given tag id.
-        const char* tagName(uint16_t tag,size_t nMaxLength);
+        const std::string& tagName(uint16_t tag);
 
         // DATA
         int               imageType_;         //!< Image type
@@ -513,7 +513,6 @@ namespace Exiv2 {
 
         std::map<int,std::string> tags;       //!< Map of tags
         bool                      init;       //!< Flag marking if map of tags needs to be initialized
-        char                      buffer[80];
 
     }; // class Image
 
