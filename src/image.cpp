@@ -162,7 +162,9 @@ namespace Exiv2 {
 #else
           writeXmpFromPacket_(true),
 #endif
-          byteOrder_(invalidByteOrder)
+          byteOrder_(invalidByteOrder),
+          tags_(),
+          init_(true)
     {
     }
 
@@ -273,40 +275,6 @@ namespace Exiv2 {
         return Image::byteSwap(v,bSwap);
     }
 
-    static const char* tagName(uint16_t tag,size_t nMaxLength)
-    {
-        const char* result = NULL;
-
-        // build a static map of tags for fast search
-        static std::map<int,std::string> tags;
-        static bool init  = true;
-        static char buffer[80];
-
-        if ( init ) {
-            int idx;
-            const TagInfo* ti ;
-            for (ti = Internal::  mnTagList(), idx = 0; ti[idx].tag_ != 0xffff; ++idx) tags[ti[idx].tag_] = ti[idx].name_;
-            for (ti = Internal:: iopTagList(), idx = 0; ti[idx].tag_ != 0xffff; ++idx) tags[ti[idx].tag_] = ti[idx].name_;
-            for (ti = Internal:: gpsTagList(), idx = 0; ti[idx].tag_ != 0xffff; ++idx) tags[ti[idx].tag_] = ti[idx].name_;
-            for (ti = Internal:: ifdTagList(), idx = 0; ti[idx].tag_ != 0xffff; ++idx) tags[ti[idx].tag_] = ti[idx].name_;
-            for (ti = Internal::exifTagList(), idx = 0; ti[idx].tag_ != 0xffff; ++idx) tags[ti[idx].tag_] = ti[idx].name_;
-            for (ti = Internal:: mpfTagList(), idx = 0; ti[idx].tag_ != 0xffff; ++idx) tags[ti[idx].tag_] = ti[idx].name_;
-            for (ti = Internal::Nikon1MakerNote::tagList(), idx = 0
-                                                      ; ti[idx].tag_ != 0xffff; ++idx) tags[ti[idx].tag_] = ti[idx].name_;
-        }
-        init = false;
-
-        try {
-            result = tags[tag].c_str();
-            if ( nMaxLength > sizeof(buffer) -2 )
-                 nMaxLength = sizeof(buffer) -2;
-            strncpy(buffer,result,nMaxLength);
-            result = buffer;
-        } catch ( ... ) {}
-
-        return result ;
-    }
-
     static const char* typeName(uint16_t tag)
     {
         //! List of TIFF image tags
@@ -413,7 +381,7 @@ namespace Exiv2 {
                     uint32_t address = start + 2 + i*12 ;
                     out << Internal::indent(depth)
                     << Internal::stringFormat("%8u | %#06x %-25s |%10s |%9u |%10u | "
-                                              ,address,tag,tagName(tag,25),typeName(type),count,offset);
+                                              ,address,tag,tagName(tag).c_str(),typeName(type),count,offset);
                     if ( isShortType(type) ){
                         for ( size_t k = 0 ; k < kount ; k++ ) {
                             out << sp << byteSwap2(buf,k*size,bSwap);
@@ -725,6 +693,25 @@ namespace Exiv2 {
     AccessMode Image::checkMode(MetadataId metadataId) const
     {
         return ImageFactory::checkMode(imageType_, metadataId);
+    }
+
+    const std::string& Image::tagName(uint16_t tag)
+    {
+        if ( init_ ) {
+            int idx;
+            const TagInfo* ti ;
+            for (ti = Internal::  mnTagList(), idx = 0; ti[idx].tag_ != 0xffff; ++idx) tags_[ti[idx].tag_] = ti[idx].name_;
+            for (ti = Internal:: iopTagList(), idx = 0; ti[idx].tag_ != 0xffff; ++idx) tags_[ti[idx].tag_] = ti[idx].name_;
+            for (ti = Internal:: gpsTagList(), idx = 0; ti[idx].tag_ != 0xffff; ++idx) tags_[ti[idx].tag_] = ti[idx].name_;
+            for (ti = Internal:: ifdTagList(), idx = 0; ti[idx].tag_ != 0xffff; ++idx) tags_[ti[idx].tag_] = ti[idx].name_;
+            for (ti = Internal::exifTagList(), idx = 0; ti[idx].tag_ != 0xffff; ++idx) tags_[ti[idx].tag_] = ti[idx].name_;
+            for (ti = Internal:: mpfTagList(), idx = 0; ti[idx].tag_ != 0xffff; ++idx) tags_[ti[idx].tag_] = ti[idx].name_;
+            for (ti = Internal::Nikon1MakerNote::tagList(), idx = 0
+                                                    ; ti[idx].tag_ != 0xffff; ++idx) tags_[ti[idx].tag_] = ti[idx].name_;
+        }
+        init_ = false;
+
+        return tags_[tag] ;
     }
 
     AccessMode ImageFactory::checkMode(int type, MetadataId metadataId)
