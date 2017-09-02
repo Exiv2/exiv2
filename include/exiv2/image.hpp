@@ -511,8 +511,8 @@ namespace Exiv2 {
         bool              writeXmpFromPacket_;//!< Determines the source when writing XMP
         ByteOrder         byteOrder_;         //!< Byte order
 
-        std::map<int,std::string> tags;       //!< Map of tags
-        bool                      init;       //!< Flag marking if map of tags needs to be initialized
+        std::map<int,std::string> tags_;      //!< Map of tags
+        bool                      init_;      //!< Flag marking if map of tags needs to be initialized
 
     }; // class Image
 
