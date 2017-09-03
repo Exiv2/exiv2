@@ -219,7 +219,7 @@ if (EXIV2_ENABLE_WEBREADY)
         if (USING_CONAN)
             # TODO : Improve libcurl recipe so we do not need to have all these conditionals here
             if ( MSVC )
-                target_link_libraries( exiv2lib PUBLIC ${CONAN_LIBRARY})
+                target_link_libraries( exiv2lib PUBLIC ${CURL_LIBRARY})
             else()
                 target_link_libraries( exiv2lib PUBLIC ${CONAN_LIBS_LIBCURL})
             endif()
