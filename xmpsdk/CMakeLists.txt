@@ -56,7 +56,7 @@ endif()
 target_compile_definitions(xmp_object PRIVATE XML_STATIC)
 
 # http://stackoverflow.com/questions/10046114/in-cmake-how-can-i-test-if-the-compiler-is-clang
-if ( NOT "${CMAKE_CXX_COMPILER_ID}" MATCHES "AppleClang")
+if ( "${CMAKE_CXX_COMPILER_ID}" STREQUAL "Clang")
     # 1123 - hide xmpsdk symbols
     set_property(SOURCE ${XMPSRC} PROPERTY
         COMPILE_FLAGS "-fvisibility=hidden -fvisibility-inlines-hidden")
@@ -71,7 +71,7 @@ if( EXIV2_ENABLE_LIBXMP )
     target_compile_definitions(xmp PUBLIC XML_STATIC)
 
     if (BUILD_SHARED_LIBS)
-        set_property(TARGET xmp_object PROPERTY COMPILE_FLAGS "-fPIC")
+        set_property(TARGET xmp_object PROPERTY POSITION_INDEPENDENT_CODE ON)
     endif()
 
     # 1119  Install libxmp.a for use by third party applications (Thanks, Emmanuel)
