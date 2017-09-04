@@ -1,4 +1,15 @@
+
+#include <cstring>
+#include <stdarg.h>
+#include <stdint.h>
+#include <stdio.h>
 #include <iostream>
+
+#include "basicio.hpp"
+#include "image_int.hpp"
+#include "image.hpp"
+#include "riffvideo.hpp"
+#include "types.hpp"
 
 #define WIDTH 32
 
@@ -202,25 +213,30 @@ typedef struct {
 	uint32_t offset;
 } field_t;
 
-void printIFD(FILE* f, std::ostream& out, uint32_t offset,bool bSwap,int depth)
+void printIFD(FILE* f, std::ostream& out, Exiv2::PrintStructureOption option, uint32_t offset,bool bSwap,int depth)
 {
+        std::string path;          // TODO: just a compilation fix. It should probably come instead of FILE* f.
+        Exiv2::FileIo io(path);    // TODO: should come as argument?
+
 	depth++;
 	bool bFirst  = true;
 
 	// buffer
 	bool bPrint = true;
 
+        int start = 0;         // TODO: just a buld fix
+
 	do {
 		// Read top of directory
-		fseek(f,offset,beg);
+		fseek(f,offset,SEEK_SET);
 		uint16_t dir;
 		fread(&dir,1,2,f);
-		uint16_t dirLength = byteSwap2(dir,0,bSwap);
+		uint16_t dirLength = byteSwap2(&dir,0,bSwap);
 
 		bool tooBig = dirLength > 500;
 
 		if ( bFirst && bPrint ) {
-			out << indent(depth) << stringFormat("STRUCTURE OF TIFF FILE << path << std::endl;
+			out << indent(depth) << Exiv2::Internal::stringFormat("STRUCTURE OF TIFF FILE") << path << std::endl;
 			if ( tooBig ) out << indent(depth) << "dirLength = " << dirLength << std::endl;
 		}
 		if  (tooBig) break;
@@ -256,51 +272,52 @@ void printIFD(FILE* f, std::ostream& out, uint32_t offset,bool bSwap,int depth)
 							: 1
 							;
 
-			DataBuf  buf(size*count + pad);  // allocate a buffer
+			Exiv2::DataBuf  buf(size*count + pad);  // allocate a buffer
+                        Exiv2::DataBuf  dir(size*count + pad);  // TODO: fix me, I'm object out of nowhere
 			std::memcpy(buf.pData_,dir.pData_+8,4);  // copy dir[8:11] into buffer (short strings)
 			if ( count*size > 4 ) {            // read into buffer
 				size_t   restore = io.tell();  // save
-				io.seek(offset,BasicIo::beg);  // position
+				io.seek(offset, Exiv2::BasicIo::beg);  // position
 				io.read(buf.pData_,count*size);// read
-				io.seek(restore,BasicIo::beg); // restore
+				io.seek(restore, Exiv2::BasicIo::beg); // restore
 			}
 
 			if ( bPrint ) {
 				uint32_t address = start + 2 + i*12 ;
 				out << indent(depth)
-						<< stringFormat("%8u | %#06x %-25s |%10s |%9u |%10u | "
+						<< Exiv2::Internal::stringFormat("%8u | %#06x %-25s |%10s |%9u |%10u | "
 							,address,tag,tagName(tag,25),typeName(type),count,offset);
 				if ( isShortType(type) ){
 					for ( size_t k = 0 ; k < kount ; k++ ) {
-						out << sp << byteSwap2(buf,k*size,bSwap);
+						out << sp << byteSwap2(&buf,k*size,bSwap);
 						sp = " ";
 					}
 				} else if ( isLongType(type) ){
 					for ( size_t k = 0 ; k < kount ; k++ ) {
-						out << sp << byteSwap4(buf,k*size,bSwap);
+						out << sp << byteSwap4(&buf,k*size,bSwap);
 						sp = " ";
 					}
 
 				} else if ( isRationalType(type) ){
 					for ( size_t k = 0 ; k < kount ; k++ ) {
-						uint32_t a = byteSwap4(buf,k*size+0,bSwap);
-						uint32_t b = byteSwap4(buf,k*size+4,bSwap);
+						uint32_t a = byteSwap4(&buf,k*size+0,bSwap);
+						uint32_t b = byteSwap4(&buf,k*size+4,bSwap);
 						out << sp << a << "/" << b;
 						sp = " ";
 					}
 				} else if ( isStringType(type) ) {
-					out << sp << binaryToString(buf, kount);
+					out << sp << Exiv2::Internal::binaryToString(buf, kount);
 				}
 
 				sp = kount == count ? "" : " ...";
 				out << sp << std::endl;
 
-				if ( option == kpsRecursive && (tag == 0x8769 /* ExifTag */ || tag == 0x014a/*SubIFDs*/  || type == tiffIfd) ) {
+				if ( option == Exiv2::kpsRecursive && (tag == 0x8769 /* ExifTag */ || tag == 0x014a/*SubIFDs*/  || type == tiffIfd) ) {
 					for ( size_t k = 0 ; k < count ; k++ ) {
 						size_t   restore = io.tell();
-						uint32_t offset = byteSwap4(buf,k*size,bSwap);
-						std::cerr << "tag = " << stringFormat("%#x",tag) << std::endl;
-						printIFDStructure(io,out,option,offset,bSwap,c,depth);
+						uint32_t offset = byteSwap4(&buf,k*size,bSwap);
+						std::cerr << "tag = " << Exiv2::Internal::stringFormat("%#x",tag) << std::endl;
+						Exiv2::RiffVideo(io).printIFDStructure(io,out,option,offset,bSwap,k,depth);   // TODO: blind fix
 						io.seek(restore,BasicIo::beg);
 					}
 				} else if ( option == kpsRecursive && tag == 0x83bb /* IPTCNAA */ ) {
@@ -340,7 +357,7 @@ void printIFD(FILE* f, std::ostream& out, uint32_t offset,bool bSwap,int depth)
 			}
 		}
 		io.read(dir.pData_, 4);
-		start = tooBig ? 0 : byteSwap4(dir,0,bSwap);
+		start = tooBig ? 0 : byteSwap4(&dir,0,bSwap);
 		out.flush();
 	} while (start) ;
 
@@ -387,8 +404,8 @@ int main(int argc,const char* argv[])
 	if ( result == 0 ) {
 		std::cout << "Congrats swap = " << (bSwap?"true":"false") << " offset = " << offset << std::endl;
 		int depth = 0 ;
-		FILE* f = fopen(path,"rb");
-		printIFD(f,std::cout,offset,bSwap,depth);
+		FILE* f = fopen(argv[1],"rb");
+		printIFD(f,std::cout, Exiv2::kpsRecursive, offset,bSwap,depth);
 		fclose(f);
 	}
 
