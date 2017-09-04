@@ -87,6 +87,8 @@ if( EXIV2_ENABLE_BUILD_PO )
     add_subdirectory( po )
 endif()
 
+add_subdirectory( bigtiff )
+
 ##
 # tests
 add_custom_target(tests       COMMAND env EXIV2_BINDIR="${CMAKE_BINARY_DIR}"/bin make tests       WORKING_DIRECTORY "${CMAKE_SOURCE_DIR}" )
