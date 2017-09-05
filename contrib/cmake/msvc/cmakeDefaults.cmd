@@ -13,7 +13,9 @@ if NOT DEFINED _ZLIB_        SET _ZLIB_=zlib-1.2.8
 if NOT DEFINED _EXPAT_       SET _EXPAT_=expat-2.1.0
 if NOT DEFINED _BASH_        SET _BASH_=c:\cygwin64\bin\bash.exe
 if NOT DEFINED _MODE_        SET _MODE_=dll
-if NOT DEFINED  COPYCMD      SET COPYCMD=/Y
+if NOT DEFINED _UNICODE_     SET _UNICODE_=OFF
+if NOT DEFINED _NLS_         SET _NLS_=OFF
+if NOT DEFINED  COPYCMD      SET  COPYCMD=/Y
 
 rem ---------- check that EXIV2   exists
 echo checking that %_EXIV2_% exists

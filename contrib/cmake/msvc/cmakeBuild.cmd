@@ -17,16 +17,18 @@ if /I "%1" == "--zlib"            set "_ZLIB_=%2"& shift
 
 if /I "%1" == "--help"            call:Help && goto end
 if /I "%1" == "--dryrun"          set "_DRYRUN_=1"
-if /I "%1" == "--nosamples"       set "_NOSAMPLES_=1"
+if /I "%1" == "--samples"         set "_SAMPLES_=1"
 if /I "%1" == "--pause"           set "_PAUSE_=1"
 if /I "%1" == "--rebuild"         set "_REBUILD_=1"
 if /I "%1" == "--silent"          set "_SILENT_=1"
 if /I "%1" == "--static"          set "_MODE_=static"
-if /I "%1" == "--test"            set "_TEST_=1"
+if /I "%1" == "--test"           (set "_TEST_=1" & set _SAMPLES_=1)
 if /I "%1" == "--trace"           set ("_VERBOSE_=1 && echo on)"
 if /I "%1" == "--verbose"         set  "_VERBOSE_=1"
 if /I "%1" == "--video"           set "_VIDEO_=1"
 if /I "%1" == "--webready"        set "_WEBREADY_=1"
+if /I "%1" == "--unicode"         set "_UNICODE_=ON"
+if /I "%1" == "--nls"             set "_NLS_=ON"
 
 shift
 if not (%1) EQU () goto GETOPTS
@@ -34,8 +36,8 @@ goto main
 
 :help
 call cmakeDefaults >NUL 2>NUL
-echo Options: --help   ^| --webready ^| --rebuild ^| --video  ^| --static
-echo.         --silent ^| --verbose  ^| --pause   ^| --dryrun ^| --test  ^| --trace
+echo Options: --help   ^| --webready ^| --rebuild ^| --video  ^| --static ^| --unicode ^| --nls
+echo.         --silent ^| --verbose  ^| --pause   ^| --dryrun ^| --test   ^| --samples ^| --trace
 echo.         --exiv2 %_EXIV2_% ^| --work %_WORK_% ^| --config %_CONFIG_% ^| --generator generator
 echo.         --zlib %_ZLIB_% ^| --expat %_EXPAT_% ^| --curl %_CURL_% ^| --libssh %_LIBSSH_%
 echo.         --bash %_BASH_%
@@ -56,7 +58,9 @@ echo.incpath   = %_INCPATH_%
 echo.libpath   = %_LIBPATH_%
 echo.libssh    = %_LIBSSH_%
 echo.mode      = %_MODE_%
+echo.nls       = %_NLS_%
 echo.openssl   = %_OPENSSL_%
+echo.unicode   = %_UNICODE_%
 echo.work      = %_WORK_%
 echo.test      = %_TEST_%
 echo.video     = %_VIDEO_%
@@ -91,6 +95,7 @@ IF NOT EXIST "%VSINSTALLDIR%" (
     GOTO error_end
 )
 
+if /I "%VSINSTALLDIR%" == "%ProgramFiles(x86)%\Microsoft Visual Studio\2017\Community\" set "_VS_=2017" && set "_VC_=15"
 if /I "%VSINSTALLDIR%" == "%ProgramFiles(x86)%\Microsoft Visual Studio 14.0\" set "_VS_=2015" && set "_VC_=14"
 if /I "%VSINSTALLDIR%" == "%ProgramFiles(x86)%\Microsoft Visual Studio 12.0\" set "_VS_=2013" && set "_VC_=12"
 if /I "%VSINSTALLDIR%" == "%ProgramFiles(x86)%\Microsoft Visual Studio 11.0\" set "_VS_=2012" && set "_VC_=11"
@@ -287,12 +292,12 @@ pushd        "%EXIV_B%"
 	    set ENABLE_SHARED=OFF
 	    set ENABLE_DYNAMIC=OFF
 	)
-	                        set BUILD_SAMPLES=ON
-	if DEFINED _NOSAMPLES_  set BUILD_SAMPLES=OFF
+	                      set BUILD_SAMPLES=OFF
+	if DEFINED _SAMPLES_  set BUILD_SAMPLES=ON
 
-    call:run cmake -G "%_GENERATOR_%" -DCMAKE_BUILD_TYPE=%_CONFIG_% %_LINK_% -DCMAKE_INSTALL_PREFIX=%_INSTALL_% -DCMAKE_LIBRARY_PATH=%_LIBPATH_% -DCMAKE_INCLUDE_PATH=%_INCPATH_% ^
-              -DEXIV2_ENABLE_NLS=OFF                -DEXIV2_ENABLE_BUILD_SAMPLES=%BUILD_SAMPLES% ^
-              -DEXIV2_ENABLE_WIN_UNICODE=OFF        -DEXIV2_ENABLE_SHARED=%ENABLE_SHARED% ^
+    call:run cmake -G "%_GENERATOR_%"     -DCMAKE_BUILD_TYPE=%_CONFIG_% %_LINK_% -DCMAKE_INSTALL_PREFIX=%_INSTALL_% -DCMAKE_LIBRARY_PATH=%_LIBPATH_% -DCMAKE_INCLUDE_PATH=%_INCPATH_% ^
+              -DEXIV2_ENABLE_NLS=%_NLS_%  -DEXIV2_ENABLE_BUILD_SAMPLES=%BUILD_SAMPLES% ^
+              -DEXIV2_ENABLE_WIN_UNICODE=%_UNICODE_% -DBUILD_SHARED_LIBS=%ENABLE_SHARED% ^
               -DEXIV2_ENABLE_DYNAMIC_RUNTIME=%ENABLE_DYNAMIC% ^
               %ENABLE_WEBREADY%  %ENABLE_CURL%  %ENABLE_LIBSSH% %ENABLE_VIDEO% ^
              "%_EXIV2_%"
@@ -327,12 +332,12 @@ if defined _TEST_ (
 
 rem -----------------------------------------
 rem Exit
-rem end  syntax: goto end
+rem end  syntax: GOTO end
 :end
 endlocal
 exit /b 0
 
-rem end with an error syntax: call:error_end
+rem end with an error syntax: GOTO error_end
 :error_end
 endlocal
 exit /b 1
@@ -389,7 +394,20 @@ pushd "%LOB_B%"
         echo "*** warning: build errors in %LOB% ***"
     )
 
-    call:run cmake --build . --config %_CONFIG_% --target install
+    rem --static expat fails to install on VS 2010+
+    set buildLibInstallExpatStatic=0
+    if /I "%_TARGET_%" == "--target expat" if /I "%_MODE_%" == "static" set buildLibInstallExpatStatic=1
+    
+    if /I "%buildLibInstallExpatStatic%" == "1" (
+        rem msvc\expat-2.1.0\lib\expat*.h                => msvc\dist\2005\x64\static\Release\include
+        call:run copy/y "%_BUILDDIR_%\%LOB%\lib\expat*.h"   "%_ONCPATH_%"
+
+        rem msvc\work\expat-2.1.0\release\*.lib          => msvc\dist\2005\x64\static\Release\lib
+        call:run copy/y "%_WORK_%\%LOB%\%_CONFIG_%\*.lib"   "%_INSTALL_%\lib"
+    ) else ( 
+        call:run cmake --build . --config %_CONFIG_% --target install
+    )
+
     IF errorlevel 1 (
         echo "*** warning: install errors in %LOB% ***"
     )

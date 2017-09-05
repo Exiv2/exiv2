@@ -23,7 +23,7 @@ if(MSVC)
       CMAKE_CXX_FLAGS_RELEASE
       CMAKE_CXX_FLAGS_RELWITHDEBINFO
     )
-    if ( ${EXIV2_ENABLE_SHARED} OR ${EXIV2_ENABLE_DYNAMIC_RUNTIME})
+    if ( ${BUILD_SHARED_LIBS} OR ${EXIV2_ENABLE_DYNAMIC_RUNTIME} )
         message(STATUS  "MSVC -> forcing use of dynamically-linked runtime." )
         foreach(variable ${variables})
             if(${variable} MATCHES "/MT")
@@ -51,7 +51,7 @@ if(MSVC)
     endforeach()
 
     # don't link msvcrt for .exe which use shared libraries (use default libcmt)
-    if ( NOT ${EXIV2_ENABLE_SHARED} AND NOT ${EXIV2_ENABLE_DYNAMIC_RUNTIME})
+    if ( NOT ${BUILD_SHARED_LIBS} AND NOT ${EXIV2_ENABLE_DYNAMIC_RUNTIME})
         set(CMAKE_EXE_LINKER_FLAGS_DEBUG          "/NODEFAULTLIB:MSVCRTD")
         set(CMAKE_EXE_LINKER_FLAGS_RELEASE        "/NODEFAULTLIB:MSVCRT")
         set(CMAKE_EXE_LINKER_FLAGS_MINSIZEREL     "/NODEFAULTLIB:MSVCRT")

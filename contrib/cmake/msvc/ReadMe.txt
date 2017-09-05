@@ -1,4 +1,4 @@
-    @@@Marco@@@@@b                   ;mm                       /##Gilles###\
+    @@@Luis@@@@@b                   ;mm                       /##Gilles###\
     j@@@#Robin",                     Brad                     /@@@Thomas@@@@Q
      @@@#       \                     ##                     @@@b     |@@@b
      @@@#          .;;;;,     ,;;;, ,;;;;  ,;;;p      .;;;   7@@      ]Alan
@@ -9,7 +9,7 @@
      @@@#              ,@@##@@m      @@@b      @@@p @@C        #@@#C
      @@@#       ,/    s@@#  @@@@     @@@b       Volker       @Tuan@
     ]@@@Abhinav@@\   /@@@\    \@@@Q  @@@Q       %@@@#      /@@@@Mahesh@@#
-   /@@Raphael@@@@@\ /@@@@@\     C++  Metadata  Library    /@Sridhar@@@v0.26\
+   /@@Raphael@@@@@\ /@@@@@\     C++  Metadata  Library    /@Sridhar@@@v0.26.1\
 
 exiv2/contrib/cmake/msvc/ReadMe.txt
 -----------------------------------
@@ -39,7 +39,7 @@ How to use this
   cd <exiv2dir>\contrib\cmake\cmake
   cmd.exe
   vcvars 2015 64
-  cmakeBuild --help           # display syntax and options 
+  cmakeBuild --help           # display syntax and options
   cmakeBuild --rebuild
   ....
   exit
@@ -65,7 +65,42 @@ How to use this
   When you are building happily, you may prefer:
   cmakeBuild --silent
 
-3 What gets built?
+3 Options
+      C:\Users\rmills\gnu\github\clanmills\exiv2\contrib\cmake\msvc>cmakeBuild --help
+      Options: --help   | --webready | --rebuild | --video  | --static | --unicode | --nls
+               --silent | --verbose  | --pause   | --dryrun | --test   | --trace
+               --exiv2 C:\Users\rmills\gnu\github\clanmills\exiv2 | --work work | --config Release | --generator generator
+               --zlib zlib-1.2.8 | --expat expat-2.1.0 | --curl curl-7.45.0 | --libssh libssh-0.7.2
+               --bash c:\cygwin64\bin\bash.exe
+
+      Option switches.
+      --help      Print help message and quit
+      --webready  Build and Link the webready feature
+      --rebuild   Delete "relics" from a previous build such as CMakeBuild.txt
+      --video     Build and link video support
+      --static    Build and link static libraries and programs
+      --nosamples Do not build sample applications
+      --unicode   Build UNICODE path support
+      --nls       Build with Natural Language Support
+      --silent    Run script with minimal "chatter"
+      --verbose   Run script with maximum "chatter"
+      --trace     Show commands begin executed by the script
+      --dryrun    Don't build anything.  Report and quit
+      --test      Execute the test suite after the build
+
+      Option/values (See section 9 below)
+      --zlib      zlib-1.2.8
+      --expath    expat-2.1.0
+      --curl      curl-7.44.0
+      --libssh    libssh-0.7.2
+
+      Other build key/value pairs:
+      --config     Release | Debug
+      --generator  The script default is almost always correct and is passed as -G "Generator" to CMake
+      --work       The "work" directory in which the build will be performed (see 4 below)
+      --bash       Path to bash.exe to be used when --test is specified.
+
+4 What gets built?
   The build is performed in  work
   The output is generated in dist
                              dist\..mumble..\bin contains *.exe and *.dll files
@@ -79,7 +114,7 @@ How to use this
   dll     = shared library              dll/static
   Release = configuration               Release/Debug/RelWithDebInfo/MinSizeRel
 
-4 Building manually with CMake
+5 Building manually with CMake
   The cmake option -G Generator should be chosen for the version of Visual Studio installed.
   cmake --help for more information
 
@@ -124,7 +159,7 @@ How to use this
   cmake --build . --config Release
   cmake --build . --config Release --target install
 
-5 About webready support libraries (openssl, libssh and curl)
+6 About webready support libraries (openssl, libssh and curl)
 
   a) openssl
   You cannot build openssl with CMake.  However we have prebuilt binaries which
@@ -165,37 +200,37 @@ How to use this
   The fixes are included in svn://dev.exiv2.org/svn/team/libraries/libssh-0.7.2.tar.gz
   A 'vanilla' version of libssh will may require those fixes to be applied.
 
-6 Build options
-  You can inspect CMake options by running grep OPTION on CMakeLists.txt in <exiv2dir>
+7 Build options
+  You can inspect CMake options by running grep options on CMakeLists.txt in <exiv2dir>
   C:\cygwin64\home\rmills\gnu\exiv2\build>cd ..\trunk
 
-  C:\cygwin64\home\rmills\gnu\exiv2\trunk>grep OPTION CMakeLists.txt
-  OPTION( EXIV2_ENABLE_SHARED        "Build exiv2 as a shared library (dll)"                 ON  )
-  OPTION( EXIV2_ENABLE_XMP           "Build with XMP metadata support"                       ON  )
-  OPTION( EXIV2_ENABLE_LIBXMP        "Build a static convenience Library for XMP"            ON  )
-  OPTION( EXIV2_ENABLE_VIDEO         "Build with video support"                              OFF )
-  OPTION( EXIV2_ENABLE_PNG           "Build with png support (requires libz)"                ON  )
-  OPTION( EXIV2_ENABLE_NLS           "Build native language support (requires gettext)"      ON  )
-  OPTION( EXIV2_ENABLE_PRINTUCS2     "Build with Printucs2"                                  ON  )
-  OPTION( EXIV2_ENABLE_LENSDATA      "Build including lens data"                             ON  )
-  OPTION( EXIV2_ENABLE_COMMERCIAL    "Build with the EXV_COMMERCIAL_VERSION symbol set"      OFF )
-  OPTION( EXIV2_ENABLE_BUILD_SAMPLES "Build the unit tests"                                  ON  )
-  OPTION( EXIV2_ENABLE_BUILD_PO      "Build translations files"                              OFF )
-  OPTION( EXIV2_ENABLE_VIDEO         "Build video support into library"                      OFF )
-  OPTION( EXIV2_ENABLE_WEBREADY      "Build webready support into library"                   OFF )
-  OPTION( EXIV2_ENABLE_WIN_UNICODE   "Use Unicode paths (wstring) on Windows"                OFF )
-  OPTION( EXIV2_ENABLE_CURL          "USE Libcurl for HttpIo"                                OFF )
-  OPTION( EXIV2_ENABLE_SSH           "USE Libssh for SshIo"                                  OFF )
+  C:\cygwin64\home\rmills\gnu\github\exiv2\exiv2>grep option CMakeLists.txt
+      # options and their default values
+      option( EXIV2_ENABLE_XMP           "Build with XMP metadata support"                       ON  )
+      option( EXIV2_ENABLE_LIBXMP        "Build a static convenience Library for XMP"            ON  )
+      option( EXIV2_ENABLE_PNG           "Build with png support (requires libz)"                ON  )
+      option( EXIV2_ENABLE_NLS           "Build native language support (requires gettext)"      ON  )
+      option( EXIV2_ENABLE_PRINTUCS2     "Build with Printucs2"                                  ON  )
+      option( EXIV2_ENABLE_LENSDATA      "Build including lens data"                             ON  )
+      option( EXIV2_ENABLE_COMMERCIAL    "Build with the EXV_COMMERCIAL_VERSION symbol set"      OFF )
+      option( EXIV2_ENABLE_VIDEO         "Build video support into library"                      OFF )
+      option( EXIV2_ENABLE_WEBREADY      "Build webready support into library"                   OFF )
+      option( EXIV2_ENABLE_DYNAMIC_RUNTIME  "Use dynamic runtime (used for static libs)"         OFF )
+      option( EXIV2_ENABLE_WIN_UNICODE   "Use Unicode paths (wstring) on Windows"                OFF )
+      option( EXIV2_ENABLE_CURL          "USE Libcurl for HttpIo"                                OFF )
+      option( EXIV2_ENABLE_SSH           "USE Libssh for SshIo"                                  OFF )
+      option( EXIV2_ENABLE_SSH           "USE Libssh for SshIo"                                   ON )
+      option( EXIV2_BUILD_SAMPLES        "Build sample applications"                             ON  )
+      option( EXIV2_BUILD_PO             "Build translations files"                              OFF )
+      option( EXIV2_BUILD_EXIV2_COMMAND  "Build exiv2 command-line executable"                   ON  )
 
-  C:\cygwin64\home\rmills\gnu\exiv2\trunk>
-
-7 Running the test suite
+8 Running the test suite
   http://dev.exiv2.org/projects/exiv2/wiki/How_do_I_run_the_test_suite_for_Exiv2
 
   You can run the test-suite directly from cmakeBuild.cmd with the argument --test
   You need cygwin's bash.exe to run the test suite.
 
-8 Building with different versions of the support libraries
+9 Building with different versions of the support libraries
   You can change the standard libraries.  For example, to build with curl-7.39.0
   1) set _CURL_=curl-7.39.0
   2) add curl-7.39.0.tar.gz in your build directory
@@ -204,14 +239,15 @@ How to use this
   1) set _OPENSSL_=openssl-1.0.1j
   2) add openssl-1.0.1j-vs2015.zip into your build directory
 
-9 Rebuilding with VS 2005/8/10/12/13/15 32/64
+9 Rebuilding with VS 2005/8/10/12/13/15/17 32/64
   The script cmakeBuildAll.cmd is provided for convenience:
   cmakeBuildAll.cmd --test > rebuildAll.txt
   To view progress, open another shell: tail -f rebuildAll.txt
 
   cmakeBuildAll.cmd takes about a hour if you don't specify --webready
-  12 build+test cycles of about 5 minutes each.
-  With webready, 12 build+test cycles of 12 minutes = 2.5 hours
+  14 build+test cycles of about 5 minutes each.  Just over 1 hour.
+  With webready, 14 build+test cycles of 12 minutes = 3 hours
 
 Robin Mills
 robin@clanmills.com
+Updated: 2017-09-05

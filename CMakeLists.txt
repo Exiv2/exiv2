@@ -1,10 +1,4 @@
-# CMake build system for exiv2 library and executables
-# Copyright 2015-     Daniel Kaneider  <danielkaneider@users.sf.net>
-# Copyright 2010-2012 Gilles Caulier   <caulier dot gilles at gmail dot com>
-# Copyright 2008      Patrick Spendrin <ps_ml at gmx dot de>
-
-# Redistribution and use is allowed according to the terms of the BSD license.
-# For details see the accompanying COPYING-CMAKE-SCRIPTS file.
+# CMakeLists.txt for exiv2 library
 
 cmake_minimum_required( VERSION 3.1.0 )
 project( exiv2 )
@@ -30,7 +24,6 @@ set( GENERIC_LIB_VERSION    "26.0.0" )
 set( GENERIC_LIB_SOVERSION  "26" )
 
 # options and their default values
-option( EXIV2_ENABLE_SHARED        "Build exiv2 as a shared library (dll)"                 ON  )
 option( EXIV2_ENABLE_XMP           "Build with XMP metadata support"                       ON  )
 option( EXIV2_ENABLE_LIBXMP        "Build a static convenience Library for XMP"            ON  )
 option( EXIV2_ENABLE_PNG           "Build with png support (requires libz)"                ON  )
@@ -38,8 +31,6 @@ option( EXIV2_ENABLE_NLS           "Build native language support (requires gett
 option( EXIV2_ENABLE_PRINTUCS2     "Build with Printucs2"                                  ON  )
 option( EXIV2_ENABLE_LENSDATA      "Build including lens data"                             ON  )
 option( EXIV2_ENABLE_COMMERCIAL    "Build with the EXV_COMMERCIAL_VERSION symbol set"      OFF )
-option( EXIV2_ENABLE_BUILD_SAMPLES "Build the unit tests"                                  ON  )
-option( EXIV2_ENABLE_BUILD_PO      "Build translations files"                              OFF )
 option( EXIV2_ENABLE_VIDEO         "Build video support into library"                      OFF )
 option( EXIV2_ENABLE_WEBREADY      "Build webready support into library"                   OFF )
 option( EXIV2_ENABLE_DYNAMIC_RUNTIME  "Use dynamic runtime (used for static libs)"         OFF )
@@ -51,7 +42,9 @@ else()
     option( EXIV2_ENABLE_CURL          "USE Libcurl for HttpIo"                            ON  )
     option( EXIV2_ENABLE_SSH           "USE Libssh for SshIo"                              ON  )
 endif()
-option( EXIV2_ENABLE_TOOLS         "Build exiv2 executable"                                ON  )
+option( EXIV2_BUILD_SAMPLES        "Build sample applications"                             ON  )
+option( EXIV2_BUILD_PO             "Build translations files"                              OFF )
+option( EXIV2_BUILD_EXIV2_COMMAND  "Build exiv2 command-line executable"                   ON  )
 
 include(config/findDependencies.cmake)
 include(config/compilerFlags.cmake)
@@ -62,7 +55,12 @@ if( EXIV2_ENABLE_COMMERCIAL )
 endif()
 
 if( MSVC )
-    set(CMAKE_DEBUG_POSTFIX "d")
+    if ( EXIV2_ENABLE_WIN_UNICODE )
+        set(CMAKE_DEBUG_POSTFIX "du")
+        set(CMAKE_RELEASE_POSTFIX "u")
+    else()
+        set(CMAKE_DEBUG_POSTFIX "d")
+    endif()
 endif()
 
 if( EXIV2_ENABLE_XMP )
@@ -106,3 +104,6 @@ if( MINGW OR UNIX OR APPLE)
 endif()
 
 include( config/printSummary.cmake )
+
+# That's all Folks!
+##
