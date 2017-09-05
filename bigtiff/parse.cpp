@@ -6,9 +6,9 @@
 #include <iostream>
 
 #include "basicio.hpp"
+#include "iptc.hpp"
 #include "image_int.hpp"
 #include "image.hpp"
-#include "riffvideo.hpp"
 #include "types.hpp"
 
 #define WIDTH 32
@@ -317,46 +317,46 @@ void printIFD(FILE* f, std::ostream& out, Exiv2::PrintStructureOption option, ui
 						size_t   restore = io.tell();
 						uint32_t offset = byteSwap4(&buf,k*size,bSwap);
 						std::cerr << "tag = " << Exiv2::Internal::stringFormat("%#x",tag) << std::endl;
-						Exiv2::RiffVideo(io).printIFDStructure(io,out,option,offset,bSwap,k,depth);   // TODO: blind fix
-						io.seek(restore,BasicIo::beg);
+						//Exiv2::RiffVideo(io).printIFDStructure(io,out,option,offset,bSwap,c,depth);   // TODO: blind fix
+						io.seek(restore, Exiv2::BasicIo::beg);
 					}
-				} else if ( option == kpsRecursive && tag == 0x83bb /* IPTCNAA */ ) {
+				} else if ( option == Exiv2::kpsRecursive && tag == 0x83bb /* IPTCNAA */ ) {
 					size_t   restore = io.tell();  // save
-					io.seek(offset,BasicIo::beg);  // position
-					byte* bytes=new byte[count] ;  // allocate memory
+					io.seek(offset, Exiv2::BasicIo::beg);  // position
+					Exiv2::byte* bytes=new Exiv2::byte[count] ;  // allocate memory
 					io.read(bytes,count)        ;  // read
-					io.seek(restore,BasicIo::beg); // restore
-					IptcData::printStructure(out,bytes,count,depth);
+					io.seek(restore, Exiv2::BasicIo::beg); // restore
+					Exiv2::IptcData::printStructure(out,bytes,count,depth);
 					delete[] bytes;                // free
-				}  else if ( option == kpsRecursive && tag == 0x927c /* MakerNote */ && count > 10) {
+				}  else if ( option == Exiv2::kpsRecursive && tag == 0x927c /* MakerNote */ && count > 10) {
 					size_t   restore = io.tell();  // save
 
 					uint32_t jump= 10           ;
-					byte     bytes[20]          ;
+					Exiv2::byte     bytes[20]          ;
 					const char* chars = (const char*) &bytes[0] ;
-					io.seek(offset,BasicIo::beg);  // position
+					io.seek(offset, Exiv2::BasicIo::beg);  // position
 					io.read(bytes,jump    )     ;  // read
 					bytes[jump]=0               ;
 					if ( ::strcmp("Nikon",chars) == 0 ) {
 						// tag is an embedded tiff
-						byte* bytes=new byte[count-jump] ;  // allocate memory
+						Exiv2::byte* bytes=new Exiv2::byte[count-jump] ;  // allocate memory
 						io.read(bytes,count-jump)        ;  // read
-						MemIo memIo(bytes,count-jump)    ;  // create a file
+						Exiv2::MemIo memIo(bytes,count-jump)    ;  // create a file
 						std::cerr << "Nikon makernote" << std::endl;
-						printTiffStructure(memIo,out,option,depth);
+						// printTiffStructure(memIo,out,option,depth);  TODO: fix it
 						delete[] bytes                   ;  // free
 					} else {
 						// tag is an IFD
-						io.seek(0,BasicIo::beg);  // position
+						io.seek(0, Exiv2::BasicIo::beg);  // position
 						std::cerr << "makernote" << std::endl;
-						printIFDStructure(io,out,option,offset,bSwap,c,depth);
+						//printIFDStructure(io,out,option,offset,bSwap,c,depth);  // TODO: fix me
 					}
 
-					io.seek(restore,BasicIo::beg); // restore
+					io.seek(restore,Exiv2::BasicIo::beg); // restore
 				}
 			}
 		}
-		io.read(dir.pData_, 4);
+		//io.read(&dir.pData_, 4);   TODO: fix me
 		start = tooBig ? 0 : byteSwap4(&dir,0,bSwap);
 		out.flush();
 	} while (start) ;
