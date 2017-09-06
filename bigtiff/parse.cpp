@@ -407,6 +407,7 @@ int main(int argc,const char* argv[])
 		std::cout << "Congrats swap = " << (bSwap?"true":"false") << " offset = " << offset << std::endl;
 		int depth = 0 ;
                 Exiv2::FileIo file(argv[1]);
+                file.open("rb");
 		printIFD(file, std::cout, Exiv2::kpsRecursive, offset, bSwap, depth);
 	}
 
