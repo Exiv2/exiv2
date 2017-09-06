@@ -391,7 +391,7 @@ void printIFD(Exiv2::BasicIo& io, std::ostream& out, Exiv2::PrintStructureOption
 int main(int argc,const char* argv[])
 {
 	int      result = 0;
-	bool      bSwap  = false;
+	bool     bSwap  = false;
 	uint32_t offset = 0;
 
 	if ( argc > 0 ) {
