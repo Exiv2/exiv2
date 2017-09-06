@@ -13,6 +13,9 @@
 
 #define WIDTH 32
 
+// helpful links:
+// http://www.awaresystems.be/imaging/tiff/bigtiff.html
+
 enum TypeId {
 	unsignedByte       =  1, //!< Exif BYTE type, 8-bit unsigned integer.
 	asciiString        =  2, //!< Exif ASCII type, 8-bit byte.
