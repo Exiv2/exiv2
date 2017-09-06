@@ -386,7 +386,7 @@ int main(int argc,const char* argv[])
 			    ;
 			uint16_t magic  = byteSwap2(buff,2,bSwap);
 			         offset = byteSwap4(buff,4,bSwap);
-			if ( buff[0] != buff[1] || (buff[0] != 'I' && buff[0] != 'M') || magic != 42 ) {
+			if ( buff[0] != buff[1] || (buff[0] != 'I' && buff[0] != 'M') || magic != 43 ) {
 				std::cerr << "bSwap = "  << bSwap  << std::endl;
 				std::cerr << "magic  = " << magic  << std::endl;
 				std::cerr << "offset = " << offset << std::endl;
