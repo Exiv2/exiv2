@@ -216,11 +216,8 @@ typedef struct {
 	uint32_t offset;
 } field_t;
 
-void printIFD(FILE* f, std::ostream& out, Exiv2::PrintStructureOption option, uint32_t offset,bool bSwap,int depth)
+void printIFD(Exiv2::BasicIo& io, std::ostream& out, Exiv2::PrintStructureOption option, uint32_t offset, bool bSwap, int depth)
 {
-        std::string path;          // TODO: just a compilation fix. It should probably come instead of FILE* f.
-        Exiv2::FileIo io(path);    // TODO: should come as argument?
-
 	depth++;
 	bool bFirst  = true;
 
@@ -231,15 +228,17 @@ void printIFD(FILE* f, std::ostream& out, Exiv2::PrintStructureOption option, ui
 
 	do {
 		// Read top of directory
-		fseek(f,offset,SEEK_SET);
+                io.seek(offset, Exiv2::BasicIo::beg);
+
 		uint16_t dir;
-		fread(&dir,1,2,f);
+                io.read(reinterpret_cast<Exiv2::byte *>(&dir), 2);
+
 		uint16_t dirLength = byteSwap2(&dir,0,bSwap);
 
 		bool tooBig = dirLength > 500;
 
 		if ( bFirst && bPrint ) {
-			out << indent(depth) << Exiv2::Internal::stringFormat("STRUCTURE OF TIFF FILE") << path << std::endl;
+			out << indent(depth) << Exiv2::Internal::stringFormat("STRUCTURE OF TIFF FILE") << io.path() << std::endl;
 			if ( tooBig ) out << indent(depth) << "dirLength = " << dirLength << std::endl;
 		}
 		if  (tooBig) break;
@@ -254,7 +253,7 @@ void printIFD(FILE* f, std::ostream& out, Exiv2::PrintStructureOption option, ui
 			bFirst = false;
 			field_t  field;
 
-			fread(&field,sizeof(field_t),1,f);
+                        io.read(reinterpret_cast<Exiv2::byte*>(&field), sizeof(field));
 			uint16_t tag    = byteSwap2(&field.tagID  ,0,bSwap);
 			uint16_t type   = byteSwap2(&field.tagType,2,bSwap);
 			uint32_t count  = byteSwap4(&field.count  ,4,bSwap);
@@ -407,9 +406,8 @@ int main(int argc,const char* argv[])
 	if ( result == 0 ) {
 		std::cout << "Congrats swap = " << (bSwap?"true":"false") << " offset = " << offset << std::endl;
 		int depth = 0 ;
-		FILE* f = fopen(argv[1],"rb");
-		printIFD(f,std::cout, Exiv2::kpsRecursive, offset,bSwap,depth);
-		fclose(f);
+                Exiv2::FileIo file(argv[1]);
+		printIFD(file, std::cout, Exiv2::kpsRecursive, offset, bSwap, depth);
 	}
 
 	return result;
