@@ -15,6 +15,7 @@
 
 // helpful links:
 // http://www.awaresystems.be/imaging/tiff/bigtiff.html
+// https://stackoverflow.com/questions/105252/how-do-i-convert-between-big-endian-and-little-endian-values-in-c
 
 enum TypeId {
 	unsignedByte       =  1, //!< Exif BYTE type, 8-bit unsigned integer.
@@ -91,7 +92,7 @@ bool is8ByteType(uint16_t type)
 		;
 }
 
-bool isBigEndianPlatform()
+constexpr bool isBigEndianPlatform()
 {
 	union {
 		uint32_t i;
@@ -101,47 +102,65 @@ bool isBigEndianPlatform()
 	return e.c[0]?true:false;
 }
 
-bool isLittleEndianPlatform() { return !isBigEndianPlatform(); }
+constexpr bool isLittleEndianPlatform() { return !isBigEndianPlatform(); }
 
-uint32_t byteSwap(uint32_t value,bool bSwap)
+template<int>
+struct TypeForSize {};
+
+template<>
+struct TypeForSize<16>
 {
-	uint32_t result = 0;
-	result |= (value & 0x000000FF) << 24;
-	result |= (value & 0x0000FF00) << 8;
-	result |= (value & 0x00FF0000) >> 8;
-	result |= (value & 0xFF000000) >> 24;
-	return bSwap ? result : value;
+    typedef int16_t Type;
+};
+
+template<>
+struct TypeForSize<32>
+{
+    typedef int32_t Type;
+};
+
+template<>
+struct TypeForSize<64>
+{
+    typedef int64_t Type;
+};
+
+template<int size>
+typename TypeForSize<size>::Type byte_swap(const typename TypeForSize<size>::Type& v)
+{
+    static_assert(size == 16 || size == 32 || size == 64);
+
+    typename TypeForSize<size>::Type result = 0;
+    if (size == 16)
+        result = __builtin_bswap16(v);
+    else if (size == 32)
+        result = __builtin_bswap32(v);
+    else if (size == 64)
+        result = __builtin_bswap64(v);
+
+    return result;
 }
 
-uint16_t byteSwap(uint16_t value,bool bSwap)
+template<int size>
+typename TypeForSize<size>::Type conditional_byte_swap(const typename TypeForSize<size>::Type& v, bool swap)
 {
-	uint16_t result = 0;
-	result |= (value & 0x00FF) << 8;
-	result |= (value & 0xFF00) >> 8;
-	return bSwap ? result : value;
+    const typename TypeForSize<size>::Type result = swap? byte_swap<size>(v): v;
+
+    return result;
 }
 
-uint16_t byteSwap2(void* buf,size_t offset,bool bSwap)
+
+template<int size>
+typename TypeForSize<size>::Type conditional_byte_swap_4_array(void* buf, int offset, bool swap)
 {
-	uint16_t v;
-	char*    p = (char*) &v;
-	char*    b = (char*) buf;
-	p[0]       = b[offset];
-	p[1]       = b[offset+1];
-	return byteSwap(v,bSwap);
+    typedef typename TypeForSize<size>::Type Type;
+
+    const uint8_t* bytes_buf = static_cast<uint8_t*>(buf);
+    const Type* value = reinterpret_cast<const Type *>(&bytes_buf[offset]);
+
+    return conditional_byte_swap<size>(*value, swap);
 }
 
-uint32_t byteSwap4(void* buf,size_t offset,bool bSwap)
-{
-	uint32_t v;
-	char*    p = (char*) &v;
-	char*    b = (char*) buf;
-	p[0]       = b[offset];
-	p[1]       = b[offset+1];
-	p[2]       = b[offset+2];
-	p[3]       = b[offset+3];
-	return byteSwap(v,bSwap);
-}
 
 std::string indent(int32_t d)
 {
@@ -233,7 +252,7 @@ void printIFD(Exiv2::BasicIo& io, std::ostream& out, Exiv2::PrintStructureOption
 		uint16_t dir;
                 io.read(reinterpret_cast<Exiv2::byte *>(&dir), 2);
 
-		uint16_t dirLength = byteSwap2(&dir,0,bSwap);
+		uint16_t dirLength = conditional_byte_swap_4_array<16>(&dir, 0, bSwap);
 
 		bool tooBig = dirLength > 500;
 
@@ -254,10 +273,10 @@ void printIFD(Exiv2::BasicIo& io, std::ostream& out, Exiv2::PrintStructureOption
 			field_t  field;
 
                         io.read(reinterpret_cast<Exiv2::byte*>(&field), sizeof(field));
-			uint16_t tag    = byteSwap2(&field.tagID  ,0,bSwap);
-			uint16_t type   = byteSwap2(&field.tagType,2,bSwap);
-			uint32_t count  = byteSwap4(&field.count  ,4,bSwap);
-			uint32_t offset = byteSwap4(&field.offset ,8,bSwap);
+			uint16_t tag    = conditional_byte_swap_4_array<16>(&field.tagID,   0, bSwap);
+			uint16_t type   = conditional_byte_swap_4_array<16>(&field.tagType, 2, bSwap);
+			uint32_t count  = conditional_byte_swap_4_array<32>(&field.count,   4, bSwap);
+			uint32_t offset = conditional_byte_swap_4_array<32>(&field.offset,  8, bSwap);
 
 			std::string sp  = "" ; // output spacer
 
@@ -291,19 +310,19 @@ void printIFD(Exiv2::BasicIo& io, std::ostream& out, Exiv2::PrintStructureOption
 							,address,tag,tagName(tag,25),typeName(type),count,offset);
 				if ( isShortType(type) ){
 					for ( size_t k = 0 ; k < kount ; k++ ) {
-						out << sp << byteSwap2(&buf,k*size,bSwap);
+						out << sp << conditional_byte_swap_4_array<16>(&buf, k*size, bSwap);
 						sp = " ";
 					}
 				} else if ( isLongType(type) ){
 					for ( size_t k = 0 ; k < kount ; k++ ) {
-						out << sp << byteSwap4(&buf,k*size,bSwap);
+						out << sp << conditional_byte_swap_4_array<32>(&buf, k*size, bSwap);
 						sp = " ";
 					}
 
 				} else if ( isRationalType(type) ){
 					for ( size_t k = 0 ; k < kount ; k++ ) {
-						uint32_t a = byteSwap4(&buf,k*size+0,bSwap);
-						uint32_t b = byteSwap4(&buf,k*size+4,bSwap);
+						uint32_t a = conditional_byte_swap_4_array<32>(&buf, k*size+0, bSwap);
+						uint32_t b = conditional_byte_swap_4_array<32>(&buf, k*size+4, bSwap);
 						out << sp << a << "/" << b;
 						sp = " ";
 					}
@@ -317,7 +336,7 @@ void printIFD(Exiv2::BasicIo& io, std::ostream& out, Exiv2::PrintStructureOption
 				if ( option == Exiv2::kpsRecursive && (tag == 0x8769 /* ExifTag */ || tag == 0x014a/*SubIFDs*/  || type == tiffIfd) ) {
 					for ( size_t k = 0 ; k < count ; k++ ) {
 						size_t   restore = io.tell();
-						uint32_t offset = byteSwap4(&buf,k*size,bSwap);
+						uint32_t offset = conditional_byte_swap_4_array<32>(&buf, k*size, bSwap);
 						std::cerr << "tag = " << Exiv2::Internal::stringFormat("%#x",tag) << std::endl;
 						//Exiv2::RiffVideo(io).printIFDStructure(io,out,option,offset,bSwap,c,depth);   // TODO: blind fix
 						io.seek(restore, Exiv2::BasicIo::beg);
@@ -359,7 +378,7 @@ void printIFD(Exiv2::BasicIo& io, std::ostream& out, Exiv2::PrintStructureOption
 			}
 		}
 		//io.read(&dir.pData_, 4);   TODO: fix me
-		start = tooBig ? 0 : byteSwap4(&dir,0,bSwap);
+		start = tooBig ? 0 : conditional_byte_swap_4_array<32>(&dir, 0, bSwap);
 		out.flush();
 	} while (start) ;
 
@@ -372,7 +391,7 @@ void printIFD(Exiv2::BasicIo& io, std::ostream& out, Exiv2::PrintStructureOption
 int main(int argc,const char* argv[])
 {
 	int      result = 0;
-	int      bSwap  = false;
+	bool      bSwap  = false;
 	uint32_t offset = 0;
 
 	if ( argc > 0 ) {
@@ -380,16 +399,29 @@ int main(int argc,const char* argv[])
 		if ( f ) {
 			char buff[2*WIDTH];
 			fread(buff,1,sizeof buff,f);
+
 			bSwap =  (isLittleEndianPlatform() && buff[0] == 'M')
 			    ||   (isBigEndianPlatform()    && buff[0] == 'I')
 			    ;
-			uint16_t magic  = byteSwap2(buff,2,bSwap);
-			         offset = byteSwap4(buff,4,bSwap);
-			if ( buff[0] != buff[1] || (buff[0] != 'I' && buff[0] != 'M') || magic != 43 ) {
-				std::cerr << "bSwap = "  << bSwap  << std::endl;
-				std::cerr << "magic  = " << magic  << std::endl;
-				std::cerr << "offset = " << offset << std::endl;
-				std::cerr << argv[1] << " is not a TIFF file" << std::endl;
+
+			uint16_t magic    = conditional_byte_swap_4_array<16>(buff, 2, bSwap);
+                        uint16_t byteSize = conditional_byte_swap_4_array<16>(buff, 4, bSwap);
+                        uint16_t zeroByte = conditional_byte_swap_4_array<16>(buff, 6, bSwap);
+			         offset   = conditional_byte_swap_4_array<64>(buff, 8, bSwap);
+
+			if ( buff[0] != buff[1]                ||
+                            (buff[0] != 'I' && buff[0] != 'M') ||
+                             magic != 43                       ||
+                             byteSize != 8                     ||
+                             zeroByte != 0
+                           )
+                        {
+				std::cerr << "bSwap     = " << bSwap    << std::endl;
+				std::cerr << "magic     = " << magic    << std::endl;
+                                std::cerr << "byteSize  = " << byteSize << std::endl;
+                                std::cerr << "zeroByte  = " << zeroByte << std::endl;
+				std::cerr << "offset    = " << offset   << std::endl;
+				std::cerr << argv[1] << " is not a BigTIFF file" << std::endl;
 				result = 3 ;
 			}
 			fclose(f);
