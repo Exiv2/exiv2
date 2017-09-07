@@ -241,8 +241,6 @@ void printIFD(Exiv2::BasicIo& io, std::ostream& out, Exiv2::PrintStructureOption
 	// buffer
 	bool bPrint = true;
 
-        int start = 0;         // TODO: just a buld fix
-
 	do {
 		// Read top of directory
                 io.seek(offset, Exiv2::BasicIo::beg);
@@ -306,7 +304,7 @@ void printIFD(Exiv2::BasicIo& io, std::ostream& out, Exiv2::PrintStructureOption
 			}
 
 			if ( bPrint ) {
-				uint32_t address = start + 2 + i*12 ;
+				uint32_t address = offset + 2 + i*12 ;
 				out << indent(depth)
 						<< Exiv2::Internal::stringFormat("%8u | %#06x %-25s |%10s |%9u |%10u | "
 							,address,tag,tagName(tag,25),typeName(type),count,offset);
@@ -381,9 +379,9 @@ void printIFD(Exiv2::BasicIo& io, std::ostream& out, Exiv2::PrintStructureOption
 		}
 		uint64_t next_dir_offset_raw;
 		io.read(reinterpret_cast<Exiv2::byte*>(&next_dir_offset_raw), 8);
-		start = tooBig ? 0 : conditional_byte_swap_4_array<64>(&next_dir_offset_raw, 0, bSwap);
+		offset = tooBig ? 0 : conditional_byte_swap_4_array<64>(&next_dir_offset_raw, 0, bSwap);
 		out.flush();
-	} while (start) ;
+	} while (offset) ;
 
 	if ( bPrint ) {
 		out << indent(depth) << "END " << io.path() << std::endl;
