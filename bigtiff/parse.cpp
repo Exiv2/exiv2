@@ -48,49 +48,46 @@ enum TypeId {
 
 bool isStringType(uint16_t type)
 {
-	return type == asciiString
-		|| type == unsignedByte
-		|| type == signedByte
-		|| type == undefined
-		;
+    return type == asciiString
+        || type == unsignedByte
+        || type == signedByte
+        || type == undefined;
 }
 
-bool isShortType(uint16_t type) {
-	 return type == unsignedShort
-		 || type == signedShort
-		 ;
+bool isShortType(uint16_t type)
+{
+    return type == unsignedShort
+        || type == signedShort;
 }
 
-bool isLongType(uint16_t type) {
-	 return type == unsignedLong
-		 || type == signedLong
-		 ;
+bool isLongType(uint16_t type)
+{
+    return type == unsignedLong
+        || type == signedLong;
 }
 
-bool isRationalType(uint16_t type) {
-	 return type == unsignedRational
-		 || type == signedRational
-		 ;
+bool isRationalType(uint16_t type)
+{
+    return type == unsignedRational
+        || type == signedRational;
 }
 
 bool is2ByteType(uint16_t type)
 {
-	return isShortType(type);
+    return isShortType(type);
 }
 
 bool is4ByteType(uint16_t type)
 {
-	return isLongType(type)
-		|| type == tiffFloat
-		|| type == tiffIfd
-		;
+    return isLongType(type)
+        || type == tiffFloat
+        || type == tiffIfd;
 }
 
 bool is8ByteType(uint16_t type)
 {
-	return isRationalType(type)
-		 || type == tiffDouble
-		;
+    return isRationalType(type)
+        || type == tiffDouble;
 }
 
 constexpr bool isBigEndianPlatform()
@@ -231,9 +228,9 @@ static const char* typeName(uint16_t tag)
 
 typedef struct {
 	uint16_t tagID;
-	uint16_t tagType ;
-	uint32_t count;
-	uint32_t offset;
+	uint16_t tagType;
+	uint64_t count;
+	uint64_t offset;
 } field_t;
 
 void printIFD(Exiv2::BasicIo& io, std::ostream& out, Exiv2::PrintStructureOption option, uint32_t offset, bool bSwap, int depth)
@@ -250,49 +247,53 @@ void printIFD(Exiv2::BasicIo& io, std::ostream& out, Exiv2::PrintStructureOption
 		// Read top of directory
                 io.seek(offset, Exiv2::BasicIo::beg);
 
-		uint16_t dir;
-                io.read(reinterpret_cast<Exiv2::byte *>(&dir), 2);
+		uint64_t entries_raw;
+                io.read(reinterpret_cast<Exiv2::byte *>(&entries_raw), 8);
 
-		uint16_t dirLength = conditional_byte_swap_4_array<16>(&dir, 0, bSwap);
+		const uint16_t entries = conditional_byte_swap_4_array<64>(&entries_raw, 0, bSwap);
 
-		bool tooBig = dirLength > 500;
+		const bool tooBig = entries > 500;
 
-		if ( bFirst && bPrint ) {
+		if ( bFirst && bPrint )
+                {
 			out << indent(depth) << Exiv2::Internal::stringFormat("STRUCTURE OF TIFF FILE") << io.path() << std::endl;
-			if ( tooBig ) out << indent(depth) << "dirLength = " << dirLength << std::endl;
+			if (tooBig)
+                            out << indent(depth) << "entries = " << entries << std::endl;
 		}
-		if  (tooBig) break;
+
+		if (tooBig)
+                    break;
 
 		// Read the dictionary
-		for ( int i = 0 ; i < dirLength ; i ++ ) {
-			if ( bFirst && bPrint ) {
-				out << indent(depth)
-					<< " address |    tag                           |     "
-					<< " type |    count |    offset | value\n";
-			}
+		for ( int i = 0; i < entries; i ++ )
+                {
+			if ( bFirst && bPrint )
+                            out << indent(depth)
+                                << " address |    tag                           |     "
+                                << " type |    count |    offset | value\n";
+
 			bFirst = false;
 			field_t  field;
 
                         io.read(reinterpret_cast<Exiv2::byte*>(&field), sizeof(field));
-			uint16_t tag    = conditional_byte_swap_4_array<16>(&field.tagID,   0, bSwap);
-			uint16_t type   = conditional_byte_swap_4_array<16>(&field.tagType, 2, bSwap);
-			uint32_t count  = conditional_byte_swap_4_array<32>(&field.count,   4, bSwap);
-			uint32_t offset = conditional_byte_swap_4_array<32>(&field.offset,  8, bSwap);
+			const uint16_t tag    = conditional_byte_swap_4_array<16>(&field.tagID,   0,  bSwap);
+			const uint16_t type   = conditional_byte_swap_4_array<16>(&field.tagType, 2,  bSwap);
+			const uint32_t count  = conditional_byte_swap_4_array<64>(&field.count,   4,  bSwap);
+			const uint32_t offset = conditional_byte_swap_4_array<64>(&field.offset,  12, bSwap);
 
-			std::string sp  = "" ; // output spacer
+			std::string sp = "" ; // output spacer
 
 			//prepare to print the value
-			uint32_t kount  = isStringType(type)     ? (count > 32 ? 32 : count) // restrict long arrays
+			const uint32_t kount  = isStringType(type)? (count > 32 ? 32 : count) // restrict long arrays
 							: count > 5              ? 5
 							: count
 							;
-			uint32_t pad    = isStringType(type) ? 1 : 0;
-			uint32_t size   = isStringType(type) ? 1
-							: is2ByteType(type)  ? 2
-							: is4ByteType(type)  ? 4
-							: is8ByteType(type)  ? 8
-							: 1
-							;
+			const uint32_t pad    = isStringType(type) ? 1 : 0;
+			const uint32_t size   = isStringType(type) ? 1
+                                                    : is2ByteType(type)  ? 2
+                                                    : is4ByteType(type)  ? 4
+                                                    : is8ByteType(type)  ? 8
+                                                    : 1;
 
 			Exiv2::DataBuf  buf(size*count + pad);  // allocate a buffer
                         Exiv2::DataBuf  dir(size*count + pad);  // TODO: fix me, I'm object out of nowhere
@@ -378,8 +379,9 @@ void printIFD(Exiv2::BasicIo& io, std::ostream& out, Exiv2::PrintStructureOption
 				}
 			}
 		}
-		//io.read(&dir.pData_, 4);   TODO: fix me
-		start = tooBig ? 0 : conditional_byte_swap_4_array<32>(&dir, 0, bSwap);
+		uint64_t next_dir_offset_raw;
+		io.read(reinterpret_cast<Exiv2::byte*>(&next_dir_offset_raw), 8);
+		start = tooBig ? 0 : conditional_byte_swap_4_array<64>(&next_dir_offset_raw, 0, bSwap);
 		out.flush();
 	} while (start) ;
 
