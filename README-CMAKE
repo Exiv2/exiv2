@@ -179,5 +179,26 @@ We have two contributed CMake Build Environments:
 
   It is possible to use CMake/MinGW if you put in some effort.  This is documented in TODO-CMAKE.
 
+5 Using conan from bringing project dependencies
+=========================================
+
+Conan is a portable package manager for c++ (https://www.conan.io/). We added the option to use it
+in Exiv2 so you can get all the Exiv2 dependencies (Expat, Zlib, Libcurl, Libssh) in a very easy
+way. Basically, all you need to do is to have conan installed on your system and run the command
+`conan install` before calling CMake:
+
+    $ mkdir build && cd build
+    $ conan install ..
+    $ cmake .. or cmake-gui ..
+
+Conan will search for the dependencies in different repositories. At the moment of writing this
+text, the conan-expat is not available in the official conan repositories, so you have to add the
+following remote to your conan configuration:
+
+    $ conan remote add conan-pix4d https://api.bintray.com/conan/pix4d/conan
+
+To learn more about Conan, please visit their documentation page: http://docs.conan.io/en/latest/
+
+
 # That's all Folks
 ##

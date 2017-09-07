@@ -160,6 +160,10 @@ if( EXIV2_ENABLE_PNG )
     set( LIBEXIV2_HDR ${LIBEXIV2_HDR} ../include/exiv2/pngimage.hpp )
 endif()
 
+source_group("Header Files" FILES ${LIBEXIV2_HDR} )
+source_group("Header Files" FILES ${LIBCURL_HDR} )
+source_group("Header Files" FILES ${SSH_HDR} )
+
 include_directories(${CMAKE_CURRENT_BINARY_DIR})
 
 # ******************************************************************************
@@ -191,6 +195,9 @@ endif()
 
 if ( EXIV2_ENABLE_XMP )
     target_include_directories(exiv2lib PRIVATE ${CMAKE_SOURCE_DIR}/xmpsdk/include)
+    if( EXIV2_ENABLE_LIBXMP )
+        target_link_libraries( exiv2lib PUBLIC xmp )
+    endif()
 endif()
 
 # TODO : We should not include include/exiv2 but only include !!!
@@ -199,37 +206,49 @@ target_include_directories(exiv2lib PUBLIC
     $<BUILD_INTERFACE:${CMAKE_SOURCE_DIR}/include>
 )
 
-if (EXIV2_ENABLE_WEBREADY AND EXIV2_ENABLE_CURL)
-    target_include_directories(exiv2lib SYSTEM PUBLIC ${CURL_INCLUDE_DIR} )
-endif()
+if (EXIV2_ENABLE_WEBREADY)
 
-if (EXIV2_ENABLE_WEBREADY AND EXIV2_ENABLE_SSH)
-    target_include_directories(exiv2lib SYSTEM PUBLIC ${SSH_INCLUDE_DIR} )
+    if( EXIV2_ENABLE_SSH )
+        target_include_directories(exiv2lib SYSTEM PUBLIC ${SSH_INCLUDE_DIR} )
+        target_link_libraries( exiv2lib PUBLIC ${SSH_LIBRARIES})
+    endif()
+
+    if( EXIV2_ENABLE_CURL )
+        target_include_directories(exiv2lib SYSTEM PUBLIC ${CURL_INCLUDE_DIR} )
+
+        if (USING_CONAN)
+            # TODO : Improve libcurl recipe so we do not need to have all these conditionals here
+            if ( MSVC )
+                target_link_libraries( exiv2lib PUBLIC ${CURL_LIBRARY})
+            else()
+                target_link_libraries( exiv2lib PUBLIC ${CONAN_LIBS_LIBCURL})
+            endif()
+            target_compile_definitions(exiv2lib PUBLIC ${CONAN_COMPILE_DEFINITIONS_LIBCURL})
+        else()
+            target_link_libraries( exiv2lib PUBLIC ${CURL_LIBRARIES})
+        endif()
+
+    endif()
+
 endif()
 
 if ( MSVC )
-    target_compile_definitions(exiv2lib PRIVATE PSAPI_VERSION=1) # to be compatible with <= WinVista (#905)
+    target_compile_definitions(exiv2lib 
+        PRIVATE 
+            PSAPI_VERSION=1 # to be compatible with <= WinVista (#905)
+    ) 
 
-    if ( EXIV2_ENABLE_STATIC )
-        target_link_libraries( exiv2lib zlibstatic ${ZLIB_LIBRARIES} )
-    else()
-        target_link_libraries( exiv2lib PRIVATE ${ZLIB_LIBRARIES} )
-    endif()
-    source_group("Header Files" FILES ${LIBEXIV2_HDR} )
-    source_group("Header Files" FILES ${LIBCURL_HDR} )
-    source_group("Header Files" FILES ${SSH_HDR} )
-    target_link_libraries( exiv2lib PRIVATE ${ZLIB_LIBRARIES} ${CURL_LIBRARIES} ${SSH_LIBRARIES})
 else()
     # TODO: Check if this is really needed.
     if ( UNIX AND NOT FREEBSD )
         target_link_libraries( exiv2lib PRIVATE dl)
     endif()
-    target_link_libraries( exiv2lib PRIVATE Threads::Threads)
-    target_link_libraries( exiv2lib PUBLIC ${CURL_LIBRARIES} ${SSH_LIBRARIES})
-endif()
 
-if( EXIV2_ENABLE_XMP AND EXIV2_ENABLE_LIBXMP )
-    target_link_libraries( exiv2lib PUBLIC xmp )
+    if (CYGWIN OR MINGW)
+        target_link_libraries( exiv2lib PRIVATE  psapi ws2_32 )
+    endif()
+
+    target_link_libraries( exiv2lib PRIVATE Threads::Threads)
 endif()
 
 if( EXIV2_ENABLE_PNG )
@@ -245,9 +264,6 @@ if( ICONV_FOUND )
     target_link_libraries( exiv2lib PRIVATE  ${ICONV_LIBRARIES} )
 endif()
 
-if (CYGWIN OR MINGW)
-    target_link_libraries( exiv2lib PRIVATE  psapi ws2_32 )
-endif()
 
 install(TARGETS exiv2lib
     RUNTIME DESTINATION ${CMAKE_INSTALL_BINDIR}
