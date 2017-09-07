@@ -15,6 +15,7 @@
 
 // helpful links:
 // http://www.awaresystems.be/imaging/tiff/bigtiff.html
+// http://bigtiff.org/
 // https://stackoverflow.com/questions/105252/how-do-i-convert-between-big-endian-and-little-endian-values-in-c
 
 enum TypeId {
