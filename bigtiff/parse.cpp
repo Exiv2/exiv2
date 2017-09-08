@@ -299,8 +299,8 @@ void printIFD(Exiv2::BasicIo& io, std::ostream& out, Exiv2::PrintStructureOption
                                                     : 1;
 
 			Exiv2::DataBuf  buf(size*count + pad);  // allocate a buffer
-                        Exiv2::DataBuf  dir(size*count + pad);  // TODO: fix me, I'm object out of nowhere
-			std::memcpy(buf.pData_,dir.pData_+8,4);  // copy dir[8:11] into buffer (short strings)
+
+			std::memcpy(buf.pData_, &offset, 8);  // copy data into buffer (short strings)
 			if ( count*size > 4 ) {            // read into buffer
 				size_t   restore = io.tell();  // save
 				io.seek(offset, Exiv2::BasicIo::beg);  // position
