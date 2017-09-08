@@ -234,7 +234,7 @@ typedef struct {
 	uint16_t tagID;
 	uint16_t tagType;
 	uint64_t count;
-	uint64_t offset;
+	uint64_t data;
 } field_t;
 
 void printIFD(Exiv2::BasicIo& io, std::ostream& out, Exiv2::PrintStructureOption option, uint32_t offset, bool bSwap, int depth)
@@ -281,7 +281,7 @@ void printIFD(Exiv2::BasicIo& io, std::ostream& out, Exiv2::PrintStructureOption
 			const uint16_t tag    = conditional_byte_swap_4_array<16>(&field.tagID,   0,  bSwap);
 			const uint16_t type   = conditional_byte_swap_4_array<16>(&field.tagType, 2,  bSwap);
 			const uint64_t count  = conditional_byte_swap_4_array<64>(&field.count,   4,  bSwap);
-			const uint64_t offset = conditional_byte_swap_4_array<64>(&field.offset,  12, bSwap);
+			const uint64_t data   = conditional_byte_swap_4_array<64>(&field.data,    12, bSwap);
 
 			std::string sp = "" ; // output spacer
 
@@ -300,7 +300,7 @@ void printIFD(Exiv2::BasicIo& io, std::ostream& out, Exiv2::PrintStructureOption
 
 			Exiv2::DataBuf  buf(size*count + pad);  // allocate a buffer
 
-			std::memcpy(buf.pData_, &offset, 8);  // copy data into buffer (short strings)
+			std::memcpy(buf.pData_, &data, 8);      // copy data into buffer (short strings)
 			if ( count*size > 4 ) {            // read into buffer
 				size_t   restore = io.tell();  // save
 				io.seek(offset, Exiv2::BasicIo::beg);  // position
