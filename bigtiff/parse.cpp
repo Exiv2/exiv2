@@ -301,10 +301,10 @@ void printIFD(Exiv2::BasicIo& io, std::ostream& out, Exiv2::PrintStructureOption
 			Exiv2::DataBuf  buf(size*count + pad);  // allocate a buffer
 
 			std::memcpy(buf.pData_, &data, 8);      // copy data into buffer (short strings)
-			if ( count*size > 4 ) {            // read into buffer
-				size_t   restore = io.tell();  // save
+			if ( count*size > 4 ) {                 // read into buffer
+				size_t   restore = io.tell();          // save
 				io.seek(offset, Exiv2::BasicIo::beg);  // position
-				io.read(buf.pData_,count*size);// read
+				io.read(buf.pData_,count*size);        // read
 				io.seek(restore, Exiv2::BasicIo::beg); // restore
 			}
 
