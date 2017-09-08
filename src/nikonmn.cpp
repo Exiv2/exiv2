@@ -1824,7 +1824,7 @@ namespace Exiv2 {
 // Nikkor lenses by their LensID
 //------------------------------------------------------------------------------
 //
-static const struct {unsigned char lid,stps,focs,focl,aps,apl,lfw, ltype, tcinfo, dblid, mid; const char *manuf, *lnumber, *lensname;}
+static const struct FMntLens {unsigned char lid,stps,focs,focl,aps,apl,lfw, ltype, tcinfo, dblid, mid; const char *manuf, *lnumber, *lensname;}
 fmountlens[] = {
 {0x01,0x58,0x50,0x50,0x14,0x14,0x02,0x00,0x00,0x00,0x00, "Nikon", "JAA00901", "AF Nikkor 50mm f/1.8"},
 {0x01,0x58,0x50,0x50,0x14,0x14,0x05,0x00,0x00,0x00,0x00, "Nikon", "JAA00901", "AF Nikkor 50mm f/1.8"},
@@ -2488,7 +2488,37 @@ fmountlens[] = {
 #endif
 // 8< - - - 8< do not remove this line >8 - - - >8
 
-        if (metadata == 0) return os << value;
+	/* if no meta obj is provided, try to use the value param that *may*
+	 * be the pre-parsed lensid
+	 */
+        if (metadata == 0)
+        {
+            const unsigned char  vid = (unsigned)value.toLong(0);
+
+	    /* the 'FMntLens' name is added to the annonymous struct for
+	     * fmountlens[]
+	     *
+	     * remember to name the struct when importing/updating the lens info
+	     * from:
+	     *
+	     * www.rottmerhusen.com/objektives/lensid/files/c-header/fmountlens4.h
+	     */
+            const struct FMntLens*  pf = fmountlens;
+            while (pf->lid && pf->lensname) {
+                if (pf->lid == vid) {
+                    break;
+                }
+                ++pf;
+            }
+
+            if (pf->lensname == NULL) {
+                return os << value;
+            }
+            else {
+                return os << pf->manuf << " " << pf->lensname;
+            }
+        }
+
 
         byte raw[] = { 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0 };
 
