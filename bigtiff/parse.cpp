@@ -301,7 +301,7 @@ void printIFD(Exiv2::BasicIo& io, std::ostream& out, Exiv2::PrintStructureOption
 			Exiv2::DataBuf  buf(size*count + pad);  // allocate a buffer
 
 			std::memcpy(buf.pData_, &data, 8);      // copy data into buffer (short strings)
-			if ( count*size > 4 ) {                 // read into buffer
+			if ( count*size > 8 ) {                 // read into buffer
 				size_t   restore = io.tell();          // save
 				io.seek(offset, Exiv2::BasicIo::beg);  // position
 				io.read(buf.pData_,count*size);        // read
@@ -343,7 +343,7 @@ void printIFD(Exiv2::BasicIo& io, std::ostream& out, Exiv2::PrintStructureOption
 						size_t   restore = io.tell();
 						uint32_t offset = conditional_byte_swap_4_array<32>(&buf, k*size, bSwap);
 						std::cerr << "tag = " << Exiv2::Internal::stringFormat("%#x",tag) << std::endl;
-						//Exiv2::RiffVideo(io).printIFDStructure(io,out,option,offset,bSwap,c,depth);   // TODO: blind fix
+						printIFD(io, out, option, offset, bSwap, depth);
 						io.seek(restore, Exiv2::BasicIo::beg);
 					}
 				} else if ( option == Exiv2::kpsRecursive && tag == 0x83bb /* IPTCNAA */ ) {
