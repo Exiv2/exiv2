@@ -286,6 +286,7 @@ void printIFD(Exiv2::BasicIo& io, std::ostream& out, Exiv2::PrintStructureOption
 			std::string sp = "" ; // output spacer
 
 			//prepare to print the value
+			// TODO: figure out what's going on with kount
 			const uint32_t kount  = isStringType(type)? (count > 32 ? 32 : count) // restrict long arrays
 							: count > 5              ? 5
 							: count
