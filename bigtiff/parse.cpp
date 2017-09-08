@@ -280,8 +280,8 @@ void printIFD(Exiv2::BasicIo& io, std::ostream& out, Exiv2::PrintStructureOption
                         io.read(reinterpret_cast<Exiv2::byte*>(&field), sizeof(field));
 			const uint16_t tag    = conditional_byte_swap_4_array<16>(&field.tagID,   0,  bSwap);
 			const uint16_t type   = conditional_byte_swap_4_array<16>(&field.tagType, 2,  bSwap);
-			const uint32_t count  = conditional_byte_swap_4_array<64>(&field.count,   4,  bSwap);
-			const uint32_t offset = conditional_byte_swap_4_array<64>(&field.offset,  12, bSwap);
+			const uint64_t count  = conditional_byte_swap_4_array<64>(&field.count,   4,  bSwap);
+			const uint64_t offset = conditional_byte_swap_4_array<64>(&field.offset,  12, bSwap);
 
 			std::string sp = "" ; // output spacer
 
