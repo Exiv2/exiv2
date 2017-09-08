@@ -16,6 +16,7 @@
 // helpful links:
 // http://www.awaresystems.be/imaging/tiff/bigtiff.html
 // http://bigtiff.org/
+// http://bigtiff.org/libtiff-4.1.zip
 // https://stackoverflow.com/questions/105252/how-do-i-convert-between-big-endian-and-little-endian-values-in-c
 
 enum TypeId {
@@ -32,6 +33,9 @@ enum TypeId {
 	tiffFloat          = 11, //!< TIFF FLOAT type, single precision (4-byte) IEEE format.
 	tiffDouble         = 12, //!< TIFF DOUBLE type, double precision (8-byte) IEEE format.
 	tiffIfd            = 13, //!< TIFF IFD type, 32-bit (4-byte) unsigned integer.
+	unsigned64         = 16, //!< 64-bit unsigned value
+        signed64           = 17, //!< 64-bit signed value
+        tiffIfd8           = 18, //!< 64-bit IFD offset
 	iptcString         = 0x10000, //!< IPTC string type.
 	iptcDate           = 0x10001, //!< IPTC date type.
 	iptcTime           = 0x10002, //!< IPTC time type.
