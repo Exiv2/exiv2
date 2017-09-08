@@ -55,12 +55,7 @@ if( EXIV2_ENABLE_COMMERCIAL )
 endif()
 
 if( MSVC )
-    if ( EXIV2_ENABLE_WIN_UNICODE )
-        set(CMAKE_DEBUG_POSTFIX "du")
-        set(CMAKE_RELEASE_POSTFIX "u")
-    else()
-        set(CMAKE_DEBUG_POSTFIX "d")
-    endif()
+    set(CMAKE_DEBUG_POSTFIX "d")
 endif()
 
 if( EXIV2_ENABLE_XMP )

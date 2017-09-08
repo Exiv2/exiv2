@@ -32,16 +32,16 @@ How to use this
   out of this - provided Visual Studio is installed in %ProgramFiles(x86)%
   %ProgramFiles(x86)% is usually c:\Program Files (x86)
 
-  vcvars 2005        # sets 2005 x86
-  vcvars 2010 64     # sets 2010 x86_amd64
+  vcvars 2005 32     # sets 2005 x86
+  vcvars 2010 64     # sets 2010 amd64
 
 2 Always build "out of source".  I recommend:
   cd <exiv2dir>\contrib\cmake\cmake
   cmd.exe
-  vcvars 2015 64
-  cmakeBuild --help           # display syntax and options
-  cmakeBuild --rebuild
-  ....
+    vcvars 2015 64
+    cmakeBuild --help           # display syntax and options
+    cmakeBuild --build
+    ....
   exit
 
   +-------------------------------------------------------+
@@ -67,26 +67,28 @@ How to use this
 
 3 Options
       C:\Users\rmills\gnu\github\clanmills\exiv2\contrib\cmake\msvc>cmakeBuild --help
-      Options: --help   | --webready | --rebuild | --video  | --static | --unicode | --nls
-               --silent | --verbose  | --pause   | --dryrun | --test   | --trace
+      Options: --help   | --silent | --verbose  | --pause   | --dryrun   | --trace | --test
+               --build  | --static | --unicode  | --nls     | --webready | --video | --samples
                --exiv2 C:\Users\rmills\gnu\github\clanmills\exiv2 | --work work | --config Release | --generator generator
                --zlib zlib-1.2.8 | --expat expat-2.1.0 | --curl curl-7.45.0 | --libssh libssh-0.7.2
                --bash c:\cygwin64\bin\bash.exe
 
       Option switches.
       --help      Print help message and quit
-      --webready  Build and Link the webready feature
-      --rebuild   Delete "relics" from a previous build such as CMakeBuild.txt
-      --video     Build and link video support
-      --static    Build and link static libraries and programs
-      --nosamples Do not build sample applications
-      --unicode   Build UNICODE path support
-      --nls       Build with Natural Language Support
       --silent    Run script with minimal "chatter"
       --verbose   Run script with maximum "chatter"
-      --trace     Show commands begin executed by the script
+      --pause     Pause at every build step
       --dryrun    Don't build anything.  Report and quit
+      --trace     Show commands begin executed by the script (implies --build --samples)
       --test      Execute the test suite after the build
+      
+      --build     Build the code
+      --static    Build and link static libraries and programs
+      --unicode   Build UNICODE path support
+      --nls       Build with Natural Language Support
+      --webready  Build and Link the webready feature
+      --video     Build and link video support
+      --samples   Include samples in projects
 
       Option/values (See section 9 below)
       --zlib      zlib-1.2.8
@@ -95,13 +97,13 @@ How to use this
       --libssh    libssh-0.7.2
 
       Other build key/value pairs:
-      --config     Release | Debug
+      --config     Release | Debug (shorthand = --release --debug) 
       --generator  The script default is almost always correct and is passed as -G "Generator" to CMake
       --work       The "work" directory in which the build will be performed (see 4 below)
       --bash       Path to bash.exe to be used when --test is specified.
 
 4 What gets built?
-  The build is performed in  work
+  The build is performed in  work_Config
   The output is generated in dist
                              dist\..mumble..\bin contains *.exe and *.dll files
                              dist\..mumble..\lib contains *.lib files
@@ -109,10 +111,10 @@ How to use this
 
   mumble identifies the compiler and build.
   Example C:\gnu\github\exiv2\contrib\cmake\msvc\dist\2013\x64\dll\Release\bin
-  2013    = Visual Studio      Choices: 2005/2008/2010/2012/2013/2015
-  x64     = 64 bit build                Win32/x64
-  dll     = shared library              dll/static
-  Release = configuration               Release/Debug/RelWithDebInfo/MinSizeRel
+  2013    = Visual Studio      Choices: 2005 | 2008 | 2010 | 2012 | 2013 | 2015 | 2017
+  x64     = 64 bit build                Win32 | x64
+  dll     = shared library              dll | static
+  Release = configuration               Release | Debug | RelWithDebInfo | MinSizeRel
 
 5 Building manually with CMake
   The cmake option -G Generator should be chosen for the version of Visual Studio installed.
@@ -250,4 +252,4 @@ How to use this
 
 Robin Mills
 robin@clanmills.com
-Updated: 2017-09-05
+Updated: 2017-09-08
