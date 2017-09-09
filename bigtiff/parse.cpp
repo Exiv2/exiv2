@@ -303,7 +303,7 @@ void printIFD(Exiv2::BasicIo& io, std::ostream& out, Exiv2::PrintStructureOption
             Exiv2::DataBuf  buf(size*count + pad);  // allocate a buffer
 
             // big data? Use 'data' as pointer to real data
-            if ( count*size > 8 )                   // read into buffer
+            if ( count*size > 8 )                      // read into buffer
             {
                 size_t   restore = io.tell();          // save
                 io.seek(data, Exiv2::BasicIo::beg);    // position
@@ -311,7 +311,7 @@ void printIFD(Exiv2::BasicIo& io, std::ostream& out, Exiv2::PrintStructureOption
                 io.seek(restore, Exiv2::BasicIo::beg); // restore
             }
             else  // use 'data' as data :)
-                std::memcpy(buf.pData_, &data, 8);      // copy data
+                std::memcpy(buf.pData_, &data, 8);     // copy data
 
             if ( bPrint )
             {
