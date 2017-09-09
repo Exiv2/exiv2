@@ -260,7 +260,7 @@ void printIFD(Exiv2::BasicIo& io, std::ostream& out, Exiv2::PrintStructureOption
 
         if ( bFirst && bPrint )
         {
-            out << indent(depth) << Exiv2::Internal::stringFormat("STRUCTURE OF TIFF FILE") << io.path() << std::endl;
+            out << indent(depth) << Exiv2::Internal::stringFormat("STRUCTURE OF TIFF FILE ") << io.path() << std::endl;
             if (tooBig)
                 out << indent(depth) << "entries = " << entries << std::endl;
         }
