@@ -317,8 +317,9 @@ void printIFD(Exiv2::BasicIo& io, std::ostream& out, Exiv2::PrintStructureOption
             {
                 const uint64_t address = offset + 2 + i * sizeof(field_t) ;
                 out << indent(depth)
-                                << Exiv2::Internal::stringFormat("%8u | %#06x %-25s |%10s |%9u |%10u | "
-                                        ,address,tag,tagName(tag,25),typeName(type),count,offset);
+                    << Exiv2::Internal::stringFormat("%8u | %#06x %-25s |%10s |%9u |%10u | ",
+                        address, tag, tagName(tag,25), typeName(type), count, offset);
+
                 if ( isShortType(type) )
                 {
                     for ( size_t k = 0 ; k < kount ; k++ )
@@ -343,9 +344,9 @@ void printIFD(Exiv2::BasicIo& io, std::ostream& out, Exiv2::PrintStructureOption
                             out << sp << a << "/" << b;
                             sp = " ";
                     }
-                } else if ( isStringType(type) ) {
-                        out << sp << Exiv2::Internal::binaryToString(buf, kount);
                 }
+                else if ( isStringType(type) )
+                    out << sp << Exiv2::Internal::binaryToString(buf, kount);
 
                 sp = kount == count ? "" : " ...";
                 out << sp << std::endl;
