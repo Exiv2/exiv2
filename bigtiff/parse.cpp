@@ -97,7 +97,10 @@ bool is4ByteType(uint16_t type)
 bool is8ByteType(uint16_t type)
 {
     return isRationalType(type)
-        || type == tiffDouble;
+        || type == tiffDouble
+        || type == unsigned64
+        || type == signed64
+        || type == tiffIfd8;
 }
 
 constexpr bool isBigEndianPlatform()
