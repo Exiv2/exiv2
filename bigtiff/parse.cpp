@@ -237,7 +237,7 @@ struct field_t {
 	uint64_t data;
 } __attribute__((packed));
 
-void printIFD(Exiv2::BasicIo& io, std::ostream& out, Exiv2::PrintStructureOption option, uint32_t offset, bool bSwap, int depth)
+void printIFD(Exiv2::BasicIo& io, std::ostream& out, Exiv2::PrintStructureOption option, uint64_t offset, bool bSwap, int depth)
 {
 	depth++;
 	bool bFirst  = true;
@@ -398,7 +398,7 @@ int main(int argc,const char* argv[])
 {
 	int      result = 0;
 	bool     bSwap  = false;
-	uint32_t offset = 0;
+	uint64_t offset = 0;
 
 	if ( argc > 0 ) {
 		FILE* f = fopen(argv[1],"rb");
