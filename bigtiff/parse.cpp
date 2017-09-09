@@ -369,12 +369,16 @@ void printIFD(Exiv2::BasicIo& io, std::ostream& out, Exiv2::PrintStructureOption
                 sp = kount == count ? "" : " ...";
                 out << sp << std::endl;
 
-                if ( option == Exiv2::kpsRecursive && (tag == 0x8769 /* ExifTag */ || tag == 0x014a/*SubIFDs*/  || type == tiffIfd) )
+                if ( option == Exiv2::kpsRecursive &&
+                        (tag == 0x8769 /* ExifTag */ || tag == 0x014a/*SubIFDs*/ || type == tiffIfd || type == tiffIfd8) )
                 {
                     for ( size_t k = 0 ; k < count ; k++ )
                     {
-                        size_t   restore = io.tell();
-                        uint32_t offset = conditional_byte_swap_4_array<32>(buf.pData_, k*size, bSwap);
+                        const size_t restore = io.tell();
+                        const uint64_t offset = type == tiffIfd8?
+                            conditional_byte_swap_4_array<64>(buf.pData_, k*size, bSwap):
+                            conditional_byte_swap_4_array<32>(buf.pData_, k*size, bSwap);
+
                         std::cerr << "tag = " << Exiv2::Internal::stringFormat("%#x",tag) << std::endl;
                         printIFD(io, out, option, offset, bSwap, depth);
                         io.seek(restore, Exiv2::BasicIo::beg);
