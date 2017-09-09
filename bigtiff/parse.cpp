@@ -70,6 +70,12 @@ bool isLongType(uint16_t type)
         || type == signedLong;
 }
 
+bool isLongLongType(uint16_t type)
+{
+    return type == unsigned64
+        || type == signed64;
+}
+
 bool isRationalType(uint16_t type)
 {
     return type == unsignedRational
@@ -227,6 +233,8 @@ static const char* typeName(uint16_t tag)
         case tiffFloat        : result = "FLOAT"     ; break;
         case tiffDouble       : result = "DOUBLE"    ; break;
         case tiffIfd          : result = "IFD"       ; break;
+        case unsigned64       : result = "UNSIGNED64"; break;
+        case signed64         : result = "SIGNED64"  ; break;
         default                      : result = "unknown"   ; break;
     }
     return result;
@@ -334,6 +342,14 @@ void printIFD(Exiv2::BasicIo& io, std::ostream& out, Exiv2::PrintStructureOption
                     for ( size_t k = 0 ; k < kount ; k++ )
                     {
                         out << sp << conditional_byte_swap_4_array<32>(buf.pData_, k*size, bSwap);
+                        sp = " ";
+                    }
+                }
+                else if ( isLongLongType(type) )
+                {
+                    for ( size_t k = 0 ; k < kount ; k++ )
+                    {
+                        out << sp << conditional_byte_swap_4_array<64>(buf.pData_, k*size, bSwap);
                         sp = " ";
                     }
                 }
