@@ -324,25 +324,26 @@ void printIFD(Exiv2::BasicIo& io, std::ostream& out, Exiv2::PrintStructureOption
                 {
                     for ( size_t k = 0 ; k < kount ; k++ )
                     {
-                            out << sp << conditional_byte_swap_4_array<16>(&buf, k*size, bSwap);
-                            sp = " ";
+                        out << sp << conditional_byte_swap_4_array<16>(&buf, k*size, bSwap);
+                        sp = " ";
                     }
                 }
                 else if ( isLongType(type) )
                 {
                     for ( size_t k = 0 ; k < kount ; k++ )
                     {
-                            out << sp << conditional_byte_swap_4_array<32>(&buf, k*size, bSwap);
-                            sp = " ";
+                        out << sp << conditional_byte_swap_4_array<32>(&buf, k*size, bSwap);
+                        sp = " ";
                     }
                 }
                 else if ( isRationalType(type) )
                 {
-                    for ( size_t k = 0 ; k < kount ; k++ ) {
-                            uint32_t a = conditional_byte_swap_4_array<32>(&buf, k*size+0, bSwap);
-                            uint32_t b = conditional_byte_swap_4_array<32>(&buf, k*size+4, bSwap);
-                            out << sp << a << "/" << b;
-                            sp = " ";
+                    for ( size_t k = 0 ; k < kount ; k++ )
+                    {
+                        uint32_t a = conditional_byte_swap_4_array<32>(&buf, k*size+0, bSwap);
+                        uint32_t b = conditional_byte_swap_4_array<32>(&buf, k*size+4, bSwap);
+                        out << sp << a << "/" << b;
+                        sp = " ";
                     }
                 }
                 else if ( isStringType(type) )
@@ -355,11 +356,11 @@ void printIFD(Exiv2::BasicIo& io, std::ostream& out, Exiv2::PrintStructureOption
                 {
                     for ( size_t k = 0 ; k < count ; k++ )
                     {
-                            size_t   restore = io.tell();
-                            uint32_t offset = conditional_byte_swap_4_array<32>(&buf, k*size, bSwap);
-                            std::cerr << "tag = " << Exiv2::Internal::stringFormat("%#x",tag) << std::endl;
-                            printIFD(io, out, option, offset, bSwap, depth);
-                            io.seek(restore, Exiv2::BasicIo::beg);
+                        size_t   restore = io.tell();
+                        uint32_t offset = conditional_byte_swap_4_array<32>(&buf, k*size, bSwap);
+                        std::cerr << "tag = " << Exiv2::Internal::stringFormat("%#x",tag) << std::endl;
+                        printIFD(io, out, option, offset, bSwap, depth);
+                        io.seek(restore, Exiv2::BasicIo::beg);
                     }
                 }
                 else if ( option == Exiv2::kpsRecursive && tag == 0x83bb /* IPTCNAA */ )
@@ -382,19 +383,22 @@ void printIFD(Exiv2::BasicIo& io, std::ostream& out, Exiv2::PrintStructureOption
                     io.seek(offset, Exiv2::BasicIo::beg);  // position
                     io.read(bytes,jump    )     ;  // read
                     bytes[jump]=0               ;
-                    if ( ::strcmp("Nikon",chars) == 0 ) {
-                            // tag is an embedded tiff
-                            Exiv2::byte* bytes=new Exiv2::byte[count-jump] ;  // allocate memory
-                            io.read(bytes,count-jump)        ;  // read
-                            Exiv2::MemIo memIo(bytes,count-jump)    ;  // create a file
-                            std::cerr << "Nikon makernote" << std::endl;
-                            // printTiffStructure(memIo,out,option,depth);  TODO: fix it
-                            delete[] bytes                   ;  // free
-                    } else {
-                            // tag is an IFD
-                            io.seek(0, Exiv2::BasicIo::beg);  // position
-                            std::cerr << "makernote" << std::endl;
-                            //printIFDStructure(io,out,option,offset,bSwap,c,depth);  // TODO: fix me
+                    if ( ::strcmp("Nikon",chars) == 0 )
+                    {
+                        // tag is an embedded tiff
+                        Exiv2::byte* bytes=new Exiv2::byte[count-jump] ;  // allocate memory
+                        io.read(bytes,count-jump)        ;  // read
+                        Exiv2::MemIo memIo(bytes,count-jump)    ;  // create a file
+                        std::cerr << "Nikon makernote" << std::endl;
+                        // printTiffStructure(memIo,out,option,depth);  TODO: fix it
+                        delete[] bytes                   ;  // free
+                    }
+                    else
+                    {
+                        // tag is an IFD
+                        io.seek(0, Exiv2::BasicIo::beg);  // position
+                        std::cerr << "makernote" << std::endl;
+                        //printIFDStructure(io,out,option,offset,bSwap,c,depth);  // TODO: fix me
                     }
 
                     io.seek(restore,Exiv2::BasicIo::beg); // restore
