@@ -279,7 +279,7 @@ void printIFD(Exiv2::BasicIo& io, std::ostream& out, Exiv2::PrintStructureOption
             bFirst = false;
             field_t  field;
 
-            io.read(reinterpret_cast<Exiv2::byte*>(&field), sizeof(field));
+            io.read(reinterpret_cast<Exiv2::byte*>(&field), sizeof(field_t));
             const uint16_t tag    = conditional_byte_swap<16>(field.tagID,   bSwap);
             const uint16_t type   = conditional_byte_swap<16>(field.tagType, bSwap);
             const uint64_t count  = conditional_byte_swap<64>(field.count,   bSwap);
@@ -315,7 +315,7 @@ void printIFD(Exiv2::BasicIo& io, std::ostream& out, Exiv2::PrintStructureOption
 
             if ( bPrint )
             {
-                uint64_t address = offset + 2 + i*12 ;
+                const uint64_t address = offset + 2 + i * sizeof(field_t) ;
                 out << indent(depth)
                                 << Exiv2::Internal::stringFormat("%8u | %#06x %-25s |%10s |%9u |%10u | "
                                         ,address,tag,tagName(tag,25),typeName(type),count,offset);
