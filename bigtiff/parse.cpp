@@ -230,12 +230,12 @@ static const char* typeName(uint16_t tag)
 	return result;
 }
 
-typedef struct {
+struct field_t {
 	uint16_t tagID;
 	uint16_t tagType;
 	uint64_t count;
 	uint64_t data;
-} field_t;
+} __attribute__((packed));
 
 void printIFD(Exiv2::BasicIo& io, std::ostream& out, Exiv2::PrintStructureOption option, uint32_t offset, bool bSwap, int depth)
 {
@@ -278,10 +278,10 @@ void printIFD(Exiv2::BasicIo& io, std::ostream& out, Exiv2::PrintStructureOption
 			field_t  field;
 
                         io.read(reinterpret_cast<Exiv2::byte*>(&field), sizeof(field));
-			const uint16_t tag    = conditional_byte_swap_4_array<16>(&field.tagID,   0,  bSwap);
-			const uint16_t type   = conditional_byte_swap_4_array<16>(&field.tagType, 2,  bSwap);
-			const uint64_t count  = conditional_byte_swap_4_array<64>(&field.count,   4,  bSwap);
-			const uint64_t data   = conditional_byte_swap_4_array<64>(&field.data,    12, bSwap);
+			const uint16_t tag    = conditional_byte_swap<16>(field.tagID,   bSwap);
+			const uint16_t type   = conditional_byte_swap<16>(field.tagType, bSwap);
+			const uint64_t count  = conditional_byte_swap<64>(field.count,   bSwap);
+			const uint64_t data   = conditional_byte_swap<64>(field.data,    bSwap);
 
 			std::string sp = "" ; // output spacer
 
