@@ -247,7 +247,8 @@ void printIFD(Exiv2::BasicIo& io, std::ostream& out, Exiv2::PrintStructureOption
     // buffer
     bool bPrint = true;
 
-    do {
+    do
+    {
         // Read top of directory
         io.seek(offset, Exiv2::BasicIo::beg);
 
@@ -411,9 +412,9 @@ void printIFD(Exiv2::BasicIo& io, std::ostream& out, Exiv2::PrintStructureOption
         out.flush();
     } while (offset) ;
 
-    if ( bPrint ) {
-            out << indent(depth) << "END " << io.path() << std::endl;
-    }
+    if ( bPrint )
+        out << indent(depth) << "END " << io.path() << std::endl;
+
     depth--;
 }
 
