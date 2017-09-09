@@ -130,7 +130,7 @@ struct TypeForSize<64>
 template<int size>
 typename TypeForSize<size>::Type byte_swap(const typename TypeForSize<size>::Type& v)
 {
-    static_assert(size == 16 || size == 32 || size == 64);
+    static_assert(size == 16 || size == 32 || size == 64, "unsupported data size");
 
     typename TypeForSize<size>::Type result = 0;
     if (size == 16)
@@ -153,7 +153,7 @@ typename TypeForSize<size>::Type conditional_byte_swap(const typename TypeForSiz
 
 
 template<int size>
-typename TypeForSize<size>::Type conditional_byte_swap_4_array(void* buf, int offset, bool swap)
+typename TypeForSize<size>::Type conditional_byte_swap_4_array(void* buf, uint64_t offset, bool swap)
 {
     typedef typename TypeForSize<size>::Type Type;
 
@@ -252,7 +252,7 @@ void printIFD(Exiv2::BasicIo& io, std::ostream& out, Exiv2::PrintStructureOption
 		uint64_t entries_raw;
                 io.read(reinterpret_cast<Exiv2::byte *>(&entries_raw), 8);
 
-		const uint16_t entries = conditional_byte_swap_4_array<64>(&entries_raw, 0, bSwap);
+		const uint64_t entries = conditional_byte_swap_4_array<64>(&entries_raw, 0, bSwap);
 
 		const bool tooBig = entries > 500;
 
@@ -267,7 +267,7 @@ void printIFD(Exiv2::BasicIo& io, std::ostream& out, Exiv2::PrintStructureOption
                     break;
 
 		// Read the dictionary
-		for ( int i = 0; i < entries; i ++ )
+		for ( uint64_t i = 0; i < entries; i ++ )
                 {
 			if ( bFirst && bPrint )
                             out << indent(depth)
@@ -287,7 +287,7 @@ void printIFD(Exiv2::BasicIo& io, std::ostream& out, Exiv2::PrintStructureOption
 
 			//prepare to print the value
 			// TODO: figure out what's going on with kount
-			const uint32_t kount  = isStringType(type)? (count > 32 ? 32 : count) // restrict long arrays
+			const uint64_t kount  = isStringType(type)? (count > 32 ? 32 : count) // restrict long arrays
 							: count > 5              ? 5
 							: count
 							;
@@ -309,7 +309,7 @@ void printIFD(Exiv2::BasicIo& io, std::ostream& out, Exiv2::PrintStructureOption
 			}
 
 			if ( bPrint ) {
-				uint32_t address = offset + 2 + i*12 ;
+				uint64_t address = offset + 2 + i*12 ;
 				out << indent(depth)
 						<< Exiv2::Internal::stringFormat("%8u | %#06x %-25s |%10s |%9u |%10u | "
 							,address,tag,tagName(tag,25),typeName(type),count,offset);
