@@ -324,7 +324,7 @@ void printIFD(Exiv2::BasicIo& io, std::ostream& out, Exiv2::PrintStructureOption
                 {
                     for ( size_t k = 0 ; k < kount ; k++ )
                     {
-                        out << sp << conditional_byte_swap_4_array<16>(&buf, k*size, bSwap);
+                        out << sp << conditional_byte_swap_4_array<16>(buf.pData_, k*size, bSwap);
                         sp = " ";
                     }
                 }
@@ -332,7 +332,7 @@ void printIFD(Exiv2::BasicIo& io, std::ostream& out, Exiv2::PrintStructureOption
                 {
                     for ( size_t k = 0 ; k < kount ; k++ )
                     {
-                        out << sp << conditional_byte_swap_4_array<32>(&buf, k*size, bSwap);
+                        out << sp << conditional_byte_swap_4_array<32>(buf.pData_, k*size, bSwap);
                         sp = " ";
                     }
                 }
@@ -340,8 +340,8 @@ void printIFD(Exiv2::BasicIo& io, std::ostream& out, Exiv2::PrintStructureOption
                 {
                     for ( size_t k = 0 ; k < kount ; k++ )
                     {
-                        uint32_t a = conditional_byte_swap_4_array<32>(&buf, k*size+0, bSwap);
-                        uint32_t b = conditional_byte_swap_4_array<32>(&buf, k*size+4, bSwap);
+                        uint32_t a = conditional_byte_swap_4_array<32>(buf.pData_, k*size+0, bSwap);
+                        uint32_t b = conditional_byte_swap_4_array<32>(buf.pData_, k*size+4, bSwap);
                         out << sp << a << "/" << b;
                         sp = " ";
                     }
@@ -357,7 +357,7 @@ void printIFD(Exiv2::BasicIo& io, std::ostream& out, Exiv2::PrintStructureOption
                     for ( size_t k = 0 ; k < count ; k++ )
                     {
                         size_t   restore = io.tell();
-                        uint32_t offset = conditional_byte_swap_4_array<32>(&buf, k*size, bSwap);
+                        uint32_t offset = conditional_byte_swap_4_array<32>(buf.pData_, k*size, bSwap);
                         std::cerr << "tag = " << Exiv2::Internal::stringFormat("%#x",tag) << std::endl;
                         printIFD(io, out, option, offset, bSwap, depth);
                         io.seek(restore, Exiv2::BasicIo::beg);
