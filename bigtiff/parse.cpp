@@ -235,7 +235,7 @@ static const char* typeName(uint16_t tag)
         case tiffIfd          : result = "IFD"       ; break;
         case unsigned64       : result = "UNSIGNED64"; break;
         case signed64         : result = "SIGNED64"  ; break;
-        default                      : result = "unknown"   ; break;
+        default               : result = "unknown"   ; break;
     }
     return result;
 }
