@@ -250,6 +250,10 @@ if NOT DEFINED _GENERATOR_       set "_GENERATOR_=%VS_CMAKE%"
 if /I "%_GENERATOR_%" == "NMake" set "_GENERATOR_=NMake Makefiles"
 if /I "%_SHARED_%" == "0"        set _LINK_="-DCMAKE_LINK=static"
 
+rem Fix up for openssl/vs 2017
+@echo on
+if /I "%_OPENSSL_%" == "openssl-1.0.1p" if /I "%_VS_%" == 2017 set _OPENSSL_ = openssl-1.1.0f
+
 call:cltest
 call:report
 
