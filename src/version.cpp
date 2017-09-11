@@ -173,11 +173,10 @@ static bool shouldOutput(const exv_grep_keys_t& greps,const char* key,const std:
       !bPrint && g != greps.end() ; ++g
     ) {
         std::string Key(key);
-#if __cplusplus >= CPLUSPLUS11
+#if   defined(EXV_HAVE_REGEX)
         std::smatch m;
         bPrint = std::regex_search(Key,m,*g) || std::regex_search(value,m,*g);
-#else
-#ifdef EXV_HAVE_REGEX
+#elif defined(EXV_HAVE_REGEX_H)
         bPrint = (  0 == regexec( &(*g), key          , 0, NULL, 0)
                  || 0 == regexec( &(*g), value.c_str(), 0, NULL, 0)
                  );
@@ -191,7 +190,6 @@ static bool shouldOutput(const exv_grep_keys_t& greps,const char* key,const std:
                 std::transform(Value.begin()  , Value.end()  ,Value.begin()    , ::tolower);
             }
             bPrint = Key.find(Pattern) != std::string::npos || Value.find(Pattern) != std::string::npos;
-#endif
 #endif
     }
     return bPrint;
