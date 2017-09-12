@@ -453,7 +453,7 @@ int main(int argc,const char* argv[])
         if ( f )
         {
             char buff[2*WIDTH];
-            fread(buff,1,sizeof buff,f);
+            fread(buff, 1, sizeof buff, f);
 
             bSwap =  (isLittleEndianPlatform() && buff[0] == 'M')
                 ||   (isBigEndianPlatform()    && buff[0] == 'I')
@@ -462,12 +462,12 @@ int main(int argc,const char* argv[])
             uint16_t magic    = conditional_byte_swap_4_array<16>(buff, 2, bSwap);
             uint16_t byteSize = conditional_byte_swap_4_array<16>(buff, 4, bSwap);
             uint16_t zeroByte = conditional_byte_swap_4_array<16>(buff, 6, bSwap);
-                    offset   = conditional_byte_swap_4_array<64>(buff, 8, bSwap);
+                     offset   = conditional_byte_swap_4_array<64>(buff, 8, bSwap);
 
             if ( buff[0] != buff[1]                ||
                 (buff[0] != 'I' && buff[0] != 'M') ||
-                magic != 43                       ||
-                byteSize != 8                     ||
+                magic != 43                        ||
+                byteSize != 8                      ||
                 zeroByte != 0
             )
             {
@@ -488,7 +488,9 @@ int main(int argc,const char* argv[])
                 result = 2 ;
         }
 
-    } else {
+    }
+    else
+    {
             std::cerr << argv[0] << " path" << std::endl;
             result = 1 ;
     }
