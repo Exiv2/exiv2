@@ -1,5 +1,4 @@
 
-#include <cassert>
 #include <cstring>
 #include <stdarg.h>
 #include <stdint.h>
@@ -141,8 +140,6 @@ struct TypeForSize<64>
 template<int size>
 typename TypeForSize<size>::Type byte_swap(const typename TypeForSize<size>::Type& v)
 {
-    assert(size == 16 || size == 32 || size == 64);  // supported sizes
-
     typename TypeForSize<size>::Type result = 0;
     if (size == 16)
         result = __builtin_bswap16(v);
