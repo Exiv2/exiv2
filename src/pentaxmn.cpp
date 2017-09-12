@@ -1167,6 +1167,8 @@ namespace Exiv2 {
 
     std::ostream& PentaxMakerNote::printShutterCount(std::ostream& os, const Value& value, const ExifData* metadata)
     {
+        if ( ! metadata ) return os << "undefined" ;
+
         ExifData::const_iterator dateIt = metadata->findKey(
                 ExifKey("Exif.PentaxDng.Date"));
         if (dateIt == metadata->end()) {
