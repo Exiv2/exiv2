@@ -1,4 +1,5 @@
 
+#include <cassert>
 #include <cstring>
 #include <stdarg.h>
 #include <stdint.h>
@@ -103,7 +104,7 @@ bool is8ByteType(uint16_t type)
         || type == tiffIfd8;
 }
 
-constexpr bool isBigEndianPlatform()
+bool isBigEndianPlatform()
 {
     union
     {
@@ -114,7 +115,7 @@ constexpr bool isBigEndianPlatform()
     return e.c[0]?true:false;
 }
 
-constexpr bool isLittleEndianPlatform() { return !isBigEndianPlatform(); }
+bool isLittleEndianPlatform() { return !isBigEndianPlatform(); }
 
 template<int>
 struct TypeForSize {};
@@ -140,7 +141,7 @@ struct TypeForSize<64>
 template<int size>
 typename TypeForSize<size>::Type byte_swap(const typename TypeForSize<size>::Type& v)
 {
-    static_assert(size == 16 || size == 32 || size == 64, "unsupported data size");
+    assert(size == 16 || size == 32 || size == 64);  // supported sizes
 
     typename TypeForSize<size>::Type result = 0;
     if (size == 16)
