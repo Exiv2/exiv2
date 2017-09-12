@@ -84,6 +84,7 @@ set( LIBEXIV2_HDR         ../include/exiv2/asfvideo.hpp
 # Add library C++ source files to this list
 set( LIBEXIV2_SRC         asfvideo.cpp
                           basicio.cpp
+                          bigtiffimage.cpp
                           bmpimage.cpp
                           canonmn.cpp
                           casiomn.cpp
