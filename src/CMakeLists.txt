@@ -1,8 +1,7 @@
 # CMakeLists.txt for exiv2 library and command-line program
 
 # list of public C++ include files
-file(GLOB   LIBEXIV2_HDR ../include/exiv2/*.hpp)
-list(APPEND LIBEXIV2_HDR ${CMAKE_BINARY_DIR}/exv_conf.h)
+file(GLOB   LIBEXIV2_HDR ../include/exiv2/*.hpp ../include/exiv2/exv_conf.h)
 
 # list of internal include files only required to build the library
 file(GLOB LIBEXIV2_PRIVATE_HDR *_int.hpp)
@@ -10,7 +9,7 @@ file(GLOB LIBEXIV2_PRIVATE_HDR *_int.hpp)
 # list of library C++ source files
 file(GLOB        LIBEXIV2_SRC *.cpp)
 # remove files which are not part of the library
-file(GLOB        LIBEXIV2_SRC_NOT actions.cpp exiv2.cpp *test.cpp crwparse.cpp mrwthumb.cpp xmpdump.cpp) 
+file(GLOB        LIBEXIV2_SRC_NOT actions.cpp exiv2.cpp *test.cpp crwparse.cpp mrwthumb.cpp xmpdump.cpp)
 foreach(entry  ${LIBEXIV2_SRC_NOT})
     list(REMOVE_ITEM LIBEXIV2_SRC ${entry})
 endforeach()
@@ -87,7 +86,7 @@ if ( MSVC )
     if( EXIV2_ENABLE_PNG )
         target_link_libraries( exiv2lib PRIVATE ${ZLIB_LIBRARIES} )
     endif()
-    
+
     source_group("Header Files" FILES ${LIBEXIV2_HDR} )
     source_group("Header Files" FILES ${LIBCURL_HDR} )
     source_group("Header Files" FILES ${SSH_HDR} )
@@ -133,7 +132,7 @@ install(FILES ${LIBEXIV2_HDR}
 # ******************************************************************************
 # exiv2 application
 
-set( EXIV2_SRC 
+set( EXIV2_SRC
      exiv2.cpp
      exiv2app.hpp
      actions.cpp
@@ -148,7 +147,7 @@ if(EXIV2_BUILD_EXIV2_COMMAND)
     target_link_libraries( exiv2 PRIVATE exiv2lib )
     if ( BUILD_SHARED_LIBS )
         target_compile_definitions(exiv2 PRIVATE EXV_HAVE_DLL )
-    endif()    
+    endif()
     install(TARGETS exiv2 RUNTIME DESTINATION ${CMAKE_INSTALL_BINDIR})
 endif()
 

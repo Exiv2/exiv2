@@ -67,4 +67,4 @@ return 0;
 
 #####################################################################################
 
-configure_file( config/config.h.cmake ${CMAKE_BINARY_DIR}/exv_conf.h @ONLY)
+configure_file( config/config.h.cmake ${CMAKE_SOURCE_DIR}/include/exiv2/exv_conf.h @ONLY)
