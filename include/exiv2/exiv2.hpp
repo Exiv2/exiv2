@@ -53,17 +53,21 @@
 #include "exiv2/mrwimage.hpp"
 #include "exiv2/orfimage.hpp"
 #include "exiv2/pgfimage.hpp"
+
 #ifdef   EXV_HAVE_LIBZ
 #include "exiv2/pngimage.hpp"
 #endif
+
 #include "exiv2/preview.hpp"
 #include "exiv2/properties.hpp"
 #include "exiv2/psdimage.hpp"
 #include "exiv2/rafimage.hpp"
 #include "exiv2/rw2image.hpp"
-#if EXV_USE_SSH == 1
+
+#ifdef EXV_USE_SSH
 #include "exiv2/ssh.hpp"
 #endif
+
 #include "exiv2/tags.hpp"
 #include "exiv2/tgaimage.hpp"
 #include "exiv2/tiffimage.hpp"

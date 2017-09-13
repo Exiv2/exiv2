@@ -43,12 +43,6 @@
 #ifndef EXV_XPATH_MEMIO
 #define EXV_XPATH_MEMIO 0
 #endif
-#ifndef EXV_USE_CURL
-#define EXV_USE_CURL 0
-#endif
-#ifndef EXV_USE_SSH
-#define EXV_USE_SSH 0
-#endif
 
 // *****************************************************************************
 // namespace extensions
@@ -1117,7 +1111,7 @@ namespace Exiv2 {
         //@}
     };
 
-#if EXV_USE_CURL == 1
+#ifdef EXV_USE_CURL
     /*!
         @brief Provides the http, https read/write access and ftp read access for the RemoteIo.
             This class is based on libcurl.
@@ -1173,7 +1167,7 @@ namespace Exiv2 {
     };
 #endif
 
-#if EXV_USE_SSH == 1
+#ifdef EXV_USE_SSH
     /*!
         @brief Provides the ssh read/write access and sftp read access for the RemoteIo.
             This class is based on libssh.
@@ -1262,7 +1256,7 @@ namespace Exiv2 {
     EXIV2API std::wstring ReplaceStringInPlace(std::wstring subject, const std::wstring& search,
                           const std::wstring& replace);
 #endif
-#if EXV_USE_CURL == 1
+#ifdef EXV_USE_CURL
     /*!
       @brief The callback function is called by libcurl to write the data
     */
