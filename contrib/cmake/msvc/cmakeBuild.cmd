@@ -102,7 +102,6 @@ echo.&&echo.&&echo.
 exit /b 0
 
 :main
-call:report
 if NOT DEFINED _SILENT_ set _VERBOSE_=1
 set _UNSUPPORTED_=
 
@@ -201,7 +200,7 @@ IF ERRORLEVEL 1 (
 )
 
 rem  ----
-call:echo fix ups
+call:echo fixups
 set _WORK_=%_WORK_%_%_CONFIG_%
 if DEFINED _TRACE_ (
     set _VERBOSE_=1
@@ -211,6 +210,8 @@ if DEFINED _TEST_ (
     set _SAMPLES_=1
     set _BUILD_=1
 )
+if DEFINED _WEBREADY_     set _SHARED_=1
+
 if /I "%_SHARED_%" == "1" set _MODE_=dll
 if /I "%_SHARED_%" == "0" set _MODE_=static
 
@@ -251,7 +252,6 @@ if /I "%_GENERATOR_%" == "NMake" set "_GENERATOR_=NMake Makefiles"
 if /I "%_SHARED_%" == "0"        set _LINK_="-DCMAKE_LINK=static"
 
 rem Fix up for openssl/vs 2017
-@echo on
 if /I "%_OPENSSL_%" == "openssl-1.0.1p" if /I "%_VS_%" == 2017 set _OPENSSL_ = openssl-1.1.0f
 
 call:cltest
@@ -322,7 +322,6 @@ echo ---------- EXIV2 building with cmake ------------------
 set          "EXIV_B=%_WORK_%\exiv2"
 IF EXIST     "%EXIV_B%"  rmdir/s/q "%EXIV_B%"
 IF NOT EXIST "%EXIV_B%"  mkdir     "%EXIV_B%"
-
 pushd        "%EXIV_B%"
     set ENABLE_CURL=-DEXIV2_ENABLE_CURL=OFF
     set ENABLE_LIBSSH=-DEXIV2_ENABLE_SSH=OFF
@@ -332,7 +331,7 @@ pushd        "%EXIV_B%"
 	set ENABLE_DYNAMIC=ON
 
     if defined _CURL_     set ENABLE_CURL=-DEXIV2_ENABLE_CURL=ON
-    if defined _LIBSSH_   set ENABLE_SSH=-DEXIV2_ENABLE_SSH=ON
+    if defined _LIBSSH_   set ENABLE_LIBSSH=-DEXIV2_ENABLE_SSH=ON
     if defined _WEBREADY_ set ENABLE_WEBREADY=-DEXIV2_ENABLE_WEBREADY=ON
     if defined _VIDEO_    set ENABLE_VIDEO=-DEXIV2_ENABLE_VIDEO=ON
 	if /I "%_MODE_%" == "static" (
@@ -343,7 +342,7 @@ pushd        "%EXIV_B%"
 	if DEFINED _SAMPLES_  set BUILD_SAMPLES=ON
 
     call:run cmake -G "%_GENERATOR_%"     -DCMAKE_BUILD_TYPE=%_CONFIG_% %_LINK_% -DCMAKE_INSTALL_PREFIX=%_INSTALL_% -DCMAKE_LIBRARY_PATH=%_LIBPATH_% -DCMAKE_INCLUDE_PATH=%_INCPATH_% ^
-              -DEXIV2_ENABLE_NLS=%_NLS_%  -DEXIV2_ENABLE_BUILD_SAMPLES=%BUILD_SAMPLES% ^
+              -DEXIV2_ENABLE_NLS=%_NLS_%  -DEXIV2_BUILD_SAMPLES=%BUILD_SAMPLES% ^
               -DEXIV2_ENABLE_WIN_UNICODE=%_UNICODE_% -DBUILD_SHARED_LIBS=%ENABLE_SHARED% ^
               -DEXIV2_ENABLE_DYNAMIC_RUNTIME=%ENABLE_DYNAMIC% ^
               %ENABLE_WEBREADY%  %ENABLE_CURL%  %ENABLE_LIBSSH% %ENABLE_VIDEO% ^
@@ -354,6 +353,7 @@ pushd        "%EXIV_B%"
         popd
         goto error_end
     )
+    copy/y "%_WORK_%\exiv2\exv_conf.h" "%_INCPATH_%" 
 
     rem if DEFINED _BUILDX_ devenv %_WORK_%\exiv2\exiv2.sln /Build "%_CONFIG_%|%Platform%" /ProjectConfig INSTALL
 
