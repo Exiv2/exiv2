@@ -239,9 +239,8 @@ if ( MSVC )
     ) 
 
 else()
-    # TODO: Check if this is really needed.
-    if ( UNIX AND NOT FREEBSD )
-        target_link_libraries( exiv2lib PRIVATE dl)
+    if ( UNIX )
+        target_link_libraries( exiv2lib PRIVATE ${CMAKE_DL_LIBS})
     endif()
 
     if (CYGWIN OR MINGW)
