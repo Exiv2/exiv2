@@ -22,13 +22,13 @@ How to use this
 
    Please get "Windows" versions of cmake/svn/7z (NOT Cygwin or MinGW versions)
 
-        cd <exiv2dir>/contrib/cmake/msvc
-        ...\cmake\msvc> cmd /c "vcvars 2015 64 && cmakeBuild --build"
+   cd <exiv2dir>/contrib/cmake/msvc
+   ...\cmake\msvc> cmd /c "vcvars 2015 64 & cmakeBuild.cmd --build"
 
-        cmakeBuild.cmd creates Visual Studio solution/project files
-        Option: --build says "build using the generated files"
+   cmakeBuild.cmd creates Visual Studio solution/project files
+   Option: --build says "build using the generated files"
 
-   More options: --static --test --debug etc --webready (see below)
+   More options: --static --test --debug --webready etc... (see below)
 
  2 Selecting the version of Visual Studio
 
@@ -94,26 +94,30 @@ How to use this
 
       --build     Build the code
       --static    Build and link static libraries and programs
+      --dll       Build DLLs (not static libraries)
       --unicode   Build UNICODE path support
+      --ascii     Do not build UNICODE path support
       --nls       Build with Natural Language Support
       --webready  Build and Link the webready feature
       --video     Build and link video support
       --samples   Include samples in projects
+      --debug     Build debug   (shorthand for --config Debug)
+      --release   Build release (shorthand for --config Release)
 
-      Option/values (See section 9 below)
+      Option/values (See section 10 below)
       --zlib      zlib-1.2.8
       --expath    expat-2.1.0
       --curl      curl-7.44.0
       --libssh    libssh-0.7.2
 
       Other build key/value pairs:
-      --config     Release | Debug (shorthand = --release --debug)
+      --config     Release | Debug
       --generator  The script default is almost always correct and is passed as -G "Generator" to CMake
       --work       The "work" directory in which the build will be performed (see 4 below)
       --bash       Path to bash.exe to be used when --test is specified.
 
  5 What gets built?
-   The build is performed in  work_Config
+   The build is performed in  work_Config (for example work_Release)
    The output is generated in dist
                               dist\..mumble..\bin contains *.exe and *.dll files
                               dist\..mumble..\lib contains *.lib files
@@ -172,6 +176,13 @@ How to use this
    cmake --build . --config Release --target install
 
  7 About webready support libraries (openssl, libssh and curl)
+ 
+   +-----------------------------------------------+
+   | cmakeBuild.cmd always builds shared (--dll)   |
+   | when you use --webready                       |
+   | You can build static versions of exiv2 and    |
+   | supporting libraries with the msvc/ solution  |
+   +-----------------------------------------------+
 
    a) openssl
    You cannot build openssl with CMake.  However we have prebuilt binaries which
@@ -213,7 +224,8 @@ How to use this
    A 'vanilla' version of libssh will may require those fixes to be applied.
 
  8 Build options
-   You can inspect CMake options by running grep options on CMakeLists.txt in <exiv2dir>
+   You can inspect CMake options by running 'grep option <exiv2dir>/CMakeLists.txt'
+   
    C:\cygwin64\home\rmills\gnu\github\clanmills\exiv2\contrib\cmake\msvc>cd ..\..\..
    C:\cygwin64\home\rmills\gnu\github\clanmills\exiv2>grep option CMakeLists.txt
       # options and their default values

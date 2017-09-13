@@ -414,7 +414,6 @@ set _RESULT_=%ERRORLEVEL%
 if     DEFINED _PAUSE_ pause
 exit /b %_RESULT_%
 
-rem -----------------------------------------
 rem build a library with CMake.  syntax: call:buildLib name cmake-args ...
 :buildLib
 cd  "%_BUILDDIR_%"
