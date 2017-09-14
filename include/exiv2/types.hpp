@@ -266,6 +266,8 @@ namespace Exiv2 {
     EXIV2API uint16_t getUShort(const byte* buf, ByteOrder byteOrder);
     //! Read a 4 byte unsigned long value from the data buffer
     EXIV2API uint32_t getULong(const byte* buf, ByteOrder byteOrder);
+    //! Read a 8 byte unsigned long value from the data buffer
+    EXIV2API uint64_t getULongLong(const byte* buf, ByteOrder byteOrder);
     //! Read an 8 byte unsigned rational value from the data buffer
     EXIV2API URational getURational(const byte* buf, ByteOrder byteOrder);
     //! Read a 2 byte signed short value from the data buffer
