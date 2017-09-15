@@ -353,7 +353,6 @@ pushd        "%EXIV_B%"
         popd
         goto error_end
     )
-    copy/y "%_WORK_%\exiv2\exv_conf.h" "%_INCPATH_%" 
 
     rem if DEFINED _BUILDX_ devenv %_WORK_%\exiv2\exiv2.sln /Build "%_CONFIG_%|%Platform%" /ProjectConfig INSTALL
 
