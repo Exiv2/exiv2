@@ -199,7 +199,8 @@ namespace Exiv2 {
     }
     bool Image::isLongLongType(uint16_t type) {
         return type == Exiv2::unsignedLongLong
-            || type == Exiv2::signedLongLong;
+            || type == Exiv2::signedLongLong
+            ;
     }
     bool Image::isRationalType(uint16_t type) {
          return type == Exiv2::unsignedRational
