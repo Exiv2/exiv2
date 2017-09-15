@@ -24,7 +24,15 @@
  */
 
 #include <sys/types.h>
-#include "../../include/exiv2/exv_conf.h"
+
+#ifdef _MSC_VER
+//   _MSC_VER   1600 == Visual Studio 2010
+# if _MSC_VER < 1600
+#  ifdef  EXV_HAVE_STDINT_H
+#   undef EXV_HAVE_STDINT_H
+#  endif
+# endif
+#endif
 
 #if defined(EXV_HAVE_STDINT_H) || defined(__MINGW32__) || defined(__MING64__) || defined(__APPLE__)
 # include <stdint.h>
