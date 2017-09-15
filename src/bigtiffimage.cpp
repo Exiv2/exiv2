@@ -160,8 +160,11 @@ namespace Exiv2
             public:
                 BigTiffImage(BasicIo::AutoPtr io):
                     Image(ImageType::bigtiff, mdExif, io),
-                    header_(readHeader(Image::io()))
+                    header_()
                 {
+                    Image::io().seek(0, BasicIo::beg);
+                    header_ = readHeader(Image::io());
+
                     assert(header_.isValid());
                 }
 
@@ -192,7 +195,7 @@ namespace Exiv2
                 }
 
             private:
-                const Header header_;
+                Header header_;
 
                 void printIFD(BasicIo& io, std::ostream& out, PrintStructureOption option, uint64_t offset, bool bSwap, int depth)
                 {
@@ -274,7 +277,7 @@ namespace Exiv2
                                 const uint64_t address = offset + 2 + i * sizeof(field_t) ;
                                 out << indent(depth)
                                     << Internal::stringFormat("%8u | %#06x %-25s |%10s |%9u |%10u | ",
-                                        address, tag, tagName(tag), typeName(type), count, offset);
+                                        address, tag, tagName(tag).c_str(), typeName(type), count, offset);
 
                                 if ( isShortType(type) )
                                 {
