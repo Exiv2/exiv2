@@ -197,6 +197,10 @@ namespace Exiv2 {
              || type == Exiv2::signedLong
              ;
     }
+    bool Image::isLongLongType(uint16_t type) {
+        return type == Exiv2::unsignedLongLong
+            || type == Exiv2::signedLongLong;
+    }
     bool Image::isRationalType(uint16_t type) {
          return type == Exiv2::unsignedRational
              || type == Exiv2::signedRational
@@ -277,7 +281,7 @@ namespace Exiv2 {
         return Image::byteSwap(v,bSwap);
     }
 
-    static const char* typeName(uint16_t tag)
+    const char* Image::typeName(uint16_t tag) const
     {
         //! List of TIFF image tags
         const char* result = NULL;
