@@ -43,6 +43,10 @@ endforeach()
 
 ###################################
 
+if (MSVC)
+    link_directories(${CMAKE_INSTALL_PREFIX}/lib)
+endif()
+
 add_executable( metacopy metacopy.cpp ../src/utils.cpp)
 list(APPEND APPLICATIONS metacopy)
 target_link_libraries( metacopy PRIVATE exiv2lib)
@@ -85,17 +89,20 @@ list(APPEND APPLICATIONS conntest)
 # ******************************************************************************
 # remotetest application
 add_executable(remotetest remotetest.cpp)
-target_link_libraries(remotetest exiv2lib)
+target_link_libraries(remotetest PRIVATE exiv2lib)
 list(APPEND APPLICATIONS remotetest)
 
 # ******************************************************************************
 # set compiler -DEXV_HAVE_DLL when linking exiv2 dll
 foreach(application ${APPLICATIONS})
+    message(STATUS "sample: ${application}")
     if ( BUILD_SHARED_LIBS )
         target_compile_definitions(${application} PRIVATE EXV_HAVE_DLL )
     endif()
+    if( EXIV2_ENABLE_PNG )
+        target_link_libraries( ${application} PRIVATE ${ZLIB_LIBRARIES} )
+    endif()
 endforeach()
-
 
 # ******************************************************************************
 # Man page

@@ -249,9 +249,8 @@ if defined _TEST_ if NOT EXIST "%_BASH_%" (
 
 if NOT DEFINED _GENERATOR_       set "_GENERATOR_=%VS_CMAKE%"
 if /I "%_GENERATOR_%" == "NMake" set "_GENERATOR_=NMake Makefiles"
-if /I "%_SHARED_%" == "0"        set _LINK_="-DCMAKE_LINK=static"
 
-rem Fix up for openssl/vs 2017
+rem Fixup for openssl/vs 2017
 if /I "%_OPENSSL_%" == "openssl-1.0.1p" if /I "%_VS_%" == 2017 set _OPENSSL_ = openssl-1.1.0f
 
 call:cltest
@@ -262,6 +261,12 @@ IF DEFINED _PAUSE_   pause
 
 echo ---------- ZLIB building with cmake ------------------
 call:buildLib %_ZLIB_% -DCMAKE_INSTALL_PREFIX=%_INSTALL_%
+
+rem Fixup ZLIB.  This should be possible inside CMake
+if /I "%_MODE_%" == "static" (
+	if EXIST "%_WORK_%\%_ZLIB_%\%_CONFIG_%\zlibstaticd.lib" copy/y "%_WORK_%\%_ZLIB_%\%_CONFIG_%\zlibstaticd.lib" "%_LIBPATH_%\zlibd.lib"
+	if EXIST "%_WORK_%\%_ZLIB_%\%_CONFIG_%\zlibstatic.lib"  copy/y "%_WORK_%\%_ZLIB_%\%_CONFIG_%\zlibstatic.lib"  "%_LIBPATH_%\zlib.lib"
+)
 
 echo ---------- EXPAT building with cmake -----------------
 set "_TARGET_=--target expat"
@@ -341,7 +346,7 @@ pushd        "%EXIV_B%"
 	                      set BUILD_SAMPLES=OFF
 	if DEFINED _SAMPLES_  set BUILD_SAMPLES=ON
 
-    call:run cmake -G "%_GENERATOR_%"     -DCMAKE_BUILD_TYPE=%_CONFIG_% %_LINK_% -DCMAKE_INSTALL_PREFIX=%_INSTALL_% -DCMAKE_LIBRARY_PATH=%_LIBPATH_% -DCMAKE_INCLUDE_PATH=%_INCPATH_% ^
+    call:run cmake -G "%_GENERATOR_%"     -DCMAKE_BUILD_TYPE=%_CONFIG_% -DCMAKE_INSTALL_PREFIX=%_INSTALL_% -DCMAKE_LIBRARY_PATH=%_LIBPATH_% -DCMAKE_INCLUDE_PATH=%_INCPATH_% ^
               -DEXIV2_ENABLE_NLS=%_NLS_%  -DEXIV2_BUILD_SAMPLES=%BUILD_SAMPLES% ^
               -DEXIV2_ENABLE_WIN_UNICODE=%_UNICODE_% -DBUILD_SHARED_LIBS=%ENABLE_SHARED% ^
               -DEXIV2_ENABLE_DYNAMIC_RUNTIME=%ENABLE_DYNAMIC% ^
@@ -429,7 +434,7 @@ IF NOT EXIST "%LOB%"         7z x "%LOB_TAR%"
 if NOT EXIST "%LOB_B%"       mkdir "%LOB_B%"
 
 pushd "%LOB_B%"
-    call:run cmake -G "%_GENERATOR_%" -DCMAKE_BUILD_TYPE=%_CONFIG_% %_LINK_% %* ..\..\%LOB%
+    call:run cmake -G "%_GENERATOR_%" -DCMAKE_BUILD_TYPE=%_CONFIG_% %* ..\..\%LOB%
     IF errorlevel 1 (
         echo "*** cmake errors in %LOB% ***"
         popd

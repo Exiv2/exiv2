@@ -83,18 +83,14 @@ endif()
 if ( MSVC )
     target_compile_definitions(exiv2lib PRIVATE PSAPI_VERSION=1) # to be compatible with <= WinVista (#905)
 
-    if( EXIV2_ENABLE_PNG )
-        target_link_libraries( exiv2lib PRIVATE ${ZLIB_LIBRARIES} )
-    endif()
-
     source_group("Header Files" FILES ${LIBEXIV2_HDR} )
     source_group("Header Files" FILES ${LIBCURL_HDR} )
     source_group("Header Files" FILES ${SSH_HDR} )
-    target_link_libraries( exiv2lib PRIVATE ${ZLIB_LIBRARIES} ${CURL_LIBRARIES} ${SSH_LIBRARIES})
+    target_link_libraries( exiv2lib PRIVATE ${CURL_LIBRARIES} ${SSH_LIBRARIES})
 else()
     # TODO: Check if this is really needed.
     if ( UNIX AND NOT FREEBSD )
-        target_link_libraries( exiv2lib PRIVATE dl) # -ldl = dynamic loader used by src/version.cpp
+        target_link_libraries( exiv2lib PRIVATE ${CMAKE_DL_LIBS}) # -ldl = dynamic loader used by src/version.cpp
     endif()
     target_link_libraries( exiv2lib PRIVATE Threads::Threads)
     target_link_libraries( exiv2lib PUBLIC ${CURL_LIBRARIES} ${SSH_LIBRARIES})
