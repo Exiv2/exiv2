@@ -137,6 +137,9 @@ namespace Exiv2 {
         tiffFloat          =11, //!< TIFF FLOAT type, single precision (4-byte) IEEE format.
         tiffDouble         =12, //!< TIFF DOUBLE type, double precision (8-byte) IEEE format.
         tiffIfd            =13, //!< TIFF IFD type, 32-bit (4-byte) unsigned integer.
+        unsignedLongLong   =16, //!< Exif LONG LONG type, 64-bit (8-byte) unsigned integer.
+        signedLongLong     =17, //!< Exif LONG LONG type, 64-bit (8-byte) signed integer.
+        tiffIfd8           =18, //!< TIFF IFD type, 64-bit (8-byte) unsigned integer.
         string        =0x10000, //!< IPTC string type.
         date          =0x10001, //!< IPTC date type.
         time          =0x10002, //!< IPTC time type.
