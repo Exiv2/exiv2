@@ -188,11 +188,14 @@ namespace Exiv2
             public:
                 BigTiffImage(BasicIo::AutoPtr io):
                     Image(ImageType::bigtiff, mdExif, io),
-                    header_()
+                    header_(),
+                    doSwap_(false)
                 {
                     header_ = readHeader(Image::io());
-
                     assert(header_.isValid());
+
+                    doSwap_ =  (isLittleEndianPlatform() && header_.byteOrder() == bigEndian)
+                          ||   (isBigEndianPlatform()    && header_.byteOrder() == littleEndian);
                 }
 
                 virtual ~BigTiffImage() {}
@@ -215,16 +218,14 @@ namespace Exiv2
 
                 void printStructure(std::ostream& os, PrintStructureOption option, int depth)
                 {
-                     const bool bSwap =  (isLittleEndianPlatform() && header_.byteOrder() == bigEndian)
-                                    ||   (isBigEndianPlatform()    && header_.byteOrder() == littleEndian);
-
-                    printIFD(Image::io(), os, option, header_.dirOffset(), bSwap, depth);
+                    printIFD(Image::io(), os, option, header_.dirOffset(), depth);
                 }
 
             private:
                 Header header_;
+                bool doSwap_;
 
-                void printIFD(BasicIo& io, std::ostream& out, PrintStructureOption option, uint64_t offset, bool bSwap, int depth)
+                void printIFD(BasicIo& io, std::ostream& out, PrintStructureOption option, uint64_t offset, int depth)
                 {
                     depth++;
                     bool bFirst  = true;
@@ -240,7 +241,7 @@ namespace Exiv2
                         uint64_t entries_raw;
                         io.read(reinterpret_cast<byte *>(&entries_raw), 8);
 
-                        const uint64_t entries = conditional_byte_swap_4_array<64>(&entries_raw, 0, bSwap);
+                        const uint64_t entries = conditional_byte_swap_4_array<64>(&entries_raw, 0, doSwap_);
 
                         const bool tooBig = entries > 500;
 
@@ -266,10 +267,10 @@ namespace Exiv2
                             field_t  field;
 
                             io.read(reinterpret_cast<byte*>(&field), sizeof(field_t));
-                            const uint16_t tag    = conditional_byte_swap<16>(field.tagID,   bSwap);
-                            const uint16_t type   = conditional_byte_swap<16>(field.tagType, bSwap);
-                            const uint64_t count  = conditional_byte_swap<64>(field.count,   bSwap);
-                            const uint64_t data   = conditional_byte_swap<64>(field.data,    bSwap);
+                            const uint16_t tag    = conditional_byte_swap<16>(field.tagID,   doSwap_);
+                            const uint16_t type   = conditional_byte_swap<16>(field.tagType, doSwap_);
+                            const uint64_t count  = conditional_byte_swap<64>(field.count,   doSwap_);
+                            const uint64_t data   = conditional_byte_swap<64>(field.data,    doSwap_);
 
                             std::string sp = "" ; // output spacer
 
@@ -310,7 +311,7 @@ namespace Exiv2
                                 {
                                     for ( size_t k = 0 ; k < kount ; k++ )
                                     {
-                                        out << sp << conditional_byte_swap_4_array<16>(buf.pData_, k*size, bSwap);
+                                        out << sp << conditional_byte_swap_4_array<16>(buf.pData_, k*size, doSwap_);
                                         sp = " ";
                                     }
                                 }
@@ -318,7 +319,7 @@ namespace Exiv2
                                 {
                                     for ( size_t k = 0 ; k < kount ; k++ )
                                     {
-                                        out << sp << conditional_byte_swap_4_array<32>(buf.pData_, k*size, bSwap);
+                                        out << sp << conditional_byte_swap_4_array<32>(buf.pData_, k*size, doSwap_);
                                         sp = " ";
                                     }
                                 }
@@ -326,7 +327,7 @@ namespace Exiv2
                                 {
                                     for ( size_t k = 0 ; k < kount ; k++ )
                                     {
-                                        out << sp << conditional_byte_swap_4_array<64>(buf.pData_, k*size, bSwap);
+                                        out << sp << conditional_byte_swap_4_array<64>(buf.pData_, k*size, doSwap_);
                                         sp = " ";
                                     }
                                 }
@@ -334,8 +335,8 @@ namespace Exiv2
                                 {
                                     for ( size_t k = 0 ; k < kount ; k++ )
                                     {
-                                        uint32_t a = conditional_byte_swap_4_array<32>(buf.pData_, k*size+0, bSwap);
-                                        uint32_t b = conditional_byte_swap_4_array<32>(buf.pData_, k*size+4, bSwap);
+                                        uint32_t a = conditional_byte_swap_4_array<32>(buf.pData_, k*size+0, doSwap_);
+                                        uint32_t b = conditional_byte_swap_4_array<32>(buf.pData_, k*size+4, doSwap_);
                                         out << sp << a << "/" << b;
                                         sp = " ";
                                     }
@@ -353,11 +354,11 @@ namespace Exiv2
                                     {
                                         const size_t restore = io.tell();
                                         const uint64_t offset = type == tiffIfd8?
-                                            conditional_byte_swap_4_array<64>(buf.pData_, k*size, bSwap):
-                                            conditional_byte_swap_4_array<32>(buf.pData_, k*size, bSwap);
+                                            conditional_byte_swap_4_array<64>(buf.pData_, k*size, doSwap_):
+                                            conditional_byte_swap_4_array<32>(buf.pData_, k*size, doSwap_);
 
                                         std::cerr << "tag = " << Internal::stringFormat("%#x",tag) << std::endl;
-                                        printIFD(io, out, option, offset, bSwap, depth);
+                                        printIFD(io, out, option, offset, depth);
                                         io.seek(restore, BasicIo::beg);
                                     }
                                 }
@@ -396,7 +397,7 @@ namespace Exiv2
                                         // tag is an IFD
                                         io.seek(0, BasicIo::beg);  // position
                                         std::cerr << "makernote" << std::endl;
-                                        //printIFDStructure(io,out,option,offset,bSwap,c,depth);  // TODO: fix me
+                                        //printIFDStructure(io,out,option,offset,doSwap_,c,depth);  // TODO: fix me
                                     }
 
                                     io.seek(restore,BasicIo::beg); // restore
@@ -405,7 +406,7 @@ namespace Exiv2
                         }
                         uint64_t next_dir_offset_raw;
                         io.read(reinterpret_cast<byte*>(&next_dir_offset_raw), 8);
-                        offset = tooBig ? 0 : conditional_byte_swap_4_array<64>(&next_dir_offset_raw, 0, bSwap);
+                        offset = tooBig ? 0 : conditional_byte_swap_4_array<64>(&next_dir_offset_raw, 0, doSwap_);
                         out.flush();
                     } while (offset) ;
 
