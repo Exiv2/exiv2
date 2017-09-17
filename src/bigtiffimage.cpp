@@ -406,11 +406,12 @@ namespace Exiv2
                                 }
                             }
                         }
+
                         uint64_t next_dir_offset_raw;
                         io.read(reinterpret_cast<byte*>(&next_dir_offset_raw), 8);
                         offset = tooBig ? 0 : conditional_byte_swap_4_array<64>(&next_dir_offset_raw, 0, doSwap_);
                         out.flush();
-                    } while (offset) ;
+                    } while (offset != 0);
 
                     if ( bPrint )
                         out << indent(depth) << "END " << io.path() << std::endl;
