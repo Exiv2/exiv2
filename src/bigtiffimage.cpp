@@ -14,22 +14,50 @@ namespace Exiv2
     {
         struct Header
         {
-            ByteOrder byteOrder;
-            int version;         // 42 or 43     - regular tiff or big tiff
-            int data_size;       // 4 or 8
-            uint64_t dir_offset;
-
-            bool isValid() const { return version != -1; }
-
-            Header(): byteOrder(invalidByteOrder), version(-1), data_size(0), dir_offset(0) {}
+            Header(): byteOrder_(invalidByteOrder), version_(-1), data_size_(0), dir_offset_(0) {}
             Header(const ByteOrder& order, int v, int size, uint64_t offset):
-                byteOrder(order),
-                version(v),
-                data_size(size),
-                dir_offset(offset)
+                byteOrder_(order),
+                version_(v),
+                data_size_(size),
+                dir_offset_(offset)
             {
 
             }
+
+            bool isValid() const
+            {
+                return version_ != -1;
+            }
+
+            ByteOrder byteOrder() const
+            {
+                assert(isValid());
+                return byteOrder_;
+            }
+
+            int version() const
+            {
+                assert(isValid());
+                return version_;
+            }
+
+            int dataSize() const
+            {
+                assert(isValid());
+                return data_size_;
+            }
+
+            uint64_t dirOffset() const
+            {
+                assert(isValid());
+                return dir_offset_;
+            }
+
+            private:
+                ByteOrder byteOrder_;
+                int version_;         // 42 or 43     - regular tiff or big tiff
+                int data_size_;       // 4 or 8
+                uint64_t dir_offset_;
         };
 
         struct field_t
@@ -187,10 +215,10 @@ namespace Exiv2
 
                 void printStructure(std::ostream& os, PrintStructureOption option, int depth)
                 {
-                     const bool bSwap =  (isLittleEndianPlatform() && header_.byteOrder == bigEndian)
-                                    ||   (isBigEndianPlatform()    && header_.byteOrder == littleEndian);
+                     const bool bSwap =  (isLittleEndianPlatform() && header_.byteOrder() == bigEndian)
+                                    ||   (isBigEndianPlatform()    && header_.byteOrder() == littleEndian);
 
-                    printIFD(Image::io(), os, option, header_.dir_offset, bSwap, depth);
+                    printIFD(Image::io(), os, option, header_.dirOffset(), bSwap, depth);
                 }
 
             private:
