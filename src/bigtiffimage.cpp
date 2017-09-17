@@ -14,6 +14,12 @@ namespace Exiv2
     {
         struct Header
         {
+            enum Format
+            {
+                Tiff,
+                BigTiff,
+            };
+
             Header(): byteOrder_(invalidByteOrder), version_(-1), data_size_(0), dir_offset_(0) {}
             Header(const ByteOrder& order, int v, int size, uint64_t offset):
                 byteOrder_(order),
@@ -41,6 +47,12 @@ namespace Exiv2
                 return version_;
             }
 
+            Format format() const
+            {
+                assert(isValid());
+                return version_ == 0x2A? Tiff: BigTiff;
+            }
+
             int dataSize() const
             {
                 assert(isValid());
@@ -60,13 +72,27 @@ namespace Exiv2
                 uint64_t dir_offset_;
         };
 
-        struct field_t
+        struct DirEntry4StandardTiff
+        {
+            uint16_t tagID;
+            uint16_t tagType;
+            uint32_t count;
+            uint32_t data;
+        } __attribute__((packed));
+
+        struct DirEntry4BigTiff
         {
             uint16_t tagID;
             uint16_t tagType;
             uint64_t count;
             uint64_t data;
         } __attribute__((packed));
+
+        union DirEntry
+        {
+            DirEntry4StandardTiff standardTiff;
+            DirEntry4BigTiff      bigTiff;
+        };
 
         std::string indent(int32_t d)
         {
@@ -189,6 +215,7 @@ namespace Exiv2
                 BigTiffImage(BasicIo::AutoPtr io):
                     Image(ImageType::bigtiff, mdExif, io),
                     header_(),
+                    dataSize_(0),
                     doSwap_(false)
                 {
                     header_ = readHeader(Image::io());
@@ -196,6 +223,8 @@ namespace Exiv2
 
                     doSwap_ =  (isLittleEndianPlatform() && header_.byteOrder() == bigEndian)
                           ||   (isBigEndianPlatform()    && header_.byteOrder() == littleEndian);
+
+                    dataSize_ = header_.format() == Header::Tiff? 4 : 8;
                 }
 
                 virtual ~BigTiffImage() {}
@@ -223,6 +252,7 @@ namespace Exiv2
 
             private:
                 Header header_;
+                int dataSize_;
                 bool doSwap_;
 
                 void printIFD(std::ostream& out, PrintStructureOption option, uint64_t offset, int depth)
@@ -243,7 +273,9 @@ namespace Exiv2
                         uint64_t entries_raw;
                         io.read(reinterpret_cast<byte *>(&entries_raw), 8);
 
-                        const uint64_t entries = conditional_byte_swap_4_array<64>(&entries_raw, 0, doSwap_);
+                        const uint64_t entries = header_.format() == Header::Tiff?
+                            conditional_byte_swap_4_array<16>(&entries_raw, 0, doSwap_):
+                            conditional_byte_swap_4_array<64>(&entries_raw, 0, doSwap_);
 
                         const bool tooBig = entries > 500;
 
@@ -266,13 +298,27 @@ namespace Exiv2
                                     << " type |    count |    offset | value\n";
 
                             bFirst = false;
-                            field_t  field;
+                            DirEntry entry;
+                            const std::size_t entrySize = header_.format() == Header::Tiff?
+                                sizeof(DirEntry4StandardTiff):
+                                sizeof(DirEntry4BigTiff);
 
-                            io.read(reinterpret_cast<byte*>(&field), sizeof(field_t));
-                            const uint16_t tag    = conditional_byte_swap<16>(field.tagID,   doSwap_);
-                            const uint16_t type   = conditional_byte_swap<16>(field.tagType, doSwap_);
-                            const uint64_t count  = conditional_byte_swap<64>(field.count,   doSwap_);
-                            const uint64_t data   = conditional_byte_swap<64>(field.data,    doSwap_);
+                            io.read(reinterpret_cast<byte*>(&entry), entrySize);
+                            const uint16_t tag    = header_.format() == Header::Tiff?
+                                conditional_byte_swap<16>(entry.standardTiff.tagID, doSwap_):
+                                conditional_byte_swap<16>(entry.bigTiff.tagID,      doSwap_);
+
+                            const uint16_t type   = header_.format() == Header::Tiff?
+                                conditional_byte_swap<16>(entry.standardTiff.tagType, doSwap_):
+                                conditional_byte_swap<16>(entry.bigTiff.tagType,      doSwap_);
+
+                            const uint64_t count  = header_.format() == Header::Tiff?
+                                conditional_byte_swap<32>(entry.standardTiff.count, doSwap_):
+                                conditional_byte_swap<64>(entry.bigTiff.count,      doSwap_);
+
+                            const uint64_t data   = header_.format() == Header::Tiff?
+                                conditional_byte_swap<32>(entry.standardTiff.data, doSwap_):
+                                conditional_byte_swap<64>(entry.bigTiff.data,      doSwap_);
 
                             std::string sp = "" ; // output spacer
 
@@ -304,7 +350,7 @@ namespace Exiv2
 
                             if ( bPrint )
                             {
-                                const uint64_t address = offset + 2 + i * sizeof(field_t) ;
+                                const uint64_t address = offset + 2 + i * entrySize;
                                 out << indent(depth)
                                     << Internal::stringFormat("%8u | %#06x %-25s |%10s |%9u |%10u | ",
                                         address, tag, tagName(tag).c_str(), typeName(type), count, offset);
@@ -408,7 +454,7 @@ namespace Exiv2
                         }
 
                         uint64_t next_dir_offset_raw;
-                        io.read(reinterpret_cast<byte*>(&next_dir_offset_raw), 8);
+                        io.read(reinterpret_cast<byte*>(&next_dir_offset_raw), dataSize_);
                         offset = tooBig ? 0 : conditional_byte_swap_4_array<64>(&next_dir_offset_raw, 0, doSwap_);
                         out.flush();
                     } while (offset != 0);
