@@ -135,7 +135,7 @@ case $PLATFORM in
         done
     ;;
 
-    mingw)
+    mingwDeprecated)
         if [ ! -z "$RECURSIVE" ]; then
             # test the delivered exiv2
             CD=$PWD # build exifprint from the dist into the current directory
