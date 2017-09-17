@@ -162,7 +162,6 @@ namespace Exiv2
                     Image(ImageType::bigtiff, mdExif, io),
                     header_()
                 {
-                    Image::io().seek(0, BasicIo::beg);
                     header_ = readHeader(Image::io());
 
                     assert(header_.isValid());
@@ -395,6 +394,7 @@ namespace Exiv2
     {
         return Image::AutoPtr(new BigTiffImage(io));
     }
+
 
     bool isBigTiffType(BasicIo& io, bool advance)
     {
