@@ -396,11 +396,16 @@ namespace Exiv2
         return Image::AutoPtr(new BigTiffImage(io));
     }
 
-    bool isBigTiffType(BasicIo& io, bool)
+    bool isBigTiffType(BasicIo& io, bool advance)
     {
+        const long pos = io.tell();
         const Header header = readHeader(io);
+        const bool valid = header.isValid();
 
-        return header.isValid();
+        if (valid == false || advance == false)
+            io.seek(pos, BasicIo::beg);
+
+        return valid;
     }
 
 }
