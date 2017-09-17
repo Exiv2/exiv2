@@ -218,15 +218,17 @@ namespace Exiv2
 
                 void printStructure(std::ostream& os, PrintStructureOption option, int depth)
                 {
-                    printIFD(Image::io(), os, option, header_.dirOffset(), depth);
+                    printIFD(os, option, header_.dirOffset(), depth);
                 }
 
             private:
                 Header header_;
                 bool doSwap_;
 
-                void printIFD(BasicIo& io, std::ostream& out, PrintStructureOption option, uint64_t offset, int depth)
+                void printIFD(std::ostream& out, PrintStructureOption option, uint64_t offset, int depth)
                 {
+                    BasicIo& io = Image::io();
+
                     depth++;
                     bool bFirst  = true;
 
@@ -358,7 +360,7 @@ namespace Exiv2
                                             conditional_byte_swap_4_array<32>(buf.pData_, k*size, doSwap_);
 
                                         std::cerr << "tag = " << Internal::stringFormat("%#x",tag) << std::endl;
-                                        printIFD(io, out, option, offset, depth);
+                                        printIFD(out, option, offset, depth);
                                         io.seek(restore, BasicIo::beg);
                                     }
                                 }
