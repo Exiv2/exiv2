@@ -270,13 +270,7 @@ namespace Exiv2
                         // Read top of directory
                         io.seek(offset, BasicIo::beg);
 
-                        uint64_t entries_raw;
-                        io.read(reinterpret_cast<byte *>(&entries_raw), 8);
-
-                        const uint64_t entries = header_.format() == Header::Tiff?
-                            conditional_byte_swap_4_array<16>(&entries_raw, 0, doSwap_):
-                            conditional_byte_swap_4_array<64>(&entries_raw, 0, doSwap_);
-
+                        const uint64_t entries = readData(header_.format() == Header::Tiff? 2: 8);
                         const bool tooBig = entries > 500;
 
                         if ( bFirst && bPrint )
@@ -298,27 +292,11 @@ namespace Exiv2
                                     << " type |    count |    offset | value\n";
 
                             bFirst = false;
-                            DirEntry entry;
-                            const std::size_t entrySize = header_.format() == Header::Tiff?
-                                sizeof(DirEntry4StandardTiff):
-                                sizeof(DirEntry4BigTiff);
 
-                            io.read(reinterpret_cast<byte*>(&entry), entrySize);
-                            const uint16_t tag    = header_.format() == Header::Tiff?
-                                conditional_byte_swap<16>(entry.standardTiff.tagID, doSwap_):
-                                conditional_byte_swap<16>(entry.bigTiff.tagID,      doSwap_);
-
-                            const uint16_t type   = header_.format() == Header::Tiff?
-                                conditional_byte_swap<16>(entry.standardTiff.tagType, doSwap_):
-                                conditional_byte_swap<16>(entry.bigTiff.tagType,      doSwap_);
-
-                            const uint64_t count  = header_.format() == Header::Tiff?
-                                conditional_byte_swap<32>(entry.standardTiff.count, doSwap_):
-                                conditional_byte_swap<64>(entry.bigTiff.count,      doSwap_);
-
-                            const uint64_t data   = header_.format() == Header::Tiff?
-                                conditional_byte_swap<32>(entry.standardTiff.data, doSwap_):
-                                conditional_byte_swap<64>(entry.bigTiff.data,      doSwap_);
+                            const uint16_t tag   = readData(2);
+                            const uint16_t type  = readData(2);
+                            const uint64_t count = readData(dataSize_);
+                            const DataBuf  data  = io.read(dataSize_);        // Read data as raw value. what should be done about it will be decided depending on type
 
                             std::string sp = "" ; // output spacer
 
@@ -330,26 +308,31 @@ namespace Exiv2
                                                             ;
                             const uint32_t pad    = isStringType(type) ? 1 : 0;
                             const uint32_t size   = isStringType(type) ? 1
-                                                        : is2ByteType(type)  ? 2
-                                                        : is4ByteType(type)  ? 4
-                                                        : is8ByteType(type)  ? 8
-                                                        : 1;
+                                                  : is2ByteType(type)  ? 2
+                                                  : is4ByteType(type)  ? 4
+                                                  : is8ByteType(type)  ? 8
+                                                  : 1;
 
                             DataBuf buf(size * count + pad);
 
                             // big data? Use 'data' as pointer to real data
                             if ( count*size > 8 )                      // read into buffer
                             {
+                                const uint64_t data_pointer = header_.format() == Header::Tiff?
+                                    conditional_byte_swap_4_array<32>(data.pData_, 0, doSwap_):
+                                    conditional_byte_swap_4_array<64>(data.pData_, 0, doSwap_);
+
                                 size_t   restore = io.tell();          // save
-                                io.seek(data, BasicIo::beg);    // position
+                                io.seek(data_pointer, BasicIo::beg);   // position
                                 io.read(buf.pData_, count * size);     // read
-                                io.seek(restore, BasicIo::beg); // restore
+                                io.seek(restore, BasicIo::beg);        // restore
                             }
                             else  // use 'data' as data :)
-                                std::memcpy(buf.pData_, &data, count * size);     // copy data
+                                std::memcpy(buf.pData_, data.pData_, count * size);     // copy data
 
                             if ( bPrint )
                             {
+                                const int entrySize = header_.format() == Header::Tiff? 12: 20;
                                 const uint64_t address = offset + 2 + i * entrySize;
                                 out << indent(depth)
                                     << Internal::stringFormat("%8u | %#06x %-25s |%10s |%9u |%10u | ",
@@ -463,6 +446,27 @@ namespace Exiv2
                         out << indent(depth) << "END " << io.path() << std::endl;
 
                     depth--;
+                }
+
+                uint64_t readData(int size) const
+                {
+                    uint64_t data = 0;
+
+                    const int read = Image::io().read(reinterpret_cast<byte *>(&data), size);
+                    assert(read == size);
+
+                    if (size == 1)
+                    {}
+                    else if (size == 2)
+                        data = conditional_byte_swap<16>(data, doSwap_);
+                    else if (size == 4)
+                        data = conditional_byte_swap<32>(data, doSwap_);
+                    else if (size == 8)
+                        data = conditional_byte_swap<64>(data, doSwap_);
+                    else
+                        assert(!"unexpected size");
+
+                    return data;
                 }
         };
     }
