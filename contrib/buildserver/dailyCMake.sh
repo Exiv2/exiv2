@@ -90,7 +90,7 @@ testBuild()
             # get windows cmd.exe to perform the build
             # use a subshell to restore the path
             (
-                PATH="$msvc:/cygdrive/c/Windows/System32:/cygdrive/c/Program Files/csvn/bin:/cygdrive/c/Program Files (x86)/WANdisco/Subversion/csvn/bin:/cygdrive/c/Program Files/7-zip:/cygdrive/c/Program Files (x86)/cmake/bin"
+                PATH="$msvc:/cygdrive/c/Windows/System32:/cygdrive/c/Program Files/csvn/bin:/cygdrive/c/Program Files (x86)/WANdisco/Subversion/csvn/bin:/cygdrive/c/Program Files/7-zip:/cygdrive/c/Program Files/CMake/bin:/cygdrive/c/Program Files (x86)/cmake/bin"
                 # cmd.exe /c "cd $build && vcvars $vs $arch && cmakeBuild --rebuild --exiv2=$exiv2 $*"
                 for ARCH in 64 32; do
                     for VS in 2005 2008 2010 2012 2013 2015; do
