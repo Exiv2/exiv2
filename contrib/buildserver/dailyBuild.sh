@@ -12,7 +12,7 @@ ssh rmills@rmillsmm         'cd ~/gnu/exiv2/buildserver ; rm -rf exiv2 ; git clo
 ssh rmills@rmillsmm-kubuntu 'cd ~/gnu/exiv2/buildserver ; rm -rf exiv2 ; git clone http://github.com/Exiv2/exiv2.git ; cd exiv2/ ;                               contrib/buildserver/dailyCMake.sh'
 ssh rmills@rmillsmm-w7      'cd ~/gnu/exiv2/buildserver ; rm -rf exiv2 ; git clone http://github.com/Exiv2/exiv2.git ; cd exiv2/ ;                               contrib/buildserver/dailyCMake.sh'
 ssh rmills@rmillsmm-w7      'cd ~/gnu/exiv2/buildserver ; rm -rf exiv2 ; git clone http://github.com/Exiv2/exiv2.git ; cd exiv2/ ; env PLATFORM=msvc             contrib/buildserver/dailyCMake.sh'
-ssh rmills@rmillsmm-w7      'cd ~/gnu/exiv2/buildserver ; rm -rf exiv2 ; git clone http://github.com/Exiv2/exiv2.git ; cd exiv2/ ; env PLATFORM=mingw win32=true contrib/buildserver/dailyCMake.sh'
+# ssh rmills@rmillsmm-w7      'cd ~/gnu/exiv2/buildserver ; rm -rf exiv2 ; git clone http://github.com/Exiv2/exiv2.git ; cd exiv2/ ; env PLATFORM=mingw win32=true contrib/buildserver/dailyCMake.sh'
 
 ##
 # test the delivery
@@ -28,7 +28,7 @@ ssh rmills@rmillsmm          'cd ~/gnu/exiv2/buildserver ;                      
 ssh rmills@rmillsmm-kubuntu  'cd ~/gnu/exiv2/buildserver ;                               contrib/buildserver/dailyTest.sh' | tr -d $'\r' | tee -a $output
 ssh rmills@rmillsmm-w7       'cd ~/gnu/exiv2/buildserver ;                               contrib/buildserver/dailyTest.sh' | tr -d $'\r' | tee -a $output
 ssh rmills@rmillsmm-w7       'cd ~/gnu/exiv2/buildserver ; env PLATFORM=msvc             contrib/buildserver/dailyTest.sh' | tr -d $'\r' | tee -a $output
-ssh rmills@rmillsmm-w7       'cd ~/gnu/exiv2/buildserver ; env PLATFORM=mingw win32=true contrib/buildserver/dailyTest.sh' | tr -d $'\r' | tee -a $output
+# ssh rmills@rmillsmm-w7       'cd ~/gnu/exiv2/buildserver ; env PLATFORM=mingw win32=true contrib/buildserver/dailyTest.sh' | tr -d $'\r' | tee -a $output
 
 ##
 # categorize the builds
