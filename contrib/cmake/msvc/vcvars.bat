@@ -8,7 +8,7 @@ set "_ARG_=%1"
 
 rem help
 if "%_ARG_%" EQU "" (
-	echo syntax: %0 [2005 ^| 2008 ^| 2010 ^| 2012 ^| 2013 ^| 2015] [64]
+	echo syntax: %0 [2005 ^| 2008 ^| 2010 ^| 2012 ^| 2013 ^| 2015] ^| 2017] [64]
 	goto eof
 )
 
@@ -40,6 +40,16 @@ if "%_ARG_%" EQU "2005" (
   popd
   goto eof
 )
+
+if "%_ARG_%" EQU "2017" (
+  @echo on
+  pushd "%ProgramFiles(x86)%\Microsoft Visual Studio\2017\Community\Common7\Tools"
+    if "%_OPT_%" EQU "64" call vsdevcmd.bat -arch=amd64
+    if "%_OPT_%" EQU "32" call vsdevcmd.bat -arch=x86
+  popd
+  goto eof
+)
+
 
 rem set the variable _VC_
 set _VC_=
