@@ -320,7 +320,9 @@ namespace Exiv2
                                     conditional_byte_swap_4_array<64>(data.pData_, 0, doSwap_);
 
                             // big data? Use 'data' as pointer to real data
-                            if ( count*size > 8 )                      // read into buffer
+                            const bool usePointer = count*size > 8;
+
+                            if ( usePointer )                          // read into buffer
                             {
                                 size_t   restore = io.tell();          // save
                                 io.seek(offset, BasicIo::beg);         // position
@@ -334,9 +336,13 @@ namespace Exiv2
                             {
                                 const int entrySize = header_.format() == Header::Tiff? 12: 20;
                                 const uint64_t address = dir_offset + 2 + i * entrySize;
+                                const std::string offsetString = usePointer?
+                                    Internal::stringFormat("%10u", offset):
+                                    "";
+
                                 out << indent(depth)
-                                    << Internal::stringFormat("%8u | %#06x %-25s |%10s |%9u |%10u | ",
-                                        address, tag, tagName(tag).c_str(), typeName(type), count, offset);
+                                    << Internal::stringFormat("%8u | %#06x %-25s |%10s |%9u |%10s | ",
+                                        address, tag, tagName(tag).c_str(), typeName(type), count, offsetString.c_str());
 
                                 if ( isShortType(type) )
                                 {
