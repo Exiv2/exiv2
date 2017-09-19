@@ -299,6 +299,8 @@ namespace Exiv2 {
                                                const Value& value,
                                                const ExifData* exifData)
     {
+        if ( ! exifData ) return os << "undefined" ;
+
         if ( value.count() >= 9 ) {
             ByteOrder bo = getKeyString("Exif.MakerNote.ByteOrder",exifData) == "MM" ? bigEndian : littleEndian;
             byte      p[4];
