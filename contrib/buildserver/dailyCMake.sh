@@ -91,13 +91,13 @@ testBuild()
             # use a subshell to restore the path
             (
                 PATH="$msvc:/cygdrive/c/Windows/System32:/cygdrive/c/Program Files/csvn/bin:/cygdrive/c/Program Files (x86)/WANdisco/Subversion/csvn/bin:/cygdrive/c/Program Files/7-zip:/cygdrive/c/Program Files/CMake/bin:/cygdrive/c/Program Files/cmake/bin:/cygdrive/c/Program Files (x86)/cmake/bin"
-                # cmd.exe /c "cd $build && vcvars $vs $arch && cmakeBuild --rebuild --exiv2=$exiv2 $*"
+                # cmd.exe /c "cd $build && vcvars $vs $arch && cmakeBuild --samples --build --exiv2 $exiv2 $*"
                 for ARCH in 64 32; do
                     for VS in 2005 2008 2010 2012 2013 2015 2017; do
                         echo -=-=-=-=-=-=-=-=-=-=-=-
-                        echo cmd.exe /c "cd $build && vcvars $VS $ARCH && cmakeBuild --rebuild --exiv2=$exiv2 $*"
+                        echo cmd.exe /c "cd $build && vcvars $VS $ARCH && cmakeBuild --build --samples --exiv2 $exiv2 $*"
                         echo -=-=-=-=-=-=-=-=-=-=-=-
-                             cmd.exe /c "cd $build && vcvars $VS $ARCH && cmakeBuild --rebuild --exiv2=$exiv2 $*"
+                             cmd.exe /c "cd $build && vcvars $VS $ARCH && cmakeBuild --build --samples --exiv2 $exiv2 $*"
                     done
                 done
                 # cmd.exe /c "cd $build && cmakeBuildAll --rebuild --exiv2=$exiv2 $*"
