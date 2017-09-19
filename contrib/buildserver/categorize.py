@@ -64,8 +64,8 @@ def visitfile(file,path,myData):
 				S=os.path.join(SVN,svn)
 				mkdir(S)
 				os.symlink(path,os.path.join(S,file))
-				
-				if svn==myData['latest_svn'] and date == myData['latest_date']:
+
+				if date == myData['latest_date']:
 					os.symlink(path,os.path.join(Latest,file))
 
 		except:
