@@ -331,7 +331,7 @@ namespace Exiv2 {
             for ( int i = 0 ; i < dirLength ; i ++ ) {
                 if ( bFirst && bPrint ) {
                     out << Internal::indent(depth)
-                        << " address |    tag                           |     "
+                        << " address |    tag                              |     "
                         << " type |    count |    offset | value\n";
                 }
                 bFirst = false;
@@ -370,9 +370,9 @@ namespace Exiv2 {
                 // if ( offset > io.size() ) offset = 0; // Denial of service?
                 DataBuf  buf(size*count + pad+20);  // allocate a buffer
                 std::memcpy(buf.pData_,dir.pData_+8,4);  // copy dir[8:11] into buffer (short strings)
-                const bool offsetIsPointer = count*size > 4;
+                const bool bOffsetIsPointer = count*size > 4;
 
-                if ( offsetIsPointer ) {         // read into buffer
+                if ( bOffsetIsPointer ) {         // read into buffer
                     size_t   restore = io.tell();  // save
                     io.seek(offset,BasicIo::beg);  // position
                     io.read(buf.pData_,count*size);// read
@@ -381,12 +381,12 @@ namespace Exiv2 {
 
                 if ( bPrint ) {
                     const uint32_t address = start + 2 + i*12 ;
-                    const std::string offsetString = offsetIsPointer?
+                    const std::string offsetString = bOffsetIsPointer?
                         Internal::stringFormat("%10u", offset):
                         "";
 
                     out << Internal::indent(depth)
-                    << Internal::stringFormat("%8u | %#06x %-25s |%10s |%9u |%10s | "
+                    << Internal::stringFormat("%8u | %#06x %-28s |%10s |%9u |%10s | "
                                               ,address,tag,tagName(tag).c_str(),typeName(type),count,offsetString.c_str());
                     if ( isShortType(type) ){
                         for ( size_t k = 0 ; k < kount ; k++ ) {
