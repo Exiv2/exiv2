@@ -16,7 +16,7 @@ namespace Exiv2
         {
             enum Format
             {
-                Tiff,
+                StandardTiff,
                 BigTiff,
             };
 
@@ -50,7 +50,7 @@ namespace Exiv2
             Format format() const
             {
                 assert(isValid());
-                return version_ == 0x2A? Tiff: BigTiff;
+                return version_ == 0x2A? StandardTiff: BigTiff;
             }
 
             int dataSize() const
@@ -224,7 +224,7 @@ namespace Exiv2
                     doSwap_ =  (isLittleEndianPlatform() && header_.byteOrder() == bigEndian)
                           ||   (isBigEndianPlatform()    && header_.byteOrder() == littleEndian);
 
-                    dataSize_ = header_.format() == Header::Tiff? 4 : 8;
+                    dataSize_ = header_.format() == Header::StandardTiff? 4 : 8;
                 }
 
                 virtual ~BigTiffImage() {}
@@ -270,7 +270,7 @@ namespace Exiv2
                         // Read top of directory
                         io.seek(dir_offset, BasicIo::beg);
 
-                        const uint64_t entries = readData(header_.format() == Header::Tiff? 2: 8);
+                        const uint64_t entries = readData(header_.format() == Header::StandardTiff? 2: 8);
                         const bool tooBig = entries > 500;
 
                         if ( bFirst && bPrint )
@@ -315,7 +315,7 @@ namespace Exiv2
 
                             DataBuf buf(size * count + pad);
 
-                            const uint64_t offset = header_.format() == Header::Tiff?
+                            const uint64_t offset = header_.format() == Header::StandardTiff?
                                     conditional_byte_swap_4_array<32>(data.pData_, 0, doSwap_):
                                     conditional_byte_swap_4_array<64>(data.pData_, 0, doSwap_);
 
@@ -334,7 +334,7 @@ namespace Exiv2
 
                             if ( bPrint )
                             {
-                                const int entrySize = header_.format() == Header::Tiff? 12: 20;
+                                const int entrySize = header_.format() == Header::StandardTiff? 12: 20;
                                 const uint64_t address = dir_offset + 2 + i * entrySize;
                                 const std::string offsetString = usePointer?
                                     Internal::stringFormat("%10u", offset):
