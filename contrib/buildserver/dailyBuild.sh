@@ -24,15 +24,15 @@ echo --------------------------------------
 echo test log = $output
 echo --------------------------------------
 
-ssh rmills@rmillsmm          'cd ~/gnu/exiv2/buildserver ;                               contrib/buildserver/dailyTest.sh' | tr -d $'\r' | tee -a $output
-ssh rmills@rmillsmm-kubuntu  'cd ~/gnu/exiv2/buildserver ;                               contrib/buildserver/dailyTest.sh' | tr -d $'\r' | tee -a $output
-ssh rmills@rmillsmm-w7       'cd ~/gnu/exiv2/buildserver ;                               contrib/buildserver/dailyTest.sh' | tr -d $'\r' | tee -a $output
-ssh rmills@rmillsmm-w7       'cd ~/gnu/exiv2/buildserver ; env PLATFORM=msvc             contrib/buildserver/dailyTest.sh' | tr -d $'\r' | tee -a $output
-# ssh rmills@rmillsmm-w7       'cd ~/gnu/exiv2/buildserver ; env PLATFORM=mingw win32=true contrib/buildserver/dailyTest.sh' | tr -d $'\r' | tee -a $output
+ssh rmills@rmillsmm          'cd ~/gnu/exiv2/buildserver/exiv2 ;                                 contrib/buildserver/dailyTest.sh' | tr -d $'\r' | tee -a $output
+ssh rmills@rmillsmm-kubuntu  'cd ~/gnu/exiv2/buildserver/exiv2 ;                                 contrib/buildserver/dailyTest.sh' | tr -d $'\r' | tee -a $output
+ssh rmills@rmillsmm-w7       'cd ~/gnu/exiv2/buildserver/exiv2 ;                                 contrib/buildserver/dailyTest.sh' | tr -d $'\r' | tee -a $output
+ssh rmills@rmillsmm-w7       'cd ~/gnu/exiv2/buildserver/exiv2 ; env PLATFORM=msvc               contrib/buildserver/dailyTest.sh' | tr -d $'\r' | tee -a $output
+# ssh rmills@rmillsmm-w7       'cd ~/gnu/exiv2/buildserver/exiv2 ; env PLATFORM=mingw win32=true contrib/buildserver/dailyTest.sh' | tr -d $'\r' | tee -a $output
 
 ##
 # categorize the builds
-ssh rmills@rmillsmm         "cd ~/gnu/exiv2/buildserver ; PATH="$PATH:/usr/local/bin"; contrib/buildserver/categorize.py $builds"
+ssh rmills@rmillsmm         "cd ~/gnu/exiv2/buildserver/exiv2 ; PATH="$PATH:/usr/local/bin";      contrib/buildserver/categorize.py $builds"
 
 # That's all Folks!
 ##
