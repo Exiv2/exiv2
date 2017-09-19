@@ -94,16 +94,6 @@ namespace Exiv2
             DirEntry4BigTiff      bigTiff;
         };
 
-        std::string indent(int32_t d)
-        {
-            std::string result ;
-            if ( d > 0 )
-                while ( d--)
-                    result += "  ";
-
-            return result;
-        }
-
         Header readHeader(BasicIo& io)
         {
             byte header[2];
@@ -275,9 +265,9 @@ namespace Exiv2
 
                         if ( bFirst && bPrint )
                         {
-                            out << indent(depth) << Internal::stringFormat("STRUCTURE OF TIFF FILE ") << io.path() << std::endl;
+                            out << Internal::indent(depth) << Internal::stringFormat("STRUCTURE OF TIFF FILE ") << io.path() << std::endl;
                             if (tooBig)
-                                out << indent(depth) << "entries = " << entries << std::endl;
+                                out << Internal::indent(depth) << "entries = " << entries << std::endl;
                         }
 
                         if (tooBig)
@@ -287,7 +277,7 @@ namespace Exiv2
                         for ( uint64_t i = 0; i < entries; i ++ )
                         {
                             if ( bFirst && bPrint )
-                                out << indent(depth)
+                                out << Internal::indent(depth)
                                     << " address |    tag                           |     "
                                     << " type |    count |    offset | value\n";
 
@@ -340,7 +330,7 @@ namespace Exiv2
                                     Internal::stringFormat("%10u", offset):
                                     "";
 
-                                out << indent(depth)
+                                out << Internal::indent(depth)
                                     << Internal::stringFormat("%8u | %#06x %-25s |%10s |%9u |%10s | ",
                                         address, tag, tagName(tag).c_str(), typeName(type), count, offsetString.c_str());
 
@@ -449,7 +439,7 @@ namespace Exiv2
                     } while (dir_offset != 0);
 
                     if ( bPrint )
-                        out << indent(depth) << "END " << io.path() << std::endl;
+                        out << Internal::indent(depth) << "END " << io.path() << std::endl;
 
                     depth--;
                 }
