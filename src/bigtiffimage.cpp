@@ -315,13 +315,13 @@ namespace Exiv2
 
                             DataBuf buf(size * count + pad);
 
-                            // big data? Use 'data' as pointer to real data
-                            if ( count*size > 8 )                      // read into buffer
-                            {
-                                const uint64_t offset = header_.format() == Header::Tiff?
+                            const uint64_t offset = header_.format() == Header::Tiff?
                                     conditional_byte_swap_4_array<32>(data.pData_, 0, doSwap_):
                                     conditional_byte_swap_4_array<64>(data.pData_, 0, doSwap_);
 
+                            // big data? Use 'data' as pointer to real data
+                            if ( count*size > 8 )                      // read into buffer
+                            {
                                 size_t   restore = io.tell();          // save
                                 io.seek(offset, BasicIo::beg);         // position
                                 io.read(buf.pData_, count * size);     // read
@@ -336,7 +336,7 @@ namespace Exiv2
                                 const uint64_t address = dir_offset + 2 + i * entrySize;
                                 out << indent(depth)
                                     << Internal::stringFormat("%8u | %#06x %-25s |%10s |%9u |%10u | ",
-                                        address, tag, tagName(tag).c_str(), typeName(type), count, dir_offset);
+                                        address, tag, tagName(tag).c_str(), typeName(type), count, offset);
 
                                 if ( isShortType(type) )
                                 {
