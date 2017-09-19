@@ -320,7 +320,7 @@ namespace Exiv2
                                     conditional_byte_swap_4_array<64>(data.pData_, 0, doSwap_);
 
                             // big data? Use 'data' as pointer to real data
-                            const bool usePointer = count*size > 8;
+                            const bool usePointer = count*size > dataSize_;
 
                             if ( usePointer )                          // read into buffer
                             {
