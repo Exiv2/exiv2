@@ -72,28 +72,6 @@ namespace Exiv2
                 uint64_t dir_offset_;
         };
 
-        struct DirEntry4StandardTiff
-        {
-            uint16_t tagID;
-            uint16_t tagType;
-            uint32_t count;
-            uint32_t data;
-        } __attribute__((packed));
-
-        struct DirEntry4BigTiff
-        {
-            uint16_t tagID;
-            uint16_t tagType;
-            uint64_t count;
-            uint64_t data;
-        } __attribute__((packed));
-
-        union DirEntry
-        {
-            DirEntry4StandardTiff standardTiff;
-            DirEntry4BigTiff      bigTiff;
-        };
-
         Header readHeader(BasicIo& io)
         {
             byte header[2];
