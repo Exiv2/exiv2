@@ -255,7 +255,7 @@ namespace Exiv2
                 int dataSize_;
                 bool doSwap_;
 
-                void printIFD(std::ostream& out, PrintStructureOption option, uint64_t offset, int depth)
+                void printIFD(std::ostream& out, PrintStructureOption option, uint64_t dir_offset, int depth)
                 {
                     BasicIo& io = Image::io();
 
@@ -268,7 +268,7 @@ namespace Exiv2
                     do
                     {
                         // Read top of directory
-                        io.seek(offset, BasicIo::beg);
+                        io.seek(dir_offset, BasicIo::beg);
 
                         const uint64_t entries = readData(header_.format() == Header::Tiff? 2: 8);
                         const bool tooBig = entries > 500;
@@ -318,12 +318,12 @@ namespace Exiv2
                             // big data? Use 'data' as pointer to real data
                             if ( count*size > 8 )                      // read into buffer
                             {
-                                const uint64_t data_pointer = header_.format() == Header::Tiff?
+                                const uint64_t offset = header_.format() == Header::Tiff?
                                     conditional_byte_swap_4_array<32>(data.pData_, 0, doSwap_):
                                     conditional_byte_swap_4_array<64>(data.pData_, 0, doSwap_);
 
                                 size_t   restore = io.tell();          // save
-                                io.seek(data_pointer, BasicIo::beg);   // position
+                                io.seek(offset, BasicIo::beg);         // position
                                 io.read(buf.pData_, count * size);     // read
                                 io.seek(restore, BasicIo::beg);        // restore
                             }
@@ -333,10 +333,10 @@ namespace Exiv2
                             if ( bPrint )
                             {
                                 const int entrySize = header_.format() == Header::Tiff? 12: 20;
-                                const uint64_t address = offset + 2 + i * entrySize;
+                                const uint64_t address = dir_offset + 2 + i * entrySize;
                                 out << indent(depth)
                                     << Internal::stringFormat("%8u | %#06x %-25s |%10s |%9u |%10u | ",
-                                        address, tag, tagName(tag).c_str(), typeName(type), count, offset);
+                                        address, tag, tagName(tag).c_str(), typeName(type), count, dir_offset);
 
                                 if ( isShortType(type) )
                                 {
@@ -396,7 +396,7 @@ namespace Exiv2
                                 else if ( option == kpsRecursive && tag == 0x83bb /* IPTCNAA */ )
                                 {
                                     size_t   restore = io.tell();  // save
-                                    io.seek(offset, BasicIo::beg);  // position
+                                    io.seek(dir_offset, BasicIo::beg);  // position
                                     byte* bytes=new byte[count] ;  // allocate memory
                                     io.read(bytes,count)        ;  // read
                                     io.seek(restore, BasicIo::beg); // restore
@@ -410,7 +410,7 @@ namespace Exiv2
                                     uint32_t jump= 10           ;
                                     byte     bytes[20]          ;
                                     const char* chars = (const char*) &bytes[0] ;
-                                    io.seek(offset, BasicIo::beg);  // position
+                                    io.seek(dir_offset, BasicIo::beg);  // position
                                     io.read(bytes,jump    )     ;  // read
                                     bytes[jump]=0               ;
                                     if ( ::strcmp("Nikon",chars) == 0 )
@@ -438,9 +438,9 @@ namespace Exiv2
 
                         uint64_t next_dir_offset_raw;
                         io.read(reinterpret_cast<byte*>(&next_dir_offset_raw), dataSize_);
-                        offset = tooBig ? 0 : conditional_byte_swap_4_array<64>(&next_dir_offset_raw, 0, doSwap_);
+                        dir_offset = tooBig ? 0 : conditional_byte_swap_4_array<64>(&next_dir_offset_raw, 0, doSwap_);
                         out.flush();
-                    } while (offset != 0);
+                    } while (dir_offset != 0);
 
                     if ( bPrint )
                         out << indent(depth) << "END " << io.path() << std::endl;
