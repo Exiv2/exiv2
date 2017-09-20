@@ -122,61 +122,6 @@ namespace Exiv2
             return result;
         }
 
-        template<int>
-        struct TypeForSize {};
-
-        template<>
-        struct TypeForSize<16>
-        {
-            typedef int16_t Type;
-        };
-
-        template<>
-        struct TypeForSize<32>
-        {
-            typedef int32_t Type;
-        };
-
-        template<>
-        struct TypeForSize<64>
-        {
-            typedef int64_t Type;
-        };
-
-        template<int size>
-        typename TypeForSize<size>::Type byte_swap(const typename TypeForSize<size>::Type& v)
-        {
-            typename TypeForSize<size>::Type result = 0;
-            if (size == 16)
-                result = __builtin_bswap16(v);
-            else if (size == 32)
-                result = __builtin_bswap32(v);
-            else if (size == 64)
-                result = __builtin_bswap64(v);
-
-            return result;
-        }
-
-        template<int size>
-        typename TypeForSize<size>::Type conditional_byte_swap(const typename TypeForSize<size>::Type& v, bool swap)
-        {
-            const typename TypeForSize<size>::Type result = swap? byte_swap<size>(v): v;
-
-            return result;
-        }
-
-
-        template<int size>
-        typename TypeForSize<size>::Type conditional_byte_swap_4_array(void* buf, uint64_t offset, bool swap)
-        {
-            typedef typename TypeForSize<size>::Type Type;
-
-            const uint8_t* bytes_buf = static_cast<uint8_t*>(buf);
-            const Type* value = reinterpret_cast<const Type *>(&bytes_buf[offset]);
-
-            return conditional_byte_swap<size>(*value, swap);
-        }
-
         class BigTiffImage: public Image
         {
             public:
@@ -284,8 +229,8 @@ namespace Exiv2
                             DataBuf buf(size * count + pad);
 
                             const uint64_t offset = header_.format() == Header::StandardTiff?
-                                    conditional_byte_swap_4_array<32>(data.pData_, 0, doSwap_):
-                                    conditional_byte_swap_4_array<64>(data.pData_, 0, doSwap_);
+                                    byteSwap4(data, 0, doSwap_):
+                                    byteSwap8(data, 0, doSwap_);
 
                             // big data? Use 'data' as pointer to real data
                             const bool usePointer = count*size > dataSize_;
@@ -316,7 +261,7 @@ namespace Exiv2
                                 {
                                     for ( size_t k = 0 ; k < kount ; k++ )
                                     {
-                                        out << sp << conditional_byte_swap_4_array<16>(buf.pData_, k*size, doSwap_);
+                                        out << sp << byteSwap2(buf, k*size, doSwap_);
                                         sp = " ";
                                     }
                                 }
@@ -324,7 +269,7 @@ namespace Exiv2
                                 {
                                     for ( size_t k = 0 ; k < kount ; k++ )
                                     {
-                                        out << sp << conditional_byte_swap_4_array<32>(buf.pData_, k*size, doSwap_);
+                                        out << sp << byteSwap4(buf, k*size, doSwap_);
                                         sp = " ";
                                     }
                                 }
@@ -332,7 +277,7 @@ namespace Exiv2
                                 {
                                     for ( size_t k = 0 ; k < kount ; k++ )
                                     {
-                                        out << sp << conditional_byte_swap_4_array<64>(buf.pData_, k*size, doSwap_);
+                                        out << sp << byteSwap8(buf, k*size, doSwap_);
                                         sp = " ";
                                     }
                                 }
@@ -340,8 +285,8 @@ namespace Exiv2
                                 {
                                     for ( size_t k = 0 ; k < kount ; k++ )
                                     {
-                                        uint32_t a = conditional_byte_swap_4_array<32>(buf.pData_, k*size+0, doSwap_);
-                                        uint32_t b = conditional_byte_swap_4_array<32>(buf.pData_, k*size+4, doSwap_);
+                                        uint32_t a = byteSwap4(buf, k*size+0, doSwap_);
+                                        uint32_t b = byteSwap4(buf, k*size+4, doSwap_);
                                         out << sp << a << "/" << b;
                                         sp = " ";
                                     }
@@ -359,8 +304,8 @@ namespace Exiv2
                                     {
                                         const size_t restore = io.tell();
                                         const uint64_t offset = type == tiffIfd8?
-                                            conditional_byte_swap_4_array<64>(buf.pData_, k*size, doSwap_):
-                                            conditional_byte_swap_4_array<32>(buf.pData_, k*size, doSwap_);
+                                            byteSwap8(buf, k*size, doSwap_):
+                                            byteSwap4(buf, k*size, doSwap_);
 
                                         std::cerr << "tag = " << Internal::stringFormat("%#x",tag) << std::endl;
                                         printIFD(out, option, offset, depth);
@@ -410,9 +355,9 @@ namespace Exiv2
                             }
                         }
 
-                        uint64_t next_dir_offset_raw;
-                        io.read(reinterpret_cast<byte*>(&next_dir_offset_raw), dataSize_);
-                        dir_offset = tooBig ? 0 : conditional_byte_swap_4_array<64>(&next_dir_offset_raw, 0, doSwap_);
+                        const uint64_t nextDirOffset = readData(dataSize_);
+
+                        dir_offset = tooBig ? 0 : nextDirOffset;
                         out.flush();
                     } while (dir_offset != 0);
 
@@ -424,23 +369,23 @@ namespace Exiv2
 
                 uint64_t readData(int size) const
                 {
-                    uint64_t data = 0;
+                    const DataBuf data = Image::io().read(size);
+                    assert(data.size_ != 0);
 
-                    const int read = Image::io().read(reinterpret_cast<byte *>(&data), size);
-                    assert(read == size);
+                    uint64_t result = 0;
 
                     if (size == 1)
                     {}
                     else if (size == 2)
-                        data = conditional_byte_swap<16>(data, doSwap_);
+                        result = byteSwap2(data, 0, doSwap_);
                     else if (size == 4)
-                        data = conditional_byte_swap<32>(data, doSwap_);
+                        result = byteSwap4(data, 0, doSwap_);
                     else if (size == 8)
-                        data = conditional_byte_swap<64>(data, doSwap_);
+                        result = byteSwap8(data, 0, doSwap_);
                     else
                         assert(!"unexpected size");
 
-                    return data;
+                    return result;
                 }
         };
     }
