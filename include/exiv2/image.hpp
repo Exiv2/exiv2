@@ -353,10 +353,12 @@ namespace Exiv2 {
         bool isPrintXMP(uint16_t type, Exiv2::PrintStructureOption option);
         bool isPrintICC(uint16_t type, Exiv2::PrintStructureOption option);
 
-        uint32_t byteSwap(uint32_t value,bool bSwap);
-        uint16_t byteSwap(uint16_t value,bool bSwap);
-        uint16_t byteSwap2(DataBuf& buf,size_t offset,bool bSwap);
-        uint32_t byteSwap4(DataBuf& buf,size_t offset,bool bSwap);
+        uint64_t byteSwap(uint64_t value,bool bSwap) const;
+        uint32_t byteSwap(uint32_t value,bool bSwap) const;
+        uint16_t byteSwap(uint16_t value,bool bSwap) const;
+        uint16_t byteSwap2(const DataBuf& buf,size_t offset,bool bSwap) const;
+        uint32_t byteSwap4(const DataBuf& buf,size_t offset,bool bSwap) const;
+        uint64_t byteSwap8(const DataBuf& buf,size_t offset,bool bSwap) const;
 
         //@}
 

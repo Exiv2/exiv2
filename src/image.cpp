@@ -244,7 +244,19 @@ namespace Exiv2 {
     }
     bool Image::isLittleEndianPlatform() { return !isBigEndianPlatform(); }
 
-    uint32_t Image::byteSwap(uint32_t value,bool bSwap)
+    uint64_t Image::byteSwap(uint64_t value,bool bSwap) const
+    {
+        uint64_t result = 0;
+        byte* source_value = reinterpret_cast<byte *>(&value);
+        byte* destination_value = reinterpret_cast<byte *>(&result);
+
+        for (int i = 0; i < 8; i++)
+            destination_value[i] = source_value[8 - i - 1];
+
+        return bSwap ? result : value;
+    }
+
+    uint32_t Image::byteSwap(uint32_t value,bool bSwap) const
     {
         uint32_t result = 0;
         result |= (value & 0x000000FF) << 24;
@@ -254,7 +266,7 @@ namespace Exiv2 {
         return bSwap ? result : value;
     }
 
-    uint16_t Image::byteSwap(uint16_t value,bool bSwap)
+    uint16_t Image::byteSwap(uint16_t value,bool bSwap) const
     {
         uint16_t result = 0;
         result |= (value & 0x00FF) << 8;
@@ -262,7 +274,7 @@ namespace Exiv2 {
         return bSwap ? result : value;
     }
 
-    uint16_t Image::byteSwap2(DataBuf& buf,size_t offset,bool bSwap)
+    uint16_t Image::byteSwap2(const DataBuf& buf,size_t offset,bool bSwap) const
     {
         uint16_t v;
         char*    p = (char*) &v;
@@ -271,7 +283,7 @@ namespace Exiv2 {
         return Image::byteSwap(v,bSwap);
     }
 
-    uint32_t Image::byteSwap4(DataBuf& buf,size_t offset,bool bSwap)
+    uint32_t Image::byteSwap4(const DataBuf& buf,size_t offset,bool bSwap) const
     {
         uint32_t v;
         char*    p = (char*) &v;
@@ -279,6 +291,17 @@ namespace Exiv2 {
         p[1] = buf.pData_[offset+1];
         p[2] = buf.pData_[offset+2];
         p[3] = buf.pData_[offset+3];
+        return Image::byteSwap(v,bSwap);
+    }
+
+    uint64_t Image::byteSwap8(const DataBuf& buf,size_t offset,bool bSwap) const
+    {
+        uint64_t v;
+        byte*    p = reinterpret_cast<byte *>(&v);
+
+        for(int i = 0; i < 8; i++)
+            p[i] = buf.pData_[offset + i];
+
         return Image::byteSwap(v,bSwap);
     }
 
