@@ -347,7 +347,7 @@ namespace Exiv2
                                         // tag is an IFD
                                         io.seek(0, BasicIo::beg);  // position
                                         std::cerr << "makernote" << std::endl;
-                                        //printIFDStructure(io,out,option,offset,doSwap_,c,depth);  // TODO: fix me
+                                        printIFD(out,option,offset,depth);
                                     }
 
                                     io.seek(restore,BasicIo::beg); // restore
