@@ -303,22 +303,22 @@ namespace Exiv2
                                     for ( size_t k = 0 ; k < count ; k++ )
                                     {
                                         const size_t restore = io.tell();
-                                        const uint64_t offset = type == tiffIfd8?
+                                        const uint64_t ifdOffset = type == tiffIfd8?
                                             byteSwap8(buf, k*size, doSwap_):
                                             byteSwap4(buf, k*size, doSwap_);
 
                                         std::cerr << "tag = " << Internal::stringFormat("%#x",tag) << std::endl;
-                                        printIFD(out, option, offset, depth);
+                                        printIFD(out, option, ifdOffset, depth);
                                         io.seek(restore, BasicIo::beg);
                                     }
                                 }
                                 else if ( option == kpsRecursive && tag == 0x83bb /* IPTCNAA */ )
                                 {
-                                    size_t   restore = io.tell();  // save
-                                    io.seek(dir_offset, BasicIo::beg);  // position
-                                    byte* bytes=new byte[count] ;  // allocate memory
-                                    io.read(bytes,count)        ;  // read
-                                    io.seek(restore, BasicIo::beg); // restore
+                                    const size_t restore = io.tell();  // save
+                                    io.seek(offset, BasicIo::beg);     // position
+                                    byte* bytes=new byte[count] ;      // allocate memory
+                                    io.read(bytes,count)        ;      // read
+                                    io.seek(restore, BasicIo::beg);    // restore
                                     IptcData::printStructure(out,bytes,count,depth);
                                     delete[] bytes;                // free
                                 }
