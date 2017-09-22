@@ -634,6 +634,15 @@ source ./functions.source
     echo '------>' Bug $filename '<-------' >&2
     copyTestFile                      $filename
     runTest exiv2 -pa --grep lens/i   $filename
+    for filename in CanonEF100mmF2.8LMacroISUSM.exv      \
+                    TamronSP15-30mmF2.8DiVCUSDA012.exv   \
+                    TamronSP90mmF2.8DiVCUSDMacroF004.exv \
+                    TamronSP90mmF2.8DiVCUSDMacroF017.exv
+    do
+      copyTestFile                    $filename
+      runTest exiv2 -pa --grep lenstype/i  $filename
+    done
+
 
     num=g45
     filename=exiv2-$num.exv
