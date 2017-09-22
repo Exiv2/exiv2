@@ -66,8 +66,9 @@ CCHDR =  exiv2.hpp         \
          version.hpp
 
 # Add library C++ source files to this list
-CCSRC =  basicio.cpp           \
+CCSRC =  basicio.cpp       \
 	 bmpimage.cpp          \
+	 bigtiffimage.cpp      \
 	 canonmn.cpp           \
 	 casiomn.cpp           \
 	 convert.cpp           \
