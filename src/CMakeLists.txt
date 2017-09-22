@@ -1,18 +1,140 @@
 # CMakeLists.txt for exiv2 library and command-line program
 
-# list of public C++ include files
-file(GLOB   LIBEXIV2_HDR ../include/exiv2/*.hpp ../include/exiv2/exv_conf.h)
+# C++ source files
+set( LIBEXIV2_SRC         asfvideo.cpp
+                          basicio.cpp
+                          bmpimage.cpp
+                          canonmn.cpp
+                          casiomn.cpp
+                          convert.cpp
+                          cr2image.cpp
+                          crwedit.cpp
+                          crwimage.cpp
+                          datasets.cpp
+                          easyaccess.cpp
+                          epsimage.cpp
+                          error.cpp
+                          exif.cpp
+                          futils.cpp
+                          fujimn.cpp
+                          gifimage.cpp
+                          http.cpp
+                          image.cpp
+                          ini.cpp
+                          iptc.cpp
+                          jp2image.cpp
+                          jpgimage.cpp
+                          makernote.cpp
+                          matroskavideo.cpp
+                          metadatum.cpp
+                          minoltamn.cpp
+                          mrwimage.cpp
+                          nikonmn.cpp
+                          olympusmn.cpp
+                          orfimage.cpp
+                          panasonicmn.cpp
+                          pentaxmn.cpp
+                          pgfimage.cpp
+                          preview.cpp
+                          properties.cpp
+                          psdimage.cpp
+                          quicktimevideo.cpp
+                          rafimage.cpp
+                          riffvideo.cpp
+                          rw2image.cpp
+                          samsungmn.cpp
+                          sigmamn.cpp
+                          sonymn.cpp
+                          tags.cpp
+                          tgaimage.cpp
+                          tiffcomposite.cpp
+                          tiffimage.cpp
+                          tiffvisitor.cpp
+                          types.cpp
+                          utilsvideo.cpp
+                          value.cpp
+                          version.cpp
+                          webpimage.cpp
+                          xmp.cpp
+                          xmpsidecar.cpp
+                          utilsvideo.cpp
+   )
 
-# list of internal include files only required to build the library
-file(GLOB LIBEXIV2_PRIVATE_HDR *_int.hpp)
+# Public C++ header files
+set( LIBEXIV2_HDR         ../include/exiv2/asfvideo.hpp
+                          ../include/exiv2/basicio.hpp
+                          ../include/exiv2/bmpimage.hpp
+                          ../include/exiv2/config.h
+                          ../include/exiv2/convert.hpp
+                          ../include/exiv2/cr2image.hpp
+                          ../include/exiv2/crwimage.hpp
+                          ../include/exiv2/datasets.hpp
+                          ../include/exiv2/easyaccess.hpp
+                          ../include/exiv2/epsimage.hpp
+                          ../include/exiv2/error.hpp
+                          ../include/exiv2/exif.hpp
+                          ../include/exiv2/exiv2.hpp
+                          ../include/exiv2/futils.hpp
+                          ../include/exiv2/gifimage.hpp
+                          ../include/exiv2/http.hpp
+                          ../include/exiv2/image.hpp
+                          ../include/exiv2/ini.hpp
+                          ../include/exiv2/iptc.hpp
+                          ../include/exiv2/jp2image.hpp
+                          ../include/exiv2/jpgimage.hpp
+                          ../include/exiv2/matroskavideo.hpp
+                          ../include/exiv2/metadatum.hpp
+                          ../include/exiv2/mrwimage.hpp
+                          ../include/exiv2/orfimage.hpp
+                          ../include/exiv2/pgfimage.hpp
+                          ../include/exiv2/preview.hpp
+                          ../include/exiv2/properties.hpp
+                          ../include/exiv2/psdimage.hpp
+                          ../include/exiv2/quicktimevideo.hpp
+                          ../include/exiv2/rafimage.hpp
+                          ../include/exiv2/riffvideo.hpp
+                          ../include/exiv2/rwlock.hpp
+                          ../include/exiv2/rw2image.hpp
+                          ../include/exiv2/tags.hpp
+                          ../include/exiv2/tgaimage.hpp
+                          ../include/exiv2/tiffimage.hpp
+                          ../include/exiv2/types.hpp
+                          ../include/exiv2/utilsvideo.hpp
+                          ../include/exiv2/value.hpp
+                          ../include/exiv2/version.hpp
+                          ../include/exiv2/webpimage.hpp
+                          ../include/exiv2/xmp_exiv2.hpp
+                          ../include/exiv2/xmpsidecar.hpp
+                          ../include/exiv2/utilsvideo.hpp
+                          ../include/exiv2/exv_conf.h
+   )
 
-# list of library C++ source files
-file(GLOB        LIBEXIV2_SRC *.cpp)
-# remove files which are not part of the library
-file(GLOB        LIBEXIV2_SRC_NOT actions.cpp exiv2.cpp *test.cpp crwparse.cpp mrwthumb.cpp xmpdump.cpp)
-foreach(entry  ${LIBEXIV2_SRC_NOT})
-    list(REMOVE_ITEM LIBEXIV2_SRC ${entry})
-endforeach()
+# Private headers only needed to build the library
+set( LIBEXIV2_PRIVATE_HDR canonmn_int.hpp
+                          casiomn_int.hpp
+                          cr2image_int.hpp
+                          crwimage_int.hpp
+                          fujimn_int.hpp
+                          makernote_int.hpp
+                          minoltamn_int.hpp
+                          nikonmn_int.hpp
+                          olympusmn_int.hpp
+                          orfimage_int.hpp
+                          panasonicmn_int.hpp
+                          pentaxmn_int.hpp
+                          pngchunk_int.hpp
+                          rcsid_int.hpp
+                          rw2image_int.hpp
+                          samsungmn_int.hpp
+                          sigmamn_int.hpp
+                          sonymn_int.hpp
+                          tags_int.hpp
+                          tiffcomposite_int.hpp
+                          tifffwd_int.hpp
+                          tiffimage_int.hpp
+                          tiffvisitor_int.hpp
+   )
+
 
 if( EXIV2_ENABLE_WEBREADY )
     if( EXIV2_ENABLE_CURL)

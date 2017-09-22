@@ -1,7 +1,23 @@
 # CMakeLists.txt for i18n files
 
-# include all po files in the directory
-file(GLOB PO_FILES *.po)
+# List of files PO files
+set(PO_FILES bs.po
+             de.po
+             es.po
+             fi.po
+             fr.po
+             gl.po
+             ms.po
+             pl.po
+             pt.po
+             ru.po
+             sk.po
+             sv.po
+             ug.po
+             uk.po
+             vi.po
+)
+
 update_translations(exiv2 ${PO_FILES})
 add_translations(exiv2 ${PO_FILES})
 
