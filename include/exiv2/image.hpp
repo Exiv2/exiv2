@@ -345,6 +345,7 @@ namespace Exiv2 {
         bool isStringType(uint16_t type);
         bool isShortType(uint16_t type);
         bool isLongType(uint16_t type);
+        bool isLongLongType(uint16_t type);
         bool isRationalType(uint16_t type);
         bool is2ByteType(uint16_t type);
         bool is4ByteType(uint16_t type);
@@ -352,10 +353,12 @@ namespace Exiv2 {
         bool isPrintXMP(uint16_t type, Exiv2::PrintStructureOption option);
         bool isPrintICC(uint16_t type, Exiv2::PrintStructureOption option);
 
-        uint32_t byteSwap(uint32_t value,bool bSwap);
-        uint16_t byteSwap(uint16_t value,bool bSwap);
-        uint16_t byteSwap2(DataBuf& buf,size_t offset,bool bSwap);
-        uint32_t byteSwap4(DataBuf& buf,size_t offset,bool bSwap);
+        uint64_t byteSwap(uint64_t value,bool bSwap) const;
+        uint32_t byteSwap(uint32_t value,bool bSwap) const;
+        uint16_t byteSwap(uint16_t value,bool bSwap) const;
+        uint16_t byteSwap2(const DataBuf& buf,size_t offset,bool bSwap) const;
+        uint32_t byteSwap4(const DataBuf& buf,size_t offset,bool bSwap) const;
+        uint64_t byteSwap8(const DataBuf& buf,size_t offset,bool bSwap) const;
 
         //@}
 
@@ -493,6 +496,12 @@ namespace Exiv2 {
         int               pixelHeight_;       //!< image pixel height
         NativePreviewList nativePreviews_;    //!< list of native previews
 
+        //! Return tag name for given tag id.
+        const std::string& tagName(uint16_t tag);
+
+        //! Return tag type for given tag id.
+        const char* typeName(uint16_t tag) const;
+
     private:
         //! @name NOT implemented
         //@{
@@ -501,9 +510,6 @@ namespace Exiv2 {
         //! Assignment operator
         Image& operator=(const Image& rhs);
         //@}
-
-        //! Return tag name for given tag id.
-        const std::string& tagName(uint16_t tag);
 
         // DATA
         int               imageType_;         //!< Image type

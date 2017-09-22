@@ -47,6 +47,7 @@ EXIV2_RCSID("@(#) $Id$")
 #include "tiffimage_int.hpp"
 #include "tiffcomposite_int.hpp"
 #include "tiffvisitor_int.hpp"
+#include "bigtiffimage.hpp"
 #include "webpimage.hpp"
 #include "orfimage.hpp"
 #include "gifimage.hpp"
@@ -112,6 +113,7 @@ namespace {
         { ImageType::crw,  newCrwInstance,  isCrwType,  amReadWrite, amNone,      amNone,      amReadWrite },
         { ImageType::mrw,  newMrwInstance,  isMrwType,  amRead,      amRead,      amRead,      amNone      },
         { ImageType::tiff, newTiffInstance, isTiffType, amReadWrite, amReadWrite, amReadWrite, amNone      },
+        { ImageType::bigtiff, newBigTiffInstance, isBigTiffType, amRead, amRead,  amRead,      amNone      },
         { ImageType::webp, newWebPInstance, isWebPType, amReadWrite, amNone,      amReadWrite, amNone      },
         { ImageType::dng,  newTiffInstance, isTiffType, amReadWrite, amReadWrite, amReadWrite, amNone      },
         { ImageType::nef,  newTiffInstance, isTiffType, amReadWrite, amReadWrite, amReadWrite, amNone      },
@@ -195,6 +197,11 @@ namespace Exiv2 {
              || type == Exiv2::signedLong
              ;
     }
+    bool Image::isLongLongType(uint16_t type) {
+        return type == Exiv2::unsignedLongLong
+            || type == Exiv2::signedLongLong
+            ;
+    }
     bool Image::isRationalType(uint16_t type) {
          return type == Exiv2::unsignedRational
              || type == Exiv2::signedRational
@@ -237,7 +244,19 @@ namespace Exiv2 {
     }
     bool Image::isLittleEndianPlatform() { return !isBigEndianPlatform(); }
 
-    uint32_t Image::byteSwap(uint32_t value,bool bSwap)
+    uint64_t Image::byteSwap(uint64_t value,bool bSwap) const
+    {
+        uint64_t result = 0;
+        byte* source_value = reinterpret_cast<byte *>(&value);
+        byte* destination_value = reinterpret_cast<byte *>(&result);
+
+        for (int i = 0; i < 8; i++)
+            destination_value[i] = source_value[8 - i - 1];
+
+        return bSwap ? result : value;
+    }
+
+    uint32_t Image::byteSwap(uint32_t value,bool bSwap) const
     {
         uint32_t result = 0;
         result |= (value & 0x000000FF) << 24;
@@ -247,7 +266,7 @@ namespace Exiv2 {
         return bSwap ? result : value;
     }
 
-    uint16_t Image::byteSwap(uint16_t value,bool bSwap)
+    uint16_t Image::byteSwap(uint16_t value,bool bSwap) const
     {
         uint16_t result = 0;
         result |= (value & 0x00FF) << 8;
@@ -255,7 +274,7 @@ namespace Exiv2 {
         return bSwap ? result : value;
     }
 
-    uint16_t Image::byteSwap2(DataBuf& buf,size_t offset,bool bSwap)
+    uint16_t Image::byteSwap2(const DataBuf& buf,size_t offset,bool bSwap) const
     {
         uint16_t v;
         char*    p = (char*) &v;
@@ -264,7 +283,7 @@ namespace Exiv2 {
         return Image::byteSwap(v,bSwap);
     }
 
-    uint32_t Image::byteSwap4(DataBuf& buf,size_t offset,bool bSwap)
+    uint32_t Image::byteSwap4(const DataBuf& buf,size_t offset,bool bSwap) const
     {
         uint32_t v;
         char*    p = (char*) &v;
@@ -275,7 +294,18 @@ namespace Exiv2 {
         return Image::byteSwap(v,bSwap);
     }
 
-    static const char* typeName(uint16_t tag)
+    uint64_t Image::byteSwap8(const DataBuf& buf,size_t offset,bool bSwap) const
+    {
+        uint64_t v;
+        byte*    p = reinterpret_cast<byte *>(&v);
+
+        for(int i = 0; i < 8; i++)
+            p[i] = buf.pData_[offset + i];
+
+        return Image::byteSwap(v,bSwap);
+    }
+
+    const char* Image::typeName(uint16_t tag) const
     {
         //! List of TIFF image tags
         const char* result = NULL;
