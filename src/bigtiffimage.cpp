@@ -155,7 +155,7 @@ namespace Exiv2
 
                 std::string mimeType() const
                 {
-
+                    return std::string();
                 }
 
                 void printStructure(std::ostream& os, PrintStructureOption option, int depth)
@@ -188,7 +188,7 @@ namespace Exiv2
 
                         if ( bFirst && bPrint )
                         {
-                            out << Internal::indent(depth) << Internal::stringFormat("STRUCTURE OF TIFF FILE ") << io.path() << std::endl;
+                            out << Internal::indent(depth) << Internal::stringFormat("STRUCTURE OF BIGTIFF FILE ") << io.path() << std::endl;
                             if (tooBig)
                                 out << Internal::indent(depth) << "entries = " << entries << std::endl;
                         }
