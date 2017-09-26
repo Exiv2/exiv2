@@ -34,14 +34,14 @@ piponazo@gmail.com
 
 -------------------------------------------------------------------------------
 
-
 TABLE OF CONTENTS
 -----------------
 
 1 CMake resources
-2 Building and Installing for Unix type systems
-3 Building and Installing for Visual Studio Users
+2 Building and Installing on UNIX-like systems
+3 Building and installing for Visual Studio Users
 4 Building and installing for MinGW Users
+5 Using conan to build exiv2 and project dependencies
 
 1 CMake resources
 =================
