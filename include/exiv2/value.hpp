@@ -44,6 +44,7 @@
 #include <sstream>
 #include <memory>
 #include <cstring>
+#include <climits>
 
 // *****************************************************************************
 // namespace extensions
