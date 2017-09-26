@@ -602,6 +602,7 @@ source ./functions.source
     runTest exiv2 -pX                   $filename | xmllint --format -
 
     num=1231
+    printf "$num " >&3
     for X in a b; do
       filename=exiv2-bug$num$X.jpg
       echo '------>' Bug $filename '<-------' >&2
@@ -622,12 +623,20 @@ source ./functions.source
     runTest exiv2 -pa                   $filename
 
     num=1252
+    printf "$num " >&3
     for X in a b; do
       filename=exiv2-bug$num$X.exv
       echo '------>' Bug $filename '<-------' >&2
       copyTestFile                      $filename
       runTest exiv2 -pa --grep lens/i   $filename
     done
+
+    num=g55
+    printf "$num " >&3
+    filename=POC8
+    echo '------>' Bug $filename '<-------' >&2
+    copyTestFile                      $filename
+    runTest exiv2                     $filename 2>/dev/null
 
 ) 3>&1 > $results 2>&1
 
