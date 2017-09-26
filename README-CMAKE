@@ -197,6 +197,23 @@ following remote to your conan configuration:
 
     $ conan remote add conan-pix4d https://api.bintray.com/conan/pix4d/conan
 
+In case there are not available packages for your setup (OS + Compiler) you will see error messages
+like this one:
+
+```
+    PROJECT: WARN: Can't find a 'zlib/1.2.8@lasote/stable' package for the specified options and settings:
+    - Settings: arch=x86_64, build_type=Release, compiler=clang, compiler.version=3.9, os=Macos
+    - Options: shared=False
+
+    ERROR: Missing prebuilt package for 'zlib/1.2.8@lasote/stable'
+    Try to build it from sources with "--build zlib"
+    Or read "http://docs.conan.io/en/latest/faq/troubleshooting.html#error-missing-prebuilt-package"
+```
+
+To compile the dependencies from sources you will need to run the conan install command like this:
+
+    $ conan install ../ --profile clang --build missing
+
 To learn more about Conan, please visit their documentation page: http://docs.conan.io/en/latest/
 
 
