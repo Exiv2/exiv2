@@ -1,4 +1,4 @@
-    @@@Marco@@@@@b                   ;mm                       /##Gilles###\
+    @@@Luis@@@@@@b                   ;mm                       /##Michal####\
     j@@@#Robin",                     Brad                     /@@@Thomas@@@@Q
      @@@#       \                     ##                     @@@b     |@@@b
      @@@#          .;;;;,     ,;;;, ,;;;;  ,;;;p      .;;;   7@@      ]Alan
@@ -9,7 +9,7 @@
      @@@#              ,@@##@@m      @@@b      @@@p @@C        #@@#C
      @@@#       ,/    s@@#  @@@@     @@@b       Volker       @Tuan@
     ]@@@Abhinav@@\   /@@@\    \@@@Q  @@@Q       %@@@#      /@@@@Mahesh@@#
-   /@@Raphael@@@@@\ /@@@@@\     C++  Metadata  Library    /@Sridhar@@@v0.26\
+   /@@Raphael@@@@@\ /@@@@@\     C++  Metadata  Library    /@Sridhar@@@v0.26.1\
 
 -------------------------------------------------------------------------------
 CMake is a cross-platform build system, to control the
@@ -18,22 +18,19 @@ compilation process using platform/compiler independent configuration files.
 STATUS:
 
 * CMake scripts are functional and used to perform the daily build on the buildserver
-  for MacOS-X, Cygwin, Linux and Visual Studio (2005, 8, 10, 12, 13 and 15)
-  The daily build on MinGW/32 is performed using autotools for Qt/Windows Users.
+  for MacOS-X, Cygwin, Linux and Visual Studio (2005, 8, 10, 12, 13, 15 and 17)
 
 * The existing automake (./configure) is currently still be supported by exiv2.
-  There are plans to adopt CMake as the only build platform and drop the automake
-  code and the existing Visual Studio Solutions.
+  The long term plan is to adopt CMake as the only build platform.
+  automake and msvc solutions/project are likely to removed with Exiv2 v0.27
 
 * Team Exiv2 no longer provide support for MinGW (with/without CMake)
   Exiv2 is very difficult to build on MinGW with CMake.
   This is discussed in TODO-CMAKE
 
-Robin Mills
-robin@clanmills.com
 Luis Díaz Más
 piponazo@gmail.com
-2017-01-09
+2017-09-10
 
 -------------------------------------------------------------------------------
 
@@ -62,11 +59,12 @@ There are some global CMake options that you can use in Exiv2 :
                          "profile".
                          "relwithdebinfo" : default. use gcc -O2 -g options.
                          "Release"        : generate stripped and optimized bin files. For packaging.
+-DBUILD_SHARED_LIBS=1 : Build DLL (=0 for static library)
 
-For knowing more about the specific Exiv2 CMake options, look into the main CMakeLists.txt file.
+More information about Exiv2 CMake options in <exiv2dir>/CMakeLists.txt
 
 2 Building and Installing on UNIX-like systems
-==================================
+==============================================
 
 This process covers MacOS-X, Linux and Cygwin.
 
@@ -76,13 +74,13 @@ file) to configure, build and install the library and utilities:
     $ mkdir build && cd build
     $ cmake .. or cmake-gui ..
     $ make -j
-    $ make install
+    $ (sudo) make install
 
 Note that the CMake generator used by default on Unix is : 'Makefiles'. However you can chose others like 'Ninja'
 
 To uninstall Exiv2, run:
 
-    $ make uninstall
+    $ (sudo) make uninstall
 
 3 Building and installing for Visual Studio Users
 =================================================
@@ -90,8 +88,7 @@ To uninstall Exiv2, run:
 exiv2 provides three build environment for users of Visual Studio:
 
 cmake:    This environment
-msvc:     32 bit AND 64 bit build environment for MSVC 2005 and later (2005/2008/10/12/13/15)
-msvc2003: 32 bit build environment for MSVC 2003 (deprecated after v0.26)
+msvc:     32 bit AND 64 bit build environment for MSVC 2005 and later (2005/2008/10/12/13/15/17)
 
 CMake doesn't build code.  It generates build environments.
 CMake is a language for describing builds and the CMake interpreter generates
@@ -107,7 +104,11 @@ The current architecture of CMake requires you to decide before running cmake:
 We have two contributed CMake Build Environments:
 
 1 contrib/cmake/msvc
-  Please read contrib/cmake/msvc/ReadMe.txt
+  The following command will build Exiv2 and dependencies:
+
+  c:\exiv2dir\contrib\cmake\msvc> cmd /c "vcvars 2017 64 && cmakeBuild --build --samples"
+
+  Please read contrib/cmake/msvc/ReadMe.txt for more information.
 
 2 contrib/build/msvc
 
@@ -124,9 +125,9 @@ We have two contributed CMake Build Environments:
 
   Exiv2 should be packaged in the dist directory with all the .lib, include and binary files you need.
 
- 3 Running CMake commands manually from command line (new)
+3 Running CMake commands manually from command line (new)
 
-  From Exiv2 0.26.0 to 0.26.1 the CMake code of the project was cleaned and now it is possible to configure
+  From Exiv2 0.26.0 to 0.26.1 the CMake code of the project was rewritten and now it is possible to configure
   project from the command line as we do in the Unix sytems. As in the UNIX case, we can run the following
   commands from the top directory to configure, build and install the library and utilities:
 
@@ -142,21 +143,21 @@ We have two contributed CMake Build Environments:
   points at the compiler and other resources relevant to that version of the compiler. However in Visual Studio
   2017, they do not do that anymore.
 
-  What we recommend is to call the vcvarsall.bat Visual Studio configuration script before running CMake.
+  We recommend you to call the vcvarsall.bat Visual Studio configuration script before running CMake.
   For example, with Visual Studio 2017 installed on your system, you will need to run
 
-  $ call "C:\Program Files (x86)\Microsoft Visual Studio\2017\Community\VC\Auxiliary\Build\vcvars64.bat"
+  c:\exiv2dir> call "C:\Program Files (x86)\Microsoft Visual Studio\2017\Community\VC\Auxiliary\Build\vcvars64.bat"
 
   Afterwards, CMake will identify correctly your Build Tools.
 
-  It is also important to note that the default CMake configuration assume the existence of some libraries
+  It is also important to note that the default CMake configuration assumes the existence of some libraries
   in your system. If they are not available, the configuration will fail. It is possible to disable some
   features, or provide the paths to the INCLUDE folders, or libraries, at the moment of calling CMake the
   first time.
 
   In this example, we disable the NLS and PNG support, and we specify the path where we have the EXPAT library:
 
-    $ cmake -DEXIV2_ENABLE_NLS=OFF -DEXIV2_ENABLE_PNG=OFF -DCMAKE_PREFIX_PATH="C:\pathToExpat\ ../
+  c:\exiv2dir> cmake -DEXIV2_ENABLE_NLS=OFF -DEXIV2_ENABLE_PNG=OFF -DCMAKE_PREFIX_PATH="C:\pathToExpat\ ../
 
   CMake Generators
   ----------------
@@ -179,8 +180,8 @@ We have two contributed CMake Build Environments:
 
   It is possible to use CMake/MinGW if you put in some effort.  This is documented in TODO-CMAKE.
 
-5 Using conan from bringing project dependencies
-=========================================
+5 Using conan to build exiv2 and project dependencies
+=====================================================
 
 Conan is a portable package manager for c++ (https://www.conan.io/). We added the option to use it
 in Exiv2 so you can get all the Exiv2 dependencies (Expat, Zlib, Libcurl, Libssh) in a very easy
@@ -214,8 +215,8 @@ To compile the dependencies from sources you will need to run the conan install 
 
     $ conan install ../ --profile clang --build missing
 
-To learn more about Conan, please visit their documentation page: http://docs.conan.io/en/latest/
-
+To learn more about Conan, please visit their documentation page:
+    http://docs.conan.io/en/latest/
 
 # That's all Folks
 ##
