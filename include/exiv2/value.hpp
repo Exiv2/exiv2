@@ -1659,11 +1659,13 @@ namespace Exiv2 {
         ok_ = true;
         return static_cast<long>(value_[n]);
     }
+// #55 crash when value_[n].first == LONG_MIN
+#define LARGE_INT 1000000
     // Specialization for rational
     template<>
     inline long ValueType<Rational>::toLong(long n) const
     {
-        ok_ = (value_[n].second != 0 && INT_MIN < value_[n].first && value_[n].first < INT_MAX );
+        ok_ = (value_[n].second != 0 && -LARGE_INT < value_[n].first && value_[n].first < LARGE_INT);
         if (!ok_) return 0;
         return value_[n].first / value_[n].second;
     }
@@ -1671,7 +1673,7 @@ namespace Exiv2 {
     template<>
     inline long ValueType<URational>::toLong(long n) const
     {
-        ok_ = (value_[n].second != 0);
+        ok_ = (value_[n].second != 0 && value_[n].first < LARGE_INT);
         if (!ok_) return 0;
         return value_[n].first / value_[n].second;
     }

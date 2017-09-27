@@ -226,14 +226,20 @@ namespace Exiv2
                                                   : is8ByteType(type)  ? 8
                                                   : 1;
 
-                            DataBuf buf(size * count + pad);
+                			// #55 memory allocation crash test/data/POC8
+                			long long allocate = (long long) (size*count + pad);
+                			if ( allocate > (long long) io.size() ) {
+                    			throw Error(57);
+                			}
+
+                            DataBuf buf(allocate);
 
                             const uint64_t offset = header_.format() == Header::StandardTiff?
                                     byteSwap4(data, 0, doSwap_):
                                     byteSwap8(data, 0, doSwap_);
 
                             // big data? Use 'data' as pointer to real data
-                            const bool usePointer = count*size > dataSize_;
+                            const bool usePointer = (size_t) count*size > (size_t) dataSize_;
 
                             if ( usePointer )                          // read into buffer
                             {
