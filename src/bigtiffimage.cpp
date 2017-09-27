@@ -227,7 +227,7 @@ namespace Exiv2
                                                   : 1;
 
                 			// #55 memory allocation crash test/data/POC8
-                			long long allocate = (long long) (size*count + pad);
+                			long long allocate = (long long) size*count + pad;
                 			if ( allocate > (long long) io.size() ) {
                     			throw Error(57);
                 			}
