@@ -206,8 +206,8 @@ namespace Exiv2
 
                             bFirst = false;
 
-                            const uint16_t tag   = readData(2);
-                            const uint16_t type  = readData(2);
+                            const uint16_t tag   = (uint16_t) readData(2);
+                            const uint16_t type  = (uint16_t) readData(2);
                             const uint64_t count = readData(dataSize_);
                             const DataBuf  data  = io.read(dataSize_);        // Read data as raw value. what should be done about it will be decided depending on type
 
@@ -232,7 +232,7 @@ namespace Exiv2
                     			throw Error(57);
                 			}
 
-                            DataBuf buf(allocate);
+                            DataBuf buf((long)allocate);
 
                             const uint64_t offset = header_.format() == Header::StandardTiff?
                                     byteSwap4(data, 0, doSwap_):
@@ -245,15 +245,15 @@ namespace Exiv2
                             {
                                 size_t   restore = io.tell();          // save
                                 io.seek(offset, BasicIo::beg);         // position
-                                io.read(buf.pData_, count * size);     // read
+                                io.read(buf.pData_, (long) count * size);     // read
                                 io.seek(restore, BasicIo::beg);        // restore
                             }
                             else  // use 'data' as data :)
-                                std::memcpy(buf.pData_, data.pData_, count * size);     // copy data
+                                std::memcpy(buf.pData_, data.pData_, (size_t) count * size);     // copy data
 
                             if ( bPrint )
                             {
-                                const int entrySize = header_.format() == Header::StandardTiff? 12: 20;
+                                const uint64_t entrySize = header_.format() == Header::StandardTiff? 12: 20;
                                 const uint64_t address = dir_offset + 2 + i * entrySize;
                                 const std::string offsetString = usePointer?
                                     Internal::stringFormat("%10u", offset):
@@ -298,7 +298,7 @@ namespace Exiv2
                                     }
                                 }
                                 else if ( isStringType(type) )
-                                    out << sp << Internal::binaryToString(buf, kount);
+                                    out << sp << Internal::binaryToString(buf, (size_t) kount);
 
                                 sp = kount == count ? "" : " ...";
                                 out << sp << std::endl;
@@ -320,13 +320,13 @@ namespace Exiv2
                                 }
                                 else if ( option == kpsRecursive && tag == 0x83bb /* IPTCNAA */ )
                                 {
-                                    const size_t restore = io.tell();  // save
-                                    io.seek(offset, BasicIo::beg);     // position
-                                    byte* bytes=new byte[count] ;      // allocate memory
-                                    io.read(bytes,count)        ;      // read
-                                    io.seek(restore, BasicIo::beg);    // restore
-                                    IptcData::printStructure(out,bytes,count,depth);
-                                    delete[] bytes;                // free
+                                    const size_t restore = io.tell();      // save
+                                    io.seek(offset, BasicIo::beg);         // position
+                                    byte* bytes=new byte[(size_t)count] ;  // allocate memory
+                                    io.read(bytes,(long)count)        ;    // read
+                                    io.seek(restore, BasicIo::beg);        // restore
+                                    IptcData::printStructure(out,bytes,(size_t)count,depth);
+                                    delete[] bytes;                        // free
                                 }
                                 else if ( option == kpsRecursive && tag == 0x927c /* MakerNote */ && count > 10)
                                 {
@@ -341,9 +341,9 @@ namespace Exiv2
                                     if ( ::strcmp("Nikon",chars) == 0 )
                                     {
                                         // tag is an embedded tiff
-                                        byte* bytes=new byte[count-jump] ;  // allocate memory
-                                        io.read(bytes,count-jump)        ;  // read
-                                        MemIo memIo(bytes,count-jump)    ;  // create a file
+                                        byte* bytes=new byte[(size_t)count-jump] ;  // allocate memory
+                                        io.read(bytes,(long)  count-jump)        ;  // read
+                                        MemIo memIo(bytes,(long)count-jump)      ;  // create a file
                                         std::cerr << "Nikon makernote" << std::endl;
                                         // printTiffStructure(memIo,out,option,depth);  TODO: fix it
                                         delete[] bytes                   ;  // free
