@@ -43,7 +43,8 @@ check_include_file( "strings.h" EXV_HAVE_STRINGS_H )
 check_include_file( "sys/mman.h"    EXV_HAVE_SYS_MMAN_H )
 check_include_file( "sys/stat.h"    EXV_HAVE_SYS_STAT_H )
 check_include_file( "sys/types.h"   EXV_HAVE_SYS_TYPES_H )
-check_include_file( "regex.h"       EXV_HAVE_REGEX )
+check_include_file( "regex"         EXV_HAVE_REGEX )
+check_include_file( "regex.h"       EXV_HAVE_REGEX_H )
 check_include_file( "inttypes.h"    EXV_HAVE_INTTYPES_H )
 
 if (NOT EXV_HAVE_LIBINTL_H)
@@ -66,4 +67,4 @@ return 0;
 
 #####################################################################################
 
-configure_file( config/config.h.cmake ${CMAKE_BINARY_DIR}/exv_conf.h @ONLY)
+configure_file( config/config.h.cmake ${CMAKE_SOURCE_DIR}/include/exiv2/exv_conf.h @ONLY)

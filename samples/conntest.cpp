@@ -26,7 +26,7 @@ void httpcon(const std::string& url, bool useHttp1_0 = false) {
     }
 }
 
-#if EXV_USE_CURL == 1
+#ifdef EXV_USE_CURL
 void curlcon(const std::string& url, bool useHttp1_0 = false) {
     CURL* curl = curl_easy_init();
     if(!curl) {
@@ -68,7 +68,7 @@ void curlcon(const std::string& url, bool useHttp1_0 = false) {
 }
 #endif
 
-#if EXV_USE_SSH == 1
+#ifdef EXV_USE_SSH
 void sshcon(const std::string& url) {
     Exiv2::Uri uri = Exiv2::Uri::Parse(url);
     Exiv2::Uri::Decode(uri);
@@ -125,7 +125,7 @@ int main(int argc,const char** argv)
 
     bool isOk = false;
     try {
-        #if EXV_USE_SSH == 1
+        #ifdef EXV_USE_SSH
             if (prot == Exiv2::pSsh) {
                 sshcon(url);
                 isOk = true;
@@ -134,7 +134,7 @@ int main(int argc,const char** argv)
                 isOk = true;
             }
         #endif
-        #if EXV_USE_CURL == 1
+        #ifdef EXV_USE_CURL
             if (prot == Exiv2::pHttp || prot == Exiv2::pHttps || prot == Exiv2::pFtp) {
                 curlcon(url, useHttp1_0);
                 isOk = true;

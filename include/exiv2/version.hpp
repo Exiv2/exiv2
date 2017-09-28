@@ -37,20 +37,14 @@
 // + standard includes
 #include <vector>
 
-/*!
- @brief CPLUSPLUS11 is the value of macro --cplusplus for C++11
-*/
-#define CPLUSPLUS11 201103L
-
-#if __cplusplus >= CPLUSPLUS11
+#if   defined(HAVE_REGEX)
 # include <regex>
   /*!
    @brief exv_grep_keys_t is a vector of keys to match to strings
   */
   typedef std::vector<std::regex> exv_grep_keys_t ;
-#else
-# ifdef EXV_HAVE_REGEX
-#  include <regex.h>
+#elif defined(EXV_HAVE_REGEX_H)
+# include <regex.h>
   /*!
    @brief exv_grep_keys_t is a vector of keys to match to strings
   */
@@ -76,7 +70,6 @@
    @brief exv_grep_keys_t is a vector of keys to match to strings
   */
    typedef std::vector<Exiv2_grep_key_t> exv_grep_keys_t ;
-# endif
 #endif
 
 /*!

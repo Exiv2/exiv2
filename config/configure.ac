@@ -56,7 +56,7 @@ AM_ICONV
 # Checks for header files.
 # ---------------------------------------------------------------------------
 AC_HEADER_STDC
-AC_CHECK_HEADERS([libintl.h locale.h malloc.h stdint.h stdlib.h string.h unistd.h sys/mman.h utime.h regex.h])
+AC_CHECK_HEADERS([libintl.h locale.h malloc.h stdint.h stdlib.h string.h unistd.h sys/mman.h utime.h regex.h regex])
 
 # ---------------------------------------------------------------------------
 # Checks for typedefs, structures, and compiler characteristics.
@@ -401,7 +401,7 @@ if test "$ADOBE" = "2016" -o "$ADOBE" = "2014" -o "$ADOBE" = "2013" ; then
 	if test "$ADOBE" == "2013" ; then ADOBE_SDK=XMP-Toolkit-SDK-CC201306; fi
     ENABLE_XMP=$ADOBE
     XMPSDK_CPPFLAGS="-Ixmpsdk/Adobe/$ADOBE_SDK/public/include"
-    XMPSDK_LDFLAGS="-Lxmpsdk/Adobe/$ADOBE_SDK"
+    XMPSDK_LDFLAGS="-Lxmpsdk/Adobe/$ADOBE_SDK -lXMPCore"
 	case "$host_os" in
 		*arwin*)
 			EXV_DARWIN_FLAGS="-stdlib=libstdc++ -Wno-deprecated"

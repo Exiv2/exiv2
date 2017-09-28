@@ -23,7 +23,7 @@ if(MSVC)
       CMAKE_CXX_FLAGS_RELEASE
       CMAKE_CXX_FLAGS_RELWITHDEBINFO
     )
-    if ( ${BUILD_SHARED_LIBS} OR ${EXIV2_ENABLE_DYNAMIC_RUNTIME})
+    if ( ${BUILD_SHARED_LIBS} OR ${EXIV2_ENABLE_DYNAMIC_RUNTIME} )
         message(STATUS  "MSVC -> forcing use of dynamically-linked runtime." )
         foreach(variable ${variables})
             if(${variable} MATCHES "/MT")

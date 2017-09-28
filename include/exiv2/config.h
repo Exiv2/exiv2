@@ -78,6 +78,11 @@ typedef int pid_t;
 # define CURL_STATICLIB
 #endif
 
+#ifndef WIN32_LEAN_AND_MEAN
+#define WIN32_LEAN_AND_MEAN
+#endif
+#include <windows.h>
+
 #endif // _MSC_VER
 ///// End of Visual Studio Support /////
 

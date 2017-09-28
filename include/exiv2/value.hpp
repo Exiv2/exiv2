@@ -1665,7 +1665,7 @@ namespace Exiv2 {
     template<>
     inline long ValueType<Rational>::toLong(long n) const
     {
-        ok_ = (value_[n].second != 0 && -LARGE_INT < value_[n].first && value_[n].first < LARGE_INT);
+        ok_ = (value_[n].second != 0 && INT_MIN < value_[n].first && value_[n].first < INT_MAX );
         if (!ok_) return 0;
         return value_[n].first / value_[n].second;
     }

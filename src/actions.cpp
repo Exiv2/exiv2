@@ -591,11 +591,10 @@ namespace Action {
         for (Params::Greps::const_iterator g = Params::instance().greps_.begin();
                 !result && g != Params::instance().greps_.end(); ++g)
         {
-#if __cplusplus >= CPLUSPLUS11
+#if   defined(EXV_HAVE_REGEX)
             std::smatch m;
             result = std::regex_search(key,m, *g);
-#else
-#ifdef EXV_HAVE_REGEX
+#elif defined(EXV_HAVE_REGEX_H)
             result = regexec( &(*g), key.c_str(), 0, NULL, 0) == 0 ;
 #else
             std::string Pattern(g->pattern_);
@@ -606,7 +605,6 @@ namespace Action {
                 std::transform(Key.begin()    , Key.end()    ,Key.begin()    , ::tolower);
             }
             result = Key.find(Pattern) != std::string::npos;
-#endif
 #endif
         }
         return result ;

@@ -47,8 +47,11 @@
 /* Define to 1 if you have the <libintl.h> header file. */
 #undef HAVE_LIBINTL_H
 
+/* Define to 1 if you have the <regex> header file. */
+#undef HAVE_REGEX
+
 /* Define to 1 if you have the <regex.h> header file. */
-#define HAVE_REGEX 1
+#undef HAVE_REGEX_H
 
 /* Define to 1 if you have the <memory.h> header file. */
 #undef HAVE_MEMORY_H

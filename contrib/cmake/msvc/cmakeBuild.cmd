@@ -1,41 +1,68 @@
 @echo off
 setlocal enableextensions
 
+rem  ----
+rem always run this script in <exiv2dir>/contrib/cmake/msvc
+cd %~dp0
+
 set "_BUILDDIR_=%CD%"
+call:echo calling cmakeDefaults.cmd
+call cmakeDefaults.cmd
+IF ERRORLEVEL 1 (
+    echo "*** cmakeDefaults.cmd has failed ***" >&2
+    GOTO error_end
+)
 
 :GETOPTS
-if /I "%1" == "--bash"            set "_BASH_=%2"& shift
-if /I "%1" == "--config"          set "_CONFIG_=%2"& shift
-if /I "%1" == "--curl"            set "_CURL_=%2"& shift
-if /I "%1" == "--exiv2"           set "_EXIV2_=%2"& shift
-if /I "%1" == "--expat"           set "_EXPAT_=%2"& shift
-if /I "%1" == "--generator"       set "_GENERATOR_=%2"& shift
-if /I "%1" == "--openssl"         set "_OPENSSL_=%2"& shift
-if /I "%1" == "--libssh"          set "_LIBSSH_=%2"& shift
-if /I "%1" == "--work"            set "_WORK_=%2"& shift
-if /I "%1" == "--zlib"            set "_ZLIB_=%2"& shift
+set _CLAIMED_=0
+if /I "%1" == "--bash"            call:set "_BASH_=%2"& shift
+if /I "%1" == "--config"          call:set "_CONFIG_=%2"& shift
+if /I "%1" == "--curl"            call:set "_CURL_=%2"& shift
+if /I "%1" == "--exiv2"           call:set "_EXIV2_=%2"& shift
+if /I "%1" == "--expat"           call:set "_EXPAT_=%2"& shift
+if /I "%1" == "--generator"       call:set "_GENERATOR_=%2"& shift
+if /I "%1" == "--openssl"         call:set "_OPENSSL_=%2"& shift
+if /I "%1" == "--libssh"          call:set "_LIBSSH_=%2"& shift
+if /I "%1" == "--work"            call:set "_WORK_=%2"& shift
+if /I "%1" == "--zlib"            call:set "_ZLIB_=%2"& shift
 
 if /I "%1" == "--help"            call:Help && goto end
-if /I "%1" == "--dryrun"          set "_DRYRUN_=1"
-if /I "%1" == "--nosamples"       set "_NOSAMPLES_=1"
-if /I "%1" == "--pause"           set "_PAUSE_=1"
-if /I "%1" == "--rebuild"         set "_REBUILD_=1"
-if /I "%1" == "--silent"          set "_SILENT_=1"
-if /I "%1" == "--static"          set "_MODE_=static"
-if /I "%1" == "--test"            set "_TEST_=1"
-if /I "%1" == "--trace"           set ("_VERBOSE_=1 && echo on)"
-if /I "%1" == "--verbose"         set  "_VERBOSE_=1"
-if /I "%1" == "--video"           set "_VIDEO_=1"
-if /I "%1" == "--webready"        set "_WEBREADY_=1"
+if /I "%1" == "--dryrun"          call:set "_DRYRUN_=1"
+if /I "%1" == "--build"           call:set "_BUILD_=1"
+if /I "%1" == "--samples"         call:set "_SAMPLES_=1"
+if /I "%1" == "--pause"           call:set "_PAUSE_=1"
+if /I "%1" == "--silent"          call:set "_SILENT_=1"
+if /I "%1" == "--static"          call:set "_SHARED_=0"
+if /I "%1" == "--shared"          call:set "_SHARED_=1"
+if /I "%1" == "--dll"             call:set "_SHARED_=1"
+if /I "%1" == "--test"            call:set "_TEST_=1"
+if /I "%1" == "--trace"           call:set "_TRACE_=1"
+if /I "%1" == "--verbose"         call:set "_VERBOSE_=1"
+if /I "%1" == "--video"           call:set "_VIDEO_=1"
+if /I "%1" == "--webready"        call:set "_WEBREADY_=1"
+if /I "%1" == "--unicode"         call:set "_UNICODE_=1"
+if /I "%1" == "--ascii"           call:set "_UNICODE_=0"
+if /I "%1" == "--nls"             call:set "_NLS_=1"
+if /I "%1" == "--debug"           call:set "_CONFIG_=Debug"
+if /I "%1" == "--release"         call:set "_CONFIG_=Release"
+
+if /I "%_CLAIMED_%" == "0" (
+	echo "*** unknown command argument %1 ***" >&2
+	goto error_end
+)
 
 shift
 if not (%1) EQU () goto GETOPTS
 goto main
 
+:set
+set %1
+set _CLAIMED_=1
+exit /b 0
+
 :help
-call cmakeDefaults >NUL 2>NUL
-echo Options: --help   ^| --webready ^| --rebuild ^| --video  ^| --static
-echo.         --silent ^| --verbose  ^| --pause   ^| --dryrun ^| --test  ^| --trace
+echo Options: --help   ^| --silent ^| --verbose  ^| --pause   ^| --dryrun   ^| --trace ^| --test
+echo.         --build  ^| --static ^| --unicode  ^| --nls     ^| --webready ^| --video ^| --samples 
 echo.         --exiv2 %_EXIV2_% ^| --work %_WORK_% ^| --config %_CONFIG_% ^| --generator generator
 echo.         --zlib %_ZLIB_% ^| --expat %_EXPAT_% ^| --curl %_CURL_% ^| --libssh %_LIBSSH_%
 echo.         --bash %_BASH_%
@@ -46,23 +73,30 @@ echo.&&echo.&&echo.
 echo.------ cmakeBuild Settings ----------
 echo.bash      = %_BASH_%
 echo.binpath   = %_BINPATH_%
+echo.build     = %_BUILD_%
 echo.builddir  = %_BUILDDIR_%
 echo.config    = %_CONFIG_%
 echo.curl      = %_CURL_%
+echo.dryrun    = %_DRYRUN_%
 echo.exiv2     = %_EXIV2_%
 echo.expat     = %_EXPAT_%
 echo.generator = %_GENERATOR_%
+echo.install   = %_INSTALL_%
 echo.incpath   = %_INCPATH_%
 echo.libpath   = %_LIBPATH_%
 echo.libssh    = %_LIBSSH_%
-echo.mode      = %_MODE_%
+echo.nls       = %_NLS_%
 echo.openssl   = %_OPENSSL_%
-echo.work      = %_WORK_%
+echo.platform  = %PLATFORM%
+echo.samples   = %_SAMPLES_%
+echo.shared    = %_SHARED_%
 echo.test      = %_TEST_%
-echo.video     = %_VIDEO_%
+echo.unicode   = %_UNICODE_%
 echo.vc        = %_VC_%
+echo.video     = %_VIDEO_%
 echo.vs        = %_VS_%
 echo.webready  = %_WEBREADY_%
+echo.work      = %_WORK_%
 echo.zlib      = %_ZLIB_%
 echo.&&echo.&&echo.
 exit /b 0
@@ -72,12 +106,6 @@ if NOT DEFINED _SILENT_ set _VERBOSE_=1
 set _UNSUPPORTED_=
 
 rem  ----
-call:echo calling cmakeDefaults.cmd
-call cmakeDefaults
-IF ERRORLEVEL 1 (
-    echo "*** cmakeDefaults.cmd has failed ***" >&2
-    GOTO error_end
-)
 call:echo _EXIV2_ = %_EXIV2_%
 
 rem  ----
@@ -91,6 +119,7 @@ IF NOT EXIST "%VSINSTALLDIR%" (
     GOTO error_end
 )
 
+if /I "%VSINSTALLDIR%" == "%ProgramFiles(x86)%\Microsoft Visual Studio\2017\Community\" set "_VS_=2017" && set "_VC_=15"
 if /I "%VSINSTALLDIR%" == "%ProgramFiles(x86)%\Microsoft Visual Studio 14.0\" set "_VS_=2015" && set "_VC_=14"
 if /I "%VSINSTALLDIR%" == "%ProgramFiles(x86)%\Microsoft Visual Studio 12.0\" set "_VS_=2013" && set "_VC_=12"
 if /I "%VSINSTALLDIR%" == "%ProgramFiles(x86)%\Microsoft Visual Studio 11.0\" set "_VS_=2012" && set "_VC_=11"
@@ -105,11 +134,17 @@ if NOT DEFINED _VS_ (
 )
 
 call:echo testing architecture
-if "%PROCESSOR_ARCHITECTURE%" EQU "x86" (
+set _ARCH_=64
+if /I "%PROCESSOR_ARCHITECTURE%" == "x86" set _ARCH_=32
+if /I "%VSCMD_ARG_HOST_ARCH%"    == "x86" set _ARCH_=32
+
+if /I "%_ARCH_%" == "32" (
     set Platform=Win32
     set RawPlatform=x86
     set CpuPlatform=ia32
-) ELSE (
+)
+
+if NOT DEFINED Platform (
     set Platform=x64
     set RawPlatform=x64
     set CpuPlatform=intel64
@@ -165,22 +200,37 @@ IF ERRORLEVEL 1 (
 )
 
 rem  ----
+call:echo fixups
+set _WORK_=%_WORK_%_%_CONFIG_%
+if DEFINED _TRACE_ (
+    set _VERBOSE_=1
+    echo on
+)
+if DEFINED _TEST_ (
+    set _SAMPLES_=1
+    set _BUILD_=1
+)
+if DEFINED _WEBREADY_     set _SHARED_=1
+
+if /I "%_SHARED_%" == "1" set _MODE_=dll
+if /I "%_SHARED_%" == "0" set _MODE_=static
+
+rem  ----
 call:echo testing work directory _WORK_ = %_WORK_%
-if defined _REBUILD_ if EXIST "%_WORK_%" rmdir/s/q "%_WORK_%"
-if defined _REBUILD_ del/s CMakeCache.txt >NUL 2>NUL
+if EXIST "%_WORK_%" rmdir/s/q "%_WORK_%"
+del/s CMakeCache.txt >NUL 2>NUL
 IF NOT EXIST "%_WORK_%" mkdir "%_WORK_%"
 pushd        "%_WORK_%"
-set          "_WORK_=%CD%"
+set           "_WORK_=%CD%"
 popd
-call:echo     _WORK_ = %_WORK_%
+call:echo      _WORK_ = %_WORK_%
 
 rem ----
 call:echo testing INSTALL
 SET _INSTALL_=dist\%_VS_%\%Platform%\%_MODE_%\%_CONFIG_%
 if NOT EXIST %_INSTALL_% mkdir %_INSTALL_%
-IF NOT EXIST %_INSTALL_% mkdir %_INSTALL_%
 pushd        %_INSTALL_%
-set          "_INSTALL_=%CD%"
+    set      "_INSTALL_=%CD%"
 popd
 call:echo     _INSTALL_ = %_INSTALL_%
 
@@ -200,7 +250,8 @@ if defined _TEST_ if NOT EXIST "%_BASH_%" (
 if NOT DEFINED _GENERATOR_       set "_GENERATOR_=%VS_CMAKE%"
 if /I "%_GENERATOR_%" == "NMake" set "_GENERATOR_=NMake Makefiles"
 
-if /I "%_MODE_%" == "static" "_LINK_=-DCMAKE_LINK=static"
+rem Fixup for openssl/vs 2017
+if /I "%_OPENSSL_%" == "openssl-1.0.1p" if /I "%_VS_%" == 2017 set _OPENSSL_ = openssl-1.1.0f
 
 call:cltest
 call:report
@@ -211,12 +262,18 @@ IF DEFINED _PAUSE_   pause
 echo ---------- ZLIB building with cmake ------------------
 call:buildLib %_ZLIB_% -DCMAKE_INSTALL_PREFIX=%_INSTALL_%
 
+rem Fixup ZLIB.  This should be possible inside CMake
+if /I "%_MODE_%" == "static" (
+	if EXIST "%_WORK_%\%_ZLIB_%\%_CONFIG_%\zlibstaticd.lib" copy/y "%_WORK_%\%_ZLIB_%\%_CONFIG_%\zlibstaticd.lib" "%_LIBPATH_%\zlibd.lib"
+	if EXIST "%_WORK_%\%_ZLIB_%\%_CONFIG_%\zlibstatic.lib"  copy/y "%_WORK_%\%_ZLIB_%\%_CONFIG_%\zlibstatic.lib"  "%_LIBPATH_%\zlib.lib"
+)
+
 echo ---------- EXPAT building with cmake -----------------
 set "_TARGET_=--target expat"
-if /I "%_MODE_%" == "static" (
-  call:buildLib %_EXPAT_% -DCMAKE_INSTALL_PREFIX=%_INSTALL_% -DBUILD_shared=0 -DCMAKE_C_FLAGS_RELEASE=/MT -DBUILD_examples=0 -DBUILD_tests=0
+if /I "%_SHARED_%" == "0" (
+  call:buildLib %_EXPAT_% -DCMAKE_INSTALL_PREFIX=%_INSTALL_% -DBUILD_shared=0 -DCMAKE_C_FLAGS_RELEASE=/MT -DCMAKE_C_FLAGS_DEBUG=/MTd -DBUILD_examples=0 -DBUILD_tests=0
 ) else (
-  call:buildLib %_EXPAT_% -DCMAKE_INSTALL_PREFIX=%_INSTALL_% 
+  call:buildLib %_EXPAT_% -DCMAKE_INSTALL_PREFIX=%_INSTALL_% -DBUILD_examples=0 -DBUILD_tests=0
 )
 set  _TARGET_=
 
@@ -239,7 +296,7 @@ if DEFINED _WEBREADY_ (
         call:buildLib   %_CURL_% -DCMAKE_INSTALL_PREFIX=%_INSTALL_% -DCMAKE_LIBRARY_PATH=%_LIBPATH_% -DCMAKE_INCLUDE_PATH=%_INCPATH_% -DWITH_GSSAPI=OFF -DWITH_ZLIB=OFF -DWITH_SFTP=OFF -DWITH_SERVER=OFF -DWITH_EXAMPLES=OFF -DWITH_NACL=OFF -DWITH_PCAP=OFF -DCMAKE_USE_LIBSSH2=OFF -DCMAKE_USE_LIBSSH=OFF
         if errorlevel 1 set _WEBREADY_=
     ) ELSE (
-        if defined _REBUILD_ rmdir/s/q "%_ONCPATH_%\curl" >NUL 2>NUL
+        rmdir/s/q "%_ONCPATH_%\curl" >NUL 2>NUL
         if NOT EXIST "%_ONCPATH_%"\curl (
             echo ---------- CURL building with nmake -----------------
             IF NOT EXIST %_CURL_%.tar.gz  svn export svn://dev.exiv2.org/svn/team/libraries/%_CURL_%.tar.gz >NUL
@@ -268,9 +325,8 @@ if NOT DEFINED _WEBREADY_ set _CURL_= && set _LIBSSH_=
 
 echo ---------- EXIV2 building with cmake ------------------
 set          "EXIV_B=%_WORK_%\exiv2"
-if defined _REBUILD_  IF EXIST "%EXIV_B%"  rmdir/s/q "%EXIV_B%"
-IF NOT EXIST "%EXIV_B%"                    mkdir     "%EXIV_B%"
-
+IF EXIST     "%EXIV_B%"  rmdir/s/q "%EXIV_B%"
+IF NOT EXIST "%EXIV_B%"  mkdir     "%EXIV_B%"
 pushd        "%EXIV_B%"
     set ENABLE_CURL=-DEXIV2_ENABLE_CURL=OFF
     set ENABLE_LIBSSH=-DEXIV2_ENABLE_SSH=OFF
@@ -280,19 +336,19 @@ pushd        "%EXIV_B%"
 	set ENABLE_DYNAMIC=ON
 
     if defined _CURL_     set ENABLE_CURL=-DEXIV2_ENABLE_CURL=ON
-    if defined _LIBSSH_   set ENABLE_SSH=-DEXIV2_ENABLE_SSH=ON
+    if defined _LIBSSH_   set ENABLE_LIBSSH=-DEXIV2_ENABLE_SSH=ON
     if defined _WEBREADY_ set ENABLE_WEBREADY=-DEXIV2_ENABLE_WEBREADY=ON
     if defined _VIDEO_    set ENABLE_VIDEO=-DEXIV2_ENABLE_VIDEO=ON
 	if /I "%_MODE_%" == "static" (
 	    set ENABLE_SHARED=OFF
 	    set ENABLE_DYNAMIC=OFF
 	)
-	                        set BUILD_SAMPLES=ON
-	if DEFINED _NOSAMPLES_  set BUILD_SAMPLES=OFF
+	                      set BUILD_SAMPLES=OFF
+	if DEFINED _SAMPLES_  set BUILD_SAMPLES=ON
 
-    call:run cmake -G "%_GENERATOR_%" -DCMAKE_BUILD_TYPE=%_CONFIG_% %_LINK_% -DCMAKE_INSTALL_PREFIX=%_INSTALL_% -DCMAKE_LIBRARY_PATH=%_LIBPATH_% -DCMAKE_INCLUDE_PATH=%_INCPATH_% ^
-              -DEXIV2_ENABLE_NLS=OFF                -DEXIV2_ENABLE_BUILD_SAMPLES=%BUILD_SAMPLES% ^
-              -DEXIV2_ENABLE_WIN_UNICODE=OFF        -DBUILD_SHARED_LIBS=%ENABLE_SHARED% ^
+    call:run cmake -G "%_GENERATOR_%"     -DCMAKE_BUILD_TYPE=%_CONFIG_% -DCMAKE_INSTALL_PREFIX=%_INSTALL_% -DCMAKE_LIBRARY_PATH=%_LIBPATH_% -DCMAKE_INCLUDE_PATH=%_INCPATH_% ^
+              -DEXIV2_ENABLE_NLS=%_NLS_%  -DEXIV2_BUILD_SAMPLES=%BUILD_SAMPLES% ^
+              -DEXIV2_ENABLE_WIN_UNICODE=%_UNICODE_% -DBUILD_SHARED_LIBS=%ENABLE_SHARED% ^
               -DEXIV2_ENABLE_DYNAMIC_RUNTIME=%ENABLE_DYNAMIC% ^
               %ENABLE_WEBREADY%  %ENABLE_CURL%  %ENABLE_LIBSSH% %ENABLE_VIDEO% ^
              "%_EXIV2_%"
@@ -303,14 +359,16 @@ pushd        "%EXIV_B%"
         goto error_end
     )
 
-    call:run cmake --build . --config %_CONFIG_%
+    rem if DEFINED _BUILDX_ devenv %_WORK_%\exiv2\exiv2.sln /Build "%_CONFIG_%|%Platform%" /ProjectConfig INSTALL
+
+    if DEFINED _BUILD_ call:run cmake --build . --config %_CONFIG_%
     IF errorlevel 1 (
         echo "*** build errors in EXIV2 ***" >&2
         popd
         goto error_end
     )
 
-    call:run cmake --build . --config %_CONFIG_% --target install
+    if DEFINED _BUILD_ call:run cmake --build . --config %_CONFIG_% --target install
     IF errorlevel 1 (
         echo "*** install errors in EXIV2 ***" >&2
         popd
@@ -327,12 +385,12 @@ if defined _TEST_ (
 
 rem -----------------------------------------
 rem Exit
-rem end  syntax: goto end
+rem end  syntax: GOTO end
 :end
 endlocal
 exit /b 0
 
-rem end with an error syntax: call:error_end
+rem end with an error syntax: GOTO error_end
 :error_end
 endlocal
 exit /b 1
@@ -344,7 +402,7 @@ rem echo (or don't if --silent).  syntax: call:echo args ...
 if NOT DEFINED _SILENT_ echo %*%
 exit /b 0
 
-rem run a command. syntax call:run args 
+rem run a command. syntax call:run args
 :run
 if defined _VERBOSE_ (
     echo.
@@ -360,7 +418,6 @@ set _RESULT_=%ERRORLEVEL%
 if     DEFINED _PAUSE_ pause
 exit /b %_RESULT_%
 
-rem -----------------------------------------
 rem build a library with CMake.  syntax: call:buildLib name cmake-args ...
 :buildLib
 cd  "%_BUILDDIR_%"
@@ -377,7 +434,7 @@ IF NOT EXIST "%LOB%"         7z x "%LOB_TAR%"
 if NOT EXIST "%LOB_B%"       mkdir "%LOB_B%"
 
 pushd "%LOB_B%"
-    call:run cmake -G "%_GENERATOR_%" -DCMAKE_BUILD_TYPE=%_CONFIG_% %_LINK_% %* ..\..\%LOB%
+    call:run cmake -G "%_GENERATOR_%" -DCMAKE_BUILD_TYPE=%_CONFIG_% %* ..\..\%LOB%
     IF errorlevel 1 (
         echo "*** cmake errors in %LOB% ***"
         popd
@@ -389,7 +446,20 @@ pushd "%LOB_B%"
         echo "*** warning: build errors in %LOB% ***"
     )
 
-    call:run cmake --build . --config %_CONFIG_% --target install
+    rem --static expat fails to install on VS 2010+
+    set buildLibInstallExpatStatic=0
+    if /I "%_TARGET_%" == "--target expat" if /I "%_MODE_%" == "static" set buildLibInstallExpatStatic=1
+
+    if /I "%buildLibInstallExpatStatic%" == "1" (
+        rem msvc\expat-2.1.0\lib\expat*.h                => msvc\dist\2005\x64\static\Release\include
+        call:run copy/y "%_BUILDDIR_%\%LOB%\lib\expat*.h"   "%_ONCPATH_%"
+
+        rem msvc\work\expat-2.1.0\release\*.lib          => msvc\dist\2005\x64\static\Release\lib
+        call:run copy/y "%_WORK_%\%LOB%\%_CONFIG_%\*.lib"   "%_INSTALL_%\lib"
+    ) else (
+        call:run cmake --build . --config %_CONFIG_% --target install
+    )
+
     IF errorlevel 1 (
         echo "*** warning: install errors in %LOB% ***"
     )
@@ -434,7 +504,7 @@ exit /b 0
 
 rem -----------------------------------------
 rem this runs the compiler and reports _MSC_VER and sizeof(void*)
-:cltest          
+:cltest
 pushd    "%_EXIV2_%\contrib\cmake\msvc"
 nmake -a cltest.exe
 cltest.exe
