@@ -377,6 +377,13 @@ source ./functions.source
 	copyTestFile              $filename
 	runTest exiv2 -pa -g zone $filename
 
+    num=g79
+    printf "$num " >&3
+    filename=POC2
+    echo '------>' Bug $filename '<-------' >&2
+    copyTestFile                      $filename
+    runTest exiv2                     $filename
+
 ) 3>&1 > $results 2>&1
 
 printf "\n"
