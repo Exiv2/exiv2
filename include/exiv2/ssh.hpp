@@ -24,7 +24,7 @@
 // included header files
 #include "config.h"
 
-#if EXV_USE_SSH == 1
+#ifdef EXV_USE_SSH
 #include <libssh/libssh.h>
 #include <libssh/sftp.h>
 #include <sys/stat.h>

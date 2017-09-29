@@ -46,6 +46,7 @@ EXIV2_RCSID("@(#) $Id$")
 #include <cstdlib>                      // for alloc, realloc, free
 #include <sys/types.h>                  // for stat, chmod
 #include <sys/stat.h>                   // for stat, chmod
+
 #ifdef EXV_HAVE_SYS_MMAN_H
 # include <sys/mman.h>                  // for mmap and munmap
 #endif
@@ -55,13 +56,15 @@ EXIV2_RCSID("@(#) $Id$")
 #ifdef EXV_HAVE_UNISTD_H
 # include <unistd.h>                    // for getpid, stat
 #endif
-#if EXV_USE_CURL == 1
-#include <curl/curl.h>
+
+#ifdef EXV_USE_CURL
+# include <curl/curl.h>
 #endif
-#if EXV_USE_SSH == 1
-#include "ssh.hpp"
+
+#ifdef EXV_USE_SSH
+# include "ssh.hpp"
 #else
-#define mode_t unsigned short
+# define mode_t unsigned short
 #endif
 
 // Platform specific headers for handling extended attributes (xattr)
@@ -2080,7 +2083,7 @@ namespace Exiv2 {
     }
 #endif
 
-#if EXV_USE_CURL == 1
+#ifdef EXV_USE_CURL
     //! Internal Pimpl structure of class RemoteIo.
     class CurlIo::CurlImpl : public Impl  {
     public:
@@ -2329,7 +2332,7 @@ namespace Exiv2 {
 
 #endif
 
-#if EXV_USE_SSH == 1
+#ifdef EXV_USE_SSH
     //! Internal Pimpl structure of class RemoteIo.
     class SshIo::SshImpl : public Impl  {
     public:
@@ -2628,7 +2631,7 @@ namespace Exiv2 {
         return subject;
     }
 #endif
-#if EXV_USE_CURL == 1
+#ifdef EXV_USE_CURL
     size_t curlWriter(char* data, size_t size, size_t nmemb,
                       std::string* writerData)
     {
