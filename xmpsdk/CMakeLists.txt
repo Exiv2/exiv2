@@ -69,6 +69,7 @@ if( EXIV2_ENABLE_LIBXMP )
     if (BUILD_SHARED_LIBS)
         set_property(TARGET xmp_object PROPERTY POSITION_INDEPENDENT_CODE ON)
     endif()
+endif()
 
 # 1119  Install libxmp.a for use by third party applications (Thanks, Emmanuel)
 install(TARGETS xmp
