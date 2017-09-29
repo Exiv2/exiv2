@@ -32,7 +32,6 @@ EXIV2_RCSID("@(#) $Id$")
 
 #ifdef   EXV_HAVE_LIBZ
 #include "pngchunk_int.hpp"
-#include "image_int.hpp"
 #include "pngimage.hpp"
 #include "jpgimage.hpp"
 #include "tiffimage.hpp"
