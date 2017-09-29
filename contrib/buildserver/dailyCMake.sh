@@ -12,7 +12,7 @@ source $(find . -name buildserver.library)
 if [ "$PLATFORM" == "msvc" ]; then
     exiv2=$(cygpath -aw .)
     build=$(cygpath -aw ./build)
-     dist=$(cygpath -au ./build/contrib/cmake/msvc/dist/)
+     dist=$(cygpath -au ./build/dist/)
      msvc=$(cygpath -au ./contrib/cmake/msvc)
 else
     exiv2=$PWD
@@ -100,9 +100,10 @@ testBuild()
                              cmd.exe /c "cd $build && vcvars $VS $ARCH && cmakeBuild --build --samples --exiv2 $exiv2 $*"
                     done
                 done
-                # cmd.exe /c "cd $build && cmakeBuildAll --rebuild --exiv2=$exiv2 $*"
                 result=$?
             )
+            
+            mv     $msvc/dist .    # bring the new build here
             cp     $msvc/vcvars.bat $build/dist # required by test_daily.sh
         ;;
 
