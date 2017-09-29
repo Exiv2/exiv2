@@ -638,6 +638,13 @@ source ./functions.source
     copyTestFile                      $filename
     runTest exiv2                     $filename 2>/dev/null
 
+    num=g57
+    printf "$num " >&3
+    filename=POC
+    echo '------>' Bug $filename '<-------' >&2
+    copyTestFile                      $filename
+    runTest exiv2                     $filename
+
     num=g79
     printf "$num " >&3
     filename=POC2
