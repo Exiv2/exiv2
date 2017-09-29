@@ -8,10 +8,10 @@
 # 2 executes dailyTest.sh to test that the build bundles are good
 # 3 rebuilds all links in userContent/builds/{Latest Date Platform SVN}
 
-ssh rmills@rmillsmm         'cd ~/gnu/exiv2/buildserver ; rm -rf exiv2 ; git clone http://github.com/clanmills/exiv2.git ; cd exiv2/ ;                               contrib/buildserver/dailyCMake.sh'
-ssh rmills@rmillsmm-kubuntu 'cd ~/gnu/exiv2/buildserver ; rm -rf exiv2 ; git clone http://github.com/clanmills/exiv2.git ; cd exiv2/ ;                               contrib/buildserver/dailyCMake.sh'
-ssh rmills@rmillsmm-w7      'cd ~/gnu/exiv2/buildserver ; rm -rf exiv2 ; git clone http://github.com/clanmills/exiv2.git ; cd exiv2/ ;                               contrib/buildserver/dailyCMake.sh'
-ssh rmills@rmillsmm-w7      'cd ~/gnu/exiv2/buildserver ; rm -rf exiv2 ; git clone http://github.com/clanmills/exiv2.git ; cd exiv2/ ; env PLATFORM=msvc             contrib/buildserver/dailyCMake.sh'
+ssh rmills@rmillsmm         'cd ~/gnu/exiv2/buildserver ; rm -rf exiv2 ; git clone http://github.com/exiv2/exiv2.git ; cd exiv2/ ;                               contrib/buildserver/dailyCMake.sh'
+ssh rmills@rmillsmm-kubuntu 'cd ~/gnu/exiv2/buildserver ; rm -rf exiv2 ; git clone http://github.com/exiv2/exiv2.git ; cd exiv2/ ;                               contrib/buildserver/dailyCMake.sh'
+ssh rmills@rmillsmm-w7      'cd ~/gnu/exiv2/buildserver ; rm -rf exiv2 ; git clone http://github.com/exiv2/exiv2.git ; cd exiv2/ ;                               contrib/buildserver/dailyCMake.sh'
+ssh rmills@rmillsmm-w7      'cd ~/gnu/exiv2/buildserver ; rm -rf exiv2 ; git clone http://github.com/exiv2/exiv2.git ; cd exiv2/ ; env PLATFORM=msvc             contrib/buildserver/dailyCMake.sh'
 # ssh rmills@rmillsmm-w7      'cd ~/gnu/exiv2/buildserver ; rm -rf exiv2 ; git clone http://github.com/Exiv2/exiv2.git ; cd exiv2/ ; env PLATFORM=mingw win32=true contrib/buildserver/dailyCMake.sh'
 
 ##

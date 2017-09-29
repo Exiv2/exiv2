@@ -12,7 +12,7 @@ source $(find . -name buildserver.library)
 if [ "$PLATFORM" == "msvc" ]; then
     exiv2=$(cygpath -aw .)
     build=$(cygpath -aw ./build)
-     dist=$(cygpath -au ./build/dist/)
+     dist=$(cygpath -au ./build/contrib/cmake/msvc/dist/)
      msvc=$(cygpath -au ./contrib/cmake/msvc)
 else
     exiv2=$PWD
@@ -93,7 +93,7 @@ testBuild()
                 PATH="$msvc:/cygdrive/c/Windows/System32:/cygdrive/c/Program Files/csvn/bin:/cygdrive/c/Program Files (x86)/WANdisco/Subversion/csvn/bin:/cygdrive/c/Program Files/7-zip:/cygdrive/c/Program Files/CMake/bin:/cygdrive/c/Program Files/cmake/bin:/cygdrive/c/Program Files (x86)/cmake/bin"
                 # cmd.exe /c "cd $build && vcvars $vs $arch && cmakeBuild --samples --build --exiv2 $exiv2 $*"
                 for ARCH in 64 32; do
-                    for VS in 2005 2008 2010 2012 2013 2015 2017; do
+                    for VS in 2005 2017; do
                         echo -=-=-=-=-=-=-=-=-=-=-=-
                         echo cmd.exe /c "cd $build && vcvars $VS $ARCH && cmakeBuild --build --samples --exiv2 $exiv2 $*"
                         echo -=-=-=-=-=-=-=-=-=-=-=-
