@@ -2,4 +2,4 @@ ssh rmills@rmillsmm                                             '~/gnu/exiv2/bui
 ssh rmills@rmillsmm-kubuntu                                     '~/gnu/exiv2/buildserver/contrib/buildserver/dailyTest.sh'
 ssh rmills@rmillsmm-w7                                          '~/gnu/exiv2/buildserver/contrib/buildserver/dailyTest.sh'
 ssh rmills@rmillsmm-w7 'export PLATFORM=msvc                    ;~/gnu/exiv2/buildserver/contrib/buildserver/dailyTest.sh'
-ssh rmills@rmillsmm-w7 'export PLATFORM=mingw; export win32=true;~/contrib/buildserver/dailyCMake.sh'
+# ssh rmills@rmillsmm-w7 'export PLATFORM=mingw; export win32=true;~/contrib/buildserver/dailyCMake.sh'

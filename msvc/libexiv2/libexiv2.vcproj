@@ -629,6 +629,10 @@
 				>
 			</File>
 			<File
+				RelativePath="..\..\src\bigtiffimage.cpp"
+				>
+			</File>
+			<File
 				RelativePath="..\..\src\bmpimage.cpp"
 				>
 			</File>
@@ -872,6 +876,10 @@
 			</File>
 			<File
 				RelativePath="..\..\include\exiv2\basicio.hpp"
+				>
+			</File>
+			<File
+				RelativePath="..\..\include\exiv2\bigtiffimage.hpp"
 				>
 			</File>
 			<File

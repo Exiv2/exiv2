@@ -446,6 +446,10 @@ typedef uLong FAR uLongf;
 #  undef _LARGEFILE64_SOURCE
 #endif
 
+#if defined(_MSC_VER) && defined(Z_HAVE_UNISTD_H)
+#undef Z_HAVE_UNISTD_H
+#endif
+
 #if defined(__WATCOMC__) && !defined(Z_HAVE_UNISTD_H)
 #  define Z_HAVE_UNISTD_H
 #endif

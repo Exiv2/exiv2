@@ -8,11 +8,11 @@
 # 2 executes dailyTest.sh to test that the build bundles are good
 # 3 rebuilds all links in userContent/builds/{Latest Date Platform SVN}
 
-ssh rmills@rmillsmm         'cd ~/gnu/exiv2/buildserver ; rm -rf exiv2 ; git clone http://github.com/Exiv2/exiv2.git ; cd exiv2/ ;                               contrib/buildserver/dailyCMake.sh'
-ssh rmills@rmillsmm-kubuntu 'cd ~/gnu/exiv2/buildserver ; rm -rf exiv2 ; git clone http://github.com/Exiv2/exiv2.git ; cd exiv2/ ;                               contrib/buildserver/dailyCMake.sh'
-ssh rmills@rmillsmm-w7      'cd ~/gnu/exiv2/buildserver ; rm -rf exiv2 ; git clone http://github.com/Exiv2/exiv2.git ; cd exiv2/ ;                               contrib/buildserver/dailyCMake.sh'
-ssh rmills@rmillsmm-w7      'cd ~/gnu/exiv2/buildserver ; rm -rf exiv2 ; git clone http://github.com/Exiv2/exiv2.git ; cd exiv2/ ; env PLATFORM=msvc             contrib/buildserver/dailyCMake.sh'
-ssh rmills@rmillsmm-w7      'cd ~/gnu/exiv2/buildserver ; rm -rf exiv2 ; git clone http://github.com/Exiv2/exiv2.git ; cd exiv2/ ; env PLATFORM=mingw win32=true contrib/buildserver/dailyCMake.sh'
+ssh rmills@rmillsmm         'cd ~/gnu/exiv2/buildserver ; rm -rf exiv2 ; git clone http://github.com/exiv2/exiv2.git ; cd exiv2/ ;                               contrib/buildserver/dailyCMake.sh'
+ssh rmills@rmillsmm-kubuntu 'cd ~/gnu/exiv2/buildserver ; rm -rf exiv2 ; git clone http://github.com/exiv2/exiv2.git ; cd exiv2/ ;                               contrib/buildserver/dailyCMake.sh'
+ssh rmills@rmillsmm-w7      'cd ~/gnu/exiv2/buildserver ; rm -rf exiv2 ; git clone http://github.com/exiv2/exiv2.git ; cd exiv2/ ;                               contrib/buildserver/dailyCMake.sh'
+ssh rmills@rmillsmm-w7      'cd ~/gnu/exiv2/buildserver ; rm -rf exiv2 ; git clone http://github.com/exiv2/exiv2.git ; cd exiv2/ ; env PLATFORM=msvc             contrib/buildserver/dailyCMake.sh'
+# ssh rmills@rmillsmm-w7      'cd ~/gnu/exiv2/buildserver ; rm -rf exiv2 ; git clone http://github.com/Exiv2/exiv2.git ; cd exiv2/ ; env PLATFORM=mingw win32=true contrib/buildserver/dailyCMake.sh'
 
 ##
 # test the delivery
@@ -24,15 +24,15 @@ echo --------------------------------------
 echo test log = $output
 echo --------------------------------------
 
-ssh rmills@rmillsmm          'cd ~/gnu/exiv2/buildserver ;                               contrib/buildserver/dailyTest.sh' | tr -d $'\r' | tee -a $output
-ssh rmills@rmillsmm-kubuntu  'cd ~/gnu/exiv2/buildserver ;                               contrib/buildserver/dailyTest.sh' | tr -d $'\r' | tee -a $output
-ssh rmills@rmillsmm-w7       'cd ~/gnu/exiv2/buildserver ;                               contrib/buildserver/dailyTest.sh' | tr -d $'\r' | tee -a $output
-ssh rmills@rmillsmm-w7       'cd ~/gnu/exiv2/buildserver ; env PLATFORM=msvc             contrib/buildserver/dailyTest.sh' | tr -d $'\r' | tee -a $output
-ssh rmills@rmillsmm-w7       'cd ~/gnu/exiv2/buildserver ; env PLATFORM=mingw win32=true contrib/buildserver/dailyTest.sh' | tr -d $'\r' | tee -a $output
+ssh rmills@rmillsmm          'cd ~/gnu/exiv2/buildserver/exiv2 ;                                 contrib/buildserver/dailyTest.sh' | tr -d $'\r' | tee -a $output
+ssh rmills@rmillsmm-kubuntu  'cd ~/gnu/exiv2/buildserver/exiv2 ;                                 contrib/buildserver/dailyTest.sh' | tr -d $'\r' | tee -a $output
+ssh rmills@rmillsmm-w7       'cd ~/gnu/exiv2/buildserver/exiv2 ;                                 contrib/buildserver/dailyTest.sh' | tr -d $'\r' | tee -a $output
+ssh rmills@rmillsmm-w7       'cd ~/gnu/exiv2/buildserver/exiv2 ; env PLATFORM=msvc               contrib/buildserver/dailyTest.sh' | tr -d $'\r' | tee -a $output
+# ssh rmills@rmillsmm-w7       'cd ~/gnu/exiv2/buildserver/exiv2 ; env PLATFORM=mingw win32=true contrib/buildserver/dailyTest.sh' | tr -d $'\r' | tee -a $output
 
 ##
 # categorize the builds
-ssh rmills@rmillsmm         "cd ~/gnu/exiv2/buildserver ; PATH="$PATH:/usr/local/bin"; contrib/buildserver/categorize.py $builds"
+ssh rmills@rmillsmm         "cd ~/gnu/exiv2/buildserver/exiv2 ; PATH="$PATH:/usr/local/bin";      contrib/buildserver/categorize.py $builds"
 
 # That's all Folks!
 ##

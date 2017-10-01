@@ -44,7 +44,6 @@
 #include "tiffimage.hpp"
 #include "tiffimage_int.hpp"
 #include "convert.hpp"
-#include "tags_int.hpp"
 
 #include <cmath>
 #include <iomanip>

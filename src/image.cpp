@@ -47,6 +47,7 @@ EXIV2_RCSID("@(#) $Id$")
 #include "tiffimage_int.hpp"
 #include "tiffcomposite_int.hpp"
 #include "tiffvisitor_int.hpp"
+#include "bigtiffimage.hpp"
 #include "webpimage.hpp"
 #include "orfimage.hpp"
 #include "gifimage.hpp"
@@ -112,6 +113,7 @@ namespace {
         { ImageType::crw,  newCrwInstance,  isCrwType,  amReadWrite, amNone,      amNone,      amReadWrite },
         { ImageType::mrw,  newMrwInstance,  isMrwType,  amRead,      amRead,      amRead,      amNone      },
         { ImageType::tiff, newTiffInstance, isTiffType, amReadWrite, amReadWrite, amReadWrite, amNone      },
+        { ImageType::bigtiff, newBigTiffInstance, isBigTiffType, amRead, amRead,  amRead,      amNone      },
         { ImageType::webp, newWebPInstance, isWebPType, amReadWrite, amNone,      amReadWrite, amNone      },
         { ImageType::dng,  newTiffInstance, isTiffType, amReadWrite, amReadWrite, amReadWrite, amNone      },
         { ImageType::nef,  newTiffInstance, isTiffType, amReadWrite, amReadWrite, amReadWrite, amNone      },
@@ -162,7 +164,9 @@ namespace Exiv2 {
 #else
           writeXmpFromPacket_(true),
 #endif
-          byteOrder_(invalidByteOrder)
+          byteOrder_(invalidByteOrder),
+          tags_(),
+          init_(true)
     {
     }
 
@@ -193,6 +197,11 @@ namespace Exiv2 {
              || type == Exiv2::signedLong
              ;
     }
+    bool Image::isLongLongType(uint16_t type) {
+        return type == Exiv2::unsignedLongLong
+            || type == Exiv2::signedLongLong
+            ;
+    }
     bool Image::isRationalType(uint16_t type) {
          return type == Exiv2::unsignedRational
              || type == Exiv2::signedRational
@@ -212,6 +221,8 @@ namespace Exiv2 {
     bool Image::is8ByteType(uint16_t type)
     {
         return isRationalType(type)
+             || isLongLongType(type)
+             || type == Exiv2::tiffIfd8
              || type == Exiv2::tiffDouble
             ;
     }
@@ -235,7 +246,19 @@ namespace Exiv2 {
     }
     bool Image::isLittleEndianPlatform() { return !isBigEndianPlatform(); }
 
-    uint32_t Image::byteSwap(uint32_t value,bool bSwap)
+    uint64_t Image::byteSwap(uint64_t value,bool bSwap) const
+    {
+        uint64_t result = 0;
+        byte* source_value = reinterpret_cast<byte *>(&value);
+        byte* destination_value = reinterpret_cast<byte *>(&result);
+
+        for (int i = 0; i < 8; i++)
+            destination_value[i] = source_value[8 - i - 1];
+
+        return bSwap ? result : value;
+    }
+
+    uint32_t Image::byteSwap(uint32_t value,bool bSwap) const
     {
         uint32_t result = 0;
         result |= (value & 0x000000FF) << 24;
@@ -245,7 +268,7 @@ namespace Exiv2 {
         return bSwap ? result : value;
     }
 
-    uint16_t Image::byteSwap(uint16_t value,bool bSwap)
+    uint16_t Image::byteSwap(uint16_t value,bool bSwap) const
     {
         uint16_t result = 0;
         result |= (value & 0x00FF) << 8;
@@ -253,7 +276,7 @@ namespace Exiv2 {
         return bSwap ? result : value;
     }
 
-    uint16_t Image::byteSwap2(DataBuf& buf,size_t offset,bool bSwap)
+    uint16_t Image::byteSwap2(const DataBuf& buf,size_t offset,bool bSwap) const
     {
         uint16_t v;
         char*    p = (char*) &v;
@@ -262,7 +285,7 @@ namespace Exiv2 {
         return Image::byteSwap(v,bSwap);
     }
 
-    uint32_t Image::byteSwap4(DataBuf& buf,size_t offset,bool bSwap)
+    uint32_t Image::byteSwap4(const DataBuf& buf,size_t offset,bool bSwap) const
     {
         uint32_t v;
         char*    p = (char*) &v;
@@ -273,41 +296,18 @@ namespace Exiv2 {
         return Image::byteSwap(v,bSwap);
     }
 
-    static const char* tagName(uint16_t tag,size_t nMaxLength)
+    uint64_t Image::byteSwap8(const DataBuf& buf,size_t offset,bool bSwap) const
     {
-        const char* result = NULL;
+        uint64_t v;
+        byte*    p = reinterpret_cast<byte *>(&v);
 
-        // build a static map of tags for fast search
-        static std::map<int,std::string> tags;
-        static bool init  = true;
-        static char buffer[80];
+        for(int i = 0; i < 8; i++)
+            p[i] = buf.pData_[offset + i];
 
-        if ( init ) {
-            int idx;
-            const TagInfo* ti ;
-            for (ti = Internal::  mnTagList(), idx = 0; ti[idx].tag_ != 0xffff; ++idx) tags[ti[idx].tag_] = ti[idx].name_;
-            for (ti = Internal:: iopTagList(), idx = 0; ti[idx].tag_ != 0xffff; ++idx) tags[ti[idx].tag_] = ti[idx].name_;
-            for (ti = Internal:: gpsTagList(), idx = 0; ti[idx].tag_ != 0xffff; ++idx) tags[ti[idx].tag_] = ti[idx].name_;
-            for (ti = Internal:: ifdTagList(), idx = 0; ti[idx].tag_ != 0xffff; ++idx) tags[ti[idx].tag_] = ti[idx].name_;
-            for (ti = Internal::exifTagList(), idx = 0; ti[idx].tag_ != 0xffff; ++idx) tags[ti[idx].tag_] = ti[idx].name_;
-            for (ti = Internal:: mpfTagList(), idx = 0; ti[idx].tag_ != 0xffff; ++idx) tags[ti[idx].tag_] = ti[idx].name_;
-            for (ti = Internal::Nikon1MakerNote::tagList(), idx = 0
-                                                      ; ti[idx].tag_ != 0xffff; ++idx) tags[ti[idx].tag_] = ti[idx].name_;
-        }
-        init = false;
-
-        try {
-            result = tags[tag].c_str();
-            if ( nMaxLength > sizeof(buffer) -2 )
-                 nMaxLength = sizeof(buffer) -2;
-            strncpy(buffer,result,nMaxLength);
-            result = buffer;
-        } catch ( ... ) {}
-
-        return result ;
+        return Image::byteSwap(v,bSwap);
     }
 
-    static const char* typeName(uint16_t tag)
+    const char* Image::typeName(uint16_t tag) const
     {
         //! List of TIFF image tags
         const char* result = NULL;
@@ -363,7 +363,7 @@ namespace Exiv2 {
             for ( int i = 0 ; i < dirLength ; i ++ ) {
                 if ( bFirst && bPrint ) {
                     out << Internal::indent(depth)
-                        << " address |    tag                           |     "
+                        << " address |    tag                              |     "
                         << " type |    count |    offset | value\n";
                 }
                 bFirst = false;
@@ -400,9 +400,17 @@ namespace Exiv2 {
                                 ;
 
                 // if ( offset > io.size() ) offset = 0; // Denial of service?
-                DataBuf  buf(size*count + pad+20);  // allocate a buffer
+
+                // #55 memory allocation crash test/data/POC8
+                long long allocate = (long long) size*count + pad+20;
+                if ( allocate > (long long) io.size() ) {
+                    throw Error(57);
+                }
+                DataBuf  buf((long)allocate);  // allocate a buffer
                 std::memcpy(buf.pData_,dir.pData_+8,4);  // copy dir[8:11] into buffer (short strings)
-                if ( count*size > 4 ) {            // read into buffer
+                const bool bOffsetIsPointer = count*size > 4;
+
+                if ( bOffsetIsPointer ) {         // read into buffer
                     size_t   restore = io.tell();  // save
                     io.seek(offset,BasicIo::beg);  // position
                     io.read(buf.pData_,count*size);// read
@@ -410,10 +418,14 @@ namespace Exiv2 {
                 }
 
                 if ( bPrint ) {
-                    uint32_t address = start + 2 + i*12 ;
+                    const uint32_t address = start + 2 + i*12 ;
+                    const std::string offsetString = bOffsetIsPointer?
+                        Internal::stringFormat("%10u", offset):
+                        "";
+
                     out << Internal::indent(depth)
-                    << Internal::stringFormat("%8u | %#06x %-25s |%10s |%9u |%10u | "
-                                              ,address,tag,tagName(tag,25),typeName(type),count,offset);
+                    << Internal::stringFormat("%8u | %#06x %-28s |%10s |%9u |%10s | "
+                                              ,address,tag,tagName(tag).c_str(),typeName(type),count,offsetString.c_str());
                     if ( isShortType(type) ){
                         for ( size_t k = 0 ; k < kount ; k++ ) {
                             out << sp << byteSwap2(buf,k*size,bSwap);
@@ -727,6 +739,25 @@ namespace Exiv2 {
         return ImageFactory::checkMode(imageType_, metadataId);
     }
 
+    const std::string& Image::tagName(uint16_t tag)
+    {
+        if ( init_ ) {
+            int idx;
+            const TagInfo* ti ;
+            for (ti = Internal::  mnTagList(), idx = 0; ti[idx].tag_ != 0xffff; ++idx) tags_[ti[idx].tag_] = ti[idx].name_;
+            for (ti = Internal:: iopTagList(), idx = 0; ti[idx].tag_ != 0xffff; ++idx) tags_[ti[idx].tag_] = ti[idx].name_;
+            for (ti = Internal:: gpsTagList(), idx = 0; ti[idx].tag_ != 0xffff; ++idx) tags_[ti[idx].tag_] = ti[idx].name_;
+            for (ti = Internal:: ifdTagList(), idx = 0; ti[idx].tag_ != 0xffff; ++idx) tags_[ti[idx].tag_] = ti[idx].name_;
+            for (ti = Internal::exifTagList(), idx = 0; ti[idx].tag_ != 0xffff; ++idx) tags_[ti[idx].tag_] = ti[idx].name_;
+            for (ti = Internal:: mpfTagList(), idx = 0; ti[idx].tag_ != 0xffff; ++idx) tags_[ti[idx].tag_] = ti[idx].name_;
+            for (ti = Internal::Nikon1MakerNote::tagList(), idx = 0
+                                                    ; ti[idx].tag_ != 0xffff; ++idx) tags_[ti[idx].tag_] = ti[idx].name_;
+        }
+        init_ = false;
+
+        return tags_[tag] ;
+    }
+
     AccessMode ImageFactory::checkMode(int type, MetadataId metadataId)
     {
         const Registry* r = find(registry, type);
@@ -798,16 +829,19 @@ namespace Exiv2 {
     BasicIo::AutoPtr ImageFactory::createIo(const std::string& path, bool useCurl)
     {
         Protocol fProt = fileProtocol(path);
-#if EXV_USE_SSH == 1
+
+#ifdef EXV_USE_SSH
         if (fProt == pSsh || fProt == pSftp) {
             return BasicIo::AutoPtr(new SshIo(path)); // may throw
         }
 #endif
-#if EXV_USE_CURL == 1
+
+#ifdef EXV_USE_CURL
         if (useCurl && (fProt == pHttp || fProt == pHttps || fProt == pFtp)) {
             return BasicIo::AutoPtr(new CurlIo(path)); // may throw
         }
 #endif
+
         if (fProt == pHttp)
             return BasicIo::AutoPtr(new HttpIo(path)); // may throw
         if (fProt == pFileUri)

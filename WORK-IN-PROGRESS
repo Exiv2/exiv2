@@ -26,6 +26,9 @@ T A B L E   o f   C O N T E N T S
 4.8 Support for MinGW
 4.9 Linking XMPsdk with libexiv2
 
+5   Refactoring the Tiff Code
+5.1 Background
+
 ==========================================================================
 
 1   Building XMPsdk and Samples in Terminal with the ./Generate_XXX_mac.sh scripts
@@ -76,17 +79,17 @@ XMPIterations
 1.1 Amazing Discovery 1    DumpFile is linked to libstdc++.6.dylib
 ------------------------------------------------------------------
 
-XMP-Toolkit-SDK-CC201607/samples $ otool -L target/macintosh/intel_64/Release/DumpFile 
+XMP-Toolkit-SDK-CC201607/samples $ otool -L target/macintosh/intel_64/Release/DumpFile
 target/macintosh/intel_64/Release/DumpFile:
     /System/Library/Frameworks/Cocoa.framework/Versions/A/Cocoa (compatibility version 1.0.0, current version 22.0.0)
     /usr/lib/libstdc++.6.dylib (compatibility version 7.0.0, current version 104.1.0)
     /usr/lib/libSystem.B.dylib (compatibility version 1.0.0, current version 1225.1.1)
     /System/Library/Frameworks/CoreServices.framework/Versions/A/CoreServices (compatibility version 1.0.0, current version 728.4.0)
-XMP-Toolkit-SDK-CC201607/samples $ 
+XMP-Toolkit-SDK-CC201607/samples $
 
 Conclusion:  We should link -lXMPCore with libexiv2.26.dylib
              We should not   link -lXMPCore with applications such as exiv2(.exe)
-             We should build exiv2 code with visibility disabled "CXXFLAGS=-fvisibility=hidden -fvisibility-inlines-hidden" 
+             We should build exiv2 code with visibility disabled "CXXFLAGS=-fvisibility=hidden -fvisibility-inlines-hidden"
              We must compile and link everything with "CXXFLAGS=-stdlib=libstdc++ -Wno-deprecated"
 
 1.2 Amazing Discovery 2    Millions of "weak symbol/visibility" messages
@@ -112,15 +115,15 @@ $ sudo make distclean ; make config ; ./configure ; make ; sudo make install ; m
 
 Status: The 2016/AdobeXMPsdk requires an entry point that's not in the C++ STL library
         ./configure                   is building and passing the test suite
-        ./configure --with-adobe=2014 is broken on __ZNSs4_Rep11_S_terminalE 
+        ./configure --with-adobe=2014 is broken on __ZNSs4_Rep11_S_terminalE
         ./configure --with-adobe=2016 is broken on __ZNSiD0Ev
-        
+
 The missing entry points are in /usr/lib/libstdc++.6.dylib
 When I use install_name_tool to change to libstdc++.6.dylib, I crash in this:
 
 $ c++filt __ZNSt3__112basic_stringIcNS_11char_traitsIcEENS_9allocatorIcEEED1Ev
 std::__1::basic_string<char, std::__1::char_traits<char>, std::__1::allocator<char> >::~basic_string()
-$ 
+$
 
 There's something mixed up concerning the libraries used by Adobe's XMPSDK and libexiv2.26.dylib
 -stdlib=libstdc++ will link /usr/lib/libstdc++.6.dylib, however the compiler warns:
@@ -189,7 +192,7 @@ This code is being accessed by Adobe XMPSDK 2016 libXMPCore.a and isn't in the c
 
 $ nm -g xmpsdk/Adobe/libXMPCore.a | grep _ZNSiD0Ev
                  U __ZNSiD0Ev
-$ 
+$
 
 Adobe XMPSDK 2014 has a similar problem with __ZNSs4_Rep11_S_terminalE
 
@@ -400,38 +403,38 @@ Modified: 2017-08-23
 
 4.1 Backwards compatibility
     This feature is being added to v0.26.1 DOT release and therefore existing
-    behaviour of ./configure, CMake and msvc does not change. 
-    
+    behaviour of ./configure, CMake and msvc does not change.
+
     ./configure --enable-xmp (default is true) will build a library libxmpsdk.a
     using the code in xmpsdk/src.  This library is linked into libexiv2.26.dylib
-    
+
 4.2 New Options for ./configure
-    
+
     ./configure --with-std=c++11
         The default behaviour is the same as v0.26.0 --with-std=-std=c++98
         If the user requests --with-adobe, --with-std=c++11 is the default
-        
+
     ./configure --with-adobe[=2016|2014]
         This causes the Adobe XMPsdk to be downloaded and built
         into the directory xmpsdk/Adobe/XMP-Toolkit-SDK-CC201607/libXMPCore.a
-        
+
         The dynamic library libexiv2.26.dylib will not have libXMPCore.a linked
         All applications (such as exiv2, exifprint etc) will require:
           -Lxmpsdk/Adobe/XMP-Toolkit-SDK-CC201607 -lXMPCore
-          
+
         This is an important architectural change in libexiv2.26.dylib
         However this is the way to achieve architecture independence between
         exiv2 and Adobe XMPsdk.  A longer term goal is to totally remove
         all Adobe code from the exiv2 tarball.
-        
+
         Although --with-adobe causes the default compiler to be --with-std=c++11,
         the code will with --with-std=c++98  The Adobe XMPsdk is built using the script
         xmpsdk/buildXMPsdk which downloads and builds libXMPCore.a using Adobe provided
-        CMake code.  For the 2016 SDK, libXMPCore.a is built with -std=c++11 
-        
+        CMake code.  For the 2016 SDK, libXMPCore.a is built with -std=c++11
+
 4.3 New Options for msvc
     This work has not been started.  There are at least two possibilities:
-     
+
     1) To provide a new solution msvc/exiv2-adobe.sln
        This is the model used by msvc/exiv2-webready.sln
     2) To update msvc/configure.py to support options similar to
@@ -439,55 +442,55 @@ Modified: 2017-08-23
 
 4.4 New Options for CMake
     Luis is adopting a two stage approach:
-     
+
     1) Cleaning up and refactoring the existing CMake scripts (*.cmake and CMakeLists.txt files)
        This work is proceeding well.
     2) Adding new EXIV2_ENABLE_XXXXs equivalent  to ./configure --with-std and --with-adobe
        This work is waiting for Robin to complete the ./configure modifications.
-        
+
     It is expected that the CMake files will execute the script xmpsdk/buildXMPsdk.{sh|cmd}
     to perform the build of libXMPCore.a
 
 4.5 New Options for contrib/cmake/msvc
     To be written.  Luis' great new work may make this obsolete.
-        
+
 4.6 Scripts xmpsdk/buildXMPsdk.sh and xmpsdk/buildXMPsdk.cmd
 
     These scripts download and build the Adobe XMPsdk.  Minor modification of the SDK
     is necessary to enable the code to build.  For example, Adobe does not support Cygwin
     and minor change are necessary to build on that platform.
-     
+
     Changes to Adobe code will be minimal and documented in xmpsdk/buildXMPsdk.{sh|cmd}
-     
+
 4.7 Support for 32/64 bit builds, Release/Debug, Shared/Static
-    
+
     1) v0.26.1 will build exactly as v0.26 and support linking static libxmpsdk.a
        32/64 static/shared debug/release are supported on all platforms
-    
+
     2) The new features (--with-std and --with-adobe) will only be supported for
        a static/release build of libXMPCore.a
        msvc will continue to supports 32/64 ReleaseDLL/Release/DebugDLL/Debug of libexiv2
        which will include the static libXMPCore.a or libxmpsdk.a
-        
+
 4.8 Support for MinGW
     MinGW msys/1.0 was deprecated when v0.26 was released.
     No support for MinGW msys/1.0 will be provided.
     It's very likely that the MinGW msys/1.0 will build.
     I will not provide any user support for MinGW msys/1.0 in future.
-    
+
     MinGW msys/2.0 might be supported as "experimental" in Exiv2 v0.26.2
-    
+
 4.9 Building and linking XMPsdk with libexiv2
 
     Exiv2 v0.26 (and many earlier editions) contain Adobe XMPsdk code.
     The precise version of this code is unknown.
-    The xmpsdk/ directory has files in src/*.cpp and include/*.hpp 
+    The xmpsdk/ directory has files in src/*.cpp and include/*.hpp
     The xmpsdk/ has its own Makefile, CMakeLists.txt and msvc/xmpsdk/project files.
-    
+
     Exiv2 v0.26 builds a static library libxmpsdk.a which is linked into libexiv2.a
-    
+
     None of this will change in Exiv2 v0.26.1
-    
+
     Exiv2 v0.26.1 will support a new option to download and build "pure Adobe" XMPsdk.
     Three flavours will be supported:
         2013  http://download.macromedia.com/pub/developer/xmp/sdk/XMP-Toolkit-SDK-CC-201306.zip
@@ -495,33 +498,33 @@ Modified: 2017-08-23
         2016  http://download.macromedia.com/pub/developer/xmp/sdk/XMP-Toolkit-SDK-CC201607.zip
     As Adobe appear to release new editions every 18 months, I guess that Adobe will release
     a new version in Spring 2018.
-    
+
     The autotools build supports new ./configure options:
         --with-adobe        builds and links 4089256 Aug 23 11:19 ./xmpsdk/Adobe/XMP-Toolkit-SDK-CC201306/libXMPCore.a
         --with-adobe=2016   as --with-adobe
         --with-adobe=2014                    4108792 Aug 23 11:18 ./xmpsdk/Adobe/XMP-Toolkit-SDK-CC201412/libXMPCore.a
         --with-adobe=2013                   22242448 Aug 23 10:25 ./xmpsdk/Adobe/XMP-Toolkit-SDK-CC201607/libXMPCore.a
-        
+
     The build of the Adobe XMPsdk is "pure Adobe".  We download the code and build it without modification.
-    
+
     The scripts to download and build the Adobe code is:
         xmpsdk/buildXMPsdk.sh
         xmpsdk/buildXMPsdk.cmd
-        
-    Adobe build the 2016 SDK with -std=c++11.  This links successfully with the libexiv2 -std=c++98 build. 
+
+    Adobe build the 2016 SDK with -std=c++11.  This links successfully with the libexiv2 -std=c++98 build.
     I haven't investigated which compiler Adobe use to build the 2013 and 2014 editions.
-        
+
     Mac Build
     Following the analysis of Adobe's build (Topics 1 and 2 in this report), it has been realised that:
     1 Adobe build the SDK with (both linker and compiler) -stdlib=libstdc++
     2 Visibility should be disabled in the compiler
-        
+
     CPPFLAGS   = -I/usr/local/include -I/usr/local/include -std=c++98 -fvisibility=hidden -fvisibility-inlines-hidden \
                  -stdlib=libstdc++ -Wno-deprecated    -Ixmpsdk/Adobe/XMP-Toolkit-SDK-CC201607/public/include
     LDFLAGS    = -L/usr/local/lib -lpthread -stdlib=libstdc++ -Wno-deprecated  -Lxmpsdk/Adobe/XMP-Toolkit-SDK-CC201607
-    LIBS       = -lz -lXMPCore  
+    LIBS       = -lz -lXMPCore
     CXX        = g++
-    
+
     Linux Build
     CPPFLAGS   = -I/usr/local/include -std=c++98   -Ixmpsdk/Adobe/XMP-Toolkit-SDK-CC201607/public/include
     LDFLAGS    = -L/usr/local/lib -ldl -lpthread   -Lxmpsdk/Adobe/XMP-Toolkit-SDK-CC201607
@@ -529,18 +532,56 @@ Modified: 2017-08-23
     CXX        = g++
 
     When 2013 or 2014 are selected, the appropriate -Ipath and -Lpath should be set.
-    
+
     CMake Build
     A new option -DEXIV2_ENABLE_ADOBE[=2016|=2014|=2013] should be added.
     The build of XMPsdk should be performed with xmpsdk/buildXMPsdk.sh (or xmpsdk/buildXMPsdk.cmd for Visual Studio)
     The build should set same LDFLAGS and CPPFLAGS as the autotools build.
-    
+
     When the options -DEXIV2_ENABLE_ADOBE is not used, we should compile the code in xmpsdk/src
     to create and link libxmpsdk.a
-             
-==========================================================================
-    
 
+==========================================================================
+
+5   Refactoring the Tiff Code
+
+Added   : 2017-09-24
+Modified: 2017-09-24
+
+5.1 Background
+    Tiff parsing is the root code of a metadata engine.
+
+    The Tiff parsing code in Exiv2 is very difficult to understand and has major architectural shortcomings:
+
+    1) It requires the Tiff file to be totally in memory
+    2) It cannot handle BigTiff
+    3) The parser doesn't know the source of the in memory tiff image
+    4) It uses memory mapping on the tiff file
+       - if the network connection is lost, horrible things happen
+       - it requires a lot of VM to map the complete file
+       - BigTiff file can be 100GB+
+       - The memory mapping causes problems with Virus Detection software on Windows
+    5) The parser cannot deal with multi-page tiff files
+    6) It requires the total file to be in contiguous memory and defeats 'webready'.
+
+    The Tiff parsing code in Exiv2 is ingenious.  It's also very robust.  It works well.  It can:
+
+    1) Handle 32-bit Tiff and Many Raw formats (which are derived from Tiff)
+    2) It can read and write Manufacturer's MakerNotes which are (mostly) in Tiff format
+    3) It probably has other great features that I haven't discovered
+       - because the code is so hard to understand, I can't simply browse and read it.
+    4) It separates file navigation from data analysis.
+
+    The code in image::printStructure was originally written to understand "what is a tiff"
+    It has problems:
+    1) It was intended to be a single threaded debugging function and has security issues.
+    2) It doesn't handle BigTiff
+    3) It's messy.  It's reading and processing metadata simultaneously.
+
+    The aim of this project is to
+    1) Reconsider the Tiff Code.
+    2) Keep everything good in the code and address known deficiencies
+    3) Establish a Team Exiv2 "Tiff Expert" who knows the code intimately.
 
 
 

@@ -111,7 +111,7 @@ case $PLATFORM in
 
     msvc)
         cd /tmp/jenkins/dist
-        for vs in 2005 2008 2010 2012 2013 2015; do
+        for vs in 2005 2008 2010 2012 2013 2015 2017; do
           for arch in x64 Win32; do
             if [ -e "$PWD/$vs/$arch/dll/Release/bin/exiv2.exe" ] ; then (
               # test the delivered exiv2
@@ -135,7 +135,7 @@ case $PLATFORM in
         done
     ;;
 
-    mingw)
+    mingwDeprecated)
         if [ ! -z "$RECURSIVE" ]; then
             # test the delivered exiv2
             CD=$PWD # build exifprint from the dist into the current directory

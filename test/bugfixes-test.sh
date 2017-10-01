@@ -602,6 +602,7 @@ source ./functions.source
     runTest exiv2 -pX                   $filename | xmllint --format -
 
     num=1231
+    printf "$num " >&3
     for X in a b; do
       filename=exiv2-bug$num$X.jpg
       echo '------>' Bug $filename '<-------' >&2
@@ -622,12 +623,56 @@ source ./functions.source
     runTest exiv2 -pa                   $filename
 
     num=1252
+    printf "$num " >&3
     for X in a b; do
       filename=exiv2-bug$num$X.exv
       echo '------>' Bug $filename '<-------' >&2
       copyTestFile                      $filename
       runTest exiv2 -pa --grep lens/i   $filename
     done
+
+    num=g20
+    printf "$num " >&3
+    filename=exiv2-$num.exv
+    echo '------>' Bug $filename '<-------' >&2
+    copyTestFile                      $filename
+    runTest exiv2 -pa --grep lens/i   $filename
+    for filename in CanonEF100mmF2.8LMacroISUSM.exv      \
+                    TamronSP15-30mmF2.8DiVCUSDA012.exv   \
+                    TamronSP90mmF2.8DiVCUSDMacroF004.exv \
+                    TamronSP90mmF2.8DiVCUSDMacroF017.exv
+    do
+      copyTestFile                    $filename
+      runTest exiv2 -pa --grep lenstype/i  $filename
+    done
+
+    num=g45
+    printf "$num " >&3
+    filename=exiv2-$num.exv
+    echo '------>' Bug $filename '<-------' >&2
+    copyTestFile                      $filename
+    runTest exiv2 -pa --grep lens/i   $filename
+
+    num=g55
+    printf "$num " >&3
+    filename=POC8
+    echo '------>' Bug $filename '<-------' >&2
+    copyTestFile                      $filename
+    runTest exiv2                     $filename 2>/dev/null
+
+    num=g57
+    printf "$num " >&3
+    filename=POC
+    echo '------>' Bug $filename '<-------' >&2
+    copyTestFile                      $filename
+    runTest exiv2                     $filename
+
+    num=g79
+    printf "$num " >&3
+    filename=POC2
+    echo '------>' Bug $filename '<-------' >&2
+    copyTestFile                      $filename
+    runTest exiv2                     $filename
 
 ) 3>&1 > $results 2>&1
 

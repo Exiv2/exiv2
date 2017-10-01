@@ -23,7 +23,7 @@ if(MSVC)
       CMAKE_CXX_FLAGS_RELEASE
       CMAKE_CXX_FLAGS_RELWITHDEBINFO
     )
-    if ( ${BUILD_SHARED_LIBS} OR ${EXIV2_ENABLE_DYNAMIC_RUNTIME})
+    if ( ${BUILD_SHARED_LIBS} OR ${EXIV2_ENABLE_DYNAMIC_RUNTIME} )
         message(STATUS  "MSVC -> forcing use of dynamically-linked runtime." )
         foreach(variable ${variables})
             if(${variable} MATCHES "/MT")
@@ -57,5 +57,10 @@ if(MSVC)
         set(CMAKE_EXE_LINKER_FLAGS_MINSIZEREL     "/NODEFAULTLIB:MSVCRT")
         set(CMAKE_EXE_LINKER_FLAGS_RELWITHDEBINFO "/NODEFAULTLIB:MSVCRT")
     endif()
+
+    # Resolving Redefinition Errors Betwen ws2def.h and winsock.h:
+    #  - http://www.zachburlingame.com/2011/05/resolving-redefinition-errors-betwen-ws2def-h-and-winsock-h/
+    #  - https://stackoverflow.com/questions/11040133/what-does-defining-win32-lean-and-mean-exclude-exactly
+    add_definitions(-DWIN32_LEAN_AND_MEAN)
 
 endif()

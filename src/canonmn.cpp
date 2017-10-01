@@ -828,7 +828,8 @@ namespace Exiv2 {
         { 132, "Canon EF 1200mm f/5.6L"                                     },
         { 134, "Canon EF 600mm f/4L IS"                                     },
         { 135, "Canon EF 200mm f/1.8L"                                      },
-        { 136, "Canon EF 300mm f/2.8L"                                      },
+        { 136, "Canon EF 300mm f/2.8L"                                      }, // 0
+        { 136, "Tamron SP 15-30mm f/2.8 Di VC USD A012"                     }, // 1
         { 137, "Canon EF 85mm f/1.2L"                                       }, // 0
         { 137, "Sigma 18-50mm f/2.8-4.5 DC OS HSM"                          }, // 1
         { 137, "Sigma 50-200mm f/4-5.6 DC OS HSM"                           }, // 2
@@ -853,9 +854,11 @@ namespace Exiv2 {
         { 142, "Canon EF 300mm f/2.8L IS"                                   },
         { 143, "Canon EF 500mm f/4L IS"                                     }, // 0
         { 143, "Sigma 17-70mm f/2.8-4 DC Macro OS HSM"                      }, // 1
+        { 143, "Sigma 24-105mm F4 DG OS HSM [Art 013]"                      }, // 2
         { 144, "Canon EF 35-135mm f/4-5.6 USM"                              },
         { 145, "Canon EF 100-300mm f/4.5-5.6 USM"                           },
         { 146, "Canon EF 70-210mm f/3.5-4.5 USM"                            },
+
         { 147, "Canon EF 35-135mm f/4-5.6 USM"                              },
         { 148, "Canon EF 28-80mm f/3.5-5.6 USM"                             },
         { 149, "Canon EF 100mm f/2 USM"                                     },
@@ -1015,7 +1018,10 @@ namespace Exiv2 {
         { 251, "Canon EF 70-200mm f/2.8L IS II USM"                         },
         { 252, "Canon EF 70-200mm f/2.8L IS II USM + 1.4x"                  },
         { 253, "Canon EF 70-200mm f/2.8L IS II USM + 2x"                    },
-        { 254, "Canon EF 100mm f/2.8L Macro IS USM"                         },
+        { 254, "Canon EF 100mm f/2.8L Macro IS USM"                         }, // 0
+        { 254, "Tamron SP 90mm f/2.8 Di VC USD Macro 1:1"                   }, // 1
+      //{ 254, "Tamron SP 90mm f/2.8 Di VC USD Macro 1:1 F004"              }, // 1 older model
+      //{ 254, "Tamron SP 90mm f/2.8 Di VC USD Macro 1:1 F017"              }, // 2 model released in 2016
         { 255, "Sigma 24-105mm f/4 DG OS HSM | A"                           }, // 0
         { 255, "Sigma 180mm f/2.8 EX DG OS HSM APO Macro"                   }, // 1
         { 488, "Canon EF-S 15-85mm f/3.5-5.6 IS USM"                        },
@@ -1090,6 +1096,7 @@ namespace Exiv2 {
         {  42, printCsLensByFocalLength },
         {  47, printCsLensByFocalLength }, // not tested
         { 131, printCsLensByFocalLength },
+        { 136, printCsLensByFocalLength },
         { 137, printCsLensByFocalLength }, // not tested
         { 143, printCsLensByFocalLength },
         { 150, printCsLensByFocalLength },
@@ -1113,6 +1120,7 @@ namespace Exiv2 {
         { 234, printCsLensByFocalLength }, // not tested
         { 248, printCsLensByFocalLength }, // not tested
         { 250, printCsLensByFocalLength }, // not tested
+        { 254, printCsLensByFocalLength },
         { 255, printCsLensByFocalLength }, // not tested
         { 493, printCsLensByFocalLength }, // not tested
         { 747, printCsLensByFocalLength }, // not tested

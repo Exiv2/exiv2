@@ -543,7 +543,7 @@ namespace Exiv2 {
             SXMPMeta::RegisterNamespace(ns.c_str(), prefix.c_str());
 #endif
         }
-        catch (const XMP_Error& e) {
+        catch (const XMP_Error& /* e */) {
             // throw Error(40, e.GetID(), e.GetErrMsg());
         }
     } // XmpParser::registerNs
