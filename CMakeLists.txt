@@ -3,7 +3,8 @@
 cmake_minimum_required( VERSION 3.1.0 )
 project( exiv2 )
 
-include( GNUInstallDirs )
+include(GNUInstallDirs)
+include(CheckFunctionExists)
 
 if (NOT MSVC)
     set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/lib)
@@ -53,10 +54,6 @@ endif()
 if( EXIV2_ENABLE_COMMERCIAL )
     set (EXIV2_ENABLE_LENSDATA OFF)
     set (EXIV2_ENABLE_NLS OFF)
-endif()
-
-if( EXIV2_ENABLE_XMP )
-    set( HAVE_XMP_TOOLKIT ON )
 endif()
 
 include(config/findDependencies.cmake)
