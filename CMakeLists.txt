@@ -45,7 +45,9 @@ option( EXIV2_BUILD_EXIV2_COMMAND     "Build exiv2 command-line executable"     
 if ( EXIV2_ENABLE_WEBREADY )
     set ( EXIV2_ENABLE_CURL ON )
     set ( EXIV2_ENABLE_CURL ON )
-    set ( EXIV2_ENABLE_SSH  ON )
+    if ( UNIX )
+        set ( EXIV2_ENABLE_SSH  ON )
+    endif ()
 endif()
 
 if( EXIV2_ENABLE_COMMERCIAL )
