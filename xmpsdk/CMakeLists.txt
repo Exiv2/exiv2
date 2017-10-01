@@ -72,7 +72,7 @@ if( EXIV2_ENABLE_LIBXMP )
 endif()
 
 # 1119  Install libxmp.a for use by third party applications (Thanks, Emmanuel)
-install(TARGETS xmp
+install(TARGETS xmp EXPORT exiv2Config
         LIBRARY DESTINATION ${CMAKE_INSTALL_LIBDIR}
         ARCHIVE DESTINATION ${CMAKE_INSTALL_LIBDIR}
 )

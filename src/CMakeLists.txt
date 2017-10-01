@@ -202,6 +202,7 @@ endif()
 target_include_directories(exiv2lib PUBLIC
     $<BUILD_INTERFACE:${CMAKE_SOURCE_DIR}/include/exiv2>
     $<BUILD_INTERFACE:${CMAKE_SOURCE_DIR}/include>
+    $<INSTALL_INTERFACE:include>
 )
 
 if (EXIV2_ENABLE_WEBREADY)
@@ -267,7 +268,7 @@ if( ICONV_FOUND )
 endif()
 
 
-install(TARGETS exiv2lib
+install(TARGETS exiv2lib EXPORT exiv2Config
     RUNTIME DESTINATION ${CMAKE_INSTALL_BINDIR}
     LIBRARY DESTINATION ${CMAKE_INSTALL_LIBDIR}
     ARCHIVE DESTINATION ${CMAKE_INSTALL_LIBDIR}
@@ -275,6 +276,8 @@ install(TARGETS exiv2lib
 install(FILES ${LIBEXIV2_HDR}
     DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}/exiv2
 )
+
+install(EXPORT exiv2Config DESTINATION "share/exiv2/cmake")
 
 # ******************************************************************************
 # exiv2 application
