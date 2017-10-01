@@ -23,7 +23,6 @@
 # THE SOFTWARE.
 #
 
-Include(CheckFunctionExists)
 include(CheckCXXSourceCompiles)
 
 if(ICONV_INCLUDE_DIR)

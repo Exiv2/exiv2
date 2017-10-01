@@ -3,7 +3,8 @@
 cmake_minimum_required( VERSION 3.1.0 )
 project( exiv2 )
 
-include( GNUInstallDirs )
+include(GNUInstallDirs)
+include(CheckFunctionExists)
 
 if (NOT MSVC)
     set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/lib)
@@ -55,12 +56,10 @@ if( EXIV2_ENABLE_COMMERCIAL )
     set (EXIV2_ENABLE_NLS OFF)
 endif()
 
-if( EXIV2_ENABLE_XMP )
-    set( HAVE_XMP_TOOLKIT ON )
+if( MSVC )
+    set(CMAKE_DEBUG_POSTFIX "d")
 endif()
 
-include(config/findDependencies.cmake)
-include(config/compilerFlags.cmake)
 include( config/generateConfigFile.cmake )
 include_directories(${CMAKE_BINARY_DIR})  # Make the exv_conf.h file visible for the full project
 
