@@ -61,6 +61,9 @@ EXIV2_RCSID("@(#) $Id$")
 #include <vector>
 #include <stdio.h>
 #include <iostream>
+#ifdef EXV_HAVE_REGEX
+# include <regex>
+#endif
 
 // #1147
 #ifndef WIN32
@@ -147,7 +150,8 @@ static bool shouldOutput(const exv_grep_keys_t& greps,const char* key,const std:
         std::string Key(key);
 #if   defined(EXV_HAVE_REGEX)
         std::smatch m;
-        bPrint = std::regex_search(Key,m,*g) || std::regex_search(value,m,*g);
+        std::regex reg("");
+        bPrint = std::regex_search(Key,m,reg) || std::regex_search(value,m,reg);
 #elif defined(EXV_HAVE_REGEX_H)
         bPrint = (  0 == regexec( &(*g), key          , 0, NULL, 0)
                  || 0 == regexec( &(*g), value.c_str(), 0, NULL, 0)

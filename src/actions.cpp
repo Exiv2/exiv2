@@ -69,6 +69,9 @@ EXIV2_RCSID("@(#) $Id: actions.cpp 4719 2017-03-08 20:42:28Z robinwmills $")
 #else
 # include <utime.h>
 #endif
+#ifdef EXV_HAVE_REGEX
+# include <regex>
+#endif
 
 #if !defined(__MINGW__) && !defined(_MSC_VER)
 #define _fileno(a) a
@@ -593,7 +596,8 @@ namespace Action {
         {
 #if   defined(EXV_HAVE_REGEX)
             std::smatch m;
-            result = std::regex_search(key,m, *g);
+            std::regex reg;
+            result = std::regex_search(key, m, reg);
 #elif defined(EXV_HAVE_REGEX_H)
             result = regexec( &(*g), key.c_str(), 0, NULL, 0) == 0 ;
 #else
