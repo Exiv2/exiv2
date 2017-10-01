@@ -107,7 +107,7 @@ set( LIBEXIV2_HDR         ../include/exiv2/asfvideo.hpp
                           ../include/exiv2/xmp_exiv2.hpp
                           ../include/exiv2/xmpsidecar.hpp
                           ../include/exiv2/utilsvideo.hpp
-                          ../include/exiv2/exv_conf.h
+                          ${CMAKE_BINARY_DIR}/exv_conf.h
    )
 
 # Private headers only needed to build the library
