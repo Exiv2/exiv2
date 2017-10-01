@@ -3,7 +3,8 @@
 cmake_minimum_required( VERSION 3.1.0 )
 project( exiv2 )
 
-include( GNUInstallDirs )
+include(GNUInstallDirs)
+include(CheckFunctionExists)
 
 if (NOT MSVC)
     set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/lib)
