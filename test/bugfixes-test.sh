@@ -391,6 +391,62 @@ source ./functions.source
     copyTestFile                      $filename
     runTest exiv2                     $filename
 
+    num=g52
+    printf "$num " >&3
+    filename=POC5
+    echo '------>' Bug $filename '<-------' >&2
+    copyTestFile                      $filename
+    runTest exiv2                     $filename
+
+    num=g51
+    printf "$num " >&3
+    filename=POC4
+    echo '------>' Bug $filename '<-------' >&2
+    copyTestFile                      $filename
+    runTest exiv2                     $filename
+
+    num=g50
+    printf "$num " >&3
+    filename=POC3
+    echo '------>' Bug $filename '<-------' >&2
+    copyTestFile                      $filename
+    runTest exiv2                     $filename
+
+    num=g53
+    printf "$num " >&3
+    filename=POC6
+    echo '------>' Bug $filename '<-------' >&2
+    copyTestFile                      $filename
+    runTest exiv2                     $filename
+
+    num=g54
+    printf "$num " >&3
+    filename=POC9
+    echo '------>' Bug $filename '<-------' >&2
+    copyTestFile                      $filename
+    runTest exiv2                     $filename
+
+    num=g58
+    printf "$num " >&3
+    filename=POC11
+    echo '------>' Bug $filename '<-------' >&2
+    copyTestFile                      $filename
+    runTest exiv2                     $filename
+
+    num=g59
+    printf "$num " >&3
+    filename=POC12
+    echo '------>' Bug $filename '<-------' >&2
+    copyTestFile                      $filename
+    runTest exiv2                     $filename
+
+    num=g60
+    printf "$num " >&3
+    filename=POC13
+    echo '------>' Bug $filename '<-------' >&2
+    copyTestFile                      $filename
+    runTest exiv2                     $filename
+
 ) 3>&1 > $results 2>&1
 
 printf "\n"
