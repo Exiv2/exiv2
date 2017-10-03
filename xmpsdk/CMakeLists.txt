@@ -28,28 +28,27 @@ set(XMPSRC src/ExpatAdapter.cpp
            include/XMP_Version.h
 )
 
-foreach(_currentfile ${XMPSRC})
-    if(UNIX AND NOT CYGWIN)
-        set_source_files_properties(${_currentfile} PROPERTIES COMPILE_FLAGS "-fPIC")
-    endif()
-endforeach()
+add_library(xmp STATIC ${XMPSRC})
 
-# We generate a CMake OBJECT LIBRARY (a bunch of object files)
-add_library( xmp_object OBJECT ${XMPSRC} )
+target_link_libraries(xmp 
+    PRIVATE 
+        ${EXPAT_LIBRARY}
+)
 
-target_include_directories(xmp_object 
+target_include_directories(xmp
+    PUBLIC 
+        $<BUILD_INTERFACE:${CMAKE_SOURCE_DIR}/xmpsdk/include>
     PRIVATE 
         ${EXPAT_INCLUDE_DIR}
-        ${CMAKE_SOURCE_DIR}/xmpsdk/include
 )
+
+# TODO : We should only add this definition for Windows
+target_compile_definitions(xmp PRIVATE XML_STATIC)
 
 check_include_file( "stdint.h"  EXV_HAVE_STDINT_H )
 if (EXV_HAVE_STDINT_H)
-    target_compile_definitions(xmp_object PUBLIC EXV_HAVE_STDINT_H)
+    target_compile_definitions(xmp PRIVATE EXV_HAVE_STDINT_H)
 endif()
-
-# TODO : We should only add this definition if EXPAT is static
-target_compile_definitions(xmp_object PRIVATE XML_STATIC)
 
 # http://stackoverflow.com/questions/10046114/in-cmake-how-can-i-test-if-the-compiler-is-clang
 if ( "${CMAKE_CXX_COMPILER_ID}" STREQUAL "Clang")
@@ -58,17 +57,8 @@ if ( "${CMAKE_CXX_COMPILER_ID}" STREQUAL "Clang")
         COMPILE_FLAGS "-fvisibility=hidden -fvisibility-inlines-hidden")
 endif()
 
-if( EXIV2_ENABLE_LIBXMP )
-    add_library(xmp STATIC $<TARGET_OBJECTS:xmp_object>)
-    target_link_libraries(xmp PUBLIC ${EXPAT_LIBRARY})
-
-    # This is also needed for the xmp static library
-    target_include_directories(xmp PUBLIC ${EXPAT_INCLUDE_DIR})
-    target_compile_definitions(xmp PUBLIC XML_STATIC)
-
-    if (BUILD_SHARED_LIBS)
-        set_property(TARGET xmp_object PROPERTY POSITION_INDEPENDENT_CODE ON)
-    endif()
+if (BUILD_SHARED_LIBS)
+    set_property(TARGET xmp PROPERTY POSITION_INDEPENDENT_CODE ON)
 endif()
 
 # 1119  Install libxmp.a for use by third party applications (Thanks, Emmanuel)

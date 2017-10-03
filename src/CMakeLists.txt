@@ -165,12 +165,7 @@ include_directories(${CMAKE_CURRENT_BINARY_DIR})
 # ******************************************************************************
 # exiv2lib library
 
-if( EXIV2_ENABLE_XMP AND NOT EXIV2_ENABLE_LIBXMP )
-    add_library( exiv2lib ${LIBEXIV2_SRC} ${LIBEXIV2_HDR} ${LIBEXIV2_PRIVATE_HDR} $<TARGET_OBJECTS:xmp_object>)
-    target_link_libraries(exiv2lib PUBLIC ${EXPAT_LIBRARIES})
-else()
-    add_library( exiv2lib ${LIBEXIV2_SRC} ${LIBEXIV2_HDR} ${LIBEXIV2_PRIVATE_HDR})
-endif()
+add_library( exiv2lib ${LIBEXIV2_SRC} ${LIBEXIV2_HDR} ${LIBEXIV2_PRIVATE_HDR})
 
 set_target_properties( exiv2lib PROPERTIES
     VERSION       ${GENERIC_LIB_VERSION}
@@ -192,10 +187,8 @@ if ( UNIX AND CMAKE_SYSTEM_NAME STREQUAL "FreeBSD" )
 endif()
 
 if ( EXIV2_ENABLE_XMP )
-    target_include_directories(exiv2lib PRIVATE ${CMAKE_SOURCE_DIR}/xmpsdk/include)
-    if( EXIV2_ENABLE_LIBXMP )
-        target_link_libraries( exiv2lib PUBLIC xmp )
-    endif()
+    #target_include_directories(exiv2lib PRIVATE ${CMAKE_SOURCE_DIR}/xmpsdk/include)
+    target_link_libraries(exiv2lib PUBLIC xmp)
 endif()
 
 # TODO : We should not include include/exiv2 but only include !!!
