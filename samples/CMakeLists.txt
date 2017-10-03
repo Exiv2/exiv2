@@ -77,6 +77,12 @@ if( EXPAT_FOUND )
     add_executable(        geotag    geotag.cpp)
     list(APPEND APPLICATIONS geotag)
     target_link_libraries( geotag    PRIVATE exiv2lib ${EXPAT_LIBRARIES})
+    target_include_directories(geotag PRIVATE ${EXPAT_INCLUDE_DIR})
+
+    if (WIN32)
+        target_compile_definitions(geotag PRIVATE XML_STATIC)
+    endif()
+
     install( TARGETS       geotag    RUNTIME DESTINATION ${CMAKE_INSTALL_BINDIR})
 endif()
 
