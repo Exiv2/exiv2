@@ -324,7 +324,6 @@ namespace Exiv2
                                             byteSwap8(buf, k*size, doSwap_):
                                             byteSwap4(buf, k*size, doSwap_);
 
-                                        std::cerr << "tag = " << Internal::stringFormat("%#x",tag) << std::endl;
                                         printIFD(out, option, ifdOffset, depth);
                                         io.seek(restore, BasicIo::beg);
                                     }
