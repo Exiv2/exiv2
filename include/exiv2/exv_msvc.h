@@ -62,9 +62,6 @@
 #define EXV_ICONV_CONST
 #endif
 
-/* Define to 1 if you have the <regex.h> header file. */
-/* #undef EXV_HAVE_REGEX */
-
 /* Define to 1 if your system has a GNU libc compatible `malloc' function, and
    to 0 otherwise. */
 /* #undef EXV_HAVE_MALLOC */

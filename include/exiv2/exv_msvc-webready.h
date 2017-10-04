@@ -12,9 +12,6 @@
 #ifndef _EXV_MSVC_H_
 #define _EXV_MSVC_H_
 
-/* Define to 1 if you have the <regex.h> header file. */
-// #define EXV_HAVE_REGEX 1
-
 /* Define to 1 if you have the <process.h> header file. */
 #define EXV_HAVE_PROCESS_H 1
 

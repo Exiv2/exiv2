@@ -37,13 +37,7 @@
 // + standard includes
 #include <vector>
 
-#if   defined(HAVE_REGEX)
-# include <regex>
-  /*!
-   @brief exv_grep_keys_t is a vector of keys to match to strings
-  */
-  typedef std::vector<std::regex> exv_grep_keys_t ;
-#elif defined(EXV_HAVE_REGEX_H)
+#if defined(EXV_HAVE_REGEX_H)
 # include <regex.h>
   /*!
    @brief exv_grep_keys_t is a vector of keys to match to strings

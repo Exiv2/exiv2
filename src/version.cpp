@@ -145,10 +145,7 @@ static bool shouldOutput(const exv_grep_keys_t& greps,const char* key,const std:
       !bPrint && g != greps.end() ; ++g
     ) {
         std::string Key(key);
-#if   defined(EXV_HAVE_REGEX)
-        std::smatch m;
-        bPrint = std::regex_search(Key,m,*g) || std::regex_search(value,m,*g);
-#elif defined(EXV_HAVE_REGEX_H)
+#if defined(EXV_HAVE_REGEX_H)
         bPrint = (  0 == regexec( &(*g), key          , 0, NULL, 0)
                  || 0 == regexec( &(*g), value.c_str(), 0, NULL, 0)
                  );
@@ -256,7 +253,6 @@ void Exiv2::dumpLibraryInfo(std::ostream& os,const exv_grep_keys_t& keys)
     "unknown";
 #endif
 
-    int have_regex       =0;
     int have_gmtime_r    =0;
     int have_inttypes    =0;
     int have_libintl     =0;
@@ -316,10 +312,6 @@ void Exiv2::dumpLibraryInfo(std::ostream& os,const exv_grep_keys_t& keys)
 
 #ifdef EXV_HAVE_LIBINTL_H
     have_libintl=1;
-#endif
-
-#ifdef EXV_HAVE_REGEX
-    have_regex=1;
 #endif
 
 #ifdef EXV_HAVE_MEMORY_H
@@ -517,7 +509,6 @@ void Exiv2::dumpLibraryInfo(std::ostream& os,const exv_grep_keys_t& keys)
             output(os,keys,"library",*lib);
     }
 
-    output(os,keys,"have_regex"        ,have_regex       );
     output(os,keys,"have_strerror_r"   ,have_strerror_r  );
     output(os,keys,"have_gmtime_r"     ,have_gmtime_r    );
     output(os,keys,"have_inttypes"     ,have_inttypes    );

@@ -482,7 +482,6 @@ T A B L E  o f  C O N T E N T S
      library=C:\Windows\WinSxS\amd64_microsoft.vc80.crt_1fc8b3b9a1e18e3b_8.0.50727.6195_none_88e41e092fab0294\MSVCP80.dl
      library=C:\Windows\system32\PSAPI.DLL
      library=C:\cygwin64\home\rmills\gnu\exiv2\video-write\msvc\bin\x64\releasedll\libexpat.dll
-     have_regex=0
      have_strerror_r=0
      have_gmtime_r=0
      have_inttypes=0
