@@ -24,3 +24,9 @@ env:
 
 install: ./.travis/install.sh
 script:  ./.travis/run.sh
+
+cache:
+    ccache: true
+    directories:
+    - conan         # Conan installation folder
+    - $HOME/.conan  # Conan configuration and packages
