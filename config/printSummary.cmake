@@ -22,7 +22,6 @@ message( STATUS "${PACKAGE_STRING} configure results        <${PACKAGE_URL}>"   
 OptionOutput( "Building shared library:            " BUILD_SHARED_LIBS               )
 OptionOutput( "Building PNG support:               " EXIV2_ENABLE_PNG AND ZLIB_FOUND )
 OptionOutput( "XMP metadata support:               " EXIV2_ENABLE_XMP                )
-OptionOutput( "Building static libxmp:             " EXIV2_ENABLE_LIBXMP             )
 OptionOutput( "Native language support:            " EXIV2_ENABLE_NLS                )
 OptionOutput( "Conversion of Windows XP tags:      " EXIV2_ENABLE_PRINTUCS2          )
 OptionOutput( "Nikon lens database:                " EXIV2_ENABLE_LENSDATA           )
