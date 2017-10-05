@@ -1291,11 +1291,12 @@ namespace Exiv2 {
             }
             uint16_t tag = getUShort(p, byteOrder());
             TiffComponent::AutoPtr tc = TiffCreator::create(tag, object->group());
-            // The assertion typically fails if a component is not configured in
-            // the TIFF structure table
-            assert(tc.get());
-            tc->setStart(p);
-            object->addChild(tc);
+            if (tc.get()) {
+                tc->setStart(p);
+                object->addChild(tc);
+            } else {
+               EXV_WARNING << "Unable to handle tag " << tag << ".\n";
+            }
             p += 12;
         }
 
