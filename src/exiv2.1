@@ -223,11 +223,8 @@ Show unknown tags (default is to suppress tags which don't have a name).
 Only keys which match the given key (grep).
 .br
 Multiple \fB\-g\fP options
-can be used to grep info for several keys.  When the library is build with C++11,
-keys are matched using std::regex::extended.  When build without C++11, keys are
-processed with the system regular expression engine:  see man 3 regex.  Platforms which do not support
-regex use key for a substring match.  You can determine the availability of regex
-using the command: exiv2 -v -V -g have_regex -g cplusplus.
+can be used to grep info for several keys. Example:
+exiv2 -v -V -g webready -g time.
 
 .nf
 exiv2 \-g Date \-pt R.jpg

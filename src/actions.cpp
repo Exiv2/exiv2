@@ -591,10 +591,7 @@ namespace Action {
         for (Params::Greps::const_iterator g = Params::instance().greps_.begin();
                 !result && g != Params::instance().greps_.end(); ++g)
         {
-#if   defined(EXV_HAVE_REGEX)
-            std::smatch m;
-            result = std::regex_search(key,m, *g);
-#elif defined(EXV_HAVE_REGEX_H)
+#if defined(EXV_HAVE_REGEX_H)
             result = regexec( &(*g), key.c_str(), 0, NULL, 0) == 0 ;
 #else
             std::string Pattern(g->pattern_);

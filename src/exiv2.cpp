@@ -47,9 +47,7 @@ EXIV2_RCSID("@(#) $Id$")
 #include <cassert>
 #include <cctype>
 
-#if   defined(EXV_HAVE_REGEX)
-#include <regex>
-#elif defined(EXV_HAVE_REGEX_H)
+#if defined(EXV_HAVE_REGEX_H)
 #include <regex.h>
 #endif
 
@@ -453,9 +451,7 @@ int Params::evalGrep( const std::string& optarg)
     std::string pattern;
     std::string ignoreCase("/i");
     bool bIgnoreCase = ends_with(optarg,ignoreCase,pattern);
-#if   defined(EXV_HAVE_REGEX)
-    greps_.push_back( std::regex(pattern, bIgnoreCase ? std::regex::icase|std::regex::extended : std::regex::extended) );
-#elif defined(EXV_HAVE_REGEX_H)
+#if defined(EXV_HAVE_REGEX_H)
     // try to compile a reg-exp from the input argument and store it in the vector
     const size_t i = greps_.size();
     greps_.resize(i + 1);

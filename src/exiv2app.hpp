@@ -42,10 +42,6 @@
 #include <set>
 #include <iostream>
 
-#ifdef EXV_HAVE_REGEX
-#include <regex.h>
-#endif
-
 #ifdef EXV_HAVE_STDINT_H
 #include <unistd.h>
 #endif
