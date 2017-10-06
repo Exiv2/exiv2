@@ -2,6 +2,7 @@
 #include "bigtiffimage.hpp"
 
 #include <cassert>
+#include <limits>
 
 #include "exif.hpp"
 #include "image_int.hpp"
