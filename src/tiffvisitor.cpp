@@ -1495,6 +1495,10 @@ namespace Exiv2 {
         }
         p += 4;
         uint32_t isize= 0; // size of Exif.Sony1.PreviewImage
+
+        if (count > std::numeric_limits<uint32_t>::max() / typeSize) {
+            throw Error(59);
+        }
         uint32_t size = typeSize * count;
         uint32_t offset = getLong(p, byteOrder());
         byte* pData = p;
