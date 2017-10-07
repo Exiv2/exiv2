@@ -715,6 +715,27 @@ source ./functions.source
     copyTestFile                      $filename
     runTest exiv2                     $filename
 
+    num=g73
+    printf "$num " >&3
+    filename=02-Invalid-mem-def
+    echo '------>' Bug $filename '<-------' >&2
+    copyTestFile                      $filename
+    runTest exiv2                     $filename
+
+    num=g74
+    printf "$num " >&3
+    filename=005-invalid-mem
+    echo '------>' Bug $filename '<-------' >&2
+    copyTestFile                      $filename
+    runTest exiv2                     $filename
+
+    num=g75
+    printf "$num " >&3
+    filename=008-invalid-mem
+    echo '------>' Bug $filename '<-------' >&2
+    copyTestFile                      $filename
+    runTest exiv2                     $filename
+
 ) 3>&1 > $results 2>&1
 
 printf "\n"
