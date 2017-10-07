@@ -1492,6 +1492,9 @@ namespace Exiv2 {
             return;
         }
         p += 4;
+        if (count > std::numeric_limits<uint32_t>::max() / typeSize) {
+            throw Error(59);
+        }
         uint32_t size = typeSize * count;
         int32_t offset = getLong(p, byteOrder());
         byte* pData = p;
