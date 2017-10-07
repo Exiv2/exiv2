@@ -45,68 +45,130 @@ namespace {
 
     //! Complete list of Exiv2 exception error messages
     const ErrMsg errList[] = {
-        { -1, N_("Error %0: arg2=%2, arg3=%3, arg1=%1.") },
-        {  0, N_("Success") },
-        {  1, "%1" }, // %1=error message
-        {  2, "%1: Call to `%3' failed: %2" }, // %1=path, %2=strerror, %3=function that failed
-        {  3, N_("This does not look like a %1 image") }, // %1=Image type
-        {  4, N_("Invalid dataset name `%1'") }, // %1=dataset name
-        {  5, N_("Invalid record name `%1'") }, // %1=record name
-        {  6, N_("Invalid key `%1'") }, // %1=key
-        {  7, N_("Invalid tag name or ifdId `%1', ifdId %2") }, // %1=tag name, %2=ifdId
-        {  8, N_("Value not set") },
-        {  9, N_("%1: Failed to open the data source: %2") }, // %1=path, %2=strerror
-        { 10, N_("%1: Failed to open file (%2): %3") }, // %1=path, %2=mode, %3=strerror
-        { 11, N_("%1: The file contains data of an unknown image type") }, // %1=path
-        { 12, N_("The memory contains data of an unknown image type") },
-        { 13, N_("Image type %1 is not supported") }, // %1=image type
-        { 14, N_("Failed to read image data") },
-        { 15, N_("This does not look like a JPEG image") },
-        { 16, N_("%1: Failed to map file for reading and writing: %2") }, // %1=path, %2=strerror
-        { 17, N_("%1: Failed to rename file to %2: %3") }, // %1=old path, %2=new path, %3=strerror
-        { 18, N_("%1: Transfer failed: %2") }, // %1=path, %2=strerror
-        { 19, N_("Memory transfer failed: %1") }, // %1=strerror
-        { 20, N_("Failed to read input data") },
-        { 21, N_("Failed to write image") },
-        { 22, N_("Input data does not contain a valid image") },
-        { 23, N_("Invalid ifdId %1") }, // %1=ifdId
-        { 24, N_("Entry::setValue: Value too large (tag=%1, size=%2, requested=%3)") }, // %1=tag, %2=dataSize, %3=required size
-        { 25, N_("Entry::setDataArea: Value too large (tag=%1, size=%2, requested=%3)") }, // %1=tag, %2=dataAreaSize, %3=required size
-        { 26, N_("Offset out of range") },
-        { 27, N_("Unsupported data area offset type") },
-        { 28, N_("Invalid charset: `%1'") }, // %1=charset name
-        { 29, N_("Unsupported date format") },
-        { 30, N_("Unsupported time format") },
-        { 31, N_("Writing to %1 images is not supported") }, // %1=image format
-        { 32, N_("Setting %1 in %2 images is not supported") }, // %1=metadata type, %2=image format
-        { 33, N_("This does not look like a CRW image") },
-        { 34, N_("%1: Not supported") }, // %1=function
-        { 35, N_("No namespace info available for XMP prefix `%1'") }, // %1=prefix
-        { 36, N_("No prefix registered for namespace `%2', needed for property path `%1'") }, // %1=namespace
-        { 37, N_("Size of %1 JPEG segment is larger than 65535 bytes") }, // %1=type of metadata (Exif, IPTC, JPEG comment)
-        { 38, N_("Unhandled Xmpdatum %1 of type %2") }, // %1=key, %2=value type
-        { 39, N_("Unhandled XMP node %1 with opt=%2") }, // %1=key, %2=XMP Toolkit option flags
-        { 40, N_("XMP Toolkit error %1: %2") }, // %1=XMP_Error::GetID(), %2=XMP_Error::GetErrMsg()
-        { 41, N_("Failed to decode Lang Alt property %1 with opt=%2") }, // %1=property path, %3=XMP Toolkit option flags
-        { 42, N_("Failed to decode Lang Alt qualifier %1 with opt=%2") }, // %1=qualifier path, %3=XMP Toolkit option flags
-        { 43, N_("Failed to encode Lang Alt property %1") }, // %1=key
-        { 44, N_("Failed to determine property name from path %1, namespace %2") }, // %1=property path, %2=namespace
-        { 45, N_("Schema namespace %1 is not registered with the XMP Toolkit") }, // %1=namespace
-        { 46, N_("No namespace registered for prefix `%1'") }, // %1=prefix
-        { 47, N_("Aliases are not supported. Please send this XMP packet to ahuggel@gmx.net `%1', `%2', `%3'") }, // %1=namespace, %2=property path, %3=value
-        { 48, N_("Invalid XmpText type `%1'") }, // %1=type
-        { 49, N_("TIFF directory %1 has too many entries") }, // %1=TIFF directory name
-        { 50, N_("Multiple TIFF array element tags %1 in one directory") }, // %1=tag number
-        { 51, N_("TIFF array element tag %1 has wrong type") }, // %1=tag number
-        { 52, N_("%1 has invalid XMP value type `%2'") }, // %1=key, %2=value type
-        { 53, N_("Not a valid ICC Profile") },
-        { 54, N_("Not valid XMP") },
-        { 55, N_("tiff directory length is too large") },
-        { 56, N_("invalid type value detected in Image::printIFDStructure") },
-        { 57, N_("invalid memory allocation request") },
-        { 58, N_("corrupted image metadata") },
-        { 59, N_("Arithmetic operation overflow") },
-        { 60, N_("Memory allocation failed") },
+        { Exiv2::kerGeneralError,
+          N_("Error %0: arg2=%2, arg3=%3, arg1=%1.") },
+        { Exiv2::kerSuccess,
+          N_("Success") },
+        { Exiv2::kerErrorMessage,
+          "%1" }, // %1=error message
+        { Exiv2::kerCallFailed,
+          "%1: Call to `%3' failed: %2" }, // %1=path, %2=strerror, %3=function that failed
+        { Exiv2::kerNotAnImage,
+          N_("This does not look like a %1 image") }, // %1=Image type
+        { Exiv2::kerInvalidDataset,
+          N_("Invalid dataset name `%1'") }, // %1=dataset name
+        { Exiv2::kerInvalidRecord,
+          N_("Invalid record name `%1'") }, // %1=record name
+        { Exiv2::kerInvalidKey,
+          N_("Invalid key `%1'") }, // %1=key
+        { Exiv2::kerInvalidTag,
+          N_("Invalid tag name or ifdId `%1', ifdId %2") }, // %1=tag name, %2=ifdId
+        { Exiv2::kerValueNotSet,
+          N_("Value not set") },
+        { Exiv2::kerDataSourceOpenFailed,
+          N_("%1: Failed to open the data source: %2") }, // %1=path, %2=strerror
+        { Exiv2::kerFileOpenFailed,
+          N_("%1: Failed to open file (%2): %3") }, // %1=path, %2=mode, %3=strerror
+        { Exiv2::kerFileContainsUnknownImageType,
+          N_("%1: The file contains data of an unknown image type") }, // %1=path
+        { Exiv2::kerMemoryContainsUnknownImageType,
+          N_("The memory contains data of an unknown image type") },
+        { Exiv2::kerUnsupportedImageType,
+          N_("Image type %1 is not supported") }, // %1=image type
+        { Exiv2::kerFailedToReadImageData,
+          N_("Failed to read image data") },
+        { Exiv2::kerNotAJpeg,
+          N_("This does not look like a JPEG image") },
+        { Exiv2::kerFailedToMapFileForReadWrite,
+          N_("%1: Failed to map file for reading and writing: %2") }, // %1=path, %2=strerror
+        { Exiv2::kerFileRenameFailed,
+          N_("%1: Failed to rename file to %2: %3") }, // %1=old path, %2=new path, %3=strerror
+        { Exiv2::kerTransferFailed,
+          N_("%1: Transfer failed: %2") }, // %1=path, %2=strerror
+        { Exiv2::kerMemoryTransferFailed,
+          N_("Memory transfer failed: %1") }, // %1=strerror
+        { Exiv2::kerInputDataReadFailed,
+          N_("Failed to read input data") },
+        { Exiv2::kerImageWriteFailed,
+          N_("Failed to write image") },
+        { Exiv2::kerNoImageInInputData,
+          N_("Input data does not contain a valid image") },
+        { Exiv2::kerInvalidIfdId,
+          N_("Invalid ifdId %1") }, // %1=ifdId
+        { Exiv2::kerValueTooLarge,
+          N_("Entry::setValue: Value too large (tag=%1, size=%2, requested=%3)") }, // %1=tag, %2=dataSize, %3=required size
+        { Exiv2::kerDataAreaValueTooLarge,
+          N_("Entry::setDataArea: Value too large (tag=%1, size=%2, requested=%3)") }, // %1=tag, %2=dataAreaSize, %3=required size
+        { Exiv2::kerOffsetOutOfRange,
+          N_("Offset out of range") },
+        { Exiv2::kerUnsupportedDataAreaOffsetType,
+          N_("Unsupported data area offset type") },
+        { Exiv2::kerInvalidCharset,
+          N_("Invalid charset: `%1'") }, // %1=charset name
+        { Exiv2::kerUnsupportedDateFormat,
+          N_("Unsupported date format") },
+        { Exiv2::kerUnsupportedTimeFormat,
+          N_("Unsupported time format") },
+        { Exiv2::kerWritingImageFormatUnsupported,
+          N_("Writing to %1 images is not supported") }, // %1=image format
+        { Exiv2::kerInvalidSettingForImage,
+          N_("Setting %1 in %2 images is not supported") }, // %1=metadata type, %2=image format
+        { Exiv2::kerNotACrwImage,
+          N_("This does not look like a CRW image") },
+        { Exiv2::kerFunctionNotSupported,
+          N_("%1: Not supported") }, // %1=function
+        { Exiv2::kerNoNamespaceInfoForXmpPrefix,
+          N_("No namespace info available for XMP prefix `%1'") }, // %1=prefix
+        { Exiv2::kerNoPrefixForNamespace,
+          N_("No prefix registered for namespace `%2', needed for property path `%1'") }, // %1=namespace
+        { Exiv2::kerTooLargeJpegSegment,
+          N_("Size of %1 JPEG segment is larger than 65535 bytes") }, // %1=type of metadata (Exif, IPTC, JPEG comment)
+        { Exiv2::kerUnhandledXmpdatum,
+          N_("Unhandled Xmpdatum %1 of type %2") }, // %1=key, %2=value type
+        { Exiv2::kerUnhandledXmpNode,
+          N_("Unhandled XMP node %1 with opt=%2") }, // %1=key, %2=XMP Toolkit option flags
+        { Exiv2::kerXMPToolkitError,
+          N_("XMP Toolkit error %1: %2") }, // %1=XMP_Error::GetID(), %2=XMP_Error::GetErrMsg()
+        { Exiv2::kerDecodeLangAltPropertyFailed,
+          N_("Failed to decode Lang Alt property %1 with opt=%2") }, // %1=property path, %3=XMP Toolkit option flags
+        { Exiv2::kerDecodeLangAltQualifierFailed,
+          N_("Failed to decode Lang Alt qualifier %1 with opt=%2") }, // %1=qualifier path, %3=XMP Toolkit option flags
+        { Exiv2::kerEncodeLangAltPropertyFailed,
+          N_("Failed to encode Lang Alt property %1") }, // %1=key
+        { Exiv2::kerPropertyNameIdentificationFailed,
+          N_("Failed to determine property name from path %1, namespace %2") }, // %1=property path, %2=namespace
+        { Exiv2::kerSchemaNamespaceNotRegistered,
+          N_("Schema namespace %1 is not registered with the XMP Toolkit") }, // %1=namespace
+        { Exiv2::kerNoNamespaceForPrefix,
+          N_("No namespace registered for prefix `%1'") }, // %1=prefix
+        { Exiv2::kerAliasesNotSupported,
+          N_("Aliases are not supported. Please send this XMP packet to ahuggel@gmx.net `%1', `%2', `%3'") }, // %1=namespace, %2=property path, %3=value
+        { Exiv2::kerInvalidXmpText,
+          N_("Invalid XmpText type `%1'") }, // %1=type
+        { Exiv2::kerTooManyTiffDirectoryEntries,
+          N_("TIFF directory %1 has too many entries") }, // %1=TIFF directory name
+        { Exiv2::kerMultipleTiffArrayElementTagsInDirectory,
+          N_("Multiple TIFF array element tags %1 in one directory") }, // %1=tag number
+        { Exiv2::kerWrongTiffArrayElementTagType,
+          N_("TIFF array element tag %1 has wrong type") }, // %1=tag number
+        { Exiv2::kerInvalidKeyXmpValue,
+          N_("%1 has invalid XMP value type `%2'") }, // %1=key, %2=value type
+        { Exiv2::kerInvalidIccProfile,
+          N_("Not a valid ICC Profile") },
+        { Exiv2::kerInvalidXMP,
+          N_("Not valid XMP") },
+        { Exiv2::kerTiffDirectoryTooLarge,
+          N_("tiff directory length is too large") },
+        { Exiv2::kerInvalidTypeValue,
+          N_("invalid type value detected in Image::printIFDStructure") },
+        { Exiv2::kerInvalidMalloc,
+          N_("invalid memory allocation request") },
+        { Exiv2::kerCorruptedMetadata,
+          N_("corrupted image metadata") },
+        { Exiv2::kerArithmeticOverflow,
+          N_("Arithmetic operation overflow") },
+        { Exiv2::kerMallocFailed,
+          N_("Memory allocation failed")}
     };
 
 }
