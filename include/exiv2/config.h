@@ -81,6 +81,8 @@ typedef int pid_t;
 #ifndef WIN32_LEAN_AND_MEAN
 #define WIN32_LEAN_AND_MEAN
 #endif
+
+#define NOMINMAX
 #include <windows.h>
 
 #endif // _MSC_VER
