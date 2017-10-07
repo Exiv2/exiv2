@@ -2,6 +2,7 @@
 #include "bigtiffimage.hpp"
 
 #include <cassert>
+#include <limits>
 
 #include "exif.hpp"
 #include "image_int.hpp"
@@ -226,13 +227,24 @@ namespace Exiv2
                                                   : is8ByteType(type)  ? 8
                                                   : 1;
 
-                			// #55 memory allocation crash test/data/POC8
-                			long long allocate = (long long) size*count + pad;
-                			if ( allocate > (long long) io.size() ) {
-                    			throw Error(57);
-                			}
+                            // #55 and #56 memory allocation crash test/data/POC8
 
-                            DataBuf buf((long)allocate);
+                            // size * count > std::numeric_limits<uint64_t>::max()
+                            // =>
+                            // size > std::numeric_limits<uint64_t>::max() / count
+                            if (size > std::numeric_limits<uint64_t>::max() / count)
+                                throw Error(57);             // we got number bigger than 2^64
+                                                             // more than we can handle
+
+                            if (size * count > std::numeric_limits<uint64_t>::max() - pad)
+                                throw Error(57);             // again more than 2^64
+
+                            const uint64_t allocate = size*count + pad;
+                            if ( allocate > io.size() ) {
+                                throw Error(57);
+                            }
+
+                            DataBuf buf(allocate);
 
                             const uint64_t offset = header_.format() == Header::StandardTiff?
                                     byteSwap4(data, 0, doSwap_):
@@ -313,7 +325,6 @@ namespace Exiv2
                                             byteSwap8(buf, k*size, doSwap_):
                                             byteSwap4(buf, k*size, doSwap_);
 
-                                        std::cerr << "tag = " << Internal::stringFormat("%#x",tag) << std::endl;
                                         printIFD(out, option, ifdOffset, depth);
                                         io.seek(restore, BasicIo::beg);
                                     }
