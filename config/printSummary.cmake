@@ -40,6 +40,7 @@ endif()
 OptionOutput( "Building exiv2 command:             " EXIV2_BUILD_EXIV2_COMMAND       )
 OptionOutput( "Building samples:                   " EXIV2_BUILD_SAMPLES             )
 OptionOutput( "Building PO files:                  " EXIV2_BUILD_PO                  )
+OptionOutput( "Building unit tests:                " EXIV2_BUILD_UNIT_TESTS          )
 
 
 message( STATUS "------------------------------------------------------------------" )

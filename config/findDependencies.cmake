@@ -64,3 +64,7 @@ if(CCACHE_FOUND)
     set_property(GLOBAL PROPERTY RULE_LAUNCH_COMPILE ccache)
     set_property(GLOBAL PROPERTY RULE_LAUNCH_LINK ccache)
 endif()
+
+if (EXIV2_BUILD_UNIT_TESTS)
+    find_package(GTest REQUIRED)
+endif()
