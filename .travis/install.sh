@@ -1,10 +1,10 @@
 #!/bin/bash
-set -e
-set -x
+#set -e
+#set -x
 
 if [[ "$(uname -s)" == 'Linux' ]]; then
     sudo apt-get install cmake zlib1g-dev libssh-dev libcurl4-openssl-dev gettext libexpat1-dev
-    sudo apt-get install python-pip
+    sudo apt-get install python-pip libxml2-utils
     sudo pip install virtualenv
 else
     brew update
