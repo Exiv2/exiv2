@@ -29,4 +29,4 @@ cache:
     ccache: true
     directories:
     - conan         # Conan installation folder
-    - $HOME/.conan  # Conan configuration and packages
+    - $HOME/conanData     # Conan storage location
