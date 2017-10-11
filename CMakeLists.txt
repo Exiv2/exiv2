@@ -10,7 +10,10 @@ set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/lib)
 set(CMAKE_LIBRARY_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/lib)
 set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin)
 
-set(CMAKE_MACOSX_RPATH 1)
+set(CMAKE_MACOSX_RPATH ON)
+if (APPLE)
+    set(CMAKE_INSTALL_RPATH "@executable_path/../lib")
+endif()
 
 set( PACKAGE_COPYRIGHT      "Andreas Huggel" )
 set( PACKAGE_BUGREPORT      "http://github.com/exiv2/exiv2" )

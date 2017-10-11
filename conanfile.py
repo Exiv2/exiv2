@@ -24,3 +24,4 @@ class Exiv2Conan(ConanFile):
 
     def imports(self):
         self.copy('*.dll', dst='bin', src='bin')
+        self.copy('*.dylib', dst='bin', src='lib')
