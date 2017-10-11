@@ -3,6 +3,9 @@ image: Visual Studio 2015
 shallow_clone: true
 
 install:
+    - set PROJECT_DIR=%cd%
+    - echo %PROJECT_DIR%
+    - echo %APPVEYOR_BUILD_FOLDER%
     - mkdir C:\projects\deps
     - cd C:\projects\deps
     - appveyor DownloadFile https://github.com/ninja-build/ninja/releases/download/v1.8.2/ninja-win.zip -FileName ninja.zip
@@ -11,7 +14,7 @@ install:
     - ninja --version
 
 before_build:
-    - cmd: cd C:\projects\exiv2
+    - cmd: cd %PROJECT_DIR%
     - cmd: if not exist envs mkdir envs
     - cmd: cd envs
     - cmd: python -m virtualenv conan
