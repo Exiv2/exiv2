@@ -1,6 +1,6 @@
 #!/bin/bash
-#set -e
-#set -x
+set -e # Enables cheking of return values from each command
+set -x # Prints every command
 
 if [[ "$(uname -s)" == 'Linux' ]]; then
     sudo apt-get install cmake zlib1g-dev libssh-dev libcurl4-openssl-dev gettext libexpat1-dev
@@ -17,6 +17,7 @@ virtualenv conan
 source conan/bin/activate
 pip install conan
 conan --version
+conan config set storage.path=~/conanData
 conan remote add conan-pix4d https://api.bintray.com/conan/pix4d/conan
 mkdir -p ~/.conan/profiles
 

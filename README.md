@@ -136,7 +136,7 @@ Support
 
 All project resources are accessible from the project website at
 
-    http://dev.exiv2.org/wiki/exiv2
+    http://dev.exiv2.org/projects/exiv2/wiki
 
 Please send feedback or queries to the Exiv2 forum. For new bug reports
 and feature requests, please open an issue.

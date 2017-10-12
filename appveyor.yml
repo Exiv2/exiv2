@@ -1,25 +1,37 @@
-image: Visual Studio 2017
+image: Visual Studio 2015
 
 shallow_clone: true
 
-environment:
-    VS150COMNTOOLS: "C:\\Program Files (x86)\\Microsoft Visual Studio\\2017\\Community\\Common7\\Tools\\"
-
 before_build:
-- cmd: mkdir envs && cd envs
-- cmd: python -m virtualenv conan
-- cmd: conan/Scripts/activate
-- cmd: python -m pip install conan==0.26.0
-- cmd: cd ..
-- cmd: conan remote add conan-pix4d https://api.bintray.com/conan/pix4d/conan
-- cmd: mkdir c:\Users\appveyor\.conan\profiles
-- cmd: printf "os=Windows\narch=x86\ncompiler=Visual Studio\ncompiler.version=15\ncompiler.runtime=MD\nbuild_type=Release\n" > c:\Users\appveyor\.conan\profiles\release
-- cmd: cat c:\Users\appveyor\.conan\profiles\release
+    - cmd: if not exist envs mkdir envs
+    - cmd: cd envs
+    - cmd: python -m virtualenv conan
+    - cmd: conan/Scripts/activate
+    - cmd: python -m pip install conan==0.27.0
+    - cmd: cd ..
+    - cmd: conan --version
+    - cmd: conan remote add conan-pix4d https://api.bintray.com/conan/pix4d/conan
+    - cmd: conan remote list
+    - cmd: conan config set storage.path=c:\Users\appveyor\conanCache
+    - cmd: cat c:\Users\appveyor\.conan\conan.conf
+    - cmd: mkdir c:\Users\appveyor\.conan\profiles
+    - cmd: printf "os=Windows\narch=x86\ncompiler=Visual Studio\ncompiler.version=14\ncompiler.runtime=MD\nbuild_type=Release\n" > c:\Users\appveyor\.conan\profiles\release
+    - cmd: cat c:\Users\appveyor\.conan\profiles\release
 
 build_script:
-  - md build
-  - cd build
-  - conan install .. --build missing --profile release
-  - cmake -G "Visual Studio 15 2017 Win64" -T "host=x64" -DEXIV2_ENABLE_XMP=ON -DEXIV2_ENABLE_NLS=OFF -DEXIV2_ENABLE_PNG=ON -DEXIV2_ENABLE_WEBREADY=ON -DEXIV2_ENABLE_CURL=ON -DCMAKE_INSTALL_PREFIX=install ..
-  - cmake --build . --config Release
-  - cmake --build . --target install
+    - cmd: md build
+    - cmd: cd build
+    - cmd: conan install .. --build missing --profile release
+    - cmd: cmake -G "Visual Studio 14 2015 Win64" -T "host=x64" -DEXIV2_ENABLE_XMP=ON -DEXIV2_ENABLE_NLS=OFF -DEXIV2_ENABLE_PNG=ON -DEXIV2_ENABLE_WEBREADY=ON -DEXIV2_ENABLE_CURL=ON -DCMAKE_INSTALL_PREFIX=install ..
+    - cmd: cmake --build . --config Release
+    - cmd: cmake --build . --target install
+
+cache:
+    - envs                   # Conan installation
+
+# For some reason, if I add into the cache the conanCache folder then I get an error like this when calling conan
+# install:
+#Expat/2.2.1@pix4d/stable: Already installed!
+#zlib/1.2.8@lasote/stable: Already installed!
+#OpenSSL/1.0.2i@lasote/stable: Already installed!
+#ERROR: Error while trying to get recipe sources for libcurl/7.50.3@lasote/stable. No remote defined
