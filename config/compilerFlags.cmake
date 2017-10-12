@@ -1,3 +1,4 @@
+
 if ( MINGW OR UNIX ) # MINGW, Linux, APPLE, CYGWIN
     if (${CMAKE_CXX_COMPILER_ID} STREQUAL GNU)
         set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wall -Wcast-align -Wpointer-arith -Wformat-security -Wmissing-format-attribute -Woverloaded-virtual -W")
@@ -9,6 +10,33 @@ if ( MINGW OR UNIX ) # MINGW, Linux, APPLE, CYGWIN
         set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++98")
     endif()
 
+    if ( EXIV2_WARNINGS_AS_ERRORS )
+        set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Werror")
+    endif ()
+
+    if ( EXIV2_EXTRA_WARNINGS )
+        # Note that this should only be used by Exiv2 contributors and it is expected to comment or
+        # Uncomment some of these lines while they are trying to find things to improve in the code.
+
+        set(EXTRA_COMPILE_FLAGS "${EXTRA_COMPILE_FLAGS} -Wextra")
+        set(EXTRA_COMPILE_FLAGS "${EXTRA_COMPILE_FLAGS} -Wlogical-op")
+        set(EXTRA_COMPILE_FLAGS "${EXTRA_COMPILE_FLAGS} -Wdouble-promotion")
+        set(EXTRA_COMPILE_FLAGS "${EXTRA_COMPILE_FLAGS} -Wshadow")
+        set(EXTRA_COMPILE_FLAGS "${EXTRA_COMPILE_FLAGS} -Wuseless-cast")
+        #set(EXTRA_COMPILE_FLAGS "${EXTRA_COMPILE_FLAGS} -Wold-style-cast")
+
+        # This one is only for C code
+        #set(EXTRA_COMPILE_FLAGS "${EXTRA_COMPILE_FLAGS} -Wjump-misses-init")
+
+        if ( CMAKE_CXX_COMPILER_VERSION VERSION_GREATER 6.0 )
+            set(EXTRA_COMPILE_FLAGS "${EXTRA_COMPILE_FLAGS} -Wduplicated-cond")
+        endif ()
+
+        if ( CMAKE_CXX_COMPILER_VERSION VERSION_GREATER 7.0 )
+            set(EXTRA_COMPILE_FLAGS "${EXTRA_COMPILE_FLAGS} -Wduplicated-branches")
+            set(EXTRA_COMPILE_FLAGS "${EXTRA_COMPILE_FLAGS} -Wrestrict")
+        endif ()
+    endif ()
 endif ()
 
 # http://stackoverflow.com/questions/10113017/setting-the-msvc-runtime-in-cmake
