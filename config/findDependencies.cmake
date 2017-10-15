@@ -50,7 +50,7 @@ if( ICONV_FOUND )
     message ( "-- ICONV_ACCEPTS_CONST_INPUT : ${ICONV_ACCEPTS_CONST_INPUT}" )
 endif()
 
-if( EXIV2_ENABLE_BUILD_PO )
+if( EXIV2_BUILD_PO )
     find_package(MSGFMT)
     if(MSGFMT_FOUND)
         message(STATUS "Program msgfmt found (${MSGFMT_EXECUTABLE})")
