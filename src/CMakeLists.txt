@@ -291,21 +291,28 @@ if(EXIV2_BUILD_EXIV2_COMMAND)
     if ( BUILD_SHARED_LIBS )
         target_compile_definitions(exiv2 PRIVATE EXV_HAVE_DLL )
     endif()
+    # modify source lists to suit environment
+
+    # TODO This should not be needed here! we need to fix the previous TODO
+    target_include_directories(exiv2 PRIVATE ${CMAKE_SOURCE_DIR}/include/)
+
+    if(NOT EXV_HAVE_TIMEGM )
+        target_sources(exiv2    PRIVATE localtime.c)
+    endif()
+
+    if (MSVC)
+        target_sources(exiv2    PRIVATE getopt_win32.c)
+    endif()
     install(TARGETS exiv2 RUNTIME DESTINATION ${CMAKE_INSTALL_BINDIR})
 endif()
-
-# TODO This should not be needed here! we need to fix the previous TODO
-target_include_directories(exiv2 PRIVATE ${CMAKE_SOURCE_DIR}/include/)
 
 # modify source lists to suit environment
 if(NOT EXV_HAVE_TIMEGM )
     target_sources(exiv2lib PRIVATE localtime.c)
-    target_sources(exiv2    PRIVATE localtime.c)
 endif()
 
 if (MSVC)
     target_sources(exiv2lib PRIVATE getopt_win32.c)
-    target_sources(exiv2    PRIVATE getopt_win32.c)
 endif()
 
 # ******************************************************************************
