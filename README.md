@@ -25,12 +25,13 @@ write Exif, IPTC and XMP image metadata. The homepage of Exiv2 is:
 
     http://www.exiv2.org/
 
-See doc/ChangeLog for a list of recent changes to Exiv2.
+See [doc/ChangeLog](https://github.com/Exiv2/exiv2/blob/master/doc/ChangeLog)
+for a list of recent changes to Exiv2.
 
 Exiv2 API and tag reference documentation is at http://www.exiv2.org/doc
-or you can build it and point your browser to doc/index.html.
+or you can build it and point your browser to `doc/index.html`.
 
-For more information on XMP support in Exiv2, see doc/README-XMP.
+For more information on XMP support in Exiv2, see [doc/README-XMP](https://github.com/Exiv2/exiv2/blob/master/doc/README-XMP).
 
 Building and Installing
 =======================
@@ -43,10 +44,11 @@ You can build the libraries in the following ways:
     http://dev.exiv2.org/projects/exiv2/wiki/FAQ
 
 2 Microsoft Visual C++
-  - see msvc/ReadMe.txt      (32bit and 64bit builds Visual Studio 2005,08,10,12,13,15)
+  - see [msvc/ReadMe.txt](https://github.com/Exiv2/exiv2/blob/master/msvc/ReadMe.txt)      (32bit and 64bit builds Visual Studio 2005,08,10,12,13,15)
 
 3 CMake (support for cmake on all platforms except MinGW)
-  - see README-CMAKE for more information
+  - see [README-CMAKE](https://github.com/Exiv2/exiv2/blob/master/README-CMAKE)
+    for more information
 
 To build a commercial version of the Exiv2 library, see also section
 "Commercial version" at the end of this file.
@@ -60,7 +62,7 @@ build and install the library and utility:
     $ sudo make install  (Cygwin/MinGW $ make install)
 
 Caution:
-    If you downloaded the source code from the subversion repository,
+    If you downloaded the source code from the git repository,
     you will have to generate the configure script:
 
     $ make config
@@ -72,10 +74,10 @@ To build the sample applications:
 
     $ make samples
 
-The default install locations are /usr/local/lib for the library,
-/usr/local/bin for the exiv2 utility and /usr/local/include/exiv2 for the
-header files. Use the --prefix=directory option of the configure script to
-change the default. Run './configure --help' to see a list of all options.
+The default install locations are `/usr/local/lib` for the library,
+`/usr/local/bin` for the `exiv2` utility and `/usr/local/include/exiv2` for the
+header files. Use the `--prefix=directory` option of the configure script to
+change the default. Run `./configure --help` to see a list of all options.
 
 To uninstall Exiv2 from a UNIX-like system, run:
 
@@ -86,22 +88,22 @@ Dependencies
 
 The following libexiv2 features are enabled by default and may*)
 require external libraries. They can be controlled through configure
-options. See also './configure --help'.
+options. See also `./configure --help`.
 
-Feature                     Package   Configure options
---------------------------  --------  ----------------------------
-PNG image support           zlib      --without-zlib
-                                      --with-zlib=DIR
-Native language support     gettext   --disable-nls
-Characterset conversions    libiconv  --without-libiconv-prefix
-                                      --with-libiconv-prefix[=DIR]
-XMP support                 expat     --disable-xmp
-                                      --with-expat=DIR
+    Feature                     Package   Configure options
+    --------------------------  --------  ----------------------------
+    PNG image support           zlib      --without-zlib
+                                          --with-zlib=DIR
+    Native language support     gettext   --disable-nls
+    Characterset conversions    libiconv  --without-libiconv-prefix
+                                          --with-libiconv-prefix[=DIR]
+    XMP support                 expat     --disable-xmp
+                                          --with-expat=DIR
 
-zlib         http://zlib.net/
-gettext  *)  http://www.gnu.org/software/gettext/
-libiconv *)  http://www.gnu.org/software/libiconv/
-expat        http://expat.sourceforge.net/
+	zlib         http://zlib.net/
+	gettext  *)  http://www.gnu.org/software/gettext/
+	libiconv *)  http://www.gnu.org/software/libiconv/
+	expat        http://expat.sourceforge.net/
 
 *) Some systems have gettext and iconv in libc. The configure script
 should detect this.
@@ -111,32 +113,33 @@ package management system of the distribution together with the
 corresponding development packages (for the header files and static
 libraries).
 
-To build the sample programs in the samples/ directory ('make samples'),
-you also need to have the pkg-config program.
+To build the sample programs in the
+[samples/](https://github.com/Exiv2/exiv2/tree/master/samples)
+directory (`make samples`), you also need to have the `pkg-config`
+program.
 
-To generate the documentation ('make doc'), you will further need
-doxygen, graphviz, python and xsltproc.
+To generate the documentation (`make doc`), you will further need
+`doxygen`, `graphviz`, `python` and `xsltproc`.
 
-pkg-config   http://pkg-config.freedesktop.org/wiki/
-doxygen      http://www.doxygen.org/
-graphviz     http://www.graphviz.org/
-python       http://www.python.org/
-xsltproc     http://xmlsoft.org/XSLT/
-md5sum       http://www.microbrew.org/tools/md5sha1sum/
+	pkg-config   http://pkg-config.freedesktop.org/wiki/
+	doxygen      http://www.doxygen.org/
+	graphviz     http://www.graphviz.org/
+	python       http://www.python.org/
+	xsltproc     http://xmlsoft.org/XSLT/
+	md5sum       http://www.microbrew.org/tools/md5sha1sum/
 
 Troubleshooting
 ===============
 
 If you have problems building Exiv2 on UNIX-like systems, check the
-generated config/config.mk and config/config.h files. You should *not*
-need to modify any Makefile directly, in particular not src/Makefile!
+generated `config/config.mk` and `config/config.h` files. You should *not*
+need to modify any Makefile directly, in particular not `src/Makefile`!
 
 Support
 =======
 
 All project resources are accessible from the project website at
-
-    http://dev.exiv2.org/projects/exiv2/wiki
+http://dev.exiv2.org/projects/exiv2/wiki
 
 Please send feedback or queries to the Exiv2 forum. For new bug reports
 and feature requests, please open an issue.
@@ -145,24 +148,25 @@ Linking your own code with Exiv2
 ================================
 
 A pkg-config .pc file is installed together with the library.
-Application developers can use pkg-config(1) to obtain correct compile
-and link time flags for the Exiv2 library. See samples/Makefile for an
-example.
+Application developers can use `pkg-config(1)` to obtain correct
+compile and link time flags for the Exiv2 library. See
+[samples/Makefile](https://github.com/Exiv2/exiv2/blob/master/samples/Makefile)
+for an example.
 
-If you downloaded Exiv2 directly from the subversion repository, and
-you want to build it using the GNU configure script, then you need to
-have GNU Autoconf installed on your system and create the configure
-script as the first step:
+If you downloaded Exiv2 directly from the git repository, and you want
+to build it using the GNU configure script, then you need to have GNU
+Autoconf installed on your system and create the configure script as
+the first step:
 
     $ make config
 
-Then run the usual './configure; make; make install' commands.
+Then run the usual `./configure; make; make install` commands.
 
 Exiv2 uses GNU Libtool in order to build shared libraries on a variety
 of systems. While this is very nice for making usable binaries, it can
 be a pain when trying to debug a program. For that reason, compilation
 of shared libraries can be turned off by specifying the
---disable-shared option to the configure script.
+`--disable-shared` option to the configure script.
 
 License
 =======
@@ -192,11 +196,10 @@ the conversion of Nikon lens data to readable lens names to build a
 commercial version of the Exiv2 library.
 
 To do this on Windows, compile the library with the preprocessor
-symbol EXV_COMMERCIAL_VERSION defined in msvc\include\exv_msvc.h
+symbol `EXV_COMMERCIAL_VERSION` defined in `msvc\include\exv_msvc.h`
 
-On UNIX-like systems, run the configure
-script with the options --enable-commercial --disable-nls
---disable-lensdata.
+On UNIX-like systems, run the configure script with the options
+`--enable-commercial --disable-nls --disable-lensdata`.
 
 # That's all Folks
 ##
