@@ -46,6 +46,7 @@ option( EXIV2_BUILD_SAMPLES           "Build sample applications"               
 option( EXIV2_BUILD_PO                "Build translations files"                              OFF )
 option( EXIV2_BUILD_EXIV2_COMMAND     "Build exiv2 command-line executable"                   ON  )
 option( EXIV2_BUILD_UNIT_TESTS        "Build unit tests"                                      OFF )
+option( BUILD_WITH_CCACHE             "Use ccache to speed up compile time"                   OFF )
 
 if ( EXIV2_ENABLE_WEBREADY )
     set ( EXIV2_ENABLE_CURL ON )
