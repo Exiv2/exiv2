@@ -6,13 +6,17 @@ project( exiv2 )
 include(GNUInstallDirs)
 include(CheckFunctionExists)
 
-if (NOT MSVC)
-    set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/lib)
-    set(CMAKE_LIBRARY_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/lib)
-    set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin)
-endif()
+set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/lib)
+set(CMAKE_LIBRARY_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/lib)
 
-set(CMAKE_MACOSX_RPATH 1)
+set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin)
+set(CMAKE_RUNTIME_OUTPUT_DIRECTORY_DEBUG ${CMAKE_BINARY_DIR}/bin)
+set(CMAKE_RUNTIME_OUTPUT_DIRECTORY_RELEASE ${CMAKE_BINARY_DIR}/bin)
+
+set(CMAKE_MACOSX_RPATH ON)
+if (APPLE)
+    set(CMAKE_INSTALL_RPATH "@executable_path/../lib")
+endif()
 
 set( PACKAGE_COPYRIGHT      "Andreas Huggel" )
 set( PACKAGE_BUGREPORT      "http://github.com/exiv2/exiv2" )
@@ -41,6 +45,7 @@ option( EXIV2_ENABLE_SSH              "USE Libssh for SshIo"                    
 option( EXIV2_BUILD_SAMPLES           "Build sample applications"                             ON  )
 option( EXIV2_BUILD_PO                "Build translations files"                              OFF )
 option( EXIV2_BUILD_EXIV2_COMMAND     "Build exiv2 command-line executable"                   ON  )
+option( EXIV2_BUILD_UNIT_TESTS        "Build unit tests"                                      OFF )
 
 if ( EXIV2_ENABLE_WEBREADY )
     set ( EXIV2_ENABLE_CURL ON )
@@ -70,6 +75,10 @@ if( EXIV2_ENABLE_XMP )
     add_subdirectory( xmpsdk )
 endif()
 add_subdirectory( src )
+
+if( EXIV2_BUILD_UNIT_TESTS )
+    add_subdirectory ( unitTests )
+endif()
 
 if( EXIV2_BUILD_SAMPLES )
     add_subdirectory( samples )

@@ -2,7 +2,19 @@ image: Visual Studio 2015
 
 shallow_clone: true
 
+install:
+    - set PROJECT_DIR=%cd%
+    - echo %PROJECT_DIR%
+    - echo %APPVEYOR_BUILD_FOLDER%
+    - mkdir C:\projects\deps
+    - cd C:\projects\deps
+    - appveyor DownloadFile https://github.com/ninja-build/ninja/releases/download/v1.8.2/ninja-win.zip -FileName ninja.zip
+    - 7z x ninja.zip -oC:\projects\deps\ninja > nul
+    - set PATH=C:\projects\deps\ninja;%PATH%
+    - ninja --version
+
 before_build:
+    - cmd: cd %PROJECT_DIR%
     - cmd: if not exist envs mkdir envs
     - cmd: cd envs
     - cmd: python -m virtualenv conan
@@ -22,9 +34,14 @@ build_script:
     - cmd: md build
     - cmd: cd build
     - cmd: conan install .. --build missing --profile release
-    - cmd: cmake -G "Visual Studio 14 2015 Win64" -T "host=x64" -DEXIV2_ENABLE_XMP=ON -DEXIV2_ENABLE_NLS=OFF -DEXIV2_ENABLE_PNG=ON -DEXIV2_ENABLE_WEBREADY=ON -DEXIV2_ENABLE_CURL=ON -DCMAKE_INSTALL_PREFIX=install ..
-    - cmd: cmake --build . --config Release
-    - cmd: cmake --build . --target install
+    - cmd: call "C:\Program Files (x86)\Microsoft Visual Studio 14.0\VC\vcvarsall.bat" amd64
+    - cmd: cmake -G "Ninja" -DEXIV2_ENABLE_XMP=ON -DEXIV2_ENABLE_NLS=OFF -DEXIV2_ENABLE_PNG=ON -DEXIV2_ENABLE_WEBREADY=ON -DEXIV2_ENABLE_CURL=ON -DEXIV2_BUILD_UNIT_TESTS=ON -DCMAKE_INSTALL_PREFIX=install ..
+    - cmd: ninja
+    - cmd: ninja install
+    # TODO : Run tests on windows once we discover why they are crashing
+    #- cmd: cd bin
+    #- cmd: dir
+    #- cmd: unit_tests.exe
 
 cache:
     - envs                   # Conan installation
