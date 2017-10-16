@@ -399,7 +399,13 @@ namespace Exiv2 {
                                 ;
 
                 // if ( offset > io.size() ) offset = 0; // Denial of service?
-                DataBuf  buf(size*count + pad+20);  // allocate a buffer
+
+                // #55 and #56 memory allocation crash test/data/POC8
+                long long allocate = (long long) size*count + pad+20;
+                if ( allocate > (long long) io.size() ) {
+                    throw Error(57);
+                }
+                DataBuf  buf(allocate);  // allocate a buffer
                 std::memcpy(buf.pData_,dir.pData_+8,4);  // copy dir[8:11] into buffer (short strings)
                 if ( count*size > 4 ) {            // read into buffer
                     size_t   restore = io.tell();  // save

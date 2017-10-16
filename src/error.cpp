@@ -106,6 +106,11 @@ namespace {
         { 52, N_("%1 has invalid XMP value type `%2'") }, // %1=key, %2=value type
         { 53, N_("Not a valid ICC Profile") },
         { 54, N_("Not valid XMP") },
+        { 55, N_("tiff directory length is too large") },
+        { 56, N_("invalid type value detected in Image::printIFDStructure") },
+        { 57, N_("invalid memory allocation request") },
+        { 58, N_("corrupted image metadata") },
+        { 59, N_("Arithmetic operation overflow") },
     };
 
 }
