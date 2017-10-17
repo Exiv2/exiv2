@@ -264,7 +264,7 @@ namespace {
         const byte *data = io.mmap();
 
         // default positions and sizes
-        const size_t size = static_cast<size_t>(io.size());
+        const size_t size = io.size();
         size_t posEps = 0;
         size_t posEndEps = size;
         uint32_t posWmf = 0;

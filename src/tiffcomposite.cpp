@@ -1274,7 +1274,7 @@ namespace Exiv2 {
             break;
         case ttUnsignedLong:
         case ttSignedLong:
-            rc = l2Data(buf, static_cast<int32_t>(offset), byteOrder);
+            rc = l2Data(buf, offset, byteOrder);
             break;
         default:
             throw Error(27);
@@ -1613,7 +1613,7 @@ namespace Exiv2 {
                                           ByteOrder  /*byteOrder*/) const
     {
         if ( !pValue() ) throw Error(21); // #1296
-        
+
         uint32_t len = pValue()->sizeDataArea();
         if (len > 0) {
 #ifdef DEBUG

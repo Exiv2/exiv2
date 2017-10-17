@@ -385,7 +385,7 @@ namespace {
             return AutoPtr();
 
         if (loaderList_[id].imageMimeType_ &&
-            std::string(loaderList_[id].imageMimeType_) != std::string(image.mimeType()))
+            std::string(loaderList_[id].imageMimeType_) != image.mimeType())
             return AutoPtr();
 
         AutoPtr loader = loaderList_[id].create_(id, image, loaderList_[id].parIdx_);
