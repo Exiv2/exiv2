@@ -5,6 +5,7 @@
 *.o
 *.swp
 *.pyc
+*.txt.user
 .DS_Store
 config.log
 config.status
@@ -13,7 +14,7 @@ libtool
 .deps/
 .libs/
 bin/
-build/
+build*
 config/autom4te.cache/
 config/config.h
 config/config.mk
