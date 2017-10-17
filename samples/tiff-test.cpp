@@ -8,6 +8,7 @@
 #include <iostream>
 #include <iomanip>
 #include <cassert>
+#include <stdexcept>
 
 using namespace Exiv2;
 
@@ -41,25 +42,37 @@ void mini1(const char* path)
 
     // Write nothing to a new structure, without a previous binary image
     wm = ExifParser::encode(blob, 0, 0, bigEndian, exifData);
-    assert(wm == wmIntrusive);
+    if (wm != wmIntrusive)
+    {
+        throw std::runtime_error("Unexpected return value by ExifParser::encode\n");
+    }
     assert(blob.size() == 0);
     std::cout << "Test 1: Writing empty Exif data without original binary data: ok.\n";
 
     // Write nothing, this time with a previous binary image
     DataBuf buf = readFile(path);
     wm = ExifParser::encode(blob, buf.pData_, buf.size_, bigEndian, exifData);
-    assert(wm == wmIntrusive);
+    if (wm != wmIntrusive)
+    {
+        throw std::runtime_error("Unexpected return value by ExifParser::encode\n");
+    }
     assert(blob.size() == 0);
     std::cout << "Test 2: Writing empty Exif data with original binary data: ok.\n";
 
     // Write something to a new structure, without a previous binary image
     exifData["Exif.Photo.DateTimeOriginal"] = "Yesterday at noon";
     wm = ExifParser::encode(blob, 0, 0, bigEndian, exifData);
-    assert(wm == wmIntrusive);
+    if (wm != wmIntrusive)
+    {
+        throw std::runtime_error("Unexpected return value by ExifParser::encode\n");
+    }
     std::cout << "Test 3: Wrote non-empty Exif data without original binary data:\n";
     exifData.clear();
     ByteOrder bo = ExifParser::decode(exifData, &blob[0], (uint32_t) blob.size());
-    assert(bo == bigEndian);
+    if (bo != bigEndian)
+    {
+        throw std::runtime_error("Unexpected return value by ExifParser::encode --> ByteOrder\n");
+    }
     print(exifData);
 }
 
