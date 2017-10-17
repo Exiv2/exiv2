@@ -1176,6 +1176,7 @@ namespace Exiv2 {
             uint32_t sv = (*i)->size();
             if (sv > 4) {
                 uint32_t d = (*i)->write(ioWrapper, byteOrder, offset, valueIdx, dataIdx, imageIdx);
+                (void) d;
                 assert(sv == d);
                 if ((sv & 1) == 1) {
                     ioWrapper.putb(0x0);    // Align value to word boundary

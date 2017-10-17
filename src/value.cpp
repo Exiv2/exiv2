@@ -985,7 +985,7 @@ namespace Exiv2 {
         int wrote = sprintf(temp, "%04d%02d%02d",
                             date_.year, date_.month, date_.day);
         assert(wrote == 8);
-        std::memcpy(buf, temp, 8);
+        std::memcpy(buf, temp, wrote);
         return 8;
     }
 
@@ -1163,7 +1163,7 @@ namespace Exiv2 {
                    plusMinus, abs(time_.tzHour), abs(time_.tzMinute));
 
         assert(wrote == 11);
-        std::memcpy(buf, temp, 11);
+        std::memcpy(buf, temp, wrote);
         return 11;
     }
 

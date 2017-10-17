@@ -57,6 +57,7 @@ try {
     assert(getv1.ok());
     assert(getv1.toRational() == Exiv2::Rational(-1, 1));
     assert(getv1.ok());
+    (void) getv1;
 
     const Exiv2::Value &getv2 = xmpData["Xmp.dc.two"].value();
     assert(isEqual(getv2.toFloat(), 3.1415f)); 
@@ -66,6 +67,7 @@ try {
     Exiv2::Rational R = getv2.toRational();
     assert(getv2.ok());
     assert(isEqual(static_cast<float>(R.first) / R.second, 3.1415f ));
+    (void)R;
 
     const Exiv2::Value &getv3 = xmpData["Xmp.dc.three"].value();
     assert(isEqual(getv3.toFloat(), 5.0f/7.0f)); 
@@ -74,7 +76,8 @@ try {
     assert(getv3.ok());
     assert(getv3.toRational() == Exiv2::Rational(5, 7));
     assert(getv3.ok());
-    
+    (void) getv3;
+
     const Exiv2::Value &getv6 = xmpData["Xmp.dc.six"].value();
     assert(getv6.toLong() == 0);
     assert(getv6.ok());
@@ -82,7 +85,8 @@ try {
     assert(getv6.ok());
     assert(getv6.toRational() == Exiv2::Rational(0, 1));
     assert(getv6.ok());
-    
+    (void) getv6;
+
     const Exiv2::Value &getv7 = xmpData["Xmp.dc.seven"].value();
     getv7.toLong(); // this should fail
     assert(!getv7.ok()); 
@@ -94,6 +98,7 @@ try {
     assert(getv8.ok());
     assert(getv8.toRational() == Exiv2::Rational(1, 1));
     assert(getv8.ok());
+    (void) getv8;
 
     // Deleting an XMP property
     Exiv2::XmpData::iterator pos = xmpData.findKey(Exiv2::XmpKey("Xmp.dc.eight"));

@@ -799,6 +799,7 @@ namespace Exiv2 {
         CrwMap::loadStack(crwDirs, crwDir);
         uint16_t rootDirectory = crwDirs.top().crwDir_;
         /// \todo convert this assert into a runtime check and add a test
+        (void) rootDirectory;
         assert(rootDirectory == 0x0000);
         crwDirs.pop();
         if (!pRootDir_) pRootDir_ = new CiffDirectory;
@@ -879,6 +880,7 @@ namespace Exiv2 {
             CrwMap::loadStack(crwDirs, crwDir);
             uint16_t rootDirectory = crwDirs.top().crwDir_;
             /// \todo convert this assert into a runtime check and add a test
+            (void) rootDirectory;
             assert(rootDirectory == 0x0000);
             crwDirs.pop();
             pRootDir_->remove(crwDirs, crwTagId);

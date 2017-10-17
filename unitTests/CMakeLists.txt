@@ -3,7 +3,7 @@ add_executable(unit_tests mainTestRunner.cpp
 )
 
 #TODO Use GTest::GTest once we upgrade the minimum CMake version required
-target_link_libraries(unit_tests 
+target_link_libraries(unit_tests
     PRIVATE
         exiv2lib
         ${GTEST_BOTH_LIBRARIES}
