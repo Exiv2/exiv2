@@ -2,6 +2,7 @@ add_executable(unit_tests mainTestRunner.cpp
     gtestwrapper.h
     test_types.cpp
     test_tiffheader.cpp
+    test_futils.cpp
 )
 
 #TODO Use GTest::GTest once we upgrade the minimum CMake version required
