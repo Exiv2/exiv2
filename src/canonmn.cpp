@@ -1722,7 +1722,7 @@ namespace Exiv2 {
             && pos->value().count() >= 3
             && pos->value().typeId() == unsignedShort) {
             float fu = pos->value().toFloat(2);
-            if (fu != 0.0) {
+            if (fu != 0.0f) {
                 float fl = value.toFloat(1) / fu;
                 std::ostringstream oss;
                 oss.copyfmt(os);
@@ -1823,7 +1823,7 @@ namespace Exiv2 {
             && pos->value().count() >= 3
             && pos->value().typeId() == unsignedShort) {
             float fu = pos->value().toFloat(2);
-            if (fu != 0.0) {
+            if (fu != 0.0f) {
                 ltfl.focalLengthMin_ = pos->value().toLong(1) / fu;
                 ltfl.focalLengthMax_ = pos->value().toLong(0) / fu;
             }
@@ -1832,7 +1832,7 @@ namespace Exiv2 {
 
     //! convertFocalLength to a human readable string
     void convertFocalLength(LensTypeAndFocalLengthAndMaxAperture& ltfl,
-                            double divisor)
+                            float divisor)
     {
         std::ostringstream oss;
         oss << std::fixed << std::setprecision(0);
@@ -1856,8 +1856,8 @@ namespace Exiv2 {
         ltfl.lensType_ = value.toLong();
 
         extractLensFocalLength(ltfl, metadata);
-        if (ltfl.focalLengthMax_ == 0.0) return os << value;
-        convertFocalLength(ltfl, 1.0);
+        if (ltfl.focalLengthMax_ == 0.0f) return os << value;
+        convertFocalLength(ltfl, 1.0f);
 
         ExifKey key("Exif.CanonCs.MaxAperture");
         ExifData::const_iterator pos = metadata->findKey(key);
@@ -1893,8 +1893,8 @@ namespace Exiv2 {
         ltfl.lensType_ = value.toLong();
 
         extractLensFocalLength(ltfl, metadata);
-        if (ltfl.focalLengthMax_ == 0.0) return os << value;
-        convertFocalLength(ltfl, 1.0);
+        if (ltfl.focalLengthMax_ == 0.0f) return os << value;
+        convertFocalLength(ltfl, 1.0f);
 
         if (ltfl.focalLength_.empty()) return os << value;
 
@@ -1915,14 +1915,14 @@ namespace Exiv2 {
         ltfl.lensType_ = value.toLong();
 
         extractLensFocalLength(ltfl, metadata);
-        if (ltfl.focalLengthMax_ == 0.0) return os << value;
-        convertFocalLength(ltfl, 1.0); // just lens
+        if (ltfl.focalLengthMax_ == 0.0f) return os << value;
+        convertFocalLength(ltfl, 1.0f); // just lens
         const TagDetails* td = find(canonCsLensType, ltfl);
         if (!td) {
-            convertFocalLength(ltfl, 1.4); // lens + 1.4x TC
+            convertFocalLength(ltfl, 1.4f); // lens + 1.4x TC
             td = find(canonCsLensType, ltfl);
             if (!td) {
-                convertFocalLength(ltfl, 2.0); // lens + 2x TC
+                convertFocalLength(ltfl, 2.0f); // lens + 2x TC
                 td = find(canonCsLensType, ltfl);
                 if (!td) return os << value;
             }
@@ -1969,7 +1969,7 @@ namespace Exiv2 {
         }
 
         float fu = value.toFloat(2);
-        if (fu == 0.0) return os << value;
+        if (fu == 0.0f) return os << value;
         float len1 = value.toLong(0) / fu;
         float len2 = value.toLong(1) / fu;
         std::ostringstream oss;

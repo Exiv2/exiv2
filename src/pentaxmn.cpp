@@ -1124,7 +1124,7 @@ namespace Exiv2 {
                << " EV";
         } else {
             os << std::setprecision(2)
-               << static_cast<float>(l0) - 9.5
+               << static_cast<float>(l0) - 9.5f
                << " EV";
         }
 

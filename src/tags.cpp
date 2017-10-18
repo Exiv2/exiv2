@@ -2911,18 +2911,18 @@ namespace Exiv2 {
 
     float fnumber(float apertureValue)
     {
-        return static_cast<float>(std::exp(std::log(2.0) * apertureValue / 2));
+        return static_cast<float>(std::exp(std::log(2.0f) * apertureValue / 2.f));
     }
 
     URational exposureTime(float shutterSpeedValue)
     {
         URational ur(1, 1);
-        double tmp = std::exp(std::log(2.0) * shutterSpeedValue);
-        if (tmp > 1) {
-            ur.second = static_cast<long>(tmp + 0.5);
+        float tmp = std::exp(std::log(2.0f) * shutterSpeedValue);
+        if (tmp > 1.f) {
+            ur.second = static_cast<long>(tmp + 0.5f);
         }
         else {
-            ur.first = static_cast<long>(1/tmp + 0.5);
+            ur.first = static_cast<long>(1/tmp + 0.5f);
         }
         return ur;
     }

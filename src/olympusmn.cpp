@@ -1198,7 +1198,7 @@ namespace Exiv2 {
             return os << "(" << value << ")";
         }
         float f = value.toFloat();
-        if (f == 0.0 || f == 1.0) return os << _("None");
+        if (f == 0.0f || f == 1.0f) return os << _("None");
         std::ostringstream oss;
         oss.copyfmt(os);
         os << std::fixed << std::setprecision(1) << f << "x";
