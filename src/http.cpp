@@ -158,9 +158,9 @@ static int error(std::string errors,const char* msg,const char* x     ,const cha
 {
     char buffer[512] ;
 #ifdef MSDEV_2003
-	sprintf(buffer,msg,x,y,z);
+    sprintf(buffer,msg,x,y,z);
 #else
-	snprintf(buffer,sizeof buffer,msg,x,y,z) ;
+    snprintf(buffer,sizeof buffer,msg,x,y,z) ;
 #endif
     if ( errno ) {
         perror(buffer) ;
@@ -198,7 +198,7 @@ static Exiv2::Dictionary stringToDict(const std::string& s)
     return result;
 }
 
-static int makeNonBlocking(SOCKET sockfd)
+static int makeNonBlocking(int sockfd)
 {
 #ifdef   WIN32
   ULONG  ioctl_opt = 1;
@@ -271,7 +271,7 @@ int Exiv2::http(Exiv2::Dictionary& request,Exiv2::Dictionary& response,std::stri
 
     ////////////////////////////////////
     // open the socket
-    SOCKET     sockfd = socket(AF_INET , SOCK_STREAM,IPPROTO_TCP) ;
+    int     sockfd = socket(AF_INET , SOCK_STREAM,IPPROTO_TCP) ;
     if (    sockfd < 0 ) return error("unable to create socket\n",NULL,NULL,0) ;
 
     // connect the socket to the server
@@ -313,7 +313,7 @@ int Exiv2::http(Exiv2::Dictionary& request,Exiv2::Dictionary& response,std::stri
 #else
     int    n  = snprintf(buffer,buff_l,httpTemplate,verb,page,version,servername,header) ;
 #endif
-	buffer[n] = 0 ;
+    buffer[n] = 0 ;
     response["requestheaders"]=std::string(buffer,n);
 
 
@@ -395,21 +395,21 @@ int Exiv2::http(Exiv2::Dictionary& request,Exiv2::Dictionary& response,std::stri
 
     if ( n != FINISH || !OK(status) ) {
 #ifdef MSDEV_2003
-		sprintf(buffer,"wsa_error = %d,n = %d,sleep_ = %d status = %d"
+        sprintf(buffer,"wsa_error = %d,n = %d,sleep_ = %d status = %d"
                 ,   WSAGetLastError()
                 ,   n
                 ,   sleep_
                 ,   status
                 ) ;
 #else
-		snprintf(buffer,sizeof buffer,"wsa_error = %d,n = %d,sleep_ = %d status = %d"
+        snprintf(buffer,sizeof buffer,"wsa_error = %d,n = %d,sleep_ = %d status = %d"
                 ,   WSAGetLastError()
                 ,   n
                 ,   sleep_
                 ,   status
                 ) ;
 #endif
-		error(errors,buffer,NULL,NULL,0) ;
+        error(errors,buffer,NULL,NULL,0) ;
     } else if ( bSearching && OK(status) ) {
         if ( end ) {
         //  we finished OK without finding headers, flush the buffer
