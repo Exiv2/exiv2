@@ -636,7 +636,7 @@ source ./functions.source
     filename=POC8
     echo '------>' Bug $filename '<-------' >&2
     copyTestFile                      $filename
-    runTest exiv2                     $filename 2>/dev/null
+    runTest exiv2                     $filename
 
     num=g57
     printf "$num " >&3
