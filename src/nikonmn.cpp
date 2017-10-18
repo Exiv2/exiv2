@@ -2490,21 +2490,21 @@ fmountlens[] = {
 #endif
 // 8< - - - 8< do not remove this line >8 - - - >8
 
-	/* if no meta obj is provided, try to use the value param that *may*
-	 * be the pre-parsed lensid
-	 */
+    /* if no meta obj is provided, try to use the value param that *may*
+     * be the pre-parsed lensid
+     */
         if (metadata == 0)
         {
             const unsigned char  vid = (unsigned)value.toLong(0);
 
-	    /* the 'FMntLens' name is added to the annonymous struct for
-	     * fmountlens[]
-	     *
-	     * remember to name the struct when importing/updating the lens info
-	     * from:
-	     *
-	     * www.rottmerhusen.com/objektives/lensid/files/c-header/fmountlens4.h
-	     */
+        /* the 'FMntLens' name is added to the annonymous struct for
+         * fmountlens[]
+         *
+         * remember to name the struct when importing/updating the lens info
+         * from:
+         *
+         * www.rottmerhusen.com/objektives/lensid/files/c-header/fmountlens4.h
+         */
             const struct FMntLens*  pf = fmountlens;
             while (pf->lid && pf->lensname) {
                 if (pf->lid == vid) {

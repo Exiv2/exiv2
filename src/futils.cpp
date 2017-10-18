@@ -241,8 +241,8 @@ namespace Exiv2 {
     Protocol fileProtocol(const std::string& path) {
         Protocol result = pFile ;
         struct {
-        	std::string name ;
-        	Protocol    prot ;
+            std::string name ;
+            Protocol    prot ;
         } prots[] =
         { { "http://"   ,pHttp     }
         , { "https://"  ,pHttps    }
@@ -254,8 +254,8 @@ namespace Exiv2 {
         , { "-"         ,pStdin    }
         };
         for ( size_t i = 0 ; result == pFile && i < sizeof(prots)/sizeof(prots[0]) ; i ++ )
-        	if ( path.find(prots[i].name) == 0 )
-        		result = prots[i].prot;
+            if ( path.find(prots[i].name) == 0 )
+                result = prots[i].prot;
 
         return result;
     } // fileProtocol
@@ -263,8 +263,8 @@ namespace Exiv2 {
     Protocol fileProtocol(const std::wstring& wpath) {
         Protocol result = pFile ;
         struct {
-        	std::wstring wname ;
-        	Protocol      prot ;
+            std::wstring wname ;
+            Protocol      prot ;
         } prots[] =
         { { L"http://"   ,pHttp     }
         , { L"https://"  ,pHttps    }
@@ -276,21 +276,21 @@ namespace Exiv2 {
         , { L"-"         ,pStdin    }
         };
         for ( size_t i = 0 ; result == pFile && i < sizeof(prots)/sizeof(prots[0]) ; i ++ )
-        	if ( wpath.find(prots[i].wname) == 0 )
-        		result = prots[i].prot;
+            if ( wpath.find(prots[i].wname) == 0 )
+                result = prots[i].prot;
 
         return result;
     } // fileProtocol
 #endif
     bool fileExists(const std::string& path, bool ct)
     {
-		// special case: accept "-" (means stdin)
+        // special case: accept "-" (means stdin)
         if (path.compare("-") == 0 || fileProtocol(path)) {
-			return true;
+            return true;
         }
 
         struct stat buf;
-		int ret = ::stat(path.c_str(), &buf);
+        int ret = ::stat(path.c_str(), &buf);
         if (0 != ret)                    return false;
         if (ct && !S_ISREG(buf.st_mode)) return false;
         return true;
@@ -299,9 +299,9 @@ namespace Exiv2 {
 #ifdef EXV_UNICODE_PATH
     bool fileExists(const std::wstring& wpath, bool ct)
     {
-		// special case: accept "-" (means stdin)
+        // special case: accept "-" (means stdin)
         if (wpath.compare(L"-") == 0 || fileProtocol(wpath)) {
-			return true;
+            return true;
         }
 
         struct _stat buf;

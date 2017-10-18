@@ -1938,12 +1938,12 @@ namespace Exiv2 {
         if (   value.typeId() != unsignedShort
             || value.count() == 0) return os << "(" << value << ")";
 
-		// #1034
-		const std::string undefined("undefined") ;
-		const std::string section  ("canon");
-		if ( Internal::readExiv2Config(section,value.toString(),undefined) != undefined ) {
-			return os << Internal::readExiv2Config(section,value.toString(),undefined);
-		}
+        // #1034
+        const std::string undefined("undefined") ;
+        const std::string section  ("canon");
+        if ( Internal::readExiv2Config(section,value.toString(),undefined) != undefined ) {
+            return os << Internal::readExiv2Config(section,value.toString(),undefined);
+        }
 
         const LensIdFct* lif = find(lensIdFct, value.toLong());
         if (!lif) {

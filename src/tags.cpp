@@ -2177,7 +2177,7 @@ namespace Exiv2 {
                 mpfId, mpfTags, asciiString, 0, printValue),
         TagInfo(0xb003, "MPFImageUIDList", N_("MPFImageUIDList	"),
                 N_("MPF Image UID List"),
-            	mpfId, mpfTags, unsignedLong, 1, printValue),
+                mpfId, mpfTags, unsignedLong, 1, printValue),
         TagInfo(0xb004, "MPFTotalFrames", N_("MPFTotalFrames"),
                 N_("MPF Total Frames"),
                 mpfId, mpfTags, unsignedLong, 1, printValue),
