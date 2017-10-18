@@ -1028,9 +1028,9 @@ namespace Exiv2 {
         tms.tm_mday = date_.day;
         tms.tm_mon = date_.month - 1;
         tms.tm_year = date_.year - 1900;
-        long l = std::mktime(&tms);
+        time_t l = std::mktime(&tms);
         ok_ = (l != -1);
-        return l;
+        return (long)l;
     }
 
     float DateValue::toFloat(long n) const

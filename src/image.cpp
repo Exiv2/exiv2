@@ -1057,7 +1057,7 @@ namespace Exiv2 {
             if ((loop % 16) == 15 || loop == (tl + tl_offset - 1)) {
                 int max = 15;
                 if (loop >= tl) {
-                    max = tl_offset - 1;
+                    max = static_cast<int>(tl_offset) - 1;
                     for (int offset = 0; offset < (int)(16 - tl_offset); offset++) {
                         if ((offset % 8) == 7) {
                             hexOutput << "  ";

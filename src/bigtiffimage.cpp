@@ -244,7 +244,7 @@ namespace Exiv2
                                 throw Error(57);
                             }
 
-                            DataBuf buf(allocate);
+                            DataBuf buf((long)allocate);
 
                             const uint64_t offset = header_.format() == Header::StandardTiff?
                                     byteSwap4(data, 0, doSwap_):

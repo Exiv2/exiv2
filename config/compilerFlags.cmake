@@ -91,4 +91,21 @@ if(MSVC)
     #  - https://stackoverflow.com/questions/11040133/what-does-defining-win32-lean-and-mean-exclude-exactly
     add_definitions(-DWIN32_LEAN_AND_MEAN)
 
+    if ( EXIV2_WARNINGS_AS_ERRORS )
+        set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} /WX")
+        set(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} /WX")
+        set(CMAKE_MODULE_LINKER_FLAGS "${CMAKE_MODULE_LINKER_FLAGS} /WX")
+        set(CMAKE_SHARED_LINKER_FLAGS "${CMAKE_SHARED_LINKER_FLAGS} /WX")
+    endif ()
+
+    if ( EXIV2_EXTRA_WARNINGS )
+
+        if(CMAKE_CXX_FLAGS MATCHES "/W[0-4]")
+            string(REGEX REPLACE "/W[0-4]" "/W4" CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS}")
+        else()
+            set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} /W4")
+        endif()
+
+    endif ()
+
 endif()

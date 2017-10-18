@@ -198,7 +198,7 @@ static Exiv2::Dictionary stringToDict(const std::string& s)
     return result;
 }
 
-static int makeNonBlocking(int sockfd)
+static int makeNonBlocking(SOCKET sockfd)
 {
 #ifdef   WIN32
   ULONG  ioctl_opt = 1;
@@ -271,7 +271,7 @@ int Exiv2::http(Exiv2::Dictionary& request,Exiv2::Dictionary& response,std::stri
 
     ////////////////////////////////////
     // open the socket
-    int     sockfd = socket(AF_INET , SOCK_STREAM,IPPROTO_TCP) ;
+    SOCKET     sockfd = socket(AF_INET , SOCK_STREAM,IPPROTO_TCP) ;
     if (    sockfd < 0 ) return error("unable to create socket\n",NULL,NULL,0) ;
 
     // connect the socket to the server

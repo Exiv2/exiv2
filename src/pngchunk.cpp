@@ -473,7 +473,7 @@ namespace Exiv2 {
 
     std::string PngChunk::zlibCompress(const std::string& text)
     {
-        uLongf compressedLen = text.size() * 2; // just a starting point
+        uLongf compressedLen = static_cast<uLongf>(text.size() * 2); // just a starting point
         int zlibResult;
 
         DataBuf arr;
