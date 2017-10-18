@@ -585,7 +585,7 @@ namespace Exiv2 {
             } else if (equalsWebPTag(chunkId, WEBP_CHUNK_HEADER_EXIF)) {
                 io_->read(payload.pData_, payload.size_);
 
-                byte  size_buff[2];
+                byte  sizeBuf[2];
                 byte  exifLongHeader[]   = { 0xFF, 0x01, 0xFF, 0xE1 };
                 byte  exifShortHeader[]  = { 0x45, 0x78, 0x69, 0x66, 0x00, 0x00 };
                 byte  exifTiffLEHeader[] = { 0x49, 0x49, 0x2A };       // "MM*"
@@ -624,27 +624,27 @@ namespace Exiv2 {
                     offset += 12;
                 }
 
-                long size = payload.size_ + offset;
-                rawExifData = (byte*)malloc(size);
+                long sizePayloag = payload.size_ + offset;
+                rawExifData = (byte*)malloc(sizePayloag);
 
                 if (s_header) {
-                    us2Data(size_buff, (uint16_t) (size - 6), bigEndian);
+                    us2Data(sizeBuf, (uint16_t) (sizePayloag - 6), bigEndian);
                     memcpy(rawExifData, (char*)&exifLongHeader, 4);
-                    memcpy(rawExifData + 4, (char*)&size_buff, 2);
+                    memcpy(rawExifData + 4, (char*)&sizeBuf, 2);
                 }
 
                 if (be_header || le_header) {
-                    us2Data(size_buff, (uint16_t) (size - 6), bigEndian);
+                    us2Data(sizeBuf, (uint16_t) (sizePayloag - 6), bigEndian);
                     memcpy(rawExifData, (char*)&exifLongHeader, 4);
-                    memcpy(rawExifData + 4, (char*)&size_buff, 2);
+                    memcpy(rawExifData + 4, (char*)&sizeBuf, 2);
                     memcpy(rawExifData + 6, (char*)&exifShortHeader, 6);
                 }
 
                 memcpy(rawExifData + offset, payload.pData_, payload.size_);
 
 #ifdef DEBUG
-                std::cout << "Display Hex Dump [size:" << (unsigned long)size << "]" << std::endl;
-                std::cout << Internal::binaryToHex(rawExifData, size);
+                std::cout << "Display Hex Dump [size:" << (unsigned long)sizePayloag << "]" << std::endl;
+                std::cout << Internal::binaryToHex(rawExifData, sizePayloag);
 #endif
 
                 if (pos != -1) {

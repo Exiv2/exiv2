@@ -1590,9 +1590,9 @@ namespace {
                 value = pos->toString();
                 if (   pos->value().ok()
                     && value.length() > 5 && value.substr(0, 5) == "lang=") {
-                    std::string::size_type pos = value.find_first_of(' ');
-                    if (pos != std::string::npos) {
-                        value = value.substr(pos + 1);
+                    std::string::size_type posSpace = value.find_first_of(' ');
+                    if (posSpace != std::string::npos) {
+                        value = value.substr(posSpace + 1);
                     }
                     else {
                         value.clear();

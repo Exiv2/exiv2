@@ -1256,12 +1256,14 @@ namespace Exiv2 {
             unsigned long lensID = 0x3ff;
             unsigned long index  = 0;
 
-            const ExifData::const_iterator lensInfo = metadata->findKey(ExifKey("Exif.PentaxDng.LensInfo")) != metadata->end()
-                                                    ? metadata->findKey(ExifKey("Exif.PentaxDng.LensInfo"))
-                                                    : metadata->findKey(ExifKey("Exif.Pentax.LensInfo"))
+            ExifData::const_iterator lensInfo = metadata->findKey(ExifKey("Exif.PentaxDng.LensInfo")) != metadata->end() ?
+                metadata->findKey(ExifKey("Exif.PentaxDng.LensInfo")) :
+                metadata->findKey(ExifKey("Exif.Pentax.LensInfo"))
                                                     ;
-            if ( lensInfo == metadata->end() ) return EXV_PRINT_COMBITAG_MULTI(pentaxLensType, 2, 1, 2)(os, value, metadata);
-            if ( lensInfo->count() < 5       ) return EXV_PRINT_COMBITAG_MULTI(pentaxLensType, 2, 1, 2)(os, value, metadata);
+            if ( lensInfo == metadata->end() )
+                return EXV_PRINT_COMBITAG_MULTI(pentaxLensType, 2, 1, 2)(os, value, metadata);
+            if ( lensInfo->count() < 5       )
+                return EXV_PRINT_COMBITAG_MULTI(pentaxLensType, 2, 1, 2)(os, value, metadata);
 
             if ( value.count() == 2 ) {
                 // http://dev.exiv2.org/attachments/download/326/IMGP4432.PEF
@@ -1271,14 +1273,17 @@ namespace Exiv2 {
                 unsigned long base   = 1;
 
                 // http://www.sno.phy.queensu.ca/~phil/exiftool/TagNames/Pentax.html#LensData
-                const ExifData::const_iterator lensInfo = metadata->findKey(ExifKey("Exif.Pentax.LensInfo"));
+                lensInfo = metadata->findKey(ExifKey("Exif.Pentax.LensInfo"));
                 unsigned int  autoAperture     = lensInfo->toLong(base+1) & 0x01 ;
                 unsigned int  minAperture      = lensInfo->toLong(base+2) & 0x06 ;
                 unsigned int  minFocusDistance = lensInfo->toLong(base+3) & 0xf8 ;
 
-                if ( autoAperture == 0x0 && minAperture == 0x0 && minFocusDistance == 0x28 && lensInfo->toLong(base+4) == 148) index = 8;
-                if ( autoAperture == 0x0 && minAperture == 0x0 && minFocusDistance == 0x28 && lensInfo->toLong(base+5) == 110) index = 7;
-                if ( autoAperture == 0x0 && minAperture == 0x0 && minFocusDistance == 0x28 && lensInfo->toLong(base+4) == 110) index = 7;
+                if ( autoAperture == 0x0 && minAperture == 0x0 && minFocusDistance == 0x28 && lensInfo->toLong(base+4) == 148)
+                    index = 8;
+                if ( autoAperture == 0x0 && minAperture == 0x0 && minFocusDistance == 0x28 && lensInfo->toLong(base+5) == 110)
+                    index = 7;
+                if ( autoAperture == 0x0 && minAperture == 0x0 && minFocusDistance == 0x28 && lensInfo->toLong(base+4) == 110)
+                    index = 7;
 
             } else if ( value.count() == 3 ) {
                 // http://dev.exiv2.org/attachments/download/858/_IGP9032.DNG
@@ -1286,15 +1291,18 @@ namespace Exiv2 {
                 // 0x003f PentaxDng    LensType  Byte        3    3 255   0
                 // 0x0207 PentaxDng    LensInfo  Undefined  69  131   0   0 255 0  40 148  68 244 ...
                 //                                                0   1   2   3 4   5   6
-                if ( lensInfo->toLong(4) == 0 && lensInfo->toLong(5) == 40 && lensInfo->toLong(6) == 148 ) index = 8;
+                if ( lensInfo->toLong(4) == 0 && lensInfo->toLong(5) == 40 && lensInfo->toLong(6) == 148 )
+                    index = 8;
 
             } else if ( value.count() == 4 ) {
                 // http://dev.exiv2.org/attachments/download/868/IMGP2221.JPG
                 // 0x0207 PentaxDng    LensInfo  Undefined 128    0 131 128   0 0 255   1 184   0 0 0 0 0
                 //                                                0   1   2   3 4   5   6
-                if ( lensInfo->count() == 128 && lensInfo->toLong(1) == 131 && lensInfo->toLong(2) == 128 ) index = 8;
+                if ( lensInfo->count() == 128 && lensInfo->toLong(1) == 131 && lensInfo->toLong(2) == 128 )
+                    index = 8;
                 // #1155
-                if ( lensInfo->toLong(6) == 5 )  index = 7;
+                if ( lensInfo->toLong(6) == 5 )
+                    index = 7;
             }
 
             if ( index > 0 )  {

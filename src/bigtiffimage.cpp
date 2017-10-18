@@ -352,12 +352,12 @@ namespace Exiv2
                                     if ( ::strcmp("Nikon",chars) == 0 )
                                     {
                                         // tag is an embedded tiff
-                                        byte* bytes=new byte[(size_t)count-jump] ;  // allocate memory
-                                        io.read(bytes,(long)  count-jump)        ;  // read
-                                        MemIo memIo(bytes,(long)count-jump)      ;  // create a file
+                                        byte* bytesTag=new byte[(size_t)count-jump] ;  // allocate memory
+                                        io.read(bytesTag,(long)  count-jump)        ;  // read
+                                        MemIo memIo(bytesTag,(long)count-jump)      ;  // create a file
                                         std::cerr << "Nikon makernote" << std::endl;
                                         // printTiffStructure(memIo,out,option,depth);  TODO: fix it
-                                        delete[] bytes                   ;  // free
+                                        delete[] bytesTag                   ;  // free
                                     }
                                     else
                                     {

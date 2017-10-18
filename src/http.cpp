@@ -353,25 +353,25 @@ int Exiv2::http(Exiv2::Dictionary& request,Exiv2::Dictionary& response,std::stri
                 }
 
                 // parse response headers
-                char* h = buffer;
+                char* hPointer = buffer;
                 char  C = ':' ;
                 char  N = '\n';
                 int   i = 0   ; // initial byte in buffer
                 while(buffer[i] == N ) i++;
-                h       = strchr(h+i,N)+1;
-                response[""]=std::string(buffer+i).substr(0,h-buffer-2);
+                hPointer       = strchr(hPointer+i,N)+1;
+                response[""]=std::string(buffer+i).substr(0,hPointer-buffer-2);
                 result = atoi(strchr(buffer,' '));
-                char* c = strchr(h,C);
-                char* n = strchr(h,N);
-                while ( c && n && c < n && h < buffer+body ) {
-                    std::string key(h);
-                    std::string value(c+1);
-                    key   = key.substr(0,c-h);
-                    value = value.substr(0,n-c-1);
+                char* cPointer = strchr(hPointer,C);
+                char* nPointer = strchr(hPointer,N);
+                while ( cPointer && nPointer && cPointer < nPointer && hPointer < buffer+body ) {
+                    std::string key(hPointer);
+                    std::string value(cPointer+1);
+                    key   = key.substr(0,cPointer-hPointer);
+                    value = value.substr(0,nPointer-cPointer-1);
                     response[key]=value;
-                    h = n+1;
-                    c = strchr(h,C);
-                    n = strchr(h,N);
+                    hPointer = nPointer+1;
+                    cPointer = strchr(hPointer,C);
+                    nPointer = strchr(hPointer,N);
                 }
             }
 

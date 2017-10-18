@@ -795,16 +795,16 @@ namespace Exiv2 {
         }
 
         // Delete unknown tags larger than 4kB and known tags larger than 40kB.
-        for (ExifData::iterator pos = ed.begin(); pos != ed.end(); ) {
-            if (   (pos->size() > 4096 && pos->tagName().substr(0, 2) == "0x")
-                || pos->size() > 40960) {
+        for (ExifData::iterator it = ed.begin(); it != ed.end(); ) {
+            if (   (it->size() > 4096 && it->tagName().substr(0, 2) == "0x")
+                || it->size() > 40960) {
 #ifndef SUPPRESS_WARNINGS
-                EXV_WARNING << "Exif tag " << pos->key() << " not encoded\n";
+                EXV_WARNING << "Exif tag " << it->key() << " not encoded\n";
 #endif
-                pos = ed.erase(pos);
+                it = ed.erase(it);
             }
             else {
-                ++pos;
+                ++it;
             }
         }
 

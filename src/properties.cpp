@@ -2632,7 +2632,7 @@ namespace Exiv2 {
         const XmpPropertyInfo* pl = propertyList(prefix);
         if (!pl) return 0;
         const XmpPropertyInfo* pi = 0;
-        for (int i = 0; pl[i].name_ != 0; ++i) {
+        for (i = 0; pl[i].name_ != 0; ++i) {
             if (0 == strcmp(pl[i].name_, property.c_str())) {
                 pi = pl + i;
                 break;

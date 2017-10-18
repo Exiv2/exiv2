@@ -751,8 +751,9 @@ namespace Exiv2 {
                 "Exif.MakerNote.Offset",
             };
             for (unsigned int i = 0; i < EXV_COUNTOF(synthesizedTags); ++i) {
-                ExifData::iterator pos = exifData_.findKey(ExifKey(synthesizedTags[i]));
-                if (pos != exifData_.end()) exifData_.erase(pos);
+                pos = exifData_.findKey(ExifKey(synthesizedTags[i]));
+                if (pos != exifData_.end())
+                    exifData_.erase(pos);
             }
         }
         // Modify encoder for Makernote peculiarities, byte order
