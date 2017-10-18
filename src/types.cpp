@@ -572,8 +572,8 @@ namespace Exiv2 {
     bool stringTo<bool>(const std::string& s, bool& ok)
     {
         std::string lcs(s); /* lowercase string */
-        for(unsigned i = 0; i < lcs.length(); i++) {
-            lcs[i] = std::tolower(s[i]);
+        for(size_t i = 0; i < lcs.length(); i++) {
+            lcs[i] = static_cast<char>(std::tolower(s[i]));
         }
         /* handle the same values as xmp sdk */
         if (lcs == "false" || lcs == "f" || lcs == "0") {

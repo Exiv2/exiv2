@@ -254,7 +254,7 @@ namespace Exiv2 {
 
     byte PgfImage::readPgfMagicNumber(BasicIo& iIo)
     {
-        byte b = iIo.getb();
+        byte b = static_cast<byte>(iIo.getb());
         if (iIo.error()) throw Error(14);
 
         if (b < 0x36)   // 0x36 = '6'.
