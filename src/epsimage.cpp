@@ -739,8 +739,8 @@ namespace {
                 lineStreamAi7Thumbnail >> dummy;
                 lineStreamAi7Thumbnail >> nativePreview.width_;
                 lineStreamAi7Thumbnail >> nativePreview.height_;
-                std::string depth;
-                lineStreamAi7Thumbnail >> depth;
+                std::string depthThumb;
+                lineStreamAi7Thumbnail >> depthThumb;
                 std::string lineBeginData;
                 const size_t posAfterBeginData = readLine(lineBeginData, data, posBeginData, posEndEps);
                 std::istringstream lineStreamBeginData(lineBeginData);
@@ -753,9 +753,9 @@ namespace {
                 nativePreview.size_ = static_cast<uint32_t>(posAi7ThumbnailEndData - posAfterBeginData);
                 nativePreview.filter_ = "hex-ai7thumbnail-pnm";
                 nativePreview.mimeType_ = "image/x-portable-anymap";
-                if (depth != "8") {
+                if (depthThumb != "8") {
                     #ifndef SUPPRESS_WARNINGS
-                    EXV_WARNING << "Unable to handle Illustrator thumbnail depth: " << depth << "\n";
+                    EXV_WARNING << "Unable to handle Illustrator thumbnail depth: " << depthThumb << "\n";
                     #endif
                 } else if (beginData != "%%BeginData:") {
                     #ifndef SUPPRESS_WARNINGS
