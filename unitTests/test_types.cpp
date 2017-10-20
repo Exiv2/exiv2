@@ -1,5 +1,6 @@
-#include <gtest/gtest.h>
 #include <exiv2/types.hpp>
+
+#include "gtestWrapper.h"
 
 using namespace Exiv2;
 

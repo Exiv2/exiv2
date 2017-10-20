@@ -1,4 +1,5 @@
 add_executable(unit_tests mainTestRunner.cpp
+    gtestWrapper.h
     test_types.cpp
 )
 
