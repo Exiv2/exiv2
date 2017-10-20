@@ -1413,10 +1413,10 @@ namespace Exiv2 {
             long elSize = TypeInfo::typeSize(toTypeId(cfg()->elTiffType_, 0, cfg()->group_));
             switch (elSize) {
             case 2:
-                idx += us2Data(buf, size(), byteOrder);
+                idx += us2Data(buf, static_cast<uint16_t>(size()), byteOrder);
                 break;
             case 4:
-                idx += ul2Data(buf, size(), byteOrder);
+                idx += ul2Data(buf, static_cast<uint16_t>(size()), byteOrder);
                 break;
             default:
                 assert(false);

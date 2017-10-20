@@ -1101,13 +1101,13 @@ namespace Exiv2 {
                         // write JPEG marker (2 bytes)
                         if (outIo.write(tmpBuf, 2) != 2) throw Error(21); // JPEG Marker
                         // write length (2 bytes).  length includes the 2 bytes for the length
-                        us2Data(tmpBuf + 2, 2+14+bytes, bigEndian);
+                        us2Data(tmpBuf + 2, static_cast<uint16_t>(2+14+bytes), bigEndian);
                         if (outIo.write(tmpBuf+2, 2) != 2) throw Error(21); // JPEG Length
 
                         // write the ICC_PROFILE header (14 bytes)
                         char pad[2];
-                        pad[0] = chunk+1;
-                        pad[1] = chunks;
+                        pad[0] = static_cast<char>(chunk+1);
+                        pad[1] = static_cast<char>(chunks);
                         outIo.write((const byte *) iccId_,12);
                         outIo.write((const byte *)    pad, 2);
                         if (outIo.write(iccProfile_.pData_+ (chunk*chunk_size), bytes) != bytes)

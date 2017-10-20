@@ -946,7 +946,9 @@ namespace Exiv2 {
         Impl::StructStat buf;
         int ret = p_->stat(buf);
 
-        if (ret != 0) return -1;
+        if (ret != 0)
+            return std::string::npos;
+
         return buf.st_size;
     }
 
