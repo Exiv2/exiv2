@@ -1198,7 +1198,7 @@ namespace Exiv2 {
             return os << "(" << value << ")";
         }
         float f = value.toFloat();
-        if (f == 0.0 || f == 1.0) return os << _("None");
+        if (f == 0.0f || f == 1.0f) return os << _("None");
         std::ostringstream oss;
         oss.copyfmt(os);
         os << std::fixed << std::setprecision(1) << f << "x";
@@ -1261,12 +1261,12 @@ namespace Exiv2 {
     //! OlympusEq LensType, tag 0x201
     std::ostream& OlympusMakerNote::print0x0201(std::ostream& os, const Value& value, const ExifData*)
     {
-    	// #1034
-		const std::string undefined("undefined") ;
-		const std::string section  ("olympus");
-		if ( Internal::readExiv2Config(section,value.toString(),undefined) != undefined ) {
-			return os << Internal::readExiv2Config(section,value.toString(),undefined);
-		}
+        // #1034
+        const std::string undefined("undefined") ;
+        const std::string section  ("olympus");
+        if ( Internal::readExiv2Config(section,value.toString(),undefined) != undefined ) {
+            return os << Internal::readExiv2Config(section,value.toString(),undefined);
+        }
 
         // 6 numbers: 0. Make, 1. Unknown, 2. Model, 3. Sub-model, 4-5. Unknown.
         // Only the Make, Model and Sub-model are used to determine the lens model
@@ -1489,33 +1489,33 @@ namespace Exiv2 {
 
         if (value.count() < 1 || value.typeId() != unsignedShort) {
             return os << "(" << value << ")";
-		} else {
-			uint16_t v = (uint16_t)value.toLong(0);
+        } else {
+            uint16_t v = (uint16_t)value.toLong(0);
 
-			// If value 2 is present, it is used instead of value 1.
-			if (value.count() > 1) {
-				std::string p = "";    // Used to enable ',' separation
+            // If value 2 is present, it is used instead of value 1.
+            if (value.count() > 1) {
+                std::string p = "";    // Used to enable ',' separation
 
-				v = (uint16_t)value.toLong(1);
-				for (int i = 0; focusModes1[i].val != 0; i++) {
-					if ((v & focusModes1[i].val) != 0) {
-						if (p.size() > 0) {
-							os << ", ";
-						}
-						p = focusModes1[i].label;
-						os << p;
-					}
-				}
-			} else {
-				for (int i = 0; focusModes0[i].val != 0xff; i++) {
-				   if (focusModes0[i].val == v) {
-					   os << focusModes0[i].label;
-					   break;
-				   }
-				}
-			}
-			return os << v;
-		}
+                v = (uint16_t)value.toLong(1);
+                for (int i = 0; focusModes1[i].val != 0; i++) {
+                    if ((v & focusModes1[i].val) != 0) {
+                        if (p.size() > 0) {
+                            os << ", ";
+                        }
+                        p = focusModes1[i].label;
+                        os << p;
+                    }
+                }
+            } else {
+                for (int i = 0; focusModes0[i].val != 0xff; i++) {
+                   if (focusModes0[i].val == v) {
+                       os << focusModes0[i].label;
+                       break;
+                   }
+                }
+            }
+            return os << v;
+        }
     } // OlympusMakerNote::printCs0x0301
 
     //! OlympusCs ArtFilter, tag 0x0529, OlympusCs MagicFilter, tag 0x052c

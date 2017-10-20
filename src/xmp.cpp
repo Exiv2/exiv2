@@ -425,7 +425,7 @@ namespace Exiv2 {
             SXMPMeta::RegisterNamespace("http://www.metadataworkinggroup.com/schemas/keywords/", "mwg-kw",NULL);
             SXMPMeta::RegisterNamespace("http://ns.adobe.com/xmp/sType/Area#", "stArea",NULL);
             SXMPMeta::RegisterNamespace("http://cipa.jp/exif/1.0/", "exifEX",NULL);
-		    SXMPMeta::RegisterNamespace("http://ns.adobe.com/camera-raw-saved-settings/1.0/", "crss",NULL);
+            SXMPMeta::RegisterNamespace("http://ns.adobe.com/camera-raw-saved-settings/1.0/", "crss",NULL);
             SXMPMeta::RegisterNamespace("http://www.audio/", "audio",NULL);
             SXMPMeta::RegisterNamespace("http://www.video/", "video",NULL);
 #else
@@ -448,7 +448,7 @@ namespace Exiv2 {
             SXMPMeta::RegisterNamespace("http://www.metadataworkinggroup.com/schemas/keywords/", "mwg-kw");
             SXMPMeta::RegisterNamespace("http://ns.adobe.com/xmp/sType/Area#", "stArea");
             SXMPMeta::RegisterNamespace("http://cipa.jp/exif/1.0/", "exifEX");
-		    SXMPMeta::RegisterNamespace("http://ns.adobe.com/camera-raw-saved-settings/1.0/", "crss");
+            SXMPMeta::RegisterNamespace("http://ns.adobe.com/camera-raw-saved-settings/1.0/", "crss");
             SXMPMeta::RegisterNamespace("http://www.audio/", "audio");
             SXMPMeta::RegisterNamespace("http://www.video/", "video");
 #endif
@@ -458,7 +458,7 @@ namespace Exiv2 {
 #else
     bool XmpParser::initialize(XmpParser::XmpLockFct, void* )
     {
-    	initialized_ = true;
+        initialized_ = true;
         return initialized_;
     }
 #endif
@@ -482,13 +482,13 @@ namespace Exiv2 {
 
         // pop trailing ':' on a namespace
         if ( bNS ) {
-	    std::size_t length = out.length();
+        std::size_t length = out.length();
             if ( out[length-1] == ':' ) out = out.substr(0,length-1);
         }
 
         if ( bURI || bNS ) {
             std::map<std::string,std::string>* p = (std::map<std::string,std::string>*) refCon;
-            std::map<std::string,std::string>& m = (std::map<std::string,std::string>&) *p    ;
+            std::map<std::string,std::string>& m = *p    ;
 
             std::string b("");
             if ( bNS ) {  // store the NS in dict[""]
@@ -505,11 +505,11 @@ namespace Exiv2 {
 #ifdef EXV_HAVE_XMP_TOOLKIT
     void XmpParser::registeredNamespaces(Exiv2::Dictionary& dict)
     {
-    	bool bInit = !initialized_;
+        bool bInit = !initialized_;
         try {
-        	if (bInit) initialize();
-        	SXMPMeta::DumpNamespaces(nsDumper,&dict);
-        	if (bInit) terminate();
+            if (bInit) initialize();
+            SXMPMeta::DumpNamespaces(nsDumper,&dict);
+            if (bInit) terminate();
         } catch (const XMP_Error& e) {
             throw Error(40, e.GetID(), e.GetErrMsg());
         }
@@ -583,7 +583,7 @@ namespace Exiv2 {
             return 2;
         }
 
-        SXMPMeta meta(xmpPacket.data(), static_cast<XMP_StringLen>(xmpPacket.size()));
+        SXMPMeta meta(xmpPacket.data(), xmpPacket.size());
         SXMPIterator iter(meta);
         std::string schemaNs, propPath, propValue;
         XMP_OptionBits opt;

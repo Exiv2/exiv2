@@ -479,8 +479,8 @@ namespace Exiv2 {
         DataBuf arr;
         do {
             arr.alloc(compressedLen);
-            zlibResult = compress2((Bytef*)arr.pData_, &compressedLen,
-                                   (const Bytef*)text.data(), static_cast<uLong>(text.size()),
+            zlibResult = compress2(arr.pData_, &compressedLen,
+                                   (const Bytef*)text.data(), text.size(),
                                    Z_BEST_COMPRESSION);
 
             switch (zlibResult) {
@@ -620,7 +620,7 @@ namespace Exiv2 {
         while (*sp == '\0' || *sp == ' ' || *sp == '\n')
             sp++;
 
-        length = (long) atol(sp);
+        length = atol(sp);
 
         while (*sp != ' ' && *sp != '\n')
             sp++;

@@ -1176,6 +1176,7 @@ namespace Exiv2 {
             uint32_t sv = (*i)->size();
             if (sv > 4) {
                 uint32_t d = (*i)->write(ioWrapper, byteOrder, offset, valueIdx, dataIdx, imageIdx);
+                (void) d;
                 assert(sv == d);
                 if ((sv & 1) == 1) {
                     ioWrapper.putb(0x0);    // Align value to word boundary
@@ -1273,7 +1274,7 @@ namespace Exiv2 {
             break;
         case ttUnsignedLong:
         case ttSignedLong:
-            rc = l2Data(buf, static_cast<int32_t>(offset), byteOrder);
+            rc = l2Data(buf, offset, byteOrder);
             break;
         default:
             throw Error(27);
@@ -1412,10 +1413,10 @@ namespace Exiv2 {
             long elSize = TypeInfo::typeSize(toTypeId(cfg()->elTiffType_, 0, cfg()->group_));
             switch (elSize) {
             case 2:
-                idx += us2Data(buf, size(), byteOrder);
+                idx += us2Data(buf, static_cast<uint16_t>(size()), byteOrder);
                 break;
             case 4:
-                idx += ul2Data(buf, size(), byteOrder);
+                idx += ul2Data(buf, static_cast<uint16_t>(size()), byteOrder);
                 break;
             default:
                 assert(false);
@@ -1612,7 +1613,7 @@ namespace Exiv2 {
                                           ByteOrder  /*byteOrder*/) const
     {
         if ( !pValue() ) throw Error(21); // #1296
-        
+
         uint32_t len = pValue()->sizeDataArea();
         if (len > 0) {
 #ifdef DEBUG

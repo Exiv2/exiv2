@@ -400,7 +400,7 @@ namespace Exiv2 {
             std::string::size_type idx = xmpPacket.find_first_of('<');
             if (idx != std::string::npos && idx > 0) {
 #ifndef SUPPRESS_WARNINGS
-                EXV_WARNING << "Removing " << static_cast<unsigned long>(idx)
+                EXV_WARNING << "Removing " << idx
                             << " characters from the beginning of the XMP packet\n";
 #endif
                 xmpPacket = xmpPacket.substr(idx);
@@ -620,7 +620,7 @@ namespace Exiv2 {
         }
         std::string xmpPacket;
         if ( xmpData_.usePacket() ) {
-        	xmpPacket = xmpData_.xmpPacket();
+            xmpPacket = xmpData_.xmpPacket();
         } else {
             if (XmpParser::encode(xmpPacket, xmpData_) > 1) {
 #ifndef SUPPRESS_WARNINGS
@@ -751,8 +751,9 @@ namespace Exiv2 {
                 "Exif.MakerNote.Offset",
             };
             for (unsigned int i = 0; i < EXV_COUNTOF(synthesizedTags); ++i) {
-                ExifData::iterator pos = exifData_.findKey(ExifKey(synthesizedTags[i]));
-                if (pos != exifData_.end()) exifData_.erase(pos);
+                pos = exifData_.findKey(ExifKey(synthesizedTags[i]));
+                if (pos != exifData_.end())
+                    exifData_.erase(pos);
             }
         }
         // Modify encoder for Makernote peculiarities, byte order
@@ -1507,7 +1508,7 @@ namespace Exiv2 {
                 || static_cast<int32_t>(baseOffset()) + offset <= 0)) {
                 // #1143
                 if ( object->tag() == 0x2001 && std::string(groupName(object->group())) == "Sony1" ) {
-                	isize=size;
+                    isize=size;
                 } else {
 #ifndef SUPPRESS_WARNINGS
             EXV_ERROR << "Offset of directory " << groupName(object->group())
@@ -1518,7 +1519,7 @@ namespace Exiv2 {
                       << std::setfill('0') << std::hex << offset
                       << "; truncating the entry\n";
 #endif
-				}
+                }
                 size = 0;
         }
         if (size > 4) {
@@ -1534,7 +1535,7 @@ namespace Exiv2 {
             }
             pData = const_cast<byte*>(pData_) + baseOffset() + offset;
 
-	    // check for size being invalid
+        // check for size being invalid
             if (size > static_cast<uint32_t>(pLast_ - pData)) {
 #ifndef SUPPRESS_WARNINGS
                 EXV_ERROR << "Upper boundary of data for "
@@ -1558,15 +1559,15 @@ namespace Exiv2 {
             throw Error(58);
         }
         if ( !isize ) {
-        	v->read(pData, size, byteOrder());
+            v->read(pData, size, byteOrder());
         } else {
-        	// #1143 Write a "hollow" buffer for the preview image
-        	//       Sadly: we don't know the exact location of the image in the source (it's near offset)
-        	//       And neither TiffReader nor TiffEntryBase have access to the BasicIo object being processed
-        	byte* buffer = (byte*) ::malloc(isize);
-        	::memset(buffer,0,isize);
-        	v->read(buffer,isize, byteOrder());
-        	::free(buffer);
+            // #1143 Write a "hollow" buffer for the preview image
+            //       Sadly: we don't know the exact location of the image in the source (it's near offset)
+            //       And neither TiffReader nor TiffEntryBase have access to the BasicIo object being processed
+            byte* buffer = (byte*) ::malloc(isize);
+            ::memset(buffer,0,isize);
+            v->read(buffer,isize, byteOrder());
+            ::free(buffer);
         }
 
         object->setValue(v);

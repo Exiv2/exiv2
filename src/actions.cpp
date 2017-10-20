@@ -344,7 +344,7 @@ namespace Action {
         // Get if from FNumber and, failing that, try ApertureValue
         {
             printLabel(_("Aperture"));
-            bool done = false;
+            done = false;
             if (!done) {
                 done = 0 != printTag(exifData, "Exif.Photo.FNumber");
             }
@@ -383,7 +383,7 @@ namespace Action {
         // Subject distance
         {
             printLabel(_("Subject distance"));
-            bool done = false;
+            done = false;
             if (!done) {
                 done = 0 != printTag(exifData, "Exif.Photo.SubjectDistance");
             }
@@ -452,13 +452,13 @@ namespace Action {
             std::cout << _("None");
         }
         else {
-            Exiv2::DataBuf buf = exifThumb.copy();
-            if (buf.size_ == 0) {
+            Exiv2::DataBuf bufThumb = exifThumb.copy();
+            if (bufThumb.size_ == 0) {
                 std::cout << _("None");
             }
             else {
                 std::cout << exifThumb.mimeType() << ", "
-                          << buf.size_ << " " << _("Bytes");
+                          << bufThumb.size_ << " " << _("Bytes");
             }
         }
         std::cout << std::endl;

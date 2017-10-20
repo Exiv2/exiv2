@@ -2490,21 +2490,21 @@ fmountlens[] = {
 #endif
 // 8< - - - 8< do not remove this line >8 - - - >8
 
-	/* if no meta obj is provided, try to use the value param that *may*
-	 * be the pre-parsed lensid
-	 */
+    /* if no meta obj is provided, try to use the value param that *may*
+     * be the pre-parsed lensid
+     */
         if (metadata == 0)
         {
-            const unsigned char  vid = (unsigned)value.toLong(0);
+            const unsigned char  vid = static_cast<unsigned char>(value.toLong(0));
 
-	    /* the 'FMntLens' name is added to the annonymous struct for
-	     * fmountlens[]
-	     *
-	     * remember to name the struct when importing/updating the lens info
-	     * from:
-	     *
-	     * www.rottmerhusen.com/objektives/lensid/files/c-header/fmountlens4.h
-	     */
+        /* the 'FMntLens' name is added to the annonymous struct for
+         * fmountlens[]
+         *
+         * remember to name the struct when importing/updating the lens info
+         * from:
+         *
+         * www.rottmerhusen.com/objektives/lensid/files/c-header/fmountlens4.h
+         */
             const struct FMntLens*  pf = fmountlens;
             while (pf->lid && pf->lensname) {
                 if (pf->lid == vid) {
@@ -2736,8 +2736,8 @@ fmountlens[] = {
         std::ostringstream oss;
         oss.copyfmt(os);
         char sign = value.toLong() < 0 ? '-' : '+';
-        long h    = long(std::abs( (int) (value.toFloat()/60.0)  ))%24;
-        long min  = long(std::abs( (int) (value.toFloat()-h*60)  ))%60;
+        long h    = long(std::abs( (int) (value.toFloat()/60.0f)  ))%24;
+        long min  = long(std::abs( (int) (value.toFloat()-h*60.0f)  ))%60;
         os << std::fixed << "UTC " << sign << std::setw(2) << std::setfill('0') << h << ":"
            << std::setw(2) << std::setfill('0') << min;
         os.copyfmt(oss);

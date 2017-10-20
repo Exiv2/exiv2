@@ -454,7 +454,7 @@ namespace Exiv2 {
                     if ( option == kpsRecursive && (tag == 0x8769 /* ExifTag */ || tag == 0x014a/*SubIFDs*/  || type == tiffIfd) ) {
                         for ( size_t k = 0 ; k < count ; k++ ) {
                             size_t   restore = io.tell();
-                            uint32_t offset = byteSwap4(buf,k*size,bSwap);
+                            offset = byteSwap4(buf,k*size,bSwap);
                             printIFDStructure(io,out,option,offset,bSwap,c,depth);
                             io.seek(restore,BasicIo::beg);
                         }
@@ -477,11 +477,11 @@ namespace Exiv2 {
                         bytes[jump]=0               ;
                         if ( ::strcmp("Nikon",chars) == 0 ) {
                             // tag is an embedded tiff
-                            byte* bytes=new byte[count-jump] ;  // allocate memory
-                            io.read(bytes,count-jump)        ;  // read
-                            MemIo memIo(bytes,count-jump)    ;  // create a file
+                            byte* bytesTag=new byte[count-jump] ;  // allocate memory
+                            io.read(bytesTag,count-jump)        ;  // read
+                            MemIo memIo(bytesTag,count-jump)    ;  // create a file
                             printTiffStructure(memIo,out,option,depth);
-                            delete[] bytes                   ;  // free
+                            delete[] bytesTag                   ;  // free
                         } else {
                             // tag is an IFD
                             io.seek(0,BasicIo::beg);  // position
@@ -1043,10 +1043,10 @@ namespace Exiv2 {
     {
         std::stringstream hexOutput;
 
-        unsigned long tl = (unsigned long)((size / 16) * 16);
-        unsigned long tl_offset = (unsigned long)(size - tl);
+        size_t tl = ((size / 16) * 16);
+        size_t tl_offset = (size - tl);
 
-        for (unsigned long loop = 0; loop < (unsigned long)size; loop++) {
+        for (size_t loop = 0; loop < size; loop++) {
             if (data[loop] < 16) {
                 hexOutput << "0";
             }
@@ -1057,7 +1057,7 @@ namespace Exiv2 {
             if ((loop % 16) == 15 || loop == (tl + tl_offset - 1)) {
                 int max = 15;
                 if (loop >= tl) {
-                    max = tl_offset - 1;
+                    max = static_cast<int>(tl_offset) - 1;
                     for (int offset = 0; offset < (int)(16 - tl_offset); offset++) {
                         if ((offset % 8) == 7) {
                             hexOutput << "  ";

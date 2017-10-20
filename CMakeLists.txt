@@ -48,6 +48,9 @@ option( EXIV2_BUILD_EXIV2_COMMAND     "Build exiv2 command-line executable"     
 option( EXIV2_BUILD_UNIT_TESTS        "Build unit tests"                                      OFF )
 option( BUILD_WITH_CCACHE             "Use ccache to speed up compile time"                   OFF )
 
+option( EXIV2_WARNINGS_AS_ERRORS      "Treat warnings as errors"                              OFF  )
+option( EXIV2_EXTRA_WARNINGS          "Add more sanity checks using compiler flags"           OFF  )
+
 if ( EXIV2_ENABLE_WEBREADY )
     set ( EXIV2_ENABLE_CURL ON )
     set ( EXIV2_ENABLE_CURL ON )
@@ -61,6 +64,7 @@ if( EXIV2_ENABLE_COMMERCIAL )
     set (EXIV2_ENABLE_NLS OFF)
 endif()
 
+set( EXTRA_COMPILE_FLAGS  " ")
 include(config/findDependencies.cmake)
 include(config/compilerFlags.cmake)
 include( config/generateConfigFile.cmake )

@@ -985,7 +985,7 @@ namespace Exiv2 {
         int wrote = sprintf(temp, "%04d%02d%02d",
                             date_.year, date_.month, date_.day);
         assert(wrote == 8);
-        std::memcpy(buf, temp, 8);
+        std::memcpy(buf, temp, wrote);
         return 8;
     }
 
@@ -1028,9 +1028,9 @@ namespace Exiv2 {
         tms.tm_mday = date_.day;
         tms.tm_mon = date_.month - 1;
         tms.tm_year = date_.year - 1900;
-        long l = static_cast<long>(std::mktime(&tms));
+        time_t l = std::mktime(&tms);
         ok_ = (l != -1);
-        return l;
+        return (long)l;
     }
 
     float DateValue::toFloat(long n) const
@@ -1163,7 +1163,7 @@ namespace Exiv2 {
                    plusMinus, abs(time_.tzHour), abs(time_.tzMinute));
 
         assert(wrote == 11);
-        std::memcpy(buf, temp, 11);
+        std::memcpy(buf, temp, wrote);
         return 11;
     }
 
