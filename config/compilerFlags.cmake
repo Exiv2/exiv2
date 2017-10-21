@@ -1,12 +1,73 @@
 if ( MINGW OR UNIX ) # MINGW, Linux, APPLE, CYGWIN
     if (${CMAKE_CXX_COMPILER_ID} STREQUAL GNU)
-        set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wall -Wcast-align -Wpointer-arith -Wformat-security -Wmissing-format-attribute -Woverloaded-virtual -W")
+        set(COMPILER_IS_GCC ON)
+    elseif (${CMAKE_CXX_COMPILER_ID} MATCHES "Clang")
+        set(COMPILER_IS_CLANG ON)
     endif()
 
-    if ( CYGWIN OR (CMAKE_CXX_COMPILER_VERSION VERSION_GREATER 5.0))
-        set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=gnu++98") # to support snprintf
-    else()
-        set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++98")
+    if (COMPILER_IS_GCC OR COMPILER_IS_CLANG)
+        set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wall -Wcast-align -Wpointer-arith -Wformat-security -Wmissing-format-attribute -Woverloaded-virtual -W")
+
+        if ( CYGWIN OR (CMAKE_CXX_COMPILER_VERSION VERSION_GREATER 5.0))
+            set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=gnu++98") # to support snprintf
+        else()
+            set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++98")
+        endif()
+
+        if ( EXIV2_TEAM_WARNINGS_AS_ERRORS )
+            set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Werror")
+        endif ()
+
+        if ( EXIV2_TEAM_EXTRA_WARNINGS )
+            # Note that this is intended to be used only by Exiv2 developers/contributors.
+
+            if ( COMPILER_IS_GCC )
+                if ( CMAKE_CXX_COMPILER_VERSION VERSION_GREATER 4.0 )
+                    string(CONCAT EXTRA_COMPILE_FLAGS ${EXTRA_COMPILE_FLAGS}
+                        " -Wextra"
+                        " -Wlogical-op"
+                        " -Wdouble-promotion"
+                        " -Wshadow"
+                        " -Wuseless-cast"
+                        #" -Wold-style-cast"
+                    )
+                endif ()
+
+                if ( CMAKE_CXX_COMPILER_VERSION VERSION_GREATER 6.0 )
+                    string(CONCAT EXTRA_COMPILE_FLAGS ${EXTRA_COMPILE_FLAGS}
+                        " -Wduplicated-cond"
+                    )
+                endif ()
+
+                if ( CMAKE_CXX_COMPILER_VERSION VERSION_GREATER 7.0 )
+                    string(CONCAT EXTRA_COMPILE_FLAGS ${EXTRA_COMPILE_FLAGS}
+                        " -Wduplicated-branches"
+                        " -Wrestrict"
+                    )
+                endif ()
+            endif ()
+
+            if ( COMPILER_IS_CLANG )
+                # https://clang.llvm.org/docs/DiagnosticsReference.html
+                # These variables are at least available since clang 3.9.1
+                string(CONCAT EXTRA_COMPILE_FLAGS "-Wextra" 
+                    " -Wdouble-promotion"
+                    " -Wshadow"
+                    " -Wassign-enum"
+                    " -Wmicrosoft"
+                    " -Wcomma"
+                    " -Wcomments"
+                    " -Wconditional-uninitialized"
+                    " -Wdirect-ivar-access"
+                    " -Weffc++"
+                    # These two raises lot of warnings. Use them wisely
+                    #" -Wconversion"
+                    #" -Wold-style-cast"
+                )
+            endif ()
+
+
+        endif ()
     endif()
 
 endif ()
@@ -62,5 +123,16 @@ if(MSVC)
     #  - http://www.zachburlingame.com/2011/05/resolving-redefinition-errors-betwen-ws2def-h-and-winsock-h/
     #  - https://stackoverflow.com/questions/11040133/what-does-defining-win32-lean-and-mean-exclude-exactly
     add_definitions(-DWIN32_LEAN_AND_MEAN)
+
+    if ( EXIV2_WARNINGS_AS_ERRORS )
+        set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} /WX")
+        set(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} /WX")
+        set(CMAKE_MODULE_LINKER_FLAGS "${CMAKE_MODULE_LINKER_FLAGS} /WX")
+        set(CMAKE_SHARED_LINKER_FLAGS "${CMAKE_SHARED_LINKER_FLAGS} /WX")
+    endif ()
+
+    if ( EXIV2_EXTRA_WARNINGS )
+        string(REGEX REPLACE "/W[0-4]" "/W4" CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS}")
+    endif ()
 
 endif()

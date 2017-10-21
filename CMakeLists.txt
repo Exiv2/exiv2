@@ -42,11 +42,24 @@ option( EXIV2_ENABLE_DYNAMIC_RUNTIME  "Use dynamic runtime (used for static libs
 option( EXIV2_ENABLE_WIN_UNICODE      "Use Unicode paths (wstring) on Windows"                OFF )
 option( EXIV2_ENABLE_CURL             "USE Libcurl for HttpIo"                                OFF )
 option( EXIV2_ENABLE_SSH              "USE Libssh for SshIo"                                  OFF )
+
 option( EXIV2_BUILD_SAMPLES           "Build sample applications"                             ON  )
 option( EXIV2_BUILD_PO                "Build translations files"                              OFF )
 option( EXIV2_BUILD_EXIV2_COMMAND     "Build exiv2 command-line executable"                   ON  )
 option( EXIV2_BUILD_UNIT_TESTS        "Build unit tests"                                      OFF )
-option( BUILD_WITH_CCACHE             "Use ccache to speed up compile time"                   OFF )
+
+# Only intended to be used by Exiv2 developers/contributors
+option( EXIV2_TEAM_EXTRA_WARNINGS     "Add more sanity checks using compiler flags"           OFF )
+option( EXIV2_TEAM_WARNINGS_AS_ERRORS "Treat warnings as errors"                              OFF )
+set(EXTRA_COMPILE_FLAGS " ")
+
+mark_as_advanced(
+    EXIV2_TEAM_EXTRA_WARNINGS 
+    EXIV2_TEAM_WARNINGS_AS_ERRORS
+    EXTRA_COMPILE_FLAGS
+)
+
+option( BUILD_WITH_CCACHE             "Use ccache to speed up compilations"                   OFF )
 
 if ( EXIV2_ENABLE_WEBREADY )
     set ( EXIV2_ENABLE_CURL ON )
