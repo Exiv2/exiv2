@@ -249,12 +249,15 @@ namespace Action {
             case Params::pmRecursive: rc = printStructure(std::cout,Exiv2::kpsRecursive) ; break;
 
             case Params::pmXMP:
-                 option = option == Exiv2::kpsNone ? Exiv2::kpsXMP        : option;  // drop
-            case Params::pmIccProfile:{
-                 option = option == Exiv2::kpsNone ? Exiv2::kpsIccProfile : option;
-                 _setmode(_fileno(stdout),O_BINARY);
-                 rc = printStructure(std::cout,option);
-            } break;
+                if (option == Exiv2::kpsNone)
+                    option = Exiv2::kpsXMP;
+                // drop
+            case Params::pmIccProfile:
+                if (option == Exiv2::kpsNone)
+                    option = Exiv2::kpsIccProfile;
+                _setmode(_fileno(stdout),O_BINARY);
+                rc = printStructure(std::cout,option);
+                break;
         }
         return rc;
     }
