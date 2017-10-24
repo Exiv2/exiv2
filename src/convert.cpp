@@ -1498,7 +1498,7 @@ namespace {
     typedef bool (*ConvFct)(std::string& str);
 
     struct ConvFctList {
-        bool operator==(std::pair<const char*, const char*> fromTo) const
+        bool operator==(const std::pair<const char*, const char*> &fromTo) const
             { return 0 == strcmp(from_, fromTo.first) && 0 == strcmp(to_, fromTo.second); }
         const char* from_;
         const char* to_;
