@@ -1817,14 +1817,14 @@ namespace Exiv2 {
     {
         ExifKey key("Exif.CanonCs.Lens");
         ExifData::const_iterator pos = metadata->findKey(key);
-        ltfl.focalLengthMin_ = 0.0;
-        ltfl.focalLengthMax_ = 0.0;
+        ltfl.focalLengthMin_ = 0.0f;
+        ltfl.focalLengthMax_ = 0.0f;
         if (pos != metadata->end()) {
             const Value &value = pos->value();
             if (   value.count() >= 3
                 && value.typeId() == unsignedShort) {
                 float fu = value.toFloat(2);
-                if (fu != 0.0) {
+                if (fu != 0.0f) {
                     ltfl.focalLengthMin_ = value.toLong(1) / fu;
                     ltfl.focalLengthMax_ = value.toLong(0) / fu;
                 }
