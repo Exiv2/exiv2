@@ -456,14 +456,17 @@ namespace Exiv2
             throw Error(15);
         }
 
-        out << "STRUCTURE OF JPEG2000 FILE: " << io_->path() << std::endl;
-        out << " address |   length | box       | data" << std::endl ;
-
         bool bPrint     = option == kpsBasic || option==kpsRecursive;
         bool bRecursive = option == kpsRecursive;
         bool bICC       = option == kpsIccProfile;
         bool bXMP       = option == kpsXMP;
         bool bIPTCErase = option == kpsIptcErase;
+
+        if ( bPrint ) {
+            out << "STRUCTURE OF JPEG2000 FILE: " << io_->path() << std::endl;
+            out << " address |   length | box       | data" << std::endl ;
+        }
+
         if ( bPrint || bXMP || bICC || bIPTCErase ) {
 
             long              position  = 0;
