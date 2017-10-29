@@ -702,7 +702,7 @@ source ./functions.source
     copyTestFile                      $filename
     runTest exiv2                     $filename
 
-    num=g54
+    num=g56
     printf "$num " >&3
     filename=POC9
     echo '------>' Bug $filename '<-------' >&2
@@ -761,6 +761,13 @@ source ./functions.source
     num=g76
     printf "$num " >&3
     filename=010_bad_free
+    echo '------>' Bug $filename '<-------' >&2
+    copyTestFile                      $filename
+    runTest exiv2                     $filename
+
+    num=g54
+    printf "$num " >&3
+    filename=POC7
     echo '------>' Bug $filename '<-------' >&2
     copyTestFile                      $filename
     runTest exiv2                     $filename
