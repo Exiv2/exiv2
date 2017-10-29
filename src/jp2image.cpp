@@ -520,9 +520,9 @@ namespace Exiv2
                                 if ( bPrint ) {
                                     out << " | iccLength:" << iccLength ;
                                 }
-
-                                DataBuf icc(iccLength);
-                                if ( bICC ) out.write((const char*)icc.pData_,icc.size_);
+                                if ( bICC ) {
+                                    out.write((const char*)data.pData_+pad,iccLength);
+                                }
                             }
                             lf(out,bLF);
                         }
