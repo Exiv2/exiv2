@@ -502,7 +502,7 @@ namespace Exiv2
                             io_->read(data.pData_,data.size_);
                             if ( bPrint ) {
                                 out << Internal::stringFormat("%8ld | %8ld |  sub:",address,subBox.length) << toAscii(subBox.type)
-                                    <<" | " << Internal::binaryToString(data,30,0);
+                                <<" | " << Internal::binaryToString(data,30,0);
                                 bLF = true;
                             }
 
@@ -533,6 +533,7 @@ namespace Exiv2
                             bool    bIsExif = memcmp(uuid.uuid, kJp2UuidExif, sizeof(uuid))==0;
                             bool    bIsIPTC = memcmp(uuid.uuid, kJp2UuidIptc, sizeof(uuid))==0;
                             bool    bIsXMP  = memcmp(uuid.uuid, kJp2UuidXmp , sizeof(uuid))==0;
+
                             bool    bUnknown= ! (bIsExif || bIsIPTC || bIsXMP);
 
                             if ( bPrint ) {
@@ -569,7 +570,7 @@ namespace Exiv2
                                 IptcData::printStructure(out,rawData.pData_,rawData.size_,depth);
                             }
 
-                            if(bIsXMP && bXMP )
+                            if( bIsXMP && bXMP )
                             {
                                 out.write((const char*)rawData.pData_,rawData.size_);
                             }
