@@ -772,6 +772,14 @@ source ./functions.source
     copyTestFile                      $filename
     runTest exiv2                     $filename
 
+    num=g134
+    printf "$num " >&3
+    filename=004-heap-buffer-over
+    echo '------>' Bug $filename '<-------' >&2
+    copyTestFile                      $filename
+    runTest exiv2                     $filename
+
+
 ) 3>&1 > $results 2>&1
 
 printf "\n"
