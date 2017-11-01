@@ -115,11 +115,6 @@ if(MSVC)
         set(CMAKE_EXE_LINKER_FLAGS_RELWITHDEBINFO "/NODEFAULTLIB:MSVCRT")
     endif()
 
-    # Resolving Redefinition Errors Betwen ws2def.h and winsock.h:
-    #  - http://www.zachburlingame.com/2011/05/resolving-redefinition-errors-betwen-ws2def-h-and-winsock-h/
-    #  - https://stackoverflow.com/questions/11040133/what-does-defining-win32-lean-and-mean-exclude-exactly
-    add_definitions(-DWIN32_LEAN_AND_MEAN)
-
     if ( EXIV2_WARNINGS_AS_ERRORS )
         set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} /WX")
         set(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} /WX")
