@@ -29,6 +29,9 @@ if ( MINGW OR UNIX ) # MINGW, Linux, APPLE, CYGWIN
                         " -Wdouble-promotion"
                         " -Wshadow"
                         " -Wuseless-cast"
+                        " -Wpointer-arith" # This warning is also enabled by -Wpedantic
+                        " -Wformat=2"
+                        " -Warray-bounds=2"
                         #" -Wold-style-cast"
                     )
                 endif ()
@@ -60,6 +63,9 @@ if ( MINGW OR UNIX ) # MINGW, Linux, APPLE, CYGWIN
                     " -Wconditional-uninitialized"
                     " -Wdirect-ivar-access"
                     " -Weffc++"
+                    " -Wpointer-arith"
+                    " -Wformat=2"
+                    #" -Warray-bounds" # Enabled by default
                     # These two raises lot of warnings. Use them wisely
                     #" -Wconversion"
                     #" -Wold-style-cast"
