@@ -6,10 +6,6 @@
 # Redistribution and use is allowed according to the terms of the BSD license.
 # For details see the accompanying COPYING-CMAKE-SCRIPTS file.
 
-if ( NOT MSVC )
-    set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin)
-endif()
-
 # Private headers which are only needed for the library itself
 SET( LIBEXIV2_PRIVATE_HDR canonmn_int.hpp
                           casiomn_int.hpp
@@ -310,7 +306,11 @@ IF (CYGWIN OR MINGW)
     TARGET_LINK_LIBRARIES( exiv2lib ${PRIVATE_VAR}  psapi ws2_32 )
 ENDIF(CYGWIN OR MINGW)
 
-INSTALL( TARGETS exiv2lib ${INSTALL_TARGET_STANDARD_ARGS} )
+INSTALL(TARGETS exiv2lib
+    RUNTIME DESTINATION ${CMAKE_INSTALL_BINDIR}
+    LIBRARY DESTINATION ${CMAKE_INSTALL_LIBDIR}
+    ARCHIVE DESTINATION ${CMAKE_INSTALL_LIBDIR}
+)
 
 include(../CMake_msvc.txt)
 msvc_runtime_configure(${EXIV2_ENABLE_SHARED} ${EXIV2_ENABLE_DYNAMIC_RUNTIME})
@@ -319,7 +319,7 @@ msvc_runtime_configure(${EXIV2_ENABLE_SHARED} ${EXIV2_ENABLE_DYNAMIC_RUNTIME})
 # exiv2 application
 ADD_EXECUTABLE( exiv2 ${EXIV2_SRC}  ${EXIV2_HDR} )
 TARGET_LINK_LIBRARIES( exiv2 exiv2lib ${LIBINTL_LIBRARIES} )
-INSTALL( TARGETS exiv2 ${INSTALL_TARGET_STANDARD_ARGS} )
+INSTALL( TARGETS exiv2 RUNTIME DESTINATION ${CMAKE_INSTALL_BINDIR})
 
 # ******************************************************************************
 # connection test application

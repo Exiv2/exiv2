@@ -5,10 +5,6 @@
 # Redistribution and use is allowed according to the terms of the BSD license.
 # For details see the accompanying COPYING-CMAKE-SCRIPTS file.
 
-if ( NOT MSVC )
-	set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin)
-endif()
-
 include_directories("${CMAKE_SOURCE_DIR}/include" "${CMAKE_SOURCE_DIR}/src")
 
 SET( SAMPLES addmoddel.cpp
@@ -49,7 +45,7 @@ FOREACH(entry ${SAMPLES})
     ADD_EXECUTABLE( ${target} ${target}.cpp )
     ADD_TEST( ${target}_test ${target} )
     TARGET_LINK_LIBRARIES( ${target} ${PRIVATE_VAR} exiv2lib Threads::Threads ${EXPAT_LIBRARIES})
-    INSTALL( TARGETS ${target} ${INSTALL_TARGET_STANDARD_ARGS} )
+    INSTALL( TARGETS ${target} RUNTIME DESTINATION ${CMAKE_INSTALL_BINDIR})
 ENDFOREACH(entry ${SAMPLES})
 
 ###################################
@@ -62,25 +58,25 @@ ENDIF( MSVC )
 SET( MC_SRC ${MC_SRC} metacopy.cpp ../src/utils.cpp )
 ADD_EXECUTABLE( metacopy ${MC_SRC} )
 TARGET_LINK_LIBRARIES( metacopy ${PRIVATE_VAR} exiv2lib Threads::Threads ${EXPAT_LIBRARIES} ${ZLIB_LIBRARIES})
-INSTALL( TARGETS metacopy ${INSTALL_TARGET_STANDARD_ARGS} )
+INSTALL( TARGETS metacopy RUNTIME DESTINATION ${CMAKE_INSTALL_BINDIR})
 
 SET   ( PATHTEST_SRC             ${PATHTEST_SRC}  path-test.cpp ../src/utils.cpp )
 ADD_EXECUTABLE       ( pathtest  ${PATHTEST_SRC} )
 SET_TARGET_PROPERTIES( pathtest  PROPERTIES OUTPUT_NAME path-test )
 TARGET_LINK_LIBRARIES( pathtest  ${PRIVATE_VAR} exiv2lib Threads::Threads ${EXPAT_LIBRARIES} ${ZLIB_LIBRARIES})
-INSTALL      ( TARGETS pathtest  ${INSTALL_TARGET_STANDARD_ARGS} )
+INSTALL      ( TARGETS pathtest  RUNTIME DESTINATION ${CMAKE_INSTALL_BINDIR})
 
 SET( EXIV2JSON_SRC     exiv2json.cpp Jzon.cpp )
 ADD_EXECUTABLE(        exiv2json ${EXIV2JSON_SRC} )
 SET_TARGET_PROPERTIES( exiv2json PROPERTIES OUTPUT_NAME exiv2json )
 TARGET_LINK_LIBRARIES( exiv2json ${PRIVATE_VAR} ${PRIVATE_VAR} exiv2lib Threads::Threads ${EXPAT_LIBRARIES} ${ZLIB_LIBRARIES})
-INSTALL( TARGETS       exiv2json ${INSTALL_TARGET_STANDARD_ARGS} )
+INSTALL( TARGETS       exiv2json RUNTIME DESTINATION ${CMAKE_INSTALL_BINDIR})
 
 SET( GEOTAG_SRC        geotag.cpp )
 ADD_EXECUTABLE(        geotag    ${GEOTAG_SRC} )
 SET_TARGET_PROPERTIES( geotag    PROPERTIES OUTPUT_NAME geotag )
 TARGET_LINK_LIBRARIES( geotag    ${PRIVATE_VAR} exiv2lib Threads::Threads ${EXPAT_LIBRARIES} ${ZLIB_LIBRARIES})
-INSTALL( TARGETS       geotag    ${INSTALL_TARGET_STANDARD_ARGS} )
+INSTALL( TARGETS       geotag    RUNTIME DESTINATION ${CMAKE_INSTALL_BINDIR})
 
 # ******************************************************************************
 # Man page
