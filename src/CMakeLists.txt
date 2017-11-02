@@ -171,6 +171,7 @@ set_target_properties( exiv2lib PROPERTIES
     VERSION       ${GENERIC_LIB_VERSION}
     SOVERSION     ${GENERIC_LIB_SOVERSION}
     OUTPUT_NAME   exiv2
+    COMPILE_FLAGS ${EXTRA_COMPILE_FLAGS}
 )
 
 target_compile_definitions(exiv2lib PRIVATE EXV_LOCALEDIR="${CMAKE_INSTALL_LOCALEDIR}" EXV_BUILDING_LIB )
@@ -286,6 +287,10 @@ set( EXIV2_SRC
 
 if(EXIV2_BUILD_EXIV2_COMMAND)
     add_executable( exiv2 ${EXIV2_SRC} )
+    set_target_properties( exiv2 PROPERTIES
+        COMPILE_FLAGS ${EXTRA_COMPILE_FLAGS}
+    )
+
     target_compile_definitions(exiv2 PRIVATE EXV_LOCALEDIR="${CMAKE_INSTALL_LOCALEDIR}" )
     target_link_libraries( exiv2 PRIVATE exiv2lib )
     if ( BUILD_SHARED_LIBS )
