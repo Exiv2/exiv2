@@ -131,7 +131,7 @@ namespace Exiv2 {
             copyIptcToXmp(iptcData_, xmpData_);
 
             // #1112 - restore dates if they lost their TZ info
-            for ( Exiv2::Dictionary_i it = dates_.begin() ; it != dates_.end() ; it++) {
+            for ( Exiv2::Dictionary_i it = dates_.begin() ; it != dates_.end() ; ++it ) {
             	std::string   sKey = it->first;
             	Exiv2::XmpKey key(sKey);
             	if ( xmpData_.findKey(key) != xmpData_.end() ) {

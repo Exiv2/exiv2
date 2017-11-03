@@ -411,12 +411,12 @@ namespace Exiv2 {
             iterator_t userEnd   = std::find(authStart, authEnd, ':');
             if (userEnd != authEnd) {
                 result.Username = std::string(userStart, userEnd);
-                userEnd++;
+                ++userEnd;
                 result.Password = std::string(userEnd, authEnd);
             } else {
                 result.Username = std::string(authStart, authEnd);
             }
-            authEnd++;
+            ++authEnd;
         } else {
           authEnd = protocolEnd;
         }
@@ -434,7 +434,7 @@ namespace Exiv2 {
         // port
         if ((hostEnd != uriEnd) && ((&*(hostEnd))[0] == ':'))  // we have a port
         {
-            hostEnd++;
+            ++hostEnd;
             iterator_t portEnd = (pathStart != uriEnd) ? pathStart : queryStart;
             result.Port = std::string(hostEnd, portEnd);
         }

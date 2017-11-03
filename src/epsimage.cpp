@@ -704,7 +704,7 @@ namespace {
                 findXmp(posOtherXmp, sizeOtherXmp, data, posOtherXmp + sizeOtherXmp, posEndPageSetup, write);
                 if (posOtherXmp >= posEndPageSetup) break;
                 bool isRemovableEmbedding = false;
-                for (std::vector<std::pair<size_t, size_t> >::const_iterator e = removableEmbeddings.begin(); e != removableEmbeddings.end(); e++) {
+                for (std::vector<std::pair<size_t, size_t> >::const_iterator e = removableEmbeddings.begin(); e != removableEmbeddings.end(); ++e) {
                     if (e->first <= posOtherXmp && posOtherXmp < e->second) {
                         isRemovableEmbedding = true;
                         break;
@@ -834,7 +834,7 @@ namespace {
             if (useFlexibleEmbedding) {
                 positions.push_back(xmpPos);
             }
-            for (std::vector<std::pair<size_t, size_t> >::const_iterator e = removableEmbeddings.begin(); e != removableEmbeddings.end(); e++) {
+            for (std::vector<std::pair<size_t, size_t> >::const_iterator e = removableEmbeddings.begin(); e != removableEmbeddings.end(); ++e) {
                 positions.push_back(e->first);
             }
             std::sort(positions.begin(), positions.end());
@@ -848,7 +848,7 @@ namespace {
             const uint32_t posEpsNew = posTemp(*tempIo);
             size_t prevPos = posEps;
             size_t prevSkipPos = prevPos;
-            for (std::vector<size_t>::const_iterator i = positions.begin(); i != positions.end(); i++) {
+            for (std::vector<size_t>::const_iterator i = positions.begin(); i != positions.end(); ++i) {
                 const size_t pos = *i;
                 if (pos == prevPos) continue;
                 #ifdef DEBUG
@@ -951,7 +951,7 @@ namespace {
                 }
                 if (!useFlexibleEmbedding) {
                     // remove preceding embedding(s)
-                    for (std::vector<std::pair<size_t, size_t> >::const_iterator e = removableEmbeddings.begin(); e != removableEmbeddings.end(); e++) {
+                    for (std::vector<std::pair<size_t, size_t> >::const_iterator e = removableEmbeddings.begin(); e != removableEmbeddings.end(); ++e) {
                         if (pos == e->first) {
                             skipPos = e->second;
                             #ifdef DEBUG
