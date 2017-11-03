@@ -187,7 +187,7 @@ static Exiv2::Dictionary stringToDict(const std::string& s)
                 token += s[i];
         } else {
             result[token]=token;
-            token="";
+            token.clear();
         }
         i++;
     }
