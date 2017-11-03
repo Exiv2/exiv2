@@ -291,7 +291,7 @@ namespace Exiv2 {
     bool fileExists(const std::string& path, bool ct)
     {
         // special case: accept "-" (means stdin)
-        if (path.compare("-") == 0 || fileProtocol(path)) {
+        if (path.compare("-") == 0 || fileProtocol(path) != pFile) {
             return true;
         }
 
@@ -306,7 +306,7 @@ namespace Exiv2 {
     bool fileExists(const std::wstring& wpath, bool ct)
     {
         // special case: accept "-" (means stdin)
-        if (wpath.compare(L"-") == 0 || fileProtocol(wpath)) {
+        if (wpath.compare(L"-") == 0 || fileProtocol(wpath) != pFile) {
             return true;
         }
 
