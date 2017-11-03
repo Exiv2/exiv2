@@ -101,11 +101,11 @@ namespace Exiv2 {
             if (io_->error() || io_->eof()) throw Error(kerFailedToReadImageData);
             throw Error(kerNotAnImage, "RAF");
         }
-        bool bPrint = option==kpsBasic || option==kpsRecursive;
+        const bool bPrint = option==kpsBasic || option==kpsRecursive;
         if ( bPrint ) {
             io_->seek(0,BasicIo::beg); // rewind
 
-            if ( bPrint ) {
+            {
                 out << Internal::indent(depth)
                     << "STRUCTURE OF RAF FILE: "
                     << io().path()
@@ -118,7 +118,7 @@ namespace Exiv2 {
             byte magicdata [17];
             io_->read(magicdata, 16);
             magicdata[16] = 0;
-            if ( bPrint ) {
+            {
                 out << Internal::indent(depth)
                     << Internal::stringFormat("  %8u | %8u | ", 16, 0)
                     << "Magic number : "
@@ -129,7 +129,7 @@ namespace Exiv2 {
             byte data1 [5];
             io_->read(data1, 4);
             data1[4] = 0;
-            if ( bPrint ) {
+            {
                 out << Internal::indent(depth)
                     << Internal::stringFormat("  %8u | %8u | ", 4, 16)
                     << "data 1 : "
@@ -140,7 +140,7 @@ namespace Exiv2 {
             byte data2 [9];
             io_->read(data2, 8);
             data2[8] = 0;
-            if ( bPrint ) {
+            {
                 out << Internal::indent(depth)
                     << Internal::stringFormat("  %8u | %8u | ", 8, 20)
                     << "data 2 : "
@@ -151,7 +151,7 @@ namespace Exiv2 {
             byte camdata [33];
             io_->read(camdata, 32);
             camdata[32] = 0;
-            if ( bPrint ) {
+            {
                 out << Internal::indent(depth)
                     << Internal::stringFormat("  %8u | %8u | ", 32, 28)
                     << "camera : "
@@ -162,7 +162,7 @@ namespace Exiv2 {
             byte dir_version [5];
             io_->read(dir_version, 4);
             dir_version[4] = 0;
-            if ( bPrint ) {
+            {
                 out << Internal::indent(depth)
                     << Internal::stringFormat("  %8u | %8u | ", 4, 60)
                     << "dir version : "
@@ -183,7 +183,7 @@ namespace Exiv2 {
             std::stringstream j_len;
             j_off << jpg_img_off;
             j_len << jpg_img_len;
-            if ( bPrint ) {
+            {
                 out << Internal::indent(depth)
                     << Internal::stringFormat("  %8u | %8u | ", 4, 84)
                     << "JPEG Image Offset : "
@@ -206,7 +206,7 @@ namespace Exiv2 {
             std::stringstream ch_len;
             ch_off << cfa_hdr_off;
             ch_len << cfa_hdr_len;
-            if ( bPrint ) {
+            {
                 out << Internal::indent(depth)
                     << Internal::stringFormat("  %8u | %8u | ", 4, 92)
                     << "CFA Header Offset : "
@@ -229,7 +229,7 @@ namespace Exiv2 {
             std::stringstream c_len;
             c_off << cfa_off;
             c_len << cfa_len;
-            if ( bPrint ) {
+            {
                 out << Internal::indent(depth)
                     << Internal::stringFormat("  %8u | %8u | ", 4, 100)
                     << "CFA Offset : "
@@ -245,7 +245,7 @@ namespace Exiv2 {
             io_->seek(jpg_img_off, BasicIo::beg); // rewind
             DataBuf payload(16); // header is different from chunks
             io_->read(payload.pData_, payload.size_);
-            if ( bPrint ) {
+            {
                 out << Internal::indent(depth)
                     << Internal::stringFormat("  %8u | %8u | ", jpg_img_len, jpg_img_off)
                     << "jpg image / exif : "
@@ -255,7 +255,7 @@ namespace Exiv2 {
 
             io_->seek(cfa_hdr_off, BasicIo::beg); // rewind
             io_->read(payload.pData_, payload.size_);
-            if ( bPrint ) {
+            {
                 out << Internal::indent(depth)
                     << Internal::stringFormat("  %8u | %8u | ", cfa_hdr_len, cfa_hdr_off)
                     << "CFA Header: "
@@ -265,7 +265,7 @@ namespace Exiv2 {
 
             io_->seek(cfa_off, BasicIo::beg); // rewind
             io_->read(payload.pData_, payload.size_);
-            if ( bPrint ) {
+            {
                 out << Internal::indent(depth)
                     << Internal::stringFormat("  %8u | %8u | ", cfa_len, cfa_off)
                     << "CFA : "
