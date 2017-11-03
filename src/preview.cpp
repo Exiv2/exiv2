@@ -524,22 +524,23 @@ namespace {
         : Loader(id, image)
     {
         offset_ = 0;
-        ExifData::const_iterator pos = image_.exifData().findKey(ExifKey(param_[parIdx].offsetKey_));
-        if (pos != image_.exifData().end() && pos->count() > 0) {
+		const ExifData &exifData = image_.exifData();
+        ExifData::const_iterator pos = exifData.findKey(ExifKey(param_[parIdx].offsetKey_));
+        if (pos != exifData.end() && pos->count() > 0) {
             offset_ = pos->toLong();
         }
 
         size_ = 0;
-        pos = image_.exifData().findKey(ExifKey(param_[parIdx].sizeKey_));
-        if (pos != image_.exifData().end() && pos->count() > 0) {
+        pos = exifData.findKey(ExifKey(param_[parIdx].sizeKey_));
+        if (pos != exifData.end() && pos->count() > 0) {
             size_ = pos->toLong();
         }
 
         if (offset_ == 0 || size_ == 0) return;
 
         if (param_[parIdx].baseOffsetKey_) {
-            pos = image_.exifData().findKey(ExifKey(param_[parIdx].baseOffsetKey_));
-            if (pos != image_.exifData().end() && pos->count() > 0) {
+            pos = exifData.findKey(ExifKey(param_[parIdx].baseOffsetKey_));
+            if (pos != exifData.end() && pos->count() > 0) {
                 offset_ += pos->toLong();
             }
         }
