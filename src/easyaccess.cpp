@@ -147,8 +147,7 @@ namespace Exiv2 {
         // ISO value (see EXIF 2.3 Annex G)
         long iso_tmp_val = -1;
         while (iso_tmp_val == -1 && (iso_val == 65535 || md == ed.end())) {
-            ExifData::const_iterator md_st = ed.end();
-            md_st = findMetadatum(ed, sensitivityType, 1);
+            ExifData::const_iterator md_st = findMetadatum(ed, sensitivityType, 1);
             // no SensitivityType? exit with existing data
             if (md_st == ed.end())
                 break;
