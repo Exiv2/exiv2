@@ -905,7 +905,7 @@ namespace Exiv2 {
 #endif
                 DataBuf buf = object->pValue()->dataArea();
                 memcpy(object->pDataArea_, buf.pData_, buf.size_);
-                if (object->sizeDataArea_ - buf.size_ > 0) {
+                if (object->sizeDataArea_ > static_cast<uint32_t>(buf.size_)) {
                     memset(object->pDataArea_ + buf.size_,
                            0x0, object->sizeDataArea_ - buf.size_);
                 }
