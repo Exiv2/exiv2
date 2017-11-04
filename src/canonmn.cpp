@@ -1641,39 +1641,37 @@ namespace Exiv2 {
 
     // Canon Time Info Tag
     const TagInfo CanonMakerNote::tagInfoTi_[] = {
-        TagInfo(0x0001, "TimeZone", N_("Time zone offset"), N_("Time zone offset in minutes"), canonTiId, makerTags, signedLong, 1, printValue),
-        TagInfo(0x0002, "TimeZoneCity", N_("Time zone city"), N_("Time zone city"), canonTiId, makerTags, signedLong, 1, EXV_PRINT_TAG(canonTimeZoneCity)),
-        TagInfo(0x0003, "DaylightSavings", N_("Daylight Savings"), N_("Daylight Saving Time"), canonTiId, makerTags, signedLong, 1, printValue),
-        TagInfo(0xffff, "(UnknownCanonTiTag)", "(UnknownCanonTiTag)", N_("Unknown Canon Time Info tag"), canonTiId, makerTags, signedLong, 1, printValue)
-    };
+        TagInfo(0x0001, "TimeZone", N_("Time zone offset"), N_("Time zone offset in minutes"), canonTiId, makerTags,
+                signedLong, 1, printValue),
+        TagInfo(0x0002, "TimeZoneCity", N_("Time zone city"), N_("Time zone city"), canonTiId, makerTags, signedLong, 1,
+                EXV_PRINT_TAG(canonTimeZoneCity)),
+        TagInfo(0x0003, "DaylightSavings", N_("Daylight Savings"), N_("Daylight Saving Time"), canonTiId, makerTags,
+                signedLong, 1, printValue),
+        TagInfo(0xffff, "(UnknownCanonTiTag)", "(UnknownCanonTiTag)", N_("Unknown Canon Time Info tag"), canonTiId,
+                makerTags, signedLong, 1, printValue)};
 
     const TagInfo* CanonMakerNote::tagListTi()
     {
         return tagInfoTi_;
     }
 
-    std::ostream& CanonMakerNote::printFiFileNumber(std::ostream& os,
-                                                    const Value& value,
-                                                    const ExifData* metadata)
+    std::ostream& CanonMakerNote::printFiFileNumber(std::ostream& os, const Value& value, const ExifData* metadata)
     {
-        std::ios::fmtflags f( os.flags() );
-        if (   !metadata || value.typeId() != unsignedLong
-            || value.count() == 0)
-        {
+        std::ios::fmtflags f(os.flags());
+        if (!metadata || value.typeId() != unsignedLong || value.count() == 0) {
             os << "(" << value << ")";
             os.flags(f);
             return os;
         }
 
         ExifData::const_iterator pos = metadata->findKey(ExifKey("Exif.Image.Model"));
-        if (pos == metadata->end()) return os << "(" << value << ")";
+        if (pos == metadata->end())
+            return os << "(" << value << ")";
 
         // Ported from Exiftool
         std::string model = pos->toString();
-        if (   model.find("20D") != std::string::npos
-            || model.find("350D") != std::string::npos
-            || model.substr(model.size() - 8, 8) == "REBEL XT"
-            || model.find("Kiss Digital N") != std::string::npos) {
+        if (model.find("20D") != std::string::npos || model.find("350D") != std::string::npos ||
+            model.substr(model.size() - 8, 8) == "REBEL XT" || model.find("Kiss Digital N") != std::string::npos) {
             uint32_t val = value.toLong();
             uint32_t dn = (val & 0xffc0) >> 6;
             uint32_t fn = ((val >> 16) & 0xff) + ((val & 0x3f) << 8);
@@ -1681,14 +1679,13 @@ namespace Exiv2 {
             os.flags(f);
             return os;
         }
-        if (   model.find("30D") != std::string::npos
-            || model.find("400D") != std::string::npos
-            || model.find("REBEL XTi") != std::string::npos
-            || model.find("Kiss Digital X") != std::string::npos
-            || model.find("K236") != std::string::npos) {
+        if (model.find("30D") != std::string::npos || model.find("400D") != std::string::npos ||
+            model.find("REBEL XTi") != std::string::npos || model.find("Kiss Digital X") != std::string::npos ||
+            model.find("K236") != std::string::npos) {
             uint32_t val = value.toLong();
             uint32_t dn = (val & 0xffc00) >> 10;
-            while (dn < 100) dn += 0x40;
+            while (dn < 100)
+                dn += 0x40;
             uint32_t fn = ((val & 0x3ff) << 4) + ((val >> 20) & 0x0f);
             os << std::dec << dn << "-" << std::setw(4) << std::setfill('0') << fn;
             os.flags(f);
@@ -1699,23 +1696,17 @@ namespace Exiv2 {
         return os << "(" << value << ")";
     }
 
-    std::ostream& CanonMakerNote::printFocalLength(std::ostream& os,
-                                                   const Value& value,
-                                                   const ExifData* metadata)
+    std::ostream& CanonMakerNote::printFocalLength(std::ostream& os, const Value& value, const ExifData* metadata)
     {
-        std::ios::fmtflags f( os.flags() );
-        if (   !metadata
-            || value.count() < 4
-            || value.typeId() != unsignedShort) {
+        std::ios::fmtflags f(os.flags());
+        if (!metadata || value.count() < 4 || value.typeId() != unsignedShort) {
             os.flags(f);
             return os << value;
         }
 
         ExifKey key("Exif.CanonCs.Lens");
         ExifData::const_iterator pos = metadata->findKey(key);
-        if (   pos != metadata->end()
-            && pos->value().count() >= 3
-            && pos->value().typeId() == unsignedShort) {
+        if (pos != metadata->end() && pos->value().count() >= 3 && pos->value().typeId() == unsignedShort) {
             float fu = pos->value().toFloat(2);
             if (fu != 0.0) {
                 float fl = value.toFloat(1) / fu;
