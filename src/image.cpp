@@ -998,6 +998,11 @@ namespace Exiv2 {
         size_t need = std::strlen(format);                 // initial guess
         int    rc   = -1;
 
+        // vsnprintf writes at most size (2nd parameter) bytes (including \0)
+        //           returns the number of bytes required for the formatted string excluding \0
+        // the following loop goes through:
+        // one iteration (if 'need' was large enough for the for formatted string)
+        // or two iterations (after the first call to vsnprintf we know the required length)
         do {
             buffer.resize(need + 1);
             va_list  args;                                 // variable arg list
