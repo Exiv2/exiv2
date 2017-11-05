@@ -994,26 +994,22 @@ namespace Exiv2 {
     std::string stringFormat(const char* format, ...)
     {
         std::string result;
+        std::vector<char> buffer;
+        size_t need = std::strlen(format);                 // initial guess
+        int    rc   = -1;
 
-        int     need   = (int) std::strlen(format)*2;          // initial guess
-        char*   buffer = NULL;
-        int     again  =    4;
-        int     rc     =   -1;
+        do {
+            buffer.resize(need + 1);
+            va_list  args;                                 // variable arg list
+            va_start(args, format);                        // args start after format
+            rc = vsnprintf(&buffer[0], buffer.size(), format, args);
+            va_end(args);                                  // free the args
+            if ( rc > 0 )
+                need = static_cast<size_t>(rc);
+        } while ( buffer.size() <= need );
 
-        while (rc < 0 && again--) {
-            if ( buffer ) delete[] buffer;
-            need  *= 2 ;
-            buffer = new char[need];
-            if ( buffer ) {
-                va_list  args;                                 // variable arg list
-                va_start(args, format);                        // args start after format
-                rc=vsnprintf(buffer,(unsigned int)need, format, args);
-                va_end(args);                                  // free the args
-            }
-        }
-
-        if ( rc > 0 ) result = std::string(buffer) ;
-        if ( buffer ) delete[] buffer;                         // free buffer
+        if ( rc > 0 )
+            result = std::string(&buffer[0], need);
         return result;
     }
 

@@ -1817,15 +1817,17 @@ namespace Exiv2 {
     {
         ExifKey key("Exif.CanonCs.Lens");
         ExifData::const_iterator pos = metadata->findKey(key);
-        ltfl.focalLengthMin_ = 0.0;
-        ltfl.focalLengthMax_ = 0.0;
-        if (   pos != metadata->end()
-            && pos->value().count() >= 3
-            && pos->value().typeId() == unsignedShort) {
-            float fu = pos->value().toFloat(2);
-            if (fu != 0.0) {
-                ltfl.focalLengthMin_ = pos->value().toLong(1) / fu;
-                ltfl.focalLengthMax_ = pos->value().toLong(0) / fu;
+        ltfl.focalLengthMin_ = 0.0f;
+        ltfl.focalLengthMax_ = 0.0f;
+        if (pos != metadata->end()) {
+            const Value &value = pos->value();
+            if (   value.count() >= 3
+                && value.typeId() == unsignedShort) {
+                float fu = value.toFloat(2);
+                if (fu != 0.0f) {
+                    ltfl.focalLengthMin_ = value.toLong(1) / fu;
+                    ltfl.focalLengthMax_ = value.toLong(0) / fu;
+                }
             }
         }
     }
@@ -1938,12 +1940,12 @@ namespace Exiv2 {
         if (   value.typeId() != unsignedShort
             || value.count() == 0) return os << "(" << value << ")";
 
-		// #1034
-		const std::string undefined("undefined") ;
-		const std::string section  ("canon");
-		if ( Internal::readExiv2Config(section,value.toString(),undefined) != undefined ) {
-			return os << Internal::readExiv2Config(section,value.toString(),undefined);
-		}
+        // #1034
+        const std::string undefined("undefined") ;
+        const std::string section  ("canon");
+        if ( Internal::readExiv2Config(section,value.toString(),undefined) != undefined ) {
+            return os << Internal::readExiv2Config(section,value.toString(),undefined);
+        }
 
         const LensIdFct* lif = find(lensIdFct, value.toLong());
         if (!lif) {

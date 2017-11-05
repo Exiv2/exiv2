@@ -230,7 +230,6 @@ namespace Exiv2 {
     std::ostream& CasioMakerNote::print0x0015(std::ostream& os, const Value& value, const ExifData*)
     {
         // format is:  "YYMM#00#00DDHH#00#00MM#00#00#00#00" or  "YYMM#00#00DDHH#00#00MMSS#00#00#00"
-        std::string s;
         std::vector<char> numbers;
         for(long i=0; i<value.size(); i++)
         {
@@ -550,7 +549,6 @@ namespace Exiv2 {
     std::ostream& Casio2MakerNote::print0x2001(std::ostream& os, const Value& value, const ExifData*)
     {
         // format is:  "YYMM#00#00DDHH#00#00MM#00#00#00#00"
-        std::string s;
         std::vector<char> numbers;
         for(long i=0; i<value.size(); i++)
         {

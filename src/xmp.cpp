@@ -478,7 +478,7 @@ namespace Exiv2 {
         out.erase(end_pos, out.end());
 
         bool bURI = out.find("http://") != std::string::npos   ;
-        bool bNS  = out.find(":") != std::string::npos && !bURI;
+        bool bNS  = out.find(':') != std::string::npos && !bURI;
 
         // pop trailing ':' on a namespace
         if ( bNS ) {
