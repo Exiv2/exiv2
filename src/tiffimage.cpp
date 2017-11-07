@@ -22,9 +22,6 @@
   File:      tiffimage.cpp
  */
 // *****************************************************************************
-#include "rcsid_int.hpp"
-EXIV2_RCSID("@(#) $Id$")
-
 // included header files
 #include "config.h"
 

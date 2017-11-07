@@ -25,9 +25,6 @@
   History:   7-Mar-2011, vog: created
  */
 // *****************************************************************************
-#include "rcsid_int.hpp"
-EXIV2_RCSID("@(#) $Id: epsimage.cpp $")
-
 // included header files
 #include "config.h"
 

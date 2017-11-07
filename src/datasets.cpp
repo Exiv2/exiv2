@@ -25,10 +25,6 @@
   History:   24-Jul-04, brad: created
  */
 // *****************************************************************************
-#include "rcsid_int.hpp"
-EXIV2_RCSID("@(#) $Id$")
-
-// *****************************************************************************
 // included header files
 #include "datasets.hpp"
 #include "error.hpp"

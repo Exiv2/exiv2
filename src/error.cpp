@@ -22,10 +22,6 @@
   File:      error.cpp
  */
 // *****************************************************************************
-#include "rcsid_int.hpp"
-EXIV2_RCSID("@(#) $Id$")
-
-// *****************************************************************************
 // included header files
 #include "error.hpp"
 #include "i18n.h"                // NLS support.

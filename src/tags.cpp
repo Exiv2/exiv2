@@ -26,10 +26,6 @@
              21-Jan-05, ahu: added MakerNote TagInfo registry and related code
  */
 // *****************************************************************************
-#include "rcsid_int.hpp"
-EXIV2_RCSID("@(#) $Id$")
-
-// *****************************************************************************
 // included header files
 #include "types.hpp"
 #include "tags.hpp"

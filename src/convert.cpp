@@ -26,10 +26,6 @@
              20-May-08, vn:  added actual conversion logic
  */
 // *****************************************************************************
-#include "rcsid_int.hpp"
-EXIV2_RCSID("@(#) $Id$")
-
-// *****************************************************************************
 // included header files
 #include "config.h"
 #include "types.hpp"

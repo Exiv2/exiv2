@@ -26,9 +26,6 @@
   @date    16-Aug-14, AB: created
  */
 // *****************************************************************************
-#include "rcsid_int.hpp"
-EXIV2_RCSID("@(#) $Id$")
-
 #ifdef EXV_ENABLE_VIDEO
 #include "utilsvideo.hpp"
 

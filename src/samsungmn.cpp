@@ -24,10 +24,6 @@
   History:   27-Sep-10, ahu: created
  */
 // *****************************************************************************
-#include "rcsid_int.hpp"
-EXIV2_RCSID("@(#) $Id$")
-
-// *****************************************************************************
 // included header files
 #include "types.hpp"
 #include "samsungmn_int.hpp"

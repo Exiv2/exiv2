@@ -24,9 +24,6 @@
 */
 
 // *****************************************************************************
-#include "rcsid_int.hpp"
-EXIV2_RCSID("@(#) $Id$")
-
 // #define DEBUG
 
 // included header files

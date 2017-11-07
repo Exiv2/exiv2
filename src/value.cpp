@@ -26,10 +26,6 @@
              31-Jul-04, brad: added Time, Date and String values
  */
 // *****************************************************************************
-#include "rcsid_int.hpp"
-EXIV2_RCSID("@(#) $Id$")
-
-// *****************************************************************************
 // included header files
 #include "value.hpp"
 #include "types.hpp"

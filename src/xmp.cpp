@@ -24,10 +24,6 @@
   History:   13-July-07, ahu: created
  */
 // *****************************************************************************
-#include "rcsid_int.hpp"
-EXIV2_RCSID("@(#) $Id$")
-
-// *****************************************************************************
 // included header files
 #include "xmp_exiv2.hpp"
 #include "types.hpp"

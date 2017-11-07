@@ -22,10 +22,6 @@
   File:      pentaxmn.cpp
  */
 // *****************************************************************************
-#include "rcsid_int.hpp"
-EXIV2_RCSID("@(#) $Id$")
-
-// *****************************************************************************
 // included header files
 #include "types.hpp"
 #include "pentaxmn_int.hpp"

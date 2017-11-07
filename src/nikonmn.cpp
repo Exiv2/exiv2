@@ -30,10 +30,6 @@
              25-May-04, ahu: combined all Nikon formats in one component
  */
 // *****************************************************************************
-#include "rcsid_int.hpp"
-EXIV2_RCSID("@(#) $Id$")
-
-// *****************************************************************************
 // included header files
 #include "types.hpp"
 #include "nikonmn_int.hpp"

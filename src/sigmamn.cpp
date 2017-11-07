@@ -27,10 +27,6 @@
              <http://www.x3f.info/technotes/FileDocs/MakerNoteDoc.html>
  */
 // *****************************************************************************
-#include "rcsid_int.hpp"
-EXIV2_RCSID("@(#) $Id$")
-
-// *****************************************************************************
 // included header files
 #include "types.hpp"
 #include "sigmamn_int.hpp"

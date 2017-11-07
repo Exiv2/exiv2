@@ -25,10 +25,6 @@
              11-Feb-04, ahu: isolated as a component
  */
 // *****************************************************************************
-#include "rcsid_int.hpp"
-EXIV2_RCSID("@(#) $Id$")
-
-// *****************************************************************************
 // included header files
 #include "types.hpp"
 #include "i18n.h"                               // for _exvGettext

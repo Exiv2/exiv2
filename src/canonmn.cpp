@@ -25,10 +25,6 @@
              Andi Clemens (ac) <andi.clemens@gmx.net>
  */
 // *****************************************************************************
-#include "rcsid_int.hpp"
-EXIV2_RCSID("@(#) $Id$")
-
-// *****************************************************************************
 // included header files
 #include "types.hpp"
 #include "makernote_int.hpp"

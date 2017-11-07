@@ -25,9 +25,6 @@
              02-Apr-05, ahu: moved to Exiv2 namespace
  */
 // *****************************************************************************
-#include "rcsid_int.hpp"
-EXIV2_RCSID("@(#) $Id$")
-
 // included header files
 #include "config.h"
 

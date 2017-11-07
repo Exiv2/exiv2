@@ -26,10 +26,6 @@
   Credits:   See header file
  */
 // *****************************************************************************
-#include "rcsid_int.hpp"
-EXIV2_RCSID("@(#) $Id$")
-
-// *****************************************************************************
 // included header files
 #include "types.hpp"
 #include "panasonicmn_int.hpp"

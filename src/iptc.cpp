@@ -24,10 +24,6 @@
   History:   31-July-04, brad: created
  */
 // *****************************************************************************
-#include "rcsid_int.hpp"
-EXIV2_RCSID("@(#) $Id$")
-
-// *****************************************************************************
 // included header files
 #include "iptc.hpp"
 #include "types.hpp"

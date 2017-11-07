@@ -24,10 +24,6 @@
   Credits:   See header file
  */
 // *****************************************************************************
-#include "rcsid_int.hpp"
-EXIV2_RCSID("@(#) $Id: Casiomn.cpp 3091 2013-07-24 05:15:04Z robinwmills $")
-
-// *****************************************************************************
 // included header files
 #include "types.hpp"
 #include "casiomn_int.hpp"

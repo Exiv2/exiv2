@@ -124,7 +124,6 @@ set( LIBEXIV2_PRIVATE_HDR canonmn_int.hpp
                           panasonicmn_int.hpp
                           pentaxmn_int.hpp
                           pngchunk_int.hpp
-                          rcsid_int.hpp
                           rw2image_int.hpp
                           samsungmn_int.hpp
                           sigmamn_int.hpp

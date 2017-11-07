@@ -26,10 +26,6 @@
              31-Jul-04, brad: isolated as a component
  */
 // *****************************************************************************
-#include "rcsid_int.hpp"
-EXIV2_RCSID("@(#) $Id$")
-
-// *****************************************************************************
 // included header files
 #include "metadatum.hpp"
 
