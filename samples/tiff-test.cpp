@@ -1,5 +1,5 @@
 // ***************************************************************** -*- C++ -*-
-// tiff-test.cpp, $Rev$
+// tiff-test.cpp
 // First and very simple TIFF write test.
 
 #include <exiv2/exiv2.hpp>

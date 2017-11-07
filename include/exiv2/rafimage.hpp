@@ -21,7 +21,6 @@
 /*!
   @file    rafimage.hpp
   @brief   Fujifilm RAW image
-  @version $Rev: 3090 $
   @author  Andreas Huggel (ahu)
            <a href="mailto:ahuggel@gmx.net">ahuggel@gmx.net</a>
   @date    05-Feb-07, ahu: created

@@ -20,7 +20,6 @@
  */
 /*
   File:    pgfimage.cpp
-  Version: $Rev$
   Author(s): Gilles Caulier (cgilles) <caulier dot gilles at gmail dot com>
   History: 16-Jun-09, gc: submitted
   Credits: See header file

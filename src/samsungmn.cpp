@@ -20,7 +20,6 @@
  */
 /*
   File:      samsungmn.cpp
-  Version:   $Rev$
   Author(s): Andreas Huggel (ahu) <ahuggel@gmx.net>
   History:   27-Sep-10, ahu: created
  */

@@ -23,7 +23,6 @@
   @brief   XMP property and type information.<BR>References:<BR>
   <a href="http://www.adobe.com/devnet/xmp/pdfs/xmp_specification.pdf">XMP Specification</a> from Adobe
   <I>(Property descriptions copied from the XMP specification with the permission of Adobe)</I>
-  @version $Rev: 3091 $
   @author  Andreas Huggel (ahu)
            <a href="mailto:ahuggel@gmx.net">ahuggel@gmx.net</a>
   @author  Gilles Caulier (cgilles)

@@ -21,7 +21,6 @@
 /*!
   @file    convert.hpp
   @brief   Exif and IPTC conversions to and from XMP
-  @version $Rev: 3091 $
   @author  Andreas Huggel (ahu)
            <a href="mailto:ahuggel@gmx.net">ahuggel@gmx.net</a><BR>
            Vladimir Nadvornik (vn)

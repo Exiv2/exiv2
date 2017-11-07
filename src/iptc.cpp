@@ -20,7 +20,6 @@
  */
 /*
   File:      iptc.cpp
-  Version:   $Rev$
   Author(s): Brad Schick (brad) <brad@robotbattle.com>
   History:   31-July-04, brad: created
  */

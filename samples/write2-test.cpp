@@ -3,7 +3,6 @@
   Abstract : ExifData write unit tests for Exif data created from scratch
 
   File     : write2-test.cpp
-  Version  : $Rev$
   Author(s): Andreas Huggel (ahu) <ahuggel@gmx.net>
   History  : 26-Jun-04, ahu: created
 

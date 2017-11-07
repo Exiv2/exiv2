@@ -23,7 +23,6 @@
   @brief   Canon makernote tags.<BR>References:<BR>
            [1] <a href="http://www.burren.cx/david/canon.html">EXIF MakerNote of Canon</a> by David Burren<br>
            [2] <a href="http://www.sno.phy.queensu.ca/~phil/exiftool/TagNames/Canon.html">Canon makernote tags</a> by Phil Harvey
-  @version $Rev$
   @author  <a href="mailto:ahuggel@gmx.net">Andreas Huggel (ahu)</a><br>
            <a href="mailto:david@edeca.net">David Cannings (dc)</a>
            <a href="mailto:andi.clemens@gmx.net">Andi Clemens (ac)</a>

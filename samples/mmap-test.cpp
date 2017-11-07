@@ -1,5 +1,5 @@
 // ***************************************************************** -*- C++ -*-
-// mmap-test.cpp, $Rev$
+// mmap-test.cpp
 // Simple mmap tests
 
 #include <exiv2/exiv2.hpp>

@@ -24,7 +24,6 @@
            http://www.gvsoft.homedns.org/exif/makernote-pentax-type3.html and
            based on ExifTool implementation and
            <a href="http://www.sno.phy.queensu.ca/~phil/exiftool/TagNames/Pentax.html">Pentax Makernote list</a> by Phil Harvey<br>
-  @version $Rev$
  */
 #ifndef PENTAXMN_INT_HPP_
 #define PENTAXMN_INT_HPP_

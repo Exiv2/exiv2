@@ -20,7 +20,6 @@
  */
 /*
   File:      preview.cpp
-  Version:   $Rev$
   Author(s): Vladimir Nadvornik (vn) <nadvornik@suse.cz>
   History:   18-Sep-08, vn: created
  */

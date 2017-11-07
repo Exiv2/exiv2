@@ -21,7 +21,6 @@
 /*!
   @file    rw2image_int.hpp
   @brief   Internal classes to support RW2 image format
-  @version $Rev$
   @author  Andreas Huggel (ahu)
            <a href="mailto:ahuggel@gmx.net">ahuggel@gmx.net</a>
   @date    06-Jan-09, ahu: created

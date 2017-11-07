@@ -20,7 +20,6 @@
  */
 /*
   File:      webpimage.cpp
-  Version:   $Rev: 4633 $
  */
 /*
   Google's WEBP container spec can be found at the link below:

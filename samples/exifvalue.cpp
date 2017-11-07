@@ -1,5 +1,5 @@
 // ***************************************************************** -*- C++ -*-
-// exifvalue.cpp, $Rev: 3090 $
+// exifvalue.cpp
 // Sample program to print value of an exif key in an image
 
 #include <exiv2/exiv2.hpp>

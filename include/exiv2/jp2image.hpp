@@ -21,7 +21,6 @@
 
 /*
   File:      jp2image.cpp
-  Version:   $Rev: 4629 $
 */
 
 #ifndef JP2IMAGE_HPP_

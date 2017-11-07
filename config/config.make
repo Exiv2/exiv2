@@ -31,7 +31,6 @@
 # IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #
 # File:      config.make
-# Version:   $Rev$
 # Author(s): Andreas Huggel (ahu) <ahuggel@gmx.net>
 # History:   26-Feb-05, ahu: created
 #

@@ -1,5 +1,5 @@
 // ***************************************************************** -*- C++ -*-
-// iptcprint.cpp, $Rev$
+// iptcprint.cpp
 // Sample program to print the IPTC metadata of an image
 
 #include <exiv2/exiv2.hpp>

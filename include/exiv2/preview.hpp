@@ -21,7 +21,6 @@
 /*!
   @file    preview.hpp
   @brief   Classes to access all preview images embedded in an image.
-  @version $Rev: 3091 $
   @author  Vladimir Nadvornik (vn)
            <a href="mailto:nadvornik@suse.cz">nadvornik@suse.cz</a>
   @date    18-Sep-08, vn: created

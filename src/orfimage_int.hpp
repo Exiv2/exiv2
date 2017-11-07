@@ -21,7 +21,6 @@
 /*!
   @file    orfimage_int.hpp
   @brief   Internal classes to support Olympus RAW image format
-  @version $Rev$
   @author  Jeff Costlow
            <a href="mailto:costlow@gmail.com">costlow@gmail.com</a>
   @date    31-Jul-07, costlow: created

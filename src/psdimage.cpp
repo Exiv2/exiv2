@@ -20,7 +20,6 @@
  */
 /*
   File:      psdimage.cpp
-  Version:   $Rev$
   Author(s): Marco Piovanelli, Ovolab (marco)
              Michael Ulbrich (mul)
   History:   05-Mar-2007, marco: created

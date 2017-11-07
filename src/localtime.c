@@ -1,9 +1,7 @@
 /*!
   @file    localtime.c
   @brief   This file is from the tz distribution at ftp://elsie.nci.nih.gov/pub/
-  @version $Rev$
 */
-
 
 #include "config.h"
 

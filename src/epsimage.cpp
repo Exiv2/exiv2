@@ -20,7 +20,6 @@
  */
 /*
   File:      epsimage.cpp
-  Version:   $Rev: 2455 $
   Author(s): Michael Ulbrich (mul) <mul@rentapacs.de>
              Volker Grabsch (vog) <vog@notjusthosting.com>
   History:   7-Mar-2011, vog: created

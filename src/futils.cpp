@@ -20,7 +20,6 @@
  */
 /*
   File:      futils.cpp
-  Version:   $Rev$
   Author(s): Andreas Huggel (ahu) <ahuggel@gmx.net>
   History:   08-Dec-03, ahu: created
              02-Apr-05, ahu: moved to Exiv2 namespace

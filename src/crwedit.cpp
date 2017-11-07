@@ -1,5 +1,5 @@
 // ***************************************************************** -*- C++ -*-
-// crwedit.cpp, $Rev$
+// crwedit.cpp
 // Print the CIFF structure of a CRW file
 
 #include "crwimage.hpp"

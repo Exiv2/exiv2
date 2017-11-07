@@ -20,7 +20,6 @@
  */
 /*
   File:      Casiomn.cpp
-  Version:   $Rev: 3091 $
   History:   30-Oct-13, ahu: created
   Credits:   See header file
  */

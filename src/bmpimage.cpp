@@ -20,7 +20,6 @@
  */
 /*
   File:      bmpimage.cpp
-  Version:   $Rev$
   Author(s): Marco Piovanelli, Ovolab (marco)
   History:   05-Mar-2007, marco: created
  */

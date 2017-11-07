@@ -3,10 +3,6 @@
   AUTHOR(S): Andreas Huggel (ahu)
   HISTORY:
    10-Dec-03, ahu: created
-
-  RCS information
-   $Name:  $
-   $Revision$
  */
 
 // *****************************************************************************

@@ -20,7 +20,6 @@
  */
 /*
   File:      xmp.cpp
-  Version:   $Rev$
   Author(s): Andreas Huggel (ahu) <ahuggel@gmx.net>
   History:   13-July-07, ahu: created
  */

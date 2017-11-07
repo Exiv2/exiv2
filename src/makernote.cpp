@@ -20,7 +20,6 @@
  */
 /*
   File:      makernote.cpp
-  Version:   $Rev$
   Author(s): Andreas Huggel (ahu) <ahuggel@gmx.net>
   History:   11-Apr-06, ahu: created
  */

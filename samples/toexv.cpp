@@ -20,7 +20,6 @@
  */
 /*
   Abstract : Test application to extract metadata from image to exv file
-  Version  : $Rev: 3777 $
  */
 // *****************************************************************************
 // included header files

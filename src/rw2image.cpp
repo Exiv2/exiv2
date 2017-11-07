@@ -20,7 +20,6 @@
  */
 /*
   File:      rw2image.cpp
-  Version:   $Rev$
   Author(s): Andreas Huggel (ahu) <ahuggel@gmx.net>
   History:   06-Jan-09, ahu: created
 

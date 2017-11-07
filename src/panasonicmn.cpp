@@ -20,7 +20,6 @@
  */
 /*
   File:      panasonicmn.cpp
-  Version:   $Rev$
   Author(s): Andreas Huggel (ahu) <ahuggel@gmx.net>
              Gilles Caulier (gc) <caulier dot gilles at gmail dot com>
   History:   11-Jun-04, ahu: created

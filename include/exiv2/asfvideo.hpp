@@ -21,7 +21,6 @@
 /*!
   @file    asfvideo.hpp
   @brief   An Image subclass to support ASF video files
-  @version $Rev$
   @author  Abhinav Badola for GSoC 2012
            <a href="mailto:mail.abu.to@gmail.com">mail.abu.to@gmail.com</a>
   @date    08-Aug-12, AB: created

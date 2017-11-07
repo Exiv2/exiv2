@@ -20,7 +20,6 @@
  */
 /*
   File:      olympusmn.cpp
-  Version:   $Rev$
   Author(s): Will Stokes (wuz) <wstokes@gmail.com>
              Andreas Huggel (ahu) <ahuggel@gmx.net>
              Gilles Caulier (gc) <caulier dot gilles at gmail dot com>

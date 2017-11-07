@@ -20,7 +20,6 @@
  */
 /*
   File:      sonymn.cpp
-  Version:   $Rev$
   Author(s): Andreas Huggel (ahu) <ahuggel@gmx.net>
   History:   18-Apr-05, ahu: created
  */

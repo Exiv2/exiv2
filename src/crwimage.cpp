@@ -20,7 +20,6 @@
  */
 /*
   File:      crwimage.cpp
-  Version:   $Rev$
   Author(s): Andreas Huggel (ahu) <ahuggel@gmx.net>
   History:   28-Aug-05, ahu: created
 

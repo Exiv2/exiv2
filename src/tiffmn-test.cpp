@@ -1,5 +1,5 @@
 // ***************************************************************** -*- C++ -*-
-// tiffmn-test.cpp, $Rev$
+// tiffmn-test.cpp
 // Makernote TIFF writer tests.
 
 #include "tiffimage.hpp"

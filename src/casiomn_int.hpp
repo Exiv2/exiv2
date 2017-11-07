@@ -24,7 +24,6 @@
            <a href="http://gvsoft.homedns.org/exif/makernote-casio-type1.html">Casio MakerNote Information</a> by GVsoft,
            Casio.pm of <a href="http://www.sno.phy.queensu.ca/~phil/exiftool/">ExifTool</a> by Phil Harvey,
            <a href="http://www.ozhiker.com/electronics/pjmt/jpeg_info/casio_mn.html#Casio_Type_1_Tags">Casio Makernote Format Specification</a> by Evan Hunter.
-  @version $Rev: 3091 $
   @date    30-Oct-13, ahu: created
  */
 #ifndef CASIOMN_INT_HPP_

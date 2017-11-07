@@ -21,7 +21,6 @@
 /*!
   @file    image_int.hpp
   @brief   Internal image helpers
-  @version $Rev: 3777 $
   @author  Andreas Huggel (ahu)
            <a href="mailto:ahuggel@gmx.net">ahuggel@gmx.net</a>
   @date    10-May-15, ahu: created

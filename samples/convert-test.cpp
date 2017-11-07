@@ -1,5 +1,5 @@
 // ***************************************************************** -*- C++ -*-
-// convert-test.cpp, $Rev$
+// convert-test.cpp
 // Conversion test driver - make sure you have a copy of the input file around!
 
 #include <exiv2/exiv2.hpp>

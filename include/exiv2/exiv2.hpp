@@ -21,7 +21,6 @@
 /*!
   @file    exiv2.hpp
   @brief   Include all Exiv2 header files.
-  @version $Rev: 3091 $
   @author  Andreas Huggel (ahu)
            <a href="mailto:ahuggel@gmx.net">ahuggel@gmx.net</a>
   @date    21-Jun-10, ahu: created

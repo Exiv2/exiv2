@@ -21,7 +21,6 @@
 /*!
   @file    webpimage.hpp
   @brief   An Image subclass to support WEBP image files
-  @version $Rev$
   @author  Ben Touchette
            <a href="mailto:draekko.software+exiv2@gmail.com">draekko.software+exiv2@gmail.com</a>
   @date    29-Jul-16

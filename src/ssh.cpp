@@ -20,7 +20,6 @@
  */
 /*
   File:      ssh.cpp
-  Version:   $Rev: 3201 $
   Author(s): Andreas Huggel (ahu) <ahuggel@gmx.net>
   History:   06-Jan-09, ahu: created
 
