@@ -467,7 +467,6 @@ T A B L E  o f  C O N T E N T S
      svn=3592
      ssh=0
      curl==0
-     id=$Id: version.cpp 3564 2015-01-11 21:38:40Z robinwmills $
      executable=C:\cygwin64\home\rmills\gnu\exiv2\video-write\msvc\bin\x64\releasedll\exiv2.exe
      library=C:\Windows\SYSTEM32\ntdll.dll
      library=C:\Windows\system32\kernel32.dll

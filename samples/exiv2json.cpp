@@ -1,5 +1,5 @@
 // ***************************************************************** -*- C++ -*-
-// exiv2json.cpp, $Id: exiv2json.cpp 518 2013-05-10 23:53:00Z robinwmills@gmail.com $
+// exiv2json.cpp
 // Sample program to print metadata in JSON format
 
 #include <exiv2/exiv2.hpp>
