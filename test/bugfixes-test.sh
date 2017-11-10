@@ -793,6 +793,13 @@ source ./functions.source
     copyTestFile                      $filename
     runTest exiv2                     $filename
 
+    num=g159
+    printf "$num " >&3
+    filename=printStructure
+    echo '------>' Bug $filename '<-------' >&2
+    copyTestFile                      $filename
+    runTest exiv2                     $filename
+
 ) 3>&1 > $results 2>&1
 
 printf "\n"
