@@ -73,6 +73,7 @@ EXIV2_RCSID("@(#) $Id$")
 #include <cstring>
 #include <cassert>
 #include <iostream>
+#include <limits>
 
 #include <sys/types.h>
 #include <sys/stat.h>
@@ -459,6 +460,12 @@ namespace Exiv2 {
                             io.seek(restore,BasicIo::beg);
                         }
                     } else if ( option == kpsRecursive && tag == 0x83bb /* IPTCNAA */ ) {
+                        if (offset > std::numeric_limits<uint32_t>::max() - count) {
+                            throw Error(59);
+                        }
+                        if (static_cast<size_t>(offset + count) > io.size()) {
+                            throw Error(58);
+                        }
                         size_t   restore = io.tell();  // save
                         io.seek(offset,BasicIo::beg);  // position
                         byte* bytes=new byte[count] ;  // allocate memory
