@@ -259,9 +259,13 @@ namespace Exiv2 {
         else {
             return false;
         }
-        if (tag() != getUShort(pData + 2, byteOrder())) return false;
+
+        if (tag() != getUShort(pData + 2, byteOrder()))
+            return false;
         setOffset(getULong(pData + 4, byteOrder()));
-        if (0 != memcmp(pData + 8, cr2sig_, 4)) return false;
+
+        if (0 != memcmp(pData + 8, cr2sig_, 4))
+            return false;
         offset2_ = getULong(pData + 12, byteOrder());
 
         return true;
