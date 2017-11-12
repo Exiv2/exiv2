@@ -247,7 +247,8 @@ namespace Exiv2 {
 
     bool Cr2Header::read(const byte* pData, uint32_t size)
     {
-        if (size < 16) return false;
+        if (size != 16)
+            return false;
 
         if (pData[0] == 'I' && pData[0] == pData[1]) {
             setByteOrder(littleEndian);
