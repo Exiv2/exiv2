@@ -183,8 +183,10 @@ namespace Exiv2 {
 
         // recursively print the structure to /dev/null to ensure all metadata is in memory
         // must be recursive to handle NEFs which stores the raw image in a subIFDs
+#if 0
         std::ofstream devnull;
         printStructure(devnull,kpsRecursive,0);
+#endif
         ByteOrder bo = TiffParser::decode(exifData_,
                                           iptcData_,
                                           xmpData_,
@@ -329,7 +331,7 @@ namespace Exiv2 {
         return rc;
     }
 
-    void TiffImage::printStructure(std::ostream& out, Exiv2::PrintStructureOption option,int depth)
+    void TiffImage::printStructure(std::ostream& /*out*/, Exiv2::PrintStructureOption /*option*/,int /*depth*/)
     {
         if (io_->open() != 0) throw Error(9, io_->path(), strError());
         // Ensure that this is the correct image type
@@ -338,12 +340,12 @@ namespace Exiv2 {
             if (io_->error() || io_->eof()) throw Error(14);
             throw Error(15);
         }
-
+/*
         io_->seek(0,BasicIo::beg);
 
         printTiffStructure(io(),out,option,depth-1);
+*/
     }
-
 }                                       // namespace Exiv2
 
 // Shortcuts for the newTiffBinaryArray templates.

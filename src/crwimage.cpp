@@ -127,6 +127,7 @@ namespace Exiv2 {
             throw Error(33);
         }
         clearMetadata();
+#if 0
         // read all metadata into memory
         // we should put this into clearMetadata(), however it breaks the test suite!
         try {
@@ -136,7 +137,10 @@ namespace Exiv2 {
             DataBuf file( (long) io().size());
             io_->read(file.pData_,file.size_);
         }
-
+#else
+        DataBuf file( (long) io().size());
+        io_->read(file.pData_,file.size_);
+#endif
         CrwParser::decode(this, io_->mmap(), (uint32_t) io_->size());
 
     } // CrwImage::readMetadata

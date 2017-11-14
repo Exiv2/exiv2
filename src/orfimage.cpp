@@ -115,8 +115,10 @@ namespace Exiv2 {
             throw Error(3, "ORF");
         }
         clearMetadata();
+#if 0
         std::ofstream devnull;
         printStructure(devnull, kpsRecursive, 0);
+#endif
         ByteOrder bo = OrfParser::decode(exifData_,
                                          iptcData_,
                                          xmpData_,
