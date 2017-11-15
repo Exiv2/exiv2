@@ -29,6 +29,12 @@ TEST(ACr2Header, readDataFromBufferWithCorrectSize)
     ASSERT_TRUE(header.read(cr2LittleEndian, 16));
 }
 
+TEST(ACr2Header, failToReadDataFromBufferWithCorrectSizeButNull)
+{
+    Internal::Cr2Header header;
+    ASSERT_FALSE(header.read(NULL, 16));
+}
+
 TEST(ACr2Header, failToReadDataFromBufferWithSizeDifferentThan16)
 {
     Internal::Cr2Header header;
