@@ -20,14 +20,9 @@
  */
 /*
   File:      xmp.cpp
-  Version:   $Rev$
   Author(s): Andreas Huggel (ahu) <ahuggel@gmx.net>
   History:   13-July-07, ahu: created
  */
-// *****************************************************************************
-#include "rcsid_int.hpp"
-EXIV2_RCSID("@(#) $Id$")
-
 // *****************************************************************************
 // included header files
 #include "xmp_exiv2.hpp"

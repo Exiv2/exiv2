@@ -2,7 +2,6 @@
 /*!
   @file    exv_msvc.h
   @brief   Configuration settings for MSVC
-  @version $Rev: 2320 $
   @author  Andreas Huggel (ahu)
            <a href="mailto:ahuggel@gmx.net">ahuggel@gmx.net</a>
   @date    07-Feb-04, ahu: created

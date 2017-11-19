@@ -1,5 +1,5 @@
 // ***************************************************************** -*- C++ -*-
-// crwparse.cpp, $Rev$
+// crwparse.cpp
 // Print the CIFF structure of a CRW file
 
 #include "crwimage.hpp"

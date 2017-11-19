@@ -20,15 +20,10 @@
  */
 /*
   File:      canonmn.cpp
-  Version:   $Rev$
   Author(s): Andreas Huggel (ahu) <ahuggel@gmx.net>
              David Cannings (dc) <david@edeca.net>
              Andi Clemens (ac) <andi.clemens@gmx.net>
  */
-// *****************************************************************************
-#include "rcsid_int.hpp"
-EXIV2_RCSID("@(#) $Id$")
-
 // *****************************************************************************
 // included header files
 #include "types.hpp"

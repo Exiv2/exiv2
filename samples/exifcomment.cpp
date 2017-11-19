@@ -4,7 +4,6 @@
              Exif.Photo.UserComment
 
   File:      exifcomment.cpp
-  Version  : $Rev$
   Author(s): Andreas Huggel (ahu) <ahuggel@gmx.net>
   History  : 10-May-04, ahu: created
              16-Jan-05, ahu: updated using CommentValue and operator trickery

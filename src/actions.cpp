@@ -20,12 +20,8 @@
  */
 /*
   File:      actions.cpp
-  Version:   $Rev: 4719 $
  */
 // *****************************************************************************
-#include "rcsid_int.hpp"
-EXIV2_RCSID("@(#) $Id: actions.cpp 4719 2017-03-08 20:42:28Z robinwmills $")
-
 // included header files
 #include "config.h"
 

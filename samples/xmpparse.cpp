@@ -1,5 +1,5 @@
 // ***************************************************************** -*- C++ -*-
-// xmpparse.cpp, $Rev$
+// xmpparse.cpp
 // Read an XMP packet from a file, parse it and print all (known) properties.
 
 #include <exiv2/exiv2.hpp>

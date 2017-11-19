@@ -21,7 +21,6 @@
 /*!
   @file    tags_int.hpp
   @brief   Internal Exif tag and type information
-  @version $Rev$
   @author  Andreas Huggel (ahu)
            <a href="mailto:ahuggel@gmx.net">ahuggel@gmx.net</a>
   @date    15-Jan-04, ahu: created<BR>

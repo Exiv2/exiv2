@@ -20,7 +20,6 @@
  */
 /*
   File:      tiffimage.hpp
-  Version:   $Rev: 4633 $
  */
 
 #ifndef TIFFIMAGE_HPP_

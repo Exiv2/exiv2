@@ -1,5 +1,5 @@
 // ***************************************************************** -*- C++ -*-
-// tiffaddpath-test.cpp, $Rev$
+// tiffaddpath-test.cpp
 // Test driver to test adding new tags to a TIFF composite structure
 
 

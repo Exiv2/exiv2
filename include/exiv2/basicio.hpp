@@ -20,7 +20,6 @@
  */
 /*
   File:      basicio.hpp
-  Version:   $Rev: 4633 $
  */
 #ifndef BASICIO_HPP_
 #define BASICIO_HPP_

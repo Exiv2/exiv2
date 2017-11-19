@@ -20,14 +20,10 @@
  */
 /*
   File:      preview.cpp
-  Version:   $Rev$
   Author(s): Vladimir Nadvornik (vn) <nadvornik@suse.cz>
   History:   18-Sep-08, vn: created
  */
 // *****************************************************************************
-#include "rcsid_int.hpp"
-EXIV2_RCSID("@(#) $Id$")
-
 // included header files
 #include "config.h"
 

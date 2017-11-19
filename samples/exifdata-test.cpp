@@ -3,7 +3,6 @@
   Abstract : ExifData assignment and copy construction unit tests
 
   File     : exifdata-test.cpp
-  Version  : $Rev$
   Author(s): Andreas Huggel (ahu) <ahuggel@gmx.net>
   History  : 20-Feb-05, ahu: created
 

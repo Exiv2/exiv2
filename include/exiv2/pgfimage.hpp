@@ -22,7 +22,6 @@
   @file    pgfimage.hpp
   @brief   PGF image, implemented using the following references:
            <a href="http://www.libpgf.org/uploads/media/PGF_stamm_wscg02.pdf">PGF specification</a> from libpgf web site<br>
-  @version $Rev: 3091 $
   @author  Andreas Huggel (ahu)
            <a href="mailto:ahuggel@gmx.net">ahuggel@gmx.net</a>
   @author  Gilles Caulier (cgilles)

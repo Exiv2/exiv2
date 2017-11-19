@@ -21,7 +21,6 @@
 /*!
   @file    tifffwd_int.hpp
   @brief   Internal TIFF parser related typedefs and forward definitions.
-  @version $Rev$
   @author  Andreas Huggel (ahu)
            <a href="mailto:ahuggel@gmx.net">ahuggel@gmx.net</a>
   @date    24-Jun-06, ahu: created

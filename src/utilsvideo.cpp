@@ -21,15 +21,11 @@
 /*!
   @file    utilsvideo.hpp
   @brief   An Image subclass to support RIFF video files
-  @version $Rev$
            Mahesh Hegde 2014
            <b href="mailto:maheshmhegade@gmail.com">maheshmhegade@gmail.com</b>
   @date    16-Aug-14, AB: created
  */
 // *****************************************************************************
-#include "rcsid_int.hpp"
-EXIV2_RCSID("@(#) $Id$")
-
 #ifdef EXV_ENABLE_VIDEO
 #include "utilsvideo.hpp"
 

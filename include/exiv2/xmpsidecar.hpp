@@ -21,7 +21,6 @@
 /*!
   @file    xmpsidecar.hpp
   @brief   An Image subclass to support XMP sidecar files
-  @version $Rev: 3090 $
   @author  Andreas Huggel
            <a href="mailto:ahuggel@gmx.net">ahuggel@gmx.net</a>
   @date    07-Mar-08, ahu: created

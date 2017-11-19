@@ -1,5 +1,5 @@
 // ***************************************************************** -*- C++ -*-
-// addmoddel.cpp, $Rev$
+// addmoddel.cpp
 // Sample program showing how to add, modify and delete Exif metadata.
 
 #include <exiv2/exiv2.hpp>

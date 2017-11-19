@@ -20,7 +20,6 @@
  */
 /*
   File:      olympusmn.cpp
-  Version:   $Rev$
   Author(s): Will Stokes (wuz) <wstokes@gmail.com>
              Andreas Huggel (ahu) <ahuggel@gmx.net>
              Gilles Caulier (gc) <caulier dot gilles at gmail dot com>
@@ -28,10 +27,6 @@
   History:   10-Mar-05, wuz: created
   Credits:   See header file.
  */
-
-// *****************************************************************************
-#include "rcsid_int.hpp"
-EXIV2_RCSID("@(#) $Id$")
 
 // *****************************************************************************
 // included header files

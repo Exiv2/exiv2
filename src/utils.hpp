@@ -21,7 +21,6 @@
 /*!
   @file    utils.hpp
   @brief   A collection of utility functions
-  @version $Rev: 3090 $
   @author  Andreas Huggel (ahu)
            <a href="mailto:ahuggel@gmx.net">ahuggel@gmx.net</a>
   @date    12-Dec-03, ahu: created

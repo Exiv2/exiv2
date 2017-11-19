@@ -1,5 +1,5 @@
 // ***************************************************************** -*- C++ -*-
-// easyaccess-test.cpp, $Rev$
+// easyaccess-test.cpp
 // Sample program using high-level metadata access functions
 
 // included header files

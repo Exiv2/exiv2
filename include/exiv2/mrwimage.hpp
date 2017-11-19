@@ -22,7 +22,6 @@
   @file    mrwimage.hpp
   @brief   Minolta RAW image, implemented using the following references:
            <a href="http://www.dalibor.cz/minolta/raw_file_format.htm">Minolta Raw file format</a> by Dalibor Jelinek
-  @version $Rev: 3091 $
   @author  Andreas Huggel (ahu)
            <a href="mailto:ahuggel@gmx.net">ahuggel@gmx.net</a>
   @date    13-May-06, ahu: created

@@ -21,7 +21,6 @@
 /*!
   @file    datasets.hpp
   @brief   IPTC dataset and type information
-  @version $Rev: 3091 $
   @author  Brad Schick (brad) <brad@robotbattle.com>
   @date    24-Jul-04, brad: created
  */

@@ -22,14 +22,10 @@
   Abstract:  Command line program to display and manipulate image metadata.
 
   File:      exiv2.cpp
-  Version:   $Rev$
   Author(s): Andreas Huggel (ahu) <ahuggel@gmx.net>
   History:   10-Dec-03, ahu: created
  */
 // *****************************************************************************
-#include "rcsid_int.hpp"
-EXIV2_RCSID("@(#) $Id$")
-
 // included header files
 #include "config.h"
 

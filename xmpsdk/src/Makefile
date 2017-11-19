@@ -31,7 +31,6 @@
 # IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #
 # File:      Makefile
-# Version:   $Rev$
 # Author(s): Andreas Huggel (ahu) <ahuggel@gmx.net>
 # History:   30-Sep-07, ahu: created
 #

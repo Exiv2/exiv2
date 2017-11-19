@@ -3,15 +3,7 @@
   AUTHOR(S): Andreas Huggel (ahu)
   HISTORY:
    10-Dec-03, ahu: created
-
-  RCS information
-   $Name:  $
-   $Revision$
  */
-
-// *****************************************************************************
-#include "rcsid_int.hpp"
-EXIV2_RCSID("@(#) $Id$");
 
 // *****************************************************************************
 // included header files

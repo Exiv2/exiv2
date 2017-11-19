@@ -20,15 +20,10 @@
  */
 /*
   File:      asfvideo.cpp
-  Version:   $Rev$
   Author(s): Abhinav Badola for GSoC 2012 (AB) <mail.abu.to@gmail.com>
   History:   08-Aug-12, AB: created
   Credits:   See header file
  */
-// *****************************************************************************
-#include "rcsid_int.hpp"
-EXIV2_RCSID("@(#) $Id$")
-
 // *****************************************************************************
 // included header files
 #include "config.h"

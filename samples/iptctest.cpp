@@ -4,7 +4,6 @@
              This is not designed to be a robust application.
 
   File     : iptctest.cpp
-  Version  : $Rev$
   Author(s): Brad Schick (brad) <brad@robotbattle.com>
   History  : 01-Aug-04, brad: created
  */

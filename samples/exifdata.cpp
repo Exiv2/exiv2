@@ -1,5 +1,5 @@
 // ***************************************************************** -*- C++ -*-
-// exifdata.cpp, $Rev: 3090 $
+// exifdata.cpp
 // Sample program to format exif data in various external formats
 
 #include <exiv2/exiv2.hpp>

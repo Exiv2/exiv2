@@ -1,5 +1,5 @@
 // ***************************************************************** -*- C++ -*-
-// mt-test.cpp $Rev: 4415 $
+// mt-test.cpp
 // Sample multi-threading program
 
 // Discussion:          http://dev.exiv2.org/issues/1207

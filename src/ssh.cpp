@@ -20,15 +20,11 @@
  */
 /*
   File:      ssh.cpp
-  Version:   $Rev: 3201 $
   Author(s): Andreas Huggel (ahu) <ahuggel@gmx.net>
   History:   06-Jan-09, ahu: created
 
  */
 // *****************************************************************************
-#include "rcsid_int.hpp"
-EXIV2_RCSID("@(#) $Id: rw2image.cpp 3201 2013-12-01 12:13:42Z ahuggel $")
-
 // included header files
 #include "config.h"
 #include "ssh.hpp"

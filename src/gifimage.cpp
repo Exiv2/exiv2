@@ -20,14 +20,9 @@
  */
 /*
   File:      gifimage.cpp
-  Version:   $Rev$
   Author(s): Marco Piovanelli, Ovolab (marco)
   History:   26-Feb-2007, marco: created
  */
-// *****************************************************************************
-#include "rcsid_int.hpp"
-EXIV2_RCSID("@(#) $Id$")
-
 // *****************************************************************************
 // included header files
 #include "config.h"

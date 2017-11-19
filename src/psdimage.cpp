@@ -20,15 +20,11 @@
  */
 /*
   File:      psdimage.cpp
-  Version:   $Rev$
   Author(s): Marco Piovanelli, Ovolab (marco)
              Michael Ulbrich (mul)
   History:   05-Mar-2007, marco: created
  */
 // *****************************************************************************
-#include "rcsid_int.hpp"
-EXIV2_RCSID("@(#) $Id$")
-
 // included header files
 #include "config.h"
 

@@ -3,7 +3,6 @@
   Abstract:  Print a simple comma separated list of tags defined in Exiv2
 
   File:      taglist.cpp
-  Version:   $Rev$
   Author(s): Andreas Huggel (ahu) <ahuggel@gmx.net>
   History:   07-Jan-04, ahu: created
  */

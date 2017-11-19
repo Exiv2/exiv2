@@ -20,7 +20,6 @@
  */
 /*
  File:      helpers.hpp
- Version:   $Rev$
  Author(s): Brad Schick (brad) <schickb@gmail.com>
  History:   19-Jan-09, brad: created
 */

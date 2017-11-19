@@ -1071,14 +1071,6 @@
 				>
 			</File>
 			<File
-				RelativePath="..\..\include\exiv2\rcsid.hpp"
-				>
-			</File>
-			<File
-				RelativePath="..\..\src\rcsid_int.hpp"
-				>
-			</File>
-			<File
 				RelativePath="..\..\include\exiv2\riffvideo.hpp"
 				>
 			</File>

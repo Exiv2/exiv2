@@ -20,15 +20,11 @@
  */
 /*
   File:      webpimage.cpp
-  Version:   $Rev: 4633 $
  */
 /*
   Google's WEBP container spec can be found at the link below:
   https://developers.google.com/speed/webp/docs/riff_container
 */
-
-// *****************************************************************************
-#include "rcsid_int.hpp"
 
 // *****************************************************************************
 // included header files

@@ -21,7 +21,6 @@
 /*!
   @file    easyaccess.hpp
   @brief   Provides easy (high-level) access to some Exif meta data.
-  @version $Rev: 3091 $
   @author  Carsten Pfeiffer <pfeiffer@kde.org>
   @date    28-Feb-09, gis: created
  */

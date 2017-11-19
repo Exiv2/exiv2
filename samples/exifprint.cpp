@@ -1,5 +1,5 @@
 // ***************************************************************** -*- C++ -*-
-// exifprint.cpp, $Rev$
+// exifprint.cpp
 // Sample program to print the Exif metadata of an image
 
 #include <exiv2/exiv2.hpp>

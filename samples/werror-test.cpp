@@ -1,5 +1,5 @@
 // ***************************************************************** -*- C++ -*-
-// werror-test.cpp, $Rev$
+// werror-test.cpp
 // Simple tests for the wide-string error class WError
 
 #include <exiv2/exiv2.hpp>

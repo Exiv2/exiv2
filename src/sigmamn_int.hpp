@@ -23,7 +23,6 @@
   @brief   Sigma and Foveon MakerNote implemented according to the specification
            <a href="http://www.x3f.info/technotes/FileDocs/MakerNoteDoc.html">
            SIGMA and FOVEON EXIF MakerNote Documentation</a> by Foveon.
-  @version $Rev$
   @author  Andreas Huggel (ahu)
            <a href="mailto:ahuggel@gmx.net">ahuggel@gmx.net</a>
   @date    02-Apr-04, ahu: created

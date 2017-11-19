@@ -21,7 +21,6 @@
 /*!
   @file    jpgimage.hpp
   @brief   Class JpegImage to access JPEG images
-  @version $Rev: 3091 $
   @author  Andreas Huggel (ahu)
            <a href="mailto:ahuggel@gmx.net">ahuggel@gmx.net</a>
   @author  Brad Schick (brad)

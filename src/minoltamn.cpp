@@ -20,16 +20,11 @@
  */
 /*
   File:      minoltamn.cpp
-  Version:   $Rev$
   Author(s): Gilles Caulier (cgilles) <caulier dot gilles at gmail dot com>
              Andreas Huggel (ahu) <ahuggel@gmx.net>
   History:   06-May-06, gc: submitted
   Credits:   See header file.
  */
-
-// *****************************************************************************
-#include "rcsid_int.hpp"
-EXIV2_RCSID("@(#) $Id$")
 
 // *****************************************************************************
 // included header files

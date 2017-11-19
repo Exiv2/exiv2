@@ -21,7 +21,6 @@
 /*!
   @file    tiffcomposite_int.hpp
   @brief   Internal classes used in a TIFF composite structure
-  @version $Rev$
   @author  Andreas Huggel (ahu)
            <a href="mailto:ahuggel@gmx.net">ahuggel@gmx.net</a>
   @date    11-Apr-06, ahu: created

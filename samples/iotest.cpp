@@ -23,7 +23,6 @@
         since FileIo just sits atop of FILE* streams.
 
   File     : iotest.cpp
-  Version  : $Rev$
   Author(s): Brad Schick (brad) <brad@robotbattle.com>
   History  : 04-Dec-04, brad: created
  */

@@ -1,5 +1,5 @@
 // ***************************************************************** -*- C++ -*-
-// geotag.cpp, $Rev: 2286 $
+// geotag.cpp
 // Sample program to read gpx files and update images with GPS tags
 
 // g++ geotag.cpp -o geotag -lexiv2 -lexpat

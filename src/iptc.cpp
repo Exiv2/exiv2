@@ -20,14 +20,9 @@
  */
 /*
   File:      iptc.cpp
-  Version:   $Rev$
   Author(s): Brad Schick (brad) <brad@robotbattle.com>
   History:   31-July-04, brad: created
  */
-// *****************************************************************************
-#include "rcsid_int.hpp"
-EXIV2_RCSID("@(#) $Id$")
-
 // *****************************************************************************
 // included header files
 #include "iptc.hpp"

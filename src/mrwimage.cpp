@@ -20,15 +20,11 @@
  */
 /*
   File:      mrwimage.cpp
-  Version:   $Rev$
   Author(s): Andreas Huggel (ahu) <ahuggel@gmx.net>
   History:   13-May-06, ahu: created
   Credits:   See header file
  */
 // *****************************************************************************
-#include "rcsid_int.hpp"
-EXIV2_RCSID("@(#) $Id$")
-
 // included header files
 #include "config.h"
 

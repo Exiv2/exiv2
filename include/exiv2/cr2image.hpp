@@ -21,7 +21,6 @@
 /*!
   @file    cr2image.hpp
   @brief   Class Cr2Image
-  @version $Rev: 3091 $
   @author  Andreas Huggel (ahu)
            <a href="mailto:ahuggel@gmx.net">ahuggel@gmx.net</a>
   @date    22-Apr-06, ahu: created

@@ -20,12 +20,7 @@
  */
 /*
   File:      easyaccess.cpp
-  Version:   $Rev$
  */
-// *****************************************************************************
-#include "rcsid_int.hpp"
-EXIV2_RCSID("@(#) $Id$")
-
 // *****************************************************************************
 // included header files
 #include "easyaccess.hpp"

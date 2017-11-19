@@ -29,7 +29,6 @@
 
  /*
   File:    pngchunk.cpp
-  Version: $Rev$
  */
 
 #ifndef PNGCHUNK_INT_HPP_

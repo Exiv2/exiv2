@@ -21,7 +21,6 @@
 /*!
   @file    rw2image.hpp
   @brief   Class Rw2Image
-  @version $Rev: 3090 $
   @author  Andreas Huggel (ahu)
            <a href="mailto:ahuggel@gmx.net">ahuggel@gmx.net</a>
   @date    06-Jan-09, ahu: created

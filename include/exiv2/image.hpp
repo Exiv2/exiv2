@@ -20,7 +20,6 @@
  */
 /*!
   @file    image.hpp
-  @version $Rev: 3091 $
  */
 #ifndef IMAGE_HPP_
 #define IMAGE_HPP_

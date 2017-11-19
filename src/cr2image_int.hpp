@@ -21,7 +21,6 @@
 /*!
   @file    cr2image_int.hpp
   @brief   Internal classes to support CR2 image format
-  @version $Rev$
   @author  Andreas Huggel (ahu)
            <a href="mailto:ahuggel@gmx.net">ahuggel@gmx.net</a>
   @date    23-Apr-08, ahu: created

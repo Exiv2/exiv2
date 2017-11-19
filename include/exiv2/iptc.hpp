@@ -21,7 +21,6 @@
 /*!
   @file    iptc.hpp
   @brief   Encoding and decoding of IPTC data
-  @version $Rev: 3091 $
   @author  Brad Schick (brad)
            <a href="mailto:brad@robotbattle.com">brad@robotbattle.com</a>
   @date    31-Jul-04, brad: created

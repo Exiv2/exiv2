@@ -1,5 +1,5 @@
 // ***************************************************************** -*- C++ -*-
-// xmpprint.cpp, $Rev$
+// xmpprint.cpp
 // Read an XMP from a video or graphic file, parse it and print 
 // all (known) properties.
 // ========================================================================

@@ -20,16 +20,11 @@
  */
 /*
   File:      convert.cpp
-  Version:   $Rev$
   Author(s): Andreas Huggel (ahu) <ahuggel@gmx.net>
              Vladimir Nadvornik (vn) <nadvornik@suse.cz>
   History:   17-Mar-08, ahu: created basic converter framework
              20-May-08, vn:  added actual conversion logic
  */
-// *****************************************************************************
-#include "rcsid_int.hpp"
-EXIV2_RCSID("@(#) $Id$")
-
 // *****************************************************************************
 // included header files
 #include "config.h"

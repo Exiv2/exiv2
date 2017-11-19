@@ -20,15 +20,11 @@
  */
 /*
   File:    pgfimage.cpp
-  Version: $Rev$
   Author(s): Gilles Caulier (cgilles) <caulier dot gilles at gmail dot com>
   History: 16-Jun-09, gc: submitted
   Credits: See header file
  */
 // *****************************************************************************
-#include "rcsid_int.hpp"
-EXIV2_RCSID("@(#) $Id$")
-
 // included header files
 #include "config.h"
 

@@ -20,15 +20,10 @@
  */
 /*
   File:      properties.cpp
-  Version:   $Rev$
   Author(s): Andreas Huggel (ahu) <ahuggel@gmx.net>
              Gilles Caulier (cgilles) <caulier dot gilles at gmail dot com>
   History:   13-July-07, ahu: created
  */
-// *****************************************************************************
-#include "rcsid_int.hpp"
-EXIV2_RCSID("@(#) $Id$")
-
 // *****************************************************************************
 // included header files
 #include "properties.hpp"

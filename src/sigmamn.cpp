@@ -20,17 +20,12 @@
  */
 /*
   File:      sigmamn.cpp
-  Version:   $Rev$
   Author(s): Andreas Huggel (ahu) <ahuggel@gmx.net>
   History:   02-Apr-04, ahu: created
   Credits:   Sigma and Foveon MakerNote implemented according to the specification
              in "SIGMA and FOVEON EXIF MakerNote Documentation" by Foveon.
              <http://www.x3f.info/technotes/FileDocs/MakerNoteDoc.html>
  */
-// *****************************************************************************
-#include "rcsid_int.hpp"
-EXIV2_RCSID("@(#) $Id$")
-
 // *****************************************************************************
 // included header files
 #include "types.hpp"
