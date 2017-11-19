@@ -1,5 +1,5 @@
 #include <gtest/gtest.h>
-#include <cr2image_int.hpp>
+#include <cr2header_int.hpp>
 
 using namespace Exiv2;
 

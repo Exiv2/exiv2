@@ -19,14 +19,13 @@
  * Foundation, Inc., 51 Franklin Street, 5th Floor, Boston, MA 02110-1301 USA.
  */
 /*!
-  @file    cr2image_int.hpp
+  @file    cr2header_int.hpp
   @brief   Internal classes to support CR2 image format
   @author  Andreas Huggel (ahu)
            <a href="mailto:ahuggel@gmx.net">ahuggel@gmx.net</a>
   @date    23-Apr-08, ahu: created
  */
-#ifndef CR2IMAGE_INT_HPP_
-#define CR2IMAGE_INT_HPP_
+#pragma once
 
 // *****************************************************************************
 // included header files
@@ -80,5 +79,3 @@ namespace Exiv2 {
     }; // class Cr2Header
 
 }}                                      // namespace Internal, Exiv2
-
-#endif                                  // #ifndef CR2IMAGE_INT_HPP_
