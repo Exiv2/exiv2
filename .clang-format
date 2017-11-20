@@ -1,0 +1,28 @@
+---
+BasedOnStyle: Google
+Language: Cpp
+Standard: Cpp03
+TabWidth: 4
+UseTab: Never
+ColumnLimit: 120
+NamespaceIndentation: All
+
+AccessModifierOffset: -4
+ContinuationIndentWidth: 4
+IndentWidth: 4
+
+BreakBeforeBraces: Custom
+BraceWrapping:
+    AfterStruct: true
+    AfterClass: true
+    AfterFunction: true
+    AfterControlStatement: false
+    AfterEnum: true
+    AfterNamespace: true
+
+AllowShortFunctionsOnASingleLine: None
+AllowShortBlocksOnASingleLine: false
+AllowShortIfStatementsOnASingleLine: false
+AllowShortLoopsOnASingleLine: false
+
+...
