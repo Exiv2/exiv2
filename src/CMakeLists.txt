@@ -110,10 +110,13 @@ set( LIBEXIV2_HDR         ../include/exiv2/asfvideo.hpp
                           ${CMAKE_BINARY_DIR}/exv_conf.h
    )
 
+set( LIBEXIV2_PRIVATE_SRC cr2header_int.cpp
+)
+
 # Private headers only needed to build the library
 set( LIBEXIV2_PRIVATE_HDR canonmn_int.hpp
                           casiomn_int.hpp
-                          cr2image_int.hpp
+                          cr2header_int.hpp
                           crwimage_int.hpp
                           fujimn_int.hpp
                           makernote_int.hpp
@@ -164,7 +167,12 @@ include_directories(${CMAKE_CURRENT_BINARY_DIR})
 # ******************************************************************************
 # exiv2lib library
 
-add_library( exiv2lib ${LIBEXIV2_SRC} ${LIBEXIV2_HDR} ${LIBEXIV2_PRIVATE_HDR})
+add_library( exiv2lib_int OBJECT ${LIBEXIV2_PRIVATE_SRC} ${LIBEXIV2_PRIVATE_HDR})
+add_library( exiv2lib ${LIBEXIV2_SRC} ${LIBEXIV2_HDR} $<TARGET_OBJECTS:exiv2lib_int>)
+
+set_target_properties( exiv2lib_int PROPERTIES
+    POSITION_INDEPENDENT_CODE ON
+)
 
 set_target_properties( exiv2lib PROPERTIES
     VERSION       ${GENERIC_LIB_VERSION}
@@ -196,6 +204,10 @@ target_include_directories(exiv2lib PUBLIC
     $<BUILD_INTERFACE:${CMAKE_SOURCE_DIR}/include/exiv2>
     $<BUILD_INTERFACE:${CMAKE_SOURCE_DIR}/include>
     $<INSTALL_INTERFACE:include>
+)
+
+target_include_directories(exiv2lib_int PUBLIC
+    $<BUILD_INTERFACE:${CMAKE_SOURCE_DIR}/include/exiv2>
 )
 
 if (EXIV2_ENABLE_WEBREADY)
