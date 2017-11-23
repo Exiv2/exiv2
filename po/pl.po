@@ -335,7 +335,7 @@ msgstr ""
 
 #: src/actions.cpp:1739
 msgid "Timestamp of metadatum with key"
-msgstr "Znacznik czasu metadaty z kluczem"
+msgstr "Znacznik czasu metadanej z kluczem"
 
 #: src/actions.cpp:1740
 msgid "not set\n"
@@ -3790,7 +3790,7 @@ msgstr "Typ dźwięku"
 
 #: src/datasets.cpp:409
 msgid "Indicates the type of an audio content."
-msgstr "Określa typ zawartości dzwiękowej."
+msgstr "Określa typ zawartości dźwiękowej."
 
 #: src/datasets.cpp:411
 msgid "Audio Rate"
@@ -4058,7 +4058,7 @@ msgstr ""
 #: src/error.cpp:99
 msgid "Schema namespace %1 is not registered with the XMP Toolkit"
 msgstr ""
-"Schemat przestrzeni nazw %1 nie jest zarejestrowany w pakiecie narzędzionym "
+"Schemat przestrzeni nazw %1 nie jest zarejestrowany w pakiecie narzędziowym "
 "XMP"
 
 #: src/error.cpp:100
@@ -9653,7 +9653,7 @@ msgstr "3000K (żarówka wolframowa)"
 
 #: src/olympusmn.cpp:572 src/olympusmn.cpp:579
 msgid "3600K (Tungsten light-like)"
-msgstr "3600K (żarowka wolframopodobna)"
+msgstr "3600K (żarówka wolframopodobna)"
 
 #: src/olympusmn.cpp:573
 #, fuzzy
@@ -20872,7 +20872,7 @@ msgstr ""
 #: src/properties.cpp:1453
 #, fuzzy
 msgid "Date stamp of GPS data."
-msgstr "Znacznik czasu metadaty z kluczem"
+msgstr "Znacznik czasu metadanej z kluczem"
 
 #: src/properties.cpp:1454
 #, fuzzy
@@ -20919,7 +20919,7 @@ msgstr ""
 #: src/properties.cpp:1460
 #, fuzzy
 msgid "Time stamp of GPS data."
-msgstr "Znacznik czasu metadaty z kluczem"
+msgstr "Znacznik czasu metadanej z kluczem"
 
 #: src/properties.cpp:1461
 msgid "A decimal encoding with period separators."
