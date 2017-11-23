@@ -59,6 +59,8 @@ set( LIBEXIV2_SRC         asfvideo.cpp
                           xmp.cpp
                           xmpsidecar.cpp
                           utilsvideo.cpp
+
+                          cr2image_int.cpp
    )
 
 # Public C++ header files
@@ -225,10 +227,10 @@ if (EXIV2_ENABLE_WEBREADY)
 endif()
 
 if ( MSVC )
-    target_compile_definitions(exiv2lib 
-        PRIVATE 
+    target_compile_definitions(exiv2lib
+        PRIVATE
             PSAPI_VERSION=1 # to be compatible with <= WinVista (#905)
-    ) 
+    )
 
     source_group("Header Files" FILES ${LIBEXIV2_HDR} )
     source_group("Header Files" FILES ${LIBCURL_HDR} )
