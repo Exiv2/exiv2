@@ -74,6 +74,10 @@ if( EXIV2_ENABLE_COMMERCIAL )
     set (EXIV2_ENABLE_NLS OFF)
 endif()
 
+if( EXIV2_BUILD_UNIT_TESTS )
+    set(CMAKE_WINDOWS_EXPORT_ALL_SYMBOLS ON) # Requires CMake 3.3.3
+endif()
+
 include(config/findDependencies.cmake)
 include(config/compilerFlags.cmake)
 include( config/generateConfigFile.cmake )
