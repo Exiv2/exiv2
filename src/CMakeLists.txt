@@ -5,8 +5,6 @@ set( LIBEXIV2_SRC         asfvideo.cpp
                           basicio.cpp
                           bigtiffimage.cpp
                           bmpimage.cpp
-                          canonmn.cpp
-                          casiomn.cpp
                           convert.cpp
                           cr2image.cpp
                           crwedit.cpp
@@ -17,7 +15,6 @@ set( LIBEXIV2_SRC         asfvideo.cpp
                           error.cpp
                           exif.cpp
                           futils.cpp
-                          fujimn.cpp
                           gifimage.cpp
                           http.cpp
                           image.cpp
@@ -25,16 +22,10 @@ set( LIBEXIV2_SRC         asfvideo.cpp
                           iptc.cpp
                           jp2image.cpp
                           jpgimage.cpp
-                          makernote.cpp
                           matroskavideo.cpp
                           metadatum.cpp
-                          minoltamn.cpp
                           mrwimage.cpp
-                          nikonmn.cpp
-                          olympusmn.cpp
                           orfimage.cpp
-                          panasonicmn.cpp
-                          pentaxmn.cpp
                           pgfimage.cpp
                           preview.cpp
                           properties.cpp
@@ -43,14 +34,9 @@ set( LIBEXIV2_SRC         asfvideo.cpp
                           rafimage.cpp
                           riffvideo.cpp
                           rw2image.cpp
-                          samsungmn.cpp
-                          sigmamn.cpp
-                          sonymn.cpp
                           tags.cpp
                           tgaimage.cpp
-                          tiffcomposite.cpp
                           tiffimage.cpp
-                          tiffvisitor.cpp
                           types.cpp
                           utilsvideo.cpp
                           value.cpp
@@ -61,6 +47,25 @@ set( LIBEXIV2_SRC         asfvideo.cpp
                           utilsvideo.cpp
 
                           cr2image_int.cpp
+                          canonmn_int.cpp
+                          casiomn_int.cpp
+                          crwimage_int.cpp
+                          fujimn_int.cpp
+                          makernote_int.cpp
+                          minoltamn_int.cpp
+                          nikonmn_int.cpp
+                          olympusmn_int.cpp
+                          orfimage_int.cpp
+                          panasonicmn_int.cpp
+                          pentaxmn_int.cpp
+                          rw2image_int.cpp
+                          samsungmn_int.cpp
+                          sigmamn_int.cpp
+                          sonymn_int.cpp
+                          #tags_int.cpp
+                          tiffcomposite_int.cpp
+                          tiffimage_int.cpp
+                          tiffvisitor_int.cpp
    )
 
 # Public C++ header files
@@ -125,7 +130,6 @@ set( LIBEXIV2_PRIVATE_HDR canonmn_int.hpp
                           orfimage_int.hpp
                           panasonicmn_int.hpp
                           pentaxmn_int.hpp
-                          pngchunk_int.hpp
                           rw2image_int.hpp
                           samsungmn_int.hpp
                           sigmamn_int.hpp
@@ -153,8 +157,10 @@ endif()
 ##
 # add png*.cpp files if PNG support requested
 if( EXIV2_ENABLE_PNG )
-    set( LIBEXIV2_SRC ${LIBEXIV2_SRC} pngchunk.cpp pngimage.cpp)
+    set( LIBEXIV2_SRC ${LIBEXIV2_SRC} pngimage.cpp)
     set( LIBEXIV2_HDR ${LIBEXIV2_HDR} ../include/exiv2/pngimage.hpp )
+    set( LIBEXIV2_SRC ${LIBEXIV2_SRC} pngchunk_int.cpp)
+    set( LIBEXIV2_PRIVATE_HDR ${LIBEXIV2_PRIVATE_HDR} ../include/exiv2/pngimage.hpp)
 endif()
 
 source_group("Header Files" FILES ${LIBEXIV2_HDR} )
