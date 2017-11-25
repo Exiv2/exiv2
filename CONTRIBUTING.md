@@ -1,16 +1,13 @@
 # How to contribute #
 
-All help is appreciated. All contributors are unpaid volunteers. If you really want to see something added to Exiv2 - volunteer!
-
-
 ## General workflow for contributing ##
 
-1. Fork, then clone the repo:
+1. Fork, then clone the repo (more details [here](https://guides.github.com/activities/forking/)):
 ```
 git clone git@github.com:your-username/exiv2.git
 ```
 
-2. Configure the project and build (More details about how to run CMake at XXX) :
+2. Configure the project and build (CMake is our the preferred configuration system, but not the only one. More details in the [README.md](README.md)) :
 ```
 mkdir build && cd build
 cmake .. && cmake --build . --config Release
@@ -18,15 +15,15 @@ cmake .. && cmake --build . --config Release
 
 3. Make sure the tests pass:
 ```
-make tests			# Application tests
-./bin/unit_tests	# Unit tests
+make tests          # Application tests
+./bin/unit_tests    # Unit tests
 ```
 
 4. Make your change. Add tests for your change. Make the tests pass.
 5. Create the Pull Request (PR).
-	a. Suggest a reviewer if you know that some of the mantainers know about the specific change.
-    b. Check if the CI checks pass.
-    c. If your PR lives for a long time, try to avoid to press the button "Update branch" in the Pull Request view. We prefer rebasing in top of master, instead of merging master into branches.
+    a. Check if the CI checks pass.
+    b. If your PR lives for a long time, try to avoid to press the button "Update branch" in the Pull Request view. We prefer rebasing in top of master, instead of merging master into branches.
+    c. A project member will review your PR as soon as possible.
 
 ## Pull Request guidelines
 - PRs should be kept at a manageable size. Try to focus in just one goal per PR. If you find yourself doing several things that in a PR that were not expected, try to split the different tasks in different PRs.
@@ -37,8 +34,8 @@ make tests			# Application tests
 ### General ###
 - All new code must be properly tested: via unit tests (based on the Gtest framework; see `$REPO/unitTest`) or system tests (scripts exercising the main exiv2 application; see `$REPO/test`).
 - Code should be simple to read and to understand.
-- Do not invoke undefined behavior! Ensure that with UBSAN, i.e. compile your code with `-fsanitize=undefined` and run the test suite.
-- Ensure that your code has no memory errors. Use ASAN for that, i.e. compile your code with `-fsanitize=address`.
+- Do not invoke undefined behavior. [Optional] Ensure that with UBSAN, i.e. compile your code with `-fsanitize=undefined` and run the test suite.
+- Ensure that your code has no memory errors. [Optional] Use ASAN for that, i.e. compile your code with `-fsanitize=address`.
 
 ### Relevant to the Exiv2 domain ###
 - All new code that is added must be resistant to integer overflows, thus if you multiply, add, subtract, divide or bitshift integers you must ensure that no overflow can occur. Please keep in mind that signed integer overflow is undefined behavior, thus you must check for overflows before performing the arithmetic operation, otherwise the compiler is free to optimize your check after the overflow away (this has happened already).
@@ -54,7 +51,7 @@ If in doubt, use the fixed size integer types like `int32_t`, `uint64_t`, `size_
 
 
 ## Code Formatting ##
-The project contains a `.clang-format` file defining the code formatting of the project (more details about of this file was defined can be found in this [PR](https://github.com/Exiv2/exiv2/pull/152)). One can apply this format to new or existing code by using the **clang-format** command-line tool, or by using some integration plugins provided by some editors or IDEs. Currently we know about these integrations:
+The project contains a `.clang-format` file defining the code formatting of the project (more details about of this file was defined can be found in this [PR](https://github.com/Exiv2/exiv2/pull/152)). We suggest you to respect the code formatting by applying **clang-format** to new or existing code. You can do it by using the **clang-format** command-line tool, or by using some integration plugins provided by some editors or IDEs. Currently we know about these integrations:
 - [QtCreator](http://doc.qt.io/qtcreator/creator-beautifier.html) -> beautifier -> clang-format
 - [vim-clang-format](https://github.com/rhysd/vim-clang-format)
 - [Emacs](https://clang.llvm.org/docs/ClangFormat.html#emacs-integration)
@@ -69,11 +66,12 @@ Note that some times, the formatting applied to some complex code might result i
 // clang-format on
 ```
 
+Guidelines to apply clang-format:
+
+- New files should follow the clang-format style.
+- Old files will be completely re-formatted only if we need to touch several lines/functions/methods of that file. In that case, we suggest to first create a PR just re-formatting the files that will be touched. Later we create another PR with the code changes.
+- If we only need to fix a small portion of a file we do not apply clang-format at all, or we just do it in the code block that we touch.
+
 More information about clang:
 - Link to [clang-format](https://clang.llvm.org/docs/ClangFormat.html) tool.
 - Link to the [clang-format option](https://clang.llvm.org/docs/ClangFormatStyleOptions.html).
-
-
-## Other points to consider ##
-
-- [Old document](http://dev.exiv2.org/projects/exiv2/wiki/Contributing_to_Exiv2) with more information about contributions.
