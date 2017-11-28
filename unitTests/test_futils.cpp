@@ -15,7 +15,13 @@ TEST(strError, returnSuccessAfterClosingFile)
     std::string tmpFile("tmp.dat");
     std::ofstream auxFile(tmpFile.c_str());
     auxFile.close();
-    ASSERT_STREQ("Success (errno = 0)", strError().c_str());
+#ifdef _WIN32
+    const char * expectedString = "No error (errno = 0)";
+#else
+    const char * expectedString = "Success (errno = 0)";
+#endif
+
+    ASSERT_STREQ(expectedString, strError().c_str());
     std::remove(tmpFile.c_str());
 }
 
@@ -28,7 +34,12 @@ TEST(strError, returnNoSuchFileOrDirectoryWhenTryingToOpenNonExistingFile)
 TEST(strError, doNotRecognizeUnknownError)
 {
     errno = 9999;
-    ASSERT_STREQ("Unknown error 9999 (errno = 9999)", strError().c_str());
+#ifdef _WIN32
+    const char * expectedString = "Unknown error (errno = 9999)";
+#else
+    const char * expectedString = "Unknown error 9999 (errno = 9999)";
+#endif
+    ASSERT_STREQ(expectedString, strError().c_str());
 }
 
 TEST(getEnv, getsDefaultValueWhenExpectedEnvVariableDoesNotExist)
@@ -40,18 +51,22 @@ TEST(getEnv, getsDefaultValueWhenExpectedEnvVariableDoesNotExist)
 TEST(getEnv, getsProperValuesWhenExpectedEnvVariableExists)
 {
     const char * expectedValue = "test";
+#ifdef _WIN32
+    ASSERT_EQ(0, _putenv_s("EXIV2_HTTP_POST", expectedValue));
+#else
     ASSERT_EQ(0, setenv("EXIV2_HTTP_POST", expectedValue, 1));
+#endif
 
     ASSERT_STREQ(expectedValue, getEnv(envHTTPPOST).c_str());
 
+#ifndef _WIN32
     ASSERT_EQ(0, unsetenv("EXIV2_HTTP_POST"));
+#endif
 }
 
 TEST(getEnv, throwsWhenKeyDoesNotExist)
 {
-    // This is just a characterisation test that was written to see how the current implementation
-    // works.
-    ASSERT_THROW(getEnv(static_cast<EnVar>(3)), std::exception);
+    ASSERT_THROW(getEnv(static_cast<EnVar>(3)), std::out_of_range);
 }
 
 TEST(urlencode, encodesGivenUrl)
