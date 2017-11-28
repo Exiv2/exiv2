@@ -53,3 +53,10 @@ TEST(getEnv, throwsWhenKeyDoesNotExist)
     // works.
     ASSERT_THROW(getEnv(static_cast<EnVar>(3)), std::exception);
 }
+
+TEST(urlencode, encodesGivenUrl)
+{
+    char *url = urlencode("http://www.geekhideout.com/urlcode.shtml");
+    ASSERT_STREQ("http%3a%2f%2fwww.geekhideout.com%2furlcode.shtml", url);
+    free(url);
+}
