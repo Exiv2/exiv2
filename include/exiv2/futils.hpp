@@ -56,6 +56,7 @@ namespace Exiv2 {
       @brief  Return the value of environmental variable.
       @param  var The name of environmental variable.
       @return the value of environmental variable. If it's empty, the default value is returned.
+      @throws std::out_of_range when an unexpected EnVar is given as input.
      */
     EXIV2API std::string getEnv(EnVar var);
     /*!
@@ -74,9 +75,7 @@ namespace Exiv2 {
       @brief Encode the input url.
       @param str The url needs encoding.
       @return the url-encoded version of str.
-
-      @note Be sure to free() the returned string after use
-            Source: http://www.geekhideout.com/urlcode.shtml
+      @note Source: http://www.geekhideout.com/urlcode.shtml
      */
     EXIV2API std::string urlencode(const char *str);
     /*!

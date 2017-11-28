@@ -44,6 +44,7 @@
 #include <sstream>
 #include <cstring>
 #include <algorithm>
+#include <stdexcept>
 
 #if defined EXV_HAVE_STRERROR_R && !defined EXV_HAVE_DECL_STRERROR_R
 # ifdef EXV_STRERROR_R_CHAR_P
@@ -58,9 +59,13 @@ namespace Exiv2 {
     const char* ENVARKEY[] = {"EXIV2_HTTP_POST", "EXIV2_TIMEOUT"}; //!< @brief request keys for http exiv2 handler and time-out
 // *****************************************************************************
 // free functions
-    std::string getEnv(EnVar var) {
+    std::string getEnv(EnVar var)
+    {
+        if (var < envHTTPPOST || var > envTIMEOUT) {
+            throw std::out_of_range("Unexpected env variable");
+        }
         return getenv(ENVARKEY[var]) ? getenv(ENVARKEY[var]) : ENVARDEF[var];
-    } // getEnv
+    }
 
     char to_hex(char code) {
         static char hex[] = "0123456789abcdef";
@@ -73,6 +78,8 @@ namespace Exiv2 {
 
     std::string urlencode(const char* str) {
         const char* pstr = str;
+        // \todo try to use std::string for buf and avoid the creation of another string for just
+        // returning the final value
         char* buf  = new char[strlen(str) * 3 + 1];
         char* pbuf = buf;
         while (*pstr) {
