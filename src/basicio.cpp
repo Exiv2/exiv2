@@ -1635,10 +1635,10 @@ namespace Exiv2 {
 #ifdef DEBUG
         std::cerr << "RemoteIo::close totalRead_ = " << p_->totalRead_ << std::endl;
 #endif
-		if ( bigBlock_ ) {
-			delete [] bigBlock_;
-			bigBlock_=NULL;
-		}
+        if ( bigBlock_ ) {
+            delete [] bigBlock_;
+            bigBlock_=NULL;
+        }
         return 0;
     }
 
@@ -1855,7 +1855,7 @@ namespace Exiv2 {
 #ifdef DEBUG
             std::cerr << "RemoteIo::mmap nRealData = " << nRealData << std::endl;
 #endif
-		}
+        }
 
         return bigBlock_;
     }
