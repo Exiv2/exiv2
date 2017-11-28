@@ -2045,7 +2045,7 @@ namespace Exiv2 {
         char* encodeData = new char[encodeLength];
         base64encode(data, size, encodeData, encodeLength);
         // url encode
-        char* urlencodeData = urlencode(encodeData);
+        const std::string urlencodeData = urlencode(encodeData);
         delete[] encodeData;
 
         std::stringstream ss;
@@ -2054,7 +2054,6 @@ namespace Exiv2 {
            << "to="     << to             << "&"
            << "data="   << urlencodeData;
         std::string postData = ss.str();
-        delete[] urlencodeData;
 
         // create the header
         ss.str("");
@@ -2268,7 +2267,7 @@ namespace Exiv2 {
         char* encodeData = new char[encodeLength];
         base64encode(data, size, encodeData, encodeLength);
         // url encode
-        char* urlencodeData = urlencode(encodeData);
+        const std::string urlencodeData = urlencode(encodeData);
         delete[] encodeData;
         std::stringstream ss;
         ss << "path="       << hostInfo.Path << "&"
@@ -2276,7 +2275,6 @@ namespace Exiv2 {
            << "to="         << to            << "&"
            << "data="       << urlencodeData;
         std::string postData = ss.str();
-        delete[] urlencodeData;
 
         curl_easy_setopt(curl_, CURLOPT_POSTFIELDS, postData.c_str());
         // Perform the request, res will get the return code.

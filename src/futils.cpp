@@ -71,7 +71,7 @@ namespace Exiv2 {
         return isdigit(ch) ? ch - '0' : tolower(ch) - 'a' + 10;
     } // from_hex
 
-    char* urlencode(char* str) {
+    std::string urlencode(char* str) {
         char* pstr = str;
         char* buf  = (char*)malloc(strlen(str) * 3 + 1);
         char* pbuf = buf;
@@ -85,8 +85,10 @@ namespace Exiv2 {
             pstr++;
         }
         *pbuf = '\0';
-        return buf;
-    } // urlencode
+        std::string ret(buf);
+        free(buf);
+        return ret;
+    }
 
     char* urldecode(const char* str) {
         const char* pstr = str;
