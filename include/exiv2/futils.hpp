@@ -78,7 +78,7 @@ namespace Exiv2 {
       @note Be sure to free() the returned string after use
             Source: http://www.geekhideout.com/urlcode.shtml
      */
-    EXIV2API std::string urlencode(char *str);
+    EXIV2API std::string urlencode(const char *str);
     /*!
       @brief Decode the input url.
       @param str The url needs decoding.

@@ -71,9 +71,9 @@ namespace Exiv2 {
         return isdigit(ch) ? ch - '0' : tolower(ch) - 'a' + 10;
     } // from_hex
 
-    std::string urlencode(char* str) {
-        char* pstr = str;
-        char* buf  = (char*)malloc(strlen(str) * 3 + 1);
+    std::string urlencode(const char* str) {
+        const char* pstr = str;
+        char* buf  = new char[strlen(str) * 3 + 1];
         char* pbuf = buf;
         while (*pstr) {
             if (isalnum(*pstr) || *pstr == '-' || *pstr == '_' || *pstr == '.' || *pstr == '~')
@@ -86,7 +86,7 @@ namespace Exiv2 {
         }
         *pbuf = '\0';
         std::string ret(buf);
-        free(buf);
+        delete [] buf;
         return ret;
     }
 
