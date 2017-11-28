@@ -56,7 +56,6 @@ TEST(getEnv, throwsWhenKeyDoesNotExist)
 
 TEST(urlencode, encodesGivenUrl)
 {
-    char *url = urlencode("http://www.geekhideout.com/urlcode.shtml");
-    ASSERT_STREQ("http%3a%2f%2fwww.geekhideout.com%2furlcode.shtml", url);
-    free(url);
+    const std::string url = urlencode("http://www.geekhideout.com/urlcode.shtml");
+    ASSERT_STREQ("http%3a%2f%2fwww.geekhideout.com%2furlcode.shtml", url.c_str());
 }
