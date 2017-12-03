@@ -15,7 +15,7 @@ fi
 
 virtualenv conan
 source conan/bin/activate
-pip install conan
+pip install conan==0.27.0
 conan --version
 conan config set storage.path=~/conanData
 conan remote add conan-pix4d https://api.bintray.com/conan/pix4d/conan
