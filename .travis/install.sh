@@ -6,24 +6,40 @@ if [[ "$(uname -s)" == 'Linux' ]]; then
     sudo apt-get install cmake zlib1g-dev libssh-dev gettext
     sudo apt-get install python-pip libxml2-utils
     sudo pip install virtualenv
+    virtualenv conan
+    source conan/bin/activate
 else
     brew update
-    brew install gettext libssh md5sha1sum
-    brew install pyenv-virtualenv
-    # By default it already has cmake 3.6.2
+    brew install gettext libssh md5sha1sum openssl pyenv-virtualenv
+    export CFLAGS="-I/usr/local/opt/openssl/include $CFLAGS"
+    export LDFLAGS="-L/usr/local/opt/openssl/lib $LDFLAGS"
+    pyenv install $PYTHON
+    # I would expect something like ``pyenv init; pyenv local $PYTHON`` or
+    # ``pyenv shell $PYTHON`` would work, but ``pyenv init`` doesn't seem to
+    # modify the Bash environment. ??? So, I hand-set the variables instead.
+    export PYENV_VERSION=$PYTHON
+    export PATH="/Users/travis/.pyenv/shims:${PATH}"
+    eval "$(pyenv init -)"
+    eval "$(pyenv virtualenv-init -)"
+    pyenv virtualenv conan
+    pyenv activate conan
 fi
 
-virtualenv conan
-source conan/bin/activate
-pip install conan==0.27.0
+python --version
+pip install urllib3[secure] -U #Should solve SSL issues
+pip install conan==0.29.2
 conan --version
 conan config set storage.path=~/conanData
 conan remote add conan-pix4d https://api.bintray.com/conan/pix4d/conan
 mkdir -p ~/.conan/profiles
 
 if [[ "$(uname -s)" == 'Linux' ]]; then
-    printf "os=Linux\narch=x86_64\ncompiler=gcc\ncompiler.version=4.8\nbuild_type=Release\n" > ~/.conan/profiles/release
+    if [ ${CC} == "clang" ]; then
+        printf "[settings]\nos=Linux\narch=x86_64\ncompiler=clang\ncompiler.version=3.9\ncompiler.libcxx=libstdc++\nbuild_type=Release\n" > ~/.conan/profiles/release
+    else
+        printf "[settings]\nos=Linux\narch=x86_64\ncompiler=gcc\ncompiler.version=4.8\ncompiler.libcxx=libstdc++\nbuild_type=Release\n" > ~/.conan/profiles/release
+    fi
 else
-    printf "os=Macos\narch=x86_64\ncompiler=apple-clang\ncompiler.version=7.3\nbuild_type=Release\n" > ~/.conan/profiles/release
+    printf "[settings]\nos=Macos\narch=x86_64\ncompiler=apple-clang\ncompiler.version=9.0\ncompiler.libcxx=libstdc++\nbuild_type=Release\n" > ~/.conan/profiles/release
 fi
 
