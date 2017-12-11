@@ -57,81 +57,89 @@ include $(top_srcdir)/config/config.mk
 # ******************************************************************************
 # Source files
 
-# Add standalone C++ header files to this list
-CCHDR =  exiv2.hpp         \
-         config.h          \
-         exv_conf.h        \
-         xmp_exiv2.hpp     \
+# exiv2 command-line program C++ header files
+CCHDR =  exiv2.hpp             \
+         config.h              \
+         exv_conf.h            \
+         xmp_exiv2.hpp         \
          version.hpp
 
-# Add library C++ source files to this list
-CCSRC =  basicio.cpp       \
-	 bmpimage.cpp          \
-	 bigtiffimage.cpp      \
-	 canonmn.cpp           \
-	 casiomn.cpp           \
-	 convert.cpp           \
-	 cr2image.cpp          \
-	 crwimage.cpp          \
-	 datasets.cpp          \
-	 easyaccess.cpp        \
-	 epsimage.cpp          \
-	 error.cpp             \
-	 exif.cpp              \
-	 futils.cpp            \
-	 fujimn.cpp            \
-	 gifimage.cpp          \
-	 http.cpp              \
-	 image.cpp             \
-	 ini.cpp               \
-	 iptc.cpp              \
-	 jp2image.cpp          \
-	 jpgimage.cpp          \
-	 makernote.cpp         \
-	 metadatum.cpp         \
-	 minoltamn.cpp         \
-	 mrwimage.cpp          \
-	 nikonmn.cpp           \
-	 olympusmn.cpp         \
-	 orfimage.cpp          \
-	 panasonicmn.cpp       \
-	 pentaxmn.cpp          \
-	 pgfimage.cpp
+# library C++ source files
+CCSRC =  basicio.cpp           \
+         bigtiffimage.cpp      \
+         bmpimage.cpp          \
+         canonmn_int.cpp       \
+         casiomn_int.cpp       \
+         convert.cpp           \
+         cr2image_int.cpp      \
+         cr2image.cpp          \
+         crwimage_int.cpp      \
+         crwimage.cpp          \
+         datasets.cpp          \
+         easyaccess.cpp        \
+         epsimage.cpp          \
+         error.cpp             \
+         exif.cpp              \
+         fujimn_int.cpp        \
+         futils.cpp            \
+         gifimage.cpp          \
+         http.cpp              \
+         image.cpp             \
+         ini.cpp               \
+         iptc.cpp              \
+         jp2image.cpp          \
+         jpgimage.cpp          \
+         makernote_int.cpp     \
+         metadatum.cpp         \
+         minoltamn_int.cpp     \
+         mrwimage.cpp          \
+         nikonmn_int.cpp       \
+         olympusmn_int.cpp     \
+         orfimage_int.cpp      \
+         orfimage.cpp          \
+         pgfimage.cpp          \
+         preview.cpp           \
+         panasonicmn_int.cpp   \
+         pentaxmn_int.cpp      \
+         properties.cpp        \
+         psdimage.cpp          \
+         rafimage.cpp          \
+         rw2image_int.cpp      \
+         rw2image.cpp          \
+         samsungmn_int.cpp     \
+         sigmamn_int.cpp       \
+         sonymn_int.cpp        \
+         tags.cpp              \
+         tgaimage.cpp          \
+         tiffcomposite_int.cpp \
+         tiffimage_int.cpp     \
+         tiffimage.cpp         \
+         tiffvisitor_int.cpp   \
+         types.cpp             \
+         value.cpp             \
+         version.cpp           \
+         webpimage.cpp         \
+         xmp.cpp               \
+         xmpsidecar.cpp
+
 ifdef HAVE_LIBZ
-CCSRC += pngimage.cpp      \
-	 pngchunk.cpp
+CCSRC += pngimage.cpp          \
+         pngchunk_int.cpp
 endif
-CCSRC += preview.cpp       \
-	 properties.cpp        \
-	 psdimage.cpp          \
-	 rafimage.cpp          \
-	 rw2image.cpp          \
-	 samsungmn.cpp
+
 ifdef USE_SSH
 CCSRC += ssh.cpp
 endif
-CCSRC += sigmamn.cpp       \
-	 sonymn.cpp            \
-	 tags.cpp              \
-	 tgaimage.cpp          \
-	 tiffcomposite.cpp     \
-	 tiffimage.cpp         \
-	 tiffvisitor.cpp       \
-	 types.cpp             \
-	 value.cpp             \
-	 version.cpp           \
-	 webpimage.cpp         \
-	 xmp.cpp               \
-	 xmpsidecar.cpp
+
 ifdef ENABLE_VIDEO
-CCSRC += asfvideo.cpp      \
-	 matroskavideo.cpp     \
-	 quicktimevideo.cpp    \
-	 riffvideo.cpp         \
-	 utilsvideo.cpp
+CCSRC += asfvideo.cpp          \
+         matroskavideo.cpp     \
+         quicktimevideo.cpp    \
+         riffvideo.cpp         \
+         utilsvideo.cpp
 endif
 
-# Add library C source files to this list
+# C source files to this list
 EXIVCSRC  =
 ifndef HAVE_TIMEGM
 CSRC =   localtime.c
