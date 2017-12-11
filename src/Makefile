@@ -57,14 +57,14 @@ include $(top_srcdir)/config/config.mk
 # ******************************************************************************
 # Source files
 
-# Add standalone C++ header files to this list
+# exiv2 command-line program C++ header files
 CCHDR =  exiv2.hpp             \
          config.h              \
          exv_conf.h            \
          xmp_exiv2.hpp         \
          version.hpp
 
-# Add library C++ source files to this list
+# library C++ source files
 CCSRC =  basicio.cpp           \
          bigtiffimage.cpp      \
          bmpimage.cpp          \
@@ -97,12 +97,8 @@ CCSRC =  basicio.cpp           \
          olympusmn_int.cpp     \
          orfimage_int.cpp      \
          orfimage.cpp          \
-         pgfimage.cpp
-ifdef HAVE_LIBZ
-CCSRC += pngimage.cpp          \
-         pngchunk_int.cpp
-endif
-CCSRC += preview.cpp           \
+         pgfimage.cpp          \
+         preview.cpp           \
          panasonicmn_int.cpp   \
          pentaxmn_int.cpp      \
          properties.cpp        \
@@ -110,11 +106,8 @@ CCSRC += preview.cpp           \
          rafimage.cpp          \
          rw2image_int.cpp      \
          rw2image.cpp          \
-         samsungmn_int.cpp
-ifdef USE_SSH
-CCSRC += ssh.cpp
-endif
-CCSRC += sigmamn_int.cpp       \
+         samsungmn_int.cpp     \
+         sigmamn_int.cpp       \
          sonymn_int.cpp        \
          tags.cpp              \
          tgaimage.cpp          \
@@ -128,6 +121,16 @@ CCSRC += sigmamn_int.cpp       \
          webpimage.cpp         \
          xmp.cpp               \
          xmpsidecar.cpp
+
+ifdef HAVE_LIBZ
+CCSRC += pngimage.cpp          \
+         pngchunk_int.cpp
+endif
+
+ifdef USE_SSH
+CCSRC += ssh.cpp
+endif
+
 ifdef ENABLE_VIDEO
 CCSRC += asfvideo.cpp          \
          matroskavideo.cpp     \
@@ -136,7 +139,7 @@ CCSRC += asfvideo.cpp          \
          utilsvideo.cpp
 endif
 
-# Add library C source files to this list
+# C source files to this list
 EXIVCSRC  =
 ifndef HAVE_TIMEGM
 CSRC =   localtime.c
