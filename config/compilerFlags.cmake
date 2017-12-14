@@ -5,6 +5,8 @@ if ( MINGW OR UNIX ) # MINGW, Linux, APPLE, CYGWIN
         set(COMPILER_IS_CLANG ON)
     endif()
 
+    set (CMAKE_CXX_FLAGS_DEBUG      "-g3 -gstrict-dwarf -O0 -DDEBUG")
+
     if (COMPILER_IS_GCC OR COMPILER_IS_CLANG)
         set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wall -Wcast-align -Wpointer-arith -Wformat-security -Wmissing-format-attribute -Woverloaded-virtual -W")
 
@@ -53,7 +55,7 @@ if ( MINGW OR UNIX ) # MINGW, Linux, APPLE, CYGWIN
             if ( COMPILER_IS_CLANG )
                 # https://clang.llvm.org/docs/DiagnosticsReference.html
                 # These variables are at least available since clang 3.9.1
-                string(CONCAT EXTRA_COMPILE_FLAGS "-Wextra" 
+                string(CONCAT EXTRA_COMPILE_FLAGS "-Wextra"
                     " -Wdouble-promotion"
                     " -Wshadow"
                     " -Wassign-enum"
@@ -132,7 +134,7 @@ if(MSVC)
         string(REGEX REPLACE "/W[0-4]" "/W4" CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS}")
     endif ()
 
-    # Object Level Parallelism 
+    # Object Level Parallelism
     set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} /MP")
 
 endif()
