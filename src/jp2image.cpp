@@ -37,6 +37,7 @@
 #include "error.hpp"
 #include "futils.hpp"
 #include "types.hpp"
+#include "safe_op.hpp"
 
 // + standard includes
 #include <string>
@@ -265,15 +266,16 @@ namespace Exiv2
                             std::cout << "Exiv2::Jp2Image::readMetadata: "
                                      << "Color data found" << std::endl;
 #endif
+
                             const long pad = 3 ; // 3 padding bytes 2 0 0
-                            DataBuf data(subBox.length+8);
+                            DataBuf data(Safe::add(subBox.length, static_cast<uint32_t>(8)));
                             io_->read(data.pData_,data.size_);
                             const long    iccLength = getULong(data.pData_+pad, bigEndian);
                             // subtracting pad from data.size_ is safe:
                             // size_ is at least 8 and pad = 3
                             if (iccLength > data.size_ - pad) {
                                 throw Error(58);
-			    }
+                            }
                             DataBuf icc(iccLength);
                             ::memcpy(icc.pData_,data.pData_+pad,icc.size_);
 #ifdef DEBUG
