@@ -208,6 +208,7 @@ namespace Safe
         };
 
 #if defined(__GNUC__) || defined(__clang__)
+#if __GNUC__ >= 5
 
 /*!
  * This macro pastes a specialization of builtin_add_overflow using gcc's &
@@ -238,6 +239,7 @@ namespace Safe
         SPECIALIZE_builtin_add_overflow(unsigned long long, __builtin_uaddll_overflow);
 
 #undef SPECIALIZE_builtin_add_overflow
+#endif
 
 #elif defined(_MSC_VER)
 
