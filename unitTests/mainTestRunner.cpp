@@ -10,5 +10,5 @@ int main(int argc, char** argv)
 
     std::cout << "Tests finished with return value: " << ret << std::endl;
 
-    return EXIT_SUCCESS;
+    return ret;
 }
