@@ -35,13 +35,11 @@ build_script:
     - cmd: cd build
     - cmd: conan install .. --build missing --profile release
     - cmd: call "C:\Program Files (x86)\Microsoft Visual Studio 14.0\VC\vcvarsall.bat" amd64
-    - cmd: cmake -G "Ninja" -DEXIV2_ENABLE_XMP=ON -DEXIV2_ENABLE_NLS=OFF -DEXIV2_ENABLE_PNG=ON -DEXIV2_ENABLE_WEBREADY=ON -DEXIV2_ENABLE_CURL=ON -DEXIV2_BUILD_UNIT_TESTS=ON -DCMAKE_INSTALL_PREFIX=install ..
+    - cmd: cmake -G "Ninja" -DCMAKE_BUILD_TYPE=Release -DEXIV2_ENABLE_XMP=ON -DEXIV2_ENABLE_NLS=OFF -DEXIV2_ENABLE_PNG=ON -DEXIV2_ENABLE_WEBREADY=ON -DEXIV2_ENABLE_CURL=ON -DEXIV2_BUILD_UNIT_TESTS=ON -DCMAKE_INSTALL_PREFIX=install ..
     - cmd: ninja
     - cmd: ninja install
-    # TODO : Run tests on windows once we discover why they are crashing
-    #- cmd: cd bin
-    #- cmd: dir
-    #- cmd: unit_tests.exe
+    - cmd: cd bin
+    - cmd: unit_tests.exe
 
 cache:
     - envs                   # Conan installation
