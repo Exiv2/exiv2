@@ -40,6 +40,6 @@ if [[ "$(uname -s)" == 'Linux' ]]; then
         printf "[settings]\nos=Linux\narch=x86_64\ncompiler=gcc\ncompiler.version=4.8\ncompiler.libcxx=libstdc++\nbuild_type=Release\n" > ~/.conan/profiles/release
     fi
 else
-    printf "[settings]\nos=Macos\narch=x86_64\ncompiler=apple-clang\ncompiler.version=9.0\ncompiler.libcxx=libstdc++\nbuild_type=Release\n" > ~/.conan/profiles/release
+    printf "[settings]\nos=Macos\narch=x86_64\ncompiler=apple-clang\ncompiler.version=9.0\ncompiler.libcxx=libc++\nbuild_type=Release\n" > ~/.conan/profiles/release
 fi
 
