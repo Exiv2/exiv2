@@ -140,6 +140,7 @@ set( LIBEXIV2_PRIVATE_HDR canonmn_int.hpp
                           tifffwd_int.hpp
                           tiffimage_int.hpp
                           tiffvisitor_int.hpp
+                          safe_op.hpp
    )
 
 
