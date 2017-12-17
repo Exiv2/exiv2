@@ -19,10 +19,5 @@ cmake ${CMAKE_OPTIONS} -DCMAKE_INSTALL_PREFIX=install ..
 make -j2
 make tests
 make install
-
-# Only run unit tests on Linux for the moment
-# TODO: Check what is happening on Mac
-if [[ "$(uname -s)" == 'Linux' ]]; then
-    cd bin
-    ./unit_tests
-fi
+cd bin
+./unit_tests
