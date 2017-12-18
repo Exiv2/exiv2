@@ -828,6 +828,13 @@ source ./functions.source
     copyTestFile                      $filename
     runTest exiv2                     $filename
 
+    num=g188
+    printf "$num " >&3
+    filename=poc_2017-12-12_issue188
+    echo '------>' Bug $filename '<-------' >&2
+    copyTestFile                      $filename
+    runTest exiv2                     $filename
+
 ) 3>&1 > $results 2>&1
 
 printf "\n"
