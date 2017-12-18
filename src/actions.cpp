@@ -236,33 +236,43 @@ namespace Action {
     }
 
     int Print::run(const std::string& path)
-    try {
-        path_ = path;
-        int rc = 0;
-        Exiv2::PrintStructureOption option = Exiv2::kpsNone ;
-        switch (Params::instance().printMode_) {
-            case Params::pmSummary:   rc = printSummary();     break;
-            case Params::pmList:      rc = printList();        break;
-            case Params::pmComment:   rc = printComment();     break;
-            case Params::pmPreview:   rc = printPreviewList(); break;
-            case Params::pmStructure: rc = printStructure(std::cout,Exiv2::kpsBasic)     ; break;
-            case Params::pmRecursive: rc = printStructure(std::cout,Exiv2::kpsRecursive) ; break;
+    {
+        try {
+            path_ = path;
+            int rc = 0;
+            Exiv2::PrintStructureOption option = Exiv2::kpsNone ;
+            switch (Params::instance().printMode_) {
+                case Params::pmSummary:   rc = printSummary();     break;
+                case Params::pmList:      rc = printList();        break;
+                case Params::pmComment:   rc = printComment();     break;
+                case Params::pmPreview:   rc = printPreviewList(); break;
+                case Params::pmStructure: rc = printStructure(std::cout,Exiv2::kpsBasic)     ; break;
+                case Params::pmRecursive: rc = printStructure(std::cout,Exiv2::kpsRecursive) ; break;
 
-            case Params::pmXMP:
-                 option = option == Exiv2::kpsNone ? Exiv2::kpsXMP        : option;  // drop
-            case Params::pmIccProfile:{
-                 option = option == Exiv2::kpsNone ? Exiv2::kpsIccProfile : option;
-                 _setmode(_fileno(stdout),O_BINARY);
-                 rc = printStructure(std::cout,option);
-            } break;
+                case Params::pmXMP:
+                    if (option == Exiv2::kpsNone)
+                        option = Exiv2::kpsXMP;
+                    // drop
+                case Params::pmIccProfile:
+                    if (option == Exiv2::kpsNone)
+                        option = Exiv2::kpsIccProfile;
+                    _setmode(_fileno(stdout),O_BINARY);
+                    rc = printStructure(std::cout,option);
+                    break;
+            }
+            return rc;
         }
-        return rc;
+        catch(const Exiv2::AnyError& e) {
+            std::cerr << "Exiv2 exception in print action for file "
+                      << path << ":\n" << e << "\n";
+            return 1;
+        }
+        catch(const std::overflow_error& e) {
+            std::cerr << "std::overflow_error exception in print action for file "
+                      << path << ":\n" << e.what() << "\n";
+            return 1;
+        }
     }
-    catch(const Exiv2::AnyError& e) {
-        std::cerr << "Exiv2 exception in print action for file "
-                  << path << ":\n" << e << "\n";
-        return 1;
-    } // Print::run
 
     int Print::printStructure(std::ostream& out, Exiv2::PrintStructureOption option)
     {
