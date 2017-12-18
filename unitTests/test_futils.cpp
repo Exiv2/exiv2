@@ -12,6 +12,10 @@ using namespace Exiv2;
 
 TEST(strError, returnSuccessAfterClosingFile)
 {
+    // previous system calls can fail, but errno is not guaranteed to be reset
+    // by a successful system call
+    // -> reset errno so that a real failure is only detected here
+    errno = 0;
     std::string tmpFile("tmp.dat");
     std::ofstream auxFile(tmpFile.c_str());
     auxFile.close();
