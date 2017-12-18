@@ -59,6 +59,7 @@ EXIV2_RCSID("@(#) $Id$")
 #include <ctime>
 #include <cmath>
 #include <cassert>
+#include <stdexcept>
 #include <sys/types.h>                  // for stat()
 #include <sys/stat.h>                   // for stat()
 #ifdef EXV_HAVE_UNISTD_H
