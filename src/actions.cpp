@@ -627,91 +627,90 @@ namespace Action {
 
     bool Print::printMetadatum(const Exiv2::Metadatum& md, const Exiv2::Image* pImage)
     {
-        if (!grepTag(md.key())) return false;
-        if (!keyTag (md.key())) return false;
+        if (!grepTag(md.key()))
+            return false;
+        if (!keyTag(md.key()))
+            return false;
 
-        if (   Params::instance().unknown_
-            && md.tagName().substr(0, 2) == "0x") {
+        if (Params::instance().unknown_ && md.tagName().substr(0, 2) == "0x") {
             return false;
         }
+
         bool const manyFiles = Params::instance().files_.size() > 1;
         if (manyFiles) {
-            std::cout << std::setfill(' ') << std::left << std::setw(20)
-                      << path_ << "  ";
+            std::cout << std::setfill(' ') << std::left << std::setw(20) << path_ << "  ";
         }
+
         bool first = true;
         if (Params::instance().printItems_ & Params::prTag) {
-            if (!first) std::cout << " ";
+            if (!first)
+                std::cout << " ";
             first = false;
-            std::cout << "0x" << std::setw(4) << std::setfill('0')
-                      << std::right << std::hex
-                      << md.tag();
+            std::cout << "0x" << std::setw(4) << std::setfill('0') << std::right << std::hex << md.tag();
         }
         if (Params::instance().printItems_ & Params::prSet) {
-            if (!first) std::cout << " ";
+            if (!first)
+                std::cout << " ";
             first = false;
-            std::cout << "set" ;
+            std::cout << "set";
         }
         if (Params::instance().printItems_ & Params::prGroup) {
-            if (!first) std::cout << " ";
+            if (!first)
+                std::cout << " ";
             first = false;
-            std::cout << std::setw(12) << std::setfill(' ') << std::left
-                      << md.groupName();
+            std::cout << std::setw(12) << std::setfill(' ') << std::left << md.groupName();
         }
         if (Params::instance().printItems_ & Params::prKey) {
-            if (!first) std::cout << " ";
+            if (!first)
+                std::cout << " ";
             first = false;
-            std::cout << std::setfill(' ') << std::left << std::setw(44)
-                      << md.key();
+            std::cout << std::setfill(' ') << std::left << std::setw(44) << md.key();
         }
         if (Params::instance().printItems_ & Params::prName) {
-            if (!first) std::cout << " ";
+            if (!first)
+                std::cout << " ";
             first = false;
-            std::cout << std::setw(27) << std::setfill(' ') << std::left
-                      << md.tagName();
+            std::cout << std::setw(27) << std::setfill(' ') << std::left << md.tagName();
         }
         if (Params::instance().printItems_ & Params::prLabel) {
-            if (!first) std::cout << " ";
+            if (!first)
+                std::cout << " ";
             first = false;
-            std::cout << std::setw(30) << std::setfill(' ') << std::left
-                      << md.tagLabel();
+            std::cout << std::setw(30) << std::setfill(' ') << std::left << md.tagLabel();
         }
         if (Params::instance().printItems_ & Params::prType) {
-            if (!first) std::cout << " ";
+            if (!first)
+                std::cout << " ";
             first = false;
             std::cout << std::setw(9) << std::setfill(' ') << std::left;
             const char* tn = md.typeName();
             if (tn) {
                 std::cout << tn;
-            }
-            else {
+            } else {
                 std::ostringstream os;
                 os << "0x" << std::setw(4) << std::setfill('0') << std::hex << md.typeId();
                 std::cout << os.str();
             }
         }
         if (Params::instance().printItems_ & Params::prCount) {
-            if (!first) std::cout << " ";
+            if (!first)
+                std::cout << " ";
             first = false;
-            std::cout << std::dec << std::setw(3)
-                      << std::setfill(' ') << std::right
-                      << md.count();
+            std::cout << std::dec << std::setw(3) << std::setfill(' ') << std::right << md.count();
         }
         if (Params::instance().printItems_ & Params::prSize) {
-            if (!first) std::cout << " ";
+            if (!first)
+                std::cout << " ";
             first = false;
-            std::cout << std::dec << std::setw(3)
-                      << std::setfill(' ') << std::right
-                      << md.size();
+            std::cout << std::dec << std::setw(3) << std::setfill(' ') << std::right << md.size();
         }
         if (Params::instance().printItems_ & Params::prValue && md.size() > 0) {
             if (!first)
                 std::cout << "  ";
             first = false;
-            if (md.size() > 128 && Params::instance().binary_ && (
-                       md.typeId() == Exiv2::undefined
-                    || md.typeId() == Exiv2::unsignedByte
-                    || md.typeId() == Exiv2::signedByte)) {
+            if (md.size() > 128 && Params::instance().binary_ &&
+                (md.typeId() == Exiv2::undefined || md.typeId() == Exiv2::unsignedByte ||
+                 md.typeId() == Exiv2::signedByte)) {
                 std::cout << _("(Binary value suppressed)") << std::endl;
                 return true;
             }
@@ -729,22 +728,22 @@ namespace Action {
             }
             if (!done) {
                 // #1114 - show negative values for SByte
-                if (md.typeId() != Exiv2::signedByte){
+                if (md.typeId() != Exiv2::signedByte) {
                     std::cout << std::dec << md.value();
                 } else {
                     int value = md.value().toLong();
-                    std::cout << std::dec << (value<128?value:value-256);
+                    std::cout << std::dec << (value < 128 ? value : value - 256);
                 }
             }
         }
         if (Params::instance().printItems_ & Params::prTrans) {
-            if (!first) std::cout << "  ";
+            if (!first)
+                std::cout << "  ";
             first = false;
-            if (   Params::instance().binary_
-                && (   md.typeId() == Exiv2::undefined
-                    || md.typeId() == Exiv2::unsignedByte
-                    || md.typeId() == Exiv2::signedByte)
-                && md.size() > 128) {
+            if (Params::instance().binary_ &&
+                (md.typeId() == Exiv2::undefined || md.typeId() == Exiv2::unsignedByte ||
+                 md.typeId() == Exiv2::signedByte) &&
+                md.size() > 128) {
                 std::cout << _("(Binary value suppressed)") << std::endl;
                 return true;
             }
@@ -756,16 +755,17 @@ namespace Action {
                     done = true;
                 }
             }
-            if (!done) std::cout << std::dec << md.print(&pImage->exifData());
+            if (!done)
+                std::cout << std::dec << md.print(&pImage->exifData());
         }
         if (Params::instance().printItems_ & Params::prHex) {
-            if (!first) std::cout << std::endl;
+            if (!first)
+                std::cout << std::endl;
             first = false;
-            if (   Params::instance().binary_
-                && (   md.typeId() == Exiv2::undefined
-                    || md.typeId() == Exiv2::unsignedByte
-                    || md.typeId() == Exiv2::signedByte)
-                && md.size() > 128) {
+            if (Params::instance().binary_ &&
+                (md.typeId() == Exiv2::undefined || md.typeId() == Exiv2::unsignedByte ||
+                 md.typeId() == Exiv2::signedByte) &&
+                md.size() > 128) {
                 std::cout << _("(Binary value suppressed)") << std::endl;
                 return true;
             }
@@ -775,7 +775,7 @@ namespace Action {
         }
         std::cout << std::endl;
         return true;
-    } // Print::printMetadatum
+    }  // Print::printMetadatum
 
     int Print::printComment()
     {
