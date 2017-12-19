@@ -704,8 +704,9 @@ namespace Action {
                       << std::setfill(' ') << std::right
                       << md.size();
         }
-        if (Params::instance().printItems_ & Params::prValue) {
-            if (!first) std::cout << "  ";
+        if (Params::instance().printItems_ & Params::prValue && md.size() > 0) {
+            if (!first)
+                std::cout << "  ";
             first = false;
             if (   Params::instance().binary_
                 && (   md.typeId() == Exiv2::undefined
