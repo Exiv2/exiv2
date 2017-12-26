@@ -631,6 +631,13 @@ source ./functions.source
       runTest exiv2 -pa --grep lens/i   $filename
     done
 
+    num=1305
+    printf "$num " >&3
+    filename=IMGP0006-min.jpg
+    echo '------>' Bug $filename '<-------' >&2
+    copyTestFile                        $filename
+    runTest exiv2                       $filename
+
     num=g55
     printf "$num " >&3
     filename=POC8
