@@ -40,6 +40,9 @@ build_script:
     - cmd: ninja install
     - cmd: cd bin
     - cmd: unit_tests.exe
+    - cmd: cd ../../tests/
+    - cmd: set EXIV2_EXT=.exe
+    - cmd: c:\Python36\python.exe runner.py
 
 cache:
     - envs                   # Conan installation
