@@ -47,6 +47,7 @@ EXIV2_RCSID("@(#) $Id$")
 #include <iostream>
 #include <iomanip>
 #include <cassert>
+#include <limits>
 
 // *****************************************************************************
 namespace {
@@ -1291,11 +1292,12 @@ namespace Exiv2 {
             }
             uint16_t tag = getUShort(p, byteOrder());
             TiffComponent::AutoPtr tc = TiffCreator::create(tag, object->group());
-            // The assertion typically fails if a component is not configured in
-            // the TIFF structure table
-            assert(tc.get());
-            tc->setStart(p);
-            object->addChild(tc);
+            if (tc.get()) {
+                tc->setStart(p);
+                object->addChild(tc);
+            } else {
+               EXV_WARNING << "Unable to handle tag " << tag << ".\n";
+            }
             p += 12;
         }
 
@@ -1490,6 +1492,9 @@ namespace Exiv2 {
             return;
         }
         p += 4;
+        if (count > std::numeric_limits<uint32_t>::max() / typeSize) {
+            throw Error(59);
+        }
         uint32_t size = typeSize * count;
         int32_t offset = getLong(p, byteOrder());
         byte* pData = p;
@@ -1508,7 +1513,19 @@ namespace Exiv2 {
                 size = 0;
         }
         if (size > 4) {
+            // setting pData to pData_ + baseOffset() + offset can result in pData pointing to invalid memory,
+            // as offset can be arbitrarily large
+            if ((static_cast<uintptr_t>(baseOffset()) > std::numeric_limits<uintptr_t>::max() - static_cast<uintptr_t>(offset))
+             || (static_cast<uintptr_t>(baseOffset() + offset) > std::numeric_limits<uintptr_t>::max() - reinterpret_cast<uintptr_t>(pData_)))
+            {
+                throw Error(59);
+            }
+            if (pData_ + static_cast<uintptr_t>(baseOffset()) + static_cast<uintptr_t>(offset) > pLast_) {
+                throw Error(58);
+            }
             pData = const_cast<byte*>(pData_) + baseOffset() + offset;
+
+	    // check for size being invalid
             if (size > static_cast<uint32_t>(pLast_ - pData)) {
 #ifndef SUPPRESS_WARNINGS
                 EXV_ERROR << "Upper boundary of data for "
@@ -1528,7 +1545,9 @@ namespace Exiv2 {
             }
         }
         Value::AutoPtr v = Value::create(typeId);
-        assert(v.get());
+        if (!v.get()) {
+            throw Error(58);
+        }
         v->read(pData, size, byteOrder());
 
         object->setValue(v);
