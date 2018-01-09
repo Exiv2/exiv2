@@ -272,7 +272,12 @@ namespace Exiv2
 #endif
 
                             const long pad = 3 ; // 3 padding bytes 2 0 0
-                            DataBuf data(Safe::add(subBox.length, static_cast<uint32_t>(8)));
+			    const size_t data_length = Safe::add(subBox.length, static_cast<uint32_t>(8));
+			    // data_length makes no sense if it is larger than the rest of the file
+			    if (data_length > io_->size() - io_->tell()) {
+				throw Error(58);
+			    }
+                            DataBuf data(data_length);
                             io_->read(data.pData_,data.size_);
                             const long    iccLength = getULong(data.pData_+pad, bigEndian);
                             // subtracting pad from data.size_ is safe:
