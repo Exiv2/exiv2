@@ -110,14 +110,16 @@ namespace Exiv2
                 byte buffer[8];
                 io.read(buffer, 2);
                 const int size = getUShort(buffer, byteOrder);
-                assert(size == 8);
 
-                io.read(buffer, 2); // null
+                if (size == 8)
+                {
+                    io.read(buffer, 2); // null
 
-                io.read(buffer, 8);
-                const uint64_t offset = getULongLong(buffer, byteOrder);
+                    io.read(buffer, 8);
+                    const uint64_t offset = getULongLong(buffer, byteOrder);
 
-                result = Header(byteOrder, magic, size, offset);
+                    result = Header(byteOrder, magic, size, offset);
+                }
             }
 
             return result;
