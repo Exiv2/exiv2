@@ -5,6 +5,7 @@
 #include <limits>
 
 #include "exif.hpp"
+#include "error.hpp"
 #include "image_int.hpp"
 
 
@@ -107,7 +108,7 @@ namespace Exiv2
             }
             else
             {
-                byte buffer[8];
+                byte buffer[8] = {0, 0, 0, 0, 0, 0, 0, 0};
                 io.read(buffer, 2);
                 const int size = getUShort(buffer, byteOrder);
 
@@ -118,8 +119,13 @@ namespace Exiv2
                     io.read(buffer, 8);
                     const uint64_t offset = getULongLong(buffer, byteOrder);
 
+                    if (offset >= io.size())
+                        throw Exiv2::Error(58);
+
                     result = Header(byteOrder, magic, size, offset);
                 }
+                else
+                    throw Exiv2::Error(58);
             }
 
             return result;
