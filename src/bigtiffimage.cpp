@@ -89,7 +89,9 @@ namespace Exiv2
                 return Header();
 
             byte version[2];
-            io.read(version, 2);
+            int read = io.read(version, 2);
+            if (read < 2)
+                throw Exiv2::Error(58);
 
             const uint16_t magic = getUShort(version, byteOrder);
 
@@ -103,6 +105,9 @@ namespace Exiv2
                 byte buffer[4];
                 io.read(buffer, 4);
 
+                if (read < 4)
+                    throw Exiv2::Error(58);
+
                 const uint32_t offset = getULong(buffer, byteOrder);
                 result = Header(byteOrder, magic, 4, offset);
             }
@@ -110,13 +115,21 @@ namespace Exiv2
             {
                 byte buffer[8] = {0, 0, 0, 0, 0, 0, 0, 0};
                 io.read(buffer, 2);
+                if (read < 2)
+                    throw Exiv2::Error(58);
+
                 const int size = getUShort(buffer, byteOrder);
 
                 if (size == 8)
                 {
-                    io.read(buffer, 2); // null
+                    read = io.read(buffer, 2); // null
+                    if (read < 2)
+                        throw Exiv2::Error(58);
 
-                    io.read(buffer, 8);
+                    read = io.read(buffer, 8);
+                    if (read < 8)
+                        throw Exiv2::Error(58);
+
                     const uint64_t offset = getULongLong(buffer, byteOrder);
 
                     if (offset >= io.size())
