@@ -76,7 +76,7 @@ namespace Exiv2
 
         Header readHeader(BasicIo& io)
         {
-            byte header[2];
+            byte header[2] = {0, 0};
             io.read(header, 2);
 
             ByteOrder byteOrder = invalidByteOrder;
@@ -88,10 +88,8 @@ namespace Exiv2
             if (byteOrder == invalidByteOrder)
                 return Header();
 
-            byte version[2];
-            int read = io.read(version, 2);
-            if (read < 2)
-                throw Exiv2::Error(58);
+            byte version[2] = {0, 0};
+            io.read(version, 2);
 
             const uint16_t magic = getUShort(version, byteOrder);
 
@@ -103,7 +101,7 @@ namespace Exiv2
             if (magic == 0x2A)
             {
                 byte buffer[4];
-                io.read(buffer, 4);
+                int read = io.read(buffer, 4);
 
                 if (read < 4)
                     throw Exiv2::Error(58);
@@ -114,7 +112,7 @@ namespace Exiv2
             else
             {
                 byte buffer[8] = {0, 0, 0, 0, 0, 0, 0, 0};
-                io.read(buffer, 2);
+                int read = io.read(buffer, 2);
                 if (read < 2)
                     throw Exiv2::Error(58);
 
