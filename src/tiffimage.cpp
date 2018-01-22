@@ -191,7 +191,7 @@ namespace Exiv2 {
         Exiv2::ExifKey            key("Exif.Image.InterColorProfile");
         Exiv2::ExifData::iterator pos   = exifData_.findKey(key);
         if ( pos != exifData_.end()  ) {
-            iccProfile_.alloc(pos->count());
+            iccProfile_.alloc(pos->count()*pos->typeSize());
             pos->copy(iccProfile_.pData_,bo);
         }
 
