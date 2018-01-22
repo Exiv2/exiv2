@@ -102,8 +102,6 @@ namespace Exiv2 {
             throw Error(kerNotAnImage, "CR2");
         }
         clearMetadata();
-        std::ofstream devnull;
-        printStructure(devnull, kpsRecursive, 0);
         ByteOrder bo = Cr2Parser::decode(exifData_,
                                          iptcData_,
                                          xmpData_,

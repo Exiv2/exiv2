@@ -180,10 +180,6 @@ namespace Exiv2 {
         }
         clearMetadata();
 
-        // recursively print the structure to /dev/null to ensure all metadata is in memory
-        // must be recursive to handle NEFs which stores the raw image in a subIFDs
-        std::ofstream devnull;
-        printStructure(devnull,kpsRecursive);
         ByteOrder bo = TiffParser::decode(exifData_,
                                           iptcData_,
                                           xmpData_,

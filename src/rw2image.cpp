@@ -125,8 +125,6 @@ namespace Exiv2 {
             throw Error(kerNotAnImage, "RW2");
         }
         clearMetadata();
-        std::ofstream devnull;
-        printStructure(devnull, kpsRecursive, 0);
         ByteOrder bo = Rw2Parser::decode(exifData_,
                                          iptcData_,
                                          xmpData_,
