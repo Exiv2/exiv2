@@ -107,15 +107,17 @@ namespace Exiv2 {
     {
         // From a tEXt, zTXt, or iTXt chunk,
         // we get the key, it's a null terminated string at the chunk start
-        if (data.size_ <= (stripHeader ? 8 : 0)) throw Error(14);
-        const byte *key = data.pData_ + (stripHeader ? 8 : 0);
+        const int offset = stripHeader ? 8 : 0;
+        if (data.size_ <= offset) throw Error(14);
+        const byte *key = data.pData_ + offset;
 
         // Find null string at end of key.
         int keysize=0;
-        for ( ; key[keysize] != 0 ; keysize++)
+        while (key[keysize] != 0)
         {
+            keysize++;
             // look if keysize is valid.
-            if (keysize >= data.size_)
+            if (keysize+offset >= data.size_)
                 throw Error(14);
         }
 
