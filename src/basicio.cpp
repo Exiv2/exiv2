@@ -1100,6 +1100,9 @@ namespace Exiv2 {
             // Minimum size for 1st block
             long size  = EXV_MAX(blockSize * (1 + need / blockSize), size_);
             byte* data = (byte*)std::malloc(size);
+            if (  data == NULL ) {
+                throw(60);
+            }
             std::memcpy(data, data_, size_);
             data_ = data;
             sizeAlloced_ = size;
@@ -1113,6 +1116,9 @@ namespace Exiv2 {
                 // Allocate in blocks
                 long want      = blockSize * (1 + need / blockSize );
                 data_ = (byte*)std::realloc(data_, want);
+                if ( data_ == NULL ) {
+                    throw(60);
+                }
                 sizeAlloced_ = want;
                 isMalloced_ = true;
             }
