@@ -29,7 +29,7 @@ T A B L E  o f  C O N T E N T S
 1.3  Open exiv2\msvc\exiv2.sln
 1.4  Configuring build options (such as video and webready)
 1.5  Building with exiv2-webready.sln
-1.6  What is build
+1.6  What is built?
 1.7  Express editions of Visual Studio (or 32 bit only builds, or 64 bit only builds)
 1.8  UNICODE Path support
 1.9  Build and Test Performance by Platform
