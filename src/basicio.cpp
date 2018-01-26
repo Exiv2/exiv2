@@ -1093,11 +1093,16 @@ namespace Exiv2 {
     void MemIo::Impl::reserve(long wcount)
     {
         long need = wcount + idx_;
+        long    blockSize =     32*1024;   // 32768           `
+        long maxBlockSize = 4*1024*1024;
 
         if (!isMalloced_) {
-            // Minimum size for 1st block is 32kB
-            long size  = EXV_MAX(32768 * (1 + need / 32768), size_);
+            // Minimum size for 1st block
+            long size  = EXV_MAX(blockSize * (1 + need / blockSize), size_);
             byte* data = (byte*)std::malloc(size);
+            if (  data == NULL ) {
+                throw Error(60);
+            }
             std::memcpy(data, data_, size_);
             data_ = data;
             sizeAlloced_ = size;
@@ -1106,9 +1111,14 @@ namespace Exiv2 {
 
         if (need > size_) {
             if (need > sizeAlloced_) {
-                // Allocate in blocks of 32kB
-                long want = 32768 * (1 + need / 32768);
+                blockSize = 2*sizeAlloced_ ;
+                if ( blockSize > maxBlockSize ) blockSize = maxBlockSize ;
+                // Allocate in blocks
+                long want      = blockSize * (1 + need / blockSize );
                 data_ = (byte*)std::realloc(data_, want);
+                if ( data_ == NULL ) {
+                    throw Error(60);
+                }
                 sizeAlloced_ = want;
                 isMalloced_ = true;
             }

@@ -106,6 +106,7 @@ namespace {
         { 57, N_("invalid memory allocation request") },
         { 58, N_("corrupted image metadata") },
         { 59, N_("Arithmetic operation overflow") },
+        { 60, N_("Memory allocation failed") },
     };
 
 }
