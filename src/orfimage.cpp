@@ -86,7 +86,7 @@ namespace Exiv2 {
     }
 
     void OrfImage::printStructure(std::ostream& out, PrintStructureOption option, int depth) {
-        std::cout << "ORF IMAGE" << std::endl;
+        out << "ORF IMAGE" << std::endl;
         if (io_->open() != 0) throw Error(9, io_->path(), strError());
         // Ensure that this is the correct image type
         if ( imageType() == ImageType::none )
