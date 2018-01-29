@@ -105,8 +105,9 @@ test:
 	    echo Running $$p ...; \
 	    ./$$p;  \
 	    rc=$$?; \
-	    if [ $$rc -ne 0 ]; then echo result = $$rc ; fi ; \
-	    if [ $$rc -gt 2 ]; then exit $$rc          ; fi ; \
+	    if [ $$rc -ne 0 ]; then echo '********************************' ; fi ; \
+	    if [ $$rc -ne 0 ]; then echo '***' $$p result = $$rc '***'      ; fi ; \
+	    if [ $$rc -ne 0 ]; then echo '********************************' ; fi ; \
 	done
 
 testv:
