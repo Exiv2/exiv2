@@ -686,6 +686,7 @@ source ./functions.source
     filename=POC5
     echo '------>' Bug $filename '<-------' >&2
     copyTestFile                      $filename
+    echo 'ORF IMAGE'
     runTest exiv2                     $filename
 
     num=g51
@@ -693,6 +694,7 @@ source ./functions.source
     filename=POC4
     echo '------>' Bug $filename '<-------' >&2
     copyTestFile                      $filename
+    echo 'RW2 IMAGE'
     runTest exiv2                     $filename
 
     num=g50
@@ -707,6 +709,7 @@ source ./functions.source
     filename=POC6
     echo '------>' Bug $filename '<-------' >&2
     copyTestFile                      $filename
+    echo 'ORF IMAGE'
     runTest exiv2                     $filename
 
     num=g56
@@ -721,6 +724,7 @@ source ./functions.source
     filename=POC11
     echo '------>' Bug $filename '<-------' >&2
     copyTestFile                      $filename
+    echo 'ORF IMAGE'
     runTest exiv2                     $filename
 
     num=g59
@@ -728,6 +732,7 @@ source ./functions.source
     filename=POC12
     echo '------>' Bug $filename '<-------' >&2
     copyTestFile                      $filename
+    echo 'ORF IMAGE'
     runTest exiv2                     $filename
 
     num=g60
@@ -735,6 +740,7 @@ source ./functions.source
     filename=POC13
     echo '------>' Bug $filename '<-------' >&2
     copyTestFile                      $filename
+    echo 'ORF IMAGE'
     runTest exiv2                     $filename
 
     num=g71

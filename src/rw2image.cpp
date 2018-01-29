@@ -97,7 +97,7 @@ namespace Exiv2 {
     }
 
     void Rw2Image::printStructure(std::ostream& out, PrintStructureOption option, int depth) {
-        std::cout << "RW2 IMAGE" << std::endl;
+        out << "RW2 IMAGE" << std::endl;
         if (io_->open() != 0) throw Error(9, io_->path(), strError());
         // Ensure that this is the correct image type
         if ( imageType() == ImageType::none )
