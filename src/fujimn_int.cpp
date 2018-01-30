@@ -73,9 +73,9 @@ namespace Exiv2 {
         { 256, N_("High")                   },
         { 512, N_("Low")                    },
         { 768, N_("Monochrome")             },
-        { 769, N_("Monochrome + R Filter")  },
-        { 770, N_("Monochrome + Ye Filter") },
-        { 771, N_("Monochrome + G Filter")  },
+        { 769, N_("Monochrome+R Filter")    },
+        { 770, N_("Monochrome+Ye Filter")   },
+        { 771, N_("Monochrome+G Filter")    },
         { 784, N_("Sepia")                  }
     };
 
