@@ -18,15 +18,10 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, 5th Floor, Boston, MA 02110-1301 USA.
  */
-/*
-  File:      panasonicmn.cpp
-  Author(s): Andreas Huggel (ahu) <ahuggel@gmx.net>
-             Gilles Caulier (gc) <caulier dot gilles at gmail dot com>
-  History:   11-Jun-04, ahu: created
-  Credits:   See header file
- */
 // *****************************************************************************
 // included header files
+#include "config.h"
+
 #include "types.hpp"
 #include "panasonicmn_int.hpp"
 #include "tags_int.hpp"

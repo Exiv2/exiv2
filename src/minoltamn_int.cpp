@@ -18,16 +18,10 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, 5th Floor, Boston, MA 02110-1301 USA.
  */
-/*
-  File:      minoltamn.cpp
-  Author(s): Gilles Caulier (cgilles) <caulier dot gilles at gmail dot com>
-             Andreas Huggel (ahu) <ahuggel@gmx.net>
-  History:   06-May-06, gc: submitted
-  Credits:   See header file.
- */
-
 // *****************************************************************************
 // included header files
+#include "config.h"
+
 #include "minoltamn_int.hpp"
 #include "tags_int.hpp"
 #include "makernote_int.hpp"

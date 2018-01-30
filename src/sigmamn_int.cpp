@@ -18,16 +18,11 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, 5th Floor, Boston, MA 02110-1301 USA.
  */
-/*
-  File:      sigmamn.cpp
-  Author(s): Andreas Huggel (ahu) <ahuggel@gmx.net>
-  History:   02-Apr-04, ahu: created
-  Credits:   Sigma and Foveon MakerNote implemented according to the specification
-             in "SIGMA and FOVEON EXIF MakerNote Documentation" by Foveon.
-             <http://www.x3f.info/technotes/FileDocs/MakerNoteDoc.html>
- */
+
 // *****************************************************************************
 // included header files
+#include "config.h"
+
 #include "types.hpp"
 #include "sigmamn_int.hpp"
 #include "tags_int.hpp"

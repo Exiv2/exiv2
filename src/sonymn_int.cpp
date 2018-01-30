@@ -18,13 +18,10 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, 5th Floor, Boston, MA 02110-1301 USA.
  */
-/*
-  File:      sonymn.cpp
-  Author(s): Andreas Huggel (ahu) <ahuggel@gmx.net>
-  History:   18-Apr-05, ahu: created
- */
 // *****************************************************************************
 // included header files
+#include "config.h"
+
 #include "types.hpp"
 #include "minoltamn_int.hpp"
 #include "sonymn_int.hpp"

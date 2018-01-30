@@ -25,6 +25,8 @@
  */
 // *****************************************************************************
 // included header files
+#include "config.h"
+
 #include "types.hpp"
 #include "samsungmn_int.hpp"
 #include "tags_int.hpp"

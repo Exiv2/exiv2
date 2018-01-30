@@ -18,14 +18,7 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, 5th Floor, Boston, MA 02110-1301 USA.
  */
-/*!
-  @file    tags_int.hpp
-  @brief   Internal Exif tag and type information
-  @author  Andreas Huggel (ahu)
-           <a href="mailto:ahuggel@gmx.net">ahuggel@gmx.net</a>
-  @date    15-Jan-04, ahu: created<BR>
-           11-Feb-04, ahu: isolated as a component
- */
+
 #ifndef TAGS_INT_HPP_
 #define TAGS_INT_HPP_
 

@@ -18,11 +18,10 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, 5th Floor, Boston, MA 02110-1301 USA.
  */
-/*
-  File:      pentaxmn.cpp
- */
 // *****************************************************************************
 // included header files
+#include "config.h"
+
 #include "types.hpp"
 #include "pentaxmn_int.hpp"
 #include "makernote_int.hpp"
