@@ -478,8 +478,7 @@ namespace Exiv2 {
         {  4, N_("Slow sync")      },
         {  5, N_("Auto + red-eye") },
         {  6, N_("On + red-eye")   },
-        { 16, N_("External")       },
-        { 16, N_("External")       }    // To silence compiler warning
+        { 16, N_("External")       }
     };
 
     //! DriveMode, tag 0x0005
@@ -491,8 +490,7 @@ namespace Exiv2 {
         {  4, N_("Continuous, low")            },
         {  5, N_("Continuous, high")           },
         {  6, N_("Silent Single")              },
-        {  9, N_("Single, Silent")             },
-        { 10, N_("Continuous, Silent")         }
+        {  9, N_("Single, Silent")             }
     };
 
     //! FocusMode, tag 0x0007
@@ -507,8 +505,7 @@ namespace Exiv2 {
         {  16, N_("Pan focus")        },
         { 256, N_("AF + MF")          },
         { 512, N_("Movie Snap Focus") },
-        { 519, N_("Movie Servo AF")   },
-        { 519, N_("Movie Servo AF")   }    // To silence compiler warning
+        { 519, N_("Movie Servo AF")   }
     };
 
     //! ImageSize, tag 0x000a
@@ -612,8 +609,7 @@ namespace Exiv2 {
         { 0, N_("None")  },
         { 1, "2x"        },
         { 2, "4x"        },
-        { 3, N_("Other") },
-        { 3, N_("Other") }                      // To silence compiler warning
+        { 3, N_("Other") }
     };
 
     //! Contrast, Saturation Sharpness, tags 0x000d, 0x000e, 0x000f
@@ -1188,8 +1184,7 @@ namespace Exiv2 {
         { 4,   N_("Sepia")         },
         { 5,   N_("B&W")           },
         { 6,   N_("Custom")        },
-        { 100, N_("My color data") },
-        { 100, N_("My color data") }    // To silence compiler warning
+        { 100, N_("My color data") }
     };
 
     //! ManualFlashOutput, tag 0x0029

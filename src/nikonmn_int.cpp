@@ -1021,8 +1021,7 @@ namespace Exiv2 {
         { 4, N_("Automatic")              },
         { 5, N_("GN (distance priority)") },
         { 6, N_("Manual")                 },
-        { 7, N_("Repeating Flash")        },
-        { 7, N_("Repeating Flash")        }     // To silence compiler warning
+        { 7, N_("Repeating Flash")        }
     };
 
     //! ExternalFlashFlags

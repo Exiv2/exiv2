@@ -453,10 +453,9 @@ namespace Exiv2 {
         {     4, N_("Med High")  },
         {     5, N_("Very Low")  },
         {     6, N_("Very High") },
-        {     7, N_("-4") },
-        {     8, N_("+4") },
-        { 65535, N_("None")      },
-        { 65535, N_("None")      }              // To silence compiler warning
+        {     7, N_("-4")        },
+        {     8, N_("+4")        },
+        { 65535, N_("None")      }
     };
 
     //! Contrast, tag 0x0020

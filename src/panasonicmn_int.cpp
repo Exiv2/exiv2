@@ -213,8 +213,7 @@ namespace Exiv2 {
         {   7, N_("Medium high") },
         { 256, N_("Low")         },
         { 272, N_("Standard")    },
-        { 288, N_("High")        },
-        { 288, N_("High")        }              // To silence compiler warning
+        { 288, N_("High")        }
     };
 
     //! NoiseReduction, tag 0x002d
@@ -268,8 +267,7 @@ namespace Exiv2 {
         { 1, N_("Off")       },
         { 2, N_("Wide")      },
         { 3, N_("Telephoto") },
-        { 4, N_("Macro")     },
-        { 4, N_("Macro")     }                  // To silence compiler warning
+        { 4, N_("Macro")     }
     };
 
     //! WorldTimeLocation, tag 0x003a

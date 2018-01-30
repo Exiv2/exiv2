@@ -112,7 +112,6 @@ set( LIBEXIV2_PRIVATE_SRC cr2image_int.cpp
                           samsungmn_int.cpp
                           sigmamn_int.cpp
                           sonymn_int.cpp
-                          #tags_int.cpp
                           tiffcomposite_int.cpp
                           tiffimage_int.cpp
                           tiffvisitor_int.cpp
