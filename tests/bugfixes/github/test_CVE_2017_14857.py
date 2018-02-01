@@ -10,6 +10,6 @@ class CVE_2017_14857(system_tests.Case):
     retval = [1]
     stdout = [""]
     stderr = [
-        """{exiv2_exception_msg} """ + filename + """:
+        """{exiv2_exception_message} """ + filename + """:
 {kerInvalidMalloc}
 """]

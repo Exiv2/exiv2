@@ -10,7 +10,7 @@ class TestPoC(system_tests.Case):
     filename = "{data_path}/heap-oob-write.tiff"
     commands = ["{exiv2} " + filename]
     stdout = [""]
-    stderr = ["""{exiv2_exception_msg} """ + filename + """:
+    stderr = ["""{exiv2_exception_message} """ + filename + """:
 {kerInvalidMalloc}
 """]
     retval = [1]

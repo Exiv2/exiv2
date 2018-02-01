@@ -10,7 +10,7 @@ class TestCvePoC(system_tests.Case):
     filename = "{data_path}/cve_2017_1000126_stack-oob-read.webp"
     commands = ["{exiv2} " + filename]
     stdout = [""]
-    stderr = ["""{exiv2_exception_msg} """ + filename + """:
+    stderr = ["""{exiv2_exception_message} """ + filename + """:
 {kerCorruptedMetadata}
 """]
     retval = [1]

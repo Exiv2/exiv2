@@ -11,7 +11,7 @@ class CVE_2017_14680(system_tests.Case):
     filename = "{data_path}/003-heap-buffer-over"
     commands = ["{exiv2} " + filename]
     stdout = [""]
-    stderr = ["""{exiv2_exception_msg} """ + filename + """:
+    stderr = ["""{exiv2_exception_message} """ + filename + """:
 {kerCorruptedMetadata}
 """]
     retval = [1]
