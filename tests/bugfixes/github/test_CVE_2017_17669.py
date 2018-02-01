@@ -3,7 +3,9 @@
 import system_tests
 
 
-class RunPocFile(system_tests.Case):
+class TestCvePoC(system_tests.Case):
+
+    url = "https://github.com/Exiv2/exiv2/issues/187"
 
     filename = "{data_path}/issue_187"
     commands = ["{exiv2} " + filename]
