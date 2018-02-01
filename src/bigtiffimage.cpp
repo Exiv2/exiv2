@@ -5,6 +5,7 @@
 #include <limits>
 
 #include "exif.hpp"
+#include "error.hpp"
 #include "image_int.hpp"
 
 
@@ -75,7 +76,7 @@ namespace Exiv2
 
         Header readHeader(BasicIo& io)
         {
-            byte header[2];
+            byte header[2] = {0, 0};
             io.read(header, 2);
 
             ByteOrder byteOrder = invalidByteOrder;
@@ -87,7 +88,7 @@ namespace Exiv2
             if (byteOrder == invalidByteOrder)
                 return Header();
 
-            byte version[2];
+            byte version[2] = {0, 0};
             io.read(version, 2);
 
             const uint16_t magic = getUShort(version, byteOrder);
@@ -100,24 +101,42 @@ namespace Exiv2
             if (magic == 0x2A)
             {
                 byte buffer[4];
-                io.read(buffer, 4);
+                int read = io.read(buffer, 4);
+
+                if (read < 4)
+                    throw Exiv2::Error(58);
 
                 const uint32_t offset = getULong(buffer, byteOrder);
                 result = Header(byteOrder, magic, 4, offset);
             }
             else
             {
-                byte buffer[8];
-                io.read(buffer, 2);
+                byte buffer[8] = {0, 0, 0, 0, 0, 0, 0, 0};
+                int read = io.read(buffer, 2);
+                if (read < 2)
+                    throw Exiv2::Error(58);
+
                 const int size = getUShort(buffer, byteOrder);
-                assert(size == 8);
 
-                io.read(buffer, 2); // null
+                if (size == 8)
+                {
+                    read = io.read(buffer, 2); // null
+                    if (read < 2)
+                        throw Exiv2::Error(58);
 
-                io.read(buffer, 8);
-                const uint64_t offset = getULongLong(buffer, byteOrder);
+                    read = io.read(buffer, 8);
+                    if (read < 8)
+                        throw Exiv2::Error(58);
 
-                result = Header(byteOrder, magic, size, offset);
+                    const uint64_t offset = getULongLong(buffer, byteOrder);
+
+                    if (offset >= io.size())
+                        throw Exiv2::Error(58);
+
+                    result = Header(byteOrder, magic, size, offset);
+                }
+                else
+                    throw Exiv2::Error(58);
             }
 
             return result;
