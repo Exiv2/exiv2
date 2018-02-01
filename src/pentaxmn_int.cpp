@@ -1251,6 +1251,7 @@ namespace Exiv2 {
             unsigned long lensID = 0x3ff;
             unsigned long index  = 0;
 
+            // http://www.sno.phy.queensu.ca/~phil/exiftool/TagNames/Pentax.html#LensData
             const ExifData::const_iterator lensInfo = metadata->findKey(ExifKey("Exif.PentaxDng.LensInfo")) != metadata->end()
                                                     ? metadata->findKey(ExifKey("Exif.PentaxDng.LensInfo"))
                                                     : metadata->findKey(ExifKey("Exif.Pentax.LensInfo"))
@@ -1265,8 +1266,6 @@ namespace Exiv2 {
                 // 0x0207 Pentax       LensInfo  Undefined  36 3 255 0 0 40 148 71 152 80 6 241 65 237 153 88 36 1 76 107 251 255 255 255 0 0 80 6 241 0 0 0 0 0 0 0 0
                 unsigned long base   = 1;
 
-                // http://www.sno.phy.queensu.ca/~phil/exiftool/TagNames/Pentax.html#LensData
-                const ExifData::const_iterator lensInfo = metadata->findKey(ExifKey("Exif.Pentax.LensInfo"));
                 unsigned int  autoAperture     = lensInfo->toLong(base+1) & 0x01 ;
                 unsigned int  minAperture      = lensInfo->toLong(base+2) & 0x06 ;
                 unsigned int  minFocusDistance = lensInfo->toLong(base+3) & 0xf8 ;
