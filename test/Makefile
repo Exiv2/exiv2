@@ -101,13 +101,19 @@ tests:
 
 test:
 	mkdir -p tmp
+	rm -rf tmp/test-failed
 	@list='$(TESTS)'; for p in $$list; do \
 	    echo Running $$p ...; \
 	    ./$$p;  \
 	    rc=$$?; \
-	    if [ $$rc -ne 0 ]; then echo result = $$rc ; fi ; \
-	    if [ $$rc -gt 2 ]; then exit $$rc          ; fi ; \
+	    if [ $$rc -ne 0 ]; then echo '***' ; echo '***' $$p result = $$rc ; echo '***'       ; fi ; \
+	    if [ $$rc -ne 0 ]; then              echo '***' $$p result = $$rc >> tmp/test-failed ; fi ; \
 	done
+	make newtests
+	@if [ -e tmp/test-failed ]; then echo '***' FAILED ; cat tmp/test-failed ; echo '***' ; exit 255; fi
+
+newtests:
+	( if [ -e bin/exiv2 ]; then PATH=$$PWD/bin/build ; fi ; cd ../tests ; env EXIV2_PATH=$$(dirname $$(which exiv2)) python3 runner.py --verbose )
 
 testv:
 	@for t in /video ; do \
