@@ -21,16 +21,10 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, 5th Floor, Boston, MA 02110-1301 USA.
  */
-/*
-  File:      nikonmn.cpp
-  Author(s): Andreas Huggel (ahu) <ahuggel@gmx.net>
-             Gilles Caulier (gc) <caulier dot gilles at gmail dot com>
-             Jens Mueller (jm) <tschensinger at web dot de>
-  History:   17-May-04, ahu: created
-             25-May-04, ahu: combined all Nikon formats in one component
- */
 // *****************************************************************************
 // included header files
+#include "config.h"
+
 #include "types.hpp"
 #include "nikonmn_int.hpp"
 #include "value.hpp"
@@ -1021,8 +1015,7 @@ namespace Exiv2 {
         { 4, N_("Automatic")              },
         { 5, N_("GN (distance priority)") },
         { 6, N_("Manual")                 },
-        { 7, N_("Repeating Flash")        },
-        { 7, N_("Repeating Flash")        }     // To silence compiler warning
+        { 7, N_("Repeating Flash")        }
     };
 
     //! ExternalFlashFlags

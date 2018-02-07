@@ -18,16 +18,10 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, 5th Floor, Boston, MA 02110-1301 USA.
  */
-/*
-  File:      fujimn.cpp
-  Author(s): Andreas Huggel (ahu) <ahuggel@gmx.net>
-             Gilles Caulier (gc) <caulier dot gilles at gmail dot com>
-  History:   18-Feb-04, ahu: created
-             07-Mar-04, ahu: isolated as a separate component
-  Credits:   See header file.
- */
 // *****************************************************************************
 // included header files
+#include "config.h"
+
 #include "types.hpp"
 #include "fujimn_int.hpp"
 #include "tags_int.hpp"
@@ -70,17 +64,19 @@ namespace Exiv2 {
         {  769, N_("Fluorescent (warm white)") },
         {  770, N_("Fluorescent (cool white)") },
         { 1024, N_("Incandescent")             },
-        { 3480, N_("Custom")                   },
-        { 3480, N_("Custom")                   } // To silence compiler warning
+        { 3480, N_("Custom")                   }
     };
 
     //! Color, tag 0x1003
     extern const TagDetails fujiColor[] = {
-        {   0, N_("Normal")               },
-        { 256, N_("High")                 },
-        { 512, N_("Low")                  },
-        { 768, N_("None (black & white)") },
-        { 768, N_("None (black & white)") }     // To silence compiler warning
+        {   0, N_("Normal")                 },
+        { 256, N_("High")                   },
+        { 512, N_("Low")                    },
+        { 768, N_("Monochrome")             },
+        { 769, N_("Monochrome+R Filter")    },
+        { 770, N_("Monochrome+Ye Filter")   },
+        { 771, N_("Monochrome+G Filter")    },
+        { 784, N_("Sepia")                  }
     };
 
     //! Tone, tag 0x1004
@@ -97,8 +93,7 @@ namespace Exiv2 {
         {  2, N_("Off")               },
         {  3, N_("Red-eye reduction") },
         {  4, N_("External")          },
-        { 16, N_("Commander")         },
-        { 16, N_("Commander")         }         // To silence compiler warning
+        { 16, N_("Commander")         }
     };
 
     //! FocusMode, tag 0x1021

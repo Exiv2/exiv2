@@ -18,16 +18,10 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, 5th Floor, Boston, MA 02110-1301 USA.
  */
-/*
-  File:      minoltamn.cpp
-  Author(s): Gilles Caulier (cgilles) <caulier dot gilles at gmail dot com>
-             Andreas Huggel (ahu) <ahuggel@gmx.net>
-  History:   06-May-06, gc: submitted
-  Credits:   See header file.
- */
-
 // *****************************************************************************
 // included header files
+#include "config.h"
+
 #include "minoltamn_int.hpp"
 #include "tags_int.hpp"
 #include "makernote_int.hpp"
@@ -335,8 +329,7 @@ namespace Exiv2 {
         { 4, "DiMAGE 7i"                 },
         { 5, "DiMAGE 7Hi"                },
         { 6, "DiMAGE A1"                 },
-        { 7, "DiMAGE A2 | S414"          },
-        { 7, "DiMAGE A2 | S414"          }      // To silence compiler warning
+        { 7, "DiMAGE A2 | S414"          }
     };
 
     //! Lookup table to translate Minolta Std camera settings interval mode values to readable labels
@@ -687,8 +680,7 @@ namespace Exiv2 {
         { 4,   N_("Tungsten")    },
         { 5,   N_("Fluorescent") },
         { 256, N_("Kelvin")      },
-        { 512, N_("Manual")      },
-        { 512, N_("Manual")      }              // To silence compiler warning
+        { 512, N_("Manual")      }
     };
 
     //! Lookup table to translate Minolta Dynax 7D camera settings focus mode values to readable labels

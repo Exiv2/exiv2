@@ -18,11 +18,10 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, 5th Floor, Boston, MA 02110-1301 USA.
  */
-/*
-  File:      pentaxmn.cpp
- */
 // *****************************************************************************
 // included header files
+#include "config.h"
+
 #include "types.hpp"
 #include "pentaxmn_int.hpp"
 #include "makernote_int.hpp"
@@ -453,10 +452,9 @@ namespace Exiv2 {
         {     4, N_("Med High")  },
         {     5, N_("Very Low")  },
         {     6, N_("Very High") },
-        {     7, N_("-4") },
-        {     8, N_("+4") },
-        { 65535, N_("None")      },
-        { 65535, N_("None")      }              // To silence compiler warning
+        {     7, N_("-4")        },
+        {     8, N_("+4")        },
+        { 65535, N_("None")      }
     };
 
     //! Contrast, tag 0x0020

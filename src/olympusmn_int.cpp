@@ -18,18 +18,10 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, 5th Floor, Boston, MA 02110-1301 USA.
  */
-/*
-  File:      olympusmn.cpp
-  Author(s): Will Stokes (wuz) <wstokes@gmail.com>
-             Andreas Huggel (ahu) <ahuggel@gmx.net>
-             Gilles Caulier (gc) <caulier dot gilles at gmail dot com>
-             Greg Mansfield <G.Mansfield at computer dot org>
-  History:   10-Mar-05, wuz: created
-  Credits:   See header file.
- */
-
 // *****************************************************************************
 // included header files
+#include "config.h"
+
 #include "types.hpp"
 #include "olympusmn_int.hpp"
 #include "value.hpp"
@@ -744,8 +736,7 @@ namespace Exiv2 {
         { 6, "FL-50R"   },
         { 7, "FL-36R"   },
         { 9, "FL-14"    },
-        {11, "FL-600R"  },
-        {11, "FL-600R"  }                       // To silence compiler warning
+        {11, "FL-600R"  }
     };
 
     const TagInfo OlympusMakerNote::tagInfoEq_[] = {
