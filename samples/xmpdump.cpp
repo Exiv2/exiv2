@@ -2,7 +2,8 @@
 // xmpdump.cpp
 // Sample program to dump the XMP packet of an image
 
-#include "image.hpp"
+#include <exiv2/exiv2.hpp>
+
 #include <string>
 #include <iostream>
 #include <cassert>

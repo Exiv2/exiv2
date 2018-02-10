@@ -24,6 +24,7 @@ set( SAMPLES
      werror-test.cpp
      write-test.cpp
      write2-test.cpp
+     xmpdump.cpp
      xmpparse.cpp
      xmpparser-test.cpp
      xmpprint.cpp

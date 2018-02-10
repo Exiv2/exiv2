@@ -101,13 +101,20 @@ tests:
 
 test:
 	mkdir -p tmp
+	@if [ -e tmp/test-errors ]; then rm -rf   tmp/test-errors ; fi
 	@list='$(TESTS)'; for p in $$list; do \
 	    echo Running $$p ...; \
 	    ./$$p;  \
 	    rc=$$?; \
-	    if [ $$rc -ne 0 ]; then echo result = $$rc ; fi ; \
-	    if [ $$rc -gt 2 ]; then exit $$rc          ; fi ; \
+	    if [ $$rc -ne 0 ]; then echo $$p result = $$rc >> tmp/test-errors ; fi ; \
 	done
+	./bugfixes2-test.sh
+	@if [ -e tmp/test-errors ]; then \
+	    echo --------------------------------- ; \
+	    cat tmp/test-errors                    ; \
+	    echo --------------------------------- ; \
+	    exit 255 ; \
+	fi
 
 testv:
 	@for t in /video ; do \

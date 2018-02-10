@@ -71,7 +71,7 @@ exiv2:
 	cd src && $(MAKE) $0
 
 # sample programs required by test suite
-conntest exifprint remotetest:
+conntest exifprint remotetest xmpdump:
 	cd samples && $(MAKE) $@
 
 samples: config/config.mk
@@ -94,8 +94,12 @@ webp-test.sh       version-test.sh:
 	cd test && ./$@
 
 # convenience targets for running selected test scripts
-bugtest bugstest testbugs bugfixes:
+bugs bugtest bugstest testbugs bugfixes:
 	cd test && ./bugfixes-test.sh
+
+# convenience targets for running selected test scripts
+bugs2:
+	cd test && ./bugfixes2-test.sh
 
 bugfixes-test icc-test preview-test webp-test stdin-test geotag-test http-test:
 	cd test && ./$@.sh
