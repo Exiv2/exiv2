@@ -11,23 +11,21 @@ rm -rf $output $reference/$output
 
 ##
 # run the tests
-for testfile in 227-Sports.jpg
+for testfile in 227-Sports.jpg 227-Sigma20.jpg 227-Sigma50.jpg
 do
 	if [ ! -e $reference/$testfile ]; then (
 	   cd   $reference
 	   curl -O http://exiv2.dyndns.org:8080/userContent/testfiles/227/$testfile
 	) fi
-	runTest exiv2 -pa  --grep Lens/i  $reference/$testfile >>$output
+	runTest exiv2 -pa  --grep LensIDNumber $reference/$testfile >>$output
 done
 
 ##
 # Reference output
 cat >>  $reference/$output <<END_OF_FILE
-Exif.Nikon3.LensType                         Byte        1  D G VR
-Exif.Nikon3.Lens                             Rational    4  120-300mm F2.8
-Exif.Nikon3.LensFStops                       Undefined   4  6
 Exif.NikonLd3.LensIDNumber                   Byte        1  Sigma 120-300mm F2.8 DG OS HSM | S
-Exif.NikonLd3.LensFStops                     Byte        1  F6.0
+Exif.NikonLd3.LensIDNumber                   Byte        1  Sigma 20mm F1.4 DG HSM | A
+Exif.NikonLd3.LensIDNumber                   Byte        1  Sigma 50mm F1.4 DG HSM | A
 END_OF_FILE
 
 ##
