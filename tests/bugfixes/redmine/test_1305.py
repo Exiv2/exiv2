@@ -20,8 +20,8 @@ Error: Directory Pentax, entry 0x3030 has invalid size 808464432*1; skipping ent
     url = "http://dev.exiv2.org/issues/1305"
 
     filename = "$data_path/IMGP0006-min.jpg"
-    commands = ["$exiv2 " + filename]
-    stdout = ["""File name       : """ + filename + """
+    commands = ["$exiv2 $filename"]
+    stdout = ["""File name       : $filename
 File size       : 12341 Bytes
 MIME type       : image/jpeg
 Image size      : 0 x 0
