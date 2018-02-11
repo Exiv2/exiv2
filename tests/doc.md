@@ -344,6 +344,31 @@ customize how the return value is checked. This is indented, as the return value
 is often used by the OS to indicate segfaults and ignoring it (in combination
 with flawed checks of the output) could lead to crashes not being noticed.
 
+A drop-in replacement for `compare_stderr` is provided by the `system_tests`
+module itself: `check_no_ASAN_UBSAN_errors`. This function only checks that
+errors from AddressSanitizer and undefined behavior sanitizer are not present in
+the obtained output to standard error **and nothing else**. This is useful for
+test cases where stderr is filled with warnings that are not worth being tracked
+by the test suite. It can be used in the following way:
+``` python
+# -*- coding: utf-8 -*-
+
+import system_tests
+
+
+class AnInformativeName(system_tests.Case):
+
+    filename = "invalid_input_file"
+    commands = ["{binary} -c {import_file} -i {filename}"]
+    retval = ["{abort_exit_value}"]
+    stdout = ["Reading {filename}"]
+    stderr = ["""A huge amount of error messages would be here that we absolutely do not care about. Actually everything in this string gets ignored, so we can just leave it empty.
+"""
+    ]
+
+    compare_stderr = system_tests.check_no_ASAN_UBSAN_errors
+```
+
 
 ### Manually expanding variables in strings
 

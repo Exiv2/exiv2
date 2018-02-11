@@ -525,3 +525,49 @@ class Case(unittest.TestCase):
                 _process_output_post(got_stderr.decode('utf-8')), stderr
             )
             self.assertEqual(retval, proc.returncode)
+
+
+def check_no_ASAN_UBSAN_errors(self, i, command, got_stderr, expected_stderr):
+    """
+    Drop-in replacement for the default Case.compare_stderr() function that
+    **only** checks for any signs of ASAN (address sanitizer) and UBSAN
+    (undefined behavior sanitizer).
+
+    Parameters:
+    - i, command, expected_stderr: ignored
+    - got_stderr: checked for signs of ASAN und UBSAN error messages
+
+    This function ignores the expected output to stderr! It is intended for
+    test cases where standard error is filled with useless debugging
+    messages/warnings that are not really relevant for the test and not worth
+    storing in the test suite. This function can be used to still be able to
+    catch ASAN & UBSAN error messages.
+
+    Example usage
+    -------------
+
+    Override the default compare_stderr function in your subclass of Case with
+    this function:
+    >>> class TestNoAsan(Case):
+    ...     compare_stderr = check_no_ASAN_UBSAN_errors
+
+    >>> T = TestNoAsan()
+
+    The new compare_stderr will only complain if there are strings inside the
+    obtained stderr which could be an error reported by ASAN/UBSAN:
+    >>> T.compare_stderr(0, "", "runtime error: load of value 190", "some output")
+    Traceback (most recent call last):
+     ..
+    AssertionError: 'runtime error' unexpectedly found in 'runtime error: load of value 190'
+
+    >>> T.compare_stderr(0, "", "SUMMARY: AddressSanitizer: heap-buffer-overflow", "")
+    Traceback (most recent call last):
+     ..
+    AssertionError: 'AddressSanitizer' unexpectedly found in 'SUMMARY: AddressSanitizer: heap-buffer-overflow'
+
+    It will not complain in all other cases, especially when expected_stderr
+    and got_stderr do not match:
+    >>> T.compare_stderr(0, "", "some output", "other output")
+    """
+    self.assertNotIn("runtime error", got_stderr)
+    self.assertNotIn("AddressSanitizer", got_stderr)
