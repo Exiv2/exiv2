@@ -64,6 +64,8 @@ namespace Exiv2 {
                                    int*           outWidth,
                                    int*           outHeight)
     {
+        assert(data.size_ >= 8);
+
         // Extract image width and height from IHDR chunk.
 
         *outWidth  = getLong((const byte*)data.pData_,     bigEndian);
