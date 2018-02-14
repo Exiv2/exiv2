@@ -270,16 +270,20 @@ namespace Exiv2 {
         //! @name Creators
         //@{
         //! Constructor taking only an error code
-        EXV_DLLLOCAL explicit BasicError(int code);
+        EXV_DLLLOCAL explicit BasicError(ErrorCode code);
+
         //! Constructor taking an error code and one argument
         template<typename A>
-        EXV_DLLLOCAL BasicError(int code, const A& arg1);
+        EXV_DLLLOCAL BasicError(ErrorCode code, const A& arg1);
+
         //! Constructor taking an error code and two arguments
         template<typename A, typename B>
-        EXV_DLLLOCAL BasicError(int code, const A& arg1, const B& arg2);
+        EXV_DLLLOCAL BasicError(ErrorCode code, const A& arg1, const B& arg2);
+
         //! Constructor taking an error code and three arguments
         template<typename A, typename B, typename C>
-        EXV_DLLLOCAL BasicError(int code, const A& arg1, const B& arg2, const C& arg3);
+        EXV_DLLLOCAL BasicError(ErrorCode code, const A& arg1, const B& arg2, const C& arg3);
+
         //! Virtual destructor. (Needed because of throw())
         EXV_DLLLOCAL virtual ~BasicError() throw();
         //@}
@@ -309,7 +313,7 @@ namespace Exiv2 {
         //@}
 
         // DATA
-        int code_;                              //!< Error code
+        ErrorCode code_;                       //!< Error code
         int count_;                             //!< Number of arguments
         std::basic_string<charT> arg1_;         //!< First argument
         std::basic_string<charT> arg2_;         //!< Second argument
@@ -335,7 +339,7 @@ namespace Exiv2 {
 
     template<typename charT>
     //! BasicError constructor
-    BasicError<charT>::BasicError(int code)
+    BasicError<charT>::BasicError(ErrorCode code)
         : code_(code), count_(0)
     {
         setMsg();
@@ -343,7 +347,7 @@ namespace Exiv2 {
 
     template<typename charT> template<typename A>
     //! BasicError constructor
-    BasicError<charT>::BasicError(int code, const A& arg1)
+    BasicError<charT>::BasicError(ErrorCode code, const A& arg1)
         : code_(code), count_(1), arg1_(toBasicString<charT>(arg1))
     {
         setMsg();
@@ -351,7 +355,7 @@ namespace Exiv2 {
 
     template<typename charT> template<typename A, typename B>
     //! BasicError constructor
-    BasicError<charT>::BasicError(int code, const A& arg1, const B& arg2)
+    BasicError<charT>::BasicError(ErrorCode code, const A& arg1, const B& arg2)
         : code_(code), count_(2),
           arg1_(toBasicString<charT>(arg1)),
           arg2_(toBasicString<charT>(arg2))
@@ -361,7 +365,7 @@ namespace Exiv2 {
 
     template<typename charT> template<typename A, typename B, typename C>
     //! BasicError constructor
-    BasicError<charT>::BasicError(int code, const A& arg1, const B& arg2, const C& arg3)
+    BasicError<charT>::BasicError(ErrorCode code, const A& arg1, const B& arg2, const C& arg3)
         : code_(code), count_(3),
           arg1_(toBasicString<charT>(arg1)),
           arg2_(toBasicString<charT>(arg2)),
