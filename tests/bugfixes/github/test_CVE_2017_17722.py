@@ -3,7 +3,9 @@
 import system_tests
 
 
-class AssertionPoC(system_tests.Case):
+class TestCvePoC(system_tests.Case):
+
+    url = "https://github.com/Exiv2/exiv2/issues/208"
 
     filename = "{data_path}/2018-01-09-exiv2-crash-001.tiff"
     commands = ["{exiv2} " + filename]
