@@ -441,7 +441,9 @@ namespace Exiv2 {
 #ifdef DEBUG
                     std::cout << "Exiv2::PngImage::readMetadata: Found IHDR chunk (length: " << dataOffset << ")\n";
 #endif
-                    PngChunk::decodeIHDRChunk(cdataBuf, &pixelWidth_, &pixelHeight_);
+                    if (cdataBuf.size_ >= 8) {
+                        PngChunk::decodeIHDRChunk(cdataBuf, &pixelWidth_, &pixelHeight_);
+                    }
                 }
                 else if (!memcmp(cheaderBuf.pData_ + 4, "tEXt", 4))
                 {
