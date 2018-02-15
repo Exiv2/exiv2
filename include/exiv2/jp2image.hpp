@@ -89,7 +89,7 @@ namespace Exiv2
 
         /*!
           @brief Todo: Not supported yet(?). Calling this function will throw
-              an instance of Error(32).
+              an instance of Error(kerInvalidSettingForImage).
          */
         void setComment(const std::string& comment);
         //@}

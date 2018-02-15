@@ -84,7 +84,7 @@ namespace Exiv2 {
     void CrwImage::setIptcData(const IptcData& /*iptcData*/)
     {
         // not supported
-        throw(Error(32, "IPTC metadata", "CRW"));
+        throw(Error(kerInvalidSettingForImage, "IPTC metadata", "CRW"));
     }
 
     void CrwImage::readMetadata()
@@ -93,13 +93,13 @@ namespace Exiv2 {
         std::cerr << "Reading CRW file " << io_->path() << "\n";
 #endif
         if (io_->open() != 0) {
-            throw Error(9, io_->path(), strError());
+            throw Error(kerDataSourceOpenFailed, io_->path(), strError());
         }
         IoCloser closer(*io_);
         // Ensure that this is the correct image type
         if (!isCrwType(*io_, false)) {
-            if (io_->error() || io_->eof()) throw Error(14);
-            throw Error(33);
+            if (io_->error() || io_->eof()) throw Error(kerFailedToReadImageData);
+            throw Error(kerNotACrwImage);
         }
         clearMetadata();
         // read all metadata into memory

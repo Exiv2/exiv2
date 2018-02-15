@@ -82,17 +82,17 @@ namespace Exiv2 {
     void OrfImage::setComment(const std::string& /*comment*/)
     {
         // not supported
-        throw(Error(32, "Image comment", "ORF"));
+        throw(Error(kerInvalidSettingForImage, "Image comment", "ORF"));
     }
 
     void OrfImage::printStructure(std::ostream& out, PrintStructureOption option, int depth) {
         out << "ORF IMAGE" << std::endl;
-        if (io_->open() != 0) throw Error(9, io_->path(), strError());
+        if (io_->open() != 0) throw Error(kerDataSourceOpenFailed, io_->path(), strError());
         // Ensure that this is the correct image type
         if ( imageType() == ImageType::none )
             if (!isOrfType(*io_, false)) {
-            if (io_->error() || io_->eof()) throw Error(14);
-                throw Error(15);
+            if (io_->error() || io_->eof()) throw Error(kerFailedToReadImageData);
+                throw Error(kerNotAJpeg);
         }
 
         io_->seek(0,BasicIo::beg);
@@ -106,13 +106,13 @@ namespace Exiv2 {
         std::cerr << "Reading ORF file " << io_->path() << "\n";
 #endif
         if (io_->open() != 0) {
-            throw Error(9, io_->path(), strError());
+            throw Error(kerDataSourceOpenFailed, io_->path(), strError());
         }
         IoCloser closer(*io_);
         // Ensure that this is the correct image type
         if (!isOrfType(*io_, false)) {
-            if (io_->error() || io_->eof()) throw Error(14);
-            throw Error(3, "ORF");
+            if (io_->error() || io_->eof()) throw Error(kerFailedToReadImageData);
+            throw Error(kerNotAnImage, "ORF");
         }
         clearMetadata();
         std::ofstream devnull;

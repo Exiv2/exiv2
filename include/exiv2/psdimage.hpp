@@ -88,7 +88,7 @@ namespace Exiv2 {
         void readMetadata();
         void writeMetadata();
         /*!
-          @brief Not supported. Calling this function will throw an Error(32).
+          @brief Not supported. Calling this function will throw an Error(kerInvalidSettingForImage).
          */
         void setComment(const std::string& comment);
         //@}

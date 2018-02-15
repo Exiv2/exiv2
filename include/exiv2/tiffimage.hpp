@@ -93,7 +93,7 @@ namespace Exiv2 {
 
         /*!
           @brief Not supported. TIFF format does not contain a comment.
-              Calling this function will throw an Error(32).
+              Calling this function will throw an Error(kerInvalidSettingForImage).
          */
         void setComment(const std::string& comment);
         //@}

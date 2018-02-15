@@ -26,21 +26,21 @@ try {
     std::string filename(argv[1]);
     Exiv2::FileIo io(filename);
     if(io.open() != 0) {
-        throw Exiv2::Error(9, io.path(), Exiv2::strError());
+        throw Exiv2::Error(Exiv2::kerDataSourceOpenFailed, io.path(), Exiv2::strError());
     }
     Exiv2::IoCloser closer(io);
 
     // Ensure that this is a CRW image
     if (!Exiv2::isCrwType(io, false)) {
-        if (io.error() || io.eof()) throw Exiv2::Error(14);
-        throw Exiv2::Error(33);
+        if (io.error() || io.eof()) throw Exiv2::Error(Exiv2::kerFailedToReadImageData);
+        throw Exiv2::Error(Exiv2::kerNotACrwImage);
     }
 
     // Read the image into a memory buffer
     long len = (long)io.size();
     Exiv2::DataBuf buf(len);
     io.read(buf.pData_, len);
-    if (io.error() || io.eof()) throw Exiv2::Error(14);
+    if (io.error() || io.eof()) throw Exiv2::Error(Exiv2::kerFailedToReadImageData);
 
     // Parse the image, starting with a CIFF header component
     Exiv2::Internal::CiffHeader::AutoPtr parseTree(new Exiv2::Internal::CiffHeader);
@@ -76,11 +76,11 @@ void write(const std::string& filename, const Exiv2::Internal::CiffHeader* pHead
 
     Exiv2::FileIo io(filename);
     if(io.open("wb") != 0) {
-        throw Exiv2::Error(9, io.path(), Exiv2::strError());
+        throw Exiv2::Error(Exiv2::kerDataSourceOpenFailed, io.path(), Exiv2::strError());
     }
     Exiv2::IoCloser closer(io);
     long ret = io.write(&blob[0], (long) blob.size());
-    if (static_cast<size_t>(ret) != blob.size()) throw Exiv2::Error(21);
+    if (static_cast<size_t>(ret) != blob.size()) throw Exiv2::Error(Exiv2::kerImageWriteFailed);
     io.close();
 }
 

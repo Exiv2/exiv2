@@ -104,7 +104,7 @@ namespace Exiv2 {
         // From a tEXt, zTXt, or iTXt chunk,
         // we get the key, it's a null terminated string at the chunk start
         const int offset = stripHeader ? 8 : 0;
-        if (data.size_ <= offset) throw Error(14);
+        if (data.size_ <= offset) throw Error(kerFailedToReadImageData);
         const byte *key = data.pData_ + offset;
 
         // Find null string at end of key.
@@ -114,7 +114,7 @@ namespace Exiv2 {
             keysize++;
             // look if keysize is valid.
             if (keysize+offset >= data.size_)
-                throw Error(14);
+                throw Error(kerFailedToReadImageData);
         }
 
         return DataBuf(key, keysize);
@@ -139,7 +139,7 @@ namespace Exiv2 {
 #ifdef DEBUG
                 std::cerr << "Exiv2::PngChunk::parseTXTChunk: Non-standard zTXt compression method.\n";
 #endif
-                throw Error(14);
+                throw Error(kerFailedToReadImageData);
             }
 
             // compressed string after the compression technique spec
@@ -206,7 +206,7 @@ namespace Exiv2 {
 #ifdef DEBUG
                 std::cerr << "Exiv2::PngChunk::parseTXTChunk: Non-standard iTXt compression method.\n";
 #endif
-                throw Error(14);
+                throw Error(kerFailedToReadImageData);
             }
         }
         else
@@ -214,7 +214,7 @@ namespace Exiv2 {
 #ifdef DEBUG
             std::cerr << "Exiv2::PngChunk::parseTXTChunk: We found a field, not expected though\n";
 #endif
-            throw Error(14);
+            throw Error(kerFailedToReadImageData);
         }
 
         return arr;
@@ -459,13 +459,13 @@ namespace Exiv2 {
             }
             else {
                 // something bad happened
-                throw Error(14);
+                throw Error(kerFailedToReadImageData);
             }
         }
         while (zlibResult == Z_BUF_ERROR);
 
         if (zlibResult != Z_OK) {
-            throw Error(14);
+            throw Error(kerFailedToReadImageData);
         }
     } // PngChunk::zlibUncompress
 
@@ -493,11 +493,11 @@ namespace Exiv2 {
 #endif
                 compressedLen *= 2;
                 // DoS protection. Cap max compressed size
-                if ( compressedLen > 131072 ) throw Error(14);
+                if ( compressedLen > 131072 ) throw Error(kerFailedToReadImageData);
                 break;
             default:
                 // Something bad happened
-                throw Error(14);
+                throw Error(kerFailedToReadImageData);
             }
         } while (zlibResult == Z_BUF_ERROR);
 

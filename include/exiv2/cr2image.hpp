@@ -88,7 +88,7 @@ namespace Exiv2 {
         void printStructure(std::ostream& out, PrintStructureOption option,int depth);
         /*!
           @brief Not supported. CR2 format does not contain a comment.
-              Calling this function will throw an Error(32).
+              Calling this function will throw an Error(kerInvalidSettingForImage).
          */
         void setComment(const std::string& comment);
         //@}

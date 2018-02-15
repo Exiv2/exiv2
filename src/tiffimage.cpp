@@ -59,7 +59,7 @@
    in crwimage.* :
 
    + Fix CiffHeader according to TiffHeader
-   + Combine Error(15) and Error(33), add format argument %1
+   + Combine Error(kerNotAJpeg) and Error(kerNotACrwImage), add format argument %1
    + Search crwimage for todos, fix writeMetadata comment
    + rename loadStack to getPath for consistency
 
@@ -164,7 +164,7 @@ namespace Exiv2 {
     void TiffImage::setComment(const std::string& /*comment*/)
     {
         // not supported
-        throw(Error(32, "Image comment", "TIFF"));
+        throw(Error(kerInvalidSettingForImage, "Image comment", "TIFF"));
     }
 
     void TiffImage::readMetadata()
@@ -172,12 +172,12 @@ namespace Exiv2 {
 #ifdef DEBUG
         std::cerr << "Reading TIFF file " << io_->path() << "\n";
 #endif
-        if (io_->open() != 0) throw Error(9, io_->path(), strError());
+        if (io_->open() != 0) throw Error(kerDataSourceOpenFailed, io_->path(), strError());
         IoCloser closer(*io_);
         // Ensure that this is the correct image type
         if (!isTiffType(*io_, false)) {
-            if (io_->error() || io_->eof()) throw Error(14);
-            throw Error(3, "TIFF");
+            if (io_->error() || io_->eof()) throw Error(kerFailedToReadImageData);
+            throw Error(kerNotAnImage, "TIFF");
         }
         clearMetadata();
 
@@ -331,12 +331,12 @@ namespace Exiv2 {
 
     void TiffImage::printStructure(std::ostream& out, Exiv2::PrintStructureOption option,int depth)
     {
-        if (io_->open() != 0) throw Error(9, io_->path(), strError());
+        if (io_->open() != 0) throw Error(kerDataSourceOpenFailed, io_->path(), strError());
         // Ensure that this is the correct image type
         if ( imageType() == ImageType::none )
         if (!isTiffType(*io_, false)) {
-            if (io_->error() || io_->eof()) throw Error(14);
-            throw Error(15);
+            if (io_->error() || io_->eof()) throw Error(kerFailedToReadImageData);
+            throw Error(kerNotAJpeg);
         }
 
         io_->seek(0,BasicIo::beg);

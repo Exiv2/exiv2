@@ -54,19 +54,19 @@ namespace Exiv2
     void BmpImage::setExifData(const ExifData& /*exifData*/)
     {
         // Todo: implement me!
-        throw(Error(32, "Exif metadata", "BMP"));
+        throw(Error(kerInvalidSettingForImage, "Exif metadata", "BMP"));
     }
 
     void BmpImage::setIptcData(const IptcData& /*iptcData*/)
     {
         // Todo: implement me!
-        throw(Error(32, "IPTC metadata", "BMP"));
+        throw(Error(kerInvalidSettingForImage, "IPTC metadata", "BMP"));
     }
 
     void BmpImage::setComment(const std::string& /*comment*/)
     {
         // not supported
-        throw(Error(32, "Image comment", "BMP"));
+        throw(Error(kerInvalidSettingForImage, "Image comment", "BMP"));
     }
 
     void BmpImage::readMetadata()
@@ -75,13 +75,13 @@ namespace Exiv2
         std::cerr << "Exiv2::BmpImage::readMetadata: Reading Windows bitmap file " << io_->path() << "\n";
 #endif
         if (io_->open() != 0) {
-            throw Error(9, io_->path(), strError());
+            throw Error(kerDataSourceOpenFailed, io_->path(), strError());
         }
         IoCloser closer(*io_);
         // Ensure that this is the correct image type
         if (!isBmpType(*io_, false)) {
-            if (io_->error() || io_->eof()) throw Error(14);
-            throw Error(3, "BMP");
+            if (io_->error() || io_->eof()) throw Error(kerFailedToReadImageData);
+            throw Error(kerNotAnImage, "BMP");
         }
         clearMetadata();
 
@@ -116,7 +116,7 @@ namespace Exiv2
     void BmpImage::writeMetadata()
     {
         // Todo: implement me!
-        throw(Error(31, "BMP"));
+        throw(Error(kerWritingImageFormatUnsupported, "BMP"));
     }
 
     // *************************************************************************

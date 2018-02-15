@@ -1655,7 +1655,7 @@ namespace Exiv2 {
     {
         if (pData == 0 || size == 0) return TiffComponent::AutoPtr(0);
         if (!pHeader->read(pData, size) || pHeader->offset() >= size) {
-            throw Error(3, "TIFF");
+            throw Error(kerNotAnImage, "TIFF");
         }
         TiffComponent::AutoPtr rootDir = TiffCreator::create(root, ifdIdNotSet);
         if (0 != rootDir.get()) {

@@ -71,7 +71,7 @@ namespace Exiv2 {
     void XmpSidecar::setComment(const std::string& /*comment*/)
     {
         // not supported
-        throw(Error(32, "Image comment", "XMP"));
+        throw(Error(kerInvalidSettingForImage, "Image comment", "XMP"));
     }
 
     void XmpSidecar::readMetadata()
@@ -80,13 +80,13 @@ namespace Exiv2 {
         std::cerr << "Reading XMP file " << io_->path() << "\n";
 #endif
         if (io_->open() != 0) {
-            throw Error(9, io_->path(), strError());
+            throw Error(kerDataSourceOpenFailed, io_->path(), strError());
         }
         IoCloser closer(*io_);
         // Ensure that this is the correct image type
         if (!isXmpType(*io_, false)) {
-            if (io_->error() || io_->eof()) throw Error(14);
-            throw Error(3, "XMP");
+            if (io_->error() || io_->eof()) throw Error(kerFailedToReadImageData);
+            throw Error(kerNotAnImage, "XMP");
         }
         // Read the XMP packet from the IO stream
         std::string xmpPacket;
@@ -96,7 +96,7 @@ namespace Exiv2 {
         while ((l = io_->read(buf, len)) > 0) {
             xmpPacket.append(reinterpret_cast<char*>(buf), l);
         }
-        if (io_->error()) throw Error(14);
+        if (io_->error()) throw Error(kerFailedToReadImageData);
         clearMetadata();
         xmpPacket_ = xmpPacket;
         if (xmpPacket_.size() > 0 && XmpParser::decode(xmpData_, xmpPacket_)) {
@@ -121,7 +121,7 @@ namespace Exiv2 {
     void XmpSidecar::writeMetadata()
     {
         if (io_->open() != 0) {
-            throw Error(9, io_->path(), strError());
+            throw Error(kerDataSourceOpenFailed, io_->path(), strError());
         }
         IoCloser closer(*io_);
 
@@ -160,8 +160,8 @@ namespace Exiv2 {
             // Write XMP packet
             if (   tempIo->write(reinterpret_cast<const byte*>(xmpPacket_.data()),
                                  static_cast<long>(xmpPacket_.size()))
-                != static_cast<long>(xmpPacket_.size())) throw Error(21);
-            if (tempIo->error()) throw Error(21);
+                != static_cast<long>(xmpPacket_.size())) throw Error(kerImageWriteFailed);
+            if (tempIo->error()) throw Error(kerImageWriteFailed);
             io_->close();
             io_->transfer(*tempIo); // may throw
         }

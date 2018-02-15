@@ -684,7 +684,7 @@ namespace Exiv2 {
           @param type       The image type.
           @param metadataId The metadata identifier.
           @return Access mode for the requested image type and metadata identifier.
-          @throw Error(13) if the image type is not supported.
+          @throw Error(kerUnsupportedImageType) if the image type is not supported.
          */
         static AccessMode checkMode(int type, MetadataId metadataId);
         /*!

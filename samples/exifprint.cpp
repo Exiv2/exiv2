@@ -45,7 +45,7 @@ try {
     Exiv2::ExifData &exifData = image->exifData();
     if (exifData.empty()) {
         std::string error("No Exif data found in file");
-        throw Exiv2::Error(1, error);
+        throw Exiv2::Error(Exiv2::kerErrorMessage, error);
     }
 
     Exiv2::ExifData::const_iterator end = exifData.end();

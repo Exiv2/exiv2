@@ -86,7 +86,7 @@ namespace Exiv2
         void writeMetadata();
         /*!
           @brief Not supported.
-              Calling this function will throw an instance of Error(32).
+              Calling this function will throw an instance of Error(kerInvalidSettingForImage).
          */
         void setComment(const std::string& comment);
         //@}

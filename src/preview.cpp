@@ -463,7 +463,7 @@ namespace {
 
         BasicIo &io = image_.io();
         if (io.open() != 0) {
-            throw Error(9, io.path(), strError());
+            throw Error(kerDataSourceOpenFailed, io.path(), strError());
         }
         IoCloser closer(io);
         const byte* data = io.mmap();
@@ -492,7 +492,7 @@ namespace {
             }
             return DataBuf(record + sizeHdr + 28, sizeData - 28);
         } else {
-            throw Error(1, "Invalid native preview filter: " + nativePreview_.filter_);
+            throw Error(kerErrorMessage, "Invalid native preview filter: " + nativePreview_.filter_);
         }
     }
 
@@ -570,7 +570,7 @@ namespace {
         BasicIo &io = image_.io();
 
         if (io.open() != 0) {
-            throw Error(9, io.path(), strError());
+            throw Error(kerDataSourceOpenFailed, io.path(), strError());
         }
         IoCloser closer(io);
 
@@ -587,7 +587,7 @@ namespace {
         BasicIo &io = image_.io();
 
         if (io.open() != 0) {
-            throw Error(9, io.path(), strError());
+            throw Error(kerDataSourceOpenFailed, io.path(), strError());
         }
         IoCloser closer(io);
         const Exiv2::byte* base = io.mmap();
@@ -784,7 +784,7 @@ namespace {
             BasicIo &io = image_.io();
 
             if (io.open() != 0) {
-                throw Error(9, io.path(), strError());
+                throw Error(kerDataSourceOpenFailed, io.path(), strError());
             }
             IoCloser closer(io);
 

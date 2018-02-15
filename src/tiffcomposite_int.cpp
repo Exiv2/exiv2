@@ -1086,7 +1086,7 @@ namespace Exiv2 {
 
         // Number of components to write
         const uint32_t compCount = count();
-        if (compCount > 0xffff) throw Error(49, groupName(group()));
+        if (compCount > 0xffff) throw Error(kerTooManyTiffDirectoryEntries, groupName(group()));
 
         // Size of next IFD, if any
         uint32_t sizeNext = 0;
@@ -1264,7 +1264,7 @@ namespace Exiv2 {
         switch(tiffType) {
         case ttUnsignedShort:
         case ttSignedShort:
-            if (static_cast<uint32_t>(offset) > 0xffff) throw Error(26);
+            if (static_cast<uint32_t>(offset) > 0xffff) throw Error(kerOffsetOutOfRange);
             rc = s2Data(buf, static_cast<int16_t>(offset), byteOrder);
             break;
         case ttUnsignedLong:
@@ -1272,7 +1272,7 @@ namespace Exiv2 {
             rc = l2Data(buf, static_cast<int32_t>(offset), byteOrder);
             break;
         default:
-            throw Error(27);
+            throw Error(kerUnsupportedDataAreaOffsetType);
             break;
         }
         return rc;
@@ -1607,8 +1607,8 @@ namespace Exiv2 {
     uint32_t TiffImageEntry::doWriteImage(IoWrapper& ioWrapper,
                                           ByteOrder  /*byteOrder*/) const
     {
-        if ( !pValue() ) throw Error(21); // #1296
-        
+        if ( !pValue() ) throw Error(kerImageWriteFailed); // #1296
+
         uint32_t len = pValue()->sizeDataArea();
         if (len > 0) {
 #ifdef DEBUG

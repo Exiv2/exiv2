@@ -37,7 +37,7 @@ try {
     Exiv2::ExifData &ed = image->exifData();
     if (ed.empty()) {
         std::string error = file + ": No Exif data found in the file";
-        throw Exiv2::Error(1, error);
+        throw Exiv2::Error(Exiv2::kerErrorMessage, error);
     }
 
     std::cout << "Copy construction, non-intrusive changes\n";
