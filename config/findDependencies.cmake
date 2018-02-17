@@ -1,5 +1,5 @@
 # set include path for FindXXX.cmake files
-set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} "${CMAKE_SOURCE_DIR}/config/")
+set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} "${CMAKE_CURRENT_SOURCE_DIR}/config/")
 
 # Check if the conan file exist to find the dependencies
 if (EXISTS ${CMAKE_BINARY_DIR}/conanbuildinfo.cmake)
