@@ -204,18 +204,18 @@ endif()
 
 if ( EXIV2_ENABLE_XMP )
     #target_include_directories(exiv2lib PRIVATE ${CMAKE_SOURCE_DIR}/xmpsdk/include)
-    target_link_libraries(exiv2lib PUBLIC xmp)
+    target_link_libraries(exiv2lib PRIVATE xmp)
 endif()
 
 # TODO : We should not include include/exiv2 but only include !!!
 target_include_directories(exiv2lib PUBLIC
-    $<BUILD_INTERFACE:${CMAKE_SOURCE_DIR}/include/exiv2>
-    $<BUILD_INTERFACE:${CMAKE_SOURCE_DIR}/include>
+    $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/../include/exiv2>
+    $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/../include>
     $<INSTALL_INTERFACE:include>
 )
 
 target_include_directories(exiv2lib_int PUBLIC
-    $<BUILD_INTERFACE:${CMAKE_SOURCE_DIR}/include/exiv2>
+    $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/../include/exiv2>
 )
 
 if (EXIV2_ENABLE_WEBREADY)
