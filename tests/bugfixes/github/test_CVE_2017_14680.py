@@ -12,6 +12,6 @@ class CVE_2017_14680(system_tests.Case):
     commands = ["{exiv2} " + filename]
     stdout = [""]
     stderr = ["""{exiv2_exception_msg} """ + filename + """:
-{error_58_message}
+{kerCorruptedMetadata}
 """]
     retval = [1]
