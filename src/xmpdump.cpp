@@ -23,7 +23,7 @@ try {
     if (xmpPacket.empty()) {
         std::string error(argv[1]);
         error += ": No XMP packet found in the file";
-        throw Exiv2::Error(1, error);
+        throw Exiv2::Error(kerErrorMessage, error);
     }
     std::cout << xmpPacket << "\n";
 

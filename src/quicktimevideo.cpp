@@ -625,12 +625,12 @@ namespace Exiv2 {
 
     void QuickTimeVideo::readMetadata()
     {
-        if (io_->open() != 0) throw Error(9, io_->path(), strError());
+        if (io_->open() != 0) throw Error(kerDataSourceOpenFailed, io_->path(), strError());
 
         // Ensure that this is the correct image type
         if (!isQTimeType(*io_, false)) {
-            if (io_->error() || io_->eof()) throw Error(14);
-            throw Error(3, "QuickTime");
+            if (io_->error() || io_->eof()) throw Error(kerFailedToReadImageData);
+            throw Error(kerNotAnImage, "QuickTime");
         }
 
         IoCloser closer(*io_);

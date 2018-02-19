@@ -469,7 +469,7 @@ namespace Exiv2 {
             charsetId = CharsetInfo::charsetIdByName(name);
             if (charsetId == invalidCharsetId) {
 #ifndef SUPPRESS_WARNINGS
-                EXV_WARNING << Error(28, name) << "\n";
+                EXV_WARNING << Error(kerInvalidCharset, name) << "\n";
 #endif
                 return 1;
             }
@@ -681,7 +681,7 @@ namespace Exiv2 {
                 setXmpStruct();
             }
             else {
-                throw Error(48, type);
+                throw Error(kerInvalidXmpText, type);
             }
         }
         value_ = b;
@@ -927,7 +927,7 @@ namespace Exiv2 {
         // Hard coded to read Iptc style dates
         if (len != 8) {
 #ifndef SUPPRESS_WARNINGS
-            EXV_WARNING << Error(29) << "\n";
+            EXV_WARNING << Error(kerUnsupportedDateFormat) << "\n";
 #endif
             return 1;
         }
@@ -938,7 +938,7 @@ namespace Exiv2 {
                              &date_.year, &date_.month, &date_.day);
         if (scanned != 3) {
 #ifndef SUPPRESS_WARNINGS
-            EXV_WARNING << Error(29) << "\n";
+            EXV_WARNING << Error(kerUnsupportedDateFormat) << "\n";
 #endif
             return 1;
         }
@@ -950,7 +950,7 @@ namespace Exiv2 {
         // Hard coded to read Iptc style dates
         if (buf.length() < 8) {
 #ifndef SUPPRESS_WARNINGS
-            EXV_WARNING << Error(29) << "\n";
+            EXV_WARNING << Error(kerUnsupportedDateFormat) << "\n";
 #endif
             return 1;
         }
@@ -958,7 +958,7 @@ namespace Exiv2 {
                              &date_.year, &date_.month, &date_.day);
         if (scanned != 3) {
 #ifndef SUPPRESS_WARNINGS
-            EXV_WARNING << Error(29) << "\n";
+            EXV_WARNING << Error(kerUnsupportedDateFormat) << "\n";
 #endif
             return 1;
         }
@@ -1076,7 +1076,7 @@ namespace Exiv2 {
         if (rc) {
             rc = 1;
 #ifndef SUPPRESS_WARNINGS
-            EXV_WARNING << Error(30) << "\n";
+            EXV_WARNING << Error(kerUnsupportedTimeFormat) << "\n";
 #endif
         }
         return rc;
@@ -1096,7 +1096,7 @@ namespace Exiv2 {
         if (rc) {
             rc = 1;
 #ifndef SUPPRESS_WARNINGS
-            EXV_WARNING << Error(30) << "\n";
+            EXV_WARNING << Error(kerUnsupportedTimeFormat) << "\n";
 #endif
         }
         return rc;

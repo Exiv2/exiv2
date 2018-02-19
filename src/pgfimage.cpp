@@ -111,14 +111,14 @@ namespace Exiv2 {
 #endif
         if (io_->open() != 0)
         {
-            throw Error(9, io_->path(), strError());
+            throw Error(kerDataSourceOpenFailed, io_->path(), strError());
         }
         IoCloser closer(*io_);
         // Ensure that this is the correct image type
         if (!isPgfType(*io_, true))
         {
-            if (io_->error() || io_->eof()) throw Error(14);
-            throw Error(3, "PGF");
+            if (io_->error() || io_->eof()) throw Error(kerFailedToReadImageData);
+            throw Error(kerNotAnImage, "PGF");
         }
         clearMetadata();
 
@@ -135,14 +135,14 @@ namespace Exiv2 {
         std::cout << "Exiv2::PgfImage::readMetadata: Found Image data (" << size << " bytes)\n";
 #endif
 
-        if (size < 0) throw Error(20);
+        if (size < 0) throw Error(kerInputDataReadFailed);
         if (size == 0) return;
 
         DataBuf imgData(size);
         std::memset(imgData.pData_, 0x0, imgData.size_);
         long bufRead = io_->read(imgData.pData_, imgData.size_);
-        if (io_->error()) throw Error(14);
-        if (bufRead != imgData.size_) throw Error(20);
+        if (io_->error()) throw Error(kerFailedToReadImageData);
+        if (bufRead != imgData.size_) throw Error(kerInputDataReadFailed);
 
         Image::AutoPtr image = Exiv2::ImageFactory::open(imgData.pData_, imgData.size_);
         image->readMetadata();
@@ -156,7 +156,7 @@ namespace Exiv2 {
     {
         if (io_->open() != 0)
         {
-            throw Error(9, io_->path(), strError());
+            throw Error(kerDataSourceOpenFailed, io_->path(), strError());
         }
         IoCloser closer(*io_);
         BasicIo::AutoPtr tempIo(new MemIo);
@@ -170,8 +170,8 @@ namespace Exiv2 {
 
     void PgfImage::doWriteMetadata(BasicIo& outIo)
     {
-        if (!io_->isopen()) throw Error(20);
-        if (!outIo.isopen()) throw Error(21);
+        if (!io_->isopen()) throw Error(kerInputDataReadFailed);
+        if (!outIo.isopen()) throw Error(kerImageWriteFailed);
 
 #ifdef DEBUG
         std::cout << "Exiv2::PgfImage::doWriteMetadata: Writing PGF file " << io_->path() << "\n";
@@ -181,8 +181,8 @@ namespace Exiv2 {
         // Ensure that this is the correct image type
         if (!isPgfType(*io_, true))
         {
-            if (io_->error() || io_->eof()) throw Error(20);
-            throw Error(22);
+            if (io_->error() || io_->eof()) throw Error(kerInputDataReadFailed);
+            throw Error(kerNoImageInInputData);
         }
 
         // Ensure PGF version.
@@ -209,17 +209,17 @@ namespace Exiv2 {
         //---------------------------------------------------------------
 
         // Write PGF Signature.
-        if (outIo.write(pgfSignature, 3) != 3) throw Error(21);
+        if (outIo.write(pgfSignature, 3) != 3) throw Error(kerImageWriteFailed);
 
         // Write Magic number.
-        if (outIo.putb(mnb) == EOF) throw Error(21);
+        if (outIo.putb(mnb) == EOF) throw Error(kerImageWriteFailed);
 
         // Write new Header size.
         uint32_t newHeaderSize = header.size_ + imgSize;
         DataBuf buffer(4);
         memcpy (buffer.pData_, &newHeaderSize, 4);
         byteSwap_(buffer,0,bSwap_);
-        if (outIo.write(buffer.pData_, 4) != 4) throw Error(21);
+        if (outIo.write(buffer.pData_, 4) != 4) throw Error(kerImageWriteFailed);
 
 #ifdef DEBUG
         std::cout << "Exiv2::PgfImage: new PGF header size : " << newHeaderSize << " bytes\n";
@@ -231,10 +231,10 @@ namespace Exiv2 {
 #endif
 
         // Write Header data.
-        if (outIo.write(header.pData_, header.size_) != header.size_) throw Error(21);
+        if (outIo.write(header.pData_, header.size_) != header.size_) throw Error(kerImageWriteFailed);
 
         // Write new metadata byte array.
-        if (outIo.write(imgBuf.pData_, imgBuf.size_) != imgBuf.size_) throw Error(21);
+        if (outIo.write(imgBuf.pData_, imgBuf.size_) != imgBuf.size_) throw Error(kerImageWriteFailed);
 
         // Copy the rest of PGF image data.
 
@@ -242,16 +242,16 @@ namespace Exiv2 {
         long readSize = 0;
         while ((readSize=io_->read(buf.pData_, buf.size_)))
         {
-            if (outIo.write(buf.pData_, readSize) != readSize) throw Error(21);
+            if (outIo.write(buf.pData_, readSize) != readSize) throw Error(kerImageWriteFailed);
         }
-        if (outIo.error()) throw Error(21);
+        if (outIo.error()) throw Error(kerImageWriteFailed);
 
     } // PgfImage::doWriteMetadata
 
     byte PgfImage::readPgfMagicNumber(BasicIo& iIo)
     {
         byte b = iIo.getb();
-        if (iIo.error()) throw Error(14);
+        if (iIo.error()) throw Error(kerFailedToReadImageData);
 
         if (b < 0x36)   // 0x36 = '6'.
         {
@@ -268,11 +268,11 @@ namespace Exiv2 {
     {
         DataBuf buffer(4);
         long bufRead = iIo.read(buffer.pData_, buffer.size_);
-        if (iIo.error()) throw Error(14);
-        if (bufRead != buffer.size_) throw Error(20);
+        if (iIo.error()) throw Error(kerFailedToReadImageData);
+        if (bufRead != buffer.size_) throw Error(kerInputDataReadFailed);
 
         int headerSize = (int) byteSwap_(buffer,0,bSwap_);
-        if (headerSize <= 0 ) throw Error(22);
+        if (headerSize <= 0 ) throw Error(kerNoImageInInputData);
 
 #ifdef DEBUG
         std::cout << "Exiv2::PgfImage: PGF header size : " << headerSize << " bytes\n";
@@ -285,8 +285,8 @@ namespace Exiv2 {
     {
         DataBuf header(16);
         long bufRead = iIo.read(header.pData_, header.size_);
-        if (iIo.error()) throw Error(14);
-        if (bufRead != header.size_) throw Error(20);
+        if (iIo.error()) throw Error(kerFailedToReadImageData);
+        if (bufRead != header.size_) throw Error(kerInputDataReadFailed);
 
         DataBuf work(8);  // don't disturb the binary data - doWriteMetadata reuses it
         memcpy (work.pData_,header.pData_,8);
@@ -306,8 +306,8 @@ namespace Exiv2 {
             header.alloc(16 + 256*3);
 
             bufRead = iIo.read(&header.pData_[16], 256*3);
-            if (iIo.error()) throw Error(14);
-            if (bufRead != 256*3) throw Error(20);
+            if (iIo.error()) throw Error(kerFailedToReadImageData);
+            if (bufRead != 256*3) throw Error(kerInputDataReadFailed);
         }
 
         return header;

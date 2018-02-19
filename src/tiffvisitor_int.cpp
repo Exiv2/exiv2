@@ -1493,7 +1493,7 @@ namespace Exiv2 {
         uint32_t isize= 0; // size of Exif.Sony1.PreviewImage
 
         if (count > std::numeric_limits<uint32_t>::max() / typeSize) {
-            throw Error(59);
+            throw Error(kerArithmeticOverflow);
         }
         uint32_t size = typeSize * count;
         uint32_t offset = getLong(p, byteOrder());
@@ -1523,10 +1523,10 @@ namespace Exiv2 {
             if ((static_cast<uintptr_t>(baseOffset()) > std::numeric_limits<uintptr_t>::max() - static_cast<uintptr_t>(offset))
              || (static_cast<uintptr_t>(baseOffset() + offset) > std::numeric_limits<uintptr_t>::max() - reinterpret_cast<uintptr_t>(pData_)))
             {
-                throw Error(59);
+                throw Error(kerArithmeticOverflow);
             }
             if (pData_ + static_cast<uintptr_t>(baseOffset()) + static_cast<uintptr_t>(offset) > pLast_) {
-                throw Error(58);
+                throw Error(kerCorruptedMetadata);
             }
             pData = const_cast<byte*>(pData_) + baseOffset() + offset;
 
@@ -1551,7 +1551,7 @@ namespace Exiv2 {
         }
         Value::AutoPtr v = Value::create(typeId);
         if (!v.get()) {
-            throw Error(58);
+            throw Error(kerCorruptedMetadata);
         }
         if ( !isize ) {
         	v->read(pData, size, byteOrder());

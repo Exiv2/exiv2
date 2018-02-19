@@ -1296,14 +1296,14 @@ namespace {
 #if defined(_MSC_VER) || defined(__MINGW__)
             for ( int i = 1 ; i < __argc ; i++ ) { cmdLine += std::string(" ") + formatArg(__argv[i]) ; }
 #endif
-            throw Exiv2::Error(1, Exiv2::toString(num)
+            throw Exiv2::Error(Exiv2::kerErrorMessage, Exiv2::toString(num)
                                + ": " + _("Invalid command line:") + cmdLine);
         }
 
         std::string cmd(line.substr(cmdStart, cmdEnd-cmdStart));
         CmdId cmdId = commandId(cmd);
         if (cmdId == invalidCmdId) {
-            throw Exiv2::Error(1, Exiv2::toString(num)
+            throw Exiv2::Error(Exiv2::kerErrorMessage, Exiv2::toString(num)
                                + ": " + _("Invalid command") + " `" + cmd + "'");
         }
 
@@ -1335,7 +1335,7 @@ namespace {
                 catch (const Exiv2::AnyError&) {}
             }
             if (metadataId == invalidMetadataId) {
-                throw Exiv2::Error(1, Exiv2::toString(num)
+                throw Exiv2::Error(Exiv2::kerErrorMessage, Exiv2::toString(num)
                                    + ": " + _("Invalid key") + " `" + key + "'");
             }
         }
@@ -1355,7 +1355,7 @@ namespace {
             if (   cmdId == reg
                 && (   keyEnd == std::string::npos
                     || valStart == std::string::npos)) {
-                throw Exiv2::Error(1, Exiv2::toString(num)
+                throw Exiv2::Error(Exiv2::kerErrorMessage, Exiv2::toString(num)
                                    + ": " + _("Invalid command line") + " " );
             }
 
@@ -1367,7 +1367,7 @@ namespace {
                 if (tmpType != Exiv2::invalidTypeId) {
                     valStart = line.find_first_not_of(delim, typeEnd+1);
                     if (valStart == std::string::npos) {
-                        throw Exiv2::Error(1, Exiv2::toString(num)
+                        throw Exiv2::Error(Exiv2::kerErrorMessage, Exiv2::toString(num)
                                            + ": " + _("Invalid command line") + " " );
                     }
                     type = tmpType;

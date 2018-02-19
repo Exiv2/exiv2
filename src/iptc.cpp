@@ -210,7 +210,7 @@ namespace Exiv2 {
 
     const Value& Iptcdatum::value() const
     {
-        if (value_.get() == 0) throw Error(8);
+        if (value_.get() == 0) throw Error(kerValueNotSet);
         return *value_;
     }
 

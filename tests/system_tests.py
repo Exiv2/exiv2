@@ -50,6 +50,31 @@ def _disjoint_dict_merge(d1, d2):
     return res
 
 
+class CasePreservingConfigParser(configparser.ConfigParser):
+    r""" ConfigParser where the keys are case sensitive.
+
+    The default ConfigParser converts all options in the config file with their
+    lowercase version. This class overrides the respective functions and
+    preserves the case of keys.
+
+    The default behavior of ConfigParser:
+    >>> conf_string = "[Section1]\nKey = Value"
+    >>> default_conf = configparser.ConfigParser()
+    >>> default_conf.read_string(conf_string)
+    >>> list(default_conf['Section1'].keys())
+    ['key']
+
+    This classes' behavior:
+    >>> case_preserve = CasePreservingConfigParser()
+    >>> case_preserve.read_string(conf_string)
+    >>> list(case_preserve['Section1'].keys())
+    ['Key']
+    """
+
+    def optionxform(self, option):
+        return option
+
+
 _parameters = {}
 
 
@@ -79,7 +104,7 @@ def configure_suite(config_file):
             .format(os.path.abspath(config_file))
         )
 
-    config = configparser.ConfigParser(
+    config = CasePreservingConfigParser(
         interpolation=configparser.ExtendedInterpolation(),
         delimiters=(':'),
         comment_prefixes=('#')

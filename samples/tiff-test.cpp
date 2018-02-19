@@ -87,7 +87,7 @@ void print(const ExifData& exifData)
 {
     if (exifData.empty()) {
         std::string error("No Exif data found in the file");
-        throw Exiv2::Error(1, error);
+        throw Exiv2::Error(kerErrorMessage, error);
     }
     Exiv2::ExifData::const_iterator end = exifData.end();
     for (Exiv2::ExifData::const_iterator i = exifData.begin(); i != end; ++i) {

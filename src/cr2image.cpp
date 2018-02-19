@@ -77,7 +77,7 @@ namespace Exiv2 {
 
     void Cr2Image::printStructure(std::ostream& out, Exiv2::PrintStructureOption option,int depth)
     {
-        if (io_->open() != 0) throw Error(9, io_->path(), strError());
+        if (io_->open() != 0) throw Error(kerDataSourceOpenFailed, io_->path(), strError());
         io_->seek(0,BasicIo::beg);
         printTiffStructure(io(),out,option,depth-1);
     }
@@ -85,7 +85,7 @@ namespace Exiv2 {
     void Cr2Image::setComment(const std::string& /*comment*/)
     {
         // not supported
-        throw(Error(32, "Image comment", "CR2"));
+        throw(Error(kerInvalidSettingForImage, "Image comment", "CR2"));
     }
 
     void Cr2Image::readMetadata()
@@ -94,13 +94,13 @@ namespace Exiv2 {
         std::cerr << "Reading CR2 file " << io_->path() << "\n";
 #endif
         if (io_->open() != 0) {
-            throw Error(9, io_->path(), strError());
+            throw Error(kerDataSourceOpenFailed, io_->path(), strError());
         }
         IoCloser closer(*io_);
         // Ensure that this is the correct image type
         if (!isCr2Type(*io_, false)) {
-            if (io_->error() || io_->eof()) throw Error(14);
-            throw Error(3, "CR2");
+            if (io_->error() || io_->eof()) throw Error(kerFailedToReadImageData);
+            throw Error(kerNotAnImage, "CR2");
         }
         clearMetadata();
         std::ofstream devnull;

@@ -281,7 +281,7 @@ namespace Exiv2 {
 # endif
         ssize_t namebufSize = ::listxattr(src.p_->path_.c_str(), 0, 0, 0);
         if (namebufSize < 0) {
-            throw Error(2, src.p_->path_, strError(), "listxattr");
+            throw Error(kerCallFailed, src.p_->path_, strError(), "listxattr");
         }
         if (namebufSize == 0) {
             // No extended attributes in source file
@@ -289,18 +289,18 @@ namespace Exiv2 {
         }
         char* namebuf = new char[namebufSize];
         if (::listxattr(src.p_->path_.c_str(), namebuf, namebufSize, 0) != namebufSize) {
-            throw Error(2, src.p_->path_, strError(), "listxattr");
+            throw Error(kerCallFailed, src.p_->path_, strError(), "listxattr");
         }
         for (ssize_t namebufPos = 0; namebufPos < namebufSize;) {
             const char *name = namebuf + namebufPos;
             namebufPos += strlen(name) + 1;
             const ssize_t valueSize = ::getxattr(src.p_->path_.c_str(), name, 0, 0, 0, 0);
             if (valueSize < 0) {
-                throw Error(2, src.p_->path_, strError(), "getxattr");
+                throw Error(kerCallFailed, src.p_->path_, strError(), "getxattr");
             }
             char* value = new char[valueSize];
             if (::getxattr(src.p_->path_.c_str(), name, value, valueSize, 0, 0) != valueSize) {
-                throw Error(2, src.p_->path_, strError(), "getxattr");
+                throw Error(kerCallFailed, src.p_->path_, strError(), "getxattr");
             }
 // #906.  Mountain Lion 'sandbox' terminates the app when we call setxattr
 #ifndef __APPLE__
@@ -308,7 +308,7 @@ namespace Exiv2 {
             EXV_DEBUG << "Copying xattr \"" << name << "\" with value size " << valueSize << "\n";
 #endif
             if (::setxattr(path_.c_str(), name, value, valueSize, 0, 0) != 0) {
-                throw Error(2, path_, strError(), "setxattr");
+                throw Error(kerCallFailed, path_, strError(), "setxattr");
             }
             delete [] value;
 #endif
@@ -414,12 +414,12 @@ namespace Exiv2 {
         if (munmap() != 0) {
 #ifdef EXV_UNICODE_PATH
             if (p_->wpMode_ == Impl::wpUnicode) {
-                throw WError(2, wpath(), strError().c_str(), "munmap");
+                throw WError(kerCallFailed, wpath(), strError().c_str(), "munmap");
             }
             else
 #endif
             {
-                throw Error(2, path(), strError(), "munmap");
+                throw Error(kerCallFailed, path(), strError(), "munmap");
             }
         }
         p_->mappedLength_ = size();
@@ -427,12 +427,12 @@ namespace Exiv2 {
         if (p_->isWriteable_ && p_->switchMode(Impl::opWrite) != 0) {
 #ifdef EXV_UNICODE_PATH
             if (p_->wpMode_ == Impl::wpUnicode) {
-                throw WError(16, wpath(), strError().c_str());
+                throw WError(kerFailedToMapFileForReadWrite, wpath(), strError().c_str());
             }
             else
 #endif
             {
-                throw Error(16, path(), strError());
+                throw Error(kerFailedToMapFileForReadWrite, path(), strError());
             }
         }
 #if defined EXV_HAVE_MMAP && defined EXV_HAVE_MUNMAP
@@ -444,12 +444,12 @@ namespace Exiv2 {
         if (MAP_FAILED == rc) {
 #ifdef EXV_UNICODE_PATH
             if (p_->wpMode_ == Impl::wpUnicode) {
-                throw WError(2, wpath(), strError().c_str(), "mmap");
+                throw WError(kerCallFailed, wpath(), strError().c_str(), "mmap");
             }
             else
 #endif
             {
-                throw Error(2, path(), strError(), "mmap");
+                throw Error(kerCallFailed, path(), strError(), "mmap");
             }
         }
         p_->pMappedArea_ = static_cast<byte*>(rc);
@@ -473,47 +473,47 @@ namespace Exiv2 {
         if (hFd == INVALID_HANDLE_VALUE) {
 #ifdef EXV_UNICODE_PATH
             if (p_->wpMode_ == Impl::wpUnicode) {
-                throw WError(2, wpath(), "MSG1", "_get_osfhandle");
+                throw WError(kerCallFailed, wpath(), "MSG1", "_get_osfhandle");
             }
             else
 #endif
             {
-                throw Error(2, path(), "MSG1", "_get_osfhandle");
+                throw Error(kerCallFailed, path(), "MSG1", "_get_osfhandle");
             }
         }
         if (!DuplicateHandle(hPh, hFd, hPh, &p_->hFile_, 0, false, DUPLICATE_SAME_ACCESS)) {
 #ifdef EXV_UNICODE_PATH
             if (p_->wpMode_ == Impl::wpUnicode) {
-                throw WError(2, wpath(), "MSG2", "DuplicateHandle");
+                throw WError(kerCallFailed, wpath(), "MSG2", "DuplicateHandle");
             }
             else
 #endif
             {
-                throw Error(2, path(), "MSG2", "DuplicateHandle");
+                throw Error(kerCallFailed, path(), "MSG2", "DuplicateHandle");
             }
         }
         p_->hMap_ = CreateFileMapping(p_->hFile_, 0, flProtect, 0, (DWORD) p_->mappedLength_, 0);
         if (p_->hMap_ == 0 ) {
 #ifdef EXV_UNICODE_PATH
             if (p_->wpMode_ == Impl::wpUnicode) {
-                throw WError(2, wpath(), "MSG3", "CreateFileMapping");
+                throw WError(kerCallFailed, wpath(), "MSG3", "CreateFileMapping");
             }
             else
 #endif
             {
-                throw Error(2, path(), "MSG3", "CreateFileMapping");
+                throw Error(kerCallFailed, path(), "MSG3", "CreateFileMapping");
             }
         }
         void* rc = MapViewOfFile(p_->hMap_, dwAccess, 0, 0, 0);
         if (rc == 0) {
 #ifdef EXV_UNICODE_PATH
             if (p_->wpMode_ == Impl::wpUnicode) {
-                throw WError(2, wpath(), "MSG4", "CreateFileMapping");
+                throw WError(kerCallFailed, wpath(), "MSG4", "CreateFileMapping");
             }
             else
 #endif
             {
-                throw Error(2, path(), "MSG4", "CreateFileMapping");
+                throw Error(kerCallFailed, path(), "MSG4", "CreateFileMapping");
             }
         }
         p_->pMappedArea_ = static_cast<byte*>(rc);
@@ -523,23 +523,23 @@ namespace Exiv2 {
         if (read(buf.pData_, buf.size_) != buf.size_) {
 #ifdef EXV_UNICODE_PATH
             if (p_->wpMode_ == Impl::wpUnicode) {
-                throw WError(2, wpath(), strError().c_str(), "FileIo::read");
+                throw WError(kerCallFailed, wpath(), strError().c_str(), "FileIo::read");
             }
             else
 #endif
             {
-                throw Error(2, path(), strError(), "FileIo::read");
+                throw Error(kerCallFailed, path(), strError(), "FileIo::read");
             }
         }
         if (error()) {
 #ifdef EXV_UNICODE_PATH
             if (p_->wpMode_ == Impl::wpUnicode) {
-                throw WError(2, wpath(), strError().c_str(), "FileIo::mmap");
+                throw WError(kerCallFailed, wpath(), strError().c_str(), "FileIo::mmap");
             }
             else
 #endif
             {
-                throw Error(2, path(), strError(), "FileIo::mmap");
+                throw Error(kerCallFailed, path(), strError(), "FileIo::mmap");
             }
         }
         p_->pMappedArea_ = buf.release().first;
@@ -628,12 +628,12 @@ namespace Exiv2 {
                 }
 #ifdef EXV_UNICODE_PATH
                 if (p_->wpMode_ == Impl::wpUnicode) {
-                    throw WError(10, wpath(), "a+b", strError().c_str());
+                    throw WError(kerFileOpenFailed, wpath(), "a+b", strError().c_str());
                 }
                 else
 #endif
                 {
-                    throw Error(10, path(), "a+b", strError());
+                    throw Error(kerFileOpenFailed, path(), "a+b", strError());
                 }
             }
             close();
@@ -666,7 +666,7 @@ namespace Exiv2 {
             if (::lstat(pf, &buf1) == -1) {
                 statOk = false;
 #ifndef SUPPRESS_WARNINGS
-                EXV_WARNING << Error(2, pf, strError(), "::lstat") << "\n";
+                EXV_WARNING << Error(kerCallFailed, pf, strError(), "::lstat") << "\n";
 #endif
             }
             origStMode = buf1.st_mode;
@@ -677,13 +677,13 @@ namespace Exiv2 {
                 memset(lbuf.pData_, 0x0, lbuf.size_);
                 pf = reinterpret_cast<char*>(lbuf.pData_);
                 if (::readlink(path().c_str(), pf, lbuf.size_ - 1) == -1) {
-                    throw Error(2, path(), strError(), "readlink");
+                    throw Error(kerCallFailed, path(), strError(), "readlink");
                 }
                 // We need the permissions of the file, not the symlink
                 if (::stat(pf, &buf1) == -1) {
                     statOk = false;
 #ifndef SUPPRESS_WARNINGS
-                    EXV_WARNING << Error(2, pf, strError(), "::stat") << "\n";
+                    EXV_WARNING << Error(kerCallFailed, pf, strError(), "::stat") << "\n";
 #endif
                 }
                 origStMode = buf1.st_mode;
@@ -714,31 +714,31 @@ namespace Exiv2 {
                         if (ret == 0) {
                             if (GetLastError() == ERROR_FILE_NOT_FOUND) {
                                 if (::_wrename(fileIo->wpath().c_str(), wpf) == -1) {
-                                    throw WError(17, fileIo->wpath(), wpf, strError().c_str());
+                                    throw WError(kerFileRenameFailed, fileIo->wpath(), wpf, strError().c_str());
                                 }
                                 ::_wremove(fileIo->wpath().c_str());
                             }
                             else {
-                                throw WError(17, fileIo->wpath(), wpf, strError().c_str());
+                                throw WError(kerFileRenameFailed, fileIo->wpath(), wpf, strError().c_str());
                             }
                         }
                     }
                     else {
                         if (fileExists(wpf) && ::_wremove(wpf) != 0) {
-                            throw WError(2, wpf, strError().c_str(), "::_wremove");
+                            throw WError(kerCallFailed, wpf, strError().c_str(), "::_wremove");
                         }
                         if (::_wrename(fileIo->wpath().c_str(), wpf) == -1) {
-                            throw WError(17, fileIo->wpath(), wpf, strError().c_str());
+                            throw WError(kerFileRenameFailed, fileIo->wpath(), wpf, strError().c_str());
                         }
                         ::_wremove(fileIo->wpath().c_str());
                     }
                 }
 #else
                 if (fileExists(wpf) && ::_wremove(wpf) != 0) {
-                    throw WError(2, wpf, strError().c_str(), "::_wremove");
+                    throw WError(kerCallFailed, wpf, strError().c_str(), "::_wremove");
                 }
                 if (::_wrename(fileIo->wpath().c_str(), wpf) == -1) {
-                    throw WError(17, fileIo->wpath(), wpf, strError().c_str());
+                    throw WError(kerFileRenameFailed, fileIo->wpath(), wpf, strError().c_str());
                 }
                 ::_wremove(fileIo->wpath().c_str());
 #endif
@@ -747,14 +747,14 @@ namespace Exiv2 {
                 if (statOk && ::_wstat(wpf, &buf2) == -1) {
                     statOk = false;
 #ifndef SUPPRESS_WARNINGS
-                    EXV_WARNING << Error(2, wpf, strError(), "::_wstat") << "\n";
+                    EXV_WARNING << Error(kerCallFailed, wpf, strError(), "::_wstat") << "\n";
 #endif
                 }
                 if (statOk && origStMode != buf2.st_mode) {
                     // Set original file permissions
                     if (::_wchmod(wpf, origStMode) == -1) {
 #ifndef SUPPRESS_WARNINGS
-                        EXV_WARNING << Error(2, wpf, strError(), "::_wchmod") << "\n";
+                        EXV_WARNING << Error(kerCallFailed, wpf, strError(), "::_wchmod") << "\n";
 #endif
                     }
                 }
@@ -777,31 +777,31 @@ namespace Exiv2 {
                         if (ret == 0) {
                             if (GetLastError() == ERROR_FILE_NOT_FOUND) {
                                 if (::rename(fileIo->path().c_str(), pf) == -1) {
-                                    throw Error(17, fileIo->path(), pf, strError());
+                                    throw Error(kerFileRenameFailed, fileIo->path(), pf, strError());
                                 }
                                 ::remove(fileIo->path().c_str());
                             }
                             else {
-                                throw Error(17, fileIo->path(), pf, strError());
+                                throw Error(kerFileRenameFailed, fileIo->path(), pf, strError());
                             }
                         }
                     }
                     else {
                         if (fileExists(pf) && ::remove(pf) != 0) {
-                            throw Error(2, pf, strError(), "::remove");
+                            throw Error(kerCallFailed, pf, strError(), "::remove");
                         }
                         if (::rename(fileIo->path().c_str(), pf) == -1) {
-                            throw Error(17, fileIo->path(), pf, strError());
+                            throw Error(kerFileRenameFailed, fileIo->path(), pf, strError());
                         }
                         ::remove(fileIo->path().c_str());
                     }
                 }
 #else
                 if (fileExists(pf) && ::remove(pf) != 0) {
-                    throw Error(2, pf, strError(), "::remove");
+                    throw Error(kerCallFailed, pf, strError(), "::remove");
                 }
                 if (::rename(fileIo->path().c_str(), pf) == -1) {
-                    throw Error(17, fileIo->path(), pf, strError());
+                    throw Error(kerFileRenameFailed, fileIo->path(), pf, strError());
                 }
                 ::remove(fileIo->path().c_str());
 #endif
@@ -810,14 +810,14 @@ namespace Exiv2 {
                 if (statOk && ::stat(pf, &buf2) == -1) {
                     statOk = false;
 #ifndef SUPPRESS_WARNINGS
-                    EXV_WARNING << Error(2, pf, strError(), "::stat") << "\n";
+                    EXV_WARNING << Error(kerCallFailed, pf, strError(), "::stat") << "\n";
 #endif
                 }
                 if (statOk && origStMode != buf2.st_mode) {
                     // Set original file permissions
                     if (::chmod(pf, origStMode) == -1) {
 #ifndef SUPPRESS_WARNINGS
-                        EXV_WARNING << Error(2, pf, strError(), "::chmod") << "\n";
+                        EXV_WARNING << Error(kerCallFailed, pf, strError(), "::chmod") << "\n";
 #endif
                     }
                 }
@@ -828,23 +828,23 @@ namespace Exiv2 {
             if (open("w+b") != 0) {
 #ifdef EXV_UNICODE_PATH
                 if (p_->wpMode_ == Impl::wpUnicode) {
-                    throw WError(10, wpath(), "w+b", strError().c_str());
+                    throw WError(kerFileOpenFailed, wpath(), "w+b", strError().c_str());
                 }
                 else
 #endif
                 {
-                    throw Error(10, path(), "w+b", strError());
+                    throw Error(kerFileOpenFailed, path(), "w+b", strError());
                 }
             }
             if (src.open() != 0) {
 #ifdef EXV_UNICODE_PATH
                 if (p_->wpMode_ == Impl::wpUnicode) {
-                    throw WError(9, src.wpath(), strError().c_str());
+                    throw WError(kerDataSourceOpenFailed, src.wpath(), strError().c_str());
                 }
                 else
 #endif
                 {
-                    throw Error(9, src.path(), strError());
+                    throw Error(kerDataSourceOpenFailed, src.path(), strError());
                 }
             }
             write(src);
@@ -855,12 +855,12 @@ namespace Exiv2 {
             if (open(lastMode) != 0) {
 #ifdef EXV_UNICODE_PATH
                 if (p_->wpMode_ == Impl::wpUnicode) {
-                    throw WError(10, wpath(), lastMode.c_str(), strError().c_str());
+                    throw WError(kerFileOpenFailed, wpath(), lastMode.c_str(), strError().c_str());
                 }
                 else
 #endif
                 {
-                    throw Error(10, path(), lastMode, strError());
+                    throw Error(kerFileOpenFailed, path(), lastMode, strError());
                 }
             }
         }
@@ -869,12 +869,12 @@ namespace Exiv2 {
         if (error() || src.error()) {
 #ifdef EXV_UNICODE_PATH
             if (p_->wpMode_ == Impl::wpUnicode) {
-                throw WError(18, wpath(), strError().c_str());
+                throw WError(kerTransferFailed, wpath(), strError().c_str());
             }
             else
 #endif
             {
-                throw Error(18, path(), strError());
+                throw Error(kerTransferFailed, path(), strError());
             }
         }
     } // FileIo::transfer
@@ -989,7 +989,7 @@ namespace Exiv2 {
     DataBuf FileIo::read(long rcount)
     {
         assert(p_->fp_ != 0);
-        if ( (size_t) rcount > size() ) throw Error(57);
+        if ( (size_t) rcount > size() ) throw Error(kerInvalidMalloc);
         DataBuf buf(rcount);
         long readCount = read(buf.pData_, buf.size_);
         buf.size_ = readCount;
@@ -1101,7 +1101,7 @@ namespace Exiv2 {
             long size  = EXV_MAX(blockSize * (1 + need / blockSize), size_);
             byte* data = (byte*)std::malloc(size);
             if (  data == NULL ) {
-                throw Error(60);
+                throw Error(kerMallocFailed);
             }
             std::memcpy(data, data_, size_);
             data_ = data;
@@ -1117,7 +1117,7 @@ namespace Exiv2 {
                 long want      = blockSize * (1 + need / blockSize );
                 data_ = (byte*)std::realloc(data_, want);
                 if ( data_ == NULL ) {
-                    throw Error(60);
+                    throw Error(kerMallocFailed);
                 }
                 sizeAlloced_ = want;
                 isMalloced_ = true;
@@ -1173,13 +1173,13 @@ namespace Exiv2 {
         else {
             // Generic reopen to reset position to start
             if (src.open() != 0) {
-                throw Error(9, src.path(), strError());
+                throw Error(kerDataSourceOpenFailed, src.path(), strError());
             }
             p_->idx_ = 0;
             write(src);
             src.close();
         }
-        if (error() || src.error()) throw Error(19, strError());
+        if (error() || src.error()) throw Error(kerMemoryTransferFailed, strError());
     }
 
     long MemIo::write(BasicIo& src)
@@ -1348,12 +1348,12 @@ namespace Exiv2 {
 
     void XPathIo::ReadStdin() {
         if (isatty(fileno(stdin)))
-            throw Error(53);
+            throw Error(kerInvalidIccProfile);
 
 #ifdef _O_BINARY
         // convert stdin to binary
         if (_setmode(_fileno(stdin), _O_BINARY) == -1)
-            throw Error(54);
+            throw Error(kerInvalidXMP);
 #endif
 
         char readBuf[100*1024];
@@ -1370,7 +1370,7 @@ namespace Exiv2 {
     void XPathIo::ReadDataUri(const std::string& path) {
         size_t base64Pos = path.find("base64,");
         if (base64Pos == std::string::npos)
-            throw Error(1, "No base64 data");
+            throw Error(kerErrorMessage, "No base64 data");
 
         std::string data = path.substr(base64Pos+7);
         char* decodeData = new char[data.length()];
@@ -1378,7 +1378,7 @@ namespace Exiv2 {
         if (size > 0)
             write((byte*)decodeData, size);
         else
-            throw Error(1, "Unable to decode base 64.");
+            throw Error(kerErrorMessage, "Unable to decode base 64.");
         delete[] decodeData;
     }
 
@@ -1433,11 +1433,11 @@ namespace Exiv2 {
 
         if (prot == pStdin) {
             if (isatty(fileno(stdin)))
-                throw Error(53);
+                throw Error(kerInvalidIccProfile);
 #if defined(_MSC_VER) || defined(__MINGW__)
             // convert stdin to binary
             if (_setmode(_fileno(stdin), _O_BINARY) == -1)
-                throw Error(54);
+                throw Error(kerInvalidXMP);
 #endif
             // read stdin and write to the temp file.
             char readBuf[100*1024];
@@ -1453,7 +1453,7 @@ namespace Exiv2 {
             // read data uri and write to the temp file.
             size_t base64Pos = orgPath.find("base64,");
             if (base64Pos == std::string::npos)
-                throw Error(1, "No base64 data");
+                throw Error(kerErrorMessage, "No base64 data");
 
             std::string data = orgPath.substr(base64Pos+7);
             char* decodeData = new char[data.length()];
@@ -1461,7 +1461,7 @@ namespace Exiv2 {
             if (size > 0)
                 fs.write(decodeData, size);
             else
-                throw Error(1, "Unable to decode base 64.");
+                throw Error(kerErrorMessage, "Unable to decode base 64.");
             delete[] decodeData;
         }
 
@@ -1572,7 +1572,7 @@ namespace Exiv2 {
             getDataByRange( (long) lowBlock, (long) highBlock, data);
             rcount = (size_t)data.length();
             if (rcount == 0) {
-                throw Error(1, "Data By Range is empty. Please check the permission.");
+                throw Error(kerErrorMessage, "Data By Range is empty. Please check the permission.");
             }
             byte* source = (byte*)data.c_str();
             size_t remain = rcount, totalRead = 0;
@@ -1625,7 +1625,7 @@ namespace Exiv2 {
                     iBlock++;
                 }
             } else if (length == 0) { // file is empty
-                throw Error(1, "the file length is 0");
+                throw Error(kerErrorMessage, "the file length is 0");
             } else {
                 p_->size_ = (size_t) length;
                 size_t nBlocks = (p_->size_ + p_->blockSize_ - 1) / p_->blockSize_;
@@ -1761,7 +1761,7 @@ namespace Exiv2 {
         p_->populateBlocks(lowBlock, highBlock);
         byte* fakeData = (byte*) std::calloc(p_->blockSize_, sizeof(byte));
         if (!fakeData) {
-            throw Error(1, "Unable to allocate data");
+            throw Error(kerErrorMessage, "Unable to allocate data");
         }
 
         size_t iBlock = lowBlock;
@@ -1804,7 +1804,7 @@ namespace Exiv2 {
     void RemoteIo::transfer(BasicIo& src)
     {
         if (src.open() != 0) {
-            throw Error(1, "unable to open src when transferring");
+            throw Error(kerErrorMessage, "unable to open src when transferring");
         }
         write(src);
         src.close();
@@ -1998,7 +1998,7 @@ namespace Exiv2 {
         request["verb"]   = "HEAD";
         long serverCode = (long)http(request, response, errors);
         if (serverCode < 0 || serverCode >= 400 || errors.compare("") != 0) {
-            throw Error(55, "Server", serverCode);
+            throw Error(kerTiffDirectoryTooLarge, "Server", serverCode);
         }
 
         Exiv2::Dictionary_i lengthIter = response.find("Content-Length");
@@ -2022,7 +2022,7 @@ namespace Exiv2 {
 
         long serverCode = (long)http(request, responseDic, errors);
         if (serverCode < 0 || serverCode >= 400 || errors.compare("") != 0) {
-            throw Error(55, "Server", serverCode);
+            throw Error(kerTiffDirectoryTooLarge, "Server", serverCode);
         }
         response = responseDic["body"];
     }
@@ -2031,7 +2031,7 @@ namespace Exiv2 {
     {
         std::string scriptPath(getEnv(envHTTPPOST));
         if (scriptPath == "") {
-            throw Error(1, "Please set the path of the server script to handle http post data to EXIV2_HTTP_POST environmental variable.");
+            throw Error(kerErrorMessage, "Please set the path of the server script to handle http post data to EXIV2_HTTP_POST environmental variable.");
         }
 
         // standadize the path without "/" at the beginning.
@@ -2074,7 +2074,7 @@ namespace Exiv2 {
 
         int serverCode = http(request, response, errors);
         if (serverCode < 0 || serverCode >= 400 || errors.compare("") != 0) {
-            throw Error(55, "Server", serverCode);
+            throw Error(kerTiffDirectoryTooLarge, "Server", serverCode);
         }
     }
     HttpIo::HttpIo(const std::string& url, size_t blockSize)
@@ -2147,7 +2147,7 @@ namespace Exiv2 {
         // init curl pointer
         curl_ = curl_easy_init();
         if(!curl_) {
-            throw Error(1, "Uable to init libcurl.");
+            throw Error(kerErrorMessage, "Uable to init libcurl.");
         }
 
         // The default block size for FTP is much larger than other protocols
@@ -2160,7 +2160,7 @@ namespace Exiv2 {
         std::string timeout = getEnv(envTIMEOUT);
         timeout_ = atol(timeout.c_str());
         if (timeout_ == 0) {
-            throw Error(1, "Timeout Environmental Variable must be a positive integer.");
+            throw Error(kerErrorMessage, "Timeout Environmental Variable must be a positive integer.");
         }
     }
 #ifdef EXV_UNICODE_PATH
@@ -2173,7 +2173,7 @@ namespace Exiv2 {
         // init curl pointer
         curl_ = curl_easy_init();
         if(!curl_) {
-            throw Error(1, "Uable to init libcurl.");
+            throw Error(kerErrorMessage, "Uable to init libcurl.");
         }
 
         // The default block size for FTP is much larger than other protocols
@@ -2201,13 +2201,13 @@ namespace Exiv2 {
         /* Perform the request, res will get the return code */
         CURLcode res = curl_easy_perform(curl_);
         if(res != CURLE_OK) { // error happends
-            throw Error(1, curl_easy_strerror(res));
+            throw Error(kerErrorMessage, curl_easy_strerror(res));
         }
         // get return code
         long returnCode;
         curl_easy_getinfo (curl_, CURLINFO_RESPONSE_CODE, &returnCode); // get code
         if (returnCode >= 400 || returnCode < 0) {
-            throw Error(55, "Server", returnCode);
+            throw Error(kerTiffDirectoryTooLarge, "Server", returnCode);
         }
         // get length
         double temp;
@@ -2239,12 +2239,12 @@ namespace Exiv2 {
         CURLcode res = curl_easy_perform(curl_);
 
         if(res != CURLE_OK) {
-            throw Error(1, curl_easy_strerror(res));
+            throw Error(kerErrorMessage, curl_easy_strerror(res));
         } else {
             long serverCode;
             curl_easy_getinfo (curl_, CURLINFO_RESPONSE_CODE, &serverCode); // get code
             if (serverCode >= 400 || serverCode < 0) {
-                throw Error(55, "Server", serverCode);
+                throw Error(kerTiffDirectoryTooLarge, "Server", serverCode);
             }
         }
     }
@@ -2253,7 +2253,7 @@ namespace Exiv2 {
     {
         std::string scriptPath(getEnv(envHTTPPOST));
         if (scriptPath == "") {
-            throw Error(1, "Please set the path of the server script to handle http post data to EXIV2_HTTP_POST environmental variable.");
+            throw Error(kerErrorMessage, "Please set the path of the server script to handle http post data to EXIV2_HTTP_POST environmental variable.");
         }
 
         Exiv2::Uri hostInfo = Exiv2::Uri::Parse(path_);
@@ -2291,12 +2291,12 @@ namespace Exiv2 {
         CURLcode res = curl_easy_perform(curl_);
 
         if(res != CURLE_OK) {
-            throw Error(1, curl_easy_strerror(res));
+            throw Error(kerErrorMessage, curl_easy_strerror(res));
         } else {
             long serverCode;
             curl_easy_getinfo (curl_, CURLINFO_RESPONSE_CODE, &serverCode);
             if (serverCode >= 400 || serverCode < 0) {
-                throw Error(55, "Server", serverCode);
+                throw Error(kerTiffDirectoryTooLarge, "Server", serverCode);
             }
         }
     }
@@ -2310,7 +2310,7 @@ namespace Exiv2 {
         if (p_->protocol_ == pHttp || p_->protocol_ == pHttps) {
             return RemoteIo::write(data, wcount);
         } else {
-            throw Error(1, "doesnt support write for this protocol.");
+            throw Error(kerErrorMessage, "doesnt support write for this protocol.");
         }
     }
 
@@ -2319,7 +2319,7 @@ namespace Exiv2 {
         if (p_->protocol_ == pHttp || p_->protocol_ == pHttps) {
             return RemoteIo::write(src);
         } else {
-            throw Error(1, "doesnt support write for this protocol.");
+            throw Error(kerErrorMessage, "doesnt support write for this protocol.");
         }
     }
 
@@ -2401,7 +2401,7 @@ namespace Exiv2 {
 
         if (protocol_ == pSftp) {
             ssh_->getFileSftp(hostInfo_.Path, fileHandler_);
-            if (fileHandler_ == NULL) throw Error(1, "Unable to open the file");
+            if (fileHandler_ == NULL) throw Error(kerErrorMessage, "Unable to open the file");
         } else {
             fileHandler_ = NULL;
         }
@@ -2424,7 +2424,7 @@ namespace Exiv2 {
 
         if (protocol_ == pSftp) {
             ssh_->getFileSftp(hostInfo_.Path, fileHandler_);
-            if (fileHandler_ == NULL) throw Error(1, "Unable to open the file");
+            if (fileHandler_ == NULL) throw Error(kerErrorMessage, "Unable to open the file");
         } else {
             fileHandler_ = NULL;
         }
@@ -2442,11 +2442,11 @@ namespace Exiv2 {
             //std::string cmd = "stat -c %s " + hostInfo_.Path;
             std::string cmd = "declare -a x=($(ls -alt " + hostInfo_.Path + ")); echo ${x[4]}";
             if (ssh_->runCommand(cmd, &response) != 0) {
-                throw Error(1, "Unable to get file length.");
+                throw Error(kerErrorMessage, "Unable to get file length.");
             } else {
                 length = atol(response.c_str());
                 if (length == 0) {
-                    throw Error(1, "File is empty or not found.");
+                    throw Error(kerErrorMessage, "File is empty or not found.");
                 }
             }
         }
@@ -2456,11 +2456,11 @@ namespace Exiv2 {
     void SshIo::SshImpl::getDataByRange(long lowBlock, long highBlock, std::string& response)
     {
         if (protocol_ == pSftp) {
-            if (sftp_seek(fileHandler_, (uint32_t) (lowBlock * blockSize_)) < 0) throw Error(1, "SFTP: unable to sftp_seek");
+            if (sftp_seek(fileHandler_, (uint32_t) (lowBlock * blockSize_)) < 0) throw Error(kerErrorMessage, "SFTP: unable to sftp_seek");
             size_t buffSize = (highBlock - lowBlock + 1) * blockSize_;
             char* buffer = new char[buffSize];
             long nBytes = (long) sftp_read(fileHandler_, buffer, buffSize);
-            if (nBytes < 0) throw Error(1, "SFTP: unable to sftp_read");
+            if (nBytes < 0) throw Error(kerErrorMessage, "SFTP: unable to sftp_read");
             response.assign(buffer, buffSize);
             delete[] buffer;
         } else {
@@ -2477,14 +2477,14 @@ namespace Exiv2 {
             }
             std::string cmd = ss.str();
             if (ssh_->runCommand(cmd, &response) != 0) {
-                throw Error(1, "Unable to get data by range.");
+                throw Error(kerErrorMessage, "Unable to get data by range.");
             }
         }
     }
 
     void SshIo::SshImpl::writeRemote(const byte* data, size_t size, long from, long to)
     {
-        if (protocol_ == pSftp) throw Error(1, "not support SFTP write access.");
+        if (protocol_ == pSftp) throw Error(kerErrorMessage, "not support SFTP write access.");
 
         //printf("ssh update size=%ld from=%ld to=%ld\n", (long)size, from, to);
         assert(isMalloced_);
@@ -2498,19 +2498,19 @@ namespace Exiv2 {
             << " > " << tempFile;
         std::string cmd = ss.str();
         if (ssh_->runCommand(cmd, &response) != 0) {
-            throw Error(1, "SSH: Unable to cope the head of file to temp");
+            throw Error(kerErrorMessage, "SSH: Unable to cope the head of file to temp");
         }
 
         // upload the data (the byte ranges which are different between the original
         // file and the new file) to filepath.exiv2datatemp
         if (ssh_->scp(hostInfo_.Path + ".exiv2datatemp", data, size) != 0) {
-            throw Error(1, "SSH: Unable to copy file");
+            throw Error(kerErrorMessage, "SSH: Unable to copy file");
         }
 
         // concatenate the filepath.exiv2datatemp to filepath.exiv2tmp
         cmd = "cat " + hostInfo_.Path + ".exiv2datatemp >> " + tempFile;
         if (ssh_->runCommand(cmd, &response) != 0) {
-            throw Error(1, "SSH: Unable to copy the rest");
+            throw Error(kerErrorMessage, "SSH: Unable to copy the rest");
         }
 
         // copy the tail (from byte toByte to the end of file) of original file to filepath.exiv2tmp
@@ -2520,19 +2520,19 @@ namespace Exiv2 {
             << " >> "   << tempFile;
         cmd = ss.str();
         if (ssh_->runCommand(cmd, &response) != 0) {
-            throw Error(1, "SSH: Unable to copy the rest");
+            throw Error(kerErrorMessage, "SSH: Unable to copy the rest");
         }
 
         // replace the original file with filepath.exiv2tmp
         cmd = "mv " + tempFile + " " + hostInfo_.Path;
         if (ssh_->runCommand(cmd, &response) != 0) {
-            throw Error(1, "SSH: Unable to copy the rest");
+            throw Error(kerErrorMessage, "SSH: Unable to copy the rest");
         }
 
         // remove filepath.exiv2datatemp
         cmd = "rm " + hostInfo_.Path + ".exiv2datatemp";
         if (ssh_->runCommand(cmd, &response) != 0) {
-            throw Error(1, "SSH: Unable to copy the rest");
+            throw Error(kerErrorMessage, "SSH: Unable to copy the rest");
         }
     }
 
@@ -2561,16 +2561,16 @@ namespace Exiv2 {
     {
         FileIo file(path);
         if (file.open("rb") != 0) {
-            throw Error(10, path, "rb", strError());
+            throw Error(kerFileOpenFailed, path, "rb", strError());
         }
         struct stat st;
         if (0 != ::stat(path.c_str(), &st)) {
-            throw Error(2, path, strError(), "::stat");
+            throw Error(kerCallFailed, path, strError(), "::stat");
         }
         DataBuf buf(st.st_size);
         long len = file.read(buf.pData_, buf.size_);
         if (len != buf.size_) {
-            throw Error(2, path, strError(), "FileIo::read");
+            throw Error(kerCallFailed, path, strError(), "FileIo::read");
         }
         return buf;
     }
@@ -2580,16 +2580,16 @@ namespace Exiv2 {
     {
         FileIo file(wpath);
         if (file.open("rb") != 0) {
-            throw WError(10, wpath, "rb", strError().c_str());
+            throw WError(kerFileOpenFailed, wpath, "rb", strError().c_str());
         }
         struct _stat st;
         if (0 != ::_wstat(wpath.c_str(), &st)) {
-            throw WError(2, wpath, strError().c_str(), "::_wstat");
+            throw WError(kerCallFailed, wpath, strError().c_str(), "::_wstat");
         }
         DataBuf buf(st.st_size);
         long len = file.read(buf.pData_, buf.size_);
         if (len != buf.size_) {
-            throw WError(2, wpath, strError().c_str(), "FileIo::read");
+            throw WError(kerCallFailed, wpath, strError().c_str(), "FileIo::read");
         }
         return buf;
     }
@@ -2599,7 +2599,7 @@ namespace Exiv2 {
     {
         FileIo file(path);
         if (file.open("wb") != 0) {
-            throw Error(10, path, "wb", strError());
+            throw Error(kerFileOpenFailed, path, "wb", strError());
         }
         return file.write(buf.pData_, buf.size_);
     }
@@ -2609,7 +2609,7 @@ namespace Exiv2 {
     {
         FileIo file(wpath);
         if (file.open("wb") != 0) {
-            throw WError(10, wpath, "wb", strError().c_str());
+            throw WError(kerFileOpenFailed, wpath, "wb", strError().c_str());
         }
         return file.write(buf.pData_, buf.size_);
     }

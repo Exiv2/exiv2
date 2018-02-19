@@ -22,7 +22,7 @@ void httpcon(const std::string& url, bool useHttp1_0 = false) {
 
     int serverCode = Exiv2::http(request,response,errors);
     if (serverCode < 0 || serverCode >= 400 || errors.compare("") != 0) {
-        throw Exiv2::Error(55, "Server", serverCode);
+        throw Exiv2::Error(Exiv2::kerTiffDirectoryTooLarge, "Server", serverCode);
     }
 }
 
@@ -30,14 +30,14 @@ void httpcon(const std::string& url, bool useHttp1_0 = false) {
 void curlcon(const std::string& url, bool useHttp1_0 = false) {
     CURL* curl = curl_easy_init();
     if(!curl) {
-        throw Exiv2::Error(1, "Uable to init libcurl.");
+        throw Exiv2::Error(Exiv2::kerErrorMessage, "Uable to init libcurl.");
     }
 
     // get the timeout value
     std::string timeoutStr = Exiv2::getEnv(Exiv2::envTIMEOUT);
     long timeout = atol(timeoutStr.c_str());
     if (timeout == 0) {
-        throw Exiv2::Error(1, "Timeout Environmental Variable must be a positive integer.");
+        throw Exiv2::Error(Exiv2::kerErrorMessage, "Timeout Environmental Variable must be a positive integer.");
     }
 
     std::string response;
@@ -54,7 +54,7 @@ void curlcon(const std::string& url, bool useHttp1_0 = false) {
     /* Perform the request, res will get the return code */
     CURLcode res = curl_easy_perform(curl);
     if(res != CURLE_OK) { // error happends
-        throw Exiv2::Error(1, curl_easy_strerror(res));
+        throw Exiv2::Error(Exiv2::kerErrorMessage, curl_easy_strerror(res));
     }
 
     // get return code
@@ -63,7 +63,7 @@ void curlcon(const std::string& url, bool useHttp1_0 = false) {
     curl_easy_cleanup(curl);
 
     if (returnCode >= 400 || returnCode < 0) {
-        throw Exiv2::Error(55, "Server", returnCode);
+        throw Exiv2::Error(Exiv2::kerTiffDirectoryTooLarge, "Server", returnCode);
     }
 }
 #endif
@@ -82,11 +82,11 @@ void sshcon(const std::string& url) {
     std::string response = "";
     std::string cmd = "declare -a x=($(ls -alt " + page + ")); echo ${x[4]}";
     if (ssh.runCommand(cmd, &response) != 0) {
-        throw Exiv2::Error(1, "Unable to get file length.");
+        throw Exiv2::Error(Exiv2::kerErrorMessage, "Unable to get file length.");
     } else {
         long length = atol(response.c_str());
         if (length == 0) {
-            throw Exiv2::Error(1, "File is empty or not found.");
+            throw Exiv2::Error(Exiv2::kerErrorMessage, "File is empty or not found.");
         }
     }
 }
@@ -103,7 +103,7 @@ void sftpcon(const std::string& url) {
     Exiv2::SSH ssh(uri.Host, uri.Username, uri.Password, uri.Port);
     sftp_file handle;
     ssh.getFileSftp(page, handle);
-    if (handle == NULL) throw Exiv2::Error(1, "Unable to open the file");
+    if (handle == NULL) throw Exiv2::Error(Exiv2::kerErrorMessage, "Unable to open the file");
     else sftp_close(handle);
 }
 #endif

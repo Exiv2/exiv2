@@ -21,14 +21,14 @@ try {
     if (0 != Exiv2::XmpParser::decode(xmpData, xmpPacket)) {
         std::string error(argv[1]);
         error += ": Failed to parse file contents (XMP packet)";
-        throw Exiv2::Error(1, error);
+        throw Exiv2::Error(Exiv2::kerErrorMessage, error);
     }
     if (xmpData.empty()) {
         std::string error(argv[1]);
         error += ": No XMP properties found in the XMP packet";
-        throw Exiv2::Error(1, error);
+        throw Exiv2::Error(Exiv2::kerErrorMessage, error);
     }
-    for (Exiv2::XmpData::const_iterator md = xmpData.begin(); 
+    for (Exiv2::XmpData::const_iterator md = xmpData.begin();
          md != xmpData.end(); ++md) {
         std::cout << std::setfill(' ') << std::left
                   << std::setw(44)

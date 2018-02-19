@@ -81,29 +81,29 @@ namespace Exiv2 {
     void Rw2Image::setExifData(const ExifData& /*exifData*/)
     {
         // Todo: implement me!
-        throw(Error(32, "Exif metadata", "RW2"));
+        throw(Error(kerInvalidSettingForImage, "Exif metadata", "RW2"));
     }
 
     void Rw2Image::setIptcData(const IptcData& /*iptcData*/)
     {
         // Todo: implement me!
-        throw(Error(32, "IPTC metadata", "RW2"));
+        throw(Error(kerInvalidSettingForImage, "IPTC metadata", "RW2"));
     }
 
     void Rw2Image::setComment(const std::string& /*comment*/)
     {
         // not supported
-        throw(Error(32, "Image comment", "RW2"));
+        throw(Error(kerInvalidSettingForImage, "Image comment", "RW2"));
     }
 
     void Rw2Image::printStructure(std::ostream& out, PrintStructureOption option, int depth) {
         out << "RW2 IMAGE" << std::endl;
-        if (io_->open() != 0) throw Error(9, io_->path(), strError());
+        if (io_->open() != 0) throw Error(kerDataSourceOpenFailed, io_->path(), strError());
         // Ensure that this is the correct image type
         if ( imageType() == ImageType::none )
             if (!isRw2Type(*io_, false)) {
-                if (io_->error() || io_->eof()) throw Error(14);
-                throw Error(15);
+                if (io_->error() || io_->eof()) throw Error(kerFailedToReadImageData);
+                throw Error(kerNotAJpeg);
             }
 
         io_->seek(0,BasicIo::beg);
@@ -117,13 +117,13 @@ namespace Exiv2 {
         std::cerr << "Reading RW2 file " << io_->path() << "\n";
 #endif
         if (io_->open() != 0) {
-            throw Error(9, io_->path(), strError());
+            throw Error(kerDataSourceOpenFailed, io_->path(), strError());
         }
         IoCloser closer(*io_);
         // Ensure that this is the correct image type
         if (!isRw2Type(*io_, false)) {
-            if (io_->error() || io_->eof()) throw Error(14);
-            throw Error(3, "RW2");
+            if (io_->error() || io_->eof()) throw Error(kerFailedToReadImageData);
+            throw Error(kerNotAnImage, "RW2");
         }
         clearMetadata();
         std::ofstream devnull;
@@ -223,7 +223,7 @@ namespace Exiv2 {
     void Rw2Image::writeMetadata()
     {
         // Todo: implement me!
-        throw(Error(31, "RW2"));
+        throw(Error(kerWritingImageFormatUnsupported, "RW2"));
     } // Rw2Image::writeMetadata
 
     ByteOrder Rw2Parser::decode(

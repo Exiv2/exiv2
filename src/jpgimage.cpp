@@ -338,12 +338,12 @@ namespace Exiv2 {
     {
         int rc = 0; // Todo: this should be the return value
 
-        if (io_->open() != 0) throw Error(9, io_->path(), strError());
+        if (io_->open() != 0) throw Error(kerDataSourceOpenFailed, io_->path(), strError());
         IoCloser closer(*io_);
         // Ensure that this is the correct image type
         if (!isThisType(*io_, true)) {
-            if (io_->error() || io_->eof()) throw Error(14);
-            throw Error(15);
+            if (io_->error() || io_->eof()) throw Error(kerFailedToReadImageData);
+            throw Error(kerNotAJpeg);
         }
         clearMetadata();
         int search = 6 ; // Exif, ICC, XMP, Comment, IPTC, SOF
@@ -358,14 +358,14 @@ namespace Exiv2 {
 
         // Read section marker
         int marker = advanceToMarker();
-        if (marker < 0) throw Error(15);
+        if (marker < 0) throw Error(kerNotAJpeg);
 
         while (marker != sos_ && marker != eoi_ && search > 0) {
             // Read size and signature (ok if this hits EOF)
             std::memset(buf.pData_, 0x0, buf.size_);
             bufRead = io_->read(buf.pData_, bufMinSize);
-            if (io_->error()) throw Error(14);
-            if (bufRead < 2) throw Error(15);
+            if (io_->error()) throw Error(kerFailedToReadImageData);
+            if (bufRead < 2) throw Error(kerNotAJpeg);
             uint16_t size = getUShort(buf.pData_, bigEndian);
 
             if (   !foundExifData
@@ -378,7 +378,7 @@ namespace Exiv2 {
                 io_->seek(8 - bufRead, BasicIo::cur);
                 DataBuf rawExif(size - 8);
                 io_->read(rawExif.pData_, rawExif.size_);
-                if (io_->error() || io_->eof()) throw Error(14);
+                if (io_->error() || io_->eof()) throw Error(kerFailedToReadImageData);
                 ByteOrder bo = ExifParser::decode(exifData_, rawExif.pData_, rawExif.size_);
                 setByteOrder(bo);
                 if (rawExif.size_ > 0 && byteOrder() == invalidByteOrder) {
@@ -400,7 +400,7 @@ namespace Exiv2 {
                 io_->seek(31 - bufRead, BasicIo::cur);
                 DataBuf xmpPacket(size - 31);
                 io_->read(xmpPacket.pData_, xmpPacket.size_);
-                if (io_->error() || io_->eof()) throw Error(14);
+                if (io_->error() || io_->eof()) throw Error(kerFailedToReadImageData);
                 xmpPacket_.assign(reinterpret_cast<char*>(xmpPacket.pData_), xmpPacket.size_);
                 if (xmpPacket_.size() > 0 && XmpParser::decode(xmpData_, xmpPacket_)) {
 #ifndef SUPPRESS_WARNINGS
@@ -420,7 +420,7 @@ namespace Exiv2 {
                 io_->seek(16 - bufRead, BasicIo::cur);
                 DataBuf psData(size - 16);
                 io_->read(psData.pData_, psData.size_);
-                if (io_->error() || io_->eof()) throw Error(14);
+                if (io_->error() || io_->eof()) throw Error(kerFailedToReadImageData);
 #ifdef DEBUG
                 std::cerr << "Found app13 segment, size = " << size << "\n";
                 //hexdump(std::cerr, psData.pData_, psData.size_);
@@ -445,7 +445,7 @@ namespace Exiv2 {
                 io_->seek(2 - bufRead, BasicIo::cur);
                 DataBuf comment(size - 2);
                 io_->read(comment.pData_, comment.size_);
-                if (io_->error() || io_->eof()) throw Error(14);
+                if (io_->error() || io_->eof()) throw Error(kerFailedToReadImageData);
                 comment_.assign(reinterpret_cast<char*>(comment.pData_), comment.size_);
                 while (   comment_.length()
                        && comment_.at(comment_.length()-1) == '\0') {
@@ -477,7 +477,7 @@ namespace Exiv2 {
                 // read in profile
                 // #1286 profile can be padded
                 DataBuf    icc((chunk==1&&chunks==1)?s:size-2-14);
-                if ( icc.size_ > size-2-14) throw Error(53);
+                if ( icc.size_ > size-2-14) throw Error(kerInvalidIccProfile);
                 io_->read( icc.pData_,icc.size_);
 
                 if ( !iccProfileDefined() ) { // first block of profile
@@ -509,7 +509,7 @@ namespace Exiv2 {
                     break;
                 }
                 // Skip the remainder of the unknown segment
-                if (io_->seek(size - bufRead, BasicIo::cur)) throw Error(14);
+                if (io_->seek(size - bufRead, BasicIo::cur)) throw Error(kerFailedToReadImageData);
             }
             // Read the beginning of the next segment
             marker = advanceToMarker();
@@ -562,11 +562,11 @@ namespace Exiv2 {
 
     void JpegBase::printStructure(std::ostream& out, PrintStructureOption option,int depth)
     {
-        if (io_->open() != 0) throw Error(9, io_->path(), strError());
+        if (io_->open() != 0) throw Error(kerDataSourceOpenFailed, io_->path(), strError());
         // Ensure that this is the correct image type
         if (!isThisType(*io_, false)) {
-            if (io_->error() || io_->eof()) throw Error(14);
-            throw Error(15);
+            if (io_->error() || io_->eof()) throw Error(kerFailedToReadImageData);
+            throw Error(kerNotAJpeg);
         }
 
         bool bPrint = option==kpsBasic || option==kpsRecursive;
@@ -613,7 +613,7 @@ namespace Exiv2 {
 
             // Read section marker
             int marker = advanceToMarker();
-            if (marker < 0) throw Error(15);
+            if (marker < 0) throw Error(kerNotAJpeg);
 
             bool    done = false;
             bool    first= true;
@@ -630,8 +630,8 @@ namespace Exiv2 {
                 // Read size and signature
                 std::memset(buf.pData_, 0x0, buf.size_);
                 bufRead = io_->read(buf.pData_, bufMinSize);
-                if (io_->error()) throw Error(14);
-                if (bufRead < 2) throw Error(15);
+                if (io_->error()) throw Error(kerFailedToReadImageData);
+                if (bufRead < 2) throw Error(kerNotAJpeg);
                 uint16_t size = mHasLength[marker] ? getUShort(buf.pData_, bigEndian) : 0 ;
                 if ( bPrint &&  mHasLength[marker] ) out << Internal::stringFormat(" | %7d ", size);
 
@@ -777,7 +777,7 @@ namespace Exiv2 {
                 }
 
                 // Skip the segment if the size is known
-                if (io_->seek(size - bufRead, BasicIo::cur)) throw Error(14);
+                if (io_->seek(size - bufRead, BasicIo::cur)) throw Error(kerFailedToReadImageData);
 
                 if ( bLF ) out << std::endl;
 
@@ -852,7 +852,7 @@ namespace Exiv2 {
     void JpegBase::writeMetadata()
     {
         if (io_->open() != 0) {
-            throw Error(9, io_->path(), strError());
+            throw Error(kerDataSourceOpenFailed, io_->path(), strError());
         }
         IoCloser closer(*io_);
         BasicIo::AutoPtr tempIo(new MemIo);
@@ -865,13 +865,13 @@ namespace Exiv2 {
 
     void JpegBase::doWriteMetadata(BasicIo& outIo)
     {
-        if (!io_->isopen()) throw Error(20);
-        if (!outIo.isopen()) throw Error(21);
+        if (!io_->isopen()) throw Error(kerInputDataReadFailed);
+        if (!outIo.isopen()) throw Error(kerImageWriteFailed);
 
         // Ensure that this is the correct image type
         if (!isThisType(*io_, true)) {
-            if (io_->error() || io_->eof()) throw Error(20);
-            throw Error(22);
+            if (io_->error() || io_->eof()) throw Error(kerInputDataReadFailed);
+            throw Error(kerNoImageInInputData);
         }
 
         const long bufMinSize = 36;
@@ -894,11 +894,11 @@ namespace Exiv2 {
         xmpData().usePacket(writeXmpFromPacket());
 
         // Write image header
-        if (writeHeader(outIo)) throw Error(21);
+        if (writeHeader(outIo)) throw Error(kerImageWriteFailed);
 
         // Read section marker
         int marker = advanceToMarker();
-        if (marker < 0) throw Error(22);
+        if (marker < 0) throw Error(kerNoImageInInputData);
 
         // First find segments of interest. Normally app0 is first and we want
         // to insert after it. But if app0 comes after com, app1 and app13 then
@@ -906,53 +906,53 @@ namespace Exiv2 {
         while (marker != sos_ && marker != eoi_ && search < 6) {
             // Read size and signature (ok if this hits EOF)
             bufRead = io_->read(buf.pData_, bufMinSize);
-            if (io_->error()) throw Error(20);
+            if (io_->error()) throw Error(kerInputDataReadFailed);
             uint16_t size = getUShort(buf.pData_, bigEndian);
 
             if (marker == app0_) {
-                if (size < 2) throw Error(22);
+                if (size < 2) throw Error(kerNoImageInInputData);
                 insertPos = count + 1;
-                if (io_->seek(size-bufRead, BasicIo::cur)) throw Error(22);
+                if (io_->seek(size-bufRead, BasicIo::cur)) throw Error(kerNoImageInInputData);
             }
             else if (   skipApp1Exif == -1
                      && marker == app1_ && memcmp(buf.pData_ + 2, exifId_, 6) == 0) {
-                if (size < 8) throw Error(22);
+                if (size < 8) throw Error(kerNoImageInInputData);
                 skipApp1Exif = count;
                 ++search;
                 // Seek to beginning and read the current Exif data
                 io_->seek(8 - bufRead, BasicIo::cur);
                 rawExif.alloc(size - 8);
                 io_->read(rawExif.pData_, rawExif.size_);
-                if (io_->error() || io_->eof()) throw Error(22);
+                if (io_->error() || io_->eof()) throw Error(kerNoImageInInputData);
             }
             else if (   skipApp1Xmp == -1
                      && marker == app1_ && memcmp(buf.pData_ + 2, xmpId_, 29) == 0) {
-                if (size < 31) throw Error(22);
+                if (size < 31) throw Error(kerNoImageInInputData);
                 skipApp1Xmp = count;
                 ++search;
-                if (io_->seek(size-bufRead, BasicIo::cur)) throw Error(22);
+                if (io_->seek(size-bufRead, BasicIo::cur)) throw Error(kerNoImageInInputData);
             }
             else if ( marker == app2_ && memcmp(buf.pData_ + 2, iccId_, 11)== 0 ) {
-                if (size < 31) throw Error(22);
+                if (size < 31) throw Error(kerNoImageInInputData);
                 skipApp2Icc.push_back(count);
                 if ( !foundIccData ) {
                     ++search;
                     foundIccData = true ;
                 }
-                if (io_->seek(size-bufRead, BasicIo::cur)) throw Error(22);
+                if (io_->seek(size-bufRead, BasicIo::cur)) throw Error(kerNoImageInInputData);
             }
             else if (   !foundCompletePsData
                      && marker == app13_ && memcmp(buf.pData_ + 2, Photoshop::ps3Id_, 14) == 0) {
 #ifdef DEBUG
                 std::cerr << "Found APP13 Photoshop PS3 segment\n";
 #endif
-                if (size < 16) throw Error(22);
+                if (size < 16) throw Error(kerNoImageInInputData);
                 skipApp13Ps3.push_back(count);
                 io_->seek(16 - bufRead, BasicIo::cur);
                 // Load PS data now to allow reinsertion at any point
                 DataBuf psData(size - 16);
                 io_->read(psData.pData_, size - 16);
-                if (io_->error() || io_->eof()) throw Error(20);
+                if (io_->error() || io_->eof()) throw Error(kerInputDataReadFailed);
                 // Append to psBlob
                 append(psBlob, psData.pData_, psData.size_);
                 // Check whether psBlob is complete
@@ -961,16 +961,16 @@ namespace Exiv2 {
                 }
             }
             else if (marker == com_ && skipCom == -1) {
-                if (size < 2) throw Error(22);
+                if (size < 2) throw Error(kerNoImageInInputData);
                 // Jpegs can have multiple comments, but for now only handle
                 // the first one (most jpegs only have one anyway).
                 skipCom = count;
                 ++search;
-                if (io_->seek(size-bufRead, BasicIo::cur)) throw Error(22);
+                if (io_->seek(size-bufRead, BasicIo::cur)) throw Error(kerNoImageInInputData);
             }
             else {
-                if (size < 2) throw Error(22);
-                if (io_->seek(size-bufRead, BasicIo::cur)) throw Error(22);
+                if (size < 2) throw Error(kerNoImageInInputData);
+                if (io_->seek(size-bufRead, BasicIo::cur)) throw Error(kerNoImageInInputData);
             }
             // As in jpeg-6b/wrjpgcom.c:
             // We will insert the new comment marker just before SOFn.
@@ -982,11 +982,11 @@ namespace Exiv2 {
                 ++search;
             }
             marker = advanceToMarker();
-            if (marker < 0) throw Error(22);
+            if (marker < 0) throw Error(kerNoImageInInputData);
             ++count;
         }
 
-        if (!foundCompletePsData && psBlob.size() > 0) throw Error(22);
+        if (!foundCompletePsData && psBlob.size() > 0) throw Error(kerNoImageInInputData);
         search += (int) skipApp13Ps3.size() + (int) skipApp2Icc.size();
 
         if (comPos == 0) {
@@ -1003,7 +1003,7 @@ namespace Exiv2 {
         io_->seek(seek, BasicIo::beg);
         count = 0;
         marker = advanceToMarker();
-        if (marker < 0) throw Error(22);
+        if (marker < 0) throw Error(kerNoImageInInputData);
 
         // To simplify this a bit, new segments are inserts at either the start
         // or right after app0. This is standard in most jpegs, but has the
@@ -1012,7 +1012,7 @@ namespace Exiv2 {
         while (marker != sos_ && search > 0) {
             // Read size and signature (ok if this hits EOF)
             bufRead = io_->read(buf.pData_, bufMinSize);
-            if (io_->error()) throw Error(20);
+            if (io_->error()) throw Error(kerInputDataReadFailed);
             // Careful, this can be a meaningless number for empty
             // images with only an eoi_ marker
             uint16_t size = getUShort(buf.pData_, bigEndian);
@@ -1044,15 +1044,15 @@ namespace Exiv2 {
                         tmpBuf[0] = 0xff;
                         tmpBuf[1] = app1_;
 
-                        if (exifSize + 8 > 0xffff) throw Error(37, "Exif");
+                        if (exifSize + 8 > 0xffff) throw Error(kerTooLargeJpegSegment, "Exif");
                         us2Data(tmpBuf + 2, static_cast<uint16_t>(exifSize + 8), bigEndian);
                         std::memcpy(tmpBuf + 4, exifId_, 6);
-                        if (outIo.write(tmpBuf, 10) != 10) throw Error(21);
+                        if (outIo.write(tmpBuf, 10) != 10) throw Error(kerImageWriteFailed);
 
                         // Write new Exif data buffer
                         if (   outIo.write(pExifData, exifSize)
-                            != static_cast<long>(exifSize)) throw Error(21);
-                        if (outIo.error()) throw Error(21);
+                            != static_cast<long>(exifSize)) throw Error(kerImageWriteFailed);
+                        if (outIo.error()) throw Error(kerImageWriteFailed);
                         --search;
                     }
                 }
@@ -1068,15 +1068,15 @@ namespace Exiv2 {
                     tmpBuf[0] = 0xff;
                     tmpBuf[1] = app1_;
 
-                    if (xmpPacket_.size() + 31 > 0xffff) throw Error(37, "XMP");
+                    if (xmpPacket_.size() + 31 > 0xffff) throw Error(kerTooLargeJpegSegment, "XMP");
                     us2Data(tmpBuf + 2, static_cast<uint16_t>(xmpPacket_.size() + 31), bigEndian);
                     std::memcpy(tmpBuf + 4, xmpId_, 29);
-                    if (outIo.write(tmpBuf, 33) != 33) throw Error(21);
+                    if (outIo.write(tmpBuf, 33) != 33) throw Error(kerImageWriteFailed);
 
                     // Write new XMP packet
                     if (   outIo.write(reinterpret_cast<const byte*>(xmpPacket_.data()), static_cast<long>(xmpPacket_.size()))
-                        != static_cast<long>(xmpPacket_.size())) throw Error(21);
-                    if (outIo.error()) throw Error(21);
+                        != static_cast<long>(xmpPacket_.size())) throw Error(kerImageWriteFailed);
+                    if (outIo.error()) throw Error(kerImageWriteFailed);
                     --search;
                 }
 
@@ -1089,16 +1089,16 @@ namespace Exiv2 {
                     int       chunk_size = 256*256-40 ; // leave bytes for marker, header and padding
                     int       size       = (int) iccProfile_.size_   ;
                     int       chunks     = 1 + (size-1) / chunk_size ;
-                    if (iccProfile_.size_ > 256*chunk_size) throw Error(37, "IccProfile");
+                    if (iccProfile_.size_ > 256*chunk_size) throw Error(kerTooLargeJpegSegment, "IccProfile");
                     for ( int chunk = 0 ; chunk < chunks ; chunk ++ ) {
                         int bytes   = size > chunk_size ? chunk_size : size  ; // bytes to write
                         size       -= bytes ;
 
                         // write JPEG marker (2 bytes)
-                        if (outIo.write(tmpBuf, 2) != 2) throw Error(21); // JPEG Marker
+                        if (outIo.write(tmpBuf, 2) != 2) throw Error(kerImageWriteFailed); // JPEG Marker
                         // write length (2 bytes).  length includes the 2 bytes for the length
                         us2Data(tmpBuf + 2, 2+14+bytes, bigEndian);
-                        if (outIo.write(tmpBuf+2, 2) != 2) throw Error(21); // JPEG Length
+                        if (outIo.write(tmpBuf+2, 2) != 2) throw Error(kerImageWriteFailed); // JPEG Length
 
                         // write the ICC_PROFILE header (14 bytes)
                         char pad[2];
@@ -1107,8 +1107,8 @@ namespace Exiv2 {
                         outIo.write((const byte *) iccId_,12);
                         outIo.write((const byte *)    pad, 2);
                         if (outIo.write(iccProfile_.pData_+ (chunk*chunk_size), bytes) != bytes)
-                            throw Error(21);
-                        if (outIo.error()) throw Error(21);
+                            throw Error(kerImageWriteFailed);
+                        if (outIo.error()) throw Error(kerImageWriteFailed);
                     }
                     --search;
                 }
@@ -1141,12 +1141,12 @@ namespace Exiv2 {
                         tmpBuf[1] = app13_;
                         us2Data(tmpBuf + 2, static_cast<uint16_t>(chunkSize + 16), bigEndian);
                         std::memcpy(tmpBuf + 4, Photoshop::ps3Id_, 14);
-                        if (outIo.write(tmpBuf, 18) != 18) throw Error(21);
-                        if (outIo.error()) throw Error(21);
+                        if (outIo.write(tmpBuf, 18) != 18) throw Error(kerImageWriteFailed);
+                        if (outIo.error()) throw Error(kerImageWriteFailed);
 
                         // Write next chunk of the Photoshop IRB data buffer
-                        if (outIo.write(chunkStart, chunkSize) != chunkSize) throw Error(21);
-                        if (outIo.error()) throw Error(21);
+                        if (outIo.write(chunkStart, chunkSize) != chunkSize) throw Error(kerImageWriteFailed);
+                        if (outIo.error()) throw Error(kerImageWriteFailed);
 
                         chunkStart += chunkSize;
                     }
@@ -1160,14 +1160,14 @@ namespace Exiv2 {
                     tmpBuf[0] = 0xff;
                     tmpBuf[1] = com_;
 
-                    if (comment_.length() + 3 > 0xffff) throw Error(37, "JPEG comment");
+                    if (comment_.length() + 3 > 0xffff) throw Error(kerTooLargeJpegSegment, "JPEG comment");
                     us2Data(tmpBuf + 2, static_cast<uint16_t>(comment_.length() + 3), bigEndian);
 
-                    if (outIo.write(tmpBuf, 4) != 4) throw Error(21);
+                    if (outIo.write(tmpBuf, 4) != 4) throw Error(kerImageWriteFailed);
                     if (outIo.write((byte*)comment_.data(), (long)comment_.length())
-                        != (long)comment_.length()) throw Error(21);
-                    if (outIo.putb(0)==EOF) throw Error(21);
-                    if (outIo.error()) throw Error(21);
+                        != (long)comment_.length()) throw Error(kerImageWriteFailed);
+                    if (outIo.putb(0)==EOF) throw Error(kerImageWriteFailed);
+                    if (outIo.error()) throw Error(kerImageWriteFailed);
                     --search;
                 }
                 --search;
@@ -1184,18 +1184,18 @@ namespace Exiv2 {
                 io_->seek(size-bufRead, BasicIo::cur);
             }
             else {
-                if (size < 2) throw Error(22);
+                if (size < 2) throw Error(kerNoImageInInputData);
                 buf.alloc(size+2);
                 io_->seek(-bufRead-2, BasicIo::cur);
                 io_->read(buf.pData_, size+2);
-                if (io_->error() || io_->eof()) throw Error(20);
-                if (outIo.write(buf.pData_, size+2) != size+2) throw Error(21);
-                if (outIo.error()) throw Error(21);
+                if (io_->error() || io_->eof()) throw Error(kerInputDataReadFailed);
+                if (outIo.write(buf.pData_, size+2) != size+2) throw Error(kerImageWriteFailed);
+                if (outIo.error()) throw Error(kerImageWriteFailed);
             }
 
             // Next marker
             marker = advanceToMarker();
-            if (marker < 0) throw Error(22);
+            if (marker < 0) throw Error(kerNoImageInInputData);
             ++count;
         }
 
@@ -1208,9 +1208,9 @@ namespace Exiv2 {
         buf.alloc(4096);
         long readSize = 0;
         while ((readSize=io_->read(buf.pData_, buf.size_))) {
-            if (outIo.write(buf.pData_, readSize) != readSize) throw Error(21);
+            if (outIo.write(buf.pData_, readSize) != readSize) throw Error(kerImageWriteFailed);
         }
-        if (outIo.error()) throw Error(21);
+        if (outIo.error()) throw Error(kerImageWriteFailed);
 
     } // JpegBase::doWriteMetadata
 

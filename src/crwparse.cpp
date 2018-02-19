@@ -18,21 +18,21 @@ try {
 
     Exiv2::FileIo io(argv[1]);
     if(io.open() != 0) {
-        throw Exiv2::Error(9, io.path(), Exiv2::strError());
+        throw Exiv2::Error(kerDataSourceOpenFailed, io.path(), Exiv2::strError());
     }
     Exiv2::IoCloser closer(io);
 
     // Ensure that this is a CRW image
     if (!Exiv2::isCrwType(io, false)) {
-        if (io.error() || io.eof()) throw Exiv2::Error(14);
-        throw Exiv2::Error(33);
+        if (io.error() || io.eof()) throw Exiv2::Error(kerFailedToReadImageData);
+        throw Exiv2::Error(kerNotACrwImage);
     }
 
     // Read the image into a memory buffer
     long len = io.size();
     Exiv2::DataBuf buf(len);
     io.read(buf.pData_, len);
-    if (io.error() || io.eof()) throw Exiv2::Error(14);
+    if (io.error() || io.eof()) throw Exiv2::Error(kerFailedToReadImageData);
 
     // Parse the image, starting with a CIFF header component
     Exiv2::Internal::CiffHeader::AutoPtr parseTree(new Exiv2::Internal::CiffHeader);

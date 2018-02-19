@@ -307,12 +307,12 @@ namespace Exiv2 {
 
     void AsfVideo::readMetadata()
     {
-        if (io_->open() != 0) throw Error(9, io_->path(), strError());
+        if (io_->open() != 0) throw Error(kerDataSourceOpenFailed, io_->path(), strError());
 
         // Ensure that this is the correct image type
         if (!isAsfType(*io_, false)) {
-            if (io_->error() || io_->eof()) throw Error(14);
-            throw Error(3, "ASF");
+            if (io_->error() || io_->eof()) throw Error(kerFailedToReadImageData);
+            throw Error(kerNotAnImage, "ASF");
         }
 
         IoCloser closer(*io_);
@@ -454,19 +454,19 @@ namespace Exiv2 {
     void AsfVideo::contentDescription(uint64_t size)
     {
         const long pos = io_->tell();
-        if (pos == -1) throw Error(14);
+        if (pos == -1) throw Error(kerFailedToReadImageData);
         long length[5];
         for (int i = 0 ; i < 5 ; ++i) {
             byte buf[2];
             io_->read(buf, 2);
-            if (io_->error() || io_->eof()) throw Error(14);
+            if (io_->error() || io_->eof()) throw Error(kerFailedToReadImageData);
             length[i] = getUShort(buf, littleEndian);
         }
         for (int i = 0 ; i < 5 ; ++i) {
             DataBuf buf(length[i]);
             std::memset(buf.pData_, 0x0, buf.size_);
             io_->read(buf.pData_, length[i]);
-            if (io_->error() || io_->eof()) throw Error(14);
+            if (io_->error() || io_->eof()) throw Error(kerFailedToReadImageData);
             const TagDetails* td = find(contentDescriptionTags, i);
             assert(td);
             std::string str((const char*)buf.pData_, length[i]);
@@ -477,7 +477,7 @@ namespace Exiv2 {
                 xmpData_[td->label_] = toString16(buf);
             }
         }
-        if (io_->seek(pos + size, BasicIo::beg)) throw Error(14);
+        if (io_->seek(pos + size, BasicIo::beg)) throw Error(kerFailedToReadImageData);
     } // AsfVideo::contentDescription
 
     void AsfVideo::streamProperties()

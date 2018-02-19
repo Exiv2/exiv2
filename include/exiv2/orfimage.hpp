@@ -83,7 +83,7 @@ namespace Exiv2 {
         void writeMetadata();
         /*!
           @brief Not supported. ORF format does not contain a comment.
-              Calling this function will throw an Error(32).
+              Calling this function will throw an Error(kerInvalidSettingForImage).
          */
         void setComment(const std::string& comment);
         //@}

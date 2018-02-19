@@ -173,7 +173,7 @@ namespace Exiv2 {
 
     void Image::printStructure(std::ostream&, PrintStructureOption,int /*depth*/)
     {
-        throw Error(13, io_->path());
+        throw Error(kerUnsupportedImageType, io_->path());
     }
 
     bool Image::isStringType(uint16_t type)
@@ -349,7 +349,7 @@ namespace Exiv2 {
             uint16_t   dirLength = byteSwap2(dir,0,bSwap);
 
             bool tooBig = dirLength > 500;
-            if ( tooBig ) throw Error(55);
+            if ( tooBig ) throw Error(kerTiffDirectoryTooLarge);
 
             if ( bFirst && bPrint ) {
                 out << Internal::indent(depth) << Internal::stringFormat("STRUCTURE OF TIFF FILE (%c%c): ",c,c) << io.path() << std::endl;
@@ -375,7 +375,7 @@ namespace Exiv2 {
                 if ( !typeValid(type) ) {
                     std::cerr << "invalid type value detected in Image::printIFDStructure:  " << type << std::endl;
                     start = 0; // break from do loop
-                    throw Error(56);
+                    throw Error(kerInvalidTypeValue);
                     break; // break from for loop
                 }
 
@@ -401,7 +401,7 @@ namespace Exiv2 {
                 // #55 and #56 memory allocation crash test/data/POC8
                 long long allocate = (long long) size*count + pad+20;
                 if ( allocate > (long long) io.size() ) {
-                    throw Error(57);
+                    throw Error(kerInvalidMalloc);
                 }
                 DataBuf  buf((long)allocate);  // allocate a buffer
                 std::memcpy(buf.pData_,dir.pData_+8,4);  // copy dir[8:11] into buffer (short strings)
@@ -457,10 +457,10 @@ namespace Exiv2 {
                         }
                     } else if ( option == kpsRecursive && tag == 0x83bb /* IPTCNAA */ ) {
                         if (offset > std::numeric_limits<uint32_t>::max() - count) {
-                            throw Error(59);
+                            throw Error(kerArithmeticOverflow);
                         }
                         if (static_cast<size_t>(offset + count) > io.size()) {
-                            throw Error(58);
+                            throw Error(kerCorruptedMetadata);
                         }
                         size_t   restore = io.tell();  // save
                         io.seek(offset,BasicIo::beg);  // position
@@ -614,7 +614,7 @@ namespace Exiv2 {
     {
         xmpPacket_ = xmpPacket;
         if ( XmpParser::decode(xmpData_, xmpPacket) ) {
-            throw Error(54);
+            throw Error(kerInvalidXMP);
         }
         xmpPacket_ = xmpPacket;
     }
@@ -653,9 +653,9 @@ namespace Exiv2 {
     void Image::setIccProfile(Exiv2::DataBuf& iccProfile,bool bTestValid)
     {
         if ( bTestValid ) {
-            if ( iccProfile.pData_ && ( iccProfile.size_ < (long) sizeof(long)) ) throw Error(53);
+            if ( iccProfile.pData_ && ( iccProfile.size_ < (long) sizeof(long)) ) throw Error(kerInvalidIccProfile);
             long size = iccProfile.pData_ ? getULong(iccProfile.pData_, bigEndian): -1;
-            if ( size!= iccProfile.size_ ) throw Error(53);
+            if ( size!= iccProfile.size_ ) throw Error(kerInvalidIccProfile);
         }
         iccProfile_ = iccProfile;
     }
@@ -764,7 +764,7 @@ namespace Exiv2 {
     AccessMode ImageFactory::checkMode(int type, MetadataId metadataId)
     {
         const Registry* r = find(registry, type);
-        if (!r) throw Error(13, type);
+        if (!r) throw Error(kerUnsupportedImageType, type);
         AccessMode am = amNone;
         switch (metadataId) {
         case mdNone:
@@ -883,7 +883,7 @@ namespace Exiv2 {
     Image::AutoPtr ImageFactory::open(const std::string& path, bool useCurl)
     {
         Image::AutoPtr image = open(ImageFactory::createIo(path, useCurl)); // may throw
-        if (image.get() == 0) throw Error(11, path);
+        if (image.get() == 0) throw Error(kerFileContainsUnknownImageType, path);
         return image;
     }
 
@@ -891,7 +891,7 @@ namespace Exiv2 {
     Image::AutoPtr ImageFactory::open(const std::wstring& wpath, bool useCurl)
     {
         Image::AutoPtr image = open(ImageFactory::createIo(wpath, useCurl)); // may throw
-        if (image.get() == 0) throw WError(11, wpath);
+        if (image.get() == 0) throw WError(kerFileContainsUnknownImageType, wpath);
         return image;
     }
 
@@ -900,14 +900,14 @@ namespace Exiv2 {
     {
         BasicIo::AutoPtr io(new MemIo(data, size));
         Image::AutoPtr image = open(io); // may throw
-        if (image.get() == 0) throw Error(12);
+        if (image.get() == 0) throw Error(kerMemoryContainsUnknownImageType);
         return image;
     }
 
     Image::AutoPtr ImageFactory::open(BasicIo::AutoPtr io)
     {
         if (io->open() != 0) {
-            throw Error(9, io->path(), strError());
+            throw Error(kerDataSourceOpenFailed, io->path(), strError());
         }
         for (unsigned int i = 0; registry[i].imageType_ != ImageType::none; ++i) {
             if (registry[i].isThisType_(*io, false)) {
@@ -923,12 +923,12 @@ namespace Exiv2 {
         std::auto_ptr<FileIo> fileIo(new FileIo(path));
         // Create or overwrite the file, then close it
         if (fileIo->open("w+b") != 0) {
-            throw Error(10, path, "w+b", strError());
+            throw Error(kerFileOpenFailed, path, "w+b", strError());
         }
         fileIo->close();
         BasicIo::AutoPtr io(fileIo);
         Image::AutoPtr image = create(type, io);
-        if (image.get() == 0) throw Error(13, type);
+        if (image.get() == 0) throw Error(kerUnsupportedImageType, type);
         return image;
     }
 
@@ -939,12 +939,12 @@ namespace Exiv2 {
         std::auto_ptr<FileIo> fileIo(new FileIo(wpath));
         // Create or overwrite the file, then close it
         if (fileIo->open("w+b") != 0) {
-            throw WError(10, wpath, "w+b", strError().c_str());
+            throw WError(kerFileOpenFailed, wpath, "w+b", strError().c_str());
         }
         fileIo->close();
         BasicIo::AutoPtr io(fileIo);
         Image::AutoPtr image = create(type, io);
-        if (image.get() == 0) throw Error(13, type);
+        if (image.get() == 0) throw Error(kerUnsupportedImageType, type);
         return image;
     }
 
@@ -953,7 +953,7 @@ namespace Exiv2 {
     {
         BasicIo::AutoPtr io(new MemIo);
         Image::AutoPtr image = create(type, io);
-        if (image.get() == 0) throw Error(13, type);
+        if (image.get() == 0) throw Error(kerUnsupportedImageType, type);
         return image;
     }
 

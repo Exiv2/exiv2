@@ -104,7 +104,7 @@ namespace Exiv2
                 int read = io.read(buffer, 4);
 
                 if (read < 4)
-                    throw Exiv2::Error(58);
+                    throw Exiv2::Error(kerCorruptedMetadata);
 
                 const uint32_t offset = getULong(buffer, byteOrder);
                 result = Header(byteOrder, magic, 4, offset);
@@ -114,7 +114,7 @@ namespace Exiv2
                 byte buffer[8] = {0, 0, 0, 0, 0, 0, 0, 0};
                 int read = io.read(buffer, 2);
                 if (read < 2)
-                    throw Exiv2::Error(58);
+                    throw Exiv2::Error(kerCorruptedMetadata);
 
                 const int size = getUShort(buffer, byteOrder);
 
@@ -122,21 +122,21 @@ namespace Exiv2
                 {
                     read = io.read(buffer, 2); // null
                     if (read < 2)
-                        throw Exiv2::Error(58);
+                        throw Exiv2::Error(kerCorruptedMetadata);
 
                     read = io.read(buffer, 8);
                     if (read < 8)
-                        throw Exiv2::Error(58);
+                        throw Exiv2::Error(kerCorruptedMetadata);
 
                     const uint64_t offset = getULongLong(buffer, byteOrder);
 
                     if (offset >= io.size())
-                        throw Exiv2::Error(58);
+                        throw Exiv2::Error(kerCorruptedMetadata);
 
                     result = Header(byteOrder, magic, size, offset);
                 }
                 else
-                    throw Exiv2::Error(58);
+                    throw Exiv2::Error(kerCorruptedMetadata);
             }
 
             return result;
@@ -252,15 +252,15 @@ namespace Exiv2
                             // =>
                             // size > std::numeric_limits<uint64_t>::max() / count
                             if (size > std::numeric_limits<uint64_t>::max() / count)
-                                throw Error(57);             // we got number bigger than 2^64
+                                throw Error(kerInvalidMalloc);             // we got number bigger than 2^64
                                                              // more than we can handle
 
                             if (size * count > std::numeric_limits<uint64_t>::max() - pad)
-                                throw Error(57);             // again more than 2^64
+                                throw Error(kerInvalidMalloc);             // again more than 2^64
 
                             const uint64_t allocate = size*count + pad;
                             if ( allocate > io.size() ) {
-                                throw Error(57);
+                                throw Error(kerInvalidMalloc);
                             }
 
                             DataBuf buf(static_cast<long>(allocate));

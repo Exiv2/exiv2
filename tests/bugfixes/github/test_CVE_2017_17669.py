@@ -11,6 +11,6 @@ class RunPocFile(system_tests.Case):
     stdout = [""]
     stderr = [
 	"""{exiv2_exception_msg} """ + filename + """:
-{error_14_message}
+{kerFailedToReadImageData}
 """
     ]

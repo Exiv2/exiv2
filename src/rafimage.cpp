@@ -77,29 +77,29 @@ namespace Exiv2 {
     void RafImage::setExifData(const ExifData& /*exifData*/)
     {
         // Todo: implement me!
-        throw(Error(32, "Exif metadata", "RAF"));
+        throw(Error(kerInvalidSettingForImage, "Exif metadata", "RAF"));
     }
 
     void RafImage::setIptcData(const IptcData& /*iptcData*/)
     {
         // Todo: implement me!
-        throw(Error(32, "IPTC metadata", "RAF"));
+        throw(Error(kerInvalidSettingForImage, "IPTC metadata", "RAF"));
     }
 
     void RafImage::setComment(const std::string& /*comment*/)
     {
         // not supported
-        throw(Error(32, "Image comment", "RAF"));
+        throw(Error(kerInvalidSettingForImage, "Image comment", "RAF"));
     }
 
     void RafImage::printStructure(std::ostream& out, PrintStructureOption option, int depth) {
         if (io_->open() != 0) {
-            throw Error(9, io_->path(), strError());
+            throw Error(kerDataSourceOpenFailed, io_->path(), strError());
         }
         // Ensure this is the correct image type
         if (!isRafType(*io_, true)) {
-            if (io_->error() || io_->eof()) throw Error(14);
-            throw Error(3, "RAF");
+            if (io_->error() || io_->eof()) throw Error(kerFailedToReadImageData);
+            throw Error(kerNotAnImage, "RAF");
         }
         bool bPrint = option==kpsBasic || option==kpsRecursive;
         if ( bPrint ) {
@@ -280,12 +280,12 @@ namespace Exiv2 {
 #ifdef DEBUG
         std::cerr << "Reading RAF file " << io_->path() << "\n";
 #endif
-        if (io_->open() != 0) throw Error(9, io_->path(), strError());
+        if (io_->open() != 0) throw Error(kerDataSourceOpenFailed, io_->path(), strError());
         IoCloser closer(*io_);
         // Ensure that this is the correct image type
         if (!isRafType(*io_, false)) {
-            if (io_->error() || io_->eof()) throw Error(14);
-            throw Error(3, "RAF");
+            if (io_->error() || io_->eof()) throw Error(kerFailedToReadImageData);
+            throw Error(kerNotAnImage, "RAF");
         }
 
         clearMetadata();
@@ -301,7 +301,7 @@ namespace Exiv2 {
         DataBuf buf(jpg_img_len - 12);
         io_->seek(jpg_img_off + 12,BasicIo::beg);
         io_->read(buf.pData_, buf.size_ - 12);
-        if (io_->error() || io_->eof()) throw Error(14);
+        if (io_->error() || io_->eof()) throw Error(kerFailedToReadImageData);
 
         io_->seek(0,BasicIo::beg); // rewind
 
@@ -320,7 +320,7 @@ namespace Exiv2 {
     void RafImage::writeMetadata()
     {
         //! Todo: implement me!
-        throw(Error(31, "RAF"));
+        throw(Error(kerWritingImageFormatUnsupported, "RAF"));
     } // RafImage::writeMetadata
 
     // *************************************************************************

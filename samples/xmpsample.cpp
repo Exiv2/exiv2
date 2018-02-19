@@ -97,7 +97,7 @@ try {
 
     // Deleting an XMP property
     Exiv2::XmpData::iterator pos = xmpData.findKey(Exiv2::XmpKey("Xmp.dc.eight"));
-    if (pos == xmpData.end()) throw Exiv2::Error(1, "Key not found");
+    if (pos == xmpData.end()) throw Exiv2::Error(Exiv2::kerErrorMessage, "Key not found");
     xmpData.erase(pos);
 
     // -------------------------------------------------------------------------
@@ -201,7 +201,7 @@ try {
     // Serialize the XMP data and output the XMP packet
     std::string xmpPacket;
     if (0 != Exiv2::XmpParser::encode(xmpPacket, xmpData)) {
-        throw Exiv2::Error(1, "Failed to serialize XMP data");
+        throw Exiv2::Error(Exiv2::kerErrorMessage, "Failed to serialize XMP data");
     }
     std::cout << xmpPacket << "\n";
 

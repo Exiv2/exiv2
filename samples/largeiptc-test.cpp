@@ -18,12 +18,12 @@ try {
     // Read data file into data buffer
     Exiv2::FileIo io(data);
     if (io.open() != 0) {
-      throw Exiv2::Error(9, io.path(), Exiv2::strError());
+      throw Exiv2::Error(Exiv2::kerDataSourceOpenFailed, io.path(), Exiv2::strError());
     }
     Exiv2::DataBuf buf((long)io.size());
     std::cout << "Reading " << buf.size_ << " bytes from " << data << "\n";
     io.read(buf.pData_, buf.size_);
-    if (io.error() || !io.eof()) throw Exiv2::Error(14);
+    if (io.error() || !io.eof()) throw Exiv2::Error(Exiv2::kerFailedToReadImageData);
 
     // Read metadata from file
     Exiv2::Image::AutoPtr image = Exiv2::ImageFactory::open(file);
