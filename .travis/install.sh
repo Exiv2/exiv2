@@ -7,6 +7,6 @@ if [[ "$(uname -s)" == 'Linux' ]]; then
     sudo pip install virtualenv
 else
     brew update
-    brew install gettext libssh expat zlib curl md5sha1sum
+    brew install gettext libssh expat zlib curl md5sha1sum python3
     # By default it already has cmake 3.6.2
 fi
