@@ -114,10 +114,11 @@ namespace Safe
         struct fallback_add_overflow;
 
         /*!
-         * @brief Overload of fallback_add_overflow for signed integers
+         * @brief Overload of fallback_add_overflow for signed integer types
+         * larger then int or with the same size as int
          */
         template <typename T>
-        struct fallback_add_overflow<T, typename enable_if<is_signed<T>::VALUE>::type>
+        struct fallback_add_overflow<T, typename enable_if<is_signed<T>::VALUE && sizeof(T) >= sizeof(int)>::type>
         {
             /*!
              * @brief Adds the two summands only if no overflow occurs
@@ -142,6 +143,42 @@ namespace Safe
                     return true;
                 } else {
                     result = summand_1 + summand_2;
+                    return false;
+                }
+            }
+        };
+
+        /*!
+         * @brief Overload of fallback_add_overflow for signed integers smaller
+         * then int.
+         */
+        template <typename T>
+        struct fallback_add_overflow<T, typename enable_if<is_signed<T>::VALUE && sizeof(T) < sizeof(int)>::type>
+        {
+            /*!
+             * @brief Adds the two summands only if no overflow occurs
+             *
+             * This function adds summand_1 and summand_2 exploiting integer
+             * promotion rules, thereby not causing undefined behavior. The
+             * result is checked against the limits of T and true is returned if
+             * they are exceeded. Otherwise the sum is saved in result and false
+             * is returned.
+             *
+             * @return true on overflow, false on no overflow
+             *
+	     * The value in result is only valid when the function returns
+	     * false.
+             *
+             * Further information:
+	     * https://wiki.sei.cmu.edu/confluence/display/c/INT02-C.+Understand+integer+conversion+rules
+             */
+            static bool add(T summand_1, T summand_2, T& result)
+            {
+                const int res = summand_1 + summand_2;
+                if ((res > std::numeric_limits<T>::max()) || (res < std::numeric_limits<T>::min())) {
+                    return true;
+                } else {
+                    result = static_cast<T>(res);
                     return false;
                 }
             }
