@@ -186,7 +186,7 @@ namespace Safe
          * instructions & the compiler's diagnostic.
          *
          * However, as some compilers don't provide intrinsics for certain
-         * types, the default implementation of add is the version from falback.
+         * types, the default implementation of add is the version from fallback.
          *
          * The struct is explicitly specialized for each type via #ifdefs for
          * each compiler.
