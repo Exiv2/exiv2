@@ -204,12 +204,8 @@ namespace Safe
              */
             static bool add(T summand_1, T summand_2, T& result)
             {
-                if (summand_1 > std::numeric_limits<T>::max() - summand_2) {
-                    return true;
-                } else {
-                    result = summand_1 + summand_2;
-                    return false;
-                }
+                result = summand_1 + summand_2;
+                return result < summand_1;
             }
         };
 
