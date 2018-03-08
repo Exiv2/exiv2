@@ -115,8 +115,8 @@ void test_add()
         }                                                                                                     \
     }
 
-    TEST_ADD(si::fallback_add_overflow<T>::add)
-    TEST_ADD(si::builtin_add_overflow<T>::add)
+    TEST_ADD(si::fallback_add_overflow)
+    TEST_ADD(si::builtin_add_overflow)
 
 #undef TEST_ADD
 }
