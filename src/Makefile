@@ -131,8 +131,7 @@ CCSRC += asfvideo.cpp      \
 	 utilsvideo.cpp
 endif
 
-# Add library C source files to this list
-EXIVCSRC  =
+# C source files
 ifndef HAVE_TIMEGM
 CSRC =   localtime.c
 endif
@@ -141,9 +140,7 @@ endif
 EXIV2MAIN = exiv2.cpp
 EXIV2SRC  = actions.cpp \
             utils.cpp
-
-# C source files for the Exiv2 application
-EXIVCSRC  =
+EXIVCSRC  = getopt_win32.c
 
 # ******************************************************************************
 # Library
@@ -176,7 +173,7 @@ OBJ    = $(CCOBJ) $(COBJ)
 LOBJ   = $(CCLOBJ) $(CLOBJ)
 
 EXIV2OBJ  = $(EXIV2MAIN:.cpp=.o) $(EXIV2SRC:.cpp=.o)
-EXIV2COBJ = $(EXIVCSRC:.c=.o)
+EXIVCOBJ  = $(EXIVCSRC:.c=.o)
 EXIV2EXE  = $(EXIV2MAIN:.cpp=$(EXEEXT))
 
 ifdef DEP_TRACKING
@@ -251,9 +248,9 @@ lib: $(OBJ)
 $(BINARY): %: %.o lib
 	@$(LIBTOOL) --mode=link $(LINK.cc) -o $@ $(LIBRARY) $@.o -rpath $(libdir)
 
-$(EXIV2EXE): lib $(EXIV2OBJ) $(EXIV2COBJ)
+$(EXIV2EXE): lib $(EXIV2OBJ) $(EXIVCOBJ)
 	mkdir -pv ../bin 2>&1 > /dev/null
-	@$(LIBTOOL) --mode=link $(LINK.cc) -o ../bin/$@ $(LIBRARY) $(EXIV2OBJ) $(EXIV2COBJ) -rpath $(libdir)
+	@$(LIBTOOL) --mode=link $(LINK.cc) -o ../bin/$@ $(LIBRARY) $(EXIV2OBJ) $(EXIVCOBJ) -rpath $(libdir)
 
 install-header:
 	$(INSTALL_DIRS) $(DESTDIR)$(incdir)
