@@ -38,6 +38,13 @@
 extern "C" {
 #endif
 
+#if !defined(_WIN32) &&  !defined(__CYGWIN__) && !defined(__MINGW__) && !defined(_MSC_VER)
+// the symbol __argv (and __argc and __progname and __env) are defined in Windows environments
+// for *ix environments, __argv is declared here, defined: getopt_win32.c, init'd: getopt_internal()
+#define __GETOPT_DEFINE_ARGV__
+extern char * const *__argv;
+#endif
+
 extern int   opterr;      /* if error message should be printed */
 extern int   optind;      /* index into parent argv vector */
 extern int   optopt;      /* character checked for validity */
