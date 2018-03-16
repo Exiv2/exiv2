@@ -42,33 +42,32 @@
 namespace Safe
 {
     /*!
-     * @brief Helper structs for providing integer overflow checks.
+     * @brief Helper functions for providing integer overflow checks.
      *
-     * This namespace contains the internal helper structs fallback_add_overflow
-     * and builtin_add_overflow. Both have a public static member function add
-     * with the following interface:
+     * This namespace contains internal helper functions fallback_$op_overflow
+     * and builtin_$op_overflow (where $op is an arithmetic operation like add,
+     * subtract, etc.). Both provide the following interface:
      *
-     * bool add(T summand_1, T summand_2, T& result)
+     * bool fallback/builtin_$op_overflow(T first, T second, T& result);
      *
-     * where T is the type over which the struct is templated.
+     * where T is an integer type.
      *
-     * The function performs a check whether the addition summand_1 + summand_2
-     * can be performed without an overflow. If the operation would overflow,
-     * true is returned and the addition is not performed if it would result in
-     * undefined behavior. If no overflow occurs, the sum is saved in result and
-     * false is returned.
+     * Each function performs checks whether first $op second can be safely
+     * performed without overflows. If yes, the result is saved in result and
+     * false is returned. Otherwise true is returned and the contents of result
+     * are unspecified.
      *
-     * fallback_add_overflow implements a portable but slower overflow check.
-     * builtin_add_overflow uses compiler builtins (when available) and should
-     * be considerably faster. As builtins are not available for all types,
-     * builtin_add_overflow falls back to fallback_add_overflow when no builtin
+     * fallback_$op_overflow implements a portable but slower overflow check.
+     * builtin_$op_overflow uses compiler builtins (when available) and should
+     * be faster. As builtins are not available for all types,
+     * builtin_$op_overflow falls back to fallback_$op_overflow when no builtin
      * is available.
      */
     namespace Internal
     {
         /*!
          * @brief Helper struct to determine whether a type is signed or unsigned
-
+         *
          * This struct is a backport of std::is_signed from C++11. It has a public
          * enum with the property VALUE which is true when the type is signed or
          * false if it is unsigned.
@@ -103,112 +102,111 @@ namespace Safe
         };
 
         /*!
-         * @brief Fallback overflow checker, specialized via SFINAE
+         * @brief Check the addition of two numbers for overflows for signed
+         * integer types larger than int or with the same size as int.
          *
-         * This struct implements a 'fallback' addition with an overflow check,
-         * i.e. it does not rely on compiler intrinsics.  It is specialized via
-         * SFINAE for signed and unsigned integer types and provides a public
-         * static member function add.
-         */
-        template <typename T, typename = void>
-        struct fallback_add_overflow;
-
-        /*!
-         * @brief Overload of fallback_add_overflow for signed integers
+         * This function performs a check if summand_1 + summand_2 would
+         * overflow and returns true in that case. If no overflow occurs,
+         * the sum is saved in result and false is returned.
+         *
+         * @return true on overflow, false on no overflow
+         *
+         * @param[in] summand_1, summand_2 The summands with are added
+         * @param[out] result Result of the addition, only populated when no
+         * overflow occurs.
+         *
+         * Further information:
+         * https://wiki.sei.cmu.edu/confluence/display/c/INT32-C.+Ensure+that+operations+on+signed+integers+do+not+result+in+overflow
          */
         template <typename T>
-        struct fallback_add_overflow<T, typename enable_if<is_signed<T>::VALUE>::type>
+        typename enable_if<is_signed<T>::VALUE && sizeof(T) >= sizeof(int), bool>::type fallback_add_overflow(
+            T summand_1, T summand_2, T& result)
         {
-            /*!
-             * @brief Adds the two summands only if no overflow occurs
-             *
-             * This function performs a check if summand_1 + summand_2 would
-             * overflow and returns true in that case. If no overflow occurs,
-             * the sum is saved in result and false is returned.
-             *
-             * @return true on overflow, false on no overflow
-             *
-             * The check for an overflow is performed before the addition to
-             * ensure that no undefined behavior occurs. The value in result is
-             * only valid when the function returns false.
-             *
-             * Further information:
-             * https://wiki.sei.cmu.edu/confluence/display/c/INT32-C.+Ensure+that+operations+on+signed+integers+do+not+result+in+overflow
-             */
-            static bool add(T summand_1, T summand_2, T& result)
-            {
-                if (((summand_2 >= 0) && (summand_1 > std::numeric_limits<T>::max() - summand_2)) ||
-                    ((summand_2 < 0) && (summand_1 < std::numeric_limits<T>::min() - summand_2))) {
-                    return true;
-                } else {
-                    result = summand_1 + summand_2;
-                    return false;
-                }
+            if (((summand_2 >= 0) && (summand_1 > std::numeric_limits<T>::max() - summand_2)) ||
+                ((summand_2 < 0) && (summand_1 < std::numeric_limits<T>::min() - summand_2))) {
+                return true;
+            } else {
+                result = summand_1 + summand_2;
+                return false;
             }
-        };
+        }
 
         /*!
-         * @brief Overload of fallback_add_overflow for unsigned integers
+         * @brief Check the addition of two numbers for overflows for signed
+         * integer types smaller than int.
+         *
+         * This function adds summand_1 and summand_2 exploiting integer
+         * promotion rules, thereby not causing undefined behavior. The
+         * result is checked against the limits of T and true is returned if
+         * they are exceeded. Otherwise the sum is saved in result and false
+         * is returned.
+         *
+         * @return true on overflow, false on no overflow
+         *
+         * @param[in] summand_1, summand_2 The summands with are added
+         * @param[out] result Result of the addition, only populated when no
+         * overflow occurs.
+         *
+         * Further information:
+         * https://wiki.sei.cmu.edu/confluence/display/c/INT02-C.+Understand+integer+conversion+rules
          */
         template <typename T>
-        struct fallback_add_overflow<T, typename enable_if<!is_signed<T>::VALUE>::type>
+        typename enable_if<is_signed<T>::VALUE && sizeof(T) < sizeof(int), bool>::type fallback_add_overflow(
+            T summand_1, T summand_2, T& result)
         {
-            /*!
-             * @brief Adds the two summands only if no overflow occurs
-             *
-             * This function performs a check if summand_1 + summand_2 would
-             * overflow and returns true in that case. If no overflow occurs,
-             * the sum is saved in result and false is returned.
-             *
-             * @return true on overflow, false on no overflow
-             *
-             * Further information:
-             * https://wiki.sei.cmu.edu/confluence/display/c/INT30-C.+Ensure+that+unsigned+integer+operations+do+not+wrap
-             */
-            static bool add(T summand_1, T summand_2, T& result)
-            {
-                if (summand_1 > std::numeric_limits<T>::max() - summand_2) {
-                    return true;
-                } else {
-                    result = summand_1 + summand_2;
-                    return false;
-                }
+            const int res = summand_1 + summand_2;
+            if ((res > std::numeric_limits<T>::max()) || (res < std::numeric_limits<T>::min())) {
+                return true;
+            } else {
+                result = static_cast<T>(res);
+                return false;
             }
-        };
+        }
 
         /*!
-         * @brief Overflow checker using compiler intrinsics
+         * @brief Check the addition of two numbers for overflows for unsigned
+         * integer types.
          *
-         * This struct provides an add function with the same interface &
-         * behavior as fallback_add_overload::add but it relies on compiler
-         * intrinsics instead. This version should be considerably faster than
-         * the fallback version as it can fully utilize available CPU
+         * This function adds summand_1 and summand_2 and checks after that if
+         * the operation overflowed. Since these are unsigned integers, no
+         * undefined behavior is invoked.
+         *
+         * @return true on overflow, false on no overflow
+         *
+         * @param[in] summand_1, summand_2 The summands with are added
+         * @param[out] result Result of the addition
+         *
+         * Further information:
+         * https://wiki.sei.cmu.edu/confluence/display/c/INT30-C.+Ensure+that+unsigned+integer+operations+do+not+wrap
+         */
+        template <typename T>
+        typename enable_if<!is_signed<T>::VALUE, bool>::type fallback_add_overflow(T summand_1, T summand_2, T& result)
+        {
+            result = summand_1 + summand_2;
+            return result < summand_1;
+        }
+
+        /*!
+         * @brief Overflow addition check using compiler intrinsics.
+         *
+         * This function behaves exactly like fallback_add_overflow() but it
+         * relies on compiler intrinsics instead. This version should be faster
+         * than the fallback version as it can fully utilize available CPU
          * instructions & the compiler's diagnostic.
          *
          * However, as some compilers don't provide intrinsics for certain
-         * types, the default implementation of add is the version from falback.
+         * types, the default implementation is the version from fallback.
          *
-         * The struct is explicitly specialized for each type via #ifdefs for
-         * each compiler.
+         * This function is fully specialized for each compiler.
          */
         template <typename T>
-        struct builtin_add_overflow
+        bool builtin_add_overflow(T summand_1, T summand_2, T& result)
         {
-            /*!
-             * @brief Add summand_1 and summand_2 and check for overflows.
-             *
-             * This is the default add() function that uses
-             * fallback_add_overflow<T>::add(). All specializations must have
-             * exactly the same interface and behave the same way.
-             */
-            static inline bool add(T summand_1, T summand_2, T& result)
-            {
-                return fallback_add_overflow<T>::add(summand_1, summand_2, result);
-            }
-        };
+            return fallback_add_overflow(summand_1, summand_2, result);
+        }
 
 #if defined(__GNUC__) || defined(__clang__)
-#if __GNUC__ >= 5
+#if __GNUC__ >= 5 || __clang_major__ >= 3
 
 /*!
  * This macro pastes a specialization of builtin_add_overflow using gcc's &
@@ -220,14 +218,13 @@ namespace Safe
  * The intrinsics are documented here:
  * https://gcc.gnu.org/onlinedocs/gcc/Integer-Overflow-Builtins.html#Integer-Overflow-Builtins
  */
-#define SPECIALIZE_builtin_add_overflow(type, builtin_name)                  \
-    template <>                                                              \
-    struct builtin_add_overflow<type>                                        \
-    {                                                                        \
-        static inline bool add(type summand_1, type summand_2, type& result) \
-        {                                                                    \
-            return builtin_name(summand_1, summand_2, &result);              \
-        }                                                                    \
+#define SPECIALIZE_builtin_add_overflow(type, builtin_name)                        \
+    /* Full specialization of builtin_add_overflow for type using the */           \
+    /* builtin_name intrinsic */                                                   \
+    template <>                                                                    \
+    bool builtin_add_overflow<type>(type summand_1, type summand_2, type & result) \
+    {                                                                              \
+        return builtin_name(summand_1, summand_2, &result);                        \
     }
 
         SPECIALIZE_builtin_add_overflow(int, __builtin_sadd_overflow);
@@ -239,7 +236,7 @@ namespace Safe
         SPECIALIZE_builtin_add_overflow(unsigned long long, __builtin_uaddll_overflow);
 
 #undef SPECIALIZE_builtin_add_overflow
-#endif
+#endif  // __GNUC__ >= 5 || __clang_major >= 3
 
 #elif defined(_MSC_VER)
 
@@ -256,14 +253,11 @@ namespace Safe
  * The intrinsics are documented here:
  * https://msdn.microsoft.com/en-us/library/windows/desktop/ff516460(v=vs.85).aspx
  */
-#define SPECIALIZE_builtin_add_overflow_WIN(type, builtin_name)              \
-    template <>                                                              \
-    struct builtin_add_overflow<type>                                        \
-    {                                                                        \
-        static inline bool add(type summand_1, type summand_2, type& result) \
-        {                                                                    \
-            return builtin_name(summand_1, summand_2, &result) != S_OK;      \
-        }                                                                    \
+#define SPECIALIZE_builtin_add_overflow_WIN(type, builtin_name)             \
+    template <>                                                             \
+    bool builtin_add_overflow(type summand_1, type summand_2, type& result) \
+    {                                                                       \
+        return builtin_name(summand_1, summand_2, &result) != S_OK;         \
     }
 
         SPECIALIZE_builtin_add_overflow_WIN(unsigned int, UIntAdd);
@@ -272,7 +266,7 @@ namespace Safe
 
 #undef SPECIALIZE_builtin_add_overflow_WIN
 
-#endif
+#endif  // defined(_MSC_VER)
 
     }  // namespace Internal
 
@@ -299,7 +293,7 @@ namespace Safe
     T add(T summand_1, T summand_2)
     {
         T res = 0;
-        if (Internal::builtin_add_overflow<T>::add(summand_1, summand_2, res)) {
+        if (Internal::builtin_add_overflow(summand_1, summand_2, res)) {
             throw std::overflow_error("Overflow in addition");
         }
         return res;
