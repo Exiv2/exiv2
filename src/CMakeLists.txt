@@ -324,19 +324,13 @@ if(EXIV2_BUILD_EXIV2_COMMAND)
         target_sources(exiv2    PRIVATE localtime.c)
     endif()
 
-    if (MSVC)
-        target_sources(exiv2    PRIVATE getopt_win32.c)
-    endif()
+    target_sources(exiv2    PRIVATE getopt_win32.c)
     install(TARGETS exiv2 RUNTIME DESTINATION ${CMAKE_INSTALL_BINDIR})
 endif()
 
 # modify source lists to suit environment
 if(NOT EXV_HAVE_TIMEGM )
     target_sources(exiv2lib PRIVATE localtime.c)
-endif()
-
-if (MSVC)
-    target_sources(exiv2lib PRIVATE getopt_win32.c)
 endif()
 
 # ******************************************************************************
