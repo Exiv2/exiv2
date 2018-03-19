@@ -109,6 +109,7 @@ reportTest()
         echo "all testcases passed."
     else
         diff $diffargs $lhs $rhs
+	exit 3
     fi
 }
 
