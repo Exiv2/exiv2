@@ -27,15 +27,16 @@ fi
 
 python --version
 pip install urllib3[secure] -U #Should solve SSL issues
-pip install conan==0.29.2
+pip install conan==1.1.1
 conan --version
 conan config set storage.path=~/conanData
-conan remote add conan-pix4d https://api.bintray.com/conan/pix4d/conan
+conan remote add conan-bincrafters https://api.bintray.com/conan/bincrafters/public-conan
+
 mkdir -p ~/.conan/profiles
 
 if [[ "$(uname -s)" == 'Linux' ]]; then
     if [ ${CC} == "clang" ]; then
-        printf "[settings]\nos=Linux\narch=x86_64\ncompiler=clang\ncompiler.version=3.9\ncompiler.libcxx=libstdc++\nbuild_type=Release\n" > ~/.conan/profiles/release
+        printf "[settings]\nos=Linux\narch=x86_64\ncompiler=clang\ncompiler.version=5.0\ncompiler.libcxx=libstdc++\nbuild_type=Release\n" > ~/.conan/profiles/release
     else
         printf "[settings]\nos=Linux\narch=x86_64\ncompiler=gcc\ncompiler.version=4.8\ncompiler.libcxx=libstdc++\nbuild_type=Release\n" > ~/.conan/profiles/release
     fi

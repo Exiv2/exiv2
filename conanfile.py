@@ -13,14 +13,15 @@ class Exiv2Conan(ConanFile):
         # Windows also has some problems (since it uses CMake for configuring the project).
         if os_info.is_windows:
             self.options['libcurl'].shared = True
+        self.options['gtest'].shared = True
 
     def requirements(self):
-        self.requires('Expat/2.2.4@pix4d/stable') # From conan-center
-        self.requires('zlib/1.2.11@lasote/stable') # From conan-center
-        self.requires('libcurl/7.50.3@lasote/stable') # From conan-transit (It also brings OpenSSL)
+        self.requires('Expat/2.2.5@pix4d/stable')
+        self.requires('zlib/1.2.11@conan/stable')
+        self.requires('libcurl/7.56.1@bincrafters/stable') # from conan-bincrafters
 
         if self.options.unitTests:
-            self.requires('gtest/1.8.0@lasote/stable') #From conan-transit
+            self.requires('gtest/1.8.0@bincrafters/stable')
 
     def imports(self):
         self.copy('*.dll', dst='bin', src='bin')
