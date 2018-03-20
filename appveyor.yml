@@ -19,21 +19,22 @@ before_build:
     - cmd: cd envs
     - cmd: python -m virtualenv conan
     - cmd: conan/Scripts/activate
-    - cmd: python -m pip install conan==0.27.0
+    - cmd: python -m pip install conan==1.1.1
     - cmd: cd ..
     - cmd: conan --version
-    - cmd: conan remote add conan-pix4d https://api.bintray.com/conan/pix4d/conan
+    - cmd: conan remote add conan-bincrafters https://api.bintray.com/conan/bincrafters/public-conan
     - cmd: conan remote list
     - cmd: conan config set storage.path=c:\Users\appveyor\conanCache
     - cmd: cat c:\Users\appveyor\.conan\conan.conf
     - cmd: mkdir c:\Users\appveyor\.conan\profiles
-    - cmd: printf "os=Windows\narch=x86\ncompiler=Visual Studio\ncompiler.version=14\ncompiler.runtime=MD\nbuild_type=Release\n" > c:\Users\appveyor\.conan\profiles\release
-    - cmd: cat c:\Users\appveyor\.conan\profiles\release
+      #- cmd: printf "os=Windows\narch=x86\ncompiler=Visual Studio\ncompiler.version=14\ncompiler.runtime=MD\nbuild_type=Release\n" > c:\Users\appveyor\.conan\profiles\release
+      #- cmd: cat c:\Users\appveyor\.conan\profiles\release
 
 build_script:
     - cmd: md build
     - cmd: cd build
-    - cmd: conan install .. --build missing --profile release
+    - cmd: conan install .. --build missing
+      #- cmd: conan install .. --build missing --profile release
     - cmd: call "C:\Program Files (x86)\Microsoft Visual Studio 14.0\VC\vcvarsall.bat" amd64
     - cmd: cmake -G "Ninja" -DCMAKE_BUILD_TYPE=Release -DEXIV2_ENABLE_XMP=ON -DEXIV2_ENABLE_NLS=OFF -DEXIV2_ENABLE_PNG=ON -DEXIV2_ENABLE_WEBREADY=ON -DEXIV2_ENABLE_CURL=ON -DEXIV2_BUILD_UNIT_TESTS=ON -DCMAKE_INSTALL_PREFIX=install ..
     - cmd: ninja
