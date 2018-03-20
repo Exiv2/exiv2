@@ -112,34 +112,17 @@ Once you have a GitHub login:
 
         $ git fetch exiv2_upstream
 
-	Then go to the master branch (the one corresponding to your fork):
-
-        $ git checkout master
-
-	Now, merge the changes in `exiv2_upstream/master` into your master branch:
-
-        $ git merge exiv2_upstream/master
-
-	At this point you can push the changes to your fork (just to be sure that you do not need to do this again):
-
-        $ git push
-
-	Now, go back to the branch:
+	Then switch to the branch
 
         $ git checkout my_first_pr_branch
 
 	And rebase in top of master:
 
-        $ git rebase master
+        $ git pull --rebase origin master
 
 	When you do a rebase the commit history is rewritten and, therefore, the next time you try to push your branch to your fork repository you will need to use the `--force` option:
 
         $ git push --force
-
-A short form of the rebase step (11.) above is:
-
-    $ git fetch exiv2_upstream
-    $ git checkout my_first_pr_branch && git pull --rebase origin master && git push --force
 
 Also, follow the coding guidelines in the [CODING_GUIDELINES.md](CODING_GUIDELINES.md) file!
 
