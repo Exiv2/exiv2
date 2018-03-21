@@ -3,18 +3,18 @@ Coding Guidelines
 
 # Contents #
 
-* [1.0 General Guidelines](#10-general-guidelines)
-* [2.0 Integer and Array Overflows](#20-integer-and-array-overflows)
-* [3.0 Code Formatting](#30-code-formatting)
+* [1. General Guidelines](#10-general-guidelines)
+* [2. Integer and Array Overflows](#20-integer-and-array-overflows)
+* [3. Code Formatting](#30-code-formatting)
   * [3.1 Guidelines to Apply clang-format](#31-guidelines-to-apply-clang-format)
 
-# 1.0 General Guidelines #
+# 1. General Guidelines #
 - All new code must be properly tested: via unit tests (based on the Gtest framework; see `$REPO/unitTest`) or system tests (scripts exercising the main exiv2 application; see `$REPO/test`).
 - Code should be simple to read and to understand.
 - Do not invoke undefined behavior. [Optional] Ensure that with UBSAN, i.e. compile your code with `-fsanitize=undefined` and run the test suite.
 - Ensure that your code has no memory errors. [Optional] Use ASAN for that, i.e. compile your code with `-fsanitize=address`.
 
-# 2.0 Integer and Array Overflows #
+# 2. Integer and Array Overflows #
 - All new code that is added must be resistant to integer overflows, thus if you multiply, add, subtract, divide or bitshift integers you must ensure that no overflow can occur. Please keep in mind that signed integer overflow is undefined behavior, thus you must check for overflows before performing the arithmetic operation, otherwise the compiler is free to optimize your check after the overflow away (this has happened already).
 - All new code must be resistant to buffer overflows. Thus before you access arrays a range check must be performed.
 - Distrust any data that you extract from images or from external sources. E.g. if the metadata of an image gives you an offset of another information inside that file, do not assume that this offset will not result in an out off bounds read.
@@ -26,7 +26,7 @@ const uint16_t lower_2_bytes = (const uint16_t*) &some_var;
 since this will give you the upper two bytes on big endian systems.
 If in doubt, then use the fixed size integer types like `int32_t`, `uint64_t`, `size_t`, etc.
 
-# 3.0 Code Formatting #
+# 3. Code Formatting #
 
 The project contains a `.clang-format` file defining the code formatting of the project (more details about of this file was defined can be found in this [PR](https://github.com/Exiv2/exiv2/pull/152)). We suggest you to respect the code formatting by applying `clang-format` to new or existing code. You can do it by using the `clang-format` command-line tool, or by using some integration plugins provided by some editors or IDEs. Currently we know about these integrations:
 
