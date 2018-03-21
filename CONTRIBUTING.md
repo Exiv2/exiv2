@@ -40,7 +40,7 @@ and all other developers should use the fork method which we will now describe i
 
 Below we outline the recommended steps in the code contribution workflow. We use `your-username` to refer to your username on GitHub, `exiv2_upstream` is used when we 
 set the upstream remote repository for Exiv2 (we could have picked any name by try to avoid already used names like, in particular, `origin` and `master`), and 
-we use the name `my_first_pr_branch` for the branch that we create (eg., the branch name should reflect the code change being made).
+we use the name `my-new-feature` for the branch that we create (eg., the branch name should reflect the code change being made).
 
 **Important**: If your PR lives for a long time, then don't press the button _Update branch_ in the Pull Request view, instead follow the steps below, as
 that avoids additional merge commits.
@@ -56,7 +56,7 @@ Once you have a GitHub login:
 
 3. Next, create a branch for your PR:
 
-        $ git checkout -b my_first_pr_branch
+        $ git checkout -b my-new-feature
 
 4. Configure the project and check that it builds (CMake is our the preferred configuration system, but not the only one [see [README.md](README.md)]):
 
@@ -98,7 +98,7 @@ Once you have a GitHub login:
 
 8. Push the changes to your fork on GitHub:
 
-        $ git push origin my_first_pr_branch
+        $ git push origin my-new-feature
 
 9. Create the PR by pressing the _New pull request_ button on: `https://github.com/your-username/exiv2`
 
@@ -114,7 +114,7 @@ Once you have a GitHub login:
 
 	Then switch to the branch
 
-        $ git checkout my_first_pr_branch
+        $ git checkout my-new-feature
 
 	And rebase in top of master:
 
