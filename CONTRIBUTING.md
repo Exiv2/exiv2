@@ -118,7 +118,7 @@ Once you have a GitHub login:
 
 	And rebase in top of master:
 
-        $ git pull --rebase origin master
+        $ git pull --rebase exiv2_upstream master
 
 	When you do a rebase the commit history is rewritten and, therefore, the next time you try to push your branch to your fork repository you will need to use the `--force` option:
 
