@@ -1334,7 +1334,7 @@ namespace Exiv2 {
         { "Arranger",               N_("Arranger"),                         "Text",                     xmpText, xmpExternal, N_("Information about the Arranger.")   },
         { "ArrangerKeywords",       N_("Arranger Keywords"),                "Text",                     xmpText, xmpExternal, N_("Information about the Arranger Keywords.")   },
         { "Artist",                 N_("Artist"),                           "Text",                     xmpText, xmpExternal, N_("The name of the artist or artists.")   },
-        { "AspectRatio",            N_("Video Aspect Ratio"),               "Ratio",                    xmpText, xmpExternal, N_("Ratio of Width:Height, helps to determine how a video would be displayed on a screen")   },
+        { "AspectRatio",            N_("Video Aspect Ratio"),               "Rational",                 xmpText, xmpExternal, N_("Ratio of Width:Height, helps to determine how a video would be displayed on a screen")   },
         { "AspectRatioType",        N_("Video Aspect Ratio Type"),          "Text",                     xmpText, xmpExternal, N_("Aspect Ratio Type. Eg - Free-Resizing or Fixed")   },
         { "AttachFileData",         N_("Attached File Data"),               "Text",                     xmpText, xmpExternal, N_("Attached File Data")   },
         { "AttachFileDesc",         N_("Attached File Description"),        "Text",                     xmpText, xmpExternal, N_("Attached File Description")   },
