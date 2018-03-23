@@ -113,7 +113,7 @@ test:
 	@if [ -e tmp/test-failed ]; then echo '***' FAILED ; cat tmp/test-failed ; echo '***' ; exit 255; fi
 
 newtests:
-	( if [ -e bin/exiv2 ]; then PATH=$$PWD/bin/build ; fi ; cd ../tests ; env EXIV2_PATH=$$(dirname $$(which exiv2)) python3 runner.py --verbose )
+	( cd ../tests ; python3 runner.py --verbose )
 
 testv:
 	@for t in /video ; do \
