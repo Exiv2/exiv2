@@ -108,11 +108,7 @@ Once you have a GitHub login:
 11. After the PR has been reviewed you must _rebase_ your repo copy since there may have been several changes to the main upstream repo 
    (a PR can live for several days or even weeks).
 
-	First, fetch stuff from exiv2_upstream (it does not matter in which branch you are currently in on your local copy of the repository):
-
-        $ git fetch exiv2_upstream
-
-	Then switch to the branch
+	Switch to your branch again
 
         $ git checkout my-new-feature
 
