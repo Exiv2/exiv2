@@ -490,7 +490,7 @@ namespace Exiv2 {
 
         io_->read(data, WEBP_TAG_SIZE * 3);
 
-        WebPImage::decodeChunks(Exiv2::getULong(data + WEBP_TAG_SIZE, littleEndian) + 12);
+        WebPImage::decodeChunks(Exiv2::getULong(data + WEBP_TAG_SIZE, littleEndian) + 8);
 
     } // WebPImage::readMetadata
 
