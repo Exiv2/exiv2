@@ -29,3 +29,11 @@ fedora_test:
   before_script:
     - dnf -y install --refresh python3 cmake gcc-c++ cmake expat-devel zlib-devel make libssh-devel curl-devel which dos2unix
   <<: *distro_test
+
+debian_build:
+  image: debian:9
+  stage: build
+  before_script:
+    - apt-get update
+    - apt-get install -y cmake g++ libexpat1-dev zlib1g-dev make libssh-dev libcurl4-openssl-dev
+  <<: *distro_build
