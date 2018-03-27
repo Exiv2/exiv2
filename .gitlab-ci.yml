@@ -35,5 +35,5 @@ fedora_test:
     paths:
       - /usr/
   before_script:
-    - dnf -y install --refresh make python3 cmake
+    - dnf -y install --refresh python3 cmake gcc-c++ cmake expat-devel zlib-devel make libssh-devel curl-devel
   <<: *distro_test
