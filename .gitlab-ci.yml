@@ -1,0 +1,31 @@
+.build_template: &distro_build
+  script:
+    - export CMAKE_OPTIONS="-DCMAKE_BUILD_TYPE=Release -DEXIV2_ENABLE_VIDEO=ON -DEXIV2_ENABLE_WEBREADY=ON -DEXIV2_BUILD_UNIT_TESTS=ON"
+    - export CC=gcc
+    - export CXX=g++
+    - mkdir build && cd build && cmake .. && make -j $(nproc)
+  artifacts:
+    paths:
+      - build/
+
+.test_template: &distro_test
+  script:
+    - cd build && make tests
+
+stages:
+  - build
+  - test
+
+fedora_build:
+  image: fedora:latest
+  stage: build
+  before_script:
+    - dnf -y install --refresh gcc-c++ cmake expat-devel zlib-devel make libssh-devel curl-devel
+  <<: *distro_build
+
+fedora_test:
+  image: fedora:latest
+  stage: test
+  before_script:
+    - dnf -y install --refresh make python3 cmake
+  <<: *distro_test
