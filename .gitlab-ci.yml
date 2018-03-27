@@ -27,5 +27,5 @@ fedora_test:
   image: fedora:latest
   stage: test
   before_script:
-    - dnf -y install --refresh python3 cmake gcc-c++ cmake expat-devel zlib-devel make libssh-devel curl-devel which
+    - dnf -y install --refresh python3 cmake gcc-c++ cmake expat-devel zlib-devel make libssh-devel curl-devel which dos2unix
   <<: *distro_test
