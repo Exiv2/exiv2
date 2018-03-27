@@ -19,10 +19,6 @@ stages:
 fedora_build:
   image: fedora:latest
   stage: build
-  cache:
-    key: fedora
-    paths:
-      - /usr/
   before_script:
     - dnf -y install --refresh gcc-c++ cmake expat-devel zlib-devel make libssh-devel curl-devel
   <<: *distro_build
@@ -30,10 +26,6 @@ fedora_build:
 fedora_test:
   image: fedora:latest
   stage: test
-  cache:
-    key: fedora
-    paths:
-      - /usr/
   before_script:
     - dnf -y install --refresh python3 cmake gcc-c++ cmake expat-devel zlib-devel make libssh-devel curl-devel
   <<: *distro_test
