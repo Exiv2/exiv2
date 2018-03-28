@@ -156,83 +156,254 @@ def configure_suite(config_file):
             _parameters[key] = abs_path
 
 
-def _setUp_factory(old_setUp, *files):
+class FileDecoratorBase(object):
     """
-    Factory function that returns a setUp function suitable to replace the
-    existing setUp of a unittest.TestCase. The returned setUp calls at first
-    old_setUp(self) and then creates a copy of all files in *files with the
-    name: fname.ext -> fname_copy.ext
+    Base class for decorators that manipulate files for test cases.
 
-    All file names in *files are at first expanded using self.expand_variables()
-    and the path to the copy is saved in self._file_copies
+    The decorator expects to be provided with at least one file path
+    on construction. When called, it replaces the setUp() and
+    tearDown() functions of the type it is called on with custom ones.
+
+    The new setUp() function performs the following steps:
+    - call the old setUp()
+    - create a list _files in the decorated class
+    - iterate over all files, performing:
+        - expand the file's path via expand_variables (member function
+          of the decorated class)
+        - call self.setUp_file_action(expanded file name)
+        - append the result to _files in the decorated class
+
+    The function self.setUp_file_action is provided by this class and
+    is intended to be overridden by child classes to provide some
+    functionality, like file copies.
+
+
+    The new tearDown() function performs the following steps:
+    - iterate over all files in _files (from the decorated class):
+         - call self.tearDown_file_action(filename)
+    - call the old tearDown() function
+
+    The function self.tearDown_file_action can be overridden by child
+    classes. The default version provided by this class simply deletes
+    all files that are passed to it.
+
+
+    Example
+    -------
+
+    We'll inherit from FileDecoratorBase and override the member
+    functions setUp_file_action and tearDown_file_action:
+
+    >>> class TestDecorator(FileDecoratorBase):
+    ...     def setUp_file_action(self, f):
+    ...         print("setUp_file_action with", f)
+    ...         return f.capitalize()
+    ...
+    ...     def tearDown_file_action(self, f):
+    ...         print("tearDown_file_action with", f)
+
+    Then, we use that decorator to wrap a class mocking
+    system_tests.Case:
+
+    >>> @TestDecorator("one", "two", "three")
+    ... class MockCase(object):
+    ...     def setUp(self):
+    ...         print("calling MockCase.setUp()")
+    ...
+    ...     def tearDown(self):
+    ...         print("calling MockCase.tearDown()")
+    ...
+    ...     def expand_variables(self, var):
+    ...         return var + "_file"
+
+    >>> M = MockCase()
+
+    setUp has been replaced by a the new version, but the old one is
+    still called. The new setUp iterates over all parameters passed to
+    the constructor of the decorator, passes them to expand_variables
+    and then to setUp_file_action:
+    >>> M.setUp()
+    calling MockCase.setUp()
+    setUp_file_action with one_file
+    setUp_file_action with two_file
+    setUp_file_action with three_file
+
+    The tearDown() function works accordingly:
+    >>> M.tearDown()
+    tearDown_file_action with One_file
+    tearDown_file_action with Two_file
+    tearDown_file_action with Three_file
+    calling MockCase.tearDown()
+
+    Please note the capitalized "file" names (this is due to
+    setUp_file_action returning f.capitalized()) and that the old
+    tearDown is called after the new one runs.
     """
-    def setUp(self):
-        old_setUp(self)
-        self._file_copies = []
-        for f in files:
-            expanded_fname = self.expand_variables(f)
-            fname, ext = os.path.splitext(expanded_fname)
-            new_name = fname + '_copy' + ext
-            self._file_copies.append(
-                shutil.copyfile(expanded_fname, new_name)
-            )
-    return setUp
+
+    def __init__(self, *files):
+        """
+        Constructor of FileDecoratorBase.
+
+        To prevent accidental wrong usage, it raises an exception if
+        it is not called as a decorator with parameters.
+
+        Only the following syntax works for this decorator:
+        >>> @FileDecoratorBase("test")
+        ... class Test(unittest.TestCase):
+        ...     pass
+
+        Calling it without parameters or without parenthesis raises an
+        exception:
+        >>> @FileDecoratorBase()
+        ... class Test(unittest.TestCase):
+        ...     pass
+        Traceback (most recent call last):
+         ..
+        ValueError: No files supplied.
+
+        >>> @FileDecoratorBase
+        ... class Test(unittest.TestCase):
+        ...     pass
+        Traceback (most recent call last):
+         ..
+        UserWarning: Decorator used wrongly, must be called with filenames in parenthesis
+        """
+        if len(files) == 0:
+            raise ValueError("No files supplied.")
+        elif len(files) == 1:
+            if isinstance(files[0], type):
+                raise UserWarning(
+                    "Decorator used wrongly, must be called with "
+                    "filenames in parenthesis"
+                )
+
+        self._files = files
+
+    def new_setUp(self, old_setUp):
+        """
+        Returns a new setUp() function that can be used as a class
+        member function (i.e. invoked via self.setUp()).
+
+        It's functionality is described in this classes' docstring.
+        """
+
+        def setUp(other):
+            old_setUp(other)
+            other._files = []
+            for f in self._files:
+                expanded_fname = other.expand_variables(f)
+                other._files.append(
+                    self.setUp_file_action(expanded_fname)
+                )
+        return setUp
+
+    def setUp_file_action(self, expanded_file_name):
+        """
+        This function is called on each file that is passed to the
+        constructor during the call of the decorated class' setUp().
+
+        Parameters:
+        - expanded_file_name: the file's path expanded via
+                              expand_variables from system_tests.Case
+
+        Returns:
+        This function should return a path that will be stored in the
+        decorated class' list _files. The custom tearDown() function
+        (that is returned by self.new_tearDown()) iterates over this
+        list and invokes self.tearDown_file_action on each element in
+        that list.
+        E.g. if a child class creates file copies, that should be
+        deleted after the test ran, then one would have to return the
+        path of the copy, so that tearDown() can delete the copies.
+
+        The default implementation does nothing.
+        """
+        pass
+
+    def new_tearDown(self, old_tearDown):
+        """
+        Returns a new tearDown() function that can be used as a class
+        member function.
+
+        It's functionality is described in this classes' docstring.
+        """
+
+        def tearDown(other):
+            for f in other._files:
+                self.tearDown_file_action(f)
+            old_tearDown(other)
+
+        return tearDown
+
+    def tearDown_file_action(self, f):
+        """
+        This function is called on each file in the decorated class'
+        list _files (that list is populated during setUp()).
+
+        It can be used to perform cleanup operations after a test run.
+
+        Parameters:
+        - f: An element of _files
+
+        Returns:
+        The return value is ignored
+
+        The default implementation removes f.
+        """
+        os.remove(f)
+
+    def __call__(self, cls):
+        """
+        Call operator for the usage as a decorator. It is
+        automatically used by Python when this class is used as a
+        decorator.
+
+        Parameters:
+        - cls: The decorated type. Must be a type
+
+        Returns:
+        - cls where the setUp and tearDown functions have been
+          replaced by the functions that are returned by
+          self.new_setUp() and self.new_tearDown()
+        """
+        if not isinstance(cls, type):
+            raise ValueError("The decorator must be called on a type")
+        old_setUp = cls.setUp
+        cls.setUp = self.new_setUp(old_setUp)
+
+        old_tearDown = cls.tearDown
+        cls.tearDown = self.new_tearDown(old_tearDown)
+
+        return cls
 
 
-def _tearDown_factory(old_tearDown):
-    """
-    Factory function that returns a new tearDown method to replace an existing
-    tearDown method. It at first deletes all files in self._file_copies and then
-    calls old_tearDown(self).
-    This factory is intended to be used in conjunction with _setUp_factory
-    """
-    def tearDown(self):
-        for f in self._file_copies:
-            os.remove(f)
-        old_tearDown(self)
-    return tearDown
-
-
-def CopyFiles(*files):
+class CopyFiles(FileDecoratorBase):
     """
     Decorator for subclasses of system_test.Case that automatically creates a
-    copy of the files specified as the parameters to the decorator.
+    copy of the files specified as the parameters passed to the decorator.
 
     Example:
     >>> @CopyFiles("{some_var}/file.txt", "{another_var}/other_file.png")
-        class Foo(Case):
-            pass
+    ... class Foo(Case):
+    ...     pass
 
     The decorator will inject new setUp method that at first calls the already
     defined setUp(), then expands all supplied file names using
     Case.expand_variables and then creates copies by appending '_copy' before
-    the file extension. The paths to the copies are stored in self._file_copies.
+    the file extension. The paths to the copies are stored in self._files.
 
     The decorator also injects a new tearDown method that deletes all files in
-    self._file_copies and then calls the original tearDown method.
+    self._files and then calls the original tearDown method.
 
     This function will also complain if it is called without arguments or
     without paranthesis, which is valid decorator syntax but is obviously a bug
-    in this case.
+    in this case as it can result in tests not being run without a warning.
     """
-    if len(files) == 0:
-        raise ValueError("No files to copy supplied.")
-    elif len(files) == 1:
-        if isinstance(files[0], type):
-            raise UserWarning(
-                "Decorator used wrongly, must be called with filenames in paranthesis"
-            )
 
-    def wrapper(cls):
-        old_setUp = cls.setUp
-        cls.setUp = _setUp_factory(old_setUp, *files)
-
-        old_tearDown = cls.tearDown
-        cls.tearDown = _tearDown_factory(old_tearDown)
-
-        return cls
-
-    return wrapper
+    def setUp_file_action(self, expanded_file_name):
+        fname, ext = os.path.splitext(expanded_file_name)
+        new_name = fname + '_copy' + ext
+        return shutil.copyfile(expanded_file_name, new_name)
 
 
 class Case(unittest.TestCase):
@@ -354,3 +525,49 @@ class Case(unittest.TestCase):
                 _process_output_post(got_stderr.decode('utf-8')), stderr
             )
             self.assertEqual(retval, proc.returncode)
+
+
+def check_no_ASAN_UBSAN_errors(self, i, command, got_stderr, expected_stderr):
+    """
+    Drop-in replacement for the default Case.compare_stderr() function that
+    **only** checks for any signs of ASAN (address sanitizer) and UBSAN
+    (undefined behavior sanitizer).
+
+    Parameters:
+    - i, command, expected_stderr: ignored
+    - got_stderr: checked for signs of ASAN und UBSAN error messages
+
+    This function ignores the expected output to stderr! It is intended for
+    test cases where standard error is filled with useless debugging
+    messages/warnings that are not really relevant for the test and not worth
+    storing in the test suite. This function can be used to still be able to
+    catch ASAN & UBSAN error messages.
+
+    Example usage
+    -------------
+
+    Override the default compare_stderr function in your subclass of Case with
+    this function:
+    >>> class TestNoAsan(Case):
+    ...     compare_stderr = check_no_ASAN_UBSAN_errors
+
+    >>> T = TestNoAsan()
+
+    The new compare_stderr will only complain if there are strings inside the
+    obtained stderr which could be an error reported by ASAN/UBSAN:
+    >>> T.compare_stderr(0, "", "runtime error: load of value 190", "some output")
+    Traceback (most recent call last):
+     ..
+    AssertionError: 'runtime error' unexpectedly found in 'runtime error: load of value 190'
+
+    >>> T.compare_stderr(0, "", "SUMMARY: AddressSanitizer: heap-buffer-overflow", "")
+    Traceback (most recent call last):
+     ..
+    AssertionError: 'AddressSanitizer' unexpectedly found in 'SUMMARY: AddressSanitizer: heap-buffer-overflow'
+
+    It will not complain in all other cases, especially when expected_stderr
+    and got_stderr do not match:
+    >>> T.compare_stderr(0, "", "some output", "other output")
+    """
+    self.assertNotIn("runtime error", got_stderr)
+    self.assertNotIn("AddressSanitizer", got_stderr)

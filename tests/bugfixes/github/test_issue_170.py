@@ -3,7 +3,7 @@
 import system_tests
 
 
-class decodeIHDRChunkOutOfBoundsRead(system_tests.Case):
+class DecodeIHDRChunkOutOfBoundsRead(system_tests.Case):
 
     url = "https://github.com/Exiv2/exiv2/issues/170"
 
@@ -11,7 +11,7 @@ class decodeIHDRChunkOutOfBoundsRead(system_tests.Case):
 
     commands = ["{exiv2} " + filename]
     stdout = [""]
-    stderr = ["""{exiv2_exception_msg} """ + filename + """:
+    stderr = ["""{exiv2_exception_message} """ + filename + """:
 {kerFailedToReadImageData}
 """]
     retval = [1]

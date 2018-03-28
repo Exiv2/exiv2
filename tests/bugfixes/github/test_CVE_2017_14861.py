@@ -5,12 +5,15 @@ import system_tests
 
 class TestCvePoC(system_tests.Case):
 
-    url = "https://github.com/Exiv2/exiv2/issues/175"
+    url = [
+        "https://github.com/Exiv2/exiv2/issues/139",
+        "https://bugzilla.redhat.com/show_bug.cgi?id=1494787"
+    ]
 
-    filename = "{data_path}/cve_2017_1000126_stack-oob-read.webp"
+    filename = "{data_path}/009-stack-over"
     commands = ["{exiv2} " + filename]
     stdout = [""]
     stderr = ["""{exiv2_exception_message} """ + filename + """:
-{kerCorruptedMetadata}
+{kerInvalidMalloc}
 """]
     retval = [1]

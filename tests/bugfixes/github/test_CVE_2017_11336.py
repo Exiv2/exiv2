@@ -5,9 +5,9 @@ import system_tests
 
 class TestCvePoC(system_tests.Case):
 
-    url = "https://github.com/Exiv2/exiv2/issues/76"
+    url = "https://github.com/Exiv2/exiv2/issues/49"
 
-    filename = "{data_path}/010_bad_free"
+    filename = "{data_path}/POC2"
     commands = ["{exiv2} " + filename]
     retval = [1]
     stdout = [""]
