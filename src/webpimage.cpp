@@ -32,6 +32,7 @@
 
 #include "webpimage.hpp"
 #include "image_int.hpp"
+#include "enforce.hpp"
 #include "futils.hpp"
 #include "basicio.hpp"
 #include "tags.hpp"
@@ -490,7 +491,9 @@ namespace Exiv2 {
 
         io_->read(data, WEBP_TAG_SIZE * 3);
 
-        WebPImage::decodeChunks(Exiv2::getULong(data + WEBP_TAG_SIZE, littleEndian) + 12);
+        const uint32_t filesize = Exiv2::getULong(data + WEBP_TAG_SIZE, littleEndian) + 8;
+        enforce(filesize <= io_->size(), Exiv2::kerCorruptedMetadata);
+        WebPImage::decodeChunks(filesize);
 
     } // WebPImage::readMetadata
 
@@ -508,7 +511,8 @@ namespace Exiv2 {
         while ( !io_->eof() && (uint64_t) io_->tell() < filesize) {
             io_->read(chunkId.pData_, WEBP_TAG_SIZE);
             io_->read(size_buff, WEBP_TAG_SIZE);
-            long size = Exiv2::getULong(size_buff, littleEndian);
+            const uint32_t size = Exiv2::getULong(size_buff, littleEndian);
+            enforce(size <= (filesize - io_->tell()), Exiv2::kerCorruptedMetadata);
 
             DataBuf payload(size);
 
