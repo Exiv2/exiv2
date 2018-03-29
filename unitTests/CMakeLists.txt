@@ -24,3 +24,7 @@ target_compile_definitions(unit_tests
     PRIVATE
         GTEST_LINKED_AS_SHARED_LIBRARY=1
 )
+
+set_target_properties( unit_tests PROPERTIES
+    COMPILE_FLAGS ${EXTRA_COMPILE_FLAGS}
+)
