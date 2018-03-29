@@ -35,6 +35,8 @@ set( SAMPLES
 foreach(entry ${SAMPLES})
     string( REPLACE ".cpp" "" target ${entry})
     add_executable( ${target} ${target}.cpp )
+    set_target_properties(${target} PROPERTIES
+      COMPILE_FLAGS ${EXTRA_COMPILE_FLAGS})
     list(APPEND APPLICATIONS ${target})
     add_test( ${target}_test ${target} )
     target_link_libraries( ${target} PRIVATE exiv2lib)
