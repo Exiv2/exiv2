@@ -47,7 +47,7 @@
 namespace Exiv2 {
 
     RafImage::RafImage(BasicIo::UniquePtr io, bool /*create*/)
-        : Image(ImageType::raf, mdExif | mdIptc | mdXmp, io)
+        : Image(ImageType::raf, mdExif | mdIptc | mdXmp, std::move(io))
     {
     } // RafImage::RafImage
 
@@ -327,7 +327,7 @@ namespace Exiv2 {
     // free functions
     Image::UniquePtr newRafInstance(BasicIo::UniquePtr io, bool create)
     {
-        Image::UniquePtr image(new RafImage(io, create));
+        Image::UniquePtr image(new RafImage(std::move(io), create));
         if (!image->good()) {
             image.reset();
         }

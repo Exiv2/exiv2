@@ -57,7 +57,7 @@ try {
     Exiv2::BasicIo::UniquePtr memIo(new Exiv2::MemIo);
     memIo->transfer(*fileIo);
 
-    Exiv2::Image::UniquePtr readImg = Exiv2::ImageFactory::open(memIo);
+    Exiv2::Image::UniquePtr readImg = Exiv2::ImageFactory::open(std::move(memIo));
     assert(readImg.get() != 0);
     readImg->readMetadata();
 

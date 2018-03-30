@@ -292,7 +292,7 @@ namespace Exiv2 {
     using namespace Exiv2::Internal;
 
     AsfVideo::AsfVideo(BasicIo::UniquePtr io)
-        : Image(ImageType::asf, mdNone, io)
+        : Image(ImageType::asf, mdNone, std::move(io))
     {
     } // AsfVideo::AsfVideo
 
@@ -787,7 +787,7 @@ namespace Exiv2 {
 
     Image::UniquePtr newAsfInstance(BasicIo::UniquePtr io, bool /*create*/)
     {
-        Image::UniquePtr image(new AsfVideo(io));
+        Image::UniquePtr image(new AsfVideo(std::move(io)));
         if (!image->good()) {
             image.reset();
         }

@@ -139,7 +139,7 @@ namespace Exiv2
 {
 
     Jp2Image::Jp2Image(BasicIo::UniquePtr io, bool create)
-            : Image(ImageType::jp2, mdExif | mdIptc | mdXmp, io)
+            : Image(ImageType::jp2, mdExif | mdIptc | mdXmp, std::move(io))
     {
         if (create)
         {
@@ -923,7 +923,7 @@ namespace Exiv2
     // free functions
     Image::UniquePtr newJp2Instance(BasicIo::UniquePtr io, bool create)
     {
-        Image::UniquePtr image(new Jp2Image(io, create));
+        Image::UniquePtr image(new Jp2Image(std::move(io), create));
         if (!image->good())
         {
             image.reset();

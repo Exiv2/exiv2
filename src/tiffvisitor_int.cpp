@@ -216,7 +216,7 @@ namespace Exiv2 {
             // Assumption is that the corresponding TIFF entry doesn't exist
             TiffPath tiffPath;
             TiffCreator::getPath(tiffPath, object->tag(), object->group(), root_);
-            pRoot_->addPath(object->tag(), tiffPath, pRoot_, clone);
+            pRoot_->addPath(object->tag(), tiffPath, pRoot_, std::move(clone));
 #ifdef DEBUG
             ExifKey key(object->tag(), groupName(object->group()));
             std::cerr << "Copied " << key << "\n";
@@ -1293,7 +1293,7 @@ namespace Exiv2 {
             TiffComponent::UniquePtr tc = TiffCreator::create(tag, object->group());
             if (tc.get()) {
                 tc->setStart(p);
-                object->addChild(tc);
+                object->addChild(std::move(tc));
             } else {
                EXV_WARNING << "Unable to handle tag " << tag << ".\n";
             }
@@ -1328,7 +1328,7 @@ namespace Exiv2 {
                     return;
                 }
                 tc->setStart(pData_ + baseOffset() + next);
-                object->addNext(tc);
+                object->addNext(std::move(tc));
             }
         } // object->hasNext()
 
@@ -1370,7 +1370,7 @@ namespace Exiv2 {
                 TiffComponent::UniquePtr td(new TiffDirectory(object->tag(),
                                                             static_cast<IfdId>(object->newGroup_ + i)));
                 td->setStart(pData_ + baseOffset() + offset);
-                object->addChild(td);
+                object->addChild(std::move(td));
             }
         }
 #ifndef SUPPRESS_WARNINGS
@@ -1565,7 +1565,7 @@ namespace Exiv2 {
         	::free(buffer);
         }
 
-        object->setValue(v);
+        object->setValue(std::move(v));
         object->setData(pData, size);
         object->setOffset(offset);
         object->setIdx(nextIdx(object->group()));
@@ -1664,7 +1664,7 @@ namespace Exiv2 {
         assert(v.get());
         v->read(pData, size, bo);
 
-        object->setValue(v);
+        object->setValue(std::move(v));
         object->setOffset(0);
         object->setIdx(nextIdx(object->group()));
 

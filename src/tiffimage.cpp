@@ -72,7 +72,7 @@ namespace Exiv2 {
     using namespace Internal;
 
     TiffImage::TiffImage(BasicIo::UniquePtr io, bool /*create*/)
-        : Image(ImageType::tiff, mdExif | mdIptc | mdXmp, io),
+        : Image(ImageType::tiff, mdExif | mdIptc | mdXmp, std::move(io)),
           pixelWidth_(0), pixelHeight_(0)
     {
     } // TiffImage::TiffImage
@@ -306,7 +306,7 @@ namespace Exiv2 {
     // free functions
     Image::UniquePtr newTiffInstance(BasicIo::UniquePtr io, bool create)
     {
-        Image::UniquePtr image(new TiffImage(io, create));
+        Image::UniquePtr image(new TiffImage(std::move(io), create));
         if (!image->good()) {
             image.reset();
         }

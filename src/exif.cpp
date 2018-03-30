@@ -196,7 +196,7 @@ namespace Exiv2 {
         std::unique_ptr<Exiv2::ValueType<T> > v
             = std::unique_ptr<Exiv2::ValueType<T> >(new Exiv2::ValueType<T>);
         v->value_.push_back(value);
-        exifDatum.value_ = v;
+        exifDatum.value_ = std::move(v);
         return exifDatum;
     }
 

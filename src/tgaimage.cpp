@@ -43,7 +43,7 @@
 namespace Exiv2 {
 
     TgaImage::TgaImage(BasicIo::UniquePtr io)
-        : Image(ImageType::tga, mdNone, io)
+        : Image(ImageType::tga, mdNone, std::move(io))
     {
     } // TgaImage::TgaImage
 
@@ -128,7 +128,7 @@ namespace Exiv2 {
     // free functions
     Image::UniquePtr newTgaInstance(BasicIo::UniquePtr io, bool /*create*/)
     {
-        Image::UniquePtr image(new TgaImage(io));
+        Image::UniquePtr image(new TgaImage(std::move(io)));
         if (!image->good())
         {
             image.reset();

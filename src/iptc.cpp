@@ -232,7 +232,7 @@ namespace Exiv2 {
     {
         UShortValue::UniquePtr v(new UShortValue);
         v->value_.push_back(value);
-        value_ = v;
+        value_ = std::move(v);
         return *this;
     }
 

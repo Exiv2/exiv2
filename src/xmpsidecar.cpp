@@ -53,7 +53,7 @@ namespace Exiv2 {
 
 
     XmpSidecar::XmpSidecar(BasicIo::UniquePtr io, bool create)
-        : Image(ImageType::xmp, mdXmp, io)
+        : Image(ImageType::xmp, mdXmp, std::move(io))
     {
         if (create) {
             if (io_->open() == 0) {
@@ -171,7 +171,7 @@ namespace Exiv2 {
     // free functions
     Image::UniquePtr newXmpInstance(BasicIo::UniquePtr io, bool create)
     {
-        Image::UniquePtr image(new XmpSidecar(io, create));
+        Image::UniquePtr image(new XmpSidecar(std::move(io), create));
         if (!image->good()) {
             image.reset();
         }

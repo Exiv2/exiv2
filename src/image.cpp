@@ -151,7 +151,7 @@ namespace Exiv2 {
     Image::Image(int              imageType,
                  uint16_t         supportedMetadata,
                  BasicIo::UniquePtr io)
-        : io_(io),
+        : io_(std::move(io)),
           pixelWidth_(0),
           pixelHeight_(0),
           imageType_(imageType),
@@ -899,7 +899,7 @@ namespace Exiv2 {
     Image::UniquePtr ImageFactory::open(const byte* data, long size)
     {
         BasicIo::UniquePtr io(new MemIo(data, size));
-        Image::UniquePtr image = open(io); // may throw
+        Image::UniquePtr image = open(std::move(io)); // may throw
         if (image.get() == 0) throw Error(kerMemoryContainsUnknownImageType);
         return image;
     }
@@ -911,7 +911,7 @@ namespace Exiv2 {
         }
         for (unsigned int i = 0; registry[i].imageType_ != ImageType::none; ++i) {
             if (registry[i].isThisType_(*io, false)) {
-                return registry[i].newInstance_(io, false);
+                return registry[i].newInstance_(std::move(io), false);
             }
         }
         return Image::UniquePtr();
@@ -926,8 +926,8 @@ namespace Exiv2 {
             throw Error(kerFileOpenFailed, path, "w+b", strError());
         }
         fileIo->close();
-        BasicIo::UniquePtr io(fileIo);
-        Image::UniquePtr image = create(type, io);
+        BasicIo::UniquePtr io(std::move(fileIo));
+        Image::UniquePtr image = create(type, std::move(io));
         if (image.get() == 0) throw Error(kerUnsupportedImageType, type);
         return image;
     }
@@ -952,7 +952,7 @@ namespace Exiv2 {
     Image::UniquePtr ImageFactory::create(int type)
     {
         BasicIo::UniquePtr io(new MemIo);
-        Image::UniquePtr image = create(type, io);
+        Image::UniquePtr image = create(type, std::move(io));
         if (image.get() == 0) throw Error(kerUnsupportedImageType, type);
         return image;
     }
@@ -963,7 +963,7 @@ namespace Exiv2 {
         // BasicIo instance does not need to be open
         const Registry* r = find(registry, type);
         if (0 != r) {
-            return r->newInstance_(io, true);
+            return r->newInstance_(std::move(io), true);
         }
         return Image::UniquePtr();
     } // ImageFactory::create

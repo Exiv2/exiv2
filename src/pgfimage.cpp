@@ -83,7 +83,7 @@ namespace Exiv2 {
     }
 
     PgfImage::PgfImage(BasicIo::UniquePtr io, bool create)
-            : Image(ImageType::pgf, mdExif | mdIptc| mdXmp | mdComment, io)
+	: Image(ImageType::pgf, mdExif | mdIptc| mdXmp | mdComment, std::move(io))
             , bSwap_(isBigEndianPlatform())
     {
         if (create)
@@ -317,7 +317,7 @@ namespace Exiv2 {
     // free functions
     Image::UniquePtr newPgfInstance(BasicIo::UniquePtr io, bool create)
     {
-        Image::UniquePtr image(new PgfImage(io, create));
+        Image::UniquePtr image(new PgfImage(std::move(io), create));
         if (!image->good())
         {
             image.reset();

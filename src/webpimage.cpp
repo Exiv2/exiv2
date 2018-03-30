@@ -64,7 +64,7 @@ namespace Exiv2 {
     using namespace Exiv2::Internal;
 
     WebPImage::WebPImage(BasicIo::UniquePtr io)
-    : Image(ImageType::webp, mdNone, io)
+	: Image(ImageType::webp, mdNone, std::move(io))
     {
     } // WebPImage::WebPImage
 
@@ -688,7 +688,7 @@ namespace Exiv2 {
 
     Image::UniquePtr newWebPInstance(BasicIo::UniquePtr io, bool /*create*/)
     {
-        Image::UniquePtr image(new WebPImage(io));
+        Image::UniquePtr image(new WebPImage(std::move(io)));
         if (!image->good()) {
             image.reset();
         }

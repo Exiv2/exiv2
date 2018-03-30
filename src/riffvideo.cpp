@@ -503,7 +503,7 @@ namespace Exiv2 {
     using namespace Exiv2::Internal;
 
     RiffVideo::RiffVideo(BasicIo::UniquePtr io)
-            : Image(ImageType::riff, mdNone, io)
+             : Image(ImageType::riff, mdNone, std::move(io))
     {
     } // RiffVideo::RiffVideo
 
@@ -1306,7 +1306,7 @@ namespace Exiv2 {
 
     Image::UniquePtr newRiffInstance(BasicIo::UniquePtr io, bool /*create*/)
     {
-        Image::UniquePtr image(new RiffVideo(io));
+        Image::UniquePtr image(new RiffVideo(std::move(io)));
         if (!image->good()) {
             image.reset();
         }

@@ -478,7 +478,7 @@ namespace Exiv2 {
     using namespace Exiv2::Internal;
 
     MatroskaVideo::MatroskaVideo(BasicIo::UniquePtr io)
-        : Image(ImageType::mkv, mdNone, io)
+        : Image(ImageType::mkv, mdNone, std::move(io))
     {
     } // MatroskaVideo::MatroskaVideo
 
@@ -738,7 +738,7 @@ namespace Exiv2 {
 
     Image::UniquePtr newMkvInstance(BasicIo::UniquePtr io, bool /*create*/)
     {
-        Image::UniquePtr image(new MatroskaVideo(io));
+        Image::UniquePtr image(new MatroskaVideo(std::move(io)));
         if (!image->good()) {
             image.reset();
         }

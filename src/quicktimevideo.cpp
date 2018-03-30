@@ -608,7 +608,7 @@ namespace Exiv2 {
     using namespace Exiv2::Internal;
 
     QuickTimeVideo::QuickTimeVideo(BasicIo::UniquePtr io)
-            : Image(ImageType::qtime, mdNone, io)
+            : Image(ImageType::qtime, mdNone, std::move(io))
             , timeScale_(1)
     {
     } // QuickTimeVideo::QuickTimeVideo
@@ -1628,7 +1628,7 @@ namespace Exiv2 {
 
 
     Image::UniquePtr newQTimeInstance(BasicIo::UniquePtr io, bool /*create*/) {
-        Image::UniquePtr image(new QuickTimeVideo(io));
+        Image::UniquePtr image(new QuickTimeVideo(std::move(io)));
         if (!image->good()) {
             image.reset();
         }

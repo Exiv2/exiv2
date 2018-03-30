@@ -49,7 +49,7 @@ namespace Exiv2 {
     using namespace Internal;
 
     Rw2Image::Rw2Image(BasicIo::UniquePtr io)
-        : Image(ImageType::rw2, mdExif | mdIptc | mdXmp, io)
+        : Image(ImageType::rw2, mdExif | mdIptc | mdXmp, std::move(io))
     {
     } // Rw2Image::Rw2Image
 
@@ -249,7 +249,7 @@ namespace Exiv2 {
     // free functions
     Image::UniquePtr newRw2Instance(BasicIo::UniquePtr io, bool /*create*/)
     {
-        Image::UniquePtr image(new Rw2Image(io));
+        Image::UniquePtr image(new Rw2Image(std::move(io)));
         if (!image->good()) {
             image.reset();
         }

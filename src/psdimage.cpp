@@ -122,7 +122,7 @@ enum {
 namespace Exiv2 {
 
     PsdImage::PsdImage(BasicIo::UniquePtr io)
-        : Image(ImageType::psd, mdExif | mdIptc | mdXmp, io)
+        : Image(ImageType::psd, mdExif | mdIptc | mdXmp, std::move(io))
     {
     } // PsdImage::PsdImage
 
@@ -679,7 +679,7 @@ namespace Exiv2 {
     // free functions
     Image::UniquePtr newPsdInstance(BasicIo::UniquePtr io, bool /*create*/)
     {
-        Image::UniquePtr image(new PsdImage(io));
+        Image::UniquePtr image(new PsdImage(std::move(io)));
         if (!image->good())
         {
             image.reset();

@@ -54,7 +54,7 @@ namespace Exiv2 {
     using namespace Internal;
 
     CrwImage::CrwImage(BasicIo::UniquePtr io, bool /*create*/)
-        : Image(ImageType::crw, mdExif | mdComment, io)
+        : Image(ImageType::crw, mdExif | mdComment, std::move(io))
     {
     } // CrwImage::CrwImage
 
@@ -193,7 +193,7 @@ namespace Exiv2 {
     // free functions
     Image::UniquePtr newCrwInstance(BasicIo::UniquePtr io, bool create)
     {
-        Image::UniquePtr image(new CrwImage(io, create));
+        Image::UniquePtr image(new CrwImage(std::move(io), create));
         if (!image->good()) {
             image.reset();
         }

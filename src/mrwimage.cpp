@@ -46,7 +46,7 @@
 namespace Exiv2 {
 
     MrwImage::MrwImage(BasicIo::UniquePtr io, bool /*create*/)
-        : Image(ImageType::mrw, mdExif | mdIptc | mdXmp, io)
+        : Image(ImageType::mrw, mdExif | mdIptc | mdXmp, std::move(io))
     {
     } // MrwImage::MrwImage
 
@@ -154,7 +154,7 @@ namespace Exiv2 {
     // free functions
     Image::UniquePtr newMrwInstance(BasicIo::UniquePtr io, bool create)
     {
-        Image::UniquePtr image(new MrwImage(io, create));
+        Image::UniquePtr image(new MrwImage(std::move(io), create));
         if (!image->good()) {
             image.reset();
         }

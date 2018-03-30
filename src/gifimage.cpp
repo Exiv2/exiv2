@@ -43,7 +43,7 @@
 namespace Exiv2 {
 
     GifImage::GifImage(BasicIo::UniquePtr io)
-        : Image(ImageType::gif, mdNone, io)
+        : Image(ImageType::gif, mdNone, std::move(io))
     {
     } // GifImage::GifImage
 
@@ -106,7 +106,7 @@ namespace Exiv2 {
     // free functions
     Image::UniquePtr newGifInstance(BasicIo::UniquePtr io, bool /*create*/)
     {
-        Image::UniquePtr image(new GifImage(io));
+        Image::UniquePtr image(new GifImage(std::move(io)));
         if (!image->good())
         {
             image.reset();

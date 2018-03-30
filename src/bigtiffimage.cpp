@@ -146,7 +146,7 @@ namespace Exiv2
         {
             public:
                 BigTiffImage(BasicIo::UniquePtr io):
-                    Image(ImageType::bigtiff, mdExif, io),
+                    Image(ImageType::bigtiff, mdExif, std::move(io)),
                     header_(),
                     dataSize_(0),
                     doSwap_(false)
@@ -429,7 +429,7 @@ namespace Exiv2
 
     Image::UniquePtr newBigTiffInstance(BasicIo::UniquePtr io, bool)
     {
-        return Image::UniquePtr(new BigTiffImage(io));
+        return Image::UniquePtr(new BigTiffImage(std::move(io)));
     }
 
 

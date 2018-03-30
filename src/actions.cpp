@@ -2119,7 +2119,7 @@ namespace {
         if ( bStdin )  Params::instance().getStdin(stdIn);
         Exiv2::BasicIo::UniquePtr ioStdin = Exiv2::BasicIo::UniquePtr(new Exiv2::MemIo(stdIn.pData_,stdIn.size_));
 
-        Exiv2::Image::UniquePtr sourceImage = bStdin ? Exiv2::ImageFactory::open(ioStdin) : Exiv2::ImageFactory::open(source);
+        Exiv2::Image::UniquePtr sourceImage = bStdin ? Exiv2::ImageFactory::open(std::move(ioStdin)) : Exiv2::ImageFactory::open(source);
         assert(sourceImage.get() != 0);
         sourceImage->readMetadata();
 
