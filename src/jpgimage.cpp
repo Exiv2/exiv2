@@ -30,6 +30,7 @@
 #include "image_int.hpp"
 #include "error.hpp"
 #include "futils.hpp"
+#include "enforce.hpp"
 
 #ifdef WIN32
 #include <windows.h>
@@ -795,6 +796,7 @@ namespace Exiv2 {
                 if (marker != sos_) {
                     // Read the beginning of the next segment
                     marker = advanceToMarker();
+                    enforce(marker>=0, kerNoImageInInputData);
                     REPORT_MARKER;
                 }
                 done |= marker == eoi_ || marker == sos_;
