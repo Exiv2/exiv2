@@ -1,9 +1,9 @@
 // ***************************************************************** -*- C++ -*-
 // xmpprint.cpp
-// Read an XMP from a video or graphic file, parse it and print 
+// Read an XMP from a video or graphic file, parse it and print
 // all (known) properties.
 // ========================================================================
-// Linux standalone compilation : 
+// Linux standalone compilation :
 //      g++ -o xmprint xmprint.cpp `pkg-config --cflags --libs exiv2`
 // ========================================================================
 
@@ -16,12 +16,12 @@
 
 int main(int argc, char** argv)
 {
-try 
+try
   {
-    if (argc != 2) 
+    if (argc != 2)
       {
-        std::cout << "Usage: " << argv[0] << " file\n";
-        return 1;
+	std::cout << "Usage: " << argv[0] << " file\n";
+	return 1;
       }
 
     Exiv2::Image::UniquePtr image = Exiv2::ImageFactory::open(argv[1]);
@@ -30,40 +30,39 @@ try
 
     Exiv2::XmpData &xmpData = image->xmpData();
     if (xmpData.empty()) {
-        std::string error(argv[1]);
-        error += ": No XMP data found in the file";
-        throw Exiv2::Error(Exiv2::kerErrorMessage, error);
+	std::string error(argv[1]);
+	error += ": No XMP data found in the file";
+	throw Exiv2::Error(Exiv2::kerErrorMessage, error);
     }
-    if (xmpData.empty()) 
+    if (xmpData.empty())
       {
-        std::string error(argv[1]);
-        error += ": No XMP properties found in the XMP packet";
-        throw Exiv2::Error(Exiv2::kerErrorMessage, error);
+	std::string error(argv[1]);
+	error += ": No XMP properties found in the XMP packet";
+	throw Exiv2::Error(Exiv2::kerErrorMessage, error);
       }
 
     for (Exiv2::XmpData::const_iterator md = xmpData.begin();
-         md != xmpData.end(); ++md) 
+	 md != xmpData.end(); ++md)
       {
-        std::cout << std::setfill(' ') << std::left
-                  << std::setw(44)
-                  << md->key() << " "
-                  << std::setw(9) << std::setfill(' ') << std::left
-                  << md->typeName() << " "
-                  << std::dec << std::setw(3)
-                  << std::setfill(' ') << std::right
-                  << md->count() << "  "
-                  << std::dec << md->value()
-                  << std::endl;
+	std::cout << std::setfill(' ') << std::left
+		  << std::setw(44)
+		  << md->key() << " "
+		  << std::setw(9) << std::setfill(' ') << std::left
+		  << md->typeName() << " "
+		  << std::dec << std::setw(3)
+		  << std::setfill(' ') << std::right
+		  << md->count() << "  "
+		  << std::dec << md->value()
+		  << std::endl;
       }
 
     Exiv2::XmpParser::terminate();
 
     return 0;
   }
-catch (Exiv2::AnyError& e) 
+catch (Exiv2::AnyError& e)
   {
     std::cout << "Caught Exiv2 exception '" << e << "'\n";
     return -1;
   }
 }
-

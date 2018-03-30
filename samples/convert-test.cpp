@@ -28,7 +28,7 @@ try {
     image->setXmpData(xmpData);
     image->setExifData(exifData);
     image->writeMetadata();
-    
+
     return 0;
 }
 catch (Exiv2::AnyError& e) {
