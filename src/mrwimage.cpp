@@ -45,7 +45,7 @@
 // class member definitions
 namespace Exiv2 {
 
-    MrwImage::MrwImage(BasicIo::AutoPtr io, bool /*create*/)
+    MrwImage::MrwImage(BasicIo::UniquePtr io, bool /*create*/)
         : Image(ImageType::mrw, mdExif | mdIptc | mdXmp, io)
     {
     } // MrwImage::MrwImage
@@ -152,9 +152,9 @@ namespace Exiv2 {
 
     // *************************************************************************
     // free functions
-    Image::AutoPtr newMrwInstance(BasicIo::AutoPtr io, bool create)
+    Image::UniquePtr newMrwInstance(BasicIo::UniquePtr io, bool create)
     {
-        Image::AutoPtr image(new MrwImage(io, create));
+        Image::UniquePtr image(new MrwImage(io, create));
         if (!image->good()) {
             image.reset();
         }

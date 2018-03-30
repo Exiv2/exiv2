@@ -71,7 +71,7 @@ namespace Exiv2 {
 
     using namespace Internal;
 
-    TiffImage::TiffImage(BasicIo::AutoPtr io, bool /*create*/)
+    TiffImage::TiffImage(BasicIo::UniquePtr io, bool /*create*/)
         : Image(ImageType::tiff, mdExif | mdIptc | mdXmp, io),
           pixelWidth_(0), pixelHeight_(0)
     {
@@ -289,7 +289,7 @@ namespace Exiv2 {
                      ed.end());
         }
 
-        std::auto_ptr<TiffHeaderBase> header(new TiffHeader(byteOrder));
+        std::unique_ptr<TiffHeaderBase> header(new TiffHeader(byteOrder));
         return TiffParserWorker::encode(io,
                                         pData,
                                         size,
@@ -304,9 +304,9 @@ namespace Exiv2 {
 
     // *************************************************************************
     // free functions
-    Image::AutoPtr newTiffInstance(BasicIo::AutoPtr io, bool create)
+    Image::UniquePtr newTiffInstance(BasicIo::UniquePtr io, bool create)
     {
-        Image::AutoPtr image(new TiffImage(io, create));
+        Image::UniquePtr image(new TiffImage(io, create));
         if (!image->good()) {
             image.reset();
         }

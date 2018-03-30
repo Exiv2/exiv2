@@ -174,8 +174,8 @@ namespace Exiv2 {
      */
     class TiffComponent {
     public:
-        //! TiffComponent auto_ptr type
-        typedef std::auto_ptr<TiffComponent> AutoPtr;
+        //! TiffComponent unique_ptr type
+        typedef std::unique_ptr<TiffComponent> UniquePtr;
         //! Container type to hold all metadata
         typedef std::vector<TiffComponent*> Components;
 
@@ -204,20 +204,20 @@ namespace Exiv2 {
         TiffComponent* addPath(uint16_t tag,
                                TiffPath& tiffPath,
                                TiffComponent* const pRoot,
-                               AutoPtr object =AutoPtr(0));
+                               UniquePtr object =UniquePtr(0));
         /*!
           @brief Add a child to the component. Default is to do nothing.
           @param tiffComponent Auto pointer to the component to add.
           @return Return a pointer to the newly added child element or 0.
          */
-        TiffComponent* addChild(AutoPtr tiffComponent);
+        TiffComponent* addChild(UniquePtr tiffComponent);
         /*!
             @brief Add a "next" component to the component. Default is to do
                    nothing.
             @param tiffComponent Auto pointer to the component to add.
             @return Return a pointer to the newly added "next" element or 0.
          */
-        TiffComponent* addNext(AutoPtr tiffComponent);
+        TiffComponent* addNext(UniquePtr tiffComponent);
         /*!
           @brief Interface to accept visitors (Visitor pattern). Visitors
                  can perform operations on all components of the composite.
@@ -266,7 +266,7 @@ namespace Exiv2 {
                  without any children). The caller owns this copy and the
                  auto-pointer ensures that it will be deleted.
          */
-        AutoPtr clone() const;
+        UniquePtr clone() const;
         /*!
           @brief Write the IFD data of this component to a binary image.
                  Return the number of bytes written. Components derived from
@@ -322,11 +322,11 @@ namespace Exiv2 {
         virtual TiffComponent* doAddPath(uint16_t  tag,
                                          TiffPath& tiffPath,
                                          TiffComponent* const pRoot,
-                                         TiffComponent::AutoPtr object);
+                                         TiffComponent::UniquePtr object);
         //! Implements addChild(). The default implementation does nothing.
-        virtual TiffComponent* doAddChild(AutoPtr tiffComponent);
+        virtual TiffComponent* doAddChild(UniquePtr tiffComponent);
         //! Implements addNext(). The default implementation does nothing.
-        virtual TiffComponent* doAddNext(AutoPtr tiffComponent);
+        virtual TiffComponent* doAddNext(UniquePtr tiffComponent);
         //! Implements accept().
         virtual void doAccept(TiffVisitor& visitor) =0;
         //! Implements write().
@@ -446,13 +446,13 @@ namespace Exiv2 {
 
           Update binary value data and call setValue().
         */
-        void updateValue(Value::AutoPtr value, ByteOrder byteOrder);
+        void updateValue(Value::UniquePtr value, ByteOrder byteOrder);
         /*!
           @brief Set tag value. Takes ownership of the pointer passed in.
 
           Update type, count and the pointer to the value.
         */
-        void setValue(Value::AutoPtr value);
+        void setValue(Value::UniquePtr value);
         //@}
 
         //! @name Accessors
@@ -889,9 +889,9 @@ namespace Exiv2 {
         virtual TiffComponent* doAddPath(uint16_t tag,
                                          TiffPath& tiffPath,
                                          TiffComponent* const pRoot,
-                                         TiffComponent::AutoPtr object);
-        virtual TiffComponent* doAddChild(TiffComponent::AutoPtr tiffComponent);
-        virtual TiffComponent* doAddNext(TiffComponent::AutoPtr tiffComponent);
+                                         TiffComponent::UniquePtr object);
+        virtual TiffComponent* doAddChild(TiffComponent::UniquePtr tiffComponent);
+        virtual TiffComponent* doAddNext(TiffComponent::UniquePtr tiffComponent);
         virtual void doAccept(TiffVisitor& visitor);
         /*!
           @brief Implements write(). Write the TIFF directory, values and
@@ -1005,8 +1005,8 @@ namespace Exiv2 {
         virtual TiffComponent* doAddPath(uint16_t tag,
                                          TiffPath& tiffPath,
                                          TiffComponent* const pRoot,
-                                         TiffComponent::AutoPtr object);
-        virtual TiffComponent* doAddChild(TiffComponent::AutoPtr tiffComponent);
+                                         TiffComponent::UniquePtr object);
+        virtual TiffComponent* doAddChild(TiffComponent::UniquePtr tiffComponent);
         virtual void doAccept(TiffVisitor& visitor);
         virtual void doEncode(TiffEncoder& encoder, const Exifdatum* datum);
         /*!
@@ -1090,9 +1090,9 @@ namespace Exiv2 {
         virtual TiffComponent* doAddPath(uint16_t tag,
                                          TiffPath& tiffPath,
                                          TiffComponent* const pRoot,
-                                         TiffComponent::AutoPtr object);
-        virtual TiffComponent* doAddChild(TiffComponent::AutoPtr tiffComponent);
-        virtual TiffComponent* doAddNext(TiffComponent::AutoPtr tiffComponent);
+                                         TiffComponent::UniquePtr object);
+        virtual TiffComponent* doAddChild(TiffComponent::UniquePtr tiffComponent);
+        virtual TiffComponent* doAddNext(TiffComponent::UniquePtr tiffComponent);
         virtual void doAccept(TiffVisitor& visitor);
         virtual void doEncode(TiffEncoder& encoder, const Exifdatum* datum);
         /*!
@@ -1222,9 +1222,9 @@ namespace Exiv2 {
         virtual TiffComponent* doAddPath(uint16_t tag,
                                          TiffPath& tiffPath,
                                          TiffComponent* const pRoot,
-                                         TiffComponent::AutoPtr object);
-        virtual TiffComponent* doAddChild(TiffComponent::AutoPtr tiffComponent);
-        virtual TiffComponent* doAddNext(TiffComponent::AutoPtr tiffComponent);
+                                         TiffComponent::UniquePtr object);
+        virtual TiffComponent* doAddChild(TiffComponent::UniquePtr tiffComponent);
+        virtual TiffComponent* doAddNext(TiffComponent::UniquePtr tiffComponent);
         virtual void doAccept(TiffVisitor& visitor);
         /*!
           @brief Implements write(). Write the Makernote header, TIFF directory,
@@ -1436,11 +1436,11 @@ namespace Exiv2 {
         virtual TiffComponent* doAddPath(uint16_t tag,
                                          TiffPath& tiffPath,
                                          TiffComponent* const pRoot,
-                                         TiffComponent::AutoPtr object);
+                                         TiffComponent::UniquePtr object);
         /*!
           @brief Implements addChild(). Todo: Document it!
          */
-        virtual TiffComponent* doAddChild(TiffComponent::AutoPtr tiffComponent);
+        virtual TiffComponent* doAddChild(TiffComponent::UniquePtr tiffComponent);
         virtual void doAccept(TiffVisitor& visitor);
         virtual void doEncode(TiffEncoder& encoder, const Exifdatum* datum);
         /*!
@@ -1584,83 +1584,83 @@ namespace Exiv2 {
     bool cmpGroupLt(TiffComponent const* lhs, TiffComponent const* rhs);
 
     //! Function to create and initialize a new TIFF entry
-    TiffComponent::AutoPtr newTiffEntry(uint16_t tag, IfdId group);
+    TiffComponent::UniquePtr newTiffEntry(uint16_t tag, IfdId group);
 
     //! Function to create and initialize a new TIFF makernote entry
-    TiffComponent::AutoPtr newTiffMnEntry(uint16_t tag, IfdId group);
+    TiffComponent::UniquePtr newTiffMnEntry(uint16_t tag, IfdId group);
 
     //! Function to create and initialize a new binary array element
-    TiffComponent::AutoPtr newTiffBinaryElement(uint16_t tag, IfdId group);
+    TiffComponent::UniquePtr newTiffBinaryElement(uint16_t tag, IfdId group);
 
     //! Function to create and initialize a new TIFF directory
     template<IfdId newGroup>
-    TiffComponent::AutoPtr newTiffDirectory(uint16_t tag, IfdId /*group*/)
+    TiffComponent::UniquePtr newTiffDirectory(uint16_t tag, IfdId /*group*/)
     {
-        return TiffComponent::AutoPtr(new TiffDirectory(tag, newGroup));
+        return TiffComponent::UniquePtr(new TiffDirectory(tag, newGroup));
     }
 
     //! Function to create and initialize a new TIFF sub-directory
     template<IfdId newGroup>
-    TiffComponent::AutoPtr newTiffSubIfd(uint16_t tag, IfdId group)
+    TiffComponent::UniquePtr newTiffSubIfd(uint16_t tag, IfdId group)
     {
-        return TiffComponent::AutoPtr(new TiffSubIfd(tag, group, newGroup));
+        return TiffComponent::UniquePtr(new TiffSubIfd(tag, group, newGroup));
     }
 
     //! Function to create and initialize a new binary array entry
     template<const ArrayCfg* arrayCfg, int N, const ArrayDef (&arrayDef)[N]>
-    TiffComponent::AutoPtr newTiffBinaryArray0(uint16_t tag, IfdId group)
+    TiffComponent::UniquePtr newTiffBinaryArray0(uint16_t tag, IfdId group)
     {
         // *& acrobatics is a workaround for a MSVC 7.1 bug
-        return TiffComponent::AutoPtr(
+        return TiffComponent::UniquePtr(
             new TiffBinaryArray(tag, group, arrayCfg, *(&arrayDef), N));
     }
 
     //! Function to create and initialize a new simple binary array entry
     template<const ArrayCfg* arrayCfg>
-    TiffComponent::AutoPtr newTiffBinaryArray1(uint16_t tag, IfdId group)
+    TiffComponent::UniquePtr newTiffBinaryArray1(uint16_t tag, IfdId group)
     {
-        return TiffComponent::AutoPtr(
+        return TiffComponent::UniquePtr(
             new TiffBinaryArray(tag, group, arrayCfg, 0, 0));
     }
 
     //! Function to create and initialize a new complex binary array entry
     template<const ArraySet* arraySet, int N, CfgSelFct cfgSelFct>
-    TiffComponent::AutoPtr newTiffBinaryArray2(uint16_t tag, IfdId group)
+    TiffComponent::UniquePtr newTiffBinaryArray2(uint16_t tag, IfdId group)
     {
-        return TiffComponent::AutoPtr(
+        return TiffComponent::UniquePtr(
             new TiffBinaryArray(tag, group, arraySet, N, cfgSelFct));
     }
 
     //! Function to create and initialize a new TIFF entry for a thumbnail (data)
     template<uint16_t szTag, IfdId szGroup>
-    TiffComponent::AutoPtr newTiffThumbData(uint16_t tag, IfdId group)
+    TiffComponent::UniquePtr newTiffThumbData(uint16_t tag, IfdId group)
     {
-        return TiffComponent::AutoPtr(
+        return TiffComponent::UniquePtr(
             new TiffDataEntry(tag, group, szTag, szGroup));
     }
 
     //! Function to create and initialize a new TIFF entry for a thumbnail (size)
     template<uint16_t dtTag, IfdId dtGroup>
-    TiffComponent::AutoPtr newTiffThumbSize(uint16_t tag, IfdId group)
+    TiffComponent::UniquePtr newTiffThumbSize(uint16_t tag, IfdId group)
     {
-        return TiffComponent::AutoPtr(
+        return TiffComponent::UniquePtr(
             new TiffSizeEntry(tag, group, dtTag, dtGroup));
     }
 
     //! Function to create and initialize a new TIFF entry for image data
     template<uint16_t szTag, IfdId szGroup>
-    TiffComponent::AutoPtr newTiffImageData(uint16_t tag, IfdId group)
+    TiffComponent::UniquePtr newTiffImageData(uint16_t tag, IfdId group)
     {
-        return TiffComponent::AutoPtr(
+        return TiffComponent::UniquePtr(
             new TiffImageEntry(tag, group, szTag, szGroup));
     }
 
     //! Function to create and initialize a new TIFF entry for image data (size)
     template<uint16_t dtTag, IfdId dtGroup>
-    TiffComponent::AutoPtr newTiffImageSize(uint16_t tag, IfdId group)
+    TiffComponent::UniquePtr newTiffImageSize(uint16_t tag, IfdId group)
     {
         // Todo: Same as newTiffThumbSize - consolidate (rename)?
-        return TiffComponent::AutoPtr(
+        return TiffComponent::UniquePtr(
             new TiffSizeEntry(tag, group, dtTag, dtGroup));
     }
 

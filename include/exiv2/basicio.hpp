@@ -31,7 +31,7 @@
 
 // + standard includes
 #include <string>
-#include <memory>       // for std::auto_ptr
+#include <memory>       // for std::unique_ptr
 #include <fstream>      // write the temporary file
 #include <fcntl.h>      // _O_BINARY in FileIo::FileIo
 #include <ctime>        // timestamp for the name of temporary file
@@ -59,8 +59,8 @@ namespace Exiv2 {
      */
     class EXIV2API BasicIo {
     public:
-        //! BasicIo auto_ptr type
-        typedef std::auto_ptr<BasicIo> AutoPtr;
+        //! BasicIo unique_ptr type
+        typedef std::unique_ptr<BasicIo> UniquePtr;
 
         //! Seek starting positions
         enum Position { beg, cur, end };

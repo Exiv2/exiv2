@@ -35,7 +35,7 @@ void reportExifMetadataCount(int n,const char* argv[])
 
 	// count the exif metadata in the file
 	try {
-		Exiv2::Image::AutoPtr image = Exiv2::ImageFactory::open(argv[n]);
+		Exiv2::Image::UniquePtr image = Exiv2::ImageFactory::open(argv[n]);
 		assert(image.get() != 0);
 		image->readMetadata();
 

@@ -42,7 +42,7 @@
 // class member definitions
 namespace Exiv2 {
 
-    TgaImage::TgaImage(BasicIo::AutoPtr io)
+    TgaImage::TgaImage(BasicIo::UniquePtr io)
         : Image(ImageType::tga, mdNone, io)
     {
     } // TgaImage::TgaImage
@@ -126,9 +126,9 @@ namespace Exiv2 {
 
     // *************************************************************************
     // free functions
-    Image::AutoPtr newTgaInstance(BasicIo::AutoPtr io, bool /*create*/)
+    Image::UniquePtr newTgaInstance(BasicIo::UniquePtr io, bool /*create*/)
     {
-        Image::AutoPtr image(new TgaImage(io));
+        Image::UniquePtr image(new TgaImage(io));
         if (!image->good())
         {
             image.reset();

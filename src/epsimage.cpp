@@ -805,7 +805,7 @@ namespace {
             }
 
             // create temporary output file
-            BasicIo::AutoPtr tempIo(new MemIo);
+            BasicIo::UniquePtr tempIo(new MemIo);
             assert (tempIo.get() != 0);
             if (!tempIo->isopen()) {
                 #ifndef SUPPRESS_WARNINGS
@@ -1075,7 +1075,7 @@ namespace {
 namespace Exiv2
 {
 
-    EpsImage::EpsImage(BasicIo::AutoPtr io, bool create)
+    EpsImage::EpsImage(BasicIo::UniquePtr io, bool create)
             : Image(ImageType::eps, mdXmp, io)
     {
         //LogMsg::setLevel(LogMsg::debug);
@@ -1151,9 +1151,9 @@ namespace Exiv2
 
     // *************************************************************************
     // free functions
-    Image::AutoPtr newEpsInstance(BasicIo::AutoPtr io, bool create)
+    Image::UniquePtr newEpsInstance(BasicIo::UniquePtr io, bool create)
     {
-        Image::AutoPtr image(new EpsImage(io, create));
+        Image::UniquePtr image(new EpsImage(io, create));
         if (!image->good()) {
             image.reset();
         }

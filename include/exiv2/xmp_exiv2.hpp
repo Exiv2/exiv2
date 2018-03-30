@@ -153,7 +153,7 @@ namespace Exiv2 {
         long toLong(long n =0) const;
         float toFloat(long n =0) const;
         Rational toRational(long n =0) const;
-        Value::AutoPtr getValue() const;
+        Value::UniquePtr getValue() const;
         const Value& value() const;
         //@}
 

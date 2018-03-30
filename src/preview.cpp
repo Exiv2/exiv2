@@ -91,10 +91,10 @@ namespace {
         virtual ~Loader() {}
 
         //! Loader auto pointer
-        typedef std::auto_ptr<Loader> AutoPtr;
+        typedef std::unique_ptr<Loader> UniquePtr;
 
         //! Create a Loader subclass for requested id
-        static AutoPtr create(PreviewId id, const Image &image);
+        static UniquePtr create(PreviewId id, const Image &image);
 
         //! Check if a preview image with given params exists in the image
         virtual bool valid() const { return valid_; }
@@ -116,7 +116,7 @@ namespace {
         Loader(PreviewId id, const Image &image);
 
         //! Functions that creates a loader from given parameters
-        typedef AutoPtr (*CreateFunc)(PreviewId id, const Image &image, int parIdx);
+        typedef UniquePtr (*CreateFunc)(PreviewId id, const Image &image, int parIdx);
 
         //! Structure to list possible loaders
         struct LoaderList {
@@ -168,7 +168,7 @@ namespace {
     };
 
     //! Function to create new LoaderNative
-    Loader::AutoPtr createLoaderNative(PreviewId id, const Image &image, int parIdx);
+    Loader::UniquePtr createLoaderNative(PreviewId id, const Image &image, int parIdx);
 
     //! Loader for Jpeg previews that are not read into ExifData directly
     class LoaderExifJpeg : public Loader {
@@ -202,7 +202,7 @@ namespace {
     };
 
     //! Function to create new LoaderExifJpeg
-    Loader::AutoPtr createLoaderExifJpeg(PreviewId id, const Image &image, int parIdx);
+    Loader::UniquePtr createLoaderExifJpeg(PreviewId id, const Image &image, int parIdx);
 
     //! Loader for Jpeg previews that are read into ExifData
     class LoaderExifDataJpeg : public Loader {
@@ -235,7 +235,7 @@ namespace {
     };
 
     //! Function to create new LoaderExifDataJpeg
-    Loader::AutoPtr createLoaderExifDataJpeg(PreviewId id, const Image &image, int parIdx);
+    Loader::UniquePtr createLoaderExifDataJpeg(PreviewId id, const Image &image, int parIdx);
 
     //! Loader for Tiff previews - it can get image data from ExifData or image_.io() as needed
     class LoaderTiff : public Loader {
@@ -272,7 +272,7 @@ namespace {
     };
 
     //! Function to create new LoaderTiff
-    Loader::AutoPtr createLoaderTiff(PreviewId id, const Image &image, int parIdx);
+    Loader::UniquePtr createLoaderTiff(PreviewId id, const Image &image, int parIdx);
 
     //! Loader for JPEG previews stored in the XMP metadata
     class LoaderXmpJpeg : public Loader {
@@ -295,7 +295,7 @@ namespace {
     };
 
     //! Function to create new LoaderXmpJpeg
-    Loader::AutoPtr createLoaderXmpJpeg(PreviewId id, const Image &image, int parIdx);
+    Loader::UniquePtr createLoaderXmpJpeg(PreviewId id, const Image &image, int parIdx);
 
 // *****************************************************************************
 // class member definitions
@@ -375,16 +375,16 @@ namespace {
         { "Image2",    0,                               0   }   // 7
     };
 
-    Loader::AutoPtr Loader::create(PreviewId id, const Image &image)
+    Loader::UniquePtr Loader::create(PreviewId id, const Image &image)
     {
         if (id < 0 || id >= Loader::getNumLoaders())
-            return AutoPtr();
+            return UniquePtr();
 
         if (loaderList_[id].imageMimeType_ &&
             std::string(loaderList_[id].imageMimeType_) != std::string(image.mimeType()))
-            return AutoPtr();
+            return UniquePtr();
 
-        AutoPtr loader = loaderList_[id].create_(id, image, loaderList_[id].parIdx_);
+        UniquePtr loader = loaderList_[id].create_(id, image, loaderList_[id].parIdx_);
 
         if (loader.get() && !loader->valid()) loader.reset();
         return loader;
@@ -428,9 +428,9 @@ namespace {
         }
     }
 
-    Loader::AutoPtr createLoaderNative(PreviewId id, const Image &image, int parIdx)
+    Loader::UniquePtr createLoaderNative(PreviewId id, const Image &image, int parIdx)
     {
-        return Loader::AutoPtr(new LoaderNative(id, image, parIdx));
+        return Loader::UniquePtr(new LoaderNative(id, image, parIdx));
     }
 
     PreviewProperties LoaderNative::getProperties() const
@@ -504,7 +504,7 @@ namespace {
         const DataBuf data = getData();
         if (data.size_ == 0) return false;
         try {
-            Image::AutoPtr image = ImageFactory::open(data.pData_, data.size_);
+            Image::UniquePtr image = ImageFactory::open(data.pData_, data.size_);
             if (image.get() == 0) return false;
             image->readMetadata();
 
@@ -548,9 +548,9 @@ namespace {
         valid_ = true;
     }
 
-    Loader::AutoPtr createLoaderExifJpeg(PreviewId id, const Image &image, int parIdx)
+    Loader::UniquePtr createLoaderExifJpeg(PreviewId id, const Image &image, int parIdx)
     {
-        return Loader::AutoPtr(new LoaderExifJpeg(id, image, parIdx));
+        return Loader::UniquePtr(new LoaderExifJpeg(id, image, parIdx));
     }
 
     PreviewProperties LoaderExifJpeg::getProperties() const
@@ -593,7 +593,7 @@ namespace {
         const Exiv2::byte* base = io.mmap();
 
         try {
-            Image::AutoPtr image = ImageFactory::open(base + offset_, size_);
+            Image::UniquePtr image = ImageFactory::open(base + offset_, size_);
             if (image.get() == 0) return false;
             image->readMetadata();
 
@@ -626,9 +626,9 @@ namespace {
         valid_ = true;
     }
 
-    Loader::AutoPtr createLoaderExifDataJpeg(PreviewId id, const Image &image, int parIdx)
+    Loader::UniquePtr createLoaderExifDataJpeg(PreviewId id, const Image &image, int parIdx)
     {
-        return Loader::AutoPtr(new LoaderExifDataJpeg(id, image, parIdx));
+        return Loader::UniquePtr(new LoaderExifDataJpeg(id, image, parIdx));
     }
 
     PreviewProperties LoaderExifDataJpeg::getProperties() const
@@ -670,7 +670,7 @@ namespace {
         if (buf.size_ == 0) return false;
 
         try {
-            Image::AutoPtr image = ImageFactory::open(buf.pData_, buf.size_);
+            Image::UniquePtr image = ImageFactory::open(buf.pData_, buf.size_);
             if (image.get() == 0) return false;
             image->readMetadata();
 
@@ -738,9 +738,9 @@ namespace {
         valid_ = true;
     }
 
-    Loader::AutoPtr createLoaderTiff(PreviewId id, const Image &image, int parIdx)
+    Loader::UniquePtr createLoaderTiff(PreviewId id, const Image &image, int parIdx)
     {
-        return Loader::AutoPtr(new LoaderTiff(id, image, parIdx));
+        return Loader::UniquePtr(new LoaderTiff(id, image, parIdx));
     }
 
     PreviewProperties LoaderTiff::getProperties() const
@@ -859,9 +859,9 @@ namespace {
         valid_ = true;
     }
 
-    Loader::AutoPtr createLoaderXmpJpeg(PreviewId id, const Image &image, int parIdx)
+    Loader::UniquePtr createLoaderXmpJpeg(PreviewId id, const Image &image, int parIdx)
     {
-        return Loader::AutoPtr(new LoaderXmpJpeg(id, image, parIdx));
+        return Loader::UniquePtr(new LoaderXmpJpeg(id, image, parIdx));
     }
 
     PreviewProperties LoaderXmpJpeg::getProperties() const
@@ -1137,7 +1137,7 @@ namespace Exiv2 {
         PreviewPropertiesList list;
         // go through the loader table and store all successfully created loaders in the list
         for (PreviewId id = 0; id < Loader::getNumLoaders(); ++id) {
-            Loader::AutoPtr loader = Loader::create(id, image_);
+            Loader::UniquePtr loader = Loader::create(id, image_);
             if (loader.get() && loader->readDimensions()) {
                 PreviewProperties props = loader->getProperties();
                 DataBuf buf             = loader->getData(); // #16 getPreviewImage()
@@ -1151,7 +1151,7 @@ namespace Exiv2 {
 
     PreviewImage PreviewManager::getPreviewImage(const PreviewProperties &properties) const
     {
-        Loader::AutoPtr loader = Loader::create(properties.id_, image_);
+        Loader::UniquePtr loader = Loader::create(properties.id_, image_);
         DataBuf buf;
         if (loader.get()) {
             buf = loader->getData();

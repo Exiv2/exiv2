@@ -289,9 +289,9 @@ namespace Exiv2 {
     {
     }
 
-    TiffComponent::AutoPtr TiffComponent::clone() const
+    TiffComponent::UniquePtr TiffComponent::clone() const
     {
-        return AutoPtr(doClone());
+        return UniquePtr(doClone());
     }
 
     TiffEntry* TiffEntry::doClone() const
@@ -373,7 +373,7 @@ namespace Exiv2 {
         if (pData_ == 0) size_ = 0;
     }
 
-    void TiffEntryBase::updateValue(Value::AutoPtr value, ByteOrder byteOrder)
+    void TiffEntryBase::updateValue(Value::UniquePtr value, ByteOrder byteOrder)
     {
         if (value.get() == 0) return;
         uint32_t newSize = value->size();
@@ -386,7 +386,7 @@ namespace Exiv2 {
         setValue(value);
     } // TiffEntryBase::updateValue
 
-    void TiffEntryBase::setValue(Value::AutoPtr value)
+    void TiffEntryBase::setValue(Value::UniquePtr value)
     {
         if (value.get() == 0) return;
         tiffType_ = toTiffType(value->typeId());
@@ -613,7 +613,7 @@ namespace Exiv2 {
     {
         uint16_t tag = static_cast<uint16_t>(idx / cfg()->tagStep());
         int32_t sz = EXV_MIN(def.size(tag, cfg()->group_), TiffEntryBase::doSize() - idx);
-        TiffComponent::AutoPtr tc = TiffCreator::create(tag, cfg()->group_);
+        TiffComponent::UniquePtr tc = TiffCreator::create(tag, cfg()->group_);
         TiffBinaryElement* tp = dynamic_cast<TiffBinaryElement*>(tc.get());
         // The assertion typically fails if a component is not configured in
         // the TIFF structure table (TiffCreator::tiffTreeStruct_)
@@ -629,7 +629,7 @@ namespace Exiv2 {
     TiffComponent* TiffComponent::addPath(uint16_t tag,
                                           TiffPath& tiffPath,
                                           TiffComponent* const pRoot,
-                                          TiffComponent::AutoPtr object)
+                                          TiffComponent::UniquePtr object)
     {
         return doAddPath(tag, tiffPath, pRoot, object);
     } // TiffComponent::addPath
@@ -637,7 +637,7 @@ namespace Exiv2 {
     TiffComponent* TiffComponent::doAddPath(uint16_t  /*tag*/,
                                             TiffPath& /*tiffPath*/,
                                             TiffComponent* const /*pRoot*/,
-                                            TiffComponent::AutoPtr /*object*/)
+                                            TiffComponent::UniquePtr /*object*/)
     {
         return this;
     } // TiffComponent::doAddPath
@@ -645,7 +645,7 @@ namespace Exiv2 {
     TiffComponent* TiffDirectory::doAddPath(uint16_t tag,
                                             TiffPath& tiffPath,
                                             TiffComponent* const pRoot,
-                                            TiffComponent::AutoPtr object)
+                                            TiffComponent::UniquePtr object)
     {
         assert(tiffPath.size() > 1);
         tiffPath.pop();
@@ -671,7 +671,7 @@ namespace Exiv2 {
             }
         }
         if (tc == 0) {
-            TiffComponent::AutoPtr atc;
+            TiffComponent::UniquePtr atc;
             if (tiffPath.size() == 1 && object.get() != 0) {
                 atc = object;
             }
@@ -697,7 +697,7 @@ namespace Exiv2 {
     TiffComponent* TiffSubIfd::doAddPath(uint16_t tag,
                                          TiffPath& tiffPath,
                                          TiffComponent* const pRoot,
-                                         TiffComponent::AutoPtr object)
+                                         TiffComponent::UniquePtr object)
     {
         assert(!tiffPath.empty());
         const TiffPathItem tpi1 = tiffPath.top();
@@ -721,7 +721,7 @@ namespace Exiv2 {
                 tc = addChild(object);
             }
             else {
-                TiffComponent::AutoPtr atc(new TiffDirectory(tpi1.tag(), tpi2.group()));
+                TiffComponent::UniquePtr atc(new TiffDirectory(tpi1.tag(), tpi2.group()));
                 tc = addChild(atc);
             }
             setCount(static_cast<uint32_t>(ifds_.size()));
@@ -732,7 +732,7 @@ namespace Exiv2 {
     TiffComponent* TiffMnEntry::doAddPath(uint16_t tag,
                                           TiffPath& tiffPath,
                                           TiffComponent* const pRoot,
-                                          TiffComponent::AutoPtr object)
+                                          TiffComponent::UniquePtr object)
     {
         assert(!tiffPath.empty());
         const TiffPathItem tpi1 = tiffPath.top();
@@ -754,7 +754,7 @@ namespace Exiv2 {
     TiffComponent* TiffIfdMakernote::doAddPath(uint16_t tag,
                                                TiffPath& tiffPath,
                                                TiffComponent* const pRoot,
-                                               TiffComponent::AutoPtr object)
+                                               TiffComponent::UniquePtr object)
     {
         return ifd_.addPath(tag, tiffPath, pRoot, object);
     }
@@ -762,7 +762,7 @@ namespace Exiv2 {
     TiffComponent* TiffBinaryArray::doAddPath(uint16_t tag,
                                               TiffPath& tiffPath,
                                               TiffComponent* const pRoot,
-                                              TiffComponent::AutoPtr object)
+                                              TiffComponent::UniquePtr object)
     {
         pRoot_ = pRoot;
         if (tiffPath.size() == 1) {
@@ -786,7 +786,7 @@ namespace Exiv2 {
             }
         }
         if (tc == 0) {
-            TiffComponent::AutoPtr atc;
+            TiffComponent::UniquePtr atc;
             if (tiffPath.size() == 1 && object.get() != 0) {
                 atc = object;
             }
@@ -801,24 +801,24 @@ namespace Exiv2 {
         return tc->addPath(tag, tiffPath, pRoot, object);
     } // TiffBinaryArray::doAddPath
 
-    TiffComponent* TiffComponent::addChild(TiffComponent::AutoPtr tiffComponent)
+    TiffComponent* TiffComponent::addChild(TiffComponent::UniquePtr tiffComponent)
     {
         return doAddChild(tiffComponent);
     } // TiffComponent::addChild
 
-    TiffComponent* TiffComponent::doAddChild(AutoPtr /*tiffComponent*/)
+    TiffComponent* TiffComponent::doAddChild(UniquePtr /*tiffComponent*/)
     {
         return 0;
     } // TiffComponent::doAddChild
 
-    TiffComponent* TiffDirectory::doAddChild(TiffComponent::AutoPtr tiffComponent)
+    TiffComponent* TiffDirectory::doAddChild(TiffComponent::UniquePtr tiffComponent)
     {
         TiffComponent* tc = tiffComponent.release();
         components_.push_back(tc);
         return tc;
     } // TiffDirectory::doAddChild
 
-    TiffComponent* TiffSubIfd::doAddChild(TiffComponent::AutoPtr tiffComponent)
+    TiffComponent* TiffSubIfd::doAddChild(TiffComponent::UniquePtr tiffComponent)
     {
         TiffDirectory* d = dynamic_cast<TiffDirectory*>(tiffComponent.release());
         assert(d);
@@ -826,7 +826,7 @@ namespace Exiv2 {
         return d;
     } // TiffSubIfd::doAddChild
 
-    TiffComponent* TiffMnEntry::doAddChild(TiffComponent::AutoPtr tiffComponent)
+    TiffComponent* TiffMnEntry::doAddChild(TiffComponent::UniquePtr tiffComponent)
     {
         TiffComponent* tc = 0;
         if (mn_) {
@@ -835,12 +835,12 @@ namespace Exiv2 {
         return tc;
     } // TiffMnEntry::doAddChild
 
-    TiffComponent* TiffIfdMakernote::doAddChild(TiffComponent::AutoPtr tiffComponent)
+    TiffComponent* TiffIfdMakernote::doAddChild(TiffComponent::UniquePtr tiffComponent)
     {
         return ifd_.addChild(tiffComponent);
     }
 
-    TiffComponent* TiffBinaryArray::doAddChild(TiffComponent::AutoPtr tiffComponent)
+    TiffComponent* TiffBinaryArray::doAddChild(TiffComponent::UniquePtr tiffComponent)
     {
         TiffComponent* tc = tiffComponent.release();
         elements_.push_back(tc);
@@ -848,17 +848,17 @@ namespace Exiv2 {
         return tc;
     } // TiffBinaryArray::doAddChild
 
-    TiffComponent* TiffComponent::addNext(TiffComponent::AutoPtr tiffComponent)
+    TiffComponent* TiffComponent::addNext(TiffComponent::UniquePtr tiffComponent)
     {
         return doAddNext(tiffComponent);
     } // TiffComponent::addNext
 
-    TiffComponent* TiffComponent::doAddNext(AutoPtr /*tiffComponent*/)
+    TiffComponent* TiffComponent::doAddNext(UniquePtr /*tiffComponent*/)
     {
         return 0;
     } // TiffComponent::doAddNext
 
-    TiffComponent* TiffDirectory::doAddNext(TiffComponent::AutoPtr tiffComponent)
+    TiffComponent* TiffDirectory::doAddNext(TiffComponent::UniquePtr tiffComponent)
     {
         TiffComponent* tc = 0;
         if (hasNext_) {
@@ -868,7 +868,7 @@ namespace Exiv2 {
         return tc;
     } // TiffDirectory::doAddNext
 
-    TiffComponent* TiffMnEntry::doAddNext(TiffComponent::AutoPtr tiffComponent)
+    TiffComponent* TiffMnEntry::doAddNext(TiffComponent::UniquePtr tiffComponent)
     {
         TiffComponent* tc = 0;
         if (mn_) {
@@ -877,7 +877,7 @@ namespace Exiv2 {
         return tc;
     } // TiffMnEntry::doAddNext
 
-    TiffComponent* TiffIfdMakernote::doAddNext(TiffComponent::AutoPtr tiffComponent)
+    TiffComponent* TiffIfdMakernote::doAddNext(TiffComponent::UniquePtr tiffComponent)
     {
         return ifd_.addNext(tiffComponent);
     }
@@ -1881,19 +1881,19 @@ namespace Exiv2 {
         return lhs->group() < rhs->group();
     }
 
-    TiffComponent::AutoPtr newTiffEntry(uint16_t tag, IfdId group)
+    TiffComponent::UniquePtr newTiffEntry(uint16_t tag, IfdId group)
     {
-        return TiffComponent::AutoPtr(new TiffEntry(tag, group));
+        return TiffComponent::UniquePtr(new TiffEntry(tag, group));
     }
 
-    TiffComponent::AutoPtr newTiffMnEntry(uint16_t tag, IfdId group)
+    TiffComponent::UniquePtr newTiffMnEntry(uint16_t tag, IfdId group)
     {
-        return TiffComponent::AutoPtr(new TiffMnEntry(tag, group, mnId));
+        return TiffComponent::UniquePtr(new TiffMnEntry(tag, group, mnId));
     }
 
-    TiffComponent::AutoPtr newTiffBinaryElement(uint16_t tag, IfdId group)
+    TiffComponent::UniquePtr newTiffBinaryElement(uint16_t tag, IfdId group)
     {
-        return TiffComponent::AutoPtr(new TiffBinaryElement(tag, group));
+        return TiffComponent::UniquePtr(new TiffBinaryElement(tag, group));
     }
 
 }}                                      // namespace Internal, Exiv2

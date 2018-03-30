@@ -168,9 +168,9 @@ namespace Action {
     {
     }
 
-    Task::AutoPtr Task::clone() const
+    Task::UniquePtr Task::clone() const
     {
-        return AutoPtr(clone_());
+        return UniquePtr(clone_());
     }
 
     TaskFactory* TaskFactory::instance_ = 0;
@@ -195,7 +195,7 @@ namespace Action {
         }
     } //TaskFactory::cleanup
 
-    void TaskFactory::registerTask(TaskType type, Task::AutoPtr task)
+    void TaskFactory::registerTask(TaskType type, Task::UniquePtr task)
     {
         Registry::iterator i = registry_.find(type);
         if (i != registry_.end()) {
@@ -207,25 +207,25 @@ namespace Action {
     TaskFactory::TaskFactory()
     {
         // Register a prototype of each known task
-        registerTask(adjust,  Task::AutoPtr(new Adjust));
-        registerTask(print,   Task::AutoPtr(new Print));
-        registerTask(rename,  Task::AutoPtr(new Rename));
-        registerTask(erase,   Task::AutoPtr(new Erase));
-        registerTask(extract, Task::AutoPtr(new Extract));
-        registerTask(insert,  Task::AutoPtr(new Insert));
-        registerTask(modify,  Task::AutoPtr(new Modify));
-        registerTask(fixiso,  Task::AutoPtr(new FixIso));
-        registerTask(fixcom,  Task::AutoPtr(new FixCom));
+        registerTask(adjust,  Task::UniquePtr(new Adjust));
+        registerTask(print,   Task::UniquePtr(new Print));
+        registerTask(rename,  Task::UniquePtr(new Rename));
+        registerTask(erase,   Task::UniquePtr(new Erase));
+        registerTask(extract, Task::UniquePtr(new Extract));
+        registerTask(insert,  Task::UniquePtr(new Insert));
+        registerTask(modify,  Task::UniquePtr(new Modify));
+        registerTask(fixiso,  Task::UniquePtr(new FixIso));
+        registerTask(fixcom,  Task::UniquePtr(new FixCom));
     } // TaskFactory c'tor
 
-    Task::AutoPtr TaskFactory::create(TaskType type)
+    Task::UniquePtr TaskFactory::create(TaskType type)
     {
         Registry::const_iterator i = registry_.find(type);
         if (i != registry_.end() && i->second != 0) {
             Task* t = i->second;
             return t->clone();
         }
-        return Task::AutoPtr(0);
+        return Task::UniquePtr(0);
     } // TaskFactory::create
 
     Print::~Print()
@@ -278,7 +278,7 @@ namespace Action {
                       << _("Failed to open the file\n");
             return -1;
         }
-        Exiv2::Image::AutoPtr image = Exiv2::ImageFactory::open(path_);
+        Exiv2::Image::UniquePtr image = Exiv2::ImageFactory::open(path_);
         assert(image.get() != 0);
         image->printStructure(out,option);
         return 0;
@@ -291,7 +291,7 @@ namespace Action {
                       << _("Failed to open the file\n");
             return -1;
         }
-        Exiv2::Image::AutoPtr image = Exiv2::ImageFactory::open(path_);
+        Exiv2::Image::UniquePtr image = Exiv2::ImageFactory::open(path_);
         assert(image.get() != 0);
         image->readMetadata();
         Exiv2::ExifData& exifData = image->exifData();
@@ -532,7 +532,7 @@ namespace Action {
                       << ": " << _("Failed to open the file\n");
             return -1;
         }
-        Exiv2::Image::AutoPtr image = Exiv2::ImageFactory::open(path_);
+        Exiv2::Image::UniquePtr image = Exiv2::ImageFactory::open(path_);
         assert(image.get() != 0);
         image->readMetadata();
         // Set defaults for metadata types and data columns
@@ -784,7 +784,7 @@ namespace Action {
                       << ": " << _("Failed to open the file\n");
             return -1;
         }
-        Exiv2::Image::AutoPtr image = Exiv2::ImageFactory::open(path_);
+        Exiv2::Image::UniquePtr image = Exiv2::ImageFactory::open(path_);
         assert(image.get() != 0);
         image->readMetadata();
         if (Params::instance().verbose_) {
@@ -801,7 +801,7 @@ namespace Action {
                       << ": " << _("Failed to open the file\n");
             return -1;
         }
-        Exiv2::Image::AutoPtr image = Exiv2::ImageFactory::open(path_);
+        Exiv2::Image::UniquePtr image = Exiv2::ImageFactory::open(path_);
         assert(image.get() != 0);
         image->readMetadata();
         bool const manyFiles = Params::instance().files_.size() > 1;
@@ -824,9 +824,9 @@ namespace Action {
         return 0;
     } // Print::printPreviewList
 
-    Print::AutoPtr Print::clone() const
+    Print::UniquePtr Print::clone() const
     {
-        return AutoPtr(clone_());
+        return UniquePtr(clone_());
     }
 
     Print* Print::clone_() const
@@ -849,7 +849,7 @@ namespace Action {
         Timestamp ts;
         if (Params::instance().preserve_) ts.read(path);
 
-        Exiv2::Image::AutoPtr image = Exiv2::ImageFactory::open(path);
+        Exiv2::Image::UniquePtr image = Exiv2::ImageFactory::open(path);
         assert(image.get() != 0);
         image->readMetadata();
         Exiv2::ExifData& exifData = image->exifData();
@@ -912,9 +912,9 @@ namespace Action {
         return 1;
     }} // Rename::run
 
-    Rename::AutoPtr Rename::clone() const
+    Rename::UniquePtr Rename::clone() const
     {
-        return AutoPtr(clone_());
+        return UniquePtr(clone_());
     }
 
     Rename* Rename::clone_() const
@@ -938,7 +938,7 @@ namespace Action {
         Timestamp ts;
         if (Params::instance().preserve_) ts.read(path);
 
-        Exiv2::Image::AutoPtr image = Exiv2::ImageFactory::open(path_);
+        Exiv2::Image::UniquePtr image = Exiv2::ImageFactory::open(path_);
         assert(image.get() != 0);
         image->readMetadata();
         // Thumbnail must be before Exif
@@ -986,7 +986,7 @@ namespace Action {
                       << _("Failed to open the file\n");
             return -1;
         }
-        Exiv2::Image::AutoPtr image = Exiv2::ImageFactory::open(path_);
+        Exiv2::Image::UniquePtr image = Exiv2::ImageFactory::open(path_);
         assert(image.get() != 0);
         image->printStructure(out,option);
         return 0;
@@ -1051,9 +1051,9 @@ namespace Action {
         return 0;
     }
 
-    Erase::AutoPtr Erase::clone() const
+    Erase::UniquePtr Erase::clone() const
     {
-        return AutoPtr(clone_());
+        return UniquePtr(clone_());
     }
 
     Erase* Erase::clone_() const
@@ -1114,7 +1114,7 @@ namespace Action {
                       << ": " << _("Failed to open the file\n");
             return -1;
         }
-        Exiv2::Image::AutoPtr image = Exiv2::ImageFactory::open(path_);
+        Exiv2::Image::UniquePtr image = Exiv2::ImageFactory::open(path_);
         assert(image.get() != 0);
         image->readMetadata();
         Exiv2::ExifData& exifData = image->exifData();
@@ -1156,7 +1156,7 @@ namespace Action {
                       << ": " << _("Failed to open the file\n");
             return -1;
         }
-        Exiv2::Image::AutoPtr image = Exiv2::ImageFactory::open(path_);
+        Exiv2::Image::UniquePtr image = Exiv2::ImageFactory::open(path_);
         assert(image.get() != 0);
         image->readMetadata();
 
@@ -1194,7 +1194,7 @@ namespace Action {
         bool bStdout = target == "-" ;
 
         if ( rc == 0 ) {
-            Exiv2::Image::AutoPtr image = Exiv2::ImageFactory::open(path_);
+            Exiv2::Image::UniquePtr image = Exiv2::ImageFactory::open(path_);
             assert(image.get() != 0);
             image->readMetadata();
             if ( !image->iccProfileDefined() ) {
@@ -1241,9 +1241,9 @@ namespace Action {
         }
     } // Extract::writePreviewFile
 
-    Extract::AutoPtr Extract::clone() const
+    Extract::UniquePtr Extract::clone() const
     {
-        return AutoPtr(clone_());
+        return UniquePtr(clone_());
     }
 
     Extract* Extract::clone_() const
@@ -1342,7 +1342,7 @@ namespace Action {
         for ( long i = 0 ; i < xmpBlob.size_ ; i++ ) {
             xmpPacket += (char) xmpBlob.pData_[i];
         }
-        Exiv2::Image::AutoPtr image = Exiv2::ImageFactory::open(path);
+        Exiv2::Image::UniquePtr image = Exiv2::ImageFactory::open(path);
         assert(image.get() != 0);
         image->readMetadata();
         image->clearXmpData();
@@ -1387,7 +1387,7 @@ namespace Action {
 
         // read in the metadata
         if ( rc == 0 ) {
-            Exiv2::Image::AutoPtr image = Exiv2::ImageFactory::open(path);
+            Exiv2::Image::UniquePtr image = Exiv2::ImageFactory::open(path);
             assert(image.get() != 0);
             image->readMetadata();
             // clear existing profile, assign the blob and rewrite image
@@ -1414,7 +1414,7 @@ namespace Action {
                       << ": " << _("Failed to open the file\n");
             return -1;
         }
-        Exiv2::Image::AutoPtr image = Exiv2::ImageFactory::open(path);
+        Exiv2::Image::UniquePtr image = Exiv2::ImageFactory::open(path);
         assert(image.get() != 0);
         image->readMetadata();
         Exiv2::ExifThumb exifThumb(image->exifData());
@@ -1424,9 +1424,9 @@ namespace Action {
         return 0;
     } // Insert::insertThumbnail
 
-    Insert::AutoPtr Insert::clone() const
+    Insert::UniquePtr Insert::clone() const
     {
-        return AutoPtr(clone_());
+        return UniquePtr(clone_());
     }
 
     Insert* Insert::clone_() const
@@ -1449,7 +1449,7 @@ namespace Action {
         Timestamp ts;
         if (Params::instance().preserve_) ts.read(path);
 
-        Exiv2::Image::AutoPtr image = Exiv2::ImageFactory::open(path);
+        Exiv2::Image::UniquePtr image = Exiv2::ImageFactory::open(path);
         assert(image.get() != 0);
         image->readMetadata();
 
@@ -1523,7 +1523,7 @@ namespace Action {
         Exiv2::ExifData& exifData = pImage->exifData();
         Exiv2::IptcData& iptcData = pImage->iptcData();
         Exiv2::XmpData&  xmpData  = pImage->xmpData();
-        Exiv2::Value::AutoPtr value = Exiv2::Value::create(modifyCmd.typeId_);
+        Exiv2::Value::UniquePtr value = Exiv2::Value::create(modifyCmd.typeId_);
         int rc = value->read(modifyCmd.value_);
         if (0 == rc) {
             if (modifyCmd.metadataId_ == exif) {
@@ -1584,7 +1584,7 @@ namespace Action {
         // If a type was explicitly requested, use it; else
         // use the current type of the metadatum, if any;
         // or the default type
-        Exiv2::Value::AutoPtr value;
+        Exiv2::Value::UniquePtr value;
         if (metadatum) {
             value = metadatum->getValue();
         }
@@ -1661,9 +1661,9 @@ namespace Action {
         Exiv2::XmpProperties::registerNs(modifyCmd.value_, modifyCmd.key_);
     }
 
-    Modify::AutoPtr Modify::clone() const
+    Modify::UniquePtr Modify::clone() const
     {
-        return AutoPtr(clone_());
+        return UniquePtr(clone_());
     }
 
     Modify* Modify::clone_() const
@@ -1690,7 +1690,7 @@ namespace Action {
         Timestamp ts;
         if (Params::instance().preserve_) ts.read(path);
 
-        Exiv2::Image::AutoPtr image = Exiv2::ImageFactory::open(path);
+        Exiv2::Image::UniquePtr image = Exiv2::ImageFactory::open(path);
         assert(image.get() != 0);
         image->readMetadata();
         Exiv2::ExifData& exifData = image->exifData();
@@ -1716,9 +1716,9 @@ namespace Action {
         return 1;
     } // Adjust::run
 
-    Adjust::AutoPtr Adjust::clone() const
+    Adjust::UniquePtr Adjust::clone() const
     {
-        return AutoPtr(clone_());
+        return UniquePtr(clone_());
     }
 
     Adjust* Adjust::clone_() const
@@ -1825,7 +1825,7 @@ namespace Action {
         Timestamp ts;
         if (Params::instance().preserve_) ts.read(path);
 
-        Exiv2::Image::AutoPtr image = Exiv2::ImageFactory::open(path);
+        Exiv2::Image::UniquePtr image = Exiv2::ImageFactory::open(path);
         assert(image.get() != 0);
         image->readMetadata();
         Exiv2::ExifData& exifData = image->exifData();
@@ -1863,9 +1863,9 @@ namespace Action {
     }
     } // FixIso::run
 
-    FixIso::AutoPtr FixIso::clone() const
+    FixIso::UniquePtr FixIso::clone() const
     {
-        return AutoPtr(clone_());
+        return UniquePtr(clone_());
     }
 
     FixIso* FixIso::clone_() const
@@ -1888,7 +1888,7 @@ namespace Action {
         Timestamp ts;
         if (Params::instance().preserve_) ts.read(path);
 
-        Exiv2::Image::AutoPtr image = Exiv2::ImageFactory::open(path);
+        Exiv2::Image::UniquePtr image = Exiv2::ImageFactory::open(path);
         assert(image.get() != 0);
         image->readMetadata();
         Exiv2::ExifData& exifData = image->exifData();
@@ -1904,7 +1904,7 @@ namespace Action {
             }
             return 0;
         }
-        Exiv2::Value::AutoPtr v = pos->getValue();
+        Exiv2::Value::UniquePtr v = pos->getValue();
         const Exiv2::CommentValue* pcv = dynamic_cast<const Exiv2::CommentValue*>(v.get());
         if (!pcv) {
             if (Params::instance().verbose_) {
@@ -1939,9 +1939,9 @@ namespace Action {
     }
     } // FixCom::run
 
-    FixCom::AutoPtr FixCom::clone() const
+    FixCom::UniquePtr FixCom::clone() const
     {
-        return AutoPtr(clone_());
+        return UniquePtr(clone_());
     }
 
     FixCom* FixCom::clone_() const
@@ -2117,9 +2117,9 @@ namespace {
 
         Exiv2::DataBuf stdIn;
         if ( bStdin )  Params::instance().getStdin(stdIn);
-        Exiv2::BasicIo::AutoPtr ioStdin = Exiv2::BasicIo::AutoPtr(new Exiv2::MemIo(stdIn.pData_,stdIn.size_));
+        Exiv2::BasicIo::UniquePtr ioStdin = Exiv2::BasicIo::UniquePtr(new Exiv2::MemIo(stdIn.pData_,stdIn.size_));
 
-        Exiv2::Image::AutoPtr sourceImage = bStdin ? Exiv2::ImageFactory::open(ioStdin) : Exiv2::ImageFactory::open(source);
+        Exiv2::Image::UniquePtr sourceImage = bStdin ? Exiv2::ImageFactory::open(ioStdin) : Exiv2::ImageFactory::open(source);
         assert(sourceImage.get() != 0);
         sourceImage->readMetadata();
 
@@ -2129,7 +2129,7 @@ namespace {
         // Open or create the target file
         std::string target(bStdout ? temporaryPath() : tgt);
 
-        Exiv2::Image::AutoPtr targetImage;
+        Exiv2::Image::UniquePtr targetImage;
         if (Exiv2::fileExists(target)) {
             targetImage = Exiv2::ImageFactory::open(target);
             assert(targetImage.get() != 0);

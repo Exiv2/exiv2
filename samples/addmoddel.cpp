@@ -34,7 +34,7 @@ try {
     std::cout << "Added a few tags the quick way.\n";
 
     // Create a ASCII string value (note the use of create)
-    Exiv2::Value::AutoPtr v = Exiv2::Value::create(Exiv2::asciiString);
+    Exiv2::Value::UniquePtr v = Exiv2::Value::create(Exiv2::asciiString);
     // Set the value to a string
     v->read("1999:12:31 23:59:59");
     // Add the value together with its key to the Exif data container
@@ -43,7 +43,7 @@ try {
     std::cout << "Added key \"" << key << "\", value \"" << *v << "\"\n";
 
     // Now create a more interesting value (without using the create method)
-    Exiv2::URationalValue::AutoPtr rv(new Exiv2::URationalValue);
+    Exiv2::URationalValue::UniquePtr rv(new Exiv2::URationalValue);
     // Set two rational components from a string
     rv->read("1/2 1/3");
     // Add more elements through the extended interface of rational value
@@ -75,7 +75,7 @@ try {
     // Downcast the Value pointer to its actual type
     Exiv2::URationalValue* prv = dynamic_cast<Exiv2::URationalValue*>(v.release());
     if (prv == 0) throw Exiv2::Error(Exiv2::kerErrorMessage, "Downcast failed");
-    rv = Exiv2::URationalValue::AutoPtr(prv);
+    rv = Exiv2::URationalValue::UniquePtr(prv);
     // Modify the value directly through the interface of URationalValue
     rv->value_[2] = std::make_pair(88,77);
     // Copy the modified value back to the metadatum
@@ -95,7 +95,7 @@ try {
 
     // *************************************************************************
     // Finally, write the remaining Exif data to the image file
-    Exiv2::Image::AutoPtr image = Exiv2::ImageFactory::open(file);
+    Exiv2::Image::UniquePtr image = Exiv2::ImageFactory::open(file);
     assert(image.get() != 0);
 
     image->setExifData(exifData);

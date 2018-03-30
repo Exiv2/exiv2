@@ -138,7 +138,7 @@ struct Jp2UuidBox
 namespace Exiv2
 {
 
-    Jp2Image::Jp2Image(BasicIo::AutoPtr io, bool create)
+    Jp2Image::Jp2Image(BasicIo::UniquePtr io, bool create)
             : Image(ImageType::jp2, mdExif | mdIptc | mdXmp, io)
     {
         if (create)
@@ -566,7 +566,7 @@ namespace Exiv2
                                 if ( (rawData.pData_[0]      == rawData.pData_[1])
                                     &&   (rawData.pData_[0]=='I' || rawData.pData_[0]=='M' )
                                     ) {
-                                    BasicIo::AutoPtr p = BasicIo::AutoPtr(new MemIo(rawData.pData_,rawData.size_));
+                                    BasicIo::UniquePtr p = BasicIo::UniquePtr(new MemIo(rawData.pData_,rawData.size_));
                                     printTiffStructure(*p,out,option,depth);
                                 }
                             }
@@ -601,7 +601,7 @@ namespace Exiv2
             throw Error(kerDataSourceOpenFailed, io_->path(), strError());
         }
         IoCloser closer(*io_);
-        BasicIo::AutoPtr tempIo(new MemIo);
+        BasicIo::UniquePtr tempIo(new MemIo);
         assert (tempIo.get() != 0);
 
         doWriteMetadata(*tempIo); // may throw
@@ -921,9 +921,9 @@ namespace Exiv2
 
     // *************************************************************************
     // free functions
-    Image::AutoPtr newJp2Instance(BasicIo::AutoPtr io, bool create)
+    Image::UniquePtr newJp2Instance(BasicIo::UniquePtr io, bool create)
     {
-        Image::AutoPtr image(new Jp2Image(io, create));
+        Image::UniquePtr image(new Jp2Image(io, create));
         if (!image->good())
         {
             image.reset();

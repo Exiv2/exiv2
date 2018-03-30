@@ -607,7 +607,7 @@ namespace Exiv2 {
 
     using namespace Exiv2::Internal;
 
-    QuickTimeVideo::QuickTimeVideo(BasicIo::AutoPtr io)
+    QuickTimeVideo::QuickTimeVideo(BasicIo::UniquePtr io)
             : Image(ImageType::qtime, mdNone, io)
             , timeScale_(1)
     {
@@ -1393,7 +1393,7 @@ namespace Exiv2 {
         DataBuf buf(5);
         std::memset(buf.pData_, 0x0, buf.size_);
         buf.pData_[4] = '\0';
-        Exiv2::Value::AutoPtr v = Exiv2::Value::create(Exiv2::xmpSeq);
+        Exiv2::Value::UniquePtr v = Exiv2::Value::create(Exiv2::xmpSeq);
         const TagVocabulary* td;
 
         for (int i = 0; size/4 != 0; size -=4, i++) {
@@ -1627,8 +1627,8 @@ namespace Exiv2 {
     } // QuickTimeVideo::aspectRatio
 
 
-    Image::AutoPtr newQTimeInstance(BasicIo::AutoPtr io, bool /*create*/) {
-        Image::AutoPtr image(new QuickTimeVideo(io));
+    Image::UniquePtr newQTimeInstance(BasicIo::UniquePtr io, bool /*create*/) {
+        Image::UniquePtr image(new QuickTimeVideo(io));
         if (!image->good()) {
             image.reset();
         }

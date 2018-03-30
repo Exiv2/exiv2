@@ -183,7 +183,7 @@ namespace Exiv2 {
           @param dataSize Size of initData in bytes.
          */
         JpegBase(int              type,
-                 BasicIo::AutoPtr io,
+                 BasicIo::UniquePtr io,
                  bool             create,
                  const byte       initData[],
                  long             dataSize);
@@ -322,7 +322,7 @@ namespace Exiv2 {
           @param create Specifies if an existing image should be read (false)
               or if a new file should be created (true).
          */
-        JpegImage(BasicIo::AutoPtr io, bool create);
+        JpegImage(BasicIo::UniquePtr io, bool create);
         //@}
         //! @name Accessors
         //@{
@@ -383,7 +383,7 @@ namespace Exiv2 {
           @param create Specifies if an existing image should be read (false)
                  or if a new file should be created (true).
          */
-        ExvImage(BasicIo::AutoPtr io, bool create);
+        ExvImage(BasicIo::UniquePtr io, bool create);
         //@}
         //! @name Accessors
         //@{
@@ -425,7 +425,7 @@ namespace Exiv2 {
              Caller owns the returned object and the auto-pointer ensures that
              it will be deleted.
      */
-    EXIV2API Image::AutoPtr newJpegInstance(BasicIo::AutoPtr io, bool create);
+    EXIV2API Image::UniquePtr newJpegInstance(BasicIo::UniquePtr io, bool create);
     //! Check if the file iIo is a JPEG image.
     EXIV2API bool isJpegType(BasicIo& iIo, bool advance);
     /*!
@@ -433,7 +433,7 @@ namespace Exiv2 {
              Caller owns the returned object and the auto-pointer ensures that
              it will be deleted.
      */
-    EXIV2API Image::AutoPtr newExvInstance(BasicIo::AutoPtr io, bool create);
+    EXIV2API Image::UniquePtr newExvInstance(BasicIo::UniquePtr io, bool create);
     //! Check if the file iIo is an EXV file
     EXIV2API bool isExvType(BasicIo& iIo, bool advance);
 

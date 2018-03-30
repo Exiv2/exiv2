@@ -148,7 +148,7 @@ int main(int argc, char* const argv[])
 
     // Create the required action class
     Action::TaskFactory& taskFactory = Action::TaskFactory::instance();
-    Action::Task::AutoPtr task
+    Action::Task::UniquePtr task
         = taskFactory.create(Action::TaskType(params.action_));
     assert(task.get());
 
