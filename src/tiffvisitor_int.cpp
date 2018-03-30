@@ -1308,7 +1308,7 @@ namespace Exiv2 {
 #endif
                 return;
             }
-            TiffComponent::UniquePtr tc(0);
+            TiffComponent::UniquePtr tc(nullptr);
             uint32_t next = getLong(p, byteOrder());
             if (next) {
                 tc = TiffCreator::create(Tag::next, object->group());

@@ -1495,7 +1495,7 @@ namespace Exiv2 {
     TiffComponent::UniquePtr TiffCreator::create(uint32_t extendedTag,
                                                IfdId    group)
     {
-        TiffComponent::UniquePtr tc(0);
+        TiffComponent::UniquePtr tc(nullptr);
         uint16_t tag = static_cast<uint16_t>(extendedTag & 0xffff);
         const TiffGroupStruct* ts = find(tiffGroupStruct_,
                                          TiffGroupStruct::Key(extendedTag, group));
@@ -1653,7 +1653,7 @@ namespace Exiv2 {
               TiffHeaderBase*    pHeader
     )
     {
-        if (pData == 0 || size == 0) return TiffComponent::UniquePtr(0);
+        if (pData == 0 || size == 0) return TiffComponent::UniquePtr(nullptr);
         if (!pHeader->read(pData, size) || pHeader->offset() >= size) {
             throw Error(kerNotAnImage, "TIFF");
         }

@@ -410,12 +410,12 @@ namespace Exiv2 {
 
     Value::UniquePtr Exifdatum::getValue() const
     {
-        return value_.get() == 0 ? Value::UniquePtr(0) : value_->clone();
+        return value_.get() == nullptr ? Value::UniquePtr(nullptr) : value_->clone();
     }
 
     long Exifdatum::sizeDataArea() const
     {
-        return value_.get() == 0 ? 0 : value_->sizeDataArea();
+        return value_.get() == nullptr ? 0 : value_->sizeDataArea();
     }
 
     DataBuf Exifdatum::dataArea() const

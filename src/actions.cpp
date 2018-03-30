@@ -225,7 +225,7 @@ namespace Action {
             Task* t = i->second;
             return t->clone();
         }
-        return Task::UniquePtr(0);
+        return Task::UniquePtr(nullptr);
     } // TaskFactory::create
 
     Print::~Print()
