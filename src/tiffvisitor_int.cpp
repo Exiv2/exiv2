@@ -32,6 +32,7 @@
 #include "tiffimage_int.hpp"
 #include "makernote_int.hpp"
 #include "exif.hpp"
+#include "enforce.hpp"
 #include "iptc.hpp"
 #include "value.hpp"
 #include "image.hpp"
@@ -1550,9 +1551,7 @@ namespace Exiv2 {
             }
         }
         Value::AutoPtr v = Value::create(typeId);
-        if (!v.get()) {
-            throw Error(kerCorruptedMetadata);
-        }
+	enforce(v.get(), kerCorruptedMetadata);
         if ( !isize ) {
         	v->read(pData, size, byteOrder());
         } else {
@@ -1661,7 +1660,7 @@ namespace Exiv2 {
         if (bo == invalidByteOrder) bo = byteOrder();
         TypeId typeId = toTypeId(object->elDef()->tiffType_, object->tag(), object->group());
         Value::AutoPtr v = Value::create(typeId);
-        assert(v.get());
+        enforce(v.get(), kerCorruptedMetadata);
         v->read(pData, size, bo);
 
         object->setValue(v);
