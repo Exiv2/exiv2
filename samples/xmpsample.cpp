@@ -40,7 +40,7 @@ try {
     xmpData["Xmp.dc.two"]     = 3.1415;
     xmpData["Xmp.dc.three"]   = Exiv2::Rational(5, 7);
     xmpData["Xmp.dc.four"]    = uint16_t(255);
-    xmpData["Xmp.dc.five"]    = int32_t(256);
+    xmpData["Xmp.dc.five"]    = 256;
     xmpData["Xmp.dc.six"]     = false;
 
     // In addition, there is a dedicated assignment operator for Exiv2::Value

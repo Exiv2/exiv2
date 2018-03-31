@@ -833,7 +833,7 @@ namespace Exiv2 {
         double denominator = 1;
         io_->read(buf.pData_, 4); tempSize -= 4;
 
-        while((long)tempSize > 0) {
+        while(tempSize > 0) {
             std::memset(buf.pData_, 0x0, buf.size_);
             io_->read(buf.pData_, 4);
             io_->read(buf2.pData_, 4);

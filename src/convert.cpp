@@ -1294,7 +1294,7 @@ namespace Exiv2 {
 
     void moveExifToXmp(ExifData& exifData, XmpData& xmpData)
     {
-        Converter converter(const_cast<ExifData&>(exifData), xmpData);
+        Converter converter(exifData, xmpData);
         converter.setErase();
         converter.cnvToXmp();
     }
@@ -1307,14 +1307,14 @@ namespace Exiv2 {
 
     void moveXmpToExif(XmpData& xmpData, ExifData& exifData)
     {
-        Converter converter(exifData, const_cast<XmpData&>(xmpData));
+        Converter converter(exifData, xmpData);
         converter.setErase();
         converter.cnvFromXmp();
     }
 
     void syncExifWithXmp(ExifData& exifData, XmpData& xmpData)
     {
-        Converter converter(exifData, const_cast<XmpData&>(xmpData));
+        Converter converter(exifData, xmpData);
         converter.syncExifWithXmp();
     }
 
@@ -1331,7 +1331,7 @@ namespace Exiv2 {
     {
         if (!iptcCharset) iptcCharset = iptcData.detectCharset();
         if (!iptcCharset) iptcCharset = "ISO-8859-1";
-        Converter converter(const_cast<IptcData&>(iptcData), xmpData, iptcCharset);
+        Converter converter(iptcData, xmpData, iptcCharset);
         converter.setErase();
         converter.cnvToXmp();
     }
@@ -1344,7 +1344,7 @@ namespace Exiv2 {
 
     void moveXmpToIptc(XmpData& xmpData, IptcData& iptcData)
     {
-        Converter converter(iptcData, const_cast<XmpData&>(xmpData));
+        Converter converter(iptcData, xmpData);
         converter.setErase();
         converter.cnvFromXmp();
     }
