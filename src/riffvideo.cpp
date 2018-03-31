@@ -1299,7 +1299,7 @@ namespace Exiv2 {
         if(frame_rate == 0)
             return;
 
-        uint64_t duration = static_cast<uint64_t>((double)frame_count * (double)1000 / (double)frame_rate);
+        uint64_t duration = static_cast<uint64_t>((double)frame_count * 1000. / frame_rate);
         xmpData_["Xmp.video.FileDataRate"] = (double)io_->size()/(double)(1048576*duration);
         xmpData_["Xmp.video.Duration"] = duration; //Duration in number of seconds
     } // RiffVideo::fillDuration

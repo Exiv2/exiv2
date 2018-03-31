@@ -78,7 +78,7 @@ try {
     const Exiv2::Value &getv6 = xmpData["Xmp.dc.six"].value();
     assert(getv6.toLong() == 0);
     assert(getv6.ok());
-    assert(getv6.toFloat() == 0.0);
+    assert(getv6.toFloat() == 0.0f);
     assert(getv6.ok());
     assert(getv6.toRational() == Exiv2::Rational(0, 1));
     assert(getv6.ok());
@@ -90,7 +90,7 @@ try {
     const Exiv2::Value &getv8 = xmpData["Xmp.dc.eight"].value();
     assert(getv8.toLong() == 1);
     assert(getv8.ok());
-    assert(getv8.toFloat() == 1.0);
+    assert(getv8.toFloat() == 1.0f);
     assert(getv8.ok());
     assert(getv8.toRational() == Exiv2::Rational(1, 1));
     assert(getv8.ok());
