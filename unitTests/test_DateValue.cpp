@@ -75,7 +75,10 @@ TEST(ADateValue, doNotReadFromStringWithExpectedSizeButNotCorrectContent)
 TEST(ADateValue, copyToByteBuffer)
 {
     const DateValue dateValue (2018, 4, 2);
-    byte buffer[9];
+    const byte expectedDate[8] = {0x32, 0x30, 0x31, 0x38, 0x30, 0x34, 0x30, 0x32 }; // 20180402
+    byte buffer[8];
     ASSERT_EQ(8, dateValue.copy(buffer));
-    ASSERT_STREQ("20180402", reinterpret_cast<const char *>(buffer));
+    for (int i = 0; i < 8; ++i) {
+        ASSERT_EQ(expectedDate[i], buffer[i]);
+    }
 }
