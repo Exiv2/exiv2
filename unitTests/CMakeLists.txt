@@ -6,6 +6,7 @@ add_executable(unit_tests mainTestRunner.cpp
     test_enforce.cpp
     test_safe_op.cpp
     test_XmpKey.cpp
+    test_DateValue.cpp
 )
 
 #TODO Use GTest::GTest once we upgrade the minimum CMake version required
