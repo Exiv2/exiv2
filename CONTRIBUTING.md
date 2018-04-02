@@ -57,7 +57,8 @@ Once you have a GitHub login:
 3. Next, create a branch for your PR from `exiv2_upstream/master` (this is important to avoid draging in old commits):
 
         $ git checkout exiv2_upstream/master
-		$ git checkout -b my-new-feature
+        $ git checkout -b my-new-feature
+
 	You will get a warning about a detached head which can be ignored here.
 
 4. Configure the project and check that it builds (CMake is our the preferred configuration system, but not the only one [see [README.md](README.md)]):
