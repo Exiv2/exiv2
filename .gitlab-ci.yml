@@ -1,39 +1,21 @@
 .build_template: &distro_build
   script:
-    - export CMAKE_OPTIONS="-DCMAKE_BUILD_TYPE=Release -DEXIV2_ENABLE_VIDEO=ON -DEXIV2_ENABLE_WEBREADY=ON -DEXIV2_BUILD_UNIT_TESTS=ON"
-    - export CC=gcc
-    - export CXX=g++
-    - mkdir build && cd build && cmake .. && make -j $(nproc)
-  artifacts:
-    paths:
-      - build/
-
-.test_template: &distro_test
-  script:
-    - cd build && make tests
-
-stages:
-  - build
-  - test
+    - python3 ci/test_build.py
 
 fedora_build:
   image: fedora:latest
-  stage: build
   before_script:
-    - dnf -y install --refresh gcc-c++ cmake expat-devel zlib-devel make libssh-devel curl-devel
+    - dnf -y install --refresh 'dnf-command(copr)'
+    - dnf -y copr enable defolos/devel
+    - dnf makecache
+    - dnf -y install gcc-c++ clang cmake make expat-devel.x86_64 zlib-devel.x86_64 libssh-devel.x86_64 libcurl-devel.x86_64 gtest-devel.x86_64 expat-devel.i686 zlib-devel.i686 libssh-devel.i686 libcurl-devel.i686 gtest-devel.i686 glibc.i686 libstdc++.i686 gtest-devel.i686
   <<: *distro_build
-
-fedora_test:
-  image: fedora:latest
-  stage: test
-  before_script:
-    - dnf -y install --refresh python3 cmake gcc-c++ cmake expat-devel zlib-devel make libssh-devel curl-devel which dos2unix
-  <<: *distro_test
 
 debian_build:
   image: debian:9
-  stage: build
   before_script:
+    - dpkg --add-architecture i386
     - apt-get update
-    - apt-get install -y cmake g++ libexpat1-dev zlib1g-dev make libssh-dev libcurl4-openssl-dev
+    - apt-get install -y gcc-multilib
+    - apt-get install -y cmake g++ clang make python3 libexpat1-dev zlib1g-dev libssh-dev libcurl4-openssl-dev libexpat1-dev:i386 zlib1g-dev:i386 libssh-dev:i386 libcurl4-openssl-dev:i386
   <<: *distro_build
