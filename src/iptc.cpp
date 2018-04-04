@@ -32,6 +32,7 @@
 #include "datasets.hpp"
 #include "jpgimage.hpp"
 #include "image_int.hpp"
+#include "i18n.h"                // NLS support.
 
 // + standard includes
 #include <iostream>
@@ -79,6 +80,90 @@ namespace {
         uint16_t record_;
 
     }; // class FindIptcdatum
+
+    bool is_utf8(const std::string& string)
+    {
+        if(string.empty())
+            return 0;
+
+        size_t i = 0;
+        while(i < string.size())
+        {
+            unsigned char c1 = string[i];
+            if( (// ASCII
+                 // use bytes[i] <= 0x7F to allow ASCII control characters
+                    c1 == 0x09 ||
+                    c1 == 0x0A ||
+                    c1 == 0x0D ||
+                    (0x20 <= c1 && c1 <= 0x7E)
+                )
+            ) {
+                i += 1;
+                continue;
+            }
+
+            unsigned char c2 = string[i+1];
+            if( (// non-overlong 2-byte
+                    (0xC2 <= c1 && c1 <= 0xDF) &&
+                    (0x80 <= c2 && c2 <= 0xBF)
+                )
+            ) {
+                i += 2;
+                continue;
+            }
+
+            unsigned char c3 = string[i+2];
+            if( (// excluding overlongs
+                    c1 == 0xE0 &&
+                    (0xA0 <= c2 && c2 <= 0xBF) &&
+                    (0x80 <= c3 && c3 <= 0xBF)
+                ) ||
+                (// straight 3-byte
+                    ((0xE1 <= c1 && c1 <= 0xEC) ||
+                        c1 == 0xEE ||
+                        c1 == 0xEF) &&
+                    (0x80 <= c2 && c2 <= 0xBF) &&
+                    (0x80 <= c3 && c3 <= 0xBF)
+                ) ||
+                (// excluding surrogates
+                    c1 == 0xED &&
+                    (0x80 <= c2 && c2 <= 0x9F) &&
+                    (0x80 <= c3 && c3 <= 0xBF)
+                )
+            ) {
+                i += 3;
+                continue;
+            }
+
+            unsigned char c4 = string[i+3];
+            if( (// planes 1-3
+                    c1 == 0xF0 &&
+                    (0x90 <= c2 && c2 <= 0xBF) &&
+                    (0x80 <= c3 && c3 <= 0xBF) &&
+                    (0x80 <= c4 && c4 <= 0xBF)
+                ) ||
+                (// planes 4-15
+                    (0xF1 <= c1 && c1 <= 0xF3) &&
+                    (0x80 <= c2 && c2 <= 0xBF) &&
+                    (0x80 <= c3 && c3 <= 0xBF) &&
+                    (0x80 <= c4 && c4 <= 0xBF)
+                ) ||
+                (// plane 16
+                    c1 == 0xF4 &&
+                    (0x80 <= c2 && c2 <= 0x8F) &&
+                    (0x80 <= c3 && c3 <= 0xBF) &&
+                    (0x80 <= c4 && c4 <= 0xBF)
+                )
+            ) {
+                i += 4;
+                continue;
+            }
+
+            return 0;
+        }
+
+        return 1;
+    }
 }
 
 // *****************************************************************************
@@ -110,6 +195,15 @@ namespace Exiv2 {
 
     std::ostream& Iptcdatum::write(std::ostream& os, const ExifData*) const
     {
+        const StringValue* val = dynamic_cast<const StringValue*>(&value());
+        if (val != NULL) {
+            // In case of being a StringValue, it could have non UTF-8 which we want to supress
+            if (is_utf8(val->toString())) {
+                return os << value();
+            } else {
+                return os << N_("(Non UTF-8 bytes supressed)");
+            }
+        }
         return os << value();
     }
 
@@ -210,7 +304,8 @@ namespace Exiv2 {
 
     const Value& Iptcdatum::value() const
     {
-        if (value_.get() == 0) throw Error(kerValueNotSet);
+        if (value_.get() == 0)
+            throw Error(kerValueNotSet);
         return *value_;
     }
 
