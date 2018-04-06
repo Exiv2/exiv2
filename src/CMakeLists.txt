@@ -82,6 +82,7 @@ set( LIBEXIV2_HDR
     ../include/exiv2/riffvideo.hpp
     ../include/exiv2/rw2image.hpp
     ../include/exiv2/rwlock.hpp
+    ../include/exiv2/slice.hpp
     ../include/exiv2/tags.hpp
     ../include/exiv2/tgaimage.hpp
     ../include/exiv2/tiffimage.hpp

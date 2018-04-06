@@ -31,6 +31,7 @@
 
 // included header files
 #include "config.h"
+#include "slice.hpp"
 #include "exiv2lib_export.h"
 
 // + standard includes
@@ -274,6 +275,21 @@ namespace Exiv2 {
         long size_;
     }; // class DataBuf
 
+    /*!
+     * @brief Create a new Slice from a DataBuf given the bounds.
+     *
+     * @param[in] begin, end  Bounds of the new Slice. `begin` must be smaller
+     *     than `end` and both must not be larger than LONG_MAX.
+     * @param[in] buf  The DataBuf from which' data the Slice will be
+     *     constructed
+     *
+     * @throw std::invalid_argument when `end` is larger than `LONG_MAX` or
+     * anything that the constructor of @ref Slice throws
+     */
+    EXIV2API Slice<byte*> makeSlice(DataBuf& buf, size_t begin, size_t end);
+
+    //! Overload of makeSlice for `const DataBuf`, returning an immutable Slice
+    EXIV2API Slice<const byte*> makeSlice(const DataBuf& buf, size_t begin, size_t end);
 
 // *****************************************************************************
 // free functions

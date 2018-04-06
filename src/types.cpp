@@ -29,6 +29,7 @@
 #include "i18n.h"                               // for _exvGettext
 #include "unused.h"
 #include "safe_op.hpp"
+#include "enforce.hpp"
 
 // + standard includes
 #ifdef EXV_UNICODE_PATH
@@ -199,6 +200,24 @@ namespace Exiv2 {
 
     // *************************************************************************
     // free functions
+
+    static void checkDataBufBounds(const DataBuf& buf, size_t end) {
+        enforce<std::invalid_argument>(end <= static_cast<size_t>(std::numeric_limits<long>::max()),
+                                       "end of slice too large to be compared with DataBuf bounds.");
+        enforce<std::out_of_range>(static_cast<long>(end) <= buf.size_, "Invalid slice bounds specified");
+    }
+
+    Slice<byte*> makeSlice(DataBuf& buf, size_t begin, size_t end)
+    {
+        checkDataBufBounds(buf, end);
+        return Slice<byte*>(buf.pData_, begin, end);
+    }
+
+    Slice<const byte*> makeSlice(const DataBuf& buf, size_t begin, size_t end)
+    {
+        checkDataBufBounds(buf, end);
+        return Slice<const byte*>(buf.pData_, begin, end);
+    }
 
     std::ostream& operator<<(std::ostream& os, const Rational& r)
     {
