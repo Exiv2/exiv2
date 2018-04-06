@@ -1,6 +1,6 @@
 // ********************************************************* -*- C++ -*-
 /*
- * Copyright (C) 2004-2017 Exiv2 maintainers
+ * Copyright (C) 2004-2018 Exiv2 maintainers
  *
  * This program is part of the Exiv2 distribution.
  *
@@ -218,13 +218,13 @@ namespace Safe
  * The intrinsics are documented here:
  * https://gcc.gnu.org/onlinedocs/gcc/Integer-Overflow-Builtins.html#Integer-Overflow-Builtins
  */
-#define SPECIALIZE_builtin_add_overflow(type, builtin_name)                        \
-    /* Full specialization of builtin_add_overflow for type using the */           \
-    /* builtin_name intrinsic */                                                   \
-    template <>                                                                    \
-    bool builtin_add_overflow<type>(type summand_1, type summand_2, type & result) \
-    {                                                                              \
-        return builtin_name(summand_1, summand_2, &result);                        \
+#define SPECIALIZE_builtin_add_overflow(type, builtin_name)                               \
+    /* Full specialization of builtin_add_overflow for type using the */                  \
+    /* builtin_name intrinsic */                                                          \
+    template <>                                                                           \
+    inline bool builtin_add_overflow<type>(type summand_1, type summand_2, type & result) \
+    {                                                                                     \
+        return builtin_name(summand_1, summand_2, &result);                               \
     }
 
         SPECIALIZE_builtin_add_overflow(int, __builtin_sadd_overflow);
@@ -255,11 +255,11 @@ namespace Safe
  * The intrinsics are documented here:
  * https://msdn.microsoft.com/en-us/library/windows/desktop/ff516460(v=vs.85).aspx
  */
-#define SPECIALIZE_builtin_add_overflow_WIN(type, builtin_name)             \
-    template <>                                                             \
-    bool builtin_add_overflow(type summand_1, type summand_2, type& result) \
-    {                                                                       \
-        return builtin_name(summand_1, summand_2, &result) != S_OK;         \
+#define SPECIALIZE_builtin_add_overflow_WIN(type, builtin_name)                    \
+    template <>                                                                    \
+    inline bool builtin_add_overflow(type summand_1, type summand_2, type& result) \
+    {                                                                              \
+        return builtin_name(summand_1, summand_2, &result) != S_OK;                \
     }
 
         SPECIALIZE_builtin_add_overflow_WIN(unsigned int, UIntAdd);
