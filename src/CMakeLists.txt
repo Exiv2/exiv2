@@ -38,7 +38,6 @@ set( LIBEXIV2_SRC         asfvideo.cpp
                           tgaimage.cpp
                           tiffimage.cpp
                           types.cpp
-                          utilsvideo.cpp
                           value.cpp
                           version.cpp
                           webpimage.cpp
@@ -86,7 +85,6 @@ set( LIBEXIV2_HDR         ../include/exiv2/asfvideo.hpp
                           ../include/exiv2/tgaimage.hpp
                           ../include/exiv2/tiffimage.hpp
                           ../include/exiv2/types.hpp
-                          ../include/exiv2/utilsvideo.hpp
                           ../include/exiv2/value.hpp
                           ../include/exiv2/version.hpp
                           ../include/exiv2/webpimage.hpp
