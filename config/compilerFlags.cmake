@@ -5,7 +5,7 @@ if ( MINGW OR UNIX ) # MINGW, Linux, APPLE, CYGWIN
         set(COMPILER_IS_CLANG ON)
     endif()
 
-    set (CMAKE_CXX_FLAGS_DEBUG      "-g3 -gstrict-dwarf -O0 -DDEBUG")
+    set (CMAKE_CXX_FLAGS_DEBUG      "-g3 -gstrict-dwarf -O0")
 
     if (COMPILER_IS_GCC OR COMPILER_IS_CLANG)
         set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wall -Wcast-align -Wpointer-arith -Wformat-security -Wmissing-format-attribute -Woverloaded-virtual -W")
