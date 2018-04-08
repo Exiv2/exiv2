@@ -421,7 +421,7 @@ int timeZoneAdjust()
     struct tm local = *localtime(&now) ;
     offset          = local.tm_gmtoff ;
 
-#if DEBUG
+#ifndef NDEBUG
     struct tm utc = *gmtime(&now);
     printf("utc  :  offset = %6d dst = %d time = %s", 0     ,utc  .tm_isdst, asctime(&utc  ));
     printf("local:  offset = %6d dst = %d time = %s", offset,local.tm_isdst, asctime(&local));
@@ -849,16 +849,16 @@ int main(int argc,const char* argv[])
         }
 /*
         if ( options.verbose ) {
-        	printf("Time Dictionary\n");
-        	for ( TimeDict_i it = gTimeDict.begin() ;  it != gTimeDict.end() ; it++ ) {
-        		std::string sTime = getExifTime(it->first);
-        	    Position*   pPos  = &it->second;
-        		std::string sPos  = Position::toExifString(pPos->lat(),false,true)
-        		                  + " "
-        		                  + Position::toExifString(pPos->lon(),false,true)
-        		                  ;
-        		printf("%s %s\n",sTime.c_str(), sPos.c_str());
-        	}
+            printf("Time Dictionary\n");
+            for ( TimeDict_i it = gTimeDict.begin() ;  it != gTimeDict.end() ; it++ ) {
+                std::string sTime = getExifTime(it->first);
+                Position*   pPos  = &it->second;
+                std::string sPos  = Position::toExifString(pPos->lat(),false,true)
+                                  + " "
+                                  + Position::toExifString(pPos->lon(),false,true)
+                                  ;
+                printf("%s %s\n",sTime.c_str(), sPos.c_str());
+            }
         }
 */
         for ( size_t p = 0 ; p < gFiles.size() ; p++ ) {

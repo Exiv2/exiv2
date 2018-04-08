@@ -93,7 +93,7 @@ namespace Exiv2 {
 
     void MrwImage::readMetadata()
     {
-#ifdef DEBUG
+#ifndef NDEBUG
         std::cerr << "Reading MRW file " << io_->path() << "\n";
 #endif
         if (io_->open() != 0) {

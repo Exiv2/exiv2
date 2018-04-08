@@ -76,7 +76,7 @@ namespace Exiv2 {
 
     void XmpSidecar::readMetadata()
     {
-#ifdef DEBUG
+#ifndef NDEBUG
         std::cerr << "Reading XMP file " << io_->path() << "\n";
 #endif
         if (io_->open() != 0) {

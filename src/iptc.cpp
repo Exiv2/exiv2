@@ -428,7 +428,7 @@ namespace Exiv2 {
               uint32_t  size
     )
     {
-#ifdef DEBUG
+#ifndef NDEBUG
         std::cerr << "IptcParser::decode, size = " << size << "\n";
 #endif
         const byte* pRead = pData;

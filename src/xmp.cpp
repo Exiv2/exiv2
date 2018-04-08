@@ -729,7 +729,7 @@ namespace Exiv2 {
         // Register custom namespaces with XMP-SDK
         for (XmpProperties::NsRegistry::iterator i = XmpProperties::nsRegistry_.begin();
              i != XmpProperties::nsRegistry_.end(); ++i) {
-#ifdef DEBUG
+#ifndef NDEBUG
             std::cerr << "Registering " << i->second.prefix_ << " : " << i->first << "\n";
 #endif
             registerNs(i->first, i->second.prefix_);
@@ -906,7 +906,7 @@ namespace {
         return var;
     }
 
-#ifdef DEBUG
+#ifndef NDEBUG
     void printNode(const std::string& schemaNs,
                    const std::string& propPath,
                    const std::string& propValue,

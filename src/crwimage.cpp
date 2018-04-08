@@ -89,7 +89,7 @@ namespace Exiv2 {
 
     void CrwImage::readMetadata()
     {
-#ifdef DEBUG
+#ifndef NDEBUG
         std::cerr << "Reading CRW file " << io_->path() << "\n";
 #endif
         if (io_->open() != 0) {
@@ -118,7 +118,7 @@ namespace Exiv2 {
 
     void CrwImage::writeMetadata()
     {
-#ifdef DEBUG
+#ifndef NDEBUG
         std::cerr << "Writing CRW file " << io_->path() << "\n";
 #endif
         // Read existing image
@@ -156,7 +156,7 @@ namespace Exiv2 {
         // Parse the image, starting with a CIFF header component
         CiffHeader::AutoPtr head(new CiffHeader);
         head->read(pData, size);
-#ifdef DEBUG
+#ifndef NDEBUG
         head->print(std::cerr);
 #endif
         head->decode(*pCrwImage);

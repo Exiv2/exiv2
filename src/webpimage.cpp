@@ -132,7 +132,7 @@ namespace Exiv2 {
         if (!io_->isopen()) throw Error(kerInputDataReadFailed);
         if (!outIo.isopen()) throw Error(kerImageWriteFailed);
 
-#ifdef DEBUG
+#ifndef NDEBUG
         std::cout << "Writing metadata" << std::endl;
 #endif
 
@@ -503,7 +503,7 @@ namespace Exiv2 {
         byte      size_buff[WEBP_TAG_SIZE];
         bool      has_canvas_data = false;
 
-#ifdef DEBUG
+#ifndef NDEBUG
         std::cout << "Reading metadata" << std::endl;
 #endif
 
@@ -642,7 +642,7 @@ namespace Exiv2 {
 
                 memcpy(rawExifData + offset, payload.pData_, (long)payload.size_);
 
-#ifdef DEBUG
+#ifndef NDEBUG
                 std::cout << "Display Hex Dump [size:" << (unsigned long)size << "]" << std::endl;
                 std::cout << Internal::binaryToHex(rawExifData, size);
 #endif
@@ -671,7 +671,7 @@ namespace Exiv2 {
                     EXV_WARNING << "Failed to decode XMP metadata." << std::endl;
 #endif
                 } else {
-#ifdef DEBUG
+#ifndef NDEBUG
                     std::cout << "Display Hex Dump [size:" << (unsigned long)payload.size_ << "]" << std::endl;
                     std::cout << Internal::binaryToHex(payload.pData_, payload.size_);
 #endif

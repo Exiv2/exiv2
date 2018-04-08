@@ -90,7 +90,7 @@ namespace Exiv2 {
 
     void Cr2Image::readMetadata()
     {
-#ifdef DEBUG
+#ifndef NDEBUG
         std::cerr << "Reading CR2 file " << io_->path() << "\n";
 #endif
         if (io_->open() != 0) {
@@ -115,7 +115,7 @@ namespace Exiv2 {
 
     void Cr2Image::writeMetadata()
     {
-#ifdef DEBUG
+#ifndef NDEBUG
         std::cerr << "Writing CR2 file " << io_->path() << "\n";
 #endif
         ByteOrder bo = byteOrder();
@@ -177,7 +177,7 @@ namespace Exiv2 {
             panaRawId
         };
         for (unsigned int i = 0; i < EXV_COUNTOF(filteredIfds); ++i) {
-#ifdef DEBUG
+#ifndef NDEBUG
             std::cerr << "Warning: Exif IFD " << filteredIfds[i] << " not encoded\n";
 #endif
             ed.erase(std::remove_if(ed.begin(),

@@ -12,7 +12,7 @@
 
 #include <cstring>
 
-#if DEBUG
+#ifndef NDEBUG
 	#include <iostream>
 #endif
 

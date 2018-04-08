@@ -169,7 +169,7 @@ namespace Exiv2 {
 
     void TiffImage::readMetadata()
     {
-#ifdef DEBUG
+#ifndef NDEBUG
         std::cerr << "Reading TIFF file " << io_->path() << "\n";
 #endif
         if (io_->open() != 0) throw Error(kerDataSourceOpenFailed, io_->path(), strError());
@@ -204,7 +204,7 @@ namespace Exiv2 {
 
     void TiffImage::writeMetadata()
     {
-#ifdef DEBUG
+#ifndef NDEBUG
         std::cerr << "Writing TIFF file " << io_->path() << "\n";
 #endif
         ByteOrder bo = byteOrder();
@@ -280,7 +280,7 @@ namespace Exiv2 {
             panaRawId
         };
         for (unsigned int i = 0; i < EXV_COUNTOF(filteredIfds); ++i) {
-#ifdef DEBUG
+#ifndef NDEBUG
             std::cerr << "Warning: Exif IFD " << filteredIfds[i] << " not encoded\n";
 #endif
             ed.erase(std::remove_if(ed.begin(),

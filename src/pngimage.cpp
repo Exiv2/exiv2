@@ -70,13 +70,13 @@ namespace Exiv2 {
         {
             if (io_->open() == 0)
             {
-#ifdef DEBUG
+#ifndef NDEBUG
                 std::cerr << "Exiv2::PngImage:: Creating PNG image to memory\n";
 #endif
                 IoCloser closer(*io_);
                 if (io_->write(pngBlank, sizeof(pngBlank)) != sizeof(pngBlank))
                 {
-#ifdef DEBUG
+#ifndef NDEBUG
                     std::cerr << "Exiv2::PngImage:: Failed to create PNG image on memory\n";
 #endif
                 }
@@ -321,7 +321,7 @@ namespace Exiv2 {
 
                         if ( bExif || bIptc ) {
                             DataBuf parsedBuf = PngChunk::readRawProfile(dataBuf,tEXt);
-#if DEBUG
+#ifndef NDEBUG
                             std::cerr << Exiv2::Internal::binaryToString(parsedBuf.pData_, parsedBuf.size_>50?50:parsedBuf.size_,0) << std::endl;
 #endif
                             if ( parsedBuf.size_ ) {
@@ -368,7 +368,7 @@ namespace Exiv2 {
 
     void PngImage::readMetadata()
     {
-#ifdef DEBUG
+#ifndef NDEBUG
         std::cerr << "Exiv2::PngImage::readMetadata: Reading PNG file " << io_->path() << "\n";
 #endif
         if (io_->open() != 0)
@@ -391,7 +391,7 @@ namespace Exiv2 {
         {
             // Read chunk header.
 
-#ifdef DEBUG
+#ifndef NDEBUG
             std::cout << "Exiv2::PngImage::readMetadata: Position: " << io_->tell() << "\n";
 #endif
             std::memset(cheaderBuf.pData_, 0x0, cheaderBuf.size_);
@@ -425,14 +425,14 @@ namespace Exiv2 {
                 if (!memcmp(cheaderBuf.pData_ + 4, "IEND", 4))
                 {
                     // Last chunk found: we stop parsing.
-#ifdef DEBUG
+#ifndef NDEBUG
                     std::cout << "Exiv2::PngImage::readMetadata: Found IEND chunk (length: " << dataOffset << ")\n";
 #endif
                     return;
                 }
                 else if (!memcmp(cheaderBuf.pData_ + 4, "IHDR", 4))
                 {
-#ifdef DEBUG
+#ifndef NDEBUG
                     std::cout << "Exiv2::PngImage::readMetadata: Found IHDR chunk (length: " << dataOffset << ")\n";
 #endif
                     if (cdataBuf.size_ >= 8) {
@@ -441,21 +441,21 @@ namespace Exiv2 {
                 }
                 else if (!memcmp(cheaderBuf.pData_ + 4, "tEXt", 4))
                 {
-#ifdef DEBUG
+#ifndef NDEBUG
                     std::cout << "Exiv2::PngImage::readMetadata: Found tEXt chunk (length: " << dataOffset << ")\n";
 #endif
                     PngChunk::decodeTXTChunk(this, cdataBuf, PngChunk::tEXt_Chunk);
                 }
                 else if (!memcmp(cheaderBuf.pData_ + 4, "zTXt", 4))
                 {
-#ifdef DEBUG
+#ifndef NDEBUG
                     std::cout << "Exiv2::PngImage::readMetadata: Found zTXt chunk (length: " << dataOffset << ")\n";
 #endif
                     PngChunk::decodeTXTChunk(this, cdataBuf, PngChunk::zTXt_Chunk);
                 }
                 else if (!memcmp(cheaderBuf.pData_ + 4, "iTXt", 4))
                 {
-#ifdef DEBUG
+#ifndef NDEBUG
                     std::cout << "Exiv2::PngImage::readMetadata: Found iTXt chunk (length: " << dataOffset << ")\n";
 #endif
                     PngChunk::decodeTXTChunk(this, cdataBuf, PngChunk::iTXt_Chunk);
@@ -463,7 +463,7 @@ namespace Exiv2 {
                 else if (!memcmp(cheaderBuf.pData_ + 4, "iCCP", 4))
                 {
                     zlibToDataBuf(cdataBuf.pData_ +12+1,dataOffset-13,iccProfile_); // +1 = 'compressed' flag
-#ifdef DEBUG
+#ifndef NDEBUG
                     std::cout << "Exiv2::PngImage::readMetadata: Found iCCP chunk length: " << dataOffset  << std::endl;
                     std::cout << "Exiv2::PngImage::readMetadata: iccProfile.size_ : " << iccProfile_.size_ << std::endl;
 #endif
@@ -474,7 +474,7 @@ namespace Exiv2 {
             }
 
             // Move to the next chunk: chunk data size + 4 CRC bytes.
-#ifdef DEBUG
+#ifndef NDEBUG
             std::cout << "Exiv2::PngImage::readMetadata: Seek to offset: " << dataOffset + 4 << "\n";
 #endif
             io_->seek(dataOffset + 4 , BasicIo::cur);
@@ -504,7 +504,7 @@ namespace Exiv2 {
         if (!io_->isopen()) throw Error(kerInputDataReadFailed);
         if (!outIo.isopen()) throw Error(kerImageWriteFailed);
 
-#ifdef DEBUG
+#ifndef NDEBUG
         std::cout << "Exiv2::PngImage::doWriteMetadata: Writing PNG file " << io_->path() << "\n";
         std::cout << "Exiv2::PngImage::doWriteMetadata: tmp file created " << outIo.path() << "\n";
 #endif
@@ -550,7 +550,7 @@ namespace Exiv2 {
             if (!memcmp(cheaderBuf.pData_ + 4, "IEND", 4))
             {
                 // Last chunk found: we write it and done.
-#ifdef DEBUG
+#ifndef NDEBUG
                 std::cout << "Exiv2::PngImage::doWriteMetadata: Write IEND chunk (length: " << dataOffset << ")\n";
 #endif
                 if (outIo.write(chunkBuf.pData_, chunkBuf.size_) != chunkBuf.size_) throw Error(kerImageWriteFailed);
@@ -558,7 +558,7 @@ namespace Exiv2 {
             }
             else if (!memcmp(cheaderBuf.pData_ + 4, "IHDR", 4))
             {
-#ifdef DEBUG
+#ifndef NDEBUG
                 std::cout << "Exiv2::PngImage::doWriteMetadata: Write IHDR chunk (length: " << dataOffset << ")\n";
 #endif
                 if (outIo.write(chunkBuf.pData_, chunkBuf.size_) != chunkBuf.size_) throw Error(kerImageWriteFailed);
@@ -634,7 +634,7 @@ namespace Exiv2 {
                         ){
                             throw Error(kerImageWriteFailed);
                         }
-#ifdef DEBUG
+#ifndef NDEBUG
                         std::cout << "Exiv2::PngImage::doWriteMetadata: build iCCP"
                         << " chunk (length: " << compressed.size_ + headerLen << ")" << std::endl;
 #endif
@@ -671,14 +671,14 @@ namespace Exiv2 {
                     memcmp("ICC",                   key.pData_,  3) == 0 ||
                     memcmp("Description",           key.pData_, 11) == 0)
                 {
-#ifdef DEBUG
+#ifndef NDEBUG
                     std::cout << "Exiv2::PngImage::doWriteMetadata: strip " << szChunk
                               << " chunk (length: " << dataOffset << ")" << std::endl;
 #endif
                 }
                 else
                 {
-#ifdef DEBUG
+#ifndef NDEBUG
                     std::cout << "Exiv2::PngImage::doWriteMetadata: write " << szChunk
                               << " chunk (length: " << dataOffset << ")" << std::endl;
 #endif
@@ -688,7 +688,7 @@ namespace Exiv2 {
             else
             {
                 // Write all others chunk as well.
-#ifdef DEBUG
+#ifndef NDEBUG
                 std::cout << "Exiv2::PngImage::doWriteMetadata:  copy " << szChunk
                           << " chunk (length: " << dataOffset << ")" << std::endl;
 #endif

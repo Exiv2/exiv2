@@ -2100,7 +2100,7 @@ namespace {
                  int targetType,
                  bool preserve)
     {
-#ifdef DEBUG
+#ifndef NDEBUG
         std::cerr << "actions.cpp::metacopy" << " source = " << source << " target = " << tgt << std::endl;
 #endif
 

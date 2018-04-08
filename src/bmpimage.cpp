@@ -71,7 +71,7 @@ namespace Exiv2
 
     void BmpImage::readMetadata()
     {
-#ifdef DEBUG
+#ifndef NDEBUG
         std::cerr << "Exiv2::BmpImage::readMetadata: Reading Windows bitmap file " << io_->path() << "\n";
 #endif
         if (io_->open() != 0) {
