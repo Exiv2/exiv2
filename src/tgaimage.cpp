@@ -72,7 +72,7 @@ namespace Exiv2 {
 
     void TgaImage::readMetadata()
     {
-#ifdef DEBUG
+#ifndef NDEBUG
         std::cerr << "Exiv2::TgaImage::readMetadata: Reading TARGA file " << io_->path() << "\n";
 #endif
         if (io_->open() != 0)

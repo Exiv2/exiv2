@@ -1502,7 +1502,7 @@ namespace Exiv2 {
         if (ts && ts->newTiffCompFct_) {
             tc = ts->newTiffCompFct_(tag, group);
         }
-#ifdef DEBUG
+#ifndef NDEBUG
         else {
             if (!ts) {
                 std::cerr << "Warning: No TIFF structure entry found for ";
@@ -1886,13 +1886,13 @@ namespace Exiv2 {
 
         // If tag, group is one of the image tags listed above -> bingo!
         if (find(tiffImageTags, TiffImgTagStruct::Key(tag, group))) {
-#ifdef DEBUG
+#ifndef NDEBUG
             ExifKey key(tag, groupName(group));
             std::cerr << "Image tag: " << key << " (3)\n";
 #endif
             return true;
         }
-#ifdef DEBUG
+#ifndef NDEBUG
         std::cerr << "Not an image tag: " << tag << " (4)\n";
 #endif
         return false;
@@ -1913,12 +1913,12 @@ namespace Exiv2 {
                                 const PrimaryGroups* pPrimaryGroups) const
     {
         if (!hasImageTags_) {
-#ifdef DEBUG
+#ifndef NDEBUG
             std::cerr << "No image tags in this image\n";
 #endif
             return false;
         }
-#ifdef DEBUG
+#ifndef NDEBUG
         ExifKey key(tag, groupName(group));
 #endif
         // If there are primary groups and none matches group, we're done
@@ -1926,7 +1926,7 @@ namespace Exiv2 {
             && !pPrimaryGroups->empty()
             && std::find(pPrimaryGroups->begin(), pPrimaryGroups->end(), group)
                == pPrimaryGroups->end()) {
-#ifdef DEBUG
+#ifndef NDEBUG
             std::cerr << "Not an image tag: " << key << " (1)\n";
 #endif
             return false;
@@ -1936,7 +1936,7 @@ namespace Exiv2 {
         if (   pPrimaryGroups != 0
             && !pPrimaryGroups->empty()
             && group != ifd0Id) {
-#ifdef DEBUG
+#ifndef NDEBUG
             ExifKey key(tag, groupName(group));
             std::cerr << "Image tag: " << key << " (2)\n";
 #endif

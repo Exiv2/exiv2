@@ -38,7 +38,7 @@
 #include "futils.hpp"
 
 // + standard includes
-#ifdef DEBUG
+#ifndef NDEBUG
 # include <iostream>
 #endif
 
@@ -113,7 +113,7 @@ namespace Exiv2 {
 
     void Rw2Image::readMetadata()
     {
-#ifdef DEBUG
+#ifndef NDEBUG
         std::cerr << "Reading RW2 file " << io_->path() << "\n";
 #endif
         if (io_->open() != 0) {
@@ -163,7 +163,7 @@ namespace Exiv2 {
                 if (pos->ifdId() == panaRawId) continue;
                 ExifData::iterator dup = prevData.findKey(ExifKey(pos->key()));
                 if (dup != prevData.end()) {
-#ifdef DEBUG
+#ifndef NDEBUG
                     std::cerr << "Filtering duplicate tag " << pos->key()
                               << " (values '" << pos->value()
                               << "' and '" << dup->value() << "')\n";
@@ -206,7 +206,7 @@ namespace Exiv2 {
         for (unsigned int i = 0; i < EXV_COUNTOF(filteredTags); ++i) {
             ExifData::iterator pos = prevData.findKey(ExifKey(filteredTags[i]));
             if (pos != prevData.end()) {
-#ifdef DEBUG
+#ifndef NDEBUG
                 std::cerr << "Exif tag " << pos->key() << " removed\n";
 #endif
                 prevData.erase(pos);

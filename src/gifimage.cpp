@@ -72,7 +72,7 @@ namespace Exiv2 {
 
     void GifImage::readMetadata()
     {
-#ifdef DEBUG
+#ifndef NDEBUG
         std::cerr << "Exiv2::GifImage::readMetadata: Reading GIF file " << io_->path() << "\n";
 #endif
         if (io_->open() != 0)

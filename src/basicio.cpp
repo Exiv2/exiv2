@@ -304,7 +304,7 @@ namespace Exiv2 {
             }
 // #906.  Mountain Lion 'sandbox' terminates the app when we call setxattr
 #ifndef __APPLE__
-#ifdef  DEBUG
+#ifndef  NDEBUG
             EXV_DEBUG << "Copying xattr \"" << name << "\" with value size " << valueSize << "\n";
 #endif
             if (::setxattr(path_.c_str(), name, value, valueSize, 0, 0) != 0) {
@@ -335,19 +335,19 @@ namespace Exiv2 {
                     if (pfcn_GetFileInformationByHandle(hFd, &fi)) {
                         nlink = fi.nNumberOfLinks;
                     }
-#ifdef DEBUG
+#ifndef NDEBUG
                     else EXV_DEBUG << "GetFileInformationByHandle failed\n";
 #endif
                 }
-#ifdef DEBUG
+#ifndef NDEBUG
                 else EXV_DEBUG << "GetProcAddress(hKernel, \"GetFileInformationByHandle\") failed\n";
 #endif
             }
-#ifdef DEBUG
+#ifndef NDEBUG
             else EXV_DEBUG << "GetModuleHandleA(\"kernel32.dll\") failed\n";
 #endif
         }
-#ifdef DEBUG
+#ifndef NDEBUG
         else EXV_DEBUG << "_get_osfhandle failed: INVALID_HANDLE_VALUE\n";
 #endif
 
@@ -1642,7 +1642,7 @@ namespace Exiv2 {
             p_->eof_ = false;
             p_->idx_ = 0;
         }
-#ifdef DEBUG
+#ifndef NDEBUG
         std::cerr << "RemoteIo::close totalRead_ = " << p_->totalRead_ << std::endl;
 #endif
         if ( bigBlock_ ) {
@@ -1862,7 +1862,7 @@ namespace Exiv2 {
                     memcpy(bigBlock_+(block*blockSize),p,blockSize);
                 }
             }
-#ifdef DEBUG
+#ifndef NDEBUG
             std::cerr << "RemoteIo::mmap nRealData = " << nRealData << std::endl;
 #endif
         }
