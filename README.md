@@ -38,15 +38,15 @@ Building and Installing
 
 You can build the libraries in the following ways:
 
-1 UNIX-like systems (including GNU/Linux, MacOS-X, Cygwin (32 and 64), MinGW (32 and 64)
+1 Autotools: UNIX-like systems (including GNU/Linux, MacOS-X, Cygwin (32 and 64), MinGW (32 and 64)
   - general notes follow
   - FAQ concerning Cygwin/MSYS and Mac OS X:
     http://dev.exiv2.org/projects/exiv2/wiki/FAQ
 
-2 Microsoft Visual C++
+2 Microsoft Visual C++ solutions
   - see [msvc/ReadMe.txt](https://github.com/Exiv2/exiv2/blob/master/msvc/ReadMe.txt)      (32bit and 64bit builds Visual Studio 2005,08,10,12,13,15)
 
-3 CMake (support for cmake on all platforms except MinGW)
+3 CMake (support for all platforms/compilers except MinGW)
   - see [README-CMAKE](https://github.com/Exiv2/exiv2/blob/master/README-CMAKE)
     for more information
 
@@ -86,7 +86,7 @@ To uninstall Exiv2 from a UNIX-like system, run:
 Dependencies
 ============
 
-The following libexiv2 features are enabled by default and may*)
+The following libexiv2 features are enabled by default and may
 require external libraries. They can be controlled through configure
 options. See also `./configure --help`.
 
@@ -106,7 +106,7 @@ options. See also `./configure --help`.
 	expat        http://expat.sourceforge.net/
 
 *) Some systems have gettext and iconv in libc. The configure script
-should detect this.
+(and CMake) should detect this.
 
 On Linux, it is usually best to install the dependencies through the
 package management system of the distribution together with the
