@@ -20,7 +20,7 @@ STATUS:
 * CMake scripts are functional and used to perform the daily build on the buildserver
   for MacOS-X, Cygwin, Linux and Visual Studio (2005, 8, 10, 12, 13, 15 and 17)
 
-* The existing automake (./configure) is currently still be supported by exiv2.
+* The existing automake (./configure) is currently still supported by exiv2.
   The long term plan is to adopt CMake as the only build platform.
   automake and msvc solutions/project are likely to removed with Exiv2 v0.27
 
@@ -59,9 +59,12 @@ There are some global CMake options that you can use in Exiv2 :
                          "profile".
                          "relwithdebinfo" : default. use gcc -O2 -g options.
                          "Release"        : generate stripped and optimized bin files. For packaging.
--DBUILD_SHARED_LIBS=1 : Build DLL (=0 for static library)
+-DBUILD_SHARED_LIBS=ON : Build DLL (OFF for static library)
+-DCMAKE_CXX_FLAGS="X"  : In this way you can pass specific compiler flags or definitions to the
+                         compiler. For example: -DCMAKE_CXX_FLAGS="-DDEBUG" for enabling specific
+                         blocks of code that are only interesting for debugging.
 
-More information about Exiv2 CMake options in <exiv2dir>/CMakeLists.txt
+More information about Exiv2 CMake options in CMakeLists.txt
 
 2 Building and Installing on UNIX-like systems
 ==============================================
@@ -85,12 +88,12 @@ To uninstall Exiv2, run:
 3 Building and installing for Visual Studio Users
 =================================================
 
-exiv2 provides three build environment for users of Visual Studio:
+exiv2 provides two build environment for users of Visual Studio:
 
 cmake:    This environment
 msvc:     32 bit AND 64 bit build environment for MSVC 2005 and later (2005/2008/10/12/13/15/17)
 
-CMake doesn't build code.  It generates build environments.
+Please note that CMake doesn't build code. It generates build environments.
 CMake is a language for describing builds and the CMake interpreter generates
 the build environment for your system.
 
@@ -101,7 +104,7 @@ The current architecture of CMake requires you to decide before running cmake:
 2)  32bit or 64 bit builds
 3)  Building static or shared libraries
 
-We have two contributed CMake Build Environments:
+We have three contributed CMake Build Environments:
 
 1 contrib/cmake/msvc
   The following command will build Exiv2 and dependencies:
@@ -192,11 +195,11 @@ way. Basically, all you need to do is to have conan installed on your system and
     $ conan install ..
     $ cmake .. or cmake-gui ..
 
-Conan will search for the dependencies in different repositories. At the moment of writing this
-text, the conan-expat is not available in the official conan repositories, so you have to add the
-following remote to your conan configuration:
+Conan will search for the dependencies in different repositories. Apart from the default public
+conan repository, there exist others. We rely on the bincrafters's repo to handle some of our
+dependencies. To add this remote to you conan configuration, run the following command:
 
-    $ conan remote add conan-pix4d https://api.bintray.com/conan/pix4d/conan
+    $ conan remote add conan-bincrafters https://api.bintray.com/conan/bincrafters/public-conan
 
 In case there are not available packages for your setup (OS + Compiler) you will see error messages
 like this one:
