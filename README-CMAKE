@@ -183,43 +183,16 @@ We have three contributed CMake Build Environments:
 
   It is possible to use CMake/MinGW if you put in some effort.  This is documented in TODO-CMAKE.
 
-5 Using conan to build exiv2 and project dependencies
+5 Using conan to get the exiv2 project dependencies
 =====================================================
 
-Conan is a portable package manager for c++ (https://www.conan.io/). We added the option to use it
-in Exiv2 so you can get all the Exiv2 dependencies (Expat, Zlib, Libcurl, Libssh) in a very easy
-way. Basically, all you need to do is to have conan installed on your system and run the command
+In README-CONAN.md we give explanations about how to use conan to get all the Exiv2 dependencies.
+Basically, all you need to do is to have conan installed on your system and run the command
 `conan install` before calling CMake:
 
     $ mkdir build && cd build
     $ conan install ..
     $ cmake .. or cmake-gui ..
-
-Conan will search for the dependencies in different repositories. Apart from the default public
-conan repository, there exist others. We rely on the bincrafters's repo to handle some of our
-dependencies. To add this remote to you conan configuration, run the following command:
-
-    $ conan remote add conan-bincrafters https://api.bintray.com/conan/bincrafters/public-conan
-
-In case there are not available packages for your setup (OS + Compiler) you will see error messages
-like this one:
-
-```
-    PROJECT: WARN: Can't find a 'zlib/1.2.8@lasote/stable' package for the specified options and settings:
-    - Settings: arch=x86_64, build_type=Release, compiler=clang, compiler.version=3.9, os=Macos
-    - Options: shared=False
-
-    ERROR: Missing prebuilt package for 'zlib/1.2.8@lasote/stable'
-    Try to build it from sources with "--build zlib"
-    Or read "http://docs.conan.io/en/latest/faq/troubleshooting.html#error-missing-prebuilt-package"
-```
-
-To compile the dependencies from sources you will need to run the conan install command like this:
-
-    $ conan install ../ --profile clang --build missing
-
-To learn more about Conan, please visit their documentation page:
-    http://docs.conan.io/en/latest/
 
 # That's all Folks
 ##
