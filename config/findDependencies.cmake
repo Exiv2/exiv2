@@ -72,3 +72,10 @@ endif()
 if (EXIV2_BUILD_UNIT_TESTS)
     find_package(GTest REQUIRED)
 endif()
+
+# On Windows we are interested in placing the DLLs together to the binaries in the install/bin
+# folder, at the installation step. On other platforms we do not care about that, since the 
+# RPATHs will point the locations where the libraries where found.
+if (USING_CONAN AND WIN32)
+    install(DIRECTORY ${PROJECT_BINARY_DIR}/conanDlls/ DESTINATION bin)
+endif()

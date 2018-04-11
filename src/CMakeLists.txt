@@ -327,6 +327,13 @@ if(EXIV2_BUILD_EXIV2_COMMAND)
     endif()
 
     target_sources(exiv2    PRIVATE getopt_win32.c)
+
+    # Copy DLLs from conan packages to the bin folder
+    if (USING_CONAN AND WIN32)
+        add_custom_command(TARGET exiv2 POST_BUILD
+            COMMAND ${CMAKE_COMMAND} -E copy_directory ${PROJECT_BINARY_DIR}/conanDlls ${CMAKE_RUNTIME_OUTPUT_DIRECTORY})
+    endif()
+
     install(TARGETS exiv2 RUNTIME DESTINATION ${CMAKE_INSTALL_BINDIR})
 endif()
 
