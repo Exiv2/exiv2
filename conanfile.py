@@ -24,5 +24,5 @@ class Exiv2Conan(ConanFile):
             self.requires('gtest/1.8.0@bincrafters/stable')
 
     def imports(self):
-        self.copy('*.dll', dst='bin', src='bin')
+        self.copy('*.dll', dst='conanDlls', src='bin')
         self.copy('*.dylib', dst='bin', src='lib')
