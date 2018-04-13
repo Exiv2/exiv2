@@ -231,13 +231,13 @@ endif()
 
 # TODO : We should not include include/exiv2 but only include !!!
 target_include_directories(exiv2lib PUBLIC
-    $<BUILD_INTERFACE:${CMAKE_SOURCE_DIR}/include/exiv2>
-    $<BUILD_INTERFACE:${CMAKE_SOURCE_DIR}/include>
+    $<BUILD_INTERFACE:${PROJECT_SOURCE_DIR}/include/exiv2>
+    $<BUILD_INTERFACE:${PROJECT_SOURCE_DIR}/include>
     $<INSTALL_INTERFACE:include>
 )
 
 target_include_directories(exiv2lib_int PUBLIC
-    $<BUILD_INTERFACE:${CMAKE_SOURCE_DIR}/include/exiv2>
+    $<BUILD_INTERFACE:${PROJECT_SOURCE_DIR}/include/exiv2>
 )
 
 if (EXIV2_ENABLE_WEBREADY)
