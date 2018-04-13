@@ -37,7 +37,7 @@ target_link_libraries(xmp
 
 target_include_directories(xmp
     PUBLIC 
-        $<BUILD_INTERFACE:${CMAKE_SOURCE_DIR}/xmpsdk/include>
+        $<BUILD_INTERFACE:${PROJECT_SOURCE_DIR}/xmpsdk/include>
     PRIVATE 
         ${EXPAT_INCLUDE_DIR}
 )
