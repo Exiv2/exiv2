@@ -184,51 +184,44 @@ An example test case file would look like this:
 import system_tests
 
 
-class AnInformativeName(system_tests.Case):
+class AnInformativeName(metaclass=system_tests.CaseMeta):
 
     filename = "invalid_input_file"
     commands = [
-	    "{binary} -c {import_file} -i {filename}"
+	    "$binary -c $import_file -i $filename"
 	]
-    retval = ["{abort_exit_value}"]
-    stdout = ["Reading {filename}"]
+    retval = ["$abort_exit_value"]
+    stdout = ["Reading $filename"]
     stderr = [
-        """{abort_error}
-error in {filename}
+        """$abort_error
+error in $filename
 """
     ]
 ```
 
 The first 6 lines are necessary boilerplate to pull in the necessary routines to
 run the actual tests (these are implemented in the module `system_tests` with
-the class `system_tests.Case` extending `unittest.TestCase`). When adding new
-tests one should choose a new class name that briefly summarizes the test. Note
-that the file name (without the extension) with the directory structure is
-interpreted as the module by Python and pre-pended to the class name when
-reporting about the tests. E.g. the file `regression/crashes/test_bug_15.py`
-with the class `OutOfBoundsRead` gets reported as
-`regression.crashes.test_bug_15.OutOfBoundsRead** already including a brief
-summary of this test.
-
-**Caution:** Always import `system_tests` in the aforementioned syntax and don't
-use `from system_tests import Case`. This will not work, as the `system_tests`
-module stores the suite's config internally which will not be available if you
-perform a `from system_tests import Case` (this causes Python to create a copy
-of the class `system_tests.Case` for your module, without reading the
-configuration file).
+the meta-class `system_tests.CaseMeta` which performs the necessary preparations
+for the tests to run). When adding new tests one should choose a new class name
+that briefly summarizes the test. Note that the file name (without the
+extension) with the directory structure is interpreted as the module by Python
+and pre-pended to the class name when reporting about the tests. E.g. the file
+`regression/crashes/test_bug_15.py` with the class `OutOfBoundsRead` gets
+reported as `regression.crashes.test_bug_15.OutOfBoundsRead` already including
+a brief summary of this test.
 
 In the following lines the lists `commands`, `retval`, `stdout` and `stderr`
-should be defined. These are lists of strings and must all have the same amount
+should be defined. These are lists of strings and must all have the same number
 of elements.
 
-The test suite at first takes all these strings and substitutes all values in
-curly braces with variables either defined in this class alongside (like
+The test suite at first takes all these strings and substitutes all values
+following a `$` with variables either defined in this class alongside (like
 `filename` in the above example) or with the values defined in the test suite's
 configuration file. Please note that defining a variable with the same name as a
 variable in the suite's configuration file will result in an error (otherwise
 one of the variables would take precedence leading to unexpected results). The
-substitution of values in performed using Python's string `format()` method and
-more elaborate format strings can be used when necessary.
+substitution of values is performed using the template module from Python's
+string library via `safe_substitute`.
 
 In the above example the command would thus expand to:
 ``` shell
@@ -295,26 +288,26 @@ Example:
 import system_tests
 
 
-@system_tests.CopyFiles("{filename}", "{some_path}/another_file.txt")
-class AnInformativeName(system_tests.Case):
+@system_tests.CopyFiles("$filename", "$some_path/another_file.txt")
+class AnInformativeName(metaclass=system_tests.CaseMeta):
 
     filename = "invalid_input_file"
     commands = [
-	    "{binary} -c {import_file} -i {filename}"
+	    "$binary -c $import_file -i $filename"
 	]
-    retval = ["{abort_exit_value}"]
-    stdout = ["Reading {filename}"]
+    retval = ["$abort_exit_value"]
+    stdout = ["Reading $filename"]
     stderr = [
-        """{abort_error}
-error in {filename}
+        """$abort_error
+error in $filename
 """
     ]
 ```
 
 In this example, the test suite would automatically create a copy of the files
-`invalid_input_file` and `{some_path}/another_file.txt` (`some_path` would be of
+`invalid_input_file` and `$some_path/another_file.txt` (`some_path` would be of
 course expanded too) named `invalid_input_file_copy` and
-`{some_path}/another_file_copy.txt`. After the test ran, the copies are
+`$some_path/another_file_copy.txt`. After the test ran, the copies are
 deleted. Please note that variable expansion in the filenames is possible.
 
 
@@ -356,12 +349,12 @@ by the test suite. It can be used in the following way:
 import system_tests
 
 
-class AnInformativeName(system_tests.Case):
+class AnInformativeName(metaclass=system_tests.CaseMeta):
 
     filename = "invalid_input_file"
-    commands = ["{binary} -c {import_file} -i {filename}"]
-    retval = ["{abort_exit_value}"]
-    stdout = ["Reading {filename}"]
+    commands = ["$binary -c $import_file -i $filename"]
+    retval = ["$abort_exit_value"]
+    stdout = ["Reading $filename"]
     stderr = ["""A huge amount of error messages would be here that we absolutely do not care about. Actually everything in this string gets ignored, so we can just leave it empty.
 """
     ]
@@ -380,12 +373,12 @@ variable substitution using the test suite's configuration file.
 Unfortunately, it has to run in a class member function. The `setUp()` function
 can be used for this, as it is run before each test. For example like this:
 ``` python
-class SomeName(system_tests.Case):
+class SomeName(metaclass=system_tests.CaseMeta):
 
 	def setUp(self):
-		self.commands = [self.expand_variables("{some_var}/foo.txt")]
+		self.commands = [self.expand_variables("$some_var/foo.txt")]
 		self.stderr = [""]
-		self.stdout = [self.expand_variables("{success_message}")]
+		self.stdout = [self.expand_variables("$success_message")]
 		self.retval = [0]
 ```
 
@@ -394,11 +387,11 @@ This example will work, as the test runner reads the data for `commands`,
 work is creating a new member in `setUp()` and trying to use it as a variable
 for expansion, like this:
 ``` python
-class SomeName(system_tests.Case):
+class SomeName(metaclass=system_tests.CaseMeta):
 
 	def setUp(self):
 		self.new_var = "foo"
-		self.another_string = self.expand_variables("{new_var}")
+		self.another_string = self.expand_variables("$new_var")
 ```
 
 This example fails in `self.expand_variables` because the expansion uses only
@@ -407,13 +400,13 @@ class member in `setUp()` the changed version will **not** be used for variable
 expansion, as the variables are saved in a new dictionary **before** `setUp()`
 runs. Thus this:
 ``` python
-class SomeName(system_tests.Case):
+class SomeName(metaclass=system_tests.CaseMeta):
 
 	new_var = "foo"
 
 	def setUp(self):
 		self.new_var = "bar"
-		self.another_string = self.expand_variables("{new_var}")
+		self.another_string = self.expand_variables("$new_var")
 ```
 
 will result in `another_string` being "foo" and not "bar".
@@ -425,20 +418,12 @@ will result in `another_string` being "foo" and not "bar".
   cases. `setUpClass()` is used by `system_tests.Case` to store the variables
   for expansion.
 
-- Keep in mind that the variable expansion uses Python's `format()`
-  function. This can make it more cumbersome to include formatted strings into
-  variables like `commands` which will likely contain other variables from the
-  test suite. E.g.: `commands = ["{binary} {:s}".format(f) for f in files]` will
-  not work as `format()` will expect a value for binary. This can be worked
-  around using either the old Python formatting via `%` or by formatting first
-  and then concatenating the problematic parts.
-
 
 ## Running the test suite
 
-The test suite is written for Python 3 but is in principle also compatible with
-Python 2, albeit it is not regularly tested, so its functionality is not
-guaranteed with Python 2.
+The test suite is written for Python 3 and is not compatible with Python 2, thus
+it must be run with `python3` and not with `python` (which is usually an alias
+for Python 2).
 
 Then navigate to the `tests/` subdirectory and run:
 ``` shell
