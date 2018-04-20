@@ -430,7 +430,15 @@ Then navigate to the `tests/` subdirectory and run:
 python3 runner.py
 ```
 
+One can supply the script with a directory where the suite should look for the
+tests (it will search the directory recursively). If omitted, the runner will
+look in the directory where the configuration file is located.
+
 The runner script also supports the optional arguments `--config_file` which
 allows to provide a different test suite configuration file than the default
 `suite.conf`. It also forwards the verbosity setting via the `-v`/`--verbose`
 flags to Python's unittest module.
+
+Optionally one can provide the `--debug` flag which will instruct test suite to
+print all command invocations and all expected and obtained outputs to the
+standard output.

@@ -80,6 +80,20 @@ class CasePreservingConfigParser(configparser.ConfigParser):
 _parameters = {}
 
 
+#: setting whether debug mode is enabled or not
+_debug_mode = False
+
+
+def set_debug_mode(debug):
+    """ Enable or disable debug mode
+
+    In debug mode the test suite will print out all commands that it runs, the
+    expected output and the actually obtained output
+    """
+    global _debug_mode
+    _debug_mode = debug
+
+
 def configure_suite(config_file):
     """
     Populates a global datastructure with the parameters from the suite's
@@ -432,6 +446,14 @@ def test_run(self):
         retval = int(retval)
         timeout = {"flag": False}
 
+        if _debug_mode:
+            print(
+                '', "="*80, "will run: " + command, "expected stdout:", stdout,
+                "expected stderr:", stderr,
+                "expected return value: {:d}".format(retval),
+                sep='\n'
+            )
+
         proc = subprocess.Popen(
             _cmd_splitter(command),
             stdout=subprocess.PIPE,
@@ -452,6 +474,14 @@ def test_run(self):
 
         processed_stdout = _process_output_post(got_stdout.decode('utf-8'))
         processed_stderr = _process_output_post(got_stderr.decode('utf-8'))
+
+        if _debug_mode:
+            print(
+                "got stdout:", processed_stdout, "got stderr:",
+                processed_stderr, "got return value: {:d}"
+                .format(proc.returncode),
+                sep='\n'
+            )
 
         self.assertFalse(timeout["flag"] and "Timeout reached")
         self.compare_stdout(i, command, processed_stdout, stdout)
