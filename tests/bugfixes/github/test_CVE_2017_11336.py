@@ -3,15 +3,15 @@
 import system_tests
 
 
-class TestCvePoC(system_tests.Case):
+class TestCvePoC(metaclass=system_tests.CaseMeta):
 
     url = "https://github.com/Exiv2/exiv2/issues/49"
 
-    filename = "{data_path}/POC2"
-    commands = ["{exiv2} " + filename]
+    filename = "$data_path/POC2"
+    commands = ["$exiv2 " + filename]
     retval = [1]
     stdout = [""]
     stderr = [
-        """{exiv2_exception_message} """ + filename + """:
-{kerInvalidMalloc}
+        """$exiv2_exception_message """ + filename + """:
+$kerInvalidMalloc
 """]

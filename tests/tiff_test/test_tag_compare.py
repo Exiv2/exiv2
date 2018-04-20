@@ -3,7 +3,7 @@
 import system_tests
 
 
-class OutputTagExtract(system_tests.Case):
+class OutputTagExtract(metaclass=system_tests.CaseMeta):
     """
     Test whether exiv2 -pa $file and exiv2 -pS $file produces the same output.
     """
@@ -107,7 +107,7 @@ class OutputTagExtract(system_tests.Case):
             self.compare_pS_pa()
 
     commands = [
-        "{exiv2} %s {data_path}/mini9.tif" % (opt) for opt in ["-pa", "-pS"]
+        "$exiv2 %s $data_path/mini9.tif" % (opt) for opt in ["-pa", "-pS"]
     ]
 
     stderr = [""] * 2
@@ -131,7 +131,7 @@ Exif.Image.YResolution                       Rational    1  72
 Exif.Image.PlanarConfiguration               Short       1  1
 Exif.Image.ResolutionUnit                    Short       1  inch
 """,
-        """STRUCTURE OF TIFF FILE (II): {data_path}/mini9.tif
+        """STRUCTURE OF TIFF FILE (II): $data_path/mini9.tif
  address |    tag                              |      type |    count |    offset | value
      254 | 0x00fe NewSubfileType               |      LONG |        1 |           | 0
      266 | 0x0100 ImageWidth                   |     SHORT |        1 |           | 9
@@ -150,5 +150,5 @@ Exif.Image.ResolutionUnit                    Short       1  inch
      422 | 0x011b YResolution                  |  RATIONAL |        1 |       518 | 1207959552/16777216
      434 | 0x011c PlanarConfiguration          |     SHORT |        1 |           | 1
      446 | 0x0128 ResolutionUnit               |     SHORT |        1 |           | 2
-END {data_path}/mini9.tif
+END $data_path/mini9.tif
 """]

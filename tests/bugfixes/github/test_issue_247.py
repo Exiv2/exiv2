@@ -2,15 +2,15 @@
 
 import system_tests
 
-class TestFirstPoC(system_tests.Case):
+class TestFirstPoC(metaclass=system_tests.CaseMeta):
     """
     Regression test for the first bug described in:
     https://github.com/Exiv2/exiv2/issues/247
     """
     url = "https://github.com/Exiv2/exiv2/issues/247"
 
-    filename = "{data_path}/2-invalid-memory-access"
-    commands = ["{exiv2} -pt " + filename]
+    filename = "$data_path/2-invalid-memory-access"
+    commands = ["$exiv2 -pt " + filename]
     stdout = [
         """Exif.Image.Make                              Ascii       6  Canon
 Exif.Image.Orientation                       Short       1  top, left

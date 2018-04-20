@@ -3,7 +3,7 @@
 import system_tests
 
 
-class Issue1305Test(system_tests.Case):
+class Issue1305Test(metaclass=system_tests.CaseMeta):
     err_msg_dir_img = """Warning: Directory Image, entry 0x3030 has unknown Exif (TIFF) type 12336; setting type size 1.
 Error: Directory Image, entry 0x3030 has invalid size 808464432*1; skipping entry.
 """
@@ -19,8 +19,8 @@ Error: Directory Pentax, entry 0x3030 has invalid size 808464432*1; skipping ent
     name = "regression test for issue 1305"
     url = "http://dev.exiv2.org/issues/1305"
 
-    filename = "{data_path}/IMGP0006-min.jpg"
-    commands = ["{exiv2} " + filename]
+    filename = "$data_path/IMGP0006-min.jpg"
+    commands = ["$exiv2 " + filename]
     stdout = ["""File name       : """ + filename + """
 File size       : 12341 Bytes
 MIME type       : image/jpeg
