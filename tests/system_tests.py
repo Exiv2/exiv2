@@ -435,6 +435,11 @@ def test_run(self):
     CaseMeta metaclass. This ensures that it is run by each system test
     **after** setUp() and setUpClass() were run.
     """
+    if not (len(self.commands) == len(self.retval)
+            == len(self.stdout) == len(self.stderr)):
+        raise ValueError(
+            "commands, retval, stdout and stderr don't have the same length"
+        )
     for i, command, retval, stdout, stderr in zip(range(len(self.commands)),
                                                   self.commands,
                                                   self.retval,
