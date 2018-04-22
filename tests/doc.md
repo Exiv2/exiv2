@@ -274,6 +274,45 @@ This section describes more advanced features that are probably not necessary
 the "standard" usage of the test suite.
 
 
+### Using a different output encoding
+
+The test suite will try to interpret the program's output as utf-8 encoded
+strings and if that fails it will try the `iso-8859-1` encoding (also know as
+`latin-1`).
+
+If the tested program outputs characters in another encoding then it can be
+supplied as the `encodings` parameter in each test case:
+``` python
+# -*- coding: utf-8 -*-
+
+import system_tests
+
+
+class AnInformativeName(metaclass=system_tests.CaseMeta):
+
+    encodings = ['ascii']
+
+    filename = "invalid_input_file"
+    commands = [
+	    "$binary -c $import_file -i $filename"
+	]
+    retval = ["$abort_exit_value"]
+    stdout = ["Reading $filename"]
+    stderr = [
+        """$abort_error
+error in $filename
+"""
+    ]
+```
+
+The test suite will try to decode the program's output with the provided
+encodings in the order that they appear in the list. It will select the first
+encoding that can decode the output successfully. If no encoding is able to
+decode the program's output, then an error is raised. The list of all supported
+encodings can be found
+[here](https://docs.python.org/3/library/codecs.html#standard-encodings).
+
+
 ### Creating file copies
 
 For tests that modify their input file it is useful to run these with a

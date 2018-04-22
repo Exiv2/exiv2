@@ -477,8 +477,26 @@ def test_run(self):
         got_stdout, got_stderr = proc.communicate()
         t.cancel()
 
-        processed_stdout = _process_output_post(got_stdout.decode('utf-8'))
-        processed_stderr = _process_output_post(got_stderr.decode('utf-8'))
+        processed_stdout = None
+        processed_stderr = None
+        for encoding in self.encodings:
+            try:
+                processed_stdout = _process_output_post(
+                    got_stdout.decode(encoding)
+                )
+                processed_stderr = _process_output_post(
+                    got_stderr.decode(encoding)
+                )
+            except UnicodeError:
+                pass
+            else:
+                break
+        if processed_stdout is None or processed_stderr is None:
+            raise ValueError(
+                "Could not decode the output of the command '{!s}' with the "
+                "following encodings: {!s}"
+                .format(command, ','.join(self.encodings))
+            )
 
         if _debug_mode:
             print(
@@ -505,6 +523,10 @@ class Case(unittest.TestCase):
 
     #: maxDiff set so that arbitrarily large diffs will be shown
     maxDiff = None
+
+    #: list of encodings that are used to decode the test program's output
+    #: the first encoding that does not raise a UnicodeError is used
+    encodings = ['utf-8', 'iso-8859-1']
 
     @classmethod
     def setUpClass(cls):
