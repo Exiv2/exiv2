@@ -11,13 +11,13 @@ The simplest test has the following structure:
 import system_tests
 
 
-class GoodTestName(system_tests.Case):
+class GoodTestName(metaclass=system_tests.CaseMeta):
 
-    filename = "{data_path}/test_file"
-    commands = ["{exiv2} " + filename, "{exiv2} " + filename + '_2']
+    filename = "$data_path/test_file"
+    commands = ["$exiv2 $filename", "$exiv2 $filename" + '_2']
     stdout = [""] * 2
-    stderr = ["""{exiv2_exception_msg} """ + filename + """:
-{error_58_message}
+    stderr = ["""$exiv2_exception_msg $filename:
+$kerFailedToReadImageData
 """] * 2
     retval = [1] * 2
 ```
@@ -25,8 +25,8 @@ class GoodTestName(system_tests.Case):
 The test suite will run the provided commands in `commands` and compare them to
 the output in `stdout` and `stderr` and it will compare the return values.
 
-The strings in curly braces are variables either defined in this test's class or
-are taken from the suite's configuration file (see `doc.md` for a complete
+The strings after a `$` are variables either defined in this test's class or are
+taken from the suite's configuration file (see `doc.md` for a complete
 explanation).
 
 When creating new tests, follow roughly these steps:

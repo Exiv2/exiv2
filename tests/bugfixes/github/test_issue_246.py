@@ -2,15 +2,16 @@
 
 import system_tests
 
-class TestFirstPoC(system_tests.Case):
+
+class TestFirstPoC(metaclass=system_tests.CaseMeta):
     """
     Regression test for the first bug described in:
     https://github.com/Exiv2/exiv2/issues/246
     """
     url = "https://github.com/Exiv2/exiv2/issues/246"
 
-    filename = "{data_path}/1-string-format.jpg"
-    commands = ["{exiv2} -pS " + filename]
+    filename = "$data_path/1-string-format.jpg"
+    commands = ["$exiv2 -pS " + filename]
     stdout = [
         """STRUCTURE OF JPEG FILE: """ + filename + """
  address | marker       |  length | data
@@ -19,7 +20,7 @@ class TestFirstPoC(system_tests.Case):
 """]
 
 
-    stderr = ["""{exiv2_exception_message} """ + filename + """:
-{kerNoImageInInputData}
+    stderr = ["""$exiv2_exception_message """ + filename + """:
+$kerNoImageInInputData
 """]
     retval = [1]

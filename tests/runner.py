@@ -15,16 +15,34 @@ if __name__ == '__main__':
         "--config_file",
         type=str,
         nargs=1,
+        help="Path to the suite's configuration file",
         default=['suite.conf']
     )
     parser.add_argument(
         "--verbose", "-v",
         action='count',
+        help="verbosity level",
         default=1
     )
+    parser.add_argument(
+        "--debug",
+        help="enable debugging output",
+        action='store_true'
+    )
+
+    parser.add_argument(
+        "dir",
+        help="directory where the test are searched for (defaults to the config"
+        "file's location)",
+        default=None,
+        type=str,
+        nargs='?'
+    )
+
     args = parser.parse_args()
     conf_file = args.config_file[0]
-    discovery_root = os.path.dirname(conf_file)
+    discovery_root = os.path.dirname(conf_file if args.dir is None else args.dir)
+    system_tests.set_debug_mode(args.debug)
 
     system_tests.configure_suite(conf_file)
 
