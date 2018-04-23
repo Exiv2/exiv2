@@ -506,10 +506,12 @@ def test_run(self):
                 sep='\n'
             )
 
-        self.assertFalse(timeout["flag"] and "Timeout reached")
+        self.assertFalse(timeout["flag"], msg="Timeout reached")
         self.compare_stdout(i, command, processed_stdout, stdout)
         self.compare_stderr(i, command, processed_stderr, stderr)
-        self.assertEqual(retval, proc.returncode)
+        self.assertEqual(
+            retval, proc.returncode, msg="Return value does not match"
+        )
 
 
 class Case(unittest.TestCase):
@@ -552,11 +554,15 @@ class Case(unittest.TestCase):
         unittest.TestCase. This function can be overridden in a child class to
         implement a custom check.
         """
-        self.assertMultiLineEqual(expected_stdout, got_stdout)
+        self.assertMultiLineEqual(
+            expected_stdout, got_stdout, msg="Standard output does not match"
+        )
 
     def compare_stderr(self, i, command, got_stderr, expected_stderr):
         """ Same as compare_stdout only for standard-error. """
-        self.assertMultiLineEqual(expected_stderr, got_stderr)
+        self.assertMultiLineEqual(
+            expected_stderr, got_stderr, msg="Standard error does not match"
+        )
 
     def expand_variables(self, unexpanded_string):
         """
