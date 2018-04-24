@@ -371,7 +371,6 @@ namespace Exiv2 {
     FileIo::~FileIo()
     {
         close();
-        delete p_;
     }
 
     int FileIo::munmap()
@@ -1141,7 +1140,6 @@ namespace Exiv2 {
         if (p_->isMalloced_) {
             std::free(p_->data_);
         }
-        delete p_;
     }
 
     long MemIo::write(const byte* data, long wcount)

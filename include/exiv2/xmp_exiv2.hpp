@@ -160,7 +160,7 @@ namespace Exiv2 {
     private:
         // Pimpl idiom
         struct Impl;
-        Impl* p_;
+        std::auto_ptr<Impl> p_;
 
     }; // class Xmpdatum
 

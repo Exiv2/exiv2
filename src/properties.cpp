@@ -2740,7 +2740,6 @@ namespace Exiv2 {
 
     XmpKey::~XmpKey()
     {
-        delete p_;
     }
 
     XmpKey::XmpKey(const XmpKey& rhs) : Key(rhs), p_(new Impl(*rhs.p_))
