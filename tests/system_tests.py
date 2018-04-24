@@ -182,12 +182,13 @@ class FileDecoratorBase(object):
 
     The new setUp() function performs the following steps:
     - call the old setUp()
-    - create a list _files in the decorated class
+    - create a file list in the decorated class with the name stored in
+      FILE_LIST_NAME (defaults to _files)
     - iterate over all files, performing:
         - expand the file's path via expand_variables (member function
           of the decorated class)
         - call self.setUp_file_action(expanded file name)
-        - append the result to _files in the decorated class
+        - append the result to the file list in the decorated class
 
     The function self.setUp_file_action is provided by this class and
     is intended to be overridden by child classes to provide some
@@ -195,7 +196,7 @@ class FileDecoratorBase(object):
 
 
     The new tearDown() function performs the following steps:
-    - iterate over all files in _files (from the decorated class):
+    - iterate over all files in the file list:
          - call self.tearDown_file_action(filename)
     - call the old tearDown() function
 
@@ -256,6 +257,10 @@ class FileDecoratorBase(object):
     tearDown is called after the new one runs.
     """
 
+    #: Name of the attribute in the decorated child class where the list of
+    #: files is stored
+    FILE_LIST_NAME = '_files'
+
     def __init__(self, *files):
         """
         Constructor of FileDecoratorBase.
@@ -293,7 +298,7 @@ class FileDecoratorBase(object):
                     "filenames in parenthesis"
                 )
 
-        self._files = files
+        self.files = files
 
     def new_setUp(self, old_setUp):
         """
@@ -305,10 +310,16 @@ class FileDecoratorBase(object):
 
         def setUp(other):
             old_setUp(other)
-            other._files = []
-            for f in self._files:
+            if hasattr(other, self.FILE_LIST_NAME):
+                raise TypeError(
+                    "{!s} already has an attribute with the name {!s} which "
+                    "would be overwritten by setUp()"
+                    .format(other, self.FILE_LIST_NAME)
+                )
+            setattr(other, self.FILE_LIST_NAME, [])
+            for f in self.files:
                 expanded_fname = other.expand_variables(f)
-                other._files.append(
+                getattr(other, self.FILE_LIST_NAME).append(
                     self.setUp_file_action(expanded_fname)
                 )
         return setUp
@@ -323,14 +334,14 @@ class FileDecoratorBase(object):
                               expand_variables from system_tests.Case
 
         Returns:
-        This function should return a path that will be stored in the
-        decorated class' list _files. The custom tearDown() function
-        (that is returned by self.new_tearDown()) iterates over this
-        list and invokes self.tearDown_file_action on each element in
-        that list.
-        E.g. if a child class creates file copies, that should be
-        deleted after the test ran, then one would have to return the
-        path of the copy, so that tearDown() can delete the copies.
+        This function should return a path that will be stored in the decorated
+        class' file list (the name is given by the attribute
+        FILE_LIST_NAME). The custom tearDown() function (that is returned by
+        self.new_tearDown()) iterates over this list and invokes
+        self.tearDown_file_action on each element in that list.
+        E.g. if a child class creates file copies, that should be deleted after
+        the test ran, then one would have to return the path of the copy, so
+        that tearDown() can delete the copies.
 
         The default implementation does nothing.
         """
@@ -345,7 +356,7 @@ class FileDecoratorBase(object):
         """
 
         def tearDown(other):
-            for f in other._files:
+            for f in getattr(other, self.FILE_LIST_NAME):
                 self.tearDown_file_action(f)
             old_tearDown(other)
 
@@ -354,12 +365,12 @@ class FileDecoratorBase(object):
     def tearDown_file_action(self, f):
         """
         This function is called on each file in the decorated class'
-        list _files (that list is populated during setUp()).
+        file list (that list is populated during setUp()).
 
         It can be used to perform cleanup operations after a test run.
 
         Parameters:
-        - f: An element of _files
+        - f: An element of the file list
 
         Returns:
         The return value is ignored
@@ -403,10 +414,11 @@ class CopyFiles(FileDecoratorBase):
     ... class Foo(Case):
     ...     pass
 
-    The decorator will inject new setUp method that at first calls the already
-    defined setUp(), then expands all supplied file names using
+    The decorator will inject a new setUp method that at first calls the
+    already defined setUp(), then expands all supplied file names using
     Case.expand_variables and then creates copies by appending '_copy' before
-    the file extension. The paths to the copies are stored in self._files.
+    the file extension. The paths to the copies are stored in
+    self._copied_files.
 
     The decorator also injects a new tearDown method that deletes all files in
     self._files and then calls the original tearDown method.
@@ -416,10 +428,38 @@ class CopyFiles(FileDecoratorBase):
     in this case as it can result in tests not being run without a warning.
     """
 
+    #: override the name of the file list
+    FILE_LIST_NAME = '_copied_files'
+
     def setUp_file_action(self, expanded_file_name):
         fname, ext = os.path.splitext(expanded_file_name)
         new_name = fname + '_copy' + ext
         return shutil.copyfile(expanded_file_name, new_name)
+
+
+class DeleteFiles(FileDecoratorBase):
+    """
+    Decorator for subclasses of system_test.Case that automatically deletes all
+    files specified as the parameters passed to the decorator after the test
+    were run.
+
+    Example:
+    >>> @DeleteFiles("$some_var/an_output_file", "auxiliary_output.bin")
+    ... class Foo(Case):
+    ...     pass
+
+    The decorator injects new setUp() and tearDown() functions. The new setUp()
+    at first calls the old setUp() and then saves all files that should be
+    deleted later in self._files_to_delete. The new tearDown() actually deletes
+    all files supplied to the decorator and then runs the original tearDown()
+    function.
+    """
+
+    #: override the name of the file list
+    FILE_LIST_NAME = '_files_to_delete'
+
+    def setUp_file_action(self, expanded_file_name):
+        return expanded_file_name
 
 
 def test_run(self):
