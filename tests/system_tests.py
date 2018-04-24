@@ -300,7 +300,7 @@ class FileDecoratorBase(object):
         Returns a new setUp() function that can be used as a class
         member function (i.e. invoked via self.setUp()).
 
-        It's functionality is described in this classes' docstring.
+        Its functionality is described in this classes' docstring.
         """
 
         def setUp(other):
@@ -399,7 +399,7 @@ class CopyFiles(FileDecoratorBase):
     copy of the files specified as the parameters passed to the decorator.
 
     Example:
-    >>> @CopyFiles("{some_var}/file.txt", "{another_var}/other_file.png")
+    >>> @CopyFiles("$some_var/file.txt", "$another_var/other_file.png")
     ... class Foo(Case):
     ...     pass
 
