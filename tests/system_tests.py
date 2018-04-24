@@ -598,13 +598,15 @@ class CaseMeta(type):
 
     def __new__(mcs, clsname, bases, dct):
 
-        changed = False
+        changed = True
 
         # expand all non-private variables by brute force
         # => try all expanding all elements defined in the current class until
         # there is no change in them any more
         keys = [key for key in list(dct.keys()) if not key.startswith('_')]
-        while not changed:
+        while changed:
+            changed = False
+
             for key in keys:
 
                 old_value = dct[key]
