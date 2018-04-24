@@ -1091,9 +1091,9 @@ namespace Exiv2 {
 
     void MemIo::Impl::reserve(long wcount)
     {
-        long need = wcount + idx_;
+        const long need = wcount + idx_;
         long    blockSize =     32*1024;   // 32768           `
-        long maxBlockSize = 4*1024*1024;
+        const long maxBlockSize = 4*1024*1024;
 
         if (!isMalloced_) {
             // Minimum size for 1st block
@@ -1102,7 +1102,9 @@ namespace Exiv2 {
             if (  data == NULL ) {
                 throw Error(kerMallocFailed);
             }
-            std::memcpy(data, data_, size_);
+            if (data_ != NULL) {
+                std::memcpy(data, data_, size_);
+            }
             data_ = data;
             sizeAlloced_ = size;
             isMalloced_ = true;
@@ -1146,7 +1148,9 @@ namespace Exiv2 {
     {
         p_->reserve(wcount);
         assert(p_->isMalloced_);
-        std::memcpy(&p_->data_[p_->idx_], data, wcount);
+        if (data != NULL) {
+            std::memcpy(&p_->data_[p_->idx_], data, wcount);
+        }
         p_->idx_ += wcount;
         return wcount;
     }
