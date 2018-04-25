@@ -12,8 +12,8 @@
 #include "XMP_Environment.h"
 
    #include <stddef.h>
-
-#if XMP_MacBuild	// ! No stdint.h on Windows and some UNIXes.
+   
+#if EXV_HAVE_STDINT_H	// ! No stdint.h on Windows and some UNIXes.
     #include <stdint.h>
 #endif
 
@@ -34,7 +34,7 @@ extern "C" {
 // case only the declarations of the XMP_... types needs to change, not all of the uses. These
 // types are used where fixed sizes are required in order to have a known ABI for a DLL build.
 
-#if XMP_MacBuild
+#if EXV_HAVE_STDINT_H
 
     typedef int8_t   XMP_Int8;
     typedef int16_t  XMP_Int16;
