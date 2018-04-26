@@ -175,7 +175,6 @@ namespace Exiv2 {
 
     Xmpdatum::~Xmpdatum()
     {
-        delete p_;
     }
 
     std::string Xmpdatum::key() const

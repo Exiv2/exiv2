@@ -3168,10 +3168,7 @@ namespace Exiv2 {
     {
     }
 
-    ExifKey::~ExifKey()
-    {
-        delete p_;
-    }
+    ExifKey::~ExifKey() {}
 
     ExifKey& ExifKey::operator=(const ExifKey& rhs)
     {

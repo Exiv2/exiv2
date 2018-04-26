@@ -526,7 +526,7 @@ namespace Exiv2 {
 
         // Pimpl idiom
         class Impl;
-        Impl* p_;
+        std::auto_ptr<Impl> p_;
 
     }; // class FileIo
 
@@ -726,7 +726,7 @@ namespace Exiv2 {
 
         // Pimpl idiom
         class Impl;
-        Impl* p_;
+        std::auto_ptr<Impl> p_;
 
     }; // class MemIo
 

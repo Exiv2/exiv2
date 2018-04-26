@@ -380,7 +380,9 @@ namespace Exiv2 {
         if (newSize > size_) {
             setData(DataBuf(newSize));
         }
-        memset(pData_, 0x0, size_);
+        if (pData_ != NULL) {
+            memset(pData_, 0x0, size_);
+        }
         size_ = value->copy(pData_, byteOrder);
         assert(size_ == newSize);
         setValue(value);
