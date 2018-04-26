@@ -1,6 +1,8 @@
 #ifndef __XMP_Const_h__
 #define __XMP_Const_h__ 1
 
+#include <exiv2/config.h>
+
 // =================================================================================================
 // Copyright 2002-2008 Adobe Systems Incorporated
 // All Rights Reserved.
