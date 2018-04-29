@@ -25,8 +25,8 @@
 // Define if you want video support.
 #cmakedefine EXV_ENABLE_VIDEO
 
-// Define if you have correct declaration of strerror_r().
-#cmakedefine EXV_HAVE_DECL_STRERROR_R
+// Define if you have the strerror_r function.
+#cmakedefine EXV_HAVE_STRERROR_R
 
 // Define to enable the Windows unicode path support.
 #cmakedefine EXV_UNICODE_PATH
@@ -56,15 +56,6 @@
 #define      EXV_HAVE_STDINT_H
 #endif
 #endif
-
-// Define if you have the strerror function.
-#cmakedefine EXV_HAVE_STRERROR
-
-// Define if you have the strerror_r function.
-#cmakedefine EXV_HAVE_STRERROR_R
-
-// Define if strerror_r returns char *.
-#cmakedefine STRERROR_R_CHAR_P
 
 // Define if you have the <strings.h> header file.
 #cmakedefine EXV_HAVE_STRINGS_H

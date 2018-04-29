@@ -29,6 +29,7 @@
 #include "config.h"
 
 #include "futils.hpp"
+#include "enforce.hpp"
 
 // + standard includes
 #include <sys/types.h>
@@ -46,12 +47,12 @@
 #include <algorithm>
 #include <stdexcept>
 
-#if defined EXV_HAVE_STRERROR_R && !defined EXV_HAVE_DECL_STRERROR_R
-# ifdef EXV_STRERROR_R_CHAR_P
+#ifdef EXV_HAVE_STRERROR_R
+#ifdef _GNU_SOURCE
 extern char *strerror_r(int errnum, char *buf, size_t n);
-# else
+#else
 extern int strerror_r(int errnum, char *buf, size_t n);
-# endif
+#endif
 #endif
 
 namespace Exiv2 {
@@ -331,27 +332,30 @@ namespace Exiv2 {
         else return path.substr(found);
     }
 #endif
+
     std::string strError()
     {
         int error = errno;
         std::ostringstream os;
 #ifdef EXV_HAVE_STRERROR_R
         const size_t n = 1024;
-// _GNU_SOURCE: See Debian bug #485135
-# if defined EXV_STRERROR_R_CHAR_P && defined _GNU_SOURCE
+#ifdef _GNU_SOURCE
         char *buf = 0;
         char buf2[n];
         std::memset(buf2, 0x0, n);
         buf = strerror_r(error, buf2, n);
-# else
+#else
         char buf[n];
         std::memset(buf, 0x0, n);
-        strerror_r(error, buf, n);
-# endif
+        const int ret = strerror_r(error, buf, n);
+        enforce(ret != ERANGE, Exiv2::kerCallFailed);
+#endif
         os << buf;
         // Issue# 908.
         // report strerror() if strerror_r() returns empty
-        if ( !buf[0] ) os << strerror(error);
+        if ( !buf[0] ) {
+            os << strerror(error);
+        }
 #else
         os << std::strerror(error);
 #endif
