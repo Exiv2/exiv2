@@ -14,10 +14,6 @@
 /* Define to 1 if you have the `alarm' function. */
 /* #undef EXV_HAVE_ALARM */
 
-/* Define to 1 if you have the declaration of `strerror_r', and to 0 if you
-   don't. */
-/* #undef EXV_HAVE_DECL_STRERROR_R */
-
 /* Define to 1 if you have the `gmtime_r' function. */
 /* #undef EXV_HAVE_GMTIME_R */
 
@@ -82,8 +78,8 @@
 /* Define to 1 if you have the <stdint.h> header file. */
 /* #undef EXV_HAVE_STDINT_H */
 
-/* Define to 1 if you have the `strerror' function. */
-#define EXV_HAVE_STRERROR 1
+/* Define to 1 if you have the <stdlib.h> header file. */
+/* #undef EXV_HAVE_STDLIB_H */
 
 /* Define to 1 if you have the `strerror_r' function. */
 /* #undef EXV_HAVE_STRERROR_R */

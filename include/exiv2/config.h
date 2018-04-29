@@ -144,11 +144,6 @@ typedef int pid_t;
 ///// End symbol visibility /////////
 
 ///// Start of platform marcos /////////
-// Linux GCC 4.8 appears to be confused about strerror_r
-#if !defined(EXV_STRERROR_R_CHAR_P) &&  defined( __gnu_linux__) && defined(__GLIBC__)
-#define EXV_STRERROR_R_CHAR_P
-#endif
-
 #if defined(__MINGW32__) || defined(__MINGW64__)
 # ifndef  __MING__
 #  define __MING__  1
