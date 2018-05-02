@@ -20,7 +20,6 @@ set(EXV_UNICODE_PATH     ${EXIV2_ENABLE_WIN_UNICODE})
 
 # TODO: Try to use the cmake function check_symbol_exists which is more robust
 check_function_exists( gmtime_r EXV_HAVE_GMTIME_R )
-check_function_exists( memset   EXV_HAVE_MEMSET )
 check_function_exists( mmap     EXV_HAVE_MMAP )
 check_function_exists( munmap   EXV_HAVE_MUNMAP )
 check_function_exists( strerror     EXV_HAVE_STRERROR )

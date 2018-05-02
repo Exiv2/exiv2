@@ -254,7 +254,6 @@ void Exiv2::dumpLibraryInfo(std::ostream& os,const exv_grep_keys_t& keys)
     int have_lensdata    =0;
     int have_iconv       =0;
     int have_memory      =0;
-    int have_memset      =0;
     int have_lstat       =0;
     int have_stdbool     =0;
     int have_stdint      =0;
@@ -310,10 +309,6 @@ void Exiv2::dumpLibraryInfo(std::ostream& os,const exv_grep_keys_t& keys)
 
 #ifdef EXV_HAVE_MEMORY_H
     have_memory=1;
-#endif
-
-#ifdef EXV_HAVE_MEMSET
-    have_memset=1;
 #endif
 
 #ifdef EXV_HAVE_LSTAT
@@ -505,7 +500,6 @@ void Exiv2::dumpLibraryInfo(std::ostream& os,const exv_grep_keys_t& keys)
     output(os,keys,"have_lensdata"     ,have_lensdata    );
     output(os,keys,"have_iconv"        ,have_iconv       );
     output(os,keys,"have_memory"       ,have_memory      );
-    output(os,keys,"have_memset"       ,have_memset      );
     output(os,keys,"have_lstat"        ,have_lstat       );
     output(os,keys,"have_stdbool"      ,have_stdbool     );
     output(os,keys,"have_stdint"       ,have_stdint      );
