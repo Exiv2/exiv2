@@ -45,9 +45,6 @@
 // Define if have the <memory.h> header file.
 #cmakedefine EXV_HAVE_MEMORY_H
 
-// Define if you have the memset function.
-#cmakedefine EXV_HAVE_MEMSET
-
 // Define if stdbool.h conforms to C99.
 #cmakedefine EXV_HAVE_STDBOOL_H
 

@@ -72,9 +72,6 @@
 /* Define to 1 if you have the <memory.h> header file. */
 /* #undef EXV_HAVE_MEMORY_H */
 
-/* Define to 1 if you have the `memset' function. */
-#define EXV_HAVE_MEMSET 1
-
 /* Define to 1 if your system has a GNU libc compatible `realloc' function,
    and to 0 otherwise. */
 #define EXV_HAVE_REALLOC 1
