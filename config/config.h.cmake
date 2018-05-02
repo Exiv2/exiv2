@@ -69,9 +69,6 @@
 // Define if you have the <strings.h> header file.
 #cmakedefine EXV_HAVE_STRINGS_H
 
-// Define if you have the strtol function.
-#cmakedefine EXV_HAVE_STRTOL
-
 // Define if you have the mmap function.
 #cmakedefine EXV_HAVE_MMAP
 

@@ -94,9 +94,6 @@
 /* Define to 1 if you have the <string.h> header file. */
 /* #undef EXV_HAVE_STRING_H */
 
-/* Define to 1 if you have the `strtol' function. */
-#define EXV_HAVE_STRTOL 1
-
 /* Define to 1 if you have the `mmap' function. */
 /* #undef EXV_HAVE_MMAP */
 
