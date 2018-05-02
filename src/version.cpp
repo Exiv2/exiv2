@@ -262,7 +262,6 @@ void Exiv2::dumpLibraryInfo(std::ostream& os,const exv_grep_keys_t& keys)
     int have_strerror    =0;
     int have_strerror_r  =0;
     int have_strings_h   =0;
-    int have_strtol      =0;
     int have_mmap        =0;
     int have_munmap      =0;
     int have_sys_stat    =0;
@@ -337,10 +336,6 @@ void Exiv2::dumpLibraryInfo(std::ostream& os,const exv_grep_keys_t& keys)
 
 #ifdef EXV_HAVE_STRINGS_H
     have_strings=1;
-#endif
-
-#ifdef EXV_HAVE_STRTOL
-    have_strtol=1;
 #endif
 
 #ifdef EXV_HAVE_MMAP
@@ -508,7 +503,6 @@ void Exiv2::dumpLibraryInfo(std::ostream& os,const exv_grep_keys_t& keys)
     output(os,keys,"have_strerror"     ,have_strerror    );
     output(os,keys,"have_strerror_r"   ,have_strerror_r  );
     output(os,keys,"have_strings_h"    ,have_strings_h   );
-    output(os,keys,"have_strtol"       ,have_strtol      );
     output(os,keys,"have_mmap"         ,have_mmap        );
     output(os,keys,"have_munmap"       ,have_munmap      );
     output(os,keys,"have_sys_stat"     ,have_sys_stat    );

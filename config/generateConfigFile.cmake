@@ -24,7 +24,6 @@ check_function_exists( mmap     EXV_HAVE_MMAP )
 check_function_exists( munmap   EXV_HAVE_MUNMAP )
 check_function_exists( strerror     EXV_HAVE_STRERROR )
 check_function_exists( strerror_r   EXV_HAVE_STRERROR_R )
-check_function_exists( strtol       EXV_HAVE_STRTOL )
 check_function_exists( timegm       EXV_HAVE_TIMEGM )
 
 # TODO : Do something about EXV_STRERROR_R_CHAR_P
