@@ -154,7 +154,7 @@
 #include <stdio.h>
 #include <string.h>
 #include <strings.h>
-#include <stdlib.h>
+#include <cstdlib>
 #include <math.h>
 #if defined(__cplusplus)
 #include <ios>

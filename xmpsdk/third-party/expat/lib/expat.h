@@ -14,7 +14,7 @@
 #define XML_SetExternalEntityRefHandlerArg  XML_SetExternalEntRefHandlerArg
 #endif
 
-#include <stdlib.h>
+#include <cstdlib>
 #include "expat_external.h"
 
 #ifdef __cplusplus

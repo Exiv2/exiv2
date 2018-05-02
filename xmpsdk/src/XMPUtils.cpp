@@ -17,7 +17,7 @@
 
 #include <time.h>
 #include <string.h>
-#include <stdlib.h>
+#include <cstdlib>
 #include <locale.h>
 #include <errno.h>
 

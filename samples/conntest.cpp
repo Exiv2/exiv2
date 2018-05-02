@@ -5,7 +5,7 @@
 #include <exiv2/exiv2.hpp>
 
 #include <iostream>
-#include <stdlib.h>
+#include <cstdlib>
 
 void httpcon(const std::string& url, bool useHttp1_0 = false) {
     Exiv2::Dictionary response;

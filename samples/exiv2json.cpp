@@ -13,7 +13,7 @@
 #include <vector>
 #include <set>
 
-#include <stdlib.h>
+#include <cstdlib>
 #include <limits.h>
 #include <sys/types.h>
 #include <sys/stat.h>
