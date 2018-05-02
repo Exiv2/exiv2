@@ -82,9 +82,6 @@
 /* Define to 1 if you have the <stdint.h> header file. */
 /* #undef EXV_HAVE_STDINT_H */
 
-/* Define to 1 if you have the <stdlib.h> header file. */
-/* #undef EXV_HAVE_STDLIB_H */
-
 /* Define to 1 if you have the `strerror' function. */
 #define EXV_HAVE_STRERROR 1
 

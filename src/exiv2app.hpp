@@ -47,7 +47,7 @@
 
 // stdin handler includes
 #ifndef  _MSC_VER
-#include <stdlib.h>
+#include <cstdlib>
 #include <stdio.h>
 #include <string.h>
 #if defined(__CYGWIN__) || defined(__MINGW__)

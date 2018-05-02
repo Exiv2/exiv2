@@ -12,7 +12,7 @@
 #include <algorithm>
 
 #include <stdio.h>
-#include <stdlib.h>
+#include <cstdlib>
 #include <time.h>
 #include <string.h>
 #include <sys/stat.h>

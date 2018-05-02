@@ -57,9 +57,6 @@
 #endif
 #endif
 
-// Define if you have the <stdlib.h> header file.
-#cmakedefine EXV_HAVE_STDLIB_H
-
 // Define if you have the strerror function.
 #cmakedefine EXV_HAVE_STRERROR
 
