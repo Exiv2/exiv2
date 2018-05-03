@@ -52,26 +52,13 @@ Once you have a GitHub login:
 
 2. Then start a terminal (or use your favorite git GUI app) and clone your fork of the Exiv2 repo:
 
-        $  git clone https://github.com:your-username/exiv2.git
-
-3. Next, create a branch for your PR from `exiv2_upstream/master` (this is important to avoid draging in old commits):
-
-        $ git checkout exiv2_upstream/master
-        $ git checkout -b my-new-feature
-
-	You will get a warning about a detached head which can be ignored here.
-
-4. Configure the project and check that it builds (CMake is our the preferred configuration system, but not the only one [see [README.md](README.md)]):
-
+        $ git clone https://github.com:your-username/exiv2.git
         $ cd exiv2
-		$ rm -rf build
-		$ mkdir build && cd build
-		$ cmake -DCMAKE_BUILD_TYPE=Release ..
-		$ make
-		
-5. Set (add) the remote repository:
+
+3. Set (add) the remote repository:
 
         $ git remote add exiv2_upstream https://github.com/Exiv2/exiv2.git
+		$ git fetch exiv2_upstream master
 
 	and verify that you have the two remotes configured correctly:
 
@@ -81,6 +68,20 @@ Once you have a GitHub login:
         origin  https://github.com/your-username/exiv2.git (fetch)
         origin  https://github.com/your-username/exiv2.git (push)		
 
+4. Next, create a branch for your PR from `exiv2_upstream/master` (this is important to avoid draging in old commits):
+
+        $ git checkout exiv2_upstream/master
+        $ git checkout -b my-new-feature
+
+	You will get a warning about a detached head which can be ignored here.
+
+5. Configure the project and check that it builds (CMake is our the preferred configuration system, but not the only one [see [README.md](README.md)]):
+
+		$ rm -rf build
+		$ mkdir build && cd build
+		$ cmake -DCMAKE_BUILD_TYPE=Release ..
+		$ make
+		
 6. Now, make your change(s), add tests for your changes, and commit each change:
 
         ...
