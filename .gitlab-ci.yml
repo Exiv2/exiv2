@@ -5,10 +5,7 @@
 fedora_build:
   image: fedora:28
   before_script:
-    - dnf -y install --refresh 'dnf-command(copr)'
-    - dnf -y copr enable defolos/devel
-    - dnf clean all
-    - dnf -y install gcc-c++ clang cmake make expat-devel.x86_64 zlib-devel.x86_64 libssh-devel.x86_64 libcurl-devel.x86_64 gtest-devel.x86_64
+    - dnf -y --refresh install gcc-c++ clang cmake make expat-devel zlib-devel libssh-devel libcurl-devel gtest-devel which
   <<: *distro_build
 
 debian_build:
