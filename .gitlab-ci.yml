@@ -19,8 +19,9 @@ Archlinux:
   image: base/archlinux
   before_script:
     - pacman --noconfirm -Sy
-    - pacman --noconfirm -S gcc clang cmake make expat zlib libssh curl gtest
-  <<: *distro_build
+    - pacman --noconfirm -S gcc clang cmake make expat zlib libssh curl gtest python
+  script:
+    - python ci/test_build.py
 
 Ubuntu:
   image: ubuntu:18.04
