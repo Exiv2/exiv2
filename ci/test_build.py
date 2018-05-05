@@ -4,7 +4,6 @@
 import itertools
 import multiprocessing
 import os
-import platform
 import shlex
 import subprocess
 import sys
@@ -14,9 +13,6 @@ SHARED_LIBS = ["ON", "OFF"]
 
 #: C & C++ compiler as tuples
 CCS = ["gcc", "clang"]
-
-#: additional architecture flags
-ARCHS = [""]
 
 #: -DCMAKE_BUILD_TYPE options
 BUILD_TYPES = ["Debug", "Release"]
@@ -29,9 +25,6 @@ CMAKE_OPTIONS = os.getenv("CMAKE_OPTIONS") or \
 #: cpu count
 NCPUS = multiprocessing.cpu_count()
 
-if platform.architecture()[0] == '64bit':
-    ARCHS += ["-m32"]
-
 
 def call_wrapper(*args, **kwargs):
     """
@@ -43,12 +36,10 @@ def call_wrapper(*args, **kwargs):
         sys.exit(return_code)
 
 
-for params in \
-      itertools.product(SHARED_LIBS, CCS, ARCHS, BUILD_TYPES):
+for params in itertools.product(SHARED_LIBS, CCS, BUILD_TYPES):
 
-    lib_type, cc, arch, build_type = params
+    lib_type, cc, build_type = params
 
-    flags = arch
     cxx = {"gcc": "g++", "clang": "clang++"}[cc]
 
     cwd = "build_" + "_".join(params)
@@ -64,8 +55,8 @@ for params in \
     env_copy = os.environ.copy()
     env_copy["CC"] = cc
     env_copy["CXX"] = cxx
-    env_copy["CFLAGS"] = flags
-    env_copy["CXXFLAGS"] = flags
+    # env_copy["CFLAGS"] = flags
+    # env_copy["CXXFLAGS"] = flags
 
     # location of the binaries for the new test suite:
     env_copy["EXIV2_PATH"] = "../" + cwd + "/bin"

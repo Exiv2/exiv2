@@ -7,15 +7,13 @@ fedora_build:
   before_script:
     - dnf -y install --refresh 'dnf-command(copr)'
     - dnf -y copr enable defolos/devel
-    - dnf makecache
-    - dnf -y install gcc-c++ clang cmake make expat-devel.x86_64 zlib-devel.x86_64 libssh-devel.x86_64 libcurl-devel.x86_64 gtest-devel.x86_64 expat-devel.i686 zlib-devel.i686 libssh-devel.i686 libcurl-devel.i686 gtest-devel.i686 glibc.i686 libstdc++.i686 gtest-devel.i686
+    - dnf clean all
+    - dnf -y install gcc-c++ clang cmake make expat-devel.x86_64 zlib-devel.x86_64 libssh-devel.x86_64 libcurl-devel.x86_64 gtest-devel.x86_64
   <<: *distro_build
 
 debian_build:
   image: debian:9
   before_script:
-    - dpkg --add-architecture i386
     - apt-get update
-    - apt-get install -y gcc-multilib
-    - apt-get install -y cmake g++ clang make python3 libexpat1-dev zlib1g-dev libssh-dev libcurl4-openssl-dev libexpat1-dev:i386 zlib1g-dev:i386 libssh-dev:i386 libcurl4-openssl-dev:i386
+    - apt-get install -y cmake g++ clang make python3 libexpat1-dev zlib1g-dev libssh-dev libcurl4-openssl-dev
   <<: *distro_build
