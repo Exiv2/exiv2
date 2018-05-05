@@ -547,8 +547,8 @@ def test_run(self):
             )
 
         self.assertFalse(timeout["flag"], msg="Timeout reached")
-        self.compare_stdout(i, command, processed_stdout, stdout)
         self.compare_stderr(i, command, processed_stderr, stderr)
+        self.compare_stdout(i, command, processed_stdout, stdout)
         self.assertEqual(
             retval, proc.returncode, msg="Return value does not match"
         )
