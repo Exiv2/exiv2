@@ -3,7 +3,7 @@
     - python3 ci/test_build.py
 
 fedora_build:
-  image: fedora:latest
+  image: fedora:28
   before_script:
     - dnf -y install --refresh 'dnf-command(copr)'
     - dnf -y copr enable defolos/devel
