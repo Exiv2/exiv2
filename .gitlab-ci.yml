@@ -18,8 +18,8 @@ Debian:
 Archlinux:
   image: base/archlinux
   before_script:
-    - pacman -Sy
-    - pacman -S gcc clang cmake make expat zlib libssh curl gtest
+    - pacman --noconfirm -Sy
+    - pacman --noconfirm -S gcc clang cmake make expat zlib libssh curl gtest
   <<: *distro_build
 
 Ubuntu:
