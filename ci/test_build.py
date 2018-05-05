@@ -46,7 +46,7 @@ for params in itertools.product(SHARED_LIBS, CCS, BUILD_TYPES):
     os.mkdir(cwd)
 
     cmake = "cmake {!s} -DCMAKE_BUILD_TYPE={build_type} "\
-        "-DEXIV2_BUILD_SHARED_LIBS={lib_type} .."\
+        "-DBUILD_SHARED_LIBS={lib_type} .."\
         .format(CMAKE_OPTIONS, build_type=build_type, lib_type=lib_type)
     make = "make -j " + str(NCPUS)
     make_tests = "make tests"
