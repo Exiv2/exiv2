@@ -9,7 +9,7 @@
 Fedora:
   image: fedora:28
   before_script:
-    - dnf -y --refresh install gcc-c++ clang cmake make expat-devel zlib-devel libssh-devel libcurl-devel gtest-devel which
+    - dnf -y --refresh install gcc-c++ clang cmake make expat-devel zlib-devel libssh-devel libcurl-devel gtest-devel which dos2unix
   <<: *distro_build
 
 Debian:
@@ -23,7 +23,7 @@ Archlinux:
   image: base/archlinux
   before_script:
     - pacman --noconfirm -Sy
-    - pacman --noconfirm -S gcc clang cmake make expat zlib libssh curl gtest python
+    - pacman --noconfirm -S gcc clang cmake make expat zlib libssh curl gtest python dos2unix
   <<: *distro_build
 
 Ubuntu:
@@ -40,7 +40,7 @@ CentOS:
     # enable copr for gtest
     - yum -y copr enable defolos/devel
     - yum clean all
-    - yum -y install gcc-c++ clang cmake3 make expat-devel zlib-devel libssh-devel libcurl-devel gtest-devel which python36
+    - yum -y install gcc-c++ clang cmake3 make expat-devel zlib-devel libssh-devel libcurl-devel gtest-devel which python36 dos2unix
     - ln -s /usr/bin/python36 /usr/bin/python3
     - mv /bin/cmake /bin/.cmake.old
     - ln -s /bin/cmake3 /bin/cmake
