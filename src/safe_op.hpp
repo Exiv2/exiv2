@@ -239,6 +239,8 @@ namespace Safe
 #endif  // __GNUC__ >= 5 || __clang_major >= 3
 
 #elif defined(_MSC_VER)
+// intrinsics are not in available in MSVC 2005 and earlier
+#if _MSC_VER >= 1400
 
 /*!
  * This macro pastes a specialization of builtin_add_overflow using MSVC's
@@ -266,6 +268,7 @@ namespace Safe
 
 #undef SPECIALIZE_builtin_add_overflow_WIN
 
+#endif  // _MSC_VER >= 1400
 #endif  // defined(_MSC_VER)
 
     }  // namespace Internal
