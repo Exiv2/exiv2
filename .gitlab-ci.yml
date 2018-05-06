@@ -42,6 +42,7 @@ CentOS:
     - yum clean all
     - yum -y install gcc-c++ clang cmake3 make expat-devel zlib-devel libssh-devel libcurl-devel gtest-devel which python36
     - ln -s /usr/bin/python36 /usr/bin/python3
+    - mv /bin/cmake /bin/.cmake.old
     - ln -s /bin/cmake3 /bin/cmake
   <<: *distro_build
 
