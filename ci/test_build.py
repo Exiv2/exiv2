@@ -36,6 +36,8 @@ def call_wrapper(*args, **kwargs):
         sys.exit(return_code)
 
 
+os.mkdir("build")
+
 for params in itertools.product(SHARED_LIBS, CCS, BUILD_TYPES):
 
     lib_type, cc, build_type = params
@@ -43,7 +45,6 @@ for params in itertools.product(SHARED_LIBS, CCS, BUILD_TYPES):
     cxx = {"gcc": "g++", "clang": "clang++"}[cc]
 
     cwd = os.path.join("build", "_".join(params))
-    os.mkdir("build")
     os.mkdir(cwd)
 
     cmake = "cmake {!s} -DCMAKE_BUILD_TYPE={build_type} "\
