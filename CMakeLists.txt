@@ -100,10 +100,6 @@ include_directories(${CMAKE_BINARY_DIR})  # Make the exv_conf.h file visible for
 
 include( config/CMakeChecks.txt )
 
-if( MSVC )
-    set(CMAKE_DEBUG_POSTFIX "d")
-endif()
-
 if( EXIV2_ENABLE_XMP )
     add_subdirectory( xmpsdk )
 endif()
