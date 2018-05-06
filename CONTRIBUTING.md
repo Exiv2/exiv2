@@ -55,10 +55,9 @@ Once you have a GitHub login:
         $ git clone https://github.com:your-username/exiv2.git
         $ cd exiv2
 
-3. Set (add) the remote repository:
+3.  Add a new remote pointing to upstream exiv2 repository:
 
         $ git remote add exiv2_upstream https://github.com/Exiv2/exiv2.git
-		$ git fetch exiv2_upstream master
 
 	and verify that you have the two remotes configured correctly:
 
@@ -68,12 +67,13 @@ Once you have a GitHub login:
         origin  https://github.com/your-username/exiv2.git (fetch)
         origin  https://github.com/your-username/exiv2.git (push)		
 
-4. Next, create a branch for your PR from `exiv2_upstream/master` (this is important to avoid draging in old commits):
+4. Next, create a branch for your PR from `exiv2_upstream/master` (which we also need to fetch first):
 
+		$ git fetch exiv2_upstream master
         $ git checkout exiv2_upstream/master
         $ git checkout -b my-new-feature
 
-	You will get a warning about a detached head which can be ignored here.
+	You will get a warning about a detached head which can be ignored here. NB: This is an important step to avoid draging in old commits!
 
 5. Configure the project and check that it builds (CMake is our the preferred configuration system, but not the only one [see [README.md](README.md)]):
 
