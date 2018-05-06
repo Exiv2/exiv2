@@ -45,3 +45,9 @@ CentOS:
     - yum clean all
     - yum -y install gcc-c++ clang cmake make expat-devel zlib-devel libssh-devel libcurl-devel gtest-devel which
   <<: *distro_build
+
+OpenSUSE:
+  image: opensuse:tumbleweed
+  before_script:
+    - zypper --non-interactive install gcc-c++ clang cmake make libexpat1 zlib libssh curl libgtest0 which
+  <<: *distro_build
