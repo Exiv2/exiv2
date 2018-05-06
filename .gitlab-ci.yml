@@ -42,6 +42,7 @@ CentOS:
     - yum clean all
     - yum -y install gcc-c++ clang cmake make expat-devel zlib-devel libssh-devel libcurl-devel gtest-devel which python36
     - ln -s /usr/bin/python36 /usr/bin/python3
+    - patch -p1 < < ci/CentOS7_cmake_fix.patch
   <<: *distro_build
 
 OpenSUSE:

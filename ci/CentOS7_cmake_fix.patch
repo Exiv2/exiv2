@@ -1,0 +1,12 @@
+diff --git a/CMakeLists.txt b/CMakeLists.txt
+index 96426850..9920d172 100644
+--- a/CMakeLists.txt
++++ b/CMakeLists.txt
+@@ -1,6 +1,6 @@
+ # CMakeLists.txt for exiv2 library
+ 
+-cmake_minimum_required( VERSION 3.1.0 )
++cmake_minimum_required( VERSION 2.8.0 )
+ project( exiv2 )
+ 
+ include(GNUInstallDirs)
