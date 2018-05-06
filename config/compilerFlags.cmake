@@ -33,8 +33,13 @@ if ( MINGW OR UNIX ) # MINGW, Linux, APPLE, CYGWIN
                         " -Wuseless-cast"
                         " -Wpointer-arith" # This warning is also enabled by -Wpedantic
                         " -Wformat=2"
-                        " -Warray-bounds=2"
                         #" -Wold-style-cast"
+                    )
+                endif ()
+
+                if ( CMAKE_CXX_COMPILER_VERSION VERSION_GREATER 5.0 )
+                  string(CONCAT EXTRA_COMPILE_FLAGS ${EXTRA_COMPILE_FLAGS}
+                    " -Warray-bounds=2"
                     )
                 endif ()
 
