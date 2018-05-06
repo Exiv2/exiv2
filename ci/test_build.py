@@ -43,6 +43,7 @@ for params in itertools.product(SHARED_LIBS, CCS, BUILD_TYPES):
     cxx = {"gcc": "g++", "clang": "clang++"}[cc]
 
     cwd = os.path.join("build", "_".join(params))
+    os.mkdir("build")
     os.mkdir(cwd)
 
     cmake = "cmake {!s} -DCMAKE_BUILD_TYPE={build_type} "\
