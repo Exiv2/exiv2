@@ -1,6 +1,10 @@
 .build_template: &distro_build
   script:
     - python3 ci/test_build.py
+  artifacts:
+    when: on_failure
+    paths:
+      - build/
 
 Fedora:
   image: fedora:28
@@ -20,8 +24,10 @@ Archlinux:
   before_script:
     - pacman --noconfirm -Sy
     - pacman --noconfirm -S gcc clang cmake make expat zlib libssh curl gtest python
-  script:
-    - python ci/test_build.py
+    # workaround for Arch using python as an alias for python3
+    # but python3 does **not** exist
+    - ln -s /usr/bin/python /usr/bin/python3
+  <<: *distro_build
 
 Ubuntu:
   image: ubuntu:18.04
