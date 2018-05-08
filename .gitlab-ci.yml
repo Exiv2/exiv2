@@ -1,3 +1,11 @@
+#cache:
+#  untracked: true
+#  paths:
+#  - gtest_build/
+#    key: "$CI_JOB_NAME"
+
+# default build for all distros
+# only create artifacts of the build directory when something fails
 .build_template: &distro_build
   script:
     - python3 ci/test_build.py
@@ -17,6 +25,7 @@ Debian:
   before_script:
     - apt-get update
     - apt-get install -y cmake g++ clang make python3 libexpat1-dev zlib1g-dev libssh-dev libcurl4-openssl-dev libgtest-dev
+    - ./ci/debian_build_gtest.sh
   <<: *distro_build
 
 Archlinux:
@@ -31,6 +40,7 @@ Ubuntu:
   before_script:
     - apt-get update
     - apt-get install -y cmake g++ clang make python3 libexpat1-dev zlib1g-dev libssh-dev libcurl4-openssl-dev libgtest-dev google-mock
+    - ./ci/debian_build_gtest.sh
   <<: *distro_build
 
 CentOS:
