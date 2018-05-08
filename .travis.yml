@@ -1,19 +1,19 @@
 language: cpp
 
-sudo: required
-
-compiler:
-  - gcc
-  - clang
-
-os:
-  - linux
-  - osx
-
 matrix:
-  exclude:
-    - os: osx
+  include:
+    - os: linux
+      dist: trusty
+      sudo: required
       compiler: gcc
+    - os: linux
+      dist: trusty
+      sudo: required
+      compiler: clang
+    - os: osx
+      osx_image: xcode9
+      compiler: clang
+      env: PYTHON=3.6.2 CMAKE_OPTIONS="-DCMAKE_BUILD_TYPE=Release -DEXIV2_ENABLE_VIDEO=ON -DEXIV2_ENABLE_WEBREADY=ON -DEXIV2_BUILD_UNIT_TESTS=ON" # All enabled
 
 env:
     #- CMAKE_OPTIONS="-DCMAKE_BUILD_TYPE=Release" # Default
