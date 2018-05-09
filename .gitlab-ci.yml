@@ -51,6 +51,7 @@ CentOS:
     - yum -y copr enable defolos/devel
     - yum clean all
     - yum -y install gcc-c++ clang cmake3 make expat-devel zlib-devel libssh-devel libcurl-devel gtest-devel which python36 dos2unix
+    # symlink up to date versions of python & cmake to 'default' names
     - ln -s /usr/bin/python36 /usr/bin/python3
     - mv /bin/cmake /bin/.cmake.old
     - ln -s /bin/cmake3 /bin/cmake
