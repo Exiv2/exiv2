@@ -61,5 +61,5 @@ OpenSUSE:
   image: opensuse:tumbleweed
   before_script:
     - zypper --non-interactive refresh
-    - zypper --non-interactive install gcc-c++ clang cmake make libexpat1 zlib libssh curl libgtest0 which
+    - zypper --non-interactive install gcc-c++ clang cmake make libexpat-devel zlib-devel libssh-devel libcurl-devel gtest which libxml2-tools
   <<: *distro_build
