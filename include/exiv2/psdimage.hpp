@@ -80,7 +80,7 @@ namespace Exiv2 {
               instance after it is passed to this method.  Use the Image::io()
               method to get a temporary reference.
          */
-        PsdImage(BasicIo::AutoPtr io);
+        PsdImage(BasicIo::UniquePtr io);
         //@}
 
         //! @name Manipulators
@@ -142,7 +142,7 @@ namespace Exiv2 {
              Caller owns the returned object and the auto-pointer ensures that
              it will be deleted.
      */
-    EXIV2API Image::AutoPtr newPsdInstance(BasicIo::AutoPtr io, bool create);
+    EXIV2API Image::UniquePtr newPsdInstance(BasicIo::UniquePtr io, bool create);
 
     //! Check if the file iIo is a Photoshop image.
     EXIV2API bool isPsdType(BasicIo& iIo, bool advance);

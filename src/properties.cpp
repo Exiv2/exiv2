@@ -2755,9 +2755,9 @@ namespace Exiv2 {
         return *this;
     }
 
-    XmpKey::AutoPtr XmpKey::clone() const
+    XmpKey::UniquePtr XmpKey::clone() const
     {
-        return AutoPtr(clone_());
+        return UniquePtr(clone_());
     }
 
     XmpKey* XmpKey::clone_() const

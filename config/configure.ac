@@ -359,7 +359,7 @@ AC_DEFUN([AX_GCC_VERSION], [
 ])
 
 AC_ARG_WITH(std,
-    [  --with-std  use --with-std for c++11. options: --with-std=11|14|c++11|c++14 default/--without-std is c++98],
+    [  --with-std  use --with-std for c++11. options: --with-std=11|14|c++11|c++14 default/--without-std is c++11],
     STD=$withval,
     STD=default)
 
@@ -373,15 +373,15 @@ elif test "$STD" = "default" -o "$STD" = "no" ; then
 	# 1188 v0.26 uses c++98
 	case "$host_os" in
 		*cygwin*)
-			CPPFLAGS="$CPPFLAGS -std=gnu++98"  # cygwin requires gnu++98 to support snprintf
+			CPPFLAGS="$CPPFLAGS -std=gnu++11"  # cygwin requires gnu++98 to support snprintf
 		;;
 		*ming*)
 			CPPFLAGS="$CPPFLAGS"               # mingw doesn't link pthreads if you specify -std !!
 		;;
 		*)
-			CPPFLAGS="$CPPFLAGS -std=c++98"
+			CPPFLAGS="$CPPFLAGS -std=c++11"
 			if [[ ! -z "$GCC_VERSION" ]]; then
-				if [[ "$GCC_VERSION" -ge 6 ]]; then CPPFLAGS="$CPPFLAGS -std=gnu++98" ; fi  # // not GCC 6
+				if [[ "$GCC_VERSION" -ge 6 ]]; then CPPFLAGS="$CPPFLAGS -std=gnu++11" ; fi  # // not GCC 6
 			fi
 		;;
 	esac

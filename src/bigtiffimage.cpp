@@ -145,8 +145,8 @@ namespace Exiv2
         class BigTiffImage: public Image
         {
             public:
-                BigTiffImage(BasicIo::AutoPtr io):
-                    Image(ImageType::bigtiff, mdExif, io),
+                BigTiffImage(BasicIo::UniquePtr io):
+                    Image(ImageType::bigtiff, mdExif, std::move(io)),
                     header_(),
                     dataSize_(0),
                     doSwap_(false)
@@ -427,9 +427,9 @@ namespace Exiv2
     }
 
 
-    Image::AutoPtr newBigTiffInstance(BasicIo::AutoPtr io, bool)
+    Image::UniquePtr newBigTiffInstance(BasicIo::UniquePtr io, bool)
     {
-        return Image::AutoPtr(new BigTiffImage(io));
+        return Image::UniquePtr(new BigTiffImage(std::move(io)));
     }
 
 

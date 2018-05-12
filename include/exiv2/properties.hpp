@@ -249,7 +249,7 @@ namespace Exiv2 {
     {
     public:
         //! Shortcut for an %XmpKey auto pointer.
-        typedef std::auto_ptr<XmpKey> AutoPtr;
+        typedef std::unique_ptr<XmpKey> UniquePtr;
 
         //! @name Creators
         //@{
@@ -298,7 +298,7 @@ namespace Exiv2 {
         //! Properties don't have a tag number. Return 0.
         virtual uint16_t tag() const;
 
-        AutoPtr clone() const;
+        UniquePtr clone() const;
 
         // Todo: Should this be removed? What about tagLabel then?
         //! Return the schema namespace for the prefix of the key

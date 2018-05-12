@@ -105,7 +105,7 @@ try {
     // properties and language alternatives.
 
     // Add a simple XMP property in a known namespace    
-    Exiv2::Value::AutoPtr v = Exiv2::Value::create(Exiv2::xmpText);
+    Exiv2::Value::UniquePtr v = Exiv2::Value::create(Exiv2::xmpText);
     v->read("image/jpeg");
     xmpData.add(Exiv2::XmpKey("Xmp.dc.format"), v.get());
 

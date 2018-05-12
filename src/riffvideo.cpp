@@ -502,8 +502,8 @@ namespace Exiv2 {
 namespace Exiv2 {
     using namespace Exiv2::Internal;
 
-    RiffVideo::RiffVideo(BasicIo::AutoPtr io)
-            : Image(ImageType::riff, mdNone, io)
+    RiffVideo::RiffVideo(BasicIo::UniquePtr io)
+             : Image(ImageType::riff, mdNone, std::move(io))
     {
     } // RiffVideo::RiffVideo
 
@@ -578,7 +578,7 @@ namespace Exiv2 {
 
                 if ( equalsRiffTag(chunkId, RIFF_CHUNK_HEADER_EXIF) && option==kpsRecursive ) {
                     // create memio object with the payload, then print the structure
-                    BasicIo::AutoPtr p = BasicIo::AutoPtr(new MemIo(payload.pData_,payload.size_));
+                    BasicIo::UniquePtr p = BasicIo::UniquePtr(new MemIo(payload.pData_,payload.size_));
                     printTiffStructure(*p,out,option,depth);
                 }
 
@@ -1304,9 +1304,9 @@ namespace Exiv2 {
         xmpData_["Xmp.video.Duration"] = duration; //Duration in number of seconds
     } // RiffVideo::fillDuration
 
-    Image::AutoPtr newRiffInstance(BasicIo::AutoPtr io, bool /*create*/)
+    Image::UniquePtr newRiffInstance(BasicIo::UniquePtr io, bool /*create*/)
     {
-        Image::AutoPtr image(new RiffVideo(io));
+        Image::UniquePtr image(new RiffVideo(std::move(io)));
         if (!image->good()) {
             image.reset();
         }

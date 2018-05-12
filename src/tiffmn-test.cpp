@@ -48,7 +48,7 @@ catch (const Error& e) {
 
 void canonmn(const std::string& path)
 {
-    TiffImage tiffImage(BasicIo::AutoPtr(new FileIo(path)), false);
+    TiffImage tiffImage(BasicIo::UniquePtr(new FileIo(path)), false);
     ExifData& exifData = tiffImage.exifData();
 
     exifData["Exif.Image.Make"] = "Canon";
@@ -61,7 +61,7 @@ void canonmn(const std::string& path)
 
 void fujimn(const std::string& path)
 {
-    TiffImage tiffImage(BasicIo::AutoPtr(new FileIo(path)), false);
+    TiffImage tiffImage(BasicIo::UniquePtr(new FileIo(path)), false);
     ExifData& exifData = tiffImage.exifData();
 
     exifData["Exif.Image.Make"] = "FUJIFILM";
@@ -74,7 +74,7 @@ void fujimn(const std::string& path)
 
 void minoltamn(const std::string& path)
 {
-    TiffImage tiffImage(BasicIo::AutoPtr(new FileIo(path)), false);
+    TiffImage tiffImage(BasicIo::UniquePtr(new FileIo(path)), false);
     ExifData& exifData = tiffImage.exifData();
 
     exifData["Exif.Image.Make"] = "Minolta";
@@ -87,7 +87,7 @@ void minoltamn(const std::string& path)
 
 void nikon1mn(const std::string& path)
 {
-    TiffImage tiffImage(BasicIo::AutoPtr(new FileIo(path)), false);
+    TiffImage tiffImage(BasicIo::UniquePtr(new FileIo(path)), false);
     ExifData& exifData = tiffImage.exifData();
 
     exifData["Exif.Image.Make"] = "NIKON";
@@ -100,7 +100,7 @@ void nikon1mn(const std::string& path)
 
 void nikon2mn(const std::string& path)
 {
-    TiffImage tiffImage(BasicIo::AutoPtr(new FileIo(path)), false);
+    TiffImage tiffImage(BasicIo::UniquePtr(new FileIo(path)), false);
     ExifData& exifData = tiffImage.exifData();
 
     exifData["Exif.Image.Make"] = "NIKON";
@@ -113,7 +113,7 @@ void nikon2mn(const std::string& path)
 
 void nikon3mn(const std::string& path)
 {
-    TiffImage tiffImage(BasicIo::AutoPtr(new FileIo(path)), false);
+    TiffImage tiffImage(BasicIo::UniquePtr(new FileIo(path)), false);
     ExifData& exifData = tiffImage.exifData();
 
     exifData["Exif.Image.Make"] = "NIKON";
@@ -126,7 +126,7 @@ void nikon3mn(const std::string& path)
 
 void olympusmn(const std::string& path)
 {
-    TiffImage tiffImage(BasicIo::AutoPtr(new FileIo(path)), false);
+    TiffImage tiffImage(BasicIo::UniquePtr(new FileIo(path)), false);
     ExifData& exifData = tiffImage.exifData();
 
     exifData["Exif.Image.Make"] = "OLYMPUS";
@@ -139,7 +139,7 @@ void olympusmn(const std::string& path)
 
 void panasonicmn(const std::string& path)
 {
-    TiffImage tiffImage(BasicIo::AutoPtr(new FileIo(path)), false);
+    TiffImage tiffImage(BasicIo::UniquePtr(new FileIo(path)), false);
     ExifData& exifData = tiffImage.exifData();
 
     exifData["Exif.Image.Make"] = "Panasonic";
@@ -152,7 +152,7 @@ void panasonicmn(const std::string& path)
 
 void sigmamn(const std::string& path)
 {
-    TiffImage tiffImage(BasicIo::AutoPtr(new FileIo(path)), false);
+    TiffImage tiffImage(BasicIo::UniquePtr(new FileIo(path)), false);
     ExifData& exifData = tiffImage.exifData();
 
     exifData["Exif.Image.Make"] = "SIGMA";
@@ -165,7 +165,7 @@ void sigmamn(const std::string& path)
 
 void sony1mn(const std::string& path)
 {
-    TiffImage tiffImage(BasicIo::AutoPtr(new FileIo(path)), false);
+    TiffImage tiffImage(BasicIo::UniquePtr(new FileIo(path)), false);
     ExifData& exifData = tiffImage.exifData();
 
     exifData["Exif.Image.Make"] = "SONY";
@@ -178,7 +178,7 @@ void sony1mn(const std::string& path)
 
 void sony2mn(const std::string& path)
 {
-    TiffImage tiffImage(BasicIo::AutoPtr(new FileIo(path)), false);
+    TiffImage tiffImage(BasicIo::UniquePtr(new FileIo(path)), false);
     ExifData& exifData = tiffImage.exifData();
 
     exifData["Exif.Image.Make"] = "SONY";

@@ -64,7 +64,7 @@ namespace Exiv2 {
               instance after it is passed to this method. Use the Image::io()
               method to get a temporary reference.
          */
-        WebPImage(BasicIo::AutoPtr io);
+        WebPImage(BasicIo::UniquePtr io);
         //@}
 
         //! @name Manipulators
@@ -133,7 +133,7 @@ namespace Exiv2 {
           Caller owns the returned object and the auto-pointer ensures that
           it will be deleted.
      */
-    EXIV2API Image::AutoPtr newWebPInstance(BasicIo::AutoPtr io, bool create);
+    EXIV2API Image::UniquePtr newWebPInstance(BasicIo::UniquePtr io, bool create);
 
     //! Check if the file iIo is a WebP Video.
     EXIV2API bool isWebPType(BasicIo& iIo, bool advance);

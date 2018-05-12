@@ -59,7 +59,7 @@ namespace Exiv2 {
     class EXIV2API Key {
     public:
         //! Shortcut for a %Key auto pointer.
-        typedef std::auto_ptr<Key> AutoPtr;
+        typedef std::unique_ptr<Key> UniquePtr;
 
         //! @name Creators
         //@{
@@ -91,7 +91,7 @@ namespace Exiv2 {
                  The caller owns this copy and the auto-pointer ensures that it
                  will be deleted.
          */
-        AutoPtr clone() const;
+        UniquePtr clone() const;
         /*!
           @brief Write the key to an output stream. You do not usually have
                  to use this function; it is used for the implementation of
@@ -266,7 +266,7 @@ namespace Exiv2 {
           @return An auto-pointer containing a pointer to a copy (clone) of the
                   value, 0 if the value is not set.
          */
-        virtual Value::AutoPtr getValue() const =0;
+        virtual Value::UniquePtr getValue() const =0;
         /*!
           @brief Return a constant reference to the value.
 

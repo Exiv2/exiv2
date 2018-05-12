@@ -35,7 +35,7 @@ try {
     if (io.error() || io.eof()) throw Exiv2::Error(kerFailedToReadImageData);
 
     // Parse the image, starting with a CIFF header component
-    Exiv2::Internal::CiffHeader::AutoPtr parseTree(new Exiv2::Internal::CiffHeader);
+    Exiv2::Internal::CiffHeader::UniquePtr parseTree(new Exiv2::Internal::CiffHeader);
     parseTree->read(buf.pData_, buf.size_);
     parseTree->print(std::cout);
 

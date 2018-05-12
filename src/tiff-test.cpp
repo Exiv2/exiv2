@@ -30,7 +30,7 @@ void print(const ExifData& exifData);
 
 int main()
 try {
-    BasicIo::AutoPtr io(new FileIo("image.tif"));
+    BasicIo::UniquePtr io(new FileIo("image.tif"));
     TiffImage tiffImage(io, false);
     ExifData& exifData = tiffImage.exifData();
     exifData["Exif.Image.ImageWidth"] = uint32_t(42);

@@ -34,19 +34,19 @@ try {
     Exiv2::ExifData ed1;
     ed1["Exif.Image.Model"] = "Test 1";
 
-    Exiv2::Value::AutoPtr v1 = Exiv2::Value::create(Exiv2::unsignedShort);
+    Exiv2::Value::UniquePtr v1 = Exiv2::Value::create(Exiv2::unsignedShort);
     v1->read("160 161 162 163");
     ed1.add(Exiv2::ExifKey("Exif.Image.SamplesPerPixel"), v1.get());
 
-    Exiv2::Value::AutoPtr v2 = Exiv2::Value::create(Exiv2::signedLong);
+    Exiv2::Value::UniquePtr v2 = Exiv2::Value::create(Exiv2::signedLong);
     v2->read("-2 -1 0 1");
     ed1.add(Exiv2::ExifKey("Exif.Image.XResolution"), v2.get());
 
-    Exiv2::Value::AutoPtr v3 = Exiv2::Value::create(Exiv2::signedRational);
+    Exiv2::Value::UniquePtr v3 = Exiv2::Value::create(Exiv2::signedRational);
     v3->read("-2/3 -1/3 0/3 1/3");
     ed1.add(Exiv2::ExifKey("Exif.Image.YResolution"), v3.get());
 
-    Exiv2::Value::AutoPtr v4 = Exiv2::Value::create(Exiv2::undefined);
+    Exiv2::Value::UniquePtr v4 = Exiv2::Value::create(Exiv2::undefined);
     v4->read("255 254 253 252");
     ed1.add(Exiv2::ExifKey("Exif.Image.WhitePoint"), v4.get());
 
@@ -73,7 +73,7 @@ try {
     print(file);
 
     std::cout <<"\n----- Non-intrusive writing of special Canon MakerNote tags\n";
-    Exiv2::Image::AutoPtr image = Exiv2::ImageFactory::open(file);
+    Exiv2::Image::UniquePtr image = Exiv2::ImageFactory::open(file);
     assert(image.get() != 0);
     image->readMetadata();
 
@@ -189,7 +189,7 @@ try {
     std::cout <<"\n----- One IFD0 and one IFD1 tag\n";
     Exiv2::ExifData ed7;
     ed7["Exif.Thumbnail.Artist"] = "Test 7";
-    Exiv2::Value::AutoPtr v5 = Exiv2::Value::create(Exiv2::unsignedShort);
+    Exiv2::Value::UniquePtr v5 = Exiv2::Value::create(Exiv2::unsignedShort);
     v5->read("160 161 162 163");
     ed7.add(Exiv2::ExifKey("Exif.Image.SamplesPerPixel"), v5.get());
     write(file, ed7);
@@ -205,7 +205,7 @@ catch (Exiv2::AnyError& e) {
 
 void write(const std::string& file, Exiv2::ExifData& ed)
 {
-    Exiv2::Image::AutoPtr image = Exiv2::ImageFactory::open(file);
+    Exiv2::Image::UniquePtr image = Exiv2::ImageFactory::open(file);
     assert(image.get() != 0);
 
     image->setExifData(ed);
@@ -214,7 +214,7 @@ void write(const std::string& file, Exiv2::ExifData& ed)
 
 void print(const std::string& file)
 {
-    Exiv2::Image::AutoPtr image = Exiv2::ImageFactory::open(file);
+    Exiv2::Image::UniquePtr image = Exiv2::ImageFactory::open(file);
     assert(image.get() != 0);
     image->readMetadata();
 

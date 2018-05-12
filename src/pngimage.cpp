@@ -63,8 +63,8 @@ namespace Exiv2 {
 
     using namespace Internal;
 
-    PngImage::PngImage(BasicIo::AutoPtr io, bool create)
-            : Image(ImageType::png, mdExif | mdIptc | mdXmp | mdComment, io)
+    PngImage::PngImage(BasicIo::UniquePtr io, bool create)
+	: Image(ImageType::png, mdExif | mdIptc | mdXmp | mdComment, std::move(io))
     {
         if (create)
         {
@@ -327,7 +327,7 @@ namespace Exiv2 {
                             if ( parsedBuf.size_ ) {
                                 if ( bExif ) {
                                     // create memio object with the data, then print the structure
-                                    BasicIo::AutoPtr p = BasicIo::AutoPtr(new MemIo(parsedBuf.pData_+6,parsedBuf.size_-6));
+                                    BasicIo::UniquePtr p = BasicIo::UniquePtr(new MemIo(parsedBuf.pData_+6,parsedBuf.size_-6));
                                     printTiffStructure(*p,out,option,depth);
                                 }
                                 if ( bIptc ) {
@@ -490,7 +490,7 @@ namespace Exiv2 {
             throw Error(kerDataSourceOpenFailed, io_->path(), strError());
         }
         IoCloser closer(*io_);
-        BasicIo::AutoPtr tempIo(new MemIo);
+        BasicIo::UniquePtr tempIo(new MemIo);
         assert (tempIo.get() != 0);
 
         doWriteMetadata(*tempIo); // may throw
@@ -701,9 +701,9 @@ namespace Exiv2 {
 
     // *************************************************************************
     // free functions
-    Image::AutoPtr newPngInstance(BasicIo::AutoPtr io, bool create)
+    Image::UniquePtr newPngInstance(BasicIo::UniquePtr io, bool create)
     {
-        Image::AutoPtr image(new PngImage(io, create));
+        Image::UniquePtr image(new PngImage(std::move(io), create));
         if (!image->good())
         {
             image.reset();

@@ -94,8 +94,8 @@ namespace Exiv2 {
      */
     class CiffComponent {
     public:
-        //! CiffComponent auto_ptr type
-        typedef std::auto_ptr<CiffComponent> AutoPtr;
+        //! CiffComponent unique_ptr type
+        typedef std::unique_ptr<CiffComponent> UniquePtr;
         //! Container type to hold all metadata
         typedef std::vector<CiffComponent*> Components;
 
@@ -118,7 +118,7 @@ namespace Exiv2 {
         // Default assignment operator is fine
 
         //! Add a component to the composition
-        void add(AutoPtr component);
+        void add(UniquePtr component);
         /*!
           @brief Add \em crwTagId to the parse tree, if it doesn't exist
                  yet. \em crwDirs contains the path of subdirectories, starting
@@ -261,7 +261,7 @@ namespace Exiv2 {
         //! @name Manipulators
         //@{
         //! Implements add()
-        virtual void doAdd(AutoPtr component) =0;
+        virtual void doAdd(UniquePtr component) =0;
         //! Implements add(). The default implementation does nothing.
         virtual CiffComponent* doAdd(CrwDirs& crwDirs, uint16_t crwTagId);
         //! Implements remove(). The default implementation does nothing.
@@ -332,7 +332,7 @@ namespace Exiv2 {
         //@{
         using CiffComponent::doAdd;
         // See base class comment
-        virtual void doAdd(AutoPtr component);
+        virtual void doAdd(UniquePtr component);
         /*!
           @brief Implements write(). Writes only the value data of the entry,
                  using writeValueData().
@@ -384,7 +384,7 @@ namespace Exiv2 {
         //! @name Manipulators
         //@{
         // See base class comment
-        virtual void doAdd(AutoPtr component);
+        virtual void doAdd(UniquePtr component);
         // See base class comment
         virtual CiffComponent* doAdd(CrwDirs& crwDirs, uint16_t crwTagId);
         // See base class comment
@@ -425,7 +425,7 @@ namespace Exiv2 {
     private:
         // DATA
         Components components_; //!< List of components in this dir
-        AutoPtr    m_; // used by recursive doAdd
+        UniquePtr    m_; // used by recursive doAdd
         CiffComponent* cc_;
 
     }; // class CiffDirectory
@@ -438,8 +438,8 @@ namespace Exiv2 {
      */
     class CiffHeader {
     public:
-        //! CiffHeader auto_ptr type
-        typedef std::auto_ptr<CiffHeader> AutoPtr;
+        //! CiffHeader unique_ptr type
+        typedef std::unique_ptr<CiffHeader> UniquePtr;
 
         //! @name Creators
         //@{

@@ -77,7 +77,7 @@ namespace Exiv2
           @param create Specifies if an existing image should be read (false)
               or if a new file should be created (true).
          */
-        EpsImage(BasicIo::AutoPtr io, bool create);
+        EpsImage(BasicIo::UniquePtr io, bool create);
         //@}
 
         //! @name Manipulators
@@ -117,7 +117,7 @@ namespace Exiv2
              Caller owns the returned object and the auto-pointer ensures that
              it will be deleted.
      */
-    EXIV2API Image::AutoPtr newEpsInstance(BasicIo::AutoPtr io, bool create);
+    EXIV2API Image::UniquePtr newEpsInstance(BasicIo::UniquePtr io, bool create);
 
     //! Check if the file iIo is a EPS image.
     EXIV2API bool isEpsType(BasicIo& iIo, bool advance);

@@ -82,8 +82,8 @@ namespace Exiv2 {
         return result;
     }
 
-    PgfImage::PgfImage(BasicIo::AutoPtr io, bool create)
-            : Image(ImageType::pgf, mdExif | mdIptc| mdXmp | mdComment, io)
+    PgfImage::PgfImage(BasicIo::UniquePtr io, bool create)
+	: Image(ImageType::pgf, mdExif | mdIptc| mdXmp | mdComment, std::move(io))
             , bSwap_(isBigEndianPlatform())
     {
         if (create)
@@ -144,7 +144,7 @@ namespace Exiv2 {
         if (io_->error()) throw Error(kerFailedToReadImageData);
         if (bufRead != imgData.size_) throw Error(kerInputDataReadFailed);
 
-        Image::AutoPtr image = Exiv2::ImageFactory::open(imgData.pData_, imgData.size_);
+        Image::UniquePtr image = Exiv2::ImageFactory::open(imgData.pData_, imgData.size_);
         image->readMetadata();
         exifData() = image->exifData();
         iptcData() = image->iptcData();
@@ -159,7 +159,7 @@ namespace Exiv2 {
             throw Error(kerDataSourceOpenFailed, io_->path(), strError());
         }
         IoCloser closer(*io_);
-        BasicIo::AutoPtr tempIo(new MemIo);
+        BasicIo::UniquePtr tempIo(new MemIo);
         assert (tempIo.get() != 0);
 
         doWriteMetadata(*tempIo); // may throw
@@ -193,7 +193,7 @@ namespace Exiv2 {
         int w, h;
         DataBuf header      = readPgfHeaderStructure(*io_, w, h);
 
-        Image::AutoPtr img  = ImageFactory::create(ImageType::png);
+        Image::UniquePtr img  = ImageFactory::create(ImageType::png);
 
         img->setExifData(exifData_);
         img->setIptcData(iptcData_);
@@ -315,9 +315,9 @@ namespace Exiv2 {
 
     // *************************************************************************
     // free functions
-    Image::AutoPtr newPgfInstance(BasicIo::AutoPtr io, bool create)
+    Image::UniquePtr newPgfInstance(BasicIo::UniquePtr io, bool create)
     {
-        Image::AutoPtr image(new PgfImage(io, create));
+        Image::UniquePtr image(new PgfImage(std::move(io), create));
         if (!image->good())
         {
             image.reset();

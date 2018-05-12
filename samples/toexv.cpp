@@ -32,7 +32,7 @@
 #include "utils.hpp"
 #include "toexv.hpp"
 
-static size_t exifMetadataCount(Exiv2::Image::AutoPtr& image)
+static size_t exifMetadataCount(Exiv2::Image::UniquePtr& image)
 {
 	size_t result = 0 ;
 	Exiv2::ExifData&                  exif = image->exifData();
@@ -51,7 +51,7 @@ int main(int argc, char* const argv[])
 		if (params.getopt(argc, argv)) return params.usage();
 		if (params.help_             ) return params.help();
 
-		Exiv2::Image::AutoPtr readImage = Exiv2::ImageFactory::open(params.read_);
+		Exiv2::Image::UniquePtr readImage = Exiv2::ImageFactory::open(params.read_);
 		assert(readImage.get() != 0);
 		readImage->readMetadata();
 
@@ -59,8 +59,8 @@ int main(int argc, char* const argv[])
 			std::cout << "exifMetadataCount = " << exifMetadataCount(readImage) << std::endl;
 
 			// create an in-memory file and write the metadata
-			Exiv2::BasicIo::AutoPtr memIo   (new Exiv2::MemIo());
-			Exiv2::Image::AutoPtr   memImage(new Exiv2::ExvImage(memIo,true));
+			Exiv2::BasicIo::UniquePtr memIo   (new Exiv2::MemIo());
+			Exiv2::Image::UniquePtr   memImage(new Exiv2::ExvImage(memIo,true));
 			memImage->setMetadata  (*readImage);
 			memImage->writeMetadata();
 
@@ -73,8 +73,8 @@ int main(int argc, char* const argv[])
 			std::cout << "size = " << size << std::endl;
 
 			// create an in-memory file with buff and read the metadata into buffImage
-			Exiv2::BasicIo::AutoPtr buffIo   (new Exiv2::MemIo(buff,size));
-			Exiv2::Image::AutoPtr   buffImage(new Exiv2::ExvImage(buffIo,false));
+			Exiv2::BasicIo::UniquePtr buffIo   (new Exiv2::MemIo(buff,size));
+			Exiv2::Image::UniquePtr   buffImage(new Exiv2::ExvImage(buffIo,false));
 			assert(buffImage.get() != 0);
 			buffImage->readMetadata();
 
@@ -82,12 +82,12 @@ int main(int argc, char* const argv[])
 
 		} else if ( params.write_ != "-" ) {
 			// create a file and write the metadata
-			Exiv2::Image::AutoPtr writeImage = Exiv2::ImageFactory::create(Exiv2::ImageType::exv,params.write_);
+			Exiv2::Image::UniquePtr writeImage = Exiv2::ImageFactory::create(Exiv2::ImageType::exv,params.write_);
 			params.copyMetadata(readImage,writeImage);
 		} else {
 			// create an in-memory file
-			Exiv2::BasicIo::AutoPtr memIo   (new Exiv2::MemIo());
-			Exiv2::Image::AutoPtr   memImage(new Exiv2::ExvImage(memIo,true));
+			Exiv2::BasicIo::UniquePtr memIo   (new Exiv2::MemIo());
+			Exiv2::Image::UniquePtr   memImage(new Exiv2::ExvImage(memIo,true));
 			params.copyMetadata(readImage,memImage);
 
 			// read a few bytes from the in-memory file
@@ -129,7 +129,7 @@ Params::Params( const char* opts)
 , usage_(false)
 {}
 
-void Params::copyMetadata(Exiv2::Image::AutoPtr& readImage,Exiv2::Image::AutoPtr& writeImage)
+void Params::copyMetadata(Exiv2::Image::UniquePtr& readImage,Exiv2::Image::UniquePtr& writeImage)
 {
 	if (all_    ) writeImage->setMetadata  (*readImage);
 	if (iptc_   ) writeImage->setIptcData  ( readImage->iptcData());
