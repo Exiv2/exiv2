@@ -20,7 +20,8 @@ BUILD_TYPES = ["Debug", "Release"]
 #: Additional parameters for cmake
 CMAKE_OPTIONS = os.getenv("CMAKE_OPTIONS") or \
     "-DEXIV2_TEAM_EXTRA_WARNINGS=ON -DEXIV2_ENABLE_VIDEO=ON "\
-    "-DEXIV2_ENABLE_WEBREADY=ON -DEXIV2_BUILD_UNIT_TESTS=ON"
+    "-DEXIV2_ENABLE_WEBREADY=ON -DEXIV2_BUILD_UNIT_TESTS=ON "\
+    "-DBUILD_WITH_CCACHE=ON "
 
 #: cpu count
 NCPUS = multiprocessing.cpu_count()
@@ -36,7 +37,12 @@ def call_wrapper(*args, **kwargs):
         sys.exit(return_code)
 
 
+# create build & ccache directory (ccache could already exist in the CI's cache)
 os.mkdir("build")
+if not os.path.exists('ccache'):
+    os.mkdir("ccache")
+
+root_dir = os.path.abspath(os.getcwd())
 
 for params in itertools.product(SHARED_LIBS, CCS, BUILD_TYPES):
 
@@ -57,8 +63,8 @@ for params in itertools.product(SHARED_LIBS, CCS, BUILD_TYPES):
     env_copy = os.environ.copy()
     env_copy["CC"] = cc
     env_copy["CXX"] = cxx
-    # env_copy["CFLAGS"] = flags
-    # env_copy["CXXFLAGS"] = flags
+    env_copy["CCACHE_BASEDIR"] = root_dir
+    env_copy["CCACHE_DIR"] = os.path.join(root_dir, "ccache")
 
     # location of the binaries for the new test suite:
     env_copy["EXIV2_PATH"] = "../" + cwd + "/bin"
