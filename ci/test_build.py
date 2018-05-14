@@ -50,7 +50,7 @@ for params in itertools.product(SHARED_LIBS, CCS, BUILD_TYPES):
 
     cxx = {"gcc": "g++", "clang": "clang++"}[cc]
 
-    cwd = os.path.join("build", "_".join(params))
+    cwd = os.path.abspath(os.path.join("build", "_".join(params)))
     os.mkdir(cwd)
 
     cmake = "cmake {!s} -DCMAKE_BUILD_TYPE={build_type} "\
@@ -58,6 +58,7 @@ for params in itertools.product(SHARED_LIBS, CCS, BUILD_TYPES):
         .format(CMAKE_OPTIONS, build_type=build_type, lib_type=lib_type)
     make = "make -j " + str(NCPUS)
     make_tests = "make tests"
+    unit_tests = os.path.join(cwd, "bin", "unit_tests")
 
     # set up environment
     env_copy = os.environ.copy()
@@ -67,10 +68,14 @@ for params in itertools.product(SHARED_LIBS, CCS, BUILD_TYPES):
     env_copy["CCACHE_DIR"] = os.path.join(root_dir, "ccache")
 
     # location of the binaries for the new test suite:
-    env_copy["EXIV2_PATH"] = "../" + cwd + "/bin"
+    env_copy["EXIV2_PATH"] = os.path.join(cwd, "bin")
 
     kwargs = {"env": env_copy, "cwd": cwd}
 
-    call_wrapper(shlex.split(cmake), **kwargs)
-    call_wrapper(shlex.split(make), **kwargs)
-    call_wrapper(shlex.split(make_tests), **kwargs)
+    def run(cmd):
+        call_wrapper(shlex.split(cmd), **kwargs)
+
+    run(cmake)
+    run(make)
+    run(make_tests)
+    run(unit_tests)
