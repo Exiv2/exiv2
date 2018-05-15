@@ -3,6 +3,7 @@ set -e # Enables cheking of return values from each command
 set -x # Prints every command
 
 if [[ "$(uname -s)" == 'Linux' ]]; then
+    sudo apt-get update
     sudo apt-get install cmake zlib1g-dev libssh-dev gettext
     sudo apt-get install python-pip libxml2-utils
     sudo pip install virtualenv
