@@ -22,8 +22,8 @@ env:
     #- CMAKE_OPTIONS="-DCMAKE_BUILD_TYPE=Release -DEXIV2_ENABLE_XMP=OFF -DEXIV2_ENABLE_NLS=OFF -DEXIV2_ENABLE_LENSDATA=OFF" # All disabled
     #- CMAKE_OPTIONS="-DCMAKE_BUILD_TYPE=Release -DEXIV2_ENABLE_WEBREADY=ON -DEXIV2_ENABLE_CURL=OFF -DEXIV2_ENABLE_SSH=OFF" # WebReady without SSH nor CURL
 
-install: ./.travis/install.sh
-script:  ./.travis/run.sh
+install: ./ci/install.sh
+script:  ./ci/run.sh
 
 cache:
     ccache: true

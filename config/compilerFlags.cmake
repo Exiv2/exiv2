@@ -33,8 +33,13 @@ if ( MINGW OR UNIX ) # MINGW, Linux, APPLE, CYGWIN
                         " -Wuseless-cast"
                         " -Wpointer-arith" # This warning is also enabled by -Wpedantic
                         " -Wformat=2"
-                        " -Warray-bounds=2"
                         #" -Wold-style-cast"
+                    )
+                endif ()
+
+                if ( CMAKE_CXX_COMPILER_VERSION VERSION_GREATER 5.0 )
+                  string(CONCAT EXTRA_COMPILE_FLAGS ${EXTRA_COMPILE_FLAGS}
+                    " -Warray-bounds=2"
                     )
                 endif ()
 
@@ -56,11 +61,9 @@ if ( MINGW OR UNIX ) # MINGW, Linux, APPLE, CYGWIN
                 # https://clang.llvm.org/docs/DiagnosticsReference.html
                 # These variables are at least available since clang 3.9.1
                 string(CONCAT EXTRA_COMPILE_FLAGS "-Wextra"
-                    " -Wdouble-promotion"
                     " -Wshadow"
                     " -Wassign-enum"
                     " -Wmicrosoft"
-                    " -Wcomma"
                     " -Wcomments"
                     " -Wconditional-uninitialized"
                     " -Wdirect-ivar-access"
@@ -72,6 +75,18 @@ if ( MINGW OR UNIX ) # MINGW, Linux, APPLE, CYGWIN
                     #" -Wconversion"
                     #" -Wold-style-cast"
                 )
+                # -Wdouble-promotion flag is not available in clang 3.4.2
+                if ( CMAKE_CXX_COMPILER_VERSION VERSION_GREATER 3.4.2 )
+                    string(CONCAT EXTRA_COMPILE_FLAGS ${EXTRA_COMPILE_FLAGS}
+                        " -Wdouble-promotion"
+                    )
+                endif ()
+                # -Wcomma flag is not available in clang 3.8.1
+                if ( CMAKE_CXX_COMPILER_VERSION VERSION_GREATER 3.8.1 )
+                    string(CONCAT EXTRA_COMPILE_FLAGS ${EXTRA_COMPILE_FLAGS}
+                        " -Wcomma"
+                    )
+                endif ()
             endif ()
 
 
